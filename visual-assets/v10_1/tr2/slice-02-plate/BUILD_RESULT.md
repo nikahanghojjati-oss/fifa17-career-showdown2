@@ -289,3 +289,32 @@ Privacy / logic guard: the travelling guess card contains no values or text, the
 Timing ceiling: the latest normal-motion endpoint is the final staggered verdict wipe at about 1.125 s; the burst ends at 1.120 s. This stays under the 1.2 s Criterion 8 ceiling. Shared entrance usability and cleanup remain owned by JOB-053's motion kit.
 
 Evidence target for Claude intake: `evidence/motion/` frame strips for the clock pulse, guess-to-dossier + stamp, normal verdict reveal, and reduced-motion verdict reveal. Per the factory handbook, Claude records these binary frames at intake.
+
+
+## Motion · JOB-146 finish
+
+Interaction feedback applies to every stage button, input, select, link and any host-provided tab/switch. Hover, press, focus and selection cross-fades take 100 ms. Focus rings are explicit. Feedback changes no dimensions or layout; the active phase rail fades within its existing slot. DEFAULT: this screen has no product tabs/toggles, so no new controls were invented.
+
+| Element | Delay (ms) | Duration (ms) | Easing |
+| --- | ---: | ---: | --- |
+| Scene | 0 | 400 | shared scene ease-out |
+| Daniel left / Nik right phone cut-outs | 150 | 450 | shared character ease-out |
+| Brush title | 250 | 450 | shared brush wipe |
+| Title glint | 640 | 420 | shared glint |
+| Sign / caption / glass / rules / HUD panels | 400 + min(index,5) × 60 | 500 | shared panel ease-out |
+| Primary action pulse (decorative; control remains operable) | 760 | 320 | shared pulse |
+| Hover / press / focus / phase cross-fade | 0 | 100 | linear; transform uses shared press easing |
+| Clock hand | each displayed second | 260 | cubic-bezier(.22,1,.36,1) |
+| Data-free guess flight then stamp | 0 / 480 | 480 / 360 | cubic-bezier(.65,0,.35,1) / cubic-bezier(.22,1,.36,1) |
+| Verdict cover shared reveal | 0 | 810 | shared anticipation / flash / settle |
+| Seal crack / page fan | 170 | 260 / 360 | cubic-bezier(.22,1,.36,1) |
+| Verdict wipes / row markers | 430 + stagger ≤275 / ≤225 | 420 / 280 | shared wipe / count-up |
+| Authoritative RELEASE payoff | 700 | 420 | shared particle physics |
+| Reduced entrance / verdict / submission | 0 | 150 | linear opacity only (JS) |
+| Reduced CSS feedback / phase change | 0 | 100 | linear opacity only |
+
+Read check: shared sdEnter ends the latest panel at 1200 ms, action at 1080 ms, and glint at 1060 ms. Controls are never disabled or pointer-blocked by motion, so they are usable by 600 ms (and accept input earlier). The latest verdict wipe ends at 1125 ms. Existing SIGNATURE_MOTION owns the active WAAPI path; legacy TW_MOTION decorative CSS durations do not extend the entrance.
+
+Criterion 8 self-score: 4/5 by code reading. Shared entrance, choreography, bounded feedback, geometry stability, and both reduced-motion paths are present. Runtime 60 fps, phone measurements, motion frame strips and final visual score remain Claude intake checks; no browser results are claimed. CSS uses the actual motion.js attributes html[data-motion-reduced] and stage[data-sd-motion-reduced], plus the system media query, to replace local keyframes with fades and suppress decorative flights/bursts. Existing JS independently checks ShowdownMotion.isReducedMotion before WAAPI and sdBurst.
+
+Privacy remains constant until COMPLETED: no CSS selector depends on rival progress and no private value is used for timing. Only plate.css, BUILD_RESULT.md and JOB-146 status changed.
