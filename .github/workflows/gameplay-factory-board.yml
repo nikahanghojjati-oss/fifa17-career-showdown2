@@ -3,6 +3,8 @@ name: Gameplay factory board auto-update
 # Rebuilds project-documents/gameplay-factory/BOARD.md (and BOARD_STATE.json) whenever a job
 # status or BOARD.json changes on the Team G factory branch, so Nik always sees a current board
 # on GitHub without asking Claude. Times are Boston time. Factory branch only; never runs on main.
+# Team V messages land on leads/relay, a different branch, so a push there cannot start this file.
+# leads-relay-ping.yml (on leads/relay) therefore dispatches this workflow on every new relay message.
 on:
   push:
     branches: [factory/gameplay-v1]
@@ -22,8 +24,9 @@ concurrency:
 
 jobs:
   board:
-    # Loop guard: the bot's own commit never re-runs this (GITHUB_TOKEN pushes do not trigger workflows either).
-    if: github.actor != 'github-actions[bot]'
+    # Loop guard: the bot's own push never re-runs this (GITHUB_TOKEN pushes do not trigger workflows either).
+    # A dispatch from the relay ping runs as the bot, so dispatches are always allowed.
+    if: github.event_name == 'workflow_dispatch' || github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
@@ -41,8 +44,8 @@ jobs:
             git reset --hard origin/factory/gameplay-v1
             python3 $B/tools/board.py
             # Ignore the timestamp line alone: commit only when a job's row actually changed.
-            if git diff -U0 -- $B/BOARD.md | grep '^[-+][^-+]' | grep -qv '· generated 20'; then :; else echo "Board unchanged"; exit 0; fi
-            git add $B/BOARD.md $B/BOARD_STATE.json
+            if git diff -U0 -- $B/BOARD.md $B/BOARD_ARCHIVE.md | grep '^[-+][^-+]' | grep -qv '· generated 20'; then :; else echo "Board unchanged"; exit 0; fi
+            git add $B/BOARD.md $B/BOARD_ARCHIVE.md $B/BOARD_STATE.json
             git commit -m "Gameplay factory: board auto-update [skip ci]"
             git push origin HEAD:factory/gameplay-v1 && exit 0
             sleep $((2**i))

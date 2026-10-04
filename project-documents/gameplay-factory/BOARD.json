@@ -375,5 +375,54 @@
    "type": "fix",
    "plain": "When both players press acknowledge at the same moment, the second one is retried instead of showing a permission error."
   }
+ ],
+ "bug_hunt": [
+  {
+   "id": "BH-1",
+   "title": "Both managers tap at the same second and the slower one sees an error",
+   "plain": "Hits Career Start, the Transfer Challenge locks and timer, and Setup confirm. Nothing is corrupted, but the loser must tap again.",
+   "likelihood": "likely",
+   "status": "IN PROGRESS",
+   "owner": "lead",
+   "note": "job 21, PR #344: retry once quietly"
+  },
+  {
+   "id": "BH-2",
+   "title": "A tied season is decided by league position",
+   "plain": "Code and old notes disagree on equal non-zero scores.",
+   "likelihood": "likely",
+   "status": "DECIDED",
+   "owner": "lead",
+   "note": "Nik chose league position; fix the notes and docs that say draw"
+  },
+  {
+   "id": "BH-3",
+   "title": "Nobody cross-checks the two managers' season results",
+   "plain": "Both can publish position 1 or both tick Champions League, and a published result cannot be corrected.",
+   "likelihood": "medium",
+   "status": "TO PLAN WITH LEAD",
+   "owner": "lead"
+  },
+  {
+   "id": "BH-4",
+   "title": "Lock buttons have no confirm",
+   "plain": "One stray tap on LOCK MY GUESSES or LOCK MY SIGNINGS locks an empty list for the season; the helpful error text is hidden behind a code.",
+   "likelihood": "medium-low",
+   "status": "TO PLAN WITH LEAD",
+   "owner": "lead"
+  },
+  {
+   "id": "BH-5",
+   "title": "The 4-hour private session ends long games",
+   "plain": "A 5 or 10 season game outlives one session, so both managers must open a fresh one. Needs one retest mid-season.",
+   "likelihood": "low",
+   "status": "TO PLAN WITH LEAD",
+   "owner": "lead"
+  }
+ ],
+ "bug_hunt_extras": [
+  "stale 'scoring remains locked' text after season commit",
+  "hard-coded Daniel/Nik name fallbacks",
+  "raw error codes in the Setup settle text"
  ]
 }

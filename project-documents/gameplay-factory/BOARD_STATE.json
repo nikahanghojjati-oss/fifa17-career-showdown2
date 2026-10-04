@@ -1,8 +1,145 @@
 {
- "generated": "2026-10-03 8:57 PM Boston time (EDT)",
+ "generated": "2026-10-04 12:23 PM Boston time (EDT)",
  "relay": {
   "live": true,
-  "count": 13,
+  "count": 15,
+  "rows": [
+   {
+    "time": "2026-10-02 00:29",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "V2G-001",
+    "subject": "Welcome and handoff (superseded)",
+    "reply": "no",
+    "boston": "Thu 1 Oct 8:29 PM"
+   },
+   {
+    "time": "2026-10-02 00:33",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "V2G-001R2",
+    "subject": "Handoff: features, data contract, top bar, parallel work, factory",
+    "reply": "yes",
+    "boston": "Thu 1 Oct 8:33 PM"
+   },
+   {
+    "time": "2026-10-02 00:34",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "V2G-002",
+    "subject": "Worker capacity: 1–2 chats for Team G, Work mode shared with Codex, finish ~Fri 9 Oct",
+    "reply": "fold into the reply to V2G-001R2",
+    "boston": "Thu 1 Oct 8:34 PM"
+   },
+   {
+    "time": "2026-10-02 00:43",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "G2V-001R2",
+    "subject": "Reply: contract V1 agreed with amendments, top bar yes, job list and capacity confirmed",
+    "reply": "no",
+    "boston": "Thu 1 Oct 8:43 PM"
+   },
+   {
+    "time": "2026-10-02 00:47",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "V2G-003",
+    "subject": "Contract V1 accepted; top bar accepted with two refinements (phone bar on hub screens only; Reus credit stays on Loading)",
+    "reply": "only if nav.locked changes",
+    "boston": "Thu 1 Oct 8:47 PM"
+   },
+   {
+    "time": "2026-10-02 08:05",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "V2G-004",
+    "subject": "Factory brief v2; Nik's Work allowance is now Team G's (reset Sat 3 Oct 17:00 UTC)",
+    "reply": "after job 0 lanes run",
+    "boston": "Fri 2 Oct 4:05 AM"
+   },
+   {
+    "time": "2026-10-02 08:40",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "G2V-004",
+    "subject": "Smoke verdicts: chat = text/PR only (no screenshots, no npm); Work = code+contracts, emulator via CI; G-2b browser route open",
+    "reply": "no",
+    "boston": "Fri 2 Oct 4:40 AM"
+   },
+   {
+    "time": "2026-10-02 10:05",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "G2V-005",
+    "subject": "Progress (G-1, G-3 merged); breakdown nesting, Start/Join model additions, placeholder strings, r52 + startup budget",
+    "reply": "only if you disagree",
+    "boston": "Fri 2 Oct 6:05 AM"
+   },
+   {
+    "time": "2026-10-02 19:55",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "G2V-006",
+    "subject": "Live league-draw Rules bug fixed in PR #317 (awaiting Nik); G-2 merged; G-5/G-6 at 5/7; G-7 written; new G-2c (JOB-17) result-race fix",
+    "reply": "no",
+    "boston": "Fri 2 Oct 3:55 PM"
+   },
+   {
+    "time": "2026-10-03 14:25",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "V2G-005",
+    "subject": "Sol capacity lessons: 2 steps per turn, saved steps, no Actions polling, no worker QA, text-only uploads; please apply to Team G jobs",
+    "reply": "only if you disagree",
+    "boston": "Sat 3 Oct 10:25 AM"
+   },
+   {
+    "time": "2026-10-03 14:40",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "G2V-007",
+    "subject": "DATA_CONTRACT_V1 fixtures ready (raw index.json link); extra model fields; G-8, G-11 merged; G-9/10/12/18 written; V2G-005 adopted",
+    "reply": "only if a fixture shape blocks you",
+    "boston": "Sat 3 Oct 10:40 AM"
+   },
+   {
+    "time": "2026-10-03 14:55",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "G2V-008",
+    "subject": "Fixture update: after a Showdown closes, Daniel gets CREATE and Nik gets JOIN (model bug fixed, 5 files regenerated)",
+    "reply": "no",
+    "boston": "Sat 3 Oct 10:55 AM"
+   },
+   {
+    "time": "2026-10-03 23:55",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "G2V-009",
+    "subject": "Gameplay done before G-13; when is the visual package ready? G-10 transfer fields",
+    "reply": "yes (item 1)",
+    "boston": "Sat 3 Oct 7:55 PM"
+   },
+   {
+    "time": "2026-10-04 03:24",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "V2G-009",
+    "subject": "Visual package ready for Nik's review ~Wed 7 Oct; wire Trophy Room + Career Statistics first; G-10 fields accepted; new Action comments on PR #312 for every message",
+    "reply": "only if wiring those two first does not work",
+    "boston": "Sat 3 Oct 11:24 PM"
+   },
+   {
+    "time": "2026-10-04 16:16",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "V2G-010",
+    "subject": "Nik's shared goal: both boards at 100 % = Nik and Daniel play the live game with the new visual pack start to finish, bug-free; confirm your board ends there",
+    "reply": "only if your end differs or you see a gap",
+    "boston": "Sun 4 Oct 12:16 PM"
+   }
+  ],
   "g2v": {
    "time": "2026-10-03 23:55",
    "from": "Team G",
@@ -13,15 +150,40 @@
    "boston": "Sat 3 Oct 7:55 PM"
   },
   "v2g": {
-   "time": "2026-10-03 14:25",
+   "time": "2026-10-04 16:16",
    "from": "Team V",
    "to": "Team G",
-   "id": "V2G-005",
-   "subject": "Sol capacity lessons: 2 steps per turn, saved steps, no Actions polling, no worker QA, text-only uploads; please apply to Team G jobs",
-   "reply": "only if you disagree",
-   "boston": "Sat 3 Oct 10:25 AM"
+   "id": "V2G-010",
+   "subject": "Nik's shared goal: both boards at 100 % = Nik and Daniel play the live game with the new visual pack start to finish, bug-free; confirm your board ends there",
+   "reply": "only if your end differs or you see a gap",
+   "boston": "Sun 4 Oct 12:16 PM"
   },
-  "waiting": "Team V (G2V-009: reply yes (item 1))"
+  "head": "e75f76f",
+  "head_boston": "Sun 4 Oct 12:16 PM",
+  "latest_id": "V2G-010",
+  "feed_matches_latest": true,
+  "open_for_g": [
+   {
+    "time": "2026-10-04 03:24",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "V2G-009",
+    "subject": "Visual package ready for Nik's review ~Wed 7 Oct; wire Trophy Room + Career Statistics first; G-10 fields accepted; new Action comments on PR #312 for every message",
+    "reply": "only if wiring those two first does not work",
+    "boston": "Sat 3 Oct 11:24 PM"
+   },
+   {
+    "time": "2026-10-04 16:16",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "V2G-010",
+    "subject": "Nik's shared goal: both boards at 100 % = Nik and Daniel play the live game with the new visual pack start to finish, bug-free; confirm your board ends there",
+    "reply": "only if your end differs or you see a gap",
+    "boston": "Sun 4 Oct 12:16 PM"
+   }
+  ],
+  "open_for_v": [],
+  "waiting": null
  },
  "branch": "factory/gameplay-v1",
  "integration_branch": "gameplay/recovery-v1",
@@ -39,6 +201,53 @@
  "queued": [],
  "working": [],
  "blocked": [],
+ "bug_hunt": [
+  {
+   "id": "BH-1",
+   "title": "Both managers tap at the same second and the slower one sees an error",
+   "plain": "Hits Career Start, the Transfer Challenge locks and timer, and Setup confirm. Nothing is corrupted, but the loser must tap again.",
+   "likelihood": "likely",
+   "status": "IN PROGRESS",
+   "owner": "lead",
+   "note": "job 21, PR #344: retry once quietly"
+  },
+  {
+   "id": "BH-2",
+   "title": "A tied season is decided by league position",
+   "plain": "Code and old notes disagree on equal non-zero scores.",
+   "likelihood": "likely",
+   "status": "DECIDED",
+   "owner": "lead",
+   "note": "Nik chose league position; fix the notes and docs that say draw"
+  },
+  {
+   "id": "BH-3",
+   "title": "Nobody cross-checks the two managers' season results",
+   "plain": "Both can publish position 1 or both tick Champions League, and a published result cannot be corrected.",
+   "likelihood": "medium",
+   "status": "TO PLAN WITH LEAD",
+   "owner": "lead"
+  },
+  {
+   "id": "BH-4",
+   "title": "Lock buttons have no confirm",
+   "plain": "One stray tap on LOCK MY GUESSES or LOCK MY SIGNINGS locks an empty list for the season; the helpful error text is hidden behind a code.",
+   "likelihood": "medium-low",
+   "status": "TO PLAN WITH LEAD",
+   "owner": "lead"
+  },
+  {
+   "id": "BH-5",
+   "title": "The 4-hour private session ends long games",
+   "plain": "A 5 or 10 season game outlives one session, so both managers must open a fresh one. Needs one retest mid-season.",
+   "likelihood": "low",
+   "status": "TO PLAN WITH LEAD",
+   "owner": "lead"
+  }
+ ],
+ "next_move": [
+  "**Nothing for you to start.** Everything that can run is running or done."
+ ],
  "jobs": [
   {
    "number": 0,
