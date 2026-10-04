@@ -13,7 +13,7 @@
 </head>
 <body>
 <div id="stage-root" class="sd-stage stage" data-screen="final-winner" data-plate-width="1672" data-plate-height="941">
-  <div class="sd-stage__layer sd-stage__layer--plate" aria-hidden="true">
+  <div class="sd-stage__layer sd-stage__layer--plate" aria-hidden="true" data-sd-enter="scene">
     <div class="sd-stage__registered"><div class="sd-stage__plate"></div></div>
   </div>
   <div class="sd-stage__layer sd-stage__layer--atmosphere" aria-hidden="true">
@@ -42,15 +42,15 @@
         <img src="../trophy-room/assets/ENV_TR_PHONE_V1.webp" alt="" fetchpriority="high" decoding="async">
       </picture>
       <span class="finalWinnerPhoneVeil" aria-hidden="true"></span>
-      <picture class="finalWinnerPhoneHero finalWinnerPhoneHero--daniel" aria-hidden="true">
+      <picture class="finalWinnerPhoneHero finalWinnerPhoneHero--daniel" aria-hidden="true" data-sd-enter="character-left">
         <source type="image/webp" srcset="../trophy-room/assets/OVL_TR_DANIEL_PHONE_V1.webp">
         <img src="../trophy-room/assets/OVL_TR_DANIEL_PHONE_V1.webp" alt="" decoding="async">
       </picture>
-      <picture class="finalWinnerPhoneHero finalWinnerPhoneHero--nik" aria-hidden="true">
+      <picture class="finalWinnerPhoneHero finalWinnerPhoneHero--nik" aria-hidden="true" data-sd-enter="character-right">
         <source type="image/webp" srcset="../trophy-room/assets/OVL_TR_NIK_PHONE_V1.webp">
         <img src="../trophy-room/assets/OVL_TR_NIK_PHONE_V1.webp" alt="" decoding="async">
       </picture>
-      <header class="finalWinnerTitleBlock">
+      <header class="finalWinnerTitleBlock" data-sd-enter="title">
         <p class="finalWinnerEyebrow sd-eyebrow">CAREER MODE SHOWDOWN 17</p>
         <h1 id="finalWinnerTitle" class="finalWinnerWordmark sd-title sd-title--wordmark">
           <span class="sd-visually-hidden">SHOWDOWN CHAMPION</span>
@@ -63,7 +63,7 @@
       <span class="finalWinnerCrown finalWinnerCrown--daniel" aria-hidden="true"></span>
       <span class="finalWinnerCrown finalWinnerCrown--nik" aria-hidden="true"></span>
 
-      <section class="finalWinnerHeroCopySlot" aria-labelledby="finalWinnerHeading">
+      <section class="finalWinnerHeroCopySlot" aria-labelledby="finalWinnerHeading" data-sd-enter="panel">
         <h2 id="finalWinnerHeading" class="finalWinnerStateHeading sd-label"></h2>
         <p id="finalWinnerTerminalHeading" class="finalWinnerTerminalHeading"></p>
         <p id="outcomeHeadline" class="finalWinnerOutcome"></p>
@@ -76,14 +76,14 @@
         <span id="completionMark" class="finalWinnerCompletion sd-chip"></span>
       </section>
 
-      <div class="winnerTrophySlot" aria-hidden="true">
+      <div class="winnerTrophySlot" aria-hidden="true" data-sd-enter="panel">
         <picture class="winnerTrophyPicture">
           <source type="image/webp" srcset="../shared/trophies/TRO_SHOWDOWN_CHAMPION_V1_512.webp">
           <img src="../shared/trophies/TRO_SHOWDOWN_CHAMPION_V1_512.webp" alt="" decoding="async">
         </picture>
         <span class="winnerTrophyGlow"></span>
       </div>
-      <section class="finalWinnerResultsPanel sd-panel" aria-label="Final Showdown result">
+      <section class="finalWinnerResultsPanel sd-panel" aria-label="Final Showdown result" data-sd-enter="panel">
         <input class="finalWinnerTabInput" type="radio" name="finalWinnerPhoneTab" id="finalWinnerTabSummary" checked>
         <input class="finalWinnerTabInput" type="radio" name="finalWinnerPhoneTab" id="finalWinnerTabHonours">
         <div class="finalWinnerPhoneTabs" role="tablist" aria-label="Final result sections">
@@ -159,7 +159,7 @@
       </section>
       <section class="finalWinnerActionsSlot" data-phone-pinned-action="true" aria-label="Final result status and actions">
         <p id="sharedTerminalCloseStatus" class="finalWinnerTerminalStatus" role="status" aria-live="polite"></p>
-        <div id="sharedTerminalCloseActions" class="finalWinnerActionRow"></div>
+        <div id="sharedTerminalCloseActions" class="finalWinnerActionRow" data-sd-enter="button"></div>
       </section>
 
       <div class="fixtureProbe" aria-hidden="true">

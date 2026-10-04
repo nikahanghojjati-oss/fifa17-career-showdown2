@@ -184,6 +184,7 @@
       const requested = qs.get("frame");
       const frameId = requested && fixtures.frames[requested] ? requested : frameIds[0];
       applyFrame(fixtures, frameId);
+      if (typeof window.sdEnter === "function") window.sdEnter(root);
     })
     .catch((error) => {
       // fixtures.json itself is unreadable here, so this mirrors frame FW8's product copy; the error stays in the console only.
