@@ -1,0 +1,64 @@
+{
+  "version": 1,
+  "part": 1,
+  "screens": [
+    {
+      "id": "home",
+      "name": "Home",
+      "folder": "../home",
+      "frames": [
+        { "id": "HM1", "label": "Signed out · no save" },
+        { "id": "HM2", "label": "Nik · active save" },
+        { "id": "HM3", "label": "Daniel · completed" },
+        { "id": "S0", "label": "Plate only" }
+      ]
+    },
+    {
+      "id": "league",
+      "name": "League",
+      "folder": "../league",
+      "frames": [
+        { "id": "L1", "label": "Ready" },
+        { "id": "L2", "label": "Spinning" },
+        { "id": "L3", "label": "Selected" },
+        { "id": "L4", "label": "Clubs locked" }
+      ]
+    },
+    {
+      "id": "club",
+      "name": "Club Assignment",
+      "folder": "../club",
+      "frames": [
+        { "id": "CL1", "label": "Ready" },
+        { "id": "CL2", "label": "Opening" },
+        { "id": "CL3", "label": "Manager one" },
+        { "id": "CL4", "label": "Manager two" },
+        { "id": "CL5", "label": "Versus" },
+        { "id": "CL6", "label": "Confirmation" },
+        { "id": "S0", "label": "Plate only" }
+      ]
+    },
+    {
+      "id": "transfer-war",
+      "name": "Transfer War",
+      "folder": "../tr2/slice-02-plate",
+      "frames": [
+        { "id": "F1", "label": "Window · Nik view" },
+        { "id": "F1D", "label": "Window · Daniel view" },
+        { "id": "F1R", "label": "Early-end locked · Nik" },
+        { "id": "F1DR", "label": "Early-end locked · Daniel" },
+        { "id": "G2", "label": "Guess Entry · Nik" },
+        { "id": "G3", "label": "Guess Entry · Daniel" },
+        { "id": "F3", "label": "Signing Entry · Nik" },
+        { "id": "F3D", "label": "Signing Entry · Daniel" },
+        { "id": "F3L", "label": "Signings locked · Nik" },
+        { "id": "F3DL", "label": "Signings locked · Daniel" },
+        { "id": "F4", "label": "Verdicts · Nik" },
+        { "id": "F4D", "label": "Verdicts · Daniel" },
+        { "id": "F4E", "label": "Verdicts · no Daniel signings" },
+        { "id": "F4DE", "label": "Verdicts · Daniel view · empty" },
+        { "id": "S0", "label": "Plate only" }
+      ]
+    }
+  ]
+}
