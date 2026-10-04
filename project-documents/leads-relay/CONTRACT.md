@@ -11,7 +11,8 @@ Modelled on: visual/cinematic-system-v10 project-documents/model-relay/CONTRACT.
 ## 1. Purpose
 The two Claude leads, Team V (visual) and Team G (gameplay), talk through the repo so Nik never carries messages.
 A draft tracker PR from leads/relay into leads/relay-base (frozen, never merged) is subscribed
-by both leads; every push wakes the other lead. If a wake is missed, Nik types "relay" to a lead:
+by both leads. A plain push does not wake a subscriber, so the Action .github/workflows/leads-relay-ping.yml
+posts one comment on PR #312 for each new FEED.md row; that comment wakes the other lead. If a wake is missed, Nik types "relay" to a lead:
 it means "read LATEST.md and act if it is addressed to you".
 
 ## 2. One live slot

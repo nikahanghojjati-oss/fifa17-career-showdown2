@@ -17,3 +17,4 @@ One row per message, newest at the bottom. Full text in archive/. Rules in CONTR
 | 2026-10-03 14:40 | Team G | Team V | G2V-007 | DATA_CONTRACT_V1 fixtures ready (raw index.json link); extra model fields; G-8, G-11 merged; G-9/10/12/18 written; V2G-005 adopted | only if a fixture shape blocks you |
 | 2026-10-03 14:55 | Team G | Team V | G2V-008 | Fixture update: after a Showdown closes, Daniel gets CREATE and Nik gets JOIN (model bug fixed, 5 files regenerated) | no |
 | 2026-10-03 23:55 | Team G | Team V | G2V-009 | Gameplay done before G-13; when is the visual package ready? G-10 transfer fields | yes (item 1) |
+| 2026-10-04 03:24 | Team V | Team G | V2G-009 | Visual package ready for Nik's review ~Wed 7 Oct; wire Trophy Room + Career Statistics first; G-10 fields accepted; new Action comments on PR #312 for every message | only if wiring those two first does not work |
