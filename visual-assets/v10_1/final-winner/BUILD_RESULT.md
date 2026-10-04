@@ -94,14 +94,14 @@ The portrait environment is already referenced. The Daniel and Nik phone cut-out
 
 The phone CSS uses one full-viewport composition with no bottom bar. The title, trophy and winner copy are overlays inside the hero band, so they do not add stacked height. The tab row is included inside the results-panel height.
 
-| Viewport | Hero band 55% | Transition gap 2% | Results panel | Tabs inside panel | Results body after tabs | Gap to pinned action | Pinned action | Additive total | Remaining |
-| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| 393 × 660 | 363.0 px | 13.2 px | 221.8 px | 44 px | 177.8 px | 8 px | 54 px | 660.0 px | 0.0 px |
-| 360 × 640 | 352.0 px | 12.8 px | 213.2 px | 44 px | 169.2 px | 8 px | 54 px | 640.0 px | 0.0 px |
-| 375 × 553 | 304.2 px | 11.1 px | 175.8 px | 44 px | 131.8 px | 8 px | 54 px | 553.0 px | 0.0 px |
+| Viewport | Hero/result region | Results panel | Tabs inside panel | Results body after tabs | Gap to pinned action | Pinned action | Additive total | Remaining |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| 393 × 660 | 376.2 px (57%) | 221.8 px | 44 px | 177.8 px | 8 px | 54 px | 660.0 px | 0.0 px |
+| 360 × 640 | 364.8 px (57%) | 213.2 px | 44 px | 169.2 px | 8 px | 54 px | 640.0 px | 0.0 px |
+| 375 × 553 | 298.6 px (54% short-height override) | 194.4 px | 44 px | 150.4 px | 8 px | 52 px | 553.0 px | 0.0 px |
 
-Arithmetic comes directly from the media query: results start at 57% of viewport height and end 62 px above the safe-area edge; the pinned action is 54 px high, leaving the deliberate 8 px gap. A positive `env(safe-area-inset-bottom)` moves both the panel bottom and action upward together rather than creating page scroll. At 375 × 553 the primary action remains in the final 54 px pinned slot and is therefore visible.
+Arithmetic comes directly from the media queries. Normal phone heights start the results panel at 57% and end it 62 px above the safe-area edge; the pinned action is 54 px high, leaving an 8 px gap. At heights up to 600 px, the Claude-fix override starts results at 54%, ends them 60 px above the safe-area edge and uses a 52 px pinned action. A positive `env(safe-area-inset-bottom)` moves both the panel bottom and action upward together instead of creating page scroll.
 
-The title is internally budgeted inside the hero band: its top is `clamp(24px, 4.8svh, 34px)`; the trophy starts at `clamp(112px, 19svh, 136px)`; the hero copy starts at `clamp(245px, 42svh, 282px)`. These overlays do not consume additional stacked height.
+At 375 × 553 the title begins at 20 px, the trophy occupies 82–198 px, and the live result/score stack begins at 202 px before the 298.6 px results boundary. The portrait heroes extend behind that composition and may overlap the panel lip vertically, but each is clipped to its own half of the hero plane so Daniel and Nik never double-expose through one another.
 
-Growth check: at 390 × 844 the results panel grows to 300.9 px; at 430 × 932 it grows to 338.8 px. The 55% hero band and 57% panel start scale with viewport height, so larger phones gain usable hero and panel space instead of leaving the composition floating in a fixed-height island.
+Growth check: at 390 × 844 the normal 57% layout applies and the results panel grows to 300.9 px; at 430 × 932 it grows to 338.8 px. Larger phones therefore gain usable panel space instead of leaving the composition floating in a fixed-height island.
