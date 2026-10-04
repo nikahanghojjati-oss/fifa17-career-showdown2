@@ -6,6 +6,21 @@
 
 ## Hard gates
 
+| Gate | Result | Evidence |
+| --- | --- | --- |
+| H1 · Daniel left, Nik right | PASS | Settings has no manager cut-outs; where both names occur in `fixtures.json`, Daniel precedes Nik, and no frame reverses manager order. |
+| H2 · Rights-safe assets | PASS | `index.html` loads only Showdown-owned stadium/title WebP assets; no real crests, league logos, trophies, EA/FIFA art or player photograph is displayed. The required Reus credit is text/links only. |
+| H3 · No live/private data baked into images | PASS | `settings.js::applyFrame` renders identity, device, version, motion, feedback, contract state and actions as DOM text/ARIA from fixtures; loaded images are static art. |
+| H4 · Product truth | PASS | Code audit finds only truth-approved Settings controls and no invented football stats; dropped current-showdown/history summary rows remain absent. |
+| H5 · Phone fit | NOT MEASURED (Claude measures) | No Claude QA measurement exists in `visual-assets/v10_1/settings/evidence/QA_SUMMARY.md` at review time. |
+| H6 · Input size / contrast | NOT MEASURED (Claude measures) | No Claude QA measurement exists in `visual-assets/v10_1/settings/evidence/QA_SUMMARY.md` at review time. |
+| H7 · Reduced motion | NOT MEASURED (Claude measures) | No Claude QA measurement exists in `visual-assets/v10_1/settings/evidence/QA_SUMMARY.md` at review time. |
+| H8 · Keyboard / focus | NOT MEASURED (Claude measures) | No Claude QA measurement exists in `visual-assets/v10_1/settings/evidence/QA_SUMMARY.md` at review time. |
+| H9 · Console / requests | NOT MEASURED (Claude measures) | No Claude QA measurement exists in `visual-assets/v10_1/settings/evidence/QA_SUMMARY.md` at review time. |
+| H10 · Mockup diff | NOT MEASURED (Claude measures) | No `visual-assets/v10_1/settings/evidence/scores.json` exists at review time; Settings has no dedicated mockup, so Claude applies the gate only to the reference-authoritative scope. |
+| H11 · First-paint weight / WebP | NOT MEASURED (Claude measures) | No Claude network measurement exists in `visual-assets/v10_1/settings/evidence/QA_SUMMARY.md` at review time. |
+
+
 ## Evidence
 
 ### Claude measurements
