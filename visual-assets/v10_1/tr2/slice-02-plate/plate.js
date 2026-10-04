@@ -51,7 +51,7 @@
     verdictPageMs: 360,
     verdictWipeMs: 420,
     verdictRevealMs: 810,
-    burstMs: 720
+    burstMs: 420
   });
 
   function motionReduced() {
