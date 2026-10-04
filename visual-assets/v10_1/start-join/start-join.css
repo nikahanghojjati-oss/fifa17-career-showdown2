@@ -66,7 +66,8 @@ body { min-height: 100vh; }
   margin: 0;
   transform: translateX(-50%);
   text-align: center;
-  letter-spacing: .18em;
+  letter-spacing: .3em;
+  font-size: clamp(10px, .75vw, 13px);
   white-space: nowrap;
 }
 
@@ -79,9 +80,9 @@ body { min-height: 100vh; }
 .sj-main-panel {
   position: absolute;
   left: 23.7%;
-  top: 28.9%;
+  top: 27.6%;
   width: 51.3%;
-  height: 61%;
+  height: 63.5%;
   box-sizing: border-box;
   padding: 1.05% 1%;
   display: grid;
@@ -473,7 +474,7 @@ body { min-height: 100vh; }
 /* JOB-087 step 9: fixture state presentation. */
 .sj-preview {
   position: absolute;
-  top: 6.4%;
+  top: 4.8%;
   left: 50%;
   transform: translateX(-50%);
   pointer-events: none;

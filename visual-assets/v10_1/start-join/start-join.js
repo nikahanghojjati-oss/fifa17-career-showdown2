@@ -224,7 +224,7 @@
     setText(
       "nikRoleCopy",
       frame.error || (frame.viewer === "nik" && frame.statusText) ||
-      (paired ? strings.liveStatus.careerReady : fallbackMessage)
+      (paired ? strings.liveStatus.careerReady : (frame.viewer === "nik" ? fallbackMessage : strings.liveStatus.needConnect))
     );
 
     const seasonLine = document.getElementById("danielSeasonLine");

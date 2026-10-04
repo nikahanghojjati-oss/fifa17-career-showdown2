@@ -132,3 +132,7 @@ Controls: tabs 44 px, BACK 46 px, action buttons 44 px, code field 44 px with 18
 | 375 × 553 | 497 | 60 | 46 | 178 (floor) | 18 | 30 | 165 | none; action row visible |
 
 Measured in a real browser on SJ1 to SJ8: scrollHeight equals the viewport at all three sizes. Bigger phones grow the panel (the formula adds every extra pixel to it).
+
+## Fix round (JOBS 90, 190, 191)
+
+Four review items applied, none blocked: main panel moved up and made taller so the privacy line clears the buttons; the Nik card shows the neutral "need to connect" text unless Nik is the viewer; the preview chip sits higher; the tagline is spaced and fits one line. Phone layout unchanged.
