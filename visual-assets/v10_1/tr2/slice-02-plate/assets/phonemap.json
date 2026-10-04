@@ -409,18 +409,18 @@
         "source": "cutouts.daniel_phone",
         "side": "left",
         "crop": "alpha_bbox",
-        "center_x_pct": 22,
+        "center_x_pct": 14,
         "top_pct": 1.5,
-        "height_pct": 58,
+        "height_pct": 56,
         "z": 2
       },
       "nik": {
         "source": "cutouts.nik_phone",
         "side": "right",
         "crop": "alpha_bbox",
-        "center_x_pct": 78,
+        "center_x_pct": 84,
         "top_pct": 1.5,
-        "height_pct": 58,
+        "height_pct": 52,
         "z": 3
       }
     },
@@ -437,8 +437,9 @@
     },
     "constraints": [
       "Daniel remains left; Nik remains right; neither figure is mirrored.",
-      "Keep both heads fully visible.",
-      "Keep both faces separated: Daniel's face in the left third and Nik's face in the right third; body overlap is allowed only below the faces.",
+      "Keep both heads fully visible; only outer torso/arm pixels may leave the frame.",
+      "Keep both faces completely clear: Daniel's face stays in the left third and Nik's face in the right third; no shoulder, arm or hand may cross either face.",
+      "Hero overlap is not allowed above 34% of frame height; below that, only a small torso/arm overlap is acceptable.",
       "The heroes may extend below 55% so the UI reads in front of a cinematic scene rather than under a thumbnail strip."
     ]
   }
