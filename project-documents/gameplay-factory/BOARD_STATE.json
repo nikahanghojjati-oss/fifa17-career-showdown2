@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-04 4:55 PM Boston time (EDT)",
+ "generated": "2026-10-04 4:57 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 19,
@@ -218,15 +218,17 @@
   "chat": 2,
   "work": 1
  },
- "overall": 70,
+ "overall": 65,
  "done": 20,
- "total": 30,
+ "total": 32,
  "start": {
   "chat": [],
   "work": []
  },
  "queued": [],
- "working": [],
+ "working": [
+  24
+ ],
  "blocked": [],
  "bug_hunt": [
   {
@@ -267,9 +269,9 @@
   {
    "id": "BH-5",
    "title": "The 4-hour private session ends long games",
-   "plain": "A 5 or 10 season game outlives one session, so both managers must open a fresh one. Needs one retest mid-season.",
+   "plain": "A 5 or 10 season game outlives one session, so both managers must open a fresh one. Needs one retest mid-season. Now job 31 (ten-season games).",
    "likelihood": "low",
-   "status": "TO PLAN WITH LEAD",
+   "status": "IN PROGRESS",
    "owner": "lead"
   }
  ],
@@ -779,7 +781,7 @@
    "number": 24,
    "key": "G-13a",
    "title": "Part 2a: foundation (loader, top bar, shared kit, caching)",
-   "lane": "cloud",
+   "lane": "lead",
    "depends_on": [
     13
    ],
@@ -788,10 +790,10 @@
    "codex_review": false,
    "written": true,
    "waits_on": "",
-   "phase": "READY",
+   "phase": "IN PROGRESS",
    "type": "build",
-   "plain": "Start first: one shared way to load Team V's screens, the top bar, and lighter caching. Claude cloud session, $8 cap.",
-   "state": "NOT STARTED",
+   "plain": "Start first: one shared way to load Team V's screens, the top bar, and lighter caching. Built in the lead thread by a helper (Nik, 2026-10-04: no cloud sessions).",
+   "state": "IN PROGRESS",
    "step": 0,
    "steps_total": 7,
    "pct": 0,
@@ -801,7 +803,7 @@
    "number": 25,
    "key": "G-13b",
    "title": "Part 2b: Home, music (Audius) and Loading",
-   "lane": "cloud",
+   "lane": "lead",
    "depends_on": [
     24
    ],
@@ -812,7 +814,7 @@
    "waits_on": "job 24 merged",
    "phase": "WAITING",
    "type": "build",
-   "plain": "Home in Team V's style with Nik's Audius playlist playing across screens; Loading keeps the Reus credit. Claude cloud, $6 cap.",
+   "plain": "Home in Team V's style with Nik's Audius playlist playing across screens; Loading keeps the Reus credit. Built in the lead thread by a helper.",
    "state": "NOT STARTED",
    "step": 0,
    "steps_total": 7,
@@ -823,7 +825,7 @@
    "number": 26,
    "key": "G-13c",
    "title": "Part 2c: Start/Join, League wheel and Club packs",
-   "lane": "cloud",
+   "lane": "lead",
    "depends_on": [
     24
    ],
@@ -834,7 +836,7 @@
    "waits_on": "job 24 merged",
    "phase": "WAITING",
    "type": "build",
-   "plain": "Setup screens skinned without touching pairing, session or draw logic. Claude cloud, $8 cap.",
+   "plain": "Setup screens skinned without touching pairing, session or draw logic. Built in the lead thread by a helper.",
    "state": "NOT STARTED",
    "step": 0,
    "steps_total": 7,
@@ -845,7 +847,7 @@
    "number": 27,
    "key": "G-13d",
    "title": "Part 2d: Transfer War",
-   "lane": "cloud",
+   "lane": "lead",
    "depends_on": [
     24
    ],
@@ -856,7 +858,7 @@
    "waits_on": "job 24 merged",
    "phase": "WAITING",
    "type": "build",
-   "plain": "Transfer window skinned; private inputs stay private; lock confirm and quiet retries kept. Claude cloud, $6 cap.",
+   "plain": "Transfer window skinned; private inputs stay private; lock confirm and quiet retries kept. Built in the lead thread by a helper.",
    "state": "NOT STARTED",
    "step": 0,
    "steps_total": 7,
@@ -926,6 +928,46 @@
    "state": "NOT STARTED",
    "step": 0,
    "steps_total": 7,
+   "pct": 0,
+   "ready": false
+  },
+  {
+   "number": 31,
+   "key": "G-2h",
+   "title": "Ten-season games: session expiry, long-game limits, 10-season emulator run",
+   "lane": "lead",
+   "depends_on": [],
+   "steps": 1,
+   "code_branch": "gameplay/job-31-ten-seasons",
+   "codex_review": false,
+   "written": true,
+   "waits_on": "",
+   "phase": "IN PROGRESS",
+   "type": "build",
+   "plain": "Nik's high goal: a 10-season game plays smoothly over hours or days. Covers bug hunt 5 (4-hour private session). Lead helper.",
+   "state": "NOT WRITTEN",
+   "step": 0,
+   "steps_total": 1,
+   "pct": 0,
+   "ready": false
+  },
+  {
+   "number": 32,
+   "key": "G-2i",
+   "title": "Fewer taps: audit the flow for steps we can safely drop",
+   "lane": "lead",
+   "depends_on": [],
+   "steps": 1,
+   "code_branch": "",
+   "codex_review": false,
+   "written": true,
+   "waits_on": "",
+   "phase": "IN PROGRESS",
+   "type": "audit",
+   "plain": "Find duplicate continue/check taps and repeated banners; propose safe reductions for Nik to pick. Lead helper (Sonnet).",
+   "state": "NOT WRITTEN",
+   "step": 0,
+   "steps_total": 1,
    "pct": 0,
    "ready": false
   }

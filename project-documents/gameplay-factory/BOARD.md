@@ -1,12 +1,12 @@
 # Team G gameplay board
 
-20 of 30 jobs done (70 %) ███████░░░ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-04 4:55 PM Boston time (EDT)
+20 of 32 jobs done (65 %) ██████░░░░ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-04 4:57 PM Boston time (EDT)
 
 ## Your next move
 
 1. **Nothing for you to start right now.**
 
-_Moving now:_ no job is running right now. _Next up:_ G-13 Part 1: Trophy Room and Career Statistics on the real career model, waits on nothing.
+_Moving now:_ G-13a Part 2a: foundation (loader, top bar, shared kit, caching); G-13b Part 2b: Home, music (Audius) and Loading; G-13c Part 2c: Start/Join, League wheel and Club packs; G-13d Part 2d: Transfer War; workers on jobs 24; bug hunt 5 (The 4-hour private session ends long games). _Next up:_ G-13 Part 1: Trophy Room and Career Statistics on the real career model, waits on nothing.
 
 **Sol Work mode starter line** (copy it, change both `NN` to the job number, paste it as the first message):
 
@@ -24,9 +24,11 @@ From the read-only bug hunt on r52 (4 Oct; [report](https://github.com/nikahangh
 | 2 | **A tied season is decided by league position.** Code and old notes disagree on equal non-zero scores. | likely | DONE · Nik chose league position; docs fixed in PR #343 (merged) | lead |
 | 3 | **Nobody cross-checks the two managers' season results.** Both can publish position 1 or both tick Champions League. Nik chose (2026-10-04) to warn, not block: the commit screen now shows a CHECK RESULTS line on a clash and committing stays allowed (PR #346, merged into recovery dc78ed7). Live after the next release. | medium | DONE | lead |
 | 4 | **Lock buttons have no confirm.** One stray tap on LOCK MY GUESSES or LOCK MY SIGNINGS locks an empty list for the season; the helpful error text is hidden behind a code. Lock buttons now ask "Lock N of 3?" when a form is partly filled (PR #345, merged into recovery 6974408). Live after the next release. | medium-low | DONE · job 21 shows the helpful error text and caps names at 80; the confirm step is still to plan | lead |
-| 5 | **The 4-hour private session ends long games.** A 5 or 10 season game outlives one session, so both managers must open a fresh one. Needs one retest mid-season. | low | TO PLAN WITH LEAD | lead |
+| 5 | **The 4-hour private session ends long games.** A 5 or 10 season game outlives one session, so both managers must open a fresh one. Needs one retest mid-season. Now job 31 (ten-season games). | low | IN PROGRESS | lead |
 
 Small extras (cheap, optional): DONE in job 21: 'scoring remains locked' text now says SEASON COMMITTED · SCORE BELOW; NOT A BUG: Daniel/Nik fallbacks match the fixed roles (Daniel = Player One, Nik = Player Two); OPEN: raw error codes in the Setup settle text.
+
+Live fix jobs open: [G-13a Part 2a: foundation (loader, top bar, shared kit, caching)](jobs/JOB-24.md) (in progress), [G-13b Part 2b: Home, music (Audius) and Loading](jobs/JOB-25.md) (not started), [G-13c Part 2c: Start/Join, League wheel and Club packs](jobs/JOB-26.md) (not started), [G-13d Part 2d: Transfer War](jobs/JOB-27.md) (not started)
 
 ## Team V relay
 
@@ -47,13 +49,15 @@ Waiting on Team V: nothing.
 | G-13 | [Part 1: Trophy Room and Career Statistics on the real career model](jobs/JOB-13.md) | work | - | MERGED |
 | G-14 | Acceptance: directive §12 and Sol's 8 proofs on the emulator | work | job 13 | NOT WRITTEN |
 | G-15 | One real two-device run with Nik | nik | job 14 | NOT WRITTEN |
-| G-13a | [Part 2a: foundation (loader, top bar, shared kit, caching)](jobs/JOB-24.md) | cloud | job 13 | NOT STARTED |
-| G-13b | [Part 2b: Home, music (Audius) and Loading](jobs/JOB-25.md) | cloud | job 24, job 24 merged | NOT STARTED |
-| G-13c | [Part 2c: Start/Join, League wheel and Club packs](jobs/JOB-26.md) | cloud | job 24, job 24 merged | NOT STARTED |
-| G-13d | [Part 2d: Transfer War](jobs/JOB-27.md) | cloud | job 24, job 24 merged | NOT STARTED |
+| G-13a | [Part 2a: foundation (loader, top bar, shared kit, caching)](jobs/JOB-24.md) | lead | job 13 | IN PROGRESS |
+| G-13b | [Part 2b: Home, music (Audius) and Loading](jobs/JOB-25.md) | lead | job 24, job 24 merged | NOT STARTED |
+| G-13c | [Part 2c: Start/Join, League wheel and Club packs](jobs/JOB-26.md) | lead | job 24, job 24 merged | NOT STARTED |
+| G-13d | [Part 2d: Transfer War](jobs/JOB-27.md) | lead | job 24, job 24 merged | NOT STARTED |
 | G-13e | [Part 2e: Rivalry Statistics and Legacy (History)](jobs/JOB-28.md) | codex | job 24, job 24 merged | NOT STARTED |
 | G-13f | [Part 2f: Season Results, Final Winner and Standings](jobs/JOB-29.md) | codex | job 24, job 24 merged | NOT STARTED |
 | G-13g | [Part 2g: Rule Book and Settings](jobs/JOB-30.md) | work | job 24, job 24 merged | NOT STARTED |
+| G-2h | [Ten-season games: session expiry, long-game limits, 10-season emulator run](jobs/JOB-31.md) | lead | - | NOT WRITTEN |
+| G-2i | [Fewer taps: audit the flow for steps we can safely drop](jobs/JOB-32.md) | lead | - | NOT WRITTEN |
 
 <details>
 <summary><b>Finished work: 20 jobs</b> (click to open)</summary>
