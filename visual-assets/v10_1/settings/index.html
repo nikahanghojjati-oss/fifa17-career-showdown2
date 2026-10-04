@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Settings · Career Mode Showdown</title>
+<link rel="stylesheet" href="../shared/showdown-tokens.css">
+<link rel="stylesheet" href="../shared/showdown-type.css">
+<link rel="stylesheet" href="../shared/showdown-ui.css">
+<link rel="stylesheet" href="../shared/stage.css">
+<link rel="stylesheet" href="../shared/motion.css">
+<link rel="stylesheet" href="settings.css">
+<script src="../shared/stage.js" defer></script>
+<script src="../shared/motion.js" defer></script>
+<script src="settings.js" defer></script>
+</head>
+<body>
+<div id="stage-root" class="stage">
+  <div class="plateView" aria-hidden="true"></div>
+
+  <header class="settingsHeader">
+    <p id="settingsEyebrow"></p>
+    <h1 id="settingsTitle"></h1>
+    <button id="settingsClose" type="button"></button>
+  </header>
+
+  <main id="settingsDialog" aria-labelledby="settingsTitle">
+    <p id="previewTag"></p>
+    <p id="frameNote"></p>
+    <p id="contractState" role="status"></p>
+    <p id="interimLabel"></p>
+
+    <div id="settingsContent">
+      <section id="onlinePlayerIdentitySettingsPanel">
+        <p id="accountEyebrow"></p>
+        <h2 id="accountTitle"></h2>
+        <p id="accountDescription"></p>
+        <dl>
+          <div><dt id="playerLabel"></dt><dd id="playerValue"></dd></div>
+          <div><dt id="deviceLabel"></dt><dd id="deviceValue"></dd></div>
+        </dl>
+        <div id="accountActions"></div>
+      </section>
+
+      <section id="applicationPanel">
+        <p id="applicationEyebrow"></p>
+        <h2 id="applicationTitle"></h2>
+        <p id="applicationDescription"></p>
+        <dl><div><dt id="versionLabel"></dt><dd id="versionValue"></dd></div></dl>
+        <button class="settingsApplicationUpdateButton" id="applicationUpdate" type="button"></button>
+        <p id="applicationUpdateStatus" role="status"></p>
+        <p id="photoCredit">
+          <span id="creditPrefix"></span>
+          <a id="creditAuthor"></a>
+          <span aria-hidden="true"> · </span>
+          <a id="creditLicense"></a>
+          <span id="creditSuffix"></span>
+        </p>
+      </section>
+
+      <section id="motionPanel">
+        <p id="motionEyebrow"></p>
+        <h2 id="motionTitle"></h2>
+        <p id="motionDescription"></p>
+        <p id="motionBadge"></p>
+        <dl>
+          <div><dt id="devicePreferenceLabel"></dt><dd id="devicePreferenceValue"></dd></div>
+          <div><dt id="effectiveMotionLabel"></dt><dd id="effectiveMotionValue"></dd></div>
+        </dl>
+        <div id="motionChoices" role="radiogroup"></div>
+        <div id="feedbackRow">
+          <div>
+            <p id="feedbackLabel"></p>
+            <p id="feedbackDescription"></p>
+          </div>
+          <button class="settingsAudioToggle" id="feedbackToggle" type="button" role="switch"></button>
+        </div>
+      </section>
+
+      <section class="settingsDataPanel" id="dataPanel">
+        <p id="dataEyebrow"></p>
+        <h2 id="dataTitle"></h2>
+        <p id="dataDescription"></p>
+        <p id="dataNote"></p>
+        <div id="dataActions"></div>
+      </section>
+    </div>
+
+    <section id="confirmDialog" role="alertdialog" aria-modal="true" hidden>
+      <p id="confirmMessage"></p>
+      <button type="button" data-confirm="cancel">CANCEL</button>
+      <button type="button" data-confirm="delete"></button>
+    </section>
+
+    <footer class="settingsFooter">
+      <button id="settingsDone" type="button"></button>
+    </footer>
+  </main>
+</div>
+</body>
+</html>
