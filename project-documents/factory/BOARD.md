@@ -137,7 +137,7 @@ Branch `factory/v1-wtt5ye`. 238 Team V jobs, plus 5 lines that track Team G. Two
 | 71 | [Rivalry Statistics: motion (part 1 of 3)](jobs/JOB-071.md) | 5 New screens | build | project (type number) | 160, 16 | ██████████ 100 % | DONE |  |
 | 72 | [Legacy (History): build (desktop)](jobs/JOB-072.md) | 5 New screens | build | project (type number) | 5, 26, 18, 132, 138, 19, 20, 21, 22 | ██████████ 100 % | DONE |  |
 | 73 | [Legacy (History): phone (part 1 of 3)](jobs/JOB-073.md) | 5 New screens | build | project (type number) | 72, 118 | ██████████ 100 % | DONE |  |
-| 74 | [Legacy (History): review (part 1 of 4)](jobs/JOB-074.md) | 5 New screens | review | project (type number) | 164 | █████░░░░░ 50 % | IN PROGRESS |  |
+| 74 | [Legacy (History): review (part 1 of 4)](jobs/JOB-074.md) | 5 New screens | review | project (type number) | 164 | ██████████ 100 % | IN PROGRESS |  |
 | 75 | [Legacy (History): fix round (part 1 of 3)](jobs/JOB-075.md) | 5 New screens | fix | project (type number) | 167 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 76 | [Legacy (History): motion (part 1 of 3)](jobs/JOB-076.md) | 5 New screens | build | project (type number) | 169, 16 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 77 | [Season Results: build (desktop)](jobs/JOB-077.md) | 5 New screens | build | project (type number) | 6, 27, 18, 133, 19, 20, 21, 22 | ██████████ 100 % | DONE |  |
