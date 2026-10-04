@@ -76,6 +76,8 @@ jobs:
         run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-cms-gameplay-fast-closed-adapter "node tests/firebase/closed-showdown-adapter-emulator.cjs"
       - name: Completed transfer history matrix
         run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-cms-gameplay-fast-completed-transfer "node tests/firebase/completed-transfer-history-emulator.cjs"
+      - name: Season commit concurrent acknowledge
+        run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-cms-gameplay-fast-season-ack "node tests/firebase/shared-season-commit-concurrent-acknowledge-emulator.cjs"
 
   browser-journey:
     name: Two-manager browser journey
