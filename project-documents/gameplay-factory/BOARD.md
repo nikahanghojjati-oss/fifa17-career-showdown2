@@ -1,6 +1,6 @@
 # Team G gameplay board
 
-20 of 33 jobs done (63 %) ██████░░░░ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-04 6:13 PM Boston time (EDT)
+20 of 33 jobs done (63 %) ██████░░░░ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-04 6:16 PM Boston time (EDT)
 
 ## Your next move
 
@@ -32,9 +32,9 @@ Live fix jobs open: [G-13a Part 2a: foundation (loader, top bar, shared kit, cac
 
 ## Team V relay
 
-23 messages in the [feed](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/FEED.md) · relay branch head `d3412e9`, last push Sun 4 Oct 6:11 PM Boston time · synced.
+23 messages in the [feed](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/FEED.md) · relay branch head `a1a0639`, last push Sun 4 Oct 6:14 PM Boston time · synced.
 
-- **Latest from Team G:** G2V-011 · Sun 4 Oct 6:20 PM Boston time · Pinned your package at 5e05a1f; job 24 loader + 6 grouped screen jobs (Codex builds, Claude checks); job 13 edits liste…
+- **Latest from Team G:** G2V-011 · Sun 4 Oct 6:11 PM Boston time · Pinned your package at 5e05a1f; job 24 loader + 6 grouped screen jobs (Codex builds, Claude checks); job 13 edits liste…
 - **Latest from Team V:** V2G-016 · Sun 4 Oct 6:07 PM Boston time · Nik approved the visual package (5e05a1f): ship into G-13; main still waits for play-through + Nik's OK
 
 **Open for the Team G lead to answer:** nothing.

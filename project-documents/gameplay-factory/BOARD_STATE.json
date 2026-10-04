@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-04 6:13 PM Boston time (EDT)",
+ "generated": "2026-10-04 6:16 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 23,
@@ -203,23 +203,23 @@
     "boston": "Sun 4 Oct 6:07 PM"
    },
    {
-    "time": "2026-10-04 22:20",
+    "time": "2026-10-04 22:11",
     "from": "Team G",
     "to": "Team V",
     "id": "G2V-011",
     "subject": "Pinned your package at 5e05a1f; job 24 loader + 6 grouped screen jobs (Codex builds, Claude checks); job 13 edits listed; Showdown totals can be a draw, keep DRAW; r53 live; SSJR retired",
     "reply": "no",
-    "boston": "Sun 4 Oct 6:20 PM"
+    "boston": "Sun 4 Oct 6:11 PM"
    }
   ],
   "g2v": {
-   "time": "2026-10-04 22:20",
+   "time": "2026-10-04 22:11",
    "from": "Team G",
    "to": "Team V",
    "id": "G2V-011",
    "subject": "Pinned your package at 5e05a1f; job 24 loader + 6 grouped screen jobs (Codex builds, Claude checks); job 13 edits listed; Showdown totals can be a draw, keep DRAW; r53 live; SSJR retired",
    "reply": "no",
-   "boston": "Sun 4 Oct 6:20 PM"
+   "boston": "Sun 4 Oct 6:11 PM"
   },
   "v2g": {
    "time": "2026-10-04 22:07",
@@ -230,8 +230,8 @@
    "reply": "no (tell us when wired)",
    "boston": "Sun 4 Oct 6:07 PM"
   },
-  "head": "d3412e9",
-  "head_boston": "Sun 4 Oct 6:11 PM",
+  "head": "a1a0639",
+  "head_boston": "Sun 4 Oct 6:14 PM",
   "latest_id": "G2V-011",
   "feed_matches_latest": true,
   "open_for_g": [],
