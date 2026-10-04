@@ -55,31 +55,47 @@
       "category": "AUDIUS SOUNDTRACK",
       "source": "AUDIUS",
       "toggle": "PLAY TRACK",
+      "pause": "PAUSE TRACK",
       "mute": "MUTE",
+      "unmute": "UNMUTE",
       "statusTemplate": "{TITLE} · AUDIUS · READY",
+      "statusLoading": "CONNECTING TO AUDIUS",
+      "statusPlaying": "PLAYING",
+      "statusPlayingMuted": "PLAYING · MUTED",
+      "statusPaused": "PAUSED",
+      "statusError": "STREAM UNAVAILABLE · TRY AGAIN OR PICK ANOTHER TRACK",
       "tracks": [
         {
           "key": "whatYouGot",
           "title": "WHAT YOU GOT",
-          "artist": "Valentino Khan & NITTI"
+          "artist": "Valentino Khan & NITTI",
+          "audiusTrackId": "XNN7jYJ"
         },
         {
           "key": "snowGlobe",
           "title": "SNOW GLOBE",
-          "artist": "Hadji Gaviota"
+          "artist": "Hadji Gaviota",
+          "audiusTrackId": "X9wlA0b"
         },
         {
           "key": "nasty",
           "title": "NASTY",
-          "artist": "grouptherapy."
+          "artist": "grouptherapy.",
+          "audiusTrackId": "G5rXAWE"
         },
         {
           "key": "imAlwaysRight",
           "title": "I'M ALWAYS RIGHT",
-          "artist": "The Holdup"
+          "artist": "The Holdup",
+          "audiusTrackId": "9QRXKw"
         }
       ],
-      "defaultTrack": "whatYouGot"
+      "defaultTrack": "whatYouGot",
+      "audius": {
+        "apiBase": "https://api.audius.co/v1",
+        "appName": "CareerModeShowdown17",
+        "authority": "visual/r9-audius-home-player js/menuExperience.js + js/audiusPlayer.js (owner playlist, trailer dropped 2026-10-04)"
+      }
     },
     "bottomStrip": [
       [

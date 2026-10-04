@@ -171,7 +171,7 @@
     stage.dataset.primary = f.primary;
   }
 
-  // Media selector, built like main's ensureMenuMediaSelector (Audius tracks per the approved exception)
+  // Media selector, built like main's ensureMenuMediaSelector (the owner's Audius playlist; YouTube trailer left out)
   function buildSelector(FX) {
     const M = FX.strings.media, sel = document.getElementById("menuMediaSelector");
     sel.replaceChildren();
@@ -190,6 +190,7 @@
     setText(document.querySelector(".menuMusicHeader strong"), d.title);
     setText(document.querySelector(".menuMusicArtist"), d.artist);
     setText(document.getElementById("menuMusicStatus"), M.statusTemplate.replace("{TITLE}", d.title));
+    if (window.HomeSoundtrack) window.HomeSoundtrack.init(M);
   }
 
   function reflectSoundtrackPlaybackState() {
@@ -197,6 +198,8 @@
     const toggle = document.getElementById("menuMusicToggle");
     const status = document.getElementById("menuMusicStatus");
     if (!card || !toggle) return;
+    // The real player knows when sound is actually playing; spin only then.
+    if (window.HomeSoundtrack) { card.dataset.playback = card.dataset.playing === "true" ? "playing" : "stopped"; return; }
 
     const pressed = toggle.getAttribute("aria-pressed") === "true";
     const dataPlaying = toggle.dataset.playing === "true" || card.dataset.playing === "true";

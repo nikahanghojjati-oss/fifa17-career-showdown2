@@ -1097,3 +1097,48 @@ html[data-reduced-motion="true"] .phoneHeroCutout::after,
   position: relative !important; width: auto !important; height: auto !important; overflow: visible !important;
   clip: auto !important; clip-path: none !important; white-space: normal !important;
 }
+
+/* ---------- Soundtrack player (04 Oct 2026) ----------
+   The Audius playlist streams through a plain <audio> element after Play (see soundtrack.js).
+   Desktop gets the track list as a popover above the card; phone keeps its sheet. */
+@media (min-width: 761px) {
+  .menuMusicTile,
+  .menuMusicTile.side {
+    grid-template-columns: 52px minmax(0, 1fr) auto auto;
+    grid-template-areas:
+      "player head head tracks"
+      "status status ctrl ctrl";
+  }
+  .menuMusicTile:has(.phoneSheetToggle:checked) { overflow: visible; }
+  .phoneSheetToggle {
+    grid-area: tracks; align-self: start; justify-self: end; position: relative; z-index: 3;
+    display: block; width: 64px; height: 32px; margin: 0; padding: 0; opacity: 0; cursor: pointer; border: 0;
+  }
+  .phoneTrackSheetOpen {
+    grid-area: tracks; align-self: start; justify-self: end; pointer-events: none;
+    display: inline-flex; width: 64px; height: 32px; box-sizing: border-box; align-items: center; justify-content: center;
+    border: 1px solid rgba(242,196,91,.72); background: rgba(255,255,255,.04); color: var(--cream);
+    font: 700 12px/1 var(--cond); letter-spacing: .08em; text-transform: uppercase;
+  }
+  .phoneSheetToggle:hover + .phoneTrackSheetOpen,
+  .phoneSheetToggle:checked + .phoneTrackSheetOpen { border-color: var(--gold); background: rgba(242,196,91,.16); }
+  .phoneSheetToggle:focus-visible + .phoneTrackSheetOpen { outline: 2px solid var(--gold-hi); outline-offset: 2px; }
+  /* Long song titles: keep the title on one line so the card never grows past its frame. */
+  .menuMusicHeader strong { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .menuMusicTile .phoneSheetToggle:checked ~ .menuMediaSelector,
+  .menuMusicTile.side .phoneSheetToggle:checked ~ .menuMediaSelector {
+    display: grid; position: absolute; z-index: 8; left: 0; right: 0; bottom: calc(100% + 8px); grid-area: auto; width: auto; box-sizing: border-box;
+    grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; padding: 10px;
+    background: rgba(8,10,13,.97); border: 1px solid var(--gold);
+    box-shadow: 0 -12px 40px rgba(0,0,0,.6), inset 0 2px 0 rgba(255,241,184,.5);
+  }
+}
+
+@media (max-width: 760px) and (orientation: portrait) {
+  /* The shared .sd-sheet width (100% / 620px) beat left/right, so the sheet ran off screen; let left/right size it. */
+  .phoneSheetToggle:checked ~ .menuMediaSelector { grid-area: auto; width: auto; box-sizing: border-box; padding-top: 50px; }
+  /* CLOSE sat on the sheet's top edge; seat it inside the sheet's top padding. */
+  .phoneSheetToggle:checked ~ .phoneTrackSheetClose { bottom: calc(var(--phone-nav) + 124px); }
+  /* The tap target for TRACKS was display:none from the base rule, so the sheet never opened on phone. */
+  .phoneSheetToggle { display: block; }
+}
