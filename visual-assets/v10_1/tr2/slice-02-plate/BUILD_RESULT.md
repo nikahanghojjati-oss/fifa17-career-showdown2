@@ -218,3 +218,13 @@ Method: read `plate.css` only, as required by step 5. The table counts the fixed
 At the 375 × 553 floor the primary action is independent of document flow: `--phone-action-h: 44px`, `--phone-action-gap: 4px`, fixed at `bottom: max(env(safe-area-inset-bottom), 4px)`. The 44 px HUD is fixed immediately above it. Thus the action remains visible even while the residual 269 px is allocated among the wordmark, own surface and compact caption. F4 removes the sealed-dossier minimum and uses two compact verdict surfaces; its short-height rule lowers the completed hero minimum to 104 px, giving 8 px more content room than the conservative floor shown above.
 
 At 390 × 844 and 430 × 932 the hero minimum itself grows from `31svh` (262/289 px) and can flex upward toward `56svh`; the additional viewport height therefore grows the composition rather than leaving the content floating in a fixed short-phone stack.
+
+
+#### Final read check
+
+- H1 / manager order: PASS. Runtime phone CSS places Daniel at 22% left and Nik at 78% right, both at 58svh with 1.5svh top, matching JOB-114's final accepted separation while keeping both faces in their own thirds.
+- H5 / phone fit by reading: PASS. `.stage` and `.world` are locked to `100dvh` with `overflow: hidden`; the arithmetic table above is nonnegative at 393×660, 360×640 and 375×553, and larger phones add residual/hero space.
+- H6 / input legibility: PASS. Guess and signing inputs are `min-height: 44px` with `font-size: 16px` in the phone media query.
+- Touch targets: PASS. Primary frame actions and HOME / REFRESH are at least 44px; the primary action is fixed inside the safe-area slot.
+- Asset loading: PASS. `index.html` loads the phone background and both manager overlays as WebP through `<picture>`; no PNG master is referenced by the phone hero markup.
+- Phone content policy: own content stays first; the sealed rival dossier follows until reveal; F4 rule prose is omitted on short phone layouts; no extra tabs or sheets were invented.
