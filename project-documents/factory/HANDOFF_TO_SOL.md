@@ -34,3 +34,7 @@ Per `AGENTS.md`, POS20 governs every change meant for main. Before any mutation,
 
 - No hashes were recomputed; use each asset folder's `intake_report.md` / `phone_intake.md`.
 - `showcase/APPROVAL.html` was still being built by jobs 110, 236 and 237 when this was written.
+
+## Music
+
+The Home soundtrack is `home/soundtrack.js`, with 4 Audius tracks whose ids are in `home/fixtures.json` under `strings.media`. At integration it must keep playing across screens. Main's 6 YouTube songs and the FIFA 17 trailer are not carried over (owner's decision, 04 Oct 2026).
