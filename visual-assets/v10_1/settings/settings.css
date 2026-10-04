@@ -1172,3 +1172,10 @@ html[data-motion-reduced="true"] .settingsWordmarkWrap::after,
 html[data-reduced-motion="true"] .settingsWordmarkWrap::after {
   display: none;
 }
+
+/* CC-008 B4 · 1366x640: the later intake rule (top 10.4%, wordmark 84%) overrode the short-desktop block, so the
+   tagline sat under the panel tops. Re-assert the short-desktop title size after it. */
+@media (min-width: 1024px) and (max-height: 700px) {
+  .settingsTitleBlock { top: calc(52px + 4px); }
+  .settingsWordmarkWrap { width: 68%; }
+}

@@ -572,3 +572,11 @@ html[data-reduced-motion="true"] .ruleBookHero[data-sd-enter="title"]::after {
 @media (max-width: 900px) {
   #ruleBookPreview.sd-preview-tag { left: 12px; right: auto; }
 }
+
+/* CC-008 B4 · 1366x640: the hero started under the 52 px top bar and its tagline and summary ran under the
+   section panels. Short desktops get a smaller hero that starts below the bar. */
+@media (min-width: 761px) and (max-height: 700px) {
+  .ruleBookHero { top: 52px; left: 38%; width: 24%; }
+  .ruleBookHero .sd-eyebrow { margin-bottom: 0; }
+  .ruleBookWordmark { width: 84%; margin: 0 auto; }
+}
