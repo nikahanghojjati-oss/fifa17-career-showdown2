@@ -47,6 +47,7 @@
     (phone ? cards.filter(card => card === selected) : cards).forEach((card, index) => {
       const delay = (initial ? 400 : 0) + Math.min(index, 3) * LEGACY_MOTION.stagger;
       animateLegacy(card, "legacyDealing", LEGACY_MOTION.deal, delay);
+      animateLegacy(card.querySelector(".legacyWinnerCrown"), "legacyCrowning", LEGACY_MOTION.crown, delay + LEGACY_MOTION.deal);
     });
   }
 

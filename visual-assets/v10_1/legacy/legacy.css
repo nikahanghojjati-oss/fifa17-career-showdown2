@@ -1429,3 +1429,15 @@ button {
   animation: legacy-card-back var(--lg-motion-ms) steps(1, end) var(--lg-motion-delay) both;
 }
 .legacyFading { animation: sd-reduced-fade var(--lg-motion-ms, 120ms) linear both; }
+
+/* The crown is decorative; the published winner label stays live DOM text. */
+@keyframes legacy-crown-drop {
+  0% { opacity: 0; transform: translateY(-12px) scale(.8); }
+  72% { opacity: 1; transform: translateY(2px) scale(1.04); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+.legacyWinnerCrown { display: inline-block; }
+.legacyCrowning {
+  animation: legacy-crown-drop var(--lg-motion-ms) var(--lg-motion-ease) var(--lg-motion-delay) both;
+  will-change: transform, opacity;
+}
