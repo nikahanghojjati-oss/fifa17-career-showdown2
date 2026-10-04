@@ -64,8 +64,11 @@ Each screen folder also holds `BUILD_RESULT.md`, `TRUTH.md` (Home, League, Club 
 
 ## Known gaps
 
-- League, Club and Versus brush wordmark pictures were never made (TITLE_LEAGUE, TITLE_CLUB, TITLE_VS); screens use a font stand-in.
-- Start / Join title picture TICKET-124_6 may still be pending; the font stand-in reads CONNECT PLAYERS.
-- Full-width 1366x640 leftovers on some screens; Club phone stray "S"; Legacy phone art may still need its ticket (job 118).
-- Final package review (job 108, Codex) and final fixes (job 109) were not finished when this list was written.
-- Fixture data is Team G's candidate; real History data is owned by Team G and has no backfill.
+- Jobs 108-110 are done (`FINAL_REVIEW.md`: every hard gate passes).
+- The League, Club and VS brush wordmark pictures were never made, so those screens use a font stand-in.
+- The CC-008 polish session is fixing the phone heroes, Home phone spacing and the Rivalry desktop lighting.
+- Fixture data is Team G's candidate data, with no History backfill.
+
+## Music
+
+The Home soundtrack is `home/soundtrack.js`, with 4 Audius tracks whose ids are in `home/fixtures.json` under `strings.media`. At integration it must keep playing across screens. Main's 6 YouTube songs and the FIFA 17 trailer are not carried over (owner's decision, 04 Oct 2026).
