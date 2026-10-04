@@ -277,9 +277,9 @@ d.style.backgroundImage = `image-set(url(assets/${stem}_1X.webp) 1x, url(assets/
     </defs>
     ${hdr}
     ${FRAME === "CL2" ? RIP.map(r => `<polygon points="${pts(r.body)}" fill="none" stroke="#FFD97A" stroke-width="7" opacity=".35" filter="url(#cvPulse)"/><polygon points="${pts(r.body)}" fill="none" stroke="#FFE7A1" stroke-width="1.6" opacity=".85"/>`).join("") : ""}
-    <polygon points="${pts(s.panel)}" fill="#F2C45B" opacity=".18" filter="url(#cvUnder)" transform="translate(0 6)"/>
+    ${phone ? "" : `<polygon points="${pts(s.panel)}" fill="#F2C45B" opacity=".18" filter="url(#cvUnder)" transform="translate(0 6)"/>
     <polygon points="${pts(s.panel)}" fill="url(#cvGlass)"/>
-    <polyline points="${pts(s.panel.slice(0, 10))}" fill="none" stroke="url(#cvGold)" stroke-width="1.3"/>`;
+    <polyline points="${pts(s.panel.slice(0, 10))}" fill="none" stroke="url(#cvGold)" stroke-width="1.3"/>`}`;
   }
 
   /* ---------------- layout ---------------- */

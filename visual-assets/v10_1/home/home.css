@@ -222,7 +222,7 @@ button { font: inherit; color: inherit; }
 }
 .fifaMenuHeading h2::after { content: ""; position: absolute; left: 0; bottom: 0; width: 28px; height: 2px; background: var(--gold); }
 .fifaMenuHeadingMeta { margin: 0; font: 400 16px/1.35 var(--sd-font-body, var(--text)); color: var(--sd-text-primary, var(--cream)); text-shadow: 0 1px 6px rgba(0,0,0,.8); }
-.fifaMenuHeadingMeta span {
+.fifaMenuHeadingMeta .sd-label {
   display: block; margin-bottom: 4px; font: 700 44px/1.16 var(--sd-font-condensed, var(--cond)); color: var(--sd-text-primary, #FFFFFF); letter-spacing: .01em;
   text-transform: uppercase; text-shadow: 0 2px 14px rgba(0,0,0,.7);
 }
