@@ -272,5 +272,6 @@ Older job files may still say "zip", "inbox" or "upload". Read them as this sect
 | Mockup and PRODUCT_TRUTH disagree | PRODUCT_TRUTH wins. Write the difference in the notes. |
 | PRODUCT_TRUTH and the live code on `main` disagree about behaviour | `main` wins. Write it as a NOTE. |
 | A file the job names is not on the branch | DEFAULT, not BLOCKED (Pace rule 8): use the screen's BUILD_RESULT.md, then TRUTH.md, then PRODUCT_TRUTH.md, and say so in the notes. |
+| Phone layout uses % of the whole screen (hero zone 55%) | The shared stage clips phone art layers to a 46% band and starts the UI layer below it. Add in the screen CSS at `max-width: 900px`: `.sd-stage[data-sd-mode="phone"] .sd-stage__layer--plate, --atmosphere, --cutout, --light { height: 55%; }` and `.sd-stage[data-sd-mode="phone"] .sd-stage__layer--ui { top: 0; }` (see season-results.css and legacy.css). Without it the tabs land near 76% and the panels are cut off. |
 | A tool is missing (scikit-image, Playwright) | Try `pip install` once in the sandbox. If it still fails, write exactly what failed in the notes; if the step cannot be done without it, set BLOCKED. |
 | You remember an older Showdown process from ChatGPT memory | Ignore it. This handbook and the job file are the only rules here. |

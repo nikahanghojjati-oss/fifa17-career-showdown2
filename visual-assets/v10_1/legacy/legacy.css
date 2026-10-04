@@ -1311,3 +1311,19 @@ button {
     outline-offset: -2px;
   }
 }
+
+/* Claude fix 2026-10-04 (JOB-073/163 intake): the shared stage clips the phone art layers to its 46% band and
+   starts the UI layer below it, but this phone layout is placed in % of the whole screen (hero zone 55%).
+   Give the art layers the whole 55% hero zone and start the UI layer at the top. */
+@media (max-width: 900px) {
+  .sd-stage[data-sd-mode="phone"] .sd-stage__layer--plate,
+  .sd-stage[data-sd-mode="phone"] .sd-stage__layer--atmosphere,
+  .sd-stage[data-sd-mode="phone"] .sd-stage__layer--cutout,
+  .sd-stage[data-sd-mode="phone"] .sd-stage__layer--light { height: 55%; }
+  .sd-stage[data-sd-mode="phone"] .sd-stage__layer--ui { top: 0; }
+  /* The managers fill the top of the band, so the title sits below their faces, above the tabs. */
+  .legacyEyebrow { top: 50%; }
+  .legacyWordmarkWrap { top: 57%; }
+  .legacyTagline { top: 83%; }
+  .legacyPhoneHero--daniel { left: 4%; }
+}
