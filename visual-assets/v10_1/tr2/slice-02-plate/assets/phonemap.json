@@ -402,7 +402,8 @@
       "asset": "assets/ENV_TRANSFER_PHONE_V1.webp",
       "fit": "cover",
       "position_x_pct": 50,
-      "position_y_pct": 43
+      "position_y_pct": 43,
+      "lower_furniture_policy": "Keep the existing crop; hide the CM17 box and glass desk with bottom_gradient before live controls begin."
     },
     "heroes": {
       "daniel": {
@@ -430,10 +431,14 @@
       "note": "Both heads remain fully visible in the top 55%; torsos may extend below this boundary to overlap the UI band."
     },
     "bottom_gradient": {
-      "start_y_pct": 46,
-      "opaque_by_y_pct": 72,
+      "start_y_pct": 34,
+      "opaque_by_y_pct": 54,
       "end_y_pct": 100,
-      "note": "Darkens the lower composition for live controls without covering either face."
+      "color": "#05070D",
+      "start_opacity": 0,
+      "end_opacity": 0.96,
+      "z": 1,
+      "note": "Aggressive lower scrim suppresses the CM17 box and glass desk before the live control region; it sits above the background but below both hero layers."
     },
     "constraints": [
       "Daniel remains left; Nik remains right; neither figure is mirrored.",
