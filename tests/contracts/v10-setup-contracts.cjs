@@ -498,6 +498,8 @@ check("S9 static guards: skin only, lazy only, no new storage, Rules, Firestore,
   assert.ok(!/text-transform/.test(rules),"no text-transform on product text");
   for(const m of rules.matchAll(/(?:^|[;{\s])content\s*:\s*([^;]+);/g))assert.match(m[1].trim(),/^(""|none)$/,"generated content is empty decoration only");
   assert.ok(!/position\s*:\s*fixed/.test(rules),"nothing fixed over the controls");
+  assert.ok(!/\.v26Skin\s+\*/.test(rules),"reduced motion never overrides the app's own motion rules wholesale (the photo audit wants 0s)");
+  assert.ok(!/footballVisual(Media|MediaFrame)[^{]*\{[^}]*(transition|animation|opacity|object-fit)/.test(rules),"the licensed photo's image rules stay the app's");
   for(const m of rules.matchAll(/([^{}]*)\{([^{}]*)\}/g)){
     const [,selector,body]=m;
     if(/display\s*:\s*none/.test(body)){

@@ -575,10 +575,14 @@ html[data-v10-setup] main { scrollbar-color: var(--v26-gold-deep) rgba(255, 255,
   #leagueWheelScreen.v26Skin { --v26-wheel: clamp(200px, min(62vw, 34svh), 280px); }
 }
 
-html[data-motion-reduced="true"] .v26Skin *,
-html[data-reduced-motion="true"] .v26Skin * { animation-duration: 1ms !important; transition-duration: 1ms !important; }
+/* Reduced motion: only the skin's own motion stops; the app's own reduced-motion rules (photos, wheel, packs) stay in charge. */
+html:is([data-motion-reduced="true"], [data-reduced-motion="true"]) :is(#createShowdown, #leagueWheelScreen, #clubWheelScreen).v26Skin :is(.v26Art, .v26Flash, .v26Burst, .clubRevealCard),
+html:is([data-motion-reduced="true"], [data-reduced-motion="true"]) #leagueWheelScreen.v26Skin .wheelItem.v26-payoff::before { animation: none !important; }
+html:is([data-motion-reduced="true"], [data-reduced-motion="true"]) :is(#createShowdown, #leagueWheelScreen, #clubWheelScreen).v26Skin :is(.menuButton, .backButton) { transition: none !important; }
 @media (prefers-reduced-motion: reduce) {
-  :is(#createShowdown, #leagueWheelScreen, #clubWheelScreen).v26Skin * { animation-duration: 1ms !important; transition-duration: 1ms !important; }
+  :is(#createShowdown, #leagueWheelScreen, #clubWheelScreen).v26Skin :is(.v26Art, .v26Flash, .v26Burst, .clubRevealCard),
+  #leagueWheelScreen.v26Skin .wheelItem.v26-payoff::before { animation: none !important; }
+  :is(#createShowdown, #leagueWheelScreen, #clubWheelScreen).v26Skin :is(.menuButton, .backButton) { transition: none !important; }
 }
 
 /* ---------- Start / Join overlays: entry, pairing panel, Private Remote Joining ---------- */
