@@ -1,0 +1,98 @@
+* { box-sizing: border-box; }
+html, body { width: 100%; height: 100%; margin: 0; background: var(--sd-black, #07080a); }
+body { overflow: hidden; font-family: var(--sd-font-body, system-ui, sans-serif); }
+.loadingStage { width: 100vw; height: 100vh; height: 100svh; background: var(--sd-black, #07080a); }
+
+.startupScene { background: #07080a; }
+.startupAthleteFrame { position: absolute; inset: -4% auto -8% -1%; width: 52%; overflow: hidden; background: #0d0f13; clip-path: polygon(0 0,88% 0,100% 100%,0 100%); }
+.startupAthleteFrame > picture { display: contents; }
+#startupAthlete { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 53% 0; filter: saturate(.86) contrast(1.08) brightness(.84); }
+.startupAthleteFrame::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(90deg,rgba(18,24,28,.1),transparent 45%,#252b31 99%),linear-gradient(0deg,rgba(27,32,37,.34),transparent 33%); }
+.startupShard { position: absolute; display: block; background: rgba(7,8,10,.52); border-inline-end: 1px solid rgba(212,160,23,.24); transform: skewX(-18deg); }
+.startupShardOne { left: -8%; top: -10%; width: 22%; height: 34%; }
+.startupShardTwo { right: 14%; bottom: -18%; width: 16%; height: 52%; }
+.startupGrid { position: absolute; inset: 0; opacity: .32; background: linear-gradient(90deg, transparent 0 78%, rgba(255,211,77,.08) 78% 78.1%, transparent 78.1%), linear-gradient(0deg, transparent 0 31%, rgba(255,211,77,.05) 31% 31.1%, transparent 31.1%); }
+.loadingVignette { position: absolute; inset: 0; background: radial-gradient(ellipse at 28% 40%, transparent 20%, rgba(0,0,0,.22) 58%, rgba(0,0,0,.72) 100%); }
+.loadingGrain { position: absolute; inset: -12%; opacity: .025; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='128' height='128'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.72' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.9'/%3E%3C/svg%3E"); background-size: 128px 128px; mix-blend-mode: soft-light; }
+
+.loadingUi { color: var(--sd-text-primary, #f4f1ea); }
+.loadingUi::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 52px; background: linear-gradient(180deg, rgba(7,8,10,.94), rgba(7,8,10,.5)); border-bottom: 1px solid rgba(212,160,23,.22); pointer-events: none; }
+.startupIdentity { position: absolute; left: 54%; top: 50%; width: min(39vw, 610px); transform: translateY(-56%); }
+.startupEyebrow { margin: 0 0 8px; text-align: left; padding-inline-start: 0; font-size: 11px; letter-spacing: .42em; }
+.startupEyebrow::before { display: none; }
+.startupKicker { margin: 0 0 10px; color: var(--sd-text-warm, #e9dfc8); letter-spacing: .46em; text-shadow: 0 2px 12px rgba(0,0,0,.9); }
+.loadingWordmark { width: min(100%, 560px); margin: 0; filter: drop-shadow(0 8px 22px rgba(0,0,0,.72)); }
+.loadingWordmark > picture { display: contents; }
+.loadingWordmark img { display: block; width: 100%; height: auto; }
+.startupEdition { margin-top: 10px; text-align: left; font-size: clamp(12px, 1vw, 16px); letter-spacing: .28em; }
+.startupStatus { position: absolute; left: 54%; bottom: 108px; width: min(39vw, 610px); }
+.startupProgress { position: relative; width: 100%; height: 4px; overflow: hidden; background: rgba(185,179,164,.18); box-shadow: inset 0 1px rgba(255,255,255,.04); }
+.startupProgressFill { display: block; width: 72%; height: 100%; background: linear-gradient(90deg, var(--sd-gold-800, #8a6a12), var(--sd-gold-500, #f5c518), var(--sd-gold-300, #ffd34d)); }
+.startupProgressGlint { position: absolute; top: -2px; bottom: -2px; left: -18%; width: 14%; transform: translateX(0) skewX(-18deg); background: linear-gradient(90deg, transparent, rgba(255,243,176,.9), transparent); opacity: .85; animation: loadingProgressGlint 1.65s cubic-bezier(.22,1,.36,1) infinite; will-change: transform; }
+@keyframes loadingProgressGlint {
+  0%, 18% { transform: translateX(0) skewX(-18deg); opacity: 0; }
+  28% { opacity: .9; }
+  72% { opacity: .7; }
+  86%, 100% { transform: translateX(850%) skewX(-18deg); opacity: 0; }
+}
+#loadingText { margin: 12px 0 0; color: var(--sd-text-primary, #f4f1ea); font: 700 13px/1.2 var(--sd-font-condensed, sans-serif); letter-spacing: .22em; text-transform: uppercase; text-shadow: 0 2px 9px rgba(0,0,0,.95); }
+.startupSaveNote { position: absolute; left: 54%; bottom: 62px; margin: 0; color: var(--sd-text-secondary, #b9b3a4); font: 600 11px/1.2 var(--sd-font-condensed, sans-serif); letter-spacing: .14em; text-transform: uppercase; }
+.startupPhotoCredit { position: absolute; left: 24px; bottom: 18px; margin: 0; max-width: min(46vw, 640px); color: var(--sd-text-secondary, #b9b3a4); font: 400 12px/1.3 var(--sd-font-body, system-ui, sans-serif); text-shadow: 0 1px 5px rgba(0,0,0,.95); }
+.startupPhotoCredit a { color: inherit; text-decoration-color: rgba(255,211,77,.72); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+.startupPhotoCredit a:hover { color: var(--sd-text-primary, #f4f1ea); text-decoration-color: var(--sd-gold-300, #ffd34d); }
+.startupPhotoCredit a:focus-visible { outline: 2px solid var(--sd-gold-300, #ffd34d); outline-offset: 3px; color: var(--sd-text-primary, #f4f1ea); border-radius: 1px; }
+
+@media (max-width: 700px) {
+  .loadingUi::before { display: none; }
+  .startupAthleteFrame { inset: 0; width: 100%; clip-path: none; }
+  #startupAthlete { object-position: 50% 0%; filter: saturate(.86) contrast(1.08) brightness(.84); }
+  .startupAthleteFrame::after { background: linear-gradient(180deg, transparent 0 42%, rgba(7,8,10,.22) 58%, #07080a 80%, #07080a 100%); }
+  .startupGrid { opacity: .18; }
+  .startupShardTwo { right: -10%; }
+  .startupIdentity { left: 24px; right: 24px; top: auto; bottom: 190px; width: auto; transform: none; }
+  .startupEyebrow { margin-bottom: 5px; font-size: 9px; letter-spacing: .28em; }
+  .startupKicker { margin-bottom: 6px; font-size: 11px; letter-spacing: .3em; }
+  .loadingWordmark { width: min(100%, 338px); }
+  .startupEdition { margin-top: 6px; font-size: 11px; letter-spacing: .2em; }
+  .startupStatus { left: 24px; right: 24px; bottom: 114px; width: auto; }
+  #loadingText { margin-top: 9px; font-size: 12px; letter-spacing: .14em; }
+  .startupSaveNote { left: 24px; right: 24px; bottom: 79px; font-size: 10px; }
+  .startupPhotoCredit { left: 24px; right: 24px; bottom: 19px; max-width: none; font-size: 12px; }
+  .startupPhotoCredit a { display: inline-block; min-width: 44px; min-height: 44px; padding-block: 15px; margin-block: -15px; }
+}
+
+@media (max-width: 380px), (max-height: 580px) {
+  .startupIdentity { bottom: 174px; }
+  .startupStatus { bottom: 103px; }
+  .startupSaveNote { bottom: 70px; }
+  .startupPhotoCredit { bottom: 14px; font-size: 12px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .startupProgressGlint { display: none; animation: none; }
+}
+html[data-motion-reduced="true"] .startupProgressGlint,
+html[data-reduced-motion="true"] .startupProgressGlint { display: none; animation: none; }
+
+/* CC-008 A8 · Nik's review: a little more of the gold theme on desktop. CSS only; the Reus photo and its
+   OWNER-4 credit are untouched. Warm dark background, gold light on the text side, gold accents. */
+@media (min-width: 701px) {
+  .startupScene {
+    background:
+      radial-gradient(ellipse 46% 62% at 76% 46%, rgba(150,104,22,.34), rgba(70,48,12,.26) 48%, transparent 78%),
+      linear-gradient(90deg, #0b0906 0%, #120d07 58%, #0a0805 100%);
+  }
+  .startupShard { border-inline-end-color: rgba(242,196,91,.5); }
+  .startupShardTwo { background: linear-gradient(180deg, rgba(40,28,8,.5), rgba(7,8,10,.6)); }
+  .startupGrid { opacity: .5; }
+  .loadingUi::before { border-bottom-color: rgba(242,196,91,.42); }
+  .startupIdentity::before {
+    content: ""; position: absolute; z-index: -1; left: -14%; right: -14%; top: -26%; bottom: -30%;
+    pointer-events: none;
+    background: radial-gradient(ellipse at 50% 52%, rgba(245,197,24,.16), rgba(245,197,24,.05) 45%, transparent 72%);
+  }
+  .startupEyebrow { color: var(--sd-gold-300, #ffd34d); }
+  .startupKicker { color: #f2d38a; }
+  .startupEdition { color: var(--sd-gold-300, #ffd34d); }
+  .startupProgress { box-shadow: 0 0 14px rgba(245,197,24,.18), inset 0 1px rgba(255,255,255,.04); }
+}
