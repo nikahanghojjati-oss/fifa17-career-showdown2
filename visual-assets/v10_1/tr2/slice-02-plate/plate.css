@@ -573,3 +573,160 @@ body { overflow: hidden; font-family: var(--text); -webkit-font-smoothing: antia
 @media (max-width: 760px) and (orientation: portrait) and (max-height: 600px) {
   .sign-main.timer { font-size: 18px; line-height: 1; }
 }
+
+/* JOB-050 step 2a: phone cinematic structure */
+@media (max-width: 760px) and (orientation: portrait) {
+  .stage {
+    --phone-gap: clamp(5px, 1.15svh, 8px);
+    --phone-side: clamp(10px, 3.05vw, 14px);
+    --phone-footer: calc(var(--footer-h) + env(safe-area-inset-bottom));
+    height: 100svh;
+    min-height: 100svh;
+    overflow: hidden;
+    background:
+      radial-gradient(ellipse at 50% 24%, rgba(242,196,91,.07), transparent 47%),
+      var(--sd-black);
+  }
+
+  .world {
+    box-sizing: border-box;
+    height: 100svh;
+    min-height: 0;
+    gap: var(--phone-gap);
+    padding:
+      max(4px, env(safe-area-inset-top))
+      var(--phone-side)
+      calc(var(--phone-footer) + var(--phone-gap));
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  .transfer-wordmark {
+    width: min(68vw, 286px);
+    margin: 2px auto -2px;
+    flex: 0 0 auto;
+  }
+
+  .scene {
+    flex: 1 1 54svh;
+    min-height: clamp(118px, 31svh, 356px);
+    max-height: 56svh;
+    border-bottom: 1px solid rgba(242,196,91,.24);
+    box-shadow: 0 14px 26px rgba(0,0,0,.46);
+  }
+
+  .sign-status.reg {
+    min-height: var(--band-h);
+    border-top: 1px solid rgba(242,196,91,.20);
+    background:
+      linear-gradient(90deg, transparent, rgba(242,196,91,.06) 18% 82%, transparent),
+      rgba(7,6,4,.96);
+  }
+
+  .rules-card {
+    margin: 0 2px;
+    min-height: 0;
+  }
+
+  .panel {
+    width: 100%;
+    min-width: 0;
+    margin: 0;
+    background: linear-gradient(180deg, rgba(18,16,12,.88), rgba(8,8,8,.94));
+    border: 1px solid rgba(242,196,91,.22);
+    clip-path: polygon(10px 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%,0 10px);
+    box-shadow: var(--sd-shadow-contact);
+  }
+
+  .panel.own {
+    order: 2;
+    border-color: rgba(242,196,91,.38);
+    box-shadow: var(--sd-shadow-contact), 0 0 18px rgba(242,196,91,.07);
+  }
+
+  .panel.sealed {
+    order: 3;
+    min-height: 56px;
+    background: linear-gradient(135deg, rgba(24,19,11,.92), rgba(8,7,5,.96));
+  }
+
+  .panel.sealed .panel-title {
+    min-height: 56px;
+  }
+
+  .panel.sealed .reg.frost {
+    inset: 7px 10px 9px;
+  }
+
+  .panel.sealed .seal {
+    width: 32px;
+    height: 32px;
+  }
+
+  .panel-title {
+    min-height: 24px;
+    margin-top: 3px;
+  }
+
+  .panel-body {
+    padding-top: 6px;
+    padding-bottom: 14px;
+  }
+
+  .window-body,
+  .signing-body {
+    padding-top: 6px;
+    padding-bottom: 14px;
+  }
+
+  .phase-guess .guess-cols,
+  .phase-signing .signing-rows {
+    min-height: 0;
+  }
+
+  .phase-guess .privacy-note,
+  .phase-signing .lock-summary {
+    max-width: 54ch;
+  }
+
+  .panel.verdict.own { order: 2; }
+  .panel.verdict.rival { order: 3; }
+  .rules-card.with-continue { order: 4; }
+
+  .hud-footer {
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    border-top: 1px solid rgba(242,196,91,.20);
+    backdrop-filter: blur(10px);
+  }
+}
+
+@media (max-width: 760px) and (orientation: portrait) and (max-height: 680px) {
+  .transfer-wordmark {
+    width: min(54vw, 220px);
+    margin-top: 0;
+  }
+
+  .scene {
+    min-height: 112px;
+    max-height: 47svh;
+  }
+
+  .world {
+    --phone-gap: 5px;
+  }
+
+  .panel-body,
+  .window-body,
+  .signing-body {
+    padding-bottom: 11px;
+  }
+
+  .panel.sealed,
+  .panel.sealed .panel-title {
+    min-height: 52px;
+  }
+}
+
