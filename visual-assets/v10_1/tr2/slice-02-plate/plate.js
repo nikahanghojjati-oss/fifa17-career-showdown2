@@ -445,6 +445,7 @@
     if (!panels.length) return false;
     var covers = panels.map(function (p) { return p.querySelector(".tw-verdict-dossier"); }).filter(Boolean);
     var verdictWords = Array.from(stage.querySelectorAll(".vr-verdict"));
+    var slotCounts = Array.from(stage.querySelectorAll(".tw-slot-count"));
     var reduced = motionReduced();
 
     stage.style.setProperty("--tw-verdict-wipe-ms", SIGNATURE_MOTION.verdictWipeMs + "ms");
@@ -473,6 +474,11 @@
             easing: "linear"
           });
         }
+      });
+      slotCounts.forEach(function (node) {
+        var target = Number(node.dataset.target);
+        if (typeof window.sdCountUp === "function") window.sdCountUp(node, target, 0);
+        else node.textContent = String(target);
       });
       await delay(SIGNATURE_MOTION.reducedMs);
       covers.forEach(function (cover) { cover.remove(); });
@@ -533,6 +539,13 @@
     verdictWords.forEach(function (node, i) {
       window.setTimeout(function () { node.classList.add("tw-wipe-running"); }, Math.min(i, 5) * 55);
     });
+    slotCounts.forEach(function (node, i) {
+      window.setTimeout(function () {
+        var target = Number(node.dataset.target);
+        if (typeof window.sdCountUp === "function") window.sdCountUp(node, target, 280);
+        else node.textContent = String(target);
+      }, Math.min(i, 5) * 45);
+    });
 
     await delay(270);
     var winningVerdict = stage.querySelector(".verdict-row.is-release .vr-word");
@@ -584,7 +597,10 @@
       verdicts.forEach(function (v) {
         var sig = inputs.filter(function (r) { return r.slot === v.slot; })[0];
         var li = el("li", { class: "verdict-row " + (v.release ? "is-release" : "is-keep"), "data-slot": v.slot });
-        li.appendChild(el("span", { class: "guess-num", "aria-hidden": "true", text: "0" + v.slot }));
+        var rowNum = el("span", { class: "guess-num", "aria-hidden": "true" });
+        rowNum.appendChild(document.createTextNode("0"));
+        rowNum.appendChild(el("span", { class: "tw-slot-count", "data-target": v.slot, text: "0" }));
+        li.appendChild(rowNum);
         var who = el("div", { class: "vr-who" });
         who.appendChild(el("strong", { class: "vr-name", text: sig.name }));
         who.appendChild(el("span", { class: "vr-meta", text: sig.league + " · " + sig.nationality }));
