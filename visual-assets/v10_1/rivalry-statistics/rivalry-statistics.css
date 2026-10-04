@@ -321,3 +321,5 @@ html[data-motion-reduced="true"] .rv-shell[data-tab="trophies"] .rv-bottom--trop
   .rv-interim{top:calc(52px + 4px)}
   .rv-actions{top:89%}
 }
+/* CC-008 B7 · 375x553: the desktop .screen min-height (560px) made the phone page scroll by 7 px. */
+@media(max-width:900px){.screen{min-height:0}}
