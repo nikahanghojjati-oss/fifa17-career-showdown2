@@ -17,6 +17,29 @@
 
   var PLATE_W = 1672, PLATE_H = 941;
   var MOBILE_MQ = "(max-width: 760px) and (orientation: portrait)";
+
+  // JOB-145 signature motion constants. Presentation only: these never gate or delay gameplay intents.
+  var TW_MOTION = Object.freeze({
+    clockTick: Object.freeze({ duration: 280, easing: "cubic-bezier(.22,1,.36,1)" }),
+    guessSubmit: Object.freeze({ slide: 560, stampDelay: 350, stamp: 260, total: 720, easing: "cubic-bezier(.22,1,.36,1)" }),
+    verdictReveal: Object.freeze({ crack: 180, fanDelay: 110, fan: 340, revealDelay: 220, brushDelay: 390, brush: 420, burstDelay: 690, burst: 360, total: 1080, easing: "cubic-bezier(.22,1,.36,1)" })
+  });
+
+  function motionReduced() {
+    return !!(window.ShowdownMotion && typeof window.ShowdownMotion.isReducedMotion === "function" && window.ShowdownMotion.isReducedMotion());
+  }
+
+  function applySignatureMotionConstants(stage) {
+    stage.style.setProperty("--tw-clock-tick-ms", TW_MOTION.clockTick.duration + "ms");
+    stage.style.setProperty("--tw-clock-ease", TW_MOTION.clockTick.easing);
+    stage.style.setProperty("--tw-guess-slide-ms", TW_MOTION.guessSubmit.slide + "ms");
+    stage.style.setProperty("--tw-guess-stamp-ms", TW_MOTION.guessSubmit.stamp + "ms");
+    stage.style.setProperty("--tw-guess-ease", TW_MOTION.guessSubmit.easing);
+    stage.style.setProperty("--tw-verdict-crack-ms", TW_MOTION.verdictReveal.crack + "ms");
+    stage.style.setProperty("--tw-verdict-fan-ms", TW_MOTION.verdictReveal.fan + "ms");
+    stage.style.setProperty("--tw-verdict-brush-ms", TW_MOTION.verdictReveal.brush + "ms");
+    stage.style.setProperty("--tw-verdict-ease", TW_MOTION.verdictReveal.easing);
+  }
   var SIGNATURE_MOTION = Object.freeze({
     easeOut: "cubic-bezier(.22,1,.36,1)",
     easeInOut: "cubic-bezier(.65,0,.35,1)",
@@ -541,6 +564,7 @@
     stage.innerHTML = "";
     stage.dataset.frame = frameId;
     stage.dataset.phase = cfg.phase || "none";
+    applySignatureMotionConstants(stage);
     // F3/F4 glass content uses the painted glass down to the inner frame line (platemap signingContent / verdictContent)
     if (cfg.phase === "SIGNING_ENTRY") stage.dataset.contentBottom = map.panels.A.signingContent[3];
     else if (cfg.phase === "COMPLETED") stage.dataset.contentBottom = map.panels.A.verdictContent[3];
