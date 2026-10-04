@@ -255,7 +255,7 @@ Production Firebase remains disconnected.
 
 ## 2. Permanent inherited rules
 
-Gameplay integrity: exactly two managers; same selected league; different permanent clubs; Showdown lengths 1/3/5/10; 11-point maximum; equal non-zero scores Draw; only 0–0 uses league position then league points.
+Gameplay integrity: exactly two managers; same selected league; different permanent clubs; Showdown lengths 1/3/5/10; 11-point maximum; any equal season score is decided by league position then league points (owner decision 2026-10-04, ROADMAP_AMENDMENTS.md).
 
 Architecture integrity: `js/screens.js` remains navigation authority; `js/storage.js` remains raw browser-storage authority; `js/storageTransaction.js` remains raw transaction authority; `js/saveLibraryRuntime.js` remains Save Library/manager-identity mutation authority; `js/analytics.js` remains derived Analytics authority.
 
