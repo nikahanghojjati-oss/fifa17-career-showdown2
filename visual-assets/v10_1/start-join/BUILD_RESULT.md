@@ -94,3 +94,20 @@ Run `tools/MAKE_ASSETS.md` in order. Claude must:
 3. Run `python3 tools/build_preview.py` after the runtime binaries exist so `preview.html` contains the real screen assets.
 4. Render the screen on a real server and run the factory/browser checks assigned to intake: H5–H11, H10 mockup diff, console/network/404 checks, focus/keyboard, contrast and page weight.
 5. Review Daniel's fingertip/hand edge at 100% and 200% for seam, halo, fringe and contact quality; keep Daniel LEFT and Nik RIGHT.
+
+## Phone (JOB-088, part 1 of 3)
+
+Phone is `max-width: 900px`. The stage is `100svh - 56px - safe area`; the 56 px bottom bar is a `.nav-reserve` placeholder. Measures below are inside that stage.
+
+- Top: portrait stadium `ENV_SJ_PHONE_V1.webp` (cover, 50% 36%) with Daniel (left -4%, top 1%, height 60%) and Nik (left 49%, height 58%) from `phonemap.json`. Both heads fully visible, Daniel left. Dark gradient from 36% down.
+- Middle: preview tag, eyebrow, CONNECT PLAYERS (display-font fallback, TODO-WORDMARK kept), tagline.
+- Below: three real tabs DANIEL · START, NIK · JOIN, CONNECTION and the BACK button at the right end of the same row (it keeps its `navigateBackSmart` hook). One panel at a time; desktop shows every panel and hides the tabs.
+- The tab follows the frame until the player picks one: Nik viewing or a code error opens NIK · JOIN; waiting, paired, loading, partial or unavailable opens CONNECTION; otherwise DANIEL · START.
+- Action rows (START A SHOWDOWN, JOIN DANIEL'S SHOWDOWN, COPY CODE, NEW CODE, CHECK STATUS, START CAREER, MORE, RETRY CONNECTION) stick to the bottom of the panel, so the primary action stays visible at 375 × 553 while the text above scrolls inside the panel.
+- Privacy line "Only someone with this code can join." stays under the panel.
+
+Height budget at a 393 × 604 stage: art zone about 215, header about 85, tabs 40, panel 204, lock line 18, gaps and padding about 40. At 640 and below the eyebrow and tagline are hidden to give the panel room.
+
+First paint (phone): ENV 126 KB + heroes 110 KB + CSS/JS about 30 KB = about 266 KB (cap 450 KB).
+
+Checked at 393 × 660, 360 × 640 and 375 × 553 (frames SJ1, SJ2, SJ4, SJ5, SJ7, SJ8): no page scroll, no console errors, desktop 1366 × 768 unchanged.

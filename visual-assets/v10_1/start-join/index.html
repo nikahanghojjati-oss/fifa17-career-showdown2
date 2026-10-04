@@ -18,6 +18,23 @@
   </div>
   <div class="sd-stage__layer sd-stage__layer--atmosphere" aria-hidden="true"></div>
 
+  <div class="sj-phoneArt" aria-hidden="true">
+    <picture class="sj-phoneBg">
+      <source media="(max-width: 900px)" srcset="assets/ENV_SJ_PHONE_V1.webp" type="image/webp">
+      <img alt="" decoding="async">
+    </picture>
+    <picture class="sj-phoneHero sj-phoneHero--daniel">
+      <source media="(max-width: 900px)" srcset="assets/OVL_SJ_DANIEL_PHONE_V1.webp" type="image/webp">
+      <img alt="" decoding="async">
+    </picture>
+    <picture class="sj-phoneHero sj-phoneHero--nik">
+      <source media="(max-width: 900px)" srcset="assets/OVL_SJ_NIK_PHONE_V1.webp" type="image/webp">
+      <img alt="" decoding="async">
+    </picture>
+    <span class="sj-phoneContact sj-phoneContact--daniel"></span>
+    <span class="sj-phoneContact sj-phoneContact--nik"></span>
+  </div>
+
   <div class="sd-stage__layer sd-stage__layer--ui">
     <header class="sj-header">
       <span id="previewTag" class="sj-preview sd-preview-tag"></span>
@@ -31,8 +48,14 @@
     </header>
 
     <main id="startJoinScreen" class="sj-main">
-      <section class="sj-main-panel sd-panel" aria-label="Connect players">
+      <section class="sj-main-panel sd-panel" aria-label="Connect players" data-tab="daniel">
         <button id="startJoinBack" class="sj-back backButton sd-btn sd-btn--secondary" type="button"></button>
+
+        <div class="sj-tabs sd-tabs" role="tablist" aria-label="Connection steps">
+          <button type="button" role="tab" id="sjTabDaniel" data-sj-tab="daniel" aria-selected="true" aria-controls="danielRoleHeading">DANIEL · START</button>
+          <button type="button" role="tab" id="sjTabNik" data-sj-tab="nik" aria-selected="false" aria-controls="nikRoleHeading" tabindex="-1">NIK · JOIN</button>
+          <button type="button" role="tab" id="sjTabCurrent" data-sj-tab="current" aria-selected="false" aria-controls="currentHeading" tabindex="-1">CONNECTION</button>
+        </div>
 
         <div class="sj-role-grid">
           <section class="sj-role-panel sj-role-panel--daniel sd-panel" aria-labelledby="danielRoleHeading">
@@ -135,5 +158,13 @@
 <script src="../shared/stage.js" defer></script>
 <script src="../shared/motion.js" defer></script>
 <script src="start-join.js" defer></script>
+<script>
+/* Phone tabs (<=900px): one step at a time. The tab follows the frame until the player picks one; desktop shows every panel and hides the tabs. */
+(function(){var stage=document.getElementById("stage-root"),panel=document.querySelector(".sj-main-panel"),tabs=[].slice.call(document.querySelectorAll("[data-sj-tab]")),manual=false;
+function pick(k,focus){panel.setAttribute("data-tab",k);tabs.forEach(function(t){var on=t.getAttribute("data-sj-tab")===k;t.setAttribute("aria-selected",on?"true":"false");t.tabIndex=on?0:-1;if(on&&focus)t.focus()})}
+function auto(){if(manual)return;var d=stage.dataset,k="daniel";if(d.stateTone==="error"||d.viewer==="nik")k="nik";else if(d.pairingState==="paired"||d.pairingState==="waiting-for-nik"||d.status==="loading"||d.status==="partial"||d.status==="unavailable")k="current";pick(k)}
+tabs.forEach(function(t,i){t.addEventListener("click",function(){manual=true;pick(t.getAttribute("data-sj-tab"))});t.addEventListener("keydown",function(e){var d=e.key==="ArrowRight"?1:e.key==="ArrowLeft"?-1:0;if(d){e.preventDefault();manual=true;pick(tabs[(i+d+tabs.length)%tabs.length].getAttribute("data-sj-tab"),true)}})});
+new MutationObserver(auto).observe(stage,{attributes:true,attributeFilter:["data-viewer","data-pairing-state","data-status","data-state-tone"]});auto()})();
+</script>
 </body>
 </html>

@@ -69,3 +69,7 @@ python3 project-documents/factory/tools/phone_art.py visual-assets/v10_1/start-j
 # proof: Claude composites PHONE_PROOF.png (393 × 660 at 3×) from phone_frame
 
 The cutout.py lines are the job's recipe; phone_art.py runs the same cut with edge refine, writes the runtime WebPs (≤ 60 KB) and the proof. plate_detext.py first paints the baked name labels off the shoulders (boxes in phonemap.json > label_text_boxes). 
+
+## JOB-088 phone
+
+No new files: the phone page uses `ENV_SJ_PHONE_V1.webp`, `OVL_SJ_DANIEL_PHONE_V1.webp` and `OVL_SJ_NIK_PHONE_V1.webp` from JOB-120 / JOB-209. The title is still the display-font fallback (TODO-WORDMARK, ticket 124).
