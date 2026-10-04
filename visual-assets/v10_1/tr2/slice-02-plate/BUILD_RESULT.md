@@ -266,3 +266,26 @@ Screen-specific rule for this part: the sealed rival panel may move only as a co
 The shared kit assigns panel `--i` values at runtime, caps the stagger after the sixth panel, keeps useful controls available by 600 ms, cleans up by 1.2 s, and collapses the choreography to a 150 ms fade when either reduced-motion source is active.
 
 Evidence target for Claude intake: `evidence/motion/` frame strips covering normal and reduced-motion entrances.
+
+
+## Motion · JOB-145 part 2
+
+Transfer War now has three signature action/reveal moments on top of JOB-053's shared entrance. All durations and easing live in the `SIGNATURE_MOTION` constant in `plate.js`; the effects are presentation-only and never delay, rewrite or infer private product state.
+
+| Moment | Trigger / target | Timeline | Easing / shared primitive |
+| --- | --- | --- | --- |
+| Window clock hand | Each displayed second while `WINDOW_OPEN`; decorative hand beside `#transferTimerDisplay` | 260 ms tick/pulse each second | `cubic-bezier(.22,1,.36,1)`; transform + opacity only |
+| Guess into dossier | Click on Guess Entry `#completeTransferChallenge`; data-free card flies from own panel to the constant sealed rival dossier | 0–480 ms card travel; 480–840 ms wax stamp | travel `cubic-bezier(.65,0,.35,1)`; stamp reuses shared `sd-slam-in` keyframe at 360 ms |
+| Verdict anticipation | F4/F4D/F4E/F4DE dossier cover | 0–810 ms | shared `sdReveal` |
+| Seal crack + page fan | F4 dossier cover | crack starts 170 ms for 260 ms; pages fan from 170 ms for 360 ms | `cubic-bezier(.22,1,.36,1)`; transform + opacity only |
+| Verdict brush wipe + row markers | `.vr-verdict` and decorative 01/02/03 markers | begins 430 ms; wipe 420 ms with ≤275 ms stagger; count-up 280 ms with ≤225 ms stagger | shared `sd-title-wipe-cover` keyframe + `sdCountUp` |
+| Successful-guess payoff | First revealed `RELEASE` verdict, after both sides are public | 700–1120 ms | shared `sdBurst`, 42 particles, 420 ms |
+| Reduced motion | Either app reduced-motion flag or `prefers-reduced-motion` | 150 ms fade only; clock hand stays static; no card flight or particle burst | shared reduced-motion contract |
+
+DEFAULT: Transfer War has no recorded overall winner in product truth. The burst therefore marks the first revealed `RELEASE` row, which is an already-authoritative successful rival guess; it never invents or stores an overall Transfer War winner. Frames with no `RELEASE` verdict get no burst.
+
+Privacy / logic guard: the travelling guess card contains no values or text, the sealed rival DOM remains constant, rival guesses appear only in the existing COMPLETED verdict state, and the real timer stays DOM text. The click handler does not prevent, await or replace the product action. Verdict rows still render provider-authoritative results only.
+
+Timing ceiling: the latest normal-motion endpoint is the final staggered verdict wipe at about 1.125 s; the burst ends at 1.120 s. This stays under the 1.2 s Criterion 8 ceiling. Shared entrance usability and cleanup remain owned by JOB-053's motion kit.
+
+Evidence target for Claude intake: `evidence/motion/` frame strips for the clock pulse, guess-to-dossier + stamp, normal verdict reveal, and reduced-motion verdict reveal. Per the factory handbook, Claude records these binary frames at intake.
