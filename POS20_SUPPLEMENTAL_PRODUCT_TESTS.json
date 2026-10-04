@@ -728,6 +728,32 @@
       ]
     },
     {
+      "path": "tests/contracts/ten-season-session-contracts.cjs",
+      "patterns": [
+        "^js/sparkRemoteJoining\\.js$",
+        "^js/sparkPrivateSession\\.js$",
+        "^js/productionSharedTerminalClose\\.js$",
+        "^js/productionSharedJourneyReconnect\\.js$",
+        "^js/sparkSharedSeasonResults\\.js$",
+        "^tests/firebase/two-manager-journey-emulator\\.cjs$",
+        "^\\.github/workflows/validate-gameplay-fast\\.yml$",
+        "^tests/contracts/ten-season-session-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/career-start-ready-reuse-contracts.cjs",
+      "patterns": [
+        "^js/productionSharedCareerStart\\.js$",
+        "^js/productionSharedTransferChallenge\\.js$",
+        "^js/productionSharedSeasonResults\\.js$",
+        "^js/sparkSharedTransferChallenge\\.js$",
+        "^js/sparkSharedSeasonResults\\.js$",
+        "^tests/contracts/career-start-ready-reuse-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
       "path": "tests/contracts/v10-foundation-contracts.cjs",
       "patterns": [
         "^js/v10Screens\\.js$",
@@ -738,7 +764,7 @@
         "^css/v10Shell\\.css$",
         "^service-worker\\.js$",
         "^index\\.html$",
-        "^visual-assets/v10_1/shared/",
+        "^visual-assets/v10_1/",
         "^tests/contracts/v10-foundation-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]

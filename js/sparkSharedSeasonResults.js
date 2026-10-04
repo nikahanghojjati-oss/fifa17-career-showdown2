@@ -170,11 +170,17 @@
         if(code!=="permission-denied"&&code!=="firestore/permission-denied")throw error;
         const sdk=options.firebaseSdk;if(typeof sdk.getDoc!=="function")throw error;
         const rivalryId=ssrpNormalizeRivalryId(options.rivalryId),seasonNumber=Number(options.seasonNumber);if(!Number.isInteger(seasonNumber)||seasonNumber<1||seasonNumber>10)throw error;
-        let fresh;
-        try{fresh=ssrpSnapshot(await sdk.getDoc(sdk.doc(options.firestore,"rivalries",rivalryId,"seasonResults",`season_${seasonNumber}`)));}
-        catch(_readError){throw error;}
-        if(fresh&&Array.isArray(fresh.operationIds)&&fresh.operationIds.includes(operationId))return await runPublishTransaction();
-        if(fresh&&Number.isInteger(fresh.revision)&&fresh.revision>baseRevision)ssrpFail("SEASON_RESULTS_STALE_BASE_REVISION");
+        // Job 31: the rival's winning write can land a moment after this denial is reported, so a readable
+        // public document that does not show it yet is re-read twice more (250 ms, then 500 ms) before the
+        // denial is surfaced. An unreadable document (stranger) is still answered after exactly one read.
+        for(let attempt=0;attempt<3;attempt+=1){
+          if(attempt>0)await new Promise(resolve=>setTimeout(resolve,250*attempt));
+          let fresh;
+          try{fresh=ssrpSnapshot(await sdk.getDoc(sdk.doc(options.firestore,"rivalries",rivalryId,"seasonResults",`season_${seasonNumber}`)));}
+          catch(_readError){throw error;}
+          if(fresh&&Array.isArray(fresh.operationIds)&&fresh.operationIds.includes(operationId))return await runPublishTransaction();
+          if(fresh&&Number.isInteger(fresh.revision)&&fresh.revision>baseRevision)ssrpFail("SEASON_RESULTS_STALE_BASE_REVISION");
+        }
         throw error;
       }
     }catch(error){return ssrpResultError(error);}
