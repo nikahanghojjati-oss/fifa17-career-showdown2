@@ -87,10 +87,10 @@
         <input class="finalWinnerTabInput" type="radio" name="finalWinnerPhoneTab" id="finalWinnerTabSummary" checked>
         <input class="finalWinnerTabInput" type="radio" name="finalWinnerPhoneTab" id="finalWinnerTabHonours">
         <div class="finalWinnerPhoneTabs" role="tablist" aria-label="Final result sections">
-          <label for="finalWinnerTabSummary" role="tab">SUMMARY</label>
-          <label for="finalWinnerTabHonours" role="tab">HONOURS</label>
+          <label for="finalWinnerTabSummary" role="tab" aria-controls="finalWinnerMetaStrip">SUMMARY</label>
+          <label for="finalWinnerTabHonours" role="tab" aria-controls="finalWinnerHonours">HONOURS</label>
         </div>
-        <div class="finalWinnerMetaStrip" aria-label="Showdown summary">
+        <div id="finalWinnerMetaStrip" class="finalWinnerMetaStrip" aria-label="Showdown summary">
           <div class="finalWinnerMetaCell">
             <span>SEASONS</span>
             <strong id="panelSeasons" class="sd-number sd-number--small"></strong>
@@ -103,7 +103,7 @@
           </div>
         </div>
 
-        <div class="finalWinnerHonours" aria-label="Trophy attribution">
+        <div id="finalWinnerHonours" class="finalWinnerHonours" aria-label="Trophy attribution">
           <div class="finalWinnerHonoursHead">
             <strong class="finalWinnerHonoursManager finalWinnerHonoursManager--daniel">DANIEL</strong>
             <span>SHOWDOWN HONOURS</span>
@@ -157,7 +157,7 @@
           <strong id="finalWinnerPartialCoverage"></strong>
         </div>
       </section>
-      <section class="finalWinnerActionsSlot" aria-label="Final result status and actions">
+      <section class="finalWinnerActionsSlot" data-phone-pinned-action="true" aria-label="Final result status and actions">
         <p id="sharedTerminalCloseStatus" class="finalWinnerTerminalStatus" role="status" aria-live="polite"></p>
         <div id="sharedTerminalCloseActions" class="finalWinnerActionRow"></div>
       </section>
