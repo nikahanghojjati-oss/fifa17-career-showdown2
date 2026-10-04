@@ -2,7 +2,7 @@
 
 | Lane | Depends on | Code branch | PR into | Budget |
 | --- | --- | --- | --- | --- |
-| **codex** (Nik pastes the lead's box into the Codex app; the lead checks in a browser and merges) | job 24: start from branch `gameplay/job-24-v10-foundation` (PR #349) now; the PR goes into recovery and becomes clean once 24 merges | Codex's own branch | `gameplay/recovery-v1` | one Codex task |
+| **work** (Sol Work mode, High; run every step without stopping. Moved from Codex 2026-10-04: Codex could not open its PR) | job 24: start from branch `gameplay/job-24-v10-foundation` (PR #349) now; the PR goes into recovery and becomes clean once 24 merges | `gameplay/job-29-v10-results` | `gameplay/recovery-v1` | one Work mode run |
 
 Read `jobs/G13_PART2_COMMON.md` first, then job 24's PR body for the loader API (`js/v10Screens.js`).
 

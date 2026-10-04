@@ -479,18 +479,18 @@
    "number": 29,
    "key": "G-13f",
    "title": "Part 2f: Season Results, Final Winner and Standings",
-   "lane": "codex",
+   "lane": "work",
    "depends_on": [
     24
    ],
    "steps": 7,
-   "code_branch": "",
+   "code_branch": "gameplay/job-29-v10-results",
    "codex_review": true,
    "written": true,
    "waits_on": "",
    "phase": "READY",
    "type": "build",
-   "plain": "Results and commit skinned (clash warning kept); winner reveal uses the reconciliation exactly. Codex builds (Nik pastes the box); starts from job 24's branch; the lead checks each screen in a browser and merges."
+   "plain": "Results and commit skinned (clash warning kept); winner reveal uses the reconciliation exactly. Sol Work mode; starts from job 24's branch; the lead checks each screen in a browser and merges."
   },
   {
    "number": 30,
