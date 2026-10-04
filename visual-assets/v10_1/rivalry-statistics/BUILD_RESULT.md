@@ -76,3 +76,22 @@ Measured in a real browser: scrollHeight equals the viewport at all three sizes.
 ## Fix round (JOBS 70, 159, 160)
 
 Six review items applied on desktop from 901 px up: trophy art scales with the width (64 px on short laptops), a decorative caption sits under the Head-to-Head numerals (hidden on phone), the title spans about 31-70%, the lower panels, the Back row and the totals panel use the mockup spacing. The phone layout is unchanged.
+
+## Motion · JOB-071 part 1
+
+The standard shared entrance follows the screen hierarchy and does not add a screen-local timing system. `sdEnter(#stage-root)` owns the choreography; the layout is final before motion begins.
+
+| Order | Shared timing | Element | Selector | `data-sd-enter` | Intent |
+| ---: | --- | --- | --- | --- | --- |
+| 1 | 0–400 ms | Full rivalry scene | `#stage-root` | `scene` | Fade from black and settle the complete stadium composition without layout shift. |
+| 2 | 150–600 ms | Daniel, left | `.rv-cutout--daniel`, `.rv-phoneHero--daniel` | `character-left` | Bring Daniel inward from the left; desktop and phone variants share the same role. |
+| 3 | 150–600 ms | Nik, right | `.rv-cutout--nik`, `.rv-phoneHero--nik` | `character-right` | Bring Nik inward from the right; desktop and phone variants share the same role. |
+| 4 | 250–700 ms | Rivalry Statistics brush title | `#statisticsScreenTitle` | `title` | Run the shared brush reveal and one metallic glint. |
+| 5 | 400–900 ms | Rivalry totals hero | `#rvPanelTotals` | `panel` | First and most important data panel. |
+| 6 | 460–960 ms | Head-to-Head | `#rvPanelHead` | `panel` | First supporting comparison panel. |
+| 7 | 520–1020 ms | Season-by-Season | `#rvPanelSeasons` | `panel` | Second supporting history panel. |
+| 8 | 580–1080 ms | Trophy Cabinet | `#rvPanelTrophies` | `panel` | Final supporting panel. |
+| 9 | 760–1080 ms | Back to Showdown Home | `#rvBack` | `button` | Primary action enters last with the shared single payoff pulse. |
+
+Reduced motion is inherited from the shared kit: either `prefers-reduced-motion: reduce` or the application preference collapses the entrance to a 150 ms fade and suppresses slides, scaling, wipe/glint and the button pulse. The shared cleanup ends by 1.2 s and no motion changes document flow.
+
