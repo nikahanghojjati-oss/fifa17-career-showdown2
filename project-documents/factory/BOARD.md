@@ -1,28 +1,22 @@
 # 🏭 Showdown Factory board
 
-**213 of 238 jobs done and checked · 89 %** · updated Sun 2:27 p.m. Eastern
+**220 of 238 jobs done and checked · 92 %** · updated Sun 2:40 p.m. Eastern
 
 <img src="board-meter.svg" alt="Football progress meter" width="640">
 
-⏱ **Estimated finish: Mon 3:34 a.m. Eastern** (about 13 h 00 min from now at today's pace)
+⏱ **Estimated finish: Mon 3:20 a.m. Eastern** (about 12 h 39 min from now at today's pace)
 
 ## 🔴 Now
 
-- **105** Full phone pass (1/7) · Claude · step 0/1 · Claude is on it, nothing to type
+- Nothing running.
 
 ## 🟢 Next (start these)
 
-- Nothing ready right now.
+- **106** Full phone pass: fixes (1/3) · type the number in a new chat in project Showdown visual
 
 ## ⚪ Then
 
-- **106** Full phone pass: fixes (1/3) · after 226 · type the number in a new chat in project Showdown visual
-- **221** Full phone pass (2/7) · after 105 · Claude is on it, nothing to type
-- **222** Full phone pass (3/7) · after 221 · Claude is on it, nothing to type
-- **223** Full phone pass (4/7) · after 222 · Claude is on it, nothing to type
-- **224** Full phone pass (5/7) · after 223 · Claude is on it, nothing to type
-- **225** Full phone pass (6/7) · after 224 · Claude is on it, nothing to type
-- …and 1 more
+- **227** Full phone pass: fixes (2/3) · after 106 · type the number in a new chat in project Showdown visual
 
 ## 🧰 Where to type and when it resets
 
@@ -31,18 +25,18 @@
 | 🟡 GPT-5.6 Sol chat | ChatGPT, project "Showdown visual", new normal chat: type the job number | unknown | 17 |
 | 🟠 GPT-6.1 Sol Work mode | ChatGPT, Work mode (press Use Work). Not used for factory jobs now | Sun 4:18 p.m. Eastern | 0 |
 | 🔵 Astra | ChatGPT Work mode (Astra): paste the bundle prompt from handoffs/C2W-*.md | Sun 4:18 p.m. Eastern | 0 |
-| 🟣 Claude threads | Claude project threads and claude.ai/code cloud sessions (no typing by Nik) | Thu 8:00 p.m. Eastern | 7 |
+| 🟣 Claude threads | Claude project threads and claude.ai/code cloud sessions (no typing by Nik) | Thu 8:00 p.m. Eastern | 0 |
 | ⚫ Codex | Codex: final package review (job 108), paste the job file | unknown | 1 |
 | 🖼️ Image tickets | ChatGPT Temporary Chat, paste the ticket from tickets/ | unknown | 0 |
 
 _Resets live in [LANES.json](LANES.json) (hand-edited; "unknown" means nobody has told the board yet)._
 
-_Estimate only. Method: the longest chain of jobs still to do (25 left) × the median real time per step (Claude jobs 3 min, set by hand in LANES.json from the hard-jobs thread (8 parts in about 15 min); GPT chat jobs 42 min; real gaps from jobs finished in the last 3 days, so they include waiting). Codex job assumed 45 min. It ignores usage limits and resets, so it can only slip, and it does not include Claude's quality check or Nik's own approval._
+_Estimate only. Method: the longest chain of jobs still to do (18 left) × the median real time per step (Claude jobs 3 min, set by hand in LANES.json from the hard-jobs thread (8 parts in about 15 min); GPT chat jobs 42 min; real gaps from jobs finished in the last 3 days, so they include waiting). Codex job assumed 45 min. It ignores usage limits and resets, so it can only slip, and it does not include Claude's quality check or Nik's own approval._
 
 ## 📊 Screens
 
 ```
-Integration    ███░░░░░░░ 13/38
+Integration    █████░░░░░ 20/38
 ```
 ✅ Finished screens (19): Home, League, Club, Transfer, Loading, Trophy Room, Career Stats, Rivalry, Legacy, Season Results, Final Winner, Start/Join, Standings, Rule Book, Settings, Setup, Foundation, Art, Top bar
 
@@ -54,7 +48,7 @@ Integration    ███░░░░░░░ 13/38
 
 ## Quality
 
-Quality bar: average 4.2 or more, nothing under 3. Average so far 4.26 over 73 scored jobs.
+Quality bar: average 4.2 or more, nothing under 3. Average so far 4.26 over 74 scored jobs.
 
 <details><summary>Full job table</summary>
 
@@ -165,7 +159,7 @@ Quality bar: average 4.2 or more, nothing under 3. Average so far 4.26 over 73 s
 | 102 | [Team G G-5, G-6 and G-11: active adapter, nav lock fields, model-true fixtures](jobs/JOB-102.md) | team-g | 98 | 100 % | DONE |
 | 103 | [Showcase: every screen in one place (part 1 of 5)](jobs/JOB-103.md) | project (type number) | 36, 42, 48, 146, 56, 61, 153, 162, 171, 180, 184, 193, 94, 196, 199 | 100 % | DONE |
 | 104 | [Showcase: screens read Team G's model-true fixtures (part 1 of 8)](jobs/JOB-104.md) | project (type number) | 213, 102 | 100 % | DONE |
-| 105 | [Full phone pass (part 1 of 7)](jobs/JOB-105.md) | project (type number) | 220 | 0 % | IN PROGRESS · CLAUDE |
+| 105 | [Full phone pass (part 1 of 7)](jobs/JOB-105.md) | project (type number) | 220 | 100 % | DONE |
 | 106 | [Full phone pass: fixes (part 1 of 3)](jobs/JOB-106.md) | project (type number) | 226 | 0 % | NOT STARTED |
 | 107 | [Motion and sound consistency pass (part 1 of 6)](jobs/JOB-107.md) | project (type number) | 228 | 0 % | NOT STARTED |
 | 108 | [Final package review (Codex)](jobs/JOB-108.md) | codex | 233 | 0 % | NOT STARTED |
@@ -281,12 +275,12 @@ Quality bar: average 4.2 or more, nothing under 3. Average so far 4.26 over 73 s
 | 218 | [Showcase: screens read Team G's model-true fixtures (part 6 of 8)](jobs/JOB-218.md) | project (type number) | 217 | 100 % | DONE |
 | 219 | [Showcase: screens read Team G's model-true fixtures (part 7 of 8)](jobs/JOB-219.md) | project (type number) | 218 | 100 % | DONE |
 | 220 | [Showcase: screens read Team G's model-true fixtures (part 8 of 8)](jobs/JOB-220.md) | project (type number) | 219 | 100 % | DONE |
-| 221 | [Full phone pass (part 2 of 7)](jobs/JOB-221.md) | project (type number) | 105 | 0 % | IN PROGRESS · CLAUDE |
-| 222 | [Full phone pass (part 3 of 7)](jobs/JOB-222.md) | project (type number) | 221 | 0 % | IN PROGRESS · CLAUDE |
-| 223 | [Full phone pass (part 4 of 7)](jobs/JOB-223.md) | project (type number) | 222 | 0 % | IN PROGRESS · CLAUDE |
-| 224 | [Full phone pass (part 5 of 7)](jobs/JOB-224.md) | project (type number) | 223 | 0 % | IN PROGRESS · CLAUDE |
-| 225 | [Full phone pass (part 6 of 7)](jobs/JOB-225.md) | project (type number) | 224 | 0 % | IN PROGRESS · CLAUDE |
-| 226 | [Full phone pass (part 7 of 7)](jobs/JOB-226.md) | project (type number) | 225 | 0 % | IN PROGRESS · CLAUDE |
+| 221 | [Full phone pass (part 2 of 7)](jobs/JOB-221.md) | project (type number) | 105 | 100 % | DONE |
+| 222 | [Full phone pass (part 3 of 7)](jobs/JOB-222.md) | project (type number) | 221 | 100 % | DONE |
+| 223 | [Full phone pass (part 4 of 7)](jobs/JOB-223.md) | project (type number) | 222 | 100 % | DONE |
+| 224 | [Full phone pass (part 5 of 7)](jobs/JOB-224.md) | project (type number) | 223 | 100 % | DONE |
+| 225 | [Full phone pass (part 6 of 7)](jobs/JOB-225.md) | project (type number) | 224 | 100 % | DONE |
+| 226 | [Full phone pass (part 7 of 7)](jobs/JOB-226.md) | project (type number) | 225 | 100 % | DONE |
 | 227 | [Full phone pass: fixes (part 2 of 3)](jobs/JOB-227.md) | project (type number) | 106 | 0 % | NOT STARTED |
 | 228 | [Full phone pass: fixes (part 3 of 3)](jobs/JOB-228.md) | project (type number) | 227 | 0 % | NOT STARTED |
 | 229 | [Motion and sound consistency pass (part 2 of 6)](jobs/JOB-229.md) | project (type number) | 107 | 0 % | NOT STARTED |
