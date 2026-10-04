@@ -93,7 +93,7 @@ Larger phones grow the useful content area rather than floating the layout: at 3
 - Always visible: portrait stadium, Daniel left, Nik right, brush title, compact Showdown Champion ceremony/nameplate, category chip row, horizontal trophy shelf, BACK, and the shared bottom-bar reserve.
 - Moved behind More: Career Ranks and Career Records. These are secondary history, so keeping them out of the default composition protects the hero and swipe shelf at 393 × 660.
 - Hidden on phone: the desktop top-bar reserve and preview pill. The desktop plate layer is also hidden because the phone uses its own people-free portrait stadium plus independent manager cut-outs.
-- Shelf behavior: category chips are horizontally scrollable 44 px targets; trophy cards are 63% of viewport shelf width with scroll-snap so roughly one and a half cards are visible.
+- Shelf behavior: category chips are horizontally scrollable 44 px targets; trophy cards use `calc(50% - 5px)` with the existing 10 px gap, so exactly two cards fit across the scroll content at 393 × 660 while additional cards remain horizontally swipeable with scroll-snap.
 - Primary action: BACK is 44 px high and pinned 8 px above the 56 px plus safe-area bottom-bar reserve. MORE/CLOSE is a separate 78 × 44 px checkbox target with a visible focus ring. Trophy Room has no text-entry inputs, so it cannot summon the software keyboard.
 
 ### Phone assets
@@ -101,8 +101,8 @@ Larger phones grow the useful content area rather than floating the layout: at 3
 Runtime phone art references WebP only:
 
 - `assets/ENV_TR_PHONE_V1.webp` — measured 133,986 bytes.
-- `assets/OVL_TR_DANIEL_PHONE_V1.webp` — referenced at x 29%, top 1.5%, visible height 59%; Claude generation target ≤60,000 bytes.
-- `assets/OVL_TR_NIK_PHONE_V1.webp` — referenced at x 71%, top 1%, visible height 60%; Claude generation target ≤60,000 bytes.
+- `assets/OVL_TR_DANIEL_PHONE_V1.webp` — referenced large on the left at x 24%, top 0, visible height 68%; Claude generation target ≤60,000 bytes.
+- `assets/OVL_TR_NIK_PHONE_V1.webp` — referenced large on the right at x 76%, top 0, visible height 69%; Claude generation target ≤60,000 bytes.
 - Existing `assets/TITLE_TR_V1.webp` remains the brush-title runtime asset.
 
 No PNG master is loaded by the page. The two cut-out WebPs are intentionally referenced before they exist on the branch, per JOB-058's DEFAULT. Claude must run the existing `tools/MAKE_ASSETS.md` cutout recipes, refine edges, generate both WebPs, fill their SHA-256/actual sizes in `assets/phone_intake.md`, and composite the proof image. Claude then measures H5, H6 contrast, H7, H8, H9, H10 and H11 in a real browser at intake.
