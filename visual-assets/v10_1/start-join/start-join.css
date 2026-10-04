@@ -80,11 +80,12 @@ body { min-height: 100vh; }
   left: 23.7%;
   top: 28.9%;
   width: 51.3%;
-  height: 57%;
+  height: 61%;
   box-sizing: border-box;
   padding: 1.05% 1%;
   display: grid;
-  grid-template-rows: 43.2% 43.4% 1fr;
+  /* Fix 1/5: reserve a full action row inside both role cards at 768px-tall desktop viewports. */
+  grid-template-rows: minmax(224px, 47%) minmax(0, 39%) 1fr;
   row-gap: 2.1%;
 }
 
