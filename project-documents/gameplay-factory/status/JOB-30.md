@@ -1,11 +1,11 @@
 # Status · JOB-30 · G-13 part 2g: Rule Book and Settings
 
 State: IN PROGRESS
-Step: 4a of 6
+Step: 4b of 6
 Updated: 2026-10-04 23:02 UTC
 Chat: Sol Work mode
 Code branch: gameplay/job-30-v10-rules-settings
-Head commit: 8a1046ad7531a1a20970f1eb2a53afd0f766cd96
+Head commit: 9fd82a71404694394f9177003e7175b3cef3b03e
 PR: none yet
 CI run: pending on 32617fdc50b853270290467b76a0fef2d069c61e
 
@@ -21,6 +21,8 @@ CI run: pending on 32617fdc50b853270290467b76a0fef2d069c61e
 - Step 3b: Native modal registrations use overlay:true; screen and modal CSS stay enabled together, close disables only modal styles. Real loader contracts pass; no duplicate mounts after async close.
 
 - Step 4a: Pinned Team V CSS scoped to app hosts; compatibility layer preserves original node structure and control visibility.
+
+- Step 4b: System stadium WebP objects reused byte-for-byte from 5e05a1f; no binary upload.
 
 ## Self-check
 - Tests-first red assertion saved.
