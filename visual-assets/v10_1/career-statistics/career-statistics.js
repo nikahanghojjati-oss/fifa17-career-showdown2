@@ -151,11 +151,22 @@
     else { const c=fx.strings.stateCopy[frame.status]; heading=c.heading; body=c.body; icon=frame.status==="loading"?"…":"!"; }
     state.innerHTML=`<div class="stateIcon" aria-hidden="true">${icon}</div><h2>${heading}</h2><p>${body}</p>`;
   }
+  // JOB-152 signature moment: headline numbers count up once with the tiles (kit sdCountUp).
+  const COUNT_UP = { delayMs: 450, durationMs: 500 };
+  function countUpHeadline() {
+    if (typeof window.sdCountUp !== "function" || window.ShowdownMotion?.isReducedMotion?.()) return;
+    document.querySelectorAll(".headlineNumber, .headlinePair b").forEach((el) => {
+      const to = Number(el.textContent);
+      if (!Number.isFinite(to)) return;
+      el.textContent = "0";
+      window.setTimeout(() => window.sdCountUp(el, to, COUNT_UP.durationMs), COUNT_UP.delayMs);
+    });
+  }
   function renderFrame(fx, key) {
     const frame=fx.frames[key] || fx.frames.CS1;
     stage.dataset.frame=key in fx.frames?key:"CS1"; stage.dataset.state=frame.status;
     setPreview(frame,fx); renderHeadline(frame,fx); renderState(frame,fx);
     document.querySelectorAll(".actionButton").forEach(b=>b.addEventListener("click",()=>{stage.dataset.lastIntent=b.id||"backButton";}));
   }
-  Promise.all([loadFixtures(),loadPlatemap()]).then(async ([fx,map])=>{ window.__careerFixtures=fx; window.__careerPlatemap=map; mountStage(map); applyStrings(fx); renderFrame(fx,qs.get("frame")||"CS1"); if(document.fonts?.ready) await document.fonts.ready; window.__careerStatisticsReady=true; if (typeof window.sdEnter==="function") window.sdEnter(stage); }).catch(err=>{ console.error(err); document.getElementById("statePanel").hidden=false; document.getElementById("statePanel").textContent="Career Statistics preview failed to load."; });
+  Promise.all([loadFixtures(),loadPlatemap()]).then(async ([fx,map])=>{ window.__careerFixtures=fx; window.__careerPlatemap=map; mountStage(map); applyStrings(fx); renderFrame(fx,qs.get("frame")||"CS1"); if(document.fonts?.ready) await document.fonts.ready; window.__careerStatisticsReady=true; if (typeof window.sdEnter==="function") { window.sdEnter(stage); countUpHeadline(); } }).catch(err=>{ console.error(err); document.getElementById("statePanel").hidden=false; document.getElementById("statePanel").textContent="Career Statistics preview failed to load."; });
 })();

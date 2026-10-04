@@ -520,3 +520,14 @@ button:focus-visible { outline: 3px solid #fff1b8; outline-offset: 3px; }
   .headlineLabel { font-size: 6px; }
   .actionRow .actionButton { font-size: 8px; }
 }
+
+/* JOB-152 signature moments · transform and opacity only, once per entrance. */
+@keyframes csBarGrow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes csRowSweep { from { transform: translate3d(-110%,0,0); opacity: .9; } to { transform: translate3d(110%,0,0); opacity: 0; } }
+@keyframes csCrownPop { 0% { transform: scale(.6); } 70% { transform: scale(1.14); } 100% { transform: scale(1); } }
+.careerStage.sd-motion-ready .compareTrack .danielBar { transform-origin: right center; animation: csBarGrow 450ms cubic-bezier(.22,1,.36,1) 650ms both; }
+.careerStage.sd-motion-ready .compareTrack .nikBar { transform-origin: left center; animation: csBarGrow 450ms cubic-bezier(.22,1,.36,1) 650ms both; }
+.careerTable tr.leaderRow td { position: relative; overflow: hidden; }
+.careerTable tr.leaderRow td::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(100deg,transparent 30%,rgba(255,236,150,.55) 50%,transparent 70%); transform: translate3d(-110%,0,0); opacity: 0; }
+.careerStage.sd-motion-ready .careerTable tr.leaderRow td::after { animation: csRowSweep 520ms ease-out 700ms both; }
+.careerStage.sd-motion-ready .rankCrown { display: inline-block; animation: csCrownPop 320ms cubic-bezier(.34,1.56,.64,1) 820ms both; }
