@@ -49,6 +49,15 @@
     });
   }
 
+  // Claude intake fix (job 231): Back/Forward can restore this page from the back-forward cache with the
+  // black layer still active; clear it so the showcase is never left black and unclickable.
+  window.addEventListener("pageshow", (event) => {
+    if (!event.persisted) return;
+    transitionInFlight = false;
+    const layer = document.querySelector(".showcase-transition");
+    if (layer) layer.classList.remove("showcase-transition--active");
+  });
+
   function getScreen(manifest, id) {
     return (manifest.screens || []).find((screen) => screen.id === id) || null;
   }
