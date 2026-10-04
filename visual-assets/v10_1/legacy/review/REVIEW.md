@@ -4,6 +4,21 @@
 
 ## Scorecard
 
+Provisional code-based static scores; no rendered-screen claim. Criterion 8 is deferred to motion jobs. Average: 27 / 9 = 3.00, below 4.2; criteria 7, 9 and 10 are below 3.
+
+| Criterion | Score / 5 | Evidence |
+| --- | --- | --- |
+| 1 Mockup fidelity | 4 | Registered title at 49.91%/13.82% and shared plate preserve the intended composition; archive bounds differ modestly, and the single populated row is a documented truth override. |
+| 2 Character depth | 3 | HTML has registered foreground/rim layers above UI and CSS contact shadows, but raster edges and registration were not inspected. |
+| 3 Hands/contact | 3 | Shared registered overlays and no mirror transforms preserve the hand-on-chin design in code; actual hand edges/contact await Claude. |
+| 4 Lighting/grade | 4 | Gold glass edge, dark gradients, directional rims and warm phone grade implement the reference lighting language in source. |
+| 5 Typography/title | 3 | WebP LEGACY title and hidden heading are correct; phone pseudo-labels and very small status/body labels weaken consistency and readability. |
+| 6 Panel craft | 3 | Shared glass panel and selected-card glow are present, but initials shields/league text replace required original artwork and phone pager track is undersized. |
+| 7 Information honesty/clarity | 2 | LG1–LG9 copy is honest, but stale selection, indistinguishable winner glyph and missing expanded statistics make the retained action misleading/incomplete. |
+| 9 Phone composition | 2 | Claude's 55% art band and pinned action are preserved, but compact state banners overlap cards, pager targets exceed their row and swipes do not select. |
+| 10 Polish/finish | 3 | Shared kit and WebP references are consistent, but inert routes, missing sheet close/focus and a silent visible-load failure prevent completion. |
+
+Correction to aggregate note: criterion 10 is 3; criteria 7 and 9 alone are below 3. Sum remains 27.
 ## Hard gates
 
 Static-source review only for H1–H4; PASS is limited to inspected DOM/CSS/fixture references, not an assertion about uninspected raster pixels.
