@@ -77,7 +77,7 @@
       const box = document.createElement("div");
       box.className = "sealed-copy";
       const strong = document.createElement("strong");
-      strong.textContent = "Waiting for " + name;
+      strong.textContent = fixtures.strings.sealedWaitingTemplate.replace("{MANAGER}", name);
       box.appendChild(strong);
       panel.appendChild(box);
       return;
@@ -155,7 +155,7 @@
       scoreBar.className = "season-score";
       scoreBar.style.setProperty("--season-score", score);
       scoreBar.innerHTML = '<span class="season-score-label"></span><span class="season-score-track"><i class="season-score-fill"></i></span><strong class="season-score-value sd-number sd-number--small"></strong>';
-      scoreBar.querySelector(".season-score-label").textContent = "CANONICAL SCORE";
+      scoreBar.querySelector(".season-score-label").textContent = fixtures.strings.canonicalScoring.scoreLabel;
       scoreBar.querySelector(".season-score-value").textContent = String(score);
       panel.appendChild(scoreBar);
     }
@@ -292,7 +292,7 @@
       panel.classList.add("is-committed");
       status.textContent = fixtures.strings.commitStatus.acknowledged;
       heading.textContent = labels.heading;
-      result.textContent = frame.tiebreak === "none" ? "Authoritative scoring reconciled." : frame.tiebreak;
+      result.textContent = frame.tiebreak === "none" ? labels.reconciled : frame.tiebreak;
       canonical.hidden = false;
       document.getElementById("sharedCanonicalScoringHeading").textContent = labels.heading;
       document.getElementById("sharedCanonicalScoringTotals").textContent =
