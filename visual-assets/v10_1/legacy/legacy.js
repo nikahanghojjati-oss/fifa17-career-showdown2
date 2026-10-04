@@ -473,7 +473,12 @@
     applyFrameState(frame, fixtures.strings);
     renderArchive(frame, fixtures.strings);
     const historyAction = document.getElementById("viewSeasonHistory");
-    historyAction.textContent = fixtures.strings.actions.viewSeasonHistory;
+    const actionLabel = document.createElement("span");
+    actionLabel.className = "legacyActionLabel";
+    actionLabel.dataset.sdEnter = "button";
+    actionLabel.style.display = "inline-block";
+    actionLabel.textContent = fixtures.strings.actions.viewSeasonHistory;
+    historyAction.replaceChildren(actionLabel);
     historyAction.dataset.route = "viewSeasonHistory";
     const selectedRecord = (frame.showdowns || []).find((item) => item.number === (frame.ui && frame.ui.selectedShowdown));
     historyAction.disabled = !canDisclose(selectedRecord);
@@ -491,6 +496,8 @@
     renderObject(valuesRoot, frame);
 
     window.LegacyFixture = { fixtures, frameId, frame, platemap, stageController, selectedShowdown: frame.ui && frame.ui.selectedShowdown };
+    // The optional screen owns this entrance; all controls are already wired.
+    if (typeof window.sdEnter === "function") window.sdEnter(stage);
   }
 
   boot().catch((error) => {
@@ -514,4 +521,5 @@
     valuesRoot.textContent = error.message;
   });
 }());
+
 
