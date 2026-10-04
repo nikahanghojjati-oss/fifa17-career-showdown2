@@ -704,6 +704,14 @@ body {
   .season-action-row { top: 88.5%; }
 }
 
+/* Phone-only interaction chrome stays out of the desktop build. */
+.season-phone-tab-input,
+.season-phone-sheet-toggle,
+.season-phone-toolbar,
+.season-phone-sheet-close {
+  display: none;
+}
+
 /* JOB-078 phone part 1: art-first 393x660 recomposition.
    Phone UI tabs/sheet content is completed by the following phone parts. */
 .season-phone-bg,
@@ -896,6 +904,456 @@ body {
 
   .fixture-dump {
     display: none !important;
+  }
+}
+
+/* JOB-172 phone part 2: manager tabs, one-panel entry, scoring sheet and
+   bottom-pinned review action inside the reserved 45% content band. */
+@media (max-width: 900px) {
+  .season-phone-tab-input,
+  .season-phone-sheet-toggle {
+    position: absolute;
+    z-index: 11;
+    top: 55%;
+    left: 12px;
+    display: block;
+    width: 1px;
+    height: 1px;
+    margin: 0;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  #season-phone-tab-nik {
+    left: 13px;
+  }
+
+  .season-phone-toolbar {
+    position: absolute;
+    z-index: 14;
+    top: 55%;
+    left: 12px;
+    right: 12px;
+    height: 44px;
+    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: minmax(72px, 1fr) minmax(72px, 1fr) minmax(112px, auto);
+    align-items: stretch;
+    gap: 4px;
+    padding: 3px;
+    border: 1px solid rgb(242 196 91 / .34);
+    background: linear-gradient(120deg, rgb(5 7 10 / .96), rgb(15 16 18 / .92));
+    box-shadow: 0 10px 24px rgb(0 0 0 / .46);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    pointer-events: auto;
+  }
+
+  .season-phone-tab,
+  .season-phone-scoring-open {
+    min-width: 0;
+    min-height: 38px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgb(255 255 255 / .14);
+    color: rgb(255 255 255 / .72);
+    font: 900 10px/1 var(--sd-font-condensed, sans-serif);
+    letter-spacing: .09em;
+    text-align: center;
+    text-transform: uppercase;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .season-phone-tab {
+    position: relative;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .season-phone-tab::after {
+    content: "SUBMITTED";
+    color: rgb(255 255 255 / .48);
+    font-size: 7px;
+    letter-spacing: .12em;
+  }
+
+  .season-layout:has(#daniel-entry-panel.is-sealed) .season-phone-tab--daniel::after,
+  .season-layout:has(#nik-entry-panel.is-sealed) .season-phone-tab--nik::after {
+    content: "SEALED";
+  }
+
+  .season-layout:has(#daniel-entry-panel input:not(:disabled)) .season-phone-tab--daniel::after,
+  .season-layout:has(#nik-entry-panel input:not(:disabled)) .season-phone-tab--nik::after {
+    content: "YOUR ENTRY";
+  }
+
+  #season-phone-tab-daniel:checked ~ .season-phone-toolbar .season-phone-tab--daniel {
+    border-color: rgb(242 196 91 / .92);
+    background: var(--sd-gold, #f2c45b);
+    color: #080808;
+  }
+
+  #season-phone-tab-nik:checked ~ .season-phone-toolbar .season-phone-tab--nik {
+    border-color: rgb(216 221 229 / .92);
+    background: var(--sd-silver, #d8dde5);
+    color: #080808;
+  }
+
+  #season-phone-tab-daniel:checked ~ .season-phone-toolbar .season-phone-tab--daniel::after,
+  #season-phone-tab-nik:checked ~ .season-phone-toolbar .season-phone-tab--nik::after {
+    display: none;
+  }
+
+  #season-phone-tab-daniel:focus-visible ~ .season-phone-toolbar .season-phone-tab--daniel,
+  #season-phone-tab-nik:focus-visible ~ .season-phone-toolbar .season-phone-tab--nik,
+  #season-phone-scoring-toggle:focus-visible ~ .season-phone-toolbar .season-phone-scoring-open {
+    outline: 3px solid #f2c45b;
+    outline-offset: 2px;
+  }
+
+  .season-phone-scoring-open {
+    padding: 0 7px;
+    border-color: rgb(242 196 91 / .48);
+    color: #f2c45b;
+    font-size: 8px;
+    letter-spacing: .07em;
+  }
+
+  .entry-panel,
+  .season-review-panel {
+    top: calc(55% + 46px);
+    left: 12px;
+    right: 12px;
+    bottom: 66px;
+    width: auto;
+    height: auto;
+    min-height: 0;
+    margin: 0;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+
+  .entry-panel {
+    display: none !important;
+    gap: 4px;
+    padding: 7px 9px;
+    background: linear-gradient(120deg, rgb(5 7 9 / .97), rgb(13 15 18 / .91));
+    box-shadow: 0 14px 28px rgb(0 0 0 / .44);
+  }
+
+  #season-phone-tab-daniel:checked ~ #daniel-entry-panel:not([hidden]),
+  #season-phone-tab-nik:checked ~ #nik-entry-panel:not([hidden]) {
+    display: flex !important;
+  }
+
+  #season-phone-tab-daniel:checked ~ #daniel-entry-panel.is-sealed:not([hidden]),
+  #season-phone-tab-nik:checked ~ #nik-entry-panel.is-sealed:not([hidden]) {
+    display: grid !important;
+  }
+
+  .manager-card-header {
+    min-height: 26px;
+    grid-template-columns: auto 1fr;
+    column-gap: 8px;
+    padding-bottom: 4px;
+  }
+
+  .manager-crown {
+    font-size: 23px;
+  }
+
+  .manager-name {
+    font-size: 20px;
+  }
+
+  .manager-club {
+    margin-top: 1px;
+    font-size: 8px;
+  }
+
+  .manager-hint {
+    display: none;
+  }
+
+  .manager-fields {
+    flex: 1 1 auto;
+    grid-template-columns: .9fr 1.1fr;
+    gap: 4px 8px;
+    margin: 0 0 3px;
+  }
+
+  .stat-fields {
+    gap: 2px;
+  }
+
+  .achievement-fields {
+    gap: 1px;
+  }
+
+  .field-row {
+    min-height: 30px;
+    gap: 4px;
+  }
+
+  .achievement-row {
+    min-height: 20px;
+    gap: 4px;
+  }
+
+  .field-row label,
+  .achievement-row label {
+    font-size: 9px;
+    line-height: 1.05;
+  }
+
+  .field-row input[type="number"] {
+    width: 58px;
+    min-height: 30px;
+    padding: 2px 6px;
+    font-size: 16px;
+  }
+
+  .achievement-row input {
+    width: 20px;
+    height: 20px;
+  }
+
+  .season-score {
+    flex-basis: 34px;
+    height: 34px;
+    gap: 8px;
+    padding: 0 8px;
+  }
+
+  .season-score-label {
+    font-size: 10px;
+  }
+
+  .season-score-value {
+    min-width: 30px;
+    font-size: 28px;
+  }
+
+  .sealed-copy {
+    max-width: 88%;
+  }
+
+  .sealed-copy strong {
+    font-size: 22px;
+  }
+
+  .sealed-copy span {
+    margin-top: 5px;
+    font-size: 10px;
+  }
+
+  .season-review-panel:not([hidden]) {
+    z-index: 15;
+    display: grid !important;
+    align-content: center;
+    gap: 4px;
+    padding: 9px 11px;
+    border-color: rgb(242 196 91 / .74);
+    background: linear-gradient(135deg, rgb(5 7 10 / .98), rgb(15 16 18 / .94));
+    box-shadow: 0 14px 28px rgb(0 0 0 / .46);
+  }
+
+  .season-layout:has(.season-review-panel:not([hidden])) .entry-panel {
+    display: none !important;
+  }
+
+  .season-review-panel.is-contract-state {
+    top: calc(55% + 46px);
+    left: 12px;
+    right: 12px;
+    bottom: 66px;
+    width: auto;
+    min-height: 0;
+    padding: 10px 12px;
+  }
+
+  .season-review-panel.is-contract-state::before {
+    margin-bottom: 0;
+    font-size: 24px;
+  }
+
+  .season-review-panel #seasonReviewHeading,
+  .season-review-panel.is-contract-state #seasonReviewHeading {
+    margin: 2px 0;
+    font-size: 16px;
+  }
+
+  .season-review-panel .seasonReviewResult,
+  .season-review-panel .sharedCanonicalScoringPanel p,
+  .season-review-panel .seasonReviewError {
+    margin: 2px 0;
+    font-size: 10px;
+    line-height: 1.2;
+  }
+
+  .season-review-panel .sharedCanonicalScoringPanel {
+    margin-top: 3px;
+    padding: 5px 7px;
+  }
+
+  .season-review-panel #sharedCanonicalScoringHeading {
+    margin-bottom: 2px;
+    font-size: 11px;
+  }
+
+  .season-preview-tag {
+    z-index: 17;
+    top: calc(55% + 51px);
+    left: auto;
+    right: 18px;
+    display: block !important;
+    max-width: 96px;
+    font-size: 8px;
+    pointer-events: none;
+  }
+
+  .scoring-panel {
+    z-index: 30;
+    top: 44%;
+    left: 10px;
+    right: 10px;
+    bottom: 8px;
+    width: auto;
+    height: auto;
+    max-height: none;
+    grid-template-columns: 42px 1fr;
+    align-items: start;
+    gap: 8px;
+    padding: 12px 10px 10px;
+    border-color: rgb(242 196 91 / .92);
+    background: linear-gradient(145deg, rgb(4 6 8 / .99), rgb(15 16 18 / .98));
+    box-shadow: 0 22px 54px rgb(0 0 0 / .68);
+    pointer-events: auto;
+  }
+
+  #season-phone-scoring-toggle:checked ~ #scoring-panel {
+    display: grid !important;
+  }
+
+  .season-phone-sheet-close {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    z-index: 2;
+    display: flex;
+    width: 44px;
+    height: 44px;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgb(242 196 91 / .55);
+    color: #f2c45b;
+    font: 900 9px/1 var(--sd-font-condensed, sans-serif);
+    letter-spacing: .08em;
+    cursor: pointer;
+  }
+
+  .scoring-trophy {
+    width: 38px;
+    max-height: 56px;
+    margin-top: 34px;
+  }
+
+  .scoring-copy {
+    min-width: 0;
+    padding-right: 2px;
+  }
+
+  #scoring-heading {
+    margin: 2px 48px 7px 0;
+    font-size: 11px;
+  }
+
+  .scoring-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 4px 6px;
+  }
+
+  .scoring-rule {
+    min-height: 34px;
+    padding: 5px 6px;
+    font-size: 9px;
+    line-height: 1.12;
+  }
+
+  .scoring-rule strong {
+    font-size: 16px;
+  }
+
+  .scoring-rule--max {
+    grid-column: 1 / -1;
+    min-height: 30px;
+  }
+
+  .season-action-row {
+    z-index: 20;
+    left: 12px;
+    right: 12px;
+    bottom: max(8px, env(safe-area-inset-bottom));
+    min-height: 54px;
+    padding: 5px;
+  }
+
+  .season-action-row .sd-btn {
+    min-height: 44px;
+    font-size: 10.5px;
+    letter-spacing: .025em;
+  }
+}
+
+@media (max-width: 900px) and (max-height: 600px) {
+  .entry-panel,
+  .season-review-panel,
+  .season-review-panel.is-contract-state {
+    bottom: 64px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+  }
+
+  .manager-card-header {
+    min-height: 20px;
+    padding-bottom: 2px;
+  }
+
+  .manager-crown {
+    display: none;
+  }
+
+  .manager-name {
+    font-size: 18px;
+  }
+
+  .manager-club {
+    display: none;
+  }
+
+  .field-row {
+    min-height: 26px;
+  }
+
+  .achievement-row {
+    min-height: 17px;
+  }
+
+  .achievement-row input {
+    width: 18px;
+    height: 18px;
+  }
+
+  .season-score {
+    flex-basis: 30px;
+    height: 30px;
+  }
+
+  .season-score-value {
+    font-size: 24px;
   }
 }
 
