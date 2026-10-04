@@ -58,13 +58,11 @@
     grid.replaceChildren();
 
     Object.entries(strings.sections).forEach(([number, section]) => {
-      const anchor = document.createElement("a");
-      anchor.href = "#rule-section-" + number;
-      anchor.className = "ruleBookIndexChip";
-      anchor.textContent = number;
-      anchor.setAttribute("aria-label", number + " " + section.title);
-      anchor.setAttribute("aria-controls", "rule-section-" + number);
-      index.appendChild(anchor);
+      const chip = document.createElement("span");
+      chip.className = "ruleBookIndexChip";
+      chip.textContent = number;
+      chip.setAttribute("aria-hidden", "true");
+      index.appendChild(chip);
 
       const card = document.createElement("article");
       card.id = "rule-section-" + number;
