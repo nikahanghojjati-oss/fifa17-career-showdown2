@@ -727,10 +727,23 @@
       ]
     },
     {
+      "path": "tests/contracts/ten-season-session-contracts.cjs",
+      "patterns": [
+        "^js/sparkRemoteJoining\\.js$",
+        "^js/sparkPrivateSession\\.js$",
+        "^js/productionSharedTerminalClose\\.js$",
+        "^js/productionSharedJourneyReconnect\\.js$",
+        "^js/sparkSharedSeasonResults\\.js$",
+        "^tests/firebase/two-manager-journey-emulator\\.cjs$",
+        "^\\.github/workflows/validate-gameplay-fast\\.yml$",
+        "^tests/contracts/ten-season-session-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
       "path": "tests/contracts/fewer-taps-contracts.cjs",
       "patterns": [
         "^js/persistentNikDanielPair\\.js$",
-        "^js/sparkRemoteJoining\\.js$",
         "^js/productionSharedJourneyEntry\\.js$",
         "^js/productionSharedShowdownPresentation\\.js$",
         "^js/productionSharedCareerStart\\.js$",

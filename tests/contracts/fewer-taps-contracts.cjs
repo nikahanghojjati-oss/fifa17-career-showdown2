@@ -1,7 +1,7 @@
 "use strict";
 // Job 33 "Fewer taps" (spec: TAP_AUDIT_2026-10-04 reductions R1 to R8; R7 added by Nik's owner decision of 2026-10-04).
 // Owner rule: the two-manager game stays smooth and safe; fewer taps, same safety. Every removed tap was a pure navigation or a read.
-//   R1 Waiting screens read faster (3 s, pair panel and Remote Joining host 4 s) for at most 3 minutes, then the normal interval;
+//   R1 Waiting screens read faster (3 s, pair panel 4 s; the Remote Joining host watch is job 31's) for at most 3 minutes, then the normal interval;
 //      read-only, paused while the tab is hidden, and only while this manager is waiting on the rival.
 //   R2 CONTINUE TO SEASON N opens the new season's Shared Transfer Challenge (no dashboard hop); it never starts the window.
 //   R3 The league reveal moves on to the club packs by itself on both devices (no CONTINUE TO CLUB PACKS tap).
@@ -510,47 +510,12 @@ async function r1PairContracts(){
   ok("R1 Pair: Daniel's waiting code panel re-reads every 4 s (15 s after 3 min), read-only, paused when hidden, stops when Nik joins");
 }
 
-// ------------------------------------------------------------------ R1 Remote Joining host
-function remoteHarness(){
-  const dom=createDom(),timers=makeTimers(),clock=makeClock();
-  const calls={read:0,open:0,join:0,close:0,revoke:0};const server={state:"open",revision:0};
-  const result=(sessionId)=>({ok:true,sessionId,state:server.state,revision:server.revision,expiresAtEpochMs:clock.now+3_600_000});
-  const protocol={generateSessionId:()=>SESSION,normalizeSessionId:v=>String(v).trim(),
-    openSession:async o=>{calls.open+=1;return result(o.sessionId);},joinSession:async o=>{calls.join+=1;server.state="active";server.revision+=1;return result(o.sessionId);},
-    readSession:async o=>{calls.read+=1;return result(o.sessionId);},closeSession:async()=>{calls.close+=1;return {ok:false};},revokeSession:async()=>{calls.revoke+=1;return {ok:false};}};
-  const sandbox={console,URL,TextEncoder,Date:clock.Date,document:dom.document,setTimeout:timers.setTimeout,clearTimeout:timers.clearTimeout,crypto:webcrypto,navigator:{},location:{href:"https://example.test/"},addEventListener(){},
-    CareerModeProductionFirebaseRuntime:{ensureAccountServices:async()=>({ok:true,auth:{currentUser:{uid:"uid_daniel"}},firestore:{},firestoreSdk:{}})},
-    CareerModeSparkConnectedAccount:{initialize:async()=>({}),getState:()=>({connected:true,accountId:"uid_daniel"})},
-    CareerModeSparkPrivatePairing:{initialize:async()=>({}),getState:()=>({registered:true,deviceId:DEVICE})},
-    CareerModeSparkConnectedRivalry:{initialize:async()=>({}),getState:()=>({attached:true,rivalryId:RIVALRY,accountId:"uid_daniel",deviceId:DEVICE})},
-    CareerModeSparkPrivateSession:{},CareerModeSparkStandardAuthPrivateSession:protocol};
-  vm.createContext(sandbox);vm.runInContext(read("js/sparkRemoteJoining.js"),sandbox,{filename:"js/sparkRemoteJoining.js"});
-  return {api:sandbox.CareerModeSparkRemoteJoining,dom,timers,clock,calls,server};
-}
-async function r1RemoteContracts(){
-  {
-    const h=remoteHarness();h.api.openPanel();
-    const hosted=await h.api.hostSession();assert.equal(hosted.ok,true,"fixture: Daniel hosted the session");
-    assert.equal(h.api.isWaitingForRival(),true,"the host waits for Nik to join");
-    assert.deepEqual({...h.api.hostWaitingPoll},{fastMs:4000,slowMs:15000,windowMs:WINDOW});
-    let pending=h.timers.pending();assert.equal(pending.length,1);assert.equal(pending[0].ms,4000,"host re-read due after 4 s");
-    const states=[];h.api.subscribe(s=>states.push(s.status));
-    await h.timers.fire(pending[0]);
-    assert.equal(h.calls.read,1,"the timer reads the exact session");assert.equal(states.includes("refreshing"),false,"an unchanged read does not flicker the panel busy");
-    assert.equal(h.calls.open,1,"no second session is opened");
-    h.server.state="active";h.server.revision=1;pending=h.timers.pending();await h.timers.fire(pending[0]);
-    assert.equal(h.api.getState().sessionState,"active","Nik's join is picked up without a REFRESH / READ tap");
-    assert.equal(h.timers.pending().length,0,"the host poll stops once the session is ACTIVE");
-    assert.equal(h.calls.join+h.calls.close+h.calls.revoke,0,"the poll never joins, closes or revokes");
-  }
-  {
-    const h=remoteHarness();h.api.openPanel();await h.api.hostSession();h.api.closePanel();
-    const pending=h.timers.pending();await h.timers.fire(pending[0]);
-    assert.equal(h.calls.read,0,"a closed Remote Joining overlay does not poll");
-    const peer=remoteHarness();peer.server.state="open";peer.api.openPanel();await peer.api.joinSession(SESSION);
-    assert.equal(peer.api.isWaitingForRival(),false,"the joining peer is never waiting (its join makes the session ACTIVE)");
-  }
-  ok("R1 Remote Joining: the host's open session is re-read every 4 s while the overlay is open (read-only, no flicker), stops when ACTIVE");
+// R1 Remote Joining host: job 31 (PR #350, srjWatchForJoin in js/sparkRemoteJoining.js) already re-reads the host's open session
+// every 4 s and is covered by tests/contracts/ten-season-session-contracts.cjs, so job 33 does not add a second watcher.
+function r1RemoteContracts(){
+  const remote=read("js/sparkRemoteJoining.js");
+  assert.match(remote,/function srjWatchForJoin\(/,"the host watch from job 31 is present");
+  assert.doesNotMatch(remote,/srjWaitingPoll|hostWaitingPoll/,"job 33 adds no duplicate host poll");
 }
 
 // ------------------------------------------------------------------ R2 Multi Season continue
@@ -763,8 +728,8 @@ function safetyContracts(){
   assert.doesNotMatch(entry,/startPairing|hostSession|joinSession/,"the entry never creates a pair code or hosts/joins a session by itself");
   const career=read("js/productionSharedCareerStart.js");
   assert.doesNotMatch(career.match(/async function pcstAutoContinue\(\)\{[\s\S]*?\n  \}/)[0],/acknowledge/,"Career Start auto-continue never acknowledges");
-  for(const file of ["js/persistentNikDanielPair.js","js/sparkRemoteJoining.js"]){
-    const src=read(file),tick=src.match(/async function (pairWaitingPollTick|srjWaitingPollTick)\(\)\{[\s\S]*?\n  \}/)[0];
+  for(const file of ["js/persistentNikDanielPair.js"]){
+    const src=read(file),tick=src.match(/async function (pairWaitingPollTick)\(\)\{[\s\S]*?\n  \}/)[0];
     assert.doesNotMatch(tick,/createPairing|redeemPairing|openSession|joinSession|closeSession|revokeSession|pairStartPairing|pairJoinPairing|srjHostSession|srjJoinSession/,`${file} waiting poll is read-only`);
   }
   const html=read("index.html");
@@ -780,7 +745,7 @@ const watchdog=setTimeout(()=>{console.error("fewer-taps: a promise never settle
   await r7CommitContracts();
   await r1ScoringHistoryContracts();
   await r1PairContracts();
-  await r1RemoteContracts();
+  r1RemoteContracts();ok("R1 Remote Joining: the host's join pickup is job 31's single bounded watch (no duplicate poll)");
   await r2MultiSeasonContracts();
   await r3r4aPresentationContracts();
   await r5r6EntryContracts();

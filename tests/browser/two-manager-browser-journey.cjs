@@ -83,6 +83,9 @@ async function describe(m){
 const accountId=m=>m.page.evaluate(()=>window.CareerModeSparkConnectedAccount?.getState?.().accountId||null);
 const entry=m=>m.page.locator("#productionSharedJourneyEntryOverlay");
 const remote=m=>m.page.locator("#sparkRemoteJoiningOverlay, #remoteJoiningOverlay").filter({hasText:"REMOTE JOINING"}).first();
+// Job 31: the host page picks up the peer's JOIN by itself (quiet read every few seconds); nobody taps REFRESH / READ.
+// Job 33 (R6): the ACTIVE session then continues into the Showdown by itself, so Remote Joining closes on both pages.
+async function hostSeesJoin(m){await m.page.waitForFunction(()=>window.CareerModeSparkRemoteJoining?.getState?.()?.sessionState==="active",null,{timeout:20000});await remote(m).waitFor({state:"hidden",timeout:20000});assert.equal(await entry(m).isVisible().catch(()=>false),false,`${m.user}: no GET READY after the peer joined`);}
 const pairPanel=m=>m.page.locator("#persistentNikDanielPairPanel");
 async function waitTransferPhase(m,phase){
   await m.page.waitForFunction(value=>document.getElementById("transferChallenge")?.dataset.transferPhase===value,phase,{timeout:30000});

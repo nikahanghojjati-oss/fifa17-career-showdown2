@@ -16,12 +16,16 @@
   ]);
   const SRJ_CANONICAL_KEYS=Object.freeze(["careerModeShowdown.saveLibrary","careerModeShowdown.legacyShowdowns","careerModeShowdown.preferences"]);
   const SRJ_AMBIGUOUS_CODES=new Set(["unavailable","deadline-exceeded","aborted","internal","unknown","network-request-failed"]);
+  // Job 31: the Rules cap a session at request.time + 4h with no clock slack, so a host whose clock ran even a second fast was
+  // refused. Hosting asks for 4h minus one minute (the same one-minute slack the Rules give createdAt).
+  const SRJ_HOST_TTL_MS=4*60*60*1000-60*1000;
+  // Job 31: the host page stayed OPEN after the other manager joined until someone tapped REFRESH / READ, so a mid-game
+  // reconnect looked stuck on the host. While this page holds its own OPEN hosted session it reads it quietly every few
+  // seconds (for at most ten minutes, never while hidden) and picks up the join by itself.
+  const SRJ_JOIN_WATCH_MS=4000,SRJ_JOIN_WATCH_LIMIT_MS=10*60*1000;
+  let srjJoinWatchTimer=null;
   const srjScriptPromises=new Map();
   const srjListeners=new Set();
-  // Job 33 (R1): the host's open session is re-read every 4 s for at most 3 minutes (then every 15 s) while this
-  // overlay is visible, instead of waiting for a REFRESH / READ tap. Read-only; paused while the tab is hidden.
-  const SRJ_WAIT_FAST_MS=4000,SRJ_WAIT_SLOW_MS=15000,SRJ_WAIT_WINDOW_MS=180000;
-  let srjWaitTimer=null,srjWaitKey="",srjWaitSince=0;
   let srjState=srjFreeze({status:"idle",open:false,busy:false,sessionId:null,rivalryId:null,accountId:null,deviceId:null,role:null,sessionState:null,revision:null,expiresAtEpochMs:null,pendingAction:null,capabilityCopyAllowed:false,message:"Remote Joining is private and action-only. No session request has been sent."});
 
   function srjFreeze(value){
@@ -37,20 +41,7 @@
     srjState=srjFreeze({...srjState,...next});
     for(const listener of srjListeners){try{listener(srjState);}catch(_error){}}
     srjRenderPanel();
-    srjSyncWaitingPoll();
     return srjState;
-  }
-  function srjWaitingKey(){return srjState.open===true&&srjState.role==="host"&&srjState.sessionState==="open"&&srjState.sessionId&&!srjState.pendingAction&&!srjExpiredByClock()?srjState.sessionId:"";}
-  function srjSyncWaitingPoll(){
-    const key=srjWaitingKey();if(!key){srjWaitKey="";srjWaitSince=0;if(srjWaitTimer!==null){root.clearTimeout?.(srjWaitTimer);srjWaitTimer=null;}return;}
-    if(key!==srjWaitKey){srjWaitKey=key;srjWaitSince=Date.now();}
-    if(srjWaitTimer!==null||typeof root.setTimeout!=="function")return;
-    const delay=Date.now()-srjWaitSince<SRJ_WAIT_WINDOW_MS?SRJ_WAIT_FAST_MS:SRJ_WAIT_SLOW_MS;
-    srjWaitTimer=root.setTimeout(()=>{srjWaitTimer=null;void srjWaitingPollTick();},delay);srjWaitTimer?.unref?.();
-  }
-  async function srjWaitingPollTick(){
-    if(srjWaitingKey()&&!srjState.busy&&root.document?.visibilityState!=="hidden"){try{await srjRefreshSession({quiet:true});}catch(_error){}}
-    srjSyncWaitingPoll();
   }
   function srjRevision(){
     if(!root.document)return "1.9.0-r3";
@@ -155,12 +146,12 @@
     srjSetState({status:`retrying-${action}`,busy:true,capabilityCopyAllowed:false,message:`Retrying the exact same ${action} capability. No replacement session will be generated…`});
     try{
       let result;
-      if(action==="host")result=await context.protocol.openSession(srjOperationOptions(context,sessionId));
+      if(action==="host")result=await context.protocol.openSession({...srjOperationOptions(context,sessionId),ttlMs:SRJ_HOST_TTL_MS});
       else if(action==="join")result=await context.protocol.joinSession(srjOperationOptions(context,sessionId));
       else if(action==="close")result=await context.protocol.closeSession(srjOperationOptions(context,sessionId));
       else throw srjError("REMOTE_JOINING_RECOVERY_ACTION_INVALID","The unresolved private-session action is invalid.");
       if(!result||result.ok!==true)throw srjError(result&&result.code||"REMOTE_JOINING_RECOVERY_FAILED",srjFailureMessage(result,"Private-session recovery could not be confirmed."));
-      if(action==="host")srjAcceptResult(result,context,"host",result.replayed?"Private session recovery confirmed the original host capability. No duplicate session was created.":"Private session is open. Share the full code directly with the other paired manager. It is kept only in this page's memory.");
+      if(action==="host"){srjAcceptResult(result,context,"host",result.replayed?"Private session recovery confirmed the original host capability. No duplicate session was created.":"Private session is open. Share the full code directly with the other paired manager. It is kept only in this page's memory.");srjWatchForJoin(result.sessionId);}
       else if(action==="join")srjAcceptResult(result,context,"peer",result.replayed?"Private session recovery confirmed the original join on the same capability.":"Private session is active with exactly the two paired rivalry accounts. Local gameplay remains unchanged.");
       else srjAcceptResult(result,context,srjState.role||"member",result.replayed?"Private session recovery confirmed the original terminal close on the same capability.":"Private session is closed terminally. Its code remains only in page memory until you forget it or reload.");
       return result;
@@ -168,6 +159,23 @@
       if(srjIsAmbiguousFailure(error))return srjPendingFailure(error,action);
       return srjClearRejectedPending(error,action);
     }
+  }
+  function srjHostWaitingForJoin(sessionId){return Boolean(sessionId&&srjState.sessionId===sessionId&&srjState.role==="host"&&srjState.sessionState==="open"&&!srjState.pendingAction&&!srjExpiredByClock());}
+  function srjWatchForJoin(sessionId,startedAt=Date.now()){
+    if(srjJoinWatchTimer!==null||!root.document||typeof root.setTimeout!=="function"||!srjHostWaitingForJoin(sessionId))return false;
+    srjJoinWatchTimer=root.setTimeout(async()=>{
+      srjJoinWatchTimer=null;
+      if(!srjHostWaitingForJoin(sessionId)||Date.now()-startedAt>SRJ_JOIN_WATCH_LIMIT_MS)return;
+      if(!srjState.busy&&root.document.visibilityState!=="hidden"){
+        try{
+          const context=await srjResolveContext();
+          const result=await context.protocol.readSession(srjOperationOptions(context,sessionId));
+          if(srjHostWaitingForJoin(sessionId)&&!srjState.busy&&result&&result.ok===true&&result.state!=="open")srjAcceptResult(result,context,"host",result.state==="active"?"The other manager joined. Private session is active with exactly the two paired rivalry accounts.":`Private session refreshed at revision ${result.revision}.`);
+        }catch(_error){}
+      }
+      srjWatchForJoin(sessionId,startedAt);
+    },SRJ_JOIN_WATCH_MS);
+    return true;
   }
   async function srjRetryPendingOperation(){
     if(!srjState.pendingAction||!srjState.sessionId)return {ok:false,code:"REMOTE_JOINING_RECOVERY_REQUIRED",message:"No unresolved private-session operation is waiting for retry."};
@@ -209,21 +217,19 @@
       return {ok:false,code:error&&error.code||"REMOTE_JOINING_JOIN_FAILED",message:error&&error.message||"Private session could not be joined."};
     }
   }
-  // options.quiet (Job 33 waiting poll): the same read, without the busy flicker, applied only when the session changed.
-  async function srjRefreshSession(options={}){
-    const remembered=srjState.sessionId,quiet=options&&options.quiet===true;
+  async function srjRefreshSession(){
+    const remembered=srjState.sessionId;
     if(!remembered)return {ok:false,code:"REMOTE_JOINING_SESSION_REQUIRED",message:"No private session code is held in page memory."};
     if(srjState.pendingAction)return {ok:false,code:"REMOTE_JOINING_RECOVERY_PENDING",message:"Resolve the pending operation before reading the session."};
-    if(!quiet)srjSetState({status:"refreshing",busy:true,message:"Reading exact private-session authority…"});
+    srjSetState({status:"refreshing",busy:true,message:"Reading exact private-session authority…"});
     try{
       const context=await srjResolveContext();
       const result=await context.protocol.readSession(srjOperationOptions(context,remembered));
       if(!result||result.ok!==true)throw srjError(result&&result.code||"REMOTE_JOINING_READ_FAILED",srjFailureMessage(result,"Private session could not be read."));
-      if(quiet&&(srjState.sessionId!==remembered||srjState.busy||srjState.pendingAction||(result.state===srjState.sessionState&&result.revision===srjState.revision)))return result;
       const clockNote=result.expiredByClock?" The provider expiry boundary has passed; no automatic mutation was performed.":"";
       srjAcceptResult(result,context,srjState.role||"member",`Private session refreshed at revision ${result.revision}.${clockNote}`);
       return result;
-    }catch(error){if(quiet)return {ok:false,code:error&&error.code||"REMOTE_JOINING_READ_FAILED",message:error&&error.message||"Private session could not be read."};srjSetState({status:"error",busy:false,message:`${error&&error.message?error.message:"Private session could not be read."} Local Career Mode remains available.`});return {ok:false,code:error&&error.code||"REMOTE_JOINING_READ_FAILED",message:error&&error.message||"Private session could not be read."};}
+    }catch(error){srjSetState({status:"error",busy:false,message:`${error&&error.message?error.message:"Private session could not be read."} Local Career Mode remains available.`});return {ok:false,code:error&&error.code||"REMOTE_JOINING_READ_FAILED",message:error&&error.message||"Private session could not be read."};}
   }
   async function srjRevokeSession(){
     const remembered=srjState.sessionId;
@@ -325,6 +331,7 @@
     authPersistence:"browserSessionPersistence",
     registeredDeviceAuthority:"account-owned-mutation-metadata",
     exactCapabilityBits:256,
+    hostSessionTtlMs:SRJ_HOST_TTL_MS,
     sessionCapabilityStorage:"page-memory-only",
     persistentFirestoreCache:false,
     publicDiscovery:false,
@@ -347,8 +354,6 @@
     joinSession:srjJoinSession,
     retryPendingOperation:srjRetryPendingOperation,
     refreshSession:srjRefreshSession,
-    hostWaitingPoll:Object.freeze({fastMs:SRJ_WAIT_FAST_MS,slowMs:SRJ_WAIT_SLOW_MS,windowMs:SRJ_WAIT_WINDOW_MS}),
-    isWaitingForRival:()=>Boolean(srjWaitingKey()),
     revokeSession:srjRevokeSession,
     closeSession:srjCloseSession,
     forgetSession:srjForgetSession,
