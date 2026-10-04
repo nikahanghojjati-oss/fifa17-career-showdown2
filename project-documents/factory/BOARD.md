@@ -1,14 +1,14 @@
 # Showdown Factory board
 
-**87 of 235 jobs done and checked · 39 %** · updated Sat 9:18 p.m. Eastern
+**87 of 235 jobs done and checked · 39 %** · updated Sat 9:22 p.m. Eastern
 
-✅ **Quality check:** a job counts as done only after Claude checks it against the quality bar (average 4.2 or more, nothing under 3, hard gates pass). Average score 4.23 over 33 scored jobs. 🔍 Waiting for Claude's check: 50, 58, 77, 83. 🔧 Sent back with a fix list: 95, 114.
+✅ **Quality check:** a job counts as done only after Claude checks it against the quality bar (average 4.2 or more, nothing under 3, hard gates pass). Average score 4.23 over 33 scored jobs. 🔍 Waiting for Claude's check: 50, 58, 77, 83, 95. 🔧 Sent back with a fix list: 114.
 
 ███░░░░░░░
 
 **Where to run:** 🟡 **project job** = new chat in the ChatGPT project "Showdown visual", type the number; one number is one turn (no Continue), and a job in parts shows its later parts only when the earlier part is done. 🟣 **image job** = its ticket in a ChatGPT **Temporary Chat** outside any project, then drop the picture in Claude's factory thread.
 
-🟡 **Type next:** 95 (fix), 114 (fix), 51, 64 · then 85, 97, 117, 119, 120, 125
+🟡 **Type next:** 114 (fix), 51, 64, 85 · then 97, 117, 119, 120, 125
 
 🟣 **Image next:** 118
 
@@ -31,7 +31,7 @@ Final Winner   █████░░░░░ 6/12
 Start/Join     █░░░░░░░░░ 3/18
 Standings      ░░░░░░░░░░ 1/12
 Rule Book      ██████████ 4/4
-Settings       ████░░░░░░ 2/7
+Settings       ████░░░░░░ 3/7
 Setup          ██████████ 2/2
 Foundation     ██████████ 7/7
 Art            ██████████ 8/8
@@ -51,7 +51,7 @@ Branch `factory/v1-wtt5ye`. 235 Team V jobs, plus 5 lines that track Team G. Two
 
 **Overall (Team V):** ███░░░░░░░ 39 % · 87 of 235 jobs done
 
-**Start now · project (type the number in Showdown visual):** 95 (fix), 114 (fix), 51, 64 · queued next: 85, 97, 117, 119, 120, 125
+**Start now · project (type the number in Showdown visual):** 114 (fix), 51, 64, 85 · queued next: 97, 117, 119, 120, 125
 
 **Start now · fresh chat (image ticket, outside the project):** 118
 
@@ -158,7 +158,7 @@ Branch `factory/v1-wtt5ye`. 235 Team V jobs, plus 5 lines that track Team G. Two
 | 92 | [Rule Book: build (desktop and phone)](jobs/JOB-092.md) | 5 New screens | build | project (type number) | 9, 29, 18, 121 | ██████████ 100 % | DONE |  |
 | 93 | [Rule Book: review](jobs/JOB-093.md) | 5 New screens | review | project (type number) | 92 | ██████████ 100 % | DONE |  |
 | 94 | [Rule Book: fix round and motion](jobs/JOB-094.md) | 5 New screens | fix | project (type number) | 93, 16, 124 | ██████████ 100 % | DONE | yes |
-| 95 | [Settings: build (desktop and phone)](jobs/JOB-095.md) | 5 New screens | build | project (type number) | 10, 29, 18, 121 | ██████████ 100 % | IN PROGRESS · FIX |  |
+| 95 | [Settings: build (desktop and phone)](jobs/JOB-095.md) | 5 New screens | build | project (type number) | 10, 29, 18, 121 | ██████████ 100 % | DONE |  |
 | 96 | [Settings: review](jobs/JOB-096.md) | 5 New screens | review | project (type number) | 95 | ██████████ 100 % | DONE |  |
 | 97 | [Settings: fix round and motion (part 1 of 4)](jobs/JOB-097.md) | 5 New screens | fix | project (type number) | 96, 16, 124 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 98 | [Team G G-3: the pure career model](jobs/JOB-098.md) | 6 Online history | tracking | team-g | - | ██████████ 100 % | DONE |  |
