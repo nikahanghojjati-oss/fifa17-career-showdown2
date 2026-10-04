@@ -118,3 +118,17 @@ Checked at 393 × 660, 360 × 640 and 375 × 553 (frames SJ1, SJ2, SJ4, SJ5, SJ7
 - Code field and button are 44 px, input text 18 px (16 px minimum met).
 - Design note: instead of two stacked HOST / JOIN buttons, the DANIEL · START and NIK · JOIN tabs each own one big action, and CONNECTION shows the code card with the copy button. Same DOM, no shrunk desktop.
 - Keyboard: iOS Safari overlays the keyboard without resizing the page. With a 300 px keyboard only 253 px stay visible, which cannot hold this panel; the action row sticks to the panel bottom and the field scrolls inside the panel, so the player can reach both. This was reasoned, not tested on a device.
+
+### Phone, part 3 (JOB-186)
+
+Controls: tabs 44 px, BACK 46 px, action buttons 44 px, code field 44 px with 18 px text. The action row of the open tab sticks to the bottom of the panel, and the panel sits above the 56 px `.nav-reserve` (plus safe area). No PNG master loads on phone (WebP only).
+
+#### Height budget (stage = viewport − 56 px bar − safe area)
+
+| Phone | Stage | Header | Tabs | Panel | Lock line | Gaps and padding | Art zone left | Page scroll |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | --- |
+| 393 × 660 | 604 | 85 | 46 | 198 | 18 | 30 | 227 | none |
+| 360 × 640 | 584 | 60 (tagline hidden) | 46 | 178 | 18 | 30 | 252 | none |
+| 375 × 553 | 497 | 60 | 46 | 178 (floor) | 18 | 30 | 165 | none; action row visible |
+
+Measured in a real browser on SJ1 to SJ8: scrollHeight equals the viewport at all three sizes. Bigger phones grow the panel (the formula adds every extra pixel to it).
