@@ -66,7 +66,9 @@ body {
 
 #screen-title {
   position: absolute;
-  top: 16.78%;
+  /* Claude fix round 3: lift the brush clear of the tagline; at 1366x768
+     its lower edge is about y=196, leaving the tagline clear before y=223 panel top. */
+  top: 14.10%;
   left: 27.99%;
   width: 43.49%;
   margin: 0;
