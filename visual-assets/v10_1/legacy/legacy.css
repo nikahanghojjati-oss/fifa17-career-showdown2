@@ -1014,3 +1014,256 @@ button {
     height: 48px;
   }
 }
+
+
+/* JOB-163 part 2 · portrait phone archive composition. */
+.legacyPhoneFaceBand {
+  display: none;
+}
+
+@media (max-width: 760px) and (orientation: portrait) {
+  #legacy {
+    --legacy-phone-panel-bottom: 72px;
+    --legacy-phone-action-bottom: 12px;
+    --legacy-phone-tabs: 44px;
+    --legacy-phone-pager: 24px;
+  }
+
+  .legacyPhoneFaceBand {
+    position: absolute;
+    z-index: 2;
+    inset: 0 0 auto;
+    display: block;
+    height: 55%;
+    pointer-events: none;
+    background:
+      radial-gradient(circle at 50% 22%, rgba(242, 196, 91, .11), transparent 38%),
+      linear-gradient(180deg, transparent 0 72%, rgba(3, 5, 6, .26) 88%, rgba(3, 5, 6, .76) 100%);
+    border-bottom: 1px solid rgba(242, 196, 91, .22);
+  }
+
+  .legacyTitleBlock {
+    height: 55%;
+  }
+
+  .legacyEyebrow {
+    top: 5%;
+    width: 82%;
+  }
+
+  .legacyWordmarkWrap {
+    top: 14%;
+    width: min(60%, 232px);
+  }
+
+  .legacyTagline {
+    top: 31.5%;
+    width: 72%;
+  }
+
+  .legacyArchivePanel {
+    left: 12px;
+    right: 12px;
+    top: calc(55% - 22px);
+    bottom: var(--legacy-phone-panel-bottom);
+    display: grid;
+    grid-template-rows:
+      var(--legacy-phone-tabs)
+      minmax(0, 1fr)
+      var(--legacy-phone-pager);
+    gap: 4px;
+    border-color: rgba(242, 196, 91, .5);
+    background:
+      linear-gradient(180deg, rgba(15, 16, 17, .9), rgba(4, 6, 7, .98));
+    box-shadow:
+      0 -10px 24px rgba(0, 0, 0, .44),
+      inset 0 1px rgba(255, 227, 108, .12);
+  }
+
+  .legacySidePanel {
+    height: var(--legacy-phone-tabs);
+    min-height: var(--legacy-phone-tabs);
+    border-bottom-color: rgba(242, 196, 91, .34);
+  }
+
+  .legacySidePanel button {
+    position: relative;
+    min-height: 44px;
+    padding: 0 4px;
+    font-size: 0;
+    letter-spacing: 0;
+  }
+
+  .legacySidePanel button::after {
+    display: block;
+    font-size: clamp(.64rem, 2.7vw, .76rem);
+    line-height: 1;
+    letter-spacing: .08em;
+  }
+
+  .legacySidePanel button:nth-child(1)::after {
+    content: "ARCHIVE";
+  }
+
+  .legacySidePanel button:nth-child(2)::after {
+    content: "TROPHIES";
+  }
+
+  .legacySidePanel button:nth-child(3)::after {
+    content: "RECORDS";
+  }
+
+  .legacyCardGrid {
+    grid-auto-columns: min(292px, calc(100% - 56px));
+    gap: 8px;
+    padding: 2px 0;
+    scroll-padding-inline: 0 56px;
+    touch-action: pan-x;
+  }
+
+  .legacyCardSlot {
+    height: 100%;
+  }
+
+  .legacyCard {
+    box-sizing: border-box;
+    height: 100%;
+    padding: 7px 9px 8px;
+    border-color: rgba(242, 196, 91, .5);
+    background:
+      linear-gradient(145deg, rgba(242, 196, 91, .07), transparent 42%),
+      rgba(6, 8, 9, .93);
+  }
+
+  .legacyCard[data-selected="true"] {
+    box-shadow:
+      inset 0 0 0 1px rgba(255, 227, 108, .68),
+      0 0 16px rgba(242, 196, 91, .3);
+  }
+
+  .legacyCardTitle {
+    margin-bottom: 4px;
+    font-size: .68rem;
+  }
+
+  .legacyCrest {
+    width: 32px;
+    height: 36px;
+  }
+
+  .legacyManagerName {
+    font-size: .67rem;
+  }
+
+  .legacyScore {
+    font-size: 1.12rem;
+  }
+
+  .legacyCardFooter,
+  .legacyCardState {
+    font-size: .54rem;
+  }
+
+  .legacyPager {
+    position: static;
+    height: var(--legacy-phone-pager);
+    min-height: var(--legacy-phone-pager);
+    gap: 0;
+    overflow: visible;
+  }
+
+  .legacyPager button {
+    position: relative;
+    min-width: 44px;
+    min-height: 44px;
+    padding: 0;
+    transform: none;
+    font-size: .64rem;
+  }
+
+  .legacyPager .legacyPageDot,
+  .legacyPager .legacyPageDot[data-active="true"] {
+    min-width: 44px;
+    min-height: 44px;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .legacyPager .legacyPageDot::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(255, 255, 255, .3);
+  }
+
+  .legacyPager .legacyPageDot[data-active="true"]::after {
+    background: #f2c45b;
+    box-shadow: 0 0 9px rgba(242, 196, 91, .5);
+  }
+
+  .legacyPreviewTag {
+    top: -26px;
+  }
+
+  .legacyStateBanner,
+  .legacyStateBanner[data-compact="true"] {
+    left: 6px;
+    right: 6px;
+    top: 52px;
+    bottom: 32px;
+    min-height: 0;
+  }
+
+  .legacyPrimaryAction {
+    left: 12px;
+    right: 12px;
+    bottom: var(--legacy-phone-action-bottom);
+    min-height: 48px;
+    height: 48px;
+  }
+
+  .legacySeasonHistory {
+    left: 8px;
+    right: 8px;
+    bottom: var(--legacy-nav-reserve);
+    max-height: min(62dvh, 420px);
+    overscroll-behavior: contain;
+  }
+}
+
+@media (max-width: 760px) and (orientation: portrait) and (max-height: 580px) {
+  #legacy {
+    --legacy-phone-panel-bottom: 68px;
+    --legacy-phone-action-bottom: 8px;
+  }
+
+  .legacyArchivePanel {
+    left: 8px;
+    right: 8px;
+    top: calc(55% - 18px);
+  }
+
+  .legacyCardGrid {
+    grid-auto-columns: min(292px, calc(100% - 52px));
+  }
+
+  .legacyCard {
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }
+
+  .legacyClubName,
+  .legacyCardFooter {
+    display: none;
+  }
+
+  .legacyPrimaryAction {
+    left: 8px;
+    right: 8px;
+  }
+}
