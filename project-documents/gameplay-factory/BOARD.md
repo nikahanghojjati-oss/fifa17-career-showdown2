@@ -1,6 +1,6 @@
 # Team G gameplay board
 
-20 of 33 jobs done (70 %) ███████░░░ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-04 7:14 PM Boston time (EDT)
+21 of 33 jobs done (73 %) ███████░░░ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-04 7:38 PM Boston time (EDT)
 
 ## Your next move
 
@@ -49,7 +49,6 @@ Waiting on Team V: nothing.
 | G-14 | Acceptance: directive §12 and Sol's 8 proofs on the emulator | work | job 13 | NOT WRITTEN |
 | G-15 | One real two-device run with Nik | nik | job 14 | NOT WRITTEN |
 | G-13a | [Part 2a: foundation (loader, top bar, shared kit, caching)](jobs/JOB-24.md) | lead | job 13 | IN PROGRESS |
-| G-13b | [Part 2b: Home, music (Audius) and Loading](jobs/JOB-25.md) | codex | job 24 | NOT STARTED |
 | G-13c | [Part 2c: Start/Join, League wheel and Club packs](jobs/JOB-26.md) | lead | job 24 | NOT STARTED |
 | G-13d | [Part 2d: Transfer War](jobs/JOB-27.md) | lead | job 24 | NOT STARTED |
 | G-13e | [Part 2e: Rivalry Statistics and Legacy (History)](jobs/JOB-28.md) | work | job 24 | BLOCKED |
@@ -60,12 +59,13 @@ Waiting on Team V: nothing.
 | G-2j | [Fewer taps: auto-refresh while waiting, skip hops, drop duplicate banners](jobs/JOB-33.md) | lead | job 32 | NOT WRITTEN |
 
 <details>
-<summary><b>Finished work: 20 jobs</b> (click to open)</summary>
+<summary><b>Finished work: 21 jobs</b> (click to open)</summary>
 
 - 0 Setup: 3 of 3 done
 - 1 Safety net: 8 of 8 done
 - 2 Career model: 5 of 5 done
 - 3 Career history: 4 of 4 done
+- READY: 1 of 6 done
 
 Full list of every job with its state: [BOARD_ARCHIVE.md](BOARD_ARCHIVE.md).
 
