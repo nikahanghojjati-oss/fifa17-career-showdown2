@@ -451,8 +451,8 @@
     stage.style.setProperty("--tw-motion-ease-out", SIGNATURE_MOTION.easeOut);
 
     if (reduced) {
-      panels.forEach(function (panel) {
-        if (typeof window.sdReveal === "function") window.sdReveal(panel);
+      covers.forEach(function (cover) {
+        if (typeof window.sdReveal === "function") window.sdReveal(cover);
       });
       covers.forEach(function (cover) {
         if (typeof cover.animate === "function") {
@@ -470,8 +470,8 @@
       return true;
     }
 
-    var revealPromises = panels.map(function (panel) {
-      return typeof window.sdReveal === "function" ? window.sdReveal(panel) : Promise.resolve(false);
+    var revealPromises = covers.map(function (cover) {
+      return typeof window.sdReveal === "function" ? window.sdReveal(cover) : Promise.resolve(false);
     });
 
     await delay(170);
@@ -599,8 +599,8 @@
       gl.appendChild(el("span", { class: "gr-item" }, [el("span", { class: "gr-type", text: x.type === "league" ? S.selectLeague : S.selectNationality }), " ", el("span", { class: "gr-val", text: x.value })]));
     });
     body.appendChild(gl);
+    body.appendChild(buildVerdictDossierCover());
     sec.appendChild(body);
-    sec.appendChild(buildVerdictDossierCover());
     return sec;
   }
 
