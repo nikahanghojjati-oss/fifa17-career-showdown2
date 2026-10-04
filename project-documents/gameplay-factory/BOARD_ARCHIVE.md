@@ -1,6 +1,6 @@
 # Team G gameplay board: all jobs
 
-[Back to the board](BOARD.md) · generated 2026-10-04 6:36 PM Boston time (EDT)
+[Back to the board](BOARD.md) · generated 2026-10-04 6:40 PM Boston time (EDT)
 
 | # | G id | Job | Phase | Type | Lane | Depends on | Codex | Progress | State |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -31,7 +31,7 @@
 | 25 | G-13b | [Part 2b: Home, music (Audius) and Loading](jobs/JOB-25.md) | READY | build | codex | 24 | yes | ░░░░░░░░░░ 0 % | NOT STARTED |
 | 26 | G-13c | [Part 2c: Start/Join, League wheel and Club packs](jobs/JOB-26.md) | READY | build | lead | 24 | yes | ░░░░░░░░░░ 0 % | NOT STARTED |
 | 27 | G-13d | [Part 2d: Transfer War](jobs/JOB-27.md) | READY | build | lead | 24 | yes | ░░░░░░░░░░ 0 % | NOT STARTED |
-| 28 | G-13e | [Part 2e: Rivalry Statistics and Legacy (History)](jobs/JOB-28.md) | READY | build | work | 24 | yes | ████████░░ 80 % | IN PROGRESS |
+| 28 | G-13e | [Part 2e: Rivalry Statistics and Legacy (History)](jobs/JOB-28.md) | READY | build | work | 24 | yes | ████████░░ 80 % | BLOCKED |
 | 29 | G-13f | [Part 2f: Season Results, Final Winner and Standings](jobs/JOB-29.md) | READY | build | work | 24 | yes | ░░░░░░░░░░ 0 % | NOT STARTED |
 | 30 | G-13g | [Part 2g: Rule Book and Settings](jobs/JOB-30.md) | READY | build | work | 24 | yes | ░░░░░░░░░░ 0 % | NOT STARTED |
 | 31 | G-2h | [Ten-season games: session expiry, long-game limits, 10-season emulator run](jobs/JOB-31.md) | MERGED | build | lead | - |  | ░░░░░░░░░░ 0 % | NOT WRITTEN |
