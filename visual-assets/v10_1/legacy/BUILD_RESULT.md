@@ -104,3 +104,20 @@ The shelf row is archive height minus 44 px tabs, 24 px pager and two 4 px grid 
 ### Static verification
 
 No browser or screenshot QA was run, per the factory handbook. Code arithmetic confirms that `html`, `body`, `#stage-root` and `#legacy` keep overflow hidden; the only phone scrolling surfaces are the horizontal card shelf and the season-history sheet's internal overflow. Daniel/Nik phone hero positions from JOB-073 are unchanged, so Daniel remains left and Nik right. This part adds no real logos, trophies, players or image-baked data.
+
+
+## Phone · JOB-164 part 3
+
+### Height budget
+
+Legacy is a hub screen, so phone layout is measured inside `#legacy`, whose height is `100dvh - (56px + env(safe-area-inset-bottom))`. The arithmetic below uses a zero emulated safe-area inset; a real inset is subtracted from the usable height before the same geometry is applied. The archive overlaps the 55% hero band by 22 px on normal phone heights and by 18 px on the short-height rule, so the overlap is not double-counted as extra height.
+
+| Viewport | Viewport h | Nav reserve | Usable above nav | Hero band 55% | Archive panel | Tabs | Shelf row | Pager | Gaps | Primary action | Action bottom gap | Remaining below action | Result |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | --- |
+| 393 × 660 | 660 | 56 | 604 | 332.2 | 221.8 | 44 | 145.8 | 24 | 8 | 48 | 12 | 0 | FIT |
+| 360 × 640 | 640 | 56 | 584 | 321.2 | 212.8 | 44 | 136.8 | 24 | 8 | 48 | 12 | 0 | FIT |
+| 375 × 553 | 553 | 56 | 497 | 273.35 | 173.65 | 44 | 97.65 | 24 | 8 | 48 | 8 | 0 | FIT |
+
+The panel equation is `0.45 × usable height - 50px`; the shelf row is panel height minus 44 px tabs, 24 px pager and two 4 px gaps. The primary action sits at `usable height - action bottom gap - 48px`, so it is fully visible at 375 × 553. There is no page-scroll budget: all fixed vertical pieces fit inside the usable stage, the card shelf scrolls only horizontally, and the season-history sheet owns its own internal overflow.
+
+For larger portrait phones the percentage-based hero and archive geometry grows with the usable stage instead of leaving the composition floating: at 390 × 844 the usable height is 788 px and the archive panel grows to 304.6 px; at 430 × 932 the usable height is 876 px and the archive panel grows to 344.2 px. The 48 px action remains pinned 12 px above the reserved bottom bar.
