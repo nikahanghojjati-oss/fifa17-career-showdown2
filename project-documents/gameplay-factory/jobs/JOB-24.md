@@ -2,7 +2,7 @@
 
 | Lane | Depends on | Code branch | PR into | Budget |
 | --- | --- | --- | --- | --- |
-| **cloud** (Claude Code cloud session, Opus 5.5 High) | job 13 merged (yes) | `gameplay/job-24-v10-foundation` | `gameplay/recovery-v1` | STOP_BUDGET $8 |
+| **lead** (helper in the lead thread; Nik 2026-10-04: no cloud sessions) | job 13 merged (yes) | `gameplay/job-24-v10-foundation` | `gameplay/recovery-v1` | STOP_BUDGET $8 |
 
 Read `jobs/G13_PART2_COMMON.md` first. Jobs 25–30 build on this one, so keep it small, clear and well tested.
 

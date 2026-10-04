@@ -2,7 +2,7 @@
 
 | Lane | Depends on | Code branch | PR into | Budget |
 | --- | --- | --- | --- | --- |
-| **cloud** (Claude Code cloud session, Opus 5.5 High) | job 24 merged | `gameplay/job-27-v10-transfer` | `gameplay/recovery-v1` | STOP_BUDGET $6 |
+| **lead** (helper in the lead thread; Nik 2026-10-04: no cloud sessions) | job 24 merged | `gameplay/job-27-v10-transfer` | `gameplay/recovery-v1` | STOP_BUDGET $6 |
 
 Read `jobs/G13_PART2_COMMON.md` first, then job 24's PR body for the loader API (`js/v10Screens.js`).
 
