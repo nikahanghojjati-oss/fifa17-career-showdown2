@@ -86,7 +86,7 @@ html,body{margin:0;width:100%;height:100%;background:#07080a;overflow:hidden}bod
   .rv-phoneHero--nik{left:48%;top:0;height:63%}
   .rv-phoneContact{position:absolute;z-index:2;top:50%;width:30%;height:8%;border-radius:50%;background:rgba(0,0,0,.48);filter:blur(12px);opacity:.7}
   .rv-phoneContact--daniel{left:2%}.rv-phoneContact--nik{right:2%}
-  .rv-shell{--rv-panel-h:max(120px,calc(100svh - 56px - env(safe-area-inset-bottom) - 415px));z-index:5;top:0;display:flex;flex-direction:column;justify-content:flex-end;gap:6px;padding:0 12px 12px;box-sizing:border-box;background:none}
+  .rv-shell{--rv-panel-h:max(120px,calc(100svh - 56px - env(safe-area-inset-bottom) - 413px));z-index:5;top:0;display:flex;flex-direction:column;justify-content:flex-end;gap:6px;padding:0 12px 12px;box-sizing:border-box;background:none}
   .rv-titleBlock{position:static;order:1;width:100%;margin-bottom:0}
   .rv-titleBlock .sd-eyebrow{font-size:8px;letter-spacing:.32em;margin:0}
   .rv-titleBlock .sd-eyebrow::before{width:16px;height:10px;margin-bottom:1px}
@@ -95,7 +95,7 @@ html,body{margin:0;width:100%;height:100%;background:#07080a;overflow:hidden}bod
   .rv-preview{position:absolute;order:0;left:auto;right:8px;top:8px;transform:none;font-size:10px;min-height:0;padding:3px 8px}
   .rv-interim{position:static;order:2;width:100%;font-size:10px;line-height:1.2;text-align:center}
   .rv-tabs{display:flex;order:3;gap:0;min-height:0;border:1px solid var(--sd-edge);background:rgba(7,8,10,.9)}
-  .rv-tabs button{flex:1 1 0;min-width:0;min-height:36px;padding:0 2px;font-size:11px;letter-spacing:.06em}
+  .rv-tabs button{flex:1 1 0;min-width:0;min-height:44px;padding:0 2px;font-size:11px;letter-spacing:.06em}
   .rv-comparison,.rv-bottom{position:relative;order:4;left:auto;top:auto;width:auto;height:auto;flex:0 0 var(--rv-panel-h);height:var(--rv-panel-h);min-height:0;display:none;overflow:hidden;padding:0;box-sizing:border-box;background:linear-gradient(180deg,rgba(9,11,13,.9),rgba(5,7,9,.86))}
   .rv-shell[data-tab="totals"] .rv-comparison,.rv-shell[data-tab="head"] .rv-bottom--head,.rv-shell[data-tab="seasons"] .rv-bottom--seasons,.rv-shell[data-tab="trophies"] .rv-bottom--trophies{display:block}
   .rv-actions{position:static;order:5;width:100%;height:auto}
@@ -123,4 +123,12 @@ html,body{margin:0;width:100%;height:100%;background:#07080a;overflow:hidden}bod
   .rv-seasonTable{height:auto;width:96%;margin:4px auto 0}.rv-seasonTable td{height:22px}
   .rv-emptyInline{height:100%;font-size:12px}
   .rv-trophyGrid{height:100%;padding:4px 2% 6px}.rv-trophy img{height:min(84px,100%)}.rv-trophyLabel{font-size:10px}.rv-trophyCount{font-size:12px}
+}
+
+/* JOB-154 phone: Showdown Points become the big score strip, the other six rows stay a compact list. */
+@media(max-width:900px){
+  .rv-rows{grid-template-rows:32px repeat(6,minmax(16px,1fr))}
+  .rv-row:first-child{background:linear-gradient(90deg,rgba(255,211,77,0),rgba(255,211,77,.10),rgba(255,211,77,0));border-top:0}
+  .rv-row:first-child .rv-value{font-size:30px;line-height:1}
+  .rv-row:first-child .rv-label{color:var(--sd-text-primary);letter-spacing:.1em;text-transform:uppercase;font-size:11px}
 }

@@ -57,3 +57,18 @@ Height budget at 393 × 604 stage: art zone about 215, title 70, line 14, tabs 3
 First paint (phone): ENV 120 KB + heroes 110 KB + title 39 KB + CSS/JS about 20 KB = about 290 KB (cap 450 KB).
 
 Desktop at 1366 × 768 is unchanged.
+
+### Phone, part 2 and 3 (JOB-154, JOB-155)
+
+- Showdown Points are the big score strip (30 px numbers on a soft gold band) at the top of the Totals tab, Daniel left, Nik right; the other six rows are the compact list.
+- Controls: tabs and the BACK button are 44 px tall; the BACK button is pinned above the 56 px reserved bar; this screen has no inputs, so the keyboard case does not apply.
+
+#### Height budget (stage = viewport − 56 px bar − safe area)
+
+| Phone | Stage | Fixed (title 70, line 14, tabs 46, button 44, gaps 24, pad 12) | Panel | Art zone left | Page scroll |
+| --- | ---: | ---: | ---: | ---: | --- |
+| 393 × 660 | 604 | 210 | 191 | 203 | none |
+| 360 × 640 | 584 | 210 | 171 | 203 | none |
+| 375 × 553 | 497 | 210 | 120 (floor) | 167 | none; BACK visible, rows scroll inside the panel |
+
+Measured in a real browser: scrollHeight equals the viewport at all three sizes. At 360 × 640 the last Totals row scrolls inside the panel. Bigger phones grow the panel.
