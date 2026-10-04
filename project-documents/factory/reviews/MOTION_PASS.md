@@ -43,3 +43,24 @@ Group: Trophy Room, Career Statistics, Rivalry Statistics, Legacy (History), Sea
 2. All five preserve the shared 60 ms entrance-panel cadence where the screen has staged panels; 40 ms rivalry rows and 50 ms Legacy cards are signature choreography, not entrance-panel substitutions.
 3. Legacy is the only contract outlier in this group: its reduced-motion entrance uses 120 ms instead of the shared 150 ms fade.
 4. The evidence links above are Claude intake targets under each screen's `evidence/motion/` directory. This review does not record or invent frame strips.
+
+
+## Part 3 · Job 230
+
+Group: Final Winner, Start / Join, Standings, Rule Book, Settings.
+
+| Screen | Entrance total | First usable | Stagger | Easing | Reduced-motion path | Claude frame-strip target | MOTION.md outlier |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| Final Winner | Shared entrance claims 1200 ms; confetti begun at 450 ms can continue to about 1350 ms; trophy shine then repeats every 4 s | About 600 ms | 60 ms shared panel stagger | Kit easing plus `ease-in-out` for the dim/glow drum and `ease-out` for flash, wipe and controls | Shared 150 ms kit fade; dim, flash, burst, wipe, count-up, shine and transitions are suppressed for system/app reduced motion | [`final-winner/evidence/motion/`](../../../visual-assets/v10_1/final-winner/evidence/motion/) | OUTLIER: the repeating trophy-shine idle loop conflicts with MOTION.md's no-looping-attention rule. The documented particle tail also runs to about 1.35 s, beyond the 1.2 s entrance-cleanup budget, even though BUILD_RESULT labels the main entrance complete at 1.2 s. |
+| Start / Join | NOT DOCUMENTED in BUILD_RESULT | NOT DOCUMENTED | NOT DOCUMENTED | NOT DOCUMENTED | NOT DOCUMENTED | [`start-join/evidence/motion/`](../../../visual-assets/v10_1/start-join/evidence/motion/) | OUTLIER: BUILD_RESULT has no Motion section, so entrance total, 600 ms usability, stagger, easing and reduced-motion compliance cannot be verified from the source named by this job. |
+| Standings | Shared `sdEnter` cleanup by 1200 ms | Shared usable point by 600 ms | Inherits `sdEnter`; no multi-panel stagger is restated in BUILD_RESULT | Shared kit easing; no local easing override documented | Inherits the shared 150 ms opacity-only fade because the Motion section delegates entrance to `sdEnter`; no local reduced-motion override is documented | [`standings/evidence/motion/`](../../../visual-assets/v10_1/standings/evidence/motion/) | NONE. The Motion section is sparse but explicitly delegates scene, phone heroes, title and board entrance to the shared `sdEnter` contract. |
+| Rule Book | 1200 ms; sixth panel ends exactly at the shared cap and Back finishes at 1080 ms | Shared usable point by 600 ms; controls remain usable while motion runs | 60 ms across six rule panels | `cubic-bezier(.22,1,.36,1)` for title, panels and payoff | 150 ms linear fade for both native and app reduced-motion paths; wipe, glint and pulse movement suppressed | [`rule-book/evidence/motion/`](../../../visual-assets/v10_1/rule-book/evidence/motion/) | NONE. The sixth panel lands exactly on the 1.2 s cleanup ceiling and the 60 ms panel cadence matches the shared contract. |
+| Settings | Under 1200 ms | About 600 ms; every panel visible by then | 60 ms across the four panels | Shared ease-out | 150 ms fade only for system or app preference; title wipe overlay hidden | [`settings/evidence/motion/`](../../../visual-assets/v10_1/settings/evidence/motion/) | NONE. Title, panels and DONE use the shared kit with no local entrance timing override. |
+
+### Part 3 findings
+
+1. Rule Book and Settings explicitly match the shared 60 ms panel cadence, 600 ms usable target, 1200 ms entrance ceiling and 150 ms reduced-motion fade.
+2. Standings delegates its entrance to `sdEnter`, so its timing and reduced-motion path inherit the shared contract; its BUILD_RESULT does not introduce a local override.
+3. Final Winner has two consistency concerns: a repeating trophy-shine idle loop prohibited by MOTION.md, and a confetti tail that can remain active until about 1.35 s after an entrance that otherwise claims to finish at 1.2 s.
+4. Start / Join is a documentation/verifiability outlier because its BUILD_RESULT has no Motion section at all.
+5. The five evidence links are Claude intake targets under each screen's `evidence/motion/` directory. This review does not record or invent frame strips.
