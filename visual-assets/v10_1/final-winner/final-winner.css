@@ -1085,7 +1085,39 @@ body {
   }
 
   .finalWinnerTopbar {
+    display: flex;
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: auto;
+    bottom: 0;
+    height: 56px;
+    z-index: 40;
+    gap: 0;
+    padding: 0 4px;
+  }
+
+  .finalWinnerBrand {
     display: none;
+  }
+
+  .finalWinnerNavTabs {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .finalWinnerNavTabs button {
+    flex: 1 1 0;
+    min-width: 44px;
+    padding: 0 2px;
+    font-size: 9px;
+    letter-spacing: .06em;
+  }
+
+  .finalWinnerSettings {
+    flex: 0 0 44px;
+    min-width: 44px;
+    margin-left: 0;
   }
 
   .finalWinnerConfettiLayer {
@@ -1203,7 +1235,7 @@ body {
     left: 4%;
     right: 4%;
     top: 57%;
-    bottom: calc(62px + env(safe-area-inset-bottom));
+    bottom: calc(118px + env(safe-area-inset-bottom));
     width: auto;
     height: auto;
     min-height: 0;
@@ -1216,7 +1248,7 @@ body {
     left: 4%;
     right: 4%;
     top: auto;
-    bottom: env(safe-area-inset-bottom);
+    bottom: calc(56px + env(safe-area-inset-bottom));
     width: auto;
     height: 54px;
     z-index: 14;
@@ -1579,7 +1611,7 @@ body {
   }
 
   .finalWinnerActionsSlot[data-phone-pinned-action="true"] {
-    bottom: env(safe-area-inset-bottom);
+    bottom: calc(56px + env(safe-area-inset-bottom));
     height: 54px;
     padding: 5px 0;
     box-sizing: border-box;
