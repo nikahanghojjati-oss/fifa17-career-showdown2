@@ -761,6 +761,14 @@
         "^tests/contracts/context-stale-quiet-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/season-results-race-denied-contracts.cjs",
+      "patterns": [
+        "^js/sparkSharedSeasonResults\\.js$",
+        "^tests/contracts/season-results-race-denied-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
