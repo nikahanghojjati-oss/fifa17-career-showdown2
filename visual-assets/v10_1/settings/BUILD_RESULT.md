@@ -69,6 +69,30 @@ With a safe-area inset of `S`, the content viewport becomes the table value minu
 - The screen has no dedicated Settings mockup, so system-style composition rather than pixel-diff fidelity is the authority.
 - The preview generator needs the committed binary WebP plates and wordmark; this worker does not generate binaries.
 
+## Fix round
+
+- Review fix list (REVIEW.md, JOB-096): empty. It says no worker code fix is justified; H5-H11 are Claude measurements, not fix items.
+- Jobs 97 (items 1-3) and 194 (items 4-6): no items. Job 195 (items 7-9): no items.
+- Done: none. Blocked: none.
+- Claude must re-measure H5-H11 on the real server (phone fit at 393x660, 360x640, 375x553; contrast; reduced motion; keyboard focus; console and requests; first-paint weight).
+
+## Motion
+
+Job 196 wires the shared kit: `data-sd-enter` on the title wrapper (`.settingsWordmarkWrap`), the four panels and DONE; `settings.js` calls `sdEnter(stage)` once after the first frame is applied. Transform and opacity only; the title wipe is the kit's overlay.
+
+| Element | Role | Delay | Duration | Easing |
+| --- | --- | --- | --- | --- |
+| Brush title `SETTINGS` | title | 250 ms | 450 ms wipe | shared ease-out |
+| Account panel | panel | 400 ms | 16 px rise + fade | shared ease-out |
+| Application panel | panel | 460 ms | same | same |
+| Motion & Feedback panel | panel | 520 ms | same | same |
+| Showdown Data panel | panel | 580 ms | same | same |
+| DONE button | button | after panels begin | one pulse | shared |
+
+Total entrance is under 1.2 s (kit cap) and every panel is visible by about 0.6 s. Reduced motion (system setting or the app setting through `html[data-motion-reduced]`) gives a 150 ms fade only; `settings.css` also hides the title wipe overlay in both cases. Measured on a real server at 1366x768: at 250 ms the first panels were mid-animation, at 1.75 s every enter element had opacity 1 and no transform; with reduced motion nothing was animating at 250 ms. 393x660 and 360x640: no scroll, no console errors.
+
+Criterion 8 self-score: 4. The entrance follows the shared choreography; Settings has no characters or numbers to count, so no extra reveal.
+
 ## Claude intake
 
 Run `tools/MAKE_ASSETS.md`. It builds `preview.html` only; no screenshot or binary asset generation is required for Settings. Then render every ST frame on desktop and the phone targets and verify H5–H11.
