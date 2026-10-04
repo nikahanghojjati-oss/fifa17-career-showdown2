@@ -3,6 +3,8 @@ name: Leads relay ping
 # Posts one comment on tracker PR #312 for every new row in the relay FEED.md.
 # Both leads subscribe to PR #312; a plain push does not wake a subscriber, a comment does.
 # So every new V2G/G2V message wakes the other team without Nik carrying anything.
+# It also rebuilds Team G's GitHub board (workflow_dispatch on factory/gameplay-v1), because a push to
+# leads/relay cannot start a workflow that lives on another branch.
 # leads/relay only; it never runs on main.
 on:
   push:
@@ -14,6 +16,7 @@ permissions:
   contents: read
   pull-requests: write
   issues: write
+  actions: write
 
 concurrency:
   group: leads-relay-ping
@@ -57,3 +60,11 @@ jobs:
             } > body.md
             gh pr comment 312 --repo "$GITHUB_REPOSITORY" --body-file body.md
           done < rows.txt
+      - name: Refresh the Team G board (relay section)
+        # Best effort: a failed dispatch never blocks the PR comments above.
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          [ -s rows.txt ] || exit 0
+          gh workflow run gameplay-factory-board.yml --repo "$GITHUB_REPOSITORY" --ref factory/gameplay-v1
