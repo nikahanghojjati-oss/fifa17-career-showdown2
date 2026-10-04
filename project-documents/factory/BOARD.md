@@ -1,6 +1,6 @@
 # Showdown Factory board
 
-**211 of 238 jobs done and checked · 88 %** · updated Sun 2:24 p.m. Eastern
+**212 of 238 jobs done and checked · 89 %** · updated Sun 2:26 p.m. Eastern
 
 ✅ **Quality check:** a job counts as done only after Claude checks it against the quality bar (average 4.2 or more, nothing under 3, hard gates pass). Average score 4.26 over 72 scored jobs. 🔍 Nothing waiting for a check. 
 
@@ -12,7 +12,7 @@
 
 🟣 **Image next:** -
 
-**Working:** 105, 219, 220, 221, 222, 223, 224, 225, 226 · **Blocked:** -
+**Working:** 105, 220, 221, 222, 223, 224, 225, 226 · **Blocked:** -
 
 ## Screens
 
@@ -36,7 +36,7 @@ Setup          ██████████ 2/2
 Foundation     ██████████ 7/7
 Art            ██████████ 8/8
 Top bar        ██████████ 3/3
-Integration    ██░░░░░░░░ 11/38
+Integration    ███░░░░░░░ 12/38
 ```
 
 ## Team V ↔ Team G (latest 3)
@@ -49,7 +49,7 @@ Integration    ██░░░░░░░░ 11/38
 
 Branch `factory/v1-wtt5ye`. 238 Team V jobs, plus 5 lines that track Team G. Two kinds of job. **Project (type number):** open a new chat in the ChatGPT project "Showdown visual" and type the number (up to 5 at once). **Fresh chat (image):** run the job's ticket from [tickets/](tickets/README.md) in a ChatGPT Temporary Chat (no memory) outside any project, then drop the image in Claude's factory thread (up to 2 at once).
 
-**Overall (Team V):** ████████░░ 88 % · 211 of 238 jobs done
+**Overall (Team V):** ████████░░ 89 % · 212 of 238 jobs done
 
 **Start now · project (type the number in Showdown visual):** nothing (all slots busy or nothing ready)
 
@@ -57,7 +57,7 @@ Branch `factory/v1-wtt5ye`. 238 Team V jobs, plus 5 lines that track Team G. Two
 
 **Start now (Sol Work mode, press Use Work):** -
 
-**Working:** 105, 219, 220, 221, 222, 223, 224, 225, 226 · **Blocked:** -
+**Working:** 105, 220, 221, 222, 223, 224, 225, 226 · **Blocked:** -
 
 **Team G tracking (never start these):** 98 (done), 99 (done), 100 (done), 101 (done), 102 (done). Claude marks them done when Team G delivers.
 
@@ -282,7 +282,7 @@ Branch `factory/v1-wtt5ye`. 238 Team V jobs, plus 5 lines that track Team G. Two
 | 216 | [Showcase: screens read Team G's model-true fixtures (part 4 of 8)](jobs/JOB-216.md) | 7 Integration | integrate | project (type number) | 215 | ██████████ 100 % | DONE |  |
 | 217 | [Showcase: screens read Team G's model-true fixtures (part 5 of 8)](jobs/JOB-217.md) | 7 Integration | integrate | project (type number) | 216 | ██████████ 100 % | DONE |  |
 | 218 | [Showcase: screens read Team G's model-true fixtures (part 6 of 8)](jobs/JOB-218.md) | 7 Integration | integrate | project (type number) | 217 | ██████████ 100 % | DONE |  |
-| 219 | [Showcase: screens read Team G's model-true fixtures (part 7 of 8)](jobs/JOB-219.md) | 7 Integration | integrate | project (type number) | 218 | ░░░░░░░░░░ 0 % | IN PROGRESS · CLAUDE |  |
+| 219 | [Showcase: screens read Team G's model-true fixtures (part 7 of 8)](jobs/JOB-219.md) | 7 Integration | integrate | project (type number) | 218 | ██████████ 100 % | DONE |  |
 | 220 | [Showcase: screens read Team G's model-true fixtures (part 8 of 8)](jobs/JOB-220.md) | 7 Integration | integrate | project (type number) | 219 | ░░░░░░░░░░ 0 % | IN PROGRESS · CLAUDE |  |
 | 221 | [Full phone pass (part 2 of 7)](jobs/JOB-221.md) | 7 Integration | review | project (type number) | 105 | ░░░░░░░░░░ 0 % | IN PROGRESS · CLAUDE |  |
 | 222 | [Full phone pass (part 3 of 7)](jobs/JOB-222.md) | 7 Integration | review | project (type number) | 221 | ░░░░░░░░░░ 0 % | IN PROGRESS · CLAUDE |  |
