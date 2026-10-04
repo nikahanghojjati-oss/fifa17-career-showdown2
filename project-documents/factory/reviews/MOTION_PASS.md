@@ -64,3 +64,20 @@ Group: Final Winner, Start / Join, Standings, Rule Book, Settings.
 3. Final Winner has two consistency concerns: a repeating trophy-shine idle loop prohibited by MOTION.md, and a confetti tail that can remain active until about 1.35 s after an entrance that otherwise claims to finish at 1.2 s.
 4. Start / Join is a documentation/verifiability outlier because its BUILD_RESULT has no Motion section at all.
 5. The five evidence links are Claude intake targets under each screen's `evidence/motion/` directory. This review does not record or invent frame strips.
+
+
+## Part 4 · Job 231
+
+Area: shared showcase screen-to-screen navigation.
+
+| Path | Duration | Treatment | Reduced motion | Performance |
+| --- | --- | --- | --- | --- |
+| Showcase route transition | 350 ms | Fade through black with one gold wipe crossing the viewport | Plain 350 ms opacity fade; gold wipe suppressed for OS or app reduced-motion preference | Transition animations change only transform and opacity |
+
+### Part 4 findings
+
+1. Query redirects, product-route `go()` calls, showcase deck links and the phone preview's OPEN SCREEN link now funnel through the same 350 ms transition helper.
+2. The transition layer fades to black while a single gold band wipes across it; navigation occurs at the 350 ms boundary so the destination replaces an already-black frame.
+3. Phone-preview frame selection remains an in-place iframe update and is intentionally not treated as a full screen navigation.
+4. Reduced motion uses a plain 350 ms opacity fade and suppresses the gold wipe for both `prefers-reduced-motion` and the app's reduced-motion attributes.
+5. This part changes no per-screen entrance timing, easing, manager staging, imagery or data.
