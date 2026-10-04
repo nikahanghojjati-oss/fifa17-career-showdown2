@@ -114,10 +114,12 @@ body {
   top: 30.4%;
   left: 7.6%;
   width: 84.8%;
-  height: 54.2%;
+  height: 59%;
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
-  grid-template-rows: minmax(0, 0.46fr) minmax(0, 0.54fr);
+  /* Claude FIX 1: give the upper cards a real content-sized row so their
+     44px actions remain inside the gold frame at desktop heights. */
+  grid-template-rows: minmax(235px, 0.54fr) minmax(190px, 0.46fr);
   gap: 1.35vw;
 }
 
@@ -167,7 +169,7 @@ body {
 /* STEP 5 · upper settings group */
 .settingsPanel--account,
 .settingsPanel--application {
-  padding: clamp(18px, 1.55vw, 26px);
+  padding: clamp(15px, 1.25vw, 20px);
   border: 1px solid rgba(219, 178, 94, 0.58);
   background:
     linear-gradient(180deg, rgba(18, 18, 18, 0.86), rgba(7, 7, 7, 0.78)),
@@ -203,7 +205,7 @@ body {
 
 #accountDescription,
 #applicationDescription {
-  margin: 8px 0 13px;
+  margin: 6px 0 9px;
   max-width: 42ch;
   font-size: clamp(0.7rem, 0.76vw, 0.82rem);
   line-height: 1.38;
@@ -213,8 +215,8 @@ body {
 .settingsPanel--account dl,
 .settingsPanel--application dl {
   display: grid;
-  gap: 6px;
-  margin: 0 0 12px;
+  gap: 4px;
+  margin: 0 0 8px;
 }
 
 .settingsPanel--account dl > div,
@@ -223,7 +225,7 @@ body {
   align-items: baseline;
   justify-content: space-between;
   gap: 12px;
-  padding-top: 7px;
+  padding-top: 5px;
   border-top: 1px solid rgba(255, 255, 255, 0.09);
 }
 
