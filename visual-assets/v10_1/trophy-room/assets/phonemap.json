@@ -35,18 +35,18 @@
       "daniel": {
         "asset": "OVL_TR_DANIEL_PHONE_V1.webp",
         "side": "left",
-        "center_x_pct": 29,
+        "center_x_pct": 19,
         "top_pct": 1.5,
-        "visible_figure_height_pct": 59,
-        "overlap_center_pct": 4
+        "visible_figure_height_pct": 50,
+        "overlap_center_pct": 1
       },
       "nik": {
         "asset": "OVL_TR_NIK_PHONE_V1.webp",
         "side": "right",
-        "center_x_pct": 71,
+        "center_x_pct": 87,
         "top_pct": 1,
-        "visible_figure_height_pct": 60,
-        "overlap_center_pct": 4
+        "visible_figure_height_pct": 50,
+        "overlap_center_pct": 1
       }
     },
     "hero_zone_bottom_pct": 55,
@@ -54,6 +54,6 @@
       "start_pct": 48,
       "opaque_pct": 66
     },
-    "notes": "Percentages refer to the visible alpha figure after trimming transparent canvas. Keep both heads fully inside the top 55%; bodies intentionally overlap the centre and lower content boundary. Daniel remains left and Nik right; never mirror."
+    "notes": "Percentages refer to the visible alpha figure after trimming transparent canvas. Daniel's face is held in the left third and Nik's in the right third; both faces stay fully visible and separated. Only the shoulders may overlap near centre. Daniel remains left and Nik right; never mirror."
   }
 }
