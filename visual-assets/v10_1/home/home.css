@@ -1,9 +1,9 @@
 /* HOME-V1 · Rivalry Headquarters on the Home plate. Motion pass: shared kit + Home signature moments. */
-@font-face { font-family: "Barlow Condensed"; font-weight: 600; font-display: block; src: url(../tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-600-normal.woff2) format("woff2"); }
-@font-face { font-family: "Barlow Condensed"; font-weight: 700; font-display: block; src: url(../tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-700-normal.woff2) format("woff2"); }
-@font-face { font-family: "Barlow"; font-weight: 400; font-display: block; src: url(../tr2/slice-02-plate/assets/fonts/barlow-latin-400-normal.woff2) format("woff2"); }
-@font-face { font-family: "Barlow"; font-weight: 600; font-display: block; src: url(../tr2/slice-02-plate/assets/fonts/barlow-latin-600-normal.woff2) format("woff2"); }
-@font-face { font-family: "Kaushan Script"; font-weight: 400; font-display: block; src: url(../tr2/slice-02-plate/assets/fonts/kaushan-script-latin-400-normal.woff2) format("woff2"); }
+@font-face { font-family: "Barlow Condensed"; font-weight: 600; font-display: block; src: url(../shared/fonts/barlow-condensed-latin-600-normal.woff2) format("woff2"); }
+@font-face { font-family: "Barlow Condensed"; font-weight: 700; font-display: block; src: url(../shared/fonts/barlow-condensed-latin-700-normal.woff2) format("woff2"); }
+@font-face { font-family: "Barlow"; font-weight: 400; font-display: block; src: url(../shared/fonts/barlow-latin-400-normal.woff2) format("woff2"); }
+@font-face { font-family: "Barlow"; font-weight: 600; font-display: block; src: url(../shared/fonts/barlow-latin-600-normal.woff2) format("woff2"); }
+@font-face { font-family: "Kaushan Script"; font-weight: 400; font-display: block; src: url(../shared/fonts/kaushan-script-latin-400-normal.woff2) format("woff2"); }
 
 :root {
   --gold: #F2C45B;

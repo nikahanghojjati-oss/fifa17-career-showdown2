@@ -765,7 +765,9 @@
         "^service-worker\\.js$",
         "^index\\.html$",
         "^visual-assets/v10_1/home/",
-        "^visual-assets/v10_1/loading/",
+        "^css/homeV10\\.css$",
+        "^js/diagnostics\\.js$",
+        "^js/onlinePlayerIdentity\\.js$",
         "^visual-assets/v10_1/shared/art/home-tiles/",
         "^tests/contracts/v10-home-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"

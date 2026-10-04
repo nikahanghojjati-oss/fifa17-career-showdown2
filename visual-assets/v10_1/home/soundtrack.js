@@ -7,6 +7,8 @@
   "use strict";
   let M = null, A = null, tracks = [], selectedKey = null, ui = null;
   let audio = null, wantPlaying = false, failed = false;
+  const bound = new WeakSet(); // JOB-25 (app): Home can mount again; each control is bound once.
+  const once = (el, fn) => { if (el && !bound.has(el)) { bound.add(el); el.addEventListener("click", fn); } };
 
   const byKey = (k) => tracks.find((t) => t.key === k);
   const selected = () => byKey(selectedKey) || tracks[0];
@@ -33,7 +35,7 @@
     else status = audio.muted ? M.statusPlayingMuted : M.statusPlaying;
     setText(ui.status, status);
     ui.choices.forEach((b) => {
-      const on = b.dataset.menuMediaSource === t.key;
+      const on = b.dataset.soundtrackTrack === t.key;
       b.classList.toggle("selected", on);
       b.setAttribute("aria-pressed", String(on));
     });
@@ -49,7 +51,9 @@
     ["play", "playing", "pause", "waiting", "volumechange"].forEach((e) => audio.addEventListener(e, render));
     audio.addEventListener("ended", next);
     audio.addEventListener("error", () => { if (audio.getAttribute("src")) { failed = true; wantPlaying = false; render(); } });
-    ui.card.appendChild(audio);
+    // JOB-25 (app): one long-lived <audio> on <body>, so the song keeps playing after the app leaves Home.
+    const persistent = audio; persistent.dataset.v10PersistentMedia = "home";
+    document.body.appendChild(persistent);
     return audio;
   }
 
@@ -98,13 +102,13 @@
       toggle: document.getElementById("menuMusicToggle"),
       mute: document.getElementById("menuMusicMute"),
       sheetToggle: document.getElementById("phoneTrackSheetToggle"),
-      choices: Array.from(card.querySelectorAll("[data-menu-media-source]"))
+      choices: Array.from(card.querySelectorAll("[data-soundtrack-track]"))
     };
-    ui.toggle.addEventListener("click", () => (wantPlaying ? pause() : play()));
-    ui.mute.addEventListener("click", () => { if (audio) { audio.muted = !audio.muted; render(); } });
-    document.getElementById("menuMediaSelector").addEventListener("click", (e) => {
-      const b = e.target instanceof Element ? e.target.closest("[data-menu-media-source]") : null;
-      if (b) choose(b.dataset.menuMediaSource);
+    once(ui.toggle, () => (wantPlaying ? pause() : play()));
+    once(ui.mute, () => { if (audio) { audio.muted = !audio.muted; render(); } });
+    once(card.querySelector(".menuMediaSelector"), (e) => {
+      const b = e.target instanceof Element ? e.target.closest("[data-soundtrack-track]") : null;
+      if (b) choose(b.dataset.soundtrackTrack);
     });
     render();
   }

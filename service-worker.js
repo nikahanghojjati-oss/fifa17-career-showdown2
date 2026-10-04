@@ -177,7 +177,7 @@ const SHELL_PATHS = Object.freeze([
     "js/homeScreensV10.js",
     "visual-assets/v10_1/home/home.css",
     "visual-assets/v10_1/home/soundtrack.js",
-    "visual-assets/v10_1/loading/loading.css",
+    "css/homeV10.css",
     "js/startJoinViewModel.js",
     "css/v10Shell.css",
     "visual-assets/v10_1/shared/navbar/navbar.css",
