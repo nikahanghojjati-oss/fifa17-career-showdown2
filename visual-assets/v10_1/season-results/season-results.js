@@ -291,6 +291,7 @@
       tag.className = "sd-preview-tag season-preview-tag";
       document.querySelector(".season-layout").appendChild(tag);
     }
+    tag.dataset.owner = frame.viewer === "nik" ? "nik" : "daniel";
     tag.textContent = frame.previewLabel || fixtures.strings.previewLabel;
   }
 
