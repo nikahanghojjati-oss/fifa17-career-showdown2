@@ -836,3 +836,177 @@ html[data-reduced-motion="true"] .sj-pair-moment.is-linking .sj-pair-link {
     height: 2px;
   }
 }
+
+
+/* JOB-193 · interaction feel and reduced motion.
+   Feedback is paint/transform only: no dimensions, padding or positioning animate. */
+.sj-back,
+.sj-tabs button,
+.sj-card-actions .sd-btn,
+.sj-current-actions .sd-btn,
+.sj-more-menu > summary,
+.sj-more-popover .sd-btn,
+.sj-join-field input,
+.sj-state-badge,
+.sj-role-panel,
+.sj-current-panel {
+  transition:
+    opacity 110ms ease-out,
+    transform 90ms cubic-bezier(.22, 1, .36, 1),
+    color 110ms ease-out,
+    border-color 110ms ease-out,
+    background-color 110ms ease-out,
+    box-shadow 110ms ease-out;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .sj-back:hover,
+  .sj-tabs button:hover,
+  .sj-card-actions .sd-btn:hover,
+  .sj-current-actions .sd-btn:hover,
+  .sj-more-menu > summary:hover,
+  .sj-more-popover .sd-btn:hover {
+    transform: translate3d(0, -1px, 0);
+  }
+
+  .sj-join-field input:hover {
+    border-color: rgba(240, 200, 75, .74);
+  }
+}
+
+.sj-back:active,
+.sj-tabs button:active,
+.sj-card-actions .sd-btn:active,
+.sj-current-actions .sd-btn:active,
+.sj-more-menu > summary:active,
+.sj-more-popover .sd-btn:active {
+  transform: translate3d(0, 1px, 0) scale(.985);
+  opacity: .88;
+}
+
+.sj-tabs button[aria-selected="true"],
+.sj-tabs button[aria-pressed="true"],
+.sj-tabs button.is-active {
+  border-color: rgba(240, 200, 75, .82);
+  background-color: rgba(240, 200, 75, .13);
+  color: #fff1ae;
+}
+
+/* Selected phone panels receive a short opacity-only cross-fade after the shared
+   entrance has settled. Re-selecting a tab does not move panel geometry. */
+@keyframes sj-tab-crossfade {
+  from { opacity: .38; }
+  to { opacity: 1; }
+}
+
+@media (max-width: 900px) {
+  .sj-main-panel[data-tab="daniel"] .sj-role-panel--daniel.sd-entered,
+  .sj-main-panel[data-tab="nik"] .sj-role-panel--nik.sd-entered,
+  .sj-main-panel[data-tab="current"] .sj-current-panel.sd-entered {
+    animation: sj-tab-crossfade 120ms ease-out both;
+  }
+}
+
+/* Custom state/toggle changes cross-fade their paint only; panel boxes never
+   animate size or position. */
+.sj-role-panel.is-active,
+.sj-role-panel.is-paired,
+.sj-current-panel[data-state="waiting"],
+.sj-current-panel[data-state="paired"],
+.sj-current-panel[data-state="partial"],
+.sj-current-panel[data-state="unavailable"],
+.sj-current-panel[data-state="error"] {
+  transition-duration: 120ms;
+}
+
+/* App preference path from shared/motion.js: html[data-motion-reduced=true]
+   plus the stage-local data-sd-motion-reduced flag. The legacy html dataset is
+   kept because earlier Start / Join motion already recognizes it. */
+html[data-motion-reduced="true"] .sj-current-panel[data-state="loading"] .sj-state-icon::before,
+html[data-motion-reduced="true"] .sj-role-panel.is-read-pending .sj-role-glyph,
+html[data-motion-reduced="true"] .sj-current-panel.is-host-open .sj-state-badge::before,
+html[data-motion-reduced="true"] .sj-code-field.is-dealing .sj-code-char,
+html[data-motion-reduced="true"] .sj-pair-moment.is-linking .sj-pair-link,
+html[data-reduced-motion="true"] .sj-current-panel[data-state="loading"] .sj-state-icon::before,
+html[data-reduced-motion="true"] .sj-role-panel.is-read-pending .sj-role-glyph,
+html[data-reduced-motion="true"] .sj-current-panel.is-host-open .sj-state-badge::before,
+html[data-reduced-motion="true"] .sj-code-field.is-dealing .sj-code-char,
+html[data-reduced-motion="true"] .sj-pair-moment.is-linking .sj-pair-link,
+#stage-root[data-sd-motion-reduced="true"] .sj-current-panel[data-state="loading"] .sj-state-icon::before,
+#stage-root[data-sd-motion-reduced="true"] .sj-role-panel.is-read-pending .sj-role-glyph,
+#stage-root[data-sd-motion-reduced="true"] .sj-current-panel.is-host-open .sj-state-badge::before,
+#stage-root[data-sd-motion-reduced="true"] .sj-code-field.is-dealing .sj-code-char,
+#stage-root[data-sd-motion-reduced="true"] .sj-pair-moment.is-linking .sj-pair-link {
+  animation: none !important;
+  transform: none !important;
+}
+
+html[data-motion-reduced="true"] .sj-back,
+html[data-motion-reduced="true"] .sj-tabs button,
+html[data-motion-reduced="true"] .sj-card-actions .sd-btn,
+html[data-motion-reduced="true"] .sj-current-actions .sd-btn,
+html[data-motion-reduced="true"] .sj-more-menu > summary,
+html[data-motion-reduced="true"] .sj-more-popover .sd-btn,
+html[data-motion-reduced="true"] .sj-join-field input,
+html[data-motion-reduced="true"] .sj-state-badge,
+html[data-motion-reduced="true"] .sj-role-panel,
+html[data-motion-reduced="true"] .sj-current-panel,
+#stage-root[data-sd-motion-reduced="true"] .sj-back,
+#stage-root[data-sd-motion-reduced="true"] .sj-tabs button,
+#stage-root[data-sd-motion-reduced="true"] .sj-card-actions .sd-btn,
+#stage-root[data-sd-motion-reduced="true"] .sj-current-actions .sd-btn,
+#stage-root[data-sd-motion-reduced="true"] .sj-more-menu > summary,
+#stage-root[data-sd-motion-reduced="true"] .sj-more-popover .sd-btn,
+#stage-root[data-sd-motion-reduced="true"] .sj-join-field input,
+#stage-root[data-sd-motion-reduced="true"] .sj-state-badge,
+#stage-root[data-sd-motion-reduced="true"] .sj-role-panel,
+#stage-root[data-sd-motion-reduced="true"] .sj-current-panel {
+  transition-property: opacity !important;
+  transition-duration: 150ms !important;
+  transition-timing-function: linear !important;
+  transform: none !important;
+}
+
+html[data-motion-reduced="true"] .sj-main-panel[data-tab="daniel"] .sj-role-panel--daniel.sd-entered,
+html[data-motion-reduced="true"] .sj-main-panel[data-tab="nik"] .sj-role-panel--nik.sd-entered,
+html[data-motion-reduced="true"] .sj-main-panel[data-tab="current"] .sj-current-panel.sd-entered,
+#stage-root[data-sd-motion-reduced="true"] .sj-main-panel[data-tab="daniel"] .sj-role-panel--daniel.sd-entered,
+#stage-root[data-sd-motion-reduced="true"] .sj-main-panel[data-tab="nik"] .sj-role-panel--nik.sd-entered,
+#stage-root[data-sd-motion-reduced="true"] .sj-main-panel[data-tab="current"] .sj-current-panel.sd-entered {
+  animation: sd-reduced-fade var(--sd-duration-reduced, 150ms) linear both !important;
+  transform: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sj-current-panel[data-state="loading"] .sj-state-icon::before,
+  .sj-role-panel.is-read-pending .sj-role-glyph,
+  .sj-current-panel.is-host-open .sj-state-badge::before,
+  .sj-code-field.is-dealing .sj-code-char,
+  .sj-pair-moment.is-linking .sj-pair-link {
+    animation: none !important;
+    transform: none !important;
+  }
+
+  .sj-back,
+  .sj-tabs button,
+  .sj-card-actions .sd-btn,
+  .sj-current-actions .sd-btn,
+  .sj-more-menu > summary,
+  .sj-more-popover .sd-btn,
+  .sj-join-field input,
+  .sj-state-badge,
+  .sj-role-panel,
+  .sj-current-panel {
+    transition-property: opacity !important;
+    transition-duration: 150ms !important;
+    transition-timing-function: linear !important;
+    transform: none !important;
+  }
+
+  .sj-main-panel[data-tab="daniel"] .sj-role-panel--daniel.sd-entered,
+  .sj-main-panel[data-tab="nik"] .sj-role-panel--nik.sd-entered,
+  .sj-main-panel[data-tab="current"] .sj-current-panel.sd-entered {
+    animation: sd-reduced-fade var(--sd-duration-reduced, 150ms) linear both !important;
+    transform: none !important;
+  }
+}
