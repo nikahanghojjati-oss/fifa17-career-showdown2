@@ -548,7 +548,8 @@
         return { r, c, nTop, bTop, end: bTop + rowH + 12 };
       };
       let f = null;
-      for (let r = phoneFlowR; r >= phoneMinR; r -= 0.5) { const t = place(r); if (t.end <= H) { f = t; break; } }
+      const floorR = noteH ? 92 : phoneMinR;
+      for (let r = phoneFlowR; r >= floorR; r -= 0.5) { const t = place(r); if (t.end <= H) { f = t; break; } }
       if (!f) f = place(phoneFlowR);
       R = f.r; cy = f.c; btnTop = f.bTop;
       if (noteH) note.style.top = px(f.nTop);
