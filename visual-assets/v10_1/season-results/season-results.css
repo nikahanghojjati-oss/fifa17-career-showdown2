@@ -66,9 +66,8 @@ body {
 
 #screen-title {
   position: absolute;
-  /* Claude fix round 3: lift the brush clear of the tagline; at 1366x768
-     its lower edge is about y=196, leaving the tagline clear before y=223 panel top. */
-  top: 14.10%;
+  /* JOB-178 item 8: registered mockup brush geometry. */
+  top: 16.78%;
   left: 27.99%;
   width: 43.49%;
   margin: 0;
@@ -130,10 +129,10 @@ body {
 }
 
 .entry-panel--daniel {
-  /* Claude fix 2: the cutout reaches x=299; start panel at x≈294 so its 18px
-     inner padding begins beyond the fist while the outer edge still contacts it. */
-  left: 19.14%;
-  width: 30.27%;
+  /* JOB-178 item 9: Daniel's original left column registration. */
+  left: 13.67%;
+  top: 52.66%;
+  width: 35.74%;
   --manager-accent: var(--sd-gold, #f2c45b);
 }
 
@@ -685,7 +684,7 @@ body {
 @media (min-width: 1024px) {
   .entry-panel { height: auto; min-height: 31.94%; }
   .season-eyebrow { top: 9.2%; }
-  #screen-title { top: 12.3%; left: 30%; width: 40%; }
+  #screen-title { top: 16.78%; left: 27.99%; width: 43.49%; }
   .season-tagline { top: 25.4%; }
   .entry-panel { gap: 7px; padding-top: 10px; padding-bottom: 10px; }
   .manager-card-header { padding-bottom: 6px; }
