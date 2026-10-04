@@ -1,6 +1,6 @@
 # Team G gameplay board: all jobs
 
-[Back to the board](BOARD.md) · generated 2026-10-04 7:38 PM Boston time (EDT)
+[Back to the board](BOARD.md) · generated 2026-10-04 7:39 PM Boston time (EDT)
 
 | # | G id | Job | Phase | Type | Lane | Depends on | Codex | Progress | State |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -27,8 +27,8 @@
 | 19 | G-2e | [Resume a Shared Showdown after reload; closed Showdowns stay on Home](jobs/JOB-19.md) | 1 Safety net | fix | lead | - |  | ██████████ 100 % | DONE |
 | 20 | G-2f | [A late season acknowledgement retries instead of failing](jobs/JOB-20.md) | 1 Safety net | fix | lead | - |  | ██████████ 100 % | DONE |
 | 21 | G-2g | [Same-moment taps retry quietly (bug hunt 1)](jobs/JOB-21.md) | 1 Safety net | fix | lead | - |  | ██████████ 100 % | DONE |
-| 24 | G-13a | [Part 2a: foundation (loader, top bar, shared kit, caching)](jobs/JOB-24.md) | IN PROGRESS | build | lead | 13 | yes | ░░░░░░░░░░ 0 % | IN PROGRESS |
-| 25 | G-13b | [Part 2b: Home, music (Audius) and Loading](jobs/JOB-25.md) | READY | build | codex | 24 | yes | ██████████ 100 % | DONE |
+| 24 | G-13a | [Part 2a: foundation (loader, top bar, shared kit, caching)](jobs/JOB-24.md) | IN PROGRESS | build | lead | 13 | yes | ░░░░░░░░░░ 0 % | MERGED |
+| 25 | G-13b | [Part 2b: Home, music (Audius) and Loading](jobs/JOB-25.md) | READY | build | codex | 24 | yes | ░░░░░░░░░░ 0 % | MERGED |
 | 26 | G-13c | [Part 2c: Start/Join, League wheel and Club packs](jobs/JOB-26.md) | READY | build | lead | 24 | yes | ░░░░░░░░░░ 0 % | NOT STARTED |
 | 27 | G-13d | [Part 2d: Transfer War](jobs/JOB-27.md) | READY | build | lead | 24 | yes | ░░░░░░░░░░ 0 % | NOT STARTED |
 | 28 | G-13e | [Part 2e: Rivalry Statistics and Legacy (History)](jobs/JOB-28.md) | READY | build | work | 24 | yes | ████████░░ 80 % | BLOCKED |

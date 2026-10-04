@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-04 7:38 PM Boston time (EDT)",
+ "generated": "2026-10-04 7:39 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 23,
@@ -244,8 +244,8 @@
   "chat": 2,
   "work": 1
  },
- "overall": 73,
- "done": 21,
+ "overall": 70,
+ "done": 20,
  "total": 33,
  "start": {
   "chat": [],
@@ -253,7 +253,6 @@
  },
  "queued": [],
  "working": [
-  24,
   29
  ],
  "blocked": [
@@ -825,7 +824,7 @@
    "phase": "IN PROGRESS",
    "type": "build",
    "plain": "Start first: one shared way to load Team V's screens, the top bar, and lighter caching. Built in the lead thread by a helper (Nik, 2026-10-04: no cloud sessions).",
-   "state": "IN PROGRESS",
+   "state": "MERGED",
    "step": 0,
    "steps_total": 7,
    "pct": 0,
@@ -847,10 +846,10 @@
    "phase": "READY",
    "type": "build",
    "plain": "Home in Team V's style with Nik's Audius playlist playing across screens; Loading keeps the Reus credit. Codex builds (Nik pastes the box); starts from job 24's branch; the lead checks each screen in a browser and merges.",
-   "state": "DONE",
+   "state": "MERGED",
    "step": 0,
    "steps_total": 7,
-   "pct": 100,
+   "pct": 0,
    "ready": false
   },
   {
