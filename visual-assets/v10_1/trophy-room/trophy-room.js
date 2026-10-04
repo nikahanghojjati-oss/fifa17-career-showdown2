@@ -9,7 +9,7 @@
     { key: "championsLeague", category: "CHAMPIONS LEAGUE", asset: "../shared/trophies/TRO_CONTINENTAL_V1_512.webp", value: f => f.managers && ({daniel:f.managers.daniel.championsLeagues, nik:f.managers.nik.championsLeagues}) }
   ];
 
-  const state = { fixtures:null, frame:null, frameKey:"TR1", map:null, activeCategory:"ALL", stage:null, spotlightLit:false, heroSettled:false, heroGlintPlayed:false, shelfRevealed:false, countsRevealed:false, shimmeredTrophies:new Set() };
+  const state = { fixtures:null, frame:null, frameKey:"TR1", map:null, activeCategory:"ALL", stage:null, spotlightLit:false, heroSettled:false, heroGlintPlayed:false, shelfRevealed:false, countsRevealed:false, shimmeredTrophies:new Set(), tabTransitioning:false };
   const qs = new URLSearchParams(location.search);
   state.frameKey = qs.get("frame") || "TR1";
 
@@ -29,7 +29,11 @@
     countUpDelayMs:760,
     countUpMs:300,
     winningShimmerDelayMs:760,
-    winningShimmerMs:420
+    winningShimmerMs:420,
+    tabFadeOutMs:100,
+    tabFadeInMs:120,
+    tabSlidePx:12,
+    tabEase:"cubic-bezier(.22,1,.36,1)"
   });
 
   const esc = value => String(value == null ? "" : value).replace(/[&<>\"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
@@ -208,10 +212,30 @@
 
     content.querySelectorAll(".trophyTab").forEach(btn => btn.addEventListener("click", () => {
       const category = btn.dataset.category;
-      state.activeCategory = category;
-      render();
-      const activeTab = [...document.querySelectorAll("#trophyRoomContent .trophyTab")].find(tab => tab.dataset.category === category);
-      if (activeTab) activeTab.focus();
+      if (state.tabTransitioning || category === state.activeCategory) return;
+      const outgoing = content.querySelector(".trophyGrid");
+      state.tabTransitioning = true;
+      if (outgoing) {
+        outgoing.style.setProperty("--tr-tab-out-ms", `${TR_MOTION.tabFadeOutMs}ms`);
+        outgoing.style.setProperty("--tr-tab-in-ms", `${TR_MOTION.tabFadeInMs}ms`);
+        outgoing.style.setProperty("--tr-tab-ease", TR_MOTION.tabEase);
+        outgoing.classList.add("tr-tab-leave");
+      }
+      window.setTimeout(() => {
+        state.activeCategory = category;
+        render();
+        const incoming = document.querySelector("#trophyRoomContent .trophyGrid");
+        if (incoming) {
+          incoming.style.setProperty("--tr-tab-out-ms", `${TR_MOTION.tabFadeOutMs}ms`);
+          incoming.style.setProperty("--tr-tab-in-ms", `${TR_MOTION.tabFadeInMs}ms`);
+          incoming.style.setProperty("--tr-tab-ease", TR_MOTION.tabEase);
+          incoming.classList.add("tr-tab-enter");
+          requestAnimationFrame(() => requestAnimationFrame(() => incoming.classList.remove("tr-tab-enter")));
+        }
+        const activeTab = [...document.querySelectorAll("#trophyRoomContent .trophyTab")].find(tab => tab.dataset.category === category);
+        if (activeTab) activeTab.focus();
+        window.setTimeout(() => { state.tabTransitioning = false; }, TR_MOTION.tabFadeInMs);
+      }, outgoing ? TR_MOTION.tabFadeOutMs : 0);
     }));
     const backButton = document.getElementById("trophyRoomBack");
     backButton.addEventListener("click", () => document.dispatchEvent(new CustomEvent("trophy-room:intent", { detail:{ route:"back" } })));
