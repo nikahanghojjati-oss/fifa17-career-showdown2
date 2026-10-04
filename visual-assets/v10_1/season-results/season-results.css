@@ -124,8 +124,10 @@ body {
 }
 
 .entry-panel--daniel {
-  left: 13.67%;
-  width: 35.74%;
+  /* Claude fix 2: the cutout reaches x=299; start panel at x≈294 so its 18px
+     inner padding begins beyond the fist while the outer edge still contacts it. */
+  left: 19.14%;
+  width: 30.27%;
   --manager-accent: var(--sd-gold, #f2c45b);
 }
 
