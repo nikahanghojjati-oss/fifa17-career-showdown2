@@ -389,6 +389,125 @@
    "phase": "1 Safety net",
    "type": "fix",
    "plain": "When both players tap START, a lock button, early end or Setup confirm at the same moment, or the transfer timer hits 0:00 on both phones, the slower phone retries once instead of showing an error."
+  },
+  {
+   "number": 24,
+   "key": "G-13a",
+   "title": "Part 2a: foundation (loader, top bar, shared kit, caching)",
+   "lane": "cloud",
+   "depends_on": [
+    13
+   ],
+   "steps": 7,
+   "code_branch": "gameplay/job-24-v10-foundation",
+   "codex_review": false,
+   "written": true,
+   "waits_on": "",
+   "phase": "READY",
+   "type": "build",
+   "plain": "Start first: one shared way to load Team V's screens, the top bar, and lighter caching. Claude cloud session, $8 cap."
+  },
+  {
+   "number": 25,
+   "key": "G-13b",
+   "title": "Part 2b: Home, music (Audius) and Loading",
+   "lane": "cloud",
+   "depends_on": [
+    24
+   ],
+   "steps": 7,
+   "code_branch": "gameplay/job-25-v10-home",
+   "codex_review": false,
+   "written": true,
+   "waits_on": "job 24 merged",
+   "phase": "WAITING",
+   "type": "build",
+   "plain": "Home in Team V's style with Nik's Audius playlist playing across screens; Loading keeps the Reus credit. Claude cloud, $6 cap."
+  },
+  {
+   "number": 26,
+   "key": "G-13c",
+   "title": "Part 2c: Start/Join, League wheel and Club packs",
+   "lane": "cloud",
+   "depends_on": [
+    24
+   ],
+   "steps": 7,
+   "code_branch": "gameplay/job-26-v10-setup",
+   "codex_review": false,
+   "written": true,
+   "waits_on": "job 24 merged",
+   "phase": "WAITING",
+   "type": "build",
+   "plain": "Setup screens skinned without touching pairing, session or draw logic. Claude cloud, $8 cap."
+  },
+  {
+   "number": 27,
+   "key": "G-13d",
+   "title": "Part 2d: Transfer War",
+   "lane": "cloud",
+   "depends_on": [
+    24
+   ],
+   "steps": 7,
+   "code_branch": "gameplay/job-27-v10-transfer",
+   "codex_review": false,
+   "written": true,
+   "waits_on": "job 24 merged",
+   "phase": "WAITING",
+   "type": "build",
+   "plain": "Transfer window skinned; private inputs stay private; lock confirm and quiet retries kept. Claude cloud, $6 cap."
+  },
+  {
+   "number": 28,
+   "key": "G-13e",
+   "title": "Part 2e: Rivalry Statistics and Legacy (History)",
+   "lane": "codex",
+   "depends_on": [
+    24
+   ],
+   "steps": 7,
+   "code_branch": "",
+   "codex_review": false,
+   "written": true,
+   "waits_on": "job 24 merged",
+   "phase": "WAITING",
+   "type": "build",
+   "plain": "Same pattern as job 13 on the real career model; un-hides the last two Statistics buttons. Codex."
+  },
+  {
+   "number": 29,
+   "key": "G-13f",
+   "title": "Part 2f: Season Results, Final Winner and Standings",
+   "lane": "codex",
+   "depends_on": [
+    24
+   ],
+   "steps": 7,
+   "code_branch": "",
+   "codex_review": false,
+   "written": true,
+   "waits_on": "job 24 merged",
+   "phase": "WAITING",
+   "type": "build",
+   "plain": "Results and commit skinned (clash warning kept); winner reveal uses the reconciliation exactly. Codex."
+  },
+  {
+   "number": 30,
+   "key": "G-13g",
+   "title": "Part 2g: Rule Book and Settings",
+   "lane": "work",
+   "depends_on": [
+    24
+   ],
+   "steps": 7,
+   "code_branch": "gameplay/job-30-v10-rules-settings",
+   "codex_review": false,
+   "written": true,
+   "waits_on": "job 24 merged",
+   "phase": "WAITING",
+   "type": "build",
+   "plain": "Rules copy unchanged, Settings controls kept, credits added. Sol Work mode."
   }
  ],
  "bug_hunt": [
