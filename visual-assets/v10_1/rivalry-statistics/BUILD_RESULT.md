@@ -95,3 +95,20 @@ The standard shared entrance follows the screen hierarchy and does not add a scr
 
 Reduced motion is inherited from the shared kit: either `prefers-reduced-motion: reduce` or the application preference collapses the entrance to a 150 ms fade and suppresses slides, scaling, wipe/glint and the button pulse. The shared cleanup ends by 1.2 s and no motion changes document flow.
 
+
+
+## Motion · JOB-161 part 2
+
+Part 2 adds the screen-specific payoff without changing Rivalry Statistics data, navigation or shared entrance timing. All values remain live DOM text from the fixture/model. The screen uses the shared motion kit for counting, leader completion flash, reveal and particles; the only local keyframes are the directional row deal and the 180 ms scoreboard slam. Motion is transform/opacity only. The shared reduced-motion preference suppresses the local travel/slam/burst and `sdReveal` collapses to the kit's 150 ms fade.
+
+| Moment | Start | End | Duration / stagger | Selector | Motion / kit |
+| --- | ---: | ---: | --- | --- | --- |
+| Rivalry row deal | 0 ms | 500 ms | 260 ms each, 40 ms row stagger | `#rvRows .rv-row .rv-value.left/right` | Left values enter from −18 px, right values from +18 px using `cubic-bezier(.22,1,.36,1)`; opacity + transform only. |
+| Row number count + leader flash | 0 ms | 740 ms | 500 ms count, same 40 ms stagger | `#rvRows .rv-value` | `sdCountUp`; the numeric leader receives `sd-count-leader`, so the shared `sd-count-leader-flash` fires once on completion. |
+| Head-to-head reveal | 0 ms | 810 ms | shared 300 + 90 + 420 ms recipe | `.rv-headGrid` | `sdReveal` supplies anticipation, flash and settle from `motion.css`. |
+| Head-to-head scoreboard slam | 390 ms | 570 ms | 180 ms | `.rv-headStat strong` | Scale 1.3 → 1.0 plus opacity using `cubic-bezier(.22,1,.36,1)`. |
+| Head-to-head gold burst | 600 ms | 960 ms | 360 ms, 24 particles | `.rv-bottom--head .rv-motion-burst` | `sdBurst` at panel centre; particle count remains below the shared cap of 60. |
+
+Constants live in `RV_MOTION` in `rivalry-statistics.js`: row duration/easing/stagger, count duration, head slam delay/duration/easing, reveal duration reference, and burst delay/duration/count. The local CSS reads those values through custom properties so the timing contract is visible in one place.
+
+Claude intake evidence target: record desktop frame strips for row deal/count completion, the 390–570 ms head-to-head slam, the 600 ms burst onset and the settled ≤960 ms state under `evidence/motion/`; also capture reduced motion showing no travel, slam or particles.
