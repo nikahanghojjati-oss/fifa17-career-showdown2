@@ -234,5 +234,13 @@ function multiSandbox({accepted,total=3,terminal=false}){
   }
   console.log("ok E persistent pair names the remembered CLOSED rivalry and never treats it as current");
 
+  {
+    const reconnect=read("js/productionSharedJourneyReconnect.js");
+    assert.match(reconnect,/let heldTransientCode="";/,"F1 Reconnect keeps a held transient progression failure");
+    assert.match(reconnect,/error\?\.code==="JOURNEY_RECONNECT_PROGRESSION_NOT_AUTHORITATIVE"&&code!==heldTransientCode&&code!==lastReportedCode\)\{heldTransientCode=code;return state;\}heldTransientCode="";if\(code!==lastReportedCode\)pjrReport\(/,"F1 a one-poll progression denial is held once, and the same failure on the next poll is reported");
+    assert.match(reconnect,/then\(value=>\{lastReportedCode="";heldTransientCode="";return value;\}/,"F1 a successful refresh clears the held failure");
+  }
+  console.log("ok F Reconnect reports a progression denial only when it repeats on the next poll");
+
   console.log("PASS shared journey reload resume contracts: closed/active Showdowns never re-open GET READY, pre-pair shells still do, the season cursor resumes at provider authority after a fresh exact session, and Continue Career resumes on the dashboard instead of replaying Career Start.");
 })().catch(error=>{console.error(error);process.exit(1);});

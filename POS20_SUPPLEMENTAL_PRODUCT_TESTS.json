@@ -680,6 +680,7 @@
     {
       "path": "tests/contracts/shared-journey-reload-resume-contracts.cjs",
       "patterns": [
+        "^js/productionSharedJourneyReconnect\\.js$",
         "^js/productionSharedJourneyEntry\\.js$",
         "^js/productionSharedMultiSeasonProgression\\.js$",
         "^js/persistentNikDanielPair\\.js$",
