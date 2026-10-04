@@ -8,7 +8,7 @@
   const PANEL_ID="productionSharedCareerStartOverlay";
   const CONTROL_ID="continueClubAssignment";
   const POLL_MS=15000;
-  let installed=false,busy=false,pollTimer=null,setupApi=null,provider=null,view=null,lastError="",operationTail=Promise.resolve(),refreshPromise=null,openPromise=null;
+  let installed=false,busy=false,pollTimer=null,setupApi=null,provider=null,view=null,lastError="",operationTail=Promise.resolve(),refreshPromise=null,openPromise=null,readyKey="";
 
   function pcstCreate(tag,className,text){const node=root.document.createElement(tag);if(className)node.className=className;if(text!==undefined)node.textContent=String(text);return node;}
   function pcstReport(context,error){if(typeof root.reportApplicationError==="function")root.reportApplicationError(context,error);else root.console?.error?.(context,error);}
@@ -41,16 +41,21 @@
     if(!services||services.ok===false||!services.auth?.currentUser||!services.firestore||!services.firestoreSdk)throw new Error("Connected account services are unavailable.");
     return {state,options:{user:services.auth.currentUser,firestore:services.firestore,firebaseSdk:services.firestoreSdk,rivalryId:state.rivalryId,sessionId:state.sessionId,deviceId:state.deviceId,cryptoImpl:root.crypto}};
   }
-  function pcstApplyView(result,setup){
-    view={...result,setup};lastError="";pcstRender();pcstDecorateControl();if(pcstReady())pcstStopPolling();return view;
+  function pcstSetupKey(state){return state&&state.ready===true&&state.rivalryId&&state.managerRole&&state.setup?`${state.rivalryId}|${state.managerRole}|${JSON.stringify(state.setup)}`:"";}
+  function pcstApplyView(result,state){
+    view={...result,setup:state.setup};readyKey=pcstReady()?pcstSetupKey(state):"";lastError="";pcstRender();pcstDecorateControl();if(pcstReady())pcstStopPolling();return view;
   }
   function pcstOwnAcknowledged(result){
     const role=result?.managerRole,state=result?.state;
     return Boolean(role&&state&&Array.isArray(state.acknowledgedRoles)&&state.acknowledgedRoles.includes(role));
   }
+  // CAREER_START_READY is final for one confirmed Shared Setup, and the Transfer and Season Result providers re-check it inside
+  // their own transactions. Transfer and Season Results call this before every read and publish, so re-reading it there only
+  // added a request that could fail ("Career Start could not be read.") and block a publish. Reuse it for the same Setup.
   function pcstRefresh(){
+    if(pcstReady()&&readyKey&&pcstConfirmed()&&readyKey===pcstSetupKey(pcstSetupState()))return Promise.resolve(view);
     if(refreshPromise)return refreshPromise;
-    const run=pcstSerialize(async()=>{const ctx=await pcstProviderOptions(),result=await provider.read(ctx.options);if(!result||result.ok!==true)throw Object.assign(new Error("Career Start could not be read."),{code:result&&result.code});return pcstApplyView(result,ctx.state.setup);});
+    const run=pcstSerialize(async()=>{const ctx=await pcstProviderOptions(),result=await provider.read(ctx.options);if(!result||result.ok!==true)throw Object.assign(new Error("Career Start could not be read."),{code:result&&result.code});return pcstApplyView(result,ctx.state);});
     refreshPromise=run.finally(()=>{if(refreshPromise===wrapped)refreshPromise=null;});
     const wrapped=refreshPromise;
     return wrapped;
@@ -64,17 +69,17 @@
         const ctx=await pcstProviderOptions();
         let current=await provider.read(ctx.options);
         if(!current||current.ok!==true)throw Object.assign(new Error("Career Start could not be read."),{code:current&&current.code});
-        if(current?.state?.phase==="CAREER_START_READY"||pcstOwnAcknowledged(current)){pcstApplyView(current,ctx.state.setup);return true;}
+        if(current?.state?.phase==="CAREER_START_READY"||pcstOwnAcknowledged(current)){pcstApplyView(current,ctx.state);return true;}
         for(let attempt=0;attempt<2;attempt+=1){
           const result=await provider.acknowledge({...ctx.options,operationId,baseRevision:current.revision||0});
-          if(result&&result.ok===true){pcstApplyView(result,ctx.state.setup);return true;}
+          if(result&&result.ok===true){pcstApplyView(result,ctx.state);return true;}
           const code=result&&result.code||"CAREER_START_PROVIDER_FAILED";
           // Job 21: two managers acknowledging at once -> the loser is rejected by the Rules (permission-denied); treat it like a stale revision (re-read, retry once).
           if(["CAREER_START_STALE_BASE_REVISION","CAREER_START_ROLE_ALREADY_ACKNOWLEDGED","CAREER_START_ALREADY_READY","permission-denied","firestore/permission-denied","permission_denied"].includes(code)){
             const refreshed=await provider.read(ctx.options);
             if(!refreshed||refreshed.ok!==true)throw Object.assign(new Error("Career Start could not be reconciled after another acknowledgement."),{code:refreshed&&refreshed.code||code});
             current=refreshed;
-            if(current?.state?.phase==="CAREER_START_READY"||pcstOwnAcknowledged(current)){pcstApplyView(current,ctx.state.setup);return true;}
+            if(current?.state?.phase==="CAREER_START_READY"||pcstOwnAcknowledged(current)){pcstApplyView(current,ctx.state);return true;}
             if((code==="CAREER_START_STALE_BASE_REVISION"||code==="permission-denied"||code==="firestore/permission-denied"||code==="permission_denied")&&attempt===0)continue;
           }
           throw Object.assign(new Error("Career Start acknowledgement was rejected."),{code});
