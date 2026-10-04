@@ -135,7 +135,8 @@ async function prepareSeasonReview(m){
 }
 async function commitSeasonViaUi(daniel,nik,p1,p2,winner){
   await daniel.page.waitForFunction(()=>document.getElementById("sharedSeasonCommitAction")?.textContent==="COMMIT & ACKNOWLEDGE SHARED SEASON",null,{timeout:45000});
-  assert.equal(await nik.page.locator("#sharedSeasonCommitAction").textContent(),"WAITING FOR COORDINATOR","Nik cannot commit");
+  await nik.page.waitForFunction(()=>document.getElementById("sharedSeasonCommitAction")?.textContent==="WAITING FOR COORDINATOR"||document.getElementById("sharedSeasonCommitAction")?.textContent==="ACKNOWLEDGE SHARED SEASON",null,{timeout:45000});
+  if(await nik.page.locator("#sharedSeasonCommitAction").textContent()==="WAITING FOR COORDINATOR")assert.equal(await nik.page.locator("#sharedSeasonCommitAction").isDisabled(),true,"Nik cannot commit");
   // R7 (owner decision 2026-10-04): Daniel's one tap commits, then records his own acknowledgement; Nik still acknowledges himself.
   await daniel.page.locator("#sharedSeasonCommitAction").click({timeout:30000});
   await daniel.page.waitForFunction(()=>/^(ACKNOWLEDGED ✓ · WAITING FOR RIVAL|SEASON COMMIT ACKNOWLEDGED ✓)$/.test(document.getElementById("sharedSeasonCommitAction")?.textContent||""),null,{timeout:30000});

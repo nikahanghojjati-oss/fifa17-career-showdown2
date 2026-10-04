@@ -98,7 +98,7 @@ const visible=node=>Boolean(node&&!node.classList.contains("hidden"));
 // ------------------------------------------------------------------ R1 Transfer Challenge
 function transferHarness(initial,{role="playerOne"}={}){
   const server={revision:initial.revision,state:clone(initial.state)};
-  const calls={read:0,mutations:[]},nodes=new Map(),handlers={},intervals=[];
+  const calls={read:0,mutations:[],upstream:0},nodes=new Map(),handlers={},intervals=[];
   function node(id){
     if(!nodes.has(id)){
       const classes=new Set(id==="transferChallenge"?[]:["hidden"]);
@@ -119,8 +119,8 @@ function transferHarness(initial,{role="playerOne"}={}){
   sandbox.globalThis=sandbox;sandbox.setInterval=(fn,ms)=>{intervals.push({fn,ms});return intervals.length;};
   sandbox.currentShowdown={id:"save_1",sharedJourney:{mode:"shared",rivalryId:RIVALRY},currentRound:1};
   const setupState={ready:true,managerRole:role,rivalryId:RIVALRY,sessionId:SESSION,deviceId:DEVICE,setup:{phase:"SHOWDOWN_CONFIRMED",revision:6,coordinatorRole:"playerOne",clubs:{playerOne:"A",playerTwo:"B"}}};
-  sandbox.CareerModeProductionSharedShowdownSetup={refresh:async()=>null,getState:()=>setupState};
-  sandbox.CareerModeProductionSharedCareerStart={refresh:async()=>null,getState:()=>({state:{phase:"CAREER_START_READY",revision:2}})};
+  sandbox.CareerModeProductionSharedShowdownSetup={refresh:async()=>{calls.upstream+=1;return null;},getState:()=>setupState};
+  sandbox.CareerModeProductionSharedCareerStart={refresh:async()=>{calls.upstream+=1;return null;},getState:()=>({state:{phase:"CAREER_START_READY",revision:2}})};
   sandbox.CareerModeSharedTransferChallenge={};sandbox.CareerModeSparkSharedTransferChallenge=provider;
   sandbox.CareerModeProductionFirebaseRuntime={ensureAccountServices:async()=>({ok:true,auth:{currentUser:{getIdTokenResult:async()=>({issuedAtTime:new Date().toUTCString()})}},firestore:{},firestoreSdk:{}})};
   vm.createContext(sandbox);
@@ -131,7 +131,7 @@ function transferHarness(initial,{role="playerOne"}={}){
 const transferState=(phase,patch={})=>({revision:3,state:{seasonNumber:1,coordinatorRole:"playerOne",phase,revision:3,startedAtEpochMs:1_800_000_000_000,endedAtEpochMs:null,endRequestedRoles:[],guessLockedRoles:[],signingLockedRoles:[],...patch}});
 // Both managers watched the earlier phases live, so the harness walks the authority through them (no replay queue).
 async function walkTo(h,phase,patch){const order=["WINDOW_OPEN","GUESS_ENTRY","SIGNING_ENTRY"];for(const step of order.slice(0,order.indexOf(phase))){h.server.state={...h.server.state,phase:step};await h.api.refresh();}h.server.state={...h.server.state,phase,...patch};h.server.revision+=1;await h.api.refresh();}
-async function fastReads(h){const before=h.calls.read;h.fast().fn();await settle();return h.calls.read-before;}
+async function fastReads(h){const before=h.calls.read,upstream=h.calls.upstream;h.fast().fn();await settle();assert.equal(h.calls.upstream,upstream,"a fast read is light: it reuses the confirmed Setup and Career Start (one provider read per poll)");return h.calls.read-before;}
 
 async function r1TransferContracts(){
   {
@@ -238,13 +238,13 @@ function resultsHarness({ownPublished,ready}){
   for(const id of ["confirmSeasonCompletion","editSeasonResults","completeSeason"])dom.add(id,{tag:"button",parent:actions});
   for(const p of ["p1","p2"])for(const s of ["LeaguePosition","LeaguePoints","LeagueGoals","DomesticCup","ChampionsLeague","TopScorer","TopAssist"])dom.add(`${p}${s}`,{tag:"input",parent:entry});
   const OWN={leaguePosition:1,leaguePoints:80,leagueGoals:70,domesticCup:false,championsLeague:true,topScorer:false,topAssist:false},RIVAL={...OWN,leaguePosition:2};
-  const calls={reads:0,publishes:0};const server={ready};
+  const calls={reads:0,publishes:0,upstream:0};const server={ready};
   const provider={read:async()=>{calls.reads+=1;const isReady=server.ready;return {ok:true,authoritative:true,managerRole:"playerOne",seasonNumber:1,revision:isReady?2:1,state:{phase:isReady?"RESULTS_READY":"COLLECTING",revision:isReady?2:1},ownResult:ownPublished?OWN:null,opponentResult:isReady?RIVAL:null,allResults:isReady?{playerOne:OWN,playerTwo:RIVAL}:null};},publishResult:async()=>{calls.publishes+=1;return {ok:false,code:"UNEXPECTED_WRITE"};}};
   const sandbox={console,setTimeout,clearTimeout,Promise,Date:clock.Date,document:dom.document,crypto:webcrypto,
     __showdown:{id:"save_1",currentRound:1,totalRounds:3,managers:{playerOne:"Daniel",playerTwo:"Nik"},sharedJourney:{mode:"shared",rivalryId:RIVALRY}},
     ensureGameplayModules:async()=>true,loadRuntimeScript:async key=>{throw new Error(`unexpected load ${key}`);},
-    CareerModeProductionSharedShowdownSetup:{refresh:async()=>true,getState:()=>({ready:true,setup:{phase:"SHOWDOWN_CONFIRMED",revision:6,leagueId:"premier_league",clubs:{playerOne:"A",playerTwo:"B"}},managerRole:"playerOne",rivalryId:RIVALRY,sessionId:SESSION,deviceId:DEVICE})},
-    CareerModeProductionSharedTransferChallenge:{refresh:async()=>true,getState:()=>({seasonNumber:1,state:{phase:"COMPLETED"}})},
+    CareerModeProductionSharedShowdownSetup:{refresh:async()=>{calls.upstream+=1;return true;},getState:()=>({ready:true,setup:{phase:"SHOWDOWN_CONFIRMED",revision:6,leagueId:"premier_league",clubs:{playerOne:"A",playerTwo:"B"}},managerRole:"playerOne",rivalryId:RIVALRY,sessionId:SESSION,deviceId:DEVICE})},
+    CareerModeProductionSharedTransferChallenge:{refresh:async()=>{calls.upstream+=1;return true;},getState:()=>({seasonNumber:1,state:{phase:"COMPLETED"}})},
     CareerModeSharedShowdownCatalog:{catalog:{premier_league:new Array(20).fill("club")}},CareerModeSharedShowdownSetup:{},CareerModeSharedSeasonResults:{},
     CareerModeSparkSharedSeasonResults:provider,
     CareerModeProductionFirebaseRuntime:{ensureAccountServices:async()=>({ok:true,auth:{currentUser:{uid:"uid_daniel"}},firestore:{},firestoreSdk:{}})}};
@@ -260,8 +260,9 @@ async function r1r8ResultsContracts(){
     assert.equal(h.api.isWaitingForRival(),true,"published and waiting for the rival");
     assert.equal(h.node("seasonReviewHeading").textContent,"YOUR RESULT IS PUBLISHED");
     assert.equal(visible(h.node("seasonReviewWarningNode")),true,"the publishing warning still shows while waiting");
-    h.server.ready=true;const before=h.calls.reads;h.fast().fn();await settle();
+    h.server.ready=true;const before=h.calls.reads,upstream=h.calls.upstream;h.fast().fn();await settle();
     assert.equal(h.calls.reads,before+1,"the rival's publish is read by the fast lane");
+    assert.equal(h.calls.upstream,upstream,"the fast read is light: one Season Results read, no Setup / Transfer re-read");
     assert.equal(h.node("seasonReviewHeading").textContent,"BOTH MANAGERS PUBLISHED","the screen advanced without a tap");
     assert.equal(h.api.isWaitingForRival(),false,"RESULTS_READY ends the waiting state");
     assert.equal(h.calls.publishes,0,"no publish is ever made by the poll");
@@ -310,8 +311,8 @@ function commitHarness({role,committed=false,ownAcknowledged=false,phase=null,al
   const sandbox={console,crypto:webcrypto,setTimeout,clearTimeout,Promise,Date:clock.Date,document:created,Uint8Array};
   sandbox.globalThis=sandbox;sandbox.setInterval=(fn,ms)=>{intervals.push({fn,ms});return intervals.length;};
   sandbox.currentShowdown={id:"save_1",managers:{playerOne:"Daniel",playerTwo:"Nik"},sharedJourney:{mode:"shared",rivalryId:RIVALRY},currentRound:1};
-  sandbox.CareerModeProductionSharedShowdownSetup={refresh:async()=>null,getState:()=>({ready:true,managerRole:role,rivalryId:RIVALRY,sessionId:SESSION,deviceId:DEVICE,setup:{phase:"SHOWDOWN_CONFIRMED",revision:6,coordinatorRole:"playerOne"}})};
-  sandbox.CareerModeProductionSharedSeasonResults={refresh:async()=>null,getState:()=>({state:{phase:"RESULTS_READY",revision:2},seasonNumber:1,rivalryId:RIVALRY,allResults})};
+  sandbox.CareerModeProductionSharedShowdownSetup={refresh:async()=>{calls.upstream=(calls.upstream||0)+1;return null;},getState:()=>({ready:true,managerRole:role,rivalryId:RIVALRY,sessionId:SESSION,deviceId:DEVICE,setup:{phase:"SHOWDOWN_CONFIRMED",revision:6,coordinatorRole:"playerOne"}})};
+  sandbox.CareerModeProductionSharedSeasonResults={refresh:async()=>{calls.upstream=(calls.upstream||0)+1;return null;},getState:()=>({state:{phase:"RESULTS_READY",revision:2},seasonNumber:1,rivalryId:RIVALRY,allResults})};
   for(const key of ["CareerModeSharedShowdownCatalog","CareerModeSharedShowdownSetup","CareerModeSharedSeasonResults","CareerModeSharedSeasonCommit"])sandbox[key]={};
   sandbox.CareerModeSparkSharedSeasonCommit=provider;
   sandbox.CareerModeProductionFirebaseRuntime={ensureAccountServices:async()=>({ok:true,auth:{currentUser:{uid:"uid_1"}},firestore:{},firestoreSdk:{}})};
@@ -333,8 +334,9 @@ async function r1CommitContracts(){
     const h=commitHarness(c);h.api.install();await h.api.refresh();await settle();
     assert.equal(h.api.fastPollIntervalMs,FAST);assert.ok(h.fast(),"Season Commit installs the 3 s fast lane");
     assert.equal(h.api.isWaitingForRival(),c.waiting,c.label);
-    const before=h.calls.reads;h.fast().fn();await settle();
+    const before=h.calls.reads,upstream=h.calls.upstream||0;h.fast().fn();await settle();
     assert.equal(h.calls.reads>before,c.waiting,`${c.label}: fast read only while waiting`);
+    assert.equal(h.calls.upstream||0,upstream,`${c.label}: a fast read is light (no Setup / Results re-read)`);
     assert.equal(h.calls.commit+h.calls.acknowledge,0,`${c.label}: the poll never commits or acknowledges`);
   }
   {
@@ -416,13 +418,13 @@ async function r1ScoringHistoryContracts(){
     const dom=createDom(),clock=makeClock(),intervals=[];
     const entry=dom.add("seasonEntry");const panel=dom.add("seasonReviewPanel",{parent:entry});dom.add("acts",{parent:panel,className:"seasonReviewActions"});dom.add("seasonReviewHeading",{parent:panel});
     const commit={committed:true,ownAcknowledged:true,phase:"COMMITTED",revision:2,seasonNumber:1,rivalryId:RIVALRY};
-    let reads=0;
+    let reads=0,upstream=0;
     const setup={ready:true,managerRole:"playerOne",rivalryId:RIVALRY,sessionId:SESSION,deviceId:DEVICE,setup:{phase:"SHOWDOWN_CONFIRMED",revision:6,leagueId:"premier_league"}};
     const sandbox={console,setTimeout,clearTimeout,Promise,Date:clock.Date,document:dom.document,crypto:webcrypto,MutationObserver:class{observe(){}disconnect(){}},
       currentShowdown:{id:"save_1",currentRound:1,managers:{playerOne:"Daniel",playerTwo:"Nik"},sharedJourney:{mode:"shared",rivalryId:RIVALRY}},
       ensureGameplayModules:async()=>true,
-      CareerModeProductionSharedShowdownSetup:{refresh:async()=>setup,getState:()=>setup},
-      CareerModeProductionSharedSeasonCommit:{refresh:async()=>commit,getState:()=>commit},
+      CareerModeProductionSharedShowdownSetup:{refresh:async()=>{upstream+=1;return setup;},getState:()=>setup},
+      CareerModeProductionSharedSeasonCommit:{refresh:async()=>{upstream+=1;return commit;},getState:()=>commit},
       CareerModeSharedShowdownCatalog:{catalog:{premier_league:new Array(20).fill("club")}},CareerModeSparkSharedSeasonCommit:{},CareerModeSharedCanonicalScoring:{},
       CareerModeSparkSharedCanonicalScoring:{read:async()=>{reads+=1;return {ok:true,authoritative:true,phase:"SCORING_RECONCILED",revision:1,seasonCommitRevision:3,seasonNumber:1,winner:"playerOne",scoring:{playerOne:{total:9},playerTwo:{total:3}}};}},
       CareerModeProductionFirebaseRuntime:{ensureAccountServices:async()=>({ok:true,auth:{currentUser:{uid:"uid_1"}},firestore:{},firestoreSdk:{}})},
@@ -435,17 +437,32 @@ async function r1ScoringHistoryContracts(){
     const before=reads;fast.fn();await settle();assert.equal(reads,before,"no scoring read until the commit is ACKNOWLEDGED by both (cheap wait)");
     Object.assign(commit,{phase:"ACKNOWLEDGED",revision:3});fast.fn();await settle();
     assert.equal(reads,before+1,"the canonical score is read as soon as both acknowledged");
+    assert.equal(upstream,0,"the fast read is light: the ACKNOWLEDGED commit is immutable and is not re-read");
     assert.equal(api.isWaitingForRival(),false,"a reconciled score ends the waiting state");
     fast.fn();await settle();assert.equal(reads,before+1,"no further fast reads once reconciled");
+    // CONTINUE TO SEASON N can move the cursor while a 15 s scoring read is in flight; that overtaken read is not an error.
+    const slow=intervals.find(item=>item.ms===15000);
+    slow.fn();await settle();assert.equal(reads,before+1,"a reconciled score is immutable: the 15 s poll stops re-reading it");
+    assert.equal(upstream,0,"and does not re-read Setup or the Season Commit either");
+    const reports=[];sandbox.reportApplicationError=(context,error)=>reports.push(`${context}: ${error?.code||error?.message}`);
+    sandbox.currentShowdown.currentRound=2;Object.assign(commit,{seasonNumber:2});
+    sandbox.CareerModeProductionSharedSeasonCommit.refresh=async()=>{sandbox.currentShowdown.currentRound=3;const error=new Error("stale");error.code="SEASON_RESULTS_CONTEXT_STALE";throw error;};
+    slow.fn();await settle();
+    assert.deepEqual(reports,[],"a read overtaken by the season cursor is not reported as an error");
+    sandbox.CareerModeProductionSharedSeasonCommit.refresh=async()=>{const error=new Error("down");error.code="permission-denied";throw error;};
+    Object.assign(commit,{seasonNumber:3});slow.fn();await settle();
+    assert.equal(reports.length,1,"a real read failure in the current season is still reported");
   }
-  ok("R1 Canonical Scoring: after both ACKNOWLEDGE the score appears by the 3 s read, then the fast lane stops");
+  ok("R1 Canonical Scoring: after both ACKNOWLEDGE the score appears by the 3 s read, then both lanes stop re-reading the immutable score; a read overtaken by CONTINUE TO SEASON N is not an error");
   {
     const history=read("js/productionSharedHistoryConvergence.js");
     assert.match(history,/const FAST_POLL_MS=3000,FAST_POLL_WINDOW_MS=180000;/,"Shared History fast lane is 3 s for at most 3 minutes");
     assert.match(history,/function phcWaitingKey\(\)\{const request=phcRequest\(\);if\(!request\|\|!phcSharedMarker\(\)\|\|!phcCachedTerminal\(request\)\)return "";if\(contextKey===request\.key&&view&&view\.phase==="HISTORY_CONVERGED"\)return "";/,"Shared History only fast-polls after the score is reconciled and until history converges");
-    assert.match(history,/function phcFastWake\(\)\{if\(root\.document\?\.visibilityState==="hidden"\|\|busy\|\|!phcFastPollDue\(\)\)return;phcWake\(\);\}/,"Shared History fast lane is paused when hidden and only wakes the read-only refresh");
+    assert.match(history,/function phcFastWake\(\)\{if\(root\.document\?\.visibilityState==="hidden"\|\|busy\|\|!phcFastPollDue\(\)\)return;phcWake\(true\);\}/,"Shared History fast lane is paused when hidden and only wakes the read-only refresh");
+    assert.match(history,/if\(light!==true\)\{\s*await setupApi\.refresh\(\);[\s\S]*?await scoringApi\.refresh\(\);[^\n]*\n\s*\}/,"the fast history read is light: the immutable commit and reconciled score are not re-read");
     assert.match(history,/root\.setInterval\(phcWake,POLL_MS\);root\.setInterval\(phcFastWake,FAST_POLL_MS\);/,"the 15 s poll stays and the 3 s lane is added");
     assert.match(history,/providerWriteRequired:false/,"Shared History stays read-only");
+    assert.match(history,/if\(request&&contextKey===request\.key&&view\?\.phase==="HISTORY_CONVERGED"\)\{phcRender\(\);return;\}void phcRefresh/,"converged history is final: the poll stops re-reading it until the season changes");
   }
   ok("R1 Shared History: 3 s read-only lane only between reconciled score and converged history, paused when hidden");
 }

@@ -59,16 +59,17 @@
     const services=await root.CareerModeProductionFirebaseRuntime.ensureAccountServices();if(!services||services.ok===false||!services.auth?.currentUser||!services.firestore||!services.firestoreSdk)pcscFail("CANONICAL_SCORING_PROVIDER_UNAVAILABLE","Connected account services are unavailable.");
     return {user:services.auth.currentUser,firestore:services.firestore,firebaseSdk:services.firestoreSdk,rivalryId:setup.rivalryId,sessionId:setup.sessionId,deviceId:setup.deviceId,seasonNumber:request.seasonNumber,teamCount:pcscTeamCount(),cryptoImpl:root.crypto,nowEpochMs:Date.now()};
   }
-  async function pcscRefreshNow(request=pcscRequestContext()){
+  // Job 33 (R1): a fast waiting read (light) reuses the already-ACKNOWLEDGED (immutable) Season Commit and confirmed Setup.
+  async function pcscRefreshNow(request=pcscRequestContext(),light=false){
     if(!request||!pcscSharedMarker())return null;await pcscEnsureDependencies();if(!pcscContextMatches(request))return null;
     if(!pcscCommitReady(request)){view=null;contextKey=request.key;pcscRender();return null;}
-    await setupApi.refresh();if(!pcscContextMatches(request))return null;await commitApi.refresh();if(!pcscContextMatches(request))return null;
+    if(light!==true){await setupApi.refresh();if(!pcscContextMatches(request))return null;await commitApi.refresh();if(!pcscContextMatches(request))return null;}
     if(!pcscCommitReady(request)){view=null;contextKey=request.key;pcscRender();return null;}
     const result=pcscResult(await provider.read(await pcscProviderOptions(request)));if(!pcscContextMatches(request))return null;
     if(result.phase!=="SCORING_RECONCILED"||result.revision!==1||result.seasonCommitRevision!==3||Number(result.seasonNumber)!==request.seasonNumber)pcscFail("CANONICAL_SCORING_PROJECTION_INVALID");
     view={...result,rivalryId:request.rivalryId};contextKey=request.key;pcscRender();return view;
   }
-  function pcscRefresh(){const request=pcscRequestContext();if(!request)return Promise.resolve(null);if(refreshPromise&&contextKey===request.key)return refreshPromise;const current=pcscRefreshNow(request);refreshPromise=current;current.then(()=>{if(refreshPromise===current)refreshPromise=null;},()=>{if(refreshPromise===current)refreshPromise=null;});return current;}
+  function pcscRefresh(light=false){const request=pcscRequestContext();if(!request)return Promise.resolve(null);if(view&&contextKey===request.key&&view.phase==="SCORING_RECONCILED"&&!refreshPromise)return Promise.resolve(view);if(refreshPromise&&contextKey===request.key)return refreshPromise;const current=pcscRefreshNow(request,light===true);refreshPromise=current;current.then(()=>{if(refreshPromise===current)refreshPromise=null;},()=>{if(refreshPromise===current)refreshPromise=null;});return current;}
   function pcscWaitingKey(){
     const screen=pcscField("seasonEntry"),request=pcscRequestContext(),commit=(commitApi||root.CareerModeProductionSharedSeasonCommit)?.getState?.();if(!screen||screen.classList.contains("hidden")||!request||!commit)return "";
     if(commit.committed!==true||!(commit.ownAcknowledged===true||commit.phase==="ACKNOWLEDGED")||Number(commit.seasonNumber)!==request.seasonNumber||String(commit.rivalryId||"")!==request.rivalryId)return "";
@@ -76,8 +77,10 @@
     return `${request.key}|score`;
   }
   function pcscFastPollDue(){const key=pcscWaitingKey();if(!key){fastWaitKey="";fastWaitSince=0;return false;}const now=Date.now();if(key!==fastWaitKey){fastWaitKey=key;fastWaitSince=now;}return now-fastWaitSince<FAST_POLL_WINDOW_MS;}
-  function pcscFastTick(){if(root.document?.visibilityState==="hidden"||busy||!pcscFastPollDue())return;void pcscTick();}
-  async function pcscTick(){if(!pcscSharedMarker()||busy||root.document?.visibilityState==="hidden")return;const screen=pcscField("seasonEntry");if(!screen||screen.classList.contains("hidden"))return;busy=true;try{await pcscRefresh();}catch(error){view=null;pcscRender();pcscReport("Unable to refresh Shared Canonical Scoring",error);}finally{busy=false;}}
+  function pcscFastTick(){if(root.document?.visibilityState==="hidden"||busy||!pcscFastPollDue())return;void pcscTick(true);}
+  // Job 33: a reconciled score is immutable, so the poll stops re-reading it (Spark reads, emulator contention) until the season changes.
+  // A read that was overtaken by CONTINUE TO SEASON N (the season cursor moved mid-read) is not an error; the next tick reads the new season.
+  async function pcscTick(light=false){if(!pcscSharedMarker()||busy||root.document?.visibilityState==="hidden")return;const screen=pcscField("seasonEntry");if(!screen||screen.classList.contains("hidden"))return;const request=pcscRequestContext();if(request&&contextKey===request.key&&view?.phase==="SCORING_RECONCILED"){pcscRender();return;}busy=true;try{await pcscRefresh(light===true);}catch(error){if(request&&!pcscContextMatches(request))return;view=null;pcscRender();pcscReport("Unable to refresh Shared Canonical Scoring",error);}finally{busy=false;}}
   function pcscAttachHeadingObserver(){if(!root.MutationObserver||!root.document)return false;const heading=pcscField("seasonReviewHeading");if(!heading)return false;if(headingObserver)return true;headingObserver=new root.MutationObserver(()=>void pcscTick());headingObserver.observe(heading,{childList:true,characterData:true,subtree:true});return true;}
   function pcscInstallObservers(){if(pcscAttachHeadingObserver()||!root.MutationObserver||!root.document?.documentElement)return;bootstrapObserver=new root.MutationObserver(()=>{if(pcscAttachHeadingObserver()){bootstrapObserver.disconnect();bootstrapObserver=null;}});bootstrapObserver.observe(root.document.documentElement,{childList:true,subtree:true});}
   function pcscInstall(){if(installed)return true;installed=true;pcscInstallObservers();root.addEventListener?.("career-mode-shared-season-cursor-change",()=>void pcscTick());if(typeof root.setInterval==="function"){root.setInterval(()=>void pcscTick(),POLL_MS);root.setInterval(pcscFastTick,FAST_POLL_MS);}if(typeof root.setTimeout==="function")root.setTimeout(()=>void pcscTick(),0);return true;}

@@ -51,13 +51,16 @@
   function psscWithTimeout(promise,ms,code){let timer=null;const timeout=new Promise((_,reject)=>{timer=root.setTimeout?.(()=>{const error=new Error("The Shared Season Commit check took too long. Check your connection and retry.");error.code=code;reject(error);},ms);});return Promise.race([promise,timeout]).finally(()=>{if(timer!==null)root.clearTimeout?.(timer);});}
   function psscQueue(task){const run=providerChain.then(task,task);providerChain=run.catch(()=>{});return run;}
   function psscRandomOperationId(){if(!root.crypto||typeof root.crypto.getRandomValues!=="function")psscFail("SEASON_COMMIT_CRYPTO_UNAVAILABLE");const bytes=new Uint8Array(16);root.crypto.getRandomValues(bytes);return `season_commit_op_${Array.from(bytes,b=>b.toString(16).padStart(2,"0")).join("")}`;}
-  async function psscProviderContext(request=psscRequestContext()){
+  // Job 33 (R1): a fast waiting read (light) reuses the already-confirmed Setup and the RESULTS_READY Season Results.
+  async function psscProviderContext(request=psscRequestContext(),light=false){
     if(!psscSharedMarker())psscFail("SEASON_COMMIT_SHARED_MODE_REQUIRED");
     if(!request||!psscContextMatches(request))psscFail("SEASON_COMMIT_CONTEXT_STALE");
     await psscEnsureDependencies();
     if(!psscResultsPublished(request))psscFail("SEASON_COMMIT_RESULTS_NOT_READY","Both managers must publish Shared Season Results before the shared season can be committed.");
-    await setupApi.refresh();if(!psscContextMatches(request))psscFail("SEASON_COMMIT_CONTEXT_STALE");
-    await resultsApi.refresh();if(!psscContextMatches(request))psscFail("SEASON_COMMIT_CONTEXT_STALE");
+    if(!(light===true&&psscSetupState()?.ready===true&&psscResultsReady(request))){
+      await setupApi.refresh();if(!psscContextMatches(request))psscFail("SEASON_COMMIT_CONTEXT_STALE");
+      await resultsApi.refresh();if(!psscContextMatches(request))psscFail("SEASON_COMMIT_CONTEXT_STALE");
+    }
     if(!psscResultsReady(request))psscFail("SEASON_COMMIT_RESULTS_NOT_READY","Both managers must publish Shared Season Results before the shared season can be committed.");
     const setup=psscSetupState();
     if(!setup||setup.ready!==true||!setup.setup||setup.setup.phase!=="SHOWDOWN_CONFIRMED"||setup.setup.revision!==6||!setup.managerRole||!setup.rivalryId||!setup.sessionId||!setup.deviceId)psscFail("SEASON_COMMIT_SETUP_NOT_CONFIRMED");
@@ -112,21 +115,23 @@
     return true;
   }
   function psscBind(result,ctx,request){if(!psscContextMatches(request))return false;view={...result,rivalryId:ctx.setup.rivalryId,coordinatorRole:result.coordinatorRole||ctx.setup.setup.coordinatorRole};contextKey=request.key;readError="";readErrorKey="";psscRender();return true;}
-  async function psscRefreshNow(request=psscRequestContext(),generation=0){
+  async function psscRefreshNow(request=psscRequestContext(),generation=0,light=false){
     if(!request)return null;
     if(contextKey&&contextKey!==request.key){psscSetError("");pendingErrorKind="";}
-    const ctx=await psscProviderContext(request);if(!psscContextMatches(request))return null;const result=psscResultError(await provider.read(ctx.options),"Shared Season Commit could not be read.");if(!psscContextMatches(request))return null;
+    const ctx=await psscProviderContext(request,light);if(!psscContextMatches(request))return null;const result=psscResultError(await provider.read(ctx.options),"Shared Season Commit could not be read.");if(!psscContextMatches(request))return null;
     if(generation&&generation!==readGeneration)return null;
     if(pendingErrorKind&&psscSatisfied(pendingErrorKind,result)){psscSetError("");pendingErrorKind="";}
     psscBind(result,ctx,request);return view;
   }
-  function psscRefresh(){
+  function psscRefresh(light=false){
     const request=psscRequestContext();if(!request)return Promise.resolve(null);
+    // Job 33: an ACKNOWLEDGED commit is immutable (Rules cap it at revision 3), so later callers reuse it instead of re-reading it.
+    if(view&&contextKey===request.key&&view.phase==="ACKNOWLEDGED"&&!refreshPromise)return Promise.resolve(view);
     if(refreshPromise&&refreshRequestKey===request.key)return refreshPromise;
     if(contextKey!==request.key){view=null;contextKey="";if(readErrorKey!==request.key){readError="";readErrorKey="";}}
     refreshRequestKey=request.key;
     const generation=++readGeneration;
-    const current=psscQueue(()=>psscWithTimeout(psscRefreshNow(request,generation),psscReadTimeoutMs(),"SEASON_COMMIT_CHECK_TIMEOUT"));refreshPromise=current;psscRender();
+    const current=psscQueue(()=>psscWithTimeout(psscRefreshNow(request,generation,light===true),psscReadTimeoutMs(),"SEASON_COMMIT_CHECK_TIMEOUT"));refreshPromise=current;psscRender();
     current.then(()=>{if(refreshPromise===current){refreshPromise=null;psscRender();}},error=>{
       if(error?.code==="SEASON_COMMIT_CHECK_TIMEOUT"&&readGeneration===generation)readGeneration+=1;
       if(refreshPromise===current){refreshPromise=null;if(psscContextMatches(request)&&psscResultsPublished(request)){const previous=readErrorKey===request.key?readError:"";view=null;contextKey="";readErrorKey=request.key;readError=String(error?.code||"SEASON_COMMIT_CHECK_FAILED").replace(/[^A-Za-z0-9_-]/g,"").slice(0,80);psscRender();if(readError!==previous)psscReport("Unable to check Shared Season Commit",error);}}
@@ -173,8 +178,8 @@
     return "";
   }
   function psscFastPollDue(){const key=psscWaitingKey();if(!key){fastWaitKey="";fastWaitSince=0;return false;}const now=Date.now();if(key!==fastWaitKey){fastWaitKey=key;fastWaitSince=now;}return now-fastWaitSince<FAST_POLL_WINDOW_MS;}
-  function psscFastTick(){if(root.document?.visibilityState==="hidden"||busy||!psscFastPollDue())return;void psscTick();}
-  async function psscTick(){if(!psscSharedMarker()||busy||root.document?.visibilityState==="hidden")return;const screen=psscField("seasonEntry");if(!screen||screen.classList.contains("hidden"))return;psscRender();if(view?.phase==="ACKNOWLEDGED"&&contextKey===psscRequestContext()?.key)return;try{await psscRefresh();}catch(_error){}}
+  function psscFastTick(){if(root.document?.visibilityState==="hidden"||busy||!psscFastPollDue())return;void psscTick(true);}
+  async function psscTick(light=false){if(!psscSharedMarker()||busy||root.document?.visibilityState==="hidden")return;const screen=psscField("seasonEntry");if(!screen||screen.classList.contains("hidden"))return;psscRender();if(view?.phase==="ACKNOWLEDGED"&&contextKey===psscRequestContext()?.key)return;try{await psscRefresh(light===true);}catch(_error){}}
   function psscAttachHeadingObserver(){
     if(!root.MutationObserver||!root.document)return false;const heading=psscField("seasonReviewHeading");if(!heading)return false;if(headingObserver)return true;
     headingObserver=new root.MutationObserver(()=>void psscTick());headingObserver.observe(heading,{childList:true,characterData:true,subtree:true});return true;
