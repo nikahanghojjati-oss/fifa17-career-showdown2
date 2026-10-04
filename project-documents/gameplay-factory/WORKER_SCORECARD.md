@@ -7,5 +7,6 @@ One row per finished job, written by the lead when it merges. "First time" means
 | Job | What | Worker (model, effort) | First time | Fix rounds | What the checks or review caught | Cost |
 | --- | --- | --- | --- | --- | --- | --- |
 | r53 (PR #348) | Release of game fixes | Lead (Opus 5.5) + Codex review | no | 1 | Codex: setup hold on lost context (P1), history cleared before hold (P2), season length accepted any value (P2) | not measured |
+| 31 (PR #350) | Ten seasons and session expiry | Lead helper (Opus 5.5) | no | 2 | CI: Terminal Close refused on a drifted test clock; rare simultaneous-publish race in the Phase B regression (fixed with a bounded re-read) | not measured |
 
 Jobs 1–23 are not reconstructed yet. A cheap Sonnet or Sol-chat pass over `status/JOB-NN.md` and the git history can fill them in later if Nik wants the comparison.
