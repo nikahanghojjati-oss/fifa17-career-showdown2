@@ -1631,6 +1631,7 @@ split("int_phone_fix", list_fix_parts_v3(PP, "phone pass"))
 split("int_motion", motionpass_parts_v3())
 split("int_final_fix", list_fix_parts_v3("project-documents/factory/reviews/FINAL_REVIEW.md", "final review"))
 split("int_package", package_parts_v3())
+split("SD_review", review_parts_v3(_steps("SD_review")))  # missed in the first CC-007 pass; appended so 140-239 keep their numbers
 for j in JOBS:
     if j["key"] in ONE_TURN_KEYS:
         j["steps"] = [_scrub(s) for s in j["steps"]]

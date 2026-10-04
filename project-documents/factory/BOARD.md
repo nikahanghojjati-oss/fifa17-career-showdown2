@@ -1,6 +1,6 @@
 # Showdown Factory board
 
-**87 of 235 jobs done and checked · 39 %** · updated Sat 9:22 p.m. Eastern
+**87 of 238 jobs done and checked · 39 %** · updated Sat 9:22 p.m. Eastern
 
 ✅ **Quality check:** a job counts as done only after Claude checks it against the quality bar (average 4.2 or more, nothing under 3, hard gates pass). Average score 4.23 over 33 scored jobs. 🔍 Waiting for Claude's check: 50, 58, 77, 83, 95. 🔧 Sent back with a fix list: 114.
 
@@ -29,7 +29,7 @@ Legacy         ██░░░░░░░░ 5/19
 Season Results ██░░░░░░░░ 4/19
 Final Winner   █████░░░░░ 6/12
 Start/Join     █░░░░░░░░░ 3/18
-Standings      ░░░░░░░░░░ 1/12
+Standings      ░░░░░░░░░░ 1/15
 Rule Book      ██████████ 4/4
 Settings       ████░░░░░░ 3/7
 Setup          ██████████ 2/2
@@ -39,17 +39,11 @@ Top bar        ░░░░░░░░░░ 0/3
 Integration    ░░░░░░░░░░ 0/38
 ```
 
-## Team V ↔ Team G (latest 3)
-
-- Sat 10:40 a.m. Eastern · Team G → Team V · G2V-007: DATA_CONTRACT_V1 fixtures ready (raw index.json link); extra model fields; G-8, G-11 merged; G-9/10/12/18 written; V2G-005 adopted
-- Sat 10:55 a.m. Eastern · Team G → Team V · G2V-008: Fixture update: after a Showdown closes, Daniel gets CREATE and Nik gets JOIN (model bug fixed, 5 files regenerated)
-- Sat 7:55 p.m. Eastern · Team G → Team V · G2V-009: Gameplay done before G-13; when is the visual package ready? G-10 transfer fields
-
 ## Full board
 
-Branch `factory/v1-wtt5ye`. 235 Team V jobs, plus 5 lines that track Team G. Two kinds of job. **Project (type number):** open a new chat in the ChatGPT project "Showdown visual" and type the number (up to 5 at once). **Fresh chat (image):** run the job's ticket from [tickets/](tickets/README.md) in a ChatGPT Temporary Chat (no memory) outside any project, then drop the image in Claude's factory thread (up to 2 at once).
+Branch `factory/v1-wtt5ye`. 238 Team V jobs, plus 5 lines that track Team G. Two kinds of job. **Project (type number):** open a new chat in the ChatGPT project "Showdown visual" and type the number (up to 5 at once). **Fresh chat (image):** run the job's ticket from [tickets/](tickets/README.md) in a ChatGPT Temporary Chat (no memory) outside any project, then drop the image in Claude's factory thread (up to 2 at once).
 
-**Overall (Team V):** ███░░░░░░░ 39 % · 87 of 235 jobs done
+**Overall (Team V):** ███░░░░░░░ 39 % · 87 of 238 jobs done
 
 **Start now · project (type the number in Showdown visual):** 114 (fix), 51, 64, 85 · queued next: 97, 117, 119, 120, 125
 
@@ -191,8 +185,8 @@ Branch `factory/v1-wtt5ye`. 235 Team V jobs, plus 5 lines that track Team G. Two
 | 125 | [Top bar and phone bottom bar (part 1 of 3)](jobs/JOB-125.md) | 5 New screens | build | project (type number) | 18, 124 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 126 | [Truth sheet: Standings](jobs/JOB-126.md) | 1 Truth | data | project (type number) | - | ██████████ 100 % | DONE |  |
 | 127 | [Standings: build (desktop and phone) (part 1 of 6)](jobs/JOB-127.md) | 5 New screens | build | project (type number) | 126, 25, 207, 18, 19, 20, 21, 22 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
-| 128 | [Standings: review](jobs/JOB-128.md) | 5 New screens | review | project (type number) | 204 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
-| 129 | [Standings: fix round and motion (part 1 of 4)](jobs/JOB-129.md) | 5 New screens | fix | project (type number) | 128, 16, 124 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
+| 128 | [Standings: review (part 1 of 4)](jobs/JOB-128.md) | 5 New screens | review | project (type number) | 204 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
+| 129 | [Standings: fix round and motion (part 1 of 4)](jobs/JOB-129.md) | 5 New screens | fix | project (type number) | 242, 16, 124 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 130 | [Truth sheet fix: Trophy Room](jobs/JOB-130.md) | 1 Truth | fix | project (type number) | 2 | ██████████ 100 % | DONE |  |
 | 131 | [Truth sheet fix: Career Statistics](jobs/JOB-131.md) | 1 Truth | fix | project (type number) | 3 | ██████████ 100 % | DONE |  |
 | 132 | [Truth sheet fix: Legacy (History)](jobs/JOB-132.md) | 1 Truth | fix | project (type number) | 5 | ██████████ 100 % | DONE |  |
@@ -303,6 +297,9 @@ Branch `factory/v1-wtt5ye`. 235 Team V jobs, plus 5 lines that track Team G. Two
 | 237 | [Package for Nik and handoff to GPT-5.6 Sol (part 3 of 5)](jobs/JOB-237.md) | 7 Integration | integrate | project (type number) | 236 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 238 | [Package for Nik and handoff to GPT-5.6 Sol (part 4 of 5)](jobs/JOB-238.md) | 7 Integration | integrate | project (type number) | 237 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 239 | [Package for Nik and handoff to GPT-5.6 Sol (part 5 of 5)](jobs/JOB-239.md) | 7 Integration | integrate | project (type number) | 238 | ░░░░░░░░░░ 0 % | NOT STARTED | yes |
+| 240 | [Standings: review (part 2 of 4)](jobs/JOB-240.md) | 5 New screens | review | project (type number) | 128 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
+| 241 | [Standings: review (part 3 of 4)](jobs/JOB-241.md) | 5 New screens | review | project (type number) | 240 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
+| 242 | [Standings: review (part 4 of 4)](jobs/JOB-242.md) | 5 New screens | review | project (type number) | 241 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 
 Lanes: **project (type number)** = a GPT-5.6 Sol chat inside the ChatGPT project Showdown visual, started by typing the number; **fresh chat (image)** = Nik runs the job's ticket(s) in a ChatGPT Temporary Chat outside any project and drops each image in Claude's factory thread, then Claude checks, commits and finishes the job (max 2 at once); **codex** = Codex review (job 108 only); **team-g** = tracks a Team G job, never started by Team V.
 

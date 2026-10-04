@@ -2664,30 +2664,33 @@
   {
    "number": 128,
    "key": "SD_review",
-   "title": "Standings: review",
+   "title": "Standings: review (part 1 of 4)",
    "phase": "5 New screens",
    "wave": 11,
    "depends_on": [
     204
    ],
    "type": "review",
-   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
    "lane": "project (type number)",
-   "steps": 7,
+   "steps": 2,
    "waits_on_nik": null,
    "waits_on_team_g": null,
    "needs_claude_look": false,
-   "part_of": null,
-   "part": null
+   "part_of": 128,
+   "part": [
+    1,
+    4
+   ]
   },
   {
    "number": 129,
    "key": "SD_fix",
    "title": "Standings: fix round and motion (part 1 of 4)",
    "phase": "5 New screens",
-   "wave": 12,
+   "wave": 15,
    "depends_on": [
-    128,
+    242,
     16,
     124
    ],
@@ -4153,7 +4156,7 @@
    "key": "SD_fix_p2",
    "title": "Standings: fix round and motion (part 2 of 4)",
    "phase": "5 New screens",
-   "wave": 13,
+   "wave": 16,
    "depends_on": [
     129
    ],
@@ -4175,7 +4178,7 @@
    "key": "SD_fix_p3",
    "title": "Standings: fix round and motion (part 3 of 4)",
    "phase": "5 New screens",
-   "wave": 14,
+   "wave": 17,
    "depends_on": [
     197
    ],
@@ -4197,7 +4200,7 @@
    "key": "SD_fix_p4",
    "title": "Standings: fix round and motion (part 4 of 4)",
    "phase": "5 New screens",
-   "wave": 15,
+   "wave": 18,
    "depends_on": [
     198
    ],
@@ -5092,6 +5095,72 @@
    "part": [
     5,
     5
+   ]
+  },
+  {
+   "number": 240,
+   "key": "SD_review_p2",
+   "title": "Standings: review (part 2 of 4)",
+   "phase": "5 New screens",
+   "wave": 12,
+   "depends_on": [
+    128
+   ],
+   "type": "review",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 1,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false,
+   "part_of": 128,
+   "part": [
+    2,
+    4
+   ]
+  },
+  {
+   "number": 241,
+   "key": "SD_review_p3",
+   "title": "Standings: review (part 3 of 4)",
+   "phase": "5 New screens",
+   "wave": 13,
+   "depends_on": [
+    240
+   ],
+   "type": "review",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 1,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false,
+   "part_of": 128,
+   "part": [
+    3,
+    4
+   ]
+  },
+  {
+   "number": 242,
+   "key": "SD_review_p4",
+   "title": "Standings: review (part 4 of 4)",
+   "phase": "5 New screens",
+   "wave": 14,
+   "depends_on": [
+    241
+   ],
+   "type": "review",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 3,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false,
+   "part_of": 128,
+   "part": [
+    4,
+    4
    ]
   }
  ]
