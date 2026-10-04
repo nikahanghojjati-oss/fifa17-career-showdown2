@@ -1,10 +1,10 @@
 # 🏭 Showdown Factory board
 
-**235 of 238 jobs done and checked · 98 %** · updated Sun 4:17 p.m. Eastern
+**236 of 238 jobs done and checked · 99 %** · updated Sun 4:18 p.m. Eastern
 
 <img src="board-meter.svg" alt="Football progress meter" width="640">
 
-⏱ **Estimated finish: Sun 5:50 p.m. Eastern** (about 1 h 33 min from now at today's pace)
+⏱ **Estimated finish: Sun 5:21 p.m. Eastern** (about 1 h 02 min from now at today's pace)
 
 ## 🔴 Now
 
@@ -12,31 +12,31 @@
 
 ## 🟢 Next (start these)
 
-- **110** Package for Nik and handoff to GPT-5.6 Sol (1/5) · type the number in a new chat in project Showdown visual
+- **236** Package for Nik and handoff to GPT-5.6 Sol (2/5) · type the number in a new chat in project Showdown visual
 
 ## ⚪ Then
 
-- **236** Package for Nik and handoff to GPT-5.6 Sol (2/5) · after 110 · type the number in a new chat in project Showdown visual
+- **237** Package for Nik and handoff to GPT-5.6 Sol (3/5) · after 236 · type the number in a new chat in project Showdown visual
 
 ## 🧰 Where to type and when it resets
 
 | Tool | Where | Resets (Eastern) | Jobs left |
 | --- | --- | --- | --- |
-| 🟡 GPT-5.6 Sol chat | ChatGPT, project "Showdown visual", new normal chat: type the job number | unknown | 3 |
-| 🟠 GPT-6.1 Sol Work mode | ChatGPT, Work mode (press Use Work). Not used for factory jobs now | Sun 4:18 p.m. Eastern | 0 |
-| 🔵 Astra | ChatGPT Work mode (Astra): paste the bundle prompt from handoffs/C2W-*.md | Sun 4:18 p.m. Eastern | 0 |
+| 🟡 GPT-5.6 Sol chat | ChatGPT, project "Showdown visual", new normal chat: type the job number | unknown | 2 |
+| 🟠 GPT-6.1 Sol Work mode | ChatGPT, Work mode (press Use Work). Not used for factory jobs now | Sun 4:18 p.m. Eastern (passed, update LANES.json) | 0 |
+| 🔵 Astra | ChatGPT Work mode (Astra): paste the bundle prompt from handoffs/C2W-*.md | Sun 4:18 p.m. Eastern (passed, update LANES.json) | 0 |
 | 🟣 Claude threads | Claude project threads and claude.ai/code cloud sessions (no typing by Nik) | Thu 8:00 p.m. Eastern | 0 |
 | ⚫ Codex | Codex: final package review (job 108), paste the job file | unknown | 0 |
 | 🖼️ Image tickets | ChatGPT Temporary Chat, paste the ticket from tickets/ | unknown | 0 |
 
 _Resets live in [LANES.json](LANES.json) (hand-edited; "unknown" means nobody has told the board yet)._
 
-_Estimate only. Method: the longest chain of jobs still to do (3 left) × the median real time per step (Claude jobs 3 min, set by hand in LANES.json from the hard-jobs thread (8 parts in about 15 min); GPT chat jobs 31 min; real gaps from jobs finished in the last 3 days, so they include waiting). Codex job assumed 45 min. It ignores usage limits and resets, so it can only slip, and it does not include Claude's quality check or Nik's own approval._
+_Estimate only. Method: the longest chain of jobs still to do (2 left) × the median real time per step (Claude jobs 3 min, set by hand in LANES.json from the hard-jobs thread (8 parts in about 15 min); GPT chat jobs 31 min; real gaps from jobs finished in the last 3 days, so they include waiting). Codex job assumed 45 min. It ignores usage limits and resets, so it can only slip, and it does not include Claude's quality check or Nik's own approval._
 
 ## 📊 Screens
 
 ```
-Integration    █████████░ 35/38
+Integration    █████████░ 36/38
 ```
 ✅ Finished screens (19): Home, League, Club, Transfer, Loading, Trophy Room, Career Stats, Rivalry, Legacy, Season Results, Final Winner, Start/Join, Standings, Rule Book, Settings, Setup, Foundation, Art, Top bar
 
@@ -164,7 +164,7 @@ Quality bar: average 4.2 or more, nothing under 3. Average so far 4.26 over 76 s
 | 107 | [Motion and sound consistency pass (part 1 of 6)](jobs/JOB-107.md) | project (type number) | 228 | 100 % | DONE |
 | 108 | [Final package review (Codex)](jobs/JOB-108.md) | codex | 233 | 100 % | DONE |
 | 109 | [Final fixes (part 1 of 3)](jobs/JOB-109.md) | project (type number) | 108 | 100 % | DONE |
-| 110 | [Package for Nik and handoff to GPT-5.6 Sol (part 1 of 5)](jobs/JOB-110.md) | project (type number) | 235 | 0 % | NOT STARTED |
+| 110 | [Package for Nik and handoff to GPT-5.6 Sol (part 1 of 5)](jobs/JOB-110.md) | project (type number) | 235 | 100 % | DONE |
 | 111 | [Phone art: Home](jobs/JOB-111.md) | project (type number) | 14, 1 | 100 % | DONE |
 | 112 | [Phone art: League](jobs/JOB-112.md) | project (type number) | 14, 1 | 100 % | DONE |
 | 113 | [Phone art: Club Assignment](jobs/JOB-113.md) | project (type number) | 14, 1 | 100 % | DONE |
