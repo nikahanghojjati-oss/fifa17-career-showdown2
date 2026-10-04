@@ -13,5 +13,5 @@
 <circle cx="485.7" cy="78" r="19" fill="#fff" stroke="#111" stroke-width="2.5"/>
 <g transform="translate(0,0)"><circle cx="485.71428571428567" cy="78" r="3.2" fill="#111"/><circle cx="485.71428571428567" cy="69" r="3.2" fill="#111"/><circle cx="494.21428571428567" cy="75" r="3.2" fill="#111"/><circle cx="491.0142857142857" cy="85" r="3.2" fill="#111"/><circle cx="480.41428571428565" cy="85" r="3.2" fill="#111"/><circle cx="477.21428571428567" cy="75" r="3.2" fill="#111"/></g>
 <text x="40" y="124" font-family="Arial,Helvetica,sans-serif" font-size="14" fill="#c8cdd6">KICK-OFF</text>
-<text x="320" y="124" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="14" fill="#c8cdd6">85 % of all work in progress or done</text>
+<text x="320" y="124" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="14" fill="#c8cdd6">86 % of all work in progress or done</text>
 </svg>

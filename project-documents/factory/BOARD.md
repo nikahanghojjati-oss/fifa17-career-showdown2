@@ -1,18 +1,18 @@
 # Showdown Factory board
 
-**204 of 238 jobs done and checked · 85 %** · updated Sun 1:38 p.m. Eastern
+**204 of 238 jobs done and checked · 86 %** · updated Sun 1:41 p.m. Eastern
 
-✅ **Quality check:** a job counts as done only after Claude checks it against the quality bar (average 4.2 or more, nothing under 3, hard gates pass). Average score 4.26 over 71 scored jobs. 🔍 Nothing waiting for a check. 
+✅ **Quality check:** a job counts as done only after Claude checks it against the quality bar (average 4.2 or more, nothing under 3, hard gates pass). Average score 4.26 over 71 scored jobs. 🔍 Waiting for Claude's check: 213. 
 
 <img src="board-meter.svg" alt="Football progress meter" width="640">
 
 **Where to run:** 🟡 **project job** = new chat in the ChatGPT project "Showdown visual", type the number; one number is one turn (no Continue), and a job in parts shows its later parts only when the earlier part is done. 🟣 **image job** = its ticket in a ChatGPT **Temporary Chat** outside any project, then drop the picture in Claude's factory thread.
 
-🟡 **Type next:** -
+🟡 **Type next:** 104
 
 🟣 **Image next:** -
 
-**Working:** 213, 216, 217, 218, 219, 220 · **Blocked:** -
+**Working:** 216, 217, 218, 219, 220 · **Blocked:** -
 
 ## Screens
 
@@ -36,7 +36,7 @@ Setup          ██████████ 2/2
 Foundation     ██████████ 7/7
 Art            ██████████ 8/8
 Top bar        ██████████ 3/3
-Integration    █░░░░░░░░░ 4/38
+Integration    █░░░░░░░░░ 5/38
 ```
 
 ## Team V ↔ Team G (latest 3)
@@ -49,15 +49,15 @@ Integration    █░░░░░░░░░ 4/38
 
 Branch `factory/v1-wtt5ye`. 238 Team V jobs, plus 5 lines that track Team G. Two kinds of job. **Project (type number):** open a new chat in the ChatGPT project "Showdown visual" and type the number (up to 5 at once). **Fresh chat (image):** run the job's ticket from [tickets/](tickets/README.md) in a ChatGPT Temporary Chat (no memory) outside any project, then drop the image in Claude's factory thread (up to 2 at once).
 
-**Overall (Team V):** ████████░░ 85 % · 204 of 238 jobs done
+**Overall (Team V):** ████████░░ 86 % · 204 of 238 jobs done
 
-**Start now · project (type the number in Showdown visual):** nothing (all slots busy or nothing ready)
+**Start now · project (type the number in Showdown visual):** 104
 
 **Start now · fresh chat (image ticket, outside the project):** -
 
 **Start now (Sol Work mode, press Use Work):** -
 
-**Working:** 213, 216, 217, 218, 219, 220 · **Blocked:** -
+**Working:** 216, 217, 218, 219, 220 · **Blocked:** -
 
 **Team G tracking (never start these):** 98 (done), 99 (done), 100 (done), 101 (done), 102 (done). Claude marks them done when Team G delivers.
 
@@ -276,7 +276,7 @@ Branch `factory/v1-wtt5ye`. 238 Team V jobs, plus 5 lines that track Team G. Two
 | 210 | [Showcase: every screen in one place (part 2 of 5)](jobs/JOB-210.md) | 7 Integration | integrate | project (type number) | 103 | ██████████ 100 % | DONE |  |
 | 211 | [Showcase: every screen in one place (part 3 of 5)](jobs/JOB-211.md) | 7 Integration | integrate | project (type number) | 210 | ██████████ 100 % | DONE |  |
 | 212 | [Showcase: every screen in one place (part 4 of 5)](jobs/JOB-212.md) | 7 Integration | integrate | project (type number) | 211 | ██████████ 100 % | DONE |  |
-| 213 | [Showcase: every screen in one place (part 5 of 5)](jobs/JOB-213.md) | 7 Integration | integrate | project (type number) | 212 | █████░░░░░ 50 % | IN PROGRESS |  |
+| 213 | [Showcase: every screen in one place (part 5 of 5)](jobs/JOB-213.md) | 7 Integration | integrate | project (type number) | 212 | ██████████ 100 % | DONE |  |
 | 214 | [Showcase: screens read Team G's model-true fixtures (part 2 of 8)](jobs/JOB-214.md) | 7 Integration | integrate | project (type number) | 104 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 215 | [Showcase: screens read Team G's model-true fixtures (part 3 of 8)](jobs/JOB-215.md) | 7 Integration | integrate | project (type number) | 214 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 216 | [Showcase: screens read Team G's model-true fixtures (part 4 of 8)](jobs/JOB-216.md) | 7 Integration | integrate | project (type number) | 215 | ░░░░░░░░░░ 0 % | IN PROGRESS · CLAUDE |  |
