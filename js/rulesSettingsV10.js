@@ -38,6 +38,7 @@
       const chip=element('span','ruleBookIndexChip',head.querySelector('span').textContent);index.append(chip);
       if(card.classList.contains('scoringRuleSection')){card.classList.add('sd-panel--hero');Array.from(card.querySelector('.ruleScoreTable').children).forEach(row=>row.classList.add('ruleScoreRow'));}
     });
+    content.querySelector('.backButton').id='ruleBookBack';
     content.querySelector('.backButton').classList.add('sd-btn','sd-btn--secondary');
     content.querySelector('.backButton').dataset.sdEnter='button';content.append(index);
     states.set(host,{...stage('v10RuleBookStage',host,content),original,content});
@@ -89,7 +90,7 @@
     if(root.getActiveScreenName?.()==='ruleBook')await root.CareerModeV10Screens.show('ruleBook');
     const overlay=doc().getElementById('settingsOverlay');if(overlay&&!overlay.classList.contains('hidden'))await root.CareerModeV10Screens.show('settingsOverlay');
   }
-  function openSettings(){if(registered)void root.CareerModeV10Screens.show('settingsOverlay').catch(()=>{});}
-  function closeSettings(){root.CareerModeV10Screens?.hide('settingsOverlay');}
-  return Object.freeze({install,register,openSettings,closeSettings,refreshSettings,mountRuleBook,unmountRuleBook,mountSettings,unmountSettings});
+  function rsOpenSettings(){if(registered)void root.CareerModeV10Screens.show('settingsOverlay').catch(()=>{});}
+  function rsCloseSettings(){root.CareerModeV10Screens?.hide('settingsOverlay');}
+  return Object.freeze({install,register,openSettings:rsOpenSettings,closeSettings:rsCloseSettings,refreshSettings,mountRuleBook,unmountRuleBook,mountSettings,unmountSettings});
 });

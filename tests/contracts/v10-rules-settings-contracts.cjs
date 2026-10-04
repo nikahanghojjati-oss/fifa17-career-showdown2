@@ -7,6 +7,7 @@ const {FakeNode}=require("../support/fake-dom.cjs");
 FakeNode.prototype.matches=function(s){if(s.startsWith('.'))return this.classList.contains(s.slice(1));if(s.startsWith('#'))return this.id===s.slice(1);return this.tagName===s.toUpperCase();};
 FakeNode.prototype.querySelectorAll=function(s){return this.all().filter(n=>s.split(',').some(t=>n.matches(t.trim())));};
 FakeNode.prototype.querySelector=function(s){return this.querySelectorAll(s)[0]||null;};
+FakeNode.prototype.prepend=function(n){if(n.parent)n.remove();n.parent=this;this.children.unshift(n);};
 FakeNode.prototype.removeAttribute=function(k){delete this.attributes[k];};
 FakeNode.prototype.contains=function(n){return this===n||this.all().includes(n);};
 Object.defineProperty(FakeNode.prototype,'isConnected',{get(){return !!this.parent;}});
@@ -35,4 +36,24 @@ check('RS9 app hooks are lazy; startup files and revision remain unchanged',()=>
 check('RS10 visual code has no fixture reads, invented gameplay or destructive authority',()=>{const src=read('js/rulesSettingsV10.js');for(const banned of ['fixtures.json','localStorage','fetch(','applyCareerMode','prepareCareerMode','Preview data'])assert.ok(!src.includes(banned),banned);assert.ok(!src.includes('.hidden = false'));});
 check('RS11 system CSS is scoped and never overrides hidden recovery containment',()=>{for(const file of ['rule-book/rule-book.css','settings/settings.css']){const css=read('visual-assets/v10_1/'+file);assert.ok(!/^body\s*\{/m.test(css));assert.ok(!/^#stage-root\s*\{/m.test(css));}assert.ok(!/\[hidden\][^{]*\{[^}]*display:\s*(?:block|grid|flex)/.test(read('css/rulesSettingsV10.css')));});
 check('RS12 lazy text files are shell cached and referenced art uses runtime cache',()=>{const sw=read('service-worker.js');for(const p of ['js/rulesSettingsV10.js','css/rulesSettingsV10.css','visual-assets/v10_1/rule-book/rule-book.css','visual-assets/v10_1/settings/settings.css'])assert.ok(sw.includes('"'+p+'"'),p);for(const p of ['shared/plates/ENV_SYS_PLATE_V1_1X.webp','shared/plates/ENV_SYS_PLATE_V1_2X.webp','shared/plates/ENV_SYS_PHONE_V1.webp','shared/wordmarks/TITLE_RULE_BOOK_V1.webp','shared/wordmarks/TITLE_SETTINGS_V1.webp']){assert.ok(fs.existsSync(path.join(ROOT,'visual-assets/v10_1',p)),p);assert.ok(!sw.includes('"visual-assets/v10_1/'+p+'"'),p);}});
-console.log(`PASS V10 rules/settings contracts: ${n} checks.`);
+(async()=>{
+  doc.head=new FakeNode('head');doc.addEventListener=()=>{};
+  root.setTimeout=fn=>{queueMicrotask(fn);return 0;};root.clearTimeout=()=>{};root.loadRuntimeScript=async()=>true;
+  vm.runInContext(read('js/v10Screens.js'),ctx);const loader=root.CareerModeV10Screens;
+  active='ruleBook';rules.classList.remove('hidden');overlay.classList.remove('hidden');
+  let ruleMounts=0,modalMounts=0,modalCloses=0;
+  loader.register('ruleBook',{css:['rule-book/rule-book.css'],frame:()=>true,mount:()=>ruleMounts++});
+  loader.register('settingsOverlay',{overlay:true,auto:false,css:['settings/settings.css'],frame:()=>true,mount:()=>modalMounts++,unmount:()=>modalCloses++});
+  await loader.show('ruleBook');await loader.show('settingsOverlay');await loader.show('settingsOverlay');
+  check('RS13 real loader mounts a modal over an active screen once and scopes both styles',()=>{
+    assert.equal(ruleMounts,1);assert.equal(modalMounts,1);
+    assert.equal(loader.isMounted('ruleBook'),true);assert.equal(loader.isMounted('settingsOverlay'),true);
+    for(const suffix of ['rule-book/rule-book.css','settings/settings.css'])assert.equal(doc.head.children.find(n=>n.href.endsWith(suffix)).disabled,false);
+    overlay.classList.add('hidden');loader.hide('settingsOverlay');assert.equal(modalCloses,1);
+    assert.equal(doc.head.children.find(n=>n.href.endsWith('settings/settings.css')).disabled,true);
+    assert.equal(doc.head.children.find(n=>n.href.endsWith('rule-book/rule-book.css')).disabled,false);
+  });
+  check('RS14 hidden modal cannot mount after an asynchronous load or close',()=>{assert.equal(loader.isMounted('settingsOverlay'),false);});
+  assert.equal(await loader.show('settingsOverlay'),false);
+  console.log(`PASS V10 rules/settings contracts: ${n} checks.`);
+})().catch(error=>{console.error(error);process.exitCode=1;});
