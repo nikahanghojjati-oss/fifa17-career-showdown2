@@ -74,9 +74,9 @@ Run `tools/MAKE_ASSETS.md` from top to bottom. It generates Daniel/Nik hand over
 
 ## Phone
 
-Part 1 locked the art-first phone composition. Part 2 now fills the reserved content band with real phone UI instead of shrinking the desktop layout.
+The final phone composition uses the full 393 × 660 visible viewport because Season Results has no bottom navigation bar. The portrait stadium and manager cut-outs own the upper band; the manager/scoring toolbar, one bounded entry or review panel, and the safe-area-pinned action row own the lower band. Nothing is implemented as a scaled desktop canvas.
 
-| Desktop element | 393 × 660 phone treatment after part 2 |
+| Desktop element | Final 393 × 660 phone treatment |
 | --- | --- |
 | `.season-topbar` including brand, nav tabs and settings | Hidden. Season Results has no phone bottom bar and no desktop top bar in the phone composition. |
 | `.season-title-block` | Recompose into the hero band. Eyebrow and tagline hide; the brush Season Results title stays as phone art. |
@@ -97,6 +97,12 @@ Phone hero geometry remains the part-1 authority from `assets/phonemap.json`: ba
 The phone controls stay in the same DOM and URL. Radio controls drive the Daniel / Nik view with CSS, so one manager entry panel is visible at a time. Before either radio is touched, CSS reads the live Preview-data owner and opens that manager's own panel; an explicit tab choice then wins. The inactive rival tab reports SEALED or SUBMITTED from the live panel class; an editable own panel reports YOUR ENTRY. The scoring checkbox opens the existing scoring panel as a modal-style sheet. No new startup script is added.
 
 The compact phone entry treatment keeps the computed score and all recorded inputs in DOM text. At heights at or below 600 px the decorative crown and club subline collapse before data does; number inputs remain 16 px text. Review and loading/empty/partial/unavailable shells use the same bounded region rather than creating a scrolling page.
+
+### Phone assets and intake
+
+Runtime phone art is limited to `assets/ENV_SR_PHONE_V1.webp`, `assets/OVL_SR_DANIEL_PHONE_V1.webp`, `assets/OVL_SR_NIK_PHONE_V1.webp` and `assets/TITLE_SR_PHONE_V1.webp`; `assets/phonemap.json` remains the registration authority. The scoring sheet reuses the original Showdown trophy WebP from the shared kit. The phone HTML/CSS load no PNG master, real crest, real league mark or player image, and all manager names, season values, scores and workflow states remain live DOM text.
+
+Claude intake must materialize any recipe-only phone WebPs that are still absent, then measure H5–H11 in the real browser. In particular, verify the 44 px toolbar/form/action targets, the 16 px number inputs, the safe-area action position, contrast/focus, network weight and the three required phone heights. Worker QA for this job is reading plus arithmetic only; no browser screenshots are generated here.
 
 ### Height budget
 
