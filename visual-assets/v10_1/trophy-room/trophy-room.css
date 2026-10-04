@@ -52,7 +52,7 @@
   .heroPlinth span{max-width:94%;font-size:10px;line-height:1;letter-spacing:.08em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .heroPlinth small{margin-top:2px;font-size:7px;letter-spacing:.12em}
 
-  /* Lower content zone: chips plus a 1.5-card sideways shelf. */
+  /* Lower content zone: chips plus a two-card sideways swipe shelf. */
   .trophyShelf{z-index:14;left:0;right:0;top:48%;bottom:calc(116px + env(safe-area-inset-bottom));min-height:0}
   .trophyTabs{position:absolute;left:8px;right:8px;top:0;height:44px;display:flex;gap:6px;overflow-x:auto;overflow-y:hidden;padding:0 2px 4px;background:transparent;border:0;box-shadow:none;scrollbar-width:none;scroll-snap-type:x proximity}
   .trophyTabs::-webkit-scrollbar,.trophyGrid::-webkit-scrollbar{display:none}
@@ -62,7 +62,7 @@
   .shelfGlass{top:48px;bottom:0;clip-path:none;border-left:0;border-right:0;border-bottom:0;background:linear-gradient(180deg,rgba(15,14,12,.82),rgba(5,6,7,.96))}
   .shelfTopEdge{left:0;right:0}
   .trophyGrid,.trophyShelf.is-filtered .trophyGrid{position:absolute;z-index:3;left:0;right:0;top:50px;bottom:0;display:flex;justify-content:flex-start;gap:10px;overflow-x:auto;overflow-y:hidden;padding:8px 12px 10px;scroll-snap-type:x mandatory;scroll-padding-left:12px;-webkit-overflow-scrolling:touch}
-  .trophyCard{flex:0 0 63%;min-width:0;height:100%;padding:7px 8px 8px;border:1px solid rgba(213,169,69,.15);background:linear-gradient(180deg,rgba(35,32,24,.54),rgba(7,8,9,.64));scroll-snap-align:start}
+  .trophyCard{flex:0 0 calc(50% - 5px);min-width:0;height:100%;padding:7px 8px 8px;border:1px solid rgba(213,169,69,.15);background:linear-gradient(180deg,rgba(35,32,24,.54),rgba(7,8,9,.64));scroll-snap-align:start}
   .trophyCardPicture{height:58%}
   .trophyCard h3{margin:0 0 5px;font-size:11px;line-height:1.05;letter-spacing:.055em}
   .managerCounts{gap:8px}
