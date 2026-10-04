@@ -2,9 +2,11 @@
 
 ## Verdict
 
+FAIL. Static score 3.00 < 4.2, criteria 7 and 9 below 3, and H4 fails the source audit. H5–H11 are NOT MEASURED (Claude measures), not failed measurements. This review covers code and the supplied mockup; Claude must render and measure before a visual acceptance verdict.
+
 ## Scorecard
 
-Provisional code-based static scores; no rendered-screen claim. Criterion 8 is deferred to motion jobs. Average: 27 / 9 = 3.00, below 4.2; criteria 7, 9 and 10 are below 3.
+Provisional code-based static scores; no rendered-screen claim. Criterion 8 is deferred to motion jobs. Average: 27 / 9 = 3.00, below 4.2; criteria 7 and 9 are below 3.
 
 | Criterion | Score / 5 | Evidence |
 | --- | --- | --- |
@@ -17,8 +19,6 @@ Provisional code-based static scores; no rendered-screen claim. Criterion 8 is d
 | 7 Information honesty/clarity | 2 | LG1–LG9 copy is honest, but stale selection, indistinguishable winner glyph and missing expanded statistics make the retained action misleading/incomplete. |
 | 9 Phone composition | 2 | Claude's 55% art band and pinned action are preserved, but compact state banners overlap cards, pager targets exceed their row and swipes do not select. |
 | 10 Polish/finish | 3 | Shared kit and WebP references are consistent, but inert routes, missing sheet close/focus and a silent visible-load failure prevent completion. |
-
-Correction to aggregate note: criterion 10 is 3; criteria 7 and 9 alone are below 3. Sum remains 27.
 ## Hard gates
 
 Static-source review only for H1–H4; PASS is limited to inspected DOM/CSS/fixture references, not an assertion about uninspected raster pixels.
@@ -128,3 +128,19 @@ Scope: `legacy.js`, `fixtures.json`, `index.html`, `legacy.css`, compared with `
 No browser, screenshots, visual score or fixture arithmetic validation claimed in this audit.
 
 ## Fix list
+
+Exactly nine implementation changes, grouped for jobs 75 / 168 / 169. No missing browser measurements are fix items. Preserve the final Claude 55% phone-band/title rules and all fixture scores.
+
+1. `visual-assets/v10_1/legacy/legacy.js`, `renderArchive()`: replace the fragmented selection flow with one synchronized selection controller. Target: page changes select a visible permitted record; phone swipe/previous/next select the visible card; ui.selectedShowdown and LegacyFixture agree; action disabled state updates; card/pager focus survives repaint; abandoned/unavailable never disclose.
+2. `visual-assets/v10_1/legacy/legacy.js`, `renderSeasonHistory()`: replace the incomplete disclosure with a labelled, keyboard-accessible bounded season sheet. Target: sticky ≥44px close control, Escape closes, focus moves inside and returns, allowed-status guard, Daniel-first contracted position/points/goals and scores, no invented honours.
+3. `visual-assets/v10_1/legacy/legacy.css`, phone archive layout: allocate non-overlapping space for tabs, warning, horizontal card shelf and a 44px pager. Target: exact DOM tab labels, no scale on targets, readable status-only cards and compact warnings without covering readable records at 393×660/360×640; primary stays pinned at 375×553; preserve Claude art/title rules.
+4. `visual-assets/v10_1/legacy/legacy.js`, navigation setup: wire existing top/side/settings destinations and mount shared hub navigation through supported shared APIs. Target: documented route mapping including careerStatistics, working standalone preview links with host integration where available, no extra destinations, phone bottom bar above the existing reserve.
+5. `visual-assets/v10_1/legacy/legacy.css`, desktop breakpoint/topbar: extend desktop placement to min-width 901px and make the desktop rail exactly 52px with a fitting 901–1023px layout. Target: no unstyled breakpoint interval, no offscreen nav, preserved 16:9 plate camera.
+6. `visual-assets/v10_1/legacy/legacy.js`, `boot().catch()`: render a visible unavailable failure state. Target: retained shell, visible honest error copy, disabled primary and no fake cards/zero values after fixture/map load failure.
+7. `visual-assets/v10_1/legacy/legacy.js`, `renderCard()`: use the existing original visual-identity module for club crests and league marks instead of generic initials/text. Target: supported original SVG API, lazy screen-only loading, no real logos or startup changes.
+8. `visual-assets/v10_1/legacy/fixtures.json`, `strings`: add a renderer UI-copy dictionary for remaining hard-coded words. Target: manager names, card/season/pager templates, in-progress, close, unavailable fallback, and winner/draw messages; keep frames, checkSource and all numeric data byte-for-byte equivalent after JSON parse.
+9. `visual-assets/v10_1/legacy/legacy.js`, label rendering: consume that dictionary throughout cards, season detail, pager and status UI, including a clear live winner label instead of an ambiguous centered glyph. Target: changing labels all fixture-driven; Daniel left/Nik right; no completed-winner claim for in-progress/abandoned/unavailable.
+
+### Claude evidence still required
+
+Per handbook, no worker screenshots or browser measurements were generated. Claude supplies H5–H11, the protected-region mockup diff and desktop/phone compare sheet using the committed screen; no numeric result is assumed. The review's source scores remain historical until re-review.
