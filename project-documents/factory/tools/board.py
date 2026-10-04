@@ -235,16 +235,27 @@ def updated(n):
     if not m or not m.group(2): return None
     return datetime.datetime.strptime(f"{m.group(1)} {m.group(2)}:{m.group(3)}", "%Y-%m-%d %H:%M").replace(tzinfo=datetime.timezone.utc).timestamp()
 upd = {j["number"]: updated(j["number"]) for j in jobs if info[j["number"]][0] in FINISHED}
-steps = []
+def chat_lane(n):
+    m = re.search(r"^Chat:\s*(.+)$", open(os.path.join(F, "status", f"JOB-{n:03d}.md")).read(), re.M)
+    c = (m.group(1) if m else "").lower()
+    return "claude" if "claude" in c else ("astra" if "astra" in c or "bundle" in c else "chat")
+steps, lsteps = [], {"claude": [], "chat": []}
 for j in vjobs:
     n = j["number"]; t = upd.get(n)
     if not t or t < now_ts - 72 * 3600: continue
     dts = [upd[d] for d in j["depends_on"] if upd.get(d)]
     if not dts: continue
     m = (t - max(dts)) / 60
-    if 1 <= m <= 600: steps.append(m)
+    if 1 <= m <= 600:
+        steps.append(m)
+        if chat_lane(n) in lsteps: lsteps[chat_lane(n)].append(m)
 med = statistics.median(steps) if len(steps) >= 5 else None
-dur = lambda n: ASSUME.get("codex_minutes_per_job", 45) if owner(n) == "codex" else (ASSUME.get("claude_minutes_per_job") or med or 30)
+lmed = {k: (statistics.median(v) if len(v) >= 5 else med) for k, v in lsteps.items()}
+def dur(n):
+    o = owner(n)
+    if o == "codex": return ASSUME.get("codex_minutes_per_job", 45)
+    if o == "claude": return ASSUME.get("claude_minutes_per_job") or lmed["claude"] or med or 30
+    return lmed["chat"] or med or 30
 byn = {j["number"]: j for j in jobs}
 memo = {}
 def finish(n):  # minutes until job n finishes if every step runs back to back
@@ -260,27 +271,29 @@ def hm(m):
 if not left:
     eta_line = "🏁 Every job is finished."
 else:
-    eta_line = (f"⏱ **Estimated finish: {eastern(now_ts + eta_min * 60)}** (about {hm(eta_min)} from now, if work never pauses)")
+    eta_line = (f"⏱ **Estimated finish: {eastern(now_ts + eta_min * 60)}** (about {hm(eta_min)} from now at today's pace)")
 eta_note = (f"_Estimate only. Method: the longest chain of jobs still to do ({len([n for n in left])} left) × the median real time per step "
-            f"({round(med) if med else 'unknown, assumed 30'} min, from {len(steps)} jobs finished in the last 3 days). Codex job assumed {ASSUME.get('codex_minutes_per_job', 45)} min. "
+            f"(Claude jobs {ASSUME.get("claude_minutes_per_job") or round(lmed["claude"] or 0)} min, set by hand in LANES.json from the hard-jobs thread (8 parts in about 15 min); GPT chat jobs {round(lmed['chat']) if lmed['chat'] else '?'} min; real gaps from jobs finished in the last 3 days, so they include waiting). Codex job assumed {ASSUME.get('codex_minutes_per_job', 45)} min. "
             "It ignores usage limits and resets, so it can only slip, and it does not include Claude's quality check or Nik's own approval._")
 
 ph = [n for n in left if info[n][0].startswith("IN PROGRESS")]
 ph_run = [n for n in ph if n in working]
 nowl = []
+chained = [n for n in ph if any(info[d][0] not in FINISHED for d in byn[n]["depends_on"])]
 for n in ph:
+    if n in chained: continue
     st, k, tot = info[n]
     nowl.append(f"- {short(n)} · {st.replace('IN PROGRESS · ', '').title() if '·' in st else 'In progress'} · step {k}/{tot} · {lane_cmd(n)}")
 nextl = []
 for n in resumable: nextl.append(f"- {short(n)} · **{'fix' if fixing(n) else 'resume'}** · {lane_cmd(n)}")
 for n in startable + work_now + img_now: nextl.append(f"- {short(n)} · {lane_cmd(n)}")
 # Then = not-ready jobs whose only missing dependencies are in progress or next (the next link of each chain).
-active = set(ph) | set(startable) | set(work_now) | set(img_now) | set(resumable)
+active = set(ph) - set(chained) | set(startable) | set(work_now) | set(img_now) | set(resumable)
 thenl = []
 for n in left:
-    if n in active or info[n][0] != "NOT STARTED": continue
+    if n in active: continue
     miss = [d for d in byn[n]["depends_on"] if info[d][0] not in FINISHED]
-    if miss and all(d in active for d in miss):
+    if miss and (n in chained or info[n][0] == "NOT STARTED") and all(d in set(ph) | active for d in miss):
         thenl.append(f"- {short(n)} · after {', '.join(map(str, miss))} · {lane_cmd(n)}")
 def cap(l, k=6): return l[:k] + ([f"- …and {len(l) - k} more"] if len(l) > k else [])
 

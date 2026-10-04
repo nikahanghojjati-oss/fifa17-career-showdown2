@@ -7,8 +7,8 @@
      "notes": "Up to 5 chats at once. One number is one turn."},
     {"key": "work", "name": "GPT-6.1 Sol Work mode", "icon": "🟠",
      "where": "ChatGPT, Work mode (press Use Work). Not used for factory jobs now",
-     "next_reset": "2026-10-04 16:18", "meter": "account 1 almost empty (about 1% left); Nik has 2 ChatGPT accounts, account 2 unknown",
-     "notes": "Reset time is for account 1. Work mode stops for Continue often, so factory jobs avoid it."},
+     "next_reset": "2026-10-04 16:18", "meter": "account 1 almost empty; account 2 also ran out 2026-10-04 13:09 Eastern, its reset is unknown",
+     "notes": "Reset time shown is account 1 only; account 2 reset unknown. Work mode stops for Continue often, so factory jobs avoid it."},
     {"key": "astra", "name": "Astra", "icon": "🔵",
      "where": "ChatGPT Astra chat: paste the bundle prompt from handoffs/C2W-*.md",
      "next_reset": null, "meter": "unknown",
@@ -26,5 +26,5 @@
      "next_reset": null, "meter": "none",
      "notes": "All image jobs are done now."}
   ],
-  "assumptions": {"codex_minutes_per_job": 45, "claude_minutes_per_job": null}
+  "assumptions": {"codex_minutes_per_job": 45, "claude_minutes_per_job": 3}
 }

@@ -4,17 +4,11 @@
 
 <img src="board-meter.svg" alt="Football progress meter" width="640">
 
-⏱ **Estimated finish: Mon 5:14 a.m. Eastern** (about 14 h 45 min from now, if work never pauses)
+⏱ **Estimated finish: Mon 8:03 a.m. Eastern** (about 17 h 33 min from now at today's pace)
 
 ## 🔴 Now
 
 - **105** Full phone pass (1/7) · Claude · step 0/1 · Claude is on it, nothing to type
-- **221** Full phone pass (2/7) · Claude · step 0/1 · Claude is on it, nothing to type
-- **222** Full phone pass (3/7) · Claude · step 0/1 · Claude is on it, nothing to type
-- **223** Full phone pass (4/7) · Claude · step 0/1 · Claude is on it, nothing to type
-- **224** Full phone pass (5/7) · Claude · step 0/1 · Claude is on it, nothing to type
-- **225** Full phone pass (6/7) · Claude · step 0/1 · Claude is on it, nothing to type
-- **226** Full phone pass (7/7) · Claude · step 0/2 · Claude is on it, nothing to type
 
 ## 🟢 Next (start these)
 
@@ -23,6 +17,12 @@
 ## ⚪ Then
 
 - **106** Full phone pass: fixes (1/3) · after 226 · type the number in a new chat in project Showdown visual
+- **221** Full phone pass (2/7) · after 105 · Claude is on it, nothing to type
+- **222** Full phone pass (3/7) · after 221 · Claude is on it, nothing to type
+- **223** Full phone pass (4/7) · after 222 · Claude is on it, nothing to type
+- **224** Full phone pass (5/7) · after 223 · Claude is on it, nothing to type
+- **225** Full phone pass (6/7) · after 224 · Claude is on it, nothing to type
+- …and 1 more
 
 ## 🧰 Where to type and when it resets
 
@@ -37,7 +37,7 @@
 
 _Resets live in [LANES.json](LANES.json) (hand-edited; "unknown" means nobody has told the board yet)._
 
-_Estimate only. Method: the longest chain of jobs still to do (25 left) × the median real time per step (35 min, from 108 jobs finished in the last 3 days). Codex job assumed 45 min. It ignores usage limits and resets, so it can only slip, and it does not include Claude's quality check or Nik's own approval._
+_Estimate only. Method: the longest chain of jobs still to do (25 left) × the median real time per step (Claude jobs 42 min, GPT chat jobs 42 min; real gaps from jobs finished in the last 3 days, so they include waiting). Codex job assumed 45 min. It ignores usage limits and resets, so it can only slip, and it does not include Claude's quality check or Nik's own approval._
 
 ## 📊 Screens
 
