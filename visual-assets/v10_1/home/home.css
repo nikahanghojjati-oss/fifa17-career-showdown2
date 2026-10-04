@@ -549,6 +549,35 @@ footer {
     height: 100%;
     max-width: none;
   }
+  .phoneHeroCutout::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0;
+    background: linear-gradient(100deg, transparent 18%, rgba(255,243,176,.78) 48%, transparent 78%);
+    transform: translate3d(-135%,0,0);
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: center bottom;
+    mask-position: center bottom;
+    -webkit-mask-size: contain;
+    mask-size: contain;
+  }
+  .phoneHeroDaniel::after {
+    -webkit-mask-image: url("assets/OVL_HOME_DANIEL_PHONE_V1.webp");
+    mask-image: url("assets/OVL_HOME_DANIEL_PHONE_V1.webp");
+  }
+  .phoneHeroNik::after {
+    -webkit-mask-image: url("assets/OVL_HOME_NIK_PHONE_V1.webp");
+    mask-image: url("assets/OVL_HOME_NIK_PHONE_V1.webp");
+  }
+  @keyframes home-manager-light-sweep {
+    0% { opacity: 0; transform: translate3d(-135%,0,0); }
+    26% { opacity: .72; }
+    72% { opacity: .46; }
+    100% { opacity: 0; transform: translate3d(145%,0,0); }
+  }
   .phoneHeroDaniel {
     left: 31%;
     top: .5vh;
@@ -588,6 +617,10 @@ footer {
   }
   .sd-motion-ready .phoneHeroNik[data-sd-enter="character-right"].sd-is-animating {
     animation: home-manager-in-nik var(--home-manager-duration, 450ms) var(--home-manager-ease, cubic-bezier(.22,1,.36,1)) both;
+  }
+  .sd-motion-ready .phoneHeroCutout.sd-is-animating::after {
+    animation: home-manager-light-sweep var(--home-manager-duration, 450ms) var(--home-manager-ease, cubic-bezier(.22,1,.36,1)) both;
+    will-change: transform, opacity;
   }
   .phoneHeroGrade {
     position: absolute;
@@ -1002,7 +1035,10 @@ html[data-reduced-motion="true"] .menuTile::after,
 .stage[data-sd-motion-reduced="true"] .menuTile::after,
 html[data-motion-reduced="true"] .menuMusicTile[data-playback="playing"] .vinyl,
 html[data-reduced-motion="true"] .menuMusicTile[data-playback="playing"] .vinyl,
-.stage[data-sd-motion-reduced="true"] .menuMusicTile[data-playback="playing"] .vinyl {
+.stage[data-sd-motion-reduced="true"] .menuMusicTile[data-playback="playing"] .vinyl,
+html[data-motion-reduced="true"] .phoneHeroCutout::after,
+html[data-reduced-motion="true"] .phoneHeroCutout::after,
+.stage[data-sd-motion-reduced="true"] .phoneHeroCutout::after {
   animation: none !important;
   opacity: 0 !important;
   will-change: auto !important;
@@ -1039,7 +1075,8 @@ html[data-reduced-motion="true"] .menuMusicTile[data-playback="playing"] .vinyl,
   }
 
   .menuTile::after,
-  .menuMusicTile[data-playback="playing"] .vinyl {
+  .menuMusicTile[data-playback="playing"] .vinyl,
+  .phoneHeroCutout::after {
     animation: none !important;
     opacity: 0 !important;
     will-change: auto !important;
