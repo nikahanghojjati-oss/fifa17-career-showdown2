@@ -9,9 +9,15 @@
     { key: "championsLeague", category: "CHAMPIONS LEAGUE", asset: "../shared/trophies/TRO_CONTINENTAL_V1_512.webp", value: f => f.managers && ({daniel:f.managers.daniel.championsLeagues, nik:f.managers.nik.championsLeagues}) }
   ];
 
-  const state = { fixtures:null, frame:null, frameKey:"TR1", map:null, activeCategory:"ALL", stage:null };
+  const state = { fixtures:null, frame:null, frameKey:"TR1", map:null, activeCategory:"ALL", stage:null, spotlightLit:false };
   const qs = new URLSearchParams(location.search);
   state.frameKey = qs.get("frame") || "TR1";
+
+  const TR_MOTION = Object.freeze({
+    spotlightAnticipationMs:250,
+    spotlightOnMs:180,
+    spotlightEase:"cubic-bezier(.16,1,.3,1)"
+  });
 
   const esc = value => String(value == null ? "" : value).replace(/[&<>\"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 
@@ -99,6 +105,19 @@
     return `<button id="trophyRoomBack" type="button" class="backButton trophyBack" data-primary-action data-sd-enter="button">${esc(strings.back)}</button>`;
   }
 
+  function playSpotlightSnap(root) {
+    const hero = root.querySelector(".heroCeremony");
+    if (!hero || state.spotlightLit) return;
+    hero.style.setProperty("--tr-spotlight-on-ms", `${TR_MOTION.spotlightOnMs}ms`);
+    hero.style.setProperty("--tr-spotlight-ease", TR_MOTION.spotlightEase);
+    hero.classList.add("tr-spotlight-anticipating");
+    window.setTimeout(() => {
+      state.spotlightLit = true;
+      hero.classList.remove("tr-spotlight-anticipating");
+      hero.classList.add("tr-spotlight-lit");
+    }, TR_MOTION.spotlightAnticipationMs);
+  }
+
   function render() {
     const frame = state.frame;
     const strings = state.fixtures.strings;
@@ -138,6 +157,7 @@
     render();
     const root = document.getElementById("trophyRoom");
     if (typeof window.sdEnter === "function") window.sdEnter(root);
+    playSpotlightSnap(root);
     document.documentElement.dataset.trophyReady = "1";
     window.__trophyRoomReady = true;
     window.__trophyRoomFrame = state.frame;
