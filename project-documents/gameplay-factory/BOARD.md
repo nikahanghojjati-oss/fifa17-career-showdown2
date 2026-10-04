@@ -1,6 +1,6 @@
 # Team G gameplay board
 
-20 of 23 jobs done (86 %) ████████░░ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-04 1:14 PM Boston time (EDT)
+20 of 23 jobs done (86 %) ████████░░ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-04 1:24 PM Boston time (EDT)
 
 ## Your next move
 
@@ -23,7 +23,7 @@ From the read-only bug hunt on r52 (4 Oct; [report](https://github.com/nikahangh
 | 1 | **Both managers tap at the same second and the slower one sees an error.** Hits Career Start, the Transfer Challenge locks and timer, and Setup confirm. Nothing is corrupted, but the loser must tap again. | likely | DONE · job 21, PR #344 merged into the gameplay branch; reaches the live app at the next release | lead |
 | 2 | **A tied season is decided by league position.** Code and old notes disagree on equal non-zero scores. | likely | DONE · Nik chose league position; docs fixed in PR #343 (merged) | lead |
 | 3 | **Nobody cross-checks the two managers' season results.** Both can publish position 1 or both tick Champions League. Nik chose (2026-10-04): show a clear clash warning on the commit screen; committing stays allowed. Being built on gameplay/job-23-result-clash-warning. | medium | IN PROGRESS | lead |
-| 4 | **Lock buttons have no confirm.** One stray tap on LOCK MY GUESSES or LOCK MY SIGNINGS locks an empty list for the season; the helpful error text is hidden behind a code. | medium-low | PART DONE · job 21 shows the helpful error text and caps names at 80; the confirm step is still to plan | lead |
+| 4 | **Lock buttons have no confirm.** One stray tap on LOCK MY GUESSES or LOCK MY SIGNINGS locks an empty list for the season; the helpful error text is hidden behind a code. Lock buttons now ask "Lock N of 3?" when a form is partly filled (PR #345, merged into recovery 6974408). Live after the next release. | medium-low | DONE · job 21 shows the helpful error text and caps names at 80; the confirm step is still to plan | lead |
 | 5 | **The 4-hour private session ends long games.** A 5 or 10 season game outlives one session, so both managers must open a fresh one. Needs one retest mid-season. | low | TO PLAN WITH LEAD | lead |
 
 Small extras (cheap, optional): DONE in job 21: 'scoring remains locked' text now says SEASON COMMITTED · SCORE BELOW; NOT A BUG: Daniel/Nik fallbacks match the fixed roles (Daniel = Player One, Nik = Player Two); OPEN: raw error codes in the Setup settle text.
