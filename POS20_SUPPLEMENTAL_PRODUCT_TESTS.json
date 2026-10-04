@@ -741,6 +741,18 @@
       ]
     },
     {
+      "path": "tests/contracts/career-start-ready-reuse-contracts.cjs",
+      "patterns": [
+        "^js/productionSharedCareerStart\\.js$",
+        "^js/productionSharedTransferChallenge\\.js$",
+        "^js/productionSharedSeasonResults\\.js$",
+        "^js/sparkSharedTransferChallenge\\.js$",
+        "^js/sparkSharedSeasonResults\\.js$",
+        "^tests/contracts/career-start-ready-reuse-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
       "path": "tests/contracts/fewer-taps-contracts.cjs",
       "patterns": [
         "^js/persistentNikDanielPair\\.js$",
