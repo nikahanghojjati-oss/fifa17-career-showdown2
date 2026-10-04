@@ -242,3 +242,27 @@ JOB-052 / JOB-143 / JOB-144 close the Transfer War review fix list.
 
 Claude re-measure at intake: H5 phone fit at 393 × 660 and 360 × 640 plus primary-action visibility at 375 × 553; H6 contrast/input size; H7 reduced motion; H8 keyboard/focus; H9 console and failed requests; H10 mockup diff; H11 first-paint/network weight. Also re-check the carried 1366 × 640 desktop title-top crop after the locked 52 px navigation was mounted.
 
+
+
+## Motion · JOB-053 part 1
+
+The Transfer War uses the shared pack-rip entrance without changing layout, privacy, or the locked plate. The shared runtime owns all timing and reduced-motion behavior; this screen only declares roles.
+
+| Order | Moment | Target selector | Shared role | Target timing |
+| --- | --- | --- | --- | --- |
+| 1 | Stadium / locked Transfer War scene | `.phone-hero-art`, `.scene` | `scene` | 0–400 ms |
+| 2 | Daniel portrait enters from the left on portrait layouts | `.phone-hero-daniel` | `character-left` | 150–600 ms |
+| 3 | Nik portrait enters from the right on portrait layouts | `.phone-hero-nik` | `character-right` | 150–600 ms |
+| 4 | TRANSFER WAR wordmark wipe + one glint | `.transfer-wordmark` | `title` | 250–700 ms |
+| 5 | In-world sign readout | `.sign-screen` | `panel` | from 400 ms |
+| 6 | Phase/status caption | `#transferPhaseStatus` | `panel` | +60 ms stagger |
+| 7 | Manager glass panels, kept in stable DOM/spatial order | `.panel` | `panel` | +60 ms each |
+| 8 | Rules card | `.rules-card` | `panel` | next +60 ms |
+| 9 | Footer HUD / phase rail | `.hud-footer` | `panel` | next +60 ms |
+| 10 | Current primary action payoff | `#endTransferTimer`, `#completeTransferChallenge`, or `#continueFromTransfers` | `button` | 760–1080 ms |
+
+Screen-specific rule for this part: the sealed rival panel may move only as a constant sealed surface; its contents never change or hint at rival progress. No additional reveal/count-up/burst moment is listed in JOB-053 part 1, so none is invented here. Desktop manager likeness is baked into the locked plate and therefore rides with the scene; the separate left/right character roles apply to the existing portrait cut-outs only.
+
+The shared kit assigns panel `--i` values at runtime, caps the stagger after the sixth panel, keeps useful controls available by 600 ms, cleans up by 1.2 s, and collapses the choreography to a 150 ms fade when either reduced-motion source is active.
+
+Evidence target for Claude intake: `evidence/motion/` frame strips covering normal and reduced-motion entrances.
