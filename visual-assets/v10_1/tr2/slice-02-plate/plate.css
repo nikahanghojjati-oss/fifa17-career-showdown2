@@ -822,9 +822,9 @@ body { overflow: hidden; font-family: var(--text); -webkit-font-smoothing: antia
   }
 
   .phone-hero-daniel {
-    left: 26%;
-    top: 0;
-    height: 62svh;
+    left: 22%;
+    top: 1.5svh;
+    height: 58svh;
     z-index: 2;
     filter:
       drop-shadow(-2px 0 5px rgba(245,197,24,.24))
@@ -832,9 +832,9 @@ body { overflow: hidden; font-family: var(--text); -webkit-font-smoothing: antia
   }
 
   .phone-hero-nik {
-    left: 68%;
-    top: .5svh;
-    height: 64svh;
+    left: 78%;
+    top: 1.5svh;
+    height: 58svh;
     z-index: 3;
     filter:
       drop-shadow(2px 0 5px rgba(245,197,24,.24))
