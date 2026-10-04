@@ -1461,3 +1461,9 @@ body {
   .entry-panel .field-row input[type="number"] { min-height: 22px; height: 22px; padding: 1px 6px; }
   .entry-panel .manager-card-header { padding-bottom: 2px; }
 }
+
+/* Claude fix 2026-10-04 (JOB-178 intake): with the mockup Daniel-card geometry his raised fist (depth layer)
+   covers the left edge of the card, hiding the field labels and the hint. Keep the overlap, move the content clear of it. */
+@media (min-width: 1024px) {
+  .entry-panel--daniel { padding-left: 78px; }
+}
