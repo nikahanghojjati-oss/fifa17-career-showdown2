@@ -1562,3 +1562,50 @@ body {
     z-index: 14;
   }
 }
+
+
+/* JOB-083 STEP 4 · phone controls and pinned action.
+   There are no text-entry fields on Final Winner, so the 300 px software-keyboard
+   case is not applicable; the only inputs are hidden radio/checkbox state controls. */
+@media (max-width: 760px) {
+  .finalWinnerPhoneTabs label,
+  .finalWinnerPartialTrigger,
+  .finalWinnerActionRow .sd-btn {
+    min-height: 44px;
+  }
+
+  .finalWinnerPartialTrigger {
+    min-height: 44px;
+  }
+
+  .finalWinnerActionsSlot[data-phone-pinned-action="true"] {
+    bottom: env(safe-area-inset-bottom);
+    height: 54px;
+    padding: 5px 0;
+    box-sizing: border-box;
+  }
+
+  .finalWinnerActionRow {
+    width: 100%;
+    min-height: 44px;
+    gap: 6px;
+    flex-wrap: nowrap;
+  }
+
+  .finalWinnerActionRow .sd-btn {
+    min-width: 0;
+    width: auto;
+    flex: 1 1 0;
+    padding-inline: 12px;
+    font-size: 11px;
+    line-height: 1;
+  }
+
+  .finalWinnerActionRow .sd-btn:first-child {
+    flex-grow: 1.35;
+  }
+
+  .finalWinnerActionRow .sd-btn:nth-child(n + 2) {
+    flex-grow: 1;
+  }
+}
