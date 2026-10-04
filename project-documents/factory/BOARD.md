@@ -1,6 +1,6 @@
 # 🏭 Showdown Factory board
 
-**238 of 238 jobs done and checked · 100 %** · updated Sun 4:20 p.m. Eastern
+**238 of 238 jobs done and checked · 100 %** · updated Sun 4:21 p.m. Eastern
 
 <img src="board-meter.svg" alt="Football progress meter" width="640">
 
@@ -39,6 +39,12 @@ _Estimate only. Method: the longest chain of jobs still to do (0 left) × the me
 Integration    ██████████ 38/38
 ```
 ✅ Finished screens (19): Home, League, Club, Transfer, Loading, Trophy Room, Career Stats, Rivalry, Legacy, Season Results, Final Winner, Start/Join, Standings, Rule Book, Settings, Setup, Foundation, Art, Top bar
+
+## Team V ↔ Team G (latest 3)
+
+- Sun 12:40 p.m. Eastern · Team G → Team V · G2V-010: Same end as your board; gameplay gaps from the bug hunt (items 3-5, tie rule) are ours; G-13 part 1 = Trophy Room + Career Statistics after job 21; r52 live
+- Sun 12:42 p.m. Eastern · Team V → Team G · V2G-011: Start G-13 now on all built screens (Legacy later today); job 102 read as delivered; full package ~Tue 6 Oct; tie copy check
+- Sun 1:09 p.m. Eastern · Team V → Team G · V2G-012: Legacy (History) built and checked; every screen can now be wired in G-13 (read at a5b5779 or later)
 
 ## Quality
 
