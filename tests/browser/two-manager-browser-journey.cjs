@@ -466,9 +466,73 @@ async function main(){
       ok("J8.2","season 2 repeated the shared transfer flow with rendered privacy before completion");
 
       // J9 is a lead-approved known gap. Do not count it as a pass and do not hide it.
-      console.log("J9 SKIPPED: resume after reload is a separate product job (lead decision 2026-10-03)");
+      // J9 resume after reload: season-2 transfers are COMPLETED; both tabs reload (same URL, browserSessionPersistence
+      // keeps each Google session). The private-session capability is page-memory only by design, so each manager
+      // resumes through the single CONTINUE CAREER action and a fresh exact session (Daniel hosts, Nik joins), then
+      // lands on Season 2 of 3 with 9-3, never on the GET READY overlay, Career Start or season 1.
+      const verdictBeforeReload=(await daniel.page.locator("#transferChallengeResults").innerText()).replace(/\s+/g," ").trim();
+      for(const m of [daniel,nik]){
+        await m.page.reload({waitUntil:"domcontentloaded"});
+        await m.page.locator("#loadingScreen").waitFor({state:"hidden",timeout:30000});
+        await m.page.locator("#mainMenu").waitFor({state:"visible",timeout:30000});
+        assert.equal(await m.page.evaluate(()=>window.__cmsEmulatorSwitch?.active===true),true,`${m.user} emulator switch re-installed after reload`);
+        await m.page.waitForFunction(()=>/CAREER READY/.test(document.getElementById("persistentNikDanielPairPanel")?.innerText||""),null,{timeout:30000});
+      }
+      for(const m of [daniel,nik]){
+        // Give the entry install its pair-authority decision time before asserting it stayed closed.
+        await m.page.waitForFunction(()=>Boolean(window.CareerModeProductionSharedJourneyEntry),null,{timeout:30000});
+        await m.page.waitForTimeout(2500);
+        assert.equal(await entry(m).isVisible().catch(()=>false),false,`${m.user}: an ACTIVE paired Showdown must not re-open GET READY over CONTINUE CAREER after reload`);
+      }
+      ok("J9.1","after reload both managers keep their Google session and see CAREER READY · CONTINUE CAREER without the GET READY overlay");
+      for(const m of [daniel,nik]){
+        await pairPanel(m).getByRole("button",{name:"CONTINUE CAREER"}).first().click({timeout:30000});
+        await entry(m).filter({hasText:"CONNECTED"}).getByRole("button",{name:"CONTINUE",exact:true}).click({timeout:30000});
+        await remote(m).waitFor({state:"visible",timeout:30000});
+      }
+      await remote(daniel).getByRole("button",{name:"HOST PRIVATE SESSION"}).click({timeout:30000});
+      await daniel.page.waitForFunction(()=>/session_[A-Za-z0-9_-]{16,}/.test(document.body.innerText),null,{timeout:30000});
+      const resumeSessionCode=await daniel.page.evaluate(()=>document.body.innerText.match(/session_[A-Za-z0-9_-]{16,}/)[0]);
+      assert.notEqual(resumeSessionCode,sessionCode,"the resume uses a fresh exact private session");
+      await remote(nik).getByRole("textbox",{name:"Exact private session code"}).fill(resumeSessionCode);
+      await remote(nik).getByRole("button",{name:"JOIN PRIVATE SESSION"}).click({timeout:30000});
+      await entry(nik).getByRole("button",{name:"START CAREER"}).waitFor({state:"visible",timeout:30000});
+      if(await remote(daniel).isVisible())await remote(daniel).getByRole("button",{name:"REFRESH / READ"}).click({timeout:30000});
+      for(const m of [daniel,nik]){
+        await entry(m).getByRole("button",{name:"START CAREER"}).click({timeout:30000});
+        try{
+          await m.page.locator("#dashboard").waitFor({state:"visible",timeout:45000});
+          await m.page.waitForFunction(()=>/Season 2 of 3/.test(document.getElementById("dashboardRound")?.textContent||""),null,{timeout:45000});
+        }catch(error){
+          const diag=await m.page.evaluate(()=>({multi:window.CareerModeProductionSharedMultiSeasonProgression?.getState?.()?.state||null,remote:window.CareerModeSparkRemoteJoining?.getState?.()||null}));
+          throw new Error(`J9_RESUME_NOT_AT_SEASON_2 ${m.user} ${await describe(m)} ${JSON.stringify(diag).slice(0,3000)}`,{cause:error});
+        }
+        assert.equal(await m.page.locator("#productionSharedCareerStartOverlay").isVisible().catch(()=>false),false,`${m.user}: resume must not replay Career Start`);
+        assert.equal((await m.page.locator("#dashboardScoreOne").textContent()).trim(),"9");
+        assert.equal((await m.page.locator("#dashboardScoreTwo").textContent()).trim(),"3");
+        assert.equal(await m.page.locator("#seasonIndicator").textContent(),"Season 2 / 3");
+      }
+      ok("J9.2","after a fresh exact session both managers resume on the Season 2 of 3 dashboard at 9-3 (no Career Start, no season-1 replay)");
+      for(const m of [daniel,nik]){
+        await m.page.waitForFunction(()=>/SHARED TRANSFER|SEASON RESULTS|SEASON 2/i.test(document.getElementById("seasonPrimaryAction")?.textContent||""),null,{timeout:45000});
+        await m.page.locator("#seasonPrimaryAction").click({timeout:30000});
+        await m.page.locator("#transferChallenge, #seasonEntry").filter({visible:true}).first().waitFor({state:"visible",timeout:30000});
+        if(await m.page.locator("#transferChallenge").isVisible()){
+          const cont=m.page.getByRole("button",{name:"CONTINUE TO SHARED SEASON RESULTS",exact:true});
+          for(let i=0;i<12&&!(await cont.isVisible().catch(()=>false));i++){
+            const replay=m.page.locator("#continueFromTransfers");
+            if(await replay.isVisible().catch(()=>false)&&await replay.isEnabled().catch(()=>false))await replay.click({timeout:10000}).catch(()=>{});
+            await m.page.waitForTimeout(500);
+          }
+          await cont.waitFor({state:"visible",timeout:30000});
+          assert.equal(await m.page.locator("#p1Signing1Name").inputValue(),"QWX2 Daniel Signing");
+          assert.equal(await m.page.locator("#p2Signing1Name").inputValue(),"ZPV2 Nik Signing");
+          assert.equal((await m.page.locator("#transferChallengeResults").innerText()).replace(/\s+/g," ").trim(),verdictBeforeReload,`${m.user} sees the same completed season-2 verdicts after reload`);
+        }
+      }
+      ok("J9.3","both resumed managers reopen the COMPLETED season-2 transfer verdicts unchanged and can continue to season-2 results");
 
-      for(const m of [daniel,nik])await m.page.getByRole("button",{name:"CONTINUE TO SHARED SEASON RESULTS",exact:true}).click({timeout:30000});
+      for(const m of [daniel,nik])if(!await m.page.locator("#seasonEntry").isVisible())await m.page.getByRole("button",{name:"CONTINUE TO SHARED SEASON RESULTS",exact:true}).click({timeout:30000});
       for(const m of [daniel,nik])await m.page.locator("#seasonEntry").waitFor({state:"visible",timeout:30000});
       const season2Daniel={leaguePosition:3,leaguePoints:70,leagueGoals:66,domesticCup:false,championsLeague:false,topScorer:false,topAssist:false};
       const season2Nik={leaguePosition:1,leaguePoints:100,leagueGoals:80,domesticCup:true,championsLeague:true,topScorer:true,topAssist:true};
@@ -543,7 +607,12 @@ async function main(){
             sharedJourney:currentShowdown.sharedJourney||null
           }:null,
           saveLibraryReady:window.CareerModeSaveLibraryRuntime?.isReady?.()??null,
-          multi:window.CareerModeProductionSharedMultiSeasonProgression?.getState?.()||null,
+          multi:window.CareerModeProductionSharedMultiSeasonProgression?.getState?.()?.state||null,
+          cursor:window.CareerModeProductionSharedMultiSeasonProgression?.resolveSeason?.(null)??null,
+          setup:(()=>{const s=window.CareerModeProductionSharedShowdownSetup?.getState?.();return s?{status:s.status,ready:s.ready,rivalryId:s.rivalryId,phase:s.setup?.phase,message:s.message}:null;})(),
+          commit:(()=>{const s=window.CareerModeProductionSharedSeasonCommit?.getState?.();return s?{phase:s.phase,committed:s.committed,seasonNumber:s.seasonNumber,revision:s.revision,status:s.status}:null;})(),
+          scoring:(()=>{const s=window.CareerModeProductionSharedCanonicalScoring?.getState?.();return s?{phase:s.phase,seasonNumber:s.seasonNumber,authoritative:s.authoritative}:null;})(),
+          remote:(()=>{const s=window.CareerModeSparkRemoteJoining?.getState?.();return s?{sessionState:s.sessionState,role:s.role,status:s.status}:null;})(),
           history:window.CareerModeProductionSharedHistoryConvergence?.getState?.()||null,
           local:window.CareerModeProductionSharedLocalReconciliation?.getState?.()||null,
           final:window.CareerModeProductionSharedFinalReconciliation?.getState?.()||null,
@@ -604,9 +673,12 @@ async function main(){
       await m.page.locator("#loadingScreen").waitFor({state:"hidden",timeout:30000});
       await m.page.locator("#mainMenu").waitFor({state:"visible",timeout:30000});
       assert.equal(await m.page.evaluate(()=>window.__cmsEmulatorSwitch?.active===true),true,`${m.user} localhost emulator switch remains test-only after terminal reload`);
-      // Current product behaviour: a closed Showdown reopens the career entry overlay after reload (logged for the resume-after-reload job). Close it as a player would.
+      // Job 19: a CLOSED Showdown must not re-open the GET READY career entry overlay after reload.
+      await m.page.waitForFunction(()=>Boolean(window.CareerModeProductionSharedJourneyEntry),null,{timeout:30000});
+      await m.page.waitForFunction(()=>{const s=window.CareerModePersistentNikDanielPair?.getState?.();return Boolean(s&&s.initialized===true&&s.busy===false);},null,{timeout:30000});
+      await m.page.waitForTimeout(2500);
       const entryOverlay=m.page.locator("#productionSharedJourneyEntryOverlay");
-      if(await entryOverlay.isVisible())await entryOverlay.getByRole("button",{name:"Close career entry"}).click({timeout:30000});
+      assert.equal(await entryOverlay.isVisible().catch(()=>false),false,`${m.user}: a CLOSED Showdown must not re-open the GET READY career entry overlay after reload`);
     }
     await daniel.page.locator("#newShowdown").click({timeout:30000});
     await daniel.page.locator("#createShowdown").waitFor({state:"visible",timeout:30000});
