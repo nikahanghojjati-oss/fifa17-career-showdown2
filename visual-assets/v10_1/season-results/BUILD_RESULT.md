@@ -72,33 +72,43 @@ The OVL_SR_* WebPs and rim masks are recipes, not worker-generated binaries. Cla
 
 Run `tools/MAKE_ASSETS.md` from top to bottom. It generates Daniel/Nik hand overlays and rims and finishes by running `python3 tools/build_preview.py`. Then render SR1–SR10 from committed code, inspect privacy and phase actions, run the quality gates reserved for browser evidence, and file a fix round only for measured failures.
 
-## Phone · part 1 of 3
+## Phone · parts 1–2 of 3
 
-Phone fate plan, fixed before build:
+Part 1 locked the art-first phone composition. Part 2 now fills the reserved content band with real phone UI instead of shrinking the desktop layout.
 
-| Desktop element | 393 × 660 fate |
+| Desktop element | 393 × 660 phone treatment after part 2 |
 | --- | --- |
 | `.season-topbar` including brand, nav tabs and settings | Hidden. Season Results has no phone bottom bar and no desktop top bar in the phone composition. |
 | `.season-title-block` | Recompose into the hero band. Eyebrow and tagline hide; the brush Season Results title stays as phone art. |
-| `.scoring-panel` and trophy/rules grid | Move to a `.sd-sheet` “How it works” treatment in part 2; not first-paint content. |
-| Daniel `.entry-panel` | Move into the Daniel manager tab in the bottom content region in part 2. |
-| Nik `.entry-panel` | Move into the Nik manager tab in the bottom content region in part 2. |
-| `.season-review-panel` and canonical scoring | Reuse the bottom content region in review/results-ready states in part 2. |
-| `.season-preview-tag` | Move with the active phone content so Preview data remains visible in fixture frames. |
-| `.season-action-row` | Stays and pins to the bottom safe area; visible buttons share the row without page scroll. |
+| `.scoring-panel` and trophy/rules grid | Hidden on first paint. “HOW SCORING WORKS” opens it as an overlaid scoring sheet with a 44 px close target. |
+| Daniel `.entry-panel` | Daniel tab content. Daniel is selected by default in static markup; only the selected manager panel is laid out. |
+| Nik `.entry-panel` | Nik tab content. Rival sealed/submitted state is surfaced on the inactive tab from the live panel state. |
+| `.season-review-panel` and canonical scoring | Reuses the same bounded bottom content region when review or contract state is active. |
+| `.season-preview-tag` | Lives at the top-right of the phone content region so fixture frames stay visibly labelled Preview data. |
+| `.season-action-row` | Pinned to the bottom safe edge. The primary REVIEW SEASON action remains visible without page scroll. |
 | Desktop hand/forearm and rim overlays | Hidden on phone; replaced by the approved full phone hero cut-outs. |
-| `.manager-area` desktop registration markers | Hidden on phone; phonemap positions become the authority. |
-| Contract-state shells | Use the bottom content region in part 2; never create a long scrolling list. |
-| `.fixture-dump` | Remains hidden. |
+| `.manager-area` desktop registration markers | Hidden on phone; phonemap positions are the authority. |
+| `.fixture-dump` | Hidden. |
 
-Phone hero geometry comes directly from `assets/phonemap.json`: background cover at 50% 36%; Daniel left -6%, top 4%, height 49%; Nik left 47%, top 3%, height 50%; hero zone ends at 55%; bottom darkening begins at 38% and reaches the content seam at 55%.
+Phone hero geometry remains the part-1 authority from `assets/phonemap.json`: background cover at 50% 36%; Daniel left -6%, top 4%, height 49%; Nik left 47%, top 3%, height 50%; hero zone ends at 55%.
 
-Height budget with no bottom navigation:
+### Phone interaction structure
 
-| Viewport | Hero 55% | Bottom 45% | Result |
-| --- | ---: | ---: | --- |
-| 393 × 660 | 363 px | 297 px | full-height stage, no page scroll |
-| 360 × 640 | 352 px | 288 px | full-height stage, no page scroll |
-| 375 × 553 | 304.15 px | 248.85 px | bottom action strip remains inside viewport |
+The phone controls stay in the same DOM and URL. Radio controls drive the Daniel / Nik view with CSS, so one manager entry panel is visible at a time. The inactive rival tab reports SEALED or SUBMITTED from the live panel class; an editable own panel reports YOUR ENTRY. The scoring checkbox opens the existing scoring panel as a modal-style sheet. No new startup script is added.
 
-Part 1 reserves a maximum 72 px bottom action strip, leaving at least 176.85 px above it at 375 × 553 for the part-2 tab/sheet content. The phone art intake is 262,974 bytes. The phone title recipe caps its WebP at 80,000 bytes, so phone scene art is at most 342,974 bytes before shared CSS/type resources, leaving 107,026 bytes under the 450 KB first-paint scene budget.
+The compact phone entry treatment keeps the computed score and all recorded inputs in DOM text. At heights at or below 600 px the decorative crown and club subline collapse before data does; number inputs remain 16 px text. Review and loading/empty/partial/unavailable shells use the same bounded region rather than creating a scrolling page.
+
+### Height budget
+
+The stage is fixed to the viewport and overflow is hidden. Part 2 budgets 46 px immediately below the 55% hero seam for the manager/scoring toolbar and 66 px at the bottom for the pinned action zone. The selected entry or review panel occupies the remainder.
+
+| Viewport | Hero 55% | Bottom 45% | Toolbar | Action reserve | Entry/review region | Result |
+| --- | ---: | ---: | ---: | ---: | ---: | --- |
+| 393 × 660 | 363 px | 297 px | 46 px | 66 px | 185 px | Full-height stage; no page scroll |
+| 360 × 640 | 352 px | 288 px | 46 px | 66 px | 176 px | Full-height stage; no page scroll |
+| 375 × 553 | 304.15 px | 248.85 px | 46 px | 66 px | 136.85 px | Primary action remains pinned inside viewport |
+
+The scoring sheet is an overlay from 44% of viewport height to 8 px above the bottom edge, so opening it does not alter document height. Phone scene art remains at most 342,974 bytes from part 1 before shared CSS/type resources.
+
+Part 3 is job 173.
+
