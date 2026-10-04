@@ -1267,3 +1267,47 @@ button {
     right: 8px;
   }
 }
+
+
+/* JOB-164 part 3 · phone controls and pinned action. */
+@media (max-width: 760px) and (orientation: portrait) {
+  #legacy {
+    --legacy-phone-control-target: 44px;
+    --legacy-phone-primary-height: 48px;
+  }
+
+  .legacySidePanel button,
+  .legacyPager button,
+  .legacySeasonHistory button {
+    min-height: var(--legacy-phone-control-target);
+  }
+
+  .legacySidePanel button,
+  .legacyPager button {
+    min-width: var(--legacy-phone-control-target);
+  }
+
+  .legacySeasonHistory input,
+  .legacySeasonHistory select,
+  .legacySeasonHistory textarea {
+    min-height: var(--legacy-phone-control-target);
+    font-size: 16px;
+  }
+
+  .legacyPrimaryAction {
+    min-height: var(--legacy-phone-primary-height);
+    height: var(--legacy-phone-primary-height);
+    bottom: var(--legacy-phone-action-bottom);
+  }
+
+  .legacySidePanel button:focus-visible,
+  .legacyPager button:focus-visible,
+  .legacyPrimaryAction:focus-visible,
+  .legacySeasonHistory button:focus-visible,
+  .legacySeasonHistory input:focus-visible,
+  .legacySeasonHistory select:focus-visible,
+  .legacySeasonHistory textarea:focus-visible {
+    outline: 2px solid #ffe36c;
+    outline-offset: -2px;
+  }
+}
