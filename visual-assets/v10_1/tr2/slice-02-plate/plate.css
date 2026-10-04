@@ -869,3 +869,53 @@ body { overflow: hidden; font-family: var(--text); -webkit-font-smoothing: antia
     display: none;
   }
 }
+
+
+/* JOB-050 step 4: phone controls, true bottom action and keyboard-safe viewport. */
+@media (max-width: 760px) and (orientation: portrait) {
+  .stage {
+    --footer-h: 44px;
+    height: 100dvh;
+    min-height: 100dvh;
+  }
+
+  .world {
+    height: 100dvh;
+    padding-bottom:
+      calc(env(safe-area-inset-bottom) + var(--footer-h) + var(--phone-action-h) + (var(--phone-action-gap) * 2));
+  }
+
+  .guess-col select,
+  .guess-col input,
+  .signing-row input {
+    min-height: 44px;
+    font-size: 16px;
+  }
+
+  .btn-end,
+  .phase-guess .btn-lock,
+  .phase-signing .btn-lock,
+  .btn-continue {
+    min-height: 44px;
+    bottom: max(env(safe-area-inset-bottom), var(--phone-action-gap));
+  }
+
+  /* HOME / REFRESH remain screen HUD controls, not app navigation.
+     They compact into a 44px hint rail immediately above the primary action. */
+  .hud-footer {
+    height: var(--footer-h);
+    bottom:
+      calc(env(safe-area-inset-bottom) + var(--phone-action-h) + (var(--phone-action-gap) * 2));
+    padding: 0 8px;
+  }
+
+  .hud-footer .ghost,
+  .hud-footer .sd-btn {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
+/* With interactive-widget=resizes-content, a 300px software keyboard reduces the
+   layout viewport; the fixed primary action remains anchored to that resized
+   viewport instead of sitting underneath the keyboard. */
