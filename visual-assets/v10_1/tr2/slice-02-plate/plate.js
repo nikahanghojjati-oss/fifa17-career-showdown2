@@ -144,6 +144,75 @@
     ], { duration: SIGNATURE_MOTION.clockTickMs, easing: SIGNATURE_MOTION.easeOut });
   }
 
+  function stampGuessSeal(stage, target) {
+    if (!stage || !target) return;
+    if (motionReduced()) {
+      if (typeof target.animate === "function") {
+        target.animate([{ opacity: 0.62 }, { opacity: 1 }], {
+          duration: SIGNATURE_MOTION.reducedMs,
+          easing: "linear"
+        });
+      }
+      return;
+    }
+    var sr = stage.getBoundingClientRect(), tr = target.getBoundingClientRect();
+    var stamp = el("div", { class: "seal tw-motion-wax sd-slam-in", "aria-hidden": "true" });
+    stamp.appendChild(sealSvg());
+    stamp.style.left = (tr.left - sr.left) + "px";
+    stamp.style.top = (tr.top - sr.top) + "px";
+    stamp.style.width = tr.width + "px";
+    stamp.style.height = tr.height + "px";
+    stamp.style.animationDuration = SIGNATURE_MOTION.guessSealMs + "ms";
+    stamp.style.animationTimingFunction = SIGNATURE_MOTION.easeOut;
+    stage.appendChild(stamp);
+    requestAnimationFrame(function () { stamp.classList.add("sd-is-slamming"); });
+    window.setTimeout(function () { stamp.remove(); }, SIGNATURE_MOTION.guessSealMs + 80);
+  }
+
+  // Presentation only: never copies the private guess values into the travelling card.
+  function runGuessSubmitMotion(sourcePanel) {
+    if (!sourcePanel || sourcePanel.dataset.motionSubmitting === "true") return;
+    var stage = sourcePanel.closest(".stage") || document.getElementById("stage-root");
+    var target = stage && stage.querySelector(".panel.sealed .seal");
+    if (!stage || !target) return;
+    sourcePanel.dataset.motionSubmitting = "true";
+
+    if (motionReduced() || typeof sourcePanel.animate !== "function") {
+      stampGuessSeal(stage, target);
+      window.setTimeout(function () { delete sourcePanel.dataset.motionSubmitting; }, SIGNATURE_MOTION.reducedMs + 40);
+      return;
+    }
+
+    var sr = stage.getBoundingClientRect(), a = sourcePanel.getBoundingClientRect(), b = target.getBoundingClientRect();
+    var w = Math.max(112, Math.min(220, a.width * 0.46));
+    var h = Math.max(46, Math.min(78, a.height * 0.24));
+    var startX = a.left - sr.left + (a.width - w) / 2;
+    var startY = a.top - sr.top + (a.height - h) / 2;
+    var endX = b.left - sr.left + b.width / 2 - w / 2;
+    var endY = b.top - sr.top + b.height / 2 - h / 2;
+    var card = el("div", { class: "tw-guess-flight", "aria-hidden": "true" });
+    card.style.left = startX + "px";
+    card.style.top = startY + "px";
+    card.style.width = w + "px";
+    card.style.height = h + "px";
+    stage.appendChild(card);
+
+    var anim = card.animate([
+      { transform: "translate3d(0,0,0) scale(1)", opacity: 0.96 },
+      { transform: "translate3d(" + ((endX - startX) * 0.74) + "px," + ((endY - startY) * 0.74) + "px,0) scale(.62)", opacity: 0.92, offset: 0.74 },
+      { transform: "translate3d(" + (endX - startX) + "px," + (endY - startY) + "px,0) scale(.28)", opacity: 0.08 }
+    ], {
+      duration: SIGNATURE_MOTION.guessSlideMs,
+      easing: SIGNATURE_MOTION.easeInOut,
+      fill: "forwards"
+    });
+    Promise.resolve(anim.finished).catch(function () {}).then(function () {
+      card.remove();
+      stampGuessSeal(stage, target);
+      window.setTimeout(function () { delete sourcePanel.dataset.motionSubmitting; }, SIGNATURE_MOTION.guessSealMs + 40);
+    });
+  }
+
   // ---------- sign (read-only, rotated to the board: TWG-S7) ------------------
 
   function signRect(map) {
@@ -237,7 +306,9 @@
     body.appendChild(cols);
     var act = el("div", { class: "action-row" });
     act.appendChild(el("p", { id: "transferGuessPrivacyNote", class: "privacy-note", text: viewerIsNik ? S.privacyNoteNikViewer : S.privacyNoteDanielViewer }));
-    act.appendChild(el("button", { type: "button", id: "completeTransferChallenge", class: "btn-lock sd-btn sd-btn--primary", "data-sd-enter": "button", text: S.primary }));
+    var lockGuess = el("button", { type: "button", id: "completeTransferChallenge", class: "btn-lock sd-btn sd-btn--primary", "data-sd-enter": "button", text: S.primary });
+    lockGuess.addEventListener("click", function () { runGuessSubmitMotion(sec); });
+    act.appendChild(lockGuess);
     body.appendChild(act);
     body.appendChild(el("p", { id: "transferChallengeError", class: "error-line", role: "alert" }));
     sec.appendChild(body);
