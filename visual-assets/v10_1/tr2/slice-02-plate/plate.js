@@ -465,6 +465,15 @@
           cover.style.opacity = "0";
         }
       });
+      verdictWords.forEach(function (node) {
+        node.classList.add("tw-wipe-complete");
+        if (typeof node.animate === "function") {
+          node.animate([{ opacity: 0 }, { opacity: 1 }], {
+            duration: SIGNATURE_MOTION.reducedMs,
+            easing: "linear"
+          });
+        }
+      });
       await delay(SIGNATURE_MOTION.reducedMs);
       covers.forEach(function (cover) { cover.remove(); });
       return true;
