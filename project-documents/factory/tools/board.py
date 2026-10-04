@@ -114,6 +114,13 @@ SCREENS = [("Home", rng(31, 36) + [111, 122]), ("League", rng(37, 42) + [112, 12
            ("Final Winner", [7] + rng(82, 86) + [134, 139]), ("Start/Join", [8, 28] + rng(87, 91) + [120]),
            ("Standings", rng(126, 129)), ("Rule Book", [9] + rng(92, 94)), ("Settings", [10] + rng(95, 97)),
            ("Setup", [0, 1]), ("Foundation", rng(12, 18)), ("Art", rng(19, 22) + [29, 30, 121, 124]), ("Top bar", [125]), ("Integration", rng(103, 110))]
+# One-turn parts (CC-007, 2026-10-04): a job split into parts carries part_of = the original number in BOARD.json;
+# every part counts under the same screen as its original, so new numbers never need adding here by hand.
+for j in jobs:
+    if j.get("part_of") is not None:
+        for name, nums in SCREENS:
+            if j["part_of"] in nums and j["number"] not in nums:
+                nums.append(j["number"])
 def feed_rows(n=3):
     path = os.environ.get("FEED_MD") or os.path.join(F, "..", "leads-relay", "FEED.md")
     if not os.path.exists(path):
@@ -135,7 +142,7 @@ P = ["# Showdown Factory board", "",
      f"**{done} of {len(vjobs)} jobs done and checked · {overall} %** · updated {eastern(lc) if lc else 'now'}", "",
      "✅ **Quality check:** a job counts as done only after Claude checks it against the quality bar (average 4.2 or more, nothing under 3, hard gates pass). " + (f"Average score {avg_score} over {len(scored)} scored jobs. " if scored else "") + (f"🔍 Waiting for Claude's check: {', '.join(map(str, awaiting))}. " if awaiting else "🔍 Nothing waiting for a check. ") + (f"🔧 Sent back with a fix list: {', '.join(str(n) for n in resumable if fixing(n))}." if any(fixing(n) for n in resumable) else ""), "",
      f"{bar(overall)}", "",
-     "**Where to run:** 🟡 **project job** = new chat in the ChatGPT project \"Showdown visual\", type the number. 🟣 **image job** = its ticket in a ChatGPT **Temporary Chat** outside any project, then drop the picture in Claude's factory thread.", "",
+     "**Where to run:** 🟡 **project job** = new chat in the ChatGPT project \"Showdown visual\", type the number; one number is one turn (no Continue), and a job in parts shows its later parts only when the earlier part is done. 🟣 **image job** = its ticket in a ChatGPT **Temporary Chat** outside any project, then drop the picture in Claude's factory thread.", "",
      f"🟡 **Type next:** {', '.join([f'{n} (fix)' if fixing(n) else f'{n} (resume)' for n in resumable] + list(map(str, startable))) or '-'}" + (f" · then {', '.join(map(str, later))}" if later else ""), "",
      f"🟣 **Image next:** {', '.join(map(str, img_now)) or '-'}" + (f" · then {', '.join(map(str, img_later))}" if img_later else "") + (f" · tickets not written yet: {', '.join(map(str, img_noticket))}" if img_noticket else ""), "",
      f"**Working:** {', '.join(map(str, working)) or '-'} · **Blocked:** {', '.join(map(str, blocked)) or '-'}", "",

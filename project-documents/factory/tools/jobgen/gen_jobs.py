@@ -1360,7 +1360,7 @@ for b, f in WM_FIX.items():
 import os as _os
 REPO = os.path.join(REPO, "")  # repo root with a trailing slash, from the top of this file
 for j in JOBS:
-    if j["key"].startswith("phoneart_") and j["type"] == "image":
+    if j["key"].startswith("phoneart_") and j["type"] == "image" and j["key"] != "phoneart_SYS":  # 121 is done (its background is Claude-made)
         bg = [m for st in j["steps"] for m in re.findall(r"visual-assets/[^`\s]*ENV_[A-Z0-9]+_PHONE_V1\.webp", st)]
         if bg and _os.path.exists(REPO + bg[0]):
             j["type"] = "build"; j["worker"] = SOL_SHOTS
@@ -1397,6 +1397,245 @@ for j in JOBS:
     if j["key"] in ("ld_review", "ld_fix"):
         j["truth"].insert(0, "H10 ON LOADING (Claude lead decision, 2026-10-03): compare ONLY the protected regions: the Marco Reus photo crop (OWNER-4 asset assets/marco-reus-2015-cc-by.webp) and its OWNER-4 credit line, plus anything this job names as must-keep. The new Showdown UI (lockup, loader, type, layout, colours around it) is meant to differ from production, so it is left out of H10; whole-frame SSIM and colour drift against production do not apply. Do not widen the fix round past the review's (job 55's) fix list to reproduce the production scene.")
 
+# ---------------------------------------------------------------- One-turn jobs (CC-007, 2026-10-04)
+# One job = one normal Sol chat turn: it reads the job file, the status file and at most 5 other files (only the sections
+# named), writes at most 3 work files plus the status file (saved last), changes about 200 lines and makes ONE decision.
+# A job that was bigger is now several numbered jobs ("parts"): the original number keeps part 1, parts 2..k are
+# appended after the last job() call (so they number 140+) and every job that depended on the original now depends
+# on the last part. Jobs that had started before 2026-10-04 are not touched (their step totals must not change).
+CHAT = "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)"
+NO_ITEMS = "If this part has no items (the review passed, or its list is shorter), write `no items for this part` in the status notes, set `State: DONE` and finish with the one line."
+ONE_TURN_KEYS = set()
+
+def _scrub(text):
+    """Remove the multi-turn wording of the v2 helpers: everything in a part happens in this one turn."""
+    for a, b in [("at most two items per turn", "all in this turn"),
+                 ("one item per saved part (2a, 2b, ...)", "all items in this turn"),
+                 ("one item per saved part (1a, 1b, ...)", "all items in this turn"),
+                 ("(heavy step: alone in its turn)", "(heavy step: this part is only this)"),
+                 ("(heavy step: one moment per saved part 3a, 3b, ...)", "(heavy step: save after each moment)"),
+                 ("split into saved parts 2a (structure) and 2b (tabs and sheets) if more", "save the structure first, then the tabs and sheets"),
+                 (", \"project-documents/factory/QUALITY_BAR.md criterion 9\"", ""),
+                 ("`project-documents/factory/QUALITY_BAR.md` criterion 9, ", ""),
+                 ("Commit and finish. This is the screen's finish line: Claude takes a look next.", "Commit. This is the screen's finish line: Claude takes a look next."),
+                 ("Commit and finish.", "Commit.")]:
+        text = text.replace(a, b)
+    return text
+
+def _items(a, b, doc, label, extra=""):
+    return S(f"Fix items {a}–{b}", [f"{doc} (the fix list, items {a}–{b} only)", "only the file(s) those items name"], ["only the file(s) those items name"],
+             f"Do items {a} to {b} of the {label} fix list in order, exactly as written, nothing more. Note `item k: done, <file> <selector>` per item; an item that cannot be done as written is not improvised: note `item k: BLOCKED, <reason>` and go on. No screenshots, no browser. {NO_ITEMS}{extra}",
+             f"items {a}–{b} are each noted done or BLOCKED (or the no-items line is in the notes).")
+
+def _check(doc):
+    return S("Check by reading", [f"{doc} (the targets of the items you did)", "the file(s) you changed"], [STATUS + " (Self-check)"],
+             "Re-read every changed rule against its target value. Do not run browser QA: Claude re-measures at intake.",
+             "each item's target is met in the code, or it is BLOCKED with a reason.")
+
+def review_parts_v3(r):
+    r = list(r)
+    r[6] = r[6].replace("Fix list: numbered, each item one exact change (file, selector or asset, the change, the target value);",
+                        "Fix list: numbered, AT MOST 9 items, highest impact first, each item ONE exact change in ONE file (file, selector or asset, the change, the target value); items 1–3, 4–6 and 7–9 are three fix-round jobs, so order them by impact;")
+    return [[r[0], r[1]], [r[2]], [r[3]], [r[4], r[5], r[6]]]
+
+def fix_parts_v3(folder, name):
+    p = paths(folder, name)
+    f = fix_steps_v2(folder, name)
+    f0 = f[0].replace("copy the numbered fix list into the status notes as a checklist.", "copy the numbered fix list (at most 9 items) into the status notes as a checklist, then do items 1–3 below.")
+    section = S("Fix round section", [p["br"] + " (headings only)", "the status files of this job's earlier parts (their numbers are in the Part line at the top of this job)"], [p["br"] + " (section \"Fix round\")"],
+                "List every item done, every item blocked and what Claude must re-measure, across all three fix parts. Commit.",
+                "BUILD_RESULT.md has the Fix round section.")
+    skip = " If the review's verdict is PASS (the first part set SKIPPED), set `State: DONE`, note `review passed` and finish with the one line."
+    return [[f0, _items(1, 3, p["rv"], "review"), _check(p["rv"])],
+            [_items(4, 6, p["rv"], "review", skip), _check(p["rv"])],
+            [_items(7, 9, p["rv"], "review", skip), _check(p["rv"]), section]]
+
+def motion_parts_v3(m):
+    return [[m[0], m[1]], [m[2]], [m[3], m[4]]]
+
+def phone_parts_v3(p):
+    return [[p[0], p[2]], [p[1]], [p[3], p[4], p[5]]]
+
+def fixmotion_parts_v3(folder, name, fm):
+    p = paths(folder, name)
+    first = fm[0].replace("If the review passed, note `no fix items` and go on to step 4.", "If the review passed, note `no fix items`, set `State: DONE` and finish with the one line (the motion part is its own job).")
+    section = S("Fix round section", [p["br"] + " (headings only)", "the status files of this job's earlier parts (their numbers are in the Part line at the top of this job)"], [p["br"] + " (section \"Fix round\")"],
+                "List every item done and blocked across the fix parts and what Claude must re-measure. Commit.", "BUILD_RESULT.md has the Fix round section.")
+    motion_sec = S("Motion section and check by reading", [p["css"], p["js"]], [p["br"] + " (section \"Motion\")", STATUS + " (Self-check)"],
+                   "Write the motion timeline table (element, delay, duration, easing; total ≤ 1.2 s, usable at 0.6 s) and score criterion 8 yourself with evidence from the code. No recordings: Claude records them at intake. Commit. This is the screen's finish line: Claude takes a look next.",
+                   "BUILD_RESULT.md has the Motion section with the timeline.")
+    return [[first, _items(1, 3, p["rv"], "review"), _check(p["rv"])],
+            [_items(4, 6, p["rv"], "review"), _check(p["rv"])],
+            [_items(7, 9, p["rv"], "review"), _check(p["rv"]), section],
+            [fm[3], motion_sec]]
+
+def list_fix_parts_v3(doc, label):
+    """Three one-turn fix jobs over a review document's numbered fix list (items 1–3, 4–6, 7–9; the rest is pass 2)."""
+    section = S("Fix round section", [doc + " (headings only)", "the status files of this job's earlier parts (their numbers are in the Part line at the top of this job)"], [doc + " (section \"Fix round\")"],
+                "Items done, items blocked, screens Claude must re-measure, and every fix-list item after number 9 under `Left for pass 2` (Claude makes the pass-2 jobs). Commit.",
+                f"{doc.split('/')[-1]} has the Fix round section.")
+    return [[_items(1, 3, doc, label), _check(doc)], [_items(4, 6, doc, label), _check(doc)], [_items(7, 9, doc, label), _check(doc), section]]
+
+# Screen groups for the integration passes: five screens per part (one file per screen keeps a part at 5 reads).
+LDF_ = V + "/loading"
+SCREEN_FOLDERS = [("Home", V + "/home"), ("League", V + "/league"), ("Club Assignment", V + "/club"), ("Transfer War", V + "/tr2/slice-02-plate"), ("Loading", LDF_)] + \
+                 [(NEW_SCREENS[c]["name"], V + "/" + NEW_SCREENS[c]["folder"]) for c in ORDER] + \
+                 [("Standings", SDF), (SYSTEM_SCREENS["RB"]["name"], V + "/" + SYSTEM_SCREENS["RB"]["folder"]), (SYSTEM_SCREENS["ST"]["name"], V + "/" + SYSTEM_SCREENS["ST"]["folder"])]
+GROUPS = [SCREEN_FOLDERS[0:5], SCREEN_FOLDERS[5:10], SCREEN_FOLDERS[10:15]]
+def _names(g): return ", ".join(n for n, _ in g)
+
+def hub_parts_v3():
+    def links(g, first=False):
+        rd = ([V + "/shared/kit.html (panel and title classes)"] if first else [IN + "/index.html"]) + [f"{f}/BUILD_RESULT.md (its frames list only)" for _, f in g]
+        wr = [IN + "/index.html", IN + "/showcase.css"] if first or len(g) > 3 else [IN + "/index.html"]
+        body = (f"Start the hub: a Showdown-styled page on the system plate `{V}/shared/plates/ENV_SYS_PLATE_V1_1X.webp` with the title SHOWDOWN SHOWCASE (kit display font, comment `TODO-WORDMARK`). " if first else "") + \
+               f"Add one block per screen ({_names(g)}): its name, its folder and every frame id as a text link (`<folder>/index.html?frame=<id>`). No thumbnails: you may link Claude's committed shots in the screen's evidence/ folder, never copy or make images. DEFAULT if a BUILD_RESULT has no frames list: use the frame ids in that screen's fixtures.json."
+        return S(f"Hub links: {_names(g)}", rd, wr, body, "every screen in this group has its block with every frame id.")
+    router = S("Router", [V + "/home/home.js (how Home reads `routes` from fixtures.json)"], [IN + "/router.js", IN + "/routes.json"],
+               "A tiny shared router (`?screen=` + `?frame=`) with its table in routes.json: Home tiles → their screens, Back controls → their product destinations, Statistics → Rivalry and Trophy Room, Season Results → Final Winner (preview route). No screen's product ids change. DEFAULT for a route the product has but the showcase lacks a screen for: route to the hub page.",
+               "routes.json names a destination for every tile, Back and in-screen link.")
+    toggle = S("Phone mode toggle", [IN + "/index.html", IN + "/showcase.css"], [IN + "/index.html", IN + "/showcase.css", IN + "/router.js"],
+               "A toggle that shows the chosen screen inside a 393 × 660 frame (an iframe) and remembers the choice in the URL (`&phone=1`).",
+               "the toggle exists and the iframe size is exactly 393 × 660.")
+    check = S("Check by reading", [IN + "/routes.json", IN + "/index.html"], [STATUS + " (Self-check)"],
+              "Every routes.json target is a screen block and frame id that the hub lists; every Back route has a destination. No clicking in a browser: Claude walks the showcase at intake. Commit.",
+              "the Self-check lists every screen as reachable with its Back destination.")
+    return [[links(SCREEN_FOLDERS[0:4], first=True)], [links(SCREEN_FOLDERS[5:9])], [links(SCREEN_FOLDERS[9:13])], [links([SCREEN_FOLDERS[4]] + SCREEN_FOLDERS[13:15]), router], [toggle, check]]
+
+BIND_SCREENS = [("Home", V + "/home"), ("Start / Join", V + "/" + NEW_SCREENS["SJ"]["folder"]), ("Season Results", V + "/" + NEW_SCREENS["SR"]["folder"]),
+                ("Final Winner", V + "/" + NEW_SCREENS["FW"]["folder"]), ("Rivalry Statistics", V + "/" + NEW_SCREENS["RV"]["folder"]), ("Career Statistics", V + "/" + NEW_SCREENS["CS"]["folder"]),
+                ("Standings", SDF), ("Legacy (History)", V + "/" + NEW_SCREENS["LG"]["folder"]), ("Trophy Room", V + "/" + NEW_SCREENS["TR"]["folder"])]
+BIND = "project-documents/factory/reviews/BINDING.md"
+def bind_parts_v3():
+    G11 = "the G-11 fixture file that supplies these screens (the leads relay names it)"
+    def table(g):
+        return S(f"Binding table: {_names(g)}", [DC + " (the sections for these screens)"] + [f"{f}/fixtures.json" for _, f in g] + [G11], [BIND],
+                 f"For {_names(g)}: every fixtures.json field next to its contract name and the G-11 file and key that supplies it. A field the fixtures lack: write a BLOCKED line naming it (Claude asks Team G); the job itself goes on.",
+                 "every field of these screens has a contract name and a source, or a BLOCKED line.")
+    def swap(g):
+        hubs = [n for n, _ in g if n in ("Home", "Start / Join", "Rivalry Statistics", "Career Statistics", "Standings", "Legacy (History)", "Trophy Room")]
+        nav = (f" Hub screens here ({', '.join(hubs)}) also get their `nav: {{active, locked, reason}}` block (DEFAULT reason per screen from `{NB}/NAV_CONTRACT.md`, read only its lock table)." if hubs else "")
+        return S(f"Swap the sample numbers: {_names(g)}", [BIND + " (these screens' rows)"] + [f"{f}/fixtures.json" for _, f in g] + [G11], [f"{f}/fixtures.json" for _, f in g],
+                 f"Swap the sample numbers for the G-11 values, keeping each screen's five states (`loading`, `empty`, `unavailable`, `partial`, `ready`), the visible \"Preview data\" tag and Daniel first.{nav} A js file that must change because a field was renamed is NOT edited here: list it under `js changes` in BINDING.md (the locks part does them).",
+                 "these screens' frames carry G-11 numbers and still render all five states.")
+    locks = S("Top bar locks and the js renames", [BIND + " (`js changes`)", NB + "/NAV_CONTRACT.md (lock table)", NB + "/navbar.js", "at most two js files from `js changes`"], [NB + "/navbar.js", "those two js files at most"],
+              "navbar.js reads each screen's `nav` block: a locked tap shows \"Finish this step first\" and does not navigate; every reason (`transfer-window` / `season-entry` / `setup`) has a locked frame. Do the listed js renames (at most two files; more go under `Left for pass 2` in BINDING.md). Check by reading; Claude clicks the locks at intake.",
+              "the lock behaviour is in navbar.js and the renames are done or listed for pass 2.")
+    consistency = S("Consistency check", [BIND + " (the shared fields)"], [V + "/shared/tools/check_binding.py", STATUS + " (notes: the script output)"],
+                    "A small Python script (it reads the fixtures.json of Home, Legacy, Statistics, Rivalry, Standings and Trophy Room itself; you do not open them) that asserts every shared number is identical across those screens for the same fixture set; run it in your sandbox until it prints `0 errors` and paste the output into the notes. Commit.",
+                    "the script prints `0 errors`.")
+    return [[table(BIND_SCREENS[0:3])], [table(BIND_SCREENS[3:6])], [table(BIND_SCREENS[6:9])],
+            [swap(BIND_SCREENS[0:3])], [swap(BIND_SCREENS[3:6])], [swap(BIND_SCREENS[6:9])], [locks], [consistency]]
+
+PP = "project-documents/factory/reviews/PHONE_PASS.md"
+def phonepass_parts_v3():
+    def collect(g):
+        return S(f"Claude's phone measurements: {_names(g)}", [f"{f}/evidence/qa/QA_SUMMARY.md" for _, f in g], [PP + " (per-screen table)"],
+                 "Copy per screen and frame: scroll at 393 × 660, 360 × 640, 375 × 553, 390 × 844, 430 × 932, primary visible at 375 × 553, 44 px targets, input sizes, errors, each with its source path. Do not run factory-qa: Claude measured these at each intake; write NOT MEASURED where a number is missing (Claude measures).",
+                 "the table has one row per screen and frame of this group.")
+    def consist(g):
+        css = [f"{f}/{f.rstrip('/').split('/')[-1] if f != V + '/tr2/slice-02-plate' else 'plate'}.css (the phone media query only)" for _, f in g]
+        return S(f"Consistency between screens: {_names(g)}", css, [PP + " (section Consistency)"],
+                 "One row per screen: hero band height, title size, pinned button bottom offset, tab style, reserved bar. DEFAULT shared value: the one most screens use so far; mark every outlier.",
+                 "every screen of this group has a row and every outlier is marked.")
+    flow = S("Walk the flow by reading", [IN + "/routes.json"], [PP + " (section Flow)"],
+             "Home → Start/Join → League → Club → Transfer → Season Results → Final Winner → Legacy → Statistics → Rivalry → Trophy Room → Rule Book → Settings: for each hop, the link exists in routes.json with a target frame. Claude clicks the real flow in phone mode at intake.",
+             "every hop is listed as present or missing.")
+    fixlist = S("Fix list", [PP], [PP + " (section Fix list)"],
+                "One numbered fix list, AT MOST 9 items, highest impact first, each ONE change in ONE file (file, selector, change, target value); items 1–3, 4–6 and 7–9 are three fix jobs. Commit.",
+                "PHONE_PASS.md is complete.")
+    return [[collect(g)] for g in GROUPS] + [[consist(g)] for g in GROUPS] + [[flow, fixlist]]
+
+MP = "project-documents/factory/reviews/MOTION_PASS.md"
+def motionpass_parts_v3():
+    def collect(g):
+        return S(f"Collect the timelines: {_names(g)}", [f"{f}/BUILD_RESULT.md (section Motion only)" for _, f in g], [MP + " (table)"],
+                 "One row per screen: entrance total, first usable, stagger, easings, reduced-motion path; link Claude's frame strips in the screen's evidence/motion/ (never record). Mark every outlier against MOTION.md.",
+                 "every screen of this group has a row; outliers are marked.")
+    transition = S("Shared screen-to-screen transition", [V + "/shared/motion.css", IN + "/router.js"], [IN + "/router.js", IN + "/showcase.css"],
+                   "In the showcase: fade through black with a gold wipe, 350 ms, between screens; reduced motion = plain fade. Transform and opacity only.",
+                   "the transition is in the showcase with its reduced-motion path.")
+    outliers = S("Align the outliers", [MP + " (the outlier rows)", "the css or js of at most three outlier screens (their timing constants only)"], ["only the timing constants in those three files at most"],
+                 "Set the outliers to the shared timings (values only, no new effects); a fourth and further outlier goes into the fix list instead. One decision: which shared value wins (DEFAULT: MOTION.md's).",
+                 "no changed screen deviates without a written reason.")
+    sound = S("Menu feedback sounds by reading", ["js/menuFeedback.js on main", V + "/shared/motion.js"], [MP + " (section Sound)"],
+              "If the product plays sounds: each fires once per action and respects the setting; write what you found. DEFAULT: Team V adds no new sounds.",
+              "the Sound section says what the product does and what the kit respects.")
+    verdict = S("Write the pass", [MP], [MP], "Verdict per screen and one numbered fix list (at most 9 items, one change in one file each). Commit.", "MOTION_PASS.md is complete.")
+    return [[collect(g)] for g in GROUPS] + [[transition], [outliers], [sound, verdict]]
+
+def package_parts_v3():
+    def approval(g, first=False):
+        return S(f"Approval page: {_names(g)}", [f"{f}/review/REVIEW.md (scores) and the file names in {f}/evidence/" for _, f in g], [IN + "/APPROVAL.html"] + ([IN + "/showcase.css"] if first else []),
+                 ("Start APPROVAL.html in the Showdown look. " if first else "") + "One row per screen: Claude's committed desktop and phone shots next to its mockup from `project-documents/factory/mockups/`, referenced by path (link, never copy or make an image), with its final scores. DEFAULT when a shot is missing: an empty gold-edged slot with the words `Claude renders this at intake`.",
+                 "every screen of this group has its row with mockup, two shots (or slots) and scores.")
+    pkg = S("Package list", ["the folder listing of `" + V + "` (names only)"], ["project-documents/factory/PACKAGE.md"],
+            "Screens, folders, shared kit, assets, data candidate files, known gaps. Hashes: never recompute binaries; write `see <folder>/intake_report.md` (or phone_intake.md / README.md) per asset folder.",
+            "every asset folder is listed with its pointer.")
+    hand = S("Handoff", ["project-documents/factory/PACKAGE.md", "AGENTS.md (the POS20 paragraph only)"], ["project-documents/factory/HANDOFF_TO_SOL.md"],
+             "For GPT-5.6 Sol: what is ready, what must go through POS20 to reach main (data candidate, screen integration), and the open questions. Nothing goes to main in this job. Commit.",
+             "HANDOFF_TO_SOL.md is committed.")
+    return [[approval(GROUPS[0], first=True)], [approval(GROUPS[1])], [approval(GROUPS[2])], [pkg], [hand]]
+
+def split(key, parts):
+    """Part 1 keeps the number and title '(part 1 of k)'; parts 2..k are appended; dependents move to the last part."""
+    k = len(parts)
+    j = BYK()[key]
+    base_title = j["title"]
+    j["steps"] = list(parts[0]); j["title"] = f"{base_title} (part 1 of {k})"; j["worker"] = CHAT; j["part_of"] = key; j["part"] = (1, k)
+    ONE_TURN_KEYS.add(key)
+    look, done = j["look"], j["done"]
+    if k > 1:
+        j["look"] = False
+        j["done"] = f"Part 1 of {k} is saved and every step's Done line holds; part 2 is job {{job:{key}_p2}}."
+    prev = key
+    for i in range(2, k + 1):
+        pk = f"{key}_p{i}"
+        job(pk, f"{base_title} (part {i} of {k})", j["phase"], j["type"], CHAT, [prev], list(parts[i - 1]), j["goal"], read=j["read"], mockup=j["mockup"], truth=j["truth"],
+            inputs=j["inputs"], deliverables=j["deliverables"], selfcheck=j["selfcheck"],
+            done=(done if i == k else f"Part {i} of {k} is saved and every step's Done line holds; part {i + 1} is job {{job:{key}_p{i + 1}}}."),
+            waits=j["waits"], look=(look if i == k else False), note=j["note"], team_g=j["team_g"])
+        JOBS[-1]["part_of"] = key; JOBS[-1]["part"] = (i, k)
+        ONE_TURN_KEYS.add(pk)
+        prev = pk
+    last = prev
+    for o in JOBS:
+        if o["key"] != key and key in o["deps"] and not o["key"].startswith(key + "_p"):
+            o["deps"] = [last if d == key else d for d in o["deps"]]
+
+# Which jobs (all NOT STARTED on 2026-10-04) are reshaped. Not reshaped: 50, 61, 83 (started), 99-102 (Team G), 108 (Codex), 118 (image ticket), every DONE job.
+_steps = lambda k: BYK()[k]["steps"]
+split("tr_review", review_parts_v3(_steps("tr_review")))
+split("tr_fix", fix_parts_v3(TF, "plate"))
+split("tr_motion", motion_parts_v3(_steps("tr_motion")))
+for c in ["CS", "RV", "LG", "SR", "FW", "SJ"]:
+    fo, nm_ = V + "/" + NEW_SCREENS[c]["folder"], NEW_SCREENS[c]["folder"]
+    if c in ("RV", "LG", "SR", "SJ"): split(c + "_phone", phone_parts_v3(_steps(c + "_phone")))
+    if c != "FW": split(c + "_review", review_parts_v3(_steps(c + "_review")))
+    split(c + "_fix", fix_parts_v3(fo, nm_))
+    split(c + "_motion", motion_parts_v3(_steps(c + "_motion")))
+split("ST_fix", fixmotion_parts_v3(V + "/" + SYSTEM_SCREENS["ST"]["folder"], SYSTEM_SCREENS["ST"]["folder"], _steps("ST_fix")))
+split("SD_fix", fixmotion_parts_v3(SDF, "standings", _steps("SD_fix")))
+_sd = _steps("SD_build")
+split("SD_build", [[_sd[0], _sd[1]], [_sd[2], _sd[3]], [_sd[4], _sd[6]], [_sd[5]], [_sd[7]], [_sd[8], _sd[9]]])
+_nb = _steps("navbar")
+split("navbar", [[_nb[0], _nb[1]], [_nb[2], _nb[3], _nb[5]], [_nb[4]]])
+for c in ["RV", "SR", "SJ"]:
+    _pa = BYK()["phoneart_" + c]
+    assert _pa["type"] == "build", c  # the background exists, so steps 2-4 are Claude's; only the recipes are left
+    split("phoneart_" + c, [[_pa["steps"][0]], [_pa["steps"][4], _pa["steps"][5]]])
+split("int_hub", hub_parts_v3())
+split("int_bind", bind_parts_v3())
+split("int_phone", phonepass_parts_v3())
+split("int_phone_fix", list_fix_parts_v3(PP, "phone pass"))
+split("int_motion", motionpass_parts_v3())
+split("int_final_fix", list_fix_parts_v3("project-documents/factory/reviews/FINAL_REVIEW.md", "final review"))
+split("int_package", package_parts_v3())
+for j in JOBS:
+    if j["key"] in ONE_TURN_KEYS:
+        j["steps"] = [_scrub(s) for s in j["steps"]]
+        j["read"] = [r for r in j["read"] if not r.startswith("every ") and not r.startswith("project-documents/factory/reviews/")]
+
 # ---------------------------------------------------------------- numbering, waves, writing
 idx = {j["key"]: n for n, j in enumerate(JOBS)}
 for j in JOBS:
@@ -1424,6 +1663,13 @@ def sub(n, text):
     text = text.replace("{navbar}", str(num("navbar"))).replace("{n}", f"{n:03d}").replace("{N}", str(n))
     return re.sub(r"\{job:(\w+)\}", lambda m: f"{num(m.group(1)):03d}", text)
 
+ONE_TURN_PACE = ("**One turn (handbook Pace rules, 2026-10-04):** do the whole job in this turn and never ask the user to type continue. "
+    "Size: read the job file, the status file and at most 5 other files (only the sections the steps name); write at most 3 work files plus the status file, saved last; about 200 changed lines; ONE decision (take the written DEFAULT for anything else). "
+    "Text files only: never make or upload images, zips or screenshots; recipes go in tools/MAKE_ASSETS.md and Claude makes the files and checks the screen. Never wait on GitHub Actions. No browser. "
+    "Idempotent: before writing, look at the branch's newest commits for `Job {N}`; keep every file already saved, write only what is missing, save the status file last. "
+    "If GitHub refuses a save, stop at once and reply `Job {N} paused: GitHub refused a save. Type {N} in a new chat.` "
+    "End with exactly one line: `Job {N} done: <what>. Next: <numbers>.`")
+
 def render(n, j):
     j = dict(j, truth=[sub(n, t) for t in j["truth"]], steps=[sub(n, s) for s in j["steps"]], read=[sub(n, r) for r in j["read"]], goal=sub(n, j["goal"]))
     deps = ", ".join(f"{num(d)} ({JOBS[num(d)]['title']})" for d in j["deps"]) or "nothing"
@@ -1431,7 +1677,13 @@ def render(n, j):
          "| Phase | Type | Lane | Worker | Wave | Steps | Claude look |", "| --- | --- | --- | --- | --- | --- | --- |",
          f"| {j['phase']} | {j['type']} | {lane(j)} | {j['worker']} | {wave[j['key']]} | {len(j['steps'])} | {'yes, at the end' if j['look'] else 'no'} |", "",
          f"**Depends on:** {deps}.", "",
-         "**Pace (handbook Pace rules):** at most two steps per turn, each saved with the status file; then stop with `Step k of n done and saved. Type continue for step k+1.` Steps sized to Sol capacity (split big steps into saved parts). Text files only: never make or upload images, zips or screenshots; write recipes in tools/MAKE_ASSETS.md and Claude makes the files and checks the screen. Never wait on GitHub Actions. Pick a noted DEFAULT instead of stopping unless it is product truth.", ""]
+         (ONE_TURN_PACE.format(N=n) if j.get("part_of") else
+          "**Pace (handbook Pace rules):** at most two steps per turn, each saved with the status file; then stop with `Step k of n done and saved. Type continue for step k+1.` Steps sized to Sol capacity (split big steps into saved parts). Text files only: never make or upload images, zips or screenshots; write recipes in tools/MAKE_ASSETS.md and Claude makes the files and checks the screen. Never wait on GitHub Actions. Pick a noted DEFAULT instead of stopping unless it is product truth."), ""]
+    if j.get("part_of"):
+        i, k = j["part"]
+        others = ", ".join(str(num(j["part_of"] if q == 1 else f"{j['part_of']}_p{q}")) for q in range(1, k + 1) if q != i)
+        L += [f"**Part {i} of {k}.** This number is one turn of work; the other parts are jobs {others}. Each part is its own job with its own status file; part {i} starts only when part {i - 1} is DONE or SKIPPED." if i > 1 else
+              f"**Part 1 of {k}.** This number is one turn of work; parts 2 to {k} are jobs {others} and each waits for the part before it.", ""]
     if j["type"] == "image":
         L += [f"**FRESH-CHAT IMAGE JOB (Nik, 2026-10-02): this job is NOT typed into the Showdown visual project.** Images come out better in a ChatGPT Temporary Chat outside any project (no memory, no chat history). Nik runs the job's image ticket(s) in `project-documents/factory/tickets/` (`TICKET-{n:03d}_*.md`, one image per ticket) and drops each image into Claude's factory thread; Claude checks it, commits it and does the remaining steps below. If this job has no ticket yet, Claude first makes the attachment it needs (for phone art: the cut-outs and the portrait guide from the finished plate) and then writes the ticket.",
               f"If you are a chat in the Showdown visual project and were given {n}, do nothing else and reply only: \"Job {n} is an image job. Run its ticket in a new chat outside this project (see project-documents/factory/tickets/README.md).\"", ""]
@@ -1449,14 +1701,21 @@ def render(n, j):
         L += ["## The mockup and what to take from it", ""] + [f"- {m}" for m in j["mockup"]] + [""]
     if j["truth"]:
         L += ["## Product truth that overrides the mockup", ""] + [f"- {t}" for t in j["truth"]] + [""]
-    L += ["## Steps", "", f"Do them in order. After each step update `project-documents/factory/status/JOB-{n:03d}.md` and push with the message `Job {n} step k/{len(j['steps'])}: <step name>`.", ""]
+    if j.get("part_of"):
+        L += ["## Steps", "", f"Do them all in this turn, in order. Save each step's files as you finish them (commit `Job {n} step k/{len(j['steps'])}: <step name>`); save `project-documents/factory/status/JOB-{n:03d}.md` last with `State: DONE`, `Step: {len(j['steps'])} of {len(j['steps'])}` and one note line per step (commit `Job {n} done: {j['title']}`).", ""]
+    else:
+        L += ["## Steps", "", f"Do them in order. After each step update `project-documents/factory/status/JOB-{n:03d}.md` and push with the message `Job {n} step k/{len(j['steps'])}: <step name>`.", ""]
     for i, s in enumerate(j["steps"], 1):
         L += [f"{i}. {s}", ""]
     L += ["## Deliverables", ""] + [f"- `{d}`" if not d.startswith("updated") and not d.startswith("fixed") and " " not in d.split("/")[0] else f"- {d}" for d in j["deliverables"]] + [""]
     L += ["## Self-check before \"done\"", "", "Write each line with PASS or FAIL and one line of evidence into the status file.", ""]
     L += [f"- [ ] {c}" for c in j["selfcheck"]]
     L += ["- [ ] Only the files this job names were changed.", "- [ ] Daniel left, Nik right; no real logos, trophies or players; no data baked into images (where this job touches visuals).", ""]
-    L += ["## Done when", "", j["done"], "", f"Finish with the commit message `Job {n} done: {j['title']}` and one line to Nik."]
+    if j.get("part_of"):
+        nxt = ", ".join(str(m) for m, o in enumerate(JOBS) if j["key"] in o["deps"]) or "nothing on the board"
+        L += ["## Done when", "", j["done"], "", f"Finish with the commit message `Job {n} done: {j['title']}` and exactly one line to Nik: `Job {n} done: <what you made>. Next: {nxt}.` Never ask the user to type continue."]
+    else:
+        L += ["## Done when", "", j["done"], "", f"Finish with the commit message `Job {n} done: {j['title']}` and one line to Nik."]
     return "\n".join(L) + "\n"
 
 def status(n, j):
@@ -1478,6 +1737,7 @@ for n, j in enumerate(JOBS):
         t2 = re.sub(r"^(Step:\s*\d+\s*of\s*)\d+", lambda m: m.group(1) + str(len(j["steps"])), t2, count=1, flags=re.M)
         if t2 != t: open(sp, "w").write(t2)
     board.append(dict(number=n, key=j["key"], title=j["title"], phase=j["phase"], wave=wave[j["key"]], depends_on=[num(d) for d in j["deps"]],
-                      type=j["type"], worker=j["worker"], lane=lane(j), steps=len(j["steps"]), waits_on_nik=j["waits"], waits_on_team_g=j["team_g"], needs_claude_look=j["look"]))
+                      type=j["type"], worker=j["worker"], lane=lane(j), steps=len(j["steps"]), waits_on_nik=j["waits"], waits_on_team_g=j["team_g"], needs_claude_look=j["look"],
+                      part_of=(num(j["part_of"]) if j.get("part_of") else None), part=(list(j["part"]) if j.get("part") else None)))
 json.dump(dict(branch=BR, generated="2026-10-02", jobs=board), open(F + "/BOARD.json", "w"), indent=1)
 print(len(JOBS), "jobs; waves:", max(wave.values()))

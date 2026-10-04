@@ -13,6 +13,7 @@ import re, sys, datetime, os
 F = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
 n, verdict, score, notes = int(sys.argv[1]), sys.argv[2].upper(), sys.argv[3], sys.argv[4:]
 assert verdict in ("PASS", "FIX")
+assert verdict != "FIX" or len(notes) <= 3, "at most 3 fix items per pass (handbook §5b): the rest become pass 2 after the recheck"
 p = os.path.join(F, "status", f"JOB-{n:03d}.md")
 t = open(p).read()
 now = datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M UTC")

@@ -15,7 +15,9 @@
    "steps": 7,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 1,
@@ -30,7 +32,9 @@
    "steps": 5,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 2,
@@ -45,7 +49,9 @@
    "steps": 7,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 3,
@@ -60,7 +66,9 @@
    "steps": 7,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 4,
@@ -75,7 +83,9 @@
    "steps": 7,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 5,
@@ -90,7 +100,9 @@
    "steps": 7,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 6,
@@ -105,7 +117,9 @@
    "steps": 7,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 7,
@@ -120,7 +134,9 @@
    "steps": 7,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 8,
@@ -135,7 +151,9 @@
    "steps": 7,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 9,
@@ -150,7 +168,9 @@
    "steps": 7,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 10,
@@ -165,7 +185,9 @@
    "steps": 7,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 11,
@@ -180,7 +202,9 @@
    "steps": 7,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 12,
@@ -195,7 +219,9 @@
    "steps": 6,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 13,
@@ -212,7 +238,9 @@
    "steps": 6,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 14,
@@ -229,7 +257,9 @@
    "steps": 5,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 15,
@@ -247,7 +277,9 @@
    "steps": 6,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 16,
@@ -264,7 +296,9 @@
    "steps": 5,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 17,
@@ -279,7 +313,9 @@
    "steps": 5,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 18,
@@ -300,7 +336,9 @@
    "steps": 5,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": true
+   "needs_claude_look": true,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 19,
@@ -317,7 +355,9 @@
    "steps": 4,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 20,
@@ -334,7 +374,9 @@
    "steps": 4,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 21,
@@ -351,7 +393,9 @@
    "steps": 4,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 22,
@@ -368,7 +412,9 @@
    "steps": 4,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 23,
@@ -385,7 +431,9 @@
    "steps": 7,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 24,
@@ -402,7 +450,9 @@
    "steps": 7,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 25,
@@ -419,7 +469,9 @@
    "steps": 7,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 26,
@@ -436,7 +488,9 @@
    "steps": 7,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 27,
@@ -453,7 +507,9 @@
    "steps": 7,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 28,
@@ -470,7 +526,9 @@
    "steps": 7,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 29,
@@ -487,7 +545,9 @@
    "steps": 4,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 30,
@@ -514,7 +574,9 @@
    "steps": 4,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": true
+   "needs_claude_look": true,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 31,
@@ -532,7 +594,9 @@
    "steps": 5,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 32,
@@ -552,7 +616,9 @@
    "steps": 6,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 33,
@@ -570,7 +636,9 @@
    "steps": 6,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 34,
@@ -587,7 +655,9 @@
    "steps": 7,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 35,
@@ -604,7 +674,9 @@
    "steps": 4,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 36,
@@ -622,7 +694,9 @@
    "steps": 5,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": true
+   "needs_claude_look": true,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 37,
@@ -642,7 +716,9 @@
    "steps": 7,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 38,
@@ -659,7 +735,9 @@
    "steps": 4,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 39,
@@ -677,7 +755,9 @@
    "steps": 6,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 40,
@@ -694,7 +774,9 @@
    "steps": 7,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 41,
@@ -712,7 +794,9 @@
    "steps": 4,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 42,
@@ -730,7 +814,9 @@
    "steps": 5,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": true
+   "needs_claude_look": true,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 43,
@@ -748,7 +834,9 @@
    "steps": 5,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 44,
@@ -766,7 +854,9 @@
    "steps": 4,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 45,
@@ -784,7 +874,9 @@
    "steps": 6,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 46,
@@ -801,7 +893,9 @@
    "steps": 7,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 47,
@@ -819,7 +913,9 @@
    "steps": 4,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 48,
@@ -837,7 +933,9 @@
    "steps": 5,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": true
+   "needs_claude_look": true,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 49,
@@ -855,7 +953,9 @@
    "steps": 5,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 50,
@@ -873,60 +973,77 @@
    "steps": 6,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 51,
    "key": "tr_review",
-   "title": "Transfer War: review",
+   "title": "Transfer War: review (part 1 of 4)",
    "phase": "4 Polish built screens",
    "wave": 7,
    "depends_on": [
     50
    ],
    "type": "review",
-   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
    "lane": "project (type number)",
-   "steps": 7,
+   "steps": 2,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": 51,
+   "part": [
+    1,
+    4
+   ]
   },
   {
    "number": 52,
    "key": "tr_fix",
-   "title": "Transfer War: fix round",
+   "title": "Transfer War: fix round (part 1 of 3)",
    "phase": "4 Polish built screens",
-   "wave": 8,
+   "wave": 11,
    "depends_on": [
-    51,
+    142,
     124
    ],
    "type": "fix",
-   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
    "lane": "project (type number)",
-   "steps": 4,
+   "steps": 3,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": 52,
+   "part": [
+    1,
+    3
+   ]
   },
   {
    "number": 53,
    "key": "tr_motion",
-   "title": "Transfer War: motion",
+   "title": "Transfer War: motion (part 1 of 3)",
    "phase": "4 Polish built screens",
-   "wave": 9,
+   "wave": 14,
    "depends_on": [
-    52,
+    144,
     16
    ],
    "type": "build",
-   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
    "lane": "project (type number)",
-   "steps": 5,
+   "steps": 2,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": true
+   "needs_claude_look": false,
+   "part_of": 53,
+   "part": [
+    1,
+    3
+   ]
   },
   {
    "number": 54,
@@ -944,7 +1061,9 @@
    "steps": 5,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 55,
@@ -961,7 +1080,9 @@
    "steps": 8,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 56,
@@ -978,7 +1099,9 @@
    "steps": 5,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": true
+   "needs_claude_look": true,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 57,
@@ -1003,7 +1126,9 @@
    "steps": 9,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 58,
@@ -1021,7 +1146,9 @@
    "steps": 6,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 59,
@@ -1038,7 +1165,9 @@
    "steps": 7,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 60,
@@ -1055,7 +1184,9 @@
    "steps": 4,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 61,
@@ -1073,7 +1204,9 @@
    "steps": 5,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": true
+   "needs_claude_look": true,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 62,
@@ -1098,7 +1231,9 @@
    "steps": 9,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 63,
@@ -1116,59 +1251,76 @@
    "steps": 6,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 64,
    "key": "CS_review",
-   "title": "Career Statistics: review",
+   "title": "Career Statistics: review (part 1 of 4)",
    "phase": "5 New screens",
    "wave": 7,
    "depends_on": [
     63
    ],
    "type": "review",
-   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
    "lane": "project (type number)",
-   "steps": 7,
+   "steps": 2,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": 64,
+   "part": [
+    1,
+    4
+   ]
   },
   {
    "number": 65,
    "key": "CS_fix",
-   "title": "Career Statistics: fix round",
+   "title": "Career Statistics: fix round (part 1 of 3)",
    "phase": "5 New screens",
-   "wave": 8,
+   "wave": 11,
    "depends_on": [
-    64
+    149
    ],
    "type": "fix",
-   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
    "lane": "project (type number)",
-   "steps": 4,
+   "steps": 3,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": 65,
+   "part": [
+    1,
+    3
+   ]
   },
   {
    "number": 66,
    "key": "CS_motion",
-   "title": "Career Statistics: motion",
+   "title": "Career Statistics: motion (part 1 of 3)",
    "phase": "5 New screens",
-   "wave": 9,
+   "wave": 14,
    "depends_on": [
-    65,
+    151,
     16
    ],
    "type": "build",
-   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
    "lane": "project (type number)",
-   "steps": 5,
+   "steps": 2,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": true
+   "needs_claude_look": false,
+   "part_of": 66,
+   "part": [
+    1,
+    3
+   ]
   },
   {
    "number": 67,
@@ -1192,77 +1344,99 @@
    "steps": 9,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 68,
    "key": "RV_phone",
-   "title": "Rivalry Statistics: phone",
+   "title": "Rivalry Statistics: phone (part 1 of 3)",
    "phase": "5 New screens",
    "wave": 6,
    "depends_on": [
     67,
-    117
+    207
    ],
    "type": "build",
-   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
    "lane": "project (type number)",
-   "steps": 6,
+   "steps": 2,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": 68,
+   "part": [
+    1,
+    3
+   ]
   },
   {
    "number": 69,
    "key": "RV_review",
-   "title": "Rivalry Statistics: review",
+   "title": "Rivalry Statistics: review (part 1 of 4)",
    "phase": "5 New screens",
-   "wave": 7,
+   "wave": 9,
    "depends_on": [
-    68
+    155
    ],
    "type": "review",
-   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
    "lane": "project (type number)",
-   "steps": 7,
+   "steps": 2,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": 69,
+   "part": [
+    1,
+    4
+   ]
   },
   {
    "number": 70,
    "key": "RV_fix",
-   "title": "Rivalry Statistics: fix round",
+   "title": "Rivalry Statistics: fix round (part 1 of 3)",
    "phase": "5 New screens",
-   "wave": 8,
+   "wave": 13,
    "depends_on": [
-    69
+    158
    ],
    "type": "fix",
-   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
    "lane": "project (type number)",
-   "steps": 4,
+   "steps": 3,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": 70,
+   "part": [
+    1,
+    3
+   ]
   },
   {
    "number": 71,
    "key": "RV_motion",
-   "title": "Rivalry Statistics: motion",
+   "title": "Rivalry Statistics: motion (part 1 of 3)",
    "phase": "5 New screens",
-   "wave": 9,
+   "wave": 16,
    "depends_on": [
-    70,
+    160,
     16
    ],
    "type": "build",
-   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
    "lane": "project (type number)",
-   "steps": 5,
+   "steps": 2,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": true
+   "needs_claude_look": false,
+   "part_of": 71,
+   "part": [
+    1,
+    3
+   ]
   },
   {
    "number": 72,
@@ -1287,12 +1461,14 @@
    "steps": 11,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 73,
    "key": "LG_phone",
-   "title": "Legacy (History): phone",
+   "title": "Legacy (History): phone (part 1 of 3)",
    "phase": "5 New screens",
    "wave": 6,
    "depends_on": [
@@ -1300,64 +1476,84 @@
     118
    ],
    "type": "build",
-   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
    "lane": "project (type number)",
-   "steps": 6,
+   "steps": 2,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": 73,
+   "part": [
+    1,
+    3
+   ]
   },
   {
    "number": 74,
    "key": "LG_review",
-   "title": "Legacy (History): review",
+   "title": "Legacy (History): review (part 1 of 4)",
    "phase": "5 New screens",
-   "wave": 7,
+   "wave": 9,
    "depends_on": [
-    73
+    164
    ],
    "type": "review",
-   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
    "lane": "project (type number)",
-   "steps": 7,
+   "steps": 2,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": 74,
+   "part": [
+    1,
+    4
+   ]
   },
   {
    "number": 75,
    "key": "LG_fix",
-   "title": "Legacy (History): fix round",
+   "title": "Legacy (History): fix round (part 1 of 3)",
    "phase": "5 New screens",
-   "wave": 8,
+   "wave": 13,
    "depends_on": [
-    74
+    167
    ],
    "type": "fix",
-   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
    "lane": "project (type number)",
-   "steps": 4,
+   "steps": 3,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": 75,
+   "part": [
+    1,
+    3
+   ]
   },
   {
    "number": 76,
    "key": "LG_motion",
-   "title": "Legacy (History): motion",
+   "title": "Legacy (History): motion (part 1 of 3)",
    "phase": "5 New screens",
-   "wave": 9,
+   "wave": 16,
    "depends_on": [
-    75,
+    169,
     16
    ],
    "type": "build",
-   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
    "lane": "project (type number)",
-   "steps": 5,
+   "steps": 2,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": true
+   "needs_claude_look": false,
+   "part_of": 76,
+   "part": [
+    1,
+    3
+   ]
   },
   {
    "number": 77,
@@ -1381,77 +1577,99 @@
    "steps": 11,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 78,
    "key": "SR_phone",
-   "title": "Season Results: phone",
+   "title": "Season Results: phone (part 1 of 3)",
    "phase": "5 New screens",
    "wave": 6,
    "depends_on": [
     77,
-    119
+    208
    ],
    "type": "build",
-   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
    "lane": "project (type number)",
-   "steps": 6,
+   "steps": 2,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": 78,
+   "part": [
+    1,
+    3
+   ]
   },
   {
    "number": 79,
    "key": "SR_review",
-   "title": "Season Results: review",
+   "title": "Season Results: review (part 1 of 4)",
    "phase": "5 New screens",
-   "wave": 7,
+   "wave": 9,
    "depends_on": [
-    78
+    173
    ],
    "type": "review",
-   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
    "lane": "project (type number)",
-   "steps": 7,
+   "steps": 2,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": 79,
+   "part": [
+    1,
+    4
+   ]
   },
   {
    "number": 80,
    "key": "SR_fix",
-   "title": "Season Results: fix round",
+   "title": "Season Results: fix round (part 1 of 3)",
    "phase": "5 New screens",
-   "wave": 8,
+   "wave": 13,
    "depends_on": [
-    79
+    176
    ],
    "type": "fix",
-   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
    "lane": "project (type number)",
-   "steps": 4,
+   "steps": 3,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": 80,
+   "part": [
+    1,
+    3
+   ]
   },
   {
    "number": 81,
    "key": "SR_motion",
-   "title": "Season Results: motion",
+   "title": "Season Results: motion (part 1 of 3)",
    "phase": "5 New screens",
-   "wave": 9,
+   "wave": 16,
    "depends_on": [
-    80,
+    178,
     16
    ],
    "type": "build",
-   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
    "lane": "project (type number)",
-   "steps": 5,
+   "steps": 2,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": true
+   "needs_claude_look": false,
+   "part_of": 81,
+   "part": [
+    1,
+    3
+   ]
   },
   {
    "number": 82,
@@ -1476,7 +1694,9 @@
    "steps": 11,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 83,
@@ -1494,7 +1714,9 @@
    "steps": 6,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 84,
@@ -1511,12 +1733,14 @@
    "steps": 7,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 85,
    "key": "FW_fix",
-   "title": "Final Winner: fix round",
+   "title": "Final Winner: fix round (part 1 of 3)",
    "phase": "5 New screens",
    "wave": 8,
    "depends_on": [
@@ -1524,30 +1748,40 @@
     124
    ],
    "type": "fix",
-   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
    "lane": "project (type number)",
-   "steps": 4,
+   "steps": 3,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": 85,
+   "part": [
+    1,
+    3
+   ]
   },
   {
    "number": 86,
    "key": "FW_motion",
-   "title": "Final Winner: motion",
+   "title": "Final Winner: motion (part 1 of 3)",
    "phase": "5 New screens",
-   "wave": 9,
+   "wave": 11,
    "depends_on": [
-    85,
+    182,
     16
    ],
    "type": "build",
-   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
    "lane": "project (type number)",
-   "steps": 5,
+   "steps": 2,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": true
+   "needs_claude_look": false,
+   "part_of": 86,
+   "part": [
+    1,
+    3
+   ]
   },
   {
    "number": 87,
@@ -1570,77 +1804,99 @@
    "steps": 11,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 88,
    "key": "SJ_phone",
-   "title": "Start / Join: phone",
+   "title": "Start / Join: phone (part 1 of 3)",
    "phase": "5 New screens",
    "wave": 6,
    "depends_on": [
     87,
-    120
+    209
    ],
    "type": "build",
-   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
    "lane": "project (type number)",
-   "steps": 6,
+   "steps": 2,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": 88,
+   "part": [
+    1,
+    3
+   ]
   },
   {
    "number": 89,
    "key": "SJ_review",
-   "title": "Start / Join: review",
+   "title": "Start / Join: review (part 1 of 4)",
    "phase": "5 New screens",
-   "wave": 7,
+   "wave": 9,
    "depends_on": [
-    88
+    186
    ],
    "type": "review",
-   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
    "lane": "project (type number)",
-   "steps": 7,
+   "steps": 2,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": 89,
+   "part": [
+    1,
+    4
+   ]
   },
   {
    "number": 90,
    "key": "SJ_fix",
-   "title": "Start / Join: fix round",
+   "title": "Start / Join: fix round (part 1 of 3)",
    "phase": "5 New screens",
-   "wave": 8,
+   "wave": 13,
    "depends_on": [
-    89
+    189
    ],
    "type": "fix",
-   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
    "lane": "project (type number)",
-   "steps": 4,
+   "steps": 3,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": 90,
+   "part": [
+    1,
+    3
+   ]
   },
   {
    "number": 91,
    "key": "SJ_motion",
-   "title": "Start / Join: motion",
+   "title": "Start / Join: motion (part 1 of 3)",
    "phase": "5 New screens",
-   "wave": 9,
+   "wave": 16,
    "depends_on": [
-    90,
+    191,
     16
    ],
    "type": "build",
-   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
    "lane": "project (type number)",
-   "steps": 5,
+   "steps": 2,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": true
+   "needs_claude_look": false,
+   "part_of": 91,
+   "part": [
+    1,
+    3
+   ]
   },
   {
    "number": 92,
@@ -1660,7 +1916,9 @@
    "steps": 12,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 93,
@@ -1677,7 +1935,9 @@
    "steps": 7,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 94,
@@ -1696,7 +1956,9 @@
    "steps": 5,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": true
+   "needs_claude_look": true,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 95,
@@ -1716,7 +1978,9 @@
    "steps": 12,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 96,
@@ -1733,12 +1997,14 @@
    "steps": 7,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 97,
    "key": "ST_fix",
-   "title": "Settings: fix round and motion",
+   "title": "Settings: fix round and motion (part 1 of 4)",
    "phase": "5 New screens",
    "wave": 7,
    "depends_on": [
@@ -1747,12 +2013,17 @@
     124
    ],
    "type": "fix",
-   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
    "lane": "project (type number)",
-   "steps": 5,
+   "steps": 3,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": true
+   "needs_claude_look": false,
+   "part_of": 97,
+   "part": [
+    1,
+    4
+   ]
   },
   {
    "number": 98,
@@ -1767,7 +2038,9 @@
    "steps": 1,
    "waits_on_nik": null,
    "waits_on_team_g": "Team G's job G-3. Claude marks it DONE when Team G delivers.",
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 99,
@@ -1784,7 +2057,9 @@
    "steps": 1,
    "waits_on_nik": null,
    "waits_on_team_g": "Team G's job G-7. Claude marks it DONE when Team G delivers.",
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 100,
@@ -1801,7 +2076,9 @@
    "steps": 1,
    "waits_on_nik": null,
    "waits_on_team_g": "Team G's job G-8. Claude marks it DONE when Team G delivers.",
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 101,
@@ -1818,7 +2095,9 @@
    "steps": 1,
    "waits_on_nik": null,
    "waits_on_team_g": "Team G's job G-9 and G-10. Claude marks it DONE when Team G delivers.",
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 102,
@@ -1835,116 +2114,143 @@
    "steps": 1,
    "waits_on_nik": null,
    "waits_on_team_g": "Team G's job G-5, G-6 and G-11. Claude marks it DONE when Team G delivers.",
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 103,
    "key": "int_hub",
-   "title": "Showcase: every screen in one place",
+   "title": "Showcase: every screen in one place (part 1 of 5)",
    "phase": "7 Integration",
-   "wave": 10,
+   "wave": 19,
    "depends_on": [
     36,
     42,
     48,
-    53,
+    146,
     56,
     61,
-    66,
-    71,
-    76,
-    81,
-    86,
-    91,
+    153,
+    162,
+    171,
+    180,
+    184,
+    193,
     94,
-    97,
-    129
+    196,
+    199
    ],
    "type": "integrate",
-   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
    "lane": "project (type number)",
-   "steps": 4,
+   "steps": 1,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": 103,
+   "part": [
+    1,
+    5
+   ]
   },
   {
    "number": 104,
    "key": "int_bind",
-   "title": "Showcase: screens read Team G's model-true fixtures",
+   "title": "Showcase: screens read Team G's model-true fixtures (part 1 of 8)",
    "phase": "7 Integration",
-   "wave": 11,
+   "wave": 24,
    "depends_on": [
-    103,
+    213,
     102
    ],
    "type": "integrate",
-   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
    "lane": "project (type number)",
-   "steps": 4,
+   "steps": 1,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": 104,
+   "part": [
+    1,
+    8
+   ]
   },
   {
    "number": 105,
    "key": "int_phone",
-   "title": "Full phone pass",
+   "title": "Full phone pass (part 1 of 7)",
    "phase": "7 Integration",
-   "wave": 12,
+   "wave": 32,
    "depends_on": [
-    104
+    220
    ],
    "type": "review",
-   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
    "lane": "project (type number)",
-   "steps": 4,
+   "steps": 1,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": 105,
+   "part": [
+    1,
+    7
+   ]
   },
   {
    "number": 106,
    "key": "int_phone_fix",
-   "title": "Full phone pass: fixes",
+   "title": "Full phone pass: fixes (part 1 of 3)",
    "phase": "7 Integration",
-   "wave": 13,
+   "wave": 39,
    "depends_on": [
-    105
+    226
    ],
    "type": "fix",
-   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
    "lane": "project (type number)",
-   "steps": 3,
+   "steps": 2,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": 106,
+   "part": [
+    1,
+    3
+   ]
   },
   {
    "number": 107,
    "key": "int_motion",
-   "title": "Motion and sound consistency pass",
+   "title": "Motion and sound consistency pass (part 1 of 6)",
    "phase": "7 Integration",
-   "wave": 14,
+   "wave": 42,
    "depends_on": [
-    106
+    228
    ],
    "type": "review",
-   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
    "lane": "project (type number)",
-   "steps": 4,
+   "steps": 1,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": 107,
+   "part": [
+    1,
+    6
+   ]
   },
   {
    "number": 108,
    "key": "int_final_review",
    "title": "Final package review (Codex)",
    "phase": "7 Integration",
-   "wave": 15,
+   "wave": 48,
    "depends_on": [
-    107
+    233
    ],
    "type": "review",
    "worker": "Codex (review only)",
@@ -1952,41 +2258,53 @@
    "steps": 5,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 109,
    "key": "int_final_fix",
-   "title": "Final fixes",
+   "title": "Final fixes (part 1 of 3)",
    "phase": "7 Integration",
-   "wave": 16,
+   "wave": 49,
    "depends_on": [
     108
    ],
    "type": "fix",
-   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
    "lane": "project (type number)",
-   "steps": 3,
+   "steps": 2,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": 109,
+   "part": [
+    1,
+    3
+   ]
   },
   {
    "number": 110,
    "key": "int_package",
-   "title": "Package for Nik and handoff to GPT-5.6 Sol",
+   "title": "Package for Nik and handoff to GPT-5.6 Sol (part 1 of 5)",
    "phase": "7 Integration",
-   "wave": 17,
+   "wave": 52,
    "depends_on": [
-    109
+    235
    ],
    "type": "integrate",
-   "worker": "GPT-5.6 Sol chat",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
    "lane": "project (type number)",
-   "steps": 3,
+   "steps": 1,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": true
+   "needs_claude_look": false,
+   "part_of": 110,
+   "part": [
+    1,
+    5
+   ]
   },
   {
    "number": 111,
@@ -2004,7 +2322,9 @@
    "steps": 6,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 112,
@@ -2022,7 +2342,9 @@
    "steps": 6,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 113,
@@ -2040,7 +2362,9 @@
    "steps": 6,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 114,
@@ -2058,7 +2382,9 @@
    "steps": 6,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 115,
@@ -2076,7 +2402,9 @@
    "steps": 6,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 116,
@@ -2094,12 +2422,14 @@
    "steps": 6,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 117,
    "key": "phoneart_RV",
-   "title": "Phone art: Rivalry Statistics",
+   "title": "Phone art: Rivalry Statistics (part 1 of 2)",
    "phase": "3 Art",
    "wave": 3,
    "depends_on": [
@@ -2107,12 +2437,17 @@
     25
    ],
    "type": "build",
-   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
    "lane": "project (type number)",
-   "steps": 6,
+   "steps": 1,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": 117,
+   "part": [
+    1,
+    2
+   ]
   },
   {
    "number": 118,
@@ -2130,12 +2465,14 @@
    "steps": 6,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 119,
    "key": "phoneart_SR",
-   "title": "Phone art: Season Results",
+   "title": "Phone art: Season Results (part 1 of 2)",
    "phase": "3 Art",
    "wave": 3,
    "depends_on": [
@@ -2143,17 +2480,22 @@
     27
    ],
    "type": "build",
-   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
    "lane": "project (type number)",
-   "steps": 6,
+   "steps": 1,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": 119,
+   "part": [
+    1,
+    2
+   ]
   },
   {
    "number": 120,
    "key": "phoneart_SJ",
-   "title": "Phone art: Start / Join",
+   "title": "Phone art: Start / Join (part 1 of 2)",
    "phase": "3 Art",
    "wave": 3,
    "depends_on": [
@@ -2161,12 +2503,17 @@
     28
    ],
    "type": "build",
-   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
    "lane": "project (type number)",
-   "steps": 6,
+   "steps": 1,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": 120,
+   "part": [
+    1,
+    2
+   ]
   },
   {
    "number": 121,
@@ -2183,7 +2530,9 @@
    "steps": 2,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 122,
@@ -2200,7 +2549,9 @@
    "steps": 4,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 123,
@@ -2218,7 +2569,9 @@
    "steps": 3,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 124,
@@ -2235,12 +2588,14 @@
    "steps": 4,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 125,
    "key": "navbar",
-   "title": "Top bar and phone bottom bar",
+   "title": "Top bar and phone bottom bar (part 1 of 3)",
    "phase": "5 New screens",
    "wave": 5,
    "depends_on": [
@@ -2248,12 +2603,17 @@
     124
    ],
    "type": "build",
-   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
    "lane": "project (type number)",
-   "steps": 6,
+   "steps": 2,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": 125,
+   "part": [
+    1,
+    3
+   ]
   },
   {
    "number": 126,
@@ -2268,18 +2628,20 @@
    "steps": 3,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 127,
    "key": "SD_build",
-   "title": "Standings: build (desktop and phone)",
+   "title": "Standings: build (desktop and phone) (part 1 of 6)",
    "phase": "5 New screens",
    "wave": 5,
    "depends_on": [
     126,
     25,
-    117,
+    207,
     18,
     19,
     20,
@@ -2287,21 +2649,26 @@
     22
    ],
    "type": "build",
-   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
    "lane": "project (type number)",
-   "steps": 10,
+   "steps": 2,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": 127,
+   "part": [
+    1,
+    6
+   ]
   },
   {
    "number": 128,
    "key": "SD_review",
    "title": "Standings: review",
    "phase": "5 New screens",
-   "wave": 6,
+   "wave": 11,
    "depends_on": [
-    127
+    204
    ],
    "type": "review",
    "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
@@ -2309,26 +2676,33 @@
    "steps": 7,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 129,
    "key": "SD_fix",
-   "title": "Standings: fix round and motion",
+   "title": "Standings: fix round and motion (part 1 of 4)",
    "phase": "5 New screens",
-   "wave": 7,
+   "wave": 12,
    "depends_on": [
     128,
     16,
     124
    ],
    "type": "fix",
-   "worker": "GPT-5.6 Sol chat (Work mode if job 0 found the chat cannot take screenshots)",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
    "lane": "project (type number)",
-   "steps": 5,
+   "steps": 3,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": true
+   "needs_claude_look": false,
+   "part_of": 129,
+   "part": [
+    1,
+    4
+   ]
   },
   {
    "number": 130,
@@ -2345,7 +2719,9 @@
    "steps": 6,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 131,
@@ -2362,7 +2738,9 @@
    "steps": 6,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 132,
@@ -2379,7 +2757,9 @@
    "steps": 4,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 133,
@@ -2396,7 +2776,9 @@
    "steps": 5,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 134,
@@ -2413,7 +2795,9 @@
    "steps": 5,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 135,
@@ -2430,7 +2814,9 @@
    "steps": 5,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 136,
@@ -2447,7 +2833,9 @@
    "steps": 3,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 137,
@@ -2464,7 +2852,9 @@
    "steps": 3,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 138,
@@ -2481,7 +2871,9 @@
    "steps": 3,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": null,
+   "part": null
   },
   {
    "number": 139,
@@ -2498,7 +2890,2209 @@
    "steps": 4,
    "waits_on_nik": null,
    "waits_on_team_g": null,
-   "needs_claude_look": false
+   "needs_claude_look": false,
+   "part_of": null,
+   "part": null
+  },
+  {
+   "number": 140,
+   "key": "tr_review_p2",
+   "title": "Transfer War: review (part 2 of 4)",
+   "phase": "4 Polish built screens",
+   "wave": 8,
+   "depends_on": [
+    51
+   ],
+   "type": "review",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 1,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false,
+   "part_of": 51,
+   "part": [
+    2,
+    4
+   ]
+  },
+  {
+   "number": 141,
+   "key": "tr_review_p3",
+   "title": "Transfer War: review (part 3 of 4)",
+   "phase": "4 Polish built screens",
+   "wave": 9,
+   "depends_on": [
+    140
+   ],
+   "type": "review",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 1,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false,
+   "part_of": 51,
+   "part": [
+    3,
+    4
+   ]
+  },
+  {
+   "number": 142,
+   "key": "tr_review_p4",
+   "title": "Transfer War: review (part 4 of 4)",
+   "phase": "4 Polish built screens",
+   "wave": 10,
+   "depends_on": [
+    141
+   ],
+   "type": "review",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 3,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false,
+   "part_of": 51,
+   "part": [
+    4,
+    4
+   ]
+  },
+  {
+   "number": 143,
+   "key": "tr_fix_p2",
+   "title": "Transfer War: fix round (part 2 of 3)",
+   "phase": "4 Polish built screens",
+   "wave": 12,
+   "depends_on": [
+    52
+   ],
+   "type": "fix",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 2,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false,
+   "part_of": 52,
+   "part": [
+    2,
+    3
+   ]
+  },
+  {
+   "number": 144,
+   "key": "tr_fix_p3",
+   "title": "Transfer War: fix round (part 3 of 3)",
+   "phase": "4 Polish built screens",
+   "wave": 13,
+   "depends_on": [
+    143
+   ],
+   "type": "fix",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 3,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false,
+   "part_of": 52,
+   "part": [
+    3,
+    3
+   ]
+  },
+  {
+   "number": 145,
+   "key": "tr_motion_p2",
+   "title": "Transfer War: motion (part 2 of 3)",
+   "phase": "4 Polish built screens",
+   "wave": 15,
+   "depends_on": [
+    53
+   ],
+   "type": "build",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 1,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false,
+   "part_of": 53,
+   "part": [
+    2,
+    3
+   ]
+  },
+  {
+   "number": 146,
+   "key": "tr_motion_p3",
+   "title": "Transfer War: motion (part 3 of 3)",
+   "phase": "4 Polish built screens",
+   "wave": 16,
+   "depends_on": [
+    145
+   ],
+   "type": "build",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 2,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": true,
+   "part_of": 53,
+   "part": [
+    3,
+    3
+   ]
+  },
+  {
+   "number": 147,
+   "key": "CS_review_p2",
+   "title": "Career Statistics: review (part 2 of 4)",
+   "phase": "5 New screens",
+   "wave": 8,
+   "depends_on": [
+    64
+   ],
+   "type": "review",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 1,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false,
+   "part_of": 64,
+   "part": [
+    2,
+    4
+   ]
+  },
+  {
+   "number": 148,
+   "key": "CS_review_p3",
+   "title": "Career Statistics: review (part 3 of 4)",
+   "phase": "5 New screens",
+   "wave": 9,
+   "depends_on": [
+    147
+   ],
+   "type": "review",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 1,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false,
+   "part_of": 64,
+   "part": [
+    3,
+    4
+   ]
+  },
+  {
+   "number": 149,
+   "key": "CS_review_p4",
+   "title": "Career Statistics: review (part 4 of 4)",
+   "phase": "5 New screens",
+   "wave": 10,
+   "depends_on": [
+    148
+   ],
+   "type": "review",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 3,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false,
+   "part_of": 64,
+   "part": [
+    4,
+    4
+   ]
+  },
+  {
+   "number": 150,
+   "key": "CS_fix_p2",
+   "title": "Career Statistics: fix round (part 2 of 3)",
+   "phase": "5 New screens",
+   "wave": 12,
+   "depends_on": [
+    65
+   ],
+   "type": "fix",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 2,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false,
+   "part_of": 65,
+   "part": [
+    2,
+    3
+   ]
+  },
+  {
+   "number": 151,
+   "key": "CS_fix_p3",
+   "title": "Career Statistics: fix round (part 3 of 3)",
+   "phase": "5 New screens",
+   "wave": 13,
+   "depends_on": [
+    150
+   ],
+   "type": "fix",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 3,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false,
+   "part_of": 65,
+   "part": [
+    3,
+    3
+   ]
+  },
+  {
+   "number": 152,
+   "key": "CS_motion_p2",
+   "title": "Career Statistics: motion (part 2 of 3)",
+   "phase": "5 New screens",
+   "wave": 15,
+   "depends_on": [
+    66
+   ],
+   "type": "build",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 1,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false,
+   "part_of": 66,
+   "part": [
+    2,
+    3
+   ]
+  },
+  {
+   "number": 153,
+   "key": "CS_motion_p3",
+   "title": "Career Statistics: motion (part 3 of 3)",
+   "phase": "5 New screens",
+   "wave": 16,
+   "depends_on": [
+    152
+   ],
+   "type": "build",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 2,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": true,
+   "part_of": 66,
+   "part": [
+    3,
+    3
+   ]
+  },
+  {
+   "number": 154,
+   "key": "RV_phone_p2",
+   "title": "Rivalry Statistics: phone (part 2 of 3)",
+   "phase": "5 New screens",
+   "wave": 7,
+   "depends_on": [
+    68
+   ],
+   "type": "build",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 1,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false,
+   "part_of": 68,
+   "part": [
+    2,
+    3
+   ]
+  },
+  {
+   "number": 155,
+   "key": "RV_phone_p3",
+   "title": "Rivalry Statistics: phone (part 3 of 3)",
+   "phase": "5 New screens",
+   "wave": 8,
+   "depends_on": [
+    154
+   ],
+   "type": "build",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 3,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false,
+   "part_of": 68,
+   "part": [
+    3,
+    3
+   ]
+  },
+  {
+   "number": 156,
+   "key": "RV_review_p2",
+   "title": "Rivalry Statistics: review (part 2 of 4)",
+   "phase": "5 New screens",
+   "wave": 10,
+   "depends_on": [
+    69
+   ],
+   "type": "review",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 1,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false,
+   "part_of": 69,
+   "part": [
+    2,
+    4
+   ]
+  },
+  {
+   "number": 157,
+   "key": "RV_review_p3",
+   "title": "Rivalry Statistics: review (part 3 of 4)",
+   "phase": "5 New screens",
+   "wave": 11,
+   "depends_on": [
+    156
+   ],
+   "type": "review",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 1,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false,
+   "part_of": 69,
+   "part": [
+    3,
+    4
+   ]
+  },
+  {
+   "number": 158,
+   "key": "RV_review_p4",
+   "title": "Rivalry Statistics: review (part 4 of 4)",
+   "phase": "5 New screens",
+   "wave": 12,
+   "depends_on": [
+    157
+   ],
+   "type": "review",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 3,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false,
+   "part_of": 69,
+   "part": [
+    4,
+    4
+   ]
+  },
+  {
+   "number": 159,
+   "key": "RV_fix_p2",
+   "title": "Rivalry Statistics: fix round (part 2 of 3)",
+   "phase": "5 New screens",
+   "wave": 14,
+   "depends_on": [
+    70
+   ],
+   "type": "fix",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 2,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false,
+   "part_of": 70,
+   "part": [
+    2,
+    3
+   ]
+  },
+  {
+   "number": 160,
+   "key": "RV_fix_p3",
+   "title": "Rivalry Statistics: fix round (part 3 of 3)",
+   "phase": "5 New screens",
+   "wave": 15,
+   "depends_on": [
+    159
+   ],
+   "type": "fix",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 3,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false,
+   "part_of": 70,
+   "part": [
+    3,
+    3
+   ]
+  },
+  {
+   "number": 161,
+   "key": "RV_motion_p2",
+   "title": "Rivalry Statistics: motion (part 2 of 3)",
+   "phase": "5 New screens",
+   "wave": 17,
+   "depends_on": [
+    71
+   ],
+   "type": "build",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 1,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false,
+   "part_of": 71,
+   "part": [
+    2,
+    3
+   ]
+  },
+  {
+   "number": 162,
+   "key": "RV_motion_p3",
+   "title": "Rivalry Statistics: motion (part 3 of 3)",
+   "phase": "5 New screens",
+   "wave": 18,
+   "depends_on": [
+    161
+   ],
+   "type": "build",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 2,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": true,
+   "part_of": 71,
+   "part": [
+    3,
+    3
+   ]
+  },
+  {
+   "number": 163,
+   "key": "LG_phone_p2",
+   "title": "Legacy (History): phone (part 2 of 3)",
+   "phase": "5 New screens",
+   "wave": 7,
+   "depends_on": [
+    73
+   ],
+   "type": "build",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 1,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false,
+   "part_of": 73,
+   "part": [
+    2,
+    3
+   ]
+  },
+  {
+   "number": 164,
+   "key": "LG_phone_p3",
+   "title": "Legacy (History): phone (part 3 of 3)",
+   "phase": "5 New screens",
+   "wave": 8,
+   "depends_on": [
+    163
+   ],
+   "type": "build",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 3,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false,
+   "part_of": 73,
+   "part": [
+    3,
+    3
+   ]
+  },
+  {
+   "number": 165,
+   "key": "LG_review_p2",
+   "title": "Legacy (History): review (part 2 of 4)",
+   "phase": "5 New screens",
+   "wave": 10,
+   "depends_on": [
+    74
+   ],
+   "type": "review",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 1,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false,
+   "part_of": 74,
+   "part": [
+    2,
+    4
+   ]
+  },
+  {
+   "number": 166,
+   "key": "LG_review_p3",
+   "title": "Legacy (History): review (part 3 of 4)",
+   "phase": "5 New screens",
+   "wave": 11,
+   "depends_on": [
+    165
+   ],
+   "type": "review",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 1,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false,
+   "part_of": 74,
+   "part": [
+    3,
+    4
+   ]
+  },
+  {
+   "number": 167,
+   "key": "LG_review_p4",
+   "title": "Legacy (History): review (part 4 of 4)",
+   "phase": "5 New screens",
+   "wave": 12,
+   "depends_on": [
+    166
+   ],
+   "type": "review",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 3,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false,
+   "part_of": 74,
+   "part": [
+    4,
+    4
+   ]
+  },
+  {
+   "number": 168,
+   "key": "LG_fix_p2",
+   "title": "Legacy (History): fix round (part 2 of 3)",
+   "phase": "5 New screens",
+   "wave": 14,
+   "depends_on": [
+    75
+   ],
+   "type": "fix",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 2,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false,
+   "part_of": 75,
+   "part": [
+    2,
+    3
+   ]
+  },
+  {
+   "number": 169,
+   "key": "LG_fix_p3",
+   "title": "Legacy (History): fix round (part 3 of 3)",
+   "phase": "5 New screens",
+   "wave": 15,
+   "depends_on": [
+    168
+   ],
+   "type": "fix",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 3,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false,
+   "part_of": 75,
+   "part": [
+    3,
+    3
+   ]
+  },
+  {
+   "number": 170,
+   "key": "LG_motion_p2",
+   "title": "Legacy (History): motion (part 2 of 3)",
+   "phase": "5 New screens",
+   "wave": 17,
+   "depends_on": [
+    76
+   ],
+   "type": "build",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 1,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false,
+   "part_of": 76,
+   "part": [
+    2,
+    3
+   ]
+  },
+  {
+   "number": 171,
+   "key": "LG_motion_p3",
+   "title": "Legacy (History): motion (part 3 of 3)",
+   "phase": "5 New screens",
+   "wave": 18,
+   "depends_on": [
+    170
+   ],
+   "type": "build",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 2,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": true,
+   "part_of": 76,
+   "part": [
+    3,
+    3
+   ]
+  },
+  {
+   "number": 172,
+   "key": "SR_phone_p2",
+   "title": "Season Results: phone (part 2 of 3)",
+   "phase": "5 New screens",
+   "wave": 7,
+   "depends_on": [
+    78
+   ],
+   "type": "build",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 1,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false,
+   "part_of": 78,
+   "part": [
+    2,
+    3
+   ]
+  },
+  {
+   "number": 173,
+   "key": "SR_phone_p3",
+   "title": "Season Results: phone (part 3 of 3)",
+   "phase": "5 New screens",
+   "wave": 8,
+   "depends_on": [
+    172
+   ],
+   "type": "build",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 3,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false,
+   "part_of": 78,
+   "part": [
+    3,
+    3
+   ]
+  },
+  {
+   "number": 174,
+   "key": "SR_review_p2",
+   "title": "Season Results: review (part 2 of 4)",
+   "phase": "5 New screens",
+   "wave": 10,
+   "depends_on": [
+    79
+   ],
+   "type": "review",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 1,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false,
+   "part_of": 79,
+   "part": [
+    2,
+    4
+   ]
+  },
+  {
+   "number": 175,
+   "key": "SR_review_p3",
+   "title": "Season Results: review (part 3 of 4)",
+   "phase": "5 New screens",
+   "wave": 11,
+   "depends_on": [
+    174
+   ],
+   "type": "review",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 1,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false,
+   "part_of": 79,
+   "part": [
+    3,
+    4
+   ]
+  },
+  {
+   "number": 176,
+   "key": "SR_review_p4",
+   "title": "Season Results: review (part 4 of 4)",
+   "phase": "5 New screens",
+   "wave": 12,
+   "depends_on": [
+    175
+   ],
+   "type": "review",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 3,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false,
+   "part_of": 79,
+   "part": [
+    4,
+    4
+   ]
+  },
+  {
+   "number": 177,
+   "key": "SR_fix_p2",
+   "title": "Season Results: fix round (part 2 of 3)",
+   "phase": "5 New screens",
+   "wave": 14,
+   "depends_on": [
+    80
+   ],
+   "type": "fix",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 2,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false,
+   "part_of": 80,
+   "part": [
+    2,
+    3
+   ]
+  },
+  {
+   "number": 178,
+   "key": "SR_fix_p3",
+   "title": "Season Results: fix round (part 3 of 3)",
+   "phase": "5 New screens",
+   "wave": 15,
+   "depends_on": [
+    177
+   ],
+   "type": "fix",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 3,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false,
+   "part_of": 80,
+   "part": [
+    3,
+    3
+   ]
+  },
+  {
+   "number": 179,
+   "key": "SR_motion_p2",
+   "title": "Season Results: motion (part 2 of 3)",
+   "phase": "5 New screens",
+   "wave": 17,
+   "depends_on": [
+    81
+   ],
+   "type": "build",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 1,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false,
+   "part_of": 81,
+   "part": [
+    2,
+    3
+   ]
+  },
+  {
+   "number": 180,
+   "key": "SR_motion_p3",
+   "title": "Season Results: motion (part 3 of 3)",
+   "phase": "5 New screens",
+   "wave": 18,
+   "depends_on": [
+    179
+   ],
+   "type": "build",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 2,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": true,
+   "part_of": 81,
+   "part": [
+    3,
+    3
+   ]
+  },
+  {
+   "number": 181,
+   "key": "FW_fix_p2",
+   "title": "Final Winner: fix round (part 2 of 3)",
+   "phase": "5 New screens",
+   "wave": 9,
+   "depends_on": [
+    85
+   ],
+   "type": "fix",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 2,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false,
+   "part_of": 85,
+   "part": [
+    2,
+    3
+   ]
+  },
+  {
+   "number": 182,
+   "key": "FW_fix_p3",
+   "title": "Final Winner: fix round (part 3 of 3)",
+   "phase": "5 New screens",
+   "wave": 10,
+   "depends_on": [
+    181
+   ],
+   "type": "fix",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 3,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false,
+   "part_of": 85,
+   "part": [
+    3,
+    3
+   ]
+  },
+  {
+   "number": 183,
+   "key": "FW_motion_p2",
+   "title": "Final Winner: motion (part 2 of 3)",
+   "phase": "5 New screens",
+   "wave": 12,
+   "depends_on": [
+    86
+   ],
+   "type": "build",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 1,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false,
+   "part_of": 86,
+   "part": [
+    2,
+    3
+   ]
+  },
+  {
+   "number": 184,
+   "key": "FW_motion_p3",
+   "title": "Final Winner: motion (part 3 of 3)",
+   "phase": "5 New screens",
+   "wave": 13,
+   "depends_on": [
+    183
+   ],
+   "type": "build",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 2,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": true,
+   "part_of": 86,
+   "part": [
+    3,
+    3
+   ]
+  },
+  {
+   "number": 185,
+   "key": "SJ_phone_p2",
+   "title": "Start / Join: phone (part 2 of 3)",
+   "phase": "5 New screens",
+   "wave": 7,
+   "depends_on": [
+    88
+   ],
+   "type": "build",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 1,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false,
+   "part_of": 88,
+   "part": [
+    2,
+    3
+   ]
+  },
+  {
+   "number": 186,
+   "key": "SJ_phone_p3",
+   "title": "Start / Join: phone (part 3 of 3)",
+   "phase": "5 New screens",
+   "wave": 8,
+   "depends_on": [
+    185
+   ],
+   "type": "build",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 3,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false,
+   "part_of": 88,
+   "part": [
+    3,
+    3
+   ]
+  },
+  {
+   "number": 187,
+   "key": "SJ_review_p2",
+   "title": "Start / Join: review (part 2 of 4)",
+   "phase": "5 New screens",
+   "wave": 10,
+   "depends_on": [
+    89
+   ],
+   "type": "review",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 1,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false,
+   "part_of": 89,
+   "part": [
+    2,
+    4
+   ]
+  },
+  {
+   "number": 188,
+   "key": "SJ_review_p3",
+   "title": "Start / Join: review (part 3 of 4)",
+   "phase": "5 New screens",
+   "wave": 11,
+   "depends_on": [
+    187
+   ],
+   "type": "review",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 1,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false,
+   "part_of": 89,
+   "part": [
+    3,
+    4
+   ]
+  },
+  {
+   "number": 189,
+   "key": "SJ_review_p4",
+   "title": "Start / Join: review (part 4 of 4)",
+   "phase": "5 New screens",
+   "wave": 12,
+   "depends_on": [
+    188
+   ],
+   "type": "review",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 3,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false,
+   "part_of": 89,
+   "part": [
+    4,
+    4
+   ]
+  },
+  {
+   "number": 190,
+   "key": "SJ_fix_p2",
+   "title": "Start / Join: fix round (part 2 of 3)",
+   "phase": "5 New screens",
+   "wave": 14,
+   "depends_on": [
+    90
+   ],
+   "type": "fix",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 2,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false,
+   "part_of": 90,
+   "part": [
+    2,
+    3
+   ]
+  },
+  {
+   "number": 191,
+   "key": "SJ_fix_p3",
+   "title": "Start / Join: fix round (part 3 of 3)",
+   "phase": "5 New screens",
+   "wave": 15,
+   "depends_on": [
+    190
+   ],
+   "type": "fix",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 3,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false,
+   "part_of": 90,
+   "part": [
+    3,
+    3
+   ]
+  },
+  {
+   "number": 192,
+   "key": "SJ_motion_p2",
+   "title": "Start / Join: motion (part 2 of 3)",
+   "phase": "5 New screens",
+   "wave": 17,
+   "depends_on": [
+    91
+   ],
+   "type": "build",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 1,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false,
+   "part_of": 91,
+   "part": [
+    2,
+    3
+   ]
+  },
+  {
+   "number": 193,
+   "key": "SJ_motion_p3",
+   "title": "Start / Join: motion (part 3 of 3)",
+   "phase": "5 New screens",
+   "wave": 18,
+   "depends_on": [
+    192
+   ],
+   "type": "build",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 2,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": true,
+   "part_of": 91,
+   "part": [
+    3,
+    3
+   ]
+  },
+  {
+   "number": 194,
+   "key": "ST_fix_p2",
+   "title": "Settings: fix round and motion (part 2 of 4)",
+   "phase": "5 New screens",
+   "wave": 8,
+   "depends_on": [
+    97
+   ],
+   "type": "fix",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 2,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false,
+   "part_of": 97,
+   "part": [
+    2,
+    4
+   ]
+  },
+  {
+   "number": 195,
+   "key": "ST_fix_p3",
+   "title": "Settings: fix round and motion (part 3 of 4)",
+   "phase": "5 New screens",
+   "wave": 9,
+   "depends_on": [
+    194
+   ],
+   "type": "fix",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 3,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false,
+   "part_of": 97,
+   "part": [
+    3,
+    4
+   ]
+  },
+  {
+   "number": 196,
+   "key": "ST_fix_p4",
+   "title": "Settings: fix round and motion (part 4 of 4)",
+   "phase": "5 New screens",
+   "wave": 10,
+   "depends_on": [
+    195
+   ],
+   "type": "fix",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 2,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": true,
+   "part_of": 97,
+   "part": [
+    4,
+    4
+   ]
+  },
+  {
+   "number": 197,
+   "key": "SD_fix_p2",
+   "title": "Standings: fix round and motion (part 2 of 4)",
+   "phase": "5 New screens",
+   "wave": 13,
+   "depends_on": [
+    129
+   ],
+   "type": "fix",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 2,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false,
+   "part_of": 129,
+   "part": [
+    2,
+    4
+   ]
+  },
+  {
+   "number": 198,
+   "key": "SD_fix_p3",
+   "title": "Standings: fix round and motion (part 3 of 4)",
+   "phase": "5 New screens",
+   "wave": 14,
+   "depends_on": [
+    197
+   ],
+   "type": "fix",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 3,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false,
+   "part_of": 129,
+   "part": [
+    3,
+    4
+   ]
+  },
+  {
+   "number": 199,
+   "key": "SD_fix_p4",
+   "title": "Standings: fix round and motion (part 4 of 4)",
+   "phase": "5 New screens",
+   "wave": 15,
+   "depends_on": [
+    198
+   ],
+   "type": "fix",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 2,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": true,
+   "part_of": 129,
+   "part": [
+    4,
+    4
+   ]
+  },
+  {
+   "number": 200,
+   "key": "SD_build_p2",
+   "title": "Standings: build (desktop and phone) (part 2 of 6)",
+   "phase": "5 New screens",
+   "wave": 6,
+   "depends_on": [
+    127
+   ],
+   "type": "build",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 2,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false,
+   "part_of": 127,
+   "part": [
+    2,
+    6
+   ]
+  },
+  {
+   "number": 201,
+   "key": "SD_build_p3",
+   "title": "Standings: build (desktop and phone) (part 3 of 6)",
+   "phase": "5 New screens",
+   "wave": 7,
+   "depends_on": [
+    200
+   ],
+   "type": "build",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 2,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false,
+   "part_of": 127,
+   "part": [
+    3,
+    6
+   ]
+  },
+  {
+   "number": 202,
+   "key": "SD_build_p4",
+   "title": "Standings: build (desktop and phone) (part 4 of 6)",
+   "phase": "5 New screens",
+   "wave": 8,
+   "depends_on": [
+    201
+   ],
+   "type": "build",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 1,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false,
+   "part_of": 127,
+   "part": [
+    4,
+    6
+   ]
+  },
+  {
+   "number": 203,
+   "key": "SD_build_p5",
+   "title": "Standings: build (desktop and phone) (part 5 of 6)",
+   "phase": "5 New screens",
+   "wave": 9,
+   "depends_on": [
+    202
+   ],
+   "type": "build",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 1,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false,
+   "part_of": 127,
+   "part": [
+    5,
+    6
+   ]
+  },
+  {
+   "number": 204,
+   "key": "SD_build_p6",
+   "title": "Standings: build (desktop and phone) (part 6 of 6)",
+   "phase": "5 New screens",
+   "wave": 10,
+   "depends_on": [
+    203
+   ],
+   "type": "build",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 2,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false,
+   "part_of": 127,
+   "part": [
+    6,
+    6
+   ]
+  },
+  {
+   "number": 205,
+   "key": "navbar_p2",
+   "title": "Top bar and phone bottom bar (part 2 of 3)",
+   "phase": "5 New screens",
+   "wave": 6,
+   "depends_on": [
+    125
+   ],
+   "type": "build",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 3,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false,
+   "part_of": 125,
+   "part": [
+    2,
+    3
+   ]
+  },
+  {
+   "number": 206,
+   "key": "navbar_p3",
+   "title": "Top bar and phone bottom bar (part 3 of 3)",
+   "phase": "5 New screens",
+   "wave": 7,
+   "depends_on": [
+    205
+   ],
+   "type": "build",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 1,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false,
+   "part_of": 125,
+   "part": [
+    3,
+    3
+   ]
+  },
+  {
+   "number": 207,
+   "key": "phoneart_RV_p2",
+   "title": "Phone art: Rivalry Statistics (part 2 of 2)",
+   "phase": "3 Art",
+   "wave": 4,
+   "depends_on": [
+    117
+   ],
+   "type": "build",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 2,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false,
+   "part_of": 117,
+   "part": [
+    2,
+    2
+   ]
+  },
+  {
+   "number": 208,
+   "key": "phoneart_SR_p2",
+   "title": "Phone art: Season Results (part 2 of 2)",
+   "phase": "3 Art",
+   "wave": 4,
+   "depends_on": [
+    119
+   ],
+   "type": "build",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 2,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false,
+   "part_of": 119,
+   "part": [
+    2,
+    2
+   ]
+  },
+  {
+   "number": 209,
+   "key": "phoneart_SJ_p2",
+   "title": "Phone art: Start / Join (part 2 of 2)",
+   "phase": "3 Art",
+   "wave": 4,
+   "depends_on": [
+    120
+   ],
+   "type": "build",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 2,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false,
+   "part_of": 120,
+   "part": [
+    2,
+    2
+   ]
+  },
+  {
+   "number": 210,
+   "key": "int_hub_p2",
+   "title": "Showcase: every screen in one place (part 2 of 5)",
+   "phase": "7 Integration",
+   "wave": 20,
+   "depends_on": [
+    103
+   ],
+   "type": "integrate",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 1,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false,
+   "part_of": 103,
+   "part": [
+    2,
+    5
+   ]
+  },
+  {
+   "number": 211,
+   "key": "int_hub_p3",
+   "title": "Showcase: every screen in one place (part 3 of 5)",
+   "phase": "7 Integration",
+   "wave": 21,
+   "depends_on": [
+    210
+   ],
+   "type": "integrate",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 1,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false,
+   "part_of": 103,
+   "part": [
+    3,
+    5
+   ]
+  },
+  {
+   "number": 212,
+   "key": "int_hub_p4",
+   "title": "Showcase: every screen in one place (part 4 of 5)",
+   "phase": "7 Integration",
+   "wave": 22,
+   "depends_on": [
+    211
+   ],
+   "type": "integrate",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 2,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false,
+   "part_of": 103,
+   "part": [
+    4,
+    5
+   ]
+  },
+  {
+   "number": 213,
+   "key": "int_hub_p5",
+   "title": "Showcase: every screen in one place (part 5 of 5)",
+   "phase": "7 Integration",
+   "wave": 23,
+   "depends_on": [
+    212
+   ],
+   "type": "integrate",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 2,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false,
+   "part_of": 103,
+   "part": [
+    5,
+    5
+   ]
+  },
+  {
+   "number": 214,
+   "key": "int_bind_p2",
+   "title": "Showcase: screens read Team G's model-true fixtures (part 2 of 8)",
+   "phase": "7 Integration",
+   "wave": 25,
+   "depends_on": [
+    104
+   ],
+   "type": "integrate",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 1,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false,
+   "part_of": 104,
+   "part": [
+    2,
+    8
+   ]
+  },
+  {
+   "number": 215,
+   "key": "int_bind_p3",
+   "title": "Showcase: screens read Team G's model-true fixtures (part 3 of 8)",
+   "phase": "7 Integration",
+   "wave": 26,
+   "depends_on": [
+    214
+   ],
+   "type": "integrate",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 1,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false,
+   "part_of": 104,
+   "part": [
+    3,
+    8
+   ]
+  },
+  {
+   "number": 216,
+   "key": "int_bind_p4",
+   "title": "Showcase: screens read Team G's model-true fixtures (part 4 of 8)",
+   "phase": "7 Integration",
+   "wave": 27,
+   "depends_on": [
+    215
+   ],
+   "type": "integrate",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 1,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false,
+   "part_of": 104,
+   "part": [
+    4,
+    8
+   ]
+  },
+  {
+   "number": 217,
+   "key": "int_bind_p5",
+   "title": "Showcase: screens read Team G's model-true fixtures (part 5 of 8)",
+   "phase": "7 Integration",
+   "wave": 28,
+   "depends_on": [
+    216
+   ],
+   "type": "integrate",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 1,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false,
+   "part_of": 104,
+   "part": [
+    5,
+    8
+   ]
+  },
+  {
+   "number": 218,
+   "key": "int_bind_p6",
+   "title": "Showcase: screens read Team G's model-true fixtures (part 6 of 8)",
+   "phase": "7 Integration",
+   "wave": 29,
+   "depends_on": [
+    217
+   ],
+   "type": "integrate",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 1,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false,
+   "part_of": 104,
+   "part": [
+    6,
+    8
+   ]
+  },
+  {
+   "number": 219,
+   "key": "int_bind_p7",
+   "title": "Showcase: screens read Team G's model-true fixtures (part 7 of 8)",
+   "phase": "7 Integration",
+   "wave": 30,
+   "depends_on": [
+    218
+   ],
+   "type": "integrate",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 1,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false,
+   "part_of": 104,
+   "part": [
+    7,
+    8
+   ]
+  },
+  {
+   "number": 220,
+   "key": "int_bind_p8",
+   "title": "Showcase: screens read Team G's model-true fixtures (part 8 of 8)",
+   "phase": "7 Integration",
+   "wave": 31,
+   "depends_on": [
+    219
+   ],
+   "type": "integrate",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 1,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false,
+   "part_of": 104,
+   "part": [
+    8,
+    8
+   ]
+  },
+  {
+   "number": 221,
+   "key": "int_phone_p2",
+   "title": "Full phone pass (part 2 of 7)",
+   "phase": "7 Integration",
+   "wave": 33,
+   "depends_on": [
+    105
+   ],
+   "type": "review",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 1,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false,
+   "part_of": 105,
+   "part": [
+    2,
+    7
+   ]
+  },
+  {
+   "number": 222,
+   "key": "int_phone_p3",
+   "title": "Full phone pass (part 3 of 7)",
+   "phase": "7 Integration",
+   "wave": 34,
+   "depends_on": [
+    221
+   ],
+   "type": "review",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 1,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false,
+   "part_of": 105,
+   "part": [
+    3,
+    7
+   ]
+  },
+  {
+   "number": 223,
+   "key": "int_phone_p4",
+   "title": "Full phone pass (part 4 of 7)",
+   "phase": "7 Integration",
+   "wave": 35,
+   "depends_on": [
+    222
+   ],
+   "type": "review",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 1,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false,
+   "part_of": 105,
+   "part": [
+    4,
+    7
+   ]
+  },
+  {
+   "number": 224,
+   "key": "int_phone_p5",
+   "title": "Full phone pass (part 5 of 7)",
+   "phase": "7 Integration",
+   "wave": 36,
+   "depends_on": [
+    223
+   ],
+   "type": "review",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 1,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false,
+   "part_of": 105,
+   "part": [
+    5,
+    7
+   ]
+  },
+  {
+   "number": 225,
+   "key": "int_phone_p6",
+   "title": "Full phone pass (part 6 of 7)",
+   "phase": "7 Integration",
+   "wave": 37,
+   "depends_on": [
+    224
+   ],
+   "type": "review",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 1,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false,
+   "part_of": 105,
+   "part": [
+    6,
+    7
+   ]
+  },
+  {
+   "number": 226,
+   "key": "int_phone_p7",
+   "title": "Full phone pass (part 7 of 7)",
+   "phase": "7 Integration",
+   "wave": 38,
+   "depends_on": [
+    225
+   ],
+   "type": "review",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 2,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false,
+   "part_of": 105,
+   "part": [
+    7,
+    7
+   ]
+  },
+  {
+   "number": 227,
+   "key": "int_phone_fix_p2",
+   "title": "Full phone pass: fixes (part 2 of 3)",
+   "phase": "7 Integration",
+   "wave": 40,
+   "depends_on": [
+    106
+   ],
+   "type": "fix",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 2,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false,
+   "part_of": 106,
+   "part": [
+    2,
+    3
+   ]
+  },
+  {
+   "number": 228,
+   "key": "int_phone_fix_p3",
+   "title": "Full phone pass: fixes (part 3 of 3)",
+   "phase": "7 Integration",
+   "wave": 41,
+   "depends_on": [
+    227
+   ],
+   "type": "fix",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 3,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false,
+   "part_of": 106,
+   "part": [
+    3,
+    3
+   ]
+  },
+  {
+   "number": 229,
+   "key": "int_motion_p2",
+   "title": "Motion and sound consistency pass (part 2 of 6)",
+   "phase": "7 Integration",
+   "wave": 43,
+   "depends_on": [
+    107
+   ],
+   "type": "review",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 1,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false,
+   "part_of": 107,
+   "part": [
+    2,
+    6
+   ]
+  },
+  {
+   "number": 230,
+   "key": "int_motion_p3",
+   "title": "Motion and sound consistency pass (part 3 of 6)",
+   "phase": "7 Integration",
+   "wave": 44,
+   "depends_on": [
+    229
+   ],
+   "type": "review",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 1,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false,
+   "part_of": 107,
+   "part": [
+    3,
+    6
+   ]
+  },
+  {
+   "number": 231,
+   "key": "int_motion_p4",
+   "title": "Motion and sound consistency pass (part 4 of 6)",
+   "phase": "7 Integration",
+   "wave": 45,
+   "depends_on": [
+    230
+   ],
+   "type": "review",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 1,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false,
+   "part_of": 107,
+   "part": [
+    4,
+    6
+   ]
+  },
+  {
+   "number": 232,
+   "key": "int_motion_p5",
+   "title": "Motion and sound consistency pass (part 5 of 6)",
+   "phase": "7 Integration",
+   "wave": 46,
+   "depends_on": [
+    231
+   ],
+   "type": "review",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 1,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false,
+   "part_of": 107,
+   "part": [
+    5,
+    6
+   ]
+  },
+  {
+   "number": 233,
+   "key": "int_motion_p6",
+   "title": "Motion and sound consistency pass (part 6 of 6)",
+   "phase": "7 Integration",
+   "wave": 47,
+   "depends_on": [
+    232
+   ],
+   "type": "review",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 2,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false,
+   "part_of": 107,
+   "part": [
+    6,
+    6
+   ]
+  },
+  {
+   "number": 234,
+   "key": "int_final_fix_p2",
+   "title": "Final fixes (part 2 of 3)",
+   "phase": "7 Integration",
+   "wave": 50,
+   "depends_on": [
+    109
+   ],
+   "type": "fix",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 2,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false,
+   "part_of": 109,
+   "part": [
+    2,
+    3
+   ]
+  },
+  {
+   "number": 235,
+   "key": "int_final_fix_p3",
+   "title": "Final fixes (part 3 of 3)",
+   "phase": "7 Integration",
+   "wave": 51,
+   "depends_on": [
+    234
+   ],
+   "type": "fix",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 3,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false,
+   "part_of": 109,
+   "part": [
+    3,
+    3
+   ]
+  },
+  {
+   "number": 236,
+   "key": "int_package_p2",
+   "title": "Package for Nik and handoff to GPT-5.6 Sol (part 2 of 5)",
+   "phase": "7 Integration",
+   "wave": 53,
+   "depends_on": [
+    110
+   ],
+   "type": "integrate",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 1,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false,
+   "part_of": 110,
+   "part": [
+    2,
+    5
+   ]
+  },
+  {
+   "number": 237,
+   "key": "int_package_p3",
+   "title": "Package for Nik and handoff to GPT-5.6 Sol (part 3 of 5)",
+   "phase": "7 Integration",
+   "wave": 54,
+   "depends_on": [
+    236
+   ],
+   "type": "integrate",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 1,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false,
+   "part_of": 110,
+   "part": [
+    3,
+    5
+   ]
+  },
+  {
+   "number": 238,
+   "key": "int_package_p4",
+   "title": "Package for Nik and handoff to GPT-5.6 Sol (part 4 of 5)",
+   "phase": "7 Integration",
+   "wave": 55,
+   "depends_on": [
+    237
+   ],
+   "type": "integrate",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 1,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": false,
+   "part_of": 110,
+   "part": [
+    4,
+    5
+   ]
+  },
+  {
+   "number": 239,
+   "key": "int_package_p5",
+   "title": "Package for Nik and handoff to GPT-5.6 Sol (part 5 of 5)",
+   "phase": "7 Integration",
+   "wave": 56,
+   "depends_on": [
+    238
+   ],
+   "type": "integrate",
+   "worker": "GPT-5.6 Sol, normal chat in the ChatGPT project Showdown visual (one new chat per number)",
+   "lane": "project (type number)",
+   "steps": 1,
+   "waits_on_nik": null,
+   "waits_on_team_g": null,
+   "needs_claude_look": true,
+   "part_of": 110,
+   "part": [
+    5,
+    5
+   ]
   }
  ]
 }
