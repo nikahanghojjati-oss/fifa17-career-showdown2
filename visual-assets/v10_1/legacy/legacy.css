@@ -1343,7 +1343,7 @@ button {
     white-space: normal;
     line-height: 1.05;
   }
-  .legacySidePanel button::after { content: none; }
+  .legacySidePanel button:nth-child(n)::after { content: none; } /* Claude 04 Oct: beats the :nth-child(k)::after short labels so tabs show the DOM label once */
   .legacyPager { height: 44px; min-height: 44px; }
   .legacyPager button { min-width: 44px; min-height: 44px; transform: none; }
   .legacyCard { padding: 5px 8px; }
