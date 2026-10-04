@@ -113,9 +113,11 @@ body {
 
 .scoring-panel {
   left: 27.73%;
-  top: 31.60%;
+  /* Claude fix 3: grow upward so all three scoring rows fit while preserving
+     the original lower edge and the gap above the manager entry panels. */
+  top: 29.05%;
   width: 44.47%;
-  height: 19.44%;
+  height: 22.22%;
 }
 
 .entry-panel {
