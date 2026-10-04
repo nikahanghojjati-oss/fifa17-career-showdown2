@@ -4,6 +4,20 @@
 
 ## Scorecard
 
+Static-review average: 4.0 / 5 across criteria 1–7, 9 and 10. Static pass line is 4.2 / 5, with no criterion below 3 and every hard gate PASS.
+
+| Criterion | Score | Evidence |
+| --- | ---: | --- |
+| 1 · Mockup fidelity | 4 | Claude's desktop H10 diff passes with face scores 0.976/0.982, hand scores 0.979/0.972, SSIM 0.512 versus plate 0.527 and ΔE 12.1; title, ceremony, shelf and BACK geometry remain close to the mockup, while the larger differences are explicit TRUTH.md product corrections. |
+| 2 · Characters stand out of the menu | 4 | Desktop preserves Daniel-left/Nik-right in the protected scene plate and keeps shelf/rank UI clear of their faces, while phone code promotes both to large independent cutouts crossing the upper/lower boundary; the current review has no Claude-rendered phone evidence to justify a 5. |
+| 3 · Hands and contact | 4 | Claude's protected desktop hand scores are 0.979 and 0.972 and the authored shelf begins below the hand/torso zone, with no reviewed selector placing UI through a hand; phone contact/seam quality is not yet measured. |
+| 4 · Lighting and grade | 4 | The screen consistently uses the shared gold family, warm highlights, black depths, spotlight/reflection effects and gradient glass rather than flat grey panels, but this review has no current Claude-rendered phone grade/contrast evidence for a 5. |
+| 5 · Typography and title treatment | 4 | `TITLE_TR_V1.webp` supplies the gold brush title with a hidden live `h2`, Barlow/Barlow Condensed drives labels and tabular numbers, and hierarchy is clear; several compact phone labels fall in the 7–10 px range, keeping the treatment below flawless AAA readability. |
+| 6 · Panel craft | 4 | The cabinet, tabs, plinth and record ribbon use gold-edged dark glass, clipped corners and original trophy art with an aligned x=8–92% shelf footprint; added contract panels are coherent but denser than the cleaner mockup cabinet. |
+| 7 · Information clarity and honesty | 5 | The renderer keeps Daniel first and Nik second, limits content to contract-backed trophies/records, and has explicit empty, partial, unavailable and loading treatments that never turn missing provider history into fake zero data. |
+| 9 · Phone composition | 4 | The ≤760 px CSS is a separate 48% cinematic / lower swipe-rail composition with Daniel at 29%, Nik at 71%, 44 px controls, a 56 px hub reserve and a secondary details sheet; H5 real-browser fit and the final phone cutout rendering are still not Claude-measured. |
+| 10 · Polish and finish | 3 | WebP/runtime hygiene and desktop weight are good, but `#trophyPhoneMoreToggle` remains a clipped focusable desktop control and `render()` destroys the active tab without restoring focus; combined H9 and phone H11 are also still unmeasured. |
+
 ## Hard gates
 
 | Gate | Result | Evidence |
