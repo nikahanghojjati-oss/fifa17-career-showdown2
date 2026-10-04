@@ -69,6 +69,7 @@
       card.className = number === "04"
         ? "ruleSection scoringRuleSection sd-panel sd-panel--hero"
         : "ruleSection sd-panel";
+      card.dataset.sdEnter = "panel";
 
       const header = document.createElement("header");
       header.className = "ruleSectionHeader";
@@ -119,6 +120,9 @@
       const requested = qs.get("frame");
       const frameId = requested && fixtures.frames[requested] ? requested : ids[0];
       applyFrame(fixtures, frameId);
+      if (typeof window.sdEnter === "function") {
+        window.sdEnter(document.getElementById("ruleBook"));
+      }
     })
     .catch((error) => {
       text("ruleBookFrameStatus", error.message);
