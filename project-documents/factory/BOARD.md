@@ -1,14 +1,14 @@
 # Showdown Factory board
 
-**90 of 238 jobs done and checked · 40 %** · updated Sat 9:33 p.m. Eastern
+**90 of 238 jobs done and checked · 40 %** · updated Sat 9:42 p.m. Eastern
 
-✅ **Quality check:** a job counts as done only after Claude checks it against the quality bar (average 4.2 or more, nothing under 3, hard gates pass). Average score 4.23 over 36 scored jobs. 🔍 Waiting for Claude's check: 50, 51, 64, 77, 95. 
+✅ **Quality check:** a job counts as done only after Claude checks it against the quality bar (average 4.2 or more, nothing under 3, hard gates pass). Average score 4.23 over 36 scored jobs. 🔍 Waiting for Claude's check: 50, 51, 64, 77, 95, 97. 
 
 ████░░░░░░
 
 **Where to run:** 🟡 **project job** = new chat in the ChatGPT project "Showdown visual", type the number; one number is one turn (no Continue), and a job in parts shows its later parts only when the earlier part is done. 🟣 **image job** = its ticket in a ChatGPT **Temporary Chat** outside any project, then drop the picture in Claude's factory thread.
 
-🟡 **Type next:** 85, 97, 117, 119 · then 120, 125, 140, 147
+🟡 **Type next:** 85, 117, 119, 120 · then 125, 140, 147, 194
 
 🟣 **Image next:** 118
 
@@ -31,7 +31,7 @@ Final Winner   █████░░░░░ 6/12
 Start/Join     █░░░░░░░░░ 3/18
 Standings      ░░░░░░░░░░ 1/15
 Rule Book      ██████████ 4/4
-Settings       ████░░░░░░ 3/7
+Settings       █████░░░░░ 4/7
 Setup          ██████████ 2/2
 Foundation     ██████████ 7/7
 Art            ██████████ 8/8
@@ -51,7 +51,7 @@ Branch `factory/v1-wtt5ye`. 238 Team V jobs, plus 5 lines that track Team G. Two
 
 **Overall (Team V):** ████░░░░░░ 40 % · 90 of 238 jobs done
 
-**Start now · project (type the number in Showdown visual):** 85, 97, 117, 119 · queued next: 120, 125, 140, 147
+**Start now · project (type the number in Showdown visual):** 85, 117, 119, 120 · queued next: 125, 140, 147, 194
 
 **Start now · fresh chat (image ticket, outside the project):** 118
 
@@ -160,7 +160,7 @@ Branch `factory/v1-wtt5ye`. 238 Team V jobs, plus 5 lines that track Team G. Two
 | 94 | [Rule Book: fix round and motion](jobs/JOB-094.md) | 5 New screens | fix | project (type number) | 93, 16, 124 | ██████████ 100 % | DONE | yes |
 | 95 | [Settings: build (desktop and phone)](jobs/JOB-095.md) | 5 New screens | build | project (type number) | 10, 29, 18, 121 | ██████████ 100 % | DONE |  |
 | 96 | [Settings: review](jobs/JOB-096.md) | 5 New screens | review | project (type number) | 95 | ██████████ 100 % | DONE |  |
-| 97 | [Settings: fix round and motion (part 1 of 4)](jobs/JOB-097.md) | 5 New screens | fix | project (type number) | 96, 16, 124 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
+| 97 | [Settings: fix round and motion (part 1 of 4)](jobs/JOB-097.md) | 5 New screens | fix | project (type number) | 96, 16, 124 | ██████████ 100 % | DONE |  |
 | 98 | [Team G G-3: the pure career model](jobs/JOB-098.md) | 6 Online history | tracking | team-g | - | ██████████ 100 % | DONE |  |
 | 99 | [Team G G-7: own-account career index](jobs/JOB-099.md) | 6 Online history | tracking | team-g | 98 | ░░░░░░░░░░ 0 % | WAITING ON TEAM G |  |
 | 100 | [Team G G-8: completed-Showdown reader](jobs/JOB-100.md) | 6 Online history | tracking | team-g | 99 | ░░░░░░░░░░ 0 % | WAITING ON TEAM G |  |
