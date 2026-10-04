@@ -1396,3 +1396,36 @@ button {
   .legacyClubName { display: none; }
 }
 
+
+
+/* JOB-170: CM17 back turns at the midpoint; live content is never mirrored. */
+@keyframes legacy-card-deal {
+  0% { transform: perspective(900px) rotateY(0deg) translateY(8px); }
+  49% { transform: perspective(900px) rotateY(90deg); }
+  50% { transform: perspective(900px) rotateY(-90deg); }
+  100% { transform: perspective(900px) rotateY(0deg) translateY(0); }
+}
+@keyframes legacy-card-back { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
+@keyframes legacy-card-face { 0%, 49% { opacity: 0; } 50%, 100% { opacity: 1; } }
+.legacyDealing {
+  animation: legacy-card-deal var(--lg-motion-ms) var(--lg-motion-ease) var(--lg-motion-delay) both;
+  will-change: transform;
+}
+.legacyDealing > * {
+  animation: legacy-card-face var(--lg-motion-ms) steps(1, end) var(--lg-motion-delay) both;
+}
+.legacyDealing::after {
+  content: "CM17";
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+  color: #f2c45b;
+  background: repeating-linear-gradient(135deg, #0b0d10 0 12px, #151716 12px 13px);
+  border: 2px solid #d4a017;
+  font: 700 1.5rem var(--sd-font-condensed, sans-serif);
+  letter-spacing: .16em;
+  animation: legacy-card-back var(--lg-motion-ms) steps(1, end) var(--lg-motion-delay) both;
+}
+.legacyFading { animation: sd-reduced-fade var(--lg-motion-ms, 120ms) linear both; }

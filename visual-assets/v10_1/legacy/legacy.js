@@ -7,6 +7,49 @@
   const stringsRoot = document.getElementById("fixtureStrings");
   const frameLabel = document.getElementById("fixtureFrameLabel");
 
+  // Signature-only timing; the shared kit continues to own entrance timing.
+  const LEGACY_MOTION = Object.freeze({ deal: 400, stagger: 50, crown: 220,
+    page: 280, parallax: 320, fade: 120, ease: "cubic-bezier(.22,1,.36,1)" });
+  const motionTimers = new WeakMap();
+  function reducedMotion() {
+    let app = false;
+    try {
+      app = !!(window.isReducedMotionPreferred?.() ||
+        window.getApplicationMotionPreferenceState?.()?.effectiveReduced ||
+        JSON.parse(localStorage.getItem("careerModeShowdown.preferences") || "{}").reducedMotion);
+    } catch (_) { /* The system preference still applies if storage is unavailable. */ }
+    return app || window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
+      document.documentElement.dataset.motionReduced === "true" ||
+      document.documentElement.dataset.reducedMotion === "true";
+  }
+  function animateLegacy(element, name, duration, delay = 0) {
+    if (!element) return;
+    clearTimeout(motionTimers.get(element));
+    element.classList.remove("legacyDealing", "legacyCrowning", "legacyPaging", "legacyParallax", "legacyFading");
+    const reduced = reducedMotion();
+    const ms = reduced ? LEGACY_MOTION.fade : duration;
+    const wait = reduced ? 0 : delay;
+    element.style.setProperty("--lg-motion-ms", ms + "ms");
+    element.style.setProperty("--lg-motion-delay", wait + "ms");
+    element.style.setProperty("--lg-motion-ease", LEGACY_MOTION.ease);
+    element.classList.add(reduced ? "legacyFading" : name);
+    motionTimers.set(element, setTimeout(() => {
+      element.classList.remove(name, "legacyFading");
+      ["--lg-motion-ms", "--lg-motion-delay", "--lg-motion-ease"].forEach(key => element.style.removeProperty(key));
+      motionTimers.delete(element);
+    }, wait + ms + 20));
+  }
+  function dealCards(initial = false) {
+    // Only the currently visible phone card is dealt. Other cards appear on selection.
+    const phone = window.matchMedia("(max-width: 900px)").matches;
+    const cards = Array.from(document.querySelectorAll(".legacyCard"));
+    const selected = cards.find(card => card.dataset.selected === "true") || cards[0];
+    (phone ? cards.filter(card => card === selected) : cards).forEach((card, index) => {
+      const delay = (initial ? 400 : 0) + Math.min(index, 3) * LEGACY_MOTION.stagger;
+      animateLegacy(card, "legacyDealing", LEGACY_MOTION.deal, delay);
+    });
+  }
+
   function scalarNode(value) {
     const span = document.createElement("span");
     span.textContent = value === null ? "null" : String(value);
@@ -498,6 +541,7 @@
     window.LegacyFixture = { fixtures, frameId, frame, platemap, stageController, selectedShowdown: frame.ui && frame.ui.selectedShowdown };
     // The optional screen owns this entrance; all controls are already wired.
     if (typeof window.sdEnter === "function") window.sdEnter(stage);
+    dealCards(true);
   }
 
   boot().catch((error) => {
