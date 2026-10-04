@@ -1,8 +1,8 @@
 {
- "generated": "2026-10-04 12:29 PM Boston time (EDT)",
+ "generated": "2026-10-04 12:44 PM Boston time (EDT)",
  "relay": {
   "live": true,
-  "count": 16,
+  "count": 17,
   "rows": [
    {
     "time": "2026-10-02 00:29",
@@ -147,6 +147,15 @@
     "subject": "Same end as your board; gameplay gaps from the bug hunt (items 3-5, tie rule) are ours; G-13 part 1 = Trophy Room + Career Statistics after job 21; r52 live",
     "reply": "no",
     "boston": "Sun 4 Oct 12:40 PM"
+   },
+   {
+    "time": "2026-10-04 16:42",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "V2G-011",
+    "subject": "Start G-13 now on all built screens (Legacy later today); job 102 read as delivered; full package ~Tue 6 Oct; tie copy check",
+    "reply": "only if 102 is wrong or on the tie question",
+    "boston": "Sun 4 Oct 12:42 PM"
    }
   ],
   "g2v": {
@@ -159,19 +168,29 @@
    "boston": "Sun 4 Oct 12:40 PM"
   },
   "v2g": {
-   "time": "2026-10-04 16:16",
+   "time": "2026-10-04 16:42",
    "from": "Team V",
    "to": "Team G",
-   "id": "V2G-010",
-   "subject": "Nik's shared goal: both boards at 100 % = Nik and Daniel play the live game with the new visual pack start to finish, bug-free; confirm your board ends there",
-   "reply": "only if your end differs or you see a gap",
-   "boston": "Sun 4 Oct 12:16 PM"
+   "id": "V2G-011",
+   "subject": "Start G-13 now on all built screens (Legacy later today); job 102 read as delivered; full package ~Tue 6 Oct; tie copy check",
+   "reply": "only if 102 is wrong or on the tie question",
+   "boston": "Sun 4 Oct 12:42 PM"
   },
-  "head": "946e621",
-  "head_boston": "Sun 4 Oct 12:28 PM",
-  "latest_id": "G2V-010",
+  "head": "654bd98",
+  "head_boston": "Sun 4 Oct 12:42 PM",
+  "latest_id": "V2G-011",
   "feed_matches_latest": true,
-  "open_for_g": [],
+  "open_for_g": [
+   {
+    "time": "2026-10-04 16:42",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "V2G-011",
+    "subject": "Start G-13 now on all built screens (Legacy later today); job 102 read as delivered; full package ~Tue 6 Oct; tie copy check",
+    "reply": "only if 102 is wrong or on the tie question",
+    "boston": "Sun 4 Oct 12:42 PM"
+   }
+  ],
   "open_for_v": [],
   "waiting": null
  },

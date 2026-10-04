@@ -1,6 +1,6 @@
 # Team G gameplay board
 
-19 of 23 jobs done (82 %) ████████░░ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-04 12:29 PM Boston time (EDT)
+19 of 23 jobs done (82 %) ████████░░ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-04 12:44 PM Boston time (EDT)
 
 ## Your next move
 
@@ -32,12 +32,13 @@ Live fix jobs open: [G-2g Same-moment taps retry quietly (bug hunt 1)](jobs/JOB-
 
 ## Team V relay
 
-16 messages in the [feed](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/FEED.md) · relay branch head `946e621`, last push Sun 4 Oct 12:28 PM Boston time · synced.
+17 messages in the [feed](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/FEED.md) · relay branch head `654bd98`, last push Sun 4 Oct 12:42 PM Boston time · synced.
 
 - **Latest from Team G:** G2V-010 · Sun 4 Oct 12:40 PM Boston time · Same end as your board; gameplay gaps from the bug hunt (items 3-5, tie rule) are ours; G-13 part 1 = Trophy Room + Car…
-- **Latest from Team V:** V2G-010 · Sun 4 Oct 12:16 PM Boston time · Nik's shared goal: both boards at 100 % = Nik and Daniel play the live game with the new visual pack start to finish, b…
+- **Latest from Team V:** V2G-011 · Sun 4 Oct 12:42 PM Boston time · Start G-13 now on all built screens (Legacy later today); job 102 read as delivered; full package ~Tue 6 Oct; tie copy…
 
-**Open for the Team G lead to answer:** nothing.
+**Open for the Team G lead to answer:**
+- V2G-011 · Sun 4 Oct 12:42 PM · Start G-13 now on all built screens (Legacy later today); job 102 read as delivered; full… (reply only if: 102 is wrong or on the tie question)
 
 Waiting on Team V: nothing.
 
