@@ -1,14 +1,14 @@
 # Showdown Factory board
 
-**166 of 238 jobs done and checked · 71 %** · updated Sun 11:06 a.m. Eastern
+**166 of 238 jobs done and checked · 71 %** · updated Sun 11:15 a.m. Eastern
 
-✅ **Quality check:** a job counts as done only after Claude checks it against the quality bar (average 4.2 or more, nothing under 3, hard gates pass). Average score 4.25 over 61 scored jobs. 🔍 Waiting for Claude's check: 143, 162, 192. 
+✅ **Quality check:** a job counts as done only after Claude checks it against the quality bar (average 4.2 or more, nothing under 3, hard gates pass). Average score 4.25 over 61 scored jobs. 🔍 Waiting for Claude's check: 143, 144, 162, 192. 
 
 <img src="board-meter.svg" alt="Football progress meter" width="640">
 
 **Where to run:** 🟡 **project job** = new chat in the ChatGPT project "Showdown visual", type the number; one number is one turn (no Continue), and a job in parts shows its later parts only when the earlier part is done. 🟣 **image job** = its ticket in a ChatGPT **Temporary Chat** outside any project, then drop the picture in Claude's factory thread.
 
-🟡 **Type next:** 144, 172, 193
+🟡 **Type next:** 53, 172, 193
 
 🟣 **Image next:** 118
 
@@ -20,7 +20,7 @@
 Home           ██████████ 8/8
 League         ██████████ 8/8
 Club           ██████████ 7/7
-Transfer       ██████░░░░ 9/13
+Transfer       ███████░░░ 10/13
 Loading        ██████████ 4/4
 Trophy Room    ██████████ 10/10
 Career Stats   ██████████ 17/17
@@ -51,7 +51,7 @@ Branch `factory/v1-wtt5ye`. 238 Team V jobs, plus 5 lines that track Team G. Two
 
 **Overall (Team V):** ███████░░░ 71 % · 166 of 238 jobs done
 
-**Start now · project (type the number in Showdown visual):** 144, 172, 193
+**Start now · project (type the number in Showdown visual):** 53, 172, 193
 
 **Start now · fresh chat (image ticket, outside the project):** 118
 
@@ -207,7 +207,7 @@ Branch `factory/v1-wtt5ye`. 238 Team V jobs, plus 5 lines that track Team G. Two
 | 141 | [Transfer War: review (part 3 of 4)](jobs/JOB-141.md) | 4 Polish built screens | review | project (type number) | 140 | ██████████ 100 % | DONE |  |
 | 142 | [Transfer War: review (part 4 of 4)](jobs/JOB-142.md) | 4 Polish built screens | review | project (type number) | 141 | ██████████ 100 % | DONE |  |
 | 143 | [Transfer War: fix round (part 2 of 3)](jobs/JOB-143.md) | 4 Polish built screens | fix | project (type number) | 52 | ██████████ 100 % | DONE |  |
-| 144 | [Transfer War: fix round (part 3 of 3)](jobs/JOB-144.md) | 4 Polish built screens | fix | project (type number) | 143 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
+| 144 | [Transfer War: fix round (part 3 of 3)](jobs/JOB-144.md) | 4 Polish built screens | fix | project (type number) | 143 | ██████████ 100 % | DONE |  |
 | 145 | [Transfer War: motion (part 2 of 3)](jobs/JOB-145.md) | 4 Polish built screens | build | project (type number) | 53 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 146 | [Transfer War: motion (part 3 of 3)](jobs/JOB-146.md) | 4 Polish built screens | build | project (type number) | 145 | ░░░░░░░░░░ 0 % | NOT STARTED | yes |
 | 147 | [Career Statistics: review (part 2 of 4)](jobs/JOB-147.md) | 5 New screens | review | project (type number) | 64 | ██████████ 100 % | DONE |  |
