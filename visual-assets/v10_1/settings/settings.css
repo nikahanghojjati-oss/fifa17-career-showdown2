@@ -686,3 +686,215 @@ body {
   background: rgba(0, 0, 0, 0.42);
   pointer-events: none;
 }
+
+
+/* STEP 9 · portrait phone composition */
+.settingsPhonePlate,
+.nav-reserve {
+  display: none;
+}
+
+@media (max-width: 760px) and (orientation: portrait) {
+  :root {
+    --settings-phone-nav: calc(56px + env(safe-area-inset-bottom));
+    --settings-phone-title: 112px;
+    --settings-phone-state: 34px;
+    --settings-phone-gap: 8px;
+    --settings-phone-action: 44px;
+    --settings-phone-action-gap: 10px;
+  }
+
+  .sd-stage__layer--plate .sd-stage__registered {
+    display: none;
+  }
+
+  .settingsPhonePlate {
+    display: block;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .settingsPhonePlate img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 50%;
+  }
+
+  .settingsStageScrim {
+    background:
+      linear-gradient(180deg, rgba(2,2,2,.48), rgba(2,2,2,.74)),
+      radial-gradient(circle at 50% 28%, rgba(0,0,0,.08), rgba(0,0,0,.38) 74%);
+  }
+
+  .settingsDialog {
+    inset: 0;
+    padding: 0;
+  }
+
+  .settingsTitleBlock {
+    top: 12px;
+    width: min(66vw, 250px);
+  }
+
+  .settingsEyebrow {
+    margin-bottom: 2px;
+    font-size: 0.58rem;
+    letter-spacing: 0.28em;
+  }
+
+  .settingsWordmark {
+    width: 86%;
+    max-height: 58px;
+  }
+
+  .settingsTagline {
+    margin-top: 0;
+    font-size: 0.52rem;
+    letter-spacing: 0.23em;
+  }
+
+  #settingsClose {
+    z-index: 30;
+    top: 12px;
+    right: 12px;
+    min-width: 44px;
+    min-height: 44px;
+    font-size: 1.15rem;
+  }
+
+  .settingsStateRail {
+    top: var(--settings-phone-title);
+    left: 12px;
+    right: 12px;
+    min-height: var(--settings-phone-state);
+    gap: 6px;
+    overflow: hidden;
+  }
+
+  #previewTag,
+  #contractState {
+    flex: 0 0 auto;
+  }
+
+  #frameNote,
+  #interimLabel {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  #settingsContent {
+    top: calc(var(--settings-phone-title) + var(--settings-phone-state) + var(--settings-phone-gap));
+    left: 12px;
+    right: 12px;
+    bottom: calc(
+      var(--settings-phone-nav) +
+      var(--settings-phone-action) +
+      var(--settings-phone-action-gap) +
+      18px
+    );
+    width: auto;
+    height: auto;
+    display: block;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: 0 4px 10px 0;
+    scrollbar-gutter: stable;
+  }
+
+  .settingsPanel {
+    width: auto;
+    min-height: 0;
+    margin: 0 0 10px;
+    padding: 14px;
+    overflow: visible;
+  }
+
+  .settingsPanel--motion dl,
+  #motionChoices {
+    grid-template-columns: 1fr;
+  }
+
+  .settingsMotionChoice {
+    min-height: 72px;
+  }
+
+  #feedbackRow {
+    gap: 10px;
+  }
+
+  #accountActions,
+  #dataActions {
+    flex-direction: column;
+  }
+
+  #accountActions button,
+  #dataActions button,
+  .settingsApplicationUpdateButton,
+  .settingsAudioToggle,
+  #confirmDialog button,
+  .settingsFooter button {
+    min-height: 44px;
+  }
+
+  #dataActions button,
+  .settingsApplicationUpdateButton {
+    width: 100%;
+  }
+
+  .settingsPanel--data {
+    border-color: rgba(214,75,75,.68);
+    box-shadow:
+      inset 3px 0 0 rgba(214,75,75,.60),
+      0 16px 34px rgba(0,0,0,.28);
+  }
+
+  .settingsFooter {
+    z-index: 25;
+    left: 12px;
+    right: 12px;
+    bottom: calc(var(--settings-phone-nav) + var(--settings-phone-action-gap));
+    height: var(--settings-phone-action);
+  }
+
+  .settingsFooter .sd-btn--primary {
+    width: 100%;
+    height: var(--settings-phone-action);
+    min-width: 0;
+  }
+
+  .nav-reserve {
+    display: block;
+    position: absolute;
+    z-index: 5;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: var(--settings-phone-nav);
+    pointer-events: none;
+  }
+
+  #confirmDialog {
+    width: auto;
+    left: 16px;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 20px;
+  }
+
+  #confirmDialog button {
+    width: 100%;
+    margin: 0 0 8px;
+  }
+
+  #confirmDialog button:last-child {
+    margin-bottom: 0;
+  }
+}
