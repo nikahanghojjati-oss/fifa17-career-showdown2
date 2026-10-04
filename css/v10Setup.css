@@ -1,0 +1,689 @@
+/* JOB-26 (G-13 part 2c): Team V's look (factory/v1-wtt5ye 5e05a1f) on Start/Join, the League wheel and the Club
+   packs, as a SKIN over the app's own markup. Loaded lazily by js/v10Setup.js. Screen rules are scoped to
+   html[data-v10-setup] and .v26Skin, which js/v10Setup.js sets only while one of these screens is mounted; the
+   Start/Join overlay rules are scoped to their own ids. Looks only: no text-transform on product text, no generated
+   text, nothing positioned over a control, and every product element stays in the page flow. */
+
+:root {
+  --v26-gold: var(--sd-gold-500, #f5c518);
+  --v26-gold-hi: var(--sd-gold-300, #ffd34d);
+  --v26-gold-deep: var(--sd-gold-700, #d4a017);
+  --v26-edge: var(--sd-edge, rgba(212, 160, 23, .7));
+  --v26-ink: #07080a;
+  --v26-glass: linear-gradient(160deg, rgba(10, 11, 14, .9), rgba(10, 11, 14, .76));
+  --v26-cream: var(--sd-text-warm, #e9dfc8);
+  --v26-text: var(--sd-text-primary, #f4f1ea);
+  --v26-muted: var(--sd-text-secondary, #b9b3a4);
+  --v26-cond: var(--sd-font-condensed, "Barlow Condensed", "Arial Narrow", sans-serif);
+  --v26-body: var(--sd-font-body, "Barlow", system-ui, sans-serif);
+  --v26-title: var(--sd-font-title, "Kaushan Script", "Brush Script MT", cursive);
+  --v26-crown: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 16'%3E%3Cpath d='M1 4l5 4 6-7 6 7 5-4-2 11H3z' fill='%23f2c45b'/%3E%3C/svg%3E");
+}
+
+/* ---------- page: stadium plate behind the app shell, dark header ---------- */
+/* The app paints body over #background; while a setup skin shows, the html carries the dark base instead. */
+html[data-v10-setup] { background: #070604; }
+html[data-v10-setup] body { background: transparent; }
+html[data-v10-setup] #background {
+  background-color: #070604;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+html[data-v10-setup="start"] #background {
+  background-image: url("../visual-assets/v10_1/start-join/assets/ENV_SJ_PLATE_V1_1X.webp");
+  background-image: image-set(url("../visual-assets/v10_1/start-join/assets/ENV_SJ_PLATE_V1_1X.webp") 1x, url("../visual-assets/v10_1/start-join/assets/ENV_SJ_PLATE_V1_2X.webp") 2x);
+}
+html[data-v10-setup="league"] #background {
+  background-image: url("../visual-assets/v10_1/league/assets/ENV_LEAGUE_PLATE_V1_1X.webp");
+  background-image: image-set(url("../visual-assets/v10_1/league/assets/ENV_LEAGUE_PLATE_V1_1X.webp") 1x, url("../visual-assets/v10_1/league/assets/ENV_LEAGUE_PLATE_V1_2X.webp") 2x);
+}
+html[data-v10-setup="club"] #background {
+  background-image: url("../visual-assets/v10_1/club/assets/ENV_CLUB_PLATE_V1_1X.webp");
+  background-image: image-set(url("../visual-assets/v10_1/club/assets/ENV_CLUB_PLATE_V1_1X.webp") 1x, url("../visual-assets/v10_1/club/assets/ENV_CLUB_PLATE_V1_2X.webp") 2x);
+}
+/* Centre shade so the live panel reads over the stadium; Daniel (left) and Nik (right) stay bright. */
+html[data-v10-setup] #overlay {
+  background:
+    radial-gradient(ellipse 34% 58% at 50% 56%, rgba(7, 8, 10, .62), rgba(7, 8, 10, .34) 62%, rgba(7, 8, 10, 0) 100%),
+    linear-gradient(to bottom, rgba(7, 8, 10, .55), rgba(7, 8, 10, 0) 22%, rgba(7, 8, 10, 0) 78%, rgba(7, 8, 10, .7));
+}
+html[data-v10-setup] #topHeader {
+  color: var(--v26-cream);
+  background: linear-gradient(to bottom, rgba(6, 7, 9, .94), rgba(6, 7, 9, .8));
+  border-bottom: 1px solid rgba(201, 155, 69, .45);
+  box-shadow: none;
+}
+html[data-v10-setup] #topHeader .brand h1 { color: var(--v26-cream); }
+html[data-v10-setup] #topHeader .brand p { color: var(--sd-gold-400, #f2c45b); }
+html[data-v10-setup] #seasonIndicator,
+html[data-v10-setup] #onlinePlayerIdentityBadge {
+  color: var(--v26-cream);
+  background: rgba(10, 12, 15, .72);
+  border: 1px solid rgba(201, 155, 69, .55);
+  box-shadow: none;
+}
+html[data-v10-setup] main { scrollbar-color: var(--v26-gold-deep) rgba(255, 255, 255, .08); }
+
+/* The licensed football photographs stay (required presentation, audited on Pages); only their frame takes the black/gold kit. */
+:is(#createShowdown, #leagueWheelScreen, #clubWheelScreen).v26Skin .footballVisualPanel {
+  background: linear-gradient(160deg, rgba(14, 15, 18, .94), rgba(8, 9, 12, .86));
+  border-bottom-color: var(--v26-gold-deep);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, .45), inset 0 0 0 1px rgba(212, 160, 23, .45);
+  color: var(--v26-text);
+  --clean-anchor-copy-bg: rgba(8, 9, 12, .88);
+  --clean-anchor-copy-color: var(--v26-text);
+  --clean-anchor-copy-border: var(--v26-gold-deep);
+}
+:is(#createShowdown, #leagueWheelScreen, #clubWheelScreen).v26Skin .footballVisualPanel::before {
+  background: linear-gradient(118deg, rgba(212, 160, 23, .08) 0 30%, transparent 30% 100%);
+}
+:is(#createShowdown, #leagueWheelScreen, #clubWheelScreen).v26Skin .footballVisualPanel::after {
+  background: linear-gradient(90deg, var(--v26-gold-hi), var(--v26-gold-deep));
+}
+:is(#createShowdown, #leagueWheelScreen, #clubWheelScreen).v26Skin .footballVisualKicker { color: var(--v26-gold-hi); }
+:is(#createShowdown, #leagueWheelScreen, #clubWheelScreen).v26Skin .footballVisualIdentity { text-shadow: 0 2px 7px rgba(0, 0, 0, .6); }
+:is(#createShowdown, #leagueWheelScreen, #clubWheelScreen).v26Skin .footballVisualCredit { color: #eee6d2; background: rgba(8, 9, 12, .86); border-left-color: var(--v26-gold-deep); }
+/* Wheel and packs first, then the photograph: the screen is a column and the band sits after the controls. */
+:is(#leagueWheelScreen, #clubWheelScreen).v26Skin:not(.hidden) { display: flex; flex-direction: column; }
+:is(#leagueWheelScreen, #clubWheelScreen).v26Skin > .footballVisualCinematicBand {
+  order: 5;
+  box-sizing: border-box;
+  width: min(1040px, 94vw);
+  margin: 22px auto 0;
+}
+:is(#createShowdown, #leagueWheelScreen, #clubWheelScreen).v26Skin > h2[data-route-focus-target="true"]:focus { outline: 1px solid rgba(242, 196, 91, .5); outline-offset: 4px; }
+
+/* ---------- shared screen kit ---------- */
+:is(#createShowdown, #leagueWheelScreen, #clubWheelScreen).v26Skin { color: var(--v26-text); }
+:is(#createShowdown, #leagueWheelScreen, #clubWheelScreen).v26Skin > :not(.v26Art) { position: relative; z-index: 1; }
+:is(#createShowdown, #leagueWheelScreen, #clubWheelScreen).v26Skin > h2 {
+  width: fit-content;
+  max-width: 100%;
+  margin: clamp(4px, 2vh, 22px) auto 6px;
+  padding: .04em .14em .14em;
+  border: 0;
+  background: linear-gradient(to bottom, #fff1b8, #f2c45b 55%, #b98a2f);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  box-shadow: none;
+  font: 400 clamp(34px, 4.6vw, 66px)/1.12 var(--v26-title);
+  letter-spacing: .01em;
+  text-align: center;
+  filter: drop-shadow(0 3px 1px rgba(0, 0, 0, .96)) drop-shadow(0 0 14px rgba(242, 196, 91, .28));
+}
+:is(#createShowdown, #leagueWheelScreen, #clubWheelScreen).v26Skin > h2::before,
+:is(#createShowdown, #leagueWheelScreen, #clubWheelScreen).v26Skin > h2::after { display: none; }
+:is(#createShowdown, #leagueWheelScreen, #clubWheelScreen).v26Skin .stateNote {
+  box-sizing: border-box;
+  max-width: min(620px, 100%);
+  margin: 8px auto;
+  padding: 7px 16px;
+  color: var(--v26-cream);
+  background: rgba(10, 12, 15, .84);
+  border: 1px solid rgba(201, 155, 69, .38);
+  border-left-width: 1px;
+  font: 400 14px/1.35 var(--v26-body);
+  text-align: center;
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+:is(#createShowdown, #leagueWheelScreen, #clubWheelScreen).v26Skin .stateNote.locked { border-color: rgba(242, 196, 91, .7); color: #f6ebd0; }
+:is(#createShowdown, #leagueWheelScreen, #clubWheelScreen).v26Skin .menuButton {
+  box-sizing: border-box;
+  min-height: 54px;
+  color: var(--sd-text-on-gold, #07080a);
+  background: linear-gradient(180deg, #ffd34d, #f5c518 55%, #d4a017);
+  border: 1px solid #8a6a12;
+  border-radius: 0;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, .45), 0 0 18px rgba(245, 197, 24, .14);
+  font: 700 clamp(17px, 1.5vw, 20px)/1.05 var(--v26-cond);
+  letter-spacing: .06em;
+  transition: transform 100ms cubic-bezier(.22, 1, .36, 1), filter 100ms linear, box-shadow 100ms linear;
+}
+:is(#createShowdown, #leagueWheelScreen, #clubWheelScreen).v26Skin .menuButton:disabled {
+  cursor: default;
+  color: #2a2213;
+  background: linear-gradient(180deg, #d8c184, #b79a59);
+  box-shadow: none;
+}
+:is(#createShowdown, #leagueWheelScreen, #clubWheelScreen).v26Skin .backButton {
+  box-sizing: border-box;
+  min-height: 48px;
+  color: var(--v26-gold-hi);
+  background: rgba(8, 9, 12, .9);
+  border: 1px solid var(--v26-edge);
+  border-radius: 0;
+  box-shadow: none;
+  font: 700 clamp(16px, 1.3vw, 19px)/1 var(--v26-cond);
+  letter-spacing: .08em;
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+:is(#createShowdown, #leagueWheelScreen, #clubWheelScreen).v26Skin .backButton:disabled { color: #d8cebb; border-color: rgba(233, 223, 200, .4); }
+@media (hover: hover) {
+  :is(#createShowdown, #leagueWheelScreen, #clubWheelScreen).v26Skin .menuButton:not(:disabled):hover { filter: brightness(1.06); transform: translate3d(0, -1px, 0); }
+  :is(#createShowdown, #leagueWheelScreen, #clubWheelScreen).v26Skin .backButton:not(:disabled):hover { border-color: var(--v26-gold-hi); }
+}
+:is(#createShowdown, #leagueWheelScreen, #clubWheelScreen).v26Skin .menuButton:not(:disabled):active,
+:is(#createShowdown, #leagueWheelScreen, #clubWheelScreen).v26Skin .backButton:not(:disabled):active { transform: translate3d(0, 1px, 0) scale(.995); }
+:is(#createShowdown, #leagueWheelScreen, #clubWheelScreen).v26Skin button:focus-visible,
+:is(#createShowdown, #leagueWheelScreen, #clubWheelScreen).v26Skin select:focus-visible { outline: 2px solid #fff1b8; outline-offset: 3px; }
+
+/* Decorative phone art (Team V phone heroes); desktop shows the plate instead. */
+.v26Art { display: none; }
+
+/* ---------- Start / Join: season setup (#createShowdown) ---------- */
+#createShowdown.v26Skin .setupBox {
+  box-sizing: border-box;
+  width: min(560px, 94vw);
+  margin: 10px auto 0;
+  padding: 22px clamp(16px, 2.4vw, 30px) 22px;
+  color: var(--v26-text);
+  background: var(--v26-glass);
+  border: 1px solid var(--v26-edge);
+  border-top: 3px solid var(--v26-gold-deep);
+  box-shadow: var(--sd-shadow-panel, 0 10px 28px rgba(0, 0, 0, .45));
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+#createShowdown.v26Skin .setupBox .stateNote { margin: 0 auto 14px; background: rgba(6, 7, 9, .6); }
+#createShowdown.v26Skin .setupBox label:not([hidden]) {
+  display: block;
+  margin: 2px 0 8px;
+  color: var(--v26-cream);
+  font: 600 13px/1.2 var(--v26-cond);
+  letter-spacing: .32em;
+  text-align: center;
+}
+#createShowdown.v26Skin #roundAmount {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 48px;
+  margin-bottom: 14px;
+  padding: 0 14px;
+  color: var(--v26-text);
+  background: rgba(6, 7, 9, .9);
+  border: 1px solid var(--v26-edge);
+  border-radius: 0;
+  font: 600 18px/1 var(--v26-cond);
+  letter-spacing: .06em;
+}
+#createShowdown.v26Skin #roundAmount option { color: #f4f1ea; background: #0b0d10; }
+#createShowdown.v26Skin .setupBox .menuButton,
+#createShowdown.v26Skin .setupBox .backButton { display: block; width: 100%; margin: 10px 0 0; }
+#createShowdown.v26Skin #onlineShowdownSetupNote { margin-top: 12px; }
+
+/* ---------- League wheel ---------- */
+#leagueWheelScreen.v26Skin { --v26-wheel: clamp(250px, min(46vh, 34vw), 460px); }
+#leagueWheelScreen.v26Skin .wheelContainer {
+  box-sizing: border-box;
+  width: min(640px, 94vw);
+  margin: 0 auto;
+  padding: 0 0 8px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  column-gap: 10px;
+  justify-items: center;
+  background: none;
+  box-shadow: none;
+}
+#leagueWheelScreen.v26Skin .wheelContainer > * { grid-column: 1 / -1; }
+#leagueWheelScreen.v26Skin #selectedLeague { order: 0; }
+#leagueWheelScreen.v26Skin .wheelPointer { order: 1; }
+#leagueWheelScreen.v26Skin #leagueWheel { order: 2; }
+#leagueWheelScreen.v26Skin .wheelContainer > .stateNote { order: 3; }
+#leagueWheelScreen.v26Skin #spinLeague { order: 4; }
+#leagueWheelScreen.v26Skin .wheelContainer > .backButton { order: 5; }
+@media (min-width: 901px) {
+  #leagueWheelScreen.v26Skin #spinLeague { grid-column: 1; justify-self: stretch; }
+  #leagueWheelScreen.v26Skin .wheelContainer > .backButton { grid-column: 2; justify-self: stretch; }
+  #leagueWheelScreen.v26Skin #spinLeague.hidden + .backButton,
+  #leagueWheelScreen.v26Skin .wheelContainer > .backButton:only-of-type { grid-column: 1 / -1; }
+}
+#leagueWheelScreen.v26Skin #spinLeague,
+#leagueWheelScreen.v26Skin .wheelContainer > .backButton { width: 100%; margin: 6px 0 0; }
+
+#leagueWheelScreen.v26Skin #selectedLeague {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  min-height: 28px;
+  margin: 0 0 4px;
+  color: var(--v26-cream);
+  font: 600 15px/1.2 var(--v26-cond);
+  letter-spacing: .34em;
+  text-align: center;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, .85);
+}
+#leagueWheelScreen.v26Skin[data-v26-league] #selectedLeague { color: var(--v26-gold-hi); font-size: 22px; font-weight: 700; letter-spacing: .28em; }
+#leagueWheelScreen.v26Skin #selectedLeague::before,
+#leagueWheelScreen.v26Skin #selectedLeague::after {
+  content: "";
+  flex: 0 1 72px;
+  height: 1px;
+  background: linear-gradient(to right, rgba(201, 155, 69, 0), rgba(201, 155, 69, .9));
+}
+#leagueWheelScreen.v26Skin #selectedLeague::after { transform: scaleX(-1); }
+
+/* Pointer: Team V's gold chevron and crown; the app's ▼ glyph stays in the DOM, unseen. */
+#leagueWheelScreen.v26Skin .wheelPointer {
+  position: relative;
+  z-index: 4;
+  width: calc(var(--v26-wheel) * 44 / 480);
+  height: calc(var(--v26-wheel) * 62 / 480);
+  margin: 0 0 calc(var(--v26-wheel) * -30 / 480);
+  color: transparent;
+  font-size: 0;
+  line-height: 0;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 44 62'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%23FFF1B8'/%3E%3Cstop offset='.55' stop-color='%23F2C45B'/%3E%3Cstop offset='1' stop-color='%237A5A22'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M9 14l4 4 9-10 9 10 4-4-2 10H11z' fill='url(%23g)' stroke='%237A5A22' stroke-width='1'/%3E%3Cpath d='M4 28h36L22 60z' fill='url(%23g)' stroke='%237A5A22' stroke-width='1.2'/%3E%3Cpath d='M12 31h20L22 50z' fill='%237A5A22' opacity='.35'/%3E%3C/svg%3E") center / contain no-repeat;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, .6));
+}
+
+#leagueWheelScreen.v26Skin #leagueWheel {
+  --R: calc(var(--v26-wheel) / 2);
+  position: relative;
+  width: var(--v26-wheel);
+  height: var(--v26-wheel);
+  aspect-ratio: 1;
+  margin: 0 0 10px;
+  border: 0;
+  border-radius: 50%;
+  overflow: hidden;
+  background: radial-gradient(circle, #181b20 0, #14171b 55%, #0e1013 100%);
+  box-shadow: 0 0 0 calc(var(--R) * .06) rgba(7, 8, 10, .92), 0 18px 40px rgba(0, 0, 0, .6);
+}
+/* Fixed gold wedge at 12 o'clock, under the turning track: the league that stops under the pointer sits on gold. */
+#leagueWheelScreen.v26Skin #leagueWheel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  display: block;
+  border: 0;
+  border-radius: 50%;
+  background: conic-gradient(from -36deg, rgba(247, 212, 106, .9), rgba(201, 155, 69, .9) 72deg, transparent 72deg);
+  font-size: 0;
+  pointer-events: none;
+}
+/* Rim art (shared/art/wheel) and the crown hub, above the track. */
+#leagueWheelScreen.v26Skin #leagueWheel::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 480 480'%3E%3Cdefs%3E%3ClinearGradient id='r' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%23FFF1B8'/%3E%3Cstop offset='.5' stop-color='%23C99B45'/%3E%3Cstop offset='1' stop-color='%237A5A22'/%3E%3C/linearGradient%3E%3CradialGradient id='h' cx='.5' cy='.42' r='.6'%3E%3Cstop offset='0' stop-color='%2323272e'/%3E%3Cstop offset='1' stop-color='%230a0b0d'/%3E%3C/radialGradient%3E%3C/defs%3E%3Ccircle cx='240' cy='240' r='52.8' fill='url(%23h)' stroke='url(%23r)' stroke-width='4'/%3E%3Ccircle cx='240' cy='240' r='47' fill='none' stroke='rgba(242,196,91,.35)' stroke-width='1'/%3E%3Cpath d='M216 252l-6-28 16 12 14-22 14 22 16-12-6 28z' fill='url(%23r)' stroke='%236E5020' stroke-width='1'/%3E%3Crect x='216' y='255' width='48' height='6' rx='1.5' fill='url(%23r)'/%3E%3C/svg%3E") center / 100% 100% no-repeat,
+    url("../visual-assets/v10_1/shared/art/wheel/WHEEL_RIM_V1.webp") center / 100% 100% no-repeat;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, .72));
+}
+#leagueWheelScreen.v26Skin .wheelTrack {
+  z-index: 1;
+  display: block;
+  background: repeating-conic-gradient(from -36deg, rgba(242, 196, 91, .95) 0 .5deg, transparent .5deg 71.5deg, rgba(242, 196, 91, .95) 71.5deg 72deg);
+}
+#leagueWheelScreen.v26Skin .wheelItem {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 2;
+  box-sizing: border-box;
+  width: calc(var(--R) * .7);
+  min-height: 0;
+  margin-left: calc(var(--R) * -.35);
+  padding: 0 0 .12em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(var(--R) * .025);
+  color: #efe6cf;
+  background: none;
+  border: 0;
+  font: 700 calc(var(--R) * 22 / 240)/1.15 var(--v26-cond);
+  letter-spacing: .03em;
+  white-space: nowrap;
+  transform-origin: 50% 0;
+  transform: rotate(var(--v26-a)) translateY(calc(var(--R) * -.86));
+}
+#leagueWheelScreen.v26Skin .wheelItem:nth-child(1) { --v26-a: 0deg; }
+#leagueWheelScreen.v26Skin .wheelItem:nth-child(2) { --v26-a: 72deg; }
+#leagueWheelScreen.v26Skin .wheelItem:nth-child(3) { --v26-a: 144deg; }
+#leagueWheelScreen.v26Skin .wheelItem:nth-child(4) { --v26-a: 216deg; }
+#leagueWheelScreen.v26Skin .wheelItem:nth-child(5) { --v26-a: 288deg; }
+/* Original Showdown league mark (js/visualIdentity.js applyLeagueMark), monochrome gold. */
+#leagueWheelScreen.v26Skin .wheelItem[data-league-mark]::before {
+  content: "";
+  order: -1;
+  width: calc(var(--R) * 56 / 240);
+  height: calc(var(--R) * 56 / 240);
+  background: var(--league-mark-image) center / contain no-repeat;
+  filter: grayscale(1) sepia(.32) brightness(1.32) contrast(1.02);
+}
+#leagueWheelScreen.v26Skin .wheelItem.v26-top,
+#leagueWheelScreen.v26Skin .wheelItem.v26-selected { color: #0b0d10; }
+#leagueWheelScreen.v26Skin .wheelItem.v26-top::before,
+#leagueWheelScreen.v26Skin .wheelItem.v26-selected::before { filter: grayscale(1) brightness(.2) contrast(1.2); }
+#leagueWheelScreen.v26Skin .v26Flash {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0;
+  background: conic-gradient(from -36deg, rgba(255, 243, 176, .96) 0deg, rgba(245, 197, 24, .7) 72deg, transparent 72deg);
+  -webkit-mask-image: radial-gradient(closest-side, transparent 24%, #000 34%, #000 92%, transparent 93%);
+  mask-image: radial-gradient(closest-side, transparent 24%, #000 34%, #000 92%, transparent 93%);
+}
+#leagueWheelScreen.v26Skin .v26Flash.is-active { animation: v26-wedge-flash 520ms cubic-bezier(.22, 1, .36, 1) both; }
+#leagueWheelScreen.v26Skin .wheelItem.v26-payoff::before { animation: v26-mark-pop 520ms cubic-bezier(.22, 1, .36, 1) both; }
+#leagueWheelScreen.v26Skin .v26Burst { position: absolute; inset: 0; z-index: 4; width: 100%; height: 100%; pointer-events: none; }
+@keyframes v26-wedge-flash { 0%, 100% { opacity: 0; transform: scale(.985); } 34% { opacity: .92; transform: scale(1.012); } 64% { opacity: .38; transform: scale(1); } }
+@keyframes v26-mark-pop { 0%, 100% { transform: scale(1); } 46% { transform: scale(1.15); } 72% { transform: scale(1.08); } }
+
+/* ---------- Club packs ---------- */
+#clubWheelScreen.v26Skin .clubAssignmentShell {
+  width: min(860px, 94vw);
+  padding: 0 0 8px;
+  background: none;
+  border: 0;
+  box-shadow: none;
+}
+#clubWheelScreen.v26Skin .clubAssignmentHeader {
+  width: min(560px, 100%);
+  margin: 0 auto;
+  padding: 12px 16px 10px;
+  background: var(--v26-glass);
+  border: 1px solid var(--v26-edge);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+#clubWheelScreen.v26Skin .clubAssignmentEyebrow { color: var(--v26-cream); font: 600 12px/1.2 var(--v26-cond); letter-spacing: .38em; }
+#clubWheelScreen.v26Skin #clubAssignmentLeague { color: var(--v26-gold-hi); font: 700 clamp(24px, 2.6vw, 34px)/1.05 var(--v26-cond); letter-spacing: .04em; }
+#clubWheelScreen.v26Skin #clubPackStatus { color: var(--v26-cream); font: 600 12px/1.3 var(--v26-cond); letter-spacing: .22em; }
+#clubWheelScreen.v26Skin .clubRevealProgress { width: min(560px, 100%); margin: 10px auto; gap: 6px; }
+#clubWheelScreen.v26Skin .clubRevealProgress span {
+  color: var(--v26-muted);
+  background: rgba(10, 11, 14, .82);
+  border: 1px solid rgba(201, 155, 69, .35);
+  border-radius: 999px;
+  font: 600 11px/1 var(--v26-cond);
+  letter-spacing: .08em;
+}
+#clubWheelScreen.v26Skin .clubRevealProgress span.done { color: var(--v26-cream); border-color: var(--v26-gold-deep); }
+#clubWheelScreen.v26Skin .clubRevealProgress span.active { color: var(--v26-ink); background: radial-gradient(circle at 50% 35%, #fff1b8, #f2c45b 60%, #b98a2f); border-color: #fff1b8; box-shadow: 0 0 14px rgba(245, 197, 24, .45); }
+#clubWheelScreen.v26Skin .clubRevealArea { grid-template-columns: minmax(0, 1fr) 96px minmax(0, 1fr); gap: 12px; }
+#clubWheelScreen.v26Skin .clubRevealCard {
+  background: linear-gradient(160deg, rgba(14, 15, 18, .94), rgba(8, 9, 11, .9));
+  border: 1px solid rgba(212, 160, 23, .55);
+  border-top: 3px solid var(--v26-gold-deep);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, .5);
+}
+#clubWheelScreen.v26Skin .clubRevealCard.is-revealed { border-top-color: var(--v26-gold-hi); box-shadow: 0 12px 30px rgba(0, 0, 0, .5), 0 0 22px rgba(245, 197, 24, .22); }
+#clubWheelScreen.v26Skin .clubRevealIndex { color: var(--v26-ink); background: var(--v26-gold); font: 700 12px/1 var(--v26-cond); }
+#clubWheelScreen.v26Skin .clubManager { color: var(--v26-text); font: 700 14px/18px var(--v26-cond); letter-spacing: .12em; }
+#clubWheelScreen.v26Skin .clubPackStage { background: #0b0c0f; }
+/* Sealed pack: black foil with a gold crown shield, Team V's CLUB PACK look. */
+#clubWheelScreen.v26Skin .clubPackDoor {
+  color: var(--v26-cream);
+  background:
+    radial-gradient(ellipse at 50% 34%, rgba(255, 211, 77, .2), rgba(255, 211, 77, 0) 58%),
+    linear-gradient(160deg, #1a1b20 0, #07080a 55%, #141519 100%);
+  border: 1px solid rgba(212, 160, 23, .75);
+  box-shadow: inset 0 0 24px rgba(0, 0, 0, .7), inset 0 1px 0 rgba(255, 241, 184, .2);
+}
+#clubWheelScreen.v26Skin .clubPackDoor::before {
+  background:
+    linear-gradient(105deg, transparent 0 39%, rgba(255, 241, 184, .07) 39% 41%, transparent 41% 100%),
+    repeating-linear-gradient(90deg, rgba(212, 160, 23, .5) 0 6px, transparent 6px 12px) top / 100% 5px no-repeat;
+}
+#clubWheelScreen.v26Skin .clubPackDoor::after { border-color: rgba(212, 160, 23, .25); }
+#clubWheelScreen.v26Skin .clubPackBrand { color: var(--v26-gold-hi); font-family: var(--v26-cond); font-weight: 700; letter-spacing: .1em; }
+#clubWheelScreen.v26Skin .clubPackBrand small { color: var(--v26-muted); }
+#clubWheelScreen.v26Skin .clubPackSeal {
+  color: var(--v26-ink);
+  background: linear-gradient(180deg, #fff3b0, #ffd34d 35%, #d4a017 70%, #8a6a12);
+  border: 0;
+  outline: 0;
+  clip-path: polygon(50% 0, 100% 14%, 100% 58%, 50% 100%, 0 58%, 0 14%);
+  font-family: var(--v26-cond);
+  box-shadow: none;
+}
+#clubWheelScreen.v26Skin .clubPackSerial { color: var(--v26-muted); }
+#clubWheelScreen.v26Skin .clubCardFace {
+  color: var(--v26-text);
+  background:
+    radial-gradient(circle at 50% 32%, rgba(255, 211, 77, .16), rgba(255, 211, 77, 0) 60%),
+    linear-gradient(170deg, #15161a, #07080a);
+}
+#clubWheelScreen.v26Skin .clubCardEyebrow,
+#clubWheelScreen.v26Skin .clubCardLabel { color: var(--v26-cream); font-family: var(--v26-cond); letter-spacing: .2em; }
+#clubWheelScreen.v26Skin .clubCardFace strong { color: var(--v26-text); font-family: var(--v26-cond); font-weight: 700; }
+#clubWheelScreen.v26Skin .clubCardState { color: var(--v26-gold-hi); font-family: var(--v26-cond); letter-spacing: .2em; }
+#clubWheelScreen.v26Skin .clubVs span { color: var(--v26-cream); font: 600 11px/1 var(--v26-cond); letter-spacing: .4em; }
+#clubWheelScreen.v26Skin .clubVs strong {
+  background: linear-gradient(to bottom, #fff1b8, #f2c45b 55%, #b98a2f);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font: italic 800 clamp(40px, 4.4vw, 64px)/1 var(--v26-cond);
+  filter: drop-shadow(0 3px 1px rgba(0, 0, 0, .9));
+}
+#clubWheelScreen.v26Skin .clubRivalryConfirmation,
+#clubWheelScreen.v26Skin .sharedShowdownSeasonPanel {
+  color: var(--v26-text);
+  background: var(--v26-glass);
+  border: 1px solid var(--v26-edge);
+  border-left: 1px solid var(--v26-edge);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, .45);
+  text-align: center;
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+#clubWheelScreen.v26Skin .clubRivalryHeadline span { color: var(--v26-gold-hi); letter-spacing: .34em; }
+#clubWheelScreen.v26Skin .clubRivalryLockNote { color: var(--v26-cream); }
+#clubWheelScreen.v26Skin .clubConfirmationVs { color: var(--v26-gold-hi); font-style: italic; }
+#clubWheelScreen.v26Skin .clubConfirmationSide {
+  background: linear-gradient(180deg, rgba(20, 21, 25, .96), rgba(9, 10, 13, .96));
+  border: 1px solid rgba(201, 155, 69, .35);
+  border-bottom: 3px solid var(--v26-gold-deep);
+}
+#clubWheelScreen.v26Skin .clubConfirmationSide:last-child { border-bottom-color: var(--v26-gold-hi); }
+#clubWheelScreen.v26Skin .clubConfirmationSide span { color: var(--v26-muted); letter-spacing: .24em; }
+#clubWheelScreen.v26Skin .sharedShowdownSeasonPanel .compactButton {
+  color: var(--v26-gold-hi);
+  background: rgba(8, 9, 12, .9);
+  border: 1px solid var(--v26-edge);
+}
+#clubWheelScreen.v26Skin .clubAssignmentShell > .menuButton,
+#clubWheelScreen.v26Skin .clubAssignmentShell > .backButton { width: min(560px, 100%); margin: 8px auto 0; }
+#clubWheelScreen.v26Skin.v26-packs-open .clubRevealCard.is-revealed { animation: v26-pack-glow 900ms cubic-bezier(.22, 1, .36, 1) both; }
+@keyframes v26-pack-glow { 0% { box-shadow: 0 12px 30px rgba(0, 0, 0, .5), 0 0 0 rgba(245, 197, 24, 0); } 40% { box-shadow: 0 12px 30px rgba(0, 0, 0, .5), 0 0 38px rgba(245, 197, 24, .55); } 100% { box-shadow: 0 12px 30px rgba(0, 0, 0, .5), 0 0 22px rgba(245, 197, 24, .22); } }
+
+/* ---------- phone (Team V portrait art, <= 900 px) ---------- */
+@media (max-width: 900px) {
+  html[data-v10-setup] #background { background-position: 50% 0; }
+  html[data-v10-setup="start"] #background { background-image: url("../visual-assets/v10_1/start-join/assets/ENV_SJ_PHONE_V1.webp"); }
+  html[data-v10-setup="league"] #background { background-image: url("../visual-assets/v10_1/league/assets/ENV_LEAGUE_PHONE_V1.webp"); }
+  html[data-v10-setup="club"] #background { background-image: url("../visual-assets/v10_1/club/assets/ENV_CLUB_PHONE_V1.webp"); }
+  html[data-v10-setup] #overlay {
+    background: linear-gradient(to bottom, rgba(7, 8, 10, .3) 0, rgba(7, 8, 10, .12) 18%, rgba(7, 8, 10, .45) 38%, rgba(7, 8, 10, .94) 58%, #07080a 100%);
+  }
+  :is(#createShowdown, #leagueWheelScreen, #clubWheelScreen).v26Skin { --v26-band: clamp(190px, 40svh, 360px); }
+  :is(#createShowdown, #leagueWheelScreen, #clubWheelScreen).v26Skin .v26Art {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    z-index: 0;
+    display: block;
+    height: var(--v26-band);
+    overflow: hidden;
+    pointer-events: none;
+    animation: v26-art-in 450ms ease-out both;
+  }
+  :is(#createShowdown, #leagueWheelScreen, #clubWheelScreen).v26Skin .v26Hero { position: absolute; bottom: 0; height: 88%; }
+  :is(#createShowdown, #leagueWheelScreen, #clubWheelScreen).v26Skin .v26Hero img {
+    display: block;
+    width: auto;
+    height: 100%;
+    max-width: none;
+    -webkit-mask-image: linear-gradient(to bottom, #000 0, #000 70%, rgba(0, 0, 0, .55) 86%, transparent 100%);
+    mask-image: linear-gradient(to bottom, #000 0, #000 70%, rgba(0, 0, 0, .55) 86%, transparent 100%);
+    filter: drop-shadow(0 -1px 1px rgba(255, 211, 77, .28)) drop-shadow(0 8px 10px rgba(0, 0, 0, .48));
+  }
+  :is(#createShowdown, #leagueWheelScreen, #clubWheelScreen).v26Skin .v26Hero--daniel { left: -6%; }
+  :is(#createShowdown, #leagueWheelScreen, #clubWheelScreen).v26Skin .v26Hero--nik { right: -6%; }
+  :is(#createShowdown, #leagueWheelScreen, #clubWheelScreen).v26Skin > h2 { margin-top: 2px; font-size: clamp(30px, 8.6vw, 40px); }
+
+  #createShowdown.v26Skin .setupBox { margin-top: calc(var(--v26-band) - 96px); padding: 16px 14px 16px; }
+  #createShowdown.v26Skin .footballVisualStage > .footballVisualPanel { order: 2; }
+
+  #leagueWheelScreen.v26Skin { --v26-wheel: clamp(220px, min(70vw, 40svh), 320px); }
+  #leagueWheelScreen.v26Skin .wheelContainer { margin-top: max(0px, calc(var(--v26-band) - 74px - var(--v26-wheel) * .62)); }
+  #leagueWheelScreen.v26Skin #selectedLeague { font-size: 13px; letter-spacing: .26em; }
+  #leagueWheelScreen.v26Skin[data-v26-league] #selectedLeague { font-size: 18px; }
+  #leagueWheelScreen.v26Skin #selectedLeague::before,
+  #leagueWheelScreen.v26Skin #selectedLeague::after { flex-basis: 34px; }
+  #leagueWheelScreen.v26Skin .wheelContainer .menuButton,
+  #leagueWheelScreen.v26Skin .wheelContainer .backButton { grid-column: 1 / -1; }
+
+  #clubWheelScreen.v26Skin { --v26-band: clamp(170px, 30svh, 300px); }
+  #clubWheelScreen.v26Skin .clubAssignmentShell { margin-top: calc(var(--v26-band) - 92px); }
+  #clubWheelScreen.v26Skin .clubRevealArea { grid-template-columns: minmax(0, 1fr) 40px minmax(0, 1fr); gap: 6px; }
+  #clubWheelScreen.v26Skin .clubVs { flex-direction: column; gap: 4px; min-height: 0; }
+  #clubWheelScreen.v26Skin .clubVs strong { font-size: 30px; }
+  #clubWheelScreen.v26Skin .clubVs span { font-size: 8px; letter-spacing: .2em; }
+  #clubWheelScreen.v26Skin .clubRevealProgress span { font-size: 9px; letter-spacing: 0; }
+  #clubWheelScreen.v26Skin .clubManager { padding: 2px 8px 0; font-size: 12px; }
+}
+@keyframes v26-art-in { from { opacity: 0; } to { opacity: 1; } }
+
+html[data-motion-reduced="true"] .v26Skin *,
+html[data-reduced-motion="true"] .v26Skin * { animation-duration: 1ms !important; transition-duration: 1ms !important; }
+@media (prefers-reduced-motion: reduce) {
+  :is(#createShowdown, #leagueWheelScreen, #clubWheelScreen).v26Skin * { animation-duration: 1ms !important; transition-duration: 1ms !important; }
+}
+
+/* ---------- Start / Join overlays: entry, pairing panel, Private Remote Joining ---------- */
+#productionSharedJourneyEntryOverlay,
+#sparkRemoteJoiningOverlay { background: rgba(4, 5, 7, .78); }
+#productionSharedJourneyEntryOverlay .remoteJoiningShell,
+#sparkRemoteJoiningOverlay .remoteJoiningShell {
+  color: var(--v26-text);
+  background: linear-gradient(160deg, rgba(14, 15, 18, .97), rgba(8, 9, 11, .95));
+  border: 1px solid var(--v26-edge);
+  border-top: 3px solid var(--v26-gold-deep);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, .6), inset 0 1px 0 rgba(255, 211, 77, .15);
+}
+#productionSharedJourneyEntryOverlay .remoteJoiningHeader,
+#sparkRemoteJoiningOverlay .remoteJoiningHeader {
+  color: var(--v26-cream);
+  background: #07080a;
+  border-bottom: 1px solid rgba(201, 155, 69, .45);
+  font-family: var(--v26-cond);
+}
+#productionSharedJourneyEntryOverlay .remoteJoiningDismiss,
+#sparkRemoteJoiningOverlay .remoteJoiningDismiss { color: var(--v26-gold-hi); background: rgba(255, 255, 255, .06); border: 1px solid rgba(201, 155, 69, .4); }
+#productionSharedJourneyEntryOverlay .remoteJoiningBody h2,
+#sparkRemoteJoiningOverlay .remoteJoiningIntro h2 {
+  width: fit-content;
+  max-width: 100%;
+  background: linear-gradient(to bottom, #fff1b8, #f2c45b 55%, #b98a2f);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-family: var(--v26-cond);
+  font-style: italic;
+  filter: drop-shadow(0 2px 1px rgba(0, 0, 0, .9));
+}
+#productionSharedJourneyEntryOverlay .remoteJoiningEyebrow,
+#sparkRemoteJoiningOverlay .remoteJoiningEyebrow,
+#sparkRemoteJoiningOverlay .remoteJoiningStep { color: var(--sd-gold-400, #f2c45b); letter-spacing: .3em; }
+#productionSharedJourneyEntryOverlay p,
+#sparkRemoteJoiningOverlay .remoteJoiningIntro p,
+#sparkRemoteJoiningOverlay .remoteJoiningCard p,
+#sparkRemoteJoiningOverlay .remoteJoiningMeta,
+#sparkRemoteJoiningOverlay .remoteJoiningEmpty { color: var(--v26-cream); }
+#productionSharedJourneyEntryOverlay .settingsInfoRow {
+  color: var(--v26-cream);
+  background: rgba(255, 255, 255, .03);
+  border: 1px solid rgba(201, 155, 69, .25);
+}
+#productionSharedJourneyEntryOverlay .settingsInfoRow strong { color: var(--v26-gold-hi); }
+#sparkRemoteJoiningOverlay .remoteJoiningIntro { border-bottom-color: rgba(201, 155, 69, .3); }
+#sparkRemoteJoiningOverlay .remoteJoiningCard {
+  color: var(--v26-text);
+  background: rgba(255, 255, 255, .03);
+  border: 1px solid rgba(201, 155, 69, .3);
+  border-top: 3px solid var(--v26-gold-deep);
+  box-shadow: none;
+}
+#sparkRemoteJoiningOverlay .remoteJoiningCard:first-child { border-top-color: var(--v26-gold); }
+#sparkRemoteJoiningOverlay .remoteJoiningCurrent { background: #07080a; border-left-color: var(--v26-gold); }
+#sparkRemoteJoiningOverlay .remoteJoiningCurrent .remoteJoiningEyebrow { color: var(--sd-gold-400, #f2c45b); }
+#sparkRemoteJoiningOverlay .remoteJoiningCode { color: var(--v26-gold-hi); background: rgba(255, 255, 255, .05); border: 1px solid rgba(201, 155, 69, .35); }
+#sparkRemoteJoiningOverlay .remoteJoiningInput {
+  color: var(--v26-text);
+  background: #0b0d10;
+  border: 1px solid var(--v26-edge);
+  font-size: 16px;
+}
+#productionSharedJourneyEntryOverlay .remoteJoiningStatus,
+#sparkRemoteJoiningOverlay .remoteJoiningStatus { color: var(--v26-cream); background: rgba(255, 255, 255, .04); border-left-color: var(--v26-gold); }
+#productionSharedJourneyEntryOverlay .compactButton,
+#sparkRemoteJoiningOverlay .compactButton,
+#sparkRemoteJoiningOverlay .menuButton {
+  color: var(--v26-gold-hi);
+  background: rgba(8, 9, 12, .92);
+  border: 1px solid var(--v26-edge);
+  border-radius: 0;
+  font-family: var(--v26-cond);
+  letter-spacing: .06em;
+}
+#productionSharedJourneyEntryOverlay .compactButton:not(:disabled):first-child,
+#productionSharedJourneyEntryOverlay .compactButton:not(:disabled):nth-child(3),
+#sparkRemoteJoiningOverlay .remoteJoiningCard .menuButton:not(:disabled) {
+  color: var(--v26-ink);
+  background: linear-gradient(180deg, #ffd34d, #f5c518 55%, #d4a017);
+  border-color: #8a6a12;
+}
+#productionSharedJourneyEntryOverlay .compactButton:disabled,
+#sparkRemoteJoiningOverlay .compactButton:disabled,
+#sparkRemoteJoiningOverlay .menuButton:disabled { color: rgba(233, 223, 200, .55); border-color: rgba(233, 223, 200, .25); }
+
+/* Pairing panel (persistentNikDanielPair.js sets its box inline, so these few overrides need !important). */
+#persistentNikDanielPairPanel {
+  color: var(--v26-text);
+  background: linear-gradient(160deg, rgba(14, 15, 18, .95), rgba(8, 9, 11, .9)) !important;
+  border: 1px solid var(--v26-edge) !important;
+  border-top: 3px solid var(--v26-gold-deep) !important;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, .45);
+}
+#persistentNikDanielPairPanel > strong { color: var(--v26-gold-hi); font-family: var(--v26-cond); letter-spacing: .12em; }
+#persistentNikDanielPairPanel p,
+#persistentNikDanielPairPanel span { color: var(--v26-cream); }
+#persistentNikDanielPairPanel code {
+  padding: 6px 10px;
+  color: var(--v26-gold-hi);
+  background: rgba(255, 255, 255, .05);
+  border: 1px solid rgba(201, 155, 69, .4);
+  user-select: all;
+}
+#persistentNikDanielPairPanel .menuButton {
+  width: auto;
+  color: var(--v26-ink);
+  background: linear-gradient(180deg, #ffd34d, #f5c518 55%, #d4a017);
+  border: 1px solid #8a6a12;
+  font-family: var(--v26-cond);
+}
+#persistentNikDanielPairPanel .menuButton.dangerButton { color: #ffe9e4; background: #5a1414; border-color: #b33a2a; }
+#persistentNikDanielPairPanel .settingsConnectedAccountInput {
+  min-height: 46px;
+  color: var(--v26-text);
+  background: #0b0d10;
+  border: 1px solid var(--v26-edge);
+  font-size: 16px;
+}

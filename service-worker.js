@@ -177,7 +177,9 @@ const SHELL_PATHS = Object.freeze([
     "js/startJoinViewModel.js",
     "css/v10Shell.css",
     "visual-assets/v10_1/shared/navbar/navbar.css",
-    "visual-assets/v10_1/shared/navbar/navbar.js"
+    "visual-assets/v10_1/shared/navbar/navbar.js",
+    "js/v10Setup.js",
+    "css/v10Setup.css"
 ]);
 const SHELL_PATH_SET = new Set(SHELL_PATHS);
 
