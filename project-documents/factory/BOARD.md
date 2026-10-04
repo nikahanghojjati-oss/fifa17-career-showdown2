@@ -1,8 +1,8 @@
 # Showdown Factory board
 
-**174 of 238 jobs done and checked · 76 %** · updated Sun 11:55 a.m. Eastern
+**181 of 238 jobs done and checked · 76 %** · updated Sun 11:55 a.m. Eastern
 
-✅ **Quality check:** a job counts as done only after Claude checks it against the quality bar (average 4.2 or more, nothing under 3, hard gates pass). Average score 4.25 over 66 scored jobs. 🔍 Waiting for Claude's check: 53, 73, 79, 145, 163, 164, 174, 175, 176. 
+✅ **Quality check:** a job counts as done only after Claude checks it against the quality bar (average 4.2 or more, nothing under 3, hard gates pass). Average score 4.25 over 66 scored jobs. 🔍 Waiting for Claude's check: 164, 176. 
 
 <img src="board-meter.svg" alt="Football progress meter" width="640">
 
@@ -49,7 +49,7 @@ Integration    ░░░░░░░░░░ 0/38
 
 Branch `factory/v1-wtt5ye`. 238 Team V jobs, plus 5 lines that track Team G. Two kinds of job. **Project (type number):** open a new chat in the ChatGPT project "Showdown visual" and type the number (up to 5 at once). **Fresh chat (image):** run the job's ticket from [tickets/](tickets/README.md) in a ChatGPT Temporary Chat (no memory) outside any project, then drop the image in Claude's factory thread (up to 2 at once).
 
-**Overall (Team V):** ███████░░░ 76 % · 174 of 238 jobs done
+**Overall (Team V):** ███████░░░ 76 % · 181 of 238 jobs done
 
 **Start now · project (type the number in Showdown visual):** 74, 80, 146
 
