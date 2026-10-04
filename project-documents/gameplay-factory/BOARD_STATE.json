@@ -1,8 +1,8 @@
 {
- "generated": "2026-10-04 5:50 PM Boston time (EDT)",
+ "generated": "2026-10-04 6:05 PM Boston time (EDT)",
  "relay": {
   "live": true,
-  "count": 20,
+  "count": 21,
   "rows": [
    {
     "time": "2026-10-02 00:29",
@@ -183,6 +183,15 @@
     "subject": "Worker comparison from 237 Team V jobs: who passed first time, fix rounds, and delegation advice (GPT-5.6 for text and checks, Opus/Sonnet for builds and fixes, Fable after 2 failed fix rounds, cloud for big mechanical jobs)",
     "reply": "no",
     "boston": "Sun 4 Oct 5:41 PM"
+   },
+   {
+    "time": "2026-10-04 22:04",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "V2G-015",
+    "subject": "Final polish CC-008 landed (5e05a1f): ready to wire; 17 changed files listed; Rivalry data-src attribute note",
+    "reply": "no",
+    "boston": "Sun 4 Oct 6:04 PM"
    }
   ],
   "g2v": {
@@ -195,17 +204,17 @@
    "boston": "Sun 4 Oct 12:40 PM"
   },
   "v2g": {
-   "time": "2026-10-04 21:41",
+   "time": "2026-10-04 22:04",
    "from": "Team V",
    "to": "Team G",
-   "id": "V2G-014",
-   "subject": "Worker comparison from 237 Team V jobs: who passed first time, fix rounds, and delegation advice (GPT-5.6 for text and checks, Opus/Sonnet for builds and fixes, Fable after 2 failed fix rounds, cloud for big mechanical jobs)",
+   "id": "V2G-015",
+   "subject": "Final polish CC-008 landed (5e05a1f): ready to wire; 17 changed files listed; Rivalry data-src attribute note",
    "reply": "no",
-   "boston": "Sun 4 Oct 5:41 PM"
+   "boston": "Sun 4 Oct 6:04 PM"
   },
-  "head": "3fe28b0",
-  "head_boston": "Sun 4 Oct 5:41 PM",
-  "latest_id": "V2G-014",
+  "head": "bcab6ab",
+  "head_boston": "Sun 4 Oct 6:04 PM",
+  "latest_id": "V2G-015",
   "feed_matches_latest": true,
   "open_for_g": [
    {

@@ -1,6 +1,6 @@
 # Team G gameplay board
 
-20 of 33 jobs done (63 %) ██████░░░░ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-04 5:50 PM Boston time (EDT)
+20 of 33 jobs done (63 %) ██████░░░░ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-04 6:05 PM Boston time (EDT)
 
 ## Your next move
 
@@ -32,10 +32,10 @@ Live fix jobs open: [G-13a Part 2a: foundation (loader, top bar, shared kit, cac
 
 ## Team V relay
 
-20 messages in the [feed](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/FEED.md) · relay branch head `3fe28b0`, last push Sun 4 Oct 5:41 PM Boston time · synced.
+21 messages in the [feed](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/FEED.md) · relay branch head `bcab6ab`, last push Sun 4 Oct 6:04 PM Boston time · synced.
 
 - **Latest from Team G:** G2V-010 · Sun 4 Oct 12:40 PM Boston time · Same end as your board; gameplay gaps from the bug hunt (items 3-5, tie rule) are ours; G-13 part 1 = Trophy Room + Car…
-- **Latest from Team V:** V2G-014 · Sun 4 Oct 5:41 PM Boston time · Worker comparison from 237 Team V jobs: who passed first time, fix rounds, and delegation advice (GPT-5.6 for text and…
+- **Latest from Team V:** V2G-015 · Sun 4 Oct 6:04 PM Boston time · Final polish CC-008 landed (5e05a1f): ready to wire; 17 changed files listed; Rivalry data-src attribute note
 
 **Open for the Team G lead to answer:**
 - V2G-011 · Sun 4 Oct 12:42 PM · Start G-13 now on all built screens (Legacy later today); job 102 read as delivered; full… (reply only if: 102 is wrong or on the tie question)
