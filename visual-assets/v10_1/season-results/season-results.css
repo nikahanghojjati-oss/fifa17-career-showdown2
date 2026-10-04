@@ -1502,3 +1502,78 @@ html[data-motion-reduced="true"] .sd-motion-ready .entry-panel[data-sd-enter="pa
   }
 }
 
+
+
+/* JOB-180 interaction feel */
+:root {
+  --sr-feedback-ms: 100ms;
+  --sr-feedback-ease: cubic-bezier(.2,.8,.2,1);
+}
+
+.season-layout button,
+.season-layout .sd-btn,
+.season-layout .season-phone-tab,
+.season-layout .season-phone-scoring-open,
+.season-layout input[type="number"],
+.season-layout input[type="checkbox"] {
+  transition:
+    opacity var(--sr-feedback-ms) var(--sr-feedback-ease),
+    transform var(--sr-feedback-ms) var(--sr-feedback-ease),
+    border-color var(--sr-feedback-ms) var(--sr-feedback-ease),
+    background-color var(--sr-feedback-ms) var(--sr-feedback-ease),
+    color var(--sr-feedback-ms) var(--sr-feedback-ease),
+    box-shadow var(--sr-feedback-ms) var(--sr-feedback-ease);
+}
+
+.season-layout button:not(:disabled):hover,
+.season-layout .sd-btn:not(:disabled):hover,
+.season-layout .season-phone-tab:hover,
+.season-layout .season-phone-scoring-open:hover {
+  opacity: .96;
+  transform: translateY(-1px);
+}
+
+.season-layout button:not(:disabled):active,
+.season-layout .sd-btn:not(:disabled):active,
+.season-layout .season-phone-tab:active,
+.season-layout .season-phone-scoring-open:active {
+  opacity: .9;
+  transform: translateY(0) scale(.985);
+}
+
+.season-phone-tab,
+.season-phone-scoring-open,
+.entry-panel,
+.scoring-panel {
+  will-change: opacity, transform;
+}
+
+/* Radio/toggle state changes cross-fade without moving layout. */
+#season-phone-tab-daniel:checked ~ .season-phone-toolbar .season-phone-tab--daniel,
+#season-phone-tab-nik:checked ~ .season-phone-toolbar .season-phone-tab--nik,
+#season-phone-scoring-toggle:checked ~ .season-phone-toolbar .season-phone-scoring-open {
+  transition-duration: var(--sr-feedback-ms);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .season-layout *,
+  .season-layout *::before,
+  .season-layout *::after {
+    animation-duration: 150ms !important;
+    animation-iteration-count: 1 !important;
+    transition-property: opacity !important;
+    transition-duration: 100ms !important;
+    transform: none !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+html[data-motion-reduced="true"] .season-layout *,
+html[data-motion-reduced="true"] .season-layout *::before,
+html[data-motion-reduced="true"] .season-layout *::after {
+  animation-duration: 150ms !important;
+  animation-iteration-count: 1 !important;
+  transition-property: opacity !important;
+  transition-duration: 100ms !important;
+  transform: none !important;
+}
