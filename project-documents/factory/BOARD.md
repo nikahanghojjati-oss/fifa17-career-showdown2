@@ -1,6 +1,6 @@
 # 🏭 Showdown Factory board
 
-**220 of 238 jobs done and checked · 93 %** · updated Sun 2:46 p.m. Eastern
+**221 of 238 jobs done and checked · 93 %** · updated Sun 2:52 p.m. Eastern
 
 <img src="board-meter.svg" alt="Football progress meter" width="640">
 
@@ -17,10 +17,6 @@
 ## ⚪ Then
 
 - **228** Full phone pass: fixes (3/3) · after 227 · type the number in a new chat in project Showdown visual
-
-## ⚠️ Needs attention
-
-- Waiting for Claude's check: 106
 
 ## 🧰 Where to type and when it resets
 
