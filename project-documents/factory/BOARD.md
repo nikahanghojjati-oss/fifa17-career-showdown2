@@ -1,6 +1,6 @@
 # Showdown Factory board
 
-**78 of 135 jobs done and checked · 67 %** · updated Sat 8:44 p.m. Eastern
+**78 of 135 jobs done and checked · 67 %** · updated Sat 8:45 p.m. Eastern
 
 ✅ **Quality check:** a job counts as done only after Claude checks it against the quality bar (average 4.2 or more, nothing under 3, hard gates pass). Average score 4.24 over 26 scored jobs. 🔍 Waiting for Claude's check: 47, 58, 60, 77, 83, 87, 94, 95, 114, 115, 116. 
 
@@ -124,7 +124,7 @@ Branch `factory/v1-wtt5ye`. 135 Team V jobs, plus 5 lines that track Team G. Two
 | 58 | [Trophy Room: phone](jobs/JOB-058.md) | 5 New screens | build | project (type number) | 57, 115 | ██████████ 100 % | DONE |  |
 | 59 | [Trophy Room: review](jobs/JOB-059.md) | 5 New screens | review | project (type number) | 58 | ██████████ 100 % | DONE |  |
 | 60 | [Trophy Room: fix round](jobs/JOB-060.md) | 5 New screens | fix | project (type number) | 59 | ██████████ 100 % | DONE |  |
-| 61 | [Trophy Room: motion](jobs/JOB-061.md) | 5 New screens | build | project (type number) | 60, 16 | ██░░░░░░░░ 20 % | IN PROGRESS | yes |
+| 61 | [Trophy Room: motion](jobs/JOB-061.md) | 5 New screens | build | project (type number) | 60, 16 | ████░░░░░░ 40 % | IN PROGRESS | yes |
 | 62 | [Career Statistics: build (desktop)](jobs/JOB-062.md) | 5 New screens | build | project (type number) | 3, 24, 18, 131, 137, 19, 20, 21, 22 | ██████████ 100 % | DONE |  |
 | 63 | [Career Statistics: phone](jobs/JOB-063.md) | 5 New screens | build | project (type number) | 62, 116 | ███░░░░░░░ 33 % | IN PROGRESS |  |
 | 64 | [Career Statistics: review](jobs/JOB-064.md) | 5 New screens | review | project (type number) | 63 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
