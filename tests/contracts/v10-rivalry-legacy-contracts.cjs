@@ -101,6 +101,11 @@ check('RL11 real Team V renderers show honest states and live values without fix
  active='legacy';ctx.CareerModeV10Screens.hide('statistics');assert.equal(hosts.statistics.innerHTML,'original statistics');assert.equal(hosts.statistics.dataset.rivalryLegacyV10,undefined);
  await api.mount('legacy',()=>m);assert.equal(draws,3);assert.equal(ctx.LEGACY_BOOT.fixtures.frames.LIVE.showdowns.length,1);assert.equal(registrations.size,2,'screen registrations stay unique');
  assert.ok(calls.every(file=>!file.includes('fixtures.json')));console.log(`ok ${++n} RL12 loader registration, remount and unmount preserve the existing routes`);
+ {const vi=read('js/visualIdentity.js'),loader=read('js/rivalryLegacyV10.js'),m=loader.match(/load\("visual-identity","js\/visualIdentity\.js","([A-Za-z]+)"\)/);
+  for(const g of ['getClubCrestSvg','getLeagueMark'])assert.ok(vi.includes(`window.${g} = ${g};`),`js/visualIdentity.js must expose window.${g}, which Team V's screens call`);
+  assert.ok(m&&vi.includes(`window.${m[1]} = ${m[1]};`),'the loader waits for a global that js/visualIdentity.js really sets');
+  for(const f of ['visual-assets/v10_1/legacy/legacy.js','visual-assets/v10_1/rivalry-statistics/rivalry-statistics.js'])for(const g of read(f).match(/window\.get[A-Za-z]+(?=\()/g)||[])assert.ok(vi.includes(`${g} = `),`${f} calls ${g}, which js/visualIdentity.js must expose`);}
+ console.log(`ok ${++n} RL13 the crest and league-mark globals Team V's screens call are provided by js/visualIdentity.js`);
  console.log(`v10-rivalry-legacy contracts passed (${n} checks)`);
 })().catch(error=>{console.error(error);process.exitCode=1;});
 
