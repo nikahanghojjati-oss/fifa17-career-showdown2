@@ -291,10 +291,10 @@
    "code_branch": "gameplay/job-13-career-screens",
    "codex_review": false,
    "written": true,
-   "waits_on": null,
-   "phase": "4 Ship",
+   "waits_on": "",
+   "phase": "MERGED",
    "type": "build",
-   "plain": "Career Statistics and a Trophy Room button come back, drawn in Team V's new style and filled from your real career. Legacy and Rivalry Statistics wait for part 2 and Nik's approval of the full visual package."
+   "plain": "Part 1 merged into recovery (PR #347, 86111ca): Trophy Room and Career Statistics show Team V's screens on the real career model. Legacy and Rivalry Statistics stay hidden for part 2. Not live until Nik approves Team V's full package."
   },
   {
    "number": 14,

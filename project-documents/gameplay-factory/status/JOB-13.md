@@ -1,6 +1,6 @@
 # Status · JOB-13 · Part 1: Trophy Room and Career Statistics on the real career model
 
-State: DONE
+State: MERGED
 Step: 7 of 7
 Updated: 2026-10-04 UTC
 Chat: Claude cloud session (git and node directly; browser and emulator results from GitHub CI)
