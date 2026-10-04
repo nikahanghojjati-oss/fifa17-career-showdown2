@@ -104,5 +104,22 @@ check("V29.7 live Team V scripts bypass preview fetches and never rebuild produc
   assert.ok(read("visual-assets/v10_1/final-winner/final-winner.js").includes("if (!window.FINAL_WINNER_APP) renderActions"));
   assert.ok(read("visual-assets/v10_1/standings/standings.js").includes("STANDINGS_APP"));
 });
-check("V29.8 the real clash contract keeps CHECK RESULTS and enabled commit/acknowledge",()=>{const r=spawnSync(process.execPath,["tests/contracts/season-result-clash-contracts.cjs"],{cwd:ROOT,encoding:"utf8"});assert.equal(r.status,0,r.stdout+r.stderr);});
+check("V29.8 registry mount keeps the native final proof, close and Back nodes reachable, then restores them",async()=>{
+  const html=read("index.html"),entry=html.slice(html.indexOf('<section id="seasonEntry"'),html.indexOf('<section id="seasonSummary"')),doc=documentOf(entry),host=doc.getElementById("seasonEntry"),defs={};
+  const env={document:doc,console,URLSearchParams,location:{search:""},matchMedia:()=>({matches:true}),setTimeout:()=>0,addEventListener(){},ShowdownStage:{mount:()=>({destroy(){}})},fetch:async p=>({ok:true,text:async()=>read(p),json:async()=>JSON.parse(read(p))}),CareerModeV10Screens:{install(){return this;},register(id,def){defs[id]=def;},setNavRoute(){}}};env.window=env;
+  env.loadRuntimeScript=async()=>true;
+  vm.createContext(env);vm.runInContext(read("js/seasonEngine.js")+"\nensureSeasonReviewUI();",env);
+  const review=doc.getElementById("seasonReviewPanel"),proof=doc.createElement("section"),terminal=doc.createElement("section"),close=doc.createElement("button");
+  proof.id="sharedFinalReconciliationPanel";terminal.id="sharedTerminalClosePanel";close.id="sharedTerminalCloseAction";close.textContent="CLOSE SHARED SHOWDOWN";terminal.append(close);review.append(proof,terminal);
+  const actions=doc.getElementById("completeSeason").closest(".seasonEntryActions"),back=actions.querySelector(".backButton");
+  let closes=0;close.addEventListener("click",()=>closes++);
+  vm.runInContext(read("js/seasonFinalV10.js"),env);await env.CareerModeSeasonFinalV10.install();
+  for(const folder of ["season-results","final-winner"])vm.runInContext(read(`visual-assets/v10_1/${folder}/${folder}.js`),env);
+  await defs.seasonEntry.prepare();
+  defs.seasonEntry.mount({final:api.finalFrame({phase:"FINAL_SEASON_RECONCILED",finalSeasonReconciled:true,winner:"draw",managerTotals:{playerOne:7,playerTwo:7}})},host);
+  const final=host.querySelector(".v10FinalStage");assert.ok(final,"final stage exists");assert.ok(proof.closest(".v10FinalStage")===final,"proof in final stage");assert.match(read("visual-assets/v10_1/final-winner/app-shell.html"),/<details class="v10FinalProof" open>/);
+  assert.ok(doc.getElementById("sharedTerminalCloseAction")===close,"same close action");assert.ok(back.closest(".v10FinalStage")===final,"Back in final stage");close.click();assert.equal(closes,1);assert.equal(close.textContent,"CLOSE SHARED SHOWDOWN");
+  defs.seasonEntry.unmount(host);assert.ok(proof.parentNode===review,"proof restored");assert.ok(terminal.parentNode===review,"terminal restored");assert.ok(back.closest(".v10SeasonStage")===host.querySelector(".v10SeasonStage"),"Back restored");
+});
+check("V29.9 the real clash contract keeps CHECK RESULTS and enabled commit/acknowledge",()=>{const r=spawnSync(process.execPath,["tests/contracts/season-result-clash-contracts.cjs"],{cwd:ROOT,encoding:"utf8"});assert.equal(r.status,0,r.stdout+r.stderr);});
 (async()=>{for(let i=0;i<checks.length;i++){await checks[i][1]();process.stdout.write(`ok ${i+1} ${checks[i][0]}\n`);}process.stdout.write(`PASS ${checks.length} V10 season/final/standings contracts\n`);})().catch(e=>{console.error(e);process.exitCode=1;});

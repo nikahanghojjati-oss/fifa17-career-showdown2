@@ -41,3 +41,13 @@
  #seasonEntry #seasonEntryError{top:auto;bottom:64px;left:5%;right:5%;font-size:12px}
  #seasonEntry .v10FinalProof{left:3%;width:94%;bottom:25%;max-height:22vh}
 }
+
+#seasonEntry .v10FinalExit{pointer-events:auto}
+#seasonEntry .v10FinalExit .seasonEntryActions{position:static;display:flex;gap:8px;justify-content:center;width:auto;margin:8px 0 0}
+#seasonEntry .v10FinalExit .seasonEntryActions button{min-height:44px}
+#seasonEntry .v10FinalStage .finalWinnerActionsSlot{display:block;top:auto;bottom:8px;left:26%;width:48%;height:auto;max-height:28vh}
+#seasonEntry .v10FinalProof{bottom:32%}
+@media(max-width:900px){
+ #seasonEntry .v10FinalStage .finalWinnerActionsSlot{left:3%;width:94%;bottom:8px;max-height:32vh}
+ #seasonEntry .v10FinalProof{bottom:35%}
+}
