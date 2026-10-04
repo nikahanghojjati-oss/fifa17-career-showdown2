@@ -2,6 +2,8 @@
 
 ## Verdict
 
+FAIL. The static-review average is 4.0 / 5, below the 4.2 / 5 pass line. Criteria 1–7, 9 and 10 have no score below 3, and the gates that have evidence are not failing; however H5, H6, H7, H8, H9 and H11 remain NOT MEASURED rather than PASS. Those unmeasured gates are not counted as failures and are not fix items.
+
 ## Scorecard
 
 Static-review average: 4.0 / 5 across criteria 1–7, 9 and 10. Static pass line is 4.2 / 5, with no criterion below 3 and every hard gate PASS.
@@ -99,3 +101,7 @@ Approximate mockup positions below are read from the supplied 1648×928 `MOCKUP_
 - No live data in images · `trophy-room.js#trophyCard()`, `#ranking()`, `#recordRibbon()`: manager names, ranks, counts, points, wins and records are DOM text; image assets are static title/trophy/scene art and do not carry changing career values.
 
 ## Fix list
+
+1. `trophy-room.css` · `#trophyPhoneMoreToggle` / `.phoneMoreToggle`: remove the phone-only checkbox from the desktop tab order with `display: none` above 760 px, then restore its visually-hidden-but-focusable form inside `@media (max-width: 760px)`. Target: zero invisible desktop focus stops while the 78 × 44 px phone MORE / CLOSE control remains keyboard-operable.
+2. `trophy-room.js` · `tabs()` / `render()`: after a category activation updates state and rerenders `#trophyRoomContent`, focus the recreated active `.trophyTab` matching the selected category. Target: keyboard focus remains on the selected category tab after Enter/Space/click activation instead of falling back to the document.
+3. `index.html#trophyPhoneMoreToggle` and the phone-details structure: make `aria-controls` reference the actual container that owns the career-rank and record details, or move those controlled nodes inside `#trophyPhoneSheet` without changing the visual composition. Target: the MORE / CLOSE control's accessibility relationship exactly contains the details it exposes.
