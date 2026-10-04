@@ -119,10 +119,290 @@ button:focus-visible { outline: 3px solid #fff1b8; outline-offset: 3px; }
   .leaderCard { grid-template-columns: 38px 1fr; gap: 5px; }
   .managerPortrait { width: 36px; height: 54px; }
 }
-/* Phone is intentionally only a safe fallback in the desktop job; the dedicated phone job owns final composition. */
+/* JOB-063 phone structure: portrait is a separate composition, not a scaled desktop. */
+.phoneFaceBand { display: contents; }
+.phoneTabControl, .phoneTabs { display: none; }
+.nav-reserve { display: none; }
+
 @media (max-width: 900px) {
-  .topChrome, .headlineTiles, .contentGrid, .actionRow, .previewChip, .armCutout, .armRim, .contactShadow { display: none !important; }
-  .titleBlock { left: 20%; top: 8%; width: 60%; }
+  .topChrome { display: none !important; }
+  .nav-reserve {
+    display: block;
+    position: absolute;
+    z-index: 30;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: calc(56px + env(safe-area-inset-bottom));
+    pointer-events: none;
+  }
 }
 
-.nav-reserve { display: none; }
+@media (max-width: 760px) and (orientation: portrait) {
+  .careerStage {
+    --phone-nav: calc(56px + env(safe-area-inset-bottom));
+    --phone-gutter: 12px;
+    width: 100vw;
+    height: 100dvh;
+    min-height: 100svh;
+  }
+
+  .careerScreen {
+    inset: 0 0 var(--phone-nav);
+    overflow: hidden;
+  }
+
+  .phoneFaceBand {
+    display: block;
+    position: absolute;
+    z-index: 3;
+    inset: 0 0 auto;
+    height: 55%;
+    pointer-events: none;
+    background: linear-gradient(180deg, rgba(3,4,6,.08) 0%, rgba(3,4,6,.12) 64%, rgba(3,4,6,.84) 100%);
+  }
+
+  .titleBlock {
+    z-index: 6;
+    left: 14%;
+    top: 8px;
+    width: 72%;
+    height: 94px;
+  }
+
+  .titleBlock .sd-eyebrow {
+    top: 0;
+    font-size: 8px;
+    letter-spacing: .32em;
+  }
+
+  .titleWordmark {
+    left: 0;
+    top: 31px;
+    width: 100%;
+  }
+
+  .titleBlock .sd-tagline {
+    top: 76px;
+    font-size: 8px;
+    letter-spacing: .24em;
+  }
+
+  .previewChip {
+    display: block;
+    z-index: 9;
+    top: 5px;
+    left: var(--phone-gutter);
+    transform: none;
+    padding: 3px 6px;
+    font-size: 8px;
+    letter-spacing: .1em;
+  }
+
+  .phoneHub {
+    position: absolute;
+    z-index: 7;
+    left: var(--phone-gutter);
+    right: var(--phone-gutter);
+    top: 42%;
+    bottom: 108px;
+    display: grid;
+    grid-template-rows: clamp(68px, 11svh, 86px) 44px minmax(0,1fr);
+    gap: 6px;
+    min-height: 0;
+  }
+
+  .headlineTiles {
+    position: relative;
+    inset: auto;
+    width: auto;
+    height: auto;
+    display: grid !important;
+    grid-template-columns: repeat(2,minmax(0,1fr));
+    grid-template-rows: repeat(2,minmax(0,1fr));
+    gap: 4px;
+  }
+
+  .headlineTile {
+    grid-template-columns: 26px minmax(0,1fr);
+    padding: 3px 5px;
+    clip-path: polygon(5px 0,100% 0,100% calc(100% - 5px),calc(100% - 5px) 100%,0 100%,0 5px);
+  }
+
+  .headlineIcon { width: 22px; height: 22px; }
+  .headlineIcon img { max-width: 22px; max-height: 25px; }
+  .headlineLabel { font-size: 7px; letter-spacing: .04em; }
+  .headlineTogether { font-size: 6px; letter-spacing: .08em; }
+  .headlineNumber { font-size: 22px; line-height: .82; }
+  .headlinePair { gap: 3px; margin-top: 0; }
+  .headlinePair b { font-size: 17px; }
+  .headlinePair small { font-size: 6px; }
+
+  .phoneTabControl {
+    display: block;
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    clip-path: inset(50%);
+    pointer-events: auto;
+  }
+
+  .phoneTabs {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    min-height: 44px;
+    border: 1px solid rgba(245,197,24,.58);
+    background: rgba(7,8,10,.82);
+    clip-path: polygon(6px 0,100% 0,100% calc(100% - 6px),calc(100% - 6px) 100%,0 100%,0 6px);
+  }
+
+  .phoneTabs label {
+    min-width: 0;
+    min-height: 44px;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    color: #b9b3a4;
+    border-right: 1px solid rgba(245,197,24,.24);
+    font: 700 10px/1 var(--sd-font-condensed,"Barlow Condensed",sans-serif);
+    letter-spacing: .12em;
+  }
+
+  .phoneTabs label:last-child { border-right: 0; }
+  #careerPhoneTable:checked ~ .phoneTabs label[for="careerPhoneTable"],
+  #careerPhoneCompare:checked ~ .phoneTabs label[for="careerPhoneCompare"],
+  #careerPhoneLeaders:checked ~ .phoneTabs label[for="careerPhoneLeaders"] {
+    color: #07080a;
+    background: linear-gradient(135deg,#ffe07e,#f5c518 58%,#d4a017);
+  }
+
+  #careerPhoneTable:focus-visible ~ .phoneTabs label[for="careerPhoneTable"],
+  #careerPhoneCompare:focus-visible ~ .phoneTabs label[for="careerPhoneCompare"],
+  #careerPhoneLeaders:focus-visible ~ .phoneTabs label[for="careerPhoneLeaders"] {
+    outline: 3px solid #fff1b8;
+    outline-offset: -3px;
+  }
+
+  .contentGrid {
+    position: relative;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .contentGrid > .careerTablePanel,
+  .contentGrid > .comparisonPanel,
+  .contentGrid > .leadersPanel,
+  .contentGrid > .statePanel {
+    position: relative;
+    inset: auto;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    margin: 0;
+  }
+
+  .contentGrid > .careerTablePanel,
+  .contentGrid > .comparisonPanel,
+  .contentGrid > .leadersPanel { display: none; }
+
+  #careerPhoneTable:checked ~ .contentGrid .careerTablePanel,
+  #careerPhoneCompare:checked ~ .contentGrid .comparisonPanel,
+  #careerPhoneLeaders:checked ~ .contentGrid .leadersPanel { display: block; }
+
+  .panelTitle { padding: 4px 7px 3px; font-size: 10px; }
+  .careerTable { width: calc(100% - 8px); margin: 2px 4px 0; }
+  .careerTable th { padding: 2px 1px; font-size: 7px; letter-spacing: .02em; }
+  .careerTable td { padding: 4px 1px; font-size: 9px; }
+  .managerName { gap: 2px; }
+  .rankCrown { font-size: 9px; }
+
+  .comparisonBody { padding: 2px 7px 3px; }
+  .compareRow { grid-template-columns: 34px 1fr 34px; gap: 0 4px; padding: 1px 0; }
+  .compareRow .dValue, .compareRow .nValue { font-size: 9px; }
+  .compareLabel { font-size: 6px; }
+  .compareTrack { height: 3px; margin-top: 1px; }
+
+  .leaderGrid {
+    grid-template-columns: repeat(2,minmax(0,1fr));
+    gap: 3px;
+    padding: 3px 5px 5px;
+  }
+
+  .leaderCard {
+    height: auto;
+    min-height: 29px;
+    grid-template-columns: 24px minmax(0,1fr);
+    gap: 4px;
+    padding: 2px 4px;
+  }
+
+  .managerPortrait { width: 22px; height: 28px; }
+  .leaderLabel { font-size: 6px; }
+  .leaderName { margin-top: 1px; font-size: 8px; }
+  .leaderValue { margin-top: 1px; font-size: 12px; }
+
+  .actionRow {
+    display: grid !important;
+    position: absolute;
+    z-index: 12;
+    left: var(--phone-gutter);
+    right: var(--phone-gutter);
+    bottom: 6px;
+    width: auto;
+    height: 96px;
+    grid-template-columns: repeat(2,minmax(0,1fr));
+    grid-template-rows: 44px 46px;
+    grid-template-areas: "rivalry back" "trophy trophy";
+    gap: 6px;
+  }
+
+  .actionRow .actionButton { min-height: 44px; height: auto; padding: 0 7px; grid-template-columns: 22px 1fr 10px; gap: 4px; font-size: 9px; }
+  .actionRow .actionButton:nth-child(1) { grid-area: rivalry; }
+  .actionRow .actionButton:nth-child(2) { grid-area: trophy; }
+  .actionRow .actionButton:nth-child(3) { grid-area: back; }
+  .actionButton img { width: 21px; height: 27px; }
+  .buttonIcon { width: 18px; height: 18px; }
+
+  .partialBanner {
+    left: var(--phone-gutter);
+    right: var(--phone-gutter);
+    top: calc(42% - 24px);
+    width: auto;
+    min-height: 22px;
+    grid-template-columns: auto 1fr;
+    gap: 7px;
+    padding: 3px 6px;
+  }
+
+  .partialBanner strong { font-size: 7px; }
+  .partialCoverage, .partialBody { font-size: 6px; }
+
+  .statePanel {
+    padding: 8px 12px;
+    place-content: center;
+  }
+
+  .stateIcon { width: 34px; height: 34px; margin-bottom: 5px; font-size: 18px; }
+  .statePanel h2 { font-size: 14px; }
+  .statePanel p { margin-top: 5px; font-size: 10px; line-height: 1.25; }
+  .coverageNote { margin-top: 5px !important; }
+
+  .careerStage[data-state="empty"] .phoneTabs,
+  .careerStage[data-state="unavailable"] .phoneTabs,
+  .careerStage[data-state="loading"] .phoneTabs { visibility: hidden; }
+
+  .careerStage[data-state="empty"] .contentGrid > .careerTablePanel,
+  .careerStage[data-state="empty"] .contentGrid > .comparisonPanel,
+  .careerStage[data-state="empty"] .contentGrid > .leadersPanel,
+  .careerStage[data-state="unavailable"] .contentGrid > .careerTablePanel,
+  .careerStage[data-state="unavailable"] .contentGrid > .comparisonPanel,
+  .careerStage[data-state="unavailable"] .contentGrid > .leadersPanel,
+  .careerStage[data-state="loading"] .contentGrid > .careerTablePanel,
+  .careerStage[data-state="loading"] .contentGrid > .comparisonPanel,
+  .careerStage[data-state="loading"] .contentGrid > .leadersPanel { display: none !important; }
+
+  .contentGrid > .statePanel:not([hidden]) { display: grid; }
+
+  .armCutout, .armRim, .contactShadow { display: none !important; }
+}
