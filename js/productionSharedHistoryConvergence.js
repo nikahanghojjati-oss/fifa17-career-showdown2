@@ -6,6 +6,9 @@
   "use strict";
 
   const POLL_MS=15000;
+  // Job 33 (R1): once the canonical score is reconciled, read every 3 s for at most 3 minutes until Shared History converges.
+  const FAST_POLL_MS=3000,FAST_POLL_WINDOW_MS=180000;
+  let fastWaitKey="",fastWaitSince=0;
   const PANEL_ID="sharedHistoryConvergencePanel";
   let heldErrorKey="";
   let installed=false,busy=false,provider=null,setupApi=null,commitApi=null,scoringApi=null,view=null,contextKey="",refreshPromise=null;
@@ -95,8 +98,11 @@
   function phcRefresh(){
     const request=phcRequest();if(!request||!phcSharedMarker())return Promise.resolve(phcClear(request));if(refreshPromise)return refreshPromise;busy=true;const current=phcRefreshNow(request).then(value=>{heldErrorKey="";return value;},error=>{if(phcContextMatches(request)){phcClear(request);const key=`${request.key}|${String(error?.code||error?.message||"HISTORY_FAILED").slice(0,80)}`;if(key!==heldErrorKey){heldErrorKey=key;return null;}heldErrorKey="";phcReport("Unable to converge Shared History",error);}return null;}).finally(()=>{busy=false;if(refreshPromise===current)refreshPromise=null;});refreshPromise=current;return current;
   }
+  function phcWaitingKey(){const request=phcRequest();if(!request||!phcSharedMarker()||!phcCachedTerminal(request))return "";if(contextKey===request.key&&view&&view.phase==="HISTORY_CONVERGED")return "";return `${request.key}|history`;}
+  function phcFastPollDue(){const key=phcWaitingKey();if(!key){fastWaitKey="";fastWaitSince=0;return false;}const now=Date.now();if(key!==fastWaitKey){fastWaitKey=key;fastWaitSince=now;}return now-fastWaitSince<FAST_POLL_WINDOW_MS;}
+  function phcFastWake(){if(root.document?.visibilityState==="hidden"||busy||!phcFastPollDue())return;phcWake();}
   function phcWake(){if(busy||root.document?.visibilityState==="hidden")return;void phcRefresh();}
-  function phcInstall(){if(installed)return true;installed=true;for(const event of ["career-mode-shared-canonical-scoring-state-change","career-mode-shared-season-commit-state-change","career-mode-shared-setup-state-change","career-mode-connected-account-state-change","career-mode-app-check-state-change","career-mode-shared-season-cursor-change"]){root.addEventListener?.(event,phcWake);}root.document?.addEventListener?.("visibilitychange",phcWake);if(typeof root.setInterval==="function")root.setInterval(phcWake,POLL_MS);if(typeof root.setTimeout==="function")root.setTimeout(phcWake,0);return true;}
+  function phcInstall(){if(installed)return true;installed=true;for(const event of ["career-mode-shared-canonical-scoring-state-change","career-mode-shared-season-commit-state-change","career-mode-shared-setup-state-change","career-mode-connected-account-state-change","career-mode-app-check-state-change","career-mode-shared-season-cursor-change"]){root.addEventListener?.(event,phcWake);}root.document?.addEventListener?.("visibilitychange",phcWake);if(typeof root.setInterval==="function"){root.setInterval(phcWake,POLL_MS);root.setInterval(phcFastWake,FAST_POLL_MS);}if(typeof root.setTimeout==="function")root.setTimeout(phcWake,0);return true;}
 
-  return Object.freeze({contractVersion:1,feature:"ssjr-production-shared-history-convergence",productionEnabled:true,runtimeRevision:"1.9.1-r12",requiresAcknowledgedSeasonCommit:true,requiresCanonicalScoring:true,providerEnforcedSource:true,readOnlyDerivedProjection:true,identitySafe:true,exactSeasonAddressing:true,canonicalStorageMutation:false,providerWriteRequired:false,listPermissionRequired:false,billingRequired:false,blazeRequired:false,cloudRunRequired:false,cloudFunctionsRequired:false,pollIntervalMs:POLL_MS,install:phcInstall,refresh:phcRefresh,getState:()=>view,isActive:phcSharedMarker});
+  return Object.freeze({contractVersion:1,feature:"ssjr-production-shared-history-convergence",productionEnabled:true,runtimeRevision:"1.9.1-r12",requiresAcknowledgedSeasonCommit:true,requiresCanonicalScoring:true,providerEnforcedSource:true,readOnlyDerivedProjection:true,identitySafe:true,exactSeasonAddressing:true,canonicalStorageMutation:false,providerWriteRequired:false,listPermissionRequired:false,billingRequired:false,blazeRequired:false,cloudRunRequired:false,cloudFunctionsRequired:false,pollIntervalMs:POLL_MS,fastPollIntervalMs:FAST_POLL_MS,fastPollWindowMs:FAST_POLL_WINDOW_MS,isWaitingForRival:()=>Boolean(phcWaitingKey()),install:phcInstall,refresh:phcRefresh,getState:()=>view,isActive:phcSharedMarker});
 });

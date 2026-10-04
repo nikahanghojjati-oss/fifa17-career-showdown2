@@ -6,6 +6,9 @@
   "use strict";
 
   const POLL_MS=15000;
+  // Job 33 (R1): after this manager acknowledged, read every 3 s for at most 3 minutes until the canonical score is reconciled.
+  const FAST_POLL_MS=3000,FAST_POLL_WINDOW_MS=180000;
+  let fastWaitKey="",fastWaitSince=0;
   let installed=false,busy=false,view=null,contextKey="",setupApi=null,commitApi=null,provider=null,catalogApi=null,refreshPromise=null,headingObserver=null,bootstrapObserver=null;
 
   function pcscFail(code,message){const error=new Error(message||code);error.code=code;throw error;}
@@ -66,10 +69,18 @@
     view={...result,rivalryId:request.rivalryId};contextKey=request.key;pcscRender();return view;
   }
   function pcscRefresh(){const request=pcscRequestContext();if(!request)return Promise.resolve(null);if(refreshPromise&&contextKey===request.key)return refreshPromise;const current=pcscRefreshNow(request);refreshPromise=current;current.then(()=>{if(refreshPromise===current)refreshPromise=null;},()=>{if(refreshPromise===current)refreshPromise=null;});return current;}
+  function pcscWaitingKey(){
+    const screen=pcscField("seasonEntry"),request=pcscRequestContext(),commit=(commitApi||root.CareerModeProductionSharedSeasonCommit)?.getState?.();if(!screen||screen.classList.contains("hidden")||!request||!commit)return "";
+    if(commit.committed!==true||!(commit.ownAcknowledged===true||commit.phase==="ACKNOWLEDGED")||Number(commit.seasonNumber)!==request.seasonNumber||String(commit.rivalryId||"")!==request.rivalryId)return "";
+    if(contextKey===request.key&&view&&view.phase==="SCORING_RECONCILED")return "";
+    return `${request.key}|score`;
+  }
+  function pcscFastPollDue(){const key=pcscWaitingKey();if(!key){fastWaitKey="";fastWaitSince=0;return false;}const now=Date.now();if(key!==fastWaitKey){fastWaitKey=key;fastWaitSince=now;}return now-fastWaitSince<FAST_POLL_WINDOW_MS;}
+  function pcscFastTick(){if(root.document?.visibilityState==="hidden"||busy||!pcscFastPollDue())return;void pcscTick();}
   async function pcscTick(){if(!pcscSharedMarker()||busy||root.document?.visibilityState==="hidden")return;const screen=pcscField("seasonEntry");if(!screen||screen.classList.contains("hidden"))return;busy=true;try{await pcscRefresh();}catch(error){view=null;pcscRender();pcscReport("Unable to refresh Shared Canonical Scoring",error);}finally{busy=false;}}
   function pcscAttachHeadingObserver(){if(!root.MutationObserver||!root.document)return false;const heading=pcscField("seasonReviewHeading");if(!heading)return false;if(headingObserver)return true;headingObserver=new root.MutationObserver(()=>void pcscTick());headingObserver.observe(heading,{childList:true,characterData:true,subtree:true});return true;}
   function pcscInstallObservers(){if(pcscAttachHeadingObserver()||!root.MutationObserver||!root.document?.documentElement)return;bootstrapObserver=new root.MutationObserver(()=>{if(pcscAttachHeadingObserver()){bootstrapObserver.disconnect();bootstrapObserver=null;}});bootstrapObserver.observe(root.document.documentElement,{childList:true,subtree:true});}
-  function pcscInstall(){if(installed)return true;installed=true;pcscInstallObservers();root.addEventListener?.("career-mode-shared-season-cursor-change",()=>void pcscTick());if(typeof root.setInterval==="function")root.setInterval(()=>void pcscTick(),POLL_MS);if(typeof root.setTimeout==="function")root.setTimeout(()=>void pcscTick(),0);return true;}
+  function pcscInstall(){if(installed)return true;installed=true;pcscInstallObservers();root.addEventListener?.("career-mode-shared-season-cursor-change",()=>void pcscTick());if(typeof root.setInterval==="function"){root.setInterval(()=>void pcscTick(),POLL_MS);root.setInterval(pcscFastTick,FAST_POLL_MS);}if(typeof root.setTimeout==="function")root.setTimeout(()=>void pcscTick(),0);return true;}
 
-  return Object.freeze({contractVersion:1,feature:"ssjr-production-shared-canonical-scoring",productionEnabled:true,runtimeRevision:"1.9.1-r11",requiresAcknowledgedSeasonCommit:true,providerEnforcedSource:true,readOnlyDerivedProjection:true,reusesSeasonReview:true,canonicalStorageMutation:false,authoritativeScoring:true,trustsSubmittedTotals:false,billingRequired:false,blazeRequired:false,cloudRunRequired:false,cloudFunctionsRequired:false,pollIntervalMs:POLL_MS,install:pcscInstall,refresh:pcscRefresh,getState:()=>view,isActive:pcscSharedMarker});
+  return Object.freeze({contractVersion:1,feature:"ssjr-production-shared-canonical-scoring",productionEnabled:true,runtimeRevision:"1.9.1-r11",requiresAcknowledgedSeasonCommit:true,providerEnforcedSource:true,readOnlyDerivedProjection:true,reusesSeasonReview:true,canonicalStorageMutation:false,authoritativeScoring:true,trustsSubmittedTotals:false,billingRequired:false,blazeRequired:false,cloudRunRequired:false,cloudFunctionsRequired:false,pollIntervalMs:POLL_MS,fastPollIntervalMs:FAST_POLL_MS,fastPollWindowMs:FAST_POLL_WINDOW_MS,isWaitingForRival:()=>Boolean(pcscWaitingKey()),install:pcscInstall,refresh:pcscRefresh,getState:()=>view,isActive:pcscSharedMarker});
 });

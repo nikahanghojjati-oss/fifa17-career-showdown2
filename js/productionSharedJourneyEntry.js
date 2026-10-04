@@ -171,9 +171,16 @@
       setPending(true);
       if(typeof root.createShowdown!=="function")throw new Error("Showdown preparation is unavailable.");
       const created=await root.createShowdown();shellCreated=Boolean(created);if(!created)throw new Error("The Showdown could not be prepared.");
-      normalizeCanonicalPlayers();persistPendingMarker();markerPersisted=true;applyLocalDrawLock();await openPanel();return true;
+      normalizeCanonicalPlayers();persistPendingMarker();markerPersisted=true;applyLocalDrawLock();await openAfterStart();return true;
     }catch(error){if(shellCreated&&!markerPersisted)discardUnmarkedShell();setPending(false);report("Unable to prepare Showdown",error);return false;}
     finally{if(round&&priorRound!==null)round.value=priorRound;if(button)button.disabled=false;busy=false;syncStartButtonIdentity();}
+  }
+  // Job 33 (R5a): a fresh Showdown has no pair yet, so START A SHOWDOWN opens the pair panel directly (no GET READY hop).
+  // The pair code is still created only by Daniel's own CREATE CODE FOR NIK tap.
+  async function openAfterStart(){
+    const pairState=root.CareerModePersistentNikDanielPair?.getState?.();
+    if(pairState&&pairState.rivalryId&&pairState.connectionState==="active")return openPanel();
+    await openPersistentPairControls();return true;
   }
   async function openPersistentPairControls(){
     closePanel();
@@ -196,8 +203,11 @@
     disarmRemoteReturn();if(!remote||typeof remote.subscribe!=="function"||!pending())return false;
     const onState=next=>{
       if(!pending()||remoteReturnBusy||!next||next.sessionState!=="active"||next.pendingAction!=null)return;
+      // Job 33 (R6): an ACTIVE private session continues straight into the Showdown (league wheel, Career Start or the
+      // current season); openSharedExperience shows GET READY again if that fails. An expired session never auto-continues.
+      if(!Number.isFinite(next.expiresAtEpochMs)||Date.now()>=next.expiresAtEpochMs)return;
       remoteReturnBusy=true;disarmRemoteReturn();
-      Promise.resolve().then(async()=>{if(typeof remote.closePanel==="function")remote.closePanel();await openPanel();}).catch(error=>report("Unable to return to career entry after connection",error)).finally(()=>{remoteReturnBusy=false;});
+      Promise.resolve().then(async()=>{if(typeof remote.closePanel==="function")remote.closePanel();await openSharedExperience();}).catch(error=>report("Unable to continue the Showdown after connection",error)).finally(()=>{remoteReturnBusy=false;});
     };
     remoteUnsubscribe=remote.subscribe(onState);if(typeof remote.getState==="function")onState(remote.getState());return true;
   }
@@ -246,7 +256,7 @@
       await loadScript("ssjr-polished-presentation","js/productionSharedShowdownPresentation.js",()=>root.CareerModeProductionSharedShowdownPresentation);
       const presentation=root.CareerModeProductionSharedShowdownPresentation;if(!presentation||typeof presentation.activate!=="function")throw new Error("Showdown presentation is unavailable.");
       await presentation.activate();applyLocalDrawLock();return true;
-    }catch(error){report("Unable to enter the Showdown",error);await openPanel();return false;}
+    }catch(error){report("Unable to enter the Showdown",error);await openPanel({routeToRemote:false});return false;}
   }
   async function statusSnapshot(){
     let account=null,pairing=null,rivalry=null,remote=null;
@@ -264,9 +274,10 @@
     return Object.freeze({accountReady:Boolean(account&&account.connected),deviceReady:Boolean(pairing&&pairing.registered),rivalryReady:Boolean(rivalry&&rivalry.attached&&rivalry.rivalryId),active});
   }
   function row(label,value){const item=create("div","settingsInfoRow");item.append(create("span","",label),create("strong","",value));return item;}
-  async function renderPanel(){
+  async function renderPanel(options={}){
     const generation=++renderGeneration,overlay=root.document.getElementById(PANEL_ID);if(!overlay)return false;const body=overlay.querySelector(".remoteJoiningBody");if(!body)return false;
-    const status=await statusSnapshot();if(generation!==renderGeneration)return false;
+    const status=options.status||await statusSnapshot();if(generation!==renderGeneration)return false;
+    if(routesToRemote(status,options)){await openRemote();return false;}
     const confirmed=status.active?await confirmedSetupSnapshot():null;if(generation!==renderGeneration)return false;
     body.replaceChildren();body.append(create("span","remoteJoiningEyebrow","CAREER MODE SHOWDOWN"),create("h2","","GET READY"),create("p","","Daniel and Nik must both be connected before the career begins."));
     const grid=create("div","settingsInfoGrid");
@@ -278,10 +289,17 @@
     const refresh=create("button","compactButton","REFRESH");refresh.type="button";refresh.addEventListener("click",()=>void renderPanel());actions.append(refresh);body.append(actions);
     const note=create("p","remoteJoiningStatus",status.active?(confirmed?"Ready. Continue to Career Start.":"Ready. Continue when both players are set."):"Both players must be connected before league and club selection.");note.setAttribute("role","status");note.setAttribute("aria-live","polite");body.append(note);return true;
   }
-  async function openPanel(){
-    await loadStyle();applyLocalDrawLock();let overlay=root.document.getElementById(PANEL_ID);
+  // Job 33 (R5b): connected players without an ACTIVE private session go straight to Remote Joining instead of
+  // waiting on GET READY for a CONTINUE tap. GET READY still shows before pairing, once the session is ACTIVE, and
+  // after a failed Showdown entry (routeToRemote:false), so it never bounces between the two overlays.
+  function routesToRemote(status,options){return Boolean(options.routeToRemote!==false&&status&&status.rivalryReady&&!status.active);}
+  async function openPanel(options={}){
+    await loadStyle();applyLocalDrawLock();
+    const status=options.routeToRemote===false?null:await statusSnapshot();
+    if(routesToRemote(status,options)){await openRemote();return true;}
+    let overlay=root.document.getElementById(PANEL_ID);
     if(!overlay){overlay=create("div","remoteJoiningOverlay");overlay.id=PANEL_ID;overlay.setAttribute("role","dialog");overlay.setAttribute("aria-modal","true");overlay.setAttribute("aria-label","Career Mode Showdown entry");const shell=create("div","remoteJoiningShell"),header=create("div","remoteJoiningHeader");header.append(create("strong","","CAREER MODE SHOWDOWN // 17"));const dismiss=create("button","remoteJoiningDismiss","×");dismiss.type="button";dismiss.setAttribute("aria-label","Close career entry");dismiss.addEventListener("click",closePanel);header.append(dismiss);const body=create("div","remoteJoiningBody");shell.append(header,body);overlay.append(shell);root.document.body.append(overlay);}
-    overlay.classList.remove("hidden");await renderPanel();return true;
+    overlay.classList.remove("hidden");await renderPanel({...options,status});return true;
   }
   function closePanel(){const overlay=root.document&&root.document.getElementById(PANEL_ID);if(overlay)overlay.classList.add("hidden");return true;}
   function installStartButton(){
@@ -315,5 +333,5 @@
   }
   function install(){if(installed)return true;installed=true;installStartButton();applyLocalDrawLock();const identity=entryIdentity();if(identity&&typeof identity.subscribe==="function")identityUnsubscribe=identity.subscribe(()=>syncStartButtonIdentity());const observer=new MutationObserver(()=>{installStartButton();applyLocalDrawLock();});observer.observe(root.document.documentElement,{childList:true,subtree:true});if(pending())setTimeout(()=>void autoOpenAfterLoad().catch(error=>report("Unable to open career entry",error)),0);return true;}
 
-  return Object.freeze({contractVersion:6,feature:"ssjr-production-paired-first-entry",productionEnabled:true,singleProductEntry:true,pairingBeforeLeagueClub:true,activeSessionBeforeLeagueClub:true,peerActiveReturnToSharedEntry:true,bothDevicesPrepareSharedShell:true,joinerShellProvisionedAutomatically:true,continueCareerUsesPairedAuthority:true,polishedLeagueWheelAfterAuthority:true,polishedClubPacksAfterAuthority:true,confirmedSetupResumesAtCareerStart:true,acceptedSeasonResumesAtActiveSeason:true,establishedPairNeverAutoOpensEntry:true,closedShowdownNeverReopensEntry:true,engineeringSetupPanelPlayerFacing:false,persistedSaveMarker:true,canonicalLocalSaveMutationDuringSharedSetup:false,billingRequired:false,install,preparePairingShell:startShared,provisionJoinerShell,openPanel,closePanel,openSharedExperience,isPending:pending});
+  return Object.freeze({contractVersion:6,feature:"ssjr-production-paired-first-entry",startOpensPairPanelDirectly:true,connectedPairOpensRemoteJoiningDirectly:true,activeSessionContinuesIntoShowdown:true,productionEnabled:true,singleProductEntry:true,pairingBeforeLeagueClub:true,activeSessionBeforeLeagueClub:true,peerActiveReturnToSharedEntry:true,bothDevicesPrepareSharedShell:true,joinerShellProvisionedAutomatically:true,continueCareerUsesPairedAuthority:true,polishedLeagueWheelAfterAuthority:true,polishedClubPacksAfterAuthority:true,confirmedSetupResumesAtCareerStart:true,acceptedSeasonResumesAtActiveSeason:true,establishedPairNeverAutoOpensEntry:true,closedShowdownNeverReopensEntry:true,engineeringSetupPanelPlayerFacing:false,persistedSaveMarker:true,canonicalLocalSaveMutationDuringSharedSetup:false,billingRequired:false,install,preparePairingShell:startShared,provisionJoinerShell,openPanel,closePanel,openSharedExperience,isPending:pending});
 });

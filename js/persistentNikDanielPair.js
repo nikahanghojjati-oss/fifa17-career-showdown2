@@ -26,9 +26,34 @@
   let pairConnectedRivalryLoadPromise=null;
   let pairSharedEntryLoadPromise=null;
   const pairListeners=new Set();
+  // Job 33 (R1): while Daniel's code is shown and Nik has not joined yet, re-read the pair link every 4 s for at most
+  // 3 minutes, then every 15 s, instead of waiting for a CHECK STATUS tap. Read-only; paused while the tab is hidden.
+  const PAIR_WAIT_FAST_MS=4000,PAIR_WAIT_SLOW_MS=15000,PAIR_WAIT_WINDOW_MS=180000;
+  let pairWaitTimer=null,pairWaitKey="",pairWaitSince=0;
 
   function pairFreezeDeep(value){if(!value||typeof value!=="object"||Object.isFrozen(value))return value;Object.freeze(value);Object.values(value).forEach(pairFreezeDeep);return value;}
-  function pairSetState(next){state=pairFreezeDeep({...state,...next});for(const listener of pairListeners){try{listener(state);}catch(_error){}}pairRender();return state;}
+  function pairSetState(next){state=pairFreezeDeep({...state,...next});for(const listener of pairListeners){try{listener(state);}catch(_error){}}pairRender();pairSyncWaitingPoll();return state;}
+  function pairWaitingKey(){const staleNikPending=state.managerRole==="playerTwo"&&pairCurrentIdentityRole()==="playerTwo";return state.connectionState==="pending-pair"&&state.capability&&state.rivalryId&&state.accountId&&!staleNikPending?`${state.accountId}|${state.rivalryId}`:"";}
+  function pairClearWaitingTimer(){if(pairWaitTimer!==null){root.clearTimeout?.(pairWaitTimer);pairWaitTimer=null;}}
+  function pairSyncWaitingPoll(){
+    const key=pairWaitingKey();if(!key){pairWaitKey="";pairWaitSince=0;pairClearWaitingTimer();return;}
+    if(key!==pairWaitKey){pairWaitKey=key;pairWaitSince=Date.now();}
+    if(pairWaitTimer!==null||typeof root.setTimeout!=="function")return;
+    const delay=Date.now()-pairWaitSince<PAIR_WAIT_WINDOW_MS?PAIR_WAIT_FAST_MS:PAIR_WAIT_SLOW_MS;
+    pairWaitTimer=root.setTimeout(()=>{pairWaitTimer=null;void pairWaitingPollTick();},delay);pairWaitTimer?.unref?.();
+  }
+  async function pairWaitingPollTick(){
+    try{
+      const key=pairWaitingKey();
+      if(key&&!state.busy&&!pairInitializePromise&&root.document?.visibilityState!=="hidden"&&root.CareerModeSparkPrivatePairing?.getState?.()?.registered===true){
+        // Same read as CHECK STATUS (pair link + rivalry); the panel is only re-rendered when the connection changed.
+        const context=await pairResolveContext(),link=await pairReadPairLink(context);
+        if(pairWaitingKey()===key&&(!link||link.rivalryId!==state.rivalryId||link.connectionState!==state.connectionState))await pairInitialize({force:true});
+      }
+    }catch(_error){}
+    pairSyncWaitingPoll();
+  }
+
   function pairErrorWithCode(code,message){const error=new Error(message||code);error.code=code;return error;}
   function pairCanonicalize(value){if(value===null||value===undefined)return value===undefined?null:value;if(value&&typeof value.toMillis==="function")return{$timestamp:value.toMillis()};if(Array.isArray(value))return value.map(pairCanonicalize);if(typeof value==="object"){const result={};for(const key of Object.keys(value).sort())result[key]=pairCanonicalize(value[key]);return result;}return value;}
   function pairHexFromBytes(bytes){return Array.from(bytes,value=>value.toString(16).padStart(2,"0")).join("");}
@@ -262,5 +287,5 @@ async function pairStartOverFromRecovery(){
   function pairSubscribe(listener){if(typeof listener!=="function")return()=>{};pairListeners.add(listener);return()=>pairListeners.delete(listener);}
 
   if(root.addEventListener){root.addEventListener("career-mode-online-identity-change",()=>pairRender());root.addEventListener("online",()=>{if(state.initialized)void pairInitialize({force:true});});}
-  return pairFreezeDeep({contractVersion:4,feature:"persistent-nik-daniel-pair",pairDocumentId:PAIR_DOC_ID,publicDiscovery:false,billingRequired:false,persistentAcrossRegisteredBrowsers:true,pairLinkPersistentAcrossRegisteredBrowsers:true,gameplayCacheHydrationAcrossFreshBrowsers:false,freshBrowserGameplayRequiresVerifiedLocalRecovery:true,legacyPairMigration:false,managerByRole:MANAGER_BY_ROLE,roleByManager:ROLE_BY_MANAGER,normalizeRivalryId:pairNormalizeRivalryId,parsePairLink:pairParsePairLink,readPairLink:pairReadPairLink,persistPairLink:pairPersistPairLink,initialize:pairInitialize,startPairing:pairStartPairing,joinPairing:pairJoinPairing,retryPairLink:pairRetryPairLink,careerIndexPageCapacity:CAREER_INDEX_PAGE_CAPACITY,readCareerIndex:pairReadCareerIndex,getCareerIndexState:()=>careerIndexState,planCareerIndexAppend:pairPlanCareerIndexAppend,createDurableCreationWitness:pairCreateDurableCreationWitness,createDurableRedemptionWitness:pairCreateDurableRedemptionWitness,abandonCurrentShowdown:pairAbandonCurrentShowdown,discardStalePendingConnection:pairDiscardStalePendingConnection,continuePair:pairContinueOnlineShowdown,openRecovery:pairOpenRecoverySurface,startOver:pairStartOverFromRecovery,render:pairRender,subscribe:pairSubscribe,getState:()=>state});
+  return pairFreezeDeep({contractVersion:4,feature:"persistent-nik-daniel-pair",pairDocumentId:PAIR_DOC_ID,publicDiscovery:false,billingRequired:false,persistentAcrossRegisteredBrowsers:true,pairLinkPersistentAcrossRegisteredBrowsers:true,gameplayCacheHydrationAcrossFreshBrowsers:false,freshBrowserGameplayRequiresVerifiedLocalRecovery:true,legacyPairMigration:false,managerByRole:MANAGER_BY_ROLE,roleByManager:ROLE_BY_MANAGER,normalizeRivalryId:pairNormalizeRivalryId,parsePairLink:pairParsePairLink,readPairLink:pairReadPairLink,persistPairLink:pairPersistPairLink,initialize:pairInitialize,waitingPoll:Object.freeze({fastMs:PAIR_WAIT_FAST_MS,slowMs:PAIR_WAIT_SLOW_MS,windowMs:PAIR_WAIT_WINDOW_MS}),isWaitingForRival:()=>Boolean(pairWaitingKey()),startPairing:pairStartPairing,joinPairing:pairJoinPairing,retryPairLink:pairRetryPairLink,careerIndexPageCapacity:CAREER_INDEX_PAGE_CAPACITY,readCareerIndex:pairReadCareerIndex,getCareerIndexState:()=>careerIndexState,planCareerIndexAppend:pairPlanCareerIndexAppend,createDurableCreationWitness:pairCreateDurableCreationWitness,createDurableRedemptionWitness:pairCreateDurableRedemptionWitness,abandonCurrentShowdown:pairAbandonCurrentShowdown,discardStalePendingConnection:pairDiscardStalePendingConnection,continuePair:pairContinueOnlineShowdown,openRecovery:pairOpenRecoverySurface,startOver:pairStartOverFromRecovery,render:pairRender,subscribe:pairSubscribe,getState:()=>state});
 });
