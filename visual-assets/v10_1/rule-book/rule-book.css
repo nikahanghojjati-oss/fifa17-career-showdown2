@@ -106,7 +106,7 @@ body {
   gap: 8px;
 }
 
-#ruleBookIndex a {
+#ruleBookIndex .ruleBookIndexChip {
   min-height: 44px;
   display: grid;
   place-items: center;
@@ -201,7 +201,7 @@ body {
   box-shadow: 0 0 12px rgba(242, 196, 91, 0.24);
 }
 
-#ruleBookIndex a {
+#ruleBookIndex .ruleBookIndexChip {
   position: relative;
   isolation: isolate;
   transition:
@@ -212,7 +212,7 @@ body {
     box-shadow var(--sd-duration-feedback);
 }
 
-#ruleBookIndex a::after {
+#ruleBookIndex .ruleBookIndexChip::after {
   content: "";
   position: absolute;
   z-index: -1;
@@ -221,18 +221,18 @@ body {
   pointer-events: none;
 }
 
-#ruleBookIndex a:hover {
+#ruleBookIndex .ruleBookIndexChip:hover {
   border-color: var(--sd-gold-300);
   color: var(--sd-gold-300);
   background: rgba(24, 21, 13, 0.86);
   box-shadow: 0 0 18px rgba(242, 196, 91, 0.18);
 }
 
-#ruleBookIndex a:active {
+#ruleBookIndex .ruleBookIndexChip:active {
   transform: translateY(1px);
 }
 
-#ruleBookIndex a:focus-visible {
+#ruleBookIndex .ruleBookIndexChip:focus-visible {
   outline: 2px solid var(--sd-gold-300);
   outline-offset: 2px;
   box-shadow: 0 0 0 2px var(--sd-black), var(--sd-shadow-glow);
@@ -413,7 +413,7 @@ body {
   #ruleBookIndex::-webkit-scrollbar { display: none; }
   #ruleBookIndex::before { display: none; }
 
-  #ruleBookIndex a {
+  #ruleBookIndex .ruleBookIndexChip {
     flex: 1 0 44px;
     min-width: 44px;
     min-height: 44px;
@@ -506,4 +506,40 @@ body {
     border-top: 1px solid rgba(217, 174, 83, .25);
     pointer-events: none;
   }
+}
+
+
+/* JOB-094 step 4 · shared entrance motion.
+   The shared kit owns timing; this screen only declares participants and reduced-motion guards. */
+.ruleBookHero[data-sd-enter="title"],
+.ruleSection[data-sd-enter="panel"],
+#ruleBookBack[data-sd-enter="button"] {
+  backface-visibility: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ruleBookScreen [data-sd-enter] {
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .ruleBookHero.sd-glint::before,
+  .ruleBookHero[data-sd-enter="title"]::after {
+    animation: none !important;
+    opacity: 0 !important;
+  }
+}
+
+html[data-motion-reduced="true"] .ruleBookScreen [data-sd-enter],
+html[data-reduced-motion="true"] .ruleBookScreen [data-sd-enter] {
+  transform: none !important;
+  transition: none !important;
+}
+
+html[data-motion-reduced="true"] .ruleBookHero.sd-glint::before,
+html[data-reduced-motion="true"] .ruleBookHero.sd-glint::before,
+html[data-motion-reduced="true"] .ruleBookHero[data-sd-enter="title"]::after,
+html[data-reduced-motion="true"] .ruleBookHero[data-sd-enter="title"]::after {
+  animation: none !important;
+  opacity: 0 !important;
 }
