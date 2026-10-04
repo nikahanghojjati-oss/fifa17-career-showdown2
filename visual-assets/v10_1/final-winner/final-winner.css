@@ -1934,7 +1934,7 @@ body {
 @keyframes fwDim { 0% { opacity: 0; } 50% { opacity: 1; } 100% { opacity: .2; } }
 #stage-root.fwAnticipate .winnerTrophyGlow { animation: fwDrum 200ms ease-in-out 2 both; }
 @keyframes fwDrum { 0%, 100% { transform: scale(1); opacity: .8; } 50% { transform: scale(1.14); opacity: 1; } }
-#stage-root.fwSettled .winnerTrophyGlow { animation: fwShine 4s ease-in-out infinite; }
+#stage-root.fwSettled .winnerTrophyGlow { animation: fwShine 120ms ease-in-out 1; }
 @keyframes fwShine { 0%, 70%, 100% { opacity: .75; transform: scale(1); } 85% { opacity: 1; transform: scale(1.06); } }
 
 /* JOB-184 feel: feedback <= 120 ms, no layout shift. Reduced motion (system block and the app setting) = no ceremony, fades only. */
