@@ -492,7 +492,19 @@ const V10_IMAGES={
     "visual-assets/v10_1/trophy-room/assets/ENV_TR_PLATE_V1_2X.webp":"a2c6badc9148094d880ab671e4b35298fe7d5cc65ecc9875f0228b151455f8cc",
     "visual-assets/v10_1/trophy-room/assets/OVL_TR_DANIEL_PHONE_V1.webp":"ba883f14116d1257ba8876fd18b92847b7955536e31c6e3154b743089036d7d6",
     "visual-assets/v10_1/trophy-room/assets/OVL_TR_NIK_PHONE_V1.webp":"850352f3eb1db2f79c0ba8e5df447cde9b5a3371e7fa29e14dee1e3e989e3959",
-    "visual-assets/v10_1/trophy-room/assets/TITLE_TR_V1.webp":"735bc4f176181b418becb54d699c2f19e80ac2e257b541cd5a1f4ebb39637b0c"
+    "visual-assets/v10_1/trophy-room/assets/TITLE_TR_V1.webp":"735bc4f176181b418becb54d699c2f19e80ac2e257b541cd5a1f4ebb39637b0c",
+    // job 25: Team V Home (5e05a1f)
+    "visual-assets/v10_1/home/assets/ENV_HOME_PHONE_V1.webp":"55b4c840aad140b95db47bf9a733c1c21c1aaceb25b539a367c5f6ffcb37453e",
+    "visual-assets/v10_1/home/assets/ENV_HOME_PLATE_V1_1X.webp":"3c35391805507bf8910f36f98147cd8383e4944eeb999021661d6d7030d30c39",
+    "visual-assets/v10_1/home/assets/ENV_HOME_PLATE_V1_2X.webp":"aed61ed9d6e10cbaead7251539e188101bc1371d83639b2ab6953dae875274f9",
+    "visual-assets/v10_1/home/assets/LOGO_CM17_WORDMARK_V1.webp":"d72524228798c02bd9c22750da3743099768a80b3ef904a21d8243a1f6dccda6",
+    "visual-assets/v10_1/home/assets/OVL_HOME_DANIEL_PHONE_V1.webp":"fdff22d11059c6c6f4c5f38780cd183b26ae737fecc1f913e74ffe754d53e169",
+    "visual-assets/v10_1/home/assets/OVL_HOME_NIK_PHONE_V1.webp":"abeb9551dc5cd8ad11d65b2993dfe5155725397ba42b7ba17020634938c62800",
+    "visual-assets/v10_1/shared/art/home-tiles/TILE_HISTORY_V1.webp":"3ad7b30b692ad37f4f366357a7515c7765ec7a11302bcce186b468a7772a68c5",
+    "visual-assets/v10_1/shared/art/home-tiles/TILE_RULEBOOK_V1.webp":"e185a67497b0ce0340043ee5bc0e8efd35e8143679b806ad0a48d197885d7cf7",
+    "visual-assets/v10_1/shared/art/home-tiles/TILE_SETTINGS_V1.webp":"92364b627bfb2f42dc62610e69c548eef6f51b3a465fc036d962e6cb6f4aa3ff",
+    "visual-assets/v10_1/shared/art/home-tiles/TILE_STATISTICS_V1.webp":"e331ed59ebd2d9e8512299a31b4f47b13cc685fd1eb037259a97eca9ec8abac0",
+    "visual-assets/v10_1/shared/art/home-tiles/TILE_TACTICS_V1.webp":"148683d7a6ff038176c0f8a9cf599a36645a08f4361e59be25ded2095f5ae153"
 };
 check("F9c every shipped Team V image path names one generation (versioned name, pinned bytes)",()=>{
   const found=[];
