@@ -147,6 +147,7 @@
       const requested = qs.get("frame");
       const frameId = requested && FX.frames[requested] ? requested : frameIds[0];
       applyFrame(FX, frameId);
+      if (typeof window.sdEnter === "function") window.sdEnter(stage);
     })
     .catch((error) => {
       setText("contractState", error.message);

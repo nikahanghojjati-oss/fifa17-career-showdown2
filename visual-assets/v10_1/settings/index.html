@@ -31,12 +31,14 @@
       <div class="settingsTitleBlock">
         <p id="settingsEyebrow" class="sd-eyebrow settingsEyebrow"></p>
         <h1 id="settingsTitle" class="settingsVisuallyHidden"></h1>
-        <img
-          class="settingsWordmark"
-          src="../shared/wordmarks/TITLE_SETTINGS_V1.webp"
-          alt=""
-          aria-hidden="true"
-        >
+        <span class="settingsWordmarkWrap" data-sd-enter="title" aria-hidden="true">
+          <img
+            class="settingsWordmark"
+            src="../shared/wordmarks/TITLE_SETTINGS_V1.webp"
+            alt=""
+            aria-hidden="true"
+          >
+        </span>
         <p class="sd-kicker settingsTagline">TWO MANAGERS. ONE LEGACY.</p>
       </div>
       <button id="settingsClose" type="button"></button>
@@ -51,7 +53,7 @@
       </aside>
 
       <div id="settingsContent">
-        <section class="sd-panel settingsPanel settingsPanel--account" id="onlinePlayerIdentitySettingsPanel">
+        <section class="sd-panel settingsPanel settingsPanel--account" data-sd-enter="panel" id="onlinePlayerIdentitySettingsPanel">
           <p id="accountEyebrow"></p>
           <h2 id="accountTitle"></h2>
           <p id="accountDescription"></p>
@@ -62,7 +64,7 @@
           <div id="accountActions"></div>
         </section>
 
-        <section class="sd-panel settingsPanel settingsPanel--application" id="applicationPanel">
+        <section class="sd-panel settingsPanel settingsPanel--application" data-sd-enter="panel" id="applicationPanel">
           <p id="applicationEyebrow"></p>
           <h2 id="applicationTitle"></h2>
           <p id="applicationDescription"></p>
@@ -78,7 +80,7 @@
           </p>
         </section>
 
-        <section class="sd-panel settingsPanel settingsPanel--motion" id="motionPanel">
+        <section class="sd-panel settingsPanel settingsPanel--motion" data-sd-enter="panel" id="motionPanel">
           <p id="motionEyebrow"></p>
           <h2 id="motionTitle"></h2>
           <p id="motionDescription"></p>
@@ -97,7 +99,7 @@
           </div>
         </section>
 
-        <section class="sd-panel settingsPanel settingsPanel--data settingsDataPanel" id="dataPanel">
+        <section class="sd-panel settingsPanel settingsPanel--data settingsDataPanel" data-sd-enter="panel" id="dataPanel">
           <p id="dataEyebrow"></p>
           <h2 id="dataTitle"></h2>
           <p id="dataDescription"></p>
@@ -113,7 +115,7 @@
       </section>
 
       <footer class="settingsFooter">
-        <button id="settingsDone" type="button"></button>
+        <button id="settingsDone" type="button" data-sd-enter="button"></button>
       </footer>
       <div class="nav-reserve" aria-hidden="true"></div>
     </main>

@@ -81,9 +81,15 @@ body {
   text-transform: uppercase;
 }
 
-.settingsWordmark {
+.settingsWordmarkWrap {
   display: block;
   width: 90.3%; /* ≈30.7% viewport width inside a 34% title block. */
+  margin: 0 auto;
+}
+
+.settingsWordmark {
+  display: block;
+  width: 100%;
   height: auto;
   margin: 0 auto;
   object-fit: contain;
@@ -700,7 +706,7 @@ body {
 /* Claude intake 2026-10-04: keep the tagline fully above the panel grid on desktop
    (it sat under the top panel edge at 1366x768). */
 .settingsTitleBlock { top: 10.4%; }
-.settingsWordmark { width: 84%; }
+.settingsWordmarkWrap { width: 84%; }
 
 @media (max-width: 760px) and (orientation: portrait) {
   /* Claude FIX 4: Settings is a full-screen hub. The shared stage's generic
@@ -772,8 +778,11 @@ body {
     letter-spacing: 0.28em;
   }
 
-  .settingsWordmark {
+  .settingsWordmarkWrap {
     width: 86%;
+  }
+
+  .settingsWordmark {
     max-height: 58px;
   }
 
@@ -925,4 +934,15 @@ body {
   #confirmDialog button:last-child {
     margin-bottom: 0;
   }
+}
+
+/* JOB-196 motion: entrance comes from the shared kit (data-sd-enter + sdEnter).
+   Reduced motion, system setting or the app's own setting: fade only, no wipe. */
+@media (prefers-reduced-motion: reduce) {
+  .settingsWordmarkWrap::after { display: none; }
+}
+
+html[data-motion-reduced="true"] .settingsWordmarkWrap::after,
+html[data-reduced-motion="true"] .settingsWordmarkWrap::after {
+  display: none;
 }
