@@ -111,8 +111,11 @@
     content.dataset.category = state.activeCategory;
 
     content.querySelectorAll(".trophyTab").forEach(btn => btn.addEventListener("click", () => {
-      state.activeCategory = btn.dataset.category;
+      const category = btn.dataset.category;
+      state.activeCategory = category;
       render();
+      const activeTab = [...document.querySelectorAll("#trophyRoomContent .trophyTab")].find(tab => tab.dataset.category === category);
+      if (activeTab) activeTab.focus();
     }));
     const backButton = document.getElementById("trophyRoomBack");
     backButton.addEventListener("click", () => document.dispatchEvent(new CustomEvent("trophy-room:intent", { detail:{ route:"back" } })));
