@@ -50,4 +50,21 @@
 - Phone managers — the references are desktop only; Final Winner introduces a portrait composition with Daniel at left 29%, top 1.5%, height 59% and Nik at left 71%, top 1%, height 60%, plus a 55% hero band. TRUTH.md explicitly requires a separate phone composition, Daniel left/Nik right, with the outcome leading and no bottom navigation.
 - Phone results/actions — no supplied mockup defines phone tabs or a pinned terminal action; code introduces Summary/Honours tabs, partial disclosure and a bottom action slot. TRUTH.md requires no scroll, compact supporting facts, completed surfaces without local hub buttons, and pending completion with CLOSE SHARED SHOWDOWN visible.
 
+### Code audit
+
+- PASS · Manager order — `final-winner.js registerManagerMarkers()` / `.managerPlateMarker[data-manager]`: Daniel uses the left FACE_BOX `318 141 472 335`, Nik the right `1138 130 1309 336`; `fixtures.json frames.*.presentation.managerOrder` is `["daniel","nik"]` in every frame.
+- PASS · Read-only contract facts — `final-winner.js renderResultPanel()` / `#panelSeasons`, `#panelMargin`, `#panelDanielContinental`, `#panelNikContinental`, league/cup/total trophy metrics: only `seasonsPlayed`, `margin` and the §4 trophy fields are rendered; excluded per-season and player statistics are not read.
+- PASS · Button truth — `final-winner.js renderActions()` / `#sharedTerminalCloseActions`: the dynamic allow-list contains only fixture strings `CLOSE SHARED SHOWDOWN` and `RETRY SAME TERMINAL CLOSE`; completed/read-state frames expose no invented action.
+- PASS · Empty/loading/unavailable honesty — `final-winner.js setMetricValue()` / result metric ids: absent values render `—` with `aria-label="Unavailable"`, never numeric zero; FW6–FW8 omit totals, winner, seasons and trophies in `fixtures.json`.
+- PASS · Partial honesty — `fixtures.json frames.FW9` plus `final-winner.js #finalWinnerPartialMessage` / `#finalWinnerPartialCoverage`: coverage is 1 of 2 and Nik domestic cup/total are omitted, while available final-result fields remain present.
+- PASS · Winner state truth — `fixtures.json frames.FW1–FW9` / `presentation.crown` and `winner`: draws and unconfirmed read states have no crown; ready winner frames preserve Daniel/Nik winner data and `completion-pending` is separately marked.
+- PASS · Accessible missing values — `final-winner.js setMetricValue()` / metric elements: missing visual em dashes receive the accessible name `Unavailable`; available values remove that override.
+- PASS · Accessible action names — `final-winner.js renderActions()` / generated `button.sd-btn`: native button text is the exact fixture action label, so the control has a matching accessible name without a conflicting aria-label.
+- PASS · Focus order — `final-winner.js renderActions()` / `#sharedTerminalCloseActions`: buttons are appended in fixture order and no positive `tabindex`, scripted focus jump or focus-order override is introduced.
+- PASS · Phone targets — `final-winner.css .phoneResultTab`, `.finalWinnerPartialTrigger`, `.sd-btn`: the phone pass retained minimum 44 px interactive targets; there are no text-entry controls, so the ≥16 px input-font rule is not applicable.
+- PASS · No PNG master — `final-winner.js mountStage()` / `ShowdownStage.mount`: the plate sources are `ENV_TR_PLATE_V1_1X.webp` and `ENV_TR_PLATE_V1_2X.webp`; the screen code does not load a PNG master.
+- PASS · No live data in images — `final-winner.js applyFrame()` / `setText()` and `setMetricValue()`: names/result copy, totals, status, seasons and trophy values are DOM text; image assets are presentation only.
+- FINDING · Runtime error copy bypasses fixtures — `final-winner.js fetch("fixtures.json").catch()` / `#finalWinnerMessage`: the catch path writes raw `error.message` into visible UI instead of the fixture-authored unavailable copy. This breaks the rule that changing visible words come from `fixtures.json` and can expose technical request text.
+- FINDING · Trophy summary labels bypass fixtures — `final-winner.js trophyLine()` / `#danielTrophies`, `#nikTrophies`: `Continental`, `League`, `Domestic cup`, `Total` and `unavailable` are hard-coded in JS rather than sourced from fixtures. Even if this line is assistive/supporting copy, it is visible-text logic outside the fixture authority and should be centralized.
+
 ## Fix list
