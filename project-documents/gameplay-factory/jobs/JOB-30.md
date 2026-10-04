@@ -2,7 +2,7 @@
 
 | Lane | Depends on | Code branch | PR into | Budget |
 | --- | --- | --- | --- | --- |
-| **work** (Sol 5.6 Work mode) | job 24 merged | `gameplay/job-30-v10-rules-settings` | `gameplay/recovery-v1` | 7 short steps |
+| **lead** (Claude helper in the lead thread; moved from Work mode, which stops for Continue every 10–20 s and drains the meter on 2026-10-04 after Team V's worker scorecard, V2G-014: screen builds pass first time far more often on Claude, which renders and looks). Codex reviews the PR | job 24 merged | `gameplay/job-30-v10-rules-settings` | `gameplay/recovery-v1` | one helper run, Sonnet 5.5 High |
 
 Read `jobs/G13_PART2_COMMON.md` first, then job 24's PR body for the loader API (`js/v10Screens.js`).
 
