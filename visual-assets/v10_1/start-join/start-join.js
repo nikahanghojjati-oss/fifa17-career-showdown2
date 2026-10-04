@@ -339,7 +339,7 @@
     if (frame.status === "partial") return "partial";
     if (frame.status === "unavailable") return "unavailable";
     if (frame.pairing?.state === "paired") return "paired";
-    if (frame.pairing?.state === "waiting-for-nik") return "waiting";
+    if (frame.pairing?.state === "waiting-for-nik" || frame.pairing?.state === "code-created") return "waiting";
     if (frame.status === "empty") return "empty";
     return "ready";
   }

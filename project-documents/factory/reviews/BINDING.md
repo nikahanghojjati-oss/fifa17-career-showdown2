@@ -305,6 +305,19 @@ Renames the screen js must follow once the frames carry G-11 shapes (JOB-219 doe
 
 Decision for JOB-216..218 (DEFAULT, to keep every screen rendering): the swap writes G-11 values into the existing preview keys and records each binding in the frame's `bind` map (frame path → G-11 path) so check_binding.py proves them; the renames above happen in the adapter, not in the preview fixtures.
 
+### Done in JOB-219 (Claude, 2026-10-04)
+
+- navbar.js: `SDNav.fromFixture(fixtures, cfg)` mounts the bar from a fixture's `nav` block; `?navLock=transfer-window|season-entry|setup` shows each locked state on any screen that mounts the bar. Locked tap: toast "Finish this step first", no navigation, every tab `aria-disabled` (checked by clicking at 1366x768 and 393x660 on Standings, Home and Transfer War).
+- navbar.css: the bar always takes taps (`pointer-events: auto`). Before, Standings' `.nav-reserve` (pointer-events: none, inherited) made the whole phone bottom bar dead.
+- start-join.js: G-11 `code-created` reads as the waiting state, like `waiting-for-nik`.
+- tr2/slice-02-plate/index.html: removed a stray literal "\n" that printed in the top-left corner.
+
+### Left for pass 2
+
+1. Home, Standings and Legacy mount the bar with a hard-coded nav object; switch them to `SDNav.fromFixture(fx, …)` after their fixtures load.
+2. Season Results, Final Winner, Rivalry Statistics, Career Statistics, Trophy Room, Start / Join, Rule Book and Settings do not load navbar.js (some draw their own static top row, Rivalry and Trophy Room show none on desktop). Season Results entry must mount it locked (`season-entry`); League and Club wheels locked (`setup`).
+3. Adapter renames 1-5 above (they live in the app adapter, not the preview js).
+
 ## Top-bar nav lock
 
 Contract fields:

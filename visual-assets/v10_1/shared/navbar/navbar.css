@@ -62,6 +62,8 @@
 
 /* ---------- phone (<= 900 px) ---------- */
 .sd-nav-bottom, .sd-nav-corner { display: none; }
+/* A host like .nav-reserve may set pointer-events: none (it is inherited); the bar itself always takes taps. */
+.sd-nav-bottom, .sd-nav-corner, .sd-nav-top { pointer-events: auto; }
 @media (max-width: 900px) {
   .sd-nav-top, .sd-nav-adopted { display: none !important; }
   [data-nav="hub"] .sd-nav-bottom {

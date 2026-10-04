@@ -1,5 +1,6 @@
 /* Showdown navigation bar · JOB-125/205. One shared component for every hub screen.
-   SDNav.mount({ active, locked, reason, routes, onNavigate, adopt }) — see README.md and NAV_CONTRACT.md. */
+   SDNav.mount({ active, locked, reason, routes, onNavigate, adopt }) or SDNav.fromFixture(fixtures, { routes, ... })
+   — see README.md and NAV_CONTRACT.md. */
 (function () {
   "use strict";
   var TABS = [
@@ -77,8 +78,16 @@
     if (b && roots.some(function (r) { return r.contains(b); })) { e.preventDefault(); go(b.dataset.navKey); }
   }
 
+  // Preview only: ?navLock=transfer-window|season-entry|setup shows that locked state on any screen.
+  var REASONS = ["transfer-window", "season-entry", "setup"];
+  function previewLock(nav) {
+    var m = /[?&]navLock=([a-z-]+)/.exec(location.search || "");
+    if (!m || REASONS.indexOf(m[1]) < 0) return nav;
+    return { active: nav.active, locked: true, reason: m[1] };
+  }
+
   function mount(cfg) {
-    cfg = cfg || {}; var nav = cfg.nav || cfg;
+    cfg = cfg || {}; var nav = previewLock(cfg.nav || cfg);
     state.active = nav.active || state.active; state.locked = !!nav.locked; state.reason = nav.locked ? (nav.reason || null) : null;
     state.routes = cfg.routes || state.routes; state.onNavigate = cfg.onNavigate || state.onNavigate;
     if (!roots.length) {
@@ -93,7 +102,13 @@
     paint();
     return api;
   }
+  // Team G binding (JOB-219): a screen passes its fixtures.json; `nav` there is
+  // {active, locked, reason} from G-11 nav.json (DATA_CONTRACT_V1 §10).
+  function fromFixture(fx, cfg) {
+    var nav = (fx && fx.nav) || {};
+    return mount(Object.assign({}, cfg || {}, { nav: { active: nav.active, locked: !!nav.locked, reason: nav.reason || null } }));
+  }
   function set(nav) { return mount({ nav: Object.assign({ active: state.active, locked: state.locked, reason: state.reason }, nav) }); }
-  var api = { mount: mount, set: set, state: function () { return Object.assign({}, state); }, LOCK_TEXT: LOCK_TEXT, TABS: TABS.map(function (t) { return t.key; }) };
+  var api = { mount: mount, set: set, fromFixture: fromFixture, REASONS: REASONS, state: function () { return Object.assign({}, state); }, LOCK_TEXT: LOCK_TEXT, TABS: TABS.map(function (t) { return t.key; }) };
   window.SDNav = api;
 })();
