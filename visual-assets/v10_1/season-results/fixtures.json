@@ -72,7 +72,9 @@
       "totalsTemplate": "{DANIEL}: {DANIEL_TOTAL} · {NIK}: {NIK_TOTAL}",
       "breakdownTemplate": "Champions League {D_CL}–{N_CL} · League Title {D_LEAGUE}–{N_LEAGUE} · Domestic Cup {D_CUP}–{N_CUP} · Performance Bonus {D_PERFORMANCE}–{N_PERFORMANCE} · Awards Bonus {D_AWARDS}–{N_AWARDS}",
       "draw": "Season result: Draw",
-      "winnerTemplate": "Season winner: {MANAGER}"
+      "winnerTemplate": "Season winner: {MANAGER}",
+      "reconciled": "Authoritative scoring reconciled.",
+      "scoreLabel": "CANONICAL SCORE"
     },
     "errors": {
       "incompleteTemplate": "Enter league position, league points and league goals for {MANAGER}.",
@@ -107,7 +109,8 @@
     "scoringRules": "Scoring: Champions League +5, league title +3, domestic cup +1. 100 league points and/or 100 league goals share one +1 performance bonus. Top Scorer and/or Top Assist share one +1 awards bonus. Maximum season score: 11.",
     "interimLabel": "Current Showdown only. Career history is not yet available.",
     "topBarLockSource": "DATA_CONTRACT_V1 §10 (A, G-6); not on main yet",
-    "topBarLock": "Finish this step first"
+    "topBarLock": "Finish this step first",
+    "sealedWaitingTemplate": "Waiting for {MANAGER}"
   },
   "ids": {
     "screen": "seasonEntry",
