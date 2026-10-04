@@ -185,7 +185,7 @@
     if(!request){
       ptcClear();
       // After a reload the durable rivalry binding is only known once Connected Rivalry initializes; its state-change event wakes this module again.
-      const api=ptcRivalryApi();if(!rivalryWakeRequested&&ptcShowdown()?.sharedJourney?.mode==="shared"&&api&&typeof api.initialize==="function"&&api.getState?.()?.initialized!==true){rivalryWakeRequested=true;void Promise.resolve().then(()=>api.initialize()).catch(()=>{});}
+      const api=ptcRivalryApi(),rivalryState=api?.getState?.();if(!rivalryWakeRequested&&ptcShowdown()?.sharedJourney?.mode==="shared"&&api&&typeof api.initialize==="function"&&(rivalryState?.initialized!==true||(rivalryState.attached!==true&&rivalryState.status==="unavailable"))){rivalryWakeRequested=true;void Promise.resolve().then(()=>api.initialize()).catch(()=>{}).finally(()=>{rivalryWakeRequested=false;});}
       return;
     }
     if(stateContextKey&&stateContextKey!==request.key)ptcClear();

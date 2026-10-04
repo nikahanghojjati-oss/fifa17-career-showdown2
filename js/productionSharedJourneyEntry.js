@@ -308,7 +308,8 @@
     if(!pending())return false;
     let pairState=null;
     try{if(await settledIdentity()){const known=root.CareerModePersistentNikDanielPair?.getState?.();pairState=known&&known.initialized===true&&known.busy!==true&&(known.rivalryId||known.closedRivalryId)?known:await currentPairStateForFreshStart();}}catch(_error){pairState=null;}
-    if(pairAlreadyEstablished(pairState))return false;
+    // Only a positively observed pre-pair state reopens GET READY; unresolved authority (offline, timeout, error) keeps it closed.
+    if(!pairState||!["unpaired","waiting"].includes(pairState.status)||pairAlreadyEstablished(pairState))return false;
     if(!pending())return false;
     return openPanel();
   }

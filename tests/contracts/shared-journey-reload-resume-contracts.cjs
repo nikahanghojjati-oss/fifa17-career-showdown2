@@ -133,6 +133,17 @@ function multiSandbox({accepted,total=3,terminal=false}){
     assert.equal(t.overlayOpen(),true,"A4 a pre-pair shell still re-opens GET READY after reload");
     console.log("ok A4 pre-pair shell still re-opens GET READY");
   }
+  for(const unresolved of [{status:"unavailable",rivalryId:null,connectionState:null},{status:"error",rivalryId:null,connectionState:null}]){
+    const t=bootEntry({pairState:unresolved});
+    t.api.install();await settle();
+    assert.equal(t.overlayOpen(),false,`A6 unresolved pair authority (${unresolved.status}) keeps GET READY closed after reload`);
+  }
+  {
+    const t=bootEntry({pairState:null});
+    t.api.install();await settle();
+    assert.equal(t.overlayOpen(),false,"A6 a failed pair lookup keeps GET READY closed after reload");
+  }
+  console.log("ok A6 unresolved pair authority never reopens GET READY");
   {
     const t=bootEntry({pending:false,pairState:{status:"unpaired"}});
     t.api.install();await settle();
