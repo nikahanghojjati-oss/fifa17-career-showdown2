@@ -22,6 +22,10 @@ const Final=require("../../js/sharedFinalReconciliation.js");
 const Terminal=require("../../js/sharedTerminalClose.js");
 const TerminalProvider=require("../../js/sparkTerminalClose.js");
 const Sessions=require("../../js/sparkPrivateSession.js");
+const StandardSessions=require("../../js/sparkStandardAuthPrivateSession.js");
+const RemoteJoining=require("../../js/sparkRemoteJoining.js");
+const Reconnect=require("../../js/sharedJourneyReconnect.js");
+const MultiProtocol=require("../../js/sharedMultiSeasonProgression.js");
 const Pairing=require("../../js/sparkPrivatePairing.js");
 const PersistentPair=require("../../js/persistentNikDanielPair.js");
 const CompletedReader=require("../../js/sparkCompletedShowdownReader.js");
@@ -33,7 +37,11 @@ assert.ok([1,3,5,10].includes(TOTAL_SEASONS),`Unsupported journey length: ${TOTA
 
 const A="acct_game_a",B="acct_game_b",C="acct_game_c";
 const R1=`pair_${"1".repeat(64)}`,R2=`pair_${"2".repeat(64)}`,R3=`pair_${"3".repeat(64)}`;
-const S1=`session_${"b".repeat(64)}`,S2=`session_${"c".repeat(64)}`,S3=`session_${"d".repeat(64)}`;
+const S1=`session_${"b".repeat(64)}`,S2=`session_${"c".repeat(64)}`,S3=`session_${"d".repeat(64)}`,S4=`session_${"e".repeat(64)}`,S4_STRICT=`session_${"f".repeat(64)}`;
+// Job 31: a long (5 or 10 season) game outlives the 4-hour private session. Mid-journey, inside a transfer window, the
+// first session expires for real, Daniel hosts a fresh one with the production host lifetime and Nik joins it; the game
+// then carries on to the final season and Terminal Close on the fresh session without a reset or a redraw.
+const ROTATE_SEASON=TOTAL_SEASONS>=3?Math.floor(TOTAL_SEASONS/2)+1:null;
 const DA=`device_${"a".repeat(32)}`,DB=`device_${"b".repeat(32)}`,DC=`device_${"c".repeat(32)}`;
 const PA=`profile_${"1".repeat(24)}`,PB=`profile_${"2".repeat(24)}`;
 const SA=`save_${"3".repeat(24)}`,SB=`save_${"4".repeat(24)}`;
@@ -217,11 +225,49 @@ async function runSecondShowdownAndAbandon(env,main){
   await assertCompletedShowdowns(env,{[R1]:{status:"completed",totals:main.finalA.managerTotals,seasonsPlayed:TOTAL_SEASONS},[R2]:{status:"completed",totals:{playerOne:5,playerTwo:0},seasonsPlayed:1},[R3]:{status:"abandoned"}},"G-8 after Showdown 3 abandon",{indexed:[R2,R3]});
 }
 
+function sessionOptions(db,uid,deviceId,sessionId,nowEpochMs,ttlMs){const value={user:{uid},firestore:db,firebaseSdk:sdk(),deviceId,rivalryId:R1,sessionId,nowEpochMs,cryptoImpl:crypto.webcrypto};if(ttlMs!==undefined)value.ttlMs=ttlMs;return value;}
+function remoteFor(uid,deviceId,sessionId,expiresAtEpochMs){return {sessionId,rivalryId:R1,accountId:uid,deviceId,sessionState:"active",pendingAction:null,expiresAtEpochMs};}
+async function journeyAuthority(ctx,t,sessionId){const setup=await Setup.read(ctx(t));assert.equal(setup.ok,true,JSON.stringify(setup));const multi=await Multi.read(ctx(t));assert.equal(multi.ok,true,JSON.stringify(multi));return {setup:setup.state,progression:multi.state};}
+
+// Job 31 rotation: called after Daniel locked his guesses in ROTATE_SEASON, so one role document carries the old session.
+async function expireAndRejoin(env,{dbA,dbB,a,season}){
+  const protocol=Reconnect.createProtocol({multiSeasonModule:MultiProtocol});
+  const authorityA={rivalryId:R1,accountId:A,deviceId:DA,managerRole:"playerOne"};
+  const before=await journeyAuthority(a,season*10000+410,S1);
+  const oldExpiry=(await assertSucceeds(getDoc(doc(dbA,"rivalries",R1,"sessions",S1)))).data().data.expiresAt.toMillis();
+  let observed=protocol.observe({authority:authorityA,previous:null,nowEpochMs:Date.now(),networkOnline:true,remote:remoteFor(A,DA,S1,oldExpiry),...before});
+  assert.equal(observed.phase,"ACTIVE_RECOVERED");assert.equal(observed.acceptedSeasons,season-1);assert.equal(observed.activeSeason,season);
+  // Four hours pass: the stored session reaches its expiry boundary (time travel is seeded; the expiry write below is a real Rules check).
+  const realNow=Date.now();
+  await env.withSecurityRulesDisabled(async context=>{const lastActivityAt=Timestamp.fromMillis(realNow-60000);await setDoc(doc(context.firestore(),"rivalries",R1,"sessions",S1),await Sessions.buildEnvelope({sessionId:S1,revision:1,parentRevision:0,priorContentHash:`sha256:${"9".repeat(64)}`,updatedAt:lastActivityAt,accountId:A,deviceId:DA,data:{rivalryId:R1,state:"active",hostAccountId:A,memberAccountIds:[A,B],createdAt:Timestamp.fromMillis(realNow-4*60*60*1000-120000),expiresAt:Timestamp.fromMillis(realNow-1000),lastActivityAt,revokedAt:null},cryptoImpl:crypto.webcrypto}));});
+  observed=protocol.observe({authority:authorityA,previous:observed,nowEpochMs:Date.now(),networkOnline:true,remote:remoteFor(A,DA,S1,realNow-1000)});
+  assert.equal(observed.phase,"FRESH_SESSION_REQUIRED","an expired session must ask for a fresh one");assert.equal(observed.resumable,true,"the verified journey stays resumable across the expiry");assert.equal(observed.activeAuthorization,false);
+  const expired=await StandardSessions.expireSession(sessionOptions(dbB,B,DB,S1,Date.now()));
+  assert.equal(expired.ok,true,`Nik records the 4-hour expiry: ${JSON.stringify(expired)}`);assert.equal(expired.state,"expired");
+  const stale=await Transfer.lockGuesses({...base(dbB,B,DB,R1,S1,Date.now()),seasonNumber:season,operationId:op("transfer_op_",season*10+8),baseRevision:4,guesses:[{slot:1,type:"league",valueId:"spain-primera-division"}]});
+  assert.equal(stale.ok,false,"no shared write may use the expired session");
+  // Daniel re-hosts. A browser clock a few seconds fast must not break HOST: the full 4 hours is refused by the Rules, the production host lifetime is not.
+  const strict=await StandardSessions.openSession(sessionOptions(dbA,A,DA,S4_STRICT,Date.now()+20000,4*60*60*1000));
+  assert.equal(strict.ok,false,"Rules boundary: a 4h lifetime from a clock 20s fast is refused");assert.equal(strict.code,"permission-denied",JSON.stringify(strict));
+  assert.ok(RemoteJoining.hostSessionTtlMs<4*60*60*1000&&RemoteJoining.hostSessionTtlMs>=4*60*60*1000-5*60*1000,"the production host lifetime keeps a small clock margin under 4 hours");
+  const hosted=await StandardSessions.openSession(sessionOptions(dbA,A,DA,S4,Date.now()+20000,RemoteJoining.hostSessionTtlMs));
+  assert.equal(hosted.ok,true,`Daniel hosts a fresh session from a slightly fast clock: ${JSON.stringify(hosted)}`);assert.equal(hosted.state,"open");
+  const joined=await StandardSessions.joinSession(sessionOptions(dbB,B,DB,S4,Date.now()));
+  assert.equal(joined.ok,true,`Nik joins the fresh session: ${JSON.stringify(joined)}`);assert.equal(joined.state,"active");
+  const hostView=await StandardSessions.readSession(sessionOptions(dbA,A,DA,S4,Date.now()));
+  assert.equal(hostView.ok,true,JSON.stringify(hostView));assert.equal(hostView.state,"active","the host reads the peer's join");
+  const fresh=t=>base(dbA,A,DA,R1,S4,Date.now()+t);
+  const after=await journeyAuthority(fresh,0,S4);
+  observed=protocol.observe({authority:authorityA,previous:observed,nowEpochMs:Date.now(),networkOnline:true,remote:remoteFor(A,DA,S4,hosted.expiresAtEpochMs),...after});
+  assert.equal(observed.phase,"ACTIVE_RECOVERED","the fresh session recovers the same journey");assert.equal(observed.sessionChanged,true);
+  assert.equal(observed.acceptedSeasons,season-1,"no accepted season is lost or replayed");assert.equal(observed.activeSeason,season);assert.deepEqual(after.setup.clubs,before.setup.clubs,"no league or club redraw");assert.equal(after.setup.leagueId,before.setup.leagueId);
+}
+
 async function playMainJourney(env){
   const now=Date.now();
   await seedAccountsAndMainRivalry(env,now);
   const dbA=env.authenticatedContext(A).firestore(),dbB=env.authenticatedContext(B).firestore();
-  const a=t=>base(dbA,A,DA,R1,S1,now+t),b=t=>base(dbB,B,DB,R1,S1,now+t);
+  let sid=S1;const a=t=>base(dbA,A,DA,R1,sid,now+t),b=t=>base(dbB,B,DB,R1,sid,now+t);
 
   for(const [type,baseRevision,n,extra] of [["open",0,1,{}],["commit-league",1,2,{}],["commit-clubs",2,3,{}],["commit-length",3,4,{totalSeasons:TOTAL_SEASONS}]]){const result=await Setup.mutate({...a(n*10),type,baseRevision,operationId:op("setup_op_",n),...extra});assert.equal(result.ok,true,`Setup ${type} failed: ${JSON.stringify(result)}`);}
   let setup=await Setup.mutate({...a(50),type:"confirm",baseRevision:4,operationId:op("setup_op_",5)});assert.equal(setup.ok,true,JSON.stringify(setup));
@@ -234,6 +280,7 @@ async function playMainJourney(env){
     transfer=await Transfer.requestEndWindow({...a(offset+200),seasonNumber:season,operationId:op("transfer_op_",season*10+2),baseRevision:1});assert.equal(transfer.ok,true,JSON.stringify(transfer));
     transfer=await Transfer.requestEndWindow({...b(offset+300),seasonNumber:season,operationId:op("transfer_op_",season*10+3),baseRevision:2});assert.equal(transfer.ok,true,JSON.stringify(transfer));assert.equal(transfer.state.phase,"GUESS_ENTRY");
     transfer=await Transfer.lockGuesses({...a(offset+400),seasonNumber:season,operationId:op("transfer_op_",season*10+4),baseRevision:3,guesses:[{slot:1,type:"league",valueId:"england-premier-league"},{slot:2,type:"nationality",valueId:"brazil"},{slot:3,type:"league",valueId:"germany-bundesliga"}]});assert.equal(transfer.ok,true,JSON.stringify(transfer));await assertFails(getDoc(doc(dbB,"rivalries",R1,"transferChallenges",`season_${season}`,"roles","playerOne")),`S${season}: Nik must not read Daniel unfinished transfer inputs`);
+    if(season===ROTATE_SEASON){await expireAndRejoin(env,{dbA,dbB,a,season});sid=S4;}
     transfer=await Transfer.lockGuesses({...b(offset+500),seasonNumber:season,operationId:op("transfer_op_",season*10+5),baseRevision:4,guesses:[{slot:1,type:"league",valueId:"spain-primera-division"},{slot:2,type:"nationality",valueId:"germany"},{slot:3,type:"nationality",valueId:"albania"}]});assert.equal(transfer.ok,true,JSON.stringify(transfer));assert.equal(transfer.state.phase,"SIGNING_ENTRY");await assertFails(getDoc(doc(dbA,"rivalries",R1,"transferChallenges",`season_${season}`,"roles","playerTwo")),`S${season}: Daniel must not read Nik unfinished transfer inputs`);
     transfer=await Transfer.lockSignings({...a(offset+600),seasonNumber:season,operationId:op("transfer_op_",season*10+6),baseRevision:5,signings:[{slot:1,name:`Daniel S${season} A`,leagueId:"spain-primera-division",nationalityId:"england"},{slot:2,name:`Daniel S${season} B`,leagueId:"australia-a-league",nationalityId:"albania"},{slot:3,name:`Daniel S${season} C`,leagueId:"germany-bundesliga",nationalityId:"france"}]});assert.equal(transfer.ok,true,JSON.stringify(transfer));
     transfer=await Transfer.lockSignings({...b(offset+700),seasonNumber:season,operationId:op("transfer_op_",season*10+7),baseRevision:6,signings:[{slot:1,name:`Nik S${season} A`,leagueId:"england-premier-league",nationalityId:"brazil"},{slot:2,name:`Nik S${season} B`,leagueId:"italy-serie-a",nationalityId:"germany"},{slot:3,name:`Nik S${season} C`,leagueId:"france-ligue-1",nationalityId:"albania"}]});assert.equal(transfer.ok,true,JSON.stringify(transfer));assert.equal(transfer.state.phase,"COMPLETED");await assertSucceeds(getDoc(doc(dbB,"rivalries",R1,"transferChallenges",`season_${season}`,"roles","playerOne")));await assertSucceeds(getDoc(doc(dbA,"rivalries",R1,"transferChallenges",`season_${season}`,"roles","playerTwo")));
@@ -286,10 +333,12 @@ async function playMainJourney(env){
   const finalA=Final.reconcile({sharedActive:true,multiSeason:lastMulti,history:lastHistory,localReconciliation:localAuthority("playerOne")});
   const finalB=Final.reconcile({sharedActive:true,multiSeason:lastMulti,history:lastHistory,localReconciliation:localAuthority("playerTwo")});
   assert.deepEqual(finalA,finalB,"Both managers must derive the same final Showdown");assert.deepEqual(finalA.managerTotals,totals);assert.equal(finalA.phase,"FINAL_SEASON_RECONCILED");
-  const intent=Terminal.prepare(finalA,{sessionId:S1});
-  const closed=await TerminalProvider.close({...a(TOTAL_SEASONS*10000+2000),intent});assert.equal(closed.ok,true,JSON.stringify(closed));assert.equal(closed.rivalryState,"closed");assert.equal(closed.sessionState,"closed");
+  const intent=Terminal.prepare(finalA,{sessionId:sid});
+  // The journey's synthetic clock (now + per-step offsets) runs ~100s ahead after 10 seasons on a fast runner; the session
+  // close stamps lastActivityAt from nowEpochMs and the Rules allow at most request.time + 1m, so close on the real clock.
+  const closed=await TerminalProvider.close({...a(TOTAL_SEASONS*10000+2000),nowEpochMs:Date.now(),intent});assert.equal(closed.ok,true,JSON.stringify(closed));assert.equal(closed.rivalryState,"closed");assert.equal(closed.sessionState,"closed");
   const rootA=await assertSucceeds(getDoc(doc(dbA,"rivalries",R1))),rootB=await assertSucceeds(getDoc(doc(dbB,"rivalries",R1)));assert.deepEqual(rootA.data().data.terminalClose,rootB.data().data.terminalClose);assert.equal(rootA.data().data.connectionState,"closed");await assertStrangerDenied(env,dbA,dbB,"after Terminal Close");
   return {now,dbA,dbB,finalA};
 }
 
-(async()=>{const env=await initializeTestEnvironment({projectId:PROJECT_ID,firestore:{rules:RULES}});try{await env.clearFirestore();const main=await playMainJourney(env);await runSecondShowdownAndAbandon(env,main);process.stdout.write(`PASS two-manager journey Sections A-G (${TOTAL_SEASONS} season${TOTAL_SEASONS===1?"":"s"} main): main journey, stranger denial, privacy, idempotent retry, simultaneous taps, second Showdown, completed-only reads of closed Showdowns, and persistent-provider abandon all proved.\n`);}finally{await env.cleanup();}})().catch(error=>{console.error(error.stack||error);process.exit(1);});
+(async()=>{const env=await initializeTestEnvironment({projectId:PROJECT_ID,firestore:{rules:RULES}});try{await env.clearFirestore();const main=await playMainJourney(env);await runSecondShowdownAndAbandon(env,main);process.stdout.write(`PASS two-manager journey Sections A-G (${TOTAL_SEASONS} season${TOTAL_SEASONS===1?"":"s"} main${ROTATE_SEASON?`, session expired and re-joined in season ${ROTATE_SEASON}`:""}): main journey, stranger denial, privacy, idempotent retry, simultaneous taps, second Showdown, completed-only reads of closed Showdowns, and persistent-provider abandon all proved.\n`);}finally{await env.cleanup();}})().catch(error=>{console.error(error.stack||error);process.exit(1);});
