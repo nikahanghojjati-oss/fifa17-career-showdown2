@@ -9,7 +9,7 @@
     { key: "championsLeague", category: "CHAMPIONS LEAGUE", asset: "../shared/trophies/TRO_CONTINENTAL_V1_512.webp", value: f => f.managers && ({daniel:f.managers.daniel.championsLeagues, nik:f.managers.nik.championsLeagues}) }
   ];
 
-  const state = { fixtures:null, frame:null, frameKey:"TR1", map:null, activeCategory:"ALL", stage:null, spotlightLit:false, heroSettled:false, heroGlintPlayed:false, shelfRevealed:false };
+  const state = { fixtures:null, frame:null, frameKey:"TR1", map:null, activeCategory:"ALL", stage:null, spotlightLit:false, heroSettled:false, heroGlintPlayed:false, shelfRevealed:false, countsRevealed:false };
   const qs = new URLSearchParams(location.search);
   state.frameKey = qs.get("frame") || "TR1";
 
@@ -25,7 +25,9 @@
     cardFlipDelayMs:560,
     cardFlipMs:320,
     cardStaggerMs:60,
-    cardFlipEase:"cubic-bezier(.16,1,.3,1)"
+    cardFlipEase:"cubic-bezier(.16,1,.3,1)",
+    countUpDelayMs:760,
+    countUpMs:300
   });
 
   const esc = value => String(value == null ? "" : value).replace(/[&<>\"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
@@ -83,9 +85,13 @@
     const empty = counts && counts.daniel === 0 && counts.nik === 0;
     const dName = frame.managers?.daniel?.displayName || "Daniel";
     const nName = frame.managers?.nik?.displayName || "Nik";
-    const left = counts ? (counts.daniel === 0 ? "—" : `×${counts.daniel}`) : "—";
-    const right = counts ? (counts.nik === 0 ? "—" : `×${counts.nik}`) : "—";
-    return `<article class="trophyCard ${empty ? "is-unwon" : ""} ${state.shelfRevealed ? "tr-card-revealed" : ""}" data-trophy="${trophy.key}"><div class="trophyCardGlow"></div>${picture(trophy.asset, strings.trophyTypes[trophy.key], "trophyCardPicture")}<h3>${esc(strings.trophyTypes[trophy.key])}</h3><div class="managerCounts"><div data-side="daniel"><span>${esc(dName)}</span><strong>${esc(left)}</strong></div><div data-side="nik"><span>${esc(nName)}</span><strong>${esc(right)}</strong></div></div>${empty ? `<p class="notWonYet">${esc(strings.notWonYet)}</p>` : ""}</article>`;
+    const leftCount = counts ? Number(counts.daniel) || 0 : null;
+    const rightCount = counts ? Number(counts.nik) || 0 : null;
+    const left = leftCount == null ? "—" : (leftCount === 0 ? "—" : String(state.countsRevealed ? leftCount : 0));
+    const right = rightCount == null ? "—" : (rightCount === 0 ? "—" : String(state.countsRevealed ? rightCount : 0));
+    const leftAttr = leftCount > 0 ? ` class="has-count" data-count-value="${leftCount}"` : "";
+    const rightAttr = rightCount > 0 ? ` class="has-count" data-count-value="${rightCount}"` : "";
+    return `<article class="trophyCard ${empty ? "is-unwon" : ""} ${state.shelfRevealed ? "tr-card-revealed" : ""}" data-trophy="${trophy.key}"><div class="trophyCardGlow"></div>${picture(trophy.asset, strings.trophyTypes[trophy.key], "trophyCardPicture")}<h3>${esc(strings.trophyTypes[trophy.key])}</h3><div class="managerCounts"><div data-side="daniel"><span>${esc(dName)}</span><strong${leftAttr}>${esc(left)}</strong></div><div data-side="nik"><span>${esc(nName)}</span><strong${rightAttr}>${esc(right)}</strong></div></div>${empty ? `<p class="notWonYet">${esc(strings.notWonYet)}</p>` : ""}</article>`;
   }
 
   function recordRibbon(strings, frame) {
@@ -161,6 +167,16 @@
     state.shelfRevealed = true;
   }
 
+  function playCountUps(root) {
+    if (state.countsRevealed || typeof window.sdCountUp !== "function") return;
+    const counts = [...root.querySelectorAll(".managerCounts strong[data-count-value]")];
+    if (!counts.length) return;
+    state.countsRevealed = true;
+    window.setTimeout(() => {
+      counts.forEach(el => window.sdCountUp(el, Number(el.dataset.countValue), TR_MOTION.countUpMs));
+    }, TR_MOTION.countUpDelayMs);
+  }
+
   function render() {
     const frame = state.frame;
     const strings = state.fixtures.strings;
@@ -203,6 +219,7 @@
     playSpotlightSnap(root);
     playHeroTrophyMoment(root);
     playShelfCardFlip(root);
+    playCountUps(root);
     document.documentElement.dataset.trophyReady = "1";
     window.__trophyRoomReady = true;
     window.__trophyRoomFrame = state.frame;
