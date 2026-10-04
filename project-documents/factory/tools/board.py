@@ -183,50 +183,142 @@ def meter_svg(d, t, ov):
 <text x="{W // 2}" y="{y + 46}" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="14" fill="#c8cdd6">{ov} % of all work in progress or done</text>
 </svg>
 """
+# ---- v2 (2026-10-04): Now / Next / Then, lanes, ETA ----
+import statistics
 known = {j["number"] for j in vjobs}
 open(os.path.join(F, "board-meter.svg"), "w").write(meter_svg(done, len(vjobs), overall))
 lc = last_change()
-P = ["# Showdown Factory board", "",
+now_ts = datetime.datetime.now(datetime.timezone.utc).timestamp()
+
+# Lanes file (hand-edited): where to type, next reset (Eastern), notes. Missing file or field = "unknown".
+try:
+    LANES = json.load(open(os.path.join(F, "LANES.json")))
+except Exception:
+    LANES = {"lanes": [], "assumptions": {}}
+LK = {l["key"]: l for l in LANES.get("lanes", [])}
+ASSUME = LANES.get("assumptions", {})
+def reset_text(key):
+    r = (LK.get(key) or {}).get("next_reset")
+    if not r:
+        return "unknown"
+    try:
+        t = datetime.datetime.strptime(r, "%Y-%m-%d %H:%M").replace(tzinfo=ET or datetime.timezone.utc).timestamp()
+    except Exception:
+        return "unknown"
+    return eastern(t) + (" (passed, update LANES.json)" if t < now_ts else "")
+
+def owner(n):
+    j = next(x for x in jobs if x["number"] == n)
+    s = info[n][0].upper()
+    if j.get("lane") == "codex": return "codex"
+    if j.get("lane") == IMG: return "image"
+    if j.get("lane") == "work": return "work"
+    if "CLAUDE" in s: return "claude"
+    if "ASTRA" in s or "BUNDLE" in s: return "astra"
+    return "chat"
+def lane_cmd(n):
+    k = owner(n)
+    return {"chat": "type the number in a new chat in project Showdown visual", "codex": "Codex: paste the job file",
+            "image": "ticket in a ChatGPT Temporary Chat", "work": "Work mode (Use Work)",
+            "claude": "Claude is on it, nothing to type", "astra": "Astra bundle prompt (handoffs/C2W-*.md)"}[k]
+title = {j["number"]: j["title"] for j in jobs}
+PART = re.compile(r" \(part (\d+) of (\d+)\)")
+def short(n):
+    t = PART.sub(lambda m: f" ({m.group(1)}/{m.group(2)})", title[n])
+    return f"**{n}** {t}"
+
+# Finish times of done jobs (status "Updated:" line, UTC) -> minutes per chain step.
+def updated(n):
+    p = os.path.join(F, "status", f"JOB-{n:03d}.md")
+    if not os.path.exists(p): return None
+    m = re.search(r"^Updated:\s*(\d{4}-\d\d-\d\d)(?: (\d\d):(\d\d))?", open(p).read(), re.M)
+    if not m or not m.group(2): return None
+    return datetime.datetime.strptime(f"{m.group(1)} {m.group(2)}:{m.group(3)}", "%Y-%m-%d %H:%M").replace(tzinfo=datetime.timezone.utc).timestamp()
+upd = {j["number"]: updated(j["number"]) for j in jobs if info[j["number"]][0] in FINISHED}
+steps = []
+for j in vjobs:
+    n = j["number"]; t = upd.get(n)
+    if not t or t < now_ts - 72 * 3600: continue
+    dts = [upd[d] for d in j["depends_on"] if upd.get(d)]
+    if not dts: continue
+    m = (t - max(dts)) / 60
+    if 1 <= m <= 600: steps.append(m)
+med = statistics.median(steps) if len(steps) >= 5 else None
+dur = lambda n: ASSUME.get("codex_minutes_per_job", 45) if owner(n) == "codex" else (ASSUME.get("claude_minutes_per_job") or med or 30)
+byn = {j["number"]: j for j in jobs}
+memo = {}
+def finish(n):  # minutes until job n finishes if every step runs back to back
+    if info[n][0] in FINISHED: return 0
+    if n not in memo:
+        memo[n] = dur(n) + max([finish(d) for d in byn[n]["depends_on"] if d in byn] or [0])
+    return memo[n]
+left = [j["number"] for j in vjobs if info[j["number"]][0] not in FINISHED]
+eta_min = max([finish(n) for n in left] or [0])
+chain = max(left, key=finish) if left else None
+def hm(m):
+    m = int(round(m)); return f"{m // 60} h {m % 60:02d} min" if m >= 60 else f"{m} min"
+if not left:
+    eta_line = "🏁 Every job is finished."
+else:
+    eta_line = (f"⏱ **Estimated finish: {eastern(now_ts + eta_min * 60)}** (about {hm(eta_min)} from now, if work never pauses)")
+eta_note = (f"_Estimate only. Method: the longest chain of jobs still to do ({len([n for n in left])} left) × the median real time per step "
+            f"({round(med) if med else 'unknown, assumed 30'} min, from {len(steps)} jobs finished in the last 3 days). Codex job assumed {ASSUME.get('codex_minutes_per_job', 45)} min. "
+            "It ignores usage limits and resets, so it can only slip, and it does not include Claude's quality check or Nik's own approval._")
+
+ph = [n for n in left if info[n][0].startswith("IN PROGRESS")]
+ph_run = [n for n in ph if n in working]
+nowl = []
+for n in ph:
+    st, k, tot = info[n]
+    nowl.append(f"- {short(n)} · {st.replace('IN PROGRESS · ', '').title() if '·' in st else 'In progress'} · step {k}/{tot} · {lane_cmd(n)}")
+nextl = []
+for n in resumable: nextl.append(f"- {short(n)} · **{'fix' if fixing(n) else 'resume'}** · {lane_cmd(n)}")
+for n in startable + work_now + img_now: nextl.append(f"- {short(n)} · {lane_cmd(n)}")
+# Then = not-ready jobs whose only missing dependencies are in progress or next (the next link of each chain).
+active = set(ph) | set(startable) | set(work_now) | set(img_now) | set(resumable)
+thenl = []
+for n in left:
+    if n in active or info[n][0] != "NOT STARTED": continue
+    miss = [d for d in byn[n]["depends_on"] if info[d][0] not in FINISHED]
+    if miss and all(d in active for d in miss):
+        thenl.append(f"- {short(n)} · after {', '.join(map(str, miss))} · {lane_cmd(n)}")
+def cap(l, k=6): return l[:k] + ([f"- …and {len(l) - k} more"] if len(l) > k else [])
+
+P = ["# 🏭 Showdown Factory board", "",
      f"**{done} of {len(vjobs)} jobs done and checked · {overall} %** · updated {eastern(lc) if lc else 'now'}", "",
-     "✅ **Quality check:** a job counts as done only after Claude checks it against the quality bar (average 4.2 or more, nothing under 3, hard gates pass). " + (f"Average score {avg_score} over {len(scored)} scored jobs. " if scored else "") + (f"🔍 Waiting for Claude's check: {', '.join(map(str, awaiting))}. " if awaiting else "🔍 Nothing waiting for a check. ") + (f"🔧 Sent back with a fix list: {', '.join(str(n) for n in resumable if fixing(n))}." if any(fixing(n) for n in resumable) else ""), "",
      '<img src="board-meter.svg" alt="Football progress meter" width="640">', "",
-     "**Where to run:** 🟡 **project job** = new chat in the ChatGPT project \"Showdown visual\", type the number; one number is one turn (no Continue), and a job in parts shows its later parts only when the earlier part is done. 🟣 **image job** = its ticket in a ChatGPT **Temporary Chat** outside any project, then drop the picture in Claude's factory thread.", "",
-     f"🟡 **Type next:** {', '.join([f'{n} (fix)' if fixing(n) else f'{n} (resume)' for n in resumable] + list(map(str, startable))) or '-'}" + (f" · then {', '.join(map(str, later))}" if later else ""), "",
-     f"🟣 **Image next:** {', '.join(map(str, img_now)) or '-'}" + (f" · then {', '.join(map(str, img_later))}" if img_later else "") + (f" · tickets not written yet: {', '.join(map(str, img_noticket))}" if img_noticket else ""), "",
-     f"**Working:** {', '.join(map(str, working)) or '-'} · **Blocked:** {', '.join(map(str, blocked)) or '-'}", "",
-     "## Screens", "", "```"]
+     eta_line, "", "## 🔴 Now", ""] + (nowl or ["- Nothing running."]) + ["", "## 🟢 Next (start these)", ""] + (cap(nextl) or ["- Nothing ready right now."]) + ["", "## ⚪ Then", ""] + (cap(thenl) or ["- Nothing queued."]) + [""]
+if blocked or waiting or team_g or awaiting:
+    P += ["## ⚠️ Needs attention", ""]
+    if blocked: P.append(f"- Blocked: {', '.join(map(str, blocked))}")
+    for j in waiting: P.append(f"- Waiting on Nik, job {j['number']}: {j['waits_on_nik']}")
+    if team_g: P.append(f"- Waiting on Team G: {', '.join(str(j['number']) for j in team_g)}")
+    if awaiting: P.append(f"- Waiting for Claude's check: {', '.join(map(str, awaiting))}")
+    P.append("")
+P += ["## 🧰 Where to type and when it resets", "", "| Tool | Where | Resets (Eastern) | Jobs left |", "| --- | --- | --- | --- |"]
+cnt = {}
+for n in left: cnt[owner(n)] = cnt.get(owner(n), 0) + 1
+for l in LANES.get("lanes", []):
+    P.append(f"| {l.get('icon', '')} {l['name']} | {l['where']} | {reset_text(l['key'])} | {cnt.get(l['key'], 0)} |")
+P += ["", "_Resets live in [LANES.json](LANES.json) (hand-edited; \"unknown\" means nobody has told the board yet)._", "", eta_note, "",
+      "## 📊 Screens", "", "```"]
 for name, nums in SCREENS:
     nums = [n for n in nums if n in known]
-    if not nums:
-        continue
-    p_ = sum(pct(n) for n in nums) // len(nums)
+    if not nums: continue
     d_ = sum(1 for n in nums if info[n][0] in FINISHED)
-    P.append(f"{name:<15}{bar(p_)} {d_}/{len(nums)}")
-P += ["```", ""]
+    if d_ == len(nums) and name != "Integration":
+        continue
+    P.append(f"{name:<15}{bar(sum(pct(n) for n in nums) // len(nums))} {d_}/{len(nums)}")
+fin = [name for name, nums in SCREENS if (lambda ns: ns and all(info[n][0] in FINISHED for n in ns))([n for n in nums if n in known]) and name != "Integration"]
+P += ["```", f"✅ Finished screens ({len(fin)}): {', '.join(fin)}", ""]
 fr = feed_rows()
-if fr:
-    P += ["## Team V ↔ Team G (latest 3)", ""] + fr + [""]
-P += ["## Full board", ""]
-L = P + [
-
-     f"Branch `{board['branch']}`. {len(vjobs)} Team V jobs, plus {len(tracked)} lines that track Team G. Two kinds of job. **Project (type number):** open a new chat in the ChatGPT project \"Showdown visual\" and type the number (up to 5 at once). **Fresh chat (image):** run the job's ticket from [tickets/](tickets/README.md) in a ChatGPT Temporary Chat (no memory) outside any project, then drop the image in Claude's factory thread (up to 2 at once).", "",
-     f"**Overall (Team V):** {bar(overall)} {overall} % · {done} of {len(vjobs)} jobs done", "",
-     f"**Start now · project (type the number in Showdown visual):** {', '.join([f'{n} (fix)' if fixing(n) else f'{n} (resume)' for n in resumable] + list(map(str, startable))) or 'nothing (all slots busy or nothing ready)'}" + (f" · queued next: {', '.join(map(str, later))}" if later else ""), "",
-     f"**Start now · fresh chat (image ticket, outside the project):** {', '.join(map(str, img_now)) or '-'}" + (f" · queued next: {', '.join(map(str, img_later))}" if img_later else "") + (f" · waiting for Claude to write the ticket: {', '.join(map(str, img_noticket))}" if img_noticket else ""), "",
-     f"**Start now (Sol Work mode, press Use Work):** {', '.join(map(str, work_now)) or '-'}", "",
-     f"**Working:** {', '.join(map(str, working)) or '-'} · **Blocked:** {', '.join(map(str, blocked)) or '-'}", ""]
-if waiting:
-    L += ["**Waiting on Nik:**", ""] + [f"- Job {j['number']} ({j['title']}): {j['waits_on_nik']}" for j in waiting] + [""]
-if team_g:
-    L += ["**Waiting on Team G (gameplay):** " + ", ".join(str(j["number"]) for j in team_g) + ". Do not start these; Claude clears them when Team G delivers.", ""]
-if tracked:
-    L += ["**Team G tracking (never start these):** " + ", ".join(f"{j['number']} ({'done' if info[j['number']][0] in FINISHED else 'open'})" for j in tracked) + ". Claude marks them done when Team G delivers.", ""]
-L += ["| # | Job | Phase | Type | Lane | Depends on | Progress | State | Claude look |", "| --- | --- | --- | --- | --- | --- | --- | --- | --- |"]
+if fr: P += ["## Team V ↔ Team G (latest 3)", ""] + fr + [""]
+P += ["## Quality", "", f"Quality bar: average 4.2 or more, nothing under 3. " + (f"Average so far {avg_score} over {len(scored)} scored jobs." if scored else ""), "",
+      "<details><summary>Full job table</summary>", "", "| # | Job | Lane | After | Progress | State |", "| --- | --- | --- | --- | --- | --- |"]
 for j in jobs:
-    n = j["number"]
-    state, k, total = info[n]
-    L.append(f"| {n} | [{j['title']}](jobs/JOB-{n:03d}.md) | {j['phase']} | {j['type']} | {j.get('lane', '')} | {', '.join(map(str, j['depends_on'])) or '-'} | {bar(pct(n))} {pct(n)} % | {state} | {'yes' if j['needs_claude_look'] else ''} |")
-L += ["", "Lanes: **project (type number)** = a GPT-5.6 Sol chat inside the ChatGPT project Showdown visual, started by typing the number; **fresh chat (image)** = Nik runs the job's ticket(s) in a ChatGPT Temporary Chat outside any project and drops each image in Claude's factory thread, then Claude checks, commits and finishes the job (max 2 at once); **codex** = Codex review (job 108 only); **team-g** = tracks a Team G job, never started by Team V.", "", "Generated by `project-documents/factory/tools/board.py` from `BOARD.json`, `status/` and `tickets/`. Workers never edit this file; Claude regenerates it."]
-open(os.path.join(F, "BOARD.md"), "w").write("\n".join(L) + "\n")
-print("project:", startable, "fresh-chat images:", img_now, "no ticket yet:", img_noticket, "queued:", later + img_later)
-print("overall:", overall, "%", done, "done")
+    n = j["number"]; state = info[n][0]
+    P.append(f"| {n} | [{j['title']}](jobs/JOB-{n:03d}.md) | {j.get('lane', '')} | {', '.join(map(str, j['depends_on'])) or '-'} | {pct(n)} % | {state} |")
+P += ["", "</details>", "", "Generated by `tools/board.py` from `BOARD.json`, `status/`, `tickets/` and `LANES.json`. Workers never edit this file."]
+open(os.path.join(F, "BOARD.md"), "w").write("\n".join(P) + "\n")
+print("project:", startable, "images:", img_now, "queued:", later + img_later)
+print("overall:", overall, "%", done, "done; ETA", eta_line, "| median", med, len(steps))

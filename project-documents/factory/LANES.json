@@ -1,0 +1,30 @@
+{
+  "_help": "Hand-edited by Claude/Nik. board.py reads this on every rebuild. Times are US Eastern as 'YYYY-MM-DD HH:MM' (24 h). Use null for unknown; never guess. Edit 'next_reset' after each reset, then push; the board refreshes itself.",
+  "lanes": [
+    {"key": "chat", "name": "GPT-5.6 Sol chat", "icon": "🟡",
+     "where": "ChatGPT, project \"Showdown visual\", new normal chat: type the job number",
+     "next_reset": null, "meter": "none (normal chats do not use the usage meter)",
+     "notes": "Up to 5 chats at once. One number is one turn."},
+    {"key": "work", "name": "GPT-6.1 Sol Work mode", "icon": "🟠",
+     "where": "ChatGPT, Work mode (press Use Work). Not used for factory jobs now",
+     "next_reset": "2026-10-04 16:18", "meter": "account 1 almost empty (about 1% left); Nik has 2 ChatGPT accounts, account 2 unknown",
+     "notes": "Reset time is for account 1. Work mode stops for Continue often, so factory jobs avoid it."},
+    {"key": "astra", "name": "Astra", "icon": "🔵",
+     "where": "ChatGPT Astra chat: paste the bundle prompt from handoffs/C2W-*.md",
+     "next_reset": null, "meter": "unknown",
+     "notes": "Bundle jobs show IN PROGRESS · ASTRA or · BUNDLE. Run one bundle at a time."},
+    {"key": "claude", "name": "Claude threads", "icon": "🟣",
+     "where": "Claude project threads and claude.ai/code cloud sessions (no typing by Nik)",
+     "next_reset": "2026-10-08 20:00", "meter": "weekly limit; cloud sessions bill to credit instead",
+     "notes": "Jobs with state IN PROGRESS · CLAUDE are owned by a Claude thread."},
+    {"key": "codex", "name": "Codex", "icon": "⚫",
+     "where": "Codex: final package review (job 108), paste the job file",
+     "next_reset": null, "meter": "unknown",
+     "notes": "Only job 108."},
+    {"key": "image", "name": "Image tickets", "icon": "🖼️",
+     "where": "ChatGPT Temporary Chat, paste the ticket from tickets/",
+     "next_reset": null, "meter": "none",
+     "notes": "All image jobs are done now."}
+  ],
+  "assumptions": {"codex_minutes_per_job": 45, "claude_minutes_per_job": null}
+}
