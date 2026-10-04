@@ -672,7 +672,7 @@ body { overflow: hidden; font-family: var(--text); -webkit-font-smoothing: antia
   min-inline-size: 0;
   clip-path: polygon(calc(var(--k) * 8px) 0,100% 0,100% calc(100% - var(--k) * 8px),calc(100% - var(--k) * 8px) 100%,0 100%,0 calc(var(--k) * 8px));
   border-radius: 0;
-  transition: transform var(--sd-duration-feedback) var(--sd-ease-press), box-shadow var(--sd-duration-feedback), filter var(--sd-duration-feedback);
+  transition: transform 100ms var(--sd-ease-press), box-shadow 100ms linear, filter 100ms linear;
 }
 .btn-lock.sd-btn--primary { background: var(--sd-gold-500); color: var(--sd-text-on-gold); }
 .btn-end.sd-btn--secondary, .btn-continue.sd-btn--secondary { background: rgba(8,9,12,.88); color: var(--sd-gold-300); border: 1px solid var(--sd-edge); }
@@ -1204,4 +1204,59 @@ html[data-reduced-motion="true"] .window-clock-hand::after {
 }
 .tw-guess-flight.is-stamping .tw-guess-wax {
   animation: tw-wax-stamp var(--tw-guess-stamp-ms, 260ms) var(--tw-guess-ease, cubic-bezier(.22,1,.36,1)) both;
+}
+
+/* JOB-146: feedback is independent of entrance/reveal timing and never moves layout. */
+.stage { --tw-feedback-ms: 100ms; }
+.stage :is(button, input, select, a[href], [role="tab"], [role="switch"]) {
+  transition: opacity 100ms linear, filter 100ms linear, background-color 100ms linear,
+    color 100ms linear, box-shadow 100ms linear, transform 100ms var(--sd-ease-press);
+}
+.stage :is(button, a[href], [role="tab"], [role="switch"]):hover:not(:disabled):not([aria-disabled="true"]) {
+  filter: brightness(1.08);
+}
+.stage :is(button, a[href], [role="tab"], [role="switch"]):active:not(:disabled):not([aria-disabled="true"]) {
+  filter: brightness(.94);
+}
+.stage :is(input, select):hover:not(:disabled) {
+  box-shadow: inset 0 0 0 1px var(--gold-hot), 0 0 6px rgba(255,211,77,.12);
+}
+.stage :is(button, input, select, a[href], [role="tab"], [role="switch"]):focus-visible {
+  outline: 2px solid var(--gold-hot); outline-offset: 2px;
+}
+/* Active phase and any host-provided tab/toggle cross-fade inside their reserved geometry.
+   Current Transfer frames have a phase rail, not invented product tabs. */
+@keyframes tw-state-fade { from { opacity: .65; } to { opacity: 1; } }
+.stage :is(.rail li.active, [role="tab"][aria-selected="true"], [role="switch"][aria-checked="true"]) {
+  animation: tw-state-fade 100ms linear both;
+}
+/* motion.js sets these data attributes; its shared runtime also guards WAAPI effects.
+   No geometry, scene zoom, clock tick, wax stamp or particle flight in either reduced path. */
+html[data-motion-reduced="true"] .stage *,
+.stage[data-sd-motion-reduced="true"] * {
+  animation-name: tw-state-fade !important;
+  animation-duration: 100ms !important;
+  animation-delay: 0ms !important;
+  animation-iteration-count: 1 !important;
+  animation-timing-function: linear !important;
+  transition-property: opacity !important;
+  transition-duration: 100ms !important;
+  transition-delay: 0ms !important;
+}
+html[data-motion-reduced="true"] .stage :is(.tw-guess-flight, .tw-guess-wax, .tw-motion-wax, canvas),
+.stage[data-sd-motion-reduced="true"] :is(.tw-guess-flight, .tw-guess-wax, .tw-motion-wax, canvas) {
+  display: none !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .stage * {
+    animation-name: tw-state-fade !important;
+    animation-duration: 100ms !important;
+    animation-delay: 0ms !important;
+    animation-iteration-count: 1 !important;
+    animation-timing-function: linear !important;
+    transition-property: opacity !important;
+    transition-duration: 100ms !important;
+    transition-delay: 0ms !important;
+  }
+  .stage :is(.tw-guess-flight, .tw-guess-wax, .tw-motion-wax, canvas) { display: none !important; }
 }
