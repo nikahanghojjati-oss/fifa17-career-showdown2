@@ -112,3 +112,33 @@ Part 2 adds the screen-specific payoff without changing Rivalry Statistics data,
 Constants live in `RV_MOTION` in `rivalry-statistics.js`: row duration/easing/stagger, count duration, head slam delay/duration/easing, reveal duration reference, and burst delay/duration/count. The local CSS reads those values through custom properties so the timing contract is visible in one place.
 
 Claude intake evidence target: record desktop frame strips for row deal/count completion, the 390–570 ms head-to-head slam, the 600 ms burst onset and the settled ≤960 ms state under `evidence/motion/`; also capture reduced motion showing no travel, slam or particles.
+
+
+## Motion · JOB-162 part 3 finish line
+
+Part 3 closes the motion pass with interaction feedback, tab/toggle cross-fades and explicit reduced-motion coverage. The shared entrance, Job 161 signature payoff and Job 162 interaction layer overlap; the longest shared element settles at 1.08 s, inside the 1.2 s cap. At 0.60 s the scene and both managers are settled, the totals panel is already visible and interactive, and no motion rule disables pointer events, so the screen is usable while the remaining secondary panels finish.
+
+| Element | Delay | Duration | Easing |
+| --- | ---: | ---: | --- |
+| Full scene settle | 0 ms | 400 ms | shared ease-out cubic |
+| Daniel / Nik character entrances | 150 ms | 450 ms | shared character ease-out |
+| Brush title reveal | 250 ms | 450 ms | shared title wipe easing |
+| Totals panel rise | 400 ms | 500 ms | shared panel ease-out |
+| Head-to-Head panel rise | 460 ms | 500 ms | shared panel ease-out |
+| Season-by-Season panel rise | 520 ms | 500 ms | shared panel ease-out |
+| Trophy Cabinet panel rise | 580 ms | 500 ms | shared panel ease-out |
+| Back button payoff | 760 ms | 320 ms | shared button ease-out |
+| Rivalry row values, rows 1–7 | 0–240 ms, 40 ms stagger | 260 ms each | cubic-bezier(.22,1,.36,1) |
+| Rivalry number counts | 0–240 ms, same stagger | 500 ms each | shared easeOutCubic |
+| Head-to-Head reveal | 0 ms | 810 ms | shared sdReveal keyframes |
+| Head-to-Head score slam | 390 ms | 180 ms | cubic-bezier(.22,1,.36,1) |
+| Head-to-Head gold burst | 600 ms | 360 ms | shared sdBurst physics |
+| Control hover state | event driven | 100 ms | ease-out |
+| Control press state | event driven | 80 ms | ease-out |
+| Tab / toggle cross-fade | state change | 110 ms | ease-out |
+
+No interaction transition exceeds 120 ms. Hover and press animate only opacity, colour, border colour, transform and filter on the small controls; the tab body cross-fade animates opacity only, so no document-flow property changes and there is no layout shift.
+
+Reduced motion has both required paths. The system path is `@media (prefers-reduced-motion: reduce)`; the app path comes from `motion.js` through `html[data-motion-reduced="true"]` and the mounted `#statistics[data-sd-motion-reduced="true"]` dataset. In those states local travel, scaling, filter feedback and particles are removed; local state changes use a short opacity-only fade, while the shared kit keeps its own 150 ms reduced-motion fade.
+
+Criterion 8 self-score: **5 / 5**. Evidence: staged shared entrance plus row deal, 500 ms counts, leader flash, head-to-head reveal/slam and restrained 24-particle payoff; 1.08 s maximum entrance, usable by 0.60 s; 80–110 ms control feedback; transform/opacity-only travel; and both reduced-motion paths collapsing to fades without layout shift.
