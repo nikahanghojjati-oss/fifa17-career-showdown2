@@ -50,6 +50,8 @@ async function openManager(browser,user,viewport){
   const page=await context.newPage();
   page.on("request",request=>{const u=new URL(request.url());if(FORBIDDEN_HOSTS.test(u.hostname))log.forbidden.push(u.hostname);if(/productionFirebaseRuntime\.js|firebase\.runtime-config\.json/.test(u.pathname))log.productionRuntime+=1;});
   page.on("pageerror",error=>log.errors.push(error.message));
+  // Job 22: LOCK MY GUESSES / LOCK MY SIGNINGS ask "Lock N of 3 ...?" when a form is partly filled; this journey fills one row, so it accepts that prompt.
+  page.on("dialog",dialog=>{void dialog.accept().catch(()=>{});});
   page.on("console",message=>{if(message.type()==="error"&&!/Failed to load resource/.test(message.text()))log.errors.push(message.text().slice(0,300));});
   await page.goto(urlFor(user),{waitUntil:"domcontentloaded"});
   await page.locator("#loadingScreen").waitFor({state:"hidden",timeout:30000});

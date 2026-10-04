@@ -170,6 +170,12 @@
     }
   }
   function pstcResetForContext(key){if(openedKey===key)return;openedKey=key;for(const prefix of ["p1","p2"])for(let i=1;i<=3;i+=1){const name=pstcField(`${prefix}Signing${i}Name`);if(name&&typeof name.setAttribute==="function")name.setAttribute("maxlength","80");}expiryAttemptRevision=-1;expiryAttemptAt=0;pstcClearRole("playerOne");pstcClearRole("playerTwo");pstcSetError("");}
+  const PSTC_MAX_ROWS=3;
+  // A lock cannot be undone, so a partly filled form asks first. Cancel (or any confirm failure) means do nothing; no confirm function means lock as before.
+  function pstcConfirmPartialLock(filled,noun){
+    if(filled>=PSTC_MAX_ROWS||typeof root.confirm!=="function")return true;
+    return root.confirm(`Lock ${filled} of ${PSTC_MAX_ROWS} ${noun}? You can't change them after locking.`)!==false;
+  }
   function pstcBuildGuesses(role){
     const prefix=pstcGuessPrefix(role),rows=[];
     for(let i=1;i<=3;i+=1){const type=pstcField(`${prefix}Guess${i}Type`),value=pstcField(`${prefix}Guess${i}Value`),kind=String(type?.value||""),id=pstcCanonical(value),display=String(value?.value||"").trim();if(!kind&&!display)continue;if((kind!=="league"&&kind!=="nationality")||!display||!id)pstcFail("TRANSFER_GUESSES_INVALID",`Complete guess ${i} with a FIFA 17 league or nationality.`);rows.push({slot:i,type:kind,valueId:id});}
@@ -256,7 +262,7 @@
     if(id==="startTransferTimer")return pstcMutate("startWindow");
     if(id==="endTransferTimer")return pstcMutate("requestEndWindow");
     if(id==="completeTransferChallenge"){
-      const phase=view?.state?.phase,role=view?.managerRole;if(phase==="GUESS_ENTRY")return pstcMutate("lockGuesses",{guesses:pstcBuildGuesses(role)});if(phase==="SIGNING_ENTRY")return pstcMutate("lockSignings",{signings:pstcBuildSignings(role)});pstcFail("TRANSFER_PHASE_INVALID");
+      const phase=view?.state?.phase,role=view?.managerRole;if(phase==="GUESS_ENTRY"){const guesses=pstcBuildGuesses(role);if(!pstcConfirmPartialLock(guesses.length,"guesses"))return false;return pstcMutate("lockGuesses",{guesses});}if(phase==="SIGNING_ENTRY"){const signings=pstcBuildSignings(role);if(!pstcConfirmPartialLock(signings.length,"signings"))return false;return pstcMutate("lockSignings",{signings});}pstcFail("TRANSFER_PHASE_INVALID");
     }
     if(id==="continueFromTransfers"){pstcSetError("Shared Season Results is the next shared capability. This challenge will not fall through to local-only season authority.");return false;}
     return false;

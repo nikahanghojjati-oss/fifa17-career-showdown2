@@ -6,6 +6,7 @@
 //   A. Transfer Challenge: retry once with a fresh baseRevision and a new operationId; advanceExpiredWindow only refreshes.
 //   B. Career Start acknowledge: permission-denied is treated like a stale revision (re-read, retry once, silent if done).
 //   C. Shared Setup mutate: same, including the "already shown" silent finish.
+//   E. Job 22: LOCK MY GUESSES / LOCK MY SIGNINGS ask before locking a partly filled form (cancel = no provider call; full form or no confirm = lock as before).
 //   D. Human validation messages are shown before raw codes; signing name inputs are capped at 80; stale commit copy is gone.
 const assert=require("node:assert/strict");
 const fs=require("node:fs");
@@ -20,7 +21,7 @@ async function settle(){for(let pass=0;pass<3;pass+=1){await new Promise(resolve
 const clone=value=>JSON.parse(JSON.stringify(value));
 
 // ---------------------------------------------------------------- A. Transfer Challenge wrapper
-function transferHarness(initial){
+function transferHarness(initial,confirmFn){
   const server={revision:initial.revision,state:clone(initial.state)};
   const calls={read:0,mutations:[]},nodes=new Map(),handlers={},intervals=[];
   const scripts={};
@@ -43,6 +44,7 @@ function transferHarness(initial){
     provider[method]=async options=>{calls.mutations.push({method,baseRevision:options.baseRevision,operationId:options.operationId});const step=scripts[method].shift();if(!step)throw new Error(`unscripted ${method} call`);return step(options);};
   }
   const sandbox={console,crypto:webcrypto,performance,setTimeout,clearTimeout,Promise,Date,document};
+  if(confirmFn)sandbox.confirm=confirmFn;
   sandbox.globalThis=sandbox;sandbox.setInterval=(fn,ms)=>{intervals.push({fn,ms});return intervals.length;};
   sandbox.currentShowdown={id:"save_1",sharedJourney:{mode:"shared",rivalryId:RIVALRY},currentRound:1};
   sandbox.CareerModeProductionSharedShowdownSetup={refresh:async()=>null,getState:()=>({ready:true,managerRole:"playerOne",rivalryId:RIVALRY,sessionId:SESSION,deviceId:DEVICE,setup:{phase:"SHOWDOWN_CONFIRMED",revision:6,coordinatorRole:"playerOne",clubs:{playerOne:"A",playerTwo:"B"}}})};
@@ -139,6 +141,54 @@ async function transferContracts(){
   {
     const h=transferHarness(windowOpen());await h.api.refresh();
     for(const id of ["p1Signing1Name","p1Signing3Name","p2Signing2Name"])assert.equal(h.node(id).attributes.maxlength,"80",`${id} must be capped at 80`);
+  }
+  // E. Job 22: a partial lock asks first (a lock cannot be undone); a full lock, or a page without confirm, locks as before.
+  {
+    const guessState=()=>({revision:3,state:{...windowOpen().state,phase:"GUESS_ENTRY",revision:3}});
+    const signingState=()=>({revision:3,state:{...windowOpen().state,phase:"SIGNING_ENTRY",revision:3}});
+    const fillGuesses=(h,count)=>{for(let i=1;i<=count;i+=1){h.node(`p2Guess${i}Type`).value="league";const v=h.node(`p2Guess${i}Value`);v.value=`League ${i}`;v.dataset.canonicalId=`league_${i}`;}};
+    const fillSignings=(h,count)=>{for(let i=1;i<=count;i+=1){h.node(`p1Signing${i}Name`).value=`Player ${i}`;h.node(`p1Signing${i}League`).value=`League ${i}`;h.node(`p1Signing${i}League`).dataset.canonicalId=`league_${i}`;h.node(`p1Signing${i}Nationality`).value=`Nation ${i}`;h.node(`p1Signing${i}Nationality`).dataset.canonicalId=`nation_${i}`;}};
+    for(const kind of ["guesses","signings"]){
+      const method=kind==="guesses"?"lockGuesses":"lockSignings",initial=kind==="guesses"?guessState:signingState,fill=kind==="guesses"?fillGuesses:fillSignings;
+      // E1. Partial lock, confirm returns false: no provider call, no error.
+      {
+        const asked=[],h=transferHarness(initial(),message=>{asked.push(message);return false;});h.node("transferChallenge").classList.add("hidden");await h.api.refresh();
+        h.scripts[method].push(h.accepted(null,{}));
+        h.api.install();fill(h,1);await h.tap("completeTransferChallenge");
+        assert.equal(asked.length,1,`E1 ${kind}: a partial lock must ask once`);
+        assert.equal(asked[0],`Lock 1 of 3 ${kind}? You can't change them after locking.`,`E1 ${kind}: plain confirm text`);
+        assert.equal(h.calls.mutations.length,0,`E1 ${kind}: cancelling must make no provider call`);
+        assert.equal(h.error(),"",`E1 ${kind}: cancelling must not show an error`);
+      }
+      // E2. Partial lock, confirm returns true: locks with the filled rows only.
+      {
+        const asked=[],h=transferHarness(initial(),message=>{asked.push(message);return true;});h.node("transferChallenge").classList.add("hidden");await h.api.refresh();
+        h.scripts[method].push(h.accepted(null,{}));
+        h.api.install();fill(h,2);await h.tap("completeTransferChallenge");
+        assert.equal(asked.length,1,`E2 ${kind}: asked once`);assert.equal(asked[0],`Lock 2 of 3 ${kind}? You can't change them after locking.`);
+        assert.equal(h.calls.mutations.length,1,`E2 ${kind}: confirming must lock`);assert.equal(h.calls.mutations[0].method,method);
+      }
+      // E3. Blank form is a partial lock too (0 of 3) and asks.
+      {
+        const asked=[],h=transferHarness(initial(),message=>{asked.push(message);return false;});h.node("transferChallenge").classList.add("hidden");await h.api.refresh();
+        h.api.install();await h.tap("completeTransferChallenge");
+        assert.equal(asked.length,1);assert.equal(asked[0],`Lock 0 of 3 ${kind}? You can't change them after locking.`);assert.equal(h.calls.mutations.length,0);
+      }
+      // E4. Full lock never calls confirm.
+      {
+        let asked=0;const h=transferHarness(initial(),()=>{asked+=1;return false;});h.node("transferChallenge").classList.add("hidden");await h.api.refresh();
+        h.scripts[method].push(h.accepted(null,{}));
+        h.api.install();fill(h,3);await h.tap("completeTransferChallenge");
+        assert.equal(asked,0,`E4 ${kind}: a full lock must not prompt`);assert.equal(h.calls.mutations.length,1,`E4 ${kind}: a full lock locks`);
+      }
+      // E5. No confirm function: the partial lock works as before.
+      {
+        const h=transferHarness(initial());h.node("transferChallenge").classList.add("hidden");await h.api.refresh();
+        h.scripts[method].push(h.accepted(null,{}));
+        h.api.install();fill(h,1);await h.tap("completeTransferChallenge");
+        assert.equal(h.calls.mutations.length,1,`E5 ${kind}: without confirm the lock works as before`);assert.equal(h.error(),"");
+      }
+    }
   }
 }
 
