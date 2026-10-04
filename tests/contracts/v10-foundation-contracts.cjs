@@ -629,6 +629,26 @@ check("F13 job 13's Career Statistics and Trophy Room run on the registry and sh
   assert.match(run.stdout,/PASS career screens V10 contracts/);
 });
 
+check("F15 a screen switched without showScreen (Shared Setup's ssjpForceScreen) still updates the bar and mounts",async()=>{
+  const root=await installed();
+  const V=root.CareerModeV10Screens,doc=root.document,main=doc.querySelector("main");
+  const mounts=[];V.register("leagueWheelScreen",{frame:()=>({id:1}),mount:(f,host)=>mounts.push(host.id)});
+  const watcher=root.observers.find(o=>o.el===main);
+  assert.ok(watcher,"the loader watches the screen sections' class changes");
+  const fire=target=>watcher.cb([{type:"attributes",attributeName:"class",target}]);
+  fire(doc.getElementById("mainMenu"));await flush();
+  assert.equal(mounts.length,0,"no screen change, nothing happens");
+  doc.getElementById("mainMenu").classList.add("hidden");
+  const wheel=doc.getElementById("leagueWheelScreen");wheel.classList.remove("hidden");
+  fire(doc.createElement("div"));await flush();
+  assert.equal(mounts.length,0,"class changes outside the .screen sections are ignored");
+  fire(wheel);await flush();
+  assert.deepEqual(mounts,["leagueWheelScreen"],"mounted after a direct hidden-class switch");
+  fire(wheel);await flush();
+  assert.equal(mounts.length,1,"repeated class changes on the same screen do not remount");
+  assert.deepEqual(root.errors,[]);
+});
+
 check("F14 guards: no Rules, scoring, provider or index change; only lazy files load the loader",()=>{
   const src=read("js/v10Screens.js");
   for(const banned of ["firestore","firebase","Firestore","collection(","RUNTIME_REVISION","scoring.js","Scoring"])assert.ok(!src.includes(banned),banned);

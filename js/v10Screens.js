@@ -271,7 +271,7 @@
   // ---- screen-change hook ----
   function vsOnScreenShown(){
     try{
-      const screen=vsActiveScreen();
+      const screen=vsActiveScreen();lastScreen=screen;
       for(const id of [...mounted.keys()])if(id!==screen)vsUnmount(id);
       vsSyncStyles();
       vsPaintNav(screen);
@@ -293,11 +293,24 @@
     wrapped.v10Screens=true;wrapped.original=original;
     root.showScreen=wrapped;
   }
+  // Some flows (Shared Setup's ssjpForceScreen) switch screens by toggling "hidden" on the
+  // .screen sections directly, without showScreen. Watch those class changes too, so the bar's
+  // active tab and setup lock follow every screen change.
+  let lastScreen=null;
+  function vsWatchScreenClasses(){
+    const doc=vsDoc(),main=doc&&(doc.querySelector?.("main")||doc.body);
+    if(typeof root.MutationObserver!=="function"||!main)return;
+    new root.MutationObserver(records=>{
+      if(!records.some(r=>r.target&&r.target.classList&&r.target.classList.contains("screen")))return;
+      if(vsActiveScreen()!==lastScreen)vsOnScreenShown();
+    }).observe(main,{subtree:true,attributes:true,attributeFilter:["class"]});
+  }
   function vsInstall(){
     if(installed||!vsDoc())return api;
     installed=true;
     vsHookShowScreen();
     vsDoc().addEventListener(EVENT,vsOnScreenShown);
+    vsWatchScreenClasses();
     vsWhenStarted(()=>{vsMountNav().catch(error=>{if(root.console&&typeof root.console.warn==="function")root.console.warn("[Career Mode Showdown] Navigation bar unavailable.",error);});});
     return api;
   }
