@@ -7,3 +7,7 @@
   html[data-nav="hub"] #app { padding-bottom: var(--sd-nav-bottom-space, 56px); }
   html[data-nav="hub"] #topHeader { padding-right: 58px; }
 }
+
+/* Team V's standalone screen CSS (career-statistics.css, trophy-room.css, standings.css …) sets body color and font
+   while its screen shows. The app header inherits from body, so pin its own ink and font here. */
+html #app #topHeader { color: var(--f17-ink); font-family: var(--f17-ui); }
