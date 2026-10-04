@@ -116,3 +116,45 @@ The phone-art maximum before the title/UI resources is 253,986 bytes, leaving 19
 - Done · Item 3: `#trophyPhoneMoreToggle[aria-controls]` now targets `#trophyRoomContent`, which actually owns the career-rank and record details exposed by MORE / CLOSE.
 - Blocked · none.
 - Claude re-measure · H5 phone fit, H6 contrast, H7 reduced motion, H8 keyboard/focus, H9 console/requests and H11 full phone first-paint weight. Reconfirm H10 remains PASS after this behavior-only fix round.
+
+## Motion
+
+The shared entrance is started by `sdEnter(root)` immediately after Trophy Room renders. The Trophy Room signature moments start in the same boot pass. This screen locally cancels the shared CSS panel `--i` animation delay because `sdEnter` already applies the 60 ms panel stagger in JavaScript; the stagger is therefore applied once and the hard 1.2 s entrance budget is preserved.
+
+### Entrance timeline
+
+| Element | Target | Delay | Duration | Easing / behavior |
+| --- | --- | ---: | ---: | --- |
+| Scene settle | `.trophyRoomScene` | 0 ms | 400 ms | `cubic-bezier(.22,1,.36,1)` |
+| Phone Daniel / Nik | `.trophyPhoneHero--daniel`, `.trophyPhoneHero--nik` | 150 ms | 450 ms | `cubic-bezier(.22,1,.36,1)`; desktop managers remain protected plate pixels |
+| Title wipe | `.trophyTitleBlock` | 250 ms | 450 ms | `cubic-bezier(.22,1,.36,1)` |
+| Title glint | `.trophyTitleBlock` | 640 ms | 420 ms | shared gold glint, one pass |
+| Panel tier `i` | `[data-sd-enter="panel"]` | `400 + 60 × i` ms | 500 ms | `cubic-bezier(.22,1,.36,1)`; `i` capped at 5, so latest finish is 1200 ms |
+| Spotlight anticipation | `.heroCeremony .heroSpotlight` | 0 ms | 250 ms | held dark |
+| Spotlight snap on | `.heroCeremony .heroSpotlight` | 250 ms | 180 ms | `cubic-bezier(.16,1,.3,1)` |
+| Hero trophy rise | `.heroTrophyPicture` | 250 ms | 420 ms | `cubic-bezier(.16,1,.3,1)`; translateY(20px → 0) |
+| Hero trophy glint | `.heroTrophyPicture::after` | 410 ms | 360 ms | ease-out, one pass |
+| Shelf card `i` | `.trophyCard` | `560 + 60 × i` ms | 320 ms | `cubic-bezier(.16,1,.3,1)`; four-card ALL view finishes by 1060 ms |
+| Trophy counts | `.managerCounts strong[data-count-value]` | 760 ms | 300 ms | shared cubic ease-out count-up |
+| Winning-card shimmer | `.trophyCard[data-winning-card="true"]` | 760 ms | 420 ms | shared gold glint; one shimmer per trophy type |
+| Primary action payoff | `.trophyBack` | 760 ms | 320 ms | `cubic-bezier(.22,1,.36,1)` |
+
+The shared panel contract is the limiting path at 1200 ms exactly; the Trophy Room signature layer finishes by 1180 ms. Controls are bound as soon as `render()` completes and the motion layer never disables pointer or keyboard interaction, so the screen is usable by 600 ms while the finish choreography continues.
+
+### Interaction motion
+
+| Interaction | Target | Duration | Easing / behavior |
+| --- | --- | ---: | --- |
+| Category out | `.trophyGrid.tr-tab-leave` | 100 ms | `cubic-bezier(.22,1,.36,1)`, opacity + translateX(-12px) |
+| Category in | `.trophyGrid.tr-tab-enter` | 120 ms | `cubic-bezier(.22,1,.36,1)`, opacity + translateX(12px → 0) |
+| Tabs / Back / phone More press feedback | controls | 100 ms | transform/background/color only |
+| Phone More sheet / shelf handoff | `.trophyPhoneSheet`, `.trophyShelf` | 120 ms | opacity only; no layout shift |
+
+### Reduced motion
+
+The system `prefers-reduced-motion: reduce` path and the app-driven `html[data-motion-reduced="true"]` / `[data-sd-motion-reduced="true"]` path are both present. Shared entrance choreography becomes a 150 ms fade. Trophy-specific transforms, glints and the loading spinner are suppressed; local transitions collapse to 120 ms opacity fades.
+
+### Criterion 8 self-score
+
+5 / 5. The entrance is choreographed from scene through characters/title/panels to the primary action; the trophy ceremony adds anticipation, rise, one glint, sequential card flips, count-up and one-time winning-card shimmer. The hard entrance ceiling is 1.2 s, interaction feedback is at or below 120 ms, motion uses transform/opacity (with only existing small-element filters), and both reduced-motion paths are implemented.
+
