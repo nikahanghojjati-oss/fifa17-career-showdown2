@@ -1142,3 +1142,28 @@ html[data-reduced-motion="true"] .phoneHeroCutout::after,
   /* The tap target for TRACKS was display:none from the base rule, so the sheet never opened on phone. */
   .phoneSheetToggle { display: block; }
 }
+
+/* CC-008 A1 · Nik's review: the hub left a ~70 px empty dark band above the bottom bar.
+   Give the hero more height, let the hub fill main, and seat the Audius strip at the bottom of the hub. */
+@media (max-width: 760px) and (orientation: portrait) {
+  :root {
+    --phone-hero: 49dvh;
+    --phone-control: calc(51dvh - var(--phone-nav));
+  }
+  .phoneHeroGrade { top: 35dvh; }
+  #mainMenu { height: 100%; }
+  .fifaMenuGrid { grid-template-rows: 64px repeat(2, minmax(44px, 1fr)) 52px; }
+  #continueCareer { grid-row: 1; }
+  #newShowdown, #legacyButton, #careerStatisticsButton { grid-row: 2; }
+  #trophyRoomButton, #ruleBookButton, #settingsButton { grid-row: 3; }
+  .menuMusicTile { grid-row: 4; }
+  @media (max-height: 600px) {
+    :root {
+      --phone-hero: 47dvh;
+      --phone-control: calc(53dvh - var(--phone-nav));
+    }
+    .phoneHeroGrade { top: 33dvh; }
+    .fifaMenuGrid { grid-template-rows: 56px repeat(2, minmax(44px, 1fr)) 44px; }
+    #menuMusicMute { display: inline-flex; align-items: center; justify-content: center; }
+  }
+}
