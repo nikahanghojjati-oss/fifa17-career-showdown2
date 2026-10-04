@@ -9,14 +9,19 @@
     { key: "championsLeague", category: "CHAMPIONS LEAGUE", asset: "../shared/trophies/TRO_CONTINENTAL_V1_512.webp", value: f => f.managers && ({daniel:f.managers.daniel.championsLeagues, nik:f.managers.nik.championsLeagues}) }
   ];
 
-  const state = { fixtures:null, frame:null, frameKey:"TR1", map:null, activeCategory:"ALL", stage:null, spotlightLit:false };
+  const state = { fixtures:null, frame:null, frameKey:"TR1", map:null, activeCategory:"ALL", stage:null, spotlightLit:false, heroSettled:false, heroGlintPlayed:false };
   const qs = new URLSearchParams(location.search);
   state.frameKey = qs.get("frame") || "TR1";
 
   const TR_MOTION = Object.freeze({
     spotlightAnticipationMs:250,
     spotlightOnMs:180,
-    spotlightEase:"cubic-bezier(.16,1,.3,1)"
+    spotlightEase:"cubic-bezier(.16,1,.3,1)",
+    trophyRiseDelayMs:250,
+    trophyRiseMs:420,
+    trophyRiseEase:"cubic-bezier(.16,1,.3,1)",
+    trophyGlintDelayMs:410,
+    trophyGlintMs:360
   });
 
   const esc = value => String(value == null ? "" : value).replace(/[&<>\"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
@@ -118,6 +123,27 @@
     }, TR_MOTION.spotlightAnticipationMs);
   }
 
+  function playHeroTrophyMoment(root) {
+    const hero = root.querySelector(".heroCeremony");
+    if (!hero || state.heroSettled) return;
+    hero.style.setProperty("--tr-trophy-rise-ms", `${TR_MOTION.trophyRiseMs}ms`);
+    hero.style.setProperty("--tr-trophy-rise-ease", TR_MOTION.trophyRiseEase);
+    hero.style.setProperty("--tr-trophy-glint-ms", `${TR_MOTION.trophyGlintMs}ms`);
+    window.setTimeout(() => hero.classList.add("tr-trophy-rising"), TR_MOTION.trophyRiseDelayMs);
+    window.setTimeout(() => {
+      if (!state.heroGlintPlayed) hero.classList.add("tr-trophy-glint");
+    }, TR_MOTION.trophyGlintDelayMs);
+    window.setTimeout(() => {
+      state.heroGlintPlayed = true;
+      hero.classList.remove("tr-trophy-glint");
+    }, TR_MOTION.trophyGlintDelayMs + TR_MOTION.trophyGlintMs);
+    window.setTimeout(() => {
+      state.heroSettled = true;
+      hero.classList.remove("tr-trophy-rising");
+      hero.classList.add("tr-trophy-settled");
+    }, TR_MOTION.trophyRiseDelayMs + TR_MOTION.trophyRiseMs);
+  }
+
   function render() {
     const frame = state.frame;
     const strings = state.fixtures.strings;
@@ -158,6 +184,7 @@
     const root = document.getElementById("trophyRoom");
     if (typeof window.sdEnter === "function") window.sdEnter(root);
     playSpotlightSnap(root);
+    playHeroTrophyMoment(root);
     document.documentElement.dataset.trophyReady = "1";
     window.__trophyRoomReady = true;
     window.__trophyRoomFrame = state.frame;
