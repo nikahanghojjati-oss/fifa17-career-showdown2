@@ -1,6 +1,6 @@
 {
-  "version": 1,
-  "part": 3,
+  "version": 2,
+  "part": 4,
   "screens": [
     {
       "id": "home",
@@ -465,6 +465,249 @@
           "label": "Level"
         }
       ]
+    },
+    {
+      "id": "loading",
+      "name": "Loading",
+      "folder": "../loading",
+      "frames": [
+        {
+          "id": "LD1",
+          "label": "Loading"
+        },
+        {
+          "id": "LD2",
+          "label": "Ready handoff"
+        },
+        {
+          "id": "LD4_EMPTY",
+          "label": "Empty"
+        },
+        {
+          "id": "LD5_PARTIAL",
+          "label": "Partial"
+        },
+        {
+          "id": "LD6_UNAVAILABLE",
+          "label": "Unavailable"
+        },
+        {
+          "id": "LD7_READY",
+          "label": "Ready alias"
+        }
+      ]
+    },
+    {
+      "id": "rule-book",
+      "name": "Rule Book",
+      "folder": "../rule-book",
+      "frames": [
+        {
+          "id": "RB1",
+          "label": "Standard Rule Book"
+        },
+        {
+          "id": "RB2",
+          "label": "Long-section stress state"
+        }
+      ]
+    },
+    {
+      "id": "settings",
+      "name": "Settings",
+      "folder": "../settings",
+      "frames": [
+        {
+          "id": "ST1",
+          "label": "Default"
+        },
+        {
+          "id": "ST2",
+          "label": "Reduced motion"
+        },
+        {
+          "id": "ST3",
+          "label": "Destructive confirmation"
+        },
+        {
+          "id": "ST4",
+          "label": "Loading"
+        },
+        {
+          "id": "ST5",
+          "label": "Empty"
+        },
+        {
+          "id": "ST6",
+          "label": "Unavailable"
+        },
+        {
+          "id": "ST7",
+          "label": "Partial"
+        }
+      ]
     }
-  ]
+  ],
+  "hub": {
+    "screen": "showcase",
+    "href": "./index.html"
+  },
+  "navigation": {
+    "homeTiles": {
+      "continueCareer": {
+        "productId": "continueCareer",
+        "destination": {
+          "screen": "showcase"
+        },
+        "note": "DEFAULT: the active-showdown dashboard/completed view is not a showcase screen, so this product route returns to the hub."
+      },
+      "newShowdown": {
+        "productId": "newShowdown",
+        "destination": {
+          "screen": "start-join",
+          "frame": "SJ1"
+        }
+      },
+      "legacyButton": {
+        "productId": "legacyButton",
+        "destination": {
+          "screen": "legacy",
+          "frame": "LG1"
+        }
+      },
+      "careerStatisticsButton": {
+        "productId": "careerStatisticsButton",
+        "destination": {
+          "screen": "career-statistics",
+          "frame": "CS1"
+        }
+      },
+      "trophyRoom": {
+        "productId": "trophyRoomButton",
+        "routeKey": "trophyRoom",
+        "destination": {
+          "screen": "trophy-room",
+          "frame": "TR1"
+        }
+      },
+      "ruleBookButton": {
+        "productId": "ruleBookButton",
+        "destination": {
+          "screen": "rule-book",
+          "frame": "RB1"
+        }
+      },
+      "settingsButton": {
+        "productId": "settingsButton",
+        "destination": {
+          "screen": "settings",
+          "frame": "ST1"
+        }
+      }
+    },
+    "backControls": {
+      "league": {
+        "destination": {
+          "screen": "home",
+          "frame": "HM2"
+        }
+      },
+      "club": {
+        "destination": {
+          "screen": "league",
+          "frame": "L1"
+        }
+      },
+      "transfer-war": {
+        "destination": {
+          "screen": "home",
+          "frame": "HM2"
+        }
+      },
+      "trophy-room": {
+        "destination": {
+          "screen": "home",
+          "frame": "HM2"
+        }
+      },
+      "career-statistics": {
+        "destination": {
+          "screen": "home",
+          "frame": "HM2"
+        }
+      },
+      "rivalry-statistics": {
+        "destination": {
+          "screen": "career-statistics",
+          "frame": "CS1"
+        }
+      },
+      "legacy": {
+        "destination": {
+          "screen": "home",
+          "frame": "HM2"
+        }
+      },
+      "season-results": {
+        "destination": {
+          "screen": "home",
+          "frame": "HM2"
+        }
+      },
+      "final-winner": {
+        "destination": {
+          "screen": "home",
+          "frame": "HM3"
+        }
+      },
+      "start-join": {
+        "destination": {
+          "screen": "home",
+          "frame": "HM1"
+        }
+      },
+      "standings": {
+        "destination": {
+          "screen": "home",
+          "frame": "HM2"
+        }
+      },
+      "rule-book": {
+        "destination": {
+          "screen": "home",
+          "frame": "HM2"
+        }
+      },
+      "settings": {
+        "destination": {
+          "screen": "home",
+          "frame": "HM2"
+        }
+      }
+    },
+    "inScreenLinks": {
+      "statisticsToRivalry": {
+        "from": "career-statistics",
+        "destination": {
+          "screen": "rivalry-statistics",
+          "frame": "RV1"
+        }
+      },
+      "statisticsToTrophyRoom": {
+        "from": "career-statistics",
+        "destination": {
+          "screen": "trophy-room",
+          "frame": "TR1"
+        }
+      },
+      "seasonResultsToFinalWinnerPreview": {
+        "from": "season-results",
+        "preview": true,
+        "destination": {
+          "screen": "final-winner",
+          "frame": "FW1"
+        }
+      }
+    }
+  }
 }
