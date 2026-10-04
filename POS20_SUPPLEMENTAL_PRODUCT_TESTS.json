@@ -676,6 +676,18 @@
         "^tests/contracts/shared-season-commit-concurrent-acknowledge-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/shared-journey-reload-resume-contracts.cjs",
+      "patterns": [
+        "^js/productionSharedJourneyReconnect\\.js$",
+        "^js/productionSharedJourneyEntry\\.js$",
+        "^js/productionSharedMultiSeasonProgression\\.js$",
+        "^js/persistentNikDanielPair\\.js$",
+        "^js/sparkRemoteJoining\\.js$",
+        "^tests/contracts/shared-journey-reload-resume-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
