@@ -6,6 +6,20 @@
 
 ## Hard gates
 
+| Gate | Result | Evidence |
+| --- | --- | --- |
+| H1 · Daniel left, Nik right, never mirrored | PASS | `fixtures.json :: frames.SR1..SR10.managerOrder` and `season-results.js :: init()` render Daniel first/left and Nik second/right; the mockup-difference audit also records exact registered face boxes with no mirroring. |
+| H2 · Rights: no real crests, league logos, trophies, players or EA/FIFA art | PASS | The reviewed build replaces the mockup cup with `TRO_SHOWDOWN_CHAMPION_V1_512.webp`, replaces branded sportswear with the approved manager looks, and the renderer loads only the Showdown stage WebP plates; no prohibited player/EA asset is referenced. |
+| H3 · No live or private data baked into images | PASS | `season-results.js` writes changing values into DOM text, inputs, checked states and data attributes; the only renderer image URLs are the fixed 1X/2X stage plates, and rival result records stay absent before `results-ready`. |
+| H4 · Product truth: only real buttons/stats, computed score and correct scoring | FAIL | The audited fixtures mark both Daniel and Nik as Champions League winners in SR4/SR5, an impossible same-season fact under PRODUCT_TRUTH; the renderer also leaves the real local Publish/Edit and several Shared Season Commit states unreachable. The current TRUTH explicitly allows a labelled live preview score from the viewer's own visible inputs, so that preview alone is not a failure. |
+| H5 · Phone fit / scroll at 393 × 660, 360 × 640; primary visible at 375 × 553 | NOT MEASURED (Claude measures) | `project-documents/factory/status/JOB-077.md`; `project-documents/factory/status/JOB-078.md`; `visual-assets/v10_1/season-results/evidence/QA_SUMMARY.md` does not exist |
+| H6 · Inputs ≥ 16 px and body-text contrast ≥ 4.5:1 | NOT MEASURED (Claude measures) | `project-documents/factory/status/JOB-077.md`; `project-documents/factory/status/JOB-078.md`; `visual-assets/v10_1/season-results/evidence/QA_SUMMARY.md` does not exist |
+| H7 · Reduced motion | NOT MEASURED (Claude measures) | `project-documents/factory/status/JOB-077.md`; `project-documents/factory/status/JOB-078.md`; `visual-assets/v10_1/season-results/evidence/QA_SUMMARY.md` does not exist |
+| H8 · Keyboard reachability and visible focus ring | NOT MEASURED (Claude measures) | `project-documents/factory/status/JOB-077.md`; `project-documents/factory/status/JOB-078.md`; `visual-assets/v10_1/season-results/evidence/QA_SUMMARY.md` does not exist |
+| H9 · Console errors / failed requests | NOT MEASURED (Claude measures) | `project-documents/factory/status/JOB-077.md`; `project-documents/factory/status/JOB-078.md`; `visual-assets/v10_1/season-results/evidence/QA_SUMMARY.md` does not exist |
+| H10 · Mockup-diff faces / protected boxes / SSIM / ΔE | NOT MEASURED (Claude measures) | `visual-assets/v10_1/season-results/evidence/scores.json` does not exist; no H10 score appears in Claude intake notes in JOB-077 or JOB-078 |
+| H11 · First-paint page weight | NOT MEASURED (Claude measures) | `project-documents/factory/status/JOB-077.md`; `project-documents/factory/status/JOB-078.md`; `visual-assets/v10_1/season-results/evidence/QA_SUMMARY.md` does not exist |
+
 ## Evidence
 
 This part carries Claude measurements only. No browser QA, screenshots, mockup diff, or re-measurement was run in this review chat.
