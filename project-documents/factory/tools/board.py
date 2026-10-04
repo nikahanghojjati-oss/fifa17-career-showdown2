@@ -25,6 +25,27 @@ def read_status(n):
 # dependents while they wait for the check, so work never stalls on Claude.
 CHECK = {}
 info = {j["number"]: read_status(j["number"]) for j in jobs}
+
+# Early "Working" (Nik, 2026-10-04): a worker saves its status file only at the end of its turn, but it commits
+# "Job N step k/n: ..." as each step lands. A NOT STARTED job with a step commit newer than its status file
+# shows as IN PROGRESS at step k, so the board flips within a minute of the first saved step (no extra writes).
+import subprocess as _sp
+def _git(*a):
+    try:
+        return _sp.run(["git", *a], cwd=F, capture_output=True, text=True, timeout=20).stdout
+    except Exception:
+        return ""
+for _line in _git("log", "-150", "--format=%ct\t%s").splitlines():
+    _m = re.match(r"(\d+)\tJob (\d+) (?:step|fix) (\d+)\w*/(\d+)", _line)
+    if not _m:
+        continue
+    _ts, _n, _k, _tot = int(_m.group(1)), int(_m.group(2)), int(_m.group(3)), int(_m.group(4))
+    if _n not in info or info[_n][0] != "NOT STARTED":
+        continue
+    _st = _git("log", "-1", "--format=%ct", "--", f"status/JOB-{_n:03d}.md").strip()
+    if _st and int(_st) >= _ts:
+        continue
+    info[_n] = ("IN PROGRESS", max(_k, 0), max(_tot, 1))
 FINISHED = ("DONE", "SKIPPED")
 passed = lambda n: info[n][0] == "SKIPPED" or (info[n][0] == "DONE" and CHECK.get(n) is not None and CHECK[n][0] == "PASS")
 

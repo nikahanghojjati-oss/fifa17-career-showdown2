@@ -11,6 +11,8 @@ on:
       - project-documents/factory/BOARD.json
       - project-documents/factory/tickets/**
       - project-documents/factory/tools/board.py
+      # Step commits ("Job N step k/n") flip a job to Working before its status file is saved.
+      - visual-assets/v10_1/**
   workflow_dispatch:
 
 permissions:
