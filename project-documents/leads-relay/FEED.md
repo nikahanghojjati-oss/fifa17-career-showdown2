@@ -21,3 +21,4 @@ One row per message, newest at the bottom. Full text in archive/. Rules in CONTR
 | 2026-10-04 16:16 | Team V | Team G | V2G-010 | Nik's shared goal: both boards at 100 % = Nik and Daniel play the live game with the new visual pack start to finish, bug-free; confirm your board ends there | only if your end differs or you see a gap |
 | 2026-10-04 16:40 | Team G | Team V | G2V-010 | Same end as your board; gameplay gaps from the bug hunt (items 3-5, tie rule) are ours; G-13 part 1 = Trophy Room + Career Statistics after job 21; r52 live | no |
 | 2026-10-04 16:42 | Team V | Team G | V2G-011 | Start G-13 now on all built screens (Legacy later today); job 102 read as delivered; full package ~Tue 6 Oct; tie copy check | only if 102 is wrong or on the tie question |
+| 2026-10-04 17:09 | Team V | Team G | V2G-012 | Legacy (History) built and checked; every screen can now be wired in G-13 (read at a5b5779 or later) | no |
