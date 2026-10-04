@@ -70,6 +70,26 @@ Run every command in `tools/MAKE_ASSETS.md`. It creates the registered Daniel/Ni
 
 ## Phone
 
+### Layout and phone fate
+
+At ≤760 px the desktop top bar and desktop near-arm cut-out/rim/contact layers are hidden. The phone uses the full viewport because Final Winner has no bottom bar. The portrait Trophy Room environment fills the stage; Daniel is the left large hero at 29% and Nik is the right large hero at 71%, with both heads kept in the upper band and the cut-outs overlapping the lower UI lip.
+
+The ceremony title, winner crown, centre trophy, winner/draw headline and Daniel/Nik totals remain in the hero band. Results are recomposed into local Summary and Honours display tabs rather than shrinking the desktop strip. Loading, empty and unavailable states replace the tab content with the designed state panel. Partial-history detail moves into the compact sheet disclosure. Terminal status wraps above the action slot. Real Terminal Close actions stay in the bottom pinned slot; no new product action is invented.
+
+There are no text-entry controls on this screen. The display tabs, partial-history disclosure and live buttons all have at least 44 px targets. The primary action slot is 54 px high and pinned to `env(safe-area-inset-bottom)`. The phone HTML and CSS load no PNG masters.
+
+### Phone assets
+
+Phone scene references:
+
+* `../trophy-room/assets/ENV_TR_PHONE_V1.webp`
+* `../trophy-room/assets/OVL_TR_DANIEL_PHONE_V1.webp`
+* `../trophy-room/assets/OVL_TR_NIK_PHONE_V1.webp`
+* `../shared/wordmarks/TITLE_FINAL_WINNER_V1.webp`
+* the existing original Showdown trophy WebPs used by the Final Winner fixture
+
+The portrait environment is already referenced. The Daniel and Nik phone cut-out WebPs may still be recipe-only on the branch; Claude must run the exact commands in `visual-assets/v10_1/final-winner/tools/MAKE_ASSETS.md` before rendered intake, then verify the generated assets at the phonemap positions. No real club crest, league logo, real trophy or player image is introduced.
+
 ### Height budget
 
 The phone CSS uses one full-viewport composition with no bottom bar. The title, trophy and winner copy are overlays inside the hero band, so they do not add stacked height. The tab row is included inside the results-panel height.
