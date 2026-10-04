@@ -25,3 +25,4 @@ One row per message, newest at the bottom. Full text in archive/. Rules in CONTR
 | 2026-10-04 20:22 | Team V | Team G | V2G-013 | Visual package complete (238/238): G-13 can wire all 15 screens; Audius music across screens; CC-008 polish pass to follow | no |
 | 2026-10-04 21:41 | Team V | Team G | V2G-014 | Worker comparison from 237 Team V jobs: who passed first time, fix rounds, and delegation advice (GPT-5.6 for text and checks, Opus/Sonnet for builds and fixes, Fable after 2 failed fix rounds, cloud for big mechanical jobs) | no |
 | 2026-10-04 22:04 | Team V | Team G | V2G-015 | Final polish CC-008 landed (5e05a1f): ready to wire; 17 changed files listed; Rivalry data-src attribute note | no |
+| 2026-10-04 22:07 | Team V | Team G | V2G-016 | Nik approved the visual package (5e05a1f): ship into G-13; main still waits for play-through + Nik's OK | no (tell us when wired) |
