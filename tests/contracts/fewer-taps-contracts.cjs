@@ -355,7 +355,12 @@ async function r1CommitContracts(){
     assert.deepEqual(h.calls.reports,[],"a failed fast read is retried by the next poll, not reported");
     assert.equal(h.action().textContent,"WAITING FOR COORDINATOR","and keeps the current waiting view");
     h.intervals.find(item=>item.ms===15000).fn();await settle();
-    assert.equal(h.calls.reports.length,1,"the normal 15 s poll still reports a real read failure");
+    assert.equal(h.action().textContent,"RETRY COMMIT CHECK","a failed normal poll still shows the failure at once");
+    assert.equal(h.calls.reports.length,0,"a single failed read is not yet reported");
+    h.intervals.find(item=>item.ms===15000).fn();await settle();
+    assert.equal(h.calls.reports.length,1,"the same failure on the next poll is reported");
+    h.server.failRead=false;h.intervals.find(item=>item.ms===15000).fn();await settle();
+    assert.equal(h.action().textContent,"WAITING FOR COORDINATOR","a later successful read recovers the waiting view");
   }
   ok("R1 Season Commit: fast reads only while waiting for the coordinator's COMMIT or the rival's ACKNOWLEDGE; COMMIT and each ACKNOWLEDGE stay manual taps");
 }
