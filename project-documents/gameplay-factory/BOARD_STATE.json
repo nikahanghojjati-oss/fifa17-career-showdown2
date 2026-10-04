@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-04 5:04 PM Boston time (EDT)",
+ "generated": "2026-10-04 5:36 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 19,
@@ -238,7 +238,7 @@
    "likelihood": "likely",
    "status": "DONE",
    "owner": "lead",
-   "note": "job 21, PR #344 merged into the gameplay branch; reaches the live app at the next release"
+   "note": "job 21, PR #344; live since r53 (2026-10-04)"
   },
   {
    "id": "BH-2",
@@ -252,19 +252,20 @@
   {
    "id": "BH-3",
    "title": "Nobody cross-checks the two managers' season results",
-   "plain": "Both can publish position 1 or both tick Champions League. Nik chose (2026-10-04) to warn, not block: the commit screen now shows a CHECK RESULTS line on a clash and committing stays allowed (PR #346, merged into recovery dc78ed7). Live after the next release.",
+   "plain": "Both can publish position 1 or both tick Champions League. Nik chose (2026-10-04) to warn, not block: the commit screen now shows a CHECK RESULTS line on a clash and committing stays allowed (PR #346, merged into recovery dc78ed7). Live since r53.",
    "likelihood": "medium",
    "status": "DONE",
-   "owner": "lead"
+   "owner": "lead",
+   "note": "PR #346; live since r53 (2026-10-04)"
   },
   {
    "id": "BH-4",
    "title": "Lock buttons have no confirm",
-   "plain": "One stray tap on LOCK MY GUESSES or LOCK MY SIGNINGS locks an empty list for the season; the helpful error text is hidden behind a code. Lock buttons now ask \"Lock N of 3?\" when a form is partly filled (PR #345, merged into recovery 6974408). Live after the next release.",
+   "plain": "One stray tap on LOCK MY GUESSES or LOCK MY SIGNINGS locks an empty list for the season; the helpful error text is hidden behind a code. Lock buttons now ask \"Lock N of 3?\" when a form is partly filled (PR #345, merged into recovery 6974408). Live since r53.",
    "likelihood": "medium-low",
    "status": "DONE",
    "owner": "lead",
-   "note": "job 21 shows the helpful error text and caps names at 80; the confirm step is still to plan"
+   "note": "PR #345 adds the \"Lock N of 3?\" confirm; live since r53 (2026-10-04)"
   },
   {
    "id": "BH-5",
