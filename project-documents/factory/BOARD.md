@@ -1,18 +1,18 @@
 # Showdown Factory board
 
-**200 of 238 jobs done and checked · 84 %** · updated Sun 1:20 p.m. Eastern
+**201 of 238 jobs done and checked · 84 %** · updated Sun 1:24 p.m. Eastern
 
-✅ **Quality check:** a job counts as done only after Claude checks it against the quality bar (average 4.2 or more, nothing under 3, hard gates pass). Average score 4.26 over 71 scored jobs. 🔍 Waiting for Claude's check: 103. 
+✅ **Quality check:** a job counts as done only after Claude checks it against the quality bar (average 4.2 or more, nothing under 3, hard gates pass). Average score 4.26 over 71 scored jobs. 🔍 Nothing waiting for a check. 
 
 <img src="board-meter.svg" alt="Football progress meter" width="640">
 
 **Where to run:** 🟡 **project job** = new chat in the ChatGPT project "Showdown visual", type the number; one number is one turn (no Continue), and a job in parts shows its later parts only when the earlier part is done. 🟣 **image job** = its ticket in a ChatGPT **Temporary Chat** outside any project, then drop the picture in Claude's factory thread.
 
-🟡 **Type next:** 210
+🟡 **Type next:** -
 
 🟣 **Image next:** -
 
-**Working:** 216, 217, 218, 219, 220 · **Blocked:** -
+**Working:** 210, 216, 217, 218, 219, 220 · **Blocked:** -
 
 ## Screens
 
@@ -49,15 +49,15 @@ Integration    ░░░░░░░░░░ 1/38
 
 Branch `factory/v1-wtt5ye`. 238 Team V jobs, plus 5 lines that track Team G. Two kinds of job. **Project (type number):** open a new chat in the ChatGPT project "Showdown visual" and type the number (up to 5 at once). **Fresh chat (image):** run the job's ticket from [tickets/](tickets/README.md) in a ChatGPT Temporary Chat (no memory) outside any project, then drop the image in Claude's factory thread (up to 2 at once).
 
-**Overall (Team V):** ████████░░ 84 % · 200 of 238 jobs done
+**Overall (Team V):** ████████░░ 84 % · 201 of 238 jobs done
 
-**Start now · project (type the number in Showdown visual):** 210
+**Start now · project (type the number in Showdown visual):** nothing (all slots busy or nothing ready)
 
 **Start now · fresh chat (image ticket, outside the project):** -
 
 **Start now (Sol Work mode, press Use Work):** -
 
-**Working:** 216, 217, 218, 219, 220 · **Blocked:** -
+**Working:** 210, 216, 217, 218, 219, 220 · **Blocked:** -
 
 **Team G tracking (never start these):** 98 (done), 99 (done), 100 (done), 101 (done), 102 (done). Claude marks them done when Team G delivers.
 
@@ -273,7 +273,7 @@ Branch `factory/v1-wtt5ye`. 238 Team V jobs, plus 5 lines that track Team G. Two
 | 207 | [Phone art: Rivalry Statistics (part 2 of 2)](jobs/JOB-207.md) | 3 Art | build | project (type number) | 117 | ██████████ 100 % | DONE |  |
 | 208 | [Phone art: Season Results (part 2 of 2)](jobs/JOB-208.md) | 3 Art | build | project (type number) | 119 | ██████████ 100 % | DONE |  |
 | 209 | [Phone art: Start / Join (part 2 of 2)](jobs/JOB-209.md) | 3 Art | build | project (type number) | 120 | ██████████ 100 % | DONE |  |
-| 210 | [Showcase: every screen in one place (part 2 of 5)](jobs/JOB-210.md) | 7 Integration | integrate | project (type number) | 103 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
+| 210 | [Showcase: every screen in one place (part 2 of 5)](jobs/JOB-210.md) | 7 Integration | integrate | project (type number) | 103 | ██████████ 100 % | IN PROGRESS |  |
 | 211 | [Showcase: every screen in one place (part 3 of 5)](jobs/JOB-211.md) | 7 Integration | integrate | project (type number) | 210 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 212 | [Showcase: every screen in one place (part 4 of 5)](jobs/JOB-212.md) | 7 Integration | integrate | project (type number) | 211 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 213 | [Showcase: every screen in one place (part 5 of 5)](jobs/JOB-213.md) | 7 Integration | integrate | project (type number) | 212 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
