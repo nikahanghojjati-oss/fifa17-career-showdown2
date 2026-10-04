@@ -111,6 +111,10 @@
     root.CareerModeV10Screens.setNavRoute("standings",async app=>{let host=root.document.getElementById("standings");if(!host){host=root.document.createElement("section");host.id="standings";host.className="screen hidden";host.setAttribute("aria-label","Standings");root.document.querySelector("#app main").appendChild(host);}return app.navigateTo("standings");});
   }
   function seasonSource(){const s=sfSnapshot();return {final:finalFrame(s.finalReconciliation,s.terminalClose,s.history)};}
+  // The pair module notifies only its own subscribers (no window event), so Standings follows pairing
+  // and closure through it. It may load after this file, so each screen change retries once until bound.
+  let pairBound=false;
+  function followPair(){if(pairBound)return;try{const api=root.CareerModePersistentNikDanielPair;if(typeof api?.subscribe==="function"){api.subscribe(()=>wake());pairBound=true;}}catch(_){}}
   function wake(){
     if(scheduled)return;scheduled=true;root.setTimeout(()=>{scheduled=false;const screen=root.getActiveScreenName?.();if(!["seasonEntry","standings"].includes(screen))return;
       const source=screen==="seasonEntry"?seasonSource():standingsFrames(currentRivalry(),currentCareer());
@@ -128,7 +132,8 @@
     const load=root.loadRuntimeScript;
     for(const [key,p,api] of [["career-history","js/sharedHistoryConvergence.js","CareerModeSharedHistoryConvergence"],["career-analytics","js/sharedCareerAnalytics.js","CareerModeSharedCareerAnalytics"],["career-terminal","js/sharedTerminalClose.js","CareerModeSharedTerminalClose"],["career-final","js/sharedFinalReconciliation.js","CareerModeSharedFinalReconciliation"],["career-active-adapter","js/sharedActiveShowdownAdapter.js","CareerModeSharedActiveShowdownAdapter"]])await load(key,p,()=>Boolean(root[api]));
     for(const e of ["career-mode-shared-final-reconciliation-state-change","career-mode-shared-terminal-close-state-change","career-mode-shared-history-convergence-state-change","career-mode-shared-multi-season-state-change","career-mode-online-identity-change","career-mode-active-save-changed","career-mode-showdown-state-change"])root.addEventListener?.(e,wake);
-    root.document.addEventListener("career-mode-screen-shown",()=>{signature="";wake();});
+    root.document.addEventListener("career-mode-screen-shown",()=>{signature="";followPair();wake();});
+    followPair();
     wake();return true;
   }
   return Object.freeze({finalFrame,standingsFrames,skinSeason,install});
