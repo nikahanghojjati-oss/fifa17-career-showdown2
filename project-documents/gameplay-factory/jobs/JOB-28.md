@@ -8,7 +8,7 @@ Read `jobs/G13_PART2_COMMON.md` first, then job 24's PR body for the loader API 
 
 ## Screens
 
-- Team V source (at `bde2172`): `rivalry-statistics/` and `legacy/`.
+- Team V source (at `5e05a1f`): `rivalry-statistics/` and `legacy/`. Keep the `data-src-1x`/`data-src-2x` attribute names that `stage.js` reads (V2G-015).
 - App screens: `rivalryStatistics` and `legacy` (History).
 
 ## Build

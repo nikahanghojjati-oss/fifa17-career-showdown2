@@ -8,7 +8,7 @@ Read `jobs/G13_PART2_COMMON.md` first, then job 24's PR body for the loader API 
 
 ## Screens
 
-- Team V source (at `bde2172`): `tr2/slice-02-plate/` (and `tr2/slice-01/` only for files it references; see `tr2/ASSET_LEDGER.md`).
+- Team V source (at `5e05a1f`): `tr2/slice-02-plate/` (and `tr2/slice-01/` only for files it references; see `tr2/ASSET_LEDGER.md`).
 - App screens: `transferChallenge`.
 
 ## Build

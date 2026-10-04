@@ -8,7 +8,7 @@ Read `jobs/G13_PART2_COMMON.md` first, then job 24's PR body for the loader API 
 
 ## Screens
 
-- Team V source (at `bde2172`): `rule-book/` and `settings/` (the system plate in `shared/plates/`).
+- Team V source (at `5e05a1f`): `rule-book/` and `settings/` (the system plate in `shared/plates/`).
 - App screens: `ruleBook` and Settings (`#settingsButton` target).
 
 ## Build

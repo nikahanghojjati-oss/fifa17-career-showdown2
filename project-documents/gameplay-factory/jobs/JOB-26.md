@@ -8,7 +8,7 @@ Read `jobs/G13_PART2_COMMON.md` first, then job 24's PR body for the loader API 
 
 ## Screens
 
-- Team V source (at `bde2172`): `start-join/`, `league/`, `club/` (and the crests and league marks they reference: `visual-assets/crests/`, `visual-assets/league-marks-v2/`).
+- Team V source (at `5e05a1f`): `start-join/`, `league/`, `club/` (and the crests and league marks they reference: `visual-assets/crests/`, `visual-assets/league-marks-v2/`).
 - App screens: `createShowdown`, the entry overlay `#productionSharedJourneyEntryOverlay`, `#persistentNikDanielPairPanel`, `#sparkRemoteJoiningOverlay`, `leagueWheelScreen` and `clubWheelScreen`.
 
 ## Build

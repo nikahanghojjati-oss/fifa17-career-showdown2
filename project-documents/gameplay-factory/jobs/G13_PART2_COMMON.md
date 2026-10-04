@@ -10,7 +10,7 @@ Team V's package is finished (relay V2G-013: 238/238 jobs, 15 screens). Part 1 (
 
 ## Sources (pinned)
 
-- Team V screens: branch `factory/v1-wtt5ye` at commit **`bde2172`** (`bde2172a…`). Copy from that commit with `git show bde2172:<path>`, never from the moving tip. Team V's polish pass CC-008 will land later; the lead brings those changes in afterwards. Do not wait for it.
+- Team V screens: branch `factory/v1-wtt5ye` at commit **`5e05a1f`** (final polish CC-008, approved by Nik 2026-10-04, relay V2G-016). Copy from that commit with `git show 5e05a1f:<path>`, never from the moving tip. Job 13 used `bde2172`; only `career-statistics/career-statistics.css` changed since, and job 24 re-copies it.
 - Read first on that commit: `project-documents/factory/PACKAGE.md`, `project-documents/factory/HANDOFF_TO_SOL.md`, `visual-assets/v10_1/shared/navbar/NAV_CONTRACT.md`, and your screen's `TRUTH.md` and `BUILD_RESULT.md` (where they exist).
 - Data shape: `project-documents/leads/DATA_CONTRACT_V1.md` (branch `leads/relay`), and the fixtures in `tests/fixtures/data-contract-v1/` on `gameplay/recovery-v1`.
 - Pattern to copy: job 13's `js/careerScreensV10.js` and `tests/contracts/career-screens-v10-contracts.cjs` on `gameplay/recovery-v1`, plus job 24's foundation once it is merged.

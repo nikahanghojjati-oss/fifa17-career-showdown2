@@ -8,7 +8,7 @@ Read `jobs/G13_PART2_COMMON.md` first, then job 24's PR body for the loader API 
 
 ## Screens
 
-- Team V source (at `bde2172`): `home/` (`home.css`, `home.js`, `soundtrack.js`, referenced art) and `loading/`.
+- Team V source (at `5e05a1f`): `home/` (`home.css`, `home.js`, `soundtrack.js`, referenced art) and `loading/`.
 - App screens: `mainMenu` (Home) and `loadingScreen` (Loading).
 
 ## Build
