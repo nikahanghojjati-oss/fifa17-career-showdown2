@@ -373,7 +373,100 @@ body::after {
   }
 }
 
+
+/* Shared 350 ms screen transition · Job 231 */
+.showcase-transition {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: 0;
+  background: #030405;
+  transform: translate3d(0, 0, 0);
+}
+
+.showcase-transition__gold {
+  position: absolute;
+  top: -12%;
+  bottom: -12%;
+  left: 33%;
+  width: clamp(120px, 28vw, 440px);
+  opacity: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(212,160,23,0) 0%,
+    rgba(240,201,92,.9) 44%,
+    rgba(212,160,23,.52) 58%,
+    rgba(212,160,23,0) 100%
+  );
+  transform: translate3d(-430%, 0, 0) skewX(-12deg);
+  will-change: transform, opacity;
+}
+
+.showcase-transition--active {
+  pointer-events: auto;
+  animation: showcase-transition-black 350ms cubic-bezier(.65,0,.35,1) both;
+}
+
+.showcase-transition--active .showcase-transition__gold {
+  animation: showcase-transition-gold 350ms cubic-bezier(.65,0,.35,1) both;
+}
+
+@keyframes showcase-transition-black {
+  0% { opacity: 0; }
+  56% { opacity: .96; }
+  100% { opacity: 1; }
+}
+
+@keyframes showcase-transition-gold {
+  0% {
+    opacity: 0;
+    transform: translate3d(-430%, 0, 0) skewX(-12deg);
+  }
+  18% { opacity: .9; }
+  72% { opacity: .52; }
+  100% {
+    opacity: 0;
+    transform: translate3d(430%, 0, 0) skewX(-12deg);
+  }
+}
+
+.showcase-transition--reduced.showcase-transition--active {
+  animation: showcase-transition-fade 350ms linear both;
+}
+
+.showcase-transition--reduced .showcase-transition__gold {
+  animation: none !important;
+  opacity: 0;
+}
+
+@keyframes showcase-transition-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+html[data-motion-reduced="true"] .showcase-transition--active,
+html[data-reduced-motion="true"] .showcase-transition--active {
+  animation: showcase-transition-fade 350ms linear both;
+}
+
+html[data-motion-reduced="true"] .showcase-transition__gold,
+html[data-reduced-motion="true"] .showcase-transition__gold {
+  animation: none !important;
+  opacity: 0;
+}
+
 @media (prefers-reduced-motion: reduce) {
+  .showcase-transition--active {
+    animation: showcase-transition-fade 350ms linear both;
+  }
+
+  .showcase-transition__gold {
+    animation: none !important;
+    opacity: 0;
+  }
+
   .showcase-links a {
     transition: none;
   }
