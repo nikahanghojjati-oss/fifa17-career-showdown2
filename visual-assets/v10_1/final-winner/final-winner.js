@@ -177,14 +177,14 @@
     anticipateMs: 400,     // screen dims, drum-roll pulse on the trophy glow
     flashAtMs: 400,        // white-gold flash
     flashMs: 220,
-    burstAtMs: 450,        // confetti burst (kit sdBurst, hard cap 60)
+    burstAtMs: 300,        // confetti burst (kit sdBurst, hard cap 60)
     burstCount: 60,
     drawBurstCount: 30,    // draw: one smaller burst on each side
     nameWipeAtMs: 450,     // winner name brush-wipe (kit title-wipe classes)
     nameWipeMs: 450,
     countUpAtMs: 600,
     countUpMs: 600,
-    shineSettleMs: 1200    // then a slow shine loop every 4 s (CSS, off for reduced motion)
+    shineSettleMs: 1080    // one 120 ms settle shine ends at the shared 1.2 s ceiling
   };
 
   function ceremonyReduced() {
