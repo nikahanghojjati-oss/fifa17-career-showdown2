@@ -699,6 +699,23 @@
         "^tests/contracts/shared-tap-race-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/career-screens-v10-contracts.cjs",
+      "patterns": [
+        "^js/careerScreensV10\\.js$",
+        "^js/careerScreenSeam\\.js$",
+        "^js/sharedCareerAnalytics\\.js$",
+        "^js/statistics\\.js$",
+        "^js/trophyRoom\\.js$",
+        "^js/onlinePlayerIdentity\\.js$",
+        "^service-worker\\.js$",
+        "^index\\.html$",
+        "^visual-assets/v10_1/",
+        "^tests/fixtures/data-contract-v1/",
+        "^tests/contracts/career-screens-v10-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
