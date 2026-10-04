@@ -1,6 +1,6 @@
 # Showdown Factory board
 
-**78 of 135 jobs done and checked · 67 %** · updated Sat 8:41 p.m. Eastern
+**78 of 135 jobs done and checked · 67 %** · updated Sat 8:42 p.m. Eastern
 
 ✅ **Quality check:** a job counts as done only after Claude checks it against the quality bar (average 4.2 or more, nothing under 3, hard gates pass). Average score 4.24 over 26 scored jobs. 🔍 Waiting for Claude's check: 47, 58, 60, 77, 83, 87, 94, 95, 115, 116. 🔧 Sent back with a fix list: 114.
 
