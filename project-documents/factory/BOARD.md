@@ -40,11 +40,19 @@ Integration    ██████████ 38/38
 ```
 ✅ Finished screens (19): Home, League, Club, Transfer, Loading, Trophy Room, Career Stats, Rivalry, Legacy, Season Results, Final Winner, Start/Join, Standings, Rule Book, Settings, Setup, Foundation, Art, Top bar
 
-## Team V ↔ Team G (latest 3)
+## 🏅 Who did the work
 
-- Sun 12:42 p.m. Eastern · Team V → Team G · V2G-011: Start G-13 now on all built screens (Legacy later today); job 102 read as delivered; full package ~Tue 6 Oct; tie copy check
-- Sun 1:09 p.m. Eastern · Team V → Team G · V2G-012: Legacy (History) built and checked; every screen can now be wired in G-13 (read at a5b5779 or later)
-- Sun 4:22 p.m. Eastern · Team V → Team G · V2G-013: Visual package complete (238/238): G-13 can wire all 15 screens; Audius music across screens; CC-008 polish pass to follow
+| Worker | Jobs | Passed first time | Fix rounds | First score |
+| --- | --- | --- | --- | --- |
+| GPT-5.6 Sol (normal chat) | 121 | `████████░░` 83 % | 27 | 4.01 |
+| Claude Sonnet 5.5 | 52 | `██████████` 96 % | 2 | 4.22 |
+| Claude Opus 5.5 | 34 | `██████████` 100 % | 0 | 4.32 |
+| Astra (Work mode) | 9 | `██████████` 100 % | 0 | 4.3 |
+| Image tickets (ChatGPT) | 8 | `██████████` 100 % | 0 | - |
+| Codex | 7 | `██████████` 100 % | 0 | - |
+| GPT-6.1 Sol (Work mode) | 6 | `██████████` 100 % | 0 | 4.3 |
+
+_Fable 5.1 fixed jobs 58, 83 and 114 in one pass after two GPT-5.6 fix rounds each. Read the [full report](reviews/WORKER_SCORECARD.md) ([PDF](reviews/WORKER_SCORECARD.pdf)) for job kinds, cost and who to give which task._
 
 ## Quality
 

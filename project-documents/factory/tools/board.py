@@ -326,6 +326,16 @@ fin = [name for name, nums in SCREENS if (lambda ns: ns and all(info[n][0] in FI
 P += ["```", f"✅ Finished screens ({len(fin)}): {', '.join(fin)}", ""]
 fr = feed_rows()
 if fr: P += ["## Team V ↔ Team G (latest 3)", ""] + fr + [""]
+# Worker scorecard (tools/scorecard.py writes reviews/WORKER_SCORECARD.json; full report next to it)
+try:
+    SC = json.load(open(os.path.join(F, "reviews", "WORKER_SCORECARD.json")))
+except Exception:
+    SC = {}
+if SC:
+    P += ["## 🏅 Who did the work", "", "| Worker | Jobs | Passed first time | Fix rounds | First score |", "| --- | --- | --- | --- | --- |"]
+    for w, o in sorted(SC.items(), key=lambda x: -x[1]["jobs"]):
+        P.append(f"| {w} | {o['jobs']} | `{'█' * round(o['first_try_pct'] / 10)}{'░' * (10 - round(o['first_try_pct'] / 10))}` {o['first_try_pct']} % | {o['fix_rounds']} | {o['avg_first_score'] or '-'} |")
+    P += ["", "_Fable 5.1 fixed jobs 58, 83 and 114 in one pass after two GPT-5.6 fix rounds each. Read the [full report](reviews/WORKER_SCORECARD.md) ([PDF](reviews/WORKER_SCORECARD.pdf)) for job kinds, cost and who to give which task._", ""]
 P += ["## Quality", "", f"Quality bar: average 4.2 or more, nothing under 3. " + (f"Average so far {avg_score} over {len(scored)} scored jobs." if scored else ""), "",
       "<details><summary>Full job table</summary>", "", "| # | Job | Lane | After | Progress | State |", "| --- | --- | --- | --- | --- | --- |"]
 for j in jobs:
