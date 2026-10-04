@@ -144,3 +144,28 @@ Left out on purpose:
 - The Settings ST7 chip is a preview-only frame label.
 - The Legacy carousel is by design.
 - Small titles on Trophy Room and Career Statistics are accepted.
+
+## Fix round
+
+### Items done
+
+- Items 1–3: DONE in job 106; Claude intake PASS on League, Final Winner and Season Results.
+- Items 4–6: DONE in job 227; Claude intake PASS on showcase flow links, Rule Book and Career Statistics phone navigation.
+- Item 7: DONE in job 228; Trophy Room phone `.trophyTabs` now has `mask-image: linear-gradient(to right, #000 85%, transparent)` to hint the off-screen filters.
+- Item 8: DONE in job 228; Transfer War phone `.timer-text` is fixed inside the viewport at the top-right, 14 px and gold for WINDOW_OPEN frames.
+- Item 9: DONE in job 228; Settings phone `#creditAuthor` and `#creditLicense` are inline-block links with 24 px minimum height and 6 px vertical padding.
+
+### Items blocked
+
+- None.
+
+### Claude must re-measure
+
+- Trophy Room at 393 × 660: confirm the right-edge fade hints DOMESTIC CUPS and CHAMPIONS LEAGUE without changing the 44 px tab geometry.
+- Transfer War F1, F1D, F1R and F1DR at 393 × 660 and 360 × 640: confirm 11:42 is visible inside the viewport.
+- Settings at 393 × 660 and 360 × 640: confirm both credit links are at least 24 px tall and DONE remains pinned.
+
+### Left for pass 2
+
+- None. The fix list ends at item 9.
+
