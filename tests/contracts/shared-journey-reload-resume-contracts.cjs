@@ -259,6 +259,12 @@ function multiSandbox({accepted,total=3,terminal=false}){
     assert.match(history,/if\(key!==heldErrorKey\)\{heldErrorKey=key;return null;\}heldErrorKey="";phcReport\("Unable to converge Shared History",error\);/,"F3 Shared History holds a first convergence failure for one poll");
     assert.match(history,/phcRefreshNow\(request\)\.then\(value=>\{heldErrorKey="";return value;\}/,"F3 a successful History refresh clears the held failure");
   console.log("ok F Reconnect, Multi Season and Shared History report a failure only when it repeats on the next poll");
+  {
+    const setup=read("js/productionSharedShowdownSetup.js");
+    assert.match(setup,/if\(!heldReadFailure&&state\.ready===true&&state\.setup&&state\.setup\.phase==="SHOWDOWN_CONFIRMED"\)\{heldReadFailure=true;return setState\(\{status:"ready",busy:false\}\);\}\s*heldReadFailure=false;\s*return setState\(\{status:"locked",busy:false,ready:false,/,"G1 one failed read keeps a confirmed Setup for one poll; a repeat locks it");
+    assert.match(setup,/heldReadFailure=false;return accept\(result,context,message\);/,"G1 a successful read clears the held failure");
+  }
+  console.log("ok G a confirmed Shared Setup survives one failed read and locks on a repeat");
 
   console.log("PASS shared journey reload resume contracts: closed/active Showdowns never re-open GET READY, pre-pair shells still do, the season cursor resumes at provider authority after a fresh exact session, and Continue Career resumes on the dashboard instead of replaying Career Start.");
 })().catch(error=>{console.error(error);process.exit(1);});

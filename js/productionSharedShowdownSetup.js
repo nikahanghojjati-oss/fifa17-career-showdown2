@@ -131,7 +131,7 @@
   // in flight (every 2.5-15s), so the wheel/packs/confirm needed a second tap. Refreshes now coalesce,
   // a refresh during a write keeps the write's state, and a write waits for an in-flight refresh.
   function refreshWaitMs(){const value=Number(root.CMS_SETUP_REFRESH_WAIT_MS);return Number.isFinite(value)&&value>=100&&value<=20000?value:20000;}
-  let refreshInFlight=null,refreshStartedAt=0,mutateInFlight=null,setupGeneration=0;
+  let refreshInFlight=null,refreshStartedAt=0,mutateInFlight=null,setupGeneration=0,heldReadFailure=false;
   function boundedWait(promise){let timer=null;return Promise.race([promise.catch(()=>null),new Promise(resolve=>{timer=root.setTimeout?.(resolve,refreshWaitMs());})]).finally(()=>{if(timer!==null)root.clearTimeout?.(timer);});}
   function refresh(){
     // A refresh during a write resolves after the write publishes its accepted state.
@@ -151,10 +151,13 @@
       const message=result.status==="empty"
         ? context.remoteRole==="host"?"The paired managers have reached an empty Shared Setup. Open it once for both managers.":"The paired managers have reached an empty Shared Setup. Waiting for the session host to open it."
         : "Authoritative Shared Setup resumed without reset or redraw.";
-      return accept(result,context,message);
+      heldReadFailure=false;return accept(result,context,message);
     }catch(error){
       try{assertStorageUnchanged(before);}catch(storageError){error=storageError;}
       if(generation!==setupGeneration)return state;
+      // One failed read (network blip, a read racing the rival's write) keeps the confirmed Setup for one poll so every module gated on it does not go quiet; a repeat failure locks it.
+      if(!heldReadFailure&&state.ready===true&&state.setup&&state.setup.phase==="SHOWDOWN_CONFIRMED"){heldReadFailure=true;return setState({status:"ready",busy:false});}
+      heldReadFailure=false;
       return setState({status:"locked",busy:false,ready:false,message:error&&error.message&&error.message!==error.code?error.message:String(safeError(error,"SHARED_SETUP_UNAVAILABLE")).replace(/_/g," ")});
     }
   }
