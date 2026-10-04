@@ -224,7 +224,7 @@
       const lr = layer.getBoundingClientRect(), tr = slot.getBoundingClientRect();
       window.sdBurst(canvas, tr.left + tr.width / 2 - lr.left, tr.top + tr.height * 0.35 - lr.top, { count: RIP.burstCount });
     });
-    later(RIP.burstAtMs + 1000, () => canvas.remove());
+    later(RIP.burstAtMs + 900, () => canvas.remove());
 
     const name = document.getElementById("outcomeHeadline");
     if (name) {
