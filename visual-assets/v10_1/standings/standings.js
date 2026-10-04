@@ -196,6 +196,7 @@
     mountStage(platemap);
     bindToggle();
     render();
+    if (typeof window.sdEnter === "function") window.sdEnter(document.getElementById("stage-root"));
   }
 
   Promise.all([

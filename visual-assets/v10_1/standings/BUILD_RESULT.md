@@ -34,3 +34,13 @@ Measured in a real browser on SD1 to SD9: no page scroll at all three sizes, Dan
 ### Check by reading (criteria 1-7, 9, 10: aim 4 or more)
 
 Every number and name is live DOM text from fixtures.json; Daniel is first and left in the markup and on screen. First paint by file size: phone about 425 KB (ENV 120 + heroes 110 + title 120 + kit and code 75), desktop about 440 KB at 1x (plate 244 + title 120 + kit and code 75), under the 450 KB and 900 KB caps. Claude re-scores the visual criteria at intake.
+
+## Fix round and intake fix (04 Oct)
+
+- Preview tag moved clear of the heads (desktop top -6.2vh, phone left 12px); row labels 12-15px desktop, 11px phone.
+- Shared top nav mounted with STANDINGS active; desktop header and board moved below the 52px bar (short desktops: smaller wordmark, tagline hidden).
+- Phone head-to-head table now ends on a whole 18px row at every height (rows height snapped with `round(down, ...)`, 36px minimum) with a gold bottom fade while more rows wait. At 375x553 two rows show, at 393x660 all seven.
+
+## Motion
+
+`data-sd-enter` on scene, both phone heroes, title block and board; `sdEnter` runs after the first render.
