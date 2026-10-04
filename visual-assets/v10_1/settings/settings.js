@@ -41,14 +41,14 @@
   function renderActions(strings, frame) {
     const accountActions = document.getElementById("accountActions");
     accountActions.replaceChildren();
-    frame.values.account.actions.forEach((label) => accountActions.appendChild(makeButton(label)));
+    frame.values.account.actions.forEach((label) => accountActions.appendChild(makeButton(label, "sd-btn sd-btn--secondary")));
 
     const dataActions = document.getElementById("dataActions");
     dataActions.replaceChildren();
     if (frame.values.currentShowdownAction.deleteVisible) {
-      dataActions.appendChild(makeButton(strings.dataActions.deleteCurrent, "settingsDeleteCurrentShowdown"));
+      dataActions.appendChild(makeButton(strings.dataActions.deleteCurrent, "settingsDeleteCurrentShowdown settingsDangerButton"));
     }
-    dataActions.appendChild(makeButton(strings.dataActions.openHistory, "settingsDataButton"));
+    dataActions.appendChild(makeButton(strings.dataActions.openHistory, "settingsDataButton sd-btn sd-btn--secondary"));
   }
 
   function renderCredit(strings, showCredit) {
@@ -78,6 +78,8 @@
     setText("settingsClose", S.shell.closeGlyph);
     document.getElementById("settingsClose").setAttribute("aria-label", S.shell.closeAriaLabel);
     setText("settingsDone", S.shell.done);
+    document.getElementById("settingsDone").className = "sd-btn sd-btn--primary";
+    document.getElementById("applicationUpdate").classList.add("sd-btn", "sd-btn--secondary");
     setText("previewTag", frame.previewLabel);
     setText("frameNote", frame.note);
     setText("contractState", V.status);
