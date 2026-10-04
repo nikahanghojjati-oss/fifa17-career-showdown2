@@ -176,3 +176,38 @@ Constants live in `SJ_HOST_MOTION` and `SJ_PAIR_MOTION` in `start-join.js`. `sdC
 Reduced motion: the host code resolves immediately; the OPEN dot is static; the pairing line uses the shared `sd-reduced-fade` 150 ms keyframe; `sdReveal` collapses to the same short fade through the shared kit; `sdBurst` self-suppresses when reduced motion is active.
 
 Claude intake records `evidence/motion/` frame strips for SJ2 hosting and SJ5 paired. Factory workers do not create browser screenshots.
+
+
+## Motion (JOB-193 part 3)
+
+Part 3 closes the Start / Join motion pass with interaction feel, tab/state cross-fades, both reduced-motion paths, and a consolidated timing audit. No layout property is animated: custom feedback uses opacity, transform, color, border color, background color and shadow only. The existing shared entrance remains capped by the JOB-016 1200 ms cleanup boundary.
+
+| Element | Delay | Duration | Easing |
+| --- | ---: | ---: | --- |
+| Scene plate settle | 0 ms | 400 ms | shared ease-out cubic |
+| Daniel phone hero | 150 ms | 450 ms | shared `sdEnter` character easing |
+| Nik phone hero | 150 ms | 450 ms | shared `sdEnter` character easing |
+| CONNECT PLAYERS title | 250 ms | 450 ms | shared `sdEnter` title easing |
+| Daniel role panel | 400 ms | 500 ms | shared `sdEnter` panel easing |
+| Nik role panel | 460 ms | 500 ms | shared `sdEnter` panel easing |
+| Current Connection panel | 520 ms | 500 ms | shared `sdEnter` panel easing |
+| Privacy lock line | 580 ms | 500 ms | shared `sdEnter` panel easing |
+| Primary action payoff | 760 ms | 320 ms | shared `sdEnter` button easing |
+| Host code slot deal | 520 ms | 300 ms total | `cubic-bezier(.22,1,.36,1)` |
+| Paired badge reveal | 350 ms | 810 ms phased reveal | shared `sdReveal`: anticipation → flash → settle |
+| Daniel → Nik gold link | 520 ms | 260 ms | `cubic-bezier(.22,1,.36,1)` |
+| Pairing particle burst | 710 ms | 340 ms | shared `sdBurst` canvas kinematics |
+| Hover feedback | 0 ms | 90–110 ms | ease-out / `cubic-bezier(.22,1,.36,1)` |
+| Press feedback | 0 ms | 90–110 ms | ease-out / `cubic-bezier(.22,1,.36,1)` |
+| Phone tab cross-fade | 0 ms | 120 ms | ease-out |
+| App/system reduced-motion fade | 0 ms | 150 ms | linear |
+
+Timing check by reading: the shared entrance cleanup is exactly 1200 ms. The longest Start / Join signature path is the paired badge reveal: 350 ms delay + 810 ms reveal = 1160 ms. The panel/privacy sequence and primary payoff both finish at 1080 ms, the host code deal at 820 ms, the gold link at 780 ms and the particle burst at 1050 ms. Therefore the complete entrance/signature envelope stays within 1.2 s.
+
+Usability at 0.6 s: actions and inputs are rendered synchronously before `sdEnter(stage)`; Start / Join adds no pointer-event lock or delayed event binding. At 600 ms, every real control is already interactive even while later visual payoff motion finishes. Hover/press transitions are at most 110 ms, and tab/state changes cross-fade without animating geometry.
+
+Reduced motion check: shared `motion.js` sets both `html[data-motion-reduced="true"]` and the stage-local `data-sd-motion-reduced="true"` flag from the persisted app preference, while the CSS also has `@media (prefers-reduced-motion: reduce)`. Both paths suppress Start / Join's spinner, pending pulse, OPEN pulse, slot movement and link movement; selected-tab/state feedback is reduced to the shared 150 ms opacity fade. `sdReveal` already reduces to that fade and `sdBurst` self-suppresses.
+
+Criterion 8 self-score: **5 / 5**. Evidence: total motion ≤ 1.2 s; usable by 0.6 s; hover/press ≤ 110 ms; tab cross-fade 120 ms; custom DOM motion is transform/opacity or paint-only feedback with no layout shift; and both reduced-motion paths are explicit in code.
+
+Claude intake records the required frame strips in `evidence/motion/`; factory workers do not create browser recordings or screenshots.
