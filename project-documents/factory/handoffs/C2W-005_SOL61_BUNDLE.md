@@ -4,7 +4,7 @@ From Claude (Team V visual lead) to one GPT-6.1 Sol chat (High). Written 2026-10
 
 ## What this is
 
-Nineteen factory jobs, done back to back in one chat. They are reserved for you on the board (`State: IN PROGRESS · BUNDLE`); no other chat will take them. These are all the free jobs left: the Legacy jobs belong to an Astra chat, and Team G delivered job 102 (04 Oct), so the fixture jobs 104 and 214-220 follow the Showcase; everything after them waits on the phone pass and Codex (job 108).
+Fourteen factory jobs, done back to back in one chat. They are reserved for you on the board (`State: IN PROGRESS · BUNDLE`); no other chat will take them. These are all the free jobs left: the Legacy jobs belong to an Astra chat, and Team G delivered job 102 (04 Oct), so the binding-table jobs 104, 214 and 215 follow the Showcase. Jobs 216-220 (swapping the numbers in every fixtures.json, top bar locks, consistency script) go to a Claude thread because they rewrite large JSON files and need a browser check; everything after them waits on the phone pass and Codex (job 108).
 
 | Order | Job | What | Can start |
 | --- | --- | --- | --- |
@@ -22,11 +22,6 @@ Nineteen factory jobs, done back to back in one chat. They are reserved for you 
 | 12 | 104 | Showcase: screens read Team G's model-true fixtures (part 1 of 8) | after 213 |
 | 13 | 214 | Showcase: screens read Team G's model-true fixtures (part 2 of 8) | after 104 |
 | 14 | 215 | Showcase: screens read Team G's model-true fixtures (part 3 of 8) | after 214 |
-| 15 | 216 | Showcase: screens read Team G's model-true fixtures (part 4 of 8) | after 215 |
-| 16 | 217 | Showcase: screens read Team G's model-true fixtures (part 5 of 8) | after 216 |
-| 17 | 218 | Showcase: screens read Team G's model-true fixtures (part 6 of 8) | after 217 |
-| 18 | 219 | Showcase: screens read Team G's model-true fixtures (part 7 of 8) | after 218 |
-| 19 | 220 | Showcase: screens read Team G's model-true fixtures (part 8 of 8) | after 219 |
 
 Repo `nikahanghojjati-oss/fifa17-career-showdown2`, branch `factory/v1-wtt5ye` only.
 
@@ -35,7 +30,7 @@ Repo `nikahanghojjati-oss/fifa17-career-showdown2`, branch `factory/v1-wtt5ye` o
 1. Your rules are the box in `project-documents/factory/FACTORY_RULES.md` plus `project-documents/factory/WORKER_HANDBOOK.md`. Read both once at the start.
 2. For each job in the order above: read `jobs/JOB-NNN.md` and `status/JOB-NNN.md`, do its steps in order, and save after every step exactly as the job file says (one commit per step, message `Job N step k/n: <name>`). Save the status file last with `State: DONE`. Then go straight to the next job. Do not stop between jobs, do not ask Nik anything, and never ask him to type continue.
 3. `State: IN PROGRESS · BUNDLE` on these status files means "reserved for you". Treat it like NOT STARTED. A job you already finished in an earlier run of this bundle (State DONE) is skipped. A job you started and did not finish carries on from its status file (handbook Pace rule 3).
-4. After job 180 and before job 103, do the extra fixes below (1 to 5 are done; do 6) (they do not wait on Legacy). Then, before job 103, open `status/JOB-171.md`. If its State is not DONE, the Astra chat has not finished Legacy yet: stop the bundle with the waiting line below. Nik pastes the same prompt again later and you carry on from 103.
+4. After job 180 and before job 103, note that the extra fixes below are all done or taken by Claude (extra 6 is Claude's), so go straight on (they do not wait on Legacy). Then, before job 103, open `status/JOB-171.md`. If its State is not DONE, the Astra chat has not finished Legacy yet: stop the bundle with the waiting line below. Nik pastes the same prompt again later and you carry on from 103.
 5. Text only. Never save images or other binary files. If a job wants a picture, write the recipe in that screen's `tools/MAKE_ASSETS.md` and Claude runs it.
 6. Phone layouts: if a screen places phone UI in % of the whole screen, it needs the band fix in the handbook's troubleshooting table (row "Phone layout uses % of the whole screen"). Season Results already has it at the end of `season-results.css`; keep it.
 7. A job that cannot be done: write `State: BLOCKED` and one question in its status file, then stop the bundle (the later jobs depend on it) and give Nik the stop line.
@@ -56,10 +51,10 @@ Claude found these on real screens. One commit per fix: `C2W-005 extra k: <name>
 4. **Transfer War 1366x640** (`tr2/slice-02-plate/plate.css`). The top of the painted TRANSFER WAR title is cut off under the top bar. Target: the whole title shows at 1366x640, 1366x768 unchanged. DEFAULT: at `(min-width: 901px) and (max-height: 700px)` move the title element down by the missing amount (about 4% of the stage height).
 5. **Club phone stray letter** (`club/club.css`). At 393x660 a gold painted letter "S" from the background plate's banner shows at the top-left edge. Target: no partial painted letters at the screen edges. DEFAULT: in the phone block move the plate's `background-position` / `object-position` toward the centre until the banner text is out of frame, or cover the left edge with the existing vignette.
 
-6. **Transfer War short desktop title, second try** (`tr2/slice-02-plate/plate.js`, `layoutDesktop()` near line 765, plus `plate.css`). Extra 4 was reverted: the painted TRANSFER WAR title is part of the plate, and on short screens (`vh < 700`) the camera moves down to keep the panels in view, so `stage.dataset.titleCropPx` is about 61 at 1366x640. Target: `titleCropPx` is 0 at 1366x640 and 1366x600, panels and footer still fully visible, 1366x768 unchanged. DEFAULT: in the short branch only, when the plate span from `map.keepVisible.titleTop` to the needed bottom does not fit `vh`, lower `k` until it fits (W may become narrower than the stage), centre the world horizontally, and fill the side gaps with the same plate blurred (`.stage::before` with `background: var(--plate-url) center / cover; filter: blur(18px) brightness(.45)`; set `--plate-url` on the stage in the desktop path too, it is only set on the phone path today). Do not add a DOM wordmark.
+6. **(Claude does this one; skip it.) Transfer War short desktop title, second try** (`tr2/slice-02-plate/plate.js`, `layoutDesktop()` near line 765, plus `plate.css`). Extra 4 was reverted: the painted TRANSFER WAR title is part of the plate, and on short screens (`vh < 700`) the camera moves down to keep the panels in view, so `stage.dataset.titleCropPx` is about 61 at 1366x640. Target: `titleCropPx` is 0 at 1366x640 and 1366x600, panels and footer still fully visible, 1366x768 unchanged. DEFAULT: in the short branch only, when the plate span from `map.keepVisible.titleTop` to the needed bottom does not fit `vh`, lower `k` until it fits (W may become narrower than the stage), centre the world horizontally, and fill the side gaps with the same plate blurred (`.stage::before` with `background: var(--plate-url) center / cover; filter: blur(18px) brightness(.45)`; set `--plate-url` on the stage in the desktop path too, it is only set on the phone path today). Do not add a DOM wordmark.
 
 ## Last line to Nik
 
-- All done: `Sol bundle C2W-005 done: 19 jobs and the extra fixes saved. Tell Claude "Sol bundle done".`
+- All done (after job 215): `Sol bundle C2W-005 done: 14 jobs saved. Tell Claude "Sol bundle done".`
 - Waiting on Astra: `Sol bundle C2W-005 paused before job 103: Legacy (job 171) is not done yet. Paste the same prompt again once Astra is done.`
 - Stopped: `Sol bundle C2W-005 stopped at job N step k: <reason>. <zip offered / nothing to send>.`
