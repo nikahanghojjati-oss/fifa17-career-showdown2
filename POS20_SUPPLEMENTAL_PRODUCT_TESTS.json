@@ -752,7 +752,7 @@
         "^css/v10Shell\\.css$",
         "^service-worker\\.js$",
         "^index\\.html$",
-        "^visual-assets/v10_1/shared/",
+        "^visual-assets/v10_1/",
         "^tests/contracts/v10-foundation-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
