@@ -40,10 +40,12 @@
     </header>
 
     <main id="settingsDialog" class="settingsDialog" aria-labelledby="settingsTitle">
-      <p id="previewTag"></p>
-      <p id="frameNote"></p>
-      <p id="contractState" role="status"></p>
-      <p id="interimLabel"></p>
+      <aside class="settingsStateRail" aria-live="polite">
+        <p id="previewTag" class="sd-preview-tag"></p>
+        <p id="frameNote"></p>
+        <p id="contractState" role="status"></p>
+        <p id="interimLabel"></p>
+      </aside>
 
       <div id="settingsContent">
         <section class="sd-panel settingsPanel settingsPanel--account" id="onlinePlayerIdentitySettingsPanel">
