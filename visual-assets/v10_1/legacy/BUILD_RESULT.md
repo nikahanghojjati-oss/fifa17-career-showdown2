@@ -108,6 +108,18 @@ No browser or screenshot QA was run, per the factory handbook. Code arithmetic c
 
 ## Phone · JOB-164 part 3
 
+### Layout and control fate
+
+The finished phone composition keeps the top 55% as the cinematic face/title band, with Daniel large on the left and Nik large on the right over the portrait stadium. The archive panel rises into the lower edge of that band so the screen reads as one staged game menu rather than two stacked website blocks. Below the band, the existing live DOM is reduced to three 44 px destination tabs, one sideways snap shelf, a compact pager and one 48 px primary action.
+
+The desktop top bar and registered 16:9 depth layers are hidden at phone widths because the shared 56 px bottom navigation owns hub navigation there. The desktop side rail becomes ARCHIVE / TROPHIES / RECORDS tabs, while the card grid moves to a horizontal shelf so history stays reachable without vertical page scroll. VIEW SEASON HISTORY remains the only primary action and is pinned above the reserved bottom bar. The season-history region becomes an internal-scroll bottom sheet; page overflow stays hidden.
+
+Every visible phone button has at least a 44 px target. The primary action is 48 px high. Defensive form styles inside the season-history sheet enforce 44 px control height and 16 px input text, and all controls touched here have a visible gold `:focus-visible` ring. The current authored screen has no fixed keyboard-dependent form flow in the page composition; any sheet input inherits those 16 px/44 px rules while the primary action stays outside the sheet and pinned above the shared navigation reserve.
+
+### Assets used
+
+Phone first paint uses only the existing WebP assets: `ENV_LG_PHONE_V1.webp`, `OVL_LG_DANIEL_PHONE_V1.webp`, `OVL_LG_NIK_PHONE_V1.webp` and `TITLE_LG_V1.webp`. Desktop registered layers are hidden on phone. No PNG master is loaded by `index.html`, and no live names, scores, fees, stats or other data are baked into these images.
+
 ### Height budget
 
 Legacy is a hub screen, so phone layout is measured inside `#legacy`, whose height is `100dvh - (56px + env(safe-area-inset-bottom))`. The arithmetic below uses a zero emulated safe-area inset; a real inset is subtracted from the usable height before the same geometry is applied. The archive overlaps the 55% hero band by 22 px on normal phone heights and by 18 px on the short-height rule, so the overlap is not double-counted as extra height.
@@ -121,3 +133,10 @@ Legacy is a hub screen, so phone layout is measured inside `#legacy`, whose heig
 The panel equation is `0.45 × usable height - 50px`; the shelf row is panel height minus 44 px tabs, 24 px pager and two 4 px gaps. The primary action sits at `usable height - action bottom gap - 48px`, so it is fully visible at 375 × 553. There is no page-scroll budget: all fixed vertical pieces fit inside the usable stage, the card shelf scrolls only horizontally, and the season-history sheet owns its own internal overflow.
 
 For larger portrait phones the percentage-based hero and archive geometry grows with the usable stage instead of leaving the composition floating: at 390 × 844 the usable height is 788 px and the archive panel grows to 304.6 px; at 430 × 932 the usable height is 876 px and the archive panel grows to 344.2 px. The 48 px action remains pinned 12 px above the reserved bottom bar.
+
+
+### Static check and Claude intake
+
+Reading the committed HTML/CSS confirms Daniel remains left and Nik right in the phone hero band; `.nav-reserve` is present in the DOM and reserves `56px + env(safe-area-inset-bottom)`; page roots remain overflow-hidden; the card shelf is horizontal-only; and the season-history sheet owns its own overflow. The short-height rule preserves the 48 px action and hides only nonessential club/footer detail.
+
+No new phone art is required from this job. Claude intake should render and measure H5/H6/H7/H8/H9/H10/H11, including real safe-area behaviour, focus order/contrast, reduced motion, requests and final phone weight. The existing desktop depth-overlay recipe in `tools/MAKE_ASSETS.md` remains separate from this phone pass.
