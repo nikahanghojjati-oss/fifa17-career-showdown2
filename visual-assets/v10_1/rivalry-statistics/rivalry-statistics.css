@@ -208,3 +208,100 @@ html[data-reduced-motion="true"] .rv-headStat strong.rv-motion-head-slam{
     opacity:1!important
   }
 }
+
+
+/* JOB-162 step 1: interaction feel and reduced motion. */
+:root{
+  --rv-control-feedback:100ms;
+  --rv-control-press:80ms;
+  --rv-tab-crossfade:110ms;
+}
+.rv-tabs button,
+.rv-actions .sd-btn{
+  transition:
+    opacity var(--rv-control-feedback) ease-out,
+    color var(--rv-control-feedback) ease-out,
+    background-color var(--rv-control-feedback) ease-out,
+    border-color var(--rv-control-feedback) ease-out,
+    filter var(--rv-control-feedback) ease-out,
+    transform var(--rv-control-press) ease-out;
+  will-change:transform,opacity,filter;
+}
+.rv-tabs button:hover,
+.rv-actions .sd-btn:hover{
+  filter:brightness(1.08);
+}
+.rv-tabs button:active,
+.rv-actions .sd-btn:active{
+  opacity:.92;
+  transform:scale(.985);
+}
+@keyframes rv-tab-crossfade{
+  from{opacity:.72}
+  to{opacity:1}
+}
+@keyframes rv-reduced-fade{
+  from{opacity:.78}
+  to{opacity:1}
+}
+.rv-tabs button[aria-selected="true"],
+.rv-tabs button[aria-pressed="true"]{
+  animation:rv-tab-crossfade var(--rv-tab-crossfade) ease-out both;
+}
+@media(max-width:900px){
+  .rv-shell[data-tab="totals"] .rv-comparison,
+  .rv-shell[data-tab="head"] .rv-bottom--head,
+  .rv-shell[data-tab="seasons"] .rv-bottom--seasons,
+  .rv-shell[data-tab="trophies"] .rv-bottom--trophies{
+    animation:rv-tab-crossfade var(--rv-tab-crossfade) ease-out both;
+  }
+}
+
+/* motion.js exposes the app preference on html[data-motion-reduced] and
+   the mounted screen root as [data-sd-motion-reduced]. Both paths fade only. */
+html[data-motion-reduced="true"] .rv-tabs button,
+html[data-motion-reduced="true"] .rv-actions .sd-btn,
+#statistics[data-sd-motion-reduced="true"] .rv-tabs button,
+#statistics[data-sd-motion-reduced="true"] .rv-actions .sd-btn{
+  transition:opacity var(--rv-control-feedback) ease-out!important;
+  transform:none!important;
+  filter:none!important;
+}
+html[data-motion-reduced="true"] .rv-motion-deal .rv-value,
+html[data-motion-reduced="true"] .rv-headStat strong.rv-motion-head-slam,
+html[data-motion-reduced="true"] .rv-tabs button[aria-selected="true"],
+html[data-motion-reduced="true"] .rv-tabs button[aria-pressed="true"],
+html[data-motion-reduced="true"] .rv-shell[data-tab="totals"] .rv-comparison,
+html[data-motion-reduced="true"] .rv-shell[data-tab="head"] .rv-bottom--head,
+html[data-motion-reduced="true"] .rv-shell[data-tab="seasons"] .rv-bottom--seasons,
+html[data-motion-reduced="true"] .rv-shell[data-tab="trophies"] .rv-bottom--trophies,
+#statistics[data-sd-motion-reduced="true"] .rv-motion-deal .rv-value,
+#statistics[data-sd-motion-reduced="true"] .rv-headStat strong.rv-motion-head-slam,
+#statistics[data-sd-motion-reduced="true"] .rv-tabs button[aria-selected="true"],
+#statistics[data-sd-motion-reduced="true"] .rv-tabs button[aria-pressed="true"],
+#statistics[data-sd-motion-reduced="true"] .rv-shell[data-tab="totals"] .rv-comparison,
+#statistics[data-sd-motion-reduced="true"] .rv-shell[data-tab="head"] .rv-bottom--head,
+#statistics[data-sd-motion-reduced="true"] .rv-shell[data-tab="seasons"] .rv-bottom--seasons,
+#statistics[data-sd-motion-reduced="true"] .rv-shell[data-tab="trophies"] .rv-bottom--trophies{
+  animation:rv-reduced-fade var(--rv-control-feedback) ease-out both!important;
+  transform:none!important;
+}
+@media(prefers-reduced-motion:reduce){
+  .rv-tabs button,
+  .rv-actions .sd-btn{
+    transition:opacity var(--rv-control-feedback) ease-out!important;
+    transform:none!important;
+    filter:none!important;
+  }
+  .rv-motion-deal .rv-value,
+  .rv-headStat strong.rv-motion-head-slam,
+  .rv-tabs button[aria-selected="true"],
+  .rv-tabs button[aria-pressed="true"],
+  .rv-shell[data-tab="totals"] .rv-comparison,
+  .rv-shell[data-tab="head"] .rv-bottom--head,
+  .rv-shell[data-tab="seasons"] .rv-bottom--seasons,
+  .rv-shell[data-tab="trophies"] .rv-bottom--trophies{
+    animation:rv-reduced-fade var(--rv-control-feedback) ease-out both!important;
+    transform:none!important;
+  }
+}
