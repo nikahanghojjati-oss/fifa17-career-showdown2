@@ -780,6 +780,22 @@
       ]
     },
     {
+      "path": "tests/contracts/v10-home-contracts.cjs",
+      "patterns": [
+        "^js/homeScreensV10\\.js$",
+        "^js/ssjr\\.js$",
+        "^service-worker\\.js$",
+        "^index\\.html$",
+        "^visual-assets/v10_1/home/",
+        "^css/homeV10\\.css$",
+        "^js/diagnostics\\.js$",
+        "^js/onlinePlayerIdentity\\.js$",
+        "^visual-assets/v10_1/shared/art/home-tiles/",
+        "^tests/contracts/v10-home-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
       "path": "tests/contracts/v10-rules-settings-contracts.cjs",
       "patterns": [
         "^js/(rulesSettingsV10|ruleBook|settings|v10Screens)\\.js$",
