@@ -16,6 +16,14 @@
   ]);
   const SRJ_CANONICAL_KEYS=Object.freeze(["careerModeShowdown.saveLibrary","careerModeShowdown.legacyShowdowns","careerModeShowdown.preferences"]);
   const SRJ_AMBIGUOUS_CODES=new Set(["unavailable","deadline-exceeded","aborted","internal","unknown","network-request-failed"]);
+  // Job 31: the Rules cap a session at request.time + 4h with no clock slack, so a host whose clock ran even a second fast was
+  // refused. Hosting asks for 4h minus one minute (the same one-minute slack the Rules give createdAt).
+  const SRJ_HOST_TTL_MS=4*60*60*1000-60*1000;
+  // Job 31: the host page stayed OPEN after the other manager joined until someone tapped REFRESH / READ, so a mid-game
+  // reconnect looked stuck on the host. While this page holds its own OPEN hosted session it reads it quietly every few
+  // seconds (for at most ten minutes, never while hidden) and picks up the join by itself.
+  const SRJ_JOIN_WATCH_MS=4000,SRJ_JOIN_WATCH_LIMIT_MS=10*60*1000;
+  let srjJoinWatchTimer=null;
   const srjScriptPromises=new Map();
   const srjListeners=new Set();
   let srjState=srjFreeze({status:"idle",open:false,busy:false,sessionId:null,rivalryId:null,accountId:null,deviceId:null,role:null,sessionState:null,revision:null,expiresAtEpochMs:null,pendingAction:null,capabilityCopyAllowed:false,message:"Remote Joining is private and action-only. No session request has been sent."});
@@ -138,12 +146,12 @@
     srjSetState({status:`retrying-${action}`,busy:true,capabilityCopyAllowed:false,message:`Retrying the exact same ${action} capability. No replacement session will be generated…`});
     try{
       let result;
-      if(action==="host")result=await context.protocol.openSession(srjOperationOptions(context,sessionId));
+      if(action==="host")result=await context.protocol.openSession({...srjOperationOptions(context,sessionId),ttlMs:SRJ_HOST_TTL_MS});
       else if(action==="join")result=await context.protocol.joinSession(srjOperationOptions(context,sessionId));
       else if(action==="close")result=await context.protocol.closeSession(srjOperationOptions(context,sessionId));
       else throw srjError("REMOTE_JOINING_RECOVERY_ACTION_INVALID","The unresolved private-session action is invalid.");
       if(!result||result.ok!==true)throw srjError(result&&result.code||"REMOTE_JOINING_RECOVERY_FAILED",srjFailureMessage(result,"Private-session recovery could not be confirmed."));
-      if(action==="host")srjAcceptResult(result,context,"host",result.replayed?"Private session recovery confirmed the original host capability. No duplicate session was created.":"Private session is open. Share the full code directly with the other paired manager. It is kept only in this page's memory.");
+      if(action==="host"){srjAcceptResult(result,context,"host",result.replayed?"Private session recovery confirmed the original host capability. No duplicate session was created.":"Private session is open. Share the full code directly with the other paired manager. It is kept only in this page's memory.");srjWatchForJoin(result.sessionId);}
       else if(action==="join")srjAcceptResult(result,context,"peer",result.replayed?"Private session recovery confirmed the original join on the same capability.":"Private session is active with exactly the two paired rivalry accounts. Local gameplay remains unchanged.");
       else srjAcceptResult(result,context,srjState.role||"member",result.replayed?"Private session recovery confirmed the original terminal close on the same capability.":"Private session is closed terminally. Its code remains only in page memory until you forget it or reload.");
       return result;
@@ -151,6 +159,23 @@
       if(srjIsAmbiguousFailure(error))return srjPendingFailure(error,action);
       return srjClearRejectedPending(error,action);
     }
+  }
+  function srjHostWaitingForJoin(sessionId){return Boolean(sessionId&&srjState.sessionId===sessionId&&srjState.role==="host"&&srjState.sessionState==="open"&&!srjState.pendingAction&&!srjExpiredByClock());}
+  function srjWatchForJoin(sessionId,startedAt=Date.now()){
+    if(srjJoinWatchTimer!==null||!root.document||typeof root.setTimeout!=="function"||!srjHostWaitingForJoin(sessionId))return false;
+    srjJoinWatchTimer=root.setTimeout(async()=>{
+      srjJoinWatchTimer=null;
+      if(!srjHostWaitingForJoin(sessionId)||Date.now()-startedAt>SRJ_JOIN_WATCH_LIMIT_MS)return;
+      if(!srjState.busy&&root.document.visibilityState!=="hidden"){
+        try{
+          const context=await srjResolveContext();
+          const result=await context.protocol.readSession(srjOperationOptions(context,sessionId));
+          if(srjHostWaitingForJoin(sessionId)&&!srjState.busy&&result&&result.ok===true&&result.state!=="open")srjAcceptResult(result,context,"host",result.state==="active"?"The other manager joined. Private session is active with exactly the two paired rivalry accounts.":`Private session refreshed at revision ${result.revision}.`);
+        }catch(_error){}
+      }
+      srjWatchForJoin(sessionId,startedAt);
+    },SRJ_JOIN_WATCH_MS);
+    return true;
   }
   async function srjRetryPendingOperation(){
     if(!srjState.pendingAction||!srjState.sessionId)return {ok:false,code:"REMOTE_JOINING_RECOVERY_REQUIRED",message:"No unresolved private-session operation is waiting for retry."};
@@ -306,6 +331,7 @@
     authPersistence:"browserSessionPersistence",
     registeredDeviceAuthority:"account-owned-mutation-metadata",
     exactCapabilityBits:256,
+    hostSessionTtlMs:SRJ_HOST_TTL_MS,
     sessionCapabilityStorage:"page-memory-only",
     persistentFirestoreCache:false,
     publicDiscovery:false,

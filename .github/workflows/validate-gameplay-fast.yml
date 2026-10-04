@@ -66,8 +66,8 @@ jobs:
         run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-cms-gameplay-fast-terminal "node tests/firebase/shared-terminal-close-production-provider-emulator.cjs"
       - name: Persistent Nik and Daniel pair matrix
         run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-cms-gameplay-fast-pair "node tests/firebase/persistent-nik-daniel-pair-provider-emulator.cjs"
-      - name: Two-manager journey
-        run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-cms-gameplay-fast-journey "CMS_SHOWDOWN_LENGTH=3 node tests/firebase/two-manager-journey-emulator.cjs"
+      - name: Two-manager journey (3 and 10 seasons, session expires and is re-joined mid-game)
+        run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-cms-gameplay-fast-journey "CMS_SHOWDOWN_LENGTH=3 node tests/firebase/two-manager-journey-emulator.cjs && CMS_SHOWDOWN_LENGTH=10 node tests/firebase/two-manager-journey-emulator.cjs"
       - name: Career index matrix
         run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-cms-gameplay-fast-career-index "node tests/firebase/career-index-emulator.cjs && CMS_CAREER_INDEX_ENFORCED=1 node tests/firebase/career-index-emulator.cjs"
       - name: Completed-only read matrix
