@@ -84,3 +84,35 @@ python3 project-documents/factory/tools/phone_art.py visual-assets/v10_1/season-
 # proof: Claude composites PHONE_PROOF.png (393 × 660 at 3×) from phone_frame
 
 The cutout.py lines are the job's recipe; phone_art.py runs the same cut with edge refine, writes the runtime WebPs (≤ 60 KB) and the proof. plate_detext.py first paints the baked name labels off the shoulders (boxes in phonemap.json > label_text_boxes). The two WebPs also carry a 16 % bottom alpha fade, because the plate cuts both figures flat at the grass line. 
+
+## JOB-078 phone title derivative
+
+The three approved phone scene WebPs already exist from JOB-208 and are referenced directly by the phone `<picture>` layers. Do not regenerate them for this job.
+
+Make one lightweight phone-only derivative of the existing Showdown brush title. It contains only the static screen title, never live data. The loop keeps the highest tested quality that satisfies the 80,000-byte title cap.
+
+```sh
+python3 - <<'PY'
+from pathlib import Path
+from PIL import Image
+
+root = Path("visual-assets/v10_1/season-results/assets")
+src = root / "TITLE_SR_V1.webp"
+dst = root / "TITLE_SR_PHONE_V1.webp"
+
+with Image.open(src) as im:
+    im = im.convert("RGBA")
+    target_w = 1000
+    target_h = round(im.height * target_w / im.width)
+    phone = im.resize((target_w, target_h), Image.Resampling.LANCZOS)
+    for quality in (82, 78, 74, 70, 66, 62):
+        phone.save(dst, "WEBP", quality=quality, method=6)
+        if dst.stat().st_size <= 80_000:
+            break
+    else:
+        raise SystemExit(f"{dst} is still over 80,000 bytes")
+    print(dst, phone.size, dst.stat().st_size)
+PY
+```
+
+Expected dimensions: 1000 × 148 px. The phone scene art budget is therefore at most 145,066 + 58,438 + 59,470 + 80,000 = 342,974 bytes, leaving 107,026 bytes below the 450 KB scene first-paint cap.
