@@ -514,6 +514,17 @@ body { overflow: hidden; font-family: var(--text); -webkit-font-smoothing: antia
   .stage[data-phase="WINDOW_OPEN"] .timer-clock {
     right: -9px; width: 10px; height: 10px; border-width: 1px; box-shadow: 0 0 4px rgba(255,196,80,.30);
   }
+  .stage[data-phase="WINDOW_OPEN"] .timer-text {
+    position: fixed;
+    top: 10px;
+    right: 12px;
+    z-index: 60;
+    display: inline-block;
+    font-size: 14px;
+    line-height: 1;
+    color: #F6C75E;
+    -webkit-text-fill-color: #F6C75E;
+  }
 
   /* 2 · rules: a caption under the status, not a card */
   .rules-card { order: 1; flex: none; position: relative; }
