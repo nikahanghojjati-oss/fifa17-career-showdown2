@@ -9,6 +9,45 @@
   const phoneFrame = document.getElementById("phone-frame");
   const phoneTitle = document.getElementById("phone-preview-title");
   const phoneOpen = document.getElementById("phone-open");
+  const TRANSITION_MS = 350;
+  let transitionInFlight = false;
+
+  function prefersReducedMotion() {
+    const root = document.documentElement;
+    return root.getAttribute("data-motion-reduced") === "true"
+      || root.getAttribute("data-reduced-motion") === "true"
+      || window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  }
+
+  function getTransitionLayer() {
+    let layer = document.querySelector(".showcase-transition");
+    if (layer) return layer;
+
+    layer = document.createElement("div");
+    layer.className = "showcase-transition";
+    layer.setAttribute("aria-hidden", "true");
+    layer.innerHTML = '<span class="showcase-transition__gold"></span>';
+    (document.body || document.documentElement).appendChild(layer);
+    return layer;
+  }
+
+  function navigateWithTransition(url, mode = "assign") {
+    if (!url || transitionInFlight) return;
+
+    const target = new URL(url, window.location.href);
+    if (target.href === window.location.href) return;
+
+    transitionInFlight = true;
+    const layer = getTransitionLayer();
+    layer.classList.toggle("showcase-transition--reduced", prefersReducedMotion());
+
+    requestAnimationFrame(() => {
+      layer.classList.add("showcase-transition--active");
+      window.setTimeout(() => {
+        window.location[mode](target.href);
+      }, TRANSITION_MS);
+    });
+  }
 
   function getScreen(manifest, id) {
     return (manifest.screens || []).find((screen) => screen.id === id) || null;
@@ -64,7 +103,7 @@
       screen: screenId,
       frame: params.get("frame")
     });
-    window.location.replace(target.href);
+    navigateWithTransition(target.href, "replace");
     return true;
   }
 
@@ -189,6 +228,23 @@
     });
   }
 
+  function setupScreenTransitions() {
+    document.addEventListener("click", (event) => {
+      if (event.defaultPrevented) return;
+      if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+
+      const link = event.target.closest(".showcase-links a, .showcase-phone__open");
+      if (!link || link.hasAttribute("download")) return;
+      if (link.target && link.target !== "_self") return;
+
+      const target = new URL(link.href, window.location.href);
+      if (target.origin !== window.location.origin) return;
+
+      event.preventDefault();
+      navigateWithTransition(target.href);
+    });
+  }
+
   function validateDeck(manifest) {
     const screens = Array.isArray(manifest.screens) ? manifest.screens : [];
     const expected = new Map(
@@ -244,13 +300,14 @@
         },
         go: (group, key) => {
           const url = resolveProductRoute(manifest, group, key);
-          if (url) window.location.assign(url.href);
+          if (url) navigateWithTransition(url.href);
         }
       });
 
       if (!routeQuery(manifest)) {
         validateDeck(manifest);
         setupPhonePreview(manifest);
+        setupScreenTransitions();
       }
     })
     .catch(() => {
