@@ -413,18 +413,18 @@
         "source": "cutouts.daniel_phone",
         "side": "left",
         "crop": "alpha_bbox",
-        "center_x_pct": 26,
-        "top_pct": 0,
-        "height_pct": 62,
+        "center_x_pct": 22,
+        "top_pct": 1.5,
+        "height_pct": 58,
         "z": 2
       },
       "nik": {
         "source": "cutouts.nik_phone",
         "side": "right",
         "crop": "alpha_bbox",
-        "center_x_pct": 68,
-        "top_pct": 0.5,
-        "height_pct": 64,
+        "center_x_pct": 78,
+        "top_pct": 1.5,
+        "height_pct": 58,
         "z": 3
       }
     },
@@ -442,7 +442,7 @@
     "constraints": [
       "Daniel remains left; Nik remains right; neither figure is mirrored.",
       "Keep both heads fully visible.",
-      "Allow the two upper-body silhouettes to overlap near centre, but never cover a face.",
+      "Keep both faces separated: Daniel's face in the left third and Nik's face in the right third; body overlap is allowed only below the faces.",
       "The heroes may extend below 55% so the UI reads in front of a cinematic scene rather than under a thumbnail strip."
     ]
   }
