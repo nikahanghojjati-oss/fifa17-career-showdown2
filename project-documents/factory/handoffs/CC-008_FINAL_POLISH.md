@@ -3,7 +3,7 @@
 | Field | Value |
 | --- | --- |
 | Model | Opus 5.5, effort High |
-| STOP_BUDGET | **$15 hard cap, about 60 minutes.** At $12 stop starting new items: commit what is done, run the final check, write the result file. At $15 stop. |
+| STOP_BUDGET | **$15 hard cap, about 60 minutes.** Part A must be finished even if Part B is not. At $12 stop starting new items: commit what is done, run the final check, write the result file. At $15 stop. |
 | Repository | `nikahanghojjati-oss/fifa17-career-showdown2` |
 | Branch | `factory/v1-wtt5ye` only. Fetch with an explicit refspec: `git fetch origin +refs/heads/factory/v1-wtt5ye:refs/remotes/origin/factory/v1-wtt5ye`, then `git checkout -B factory/v1-wtt5ye origin/factory/v1-wtt5ye`. Push only to this branch. Never `main`, never force-push, never delete branches or files you did not create. Pull with `--rebase --autostash` before every push; on a rejected push, pull and push again (up to 4 times). |
 | Result file | `project-documents/factory/handoffs/CC-008_RESULT.md` |
@@ -12,7 +12,7 @@
 
 ## Why this session exists
 
-All 238 factory jobs are done and checked. Nik (the owner) asked for one extra polish layer before the package goes to integration: **fix the visual bugs and UI issues that are still there, most of all anything that could get in the way of playing the game.** You are the last pass before integration, so fix things; don't write reports about them.
+All 238 factory jobs are done and checked. Nik reviewed every screen and his notes are Part A below. Nik (the owner) also asked for one extra polish layer before the package goes to integration: **fix the visual bugs and UI issues that are still there, most of all anything that could get in the way of playing the game.** You are the last pass before integration, so fix things; don't write reports about them.
 
 ## Read first (only these, only the named parts)
 
@@ -41,17 +41,28 @@ Chromium is pre-installed for Playwright (do not run `playwright install`). Tran
 
 ## The work, most important first
 
-Do the items in this order. For each one: render before, fix, render after at every size the item names, then commit with a message that names the item number (`CC-008 item N: ...`).
+Do Part A first, then Part B, in order. For each one: render before, fix, render after at every size the item names, then commit with a message that names the item number (`CC-008 item N: ...`).
 
-1. **Phone heroes: one manager hides the other (Nik's own review).** On some phone screens one manager is drawn over the other, so a face or most of a body is hidden. Nik saw it on more than one screen; the clearest one is Transfer War (Nik's shoulder covers Daniel). Render all 15 screens at 393x660 and find every one where either face is covered, or more than about a third of either upper body is behind the other manager. Fix them with the phone cutout layer CSS only (position, scale, `object-position`, z-order, a small gap between the two). Target: both faces fully visible and clear of each other, Daniel left, Nik right, the title still readable, and phone fit still passing at all three phone sizes. Screens to check first: Transfer War, League, Club Assignment, Career Statistics, Rivalry Statistics, Standings.
+### Part A: Nik's own review (04 Oct 2026, 5:04 p.m. Eastern). Do all of these first.
+
+Nik looked at fresh shots of every screen. Desktop: Home, League, Club, Transfer War and Loading are approved as they are; do not change their desktop look. His notes, in his words where it matters:
+
+A1. **Home phone: use the empty dark band.** Under the Trophy Room / Rule Book / Settings tiles there is a large empty dark band above the bottom nav (about 393x70 px at 393x660). Re-space the phone layout so that space is used: move the Audius music card into it (or another arrangement you judge better), and let the hero and tiles breathe. Files: `home/home.css` (phone query), `home/index.html` only if order must change. The Audius player (`home/soundtrack.js`) must keep working: Play, Mute and Tracks still open and play. Target: no large empty band, every tile and the Continue button visible with no scroll at all three phone sizes.
+A2. **League phone: the wheel covers both managers' hair.** "Select league is covering a lot of my hair and a lot of Daniel's hair." There is empty dark space below the wheel, so push the wheel (and the "spin to select league" line) down and/or make the managers sit higher, so both heads and hair are fully clear of the wheel. Files: `league/league.css` phone query and `league/league.js` `layoutPhone` (the wheel radius/centre are computed there). Keep the five league marks fully inside the gold rim (fixed in 2cdb1a20) and Back + Spin Wheel visible. Target: the wheel's top edge below both chins at 393x660, 360x640 and 375x553.
+A3. **Club Assignment phone: Nik is far too big.** "I'm covering Daniel fully... Daniel's pack and half of his body is under me... reduce my size by a lot, I don't know, fifty percent." Today Nik's cutout fills the middle and covers Daniel and his pack. Make Nik much smaller (start at about 55-60% of today's height) and place the two side by side: Daniel left with his pack visible, Nik right with his pack visible, neither covering the other, both heads fully inside the screen (no hair cut off at the top). Files: `club/club.css` phone query (and `club/club.js` only if the phone layer sizes are set in JS). Target: both faces, both packs and both upper bodies visible at all three phone sizes.
+A4. **Transfer War phone: Daniel is hidden and the top is messy.** "Half of Daniel's face is under me... part of Daniel's top face is very blurred and dark and it's also covered." Re-place the phone hero so Daniel's whole face is visible and in front of nothing (not under Nik's shoulder), and the top of the screen is clean: no blurred, dark half-head under the TRANSFER WAR title. If the phone background crop is the blurred part, choose a cleaner crop of the same plate (CSS `object-position`/size only; no new pictures). Files: `tr2/slice-02-plate/plate.css` phone query (`@media (max-width: 760px) and (orientation: portrait)`) and the phone art rules. Keep the clock at the right of the WINDOW OPEN band (fixed in c136a52a). Target: both faces clear and sharp, Daniel left, Nik right, at all three phone sizes and frames F1-F4.
+A5. **Rivalry Statistics desktop: the lighting is wrong.** "The lighting is very bad... so bright and it doesn't look right." The whole desktop scene reads washed out: a hazy gold glow over the stadium and the panels, low contrast, unlike Career Statistics, which looks right. Find what brightens it (a light/rim layer, a glow or haze overlay, panel backgrounds that are too see-through, or the plate's own exposure) and bring it to the same depth and contrast as `career-statistics/` at 1366x768: darker stadium, richer shadows, panels that read clearly. Files: `rivalry-statistics/rivalry-statistics.css` (desktop rules, the `.rv-rim` / `sd-stage__layer--light` rules near line 36) and `rivalry-statistics/index.html` only if a layer must go. Compare side by side with `career-statistics/index.html` and `project-documents/factory/mockups/MOCKUP_RIVALRY_STATISTICS.png`. Target: no washed-out haze at 1366x768, 1920x1080 and 1366x640, faces natural, numbers easy to read. Leave the phone version as it is unless it shows the same problem.
+
+### Part B: other leftovers (after Part A)
+
+1. **Phone heroes on the other screens.** After A2-A4, render all 15 screens at 393x660 and fix any other screen where one manager covers the other's face or more than about a third of their upper body (check Career Statistics, Rivalry Statistics and Standings). Same rules: phone cutout CSS only, Daniel left, Nik right, phone fit still passing.
 2. **Final Winner at 1366x640 and 375x553.** At 1366x640 the honours table loses its TOTAL TROPHIES row, DANIEL WINS touches the trophy crown, and the TERMINAL footer line crosses the trophy stem. At 375x553 the TERMINAL line touches the panel edge. Files: `final-winner/final-winner.css` (short-desktop and phone media queries). Target: nothing touches or is clipped at 1366x768, 1366x640, 393x660 and 375x553.
 3. **Season Results.** At 375x553 the manager card header is clipped at the top of the entry panel. At 1366x640 the last scoring row was clipped before (check it). On phone there is an empty band under the input rows (check whether it is still there). File: `season-results/season-results.css`. Target: the full card header visible, no clipped rows, no large empty band.
 4. **Short desktop (1366x640) title crops.** Some painted titles lose their top at 1366x640 (Transfer War at least; check every screen). Target: every title fully visible at 1366x640.
 5. **Legacy.** At 375x553 the eyebrow touches the title. On phone the archive panel's right edge runs off the screen and the pager dots are missing. Files: `legacy/legacy.css`, `legacy/legacy.js` (phone layout only). Target: eyebrow 4 px or more above the title; the archive panel inside the screen; pager dots visible.
 6. **Rule Book phone.** The PREVIEW DATA chip sits under the settings button (top right). File: `rule-book/rule-book.css` (phone query) or the chip's own rule. Target: the chip and the settings button do not overlap at all three phone sizes.
 7. **Anything else a player would hit.** Render all 15 screens at all 6 sizes. Fix anything that overlaps, is clipped, is not tappable (touch targets 44 px or more on phone), or shows a console error. Ask yourself on each screen: "could Nik or Daniel press the wrong thing, miss a button, or fail to read a score here?" Fix those first.
-8. **Missing notes (text only, last).** Write a short `TRUTH.md` for `home/`, `league/` and `club/` in the same shape as `visual-assets/v10_1/legacy/TRUTH.md` (what the screen must show, from PRODUCT_TRUTH). Add a "Motion" section to `visual-assets/v10_1/loading/BUILD_RESULT.md` measured from the running page (entrance total, first usable point, stagger, easing, reduced-motion path), as `project-documents/factory/reviews/MOTION_PASS.md` fix item 1 asks. Update the "Known gaps" list at the end of `project-documents/factory/PACKAGE.md` so it is true after your session (it was written before jobs 108-110 finished).
-9. **Music across screens (integration note only).** The Home Audius player works on Home. The visual pack is separate HTML pages, so music stops when a page changes. Do **not** build a page-shell here. Add one short "Music" paragraph to `project-documents/factory/HANDOFF_TO_SOL.md` and to PACKAGE.md: at integration, the Home soundtrack (`home/soundtrack.js`, 4 Audius tracks, ids in `home/fixtures.json` `strings.media`) must keep playing across screens; main's 6 YouTube songs and the FIFA 17 trailer are not carried over (owner's decision, 04 Oct 2026).
+(Notes and integration text — TRUTH.md files, the Loading Motion section, PACKAGE.md known gaps, the music note — are done by a separate GPT chat, C2W-006. Do not do them here.)
 
 Known and accepted (do not spend money on these): the League, Club and VS brush wordmark pictures were never made, so those screens use a font stand-in (it needs a picture). The Final Winner status words (`TERMINAL · NO NEW SESSION ...`) are Team G's copy.
 
@@ -65,7 +76,8 @@ Known and accepted (do not spend money on these): the League, Club and VS brush 
 
 ## Result file (`project-documents/factory/handoffs/CC-008_RESULT.md`)
 
-- One table: item, what changed (file + rule), before/after measure, commit.
+- One table: item (A1-A5, then B1-B7), what changed (file + rule), before/after measure, commit.
+- Save a before and an after picture for every Part A item in `project-documents/factory/evidence-claude-check/CC-008/` (`A1_before_393x660.jpg`, `A1_after_393x660.jpg`, ...; desktop size for A5) and link them in the table. Nik reviews these pictures.
 - "Needs a picture" list (if any).
 - "Not done" list with the exact reason (budget, or needs Team G).
 - The final check results (the 5 lines above, each PASS or FAIL).
