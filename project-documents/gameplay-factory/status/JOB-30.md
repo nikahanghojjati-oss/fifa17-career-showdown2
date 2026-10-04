@@ -1,11 +1,11 @@
 # Status · JOB-30 · G-13 part 2g: Rule Book and Settings
 
 State: IN PROGRESS
-Step: 4c of 6
+Step: 4 of 6
 Updated: 2026-10-04 23:02 UTC
 Chat: Sol Work mode
 Code branch: gameplay/job-30-v10-rules-settings
-Head commit: fb8a41ea38129dbef2b1424629aecf215796da27
+Head commit: 180a4b4c04b5ee1218e793ee782a8a16c01ca5c7
 PR: none yet
 CI run: pending on 32617fdc50b853270290467b76a0fef2d069c61e
 
@@ -25,6 +25,8 @@ CI run: pending on 32617fdc50b853270290467b76a0fef2d069c61e
 - Step 4b: System stadium WebP objects reused byte-for-byte from 5e05a1f; no binary upload.
 
 - Step 4c: Pinned wordmarks reused and new lazy text files shell-cached; images remain revision runtime-cached.
+
+- Step 4: Extended existing immutable image census with five new pinned hashes; all previous pins and assertions retained.
 
 ## Self-check
 - Tests-first red assertion saved.
