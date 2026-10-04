@@ -1,14 +1,14 @@
 # Showdown Factory board
 
-**99 of 238 jobs done and checked · 43 %** · updated Sat 10:01 p.m. Eastern
+**102 of 238 jobs done and checked · 44 %** · updated Sat 10:05 p.m. Eastern
 
-✅ **Quality check:** a job counts as done only after Claude checks it against the quality bar (average 4.2 or more, nothing under 3, hard gates pass). Average score 4.24 over 42 scored jobs. 🔍 Waiting for Claude's check: 50. 🔧 Sent back with a fix list: 77, 95.
+✅ **Quality check:** a job counts as done only after Claude checks it against the quality bar (average 4.2 or more, nothing under 3, hard gates pass). Average score 4.25 over 45 scored jobs. 🔍 Waiting for Claude's check: 50. 🔧 Sent back with a fix list: 77, 95.
 
 ████░░░░░░
 
 **Where to run:** 🟡 **project job** = new chat in the ChatGPT project "Showdown visual", type the number; one number is one turn (no Continue), and a job in parts shows its later parts only when the earlier part is done. 🟣 **image job** = its ticket in a ChatGPT **Temporary Chat** outside any project, then drop the picture in Claude's factory thread.
 
-🟡 **Type next:** 77 (fix), 95 (fix), 68, 85 · then 88, 125, 127, 140, 147, 194
+🟡 **Type next:** 77 (fix), 95 (fix), 68, 85 · then 88, 127, 140, 147, 194
 
 🟣 **Image next:** 118
 
@@ -35,7 +35,7 @@ Settings       █████░░░░░ 3/7
 Setup          ██████████ 2/2
 Foundation     ██████████ 7/7
 Art            ██████████ 8/8
-Top bar        ░░░░░░░░░░ 0/3
+Top bar        ██████████ 3/3
 Integration    ░░░░░░░░░░ 0/38
 ```
 
@@ -49,9 +49,9 @@ Integration    ░░░░░░░░░░ 0/38
 
 Branch `factory/v1-wtt5ye`. 238 Team V jobs, plus 5 lines that track Team G. Two kinds of job. **Project (type number):** open a new chat in the ChatGPT project "Showdown visual" and type the number (up to 5 at once). **Fresh chat (image):** run the job's ticket from [tickets/](tickets/README.md) in a ChatGPT Temporary Chat (no memory) outside any project, then drop the image in Claude's factory thread (up to 2 at once).
 
-**Overall (Team V):** ████░░░░░░ 43 % · 99 of 238 jobs done
+**Overall (Team V):** ████░░░░░░ 44 % · 102 of 238 jobs done
 
-**Start now · project (type the number in Showdown visual):** 77 (fix), 95 (fix), 68, 85 · queued next: 88, 125, 127, 140, 147, 194
+**Start now · project (type the number in Showdown visual):** 77 (fix), 95 (fix), 68, 85 · queued next: 88, 127, 140, 147, 194
 
 **Start now · fresh chat (image ticket, outside the project):** 118
 
@@ -188,7 +188,7 @@ Branch `factory/v1-wtt5ye`. 238 Team V jobs, plus 5 lines that track Team G. Two
 | 122 | [Art: Home tile illustrations](jobs/JOB-122.md) | 3 Art | image | fresh chat (image) | 0 | ██████████ 100 % | DONE |  |
 | 123 | [Art: League wheel rim](jobs/JOB-123.md) | 3 Art | image | fresh chat (image) | 0, 1 | ██████████ 100 % | DONE |  |
 | 124 | [Art: brush title wordmarks](jobs/JOB-124.md) | 3 Art | image | fresh chat (image) | 0 | ██████████ 100 % | DONE |  |
-| 125 | [Top bar and phone bottom bar (part 1 of 3)](jobs/JOB-125.md) | 5 New screens | build | project (type number) | 18, 124 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
+| 125 | [Top bar and phone bottom bar (part 1 of 3)](jobs/JOB-125.md) | 5 New screens | build | project (type number) | 18, 124 | ██████████ 100 % | DONE |  |
 | 126 | [Truth sheet: Standings](jobs/JOB-126.md) | 1 Truth | data | project (type number) | - | ██████████ 100 % | DONE |  |
 | 127 | [Standings: build (desktop and phone) (part 1 of 6)](jobs/JOB-127.md) | 5 New screens | build | project (type number) | 126, 25, 207, 18, 19, 20, 21, 22 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 128 | [Standings: review (part 1 of 4)](jobs/JOB-128.md) | 5 New screens | review | project (type number) | 204 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
@@ -268,8 +268,8 @@ Branch `factory/v1-wtt5ye`. 238 Team V jobs, plus 5 lines that track Team G. Two
 | 202 | [Standings: build (desktop and phone) (part 4 of 6)](jobs/JOB-202.md) | 5 New screens | build | project (type number) | 201 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 203 | [Standings: build (desktop and phone) (part 5 of 6)](jobs/JOB-203.md) | 5 New screens | build | project (type number) | 202 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 204 | [Standings: build (desktop and phone) (part 6 of 6)](jobs/JOB-204.md) | 5 New screens | build | project (type number) | 203 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
-| 205 | [Top bar and phone bottom bar (part 2 of 3)](jobs/JOB-205.md) | 5 New screens | build | project (type number) | 125 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
-| 206 | [Top bar and phone bottom bar (part 3 of 3)](jobs/JOB-206.md) | 5 New screens | build | project (type number) | 205 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
+| 205 | [Top bar and phone bottom bar (part 2 of 3)](jobs/JOB-205.md) | 5 New screens | build | project (type number) | 125 | ██████████ 100 % | DONE |  |
+| 206 | [Top bar and phone bottom bar (part 3 of 3)](jobs/JOB-206.md) | 5 New screens | build | project (type number) | 205 | ██████████ 100 % | DONE |  |
 | 207 | [Phone art: Rivalry Statistics (part 2 of 2)](jobs/JOB-207.md) | 3 Art | build | project (type number) | 117 | ██████████ 100 % | DONE |  |
 | 208 | [Phone art: Season Results (part 2 of 2)](jobs/JOB-208.md) | 3 Art | build | project (type number) | 119 | ██████████ 100 % | DONE |  |
 | 209 | [Phone art: Start / Join (part 2 of 2)](jobs/JOB-209.md) | 3 Art | build | project (type number) | 120 | ██████████ 100 % | DONE |  |
