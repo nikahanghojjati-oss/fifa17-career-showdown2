@@ -1,14 +1,14 @@
 # Showdown Factory board
 
-**166 of 238 jobs done and checked · 71 %** · updated Sun 11:15 a.m. Eastern
+**166 of 238 jobs done and checked · 71 %** · updated Sun 11:18 a.m. Eastern
 
-✅ **Quality check:** a job counts as done only after Claude checks it against the quality bar (average 4.2 or more, nothing under 3, hard gates pass). Average score 4.25 over 61 scored jobs. 🔍 Waiting for Claude's check: 143, 144, 162, 192. 
+✅ **Quality check:** a job counts as done only after Claude checks it against the quality bar (average 4.2 or more, nothing under 3, hard gates pass). Average score 4.25 over 61 scored jobs. 🔍 Waiting for Claude's check: 143, 144, 162, 192, 193. 
 
 <img src="board-meter.svg" alt="Football progress meter" width="640">
 
 **Where to run:** 🟡 **project job** = new chat in the ChatGPT project "Showdown visual", type the number; one number is one turn (no Continue), and a job in parts shows its later parts only when the earlier part is done. 🟣 **image job** = its ticket in a ChatGPT **Temporary Chat** outside any project, then drop the picture in Claude's factory thread.
 
-🟡 **Type next:** 53, 172, 193
+🟡 **Type next:** 53, 172
 
 🟣 **Image next:** 118
 
@@ -28,7 +28,7 @@ Rivalry        ██████████ 19/19
 Legacy         ██░░░░░░░░ 5/19
 Season Results ███░░░░░░░ 7/19
 Final Winner   ██████████ 12/12
-Start/Join     █████████░ 17/18
+Start/Join     ██████████ 18/18
 Standings      ██████████ 15/15
 Rule Book      ██████████ 4/4
 Settings       ██████████ 7/7
@@ -51,7 +51,7 @@ Branch `factory/v1-wtt5ye`. 238 Team V jobs, plus 5 lines that track Team G. Two
 
 **Overall (Team V):** ███████░░░ 71 % · 166 of 238 jobs done
 
-**Start now · project (type the number in Showdown visual):** 53, 172, 193
+**Start now · project (type the number in Showdown visual):** 53, 172
 
 **Start now · fresh chat (image ticket, outside the project):** 118
 
@@ -256,7 +256,7 @@ Branch `factory/v1-wtt5ye`. 238 Team V jobs, plus 5 lines that track Team G. Two
 | 190 | [Start / Join: fix round (part 2 of 3)](jobs/JOB-190.md) | 5 New screens | fix | project (type number) | 90 | ██████████ 100 % | DONE |  |
 | 191 | [Start / Join: fix round (part 3 of 3)](jobs/JOB-191.md) | 5 New screens | fix | project (type number) | 190 | ██████████ 100 % | DONE |  |
 | 192 | [Start / Join: motion (part 2 of 3)](jobs/JOB-192.md) | 5 New screens | build | project (type number) | 91 | ██████████ 100 % | DONE |  |
-| 193 | [Start / Join: motion (part 3 of 3)](jobs/JOB-193.md) | 5 New screens | build | project (type number) | 192 | ░░░░░░░░░░ 0 % | NOT STARTED | yes |
+| 193 | [Start / Join: motion (part 3 of 3)](jobs/JOB-193.md) | 5 New screens | build | project (type number) | 192 | ██████████ 100 % | DONE | yes |
 | 194 | [Settings: fix round and motion (part 2 of 4)](jobs/JOB-194.md) | 5 New screens | fix | project (type number) | 97 | ██████████ 100 % | DONE |  |
 | 195 | [Settings: fix round and motion (part 3 of 4)](jobs/JOB-195.md) | 5 New screens | fix | project (type number) | 194 | ██████████ 100 % | DONE |  |
 | 196 | [Settings: fix round and motion (part 4 of 4)](jobs/JOB-196.md) | 5 New screens | fix | project (type number) | 195 | ██████████ 100 % | DONE | yes |
