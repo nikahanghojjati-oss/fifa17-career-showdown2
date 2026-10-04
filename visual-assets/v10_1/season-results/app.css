@@ -29,7 +29,11 @@
 #seasonEntry .v10FinalStage button{min-height:44px;pointer-events:auto}
 #seasonEntry .v10FinalProof{position:absolute;bottom:28%;left:28%;width:44%;z-index:15;max-height:25vh;overflow:auto;background:rgba(5,7,9,.95);font-size:12px;pointer-events:auto}
 #seasonEntry .v10FinalProof summary{min-height:44px;display:flex;align-items:center;cursor:pointer}
-#standings>.sdg-stage{position:fixed;inset:0;z-index:2}
+#app #standings.standingsScreenV10{position:relative;height:100%;min-height:0;overflow:hidden}
+#app #standings.standingsScreenV10>.sdg-stage{position:absolute;inset:0;width:100%;height:100%;min-height:0;z-index:2}
+#app #standings.standingsScreenV10 .sdg-board{overflow:auto}
+/* Team V's standalone page styles body; keep the app header's own ink and type. */
+html #app #topHeader{color:var(--f17-ink);font-family:var(--f17-ui)}
 @media(max-width:900px){
  #seasonEntry .seasonEntryGrid:not(.hidden) .seasonResultCard:not(.hidden){display:block!important}
  #seasonEntry .season-layout:has(#daniel-entry-panel.hidden) .season-phone-tab--daniel::after,
@@ -88,3 +92,6 @@
  #app #seasonEntry.seasonScreenV10 .seasonResultCard .achievementChecks label{flex-direction:column-reverse;align-items:flex-start;justify-content:flex-end;gap:4px;font-size:10px}
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage .season-action-row button{min-width:0;flex:1 1 0;font-size:11px;padding:8px 10px}
 }
+/* Final exit actions sit side by side so they stay below the honours table. */
+#app #seasonEntry .v10FinalExit .seasonEntryActions{flex-direction:row;align-items:center}
+#app #seasonEntry .v10FinalExit .seasonEntryActions button{width:auto;min-width:0;flex:0 1 auto;margin:0;padding:8px 16px;font-size:12px}
