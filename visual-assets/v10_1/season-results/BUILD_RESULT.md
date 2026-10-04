@@ -71,3 +71,34 @@ The OVL_SR_* WebPs and rim masks are recipes, not worker-generated binaries. Cla
 ## Claude intake
 
 Run `tools/MAKE_ASSETS.md` from top to bottom. It generates Daniel/Nik hand overlays and rims and finishes by running `python3 tools/build_preview.py`. Then render SR1–SR10 from committed code, inspect privacy and phase actions, run the quality gates reserved for browser evidence, and file a fix round only for measured failures.
+
+## Phone · part 1 of 3
+
+Phone fate plan, fixed before build:
+
+| Desktop element | 393 × 660 fate |
+| --- | --- |
+| `.season-topbar` including brand, nav tabs and settings | Hidden. Season Results has no phone bottom bar and no desktop top bar in the phone composition. |
+| `.season-title-block` | Recompose into the hero band. Eyebrow and tagline hide; the brush Season Results title stays as phone art. |
+| `.scoring-panel` and trophy/rules grid | Move to a `.sd-sheet` “How it works” treatment in part 2; not first-paint content. |
+| Daniel `.entry-panel` | Move into the Daniel manager tab in the bottom content region in part 2. |
+| Nik `.entry-panel` | Move into the Nik manager tab in the bottom content region in part 2. |
+| `.season-review-panel` and canonical scoring | Reuse the bottom content region in review/results-ready states in part 2. |
+| `.season-preview-tag` | Move with the active phone content so Preview data remains visible in fixture frames. |
+| `.season-action-row` | Stays and pins to the bottom safe area; visible buttons share the row without page scroll. |
+| Desktop hand/forearm and rim overlays | Hidden on phone; replaced by the approved full phone hero cut-outs. |
+| `.manager-area` desktop registration markers | Hidden on phone; phonemap positions become the authority. |
+| Contract-state shells | Use the bottom content region in part 2; never create a long scrolling list. |
+| `.fixture-dump` | Remains hidden. |
+
+Phone hero geometry comes directly from `assets/phonemap.json`: background cover at 50% 36%; Daniel left -6%, top 4%, height 49%; Nik left 47%, top 3%, height 50%; hero zone ends at 55%; bottom darkening begins at 38% and reaches the content seam at 55%.
+
+Height budget with no bottom navigation:
+
+| Viewport | Hero 55% | Bottom 45% | Result |
+| --- | ---: | ---: | --- |
+| 393 × 660 | 363 px | 297 px | full-height stage, no page scroll |
+| 360 × 640 | 352 px | 288 px | full-height stage, no page scroll |
+| 375 × 553 | 304.15 px | 248.85 px | bottom action strip remains inside viewport |
+
+Part 1 reserves a maximum 72 px bottom action strip, leaving at least 176.85 px above it at 375 × 553 for the part-2 tab/sheet content. The phone art intake is 262,974 bytes. The phone title recipe caps its WebP at 80,000 bytes, so phone scene art is at most 342,974 bytes before shared CSS/type resources, leaving 107,026 bytes under the 450 KB first-paint scene budget.
