@@ -1738,3 +1738,58 @@ body {
     line-height: 1;
   }
 }
+
+
+/* JOB-083 CLAUDE FIX 1 FOLLOW-UP · full-viewport phone plane + corrected Job 115 hero map. */
+@media (max-width: 760px) {
+  /* shared/stage.css normally starts the UI below the phone face band. Final Winner
+     owns the whole 393 × 660 viewport, so its portrait scene and pinned controls
+     must use the full stage rather than the shortened hub content plane. */
+  #stage-root[data-screen="final-winner"][data-sd-mode="phone"] > .sd-stage__layer--ui {
+    top: 0;
+    bottom: 0;
+  }
+
+  /* Job 115's corrected phone_frame is authoritative: the transparent WebPs are
+     trimmed portrait cut-outs, so size them by visible height and place their
+     centres directly instead of squeezing each image into a 50% box. */
+  .finalWinnerPhoneHero {
+    width: auto;
+    height: 50%;
+    overflow: visible;
+    transform: translateX(-50%);
+    opacity: 1;
+    filter: none;
+    z-index: 7;
+  }
+
+  .finalWinnerPhoneHero img {
+    width: auto;
+    height: 100%;
+    max-width: none;
+    object-fit: contain;
+    object-position: 50% 100%;
+  }
+
+  .finalWinnerPhoneHero--daniel {
+    left: 19%;
+    right: auto;
+    top: 1.5%;
+  }
+
+  .finalWinnerPhoneHero--nik {
+    left: 87%;
+    right: auto;
+    top: 1%;
+  }
+
+  /* Trophy and live result copy stay in front of the manager silhouettes. */
+  .winnerTrophySlot {
+    z-index: 8;
+  }
+
+  .finalWinnerTitleBlock,
+  .finalWinnerHeroCopySlot {
+    z-index: 9;
+  }
+}
