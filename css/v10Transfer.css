@@ -1,0 +1,66 @@
+/* JOB-27: glue between the app's Transfer Challenge screen and Team V's Transfer War skin
+   (visual-assets/v10_1/tr2/slice-02-plate). js/v10Screens.js switches this file on only while the skin is mounted.
+   Production's own elements sit inside Team V's layout; the rest of the original screen stays in the DOM, hidden. */
+/* .screen has contain: layout, which would make it the box for Team V's position: fixed stage. */
+#transferChallenge.tw-on { contain: none; min-height: 60vh; padding: 0; margin: 0; max-width: none; background: none; }
+#transferChallenge.tw-on > :not(.tw-host):not(#transferChallengeResults) { display: none !important; }
+/* The verdict list stays rendered for assistive tech and tests, visually hidden; Team V's verdict glass shows it. */
+#transferChallenge.tw-on > #transferChallengeResults {
+  position: absolute !important; width: 1px; height: 1px; margin: -1px; padding: 0; border: 0;
+  overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%);
+}
+/* Team V's screen is full-bleed: one fixed layer over the app header and footer, under the Team V bar (z 40)
+   and every app overlay (80+). Inside it Team V's own order applies (phone art 0, stage 1). */
+#transferChallenge.tw-on > .tw-host { position: fixed; inset: 0; z-index: 30; background: #070604; }
+/* Production's HUD controls keep their app classes (.backButton is the app's delegated smart-back hook,
+   .menuButton the app button); here they take Team V's .ghost look instead of the app button look. */
+#transferChallenge .tw-host .hud-footer :is(.menuButton, .backButton) {
+  width: auto; min-width: 0; margin: 0; padding: 0 12px; flex: none; white-space: nowrap; text-transform: uppercase;
+  font-family: var(--cond); font-weight: 700; font-size: 12.5px; letter-spacing: 0.16em; line-height: 1;
+  color: var(--cream); background: rgba(0, 0, 0, 0.35); border: 0; border-radius: 999px; box-shadow: inset 0 0 0 1px var(--hair);
+  clip-path: none; transform: none;
+}
+#transferChallenge .tw-host :is(.btn-end, .btn-lock, .btn-continue).menuButton { width: auto; min-width: 0; margin: 0; }
+@media (max-width: 760px) and (orientation: portrait) {
+  /* Team V's phone glass is clipped to cut corners, and a clip on an ancestor also clips the fixed bottom action
+     inside it (the action is invisible in Team V's own 5e05a1f build). The glass keeps its border and shadow. */
+  #transferChallenge .tw-host .panel.own, #transferChallenge .tw-host .rules-card { clip-path: none; }
+  #transferChallenge .tw-host .hud-footer :is(.menuButton, .backButton) { min-height: 44px; min-width: 44px; padding: 0 10px; }
+}
+/* The HUD shows Team V's short labels; the button text (its accessible name and the app's hook) is production's. */
+#transferChallenge .tw-host .hud-footer :is(.backButton, #refreshSharedTransferChallenge) { font-size: 0; letter-spacing: 0; }
+#transferChallenge .tw-host .hud-footer :is(.backButton, #refreshSharedTransferChallenge)::after {
+  font-size: 12.5px; letter-spacing: 0.16em;
+}
+#transferChallenge .tw-host .hud-footer .backButton::after { content: "HOME"; }
+#transferChallenge .tw-host .hud-footer #refreshSharedTransferChallenge::after { content: "REFRESH"; }
+/* The app's own Transfer Challenge rules (css/app.css, css/transfer.css) select production classes that Team V's
+   markup also carries (.guessRow, .signingRow, .transferRuleNote, footer) or that production needs on the field
+   wrapper (.transferGuessCard / .transferManagerCard, see js/transferScreenV10.js). Where those rules would win over
+   Team V's, Team V's values are put back here. */
+#transferChallenge .tw-host :is(.guess-cols, .signing-rows):is(.transferGuessCard, .transferManagerCard) {
+  position: static; overflow: visible; padding: 0; background: none; border-top: 0; box-shadow: none;
+}
+#transferChallenge .tw-host :is(.guess-cols, .signing-rows):is(.transferGuessCard, .transferManagerCard)::before { content: none; }
+:where(.guessRow, .signingRow) > span.guess-num {
+  display: block; width: auto; height: auto; place-items: normal; background: none; color: var(--gold-deep);
+  font: 700 max(10px, calc(var(--k) * 12.5px)) / 1 var(--cond);
+}
+.rule-note.transferRuleNote { max-width: none; }
+.rules-line.transferRulesLine { font: inherit; letter-spacing: inherit; }
+.sign-main.transferTimer { margin: 0; }
+.lock-summary.transferPhaseLockSummary { width: auto; padding: 0; border-left: 0; background: none; }
+/* Compact app layouts stack the signing fields in one column (grid-column: 2); Team V's row keeps them side by side. */
+.signing-row.signingRow > :is(input, .transferCombobox) { grid-column: auto; }
+#transferChallenge .tw-host .error-line.formError {
+  width: auto; min-height: 0; padding: 0; text-align: start; background: none; border: 0;
+}
+#transferChallenge .tw-host .hud-footer {
+  flex: 0 1 auto; min-height: 0; border-top: 0; color: inherit; font-size: inherit; line-height: inherit; letter-spacing: inherit;
+}
+#transferChallenge .tw-host #completeTransferChallenge.btn-lock { display: inline-flex; width: auto; margin: 0; }
+@media (max-width: 760px) and (orientation: portrait) {
+  :where(.guessRow, .signingRow) > span.guess-num { font-size: 13px; }
+  /* Guess entry shows production's two-part status as a two-line band, like Team V's signing band. */
+  #transferChallenge .tw-host .stage[data-phase="GUESS_ENTRY"] { --band-h: 42px; }
+}
