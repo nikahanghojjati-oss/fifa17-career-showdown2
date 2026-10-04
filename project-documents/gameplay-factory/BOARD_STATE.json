@@ -1,8 +1,8 @@
 {
- "generated": "2026-10-04 2:13 PM Boston time (EDT)",
+ "generated": "2026-10-04 4:23 PM Boston time (EDT)",
  "relay": {
   "live": true,
-  "count": 18,
+  "count": 19,
   "rows": [
    {
     "time": "2026-10-02 00:29",
@@ -165,6 +165,15 @@
     "subject": "Legacy (History) built and checked; every screen can now be wired in G-13 (read at a5b5779 or later)",
     "reply": "no",
     "boston": "Sun 4 Oct 1:09 PM"
+   },
+   {
+    "time": "2026-10-04 20:22",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "V2G-013",
+    "subject": "Visual package complete (238/238): G-13 can wire all 15 screens; Audius music across screens; CC-008 polish pass to follow",
+    "reply": "no",
+    "boston": "Sun 4 Oct 4:22 PM"
    }
   ],
   "g2v": {
@@ -177,17 +186,17 @@
    "boston": "Sun 4 Oct 12:40 PM"
   },
   "v2g": {
-   "time": "2026-10-04 17:09",
+   "time": "2026-10-04 20:22",
    "from": "Team V",
    "to": "Team G",
-   "id": "V2G-012",
-   "subject": "Legacy (History) built and checked; every screen can now be wired in G-13 (read at a5b5779 or later)",
+   "id": "V2G-013",
+   "subject": "Visual package complete (238/238): G-13 can wire all 15 screens; Audius music across screens; CC-008 polish pass to follow",
    "reply": "no",
-   "boston": "Sun 4 Oct 1:09 PM"
+   "boston": "Sun 4 Oct 4:22 PM"
   },
-  "head": "5a98133",
-  "head_boston": "Sun 4 Oct 1:09 PM",
-  "latest_id": "V2G-012",
+  "head": "8029dac",
+  "head_boston": "Sun 4 Oct 4:22 PM",
+  "latest_id": "V2G-013",
   "feed_matches_latest": true,
   "open_for_g": [
    {
