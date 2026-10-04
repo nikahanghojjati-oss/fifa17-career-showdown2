@@ -1,6 +1,6 @@
 # Team G gameplay board
 
-19 of 23 jobs done (82 %) ████████░░ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-04 12:28 PM Boston time (EDT)
+19 of 23 jobs done (82 %) ████████░░ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-04 12:29 PM Boston time (EDT)
 
 ## Your next move
 
@@ -32,14 +32,12 @@ Live fix jobs open: [G-2g Same-moment taps retry quietly (bug hunt 1)](jobs/JOB-
 
 ## Team V relay
 
-15 messages in the [feed](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/FEED.md) · relay branch head `a9771b9`, last push Sun 4 Oct 12:25 PM Boston time · synced.
+16 messages in the [feed](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/FEED.md) · relay branch head `946e621`, last push Sun 4 Oct 12:28 PM Boston time · synced.
 
-- **Latest from Team G:** G2V-009 · Sat 3 Oct 7:55 PM Boston time · Gameplay done before G-13; when is the visual package ready? G-10 transfer fields
+- **Latest from Team G:** G2V-010 · Sun 4 Oct 12:40 PM Boston time · Same end as your board; gameplay gaps from the bug hunt (items 3-5, tie rule) are ours; G-13 part 1 = Trophy Room + Car…
 - **Latest from Team V:** V2G-010 · Sun 4 Oct 12:16 PM Boston time · Nik's shared goal: both boards at 100 % = Nik and Daniel play the live game with the new visual pack start to finish, b…
 
-**Open for the Team G lead to answer:**
-- V2G-009 · Sat 3 Oct 11:24 PM · Visual package ready for Nik's review ~Wed 7 Oct; wire Trophy Room + Career Statistics fi… (reply only if: wiring those two first does not work)
-- V2G-010 · Sun 4 Oct 12:16 PM · Nik's shared goal: both boards at 100 % = Nik and Daniel play the live game with the new… (reply only if: your end differs or you see a gap)
+**Open for the Team G lead to answer:** nothing.
 
 Waiting on Team V: nothing.
 

@@ -1,8 +1,8 @@
 {
- "generated": "2026-10-04 12:28 PM Boston time (EDT)",
+ "generated": "2026-10-04 12:29 PM Boston time (EDT)",
  "relay": {
   "live": true,
-  "count": 15,
+  "count": 16,
   "rows": [
    {
     "time": "2026-10-02 00:29",
@@ -138,16 +138,25 @@
     "subject": "Nik's shared goal: both boards at 100 % = Nik and Daniel play the live game with the new visual pack start to finish, bug-free; confirm your board ends there",
     "reply": "only if your end differs or you see a gap",
     "boston": "Sun 4 Oct 12:16 PM"
+   },
+   {
+    "time": "2026-10-04 16:40",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "G2V-010",
+    "subject": "Same end as your board; gameplay gaps from the bug hunt (items 3-5, tie rule) are ours; G-13 part 1 = Trophy Room + Career Statistics after job 21; r52 live",
+    "reply": "no",
+    "boston": "Sun 4 Oct 12:40 PM"
    }
   ],
   "g2v": {
-   "time": "2026-10-03 23:55",
+   "time": "2026-10-04 16:40",
    "from": "Team G",
    "to": "Team V",
-   "id": "G2V-009",
-   "subject": "Gameplay done before G-13; when is the visual package ready? G-10 transfer fields",
-   "reply": "yes (item 1)",
-   "boston": "Sat 3 Oct 7:55 PM"
+   "id": "G2V-010",
+   "subject": "Same end as your board; gameplay gaps from the bug hunt (items 3-5, tie rule) are ours; G-13 part 1 = Trophy Room + Career Statistics after job 21; r52 live",
+   "reply": "no",
+   "boston": "Sun 4 Oct 12:40 PM"
   },
   "v2g": {
    "time": "2026-10-04 16:16",
@@ -158,30 +167,11 @@
    "reply": "only if your end differs or you see a gap",
    "boston": "Sun 4 Oct 12:16 PM"
   },
-  "head": "a9771b9",
-  "head_boston": "Sun 4 Oct 12:25 PM",
-  "latest_id": "V2G-010",
+  "head": "946e621",
+  "head_boston": "Sun 4 Oct 12:28 PM",
+  "latest_id": "G2V-010",
   "feed_matches_latest": true,
-  "open_for_g": [
-   {
-    "time": "2026-10-04 03:24",
-    "from": "Team V",
-    "to": "Team G",
-    "id": "V2G-009",
-    "subject": "Visual package ready for Nik's review ~Wed 7 Oct; wire Trophy Room + Career Statistics first; G-10 fields accepted; new Action comments on PR #312 for every message",
-    "reply": "only if wiring those two first does not work",
-    "boston": "Sat 3 Oct 11:24 PM"
-   },
-   {
-    "time": "2026-10-04 16:16",
-    "from": "Team V",
-    "to": "Team G",
-    "id": "V2G-010",
-    "subject": "Nik's shared goal: both boards at 100 % = Nik and Daniel play the live game with the new visual pack start to finish, bug-free; confirm your board ends there",
-    "reply": "only if your end differs or you see a gap",
-    "boston": "Sun 4 Oct 12:16 PM"
-   }
-  ],
+  "open_for_g": [],
   "open_for_v": [],
   "waiting": null
  },
