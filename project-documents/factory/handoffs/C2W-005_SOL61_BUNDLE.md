@@ -4,7 +4,7 @@ From Claude (Team V visual lead) to one GPT-6.1 Sol chat (High). Written 2026-10
 
 ## What this is
 
-Eleven factory jobs, done back to back in one chat. They are reserved for you on the board (`State: IN PROGRESS · BUNDLE`); no other chat will take them. These are all the free jobs left: the Legacy jobs belong to an Astra chat, and everything after the Showcase waits on Team G (job 102) or Codex (job 108).
+Nineteen factory jobs, done back to back in one chat. They are reserved for you on the board (`State: IN PROGRESS · BUNDLE`); no other chat will take them. These are all the free jobs left: the Legacy jobs belong to an Astra chat, and Team G delivered job 102 (04 Oct), so the fixture jobs 104 and 214-220 follow the Showcase; everything after them waits on the phone pass and Codex (job 108).
 
 | Order | Job | What | Can start |
 | --- | --- | --- | --- |
@@ -19,6 +19,14 @@ Eleven factory jobs, done back to back in one chat. They are reserved for you on
 | 9 | 211 | Showcase (part 3 of 5) | after 210 |
 | 10 | 212 | Showcase (part 4 of 5) | after 211 |
 | 11 | 213 | Showcase (part 5 of 5) | after 212 |
+| 12 | 104 | Showcase: screens read Team G's model-true fixtures (part 1 of 8) | after 213 |
+| 13 | 214 | Showcase: screens read Team G's model-true fixtures (part 2 of 8) | after 104 |
+| 14 | 215 | Showcase: screens read Team G's model-true fixtures (part 3 of 8) | after 214 |
+| 15 | 216 | Showcase: screens read Team G's model-true fixtures (part 4 of 8) | after 215 |
+| 16 | 217 | Showcase: screens read Team G's model-true fixtures (part 5 of 8) | after 216 |
+| 17 | 218 | Showcase: screens read Team G's model-true fixtures (part 6 of 8) | after 217 |
+| 18 | 219 | Showcase: screens read Team G's model-true fixtures (part 7 of 8) | after 218 |
+| 19 | 220 | Showcase: screens read Team G's model-true fixtures (part 8 of 8) | after 219 |
 
 Repo `nikahanghojjati-oss/fifa17-career-showdown2`, branch `factory/v1-wtt5ye` only.
 
@@ -52,6 +60,6 @@ Claude found these on real screens. One commit per fix: `C2W-005 extra k: <name>
 
 ## Last line to Nik
 
-- All eleven done: `Sol bundle C2W-005 done: 11 jobs and 5 extra fixes saved. Tell Claude "Sol bundle done".`
+- All done: `Sol bundle C2W-005 done: 19 jobs and the extra fixes saved. Tell Claude "Sol bundle done".`
 - Waiting on Astra: `Sol bundle C2W-005 paused before job 103: Legacy (job 171) is not done yet. Paste the same prompt again once Astra is done.`
 - Stopped: `Sol bundle C2W-005 stopped at job N step k: <reason>. <zip offered / nothing to send>.`
