@@ -7,6 +7,7 @@
 
   const POLL_MS=15000;
   const PANEL_ID="sharedHistoryConvergencePanel";
+  let heldErrorKey="";
   let installed=false,busy=false,provider=null,setupApi=null,commitApi=null,scoringApi=null,view=null,contextKey="",refreshPromise=null;
 
   function phcFail(code,message){const error=new Error(message||code);error.code=code;throw error;}
@@ -92,7 +93,7 @@
     view=result;contextKey=request.key;phcRender();try{root.dispatchEvent?.(new root.CustomEvent("career-mode-shared-history-convergence-state-change",{detail:{phase:view.phase,throughSeason:view.throughSeason,acceptedRevisionKey:view.acceptedRevisionKey||view.projection.acceptedRevisionKey}}));}catch(_error){}return view;
   }
   function phcRefresh(){
-    const request=phcRequest();if(!request||!phcSharedMarker())return Promise.resolve(phcClear(request));if(refreshPromise)return refreshPromise;busy=true;const current=phcRefreshNow(request).catch(error=>{if(phcContextMatches(request)){phcClear(request);phcReport("Unable to converge Shared History",error);}return null;}).finally(()=>{busy=false;if(refreshPromise===current)refreshPromise=null;});refreshPromise=current;return current;
+    const request=phcRequest();if(!request||!phcSharedMarker())return Promise.resolve(phcClear(request));if(refreshPromise)return refreshPromise;busy=true;const current=phcRefreshNow(request).then(value=>{heldErrorKey="";return value;},error=>{if(phcContextMatches(request)){const key=`${request.key}|${String(error?.code||error?.message||"HISTORY_FAILED").slice(0,80)}`;if(key!==heldErrorKey){heldErrorKey=key;if(view&&contextKey===request.key)return view;phcClear(request);return null;}heldErrorKey="";phcClear(request);phcReport("Unable to converge Shared History",error);}return null;}).finally(()=>{busy=false;if(refreshPromise===current)refreshPromise=null;});refreshPromise=current;return current;
   }
   function phcWake(){if(busy||root.document?.visibilityState==="hidden")return;void phcRefresh();}
   function phcInstall(){if(installed)return true;installed=true;for(const event of ["career-mode-shared-canonical-scoring-state-change","career-mode-shared-season-commit-state-change","career-mode-shared-setup-state-change","career-mode-connected-account-state-change","career-mode-app-check-state-change","career-mode-shared-season-cursor-change"]){root.addEventListener?.(event,phcWake);}root.document?.addEventListener?.("visibilitychange",phcWake);if(typeof root.setInterval==="function")root.setInterval(phcWake,POLL_MS);if(typeof root.setTimeout==="function")root.setTimeout(phcWake,0);return true;}

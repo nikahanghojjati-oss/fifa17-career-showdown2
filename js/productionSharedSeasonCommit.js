@@ -73,6 +73,19 @@
     if(!value){if(node&&errorMessage&&node.textContent===errorMessage)node.textContent="";errorMessage="";return;}
     if(node){node.textContent=value;errorMessage=value;}
   }
+  function psscSeasonResultClash(results){
+    const one=results&&results.playerOne,two=results&&results.playerTwo,lines=[];
+    if(!one||!two||typeof one!=="object"||typeof two!=="object")return lines;
+    const positionOne=Number(one.leaguePosition),positionTwo=Number(two.leaguePosition);
+    if(one.leaguePosition!=null&&Number.isFinite(positionOne)&&positionOne===positionTwo)lines.push(`Both managers entered league position ${positionOne}.`);
+    if(one.championsLeague===true&&two.championsLeague===true)lines.push("Both managers ticked Champions League.");
+    if(one.domesticCup===true&&two.domesticCup===true)lines.push("Both managers ticked Domestic Cup.");
+    return lines;
+  }
+  function psscClashWarning(who){
+    const lines=psscSeasonResultClash(psscResultsState()?.allResults);
+    return lines.length?` · CHECK RESULTS: ${lines.join(" ")} ${who} can still commit; scores use what was entered.`:"";
+  }
   function psscManagerName(role){return psscShowdown()?.managers?.[role]||(role==="playerOne"?"Manager 1":"Manager 2");}
   function psscRender(){
     const ui=psscEnsureUi();if(!ui)return false;
@@ -84,15 +97,15 @@
     }
     const role=view.managerRole,coordinator=view.coordinatorRole,phase=view.phase||"RESULTS_READY";
     if(phase==="ACKNOWLEDGED"){
-      psscText(ui.status,"SHARED SEASON COMMIT ACKNOWLEDGED BY BOTH MANAGERS · SCORING REMAINS LOCKED FOR THE NEXT CAPABILITY");psscText(ui.action,"SEASON COMMIT ACKNOWLEDGED ✓");psscDisable(ui.action,true);return true;
+      psscText(ui.status,"SEASON COMMITTED · SCORE BELOW");psscText(ui.action,"SEASON COMMIT ACKNOWLEDGED ✓");psscDisable(ui.action,true);return true;
     }
     if(view.committed){
       if(view.ownAcknowledged){psscText(ui.status,"YOU ACKNOWLEDGED THIS SHARED SEASON · WAITING FOR YOUR RIVAL");psscText(ui.action,"ACKNOWLEDGED ✓ · WAITING FOR RIVAL");psscDisable(ui.action,true);}
       else{psscText(ui.status,"THE SHARED RESULT SNAPSHOT IS COMMITTED · BOTH MANAGERS MUST ACKNOWLEDGE BEFORE SCORING CAN BEGIN");psscText(ui.action,"ACKNOWLEDGE SHARED SEASON");psscDisable(ui.action,busy);}
       return true;
     }
-    if(role===coordinator){psscText(ui.status,"BOTH RESULTS ARE READY · AS COORDINATOR, COMMIT THE IMMUTABLE SHARED SEASON SNAPSHOT");psscText(ui.action,"COMMIT SHARED SEASON");psscDisable(ui.action,busy);}
-    else{psscText(ui.status,`BOTH RESULTS ARE READY · WAITING FOR ${psscManagerName(coordinator)} TO COMMIT THE SHARED SEASON`);psscText(ui.action,"WAITING FOR COORDINATOR");psscDisable(ui.action,true);}
+    if(role===coordinator){psscText(ui.status,`BOTH RESULTS ARE READY · AS COORDINATOR, COMMIT THE IMMUTABLE SHARED SEASON SNAPSHOT${psscClashWarning("You")}`);psscText(ui.action,"COMMIT SHARED SEASON");psscDisable(ui.action,busy);}
+    else{psscText(ui.status,`BOTH RESULTS ARE READY · WAITING FOR ${psscManagerName(coordinator)} TO COMMIT THE SHARED SEASON${psscClashWarning("The coordinator")}`);psscText(ui.action,"WAITING FOR COORDINATOR");psscDisable(ui.action,true);}
     return true;
   }
   function psscBind(result,ctx,request){if(!psscContextMatches(request))return false;view={...result,rivalryId:ctx.setup.rivalryId,coordinatorRole:result.coordinatorRole||ctx.setup.setup.coordinatorRole};contextKey=request.key;readError="";readErrorKey="";psscRender();return true;}
@@ -148,5 +161,5 @@
   function psscInstallObservers(){if(psscAttachHeadingObserver()||!root.MutationObserver||!root.document?.documentElement)return;bootstrapObserver=new root.MutationObserver(()=>{if(psscAttachHeadingObserver()){bootstrapObserver.disconnect();bootstrapObserver=null;}});bootstrapObserver.observe(root.document.documentElement,{childList:true,subtree:true});}
   function psscInstall(){if(installed)return true;installed=true;if(root.document)root.document.addEventListener("click",psscCapture,true);psscInstallObservers();root.addEventListener?.("career-mode-shared-season-cursor-change",()=>void psscTick());if(typeof root.setInterval==="function")root.setInterval(()=>void psscTick(),POLL_MS);if(typeof root.setTimeout==="function")root.setTimeout(()=>void psscTick(),0);return true;}
 
-  return Object.freeze({contractVersion:1,feature:"ssjr-production-shared-season-commit",productionEnabled:true,runtimeRevision:"1.9.1-r10",requiresResultsReady:true,requiresCoordinatorCommit:true,requiresBothAcknowledgements:true,reusesSeasonReview:true,distinctFromLocalConfirm:true,boundedStaleRetry:true,canonicalStorageMutation:false,authoritativeScoring:false,billingRequired:false,blazeRequired:false,cloudRunRequired:false,cloudFunctionsRequired:false,pollIntervalMs:POLL_MS,install:psscInstall,refresh:psscRefresh,getState:()=>view,isActive:psscSharedMarker});
+  return Object.freeze({contractVersion:1,feature:"ssjr-production-shared-season-commit",productionEnabled:true,runtimeRevision:"1.9.1-r10",requiresResultsReady:true,requiresCoordinatorCommit:true,requiresBothAcknowledgements:true,reusesSeasonReview:true,distinctFromLocalConfirm:true,boundedStaleRetry:true,canonicalStorageMutation:false,authoritativeScoring:false,billingRequired:false,blazeRequired:false,cloudRunRequired:false,cloudFunctionsRequired:false,pollIntervalMs:POLL_MS,install:psscInstall,refresh:psscRefresh,seasonResultClash:psscSeasonResultClash,getState:()=>view,isActive:psscSharedMarker});
 });

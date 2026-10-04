@@ -408,7 +408,7 @@ The friend joins from a different country; sessions are therefore remote. A work
 # Non-regression rules for all amendments
 
 - Do not change the max-11 scoring model.
-- Do not change the 0-0-only tiebreak.
+- Do not change the season tiebreak: any tied season score (0-0 or not) is decided by league position, then league points (owner decision 2026-10-04, below).
 - Do not expand Showdown club selection beyond the locked top-five-league pool merely because the transfer metadata dataset is larger.
 - Do not weaken one-pair/no-reroll club assignment.
 - Do not weaken critical-save rollback or centralized navigation.
@@ -417,3 +417,11 @@ The friend joins from a different country; sessions are therefore remote. A work
 - Do not use official club crests by default.
 - Keep mobile and Chromebook support first-class.
 - Future two-device compatibility must build on this architecture rather than forcing a rewrite of the one-device v1.0 flow.
+
+---
+
+# Amendment 2026-10-04: tied seasons are decided by league position
+
+Owner decision (Nik, 2026-10-04 16:17 UTC, project decision card "Decide tied seasons"): keep the shipped behaviour. When both managers finish a season on the same score, whether 0-0 or any other equal score, the better league position wins the season, then league points. A season is a draw only if both are also equal.
+
+This matches the code as shipped (`js/sharedCanonicalScoring.js` `scWinner`, `js/scoring.js` `determineSeasonWinner`) and the Team G data-contract fixture `tests/fixtures/data-contract-v1/tiebreak-finish.json`. Earlier wording ("equal non-zero scores are draws; only 0-0 uses league position", `RELEASE_V1.9.1_R11.md`) is superseded; that release record stays unchanged as history. No scoring change. The final Showdown result still uses season totals only.

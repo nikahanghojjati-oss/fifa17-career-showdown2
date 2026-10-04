@@ -688,6 +688,26 @@
         "^tests/contracts/shared-journey-reload-resume-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/shared-tap-race-contracts.cjs",
+      "patterns": [
+        "^js/productionSharedTransferChallenge\\.js$",
+        "^js/productionSharedCareerStart\\.js$",
+        "^js/productionSharedShowdownSetup\\.js$",
+        "^js/productionSharedSeasonCommit\\.js$",
+        "^tests/contracts/shared-tap-race-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/season-result-clash-contracts.cjs",
+      "patterns": [
+        "^js/productionSharedSeasonCommit\\.js$",
+        "^js/productionSharedSeasonResults\\.js$",
+        "^tests/contracts/season-result-clash-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }

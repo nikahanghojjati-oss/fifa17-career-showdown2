@@ -131,7 +131,7 @@
   // in flight (every 2.5-15s), so the wheel/packs/confirm needed a second tap. Refreshes now coalesce,
   // a refresh during a write keeps the write's state, and a write waits for an in-flight refresh.
   function refreshWaitMs(){const value=Number(root.CMS_SETUP_REFRESH_WAIT_MS);return Number.isFinite(value)&&value>=100&&value<=20000?value:20000;}
-  let refreshInFlight=null,refreshStartedAt=0,mutateInFlight=null,setupGeneration=0;
+  let refreshInFlight=null,refreshStartedAt=0,mutateInFlight=null,setupGeneration=0,heldReadFailure=false;
   function boundedWait(promise){let timer=null;return Promise.race([promise.catch(()=>null),new Promise(resolve=>{timer=root.setTimeout?.(resolve,refreshWaitMs());})]).finally(()=>{if(timer!==null)root.clearTimeout?.(timer);});}
   function refresh(){
     // A refresh during a write resolves after the write publishes its accepted state.
@@ -144,17 +144,22 @@
   }
   async function refreshNow(generation=setupGeneration){
     const before=storageSnapshot();setState({status:"reading",busy:true,message:"Reading the authoritative Shared Setup for this exact ACTIVE session…"});
+    let readReached=false;
     try{
-      const context=await resolveContext();const result=await context.adapter.read(providerOptions(context));assertStorageUnchanged(before);
+      const context=await resolveContext();readReached=true;const result=await context.adapter.read(providerOptions(context));assertStorageUnchanged(before);
       if(generation!==setupGeneration)return state;
       if(!result||result.ok!==true)fail(result&&result.code||"SHARED_SETUP_READ_FAILED");
       const message=result.status==="empty"
         ? context.remoteRole==="host"?"The paired managers have reached an empty Shared Setup. Open it once for both managers.":"The paired managers have reached an empty Shared Setup. Waiting for the session host to open it."
         : "Authoritative Shared Setup resumed without reset or redraw.";
-      return accept(result,context,message);
+      heldReadFailure=false;return accept(result,context,message);
     }catch(error){
       try{assertStorageUnchanged(before);}catch(storageError){error=storageError;}
       if(generation!==setupGeneration)return state;
+      // One failed provider read (network blip, a read racing the rival's write) keeps the confirmed Setup for one poll so every module gated on it does not go quiet; a repeat failure locks it.
+      // Context failures (logout, detached pairing, expired session, account/device mismatch) and storage changes never hold: the exact ACTIVE prerequisite is gone.
+      if(readReached&&!/^SHARED_SETUP_(LOCAL_SAVE_MUTATION|STORAGE_AUTHORITY_UNAVAILABLE)$/.test(String(error&&error.code||""))&&!heldReadFailure&&state.ready===true&&state.setup&&state.setup.phase==="SHOWDOWN_CONFIRMED"){heldReadFailure=true;return setState({status:"ready",busy:false});}
+      heldReadFailure=false;
       return setState({status:"locked",busy:false,ready:false,message:error&&error.message&&error.message!==error.code?error.message:String(safeError(error,"SHARED_SETUP_UNAVAILABLE")).replace(/_/g," ")});
     }
   }
@@ -165,19 +170,38 @@
     mutateInFlight=run;
     return run.finally(()=>{if(mutateInFlight===run)mutateInFlight=null;});
   }
+  // Job 21: when both managers tap at once the loser's write is rejected by the Rules (permission-denied) or by the provider (stale
+  // revision / already done). Re-read; if the refreshed Setup already shows this step, finish silently, else retry once with a fresh
+  // revision and operation id. A real denial still surfaces after that one retry.
+  const RACE_CODES=Object.freeze(["permission-denied","firestore/permission-denied","permission_denied","SETUP_STALE_BASE_REVISION","SETUP_ALREADY_OPEN","SETUP_ALREADY_CONFIRMED","SETUP_TRANSITION_INVALID","SETUP_NOT_OPEN"]);
+  function stepAlreadyShown(type,result,role,extra={}){
+    const setup=result&&result.state;if(!setup)return false;
+    if(type==="open")return true;
+    if(type==="commit-league")return Boolean(setup.leagueId);
+    if(type==="commit-clubs")return Boolean(setup.clubs);
+    if(type==="commit-length")return Boolean(setup.totalSeasons)&&setup.totalSeasons===extra.totalSeasons;
+    if(type==="confirm")return Array.isArray(setup.confirmedRoles)&&setup.confirmedRoles.includes(role);
+    return false;
+  }
   async function mutateNow(type,extra={}){
     const before=storageSnapshot();setState({status:`writing-${type}`,busy:true,message:"Submitting one authoritative Shared Setup transition…"});
     try{
       const context=await resolveContext();
       if(type==="open"&&context.remoteRole!=="host")fail("SHARED_SETUP_HOST_REQUIRED","Only the ACTIVE session host may open an empty Shared Setup.");
-      const current=await context.adapter.read(providerOptions(context));
-      if(!current||current.ok!==true)fail(current&&current.code||"SHARED_SETUP_READ_FAILED");
-      const operationId=randomOperationId(),baseRevision=current.revision||0;
-      const providerRequest={...providerOptions(context),type,operationId,baseRevision,...extra};
-      const result=await context.conflicts.execute({surface:"shared-setup",action:type,operationId,baseRevision,authority:{accountId:context.accountId,deviceId:context.deviceId,rivalryId:context.rivalryId,sessionId:context.sessionId,managerRole:context.managerRole},intent:type==="commit-length"?{totalSeasons:extra.totalSeasons}:{}},()=>context.adapter.mutate(providerRequest));
-      assertStorageUnchanged(before);
-      if(!result||result.ok!==true)fail(result&&result.code||"SHARED_SETUP_MUTATION_FAILED");
-      return accept(result,context,result.replayed?"The original Shared Setup operation was recovered without a duplicate draw.":"Both managers can now read the same authoritative Shared Setup state.");
+      for(let attempt=0;;attempt+=1){
+        const current=await context.adapter.read(providerOptions(context));
+        if(!current||current.ok!==true)fail(current&&current.code||"SHARED_SETUP_READ_FAILED");
+        if(attempt>0&&stepAlreadyShown(type,current,context.managerRole,extra)){assertStorageUnchanged(before);return accept(current,context,"Both managers can now read the same authoritative Shared Setup state.");}
+        const operationId=randomOperationId(),baseRevision=current.revision||0;
+        const providerRequest={...providerOptions(context),type,operationId,baseRevision,...extra};
+        let result;
+        try{result=await context.conflicts.execute({surface:"shared-setup",action:type,operationId,baseRevision,authority:{accountId:context.accountId,deviceId:context.deviceId,rivalryId:context.rivalryId,sessionId:context.sessionId,managerRole:context.managerRole},intent:type==="commit-length"?{totalSeasons:extra.totalSeasons}:{}},()=>context.adapter.mutate(providerRequest));}
+        catch(error){if(attempt===0&&RACE_CODES.includes(safeError(error,""))){continue;}throw error;}
+        assertStorageUnchanged(before);
+        if(result&&result.ok!==true&&attempt===0&&RACE_CODES.includes(result.code))continue;
+        if(!result||result.ok!==true)fail(result&&result.code||"SHARED_SETUP_MUTATION_FAILED");
+        return accept(result,context,result.replayed?"The original Shared Setup operation was recovered without a duplicate draw.":"Both managers can now read the same authoritative Shared Setup state.");
+      }
     }catch(error){
       try{assertStorageUnchanged(before);}catch(storageError){error=storageError;}
       setState({status:"error",busy:false,message:String(safeError(error,"SHARED_SETUP_MUTATION_FAILED")).replace(/_/g," ")});

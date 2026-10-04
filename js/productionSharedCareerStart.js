@@ -69,12 +69,13 @@
           const result=await provider.acknowledge({...ctx.options,operationId,baseRevision:current.revision||0});
           if(result&&result.ok===true){pcstApplyView(result,ctx.state.setup);return true;}
           const code=result&&result.code||"CAREER_START_PROVIDER_FAILED";
-          if(["CAREER_START_STALE_BASE_REVISION","CAREER_START_ROLE_ALREADY_ACKNOWLEDGED","CAREER_START_ALREADY_READY"].includes(code)){
+          // Job 21: two managers acknowledging at once -> the loser is rejected by the Rules (permission-denied); treat it like a stale revision (re-read, retry once).
+          if(["CAREER_START_STALE_BASE_REVISION","CAREER_START_ROLE_ALREADY_ACKNOWLEDGED","CAREER_START_ALREADY_READY","permission-denied","firestore/permission-denied","permission_denied"].includes(code)){
             const refreshed=await provider.read(ctx.options);
             if(!refreshed||refreshed.ok!==true)throw Object.assign(new Error("Career Start could not be reconciled after another acknowledgement."),{code:refreshed&&refreshed.code||code});
             current=refreshed;
             if(current?.state?.phase==="CAREER_START_READY"||pcstOwnAcknowledged(current)){pcstApplyView(current,ctx.state.setup);return true;}
-            if(code==="CAREER_START_STALE_BASE_REVISION"&&attempt===0)continue;
+            if((code==="CAREER_START_STALE_BASE_REVISION"||code==="permission-denied"||code==="firestore/permission-denied"||code==="permission_denied")&&attempt===0)continue;
           }
           throw Object.assign(new Error("Career Start acknowledgement was rejected."),{code});
         }
