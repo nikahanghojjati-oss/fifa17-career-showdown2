@@ -83,7 +83,8 @@ busy = [j for j in jobs if info[j["number"]][0].startswith("IN PROGRESS") and no
 IMG = "fresh chat (image)"
 TICKETS = os.listdir(os.path.join(F, "tickets")) if os.path.isdir(os.path.join(F, "tickets")) else []
 has_ticket = lambda n: any(f.startswith(f"TICKET-{n:03d}_") for f in TICKETS)
-slots = max(0, MAX_CHATS - sum(1 for j in busy if j.get("lane") not in ("work", "codex", IMG)))
+# Jobs reserved for an Astra bundle (State "IN PROGRESS · ASTRA") run in one Astra chat, not in Nik's GPT chats.
+slots = max(0, MAX_CHATS - sum(1 for j in busy if j.get("lane") not in ("work", "codex", IMG) and "ASTRA" not in info[j["number"]][0].upper()))
 img_slots = max(0, MAX_IMAGE - sum(1 for j in busy if j.get("lane") == IMG))
 work_slots = max(0, MAX_WORK - sum(1 for j in busy if j.get("lane") == "work"))
 startable, later, work_now, img_now, img_later, img_noticket = [], [], [], [], [], []
