@@ -1,6 +1,6 @@
 # Showdown Factory board
 
-**78 of 135 jobs done and checked · 68 %** · updated Sat 8:50 p.m. Eastern
+**78 of 135 jobs done and checked · 68 %** · updated Sat 8:51 p.m. Eastern
 
 ✅ **Quality check:** a job counts as done only after Claude checks it against the quality bar (average 4.2 or more, nothing under 3, hard gates pass). Average score 4.24 over 26 scored jobs. 🔍 Waiting for Claude's check: 47, 58, 60, 77, 83, 84, 87, 94, 95, 114, 115, 116. 
 
@@ -31,7 +31,7 @@ Final Winner   ███████░░░ 6/8
 Start/Join     ███░░░░░░░ 3/8
 Standings      ██░░░░░░░░ 1/4
 Rule Book      ██████████ 4/4
-Settings       ██████░░░░ 2/4
+Settings       ███████░░░ 2/4
 Setup          ██████████ 2/2
 Foundation     ██████████ 7/7
 Art            ██████████ 8/8
@@ -159,7 +159,7 @@ Branch `factory/v1-wtt5ye`. 135 Team V jobs, plus 5 lines that track Team G. Two
 | 93 | [Rule Book: review](jobs/JOB-093.md) | 5 New screens | review | project (type number) | 92 | ██████████ 100 % | DONE |  |
 | 94 | [Rule Book: fix round and motion](jobs/JOB-094.md) | 5 New screens | fix | project (type number) | 93, 16, 124 | ██████████ 100 % | DONE | yes |
 | 95 | [Settings: build (desktop and phone)](jobs/JOB-095.md) | 5 New screens | build | project (type number) | 10, 29, 18, 121 | ██████████ 100 % | DONE |  |
-| 96 | [Settings: review](jobs/JOB-096.md) | 5 New screens | review | project (type number) | 95 | █████░░░░░ 57 % | IN PROGRESS |  |
+| 96 | [Settings: review](jobs/JOB-096.md) | 5 New screens | review | project (type number) | 95 | ████████░░ 85 % | IN PROGRESS |  |
 | 97 | [Settings: fix round and motion](jobs/JOB-097.md) | 5 New screens | fix | project (type number) | 96, 16, 124 | ░░░░░░░░░░ 0 % | NOT STARTED | yes |
 | 98 | [Team G G-3: the pure career model](jobs/JOB-098.md) | 6 Online history | tracking | team-g | - | ██████████ 100 % | DONE |  |
 | 99 | [Team G G-7: own-account career index](jobs/JOB-099.md) | 6 Online history | tracking | team-g | 98 | ░░░░░░░░░░ 0 % | WAITING ON TEAM G |  |
