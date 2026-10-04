@@ -32,7 +32,15 @@ Screen folder: `visual-assets/v10_1/legacy/`. Repo `nikahanghojjati-oss/fifa17-c
 
 ## If GitHub refuses a save
 
+If the refusal says **"not a fast forward"** (HTTP 422), another chat saved at the same moment. That is normal with two bundles running: re-read the newest branch head, redo that one save on top of it (keep everything the other chat saved), and try once more. Only a second refusal, or any other refusal, is a real stop:
+
 Stop saving at once. Put every file you changed or still meant to save, at their repo paths, into ONE zip named `ASTRA_C2W004_<job>_<step>.zip`, offer it as a download, and stop with the stop line. Nik drops the zip in Claude's factory thread; Claude commits it and Nik starts a new Astra chat with the same prompt (it carries on from the status files).
+
+## Extra fix after job 171 (Claude's check, 04 Oct)
+
+Job 168 is DONE (Claude saved your zip). Carry on from 169. After 171, do this one extra fix in `legacy.css` / `legacy.js` (Legacy only), commit `C2W-004 extra 1: phone archive fits`, and add one line about it to the end of `status/JOB-171.md` notes. Skip it if 169 to 171 already fixed it.
+
+- **Extra 1 · Legacy phone archive (393x660).** The archive card row runs off the right edge (the next card shows cut in half and the panel's right border is missing), and the pager shows only `‹ ›` with no dots. Target: the panel and its border sit fully inside 12px side margins, one card fills the row width, and one dot per page shows between `‹` and `›` (the active one gold). DEFAULT: in the phone media block, give the card track `scroll-snap-type: x mandatory` with each card `flex: 0 0 100%`, keep the panel at `left/right: 12px`, and make `.legacyPageDot` visible (8px gold circle, inactive at 35% gold).
 
 ## Last line to Nik
 
