@@ -93,3 +93,10 @@ PASS.
 
 No QA screenshots or render artifacts were committed.
 
+## Motion
+
+- Entrance total: not declared in `loading.css` — differs. `MOTION.md` caps the shared entrance at 1.2 s, but Loading defines no local entrance-total timing; its only duration is the separate 1.65 s progress-glint loop.
+- First usable point: not declared in `loading.css` — differs. `MOTION.md` says the core screen is usable by 600 ms; Loading does not declare a local usable-point timing.
+- Stagger: not declared in `loading.css` — differs. `MOTION.md` uses a 60 ms panel stagger; Loading defines no local stagger.
+- Easing: `cubic-bezier(.22,1,.36,1)` on the 1.65 s progress glint — differs. `MOTION.md` does not assign that numeric easing to the standard entrance; this easing belongs only to Loading's progress glint.
+- Reduced motion: `@media (prefers-reduced-motion: reduce)`, `html[data-motion-reduced="true"]`, and `html[data-reduced-motion="true"]` hide the glint and set `animation: none` — differs. `MOTION.md` specifies a 150 ms opacity fade for entrances, while `loading.css` only suppresses its local glint.
