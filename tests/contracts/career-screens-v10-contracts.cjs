@@ -2,7 +2,7 @@
 "use strict";
 // G-13 part 1 contract: Team V's Career Statistics and Trophy Room screens read the real career model only.
 // toV10Frame maps the model to Team V's frame with the model's own numbers, Daniel first and Nik second;
-// loading and unavailable carry no numbers; Legacy and Rivalry Statistics stay hidden online; the startup
+// loading and unavailable carry no numbers; all Statistics buttons are reachable online; the startup
 // shell is untouched and every new lazy file is shell-cached.
 const assert=require("node:assert/strict");
 const fs=require("node:fs");
@@ -118,13 +118,13 @@ check("V7 loading and unavailable carry no numbers; no preview chip with real da
   assert.ok(tr.includes('${preview ? `<div class="previewPill">'),"Trophy Room draws no empty preview pill");
   assert.match(read("visual-assets/v10_1/career-statistics/career-statistics.js"),/chip\.hidden = !label;/);
 });
-check("V8 Legacy and Rivalry Statistics stay hidden online; Career Statistics is shown",()=>{
+check("V8 all Statistics buttons are reachable online; Career Statistics is shown",()=>{
   const src=read("js/onlinePlayerIdentity.js");
   const css=/style\.textContent="(.*?)\{display:none!important\}/.exec(src);
   assert.ok(css,"containment stylesheet");
   const selectors=css[1].split(",");
-  assert.ok(selectors.includes("#legacyButton:not([data-test-surface='internal-audit'])"));
-  assert.ok(selectors.includes("#rivalryStatisticsButton:not([data-test-surface='internal-audit'])"));
+  assert.ok(!selectors.some(s=>s.startsWith("#legacyButton")));
+  assert.ok(!selectors.some(s=>s.startsWith("#rivalryStatisticsButton")));
   assert.ok(!selectors.some(s=>s.startsWith("#careerStatisticsButton")),"careerStatisticsButton no longer hidden");
   assert.ok(src.includes('style.id="onlineInternalSurfaceContainment"'));
 });
