@@ -1010,3 +1010,8 @@ html[data-motion-reduced="true"] .sj-main-panel[data-tab="current"] .sj-current-
     transform: none !important;
   }
 }
+
+/* CC-008 B7 · desktop: the PREVIEW DATA tag straddled the 52 px top bar edge. Seat it top right, below the bar. */
+@media (min-width: 901px) {
+  .sj-preview { position: fixed; z-index: 20; top: 62px; right: 2.2%; left: auto; transform: none; }
+}

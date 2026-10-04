@@ -94,3 +94,8 @@ body{font-family:var(--sd-font-body);color:var(--sd-text-primary)}
     linear-gradient(rgba(7,8,10,0),rgba(242,196,91,.28)) 0 100%/100% 14px no-repeat scroll}
   .sdg-rows::-webkit-scrollbar{display:none}
 }
+
+/* CC-008 B7 · desktop: the PREVIEW DATA tag sat inside the 52 px top bar. Seat it in the header's top-right corner, which starts below the bar. */
+@media (min-width: 901px) {
+  .sdg-preview { position: absolute; z-index: 20; top: 0; right: 0; left: auto; bottom: auto; transform: none; }
+}
