@@ -1327,3 +1327,58 @@ button {
   .legacyTagline { top: 83%; }
   .legacyPhoneHero--daniel { left: 4%; }
 }
+
+
+/* JOB-075 review item 3: allocate controls and status copy inside the archive.
+   Claude's art band and face-clear title registration above are unchanged. */
+@media (max-width: 900px) {
+  #legacy { --legacy-phone-pager: 44px; }
+  .legacyArchivePanel {
+    grid-template-rows: 44px minmax(60px, 1fr) 44px;
+    gap: 2px;
+    overflow: auto;
+  }
+  .legacySidePanel button {
+    font-size: clamp(.64rem, 2.6vw, .78rem);
+    white-space: normal;
+    line-height: 1.05;
+  }
+  .legacySidePanel button::after { content: none; }
+  .legacyPager { height: 44px; min-height: 44px; }
+  .legacyPager button { min-width: 44px; min-height: 44px; transform: none; }
+  .legacyCard { padding: 5px 8px; }
+  .legacyCardTitle, .legacyManagerName { font-size: .75rem; }
+  .legacyCardState, .legacyCardFooter { font-size: .6875rem; }
+  .legacyStatusOnly { min-height: 0; padding: 4px; font-size: .75rem; }
+  .legacyCard[data-status="abandoned"],
+  .legacyCard[data-status="unavailable"] { opacity: 1; filter: none; }
+  .legacyArchivePanel:has(.legacyStateBanner[data-compact="true"]:not([hidden])) {
+    grid-template-rows: 44px 56px minmax(60px, 1fr) 44px;
+  }
+  .legacyStateBanner[data-compact="true"] {
+    position: static;
+    grid-row: 2;
+    padding: 3px 8px;
+    margin: 0;
+    grid-template-columns: 20px 1fr;
+    gap: 6px;
+    min-height: 0;
+  }
+  .legacyStateBanner[data-compact="true"] .legacyStateIcon { width: 18px; height: 18px; font-size: .75rem; }
+  .legacyStateBanner[data-compact="true"] .legacyStateCopy { font-size: .75rem; line-height: 1.15; }
+  .legacySidePanel { grid-row: 1; }
+  .legacyCardGrid { grid-row: 2; }
+  .legacyPager { grid-row: 3; }
+  .legacyArchivePanel:has(.legacyStateBanner[data-compact="true"]:not([hidden])) .legacyCardGrid { grid-row: 3; }
+  .legacyArchivePanel:has(.legacyStateBanner[data-compact="true"]:not([hidden])) .legacyPager { grid-row: 4; }
+  .legacyArchivePanel:has(.legacyStateBanner[data-compact="true"]:not([hidden])) .legacyCrest,
+  .legacyArchivePanel:has(.legacyStateBanner[data-compact="true"]:not([hidden])) .legacyClubName,
+  .legacyArchivePanel:has(.legacyStateBanner[data-compact="true"]:not([hidden])) .legacyLeagueMark,
+  .legacyArchivePanel:has(.legacyStateBanner[data-compact="true"]:not([hidden])) .legacyCardFooter { display: none; }
+  .legacyArchivePanel:has(.legacyStateBanner[data-compact="true"]:not([hidden])) .legacyCardBody { gap: 3px; }
+  .legacyStateBanner:not([data-compact="true"]) { bottom: 46px; }
+  .legacyHistoryRow { align-items: start; }
+}
+@media (max-width: 900px) and (max-height: 580px) {
+  .legacyCrest, .legacyClubName, .legacyLeagueMark, .legacyCardFooter { display: none; }
+}

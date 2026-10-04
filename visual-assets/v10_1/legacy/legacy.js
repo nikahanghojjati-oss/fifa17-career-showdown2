@@ -155,22 +155,36 @@
     return card;
   }
 
+  function canDisclose(record) {
+    return record && ["completed", "completion-pending", "in-progress"].includes(record.status)
+      && Array.isArray(record.seasons) && record.seasons.length > 0;
+  }
+
+  function closeHistory(returnFocus = false) {
+    const drawer = document.getElementById("legacySeasonHistory");
+    drawer.hidden = true;
+    document.getElementById("viewSeasonHistory").setAttribute("aria-expanded", "false");
+    if (returnFocus) document.getElementById("viewSeasonHistory").focus();
+  }
+
   function renderSeasonHistory(frame, showdownNumber, strings) {
     const drawer = document.getElementById("legacySeasonHistory");
     const action = document.getElementById("viewSeasonHistory");
     const showdown = (frame.showdowns || []).find((item) => item.number === showdownNumber);
+    if (!canDisclose(showdown)) { closeHistory(); return; }
     drawer.replaceChildren();
-
-    if (!showdown || !Array.isArray(showdown.seasons) || !showdown.seasons.length) {
-      drawer.hidden = true;
-      action.setAttribute("aria-expanded", "false");
-      return;
-    }
-
+    drawer.setAttribute("role", "region");
+    drawer.setAttribute("aria-labelledby", "legacyHistoryHeading");
+    const close = document.createElement("button");
+    close.type = "button";
+    close.className = "sd-btn";
+    close.textContent = "Close season history";
+    close.style.cssText = "position:sticky;top:0;z-index:2;min-height:44px;min-width:44px;background:#0d0f13;color:#f4f1ea";
+    close.addEventListener("click", () => closeHistory(true));
     const heading = document.createElement("h2");
+    heading.id = "legacyHistoryHeading";
     heading.className = "legacyHistoryHeading sd-label";
     heading.textContent = "Showdown #" + showdown.number + " · " + strings.actions.viewSeasonHistory;
-
     const rows = document.createElement("div");
     rows.className = "legacyHistoryRows";
     showdown.seasons.forEach((season) => {
@@ -178,76 +192,127 @@
       row.className = "legacyHistoryRow";
       const label = document.createElement("span");
       label.textContent = "Season " + season.season;
-      const daniel = document.createElement("span");
-      daniel.className = "daniel";
-      daniel.textContent = "Daniel " + season.score.daniel;
-      const divider = document.createElement("span");
-      divider.textContent = "–";
-      const nik = document.createElement("span");
-      nik.className = "nik";
-      nik.textContent = season.score.nik + " Nik";
-      row.append(label, daniel, divider, nik);
+      row.appendChild(label);
+      ["daniel", "nik"].forEach((manager, index) => {
+        if (index) {
+          const divider = document.createElement("span");
+          divider.textContent = "–";
+          row.appendChild(divider);
+        }
+        const side = document.createElement("span");
+        side.className = manager;
+        side.textContent = (manager === "daniel" ? "Daniel" : "Nik") + ": " + season.score[manager];
+        const detail = document.createElement("span");
+        detail.style.cssText = "display:block;line-height:1.4;color:#b9b3a4";
+        detail.textContent = "#" + season.leaguePosition[manager] + " · " + season.leaguePoints[manager] + " league pts · " + season.leagueGoals[manager] + " goals";
+        side.appendChild(detail);
+        row.appendChild(side);
+      });
       rows.appendChild(row);
     });
-    drawer.append(heading, rows);
+    drawer.append(close, heading, rows);
+    drawer.onkeydown = (event) => {
+      if (event.key === "Escape") { event.preventDefault(); closeHistory(true); }
+    };
     drawer.hidden = false;
     action.setAttribute("aria-expanded", "true");
+    close.focus();
   }
 
   function renderArchive(frame, strings) {
     const grid = document.getElementById("legacyCardGrid");
     const pager = document.getElementById("legacyPager");
-    let page = Math.max(1, Number(frame.ui && frame.ui.page) || 1);
-    const pages = Math.max(1, Number(frame.ui && frame.ui.totalPages) || 1);
-    const pageSize = Math.max(1, Number(frame.ui && frame.ui.pageSize) || 4);
-    let selected = frame.ui && frame.ui.selectedShowdown;
+    const action = document.getElementById("viewSeasonHistory");
+    const phone = window.matchMedia("(max-width: 900px)");
+    frame.ui = frame.ui || {};
+    let page = Math.max(1, Number(frame.ui.page) || 1);
+    const records = frame.showdowns || [];
+    const pageSize = Math.max(1, Number(frame.ui.pageSize) || 4);
+    const pages = Math.max(1, Math.ceil(records.length / pageSize));
+    let selected = frame.ui.selectedShowdown;
+    let visible = [];
+    let settling = 0;
 
-    function paint() {
-      grid.replaceChildren();
-      let records = frame.showdowns || [];
-      if (frame.ui && Array.isArray(frame.ui.pageMap) && frame.ui.pageMap[page - 1]) {
-        const wanted = new Set(frame.ui.pageMap[page - 1]);
-        records = records.filter((item) => wanted.has(item.number));
-      } else {
-        records = records.slice((page - 1) * pageSize, page * pageSize);
+    function select(number, scroll = false) {
+      selected = number;
+      frame.ui.selectedShowdown = selected;
+      if (window.LegacyFixture) window.LegacyFixture.selectedShowdown = selected;
+      const record = records.find((item) => item.number === selected);
+      action.disabled = !canDisclose(record);
+      closeHistory();
+      grid.querySelectorAll(".legacyCard").forEach((card) => {
+        const active = Number(card.dataset.showdown) === selected;
+        card.dataset.selected = String(active && canDisclose(record));
+        if (card.tagName === "BUTTON") card.setAttribute("aria-pressed", String(active));
+        if (active && scroll) grid.scrollLeft = card.offsetLeft - grid.offsetLeft;
+      });
+      const index = records.findIndex((item) => item.number === selected);
+      const prev = pager.querySelector('[data-direction="-1"]');
+      const next = pager.querySelector('[data-direction="1"]');
+      if (prev) prev.disabled = phone.matches ? index <= 0 : page <= 1;
+      if (next) next.disabled = phone.matches ? index >= records.length - 1 : page >= pages;
+    }
+
+    function paint(focusCard = false) {
+      visible = phone.matches ? records : records.slice((page - 1) * pageSize, page * pageSize);
+      if (!visible.some((item) => item.number === selected)) {
+        selected = (visible.find(canDisclose) || visible[0] || {}).number;
       }
-      records.forEach((item) => {
+      frame.ui.page = page;
+      grid.replaceChildren();
+      visible.forEach((item) => {
         const card = renderCard(item, selected, strings);
-        if (item.status === "abandoned" || item.status === "unavailable") {
-          grid.appendChild(card);
-          return;
-        }
-        card.addEventListener("click", () => {
-          selected = item.number;
-          frame.ui.selectedShowdown = selected;
-          if (window.LegacyFixture) window.LegacyFixture.selectedShowdown = selected;
-          document.getElementById("legacySeasonHistory").hidden = true;
-          document.getElementById("viewSeasonHistory").setAttribute("aria-expanded", "false");
-          paint();
-        });
+        card.addEventListener("click", () => select(item.number));
         grid.appendChild(card);
       });
-
       pager.replaceChildren();
-      if (pages <= 1) return;
-      const prev = document.createElement("button");
-      prev.type = "button"; prev.textContent = "‹"; prev.setAttribute("aria-label", "Previous archive page");
-      prev.disabled = page === 1;
-      prev.addEventListener("click", () => { page -= 1; paint(); });
-      pager.appendChild(prev);
-      for (let i = 1; i <= pages; i += 1) {
-        const dot = document.createElement("button");
-        dot.type = "button"; dot.className = "legacyPageDot"; dot.dataset.active = String(i === page);
-        dot.setAttribute("aria-label", "Archive page " + i);
-        dot.addEventListener("click", () => { page = i; paint(); });
-        pager.appendChild(dot);
+      if (records.length > 1) {
+        [-1, 1].forEach((direction) => {
+          const button = document.createElement("button");
+          button.type = "button";
+          button.dataset.direction = String(direction);
+          button.textContent = direction < 0 ? "‹" : "›";
+          button.setAttribute("aria-label", direction < 0 ? "Previous archive item" : "Next archive item");
+          button.addEventListener("click", () => {
+            if (phone.matches) {
+              const index = records.findIndex((item) => item.number === selected);
+              select(records[Math.max(0, Math.min(records.length - 1, index + direction))].number, true);
+            } else {
+              page = Math.max(1, Math.min(pages, page + direction));
+              paint(true);
+            }
+          });
+          pager.appendChild(button);
+        });
       }
-      const next = document.createElement("button");
-      next.type = "button"; next.textContent = "›"; next.setAttribute("aria-label", "Next archive page");
-      next.disabled = page === pages;
-      next.addEventListener("click", () => { page += 1; paint(); });
-      pager.appendChild(next);
+      select(selected, phone.matches);
+      if (focusCard) {
+        const target = grid.querySelector('[data-selected="true"]') || grid.querySelector("button");
+        if (target) target.focus({ preventScroll: true });
+      }
     }
+    grid.addEventListener("scroll", () => {
+      clearTimeout(settling);
+      settling = setTimeout(() => {
+        if (!phone.matches || !grid.children.length) return;
+        const left = grid.getBoundingClientRect().left;
+        const nearest = Array.from(grid.children).reduce((best, card) =>
+          Math.abs(card.getBoundingClientRect().left - left) < Math.abs(best.getBoundingClientRect().left - left) ? card : best);
+        select(Number(nearest.dataset.showdown));
+      }, 100);
+    }, { passive: true });
+    grid.addEventListener("keydown", (event) => {
+      if (!phone.matches || !["ArrowLeft", "ArrowRight"].includes(event.key)) return;
+      event.preventDefault();
+      const index = records.findIndex((item) => item.number === selected);
+      const next = records[Math.max(0, Math.min(records.length - 1, index + (event.key === "ArrowRight" ? 1 : -1)))];
+      if (next) {
+        select(next.number, true);
+        const target = grid.querySelector('[data-showdown="' + next.number + '"]');
+        if (target.tagName === "BUTTON") target.focus({ preventScroll: true });
+      }
+    });
+    phone.addEventListener("change", () => paint());
     paint();
   }
 
@@ -342,7 +407,7 @@
     historyAction.textContent = fixtures.strings.actions.viewSeasonHistory;
     historyAction.dataset.route = "viewSeasonHistory";
     const selectedRecord = (frame.showdowns || []).find((item) => item.number === (frame.ui && frame.ui.selectedShowdown));
-    historyAction.disabled = !selectedRecord || !Array.isArray(selectedRecord.seasons) || !selectedRecord.seasons.length;
+    historyAction.disabled = !canDisclose(selectedRecord);
     historyAction.addEventListener("click", () => {
       const selected = window.LegacyFixture && window.LegacyFixture.selectedShowdown;
       const drawer = document.getElementById("legacySeasonHistory");
