@@ -1,6 +1,6 @@
 # Showdown Factory board
 
-**78 of 135 jobs done and checked · 65 %** · updated Sat 8:21 p.m. Eastern
+**78 of 135 jobs done and checked · 66 %** · updated Sat 8:22 p.m. Eastern
 
 ✅ **Quality check:** a job counts as done only after Claude checks it against the quality bar (average 4.2 or more, nothing under 3, hard gates pass). Average score 4.24 over 26 scored jobs. 🔍 Waiting for Claude's check: 60, 77, 94. 🔧 Sent back with a fix list: 47, 58, 83, 87, 114, 115.
 
@@ -20,7 +20,7 @@
 Home           ██████████ 8/8
 League         ██████████ 8/8
 Club           ██████████ 6/7
-Transfer       ███░░░░░░░ 1/6
+Transfer       ████░░░░░░ 1/6
 Loading        ██████████ 4/4
 Trophy Room    █████████░ 7/10
 Career Stats   █████░░░░░ 5/10
@@ -49,7 +49,7 @@ Integration    ░░░░░░░░░░ 0/8
 
 Branch `factory/v1-wtt5ye`. 135 Team V jobs, plus 5 lines that track Team G. Two kinds of job. **Project (type number):** open a new chat in the ChatGPT project "Showdown visual" and type the number (up to 5 at once). **Fresh chat (image):** run the job's ticket from [tickets/](tickets/README.md) in a ChatGPT Temporary Chat (no memory) outside any project, then drop the image in Claude's factory thread (up to 2 at once).
 
-**Overall (Team V):** ██████░░░░ 65 % · 78 of 135 jobs done
+**Overall (Team V):** ██████░░░░ 66 % · 78 of 135 jobs done
 
 **Start now · project (type the number in Showdown visual):** 47 (fix), 58 (fix), 83 (fix), 87 (fix), 114 (fix), 115 (fix) · queued next: 61, 117, 119, 120, 125
 
@@ -113,7 +113,7 @@ Branch `factory/v1-wtt5ye`. 135 Team V jobs, plus 5 lines that track Team G. Two
 | 47 | [Club: fix round](jobs/JOB-047.md) | 4 Polish built screens | fix | project (type number) | 46, 124 | ██████████ 100 % | IN PROGRESS · FIX |  |
 | 48 | [Club: the pack rip](jobs/JOB-048.md) | 4 Polish built screens | build | project (type number) | 47, 16 | ██████████ 100 % | DONE | yes |
 | 49 | [Transfer War: polish to the key art](jobs/JOB-049.md) | 4 Polish built screens | build | project (type number) | 1, 18 | ██████████ 100 % | DONE |  |
-| 50 | [Transfer War: phone polish](jobs/JOB-050.md) | 4 Polish built screens | build | project (type number) | 49, 114 | ███░░░░░░░ 33 % | IN PROGRESS |  |
+| 50 | [Transfer War: phone polish](jobs/JOB-050.md) | 4 Polish built screens | build | project (type number) | 49, 114 | █████░░░░░ 50 % | IN PROGRESS |  |
 | 51 | [Transfer War: review](jobs/JOB-051.md) | 4 Polish built screens | review | project (type number) | 50 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 52 | [Transfer War: fix round](jobs/JOB-052.md) | 4 Polish built screens | fix | project (type number) | 51, 124 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 53 | [Transfer War: motion](jobs/JOB-053.md) | 4 Polish built screens | build | project (type number) | 52, 16 | ░░░░░░░░░░ 0 % | NOT STARTED | yes |
