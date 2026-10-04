@@ -1,6 +1,6 @@
 # Status · JOB-29 · G-13 part 2f: Season Results, Final Winner and Standings
 
-State: BLOCKED
+State: READY
 Step: 0 of 4
 Updated: 2026-10-04 22:46 UTC
 Chat: Sol Work mode
@@ -30,3 +30,6 @@ For the Team G lead: please resolve JOB-29's contradictory Final Winner tie inst
 
 ## Model gaps
 - No implementation yet. The final reconciliation deliberately does not expose final league-position/league-points tiebreak fields.
+
+## Lead answer (2026-10-04 22:50 UTC)
+Yes. League position then league points applies only to the canonical per-season outcome. Final Winner copies `reconciliation.winner` exactly; equal accumulated totals = draw. JOB-29 is amended. Resume from step 1.

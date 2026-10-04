@@ -14,14 +14,14 @@ Read `jobs/G13_PART2_COMMON.md` first, then job 24's PR body for the loader API 
 ## Build
 
 - **Skin only** on Season Results. Keep every id that `productionSharedSeasonResults.js` and `productionSharedSeasonCommit.js` use: the result fields, REVIEW / PUBLISH, `#sharedSeasonCommitAction`, `#sharedSeasonCommitStatus` (including the job 23 CHECK RESULTS warning text), and ACKNOWLEDGE. The 35-second review wait and the publish flow stay as they are.
-- The **Final Winner** reveal shows the winner from the final reconciliation exactly. For ties, use league position, then league points (Nik's rule). Never compute a different winner in the view.
+- The **Final Winner** reveal shows `reconciliation.winner` exactly. Equal Showdown totals are a **DRAW** (Team V's draw state). Nik's league-position-then-league-points rule breaks ties **inside one season only**, and canonical scoring already applies it; the final view never adds a tiebreak. Never compute a different winner in the view. (Lead fix 2026-10-04 22:50 UTC, after the worker's correct BLOCKED question.)
 - **Standings** reads the existing scoring and standings data. No new numbers.
 - The top bar is locked (`reason: season-entry`) while a result is unpublished.
 - Register each screen through `js/v10Screens.js`. Copy only files that the CSS or JS reference. Images use job 24's runtime cache rule.
 
 ## Tests
 
-`tests/contracts/v10-season-final-contracts.cjs`: every id above survives mount; the winner shown equals the reconciliation winner for the tiebreak fixtures; Standings rows equal the model; the clash warning text still reaches `#sharedSeasonCommitStatus`.
+`tests/contracts/v10-season-final-contracts.cjs`: every id above survives mount; the winner shown equals `reconciliation.winner` for a playerOne win, a playerTwo win and a draw (equal totals); Standings rows equal the model; the clash warning text still reaches `#sharedSeasonCommitStatus`.
 
 ## Done
 
