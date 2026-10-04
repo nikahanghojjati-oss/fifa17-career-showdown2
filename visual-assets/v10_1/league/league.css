@@ -602,3 +602,8 @@ html[data-reduced-motion="true"] #onlinePlayerIdentityBadge {
   -webkit-mask-image: linear-gradient(to bottom, #000 72%, transparent 100%);
   mask-image: linear-gradient(to bottom, #000 72%, transparent 100%);
 }
+
+/* Claude fix 2026-10-04 (Nik's review): the gold rim art sat over the outer half of every league mark.
+   Pull each mark + name inward so the whole mark sits inside the rim's inner edge. */
+.wheelItem { transform: rotate(var(--a)) translateY(calc(var(--R) * -.72)); }
+.wheelItem::before { width: calc(var(--R) * 56 / 240); height: calc(var(--R) * 56 / 240); }
