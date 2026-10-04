@@ -491,6 +491,13 @@ body { overflow: hidden; font-family: var(--text); -webkit-font-smoothing: antia
 
   /* very short phones (375x553 floor for a visible action): tighter F4 glass */
   @media (max-height: 600px) {
+    /* Claude fix 2: reclaim enough vertical room at the 375x553 floor that the
+       compact sealed dossier clears the fixed HOME/REFRESH rail. */
+    .world { gap: 4px; }
+    .panel.sealed { min-height: 50px; }
+    .panel.sealed .panel-title { min-height: 50px; margin: 0 12px 0 38px; }
+    .panel.sealed .reg.frost { inset: 6px 10px 8px; }
+    .panel.sealed .seal { width: 28px; height: 28px; }
     .stage[data-phase="COMPLETED"] { --band-h: 34px; }
     .stage[data-phase="COMPLETED"] .scene { min-height: 112px; }
     .stage[data-phase="COMPLETED"] .guess-reveal { line-height: 1.08; }
