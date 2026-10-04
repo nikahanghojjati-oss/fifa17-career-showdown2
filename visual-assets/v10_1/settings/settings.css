@@ -108,13 +108,14 @@ body {
 }
 
 /* No Settings mockup exists. These are DEFAULT system-grid measurements rather
-   than borrowed mockup coordinates: x≈7.6%, y≈30.4%, w≈84.8%, h≈54.2%. */
+   than borrowed mockup coordinates. Claude FIX 2 moves the grid below the
+   complete SETTINGS wordmark + tagline: x≈7.6%, y≈34.0%, w≈84.8%, h≈56.0%. */
 #settingsContent {
   position: absolute;
-  top: 30.4%;
+  top: 34%;
   left: 7.6%;
   width: 84.8%;
-  height: 59%;
+  height: 56%;
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
   /* Claude FIX 1: give the upper cards a real content-sized row so their
@@ -123,25 +124,25 @@ body {
   gap: 1.35vw;
 }
 
-/* DEFAULT: account x≈7.6%, y≈30.4%, w≈20.1%, h≈23.5%. */
+/* DEFAULT: account x≈7.6%, y≈34.0%, w≈20.1%; height follows the content-sized upper track. */
 .settingsPanel--account {
   grid-column: 1 / 4;
   grid-row: 1;
 }
 
-/* DEFAULT: application x≈29.0%, y≈30.4%, w≈27.4%, h≈23.5%. */
+/* DEFAULT: application x≈29.0%, y≈34.0%, w≈27.4%; height follows the content-sized upper track. */
 .settingsPanel--application {
   grid-column: 4 / 8;
   grid-row: 1;
 }
 
-/* DEFAULT: motion x≈57.8%, y≈30.4%, w≈34.6%, h≈54.2%. */
+/* DEFAULT: motion x≈57.8%, y≈34.0%, w≈34.6%, h≈56.0%. */
 .settingsPanel--motion {
   grid-column: 8 / 13;
   grid-row: 1 / 3;
 }
 
-/* DEFAULT: data x≈7.6%, y≈56.0%, w≈48.8%, h≈28.6%. */
+/* DEFAULT: data x≈7.6%; second row begins after the enlarged upper track. */
 .settingsPanel--data {
   grid-column: 1 / 8;
   grid-row: 2;
