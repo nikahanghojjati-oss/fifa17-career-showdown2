@@ -73,6 +73,8 @@ async function describe(m){
 const accountId=m=>m.page.evaluate(()=>window.CareerModeSparkConnectedAccount?.getState?.().accountId||null);
 const entry=m=>m.page.locator("#productionSharedJourneyEntryOverlay");
 const remote=m=>m.page.locator("#sparkRemoteJoiningOverlay, #remoteJoiningOverlay").filter({hasText:"REMOTE JOINING"}).first();
+// Job 31: the host page picks up the peer's JOIN by itself (quiet read every few seconds); nobody taps REFRESH / READ.
+async function hostSeesJoin(m){await entry(m).getByRole("button",{name:"START CAREER"}).waitFor({state:"visible",timeout:20000});assert.equal(await remote(m).isVisible().catch(()=>false),false,`${m.user}: Remote Joining closed by itself once the peer joined`);}
 const pairPanel=m=>m.page.locator("#persistentNikDanielPairPanel");
 async function waitTransferPhase(m,phase){
   await m.page.waitForFunction(value=>document.getElementById("transferChallenge")?.dataset.transferPhase===value,phase,{timeout:30000});
@@ -260,7 +262,7 @@ async function main(){
     await remote(nik).getByRole("button",{name:"JOIN PRIVATE SESSION"}).click();
     // The Remote Joining overlay may close by itself once the session is active; wait for GET READY's START CAREER instead of its text.
     await entry(nik).getByRole("button",{name:"START CAREER"}).waitFor({state:"visible",timeout:30000});
-    if(await remote(daniel).isVisible())await remote(daniel).getByRole("button",{name:"REFRESH / READ"}).click();
+    await hostSeesJoin(daniel);
     for(const m of [daniel,nik]){
       await entry(m).getByRole("button",{name:"START CAREER"}).click({timeout:30000});
       await m.page.locator("#leagueWheelScreen").waitFor({state:"visible",timeout:30000});
@@ -499,7 +501,7 @@ async function main(){
       await remote(nik).getByRole("textbox",{name:"Exact private session code"}).fill(resumeSessionCode);
       await remote(nik).getByRole("button",{name:"JOIN PRIVATE SESSION"}).click({timeout:30000});
       await entry(nik).getByRole("button",{name:"START CAREER"}).waitFor({state:"visible",timeout:30000});
-      if(await remote(daniel).isVisible())await remote(daniel).getByRole("button",{name:"REFRESH / READ"}).click({timeout:30000});
+      await hostSeesJoin(daniel);
       for(const m of [daniel,nik]){
         await entry(m).getByRole("button",{name:"START CAREER"}).click({timeout:30000});
         try{
@@ -718,7 +720,7 @@ async function main(){
     await remote(nik).getByRole("textbox",{name:"Exact private session code"}).fill(sessionCode2);
     await remote(nik).getByRole("button",{name:"JOIN PRIVATE SESSION"}).click({timeout:30000});
     await entry(nik).getByRole("button",{name:"START CAREER"}).waitFor({state:"visible",timeout:30000});
-    if(await remote(daniel).isVisible())await remote(daniel).getByRole("button",{name:"REFRESH / READ"}).click({timeout:30000});
+    await hostSeesJoin(daniel);
     for(const m of [daniel,nik]){
       await entry(m).getByRole("button",{name:"START CAREER"}).click({timeout:30000});
       await m.page.locator("#leagueWheelScreen").waitFor({state:"visible",timeout:30000});
