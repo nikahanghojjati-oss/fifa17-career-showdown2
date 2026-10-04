@@ -132,3 +132,13 @@ html,body{margin:0;width:100%;height:100%;background:#07080a;overflow:hidden}bod
   .rv-row:first-child .rv-value{font-size:30px;line-height:1}
   .rv-row:first-child .rv-label{color:var(--sd-text-primary);letter-spacing:.1em;text-transform:uppercase;font-size:11px}
 }
+
+/* JOB-068 fix: the Totals table ends on a whole row (height snapped to 17 px rows) and a gold fade shows when it scrolls. */
+@media(max-width:900px){
+  .rv-rows{bottom:auto;grid-template-rows:32px;grid-auto-rows:17px;overflow-y:auto;overscroll-behavior:contain;
+    height:calc(32px + round(down, calc(var(--rv-panel-h) - 42px - 9px - 32px), 17px));
+    background:linear-gradient(to top,#07090b,#07090b) local bottom/100% 14px no-repeat,linear-gradient(to top,rgba(255,211,77,.38),rgba(255,211,77,0)) scroll bottom/100% 14px no-repeat}
+  .rv-rows .rv-row:first-child{height:32px}
+  .rv-row{min-height:0}
+  .rv-comparison.hasCoverage .rv-rows{height:calc(32px + round(down, calc(var(--rv-panel-h) - 80px - 9px - 32px), 17px))}
+}
