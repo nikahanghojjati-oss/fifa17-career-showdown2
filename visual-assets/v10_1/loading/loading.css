@@ -73,3 +73,26 @@ body { overflow: hidden; font-family: var(--sd-font-body, system-ui, sans-serif)
 }
 html[data-motion-reduced="true"] .startupProgressGlint,
 html[data-reduced-motion="true"] .startupProgressGlint { display: none; animation: none; }
+
+/* CC-008 A8 · Nik's review: a little more of the gold theme on desktop. CSS only; the Reus photo and its
+   OWNER-4 credit are untouched. Warm dark background, gold light on the text side, gold accents. */
+@media (min-width: 701px) {
+  .startupScene {
+    background:
+      radial-gradient(ellipse 46% 62% at 76% 46%, rgba(150,104,22,.34), rgba(70,48,12,.26) 48%, transparent 78%),
+      linear-gradient(90deg, #0b0906 0%, #120d07 58%, #0a0805 100%);
+  }
+  .startupShard { border-inline-end-color: rgba(242,196,91,.5); }
+  .startupShardTwo { background: linear-gradient(180deg, rgba(40,28,8,.5), rgba(7,8,10,.6)); }
+  .startupGrid { opacity: .5; }
+  .loadingUi::before { border-bottom-color: rgba(242,196,91,.42); }
+  .startupIdentity::before {
+    content: ""; position: absolute; z-index: -1; left: -14%; right: -14%; top: -26%; bottom: -30%;
+    pointer-events: none;
+    background: radial-gradient(ellipse at 50% 52%, rgba(245,197,24,.16), rgba(245,197,24,.05) 45%, transparent 72%);
+  }
+  .startupEyebrow { color: var(--sd-gold-300, #ffd34d); }
+  .startupKicker { color: #f2d38a; }
+  .startupEdition { color: var(--sd-gold-300, #ffd34d); }
+  .startupProgress { box-shadow: 0 0 14px rgba(245,197,24,.18), inset 0 1px rgba(255,255,255,.04); }
+}
