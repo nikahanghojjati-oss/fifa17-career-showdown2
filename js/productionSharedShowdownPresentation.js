@@ -22,6 +22,7 @@
   // opens Career Start by itself once the rival confirms. Both are navigation only (no provider write).
   const LEAGUE_AUTO_FORWARD_MS=4200;
   let autoCareerStartKey="";
+  let leagueForwardWaiter=null;
 
   function ssjpPending(){
     const entry=root.CareerModeProductionSharedJourneyEntry;
@@ -49,7 +50,7 @@
   function ssjpLater(fn,ms){const id=root.setTimeout(()=>{timers=timers.filter(item=>item!==id);fn();},ms);timers.push(id);return id;}
   function ssjpContextKey(next=state){const shell=ssjpShell();return `${String(next?.rivalryId||"").trim()}|${String(shell?.id||shell?.saveId||"").trim()}`;}
   function ssjpResetWitnesses(){
-    ssjpClearTimers();witnessedLeagueId=null;witnessedClubDigest=null;revealingClubDigest=null;clubRevealComplete=false;preparedSeasonCommitPromise=null;autoCareerStartKey="";
+    ssjpClearTimers();ssjpClearLeagueForwardWaiter();witnessedLeagueId=null;witnessedClubDigest=null;revealingClubDigest=null;clubRevealComplete=false;preparedSeasonCommitPromise=null;autoCareerStartKey="";
     const league=root.document&&root.document.getElementById("leagueWheelScreen"),club=root.document&&root.document.getElementById("clubWheelScreen");
     if(league)delete league.dataset.sharedLeagueWitnessed;
     if(club){delete club.dataset.sharedClubPacksWitnessed;delete club.dataset.sharedPackDigest;}
@@ -109,7 +110,16 @@
 
   function ssjpAutoForwardToClubs(){
     if(!active||!ssjpPending()||!state?.setup||!ssjpPhaseAtLeast("LEAGUE_WHEEL_COMMITTED")||witnessedLeagueId!==state.setup.leagueId||ssjpActiveScreen()!=="leagueWheelScreen")return false;
+    // Codex P1 on #358: never move on (and start the pack reveals) while this tab is hidden; wait until the manager is back,
+    // then show the revealed league for the full forward delay first.
+    if(root.document?.visibilityState==="hidden"){ssjpDeferLeagueForward(state.setup.leagueId);return false;}
     ssjpForceScreen("clubWheelScreen");void ssjpRenderClub();return true;
+  }
+  function ssjpClearLeagueForwardWaiter(){if(leagueForwardWaiter&&root.document?.removeEventListener)root.document.removeEventListener("visibilitychange",leagueForwardWaiter);leagueForwardWaiter=null;}
+  function ssjpDeferLeagueForward(leagueId){
+    if(leagueForwardWaiter||typeof root.document?.addEventListener!=="function")return false;
+    leagueForwardWaiter=()=>{if(root.document.visibilityState==="hidden")return;ssjpClearLeagueForwardWaiter();if(active&&witnessedLeagueId===leagueId)ssjpLater(ssjpAutoForwardToClubs,LEAGUE_AUTO_FORWARD_MS);};
+    root.document.addEventListener("visibilitychange",leagueForwardWaiter);return true;
   }
   function ssjpMaybeAutoOpenCareerStart(setup){
     if(!active||!ssjpPending()||busy||actionPromise||state?.ready!==true||!setup||setup.phase!=="SHOWDOWN_CONFIRMED"||!clubRevealComplete)return false;

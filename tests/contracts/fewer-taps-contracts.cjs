@@ -6,7 +6,8 @@
 //   R2 CONTINUE TO SEASON N opens the new season's Shared Transfer Challenge (no dashboard hop); it never starts the window.
 //   R3 The league reveal moves on to the club packs by itself on both devices (no CONTINUE TO CLUB PACKS tap).
 //   R4 The first confirmer opens Career Start by itself; Career Start moves on to the Transfer Challenge once BOTH attested.
-//   R5 START A SHOWDOWN opens the pair panel directly; connected players without an ACTIVE session go straight to Remote Joining.
+//   R5 (R5b) connected players without an ACTIVE session go straight to Remote Joining. R5a is not landed: START A SHOWDOWN keeps
+//      GET READY over the locked canonical league screen, which the POS10 stability audit requires.
 //   R6 An ACTIVE private session continues into the Showdown by itself (no START CAREER tap); expired sessions never do.
 //   R7 Daniel's COMMIT & ACKNOWLEDGE tap commits, then records his own acknowledgement; Nik still acknowledges himself;
 //      if the second half fails Daniel gets the existing ACKNOWLEDGE SHARED SEASON button.
@@ -624,7 +625,26 @@ async function r3r4aPresentationContracts(){
     assert.match(h.node("openClubPack").textContent,/OPEN SHOWDOWN PACKS/,"OPEN SHOWDOWN PACKS stays Daniel's own host tap");
     assert.deepEqual(h.calls.mutations,[],"no draw was made for the host");
   }
-  ok("R3 Presentation: the league reveal moves both devices to the club packs after the wheel; host-only draws stay manual taps");
+  {
+    // Codex P1 on #358: a hidden tab never moves on to (and starts) the pack reveals; the forward waits until the manager is back.
+    const h=presentationHarness({role:"playerTwo",setup:{phase:"SHARED_SETUP_OPEN",revision:1,coordinatorRole:"playerOne",confirmedRoles:[]}});
+    await h.api.activate();await settle();await h.push(leagueSetup);
+    h.dom.document.visibilityState="hidden";
+    await h.timers.fire(h.timers.pending().find(t=>t.ms===4200));
+    assert.equal(visible(h.screens.leagueWheelScreen),true,"R3 hidden: the league reveal stays on screen while the tab is hidden");
+    assert.equal(visible(h.screens.clubWheelScreen),false,"R3 hidden: the club packs do not open in a hidden tab");
+    assert.equal(h.timers.pending().some(t=>t.ms===4200),false,"no forward is rescheduled while hidden");
+    const waiters=h.dom.listeners.filter(l=>l.type==="visibilitychange");assert.ok(waiters.length>=1,"the forward waits for visibilitychange");
+    for(const l of waiters)l.fn();await settle();
+    assert.equal(visible(h.screens.leagueWheelScreen),true,"R3 hidden: still hidden, so nothing moves");
+    h.dom.document.visibilityState="visible";for(const l of h.dom.listeners.filter(l=>l.type==="visibilitychange"))l.fn();await settle();
+    assert.equal(visible(h.screens.leagueWheelScreen),true,"R3 back: the revealed league is shown again before moving on");
+    const again=h.timers.pending().find(t=>t.ms===4200);assert.ok(again,"R3 back: a full forward delay starts once visible");
+    await h.timers.fire(again);
+    assert.equal(visible(h.screens.clubWheelScreen),true,"R3 back: then the club packs open");
+    assert.deepEqual(h.calls.mutations,[],"still presentation only");
+  }
+  ok("R3 Presentation: the league reveal moves both devices to the club packs after the wheel (never while the tab is hidden); host-only draws stay manual taps");
   {
     const h=presentationHarness({role:"playerOne",setup:lengthSetup([])});await h.api.activate();await settle();
     h.dom.document.getElementById("clubWheelScreen");await h.push(lengthSetup([]));
@@ -687,12 +707,14 @@ async function r5r6EntryContracts(){
     const h=entryHarness();h.api.install();await settle();
     const started=await h.api.preparePairingShell();await settle();
     assert.equal(started,true,"START A SHOWDOWN still prepares the shared shell");
-    assert.equal(visible(h.overlay()),false,"R5a: no GET READY overlay after START A SHOWDOWN");
-    assert.ok(h.calls.pairRender>=1&&h.dom.document.getElementById("persistentNikDanielPairPanel"),"R5a: the pair panel (CREATE CODE FOR NIK) opens directly");
-    assert.ok(h.calls.navigate.includes("mainMenu"),"the pair panel lives on Home");
+    // R5a is not landed: the POS10 stability audit requires START A SHOWDOWN to stay on the locked canonical league screen,
+    // and the pair panel lives on Home, so GET READY (CONNECT PLAYERS) stays over the locked league wheel.
+    assert.equal(visible(h.overlay()),true,"R5a (kept): GET READY shows after START A SHOWDOWN");
+    assert.ok([...h.overlay().querySelectorAll("button")].some(button=>/CONNECT PLAYERS/.test(button.textContent)),"R5a (kept): CONNECT PLAYERS stays the way to the pair panel");
+    assert.equal(h.calls.navigate.includes("mainMenu"),false,"START A SHOWDOWN never leaves the canonical league screen");
     assert.equal(h.calls.startPairing,0,"the pair code is NOT created automatically (still Daniel's CREATE CODE FOR NIK tap)");
   }
-  ok("R5a Entry: START A SHOWDOWN opens the pair panel directly (no CONNECT PLAYERS tap) and never creates the code by itself");
+  ok("R5a Entry (not landed): START A SHOWDOWN keeps GET READY over the locked league screen and never creates the code by itself");
   {
     const h=entryHarness({rivalryReady:true,active:false});
     await h.api.openPanel();await settle();
@@ -721,7 +743,19 @@ async function r5r6EntryContracts(){
     assert.equal(visible(failing.overlay()),true,"a failed entry falls back to GET READY");
     assert.equal(failing.calls.remoteOpen,remoteOpens,"and does not bounce back into Remote Joining");
   }
-  ok("R6 Entry: an ACTIVE session continues into the Showdown by itself; expired sessions never do; a failure shows GET READY without bouncing");
+  {
+    // Codex P1 on #358: an ACTIVE session left in Remote Joining's page memory from another rivalry, account or device never
+    // auto-continues (no GET READY loop after a new Showdown without a reload); the bound session still does.
+    const h=entryHarness({rivalryReady:true,active:false});await h.api.openPanel();await settle();
+    const bound={rivalryId:RIVALRY,accountId:"uid_daniel",deviceId:DEVICE};
+    for(const [label,patch] of [["rivalry",{rivalryId:"pair_"+"8".repeat(64)}],["account",{accountId:"uid_other"}],["device",{deviceId:"device_"+"9".repeat(32)}]]){
+      Object.assign(h.remoteState,bound,patch);await h.goActive();
+      assert.equal(h.calls.presentation,0,`R6: an ACTIVE session bound to another ${label} never auto-continues`);
+    }
+    Object.assign(h.remoteState,bound);await h.goActive();
+    assert.equal(h.calls.presentation,1,"R6: the session bound to the current account, device and rivalry continues");
+  }
+  ok("R6 Entry: an ACTIVE session bound to this account, device and rivalry continues into the Showdown by itself; foreign or expired sessions never do; a failure shows GET READY without bouncing");
 }
 
 // ------------------------------------------------------------------ S. manual taps stay manual; R7 is not built
@@ -769,5 +803,5 @@ const watchdog=setTimeout(()=>{console.error("fewer-taps: a promise never settle
   await r5r6EntryContracts();
   safetyContracts();ok("S Safety: locks, REVIEW + PUBLISH, COMMIT (+ Daniel's own ACKNOWLEDGE), Nik's ACKNOWLEDGE, pair code and hosting stay manual taps; every fast lane is read-only; all touched modules stay lazy");
   clearTimeout(watchdog);
-  console.log(`PASS fewer taps contracts: ${checks} checks (R1 fast read-only waiting polls, R2 season continue opens transfers, R3 league auto-forward, R4 Career Start hand-offs, R5 entry hops, R6 ACTIVE auto-continue, R7 coordinator commit + own acknowledge in one tap, R8 banner cleanup).`);
+  console.log(`PASS fewer taps contracts: ${checks} checks (R1 fast read-only waiting polls, R2 season continue opens transfers, R3 league auto-forward, R4 Career Start hand-offs, R5b entry hop, R6 ACTIVE auto-continue, R7 coordinator commit + own acknowledge in one tap, R8 banner cleanup).`);
 })().catch(error=>{console.error(error);process.exit(1);});

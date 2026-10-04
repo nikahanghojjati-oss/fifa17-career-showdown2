@@ -171,16 +171,9 @@
       setPending(true);
       if(typeof root.createShowdown!=="function")throw new Error("Showdown preparation is unavailable.");
       const created=await root.createShowdown();shellCreated=Boolean(created);if(!created)throw new Error("The Showdown could not be prepared.");
-      normalizeCanonicalPlayers();persistPendingMarker();markerPersisted=true;applyLocalDrawLock();await openAfterStart();return true;
+      normalizeCanonicalPlayers();persistPendingMarker();markerPersisted=true;applyLocalDrawLock();await openPanel();return true;
     }catch(error){if(shellCreated&&!markerPersisted)discardUnmarkedShell();setPending(false);report("Unable to prepare Showdown",error);return false;}
     finally{if(round&&priorRound!==null)round.value=priorRound;if(button)button.disabled=false;busy=false;syncStartButtonIdentity();}
-  }
-  // Job 33 (R5a): a fresh Showdown has no pair yet, so START A SHOWDOWN opens the pair panel directly (no GET READY hop).
-  // The pair code is still created only by Daniel's own CREATE CODE FOR NIK tap.
-  async function openAfterStart(){
-    const pairState=root.CareerModePersistentNikDanielPair?.getState?.();
-    if(pairState&&pairState.rivalryId&&pairState.connectionState==="active")return openPanel();
-    await openPersistentPairControls();return true;
   }
   async function openPersistentPairControls(){
     closePanel();
@@ -205,7 +198,9 @@
       if(!pending()||remoteReturnBusy||!next||next.sessionState!=="active"||next.pendingAction!=null)return;
       // Job 33 (R6): an ACTIVE private session continues straight into the Showdown (league wheel, Career Start or the
       // current season); openSharedExperience shows GET READY again if that fails. An expired session never auto-continues.
-      if(!Number.isFinite(next.expiresAtEpochMs)||Date.now()>=next.expiresAtEpochMs)return;
+      // Codex P1 on #358: Remote Joining keeps its last ACTIVE session in page memory, so after a new Showdown (no reload) it can
+      // still belong to the previous rivalry. Only a session bound to the current account, device and rivalry auto-continues.
+      if(!remoteBoundToAuthority(next,root.CareerModeSparkConnectedAccount?.getState?.(),root.CareerModeSparkPrivatePairing?.getState?.(),root.CareerModeSparkConnectedRivalry?.getState?.()))return;
       remoteReturnBusy=true;disarmRemoteReturn();
       Promise.resolve().then(async()=>{if(typeof remote.closePanel==="function")remote.closePanel();await openSharedExperience();}).catch(error=>report("Unable to continue the Showdown after connection",error)).finally(()=>{remoteReturnBusy=false;});
     };
@@ -258,6 +253,7 @@
       await presentation.activate();applyLocalDrawLock();return true;
     }catch(error){report("Unable to enter the Showdown",error);await openPanel({routeToRemote:false});return false;}
   }
+  function remoteBoundToAuthority(remote,account,pairing,rivalry){return Boolean(remote&&remote.sessionState==="active"&&remote.sessionId&&remote.pendingAction==null&&rivalry&&rivalry.rivalryId&&remote.rivalryId===rivalry.rivalryId&&account&&account.accountId&&remote.accountId===account.accountId&&pairing&&pairing.deviceId&&remote.deviceId===pairing.deviceId&&Number.isFinite(remote.expiresAtEpochMs)&&Date.now()<remote.expiresAtEpochMs);}
   async function statusSnapshot(){
     let account=null,pairing=null,rivalry=null,remote=null;
     try{
@@ -333,5 +329,5 @@
   }
   function install(){if(installed)return true;installed=true;installStartButton();applyLocalDrawLock();const identity=entryIdentity();if(identity&&typeof identity.subscribe==="function")identityUnsubscribe=identity.subscribe(()=>syncStartButtonIdentity());const observer=new MutationObserver(()=>{installStartButton();applyLocalDrawLock();});observer.observe(root.document.documentElement,{childList:true,subtree:true});if(pending())setTimeout(()=>void autoOpenAfterLoad().catch(error=>report("Unable to open career entry",error)),0);return true;}
 
-  return Object.freeze({contractVersion:6,feature:"ssjr-production-paired-first-entry",startOpensPairPanelDirectly:true,connectedPairOpensRemoteJoiningDirectly:true,activeSessionContinuesIntoShowdown:true,productionEnabled:true,singleProductEntry:true,pairingBeforeLeagueClub:true,activeSessionBeforeLeagueClub:true,peerActiveReturnToSharedEntry:true,bothDevicesPrepareSharedShell:true,joinerShellProvisionedAutomatically:true,continueCareerUsesPairedAuthority:true,polishedLeagueWheelAfterAuthority:true,polishedClubPacksAfterAuthority:true,confirmedSetupResumesAtCareerStart:true,acceptedSeasonResumesAtActiveSeason:true,establishedPairNeverAutoOpensEntry:true,closedShowdownNeverReopensEntry:true,engineeringSetupPanelPlayerFacing:false,persistedSaveMarker:true,canonicalLocalSaveMutationDuringSharedSetup:false,billingRequired:false,install,preparePairingShell:startShared,provisionJoinerShell,openPanel,closePanel,openSharedExperience,isPending:pending});
+  return Object.freeze({contractVersion:6,feature:"ssjr-production-paired-first-entry",connectedPairOpensRemoteJoiningDirectly:true,activeSessionContinuesIntoShowdown:true,productionEnabled:true,singleProductEntry:true,pairingBeforeLeagueClub:true,activeSessionBeforeLeagueClub:true,peerActiveReturnToSharedEntry:true,bothDevicesPrepareSharedShell:true,joinerShellProvisionedAutomatically:true,continueCareerUsesPairedAuthority:true,polishedLeagueWheelAfterAuthority:true,polishedClubPacksAfterAuthority:true,confirmedSetupResumesAtCareerStart:true,acceptedSeasonResumesAtActiveSeason:true,establishedPairNeverAutoOpensEntry:true,closedShowdownNeverReopensEntry:true,engineeringSetupPanelPlayerFacing:false,persistedSaveMarker:true,canonicalLocalSaveMutationDuringSharedSetup:false,billingRequired:false,install,preparePairingShell:startShared,provisionJoinerShell,openPanel,closePanel,openSharedExperience,isPending:pending});
 });

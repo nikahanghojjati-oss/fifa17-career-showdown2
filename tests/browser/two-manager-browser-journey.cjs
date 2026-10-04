@@ -25,7 +25,7 @@ let checks=0;
 const ok=(id,label)=>{checks+=1;console.log(`ok ${checks} ${id} ${label}`);};
 // Job 33 (fewer taps): every real button tap is logged per manager. These buttons were pure navigation or reads and are now
 // automatic, so the journey must never need them (Daniel's ACKNOWLEDGE is folded into his COMMIT & ACKNOWLEDGE tap, R7).
-const REMOVED_TAPS=new Set(["CONNECT PLAYERS","CHECK STATUS","REFRESH / READ","START CAREER","CONTINUE","CONTINUE TO CLUB PACKS","CONTINUE TO CAREER START","CONTINUE TO TRANSFER CHALLENGE","REFRESH","REFRESH SHARED CHALLENGE","#refreshSharedTransferChallenge"]);
+const REMOVED_TAPS=new Set(["CHECK STATUS","REFRESH / READ","START CAREER","CONTINUE","CONTINUE TO CLUB PACKS","CONTINUE TO CAREER START","CONTINUE TO TRANSFER CHALLENGE","REFRESH","REFRESH SHARED CHALLENGE","#refreshSharedTransferChallenge"]);
 function assertNoRemovedTaps(m){
   const removed=m.log.taps.filter(tap=>REMOVED_TAPS.has(tap.text)||REMOVED_TAPS.has(`#${tap.id}`));
   assert.deepEqual(removed,[],`${m.user} never needed a removed navigation/read tap`);
@@ -237,9 +237,7 @@ async function main(){
     await daniel.page.locator("#createShowdown").waitFor({state:"visible",timeout:30000});
     await daniel.page.locator("#roundAmount").selectOption(String(LENGTH));
     await daniel.page.locator("#startShowdown").click();
-    // Job 33 (R5a): START A SHOWDOWN opens the pair panel directly; GET READY's CONNECT PLAYERS hop is gone.
-    await pairPanel(daniel).getByRole("button",{name:"CREATE CODE FOR NIK"}).waitFor({state:"visible",timeout:30000});
-    assert.equal(await entry(daniel).isVisible().catch(()=>false),false,"no GET READY overlay between START A SHOWDOWN and the pair panel");
+    await entry(daniel).getByRole("button",{name:"CONNECT PLAYERS"}).click({timeout:30000});
     await pairPanel(daniel).getByRole("button",{name:"CREATE CODE FOR NIK"}).click({timeout:30000});
     await pairPanel(daniel).locator("code").waitFor({timeout:30000});
     const pairCode=(await pairPanel(daniel).locator("code").innerText()).trim();
@@ -696,8 +694,7 @@ async function main(){
     await daniel.page.locator("#createShowdown").waitFor({state:"visible",timeout:30000});
     await daniel.page.locator("#roundAmount").selectOption(String(LENGTH));
     await daniel.page.locator("#startShowdown").click({timeout:30000});
-    await pairPanel(daniel).getByRole("button",{name:"CREATE CODE FOR NIK"}).waitFor({state:"visible",timeout:30000});
-    assert.equal(await entry(daniel).isVisible().catch(()=>false),false,"R2: no GET READY overlay between START A SHOWDOWN and the pair panel");
+    await entry(daniel).getByRole("button",{name:"CONNECT PLAYERS"}).click({timeout:30000});
     await pairPanel(daniel).getByRole("button",{name:"CREATE CODE FOR NIK"}).click({timeout:30000});
     await pairPanel(daniel).locator("code").waitFor({timeout:30000});
     const pairCode2=(await pairPanel(daniel).locator("code").innerText()).trim();
