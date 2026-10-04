@@ -397,8 +397,11 @@ async function r7CommitContracts(){
     await nik.tap();assert.equal(nik.calls.acknowledge,1,"Nik's own tap acknowledges");assert.equal(nik.calls.commit,0,"Nik never commits");
     const waiting=commitHarness({role:"playerTwo"});waiting.api.install();await waiting.api.refresh();await settle();
     assert.equal(waiting.action().textContent,"WAITING FOR COORDINATOR");assert.equal(waiting.action().disabled,true,"Nik cannot commit");
+    // Only the coordinator's commit-then-acknowledge failure re-reads at once; Nik's own ACKNOWLEDGE failure keeps its error until
+    // the next read, exactly as before (an immediate re-read would wipe "could not be recorded" before Nik sees it).
+    assert.match(read("js/productionSharedSeasonCommit.js"),/if\(kind==="commit"&&stage==="acknowledge"\)void psscRefresh\(\)/,"only the R7 second half re-reads after a failure");
   }
-  ok("R7 Season Commit: Nik still taps his own ACKNOWLEDGE; the combined button exists only for the coordinator");
+  ok("R7 Season Commit: Nik still taps his own ACKNOWLEDGE (his failure keeps its error); the combined button exists only for the coordinator");
   {
     const h=commitHarness({role:"playerOne",ackFailures:["stale"]});h.api.install();await h.api.refresh();await settle();
     await h.tap();
