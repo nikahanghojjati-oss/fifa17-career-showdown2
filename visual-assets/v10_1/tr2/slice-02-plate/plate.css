@@ -196,6 +196,29 @@ body { overflow: hidden; font-family: var(--text); -webkit-font-smoothing: antia
   filter: drop-shadow(0 0 calc(var(--k) * 8px) rgba(255, 196, 80, 0.55)); }
 .seal svg { width: 100%; height: 100%; display: block; }
 
+/* JOB-145 signature moment: a data-free guess card travels into the sealed dossier.
+   Only transform/opacity animate; the card never contains live or private text. */
+.tw-guess-flight {
+  position: absolute; z-index: 40; pointer-events: none; transform-origin: 50% 50%;
+  border: 1px solid rgba(255, 211, 77, .72);
+  background:
+    linear-gradient(90deg, rgba(255,211,77,.16), transparent 28%),
+    linear-gradient(150deg, rgba(35,28,16,.96), rgba(8,7,5,.98));
+  box-shadow: inset 0 0 0 1px rgba(255,243,176,.08), 0 8px 28px rgba(0,0,0,.48);
+  clip-path: polygon(10px 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%,0 10px);
+}
+.tw-guess-flight::after {
+  content: ""; position: absolute; inset: 12% 10%;
+  border-top: 1px solid rgba(255,211,77,.30);
+  border-bottom: 1px solid rgba(255,211,77,.16);
+  opacity: .8;
+}
+.tw-motion-wax {
+  position: absolute; z-index: 42; pointer-events: none; margin: 0;
+  color: var(--sd-gold-300); opacity: 1;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,.72)) drop-shadow(0 0 10px rgba(245,197,24,.42));
+}
+
 /* ---------- shared rules card ------------------------------------------- */
 .rules-inner { display: flex; flex-direction: column; justify-content: center; gap: calc(var(--k) * 6px); padding: 0 calc(var(--k) * 6px); }
 .rule-note {
