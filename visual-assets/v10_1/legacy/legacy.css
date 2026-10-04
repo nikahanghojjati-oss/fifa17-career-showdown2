@@ -1587,3 +1587,10 @@ button {
   #legacy .legacyPager { min-width: 0; gap: 6px; }
   #legacy .legacyPager > button { flex: 0 0 44px; min-width: 44px; min-height: 44px; }
 }
+
+/* CC-008 A7 · Nik's review: Daniel stood small and apart while Nik was near the centre.
+   Daniel is a little larger and closer, so the two read as a pair (Daniel left, Nik right). */
+@media (max-width: 900px) {
+  .legacyPhoneHero--daniel { left: 9%; top: 2%; height: 53%; }
+}
+
