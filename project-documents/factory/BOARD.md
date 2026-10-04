@@ -1,14 +1,14 @@
 # Showdown Factory board
 
-**108 of 238 jobs done and checked · 50 %** · updated Sat 10:24 p.m. Eastern
+**108 of 238 jobs done and checked · 51 %** · updated Sat 10:25 p.m. Eastern
 
-✅ **Quality check:** a job counts as done only after Claude checks it against the quality bar (average 4.2 or more, nothing under 3, hard gates pass). Average score 4.25 over 47 scored jobs. 🔍 Waiting for Claude's check: 50, 65, 88, 127, 148, 149, 150, 151, 195, 196. 🔧 Sent back with a fix list: 68, 77, 95.
+✅ **Quality check:** a job counts as done only after Claude checks it against the quality bar (average 4.2 or more, nothing under 3, hard gates pass). Average score 4.25 over 47 scored jobs. 🔍 Waiting for Claude's check: 50, 65, 88, 127, 148, 149, 150, 151, 154, 155, 195, 196. 🔧 Sent back with a fix list: 68, 77, 95.
 
 █████░░░░░
 
 **Where to run:** 🟡 **project job** = new chat in the ChatGPT project "Showdown visual", type the number; one number is one turn (no Continue), and a job in parts shows its later parts only when the earlier part is done. 🟣 **image job** = its ticket in a ChatGPT **Temporary Chat** outside any project, then drop the picture in Claude's factory thread.
 
-🟡 **Type next:** 68 (fix), 77 (fix), 95 (fix), 66, 86 · then 140, 185, 200
+🟡 **Type next:** 68 (fix), 77 (fix), 95 (fix), 66, 69 · then 86, 140, 185, 200
 
 🟣 **Image next:** 118
 
@@ -24,7 +24,7 @@ Transfer       ███░░░░░░░ 4/13
 Loading        ██████████ 4/4
 Trophy Room    ██████████ 10/10
 Career Stats   ████████░░ 14/17
-Rivalry        ███░░░░░░░ 6/19
+Rivalry        ████░░░░░░ 8/19
 Legacy         ██░░░░░░░░ 5/19
 Season Results ███░░░░░░░ 5/19
 Final Winner   ███████░░░ 9/12
@@ -49,9 +49,9 @@ Integration    ░░░░░░░░░░ 0/38
 
 Branch `factory/v1-wtt5ye`. 238 Team V jobs, plus 5 lines that track Team G. Two kinds of job. **Project (type number):** open a new chat in the ChatGPT project "Showdown visual" and type the number (up to 5 at once). **Fresh chat (image):** run the job's ticket from [tickets/](tickets/README.md) in a ChatGPT Temporary Chat (no memory) outside any project, then drop the image in Claude's factory thread (up to 2 at once).
 
-**Overall (Team V):** █████░░░░░ 50 % · 108 of 238 jobs done
+**Overall (Team V):** █████░░░░░ 51 % · 108 of 238 jobs done
 
-**Start now · project (type the number in Showdown visual):** 68 (fix), 77 (fix), 95 (fix), 66, 86 · queued next: 140, 185, 200
+**Start now · project (type the number in Showdown visual):** 68 (fix), 77 (fix), 95 (fix), 66, 69 · queued next: 86, 140, 185, 200
 
 **Start now · fresh chat (image ticket, outside the project):** 118
 
@@ -217,8 +217,8 @@ Branch `factory/v1-wtt5ye`. 238 Team V jobs, plus 5 lines that track Team G. Two
 | 151 | [Career Statistics: fix round (part 3 of 3)](jobs/JOB-151.md) | 5 New screens | fix | project (type number) | 150 | ██████████ 100 % | DONE |  |
 | 152 | [Career Statistics: motion (part 2 of 3)](jobs/JOB-152.md) | 5 New screens | build | project (type number) | 66 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 153 | [Career Statistics: motion (part 3 of 3)](jobs/JOB-153.md) | 5 New screens | build | project (type number) | 152 | ░░░░░░░░░░ 0 % | NOT STARTED | yes |
-| 154 | [Rivalry Statistics: phone (part 2 of 3)](jobs/JOB-154.md) | 5 New screens | build | project (type number) | 68 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
-| 155 | [Rivalry Statistics: phone (part 3 of 3)](jobs/JOB-155.md) | 5 New screens | build | project (type number) | 154 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
+| 154 | [Rivalry Statistics: phone (part 2 of 3)](jobs/JOB-154.md) | 5 New screens | build | project (type number) | 68 | ██████████ 100 % | DONE |  |
+| 155 | [Rivalry Statistics: phone (part 3 of 3)](jobs/JOB-155.md) | 5 New screens | build | project (type number) | 154 | ██████████ 100 % | DONE |  |
 | 156 | [Rivalry Statistics: review (part 2 of 4)](jobs/JOB-156.md) | 5 New screens | review | project (type number) | 69 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 157 | [Rivalry Statistics: review (part 3 of 4)](jobs/JOB-157.md) | 5 New screens | review | project (type number) | 156 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 158 | [Rivalry Statistics: review (part 4 of 4)](jobs/JOB-158.md) | 5 New screens | review | project (type number) | 157 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
