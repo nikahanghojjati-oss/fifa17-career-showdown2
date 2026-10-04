@@ -13,3 +13,4 @@
 - extra 3: reworked by Claude: the smaller box made rows overlap; the box keeps its size and the contents are compacted. PASS at 1366x640 and 1366x768.
 - extra 4: reverted by Claude: the DOM wordmark landed under the top bar and the painted title stayed cropped. Redo as extra 6.
 - extra 5: reworked by Claude: the stray letter was the desktop "VS" text fallback, not the plate; hidden on phone. PASS.
+- extra 6: done by Claude (thread 'Claude jobs from the Sol bundle'): plate.js layoutDesktop short branch scales the world (transform, no reflow) so title top to content bottom fits; .stage.fit::before blurred plate in the side gaps. titleCropPx 0 at 1366x640 and 1366x600 (F1, F3, F4D), panels and footer whole, 1366x768/1280x720/1920x1080/1024x600 unchanged.

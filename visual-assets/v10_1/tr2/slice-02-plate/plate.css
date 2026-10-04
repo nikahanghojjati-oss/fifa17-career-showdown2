@@ -27,6 +27,10 @@ body { overflow: hidden; font-family: var(--text); -webkit-font-smoothing: antia
 
 .stage { position: fixed; inset: 0; overflow: hidden; --footer-h: 36px; }
 .stage.short { --footer-h: 30px; }
+/* Short desktop fit (C2W-005 extra 6): the world is narrower than the stage; the gaps show the plate blurred. */
+.stage.fit::before { content: ""; position: absolute; inset: -40px; background: var(--plate-url) center / cover no-repeat;
+  filter: blur(18px) brightness(.45); }
+.stage.fit .world { box-shadow: 0 0 48px 24px rgba(7, 6, 4, .7); }
 .world { position: absolute; --k: 0.817; }
 .scene, .plane { position: absolute; inset: 0; }
 .plate, .plate img { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }

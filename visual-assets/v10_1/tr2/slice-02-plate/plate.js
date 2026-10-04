@@ -773,20 +773,30 @@
     stage.classList.toggle("short", short);
     var footerH = short ? 30 : 36;
     var contentBottom = Math.max(map.keepVisible.contentBottom, +(stage.dataset.contentBottom || 0));
-    var bottom = short ? contentBottom * k + footerH + 2 : map.keepVisible.panelBottom * k + footerH + 6;
+    // Short screens keep the whole painted title too (C2W-005 extra 6): when title top to content
+    // bottom does not fit, the world keeps its layout at k and is scaled down by s as one piece (panel
+    // text shrinks with it, so nothing reflows); side gaps show the same plate blurred (.stage.fit::before).
+    var s = 1;
+    if (short) s = Math.min(1, (vh - footerH - 2) / ((contentBottom - map.keepVisible.titleTop + 4) * k));
+    var ks = k * s, Ws = W * s, Hs = H * s;
+    stage.classList.toggle("fit", Ws < vw - 1);
+    var bottom = short ? contentBottom * ks + footerH + 2 : map.keepVisible.panelBottom * k + footerH + 6;
     var offY = 0, offX = 0;
-    if (H > vh) offY = Math.max(0, Math.min(H - vh, bottom - vh));
-    if (W > vw) {
-      var cx = (map.keepVisible.x[0] + map.keepVisible.x[1]) / 2 * k;
-      offX = Math.max(0, Math.min(W - vw, cx - vw / 2));
-    }
+    if (Hs > vh) offY = Math.max(0, Math.min(Hs - vh, bottom - vh));
+    if (Ws > vw) {
+      var cx = (map.keepVisible.x[0] + map.keepVisible.x[1]) / 2 * ks;
+      offX = Math.max(0, Math.min(Ws - vw, cx - vw / 2));
+    } else if (Ws < vw) offX = (Ws - vw) / 2;
     world.style.width = W + "px"; world.style.height = H + "px";
     world.style.left = -offX + "px"; world.style.top = -offY + "px";
+    if (s < 1) { world.style.transform = "scale(" + s.toFixed(5) + ")"; world.style.transformOrigin = "0 0"; }
+    else { world.style.transform = ""; world.style.transformOrigin = ""; }
     world.style.setProperty("--k", k.toFixed(5));
     world.style.removeProperty("--sk");
     stage.dataset.mode = "desktop";
-    stage.dataset.k = k.toFixed(4); stage.dataset.offY = Math.round(offY); stage.dataset.offX = Math.round(offX);
-    stage.dataset.titleCropPx = Math.max(0, Math.round(offY - map.keepVisible.titleTop * k));
+    stage.dataset.k = k.toFixed(4); stage.dataset.scale = s.toFixed(4);
+    stage.dataset.offY = Math.round(offY); stage.dataset.offX = Math.round(offX);
+    stage.dataset.titleCropPx = Math.max(0, Math.round(offY - map.keepVisible.titleTop * ks));
     return W;
   }
 
@@ -796,7 +806,8 @@
   // dark band around the scene; on very short screens the crop widens up to maxCropW.
   function layoutMobile(stage, world, map) {
     world.style.width = ""; world.style.height = ""; world.style.left = ""; world.style.top = "";
-    stage.dataset.mode = "mobile"; stage.classList.remove("short");
+    world.style.transform = ""; world.style.transformOrigin = "";
+    stage.dataset.mode = "mobile"; stage.classList.remove("short", "fit");
     var scene = world.querySelector(".scene");
     var band = stage.dataset.phase === "none" ? 0 : (parseFloat(getComputedStyle(stage).getPropertyValue("--band-h")) || 28);
     var vw = stage.clientWidth, H = Math.max(1, scene.clientHeight - band);
@@ -887,6 +898,7 @@
     wireGuessSubmitMotion(stage, cfg);
     world.style.setProperty("--glass", "url(" + map.mobile.glass.file + ")");
     world.style.setProperty("--plate-url", "url(" + base + "1672.webp)");
+    stage.style.setProperty("--plate-url", "url(" + base + "1672.webp)");
 
     var mq = matchMedia(MOBILE_MQ);
     function isMobile() { return typeof opts.mobile === "boolean" ? opts.mobile : mq.matches; }
