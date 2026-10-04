@@ -52,7 +52,7 @@ Career leaders: no player photos. Use the manager's portrait crop (from the scre
 
 ## 5. Home (OWNER-5)
 
-Final Home destinations, all reachable on phone: **Continue** (dominant), **Start/Join**, **History** (Legacy), **Statistics**, **Trophy Room** (its own tile), **Rule Book**, **Settings**. Rivalry Statistics is reached from Statistics and from the active Showdown. The Audius soundtrack card stays.
+Final Home destinations, all reachable on phone: **Continue** (dominant), **Start/Join**, **History** (Legacy), **Statistics**, **Trophy Room** (its own tile), **Rule Book**, **Settings**. Rivalry Statistics is reached from Statistics and from the active Showdown. The Audius soundtrack card stays and plays the 4-song Audius playlist (visual-assets/v10_1/home/soundtrack.js, track ids in home/fixtures.json strings.media); no YouTube songs or trailer. At integration the music must keep playing across screens.
 
 ## 6. Rights and imagery (hard rules)
 
