@@ -733,6 +733,7 @@
         "^js/sparkPrivateSession\\.js$",
         "^js/productionSharedTerminalClose\\.js$",
         "^js/productionSharedJourneyReconnect\\.js$",
+        "^js/sparkSharedSeasonResults\\.js$",
         "^tests/firebase/two-manager-journey-emulator\\.cjs$",
         "^\\.github/workflows/validate-gameplay-fast\\.yml$",
         "^tests/contracts/ten-season-session-contracts\\.cjs$",

@@ -9,6 +9,8 @@
 //   T4. The banner says who does what (Daniel hosts and sends the code, Nik pastes it and joins), and the Remote Joining
 //       panel closes itself once the fresh session is ACTIVE.
 //   T5. CI plays the provider journey for 10 seasons with a real expiry and re-join in the middle.
+//   T6. When both managers publish a Season Result at the same moment, the loser whose denial arrives before the
+//       winner's write is readable re-reads (bounded) and gets the retryable STALE code, not a permission error.
 const assert=require("node:assert/strict");
 const fs=require("node:fs");
 const path=require("node:path");
@@ -192,11 +194,35 @@ function t5TenSeasonCi(){
   console.log("ok T5 fast CI plays 10 seasons with a real session expiry and re-join in the middle");
 }
 
+async function t6SimultaneousPublishLoser(){
+  const Provider=require(path.join(ROOT,"js/sparkSharedSeasonResults.js"));
+  const op=n=>`season_result_op_${Number(n).toString(16).padStart(32,"0")}`;
+  const snapshot=value=>({exists:()=>value!==null&&value!==undefined,data:()=>value});
+  function sdkWith(reads){
+    const counts={run:0,get:0};
+    const sdk={doc:(_db,...parts)=>parts.join("/"),serverTimestamp:()=>({toMillis:()=>2_000_000}),
+      runTransaction:async()=>{counts.run+=1;if(counts.run===1)return 18;if(counts.run===2)throw {code:"permission-denied"};throw new Error("unexpected transaction retry");},
+      getDoc:async()=>{const next=reads[Math.min(counts.get,reads.length-1)];counts.get+=1;return snapshot(next);}};
+    return {sdk,counts};
+  }
+  const options=sdk=>({user:{uid:"manager_one"},firestore:{},firebaseSdk:sdk,rivalryId:RIVALRY,sessionId:OLD_SESSION,deviceId:DEVICE,seasonNumber:2,operationId:op(21),baseRevision:0,result:{leaguePosition:1,leaguePoints:90,leagueGoals:80,domesticCup:false,championsLeague:false,topScorer:false,topAssist:false},cryptoImpl:webcrypto,nowEpochMs:2_000_000});
+  const late=sdkWith([null,{revision:1,operationIds:[op(22)]}]);
+  let out=await Provider.publishResult(options(late.sdk));
+  assert.deepEqual(out,{ok:false,code:"SEASON_RESULTS_STALE_BASE_REVISION"},"T6 a loser whose rival write is readable a moment later gets the retryable STALE code");
+  assert.deepEqual(late.counts,{run:2,get:2},"T6 the loser re-reads, and never retries the denied write");
+  const denied=sdkWith([{revision:0,operationIds:[]}]);
+  out=await Provider.publishResult(options(denied.sdk));
+  assert.deepEqual(out,{ok:false,code:"permission-denied"},"T6 a denial with no rival write is still surfaced");
+  assert.deepEqual(denied.counts,{run:2,get:3},"T6 the extra re-reads are bounded to three in total");
+  console.log("ok T6 a simultaneous-publish loser gets the retryable STALE code even when the rival write lands a moment late");
+}
+
 (async()=>{
   await t1HostLifetime();
   await t2HostSeesJoin();
   await t3QuietWhenSessionEnded();
   await t4ClearReconnect();
   t5TenSeasonCi();
-  console.log("PASS ten-season session contracts: 5 checks (host clock margin, host sees the join, quiet refreshers while reconnecting, clear reconnect banner and auto-close, 10-season CI journey with mid-game expiry).");
+  await t6SimultaneousPublishLoser();
+  console.log("PASS ten-season session contracts: 6 checks (host clock margin, host sees the join, quiet refreshers while reconnecting, clear reconnect banner and auto-close, 10-season CI journey with mid-game expiry, simultaneous-publish loser stays retryable).");
 })().catch(error=>{console.error(error);process.exit(1);});
