@@ -1,12 +1,12 @@
 # Team G gameplay board
 
-20 of 33 jobs done (63 %) ██████░░░░ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-04 6:18 PM Boston time (EDT)
+20 of 33 jobs done (64 %) ██████░░░░ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-04 6:19 PM Boston time (EDT)
 
 ## Your next move
 
 1. **Nothing for you to start right now.**
 
-_Moving now:_ G-13a Part 2a: foundation (loader, top bar, shared kit, caching); G-13c Part 2c: Start/Join, League wheel and Club packs; G-13d Part 2d: Transfer War; workers on jobs 24. _Next up:_ G-13 Part 1: Trophy Room and Career Statistics on the real career model, waits on nothing.
+_Moving now:_ G-13a Part 2a: foundation (loader, top bar, shared kit, caching); G-13c Part 2c: Start/Join, League wheel and Club packs; G-13d Part 2d: Transfer War; workers on jobs 24, 28. _Next up:_ G-13 Part 1: Trophy Room and Career Statistics on the real career model, waits on nothing.
 
 **Sol Work mode starter line** (copy it, change both `NN` to the job number, paste it as the first message):
 
@@ -52,7 +52,7 @@ Waiting on Team V: nothing.
 | G-13b | [Part 2b: Home, music (Audius) and Loading](jobs/JOB-25.md) | codex | job 24 | NOT STARTED |
 | G-13c | [Part 2c: Start/Join, League wheel and Club packs](jobs/JOB-26.md) | lead | job 24 | NOT STARTED |
 | G-13d | [Part 2d: Transfer War](jobs/JOB-27.md) | lead | job 24 | NOT STARTED |
-| G-13e | [Part 2e: Rivalry Statistics and Legacy (History)](jobs/JOB-28.md) | work | job 24 | NOT STARTED |
+| G-13e | [Part 2e: Rivalry Statistics and Legacy (History)](jobs/JOB-28.md) | work | job 24 | IN PROGRESS |
 | G-13f | [Part 2f: Season Results, Final Winner and Standings](jobs/JOB-29.md) | codex | job 24 | NOT STARTED |
 | G-13g | [Part 2g: Rule Book and Settings](jobs/JOB-30.md) | work | job 24 | NOT STARTED |
 | G-2h | [Ten-season games: session expiry, long-game limits, 10-season emulator run](jobs/JOB-31.md) | lead | - | NOT WRITTEN |
