@@ -754,6 +754,16 @@
       ]
     },
     {
+      "path": "tests/contracts/context-stale-quiet-contracts.cjs",
+      "patterns": [
+        "^js/productionSharedCanonicalScoring\\.js$",
+        "^js/productionSharedSeasonCommit\\.js$",
+        "^js/productionSharedHistoryConvergence\\.js$",
+        "^tests/contracts/context-stale-quiet-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
       "path": "tests/contracts/v10-foundation-contracts.cjs",
       "patterns": [
         "^js/v10Screens\\.js$",
