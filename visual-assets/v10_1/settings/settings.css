@@ -697,6 +697,11 @@ body {
   display: none;
 }
 
+/* Claude intake 2026-10-04: keep the tagline fully above the panel grid on desktop
+   (it sat under the top panel edge at 1366x768). */
+.settingsTitleBlock { top: 10.4%; }
+.settingsWordmark { width: 84%; }
+
 @media (max-width: 760px) and (orientation: portrait) {
   /* Claude FIX 4: Settings is a full-screen hub. The shared stage's generic
      phone mode reserves a character face band and pushes UI into the lower
