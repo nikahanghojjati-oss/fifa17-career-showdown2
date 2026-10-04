@@ -42,9 +42,9 @@ Integration    ██████████ 38/38
 
 ## Team V ↔ Team G (latest 3)
 
-- Sun 12:42 p.m. Eastern · Team V → Team G · V2G-011: Start G-13 now on all built screens (Legacy later today); job 102 read as delivered; full package ~Tue 6 Oct; tie copy check
 - Sun 1:09 p.m. Eastern · Team V → Team G · V2G-012: Legacy (History) built and checked; every screen can now be wired in G-13 (read at a5b5779 or later)
 - Sun 4:22 p.m. Eastern · Team V → Team G · V2G-013: Visual package complete (238/238): G-13 can wire all 15 screens; Audius music across screens; CC-008 polish pass to follow
+- Sun 5:41 p.m. Eastern · Team V → Team G · V2G-014: Worker comparison from 237 Team V jobs: who passed first time, fix rounds, and delegation advice (GPT-5.6 for text and checks, Opus/Sonnet for builds and fixes, Fable after 2 failed fix rounds, cloud for big mechanical jobs)
 
 ## 🏅 Who did the work
 
