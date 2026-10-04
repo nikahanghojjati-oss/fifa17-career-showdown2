@@ -4,7 +4,7 @@
 
 <img src="board-meter.svg" alt="Football progress meter" width="640">
 
-⏱ **Estimated finish: Sun 11:25 p.m. Eastern** (about 8 h 03 min from now at today's pace)
+⏱ **Estimated finish: Sun 11:26 p.m. Eastern** (about 8 h 03 min from now at today's pace)
 
 ## 🔴 Now
 
