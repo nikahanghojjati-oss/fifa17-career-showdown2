@@ -161,3 +161,34 @@ Review verdict: FAIL; the nine requested source fixes are complete across jobs 7
 Claude measured job 168 at 1366×768, 1366×640, 1000×700 and 393×660. Those results predate job 169. All browser-dependent gates H5–H11 for the final code are NOT MEASURED (Claude measures): phone/short-screen fit, text/contrast, both reduced-motion paths, keyboard, requests, plate registration and first-paint weight including the optional identity module. No browser QA or frame strips were produced here. H1–H4 source checks preserve role order, original SVG rights, DOM-only changing values and fixture scoring/privacy guards; asset appearance still needs visual intake.
 
 Known intake follow-up C2W-004 extra 1: phone archive border/full-card width and missing pager dots will be fixed after the motion chain. Earlier phone descriptions of a next-card peek/24px pager are historical and superseded by the 44px pager and the bundle's one-full-card target.
+
+
+## Motion
+
+C2W-004 jobs 76, 170 and 171. Source review, 2026-10-04; browser/frame-strip evidence is **NOT MEASURED (Claude measures)**. The standalone optional screen loads the shared motion kit; no startup modules changed. `sdEnter(stage)` runs after fixture rendering, navigation and action wiring. Published totals remain final live DOM text; no count-up, particles or gameplay delays.
+
+| Element / selector | Delay | Duration | Easing |
+| --- | ---: | ---: | --- |
+| Scene `.sd-stage__layer--plate` | 0ms | 400ms | shared ease-out cubic |
+| Daniel phone/depth/rim; Nik phone/depth/rim | 150ms | 450ms | shared ease-out cubic |
+| Title `.legacyWordmarkPicture` cover wipe | 250ms | 450ms | shared ease-out cubic |
+| Title metallic glint | 640ms | 420ms | shared ease-out cubic |
+| Archive `.legacyArchivePanel` | 400ms | 500ms | shared ease-out cubic |
+| Side menu `#legacySideMenu` | 460ms | 500ms | shared ease-out cubic |
+| Pager `#legacyPager` | 520ms | 500ms | shared ease-out cubic |
+| CM17 back / live face `.legacyCard` | 400ms + 50ms × index (0–3) | 400ms | cubic-bezier(.22,1,.36,1); face visibility swaps at edge-on midpoint |
+| Named winner `.legacyWinnerCrown` | immediately after its card (800–950ms) | 220ms | cubic-bezier(.22,1,.36,1) |
+| Primary inner `.legacyActionLabel` payoff | 760ms | 320ms | shared ease-out cubic |
+| Pager card track on an arrow/page change | 0ms | 280ms | cubic-bezier(.22,1,.36,1) |
+| Background counter-parallax on page/swipe | 0ms | 320ms | cubic-bezier(.22,1,.36,1) |
+| Every stage button hover / press | 0ms | 100ms | linear opacity |
+| Selection/tab/season-sheet fade | 0ms | 120ms | linear opacity |
+| Reduced-motion entrance / signature | 0ms, no stagger | 120ms | linear opacity only |
+
+The shared JS applies panel staggering once; Legacy cancels the shared CSS's second delay. Normal entrance imagery finishes by 1170ms, signature cleanup by 1190ms, and shared orchestration clears at 1200ms. Controls are wired and enabled according to their real eligibility before any animation starts, hence usable at 600ms without a timing lock; primary hit target never moves. The selected phone card alone deals; desktop deals four cards. Swiping retains native scroll/snap and only moves the background, while arrow/page input also slides the track 18px. Background displacement is 4px and returns to original registration. Rapid repeats replace the pending cleanup timer and restart the current signature animation; active will-change is removed with its class.
+
+Both `prefers-reduced-motion: reduce` and the kit's `data-motion-reduced` / `data-reduced-motion` / screen-local `data-sd-motion-reduced` paths suppress flips, crown movement, track motion, parallax, wipes, glints and pulse. They replace entrance/signature animations with a 120ms fade, remove the CM17 back, and show live faces immediately. JavaScript also checks system, host APIs and persisted app preference before each signature. CSS catches a system preference change during a running animation. Selection and sheet fades preserve their positioned layout transforms.
+
+**Criterion 8: provisional source score 4/5.** Ordered entrance, distinct card/crown/page moments, a single glint, bounded cleanup, 100ms feedback, no animated layout dimensions and both reduced paths are implemented. This is not a rendered quality or 60fps claim; Claude must score actual motion and verify usability/visual readability at 600ms, frame pacing, phone fit, focus and contrast. H7 and other browser-only gates remain **NOT MEASURED (Claude measures)**.
+
+Checks performed: `node --check legacy.js`; isolated JavaScript assertions for system/app/storage reduced preferences, rapid-repeat timer replacement and class/style cleanup, zero-delay 120ms reduced fade, and 1170ms maximum signature duration. CSS selectors and keyframes read manually. A CSS parser was unavailable in the container Python environments, so no parser-based CSS validation is claimed. Claude records normal/reduced motion strips in `evidence/motion/` at intake; no binaries generated here.
