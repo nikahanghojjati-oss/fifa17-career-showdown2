@@ -69,6 +69,21 @@ Mockup measured at 1672x941 from `MOCKUP_CAREER_STATISTICS.png`; code values are
 - Footer strip · mockup: bottom bar with CM 17 | CAREER MODE SHOWDOWN 17, centre crown and "FOOTBALL BRINGS US TOGETHER.", right "TWO MANAGERS. ONE LEGACY."; code: no footer strip on desktop (phone has the 56px bottom bar instead).
 - Preview chip and state panels · mockup: none; code: `.previewChip` (top 8.2%) and `.statePanel` / `.partialBanner` for loading, partial and unavailable, required by `DATA_CONTRACT_V1`.
 
+### Code audit
+
+- PASS · Manager order · `career-statistics.js::renderTable` loops `["daniel","nik"]` and `fixtures.json rankingRules.careerTable.presentationOrder`; every frame (CS1-CS6) has `managerOrder` Daniel then Nik; row order never flips, only the `#` rank cell changes.
+- PASS · Ids and routes · `index.html`: `#careerStatistics`, `#careerStatisticsScreenTitle` (h1, tabindex -1, route-focus target), `#careerStatisticsContent`, `#careerStatisticsRivalryButton`, `#careerStatisticsTrophyButton` and a `.backButton` all exist as in TRUTH.md.
+- PASS · Button words · `index.html` and `applyStrings`: CURRENT RIVALRY STATISTICS, OPEN TROPHY ROOM, BACK TO MAIN MENU match the live strings.
+- PASS · Dropped fields stay dropped · `fixtures.json strings.comparisonRows` and `renderComparison`: no Showdown Win Rate, Transfer Signings, Signings Released, clean sheets, European wins or biggest single-match win; no identity-link notice.
+- PASS · Headline tiles labelled · `renderHeadline`: tile 1 shows a combined number captioned "Together"; tiles 2-4 show a D / N pair, so no unlabelled sum appears.
+- PASS · Honest states · `renderState`: ready and partial show the three panels, partial adds a banner with the exact "{READABLE} of {INDEXED} Showdowns readable" line; empty, loading and unavailable hide the panels and show contract heading/body copy; unavailable shows no zeroes.
+- PASS · Interim label · `setPreview`: shows `fixtures.json strings.previewLabel` (the "Preview data" chip); frames carry the exact interim label where used.
+- PASS · Ranking rule · `rankRows`: wins, then trophies, then career points, as in `rankingRules.careerTable`; CS6 uses `expectedCareerTableRows` for the tie case.
+- NOTE · Leaders · `renderLeaders`: only four of the seven `leaderLabels` render (MOST SEASON WINS, MOST TROPHIES, MOST CAREER POINTS, BEST SEASON SCORE); tied values show "Daniel + Nik" with Daniel's portrait. Truth allows these, but names "Daniel" and "Nik" are hard-coded in `leader()` rather than from fixtures.
+- NOTE · Rivalry button · `index.html`: the button is always visible; TRUTH.md says it is hidden when there is no current Showdown. No frame field controls it yet.
+- NOTE · Back label · `applyStrings`: Back text is fixed in `index.html`, not read from `fixtures.json strings.buttons.back`.
+- N/A · Input font size · no `input` text fields; the three radio inputs for phone tabs are visually hidden and have `aria-label`s.
+
 ## Fix list
 
 Pending parts 2 to 4.
