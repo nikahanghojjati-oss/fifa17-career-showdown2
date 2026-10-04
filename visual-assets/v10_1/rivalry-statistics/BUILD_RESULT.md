@@ -84,8 +84,8 @@ The standard shared entrance follows the screen hierarchy and does not add a scr
 | Order | Shared timing | Element | Selector | `data-sd-enter` | Intent |
 | ---: | --- | --- | --- | --- | --- |
 | 1 | 0–400 ms | Full rivalry scene | `#stage-root` | `scene` | Fade from black and settle the complete stadium composition without layout shift. |
-| 2 | 150–600 ms | Daniel, left | `.rv-cutout--daniel`, `.rv-phoneHero--daniel` | `character-left` | Bring Daniel inward from the left; desktop and phone variants share the same role. |
-| 3 | 150–600 ms | Nik, right | `.rv-cutout--nik`, `.rv-phoneHero--nik` | `character-right` | Bring Nik inward from the right; desktop and phone variants share the same role. |
+| 2 | 150–600 ms | Daniel, left | `.rv-cutout--daniel`, `.rv-rim--daniel`, `.rv-phoneHero--daniel` | `character-left` | Bring Daniel inward from the left; the desktop cutout and rim stay registered while the phone hero uses the same role. |
+| 3 | 150–600 ms | Nik, right | `.rv-cutout--nik`, `.rv-rim--nik`, `.rv-phoneHero--nik` | `character-right` | Bring Nik inward from the right; the desktop cutout and rim stay registered while the phone hero uses the same role. |
 | 4 | 250–700 ms | Rivalry Statistics brush title | `#statisticsScreenTitle` | `title` | Run the shared brush reveal and one metallic glint. |
 | 5 | 400–900 ms | Rivalry totals hero | `#rvPanelTotals` | `panel` | First and most important data panel. |
 | 6 | 460–960 ms | Head-to-Head | `#rvPanelHead` | `panel` | First supporting comparison panel. |
