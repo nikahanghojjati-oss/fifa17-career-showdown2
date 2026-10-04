@@ -65,4 +65,35 @@ Reference opened directly: project Files `MOCKUP_LEGACY_V2.png`, 1672 × 941. Co
 
 No screen code, assets, strings or fixture values changed in this part. H5–H11 remain NOT MEASURED (Claude measures).
 
+### Code audit · JOB-166
+
+Scope: `legacy.js`, `fixtures.json`, `index.html`, `legacy.css`, compared with `TRUTH.md`. Static findings are distinct from unmeasured runtime gates.
+
+| ID | Finding and evidence |
+| --- | --- |
+| A01 | PASS role order: `legacy.js renderCard()` iterates ["daniel","nik"], inserts score between them; `renderSeasonHistory() .legacyHistoryRow` appends Daniel, divider, Nik. All LG1–LG9 fixtures use role keys. |
+| A02 | PASS recorded values: `fixtures.json frames.*.showdowns` supplies totals, accepted-season details and contracted statuses. No clean sheets, player stats, invented dates, transfer counts, local backup/reset/delete controls rendered. Fixture numbers unchanged in review. |
+| A03 | PASS frame copy: `applyFrameState()` draws LG4 empty, LG6 unavailable, LG7 loading and LG8 coverage (2 of 3) separately. LG5 exact interim label and every frame's Preview data tag are present. |
+| A04 | PASS status-only rows: `renderCard()` returns before totals/seasons for abandoned/unavailable; LG3 abandoned and LG8 unreadable fixtures have neither totals nor seasons. LG9 uses Completion pending. |
+| A05 | FIX fixture text: `renderCard(), leagueLabel(), renderSeasonHistory(), renderArchive()` hard-code manager labels, Showdown/Season labels, league abbreviations, in-progress copy and pager accessible names rather than reading strings; phone CSS pseudo-content replaces real labels with ARCHIVE/TROPHIES. |
+| A06 | FIX original identity: `renderCard() .legacyCrest/.legacyLeagueMark` uses generic initials shields and abbreviated text, not the required original getClubCrestSvg/getLeagueMark artwork. No prohibited real logo URLs appear, but specified identity art is absent. |
+| A07 | FIX route controls: `renderSideMenu()` emits records instead of TRUTH's careerStatistics; top nav lowercases labels into home/career/stats/rules. `index.html` loads only stage/motion/legacy scripts; `legacy.js` binds no navigation click handler. Route buttons are inert in this standalone build, and the phone has only an empty nav-reserve. Use documented routes/working preview destinations, not invented routes. |
+| A08 | FIX current selection: `renderArchive().paint()` changes pages without choosing a card on the new page; `viewSeasonHistory` remains tied to the off-page selection. Disabled state is computed only once in boot. Guard allowed statuses on every disclosure, not only season-array existence. |
+| A09 | FIX keyboard focus: `paint()` destroys the focused card/pager button on selection or pagination without restoring focus. Browser tab order loses its place. Preserve stable nodes or explicitly restore the initiating/new selection control. |
+| A10 | FIX phone swipe: `#legacyCardGrid` has scroll snap in CSS but no scroll/scrollend/keyboard synchronization with ui.selectedShowdown; swiping can show one card while the primary action opens another. Prev/next currently change a four-card page rather than the visible card. |
+| A11 | FIX disclosure: `renderSeasonHistory() #legacySeasonHistory` creates heading and rows only; no close button, Escape handler, focus transfer or return. Phone sheet z-index 40 can cover the opener; retained action alone is not a reliable close mechanism. |
+| A12 | FIX detail completeness: `renderSeasonHistory() .legacyHistoryRow` shows only season number and score; fixture-provided league position, league points and goals documented by TRUTH are missing from expanded history. Do not invent honours booleans absent from the contracted history model. |
+| A13 | FIX winner name: `.legacyWinner` renders the same centered chess glyph for either winner with only a data-winner attribute; no visible or accessible winner text. Draw/in-progress should not imply a completed winner. |
+| A14 | FIX failure visibility: `boot().catch()` places "Fixture load failed" only in visually hidden frame label and the hidden debug tree. A real fetch/map error leaves a blank archive instead of visible unavailable copy. |
+| A15 | Target styles only, NOT MEASURED: `legacy.css` portrait ≤760px gives tabs/pager 44px and action 48px. Widths 761–900 still apply scale(.72) to 44px pager buttons (31.68px visual targets); portrait pager track is only 24px tall. Fix allocation, not just min-height. |
+| A16 | PASS input code scope: `index.html` and `legacy.js` create no inputs. Defensive `.legacySeasonHistory input/select/textarea` declares 16px in the narrow portrait breakpoint; actual contrast H6 is NOT MEASURED. |
+| A17 | Focus style intent: `legacy.css` declares focus-visible rings on menu, cards, pager, primary and desktop nav; H8 remains NOT MEASURED because keyboard traversal was not run and A09/A11 exist. |
+| A18 | PASS source format scope: `index.html picture` and JS stage/foreground references end in .webp; no PNG master URL is loaded directly by these files. CSS hiding pictures does not guarantee no network download; shared stage may still load desktop assets on phone. H11 remains NOT MEASURED. |
+| A19 | Data remains DOM: `renderCard(), renderSeasonHistory(), applyFrameState()` use textContent for changing fixture values. No dynamic raster generation. Plate/title binary contents were not inspected, so image-level H2/H3 are not independently certified. |
+| A20 | FIX partial/interim placement: `legacy.css .legacyStateBanner[data-compact=true]` at phone top 52px/bottom 32px shares the card grid area and z-index 5; warning and readable records need distinct space. |
+| A21 | FIX responsive range: `legacy.css @media(min-width:1024px)` leaves 901–1023 outside both layouts; topbar also uses 6.9% rather than exactly 52px. Preserve Claude's final phone band rules. |
+| A22 | Preview-only boundary: `boot()` loads labelled fixtures and exposes LegacyFixture; it does not read provider/private or local-storage history. Wiring real provider history stays with Team G/integration. |
+
+No browser, screenshots, visual score or fixture arithmetic validation claimed in this audit.
+
 ## Fix list
