@@ -1,28 +1,32 @@
 # 🏭 Showdown Factory board
 
-**222 of 238 jobs done and checked · 93 %** · updated Sun 2:58 p.m. Eastern
+**222 of 238 jobs done and checked · 93 %** · updated Sun 3:04 p.m. Eastern
 
 <img src="board-meter.svg" alt="Football progress meter" width="640">
 
-⏱ **Estimated finish: Mon 2:19 a.m. Eastern** (about 11 h 15 min from now at today's pace)
+⏱ **Estimated finish: Mon 1:30 a.m. Eastern** (about 10 h 26 min from now at today's pace)
 
 ## 🔴 Now
 
-- **228** Full phone pass: fixes (3/3) · In progress · step 3/3 · type the number in a new chat in project Showdown visual
+- Nothing running.
 
 ## 🟢 Next (start these)
 
-- Nothing ready right now.
+- **107** Motion and sound consistency pass (1/6) · type the number in a new chat in project Showdown visual
 
 ## ⚪ Then
 
-- **107** Motion and sound consistency pass (1/6) · after 228 · type the number in a new chat in project Showdown visual
+- **229** Motion and sound consistency pass (2/6) · after 107 · type the number in a new chat in project Showdown visual
+
+## ⚠️ Needs attention
+
+- Waiting for Claude's check: 228
 
 ## 🧰 Where to type and when it resets
 
 | Tool | Where | Resets (Eastern) | Jobs left |
 | --- | --- | --- | --- |
-| 🟡 GPT-5.6 Sol chat | ChatGPT, project "Showdown visual", new normal chat: type the job number | unknown | 15 |
+| 🟡 GPT-5.6 Sol chat | ChatGPT, project "Showdown visual", new normal chat: type the job number | unknown | 14 |
 | 🟠 GPT-6.1 Sol Work mode | ChatGPT, Work mode (press Use Work). Not used for factory jobs now | Sun 4:18 p.m. Eastern | 0 |
 | 🔵 Astra | ChatGPT Work mode (Astra): paste the bundle prompt from handoffs/C2W-*.md | Sun 4:18 p.m. Eastern | 0 |
 | 🟣 Claude threads | Claude project threads and claude.ai/code cloud sessions (no typing by Nik) | Thu 8:00 p.m. Eastern | 0 |
@@ -31,12 +35,12 @@
 
 _Resets live in [LANES.json](LANES.json) (hand-edited; "unknown" means nobody has told the board yet)._
 
-_Estimate only. Method: the longest chain of jobs still to do (16 left) × the median real time per step (Claude jobs 3 min, set by hand in LANES.json from the hard-jobs thread (8 parts in about 15 min); GPT chat jobs 42 min; real gaps from jobs finished in the last 3 days, so they include waiting). Codex job assumed 45 min. It ignores usage limits and resets, so it can only slip, and it does not include Claude's quality check or Nik's own approval._
+_Estimate only. Method: the longest chain of jobs still to do (15 left) × the median real time per step (Claude jobs 3 min, set by hand in LANES.json from the hard-jobs thread (8 parts in about 15 min); GPT chat jobs 42 min; real gaps from jobs finished in the last 3 days, so they include waiting). Codex job assumed 45 min. It ignores usage limits and resets, so it can only slip, and it does not include Claude's quality check or Nik's own approval._
 
 ## 📊 Screens
 
 ```
-Integration    ██████░░░░ 22/38
+Integration    ██████░░░░ 23/38
 ```
 ✅ Finished screens (19): Home, League, Club, Transfer, Loading, Trophy Room, Career Stats, Rivalry, Legacy, Season Results, Final Winner, Start/Join, Standings, Rule Book, Settings, Setup, Foundation, Art, Top bar
 
@@ -282,7 +286,7 @@ Quality bar: average 4.2 or more, nothing under 3. Average so far 4.26 over 74 s
 | 225 | [Full phone pass (part 6 of 7)](jobs/JOB-225.md) | project (type number) | 224 | 100 % | DONE |
 | 226 | [Full phone pass (part 7 of 7)](jobs/JOB-226.md) | project (type number) | 225 | 100 % | DONE |
 | 227 | [Full phone pass: fixes (part 2 of 3)](jobs/JOB-227.md) | project (type number) | 106 | 100 % | DONE |
-| 228 | [Full phone pass: fixes (part 3 of 3)](jobs/JOB-228.md) | project (type number) | 227 | 100 % | IN PROGRESS |
+| 228 | [Full phone pass: fixes (part 3 of 3)](jobs/JOB-228.md) | project (type number) | 227 | 100 % | DONE |
 | 229 | [Motion and sound consistency pass (part 2 of 6)](jobs/JOB-229.md) | project (type number) | 107 | 0 % | NOT STARTED |
 | 230 | [Motion and sound consistency pass (part 3 of 6)](jobs/JOB-230.md) | project (type number) | 229 | 0 % | NOT STARTED |
 | 231 | [Motion and sound consistency pass (part 4 of 6)](jobs/JOB-231.md) | project (type number) | 230 | 0 % | NOT STARTED |
