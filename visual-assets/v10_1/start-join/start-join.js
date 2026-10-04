@@ -4,6 +4,13 @@
 
   const qs = new URLSearchParams(location.search);
   const stage = document.getElementById("stage-root");
+  const SJ_HOST_MOTION = Object.freeze({
+    delayMs: 520,
+    dealMs: 300,
+    glyphMs: 140,
+    ease: "cubic-bezier(.22,1,.36,1)"
+  });
+  let hostingMomentTimer = 0;
 
   async function loadJSON(path) {
     const response = await fetch(path, { cache: "no-store" });
@@ -14,6 +21,70 @@
   function setText(id, value) {
     const el = document.getElementById(id);
     if (el) el.textContent = value == null ? "" : String(value);
+  }
+
+  function motionIsReduced() {
+    if (window.ShowdownMotion && typeof window.ShowdownMotion.isReducedMotion === "function") {
+      return window.ShowdownMotion.isReducedMotion();
+    }
+    return typeof window.matchMedia === "function"
+      && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  }
+
+  function dealHostCode(el, code) {
+    if (!el || !code) return Promise.resolve(false);
+    const finalCode = String(code);
+    el.setAttribute("aria-label", finalCode);
+
+    if (motionIsReduced()) {
+      el.textContent = finalCode;
+      return Promise.resolve(true);
+    }
+
+    const chars = Array.from(finalCode);
+    const travelWindow = Math.max(0, SJ_HOST_MOTION.dealMs - SJ_HOST_MOTION.glyphMs);
+    const step = chars.length > 1 ? travelWindow / (chars.length - 1) : 0;
+    el.replaceChildren();
+    el.classList.add("is-dealing");
+    el.style.setProperty("--sj-host-glyph-ms", SJ_HOST_MOTION.glyphMs + "ms");
+    el.style.setProperty("--sj-host-ease", SJ_HOST_MOTION.ease);
+
+    chars.forEach((char, index) => {
+      const glyph = document.createElement("span");
+      glyph.className = "sj-code-char";
+      glyph.textContent = char;
+      glyph.style.setProperty("--sj-slot-delay", Math.round(index * step) + "ms");
+      el.appendChild(glyph);
+    });
+
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        el.classList.remove("is-dealing");
+        resolve(true);
+      }, SJ_HOST_MOTION.dealMs + 24);
+    });
+  }
+
+  function scheduleHostingMoment(hostCode, paired) {
+    const panel = document.querySelector(".sj-current-panel");
+    const code = document.getElementById("currentPairingCode");
+    window.clearTimeout(hostingMomentTimer);
+    panel.classList.remove("is-host-open");
+
+    if (!hostCode || paired) return;
+    const finalCode = String(hostCode);
+
+    if (motionIsReduced()) {
+      code.textContent = finalCode;
+      panel.classList.add("is-host-open");
+      return;
+    }
+
+    hostingMomentTimer = window.setTimeout(() => {
+      dealHostCode(code, finalCode).then(() => {
+        panel.classList.add("is-host-open");
+      });
+    }, SJ_HOST_MOTION.delayMs);
   }
 
   function addButton(targetId, label) {
@@ -249,6 +320,7 @@
     const codeRow = document.getElementById("currentCodeRow");
     codeRow.hidden = !hostCode;
     setText("currentPairingCode", hostCode);
+    scheduleHostingMoment(hostCode, paired);
     setText("privacyLine", strings.privacy.plain);
     renderStatePresentation(frame);
     renderMainActions(frame, strings);
