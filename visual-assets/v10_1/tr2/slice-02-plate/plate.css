@@ -525,6 +525,15 @@ body { overflow: hidden; font-family: var(--text); -webkit-font-smoothing: antia
     color: #F6C75E;
     -webkit-text-fill-color: #F6C75E;
   }
+  /* Claude intake fix (job 228): the sign-screen (and anything fixed inside it) sits outside the phone crop
+     and under the plane mask, so the clock never showed. Show it at the right end of the status band instead. */
+  .stage[data-phase="WINDOW_OPEN"] .sign-screen.is-live.reg { visibility: hidden; }
+  .stage[data-phase="WINDOW_OPEN"] .sign-status.reg[data-clock]::after {
+    content: attr(data-clock);
+    position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+    font-size: 15px; letter-spacing: .04em; line-height: 1; color: #F6C75E;
+    font-variant-numeric: tabular-nums; text-shadow: 0 0 4px rgba(255, 186, 64, .52);
+  }
 
   /* 2 · rules: a caption under the status, not a card */
   .rules-card { order: 1; flex: none; position: relative; }

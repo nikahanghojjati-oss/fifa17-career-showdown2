@@ -917,6 +917,9 @@
     // Demo clock. Production owns the real value (server-authoritative; SYNC / 00:00 states).
     // The small hand is decorative only and ticks once per displayed second.
     var timer = stage.querySelector("#transferTimerDisplay"), tick = null;
+    // Phone shows the clock in the status band (CSS ::after reads data-clock); the sign-screen sits off the phone crop.
+    var statusEl = stage.querySelector("#transferPhaseStatus");
+    if (statusEl && cfg.phase === "WINDOW_OPEN") statusEl.setAttribute("data-clock", fmtClock(cfg.timerSeconds));
     if (cfg.phase === "WINDOW_OPEN" && !opts.freeze) {
       var timerText = timer && timer.querySelector(".timer-text");
       var timerHand = timer && timer.querySelector(".timer-hand");
@@ -925,6 +928,7 @@
         var remaining = Math.max(0, start - (Date.now() - t0) / 1000);
         var whole = Math.floor(remaining);
         if (timerText) timerText.textContent = fmtClock(whole);
+        if (statusEl) statusEl.setAttribute("data-clock", fmtClock(whole));
         if (whole !== lastWhole) {
           setClockHand(timerHand, whole, true);
           lastWhole = whole;
