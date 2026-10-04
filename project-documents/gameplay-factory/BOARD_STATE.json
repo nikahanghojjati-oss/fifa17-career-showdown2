@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-04 6:24 PM Boston time (EDT)",
+ "generated": "2026-10-04 6:25 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 23,
@@ -244,7 +244,7 @@
   "chat": 2,
   "work": 1
  },
- "overall": 64,
+ "overall": 65,
  "done": 20,
  "total": 33,
  "start": {
@@ -911,9 +911,9 @@
    "type": "build",
    "plain": "Same pattern as job 13 on the real career model; un-hides the last two Statistics buttons. Sol 6.1 Work mode, High; starts from job 24's branch; the lead checks each screen in a browser and merges.",
    "state": "IN PROGRESS",
-   "step": 2,
+   "step": 3,
    "steps_total": 5,
-   "pct": 40,
+   "pct": 60,
    "ready": false
   },
   {
