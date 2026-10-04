@@ -21,9 +21,40 @@
       <div class="showcase-meta" aria-label="Showcase coverage">
         <span><strong id="screen-count">15</strong> screens</span>
         <span><strong id="frame-count">110</strong> frames</span>
-        <span>Part 4 of 5</span>
+        <span>Part 5 of 5</span>
       </div>
     </header>
+
+    <section class="showcase-modebar sd-panel" aria-label="Preview mode">
+      <div>
+        <p class="showcase-card__kicker">Preview mode</p>
+        <p class="showcase-modebar__copy">Open a frame full size, or keep browsing here inside the exact 393 × 660 phone viewport.</p>
+      </div>
+      <button id="phone-toggle" class="showcase-phone-toggle" type="button" aria-pressed="false" aria-controls="phone-preview">
+        <span>Phone preview</span>
+        <strong>393 × 660</strong>
+      </button>
+    </section>
+
+    <section id="phone-preview" class="showcase-phone sd-panel" aria-labelledby="phone-preview-title" hidden>
+      <header class="showcase-phone__head">
+        <div>
+          <p class="showcase-card__kicker">Exact phone viewport</p>
+          <h2 id="phone-preview-title">Choose a frame</h2>
+        </div>
+        <a id="phone-open" class="showcase-phone__open" href="./index.html">Open full size</a>
+      </header>
+      <div class="showcase-phone__stage">
+        <iframe
+          id="phone-frame"
+          class="showcase-phone__frame"
+          title="Showdown phone preview"
+          width="393"
+          height="660"
+          loading="eager"
+        ></iframe>
+      </div>
+    </section>
 
     <section class="showcase-grid" aria-label="Showdown screen routes">
       <article class="sd-panel showcase-card" data-screen-id="home">
