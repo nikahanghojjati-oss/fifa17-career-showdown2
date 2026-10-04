@@ -607,3 +607,46 @@ html[data-reduced-motion="true"] #onlinePlayerIdentityBadge {
    Pull each mark + name inward so the whole mark sits inside the rim's inner edge. */
 .wheelItem { transform: rotate(var(--a)) translateY(calc(var(--R) * -.72)); }
 .wheelItem::before { width: calc(var(--R) * 56 / 240); height: calc(var(--R) * 56 / 240); }
+
+/* CC-008 A2 · Nik's review: the SELECT LEAGUE title sat on both managers' hair and the wheel on their chins.
+   Heads start below the title; the wheel is anchored a clear gap below the chins; BACK + SPIN share one row
+   so the wheel (and the state note) use the empty band that was left above the buttons. */
+@media (max-width: 760px) {
+  .stage[data-mode="phone"] {
+    --phone-person-top: calc(max(8px, env(safe-area-inset-top)) + 84px);
+    --phone-person-h: 51svh;
+    --phone-chin: calc(var(--phone-person-top) + var(--phone-person-h) * .42);
+    --phone-wheel-y: calc(var(--phone-chin) + 24px + (var(--phone-wheel) + 26px) / 2);
+    --phone-dock-core: var(--phone-primary-h);
+  }
+  .stage[data-mode="phone"] .phone-hero-person {
+    top: var(--phone-person-top);
+    height: var(--phone-person-h);
+  }
+  .stage[data-mode="phone"] .button-row {
+    flex-direction: row;
+    align-items: stretch;
+  }
+  .stage[data-mode="phone"] .backButton {
+    height: var(--phone-primary-h);
+    flex: 0 0 96px;
+    align-self: stretch;
+  }
+  .stage[data-mode="phone"] .menuButton {
+    width: auto;
+    min-width: 0;
+    flex: 1 1 auto;
+    gap: 8px;
+    padding-inline: 10px;
+    font-size: 15px;
+    line-height: 1.05;
+    text-align: center;
+    white-space: normal;
+  }
+}
+@media (max-width: 760px) and (max-height: 600px) {
+  .stage[data-mode="phone"] {
+    --phone-person-h: 40svh;
+    --phone-wheel: 196px;
+  }
+}

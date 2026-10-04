@@ -572,7 +572,9 @@
     stage.dataset.contactOverlap = (R - Math.hypot(finger.x - wheelCx, finger.y - cy)).toFixed(1);
     stage.dataset.phoneWheelD = String(Math.round(2 * R));
     stage.dataset.flow = String(flow);
-    setPageScroll(flow ? btnTop + rowH + 12 : null);
+    // CC-008 A2: the CSS phone composition (job 112) pins the dock to the viewport bottom, so the legacy
+    // plate-band flow must never make the page scroll.
+    setPageScroll(null);
     const sc = q(".scene"), st = q(".scene-top");
     placeScene(sc, 0, bandTop, W, bandBottom - bandTop); placeScene(st, 0, bandTop, W, bandBottom - bandTop);
     const fade = "linear-gradient(to bottom, #000 calc(100% - 28px), transparent)";
