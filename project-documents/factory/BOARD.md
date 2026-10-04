@@ -8,11 +8,11 @@
 
 **Where to run:** 🟡 **project job** = new chat in the ChatGPT project "Showdown visual", type the number; one number is one turn (no Continue), and a job in parts shows its later parts only when the earlier part is done. 🟣 **image job** = its ticket in a ChatGPT **Temporary Chat** outside any project, then drop the picture in Claude's factory thread.
 
-🟡 **Type next:** 103
+🟡 **Type next:** -
 
 🟣 **Image next:** -
 
-**Working:** 216, 217, 218, 219, 220 · **Blocked:** -
+**Working:** 103, 216, 217, 218, 219, 220 · **Blocked:** -
 
 ## Screens
 
@@ -51,13 +51,13 @@ Branch `factory/v1-wtt5ye`. 238 Team V jobs, plus 5 lines that track Team G. Two
 
 **Overall (Team V):** ████████░░ 84 % · 200 of 238 jobs done
 
-**Start now · project (type the number in Showdown visual):** 103
+**Start now · project (type the number in Showdown visual):** nothing (all slots busy or nothing ready)
 
 **Start now · fresh chat (image ticket, outside the project):** -
 
 **Start now (Sol Work mode, press Use Work):** -
 
-**Working:** 216, 217, 218, 219, 220 · **Blocked:** -
+**Working:** 103, 216, 217, 218, 219, 220 · **Blocked:** -
 
 **Team G tracking (never start these):** 98 (done), 99 (done), 100 (done), 101 (done), 102 (done). Claude marks them done when Team G delivers.
 
@@ -166,7 +166,7 @@ Branch `factory/v1-wtt5ye`. 238 Team V jobs, plus 5 lines that track Team G. Two
 | 100 | [Team G G-8: completed-Showdown reader](jobs/JOB-100.md) | 6 Online history | tracking | team-g | 99 | ██████████ 100 % | DONE |  |
 | 101 | [Team G G-9 and G-10: Trophy Room standings and records, transfer history](jobs/JOB-101.md) | 6 Online history | tracking | team-g | 100 | ██████████ 100 % | DONE |  |
 | 102 | [Team G G-5, G-6 and G-11: active adapter, nav lock fields, model-true fixtures](jobs/JOB-102.md) | 6 Online history | tracking | team-g | 98 | ██████████ 100 % | DONE |  |
-| 103 | [Showcase: every screen in one place (part 1 of 5)](jobs/JOB-103.md) | 7 Integration | integrate | project (type number) | 36, 42, 48, 146, 56, 61, 153, 162, 171, 180, 184, 193, 94, 196, 199 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
+| 103 | [Showcase: every screen in one place (part 1 of 5)](jobs/JOB-103.md) | 7 Integration | integrate | project (type number) | 36, 42, 48, 146, 56, 61, 153, 162, 171, 180, 184, 193, 94, 196, 199 | ██████████ 100 % | IN PROGRESS |  |
 | 104 | [Showcase: screens read Team G's model-true fixtures (part 1 of 8)](jobs/JOB-104.md) | 7 Integration | integrate | project (type number) | 213, 102 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 105 | [Full phone pass (part 1 of 7)](jobs/JOB-105.md) | 7 Integration | review | project (type number) | 220 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 106 | [Full phone pass: fixes (part 1 of 3)](jobs/JOB-106.md) | 7 Integration | fix | project (type number) | 226 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
