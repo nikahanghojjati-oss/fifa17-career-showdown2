@@ -1,0 +1,7 @@
+/* JOB-28: existing shell owns navigation space; screen art fills the remaining viewport. */
+#legacy[data-rivalry-legacy-v10], #statistics[data-rivalry-legacy-v10] { padding:0; margin:0; border:0; max-width:none; }
+#legacy[data-rivalry-legacy-v10] .legacyTopbar { display:none; }
+#statistics[data-rivalry-legacy-v10] .rv-shell { max-width:none; padding:0; }
+@media(min-width:901px) {
+  #legacy[data-rivalry-legacy-v10] #stage-root, #statistics[data-rivalry-legacy-v10] .rv-stage { height:calc(100dvh - 52px); min-height:0; }
+}
