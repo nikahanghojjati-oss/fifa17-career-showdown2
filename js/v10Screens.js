@@ -221,6 +221,14 @@
     root.SDNav.set({active:state.active,locked:state.locked,reason:state.reason});
     vsSetNavMode(state.mode);
   }
+  // The app already has a banner (#topHeader), so the bar's top <header> must not be a second one: it becomes
+  // a plain container and its inner <nav aria-label="Primary"> stays the navigation landmark. Team V's file is unchanged.
+  function vsLandmarks(){
+    const top=vsDoc().querySelector(".sd-nav-top");
+    if(!top)return;
+    top.setAttribute("role","none");
+    top.removeAttribute("aria-label");
+  }
   function vsGo(key){
     Promise.resolve().then(()=>vsNavigate(key,root)).catch(error=>vsReport(`Unable to open ${key}`,error));
   }
@@ -232,6 +240,7 @@
       await Promise.all(css);
       const state=vsNavFor(vsActiveScreen(),vsLoadingVisible());
       root.SDNav.mount({nav:{active:state.active,locked:state.locked,reason:state.reason},routes:ROUTES,onNavigate:vsGo,adopt:false,bottomHost:"body"});
+      vsLandmarks();
       navMounted=true;
       vsPaintNav(vsActiveScreen());
       vsSyncStyles();

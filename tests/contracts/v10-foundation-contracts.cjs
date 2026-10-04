@@ -266,6 +266,11 @@ check("F5 the bar has five tabs and the gear; routes call the app's own navigati
   assert.deepEqual(bottom.querySelectorAll("[data-nav-key]").map(b=>b.dataset.navKey),["home","career","standings","stats","rules"]);
   assert.ok(root.document.body.children.some(el=>el.classList.contains("sd-nav-corner")),"phone gear");
   assert.equal(root.document.getElementById("topHeader").classList.contains("sd-nav"),false,"the app header is not adopted");
+  assert.equal(top.getAttribute("role"),"none","the bar is not a second banner next to #topHeader");
+  assert.equal(top.getAttribute("aria-label"),null);
+  const tabsRow=top.querySelector(".sd-nav-tabs");
+  assert.equal(tabsRow.tagName,"NAV");
+  assert.equal(tabsRow.getAttribute("aria-label"),"Primary","the tabs stay one navigation landmark");
   const expectRoute=async(key,setup,expected)=>{
     root.showScreen("mainMenu");setup();await flush();root.calls.length=0;
     await tap(root,key);
