@@ -580,3 +580,8 @@ html[data-reduced-motion="true"] .ruleBookHero[data-sd-enter="title"]::after {
   .ruleBookHero .sd-eyebrow { margin-bottom: 0; }
   .ruleBookWordmark { width: 84%; margin: 0 auto; }
 }
+/* CC-008 B7: on 1366x768 two sections, and on 1366x640 all six, cut their last rule lines (overflow hidden).
+   Let a section scroll inside its own panel rather than hide a rule. */
+@media (min-width: 761px) {
+  .ruleSection { overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; scrollbar-color: rgba(242,196,91,.55) transparent; }
+}
