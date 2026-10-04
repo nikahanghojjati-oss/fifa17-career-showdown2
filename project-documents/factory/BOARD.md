@@ -1,26 +1,22 @@
 # 🏭 Showdown Factory board
 
-**225 of 238 jobs done and checked · 94 %** · updated Sun 3:24 p.m. Eastern
+**226 of 238 jobs done and checked · 95 %** · updated Sun 3:28 p.m. Eastern
 
 <img src="board-meter.svg" alt="Football progress meter" width="640">
 
-⏱ **Estimated finish: Sun 10:01 p.m. Eastern** (about 6 h 37 min from now at today's pace)
+⏱ **Estimated finish: Sun 10:06 p.m. Eastern** (about 6 h 37 min from now at today's pace)
 
 ## 🔴 Now
 
-- Nothing running.
+- **231** Motion and sound consistency pass (4/6) · In progress · step 1/1 · type the number in a new chat in project Showdown visual
 
 ## 🟢 Next (start these)
 
-- **231** Motion and sound consistency pass (4/6) · type the number in a new chat in project Showdown visual
+- Nothing ready right now.
 
 ## ⚪ Then
 
 - **232** Motion and sound consistency pass (5/6) · after 231 · type the number in a new chat in project Showdown visual
-
-## ⚠️ Needs attention
-
-- Waiting for Claude's check: 230
 
 ## 🧰 Where to type and when it resets
 
@@ -40,7 +36,7 @@ _Estimate only. Method: the longest chain of jobs still to do (12 left) × the m
 ## 📊 Screens
 
 ```
-Integration    ██████░░░░ 26/38
+Integration    ███████░░░ 26/38
 ```
 ✅ Finished screens (19): Home, League, Club, Transfer, Loading, Trophy Room, Career Stats, Rivalry, Legacy, Season Results, Final Winner, Start/Join, Standings, Rule Book, Settings, Setup, Foundation, Art, Top bar
 
@@ -289,7 +285,7 @@ Quality bar: average 4.2 or more, nothing under 3. Average so far 4.26 over 75 s
 | 228 | [Full phone pass: fixes (part 3 of 3)](jobs/JOB-228.md) | project (type number) | 227 | 100 % | DONE |
 | 229 | [Motion and sound consistency pass (part 2 of 6)](jobs/JOB-229.md) | project (type number) | 107 | 100 % | DONE |
 | 230 | [Motion and sound consistency pass (part 3 of 6)](jobs/JOB-230.md) | project (type number) | 229 | 100 % | DONE |
-| 231 | [Motion and sound consistency pass (part 4 of 6)](jobs/JOB-231.md) | project (type number) | 230 | 0 % | NOT STARTED |
+| 231 | [Motion and sound consistency pass (part 4 of 6)](jobs/JOB-231.md) | project (type number) | 230 | 100 % | IN PROGRESS |
 | 232 | [Motion and sound consistency pass (part 5 of 6)](jobs/JOB-232.md) | project (type number) | 231 | 0 % | NOT STARTED |
 | 233 | [Motion and sound consistency pass (part 6 of 6)](jobs/JOB-233.md) | project (type number) | 232 | 0 % | NOT STARTED |
 | 234 | [Final fixes (part 2 of 3)](jobs/JOB-234.md) | project (type number) | 109 | 0 % | NOT STARTED |
