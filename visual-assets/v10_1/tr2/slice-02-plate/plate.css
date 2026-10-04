@@ -60,8 +60,25 @@ body { overflow: hidden; font-family: var(--text); -webkit-font-smoothing: antia
 }
 .sign-main.closed { opacity: 0.94; }
 .sign-main.timer {
+  position: relative;
   font-size: calc(var(--k) * 28px); line-height: 1; letter-spacing: 0.06em; font-variant-numeric: tabular-nums;
   filter: drop-shadow(0 0 calc(var(--k) * 7px) rgba(255, 186, 64, 0.62));
+}
+.timer-text { display: inline-block; }
+.timer-clock {
+  position: absolute; right: calc(var(--k) * -18px); top: 50%;
+  width: calc(var(--k) * 13px); height: calc(var(--k) * 13px);
+  transform: translateY(-50%); border: max(1px, calc(var(--k) * 1px)) solid rgba(255, 211, 77, .72);
+  border-radius: 50%; box-shadow: 0 0 calc(var(--k) * 7px) rgba(255, 196, 80, .32);
+  opacity: .82; pointer-events: none;
+  -webkit-text-fill-color: initial;
+}
+.timer-hand {
+  position: absolute; left: 50%; top: 50%; width: max(1px, calc(var(--k) * 1.2px)); height: 38%;
+  transform-origin: 50% 100%; transform: translate(-50%, -100%) rotate(0deg);
+  background: #FFD34D; border-radius: 999px; opacity: .72;
+  box-shadow: 0 0 calc(var(--k) * 5px) rgba(255, 211, 77, .72);
+  will-change: transform, opacity;
 }
 .sign-status {
   margin: 0; display: flex; flex-direction: column; align-items: center; justify-content: flex-end;
@@ -415,6 +432,9 @@ body { overflow: hidden; font-family: var(--text); -webkit-font-smoothing: antia
     line-height: 1;
     letter-spacing: .04em;
     filter: drop-shadow(0 0 4px rgba(255, 186, 64, .52));
+  }
+  .stage[data-phase="WINDOW_OPEN"] .timer-clock {
+    right: -9px; width: 10px; height: 10px; border-width: 1px; box-shadow: 0 0 4px rgba(255,196,80,.30);
   }
 
   /* 2 · rules: a caption under the status, not a card */
