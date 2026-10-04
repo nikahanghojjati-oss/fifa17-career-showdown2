@@ -49,7 +49,35 @@ There is no dedicated Rule Book mockup. System decisions therefore follow the fa
 | 5 Typography and title | 5/5 | Shared eyebrow/tagline/type system plus Rule Book brush wordmark and hidden H1. |
 | 6 Panel craft | 4/5 | Gold-edged section cards, number badges, index chips and hero scoring treatment. |
 | 7 Information clarity and honesty | 4/5 | Six exact product-rule sections, exact scoring maximum, explicit preview state, one real action. |
+| 8 Motion and feel | 5/5 | Shared pack-rip entrance gives the brush title a wipe/glint, raises six rule panels at a 60 ms stagger, pays off Back last, stays inside 1.2 s, and reduces to a 150 ms fade. |
 | 10 Polish and finish | 4/5 | Shared tokens/UI/stage/motion linked, focus treatment present, no debug or placeholder copy. |
+
+## Fix round
+
+- Fix item 1 DONE: the 01–06 section index is decorative display markup only. The generated chips are non-focusable `span.ruleBookIndexChip` elements with no `href`, `aria-controls`, tab stop, click handler or keyboard handler.
+- `#ruleBookBack` remains the only Rule Book product action.
+- No fix items are blocked.
+
+## Motion
+
+The Rule Book uses the shared `sdEnter(root)` choreography after fixture-driven sections exist. It animates only transform and opacity; it does not move layout dimensions, grid tracks, margins, padding or font sizes.
+
+| Element | Delay | Duration | Easing |
+| --- | ---: | ---: | --- |
+| Brush title wipe | 250 ms | 450 ms | `cubic-bezier(.22,1,.36,1)` |
+| Title metallic glint | 640 ms | 420 ms | `cubic-bezier(.22,1,.36,1)` |
+| Rule panel 1 | 400 ms | 500 ms | `cubic-bezier(.22,1,.36,1)` |
+| Rule panel 2 | 460 ms | 500 ms | `cubic-bezier(.22,1,.36,1)` |
+| Rule panel 3 | 520 ms | 500 ms | `cubic-bezier(.22,1,.36,1)` |
+| Rule panel 4 | 580 ms | 500 ms | `cubic-bezier(.22,1,.36,1)` |
+| Rule panel 5 | 640 ms | 500 ms | `cubic-bezier(.22,1,.36,1)` |
+| Rule panel 6 | 700 ms | 500 ms | `cubic-bezier(.22,1,.36,1)` |
+| Back payoff pulse | 760 ms | 320 ms | `cubic-bezier(.22,1,.36,1)` |
+| Reduced-motion entrance | 0 ms | 150 ms | `linear` |
+
+The sixth panel ends at 1.2 s, exactly at the shared cleanup budget; Back finishes at 1.08 s. Both native `prefers-reduced-motion: reduce` and the app dataset preference paths suppress wipe, glint and pulse movement and use the short fade instead.
+
+Criterion 8 self-score: 5/5. The applicable Rule Book elements follow the shared choreography, the 60 ms stagger sits inside the 40–80 ms target, the total entrance is capped at 1.2 s, the screen remains usable while motion runs, and reduced motion is fade-only.
 
 ## Estimated first-paint weight
 
