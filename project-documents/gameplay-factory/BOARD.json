@@ -374,6 +374,21 @@
    "phase": "1 Safety net",
    "type": "fix",
    "plain": "When both players press acknowledge at the same moment, the second one is retried instead of showing a permission error."
+  },
+  {
+   "number": 21,
+   "key": "G-2g",
+   "title": "Same-moment taps retry quietly (bug hunt 1)",
+   "lane": "lead",
+   "depends_on": [],
+   "steps": 3,
+   "code_branch": "gameplay/job-21-tap-races",
+   "codex_review": false,
+   "written": true,
+   "waits_on": null,
+   "phase": "1 Safety net",
+   "type": "fix",
+   "plain": "When both players tap START, a lock button, early end or Setup confirm at the same moment, or the transfer timer hits 0:00 on both phones, the slower phone retries once instead of showing an error."
   }
  ],
  "bug_hunt": [
@@ -384,16 +399,16 @@
    "likelihood": "likely",
    "status": "IN PROGRESS",
    "owner": "lead",
-   "note": "job 21, PR #344: retry once quietly"
+   "note": "job 21, PR #344: retry once quietly (checks running)"
   },
   {
    "id": "BH-2",
    "title": "A tied season is decided by league position",
    "plain": "Code and old notes disagree on equal non-zero scores.",
    "likelihood": "likely",
-   "status": "DECIDED",
+   "status": "DONE",
    "owner": "lead",
-   "note": "Nik chose league position; fix the notes and docs that say draw"
+   "note": "Nik chose league position; docs fixed in PR #343 (merged)"
   },
   {
    "id": "BH-3",
@@ -408,8 +423,9 @@
    "title": "Lock buttons have no confirm",
    "plain": "One stray tap on LOCK MY GUESSES or LOCK MY SIGNINGS locks an empty list for the season; the helpful error text is hidden behind a code.",
    "likelihood": "medium-low",
-   "status": "TO PLAN WITH LEAD",
-   "owner": "lead"
+   "status": "PART DONE",
+   "owner": "lead",
+   "note": "job 21 shows the helpful error text and caps names at 80; the confirm step is still to plan"
   },
   {
    "id": "BH-5",
@@ -421,8 +437,8 @@
   }
  ],
  "bug_hunt_extras": [
-  "stale 'scoring remains locked' text after season commit",
-  "hard-coded Daniel/Nik name fallbacks",
-  "raw error codes in the Setup settle text"
+  "DONE in job 21: 'scoring remains locked' text now says SEASON COMMITTED · SCORE BELOW",
+  "NOT A BUG: Daniel/Nik fallbacks match the fixed roles (Daniel = Player One, Nik = Player Two)",
+  "OPEN: raw error codes in the Setup settle text"
  ]
 }
