@@ -4,6 +4,11 @@
   const status = document.getElementById("route-status");
   const screenCount = document.getElementById("screen-count");
   const frameCount = document.getElementById("frame-count");
+  const phoneToggle = document.getElementById("phone-toggle");
+  const phonePreview = document.getElementById("phone-preview");
+  const phoneFrame = document.getElementById("phone-frame");
+  const phoneTitle = document.getElementById("phone-preview-title");
+  const phoneOpen = document.getElementById("phone-open");
 
   function getScreen(manifest, id) {
     return (manifest.screens || []).find((screen) => screen.id === id) || null;
@@ -38,6 +43,8 @@
 
   function routeQuery(manifest) {
     const params = new URLSearchParams(window.location.search);
+    if (params.get("phone") === "1") return false;
+
     const screenId = params.get("screen");
     if (!screenId) return false;
 
@@ -59,6 +66,126 @@
     });
     window.location.replace(target.href);
     return true;
+  }
+
+  function getPhoneSelection(manifest, params = new URLSearchParams(window.location.search)) {
+    const screen = getScreen(manifest, params.get("screen"));
+    if (!screen) return null;
+
+    const frames = Array.isArray(screen.frames) ? screen.frames : [];
+    const requested = params.get("frame");
+    const frame = frames.some((item) => item.id === requested)
+      ? requested
+      : (frames[0] && frames[0].id);
+
+    return frame ? { screen: screen.id, frame } : null;
+  }
+
+  function defaultPhoneSelection(manifest) {
+    const screen = (manifest.screens || []).find((item) => Array.isArray(item.frames) && item.frames.length);
+    return screen ? { screen: screen.id, frame: screen.frames[0].id } : null;
+  }
+
+  function writePhoneQuery(selection, replace = false) {
+    const url = new URL(window.location.href);
+    url.searchParams.set("screen", selection.screen);
+    url.searchParams.set("frame", selection.frame);
+    url.searchParams.set("phone", "1");
+    window.history[replace ? "replaceState" : "pushState"]({}, "", url.href);
+  }
+
+  function clearPhoneQuery() {
+    const url = new URL(window.location.href);
+    url.searchParams.delete("phone");
+    url.searchParams.delete("screen");
+    url.searchParams.delete("frame");
+    window.history.pushState({}, "", url.href);
+  }
+
+  function paintPhonePreview(manifest, selection) {
+    if (!phoneToggle || !phonePreview || !phoneFrame || !phoneTitle || !phoneOpen || !selection) return;
+
+    const target = resolveDestination(manifest, selection);
+    const screen = getScreen(manifest, selection.screen);
+    const frame = screen && (screen.frames || []).find((item) => item.id === selection.frame);
+    const screenLabel = (screen && (screen.label || screen.title || screen.name)) || selection.screen;
+    const frameLabel = (frame && (frame.label || frame.title || frame.name)) || selection.frame;
+
+    phoneToggle.setAttribute("aria-pressed", "true");
+    phonePreview.hidden = false;
+    phoneTitle.textContent = `${screenLabel} · ${frameLabel}`;
+    phoneOpen.href = target.href;
+
+    if (phoneFrame.src !== target.href) {
+      phoneFrame.src = target.href;
+    }
+  }
+
+  function disablePhonePreview() {
+    if (phoneToggle) phoneToggle.setAttribute("aria-pressed", "false");
+    if (phonePreview) phonePreview.hidden = true;
+    if (phoneFrame) phoneFrame.removeAttribute("src");
+  }
+
+  function setupPhonePreview(manifest) {
+    if (!phoneToggle || !phonePreview || !phoneFrame) return;
+
+    let selection = getPhoneSelection(manifest);
+    const initialPhoneMode = new URLSearchParams(window.location.search).get("phone") === "1";
+
+    if (initialPhoneMode) {
+      selection = selection || defaultPhoneSelection(manifest);
+      if (selection) {
+        writePhoneQuery(selection, true);
+        paintPhonePreview(manifest, selection);
+      }
+    }
+
+    phoneToggle.addEventListener("click", () => {
+      const enabled = phoneToggle.getAttribute("aria-pressed") === "true";
+      if (enabled) {
+        disablePhonePreview();
+        clearPhoneQuery();
+        return;
+      }
+
+      selection = selection || defaultPhoneSelection(manifest);
+      if (!selection) return;
+      writePhoneQuery(selection);
+      paintPhonePreview(manifest, selection);
+    });
+
+    document.addEventListener("click", (event) => {
+      if (phoneToggle.getAttribute("aria-pressed") !== "true") return;
+      if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+
+      const link = event.target.closest(".showcase-links a");
+      if (!link) return;
+
+      const card = link.closest("[data-screen-id]");
+      const screen = card && getScreen(manifest, card.dataset.screenId);
+      if (!screen) return;
+
+      const frameId = new URL(link.href, window.location.href).searchParams.get("frame");
+      if (!(screen.frames || []).some((item) => item.id === frameId)) return;
+
+      event.preventDefault();
+      selection = { screen: screen.id, frame: frameId };
+      writePhoneQuery(selection);
+      paintPhonePreview(manifest, selection);
+      phonePreview.scrollIntoView({ block: "start", behavior: "smooth" });
+    });
+
+    window.addEventListener("popstate", () => {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get("phone") !== "1") {
+        disablePhonePreview();
+        return;
+      }
+
+      selection = getPhoneSelection(manifest, params) || defaultPhoneSelection(manifest);
+      if (selection) paintPhonePreview(manifest, selection);
+    });
   }
 
   function validateDeck(manifest) {
@@ -120,7 +247,10 @@
         }
       });
 
-      if (!routeQuery(manifest)) validateDeck(manifest);
+      if (!routeQuery(manifest)) {
+        validateDeck(manifest);
+        setupPhonePreview(manifest);
+      }
     })
     .catch(() => {
       if (status) status.textContent = "Static routes ready";
