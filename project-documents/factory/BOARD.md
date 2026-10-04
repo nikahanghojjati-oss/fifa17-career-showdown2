@@ -1,18 +1,18 @@
 # 🏭 Showdown Factory board
 
-**231 of 238 jobs done and checked · 97 %** · updated Sun 3:50 p.m. Eastern
+**231 of 238 jobs done and checked · 97 %** · updated Sun 3:53 p.m. Eastern
 
 <img src="board-meter.svg" alt="Football progress meter" width="640">
 
-⏱ **Estimated finish: Sun 7:42 p.m. Eastern** (about 3 h 51 min from now at today's pace)
+⏱ **Estimated finish: Sun 7:45 p.m. Eastern** (about 3 h 51 min from now at today's pace)
 
 ## 🔴 Now
 
-- Nothing running.
+- **108** Final package review (Codex) · Claude · step 0/5 · Codex: paste the job file
 
 ## 🟢 Next (start these)
 
-- **108** Final package review (Codex) · Codex: paste the job file
+- Nothing ready right now.
 
 ## ⚪ Then
 
@@ -162,7 +162,7 @@ Quality bar: average 4.2 or more, nothing under 3. Average so far 4.26 over 76 s
 | 105 | [Full phone pass (part 1 of 7)](jobs/JOB-105.md) | project (type number) | 220 | 100 % | DONE |
 | 106 | [Full phone pass: fixes (part 1 of 3)](jobs/JOB-106.md) | project (type number) | 226 | 100 % | DONE |
 | 107 | [Motion and sound consistency pass (part 1 of 6)](jobs/JOB-107.md) | project (type number) | 228 | 100 % | DONE |
-| 108 | [Final package review (Codex)](jobs/JOB-108.md) | codex | 233 | 0 % | NOT STARTED |
+| 108 | [Final package review (Codex)](jobs/JOB-108.md) | codex | 233 | 0 % | IN PROGRESS · CLAUDE |
 | 109 | [Final fixes (part 1 of 3)](jobs/JOB-109.md) | project (type number) | 108 | 0 % | NOT STARTED |
 | 110 | [Package for Nik and handoff to GPT-5.6 Sol (part 1 of 5)](jobs/JOB-110.md) | project (type number) | 235 | 0 % | NOT STARTED |
 | 111 | [Phone art: Home](jobs/JOB-111.md) | project (type number) | 14, 1 | 100 % | DONE |
