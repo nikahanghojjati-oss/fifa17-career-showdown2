@@ -2,6 +2,8 @@
 
 ## Verdict
 
+FAIL — static-review average is **3.33 / 5.00**, below the required 4.2. H1–H4 pass from code/truth reading; H5–H11 remain `NOT MEASURED (Claude measures)`, so they are not treated as failures or fix items, but the review still cannot satisfy the requirement that every hard gate pass until Claude supplies those measurements.
+
 ## Scorecard
 
 | Criterion | Score | Evidence |
@@ -96,3 +98,8 @@ Static-review average: **3.33 / 5.00** across criteria 1–7, 9 and 10. No score
 - FINDING · Trophy summary labels bypass fixtures — `final-winner.js trophyLine()` / `#danielTrophies`, `#nikTrophies`: `Continental`, `League`, `Domestic cup`, `Total` and `unavailable` are hard-coded in JS rather than sourced from fixtures. Even if this line is assistive/supporting copy, it is visible-text logic outside the fixture authority and should be centralized.
 
 ## Fix list
+
+1. `visual-assets/v10_1/final-winner/final-winner.js` · `fetch("fixtures.json").catch()` / `#finalWinnerMessage`: remove raw `error.message` from visible UI. Target: show the same safe unavailable-state product copy as the fixture-authored unavailable frame, with no request/exception text exposed to the player.
+2. `visual-assets/v10_1/final-winner/final-winner.js` · `trophyLine()` / `#danielTrophies`, `#nikTrophies`: remove the literal summary labels `Continental`, `League`, `Domestic cup`, `Total`, and `unavailable` from JS and source those labels from fixture-owned copy. Target: trophy summary wording has one fixture authority and JS contains no user-facing trophy-label literals.
+
+Claude-only H5–H11 measurements are intentionally not fix items.
