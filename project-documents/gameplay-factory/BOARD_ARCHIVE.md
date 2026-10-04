@@ -1,6 +1,6 @@
 # Team G gameplay board: all jobs
 
-[Back to the board](BOARD.md) · generated 2026-10-04 1:39 PM Boston time (EDT)
+[Back to the board](BOARD.md) · generated 2026-10-04 2:13 PM Boston time (EDT)
 
 | # | G id | Job | Phase | Type | Lane | Depends on | Codex | Progress | State |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -20,7 +20,7 @@
 | 8 | G-8 | [Completed-only read grant + session-free reader](jobs/JOB-08.md) | 3 Career history | rules | work | 7 | yes | ██████████ 100 % | DONE |
 | 9 | G-9 | [Closed-Showdown adapter into the career model](jobs/JOB-09.md) | 3 Career history | build | work | 3, 8 |  | ██████████ 100 % | DONE |
 | 10 | G-10 | [Transfer history, completed only](jobs/JOB-10.md) | 3 Career history | rules | work | 8 | yes | ██████████ 100 % | DONE |
-| 13 | G-13 | [Part 1: Trophy Room and Career Statistics on the real career model](jobs/JOB-13.md) | 4 Ship | build | work | 4, 5, 6, 9 |  | ██████████ 100 % | DONE |
+| 13 | G-13 | [Part 1: Trophy Room and Career Statistics on the real career model](jobs/JOB-13.md) | MERGED | build | work | 4, 5, 6, 9 |  | ██████████ 100 % | MERGED |
 | 14 | G-14 | Acceptance: directive §12 and Sol's 8 proofs on the emulator | 4 Ship | test | work | 13 |  | ░░░░░░░░░░ 0 % | NOT WRITTEN |
 | 15 | G-15 | One real two-device run with Nik | 4 Ship | nik | nik | 14 |  | ░░░░░░░░░░ 0 % | NOT WRITTEN |
 | 18 | G-2d | [Nik's pair code survives the pair-panel re-render](jobs/JOB-18.md) | 1 Safety net | build | chat | - |  | ██████████ 100 % | DONE |

@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-04 1:39 PM Boston time (EDT)",
+ "generated": "2026-10-04 2:13 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 18,
@@ -210,7 +210,7 @@
   "work": 1
  },
  "overall": 91,
- "done": 21,
+ "done": 20,
  "total": 23,
  "start": {
   "chat": [],
@@ -632,11 +632,11 @@
    "code_branch": "gameplay/job-13-career-screens",
    "codex_review": false,
    "written": true,
-   "waits_on": null,
-   "phase": "4 Ship",
+   "waits_on": "",
+   "phase": "MERGED",
    "type": "build",
-   "plain": "Career Statistics and a Trophy Room button come back, drawn in Team V's new style and filled from your real career. Legacy and Rivalry Statistics wait for part 2 and Nik's approval of the full visual package.",
-   "state": "DONE",
+   "plain": "Part 1 merged into recovery (PR #347, 86111ca): Trophy Room and Career Statistics show Team V's screens on the real career model. Legacy and Rivalry Statistics stay hidden for part 2. Not live until Nik approves Team V's full package.",
+   "state": "MERGED",
    "step": 7,
    "steps_total": 7,
    "pct": 100,
