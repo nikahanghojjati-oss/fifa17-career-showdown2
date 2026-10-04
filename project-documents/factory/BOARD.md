@@ -179,7 +179,7 @@ Branch `factory/v1-wtt5ye`. 135 Team V jobs, plus 5 lines that track Team G. Two
 | 113 | [Phone art: Club Assignment](jobs/JOB-113.md) | 3 Art | build | project (type number) | 14, 1 | ██████████ 100 % | DONE |  |
 | 114 | [Phone art: Transfer War](jobs/JOB-114.md) | 3 Art | build | project (type number) | 14, 1 | ██████████ 100 % | IN PROGRESS · FIX |  |
 | 115 | [Phone art: Trophy Room](jobs/JOB-115.md) | 3 Art | build | project (type number) | 14, 23 | ██████████ 100 % | IN PROGRESS · FIX |  |
-| 116 | [Phone art: Career Statistics](jobs/JOB-116.md) | 3 Art | build | project (type number) | 14, 24 | ███░░░░░░░ 33 % | IN PROGRESS |  |
+| 116 | [Phone art: Career Statistics](jobs/JOB-116.md) | 3 Art | build | project (type number) | 14, 24 | █████░░░░░ 50 % | IN PROGRESS |  |
 | 117 | [Phone art: Rivalry Statistics](jobs/JOB-117.md) | 3 Art | build | project (type number) | 14, 25 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 118 | [Phone art: Legacy (History)](jobs/JOB-118.md) | 3 Art | image | fresh chat (image) | 14, 26 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 119 | [Phone art: Season Results](jobs/JOB-119.md) | 3 Art | build | project (type number) | 14, 27 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
