@@ -697,3 +697,68 @@ body { min-height: 100vh; }
 @media(max-width:900px){.sj-role-panel>*,.sj-current-panel>*{flex-shrink:0}}
 @media(max-width:900px) and (max-height:600px){.sj-role-kicker,.sj-role-glyph{display:none}.sj-role-panel,.sj-current-panel{padding-top:6px}.sj-role-heading{font-size:19px}}
 @media(max-width:900px) and (max-height:600px){.sj-main-panel{--sj-panel-h:178px}}
+
+
+/* JOB-192 · hosting signature: 300 ms code deal, then the OPEN status dot breathes. */
+.sj-code-field.is-dealing {
+  white-space: nowrap;
+}
+
+.sj-code-char {
+  display: inline-block;
+  min-width: .56ch;
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+.sj-code-field.is-dealing .sj-code-char {
+  animation: sj-host-slot var(--sj-host-glyph-ms, 140ms) var(--sj-host-ease, cubic-bezier(.22,1,.36,1)) both;
+  animation-delay: var(--sj-slot-delay, 0ms);
+  will-change: transform, opacity;
+}
+
+@keyframes sj-host-slot {
+  0% { opacity: 0; transform: translate3d(0, -.72em, 0); }
+  58% { opacity: 1; transform: translate3d(0, .12em, 0); }
+  100% { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
+.sj-current-panel.is-host-open .sj-state-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.sj-current-panel.is-host-open .sj-state-badge::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  flex: 0 0 6px;
+  border-radius: 50%;
+  background: #f0c84b;
+  opacity: .48;
+  transform: scale(.86);
+  animation: sj-open-dot-pulse 1.9s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+@keyframes sj-open-dot-pulse {
+  0%, 100% { opacity: .42; transform: scale(.82); }
+  50% { opacity: 1; transform: scale(1.14); }
+}
+
+html[data-motion-reduced="true"] .sj-current-panel.is-host-open .sj-state-badge::before,
+html[data-reduced-motion="true"] .sj-current-panel.is-host-open .sj-state-badge::before {
+  animation: none;
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sj-code-field.is-dealing .sj-code-char,
+  .sj-current-panel.is-host-open .sj-state-badge::before {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
