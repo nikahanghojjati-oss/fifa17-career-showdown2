@@ -312,7 +312,7 @@
     platemap=map;
     return platemap;
   }
-  function install(){
+  function tfInstall(){
     if(installed||tfNode||!root.document)return registered||Promise.resolve(null);
     installed=true;
     // Read by plate.js when it loads: no self-start, and asset paths from the app page.
@@ -334,6 +334,6 @@
     return registered;
   }
 
-  return Object.freeze({contractVersion:1,SCREEN,DIR,FILES,STRINGS,toTransferFrame,toPlateFixtures,adoptionPlan,install,
+  return Object.freeze({contractVersion:1,SCREEN,DIR,FILES,STRINGS,toTransferFrame,toPlateFixtures,adoptionPlan,install:tfInstall,
     isMounted:()=>Boolean(mountedFrame)});
 });
