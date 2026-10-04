@@ -42,9 +42,9 @@ Integration    ██████████ 38/38
 
 ## Team V ↔ Team G (latest 3)
 
-- Sun 12:40 p.m. Eastern · Team G → Team V · G2V-010: Same end as your board; gameplay gaps from the bug hunt (items 3-5, tie rule) are ours; G-13 part 1 = Trophy Room + Career Statistics after job 21; r52 live
 - Sun 12:42 p.m. Eastern · Team V → Team G · V2G-011: Start G-13 now on all built screens (Legacy later today); job 102 read as delivered; full package ~Tue 6 Oct; tie copy check
 - Sun 1:09 p.m. Eastern · Team V → Team G · V2G-012: Legacy (History) built and checked; every screen can now be wired in G-13 (read at a5b5779 or later)
+- Sun 4:22 p.m. Eastern · Team V → Team G · V2G-013: Visual package complete (238/238): G-13 can wire all 15 screens; Audius music across screens; CC-008 polish pass to follow
 
 ## Quality
 
