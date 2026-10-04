@@ -11,6 +11,9 @@ Reads project-documents/factory/reviews/BINDING.md (its tables and its
            JOB-216..218) show the same numbers as their scenario.
 4. shared: the same number is identical on every screen fed by one scenario
            (JOB-220).
+5. model:  inside each scenario, numbers that Home, Legacy, Statistics, Rivalry,
+           Standings and Trophy Room show from different G-11 paths agree
+           (score, career points, season wins, trophy counts, Showdown totals).
 
 Standard library only. Prints one line per error and ends with "N errors".
 """
@@ -238,6 +241,52 @@ def check_shared(fmap: dict, scen: dict) -> int:
     return n
 
 
+# ---------- 5. model ----------------------------------------------------------------
+
+TROPHIES = ("championsLeagues", "leagueTitles", "domesticCups", "totalTrophies")
+
+
+def check_model(scen: dict) -> int:
+    n = 0
+
+    def same(sid, what, a, b):
+        nonlocal n
+        n += 1
+        if a != b:
+            err(f"model: {sid} {what}: {a!r} != {b!r}")
+
+    for sid, doc in scen.items():
+        for v in MANAGERS:
+            view = doc["viewers"][v]
+            home, riv, fw = view["home"]["continue"], view["rivalry"], view["finalWinner"]
+            for m in MANAGERS:
+                if home.get("score") and riv.get("score"):
+                    same(sid, f"{v} Home score.{m} vs Rivalry score.{m}", home["score"][m], riv["score"][m])
+                if fw.get("status") == "ready" and riv.get("score"):
+                    same(sid, f"{v} Final Winner totals.{m} vs Rivalry score.{m}", fw["totals"][m], riv["score"][m])
+        for root in ("career", "careerInterim"):
+            c = doc[root]
+            mans, tr = c.get("managers") or {}, c.get("trophyRoom") or {}
+            rows = {r["manager"]: r for r in tr.get("standings") or []}
+            for m in MANAGERS:
+                cm = mans.get(m)
+                if not cm or cm.get("careerPoints") is None:
+                    continue
+                if m in rows:
+                    same(sid, f"{root} Statistics careerPoints.{m} vs Trophy Room standings", cm["careerPoints"], rows[m]["careerPoints"])
+                    same(sid, f"{root} Statistics seasonWins.{m} vs Trophy Room standings", cm["seasonWins"], rows[m]["seasonWins"])
+                cab = (tr.get("cabinet") or {}).get(m)
+                if cab:
+                    for k in TROPHIES:
+                        same(sid, f"{root} Statistics {k}.{m} vs Trophy Room cabinet", cm[k], cab[k])
+                shown = [s for s in (c.get("history") or {}).get("showdowns") or []
+                         if s.get("status") in ("completed", "completion-pending", "in-progress") and s.get("totals")]
+                if c.get("status") == "ready" and shown:
+                    same(sid, f"{root} Statistics careerPoints.{m} vs Legacy totals summed",
+                         cm["careerPoints"], sum(s["totals"][m] for s in shown))
+    return n
+
+
 def main() -> int:
     md = BINDING.read_text(encoding="utf-8")
     scen = scenarios()
@@ -249,9 +298,10 @@ def main() -> int:
     f = check_frames(fmap, scen)
     v = check_values(fmap, scen)
     s = check_shared(fmap, scen)
+    mo = check_model(scen)
     for e in errors:
         print("ERROR", e)
-    print(f"{len(scen)} scenarios · {k} keys · {f} frames · {v} values · {s} shared reads")
+    print(f"{len(scen)} scenarios · {k} keys · {f} frames · {v} values · {s} shared reads · {mo} model checks")
     print(f"{len(errors)} errors")
     return 1 if errors else 0
 
