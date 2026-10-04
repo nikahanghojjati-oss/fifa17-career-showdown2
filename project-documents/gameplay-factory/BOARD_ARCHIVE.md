@@ -1,6 +1,6 @@
 # Team G gameplay board: all jobs
 
-[Back to the board](BOARD.md) · generated 2026-10-04 4:57 PM Boston time (EDT)
+[Back to the board](BOARD.md) · generated 2026-10-04 5:04 PM Boston time (EDT)
 
 | # | G id | Job | Phase | Type | Lane | Depends on | Codex | Progress | State |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -35,4 +35,5 @@
 | 29 | G-13f | [Part 2f: Season Results, Final Winner and Standings](jobs/JOB-29.md) | WAITING | build | codex | 24; job 24 merged |  | ░░░░░░░░░░ 0 % | NOT STARTED |
 | 30 | G-13g | [Part 2g: Rule Book and Settings](jobs/JOB-30.md) | WAITING | build | work | 24; job 24 merged |  | ░░░░░░░░░░ 0 % | NOT STARTED |
 | 31 | G-2h | [Ten-season games: session expiry, long-game limits, 10-season emulator run](jobs/JOB-31.md) | IN PROGRESS | build | lead | - |  | ░░░░░░░░░░ 0 % | NOT WRITTEN |
-| 32 | G-2i | [Fewer taps: audit the flow for steps we can safely drop](jobs/JOB-32.md) | IN PROGRESS | audit | lead | - |  | ░░░░░░░░░░ 0 % | NOT WRITTEN |
+| 32 | G-2i | [Fewer taps: audit the flow for steps we can safely drop](jobs/JOB-32.md) | DONE | audit | lead | - |  | ░░░░░░░░░░ 0 % | NOT WRITTEN |
+| 33 | G-2j | [Fewer taps: auto-refresh while waiting, skip hops, drop duplicate banners](jobs/JOB-33.md) | IN PROGRESS | build | lead | 32 |  | ░░░░░░░░░░ 0 % | NOT WRITTEN |

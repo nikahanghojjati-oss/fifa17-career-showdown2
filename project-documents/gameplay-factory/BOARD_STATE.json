@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-04 4:57 PM Boston time (EDT)",
+ "generated": "2026-10-04 5:04 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 19,
@@ -218,9 +218,9 @@
   "chat": 2,
   "work": 1
  },
- "overall": 65,
+ "overall": 63,
  "done": 20,
- "total": 32,
+ "total": 33,
  "start": {
   "chat": [],
   "work": []
@@ -962,9 +962,31 @@
    "codex_review": false,
    "written": true,
    "waits_on": "",
-   "phase": "IN PROGRESS",
+   "phase": "DONE",
    "type": "audit",
-   "plain": "Find duplicate continue/check taps and repeated banners; propose safe reductions for Nik to pick. Lead helper (Sonnet).",
+   "plain": "Audit done: /mnt/project-files/gameplay/TAP_AUDIT_2026-10-04.md. 8 reductions; R1-R6 and R8 being built in job 33; R7 (commit + acknowledge in one tap) waits on Nik.",
+   "state": "NOT WRITTEN",
+   "step": 0,
+   "steps_total": 1,
+   "pct": 0,
+   "ready": false
+  },
+  {
+   "number": 33,
+   "key": "G-2j",
+   "title": "Fewer taps: auto-refresh while waiting, skip hops, drop duplicate banners",
+   "lane": "lead",
+   "depends_on": [
+    32
+   ],
+   "steps": 1,
+   "code_branch": "gameplay/job-33-fewer-taps",
+   "codex_review": false,
+   "written": true,
+   "waits_on": "",
+   "phase": "IN PROGRESS",
+   "type": "build",
+   "plain": "About 13 fewer taps for Daniel and 6 for Nik over 3 seasons, plus no refresh taps. Every lock, publish, commit, acknowledge and close stays a manual tap. Lead helper (Opus).",
    "state": "NOT WRITTEN",
    "step": 0,
    "steps_total": 1,
