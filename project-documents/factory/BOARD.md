@@ -1,14 +1,14 @@
 # Showdown Factory board
 
-**105 of 238 jobs done and checked · 46 %** · updated Sat 10:15 p.m. Eastern
+**105 of 238 jobs done and checked · 47 %** · updated Sat 10:16 p.m. Eastern
 
-✅ **Quality check:** a job counts as done only after Claude checks it against the quality bar (average 4.2 or more, nothing under 3, hard gates pass). Average score 4.25 over 46 scored jobs. 🔍 Waiting for Claude's check: 50, 61, 68, 194. 🔧 Sent back with a fix list: 77, 95.
+✅ **Quality check:** a job counts as done only after Claude checks it against the quality bar (average 4.2 or more, nothing under 3, hard gates pass). Average score 4.25 over 46 scored jobs. 🔍 Waiting for Claude's check: 50, 61, 68, 147, 194. 🔧 Sent back with a fix list: 77, 95.
 
 ████░░░░░░
 
 **Where to run:** 🟡 **project job** = new chat in the ChatGPT project "Showdown visual", type the number; one number is one turn (no Continue), and a job in parts shows its later parts only when the earlier part is done. 🟣 **image job** = its ticket in a ChatGPT **Temporary Chat** outside any project, then drop the picture in Claude's factory thread.
 
-🟡 **Type next:** 77 (fix), 95 (fix), 86, 88, 127 · then 140, 147, 154, 195
+🟡 **Type next:** 77 (fix), 95 (fix), 86, 88, 127 · then 140, 148, 154, 195
 
 🟣 **Image next:** 118
 
@@ -23,7 +23,7 @@ Club           ██████████ 7/7
 Transfer       ███░░░░░░░ 4/13
 Loading        ██████████ 4/4
 Trophy Room    ██████████ 10/10
-Career Stats   ████░░░░░░ 8/17
+Career Stats   █████░░░░░ 9/17
 Rivalry        ███░░░░░░░ 7/19
 Legacy         ██░░░░░░░░ 5/19
 Season Results ███░░░░░░░ 5/19
@@ -49,9 +49,9 @@ Integration    ░░░░░░░░░░ 0/38
 
 Branch `factory/v1-wtt5ye`. 238 Team V jobs, plus 5 lines that track Team G. Two kinds of job. **Project (type number):** open a new chat in the ChatGPT project "Showdown visual" and type the number (up to 5 at once). **Fresh chat (image):** run the job's ticket from [tickets/](tickets/README.md) in a ChatGPT Temporary Chat (no memory) outside any project, then drop the image in Claude's factory thread (up to 2 at once).
 
-**Overall (Team V):** ████░░░░░░ 46 % · 105 of 238 jobs done
+**Overall (Team V):** ████░░░░░░ 47 % · 105 of 238 jobs done
 
-**Start now · project (type the number in Showdown visual):** 77 (fix), 95 (fix), 86, 88, 127 · queued next: 140, 147, 154, 195
+**Start now · project (type the number in Showdown visual):** 77 (fix), 95 (fix), 86, 88, 127 · queued next: 140, 148, 154, 195
 
 **Start now · fresh chat (image ticket, outside the project):** 118
 
@@ -210,7 +210,7 @@ Branch `factory/v1-wtt5ye`. 238 Team V jobs, plus 5 lines that track Team G. Two
 | 144 | [Transfer War: fix round (part 3 of 3)](jobs/JOB-144.md) | 4 Polish built screens | fix | project (type number) | 143 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 145 | [Transfer War: motion (part 2 of 3)](jobs/JOB-145.md) | 4 Polish built screens | build | project (type number) | 53 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 146 | [Transfer War: motion (part 3 of 3)](jobs/JOB-146.md) | 4 Polish built screens | build | project (type number) | 145 | ░░░░░░░░░░ 0 % | NOT STARTED | yes |
-| 147 | [Career Statistics: review (part 2 of 4)](jobs/JOB-147.md) | 5 New screens | review | project (type number) | 64 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
+| 147 | [Career Statistics: review (part 2 of 4)](jobs/JOB-147.md) | 5 New screens | review | project (type number) | 64 | ██████████ 100 % | DONE |  |
 | 148 | [Career Statistics: review (part 3 of 4)](jobs/JOB-148.md) | 5 New screens | review | project (type number) | 147 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 149 | [Career Statistics: review (part 4 of 4)](jobs/JOB-149.md) | 5 New screens | review | project (type number) | 148 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 150 | [Career Statistics: fix round (part 2 of 3)](jobs/JOB-150.md) | 5 New screens | fix | project (type number) | 65 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
