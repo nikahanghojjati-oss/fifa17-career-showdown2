@@ -1613,3 +1613,21 @@ html[data-motion-reduced="true"] .season-layout *::after {
     top: calc(44% + 51px);
   }
 }
+
+
+/* C2W-005 extra 3: short desktop scoring fit */
+@media (min-width: 901px) and (max-height: 700px) {
+  .scoring-panel {
+    top: 32.05%;
+    height: 19.22%;
+  }
+
+  .scoring-grid {
+    row-gap: 2px;
+  }
+
+  .scoring-rule {
+    font-size: 12px;
+    line-height: 1.05;
+  }
+}
