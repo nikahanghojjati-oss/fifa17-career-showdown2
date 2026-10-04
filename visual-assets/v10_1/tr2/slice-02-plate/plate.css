@@ -389,6 +389,34 @@ body { overflow: hidden; font-family: var(--text); -webkit-font-smoothing: antia
     font-size: 13px; letter-spacing: 0.16em; line-height: 1.2; }
   .sign-status .sep { display: inline; color: var(--gold-deep); }
 
+  /* Claude fix 3: WINDOW_OPEN timer belongs to the broadcast status band,
+     not between the two manager faces. Keep status copy left and clock right. */
+  .stage[data-phase="WINDOW_OPEN"] .sign-status.reg {
+    justify-content: flex-start;
+    padding-right: 92px;
+    font-size: 12px;
+    letter-spacing: .12em;
+  }
+  .stage[data-phase="WINDOW_OPEN"] .sign-screen.is-live.reg {
+    left: auto;
+    right: 12px;
+    top: auto;
+    bottom: 0;
+    width: 76px;
+    height: var(--band-h);
+    z-index: 3;
+    transform: none;
+    padding: 0;
+    align-items: center;
+    justify-content: center;
+  }
+  .stage[data-phase="WINDOW_OPEN"] .sign-screen.is-live .sign-main.timer {
+    font-size: 18px;
+    line-height: 1;
+    letter-spacing: .04em;
+    filter: drop-shadow(0 0 4px rgba(255, 186, 64, .52));
+  }
+
   /* 2 · rules: a caption under the status, not a card */
   .rules-card { order: 1; flex: none; position: relative; }
   .reg.rules-inner { position: relative; left: auto; top: auto; width: auto; height: auto; }
