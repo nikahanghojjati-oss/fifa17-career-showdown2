@@ -17,7 +17,7 @@ Claude tightens the generous contours to the real person before final export. Pr
 
 ## Step 5 · 393 × 660 phone proof
 
-Use `assets/phonemap.json > phone_frame` as the composition authority: portrait background cover, Daniel left at 62% frame height, Nik right at 64% frame height, both heads fully visible, and the lower scrim beginning at 46% frame height.
+Use `assets/phonemap.json > phone_frame` as the composition authority: portrait background cover, Daniel left at 14% x / 56% frame height, Nik right at 84% x / 52% frame height, both faces fully clear, and the lower scrim beginning at 34% frame height and reaching 96% opacity by 54%.
 
 # proof: Claude composites PHONE_PROOF.png (393 × 660 at 3×) from phone_frame
 
@@ -29,9 +29,9 @@ The cut-out commands above are also the JOB-050 fallback recipe if either runtim
 CSS consumes `assets/phonemap.json > phone_frame` exactly:
 
 - background: cover, 50% x / 43% y, hero zone through 55% of the frame
-- Daniel: left, center x 26%, top 0%, height 62%
-- Nik: right, center x 68%, top 0.5%, height 64%
-- lower scrim: begins at 46% and is opaque by 72%
+- Daniel: left, center x 14%, top 1.5%, height 56%
+- Nik: right, center x 84%, top 1.5%, height 52%
+- lower scrim: begins at 34%, reaches 96% opacity by 54%, and sits below both hero layers
 - neither hero is mirrored; both heads remain fully visible
 - the `--rim` cut-out recipe supplies the edge light; CSS adds only a soft contact shadow
 
