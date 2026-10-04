@@ -1,10 +1,10 @@
 # 🏭 Showdown Factory board
 
-**229 of 238 jobs done and checked · 96 %** · updated Sun 3:44 p.m. Eastern
+**230 of 238 jobs done and checked · 96 %** · updated Sun 3:45 p.m. Eastern
 
 <img src="board-meter.svg" alt="Football progress meter" width="640">
 
-⏱ **Estimated finish: Sun 8:13 p.m. Eastern** (about 4 h 29 min from now at today's pace)
+⏱ **Estimated finish: Sun 8:14 p.m. Eastern** (about 4 h 29 min from now at today's pace)
 
 ## 🔴 Now
 
@@ -17,10 +17,6 @@
 ## ⚪ Then
 
 - **108** Final package review (Codex) · after 233 · Codex: paste the job file
-
-## ⚠️ Needs attention
-
-- Waiting for Claude's check: 232
 
 ## 🧰 Where to type and when it resets
 
