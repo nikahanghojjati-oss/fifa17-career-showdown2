@@ -33,6 +33,8 @@
     element.style.setProperty("--lg-motion-delay", wait + "ms");
     element.style.setProperty("--lg-motion-ease", LEGACY_MOTION.ease);
     element.classList.add(reduced ? "legacyFading" : name);
+    // Reset the same CSS animation on rapid repeat input without measuring layout.
+    element.getAnimations?.().filter(a => /^(legacy-|sd-reduced-fade)/.test(a.animationName || "")).forEach(a => { a.currentTime = 0; });
     motionTimers.set(element, setTimeout(() => {
       element.classList.remove(name, "legacyFading");
       ["--lg-motion-ms", "--lg-motion-delay", "--lg-motion-ease"].forEach(key => element.style.removeProperty(key));
@@ -48,6 +50,16 @@
       const delay = (initial ? 400 : 0) + Math.min(index, 3) * LEGACY_MOTION.stagger;
       animateLegacy(card, "legacyDealing", LEGACY_MOTION.deal, delay);
       animateLegacy(card.querySelector(".legacyWinnerCrown"), "legacyCrowning", LEGACY_MOTION.crown, delay + LEGACY_MOTION.deal);
+    });
+  }
+
+  function pageMotion(direction, moveCards = true) {
+    const grid = document.getElementById("legacyCardGrid");
+    grid.style.setProperty("--lg-page-x", (direction * 18) + "px");
+    if (moveCards) animateLegacy(grid, "legacyPaging", LEGACY_MOTION.page);
+    document.querySelectorAll(".legacyPhonePlate, .sd-stage__plate").forEach(plate => {
+      plate.style.setProperty("--lg-parallax-x", (-direction * 4) + "px");
+      animateLegacy(plate, "legacyParallax", LEGACY_MOTION.parallax);
     });
   }
 
@@ -297,6 +309,8 @@
     let settling = 0;
 
     function select(number, scroll = false) {
+      const previousIndex = records.findIndex(item => item.number === selected);
+      const changed = number !== selected;
       selected = number;
       frame.ui.selectedShowdown = selected;
       if (window.LegacyFixture) window.LegacyFixture.selectedShowdown = selected;
@@ -314,6 +328,7 @@
       const next = pager.querySelector('[data-direction="1"]');
       if (prev) prev.disabled = phone.matches ? index <= 0 : page <= 1;
       if (next) next.disabled = phone.matches ? index >= records.length - 1 : page >= pages;
+      if (phone.matches && changed) pageMotion(index > previousIndex ? 1 : -1, scroll);
     }
 
     function paint(focusCard = false) {
@@ -343,6 +358,7 @@
             } else {
               page = Math.max(1, Math.min(pages, page + direction));
               paint(true);
+              pageMotion(direction);
             }
           });
           pager.appendChild(button);

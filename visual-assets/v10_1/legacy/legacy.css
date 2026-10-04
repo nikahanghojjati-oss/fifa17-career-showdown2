@@ -1441,3 +1441,20 @@ button {
   animation: legacy-crown-drop var(--lg-motion-ms) var(--lg-motion-ease) var(--lg-motion-delay) both;
   will-change: transform, opacity;
 }
+
+@keyframes legacy-page-slide {
+  from { opacity: .35; transform: translateX(var(--lg-page-x, 18px)); }
+  to { opacity: 1; transform: translateX(0); }
+}
+@keyframes legacy-background-parallax {
+  from { transform: translateX(var(--lg-parallax-x, -4px)); }
+  to { transform: translateX(0); }
+}
+.legacyPaging {
+  animation: legacy-page-slide var(--lg-motion-ms) var(--lg-motion-ease) both;
+  will-change: transform, opacity;
+}
+.legacyParallax {
+  animation: legacy-background-parallax var(--lg-motion-ms) var(--lg-motion-ease) both;
+  will-change: transform;
+}
