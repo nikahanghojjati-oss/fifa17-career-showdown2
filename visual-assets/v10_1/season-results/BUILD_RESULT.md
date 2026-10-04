@@ -147,3 +147,30 @@ DEFAULT (177): original fixtures have no teamCount/maxPoints, so normalize their
 Read checks pass for all changed targets and the seven commit mapping outputs; JS parses. H1–H3 source guardrails are retained. H5–H11 remain NOT MEASURED: Claude must measure phone fit/scroll and primary visibility at the three mandatory floors, input sizes/body contrast, both motion paths, keyboard/focus, console/requests, protected-art mockup diff and first-paint weight. Recheck title/tagline/scoring-panel spacing and Daniel fist contact against the restored review geometry. No browser, screenshots or runtime gate results were produced by this bundle worker.
 
 Carried fixture issue for motion intake: the old SR5 nested breakdown/winner was not recomputed by fix item 1 when its Champions League flag changed, and SR5 omits scoringState. The motion part that reads authoritative numeric targets must reconcile these labelled preview facts before animating them; until then the reconciliation gate keeps canonical output hidden.
+
+
+## Motion
+
+Season Results uses the shared `sdEnter(stage)` choreography plus screen-specific score feedback. Entrance animation never disables controls, so the rendered DOM remains operable throughout and is usable by 600 ms. Shared cleanup is 1200 ms.
+
+| Element | Delay | Duration | Easing |
+| --- | ---: | ---: | --- |
+| Stadium scene `[data-sd-enter="scene"]` | 0 ms | 400 ms | shared entrance easing |
+| Daniel / Nik hero cut-outs `[data-sd-enter="character-left/right"]` | 150 ms | 450 ms | shared entrance easing |
+| Brush title `[data-sd-enter="title"]` | 250 ms | 450 ms | shared entrance easing |
+| Title gold glint | 640 ms | 420 ms | shared glint |
+| Scoring panel `[data-sd-enter="panel"]` index 0 | 400 ms | 500 ms | shared panel easing |
+| Daniel entry panel index 1 | 460 ms | 500 ms | cubic-bezier(.22,1,.36,1) |
+| Nik entry panel index 2 | 520 ms | 500 ms | cubic-bezier(.22,1,.36,1) |
+| Review / canonical panel indexes 3–5 when visible | 580–700 ms | 500 ms | shared panel easing |
+| Visible primary action `[data-sd-enter="button"]` | 760 ms | 320 ms | shared pulse easing |
+| Canonical score count-up and bar fill, reconciled state only | 550 ms | 320 ms | cubic-bezier(.22,1,.36,1) |
+| Gold checkbox tick / MAX cap feedback | interaction | 120 ms | cubic-bezier(.22,1,.36,1) |
+| Hover / press / tab / toggle feedback | interaction | 100 ms | cubic-bezier(.2,.8,.2,1) |
+| Reduced motion, system or app preference | 0 ms | 150 ms entrance / 100 ms feedback | linear fade / opacity only |
+
+Longest possible panel completes at 1200 ms; primary action pulse completes at 1080 ms; score roll completes at 870 ms. No entrance path exceeds 1.2 seconds and no motion changes layout.
+
+Criterion 8 self-score: 5/5 from code. Evidence: the shared role sequence gives scene → characters → title → staggered panels → primary action; screen-specific gold tick, MAX and reconciled score motion use transform/opacity; all direct interaction feedback is 100–120 ms; both `prefers-reduced-motion` and `html[data-motion-reduced="true"]` reduce the experience to short fades. Rival unpublished data is never a motion input, and canonical score animation runs only after `SCORING_RECONCILED`.
+
+Claude intake records the requested motion evidence in `evidence/motion/`; this worker performed the required source read only, with no browser run or frame strip.
