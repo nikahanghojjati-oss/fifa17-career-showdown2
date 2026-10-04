@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-nav="hub">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -8,6 +8,7 @@
 <link rel="stylesheet" href="../shared/showdown-ui.css">
 <link rel="stylesheet" href="../shared/showdown-type.css">
 <link rel="stylesheet" href="../shared/motion.css">
+<link rel="stylesheet" href="../shared/navbar/navbar.css">
 <link rel="stylesheet" href="home.css">
 </head>
 <body>
@@ -149,6 +150,14 @@
 <div class="footDeco" aria-hidden="true"><span>FOOTBALL BRINGS US TOGETHER</span><svg viewBox="0 0 24 18" focusable="false"><path d="M2 16h20l1.5-12-6 5L12 1 6.5 9l-6-5z" fill="#F2C45B"/></svg></div>
 <div class="gridOverlay" aria-hidden="true"></div>
 </div>
+<script src="../shared/navbar/navbar.js"></script>
+<script>
+/* JOB-206: shared bar. Home adopts its approved #topHeader on desktop; phone gets the hub bottom bar in .nav-reserve. */
+SDNav.mount({
+  nav: { active: "home", locked: false, reason: null },
+  routes: { home: "index.html", career: "../start-join/index.html", standings: "../standings/index.html", stats: "../career-statistics/index.html", rules: "../rule-book/index.html", settings: "../settings/index.html" }
+});
+</script>
 <script src="home.js"></script>
 </body>
 </html>
