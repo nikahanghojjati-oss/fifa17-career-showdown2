@@ -416,19 +416,19 @@
     24
    ],
    "steps": 7,
-   "code_branch": "gameplay/job-25-v10-home",
+   "code_branch": "",
    "codex_review": true,
    "written": true,
-   "waits_on": "job 24 merged",
-   "phase": "WAITING",
+   "waits_on": "",
+   "phase": "READY",
    "type": "build",
-   "plain": "Home in Team V's style with Nik's Audius playlist playing across screens; Loading keeps the Reus credit. Built in the lead thread by a helper. Codex builds (Nik pastes the lead's box into the Codex app); the lead checks it in a browser and merges."
+   "plain": "Home in Team V's style with Nik's Audius playlist playing across screens; Loading keeps the Reus credit. Codex builds (Nik pastes the box); starts from job 24's branch; the lead checks each screen in a browser and merges."
   },
   {
    "number": 26,
    "key": "G-13c",
    "title": "Part 2c: Start/Join, League wheel and Club packs",
-   "lane": "codex",
+   "lane": "lead",
    "depends_on": [
     24
    ],
@@ -436,16 +436,16 @@
    "code_branch": "gameplay/job-26-v10-setup",
    "codex_review": true,
    "written": true,
-   "waits_on": "job 24 merged",
-   "phase": "WAITING",
+   "waits_on": "",
+   "phase": "READY",
    "type": "build",
-   "plain": "Setup screens skinned without touching pairing, session or draw logic. Built in the lead thread by a helper. Codex builds (Nik pastes the lead's box into the Codex app); the lead checks it in a browser and merges."
+   "plain": "Setup screens skinned without touching pairing, session or draw logic. Lead helper (Opus); starts from job 24's branch; the lead checks each screen in a browser and merges."
   },
   {
    "number": 27,
    "key": "G-13d",
    "title": "Part 2d: Transfer War",
-   "lane": "codex",
+   "lane": "lead",
    "depends_on": [
     24
    ],
@@ -453,16 +453,16 @@
    "code_branch": "gameplay/job-27-v10-transfer",
    "codex_review": true,
    "written": true,
-   "waits_on": "job 24 merged",
-   "phase": "WAITING",
+   "waits_on": "",
+   "phase": "READY",
    "type": "build",
-   "plain": "Transfer window skinned; private inputs stay private; lock confirm and quiet retries kept. Built in the lead thread by a helper. Codex builds (Nik pastes the lead's box into the Codex app); the lead checks it in a browser and merges."
+   "plain": "Transfer window skinned; private inputs stay private; lock confirm and quiet retries kept. Lead helper (Opus); starts from job 24's branch; the lead checks each screen in a browser and merges."
   },
   {
    "number": 28,
    "key": "G-13e",
    "title": "Part 2e: Rivalry Statistics and Legacy (History)",
-   "lane": "codex",
+   "lane": "work",
    "depends_on": [
     24
    ],
@@ -470,10 +470,10 @@
    "code_branch": "gameplay/job-28-v10-history",
    "codex_review": true,
    "written": true,
-   "waits_on": "job 24 merged",
-   "phase": "WAITING",
+   "waits_on": "",
+   "phase": "READY",
    "type": "build",
-   "plain": "Same pattern as job 13 on the real career model; un-hides the last two Statistics buttons. Codex builds (Nik pastes the lead's box into the Codex app); the lead checks it in a browser and merges."
+   "plain": "Same pattern as job 13 on the real career model; un-hides the last two Statistics buttons. Sol 6.1 Work mode, High; starts from job 24's branch; the lead checks each screen in a browser and merges."
   },
   {
    "number": 29,
@@ -484,19 +484,19 @@
     24
    ],
    "steps": 7,
-   "code_branch": "gameplay/job-29-v10-results",
+   "code_branch": "",
    "codex_review": true,
    "written": true,
-   "waits_on": "job 24 merged",
-   "phase": "WAITING",
+   "waits_on": "",
+   "phase": "READY",
    "type": "build",
-   "plain": "Results and commit skinned (clash warning kept); winner reveal uses the reconciliation exactly. Codex builds (Nik pastes the lead's box into the Codex app); the lead checks it in a browser and merges."
+   "plain": "Results and commit skinned (clash warning kept); winner reveal uses the reconciliation exactly. Codex builds (Nik pastes the box); starts from job 24's branch; the lead checks each screen in a browser and merges."
   },
   {
    "number": 30,
    "key": "G-13g",
    "title": "Part 2g: Rule Book and Settings",
-   "lane": "codex",
+   "lane": "work",
    "depends_on": [
     24
    ],
@@ -504,10 +504,10 @@
    "code_branch": "gameplay/job-30-v10-rules-settings",
    "codex_review": true,
    "written": true,
-   "waits_on": "job 24 merged",
-   "phase": "WAITING",
+   "waits_on": "",
+   "phase": "READY",
    "type": "build",
-   "plain": "Rules copy unchanged, Settings controls kept, credits added. Codex builds (Nik pastes the lead's box into the Codex app); the lead checks it in a browser and merges."
+   "plain": "Rules copy unchanged, Settings controls kept, credits added. Sol 6.1 Work mode, High; starts from job 24's branch; the lead checks each screen in a browser and merges."
   },
   {
    "number": 31,

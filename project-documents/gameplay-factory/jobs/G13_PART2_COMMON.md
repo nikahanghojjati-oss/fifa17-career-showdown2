@@ -34,13 +34,13 @@ Team V's package is finished (relay V2G-013: 238/238 jobs, 15 screens). Part 1 (
 - On your exact head commit: "Validate Gameplay Fast" is green (all four jobs, including "Two-manager browser journey"), and on the PR "Validate POS20" is green.
 - The PR body has "Before:", "After:", "How", the Team V file edits list, and "Model gaps" (or "none").
 
-## Pace (Sol lanes)
+## Pace
 
-At most two steps per turn, save after each, never poll CI inside a turn, no screenshots, take the DEFAULT instead of stopping. Cloud and Codex lanes may run the whole job in one go but must stop at the budget named in the job.
+Work mode (jobs 28, 30): run the whole job without stopping to ask for Continue; save to the branch after each step through the GitHub connector; never poll CI; take the DEFAULT instead of stopping. Codex and Claude helpers run the whole job in one go.
 
 ## Workers and reviews (from Team V's scorecard, V2G-014)
 
-- Screen builds 25–30 go to **Codex** (Nik, 2026-10-04: put the usage on Codex). Nik pastes the lead's box into the Codex app until a Codex cloud environment exists; then the lead tags `@codex` on GitHub. The lead opens every screen in a browser at phone and desktop size before merging. If Codex fails the same job twice, a Claude helper (Opus 5.5 Medium) takes it over.
+- Split (Nik, 2026-10-04 22:10 UTC: get it rolling, Work mode allowed): **25 and 29 Codex** (Nik pastes the lead's box), **26 and 27 Claude Opus helpers** (most fragile), **28 and 30 Sol 6.1 Work mode, High**, told to run every step without stopping. All start from `gameplay/job-24-v10-foundation`. The lead opens every screen in a browser at phone and desktop size before merging. If a worker fails the same job twice, a Claude helper (Opus) takes it over.
 - **Codex reviews every visual PR.** The helper posts `@codex review` on the PR once checks are green and fixes or answers every finding before the lead merges.
 - GPT-5.6 Sol normal chats take text work only: truth checks (every id in the screen's `TRUTH.md` still exists after the PR), data-contract checks, review notes.
 - **Two FIX rounds on one job means change the worker**, not a third round: Sonnet to Opus, Opus Medium to Opus High, then the lead.
