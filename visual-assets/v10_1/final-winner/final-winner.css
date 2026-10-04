@@ -1858,3 +1858,37 @@ body {
     bottom: calc(82px + env(safe-area-inset-bottom));
   }
 }
+
+/* JOB-085 Claude intake (2026-10-04) · short desktop and terminal line.
+   At 1366 × 640 the 12.50% strip is 80 px and clipped the TOTAL TROPHIES row (content needs 96 px):
+   keep the strip's bottom edge (y 674 at 768) and let it grow to 100 px so the last row clears the border. The terminal line sits on the trophy base,
+   so it gets a slim dark band for legibility. */
+@media (min-width: 761px) {
+  .finalWinnerTerminalStatus:not(:empty) {
+    padding-block: 3px;
+    background: linear-gradient(90deg, transparent, rgb(6 7 9 / .84) 22%, rgb(6 7 9 / .84) 78%, transparent);
+  }
+  .finalWinnerResultsPanel {
+    top: auto;
+    bottom: 12.24%;
+    height: max(12.5%, 100px);
+  }
+}
+/* Phone: the manager labels over the score can land on Daniel's white cuff, so they get a tight dark halo;
+   on short phones (≤ 600 px tall) the PREVIEW DATA chip covers the eyebrow, so the eyebrow steps aside. */
+@media (max-width: 760px) {
+  .finalWinnerManager small {
+    color: var(--sd-text-warm);
+    text-shadow: 0 0 3px #000, 0 0 6px #000, 0 2px 7px rgb(0 0 0 / .95);
+  }
+}
+@media (max-width: 760px) and (max-height: 600px) {
+  .finalWinnerEyebrow { visibility: hidden; }
+}
+/* Phone loading / empty / unavailable: the state card replaces the facts, so the empty SEASONS / MARGIN
+   cells must not ghost through behind its heading. */
+@media (max-width: 760px) {
+  #stage-root:is([data-status="loading"], [data-status="empty"], [data-status="unavailable"]) .finalWinnerMetaStrip {
+    visibility: hidden;
+  }
+}

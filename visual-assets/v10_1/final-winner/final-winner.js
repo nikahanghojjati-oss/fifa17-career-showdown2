@@ -46,18 +46,14 @@
     });
   }
 
-  function trophyLine(manager, trophies) {
-    if (!trophies) return `${manager}: unavailable`;
-    const field = (key, label) => Object.prototype.hasOwnProperty.call(trophies, key)
-      ? `${label} ${trophies[key]}`
-      : `${label} unavailable`;
-    return [
-      manager,
-      field("championsLeague", "Continental"),
-      field("leagueTitles", "League"),
-      field("domesticCups", "Domestic cup"),
-      field("total", "Total")
-    ].join(" · ");
+  // Labels, order and the missing-value word come from fixtures.strings.trophySummary (one copy authority).
+  function trophyLine(manager, trophies, copy) {
+    if (!copy) return manager;
+    if (!trophies) return `${manager}: ${copy.unavailable}`;
+    const field = (key) => Object.prototype.hasOwnProperty.call(trophies, key)
+      ? `${copy.labels[key]} ${trophies[key]}`
+      : `${copy.labels[key]} ${copy.unavailable}`;
+    return [manager].concat(copy.order.map(field)).join(copy.separator);
   }
 
   function setMetricValue(id, value) {
@@ -147,8 +143,8 @@
     setText("outcomeHeadline", frame.outcomeHeadline);
     setText("resultText", frame.resultText);
     setText("seasonsPlayed", frame.seasonsPlayed == null ? "" : `${frame.seasonsPlayed} seasons played`);
-    setText("danielTrophies", trophyLine("Daniel", frame.trophies && frame.trophies.daniel));
-    setText("nikTrophies", trophyLine("Nik", frame.trophies && frame.trophies.nik));
+    setText("danielTrophies", trophyLine("Daniel", frame.trophies && frame.trophies.daniel, fixtures.strings.trophySummary));
+    setText("nikTrophies", trophyLine("Nik", frame.trophies && frame.trophies.nik, fixtures.strings.trophySummary));
     setText("finalWinnerPartialMessage", frame.status === "partial" ? message : "");
     setText(
       "finalWinnerPartialCoverage",
@@ -190,8 +186,10 @@
       applyFrame(fixtures, frameId);
     })
     .catch((error) => {
+      // fixtures.json itself is unreadable here, so this mirrors frame FW8's product copy; the error stays in the console only.
+      console.warn("Final Winner fixtures unavailable", error);
       root.dataset.status = "unavailable";
       setText("finalWinnerHeading", "Final result unavailable");
-      setText("finalWinnerMessage", error.message);
+      setText("finalWinnerMessage", "The shared Showdown result could not be read. Missing values are not zero.");
     });
 }());

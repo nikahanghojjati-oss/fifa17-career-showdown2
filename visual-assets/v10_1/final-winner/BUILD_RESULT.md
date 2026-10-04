@@ -105,3 +105,21 @@ Arithmetic comes directly from the media queries. Normal phone heights start the
 At 375 × 553 the title begins at 20 px, the trophy occupies 82–198 px, and the live result/score stack begins at 202 px before the 298.6 px results boundary. The portrait heroes extend behind that composition and may overlap the panel lip vertically, but each is clipped to its own half of the hero plane so Daniel and Nik never double-expose through one another.
 
 Growth check: at 390 × 844 the normal 57% layout applies and the results panel grows to 300.9 px; at 430 × 932 it grows to 338.8 px. Larger phones therefore gain usable panel space instead of leaving the composition floating in a fixed-height island.
+
+## Fix round
+
+Jobs 85, 181, 182 · Claude · 2026-10-04 02:11 UTC.
+
+Review fix list (REVIEW.md, 2 items):
+1. Done · `final-winner.js` fetch `.catch()` → `#finalWinnerMessage` shows the FW8 unavailable copy; the error text stays in the console.
+2. Done · `final-winner.js` `trophyLine()` reads `fixtures.json` → `strings.trophySummary`; JS has no trophy-label literals.
+
+Claude intake fixes (rendered, `final-winner.css` JOB-085 blocks at the end):
+3. 1366 × 640: the results strip clipped TOTAL TROPHIES; it is now bottom-anchored at 12.24 % and at least 100 px tall (768 layout unchanged in place).
+4. The terminal line over the trophy base has a slim dark band.
+5. Phone: manager labels over the score have a dark halo (DANIEL was lost on the white cuff).
+6. 375 × 553: the eyebrow hides under the PREVIEW DATA chip.
+7. Phone loading / empty / unavailable: SEASONS / MARGIN cells no longer ghost behind the state card.
+
+Blocked: none. Re-measure: nothing left; Claude rendered 1366×768, 1366×640, 1280×720, 1440×900, 393×660, 360×640, 375×553 (no scroll) and frames FW1, FW4, FW6, FW7, FW8, FW9.
+

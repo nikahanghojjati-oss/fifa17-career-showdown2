@@ -16,6 +16,22 @@
       "completed"
     ],
     "completionPendingMark": "Completion pending",
+    "trophySummary": {
+      "order": [
+        "championsLeague",
+        "leagueTitles",
+        "domesticCups",
+        "total"
+      ],
+      "labels": {
+        "championsLeague": "Continental",
+        "leagueTitles": "League",
+        "domesticCups": "Domestic cup",
+        "total": "Total"
+      },
+      "unavailable": "unavailable",
+      "separator": " · "
+    },
     "finalReconciliation": {
       "heading": "SHOWDOWN FINAL RECONCILED",
       "seasonsTemplate": "{acceptedSeasons} OF {totalSeasons} SEASONS ACCEPTED · NO ADDITIONAL SEASON",
