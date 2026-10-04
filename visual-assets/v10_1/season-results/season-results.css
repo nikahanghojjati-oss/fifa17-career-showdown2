@@ -345,16 +345,22 @@ body {
 .manager-fields {
   display: grid;
   grid-template-columns: .92fr 1.08fr;
-  gap: 8px 18px;
-  flex: 1 1 auto;
+  gap: 6px 16px;
+  /* Claude fix round 3: never let this block collapse under its own rows. */
+  flex: 0 0 auto;
   min-height: 0;
-  margin-bottom: 8px;
+  margin-bottom: 5px;
 }
 
-.stat-fields,
+.stat-fields {
+  display: grid;
+  gap: 3px;
+  align-content: start;
+}
+
 .achievement-fields {
   display: grid;
-  gap: 4px;
+  gap: 2px;
   align-content: start;
 }
 
@@ -364,7 +370,11 @@ body {
   grid-template-columns: 1fr auto;
   align-items: center;
   gap: 8px;
-  min-height: 26px;
+  min-height: 24px;
+}
+
+.achievement-row {
+  min-height: 20px;
 }
 
 .field-row label,
@@ -388,8 +398,8 @@ body {
 }
 
 .achievement-row input {
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
   accent-color: var(--manager-accent);
 }
 
