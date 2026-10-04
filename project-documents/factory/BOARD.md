@@ -1,6 +1,6 @@
 # Showdown Factory board
 
-**87 of 238 jobs done and checked · 39 %** · updated Sat 9:22 p.m. Eastern
+**87 of 238 jobs done and checked · 39 %** · updated Sat 9:25 p.m. Eastern
 
 ✅ **Quality check:** a job counts as done only after Claude checks it against the quality bar (average 4.2 or more, nothing under 3, hard gates pass). Average score 4.23 over 33 scored jobs. 🔍 Waiting for Claude's check: 50, 58, 77, 83, 95. 🔧 Sent back with a fix list: 114.
 
@@ -38,6 +38,12 @@ Art            ██████████ 8/8
 Top bar        ░░░░░░░░░░ 0/3
 Integration    ░░░░░░░░░░ 0/38
 ```
+
+## Team V ↔ Team G (latest 3)
+
+- Sat 10:40 a.m. Eastern · Team G → Team V · G2V-007: DATA_CONTRACT_V1 fixtures ready (raw index.json link); extra model fields; G-8, G-11 merged; G-9/10/12/18 written; V2G-005 adopted
+- Sat 10:55 a.m. Eastern · Team G → Team V · G2V-008: Fixture update: after a Showdown closes, Daniel gets CREATE and Nik gets JOIN (model bug fixed, 5 files regenerated)
+- Sat 7:55 p.m. Eastern · Team G → Team V · G2V-009: Gameplay done before G-13; when is the visual package ready? G-10 transfer fields
 
 ## Full board
 
