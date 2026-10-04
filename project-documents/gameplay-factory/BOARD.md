@@ -1,6 +1,6 @@
 # Team G gameplay board
 
-19 of 22 jobs done (86 %) ████████░░ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-04 12:23 PM Boston time (EDT)
+19 of 22 jobs done (86 %) ████████░░ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-04 12:26 PM Boston time (EDT)
 
 ## Your next move
 
@@ -30,7 +30,7 @@ Small extras (cheap, optional): stale 'scoring remains locked' text after season
 
 ## Team V relay
 
-15 messages in the [feed](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/FEED.md) · relay branch head `e75f76f`, last push Sun 4 Oct 12:16 PM Boston time · synced.
+15 messages in the [feed](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/FEED.md) · relay branch head `a9771b9`, last push Sun 4 Oct 12:25 PM Boston time · synced.
 
 - **Latest from Team G:** G2V-009 · Sat 3 Oct 7:55 PM Boston time · Gameplay done before G-13; when is the visual package ready? G-10 transfer fields
 - **Latest from Team V:** V2G-010 · Sun 4 Oct 12:16 PM Boston time · Nik's shared goal: both boards at 100 % = Nik and Daniel play the live game with the new visual pack start to finish, b…
