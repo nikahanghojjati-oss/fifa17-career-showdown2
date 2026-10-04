@@ -475,3 +475,25 @@ html[data-reduced-motion="true"] .showcase-transition__gold {
     transform: none;
   }
 }
+
+/* ---------- APPROVAL.html (jobs 110, 236-239) ---------- */
+.approval { max-width: 1440px; margin: 0 auto; padding: 32px 24px 64px; }
+.approval-head { text-align: center; margin-bottom: 28px; }
+.approval-head h1 { margin: 6px 0 4px; font: 700 clamp(28px, 4vw, 48px)/1 var(--sd-font-condensed, sans-serif); letter-spacing: .06em; color: var(--sd-gold-300, #f2c45b); text-transform: uppercase; }
+.approval-head p { margin: 0; color: var(--sd-text-secondary, #c9bfa8); }
+.approval-head a { color: var(--sd-gold-300, #f2c45b); }
+.approval-row { display: grid; grid-template-columns: 220px 1fr 1fr 150px; gap: 14px; align-items: start; margin: 0 0 18px; padding: 16px; border: 1px solid rgba(242,196,91,.45); background: linear-gradient(180deg, rgba(14,14,16,.92), rgba(7,8,10,.96)); }
+.approval-row h2 { margin: 0 0 6px; font: 700 22px/1.1 var(--sd-font-condensed, sans-serif); letter-spacing: .05em; color: var(--sd-gold-300, #f2c45b); text-transform: uppercase; }
+.approval-meta { font-size: 14px; line-height: 1.4; color: var(--sd-text-secondary, #c9bfa8); }
+.approval-meta a { color: var(--sd-gold-300, #f2c45b); }
+.approval-score { font: 700 40px/1 var(--sd-font-condensed, sans-serif); color: #fff; font-variant-numeric: tabular-nums; }
+.approval-scores { font-size: 12px; letter-spacing: .04em; color: var(--sd-text-secondary, #c9bfa8); }
+.approval-fig { margin: 0; }
+.approval-fig figcaption { margin-bottom: 6px; font: 600 11px/1 var(--sd-font-condensed, sans-serif); letter-spacing: .14em; text-transform: uppercase; color: var(--sd-text-secondary, #c9bfa8); }
+.approval-fig img { display: block; width: 100%; height: auto; border: 1px solid rgba(255,255,255,.12); }
+.approval-fig--phone img { max-width: 150px; }
+.approval-slot { display: grid; place-items: center; min-height: 160px; padding: 12px; border: 1px solid var(--sd-gold-500, #d4a017); color: var(--sd-text-secondary, #c9bfa8); font-size: 13px; text-align: center; }
+@media (max-width: 900px) {
+  .approval-row { grid-template-columns: 1fr 1fr; }
+  .approval-row > div:first-child { grid-column: 1 / -1; }
+}
