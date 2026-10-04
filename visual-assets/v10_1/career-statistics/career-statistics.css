@@ -58,7 +58,7 @@ button:focus-visible { outline: 3px solid #fff1b8; outline-offset: 3px; }
 .compareLabel { grid-area: label; color: #e9dfc8; text-align: center; font: 600 clamp(7px,.54vw,10px)/1 var(--sd-font-condensed,"Barlow Condensed",sans-serif); letter-spacing: .07em; text-transform: uppercase; white-space: nowrap; }
 .compareTrack { grid-area: bar; position: relative; height: 5px; margin-top: 3px; background: rgba(185,179,164,.20); overflow: hidden; }
 .compareTrack .danielBar, .compareTrack .nikBar { position: absolute; top: 0; bottom: 0; }
-.compareTrack .danielBar { right: 50%; background: #2c7399; }
+.compareTrack .danielBar { right: 50%; background: #3da5e0; }
 .compareTrack .nikBar { left: 50%; background: #f0d900; }
 .leaderGrid { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 6px; padding: 6px 9px 9px; }
 .leaderCard { min-width: 0; height: 94px; display: grid; grid-template-columns: 46px minmax(0,1fr); align-items: center; gap: 7px; padding: 6px 8px; border: 1px solid rgba(245,197,24,.58); background: linear-gradient(145deg,rgba(15,17,20,.9),rgba(9,11,14,.65)); clip-path: polygon(7px 0,100% 0,100% calc(100% - 7px),calc(100% - 7px) 100%,0 100%,0 7px); }
