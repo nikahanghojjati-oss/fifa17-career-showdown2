@@ -342,6 +342,52 @@
     }
   }
 
+
+  function animateCanonicalScores(frame) {
+    if (frame.status !== "ready" || frame.phase !== "committed"
+        || frame.scoringState !== "SCORING_RECONCILED" || !frame.breakdown) return;
+    ["daniel", "nik"].forEach(key => {
+      const panel = document.getElementById(key + "-entry-panel");
+      const number = panel.querySelector(".season-score-value");
+      const fill = panel.querySelector(".season-score-fill");
+      const total = frame.breakdown[key]?.total;
+      if (!number || !Number.isFinite(total)) return;
+      const target = Number(total);
+      number.setAttribute("aria-label", String(target));
+      if (!reducedMotion() && typeof window.sdCountUp === "function") {
+        number.textContent = "0";
+        window.sdCountUp(number, target, SR_MOTION.roll);
+      }
+      feedbackMotion(fill, [{ transform: "scaleX(0)", opacity: .5 }, { transform: "scaleX(1)", opacity: 1 }], SR_MOTION.roll);
+    });
+  }
+
+  // DEFAULT: old labelled committed fixtures predate the scoring gate and carry stale totals.
+  // Normalize preview facts only; never recompute/replace a provider's authoritative breakdown.
+  function normalizeLegacyPreview(frame) {
+    if (frame.previewLabel !== "Preview data" || frame.phase !== "committed" || frame.scoringState) return;
+    frame.breakdown = {};
+    ["daniel", "nik"].forEach(key => {
+      const r = frame.managers[key];
+      frame.breakdown[key] = {
+        championsLeague: r.championsLeague ? 5 : 0,
+        leagueTitle: r.leaguePosition === 1 ? 3 : 0,
+        domesticCup: r.domesticCup ? 1 : 0,
+        performanceBonus: r.leaguePoints >= 100 || r.leagueGoals >= 100 ? 1 : 0,
+        awardsBonus: r.topScorer || r.topAssist ? 1 : 0,
+        total: scoreResult(r)
+      };
+    });
+    const d = frame.breakdown.daniel.total, n = frame.breakdown.nik.total;
+    const dr = frame.managers.daniel, nr = frame.managers.nik;
+    frame.winner = d !== n ? (d > n ? "daniel" : "nik")
+      : dr.leaguePosition !== nr.leaguePosition ? (dr.leaguePosition < nr.leaguePosition ? "daniel" : "nik")
+      : dr.leaguePoints !== nr.leaguePoints ? (dr.leaguePoints > nr.leaguePoints ? "daniel" : "nik") : null;
+    frame.tiebreak = d !== n ? "none" : dr.leaguePosition !== nr.leaguePosition ? "league-position"
+      : dr.leaguePoints !== nr.leaguePoints ? "league-points" : "draw";
+    frame.scoringState = "SCORING_RECONCILED";
+  }
+
   function renderPreviewTag(fixtures, frame) {
     let tag = document.getElementById("season-preview-tag");
     if (!tag) {
@@ -387,6 +433,7 @@
     const requested = qs.get("frame");
     const frameId = requested && fixtures.frames[requested] ? requested : frameIds[0];
     const frame = { ...fixtures.frames[frameId] };
+    normalizeLegacyPreview(frame);
     // DEFAULT: older fixtures omit bounds; derive contract §0 bounds at the adapter edge.
     const contractTeams = { premier_league: 20, laliga: 20, bundesliga: 18, serie_a: 20, ligue_1: 20 };
     frame.teamCount = frame.teamCount ?? contractTeams[frame.context.leagueId];
@@ -420,6 +467,7 @@
     });
     if (document.fonts) await document.fonts.ready;
     if (typeof window.sdEnter === "function") window.sdEnter(stage);
+    animateCanonicalScores(frame);
   }
 
   init().catch((error) => {
