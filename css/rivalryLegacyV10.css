@@ -7,3 +7,10 @@
 }
 /* The stage adds an empty UI layer above the rivalry shell (same z-index, later in the DOM); it must not eat clicks. */
 #statistics[data-rivalry-legacy-v10] .sd-stage__layer--ui { pointer-events:none; }
+#legacy[data-rivalry-legacy-v10] .legacyBackV10 { position:absolute; top:12px; left:12px; z-index:30; min-height:40px; padding:0 16px; }
+#legacy[data-rivalry-legacy-v10] .legacyBackShort { display:none; }
+@media(max-width:900px) {
+  #legacy[data-rivalry-legacy-v10] .legacyBackV10 { top:8px; left:8px; min-height:34px; min-width:0; width:64px; padding:0; font-size:12px; }
+  #legacy[data-rivalry-legacy-v10] .legacyBackFull { display:none; }
+  #legacy[data-rivalry-legacy-v10] .legacyBackShort { display:inline; }
+}

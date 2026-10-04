@@ -96,6 +96,8 @@
     for(const id of ["careerStatistics","trophyRoom"]){const other=root.document.getElementById(id);if(other?.dataset.careerV10==="1"){screens().hide(id);other.remove();}}
     if(host.dataset.rivalryLegacyV10!=="1")originalMarkup[screen]=host.innerHTML;
     host.dataset.rivalryLegacyV10="1";host.innerHTML=markup(screen);
+    // Team V's History frame has no Back control (the shared bar covers it), but the product keeps a .backButton for smart Back.
+    if(screen==="legacy"){const layer=host.querySelector?.(".sd-stage__layer--ui"),back=layer&&root.document.createElement?.("button");if(back){back.id="legacyBack";back.type="button";back.className="backButton legacyBackV10 sd-btn sd-btn--secondary";back.innerHTML="<span class=\"legacyBackFull\">BACK TO MAIN MENU</span><span class=\"legacyBackShort\" aria-hidden=\"true\">BACK</span>";back.setAttribute("aria-label","Back to main menu");layer.appendChild(back);}}
     const frame=copy(rlToV10Frame(model,screen)),data={strings:resources[screen].strings,frames:{LIVE:frame}};
     if(screen==="legacy")root.LEGACY_BOOT={fixtures:data,platemap:resources[screen].map};
     else root.RIVALRY_BOOT={fixtures:data,platemap:resources[screen].map};

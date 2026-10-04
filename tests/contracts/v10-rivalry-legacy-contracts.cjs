@@ -106,6 +106,10 @@ check('RL11 real Team V renderers show honest states and live values without fix
   assert.ok(m&&vi.includes(`window.${m[1]} = ${m[1]};`),'the loader waits for a global that js/visualIdentity.js really sets');
   for(const f of ['visual-assets/v10_1/legacy/legacy.js','visual-assets/v10_1/rivalry-statistics/rivalry-statistics.js'])for(const g of read(f).match(/window\.get[A-Za-z]+(?=\()/g)||[])assert.ok(vi.includes(`${g} = `),`${f} calls ${g}, which js/visualIdentity.js must expose`);}
  console.log(`ok ${++n} RL13 the crest and league-mark globals Team V's screens call are provided by js/visualIdentity.js`);
+ {const src=read('js/rivalryLegacyV10.js'),css=read('css/rivalryLegacyV10.css');
+  assert.ok(/screen==="legacy"[^;]*\.sd-stage__layer--ui[\s\S]{0,400}className="backButton /.test(src),'History keeps a .backButton for smart Back (the stability audit clicks #legacy .backButton)');
+  assert.ok(/sd-stage__layer--ui\s*\{\s*pointer-events:none/.test(css),'the empty rivalry UI layer must not intercept the Back click');}
+ console.log(`ok ${++n} RL14 History keeps a Back button and Rivalry Back stays clickable`);
  console.log(`v10-rivalry-legacy contracts passed (${n} checks)`);
 })().catch(error=>{console.error(error);process.exitCode=1;});
 
