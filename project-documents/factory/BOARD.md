@@ -1,10 +1,10 @@
 # 🏭 Showdown Factory board
 
-**223 of 238 jobs done and checked · 93 %** · updated Sun 3:12 p.m. Eastern
+**223 of 238 jobs done and checked · 94 %** · updated Sun 3:14 p.m. Eastern
 
 <img src="board-meter.svg" alt="Football progress meter" width="640">
 
-⏱ **Estimated finish: Mon 1:39 a.m. Eastern** (about 10 h 26 min from now at today's pace)
+⏱ **Estimated finish: Mon 12:52 a.m. Eastern** (about 9 h 38 min from now at today's pace)
 
 ## 🔴 Now
 
@@ -12,17 +12,21 @@
 
 ## 🟢 Next (start these)
 
-- **107** Motion and sound consistency pass (1/6) · type the number in a new chat in project Showdown visual
+- **229** Motion and sound consistency pass (2/6) · type the number in a new chat in project Showdown visual
 
 ## ⚪ Then
 
-- **229** Motion and sound consistency pass (2/6) · after 107 · type the number in a new chat in project Showdown visual
+- **230** Motion and sound consistency pass (3/6) · after 229 · type the number in a new chat in project Showdown visual
+
+## ⚠️ Needs attention
+
+- Waiting for Claude's check: 107
 
 ## 🧰 Where to type and when it resets
 
 | Tool | Where | Resets (Eastern) | Jobs left |
 | --- | --- | --- | --- |
-| 🟡 GPT-5.6 Sol chat | ChatGPT, project "Showdown visual", new normal chat: type the job number | unknown | 14 |
+| 🟡 GPT-5.6 Sol chat | ChatGPT, project "Showdown visual", new normal chat: type the job number | unknown | 13 |
 | 🟠 GPT-6.1 Sol Work mode | ChatGPT, Work mode (press Use Work). Not used for factory jobs now | Sun 4:18 p.m. Eastern | 0 |
 | 🔵 Astra | ChatGPT Work mode (Astra): paste the bundle prompt from handoffs/C2W-*.md | Sun 4:18 p.m. Eastern | 0 |
 | 🟣 Claude threads | Claude project threads and claude.ai/code cloud sessions (no typing by Nik) | Thu 8:00 p.m. Eastern | 0 |
@@ -31,12 +35,12 @@
 
 _Resets live in [LANES.json](LANES.json) (hand-edited; "unknown" means nobody has told the board yet)._
 
-_Estimate only. Method: the longest chain of jobs still to do (15 left) × the median real time per step (Claude jobs 3 min, set by hand in LANES.json from the hard-jobs thread (8 parts in about 15 min); GPT chat jobs 42 min; real gaps from jobs finished in the last 3 days, so they include waiting). Codex job assumed 45 min. It ignores usage limits and resets, so it can only slip, and it does not include Claude's quality check or Nik's own approval._
+_Estimate only. Method: the longest chain of jobs still to do (14 left) × the median real time per step (Claude jobs 3 min, set by hand in LANES.json from the hard-jobs thread (8 parts in about 15 min); GPT chat jobs 41 min; real gaps from jobs finished in the last 3 days, so they include waiting). Codex job assumed 45 min. It ignores usage limits and resets, so it can only slip, and it does not include Claude's quality check or Nik's own approval._
 
 ## 📊 Screens
 
 ```
-Integration    ██████░░░░ 23/38
+Integration    ██████░░░░ 24/38
 ```
 ✅ Finished screens (19): Home, League, Club, Transfer, Loading, Trophy Room, Career Stats, Rivalry, Legacy, Season Results, Final Winner, Start/Join, Standings, Rule Book, Settings, Setup, Foundation, Art, Top bar
 
@@ -161,7 +165,7 @@ Quality bar: average 4.2 or more, nothing under 3. Average so far 4.26 over 75 s
 | 104 | [Showcase: screens read Team G's model-true fixtures (part 1 of 8)](jobs/JOB-104.md) | project (type number) | 213, 102 | 100 % | DONE |
 | 105 | [Full phone pass (part 1 of 7)](jobs/JOB-105.md) | project (type number) | 220 | 100 % | DONE |
 | 106 | [Full phone pass: fixes (part 1 of 3)](jobs/JOB-106.md) | project (type number) | 226 | 100 % | DONE |
-| 107 | [Motion and sound consistency pass (part 1 of 6)](jobs/JOB-107.md) | project (type number) | 228 | 0 % | NOT STARTED |
+| 107 | [Motion and sound consistency pass (part 1 of 6)](jobs/JOB-107.md) | project (type number) | 228 | 100 % | DONE |
 | 108 | [Final package review (Codex)](jobs/JOB-108.md) | codex | 233 | 0 % | NOT STARTED |
 | 109 | [Final fixes (part 1 of 3)](jobs/JOB-109.md) | project (type number) | 108 | 0 % | NOT STARTED |
 | 110 | [Package for Nik and handoff to GPT-5.6 Sol (part 1 of 5)](jobs/JOB-110.md) | project (type number) | 235 | 0 % | NOT STARTED |
