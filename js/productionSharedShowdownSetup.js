@@ -144,8 +144,9 @@
   }
   async function refreshNow(generation=setupGeneration){
     const before=storageSnapshot();setState({status:"reading",busy:true,message:"Reading the authoritative Shared Setup for this exact ACTIVE session…"});
+    let readReached=false;
     try{
-      const context=await resolveContext();const result=await context.adapter.read(providerOptions(context));assertStorageUnchanged(before);
+      const context=await resolveContext();readReached=true;const result=await context.adapter.read(providerOptions(context));assertStorageUnchanged(before);
       if(generation!==setupGeneration)return state;
       if(!result||result.ok!==true)fail(result&&result.code||"SHARED_SETUP_READ_FAILED");
       const message=result.status==="empty"
@@ -155,8 +156,9 @@
     }catch(error){
       try{assertStorageUnchanged(before);}catch(storageError){error=storageError;}
       if(generation!==setupGeneration)return state;
-      // One failed read (network blip, a read racing the rival's write) keeps the confirmed Setup for one poll so every module gated on it does not go quiet; a repeat failure locks it.
-      if(!heldReadFailure&&state.ready===true&&state.setup&&state.setup.phase==="SHOWDOWN_CONFIRMED"){heldReadFailure=true;return setState({status:"ready",busy:false});}
+      // One failed provider read (network blip, a read racing the rival's write) keeps the confirmed Setup for one poll so every module gated on it does not go quiet; a repeat failure locks it.
+      // Context failures (logout, detached pairing, expired session, account/device mismatch) and storage changes never hold: the exact ACTIVE prerequisite is gone.
+      if(readReached&&!/^SHARED_SETUP_(LOCAL_SAVE_MUTATION|STORAGE_AUTHORITY_UNAVAILABLE)$/.test(String(error&&error.code||""))&&!heldReadFailure&&state.ready===true&&state.setup&&state.setup.phase==="SHOWDOWN_CONFIRMED"){heldReadFailure=true;return setState({status:"ready",busy:false});}
       heldReadFailure=false;
       return setState({status:"locked",busy:false,ready:false,message:error&&error.message&&error.message!==error.code?error.message:String(safeError(error,"SHARED_SETUP_UNAVAILABLE")).replace(/_/g," ")});
     }
@@ -172,12 +174,12 @@
   // revision / already done). Re-read; if the refreshed Setup already shows this step, finish silently, else retry once with a fresh
   // revision and operation id. A real denial still surfaces after that one retry.
   const RACE_CODES=Object.freeze(["permission-denied","firestore/permission-denied","permission_denied","SETUP_STALE_BASE_REVISION","SETUP_ALREADY_OPEN","SETUP_ALREADY_CONFIRMED","SETUP_TRANSITION_INVALID","SETUP_NOT_OPEN"]);
-  function stepAlreadyShown(type,result,role){
+  function stepAlreadyShown(type,result,role,extra={}){
     const setup=result&&result.state;if(!setup)return false;
     if(type==="open")return true;
     if(type==="commit-league")return Boolean(setup.leagueId);
     if(type==="commit-clubs")return Boolean(setup.clubs);
-    if(type==="commit-length")return Boolean(setup.totalSeasons);
+    if(type==="commit-length")return Boolean(setup.totalSeasons)&&setup.totalSeasons===extra.totalSeasons;
     if(type==="confirm")return Array.isArray(setup.confirmedRoles)&&setup.confirmedRoles.includes(role);
     return false;
   }
@@ -189,7 +191,7 @@
       for(let attempt=0;;attempt+=1){
         const current=await context.adapter.read(providerOptions(context));
         if(!current||current.ok!==true)fail(current&&current.code||"SHARED_SETUP_READ_FAILED");
-        if(attempt>0&&stepAlreadyShown(type,current,context.managerRole)){assertStorageUnchanged(before);return accept(current,context,"Both managers can now read the same authoritative Shared Setup state.");}
+        if(attempt>0&&stepAlreadyShown(type,current,context.managerRole,extra)){assertStorageUnchanged(before);return accept(current,context,"Both managers can now read the same authoritative Shared Setup state.");}
         const operationId=randomOperationId(),baseRevision=current.revision||0;
         const providerRequest={...providerOptions(context),type,operationId,baseRevision,...extra};
         let result;
