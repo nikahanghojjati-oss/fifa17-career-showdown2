@@ -1487,7 +1487,7 @@ button {
 :is(html[data-motion-reduced="true"], html[data-reduced-motion="true"], html:has(#stage-root[data-sd-motion-reduced="true"])) #stage-root.sd-motion-ready [data-sd-enter],
 :is(html[data-motion-reduced="true"], html[data-reduced-motion="true"], html:has(#stage-root[data-sd-motion-reduced="true"])) #stage-root :is(.legacyDealing, .legacyCrowning, .legacyPaging, .legacyParallax, .legacyFading),
 :is(html[data-motion-reduced="true"], html[data-reduced-motion="true"], html:has(#stage-root[data-sd-motion-reduced="true"])) #stage-root .legacyActionLabel.sd-is-pulsing {
-  animation: sd-reduced-fade 120ms linear both !important;
+  animation: sd-reduced-fade 150ms linear both !important;
   animation-delay: 0ms !important;
   animation-play-state: running !important;
   transform: none !important;
@@ -1509,7 +1509,7 @@ button {
 #stage-root.sd-motion-ready [data-sd-enter],
 #stage-root :is(.legacyDealing, .legacyCrowning, .legacyPaging, .legacyParallax, .legacyFading),
 #stage-root .legacyActionLabel.sd-is-pulsing {
-  animation: sd-reduced-fade 120ms linear both !important;
+  animation: sd-reduced-fade 150ms linear both !important;
   animation-delay: 0ms !important;
   animation-play-state: running !important;
   transform: none !important;
