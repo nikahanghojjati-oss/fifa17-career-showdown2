@@ -1,8 +1,8 @@
 # Showdown Factory board
 
-**181 of 238 jobs done and checked · 79 %** · updated Sun 12:15 p.m. Eastern
+**181 of 238 jobs done and checked · 79 %** · updated Sun 12:16 p.m. Eastern
 
-✅ **Quality check:** a job counts as done only after Claude checks it against the quality bar (average 4.2 or more, nothing under 3, hard gates pass). Average score 4.25 over 66 scored jobs. 🔍 Waiting for Claude's check: 74, 80, 164, 165, 166, 167, 176. 
+✅ **Quality check:** a job counts as done only after Claude checks it against the quality bar (average 4.2 or more, nothing under 3, hard gates pass). Average score 4.25 over 66 scored jobs. 🔍 Waiting for Claude's check: 74, 80, 146, 164, 165, 166, 167, 176. 
 
 <img src="board-meter.svg" alt="Football progress meter" width="640">
 
@@ -12,7 +12,7 @@
 
 🟣 **Image next:** -
 
-**Working:** 75, 76, 81, 103, 146, 168, 169, 170, 171, 177, 178, 179, 180, 210, 211, 212, 213 · **Blocked:** -
+**Working:** 75, 76, 81, 103, 168, 169, 170, 171, 177, 178, 179, 180, 210, 211, 212, 213 · **Blocked:** -
 
 ## Screens
 
@@ -20,7 +20,7 @@
 Home           ██████████ 8/8
 League         ██████████ 8/8
 Club           ██████████ 7/7
-Transfer       █████████░ 12/13
+Transfer       ██████████ 13/13
 Loading        ██████████ 4/4
 Trophy Room    ██████████ 10/10
 Career Stats   ██████████ 17/17
@@ -41,9 +41,9 @@ Integration    ░░░░░░░░░░ 0/38
 
 ## Team V ↔ Team G (latest 3)
 
-- Sat 10:55 a.m. Eastern · Team G → Team V · G2V-008: Fixture update: after a Showdown closes, Daniel gets CREATE and Nik gets JOIN (model bug fixed, 5 files regenerated)
 - Sat 7:55 p.m. Eastern · Team G → Team V · G2V-009: Gameplay done before G-13; when is the visual package ready? G-10 transfer fields
 - Sat 11:24 p.m. Eastern · Team V → Team G · V2G-009: Visual package ready for Nik's review ~Wed 7 Oct; wire Trophy Room + Career Statistics first; G-10 fields accepted; new Action comments on PR #312 for every message
+- Sun 12:16 p.m. Eastern · Team V → Team G · V2G-010: Nik's shared goal: both boards at 100 % = Nik and Daniel play the live game with the new visual pack start to finish, bug-free; confirm your board ends there
 
 ## Full board
 
@@ -57,7 +57,7 @@ Branch `factory/v1-wtt5ye`. 238 Team V jobs, plus 5 lines that track Team G. Two
 
 **Start now (Sol Work mode, press Use Work):** -
 
-**Working:** 75, 76, 81, 103, 146, 168, 169, 170, 171, 177, 178, 179, 180, 210, 211, 212, 213 · **Blocked:** -
+**Working:** 75, 76, 81, 103, 168, 169, 170, 171, 177, 178, 179, 180, 210, 211, 212, 213 · **Blocked:** -
 
 **Team G tracking (never start these):** 98 (done), 99 (open), 100 (open), 101 (open), 102 (open). Claude marks them done when Team G delivers.
 
@@ -209,7 +209,7 @@ Branch `factory/v1-wtt5ye`. 238 Team V jobs, plus 5 lines that track Team G. Two
 | 143 | [Transfer War: fix round (part 2 of 3)](jobs/JOB-143.md) | 4 Polish built screens | fix | project (type number) | 52 | ██████████ 100 % | DONE |  |
 | 144 | [Transfer War: fix round (part 3 of 3)](jobs/JOB-144.md) | 4 Polish built screens | fix | project (type number) | 143 | ██████████ 100 % | DONE |  |
 | 145 | [Transfer War: motion (part 2 of 3)](jobs/JOB-145.md) | 4 Polish built screens | build | project (type number) | 53 | ██████████ 100 % | DONE |  |
-| 146 | [Transfer War: motion (part 3 of 3)](jobs/JOB-146.md) | 4 Polish built screens | build | project (type number) | 145 | ░░░░░░░░░░ 0 % | IN PROGRESS · BUNDLE | yes |
+| 146 | [Transfer War: motion (part 3 of 3)](jobs/JOB-146.md) | 4 Polish built screens | build | project (type number) | 145 | ██████████ 100 % | DONE | yes |
 | 147 | [Career Statistics: review (part 2 of 4)](jobs/JOB-147.md) | 5 New screens | review | project (type number) | 64 | ██████████ 100 % | DONE |  |
 | 148 | [Career Statistics: review (part 3 of 4)](jobs/JOB-148.md) | 5 New screens | review | project (type number) | 147 | ██████████ 100 % | DONE |  |
 | 149 | [Career Statistics: review (part 4 of 4)](jobs/JOB-149.md) | 5 New screens | review | project (type number) | 148 | ██████████ 100 % | DONE |  |
