@@ -172,6 +172,80 @@
     });
   }
 
+  // JOB-183 pack-rip ceremony. All timings are constants; transform/opacity/canvas only.
+  const RIP = {
+    anticipateMs: 400,     // screen dims, drum-roll pulse on the trophy glow
+    flashAtMs: 400,        // white-gold flash
+    flashMs: 220,
+    burstAtMs: 450,        // confetti burst (kit sdBurst, hard cap 60)
+    burstCount: 60,
+    drawBurstCount: 30,    // draw: one smaller burst on each side
+    nameWipeAtMs: 450,     // winner name brush-wipe (kit title-wipe classes)
+    nameWipeMs: 450,
+    countUpAtMs: 600,
+    countUpMs: 600,
+    shineSettleMs: 1200    // then a slow shine loop every 4 s (CSS, off for reduced motion)
+  };
+
+  function ceremonyReduced() {
+    return !!(window.ShowdownMotion && window.ShowdownMotion.isReducedMotion && window.ShowdownMotion.isReducedMotion());
+  }
+
+  function runCeremony(frame) {
+    if (ceremonyReduced() || frame.state !== "completed" || !frame.winner) return;
+    const layer = root.querySelector(".finalWinnerConfettiLayer");
+    const slot = root.querySelector(".winnerTrophySlot");
+    if (!layer || !slot) return;
+    const later = (ms, fn) => window.setTimeout(fn, ms);
+
+    root.classList.add("fwAnticipate");
+    later(RIP.anticipateMs, () => root.classList.remove("fwAnticipate"));
+
+    const flash = document.createElement("span");
+    flash.className = "finalWinnerFlash";
+    flash.setAttribute("aria-hidden", "true");
+    root.appendChild(flash);
+    later(RIP.flashAtMs, () => flash.classList.add("is-flashing"));
+    later(RIP.flashAtMs + RIP.flashMs + 40, () => flash.remove());
+
+    const canvas = document.createElement("canvas");
+    canvas.className = "finalWinnerFx";
+    canvas.setAttribute("aria-hidden", "true");
+    canvas.width = layer.clientWidth || 1;
+    canvas.height = layer.clientHeight || 1;
+    layer.appendChild(canvas);
+    later(RIP.burstAtMs, () => {
+      if (typeof window.sdBurst !== "function") return;
+      if (frame.winner === "draw") {
+        window.sdBurst(canvas, canvas.width * 0.22, canvas.height * 0.5, { count: RIP.drawBurstCount });
+        window.sdBurst(canvas, canvas.width * 0.78, canvas.height * 0.5, { count: RIP.drawBurstCount });
+        return;
+      }
+      const lr = layer.getBoundingClientRect(), tr = slot.getBoundingClientRect();
+      window.sdBurst(canvas, tr.left + tr.width / 2 - lr.left, tr.top + tr.height * 0.35 - lr.top, { count: RIP.burstCount });
+    });
+    later(RIP.burstAtMs + 1000, () => canvas.remove());
+
+    const name = document.getElementById("outcomeHeadline");
+    if (name) {
+      name.classList.add("sd-title-wipe");
+      later(RIP.nameWipeAtMs, () => name.classList.add("sd-is-animating"));
+      later(RIP.nameWipeAtMs + RIP.nameWipeMs, () => { name.classList.remove("sd-is-animating"); name.classList.add("sd-entered"); });
+    }
+
+    if (typeof window.sdCountUp === "function") {
+      ["danielTotal", "nikTotal", "panelSeasons", "panelMargin"].forEach((id) => {
+        const el = document.getElementById(id);
+        const to = el ? Number(el.textContent) : NaN;
+        if (!Number.isFinite(to)) return;
+        el.textContent = "0";
+        later(RIP.countUpAtMs, () => window.sdCountUp(el, to, RIP.countUpMs));
+      });
+    }
+
+    later(RIP.shineSettleMs, () => root.classList.add("fwSettled"));
+  }
+
   mountStage();
 
   fetch("fixtures.json", { cache: "no-store" })
@@ -185,6 +259,7 @@
       const frameId = requested && fixtures.frames[requested] ? requested : frameIds[0];
       applyFrame(fixtures, frameId);
       if (typeof window.sdEnter === "function") window.sdEnter(root);
+      runCeremony(fixtures.frames[frameId]);
     })
     .catch((error) => {
       // fixtures.json itself is unreadable here, so this mirrors frame FW8's product copy; the error stays in the console only.
