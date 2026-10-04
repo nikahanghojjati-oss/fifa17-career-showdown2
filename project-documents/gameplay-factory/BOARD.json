@@ -397,9 +397,9 @@
    "title": "Both managers tap at the same second and the slower one sees an error",
    "plain": "Hits Career Start, the Transfer Challenge locks and timer, and Setup confirm. Nothing is corrupted, but the loser must tap again.",
    "likelihood": "likely",
-   "status": "IN PROGRESS",
+   "status": "DONE",
    "owner": "lead",
-   "note": "job 21, PR #344: retry once quietly (checks running)"
+   "note": "job 21, PR #344 merged into the gameplay branch; reaches the live app at the next release"
   },
   {
    "id": "BH-2",
