@@ -250,7 +250,10 @@ async function browserChecks(){
           const visible=await page.evaluate(ids=>ids.filter(id=>{const n=document.getElementById(id);return n&&!n.classList.contains("hidden")&&n.getClientRects().length>0;}),buttons);
           assert.ok(visible.length>=1,`${phase} ${size.width}: the phase action shows`);
           await page.evaluate(()=>{window.__tvOwnClicks=[];});
-          await page.locator("#refreshSharedTransferChallenge").click({timeout:5000});
+          await page.locator("#refreshSharedTransferChallenge").click({timeout:5000}).catch(async error=>{
+            const why=await page.evaluate(()=>{const out=[];for(let n=document.getElementById("refreshSharedTransferChallenge");n&&n!==document;n=n.parentElement){const c=getComputedStyle(n),r=n.getBoundingClientRect();out.push(`${n.tagName}#${n.id}.${[...n.classList].join(".")} d=${c.display} v=${c.visibility} o=${c.opacity} fs=${c.fontSize} ${Math.round(r.x)},${Math.round(r.y)} ${Math.round(r.width)}x${Math.round(r.height)}`);}
+              const sheets=[...document.querySelectorAll("link[data-v10-style]")].map(l=>`${l.getAttribute("data-v10-style")}:${Boolean(l.sheet)}:${l.disabled}`);return out.concat(sheets).join("\n");});
+            throw new Error(`${phase} ${size.width}: refresh not clickable\n${why}\n${error.message.split("\n")[0]}`);});
           assert.deepEqual(await page.evaluate(()=>window.__tvOwnClicks),["refresh"],`${phase} ${size.width}: refresh keeps its own listener`);
           const scroll=await page.evaluate(()=>({doc:document.scrollingElement.scrollWidth<=window.innerWidth+1}));
           assert.ok(scroll.doc,`${phase} ${size.width}: no horizontal page scroll`);
