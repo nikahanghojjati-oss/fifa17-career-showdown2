@@ -1,14 +1,14 @@
 # Showdown Factory board
 
-**108 of 238 jobs done and checked · 48 %** · updated Sat 10:20 p.m. Eastern
+**108 of 238 jobs done and checked · 49 %** · updated Sat 10:21 p.m. Eastern
 
-✅ **Quality check:** a job counts as done only after Claude checks it against the quality bar (average 4.2 or more, nothing under 3, hard gates pass). Average score 4.25 over 47 scored jobs. 🔍 Waiting for Claude's check: 50, 65, 88, 148, 149. 🔧 Sent back with a fix list: 68, 77, 95.
+✅ **Quality check:** a job counts as done only after Claude checks it against the quality bar (average 4.2 or more, nothing under 3, hard gates pass). Average score 4.25 over 47 scored jobs. 🔍 Waiting for Claude's check: 50, 65, 88, 148, 149, 195, 196. 🔧 Sent back with a fix list: 68, 77, 95.
 
 ████░░░░░░
 
 **Where to run:** 🟡 **project job** = new chat in the ChatGPT project "Showdown visual", type the number; one number is one turn (no Continue), and a job in parts shows its later parts only when the earlier part is done. 🟣 **image job** = its ticket in a ChatGPT **Temporary Chat** outside any project, then drop the picture in Claude's factory thread.
 
-🟡 **Type next:** 68 (fix), 77 (fix), 95 (fix), 86, 127 · then 140, 150, 185, 195
+🟡 **Type next:** 68 (fix), 77 (fix), 95 (fix), 86, 127 · then 140, 150, 185
 
 🟣 **Image next:** 118
 
@@ -31,7 +31,7 @@ Final Winner   ███████░░░ 9/12
 Start/Join     ███░░░░░░░ 6/18
 Standings      ░░░░░░░░░░ 1/15
 Rule Book      ██████████ 4/4
-Settings       ███████░░░ 4/7
+Settings       ██████████ 6/7
 Setup          ██████████ 2/2
 Foundation     ██████████ 7/7
 Art            ██████████ 8/8
@@ -49,9 +49,9 @@ Integration    ░░░░░░░░░░ 0/38
 
 Branch `factory/v1-wtt5ye`. 238 Team V jobs, plus 5 lines that track Team G. Two kinds of job. **Project (type number):** open a new chat in the ChatGPT project "Showdown visual" and type the number (up to 5 at once). **Fresh chat (image):** run the job's ticket from [tickets/](tickets/README.md) in a ChatGPT Temporary Chat (no memory) outside any project, then drop the image in Claude's factory thread (up to 2 at once).
 
-**Overall (Team V):** ████░░░░░░ 48 % · 108 of 238 jobs done
+**Overall (Team V):** ████░░░░░░ 49 % · 108 of 238 jobs done
 
-**Start now · project (type the number in Showdown visual):** 68 (fix), 77 (fix), 95 (fix), 86, 127 · queued next: 140, 150, 185, 195
+**Start now · project (type the number in Showdown visual):** 68 (fix), 77 (fix), 95 (fix), 86, 127 · queued next: 140, 150, 185
 
 **Start now · fresh chat (image ticket, outside the project):** 118
 
@@ -258,8 +258,8 @@ Branch `factory/v1-wtt5ye`. 238 Team V jobs, plus 5 lines that track Team G. Two
 | 192 | [Start / Join: motion (part 2 of 3)](jobs/JOB-192.md) | 5 New screens | build | project (type number) | 91 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 193 | [Start / Join: motion (part 3 of 3)](jobs/JOB-193.md) | 5 New screens | build | project (type number) | 192 | ░░░░░░░░░░ 0 % | NOT STARTED | yes |
 | 194 | [Settings: fix round and motion (part 2 of 4)](jobs/JOB-194.md) | 5 New screens | fix | project (type number) | 97 | ██████████ 100 % | DONE |  |
-| 195 | [Settings: fix round and motion (part 3 of 4)](jobs/JOB-195.md) | 5 New screens | fix | project (type number) | 194 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
-| 196 | [Settings: fix round and motion (part 4 of 4)](jobs/JOB-196.md) | 5 New screens | fix | project (type number) | 195 | ░░░░░░░░░░ 0 % | NOT STARTED | yes |
+| 195 | [Settings: fix round and motion (part 3 of 4)](jobs/JOB-195.md) | 5 New screens | fix | project (type number) | 194 | ██████████ 100 % | DONE |  |
+| 196 | [Settings: fix round and motion (part 4 of 4)](jobs/JOB-196.md) | 5 New screens | fix | project (type number) | 195 | ██████████ 100 % | DONE | yes |
 | 197 | [Standings: fix round and motion (part 2 of 4)](jobs/JOB-197.md) | 5 New screens | fix | project (type number) | 129 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 198 | [Standings: fix round and motion (part 3 of 4)](jobs/JOB-198.md) | 5 New screens | fix | project (type number) | 197 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 199 | [Standings: fix round and motion (part 4 of 4)](jobs/JOB-199.md) | 5 New screens | fix | project (type number) | 198 | ░░░░░░░░░░ 0 % | NOT STARTED | yes |
