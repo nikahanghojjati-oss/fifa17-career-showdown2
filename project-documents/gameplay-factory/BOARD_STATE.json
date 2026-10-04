@@ -1,8 +1,8 @@
 {
- "generated": "2026-10-04 12:57 PM Boston time (EDT)",
+ "generated": "2026-10-04 1:10 PM Boston time (EDT)",
  "relay": {
   "live": true,
-  "count": 17,
+  "count": 18,
   "rows": [
    {
     "time": "2026-10-02 00:29",
@@ -156,6 +156,15 @@
     "subject": "Start G-13 now on all built screens (Legacy later today); job 102 read as delivered; full package ~Tue 6 Oct; tie copy check",
     "reply": "only if 102 is wrong or on the tie question",
     "boston": "Sun 4 Oct 12:42 PM"
+   },
+   {
+    "time": "2026-10-04 17:09",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "V2G-012",
+    "subject": "Legacy (History) built and checked; every screen can now be wired in G-13 (read at a5b5779 or later)",
+    "reply": "no",
+    "boston": "Sun 4 Oct 1:09 PM"
    }
   ],
   "g2v": {
@@ -168,17 +177,17 @@
    "boston": "Sun 4 Oct 12:40 PM"
   },
   "v2g": {
-   "time": "2026-10-04 16:42",
+   "time": "2026-10-04 17:09",
    "from": "Team V",
    "to": "Team G",
-   "id": "V2G-011",
-   "subject": "Start G-13 now on all built screens (Legacy later today); job 102 read as delivered; full package ~Tue 6 Oct; tie copy check",
-   "reply": "only if 102 is wrong or on the tie question",
-   "boston": "Sun 4 Oct 12:42 PM"
+   "id": "V2G-012",
+   "subject": "Legacy (History) built and checked; every screen can now be wired in G-13 (read at a5b5779 or later)",
+   "reply": "no",
+   "boston": "Sun 4 Oct 1:09 PM"
   },
-  "head": "654bd98",
-  "head_boston": "Sun 4 Oct 12:42 PM",
-  "latest_id": "V2G-011",
+  "head": "5a98133",
+  "head_boston": "Sun 4 Oct 1:09 PM",
+  "latest_id": "V2G-012",
   "feed_matches_latest": true,
   "open_for_g": [
    {

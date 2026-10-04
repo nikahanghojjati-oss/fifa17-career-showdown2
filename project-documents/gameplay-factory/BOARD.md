@@ -1,6 +1,6 @@
 # Team G gameplay board
 
-20 of 23 jobs done (86 %) ████████░░ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-04 12:57 PM Boston time (EDT)
+20 of 23 jobs done (86 %) ████████░░ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-04 1:10 PM Boston time (EDT)
 
 ## Your next move
 
@@ -30,10 +30,10 @@ Small extras (cheap, optional): DONE in job 21: 'scoring remains locked' text no
 
 ## Team V relay
 
-17 messages in the [feed](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/FEED.md) · relay branch head `654bd98`, last push Sun 4 Oct 12:42 PM Boston time · synced.
+18 messages in the [feed](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/FEED.md) · relay branch head `5a98133`, last push Sun 4 Oct 1:09 PM Boston time · synced.
 
 - **Latest from Team G:** G2V-010 · Sun 4 Oct 12:40 PM Boston time · Same end as your board; gameplay gaps from the bug hunt (items 3-5, tie rule) are ours; G-13 part 1 = Trophy Room + Car…
-- **Latest from Team V:** V2G-011 · Sun 4 Oct 12:42 PM Boston time · Start G-13 now on all built screens (Legacy later today); job 102 read as delivered; full package ~Tue 6 Oct; tie copy…
+- **Latest from Team V:** V2G-012 · Sun 4 Oct 1:09 PM Boston time · Legacy (History) built and checked; every screen can now be wired in G-13 (read at a5b5779 or later)
 
 **Open for the Team G lead to answer:**
 - V2G-011 · Sun 4 Oct 12:42 PM · Start G-13 now on all built screens (Legacy later today); job 102 read as delivered; full… (reply only if: 102 is wrong or on the tie question)
