@@ -1,0 +1,73 @@
+{
+  "version": 2,
+  "policy": "generate only when approved assets / grading / CSS-SVG / live DOM cannot satisfy the visual intent",
+  "priority_order": [
+    "SV01 integration using existing approved Transfer assets",
+    "Create Showdown dedicated pose pair",
+    "Season Results Entry dedicated competitive pose pair",
+    "Season Summary reaction set",
+    "League Nik analytical pose",
+    "Legacy/trophy object pass if needed"
+  ],
+  "screen_demands": {
+    "TRANSFER": {
+      "status": "READY_FOR_LUNA",
+      "reuse": [
+        "POSE_TRANSFER_DANIEL_FOCUSED_V1",
+        "POSE_TRANSFER_NIK_TACTICAL_V1",
+        "ENV_STADIUM_WARM_BASE_V1"
+      ],
+      "generate_now": [],
+      "css_svg": [
+        "phase rail",
+        "tactical linework",
+        "gold practical-light overlays"
+      ],
+      "live_dom": [
+        "guess rows",
+        "private module",
+        "CTA",
+        "state text"
+      ],
+      "note": "No additional image generation required before SV01 Revision 1."
+    },
+    "CREATE": {
+      "status": "ASSET_GAP",
+      "generate_later": [
+        "POSE_CREATE_DANIEL_AGREEMENT_V1",
+        "POSE_CREATE_NIK_DECISION_V1"
+      ],
+      "environment": "reuse warm stadium with SETUP_COMMAND grade",
+      "dominant_object": "live setup board"
+    },
+    "RESULTS_ENTRY": {
+      "status": "ASSET_GAP",
+      "generate_later": [
+        "POSE_RESULTS_ENTRY_DANIEL_COMPETITIVE_V1",
+        "POSE_RESULTS_ENTRY_NIK_COMPETITIVE_V1"
+      ],
+      "environment": "RESULTS_FLOODLIGHT",
+      "dominant_object": "live dual result/scoring board"
+    },
+    "SEASON_SUMMARY": {
+      "status": "ASSET_GAP",
+      "generate_later": [
+        "POSE_SUMMARY_DANIEL_WIN_V1",
+        "POSE_SUMMARY_DANIEL_LOSS_V1",
+        "POSE_SUMMARY_NIK_WIN_V1",
+        "POSE_SUMMARY_NIK_LOSS_V1"
+      ],
+      "optimization": "generate neutral reaction pair first if implementation does not yet branch winner/loser art",
+      "environment": "RESULTS_CELEBRATION"
+    },
+    "LEAGUE": {
+      "status": "PARTIAL",
+      "reuse": [
+        "POSE_LEAGUE_DANIEL_LATERAL_POINT_V1"
+      ],
+      "generate_later": [
+        "POSE_LEAGUE_NIK_ANALYTICAL_V1"
+      ]
+    }
+  }
+}

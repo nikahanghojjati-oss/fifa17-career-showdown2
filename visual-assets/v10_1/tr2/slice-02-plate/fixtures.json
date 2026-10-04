@@ -1,0 +1,276 @@
+{
+  "_source": "Strings = SOL_DECISIONS_TO_CLAUDE_TW_RESET_R2_2026-09-28 S2 (approved Transfer deck) + Sol TW-PLATE-G R2 (TWG-S4 Daniel-viewer mirrors approved; TWG-S10 F1 contract). f1ActionRequested is production main's existing requested-state label (js/productionSharedTransferChallenge.js), carried unchanged pending Sol (TWF-S1). F3/F4 strings = SOL_TWF_DECISIONS_AND_F3_F4_BRIEF_2026-09-29_R2 sections 3-4 (production-truth deck; unchanged at main@2de2373). Clubs and signing/guess rows are fixture values only (clubs reuse the slice-01 fixtures); verdicts are fixture authority, never recomputed by the visual layer.",
+  "managers": {
+    "playerOne": "Daniel",
+    "playerTwo": "Nik"
+  },
+  "seasonNumber": 1,
+  "frames": {
+    "F1": {
+      "viewer": "playerTwo",
+      "phase": "WINDOW_OPEN",
+      "timerSeconds": 702,
+      "desc": "Transfer Window, Nik viewing"
+    },
+    "F1D": {
+      "viewer": "playerOne",
+      "phase": "WINDOW_OPEN",
+      "timerSeconds": 702,
+      "desc": "Transfer Window, Daniel viewing"
+    },
+    "F1R": {
+      "viewer": "playerTwo",
+      "phase": "WINDOW_OPEN",
+      "timerSeconds": 702,
+      "endRequested": true,
+      "desc": "Transfer Window, Nik viewing, own early-end request locked"
+    },
+    "F1DR": {
+      "viewer": "playerOne",
+      "phase": "WINDOW_OPEN",
+      "timerSeconds": 702,
+      "endRequested": true,
+      "desc": "Transfer Window, Daniel viewing, own early-end request locked"
+    },
+    "G2": {
+      "viewer": "playerTwo",
+      "phase": "GUESS_ENTRY",
+      "desc": "Guess Entry, Nik viewing"
+    },
+    "G3": {
+      "viewer": "playerOne",
+      "phase": "GUESS_ENTRY",
+      "desc": "Guess Entry, Daniel viewing"
+    },
+    "F3": {
+      "viewer": "playerTwo",
+      "phase": "SIGNING_ENTRY",
+      "desc": "Signing Entry, Nik viewing, editable"
+    },
+    "F3D": {
+      "viewer": "playerOne",
+      "phase": "SIGNING_ENTRY",
+      "desc": "Signing Entry, Daniel viewing, editable"
+    },
+    "F3L": {
+      "viewer": "playerTwo",
+      "phase": "SIGNING_ENTRY",
+      "signingsLocked": true,
+      "desc": "Signing Entry, Nik viewing, own signings locked, waiting for rival"
+    },
+    "F3DL": {
+      "viewer": "playerOne",
+      "phase": "SIGNING_ENTRY",
+      "signingsLocked": true,
+      "desc": "Signing Entry, Daniel viewing, own signings locked, waiting for rival"
+    },
+    "F4": {
+      "viewer": "playerTwo",
+      "phase": "COMPLETED",
+      "result": "standard",
+      "desc": "Verdicts, Nik viewing"
+    },
+    "F4D": {
+      "viewer": "playerOne",
+      "phase": "COMPLETED",
+      "result": "standard",
+      "desc": "Verdicts, Daniel viewing"
+    },
+    "F4E": {
+      "viewer": "playerTwo",
+      "phase": "COMPLETED",
+      "result": "emptyOne",
+      "desc": "Verdicts, Nik viewing, Daniel entered no signings"
+    },
+    "F4DE": {
+      "viewer": "playerOne",
+      "phase": "COMPLETED",
+      "result": "emptyOne",
+      "desc": "Verdicts, Daniel viewing, Daniel entered no signings"
+    },
+    "S0": {
+      "viewer": null,
+      "phase": null,
+      "plateOnly": true,
+      "desc": "Locked plate only"
+    }
+  },
+  "strings": {
+    "title": "SEASON {season} · TRANSFER CHALLENGE",
+    "back": "HOME",
+    "refresh": "REFRESH",
+    "rail": [
+      "Window",
+      "Guesses",
+      "Signings",
+      "Verdicts"
+    ],
+    "railAriaLabel": "Transfer Challenge progress",
+    "f1Status": "WINDOW OPEN · BUILD YOUR SQUAD",
+    "f1Intro": "Ends early only if you both agree.",
+    "f1RulesLine": "15 MIN · 3 SIGNINGS · 3 GUESSES",
+    "f1Action": "END EARLY",
+    "ruleNote": "Guess a league or nationality. A matching signing must be released.",
+    "guessStatus": "GUESS ENTRY",
+    "guessHeadingNikViewer": "Guess Daniel's signings",
+    "guessHeadingDanielViewer": "Guess Nik's signings",
+    "privacyNoteNikViewer": "Hidden from Daniel until you both lock.",
+    "privacyNoteDanielViewer": "Hidden from Nik until you both lock.",
+    "selectPlaceholder": "Guess type",
+    "selectLeague": "League",
+    "selectNationality": "Nationality",
+    "valuePlaceholder": "Pick a type first",
+    "primary": "LOCK GUESSES",
+    "signWindowClosed": "WINDOW CLOSED",
+    "tagYou": "YOU",
+    "tagSealed": "SEALED",
+    "tagPrivate": "PRIVATE",
+    "nameplateOne": "DANIEL",
+    "nameplateTwo": "NIK",
+    "f1ActionRequested": "EARLY END REQUESTED ✓",
+    "signingStatus": "SIGNING ENTRY · RECORD YOUR COMPLETED FIFA 17 TRANSFERS",
+    "signingStatusLocked": "YOUR SIGNINGS ARE LOCKED · WAITING FOR YOUR RIVAL",
+    "signingLockSummary": "Both managers locked their private guesses. Enter only your own completed signings; your rival still cannot see your inputs.",
+    "signingPrimary": "LOCK MY SIGNINGS",
+    "signingInvalid": "Complete signing {n} with player name, previous league and nationality.",
+    "signingPlaceholderName": "Player name",
+    "signingPlaceholderLeague": "Previous league",
+    "signingPlaceholderNationality": "Nationality",
+    "completedStatus": "SHARED TRANSFER CHALLENGE COMPLETE · VERDICTS REVEALED TO BOTH MANAGERS",
+    "verdictHeading": "{MANAGER} · {CLUB}",
+    "verdictEmpty": "No signings were entered.",
+    "verdictRelease": "RELEASE · MATCHED BY RIVAL GUESS",
+    "verdictKeep": "KEEP · NO RIVAL GUESS MATCH",
+    "continueLabel": "SHARED SEASON RESULTS COMING NEXT",
+    "guessRevealHeading": "{GUESSER} guesses {OWNER}'s signings"
+  },
+  "clubs": {
+    "playerOne": "Juventus",
+    "playerTwo": "Borussia Dortmund"
+  },
+  "inputs": {
+    "playerOne": {
+      "signings": [
+        {
+          "slot": 1,
+          "name": "Virgil van Dijk",
+          "league": "Premier League",
+          "nationality": "Netherlands"
+        },
+        {
+          "slot": 2,
+          "name": "Raphaël Varane",
+          "league": "LaLiga Santander",
+          "nationality": "France"
+        },
+        {
+          "slot": 3,
+          "name": "Julian Brandt",
+          "league": "Bundesliga",
+          "nationality": "Germany"
+        }
+      ],
+      "guessesAgainstRival": [
+        {
+          "slot": 1,
+          "type": "league",
+          "value": "Serie A"
+        },
+        {
+          "slot": 2,
+          "type": "nationality",
+          "value": "Brazil"
+        },
+        {
+          "slot": 3,
+          "type": "nationality",
+          "value": "Spain"
+        }
+      ]
+    },
+    "playerTwo": {
+      "signings": [
+        {
+          "slot": 1,
+          "name": "Paulo Dybala",
+          "league": "Serie A",
+          "nationality": "Argentina"
+        },
+        {
+          "slot": 2,
+          "name": "Kasper Schmeichel",
+          "league": "Premier League",
+          "nationality": "Denmark"
+        },
+        {
+          "slot": 3,
+          "name": "Memphis Depay",
+          "league": "Premier League",
+          "nationality": "Netherlands"
+        }
+      ],
+      "guessesAgainstRival": [
+        {
+          "slot": 1,
+          "type": "nationality",
+          "value": "Netherlands"
+        },
+        {
+          "slot": 2,
+          "type": "league",
+          "value": "Ligue 1"
+        }
+      ]
+    }
+  },
+  "results": {
+    "_note": "Provider verdict authority as delivered to both viewers (identical). release=true means a rival guess matched.",
+    "standard": {
+      "playerOne": [
+        {
+          "slot": 1,
+          "release": true
+        },
+        {
+          "slot": 2,
+          "release": false
+        },
+        {
+          "slot": 3,
+          "release": false
+        }
+      ],
+      "playerTwo": [
+        {
+          "slot": 1,
+          "release": true
+        },
+        {
+          "slot": 2,
+          "release": false
+        },
+        {
+          "slot": 3,
+          "release": false
+        }
+      ]
+    },
+    "emptyOne": {
+      "playerOne": [],
+      "playerTwo": [
+        {
+          "slot": 1,
+          "release": false
+        },
+        {
+          "slot": 2,
+          "release": false
+        },
+        {
+          "slot": 3,
+          "release": false
+        }
+      ]
+    }
+  }
+}

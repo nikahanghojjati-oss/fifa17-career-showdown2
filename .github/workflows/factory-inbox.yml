@@ -1,0 +1,48 @@
+name: Factory inbox
+# Worker chats that can only write text drop base64 deliveries in
+# project-documents/factory/inbox/<DELIVERY>/ (guide: project-documents/factory/SELF_UPLOAD.md).
+# This rebuilds and checks the files, commits them to the same branch, writes a
+# receipt and clears the delivery folder. It decodes data only; it runs nothing
+# that a delivery contains.
+on:
+  push:
+    branches: [factory/v1-wtt5ye, claude/worker-self-upload-d8i0vx]
+    paths:
+      - 'project-documents/factory/inbox/**'
+      - '!project-documents/factory/inbox/receipts/**'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: factory-inbox-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  unpack:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ github.ref_name }}
+          persist-credentials: false
+      - name: Unpack deliveries
+        id: unpack
+        run: python3 project-documents/factory/tools/inbox_unpack.py
+      - name: Commit
+        if: steps.unpack.outputs.any == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          MSG: ${{ steps.unpack.outputs.message }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A visual-assets project-documents
+          git diff --cached --quiet && { echo "nothing to commit"; exit 0; }
+          git commit -q -m "$MSG" -m "Unpacked by the Factory inbox action."
+          git remote set-url origin "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          for i in 1 2 3 4 5; do
+            git pull -q --rebase origin "$GITHUB_REF_NAME" && git push -q origin "HEAD:$GITHUB_REF_NAME" && exit 0
+            sleep $((i * 5))
+          done
+          exit 1

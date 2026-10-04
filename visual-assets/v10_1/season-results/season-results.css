@@ -1,0 +1,669 @@
+/* JOB-077 step 2: 1536x864 mockup registration, no screen-specific zoom or shift. */
+html,
+body {
+  width: 100%;
+  min-height: 100%;
+  margin: 0;
+}
+
+#stage-root {
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+.manager-area {
+  position: absolute;
+  pointer-events: none;
+  opacity: 0;
+}
+
+/* face_daniel = [182, 88, 389, 365] on the 1536x864 1X plate */
+.manager-area--daniel {
+  left: 11.848958%;
+  top: 10.185185%;
+  width: 13.476563%;
+  height: 32.060185%;
+}
+
+/* face_nik = [1118, 88, 1338, 355] on the 1536x864 1X plate */
+.manager-area--nik {
+  left: 72.786458%;
+  top: 10.185185%;
+  width: 14.322917%;
+  height: 30.902778%;
+}
+
+.sd-stage__layer--atmosphere {
+  display: block;
+  pointer-events: none;
+}
+
+
+/* Title block measured from MOCKUP_SEASON_RESULTS.jpg (1536x864).
+   Eyebrow centre x ≈ 50.0%, top y ≈ 10.9%.
+   Brush crop x = 430..1098 (left 27.99%, width 43.49%), y = 145..236 (top 16.78%).
+   Tagline centre x ≈ 50.0%, top y ≈ 27.7%. */
+#season-results-screen {
+  position: absolute;
+  inset: 0;
+}
+
+.season-title-block {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.season-eyebrow {
+  position: absolute;
+  top: 10.9%;
+  left: 50%;
+  margin: 0;
+  transform: translateX(-50%);
+  letter-spacing: 0.42em;
+  white-space: nowrap;
+}
+
+#screen-title {
+  position: absolute;
+  top: 16.78%;
+  left: 27.99%;
+  width: 43.49%;
+  margin: 0;
+}
+
+.season-title-wordmark {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 5px 8px rgb(0 0 0 / 0.42));
+}
+
+.season-tagline {
+  position: absolute;
+  /* Claude fix round 2: lift the tagline clear of the scoring panel while
+     keeping it centred under the brush wordmark. */
+  top: 26.0%;
+  left: 50%;
+  margin: 0;
+  transform: translateX(-50%);
+  letter-spacing: 0.34em;
+  white-space: nowrap;
+}
+
+.fixture-dump[hidden] {
+  display: none;
+}
+
+
+/* Desktop layout skeleton measured against the 1536x864 mockup.
+   scoring_panel: x 426..1109 => left 27.73%, width 44.47%; y 273..441 => top 31.60%, height 19.44%.
+   entry_daniel: x 210..759 => left 13.67%, width 35.74%; y 455..731 => top 52.66%, height 31.94%.
+   entry_nik: x 779..1325 => left 50.72%, width 35.55%; y 455..731 => top 52.66%, height 31.94%. */
+.season-layout {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.scoring-panel,
+.entry-panel {
+  position: absolute;
+  box-sizing: border-box;
+  min-width: 0;
+}
+
+.scoring-panel {
+  left: 27.73%;
+  /* Claude fix 3: grow upward so all three scoring rows fit while preserving
+     the original lower edge and the gap above the manager entry panels. */
+  top: 29.05%;
+  width: 44.47%;
+  height: 22.22%;
+}
+
+.entry-panel {
+  top: 52.66%;
+  height: 31.94%;
+}
+
+.entry-panel--daniel {
+  /* Claude fix 2: the cutout reaches x=299; start panel at x≈294 so its 18px
+     inner padding begins beyond the fist while the outer edge still contacts it. */
+  left: 19.14%;
+  width: 30.27%;
+  --manager-accent: var(--sd-gold, #f2c45b);
+}
+
+.entry-panel--nik {
+  left: 50.72%;
+  width: 35.55%;
+  --manager-accent: var(--sd-silver, #d8dde5);
+}
+
+/* Reserved score treatment for the live DOM added in the manager-content step.
+   The fill is always a ratio of the computed score to the immutable 11-point maximum. */
+.season-score-value {
+  color: var(--manager-accent);
+  font-size: 56px;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+.season-score-fill {
+  width: calc((var(--season-score, 0) / 11) * 100%);
+  max-width: 100%;
+}
+
+@media (min-width: 1024px) {
+  .season-layout {
+    display: block;
+  }
+}
+
+
+/* Group A: locked shared top bar and mockup scoring panel. */
+.season-topbar {
+  position: absolute;
+  z-index: 6;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  padding: 0 2.4vw;
+  box-sizing: border-box;
+  background: linear-gradient(90deg, rgb(5 8 11 / .94), rgb(8 11 15 / .78) 58%, rgb(8 11 15 / .42));
+  border-bottom: 1px solid rgb(242 196 91 / .28);
+}
+
+.season-brand {
+  color: var(--sd-gold, #f2c45b);
+  font: 800 24px/1 var(--sd-font-display, sans-serif);
+  letter-spacing: -.04em;
+}
+
+.season-nav-tabs {
+  display: flex;
+  align-items: stretch;
+  height: 100%;
+}
+
+.season-nav-tabs button,
+.season-settings {
+  min-width: 44px;
+  min-height: 44px;
+  border: 0;
+  background: transparent;
+  color: rgb(255 255 255 / .76);
+  font: 700 12px/1 var(--sd-font-condensed, sans-serif);
+  letter-spacing: .14em;
+}
+
+.season-nav-tabs button {
+  padding: 0 18px;
+}
+
+.season-nav-tabs button:disabled,
+.season-settings:disabled {
+  opacity: .72;
+  cursor: not-allowed;
+}
+
+.season-settings {
+  margin-left: auto;
+  font-size: 18px;
+}
+
+.scoring-panel {
+  display: grid;
+  grid-template-columns: 23% 1fr;
+  align-items: center;
+  padding: 1.5% 2.1%;
+  overflow: hidden;
+  border-color: rgb(242 196 91 / .86);
+  background:
+    linear-gradient(115deg, rgb(4 6 8 / .90), rgb(13 14 15 / .76)),
+    linear-gradient(90deg, rgb(242 196 91 / .09), transparent 45%);
+  box-shadow: inset 0 0 0 1px rgb(255 224 135 / .08), 0 18px 40px rgb(0 0 0 / .32);
+}
+
+.scoring-trophy {
+  width: 78%;
+  max-height: 145px;
+  justify-self: center;
+  object-fit: contain;
+  filter: drop-shadow(0 10px 18px rgb(0 0 0 / .46));
+}
+
+.scoring-copy {
+  min-width: 0;
+}
+
+#scoring-heading {
+  margin: 0 0 8px;
+  color: var(--sd-gold, #f2c45b);
+  font-size: clamp(16px, 1.55vw, 24px);
+  letter-spacing: .045em;
+}
+
+.scoring-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px 28px;
+  padding-top: 8px;
+  border-top: 1px solid rgb(242 196 91 / .30);
+}
+
+.scoring-rule {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 14px;
+  color: #f4f4f2;
+  font: 650 clamp(11px, .9vw, 14px)/1.12 var(--sd-font-condensed, sans-serif);
+}
+
+.scoring-rule strong {
+  flex: 0 0 auto;
+  color: var(--sd-gold, #f2c45b);
+  font-size: 1.22em;
+  font-variant-numeric: tabular-nums;
+}
+
+.scoring-rule--max {
+  padding-top: 5px;
+  border-top: 1px solid rgb(242 196 91 / .42);
+  color: var(--sd-gold, #f2c45b);
+}
+
+
+/* Group B: two live manager cards, Daniel left and Nik right. */
+.entry-panel {
+  pointer-events: auto;
+  display: flex;
+  flex-direction: column;
+  padding: 14px 18px 12px;
+  overflow: hidden;
+  background: linear-gradient(120deg, rgb(5 7 9 / .92), rgb(12 14 17 / .80));
+  box-shadow: 0 18px 46px rgb(0 0 0 / .35);
+}
+
+.entry-panel--daniel {
+  border-color: rgb(242 196 91 / .84);
+}
+
+.entry-panel--nik {
+  border-color: rgb(216 221 229 / .76);
+}
+
+.manager-card-header {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-areas: "mark name" "mark club";
+  column-gap: 12px;
+  align-items: center;
+  padding-bottom: 9px;
+  border-bottom: 1px solid color-mix(in srgb, var(--manager-accent) 62%, transparent);
+}
+
+.manager-crown {
+  grid-area: mark;
+  color: var(--manager-accent);
+  font-size: 34px;
+  line-height: 1;
+}
+
+.manager-name {
+  grid-area: name;
+  margin: 0;
+  color: #f7f7f4;
+  font: 900 clamp(24px, 2.1vw, 35px)/.92 var(--sd-font-condensed, sans-serif);
+  letter-spacing: -.025em;
+  text-transform: uppercase;
+}
+
+.manager-club {
+  grid-area: club;
+  margin: 3px 0 0;
+  color: rgb(255 255 255 / .60);
+  font: 700 10px/1.1 var(--sd-font-condensed, sans-serif);
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+
+.manager-hint {
+  /* Claude fix 5: tighten the entry stack so all four achievement rows clear
+     the absolutely positioned score strip inside the fixed-height card. */
+  margin: 6px 0;
+  color: rgb(255 255 255 / .70);
+  font: 600 10px/1.25 var(--sd-font-condensed, sans-serif);
+}
+
+.manager-fields {
+  display: grid;
+  grid-template-columns: .92fr 1.08fr;
+  gap: 8px 18px;
+  flex: 1 1 auto;
+  min-height: 0;
+  margin-bottom: 8px;
+}
+
+.stat-fields,
+.achievement-fields {
+  display: grid;
+  gap: 4px;
+  align-content: start;
+}
+
+.field-row,
+.achievement-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 8px;
+  min-height: 26px;
+}
+
+.field-row label,
+.achievement-row label {
+  color: #f2f2ef;
+  font: 800 11px/1 var(--sd-font-condensed, sans-serif);
+  letter-spacing: .025em;
+}
+
+.field-row input[type="number"] {
+  width: 92px;
+  min-height: 28px;
+  box-sizing: border-box;
+  border: 1px solid rgb(255 255 255 / .25);
+  border-radius: 4px;
+  background: rgb(0 0 0 / .42);
+  color: #fff;
+  padding: 4px 9px;
+  font: 700 16px/1 var(--sd-font-condensed, sans-serif);
+  font-variant-numeric: tabular-nums;
+}
+
+.achievement-row input {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--manager-accent);
+}
+
+.season-score {
+  /* Claude fix round 2: this is a real final row after .manager-fields, never
+     an overlay on League Goals or Top Assist. */
+  position: relative;
+  left: auto;
+  right: auto;
+  bottom: auto;
+  flex: 0 0 46px;
+  width: 100%;
+  height: 46px;
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 14px;
+  padding: 0 14px;
+  border: 1px solid color-mix(in srgb, var(--manager-accent) 65%, transparent);
+  background: rgb(0 0 0 / .44);
+  overflow: hidden;
+}
+
+.season-score-track {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+}
+
+.season-score-fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  background: linear-gradient(100deg, color-mix(in srgb, var(--manager-accent) 52%, transparent), transparent);
+}
+
+.season-score-label {
+  position: relative;
+  z-index: 1;
+  color: var(--manager-accent);
+  font: 800 13px/1 var(--sd-font-condensed, sans-serif);
+  letter-spacing: .04em;
+}
+
+.season-score-value {
+  position: relative;
+  z-index: 1;
+  min-width: 42px;
+  text-align: right;
+}
+
+.entry-panel.is-sealed {
+  display: grid;
+  place-items: center;
+  text-align: center;
+}
+
+.sealed-copy {
+  max-width: 72%;
+}
+
+.sealed-copy strong {
+  display: block;
+  color: var(--manager-accent);
+  font: 900 25px/1 var(--sd-font-condensed, sans-serif);
+  text-transform: uppercase;
+}
+
+.sealed-copy span {
+  display: block;
+  margin-top: 8px;
+  color: rgb(255 255 255 / .68);
+  font: 600 12px/1.3 var(--sd-font-condensed, sans-serif);
+}
+
+.season-review-panel{position:absolute;left:27.73%;top:52.66%;width:44.47%;height:31.94%;box-sizing:border-box;padding:18px 22px;overflow:hidden;background:#0a0c0f;border:1px solid #b89443}
+.season-review-panel[hidden],.sharedCanonicalScoringPanel[hidden],.season-action-row button[hidden]{display:none!important}
+.seasonReviewStatus{color:#f2c45b;font-size:11px;letter-spacing:.14em}
+#seasonReviewHeading{margin:8px 0;color:#fff;font-size:28px}
+.seasonReviewResult,.sharedCanonicalScoringPanel p,.seasonReviewError{color:#d9d9d9;font-size:12px;line-height:1.35}
+.sharedCanonicalScoringPanel{margin-top:12px;padding:12px 14px;border:1px solid #8f7337;background:#050505}
+#sharedCanonicalScoringHeading{margin:0 0 6px;color:#f2c45b;font-size:15px}
+.seasonReviewError{color:#ffd7d1}
+.season-action-row{position:absolute;z-index:5;left:28.65%;top:86.23%;width:42.64%;min-height:6.83%;display:flex;align-items:center;justify-content:center;gap:12px;pointer-events:auto}
+.season-action-row .sd-btn{min-width:190px;min-height:44px}
+.season-action-row .sd-btn:focus-visible{outline:3px solid #f2c45b;outline-offset:3px}
+
+
+/* JOB-077 step 8: full-canvas fist/forearm overlays keep plate registration exact.
+   Contact shadows fall back onto the manager panels; rim masks add directional light
+   without shifting, mirroring or independently scaling either manager. */
+.season-depth-picture,
+.season-rim-picture {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.season-depth-overlay,
+.season-rim-overlay {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  pointer-events: none;
+}
+
+.season-depth-overlay--daniel {
+  filter:
+    drop-shadow(8px 7px 9px rgb(0 0 0 / .56))
+    drop-shadow(3px 2px 3px rgb(0 0 0 / .72));
+}
+
+.season-depth-overlay--nik {
+  filter:
+    drop-shadow(-8px 7px 9px rgb(0 0 0 / .56))
+    drop-shadow(-3px 2px 3px rgb(0 0 0 / .72));
+}
+
+.season-rim-overlay {
+  mix-blend-mode: screen;
+  opacity: .46;
+}
+
+.season-rim-overlay--daniel {
+  filter: drop-shadow(2px 0 6px rgb(242 196 91 / .58));
+}
+
+.season-rim-overlay--nik {
+  filter: drop-shadow(-2px 0 6px rgb(216 221 229 / .52));
+}
+
+
+/* JOB-077 step 9a: workflow-state presentation for SR1-SR6. */
+.season-preview-tag {
+  position: absolute;
+  z-index: 9;
+  /* Claude fix round 2: keep the whole chip inside the active manager card.
+     Daniel panel starts at 19.14%; Nik panel starts at 50.72%. */
+  left: 20.4%;
+  top: 53.1%;
+  margin: 0;
+  pointer-events: none;
+}
+
+.season-preview-tag[data-owner="nik"] {
+  left: 52.0%;
+}
+
+.season-review-panel {
+  z-index: 8;
+  left: 31.5%;
+  top: 71.4%;
+  width: 37%;
+  height: auto;
+  min-height: 86px;
+  padding: 12px 16px;
+  background:
+    linear-gradient(120deg, rgb(5 7 9 / .95), rgb(18 18 18 / .90)),
+    linear-gradient(90deg, rgb(242 196 91 / .08), transparent);
+  box-shadow: 0 14px 32px rgb(0 0 0 / .42);
+  pointer-events: none;
+}
+
+.season-review-panel.is-waiting {
+  border-color: rgb(216 221 229 / .72);
+}
+
+.season-review-panel.is-ready,
+.season-review-panel.is-committed {
+  border-color: rgb(242 196 91 / .88);
+}
+
+.season-review-panel.is-error {
+  border-color: rgb(255 136 120 / .76);
+}
+
+.season-review-panel #seasonReviewHeading {
+  margin: 5px 0 4px;
+  font-size: clamp(18px, 1.45vw, 24px);
+}
+
+.season-review-panel .seasonReviewResult,
+.season-review-panel .seasonReviewError {
+  margin: 3px 0 0;
+}
+
+.season-review-panel.is-committed {
+  top: 66.8%;
+  min-height: 132px;
+}
+
+.season-review-panel.is-committed .sharedCanonicalScoringPanel {
+  margin-top: 7px;
+  padding: 8px 10px;
+  background: rgb(0 0 0 / .48);
+}
+
+.season-review-panel.is-committed #sharedCanonicalScoringHeading {
+  margin-bottom: 4px;
+}
+
+.season-review-panel.is-committed .sharedCanonicalScoringPanel p {
+  margin: 2px 0;
+}
+
+.entry-panel input:disabled {
+  opacity: .82;
+  cursor: default;
+}
+
+
+/* JOB-077 step 9b: contract read-state shells (SR7-SR10). */
+.entry-panel[hidden] {
+  display: none !important;
+}
+
+.season-review-panel.is-contract-state {
+  left: 33%;
+  top: 47.5%;
+  width: 34%;
+  min-height: 160px;
+  padding: 22px 26px;
+  text-align: center;
+  display: grid;
+  align-content: center;
+  gap: 7px;
+  border-color: rgb(216 221 229 / .70);
+  background:
+    linear-gradient(145deg, rgb(7 9 12 / .97), rgb(18 18 18 / .93)),
+    radial-gradient(circle at 50% 0%, rgb(242 196 91 / .12), transparent 58%);
+}
+
+.season-review-panel.is-contract-state::before {
+  content: "◌";
+  display: block;
+  margin: 0 auto 2px;
+  font-size: 34px;
+  line-height: 1;
+  color: rgb(242 196 91 / .92);
+}
+
+.season-review-panel.is-empty::before {
+  content: "◇";
+}
+
+.season-review-panel.is-partial::before {
+  content: "◐";
+}
+
+.season-review-panel.is-unavailable::before {
+  content: "!";
+}
+
+.season-review-panel.is-contract-state .seasonReviewStatus {
+  font-size: 11px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: rgb(216 221 229 / .78);
+}
+
+.season-review-panel.is-contract-state #seasonReviewHeading {
+  margin: 0;
+  font-size: clamp(16px, 1.15vw, 20px);
+  line-height: 1.25;
+}
+
+.season-review-panel.is-contract-state .seasonReviewResult {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.35;
+}

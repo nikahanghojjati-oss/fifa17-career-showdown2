@@ -1,0 +1,73 @@
+html,body{margin:0;width:100%;height:100%;background:#07080a;overflow:hidden}body{font-family:var(--sd-font-body);color:var(--sd-text-primary)}.screen,.rv-stage{width:100vw;height:100vh;min-height:560px}.rv-stage{position:relative;overflow:hidden;background:#07080a}.rv-shell{position:absolute;inset:0;z-index:2}.topbarReserve{position:absolute;inset:0 0 auto;height:52px;z-index:5;pointer-events:none}.managerMarker{position:absolute;top:12%;width:20%;height:52%;z-index:6;pointer-events:none}.managerMarkerDaniel{left:5%}.managerMarkerNik{right:5%}.rv-titleBlock{position:absolute;left:29%;top:9.1%;width:42.5%;text-align:center;filter:drop-shadow(0 2px 6px rgba(0,0,0,.7))}.rv-titleBlock .sd-eyebrow{font-size:clamp(10px,.85vw,14px);letter-spacing:.55em}.rv-titleBlock .sd-eyebrow::before{width:20px;height:13px;margin-bottom:2px}.rv-wordmark{width:100%;margin-top:4px}.rv-wordmark picture,.rv-wordmark img{display:block;width:100%;height:auto}.rv-titleBlock .sd-tagline{margin-top:-2px;font-size:clamp(10px,.9vw,15px);letter-spacing:.36em}.rv-preview{position:absolute;top:2.6%;left:50%;transform:translateX(-50%)}.rv-interim{position:absolute;left:29%;top:6.6%;width:42%;text-align:center;font:600 11px/1.2 var(--sd-font-condensed);letter-spacing:.06em;color:var(--sd-text-secondary);text-shadow:0 1px 4px #000}.rv-comparison{position:absolute;left:27.6%;top:26.4%;width:44.7%;height:37.4%;padding:0 2.2%;box-sizing:border-box}.rv-manager{position:absolute;top:2%;display:flex;align-items:center;gap:10px;font-family:var(--sd-font-condensed)}.rv-manager strong{display:block;color:var(--sd-gold-300);font-size:20px;letter-spacing:.04em}.rv-manager span{display:block;font-size:13px;color:var(--sd-text-primary);text-transform:uppercase}.rv-manager--left{left:6%;text-align:left}.rv-manager--right{right:6%;text-align:right}.rv-crest{width:46px;height:54px}.rv-crest svg{width:100%;height:100%;display:block}.rv-rows{position:absolute;left:6%;right:6%;top:25%;bottom:4%;display:grid;grid-template-rows:repeat(7,1fr)}.rv-row{display:grid;grid-template-columns:1fr 34px 1.7fr 1fr;align-items:center;border-top:1px solid rgba(255,255,255,.10);font-family:var(--sd-font-condensed)}.rv-value{font-size:23px;font-weight:700;font-variant-numeric:tabular-nums}.rv-value.left{text-align:right;padding-right:14px}.rv-value.right{text-align:left;padding-left:14px}.rv-value.is-leader{color:var(--sd-gold-300)}.rv-icon{text-align:center;color:var(--sd-gold-300);font-size:18px}.rv-label{text-align:center;color:var(--sd-text-secondary);font-size:13px;letter-spacing:.03em}.rv-bottom{position:absolute;top:63.1%;height:24.9%;box-sizing:border-box}.rv-bottom--head{left:2.4%;width:30.6%}.rv-bottom--seasons{left:33.4%;width:31.8%}.rv-bottom--trophies{left:65.5%;width:32.2%}.rv-actions{position:absolute;left:39.8%;top:88.2%;width:20.5%;height:7%;display:flex;align-items:center;justify-content:center}.rv-actions .sd-btn{width:100%;height:48px}.rv-state{display:none}.nav-reserve{display:none}@media(max-width:900px){.rv-stage{height:calc(100svh - 56px - env(safe-area-inset-bottom));min-height:0}.nav-reserve{display:block;position:fixed;left:0;right:0;bottom:0;height:calc(56px + env(safe-area-inset-bottom))}.rv-shell{top:46%;background:linear-gradient(180deg,rgba(7,8,10,.96),#07080a)}.rv-titleBlock{left:4%;top:2%;width:92%}.rv-comparison{left:4%;top:22%;width:92%;height:44%}.rv-bottom{display:none}.rv-actions{left:8%;top:auto;bottom:16px;width:84%;height:auto}.rv-preview{top:16%}.rv-interim{left:8%;top:18%;width:84%}.managerMarker{top:3%;height:38%}.managerMarkerDaniel{left:4%}.managerMarkerNik{right:4%}}
+/* JOB-067 step 4: desktop geometry measured from 1672×941 mockup. */
+@media (min-width:1024px){
+  .rv-comparison{left:27.63%;top:26.35%;width:44.74%;height:37.41%}
+  .rv-bottom{top:62.91%;height:23.91%}
+  .rv-bottom--head{left:2.39%;width:30.56%}
+  .rv-bottom--seasons{left:33.49%;width:31.58%}
+  .rv-bottom--trophies{left:65.55%;width:32.18%}
+  .rv-actions{left:39.77%;top:87.99%;width:20.51%;height:5.1%}
+  .rv-comparison,.rv-bottom{background:linear-gradient(180deg,rgba(9,11,13,.88),rgba(5,7,9,.82));box-shadow:0 12px 32px rgba(0,0,0,.48),inset 0 1px 0 rgba(255,211,77,.14)}
+  .rv-bottom .sd-panel__header{height:16%;min-height:0;padding:9px 18px 6px;font-size:16px;box-sizing:border-box}
+  .rv-bottom .sd-panel__header::after{display:inline-block;width:25%;height:2px;margin:0 0 4px 16px;vertical-align:middle}
+  .rv-mini{font:600 14px/1.5 var(--sd-font-condensed);color:var(--sd-text-primary)}
+}
+/* JOB-067 step 5: data hierarchy and mockup elements. */
+.rv-progress{position:absolute;left:35%;right:35%;top:5%;text-align:center;color:var(--sd-text-secondary);font:600 10px/1.2 var(--sd-font-condensed);letter-spacing:.11em;text-transform:uppercase}
+.rv-headGrid{height:76%;display:grid;grid-template-columns:repeat(3,1fr);align-items:center;padding:0 5%;box-sizing:border-box}
+.rv-headStat{text-align:center;border-right:1px solid rgba(255,255,255,.16)}
+.rv-headStat:last-child{border-right:0}.rv-headStat span{display:block;color:var(--sd-text-secondary);font:600 12px/1 var(--sd-font-condensed);letter-spacing:.08em;text-transform:uppercase}
+.rv-headStat strong{display:block;margin-top:10px;color:var(--sd-text-primary);font:700 clamp(34px,3.2vw,58px)/.9 var(--sd-font-condensed);font-variant-numeric:tabular-nums}
+.rv-headStat:first-child strong{color:var(--sd-gold-300)}
+.rv-seasonTable{width:94%;margin:0 auto;border-collapse:collapse;table-layout:fixed;font:600 12px/1.15 var(--sd-font-condensed);font-variant-numeric:tabular-nums}
+.rv-seasonTable th{height:24px;color:var(--sd-text-secondary);font-size:9px;letter-spacing:.09em;text-transform:uppercase;border:1px solid rgba(255,255,255,.14)}
+.rv-seasonTable td{height:23px;text-align:center;border:1px solid rgba(255,255,255,.12);color:var(--sd-text-primary)}
+.rv-seasonTable td:nth-child(2){color:var(--sd-gold-300);font-weight:700}
+.rv-seasonWinner{display:flex;align-items:center;justify-content:center;gap:6px}.rv-seasonCrest{display:inline-grid;width:17px;height:20px}.rv-seasonCrest svg{width:100%;height:100%}.rv-drawMark{color:var(--sd-gold-300);font-weight:700}
+.rv-emptyInline{display:grid;place-items:center;height:72%;padding:0 9%;text-align:center;color:var(--sd-text-secondary);font:600 13px/1.35 var(--sd-font-condensed)}
+.rv-trophyGrid{height:76%;display:grid;grid-template-columns:repeat(4,1fr);align-items:end;gap:2px;padding:2px 4% 8px;box-sizing:border-box}
+.rv-trophy{text-align:center;min-width:0}.rv-trophy img{display:block;width:auto;height:84px;max-width:90%;margin:0 auto;object-fit:contain;filter:drop-shadow(0 3px 7px rgba(0,0,0,.8))}
+.rv-trophyLabel{display:block;color:var(--sd-text-primary);font:600 9px/1.05 var(--sd-font-condensed);letter-spacing:.03em;text-transform:uppercase;min-height:19px}
+.rv-trophyCount{display:block;margin-top:3px;color:var(--sd-text-secondary);font:700 10px/1 var(--sd-font-condensed);font-variant-numeric:tabular-nums}.rv-trophyCount b{color:var(--sd-gold-300)}
+.rv-rowSvg{display:block;width:18px;height:18px;margin:auto;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.rv-transferUnavailable{font-size:12px!important;letter-spacing:.02em}
+@media(max-height:700px) and (min-width:1024px){.rv-titleBlock{top:8.2%}.rv-comparison{top:25.5%;height:37%}.rv-bottom{top:62.5%;height:24%}.rv-actions{top:88%}.rv-trophy img{height:64px}.rv-row{min-height:0}.rv-value{font-size:20px}}
+/* JOB-067 step 6: registered depth sandwich. Runtime WebP overlays are exported from likeness-locked plate pixels; full-canvas registration stays at 0,0. */
+.rv-cutout{inset:0!important;pointer-events:none;filter:drop-shadow(2px 5px 6px rgba(0,0,0,.3))}
+.rv-rim{inset:0!important;--sd-rim-opacity:.24;--sd-rim-angle:112deg}.rv-rim--nik{--sd-rim-opacity:.17}
+.rv-contact--daniel{--sd-contact-x:27.2%;--sd-contact-y:44%;--sd-contact-w:1.7%;--sd-contact-h:9.5%;--sd-contact-alpha:.42;--sd-contact-blur:7px;--sd-contact-dx:3px;--sd-contact-dy:3px}
+.rv-contact--nik{--sd-contact-x:71.5%;--sd-contact-y:57%;--sd-contact-w:2.4%;--sd-contact-h:3.8%;--sd-contact-alpha:.38;--sd-contact-blur:7px;--sd-contact-dx:-2px;--sd-contact-dy:2px}
+
+/* JOB-067 step 7: explicit loading / empty / unavailable / partial states. */
+.rv-coverage{position:absolute;left:6%;right:6%;top:22%;z-index:4;padding:5px 9px;border:1px solid rgba(242,196,91,.42);background:rgba(7,8,10,.91);color:var(--sd-gold-300);font:600 11px/1.25 var(--sd-font-body);text-align:center}
+.rv-comparison.hasCoverage .rv-rows{top:34%}
+.rv-readState{position:absolute;left:6%;right:6%;top:25%;bottom:7%;z-index:5;display:grid;place-items:center;padding:24px;border:1px dashed rgba(242,196,91,.35);background:linear-gradient(180deg,rgba(7,8,10,.94),rgba(9,10,13,.88));color:var(--sd-text-primary);text-align:center;font:600 14px/1.45 var(--sd-font-body)}
+.rv-readState::before{content:"◇";display:block;margin:0 auto 10px;color:var(--sd-gold-300);font:700 34px/1 var(--sd-font-condensed)}
+.rv-readState.loading::before{content:"◌";animation:rv-state-spin 1s linear infinite}@keyframes rv-state-spin{to{transform:rotate(360deg)}}
+.rv-bottom.isState .rv-headGrid,.rv-bottom.isState .rv-seasonTable,.rv-bottom.isState .rv-trophyGrid{display:none}.rv-bottom.isState .rv-emptyInline{height:76%}
+
+/* Short-laptop safety: keep the primary action comfortably inside 1366×640. */
+@media (min-width:1024px) and (max-height:700px){.rv-actions{top:86.5%}}
+
+/* Claude fix 2026-10-03: display:grid beat the hidden attribute, so the loading panel covered the ready totals. */
+.rv-readState[hidden],.rv-coverage[hidden]{display:none!important}
+
+
+/* Claude fix 1: make the lower trio fill its mockup-height panels instead of leaving an auto-height body stranded at the top. */
+@media (min-width:1024px){
+  .rv-bottom{
+    display:grid;
+    grid-template-rows:auto minmax(0,1fr);
+  }
+  .rv-bottom > div{
+    min-height:0;
+    height:100%;
+  }
+  .rv-headGrid,
+  .rv-trophyGrid{
+    height:100%;
+  }
+  .rv-seasonTable{
+    height:100%;
+  }
+}

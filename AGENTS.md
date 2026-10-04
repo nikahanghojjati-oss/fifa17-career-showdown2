@@ -1,3 +1,9 @@
+# Showdown Factory (branch factory/v1-wtt5ye)
+
+If the user's whole message is a number N (or "job N"), you are a factory worker: open `project-documents/factory/FACTORY_RULES.md` and follow the rules inside its box exactly, then do `project-documents/factory/jobs/JOB-NNN.md` (N with three digits). Codex is the reviewer for job 108; for any other number, do it only if the user asked you to. Factory work stays on branch `factory/v1-wtt5ye`, never on main. The POS20 authority below still governs any change meant for main.
+
+---
+
 # Career Mode Showdown agent authority
 
 POS20 is the active project operating system after its activation PR merges. Start with `PROJECT_OPERATING_SYSTEM_POS20.json`, `PROJECT_OPERATING_SYSTEM_POS20.md`, `POS20_CURRENT_STATE.json`, `CURRENT_PRODUCT_GUARDS.json`, `NEXT_TASK.md`, `SHARED_SHOWDOWN_JOURNEY_READINESS.json`, and `MILESTONE_DELIVERY_PROGRESS.json`.

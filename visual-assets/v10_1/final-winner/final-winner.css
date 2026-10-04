@@ -1,0 +1,1795 @@
+/* JOB-082 desktop stage. The plate camera is owned only by shared/stage.js. */
+html,
+body {
+  margin: 0;
+  width: 100%;
+  min-width: 100%;
+  height: 100%;
+  min-height: 100%;
+  overflow: hidden;
+  background: #050505;
+}
+
+#stage-root {
+  width: 100vw;
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+}
+
+.sd-stage__layer--ui {
+  pointer-events: auto;
+}
+
+.managerPlateMarker {
+  position: absolute;
+  pointer-events: none;
+  visibility: hidden;
+}
+
+/* STEP 3 · title block
+   Measured from the 1672×941 Trophy Room source:
+   title crop x 580..1075 = left 34.69%, width 29.61%;
+   title crop y 126..205 = top 13.39%, height 8.40%;
+   eyebrow zone ≈ y 112..130 = top 11.90%;
+   tagline zone ≈ y 209..226 = top 22.21%.
+   All three are centred at ≈ 49.49% frame width. No backing panel: the plate stays clean. */
+.finalWinnerTitleBlock {
+  position: absolute;
+  z-index: 3;
+  left: 49.49%; /* measured centre x */
+  top: 11.90%; /* measured eyebrow top */
+  width: 38%;
+  transform: translateX(-50%);
+  text-align: center;
+  pointer-events: none;
+}
+
+.finalWinnerEyebrow {
+  position: relative;
+  margin: 0 auto;
+  min-height: 1.49vh; /* measured eyebrow height zone */
+}
+
+.finalWinnerWordmark {
+  position: relative;
+  width: 77.92%; /* 29.61% of frame inside the 38% title-block width */
+  margin: .20vh auto 0;
+}
+
+.finalWinnerWordmark img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.finalWinnerTagline {
+  position: relative;
+  margin-top: .42vh;
+}
+
+/* STEP 4 · desktop layout skeleton, measured against the 1366×768 Season Results
+   composition and the 1672×941 Trophy Room ceremony reference.
+   The Final Winner has no dedicated mockup, so these are deliberate measured
+   reference placements reconciled with TRUTH.md rather than copied product data. */
+
+.fixtureProbe {
+  display: none;
+}
+
+/* Confetti plane: x 0..1366, y 52..690 on the 1366×768 reference
+   => left 0%, top 6.77%, width 100%, height 83.07%.
+   Empty in Step 4; art/depth is completed in later element/depth steps. */
+.finalWinnerConfettiLayer {
+  position: absolute;
+  left: 0;
+  top: 6.77%;
+  width: 100%;
+  height: 83.07%;
+  pointer-events: none;
+}
+
+/* Winner name + total copy reserve:
+   x 472..894, y 176..286 => left 34.55%, top 22.92%, width 30.89%, height 14.32%.
+   It floats directly on the scene; no dark box. */
+.finalWinnerHeroCopySlot {
+  position: absolute;
+  z-index: 4;
+  left: 34.55%;
+  top: 22.92%;
+  width: 30.89%;
+  height: 14.32%;
+  pointer-events: none;
+}
+
+/* Showdown Champion trophy reserve:
+   x 521..845, y 248..571 => left 38.14%, top 32.29%, width 23.72%, height 42.06%.
+   This is intentionally larger than the Trophy Room hero trophy. */
+.winnerTrophySlot {
+  position: absolute;
+  z-index: 3;
+  left: 38.14%;
+  top: 32.29%;
+  width: 23.72%;
+  height: 42.06%;
+  pointer-events: none;
+}
+
+/* Compact read-only final result strip:
+   x 210..1156, y 578..674 => left 15.37%, top 75.26%, width 69.25%, height 12.50%.
+   One wide panel replaces Season Results' editable manager cards and scoring-system box. */
+.finalWinnerResultsPanel {
+  position: absolute;
+  z-index: 5;
+  left: 15.37%;
+  top: 75.26%;
+  width: 69.25%;
+  height: 12.50%;
+  min-height: 0;
+}
+
+/* Real-action row reserve:
+   x 469..897, y 691..739 => left 34.33%, top 89.97%, width 31.33%, height 6.25%.
+   Buttons are added only in Step 7 from TRUTH.md. */
+.finalWinnerActionsSlot {
+  position: absolute;
+  z-index: 6;
+  left: 34.33%;
+  top: 89.97%;
+  width: 31.33%;
+  height: 6.25%;
+  pointer-events: none;
+}
+
+@media (min-width: 1024px) {
+  #finalWinnerScreen {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+  }
+}
+
+/* STEP 5 · group A: shared top bar + final-result hero above the results panel. */
+.finalWinnerTopbar {
+  position: absolute;
+  z-index: 20;
+  inset: 0 0 auto;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  padding: 0 2.4vw;
+  box-sizing: border-box;
+  background: linear-gradient(90deg, rgb(5 8 11 / .94), rgb(8 11 15 / .78) 58%, rgb(8 11 15 / .42));
+  border-bottom: 1px solid rgb(242 196 91 / .28);
+}
+
+.finalWinnerBrand {
+  color: var(--sd-gold-300);
+  font: 800 24px/1 var(--sd-font-title);
+  letter-spacing: -.04em;
+}
+
+.finalWinnerNavTabs {
+  display: flex;
+  align-items: stretch;
+  height: 100%;
+}
+
+.finalWinnerNavTabs button,
+.finalWinnerSettings {
+  min-width: 44px;
+  min-height: 44px;
+  border: 0;
+  background: transparent;
+  color: rgb(255 255 255 / .78);
+  font: 700 12px/1 var(--sd-font-condensed);
+  letter-spacing: .14em;
+  cursor: pointer;
+}
+
+.finalWinnerNavTabs button {
+  padding: 0 18px;
+}
+
+.finalWinnerNavTabs button:hover,
+.finalWinnerSettings:hover,
+.finalWinnerNavTabs button:focus-visible,
+.finalWinnerSettings:focus-visible {
+  color: var(--sd-gold-300);
+}
+
+.finalWinnerNavTabs button:focus-visible,
+.finalWinnerSettings:focus-visible {
+  outline: 2px solid var(--sd-gold-300);
+  outline-offset: -4px;
+}
+
+.finalWinnerSettings {
+  margin-left: auto;
+  font-size: 18px;
+}
+
+/* Preview chip: x 617..749, y 57..85 on 1366×768
+   => left 45.17%, top 7.42%, width 9.66%, min height 3.65%. */
+.finalWinnerPreview {
+  position: absolute;
+  z-index: 8;
+  left: 45.17%;
+  top: 7.42%;
+  width: 9.66%;
+  min-height: 3.65%;
+  justify-content: center;
+  pointer-events: none;
+}
+
+/* Hero copy uses the Step 4 measured x/y slot. */
+.finalWinnerHeroCopySlot {
+  display: grid;
+  grid-template-rows: auto auto 1fr auto auto;
+  justify-items: center;
+  align-content: start;
+  gap: .25vh;
+  text-align: center;
+  color: var(--sd-text-primary);
+}
+
+.finalWinnerStateHeading {
+  margin: 0;
+  max-width: 100%;
+  color: var(--sd-text-warm);
+  font-size: clamp(11px, .88vw, 14px);
+  letter-spacing: .16em;
+  text-shadow: 0 2px 8px rgb(0 0 0 / .92);
+  white-space: nowrap;
+}
+
+.finalWinnerOutcome {
+  margin: .15vh 0 0;
+  color: var(--sd-gold-300);
+  font: 800 clamp(25px, 2.45vw, 42px)/.95 var(--sd-font-condensed);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  text-shadow: 0 3px 14px rgb(0 0 0 / .92), 0 0 22px rgb(242 196 91 / .18);
+}
+
+.finalWinnerTotals {
+  display: grid;
+  grid-template-columns: minmax(72px, 1fr) auto minmax(72px, 1fr);
+  align-items: end;
+  width: min(100%, 340px);
+  margin-top: .25vh;
+}
+
+.finalWinnerManager {
+  display: grid;
+  justify-items: center;
+  gap: 0;
+}
+
+.finalWinnerManager small {
+  color: var(--sd-text-secondary);
+  font: 700 clamp(10px, .82vw, 13px)/1 var(--sd-font-condensed);
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  text-shadow: 0 2px 7px rgb(0 0 0 / .92);
+}
+
+.finalWinnerManager .sd-number {
+  font-size: clamp(31px, 3.05vw, 52px);
+  line-height: .92;
+  text-shadow: 0 4px 15px rgb(0 0 0 / .88);
+}
+
+.finalWinnerScoreDash {
+  align-self: end;
+  padding: 0 .42em .18em;
+  color: var(--sd-text-warm);
+  font: 700 clamp(26px, 2.5vw, 44px)/1 var(--sd-font-condensed);
+}
+
+.finalWinnerResultText {
+  margin: .18vh 0 0;
+  color: var(--sd-text-primary);
+  font: 600 clamp(11px, .9vw, 14px)/1.1 var(--sd-font-condensed);
+  letter-spacing: .07em;
+  text-shadow: 0 2px 7px rgb(0 0 0 / .94);
+}
+
+.finalWinnerCompletion {
+  min-height: 24px;
+  margin-top: .2vh;
+  color: var(--sd-gold-300);
+  border-color: rgb(242 196 91 / .72);
+  background: rgb(8 9 12 / .88);
+}
+
+.finalWinnerCompletion:empty,
+.finalWinnerResultText:empty,
+.finalWinnerOutcome:empty,
+.finalWinnerStateHeading:empty {
+  display: none;
+}
+
+.winnerTrophySlot {
+  display: grid;
+  place-items: center;
+}
+
+.winnerTrophyPicture {
+  position: relative;
+  z-index: 2;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.winnerTrophyPicture img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 18px 24px rgb(0 0 0 / .66)) drop-shadow(0 0 22px rgb(242 196 91 / .22));
+}
+
+.winnerTrophyGlow {
+  position: absolute;
+  z-index: 1;
+  width: 72%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgb(242 196 91 / .22), rgb(242 196 91 / .06) 42%, transparent 72%);
+  filter: blur(12px);
+}
+
+#stage-root[data-status="loading"] .winnerTrophySlot,
+#stage-root[data-status="empty"] .winnerTrophySlot,
+#stage-root[data-status="unavailable"] .winnerTrophySlot {
+  opacity: .34;
+  filter: saturate(.35);
+}
+
+/* STEP 6 · group B: compact final-result panel.
+   The panel is deliberately data-dense because it occupies only the measured
+   12.50% frame-height strip. No season-entry or career/all-time data appears. */
+.finalWinnerResultsPanel {
+  display: grid;
+  grid-template-columns: 19% 1fr;
+  overflow: hidden;
+  box-sizing: border-box;
+  padding: 0;
+  border-color: rgb(242 196 91 / .72);
+  background:
+    linear-gradient(110deg, rgb(8 9 11 / .93), rgb(13 14 17 / .82)),
+    linear-gradient(90deg, rgb(242 196 91 / .06), transparent 48%);
+  box-shadow: 0 16px 38px rgb(0 0 0 / .48), inset 0 1px 0 rgb(255 228 150 / .08);
+}
+
+.finalWinnerMetaStrip {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-right: 1px solid rgb(242 196 91 / .28);
+  background: linear-gradient(180deg, rgb(242 196 91 / .06), rgb(0 0 0 / .08));
+}
+
+.finalWinnerMetaCell {
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 0;
+  min-width: 0;
+  padding: .4vh .3vw;
+  box-sizing: border-box;
+}
+
+.finalWinnerMetaCell + .finalWinnerMetaCell {
+  border-left: 1px solid rgb(242 196 91 / .18);
+}
+
+.finalWinnerMetaCell span,
+.finalWinnerMetaCell small {
+  color: var(--sd-text-secondary);
+  font: 700 clamp(8px, .58vw, 10px)/1 var(--sd-font-condensed);
+  letter-spacing: .13em;
+  text-transform: uppercase;
+}
+
+.finalWinnerMetaCell strong {
+  margin: .1vh 0;
+  color: var(--sd-gold-300);
+  font-size: clamp(24px, 2vw, 34px);
+  line-height: .9;
+  font-variant-numeric: tabular-nums;
+}
+
+.finalWinnerHonours {
+  min-width: 0;
+  display: grid;
+  grid-template-rows: 20% repeat(4, 1fr);
+  padding: .45vh .8vw .35vh;
+  box-sizing: border-box;
+}
+
+.finalWinnerHonoursHead,
+.finalWinnerTrophyMetric {
+  display: grid;
+  grid-template-columns: minmax(34px, .62fr) 22px minmax(120px, 1.45fr) 22px minmax(34px, .62fr);
+  align-items: center;
+  gap: .35vw;
+  min-width: 0;
+}
+
+.finalWinnerHonoursHead {
+  color: var(--sd-text-secondary);
+  font: 700 clamp(8px, .62vw, 10px)/1 var(--sd-font-condensed);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  border-bottom: 1px solid rgb(242 196 91 / .22);
+}
+
+.finalWinnerHonoursHead > span {
+  grid-column: 2 / 5;
+  grid-row: 1;
+  text-align: center;
+  color: var(--sd-text-warm);
+}
+
+.finalWinnerHonoursManager {
+  grid-row: 1;
+  font: inherit;
+  color: var(--sd-text-primary);
+}
+
+.finalWinnerHonoursManager--daniel {
+  grid-column: 1;
+  text-align: right;
+}
+
+.finalWinnerHonoursManager--nik {
+  grid-column: 5;
+  text-align: left;
+}
+
+.finalWinnerTrophyMetric {
+  border-bottom: 1px solid rgb(242 196 91 / .10);
+  color: var(--sd-text-secondary);
+  font: 700 clamp(8px, .59vw, 10px)/1 var(--sd-font-condensed);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.finalWinnerTrophyMetric:last-child {
+  border-bottom: 0;
+}
+
+.finalWinnerTrophyMetric img {
+  display: block;
+  width: 18px;
+  height: 18px;
+  justify-self: center;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 4px rgb(0 0 0 / .7));
+}
+
+.finalWinnerTrophyMetric > span:nth-of-type(1) {
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.finalWinnerMetricValue {
+  color: var(--sd-text-primary);
+  font: 800 clamp(15px, 1.15vw, 20px)/1 var(--sd-font-condensed);
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
+.finalWinnerMetricValue:first-child {
+  text-align: right;
+}
+
+.finalWinnerMetricValue:last-child {
+  text-align: left;
+}
+
+.finalWinnerMetricValue[data-missing="true"] {
+  color: var(--sd-text-secondary);
+  font-size: clamp(11px, .82vw, 14px);
+}
+
+.finalWinnerTotalMark {
+  justify-self: center;
+  color: var(--sd-gold-300);
+  font: 700 clamp(11px, .82vw, 14px)/1 var(--sd-font-condensed);
+}
+
+.finalWinnerTrophyMetric--total {
+  color: var(--sd-text-warm);
+  border-top: 1px solid rgb(242 196 91 / .22);
+}
+
+#stage-root[data-winner="daniel"] .finalWinnerHonoursManager--daniel,
+#stage-root[data-winner="nik"] .finalWinnerHonoursManager--nik {
+  color: var(--sd-gold-300);
+  text-shadow: 0 0 12px rgb(242 196 91 / .24);
+}
+
+#stage-root[data-status="loading"] .finalWinnerResultsPanel,
+#stage-root[data-status="empty"] .finalWinnerResultsPanel,
+#stage-root[data-status="unavailable"] .finalWinnerResultsPanel {
+  opacity: .62;
+}
+
+/* STEP 7 · group C: lower status + exact live Terminal Close actions.
+   The Step 4 action reserve remains x 34.33..65.66%, y 89.97..96.22%.
+   Status floats one line immediately above that reserve so the measured button
+   row is preserved and the read-only result strip is not reflowed. */
+.finalWinnerActionsSlot {
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+}
+
+.finalWinnerTerminalStatus {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + .45vh);
+  width: min(69vw, 946px);
+  margin: 0;
+  transform: translateX(-50%);
+  color: var(--sd-text-secondary);
+  font: 600 clamp(8px, .62vw, 10px)/1.15 var(--sd-font-condensed);
+  letter-spacing: .055em;
+  text-align: center;
+  text-transform: uppercase;
+  text-shadow: 0 2px 8px rgb(0 0 0 / .95);
+  white-space: nowrap;
+}
+
+.finalWinnerTerminalStatus:empty {
+  display: none;
+}
+
+.finalWinnerActionRow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 44px;
+  pointer-events: auto;
+}
+
+.finalWinnerActionRow:empty {
+  display: none;
+}
+
+.finalWinnerActionRow .sd-btn {
+  min-width: 220px;
+  min-height: 44px;
+  box-shadow: 0 9px 24px rgb(0 0 0 / .42);
+}
+
+.finalWinnerActionRow .sd-btn:focus-visible {
+  outline: 2px solid var(--sd-gold-300);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 2px #050505, 0 0 22px rgb(242 196 91 / .38);
+}
+
+/* Closed Final Winner states intentionally expose no local completion-hub buttons. */
+#stage-root[data-state="completed"] .finalWinnerActionRow {
+  display: none;
+}
+
+/* STEP 8 · depth sandwich recipe hooks.
+   Generated cutout/rim assets are full 1672×941 canvases and fill the registered
+   stage exactly: no object-fit, focal override, offset or transform. Stage z-order
+   keeps trophy/UI below the manager arm cutouts and the rim light above both. */
+.finalWinnerCutout,
+.finalWinnerRim {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.finalWinnerCutout {
+  z-index: 2;
+  display: block;
+}
+
+.finalWinnerContact {
+  position: absolute;
+  z-index: 1;
+  pointer-events: none;
+  border-radius: 50%;
+  background: rgb(0 0 0 / .42);
+  filter: blur(8px);
+}
+
+.finalWinnerContact--daniel {
+  left: 23.6%;
+  top: 37.2%;
+  width: 4.5%;
+  height: 7.8%;
+  transform: translate(5px, 7px) rotate(-16deg);
+}
+
+.finalWinnerContact--nik {
+  left: 80.0%;
+  top: 54.2%;
+  width: 4.9%;
+  height: 4.7%;
+  transform: translate(-5px, 6px) rotate(9deg);
+}
+
+.finalWinnerRim {
+  opacity: .38;
+  background: linear-gradient(112deg, transparent 28%, rgb(255 213 92 / .88) 63%, transparent 92%);
+}
+
+.finalWinnerRim--daniel {
+  -webkit-mask: image-set(
+    url("assets/OVL_FW_DANIEL_NEAR_ARM_V1_RIM_1X.webp") 1x,
+    url("assets/OVL_FW_DANIEL_NEAR_ARM_V1_RIM_2X.webp") 2x
+  ) center / 100% 100% no-repeat;
+  mask: image-set(
+    url("assets/OVL_FW_DANIEL_NEAR_ARM_V1_RIM_1X.webp") 1x,
+    url("assets/OVL_FW_DANIEL_NEAR_ARM_V1_RIM_2X.webp") 2x
+  ) center / 100% 100% no-repeat;
+}
+
+.finalWinnerRim--nik {
+  opacity: .32;
+  background: linear-gradient(248deg, transparent 30%, rgb(255 213 92 / .84) 67%, transparent 94%);
+  -webkit-mask: image-set(
+    url("assets/OVL_FW_NIK_NEAR_ARM_V1_RIM_1X.webp") 1x,
+    url("assets/OVL_FW_NIK_NEAR_ARM_V1_RIM_2X.webp") 2x
+  ) center / 100% 100% no-repeat;
+  mask: image-set(
+    url("assets/OVL_FW_NIK_NEAR_ARM_V1_RIM_1X.webp") 1x,
+    url("assets/OVL_FW_NIK_NEAR_ARM_V1_RIM_2X.webp") 2x
+  ) center / 100% 100% no-repeat;
+}
+
+/* STEP 9 · every fixture state. */
+
+/* One explicit data-selected crown; suppress the shared eyebrow's decorative crown
+   so draw/unconfirmed states can be guaranteed crown-free. */
+.finalWinnerEyebrow::before {
+  display: none;
+}
+
+.finalWinnerCrown {
+  position: absolute;
+  z-index: 9;
+  display: none;
+  width: 28px;
+  height: 22px;
+  background: var(--sd-gold-metal);
+  clip-path: polygon(0 28%, 25% 52%, 50% 0, 75% 52%, 100% 28%, 90% 88%, 10% 88%);
+  filter: drop-shadow(0 2px 5px rgb(0 0 0 / .9)) drop-shadow(0 0 10px rgb(242 196 91 / .38));
+  pointer-events: none;
+}
+
+.finalWinnerCrown--daniel {
+  left: 23.05%;
+  top: 12.10%;
+}
+
+.finalWinnerCrown--nik {
+  left: 72.20%;
+  top: 11.20%;
+}
+
+#stage-root[data-winner="daniel"] .finalWinnerCrown--daniel,
+#stage-root[data-winner="nik"] .finalWinnerCrown--nik {
+  display: block;
+}
+
+/* Preview data lives above the selected crown, never on the title/tagline. */
+#stage-root[data-winner="daniel"] .finalWinnerPreview {
+  left: 19.40%;
+  top: 7.45%;
+}
+
+#stage-root[data-winner="nik"] .finalWinnerPreview {
+  left: 68.60%;
+  top: 7.45%;
+}
+
+#stage-root[data-winner="draw"] .finalWinnerPreview,
+#stage-root[data-winner="unconfirmed"] .finalWinnerPreview {
+  left: 45.17%;
+  top: 7.42%;
+}
+
+/* Plate-only rival dimming lives in atmosphere, so live text/focus never loses opacity.
+   Winner receives warm light; neutral/draw frames keep both managers balanced. */
+.finalWinnerManagerShade,
+.finalWinnerManagerSpotlight {
+  position: absolute;
+  pointer-events: none;
+  border-radius: 46% 46% 42% 42%;
+}
+
+.finalWinnerManagerShade {
+  z-index: 1;
+  top: 12%;
+  width: 18%;
+  height: 50%;
+  opacity: 0;
+  background: radial-gradient(ellipse at 50% 40%, rgb(0 0 0 / .08), rgb(0 0 0 / .30) 72%, transparent 100%);
+}
+
+.finalWinnerManagerShade--daniel { left: 12.8%; }
+.finalWinnerManagerShade--nik { left: 66.2%; }
+
+.finalWinnerManagerSpotlight {
+  z-index: 2;
+  top: 8.5%;
+  width: 22%;
+  height: 57%;
+  opacity: .14;
+  background: radial-gradient(ellipse at 50% 36%, rgb(255 232 169 / .20), rgb(242 196 91 / .08) 44%, transparent 72%);
+  filter: blur(5px);
+}
+
+.finalWinnerManagerSpotlight--daniel { left: 10.8%; }
+.finalWinnerManagerSpotlight--nik { left: 64.0%; }
+
+#stage-root[data-spotlight="daniel"] .finalWinnerManagerSpotlight--daniel,
+#stage-root[data-spotlight="nik"] .finalWinnerManagerSpotlight--nik {
+  opacity: .48;
+}
+
+#stage-root[data-spotlight="daniel"] .finalWinnerManagerSpotlight--nik,
+#stage-root[data-spotlight="nik"] .finalWinnerManagerSpotlight--daniel {
+  opacity: .06;
+}
+
+#stage-root[data-spotlight="daniel"] .finalWinnerManagerShade--nik,
+#stage-root[data-spotlight="nik"] .finalWinnerManagerShade--daniel {
+  opacity: 1;
+}
+
+#stage-root[data-spotlight="daniel"] .finalWinnerCutout--nik,
+#stage-root[data-spotlight="nik"] .finalWinnerCutout--daniel {
+  opacity: .70;
+}
+
+#stage-root[data-spotlight="neutral"] .finalWinnerManagerSpotlight {
+  opacity: .18;
+}
+
+.finalWinnerTerminalHeading {
+  display: none;
+  margin: 0;
+  color: var(--sd-text-secondary);
+  font: 700 clamp(9px, .68vw, 11px)/1 var(--sd-font-condensed);
+  letter-spacing: .11em;
+  text-transform: uppercase;
+  text-shadow: 0 2px 7px rgb(0 0 0 / .92);
+}
+
+.finalWinnerTerminalHeading:not(:empty) {
+  display: block;
+}
+
+/* Loading / empty / unavailable replace metric grids with one designed state panel. */
+.finalWinnerStatePanel {
+  display: none;
+  grid-column: 1 / -1;
+  grid-template-columns: 46px minmax(0, 1fr);
+  grid-template-areas:
+    "glyph title"
+    "glyph message";
+  align-items: center;
+  column-gap: 16px;
+  width: 100%;
+  height: 100%;
+  padding: 1.2vh 2vw;
+  box-sizing: border-box;
+  background:
+    linear-gradient(100deg, rgb(242 196 91 / .055), transparent 38%),
+    rgb(8 9 12 / .72);
+}
+
+.finalWinnerStateGlyph {
+  grid-area: glyph;
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border: 1px solid rgb(242 196 91 / .50);
+  border-radius: 50%;
+  color: var(--sd-gold-300);
+  font: 800 18px/1 var(--sd-font-condensed);
+  box-shadow: inset 0 0 16px rgb(242 196 91 / .06);
+}
+
+.finalWinnerStatePanel strong {
+  grid-area: title;
+  color: var(--sd-text-primary);
+  font: 800 clamp(13px, 1.05vw, 17px)/1 var(--sd-font-condensed);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.finalWinnerStatePanel p {
+  grid-area: message;
+  margin: 4px 0 0;
+  color: var(--sd-text-secondary);
+  font: 500 clamp(11px, .78vw, 13px)/1.28 var(--sd-font-body);
+}
+
+#stage-root[data-status="loading"] .finalWinnerMetaStrip,
+#stage-root[data-status="loading"] .finalWinnerHonours,
+#stage-root[data-status="empty"] .finalWinnerMetaStrip,
+#stage-root[data-status="empty"] .finalWinnerHonours,
+#stage-root[data-status="unavailable"] .finalWinnerMetaStrip,
+#stage-root[data-status="unavailable"] .finalWinnerHonours {
+  display: none;
+}
+
+#stage-root[data-status="loading"] .finalWinnerResultsPanel,
+#stage-root[data-status="empty"] .finalWinnerResultsPanel,
+#stage-root[data-status="unavailable"] .finalWinnerResultsPanel {
+  grid-template-columns: 1fr;
+  opacity: 1;
+}
+
+#stage-root[data-status="loading"] .finalWinnerStatePanel,
+#stage-root[data-status="empty"] .finalWinnerStatePanel,
+#stage-root[data-status="unavailable"] .finalWinnerStatePanel {
+  display: grid;
+}
+
+#stage-root[data-status="loading"] .finalWinnerStateGlyph {
+  font-size: 0;
+  border-color: rgb(242 196 91 / .28);
+  border-top-color: var(--sd-gold-300);
+  animation: finalWinnerSpin 1s linear infinite;
+}
+
+#stage-root[data-status="empty"] .finalWinnerStateGlyph::before {
+  content: "○";
+  font-size: 24px;
+}
+
+#stage-root[data-status="unavailable"] .finalWinnerStateGlyph::before {
+  content: "!";
+}
+
+@keyframes finalWinnerSpin {
+  to { transform: rotate(360deg); }
+}
+
+/* Partial keeps available authoritative values and calls out incomplete coverage.
+   Missing metric values remain dashes with aria-label=Unavailable. */
+.finalWinnerPartialNotice {
+  position: absolute;
+  z-index: 7;
+  left: 50%;
+  bottom: calc(100% + .7vh);
+  display: none;
+  grid-template-columns: 30px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  width: min(65vw, 890px);
+  min-height: 40px;
+  padding: 7px 12px;
+  box-sizing: border-box;
+  transform: translateX(-50%);
+  border: 1px solid rgb(242 196 91 / .52);
+  background: rgb(8 9 12 / .90);
+  box-shadow: 0 10px 24px rgb(0 0 0 / .42);
+}
+
+#stage-root[data-status="partial"] .finalWinnerPartialNotice {
+  display: grid;
+}
+
+.finalWinnerPartialIcon {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border: 1px solid rgb(242 196 91 / .66);
+  border-radius: 50%;
+  color: var(--sd-gold-300);
+  font: 800 13px/1 var(--sd-font-condensed);
+}
+
+.finalWinnerPartialNotice p {
+  margin: 0;
+  min-width: 0;
+  color: var(--sd-text-secondary);
+  font: 500 clamp(9px, .68vw, 11px)/1.25 var(--sd-font-body);
+}
+
+.finalWinnerPartialNotice strong {
+  color: var(--sd-gold-300);
+  font: 800 clamp(9px, .64vw, 11px)/1 var(--sd-font-condensed);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* Data facts are truly absent in no-result states, not merely visually hidden. */
+#stage-root[data-status="loading"] .finalWinnerTotals,
+#stage-root[data-status="empty"] .finalWinnerTotals,
+#stage-root[data-status="unavailable"] .finalWinnerTotals,
+#stage-root[data-status="loading"] .finalWinnerResultText,
+#stage-root[data-status="empty"] .finalWinnerResultText,
+#stage-root[data-status="unavailable"] .finalWinnerResultText,
+#stage-root[data-status="loading"] .finalWinnerCompletion,
+#stage-root[data-status="empty"] .finalWinnerCompletion,
+#stage-root[data-status="unavailable"] .finalWinnerCompletion {
+  display: none;
+}
+
+#stage-root[data-status="loading"] .finalWinnerActionRow,
+#stage-root[data-status="empty"] .finalWinnerActionRow,
+#stage-root[data-status="unavailable"] .finalWinnerActionRow {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #stage-root[data-status="loading"] .finalWinnerStateGlyph {
+    animation: none;
+  }
+}
+
+
+/* CLAUDE FIX · JOB-082 · ceremony spacing */
+/* Keep the ceremony hierarchy in one clean vertical read:
+   preview -> crown -> eyebrow -> wordmark -> tagline -> status -> winner -> caption.
+   The score may continue into the trophy zone, but no copy may collide with the title
+   or sit across the trophy crown. */
+.finalWinnerTitleBlock {
+  top: 13.35%;
+  display: grid;
+  justify-items: center;
+  row-gap: .55vh;
+}
+
+.finalWinnerEyebrow {
+  min-height: 0;
+  margin: 0;
+  line-height: 1;
+}
+
+.finalWinnerWordmark {
+  width: 70%;
+  margin: .15vh auto 0;
+}
+
+.finalWinnerTagline {
+  margin: .45vh 0 0;
+  line-height: 1.12;
+}
+
+.finalWinnerHeroCopySlot {
+  top: 22.85%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .55vh;
+}
+
+.finalWinnerStateHeading {
+  order: 1;
+}
+
+.finalWinnerTerminalHeading {
+  order: 2;
+}
+
+.finalWinnerOutcome {
+  order: 3;
+  margin: .35vh 0 0;
+}
+
+.finalWinnerResultText {
+  order: 4;
+  position: absolute;
+  left: 50%;
+  top: 6.15vh;
+  width: 100%;
+  margin: 0;
+  transform: translateX(-50%);
+  text-align: center;
+}
+
+.finalWinnerTotals {
+  order: 5;
+  margin-top: .15vh;
+}
+
+.finalWinnerCompletion {
+  order: 6;
+}
+
+/* Claude fix: ceremony crown is centered above the eyebrow, never on a manager's hair. */
+.finalWinnerCrown--daniel,
+.finalWinnerCrown--nik {
+  left: 49.49%;
+  top: 9.85%;
+  transform: translateX(-50%);
+}
+
+/* Claude fix: Preview data sits above the centered crown for every winner state. */
+.finalWinnerPreview,
+#stage-root[data-winner="daniel"] .finalWinnerPreview,
+#stage-root[data-winner="nik"] .finalWinnerPreview,
+#stage-root[data-winner="draw"] .finalWinnerPreview,
+#stage-root[data-winner="unconfirmed"] .finalWinnerPreview {
+  left: 49.49%;
+  top: 7.02%;
+  width: auto;
+  min-width: 9.66%;
+  transform: translateX(-50%);
+}
+
+/* Claude fix: footer starts at least 10px below the honours table and stays below
+   the trophy base. Move the action reserve slightly down so a live close button
+   still clears the footer. */
+.finalWinnerActionsSlot {
+  top: 90.60%;
+  height: 5.73%;
+}
+
+.finalWinnerTerminalStatus {
+  top: -7px;
+  bottom: auto;
+  padding: 0 8px;
+  box-sizing: border-box;
+  font-size: clamp(9px, .66vw, 11px);
+  line-height: 1.15;
+}
+
+/* Claude intake fix 2026-10-03: start the result copy under the tagline, and keep the
+   redundant result sentence for screen readers only (it sat on the outcome and the trophy crown). */
+.finalWinnerHeroCopySlot { top: calc(14.8% + 99px); gap: .3vh; }
+.finalWinnerScoreDash { visibility: hidden; }
+.finalWinnerResultText {
+  position: absolute !important; width: 1px; height: 1px; overflow: hidden;
+  clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; transform: none; left: 0; top: 0;
+}
+
+
+/* JOB-083 STEP 2a · phone composition structure. Phone is a new portrait layout,
+   not a scaled desktop. Dedicated portrait art/cut-outs are wired in Step 3. */
+.finalWinnerPhoneTabs,
+.finalWinnerTabInput,
+.finalWinnerPartialToggle,
+.finalWinnerPartialTrigger {
+  display: none;
+}
+
+@media (max-width: 760px) {
+  #stage-root,
+  #finalWinnerScreen {
+    width: 100vw;
+    height: 100vh;
+    height: 100svh;
+    overflow: hidden;
+  }
+
+  #finalWinnerScreen {
+    position: absolute;
+    inset: 0;
+  }
+
+  .finalWinnerTopbar {
+    display: none;
+  }
+
+  .finalWinnerConfettiLayer {
+    inset: 0 0 auto;
+    width: 100%;
+    height: 55%;
+    overflow: hidden;
+  }
+
+  .finalWinnerTitleBlock {
+    left: 50%;
+    top: clamp(24px, 4.8svh, 34px);
+    width: 76%;
+    transform: translateX(-50%);
+    row-gap: 2px;
+    z-index: 8;
+  }
+
+  .finalWinnerEyebrow {
+    font-size: 8px;
+    letter-spacing: .30em;
+  }
+
+  .finalWinnerWordmark {
+    width: 70%;
+    margin-top: 1px;
+  }
+
+  .finalWinnerTagline {
+    margin-top: 2px;
+    font-size: 8px;
+    letter-spacing: .14em;
+  }
+
+  .finalWinnerPreview,
+  #stage-root[data-winner="daniel"] .finalWinnerPreview,
+  #stage-root[data-winner="nik"] .finalWinnerPreview,
+  #stage-root[data-winner="draw"] .finalWinnerPreview,
+  #stage-root[data-winner="unconfirmed"] .finalWinnerPreview {
+    left: 50%;
+    top: 6px;
+    width: auto;
+    min-width: 0;
+    transform: translateX(-50%);
+    z-index: 10;
+  }
+
+  .finalWinnerCrown--daniel,
+  .finalWinnerCrown--nik {
+    left: 50%;
+    top: clamp(47px, 8svh, 58px);
+    width: 22px;
+    height: 17px;
+    transform: translateX(-50%);
+  }
+
+  .winnerTrophySlot {
+    left: 50%;
+    top: clamp(112px, 19svh, 136px);
+    width: 36%;
+    height: clamp(132px, 23svh, 156px);
+    transform: translateX(-50%);
+    z-index: 5;
+  }
+
+  .winnerTrophyGlow {
+    width: 88%;
+  }
+
+  .finalWinnerHeroCopySlot {
+    left: 8%;
+    top: clamp(245px, 42svh, 282px);
+    width: 84%;
+    height: auto;
+    transform: none;
+    gap: 1px;
+    z-index: 9;
+  }
+
+  .finalWinnerStateHeading,
+  .finalWinnerTerminalHeading {
+    max-width: 100%;
+    font-size: 9px;
+    line-height: 1.05;
+    white-space: normal;
+  }
+
+  .finalWinnerOutcome {
+    margin-top: 1px;
+    font-size: clamp(20px, 6.4vw, 25px);
+    line-height: .95;
+  }
+
+  .finalWinnerTotals {
+    grid-template-columns: minmax(64px, 1fr) 0 minmax(64px, 1fr);
+    width: min(70vw, 260px);
+    margin-top: 0;
+  }
+
+  .finalWinnerManager small {
+    font-size: 9px;
+  }
+
+  .finalWinnerManager .sd-number {
+    font-size: clamp(27px, 8vw, 34px);
+  }
+
+  .finalWinnerCompletion {
+    min-height: 20px;
+    margin-top: 1px;
+    font-size: 9px;
+  }
+
+  .finalWinnerResultsPanel {
+    left: 4%;
+    right: 4%;
+    top: 57%;
+    bottom: calc(62px + env(safe-area-inset-bottom));
+    width: auto;
+    height: auto;
+    min-height: 0;
+    display: block;
+    overflow: hidden;
+    z-index: 11;
+  }
+
+  .finalWinnerActionsSlot {
+    left: 4%;
+    right: 4%;
+    top: auto;
+    bottom: env(safe-area-inset-bottom);
+    width: auto;
+    height: 54px;
+    z-index: 14;
+  }
+
+  .finalWinnerTerminalStatus {
+    left: 0;
+    top: auto;
+    bottom: calc(100% + 3px);
+    width: 100%;
+    padding: 0 4px;
+    transform: none;
+    font-size: 9px;
+    line-height: 1.1;
+    white-space: normal;
+  }
+
+  .finalWinnerCutout,
+  .finalWinnerRim,
+  .finalWinnerContact {
+    display: none;
+  }
+
+  .finalWinnerManagerShade,
+  .finalWinnerManagerSpotlight {
+    top: 0;
+    width: 55%;
+    height: 56%;
+    border-radius: 0;
+  }
+
+  .finalWinnerManagerShade--daniel,
+  .finalWinnerManagerSpotlight--daniel { left: 0; }
+
+  .finalWinnerManagerShade--nik,
+  .finalWinnerManagerSpotlight--nik { left: 45%; }
+}
+
+
+/* JOB-083 STEP 2b · phone tabs and rare-detail sheet. */
+@media (max-width: 760px) {
+  .finalWinnerTabInput,
+  .finalWinnerPartialToggle {
+    display: block;
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: 0;
+    opacity: 0;
+    clip-path: inset(50%);
+    pointer-events: none;
+  }
+
+  .finalWinnerPhoneTabs {
+    position: relative;
+    z-index: 3;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    height: 44px;
+    border-bottom: 1px solid rgb(242 196 91 / .24);
+    background: rgb(6 8 11 / .90);
+  }
+
+  .finalWinnerPhoneTabs label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+    min-height: 44px;
+    color: var(--sd-text-secondary);
+    font: 700 11px/1 var(--sd-font-condensed);
+    letter-spacing: .12em;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  #finalWinnerTabSummary:checked ~ .finalWinnerPhoneTabs label[for="finalWinnerTabSummary"],
+  #finalWinnerTabHonours:checked ~ .finalWinnerPhoneTabs label[for="finalWinnerTabHonours"] {
+    color: var(--sd-gold-300);
+    border-bottom-color: var(--sd-gold-300);
+    background: linear-gradient(180deg, rgb(242 196 91 / .08), transparent);
+  }
+
+  #finalWinnerTabSummary:focus-visible ~ .finalWinnerPhoneTabs label[for="finalWinnerTabSummary"],
+  #finalWinnerTabHonours:focus-visible ~ .finalWinnerPhoneTabs label[for="finalWinnerTabHonours"] {
+    outline: 2px solid var(--sd-gold-300);
+    outline-offset: -3px;
+  }
+
+  .finalWinnerMetaStrip {
+    height: calc(100% - 44px);
+    grid-template-columns: 1fr 1fr;
+    border-right: 0;
+  }
+
+  .finalWinnerMetaCell {
+    padding: 7px 4px 6px;
+  }
+
+  .finalWinnerMetaCell span,
+  .finalWinnerMetaCell small {
+    font-size: 9px;
+    letter-spacing: .11em;
+  }
+
+  .finalWinnerMetaCell strong {
+    margin: 2px 0;
+    font-size: 28px;
+  }
+
+  .finalWinnerHonours {
+    height: calc(100% - 44px);
+    grid-template-rows: 26px repeat(4, 1fr);
+    padding: 3px 7px 5px;
+  }
+
+  .finalWinnerHonoursHead,
+  .finalWinnerTrophyMetric {
+    grid-template-columns: 34px 18px minmax(0, 1fr) 18px 34px;
+    gap: 3px;
+  }
+
+  .finalWinnerHonoursHead,
+  .finalWinnerTrophyMetric {
+    font-size: 8px;
+    letter-spacing: .035em;
+  }
+
+  .finalWinnerTrophyMetric img {
+    width: 15px;
+    height: 15px;
+  }
+
+  .finalWinnerMetricValue {
+    font-size: 16px;
+  }
+
+  .finalWinnerTotalMark {
+    font-size: 11px;
+  }
+
+  #finalWinnerTabSummary:checked ~ .finalWinnerMetaStrip {
+    display: grid;
+  }
+
+  #finalWinnerTabSummary:checked ~ .finalWinnerHonours {
+    display: none;
+  }
+
+  #finalWinnerTabHonours:checked ~ .finalWinnerMetaStrip {
+    display: none;
+  }
+
+  #finalWinnerTabHonours:checked ~ .finalWinnerHonours {
+    display: grid;
+  }
+
+  .finalWinnerStatePanel {
+    position: absolute;
+    inset: 44px 0 0;
+    width: auto;
+    height: auto;
+    padding: 12px 14px;
+  }
+
+  #stage-root[data-status="loading"] .finalWinnerPhoneTabs,
+  #stage-root[data-status="empty"] .finalWinnerPhoneTabs,
+  #stage-root[data-status="unavailable"] .finalWinnerPhoneTabs {
+    display: none;
+  }
+
+  #stage-root[data-status="loading"] .finalWinnerStatePanel,
+  #stage-root[data-status="empty"] .finalWinnerStatePanel,
+  #stage-root[data-status="unavailable"] .finalWinnerStatePanel {
+    inset: 0;
+  }
+
+  .finalWinnerPartialTrigger {
+    position: absolute;
+    z-index: 12;
+    right: 7px;
+    bottom: 7px;
+    min-height: 40px;
+    align-items: center;
+    justify-content: center;
+    padding: 0 10px;
+    box-sizing: border-box;
+    border: 1px solid rgb(242 196 91 / .50);
+    background: rgb(7 9 12 / .94);
+    color: var(--sd-gold-300);
+    font: 700 9px/1 var(--sd-font-condensed);
+    letter-spacing: .08em;
+    cursor: pointer;
+  }
+
+  #stage-root[data-status="partial"] .finalWinnerPartialTrigger {
+    display: flex;
+  }
+
+  #stage-root[data-status="partial"] .finalWinnerPartialNotice {
+    display: none;
+  }
+
+  #stage-root[data-status="partial"] #finalWinnerPartialToggle:checked ~ .finalWinnerPartialNotice {
+    display: grid;
+    inset: 44px 0 0;
+    width: auto;
+    min-height: 0;
+    padding: 12px 14px;
+    transform: none;
+    grid-template-columns: 30px minmax(0, 1fr);
+    grid-template-rows: auto auto;
+    align-content: center;
+    gap: 6px 10px;
+    background: rgb(7 9 12 / .98);
+    box-shadow: none;
+  }
+
+  #stage-root[data-status="partial"] #finalWinnerPartialToggle:checked ~ .finalWinnerPartialNotice strong {
+    grid-column: 2;
+    white-space: normal;
+  }
+
+  #stage-root[data-status="partial"] #finalWinnerPartialToggle:focus-visible + .finalWinnerPartialTrigger {
+    outline: 2px solid var(--sd-gold-300);
+    outline-offset: 2px;
+  }
+}
+
+
+/* JOB-083 STEP 3 · portrait Trophy Room phone art.
+   Positions are copied from trophy-room/assets/phonemap.json phone_frame:
+   background 50% 50%; Daniel x 29%, top 1.5%, height 59%; Nik x 71%, top 1%, height 60%;
+   hero boundary 55%; darkening begins at 48% and becomes opaque by 66%. */
+.finalWinnerPhoneBackground,
+.finalWinnerPhoneVeil,
+.finalWinnerPhoneHero {
+  display: none;
+}
+
+@media (max-width: 760px) {
+  .finalWinnerPhoneBackground {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    display: block;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .finalWinnerPhoneBackground img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 50%;
+  }
+
+  .finalWinnerPhoneVeil {
+    position: absolute;
+    inset: 0;
+    z-index: 6;
+    display: block;
+    pointer-events: none;
+    background:
+      linear-gradient(
+        180deg,
+        rgb(3 5 7 / 0) 0%,
+        rgb(3 5 7 / 0) 48%,
+        rgb(3 5 7 / .72) 58%,
+        rgb(3 5 7 / .96) 66%,
+        #050607 100%
+      );
+  }
+
+  .finalWinnerPhoneHero {
+    position: absolute;
+    z-index: 12;
+    display: block;
+    width: auto;
+    pointer-events: none;
+    transform: translateX(-50%);
+    transform-origin: 50% 100%;
+    opacity: .96;
+  }
+
+  .finalWinnerPhoneHero img {
+    display: block;
+    width: auto;
+    height: 100%;
+    max-width: none;
+    filter:
+      drop-shadow(0 1px 1px rgb(255 221 143 / .46))
+      drop-shadow(0 11px 12px rgb(0 0 0 / .70));
+  }
+
+  .finalWinnerPhoneHero--daniel {
+    left: 29%;
+    top: 1.5%;
+    height: 59%;
+  }
+
+  .finalWinnerPhoneHero--nik {
+    left: 71%;
+    top: 1%;
+    height: 60%;
+  }
+
+  #stage-root[data-spotlight="daniel"] .finalWinnerPhoneHero--daniel,
+  #stage-root[data-spotlight="nik"] .finalWinnerPhoneHero--nik {
+    opacity: 1;
+    filter: brightness(1.08) saturate(1.04);
+  }
+
+  #stage-root[data-spotlight="daniel"] .finalWinnerPhoneHero--nik,
+  #stage-root[data-spotlight="nik"] .finalWinnerPhoneHero--daniel {
+    opacity: .72;
+    filter: brightness(.72) saturate(.82);
+  }
+
+  #stage-root[data-spotlight="neutral"] .finalWinnerPhoneHero {
+    opacity: .94;
+    filter: brightness(.98);
+  }
+
+  /* Heroes deliberately run 4–5% below the 55% face band and sit one layer over
+     the results-panel lip. The ceremony title and live copy stay above them. */
+  .finalWinnerTitleBlock,
+  .finalWinnerHeroCopySlot {
+    z-index: 13;
+  }
+
+  .winnerTrophySlot {
+    z-index: 10;
+  }
+
+  .finalWinnerResultsPanel {
+    z-index: 11;
+  }
+
+  .finalWinnerActionsSlot {
+    z-index: 14;
+  }
+}
+
+
+/* JOB-083 STEP 4 · phone controls and pinned action.
+   There are no text-entry fields on Final Winner, so the 300 px software-keyboard
+   case is not applicable; the only inputs are hidden radio/checkbox state controls. */
+@media (max-width: 760px) {
+  .finalWinnerPhoneTabs label,
+  .finalWinnerPartialTrigger,
+  .finalWinnerActionRow .sd-btn {
+    min-height: 44px;
+  }
+
+  .finalWinnerPartialTrigger {
+    min-height: 44px;
+  }
+
+  .finalWinnerActionsSlot[data-phone-pinned-action="true"] {
+    bottom: env(safe-area-inset-bottom);
+    height: 54px;
+    padding: 5px 0;
+    box-sizing: border-box;
+  }
+
+  .finalWinnerActionRow {
+    width: 100%;
+    min-height: 44px;
+    gap: 6px;
+    flex-wrap: nowrap;
+  }
+
+  .finalWinnerActionRow .sd-btn {
+    min-width: 0;
+    width: auto;
+    flex: 1 1 0;
+    padding-inline: 12px;
+    font-size: 11px;
+    line-height: 1;
+  }
+
+  .finalWinnerActionRow .sd-btn:first-child {
+    flex-grow: 1.35;
+  }
+
+  .finalWinnerActionRow .sd-btn:nth-child(n + 2) {
+    flex-grow: 1;
+  }
+}
+
+
+/* JOB-083 CLAUDE FIX · single phone hero plane + short-height fit. */
+@media (max-width: 760px) {
+  /* The desktop plate contains the small manager figures. Phone owns one portrait
+     scene only, so none of the desktop plate/depth sandwich may paint underneath it. */
+  #stage-root[data-screen="final-winner"] > .sd-stage__layer--plate,
+  #stage-root[data-screen="final-winner"] > .sd-stage__layer--cutout,
+  #stage-root[data-screen="final-winner"] > .sd-stage__layer--light {
+    display: none;
+  }
+
+  /* Keep each portrait in its own half of the hero band. The rivals may overlap
+     the panel lip vertically, but their face/body planes never overlap each other. */
+  .finalWinnerPhoneHero {
+    top: 0;
+    width: 50%;
+    height: 59%;
+    overflow: hidden;
+    transform: none;
+    opacity: 1;
+    filter: none;
+  }
+
+  .finalWinnerPhoneHero img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: 50% 100%;
+  }
+
+  .finalWinnerPhoneHero--daniel {
+    left: 0;
+  }
+
+  .finalWinnerPhoneHero--nik {
+    left: auto;
+    right: 0;
+  }
+
+  /* Winner emphasis is lighting only. Never make the rival transparent: the
+     opposite portrait must not double-expose through a face. */
+  #stage-root[data-spotlight="daniel"] .finalWinnerPhoneHero--daniel,
+  #stage-root[data-spotlight="nik"] .finalWinnerPhoneHero--nik {
+    opacity: 1;
+    filter: brightness(1.08) saturate(1.04);
+  }
+
+  #stage-root[data-spotlight="daniel"] .finalWinnerPhoneHero--nik,
+  #stage-root[data-spotlight="nik"] .finalWinnerPhoneHero--daniel {
+    opacity: 1;
+    filter: brightness(.58) saturate(.74);
+  }
+
+  #stage-root[data-spotlight="neutral"] .finalWinnerPhoneHero {
+    opacity: 1;
+    filter: brightness(.96);
+  }
+}
+
+@media (max-width: 760px) and (max-height: 600px) {
+  /* 375 × 553 priority fit: preserve ceremony title, winner result, both scores,
+     the 44 px tabs and the pinned primary action with no page scroll. */
+  .finalWinnerTitleBlock {
+    top: 20px;
+    width: 72%;
+  }
+
+  .finalWinnerEyebrow,
+  .finalWinnerTagline {
+    font-size: 7px;
+  }
+
+  .finalWinnerWordmark {
+    width: 64%;
+  }
+
+  .winnerTrophySlot {
+    top: 82px;
+    width: 30%;
+    height: 116px;
+  }
+
+  .finalWinnerHeroCopySlot {
+    top: 202px;
+    left: 6%;
+    width: 88%;
+    gap: 0;
+  }
+
+  .finalWinnerStateHeading,
+  .finalWinnerTerminalHeading {
+    font-size: 8px;
+    line-height: 1;
+  }
+
+  .finalWinnerOutcome {
+    font-size: 19px;
+  }
+
+  .finalWinnerManager small {
+    font-size: 8px;
+  }
+
+  .finalWinnerManager .sd-number {
+    font-size: 29px;
+  }
+
+  .finalWinnerCompletion {
+    min-height: 18px;
+    font-size: 8px;
+  }
+
+  .finalWinnerResultsPanel {
+    top: 54%;
+    bottom: calc(60px + env(safe-area-inset-bottom));
+  }
+
+  .finalWinnerActionsSlot,
+  .finalWinnerActionsSlot[data-phone-pinned-action="true"] {
+    height: 52px;
+    padding-block: 4px;
+  }
+
+  .finalWinnerTerminalStatus {
+    font-size: 8px;
+    line-height: 1;
+  }
+}
+
+
+/* JOB-083 CLAUDE FIX 1 FOLLOW-UP · full-viewport phone plane + corrected Job 115 hero map. */
+@media (max-width: 760px) {
+  /* shared/stage.css normally starts the UI below the phone face band. Final Winner
+     owns the whole 393 × 660 viewport, so its portrait scene and pinned controls
+     must use the full stage rather than the shortened hub content plane. */
+  #stage-root[data-screen="final-winner"][data-sd-mode="phone"] > .sd-stage__layer--ui {
+    top: 0;
+    bottom: 0;
+  }
+
+  /* Job 115's corrected phone_frame is authoritative: the transparent WebPs are
+     trimmed portrait cut-outs, so size them by visible height and place their
+     centres directly instead of squeezing each image into a 50% box. */
+  .finalWinnerPhoneHero {
+    width: auto;
+    height: 50%;
+    overflow: visible;
+    transform: translateX(-50%);
+    opacity: 1;
+    filter: none;
+    z-index: 7;
+  }
+
+  .finalWinnerPhoneHero img {
+    width: auto;
+    height: 100%;
+    max-width: none;
+    object-fit: contain;
+    object-position: 50% 100%;
+  }
+
+  .finalWinnerPhoneHero--daniel {
+    left: 19%;
+    right: auto;
+    top: 1.5%;
+  }
+
+  .finalWinnerPhoneHero--nik {
+    left: 87%;
+    right: auto;
+    top: 1%;
+  }
+
+  /* Trophy and live result copy stay in front of the manager silhouettes. */
+  .winnerTrophySlot {
+    z-index: 8;
+  }
+
+  .finalWinnerTitleBlock,
+  .finalWinnerHeroCopySlot {
+    z-index: 9;
+  }
+}

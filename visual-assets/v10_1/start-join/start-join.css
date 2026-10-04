@@ -1,0 +1,635 @@
+/* JOB-087 · Start / Join desktop build.
+   Stage registration stays cover-centred; screen UI is positioned independently over the clean plate. */
+
+html,
+body {
+  margin: 0;
+  min-width: 100%;
+  min-height: 100%;
+}
+
+body { min-height: 100vh; }
+#stage-root { min-height: 100vh; }
+.managerPlateMarker { pointer-events: none; }
+
+/* Mockup title block measurements on the 1672 × 941 source frame:
+   eyebrow centre x ≈ 50.3%, top ≈ 10.2%;
+   title crop x 442..1241 = 47.8% wide, centre x 50.3%, top 132 = 14.0%;
+   tagline centre x ≈ 50.3%, top ≈ 23.7%. */
+.sj-header {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  text-align: center;
+}
+
+.sj-eyebrow {
+  position: absolute;
+  top: 10.2%;
+  left: 50.3%;
+  width: 31%;
+  margin: 0;
+  transform: translateX(-50%);
+  text-align: center;
+  letter-spacing: .36em;
+  white-space: nowrap;
+}
+
+.sj-title {
+  position: absolute;
+  top: 14.4%;
+  left: 50%;
+  width: 42%;
+  max-width: 50%;
+  margin: 0;
+  transform: translateX(-50%);
+  line-height: .88;
+}
+
+/* TODO-WORDMARK: Claude replaces this CONNECT PLAYERS display-font fallback with ticket 124. */
+.sj-title-fallback {
+  display: block;
+  width: 100%;
+  font: inherit;
+  font-size: clamp(2.8rem, 4.35vw, 4.8rem);
+  font-style: italic;
+  letter-spacing: .015em;
+  white-space: nowrap;
+  text-align: center;
+}
+
+.sj-tagline {
+  position: absolute;
+  top: 23.7%;
+  left: 50.3%;
+  width: 45%;
+  margin: 0;
+  transform: translateX(-50%);
+  text-align: center;
+  letter-spacing: .18em;
+  white-space: nowrap;
+}
+
+.sj-main {
+  position: absolute;
+  inset: 0;
+}
+
+/* Mockup central shell: x ≈ 23.7%, y ≈ 28.9%, w ≈ 51.3%, h ≈ 57.0%. */
+.sj-main-panel {
+  position: absolute;
+  left: 23.7%;
+  top: 28.9%;
+  width: 51.3%;
+  height: 61%;
+  box-sizing: border-box;
+  padding: 1.05% 1%;
+  display: grid;
+  /* Fix 1/5: reserve a full action row inside both role cards at 768px-tall desktop viewports. */
+  grid-template-rows: minmax(224px, 47%) auto auto;
+  row-gap: 2.1%;
+}
+
+/* Mockup close control: centre ≈ 74.4% x / 31.0% y. */
+.sj-back {
+  position: absolute;
+  z-index: 4;
+  top: -1px;
+  right: -1px;
+  width: 58px;
+  min-width: 58px;
+  height: 44px;
+  padding: 0 10px;
+  border-radius: 0 0 0 8px;
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  pointer-events: auto;
+}
+
+.sj-back:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+}
+
+/* Mockup role cards: host x ≈ 24.8%, join x ≈ 49.7%, y ≈ 30.9%;
+   each w ≈ 24.2% of frame, h ≈ 23.4%. */
+.sj-role-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  column-gap: 1.55%;
+  min-height: 0;
+}
+
+.sj-role-panel,
+.sj-current-panel {
+  min-width: 0;
+  min-height: 0;
+  box-sizing: border-box;
+  background:
+    linear-gradient(145deg, rgba(7, 10, 13, .88), rgba(12, 14, 17, .68));
+  border: 1px solid rgba(224, 178, 48, .5);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 222, 111, .08),
+    inset 0 -24px 44px rgba(0, 0, 0, .18);
+}
+
+.sj-role-panel {
+  padding: 5.2% 5.5% 4.8%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.sj-role-panel.is-active {
+  border-color: rgba(240, 200, 75, .9);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 231, 147, .15),
+    inset 0 -24px 44px rgba(0, 0, 0, .18),
+    0 0 24px rgba(208, 157, 36, .12);
+}
+
+.sj-role-panel.is-paired {
+  border-color: rgba(136, 196, 118, .54);
+}
+
+.sj-role-head,
+.sj-current-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.sj-role-glyph {
+  position: relative;
+  flex: 0 0 46px;
+  width: 46px;
+  height: 38px;
+  margin-top: 2px;
+  color: #f0c84b;
+}
+
+.sj-role-glyph--host::before {
+  content: "";
+  position: absolute;
+  left: 5px;
+  top: 2px;
+  width: 34px;
+  height: 23px;
+  border: 3px solid currentColor;
+  border-radius: 2px;
+}
+
+.sj-role-glyph--host::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 4px;
+  width: 46px;
+  height: 4px;
+  border-radius: 3px;
+  background: currentColor;
+}
+
+.sj-role-glyph--join {
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 50% 26%, currentColor 0 16%, transparent 17%),
+    radial-gradient(circle at 26% 35%, currentColor 0 13%, transparent 14%),
+    radial-gradient(circle at 74% 35%, currentColor 0 13%, transparent 14%),
+    radial-gradient(ellipse at 50% 82%, currentColor 0 33%, transparent 34%);
+}
+
+.sj-role-kicker {
+  margin: 0 0 3px;
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: .18em;
+  color: rgba(244, 215, 123, .78);
+}
+
+.sj-role-heading {
+  margin: 0;
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: clamp(20px, 1.45vw, 28px);
+  font-weight: 700;
+  line-height: .95;
+  letter-spacing: .025em;
+  text-transform: uppercase;
+}
+
+.sj-role-copy,
+.sj-current-copy {
+  margin: 13px 0 0;
+  font-family: var(--sd-font-body);
+  font-size: clamp(12px, .82vw, 15px);
+  font-weight: 400;
+  line-height: 1.35;
+  color: rgba(244, 244, 241, .76);
+}
+
+.sj-season-line {
+  margin-top: auto;
+  min-height: 38px;
+  padding: 7px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border: 1px solid rgba(255, 255, 255, .16);
+  background: rgba(0, 0, 0, .24);
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 12px;
+  letter-spacing: .12em;
+}
+
+.sj-season-line strong {
+  font-size: 25px;
+  font-variant-numeric: tabular-nums;
+  color: #f0c84b;
+}
+
+.sj-join-field {
+  margin-top: auto;
+}
+
+.sj-join-field label {
+  display: block;
+  margin-bottom: 5px;
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .16em;
+}
+
+.sj-join-field input {
+  width: 100%;
+  height: 42px;
+  box-sizing: border-box;
+  padding: 0 13px;
+  border: 1px solid rgba(206, 215, 223, .52);
+  border-radius: 3px;
+  background: rgba(6, 9, 13, .78);
+  color: #f7f7f2;
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 19px;
+  letter-spacing: .06em;
+}
+
+.sj-join-field input:focus-visible {
+  outline: 2px solid #f0c84b;
+  outline-offset: 2px;
+}
+
+.sj-card-actions {
+  min-height: 0;
+}
+
+/* Mockup current-session box: x ≈ 24.8%, y ≈ 55.5%, w ≈ 49.2%, h ≈ 23.5%. */
+.sj-current-panel {
+  width: 100%;
+  height: auto;
+  padding: 2.4% 3%;
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(150px, .7fr);
+  grid-template-rows: auto auto auto auto;
+  column-gap: 20px;
+  align-content: start;
+  align-self: start;
+}
+
+.sj-current-head {
+  grid-column: 1 / -1;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.sj-state-badge {
+  min-width: 92px;
+  padding: 5px 10px;
+  align-self: start;
+  border: 1px solid rgba(240, 200, 75, .32);
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.sj-current-copy {
+  grid-column: 1 / -1;
+  margin-top: 8px;
+}
+
+.sj-code-row {
+  grid-column: 1 / -1;
+  margin-top: 12px;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+}
+
+.sj-code-field {
+  width: 100%;
+  min-height: 48px;
+  box-sizing: border-box;
+  padding: 5px 16px;
+  border: 1px solid rgba(205, 214, 223, .58);
+  border-radius: 3px;
+  background: rgba(5, 8, 11, .8);
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 32px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: .08em;
+}
+
+.sj-current-actions,
+.sj-lock-slot {
+  min-height: 0;
+}
+
+.sj-card-actions,
+.sj-current-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.sj-card-actions {
+  margin-top: 9px;
+}
+
+.sj-current-actions {
+  grid-column: 1 / -1;
+  margin-top: 10px;
+}
+
+.sj-card-actions .sd-btn,
+.sj-current-actions .sd-btn {
+  min-height: 44px;
+  padding-inline: 16px;
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: .08em;
+}
+
+.sj-card-actions .sd-btn:focus-visible,
+.sj-current-actions .sd-btn:focus-visible {
+  outline: 2px solid #f0c84b;
+  outline-offset: 3px;
+}
+
+.sj-copy-button {
+  width: 44px;
+  min-width: 44px;
+  height: 44px;
+  padding: 0;
+}
+
+.sj-lock-slot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  align-self: center;
+  padding-top: 2px;
+  color: rgba(236, 236, 230, .68);
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 12px;
+  letter-spacing: .08em;
+  text-align: center;
+}
+
+.sj-lock-slot p {
+  margin: 0;
+}
+
+.sj-lock-icon {
+  position: relative;
+  width: 14px;
+  height: 11px;
+  flex: 0 0 14px;
+  border: 1px solid rgba(240, 200, 75, .8);
+  border-radius: 2px;
+}
+
+.sj-lock-icon::before {
+  content: "";
+  position: absolute;
+  left: 3px;
+  top: -8px;
+  width: 6px;
+  height: 8px;
+  box-sizing: border-box;
+  border: 1px solid rgba(240, 200, 75, .8);
+  border-bottom: 0;
+  border-radius: 6px 6px 0 0;
+}
+
+.sj-more-menu {
+  position: relative;
+}
+
+.sj-more-menu > summary {
+  min-height: 44px;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  list-style: none;
+}
+
+.sj-more-menu > summary::-webkit-details-marker {
+  display: none;
+}
+
+.sj-more-popover {
+  position: absolute;
+  z-index: 8;
+  right: 0;
+  bottom: calc(100% + 7px);
+  min-width: 210px;
+  padding: 7px;
+  display: grid;
+  gap: 6px;
+  border: 1px solid rgba(240, 200, 75, .48);
+  border-radius: 4px;
+  background: rgba(5, 7, 10, .96);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, .42);
+}
+
+.sj-more-popover .sd-btn {
+  width: 100%;
+  justify-content: flex-start;
+  text-align: left;
+}
+
+/* JOB-087 step 9: fixture state presentation. */
+.sj-preview {
+  position: absolute;
+  top: 6.4%;
+  left: 50%;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.sj-state-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sj-state-icon {
+  position: relative;
+  width: 24px;
+  height: 24px;
+  flex: 0 0 24px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(240, 200, 75, .35);
+  border-radius: 50%;
+  color: #f0c84b;
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.sj-state-icon::before { content: "•"; }
+.sj-current-panel[data-state="empty"] .sj-state-icon::before { content: "◇"; }
+.sj-current-panel[data-state="waiting"] .sj-state-icon::before { content: "◎"; }
+.sj-current-panel[data-state="ready"] .sj-state-icon::before { content: "●"; }
+.sj-current-panel[data-state="paired"] .sj-state-icon::before { content: "✓"; }
+.sj-current-panel[data-state="partial"] .sj-state-icon::before { content: "!"; }
+.sj-current-panel[data-state="unavailable"] .sj-state-icon::before { content: "×"; }
+.sj-current-panel[data-state="error"] .sj-state-icon::before { content: "!"; }
+
+.sj-current-panel[data-state="loading"] .sj-state-icon::before {
+  content: "◌";
+  animation: sj-state-spin 1s linear infinite;
+}
+
+@keyframes sj-state-spin {
+  to { transform: rotate(360deg); }
+}
+
+.sj-current-panel[data-state="waiting"] {
+  border-color: rgba(240, 200, 75, .82);
+}
+
+.sj-current-panel[data-state="paired"] {
+  border-color: rgba(128, 201, 122, .7);
+  box-shadow:
+    inset 0 1px 0 rgba(214, 255, 199, .12),
+    0 0 26px rgba(84, 164, 81, .08);
+}
+
+.sj-current-panel[data-state="paired"] .sj-state-icon,
+.sj-current-panel[data-state="paired"] .sj-state-badge {
+  color: #9bd894;
+  border-color: rgba(128, 201, 122, .55);
+}
+
+.sj-current-panel[data-state="error"] {
+  border-color: rgba(226, 111, 93, .72);
+}
+
+.sj-current-panel[data-state="error"] .sj-state-icon,
+.sj-current-panel[data-state="error"] .sj-state-badge {
+  color: #f0a18f;
+  border-color: rgba(226, 111, 93, .5);
+}
+
+[data-state-tone="error"] .sj-join-field input {
+  border-color: rgba(226, 111, 93, .78);
+  box-shadow: inset 0 0 0 1px rgba(226, 111, 93, .16);
+}
+
+.sj-current-panel[data-state="loading"],
+.sj-current-panel[data-state="partial"],
+.sj-current-panel[data-state="unavailable"],
+.sj-current-panel[data-state="empty"] {
+  background:
+    radial-gradient(circle at 8% 20%, rgba(240, 200, 75, .08), transparent 30%),
+    linear-gradient(145deg, rgba(7, 10, 13, .92), rgba(12, 14, 17, .76));
+}
+
+.sj-current-panel[data-state="partial"] {
+  border-style: dashed;
+  border-color: rgba(240, 200, 75, .62);
+}
+
+.sj-current-panel[data-state="unavailable"] {
+  border-color: rgba(176, 184, 192, .45);
+}
+
+.sj-current-panel[data-state="unavailable"] .sj-state-icon,
+.sj-current-panel[data-state="unavailable"] .sj-state-badge {
+  color: rgba(220, 225, 229, .72);
+  border-color: rgba(176, 184, 192, .42);
+}
+
+.sj-role-panel.is-read-pending,
+.sj-role-panel.is-read-unavailable {
+  opacity: .58;
+}
+
+.sj-role-panel.is-read-pending .sj-role-glyph {
+  animation: sj-role-pulse 1.3s ease-in-out infinite alternate;
+}
+
+@keyframes sj-role-pulse {
+  from { opacity: .4; }
+  to { opacity: 1; }
+}
+
+/* JOB-087 step 8: registered Daniel hand depth sandwich.
+   All layers fill the registered 1672×941 scene at 0,0; no independent transform or mirroring. */
+.sj-hand-cutout {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.sj-hand-cutout {
+  z-index: 2;
+  display: block;
+  filter: drop-shadow(3px 5px 7px rgba(0, 0, 0, .34));
+}
+
+.sj-hand-cutout img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+
+/* Contact shadow hugs the live panel's left edge under Daniel's gesture. */
+.sj-hand-contact {
+  position: absolute;
+  z-index: 1;
+  left: 23.25%;
+  top: 42.1%;
+  width: 1.35%;
+  height: 10.8%;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, .42);
+  filter: blur(7px);
+  transform: translate(3px, 3px);
+  pointer-events: none;
+}
+
+.sj-step1-scaffold {
+  display: none !important;
+}
+
+[hidden] {
+  display: none !important;
+}

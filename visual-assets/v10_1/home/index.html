@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Home · Rivalry Headquarters</title>
+<link rel="stylesheet" href="../shared/showdown-tokens.css">
+<link rel="stylesheet" href="../shared/showdown-ui.css">
+<link rel="stylesheet" href="../shared/showdown-type.css">
+<link rel="stylesheet" href="../shared/motion.css">
+<link rel="stylesheet" href="home.css">
+</head>
+<body>
+<div id="stage-root" class="stage">
+<div class="plateView" aria-hidden="true" data-sd-enter="scene">
+<picture class="phoneHeroBackground">
+<source media="(max-width: 760px) and (orientation: portrait)" srcset="assets/ENV_HOME_PHONE_V1.webp" type="image/webp">
+<img alt="" aria-hidden="true" decoding="async">
+</picture>
+<div class="plateLayer"></div>
+</div>
+<picture class="phoneHeroCutout phoneHeroDaniel" aria-hidden="true" data-sd-enter="character-left">
+<source media="(max-width: 760px) and (orientation: portrait)" srcset="assets/OVL_HOME_DANIEL_PHONE_V1.webp" type="image/webp">
+<img alt="" aria-hidden="true" decoding="async">
+</picture>
+<picture class="phoneHeroCutout phoneHeroNik" aria-hidden="true" data-sd-enter="character-right">
+<source media="(max-width: 760px) and (orientation: portrait)" srcset="assets/OVL_HOME_NIK_PHONE_V1.webp" type="image/webp">
+<img alt="" aria-hidden="true" decoding="async">
+</picture>
+<div class="phoneHeroGrade" aria-hidden="true"></div>
+<span class="managerPlateMarker" data-manager="daniel" role="presentation"></span>
+<span class="managerPlateMarker" data-manager="nik" role="presentation"></span>
+<div class="scrim scrimTop" aria-hidden="true"></div>
+<div class="scrim scrimLow" aria-hidden="true"></div>
+<div class="dockBed" aria-hidden="true"></div>
+<div class="hdrBg" aria-hidden="true"></div>
+
+<header id="topHeader" class="sharedTopBar">
+<nav class="topBarNav" aria-label="Primary">
+<button class="topBarTab isActive" type="button" aria-current="page">HOME</button>
+<button class="topBarTab" type="button">CAREER</button>
+<button class="topBarTab" type="button">STANDINGS</button>
+<button class="topBarTab" type="button">STATS</button>
+<button class="topBarTab" type="button">RULES</button>
+</nav>
+<button class="topBarSettings" type="button" aria-label="Settings">
+<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 8.2a3.8 3.8 0 1 0 0 7.6 3.8 3.8 0 0 0 0-7.6Zm9 4.8v-2l-2.2-.7a7.4 7.4 0 0 0-.7-1.7l1-2.1-1.4-1.4-2.1 1a7.4 7.4 0 0 0-1.7-.7L13 3h-2l-.7 2.4a7.4 7.4 0 0 0-1.7.7l-2.1-1-1.4 1.4 1 2.1a7.4 7.4 0 0 0-.7 1.7L3 11v2l2.4.7c.2.6.4 1.2.7 1.7l-1 2.1 1.4 1.4 2.1-1c.5.3 1.1.5 1.7.7L11 21h2l.7-2.4c.6-.2 1.2-.4 1.7-.7l2.1 1 1.4-1.4-1-2.1c.3-.5.5-1.1.7-1.7L21 13Z"/></svg>
+</button>
+</header>
+<div class="homeRuntimeStatus" hidden>
+<button id="onlinePlayerIdentityBadge" type="button" tabindex="-1">SIGN IN</button>
+<span id="seasonIndicator">No Active Showdown</span>
+</div>
+<span class="scriptLine" aria-hidden="true"><span>More Than A Game</span></span>
+
+<main>
+<section id="mainMenu" class="screen">
+<div class="fifaMenuShell">
+<div class="homeLockup">
+<p class="lockupKicker sd-label">THE RIVALRY STARTS HERE</p>
+<div class="lockupWordmarkWrap sd-title sd-title--wordmark sd-glint" data-sd-enter="title">
+<span class="sd-visually-hidden">CAREER MODE SHOWDOWN 17</span>
+<img class="lockupWordmark" src="assets/LOGO_CM17_WORDMARK_V1.webp" alt="" aria-hidden="true" width="2078" height="755" decoding="async">
+</div>
+<p class="lockupLegacy sd-tagline">TWO MANAGERS · ONE LEGACY</p>
+</div>
+
+<div class="fifaMenuHeading">
+<div class="fifaMenuHeadingText">
+<span class="fifaMenuEyebrow sd-label">CAREER MODE // SHOWDOWN 17</span>
+<h2 class="sd-label">HOME</h2>
+</div>
+<p class="fifaMenuHeadingMeta sd-body"><span class="sd-label">RIVALRY HEADQUARTERS</span><span class="homeHeadingCopy">Build the rivalry, play every season, and carry each trophy into your Legacy.</span></p>
+</div>
+
+<div class="fifaMenuGrid">
+<section class="menuMusicTile" aria-label="Menu media" data-media-kind="music" data-sd-enter="panel">
+<div class="menuMusicHeader">
+<div>
+<span>AUDIUS SOUNDTRACK</span>
+<strong>WHAT YOU GOT</strong>
+<p class="menuMusicArtist">Valentino Khan &amp; NITTI</p>
+</div>
+<small class="menuMusicSource">AUDIUS</small>
+</div>
+<input id="phoneTrackSheetToggle" class="phoneSheetToggle" type="checkbox" aria-label="Open soundtrack choices">
+<label class="phoneTrackSheetOpen" for="phoneTrackSheetToggle" aria-hidden="true">TRACKS</label>
+<div id="menuMediaSelector" class="menuMediaSelector sd-sheet" role="group" aria-label="Choose Audius soundtrack"></div>
+<label class="phoneTrackSheetBackdrop" for="phoneTrackSheetToggle" aria-hidden="true"></label>
+<label class="phoneTrackSheetClose" for="phoneTrackSheetToggle">CLOSE</label>
+<div id="menuMusicPlayer" class="menuMusicPlayer">
+<div class="vinylDeck" aria-hidden="true"><span class="vinyl"><i></i></span><span class="eq"><i></i><i></i><i></i><i></i><i></i></span></div>
+</div>
+<p id="menuMusicStatus" class="menuMusicStatus" role="status" aria-live="polite">WHAT YOU GOT · AUDIUS · READY</p>
+<div class="menuMusicControls">
+<button id="menuMusicToggle" class="menuMusicControl" type="button">PLAY TRACK</button>
+<button id="menuMusicMute" class="menuMusicControl" type="button" disabled>MUTE</button>
+</div>
+</section>
+
+<button class="menuTile menuTilePrimary sd-panel sd-panel--hero" id="continueCareer" type="button" data-sd-enter="button">
+<span class="menuTileCode">CAREER</span><span class="menuTileLabel">CONTINUE CAREER</span><span class="menuTileMeta">Loading active showdown...</span>
+<img class="tileArt" src="../shared/art/home-tiles/TILE_CONTINUE_V1.webp" alt="" aria-hidden="true" decoding="async">
+<svg class="tileChevron" aria-hidden="true" focusable="false" viewBox="0 0 12 20"><path d="M2 2l8 8-8 8" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</button>
+<button class="menuTile menuTileNew sd-panel" id="newShowdown" type="button" data-sd-enter="panel">
+<span class="menuTileCode">NEW</span><span class="menuTileLabel">START A SHOWDOWN</span><span class="menuTileMeta">Begin a new rivalry</span>
+<img class="tileArt" src="../shared/art/home-tiles/TILE_TACTICS_V1.webp" alt="" aria-hidden="true" decoding="async">
+<svg class="tileChevron" aria-hidden="true" focusable="false" viewBox="0 0 12 20"><path d="M2 2l8 8-8 8" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</button>
+<button class="menuTile menuTileLegacy sd-panel" id="legacyButton" type="button" data-sd-enter="panel">
+<span class="menuTileCode">HISTORY</span><span class="menuTileLabel">LEGACY</span><span class="menuTileMeta">Completed rivalries and season history</span>
+<img class="tileArt" src="../shared/art/home-tiles/TILE_HISTORY_V1.webp" alt="" aria-hidden="true" decoding="async">
+<svg class="tileChevron" aria-hidden="true" focusable="false" viewBox="0 0 12 20"><path d="M2 2l8 8-8 8" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</button>
+<button class="menuTile menuTileTrophy sd-panel" id="careerStatisticsButton" type="button" data-sd-enter="panel">
+<span class="menuTileCode">DATA</span><span class="menuTileLabel">STATISTICS</span><span class="menuTileMeta">Career totals, manager comparison and honours</span>
+<img class="tileArt" src="../shared/art/home-tiles/TILE_STATISTICS_V1.webp" alt="" aria-hidden="true" decoding="async">
+<svg class="tileChevron" aria-hidden="true" focusable="false" viewBox="0 0 12 20"><path d="M2 2l8 8-8 8" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</button>
+<button class="menuTile menuTileTrophyRoom sd-panel" id="trophyRoomButton" type="button" data-route-key="trophyRoom" data-sd-enter="panel">
+<span class="menuTileCode">HONOURS</span><span class="menuTileLabel">TROPHY ROOM</span><span class="menuTileMeta">Career trophies, standings and records</span>
+<img class="tileArt" src="../shared/trophies/TRO_LEAGUE_TITLE_V1_512.webp" alt="" aria-hidden="true" decoding="async">
+<svg class="tileChevron" aria-hidden="true" focusable="false" viewBox="0 0 12 20"><path d="M2 2l8 8-8 8" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</button>
+<button class="menuTile menuTileRules sd-panel" id="ruleBookButton" type="button" data-sd-enter="panel">
+<span class="menuTileCode">RULES</span><span class="menuTileLabel">RULE BOOK</span><span class="menuTileMeta">Scoring and competition rules</span>
+<img class="tileArt" src="../shared/art/home-tiles/TILE_RULEBOOK_V1.webp" alt="" aria-hidden="true" decoding="async">
+<svg class="tileChevron" aria-hidden="true" focusable="false" viewBox="0 0 12 20"><path d="M2 2l8 8-8 8" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</button>
+<button class="menuTile menuTileSettings sd-panel" id="settingsButton" type="button" data-sd-enter="panel">
+<span class="menuTileCode">SETTINGS</span><span class="menuTileLabel">SETTINGS</span><span class="menuTileMeta">Account, device and preferences</span>
+<img class="tileArt" src="../shared/art/home-tiles/TILE_SETTINGS_V1.webp" alt="" aria-hidden="true" decoding="async">
+<svg class="tileChevron" aria-hidden="true" focusable="false" viewBox="0 0 12 20"><path d="M2 2l8 8-8 8" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</button>
+</div>
+
+<div class="menuBottomStrip">
+<span><b>01</b> TWO MANAGER CAREER COMPETITION</span>
+<span><b>02</b> FIFA 17 ERA RULESET</span>
+<strong>READY</strong>
+</div>
+</div>
+</section>
+</main>
+
+<div class="nav-reserve" aria-hidden="true"></div>
+<footer>Career Mode Showdown<br>v1.9.1</footer>
+<div class="footDeco" aria-hidden="true"><span>FOOTBALL BRINGS US TOGETHER</span><svg viewBox="0 0 24 18" focusable="false"><path d="M2 16h20l1.5-12-6 5L12 1 6.5 9l-6-5z" fill="#F2C45B"/></svg></div>
+<div class="gridOverlay" aria-hidden="true"></div>
+</div>
+<script src="home.js"></script>
+</body>
+</html>
