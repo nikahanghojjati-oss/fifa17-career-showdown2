@@ -39,14 +39,14 @@
       <button id="settingsClose" type="button"></button>
     </header>
 
-    <main id="settingsDialog" aria-labelledby="settingsTitle">
+    <main id="settingsDialog" class="settingsDialog" aria-labelledby="settingsTitle">
       <p id="previewTag"></p>
       <p id="frameNote"></p>
       <p id="contractState" role="status"></p>
       <p id="interimLabel"></p>
 
       <div id="settingsContent">
-        <section id="onlinePlayerIdentitySettingsPanel">
+        <section class="sd-panel settingsPanel settingsPanel--account" id="onlinePlayerIdentitySettingsPanel">
           <p id="accountEyebrow"></p>
           <h2 id="accountTitle"></h2>
           <p id="accountDescription"></p>
@@ -57,7 +57,7 @@
           <div id="accountActions"></div>
         </section>
 
-        <section id="applicationPanel">
+        <section class="sd-panel settingsPanel settingsPanel--application" id="applicationPanel">
           <p id="applicationEyebrow"></p>
           <h2 id="applicationTitle"></h2>
           <p id="applicationDescription"></p>
@@ -73,7 +73,7 @@
           </p>
         </section>
 
-        <section id="motionPanel">
+        <section class="sd-panel settingsPanel settingsPanel--motion" id="motionPanel">
           <p id="motionEyebrow"></p>
           <h2 id="motionTitle"></h2>
           <p id="motionDescription"></p>
@@ -92,7 +92,7 @@
           </div>
         </section>
 
-        <section class="settingsDataPanel" id="dataPanel">
+        <section class="sd-panel settingsPanel settingsPanel--data settingsDataPanel" id="dataPanel">
           <p id="dataEyebrow"></p>
           <h2 id="dataTitle"></h2>
           <p id="dataDescription"></p>
