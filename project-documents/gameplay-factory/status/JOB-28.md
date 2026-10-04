@@ -2,23 +2,24 @@
 
 State: IN PROGRESS
 Step: 3 of 5
-Updated: 2026-10-04 22:33 UTC
+Updated: 2026-10-04 22:40 UTC
 Chat: Sol Work mode
 Code branch: gameplay/job-28-v10-history
-Head commit: 2227df921480941e5edc3c0cb887e3bd257a6bb7
+Head commit: 07e4026605a02abd59a6e81be8e179e7cae5149c
 PR: none yet
 CI run: pending implementation
 
 ## Notes
-- Step 1: Read rules, handbook, COMMON, pinned source truth/build notes, NAV and data contract; start from job 24 as explicitly allowed.
-- Step 2: Tests saved first and registered; expected MODULE_NOT_FOUND before implementation.
-- Step 3: Pure frames preserve published numbers, Daniel first, completed History only, tiebreaks and unavailable fields. RL1–RL7 pass; containment/binding/assets are next.
-- DEFAULT: App route statistics is semantic rivalryStatistics; stage uses working data-src1x/data-src2x.
+- Step 1: Source audit: rules, handbook, COMMON, pinned truth/build notes, NAV/data contract and job 24 API.
+- Step 2: Saved and registered failing tests first.
+- Step 3: Pure mappings saved; RL1–RL7 pass.
+- Step 4a: Pinned renderer CSS/JS, live boot hooks, strings-only dictionaries, plate maps and referenced existing WebP objects saved. Text precached; images use foundation runtime cache. Binding follows in 4b.
+- DEFAULT: Semantic rivalryStatistics registers on existing statistics route. Preserve data-src1x/data-src2x actually read by stage.js.
 
 ## Self-check
-- Mapping: RL1–RL7 pass. RL8 fails as expected before containment update.
+- Renderer JS syntax checks pass; mapping RL1–RL7 pass.
 
 ## Model gaps
-- Transfer summaries absent from the career model: show Unavailable.
+- No transfer summary in the career model; show Unavailable.
 
 ## Blocked question
