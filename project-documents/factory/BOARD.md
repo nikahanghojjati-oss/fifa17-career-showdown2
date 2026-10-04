@@ -1,14 +1,14 @@
 # Showdown Factory board
 
-**157 of 238 jobs done and checked · 66 %** · updated Sat 10:52 p.m. Eastern
+**157 of 238 jobs done and checked · 66 %** · updated Sat 10:56 p.m. Eastern
 
-✅ **Quality check:** a job counts as done only after Claude checks it against the quality bar (average 4.2 or more, nothing under 3, hard gates pass). Average score 4.25 over 60 scored jobs. 🔍 Waiting for Claude's check: 95. 
+✅ **Quality check:** a job counts as done only after Claude checks it against the quality bar (average 4.2 or more, nothing under 3, hard gates pass). Average score 4.25 over 60 scored jobs. 🔍 Waiting for Claude's check: 71, 95. 
 
 ██████░░░░
 
 **Where to run:** 🟡 **project job** = new chat in the ChatGPT project "Showdown visual", type the number; one number is one turn (no Continue), and a job in parts shows its later parts only when the earlier part is done. 🟣 **image job** = its ticket in a ChatGPT **Temporary Chat** outside any project, then drop the picture in Claude's factory thread.
 
-🟡 **Type next:** 71, 78, 91, 140
+🟡 **Type next:** 78, 91, 140, 161
 
 🟣 **Image next:** 118
 
@@ -24,7 +24,7 @@ Transfer       ███░░░░░░░ 4/13
 Loading        ██████████ 4/4
 Trophy Room    ██████████ 10/10
 Career Stats   ██████████ 17/17
-Rivalry        ████████░░ 16/19
+Rivalry        ████████░░ 17/19
 Legacy         ██░░░░░░░░ 5/19
 Season Results ███░░░░░░░ 6/19
 Final Winner   ██████████ 12/12
@@ -51,7 +51,7 @@ Branch `factory/v1-wtt5ye`. 238 Team V jobs, plus 5 lines that track Team G. Two
 
 **Overall (Team V):** ██████░░░░ 66 % · 157 of 238 jobs done
 
-**Start now · project (type the number in Showdown visual):** 71, 78, 91, 140
+**Start now · project (type the number in Showdown visual):** 78, 91, 140, 161
 
 **Start now · fresh chat (image ticket, outside the project):** 118
 
@@ -134,7 +134,7 @@ Branch `factory/v1-wtt5ye`. 238 Team V jobs, plus 5 lines that track Team G. Two
 | 68 | [Rivalry Statistics: phone (part 1 of 3)](jobs/JOB-068.md) | 5 New screens | build | project (type number) | 67, 207 | ██████████ 100 % | DONE |  |
 | 69 | [Rivalry Statistics: review (part 1 of 4)](jobs/JOB-069.md) | 5 New screens | review | project (type number) | 155 | ██████████ 100 % | DONE |  |
 | 70 | [Rivalry Statistics: fix round (part 1 of 3)](jobs/JOB-070.md) | 5 New screens | fix | project (type number) | 158 | ██████████ 100 % | DONE |  |
-| 71 | [Rivalry Statistics: motion (part 1 of 3)](jobs/JOB-071.md) | 5 New screens | build | project (type number) | 160, 16 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
+| 71 | [Rivalry Statistics: motion (part 1 of 3)](jobs/JOB-071.md) | 5 New screens | build | project (type number) | 160, 16 | ██████████ 100 % | DONE |  |
 | 72 | [Legacy (History): build (desktop)](jobs/JOB-072.md) | 5 New screens | build | project (type number) | 5, 26, 18, 132, 138, 19, 20, 21, 22 | ██████████ 100 % | DONE |  |
 | 73 | [Legacy (History): phone (part 1 of 3)](jobs/JOB-073.md) | 5 New screens | build | project (type number) | 72, 118 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 74 | [Legacy (History): review (part 1 of 4)](jobs/JOB-074.md) | 5 New screens | review | project (type number) | 164 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
