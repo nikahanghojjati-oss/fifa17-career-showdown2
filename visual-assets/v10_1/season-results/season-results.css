@@ -331,7 +331,9 @@ body {
 }
 
 .manager-hint {
-  margin: 8px 0 10px;
+  /* Claude fix 5: tighten the entry stack so all four achievement rows clear
+     the absolutely positioned score strip inside the fixed-height card. */
+  margin: 6px 0;
   color: rgb(255 255 255 / .70);
   font: 600 10px/1.25 var(--sd-font-condensed, sans-serif);
 }
@@ -345,7 +347,7 @@ body {
 .stat-fields,
 .achievement-fields {
   display: grid;
-  gap: 7px;
+  gap: 4px;
   align-content: start;
 }
 
@@ -355,7 +357,7 @@ body {
   grid-template-columns: 1fr auto;
   align-items: center;
   gap: 8px;
-  min-height: 30px;
+  min-height: 26px;
 }
 
 .field-row label,
@@ -367,7 +369,7 @@ body {
 
 .field-row input[type="number"] {
   width: 92px;
-  min-height: 32px;
+  min-height: 28px;
   box-sizing: border-box;
   border: 1px solid rgb(255 255 255 / .25);
   border-radius: 4px;
@@ -379,8 +381,8 @@ body {
 }
 
 .achievement-row input {
-  width: 22px;
-  height: 22px;
+  width: 20px;
+  height: 20px;
   accent-color: var(--manager-accent);
 }
 
