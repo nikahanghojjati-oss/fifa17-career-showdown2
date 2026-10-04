@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-nav="hub">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -9,6 +9,7 @@
 <link rel="stylesheet" href="../shared/showdown-ui.css">
 <link rel="stylesheet" href="../shared/stage.css">
 <link rel="stylesheet" href="../shared/motion.css">
+<link rel="stylesheet" href="../shared/navbar/navbar.css">
 <link rel="stylesheet" href="rule-book.css">
 </head>
 <body>
@@ -65,6 +66,8 @@
 
 <script src="../shared/stage.js" defer></script>
 <script src="../shared/motion.js" defer></script>
+<script src="../shared/navbar/navbar.js"></script>
+<script>SDNav.mount({nav:{active:"rules",locked:false,reason:null},routes:{home:"../home/index.html",career:"../start-join/index.html",standings:"../standings/index.html",stats:"../career-statistics/index.html",rules:"index.html",settings:"../settings/index.html"}});</script>
 <script src="rule-book.js" defer></script>
 <script>
 window.addEventListener("DOMContentLoaded", function () {
