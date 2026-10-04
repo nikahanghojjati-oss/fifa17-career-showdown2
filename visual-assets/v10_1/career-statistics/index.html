@@ -59,9 +59,9 @@
         <section class="phoneHub" aria-label="Career Statistics data">
           <section id="headlineTiles" class="headlineTiles" aria-label="Career headline totals"></section>
 
-          <input class="phoneTabControl" type="radio" name="careerPhoneTab" id="careerPhoneTable" checked>
-          <input class="phoneTabControl" type="radio" name="careerPhoneTab" id="careerPhoneCompare">
-          <input class="phoneTabControl" type="radio" name="careerPhoneTab" id="careerPhoneLeaders">
+          <input class="phoneTabControl" type="radio" name="careerPhoneTab" id="careerPhoneTable" aria-label="Career Table" aria-controls="careerTablePanel" checked>
+          <input class="phoneTabControl" type="radio" name="careerPhoneTab" id="careerPhoneCompare" aria-label="Manager Comparison" aria-controls="comparisonPanel">
+          <input class="phoneTabControl" type="radio" name="careerPhoneTab" id="careerPhoneLeaders" aria-label="Career Leaders" aria-controls="leadersPanel">
           <div class="phoneTabs" aria-label="Career Statistics sections">
             <label for="careerPhoneTable">TABLE</label>
             <label for="careerPhoneCompare">COMPARE</label>
@@ -76,7 +76,7 @@
           </section>
         </section>
 
-        <nav class="actionRow" aria-label="Career Statistics actions">
+        <nav class="actionRow" aria-label="Career Statistics actions" data-phone-primary="careerStatisticsTrophyButton">
           <button id="careerStatisticsRivalryButton" class="actionButton secondary" type="button"><span class="buttonIcon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 19h3V9H4v10Zm6 0h3V5h-3v14Zm6 0h3V12h-3v7Z"/></svg></span><span class="actionLabel">CURRENT RIVALRY STATISTICS</span><span aria-hidden="true">›</span></button>
           <button id="careerStatisticsTrophyButton" class="actionButton primary" type="button"><img src="../shared/trophies/TRO_SHOWDOWN_CHAMPION_V1_512.webp" alt="" aria-hidden="true"><span class="actionLabel">OPEN TROPHY ROOM</span><span aria-hidden="true">›</span></button>
           <button class="actionButton secondary backButton" type="button"><span class="buttonIcon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m3 11 9-8 9 8v10h-6v-6H9v6H3V11Z"/></svg></span><span class="actionLabel">BACK TO MAIN MENU</span><span aria-hidden="true">›</span></button>
