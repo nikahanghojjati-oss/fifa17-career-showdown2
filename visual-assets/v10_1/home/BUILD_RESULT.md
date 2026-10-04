@@ -198,3 +198,42 @@ The Home review fix list was applied by code reading only; browser QA and screen
 
 Claude must re-measure H5–H11 in the rendered Home after producing/confirming the desktop manager cut-out depth treatment, and must verify that desktop track-choice access remains available through the intended selector/sheet behaviour. H1–H4 remain satisfied by code reading in this fix round.
 
+
+
+## Motion · Job 36 (2026-10-03)
+
+Home now opts into the shared Showdown motion kit. `index.html` loads `../shared/motion.css`; `home.js` lazy-loads `../shared/motion.js` only for the active Home screen, applies Home-specific constants after both layout passes, then calls `sdEnter(stage)`. Product routing, fixture data and playback behavior are unchanged.
+
+The standard entrance order is scene → phone managers → brush title → soundtrack panel → six secondary destinations left-to-right → Continue payoff. Desktop manager likeness remains baked into the plate because Job 35 found no independent desktop cut-outs; this motion pass does not fake or mirror desktop manager art. Phone uses the real independent Daniel-left / Nik-right cut-outs, including a cut-out-alpha-masked gold light sweep during their slide. Home has no numeric entrance counters, so `sdCountUp` is not applicable on this screen.
+
+### Entrance timeline
+
+| Element | Delay / visible start | Duration | Easing | End |
+| --- | ---: | ---: | --- | ---: |
+| Scene · `.plateView` | 0 ms | 400 ms | `cubic-bezier(.22,1,.36,1)` | 400 ms |
+| Daniel phone cut-out · `.phoneHeroDaniel` | 150 ms | 450 ms | `cubic-bezier(.22,1,.36,1)` | 600 ms |
+| Nik phone cut-out · `.phoneHeroNik` | 150 ms | 450 ms | `cubic-bezier(.22,1,.36,1)` | 600 ms |
+| Manager light sweep · `.phoneHeroCutout::after` | 150 ms | 450 ms | `cubic-bezier(.22,1,.36,1)` | 600 ms |
+| Brush title wipe · `.lockupWordmarkWrap` | 250 ms | 450 ms | `cubic-bezier(.22,1,.36,1)` | 700 ms |
+| Soundtrack panel · `.menuMusicTile` | 400 ms | 440 ms | `cubic-bezier(.22,1,.36,1)` | 840 ms |
+| Start / Join · `#newShowdown` | 460 ms | 440 ms | `cubic-bezier(.22,1,.36,1)` | 900 ms |
+| History · `#legacyButton` | 520 ms | 440 ms | `cubic-bezier(.22,1,.36,1)` | 960 ms |
+| Statistics · `#careerStatisticsButton` | 580 ms | 440 ms | `cubic-bezier(.22,1,.36,1)` | 1020 ms |
+| Title metallic glint | 640 ms | 420 ms | `cubic-bezier(.22,1,.36,1)` | 1060 ms |
+| Trophy Room · `#trophyRoomButton` | 640 ms | 440 ms | `cubic-bezier(.22,1,.36,1)` | 1080 ms |
+| Rule Book · `#ruleBookButton` | 700 ms | 440 ms | `cubic-bezier(.22,1,.36,1)` | 1140 ms |
+| Settings · `#settingsButton` | 760 ms | 440 ms | `cubic-bezier(.22,1,.36,1)` | 1200 ms |
+| Continue payoff · `#continueCareer` | 800 ms | 260 ms | `cubic-bezier(.22,1,.36,1)` | 1060 ms |
+
+The visible entrance therefore completes at exactly 1200 ms. Continue is not staged hidden and routing listeners are attached in the same initialization pass after `sdEnter` starts, so the primary action is usable well before the 600 ms requirement; by 600 ms the scene and both independent phone managers are settled.
+
+### Signature interaction motion
+
+- Enabled tile hover is 110 ms: the tile art tilts 3° in 3D and a gold glint crosses once. Press feedback is no slower than 110 ms.
+- Top tabs, Settings, media choices, soundtrack controls and the phone track toggle use the same 110 ms feedback constant. Active tab and selection changes cross-fade opacity/color/background/border only; no geometry is transitioned.
+- The soundtrack vinyl uses a 2400 ms transform-only rotation only while the existing player UI reports playing state. The preview does not create audio or change playback logic.
+- Reduced motion is covered twice: system `prefers-reduced-motion: reduce` and the app/runtime hooks `html[data-motion-reduced="true"]` / `.stage[data-sd-motion-reduced="true"]` (with legacy `html[data-reduced-motion="true"]` support). Entrance becomes the shared 150 ms fade, tile tilt/glints and vinyl spin stop, and the phone cut-outs retain their authored `translateX(-50%)` resting position.
+
+### Criterion 8 reading check
+
+Self-score: **4 / 5 · PASS**. All measurable motion requirements pass by code reading: entrance ≤1.2 s, primary usable by 0.6 s, 60 ms panel cadence, 110 ms interaction feedback, transform/opacity choreography, no layout-shift animation, one-off gold glints, and both reduced-motion paths. The point held back is the inherited Job 35 desktop limitation: Daniel and Nik are baked into the desktop plate, so only the phone composition can perform independent character slides/light sweeps. Claude owns the rendered motion review and records frame strips into `evidence/motion/` at intake.
