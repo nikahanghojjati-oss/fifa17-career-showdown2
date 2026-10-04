@@ -15,10 +15,12 @@ Static pass line: average ≥ 4.2 across criteria 1–7, 9 and 10, no criterion 
 | 5 · Typography and title treatment | 3 | The brush-title treatment and eyebrow/tagline wording are present, but the title sits 4.48 points above the mockup, is 3.49 points narrower, and the tagline is 2.3 points high, making the lockup visibly less faithful. |
 | 6 · Panel craft | 3 | The central panel is taller and higher than the mockup, Daniel's entry panel is 5.47 points narrower and shifted right, and the visible scoring grid drops the two explanatory shared-bonus note lines. |
 | 7 · Information clarity and honesty | 2 | SR4/SR5 contain impossible dual Champions League winners, the unpublished Publish/Edit path and several commit states are unreachable, bounds are hard-coded, and a non-authoritative preview score appears before canonical reconciliation. |
-| 9 · Phone composition | 3 | Claude intake records that the phone hero composition exists, but the review has no measured 393 × 660 / 360 × 640 fit evidence and therefore cannot establish the required no-scroll and primary-action placement. |
+| 9 · Phone composition | 3 | Claude intake records a dedicated phone hero composition, but without 393 × 660 / 360 × 640 fit proof or 375 × 553 primary-action proof the review cannot rate the composition as premium. |
 | 10 · Polish and finish | 2 | Claude intake notes a clipped final scoring row at 1366 × 640, while the source audit also finds unreachable state variants and state-changing visible copy hard-coded outside `fixtures.json`. |
 
 Average: 28 / 9 = 3.11 / 5. Static verdict by score alone: FAIL.
+
+Scorecard decision: FAIL because the 3.11 average is below 4.2 and criteria 7 and 10 score below the minimum 3.
 
 ## Hard gates
 
