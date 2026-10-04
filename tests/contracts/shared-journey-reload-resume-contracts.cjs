@@ -256,12 +256,17 @@ function multiSandbox({accepted,total=3,terminal=false}){
     assert.match(multi,/if\(key!==lastErrorKey&&key!==heldErrorKey\)\{heldErrorKey=key;return null;\}heldErrorKey="";if\(key!==lastErrorKey\)pmspReport\(/,"F2 Multi Season holds a first refresh failure for one poll");
     assert.match(multi,/lastErrorCode="";lastErrorKey="";heldErrorKey="";\}return value;/,"F2 a successful Multi Season refresh clears the held failure");
     const history=read("js/productionSharedHistoryConvergence.js");
-    assert.match(history,/if\(key!==heldErrorKey\)\{heldErrorKey=key;return null;\}heldErrorKey="";phcReport\("Unable to converge Shared History",error\);/,"F3 Shared History holds a first convergence failure for one poll");
+    assert.match(history,/if\(key!==heldErrorKey\)\{heldErrorKey=key;if\(view&&contextKey===request\.key\)return view;phcClear\(request\);return null;\}heldErrorKey="";phcClear\(request\);phcReport\("Unable to converge Shared History",error\);/,"F3 Shared History keeps its converged view through a first failure and clears and reports only when it repeats");
+    assert.doesNotMatch(history,/error=>\{if\(phcContextMatches\(request\)\)\{phcClear\(request\);/,"F3 a first failure never clears the converged History before the hold decision");
     assert.match(history,/phcRefreshNow\(request\)\.then\(value=>\{heldErrorKey="";return value;\}/,"F3 a successful History refresh clears the held failure");
   console.log("ok F Reconnect, Multi Season and Shared History report a failure only when it repeats on the next poll");
   {
     const setup=read("js/productionSharedShowdownSetup.js");
-    assert.match(setup,/if\(!heldReadFailure&&state\.ready===true&&state\.setup&&state\.setup\.phase==="SHOWDOWN_CONFIRMED"\)\{heldReadFailure=true;return setState\(\{status:"ready",busy:false\}\);\}\s*heldReadFailure=false;\s*return setState\(\{status:"locked",busy:false,ready:false,/,"G1 one failed read keeps a confirmed Setup for one poll; a repeat locks it");
+    assert.match(setup,/const context=await resolveContext\(\);readReached=true;const result=await context\.adapter\.read\(/,"G1 only a failure after the ACTIVE context resolved can be held");
+    assert.match(setup,/if\(readReached&&!\/\^SHARED_SETUP_\(LOCAL_SAVE_MUTATION\|STORAGE_AUTHORITY_UNAVAILABLE\)\$\/\.test\(String\(error&&error\.code\|\|""\)\)&&!heldReadFailure&&state\.ready===true/,"G1 context and storage failures never hold the confirmed Setup");
+    assert.match(setup,/if\(type==="commit-length"\)return Boolean\(setup\.totalSeasons\)&&setup\.totalSeasons===extra\.totalSeasons;/,"G1 a raced season-length choice is accepted only when the stored length is the one this manager chose");
+    assert.match(setup,/stepAlreadyShown\(type,current,context\.managerRole,extra\)/,"G1 the requested length reaches the race check");
+    assert.match(setup,/if\(readReached&&[^\n]*&&!heldReadFailure&&state\.ready===true&&state\.setup&&state\.setup\.phase==="SHOWDOWN_CONFIRMED"\)\{heldReadFailure=true;return setState\(\{status:"ready",busy:false\}\);\}\s*heldReadFailure=false;\s*return setState\(\{status:"locked",busy:false,ready:false,/,"G1 one failed read keeps a confirmed Setup for one poll; a repeat locks it");
     assert.match(setup,/heldReadFailure=false;return accept\(result,context,message\);/,"G1 a successful read clears the held failure");
   }
   console.log("ok G a confirmed Shared Setup survives one failed read and locks on a repeat");
