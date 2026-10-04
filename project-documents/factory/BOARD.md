@@ -1,18 +1,18 @@
 # Showdown Factory board
 
-**78 of 135 jobs done and checked · 66 %** · updated Sat 8:29 p.m. Eastern
+**78 of 135 jobs done and checked · 66 %** · updated Sat 8:31 p.m. Eastern
 
-✅ **Quality check:** a job counts as done only after Claude checks it against the quality bar (average 4.2 or more, nothing under 3, hard gates pass). Average score 4.24 over 26 scored jobs. 🔍 Waiting for Claude's check: 47, 58, 60, 77, 87, 94, 95. 🔧 Sent back with a fix list: 83, 114, 115.
+✅ **Quality check:** a job counts as done only after Claude checks it against the quality bar (average 4.2 or more, nothing under 3, hard gates pass). Average score 4.24 over 26 scored jobs. 🔍 Waiting for Claude's check: 47, 58, 60, 77, 87, 94, 95, 116. 🔧 Sent back with a fix list: 83, 114, 115.
 
 ██████░░░░
 
 **Where to run:** 🟡 **project job** = new chat in the ChatGPT project "Showdown visual", type the number. 🟣 **image job** = its ticket in a ChatGPT **Temporary Chat** outside any project, then drop the picture in Claude's factory thread.
 
-🟡 **Type next:** 83 (fix), 114 (fix), 115 (fix) · then 61, 96, 117, 119, 120, 125
+🟡 **Type next:** 83 (fix), 114 (fix), 115 (fix) · then 61, 63, 96, 117, 119, 120, 125
 
 🟣 **Image next:** 118
 
-**Working:** 50, 84, 116 · **Blocked:** -
+**Working:** 50, 84 · **Blocked:** -
 
 ## Screens
 
@@ -23,7 +23,7 @@ Club           ██████████ 7/7
 Transfer       ████░░░░░░ 1/6
 Loading        ██████████ 4/4
 Trophy Room    █████████░ 8/10
-Career Stats   █████░░░░░ 5/10
+Career Stats   ██████░░░░ 6/10
 Rivalry        ████░░░░░░ 4/9
 Legacy         █████░░░░░ 5/10
 Season Results ████░░░░░░ 4/9
@@ -51,13 +51,13 @@ Branch `factory/v1-wtt5ye`. 135 Team V jobs, plus 5 lines that track Team G. Two
 
 **Overall (Team V):** ██████░░░░ 66 % · 78 of 135 jobs done
 
-**Start now · project (type the number in Showdown visual):** 83 (fix), 114 (fix), 115 (fix) · queued next: 61, 96, 117, 119, 120, 125
+**Start now · project (type the number in Showdown visual):** 83 (fix), 114 (fix), 115 (fix) · queued next: 61, 63, 96, 117, 119, 120, 125
 
 **Start now · fresh chat (image ticket, outside the project):** 118
 
 **Start now (Sol Work mode, press Use Work):** -
 
-**Working:** 50, 84, 116 · **Blocked:** -
+**Working:** 50, 84 · **Blocked:** -
 
 **Team G tracking (never start these):** 98 (done), 99 (open), 100 (open), 101 (open), 102 (open). Claude marks them done when Team G delivers.
 
@@ -179,7 +179,7 @@ Branch `factory/v1-wtt5ye`. 135 Team V jobs, plus 5 lines that track Team G. Two
 | 113 | [Phone art: Club Assignment](jobs/JOB-113.md) | 3 Art | build | project (type number) | 14, 1 | ██████████ 100 % | DONE |  |
 | 114 | [Phone art: Transfer War](jobs/JOB-114.md) | 3 Art | build | project (type number) | 14, 1 | ██████████ 100 % | IN PROGRESS · FIX |  |
 | 115 | [Phone art: Trophy Room](jobs/JOB-115.md) | 3 Art | build | project (type number) | 14, 23 | ██████████ 100 % | IN PROGRESS · FIX |  |
-| 116 | [Phone art: Career Statistics](jobs/JOB-116.md) | 3 Art | build | project (type number) | 14, 24 | ████████░░ 83 % | IN PROGRESS |  |
+| 116 | [Phone art: Career Statistics](jobs/JOB-116.md) | 3 Art | build | project (type number) | 14, 24 | ██████████ 100 % | DONE |  |
 | 117 | [Phone art: Rivalry Statistics](jobs/JOB-117.md) | 3 Art | build | project (type number) | 14, 25 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 118 | [Phone art: Legacy (History)](jobs/JOB-118.md) | 3 Art | image | fresh chat (image) | 14, 26 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 119 | [Phone art: Season Results](jobs/JOB-119.md) | 3 Art | build | project (type number) | 14, 27 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
