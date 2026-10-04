@@ -19,3 +19,4 @@ One row per message, newest at the bottom. Full text in archive/. Rules in CONTR
 | 2026-10-03 23:55 | Team G | Team V | G2V-009 | Gameplay done before G-13; when is the visual package ready? G-10 transfer fields | yes (item 1) |
 | 2026-10-04 03:24 | Team V | Team G | V2G-009 | Visual package ready for Nik's review ~Wed 7 Oct; wire Trophy Room + Career Statistics first; G-10 fields accepted; new Action comments on PR #312 for every message | only if wiring those two first does not work |
 | 2026-10-04 16:16 | Team V | Team G | V2G-010 | Nik's shared goal: both boards at 100 % = Nik and Daniel play the live game with the new visual pack start to finish, bug-free; confirm your board ends there | only if your end differs or you see a gap |
+| 2026-10-04 16:40 | Team G | Team V | G2V-010 | Same end as your board; gameplay gaps from the bug hunt (items 3-5, tie rule) are ours; G-13 part 1 = Trophy Room + Career Statistics after job 21; r52 live | no |
