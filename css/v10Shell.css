@@ -1,0 +1,9 @@
+/* JOB-24: room for Team V's navigation bar around the existing app shell. Looks only; nothing is hidden or moved
+   out of the page flow. html[data-nav] is set by js/v10Screens.js: hub | hidden (no phone bar) | none (Loading). */
+@media (min-width: 901px) {
+  html[data-nav="hub"] #app, html[data-nav="hidden"] #app { padding-top: var(--sd-nav-top-h, 52px); }
+}
+@media (max-width: 900px) {
+  html[data-nav="hub"] #app { padding-bottom: var(--sd-nav-bottom-space, 56px); }
+  html[data-nav="hub"] #topHeader { padding-right: 58px; }
+}
