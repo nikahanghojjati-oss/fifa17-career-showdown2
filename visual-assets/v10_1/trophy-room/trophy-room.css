@@ -11,7 +11,7 @@
 .trophyGrid{position:absolute;z-index:2;left:1.3%;right:1.3%;top:2%;bottom:25%;display:grid;grid-template-columns:repeat(4,1fr);gap:7px;--tr-tab-out-ms:100ms;--tr-tab-in-ms:120ms;--tr-tab-ease:cubic-bezier(.22,1,.36,1);opacity:1;transform:translateX(0);transition:opacity var(--tr-tab-in-ms) var(--tr-tab-ease),transform var(--tr-tab-in-ms) var(--tr-tab-ease)}.trophyGrid.tr-tab-leave{opacity:0;transform:translateX(-12px);transition-duration:var(--tr-tab-out-ms)}.trophyGrid.tr-tab-enter{opacity:0;transform:translateX(12px)}.trophyShelf.is-filtered .trophyGrid{grid-template-columns:minmax(260px,24%);justify-content:center}.trophyCard{position:relative;min-width:0;padding:6px 8px 5px;text-align:center;background:linear-gradient(180deg,rgba(35,32,24,.48),rgba(7,8,9,.4));border-left:1px solid rgba(213,169,69,.17);border-right:1px solid rgba(213,169,69,.08);overflow:hidden;--tr-card-flip-ms:320ms;--tr-card-flip-ease:cubic-bezier(.16,1,.3,1);opacity:0;transform:perspective(720px) rotateX(16deg) translateY(8px);transform-origin:50% 100%;transition:transform var(--tr-card-flip-ms) var(--tr-card-flip-ease) var(--tr-card-delay,0ms),opacity 180ms ease-out var(--tr-card-delay,0ms)}.trophyCard.tr-card-revealed{opacity:1;transform:perspective(720px) rotateX(0deg) translateY(0)}.trophyCardGlow{position:absolute;left:25%;right:25%;top:9%;height:38%;border-radius:50%;background:radial-gradient(circle,rgba(239,193,93,.18),transparent 69%);filter:blur(8px)}.trophyCardPicture{position:relative;z-index:2;display:block;width:100%;height:70%}.trophyCardPicture img{display:block;width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 5px 8px rgba(0,0,0,.72))}.trophyCard h3{position:relative;z-index:2;margin:-2px 0 4px;color:#efe2bf;font-family:var(--sd-font-condensed,"Barlow Condensed",Arial,sans-serif);font-weight:600;font-size:clamp(10px,.72vw,13px);line-height:1;text-transform:uppercase;letter-spacing:.08em;white-space:nowrap}.managerCounts{position:relative;z-index:2;display:grid;grid-template-columns:1fr 1fr;gap:8px}.managerCounts>div:first-child{text-align:right}.managerCounts>div:last-child{text-align:left}.managerCounts span{display:block;color:#9e967f;font-size:clamp(7px,.47vw,9px);font-weight:600;text-transform:uppercase;letter-spacing:.08em}.managerCounts strong{display:block;color:#fff;font:700 clamp(14px,1.15vw,21px)/1 var(--sd-font-condensed,"Barlow Condensed",Arial,sans-serif);font-variant-numeric:tabular-nums}.managerCounts strong.has-count:before{content:"×"}.trophyCard.is-unwon{filter:saturate(.3);background:linear-gradient(180deg,rgba(18,18,17,.55),rgba(6,7,8,.5))}.trophyCard.is-unwon .trophyCardPicture{opacity:.26}.trophyCard.is-unwon .managerCounts{opacity:.42}.notWonYet{position:absolute;z-index:3;left:0;right:0;bottom:8%;margin:0;color:#d4c8a7;font-size:clamp(8px,.55vw,10px);font-weight:700;letter-spacing:.1em;text-transform:uppercase}
 .recordRibbon{position:absolute;z-index:3;left:1.3%;right:1.3%;bottom:2%;height:21%;display:grid;grid-template-columns:120px repeat(5,1fr);gap:1px;border-top:1px solid rgba(217,174,83,.24);background:rgba(0,0,0,.31)}.recordRibbonHeading{display:flex;align-items:center;padding:0 10px;color:#e7c978;font:700 clamp(8px,.58vw,11px)/1.1 var(--sd-font-condensed,"Barlow Condensed",Arial,sans-serif);letter-spacing:.11em;text-transform:uppercase}.recordItem{min-width:0;padding:5px 7px;border-left:1px solid rgba(217,174,83,.15);display:grid;grid-template-columns:1fr auto;grid-template-rows:auto auto;align-items:center}.recordItem small{grid-column:1/-1;color:#a99f87;font-size:clamp(10px,.72vw,12px);line-height:1;text-transform:uppercase;letter-spacing:.055em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.recordItem strong{color:#fff;font:700 clamp(13px,1vw,19px)/1 var(--sd-font-condensed,"Barlow Condensed",Arial,sans-serif);font-variant-numeric:tabular-nums}.recordItem span{justify-self:end;color:#d7bd77;font-size:clamp(7px,.5vw,9px);text-transform:uppercase;letter-spacing:.08em}
 .stateNotice{position:absolute;z-index:5;top:3%;left:20%;right:20%;height:28px;display:flex;align-items:center;justify-content:center;gap:18px;background:rgba(28,20,8,.88);border:1px solid rgba(224,177,70,.55);color:#f0dfb2;font-size:clamp(8px,.58vw,11px);letter-spacing:.05em}.stateNotice b{color:#f3c95e;text-transform:uppercase;letter-spacing:.1em;font-family:var(--sd-font-condensed,"Barlow Condensed",Arial,sans-serif)}.statePanel{position:absolute;z-index:4;inset:12% 16%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;border:1px solid rgba(217,174,83,.34);background:radial-gradient(circle at 50% 15%,rgba(217,174,83,.1),rgba(6,7,8,.74) 65%);box-shadow:inset 0 1px rgba(255,229,160,.05)}.statePanel strong{font-family:var(--sd-font-condensed,"Barlow Condensed",Arial,sans-serif);font-size:clamp(16px,1.35vw,24px);letter-spacing:.05em}.statePanel span{margin-top:9px;color:#bcb29a;font-size:clamp(9px,.66vw,12px)}.stateGlyph{display:block;width:30px;height:30px;margin-bottom:10px;border:2px solid rgba(239,194,94,.35);border-top-color:#f0c35c;border-radius:50%;font-style:normal;line-height:26px;color:#f2cd6c}.statePanel--loading .stateGlyph{animation:tr-spin 1s linear infinite}.statePanel--unavailable .stateGlyph{border-radius:3px;border-color:rgba(239,194,94,.55)}@keyframes tr-spin{to{transform:rotate(360deg)}}
-.trophyBack{position:absolute;z-index:24;left:41.5%;width:17%;bottom:7.4%;height:46px;border:1px solid rgba(237,196,98,.86);background:linear-gradient(180deg,rgba(24,23,19,.96),rgba(5,6,7,.98));color:#f2deab;font-family:var(--sd-font-condensed,"Barlow Condensed",Arial,sans-serif);font-size:clamp(13px,.86vw,16px);font-weight:700;letter-spacing:.16em;text-transform:uppercase;cursor:pointer;box-shadow:0 10px 24px rgba(0,0,0,.45),inset 0 1px rgba(255,230,153,.08);clip-path:polygon(5% 0,95% 0,100% 18%,100% 100%,0 100%,0 18%)}.trophyBack:hover{background:linear-gradient(180deg,#e9c86d,#cf9f3e);color:#111}.trophyBack:active{transform:translateY(1px)}.fatalState{position:absolute;inset:40% 20% auto;padding:30px;border:1px solid var(--tr-line);background:rgba(5,6,7,.9);text-align:center}
+.trophyBack{position:absolute;z-index:24;left:41.5%;width:17%;bottom:7.4%;height:46px;border:1px solid rgba(237,196,98,.86);background:linear-gradient(180deg,rgba(24,23,19,.96),rgba(5,6,7,.98));color:#f2deab;font-family:var(--sd-font-condensed,"Barlow Condensed",Arial,sans-serif);font-size:clamp(13px,.86vw,16px);font-weight:700;letter-spacing:.16em;text-transform:uppercase;cursor:pointer;box-shadow:0 10px 24px rgba(0,0,0,.45),inset 0 1px rgba(255,230,153,.08);clip-path:polygon(5% 0,95% 0,100% 18%,100% 100%,0 100%,0 18%);transition:transform 100ms ease,background 100ms ease,color 100ms ease}.trophyBack:hover{background:linear-gradient(180deg,#e9c86d,#cf9f3e);color:#111}.trophyBack:active{transform:translateY(1px)}.fatalState{position:absolute;inset:40% 20% auto;padding:30px;border:1px solid var(--tr-line);background:rgba(5,6,7,.9);text-align:center}
 .phoneMoreToggle{display:none}
 @media (max-height:700px) and (min-width:761px){.previewPill{top:57px}.trophyTitleBlock{top:8.5%;width:27%;left:36.5%}.heroCeremony{top:24.5%;height:35.5%;width:23%;left:38.5%}.careerRanks{top:50.5%}.trophyShelf{top:64%;bottom:14.2%}.trophyTabs{top:-30px;height:31px}.trophyBack{bottom:5.4%;height:40px}.recordRibbon{height:26%}.recordItem{padding-top:3px;padding-bottom:3px}}
 @media (max-width:760px){
@@ -80,11 +80,12 @@
 
   /* Secondary history lives in a compact sheet, not in the always-visible shelf. */
   .careerRanks,.recordRibbon{display:none}
-  .trophyPhoneSheet{display:none;position:absolute;z-index:30;left:10px;right:10px;top:48%;bottom:calc(116px + env(safe-area-inset-bottom));padding:14px 14px 52px;border:1px solid rgba(231,190,91,.62);background:linear-gradient(180deg,rgba(18,18,16,.98),rgba(4,5,6,.99));box-shadow:0 18px 36px rgba(0,0,0,.65);overflow:hidden}
+  .trophyPhoneSheet{display:block;position:absolute;z-index:30;left:10px;right:10px;top:48%;bottom:calc(116px + env(safe-area-inset-bottom));padding:14px 14px 52px;border:1px solid rgba(231,190,91,.62);background:linear-gradient(180deg,rgba(18,18,16,.98),rgba(4,5,6,.99));box-shadow:0 18px 36px rgba(0,0,0,.65);overflow:hidden;opacity:0;visibility:hidden;pointer-events:none;transition:opacity 120ms ease,visibility 0s linear 120ms}
   .trophyPhoneSheetTitle{display:block;color:var(--tr-gold-hi);font:700 15px/1 var(--sd-font-condensed,"Barlow Condensed",Arial,sans-serif);letter-spacing:.12em;text-transform:uppercase}
   .trophyPhoneSheetHint{display:block;margin-top:4px;color:#aa9f83;font-size:9px;letter-spacing:.08em;text-transform:uppercase}
   .trophyPhoneSheetClose{position:absolute;left:12px;right:12px;bottom:8px;height:44px;display:flex;align-items:center;justify-content:center;border:1px solid rgba(237,196,98,.35);color:#a99f87;font:700 11px/1 var(--sd-font-condensed,"Barlow Condensed",Arial,sans-serif);letter-spacing:.14em;text-transform:uppercase;pointer-events:none}
-  .phoneMoreToggle:checked ~ .trophyPhoneSheet{display:block}
+  .phoneMoreToggle:checked ~ .trophyPhoneSheet{opacity:1;visibility:visible;pointer-events:auto;transition:opacity 120ms ease,visibility 0s}
+  .trophyShelf{transition:opacity 120ms ease}
   .phoneMoreToggle:checked ~ #trophyRoomContent .trophyShelf{opacity:.08;pointer-events:none}
   .phoneMoreToggle:checked ~ #trophyRoomContent .careerRanks{display:grid;z-index:34;top:44%;left:24px;right:24px;height:88px;grid-template-columns:1fr 1fr;gap:8px;pointer-events:none}
   .phoneMoreToggle:checked ~ #trophyRoomContent .careerRank{position:relative;left:auto!important;right:auto!important;top:auto;width:auto;min-width:0;height:88px;padding:9px 9px 7px}
@@ -101,14 +102,63 @@
 
   /* Primary action stays above the shared 56 px hub bar; MORE is secondary. */
   .trophyBack{z-index:40;left:12px;right:100px;width:auto;bottom:calc(64px + env(safe-area-inset-bottom));height:44px;font-size:13px}
-  .trophyPhoneMoreButton{display:flex;position:absolute;z-index:41;right:12px;bottom:calc(64px + env(safe-area-inset-bottom));width:78px;height:44px;align-items:center;justify-content:center;border:1px solid rgba(237,196,98,.55);background:rgba(8,9,10,.94);color:#d9c79c;font:700 10px/1 var(--sd-font-condensed,"Barlow Condensed",Arial,sans-serif);letter-spacing:.12em;text-transform:uppercase;pointer-events:none}
+  .trophyPhoneMoreButton{display:flex;position:absolute;z-index:41;right:12px;bottom:calc(64px + env(safe-area-inset-bottom));width:78px;height:44px;align-items:center;justify-content:center;border:1px solid rgba(237,196,98,.55);background:rgba(8,9,10,.94);color:#d9c79c;font:700 10px/1 var(--sd-font-condensed,"Barlow Condensed",Arial,sans-serif);letter-spacing:.12em;text-transform:uppercase;pointer-events:none;transition:transform 100ms ease,background 100ms ease,color 100ms ease,opacity 100ms ease}
   .trophyPhoneMoreClose{display:none}
   .phoneMoreToggle:checked ~ .trophyPhoneMoreButton{background:linear-gradient(180deg,#e8c96d,#c99839);color:#111}
+  .phoneMoreToggle:active ~ .trophyPhoneMoreButton{transform:translateY(1px)}
   .phoneMoreToggle:checked ~ .trophyPhoneMoreButton .trophyPhoneMoreOpen{display:none}
   .phoneMoreToggle:checked ~ .trophyPhoneMoreButton .trophyPhoneMoreClose{display:inline}
   .phoneMoreToggle:focus-visible ~ .trophyPhoneMoreButton{outline:3px solid #fff3bd;outline-offset:2px}
   .phoneNavReserve{display:none!important}
   .trophyPhoneNavReserve{display:block;position:absolute;z-index:36;left:0;right:0;bottom:0;height:calc(56px + env(safe-area-inset-bottom));background:linear-gradient(180deg,rgba(4,5,6,.78),rgba(2,3,4,.97));border-top:1px solid rgba(217,174,83,.25);pointer-events:none}
 }
-@media (prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;transition:none!important}.statePanel--loading .stateGlyph{animation:none!important}}
-html[data-motion-reduced="true"] .statePanel--loading .stateGlyph,html[data-reduced-motion="true"] .statePanel--loading .stateGlyph{animation:none!important}
+@media (prefers-reduced-motion:reduce){
+  .heroSpotlight,.heroTrophyPicture,.heroTrophyPicture:after,.trophyCard,.trophyGrid,.trophyBack,.trophyPhoneMoreButton,.trophyPhoneSheet,.trophyShelf{animation:none!important;transition:opacity 120ms ease!important}
+  .heroSpotlight,.heroTrophyPicture,.trophyCard,.trophyGrid,.trophyBack,.trophyPhoneMoreButton{transform:none!important}
+  .heroTrophyPicture:after,.sd-glint:before{display:none!important}
+  .statePanel--loading .stateGlyph{animation:none!important}
+  .trophyCard.tr-card-revealed{opacity:1!important}
+  .trophyGrid.tr-tab-leave,.trophyGrid.tr-tab-enter{transform:none!important}
+}
+html[data-motion-reduced="true"] .heroSpotlight,
+html[data-motion-reduced="true"] .heroTrophyPicture,
+html[data-motion-reduced="true"] .heroTrophyPicture:after,
+html[data-motion-reduced="true"] .trophyCard,
+html[data-motion-reduced="true"] .trophyGrid,
+html[data-motion-reduced="true"] .trophyBack,
+html[data-motion-reduced="true"] .trophyPhoneMoreButton,
+html[data-motion-reduced="true"] .trophyPhoneSheet,
+html[data-motion-reduced="true"] .trophyShelf,
+[data-sd-motion-reduced="true"] .heroSpotlight,
+[data-sd-motion-reduced="true"] .heroTrophyPicture,
+[data-sd-motion-reduced="true"] .heroTrophyPicture:after,
+[data-sd-motion-reduced="true"] .trophyCard,
+[data-sd-motion-reduced="true"] .trophyGrid,
+[data-sd-motion-reduced="true"] .trophyBack,
+[data-sd-motion-reduced="true"] .trophyPhoneMoreButton,
+[data-sd-motion-reduced="true"] .trophyPhoneSheet,
+[data-sd-motion-reduced="true"] .trophyShelf{animation:none!important;transition:opacity 120ms ease!important}
+html[data-motion-reduced="true"] .heroSpotlight,
+html[data-motion-reduced="true"] .heroTrophyPicture,
+html[data-motion-reduced="true"] .trophyCard,
+html[data-motion-reduced="true"] .trophyGrid,
+html[data-motion-reduced="true"] .trophyBack,
+html[data-motion-reduced="true"] .trophyPhoneMoreButton,
+[data-sd-motion-reduced="true"] .heroSpotlight,
+[data-sd-motion-reduced="true"] .heroTrophyPicture,
+[data-sd-motion-reduced="true"] .trophyCard,
+[data-sd-motion-reduced="true"] .trophyGrid,
+[data-sd-motion-reduced="true"] .trophyBack,
+[data-sd-motion-reduced="true"] .trophyPhoneMoreButton{transform:none!important}
+html[data-motion-reduced="true"] .heroTrophyPicture:after,
+html[data-motion-reduced="true"] .sd-glint:before,
+[data-sd-motion-reduced="true"] .heroTrophyPicture:after,
+[data-sd-motion-reduced="true"] .sd-glint:before{display:none!important}
+html[data-motion-reduced="true"] .statePanel--loading .stateGlyph,
+[data-sd-motion-reduced="true"] .statePanel--loading .stateGlyph{animation:none!important}
+html[data-motion-reduced="true"] .trophyCard.tr-card-revealed,
+[data-sd-motion-reduced="true"] .trophyCard.tr-card-revealed{opacity:1!important}
+html[data-motion-reduced="true"] .trophyGrid.tr-tab-leave,
+html[data-motion-reduced="true"] .trophyGrid.tr-tab-enter,
+[data-sd-motion-reduced="true"] .trophyGrid.tr-tab-leave,
+[data-sd-motion-reduced="true"] .trophyGrid.tr-tab-enter{transform:none!important}
