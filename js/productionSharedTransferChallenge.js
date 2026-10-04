@@ -100,7 +100,7 @@
     if(!pstcRequestMatches(request))pstcFail("TRANSFER_CONTEXT_STALE");
     return {state,options:{user:services.auth.currentUser,firestore:services.firestore,firebaseSdk:services.firestoreSdk,rivalryId:state.rivalryId,sessionId:state.sessionId,deviceId:state.deviceId,seasonNumber:request.seasonNumber,cryptoImpl:root.crypto,nowEpochMs:pstcAuthoritativeNow(request)}};
   }
-  function pstcResultError(result,message){if(result&&result.ok===true)return result;const error=new Error(message||"The shared Transfer Challenge request was rejected.");error.code=result&&result.code||"TRANSFER_PROVIDER_FAILED";throw error;}
+  function pstcResultError(result,message){if(result&&result.ok===true)return result;const error=new Error(message||"The shared Transfer Challenge request was rejected.");error.code=result&&result.code||"TRANSFER_PROVIDER_FAILED";error.providerResult=true;throw error;}
   function pstcQueueProvider(task){const queued=providerChain.then(task,task);providerChain=queued.catch(()=>{});return queued;}
   async function pstcRefreshNow(request=pstcRequestContext()){
     if(!request)return null;
@@ -109,20 +109,44 @@
     if(!pstcBindView(result,ctx,request))return null;if(pstcTransferScreenVisible())pstcPrepareReplay();pstcSetError("");pstcRender();pstcDecorateDashboard();return view;
   }
   function pstcRefresh(){const request=pstcRequestContext();if(!request)return Promise.resolve(null);if(viewContextKey&&viewContextKey!==request.key)pstcClearCachedContext();if(refreshPromise&&refreshContextKey===request.key)return refreshPromise;const current=pstcQueueProvider(()=>pstcRefreshNow(request));refreshPromise=current;refreshContextKey=request.key;current.then(()=>{if(refreshPromise===current){refreshPromise=null;refreshContextKey="";}},()=>{if(refreshPromise===current){refreshPromise=null;refreshContextKey="";}});return current;}
+  // Job 21: when both managers tap at once the loser's write is rejected by the Rules (permission-denied) or by the provider
+  // (stale revision / phase already moved). Re-read once; if the refreshed state already shows the outcome, finish silently,
+  // otherwise retry the same method once with a fresh revision and operation id. A real denial surfaces after that one retry.
+  const PSTC_RACE_CODES=Object.freeze(["permission-denied","firestore/permission-denied","permission_denied","TRANSFER_STALE_BASE_REVISION","TRANSFER_PHASE_INVALID","TRANSFER_END_ALREADY_REQUESTED","TRANSFER_ALREADY_STARTED","TRANSFER_GUESSES_ALREADY_LOCKED","TRANSFER_SIGNINGS_ALREADY_LOCKED"]);
+  function pstcOutcomeShown(method,fresh){
+    const state=fresh&&fresh.state,role=fresh&&fresh.managerRole;if(!state)return false;
+    if(method==="startWindow")return true;
+    if(method==="requestEndWindow")return state.phase!=="WINDOW_OPEN"||Boolean(state.endRequestedRoles?.includes(role));
+    if(method==="advanceExpiredWindow")return state.phase!=="WINDOW_OPEN";
+    if(method==="lockGuesses")return state.phase!=="GUESS_ENTRY"||Boolean(state.guessLockedRoles?.includes(role));
+    if(method==="lockSignings")return state.phase==="COMPLETED"||Boolean(state.signingLockedRoles?.includes(role));
+    return false;
+  }
+  function pstcErrorText(error,fallback){const code=String(error?.code||""),message=String(error?.message||"");if(error&&error.providerResult!==true&&message&&message!==code)return message;return code||message||fallback;}
   async function pstcMutate(method,payload={}){
     const request=pstcRequestContext();if(!request||busy||pstcReplayPhase())return false;busy=true;pstcSetError("");pstcRender();
     try{
       return await pstcQueueProvider(async()=>{
-        if(!pstcRequestMatches(request))return false;
-        const ctx=await pstcProviderOptions(request);if(!pstcRequestMatches(request,ctx))return false;
-        const current=pstcResultError(await provider.read(ctx.options),"The shared Transfer Challenge could not be refreshed.");if(!pstcRequestMatches(request,ctx))return false;
-        const options={...ctx.options,nowEpochMs:pstcAuthoritativeNow(request),operationId:pstcRandomOperationId(),baseRevision:Number(current.revision||0),...payload};
-        const result=pstcResultError(await provider[method](options),"The shared Transfer Challenge update was rejected.");if(!pstcRequestMatches(request,ctx))return true;
-        if(!pstcBindView(result,ctx,request))return true;pstcSetError("");
-        if(result.needsRefresh||result.state?.phase==="COMPLETED")await pstcRefreshNow(request);else{if(pstcTransferScreenVisible())pstcPrepareReplay();pstcRender();pstcDecorateDashboard();}
-        return true;
+        for(let attempt=0;;attempt+=1){
+          if(!pstcRequestMatches(request))return false;
+          const ctx=await pstcProviderOptions(request);if(!pstcRequestMatches(request,ctx))return false;
+          const current=pstcResultError(await provider.read(ctx.options),"The shared Transfer Challenge could not be refreshed.");if(!pstcRequestMatches(request,ctx))return false;
+          if(attempt>0&&pstcOutcomeShown(method,current)){if(pstcBindView(current,ctx,request)){pstcSetError("");if(pstcTransferScreenVisible())pstcPrepareReplay();pstcRender();pstcDecorateDashboard();}return true;}
+          const options={...ctx.options,nowEpochMs:pstcAuthoritativeNow(request),operationId:pstcRandomOperationId(),baseRevision:Number(current.revision||0),...payload};
+          let result;
+          try{result=pstcResultError(await provider[method](options),"The shared Transfer Challenge update was rejected.");}
+          catch(error){
+            if(!PSTC_RACE_CODES.includes(error&&error.code)||attempt>0)throw error;
+            if(method==="advanceExpiredWindow"){try{await pstcRefreshNow(request);}catch(_refreshError){}return true;}
+            continue;
+          }
+          if(!pstcRequestMatches(request,ctx))return true;
+          if(!pstcBindView(result,ctx,request))return true;pstcSetError("");
+          if(result.needsRefresh||result.state?.phase==="COMPLETED")await pstcRefreshNow(request);else{if(pstcTransferScreenVisible())pstcPrepareReplay();pstcRender();pstcDecorateDashboard();}
+          return true;
+        }
       });
-    }catch(error){if(pstcRequestMatches(request)){pstcSetError(error.code||error.message||"The shared Transfer Challenge update failed.");pstcReport("Unable to update Shared Transfer Challenge",error);}return false;}
+    }catch(error){if(pstcRequestMatches(request)){pstcSetError(pstcErrorText(error,"The shared Transfer Challenge update failed."));pstcReport("Unable to update Shared Transfer Challenge",error);}return false;}
     finally{busy=false;if(pstcRequestMatches(request))pstcRender();}
   }
   function pstcSetError(message=""){const node=root.document&&root.document.getElementById("transferChallengeError");if(node)node.textContent=String(message||"");}
@@ -145,7 +169,7 @@
       if(name)name.value="";pstcSetSelector(league,"league","");pstcSetSelector(nationality,"nationality","");if(type)type.value="";if(value){value.value="";delete value.dataset.canonicalId;delete value.dataset.canonicalLabel;value.disabled=true;}
     }
   }
-  function pstcResetForContext(key){if(openedKey===key)return;openedKey=key;expiryAttemptRevision=-1;expiryAttemptAt=0;pstcClearRole("playerOne");pstcClearRole("playerTwo");pstcSetError("");}
+  function pstcResetForContext(key){if(openedKey===key)return;openedKey=key;for(const prefix of ["p1","p2"])for(let i=1;i<=3;i+=1){const name=pstcField(`${prefix}Signing${i}Name`);if(name&&typeof name.setAttribute==="function")name.setAttribute("maxlength","80");}expiryAttemptRevision=-1;expiryAttemptAt=0;pstcClearRole("playerOne");pstcClearRole("playerTwo");pstcSetError("");}
   function pstcBuildGuesses(role){
     const prefix=pstcGuessPrefix(role),rows=[];
     for(let i=1;i<=3;i+=1){const type=pstcField(`${prefix}Guess${i}Type`),value=pstcField(`${prefix}Guess${i}Value`),kind=String(type?.value||""),id=pstcCanonical(value),display=String(value?.value||"").trim();if(!kind&&!display)continue;if((kind!=="league"&&kind!=="nationality")||!display||!id)pstcFail("TRANSFER_GUESSES_INVALID",`Complete guess ${i} with a FIFA 17 league or nationality.`);rows.push({slot:i,type:kind,valueId:id});}
@@ -220,7 +244,7 @@
     pstcMarkWitness(key,phase);
     const refresh=pstcEnsureRefreshButton();pstcDisable(refresh,busy||isReplay);return true;
   }
-  function pstcEnsureRefreshButton(){let button=pstcField("refreshSharedTransferChallenge");if(button)return button;const actions=root.document&&root.document.querySelector("#transferChallenge .transferTimerActions");if(!actions)return null;button=root.document.createElement("button");button.id="refreshSharedTransferChallenge";button.className="menuButton";button.type="button";button.textContent="REFRESH SHARED CHALLENGE";button.addEventListener("click",event=>{event.preventDefault();if(pstcReplayPhase())return;void pstcRefresh().catch(error=>{pstcSetError(error.code||error.message);pstcReport("Unable to refresh Shared Transfer Challenge",error);});});actions.append(button);return button;}
+  function pstcEnsureRefreshButton(){let button=pstcField("refreshSharedTransferChallenge");if(button)return button;const actions=root.document&&root.document.querySelector("#transferChallenge .transferTimerActions");if(!actions)return null;button=root.document.createElement("button");button.id="refreshSharedTransferChallenge";button.className="menuButton";button.type="button";button.textContent="REFRESH SHARED CHALLENGE";button.addEventListener("click",event=>{event.preventDefault();if(pstcReplayPhase())return;void pstcRefresh().catch(error=>{pstcSetError(pstcErrorText(error,"The shared Transfer Challenge could not be refreshed."));pstcReport("Unable to refresh Shared Transfer Challenge",error);});});actions.append(button);return button;}
   function pstcDecorateDashboard(){if(!root.document||!pstcSharedMarker())return false;const currentKey=pstcCurrentContextKey();if(viewContextKey&&currentKey&&viewContextKey!==currentKey)return false;const button=pstcField("seasonPrimaryAction"),status=pstcField("dashboardTransferStatus"),state=view?.state||null;if(!button||!status)return false;button.dataset.sharedTransferChallenge="true";button.disabled=Boolean(openPromise);if(openPromise){button.setAttribute("aria-busy","true");button.textContent="OPENING TRANSFER CHALLENGE…";return true;}if(button.hasAttribute("aria-busy"))button.removeAttribute("aria-busy");const season=view?.seasonNumber||(()=>{try{return pstcSeason();}catch(_error){return 1;}})();if(!state){button.textContent=`START SEASON ${season} SHARED TRANSFER CHALLENGE`;status.textContent="Shared transfer challenge: ready";}else if(state.phase==="WINDOW_OPEN"){button.textContent="OPEN SHARED TRANSFER WINDOW";status.textContent="Shared transfer challenge: transfer window live";}else if(state.phase==="GUESS_ENTRY"){button.textContent="OPEN SHARED GUESS ENTRY";status.textContent="Shared transfer challenge: private guesses";}else if(state.phase==="SIGNING_ENTRY"){button.textContent="OPEN SHARED SIGNING ENTRY";status.textContent="Shared transfer challenge: private signings";}else{button.textContent="VIEW SHARED TRANSFER VERDICTS";status.textContent="Shared transfer challenge: completed";}return true;}
   // r50: the first open loads the Transfer runtime and reads authority; show it and share one attempt.
   function pstcOpen(){if(openPromise)return openPromise;const run=Promise.resolve().then(pstcOpenNow);openPromise=run;run.finally(()=>{if(openPromise===run)openPromise=null;pstcDecorateDashboard();}).catch(()=>{});try{pstcDecorateDashboard();}catch(_error){}return run;}
@@ -237,7 +261,7 @@
     if(id==="continueFromTransfers"){pstcSetError("Shared Season Results is the next shared capability. This challenge will not fall through to local-only season authority.");return false;}
     return false;
   }
-  function pstcCapture(event){const target=event.target&&event.target.closest&&event.target.closest("button");if(!target||!CONTROL_IDS.includes(target.id)||!pstcSharedMarker())return;event.preventDefault();event.stopPropagation();if(typeof event.stopImmediatePropagation==="function")event.stopImmediatePropagation();void pstcHandleAction(target.id).catch(error=>{pstcSetError(error.code||error.message||"Shared Transfer Challenge failed.");pstcReport("Shared Transfer Challenge action failed",error);});}
+  function pstcCapture(event){const target=event.target&&event.target.closest&&event.target.closest("button");if(!target||!CONTROL_IDS.includes(target.id)||!pstcSharedMarker())return;event.preventDefault();event.stopPropagation();if(typeof event.stopImmediatePropagation==="function")event.stopImmediatePropagation();void pstcHandleAction(target.id).catch(error=>{pstcSetError(pstcErrorText(error,"Shared Transfer Challenge failed."));pstcReport("Shared Transfer Challenge action failed",error);});}
   async function pstcTick(){
     if(!pstcSharedMarker()||root.document?.visibilityState==="hidden")return;
     const currentKey=pstcCurrentContextKey();if(viewContextKey&&(!currentKey||viewContextKey!==currentKey))pstcClearCachedContext();

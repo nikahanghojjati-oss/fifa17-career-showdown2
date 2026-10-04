@@ -688,6 +688,17 @@
         "^tests/contracts/shared-journey-reload-resume-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/shared-tap-race-contracts.cjs",
+      "patterns": [
+        "^js/productionSharedTransferChallenge\\.js$",
+        "^js/productionSharedCareerStart\\.js$",
+        "^js/productionSharedShowdownSetup\\.js$",
+        "^js/productionSharedSeasonCommit\\.js$",
+        "^tests/contracts/shared-tap-race-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }

@@ -84,7 +84,7 @@
     }
     const role=view.managerRole,coordinator=view.coordinatorRole,phase=view.phase||"RESULTS_READY";
     if(phase==="ACKNOWLEDGED"){
-      psscText(ui.status,"SHARED SEASON COMMIT ACKNOWLEDGED BY BOTH MANAGERS · SCORING REMAINS LOCKED FOR THE NEXT CAPABILITY");psscText(ui.action,"SEASON COMMIT ACKNOWLEDGED ✓");psscDisable(ui.action,true);return true;
+      psscText(ui.status,"SEASON COMMITTED · SCORE BELOW");psscText(ui.action,"SEASON COMMIT ACKNOWLEDGED ✓");psscDisable(ui.action,true);return true;
     }
     if(view.committed){
       if(view.ownAcknowledged){psscText(ui.status,"YOU ACKNOWLEDGED THIS SHARED SEASON · WAITING FOR YOUR RIVAL");psscText(ui.action,"ACKNOWLEDGED ✓ · WAITING FOR RIVAL");psscDisable(ui.action,true);}
