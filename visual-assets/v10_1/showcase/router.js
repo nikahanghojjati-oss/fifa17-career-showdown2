@@ -173,7 +173,8 @@
       selection = { screen: screen.id, frame: frameId };
       writePhoneQuery(selection);
       paintPhonePreview(manifest, selection);
-      phonePreview.scrollIntoView({ block: "start", behavior: "smooth" });
+      const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      phonePreview.scrollIntoView({ block: "start", behavior: reducedMotion ? "auto" : "smooth" });
     });
 
     window.addEventListener("popstate", () => {
