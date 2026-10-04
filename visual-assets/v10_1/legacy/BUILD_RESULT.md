@@ -140,3 +140,24 @@ For larger portrait phones the percentage-based hero and archive geometry grows 
 Reading the committed HTML/CSS confirms Daniel remains left and Nik right in the phone hero band; `.nav-reserve` is present in the DOM and reserves `56px + env(safe-area-inset-bottom)`; page roots remain overflow-hidden; the card shelf is horizontal-only; and the season-history sheet owns its own overflow. The short-height rule preserves the 48 px action and hides only nonessential club/footer detail.
 
 No new phone art is required from this job. Claude intake should render and measure H5/H6/H7/H8/H9/H10/H11, including real safe-area behaviour, focus order/contrast, reduced motion, requests and final phone weight. The existing desktop depth-overlay recipe in `tools/MAKE_ASSETS.md` remains separate from this phone pass.
+
+
+## Fix round
+
+Review verdict: FAIL; the nine requested source fixes are complete across jobs 75, 168 and 169. No blocked items.
+
+| Item | Job | Completed change |
+| --- | --- | --- |
+| 1 | 75 | Synchronized archive selection, page changes, phone swipe/arrows, action eligibility and LegacyFixture selection. |
+| 2 | 75 | Bounded labelled season sheet, sticky 44px close, Escape/focus return and Daniel-first recorded scores/position/points/goals. |
+| 3 | 75 | Separate tabs, compact warning, card shelf and 44px pager; pinned primary; Claude's phone art/title fix retained. |
+| 4 | 168 | Shared navigation mounted; supported host routes and standalone destinations, including careerStatistics. |
+| 5 | 168 | Desktop starts at 901px; 52px rail; 901–1100px layout. |
+| 6 | 168 | Visible unavailable bootstrap state, disabled primary, no fabricated records. |
+| 7 | 169 | Lazy screen-only original getClubCrestSvg / getLeagueMark SVG rendering. |
+| 8 | 169 | Renderer UI dictionary in strings.ui; every pre-existing fixture field unchanged after JSON parse. |
+| 9 | 169 | Dictionary-driven labels; named winner or Draw for final results only; no winner claim for in-progress/status-only rows. |
+
+Claude measured job 168 at 1366×768, 1366×640, 1000×700 and 393×660. Those results predate job 169. All browser-dependent gates H5–H11 for the final code are NOT MEASURED (Claude measures): phone/short-screen fit, text/contrast, both reduced-motion paths, keyboard, requests, plate registration and first-paint weight including the optional identity module. No browser QA or frame strips were produced here. H1–H4 source checks preserve role order, original SVG rights, DOM-only changing values and fixture scoring/privacy guards; asset appearance still needs visual intake.
+
+Known intake follow-up C2W-004 extra 1: phone archive border/full-card width and missing pager dots will be fixed after the motion chain. Earlier phone descriptions of a next-card peek/24px pager are historical and superseded by the 44px pager and the bundle's one-full-card target.
