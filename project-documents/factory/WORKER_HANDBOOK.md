@@ -166,7 +166,7 @@ Check these in order. Stop at the first one that applies and reply with exactly 
 | A dependency's status is not `DONE` or `SKIPPED` | `Job N waits for job X, Y (not done yet).` |
 | Wrong kind of chat for the lane | see §4 |
 | State `IN PROGRESS · FIX` | Claude's quality check sent the job back. Do ONLY the numbered items under `## Claude fix list` in the status file (§5b), then set `State: DONE`. |
-| State `IN PROGRESS · ASTRA` | Reserved for one Astra chat running a bundle (handoffs/C2W-*_ASTRA_*.md). If you are not that Astra chat, reply `Job N is reserved for the Astra bundle.` and stop. |
+| State `IN PROGRESS · ASTRA` or `IN PROGRESS · BUNDLE` | Reserved for one chat running a bundle (handoffs/C2W-*.md names it). If you are not that bundle chat, reply `Job N is reserved for a bundle chat.` and stop. |
 | State `IN PROGRESS` | Another chat started it and stopped (stall, refused save). Pace rule 3: check the branch's newest commits for `Job N`, keep what is saved, do the rest in this turn. |
 | State `NOT STARTED` | Start at step 1. |
 
