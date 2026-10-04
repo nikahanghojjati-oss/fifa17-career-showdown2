@@ -1904,3 +1904,18 @@ body {
 @keyframes fwDrum { 0%, 100% { transform: scale(1); opacity: .8; } 50% { transform: scale(1.14); opacity: 1; } }
 #stage-root.fwSettled .winnerTrophyGlow { animation: fwShine 4s ease-in-out infinite; }
 @keyframes fwShine { 0%, 70%, 100% { opacity: .75; transform: scale(1); } 85% { opacity: 1; transform: scale(1.06); } }
+
+/* JOB-184 feel: feedback <= 120 ms, no layout shift. Reduced motion (system block and the app setting) = no ceremony, fades only. */
+.finalWinnerNavTabs button, .finalWinnerSettings, .finalWinnerActionsSlot button, .finalWinnerPhoneTabs label { transition: filter 100ms ease-out, color 100ms linear, background-color 100ms linear, transform 100ms ease-out; }
+.finalWinnerActionsSlot button:active, .finalWinnerNavTabs button:active { transform: scale(.985); }
+@media (prefers-reduced-motion: reduce) {
+  .finalWinnerFx, .finalWinnerFlash, #stage-root.fwAnticipate::after { display: none !important; }
+  #stage-root .winnerTrophyGlow, .finalWinnerOutcome { animation: none !important; }
+  .finalWinnerNavTabs button, .finalWinnerSettings, .finalWinnerActionsSlot button, .finalWinnerPhoneTabs label { transition: none; }
+}
+html[data-motion-reduced="true"] .finalWinnerFx, html[data-reduced-motion="true"] .finalWinnerFx,
+html[data-motion-reduced="true"] .finalWinnerFlash, html[data-reduced-motion="true"] .finalWinnerFlash,
+html[data-motion-reduced="true"] #stage-root.fwAnticipate::after, html[data-reduced-motion="true"] #stage-root.fwAnticipate::after { display: none !important; }
+html[data-motion-reduced="true"] #stage-root .winnerTrophyGlow, html[data-reduced-motion="true"] #stage-root .winnerTrophyGlow { animation: none !important; }
+html[data-motion-reduced="true"] .finalWinnerNavTabs button, html[data-reduced-motion="true"] .finalWinnerNavTabs button,
+html[data-motion-reduced="true"] .finalWinnerActionsSlot button, html[data-reduced-motion="true"] .finalWinnerActionsSlot button { transition: none; }
