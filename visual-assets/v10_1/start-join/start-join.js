@@ -92,6 +92,10 @@
       return;
     }
 
+    // Keep the live code out of sight until its slot-deal reveal begins.
+    code.setAttribute("aria-label", finalCode);
+    code.textContent = "";
+
     hostingMomentTimer = window.setTimeout(() => {
       dealHostCode(code, finalCode).then(() => {
         panel.classList.add("is-host-open");
