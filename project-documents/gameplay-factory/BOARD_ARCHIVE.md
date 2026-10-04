@@ -1,6 +1,6 @@
 # Team G gameplay board: all jobs
 
-[Back to the board](BOARD.md) · generated 2026-10-04 12:51 PM Boston time (EDT)
+[Back to the board](BOARD.md) · generated 2026-10-04 12:57 PM Boston time (EDT)
 
 | # | G id | Job | Phase | Type | Lane | Depends on | Codex | Progress | State |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -26,4 +26,4 @@
 | 18 | G-2d | [Nik's pair code survives the pair-panel re-render](jobs/JOB-18.md) | 1 Safety net | build | chat | - |  | ██████████ 100 % | DONE |
 | 19 | G-2e | [Resume a Shared Showdown after reload; closed Showdowns stay on Home](jobs/JOB-19.md) | 1 Safety net | fix | lead | - |  | ██████████ 100 % | DONE |
 | 20 | G-2f | [A late season acknowledgement retries instead of failing](jobs/JOB-20.md) | 1 Safety net | fix | lead | - |  | ██████████ 100 % | DONE |
-| 21 | G-2g | [Same-moment taps retry quietly (bug hunt 1)](jobs/JOB-21.md) | 1 Safety net | fix | lead | - |  | ░░░░░░░░░░ 0 % | NOT STARTED |
+| 21 | G-2g | [Same-moment taps retry quietly (bug hunt 1)](jobs/JOB-21.md) | 1 Safety net | fix | lead | - |  | ██████████ 100 % | DONE |

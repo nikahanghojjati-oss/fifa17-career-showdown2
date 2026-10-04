@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-04 12:51 PM Boston time (EDT)",
+ "generated": "2026-10-04 12:57 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 17,
@@ -200,8 +200,8 @@
   "chat": 2,
   "work": 1
  },
- "overall": 82,
- "done": 19,
+ "overall": 86,
+ "done": 20,
  "total": 23,
  "start": {
   "chat": [],
@@ -218,9 +218,9 @@
    "title": "Both managers tap at the same second and the slower one sees an error",
    "plain": "Hits Career Start, the Transfer Challenge locks and timer, and Setup confirm. Nothing is corrupted, but the loser must tap again.",
    "likelihood": "likely",
-   "status": "IN PROGRESS",
+   "status": "DONE",
    "owner": "lead",
-   "note": "job 21, PR #344: retry once quietly (checks running)"
+   "note": "job 21, PR #344 merged into the gameplay branch; reaches the live app at the next release"
   },
   {
    "id": "BH-2",
@@ -753,11 +753,11 @@
    "phase": "1 Safety net",
    "type": "fix",
    "plain": "When both players tap START, a lock button, early end or Setup confirm at the same moment, or the transfer timer hits 0:00 on both phones, the slower phone retries once instead of showing an error.",
-   "state": "NOT STARTED",
+   "state": "DONE",
    "step": 0,
    "steps_total": 3,
-   "pct": 0,
-   "ready": true
+   "pct": 100,
+   "ready": false
   }
  ]
 }
