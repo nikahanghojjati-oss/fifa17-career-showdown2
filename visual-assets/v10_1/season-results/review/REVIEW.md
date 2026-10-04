@@ -36,6 +36,8 @@ Average: 28 / 9 = 3.11 / 5. Static verdict by score alone: FAIL.
 | H10 · Mockup-diff faces / protected boxes / SSIM / ΔE | NOT MEASURED (Claude measures) | `visual-assets/v10_1/season-results/evidence/scores.json` does not exist; no H10 score appears in Claude intake notes in JOB-077 or JOB-078 |
 | H11 · First-paint page weight | NOT MEASURED (Claude measures) | `project-documents/factory/status/JOB-077.md`; `project-documents/factory/status/JOB-078.md`; `visual-assets/v10_1/season-results/evidence/QA_SUMMARY.md` does not exist |
 
+Hard-gate decision: FAIL because H4 fails product truth. H1–H3 pass from the source audit; H5–H11 remain NOT MEASURED exactly because Claude has supplied no qualifying measurements yet.
+
 ## Evidence
 
 This part carries Claude measurements only. No browser QA, screenshots, mockup diff, or re-measurement was run in this review chat.
