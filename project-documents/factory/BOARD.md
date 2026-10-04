@@ -1,8 +1,8 @@
 # Showdown Factory board
 
-**181 of 238 jobs done and checked · 80 %** · updated Sun 12:19 p.m. Eastern
+**181 of 238 jobs done and checked · 80 %** · updated Sun 12:21 p.m. Eastern
 
-✅ **Quality check:** a job counts as done only after Claude checks it against the quality bar (average 4.2 or more, nothing under 3, hard gates pass). Average score 4.25 over 66 scored jobs. 🔍 Waiting for Claude's check: 74, 75, 80, 146, 164, 165, 166, 167, 176, 177. 
+✅ **Quality check:** a job counts as done only after Claude checks it against the quality bar (average 4.2 or more, nothing under 3, hard gates pass). Average score 4.25 over 66 scored jobs. 🔍 Waiting for Claude's check: 74, 75, 80, 146, 164, 165, 166, 167, 176, 177, 178. 
 
 <img src="board-meter.svg" alt="Football progress meter" width="640">
 
@@ -12,7 +12,7 @@
 
 🟣 **Image next:** -
 
-**Working:** 76, 81, 103, 168, 169, 170, 171, 178, 179, 180, 210, 211, 212, 213 · **Blocked:** -
+**Working:** 76, 81, 103, 168, 169, 170, 171, 179, 180, 210, 211, 212, 213 · **Blocked:** -
 
 ## Screens
 
@@ -26,7 +26,7 @@ Trophy Room    ██████████ 10/10
 Career Stats   ██████████ 17/17
 Rivalry        ██████████ 19/19
 Legacy         ███████░░░ 14/19
-Season Results ███████░░░ 15/19
+Season Results ████████░░ 16/19
 Final Winner   ██████████ 12/12
 Start/Join     ██████████ 18/18
 Standings      ██████████ 15/15
@@ -57,7 +57,7 @@ Branch `factory/v1-wtt5ye`. 238 Team V jobs, plus 5 lines that track Team G. Two
 
 **Start now (Sol Work mode, press Use Work):** -
 
-**Working:** 76, 81, 103, 168, 169, 170, 171, 178, 179, 180, 210, 211, 212, 213 · **Blocked:** -
+**Working:** 76, 81, 103, 168, 169, 170, 171, 179, 180, 210, 211, 212, 213 · **Blocked:** -
 
 **Team G tracking (never start these):** 98 (done), 99 (open), 100 (open), 101 (open), 102 (open). Claude marks them done when Team G delivers.
 
@@ -241,7 +241,7 @@ Branch `factory/v1-wtt5ye`. 238 Team V jobs, plus 5 lines that track Team G. Two
 | 175 | [Season Results: review (part 3 of 4)](jobs/JOB-175.md) | 5 New screens | review | project (type number) | 174 | ██████████ 100 % | DONE |  |
 | 176 | [Season Results: review (part 4 of 4)](jobs/JOB-176.md) | 5 New screens | review | project (type number) | 175 | ██████████ 100 % | DONE |  |
 | 177 | [Season Results: fix round (part 2 of 3)](jobs/JOB-177.md) | 5 New screens | fix | project (type number) | 80 | ██████████ 100 % | DONE |  |
-| 178 | [Season Results: fix round (part 3 of 3)](jobs/JOB-178.md) | 5 New screens | fix | project (type number) | 177 | ░░░░░░░░░░ 0 % | IN PROGRESS · BUNDLE |  |
+| 178 | [Season Results: fix round (part 3 of 3)](jobs/JOB-178.md) | 5 New screens | fix | project (type number) | 177 | ██████████ 100 % | DONE |  |
 | 179 | [Season Results: motion (part 2 of 3)](jobs/JOB-179.md) | 5 New screens | build | project (type number) | 81 | ░░░░░░░░░░ 0 % | IN PROGRESS · BUNDLE |  |
 | 180 | [Season Results: motion (part 3 of 3)](jobs/JOB-180.md) | 5 New screens | build | project (type number) | 179 | ░░░░░░░░░░ 0 % | IN PROGRESS · BUNDLE | yes |
 | 181 | [Final Winner: fix round (part 2 of 3)](jobs/JOB-181.md) | 5 New screens | fix | project (type number) | 85 | ██████████ 100 % | DONE |  |
