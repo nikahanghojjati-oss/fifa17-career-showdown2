@@ -1526,3 +1526,64 @@ button {
   opacity: 0 !important;
 }
 }
+
+/* C2W-004 extra 1: one full phone card; every page has a visible gold indicator. */
+#legacy .legacyPageDots {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  min-width: 0;
+  max-height: 40px;
+  overflow: auto;
+  padding: 2px;
+}
+#legacy .legacyPager .legacyPageDots .legacyPageDot {
+  display: block;
+  flex: 0 0 8px;
+  width: 8px;
+  height: 8px;
+  min-width: 8px;
+  min-height: 8px;
+  padding: 0;
+  border-radius: 50%;
+  background: rgba(242, 196, 91, .35);
+  box-shadow: none;
+}
+#legacy .legacyPager .legacyPageDots .legacyPageDot::after { content: none; }
+#legacy .legacyPager .legacyPageDots .legacyPageDot[data-active="true"] { background: #f2c45b; }
+@media (max-width: 900px) {
+  #legacy .legacyArchivePanel {
+    left: 12px;
+    right: 12px;
+    width: auto;
+    max-width: calc(100% - 24px);
+    min-width: 0;
+    box-sizing: border-box;
+    grid-template-columns: minmax(0, 1fr);
+    overflow-x: hidden;
+  }
+  #legacy .legacyCardGrid {
+    position: relative;
+    display: flex;
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    box-sizing: border-box;
+    gap: 0;
+    padding: 2px 0;
+    scroll-padding-inline: 0;
+    scroll-snap-type: x mandatory;
+  }
+  #legacy .legacyCardGrid > .legacyCard {
+    flex: 0 0 100%;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+  #legacy .legacyPager { min-width: 0; gap: 6px; }
+  #legacy .legacyPager > button { flex: 0 0 44px; min-width: 44px; min-height: 44px; }
+}

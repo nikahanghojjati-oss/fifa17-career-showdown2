@@ -160,7 +160,7 @@ Review verdict: FAIL; the nine requested source fixes are complete across jobs 7
 
 Claude measured job 168 at 1366×768, 1366×640, 1000×700 and 393×660. Those results predate job 169. All browser-dependent gates H5–H11 for the final code are NOT MEASURED (Claude measures): phone/short-screen fit, text/contrast, both reduced-motion paths, keyboard, requests, plate registration and first-paint weight including the optional identity module. No browser QA or frame strips were produced here. H1–H4 source checks preserve role order, original SVG rights, DOM-only changing values and fixture scoring/privacy guards; asset appearance still needs visual intake.
 
-Known intake follow-up C2W-004 extra 1: phone archive border/full-card width and missing pager dots will be fixed after the motion chain. Earlier phone descriptions of a next-card peek/24px pager are historical and superseded by the 44px pager and the bundle's one-full-card target.
+C2W-004 extra 1 completed after the motion chain: archive uses bounded columns and 12px side margins; a flex snap track gives each phone card 100% width. One 8px gold indicator per phone card/desktop page sits between 44px arrows; inactive indicators use 35% gold. Existing fixture page labels label the indicator group; arrows/swipe remain the actual controls. Selection, active dot and page stay synchronized across swipe, arrows and the 900px breakpoint. Isolated archive-controller assertions passed; rendered phone fit still needs Claude. Earlier next-card-peek/24px-pager descriptions are historical and superseded.
 
 
 ## Motion

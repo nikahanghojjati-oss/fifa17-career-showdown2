@@ -321,17 +321,27 @@
         const active = Number(card.dataset.showdown) === selected;
         card.dataset.selected = String(active && canDisclose(record));
         if (card.tagName === "BUTTON") card.setAttribute("aria-pressed", String(active));
-        if (active && scroll) grid.scrollLeft = card.offsetLeft - grid.offsetLeft;
+        if (active && scroll) grid.scrollLeft = Array.from(grid.children).indexOf(card) * grid.clientWidth;
       });
       const index = records.findIndex((item) => item.number === selected);
       const prev = pager.querySelector('[data-direction="-1"]');
       const next = pager.querySelector('[data-direction="1"]');
       if (prev) prev.disabled = phone.matches ? index <= 0 : page <= 1;
       if (next) next.disabled = phone.matches ? index >= records.length - 1 : page >= pages;
+      const currentPage = phone.matches ? Math.max(0, index) + 1 : page;
+      frame.ui.page = currentPage;
+      const dots = pager.querySelector(".legacyPageDots");
+      if (dots) {
+        dots.setAttribute("aria-label", copy(strings, "page", { number: currentPage, total: phone.matches ? records.length : pages }));
+        dots.querySelectorAll(".legacyPageDot").forEach((dot, dotIndex) => {
+          dot.dataset.active = String(dotIndex + 1 === currentPage);
+        });
+      }
       if (phone.matches && changed) pageMotion(index > previousIndex ? 1 : -1, scroll);
     }
 
     function paint(focusCard = false) {
+      page = Math.max(1, Math.min(pages, page));
       visible = phone.matches ? records : records.slice((page - 1) * pageSize, page * pageSize);
       if (!visible.some((item) => item.number === selected)) {
         selected = (visible.find(canDisclose) || visible[0] || {}).number;
@@ -344,7 +354,17 @@
         grid.appendChild(card);
       });
       pager.replaceChildren();
-      if (records.length > 1) {
+      if (records.length) {
+        const dots = document.createElement("span");
+        dots.className = "legacyPageDots";
+        dots.setAttribute("role", "img");
+        // Indicators, not tiny controls: 44px arrows and swipe own navigation.
+        Array.from({ length: phone.matches ? records.length : pages }, () => {
+          const dot = document.createElement("span");
+          dot.className = "legacyPageDot";
+          dot.setAttribute("aria-hidden", "true");
+          dots.appendChild(dot);
+        });
         [-1, 1].forEach((direction) => {
           const button = document.createElement("button");
           button.type = "button";
@@ -362,6 +382,7 @@
             }
           });
           pager.appendChild(button);
+          if (direction === -1) pager.appendChild(dots);
         });
       }
       select(selected, phone.matches);
@@ -374,10 +395,8 @@
       clearTimeout(settling);
       settling = setTimeout(() => {
         if (!phone.matches || !grid.children.length) return;
-        const left = grid.getBoundingClientRect().left;
-        const nearest = Array.from(grid.children).reduce((best, card) =>
-          Math.abs(card.getBoundingClientRect().left - left) < Math.abs(best.getBoundingClientRect().left - left) ? card : best);
-        select(Number(nearest.dataset.showdown));
+        const index = Math.max(0, Math.min(records.length - 1, Math.round(grid.scrollLeft / Math.max(1, grid.clientWidth))));
+        select(records[index].number);
       }, 100);
     }, { passive: true });
     grid.addEventListener("keydown", (event) => {
@@ -391,7 +410,11 @@
         if (target.tagName === "BUTTON") target.focus({ preventScroll: true });
       }
     });
-    phone.addEventListener("change", () => paint());
+    phone.addEventListener("change", () => {
+      const index = Math.max(0, records.findIndex(item => item.number === selected));
+      page = Math.floor(index / pageSize) + 1;
+      paint();
+    });
     paint();
   }
 
