@@ -724,6 +724,7 @@ function safetyContracts(){
   const presentation=read("js/productionSharedShowdownPresentation.js");
   const auto=presentation.match(/function ssjpAutoForwardToClubs\(\)\{[\s\S]*?\n  \}\n  function ssjpMaybeAutoOpenCareerStart\(setup\)\{[\s\S]*?\n  \}/)[0];
   assert.doesNotMatch(auto,/ssjpMutate|commit-league|commit-clubs|"confirm"/,"R3/R4a auto steps never draw or confirm");
+  assert.match(presentation,/async function ssjpOpenCareerStart\(\)\{\n[^\n]*\n\s*autoCareerStartKey=`\$\{presentationContextKey\}\|\$\{state\.setup\.revision\}`;busy=true;/,"R4a: any Career Start opening marks the revision, so the second confirmer's click path and the auto-open never open it twice");
   const entry=read("js/productionSharedJourneyEntry.js");
   assert.doesNotMatch(entry,/startPairing|hostSession|joinSession/,"the entry never creates a pair code or hosts/joins a session by itself");
   const career=read("js/productionSharedCareerStart.js");

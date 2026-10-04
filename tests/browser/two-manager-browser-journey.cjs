@@ -277,6 +277,7 @@ async function main(){
     const sessionCode=await daniel.page.evaluate(()=>document.body.innerText.match(/session_[A-Za-z0-9_-]{16,}/)[0]);
     await remote(nik).getByRole("textbox",{name:"Exact private session code"}).fill(sessionCode);
     await remote(nik).getByRole("button",{name:"JOIN PRIVATE SESSION"}).click();
+    await hostSeesJoin(daniel);
     // Job 33 (R6 + R1): the ACTIVE session takes both managers to the league wheel by itself; Daniel's hosted session is
     // re-read every 4 s, so neither REFRESH / READ nor START CAREER is tapped.
     for(const m of [nik,daniel]){
@@ -509,6 +510,7 @@ async function main(){
       assert.notEqual(resumeSessionCode,sessionCode,"the resume uses a fresh exact private session");
       await remote(nik).getByRole("textbox",{name:"Exact private session code"}).fill(resumeSessionCode);
       await remote(nik).getByRole("button",{name:"JOIN PRIVATE SESSION"}).click({timeout:30000});
+      await hostSeesJoin(daniel);
       // Job 33 (R6 + R1): the fresh ACTIVE session resumes both managers by itself (no REFRESH / READ, no START CAREER).
       for(const m of [nik,daniel]){
         try{
@@ -724,6 +726,7 @@ async function main(){
     const sessionCode2=await daniel.page.evaluate(()=>document.body.innerText.match(/session_[A-Za-z0-9_-]{16,}/)[0]);
     await remote(nik).getByRole("textbox",{name:"Exact private session code"}).fill(sessionCode2);
     await remote(nik).getByRole("button",{name:"JOIN PRIVATE SESSION"}).click({timeout:30000});
+    await hostSeesJoin(daniel);
     for(const m of [nik,daniel])await m.page.locator("#leagueWheelScreen").waitFor({state:"visible",timeout:30000});
     ok("J12.1","after terminal R1, Daniel and Nik created distinct R2, both indexes are [R1,R2], and both reached R2 league wheel");
     await shot(daniel,"j12-r2");await shot(nik,"j12-r2");

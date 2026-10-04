@@ -127,18 +127,26 @@ const SAVE_KEY="careerModeShowdown.saveLibrary";
         closePanel(){window.__peerRemoteCloseCount+=1;state={...state,open:false};return true;}
       };
       window.__activatePeerSession=()=>{state={...state,status:"ready",open:true,role:"peer",sessionState:"active",sessionId:"session_peer_fixture",revision:1,expiresAtEpochMs:Date.now()+600000,pendingAction:null};for(const listener of [...listeners])listener(state);};
-      await window.CareerModeProductionSharedJourneyEntry.openPanel();
+      window.__presentationActivations=0;
+      window.CareerModeProductionSharedShowdownPresentation={activate:async()=>{window.__presentationActivations+=1;return true;},isPresentationActive:()=>false};
+      // Job 33 (R5b): GET READY is still reachable without the Remote Joining hop (for example after a failed entry).
+      await window.CareerModeProductionSharedJourneyEntry.openPanel({routeToRemote:false});
     });
     const connection=page.locator("#productionSharedJourneyEntryOverlay button",{hasText:"REVIEW CONNECTION"});
     await connection.waitFor({state:"visible",timeout:5000});await connection.click();
     await page.waitForFunction(()=>window.__pairControlsOpenCount===1,null,{timeout:3000});
     await page.locator("#persistentNikDanielPairPanel").waitFor({state:"visible",timeout:3000});
+    // Job 33 (R5b): a connected pair without an ACTIVE session goes straight to Remote Joining (no GET READY CONTINUE tap).
     await page.evaluate(()=>window.CareerModeProductionSharedJourneyEntry.openPanel());
-    const openJoin=page.locator("#productionSharedJourneyEntryOverlay button",{hasText:"CONTINUE"});
-    await openJoin.waitFor({state:"visible",timeout:5000});await openJoin.click();
     await page.waitForFunction(()=>window.__peerRemoteOpenCount===1,null,{timeout:3000});
+    assert.equal(await page.locator("#productionSharedJourneyEntryOverlay").isVisible(),false,"R5b: GET READY is not shown before Remote Joining");
+    // Job 33 (R6): once the private session becomes ACTIVE, the peer continues into the Showdown by itself (no START CAREER tap).
     await page.evaluate(()=>window.__activatePeerSession());
     await page.waitForFunction(()=>window.__peerRemoteCloseCount===1,null,{timeout:3000});
+    await page.waitForFunction(()=>window.__presentationActivations===1,null,{timeout:5000});
+    assert.equal(await page.locator("#productionSharedJourneyEntryOverlay").isVisible(),false,"R6: the ACTIVE session continued into the Showdown without GET READY");
+    // GET READY with the cleaned START CAREER action is still what an ACTIVE pair sees when it opens the entry.
+    await page.evaluate(()=>window.CareerModeProductionSharedJourneyEntry.openPanel());
     await page.locator("#productionSharedJourneyEntryOverlay button",{hasText:"START CAREER"}).waitFor({state:"visible",timeout:5000});
     const entryText=await page.locator("#productionSharedJourneyEntryOverlay").textContent();
     assert.equal(/Private Remote Joining|Shared Journey/i.test(entryText||""),false,"Player entry must not expose retired architecture labels.");

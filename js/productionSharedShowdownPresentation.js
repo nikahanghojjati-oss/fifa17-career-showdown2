@@ -183,7 +183,7 @@
   async function ssjpChooseSeason(seasons){if(Number(seasons)!==ssjpPreparedSeasonLength())return false;return ssjpCommitPreparedSeasonLength();}
   async function ssjpOpenCareerStart(){
     if(!active||!ssjpPending()||busy||state?.ready!==true||!state?.setup||state.setup.phase!=="SHOWDOWN_CONFIRMED"||!ssjpSeasonMatchesPrepared(state.setup))return false;
-    busy=true;
+    autoCareerStartKey=`${presentationContextKey}|${state.setup.revision}`;busy=true;
     try{
       await ssjpLoadScript("ssjr-production-career-start","js/productionSharedCareerStart.js",()=>root.CareerModeProductionSharedCareerStart);
       const career=root.CareerModeProductionSharedCareerStart;
