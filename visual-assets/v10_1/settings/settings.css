@@ -151,11 +151,8 @@ body {
   overflow: hidden;
 }
 
-/* Step 4 is a geometry pass only: keep each shared glass plate visible while
-   its scaffold content stays out of the visual and focus tree. */
-#settingsContent > .settingsPanel > * {
-  visibility: hidden;
-}
+/* Claude intake fix 2026-10-04: removed the step-4 rule that hid every panel's content
+   (#settingsContent > .settingsPanel > * { visibility: hidden }); its id selector beat the step-5 reveal rules. */
 
 #previewTag,
 #frameNote,
