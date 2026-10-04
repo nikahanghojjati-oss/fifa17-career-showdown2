@@ -1,12 +1,12 @@
 # Team G gameplay board
 
-20 of 23 jobs done (86 %) ████████░░ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-04 1:34 PM Boston time (EDT)
+21 of 23 jobs done (91 %) █████████░ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-04 1:39 PM Boston time (EDT)
 
 ## Your next move
 
-1. **Start job 13 in Sol Work mode.** Press Use Work, paste the starter line below, change both `NN`.
+1. **Nothing for you to start right now.**
 
-_Moving now:_ no job is running right now. _Next up:_ G-13 Part 1: Trophy Room and Career Statistics on the real career model, waits on nothing.
+_Moving now:_ no job is running right now. _Next up:_ G-14 Acceptance: directive §12 and Sol's 8 proofs on the emulator, waits on nothing.
 
 **Sol Work mode starter line** (copy it, change both `NN` to the job number, paste it as the first message):
 
@@ -44,17 +44,17 @@ Waiting on Team V: nothing.
 
 | Job | What | Lane | Waits on | State |
 | --- | --- | --- | --- | --- |
-| G-13 | [Part 1: Trophy Room and Career Statistics on the real career model](jobs/JOB-13.md) | work | - | NOT STARTED |
-| G-14 | Acceptance: directive §12 and Sol's 8 proofs on the emulator | work | job 13 | NOT WRITTEN |
+| G-14 | Acceptance: directive §12 and Sol's 8 proofs on the emulator | work | - | NOT WRITTEN |
 | G-15 | One real two-device run with Nik | nik | job 14 | NOT WRITTEN |
 
 <details>
-<summary><b>Finished work: 20 jobs</b> (click to open)</summary>
+<summary><b>Finished work: 21 jobs</b> (click to open)</summary>
 
 - 0 Setup: 3 of 3 done
 - 1 Safety net: 8 of 8 done
 - 2 Career model: 5 of 5 done
 - 3 Career history: 4 of 4 done
+- 4 Ship: 1 of 3 done
 
 Full list of every job with its state: [BOARD_ARCHIVE.md](BOARD_ARCHIVE.md).
 
