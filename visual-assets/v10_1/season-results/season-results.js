@@ -105,8 +105,8 @@
     achievements.className = "achievement-fields";
 
     const numeric = [
-      ["leaguePosition", result.leaguePosition, 1, 20],
-      ["leaguePoints", result.leaguePoints, 0, 114],
+      ["leaguePosition", result.leaguePosition, 1, frame.teamCount],
+      ["leaguePoints", result.leaguePoints, 0, frame.maxPoints],
       ["leagueGoals", result.leagueGoals, 0, 300]
     ];
     numeric.forEach(([key, value, min, max]) => {
@@ -185,20 +185,42 @@
         edit.hidden = false;
         edit.textContent = labels.edit;
       }
+    } else if (frame.phase === "unpublished-review") {
+      publish.hidden = false;
+      publish.textContent = labels.publish;
+      edit.hidden = false;
+      edit.textContent = labels.edit;
     } else if (frame.phase === "waiting-for-rival") {
       publish.hidden = false;
       publish.textContent = labels.published;
       publish.disabled = true;
       publish.setAttribute("aria-disabled", "true");
-    } else if (frame.phase === "results-ready") {
+    } else if (frame.phase === "results-ready" || frame.phase === "committed") {
+      const state = sharedCommitPresentation(fixtures, frame);
       commit.hidden = false;
-      commit.textContent = labels.commitCheck;
-    } else if (frame.phase === "committed") {
-      commit.hidden = false;
-      commit.textContent = labels.acknowledged;
-      commit.disabled = true;
-      commit.setAttribute("aria-disabled", "true");
+      commit.textContent = state.label;
+      commit.disabled = state.disabled;
+      commit.setAttribute("aria-disabled", String(state.disabled));
     }
+  }
+
+
+  // Adapter states mirror productionSharedSeasonCommit.psscRender; presentation only.
+  function sharedCommitPresentation(fixtures, frame) {
+    const buttons = fixtures.strings.buttons;
+    const copy = fixtures.strings.commitStatus;
+    const state = frame.commitState || (frame.phase === "committed" ? "acknowledged" : "checking");
+    const states = {
+      checking: [buttons.commitCheck, copy.checking, !!frame.commitBusy],
+      retry: [buttons.commitRetry, copy.failedTemplate.replace("{ERROR_CODE}", frame.commitErrorCode || ""), !!frame.commitBusy],
+      coordinator: [buttons.commit, copy.coordinatorReady, !!frame.commitBusy],
+      peer: [buttons.waitCoordinator, copy.peerReadyTemplate.replace("{COORDINATOR}", frame.coordinatorName || "DANIEL"), true],
+      committed: [buttons.acknowledge, copy.committed, !!frame.commitBusy],
+      "own-acknowledged": [buttons.acknowledgedWaiting, copy.ownAcknowledged, true],
+      acknowledged: [buttons.acknowledged, copy.acknowledged, true]
+    };
+    const [label, status, disabled] = states[state] || states.checking;
+    return { label, status, disabled };
   }
 
   function formatTemplate(template, replacements) {
@@ -224,6 +246,11 @@
     heading.textContent = "";
     result.textContent = "";
     error.textContent = "";
+    const commitStatus = document.getElementById("sharedSeasonCommitStatus");
+    if (commitStatus) {
+      commitStatus.hidden = !["results-ready", "committed"].includes(frame.phase) || frame.status !== "ready";
+      commitStatus.textContent = commitStatus.hidden ? "" : sharedCommitPresentation(fixtures, frame).status;
+    }
 
     if (frame.status !== "ready") {
       panel.hidden = false;
@@ -235,7 +262,15 @@
       return;
     }
 
-    if (frame.phase === "waiting-for-rival") {
+    if (frame.phase === "unpublished-review") {
+      const copy = fixtures.strings.review.draft;
+      panel.hidden = false;
+      panel.classList.add("is-draft");
+      status.textContent = copy.status;
+      heading.textContent = copy.heading;
+      result.textContent = copy.result;
+      error.textContent = frame.error || "";
+    } else if (frame.phase === "waiting-for-rival") {
       const copy = fixtures.strings.review.waiting;
       panel.hidden = false;
       panel.classList.add("is-waiting");
@@ -249,7 +284,7 @@
       status.textContent = copy.status;
       heading.textContent = copy.heading;
       result.textContent = copy.result;
-    } else if (frame.phase === "committed" && frame.breakdown) {
+    } else if (frame.phase === "committed" && frame.scoringState === "SCORING_RECONCILED" && frame.breakdown) {
       const labels = fixtures.strings.canonicalScoring;
       const d = frame.breakdown.daniel;
       const n = frame.breakdown.nik;
@@ -332,7 +367,15 @@
     const frameIds = Object.keys(fixtures.frames || {});
     const requested = qs.get("frame");
     const frameId = requested && fixtures.frames[requested] ? requested : frameIds[0];
-    const frame = fixtures.frames[frameId];
+    const frame = { ...fixtures.frames[frameId] };
+    // DEFAULT: older fixtures omit bounds; derive contract §0 bounds at the adapter edge.
+    const contractTeams = { premier_league: 20, laliga: 20, bundesliga: 18, serie_a: 20, ligue_1: 20 };
+    frame.teamCount = frame.teamCount ?? contractTeams[frame.context.leagueId];
+    frame.maxPoints = frame.maxPoints ?? (frame.teamCount - 1) * 6;
+    // Labelled preview selector covers each real commit presentation without writing product state.
+    const previewCommit = qs.get("commitState");
+    if (["checking", "retry", "coordinator", "peer", "committed", "own-acknowledged", "acknowledged"].includes(previewCommit)
+        && ["results-ready", "committed"].includes(frame.phase)) frame.commitState = previewCommit;
 
     stage.dataset.frame = frameId;
     stage.dataset.status = frame.status || "ready";
