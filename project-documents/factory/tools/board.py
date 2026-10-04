@@ -136,12 +136,38 @@ def feed_rows(n=3):
             when = c[0]
         out.append(f"- {when} · {c[1]} → {c[2]} · {c[3]}: {c[4]}")
     return out
+def meter_svg(d, t, ov):
+    """Static football meter: ball rolls along a pitch bar to done/total; works on light and dark pages."""
+    W, x0, x1, y = 640, 40, 560, 78
+    frac = d / max(t, 1)
+    bx = x0 + (x1 - x0) * frac
+    stripes = "".join(f'<rect x="{x0 + i * 52}" y="{y - 16}" width="26" height="32" fill="#000" opacity=".12"/>' for i in range(10))
+    pent = "".join(f'<circle cx="{bx + dx}" cy="{y + dy}" r="3.2" fill="#111"/>' for dx, dy in ((0, 0), (0, -9), (8.5, -3), (5.3, 7), (-5.3, 7), (-8.5, -3)))
+    return f"""<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="150" viewBox="0 0 {W} 150" role="img" aria-label="{d} of {t} jobs done and checked">
+<rect width="{W}" height="150" rx="14" fill="#0e1218"/><rect x="1" y="1" width="{W - 2}" height="148" rx="13" fill="none" stroke="#c9a227" stroke-width="2"/>
+<text x="24" y="32" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="700" fill="#e8c44a" letter-spacing="2">SHOWDOWN FACTORY</text>
+<text x="{W - 24}" y="32" text-anchor="end" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="700" fill="#fff">{d} / {t} done and checked</text>
+<clipPath id="c"><rect x="{x0}" y="{y - 16}" width="{x1 - x0}" height="32" rx="16"/></clipPath>
+<rect x="{x0}" y="{y - 16}" width="{x1 - x0}" height="32" rx="16" fill="#143d22"/>
+<g clip-path="url(#c)"><rect x="{x0}" y="{y - 16}" width="{bx - x0:.1f}" height="32" fill="#2e9e4f"/>{stripes}</g>
+<rect x="{x0}" y="{y - 16}" width="{x1 - x0}" height="32" rx="16" fill="none" stroke="#fff" stroke-opacity=".7" stroke-width="2"/>
+<line x1="{(x0 + x1) // 2}" y1="{y - 16}" x2="{(x0 + x1) // 2}" y2="{y + 16}" stroke="#fff" stroke-opacity=".5" stroke-width="2"/>
+<g stroke="#e8c44a" stroke-width="3" fill="none"><path d="M{x1 + 6} {y - 26}v52h22v-52z"/></g>
+<path d="M{x1 + 6} {y - 26}l22 52M{x1 + 28} {y - 26}l-22 52" stroke="#e8c44a" stroke-opacity=".35" stroke-width="1.5"/>
+<text x="{x1 + 17}" y="{y + 46}" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="12" font-weight="700" fill="#e8c44a">GOAL</text>
+<circle cx="{bx:.1f}" cy="{y}" r="19" fill="#fff" stroke="#111" stroke-width="2.5"/>
+<g transform="translate({bx - bx:.0f},0)">{pent.replace('cx="' + str(bx), 'cx="' + str(bx))}</g>
+<text x="{x0}" y="{y + 46}" font-family="Arial,Helvetica,sans-serif" font-size="14" fill="#c8cdd6">KICK-OFF</text>
+<text x="{W // 2}" y="{y + 46}" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="14" fill="#c8cdd6">{ov} % of all work in progress or done</text>
+</svg>
+"""
 known = {j["number"] for j in vjobs}
+open(os.path.join(F, "board-meter.svg"), "w").write(meter_svg(done, len(vjobs), overall))
 lc = last_change()
 P = ["# Showdown Factory board", "",
      f"**{done} of {len(vjobs)} jobs done and checked · {overall} %** · updated {eastern(lc) if lc else 'now'}", "",
      "✅ **Quality check:** a job counts as done only after Claude checks it against the quality bar (average 4.2 or more, nothing under 3, hard gates pass). " + (f"Average score {avg_score} over {len(scored)} scored jobs. " if scored else "") + (f"🔍 Waiting for Claude's check: {', '.join(map(str, awaiting))}. " if awaiting else "🔍 Nothing waiting for a check. ") + (f"🔧 Sent back with a fix list: {', '.join(str(n) for n in resumable if fixing(n))}." if any(fixing(n) for n in resumable) else ""), "",
-     f"{bar(overall)}", "",
+     '<img src="board-meter.svg" alt="Football progress meter" width="640">', "",
      "**Where to run:** 🟡 **project job** = new chat in the ChatGPT project \"Showdown visual\", type the number; one number is one turn (no Continue), and a job in parts shows its later parts only when the earlier part is done. 🟣 **image job** = its ticket in a ChatGPT **Temporary Chat** outside any project, then drop the picture in Claude's factory thread.", "",
      f"🟡 **Type next:** {', '.join([f'{n} (fix)' if fixing(n) else f'{n} (resume)' for n in resumable] + list(map(str, startable))) or '-'}" + (f" · then {', '.join(map(str, later))}" if later else ""), "",
      f"🟣 **Image next:** {', '.join(map(str, img_now)) or '-'}" + (f" · then {', '.join(map(str, img_later))}" if img_later else "") + (f" · tickets not written yet: {', '.join(map(str, img_noticket))}" if img_noticket else ""), "",

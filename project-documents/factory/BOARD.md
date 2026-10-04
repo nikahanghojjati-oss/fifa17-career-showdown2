@@ -4,7 +4,7 @@
 
 ✅ **Quality check:** a job counts as done only after Claude checks it against the quality bar (average 4.2 or more, nothing under 3, hard gates pass). Average score 4.25 over 60 scored jobs. 🔍 Waiting for Claude's check: 71, 78, 91, 95, 140, 141. 
 
-██████░░░░
+<img src="board-meter.svg" alt="Football progress meter" width="640">
 
 **Where to run:** 🟡 **project job** = new chat in the ChatGPT project "Showdown visual", type the number; one number is one turn (no Continue), and a job in parts shows its later parts only when the earlier part is done. 🟣 **image job** = its ticket in a ChatGPT **Temporary Chat** outside any project, then drop the picture in Claude's factory thread.
 
@@ -38,12 +38,6 @@ Art            ██████████ 8/8
 Top bar        ██████████ 3/3
 Integration    ░░░░░░░░░░ 0/38
 ```
-
-## Team V ↔ Team G (latest 3)
-
-- Sat 10:55 a.m. Eastern · Team G → Team V · G2V-008: Fixture update: after a Showdown closes, Daniel gets CREATE and Nik gets JOIN (model bug fixed, 5 files regenerated)
-- Sat 7:55 p.m. Eastern · Team G → Team V · G2V-009: Gameplay done before G-13; when is the visual package ready? G-10 transfer fields
-- Sat 11:24 p.m. Eastern · Team V → Team G · V2G-009: Visual package ready for Nik's review ~Wed 7 Oct; wire Trophy Room + Career Statistics first; G-10 fields accepted; new Action comments on PR #312 for every message
 
 ## Full board
 

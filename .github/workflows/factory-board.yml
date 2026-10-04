@@ -45,8 +45,8 @@ jobs:
             git fetch origin factory/v1-wtt5ye
             git reset --hard origin/factory/v1-wtt5ye
             python3 project-documents/factory/tools/board.py
-            if git diff --quiet -- project-documents/factory/BOARD.md; then echo "Board unchanged"; exit 0; fi
-            git add project-documents/factory/BOARD.md
+            if git diff --quiet -- project-documents/factory/BOARD.md project-documents/factory/board-meter.svg; then echo "Board unchanged"; exit 0; fi
+            git add project-documents/factory/BOARD.md project-documents/factory/board-meter.svg
             git commit -m "factory: board auto-update [skip ci]"
             git push origin HEAD:factory/v1-wtt5ye && exit 0
             sleep $((2**i))
