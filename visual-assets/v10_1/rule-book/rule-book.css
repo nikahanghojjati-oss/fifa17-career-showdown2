@@ -416,10 +416,7 @@ body {
   }
 
   .ruleBookSummary {
-    margin-top: 2px;
-    max-width: 100%;
-    font-size: 9px;
-    line-height: 1.15;
+    display: none;
   }
 }
 
