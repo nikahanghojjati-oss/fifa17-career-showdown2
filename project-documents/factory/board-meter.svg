@@ -1,17 +1,17 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="640" height="150" viewBox="0 0 640 150" role="img" aria-label="202 of 238 jobs done and checked">
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="150" viewBox="0 0 640 150" role="img" aria-label="203 of 238 jobs done and checked">
 <rect width="640" height="150" rx="14" fill="#0e1218"/><rect x="1" y="1" width="638" height="148" rx="13" fill="none" stroke="#c9a227" stroke-width="2"/>
 <text x="24" y="32" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="700" fill="#e8c44a" letter-spacing="2">SHOWDOWN FACTORY</text>
-<text x="616" y="32" text-anchor="end" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="700" fill="#fff">202 / 238 done and checked</text>
+<text x="616" y="32" text-anchor="end" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="700" fill="#fff">203 / 238 done and checked</text>
 <clipPath id="c"><rect x="40" y="62" width="520" height="32" rx="16"/></clipPath>
 <rect x="40" y="62" width="520" height="32" rx="16" fill="#143d22"/>
-<g clip-path="url(#c)"><rect x="40" y="62" width="441.3" height="32" fill="#2e9e4f"/><rect x="40" y="62" width="26" height="32" fill="#000" opacity=".12"/><rect x="92" y="62" width="26" height="32" fill="#000" opacity=".12"/><rect x="144" y="62" width="26" height="32" fill="#000" opacity=".12"/><rect x="196" y="62" width="26" height="32" fill="#000" opacity=".12"/><rect x="248" y="62" width="26" height="32" fill="#000" opacity=".12"/><rect x="300" y="62" width="26" height="32" fill="#000" opacity=".12"/><rect x="352" y="62" width="26" height="32" fill="#000" opacity=".12"/><rect x="404" y="62" width="26" height="32" fill="#000" opacity=".12"/><rect x="456" y="62" width="26" height="32" fill="#000" opacity=".12"/><rect x="508" y="62" width="26" height="32" fill="#000" opacity=".12"/></g>
+<g clip-path="url(#c)"><rect x="40" y="62" width="443.5" height="32" fill="#2e9e4f"/><rect x="40" y="62" width="26" height="32" fill="#000" opacity=".12"/><rect x="92" y="62" width="26" height="32" fill="#000" opacity=".12"/><rect x="144" y="62" width="26" height="32" fill="#000" opacity=".12"/><rect x="196" y="62" width="26" height="32" fill="#000" opacity=".12"/><rect x="248" y="62" width="26" height="32" fill="#000" opacity=".12"/><rect x="300" y="62" width="26" height="32" fill="#000" opacity=".12"/><rect x="352" y="62" width="26" height="32" fill="#000" opacity=".12"/><rect x="404" y="62" width="26" height="32" fill="#000" opacity=".12"/><rect x="456" y="62" width="26" height="32" fill="#000" opacity=".12"/><rect x="508" y="62" width="26" height="32" fill="#000" opacity=".12"/></g>
 <rect x="40" y="62" width="520" height="32" rx="16" fill="none" stroke="#fff" stroke-opacity=".7" stroke-width="2"/>
 <line x1="300" y1="62" x2="300" y2="94" stroke="#fff" stroke-opacity=".5" stroke-width="2"/>
 <g stroke="#e8c44a" stroke-width="3" fill="none"><path d="M566 52v52h22v-52z"/></g>
 <path d="M566 52l22 52M588 52l-22 52" stroke="#e8c44a" stroke-opacity=".35" stroke-width="1.5"/>
 <text x="577" y="124" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="12" font-weight="700" fill="#e8c44a">GOAL</text>
-<circle cx="481.3" cy="78" r="19" fill="#fff" stroke="#111" stroke-width="2.5"/>
-<g transform="translate(0,0)"><circle cx="481.34453781512605" cy="78" r="3.2" fill="#111"/><circle cx="481.34453781512605" cy="69" r="3.2" fill="#111"/><circle cx="489.84453781512605" cy="75" r="3.2" fill="#111"/><circle cx="486.64453781512606" cy="85" r="3.2" fill="#111"/><circle cx="476.04453781512603" cy="85" r="3.2" fill="#111"/><circle cx="472.84453781512605" cy="75" r="3.2" fill="#111"/></g>
+<circle cx="483.5" cy="78" r="19" fill="#fff" stroke="#111" stroke-width="2.5"/>
+<g transform="translate(0,0)"><circle cx="483.52941176470586" cy="78" r="3.2" fill="#111"/><circle cx="483.52941176470586" cy="69" r="3.2" fill="#111"/><circle cx="492.02941176470586" cy="75" r="3.2" fill="#111"/><circle cx="488.82941176470587" cy="85" r="3.2" fill="#111"/><circle cx="478.22941176470584" cy="85" r="3.2" fill="#111"/><circle cx="475.02941176470586" cy="75" r="3.2" fill="#111"/></g>
 <text x="40" y="124" font-family="Arial,Helvetica,sans-serif" font-size="14" fill="#c8cdd6">KICK-OFF</text>
 <text x="320" y="124" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="14" fill="#c8cdd6">85 % of all work in progress or done</text>
 </svg>
