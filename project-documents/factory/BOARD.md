@@ -4,15 +4,15 @@
 
 <img src="board-meter.svg" alt="Football progress meter" width="640">
 
-⏱ **Estimated finish: Mon 2:14 a.m. Eastern** (about 11 h 15 min from now at today's pace)
+⏱ **Estimated finish: Mon 2:18 a.m. Eastern** (about 11 h 15 min from now at today's pace)
 
 ## 🔴 Now
 
-- Nothing running.
+- **228** Full phone pass: fixes (3/3) · In progress · step 1/3 · type the number in a new chat in project Showdown visual
 
 ## 🟢 Next (start these)
 
-- **228** Full phone pass: fixes (3/3) · type the number in a new chat in project Showdown visual
+- Nothing ready right now.
 
 ## ⚪ Then
 
@@ -282,7 +282,7 @@ Quality bar: average 4.2 or more, nothing under 3. Average so far 4.26 over 74 s
 | 225 | [Full phone pass (part 6 of 7)](jobs/JOB-225.md) | project (type number) | 224 | 100 % | DONE |
 | 226 | [Full phone pass (part 7 of 7)](jobs/JOB-226.md) | project (type number) | 225 | 100 % | DONE |
 | 227 | [Full phone pass: fixes (part 2 of 3)](jobs/JOB-227.md) | project (type number) | 106 | 100 % | DONE |
-| 228 | [Full phone pass: fixes (part 3 of 3)](jobs/JOB-228.md) | project (type number) | 227 | 0 % | NOT STARTED |
+| 228 | [Full phone pass: fixes (part 3 of 3)](jobs/JOB-228.md) | project (type number) | 227 | 33 % | IN PROGRESS |
 | 229 | [Motion and sound consistency pass (part 2 of 6)](jobs/JOB-229.md) | project (type number) | 107 | 0 % | NOT STARTED |
 | 230 | [Motion and sound consistency pass (part 3 of 6)](jobs/JOB-230.md) | project (type number) | 229 | 0 % | NOT STARTED |
 | 231 | [Motion and sound consistency pass (part 4 of 6)](jobs/JOB-231.md) | project (type number) | 230 | 0 % | NOT STARTED |
