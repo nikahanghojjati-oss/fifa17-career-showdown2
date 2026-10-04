@@ -41,3 +41,19 @@ First-paint runtime uses WebP assets only; PNG overlay masters are review/source
 
 ## Handoff
 The GitHub connector in this chat can write text but cannot push locally generated binary cutouts. `JOB-067.zip` contains the corrected PNG/WebP overlays, their intake report, the overlay diagnostic, QA report and the final DONE status for Claude to commit. Claude should rerun the exact plate-relative mockup gate after applying the zip.
+
+## Phone (JOB-068, part 1 of 3)
+
+Phone is `max-width: 900px`. The stage is `100svh - 56px - safe area`; the 56 px bottom bar is a `.nav-reserve` placeholder. All measures are inside that stage.
+
+- Top: portrait stadium `ENV_RV_PHONE_V1.webp` (cover, 50% 36%) with Daniel (left -3%, top 1%, height 61%) and Nik (left 48%, height 63%) from `phonemap.json`. Both heads are fully visible. Daniel is left. Dark gradient from 36% down so the UI reads.
+- Middle: eyebrow, brush title (`TITLE_RV_V1_PHONE.webp`), tagline, then the honest line "Current Showdown only. Career history is not yet available."
+- Tabs: TOTALS · HEAD-TO-HEAD · SEASONS · TROPHIES (real `role=tab` buttons, arrow keys work). One panel at a time; desktop shows all four and hides the tabs.
+- Bottom: one primary button, BACK TO SHOWDOWN HOME, 44 px.
+- Preview data chip sits in the top-right corner, clear of both faces.
+
+Height budget at 393 × 604 stage: art zone about 215, title 70, line 14, tabs 38, panel 189, button 44, gaps and padding about 34. On 360 × 640 the panel is 169 px; on 375 × 553 it falls to a 120 px floor and the button stays visible (rows scroll inside the panel).
+
+First paint (phone): ENV 120 KB + heroes 110 KB + title 39 KB + CSS/JS about 20 KB = about 290 KB (cap 450 KB).
+
+Desktop at 1366 × 768 is unchanged.
