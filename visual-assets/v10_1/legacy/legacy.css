@@ -1458,3 +1458,71 @@ button {
   animation: legacy-background-parallax var(--lg-motion-ms) var(--lg-motion-ease) both;
   will-change: transform;
 }
+
+/* JOB-171: immediate feedback; no moving hit targets or layout properties. */
+#stage-root button {
+  transition: opacity 100ms linear;
+}
+#stage-root button:enabled:hover { opacity: .88; }
+#stage-root button:enabled:active { opacity: .7; }
+#stage-root button:focus-visible { outline: 2px solid #ffe36c; outline-offset: -2px; }
+#legacy .legacyCard:not(.legacyDealing)[data-selected="true"] > .legacyCardBody,
+#legacy .legacySeasonHistory:not([hidden]),
+#legacy .legacySidePanel button[data-active="true"] {
+  animation: sd-reduced-fade 120ms linear both;
+}
+/* Shared sdEnter schedules the stagger; do not apply it again in CSS. */
+#stage-root.sd-motion-ready [data-sd-enter="panel"].sd-is-animating {
+  animation-delay: 0ms;
+}
+/* The primary's layout transform belongs to the button; feedback belongs inside. */
+@media (min-width: 901px) {
+  #legacy .legacyPrimaryAction:is(:hover, :active) { transform: translateX(-50%); }
+}
+@media (max-width: 900px) {
+  #legacy .legacyPrimaryAction:is(:hover, :active) { transform: none; }
+}
+
+/* App reduced-motion setting (the shared kit uses data attributes, not a class). */
+:is(html[data-motion-reduced="true"], html[data-reduced-motion="true"], html:has(#stage-root[data-sd-motion-reduced="true"])) #stage-root.sd-motion-ready [data-sd-enter],
+:is(html[data-motion-reduced="true"], html[data-reduced-motion="true"], html:has(#stage-root[data-sd-motion-reduced="true"])) #stage-root :is(.legacyDealing, .legacyCrowning, .legacyPaging, .legacyParallax, .legacyFading),
+:is(html[data-motion-reduced="true"], html[data-reduced-motion="true"], html:has(#stage-root[data-sd-motion-reduced="true"])) #stage-root .legacyActionLabel.sd-is-pulsing {
+  animation: sd-reduced-fade 120ms linear both !important;
+  animation-delay: 0ms !important;
+  animation-play-state: running !important;
+  transform: none !important;
+  will-change: opacity;
+}
+:is(html[data-motion-reduced="true"], html[data-reduced-motion="true"], html:has(#stage-root[data-sd-motion-reduced="true"])) #stage-root .legacyDealing > * {
+  animation: none !important;
+  opacity: 1 !important;
+}
+:is(html[data-motion-reduced="true"], html[data-reduced-motion="true"], html:has(#stage-root[data-sd-motion-reduced="true"])) #stage-root .legacyDealing::after,
+:is(html[data-motion-reduced="true"], html[data-reduced-motion="true"], html:has(#stage-root[data-sd-motion-reduced="true"])) #stage-root [data-sd-enter="title"]::after,
+:is(html[data-motion-reduced="true"], html[data-reduced-motion="true"], html:has(#stage-root[data-sd-motion-reduced="true"])) #stage-root .sd-glint::before {
+  animation: none !important;
+  opacity: 0 !important;
+}
+
+/* System preference remains authoritative even during an in-flight animation. */
+@media (prefers-reduced-motion: reduce) {
+#stage-root.sd-motion-ready [data-sd-enter],
+#stage-root :is(.legacyDealing, .legacyCrowning, .legacyPaging, .legacyParallax, .legacyFading),
+#stage-root .legacyActionLabel.sd-is-pulsing {
+  animation: sd-reduced-fade 120ms linear both !important;
+  animation-delay: 0ms !important;
+  animation-play-state: running !important;
+  transform: none !important;
+  will-change: opacity;
+}
+#stage-root .legacyDealing > * {
+  animation: none !important;
+  opacity: 1 !important;
+}
+#stage-root .legacyDealing::after,
+#stage-root [data-sd-enter="title"]::after,
+#stage-root .sd-glint::before {
+  animation: none !important;
+  opacity: 0 !important;
+}
+}
