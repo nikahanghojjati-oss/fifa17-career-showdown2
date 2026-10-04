@@ -127,6 +127,14 @@ Runtime phone art referenced by the HTML is WebP only:
 
 Planned image payload is ≤384,462 bytes. PNG masters are not referenced by phone runtime HTML or CSS. Claude must run the two existing `cutout.py --rim` commands in `tools/MAKE_ASSETS.md` if either phone hero WebP is absent, then perform the required 400% edge check and real-browser H5/H6/H7/H8/H9/H11 measurements.
 
+## Fix round
+
+Source: review fix list (REVIEW.md, JOB-149), 6 items.
+
+- Done: 1 headline numbers fit their tile (container-query size; first attempt as written clipped at 1366, so the lead changed it), 2 Daniel bar colour #3da5e0, 3 tagline full stops, 4 leader chevrons, 5 action row 83.6% / 6.4%, 6 Back text from fixtures.
+- Blocked: none. Job 151 had no items (list has 6).
+- Claude must re-measure: H5-H11 (phone fit at 393x660, 360x640, 375x553; contrast; reduced motion; keyboard; console and requests; first-paint weight), mockup diff of the tiles and action row.
+
 ## Known gaps
 
 Final phone recomposition is intentionally left to the dedicated Career Statistics phone job. This desktop build includes the required `nav-reserve` placeholder without attempting to replace the shared bottom navigation. Motion choreography is also left to the later motion job.
