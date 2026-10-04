@@ -1,7 +1,12 @@
 /* Live-node adapter only. Team V's source styles remain byte-identical. */
 #seasonEntry.seasonScreenV10,#standings.standingsScreenV10{padding:0;border:0;background:none;max-width:none;width:100%}
-#seasonEntry.seasonScreenV10>.v10SeasonStage,#seasonEntry.seasonScreenV10>.v10FinalStage{position:fixed;inset:0;width:100vw;height:100dvh;min-height:0;z-index:2}
+/* #seasonEntry has contain:layout, so a fixed stage would anchor to it and run past the footer.
+   The stage fills the visible screen area between the app header and footer instead. */
+#seasonEntry.seasonScreenV10{position:relative;height:100%;min-height:0;overflow:hidden}
+#seasonEntry.seasonScreenV10>.v10SeasonStage,#seasonEntry.seasonScreenV10>.v10FinalStage{position:absolute;inset:0;width:100%;height:100%;min-height:0;z-index:2}
 #seasonEntry .seasonEntryGrid{display:contents}
+/* The app hides with the .hidden class; Team V's phone rules only respect [hidden], so .hidden must win. */
+#app #seasonEntry .hidden,#app #seasonEntry :is(#seasonReviewPanel,#daniel-entry-panel,#nik-entry-panel).hidden{display:none!important}
 #seasonEntry .seasonEntryGrid.hidden,#seasonEntry .seasonResultCard.hidden{display:none!important}
 #seasonEntry .seasonResultCard{box-sizing:border-box;overflow:auto;pointer-events:auto}
 #seasonEntry .seasonResultCard .field-row{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:3px 0;min-height:36px;font-size:12px}
@@ -50,4 +55,36 @@
 @media(max-width:900px){
  #seasonEntry .v10FinalStage .finalWinnerActionsSlot{left:3%;width:94%;bottom:8px;max-height:32vh}
  #seasonEntry .v10FinalProof{bottom:35%}
+}
+
+/* Team V's two-column entry card for the app's live fields: number fields on the left, honours on the right.
+   The old light hint sat on top of Team V's scoring card; the tabs and sealed panel carry that guidance. */
+#app #seasonEntry.seasonScreenV10 .seasonEntryHint{display:none}
+#app #seasonEntry.seasonScreenV10 .seasonResultCard{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);grid-template-areas:"head head" "f1 checks" "f2 checks" "f3 checks";column-gap:16px;row-gap:6px;align-content:start;color:#efe7d2;border-top:0}
+#app #seasonEntry.seasonScreenV10 .seasonResultCard .seasonManagerHeader{grid-area:head;margin:0 0 4px;padding-bottom:6px}
+#app #seasonEntry.seasonScreenV10 .seasonResultCard .seasonManagerHeader h3{color:#fff;margin:0}
+#app #seasonEntry.seasonScreenV10 .seasonResultCard>label:nth-of-type(1){grid-area:f1}
+#app #seasonEntry.seasonScreenV10 .seasonResultCard>label:nth-of-type(2){grid-area:f2}
+#app #seasonEntry.seasonScreenV10 .seasonResultCard>label:nth-of-type(3){grid-area:f3}
+#app #seasonEntry.seasonScreenV10 .seasonResultCard>label{flex-direction:row;align-items:center;justify-content:space-between;gap:8px;margin:0;color:#e6dcc4;font:700 11px/1.1 var(--f17-display,inherit);letter-spacing:.8px;text-align:left}
+#app #seasonEntry.seasonScreenV10 .seasonResultCard input[type=number]{flex:0 0 84px;width:84px;height:36px;padding:0 10px;color:#fff;background:#0b0d10;border:1px solid rgb(242 196 91 / .45);border-radius:3px}
+#app #seasonEntry.seasonScreenV10 .seasonResultCard .achievementChecks{grid-area:checks;display:flex;flex-direction:column;gap:2px;margin:0}
+#app #seasonEntry.seasonScreenV10 .seasonResultCard .achievementChecks label,#app #seasonEntry.seasonScreenV10 .seasonResultCard .achievementChecks label:has(input:checked){flex-direction:row-reverse;justify-content:space-between;min-height:34px;margin:0;padding:2px 0;color:#efe7d2;background:none;border-left:0;font:700 11px/1.15 var(--f17-display,inherit)}
+#app #seasonEntry.seasonScreenV10 .seasonResultCard input[type=checkbox]{accent-color:#f2c45b;width:22px;height:22px;flex:0 0 22px}
+@media(max-width:900px){
+ #app #seasonEntry.seasonScreenV10 .seasonResultCard>label,#app #seasonEntry.seasonScreenV10 .seasonResultCard .achievementChecks label{min-height:44px}
+ #app #seasonEntry.seasonScreenV10 .seasonResultCard input[type=number]{flex-basis:64px;width:64px;height:44px}
+ #app #seasonEntry.seasonScreenV10 .seasonResultCard input[type=checkbox]{width:28px;height:28px;flex-basis:28px}
+}
+/* Team V's action row: primary and Back side by side, gold primary like the frame. */
+#app #seasonEntry.seasonScreenV10 .v10SeasonStage .season-action-row{flex-direction:row;align-items:center;justify-content:center;gap:12px;margin:0}
+#app #seasonEntry.seasonScreenV10 .v10SeasonStage .season-action-row button{width:auto;min-width:190px;min-height:44px;margin:0;padding:8px 18px;font:800 13px/1 var(--f17-display,inherit);letter-spacing:1.2px;border:1px solid #f2c45b}
+#app #seasonEntry.seasonScreenV10 .v10SeasonStage .season-action-row #completeSeason{color:#111;background:#f2c45b;border-left:1px solid #f2c45b}
+#app #seasonEntry.seasonScreenV10 .v10SeasonStage .season-action-row .backButton{color:#f2c45b;background:rgb(5 7 9 / .9)}
+@media(max-width:900px){
+ #app #seasonEntry.seasonScreenV10 :is(#daniel-entry-panel,#nik-entry-panel):not(.hidden){display:grid!important}
+ #app #seasonEntry.seasonScreenV10 .seasonResultCard{grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);column-gap:10px}
+ #app #seasonEntry.seasonScreenV10 .seasonResultCard .achievementChecks{display:grid;grid-template-columns:1fr 1fr;align-content:start;gap:4px 6px}
+ #app #seasonEntry.seasonScreenV10 .seasonResultCard .achievementChecks label{flex-direction:column-reverse;align-items:flex-start;justify-content:flex-end;gap:4px;font-size:10px}
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage .season-action-row button{min-width:0;flex:1 1 0;font-size:11px;padding:8px 10px}
 }
