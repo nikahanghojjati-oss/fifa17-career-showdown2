@@ -9,7 +9,7 @@
     { key: "championsLeague", category: "CHAMPIONS LEAGUE", asset: "../shared/trophies/TRO_CONTINENTAL_V1_512.webp", value: f => f.managers && ({daniel:f.managers.daniel.championsLeagues, nik:f.managers.nik.championsLeagues}) }
   ];
 
-  const state = { fixtures:null, frame:null, frameKey:"TR1", map:null, activeCategory:"ALL", stage:null, spotlightLit:false, heroSettled:false, heroGlintPlayed:false };
+  const state = { fixtures:null, frame:null, frameKey:"TR1", map:null, activeCategory:"ALL", stage:null, spotlightLit:false, heroSettled:false, heroGlintPlayed:false, shelfRevealed:false };
   const qs = new URLSearchParams(location.search);
   state.frameKey = qs.get("frame") || "TR1";
 
@@ -21,7 +21,11 @@
     trophyRiseMs:420,
     trophyRiseEase:"cubic-bezier(.16,1,.3,1)",
     trophyGlintDelayMs:410,
-    trophyGlintMs:360
+    trophyGlintMs:360,
+    cardFlipDelayMs:560,
+    cardFlipMs:320,
+    cardStaggerMs:60,
+    cardFlipEase:"cubic-bezier(.16,1,.3,1)"
   });
 
   const esc = value => String(value == null ? "" : value).replace(/[&<>\"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
@@ -81,7 +85,7 @@
     const nName = frame.managers?.nik?.displayName || "Nik";
     const left = counts ? (counts.daniel === 0 ? "—" : `×${counts.daniel}`) : "—";
     const right = counts ? (counts.nik === 0 ? "—" : `×${counts.nik}`) : "—";
-    return `<article class="trophyCard ${empty ? "is-unwon" : ""}" data-trophy="${trophy.key}"><div class="trophyCardGlow"></div>${picture(trophy.asset, strings.trophyTypes[trophy.key], "trophyCardPicture")}<h3>${esc(strings.trophyTypes[trophy.key])}</h3><div class="managerCounts"><div data-side="daniel"><span>${esc(dName)}</span><strong>${esc(left)}</strong></div><div data-side="nik"><span>${esc(nName)}</span><strong>${esc(right)}</strong></div></div>${empty ? `<p class="notWonYet">${esc(strings.notWonYet)}</p>` : ""}</article>`;
+    return `<article class="trophyCard ${empty ? "is-unwon" : ""} ${state.shelfRevealed ? "tr-card-revealed" : ""}" data-trophy="${trophy.key}"><div class="trophyCardGlow"></div>${picture(trophy.asset, strings.trophyTypes[trophy.key], "trophyCardPicture")}<h3>${esc(strings.trophyTypes[trophy.key])}</h3><div class="managerCounts"><div data-side="daniel"><span>${esc(dName)}</span><strong>${esc(left)}</strong></div><div data-side="nik"><span>${esc(nName)}</span><strong>${esc(right)}</strong></div></div>${empty ? `<p class="notWonYet">${esc(strings.notWonYet)}</p>` : ""}</article>`;
   }
 
   function recordRibbon(strings, frame) {
@@ -144,6 +148,19 @@
     }, TR_MOTION.trophyRiseDelayMs + TR_MOTION.trophyRiseMs);
   }
 
+  function playShelfCardFlip(root) {
+    if (state.shelfRevealed) return;
+    const cards = [...root.querySelectorAll(".trophyCard")];
+    if (!cards.length) return;
+    cards.forEach((card, index) => {
+      card.style.setProperty("--tr-card-flip-ms", `${TR_MOTION.cardFlipMs}ms`);
+      card.style.setProperty("--tr-card-flip-ease", TR_MOTION.cardFlipEase);
+      card.style.setProperty("--tr-card-delay", `${TR_MOTION.cardFlipDelayMs + index * TR_MOTION.cardStaggerMs}ms`);
+    });
+    requestAnimationFrame(() => cards.forEach(card => card.classList.add("tr-card-revealed")));
+    state.shelfRevealed = true;
+  }
+
   function render() {
     const frame = state.frame;
     const strings = state.fixtures.strings;
@@ -185,6 +202,7 @@
     if (typeof window.sdEnter === "function") window.sdEnter(root);
     playSpotlightSnap(root);
     playHeroTrophyMoment(root);
+    playShelfCardFlip(root);
     document.documentElement.dataset.trophyReady = "1";
     window.__trophyRoomReady = true;
     window.__trophyRoomFrame = state.frame;
