@@ -1577,3 +1577,39 @@ html[data-motion-reduced="true"] .season-layout *::after {
   transition-duration: 100ms !important;
   transform: none !important;
 }
+
+
+/* C2W-005 extra 1: phone title-to-tabs gap */
+@media (max-width: 900px) {
+  .season-phone-tab-input,
+  .season-phone-sheet-toggle,
+  .season-phone-toolbar {
+    top: 44%;
+  }
+
+  .entry-panel,
+  .season-review-panel,
+  .season-review-panel.is-contract-state {
+    top: calc(44% + 46px);
+  }
+
+  .season-preview-tag {
+    top: calc(44% + 51px);
+  }
+}
+
+@media (max-width: 900px) and (max-height: 600px) {
+  .season-phone-toolbar {
+    top: 44%;
+  }
+
+  .entry-panel,
+  .season-review-panel,
+  .season-review-panel.is-contract-state {
+    top: calc(44% + 46px);
+  }
+
+  .season-preview-tag {
+    top: calc(44% + 51px);
+  }
+}
