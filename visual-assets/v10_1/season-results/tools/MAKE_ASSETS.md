@@ -71,3 +71,16 @@ The full-canvas overlays stay registered at (0,0). Do not crop or add placement 
 After the generated runtime WebPs exist, change into `visual-assets/v10_1/season-results` and build the self-contained Claude review file. Do not render or screenshot it in the worker chat.
 
 python3 tools/build_preview.py
+
+## JOB-119 / JOB-208 phone art (Claude, 2026-10-04 02:00 UTC)
+
+```
+python3 project-documents/factory/tools/plate_detext.py visual-assets/v10_1/season-results SR /tmp/clean_SR.png
+python3 visual-assets/v10_1/shared/tools/cutout.py --plate /tmp/clean_SR.png --source-scale 2 --map visual-assets/v10_1/season-results/assets/phonemap.json --key cutouts.daniel_phone --output assets/OVL_SR_DANIEL_PHONE_V1 --rim
+python3 visual-assets/v10_1/shared/tools/cutout.py --plate /tmp/clean_SR.png --source-scale 2 --map visual-assets/v10_1/season-results/assets/phonemap.json --key cutouts.nik_phone --output assets/OVL_SR_NIK_PHONE_V1 --rim
+python3 project-documents/factory/tools/phone_art.py visual-assets/v10_1/season-results SR /tmp/clean_SR.png
+```
+
+# proof: Claude composites PHONE_PROOF.png (393 × 660 at 3×) from phone_frame
+
+The cutout.py lines are the job's recipe; phone_art.py runs the same cut with edge refine, writes the runtime WebPs (≤ 60 KB) and the proof. plate_detext.py first paints the baked name labels off the shoulders (boxes in phonemap.json > label_text_boxes). The two WebPs also carry a 16 % bottom alpha fade, because the plate cuts both figures flat at the grass line. 
