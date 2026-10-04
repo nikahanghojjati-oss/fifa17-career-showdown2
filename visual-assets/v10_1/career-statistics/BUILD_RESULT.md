@@ -81,11 +81,27 @@ All required scored criteria are at least 4/5.
 
 ## Phone
 
+JOB-063 recomposes the desktop screen for portrait phones at ≤760 px without duplicating career data. The phone uses the same live headline tiles, Career Table, Manager Comparison, Career Leaders, state panel and three product actions; only their composition changes.
+
+### Composition
+
+The portrait scene uses `ENV_CS_PHONE_V1.webp` as a cover background at 50% 36%. Daniel is the large left hero at left -3%, top 1%, height 61%; Nik is the large right hero at left 48%, top 0%, height 62%. Both positions come directly from `assets/phonemap.json`. The hero zone occupies the upper ~55%, the darkening gradient begins at 48%, and the brush Career Statistics wordmark remains between/above the two figures.
+
+The phone data hub begins at 48% of the usable career screen on normal-height devices. The four live headline tiles become a 2 × 2 grid. TABLE, COMPARE and LEADERS are keyboard-focusable CSS-radio tabs; exactly one of the existing live desktop panels is shown at a time. Empty, unavailable and loading states hide the normal tabs and show the existing state panel instead. The partial-history banner remains visible as a compact strip.
+
+The desktop top chrome, registered desktop plate and desktop Daniel crossed-arm overlay/rim/contact shadow are hidden in portrait. They are replaced by the portrait stadium and two full-figure phone cut-outs. No product control is removed: CURRENT RIVALRY STATISTICS and BACK TO MAIN MENU share the 44 px secondary row, while OPEN TROPHY ROOM occupies the full-width 46 px primary row below them.
+
+### Controls and reserved navigation
+
+All visible tab labels and action buttons are at least 44 px high. The hidden radio controls carry a 16 px font-size and visible focus treatment is projected onto their 44 px labels. There are no text-entry controls on Career Statistics, so a 300 px software keyboard cannot be invoked by this screen.
+
+The phone `.careerScreen` ends above `--phone-nav = 56px + env(safe-area-inset-bottom)`. The 96 px action stack is pinned 6 px above that screen bottom, which keeps OPEN TROPHY ROOM entirely above the shared bottom-navigation reserve. The `.nav-reserve` placeholder occupies the required 56 px plus safe-area inset until job 125 supplies the shared bar.
+
 ### Height budget
 
-Arithmetic is from the committed CSS only; Claude performs the real-browser H5 measurement at intake. The shared bottom bar reserve is 56 px plus any safe-area inset. Values below assume a zero extra safe-area inset, so a device inset is added to the reserve and removed from `.careerScreen` by the same amount without changing the internal sum.
+Arithmetic is from the committed CSS only; Claude performs the real-browser H5 measurement at intake. The shared bottom bar reserve is 56 px plus any safe-area inset. Values below assume a zero extra safe-area inset, so a device inset is added to the reserve and removed from `.careerScreen` by the same amount without changing the internal fit model.
 
-The phone hero art visually occupies 55% of `.careerScreen`, and the title is contained inside that hero band (94 px normally, 82 px at ≤600 px height). Those are overlay layers, so they are not added again to the vertical flow. Normal-height phones begin the data hub at 48% of `.careerScreen`; the 375 × 553 short-height rule begins it at 42% to preserve a useful active panel.
+The phone hero art visually occupies 55% of `.careerScreen`, and the title is contained inside that hero band (94 px normally, 82 px at ≤600 px height). Those are overlay layers, so they are not added again to the vertical flow. Normal-height phones begin the data hub at 48% of `.careerScreen`; the 375 × 553 short-height rule begins it at 42% and uses a fixed 56 px headline band to preserve a useful active panel.
 
 | Viewport | Nav reserve | Career screen | Top allocation to data start | Headlines | Tabs | Hub gaps | Active panel remainder | Gap to actions | Action stack | Bottom pad | Sum | Remaining |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
@@ -96,6 +112,20 @@ The phone hero art visually occupies 55% of `.careerScreen`, and the title is co
 At 375 × 553 the primary occupies the lower 46 px of the 96 px action stack, whose bottom is 6 px above the end of `.careerScreen`; the entire action stack therefore remains above the 56 px reserved bottom bar and the primary is visible.
 
 Larger phones grow the active panel rather than leaving the controls floating: at 390 × 844 the computed active panel is 159.8 px; at 430 × 932 it is 205.5 px. The hero/title remains anchored to the top composition while the hub's `minmax(0,1fr)` panel absorbs the extra height.
+
+### Phone art and weight
+
+Runtime phone art referenced by the HTML is WebP only:
+
+| Asset | Phone use | Size / budget |
+| --- | --- | ---: |
+| `ENV_CS_PHONE_V1.webp` | Portrait stadium background | 142,870 bytes measured |
+| `OVL_CS_DANIEL_PHONE_V1.webp` | Daniel left full-figure hero | ≤60,000 bytes budget |
+| `OVL_CS_NIK_PHONE_V1.webp` | Nik right full-figure hero | ≤60,000 bytes budget |
+| `TITLE_CS_V1.webp` | Brush title | 77,696 bytes measured |
+| `TRO_SHOWDOWN_CHAMPION_V1_512.webp` | Primary-action trophy art | 43,896 bytes measured |
+
+Planned image payload is ≤384,462 bytes. PNG masters are not referenced by phone runtime HTML or CSS. Claude must run the two existing `cutout.py --rim` commands in `tools/MAKE_ASSETS.md` if either phone hero WebP is absent, then perform the required 400% edge check and real-browser H5/H6/H7/H8/H9/H11 measurements.
 
 ## Known gaps
 
