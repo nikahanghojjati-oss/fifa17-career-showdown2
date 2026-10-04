@@ -157,3 +157,22 @@ The standard entrance uses the shared JOB-016 motion contract. Desktop Daniel an
 `sdEnter(stage)` assigns panel `--i` values from DOM order, caps the stagger inside the 1.2 s budget, and collapses the whole entrance to the shared 150 ms fade when reduced motion is requested.
 
 DEFAULT: JOB-091 part 1 defines no additional state-specific reveal helper, so this part wires only the standard entrance and leaves connection/reveal moments untouched for the later motion parts.
+
+
+## Motion (JOB-192 part 2)
+
+Part 2 adds the two state-specific signature moments without changing pairing logic, product actions or authority. All live codes remain DOM text. Motion uses only transform/opacity for DOM animation; the gold pairing particles use the shared `sdBurst` canvas helper.
+
+| Moment | Timeline | Target | Motion contract |
+| --- | --- | --- | --- |
+| Hosting code deal | 520 ms delay, then 300 ms total | `#currentPairingCode` | The live host code is split into DOM glyph spans and dealt top-to-rest like a slot reel. Each glyph uses a 140 ms transform/opacity animation with `cubic-bezier(.22,1,.36,1)`; stagger is calculated so the final glyph lands at 300 ms. |
+| Hosting OPEN state | immediately after the 300 ms deal | `.sj-state-badge::before` | A 6 px gold status dot appears and breathes on a slow 1.9 s loop. Reduced motion makes it static. |
+| Paired badge reveal | 350 ms | `#currentStateBadge` | Shared `sdReveal` gives the PAIRED state the kit anticipation/flash/settle treatment and inherits the kit reduced-motion contract. |
+| Daniel ↔ Nik link | 520–780 ms | `.sj-pair-link` | A registered gold line at screen centre scales from 0 to 1 over 260 ms with `cubic-bezier(.22,1,.36,1)`, visually joining Daniel LEFT to Nik RIGHT. On phone it spans the two hero sides instead of the hidden role-card gap. |
+| Pairing burst | 710–1050 ms | `.sj-pair-burst` | Shared `sdBurst` fires 28 gold particles at the midpoint for 340 ms. Particle count remains under the 60-particle hard ceiling. |
+
+Constants live in `SJ_HOST_MOTION` and `SJ_PAIR_MOTION` in `start-join.js`. `sdCountUp` is intentionally not used because Start / Join has no numeric state transition to animate.
+
+Reduced motion: the host code resolves immediately; the OPEN dot is static; the pairing line uses the shared `sd-reduced-fade` 150 ms keyframe; `sdReveal` collapses to the same short fade through the shared kit; `sdBurst` self-suppresses when reduced motion is active.
+
+Claude intake records `evidence/motion/` frame strips for SJ2 hosting and SJ5 paired. Factory workers do not create browser screenshots.
