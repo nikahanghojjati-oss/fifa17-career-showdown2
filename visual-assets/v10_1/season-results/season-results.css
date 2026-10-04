@@ -81,7 +81,9 @@ body {
 
 .season-tagline {
   position: absolute;
-  top: 27.7%;
+  /* Claude fix round 2: lift the tagline clear of the scoring panel while
+     keeping it centred under the brush wordmark. */
+  top: 26.0%;
   left: 50%;
   margin: 0;
   transform: translateX(-50%);
@@ -281,6 +283,8 @@ body {
 /* Group B: two live manager cards, Daniel left and Nik right. */
 .entry-panel {
   pointer-events: auto;
+  display: flex;
+  flex-direction: column;
   padding: 14px 18px 12px;
   overflow: hidden;
   background: linear-gradient(120deg, rgb(5 7 9 / .92), rgb(12 14 17 / .80));
@@ -342,6 +346,9 @@ body {
   display: grid;
   grid-template-columns: .92fr 1.08fr;
   gap: 8px 18px;
+  flex: 1 1 auto;
+  min-height: 0;
+  margin-bottom: 8px;
 }
 
 .stat-fields,
@@ -387,11 +394,16 @@ body {
 }
 
 .season-score {
-  position: absolute;
-  left: 18px;
-  right: 18px;
-  bottom: 12px;
+  /* Claude fix round 2: this is a real final row after .manager-fields, never
+     an overlay on League Goals or Top Assist. */
+  position: relative;
+  left: auto;
+  right: auto;
+  bottom: auto;
+  flex: 0 0 46px;
+  width: 100%;
   height: 46px;
+  box-sizing: border-box;
   display: grid;
   grid-template-columns: auto 1fr auto;
   align-items: center;
@@ -519,11 +531,17 @@ body {
 /* JOB-077 step 9a: workflow-state presentation for SR1-SR6. */
 .season-preview-tag {
   position: absolute;
-  z-index: 7;
-  left: 13.67%;
-  top: 49.4%;
+  z-index: 9;
+  /* Claude fix round 2: keep the whole chip inside the active manager card.
+     Daniel panel starts at 19.14%; Nik panel starts at 50.72%. */
+  left: 20.4%;
+  top: 53.1%;
   margin: 0;
   pointer-events: none;
+}
+
+.season-preview-tag[data-owner="nik"] {
+  left: 52.0%;
 }
 
 .season-review-panel {
