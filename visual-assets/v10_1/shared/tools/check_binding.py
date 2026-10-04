@@ -55,10 +55,15 @@ def expand(cell: str) -> list[str]:
     if not parts[0].startswith(("viewers.", "career.", "careerInterim.")):
         return []
     out = [parts[0]]
-    stem = parts[0].rsplit(".", 1)[0]
+    head = parts[0].split(".")
     for p in parts[1:]:
-        if re.fullmatch(r"[A-Za-z.<>\[\]]+", p):
-            out.append(p if p.startswith(("viewers.", "career")) else stem + "." + p)
+        if not re.fullmatch(r"[A-Za-z.<>\[\]]+", p):
+            continue
+        if p.startswith(("viewers.", "career.", "careerInterim.")):
+            out.append(p)
+        else:  # a suffix replaces the first path's field (its last segment, plus <manager> after it)
+            k = 2 if head[-1] in ("<manager>", "<viewer>") else 1
+            out.append(".".join(head[:-k] + p.split(".")))
     return out
 
 
@@ -121,7 +126,10 @@ def model_for(scen: dict, screen: str, ref: dict):
         if screen == "season-results" and "season" in ref:
             return next((s for s in v["seasonResultsBySeason"] if s["season"] == ref["season"]), None)
         return v[ROOTS[screen]]
-    return doc[ref.get("root", "career")]
+    root = ref.get("root", "career")
+    if root in ("career", "careerInterim"):
+        return doc[root]
+    return doc["viewers"][ref.get("viewer", "daniel")][root]
 
 
 def check_frames(fmap: dict, scen: dict) -> int:
@@ -145,6 +153,8 @@ def check_frames(fmap: dict, scen: dict) -> int:
                 err(f"frames: {screen} {fid} season {ref.get('season')} not in {ref['scenario']}")
                 continue
             frame = fx["frames"][fid]
+            if "status" not in frame and isinstance(frame.get("model"), dict):
+                frame = frame["model"]
             want = model.get("status") if isinstance(model, dict) else None
             if "status" in frame and want and frame["status"] != want and not ref.get("gap"):
                 err(f"frames: {screen} {fid} status {frame['status']} but {ref['scenario']} sends {want}")
