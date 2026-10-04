@@ -1635,3 +1635,20 @@ html[data-motion-reduced="true"] .season-layout *::after {
   #screen-title { left: 33.74%; width: 32%; }
   .season-tagline { top: calc(14.6vh + 4.74vw + 4px); }
 }
+
+/* CC-008 B3 · phone: at 375x553 the manager card header lost its crown and club and the PREVIEW DATA tag grew into
+   a tall box over the header rule; on taller phones a ~70 px empty band sat under the input rows. */
+@media (max-width: 900px) {
+  .season-preview-tag { min-height: 0; height: auto; padding: 3px 6px; line-height: 1; white-space: nowrap; }
+}
+@media (max-width: 900px) and (min-height: 601px) {
+  .entry-panel .stat-fields, .entry-panel .achievement-fields { row-gap: 10px; }
+  .entry-panel .field-row input[type="number"] { min-height: 52px; height: 52px; }
+  .entry-panel .field-row, .entry-panel .achievement-row { min-height: 52px; }
+  .entry-panel .manager-card-header { padding-bottom: 8px; margin-bottom: 4px; }
+}
+@media (max-width: 900px) and (max-height: 600px) {
+  .manager-crown { display: block; font-size: 20px; }
+  .manager-club { display: block; margin-top: 1px; font-size: 8px; }
+  .manager-name { font-size: 17px; }
+}
