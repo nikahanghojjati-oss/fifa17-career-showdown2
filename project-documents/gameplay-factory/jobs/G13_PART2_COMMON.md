@@ -40,7 +40,7 @@ At most two steps per turn, save after each, never poll CI inside a turn, no scr
 
 ## Workers and reviews (from Team V's scorecard, V2G-014)
 
-- Screen builds (jobs 24–30) run as Claude helpers in the lead thread: Opus 5.5 Medium for new screens, Sonnet 5.5 High for small exact changes. Before DONE the helper opens the screen in the local browser and looks at it on a phone-size and a desktop-size window.
+- Screen builds 25–30 go to **Codex** (Nik, 2026-10-04: put the usage on Codex). Nik pastes the lead's box into the Codex app until a Codex cloud environment exists; then the lead tags `@codex` on GitHub. The lead opens every screen in a browser at phone and desktop size before merging. If Codex fails the same job twice, a Claude helper (Opus 5.5 Medium) takes it over.
 - **Codex reviews every visual PR.** The helper posts `@codex review` on the PR once checks are green and fixes or answers every finding before the lead merges.
 - GPT-5.6 Sol normal chats take text work only: truth checks (every id in the screen's `TRUTH.md` still exists after the PR), data-contract checks, review notes.
 - **Two FIX rounds on one job means change the worker**, not a third round: Sonnet to Opus, Opus Medium to Opus High, then the lead.

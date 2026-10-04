@@ -2,7 +2,7 @@
 
 | Lane | Depends on | Code branch | PR into | Budget |
 | --- | --- | --- | --- | --- |
-| **lead** (Claude helper in the lead thread; moved from Codex on 2026-10-04 after Team V's worker scorecard, V2G-014: screen builds pass first time far more often on Claude, which renders and looks). Codex reviews the PR | job 24 merged | `gameplay/job-29-v10-results` | `gameplay/recovery-v1` | one helper run, Opus 5.5 Medium |
+| **codex** (Nik pastes the lead's box into the Codex app; the lead checks in a browser and merges) | job 24 merged | `gameplay/job-29-v10-results` | `gameplay/recovery-v1` | one Codex task |
 
 Read `jobs/G13_PART2_COMMON.md` first, then job 24's PR body for the loader API (`js/v10Screens.js`).
 
