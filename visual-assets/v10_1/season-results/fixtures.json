@@ -308,7 +308,7 @@
           "leaguePoints": 91,
           "leagueGoals": 103,
           "domesticCup": false,
-          "championsLeague": true,
+          "championsLeague": false,
           "topScorer": true,
           "topAssist": false
         }
@@ -343,7 +343,7 @@
           "leaguePoints": 96,
           "leagueGoals": 94,
           "domesticCup": true,
-          "championsLeague": true,
+          "championsLeague": false,
           "topScorer": false,
           "topAssist": true
         },
