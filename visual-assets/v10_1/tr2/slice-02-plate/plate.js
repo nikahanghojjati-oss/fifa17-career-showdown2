@@ -489,6 +489,48 @@
     return sec;
   }
 
+  // JOB-145 moment 2: a presentation-only card files into the already-sealed rival dossier.
+  // The click is never prevented, delayed or replaced; production remains the owner of submission state.
+  function runGuessSubmitMotion(stage) {
+    var button = stage.querySelector("#completeTransferChallenge");
+    if (!button || stage.querySelector(".tw-guess-flight")) return;
+    if (motionReduced()) {
+      if (typeof window.sdReveal === "function") window.sdReveal(button);
+      return;
+    }
+    var own = stage.querySelector(".panel.own");
+    var dossier = stage.querySelector(".panel.sealed");
+    if (!own || !dossier) return;
+
+    var from = own.getBoundingClientRect();
+    var to = dossier.getBoundingClientRect();
+    var flight = el("div", { class: "tw-guess-flight", "aria-hidden": "true" });
+    var wax = el("span", { class: "tw-guess-wax" });
+    wax.appendChild(sealSvg());
+    flight.appendChild(el("span", { class: "tw-guess-card-mark" }));
+    flight.appendChild(wax);
+    flight.style.left = from.left + "px";
+    flight.style.top = from.top + "px";
+    flight.style.width = from.width + "px";
+    flight.style.height = from.height + "px";
+    flight.style.setProperty("--tw-flight-x", ((to.left + to.width / 2) - (from.left + from.width / 2)) + "px");
+    flight.style.setProperty("--tw-flight-y", ((to.top + to.height / 2) - (from.top + from.height / 2)) + "px");
+    stage.appendChild(flight);
+
+    requestAnimationFrame(function () {
+      flight.classList.add("is-flying");
+      setTimeout(function () { if (flight.isConnected) flight.classList.add("is-stamping"); }, TW_MOTION.guessSubmit.stampDelay);
+    });
+    setTimeout(function () { if (flight.isConnected) flight.remove(); }, TW_MOTION.guessSubmit.total);
+  }
+
+  function wireGuessSubmitMotion(stage, cfg) {
+    if (cfg.phase !== "GUESS_ENTRY") return;
+    var button = stage.querySelector("#completeTransferChallenge");
+    if (!button) return;
+    button.addEventListener("click", function () { runGuessSubmitMotion(stage); }, { passive: true });
+  }
+
   function buildRulesCard(p, cfg, S) {
     var card = el("aside", { class: "rules-card" + (cfg.phase === "WINDOW_OPEN" ? " with-line" : ""), "aria-label": "Rules", "data-sd-enter": "panel" });
     var inner = placeRect(el("div", { class: "rules-inner" }), p.content);
@@ -688,6 +730,7 @@
     if (opts.grid) plane.appendChild(buildGrid(map));
     stage.appendChild(world);
     if (!cfg.plateOnly) stage.appendChild(buildFooter(S, fx, ["WINDOW_OPEN", "GUESS_ENTRY", "SIGNING_ENTRY", "COMPLETED"].indexOf(cfg.phase)));
+    wireGuessSubmitMotion(stage, cfg);
     world.style.setProperty("--glass", "url(" + map.mobile.glass.file + ")");
     world.style.setProperty("--plate-url", "url(" + base + "1672.webp)");
 
