@@ -698,6 +698,24 @@ body {
 }
 
 @media (max-width: 760px) and (orientation: portrait) {
+  /* Claude FIX 4: Settings is a full-screen hub. The shared stage's generic
+     phone mode reserves a character face band and pushes UI into the lower
+     54%; override that here so the single panel scroller owns the full
+     viewport above DONE + the 56px bottom-nav reserve. */
+  #stage-root.sd-stage[data-sd-mode="phone"] .sd-stage__layer--ui {
+    top: 0;
+    bottom: 0;
+    height: 100%;
+    overflow: visible;
+  }
+
+  #stage-root.sd-stage[data-sd-mode="phone"] .sd-stage__layer--plate,
+  #stage-root.sd-stage[data-sd-mode="phone"] .sd-stage__layer--atmosphere {
+    top: 0;
+    bottom: 0;
+    height: 100%;
+  }
+
   :root {
     --settings-phone-nav: calc(56px + env(safe-area-inset-bottom));
     --settings-phone-title: 112px;
@@ -805,9 +823,11 @@ body {
     height: auto;
     display: block;
     overflow-x: hidden;
-    overflow-y: auto;
-    overscroll-behavior: contain;
-    padding: 0 4px 10px 0;
+    overflow-y: scroll;
+    overscroll-behavior-y: contain;
+    touch-action: pan-y;
+    -webkit-overflow-scrolling: touch;
+    padding: 0 4px 18px 0;
     scrollbar-gutter: stable;
   }
 
