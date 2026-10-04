@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-04 6:16 PM Boston time (EDT)",
+ "generated": "2026-10-04 6:18 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 23,
@@ -298,8 +298,9 @@
    "title": "The 4-hour private session ends long games",
    "plain": "A 5 or 10 season game outlives one session, so both managers must open a fresh one. Needs one retest mid-season. Now job 31 (ten-season games).",
    "likelihood": "low",
-   "status": "IN PROGRESS",
-   "owner": "lead"
+   "status": "DONE",
+   "owner": "lead",
+   "note": "job 31, PR #350 (recovery fb0dd02): one-tap reconnect after expiry; live at the next release"
   }
  ],
  "next_move": [
@@ -969,9 +970,9 @@
    "codex_review": false,
    "written": true,
    "waits_on": "",
-   "phase": "IN PROGRESS",
+   "phase": "MERGED",
    "type": "build",
-   "plain": "Nik's high goal: a 10-season game plays smoothly over hours or days. Covers bug hunt 5 (4-hour private session). Lead helper.",
+   "plain": "A 10-season game now survives the 4-hour private session ending mid-game: one banner, one RECONNECT SESSION tap, Daniel hosts, Nik joins, both pages return by themselves. CI now plays 3 and 10 seasons with a mid-game expiry. PR #350, merged into recovery fb0dd02. Still open: the 72-character code exchange (needs a Rules change) and a misleading transfer message after expiry.",
    "state": "NOT WRITTEN",
    "step": 0,
    "steps_total": 1,
