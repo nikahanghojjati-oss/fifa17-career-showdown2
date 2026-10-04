@@ -83,3 +83,24 @@ Run `tools/MAKE_ASSETS.md`: generate both registered foreground overlays and rim
 The hub viewport is split before the shared bottom bar. At 393 × 660, the reserve is 56 px, leaving 604 px usable: hero band 55% = 332 px and lower content 45% = 272 px. The lower band budgets 44 px tabs, a flexible 152 px archive/shelf region, 24 px pager/spacing, and a 48 px primary action with 4 px of residual breathing room. At 360 × 640 the same percentages leave 584 px usable (321 px hero / 263 px lower). At 375 × 553 they leave 497 px usable (273 px hero / 224 px lower), and the 48 px primary action remains pinned inside that usable area above the 56 px reserve.
 
 Phone first-paint art by approved file sizes is 409,118 bytes: background 206,320 B + Daniel 54,334 B + Nik 54,664 B + brush title 93,800 B. This is below the 450 KB H11 phone cap before any non-art CSS/DOM payload; PNG masters are not referenced.
+
+
+## Phone · JOB-163 part 2
+
+Part 2 turns the part-1 phone assets into the final portrait interaction layout at <=760 px. The top remains a 55% face/title band with Daniel left and Nik right. The existing live destination buttons are visually recomposed as ARCHIVE / TROPHIES / RECORDS tabs, the existing archive grid becomes a horizontal snap shelf with one full card plus a 52-69 px next-card peek, and the existing pager renders compact page dots with 44 px touch targets. VIEW SEASON HISTORY stays the only primary action and remains pinned above the shared bottom-nav reserve. The existing season-history region remains the internal-scroll `.sd-sheet`; opening it does not create page scroll.
+
+### Phone height budget
+
+The root remains `100dvh` with `.nav-reserve = 56px + env(safe-area-inset-bottom)`. The arithmetic below uses a zero emulated safe-area inset; a real inset is already subtracted by `#legacy` before the same layout is applied.
+
+| Viewport | Usable above nav | Archive top..bottom | Shelf row | Primary action |
+| --- | ---: | ---: | ---: | ---: |
+| 393 x 660 | 604 px | 310.2..532 = 221.8 px | 145.8 px | y 544..592, 12 px above usable bottom |
+| 360 x 640 | 584 px | 299.2..512 = 212.8 px | 136.8 px | y 524..572, 12 px above usable bottom |
+| 375 x 553 | 497 px | 255.35..429 = 173.65 px | 97.65 px | y 441..489, 8 px above usable bottom |
+
+The shelf row is archive height minus 44 px tabs, 24 px pager and two 4 px grid gaps. At the target 393 x 660 size this yields a 145.8 px card area, matching the requested approximately 150 px card height. The short-height rule hides only club/footer detail to protect the 48 px action and preserve the no-page-scroll composition.
+
+### Static verification
+
+No browser or screenshot QA was run, per the factory handbook. Code arithmetic confirms that `html`, `body`, `#stage-root` and `#legacy` keep overflow hidden; the only phone scrolling surfaces are the horizontal card shelf and the season-history sheet's internal overflow. Daniel/Nik phone hero positions from JOB-073 are unchanged, so Daniel remains left and Nik right. This part adds no real logos, trophies, players or image-baked data.
