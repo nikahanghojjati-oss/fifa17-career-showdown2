@@ -1,18 +1,18 @@
 # Showdown Factory board
 
-**205 of 238 jobs done and checked · 86 %** · updated Sun 1:50 p.m. Eastern
+**205 of 238 jobs done and checked · 86 %** · updated Sun 2:11 p.m. Eastern
 
-✅ **Quality check:** a job counts as done only after Claude checks it against the quality bar (average 4.2 or more, nothing under 3, hard gates pass). Average score 4.26 over 72 scored jobs. 🔍 Nothing waiting for a check. 🔧 Sent back with a fix list: 104.
+✅ **Quality check:** a job counts as done only after Claude checks it against the quality bar (average 4.2 or more, nothing under 3, hard gates pass). Average score 4.26 over 72 scored jobs. 🔍 Nothing waiting for a check. 
 
 <img src="board-meter.svg" alt="Football progress meter" width="640">
 
 **Where to run:** 🟡 **project job** = new chat in the ChatGPT project "Showdown visual", type the number; one number is one turn (no Continue), and a job in parts shows its later parts only when the earlier part is done. 🟣 **image job** = its ticket in a ChatGPT **Temporary Chat** outside any project, then drop the picture in Claude's factory thread.
 
-🟡 **Type next:** 104 (fix)
+🟡 **Type next:** -
 
 🟣 **Image next:** -
 
-**Working:** 216, 217, 218, 219, 220 · **Blocked:** -
+**Working:** 104, 105, 214, 215, 216, 217, 218, 219, 220, 221, 222, 223, 224, 225, 226 · **Blocked:** -
 
 ## Screens
 
@@ -51,13 +51,13 @@ Branch `factory/v1-wtt5ye`. 238 Team V jobs, plus 5 lines that track Team G. Two
 
 **Overall (Team V):** ████████░░ 86 % · 205 of 238 jobs done
 
-**Start now · project (type the number in Showdown visual):** 104 (fix)
+**Start now · project (type the number in Showdown visual):** nothing (all slots busy or nothing ready)
 
 **Start now · fresh chat (image ticket, outside the project):** -
 
 **Start now (Sol Work mode, press Use Work):** -
 
-**Working:** 216, 217, 218, 219, 220 · **Blocked:** -
+**Working:** 104, 105, 214, 215, 216, 217, 218, 219, 220, 221, 222, 223, 224, 225, 226 · **Blocked:** -
 
 **Team G tracking (never start these):** 98 (done), 99 (done), 100 (done), 101 (done), 102 (done). Claude marks them done when Team G delivers.
 
@@ -167,8 +167,8 @@ Branch `factory/v1-wtt5ye`. 238 Team V jobs, plus 5 lines that track Team G. Two
 | 101 | [Team G G-9 and G-10: Trophy Room standings and records, transfer history](jobs/JOB-101.md) | 6 Online history | tracking | team-g | 100 | ██████████ 100 % | DONE |  |
 | 102 | [Team G G-5, G-6 and G-11: active adapter, nav lock fields, model-true fixtures](jobs/JOB-102.md) | 6 Online history | tracking | team-g | 98 | ██████████ 100 % | DONE |  |
 | 103 | [Showcase: every screen in one place (part 1 of 5)](jobs/JOB-103.md) | 7 Integration | integrate | project (type number) | 36, 42, 48, 146, 56, 61, 153, 162, 171, 180, 184, 193, 94, 196, 199 | ██████████ 100 % | DONE |  |
-| 104 | [Showcase: screens read Team G's model-true fixtures (part 1 of 8)](jobs/JOB-104.md) | 7 Integration | integrate | project (type number) | 213, 102 | ██████████ 100 % | IN PROGRESS · FIX |  |
-| 105 | [Full phone pass (part 1 of 7)](jobs/JOB-105.md) | 7 Integration | review | project (type number) | 220 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
+| 104 | [Showcase: screens read Team G's model-true fixtures (part 1 of 8)](jobs/JOB-104.md) | 7 Integration | integrate | project (type number) | 213, 102 | ██████████ 100 % | IN PROGRESS · CLAUDE · FIX |  |
+| 105 | [Full phone pass (part 1 of 7)](jobs/JOB-105.md) | 7 Integration | review | project (type number) | 220 | ░░░░░░░░░░ 0 % | IN PROGRESS · CLAUDE |  |
 | 106 | [Full phone pass: fixes (part 1 of 3)](jobs/JOB-106.md) | 7 Integration | fix | project (type number) | 226 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 107 | [Motion and sound consistency pass (part 1 of 6)](jobs/JOB-107.md) | 7 Integration | review | project (type number) | 228 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 108 | [Final package review (Codex)](jobs/JOB-108.md) | 7 Integration | review | codex | 233 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
@@ -277,19 +277,19 @@ Branch `factory/v1-wtt5ye`. 238 Team V jobs, plus 5 lines that track Team G. Two
 | 211 | [Showcase: every screen in one place (part 3 of 5)](jobs/JOB-211.md) | 7 Integration | integrate | project (type number) | 210 | ██████████ 100 % | DONE |  |
 | 212 | [Showcase: every screen in one place (part 4 of 5)](jobs/JOB-212.md) | 7 Integration | integrate | project (type number) | 211 | ██████████ 100 % | DONE |  |
 | 213 | [Showcase: every screen in one place (part 5 of 5)](jobs/JOB-213.md) | 7 Integration | integrate | project (type number) | 212 | ██████████ 100 % | DONE |  |
-| 214 | [Showcase: screens read Team G's model-true fixtures (part 2 of 8)](jobs/JOB-214.md) | 7 Integration | integrate | project (type number) | 104 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
-| 215 | [Showcase: screens read Team G's model-true fixtures (part 3 of 8)](jobs/JOB-215.md) | 7 Integration | integrate | project (type number) | 214 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
+| 214 | [Showcase: screens read Team G's model-true fixtures (part 2 of 8)](jobs/JOB-214.md) | 7 Integration | integrate | project (type number) | 104 | ░░░░░░░░░░ 0 % | IN PROGRESS · CLAUDE |  |
+| 215 | [Showcase: screens read Team G's model-true fixtures (part 3 of 8)](jobs/JOB-215.md) | 7 Integration | integrate | project (type number) | 214 | ░░░░░░░░░░ 0 % | IN PROGRESS · CLAUDE |  |
 | 216 | [Showcase: screens read Team G's model-true fixtures (part 4 of 8)](jobs/JOB-216.md) | 7 Integration | integrate | project (type number) | 215 | ░░░░░░░░░░ 0 % | IN PROGRESS · CLAUDE |  |
 | 217 | [Showcase: screens read Team G's model-true fixtures (part 5 of 8)](jobs/JOB-217.md) | 7 Integration | integrate | project (type number) | 216 | ░░░░░░░░░░ 0 % | IN PROGRESS · CLAUDE |  |
 | 218 | [Showcase: screens read Team G's model-true fixtures (part 6 of 8)](jobs/JOB-218.md) | 7 Integration | integrate | project (type number) | 217 | ░░░░░░░░░░ 0 % | IN PROGRESS · CLAUDE |  |
 | 219 | [Showcase: screens read Team G's model-true fixtures (part 7 of 8)](jobs/JOB-219.md) | 7 Integration | integrate | project (type number) | 218 | ░░░░░░░░░░ 0 % | IN PROGRESS · CLAUDE |  |
 | 220 | [Showcase: screens read Team G's model-true fixtures (part 8 of 8)](jobs/JOB-220.md) | 7 Integration | integrate | project (type number) | 219 | ░░░░░░░░░░ 0 % | IN PROGRESS · CLAUDE |  |
-| 221 | [Full phone pass (part 2 of 7)](jobs/JOB-221.md) | 7 Integration | review | project (type number) | 105 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
-| 222 | [Full phone pass (part 3 of 7)](jobs/JOB-222.md) | 7 Integration | review | project (type number) | 221 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
-| 223 | [Full phone pass (part 4 of 7)](jobs/JOB-223.md) | 7 Integration | review | project (type number) | 222 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
-| 224 | [Full phone pass (part 5 of 7)](jobs/JOB-224.md) | 7 Integration | review | project (type number) | 223 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
-| 225 | [Full phone pass (part 6 of 7)](jobs/JOB-225.md) | 7 Integration | review | project (type number) | 224 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
-| 226 | [Full phone pass (part 7 of 7)](jobs/JOB-226.md) | 7 Integration | review | project (type number) | 225 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
+| 221 | [Full phone pass (part 2 of 7)](jobs/JOB-221.md) | 7 Integration | review | project (type number) | 105 | ░░░░░░░░░░ 0 % | IN PROGRESS · CLAUDE |  |
+| 222 | [Full phone pass (part 3 of 7)](jobs/JOB-222.md) | 7 Integration | review | project (type number) | 221 | ░░░░░░░░░░ 0 % | IN PROGRESS · CLAUDE |  |
+| 223 | [Full phone pass (part 4 of 7)](jobs/JOB-223.md) | 7 Integration | review | project (type number) | 222 | ░░░░░░░░░░ 0 % | IN PROGRESS · CLAUDE |  |
+| 224 | [Full phone pass (part 5 of 7)](jobs/JOB-224.md) | 7 Integration | review | project (type number) | 223 | ░░░░░░░░░░ 0 % | IN PROGRESS · CLAUDE |  |
+| 225 | [Full phone pass (part 6 of 7)](jobs/JOB-225.md) | 7 Integration | review | project (type number) | 224 | ░░░░░░░░░░ 0 % | IN PROGRESS · CLAUDE |  |
+| 226 | [Full phone pass (part 7 of 7)](jobs/JOB-226.md) | 7 Integration | review | project (type number) | 225 | ░░░░░░░░░░ 0 % | IN PROGRESS · CLAUDE |  |
 | 227 | [Full phone pass: fixes (part 2 of 3)](jobs/JOB-227.md) | 7 Integration | fix | project (type number) | 106 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 228 | [Full phone pass: fixes (part 3 of 3)](jobs/JOB-228.md) | 7 Integration | fix | project (type number) | 227 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
 | 229 | [Motion and sound consistency pass (part 2 of 6)](jobs/JOB-229.md) | 7 Integration | review | project (type number) | 107 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
