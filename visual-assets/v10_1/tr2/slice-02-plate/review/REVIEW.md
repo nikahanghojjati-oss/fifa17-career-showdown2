@@ -4,6 +4,21 @@
 
 ## Scorecard
 
+| Criterion | Score | Evidence |
+| --- | ---: | --- |
+| 1. Mockup fidelity | 4/5 | Desktop keeps the Plate G scene registration and character placement intact while putting product-required live content into the three glass regions; the added HUD rail and missing truth-required desktop top bar keep it short of an indistinguishable match. |
+| 2. Characters stand out of the menu | 4/5 | Daniel and Nik remain plate-owned on desktop, phone uses dedicated hero cut-outs, and Nik has a separate fingertip overlay above the UI, giving the source the correct plate → panels → character-overlap architecture even though seam/rim quality is not runtime-measured here. |
+| 3. Hands and contact | 4/5 | Plate G preserves the approved hands and the explicit Nik fingertip overlay places the pointing contact above the centre UI; no audited selector inserts a panel through either manager's hands, while pixel-edge quality still awaits Claude's render check. |
+| 4. Lighting and grade | 4/5 | The gold/black stadium grade and painted glass lighting stay in the approved Plate G art and the audited source adds no competing flat scene treatment; final colour drift and edge-light polish are not measured in this source-only review. |
+| 5. Typography and title treatment | 4/5 | Desktop preserves the brush “TRANSFER WAR” treatment in the plate and phone uses a dedicated wordmark while live UI copy remains DOM text in the Showdown type system; the title implementation is coherent but not visually remeasured here. |
+| 6. Panel craft | 4/5 | The three Plate G glass zones remain the visual surfaces, with live product UI layered into them, one solid-gold lock action and dark gold-outline secondary actions; the source avoids generic replacement cards and keeps panel ownership aligned. |
+| 7. Information clarity and honesty | 3/5 | Rival inputs stay sealed until reveal and only real Transfer War data/actions are shown, but #transferChallengeTitle hardcodes Season 1 and this slice omits the truth-required locked desktop top navigation, creating two visible honesty/navigation defects. |
+| 9. Phone composition | 4/5 | Phone has a separate composition with Daniel left, Nik right, dedicated hero cut-outs, a recentred wordmark and a bottom-pinned action rail rather than a squeezed desktop; exact no-scroll/primary-action fit remains a Claude-measured gate. |
+| 10. Polish and finish | 3/5 | WebP-first picture sources, accessible controls and consistent shared classes are present, but the hardcoded season title and missing desktop top bar leave obvious production-finish work, and console/network/render polish is not yet measured. |
+
+Static-review average: **3.78 / 5** across criteria 1–7, 9 and 10.  
+Pass line: **FAIL** — average is below 4.2, and H5–H11 are not yet measured PASS.
+
 ## Hard gates
 
 | Gate | Result | Evidence |
