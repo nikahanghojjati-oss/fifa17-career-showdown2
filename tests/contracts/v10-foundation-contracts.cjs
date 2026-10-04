@@ -352,8 +352,8 @@ check("F8 the bar is hidden on Loading and appears only after start-up",async()=
 check("F9 images use a runtime cache keyed by RUNTIME_REVISION; the precache keeps only kit, fonts, CSS and JS",()=>{
   const sw=read("service-worker.js"),html=read("index.html");
   const revision=/const RUNTIME_REVISION = "([^"]+)";/.exec(sw)[1];
-  assert.equal(revision,"1.9.1-r52","RUNTIME_REVISION unchanged");
-  assert.equal(/const PREVIOUS_RUNTIME_REVISION = "([^"]+)";/.exec(sw)[1],"1.9.1-r51");
+  assert.equal(revision,"1.9.1-r53","RUNTIME_REVISION unchanged (recovery-v1 r53)");
+  assert.equal(/const PREVIOUS_RUNTIME_REVISION = "([^"]+)";/.exec(sw)[1],"1.9.1-r52");
   assert.equal(/app-asset-revision"\s+content="([^"]+)/.exec(html)[1],revision);
   const shell=JSON.parse(/const SHELL_PATHS\s*=\s*Object\.freeze\((\[[\s\S]*?\])\);/.exec(sw)[1]);
   const v10=shell.filter(p=>p.startsWith("visual-assets/v10_1/"));
@@ -380,7 +380,7 @@ check("F9 images use a runtime cache keyed by RUNTIME_REVISION; the precache kee
 });
 
 check("F10 index.html is unchanged and the startup line is not higher",()=>{
-  assert.equal(sha256("index.html"),"1fe570c80658de580560c941eee2715d03235e6dbf5ce64556f305401df0817f","index.html byte-identical to job 13");
+  assert.equal(sha256("index.html"),"234683bf0deb273fc085af78d9c942e1c6a052e8ffb5dc6e2edcae9de55dbc6a","index.html byte-identical to gameplay/recovery-v1 (r53)");
   const html=read("index.html");
   for(const banned of ["v10Screens","navbar","visual-assets/v10_1","startJoinViewModel"])assert.ok(!html.includes(banned),banned);
   const refs=[...html.matchAll(/(?:src|href)="((?:js|css|data)\/[^"?#]+)(?:\?v=([^"#]+))?/g)].map(m=>m[1]);
