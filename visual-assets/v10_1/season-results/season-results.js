@@ -143,17 +143,22 @@
     });
 
     body.append(stats, achievements);
-    const canonical = frame.phase === "committed" && frame.breakdown && frame.breakdown[managerKey];
-    const score = canonical ? canonical.total : scoreResult(result);
-    const scoreBar = document.createElement("div");
-    scoreBar.className = "season-score";
-    scoreBar.style.setProperty("--season-score", score);
-    scoreBar.innerHTML = '<span class="season-score-label"></span><span class="season-score-track"><i class="season-score-fill"></i></span><strong class="season-score-value sd-number sd-number--small"></strong>';
-    scoreBar.querySelector(".season-score-label").textContent =
-      canonical ? "CANONICAL SCORE" : "PREVIEW SCORE";
-    scoreBar.querySelector(".season-score-value").textContent = String(score);
+    panel.append(header, hint, body);
 
-    panel.append(header, hint, body, scoreBar);
+    const canonical =
+      frame.scoringState === "SCORING_RECONCILED"
+      && frame.breakdown
+      && frame.breakdown[managerKey];
+    if (canonical) {
+      const score = canonical.total;
+      const scoreBar = document.createElement("div");
+      scoreBar.className = "season-score";
+      scoreBar.style.setProperty("--season-score", score);
+      scoreBar.innerHTML = '<span class="season-score-label"></span><span class="season-score-track"><i class="season-score-fill"></i></span><strong class="season-score-value sd-number sd-number--small"></strong>';
+      scoreBar.querySelector(".season-score-label").textContent = "CANONICAL SCORE";
+      scoreBar.querySelector(".season-score-value").textContent = String(score);
+      panel.appendChild(scoreBar);
+    }
   }
 
   function renderActions(fixtures, frame) {
