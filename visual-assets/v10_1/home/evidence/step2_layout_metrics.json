@@ -1,0 +1,134 @@
+{
+  "viewport": [
+    1366,
+    768
+  ],
+  "ids": [
+    "continueCareer",
+    "newShowdown",
+    "legacyButton",
+    "careerStatisticsButton",
+    "trophyRoomButton",
+    "ruleBookButton",
+    "settingsButton"
+  ],
+  "labels": [
+    {
+      "id": "continueCareer",
+      "text": "CONTINUE CAREER",
+      "font": 20,
+      "rect": {
+        "x": 32.78125,
+        "y": 596,
+        "width": 313.109375,
+        "height": 136,
+        "top": 596,
+        "right": 345.890625,
+        "bottom": 732,
+        "left": 32.78125
+      }
+    },
+    {
+      "id": "newShowdown",
+      "text": "JOIN DANIEL'S SHOWDOWN",
+      "font": 20,
+      "rect": {
+        "x": 353.890625,
+        "y": 596,
+        "width": 156.546875,
+        "height": 136,
+        "top": 596,
+        "right": 510.4375,
+        "bottom": 732,
+        "left": 353.890625
+      }
+    },
+    {
+      "id": "legacyButton",
+      "text": "LEGACY",
+      "font": 20,
+      "rect": {
+        "x": 518.4375,
+        "y": 596,
+        "width": 156.5625,
+        "height": 136,
+        "top": 596,
+        "right": 675,
+        "bottom": 732,
+        "left": 518.4375
+      }
+    },
+    {
+      "id": "careerStatisticsButton",
+      "text": "STATISTICS",
+      "font": 20,
+      "rect": {
+        "x": 683,
+        "y": 596,
+        "width": 156.546875,
+        "height": 136,
+        "top": 596,
+        "right": 839.546875,
+        "bottom": 732,
+        "left": 683
+      }
+    },
+    {
+      "id": "trophyRoomButton",
+      "text": "TROPHY ROOM",
+      "font": 20,
+      "rect": {
+        "x": 847.546875,
+        "y": 596,
+        "width": 156.5625,
+        "height": 136,
+        "top": 596,
+        "right": 1004.109375,
+        "bottom": 732,
+        "left": 847.546875
+      }
+    },
+    {
+      "id": "ruleBookButton",
+      "text": "RULE BOOK",
+      "font": 20,
+      "rect": {
+        "x": 1012.109375,
+        "y": 596,
+        "width": 156.546875,
+        "height": 136,
+        "top": 596,
+        "right": 1168.65625,
+        "bottom": 732,
+        "left": 1012.109375
+      }
+    },
+    {
+      "id": "settingsButton",
+      "text": "SETTINGS",
+      "font": 20,
+      "rect": {
+        "x": 1176.65625,
+        "y": 596,
+        "width": 156.5625,
+        "height": 136,
+        "top": 596,
+        "right": 1333.21875,
+        "bottom": 732,
+        "left": 1176.65625
+      }
+    }
+  ],
+  "grid": {
+    "x": 32.78125,
+    "y": 596,
+    "width": 1300.4375,
+    "height": 136,
+    "top": 596,
+    "right": 1333.21875,
+    "bottom": 732,
+    "left": 32.78125
+  },
+  "overlap": false,
+  "consoleErrors": []
+}

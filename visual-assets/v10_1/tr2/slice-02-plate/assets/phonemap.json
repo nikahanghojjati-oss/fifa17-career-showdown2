@@ -1,0 +1,447 @@
+{
+  "_note": "JOB-114 phone-art map. Coordinates are 1X pixels on the 1672 x 941 Transfer War plate; polygons are deliberately generous so Claude can tighten real-person edges without cutting into hair, hands or suit.",
+  "plate_1x_size": [
+    1672,
+    941
+  ],
+  "source_plate": "visual-assets/v10_1/tr2/slice-02-plate/assets/ENV_TR2_PLATE_G_LOCKED_V1_3344.png",
+  "source_scale": 2,
+  "cutouts": {
+    "daniel_phone": {
+      "polygon": [
+        [
+          510,
+          52
+        ],
+        [
+          470,
+          55
+        ],
+        [
+          438,
+          69
+        ],
+        [
+          415,
+          92
+        ],
+        [
+          405,
+          126
+        ],
+        [
+          407,
+          163
+        ],
+        [
+          420,
+          194
+        ],
+        [
+          383,
+          205
+        ],
+        [
+          340,
+          213
+        ],
+        [
+          300,
+          222
+        ],
+        [
+          272,
+          240
+        ],
+        [
+          254,
+          271
+        ],
+        [
+          244,
+          307
+        ],
+        [
+          236,
+          350
+        ],
+        [
+          232,
+          394
+        ],
+        [
+          238,
+          429
+        ],
+        [
+          253,
+          452
+        ],
+        [
+          278,
+          466
+        ],
+        [
+          310,
+          470
+        ],
+        [
+          343,
+          462
+        ],
+        [
+          381,
+          482
+        ],
+        [
+          430,
+          507
+        ],
+        [
+          484,
+          530
+        ],
+        [
+          543,
+          542
+        ],
+        [
+          594,
+          536
+        ],
+        [
+          628,
+          517
+        ],
+        [
+          652,
+          492
+        ],
+        [
+          667,
+          465
+        ],
+        [
+          689,
+          441
+        ],
+        [
+          706,
+          414
+        ],
+        [
+          714,
+          386
+        ],
+        [
+          711,
+          356
+        ],
+        [
+          702,
+          337
+        ],
+        [
+          688,
+          332
+        ],
+        [
+          673,
+          342
+        ],
+        [
+          659,
+          366
+        ],
+        [
+          646,
+          325
+        ],
+        [
+          646,
+          282
+        ],
+        [
+          632,
+          244
+        ],
+        [
+          608,
+          216
+        ],
+        [
+          579,
+          204
+        ],
+        [
+          561,
+          183
+        ],
+        [
+          555,
+          143
+        ],
+        [
+          548,
+          101
+        ],
+        [
+          533,
+          70
+        ]
+      ]
+    },
+    "nik_phone": {
+      "polygon": [
+        [
+          1113,
+          58
+        ],
+        [
+          1155,
+          60
+        ],
+        [
+          1192,
+          73
+        ],
+        [
+          1219,
+          94
+        ],
+        [
+          1237,
+          123
+        ],
+        [
+          1243,
+          158
+        ],
+        [
+          1239,
+          192
+        ],
+        [
+          1225,
+          220
+        ],
+        [
+          1257,
+          229
+        ],
+        [
+          1281,
+          250
+        ],
+        [
+          1296,
+          282
+        ],
+        [
+          1301,
+          322
+        ],
+        [
+          1296,
+          360
+        ],
+        [
+          1278,
+          372
+        ],
+        [
+          1248,
+          382
+        ],
+        [
+          1218,
+          395
+        ],
+        [
+          1192,
+          420
+        ],
+        [
+          1167,
+          450
+        ],
+        [
+          1144,
+          480
+        ],
+        [
+          1123,
+          507
+        ],
+        [
+          1104,
+          530
+        ],
+        [
+          1090,
+          551
+        ],
+        [
+          1078,
+          578
+        ],
+        [
+          1067,
+          600
+        ],
+        [
+          1051,
+          607
+        ],
+        [
+          1035,
+          598
+        ],
+        [
+          1027,
+          579
+        ],
+        [
+          1024,
+          555
+        ],
+        [
+          1014,
+          533
+        ],
+        [
+          991,
+          516
+        ],
+        [
+          958,
+          511
+        ],
+        [
+          919,
+          510
+        ],
+        [
+          884,
+          499
+        ],
+        [
+          856,
+          480
+        ],
+        [
+          838,
+          454
+        ],
+        [
+          827,
+          421
+        ],
+        [
+          825,
+          387
+        ],
+        [
+          833,
+          349
+        ],
+        [
+          846,
+          308
+        ],
+        [
+          863,
+          271
+        ],
+        [
+          887,
+          242
+        ],
+        [
+          916,
+          224
+        ],
+        [
+          949,
+          213
+        ],
+        [
+          970,
+          191
+        ],
+        [
+          980,
+          161
+        ],
+        [
+          987,
+          127
+        ],
+        [
+          1003,
+          97
+        ],
+        [
+          1030,
+          76
+        ],
+        [
+          1067,
+          63
+        ]
+      ]
+    }
+  },
+  "phone_frame": {
+    "size_px": [
+      393,
+      660
+    ],
+    "coordinate_unit": "percent_of_frame",
+    "background": {
+      "asset": "assets/ENV_TRANSFER_PHONE_V1.webp",
+      "fit": "cover",
+      "position_x_pct": 50,
+      "position_y_pct": 43,
+      "lower_furniture_policy": "Keep the existing crop; hide the CM17 box and glass desk with bottom_gradient before live controls begin."
+    },
+    "heroes": {
+      "daniel": {
+        "source": "cutouts.daniel_phone",
+        "side": "left",
+        "crop": "alpha_bbox",
+        "center_x_pct": 16,
+        "top_pct": 0,
+        "height_pct": 54,
+        "z": 2
+      },
+      "nik": {
+        "source": "cutouts.nik_phone",
+        "side": "right",
+        "crop": "alpha_bbox",
+        "center_x_pct": 88,
+        "top_pct": 7,
+        "height_pct": 54,
+        "z": 3
+      }
+    },
+    "hero_zone": {
+      "top_pct": 0,
+      "bottom_pct": 55,
+      "note": "Both heads remain fully visible in the top 55%; torsos may extend below this boundary to overlap the UI band."
+    },
+    "bottom_gradient": {
+      "start_y_pct": 40,
+      "opaque_by_y_pct": 62,
+      "end_y_pct": 64,
+      "note": "Darkens the lower composition for live controls without covering either face; the CM17 box and glass desk in the background sit fully under the dark band."
+    },
+    "constraints": [
+      "Daniel remains left; Nik remains right; neither figure is mirrored.",
+      "Keep both heads fully visible; only outer torso/arm pixels may leave the frame.",
+      "Keep both faces completely clear: Daniel's face stays in the left third and Nik's face in the right third; no shoulder, arm or hand may cross either face.",
+      "Hero overlap is not allowed above 34% of frame height; below that, only a small torso/arm overlap is acceptable.",
+      "The heroes may extend below 55% so the UI reads in front of a cinematic scene rather than under a thumbnail strip."
+    ]
+  }
+}

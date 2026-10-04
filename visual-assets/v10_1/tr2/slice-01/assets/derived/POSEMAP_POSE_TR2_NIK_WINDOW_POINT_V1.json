@@ -1,0 +1,29 @@
+{
+  "crown_y": 45,
+  "chin_y": 445,
+  "head_height": 400,
+  "eye_left": [
+    430,
+    345
+  ],
+  "eye_right": [
+    560,
+    330
+  ],
+  "protected_contacts": {
+    "index_finger_on_tablet": {
+      "x0": 560,
+      "y0": 790,
+      "x1": 700,
+      "y1": 870
+    },
+    "tablet_top_edge": {
+      "x0": 575,
+      "y0": 840,
+      "x1": 975,
+      "y1": 880
+    }
+  },
+  "bottom_crop_line_y": 1200,
+  "estimate": true
+}

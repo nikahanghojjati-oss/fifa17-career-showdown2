@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Rule Book · Career Mode Showdown</title>
+<link rel="stylesheet" href="../shared/showdown-tokens.css">
+<link rel="stylesheet" href="../shared/showdown-type.css">
+<link rel="stylesheet" href="../shared/showdown-ui.css">
+<link rel="stylesheet" href="../shared/stage.css">
+<link rel="stylesheet" href="../shared/motion.css">
+<link rel="stylesheet" href="rule-book.css">
+</head>
+<body>
+<!-- layout skeleton -->
+<div id="stage-root" class="sd-stage stage" data-screen="rule-book" data-plate-width="1672" data-plate-height="941">
+  <div class="sd-stage__layer sd-stage__layer--plate" aria-hidden="true">
+    <div class="sd-stage__registered">
+      <div class="sd-stage__plate"></div>
+      <picture class="ruleBookPhonePlate" aria-hidden="true">
+        <source media="(max-width: 760px)" srcset="../shared/plates/ENV_SYS_PHONE_V1.webp" type="image/webp">
+        <img src="../shared/plates/ENV_SYS_PLATE_V1_1X.webp" alt="" decoding="async">
+      </picture>
+    </div>
+  </div>
+
+  <div class="sd-stage__layer sd-stage__layer--atmosphere" aria-hidden="true">
+    <div class="ruleBookScrim"></div>
+  </div>
+
+  <div class="sd-stage__layer sd-stage__layer--ui">
+    <main id="ruleBook" class="ruleBookScreen" aria-labelledby="ruleBookHeading">
+      <div class="topbarReserve" aria-hidden="true"></div>
+      <div id="ruleBookPreview" class="sd-preview-tag" hidden></div>
+
+      <header class="ruleBookHero sd-glint" data-sd-enter="title">
+        <p id="ruleBookEyebrow" class="sd-eyebrow"></p>
+        <h1 id="ruleBookHeading" class="sd-visually-hidden"></h1>
+        <img class="ruleBookWordmark" src="../shared/wordmarks/TITLE_RULE_BOOK_V1.webp" alt="" aria-hidden="true" decoding="async">
+        <p id="ruleBookHeroTitle" class="sd-tagline"></p>
+        <p id="ruleBookSummary" class="sd-body ruleBookSummary"></p>
+      </header>
+
+      <p id="ruleBookFrameStatus" aria-live="polite"></p>
+      <p id="ruleBookFrameNote"></p>
+
+      <nav id="ruleBookIndex" aria-label="Rule Book sections"></nav>
+      <div class="ruleBookBlanks" aria-hidden="true">
+        <div class="sd-panel ruleBookBlank"></div>
+        <div class="sd-panel ruleBookBlank"></div>
+        <div class="sd-panel ruleBookBlank"></div>
+        <div class="sd-panel ruleBookBlank"></div>
+        <div class="sd-panel ruleBookBlank"></div>
+        <div class="sd-panel ruleBookBlank"></div>
+      </div>
+      <section id="ruleBookSections" class="ruleBookGrid" aria-label="Competition rules"></section>
+
+      <div class="ruleBookActions">
+        <button id="ruleBookBack" class="backButton sd-btn sd-btn--secondary" type="button" data-smart-back data-sd-enter="button"></button>
+      </div>
+    </main>
+    <div class="nav-reserve" aria-hidden="true"></div>
+  </div>
+</div>
+
+<script src="../shared/stage.js" defer></script>
+<script src="../shared/motion.js" defer></script>
+<script src="rule-book.js" defer></script>
+<script>
+window.addEventListener("DOMContentLoaded", function () {
+  var stage = document.getElementById("stage-root");
+  if (!stage || !window.ShowdownStage) return;
+  window.ShowdownStage.mount(stage, {
+    plate: {
+      width: 1672,
+      height: 941,
+      src1x: "../shared/plates/ENV_SYS_PLATE_V1_1X.webp",
+      src2x: "../shared/plates/ENV_SYS_PLATE_V1_2X.webp"
+    },
+    focal: { x: 836, y: 470.5 }
+  });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,604 @@
+@import url("../shared/showdown-tokens.css");
+@import url("../shared/showdown-type.css");
+@import url("../shared/showdown-ui.css");
+
+/* LEAGUE-V1 · Select League on the League plate. Static checkpoint: nothing animates. */
+@font-face { font-family: "Barlow Condensed"; font-weight: 600; src: url("../tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-600-normal.woff2") format("woff2"); }
+@font-face { font-family: "Barlow Condensed"; font-weight: 700; src: url("../tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-700-normal.woff2") format("woff2"); }
+@font-face { font-family: "Barlow"; font-weight: 400; src: url("../tr2/slice-02-plate/assets/fonts/barlow-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family: "Barlow"; font-weight: 600; src: url("../tr2/slice-02-plate/assets/fonts/barlow-latin-600-normal.woff2") format("woff2"); }
+@font-face { font-family: "Kaushan Script"; font-weight: 400; src: url("../tr2/slice-02-plate/assets/fonts/kaushan-script-latin-400-normal.woff2") format("woff2"); }
+
+:root {
+  --gold: #F2C45B; --gold-deep: #C99B45; --gold-hi: #FFF1B8; --ink: #0B0D10; --cream: #E9DFC8; --muted: #9A8F7A;
+  --pale: #EFE6CF;
+  --cond: "Barlow Condensed", "Arial Narrow", sans-serif; --text: "Barlow", system-ui, sans-serif;
+  --header-h: 56px; --footer-h: 28px;
+}
+html, body { margin: 0; height: 100%; background: #070604; color: var(--cream); }
+body { overflow: hidden; font-family: var(--text); -webkit-font-smoothing: antialiased; }
+.stage { position: fixed; inset: 0; overflow: clip; contain: size layout paint; background: #070604; }
+.vh { position: absolute !important; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+.hidden { display: none !important; }
+
+/* ---------- plate-registered scene (positions set by league.js through plateToScreen) ---------- */
+.scene { position: absolute; left: 0; top: 0; overflow: hidden; pointer-events: none; }
+.scene > * { position: absolute; }
+.plate { background-image: image-set(url("assets/ENV_LEAGUE_PLATE_V1_1X.webp") 1x, url("assets/ENV_LEAGUE_PLATE_V1_2X.webp") 2x); background-size: 100% 100%; }
+.scene-top { z-index: 30; }
+.finger-ovl { display: block;
+  /* Job 14's 400% regression showed the current cut has no new matte ring or colour speckle,
+     so no destructive re-cut is needed here. A small upward offset shadow gives only the
+     light-facing upper edge a warm rim without outlining the whole hand. */
+  filter: drop-shadow(0 -1px 1px rgba(255,211,77,.34));
+}
+
+/* Seam heal veils: soften the hard edges the intake tone-match left at its zone borders.
+   Blur + slight darkening, feathered with a mask so the veil itself has no edge. */
+.heal { -webkit-backdrop-filter: blur(var(--heal-blur, 6px)) brightness(var(--heal-dim, .86)); backdrop-filter: blur(var(--heal-blur, 6px)) brightness(var(--heal-dim, .86)); }
+.heal-head { background: linear-gradient(to bottom, rgba(6,7,9,.72), rgba(6,7,9,.30) 70%, rgba(6,7,9,0));
+  -webkit-mask-image: linear-gradient(to bottom, #000 0 72%, transparent 100%); mask-image: linear-gradient(to bottom, #000 0 72%, transparent 100%); --heal-blur: 5px; }
+.heal-title { background: radial-gradient(ellipse at 50% 46%, rgba(6,7,9,.86), rgba(6,7,9,.62) 62%, rgba(6,7,9,0));
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 5%, #000 95%, transparent 100%), linear-gradient(to bottom, transparent 0, #000 16%, #000 84%, transparent 100%);
+  -webkit-mask-composite: source-in; mask-image: linear-gradient(to right, transparent 0, #000 5%, #000 95%, transparent 100%), linear-gradient(to bottom, transparent 0, #000 16%, #000 84%, transparent 100%); mask-composite: intersect; --heal-blur: 9px; --heal-dim: .58; }
+.heal-deck { background: radial-gradient(ellipse at 50% 55%, rgba(6,7,9,.55), rgba(6,7,9,.25) 70%, rgba(6,7,9,0));
+  -webkit-mask-image: radial-gradient(ellipse closest-side, #000 70%, transparent 100%); mask-image: radial-gradient(ellipse closest-side, #000 70%, transparent 100%); --heal-blur: 8px; }
+.heal-foot { background: linear-gradient(to top, rgba(6,7,9,.92), rgba(6,7,9,.55) 55%, rgba(6,7,9,0));
+  -webkit-mask-image: linear-gradient(to top, #000 0 60%, transparent 100%); mask-image: linear-gradient(to top, #000 0 60%, transparent 100%); --heal-blur: 6px; }
+/* Slot veil: plate-registered, sits under the wheel. Hides the darkened slot's circular edge and the
+   goal's old rim strip beside Daniel's fingertip whenever the wheel is not exactly on the slot. */
+.slot-veil { border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(6,7,9,.10) 0 62%, rgba(6,7,9,.55) 76%, rgba(6,7,9,.88) 90%, rgba(6,7,9,.88) 97%, rgba(6,7,9,0) 100%);
+  -webkit-backdrop-filter: blur(5px); backdrop-filter: blur(5px);
+  -webkit-mask-image: radial-gradient(closest-side, transparent 62%, #000 70%, #000 97%, transparent 100%); mask-image: radial-gradient(closest-side, transparent 62%, #000 70%, #000 97%, transparent 100%); }
+
+/* ---------- header / footer (C6) ---------- */
+#topHeader { position: absolute; z-index: 40; left: 0; right: 0; top: 0; height: var(--header-h); box-sizing: border-box; display: flex; align-items: center; gap: 14px; padding: 0 20px 0 0;
+  background: linear-gradient(to bottom, rgba(6,7,9,.92), rgba(6,7,9,.70)); border-bottom: 1px solid rgba(201,155,69,.45); }
+.cm-badge { position: relative; height: 100%; display: flex; align-items: center; padding: 0 22px 0 18px; }
+.cm-badge::before { content: ""; position: absolute; inset: 0 0 0 -12px; background: #0d0f12; border-right: 2px solid var(--gold); transform: skewX(-14deg); transform-origin: bottom left; }
+.cm-badge span { position: relative; font: italic 700 24px/1.2 var(--cond); color: var(--gold); letter-spacing: .02em; }
+.brand h1, .brand p { margin: 0; font: 600 13px/1.25 var(--cond); letter-spacing: .18em; color: var(--cream); font-variant: small-caps; }
+.brand p { color: var(--muted); font-size: 12px; }
+#onlinePlayerIdentityBadge, #seasonIndicator { min-height: 40px; box-sizing: border-box; display: inline-flex; align-items: center; padding: 0 14px; background: rgba(10,12,15,.72); border: 1px solid rgba(201,155,69,.55);
+  color: var(--cream); font: 600 14px/1 var(--cond); letter-spacing: .12em; }
+#onlinePlayerIdentityBadge { margin-left: auto; cursor: pointer; }
+.script-tag { font: 400 18px/1.35 "Kaushan Script", cursive; color: var(--gold); transform: rotate(-8deg); margin-left: 6px; white-space: nowrap; }
+footer { position: absolute; z-index: 40; left: 0; right: 0; bottom: 0; height: var(--footer-h); box-sizing: border-box; padding: 0 20px; display: flex; align-items: center; gap: 8px;
+  background: linear-gradient(to top, rgba(6,7,9,.92), rgba(6,7,9,.72)); border-top: 1px solid rgba(201,155,69,.30); font: 400 12px/1 var(--text); color: var(--muted); }
+footer br { display: none; }
+footer .foot-ver::before { content: "·"; margin-right: 8px; }
+.foot-tag { margin-left: auto; font: 600 12px/1 var(--cond); letter-spacing: .34em; color: #B3A88F; display: inline-flex; align-items: center; gap: 10px; }
+.crown { display: inline-block; width: 18px; height: 13px; background: var(--gold); -webkit-mask: var(--crown) center/contain no-repeat; mask: var(--crown) center/contain no-repeat; }
+:root { --crown: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 16'%3E%3Cpath d='M1 4l5 4 6-7 6 7 5-4-2 11H3z'/%3E%3C/svg%3E"); }
+
+/* ---------- title block ---------- */
+.title-block, .subtitle-row, .stateNote, .button-row, .slogan { position: absolute; z-index: 20; }
+.wheel-bezel, .leagueWheel, .wheelPointer { position: absolute; z-index: 18; }
+.leagueWheel { z-index: 19; } .wheelPointer { z-index: 21; }
+.finger-contact { position: absolute; z-index: 29; pointer-events: none; border-radius: 50%;
+  background: rgba(0,0,0,.52); filter: blur(3px); transform: translate(1px, 2px) rotate(-7deg); }
+.stage[data-mode="phone"] .finger-contact { display: block; }
+.title-block { left: 0; right: 0; text-align: center; pointer-events: none; }
+.title-block > * { width: fit-content; margin-left: auto !important; margin-right: auto !important; }
+.kicker { font: 600 13px/1 var(--cond); letter-spacing: .5em; color: var(--cream); margin-right: -.5em; }
+/* TODO-WORDMARK: replace this display-font fallback with shared/wordmarks/TITLE_LEAGUE_V1.webp when job 124 adds it. */
+#leagueWheelScreen h2 { margin: 0; font: 400 var(--title-size, 64px)/1.16 "Kaushan Script", cursive; text-transform: uppercase; letter-spacing: .01em; padding: .10em .12em .18em;
+  background: linear-gradient(to bottom, #FFF1B8, #F2C45B 55%, #B98A2F); -webkit-background-clip: text; background-clip: text; color: transparent;
+  filter: drop-shadow(0 3px 1px rgba(0,0,0,.96)) drop-shadow(0 0 14px rgba(242,196,91,.28)); }
+.subtitle-row { left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 14px; white-space: nowrap; }
+.subtitle-row::before, .subtitle-row::after { content: ""; width: 92px; height: 1px; background: linear-gradient(to right, rgba(201,155,69,0), rgba(201,155,69,.9)); }
+.subtitle-row::after { transform: scaleX(-1); }
+#selectedLeague { font: 600 15px/1.2 var(--cond); letter-spacing: .4em; margin-right: -.4em; text-transform: uppercase; color: var(--cream); text-shadow: 0 1px 6px rgba(0,0,0,.85); }
+.stage[data-has-league="true"] #selectedLeague { font: 700 22px/1.1 var(--cond); color: var(--gold); letter-spacing: .3em; margin-right: -.3em; }
+#selectedLeague { position: relative; isolation: isolate; overflow: hidden; }
+#selectedLeague::before {
+  content: "";
+  position: absolute;
+  z-index: 5;
+  inset: -2px;
+  pointer-events: none;
+  background: linear-gradient(90deg, #07080a 0%, #17130d 74%, #d4a017 100%);
+  transform: translate3d(-102%, 0, 0);
+}
+@keyframes league-result-brush-wipe {
+  0% { opacity: 1; transform: translate3d(0, 0, 0); }
+  72% { opacity: 1; transform: translate3d(82%, 0, 0); }
+  100% { opacity: 0; transform: translate3d(108%, 0, 0); }
+}
+#selectedLeague.is-result-wiping::before {
+  animation: league-result-brush-wipe 460ms cubic-bezier(.22,1,.36,1) both;
+  will-change: transform, opacity;
+}
+.stateNote { left: 50%; transform: translateX(-50%); box-sizing: border-box; width: max-content; max-width: min(840px, calc(100vw - 32px)); padding: 6px 16px; text-align: center;
+  font: 400 14px/1.35 var(--text); color: var(--cream); background: rgba(10,12,15,.82); border: 1px solid rgba(201,155,69,.38); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+.stateNote.locked { border-color: rgba(242,196,91,.7); color: #F6EBD0; }
+
+/* ---------- buttons ---------- */
+.button-row { left: 50%; transform: translateX(-50%); display: flex; gap: 16px; }
+.menuButton, .backButton { height: 56px; box-sizing: border-box; display: inline-flex; align-items: center; justify-content: center; gap: 12px; padding: 0 18px; cursor: pointer;
+  font: 700 20px/1 var(--cond); letter-spacing: .06em; text-transform: uppercase; white-space: nowrap;
+  transition: transform 100ms cubic-bezier(.22,1,.36,1), opacity 100ms linear, color 100ms linear, background-color 100ms linear, border-color 100ms linear, box-shadow 100ms linear; }
+.menuButton { min-width: 300px; color: var(--sd-text-on-gold); background: var(--sd-gold-500); border: 1px solid var(--sd-gold-800); box-shadow: 0 6px 18px rgba(0,0,0,.45), 0 0 18px rgba(245,197,24,.14); }
+@media (min-width: 761px) {
+  .button-row { left: calc(50% - 11px); gap: 10px; }
+  #spinLeague { min-width: 285px; width: 285px; height: 58px; }
+  .backButton { min-width: 208px; width: 208px; height: 58px; }
+}
+.menuButton::before { content: ""; width: 22px; height: 22px; flex: none; background: currentColor; -webkit-mask: var(--spin-ico) center/contain no-repeat; mask: var(--spin-ico) center/contain no-repeat; }
+:root { --spin-ico: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 11a8 8 0 0 0-14.3-4.9L4 8'/%3E%3Cpath d='M4 3v5h5'/%3E%3Cpath d='M4 13a8 8 0 0 0 14.3 4.9L20 16'/%3E%3Cpath d='M20 21v-5h-5'/%3E%3C/svg%3E"); }
+.menuButton:disabled { cursor: default; opacity: 1; color: #17130d; background: linear-gradient(180deg, #D8C184, #B79A59); }
+.backButton { min-width: 200px; color: var(--sd-gold-300); background: rgba(8,9,12,.9); border: 1px solid var(--sd-edge); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+.backButton::before { content: ""; width: 10px; height: 10px; border-left: 2.5px solid currentColor; border-bottom: 2.5px solid currentColor; transform: rotate(45deg); margin-right: 2px; }
+.backButton:disabled { cursor: default; opacity: 1; color: #D8CEBB; border-color: rgba(233,223,200,.52); }
+button:focus-visible { outline: 2px solid #FFF1B8; outline-offset: 3px; }
+
+/* JOB-042 interaction feel: all control state changes complete in 100 ms with no layout shift. */
+.product-nav button,
+#onlinePlayerIdentityBadge {
+  transition: transform 100ms cubic-bezier(.22,1,.36,1), opacity 100ms linear, color 100ms linear, background-color 100ms linear, border-color 100ms linear;
+}
+@media (hover: hover) {
+  .menuButton:not(:disabled):hover,
+  .backButton:not(:disabled):hover,
+  .product-nav button:not(:disabled):hover,
+  #onlinePlayerIdentityBadge:not(:disabled):hover {
+    transform: translate3d(0,-1px,0);
+  }
+}
+.menuButton:not(:disabled):active,
+.backButton:not(:disabled):active,
+.product-nav button:not(:disabled):active,
+#onlinePlayerIdentityBadge:not(:disabled):active {
+  transform: translate3d(0,1px,0) scale(.995);
+  opacity: .88;
+}
+.product-nav button[aria-current="page"] { opacity: 1; }
+.product-nav button:not([aria-current="page"]) { opacity: .86; }
+
+/* ---------- wheel (sizes are fractions of the rim radius --R) ---------- */
+.wheelContainer { position: static; }
+.wheel-bezel { border-radius: 50%;
+  background: radial-gradient(closest-side, transparent 88%, rgba(7,8,10,.96) 89.5%, rgba(9,10,12,.95) 97.6%, rgba(9,10,12,0) 100%); }
+.leagueWheel { border-radius: 50%; overflow: hidden; }
+.wheelTrack { position: absolute; inset: 0; border-radius: 50%; transform: rotate(var(--rot, 0deg));
+  background:
+    repeating-conic-gradient(from -36deg, rgba(242,196,91,.95) 0 .5deg, transparent .5deg 71.5deg, rgba(242,196,91,.95) 71.5deg 72deg),
+    radial-gradient(circle, #181B20 0, #14171B 55%, #0E1013 100%); }
+/* fixed gold wedge under the pointer: counter-rotated so it stays at 12 o'clock while the track turns */
+.wheelTrack::before { content: ""; position: absolute; inset: 0; border-radius: 50%; transform: rotate(calc(-1 * var(--rot, 0deg)));
+  background: conic-gradient(from -36deg, rgba(247,212,106,.85), rgba(201,155,69,.85) 72deg, transparent 72deg); }
+.wheelItem { position: absolute; left: 50%; top: 50%; z-index: 2; width: calc(var(--R) * .70); margin-left: calc(var(--R) * -.35); box-sizing: border-box;
+  display: flex; flex-direction: column; align-items: center; gap: calc(var(--R) * .025);
+  transform-origin: 50% 0; transform: rotate(var(--a)) translateY(calc(var(--R) * -.86));
+  color: var(--pale); font: 700 calc(var(--R) * 22 / 240) / 1.15 var(--cond); letter-spacing: .03em; padding-bottom: .12em; text-transform: uppercase; text-align: center; white-space: nowrap; }
+.wheelItem:nth-child(1) { --a: 0deg; } .wheelItem:nth-child(2) { --a: 72deg; } .wheelItem:nth-child(3) { --a: 144deg; } .wheelItem:nth-child(4) { --a: 216deg; } .wheelItem:nth-child(5) { --a: 288deg; }
+.wheelItem::before { content: ""; order: -1; width: calc(var(--R) * 64 / 240); height: calc(var(--R) * 64 / 240); background: var(--league-mark-image) center/contain no-repeat;
+  /* presentation-only monochrome: pale gold family, internal tones kept */
+  filter: grayscale(1) sepia(.32) brightness(1.32) contrast(1.02); }
+.wheelItem.is-top { color: #0B0D10; }
+.wheelItem.is-top::before { filter: grayscale(1) brightness(1.9) contrast(1.15) drop-shadow(0 1px 2px rgba(0,0,0,.85)); }
+.wheel-rim { display: none; }
+.wheel-rim-art { position: absolute; inset: 0; z-index: 3; pointer-events: none; display: block;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,.72)) drop-shadow(-2px -2px 7px rgba(255,211,77,.18)); }
+.wheel-rim-art img { display: block; width: 100%; height: 100%; object-fit: contain; }
+.wheel-hub svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.wheel-hub { position: absolute; inset: 0; z-index: 4; pointer-events: none; }
+.wheel-blur { position: absolute; inset: 0; z-index: 2; border-radius: 50%; pointer-events: none; display: none;
+  background: repeating-conic-gradient(from 0deg, rgba(255,241,184,.05) 0 2deg, transparent 2deg 7deg);
+  -webkit-backdrop-filter: blur(.9px); backdrop-filter: blur(.9px);
+  -webkit-mask-image: radial-gradient(closest-side, transparent 30%, #000 45%, #000 92%, transparent 93%); mask-image: radial-gradient(closest-side, transparent 30%, #000 45%, #000 92%, transparent 93%); }
+.stage[data-frame="L2"] .wheel-blur { display: block; }
+
+/* JOB-042 spin presentation: the real rotor stays sharp while a DOM duplicate carries CSS-filter
+   motion smear. The fixed gold wedge moves to a wheel overlay during spin so it never rotates. */
+.wheelTrack--blur {
+  z-index: 2;
+  opacity: 0;
+  pointer-events: none;
+  filter: blur(5px) saturate(1.16) brightness(1.08);
+  mix-blend-mode: screen;
+}
+.wheelTrack--blur::before { display: none; }
+.leagueWheel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0;
+  background: conic-gradient(from -36deg, rgba(247,212,106,.85), rgba(201,155,69,.85) 72deg, transparent 72deg);
+}
+.stage.is-wheel-spinning .wheelTrack--blur { opacity: .34; }
+.stage.is-wheel-spinning .wheelTrack:not(.wheelTrack--blur)::before { opacity: 0; }
+.stage.is-wheel-spinning .leagueWheel::before { opacity: 1; }
+
+.winner-wedge-flash {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0;
+  background: conic-gradient(from -36deg, rgba(255,243,176,.96) 0deg, rgba(245,197,24,.70) 72deg, transparent 72deg);
+  -webkit-mask-image: radial-gradient(closest-side, transparent 24%, #000 34%, #000 92%, transparent 93%);
+  mask-image: radial-gradient(closest-side, transparent 24%, #000 34%, #000 92%, transparent 93%);
+}
+@keyframes league-winner-wedge-flash {
+  0%, 100% { opacity: 0; transform: scale(.985); }
+  34% { opacity: .92; transform: scale(1.012); }
+  64% { opacity: .38; transform: scale(1); }
+}
+.winner-wedge-flash.is-active {
+  animation: league-winner-wedge-flash 520ms cubic-bezier(.22,1,.36,1) both;
+  will-change: transform, opacity;
+}
+@keyframes league-winner-mark-pop {
+  0%, 100% { transform: scale(1); }
+  46% { transform: scale(1.15); }
+  72% { transform: scale(1.08); }
+}
+.wheelItem.is-winner-payoff::before {
+  animation: league-winner-mark-pop 520ms cubic-bezier(.22,1,.36,1) both;
+  transform-origin: 50% 50%;
+  will-change: transform;
+}
+.spin-burst-canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 7;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+.wheelPointer { pointer-events: none; transform-origin: 50% 24%; }
+.stage.is-wheel-spinning .wheelPointer { will-change: transform, opacity; }
+.wheelPointer::before { content: ""; position: absolute; inset: 0; background: var(--pointer-svg) center/contain no-repeat; filter: drop-shadow(0 2px 4px rgba(0,0,0,.6)); }
+:root { --pointer-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 44 62'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%23FFF1B8'/%3E%3Cstop offset='.55' stop-color='%23F2C45B'/%3E%3Cstop offset='1' stop-color='%237A5A22'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M9 14l4 4 9-10 9 10 4-4-2 10H11z' fill='url(%23g)' stroke='%237A5A22' stroke-width='1'/%3E%3Cpath d='M4 28h36L22 60z' fill='url(%23g)' stroke='%237A5A22' stroke-width='1.2'/%3E%3Cpath d='M12 31h20L22 50z' fill='%237A5A22' opacity='.35'/%3E%3C/svg%3E"); }
+
+/* ---------- slogans (desktop >= 1200 only) ---------- */
+.slogan { display: none; box-sizing: border-box; flex-direction: column; align-items: center; justify-content: center; gap: 6px; padding: 10px;
+  background: linear-gradient(160deg, rgba(10,11,14,.90), rgba(10,11,14,.76)); border: 1px solid rgba(212,160,23,.72);
+  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+  clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+  font: 600 14px/1.15 var(--sd-font-condensed); letter-spacing: .3em; color: var(--sd-text-primary); text-align: center;
+  box-shadow: inset 0 1px 0 rgba(255,211,77,.12), 0 10px 28px rgba(0,0,0,.38); }
+.slogan span { margin-right: -.3em; }
+.slogan::before, .slogan::after { content: ""; position: absolute; width: 28px; height: 28px; border-color: var(--gold); border-style: solid; }
+.slogan::before { left: 0; top: 0; border-width: 2px 0 0 2px; }
+.slogan::after { right: 0; bottom: 0; border-width: 0 2px 2px 0; }
+.stage[data-mode="desktop"][data-wide="1"] .slogan { display: flex; }      /* desktop >= 1200 px only */
+.stage[data-narrow="1"] .script-tag { display: none; }                      /* hidden below 900 px */
+
+/* ---------- grid evidence ---------- */
+.grid-layer { position: absolute; inset: 0; z-index: 60; pointer-events: none; display: none; }
+.grid-layer > div { position: absolute; box-sizing: border-box; border: 1.5px dashed; font: 600 12px/1 var(--cond); padding: 2px; }
+.stage[data-grid="1"] .grid-layer { display: block; }
+
+.phone-hero-band { display: none; }
+
+/* ---------- phone · JOB-039 portrait composition ---------- */
+@media (max-width: 760px) {
+  html, body { width: 100%; height: 100%; overflow: hidden; }
+  .stage[data-mode="phone"] {
+    --phone-edge: 12px;
+    --phone-hero-h: 55svh;
+    --phone-wheel: clamp(240px, 64vw, 282px);
+    --phone-wheel-y: clamp(300px, 54svh, 400px); /* Claude fix 3: use the lower interaction band instead of leaving a dead gap above BACK. */
+    --phone-safe: max(8px, env(safe-area-inset-bottom));
+    --phone-primary-h: 48px;
+    --phone-secondary-h: 44px;
+    --phone-action-gap: 6px;
+    --phone-dock-core: calc(var(--phone-primary-h) + var(--phone-secondary-h) + var(--phone-action-gap));
+    min-height: 100svh;
+    overflow: hidden;
+  }
+
+  /* Wheels are a focused step: no hub bar or desktop chrome on phone. */
+  .stage[data-mode="phone"] #topHeader,
+  .stage[data-mode="phone"] footer,
+  .stage[data-mode="phone"] .slogan,
+  .stage[data-mode="phone"] .heal,
+  .stage[data-mode="phone"] .grid-layer {
+    display: none !important;
+  }
+
+  .stage[data-mode="phone"] main,
+  .stage[data-mode="phone"] .league-main,
+  .stage[data-mode="phone"] .league-screen,
+  .stage[data-mode="phone"] .wheelContainer {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  /* Dedicated portrait stadium + whole-figure heroes from Job 112. */
+  .stage[data-mode="phone"] .scene:not(.scene-top),
+  .stage[data-mode="phone"] .scene-top {
+    display: none !important;
+  }
+  .stage[data-mode="phone"] .phone-hero-band {
+    display: block;
+    position: absolute;
+    inset: 0 0 auto;
+    width: 100%;
+    height: var(--phone-hero-h);
+    overflow: visible;
+    pointer-events: none;
+  }
+  .stage[data-mode="phone"] .phone-hero-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    overflow: hidden;
+  }
+  .stage[data-mode="phone"] .phone-hero-bg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 44%;
+  }
+  .stage[data-mode="phone"] .phone-hero-person {
+    position: absolute;
+    /* Claude fix 2: reserve a clean title strip above both heads. */
+    top: calc(max(8px, env(safe-area-inset-top)) + 46px);
+    z-index: 30;
+    height: 52svh;
+    transform: translateX(-50%);
+    filter: drop-shadow(0 -1px 1px rgba(255,211,77,.28))
+            drop-shadow(0 8px 10px rgba(0,0,0,.48));
+  }
+  .stage[data-mode="phone"] .phone-hero-person img {
+    display: block;
+    width: auto;
+    height: 100%;
+    max-width: none;
+    /* Claude fix 4: dissolve the lower body edge into the scene instead of ending on a hard crop line. */
+    -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 74%, rgba(0,0,0,.92) 80%, rgba(0,0,0,.56) 90%, transparent 100%);
+    mask-image: linear-gradient(to bottom, #000 0%, #000 74%, rgba(0,0,0,.92) 80%, rgba(0,0,0,.56) 90%, transparent 100%);
+  }
+  .stage[data-mode="phone"] .phone-hero-person--daniel { left: 30%; }
+  .stage[data-mode="phone"] .phone-hero-person--nik { left: 70%; }
+  .stage[data-mode="phone"] .phone-hero-gradient {
+    position: absolute;
+    z-index: 14;
+    left: 0;
+    right: 0;
+    top: 48svh;
+    height: 22svh;
+    background: linear-gradient(to bottom, rgba(7,8,10,0), rgba(7,8,10,.94));
+    pointer-events: none;
+  }
+  .stage[data-mode="phone"] .slot-veil { display: none !important; }
+
+  .stage[data-mode="phone"] .title-block {
+    z-index: 34;
+    top: max(10px, env(safe-area-inset-top));
+    left: var(--phone-edge);
+    right: var(--phone-edge);
+  }
+  .stage[data-mode="phone"] .kicker { display: none; }
+  .stage[data-mode="phone"] #leagueWheelScreen h2 {
+    --title-size: clamp(30px, 8.6vw, 36px);
+    margin: 0;
+    padding: .04em .08em .08em;
+    line-height: 1.08;
+  }
+
+  /* Claude fix 1: the live wheel must stay fully readable above the hero bodies. */
+  .stage[data-mode="phone"] .wheel-bezel,
+  .stage[data-mode="phone"] .leagueWheel {
+    left: 50% !important;
+    top: var(--phone-wheel-y) !important;
+    width: var(--phone-wheel) !important;
+    height: var(--phone-wheel) !important;
+    transform: translate(-50%, -50%) !important;
+  }
+  .stage[data-mode="phone"] .wheel-bezel { z-index: 31; }
+  .stage[data-mode="phone"] .leagueWheel { z-index: 32; }
+  .stage[data-mode="phone"] .wheel-bezel {
+    width: calc(var(--phone-wheel) + 26px) !important;
+    height: calc(var(--phone-wheel) + 26px) !important;
+  }
+  .stage[data-mode="phone"] .leagueWheel {
+    --R: calc(var(--phone-wheel) / 2) !important;
+    overflow: hidden;
+  }
+  .stage[data-mode="phone"] .wheelPointer {
+    z-index: 35;
+    left: 50% !important;
+    top: calc(var(--phone-wheel-y) - var(--phone-wheel) / 2 - 20px) !important;
+    width: 32px !important;
+    height: 45px !important;
+    transform: translateX(-50%) !important;
+  }
+
+  /* Contact shadow sits under Daniel's phone cut-out and over the live wheel. */
+  .stage[data-mode="phone"] .finger-contact {
+    display: block;
+    z-index: 33;
+    left: calc(60% - 14px) !important;
+    top: calc(var(--phone-wheel-y) - var(--phone-wheel) * .47) !important;
+    width: 30px !important;
+    height: 10px !important;
+    transform: rotate(-8deg);
+  }
+
+  .stage[data-mode="phone"] .subtitle-row {
+    z-index: 32;
+    top: calc(var(--phone-wheel-y) - var(--phone-wheel) / 2 - 28px) !important;
+    left: 50%;
+    transform: translateX(-50%);
+    gap: 8px;
+  }
+  .stage[data-mode="phone"] .subtitle-row::before,
+  .stage[data-mode="phone"] .subtitle-row::after { width: 28px; }
+  .stage[data-mode="phone"] #selectedLeague {
+    font-size: 14px;
+    letter-spacing: .18em;
+    margin-right: -.18em;
+  }
+  .stage[data-mode="phone"][data-has-league="true"] #selectedLeague {
+    font-size: 18px;
+    letter-spacing: .14em;
+    margin-right: -.14em;
+  }
+
+  .stage[data-mode="phone"] .stateNote {
+    z-index: 33;
+    left: var(--phone-edge) !important;
+    right: var(--phone-edge) !important;
+    top: auto !important;
+    bottom: calc(var(--phone-safe) + var(--phone-dock-core) + 6px) !important;
+    width: auto;
+    max-width: none;
+    transform: none;
+    padding: 5px 9px;
+    font-size: 14px;
+    line-height: 1.18;
+  }
+
+  .stage[data-mode="phone"] .button-row {
+    z-index: 36;
+    left: 0 !important;
+    right: 0 !important;
+    top: auto !important;
+    bottom: 0 !important;
+    transform: none;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: var(--phone-action-gap);
+    padding: 0 var(--phone-edge) var(--phone-safe);
+  }
+  .stage[data-mode="phone"] .menuButton,
+  .stage[data-mode="phone"] .backButton {
+    min-width: 0;
+    min-height: 44px;
+    font-size: 17px;
+    touch-action: manipulation;
+  }
+  .stage[data-mode="phone"] .menuButton {
+    order: 2;
+    width: 100%;
+    height: var(--phone-primary-h);
+    flex: 0 0 var(--phone-primary-h);
+  }
+  .stage[data-mode="phone"] .backButton {
+    order: 1;
+    width: 96px;
+    height: var(--phone-secondary-h);
+    flex: 0 0 var(--phone-secondary-h);
+    align-self: flex-start;
+    padding-inline: 12px;
+    font-size: 16px;
+  }
+  .stage[data-mode="phone"] input,
+  .stage[data-mode="phone"] select,
+  .stage[data-mode="phone"] textarea {
+    font-size: max(16px, 1em);
+  }
+
+  .stage[data-mode="phone"] .wheelItem {
+    width: calc(var(--R) * .76);
+    margin-left: calc(var(--R) * -.38);
+    font-size: max(12px, calc(var(--R) * 22 / 240));
+    line-height: 1.1;
+    letter-spacing: 0;
+    white-space: normal;
+    gap: calc(var(--R) * .02);
+  }
+  .stage[data-mode="phone"] .wheelItem::before {
+    width: calc(var(--R) * 50 / 240);
+    height: calc(var(--R) * 50 / 240);
+  }
+}
+
+/* Short-laptop composition: the decorative footer yields its 28 px to the wheel/note/action stack.
+   This keeps the note fully below the rim while preserving a >44 px primary control. */
+@media (min-width: 761px) and (max-height: 699px) {
+  footer { display: none; }
+  .menuButton, .backButton { height: 52px; }
+}
+
+.manager-marker { position: absolute; z-index: 1; width: 1px; height: 1px; pointer-events: none; }
+.manager-marker--daniel { left: 25%; top: 24%; }
+.manager-marker--nik { left: 75%; top: 24%; }
+
+.stage[data-frame="L2"] .wheelItem {
+  background: rgba(7,8,10,.78);
+  border-radius: 3px;
+  padding-inline: 4px;
+}
+.menuButton:disabled { opacity: 1; }
+
+/* League-specific reduced-motion parity with shared/motion.css.
+   App preference attributes and OS preference both collapse custom choreography to fades only. */
+html[data-motion-reduced="true"] .winner-wedge-flash.is-active,
+html[data-reduced-motion="true"] .winner-wedge-flash.is-active,
+html[data-motion-reduced="true"] .wheelItem.is-winner-payoff::before,
+html[data-reduced-motion="true"] .wheelItem.is-winner-payoff::before {
+  animation: sd-reduced-fade 150ms linear both !important;
+  transform: none !important;
+}
+html[data-motion-reduced="true"] #selectedLeague.is-result-wiping::before,
+html[data-reduced-motion="true"] #selectedLeague.is-result-wiping::before {
+  animation: none !important;
+  opacity: 0 !important;
+  transform: none !important;
+}
+html[data-motion-reduced="true"] .wheelTrack--blur,
+html[data-reduced-motion="true"] .wheelTrack--blur,
+html[data-motion-reduced="true"] .wheel-blur,
+html[data-reduced-motion="true"] .wheel-blur,
+html[data-motion-reduced="true"] .spin-burst-canvas,
+html[data-reduced-motion="true"] .spin-burst-canvas {
+  display: none !important;
+  opacity: 0 !important;
+}
+html[data-motion-reduced="true"] .menuButton,
+html[data-reduced-motion="true"] .menuButton,
+html[data-motion-reduced="true"] .backButton,
+html[data-reduced-motion="true"] .backButton,
+html[data-motion-reduced="true"] .product-nav button,
+html[data-reduced-motion="true"] .product-nav button,
+html[data-motion-reduced="true"] #onlinePlayerIdentityBadge,
+html[data-reduced-motion="true"] #onlinePlayerIdentityBadge {
+  transform: none !important;
+  transition: opacity 100ms linear, color 100ms linear, background-color 100ms linear, border-color 100ms linear !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .winner-wedge-flash.is-active,
+  .wheelItem.is-winner-payoff::before {
+    animation: sd-reduced-fade 150ms linear both !important;
+    transform: none !important;
+  }
+  #selectedLeague.is-result-wiping::before {
+    animation: none !important;
+    opacity: 0 !important;
+    transform: none !important;
+  }
+  .wheelTrack--blur,
+  .wheel-blur,
+  .spin-burst-canvas {
+    display: none !important;
+    opacity: 0 !important;
+  }
+  .menuButton,
+  .backButton,
+  .product-nav button,
+  #onlinePlayerIdentityBadge {
+    transform: none !important;
+    transition: opacity 100ms linear, color 100ms linear, background-color 100ms linear, border-color 100ms linear !important;
+  }
+}
+
+/* Claude intake fix 2026-10-04 (job 39 item 1): fade the bottom of the phone hero band so the
+   managers and stadium never end in a straight line on black. */
+.stage[data-mode="phone"] .phone-hero-band {
+  -webkit-mask-image: linear-gradient(to bottom, #000 72%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 72%, transparent 100%);
+}

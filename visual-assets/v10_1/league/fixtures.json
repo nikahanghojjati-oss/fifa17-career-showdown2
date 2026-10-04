@@ -1,0 +1,106 @@
+{
+  "source": {
+    "anchor": "origin/main@2de237391e17c7de2c6deb606b102b68ee640212",
+    "files": [
+      "index.html#leagueWheelScreen",
+      "js/leagueWheel.js",
+      "data/leagues.js",
+      "css/app.css",
+      "js/onlinePlayerIdentity.js",
+      "js/menuExperience.js"
+    ]
+  },
+  "leagues": [
+    {
+      "id": "premier_league",
+      "name": "Premier League"
+    },
+    {
+      "id": "laliga",
+      "name": "LaLiga"
+    },
+    {
+      "id": "bundesliga",
+      "name": "Bundesliga"
+    },
+    {
+      "id": "serie_a",
+      "name": "Serie A"
+    },
+    {
+      "id": "ligue_1",
+      "name": "Ligue 1"
+    }
+  ],
+  "chrome": {
+    "brandTitle": "CAREER MODE",
+    "brandSub": "SHOWDOWN // 17",
+    "identityBadge": "SIGN IN",
+    "seasonIndicator": "Season 1 / 5",
+    "footer": [
+      "Career Mode Showdown",
+      "v1.9.1"
+    ],
+    "back": "BACK",
+    "title": "SELECT LEAGUE"
+  },
+  "decorative": {
+    "kicker": "CAREER MODE SHOWDOWN 17",
+    "badge": "CM 17",
+    "script": "More Than A Game",
+    "footerTag": "FOOTBALL BRINGS US TOGETHER",
+    "sloganLeft": [
+      "DIFFERENT LEAGUES",
+      "DIFFERENT STORIES",
+      "SAME PASSION"
+    ],
+    "sloganRight": [
+      "WHERE RIVALS",
+      "CREATE LEGENDS"
+    ]
+  },
+  "frames": {
+    "L1": {
+      "state": "ready",
+      "rotation": 0,
+      "selectedLeague": "Spin to select league",
+      "spin": "SPIN WHEEL",
+      "spinDisabled": false,
+      "note": null,
+      "noteLocked": false,
+      "backDisabled": false
+    },
+    "L2": {
+      "state": "spinning",
+      "rotation": 492,
+      "selectedLeague": "SPINNING...",
+      "spin": "SPINNING...",
+      "spinDisabled": true,
+      "note": null,
+      "noteLocked": false,
+      "backDisabled": true
+    },
+    "L3": {
+      "state": "selected",
+      "rotation": -144,
+      "selected": "bundesliga",
+      "selectedLeague": "Bundesliga",
+      "spin": "CONTINUE TO CLUB ASSIGNMENT",
+      "spinDisabled": false,
+      "note": "Bundesliga has been selected and locked. Press Continue to confirm the league and open Club Assignment.",
+      "noteLocked": false,
+      "backDisabled": false
+    },
+    "L4": {
+      "state": "locked",
+      "rotation": -144,
+      "selected": "bundesliga",
+      "selectedLeague": "Bundesliga",
+      "spin": "LEAGUE LOCKED",
+      "spinDisabled": true,
+      "note": "League and clubs are permanent for this showdown.",
+      "noteLocked": true,
+      "backDisabled": false
+    }
+  }
+}

@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Legacy · Career Mode Showdown</title>
+<link rel="stylesheet" href="../shared/showdown-tokens.css">
+<link rel="stylesheet" href="../shared/showdown-type.css">
+<link rel="stylesheet" href="../shared/showdown-ui.css">
+<link rel="stylesheet" href="../shared/stage.css">
+<link rel="stylesheet" href="../shared/motion.css">
+<link rel="stylesheet" href="legacy.css">
+</head>
+<body>
+<div id="stage-root" class="sd-stage" data-screen="legacy" data-plate-width="1672" data-plate-height="941">
+  <div class="sd-stage__layer sd-stage__layer--plate" aria-hidden="true">
+    <div class="sd-stage__registered"><div class="sd-stage__plate"></div></div>
+  </div>
+  <div class="sd-stage__layer sd-stage__layer--atmosphere" aria-hidden="true"></div>
+  <div class="sd-stage__layer sd-stage__layer--ui">
+    <main id="legacy" class="screen" aria-labelledby="legacyHeading">
+      <header class="legacyTopbar sd-label" aria-label="Primary">
+        <div id="legacyBrand" class="legacyBrand sd-label"></div>
+        <nav id="legacyTopNav" class="legacyTopNav sd-label" aria-label="Showdown navigation"></nav>
+        <button id="legacySettings" class="legacySettings" type="button" data-route="settings" aria-label="Settings">⚙</button>
+        <div id="legacySlogan" class="legacySlogan" aria-hidden="true"></div>
+      </header>
+
+      <section class="legacyTitleBlock" aria-label="Legacy screen title">
+        <p id="fixtureEyebrow" class="legacyEyebrow sd-eyebrow"></p>
+        <h1 id="legacyHeading" class="legacyWordmarkWrap sd-title sd-title--wordmark">
+          <span id="legacyHeadingText" class="sd-visually-hidden">LEGACY</span>
+          <img class="legacyWordmark" src="assets/TITLE_LG_V1.webp" alt="" aria-hidden="true" width="1028" height="280" decoding="async">
+        </h1>
+        <p id="fixtureTagline" class="legacyTagline sd-tagline"></p>
+      </section>
+
+      <p id="fixtureFrameLabel" class="sd-visually-hidden" aria-live="polite"></p>
+      <section class="fixtureDebug" hidden aria-hidden="true">
+        <div id="fixtureStrings"></div>
+        <div id="fixtureValues"></div>
+      </section>
+
+      <section class="legacyArchivePanel sd-panel" aria-label="Legacy archive">
+        <div id="legacyPreviewTag" class="sd-preview-tag legacyPreviewTag" hidden></div>
+        <div id="legacyStateBanner" class="legacyStateBanner sd-panel" hidden aria-live="polite"></div>
+        <aside id="legacySideMenu" class="legacySidePanel sd-panel sd-label" aria-label="Legacy destinations"></aside>
+        <div id="legacyCardGrid" class="legacyCardGrid sd-label" aria-label="Showdown archive cards"></div>
+        <div id="legacyPager" class="legacyPager sd-label" aria-label="Legacy pages"></div>
+      </section>
+
+      <button id="viewSeasonHistory" class="legacyPrimaryAction sd-btn sd-btn--primary" type="button" data-action="viewSeasonHistory" aria-controls="legacySeasonHistory" aria-expanded="false"></button>
+      <section id="legacySeasonHistory" class="legacySeasonHistory sd-panel" aria-live="polite" hidden></section>
+      <div class="nav-reserve" aria-hidden="true"></div>
+    </main>
+  </div>
+  <div class="sd-stage__layer sd-stage__layer--cutout" aria-hidden="true">
+    <div class="sd-stage__registered">
+      <span class="sd-stage__cutout managerPlateMarker" data-manager="daniel" role="presentation"></span>
+      <span class="sd-stage__cutout managerPlateMarker" data-manager="nik" role="presentation"></span>
+      <span class="sd-stage__cutout legacyDepthCutout legacyDepthCutout--daniel"
+        data-src1x="assets/OVL_LG_DANIEL_FOREGROUND_V1_1X.webp"
+        data-src2x="assets/OVL_LG_DANIEL_FOREGROUND_V1_2X.webp"></span>
+      <span class="sd-stage__cutout legacyDepthCutout legacyDepthCutout--nik"
+        data-src1x="assets/OVL_LG_NIK_FOREGROUND_V1_1X.webp"
+        data-src2x="assets/OVL_LG_NIK_FOREGROUND_V1_2X.webp"></span>
+    </div>
+  </div>
+  <div class="sd-stage__layer sd-stage__layer--light" aria-hidden="true">
+    <div class="sd-stage__registered">
+      <span class="sd-stage__rim legacyDepthRim legacyDepthRim--daniel"
+        data-src1x="assets/OVL_LG_DANIEL_FOREGROUND_V1_RIM_1X.webp"
+        data-src2x="assets/OVL_LG_DANIEL_FOREGROUND_V1_RIM_2X.webp"></span>
+      <span class="sd-stage__rim legacyDepthRim legacyDepthRim--nik"
+        data-src1x="assets/OVL_LG_NIK_FOREGROUND_V1_RIM_1X.webp"
+        data-src2x="assets/OVL_LG_NIK_FOREGROUND_V1_RIM_2X.webp"></span>
+    </div>
+  </div>
+</div>
+<script src="../shared/stage.js"></script>
+<script src="../shared/motion.js"></script>
+<script src="legacy.js"></script>
+</body>
+</html>
