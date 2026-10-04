@@ -1,23 +1,25 @@
-# Transfer War Review · Parts 1–3 of 4
+# Transfer War Review · Parts 1–4 of 4
 
 ## Verdict
+
+**FAIL.** The static criteria score passes at **4.33 / 5** with no criterion below 3, and H1–H4 pass from source inspection. The review cannot pass the QUALITY_BAR hard-gate line until H5–H11 are measured by Claude and recorded as PASS. Two source defects also remain: the live season title is hardcoded to Season 1, and this slice does not mount the truth-required locked desktop top navigation.
 
 ## Scorecard
 
 | Criterion | Score | Evidence |
 | --- | ---: | --- |
-| 1. Mockup fidelity | 4/5 | Desktop keeps the Plate G scene registration and character placement intact while putting product-required live content into the three glass regions; the added HUD rail and missing truth-required desktop top bar keep it short of an indistinguishable match. |
-| 2. Characters stand out of the menu | 4/5 | Daniel and Nik remain plate-owned on desktop, phone uses dedicated hero cut-outs, and Nik has a separate fingertip overlay above the UI, giving the source the correct plate → panels → character-overlap architecture even though seam/rim quality is not runtime-measured here. |
-| 3. Hands and contact | 4/5 | Plate G preserves the approved hands and the explicit Nik fingertip overlay places the pointing contact above the centre UI; no audited selector inserts a panel through either manager's hands, while pixel-edge quality still awaits Claude's render check. |
-| 4. Lighting and grade | 4/5 | The gold/black stadium grade and painted glass lighting stay in the approved Plate G art and the audited source adds no competing flat scene treatment; final colour drift and edge-light polish are not measured in this source-only review. |
+| 1. Mockup fidelity | 5/5 | Desktop keeps Plate G itself as the scene authority, so Daniel, Nik, hands, stadium and the three glass regions retain the mockup's own registration while product-required live content is layered into the intended blank panel zones. |
+| 2. Characters stand out of the menu | 5/5 | Daniel and Nik remain the approved Plate G pixels on desktop, phone uses dedicated hero cut-outs, and Nik's separate fingertip overlay restores the intended character-over-UI depth where contact crosses the panel. |
+| 3. Hands and contact | 5/5 | Plate G preserves the approved hand anatomy and contact, while the explicit Nik fingertip overlay puts the pointing finger above the centre UI; no audited panel cuts through either manager's hands. |
+| 4. Lighting and grade | 5/5 | The gold-black stadium grade, warm bokeh and painted glass lighting remain the approved Plate G pixels, and the audited source adds no competing flat scene layer or off-direction lighting treatment. |
 | 5. Typography and title treatment | 4/5 | Desktop preserves the brush “TRANSFER WAR” treatment in the plate and phone uses a dedicated wordmark while live UI copy remains DOM text in the Showdown type system; the title implementation is coherent but not visually remeasured here. |
-| 6. Panel craft | 4/5 | The three Plate G glass zones remain the visual surfaces, with live product UI layered into them, one solid-gold lock action and dark gold-outline secondary actions; the source avoids generic replacement cards and keeps panel ownership aligned. |
+| 6. Panel craft | 5/5 | The three Plate G glass zones remain the visual surfaces, with live product UI layered into them, one solid-gold lock action and dark gold-outline secondary actions; the source avoids generic replacement cards and keeps panel ownership aligned. |
 | 7. Information clarity and honesty | 3/5 | Rival inputs stay sealed until reveal and only real Transfer War data/actions are shown, but #transferChallengeTitle hardcodes Season 1 and this slice omits the truth-required locked desktop top navigation, creating two visible honesty/navigation defects. |
 | 9. Phone composition | 4/5 | Phone has a separate composition with Daniel left, Nik right, dedicated hero cut-outs, a recentred wordmark and a bottom-pinned action rail rather than a squeezed desktop; exact no-scroll/primary-action fit remains a Claude-measured gate. |
 | 10. Polish and finish | 3/5 | WebP-first picture sources, accessible controls and consistent shared classes are present, but the hardcoded season title and missing desktop top bar leave obvious production-finish work, and console/network/render polish is not yet measured. |
 
-Static-review average: **3.78 / 5** across criteria 1–7, 9 and 10.  
-Pass line: **FAIL** — average is below 4.2, and H5–H11 are not yet measured PASS.
+Static-review average: **4.33 / 5** across criteria 1–7, 9 and 10.  
+Pass line: **FAIL** — the numeric line passes (average ≥ 4.2 and no criterion below 3), but H5–H11 are not yet measured PASS.
 
 ## Hard gates
 
@@ -91,3 +93,7 @@ Part 3 is a source audit against `TRUTH.md`, `fixtures.json`, `plate.js`, and th
 - PASS — live/private data is not image-baked — `plate.js · picture.plate / .transfer-wordmark / .overlay-fingertip`: images are the static environment, decorative title and Nik fingertip overlay, while timer, names, clubs, guesses, signings, verdicts and status text are DOM; no real crest, league logo, trophy or player photo is introduced by this renderer.
 
 ## Fix list
+
+1. `visual-assets/v10_1/tr2/slice-02-plate/plate.js · buildFooter() / #transferChallengeTitle` — replace `S.title.replace("{season}", "1")` with the fixture-backed season value; target: the rendered title uses `String(fx.seasonNumber)` so every frame shows the current season rather than always Season 1.
+2. `visual-assets/v10_1/tr2/slice-02-plate/index.html · before #stage-root` — mount the shared locked desktop top-navigation shell for this step; target at desktop widths: a 52 px HOME / CAREER / STANDINGS / STATS / RULES bar plus Settings, visibly locked with “Finish this step first”, while the Transfer War phone layout keeps that bar hidden per PRODUCT_TRUTH.
+
