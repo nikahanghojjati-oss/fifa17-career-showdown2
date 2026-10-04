@@ -1672,7 +1672,7 @@ ONE_TURN_PACE = ("**One turn (handbook Pace rules, 2026-10-04):** do the whole j
     "End with exactly one line: `Job {N} done: <what>. Next: <numbers>.`")
 
 def render(n, j):
-    j = dict(j, truth=[sub(n, t) for t in j["truth"]], steps=[sub(n, s) for s in j["steps"]], read=[sub(n, r) for r in j["read"]], goal=sub(n, j["goal"]))
+    j = dict(j, truth=[sub(n, t) for t in j["truth"]], steps=[sub(n, s) for s in j["steps"]], read=[sub(n, r) for r in j["read"]], goal=sub(n, j["goal"]), done=sub(n, j["done"]))
     deps = ", ".join(f"{num(d)} ({JOBS[num(d)]['title']})" for d in j["deps"]) or "nothing"
     L = [f"# JOB-{n:03d} · {j['title']}", "",
          "| Phase | Type | Lane | Worker | Wave | Steps | Claude look |", "| --- | --- | --- | --- | --- | --- | --- |",
