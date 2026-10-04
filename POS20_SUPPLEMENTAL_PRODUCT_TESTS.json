@@ -668,6 +668,16 @@
       ]
     },
     {
+      "path": "tests/contracts/shared-season-commit-concurrent-acknowledge-contracts.cjs",
+      "patterns": [
+        "^js/sparkSharedSeasonCommit\\.js$",
+        "^js/productionSharedSeasonCommit\\.js$",
+        "^tests/firebase/shared-season-commit-concurrent-acknowledge-emulator\\.cjs$",
+        "^tests/contracts/shared-season-commit-concurrent-acknowledge-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
       "path": "tests/contracts/shared-journey-reload-resume-contracts.cjs",
       "patterns": [
         "^js/productionSharedJourneyEntry\\.js$",

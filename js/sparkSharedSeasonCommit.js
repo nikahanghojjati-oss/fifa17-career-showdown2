@@ -93,17 +93,33 @@
     scpAssertAccount(await scpGet(tx,accountRef),uid);scpAssertDevice(await scpGet(tx,deviceRef),deviceId);const rivalry=scpAssertRivalry(await scpGet(tx,rivalryRef),rivalryId,uid);scpAssertSession(await scpGet(tx,sessionRef),rivalryId,sessionId,rivalry.authorized,now);const ledger=scpAssertSetup(await scpGet(tx,setupRef),rivalryId,seasonNumber),cryptoImpl=options.cryptoImpl||root.crypto,setup=await scpRebuildSetup(ledger,rivalry,rivalryId,sessionId,deviceId,cryptoImpl),teamCount=scpTeamCount(setup);const publicResult=scpAssertPublicResults(await scpGet(tx,publicRef),rivalryId,seasonNumber);const p1=scpAssertPrivateResult(await scpGet(tx,p1Ref),rivalryId,seasonNumber,"playerOne",teamCount),p2=scpAssertPrivateResult(await scpGet(tx,p2Ref),rivalryId,seasonNumber,"playerTwo",teamCount);const ready=await scpReadyState(publicResult,{playerOne:p1,playerTwo:p2},teamCount,cryptoImpl);const stored=await scpGet(tx,commitRef);
     return {sdk,db,uid,rivalryId,sessionId,deviceId,seasonNumber,seasonId,actorRole:rivalry.actorRole,setup,teamCount,ready,stored,commitRef};
   }
+  // r52: Rules evaluate a transactional write against the document as it is at commit time. When the
+  // rival's acknowledgement lands between this transaction's read and its commit, the server answers
+  // permission-denied (the revision+1 transition no longer holds) instead of an SDK-retried abort.
+  // Map that one case to the existing STALE_BASE_REVISION contract only after a fresh, fully
+  // authority-checked read proves the stored commit advanced past the revision this attempt read.
+  async function scpConcurrentAdvance(error,seenRevision,options){
+    if((error?.code!=="permission-denied"&&error?.code!=="firestore/permission-denied")||!Number.isInteger(seenRevision))return false;
+    const fresh=await scpRead(options);
+    return Boolean(fresh&&fresh.ok===true&&Number.isInteger(fresh.revision)&&fresh.revision>seenRevision);
+  }
   async function scpRun(type,options){
+    let seenRevision=null;
     try{
       const sdk=scpSdk(options),operationId=scpOperation(options.operationId),baseRevision=scpBase(options.baseRevision),cryptoImpl=options.cryptoImpl||root.crypto;
       return await sdk.runTransaction(options.firestore,async tx=>{
+        seenRevision=null;
         const ctx=await scpContext(tx,options),protocol=await scpModules.commitModule.createProtocol({teamCount:ctx.teamCount,cryptoImpl,seasonResultsModule:scpModules.resultsModule});
+        const storedRevision=ctx.stored?ctx.stored.revision:0;
         let current=null;if(ctx.stored){current=await scpCoreFromStorage(ctx.stored,ctx.ready,ctx.teamCount,cryptoImpl);try{current=await protocol.verifyState(current);}catch(_error){scpFail("SEASON_COMMIT_PROVIDER_STATE_INVALID");}}
         const applied=await protocol.apply({state:current,setup:ctx.setup,seasonResults:ctx.ready,seasonNumber:ctx.seasonNumber,actorRole:ctx.actorRole,command:{type,operationId,baseRevision}});
-        if(!applied.idempotent){tx.set(ctx.commitRef,scpStorageFromCore(applied.state,{rivalryId:ctx.rivalryId,sessionId:ctx.sessionId,deviceId:ctx.deviceId,serverTimestamp:sdk.serverTimestamp()}));}
+        if(!applied.idempotent){seenRevision=storedRevision;tx.set(ctx.commitRef,scpStorageFromCore(applied.state,{rivalryId:ctx.rivalryId,sessionId:ctx.sessionId,deviceId:ctx.deviceId,serverTimestamp:sdk.serverTimestamp()}));}
         return scpFreeze({ok:true,replayed:Boolean(applied.idempotent),revision:applied.state.revision,phase:applied.state.phase,state:protocol.projectForRole(applied.state,ctx.actorRole)});
       });
-    }catch(error){return scpResultError(error);}
+    }catch(error){
+      try{if(await scpConcurrentAdvance(error,seenRevision,options))return scpResultError({code:"SEASON_COMMIT_STALE_BASE_REVISION"});}catch(_readError){}
+      return scpResultError(error);
+    }
   }
   async function scpRead(options){
     try{
