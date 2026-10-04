@@ -139,11 +139,11 @@
     "HM2": {
       "note": "Nik signed in, active save (season 2 of 3)",
       "badge": "NIK",
-      "indicator": "Season 2 / 3",
+      "indicator": "Season 3 / 5",
       "save": {
         "hasSave": true,
         "label": "CONTINUE CAREER",
-        "meta": "Daniel vs Nik · Season 2 of 3"
+        "meta": "Daniel vs Nik · Season 3 of 5"
       },
       "newTile": "newShowdownNik",
       "primary": "continueCareer",
@@ -164,7 +164,36 @@
           "available": true,
           "reason": null
         }
-      }
+      },
+      "status": "ready",
+      "viewerRole": "nik",
+      "continue": {
+        "state": "paired",
+        "leagueId": "premier_league",
+        "season": 3,
+        "totalSeasons": 5,
+        "clubs": {
+          "daniel": "Arsenal",
+          "nik": "Chelsea"
+        },
+        "score": {
+          "daniel": 4,
+          "nik": 9
+        }
+      },
+      "bind": {
+        "status": "viewers.nik.home.status",
+        "viewerRole": "viewers.nik.home.viewerRole",
+        "continue.state": "viewers.nik.home.continue.state",
+        "continue.leagueId": "viewers.nik.home.continue.leagueId",
+        "continue.season": "viewers.nik.home.continue.season",
+        "continue.totalSeasons": "viewers.nik.home.continue.totalSeasons",
+        "continue.clubs.daniel": "viewers.nik.home.continue.clubs.daniel",
+        "continue.score.daniel": "viewers.nik.home.continue.score.daniel",
+        "continue.clubs.nik": "viewers.nik.home.continue.clubs.nik",
+        "continue.score.nik": "viewers.nik.home.continue.score.nik"
+      },
+      "bindScenario": "active-mid-season · nik"
     },
     "HM3": {
       "note": "Daniel signed in, completed showdown",
@@ -194,7 +223,36 @@
           "available": true,
           "reason": null
         }
-      }
+      },
+      "status": "ready",
+      "viewerRole": "daniel",
+      "continue": {
+        "state": "paired",
+        "leagueId": "bundesliga",
+        "season": 3,
+        "totalSeasons": 3,
+        "clubs": {
+          "daniel": "Bayern Munich",
+          "nik": "Borussia Dortmund"
+        },
+        "score": {
+          "daniel": 9,
+          "nik": 8
+        }
+      },
+      "bind": {
+        "status": "viewers.daniel.home.status",
+        "viewerRole": "viewers.daniel.home.viewerRole",
+        "continue.state": "viewers.daniel.home.continue.state",
+        "continue.leagueId": "viewers.daniel.home.continue.leagueId",
+        "continue.season": "viewers.daniel.home.continue.season",
+        "continue.totalSeasons": "viewers.daniel.home.continue.totalSeasons",
+        "continue.clubs.daniel": "viewers.daniel.home.continue.clubs.daniel",
+        "continue.score.daniel": "viewers.daniel.home.continue.score.daniel",
+        "continue.clubs.nik": "viewers.daniel.home.continue.clubs.nik",
+        "continue.score.nik": "viewers.daniel.home.continue.score.nik"
+      },
+      "bindScenario": "completion-pending · daniel"
     },
     "S0": {
       "plateOnly": true,
@@ -288,5 +346,12 @@
       "labelKey": "settingsButton",
       "route": "settingsButton"
     }
-  ]
+  ],
+  "nav": {
+    "active": "home",
+    "locked": false,
+    "reason": null,
+    "source": "nav.json screens.mainMenu"
+  },
+  "bindingSource": "visual-assets/v10_1/shared/fixtures/data-contract-v1 (Team G G-11, gameplay/recovery-v1 @ dc78ed7b)"
 }

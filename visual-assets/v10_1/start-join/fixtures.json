@@ -1,1 +1,583 @@
-{"version":"START_JOIN_V1_FIXTURES","authority":"main js/productionSharedJourneyEntry.js, js/sparkRemoteJoining.js, js/sparkPrivatePairing.js, js/persistentNikDanielPair.js, js/screens.js + DATA_CONTRACT_V1.md §0/§2/§9/§10 + PRODUCT_TRUTH.md + MOCKUP_START_JOIN.png + JOB-008","strings":{"previewLabel":"Preview data","interimLabel":"Current Showdown only. Career history is not yet available.","screen":{"eyebrow":"CAREER MODE SHOWDOWN // 17","connectionHeading":"CONNECT PLAYERS","readyHeading":"CAREER READY","setupHeading":"NEW SHOWDOWN","setupNote":"Daniel is Player One. Nik is Player Two."},"stateCopy":{"loading":{"text":"Checking your connection…","source":"new"},"empty":{"text":"No Showdown connection yet. Daniel starts a Showdown, then Nik joins with Daniel's code.","source":"new"},"partial":{"text":"Some connection details are unavailable. Your known connection is kept; try again to refresh the missing details.","source":"new"},"unavailable":{"text":"Connection details are unavailable right now. Try again without deleting your saved career.","source":"new"}},"buttons":{"startShowdown":"START A SHOWDOWN","createCode":"CREATE CODE FOR NIK","joinDaniel":"JOIN DANIEL'S SHOWDOWN","copyCode":"COPY CODE","checkStatus":"CHECK STATUS","newCode":"NEW CODE","continueCareer":"CONTINUE CAREER","startCareer":"START CAREER","retryConnection":"RETRY CONNECTION","remoteHost":"HOST PRIVATE SESSION","remoteJoin":"JOIN PRIVATE SESSION","remoteRefresh":"REFRESH / READ","remoteRevoke":"REVOKE OPEN SESSION","remoteClose":"CLOSE SESSION","remoteForget":"FORGET CODE","back":"BACK"},"inputs":{"pairingPlaceholder":"Paste Daniel's code","remotePlaceholder":"session_…"},"liveStatus":{"gettingReady":"Getting your Showdown ready…","needConnect":"Daniel and Nik need to connect before the first Showdown.","sendCode":"Send this code to Nik. It is needed only once.","joined":"Nik joined Daniel's Showdown. Continue Career when both players are ready.","careerReady":"Career ready.","badCode":"Daniel's connection code is invalid.","joining":"Joining Daniel's Showdown…","preparing":"Preparing your Showdown…"},"privacy":{"plain":"Only someone with this code can join.","source":"JOB-008 product-truth override"},"moreMenu":{"label":"More","source":"DATA_CONTRACT_V1 §2 / JOB-008","actions":["REVOKE OPEN SESSION","CLOSE SESSION","FORGET CODE"],"confirmEach":true}},"ids":{"homeEntry":"newShowdown","screen":"createShowdown","screenTitle":"createShowdownScreenTitle","showdownName":"showdownName","managerOne":"managerOne","managerTwo":"managerTwo","roundAmount":"roundAmount","setupNote":"onlineShowdownSetupNote","startShowdown":"startShowdown","entryOverlay":"productionSharedJourneyEntryOverlay","startSharedShowdown":"startSharedShowdown","continueSharedSetupGate":"continueSharedSetupGate","persistentPairPanel":"persistentNikDanielPairPanel","persistentPairCode":"persistentNikDanielPairCode","remoteOverlay":"sparkRemoteJoiningOverlay","privatePairPanel":"sparkPrivatePairingPanel","privatePairCodeInput":"sparkPrivatePairingCodeInput","settingsOverlay":"settingsOverlay","settingsContent":"settingsContent"},"frames":{"SJ1":{"note":"Nothing hosted yet. Both orientation choices are visible; Daniel remains first/left and Nik second/right.","previewLabel":"Preview data","status":"empty","viewer":"either","managerOrder":["daniel","nik"],"context":{"season":1,"totalSeasons":3,"leagueId":null,"clubs":{"daniel":null,"nik":null},"shown":["totalSeasons"]},"pairing":{"state":"none"},"actions":{"danielPrimary":"START A SHOWDOWN","nikPrimary":"JOIN DANIEL'S SHOWDOWN"},"message":"No Showdown connection yet. Daniel starts a Showdown, then Nik joins with Daniel's code.","messageSource":"new"},"SJ2":{"note":"Daniel created a fictional preview pairing code and is waiting for Nik.","previewLabel":"Preview data","status":"ready","viewer":"daniel","managerOrder":["daniel","nik"],"context":{"season":1,"totalSeasons":5,"leagueId":null,"clubs":{"daniel":null,"nik":null},"shown":["totalSeasons"]},"pairing":{"state":"waiting-for-nik","code":"PREVIEW-DANIEL-7K4Q"},"actions":["COPY CODE","NEW CODE","CHECK STATUS"],"statusText":"Send this code to Nik. It is needed only once."},"SJ3":{"note":"Nik is joining. The filled code is transient preview input, not pairing.code authority.","previewLabel":"Preview data","status":"ready","viewer":"nik","managerOrder":["daniel","nik"],"context":{"season":1,"totalSeasons":5,"leagueId":null,"clubs":{"daniel":null,"nik":null},"shown":[]},"pairing":{"state":"none"},"joinDraft":{"value":"PREVIEW-DANIEL-7K4Q","transientDomInput":true,"placeholder":"Paste Daniel's code"},"action":"JOIN DANIEL'S SHOWDOWN","statusText":"Joining Daniel's Showdown…"},"SJ4":{"note":"Bad-code action error. Successful state read remains empty; the malformed draft stays only in the input.","previewLabel":"Preview data","status":"empty","viewer":"nik","managerOrder":["daniel","nik"],"context":{"season":1,"totalSeasons":3,"leagueId":null,"clubs":{"daniel":null,"nik":null},"shown":[]},"pairing":{"state":"none"},"joinDraft":{"value":"PREVIEW-BAD-CODE","transientDomInput":true,"placeholder":"Paste Daniel's code"},"action":"JOIN DANIEL'S SHOWDOWN","error":"Daniel's connection code is invalid."},"SJ5":{"note":"Daniel and Nik are paired; private session is active. Pairing code is no longer shown. Audit data below is validator-only and is never rendered by Start / Join.","previewLabel":"Preview data","status":"ready","viewer":"either","managerOrder":["daniel","nik"],"context":{"season":1,"totalSeasons":3,"leagueId":null,"clubs":{"daniel":null,"nik":null},"shown":["totalSeasons"]},"pairing":{"state":"paired"},"session":{"state":"active"},"action":"START CAREER","statusText":"Career ready.","more":{"label":"More","actions":[{"label":"REVOKE OPEN SESSION","confirm":true},{"label":"CLOSE SESSION","confirm":true},{"label":"FORGET CODE","confirm":true}]},"validationOnly":{"render":false,"purpose":"JOB-008 arithmetic and rank evidence only; DATA_CONTRACT_V1 §2 does not expose these values on Start / Join.","leagueId":"premier_league","managerOrder":["daniel","nik"],"seasons":[{"season":1,"daniel":{"leaguePosition":1,"leaguePoints":102,"leagueGoals":110,"domesticCup":true,"championsLeague":false,"topScorer":false,"topAssist":true},"nik":{"leaguePosition":2,"leaguePoints":97,"leagueGoals":95,"domesticCup":false,"championsLeague":true,"topScorer":true,"topAssist":false},"expected":{"score":{"daniel":6,"nik":6},"winner":"daniel","tiebreak":"league-position"}},{"season":2,"daniel":{"leaguePosition":3,"leaguePoints":89,"leagueGoals":99,"domesticCup":false,"championsLeague":false,"topScorer":true,"topAssist":false},"nik":{"leaguePosition":1,"leaguePoints":101,"leagueGoals":104,"domesticCup":true,"championsLeague":false,"topScorer":false,"topAssist":true},"expected":{"score":{"daniel":1,"nik":6},"winner":"nik","tiebreak":"none"}},{"season":3,"daniel":{"leaguePosition":2,"leaguePoints":94,"leagueGoals":101,"domesticCup":true,"championsLeague":true,"topScorer":false,"topAssist":false},"nik":{"leaguePosition":1,"leaguePoints":108,"leagueGoals":120,"domesticCup":false,"championsLeague":true,"topScorer":true,"topAssist":true},"expected":{"score":{"daniel":7,"nik":10},"winner":"nik","tiebreak":"none"}}],"expected":{"showdownTotals":{"daniel":14,"nik":22},"careerTotal":{"daniel":14,"nik":22},"winner":"nik","margin":8,"trophies":{"daniel":{"championsLeague":1,"leagueTitles":1,"domesticCups":2,"total":4},"nik":{"championsLeague":2,"leagueTitles":2,"domesticCups":1,"total":5}},"standings":[{"manager":"daniel","rank":"#2"},{"manager":"nik","rank":"#1"}]}}},"SJ6":{"note":"Contract loading state. No code or connection result is guessed.","previewLabel":"Preview data","status":"loading","viewer":"either","managerOrder":["daniel","nik"],"context":{"season":1,"totalSeasons":3,"leagueId":null,"clubs":{"daniel":null,"nik":null},"shown":[]},"message":"Checking your connection…","messageSource":"new"},"SJ7":{"note":"Contract partial state. Known pairing data remains visible while another required layer is unavailable.","previewLabel":"Preview data","status":"partial","viewer":"daniel","managerOrder":["daniel","nik"],"context":{"season":1,"totalSeasons":5,"leagueId":null,"clubs":{"daniel":null,"nik":null},"shown":["totalSeasons"]},"pairing":{"state":"waiting-for-nik","code":"PREVIEW-DANIEL-2M8P"},"session":{"availability":"unavailable"},"message":"Some connection details are unavailable. Your known connection is kept; try again to refresh the missing details.","messageSource":"new","action":"RETRY CONNECTION"},"SJ8":{"note":"Contract unavailable state. Failed authority is not rendered as empty and no saved career is deleted.","previewLabel":"Preview data","status":"unavailable","viewer":"either","managerOrder":["daniel","nik"],"context":{"season":1,"totalSeasons":3,"leagueId":null,"clubs":{"daniel":null,"nik":null},"shown":[]},"message":"Connection details are unavailable right now. Try again without deleting your saved career.","messageSource":"new","action":"RETRY CONNECTION"}},"routes":{"homeEntry":{"controlId":"newShowdown","daniel":"navigateTo('createShowdown')","nik":"openCanonicalShowdownJoin()"},"setup":{"screen":"createShowdown","startControlId":"startShowdown","startFlow":"production shared entry prepares the shared shell and opens #productionSharedJourneyEntryOverlay"},"pairing":{"panel":"persistentNikDanielPairPanel","danielAction":"pairStartPairing -> create code","nikAction":"pairJoinPairing -> redeem Daniel's code"},"remoteSession":{"overlay":"sparkRemoteJoiningOverlay","actions":["host","join","refresh","revoke","close","forget"]},"back":{"controlClass":"backButton","handler":"navigateBackSmart()","safeTargets":["dashboard","mainMenu"],"normalFromHome":"mainMenu"},"topNavigation":{"tabs":["HOME","CAREER","STANDINGS","STATS","RULES"],"settingsIcon":true,"phoneHubBottomBar":true}}}
+{
+  "version": "START_JOIN_V1_FIXTURES",
+  "authority": "main js/productionSharedJourneyEntry.js, js/sparkRemoteJoining.js, js/sparkPrivatePairing.js, js/persistentNikDanielPair.js, js/screens.js + DATA_CONTRACT_V1.md §0/§2/§9/§10 + PRODUCT_TRUTH.md + MOCKUP_START_JOIN.png + JOB-008",
+  "strings": {
+    "previewLabel": "Preview data",
+    "interimLabel": "Current Showdown only. Career history is not yet available.",
+    "screen": {
+      "eyebrow": "CAREER MODE SHOWDOWN // 17",
+      "connectionHeading": "CONNECT PLAYERS",
+      "readyHeading": "CAREER READY",
+      "setupHeading": "NEW SHOWDOWN",
+      "setupNote": "Daniel is Player One. Nik is Player Two."
+    },
+    "stateCopy": {
+      "loading": {
+        "text": "Checking your connection…",
+        "source": "new"
+      },
+      "empty": {
+        "text": "No Showdown connection yet. Daniel starts a Showdown, then Nik joins with Daniel's code.",
+        "source": "new"
+      },
+      "partial": {
+        "text": "Some connection details are unavailable. Your known connection is kept; try again to refresh the missing details.",
+        "source": "new"
+      },
+      "unavailable": {
+        "text": "Connection details are unavailable right now. Try again without deleting your saved career.",
+        "source": "new"
+      }
+    },
+    "buttons": {
+      "startShowdown": "START A SHOWDOWN",
+      "createCode": "CREATE CODE FOR NIK",
+      "joinDaniel": "JOIN DANIEL'S SHOWDOWN",
+      "copyCode": "COPY CODE",
+      "checkStatus": "CHECK STATUS",
+      "newCode": "NEW CODE",
+      "continueCareer": "CONTINUE CAREER",
+      "startCareer": "START CAREER",
+      "retryConnection": "RETRY CONNECTION",
+      "remoteHost": "HOST PRIVATE SESSION",
+      "remoteJoin": "JOIN PRIVATE SESSION",
+      "remoteRefresh": "REFRESH / READ",
+      "remoteRevoke": "REVOKE OPEN SESSION",
+      "remoteClose": "CLOSE SESSION",
+      "remoteForget": "FORGET CODE",
+      "back": "BACK"
+    },
+    "inputs": {
+      "pairingPlaceholder": "Paste Daniel's code",
+      "remotePlaceholder": "session_…"
+    },
+    "liveStatus": {
+      "gettingReady": "Getting your Showdown ready…",
+      "needConnect": "Daniel and Nik need to connect before the first Showdown.",
+      "sendCode": "Send this code to Nik. It is needed only once.",
+      "joined": "Nik joined Daniel's Showdown. Continue Career when both players are ready.",
+      "careerReady": "Career ready.",
+      "badCode": "Daniel's connection code is invalid.",
+      "joining": "Joining Daniel's Showdown…",
+      "preparing": "Preparing your Showdown…"
+    },
+    "privacy": {
+      "plain": "Only someone with this code can join.",
+      "source": "JOB-008 product-truth override"
+    },
+    "moreMenu": {
+      "label": "More",
+      "source": "DATA_CONTRACT_V1 §2 / JOB-008",
+      "actions": [
+        "REVOKE OPEN SESSION",
+        "CLOSE SESSION",
+        "FORGET CODE"
+      ],
+      "confirmEach": true
+    }
+  },
+  "ids": {
+    "homeEntry": "newShowdown",
+    "screen": "createShowdown",
+    "screenTitle": "createShowdownScreenTitle",
+    "showdownName": "showdownName",
+    "managerOne": "managerOne",
+    "managerTwo": "managerTwo",
+    "roundAmount": "roundAmount",
+    "setupNote": "onlineShowdownSetupNote",
+    "startShowdown": "startShowdown",
+    "entryOverlay": "productionSharedJourneyEntryOverlay",
+    "startSharedShowdown": "startSharedShowdown",
+    "continueSharedSetupGate": "continueSharedSetupGate",
+    "persistentPairPanel": "persistentNikDanielPairPanel",
+    "persistentPairCode": "persistentNikDanielPairCode",
+    "remoteOverlay": "sparkRemoteJoiningOverlay",
+    "privatePairPanel": "sparkPrivatePairingPanel",
+    "privatePairCodeInput": "sparkPrivatePairingCodeInput",
+    "settingsOverlay": "settingsOverlay",
+    "settingsContent": "settingsContent"
+  },
+  "frames": {
+    "SJ1": {
+      "note": "Nothing hosted yet. Both orientation choices are visible; Daniel remains first/left and Nik second/right.",
+      "previewLabel": "Preview data",
+      "status": "empty",
+      "viewer": "either",
+      "managerOrder": [
+        "daniel",
+        "nik"
+      ],
+      "context": {
+        "season": 1,
+        "totalSeasons": 3,
+        "leagueId": null,
+        "clubs": {
+          "daniel": null,
+          "nik": null
+        },
+        "shown": [
+          "totalSeasons"
+        ]
+      },
+      "pairing": {
+        "state": "none"
+      },
+      "actions": {
+        "danielPrimary": "START A SHOWDOWN",
+        "nikPrimary": "JOIN DANIEL'S SHOWDOWN"
+      },
+      "message": "No Showdown connection yet. Daniel starts a Showdown, then Nik joins with Daniel's code.",
+      "messageSource": "new",
+      "bind": {
+        "pairing.state": "viewers.daniel.startJoin.pairing.state"
+      },
+      "bindScenario": "empty-career · daniel"
+    },
+    "SJ2": {
+      "note": "Daniel created a fictional preview pairing code and is waiting for Nik.",
+      "previewLabel": "Preview data",
+      "status": "ready",
+      "viewer": "daniel",
+      "managerOrder": [
+        "daniel",
+        "nik"
+      ],
+      "context": {
+        "season": 1,
+        "totalSeasons": 5,
+        "leagueId": null,
+        "clubs": {
+          "daniel": null,
+          "nik": null
+        },
+        "shown": [
+          "totalSeasons"
+        ]
+      },
+      "pairing": {
+        "state": "code-created",
+        "code": "PREVIEW-DANIEL-7K4Q"
+      },
+      "actions": [
+        "COPY CODE",
+        "NEW CODE",
+        "CHECK STATUS"
+      ],
+      "statusText": "Send this code to Nik. It is needed only once.",
+      "bind": {
+        "status": "viewers.daniel.startJoin.status",
+        "pairing.state": "viewers.daniel.startJoin.pairing.state"
+      },
+      "bindScenario": "pairing-code-created · daniel"
+    },
+    "SJ3": {
+      "note": "Nik is joining. The filled code is transient preview input, not pairing.code authority.",
+      "previewLabel": "Preview data",
+      "status": "ready",
+      "viewer": "nik",
+      "managerOrder": [
+        "daniel",
+        "nik"
+      ],
+      "context": {
+        "season": 1,
+        "totalSeasons": 5,
+        "leagueId": null,
+        "clubs": {
+          "daniel": null,
+          "nik": null
+        },
+        "shown": []
+      },
+      "pairing": {
+        "state": "none"
+      },
+      "joinDraft": {
+        "value": "PREVIEW-DANIEL-7K4Q",
+        "transientDomInput": true,
+        "placeholder": "Paste Daniel's code"
+      },
+      "action": "JOIN DANIEL'S SHOWDOWN",
+      "statusText": "Joining Daniel's Showdown…",
+      "bind": {
+        "status": "viewers.nik.startJoin.status",
+        "pairing.state": "viewers.nik.startJoin.pairing.state"
+      },
+      "bindScenario": "pairing-code-created · nik"
+    },
+    "SJ4": {
+      "note": "Bad-code action error. Successful state read remains empty; the malformed draft stays only in the input.",
+      "previewLabel": "Preview data",
+      "status": "empty",
+      "viewer": "nik",
+      "managerOrder": [
+        "daniel",
+        "nik"
+      ],
+      "context": {
+        "season": 1,
+        "totalSeasons": 3,
+        "leagueId": null,
+        "clubs": {
+          "daniel": null,
+          "nik": null
+        },
+        "shown": []
+      },
+      "pairing": {
+        "state": "none"
+      },
+      "joinDraft": {
+        "value": "PREVIEW-BAD-CODE",
+        "transientDomInput": true,
+        "placeholder": "Paste Daniel's code"
+      },
+      "action": "JOIN DANIEL'S SHOWDOWN",
+      "error": "Daniel's connection code is invalid.",
+      "bind": {
+        "pairing.state": "viewers.nik.startJoin.pairing.state"
+      },
+      "bindScenario": "empty-career · nik"
+    },
+    "SJ5": {
+      "note": "Daniel and Nik are paired; private session is active. Pairing code is no longer shown. Audit data below is validator-only and is never rendered by Start / Join.",
+      "previewLabel": "Preview data",
+      "status": "ready",
+      "viewer": "either",
+      "managerOrder": [
+        "daniel",
+        "nik"
+      ],
+      "context": {
+        "season": 1,
+        "totalSeasons": 3,
+        "leagueId": "laliga",
+        "clubs": {
+          "daniel": "Valencia",
+          "nik": "Villarreal"
+        },
+        "shown": [
+          "totalSeasons"
+        ]
+      },
+      "pairing": {
+        "state": "paired"
+      },
+      "session": {
+        "state": "active"
+      },
+      "action": "START CAREER",
+      "statusText": "Career ready.",
+      "more": {
+        "label": "More",
+        "actions": [
+          {
+            "label": "REVOKE OPEN SESSION",
+            "confirm": true
+          },
+          {
+            "label": "CLOSE SESSION",
+            "confirm": true
+          },
+          {
+            "label": "FORGET CODE",
+            "confirm": true
+          }
+        ]
+      },
+      "validationOnly": {
+        "render": false,
+        "purpose": "JOB-008 arithmetic and rank evidence only; DATA_CONTRACT_V1 §2 does not expose these values on Start / Join.",
+        "leagueId": "premier_league",
+        "managerOrder": [
+          "daniel",
+          "nik"
+        ],
+        "seasons": [
+          {
+            "season": 1,
+            "daniel": {
+              "leaguePosition": 1,
+              "leaguePoints": 102,
+              "leagueGoals": 110,
+              "domesticCup": true,
+              "championsLeague": false,
+              "topScorer": false,
+              "topAssist": true
+            },
+            "nik": {
+              "leaguePosition": 2,
+              "leaguePoints": 97,
+              "leagueGoals": 95,
+              "domesticCup": false,
+              "championsLeague": true,
+              "topScorer": true,
+              "topAssist": false
+            },
+            "expected": {
+              "score": {
+                "daniel": 6,
+                "nik": 6
+              },
+              "winner": "daniel",
+              "tiebreak": "league-position"
+            }
+          },
+          {
+            "season": 2,
+            "daniel": {
+              "leaguePosition": 3,
+              "leaguePoints": 89,
+              "leagueGoals": 99,
+              "domesticCup": false,
+              "championsLeague": false,
+              "topScorer": true,
+              "topAssist": false
+            },
+            "nik": {
+              "leaguePosition": 1,
+              "leaguePoints": 101,
+              "leagueGoals": 104,
+              "domesticCup": true,
+              "championsLeague": false,
+              "topScorer": false,
+              "topAssist": true
+            },
+            "expected": {
+              "score": {
+                "daniel": 1,
+                "nik": 6
+              },
+              "winner": "nik",
+              "tiebreak": "none"
+            }
+          },
+          {
+            "season": 3,
+            "daniel": {
+              "leaguePosition": 2,
+              "leaguePoints": 94,
+              "leagueGoals": 101,
+              "domesticCup": true,
+              "championsLeague": true,
+              "topScorer": false,
+              "topAssist": false
+            },
+            "nik": {
+              "leaguePosition": 1,
+              "leaguePoints": 108,
+              "leagueGoals": 120,
+              "domesticCup": false,
+              "championsLeague": true,
+              "topScorer": true,
+              "topAssist": true
+            },
+            "expected": {
+              "score": {
+                "daniel": 7,
+                "nik": 10
+              },
+              "winner": "nik",
+              "tiebreak": "none"
+            }
+          }
+        ],
+        "expected": {
+          "showdownTotals": {
+            "daniel": 14,
+            "nik": 22
+          },
+          "careerTotal": {
+            "daniel": 14,
+            "nik": 22
+          },
+          "winner": "nik",
+          "margin": 8,
+          "trophies": {
+            "daniel": {
+              "championsLeague": 1,
+              "leagueTitles": 1,
+              "domesticCups": 2,
+              "total": 4
+            },
+            "nik": {
+              "championsLeague": 2,
+              "leagueTitles": 2,
+              "domesticCups": 1,
+              "total": 5
+            }
+          },
+          "standings": [
+            {
+              "manager": "daniel",
+              "rank": "#2"
+            },
+            {
+              "manager": "nik",
+              "rank": "#1"
+            }
+          ]
+        }
+      },
+      "bind": {
+        "status": "viewers.daniel.startJoin.status",
+        "pairing.state": "viewers.daniel.startJoin.pairing.state",
+        "session.state": "viewers.daniel.startJoin.session.state",
+        "context.season": "viewers.daniel.home.continue.season",
+        "context.totalSeasons": "viewers.daniel.home.continue.totalSeasons",
+        "context.leagueId": "viewers.daniel.home.continue.leagueId",
+        "context.clubs.daniel": "viewers.daniel.home.continue.clubs.daniel",
+        "context.clubs.nik": "viewers.daniel.home.continue.clubs.nik"
+      },
+      "bindScenario": "active-first-season · daniel"
+    },
+    "SJ6": {
+      "note": "Contract loading state. No code or connection result is guessed.",
+      "previewLabel": "Preview data",
+      "status": "loading",
+      "viewer": "either",
+      "managerOrder": [
+        "daniel",
+        "nik"
+      ],
+      "context": {
+        "season": 1,
+        "totalSeasons": 3,
+        "leagueId": null,
+        "clubs": {
+          "daniel": null,
+          "nik": null
+        },
+        "shown": []
+      },
+      "message": "Checking your connection…",
+      "messageSource": "new",
+      "pairing": {
+        "state": "none"
+      },
+      "bind": {
+        "status": "viewers.daniel.startJoin.status",
+        "pairing.state": "viewers.daniel.startJoin.pairing.state"
+      },
+      "bindScenario": "loading · daniel"
+    },
+    "SJ7": {
+      "note": "Contract partial state. Known pairing data remains visible while another required layer is unavailable.",
+      "previewLabel": "Preview data",
+      "status": "partial",
+      "viewer": "daniel",
+      "managerOrder": [
+        "daniel",
+        "nik"
+      ],
+      "context": {
+        "season": 1,
+        "totalSeasons": 5,
+        "leagueId": null,
+        "clubs": {
+          "daniel": null,
+          "nik": null
+        },
+        "shown": [
+          "totalSeasons"
+        ]
+      },
+      "pairing": {
+        "state": "waiting-for-nik",
+        "code": "PREVIEW-DANIEL-2M8P"
+      },
+      "session": {
+        "availability": "unavailable"
+      },
+      "message": "Some connection details are unavailable. Your known connection is kept; try again to refresh the missing details.",
+      "messageSource": "new",
+      "action": "RETRY CONNECTION"
+    },
+    "SJ8": {
+      "note": "Contract unavailable state. Failed authority is not rendered as empty and no saved career is deleted.",
+      "previewLabel": "Preview data",
+      "status": "unavailable",
+      "viewer": "either",
+      "managerOrder": [
+        "daniel",
+        "nik"
+      ],
+      "context": {
+        "season": 1,
+        "totalSeasons": 3,
+        "leagueId": null,
+        "clubs": {
+          "daniel": null,
+          "nik": null
+        },
+        "shown": []
+      },
+      "message": "Connection details are unavailable right now. Try again without deleting your saved career.",
+      "messageSource": "new",
+      "action": "RETRY CONNECTION",
+      "pairing": {
+        "state": "none"
+      },
+      "bind": {
+        "status": "viewers.daniel.startJoin.status",
+        "pairing.state": "viewers.daniel.startJoin.pairing.state"
+      },
+      "bindScenario": "unavailable · daniel"
+    }
+  },
+  "routes": {
+    "homeEntry": {
+      "controlId": "newShowdown",
+      "daniel": "navigateTo('createShowdown')",
+      "nik": "openCanonicalShowdownJoin()"
+    },
+    "setup": {
+      "screen": "createShowdown",
+      "startControlId": "startShowdown",
+      "startFlow": "production shared entry prepares the shared shell and opens #productionSharedJourneyEntryOverlay"
+    },
+    "pairing": {
+      "panel": "persistentNikDanielPairPanel",
+      "danielAction": "pairStartPairing -> create code",
+      "nikAction": "pairJoinPairing -> redeem Daniel's code"
+    },
+    "remoteSession": {
+      "overlay": "sparkRemoteJoiningOverlay",
+      "actions": [
+        "host",
+        "join",
+        "refresh",
+        "revoke",
+        "close",
+        "forget"
+      ]
+    },
+    "back": {
+      "controlClass": "backButton",
+      "handler": "navigateBackSmart()",
+      "safeTargets": [
+        "dashboard",
+        "mainMenu"
+      ],
+      "normalFromHome": "mainMenu"
+    },
+    "topNavigation": {
+      "tabs": [
+        "HOME",
+        "CAREER",
+        "STANDINGS",
+        "STATS",
+        "RULES"
+      ],
+      "settingsIcon": true,
+      "phoneHubBottomBar": true
+    }
+  },
+  "nav": {
+    "active": "career",
+    "locked": false,
+    "reason": null,
+    "source": "nav.json screens.createShowdown"
+  },
+  "bindingSource": "visual-assets/v10_1/shared/fixtures/data-contract-v1 (Team G G-11, gameplay/recovery-v1 @ dc78ed7b)"
+}
