@@ -37,12 +37,13 @@ body { min-height: 100vh; }
 
 .sj-title {
   position: absolute;
-  top: 14%;
-  left: 50.3%;
-  width: 47.8%;
+  top: 14.4%;
+  left: 50%;
+  width: 42%;
+  max-width: 50%;
   margin: 0;
   transform: translateX(-50%);
-  line-height: .82;
+  line-height: .88;
 }
 
 /* TODO-WORDMARK: Claude replaces this CONNECT PLAYERS display-font fallback with ticket 124. */
@@ -50,7 +51,7 @@ body { min-height: 100vh; }
   display: block;
   width: 100%;
   font: inherit;
-  font-size: clamp(3.35rem, 6vw, 6.35rem);
+  font-size: clamp(2.8rem, 4.35vw, 4.8rem);
   font-style: italic;
   letter-spacing: .015em;
   white-space: nowrap;
