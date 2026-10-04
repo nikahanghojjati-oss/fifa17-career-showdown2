@@ -304,7 +304,7 @@ function commitHarness({role,committed=false,ownAcknowledged=false,phase=null,al
   const created=new Proxy(document,{get(target,key){if(key==="createElement")return tag=>{const n=target.createElement(tag);let id="";Object.defineProperty(n,"id",{get:()=>id,set:value=>{id=value;nodes.set(value,n);},configurable:true});return n;};return target[key];}});
   const server={committed,ownAcknowledged,phase:phase||(committed?"COMMITTED":"RESULTS_READY"),revision:committed?3:2,ackFailures:[...ackFailures]};
   const provider={
-    read:async()=>{calls.reads+=1;return {ok:true,revision:server.revision,managerRole:role,coordinatorRole:"playerOne",committed:server.committed,phase:server.phase,ownAcknowledged:server.ownAcknowledged,seasonNumber:1};},
+    read:async()=>{calls.reads+=1;if(server.failRead)return {ok:false,code:"aborted"};return {ok:true,revision:server.revision,managerRole:role,coordinatorRole:"playerOne",committed:server.committed,phase:server.phase,ownAcknowledged:server.ownAcknowledged,seasonNumber:1};},
     commitSeason:async o=>{calls.commit+=1;if(o.baseRevision!==server.revision)return {ok:false,code:"SEASON_COMMIT_STALE_BASE_REVISION"};server.committed=true;server.phase="COMMITTED";server.revision+=1;return {ok:true};},
     acknowledgeSeason:async o=>{calls.acknowledge+=1;const failure=server.ackFailures.shift();if(failure==="stale"){server.revision+=1;return {ok:false,code:"SEASON_COMMIT_STALE_BASE_REVISION"};}if(failure)return {ok:false,code:failure};if(o.baseRevision!==server.revision)return {ok:false,code:"SEASON_COMMIT_STALE_BASE_REVISION"};server.ownAcknowledged=true;server.revision+=1;return {ok:true};}
   };
@@ -347,6 +347,15 @@ async function r1CommitContracts(){
     h.clock.now+=WINDOW+1;const k=commitHarness({role:"playerTwo",committed:false});k.api.install();await k.api.refresh();await settle();
     k.fast().fn();await settle();const r0=k.calls.reads;k.clock.now+=WINDOW+1;k.fast().fn();await settle();
     assert.equal(k.calls.reads,r0,"after 3 minutes the fast lane stops (normal 15 s poll remains)");
+  }
+  {
+    const h=commitHarness({role:"playerTwo",committed:false});h.api.install();await h.api.refresh();await settle();
+    h.server.failRead=true;
+    h.fast().fn();await settle();
+    assert.deepEqual(h.calls.reports,[],"a failed fast read is retried by the next poll, not reported");
+    assert.equal(h.action().textContent,"WAITING FOR COORDINATOR","and keeps the current waiting view");
+    h.intervals.find(item=>item.ms===15000).fn();await settle();
+    assert.equal(h.calls.reports.length,1,"the normal 15 s poll still reports a real read failure");
   }
   ok("R1 Season Commit: fast reads only while waiting for the coordinator's COMMIT or the rival's ACKNOWLEDGE; COMMIT and each ACKNOWLEDGE stay manual taps");
 }
@@ -452,6 +461,9 @@ async function r1ScoringHistoryContracts(){
     sandbox.CareerModeProductionSharedSeasonCommit.refresh=async()=>{const error=new Error("down");error.code="permission-denied";throw error;};
     Object.assign(commit,{seasonNumber:3});slow.fn();await settle();
     assert.equal(reports.length,1,"a real read failure in the current season is still reported");
+    sandbox.CareerModeSparkSharedCanonicalScoring.read=async()=>({ok:false,code:"aborted"});
+    fast.fn();await settle();
+    assert.equal(reports.length,1,"a failed fast (3 s) scoring read is retried by the next poll, not reported");
   }
   ok("R1 Canonical Scoring: after both ACKNOWLEDGE the score appears by the 3 s read, then both lanes stop re-reading the immutable score; a read overtaken by CONTINUE TO SEASON N is not an error");
   {
