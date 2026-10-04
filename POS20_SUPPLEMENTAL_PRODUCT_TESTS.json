@@ -701,6 +701,15 @@
       ]
     },
     {
+      "path": "tests/contracts/season-result-clash-contracts.cjs",
+      "patterns": [
+        "^js/productionSharedSeasonCommit\\.js$",
+        "^js/productionSharedSeasonResults\\.js$",
+        "^tests/contracts/season-result-clash-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
       "path": "tests/contracts/career-screens-v10-contracts.cjs",
       "patterns": [
         "^js/careerScreensV10\\.js$",
