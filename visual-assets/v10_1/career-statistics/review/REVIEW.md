@@ -2,15 +2,41 @@
 
 ## Verdict
 
-Pending parts 2 to 4 (jobs 147, 148 and 149).
+FAIL
+
+Static score 35 / 45 = 3.9 average (criteria 1-7, 9, 10); the pass line is 4.2. No criterion is below 3. H1-H4 pass by reading. H5-H11 are NOT MEASURED (Claude measures), so the hard-gate requirement is also open. The fix list below lifts the weakest criteria (6, 1, 5).
 
 ## Scorecard
 
-Pending parts 2 to 4. No criterion is scored in this setup/measurement carry pass.
+| Criterion | Score | Evidence |
+| --- | ---: | --- |
+| 1 · Mockup fidelity | 4 | Panels sit within about 1-3 points of the mockup's boxes (tiles 24.2-75.7% vs 24.8-75.2%, table 21.5-57.7% vs 21.9-58.4%), but the side banners, footer strip and WIN % column are missing. |
+| 2 · Characters stand out | 4 | Daniel's crossed-arms cut-out sits on its own layer with a rim and contact shadow; Claude's face score on the plate is 0.94 (JOB-062). |
+| 3 · Hands and contact | 4 | The crossed arms overlap the table edge correctly via `armCutout` over the panels; Nik's chin-on-fist hand comes from the plate and was not measured separately. |
+| 4 · Lighting and grade | 4 | Dark glass panels with warm gold edges and soft inset highlights; no flat grey cover boxes in `career-statistics.css`. |
+| 5 · Typography and title | 4 | Gold brush title `TITLE_CS_V1.webp` with hidden `CAREER STATISTICS`; the tagline uses a middle dot where the mockup has a full stop. |
+| 6 · Panel craft | 3 | Headline tiles show small D / N pairs instead of the mockup's one big number, comparison blue is duller than the mockup's, and leader cards lack the chevron. |
+| 7 · Information clarity and honesty | 4 | Ready, partial, empty, loading and unavailable states are all designed with contract copy; only the always-visible Rivalry button departs from TRUTH.md. |
+| 9 · Phone composition | 4 | Separate portrait composition with tabs TABLE / COMPARE / LEADERS and hero cut-outs; H5 is still unmeasured so it cannot score 5. |
+| 10 · Polish and finish | 4 | WebP assets, fixture-driven text, no placeholders; console and failed-request counts are not fully recorded. |
+
+Total 35 / 45 = 3.9 average.
 
 ## Hard gates
 
-Pending parts 2 to 4. Part 1 only records Claude-measured evidence; an absent measurement is not treated as a failure.
+| Gate | Result | Evidence |
+| --- | --- | --- |
+| H1 · Daniel left, Nik right | PASS | `renderTable` fixes the order Daniel then Nik; all frames have `managerOrder` Daniel, Nik; the cut-out layer has Daniel on the left. |
+| H2 · Rights-safe assets | PASS | `index.html` loads only Showdown-owned plate, title, hero and trophy WebP assets; no real crests, league logos, EA/FIFA art or player photos. |
+| H3 · No live/private data baked into images | PASS | Numbers, names and states are DOM text from `fixtures.json`; the images are static art. |
+| H4 · Product truth | PASS | Dropped fields stay dropped and states follow the contract; the always-visible Rivalry button is a listed fix item, not an invented control. |
+| H5 · Phone fit | NOT MEASURED (Claude measures) | See Evidence H5: no scroll or button-rectangle values recorded for 393x660, 360x640, 375x553. |
+| H6 · Input size / contrast | NOT MEASURED (Claude measures) | No contrast ratio recorded. |
+| H7 · Reduced motion | NOT MEASURED (Claude measures) | Nothing recorded. |
+| H8 · Keyboard / focus | NOT MEASURED (Claude measures) | Nothing recorded. |
+| H9 · Console / requests | PARTIAL (Claude measures) | Intake render of CS1, CS3, CS4 showed no errors; failed-request count not recorded. |
+| H10 · Mockup diff | NOT MEASURED (Claude measures) | Face score 0.94 recorded; other boxes, SSIM and Delta E not measured. |
+| H11 · First-paint weight / WebP | NOT MEASURED (Claude measures) | No byte counts recorded. |
 
 ## Evidence
 
@@ -86,4 +112,11 @@ Mockup measured at 1672x941 from `MOCKUP_CAREER_STATISTICS.png`; code values are
 
 ## Fix list
 
-Pending parts 2 to 4.
+1. `visual-assets/v10_1/career-statistics/career-statistics.css` selector `.headlinePair b`: raise the number size from `clamp(27px,2.55vw,45px)` to `clamp(34px,3.2vw,56px)` so the D / N numbers read as heroes; target: each number at least 75% of `.headlineNumber` height with no wrap at 1366 wide.
+2. `visual-assets/v10_1/career-statistics/career-statistics.css` selector `.compareTrack .danielBar`: change `background` from `#2c7399` to `#3da5e0` (the mockup's brighter blue); target: Daniel bar reads clearly blue on the dark panel.
+3. `visual-assets/v10_1/career-statistics/index.html` line with class `sd-tagline`: change the text `TWO MANAGERS · ONE LEGACY` to `TWO MANAGERS. ONE LEGACY.`; target: matches the mockup tagline.
+4. `visual-assets/v10_1/career-statistics/career-statistics.css` selector `.leaderCard` (add `.leaderCard { position: relative; }` and `.leaderCard::after`): add a gold chevron `content: "›"`, `position: absolute; right: 8px; top: 50%; transform: translateY(-50%); color: #ffd34d; font-size: 18px`; target: chevron on the right of every leader card, not overlapping the value.
+5. `visual-assets/v10_1/career-statistics/career-statistics.css` selector `.actionRow`: change `top: 82.57%; height: 7.97%` to `top: 83.6%; height: 6.4%` (desktop only, above the 900px rules); target: row spans about 83.6-90.0%, closer to the mockup's 84.0-89.4%, with text still on one line.
+6. `visual-assets/v10_1/career-statistics/career-statistics.js` function `applyStrings`: also read `fx.strings.buttons.back` into the `.backButton .actionLabel`; target: Back text comes from fixtures, still `BACK TO MAIN MENU`.
+
+Parts: items 1-3 are job 65, items 4-6 are job 150, job 151 has no items.
