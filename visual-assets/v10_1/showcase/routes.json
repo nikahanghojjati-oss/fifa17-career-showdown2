@@ -1,16 +1,28 @@
 {
   "version": 1,
-  "part": 1,
+  "part": 2,
   "screens": [
     {
       "id": "home",
       "name": "Home",
       "folder": "../home",
       "frames": [
-        { "id": "HM1", "label": "Signed out · no save" },
-        { "id": "HM2", "label": "Nik · active save" },
-        { "id": "HM3", "label": "Daniel · completed" },
-        { "id": "S0", "label": "Plate only" }
+        {
+          "id": "HM1",
+          "label": "Signed out · no save"
+        },
+        {
+          "id": "HM2",
+          "label": "Nik · active save"
+        },
+        {
+          "id": "HM3",
+          "label": "Daniel · completed"
+        },
+        {
+          "id": "S0",
+          "label": "Plate only"
+        }
       ]
     },
     {
@@ -18,10 +30,22 @@
       "name": "League",
       "folder": "../league",
       "frames": [
-        { "id": "L1", "label": "Ready" },
-        { "id": "L2", "label": "Spinning" },
-        { "id": "L3", "label": "Selected" },
-        { "id": "L4", "label": "Clubs locked" }
+        {
+          "id": "L1",
+          "label": "Ready"
+        },
+        {
+          "id": "L2",
+          "label": "Spinning"
+        },
+        {
+          "id": "L3",
+          "label": "Selected"
+        },
+        {
+          "id": "L4",
+          "label": "Clubs locked"
+        }
       ]
     },
     {
@@ -29,13 +53,34 @@
       "name": "Club Assignment",
       "folder": "../club",
       "frames": [
-        { "id": "CL1", "label": "Ready" },
-        { "id": "CL2", "label": "Opening" },
-        { "id": "CL3", "label": "Manager one" },
-        { "id": "CL4", "label": "Manager two" },
-        { "id": "CL5", "label": "Versus" },
-        { "id": "CL6", "label": "Confirmation" },
-        { "id": "S0", "label": "Plate only" }
+        {
+          "id": "CL1",
+          "label": "Ready"
+        },
+        {
+          "id": "CL2",
+          "label": "Opening"
+        },
+        {
+          "id": "CL3",
+          "label": "Manager one"
+        },
+        {
+          "id": "CL4",
+          "label": "Manager two"
+        },
+        {
+          "id": "CL5",
+          "label": "Versus"
+        },
+        {
+          "id": "CL6",
+          "label": "Confirmation"
+        },
+        {
+          "id": "S0",
+          "label": "Plate only"
+        }
       ]
     },
     {
@@ -43,21 +88,210 @@
       "name": "Transfer War",
       "folder": "../tr2/slice-02-plate",
       "frames": [
-        { "id": "F1", "label": "Window · Nik view" },
-        { "id": "F1D", "label": "Window · Daniel view" },
-        { "id": "F1R", "label": "Early-end locked · Nik" },
-        { "id": "F1DR", "label": "Early-end locked · Daniel" },
-        { "id": "G2", "label": "Guess Entry · Nik" },
-        { "id": "G3", "label": "Guess Entry · Daniel" },
-        { "id": "F3", "label": "Signing Entry · Nik" },
-        { "id": "F3D", "label": "Signing Entry · Daniel" },
-        { "id": "F3L", "label": "Signings locked · Nik" },
-        { "id": "F3DL", "label": "Signings locked · Daniel" },
-        { "id": "F4", "label": "Verdicts · Nik" },
-        { "id": "F4D", "label": "Verdicts · Daniel" },
-        { "id": "F4E", "label": "Verdicts · no Daniel signings" },
-        { "id": "F4DE", "label": "Verdicts · Daniel view · empty" },
-        { "id": "S0", "label": "Plate only" }
+        {
+          "id": "F1",
+          "label": "Window · Nik view"
+        },
+        {
+          "id": "F1D",
+          "label": "Window · Daniel view"
+        },
+        {
+          "id": "F1R",
+          "label": "Early-end locked · Nik"
+        },
+        {
+          "id": "F1DR",
+          "label": "Early-end locked · Daniel"
+        },
+        {
+          "id": "G2",
+          "label": "Guess Entry · Nik"
+        },
+        {
+          "id": "G3",
+          "label": "Guess Entry · Daniel"
+        },
+        {
+          "id": "F3",
+          "label": "Signing Entry · Nik"
+        },
+        {
+          "id": "F3D",
+          "label": "Signing Entry · Daniel"
+        },
+        {
+          "id": "F3L",
+          "label": "Signings locked · Nik"
+        },
+        {
+          "id": "F3DL",
+          "label": "Signings locked · Daniel"
+        },
+        {
+          "id": "F4",
+          "label": "Verdicts · Nik"
+        },
+        {
+          "id": "F4D",
+          "label": "Verdicts · Daniel"
+        },
+        {
+          "id": "F4E",
+          "label": "Verdicts · no Daniel signings"
+        },
+        {
+          "id": "F4DE",
+          "label": "Verdicts · Daniel view · empty"
+        },
+        {
+          "id": "S0",
+          "label": "Plate only"
+        }
+      ]
+    },
+    {
+      "id": "trophy-room",
+      "name": "Trophy Room",
+      "folder": "../trophy-room",
+      "frames": [
+        {
+          "id": "TR1",
+          "label": "Ready · all trophies"
+        },
+        {
+          "id": "TR2",
+          "label": "Empty career"
+        },
+        {
+          "id": "TR3",
+          "label": "Partial history"
+        },
+        {
+          "id": "TR4",
+          "label": "League titles filter"
+        },
+        {
+          "id": "TR5",
+          "label": "Unavailable"
+        },
+        {
+          "id": "TR6",
+          "label": "Loading"
+        },
+        {
+          "id": "TR7",
+          "label": "Ready · Nik leads"
+        }
+      ]
+    },
+    {
+      "id": "career-statistics",
+      "name": "Career Statistics",
+      "folder": "../career-statistics",
+      "frames": [
+        {
+          "id": "CS1",
+          "label": "Ready · full summary"
+        },
+        {
+          "id": "CS2",
+          "label": "Empty career"
+        },
+        {
+          "id": "CS3",
+          "label": "Partial history"
+        },
+        {
+          "id": "CS4",
+          "label": "Unavailable"
+        },
+        {
+          "id": "CS5",
+          "label": "Loading"
+        },
+        {
+          "id": "CS6",
+          "label": "Ready · Nik leads"
+        }
+      ]
+    },
+    {
+      "id": "rivalry-statistics",
+      "name": "Rivalry Statistics",
+      "folder": "../rivalry-statistics",
+      "frames": [
+        {
+          "id": "RV1",
+          "label": "Active · transfers ready"
+        },
+        {
+          "id": "RV2",
+          "label": "Completed showdown"
+        },
+        {
+          "id": "RV3",
+          "label": "First season"
+        },
+        {
+          "id": "RV4",
+          "label": "Transfers unavailable"
+        },
+        {
+          "id": "RV5",
+          "label": "Loading"
+        },
+        {
+          "id": "RV6",
+          "label": "Unavailable"
+        },
+        {
+          "id": "RV7",
+          "label": "Partial history"
+        }
+      ]
+    },
+    {
+      "id": "legacy",
+      "name": "Legacy (History)",
+      "folder": "../legacy",
+      "frames": [
+        {
+          "id": "LG1",
+          "label": "Ready · archive"
+        },
+        {
+          "id": "LG2",
+          "label": "Active + completed"
+        },
+        {
+          "id": "LG3",
+          "label": "Abandoned record"
+        },
+        {
+          "id": "LG4",
+          "label": "Empty history"
+        },
+        {
+          "id": "LG5",
+          "label": "Current Showdown only"
+        },
+        {
+          "id": "LG6",
+          "label": "Unavailable"
+        },
+        {
+          "id": "LG7",
+          "label": "Loading"
+        },
+        {
+          "id": "LG8",
+          "label": "Partial history"
+        },
+        {
+          "id": "LG9",
+          "label": "Completion pending"
+        }
       ]
     }
   ]
