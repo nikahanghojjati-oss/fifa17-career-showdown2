@@ -803,6 +803,23 @@ body { overflow: hidden; font-family: var(--text); -webkit-font-smoothing: antia
     object-position: 50% 43%;
   }
 
+  /* Claude fix 1: suppress stadium banner lettering behind the live wordmark.
+     This scrim belongs to the background layer only, so both manager cut-outs stay untouched. */
+  .phone-hero-bg::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(
+      to bottom,
+      rgba(7, 6, 4, .94) 0,
+      rgba(7, 6, 4, .84) 10svh,
+      rgba(7, 6, 4, .58) 20svh,
+      rgba(7, 6, 4, .12) 31svh,
+      transparent 38svh
+    );
+  }
+
   .phone-hero {
     position: absolute;
     display: block;
