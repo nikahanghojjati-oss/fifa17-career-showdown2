@@ -72,7 +72,7 @@ The OVL_SR_* WebPs and rim masks are recipes, not worker-generated binaries. Cla
 
 Run `tools/MAKE_ASSETS.md` from top to bottom. It generates Daniel/Nik hand overlays and rims and finishes by running `python3 tools/build_preview.py`. Then render SR1–SR10 from committed code, inspect privacy and phase actions, run the quality gates reserved for browser evidence, and file a fix round only for measured failures.
 
-## Phone · parts 1–2 of 3
+## Phone
 
 Part 1 locked the art-first phone composition. Part 2 now fills the reserved content band with real phone UI instead of shrinking the desktop layout.
 
@@ -100,15 +100,19 @@ The compact phone entry treatment keeps the computed score and all recorded inpu
 
 ### Height budget
 
-The stage is fixed to the viewport and overflow is hidden. Part 2 budgets 46 px immediately below the 55% hero seam for the manager/scoring toolbar and 66 px at the bottom for the pinned action zone. The selected entry or review panel occupies the remainder.
+The stage is fixed to the visible viewport and overflow is hidden. The brush title is overlaid inside the hero band, so it consumes 0 additional vertical pixels. At normal phone heights the hero seam is 55%; at heights of 600 px or less it shifts to 54% to protect the 44 px form targets. The toolbar is 46 px. The bottom reserve is 66 px at the minimum safe inset: 54 px action row + 8 px safe offset + 4 px clear gap. If `env(safe-area-inset-bottom)` is larger than 8 px, both the action and content boundary move upward together.
 
-| Viewport | Hero 55% | Bottom 45% | Toolbar | Action reserve | Entry/review region | Result |
-| --- | ---: | ---: | ---: | ---: | ---: | --- |
-| 393 × 660 | 363 px | 297 px | 46 px | 66 px | 185 px | Full-height stage; no page scroll |
-| 360 × 640 | 352 px | 288 px | 46 px | 66 px | 176 px | Full-height stage; no page scroll |
-| 375 × 553 | 304.15 px | 248.85 px | 46 px | 66 px | 136.85 px | Primary action remains pinned inside viewport |
+| Viewport | Hero band | Title extra | Tabs | Entry/review panel | Pinned action reserve | Sum | Remaining | Result |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | --- |
+| 393 × 660 | 363.00 px (55%) | 0 px | 46 px | 185.00 px | 66 px | 660.00 px | 0 px | PASS · no page scroll |
+| 360 × 640 | 352.00 px (55%) | 0 px | 46 px | 176.00 px | 66 px | 640.00 px | 0 px | PASS · no page scroll |
+| 375 × 553 | 298.62 px (54%) | 0 px | 46 px | 142.38 px | 66 px | 553.00 px | 0 px | PASS · primary action visible |
+
+The 54 px action row itself sits at `bottom: max(8px, env(safe-area-inset-bottom))`; its buttons are 44 px high. The panel bottom uses `calc(58px + max(8px, env(safe-area-inset-bottom)))`, so a larger iPhone safe area cannot make the panel overlap the pinned controls.
+
+A 300 px keyboard inset still leaves the primary action inside the reduced dynamic viewport. From the 393 × 660 target, an effective 360 px viewport uses the short-height 54% seam: 194.40 + 46 + 53.60 + 66 = 360 px, while the action row occupies y=298…352 at the minimum 8 px safe offset. The keyboard can compress the editable panel, but it does not cover the primary action.
+
+Larger phones grow the content region instead of leaving the composition floating: 390 × 844 gives 267.80 px for entry/review content, and 430 × 932 gives 307.40 px, with the same 46 px toolbar and 66 px minimum action reserve.
 
 The scoring sheet is an overlay from 44% of viewport height to 8 px above the bottom edge, so opening it does not alter document height. Phone scene art remains at most 342,974 bytes from part 1 before shared CSS/type resources.
-
-Part 3 is job 173.
 
