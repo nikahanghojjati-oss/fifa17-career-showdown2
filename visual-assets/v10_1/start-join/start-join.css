@@ -86,7 +86,7 @@ body { min-height: 100vh; }
   padding: 1.05% 1%;
   display: grid;
   /* Fix 1/5: reserve a full action row inside both role cards at 768px-tall desktop viewports. */
-  grid-template-rows: minmax(224px, 47%) minmax(0, 39%) 1fr;
+  grid-template-rows: minmax(224px, 47%) auto auto;
   row-gap: 2.1%;
 }
 
@@ -290,13 +290,14 @@ body { min-height: 100vh; }
 /* Mockup current-session box: x ≈ 24.8%, y ≈ 55.5%, w ≈ 49.2%, h ≈ 23.5%. */
 .sj-current-panel {
   width: 100%;
-  height: 100%;
-  padding: 3.6% 3%;
+  height: auto;
+  padding: 2.4% 3%;
   display: grid;
   grid-template-columns: minmax(0, 1.2fr) minmax(150px, .7fr);
-  grid-template-rows: auto 1fr;
+  grid-template-rows: auto auto auto auto;
   column-gap: 20px;
   align-content: start;
+  align-self: start;
 }
 
 .sj-current-head {
