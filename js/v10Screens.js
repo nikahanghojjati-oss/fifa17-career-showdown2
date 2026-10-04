@@ -5,7 +5,7 @@
 })(typeof globalThis!=="undefined"?globalThis:this,function(root){
   "use strict";
 
-  // JOB-24 (G-13 part 2a): one lazy loader for Team V's screens (visual-assets/v10_1, pinned bde2172)
+  // JOB-24 (G-13 part 2a): one lazy loader for Team V's screens (visual-assets/v10_1, pinned 5e05a1f)
   // and Team V's navigation bar. Visual only: it never changes routes, data, storage or scoring.
   // - register(appScreenId, {css, js, prepare, frame, mount, unmount, auto}) then show(appScreenId).
   //   Files load once; a screen mounts when the app shows it and unmounts when the app leaves it.

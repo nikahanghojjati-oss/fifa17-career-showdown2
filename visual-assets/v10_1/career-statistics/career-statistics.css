@@ -551,3 +551,25 @@ html[data-reduced-motion="true"] .careerStage .rankCrown { animation: none !impo
 html[data-motion-reduced="true"] .actionButton, html[data-reduced-motion="true"] .actionButton,
 html[data-motion-reduced="true"] .phoneTabs label, html[data-reduced-motion="true"] .phoneTabs label { transition: none; }
 html[data-motion-reduced="true"] .actionButton:active, html[data-reduced-motion="true"] .actionButton:active { transform: none; }
+
+/* CC-008 A6 · Nik's review: the CAREER STATISTICS wordmark and eyebrow sat on both heads.
+   A smaller, higher title band; both managers start below it and their chins stay above the stat tiles. */
+@media (max-width: 760px) and (orientation: portrait) {
+  .titleBlock { left: 23%; width: 54%; top: 6px; height: 52px; }
+  .titleBlock .sd-eyebrow { display: none; }
+  .titleWordmark { top: 6px; }
+  .titleBlock .sd-tagline { top: 36px; }
+  .phoneHeroDaniel { top: 60px; height: 52%; }
+  .phoneHeroNik { top: 54px; height: 53%; }
+}
+@media (max-width: 760px) and (orientation: portrait) and (max-height: 600px) {
+  .titleBlock { top: 4px; height: 46px; }
+  .titleWordmark { top: 4px; }
+  .titleBlock .sd-tagline { top: 32px; }
+  .phoneHeroDaniel { top: 50px; height: 44%; }
+  .phoneHeroNik { top: 46px; height: 45%; }
+}
+
+/* CC-008 B7 · desktop: the old decorative topChrome (aria-hidden) still drew under the shared navbar, so every
+   tab label had a faint ghost copy beside it ("HOMEME", "CAREERER"). The shared bar owns the top now. */
+.topChrome { display: none !important; }

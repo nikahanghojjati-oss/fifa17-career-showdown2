@@ -24,7 +24,7 @@ const flush=async(times=12)=>{for(let i=0;i<times;i+=1)await new Promise(resolve
 const EVENT="career-mode-screen-shown";
 const LOCK_TEXT="Finish this step first";
 const APP_SCREENS=["mainMenu","createShowdown","leagueWheelScreen","clubWheelScreen","dashboard","transferChallenge","seasonEntry","seasonSummary","statistics","careerStatistics","trophyRoom","legacy","ruleBook"];
-// NAV_CONTRACT.md (Team V bde2172): screen -> active key and where the phone bar shows.
+// NAV_CONTRACT.md (Team V 5e05a1f): screen -> active key and where the phone bar shows.
 const NAV_TABLE={
   mainMenu:["home","hub"],createShowdown:["career","hub"],legacy:["career","hub"],trophyRoom:["career","hub"],
   careerStatistics:["stats","hub"],statistics:["stats","hub"],ruleBook:["rules","hub"],
@@ -455,9 +455,11 @@ check("F10 index.html is unchanged and the startup line is not higher",()=>{
 check("F11 Team V files are copied unchanged; no docs, previews or images are copied for the bar",()=>{
   const pinned={
     "visual-assets/v10_1/shared/navbar/navbar.css":"19e3aec81f0de27d2a893c1019587c3157952c9ea8801c19276ce942938c208b",
-    "visual-assets/v10_1/shared/navbar/navbar.js":"7fbfebd85f7739e32557b4b903e8139b7ec59d28f51abdb0a615d6dfb3295b1c"
+    "visual-assets/v10_1/shared/navbar/navbar.js":"7fbfebd85f7739e32557b4b903e8139b7ec59d28f51abdb0a615d6dfb3295b1c",
+    // Re-copied from the final Team V pin (phone layout); job 13's only file that changed upstream.
+    "visual-assets/v10_1/career-statistics/career-statistics.css":"20c472e0da172fc65167c598b890f9e53a057c08276e6e5efb7763161d558323"
   };
-  for(const [file,hash] of Object.entries(pinned))assert.equal(sha256(file),hash,`${file} equals Team V bde2172`);
+  for(const [file,hash] of Object.entries(pinned))assert.equal(sha256(file),hash,`${file} equals Team V 5e05a1f`);
   assert.deepEqual(fs.readdirSync(path.join(ROOT,"visual-assets/v10_1/shared/navbar")).sort(),["navbar.css","navbar.js"]);
   const src=read("js/v10Screens.js");
   assert.ok(!src.includes("fixtures.json")&&!src.includes("Preview data"),"no fixtures in production");
