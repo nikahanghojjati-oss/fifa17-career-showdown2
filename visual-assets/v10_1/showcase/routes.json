@@ -707,6 +707,46 @@
           "screen": "final-winner",
           "frame": "FW1"
         }
+      },
+      "startJoinToLeague": {
+        "from": "start-join",
+        "preview": true,
+        "destination": {
+          "screen": "league",
+          "frame": "L1"
+        }
+      },
+      "leagueToClub": {
+        "from": "league",
+        "preview": true,
+        "destination": {
+          "screen": "club",
+          "frame": "CL1"
+        }
+      },
+      "clubToTransfer": {
+        "from": "club",
+        "preview": true,
+        "destination": {
+          "screen": "transfer-war",
+          "frame": "F1"
+        }
+      },
+      "transferToSeasonResults": {
+        "from": "transfer-war",
+        "preview": true,
+        "destination": {
+          "screen": "season-results",
+          "frame": "SR1"
+        }
+      },
+      "finalWinnerToLegacy": {
+        "from": "final-winner",
+        "preview": true,
+        "destination": {
+          "screen": "legacy",
+          "frame": "LG1"
+        }
       }
     }
   }
