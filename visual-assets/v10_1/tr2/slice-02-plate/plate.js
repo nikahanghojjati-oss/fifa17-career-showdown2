@@ -828,6 +828,18 @@
     world.style.setProperty("--mask-b", (fadeStart * k).toFixed(1) + "px");
     world.style.setProperty("--mask-c", (cutY * k).toFixed(1) + "px");
     stage.dataset.k = k.toFixed(4); stage.dataset.offY = Math.round(y0 * k); stage.dataset.offX = Math.round(x0 * k);
+    // CC-008 A4: the phone hero cut-outs size themselves to the scene window above the status band,
+    // which is shorter in the guess, signing and verdict phases, so both faces stay above the band.
+    // Below ~120 px of figure height the faces are too small to read, so the stadium shows on its own.
+    var art = document.querySelector(".phone-hero-art"), bandEl = stage.querySelector(".sign-status");
+    if (art) {
+      // offsetTop chain, not getBoundingClientRect: the band may still be mid entrance transform here.
+      var win = 0, el = bandEl || scene;
+      for (; el; el = el.offsetParent) win += el.offsetTop;
+      if (!bandEl) win += H;
+      art.style.setProperty("--tw-window", Math.round(win) + "px");
+      art.dataset.heroes = (win - 60) / 0.49 >= 120 ? "on" : "off";
+    }
     stage.dataset.sceneCrop = [Math.round(x0), Math.round(y0), Math.round(x0 + vw / k), Math.round(cutY)].join(",");
     return PLATE_W * k;
   }
@@ -912,6 +924,9 @@
     addEventListener("resize", relayout);
     var ro = window.ResizeObserver ? new ResizeObserver(function () { if (isMobile()) relayout(); }) : null;
     if (ro) ro.observe(scene);
+    // CC-008 A4: the wordmark image loads late and moves the scene down without resizing it.
+    var wordmark = document.querySelector(".transfer-wordmark");
+    if (ro && wordmark) ro.observe(wordmark);
     if (mq.addEventListener) mq.addEventListener("change", relayout);
 
     // Demo clock. Production owns the real value (server-authoritative; SYNC / 00:00 states).

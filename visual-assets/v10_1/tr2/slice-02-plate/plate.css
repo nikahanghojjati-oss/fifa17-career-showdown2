@@ -1284,3 +1284,28 @@ html[data-motion-reduced="true"] .stage :is(.tw-guess-flight, .tw-guess-wax, .tw
   }
   .stage :is(.tw-guess-flight, .tw-guess-wax, .tw-motion-wax, canvas) { display: none !important; }
 }
+
+/* CC-008 A4 · Nik's review: half of Daniel's face sat under Nik's shoulder and his feathered hair top
+   read as a blurred dark half-head under the TRANSFER WAR title. Both heads now start below the title,
+   the faces are pulled apart (Daniel left, Nik right) and Daniel is the front layer where the sleeves
+   meet, so his face is in front of nothing and nothing of Nik's face is covered. */
+@media (max-width: 760px) and (orientation: portrait) {
+  .phone-hero-art {
+    /* --tw-window (plate.js) is the bottom of the scene window; Daniel's chin sits at .49 of his height. */
+    --tw-dh: min(45svh, 76vw, (var(--tw-window, 55svh) - max(8px, env(safe-area-inset-top)) - 52px) / .49);
+    --tw-nh: calc(var(--tw-dh) * 1.045);
+  }
+  .phone-hero-daniel {
+    top: calc(max(8px, env(safe-area-inset-top)) + 46px);
+    height: var(--tw-dh);
+    left: calc(50% - var(--tw-dh) * .53);
+    z-index: 3;
+  }
+  .phone-hero-nik {
+    top: calc(max(8px, env(safe-area-inset-top)) + 40px);
+    height: var(--tw-nh);
+    left: calc(50% + var(--tw-nh) * .19);
+    z-index: 2;
+  }
+  .phone-hero-art[data-heroes="off"] .phone-hero { display: none; }
+}
