@@ -1,272 +1,250 @@
 #!/usr/bin/env python3
-"""Validate Team V fixture shape against JOB-104 binding assumptions.
+"""Check Team V's screen fixtures against Team G's G-11 model-true fixtures.
 
-Part 1 validates Home, Start / Join, and Season Results. It intentionally
-uses only the Python standard library. When Team G's G-11 manifest is copied
-onto the factory branch, the same checker validates its declared screen roots.
+Reads project-documents/factory/reviews/BINDING.md (its tables and its
+`frame-map` json block) and visual-assets/v10_1/shared/fixtures/data-contract-v1/.
+
+1. keys:   every G-11 key cited in a BINDING.md table exists in at least one scenario.
+2. frames: every mapped frame exists, its scenario exists, and the frame's
+           status matches the model the scenario sends that viewer.
+3. values: screens whose fixtures.json carries `bindingSource` (swapped by
+           JOB-216..218) show the same numbers as their scenario.
+4. shared: the same number is identical on every screen fed by one scenario
+           (JOB-220).
+
+Standard library only. Prints one line per error and ends with "N errors".
 """
 
 from __future__ import annotations
 
-import argparse
 import json
+import re
 import sys
 from pathlib import Path
 
-STATUSES = {"loading", "empty", "unavailable", "partial", "ready"}
-HOME_REASONS = {"loading", "reconnecting", "not-paired", "unavailable"}
-PAIRING_STATES = {"none", "code-created", "waiting-for-nik", "paired"}
-SESSION_STATES = {"open", "active", "revoked", "closed", "expired"}
-SEASON_PHASES = {"entering", "waiting-for-rival", "results-ready", "committed"}
-SEASON_TIEBREAKS = {"none", "league-position", "league-points", "draw"}
-MANAGER_INPUTS = {
-    "leaguePosition",
-    "leaguePoints",
-    "leagueGoals",
-    "domesticCup",
-    "championsLeague",
-    "topScorer",
-    "topAssist",
-}
-BREAKDOWN_FIELDS = {
-    "championsLeague",
-    "leagueTitle",
-    "domesticCup",
-    "performanceBonus",
-    "awardsBonus",
-    "total",
-}
+ROOT = Path(__file__).resolve().parents[4]
+G11 = ROOT / "visual-assets/v10_1/shared/fixtures/data-contract-v1"
+BINDING = ROOT / "project-documents/factory/reviews/BINDING.md"
+SCREENS = ROOT / "visual-assets/v10_1"
+MANAGERS = ("daniel", "nik")
 INTERIM = "Current Showdown only. Career history is not yet available."
 PREVIEW = "Preview data"
 
-
-def load_json(path: Path) -> dict:
-    with path.open("r", encoding="utf-8") as handle:
-        return json.load(handle)
+errors: list[str] = []
 
 
-def repo_root(start: Path) -> Path:
-    for candidate in [start, *start.parents]:
-        if (candidate / "project-documents" / "factory").exists():
-            return candidate
-    raise SystemExit("Could not locate repository root.")
+def err(msg: str) -> None:
+    errors.append(msg)
+
+
+def load(path: Path):
+    with path.open(encoding="utf-8") as fh:
+        return json.load(fh)
+
+
+def scenarios() -> dict:
+    index = load(G11 / "index.json")
+    return {s["id"]: load(G11 / s["file"]) for s in index["scenarios"]}
+
+
+# ---------- 1. keys ----------------------------------------------------------
+
+def expand(cell: str) -> list[str]:
+    """'viewers.<viewer>.home.continue.state / season / totalSeasons' -> three paths."""
+    parts = [p.strip(" `") for p in cell.split(" / ")]
+    if not parts[0].startswith(("viewers.", "career.", "careerInterim.")):
+        return []
+    out = [parts[0]]
+    stem = parts[0].rsplit(".", 1)[0]
+    for p in parts[1:]:
+        if re.fullmatch(r"[A-Za-z.<>\[\]]+", p):
+            out.append(p if p.startswith(("viewers.", "career")) else stem + "." + p)
+    return out
+
+
+def resolve(node, parts: list[str]) -> bool:
+    if not parts:
+        return True
+    head, rest = parts[0], parts[1:]
+    if head.endswith("[]"):
+        key = head[:-2]
+        if not isinstance(node, dict) or not isinstance(node.get(key), list):
+            return False
+        return any(resolve(item, rest) for item in node[key]) or (not node[key] and not rest)
+    if head in ("<viewer>", "<manager>"):
+        return any(resolve(node, [m] + rest) for m in MANAGERS)
+    if not isinstance(node, dict) or head not in node:
+        return False
+    if node[head] is None:
+        return True  # key present; the model sends null in this state
+    return resolve(node[head], rest)
+
+
+def check_keys(md: str, scen: dict) -> int:
+    seen = 0
+    for line in md.splitlines():
+        if not line.startswith("|") or "---" in line:
+            continue
+        for cell in line.strip("|").split("|"):
+            for path in expand(cell.strip()):
+                seen += 1
+                if not any(resolve(s, path.split(".")) for s in scen.values()):
+                    err(f"keys: {path} is in no G-11 scenario")
+    return seen
+
+
+# ---------- 2. frames --------------------------------------------------------
+
+ROOTS = {
+    "home": "home",
+    "start-join": "startJoin",
+    "season-results": "seasonResults",
+    "final-winner": "finalWinner",
+    "rivalry-statistics": "rivalry",
+}
+
+
+def frame_map(md: str) -> dict:
+    m = re.search(r"## frame-map.*?```json\n(.*?)\n```", md, re.S)
+    if not m:
+        err("frames: BINDING.md has no frame-map json block")
+        return {}
+    return json.loads(m.group(1))
+
+
+def model_for(scen: dict, screen: str, ref: dict):
+    """The view model a frame binds to."""
+    doc = scen[ref["scenario"]]
+    viewer = ref.get("viewer", "daniel")
+    if screen in ROOTS:
+        v = doc["viewers"][viewer]
+        if screen == "season-results" and "season" in ref:
+            return next((s for s in v["seasonResultsBySeason"] if s["season"] == ref["season"]), None)
+        return v[ROOTS[screen]]
+    return doc[ref.get("root", "career")]
+
+
+def check_frames(fmap: dict, scen: dict) -> int:
+    n = 0
+    for screen, frames in fmap.items():
+        fx = load(SCREENS / screen / "fixtures.json")
+        for fid, ref in frames.items():
+            n += 1
+            if fid not in fx["frames"]:
+                err(f"frames: {screen} {fid} is not in fixtures.json")
+                continue
+            if ref.get("teamV"):
+                if not ref.get("reason"):
+                    err(f"frames: {screen} {fid} is teamV without a reason")
+                continue
+            if ref.get("scenario") not in scen:
+                err(f"frames: {screen} {fid} names unknown scenario {ref.get('scenario')}")
+                continue
+            model = model_for(scen, screen, ref)
+            if model is None:
+                err(f"frames: {screen} {fid} season {ref.get('season')} not in {ref['scenario']}")
+                continue
+            frame = fx["frames"][fid]
+            want = model.get("status") if isinstance(model, dict) else None
+            if "status" in frame and want and frame["status"] != want and not ref.get("gap"):
+                err(f"frames: {screen} {fid} status {frame['status']} but {ref['scenario']} sends {want}")
+    return n
+
+
+# ---------- 3. values ------------------------------------------------------------
+
+def leaves(node, prefix=""):
+    if isinstance(node, dict):
+        for k, v in node.items():
+            yield from leaves(v, f"{prefix}.{k}" if prefix else k)
+    elif isinstance(node, list):
+        for i, v in enumerate(node):
+            yield from leaves(v, f"{prefix}[{i}]")
+    else:
+        yield prefix, node
+
+
+def get(node, path: str):
+    for part in re.findall(r"[^.\[\]]+|\[\d+\]", path):
+        if part.startswith("["):
+            idx = int(part[1:-1])
+            if not isinstance(node, list) or idx >= len(node):
+                return KeyError
+            node = node[idx]
+        else:
+            if not isinstance(node, dict) or part not in node:
+                return KeyError
+            node = node[part]
+    return node
+
+
+def check_values(fmap: dict, scen: dict) -> int:
+    """A swapped frame records `bind` = {frame path: G-11 path}; both must agree."""
+    n = 0
+    for screen, frames in fmap.items():
+        fx = load(SCREENS / screen / "fixtures.json")
+        if "bindingSource" not in fx:
+            continue
+        for fid, ref in frames.items():
+            frame = fx["frames"].get(fid)
+            if not frame or ref.get("teamV"):
+                continue
+            if frame.get("previewLabel", PREVIEW) != PREVIEW:
+                err(f"values: {screen} {fid} lost the '{PREVIEW}' tag")
+            if "managerOrder" in frame and frame["managerOrder"] != list(MANAGERS):
+                err(f"values: {screen} {fid} managerOrder is not [daniel, nik]")
+            doc = scen[ref["scenario"]]
+            for fpath, gpath in (frame.get("bind") or {}).items():
+                n += 1
+                a, b = get(frame, fpath), get(doc, gpath)
+                if a is KeyError or b is KeyError:
+                    err(f"values: {screen} {fid} {fpath} <- {gpath}: path missing")
+                elif a != b:
+                    err(f"values: {screen} {fid} {fpath}={a!r} but {ref['scenario']} {gpath}={b!r}")
+    return n
+
+
+# ---------- 4. shared ---------------------------------------------------------------
+
+def check_shared(fmap: dict, scen: dict) -> int:
+    """Every bound G-11 path read by two screens must show one value."""
+    seen: dict[tuple[str, str], tuple[str, object]] = {}
+    n = 0
+    for screen, frames in fmap.items():
+        fx = load(SCREENS / screen / "fixtures.json")
+        if "bindingSource" not in fx:
+            continue
+        for fid, ref in frames.items():
+            frame = fx["frames"].get(fid)
+            if not frame or ref.get("teamV"):
+                continue
+            for fpath, gpath in (frame.get("bind") or {}).items():
+                val = get(frame, fpath)
+                key = (ref["scenario"], gpath)
+                if key in seen and seen[key][1] != val:
+                    err(f"shared: {ref['scenario']} {gpath}: {seen[key][0]} shows {seen[key][1]!r}, {screen} {fid} shows {val!r}")
+                seen.setdefault(key, (f"{screen} {fid}", val))
+                n += 1
+    return n
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser()
-    parser.add_argument(
-        "--g11-index",
-        type=Path,
-        default=None,
-        help="Optional path to Team G tests/fixtures/data-contract-v1/index.json",
-    )
-    parser.add_argument(
-        "--strict-g11",
-        action="store_true",
-        help="Fail if the Team G G-11 manifest is not available.",
-    )
-    args = parser.parse_args()
-
-    root = repo_root(Path(__file__).resolve())
-    binding_path = root / "project-documents/factory/reviews/BINDING.md"
-    home_path = root / "visual-assets/v10_1/home/fixtures.json"
-    start_path = root / "visual-assets/v10_1/start-join/fixtures.json"
-    season_path = root / "visual-assets/v10_1/season-results/fixtures.json"
-    default_g11 = root / "tests/fixtures/data-contract-v1/index.json"
-    g11_path = args.g11_index or default_g11
-
-    errors: list[str] = []
-    warnings: list[str] = []
-
-    def check(condition: bool, message: str) -> None:
-        if not condition:
-            errors.append(message)
-
-    binding = binding_path.read_text(encoding="utf-8")
-    home = load_json(home_path)
-    start = load_json(start_path)
-    season = load_json(season_path)
-
-    # Documentation coverage: these are the exact contract fields this part binds.
-    required_binding_tokens = [
-        "viewerRole",
-        "continue.state",
-        "continue.leagueId",
-        "continue.clubs.daniel",
-        "continue.clubs.nik",
-        "continue.season",
-        "continue.totalSeasons",
-        "continue.score.daniel",
-        "continue.score.nik",
-        "tiles.history.available",
-        "pairing.state",
-        "pairing.code",
-        "session.state",
-        "leaguePosition",
-        "leaguePoints",
-        "leagueGoals",
-        "domesticCup",
-        "championsLeague",
-        "topScorer",
-        "topAssist",
-        "breakdown.performanceBonus",
-        "breakdown.awardsBonus",
-        "winner",
-        "tiebreak",
-        "nav.locked",
-        "nav.reason",
-        "Preview data",
-        INTERIM,
-    ]
-    for token in required_binding_tokens:
-        check(token in binding, f"BINDING.md missing required token: {token}")
-
-    # Home fixture checks.
-    home_frames = home.get("frames", {})
-    for frame_id in ("HM1", "HM2", "HM3"):
-        frame = home_frames.get(frame_id)
-        check(isinstance(frame, dict), f"Home {frame_id} missing")
-        if not isinstance(frame, dict):
-            continue
-        tiles = frame.get("tiles")
-        check(isinstance(tiles, dict), f"Home {frame_id}.tiles missing")
-        if isinstance(tiles, dict):
-            check(
-                set(tiles) == {"history", "statistics", "trophyRoom", "rivalry"},
-                f"Home {frame_id} tile keys drifted: {sorted(tiles)}",
-            )
-            for tile_name, tile in tiles.items():
-                check(
-                    isinstance(tile.get("available"), bool),
-                    f"Home {frame_id}.{tile_name}.available must be boolean",
-                )
-                reason = tile.get("reason")
-                check(
-                    reason is None or reason in HOME_REASONS,
-                    f"Home {frame_id}.{tile_name}.reason invalid: {reason!r}",
-                )
-    messages = home.get("availabilityMessages", {})
-    check(set(messages) == HOME_REASONS, "Home availabilityMessages must match contract reason enum")
-
-    # Start / Join fixture checks.
-    check(start.get("strings", {}).get("previewLabel") == PREVIEW, "Start / Join preview label drifted")
-    check(start.get("strings", {}).get("interimLabel") == INTERIM, "Start / Join interim label drifted")
-    for frame_id, frame in start.get("frames", {}).items():
-        status = frame.get("status")
-        check(status in STATUSES, f"Start / Join {frame_id}.status invalid: {status!r}")
-        check(
-            frame.get("managerOrder") == ["daniel", "nik"],
-            f"Start / Join {frame_id} manager order must be Daniel then Nik",
-        )
-        pairing = frame.get("pairing")
-        if isinstance(pairing, dict):
-            check(
-                pairing.get("state") in PAIRING_STATES,
-                f"Start / Join {frame_id}.pairing.state invalid: {pairing.get('state')!r}",
-            )
-            if "code" in pairing:
-                check(
-                    frame.get("viewer") == "daniel",
-                    f"Start / Join {frame_id} exposes pairing.code outside Daniel host view",
-                )
-        session = frame.get("session")
-        if isinstance(session, dict) and "state" in session:
-            check(
-                session["state"] in SESSION_STATES,
-                f"Start / Join {frame_id}.session.state invalid: {session['state']!r}",
-            )
-
-    # Season Results fixture checks.
-    check(season.get("strings", {}).get("previewLabel") == PREVIEW, "Season Results preview label drifted")
-    check(season.get("strings", {}).get("interimLabel") == INTERIM, "Season Results interim label drifted")
-    for frame_id, frame in season.get("frames", {}).items():
-        status = frame.get("status")
-        check(status in STATUSES, f"Season Results {frame_id}.status invalid: {status!r}")
-        check(
-            frame.get("managerOrder") == ["daniel", "nik"],
-            f"Season Results {frame_id} manager order must be Daniel then Nik",
-        )
-
-        phase = frame.get("phase")
-        if phase is not None:
-            if phase == "unpublished-review":
-                check(
-                    "SR2_REVIEW phase = unpublished-review is Team V display state only" in binding,
-                    "BINDING.md must document unpublished-review as display-only",
-                )
-            else:
-                check(phase in SEASON_PHASES, f"Season Results {frame_id}.phase invalid: {phase!r}")
-
-        managers = frame.get("managers", {})
-        if isinstance(managers, dict):
-            for manager, values in managers.items():
-                check(manager in {"daniel", "nik"}, f"Season Results {frame_id} unknown manager {manager}")
-                check(
-                    set(values) == MANAGER_INPUTS,
-                    f"Season Results {frame_id}.{manager} input keys drifted: {sorted(values)}",
-                )
-
-        sealed = frame.get("sealed", [])
-        if phase not in {"results-ready", "committed"}:
-            for manager in sealed:
-                check(
-                    manager not in managers,
-                    f"Season Results {frame_id} leaks sealed rival {manager}",
-                )
-
-        breakdown = frame.get("breakdown")
-        if isinstance(breakdown, dict):
-            for manager, values in breakdown.items():
-                check(manager in {"daniel", "nik"}, f"Season Results {frame_id} breakdown manager invalid")
-                check(
-                    set(values) == BREAKDOWN_FIELDS,
-                    f"Season Results {frame_id}.{manager} breakdown keys drifted: {sorted(values)}",
-                )
-
-        winner = frame.get("winner")
-        check(
-            winner is None or winner in {"daniel", "nik", "draw"},
-            f"Season Results {frame_id}.winner invalid: {winner!r}",
-        )
-        tiebreak = frame.get("tiebreak")
-        check(
-            tiebreak is None or tiebreak in SEASON_TIEBREAKS,
-            f"Season Results {frame_id}.tiebreak invalid: {tiebreak!r}",
-        )
-
-    # Optional G-11 manifest checks. The factory branch did not contain it when
-    # JOB-104 part 1 was authored; --strict-g11 becomes useful once Team G's
-    # fixture set is copied in.
-    if g11_path.exists():
-        g11 = load_json(g11_path)
-        screens = g11.get("screens", {})
-        check(screens.get("home") == "viewers.<manager>.home", "G-11 Home root drifted")
-        check(screens.get("startJoin") == "viewers.<manager>.startJoin", "G-11 Start / Join root drifted")
-        check(
-            screens.get("seasonResults")
-            == "viewers.<manager>.seasonResults and seasonResultsBySeason[]",
-            "G-11 Season Results root drifted",
-        )
-        check(g11.get("nav", {}).get("file") == "nav.json", "G-11 nav source drifted")
-    else:
-        message = f"G-11 manifest not present at {g11_path}; binding uses pinned Team G delivery manifest."
-        if args.strict_g11:
-            errors.append(message)
-        else:
-            warnings.append(message)
-
-    for warning in warnings:
-        print(f"WARN: {warning}")
-    for error in errors:
-        print(f"ERROR: {error}", file=sys.stderr)
-
-    if errors:
-        print(f"{len(errors)} errors", file=sys.stderr)
-        return 1
-
-    print("0 errors")
-    return 0
+    md = BINDING.read_text(encoding="utf-8")
+    scen = scenarios()
+    nav = load(G11 / "nav.json")
+    if nav.get("lockText") != "Finish this step first":
+        err("nav: nav.json lockText is not 'Finish this step first'")
+    k = check_keys(md, scen)
+    fmap = frame_map(md)
+    f = check_frames(fmap, scen)
+    v = check_values(fmap, scen)
+    s = check_shared(fmap, scen)
+    for e in errors:
+        print("ERROR", e)
+    print(f"{len(scen)} scenarios · {k} keys · {f} frames · {v} values · {s} shared reads")
+    print(f"{len(errors)} errors")
+    return 1 if errors else 0
 
 
 if __name__ == "__main__":
-    raise SystemExit(main())
+    sys.exit(main())
