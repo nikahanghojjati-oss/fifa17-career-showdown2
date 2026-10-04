@@ -45,7 +45,9 @@ body {
   position: absolute;
   z-index: 9;
   left: 34.7%;
-  top: 10.8%;
+  /* Claude fix item 2: keep the full summary above the panel field so no clipped
+     "clubs" fragment can appear under the tagline at 1366×768. */
+  top: 7.2%;
   width: 29.6%;
   text-align: center;
   pointer-events: none;
