@@ -86,345 +86,140 @@
       ],
       "managers": {
         "daniel": {
-          "seasonWins": 7,
+          "seasonWins": 3,
           "seasonDraws": 0,
-          "seasonLosses": 5,
-          "championsLeagues": 2,
-          "leagueTitles": 5,
-          "domesticCups": 2,
-          "totalTrophies": 9,
-          "hundredPointSeasons": 3,
-          "hundredGoalSeasons": 3,
-          "topScorerSeasons": 3,
-          "topAssistSeasons": 3,
-          "perfectSeasons": 1,
-          "bestSeasonScore": 11,
-          "careerPoints": 38,
-          "seasons": 12,
-          "averageSeasonScore": 3.17,
-          "averageLeaguePoints": 91.83,
-          "averageLeagueGoals": 92.5,
-          "bestLeaguePoints": 108,
-          "bestLeagueGoals": 105,
+          "seasonLosses": 3,
+          "championsLeagues": 1,
+          "leagueTitles": 3,
+          "domesticCups": 1,
+          "totalTrophies": 5,
+          "hundredPointSeasons": 0,
+          "hundredGoalSeasons": 1,
+          "topScorerSeasons": 1,
+          "topAssistSeasons": 0,
+          "perfectSeasons": 0,
+          "bestSeasonScore": 9,
+          "careerPoints": 17,
+          "seasons": 6,
+          "averageSeasonScore": 2.8333333333333335,
+          "averageLeaguePoints": 82.33333333333333,
+          "averageLeagueGoals": 82.66666666666667,
+          "bestLeaguePoints": 95,
+          "bestLeagueGoals": 102,
           "bestLeaguePosition": 1,
-          "performanceBonuses": 5,
-          "awardsBonuses": 6
+          "performanceBonuses": 1,
+          "awardsBonuses": 1
         },
         "nik": {
-          "seasonWins": 5,
+          "seasonWins": 3,
           "seasonDraws": 0,
-          "seasonLosses": 7,
-          "championsLeagues": 2,
-          "leagueTitles": 4,
+          "seasonLosses": 3,
+          "championsLeagues": 1,
+          "leagueTitles": 3,
           "domesticCups": 2,
-          "totalTrophies": 8,
-          "hundredPointSeasons": 3,
-          "hundredGoalSeasons": 3,
-          "topScorerSeasons": 3,
-          "topAssistSeasons": 3,
-          "perfectSeasons": 0,
-          "bestSeasonScore": 10,
-          "careerPoints": 34,
-          "seasons": 12,
-          "averageSeasonScore": 2.83,
-          "averageLeaguePoints": 90.75,
-          "averageLeagueGoals": 94.67,
-          "bestLeaguePoints": 104,
-          "bestLeagueGoals": 124,
+          "totalTrophies": 6,
+          "hundredPointSeasons": 1,
+          "hundredGoalSeasons": 1,
+          "topScorerSeasons": 1,
+          "topAssistSeasons": 2,
+          "perfectSeasons": 1,
+          "bestSeasonScore": 11,
+          "careerPoints": 19,
+          "seasons": 6,
+          "averageSeasonScore": 3.1666666666666665,
+          "averageLeaguePoints": 86.83333333333333,
+          "averageLeagueGoals": 87.33333333333333,
+          "bestLeaguePoints": 101,
+          "bestLeagueGoals": 104,
           "bestLeaguePosition": 1,
-          "performanceBonuses": 4,
-          "awardsBonuses": 6
+          "performanceBonuses": 1,
+          "awardsBonuses": 2
         }
       },
       "showdowns": {
         "daniel": {
-          "completed": 4,
-          "wins": 2,
-          "draws": 1,
+          "completed": 2,
+          "wins": 1,
+          "draws": 0,
           "losses": 1
         },
         "nik": {
-          "completed": 4,
+          "completed": 2,
           "wins": 1,
-          "draws": 1,
-          "losses": 2
+          "draws": 0,
+          "losses": 1
         }
       },
       "biggestShowdownWin": {
-        "manager": "daniel",
-        "margin": 5,
-        "showdownRef": "preview-showdown-2"
+        "manager": "nik",
+        "margin": 11,
+        "showdownRef": "pair_eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
       },
       "checkSource": {
         "rendered": false,
-        "leagueId": "premier_league",
-        "seasons": [
-          {
-            "season": 1,
-            "showdownRef": "preview-showdown-1",
-            "daniel": {
-              "leaguePosition": 1,
-              "leaguePoints": 108,
-              "leagueGoals": 105,
-              "championsLeague": true,
-              "domesticCup": true,
-              "topScorer": false,
-              "topAssist": true
-            },
-            "nik": {
-              "leaguePosition": 2,
-              "leaguePoints": 96,
-              "leagueGoals": 124,
-              "championsLeague": false,
-              "domesticCup": false,
-              "topScorer": true,
-              "topAssist": false
-            }
-          },
-          {
-            "season": 2,
-            "showdownRef": "preview-showdown-1",
-            "daniel": {
-              "leaguePosition": 2,
-              "leaguePoints": 92,
-              "leagueGoals": 95,
-              "championsLeague": false,
-              "domesticCup": false,
-              "topScorer": false,
-              "topAssist": false
-            },
-            "nik": {
-              "leaguePosition": 1,
-              "leaguePoints": 104,
-              "leagueGoals": 110,
-              "championsLeague": true,
-              "domesticCup": false,
-              "topScorer": false,
-              "topAssist": true
-            }
-          },
-          {
-            "season": 3,
-            "showdownRef": "preview-showdown-1",
-            "daniel": {
-              "leaguePosition": 1,
-              "leaguePoints": 102,
-              "leagueGoals": 98,
-              "championsLeague": false,
-              "domesticCup": false,
-              "topScorer": true,
-              "topAssist": false
-            },
-            "nik": {
-              "leaguePosition": 3,
-              "leaguePoints": 91,
-              "leagueGoals": 88,
-              "championsLeague": false,
-              "domesticCup": true,
-              "topScorer": false,
-              "topAssist": false
-            }
-          },
-          {
-            "season": 4,
-            "showdownRef": "preview-showdown-2",
-            "daniel": {
-              "leaguePosition": 1,
-              "leaguePoints": 101,
-              "leagueGoals": 97,
-              "championsLeague": true,
-              "domesticCup": false,
-              "topScorer": false,
-              "topAssist": true
-            },
-            "nik": {
-              "leaguePosition": 2,
-              "leaguePoints": 101,
-              "leagueGoals": 104,
-              "championsLeague": false,
-              "domesticCup": false,
-              "topScorer": false,
-              "topAssist": false
-            }
-          },
-          {
-            "season": 5,
-            "showdownRef": "preview-showdown-2",
-            "daniel": {
-              "leaguePosition": 4,
-              "leaguePoints": 99,
-              "leagueGoals": 100,
-              "championsLeague": false,
-              "domesticCup": false,
-              "topScorer": false,
-              "topAssist": false
-            },
-            "nik": {
-              "leaguePosition": 1,
-              "leaguePoints": 100,
-              "leagueGoals": 95,
-              "championsLeague": false,
-              "domesticCup": true,
-              "topScorer": true,
-              "topAssist": false
-            }
-          },
-          {
-            "season": 6,
-            "showdownRef": "preview-showdown-2",
-            "daniel": {
-              "leaguePosition": 2,
-              "leaguePoints": 88,
-              "leagueGoals": 90,
-              "championsLeague": false,
-              "domesticCup": true,
-              "topScorer": true,
-              "topAssist": false
-            },
-            "nik": {
-              "leaguePosition": 3,
-              "leaguePoints": 85,
-              "leagueGoals": 92,
-              "championsLeague": false,
-              "domesticCup": false,
-              "topScorer": false,
-              "topAssist": true
-            }
-          },
-          {
-            "season": 7,
-            "showdownRef": "preview-showdown-3",
-            "daniel": {
-              "leaguePosition": 1,
-              "leaguePoints": 98,
-              "leagueGoals": 101,
-              "championsLeague": false,
-              "domesticCup": false,
-              "topScorer": false,
-              "topAssist": false
-            },
-            "nik": {
-              "leaguePosition": 2,
-              "leaguePoints": 97,
-              "leagueGoals": 99,
-              "championsLeague": true,
-              "domesticCup": false,
-              "topScorer": false,
-              "topAssist": false
-            }
-          },
-          {
-            "season": 8,
-            "showdownRef": "preview-showdown-3",
-            "daniel": {
-              "leaguePosition": 3,
-              "leaguePoints": 82,
-              "leagueGoals": 84,
-              "championsLeague": false,
-              "domesticCup": false,
-              "topScorer": true,
-              "topAssist": false
-            },
-            "nik": {
-              "leaguePosition": 1,
-              "leaguePoints": 89,
-              "leagueGoals": 90,
-              "championsLeague": false,
-              "domesticCup": false,
-              "topScorer": false,
-              "topAssist": true
-            }
-          },
-          {
-            "season": 9,
-            "showdownRef": "preview-showdown-3",
-            "daniel": {
-              "leaguePosition": 2,
-              "leaguePoints": 90,
-              "leagueGoals": 93,
-              "championsLeague": false,
-              "domesticCup": false,
-              "topScorer": false,
-              "topAssist": true
-            },
-            "nik": {
-              "leaguePosition": 4,
-              "leaguePoints": 79,
-              "leagueGoals": 82,
-              "championsLeague": false,
-              "domesticCup": false,
-              "topScorer": true,
-              "topAssist": false
-            }
-          },
-          {
-            "season": 10,
-            "showdownRef": "preview-showdown-4",
-            "daniel": {
-              "leaguePosition": 1,
-              "leaguePoints": 87,
-              "leagueGoals": 88,
-              "championsLeague": false,
-              "domesticCup": false,
-              "topScorer": false,
-              "topAssist": false
-            },
-            "nik": {
-              "leaguePosition": 2,
-              "leaguePoints": 86,
-              "leagueGoals": 87,
-              "championsLeague": false,
-              "domesticCup": false,
-              "topScorer": false,
-              "topAssist": false
-            }
-          },
-          {
-            "season": 11,
-            "showdownRef": "preview-showdown-4",
-            "daniel": {
-              "leaguePosition": 5,
-              "leaguePoints": 75,
-              "leagueGoals": 78,
-              "championsLeague": false,
-              "domesticCup": false,
-              "topScorer": false,
-              "topAssist": false
-            },
-            "nik": {
-              "leaguePosition": 1,
-              "leaguePoints": 83,
-              "leagueGoals": 85,
-              "championsLeague": false,
-              "domesticCup": false,
-              "topScorer": false,
-              "topAssist": false
-            }
-          },
-          {
-            "season": 12,
-            "showdownRef": "preview-showdown-4",
-            "daniel": {
-              "leaguePosition": 2,
-              "leaguePoints": 80,
-              "leagueGoals": 81,
-              "championsLeague": false,
-              "domesticCup": false,
-              "topScorer": false,
-              "topAssist": false
-            },
-            "nik": {
-              "leaguePosition": 3,
-              "leaguePoints": 78,
-              "leagueGoals": 80,
-              "championsLeague": false,
-              "domesticCup": false,
-              "topScorer": false,
-              "topAssist": false
-            }
-          }
-        ]
-      }
+        "source": "checkSource of G-11 scenario multi-showdown-career"
+      },
+      "bind": {
+        "status": "career.status",
+        "managers.daniel.seasonWins": "career.managers.daniel.seasonWins",
+        "managers.daniel.seasonDraws": "career.managers.daniel.seasonDraws",
+        "managers.daniel.seasonLosses": "career.managers.daniel.seasonLosses",
+        "managers.daniel.championsLeagues": "career.managers.daniel.championsLeagues",
+        "managers.daniel.leagueTitles": "career.managers.daniel.leagueTitles",
+        "managers.daniel.domesticCups": "career.managers.daniel.domesticCups",
+        "managers.daniel.totalTrophies": "career.managers.daniel.totalTrophies",
+        "managers.daniel.hundredPointSeasons": "career.managers.daniel.hundredPointSeasons",
+        "managers.daniel.hundredGoalSeasons": "career.managers.daniel.hundredGoalSeasons",
+        "managers.daniel.topScorerSeasons": "career.managers.daniel.topScorerSeasons",
+        "managers.daniel.topAssistSeasons": "career.managers.daniel.topAssistSeasons",
+        "managers.daniel.perfectSeasons": "career.managers.daniel.perfectSeasons",
+        "managers.daniel.bestSeasonScore": "career.managers.daniel.bestSeasonScore",
+        "managers.daniel.careerPoints": "career.managers.daniel.careerPoints",
+        "managers.daniel.seasons": "career.managers.daniel.seasons",
+        "managers.daniel.averageSeasonScore": "career.managers.daniel.averageSeasonScore",
+        "managers.daniel.averageLeaguePoints": "career.managers.daniel.averageLeaguePoints",
+        "managers.daniel.averageLeagueGoals": "career.managers.daniel.averageLeagueGoals",
+        "managers.daniel.bestLeaguePoints": "career.managers.daniel.bestLeaguePoints",
+        "managers.daniel.bestLeagueGoals": "career.managers.daniel.bestLeagueGoals",
+        "managers.daniel.bestLeaguePosition": "career.managers.daniel.bestLeaguePosition",
+        "managers.daniel.performanceBonuses": "career.managers.daniel.performanceBonuses",
+        "managers.daniel.awardsBonuses": "career.managers.daniel.awardsBonuses",
+        "showdowns.daniel.completed": "career.managers.daniel.showdowns.completed",
+        "showdowns.daniel.wins": "career.managers.daniel.showdowns.wins",
+        "showdowns.daniel.draws": "career.managers.daniel.showdowns.draws",
+        "showdowns.daniel.losses": "career.managers.daniel.showdowns.losses",
+        "managers.nik.seasonWins": "career.managers.nik.seasonWins",
+        "managers.nik.seasonDraws": "career.managers.nik.seasonDraws",
+        "managers.nik.seasonLosses": "career.managers.nik.seasonLosses",
+        "managers.nik.championsLeagues": "career.managers.nik.championsLeagues",
+        "managers.nik.leagueTitles": "career.managers.nik.leagueTitles",
+        "managers.nik.domesticCups": "career.managers.nik.domesticCups",
+        "managers.nik.totalTrophies": "career.managers.nik.totalTrophies",
+        "managers.nik.hundredPointSeasons": "career.managers.nik.hundredPointSeasons",
+        "managers.nik.hundredGoalSeasons": "career.managers.nik.hundredGoalSeasons",
+        "managers.nik.topScorerSeasons": "career.managers.nik.topScorerSeasons",
+        "managers.nik.topAssistSeasons": "career.managers.nik.topAssistSeasons",
+        "managers.nik.perfectSeasons": "career.managers.nik.perfectSeasons",
+        "managers.nik.bestSeasonScore": "career.managers.nik.bestSeasonScore",
+        "managers.nik.careerPoints": "career.managers.nik.careerPoints",
+        "managers.nik.seasons": "career.managers.nik.seasons",
+        "managers.nik.averageSeasonScore": "career.managers.nik.averageSeasonScore",
+        "managers.nik.averageLeaguePoints": "career.managers.nik.averageLeaguePoints",
+        "managers.nik.averageLeagueGoals": "career.managers.nik.averageLeagueGoals",
+        "managers.nik.bestLeaguePoints": "career.managers.nik.bestLeaguePoints",
+        "managers.nik.bestLeagueGoals": "career.managers.nik.bestLeagueGoals",
+        "managers.nik.bestLeaguePosition": "career.managers.nik.bestLeaguePosition",
+        "managers.nik.performanceBonuses": "career.managers.nik.performanceBonuses",
+        "managers.nik.awardsBonuses": "career.managers.nik.awardsBonuses",
+        "showdowns.nik.completed": "career.managers.nik.showdowns.completed",
+        "showdowns.nik.wins": "career.managers.nik.showdowns.wins",
+        "showdowns.nik.draws": "career.managers.nik.showdowns.draws",
+        "showdowns.nik.losses": "career.managers.nik.showdowns.losses",
+        "biggestShowdownWin.manager": "career.biggestShowdownWin.manager",
+        "biggestShowdownWin.margin": "career.biggestShowdownWin.margin",
+        "biggestShowdownWin.showdownRef": "career.biggestShowdownWin.showdownRef"
+      },
+      "bindScenario": "multi-showdown-career"
     },
     "CS2": {
       "note": "new career; provider read succeeded with no counted history",
@@ -433,15 +228,19 @@
       "managerOrder": [
         "daniel",
         "nik"
-      ]
+      ],
+      "bind": {
+        "status": "career.status"
+      },
+      "bindScenario": "empty-career"
     },
     "CS3": {
       "note": "partial provider career history; values reflect only the three readable Showdowns and coverage must stay visible",
       "previewLabel": "Preview data",
       "status": "partial",
       "coverage": {
-        "readable": 3,
-        "indexed": 4
+        "readable": 1,
+        "indexed": 2
       },
       "managerOrder": [
         "daniel",
@@ -449,279 +248,142 @@
       ],
       "managers": {
         "daniel": {
-          "seasonWins": 5,
+          "seasonWins": 1,
           "seasonDraws": 0,
-          "seasonLosses": 4,
-          "championsLeagues": 2,
-          "leagueTitles": 4,
-          "domesticCups": 2,
-          "totalTrophies": 8,
-          "hundredPointSeasons": 3,
-          "hundredGoalSeasons": 3,
-          "topScorerSeasons": 3,
-          "topAssistSeasons": 3,
-          "perfectSeasons": 1,
-          "bestSeasonScore": 11,
-          "careerPoints": 35,
-          "seasons": 9,
-          "averageSeasonScore": 3.89,
-          "averageLeaguePoints": 95.56,
-          "averageLeagueGoals": 95.89,
-          "bestLeaguePoints": 108,
-          "bestLeagueGoals": 105,
+          "seasonLosses": 0,
+          "championsLeagues": 0,
+          "leagueTitles": 1,
+          "domesticCups": 0,
+          "totalTrophies": 1,
+          "hundredPointSeasons": 0,
+          "hundredGoalSeasons": 0,
+          "topScorerSeasons": 0,
+          "topAssistSeasons": 0,
+          "perfectSeasons": 0,
+          "bestSeasonScore": 3,
+          "careerPoints": 3,
+          "seasons": 1,
+          "averageSeasonScore": 3,
+          "averageLeaguePoints": 84,
+          "averageLeagueGoals": 77,
+          "bestLeaguePoints": 84,
+          "bestLeagueGoals": 77,
           "bestLeaguePosition": 1,
-          "performanceBonuses": 5,
-          "awardsBonuses": 6
+          "performanceBonuses": 0,
+          "awardsBonuses": 0
         },
         "nik": {
-          "seasonWins": 4,
+          "seasonWins": 0,
           "seasonDraws": 0,
-          "seasonLosses": 5,
-          "championsLeagues": 2,
-          "leagueTitles": 3,
-          "domesticCups": 2,
-          "totalTrophies": 7,
-          "hundredPointSeasons": 3,
-          "hundredGoalSeasons": 3,
-          "topScorerSeasons": 3,
-          "topAssistSeasons": 3,
+          "seasonLosses": 1,
+          "championsLeagues": 0,
+          "leagueTitles": 0,
+          "domesticCups": 1,
+          "totalTrophies": 1,
+          "hundredPointSeasons": 0,
+          "hundredGoalSeasons": 0,
+          "topScorerSeasons": 0,
+          "topAssistSeasons": 0,
           "perfectSeasons": 0,
-          "bestSeasonScore": 10,
-          "careerPoints": 31,
-          "seasons": 9,
-          "averageSeasonScore": 3.44,
-          "averageLeaguePoints": 93.56,
-          "averageLeagueGoals": 98.22,
-          "bestLeaguePoints": 104,
-          "bestLeagueGoals": 124,
-          "bestLeaguePosition": 1,
-          "performanceBonuses": 4,
-          "awardsBonuses": 6
+          "bestSeasonScore": 1,
+          "careerPoints": 1,
+          "seasons": 1,
+          "averageSeasonScore": 1,
+          "averageLeaguePoints": 80,
+          "averageLeagueGoals": 73,
+          "bestLeaguePoints": 80,
+          "bestLeagueGoals": 73,
+          "bestLeaguePosition": 2,
+          "performanceBonuses": 0,
+          "awardsBonuses": 0
         }
       },
       "showdowns": {
         "daniel": {
-          "completed": 3,
-          "wins": 2,
-          "draws": 0,
-          "losses": 1
-        },
-        "nik": {
-          "completed": 3,
+          "completed": 1,
           "wins": 1,
           "draws": 0,
-          "losses": 2
+          "losses": 0
+        },
+        "nik": {
+          "completed": 1,
+          "wins": 0,
+          "draws": 0,
+          "losses": 1
         }
       },
       "biggestShowdownWin": {
         "manager": "daniel",
-        "margin": 5,
-        "showdownRef": "preview-showdown-2"
+        "margin": 2,
+        "showdownRef": "pair_1111111111111111111111111111111111111111111111111111111111111111"
       },
       "checkSource": {
         "rendered": false,
-        "leagueId": "premier_league",
-        "seasons": [
-          {
-            "season": 1,
-            "showdownRef": "preview-showdown-1",
-            "daniel": {
-              "leaguePosition": 1,
-              "leaguePoints": 108,
-              "leagueGoals": 105,
-              "championsLeague": true,
-              "domesticCup": true,
-              "topScorer": false,
-              "topAssist": true
-            },
-            "nik": {
-              "leaguePosition": 2,
-              "leaguePoints": 96,
-              "leagueGoals": 124,
-              "championsLeague": false,
-              "domesticCup": false,
-              "topScorer": true,
-              "topAssist": false
-            }
-          },
-          {
-            "season": 2,
-            "showdownRef": "preview-showdown-1",
-            "daniel": {
-              "leaguePosition": 2,
-              "leaguePoints": 92,
-              "leagueGoals": 95,
-              "championsLeague": false,
-              "domesticCup": false,
-              "topScorer": false,
-              "topAssist": false
-            },
-            "nik": {
-              "leaguePosition": 1,
-              "leaguePoints": 104,
-              "leagueGoals": 110,
-              "championsLeague": true,
-              "domesticCup": false,
-              "topScorer": false,
-              "topAssist": true
-            }
-          },
-          {
-            "season": 3,
-            "showdownRef": "preview-showdown-1",
-            "daniel": {
-              "leaguePosition": 1,
-              "leaguePoints": 102,
-              "leagueGoals": 98,
-              "championsLeague": false,
-              "domesticCup": false,
-              "topScorer": true,
-              "topAssist": false
-            },
-            "nik": {
-              "leaguePosition": 3,
-              "leaguePoints": 91,
-              "leagueGoals": 88,
-              "championsLeague": false,
-              "domesticCup": true,
-              "topScorer": false,
-              "topAssist": false
-            }
-          },
-          {
-            "season": 4,
-            "showdownRef": "preview-showdown-2",
-            "daniel": {
-              "leaguePosition": 1,
-              "leaguePoints": 101,
-              "leagueGoals": 97,
-              "championsLeague": true,
-              "domesticCup": false,
-              "topScorer": false,
-              "topAssist": true
-            },
-            "nik": {
-              "leaguePosition": 2,
-              "leaguePoints": 101,
-              "leagueGoals": 104,
-              "championsLeague": false,
-              "domesticCup": false,
-              "topScorer": false,
-              "topAssist": false
-            }
-          },
-          {
-            "season": 5,
-            "showdownRef": "preview-showdown-2",
-            "daniel": {
-              "leaguePosition": 4,
-              "leaguePoints": 99,
-              "leagueGoals": 100,
-              "championsLeague": false,
-              "domesticCup": false,
-              "topScorer": false,
-              "topAssist": false
-            },
-            "nik": {
-              "leaguePosition": 1,
-              "leaguePoints": 100,
-              "leagueGoals": 95,
-              "championsLeague": false,
-              "domesticCup": true,
-              "topScorer": true,
-              "topAssist": false
-            }
-          },
-          {
-            "season": 6,
-            "showdownRef": "preview-showdown-2",
-            "daniel": {
-              "leaguePosition": 2,
-              "leaguePoints": 88,
-              "leagueGoals": 90,
-              "championsLeague": false,
-              "domesticCup": true,
-              "topScorer": true,
-              "topAssist": false
-            },
-            "nik": {
-              "leaguePosition": 3,
-              "leaguePoints": 85,
-              "leagueGoals": 92,
-              "championsLeague": false,
-              "domesticCup": false,
-              "topScorer": false,
-              "topAssist": true
-            }
-          },
-          {
-            "season": 7,
-            "showdownRef": "preview-showdown-3",
-            "daniel": {
-              "leaguePosition": 1,
-              "leaguePoints": 98,
-              "leagueGoals": 101,
-              "championsLeague": false,
-              "domesticCup": false,
-              "topScorer": false,
-              "topAssist": false
-            },
-            "nik": {
-              "leaguePosition": 2,
-              "leaguePoints": 97,
-              "leagueGoals": 99,
-              "championsLeague": true,
-              "domesticCup": false,
-              "topScorer": false,
-              "topAssist": false
-            }
-          },
-          {
-            "season": 8,
-            "showdownRef": "preview-showdown-3",
-            "daniel": {
-              "leaguePosition": 3,
-              "leaguePoints": 82,
-              "leagueGoals": 84,
-              "championsLeague": false,
-              "domesticCup": false,
-              "topScorer": true,
-              "topAssist": false
-            },
-            "nik": {
-              "leaguePosition": 1,
-              "leaguePoints": 89,
-              "leagueGoals": 90,
-              "championsLeague": false,
-              "domesticCup": false,
-              "topScorer": false,
-              "topAssist": true
-            }
-          },
-          {
-            "season": 9,
-            "showdownRef": "preview-showdown-3",
-            "daniel": {
-              "leaguePosition": 2,
-              "leaguePoints": 90,
-              "leagueGoals": 93,
-              "championsLeague": false,
-              "domesticCup": false,
-              "topScorer": false,
-              "topAssist": true
-            },
-            "nik": {
-              "leaguePosition": 4,
-              "leaguePoints": 79,
-              "leagueGoals": 82,
-              "championsLeague": false,
-              "domesticCup": false,
-              "topScorer": true,
-              "topAssist": false
-            }
-          }
-        ]
-      }
+        "source": "checkSource of G-11 scenario partial-career"
+      },
+      "bind": {
+        "status": "career.status",
+        "managers.daniel.seasonWins": "career.managers.daniel.seasonWins",
+        "managers.daniel.seasonDraws": "career.managers.daniel.seasonDraws",
+        "managers.daniel.seasonLosses": "career.managers.daniel.seasonLosses",
+        "managers.daniel.championsLeagues": "career.managers.daniel.championsLeagues",
+        "managers.daniel.leagueTitles": "career.managers.daniel.leagueTitles",
+        "managers.daniel.domesticCups": "career.managers.daniel.domesticCups",
+        "managers.daniel.totalTrophies": "career.managers.daniel.totalTrophies",
+        "managers.daniel.hundredPointSeasons": "career.managers.daniel.hundredPointSeasons",
+        "managers.daniel.hundredGoalSeasons": "career.managers.daniel.hundredGoalSeasons",
+        "managers.daniel.topScorerSeasons": "career.managers.daniel.topScorerSeasons",
+        "managers.daniel.topAssistSeasons": "career.managers.daniel.topAssistSeasons",
+        "managers.daniel.perfectSeasons": "career.managers.daniel.perfectSeasons",
+        "managers.daniel.bestSeasonScore": "career.managers.daniel.bestSeasonScore",
+        "managers.daniel.careerPoints": "career.managers.daniel.careerPoints",
+        "managers.daniel.seasons": "career.managers.daniel.seasons",
+        "managers.daniel.averageSeasonScore": "career.managers.daniel.averageSeasonScore",
+        "managers.daniel.averageLeaguePoints": "career.managers.daniel.averageLeaguePoints",
+        "managers.daniel.averageLeagueGoals": "career.managers.daniel.averageLeagueGoals",
+        "managers.daniel.bestLeaguePoints": "career.managers.daniel.bestLeaguePoints",
+        "managers.daniel.bestLeagueGoals": "career.managers.daniel.bestLeagueGoals",
+        "managers.daniel.bestLeaguePosition": "career.managers.daniel.bestLeaguePosition",
+        "managers.daniel.performanceBonuses": "career.managers.daniel.performanceBonuses",
+        "managers.daniel.awardsBonuses": "career.managers.daniel.awardsBonuses",
+        "showdowns.daniel.completed": "career.managers.daniel.showdowns.completed",
+        "showdowns.daniel.wins": "career.managers.daniel.showdowns.wins",
+        "showdowns.daniel.draws": "career.managers.daniel.showdowns.draws",
+        "showdowns.daniel.losses": "career.managers.daniel.showdowns.losses",
+        "managers.nik.seasonWins": "career.managers.nik.seasonWins",
+        "managers.nik.seasonDraws": "career.managers.nik.seasonDraws",
+        "managers.nik.seasonLosses": "career.managers.nik.seasonLosses",
+        "managers.nik.championsLeagues": "career.managers.nik.championsLeagues",
+        "managers.nik.leagueTitles": "career.managers.nik.leagueTitles",
+        "managers.nik.domesticCups": "career.managers.nik.domesticCups",
+        "managers.nik.totalTrophies": "career.managers.nik.totalTrophies",
+        "managers.nik.hundredPointSeasons": "career.managers.nik.hundredPointSeasons",
+        "managers.nik.hundredGoalSeasons": "career.managers.nik.hundredGoalSeasons",
+        "managers.nik.topScorerSeasons": "career.managers.nik.topScorerSeasons",
+        "managers.nik.topAssistSeasons": "career.managers.nik.topAssistSeasons",
+        "managers.nik.perfectSeasons": "career.managers.nik.perfectSeasons",
+        "managers.nik.bestSeasonScore": "career.managers.nik.bestSeasonScore",
+        "managers.nik.careerPoints": "career.managers.nik.careerPoints",
+        "managers.nik.seasons": "career.managers.nik.seasons",
+        "managers.nik.averageSeasonScore": "career.managers.nik.averageSeasonScore",
+        "managers.nik.averageLeaguePoints": "career.managers.nik.averageLeaguePoints",
+        "managers.nik.averageLeagueGoals": "career.managers.nik.averageLeagueGoals",
+        "managers.nik.bestLeaguePoints": "career.managers.nik.bestLeaguePoints",
+        "managers.nik.bestLeagueGoals": "career.managers.nik.bestLeagueGoals",
+        "managers.nik.bestLeaguePosition": "career.managers.nik.bestLeaguePosition",
+        "managers.nik.performanceBonuses": "career.managers.nik.performanceBonuses",
+        "managers.nik.awardsBonuses": "career.managers.nik.awardsBonuses",
+        "showdowns.nik.completed": "career.managers.nik.showdowns.completed",
+        "showdowns.nik.wins": "career.managers.nik.showdowns.wins",
+        "showdowns.nik.draws": "career.managers.nik.showdowns.draws",
+        "showdowns.nik.losses": "career.managers.nik.showdowns.losses",
+        "biggestShowdownWin.manager": "career.biggestShowdownWin.manager",
+        "biggestShowdownWin.margin": "career.biggestShowdownWin.margin",
+        "biggestShowdownWin.showdownRef": "career.biggestShowdownWin.showdownRef",
+        "coverage.readable": "career.coverage.readable",
+        "coverage.indexed": "career.coverage.indexed"
+      },
+      "bindScenario": "partial-career"
     },
     "CS4": {
       "note": "provider career history unavailable; no numeric values are presented as facts",
@@ -730,7 +392,11 @@
       "managerOrder": [
         "daniel",
         "nik"
-      ]
+      ],
+      "bind": {
+        "status": "career.status"
+      },
+      "bindScenario": "unavailable"
     },
     "CS5": {
       "note": "provider career history loading; reserve Daniel first and Nik second without fake totals",
@@ -739,7 +405,11 @@
       "managerOrder": [
         "daniel",
         "nik"
-      ]
+      ],
+      "bind": {
+        "status": "career.status"
+      },
+      "bindScenario": "loading"
     },
     "CS6": {
       "note": "ready provider career history where Nik leads; Daniel row stays first while # shows actual rank",
@@ -763,211 +433,131 @@
         "daniel": {
           "seasonWins": 1,
           "seasonDraws": 0,
-          "seasonLosses": 5,
+          "seasonLosses": 1,
           "championsLeagues": 0,
           "leagueTitles": 1,
-          "domesticCups": 2,
-          "totalTrophies": 3,
-          "hundredPointSeasons": 2,
-          "hundredGoalSeasons": 2,
+          "domesticCups": 1,
+          "totalTrophies": 2,
+          "hundredPointSeasons": 0,
+          "hundredGoalSeasons": 0,
+          "topScorerSeasons": 0,
+          "topAssistSeasons": 0,
+          "perfectSeasons": 0,
+          "bestSeasonScore": 4,
+          "careerPoints": 4,
+          "seasons": 2,
+          "averageSeasonScore": 2,
+          "averageLeaguePoints": 81.5,
+          "averageLeagueGoals": 77.5,
+          "bestLeaguePoints": 89,
+          "bestLeagueGoals": 85,
+          "bestLeaguePosition": 1,
+          "performanceBonuses": 0,
+          "awardsBonuses": 0
+        },
+        "nik": {
+          "seasonWins": 1,
+          "seasonDraws": 0,
+          "seasonLosses": 1,
+          "championsLeagues": 1,
+          "leagueTitles": 1,
+          "domesticCups": 0,
+          "totalTrophies": 2,
+          "hundredPointSeasons": 0,
+          "hundredGoalSeasons": 0,
           "topScorerSeasons": 1,
           "topAssistSeasons": 0,
           "perfectSeasons": 0,
-          "bestSeasonScore": 5,
+          "bestSeasonScore": 8,
           "careerPoints": 9,
-          "seasons": 6,
-          "averageSeasonScore": 1.5,
-          "averageLeaguePoints": 93.67,
-          "averageLeagueGoals": 98.67,
-          "bestLeaguePoints": 101,
-          "bestLeagueGoals": 124,
+          "seasons": 2,
+          "averageSeasonScore": 4.5,
+          "averageLeaguePoints": 87.5,
+          "averageLeagueGoals": 83,
+          "bestLeaguePoints": 91,
+          "bestLeagueGoals": 88,
           "bestLeaguePosition": 1,
-          "performanceBonuses": 3,
+          "performanceBonuses": 0,
           "awardsBonuses": 1
-        },
-        "nik": {
-          "seasonWins": 5,
-          "seasonDraws": 0,
-          "seasonLosses": 1,
-          "championsLeagues": 4,
-          "leagueTitles": 5,
-          "domesticCups": 2,
-          "totalTrophies": 11,
-          "hundredPointSeasons": 5,
-          "hundredGoalSeasons": 3,
-          "topScorerSeasons": 1,
-          "topAssistSeasons": 3,
-          "perfectSeasons": 1,
-          "bestSeasonScore": 11,
-          "careerPoints": 46,
-          "seasons": 6,
-          "averageSeasonScore": 7.67,
-          "averageLeaguePoints": 100.5,
-          "averageLeagueGoals": 99.17,
-          "bestLeaguePoints": 108,
-          "bestLeagueGoals": 105,
-          "bestLeaguePosition": 1,
-          "performanceBonuses": 5,
-          "awardsBonuses": 4
         }
       },
       "showdowns": {
         "daniel": {
-          "completed": 2,
+          "completed": 0,
           "wins": 0,
           "draws": 0,
-          "losses": 2
+          "losses": 0
         },
         "nik": {
-          "completed": 2,
-          "wins": 2,
+          "completed": 0,
+          "wins": 0,
           "draws": 0,
           "losses": 0
         }
       },
-      "biggestShowdownWin": {
-        "manager": "nik",
-        "margin": 22,
-        "showdownRef": "preview-showdown-1"
-      },
+      "biggestShowdownWin": null,
       "checkSource": {
         "rendered": false,
-        "leagueId": "premier_league",
-        "seasons": [
-          {
-            "season": 1,
-            "showdownRef": "preview-showdown-1",
-            "daniel": {
-              "leaguePosition": 2,
-              "leaguePoints": 96,
-              "leagueGoals": 124,
-              "championsLeague": false,
-              "domesticCup": false,
-              "topScorer": true,
-              "topAssist": false
-            },
-            "nik": {
-              "leaguePosition": 1,
-              "leaguePoints": 108,
-              "leagueGoals": 105,
-              "championsLeague": true,
-              "domesticCup": true,
-              "topScorer": false,
-              "topAssist": true
-            }
-          },
-          {
-            "season": 2,
-            "showdownRef": "preview-showdown-1",
-            "daniel": {
-              "leaguePosition": 3,
-              "leaguePoints": 91,
-              "leagueGoals": 88,
-              "championsLeague": false,
-              "domesticCup": true,
-              "topScorer": false,
-              "topAssist": false
-            },
-            "nik": {
-              "leaguePosition": 1,
-              "leaguePoints": 102,
-              "leagueGoals": 98,
-              "championsLeague": true,
-              "domesticCup": false,
-              "topScorer": true,
-              "topAssist": false
-            }
-          },
-          {
-            "season": 3,
-            "showdownRef": "preview-showdown-1",
-            "daniel": {
-              "leaguePosition": 2,
-              "leaguePoints": 101,
-              "leagueGoals": 104,
-              "championsLeague": false,
-              "domesticCup": false,
-              "topScorer": false,
-              "topAssist": false
-            },
-            "nik": {
-              "leaguePosition": 1,
-              "leaguePoints": 101,
-              "leagueGoals": 97,
-              "championsLeague": false,
-              "domesticCup": false,
-              "topScorer": false,
-              "topAssist": true
-            }
-          },
-          {
-            "season": 4,
-            "showdownRef": "preview-showdown-2",
-            "daniel": {
-              "leaguePosition": 2,
-              "leaguePoints": 90,
-              "leagueGoals": 95,
-              "championsLeague": false,
-              "domesticCup": false,
-              "topScorer": false,
-              "topAssist": false
-            },
-            "nik": {
-              "leaguePosition": 1,
-              "leaguePoints": 101,
-              "leagueGoals": 103,
-              "championsLeague": true,
-              "domesticCup": false,
-              "topScorer": false,
-              "topAssist": false
-            }
-          },
-          {
-            "season": 5,
-            "showdownRef": "preview-showdown-2",
-            "daniel": {
-              "leaguePosition": 1,
-              "leaguePoints": 100,
-              "leagueGoals": 95,
-              "championsLeague": false,
-              "domesticCup": true,
-              "topScorer": false,
-              "topAssist": false
-            },
-            "nik": {
-              "leaguePosition": 2,
-              "leaguePoints": 88,
-              "leagueGoals": 90,
-              "championsLeague": true,
-              "domesticCup": false,
-              "topScorer": false,
-              "topAssist": false
-            }
-          },
-          {
-            "season": 6,
-            "showdownRef": "preview-showdown-2",
-            "daniel": {
-              "leaguePosition": 3,
-              "leaguePoints": 84,
-              "leagueGoals": 86,
-              "championsLeague": false,
-              "domesticCup": false,
-              "topScorer": false,
-              "topAssist": false
-            },
-            "nik": {
-              "leaguePosition": 1,
-              "leaguePoints": 103,
-              "leagueGoals": 102,
-              "championsLeague": false,
-              "domesticCup": true,
-              "topScorer": false,
-              "topAssist": true
-            }
-          }
-        ]
-      }
+        "source": "checkSource of G-11 scenario active-mid-season"
+      },
+      "bind": {
+        "status": "career.status",
+        "managers.daniel.seasonWins": "career.managers.daniel.seasonWins",
+        "managers.daniel.seasonDraws": "career.managers.daniel.seasonDraws",
+        "managers.daniel.seasonLosses": "career.managers.daniel.seasonLosses",
+        "managers.daniel.championsLeagues": "career.managers.daniel.championsLeagues",
+        "managers.daniel.leagueTitles": "career.managers.daniel.leagueTitles",
+        "managers.daniel.domesticCups": "career.managers.daniel.domesticCups",
+        "managers.daniel.totalTrophies": "career.managers.daniel.totalTrophies",
+        "managers.daniel.hundredPointSeasons": "career.managers.daniel.hundredPointSeasons",
+        "managers.daniel.hundredGoalSeasons": "career.managers.daniel.hundredGoalSeasons",
+        "managers.daniel.topScorerSeasons": "career.managers.daniel.topScorerSeasons",
+        "managers.daniel.topAssistSeasons": "career.managers.daniel.topAssistSeasons",
+        "managers.daniel.perfectSeasons": "career.managers.daniel.perfectSeasons",
+        "managers.daniel.bestSeasonScore": "career.managers.daniel.bestSeasonScore",
+        "managers.daniel.careerPoints": "career.managers.daniel.careerPoints",
+        "managers.daniel.seasons": "career.managers.daniel.seasons",
+        "managers.daniel.averageSeasonScore": "career.managers.daniel.averageSeasonScore",
+        "managers.daniel.averageLeaguePoints": "career.managers.daniel.averageLeaguePoints",
+        "managers.daniel.averageLeagueGoals": "career.managers.daniel.averageLeagueGoals",
+        "managers.daniel.bestLeaguePoints": "career.managers.daniel.bestLeaguePoints",
+        "managers.daniel.bestLeagueGoals": "career.managers.daniel.bestLeagueGoals",
+        "managers.daniel.bestLeaguePosition": "career.managers.daniel.bestLeaguePosition",
+        "managers.daniel.performanceBonuses": "career.managers.daniel.performanceBonuses",
+        "managers.daniel.awardsBonuses": "career.managers.daniel.awardsBonuses",
+        "showdowns.daniel.completed": "career.managers.daniel.showdowns.completed",
+        "showdowns.daniel.wins": "career.managers.daniel.showdowns.wins",
+        "showdowns.daniel.draws": "career.managers.daniel.showdowns.draws",
+        "showdowns.daniel.losses": "career.managers.daniel.showdowns.losses",
+        "managers.nik.seasonWins": "career.managers.nik.seasonWins",
+        "managers.nik.seasonDraws": "career.managers.nik.seasonDraws",
+        "managers.nik.seasonLosses": "career.managers.nik.seasonLosses",
+        "managers.nik.championsLeagues": "career.managers.nik.championsLeagues",
+        "managers.nik.leagueTitles": "career.managers.nik.leagueTitles",
+        "managers.nik.domesticCups": "career.managers.nik.domesticCups",
+        "managers.nik.totalTrophies": "career.managers.nik.totalTrophies",
+        "managers.nik.hundredPointSeasons": "career.managers.nik.hundredPointSeasons",
+        "managers.nik.hundredGoalSeasons": "career.managers.nik.hundredGoalSeasons",
+        "managers.nik.topScorerSeasons": "career.managers.nik.topScorerSeasons",
+        "managers.nik.topAssistSeasons": "career.managers.nik.topAssistSeasons",
+        "managers.nik.perfectSeasons": "career.managers.nik.perfectSeasons",
+        "managers.nik.bestSeasonScore": "career.managers.nik.bestSeasonScore",
+        "managers.nik.careerPoints": "career.managers.nik.careerPoints",
+        "managers.nik.seasons": "career.managers.nik.seasons",
+        "managers.nik.averageSeasonScore": "career.managers.nik.averageSeasonScore",
+        "managers.nik.averageLeaguePoints": "career.managers.nik.averageLeaguePoints",
+        "managers.nik.averageLeagueGoals": "career.managers.nik.averageLeagueGoals",
+        "managers.nik.bestLeaguePoints": "career.managers.nik.bestLeaguePoints",
+        "managers.nik.bestLeagueGoals": "career.managers.nik.bestLeagueGoals",
+        "managers.nik.bestLeaguePosition": "career.managers.nik.bestLeaguePosition",
+        "managers.nik.performanceBonuses": "career.managers.nik.performanceBonuses",
+        "managers.nik.awardsBonuses": "career.managers.nik.awardsBonuses",
+        "showdowns.nik.completed": "career.managers.nik.showdowns.completed",
+        "showdowns.nik.wins": "career.managers.nik.showdowns.wins",
+        "showdowns.nik.draws": "career.managers.nik.showdowns.draws",
+        "showdowns.nik.losses": "career.managers.nik.showdowns.losses"
+      },
+      "bindScenario": "active-mid-season"
     }
   },
   "routes": {
@@ -1027,9 +617,7 @@
   },
   "checkSource": [
     {
-      "ref": "CS1-preview-showdown-1",
-      "frame": "CS1",
-      "sourceRef": "preview-showdown-1",
+      "ref": "multi-showdown-career:career-showdown-1",
       "totalSeasons": 3,
       "leagueId": "premier_league",
       "state": "completed",
@@ -1037,199 +625,87 @@
         {
           "daniel": {
             "leaguePosition": 1,
-            "leaguePoints": 108,
-            "leagueGoals": 105,
+            "leaguePoints": 95,
+            "leagueGoals": 102,
+            "domesticCup": false,
             "championsLeague": true,
-            "domesticCup": true,
-            "topScorer": false,
-            "topAssist": true
-          },
-          "nik": {
-            "leaguePosition": 2,
-            "leaguePoints": 96,
-            "leagueGoals": 124,
-            "championsLeague": false,
-            "domesticCup": false,
-            "topScorer": true,
-            "topAssist": false
-          }
-        },
-        {
-          "daniel": {
-            "leaguePosition": 2,
-            "leaguePoints": 92,
-            "leagueGoals": 95,
-            "championsLeague": false,
-            "domesticCup": false,
             "topScorer": false,
             "topAssist": false
           },
           "nik": {
-            "leaguePosition": 1,
-            "leaguePoints": 104,
-            "leagueGoals": 110,
-            "championsLeague": true,
-            "domesticCup": false,
-            "topScorer": false,
-            "topAssist": true
-          }
-        },
-        {
-          "daniel": {
-            "leaguePosition": 1,
-            "leaguePoints": 102,
-            "leagueGoals": 98,
-            "championsLeague": false,
-            "domesticCup": false,
-            "topScorer": true,
-            "topAssist": false
-          },
-          "nik": {
-            "leaguePosition": 3,
-            "leaguePoints": 91,
-            "leagueGoals": 88,
-            "championsLeague": false,
-            "domesticCup": true,
-            "topScorer": false,
-            "topAssist": false
-          }
-        }
-      ]
-    },
-    {
-      "ref": "CS1-preview-showdown-2",
-      "frame": "CS1",
-      "sourceRef": "preview-showdown-2",
-      "totalSeasons": 3,
-      "leagueId": "premier_league",
-      "state": "completed",
-      "seasons": [
-        {
-          "daniel": {
-            "leaguePosition": 1,
-            "leaguePoints": 101,
-            "leagueGoals": 97,
-            "championsLeague": true,
-            "domesticCup": false,
-            "topScorer": false,
-            "topAssist": true
-          },
-          "nik": {
-            "leaguePosition": 2,
-            "leaguePoints": 101,
-            "leagueGoals": 104,
-            "championsLeague": false,
-            "domesticCup": false,
-            "topScorer": false,
-            "topAssist": false
-          }
-        },
-        {
-          "daniel": {
-            "leaguePosition": 4,
-            "leaguePoints": 99,
-            "leagueGoals": 100,
-            "championsLeague": false,
-            "domesticCup": false,
-            "topScorer": false,
-            "topAssist": false
-          },
-          "nik": {
-            "leaguePosition": 1,
-            "leaguePoints": 100,
-            "leagueGoals": 95,
-            "championsLeague": false,
-            "domesticCup": true,
-            "topScorer": true,
-            "topAssist": false
-          }
-        },
-        {
-          "daniel": {
             "leaguePosition": 2,
             "leaguePoints": 88,
             "leagueGoals": 90,
+            "domesticCup": false,
             "championsLeague": false,
+            "topScorer": false,
+            "topAssist": false
+          }
+        },
+        {
+          "daniel": {
+            "leaguePosition": 1,
+            "leaguePoints": 91,
+            "leagueGoals": 89,
+            "domesticCup": false,
+            "championsLeague": false,
+            "topScorer": true,
+            "topAssist": false
+          },
+          "nik": {
+            "leaguePosition": 3,
+            "leaguePoints": 77,
+            "leagueGoals": 72,
             "domesticCup": true,
-            "topScorer": true,
-            "topAssist": false
-          },
-          "nik": {
-            "leaguePosition": 3,
-            "leaguePoints": 85,
-            "leagueGoals": 92,
             "championsLeague": false,
-            "domesticCup": false,
-            "topScorer": false,
-            "topAssist": true
-          }
-        }
-      ]
-    },
-    {
-      "ref": "CS1-preview-showdown-3",
-      "frame": "CS1",
-      "sourceRef": "preview-showdown-3",
-      "totalSeasons": 3,
-      "leagueId": "premier_league",
-      "state": "completed",
-      "seasons": [
-        {
-          "daniel": {
-            "leaguePosition": 1,
-            "leaguePoints": 98,
-            "leagueGoals": 101,
-            "championsLeague": false,
-            "domesticCup": false,
-            "topScorer": false,
-            "topAssist": false
-          },
-          "nik": {
-            "leaguePosition": 2,
-            "leaguePoints": 97,
-            "leagueGoals": 99,
-            "championsLeague": true,
-            "domesticCup": false,
             "topScorer": false,
             "topAssist": false
           }
         },
         {
           "daniel": {
-            "leaguePosition": 3,
-            "leaguePoints": 82,
-            "leagueGoals": 84,
-            "championsLeague": false,
+            "leaguePosition": 2,
+            "leaguePoints": 84,
+            "leagueGoals": 83,
             "domesticCup": false,
-            "topScorer": true,
+            "championsLeague": false,
+            "topScorer": false,
             "topAssist": false
           },
           "nik": {
             "leaguePosition": 1,
-            "leaguePoints": 89,
-            "leagueGoals": 90,
-            "championsLeague": false,
-            "domesticCup": false,
-            "topScorer": false,
-            "topAssist": true
-          }
-        },
-        {
-          "daniel": {
-            "leaguePosition": 2,
             "leaguePoints": 90,
-            "leagueGoals": 93,
-            "championsLeague": false,
+            "leagueGoals": 86,
             "domesticCup": false,
+            "championsLeague": false,
             "topScorer": false,
-            "topAssist": true
+            "topAssist": false
+          }
+        }
+      ]
+    },
+    {
+      "ref": "multi-showdown-career:career-showdown-2",
+      "totalSeasons": 5,
+      "leagueId": "serie_a",
+      "state": "abandoned",
+      "seasons": [
+        {
+          "daniel": {
+            "leaguePosition": 3,
+            "leaguePoints": 72,
+            "leagueGoals": 66,
+            "domesticCup": false,
+            "championsLeague": false,
+            "topScorer": false,
+            "topAssist": false
           },
           "nik": {
-            "leaguePosition": 4,
-            "leaguePoints": 79,
-            "leagueGoals": 82,
-            "championsLeague": false,
-            "domesticCup": false,
+            "leaguePosition": 1,
+            "leaguePoints": 114,
+            "leagueGoals": 120,
+            "domesticCup": true,
+            "championsLeague": true,
             "topScorer": true,
             "topAssist": false
           }
@@ -1237,29 +713,55 @@
       ]
     },
     {
-      "ref": "CS1-preview-showdown-4",
-      "frame": "CS1",
-      "sourceRef": "preview-showdown-4",
-      "totalSeasons": 3,
-      "leagueId": "premier_league",
+      "ref": "multi-showdown-career:career-showdown-3",
+      "totalSeasons": 1,
+      "leagueId": "laliga",
       "state": "completed",
       "seasons": [
         {
           "daniel": {
-            "leaguePosition": 1,
-            "leaguePoints": 87,
-            "leagueGoals": 88,
-            "championsLeague": false,
-            "domesticCup": false,
-            "topScorer": false,
-            "topAssist": false
-          },
-          "nik": {
             "leaguePosition": 2,
             "leaguePoints": 86,
-            "leagueGoals": 87,
-            "championsLeague": false,
+            "leagueGoals": 79,
             "domesticCup": false,
+            "championsLeague": false,
+            "topScorer": false,
+            "topAssist": false
+          },
+          "nik": {
+            "leaguePosition": 1,
+            "leaguePoints": 101,
+            "leagueGoals": 104,
+            "domesticCup": true,
+            "championsLeague": true,
+            "topScorer": true,
+            "topAssist": true
+          }
+        }
+      ]
+    },
+    {
+      "ref": "multi-showdown-career:career-showdown-4",
+      "totalSeasons": 5,
+      "leagueId": "bundesliga",
+      "state": "active",
+      "seasons": [
+        {
+          "daniel": {
+            "leaguePosition": 1,
+            "leaguePoints": 80,
+            "leagueGoals": 88,
+            "domesticCup": true,
+            "championsLeague": false,
+            "topScorer": false,
+            "topAssist": false
+          },
+          "nik": {
+            "leaguePosition": 2,
+            "leaguePoints": 78,
+            "leagueGoals": 82,
+            "domesticCup": false,
+            "championsLeague": false,
             "topScorer": false,
             "topAssist": false
           }
@@ -1267,39 +769,47 @@
         {
           "daniel": {
             "leaguePosition": 5,
-            "leaguePoints": 75,
-            "leagueGoals": 78,
-            "championsLeague": false,
+            "leaguePoints": 58,
+            "leagueGoals": 55,
             "domesticCup": false,
+            "championsLeague": false,
             "topScorer": false,
             "topAssist": false
           },
           "nik": {
             "leaguePosition": 1,
-            "leaguePoints": 83,
-            "leagueGoals": 85,
-            "championsLeague": false,
+            "leaguePoints": 87,
+            "leagueGoals": 90,
             "domesticCup": false,
+            "championsLeague": false,
             "topScorer": false,
-            "topAssist": false
+            "topAssist": true
           }
-        },
+        }
+      ]
+    },
+    {
+      "ref": "partial-career",
+      "totalSeasons": 1,
+      "leagueId": "ligue_1",
+      "state": "completed",
+      "seasons": [
         {
           "daniel": {
+            "leaguePosition": 1,
+            "leaguePoints": 84,
+            "leagueGoals": 77,
+            "domesticCup": false,
+            "championsLeague": false,
+            "topScorer": false,
+            "topAssist": false
+          },
+          "nik": {
             "leaguePosition": 2,
             "leaguePoints": 80,
-            "leagueGoals": 81,
+            "leagueGoals": 73,
+            "domesticCup": true,
             "championsLeague": false,
-            "domesticCup": false,
-            "topScorer": false,
-            "topAssist": false
-          },
-          "nik": {
-            "leaguePosition": 3,
-            "leaguePoints": 78,
-            "leagueGoals": 80,
-            "championsLeague": false,
-            "domesticCup": false,
             "topScorer": false,
             "topAssist": false
           }
@@ -1307,354 +817,59 @@
       ]
     },
     {
-      "ref": "CS3-preview-showdown-1",
-      "frame": "CS3",
-      "sourceRef": "preview-showdown-1",
-      "totalSeasons": 3,
+      "ref": "active-mid-season",
+      "totalSeasons": 5,
       "leagueId": "premier_league",
-      "state": "completed",
+      "state": "active",
       "seasons": [
         {
           "daniel": {
-            "leaguePosition": 1,
-            "leaguePoints": 108,
-            "leagueGoals": 105,
-            "championsLeague": true,
-            "domesticCup": true,
-            "topScorer": false,
-            "topAssist": true
-          },
-          "nik": {
-            "leaguePosition": 2,
-            "leaguePoints": 96,
-            "leagueGoals": 124,
-            "championsLeague": false,
-            "domesticCup": false,
-            "topScorer": true,
-            "topAssist": false
-          }
-        },
-        {
-          "daniel": {
-            "leaguePosition": 2,
-            "leaguePoints": 92,
-            "leagueGoals": 95,
-            "championsLeague": false,
-            "domesticCup": false,
-            "topScorer": false,
-            "topAssist": false
-          },
-          "nik": {
-            "leaguePosition": 1,
-            "leaguePoints": 104,
-            "leagueGoals": 110,
-            "championsLeague": true,
-            "domesticCup": false,
-            "topScorer": false,
-            "topAssist": true
-          }
-        },
-        {
-          "daniel": {
-            "leaguePosition": 1,
-            "leaguePoints": 102,
-            "leagueGoals": 98,
-            "championsLeague": false,
-            "domesticCup": false,
-            "topScorer": true,
-            "topAssist": false
-          },
-          "nik": {
-            "leaguePosition": 3,
-            "leaguePoints": 91,
-            "leagueGoals": 88,
-            "championsLeague": false,
-            "domesticCup": true,
-            "topScorer": false,
-            "topAssist": false
-          }
-        }
-      ]
-    },
-    {
-      "ref": "CS3-preview-showdown-2",
-      "frame": "CS3",
-      "sourceRef": "preview-showdown-2",
-      "totalSeasons": 3,
-      "leagueId": "premier_league",
-      "state": "completed",
-      "seasons": [
-        {
-          "daniel": {
-            "leaguePosition": 1,
-            "leaguePoints": 101,
-            "leagueGoals": 97,
-            "championsLeague": true,
-            "domesticCup": false,
-            "topScorer": false,
-            "topAssist": true
-          },
-          "nik": {
-            "leaguePosition": 2,
-            "leaguePoints": 101,
-            "leagueGoals": 104,
-            "championsLeague": false,
-            "domesticCup": false,
-            "topScorer": false,
-            "topAssist": false
-          }
-        },
-        {
-          "daniel": {
-            "leaguePosition": 4,
-            "leaguePoints": 99,
-            "leagueGoals": 100,
-            "championsLeague": false,
-            "domesticCup": false,
-            "topScorer": false,
-            "topAssist": false
-          },
-          "nik": {
-            "leaguePosition": 1,
-            "leaguePoints": 100,
-            "leagueGoals": 95,
-            "championsLeague": false,
-            "domesticCup": true,
-            "topScorer": true,
-            "topAssist": false
-          }
-        },
-        {
-          "daniel": {
-            "leaguePosition": 2,
-            "leaguePoints": 88,
-            "leagueGoals": 90,
-            "championsLeague": false,
-            "domesticCup": true,
-            "topScorer": true,
-            "topAssist": false
-          },
-          "nik": {
-            "leaguePosition": 3,
-            "leaguePoints": 85,
-            "leagueGoals": 92,
-            "championsLeague": false,
-            "domesticCup": false,
-            "topScorer": false,
-            "topAssist": true
-          }
-        }
-      ]
-    },
-    {
-      "ref": "CS3-preview-showdown-3",
-      "frame": "CS3",
-      "sourceRef": "preview-showdown-3",
-      "totalSeasons": 3,
-      "leagueId": "premier_league",
-      "state": "completed",
-      "seasons": [
-        {
-          "daniel": {
-            "leaguePosition": 1,
-            "leaguePoints": 98,
-            "leagueGoals": 101,
-            "championsLeague": false,
-            "domesticCup": false,
-            "topScorer": false,
-            "topAssist": false
-          },
-          "nik": {
-            "leaguePosition": 2,
-            "leaguePoints": 97,
-            "leagueGoals": 99,
-            "championsLeague": true,
-            "domesticCup": false,
-            "topScorer": false,
-            "topAssist": false
-          }
-        },
-        {
-          "daniel": {
-            "leaguePosition": 3,
-            "leaguePoints": 82,
-            "leagueGoals": 84,
-            "championsLeague": false,
-            "domesticCup": false,
-            "topScorer": true,
-            "topAssist": false
-          },
-          "nik": {
             "leaguePosition": 1,
             "leaguePoints": 89,
-            "leagueGoals": 90,
-            "championsLeague": false,
-            "domesticCup": false,
-            "topScorer": false,
-            "topAssist": true
-          }
-        },
-        {
-          "daniel": {
-            "leaguePosition": 2,
-            "leaguePoints": 90,
-            "leagueGoals": 93,
-            "championsLeague": false,
-            "domesticCup": false,
-            "topScorer": false,
-            "topAssist": true
-          },
-          "nik": {
-            "leaguePosition": 4,
-            "leaguePoints": 79,
-            "leagueGoals": 82,
-            "championsLeague": false,
-            "domesticCup": false,
-            "topScorer": true,
-            "topAssist": false
-          }
-        }
-      ]
-    },
-    {
-      "ref": "CS6-preview-showdown-1",
-      "frame": "CS6",
-      "sourceRef": "preview-showdown-1",
-      "totalSeasons": 3,
-      "leagueId": "premier_league",
-      "state": "completed",
-      "seasons": [
-        {
-          "daniel": {
-            "leaguePosition": 2,
-            "leaguePoints": 96,
-            "leagueGoals": 124,
-            "championsLeague": false,
-            "domesticCup": false,
-            "topScorer": true,
-            "topAssist": false
-          },
-          "nik": {
-            "leaguePosition": 1,
-            "leaguePoints": 108,
-            "leagueGoals": 105,
-            "championsLeague": true,
+            "leagueGoals": 85,
             "domesticCup": true,
+            "championsLeague": false,
             "topScorer": false,
-            "topAssist": true
+            "topAssist": false
+          },
+          "nik": {
+            "leaguePosition": 2,
+            "leaguePoints": 84,
+            "leagueGoals": 78,
+            "domesticCup": false,
+            "championsLeague": false,
+            "topScorer": true,
+            "topAssist": false
           }
         },
         {
           "daniel": {
             "leaguePosition": 3,
+            "leaguePoints": 74,
+            "leagueGoals": 70,
+            "domesticCup": false,
+            "championsLeague": false,
+            "topScorer": false,
+            "topAssist": false
+          },
+          "nik": {
+            "leaguePosition": 1,
             "leaguePoints": 91,
             "leagueGoals": 88,
-            "championsLeague": false,
-            "domesticCup": true,
-            "topScorer": false,
-            "topAssist": false
-          },
-          "nik": {
-            "leaguePosition": 1,
-            "leaguePoints": 102,
-            "leagueGoals": 98,
+            "domesticCup": false,
             "championsLeague": true,
-            "domesticCup": false,
-            "topScorer": true,
-            "topAssist": false
-          }
-        },
-        {
-          "daniel": {
-            "leaguePosition": 2,
-            "leaguePoints": 101,
-            "leagueGoals": 104,
-            "championsLeague": false,
-            "domesticCup": false,
             "topScorer": false,
             "topAssist": false
-          },
-          "nik": {
-            "leaguePosition": 1,
-            "leaguePoints": 101,
-            "leagueGoals": 97,
-            "championsLeague": false,
-            "domesticCup": false,
-            "topScorer": false,
-            "topAssist": true
-          }
-        }
-      ]
-    },
-    {
-      "ref": "CS6-preview-showdown-2",
-      "frame": "CS6",
-      "sourceRef": "preview-showdown-2",
-      "totalSeasons": 3,
-      "leagueId": "premier_league",
-      "state": "completed",
-      "seasons": [
-        {
-          "daniel": {
-            "leaguePosition": 2,
-            "leaguePoints": 90,
-            "leagueGoals": 95,
-            "championsLeague": false,
-            "domesticCup": false,
-            "topScorer": false,
-            "topAssist": false
-          },
-          "nik": {
-            "leaguePosition": 1,
-            "leaguePoints": 101,
-            "leagueGoals": 103,
-            "championsLeague": true,
-            "domesticCup": false,
-            "topScorer": false,
-            "topAssist": false
-          }
-        },
-        {
-          "daniel": {
-            "leaguePosition": 1,
-            "leaguePoints": 100,
-            "leagueGoals": 95,
-            "championsLeague": false,
-            "domesticCup": true,
-            "topScorer": false,
-            "topAssist": false
-          },
-          "nik": {
-            "leaguePosition": 2,
-            "leaguePoints": 88,
-            "leagueGoals": 90,
-            "championsLeague": true,
-            "domesticCup": false,
-            "topScorer": false,
-            "topAssist": false
-          }
-        },
-        {
-          "daniel": {
-            "leaguePosition": 3,
-            "leaguePoints": 84,
-            "leagueGoals": 86,
-            "championsLeague": false,
-            "domesticCup": false,
-            "topScorer": false,
-            "topAssist": false
-          },
-          "nik": {
-            "leaguePosition": 1,
-            "leaguePoints": 103,
-            "leagueGoals": 102,
-            "championsLeague": false,
-            "domesticCup": true,
-            "topScorer": false,
-            "topAssist": true
           }
         }
       ]
     }
-  ]
+  ],
+  "nav": {
+    "active": "stats",
+    "locked": false,
+    "reason": null,
+    "source": "nav.json screens.careerStatistics"
+  },
+  "bindingSource": "visual-assets/v10_1/shared/fixtures/data-contract-v1 (Team G G-11, gameplay/recovery-v1 @ dc78ed7b)"
 }

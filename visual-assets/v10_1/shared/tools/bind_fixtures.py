@@ -70,11 +70,18 @@ def put(node, path: str, value) -> None:
     parts = re.findall(r"[^.\[\]]+|\[\d+\]", path)
     for part, nxt in zip(parts, parts[1:]):
         key = int(part[1:-1]) if part.startswith("[") else part
-        if isinstance(node, dict) and key not in node:
-            node[key] = [] if nxt.startswith("[") else {}
+        fresh = [] if nxt.startswith("[") else {}
+        if isinstance(node, list) and key == len(node):
+            node.append(fresh)
+        elif isinstance(node, dict) and key not in node:
+            node[key] = fresh
         node = node[key]
     last = parts[-1]
-    node[int(last[1:-1]) if last.startswith("[") else last] = value
+    key = int(last[1:-1]) if last.startswith("[") else last
+    if isinstance(node, list) and key == len(node):
+        node.append(value)
+    else:
+        node[key] = value
 
 
 class Frame:
@@ -185,6 +192,9 @@ def final_winner(fr: Frame, ref: dict) -> None:
         fr.b(f"totals.{m}", f"{r}.totals.{m}")
         for k in ("championsLeague", "leagueTitles", "domesticCups", "total"):
             fr.b(f"trophies.{m}.{k}", f"{r}.trophies.{m}.{k}")
+    if "terminalSummary" in fr.f:  # Team V sentence rebuilt from the bound totals, never typed
+        tot, win = fr.f["totals"], fr.f["winner"]
+        fr.f["terminalSummary"] = f"Daniel {tot['daniel']} · Nik {tot['nik']} · " + ("DRAW" if win == "draw" else win.capitalize() + " WINS")
 
 
 def rivalry_like(fr: Frame, r: str, rec_keys) -> None:
