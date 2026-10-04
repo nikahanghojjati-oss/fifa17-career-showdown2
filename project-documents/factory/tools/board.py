@@ -273,7 +273,7 @@ if not left:
 else:
     eta_line = (f"⏱ **Estimated finish: {eastern(now_ts + eta_min * 60)}** (about {hm(eta_min)} from now at today's pace)")
 eta_note = (f"_Estimate only. Method: the longest chain of jobs still to do ({len([n for n in left])} left) × the median real time per step "
-            f"(Claude jobs {ASSUME.get("claude_minutes_per_job") or round(lmed["claude"] or 0)} min, set by hand in LANES.json from the hard-jobs thread (8 parts in about 15 min); GPT chat jobs {round(lmed['chat']) if lmed['chat'] else '?'} min; real gaps from jobs finished in the last 3 days, so they include waiting). Codex job assumed {ASSUME.get('codex_minutes_per_job', 45)} min. "
+            f"(Claude jobs {ASSUME.get('claude_minutes_per_job') or round(lmed['claude'] or 0)} min, set by hand in LANES.json from the hard-jobs thread (8 parts in about 15 min); GPT chat jobs {round(lmed['chat']) if lmed['chat'] else '?'} min; real gaps from jobs finished in the last 3 days, so they include waiting). Codex job assumed {ASSUME.get('codex_minutes_per_job', 45)} min. "
             "It ignores usage limits and resets, so it can only slip, and it does not include Claude's quality check or Nik's own approval._")
 
 ph = [n for n in left if info[n][0].startswith("IN PROGRESS")]
