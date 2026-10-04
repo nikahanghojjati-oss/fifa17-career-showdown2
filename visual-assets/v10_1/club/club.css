@@ -634,3 +634,25 @@ html[data-motion-reduced="true"] #onlinePlayerIdentityBadge,
 @media (max-width: 760px) and (orientation: portrait) {
   .clubVsFallback { display: none; }
 }
+
+/* CC-008 A3 · Nik's review: Nik's cut-out covered Daniel and his pack. Both figures now share one height
+   (about 59% of the old Nik height), stand side by side with their packs visible and never overlap. */
+@media (max-width: 760px) and (orientation: portrait) {
+  .phoneHeroStage { --club-ph: min(55vw, 34dvh); }
+  .phoneHeroDaniel, .phoneHeroNik {
+    height: var(--club-ph);
+    top: calc((var(--phone-hero-h) + 40px - var(--club-ph)) / 2);
+  }
+  /* Image aspect: Daniel 625/740 (.8446), Nik 671/740 (.9068); the pair plus a 6 px gap is centred. */
+  .phoneHeroDaniel { left: calc(50% - var(--club-ph) * .4534 - 3px); }
+  .phoneHeroNik { left: calc(50% + var(--club-ph) * .4223 + 3px); }
+}
+@media (max-width: 760px) and (orientation: portrait) {
+  /* CC-008 A3: club.js writes the desktop plate rect inline on phone too (0x0 at the corner, so a stray
+     "RIVALRY" showed top left and the VS medallion never appeared). The phone rule owns its box. */
+  .clubVs {
+    left: 50% !important; top: calc(var(--phone-hero-h) - 76px) !important;
+    width: 64px !important; height: 54px !important;
+  }
+  .clubVsFallback { display: block; }
+}
