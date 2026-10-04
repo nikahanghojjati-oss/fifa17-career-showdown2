@@ -770,3 +770,102 @@ body { overflow: hidden; font-family: var(--text); -webkit-font-smoothing: antia
   .stage[data-phase="COMPLETED"] .guess-reveal { font-size: 10.5px; }
   .phase-guess .privacy-note, .phase-signing .lock-summary { font-size: 11px; }
 }
+
+
+/* JOB-050 step 3: phone hero art from JOB-114 phonemap. Desktop remains plate-driven. */
+.phone-hero-art { display: none; }
+
+@media (max-width: 760px) and (orientation: portrait) {
+  .phone-hero-art {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+    background: var(--sd-black);
+  }
+
+  .phone-hero-bg {
+    position: absolute;
+    inset: 0 0 auto;
+    height: 55svh;
+    display: block;
+    overflow: hidden;
+    z-index: 1;
+  }
+
+  .phone-hero-bg img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 43%;
+  }
+
+  .phone-hero {
+    position: absolute;
+    display: block;
+    width: auto;
+    pointer-events: none;
+    transform: translateX(-50%);
+    transform-origin: 50% 0;
+  }
+
+  .phone-hero img {
+    display: block;
+    width: auto;
+    height: 100%;
+    max-width: none;
+    object-fit: contain;
+    object-position: 50% 0;
+  }
+
+  .phone-hero-daniel {
+    left: 26%;
+    top: 0;
+    height: 62svh;
+    z-index: 2;
+    filter:
+      drop-shadow(-2px 0 5px rgba(245,197,24,.24))
+      drop-shadow(0 12px 14px rgba(0,0,0,.58));
+  }
+
+  .phone-hero-nik {
+    left: 68%;
+    top: .5svh;
+    height: 64svh;
+    z-index: 3;
+    filter:
+      drop-shadow(2px 0 5px rgba(245,197,24,.24))
+      drop-shadow(0 12px 14px rgba(0,0,0,.58));
+  }
+
+  .phone-hero-art::after {
+    content: "";
+    position: absolute;
+    z-index: 4;
+    left: 0;
+    right: 0;
+    top: 46svh;
+    bottom: 0;
+    background:
+      linear-gradient(to bottom, rgba(7,6,4,0), rgba(7,6,4,.92) 26svh, var(--sd-black) 38svh);
+  }
+
+  /* The phone-specific pictures replace the painted desktop plate only.
+     Live sign/status DOM stays in .plane; panels and controls remain in .stage. */
+  .stage {
+    z-index: 1;
+    background: transparent;
+  }
+
+  .scene {
+    background: transparent;
+  }
+
+  .scene-atmos,
+  .scene .plate {
+    display: none;
+  }
+}
