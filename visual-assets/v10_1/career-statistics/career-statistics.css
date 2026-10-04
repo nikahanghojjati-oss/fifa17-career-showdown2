@@ -569,3 +569,7 @@ html[data-motion-reduced="true"] .actionButton:active, html[data-reduced-motion=
   .phoneHeroDaniel { top: 50px; height: 44%; }
   .phoneHeroNik { top: 46px; height: 45%; }
 }
+
+/* CC-008 B7 · desktop: the old decorative topChrome (aria-hidden) still drew under the shared navbar, so every
+   tab label had a faint ghost copy beside it ("HOMEME", "CAREERER"). The shared bar owns the top now. */
+.topChrome { display: none !important; }
