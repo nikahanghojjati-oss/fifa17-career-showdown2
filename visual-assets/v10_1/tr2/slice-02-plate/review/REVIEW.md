@@ -6,6 +6,20 @@
 
 ## Hard gates
 
+| Gate | Result | Evidence |
+| --- | --- | --- |
+| H1 · Daniel left, Nik right, never mirrored | PASS | The code audit binds playerOne/Daniel to left panel B and playerTwo/Nik to right panel A; the plate is never mirrored, and phone cut-outs keep Daniel left and Nik right. |
+| H2 · rights-safe imagery | PASS | The audited renderer introduces only Daniel/Nik, the original Transfer War plate, decorative title art and Nik fingertip overlay; no real crest, league logo, trophy, player or EA/FIFA art is introduced. |
+| H3 · no live/private data baked into images | PASS | Timer, names, clubs, guesses, signings, verdicts and status copy are DOM; rival guesses/signings stay sealed before reveal. |
+| H4 · product truth | PASS | Every exposed action maps to a Transfer War product hook, the screen shows only Transfer War records/verdicts, and no editable/computed season-score UI is invented. The separate hardcoded season-title defect is listed for correction below. |
+| H5 · phone fit | NOT MEASURED (Claude measures) | 393 × 660 scroll, 360 × 640 scroll and 375 × 553 primary-action visibility have no published per-size Claude measurements yet; the carried 84/84 runtime note is aggregate only. |
+| H6 · input size / contrast | NOT MEASURED (Claude measures) | JOB-050 carries the ≥44 px touch-target and 16 px input-text implementation contract, but no Claude contrast ratio is published. |
+| H7 · reduced motion | NOT MEASURED (Claude measures) | No Claude reduced-motion measurement is present in the Evidence section. |
+| H8 · keyboard / focus | NOT MEASURED (Claude measures) | No Claude Tab-through/focus-ring measurement is present in the Evidence section. |
+| H9 · console / failed requests | NOT MEASURED (Claude measures) | No Claude browser-log measurement is present in the Evidence section. |
+| H10 · mockup diff | NOT MEASURED (Claude measures) | No Claude mockup-diff scores are present; the named scores.json was absent during the carried review. |
+| H11 · first-paint weight | NOT MEASURED (Claude measures) | JOB-050 carries a worker-side phone-hero worst case of 356,788 bytes, but no Claude network-log measurement is present, so it is not promoted to a gate result. |
+
 ## Evidence
 
 Source inspection for this part is limited to the files named by JOB-051. No browser QA, screenshots, mockup-diff run or remeasurement was performed in this chat.
