@@ -15,8 +15,14 @@
 <div id="stage-root" class="sd-stage" data-screen="legacy" data-plate-width="1672" data-plate-height="941">
   <div class="sd-stage__layer sd-stage__layer--plate" aria-hidden="true">
     <div class="sd-stage__registered"><div class="sd-stage__plate"></div></div>
+    <picture class="legacyPhonePlate">
+      <source media="(max-width: 900px)" srcset="assets/ENV_LG_PHONE_V1.webp" type="image/webp">
+      <img src="assets/ENV_LG_PHONE_V1.webp" alt="" width="1179" height="2096" decoding="async" fetchpriority="high">
+    </picture>
   </div>
-  <div class="sd-stage__layer sd-stage__layer--atmosphere" aria-hidden="true"></div>
+  <div class="sd-stage__layer sd-stage__layer--atmosphere" aria-hidden="true">
+    <span class="legacyPhoneGrade"></span>
+  </div>
   <div class="sd-stage__layer sd-stage__layer--ui">
     <main id="legacy" class="screen" aria-labelledby="legacyHeading">
       <header class="legacyTopbar sd-label" aria-label="Primary">
@@ -30,7 +36,10 @@
         <p id="fixtureEyebrow" class="legacyEyebrow sd-eyebrow"></p>
         <h1 id="legacyHeading" class="legacyWordmarkWrap sd-title sd-title--wordmark">
           <span id="legacyHeadingText" class="sd-visually-hidden">LEGACY</span>
-          <img class="legacyWordmark" src="assets/TITLE_LG_V1.webp" alt="" aria-hidden="true" width="1028" height="280" decoding="async">
+          <picture class="legacyWordmarkPicture">
+            <source srcset="assets/TITLE_LG_V1.webp" type="image/webp">
+            <img class="legacyWordmark" src="assets/TITLE_LG_V1.webp" alt="" aria-hidden="true" width="1028" height="280" decoding="async">
+          </picture>
         </h1>
         <p id="fixtureTagline" class="legacyTagline sd-tagline"></p>
       </section>
@@ -50,11 +59,19 @@
       </section>
 
       <button id="viewSeasonHistory" class="legacyPrimaryAction sd-btn sd-btn--primary" type="button" data-action="viewSeasonHistory" aria-controls="legacySeasonHistory" aria-expanded="false"></button>
-      <section id="legacySeasonHistory" class="legacySeasonHistory sd-panel" aria-live="polite" hidden></section>
+      <section id="legacySeasonHistory" class="legacySeasonHistory sd-panel sd-sheet" aria-live="polite" hidden></section>
       <div class="nav-reserve" aria-hidden="true"></div>
     </main>
   </div>
   <div class="sd-stage__layer sd-stage__layer--cutout" aria-hidden="true">
+    <picture class="legacyPhoneHero legacyPhoneHero--daniel">
+      <source media="(max-width: 900px)" srcset="assets/OVL_LG_DANIEL_PHONE_V1.webp" type="image/webp">
+      <img src="assets/OVL_LG_DANIEL_PHONE_V1.webp" alt="" width="1179" height="2096" decoding="async" fetchpriority="high">
+    </picture>
+    <picture class="legacyPhoneHero legacyPhoneHero--nik">
+      <source media="(max-width: 900px)" srcset="assets/OVL_LG_NIK_PHONE_V1.webp" type="image/webp">
+      <img src="assets/OVL_LG_NIK_PHONE_V1.webp" alt="" width="1179" height="2096" decoding="async" fetchpriority="high">
+    </picture>
     <div class="sd-stage__registered">
       <span class="sd-stage__cutout managerPlateMarker" data-manager="daniel" role="presentation"></span>
       <span class="sd-stage__cutout managerPlateMarker" data-manager="nik" role="presentation"></span>
