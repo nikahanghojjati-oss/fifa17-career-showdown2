@@ -17,6 +17,26 @@
 
   var PLATE_W = 1672, PLATE_H = 941;
   var MOBILE_MQ = "(max-width: 760px) and (orientation: portrait)";
+  var SIGNATURE_MOTION = Object.freeze({
+    easeOut: "cubic-bezier(.22,1,.36,1)",
+    easeInOut: "cubic-bezier(.65,0,.35,1)",
+    reducedMs: 150,
+    clockTickMs: 260,
+    guessSlideMs: 480,
+    guessSealMs: 360,
+    verdictCrackMs: 260,
+    verdictPageMs: 360,
+    verdictWipeMs: 420,
+    verdictRevealMs: 810,
+    burstMs: 720
+  });
+
+  function motionReduced() {
+    if (window.ShowdownMotion && typeof window.ShowdownMotion.isReducedMotion === "function") {
+      return window.ShowdownMotion.isReducedMotion();
+    }
+    return !!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+  }
 
   function qs(name, fallback) { return new URLSearchParams(location.search).get(name) || fallback; }
 
@@ -82,6 +102,25 @@
     return String(Math.floor(sec / 60)).padStart(2, "0") + ":" + String(sec % 60).padStart(2, "0");
   }
 
+  // Presentation-only second hand: the authoritative timer remains #transferTimerDisplay DOM text.
+  function setClockHand(hand, wholeSeconds, animate) {
+    if (!hand) return;
+    var angle = (Math.max(0, wholeSeconds) % 60) * 6;
+    var next = "translate(-50%, -100%) rotate(" + angle + "deg)";
+    var prevAngle = Number(hand.dataset.angle);
+    var prev = Number.isFinite(prevAngle)
+      ? "translate(-50%, -100%) rotate(" + prevAngle + "deg)"
+      : next;
+    hand.dataset.angle = String(angle);
+    hand.style.transform = next;
+    if (!animate || motionReduced() || typeof hand.animate !== "function") return;
+    hand.animate([
+      { transform: prev, opacity: 0.58 },
+      { transform: next, opacity: 1, offset: 0.56 },
+      { transform: next, opacity: 0.72 }
+    ], { duration: SIGNATURE_MOTION.clockTickMs, easing: SIGNATURE_MOTION.easeOut });
+  }
+
   // ---------- sign (read-only, rotated to the board: TWG-S7) ------------------
 
   function signRect(map) {
@@ -94,7 +133,14 @@
     wrap.style.setProperty("--rot", map.signScreen.boardAngleDeg + "deg");
     if (cfg.phase === "WINDOW_OPEN") {
       wrap.classList.add("is-live");
-      wrap.appendChild(el("div", { id: "transferTimerDisplay", class: "sign-main timer", role: "timer", "aria-live": "off", text: fmtClock(cfg.timerSeconds) }));
+      var timer = el("div", { id: "transferTimerDisplay", class: "sign-main timer", role: "timer", "aria-live": "off" });
+      timer.appendChild(el("span", { class: "timer-text", text: fmtClock(cfg.timerSeconds) }));
+      var clock = el("span", { class: "timer-clock", "aria-hidden": "true" });
+      var hand = el("span", { class: "timer-hand", "aria-hidden": "true" });
+      clock.appendChild(hand);
+      timer.appendChild(clock);
+      setClockHand(hand, Math.floor(cfg.timerSeconds), false);
+      wrap.appendChild(timer);
     } else {
       wrap.appendChild(el("div", { id: "transferTimerDisplay", class: "sign-main closed", text: S.signWindowClosed }));
       if (cfg.phase === "SIGNING_ENTRY" || cfg.phase === "COMPLETED") wrap.classList.add("status-board");
@@ -565,10 +611,21 @@
     if (mq.addEventListener) mq.addEventListener("change", relayout);
 
     // Demo clock. Production owns the real value (server-authoritative; SYNC / 00:00 states).
+    // The small hand is decorative only and ticks once per displayed second.
     var timer = stage.querySelector("#transferTimerDisplay"), tick = null;
     if (cfg.phase === "WINDOW_OPEN" && !opts.freeze) {
-      var t0 = Date.now(), start = cfg.timerSeconds;
-      tick = setInterval(function () { timer.textContent = fmtClock(start - (Date.now() - t0) / 1000); }, 250);
+      var timerText = timer && timer.querySelector(".timer-text");
+      var timerHand = timer && timer.querySelector(".timer-hand");
+      var t0 = Date.now(), start = cfg.timerSeconds, lastWhole = Math.max(0, Math.floor(start));
+      tick = setInterval(function () {
+        var remaining = Math.max(0, start - (Date.now() - t0) / 1000);
+        var whole = Math.floor(remaining);
+        if (timerText) timerText.textContent = fmtClock(whole);
+        if (whole !== lastWhole) {
+          setClockHand(timerHand, whole, true);
+          lastWhole = whole;
+        }
+      }, 250);
     }
     stage.__tw = { dispose: function () {
       if (tick) clearInterval(tick);
