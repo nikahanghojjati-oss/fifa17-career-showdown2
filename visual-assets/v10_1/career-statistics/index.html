@@ -26,23 +26,37 @@
     <div class="sd-stage__layer sd-stage__layer--ui">
       <div class="stateBackdrop" aria-hidden="true"></div>
       <main id="careerStatistics" class="careerScreen" aria-labelledby="careerStatisticsScreenTitle">
-        <header class="titleBlock">
-          <p class="sd-eyebrow">CAREER MODE SHOWDOWN 17</p>
-          <h1 id="careerStatisticsScreenTitle" class="titleWordmark" tabindex="-1" data-route-focus-target="true">
-            <span class="sd-visually-hidden">CAREER STATISTICS</span>
-            <img src="assets/TITLE_CS_V1.webp" alt="" aria-hidden="true" width="1216" height="126" decoding="async">
-          </h1>
-          <p class="sd-tagline">TWO MANAGERS · ONE LEGACY</p>
-        </header>
+        <section class="phoneFaceBand" aria-label="Career Statistics presentation">
+          <header class="titleBlock">
+            <p class="sd-eyebrow">CAREER MODE SHOWDOWN 17</p>
+            <h1 id="careerStatisticsScreenTitle" class="titleWordmark" tabindex="-1" data-route-focus-target="true">
+              <span class="sd-visually-hidden">CAREER STATISTICS</span>
+              <img src="assets/TITLE_CS_V1.webp" alt="" aria-hidden="true" width="1216" height="126" decoding="async">
+            </h1>
+            <p class="sd-tagline">TWO MANAGERS · ONE LEGACY</p>
+          </header>
+        </section>
 
         <div id="previewChip" class="previewChip" hidden>Preview data</div>
-        <section id="headlineTiles" class="headlineTiles" aria-label="Career headline totals"></section>
 
-        <section id="careerStatisticsContent" class="contentGrid" aria-live="polite">
-          <section id="careerTablePanel" class="glassPanel careerTablePanel" aria-labelledby="careerTableHeading"></section>
-          <section id="comparisonPanel" class="glassPanel comparisonPanel" aria-labelledby="comparisonHeading"></section>
-          <section id="leadersPanel" class="glassPanel leadersPanel" aria-labelledby="leadersHeading"></section>
-          <section id="statePanel" class="glassPanel statePanel" hidden></section>
+        <section class="phoneHub" aria-label="Career Statistics data">
+          <section id="headlineTiles" class="headlineTiles" aria-label="Career headline totals"></section>
+
+          <input class="phoneTabControl" type="radio" name="careerPhoneTab" id="careerPhoneTable" checked>
+          <input class="phoneTabControl" type="radio" name="careerPhoneTab" id="careerPhoneCompare">
+          <input class="phoneTabControl" type="radio" name="careerPhoneTab" id="careerPhoneLeaders">
+          <div class="phoneTabs" aria-label="Career Statistics sections">
+            <label for="careerPhoneTable">TABLE</label>
+            <label for="careerPhoneCompare">COMPARE</label>
+            <label for="careerPhoneLeaders">LEADERS</label>
+          </div>
+
+          <section id="careerStatisticsContent" class="contentGrid" aria-live="polite">
+            <section id="careerTablePanel" class="glassPanel careerTablePanel" aria-labelledby="careerTableHeading"></section>
+            <section id="comparisonPanel" class="glassPanel comparisonPanel" aria-labelledby="comparisonHeading"></section>
+            <section id="leadersPanel" class="glassPanel leadersPanel" aria-labelledby="leadersHeading"></section>
+            <section id="statePanel" class="glassPanel statePanel" hidden></section>
+          </section>
         </section>
 
         <nav class="actionRow" aria-label="Career Statistics actions">
@@ -72,6 +86,7 @@
     <span>HOME</span><span>CAREER</span><span>STANDINGS</span><span class="active">STATS</span><span>RULES</span>
     <span class="settingsGlyph">⚙</span>
   </div>
+  <div class="nav-reserve" aria-hidden="true"></div>
 </div>
 <script src="../shared/stage.js"></script>
 <script src="../shared/motion.js"></script>
