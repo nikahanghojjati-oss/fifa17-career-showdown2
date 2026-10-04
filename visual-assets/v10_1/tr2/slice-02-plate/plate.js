@@ -419,6 +419,134 @@
     return sec;
   }
 
+  function buildVerdictDossierCover() {
+    var cover = el("div", { class: "tw-verdict-dossier", "aria-hidden": "true" });
+    var pages = el("div", { class: "tw-verdict-pages" });
+    for (var i = 0; i < 3; i++) pages.appendChild(el("span", { class: "tw-page tw-page-" + (i + 1) }));
+    var wax = el("div", { class: "tw-verdict-wax" });
+    ["left", "right"].forEach(function (side) {
+      var half = el("span", { class: "tw-wax-half is-" + side });
+      half.appendChild(sealSvg());
+      wax.appendChild(half);
+    });
+    cover.appendChild(pages);
+    cover.appendChild(wax);
+    return cover;
+  }
+
+  function delay(ms) {
+    return new Promise(function (resolve) { window.setTimeout(resolve, ms); });
+  }
+
+  // Reveal choreography is presentation-only. Provider verdicts are already in the DOM and are never recomputed.
+  async function runVerdictReveal(stage) {
+    if (!stage) return false;
+    var panels = Array.from(stage.querySelectorAll(".panel.verdict"));
+    if (!panels.length) return false;
+    var covers = panels.map(function (p) { return p.querySelector(".tw-verdict-dossier"); }).filter(Boolean);
+    var verdictWords = Array.from(stage.querySelectorAll(".vr-verdict"));
+    var reduced = motionReduced();
+
+    stage.style.setProperty("--tw-verdict-wipe-ms", SIGNATURE_MOTION.verdictWipeMs + "ms");
+    stage.style.setProperty("--tw-motion-ease-out", SIGNATURE_MOTION.easeOut);
+
+    if (reduced) {
+      panels.forEach(function (panel) {
+        if (typeof window.sdReveal === "function") window.sdReveal(panel);
+      });
+      covers.forEach(function (cover) {
+        if (typeof cover.animate === "function") {
+          cover.animate([{ opacity: 1 }, { opacity: 0 }], {
+            duration: SIGNATURE_MOTION.reducedMs,
+            easing: "linear",
+            fill: "forwards"
+          });
+        } else {
+          cover.style.opacity = "0";
+        }
+      });
+      await delay(SIGNATURE_MOTION.reducedMs);
+      covers.forEach(function (cover) { cover.remove(); });
+      return true;
+    }
+
+    var revealPromises = panels.map(function (panel) {
+      return typeof window.sdReveal === "function" ? window.sdReveal(panel) : Promise.resolve(false);
+    });
+
+    await delay(170);
+    covers.forEach(function (cover) {
+      var halves = Array.from(cover.querySelectorAll(".tw-wax-half"));
+      halves.forEach(function (half, i) {
+        if (typeof half.animate !== "function") return;
+        var dx = i === 0 ? -17 : 17;
+        var rot = i === 0 ? -9 : 9;
+        half.animate([
+          { transform: "translate3d(0,0,0) rotate(0deg)", opacity: 1 },
+          { transform: "translate3d(" + dx + "px,-2px,0) rotate(" + rot + "deg)", opacity: 0 }
+        ], {
+          duration: SIGNATURE_MOTION.verdictCrackMs,
+          easing: SIGNATURE_MOTION.easeOut,
+          fill: "forwards"
+        });
+      });
+
+      Array.from(cover.querySelectorAll(".tw-page")).forEach(function (page, i) {
+        if (typeof page.animate !== "function") return;
+        var x = (i - 1) * 18;
+        var y = 6 + i * 4;
+        var r = (i - 1) * 4.5;
+        page.animate([
+          { transform: "translate3d(0,0,0) rotate(0deg) scale(.96)", opacity: 0.92 },
+          { transform: "translate3d(" + x + "px," + y + "px,0) rotate(" + r + "deg) scale(1)", opacity: 1, offset: 0.62 },
+          { transform: "translate3d(" + (x * 1.25) + "px," + (y + 8) + "px,0) rotate(" + (r * 1.3) + "deg) scale(1.01)", opacity: 0 }
+        ], {
+          duration: SIGNATURE_MOTION.verdictPageMs,
+          easing: SIGNATURE_MOTION.easeOut,
+          fill: "forwards"
+        });
+      });
+
+      if (typeof cover.animate === "function") {
+        cover.animate([
+          { opacity: 1, offset: 0 },
+          { opacity: 1, offset: 0.48 },
+          { opacity: 0, offset: 1 }
+        ], {
+          duration: SIGNATURE_MOTION.verdictRevealMs,
+          easing: SIGNATURE_MOTION.easeInOut,
+          fill: "forwards"
+        });
+      }
+    });
+
+    await delay(260);
+    verdictWords.forEach(function (node, i) {
+      window.setTimeout(function () { node.classList.add("tw-wipe-running"); }, Math.min(i, 5) * 55);
+    });
+
+    await delay(270);
+    var winningVerdict = stage.querySelector(".verdict-row.is-release .vr-word");
+    if (winningVerdict && typeof window.sdBurst === "function") {
+      var canvas = el("canvas", { class: "tw-burst-layer", "aria-hidden": "true" });
+      stage.appendChild(canvas);
+      var cr = canvas.getBoundingClientRect(), wr = winningVerdict.getBoundingClientRect();
+      await window.sdBurst(canvas, wr.left - cr.left + wr.width / 2, wr.top - cr.top + wr.height / 2, {
+        count: 42,
+        duration: SIGNATURE_MOTION.burstMs,
+        spread: Math.PI * 1.35,
+        gravity: 520,
+        speedMin: 90,
+        speedMax: 250
+      });
+      canvas.remove();
+    }
+
+    await Promise.all(revealPromises);
+    covers.forEach(function (cover) { cover.remove(); });
+    return true;
+  }
+
   // ---------- F4 · Verdicts (both sides revealed read-only) ----------------------
   // #transferResultsOne / Two keep production's ids and heading format; verdict lines are the provider's
   // (fixtures.results), never recomputed here. Revealed inputs are text, not fields.
@@ -453,7 +581,7 @@
         who.appendChild(el("span", { class: "vr-meta", text: sig.league + " · " + sig.nationality }));
         li.appendChild(who);
         var line = v.release ? S.verdictRelease : S.verdictKeep;
-        var st = el("span", { class: "vr-verdict" });
+        var st = el("span", { class: "vr-verdict tw-verdict-brush" });
         var parts = line.split(" · ");
         st.appendChild(el("span", { class: "vr-word", text: parts[0] }));
         st.appendChild(el("span", { class: "sep", text: " · " }));
@@ -472,6 +600,7 @@
     });
     body.appendChild(gl);
     sec.appendChild(body);
+    sec.appendChild(buildVerdictDossierCover());
     return sec;
   }
 
@@ -775,11 +904,12 @@
       return document.fonts ? document.fonts.ready : null;
     }).then(function () {
       var root = document;
-      if (typeof window.sdEnter !== "function") return null;
-      var entrance = window.sdEnter(root);
-      return new Promise(function (resolve) {
+      var entrance = typeof window.sdEnter === "function" ? window.sdEnter(root) : null;
+      var entranceWait = new Promise(function (resolve) {
         window.setTimeout(resolve, entrance && entrance.duration ? entrance.duration : 0);
       });
+      var signature = cfg.phase === "COMPLETED" ? runVerdictReveal(stage) : Promise.resolve(false);
+      return Promise.all([entranceWait, signature]);
     });
   }
   window.TWPlate = { render: render, frames: null };
