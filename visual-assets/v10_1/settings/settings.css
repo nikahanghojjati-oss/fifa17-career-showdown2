@@ -697,6 +697,223 @@ body {
 }
 
 
+/* Claude recheck fix 2026-10-04: 1366 × 640 short-height desktop.
+   The normal desktop grid deliberately uses content-sized minimum tracks, but
+   those tracks exceed the available height below 700px. Compact only the
+   desktop-height presentation: keep the 52px top-bar lane, clear the title and
+   state rail, preserve every 44px control target, and leave a real gap above
+   the pinned DONE action. */
+@media (min-width: 1024px) and (max-height: 700px) {
+  .settingsTitleBlock {
+    top: calc(52px + 8px);
+    width: min(28vw, 450px);
+  }
+
+  .settingsEyebrow {
+    margin-bottom: 2px;
+    font-size: 0.60rem;
+    letter-spacing: 0.32em;
+  }
+
+  .settingsWordmarkWrap {
+    width: 72%;
+  }
+
+  .settingsTagline {
+    margin-top: 0;
+    font-size: 0.58rem;
+    line-height: 1;
+    letter-spacing: 0.28em;
+  }
+
+  .settingsStateRail {
+    top: 24.5%;
+    min-height: 28px;
+  }
+
+  #settingsContent {
+    top: 30%;
+    height: 58%;
+    grid-template-rows: minmax(0, 1.08fr) minmax(0, 0.92fr);
+    gap: 10px;
+  }
+
+  .settingsPanel--account,
+  .settingsPanel--application {
+    padding: 12px;
+  }
+
+  .settingsPanel--account > p:first-child,
+  .settingsPanel--application > p:first-child {
+    margin-bottom: 4px;
+    font-size: 0.60rem;
+  }
+
+  .settingsPanel--account h2,
+  .settingsPanel--application h2 {
+    font-size: 1rem;
+  }
+
+  #accountDescription,
+  #applicationDescription {
+    margin: 4px 0 5px;
+    font-size: 0.67rem;
+    line-height: 1.25;
+  }
+
+  .settingsPanel--account dl,
+  .settingsPanel--application dl {
+    gap: 2px;
+    margin-bottom: 5px;
+  }
+
+  .settingsPanel--account dl > div,
+  .settingsPanel--application dl > div {
+    padding-top: 3px;
+  }
+
+  .settingsPanel--account dt,
+  .settingsPanel--application dt {
+    font-size: 0.57rem;
+  }
+
+  .settingsPanel--account dd,
+  .settingsPanel--application dd {
+    font-size: 0.70rem;
+  }
+
+  #accountActions {
+    gap: 6px;
+  }
+
+  #accountActions button,
+  .settingsApplicationUpdateButton {
+    min-height: 44px;
+    padding-inline: 10px;
+    font-size: 0.62rem;
+  }
+
+  #applicationUpdateStatus,
+  #photoCredit {
+    margin-top: 4px;
+    font-size: 0.58rem;
+    line-height: 1.20;
+  }
+
+  .settingsPanel--motion {
+    padding: 14px;
+  }
+
+  #motionEyebrow {
+    margin-bottom: 4px;
+    font-size: 0.61rem;
+  }
+
+  #motionTitle {
+    font-size: 1.15rem;
+  }
+
+  #motionDescription {
+    margin: 6px 0 8px;
+    font-size: 0.67rem;
+    line-height: 1.25;
+  }
+
+  #motionBadge {
+    min-height: 24px;
+    margin-bottom: 8px;
+  }
+
+  .settingsPanel--motion dl {
+    gap: 6px;
+    margin-bottom: 8px;
+  }
+
+  .settingsPanel--motion dl > div {
+    padding: 6px 8px;
+  }
+
+  .settingsPanel--motion dt {
+    margin-bottom: 3px;
+    font-size: 0.56rem;
+  }
+
+  .settingsPanel--motion dd {
+    font-size: 0.70rem;
+  }
+
+  #motionChoices {
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+
+  .settingsMotionChoice {
+    min-height: 62px;
+    padding: 8px 10px;
+    font-size: 0.66rem;
+  }
+
+  .settingsMotionChoice span {
+    margin-top: 4px;
+    font-size: 0.60rem;
+    line-height: 1.22;
+  }
+
+  #feedbackRow {
+    gap: 10px;
+    padding-top: 8px;
+  }
+
+  #feedbackLabel {
+    margin-bottom: 2px;
+    font-size: 0.67rem;
+  }
+
+  #feedbackDescription {
+    font-size: 0.60rem;
+    line-height: 1.20;
+  }
+
+  .settingsPanel--data {
+    padding: 12px;
+  }
+
+  #dataEyebrow {
+    margin-bottom: 4px;
+    font-size: 0.61rem;
+  }
+
+  #dataTitle {
+    font-size: 1rem;
+  }
+
+  #dataDescription {
+    margin: 5px 0;
+    font-size: 0.66rem;
+    line-height: 1.25;
+  }
+
+  #dataNote {
+    margin-bottom: 6px;
+    font-size: 0.58rem;
+    line-height: 1.22;
+  }
+
+  #dataActions {
+    gap: 6px;
+  }
+
+  .settingsDangerButton {
+    min-height: 44px;
+    padding-inline: 10px;
+    font-size: 0.62rem;
+  }
+
+  .settingsFooter {
+    bottom: 2.6%;
+  }
+}
+
 /* STEP 9 · portrait phone composition */
 .settingsPhonePlate,
 .nav-reserve {
