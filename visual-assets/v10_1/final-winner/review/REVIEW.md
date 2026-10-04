@@ -4,6 +4,20 @@
 
 ## Scorecard
 
+| Criterion | Score | Evidence |
+| --- | ---: | --- |
+| 1 · Mockup fidelity | 3 | The mockup comparison finds the same left/right stadium ceremony language and protected manager staging, but Final Winner necessarily replaces the reference panels with a compact result strip and no Claude H10 measurement yet proves the protected scene alignment. |
+| 2 · Characters stand out of the menu | 3 | The review records the intended plate → panels → manager cut-out → rim/contact-shadow depth treatment and dedicated phone overlays, but there is no rendered evidence yet to verify seams, halos or overlap quality. |
+| 3 · Hands and contact | 3 | The desktop plan uses near-arm cut-outs above UI and keeps both manager areas clear, but no Claude render exists yet to verify finger/hand edge quality or physical contact at 100–200% zoom. |
+| 4 · Lighting and grade | 3 | The screen inherits the gold-on-black Trophy Room plate and winner/rival lighting layers, but the review has no measured/rendered proof yet that the final composite preserves one coherent light direction and clean gold values. |
+| 5 · Typography and title treatment | 4 | The code uses the ceremony eyebrow, brush-style wordmark treatment and tagline while keeping live result copy in DOM text; the main limitation is that final rendered hierarchy is not yet visually measured. |
+| 6 · Panel craft | 4 | Truth-driven content is consolidated into one compact results surface with Summary/Honours organization instead of copying the mockups' irrelevant scoring or cabinet panels, and controls follow the shared kit. |
+| 7 · Information clarity and honesty | 4 | Winner/draw state, whole-Showdown totals, seasons, margin and recorded trophies are exposed read-only with explicit loading, empty, unavailable and partial states; missing values render as unavailable rather than zero. |
+| 9 · Phone composition | 3 | Job 83 defines a separate portrait scene, Daniel left/Nik right, a roughly 55% hero band, ≥44 px controls and a pinned action, but Claude has not re-measured the post-fix 393×660/360×640/375×553 layouts. |
+| 10 · Polish and finish | 3 | The screen uses shared Showdown assets, WebP plates and no PNG master, but visible raw fetch-error text and hard-coded trophy-summary labels remain, while console/request and DPR polish are not yet Claude-measured. |
+
+Static-review average: **3.33 / 5.00** across criteria 1–7, 9 and 10. No scored criterion is below 3, but the ≥4.2 pass line is not met.
+
 ## Hard gates
 
 | Gate | Result | Evidence |
