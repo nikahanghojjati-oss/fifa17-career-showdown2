@@ -9,7 +9,7 @@
 
   // Signature-only timing; the shared kit continues to own entrance timing.
   const LEGACY_MOTION = Object.freeze({ deal: 400, stagger: 50, crown: 220,
-    page: 280, parallax: 320, fade: 120, ease: "cubic-bezier(.22,1,.36,1)" });
+    page: 280, parallax: 320, fade: 150, ease: "cubic-bezier(.22,1,.36,1)" });
   const motionTimers = new WeakMap();
   function reducedMotion() {
     let app = false;
