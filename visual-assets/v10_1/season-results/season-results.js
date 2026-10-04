@@ -391,6 +391,16 @@
     renderPreviewTag(fixtures, frame);
     renderTree(stringsNode, fixtures.strings);
     renderTree(frameNode, frame);
+    // Motion belongs to this optional screen; it never gates a product control.
+    stage.querySelectorAll(".season-action-row .sd-btn--primary").forEach(button => {
+      if (!button.hidden) button.dataset.sdEnter = "button";
+      else delete button.dataset.sdEnter;
+    });
+    stage.querySelectorAll('[data-sd-enter="panel"]').forEach((panel, index) => {
+      panel.style.setProperty("--i", String(Math.min(index, 5)));
+    });
+    if (document.fonts) await document.fonts.ready;
+    if (typeof window.sdEnter === "function") window.sdEnter(stage);
   }
 
   init().catch((error) => {
