@@ -1049,6 +1049,33 @@ body {
     display: flex !important;
   }
 
+  /* With neither radio touched, the live Preview-data owner chooses the own
+     panel. Once the user selects a radio, the explicit tab choice wins. */
+  .season-layout:not(:has(.season-phone-tab-input:checked)):has(.season-preview-tag[data-owner="daniel"]) #daniel-entry-panel:not([hidden]),
+  .season-layout:not(:has(.season-phone-tab-input:checked)):has(.season-preview-tag[data-owner="nik"]) #nik-entry-panel:not([hidden]),
+  .season-layout:not(:has(.season-phone-tab-input:checked)):not(:has(.season-preview-tag[data-owner])) #daniel-entry-panel:not([hidden]) {
+    display: flex !important;
+  }
+
+  .season-layout:not(:has(.season-phone-tab-input:checked)):has(.season-preview-tag[data-owner="daniel"]) .season-phone-tab--daniel,
+  .season-layout:not(:has(.season-phone-tab-input:checked)):not(:has(.season-preview-tag[data-owner])) .season-phone-tab--daniel {
+    border-color: rgb(242 196 91 / .92);
+    background: var(--sd-gold, #f2c45b);
+    color: #080808;
+  }
+
+  .season-layout:not(:has(.season-phone-tab-input:checked)):has(.season-preview-tag[data-owner="nik"]) .season-phone-tab--nik {
+    border-color: rgb(216 221 229 / .92);
+    background: var(--sd-silver, #d8dde5);
+    color: #080808;
+  }
+
+  .season-layout:not(:has(.season-phone-tab-input:checked)):has(.season-preview-tag[data-owner="daniel"]) .season-phone-tab--daniel::after,
+  .season-layout:not(:has(.season-phone-tab-input:checked)):has(.season-preview-tag[data-owner="nik"]) .season-phone-tab--nik::after,
+  .season-layout:not(:has(.season-phone-tab-input:checked)):not(:has(.season-preview-tag[data-owner])) .season-phone-tab--daniel::after {
+    display: none;
+  }
+
   #season-phone-tab-daniel:checked ~ #daniel-entry-panel.is-sealed:not([hidden]),
   #season-phone-tab-nik:checked ~ #nik-entry-panel.is-sealed:not([hidden]) {
     display: grid !important;
