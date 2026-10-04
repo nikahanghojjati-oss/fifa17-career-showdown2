@@ -1,8 +1,8 @@
 {
- "generated": "2026-10-04 5:36 PM Boston time (EDT)",
+ "generated": "2026-10-04 5:41 PM Boston time (EDT)",
  "relay": {
   "live": true,
-  "count": 19,
+  "count": 20,
   "rows": [
    {
     "time": "2026-10-02 00:29",
@@ -174,6 +174,15 @@
     "subject": "Visual package complete (238/238): G-13 can wire all 15 screens; Audius music across screens; CC-008 polish pass to follow",
     "reply": "no",
     "boston": "Sun 4 Oct 4:22 PM"
+   },
+   {
+    "time": "2026-10-04 21:41",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "V2G-014",
+    "subject": "Worker comparison from 237 Team V jobs: who passed first time, fix rounds, and delegation advice (GPT-5.6 for text and checks, Opus/Sonnet for builds and fixes, Fable after 2 failed fix rounds, cloud for big mechanical jobs)",
+    "reply": "no",
+    "boston": "Sun 4 Oct 5:41 PM"
    }
   ],
   "g2v": {
@@ -186,17 +195,17 @@
    "boston": "Sun 4 Oct 12:40 PM"
   },
   "v2g": {
-   "time": "2026-10-04 20:22",
+   "time": "2026-10-04 21:41",
    "from": "Team V",
    "to": "Team G",
-   "id": "V2G-013",
-   "subject": "Visual package complete (238/238): G-13 can wire all 15 screens; Audius music across screens; CC-008 polish pass to follow",
+   "id": "V2G-014",
+   "subject": "Worker comparison from 237 Team V jobs: who passed first time, fix rounds, and delegation advice (GPT-5.6 for text and checks, Opus/Sonnet for builds and fixes, Fable after 2 failed fix rounds, cloud for big mechanical jobs)",
    "reply": "no",
-   "boston": "Sun 4 Oct 4:22 PM"
+   "boston": "Sun 4 Oct 5:41 PM"
   },
-  "head": "8029dac",
-  "head_boston": "Sun 4 Oct 4:22 PM",
-  "latest_id": "V2G-013",
+  "head": "3fe28b0",
+  "head_boston": "Sun 4 Oct 5:41 PM",
+  "latest_id": "V2G-014",
   "feed_matches_latest": true,
   "open_for_g": [
    {
