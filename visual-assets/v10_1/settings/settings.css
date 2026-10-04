@@ -40,4 +40,65 @@ body {
   min-height: 0;
 }
 
-/* Layout intentionally begins in step 3. */
+.settingsVisuallyHidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+.settingsHeader {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+/* Trophy Room title reference, 1664 × 936:
+   centre x ≈ 50%; eyebrow top ≈ 11.8%; title top ≈ 13.6%;
+   title width ≈ 30.7%; tagline top ≈ 21.4%.
+   Settings intentionally inherits only this title geometry. */
+.settingsTitleBlock {
+  position: absolute;
+  top: 11.8%;
+  left: 50%;
+  width: min(34vw, 566px);
+  transform: translateX(-50%);
+  text-align: center;
+  pointer-events: none;
+}
+
+.settingsEyebrow {
+  margin: 0 0 0.4rem;
+  letter-spacing: 0.42em;
+  text-transform: uppercase;
+}
+
+.settingsWordmark {
+  display: block;
+  width: 90.3%; /* ≈30.7% viewport width inside a 34% title block. */
+  height: auto;
+  margin: 0 auto;
+  object-fit: contain;
+}
+
+.settingsTagline {
+  margin: 0.15rem 0 0;
+  letter-spacing: 0.36em;
+  text-transform: uppercase;
+}
+
+#settingsClose {
+  position: absolute;
+  top: calc(52px + 1rem);
+  right: 2rem;
+  min-width: 44px;
+  min-height: 44px;
+  pointer-events: auto;
+}
+
+/* Layout skeleton begins in step 4. */
