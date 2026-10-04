@@ -1,8 +1,8 @@
 # Showdown Factory board
 
-**195 of 238 jobs done and checked · 81 %** · updated Sun 12:30 p.m. Eastern
+**195 of 238 jobs done and checked · 82 %** · updated Sun 12:37 p.m. Eastern
 
-✅ **Quality check:** a job counts as done only after Claude checks it against the quality bar (average 4.2 or more, nothing under 3, hard gates pass). Average score 4.26 over 69 scored jobs. 🔍 Nothing waiting for a check. 
+✅ **Quality check:** a job counts as done only after Claude checks it against the quality bar (average 4.2 or more, nothing under 3, hard gates pass). Average score 4.26 over 69 scored jobs. 🔍 Waiting for Claude's check: 180. 
 
 <img src="board-meter.svg" alt="Football progress meter" width="640">
 
@@ -12,7 +12,7 @@
 
 🟣 **Image next:** -
 
-**Working:** 76, 103, 169, 170, 171, 180, 210, 211, 212, 213 · **Blocked:** -
+**Working:** 76, 103, 169, 170, 171, 210, 211, 212, 213 · **Blocked:** -
 
 ## Screens
 
@@ -26,7 +26,7 @@ Trophy Room    ██████████ 10/10
 Career Stats   ██████████ 17/17
 Rivalry        ██████████ 19/19
 Legacy         ███████░░░ 15/19
-Season Results █████████░ 18/19
+Season Results ██████████ 19/19
 Final Winner   ██████████ 12/12
 Start/Join     ██████████ 18/18
 Standings      ██████████ 15/15
@@ -49,7 +49,7 @@ Integration    ░░░░░░░░░░ 0/38
 
 Branch `factory/v1-wtt5ye`. 238 Team V jobs, plus 5 lines that track Team G. Two kinds of job. **Project (type number):** open a new chat in the ChatGPT project "Showdown visual" and type the number (up to 5 at once). **Fresh chat (image):** run the job's ticket from [tickets/](tickets/README.md) in a ChatGPT Temporary Chat (no memory) outside any project, then drop the image in Claude's factory thread (up to 2 at once).
 
-**Overall (Team V):** ████████░░ 81 % · 195 of 238 jobs done
+**Overall (Team V):** ████████░░ 82 % · 195 of 238 jobs done
 
 **Start now · project (type the number in Showdown visual):** nothing (all slots busy or nothing ready)
 
@@ -57,7 +57,7 @@ Branch `factory/v1-wtt5ye`. 238 Team V jobs, plus 5 lines that track Team G. Two
 
 **Start now (Sol Work mode, press Use Work):** -
 
-**Working:** 76, 103, 169, 170, 171, 180, 210, 211, 212, 213 · **Blocked:** -
+**Working:** 76, 103, 169, 170, 171, 210, 211, 212, 213 · **Blocked:** -
 
 **Team G tracking (never start these):** 98 (done), 99 (open), 100 (open), 101 (open), 102 (open). Claude marks them done when Team G delivers.
 
@@ -243,7 +243,7 @@ Branch `factory/v1-wtt5ye`. 238 Team V jobs, plus 5 lines that track Team G. Two
 | 177 | [Season Results: fix round (part 2 of 3)](jobs/JOB-177.md) | 5 New screens | fix | project (type number) | 80 | ██████████ 100 % | DONE |  |
 | 178 | [Season Results: fix round (part 3 of 3)](jobs/JOB-178.md) | 5 New screens | fix | project (type number) | 177 | ██████████ 100 % | DONE |  |
 | 179 | [Season Results: motion (part 2 of 3)](jobs/JOB-179.md) | 5 New screens | build | project (type number) | 81 | ██████████ 100 % | DONE |  |
-| 180 | [Season Results: motion (part 3 of 3)](jobs/JOB-180.md) | 5 New screens | build | project (type number) | 179 | ░░░░░░░░░░ 0 % | IN PROGRESS · BUNDLE | yes |
+| 180 | [Season Results: motion (part 3 of 3)](jobs/JOB-180.md) | 5 New screens | build | project (type number) | 179 | ██████████ 100 % | DONE | yes |
 | 181 | [Final Winner: fix round (part 2 of 3)](jobs/JOB-181.md) | 5 New screens | fix | project (type number) | 85 | ██████████ 100 % | DONE |  |
 | 182 | [Final Winner: fix round (part 3 of 3)](jobs/JOB-182.md) | 5 New screens | fix | project (type number) | 181 | ██████████ 100 % | DONE |  |
 | 183 | [Final Winner: motion (part 2 of 3)](jobs/JOB-183.md) | 5 New screens | build | project (type number) | 86 | ██████████ 100 % | DONE |  |
