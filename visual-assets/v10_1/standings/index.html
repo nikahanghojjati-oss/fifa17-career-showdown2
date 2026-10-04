@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en" data-nav="hub">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Standings · Career Mode Showdown</title>
+<link rel="stylesheet" href="../shared/showdown-tokens.css">
+<link rel="stylesheet" href="../shared/showdown-type.css">
+<link rel="stylesheet" href="../shared/showdown-ui.css">
+<link rel="stylesheet" href="../shared/stage.css">
+<link rel="stylesheet" href="../shared/motion.css">
+<link rel="stylesheet" href="standings.css">
+</head>
+<body>
+<div id="stage-root" class="sd-stage sdg-stage" data-screen="standings" data-plate-width="1672" data-plate-height="941">
+  <div class="sd-stage__layer sd-stage__layer--plate" aria-hidden="true">
+    <div class="sd-stage__registered"><div class="sd-stage__plate"></div></div>
+  </div>
+  <div class="sd-stage__layer sd-stage__layer--atmosphere" aria-hidden="true"></div>
+
+  <div class="sdg-phoneArt" aria-hidden="true">
+    <picture class="sdg-phoneBg">
+      <source media="(max-width: 900px)" srcset="../rivalry-statistics/assets/ENV_RV_PHONE_V1.webp" type="image/webp">
+      <img alt="" decoding="async">
+    </picture>
+    <picture class="sdg-phoneHero sdg-phoneHero--daniel">
+      <source media="(max-width: 900px)" srcset="../rivalry-statistics/assets/OVL_RV_DANIEL_PHONE_V1.webp" type="image/webp">
+      <img alt="" decoding="async">
+    </picture>
+    <picture class="sdg-phoneHero sdg-phoneHero--nik">
+      <source media="(max-width: 900px)" srcset="../rivalry-statistics/assets/OVL_RV_NIK_PHONE_V1.webp" type="image/webp">
+      <img alt="" decoding="async">
+    </picture>
+  </div>
+
+  <div class="sd-stage__layer sd-stage__layer--ui">
+    <span class="managerMarker managerMarkerDaniel" data-manager="daniel" aria-hidden="true"></span>
+    <span class="managerMarker managerMarkerNik" data-manager="nik" aria-hidden="true"></span>
+
+    <header class="sdg-header">
+      <span id="sdgPreview" class="sdg-preview sd-preview-tag"></span>
+      <p class="sd-eyebrow">CAREER MODE SHOWDOWN 17</p>
+      <h1 id="sdgTitle" class="sd-title sd-title--wordmark sdg-wordmark">
+        <span id="sdgHeading" class="sd-visually-hidden"></span>
+        <picture><source srcset="../shared/wordmarks/TITLE_STANDINGS_V1.webp" type="image/webp"><img src="../shared/wordmarks/TITLE_STANDINGS_V1.webp" alt="" aria-hidden="true" decoding="async"></picture>
+      </h1>
+      <p class="sd-tagline sdg-tagline">TWO MANAGERS • ONE LEGACY</p>
+    </header>
+
+    <main id="standingsScreen" class="sdg-main">
+      <section class="sdg-board sd-panel sd-panel--hero" aria-labelledby="sdgSection">
+        <div class="sdg-toggle sd-tabs" role="tablist" aria-label="Standings view">
+          <button type="button" role="tab" id="sdgViewShowdown" data-view="this-showdown" aria-selected="true"></button>
+          <button type="button" role="tab" id="sdgViewCareer" data-view="career" aria-selected="false" tabindex="-1"></button>
+        </div>
+        <h2 id="sdgSection" class="sdg-section sd-panel__header"></h2>
+        <p id="sdgProgress" class="sdg-progress" hidden></p>
+        <p id="sdgInterim" class="sdg-interim" hidden></p>
+        <p id="sdgCoverage" class="sdg-coverage" hidden></p>
+
+        <div id="sdgScoreboard" class="sdg-scoreboard">
+          <div class="sdg-side sdg-side--daniel">
+            <div class="sdg-crest" id="sdgCrestDaniel" aria-hidden="true"></div>
+            <strong id="sdgNameDaniel"></strong>
+            <span id="sdgClubDaniel"></span>
+          </div>
+          <div class="sdg-score">
+            <span id="sdgScoreLabel" class="sdg-scoreLabel"></span>
+            <div class="sdg-scoreNumbers" aria-live="polite">
+              <b id="sdgScoreDaniel"></b><i aria-hidden="true">:</i><b id="sdgScoreNik"></b>
+            </div>
+            <span id="sdgLeader" class="sdg-leader"></span>
+          </div>
+          <div class="sdg-side sdg-side--nik">
+            <div class="sdg-crest" id="sdgCrestNik" aria-hidden="true"></div>
+            <strong id="sdgNameNik"></strong>
+            <span id="sdgClubNik"></span>
+          </div>
+        </div>
+
+        <div id="sdgRows" class="sdg-rows"></div>
+        <p id="sdgState" class="sdg-state" role="status" aria-live="polite" hidden></p>
+      </section>
+    </main>
+    <div class="nav-reserve" aria-hidden="true"></div>
+  </div>
+</div>
+<script src="../../../js/visualIdentity.js"></script>
+<script src="../shared/stage.js"></script>
+<script src="../shared/motion.js"></script>
+<script src="standings.js"></script>
+</body>
+</html>
