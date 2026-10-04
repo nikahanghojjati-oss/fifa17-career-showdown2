@@ -567,3 +567,8 @@ html[data-reduced-motion="true"] .ruleBookHero[data-sd-enter="title"]::after {
   animation: none !important;
   opacity: 0 !important;
 }
+
+/* CC-008 B6 · phone: the PREVIEW DATA chip sat under the shared settings button (top right). Seat it top left. */
+@media (max-width: 900px) {
+  #ruleBookPreview.sd-preview-tag { left: 12px; right: auto; }
+}
