@@ -10,7 +10,19 @@
     glyphMs: 140,
     ease: "cubic-bezier(.22,1,.36,1)"
   });
+  const SJ_PAIR_MOTION = Object.freeze({
+    revealDelayMs: 350,
+    linkDelayMs: 520,
+    linkMs: 260,
+    burstDelayMs: 190,
+    burstMs: 340,
+    burstCount: 28,
+    ease: "cubic-bezier(.22,1,.36,1)"
+  });
   let hostingMomentTimer = 0;
+  let pairingRevealTimer = 0;
+  let pairingMomentTimer = 0;
+  let pairingBurstTimer = 0;
 
   async function loadJSON(path) {
     const response = await fetch(path, { cache: "no-store" });
@@ -85,6 +97,83 @@
         panel.classList.add("is-host-open");
       });
     }, SJ_HOST_MOTION.delayMs);
+  }
+
+  function ensurePairMomentLayer() {
+    let layer = stage.querySelector(".sj-pair-moment");
+    if (layer) {
+      return {
+        layer,
+        line: layer.querySelector(".sj-pair-link"),
+        canvas: layer.querySelector(".sj-pair-burst")
+      };
+    }
+
+    layer = document.createElement("div");
+    layer.className = "sj-pair-moment";
+    layer.setAttribute("aria-hidden", "true");
+
+    const line = document.createElement("span");
+    line.className = "sj-pair-link";
+
+    const canvas = document.createElement("canvas");
+    canvas.className = "sj-pair-burst";
+    canvas.setAttribute("aria-hidden", "true");
+
+    layer.append(line, canvas);
+    stage.appendChild(layer);
+    return { layer, line, canvas };
+  }
+
+  function clearPairMomentCanvas(canvas) {
+    if (!canvas || typeof canvas.getContext !== "function") return;
+    const context = canvas.getContext("2d");
+    if (context) context.clearRect(0, 0, canvas.width, canvas.height);
+  }
+
+  function schedulePairingMoment(paired) {
+    const parts = ensurePairMomentLayer();
+    const badge = document.getElementById("currentStateBadge");
+
+    window.clearTimeout(pairingRevealTimer);
+    window.clearTimeout(pairingMomentTimer);
+    window.clearTimeout(pairingBurstTimer);
+    parts.layer.classList.remove("is-pairing", "is-linking");
+    parts.layer.style.setProperty("--sj-pair-link-ms", SJ_PAIR_MOTION.linkMs + "ms");
+    parts.layer.style.setProperty("--sj-pair-ease", SJ_PAIR_MOTION.ease);
+    clearPairMomentCanvas(parts.canvas);
+
+    if (!paired) return;
+
+    if (motionIsReduced()) {
+      parts.layer.classList.add("is-pairing", "is-linking");
+      if (typeof window.sdReveal === "function") window.sdReveal(badge);
+      return;
+    }
+
+    pairingRevealTimer = window.setTimeout(() => {
+      if (typeof window.sdReveal === "function") window.sdReveal(badge);
+    }, SJ_PAIR_MOTION.revealDelayMs);
+
+    pairingMomentTimer = window.setTimeout(() => {
+      parts.layer.classList.add("is-pairing", "is-linking");
+
+      pairingBurstTimer = window.setTimeout(() => {
+        if (typeof window.sdBurst !== "function") return;
+        const layerRect = parts.layer.getBoundingClientRect();
+        const lineRect = parts.line.getBoundingClientRect();
+        const x = (lineRect.left - layerRect.left) + (lineRect.width / 2);
+        const y = (lineRect.top - layerRect.top) + (lineRect.height / 2);
+        window.sdBurst(parts.canvas, x, y, {
+          count: SJ_PAIR_MOTION.burstCount,
+          duration: SJ_PAIR_MOTION.burstMs,
+          gravity: 240,
+          spread: Math.PI * 1.2,
+          speedMin: 70,
+          speedMax: 180
+        });
+      }, SJ_PAIR_MOTION.burstDelayMs);
+    }, SJ_PAIR_MOTION.linkDelayMs);
   }
 
   function addButton(targetId, label) {
@@ -321,6 +410,7 @@
     codeRow.hidden = !hostCode;
     setText("currentPairingCode", hostCode);
     scheduleHostingMoment(hostCode, paired);
+    schedulePairingMoment(paired);
     setText("privacyLine", strings.privacy.plain);
     renderStatePresentation(frame);
     renderMainActions(frame, strings);
