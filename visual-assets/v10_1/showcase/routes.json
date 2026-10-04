@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "part": 2,
+  "part": 3,
   "screens": [
     {
       "id": "home",
@@ -291,6 +291,178 @@
         {
           "id": "LG9",
           "label": "Completion pending"
+        }
+      ]
+    },
+    {
+      "id": "season-results",
+      "name": "Season Results",
+      "folder": "../season-results",
+      "frames": [
+        {
+          "id": "SR1",
+          "label": "Entering · Daniel"
+        },
+        {
+          "id": "SR2",
+          "label": "Entering · Nik"
+        },
+        {
+          "id": "SR3",
+          "label": "Waiting for rival"
+        },
+        {
+          "id": "SR4",
+          "label": "Results ready"
+        },
+        {
+          "id": "SR5",
+          "label": "Committed"
+        },
+        {
+          "id": "SR6",
+          "label": "Validation error"
+        },
+        {
+          "id": "SR7",
+          "label": "Loading"
+        },
+        {
+          "id": "SR8",
+          "label": "Empty"
+        },
+        {
+          "id": "SR9",
+          "label": "Partial"
+        },
+        {
+          "id": "SR10",
+          "label": "Unavailable"
+        }
+      ]
+    },
+    {
+      "id": "final-winner",
+      "name": "Final Winner",
+      "folder": "../final-winner",
+      "frames": [
+        {
+          "id": "FW1",
+          "label": "Daniel wins"
+        },
+        {
+          "id": "FW2",
+          "label": "Nik wins"
+        },
+        {
+          "id": "FW3",
+          "label": "Showdown draw"
+        },
+        {
+          "id": "FW4",
+          "label": "Completion pending"
+        },
+        {
+          "id": "FW5",
+          "label": "Completed"
+        },
+        {
+          "id": "FW6",
+          "label": "Loading"
+        },
+        {
+          "id": "FW7",
+          "label": "Empty"
+        },
+        {
+          "id": "FW8",
+          "label": "Unavailable"
+        },
+        {
+          "id": "FW9",
+          "label": "Partial history"
+        }
+      ]
+    },
+    {
+      "id": "start-join",
+      "name": "Start / Join",
+      "folder": "../start-join",
+      "frames": [
+        {
+          "id": "SJ1",
+          "label": "No connection"
+        },
+        {
+          "id": "SJ2",
+          "label": "Daniel waiting for Nik"
+        },
+        {
+          "id": "SJ3",
+          "label": "Nik entering code"
+        },
+        {
+          "id": "SJ4",
+          "label": "Bad pairing code"
+        },
+        {
+          "id": "SJ5",
+          "label": "Paired · career ready"
+        },
+        {
+          "id": "SJ6",
+          "label": "Loading"
+        },
+        {
+          "id": "SJ7",
+          "label": "Partial authority"
+        },
+        {
+          "id": "SJ8",
+          "label": "Unavailable"
+        }
+      ]
+    },
+    {
+      "id": "standings",
+      "name": "Standings",
+      "folder": "../standings",
+      "frames": [
+        {
+          "id": "SD1",
+          "label": "This Showdown ready"
+        },
+        {
+          "id": "SD2",
+          "label": "Career ready"
+        },
+        {
+          "id": "SD3",
+          "label": "First season"
+        },
+        {
+          "id": "SD4",
+          "label": "Interim"
+        },
+        {
+          "id": "SD5",
+          "label": "Loading"
+        },
+        {
+          "id": "SD6",
+          "label": "Unavailable"
+        },
+        {
+          "id": "SD7",
+          "label": "Partial"
+        },
+        {
+          "id": "SD8",
+          "label": "New career"
+        },
+        {
+          "id": "SD9",
+          "label": "Level"
         }
       ]
     }
