@@ -111,3 +111,10 @@ Height budget at a 393 × 604 stage: art zone about 215, header about 85, tabs 4
 First paint (phone): ENV 126 KB + heroes 110 KB + CSS/JS about 30 KB = about 266 KB (cap 450 KB).
 
 Checked at 393 × 660, 360 × 640 and 375 × 553 (frames SJ1, SJ2, SJ4, SJ5, SJ7, SJ8): no page scroll, no console errors, desktop 1366 × 768 unchanged.
+
+### Phone, part 2 (JOB-185)
+
+- Tabs are 44 px tall and BACK is 46 px. At 600 px high or less the Nik panel drops its kicker and glyph and the panel gets a 178 px floor, so at 375 × 553 the code field and the JOIN button are both fully visible (checked on SJ3).
+- Code field and button are 44 px, input text 18 px (16 px minimum met).
+- Design note: instead of two stacked HOST / JOIN buttons, the DANIEL · START and NIK · JOIN tabs each own one big action, and CONNECTION shows the code card with the copy button. Same DOM, no shrunk desktop.
+- Keyboard: iOS Safari overlays the keyboard without resizing the page. With a 300 px keyboard only 253 px stay visible, which cannot hold this panel; the action row sticks to the panel bottom and the field scrolls inside the panel, so the player can reach both. This was reasoned, not tested on a device.

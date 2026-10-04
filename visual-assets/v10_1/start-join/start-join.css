@@ -660,11 +660,11 @@ body { min-height: 100vh; }
   .sj-main{position:static;order:2;display:block}
   .sj-main-panel{position:relative;left:auto;top:auto;width:auto;height:auto;padding:0;display:flex;flex-direction:column;gap:6px;background:none;border:0;box-shadow:none}
   .sj-tabs{display:flex;gap:0;min-height:0;margin-right:58px;border:1px solid var(--sd-edge);background:rgba(7,8,10,.9)}
-  .sj-tabs button{flex:1 1 0;min-width:0;min-height:38px;padding:0 2px;font-size:11px;letter-spacing:.05em}
-  .sj-back{top:0;right:0;width:52px;min-width:52px;height:40px;padding:0;border-radius:0;font-size:12px;letter-spacing:.06em}
+  .sj-tabs button{flex:1 1 0;min-width:0;min-height:44px;padding:0 2px;font-size:11px;letter-spacing:.05em}
+  .sj-back{top:0;right:0;width:52px;min-width:52px;height:46px;padding:0;border-radius:0;font-size:12px;letter-spacing:.06em}
   .sj-role-grid{display:contents}
   .sj-role-panel,.sj-current-panel{display:none;width:auto;height:var(--sj-panel-h);padding:10px 12px;overflow-y:auto}
-  .sj-main-panel{--sj-panel-h:max(150px,calc(100svh - 56px - env(safe-area-inset-bottom) - 400px))}
+  .sj-main-panel{--sj-panel-h:max(150px,calc(100svh - 56px - env(safe-area-inset-bottom) - 406px))}
   .sj-main-panel[data-tab="daniel"] .sj-role-panel--daniel,.sj-main-panel[data-tab="nik"] .sj-role-panel--nik{display:flex}
   .sj-main-panel[data-tab="current"] .sj-current-panel{display:flex;flex-direction:column}
   .sj-role-head,.sj-current-head{gap:10px}
@@ -694,3 +694,5 @@ body { min-height: 100vh; }
   .sj-code-field{font-size:24px;min-height:40px}.sj-code-row{min-height:40px}
 }
 @media(max-width:900px){.sj-role-panel>*,.sj-current-panel>*{flex-shrink:0}}
+@media(max-width:900px) and (max-height:600px){.sj-role-kicker,.sj-role-glyph{display:none}.sj-role-panel,.sj-current-panel{padding-top:6px}.sj-role-heading{font-size:19px}}
+@media(max-width:900px) and (max-height:600px){.sj-main-panel{--sj-panel-h:178px}}
