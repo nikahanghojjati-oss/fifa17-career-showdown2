@@ -32,7 +32,7 @@ Screen folder: `visual-assets/v10_1/legacy/`. Repo `nikahanghojjati-oss/fifa17-c
 
 ## If GitHub refuses a save
 
-If the refusal says **"not a fast forward"** (HTTP 422), another chat saved at the same moment. That is normal with two bundles running: re-read the newest branch head, redo that one save on top of it (keep everything the other chat saved), and try once more. Only a second refusal, or any other refusal, is a real stop:
+If the refusal says **"not a fast forward"** (HTTP 422) or **conflict / SHA does not match** (HTTP 409), someone saved at the same moment. That is normal while Claude checks jobs and two bundles run: re-read the newest branch head and the file's current version, put your change on top of it (keep everything the other save added), and try once more. Only a second refusal, or any other refusal, is a real stop:
 
 Stop saving at once. Put every file you changed or still meant to save, at their repo paths, into ONE zip named `ASTRA_C2W004_<job>_<step>.zip`, offer it as a download, and stop with the stop line. Nik drops the zip in Claude's factory thread; Claude commits it and Nik starts a new Astra chat with the same prompt (it carries on from the status files).
 

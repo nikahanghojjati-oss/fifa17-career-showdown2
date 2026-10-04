@@ -1467,3 +1467,38 @@ body {
 @media (min-width: 1024px) {
   .entry-panel--daniel { padding-left: 78px; }
 }
+
+
+/* JOB-179 signature moments: all moving geometry is transform/opacity only. */
+.manager-card-header { position: relative; }
+.sr-cap-tags { position: absolute; right: 0; top: 0; display: flex; gap: 3px; pointer-events: none; }
+.sr-max-tag {
+  display: inline-block; padding: 2px 4px; border: 1px solid var(--sd-gold-700);
+  color: var(--sd-gold-300); background: #07080a;
+  font: 700 9px/1 var(--sd-font-condensed); letter-spacing: .04em;
+}
+.sr-max-tag[hidden] { display: none; }
+.season-score-fill { transform-origin: left center; }
+.entry-panel--daniel { --sr-enter-x: -24px; }
+.entry-panel--nik { --sr-enter-x: 24px; }
+@keyframes sr-manager-panel-in {
+  from { opacity: 0; transform: translate3d(var(--sr-enter-x), 0, 0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+/* sdEnter already schedules the 60 ms stagger; avoid a second CSS delay. */
+.sd-motion-ready [data-sd-enter="panel"].sd-is-animating { animation-delay: 0ms; }
+.sd-motion-ready .entry-panel[data-sd-enter="panel"].sd-is-animating {
+  animation-name: sr-manager-panel-in;
+  animation-duration: 500ms;
+  animation-timing-function: cubic-bezier(.22,1,.36,1);
+  animation-delay: 0ms;
+}
+html[data-motion-reduced="true"] .sd-motion-ready .entry-panel[data-sd-enter="panel"].sd-is-animating {
+  animation: sd-reduced-fade 150ms linear both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .sd-motion-ready .entry-panel[data-sd-enter="panel"].sd-is-animating {
+    animation: sd-reduced-fade 150ms linear both;
+  }
+}
+
