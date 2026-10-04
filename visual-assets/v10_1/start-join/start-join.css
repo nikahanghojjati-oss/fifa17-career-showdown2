@@ -223,7 +223,9 @@ body { min-height: 100vh; }
 .sj-role-copy,
 .sj-current-copy {
   margin: 13px 0 0;
+  font-family: var(--sd-font-body);
   font-size: clamp(12px, .82vw, 15px);
+  font-weight: 400;
   line-height: 1.35;
   color: rgba(244, 244, 241, .76);
 }
