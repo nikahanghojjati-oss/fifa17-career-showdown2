@@ -227,6 +227,8 @@ button:focus-visible { outline: 3px solid #fff1b8; outline-offset: 3px; }
     min-height: 100svh;
   }
 
+  .scene.sd-stage[data-sd-mode="phone"] .sd-stage__layer--ui { top: 0; }
+
   .careerScreen {
     inset: 0 0 var(--phone-nav);
     overflow: hidden;
@@ -429,6 +431,7 @@ button:focus-visible { outline: 3px solid #fff1b8; outline-offset: 3px; }
     z-index: 12;
     left: var(--phone-gutter);
     right: var(--phone-gutter);
+    top: auto;
     bottom: 6px;
     width: auto;
     height: 96px;

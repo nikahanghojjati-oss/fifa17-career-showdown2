@@ -77,7 +77,7 @@
       { pair:[D.totalTrophies,N.totalTrophies] }
     ] : [];
     labels.forEach((label,i) => {
-      const card=document.createElement("article"); card.className="headlineTile";
+      const card=document.createElement("article"); card.className="headlineTile"; card.setAttribute("data-sd-enter","panel");
       const val=vals[i];
       const valueHtml = val ? (val.pair
         ? `<div class="headlinePair"><small>D</small><b>${fmt(val.pair[0])}</b><span class="slash">/</span><small>N</small><b>${fmt(val.pair[1])}</b></div>`
@@ -157,5 +157,5 @@
     setPreview(frame,fx); renderHeadline(frame,fx); renderState(frame,fx);
     document.querySelectorAll(".actionButton").forEach(b=>b.addEventListener("click",()=>{stage.dataset.lastIntent=b.id||"backButton";}));
   }
-  Promise.all([loadFixtures(),loadPlatemap()]).then(async ([fx,map])=>{ window.__careerFixtures=fx; window.__careerPlatemap=map; mountStage(map); applyStrings(fx); renderFrame(fx,qs.get("frame")||"CS1"); if(document.fonts?.ready) await document.fonts.ready; window.__careerStatisticsReady=true; }).catch(err=>{ console.error(err); document.getElementById("statePanel").hidden=false; document.getElementById("statePanel").textContent="Career Statistics preview failed to load."; });
+  Promise.all([loadFixtures(),loadPlatemap()]).then(async ([fx,map])=>{ window.__careerFixtures=fx; window.__careerPlatemap=map; mountStage(map); applyStrings(fx); renderFrame(fx,qs.get("frame")||"CS1"); if(document.fonts?.ready) await document.fonts.ready; window.__careerStatisticsReady=true; if (typeof window.sdEnter==="function") window.sdEnter(stage); }).catch(err=>{ console.error(err); document.getElementById("statePanel").hidden=false; document.getElementById("statePanel").textContent="Career Statistics preview failed to load."; });
 })();
