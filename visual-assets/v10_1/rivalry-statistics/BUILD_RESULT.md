@@ -72,3 +72,7 @@ Desktop at 1366 × 768 is unchanged.
 | 375 × 553 | 497 | 210 | 120 (floor) | 167 | none; BACK visible, rows scroll inside the panel |
 
 Measured in a real browser: scrollHeight equals the viewport at all three sizes. At 360 × 640 the last Totals row scrolls inside the panel. Bigger phones grow the panel.
+
+## Fix round (JOBS 70, 159, 160)
+
+Six review items applied on desktop from 901 px up: trophy art scales with the width (64 px on short laptops), a decorative caption sits under the Head-to-Head numerals (hidden on phone), the title spans about 31-70%, the lower panels, the Back row and the totals panel use the mockup spacing. The phone layout is unchanged.
