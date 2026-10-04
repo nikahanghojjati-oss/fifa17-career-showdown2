@@ -1,0 +1,75 @@
+{
+  "strings": {
+    "previewLabel": "Preview data",
+    "interimLabel": "Current Showdown only. Career history is not yet available.",
+    "statusTokens": [
+      "loading",
+      "empty",
+      "unavailable",
+      "partial",
+      "ready"
+    ],
+    "completionStates": [
+      "completion-pending",
+      "completed"
+    ],
+    "completionPendingMark": "Completion pending",
+    "trophySummary": {
+      "order": [
+        "championsLeague",
+        "leagueTitles",
+        "domesticCups",
+        "total"
+      ],
+      "labels": {
+        "championsLeague": "Continental",
+        "leagueTitles": "League",
+        "domesticCups": "Domestic cup",
+        "total": "Total"
+      },
+      "unavailable": "unavailable",
+      "separator": " \u00b7 "
+    },
+    "finalReconciliation": {
+      "heading": "SHOWDOWN FINAL RECONCILED",
+      "seasonsTemplate": "{acceptedSeasons} OF {totalSeasons} SEASONS ACCEPTED \u00b7 NO ADDITIONAL SEASON",
+      "winnerTemplate": "{Daniel} {danielTotal} \u00b7 {Nik} {nikTotal} \u00b7 {winner}",
+      "readOnlyNote": "FINAL RESULTS ARE READ-ONLY \u00b7 TERMINAL CLOSE REMAINS A SEPARATE STEP"
+    },
+    "terminalClose": {
+      "readyHeading": "FINAL RESULT READY FOR TERMINAL CLOSE",
+      "readyStatus": "This permanently closes the shared rivalry and exact active private session. Final results remain readable; another season or replacement session cannot resurrect this Showdown.",
+      "closeAction": "CLOSE SHARED SHOWDOWN",
+      "recoveryHeading": "TERMINAL CLOSE OUTCOME PENDING",
+      "recoveryStatus": "Provider acknowledgement was not received. Retry uses the exact same terminal witness and session capability.",
+      "retryAction": "RETRY SAME TERMINAL CLOSE",
+      "blockedHeading": "TERMINAL CLOSE READY WHEN PRIVATE AUTHORITY RETURNS",
+      "blockedStatus": "Final results are preserved. Open or join one fresh exact private session for this rivalry, then refresh Terminal Close.",
+      "closedHeading": "SHARED SHOWDOWN CLOSED",
+      "closedStatus": "TERMINAL \u00b7 NO NEW SESSION \u00b7 NO NEW SEASON \u00b7 FINAL RESULTS REMAIN READ-ONLY"
+    },
+    "completedHub": {
+      "danielWinTemplate": "{Daniel} wins the showdown",
+      "nikWinTemplate": "{Nik} wins the showdown",
+      "draw": "The showdown finishes level",
+      "savedToLegacy": "Saved to Legacy",
+      "legacyPending": "Active save retained \u00b7 Legacy sync pending",
+      "metaTemplate": "{seasonsPlayed} seasons completed \u00b7 Final score {danielTotal} - {nikTotal} \u00b7 {archiveState}",
+      "metaTemplateSingular": "{seasonsPlayed} season completed \u00b7 Final score {danielTotal} - {nikTotal} \u00b7 {archiveState}",
+      "actions": [
+        "VIEW LEGACY",
+        "TROPHY ROOM",
+        "RIVALRY STATISTICS",
+        "NEW SHOWDOWN",
+        "MAIN MENU"
+      ],
+      "handoffAction": "VIEW COMPLETED SHOWDOWN"
+    },
+    "outcome": {
+      "drawHeadline": "DRAW",
+      "drawResult": "The showdown finishes level",
+      "danielHeadline": "Daniel WINS",
+      "nikHeadline": "Nik WINS"
+    }
+  }
+}

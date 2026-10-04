@@ -1,0 +1,43 @@
+/* Live-node adapter only. Team V's source styles remain byte-identical. */
+#seasonEntry.seasonScreenV10,#standings.standingsScreenV10{padding:0;border:0;background:none;max-width:none;width:100%}
+#seasonEntry.seasonScreenV10>.v10SeasonStage,#seasonEntry.seasonScreenV10>.v10FinalStage{position:fixed;inset:0;width:100vw;height:100dvh;min-height:0;z-index:2}
+#seasonEntry .seasonEntryGrid{display:contents}
+#seasonEntry .seasonEntryGrid.hidden,#seasonEntry .seasonResultCard.hidden{display:none!important}
+#seasonEntry .seasonResultCard{box-sizing:border-box;overflow:auto;pointer-events:auto}
+#seasonEntry .seasonResultCard .field-row{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:3px 0;min-height:36px;font-size:12px}
+#seasonEntry .seasonResultCard input[type=number]{width:72px;min-height:36px;font-size:16px}
+#seasonEntry .seasonResultCard .achievementChecks{display:grid;grid-template-columns:1fr 1fr;gap:2px 8px}
+#seasonEntry .seasonResultCard .achievementChecks label{flex-direction:row-reverse;justify-content:flex-end}
+#seasonEntry .seasonResultCard input[type=checkbox]{min-width:22px;min-height:22px}
+#seasonEntry .season-review-panel{pointer-events:auto;overflow:auto;max-height:40vh}
+#seasonEntry .season-review-panel:not(.hidden){display:block!important;top:46%;left:25%;width:50%;height:auto;bottom:80px;max-height:none}
+#seasonEntry .season-review-panel .seasonReviewGrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+#seasonEntry .season-review-panel .seasonReviewActions{position:sticky;bottom:0;padding:8px 0;background:#090b0e;z-index:2;display:flex;gap:8px;flex-wrap:wrap}
+#seasonEntry .season-review-panel button,#seasonEntry .season-action-row button{min-height:44px;font-size:12px;padding:8px 12px}
+#seasonEntry .seasonReviewWarning{white-space:normal;overflow:visible;line-height:1.35}
+#seasonEntry .seasonEntryHint{position:absolute;left:20%;right:20%;top:43%;font-size:12px;text-align:center;pointer-events:none}
+#seasonEntry #seasonEntryError{position:absolute;top:83%;left:20%;right:20%;z-index:9}
+#seasonEntry .v10FinalStage .finalWinnerActionsSlot{pointer-events:auto;overflow:auto;max-height:28vh}
+#seasonEntry .v10FinalStage #sharedTerminalClosePanel{margin:0;padding:6px;background:rgba(5,7,9,.95)}
+#seasonEntry .v10FinalStage #sharedTerminalCloseHeading,#seasonEntry .v10FinalStage #sharedTerminalCloseSummary{font-size:12px;margin:2px 0}
+#seasonEntry .v10FinalStage #sharedTerminalCloseStatus{font-size:11px;line-height:1.3}
+#seasonEntry .v10FinalStage button{min-height:44px;pointer-events:auto}
+#seasonEntry .v10FinalProof{position:absolute;bottom:28%;left:28%;width:44%;z-index:15;max-height:25vh;overflow:auto;background:rgba(5,7,9,.95);font-size:12px;pointer-events:auto}
+#seasonEntry .v10FinalProof summary{min-height:44px;display:flex;align-items:center;cursor:pointer}
+#standings>.sdg-stage{position:fixed;inset:0;z-index:2}
+@media(max-width:900px){
+ #seasonEntry .seasonEntryGrid:not(.hidden) .seasonResultCard:not(.hidden){display:block!important}
+ #seasonEntry .season-layout:has(#daniel-entry-panel.hidden) .season-phone-tab--daniel::after,
+ #seasonEntry .season-layout:has(#nik-entry-panel.hidden) .season-phone-tab--nik::after{content:"SEALED"}
+ #seasonEntry .seasonEntryHint{display:none}
+ #seasonEntry .seasonResultCard .field-row{min-height:44px;font-size:11px;margin:0}
+ #seasonEntry .seasonResultCard input[type=number]{min-height:44px}
+ #seasonEntry .seasonResultCard .achievementChecks{grid-template-columns:1fr 1fr}
+ #seasonEntry .seasonResultCard input[type=checkbox]{min-height:28px;min-width:28px}
+ #seasonEntry .season-review-panel:not(.hidden){top:54%;left:3%;width:94%;bottom:74px;height:auto;max-height:none;overflow:auto;padding:10px 12px}
+ #seasonEntry .seasonReviewGrid h3{font-size:16px;margin:2px 0}
+ #seasonEntry .seasonReviewGrid .summaryLine{font-size:12px;line-height:1.4}
+ #seasonEntry .seasonReviewAchievements{font-size:11px}
+ #seasonEntry #seasonEntryError{top:auto;bottom:64px;left:5%;right:5%;font-size:12px}
+ #seasonEntry .v10FinalProof{left:3%;width:94%;bottom:25%;max-height:22vh}
+}

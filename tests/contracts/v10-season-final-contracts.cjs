@@ -34,34 +34,56 @@ function parse(html,parent,doc){
   }
 }
 function documentOf(html){const doc={createElement:t=>new Node(t,doc),createDocumentFragment:()=>new Node("fragment",doc),addEventListener(){}};doc.body=doc.createElement("body");doc.documentElement=doc.createElement("html");doc.documentElement.append(doc.body);doc.body.innerHTML=html;doc.getElementById=id=>doc.body.all().find(n=>n.id===id)||null;doc.querySelector=s=>doc.body.querySelector(s);doc.querySelectorAll=s=>doc.body.querySelectorAll(s);return doc;}
+function visualEnv(folder,frames){
+  const doc=documentOf(read(`visual-assets/v10_1/${folder}/app-shell.html`));
+  const env={document:doc,console,location:{search:""},URLSearchParams,matchMedia:()=>({matches:true}),fetch(){throw Error("Production visual fetched preview data");},ShowdownStage:{mount:()=>({destroy(){}})}};env.window=env;
+  const prefix=folder==="final-winner"?"FINAL_WINNER":"STANDINGS";
+  env[prefix+"_APP"]=true;env[prefix+"_ROOT"]=doc.getElementById("stage-root");env[prefix+"_FIXTURES"]={strings:JSON.parse(read(`visual-assets/v10_1/${folder}/app-strings.json`)).strings,frames};
+  env[prefix+"_FIXTURES"].strings.previewLabel="";
+  vm.runInNewContext(read(`visual-assets/v10_1/${folder}/${folder}.js`),env);
+  env[folder==="final-winner"?"ShowdownFinalWinnerBoot":"ShowdownStandingsBoot"]();return {doc,env};
+}
 const checks=[],check=(name,fn)=>checks.push([name,fn]);
 const roles={playerOne:"daniel",playerTwo:"nik",draw:"draw"};
 check("V29.1 Final Winner copies reconciliation winner, including equal-total draw",()=>{
   for(const [winner,totals] of [["playerOne",[11,3]],["playerTwo",[3,11]],["draw",[7,7]]]){
     const f=api.finalFrame({phase:"FINAL_SEASON_RECONCILED",finalSeasonReconciled:true,winner,managerTotals:{playerOne:totals[0],playerTwo:totals[1]},acceptedSeasons:3,rivalryId:"r"},null,null);
     assert.equal(f.winner,roles[winner]);assert.deepEqual(f.totals,{daniel:totals[0],nik:totals[1]});assert.equal(f.state,"completion-pending");
+    const {doc}=visualEnv("final-winner",{LIVE:f});
+    assert.equal(doc.getElementById("stage-root").dataset.winner,roles[winner]);
+    assert.equal(doc.getElementById("danielTotal").textContent,String(totals[0]));assert.equal(doc.getElementById("nikTotal").textContent,String(totals[1]));
+    assert.equal(doc.getElementById("outcomeHeadline").textContent,winner==="draw"?"DRAW":winner==="playerOne"?"Daniel WINS":"Nik WINS");
   }
 });
 check("V29.2 missing/invalid final authority never supplies zeroes or a winner",()=>{
   for(const x of [null,{}, {phase:"BLOCKED"},{phase:"FINAL_SEASON_RECONCILED",finalSeasonReconciled:true,winner:"draw",managerTotals:{}}]){const f=api.finalFrame(x);assert.equal(f.winner,undefined);assert.equal(f.totals,undefined);}
 });
 check("V29.3 Standings copies acknowledged rivalry rows and career standings in Daniel/Nik order",()=>{
-  const fx=JSON.parse(read("tests/fixtures/data-contract-v1/active-mid-season.json")),r=fx.views.daniel.rivalry;
+  const fx=JSON.parse(read("tests/fixtures/data-contract-v1/active-mid-season.json")),r=fx.viewers.daniel.rivalry;
   const frames=api.standingsFrames(r,fx.career);
-  assert.deepEqual(frames.SHOWDOWN.model.score,r.score);assert.deepEqual(frames.SHOWDOWN.model.managerRecords,r.managers);
+  assert.deepEqual(frames.SHOWDOWN.model.score,r.score);for(const m of ["daniel","nik"])for(const [k,v] of Object.entries(frames.SHOWDOWN.model.managerRecords[m]))assert.equal(v,r.managers[m][k],m+" "+k);
   for(const m of ["daniel","nik"]){assert.equal(frames.CAREER.model.standings[m].careerPoints,fx.career.trophyRoom.standings.find(x=>x.manager===m).careerPoints);}
   assert.deepEqual(Object.keys(frames.CAREER.model.standings),["daniel","nik"]);
+  const {doc}=visualEnv("standings",frames);
+  for(const row of doc.getElementById("sdgRows").children){assert.equal(row.children[0].textContent,String(r.managers.daniel[row.dataset.field]));assert.equal(row.children[2].textContent,String(r.managers.nik[row.dataset.field]));}
+  doc.getElementById("sdgViewCareer").click();assert.equal(doc.getElementById("stage-root").dataset.view,"career");
+  assert.equal(doc.getElementById("sdgScoreDaniel").textContent,String(frames.CAREER.model.standings.daniel.careerPoints));
 });
 check("V29.4 failed and partial reads stay honest; interim history never masquerades as career",()=>{
   assert.equal(api.standingsFrames(null,null).CAREER.model.status,"unavailable");
   const fx=JSON.parse(read("tests/fixtures/data-contract-v1/active-mid-season.json"));
   assert.equal(api.standingsFrames(null,{...fx.career,interimLabel:"Current Showdown only. Career history is not yet available."}).CAREER.model.status,"unavailable");
+  const partial={...fx.viewers.daniel.rivalry,status:"partial",coverage:{readable:1,indexed:2}};
+  const {doc}=visualEnv("standings",api.standingsFrames(partial,null));
+  assert.equal(doc.getElementById("stage-root").dataset.status,"partial");
+  doc.getElementById("sdgViewCareer").click();assert.equal(doc.getElementById("stage-root").dataset.status,"unavailable");assert.equal(doc.getElementById("sdgScoreboard").hidden,true);assert.equal(doc.getElementById("sdgRows").children.length,0);
+  assert.equal(api.standingsFrames({...partial,managers:{}},null).SHOWDOWN.model.status,"unavailable");
 });
 check("V29.5 mount preserves every live field, action, status, draft and listener by identity",()=>{
   const html=read("index.html"),entry=html.slice(html.indexOf('<section id="seasonEntry"'),html.indexOf('<section id="seasonSummary"'));
   const doc=documentOf(entry),host=doc.getElementById("seasonEntry");
   // Exercise the real review-shell constructor before adoption.
-  const env={document:doc,console};vm.runInNewContext(read("js/seasonEngine.js")+"\nensureSeasonReviewUI();",env);
+  const env={document:doc,console};env.window=env;vm.runInNewContext(read("js/seasonEngine.js")+"\nensureSeasonReviewUI();",env);
   const review=doc.getElementById("seasonReviewPanel"),status=doc.createElement("p"),commit=doc.createElement("button");status.id="sharedSeasonCommitStatus";status.className="seasonReviewWarning";status.textContent="CHECK RESULTS: Both managers ticked Domestic Cup.";commit.id="sharedSeasonCommitAction";commit.textContent="ACKNOWLEDGE SHARED SEASON";review.append(status);review.querySelector(".seasonReviewActions").append(commit);
   const nodes=Object.fromEntries(host.all().filter(n=>n.id).map(n=>[n.id,n]));nodes.p1LeagueGoals.value="131";nodes.p1LeagueGoals.dataset.draft="retained";nodes.p2LeaguePosition.closest(".seasonResultCard").classList.add("hidden");
   let taps=0;nodes.completeSeason.addEventListener("click",()=>taps++);
