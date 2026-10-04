@@ -1,6 +1,6 @@
 # Team G gameplay board: all jobs
 
-[Back to the board](BOARD.md) · generated 2026-10-04 6:57 PM Boston time (EDT)
+[Back to the board](BOARD.md) · generated 2026-10-04 6:59 PM Boston time (EDT)
 
 | # | G id | Job | Phase | Type | Lane | Depends on | Codex | Progress | State |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -33,7 +33,7 @@
 | 27 | G-13d | [Part 2d: Transfer War](jobs/JOB-27.md) | READY | build | lead | 24 | yes | ░░░░░░░░░░ 0 % | NOT STARTED |
 | 28 | G-13e | [Part 2e: Rivalry Statistics and Legacy (History)](jobs/JOB-28.md) | READY | build | work | 24 | yes | ████████░░ 80 % | BLOCKED |
 | 29 | G-13f | [Part 2f: Season Results, Final Winner and Standings](jobs/JOB-29.md) | READY | build | work | 24 | yes | ██░░░░░░░░ 25 % | IN PROGRESS |
-| 30 | G-13g | [Part 2g: Rule Book and Settings](jobs/JOB-30.md) | READY | build | work | 24 | yes | ░░░░░░░░░░ 0 % | IN PROGRESS |
+| 30 | G-13g | [Part 2g: Rule Book and Settings](jobs/JOB-30.md) | READY | build | work | 24 | yes | █████░░░░░ 50 % | IN PROGRESS |
 | 31 | G-2h | [Ten-season games: session expiry, long-game limits, 10-season emulator run](jobs/JOB-31.md) | MERGED | build | lead | - |  | ░░░░░░░░░░ 0 % | NOT WRITTEN |
 | 32 | G-2i | [Fewer taps: audit the flow for steps we can safely drop](jobs/JOB-32.md) | DONE | audit | lead | - |  | ░░░░░░░░░░ 0 % | NOT WRITTEN |
 | 33 | G-2j | [Fewer taps: auto-refresh while waiting, skip hops, drop duplicate banners](jobs/JOB-33.md) | IN PROGRESS | build | lead | 32 |  | ░░░░░░░░░░ 0 % | NOT WRITTEN |
