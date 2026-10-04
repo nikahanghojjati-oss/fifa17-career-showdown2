@@ -282,3 +282,164 @@ body {
   color: #e5bd69;
   text-underline-offset: 2px;
 }
+
+
+/* STEP 6 · main Motion & Feedback panel */
+.settingsPanel--motion {
+  padding: clamp(20px, 1.7vw, 30px);
+  border: 1px solid rgba(219, 178, 94, 0.72);
+  background:
+    linear-gradient(180deg, rgba(16, 16, 16, 0.92), rgba(5, 5, 5, 0.86)),
+    radial-gradient(circle at 80% 10%, rgba(221, 177, 77, 0.12), transparent 44%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 235, 194, 0.12),
+    0 22px 48px rgba(0, 0, 0, 0.34);
+}
+
+.settingsPanel--motion > * {
+  visibility: visible;
+}
+
+#motionEyebrow {
+  margin: 0 0 7px;
+  font-size: 0.68rem;
+  line-height: 1;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--sd-gold, #d9b15f);
+}
+
+#motionTitle {
+  margin: 0;
+  font: 700 clamp(1.22rem, 1.65vw, 1.7rem)/1 var(--sd-font-display, sans-serif);
+  letter-spacing: 0.035em;
+  text-transform: uppercase;
+  color: #f7f3e9;
+}
+
+#motionDescription {
+  margin: 9px 0 14px;
+  max-width: 54ch;
+  font-size: clamp(0.72rem, 0.78vw, 0.85rem);
+  line-height: 1.42;
+  color: rgba(247, 243, 233, 0.70);
+}
+
+#motionBadge {
+  display: inline-flex;
+  min-height: 26px;
+  align-items: center;
+  margin: 0 0 13px;
+  padding: 0 10px;
+  border: 1px solid rgba(219, 178, 94, 0.58);
+  background: rgba(219, 178, 94, 0.10);
+  color: #edc873;
+  font: 700 0.64rem/1 var(--sd-font-condensed, sans-serif);
+  letter-spacing: 0.16em;
+}
+
+.settingsPanel--motion dl {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin: 0 0 14px;
+}
+
+.settingsPanel--motion dl > div {
+  padding: 9px 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.10);
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.settingsPanel--motion dt {
+  margin-bottom: 5px;
+  font-size: 0.59rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: rgba(247, 243, 233, 0.50);
+}
+
+.settingsPanel--motion dd {
+  margin: 0;
+  font: 700 0.78rem/1.15 var(--sd-font-condensed, sans-serif);
+  color: #f7f3e9;
+}
+
+#motionChoices {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin: 0 0 14px;
+}
+
+.settingsMotionChoice {
+  min-height: 86px;
+  padding: 12px 13px;
+  border: 1px solid rgba(219, 178, 94, 0.36);
+  background: rgba(0, 0, 0, 0.48);
+  color: #f5f0e6;
+  text-align: left;
+  font: 700 0.72rem/1.2 var(--sd-font-condensed, sans-serif);
+  letter-spacing: 0.08em;
+}
+
+.settingsMotionChoice span {
+  display: inline-block;
+  margin-top: 7px;
+  font: 400 0.66rem/1.35 var(--sd-font-body, sans-serif);
+  letter-spacing: 0;
+  color: rgba(245, 240, 230, 0.62);
+}
+
+.settingsMotionChoice[aria-checked="true"] {
+  border-color: #e0b95f;
+  background:
+    linear-gradient(135deg, rgba(225, 184, 89, 0.20), rgba(0, 0, 0, 0.55));
+  box-shadow: inset 3px 0 0 #e0b95f;
+}
+
+.settingsMotionChoice:focus-visible,
+.settingsAudioToggle:focus-visible {
+  outline: 2px solid #f0c96d;
+  outline-offset: 3px;
+}
+
+#feedbackRow {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 18px;
+  align-items: center;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.11);
+}
+
+#feedbackLabel {
+  margin: 0 0 4px;
+  font: 700 0.72rem/1 var(--sd-font-condensed, sans-serif);
+  letter-spacing: 0.10em;
+  color: #f7f3e9;
+}
+
+#feedbackDescription {
+  margin: 0;
+  max-width: 48ch;
+  font-size: 0.64rem;
+  line-height: 1.34;
+  color: rgba(247, 243, 233, 0.58);
+}
+
+.settingsAudioToggle {
+  min-width: 58px;
+  min-height: 44px;
+  border: 1px solid rgba(219, 178, 94, 0.56);
+  background: rgba(0, 0, 0, 0.62);
+  color: rgba(247, 243, 233, 0.72);
+  font: 700 0.7rem/1 var(--sd-font-condensed, sans-serif);
+  letter-spacing: 0.08em;
+}
+
+.settingsAudioToggle[aria-checked="true"] {
+  border-color: #e0b95f;
+  background: rgba(224, 185, 95, 0.18);
+  color: #f0cf80;
+}
