@@ -81,7 +81,7 @@ Part 1 locked the art-first phone composition. Part 2 now fills the reserved con
 | `.season-topbar` including brand, nav tabs and settings | Hidden. Season Results has no phone bottom bar and no desktop top bar in the phone composition. |
 | `.season-title-block` | Recompose into the hero band. Eyebrow and tagline hide; the brush Season Results title stays as phone art. |
 | `.scoring-panel` and trophy/rules grid | Hidden on first paint. “HOW SCORING WORKS” opens it as an overlaid scoring sheet with a 44 px close target. |
-| Daniel `.entry-panel` | Daniel tab content. Daniel is selected by default in static markup; only the selected manager panel is laid out. |
+| Daniel `.entry-panel` | Daniel tab content. Before either radio is touched, the live Preview-data owner selects the own panel; Daniel is the safe fallback if owner metadata has not arrived yet. |
 | Nik `.entry-panel` | Nik tab content. Rival sealed/submitted state is surfaced on the inactive tab from the live panel state. |
 | `.season-review-panel` and canonical scoring | Reuses the same bounded bottom content region when review or contract state is active. |
 | `.season-preview-tag` | Lives at the top-right of the phone content region so fixture frames stay visibly labelled Preview data. |
@@ -94,7 +94,7 @@ Phone hero geometry remains the part-1 authority from `assets/phonemap.json`: ba
 
 ### Phone interaction structure
 
-The phone controls stay in the same DOM and URL. Radio controls drive the Daniel / Nik view with CSS, so one manager entry panel is visible at a time. The inactive rival tab reports SEALED or SUBMITTED from the live panel class; an editable own panel reports YOUR ENTRY. The scoring checkbox opens the existing scoring panel as a modal-style sheet. No new startup script is added.
+The phone controls stay in the same DOM and URL. Radio controls drive the Daniel / Nik view with CSS, so one manager entry panel is visible at a time. Before either radio is touched, CSS reads the live Preview-data owner and opens that manager's own panel; an explicit tab choice then wins. The inactive rival tab reports SEALED or SUBMITTED from the live panel class; an editable own panel reports YOUR ENTRY. The scoring checkbox opens the existing scoring panel as a modal-style sheet. No new startup script is added.
 
 The compact phone entry treatment keeps the computed score and all recorded inputs in DOM text. At heights at or below 600 px the decorative crown and club subline collapse before data does; number inputs remain 16 px text. Review and loading/empty/partial/unavailable shells use the same bounded region rather than creating a scrolling page.
 
