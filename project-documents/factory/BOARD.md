@@ -1,6 +1,6 @@
 # Showdown Factory board
 
-**87 of 135 jobs done and checked · 68 %** · updated Sat 9:00 p.m. Eastern
+**87 of 135 jobs done and checked · 69 %** · updated Sat 9:02 p.m. Eastern
 
 ✅ **Quality check:** a job counts as done only after Claude checks it against the quality bar (average 4.2 or more, nothing under 3, hard gates pass). Average score 4.23 over 33 scored jobs. 🔍 Nothing waiting for a check. 🔧 Sent back with a fix list: 58, 77, 83, 95, 114.
 
@@ -49,7 +49,7 @@ Integration    ░░░░░░░░░░ 0/8
 
 Branch `factory/v1-wtt5ye`. 135 Team V jobs, plus 5 lines that track Team G. Two kinds of job. **Project (type number):** open a new chat in the ChatGPT project "Showdown visual" and type the number (up to 5 at once). **Fresh chat (image):** run the job's ticket from [tickets/](tickets/README.md) in a ChatGPT Temporary Chat (no memory) outside any project, then drop the image in Claude's factory thread (up to 2 at once).
 
-**Overall (Team V):** ██████░░░░ 68 % · 87 of 135 jobs done
+**Overall (Team V):** ██████░░░░ 69 % · 87 of 135 jobs done
 
 **Start now · project (type the number in Showdown visual):** 58 (fix), 77 (fix), 83 (fix), 95 (fix), 114 (fix) · queued next: 64, 85, 97, 117, 119, 120, 125
 
@@ -124,7 +124,7 @@ Branch `factory/v1-wtt5ye`. 135 Team V jobs, plus 5 lines that track Team G. Two
 | 58 | [Trophy Room: phone](jobs/JOB-058.md) | 5 New screens | build | project (type number) | 57, 115 | ██████████ 100 % | IN PROGRESS · FIX |  |
 | 59 | [Trophy Room: review](jobs/JOB-059.md) | 5 New screens | review | project (type number) | 58 | ██████████ 100 % | DONE |  |
 | 60 | [Trophy Room: fix round](jobs/JOB-060.md) | 5 New screens | fix | project (type number) | 59 | ██████████ 100 % | DONE |  |
-| 61 | [Trophy Room: motion](jobs/JOB-061.md) | 5 New screens | build | project (type number) | 60, 16 | ████░░░░░░ 40 % | IN PROGRESS | yes |
+| 61 | [Trophy Room: motion](jobs/JOB-061.md) | 5 New screens | build | project (type number) | 60, 16 | ██████░░░░ 60 % | IN PROGRESS | yes |
 | 62 | [Career Statistics: build (desktop)](jobs/JOB-062.md) | 5 New screens | build | project (type number) | 3, 24, 18, 131, 137, 19, 20, 21, 22 | ██████████ 100 % | DONE |  |
 | 63 | [Career Statistics: phone](jobs/JOB-063.md) | 5 New screens | build | project (type number) | 62, 116 | ██████████ 100 % | DONE |  |
 | 64 | [Career Statistics: review](jobs/JOB-064.md) | 5 New screens | review | project (type number) | 63 | ░░░░░░░░░░ 0 % | NOT STARTED |  |
