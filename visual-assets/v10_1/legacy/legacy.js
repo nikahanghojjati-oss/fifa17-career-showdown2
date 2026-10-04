@@ -67,7 +67,7 @@
     [
       ["legacy", strings.sideMenu.legacy],
       ["trophyRoom", strings.sideMenu.trophyRoom],
-      ["records", strings.sideMenu.records]
+      ["careerStatistics", strings.sideMenu.records]
     ].forEach(([route, label], index) => {
       const button = document.createElement("button");
       button.type = "button";
@@ -352,6 +352,53 @@
     }
   }
 
+  function loadScreenResource(path, stylesheet = false) {
+    return new Promise((resolve, reject) => {
+      const node = document.createElement(stylesheet ? "link" : "script");
+      if (stylesheet) { node.rel = "stylesheet"; node.href = path; }
+      else { node.src = path; node.async = true; }
+      node.onload = resolve;
+      node.onerror = () => reject(new Error("Screen resource unavailable"));
+      document.head.appendChild(node);
+    });
+  }
+
+  async function mountNavigation() {
+    const routes = {
+      home: "../home/index.html", career: "../start-join/index.html",
+      standings: "../standings/index.html", stats: "../career-statistics/index.html",
+      rules: "../rule-book/index.html", settings: "../settings/index.html",
+      legacy: "./index.html", trophyRoom: "../trophy-room/index.html",
+      careerStatistics: "../career-statistics/index.html"
+    };
+    const hostRoutes = { home: "mainMenu", career: "startJoin", standings: "standings",
+      stats: "careerStatistics", rules: "ruleBook", settings: "settings",
+      legacy: "legacy", trophyRoom: "trophyRoom", careerStatistics: "careerStatistics" };
+    function navigate(key) {
+      if (!routes[key]) return;
+      if (typeof window.openOptionalModule === "function" &&
+          ["trophyRoom", "careerStatistics", "legacy"].includes(hostRoutes[key])) {
+        window.openOptionalModule(hostRoutes[key]);
+      } else if (typeof window.showScreen === "function" && document.getElementById(hostRoutes[key])) {
+        window.showScreen(hostRoutes[key]);
+      } else { window.location.href = routes[key]; }
+    }
+    document.documentElement.dataset.nav = "hub";
+    document.querySelectorAll("#legacyTopNav button").forEach((button) => button.classList.add("topBarTab"));
+    document.getElementById("legacySettings").classList.add("topBarSettings");
+    document.querySelector(".nav-reserve").style.pointerEvents = "auto";
+    await Promise.all([
+      loadScreenResource("../shared/navbar/navbar.css", true),
+      window.SDNav ? Promise.resolve() : loadScreenResource("../shared/navbar/navbar.js")
+    ]);
+    window.SDNav.mount({ active: "career", locked: false, routes,
+      adopt: ".legacyTopbar", onNavigate: navigate });
+    document.getElementById("legacySideMenu").addEventListener("click", (event) => {
+      const button = event.target.closest("button[data-route]");
+      if (button) navigate(button.dataset.route);
+    });
+  }
+
   async function boot() {
     const [fixtureResponse, mapResponse] = await Promise.all([
       fetch("./fixtures.json", { cache: "no-store" }),
@@ -401,6 +448,7 @@
     });
 
     renderSideMenu(fixtures.strings);
+    await mountNavigation();
     applyFrameState(frame, fixtures.strings);
     renderArchive(frame, fixtures.strings);
     const historyAction = document.getElementById("viewSeasonHistory");
@@ -426,7 +474,23 @@
 
   boot().catch((error) => {
     stage.dataset.frame = "error";
-    frameLabel.textContent = "Fixture load failed";
+    stage.dataset.frameState = "unavailable";
+    const banner = document.getElementById("legacyStateBanner");
+    banner.replaceChildren();
+    banner.dataset.compact = "false";
+    const copy = document.createElement("p");
+    copy.className = "legacyStateCopy";
+    // Bootstrap fallback must remain available even when fixtures.json cannot be read.
+    copy.textContent = "Your Showdown history could not be loaded.";
+    banner.appendChild(copy);
+    banner.hidden = false;
+    document.getElementById("fixtureEyebrow").textContent = "CAREER MODE SHOWDOWN 17";
+    document.getElementById("viewSeasonHistory").textContent = "VIEW SEASON HISTORY";
+    document.getElementById("viewSeasonHistory").disabled = true;
+    document.getElementById("legacyCardGrid").replaceChildren();
+    document.getElementById("legacyPager").replaceChildren();
+    frameLabel.textContent = copy.textContent;
     valuesRoot.textContent = error.message;
   });
 }());
+

@@ -83,7 +83,7 @@ button {
   display: none;
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 901px) {
   /* Mockup archive outer: x≈57..1590 / 1672 = 3.41%..95.10%; y≈382..755 / 941 = 40.60%..80.23%. */
   .legacyArchivePanel {
     position: absolute;
@@ -144,7 +144,7 @@ button {
   left: 0;
   top: 0;
   width: 100%;
-  height: 6.9%;
+  height: 52px;
   min-height: 52px;
   display: flex;
   align-items: stretch;
@@ -1382,3 +1382,17 @@ button {
 @media (max-width: 900px) and (max-height: 580px) {
   .legacyCrest, .legacyClubName, .legacyLeagueMark, .legacyCardFooter { display: none; }
 }
+
+/* JOB-168 item 5: complete the intermediate desktop width range. */
+@media (min-width: 901px) and (max-width: 1100px) {
+  .legacyBrand { min-width: 110px; }
+  .legacyTopNav { flex: 1; min-width: 0; }
+  .legacyTopNav button { min-width: 0; flex: 1; padding: 0 10px; font-size: .875rem; }
+  .legacySettings { min-width: 48px; }
+  .legacySidePanel button { padding: 0 8px; font-size: .75rem; }
+  .legacyCardGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
+  .legacyCard { padding: 4px 6px; }
+  .legacyCrest { width: 28px; height: 30px; }
+  .legacyClubName { display: none; }
+}
+
