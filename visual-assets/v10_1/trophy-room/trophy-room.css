@@ -114,6 +114,8 @@
   .phoneNavReserve{display:none!important}
   .trophyPhoneNavReserve{display:block;position:absolute;z-index:36;left:0;right:0;bottom:0;height:calc(56px + env(safe-area-inset-bottom));background:linear-gradient(180deg,rgba(4,5,6,.78),rgba(2,3,4,.97));border-top:1px solid rgba(217,174,83,.25);pointer-events:none}
 }
+/* JOB-061: sdEnter already staggers panels in JS; cancel the shared CSS --i delay locally so the 60 ms stagger is applied once and the entrance stays within 1.2 s. */
+#trophyRoom.sd-motion-ready [data-sd-enter="panel"].sd-is-animating{animation-delay:0ms}
 @media (prefers-reduced-motion:reduce){
   .heroSpotlight,.heroTrophyPicture,.heroTrophyPicture:after,.trophyCard,.trophyGrid,.trophyBack,.trophyPhoneMoreButton,.trophyPhoneSheet,.trophyShelf{animation:none!important;transition:opacity 120ms ease!important}
   .heroSpotlight,.heroTrophyPicture,.trophyCard,.trophyGrid,.trophyBack,.trophyPhoneMoreButton{transform:none!important}
