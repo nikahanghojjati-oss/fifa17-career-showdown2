@@ -193,3 +193,28 @@ Claude fixes after QA:
 - Phone: the wordmark sits out the verdict phase (no spare height with the footer back); on phones 600 px tall or less the timer is 18 px.
 
 QA (`tools/render-qa.cjs` → `evidence/polish/qa/qa_report.json`, key shots beside it): **84 of 84 shots pass** (baseline 846a2fe: 84 of 84).
+
+
+## JOB-050 · Phone polish
+
+### Phone
+
+The phone contract is CSS-only at the same URL: portrait viewports at or below 760 px use a locked `100dvh` stage with no page scroll. The phone-specific stadium and manager cut-outs fill the upper cinematic band; live status stays DOM text. The own surface comes first, the rival surface is a compact Sealed Dossier until reveal, and the frame's primary action is fixed to the bottom safe-area slot. HOME / REFRESH remain a 44 px screen HUD rail above that action; they are not the app bottom navigation hidden by V2G-003. No tabs or `.sd-sheet` are needed because F1–F4 are mutually exclusive phases.
+
+Phone assets referenced by the build are `assets/ENV_TRANSFER_PHONE_V1.webp`, `assets/OVL_TRANSFER_DANIEL_PHONE_V1.webp`, and `assets/OVL_TRANSFER_NIK_PHONE_V1.webp`. The background is 233,908 bytes and the two cut-outs are budgeted at 60 KiB each, so the worst-case first-paint phone art is 356,788 bytes (348.43 KiB), below the 450 KB JOB-050 ceiling. Claude must run the existing `tools/MAKE_ASSETS.md` cut-out recipes if either overlay is absent and then use JOB-114's accepted phonemap placement when regenerating the proof.
+
+#### Height budget
+
+Method: read `plate.css` only, as required by step 5. The table counts the fixed/minimum screen reservations. The title/wordmark, own panel and compact rule/caption are auto-height flex content and therefore consume the residual column rather than pretending to have a CSS-fixed pixel height. There are no phone tabs. Safe-area insets are separately reserved by `env(safe-area-inset-*)`; values below show the CSS viewport budget before a device-specific inset is added.
+
+| Viewport | Top pad | Hero min | Dossier min | Primary | HUD | Action gaps | Layout gaps | Fixed/min total | Residual for title + own panel + caption |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| 393 × 660 | 4 | 112 | 52 | 48 | 44 | 12 | 20 | 292 | 368 |
+| 360 × 640 | 4 | 112 | 52 | 48 | 44 | 12 | 20 | 292 | 348 |
+| 375 × 553 | 4 | 112 | 52 | 44 | 44 | 8 | 20 | 284 | 269 |
+| 390 × 844 | 4 | 262 | 56 | 48 | 44 | 12 | 32 | 458 | 386 |
+| 430 × 932 | 4 | 289 | 56 | 48 | 44 | 12 | 32 | 485 | 447 |
+
+At the 375 × 553 floor the primary action is independent of document flow: `--phone-action-h: 44px`, `--phone-action-gap: 4px`, fixed at `bottom: max(env(safe-area-inset-bottom), 4px)`. The 44 px HUD is fixed immediately above it. Thus the action remains visible even while the residual 269 px is allocated among the wordmark, own surface and compact caption. F4 removes the sealed-dossier minimum and uses two compact verdict surfaces; its short-height rule lowers the completed hero minimum to 104 px, giving 8 px more content room than the conservative floor shown above.
+
+At 390 × 844 and 430 × 932 the hero minimum itself grows from `31svh` (262/289 px) and can flex upward toward `56svh`; the additional viewport height therefore grows the composition rather than leaving the content floating in a fixed short-phone stack.
