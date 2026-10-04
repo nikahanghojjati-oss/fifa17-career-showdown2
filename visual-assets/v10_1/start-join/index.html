@@ -13,7 +13,7 @@
 </head>
 <body>
 <div id="stage-root" class="sd-stage" data-screen="start-join" data-plate-width="1672" data-plate-height="941">
-  <div class="sd-stage__layer sd-stage__layer--plate" aria-hidden="true">
+  <div class="sd-stage__layer sd-stage__layer--plate" aria-hidden="true" data-sd-enter="scene">
     <div class="sd-stage__registered"><div class="sd-stage__plate"></div></div>
   </div>
   <div class="sd-stage__layer sd-stage__layer--atmosphere" aria-hidden="true"></div>
@@ -23,11 +23,11 @@
       <source media="(max-width: 900px)" srcset="assets/ENV_SJ_PHONE_V1.webp" type="image/webp">
       <img alt="" decoding="async">
     </picture>
-    <picture class="sj-phoneHero sj-phoneHero--daniel">
+    <picture class="sj-phoneHero sj-phoneHero--daniel" data-sd-enter="character-left">
       <source media="(max-width: 900px)" srcset="assets/OVL_SJ_DANIEL_PHONE_V1.webp" type="image/webp">
       <img alt="" decoding="async">
     </picture>
-    <picture class="sj-phoneHero sj-phoneHero--nik">
+    <picture class="sj-phoneHero sj-phoneHero--nik" data-sd-enter="character-right">
       <source media="(max-width: 900px)" srcset="assets/OVL_SJ_NIK_PHONE_V1.webp" type="image/webp">
       <img alt="" decoding="async">
     </picture>
@@ -39,7 +39,7 @@
     <header class="sj-header">
       <span id="previewTag" class="sj-preview sd-preview-tag"></span>
       <p id="screenEyebrow" class="sj-eyebrow sd-label"></p>
-      <h1 id="screenTitle" class="sj-title sd-title">
+      <h1 id="screenTitle" class="sj-title sd-title" data-sd-enter="title">
         <span class="sd-visually-hidden">CONNECT PLAYERS</span>
         <!-- TODO-WORDMARK: replace this display-font fallback with ticket 124 TITLE_CONNECT_PLAYERS at Claude intake. -->
         <span class="sj-title-fallback" aria-hidden="true">CONNECT PLAYERS</span>
@@ -58,7 +58,7 @@
         </div>
 
         <div class="sj-role-grid">
-          <section class="sj-role-panel sj-role-panel--daniel sd-panel" aria-labelledby="danielRoleHeading">
+          <section class="sj-role-panel sj-role-panel--daniel sd-panel" aria-labelledby="danielRoleHeading" data-sd-enter="panel">
             <div class="sj-role-head">
               <span class="sj-role-glyph sj-role-glyph--host" aria-hidden="true"></span>
               <div>
@@ -74,7 +74,7 @@
             <div id="danielMainActions" class="sj-card-actions"></div>
           </section>
 
-          <section class="sj-role-panel sj-role-panel--nik sd-panel" aria-labelledby="nikRoleHeading">
+          <section class="sj-role-panel sj-role-panel--nik sd-panel" aria-labelledby="nikRoleHeading" data-sd-enter="panel">
             <div class="sj-role-head">
               <span class="sj-role-glyph sj-role-glyph--join" aria-hidden="true"></span>
               <div>
@@ -91,7 +91,7 @@
           </section>
         </div>
 
-        <section class="sj-current-panel sd-panel" aria-labelledby="currentHeading">
+        <section class="sj-current-panel sd-panel" aria-labelledby="currentHeading" data-sd-enter="panel">
           <div class="sj-current-head">
             <div>
               <p class="sj-role-kicker">CURRENT CONNECTION</p>
@@ -109,7 +109,7 @@
           <div id="currentMainActions" class="sj-current-actions"></div>
         </section>
 
-        <div class="sj-lock-slot">
+        <div class="sj-lock-slot" data-sd-enter="panel">
           <span class="sj-lock-icon" aria-hidden="true"></span>
           <p id="privacyLine"></p>
         </div>
