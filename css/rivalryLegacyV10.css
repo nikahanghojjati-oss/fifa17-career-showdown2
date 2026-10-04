@@ -5,3 +5,5 @@
 @media(min-width:901px) {
   #legacy[data-rivalry-legacy-v10] #stage-root, #statistics[data-rivalry-legacy-v10] .rv-stage { height:calc(100dvh - 52px); min-height:0; }
 }
+/* The stage adds an empty UI layer above the rivalry shell (same z-index, later in the DOM); it must not eat clicks. */
+#statistics[data-rivalry-legacy-v10] .sd-stage__layer--ui { pointer-events:none; }
