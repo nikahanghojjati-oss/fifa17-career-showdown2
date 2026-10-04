@@ -5,6 +5,11 @@ const MODE_CACHE_PREFIX = "career-mode-showdown-runtime-mode-";
 const CACHE_NAME = `${CACHE_PREFIX}${RUNTIME_REVISION}`;
 const PREVIOUS_CACHE_NAME = PREVIOUS_RUNTIME_REVISION ? `${CACHE_PREFIX}${PREVIOUS_RUNTIME_REVISION}` : "";
 const MODE_CACHE_NAME = `${MODE_CACHE_PREFIX}${RUNTIME_REVISION}`;
+// JOB-24: Team V images are not precached on install (about 20 MB in all). They load on first view into
+// this cache-first runtime cache, keyed by RUNTIME_REVISION and cleared with old revisions on activate.
+const V10_IMAGE_CACHE_PREFIX = "career-mode-showdown-v10-images-";
+const V10_IMAGE_CACHE_NAME = `${V10_IMAGE_CACHE_PREFIX}${RUNTIME_REVISION}`;
+const V10_IMAGE_PATH = /^visual-assets\/v10_1\/.+\.(?:webp|png|jpe?g|avif|gif|svg)$/i;
 const NETWORK_PROBE_TIMEOUT_MS = 1800;
 const RUNTIME_CONFIG_PATH = "firebase.runtime-config.json";
 const APP_CHECK_BOOTSTRAP_PATH = "js/productionAppCheckBootstrap.js";
@@ -148,16 +153,6 @@ const SHELL_PATHS = Object.freeze([
     "assets/icons/showdown-192.svg",
     "assets/icons/showdown-512.svg",
     "assets/icons/showdown-maskable-512.svg",
-    "visual-assets/v10_1/career-statistics/assets/ENV_CS_PHONE_V1.webp",
-    "visual-assets/v10_1/career-statistics/assets/ENV_CS_PLATE_V1_1X.webp",
-    "visual-assets/v10_1/career-statistics/assets/ENV_CS_PLATE_V1_2X.webp",
-    "visual-assets/v10_1/career-statistics/assets/OVL_CS_DANIEL_CROSSED_ARMS_V1_1X.webp",
-    "visual-assets/v10_1/career-statistics/assets/OVL_CS_DANIEL_CROSSED_ARMS_V1_2X.webp",
-    "visual-assets/v10_1/career-statistics/assets/OVL_CS_DANIEL_CROSSED_ARMS_V1_RIM_1X.webp",
-    "visual-assets/v10_1/career-statistics/assets/OVL_CS_DANIEL_CROSSED_ARMS_V1_RIM_2X.webp",
-    "visual-assets/v10_1/career-statistics/assets/OVL_CS_DANIEL_PHONE_V1.webp",
-    "visual-assets/v10_1/career-statistics/assets/OVL_CS_NIK_PHONE_V1.webp",
-    "visual-assets/v10_1/career-statistics/assets/TITLE_CS_V1.webp",
     "visual-assets/v10_1/career-statistics/assets/platemap.json",
     "visual-assets/v10_1/career-statistics/career-statistics.css",
     "visual-assets/v10_1/career-statistics/career-statistics.js",
@@ -173,19 +168,14 @@ const SHELL_PATHS = Object.freeze([
     "visual-assets/v10_1/shared/showdown-ui.css",
     "visual-assets/v10_1/shared/stage.css",
     "visual-assets/v10_1/shared/stage.js",
-    "visual-assets/v10_1/shared/trophies/TRO_CONTINENTAL_V1_512.webp",
-    "visual-assets/v10_1/shared/trophies/TRO_DOMESTIC_CUP_V1_512.webp",
-    "visual-assets/v10_1/shared/trophies/TRO_LEAGUE_TITLE_V1_512.webp",
-    "visual-assets/v10_1/shared/trophies/TRO_SHOWDOWN_CHAMPION_V1_512.webp",
-    "visual-assets/v10_1/trophy-room/assets/ENV_TR_PHONE_V1.webp",
-    "visual-assets/v10_1/trophy-room/assets/ENV_TR_PLATE_V1_1X.webp",
-    "visual-assets/v10_1/trophy-room/assets/ENV_TR_PLATE_V1_2X.webp",
-    "visual-assets/v10_1/trophy-room/assets/OVL_TR_DANIEL_PHONE_V1.webp",
-    "visual-assets/v10_1/trophy-room/assets/OVL_TR_NIK_PHONE_V1.webp",
-    "visual-assets/v10_1/trophy-room/assets/TITLE_TR_V1.webp",
     "visual-assets/v10_1/trophy-room/assets/platemap.json",
     "visual-assets/v10_1/trophy-room/trophy-room.css",
-    "visual-assets/v10_1/trophy-room/trophy-room.js"
+    "visual-assets/v10_1/trophy-room/trophy-room.js",
+    "js/v10Screens.js",
+    "js/startJoinViewModel.js",
+    "css/v10Shell.css",
+    "visual-assets/v10_1/shared/navbar/navbar.css",
+    "visual-assets/v10_1/shared/navbar/navbar.js"
 ]);
 const SHELL_PATH_SET = new Set(SHELL_PATHS);
 
@@ -272,8 +262,16 @@ self.addEventListener("message",event=>{
     if(type==="CMS_ROLLBACK_TO_PREVIOUS"){ event.waitUntil((async()=>{ try{ const recovery=await findRecoveryRuntime(); if(!recovery.ok){throw new Error("No verified previous application shell is available for rollback.");} await writeForcedRevision(recovery.revision); replyToClient(event,{type:"CMS_ROLLBACK_ACCEPTED",ok:true,revision:recovery.revision}); }catch(error){ replyToClient(event,{type:"CMS_ROLLBACK_REJECTED",ok:false,error:error?.message||String(error)}); } })()); return; }
     if(type==="CMS_CLEAR_ROLLBACK"){ event.waitUntil((async()=>{ await clearForcedRevision(); replyToClient(event,{type:"CMS_ROLLBACK_CLEARED",ok:true,revision:RUNTIME_REVISION}); })()); }
 });
-self.addEventListener("activate",event=>{ event.waitUntil((async()=>{ const status=await verifyCache(RUNTIME_REVISION); if(!status.ok){throw new Error(`Refusing activation with incomplete application shell: ${status.missing.join(", ")}`);} await clearForcedRevision(); const recovery=await findRecoveryRuntime(); const keepShellCaches=new Set([CACHE_NAME,recovery.ok?recovery.cacheName:""] .filter(Boolean)); const cacheNames=await caches.keys(); await Promise.all(cacheNames.map(name=>{if(name.startsWith(CACHE_PREFIX)&&!keepShellCaches.has(name)){return caches.delete(name);}if(name.startsWith(MODE_CACHE_PREFIX)&&name!==MODE_CACHE_NAME){return caches.delete(name);}return Promise.resolve(false);})); await self.clients.claim(); })()); });
+self.addEventListener("activate",event=>{ event.waitUntil((async()=>{ const status=await verifyCache(RUNTIME_REVISION); if(!status.ok){throw new Error(`Refusing activation with incomplete application shell: ${status.missing.join(", ")}`);} await clearForcedRevision(); const recovery=await findRecoveryRuntime(); const keepShellCaches=new Set([CACHE_NAME,recovery.ok?recovery.cacheName:""] .filter(Boolean)); const cacheNames=await caches.keys(); await Promise.all(cacheNames.map(name=>{if(name.startsWith(CACHE_PREFIX)&&!keepShellCaches.has(name)){return caches.delete(name);}if(name.startsWith(MODE_CACHE_PREFIX)&&name!==MODE_CACHE_NAME){return caches.delete(name);}if(name.startsWith(V10_IMAGE_CACHE_PREFIX)&&name!==V10_IMAGE_CACHE_NAME){return caches.delete(name);}return Promise.resolve(false);})); await self.clients.claim(); })()); });
 async function cachedShellResponse(path,revision){ const cacheName=cacheNameForRevision(revision); if(!cacheName||!(await cacheExists(cacheName))){return null;} const cache=await caches.open(cacheName); return cache.match(versionedShellUrl(path,revision)); }
+function isV10ImagePath(path){ return V10_IMAGE_PATH.test(path); }
+async function v10ImageResponse(event,request,path){
+    const cache=await caches.open(V10_IMAGE_CACHE_NAME); const key=scopeUrl(path).href;
+    const cached=await cache.match(key); if(cached){ return cached; }
+    const response=await fetch(request);
+    if(response&&response.ok&&response.type==="basic"){ event.waitUntil(cache.put(key,response.clone()).catch(()=>{})); }
+    return response;
+}
 self.addEventListener("fetch",event=>{
     const request=event.request; if(request.method!=="GET"){return;} const url=new URL(request.url); const scope=scopeUrl(); if(url.origin!==scope.origin){return;}
     if(request.mode==="navigate"){
@@ -281,7 +279,7 @@ self.addEventListener("fetch",event=>{
         if(NETWORK_ONLY_NAVIGATION_PATHS.has(path)){ event.respondWith(fetch(networkOnlyRequest(request))); return; }
         event.respondWith((async()=>{ const selected=await chooseNavigationRuntime(); if(selected){const cached=await cachedShellResponse("index.html",selected.revision);if(cached){return cached;}} return fetch(request); })()); return;
     }
-    const path=relativeScopePath(url); if(!path){return;} if(NETWORK_ONLY_ASSET_PATHS.has(path)){ event.respondWith(fetch(networkOnlyRequest(request))); return; } if(path===RUNTIME_CONFIG_PATH){return;} if(path===APP_CHECK_BOOTSTRAP_PATH){return;} const requestedRevision=url.searchParams.get("v")||""; if(!requestedRevision){return;}
+    const path=relativeScopePath(url); if(!path){return;} if(isV10ImagePath(path)){ event.respondWith(v10ImageResponse(event,request,path)); return; } if(NETWORK_ONLY_ASSET_PATHS.has(path)){ event.respondWith(fetch(networkOnlyRequest(request))); return; } if(path===RUNTIME_CONFIG_PATH){return;} if(path===APP_CHECK_BOOTSTRAP_PATH){return;} const requestedRevision=url.searchParams.get("v")||""; if(!requestedRevision){return;}
     event.respondWith((async()=>{const cached=await cachedShellResponse(path,requestedRevision);return cached||Response.error();})());
 });
 self.__CMS_SERVICE_WORKER_DIAGNOSTICS__=Object.freeze({revision:RUNTIME_REVISION,previousRevision:PREVIOUS_RUNTIME_REVISION,cacheName:CACHE_NAME,previousCacheName:PREVIOUS_CACHE_NAME,modeCacheName:MODE_CACHE_NAME,shellPaths:SHELL_PATHS});
