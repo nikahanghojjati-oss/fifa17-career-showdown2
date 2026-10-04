@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-04 12:44 PM Boston time (EDT)",
+ "generated": "2026-10-04 12:51 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 17,
@@ -205,7 +205,9 @@
  "total": 23,
  "start": {
   "chat": [],
-  "work": []
+  "work": [
+   13
+  ]
  },
  "queued": [],
  "working": [],
@@ -256,7 +258,7 @@
   }
  ],
  "next_move": [
-  "**Nothing for you to start right now.**"
+  "**Start job 13 in Sol Work mode.** Press Use Work, paste the starter line below, change both `NN`."
  ],
  "jobs": [
   {
@@ -611,7 +613,7 @@
   {
    "number": 13,
    "key": "G-13",
-   "title": "Remove the r43 containment, bind #trophyRoomButton",
+   "title": "Part 1: Trophy Room and Career Statistics on the real career model",
    "lane": "work",
    "depends_on": [
     4,
@@ -619,19 +621,19 @@
     6,
     9
    ],
-   "steps": null,
-   "code_branch": null,
+   "steps": 7,
+   "code_branch": "gameplay/job-13-career-screens",
    "codex_review": false,
-   "written": false,
-   "waits_on": "approved Team V visual package",
+   "written": true,
+   "waits_on": null,
    "phase": "4 Ship",
    "type": "build",
-   "plain": "Turns on the Trophy Room button and the new career screens with Team V's approved visuals.",
-   "state": "NOT WRITTEN",
+   "plain": "Career Statistics and a Trophy Room button come back, drawn in Team V's new style and filled from your real career. Legacy and Rivalry Statistics wait for part 2 and Nik's approval of the full visual package.",
+   "state": "NOT STARTED",
    "step": 0,
-   "steps_total": 1,
+   "steps_total": 7,
    "pct": 0,
-   "ready": false
+   "ready": true
   },
   {
    "number": 14,

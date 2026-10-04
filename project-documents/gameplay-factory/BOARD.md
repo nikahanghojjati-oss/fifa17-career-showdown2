@@ -1,12 +1,12 @@
 # Team G gameplay board
 
-19 of 23 jobs done (82 %) ████████░░ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-04 12:44 PM Boston time (EDT)
+19 of 23 jobs done (82 %) ████████░░ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-04 12:51 PM Boston time (EDT)
 
 ## Your next move
 
-1. **Nothing for you to start right now.**
+1. **Start job 13 in Sol Work mode.** Press Use Work, paste the starter line below, change both `NN`.
 
-_Moving now:_ G-2g Same-moment taps retry quietly (bug hunt 1); bug hunt 1 (job 21, PR #344: retry once quietly (checks running)). _Next up:_ G-13 Remove the r43 containment, bind #trophyRoomButton, waits on approved Team V visual package.
+_Moving now:_ G-2g Same-moment taps retry quietly (bug hunt 1); bug hunt 1 (job 21, PR #344: retry once quietly (checks running)). _Next up:_ G-13 Part 1: Trophy Room and Career Statistics on the real career model, waits on nothing.
 
 **Sol Work mode starter line** (copy it, change both `NN` to the job number, paste it as the first message):
 
@@ -46,7 +46,7 @@ Waiting on Team V: nothing.
 
 | Job | What | Lane | Waits on | State |
 | --- | --- | --- | --- | --- |
-| G-13 | Remove the r43 containment, bind #trophyRoomButton | work | approved Team V visual package | NOT WRITTEN |
+| G-13 | [Part 1: Trophy Room and Career Statistics on the real career model](jobs/JOB-13.md) | work | - | NOT STARTED |
 | G-14 | Acceptance: directive §12 and Sol's 8 proofs on the emulator | work | job 13 | NOT WRITTEN |
 | G-15 | One real two-device run with Nik | nik | job 14 | NOT WRITTEN |
 | G-2g | [Same-moment taps retry quietly (bug hunt 1)](jobs/JOB-21.md) | lead | - | NOT STARTED |
