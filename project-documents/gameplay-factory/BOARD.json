@@ -689,7 +689,7 @@
      "id": "G-F6",
      "title": "Small gameplay follow-ups: transfer message after session expiry, the 'Career screens could not load' toast when online history is only unavailable, and the flaky v10-transfer contract ('WINDOW_OPEN 390: refresh not clickable'). Raw Setup error codes moved to BUG-1",
      "lane": "opus",
-     "state": "in progress: root-causing the transfer contract flake (branch bugfix/g-f6-transfer-flake)",
+     "state": "in progress: flaky transfer test (branch bugfix/g-f6-transfer-flake)",
      "waits_on": "the lead batches it into r62"
     },
     {

@@ -10,11 +10,11 @@
 
 | Release / fix | Checks on the latest commit | Updated |
 | --- | --- | --- |
-| [PR #383](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/383) Release r61: phone track list stops below the logo and scrolls | ⏳ 14 passed, 1 running | 5:24 PM |
+| [PR #383](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/383) Release r61: phone track list stops below the logo and scrolls | 🟢 16 passed | 5:24 PM |
 
 | Team | Job | What | Worker | Where it is | Details |
 | --- | --- | --- | --- | --- | --- |
-| G | G-F6 | Small gameplay follow-ups: transfer message after session expiry, the 'Career screens could not load' toast when online history is only unavailable, and the flaky v10-transfer contract ('WINDOW_OPEN 390: refresh not clickable'). Raw Setup error codes moved to BUG-1 | 🟧 Opus | in progress: root-causing the transfer contract flake (branch bugfix/g-f6-transfer-flake) | the lead batches it into r62 |
+| G | G-F6 | Small gameplay follow-ups: transfer message after session expiry, the 'Career screens could not load' toast when online history is only unavailable, and the flaky v10-transfer contract ('WINDOW_OPEN 390: refresh not clickable'). Raw Setup error codes moved to BUG-1 | 🟧 Opus | in progress: flaky transfer test (branch bugfix/g-f6-transfer-flake) | the lead batches it into r62 |
 | G | G-F14 | r61: phone track list stops below the logo and scrolls, and Next To You plays first | 🟧 Opus | in final checks (PR #383) | GitHub had no free test machines at 4 PM; the checks are re-running |
 | G | G-F17 | Replace POS20 with a faster check system built on Claude and GitHub, keeping every check | 🟧 Opus | in progress: the lead is designing it | the lead's plan |
 | G | G-F18 | Old-design screen audit: Legacy, Career Statistics and Trophy Room still open in the old shell; drive every live screen in a browser against Team V's design and route all of them to the new design | 🟧 Opus | in progress (thread "Old-design screen audit", Nik asked at 5:16 PM Boston time) | overlaps G-F11 (old CSS collisions) |
