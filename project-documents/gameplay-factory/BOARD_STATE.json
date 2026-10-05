@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 5:34 PM Boston time (EDT)",
+ "generated": "2026-10-05 5:35 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -377,7 +377,17 @@
    ]
   },
   "v_headline": "Board 1 (visual package): 238 of 238 jobs done and checked",
-  "v_jobs": [],
+  "v_jobs": [
+   {
+    "job": "V-247",
+    "title": "Phone Home tile icons like GOAL_HOME",
+    "worker": "Opus",
+    "done": 4,
+    "total": 4,
+    "pr": 381,
+    "current": "Done; handed to Team G as HO-006"
+   }
+  ],
   "inbox": {
    "G": true,
    "V": true
