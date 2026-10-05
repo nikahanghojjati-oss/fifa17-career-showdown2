@@ -1,7 +1,19 @@
 {
  "_how": "One shared job counter for Team G and Team V (Nik, 2026-10-05). Claim with tools/claim_number.py only. A number is used once, ever. CONTRACT.md section 10.",
- "next": 1002,
+ "next": 1003,
  "claims": [
-  {"number": 1001, "team": "G", "title": "Home desktop tile icons: bigger, inside the tile, never on the text", "claimed": "2026-10-05T23:30:00Z", "note": "was Team G job 101"}
+  {
+   "number": 1001,
+   "team": "G",
+   "title": "Home desktop tile icons: bigger, inside the tile, never on the text",
+   "claimed": "2026-10-05T23:30:00Z",
+   "note": "was Team G job 101"
+  },
+  {
+   "number": 1002,
+   "team": "V",
+   "title": "Transfer War window strings match production wording",
+   "claimed": "2026-10-05T23:44:06Z"
+  }
  ]
 }
