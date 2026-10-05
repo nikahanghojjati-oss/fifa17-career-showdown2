@@ -160,6 +160,51 @@ nxt = next((j for j in open_jobs if j["lane"] != "lead"), None)
 L += ["", f"_Moving now:_ {moving}." + (f" _Next up:_ {nxt['key']} {nxt['title']}, waits on {(nxt.get('waits_on') or ', '.join('job %d' % d for d in nxt['depends_on'] if info[d][0] not in FINISHED) or 'nothing')}." if nxt else ""), "",
       "**Sol Work mode starter line** (copy it, change both `NN` to the job number, paste it as the first message):", "", "```", starter, "```", ""]
 
+# ---- Running jobs: real progress bars from progress/job-NN.json (done steps / total steps)
+def running_jobs():
+    d = os.path.join(F, "progress")
+    out = []
+    for fn in sorted(os.listdir(d)) if os.path.isdir(d) else []:
+        if not re.match(r"job-\d+\.json$", fn):
+            continue
+        try:
+            r = json.load(open(os.path.join(d, fn)))
+            steps = r["steps"]
+            k = sum(1 for s_ in steps if s_.get("done"))
+            out.append((int(r["job"]), r, k, len(steps)))
+        except Exception:
+            continue
+    return out
+
+
+def pitch(p, width=20):
+    k = min(width - 1, p * width // 100) if p < 100 else width
+    if p >= 100:
+        return "🟩" * width + " 🥅 GOAL"
+    return "🟩" * k + "⚽" + "⬜" * (width - k - 1) + " 🥅"
+
+
+rj = running_jobs()
+L += ["## Running now", ""]
+if rj:
+    L += ["Each bar is the real count of finished steps for that job (finished steps / all steps). Nothing is estimated. Job owners update their own file in [progress/](progress/).", ""]
+    for n, r, k, t in rj:
+        p = int(100 * k / max(t, 1))
+        try:
+            upd = boston_from_utc(r["updated"][:16].replace("T", " "))
+        except Exception:
+            upd = "unknown"
+        nxt = next((s_["name"] for s_ in r["steps"] if not s_.get("done")), "done")
+        L += [f"**Job {n} · {r['title']}** · {r.get('owner', '')}", "",
+              f"{pitch(p)} **{p} %** ({k} of {t} steps)", "",
+              f"Now: {r.get('current', '')}  ", f"Next step: {nxt} · updated {upd} Boston time", ""]
+    ids = {n for n, *_ in rj}
+    missing = [f"job {j['number']}" for j in jobs if info[j["number"]][0] == "WORKING" and j["number"] not in ids]
+    if missing:
+        L += ["Not reported: " + ", ".join(missing) + ".", ""]
+else:
+    L += ["No job is reporting progress right now.", ""]
+
 # ---- Live fixes and bug hunt
 L += ["## Live fixes and bug hunt", ""]
 if bug_hunt:

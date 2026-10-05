@@ -1,0 +1,45 @@
+{
+ "job": "29",
+ "title": "Season Results, Final Winner, Standings",
+ "owner": "Opus thread",
+ "steps": [
+  {
+   "name": "Recover Sol's partial work into PR #357",
+   "done": true
+  },
+  {
+   "name": "Finish the results, final winner and standings binder",
+   "done": true
+  },
+  {
+   "name": "Fix phone and desktop layout and the review-mode Back button",
+   "done": true
+  },
+  {
+   "name": "Fix proof audits (router check, offline load)",
+   "done": true
+  },
+  {
+   "name": "Merge recovery (race fix #359, job 30); contracts 125/125, ops 73/0",
+   "done": true
+  },
+  {
+   "name": "CI green on the current head",
+   "done": false
+  },
+  {
+   "name": "Codex review clean",
+   "done": false
+  },
+  {
+   "name": "Report PR, head and screenshots to the lead",
+   "done": false
+  },
+  {
+   "name": "Lead merges into gameplay/recovery-v1",
+   "done": false
+  }
+ ],
+ "current": "CI running on head 3d6f4e0",
+ "updated": "2026-10-05T00:24:00Z"
+}

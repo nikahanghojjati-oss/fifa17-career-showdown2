@@ -1,0 +1,37 @@
+{
+ "job": "33",
+ "title": "Fewer taps",
+ "owner": "Lead (helper)",
+ "steps": [
+  {
+   "name": "Build the change",
+   "done": true
+  },
+  {
+   "name": "Local tests pass",
+   "done": true
+  },
+  {
+   "name": "Review findings fixed",
+   "done": true
+  },
+  {
+   "name": "All 16 checks green on the exact head",
+   "done": true
+  },
+  {
+   "name": "Bring in the latest test build once",
+   "done": false
+  },
+  {
+   "name": "Lead review (screenshots and diff)",
+   "done": false
+  },
+  {
+   "name": "Merged into the test build",
+   "done": false
+  }
+ ],
+ "current": "All 16 checks green on PR #358 head 0e287f66; recovery job 30 merge resolved locally (not pushed, per the no sync-only push rule); waiting for Lead review",
+ "updated": "2026-10-05T00:25:09Z"
+}

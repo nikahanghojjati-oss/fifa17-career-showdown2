@@ -12,6 +12,7 @@ on:
       - project-documents/gameplay-factory/status/**
       - project-documents/gameplay-factory/jobs/**
       - project-documents/gameplay-factory/BOARD.json
+      - project-documents/gameplay-factory/progress/**
       - project-documents/gameplay-factory/tools/board.py
   workflow_dispatch:
 
