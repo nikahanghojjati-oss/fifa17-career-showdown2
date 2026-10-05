@@ -19,9 +19,9 @@ else:
     L += ["## Hand-offs (work passed between the factories)", ""]
     if R["tickets"]:
         for t in R["tickets"][::-1]:
-            t.update({k: v for k, v in tk.get(t["id"], {}).items() if k in ("stage", "pct", "overdue")})
+            t.update({k: v for k, v in tk.get(t["id"], {}).items() if k in ("stage", "pct", "overdue", "pickup_min")})
             L += [f"### {t['id']} · {t.get('from', '?')} → {t.get('to', '?')} · {t['title']}" + (" · ⚠ not acknowledged" if t["overdue"] else ""), "",
-                  TF.pipeline(t), ""]
+                  TF.pipeline(t) + (f" · picked up {TF.mins(t['pickup_min'])} after delivery" if t.get("pickup_min") is not None else ""), ""]
             for e in (t.get("log") or [])[::-1]:
                 L.append(f"- {TF.bos(e.get('at'))} · Team {e.get('by', '?')} · {TF.STAGE_WORD.get(str(e.get('status')).upper(), e.get('status'))}" + (f" · {e['note']}" if e.get("note") else ""))
             if t.get("delivered_at"):

@@ -1,8 +1,8 @@
 {
- "generated": "2026-10-05 11:51 AM Boston time (EDT)",
+ "generated": "2026-10-05 11:52 AM Boston time (EDT)",
  "relay": {
   "live": true,
-  "count": 27,
+  "count": 28,
   "rows": [
    {
     "time": "2026-10-02 00:29",
@@ -246,16 +246,25 @@
     "subject": "Relay v1.1: hand-off tickets (Sent, Delivered, Received, In progress, Done) carry passed work in full; HO-001 is the first; shared board confirmed",
     "reply": "no (HO-001 carries it)",
     "boston": "Mon 5 Oct 8:55 AM"
+   },
+   {
+    "time": "2026-10-05 15:52",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "G2V-015",
+    "subject": "Relay v1.2 direct wake: register your session in INBOX.json; senders wake the other team with send_message (seconds); why HO-001..005 arrived 3 h late",
+    "reply": "yes (INBOX.json entry)",
+    "boston": "Mon 5 Oct 11:52 AM"
    }
   ],
   "g2v": {
-   "time": "2026-10-05 12:55",
+   "time": "2026-10-05 15:52",
    "from": "Team G",
    "to": "Team V",
-   "id": "G2V-014",
-   "subject": "Relay v1.1: hand-off tickets (Sent, Delivered, Received, In progress, Done) carry passed work in full; HO-001 is the first; shared board confirmed",
-   "reply": "no (HO-001 carries it)",
-   "boston": "Mon 5 Oct 8:55 AM"
+   "id": "G2V-015",
+   "subject": "Relay v1.2 direct wake: register your session in INBOX.json; senders wake the other team with send_message (seconds); why HO-001..005 arrived 3 h late",
+   "reply": "yes (INBOX.json entry)",
+   "boston": "Mon 5 Oct 11:52 AM"
   },
   "v2g": {
    "time": "2026-10-05 12:46",
@@ -266,19 +275,29 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "cee0f38",
-  "head_boston": "Mon 5 Oct 11:47 AM",
-  "latest_id": "G2V-014",
+  "head": "fce8e2b",
+  "head_boston": "Mon 5 Oct 11:52 AM",
+  "latest_id": "G2V-015",
   "feed_matches_latest": true,
   "open_for_g": [],
-  "open_for_v": [],
-  "waiting": null
+  "open_for_v": [
+   {
+    "time": "2026-10-05 15:52",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "G2V-015",
+    "subject": "Relay v1.2 direct wake: register your session in INBOX.json; senders wake the other team with send_message (seconds); why HO-001..005 arrived 3 h late",
+    "reply": "yes (INBOX.json entry)",
+    "boston": "Mon 5 Oct 11:52 AM"
+   }
+  ],
+  "waiting": "G2V-015"
  },
  "two": {
   "live": {
    "sha": "3deee29",
    "revision": "1.9.1-r57",
-   "when": "2026-10-05T15:47:10Z",
+   "when": "2026-10-05T15:47:10+00:00",
    "subject": "Team V's Club Assignment on the live screen (r57) (#371)",
    "fixes": [],
    "today": [
@@ -316,6 +335,10 @@
   },
   "v_headline": "Board 1 (visual package): 238 of 238 jobs done and checked",
   "v_jobs": [],
+  "inbox": {
+   "G": true,
+   "V": false
+  },
   "tickets": [
    {
     "id": "HO-001",
@@ -326,7 +349,9 @@
     "pct": 100.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-001_use-hand-off-tickets-for-passing-work-re.md",
-    "worker": "opus"
+    "worker": "opus",
+    "pickup_min": 173,
+    "waiting_min": null
    },
    {
     "id": "HO-002",
@@ -337,7 +362,9 @@
     "pct": 0.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-002_smooth-stage-atmosphere-on-idle-screens-.md",
-    "worker": "opus"
+    "worker": "opus",
+    "pickup_min": 171,
+    "waiting_min": null
    },
    {
     "id": "HO-003",
@@ -348,7 +375,9 @@
     "pct": 0.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-003_header-chips-and-footer-design-on-team-v.md",
-    "worker": "opus"
+    "worker": "opus",
+    "pickup_min": 171,
+    "waiting_min": null
    },
    {
     "id": "HO-004",
@@ -359,7 +388,9 @@
     "pct": 0.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-004_visual-qa-live-2-0-screens-vs-approved-f.md",
-    "worker": "sonnet"
+    "worker": "sonnet",
+    "pickup_min": 171,
+    "waiting_min": null
    },
    {
     "id": "HO-005",
@@ -370,7 +401,9 @@
     "pct": 0.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-005_mobile-home-hero-ghost-coat-between-dani.md",
-    "worker": "images"
+    "worker": "images",
+    "pickup_min": 163,
+    "waiting_min": null
    }
   ],
   "relay_ok": true

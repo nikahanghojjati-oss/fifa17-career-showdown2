@@ -301,13 +301,14 @@ if V["workers"]:
 L += ["## 📡 Relay and hand-offs", ""]
 if R2:
     ov = [t for t in R2["tickets"] if t["overdue"]]
-    health = "✅ working" if R2["comments_read"] and not ov else ("⚠ " + ", ".join(t["id"] for t in ov) + f" not acknowledged after {TF.OVERDUE_H} h" if ov else "⚠ could not read the wake comments")
+    wake = " · direct wake: " + ", ".join(f"Team {k} {'✅' if v else '⚠ not registered'}" for k, v in R2.get("inbox", {}).items())
+    health = "✅ working" + wake if R2["comments_read"] and not ov else ("⚠ " + ", ".join(t["id"] for t in ov) + f" not acknowledged after {TF.OVERDUE_H} h" if ov else "⚠ could not read the wake comments")
     L += [f"**Relay health:** {health} · {len(R2['rows'])} messages, {len(R2['tickets'])} hand-offs · branch head `{R2['head']}` ({TF.bos(R2['head_time'])} Boston time) · "
           f"**[Read every message in full: RELAY.md](RELAY.md)**", ""]
     if R2["tickets"]:
-        L += ["| Hand-off | From → To | What | Progress |", "| --- | --- | --- | --- |"]
+        L += ["| Hand-off | From → To | What | Progress | Picked up in |", "| --- | --- | --- | --- | --- |"]
         for t in R2["tickets"]:
-            L.append(f"| [{t['id']}]({REPO}/blob/leads/relay/{t['path']}) | {t.get('from', '?')} → {t.get('to', '?')} | {t['title']}{' ⚠ overdue' if t['overdue'] else ''} | {TF.pipeline(t)} |")
+            L.append(f"| [{t['id']}]({REPO}/blob/leads/relay/{t['path']}) | {t.get('from', '?')} → {t.get('to', '?')} | {t['title']}{' ⚠ overdue' if t['overdue'] else ''} | {TF.pipeline(t)} | {TF.mins(t['pickup_min']) if t.get('pickup_min') is not None else ('waiting ' + TF.mins(t['waiting_min'])) if t.get('waiting_min') is not None else '-'} |")
         L.append("")
     L.append("Latest messages:")
     for m in R2["rows"][-4:][::-1]:
@@ -362,7 +363,7 @@ open(os.path.join(F, "BOARD_ARCHIVE.md"), "w").write("\n".join(A) + "\n")
 if relay:  # keep the old one-line field for the board page
     relay["waiting"] = ", ".join(m["id"] for m in relay["open_for_v"]) or None
 state = {"generated": boston_now(), "relay": relay, "two": {"live": TWO["live"], "v_headline": V["headline"], "v_jobs": [{"job": n, "title": r.get("title", ""), "worker": lane_of(r)[1], "done": k, "total": t, "pr": r.get("pr"), "current": r.get("current", "")} for n, r, k, t in V["jobs"]],
-         "tickets": [{x: t.get(x) for x in ("id", "from", "to", "title", "stage", "pct", "overdue", "path", "worker")} for t in (R2["tickets"] if R2 else [])], "relay_ok": bool(R2 and R2["comments_read"])}, "branch": board["branch"],
+         "inbox": R2.get("inbox") if R2 else None, "tickets": [{x: t.get(x) for x in ("id", "from", "to", "title", "stage", "pct", "overdue", "path", "worker", "pickup_min", "waiting_min")} for t in (R2["tickets"] if R2 else [])], "relay_ok": bool(R2 and R2["comments_read"])}, "branch": board["branch"],
          "integration_branch": board["integration_branch"], "capacity": cap, "overall": overall, "done": done,
          "total": len(jobs), "start": start, "queued": queued, "working": working, "blocked": blocked,
          "bug_hunt": bug_hunt, "next_move": move,

@@ -163,8 +163,15 @@ def relay():
         steps = t.get("steps") or []
         t["pct"] = 100.0 if t["stage"] == "DONE" else (100.0 * sum(1 for s in steps if s.get("done")) / len(steps) if steps else 0.0)
         t["overdue"] = t["stage"] == "DELIVERED" and hours_since(t["delivered_at"]) > OVERDUE_H
+        rec = next((e.get("at") for e in t.get("log") or [] if str(e.get("status")).upper() == "RECEIVED"), None)
+        t["pickup_min"] = round((hours_since(t["delivered_at"]) - hours_since(rec)) * 60) if rec and t["delivered_at"] else None
+        t["waiting_min"] = round(hours_since(t["delivered_at"]) * 60) if t["stage"] == "DELIVERED" and t["delivered_at"] else None
+    try:
+        inbox = json.loads(show(ref, "project-documents/leads-relay/INBOX.json") or "{}")
+    except Exception:
+        inbox = {}
     head = (sh("git", "log", "-1", "--format=%h|%cI", ref) or "?|").strip().split("|")
-    return {"ref": ref, "rows": rows, "tickets": ts, "head": head[0], "head_time": head[1], "comments_read": comments is not None,
+    return {"ref": ref, "rows": rows, "tickets": ts, "head": head[0], "head_time": head[1], "comments_read": comments is not None, "inbox": {k: bool((inbox.get(k) or {}).get("session_id")) for k in ("G", "V")},
             "pings": len(flat)}
 
 
@@ -182,3 +189,7 @@ def pipeline(t, md=True):
         w = STAGE_WORD[s] + (f" {t['pct']:.0f} %" if s == "WORKING" and k == i else "")
         parts.append(("✅ " if i <= k else "○ ") + (f"**{w}**" if md and i == k else w))
     return " → ".join(parts)
+
+
+def mins(m):
+    return "-" if m is None else f"{m} min" if m < 90 else f"{m // 60} h {m % 60:02d} min"

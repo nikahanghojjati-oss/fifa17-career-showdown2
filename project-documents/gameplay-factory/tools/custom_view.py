@@ -125,13 +125,13 @@ H.append("<h2>Relay</h2>")
 TK = TWO.get("tickets") or []
 rel = st.get("relay") or {}
 ov = [t["id"] for t in TK if t.get("overdue")]
-H.append('<div class="card">' + ("✅ Relay working" if TWO.get("relay_ok") and not ov else "⚠ " + (", ".join(ov) + " not acknowledged" if ov else "wake comments unreadable")) +
+H.append('<div class="card">' + ("✅ Relay working" + "".join(f" · {k} wake {'✅' if v else '⚠'}" for k, v in (TWO.get("inbox") or {}).items()) if TWO.get("relay_ok") and not ov else "⚠ " + (", ".join(ov) + " not acknowledged" if ov else "wake comments unreadable")) +
          f' <span class="m">{rel.get("count", 0)} messages · {len(TK)} hand-offs</span>')
 STEP = ["SENT", "DELIVERED", "RECEIVED", "WORKING", "DONE"]
 for t in TK[::-1][:4]:
     k = STEP.index(t["stage"]) if t["stage"] in STEP else 0
     dots = "".join("🟢" if i <= k else "⚪" for i in range(5))
-    H.append(f'<br>{dots} <b>{e(t["id"])}</b> {e(t.get("from") or "?")}→{e(t.get("to") or "?")} {e(t["title"][:50])} <span class="m">{e(TF.STAGE_WORD.get(t["stage"], t["stage"]))}' + (f' {t["pct"]:.0f} %' if t["stage"] == "WORKING" else "") + "</span>")
+    H.append(f'<br>{dots} <b>{e(t["id"])}</b> {e(t.get("from") or "?")}→{e(t.get("to") or "?")} {e(t["title"][:50])} <span class="m">{e(TF.STAGE_WORD.get(t["stage"], t["stage"]))}' + (f' {t["pct"]:.0f} %' if t["stage"] == "WORKING" else "") + (f' · picked up in {TF.mins(t["pickup_min"])}' if t.get("pickup_min") is not None else f' · waiting {TF.mins(t["waiting_min"])}' if t.get("waiting_min") is not None else "") + "</span>")
 for m in (rel.get("rows") or [])[-1:]:
     H.append(f'<br><span class="m">{e(m["id"])} · {e(m["subject"][:60])}</span>')
 H.append(f'<br><a href="{BLOB}RELAY.md">Every message in full</a></div>')
