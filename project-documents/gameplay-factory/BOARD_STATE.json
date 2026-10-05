@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 2:08 PM Boston time (EDT)",
+ "generated": "2026-10-05 2:11 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -317,7 +317,15 @@
    "revision": "1.9.1-r59",
    "when": "2026-10-05T17:55:28Z",
    "subject": "Release r59: Team V screen fixes HO-003 + HO-004, includes r58 ghost coat fix (#377)",
-   "fixes": [],
+   "fixes": [
+    {
+     "pr": 378,
+     "title": "G-36: No old player photos + seven Home tiles (r60)",
+     "draft": false,
+     "branch": "gameplay/job-36-photos-and-home-tiles",
+     "updated": "2026-10-05T18:09:45Z"
+    }
+   ],
    "today": [
     {
      "pr": 377,

@@ -1,10 +1,10 @@
 # Showdown board: G Factory and V Factory
 
-33 of 33 jobs done (100 %) ██████████ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-05 2:08 PM Boston time (EDT)
+33 of 33 jobs done (100 %) ██████████ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-05 2:11 PM Boston time (EDT)
 
 ## Scoreboard
 
-⚽ **33 of 33 jobs done** · 0 in play · 🐞 see [BUG_BOARD.md](BUG_BOARD.md) · 🏁 no finish time yet (not enough data)
+⚽ **33 of 33 jobs done** · 0 in play · 🐞 see [BUG_BOARD.md](BUG_BOARD.md) · 🏁 last running job likely done about 2:42 PM Boston time
 
 🧑‍💼 **Gaffer:** no fresh report (last one 12:06 AM Boston time, 14 h old); see the [Gaffer page](https://claude.ai/artifact/33Pw2Bioktj1Nv7ebEM94Q).
 
@@ -12,7 +12,7 @@
 
 🌐 **main `0208032` · runtime 1.9.1-r59** · last change Mon 5 Oct 1:55 PM Boston time: Release r59: Team V screen fixes HO-003 + HO-004, includes r58 ghost coat fix (#377)
 
-No live fix waiting to merge.
+- 🔧 Live fix in review: [PR #378](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/378) G-36: No old player photos + seven Home tiles (r60)
 
 **Shipped to the live game today (7):**
 
@@ -38,7 +38,15 @@ Gameplay factory job NN. Read https://raw.githubusercontent.com/nikahanghojjati-
 
 ## Running now
 
-No job is reporting progress right now (jobs show here once their PR description carries a progress block).
+<sub>Percent = finished steps weighted by typical step time, finish times are estimates ([how](ETA_STUDY.md)). Lanes: 🟦 Sol chat · 🟩 Sol Work mode · ⬜ Codex · 🟧 Opus · 🟪 Sonnet · 🟨 Haiku</sub>
+
+### 🟧 Job 36 · No old player photos + seven Home tiles (r60) · 38.0678 %
+
+🟧🟧🟧🟧🟧🟧🟧⚽▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️ 🥅  
+Opus · Lead · [PR #378](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/378) · 3 of 5 steps · updated Mon 5 Oct 2:10 PM Boston time  
+🏁 **Likely finish:** about 2:42 PM (likely 2:27 PM to 3:05 PM) Boston time  
+> **Now:** Gates running on the exact head  
+> **Left:** All 16 checks green on the exact head → Merged into main and live
 
 ## Live fixes and bug hunt
 
