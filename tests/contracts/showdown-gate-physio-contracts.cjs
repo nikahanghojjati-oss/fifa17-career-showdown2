@@ -329,6 +329,16 @@ let checks=0;const ok=label=>{checks++;void label;};
   assert.equal(PS.buildPhysioStatus({now,focus:gathered}).pos20,null);
   ok('physio status');
 
+  // Sweep: a watched workflow file missing from main (Showdown Gate before its switch) answers 404 and is
+  // skipped, never fatal; the others are still listed. Live failure on main 95f44fb, run 37387770885.
+  const sweepReads=[];
+  const sweepClient={get:async endpoint=>{throw new Error(`sweep must list runs through getRaw, got ${endpoint}`);},
+    getRaw:async(endpoint,options)=>{sweepReads.push(endpoint);assert.deepEqual(options.allow,[404]);if(endpoint.includes('/workflows/showdown-gate.yml/'))return {status:404,body:{message:'Not Found'}};return {status:200,body:{workflow_runs:[{id:7,conclusion:'success',updated_at:new Date(now).toISOString()}]}};},
+    post:async()=>{throw new Error('a green-only sweep must not write');},put:async()=>{throw new Error('a green-only sweep must not write');}};
+  assert.deepEqual(await W.sweep(sweepClient,'o/r',{now}),[],'green runs need no Physio and the missing gate workflow is not fatal');
+  assert.deepEqual(sweepReads.map(e=>e.split('/workflows/')[1].split('/')[0]),['showdown-gate.yml','validate-pos10.yml','validate-gameplay-fast.yml']);
+  ok('physio sweep tolerates a missing workflow');
+
   assert.equal(W.GATE_WORKFLOW_NAME,'Showdown Gate');assert.equal(W.SEAL_JOB_NAME,'seal');
   ok('physio constants');
 

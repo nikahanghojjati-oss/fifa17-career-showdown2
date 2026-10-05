@@ -170,7 +170,12 @@ export async function handleRun(client,repo,runId,{dryRun=false}={}){
 
 export async function sweep(client,repo,{sinceMinutes=180,dryRun=false,now=Date.now()}={}){
   const listed=[];
-  for(const profile of WATCHED_WORKFLOWS)listed.push(...((await client.get(`repos/${repo}/actions/workflows/${profile.file}/runs?status=completed&per_page=50`))?.workflow_runs||[]));
+  // A watched workflow file that is not on the default branch (Showdown Gate before its switch, POS20
+  // after its archive) answers 404: it has no runs to sweep, and the other workflows are still swept.
+  for(const profile of WATCHED_WORKFLOWS){
+    const page=await client.getRaw(`repos/${repo}/actions/workflows/${profile.file}/runs?status=completed&per_page=50`,{allow:[404]});
+    if(page.status!==404)listed.push(...(page.body?.workflow_runs||[]));
+  }
   const recent=listed.filter(run=>run.conclusion!=='success'&&now-Date.parse(run.updated_at)<=sinceMinutes*60000);
   const results=[];
   for(const run of recent)results.push(await handleRun(client,repo,run.id,{dryRun}));
