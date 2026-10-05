@@ -326,8 +326,8 @@
      "sha": "bb827862de3a9018e59a479f5d435c6498c3cf46",
      "updated": "2026-10-05T23:50:33Z",
      "gates": {
-      "passed": 3,
-      "running": 12,
+      "passed": 5,
+      "running": 10,
       "failed": 0,
       "cancelled": 0
      }
@@ -835,8 +835,8 @@
     "sha": "bb827862de3a9018e59a479f5d435c6498c3cf46",
     "updated": "2026-10-05T23:50:33Z",
     "gates": {
-     "passed": 3,
-     "running": 12,
+     "passed": 5,
+     "running": 10,
      "failed": 0,
      "cancelled": 0
     }
