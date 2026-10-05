@@ -85,11 +85,11 @@ const unchanged={selectedLeague:null,clubs:{playerOne:null,playerTwo:null},trans
     assert.equal(server.calls.length,0,'retry must not mutate the shared season');
     await host.evaluate(()=>{window.__forceCommitReadFailure=false;});
     await host.locator('#sharedSeasonCommitAction').click();
-    await host.waitForFunction(()=>document.getElementById('sharedSeasonCommitAction')?.textContent==='COMMIT SHARED SEASON');
+    await host.waitForFunction(()=>document.getElementById('sharedSeasonCommitAction')?.textContent==='COMMIT & ACKNOWLEDGE SHARED SEASON');
     assert.equal(server.calls.length,0,'recovering the missing Commit control must only read');
     assert.equal(await host.locator('#seasonReviewOne').isVisible(),true);assert.equal(await host.locator('#seasonReviewTwo').isVisible(),true,'coordinator must experience the complete shared Season Review before commit');
     assert.equal(await peer.locator('#seasonReviewOne').isVisible(),true);assert.equal(await peer.locator('#seasonReviewTwo').isVisible(),true,'peer must experience the same complete shared Season Review before commit');
-    assert.equal(await host.locator('#sharedSeasonCommitAction').textContent(),'COMMIT SHARED SEASON');assert.equal(await host.locator('#sharedSeasonCommitAction').isEnabled(),true);
+    assert.equal(await host.locator('#sharedSeasonCommitAction').textContent(),'COMMIT & ACKNOWLEDGE SHARED SEASON');assert.equal(await host.locator('#sharedSeasonCommitAction').isEnabled(),true);
     assert.equal(await peer.locator('#sharedSeasonCommitAction').textContent(),'WAITING FOR COORDINATOR');assert.equal(await peer.locator('#sharedSeasonCommitAction').isDisabled(),true,'non-coordinator must not create the commit');
     await peer.evaluate(()=>{window.__forceCommitReadFailure=true;});
     await peer.evaluate(()=>window.__ssjrCommitAudit.refresh().catch(()=>{}));
