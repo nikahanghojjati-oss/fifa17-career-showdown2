@@ -163,11 +163,17 @@
         const serverNow=ssrpServerTimestamp(ctx.sdk);transaction.set(ctx.refs.public,{schemaVersion:1,objectType:"sharedSeasonResults",rivalryId:ctx.rivalryId,seasonNumber:ctx.seasonNumber,runtimeRevision:resultsModule.runtimeRevision,phase:next.phase,revision:next.revision,teamCount:ctx.teamCount,publishedRoles:[...next.publishedRoles],operationIds:[...next.operationIds],operationHashes:[...next.operationHashes],baseRevisions:[...next.baseRevisions],actorRoles:[...next.actorRoles],activeSessionId:ctx.sessionId,updatedAt:serverNow,updatedByDeviceId:ctx.deviceId});transaction.set(ctx.refs.own,{schemaVersion:1,objectType:"sharedSeasonResultRole",rivalryId:ctx.rivalryId,seasonNumber:ctx.seasonNumber,managerRole:ctx.role,result:normalizedResult,operationId,commandHash,activeSessionId:ctx.sessionId,publishedAt:serverNow,updatedByDeviceId:ctx.deviceId});
         return ssrpFreeze({ok:true,status:"accepted",replayed:false,revision:next.revision,state:ssrpClone(next),managerRole:ctx.role,seasonNumber:ctx.seasonNumber,ownResult:ssrpClone(normalizedResult),opponentResult:null,allResults:null,needsRefresh:next.phase==="RESULTS_READY"});
       });
-      // The league-projection preflight runs its own transaction, so a same-moment denial there gets the same re-read.
-      try{await ssrpEnsureLeagueProjection(options);return await runPublishTransaction();}
-      catch(error){
-        const code=error&&typeof error.code==="string"?error.code:"";
-        if(code!=="permission-denied"&&code!=="firestore/permission-denied"&&code!=="permission_denied")throw error;
+      // The league-projection preflight runs its own transaction, so a same-moment denial there gets the same recovery.
+      const ssrpDenied=failure=>{const code=failure&&typeof failure.code==="string"?failure.code:"";return code==="permission-denied"||code==="firestore/permission-denied"||code==="permission_denied";};
+      let projectionReady=false;
+      const publishOnce=async()=>{if(!projectionReady){await ssrpEnsureLeagueProjection(options);projectionReady=true;}return await runPublishTransaction();};
+      try{return await publishOnce();}
+      catch(firstError){
+        let error=firstError;
+        if(!ssrpDenied(error))throw error;
+        // A denied preflight can be a lost race to create the immutable league projection. The projection now exists,
+        // so retry the idempotent preflight and the publish once instead of depending on the rival's publish landing.
+        if(!projectionReady){try{return await publishOnce();}catch(retryError){if(!ssrpDenied(retryError))throw retryError;error=retryError;}}
         const sdk=options.firebaseSdk;
         const rivalryId=ssrpNormalizeRivalryId(options.rivalryId),seasonNumber=Number(options.seasonNumber);if(!Number.isInteger(seasonNumber)||seasonNumber<1||seasonNumber>10)throw error;
         // Race fix: the production SDK bundle (productionFirebaseRuntime firestoreSdk) and the emulator
@@ -184,8 +190,7 @@
           try{fresh=ssrpSnapshot(await readPublic());}
           catch(readError){
             // A denied re-read (stranger) answers at once; a contended or transient re-read is retried like a stale one.
-            const readCode=readError&&typeof readError.code==="string"?readError.code:"";
-            if(readCode==="permission-denied"||readCode==="firestore/permission-denied"||readCode==="permission_denied")throw error;
+            if(ssrpDenied(readError))throw error;
             continue;
           }
           if(fresh&&Array.isArray(fresh.operationIds)&&fresh.operationIds.includes(operationId))return await runPublishTransaction();
