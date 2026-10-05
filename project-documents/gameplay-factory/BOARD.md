@@ -1,16 +1,17 @@
 # Team G gameplay board
 
-28 of 33 jobs done (87 %) ████████░░ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-05 12:21 AM Boston time (EDT)
+30 of 33 jobs done (90 %) █████████░ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-05 12:24 AM Boston time (EDT)
 
 ## Scoreboard
 
-⚽ **28 of 33 jobs done** · 1 in play · 🐞 see [BUG_BOARD.md](BUG_BOARD.md) · 🏁 no finish time yet (not enough data)
+⚽ **30 of 33 jobs done** · 0 in play · 🐞 see [BUG_BOARD.md](BUG_BOARD.md) · 🏁 no finish time yet (not enough data)
 
 ## ⚠ Stale status files
 
 GitHub is the truth; these status files disagree with the PR and need an update by their owner:
 
-* job 27: status file says not started, but PR #362 is failing
+* job 27: status file says not started, GitHub says merged (PR #362)
+* job 28: status file says blocked, GitHub says merged (PR #352)
 * job 29: status file says in progress, GitHub says merged (PR #357)
 * job 31: status file says not written, GitHub says merged (PR #350)
 * job 33: status file says not written, GitHub says merged (PR #358)
@@ -21,7 +22,7 @@ GitHub is the truth; these status files disagree with the PR and need an update 
 
 1. **Nothing for you to start right now.**
 
-_Moving now:_ G-13d Part 2d: Transfer War; workers on jobs 27. _Next up:_ G-14 Acceptance: directive §12 and Sol's 8 proofs on the emulator, waits on nothing.
+_Moving now:_ no job is running right now. _Next up:_ G-14 Acceptance: directive §12 and Sol's 8 proofs on the emulator, waits on nothing.
 
 **Sol Work mode starter line** (copy it, change both `NN` to the job number, paste it as the first message):
 
@@ -31,23 +32,7 @@ Gameplay factory job NN. Read https://raw.githubusercontent.com/nikahanghojjati-
 
 ## Running now
 
-<sub>Percent = finished steps weighted by typical step time, finish times are estimates ([how](ETA_STUDY.md)). Lanes: 🟦 Sol chat · 🟩 Sol Work mode · ⬜ Codex · 🟧 Opus · 🟪 Sonnet · 🟨 Haiku</sub>
-
-### 🟧 Job 27 · Transfer War screens · 87.5240 %
-
-🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧⚽▫️▫️ 🥅  
-Opus · Lead (helper) · [PR #362](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/362) · 6 of 7 steps · updated Sun 4 Oct 9:06 PM Boston time  
-🏁 **Likely finish:** waiting on the job's next report (last one 3 h ago)  
-> **Now:** Lead reviewed; final checks running on the head with the latest test build  
-> **Left:** Merged into the test build
-
-### 🟪 Job 28 · Rivalry Stats and Legacy · 49.9040 %
-
-🟪🟪🟪🟪🟪🟪🟪🟪🟪⚽▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️ 🥅  
-Sonnet · Sonnet thread · [PR #352](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/352) · 9 of 11 steps · updated Sun 4 Oct 9:17 PM Boston time  
-🏁 **Likely finish:** waiting on the job's next report (last one 3 h ago)  
-> **Now:** Paused for usage reset; all my work is pushed, waiting on the lead's J10 fix then merge  
-> **Left:** CI green on final head (waits on the J10 fix on recovery) → Lead review and merge
+No job is reporting progress right now (jobs show here once their PR description carries a progress block).
 
 ## Live fixes and bug hunt
 
@@ -62,8 +47,6 @@ From the read-only bug hunt on r52 (4 Oct; [report](https://github.com/nikahangh
 | 5 | **The 4-hour private session ends long games.** A 5 or 10 season game outlives one session, so both managers must open a fresh one. Needs one retest mid-season. Now job 31 (ten-season games). | low | DONE · job 31, PR #350 (recovery fb0dd02): one-tap reconnect after expiry; live at the next release | lead |
 
 Small extras (cheap, optional): DONE in job 21: 'scoring remains locked' text now says SEASON COMMITTED · SCORE BELOW; NOT A BUG: Daniel/Nik fallbacks match the fixed roles (Daniel = Player One, Nik = Player Two); OPEN: raw error codes in the Setup settle text.
-
-Live fix jobs open: [G-13d Part 2d: Transfer War](jobs/JOB-27.md) (in progress)
 
 ## Team V relay
 
@@ -82,12 +65,10 @@ Waiting on Team V: G2V-012.
 | --- | --- | --- | --- | --- |
 | G-14 | Acceptance: directive §12 and Sol's 8 proofs on the emulator | work | - | NOT WRITTEN |
 | G-15 | One real two-device run with Nik | nik | job 14 | NOT WRITTEN |
-| G-13d | [Part 2d: Transfer War](jobs/JOB-27.md) | lead | - | IN PROGRESS |
-| G-13e | [Part 2e: Rivalry Statistics and Legacy (History)](jobs/JOB-28.md) | work | - | BLOCKED |
 | G-2i | [Fewer taps: audit the flow for steps we can safely drop](jobs/JOB-32.md) | lead | - | NOT WRITTEN |
 
 <details>
-<summary><b>Finished work: 28 jobs</b> (click to open)</summary>
+<summary><b>Finished work: 30 jobs</b> (click to open)</summary>
 
 - 0 Setup: 3 of 3 done
 - 1 Safety net: 8 of 8 done
@@ -95,7 +76,7 @@ Waiting on Team V: G2V-012.
 - 3 Career history: 4 of 4 done
 - IN PROGRESS: 2 of 2 done
 - MERGED: 2 of 2 done
-- READY: 4 of 6 done
+- READY: 6 of 6 done
 
 Full list of every job with its state: [BOARD_ARCHIVE.md](BOARD_ARCHIVE.md).
 

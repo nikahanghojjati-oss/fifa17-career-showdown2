@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 12:21 AM Boston time (EDT)",
+ "generated": "2026-10-05 12:24 AM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 24,
@@ -263,20 +263,16 @@
   "chat": 2,
   "work": 1
  },
- "overall": 87,
- "done": 28,
+ "overall": 90,
+ "done": 30,
  "total": 33,
  "start": {
   "chat": [],
   "work": []
  },
  "queued": [],
- "working": [
-  27
- ],
- "blocked": [
-  28
- ],
+ "working": [],
+ "blocked": [],
  "bug_hunt": [
   {
    "id": "BH-1",
@@ -934,11 +930,11 @@
    "phase": "READY",
    "type": "build",
    "plain": "Transfer window skinned; private inputs stay private; lock confirm and quiet retries kept. Lead helper (Opus); starts from job 24's branch; the lead checks each screen in a browser and merges.",
-   "state": "IN PROGRESS",
-   "stale": "status file says not started, but PR #362 is failing",
-   "step": 0,
+   "state": "MERGED",
+   "stale": "status file says not started, GitHub says merged (PR #362)",
+   "step": 7,
    "steps_total": 7,
-   "pct": 0,
+   "pct": 100,
    "ready": false
   },
   {
@@ -957,11 +953,11 @@
    "phase": "READY",
    "type": "build",
    "plain": "Same pattern as job 13 on the real career model; un-hides the last two Statistics buttons. Sol 6.1 Work mode, High; starts from job 24's branch; the lead checks each screen in a browser and merges.",
-   "state": "BLOCKED",
-   "stale": null,
-   "step": 4,
+   "state": "MERGED",
+   "stale": "status file says blocked, GitHub says merged (PR #352)",
+   "step": 5,
    "steps_total": 5,
-   "pct": 80,
+   "pct": 100,
    "ready": false
   },
   {
