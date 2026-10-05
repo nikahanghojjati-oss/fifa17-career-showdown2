@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 7:07 PM Boston time (EDT)",
+ "generated": "2026-10-05 7:10 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -324,11 +324,11 @@
      "draft": false,
      "branch": "ci/showdown-gate-physio",
      "sha": "02960ba13ec0e9a6182c73fccc0ea3cec0beda05",
-     "updated": "2026-10-05T23:07:02Z",
+     "updated": "2026-10-05T23:08:26Z",
      "gates": {
-      "passed": 1,
-      "running": 14,
-      "failed": 0,
+      "passed": 9,
+      "running": 5,
+      "failed": 1,
       "cancelled": 0
      }
     },
@@ -398,7 +398,7 @@
   "physio": {
    "state": "clear",
    "line": "All clear (from GitHub).",
-   "gate": "POS20 #385 1/15",
+   "gate": "POS20 #385 9/15",
    "source": "github"
   },
   "v_headline": "Board 1 (visual package): 238 of 238 jobs done and checked",
@@ -736,11 +736,11 @@
     "draft": false,
     "branch": "ci/showdown-gate-physio",
     "sha": "02960ba13ec0e9a6182c73fccc0ea3cec0beda05",
-    "updated": "2026-10-05T23:07:02Z",
+    "updated": "2026-10-05T23:08:26Z",
     "gates": {
-     "passed": 1,
-     "running": 14,
-     "failed": 0,
+     "passed": 9,
+     "running": 5,
+     "failed": 1,
      "cancelled": 0
     }
    },
