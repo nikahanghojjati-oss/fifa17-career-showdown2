@@ -66,7 +66,7 @@
   function sfSnapshot(){return {identity:state("CareerModeOnlinePlayerIdentity"),pair:state("CareerModePersistentNikDanielPair"),multiSeason:state("CareerModeProductionSharedMultiSeasonProgression"),history:state("CareerModeProductionSharedHistoryConvergence"),finalReconciliation:state("CareerModeProductionSharedFinalReconciliation"),terminalClose:state("CareerModeProductionSharedTerminalClose")};}
   function currentRivalry(){return root.CareerModeSharedActiveShowdownAdapter?.rivalryView(sfSnapshot())||{status:"unavailable"};}
   function currentCareer(){try{return typeof careerStatisticsModel!=="undefined"?careerStatisticsModel:null;}catch(_){return null;}}
-  function element(folder){const holder=root.document.createElement("div");holder.innerHTML=templates[folder];return holder.firstElementChild;}
+  function stageElement(folder){const holder=root.document.createElement("div");holder.innerHTML=templates[folder];return holder.firstElementChild;}
   const fail=error=>root.console?.warn?.("[Career Mode Showdown] Season visual unavailable",error);
   async function prepare(folder){
     if(!templates[folder]){const r=await root.fetch(BASE+folder+"/app-shell.html");if(!r.ok)throw new Error("V10_RESULTS_TEMPLATE");templates[folder]=await r.text();}
@@ -83,7 +83,7 @@
     let final=host.querySelector(".v10FinalStage");
     // A changed frame rebuilds supplementary art only. Live protocol panels move intact.
     if(final)restoreFinal(host);
-    final=element("final-winner");final.classList.add("v10FinalStage");host.appendChild(final);
+    final=stageElement("final-winner");final.classList.add("v10FinalStage");host.appendChild(final);
     for(const [id,slot] of [["sharedTerminalClosePanel","v10TerminalSlot"],["sharedFinalReconciliationPanel","v10ReconciliationSlot"]]){const live=root.document.getElementById(id);if(live)final.querySelector("#"+slot).appendChild(live);}
     const actions=root.document.getElementById("completeSeason")?.closest(".seasonEntryActions");if(actions)final.querySelector("#v10ExitSlot").appendChild(actions);
     const season=host.querySelector(".v10SeasonStage");if(season)season.hidden=true;host.classList.add("v10FinalMode");
@@ -92,7 +92,7 @@
   function renderSeason(frame,host){
     if(typeof root.ensureSeasonReviewUI==="function")root.ensureSeasonReviewUI();
     let stage=host.querySelector(".v10SeasonStage");
-    if(!stage){stage=skinSeason(host,element("season-results"));if(stage)root.ShowdownSeasonResultsBoot(stage);}
+    if(!stage){stage=skinSeason(host,stageElement("season-results"));if(stage)root.ShowdownSeasonResultsBoot(stage);}
     if(!stage)return;
     const role=state("CareerModeProductionSharedSeasonResults")?.managerRole;
     if(role){const tab=stage.querySelector(role==="playerTwo"?"#season-phone-tab-nik":"#season-phone-tab-daniel");if(tab&&!stage.dataset.ownerSet){tab.checked=true;stage.dataset.ownerSet=role;}}
@@ -100,7 +100,7 @@
   }
   function renderStandings(frame,host){
     const selected=host.querySelector('#sdgViewCareer')?.getAttribute("aria-selected")==="true"?"CAREER":"SHOWDOWN";
-    host.firstElementChild?.v10StageHandle?.destroy();host.replaceChildren(element("standings"));host.classList.add("standingsScreenV10");
+    host.firstElementChild?.v10StageHandle?.destroy();host.replaceChildren(stageElement("standings"));host.classList.add("standingsScreenV10");
     root.STANDINGS_ROOT=host.firstElementChild;root.STANDINGS_QS="frame="+selected;root.STANDINGS_FIXTURES={strings:strings.standings,frames:frame};root.ShowdownStandingsBoot();
   }
   // Register the new optional route lazily. Startup files and existing gameplay gates do not change.
