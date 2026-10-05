@@ -42,3 +42,23 @@ def pitch(frac, sq, width=20):
     return sq * k + "⚽" + "▫️" * (width - k - 1) + " 🥅"
 
 
+
+
+OPEN_BUG = ("NEW", "TRIAGED", "FIXING", "REVIEW", "MERGED")
+
+
+def done_status(b):
+    st = b["status"].upper()
+    if st != "DONE":
+        return st
+    # DONE in the old bug hunt means fixed; it is only LIVE once a release carries it ("live since rNN").
+    n = b.get("note", "").lower()
+    return "LIVE" if "live since" in n or "docs fixed" in n else "MERGED"
+
+
+def all_bugs():
+    """BUGS.json reports plus the 4 Oct bug hunt rows from BOARD.json, in one status vocabulary."""
+    bugs = json.load(open(os.path.join(F, "BUGS.json")))["bugs"]
+    old = [dict(id=b["id"], title=b["title"], where="", type="gameplay", priority="normal", worker="", job="", note=b.get("note", ""),
+                status=done_status(b)) for b in json.load(open(os.path.join(F, "BOARD.json"))).get("bug_hunt", [])]
+    return bugs + old

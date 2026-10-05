@@ -15,6 +15,7 @@ on:
       - project-documents/gameplay-factory/tools/board.py
       - project-documents/gameplay-factory/tools/bug_board.py
       - project-documents/gameplay-factory/tools/factory_common.py
+      - project-documents/gameplay-factory/tools/custom_view.py
       - project-documents/gameplay-factory/BUGS.json
   workflow_dispatch:
 
@@ -52,9 +53,10 @@ jobs:
             python3 $B/tools/collect_progress.py >/dev/null
             python3 $B/tools/board.py
             python3 $B/tools/bug_board.py
+            python3 $B/tools/custom_view.py
             # Ignore the timestamp line alone: commit only when a job's row actually changed.
-            if git diff -U0 -- $B/BOARD.md $B/BUG_BOARD.md $B/BOARD_ARCHIVE.md | grep '^[-+][^-+]' | grep -qv '· generated 20'; then :; else echo "Board unchanged"; exit 0; fi
-            git add $B/BOARD.md $B/BOARD_ARCHIVE.md $B/BOARD_STATE.json $B/BUG_BOARD.md
+            if git diff -U0 -- $B/BOARD.md $B/BUG_BOARD.md $B/BOARD_ARCHIVE.md | grep '^[-+][^-+]' | grep -qv '· generated 20' || ! git ls-files --error-unmatch $B/CUSTOM_VIEW.html >/dev/null 2>&1; then :; else echo "Board unchanged"; exit 0; fi
+            git add $B/BOARD.md $B/BOARD_ARCHIVE.md $B/BOARD_STATE.json $B/BUG_BOARD.md $B/CUSTOM_VIEW.html $B/TEAM_G_PROGRESS.json
             git commit -m "Gameplay factory: board auto-update [skip ci]"
             git push origin HEAD:factory/gameplay-v1 && exit 0
             sleep $((2**i))

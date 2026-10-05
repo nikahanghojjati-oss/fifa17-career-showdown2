@@ -1,6 +1,6 @@
 name: Gameplay factory progress poller
 
-# Keeps the "Running now" bars on BOARD.md fresh with zero Claude usage. Job owners keep a progress block in their PR description (no push, no CI);
+# Keeps the "Running now" bars on BOARD.md, BUG_BOARD.md and CUSTOM_VIEW.html (the Custom view tab, copied as is) fresh with zero Claude usage. Job owners keep a progress block in their PR description (no push, no CI);
 # this reads it from the progress block in every open PR description (tools/collect_progress.py) every 3 minutes, rebuilds the board, and re-dispatches itself
 # while any progress file exists. It stops on its own when none exist; the board workflow restarts it on the next factory push.
 # (Schedules only run on the default branch, which this workflow deliberately never touches, so it chains itself instead.)
@@ -42,9 +42,9 @@ jobs:
             git fetch -q origin factory/gameplay-v1
             git reset -q --hard origin/factory/gameplay-v1
             FOUND=$(python3 $B/tools/collect_progress.py)
-            python3 $B/tools/board.py; python3 $B/tools/bug_board.py >/dev/null
-            if git diff -U0 -- $B/BOARD.md $B/BUG_BOARD.md | grep '^[-+][^-+]' | grep -qv '· generated 20'; then
-              git add $B/BOARD.md $B/BOARD_ARCHIVE.md $B/BOARD_STATE.json $B/BUG_BOARD.md
+            python3 $B/tools/board.py; python3 $B/tools/bug_board.py >/dev/null; python3 $B/tools/custom_view.py >/dev/null
+            if git diff -U0 -- $B/BOARD.md $B/BUG_BOARD.md | grep '^[-+][^-+]' | grep -qv '· generated 20' || ! git ls-files --error-unmatch $B/CUSTOM_VIEW.html >/dev/null 2>&1; then
+              git add $B/BOARD.md $B/BOARD_ARCHIVE.md $B/BOARD_STATE.json $B/BUG_BOARD.md $B/CUSTOM_VIEW.html $B/TEAM_G_PROGRESS.json
               git commit -qm "Gameplay factory: progress bars update [skip ci]"
               git push -q origin HEAD:factory/gameplay-v1 || echo "push raced; next round retries"
             fi

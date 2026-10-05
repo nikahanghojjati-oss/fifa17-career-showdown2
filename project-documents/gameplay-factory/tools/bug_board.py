@@ -5,27 +5,16 @@ The workflows gameplay-factory-board.yml and gameplay-factory-progress.yml run i
 import json, os, sys, datetime
 from zoneinfo import ZoneInfo
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from factory_common import F, running_jobs, LANES, lane_of, pitch
+from factory_common import F, running_jobs, LANES, lane_of, pitch, all_bugs, OPEN_BUG
 
 REPO = "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2"
 BOS = ZoneInfo("America/New_York")
-OPEN = ("NEW", "TRIAGED", "FIXING", "REVIEW", "MERGED")
+OPEN = OPEN_BUG
 ORDER = {s: i for i, s in enumerate(["FIXING", "REVIEW", "TRIAGED", "NEW", "MERGED", "LIVE", "DUPLICATE", "NOT A BUG"])}
 ICON = {"NEW": "🆕", "TRIAGED": "🔍", "FIXING": "🔧", "REVIEW": "👀", "MERGED": "🔀", "LIVE": "✅", "DUPLICATE": "♻️", "NOT A BUG": "🚫"}
 TYPE = {"gameplay": "🎮 gameplay", "visual": "🎨 visual", "data": "📊 data"}
 now = datetime.datetime.now(BOS)
-bugs = json.load(open(os.path.join(F, "BUGS.json")))["bugs"]
-board = json.load(open(os.path.join(F, "BOARD.json")))
-def done_status(b):
-    st = b["status"].upper()
-    if st != "DONE":
-        return st
-    # DONE in the old bug hunt means fixed; it is only LIVE once a release carries it ("live since rNN").
-    return "LIVE" if "live since" in b.get("note", "").lower() or "docs fixed" in b.get("note", "").lower() else "MERGED"
-
-
-old = [dict(id=b["id"], title=b["title"], where="", type="gameplay", priority="normal", worker="", job="", note=b.get("note", ""),
-            status=done_status(b)) for b in board.get("bug_hunt", [])]
+bugs = all_bugs()
 rj = {str(n): (r, k, t) for n, r, k, t in running_jobs()}
 
 
@@ -62,7 +51,6 @@ def row(b):
     return f"| **{b['id']}** | {title} | {b.get('where') or '—'} | {TYPE.get(b.get('type', ''), b.get('type') or '—')} | {lane} | {ICON.get(st, '')} {st} | {prog} |"
 
 
-bugs = bugs + old
 opn = sorted([b for b in bugs if b["status"] in OPEN], key=lambda b: (b.get("priority") != "top", ORDER.get(b["status"], 9)))
 closed = sorted([b for b in bugs if b["status"] not in OPEN], key=lambda b: (ORDER.get(b["status"], 9), b["id"]))
 fixing = sum(b["status"] in ("FIXING", "REVIEW", "MERGED") for b in opn)
