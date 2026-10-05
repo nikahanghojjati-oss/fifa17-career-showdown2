@@ -867,5 +867,7 @@
    ]
   }
  },
- "next_move": "Two quick calls are waiting for you in the Team G lead thread: whether the final winner shows automatically (BH-8), and 5 settings for the new Showdown Gate check system. r61 is live: the phone song list scrolls below the logo and Next To You plays first. r62 is collecting BUG-1, BH-7 and the G-F6 test fix."
+ "next_move": [
+  "**Two quick calls wait for you in the Team G lead thread:** show the final winner automatically or keep the tap (BH-8), and 5 settings for the new Showdown Gate checks."
+ ]
 }
