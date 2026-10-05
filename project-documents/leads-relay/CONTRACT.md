@@ -1,6 +1,6 @@
 # SHOWDOWN LEADS RELAY CONTRACT (Visual lead <-> Gameplay lead)
 
-Version: 1.1 (2026-10-05: §8 hand-off tickets; messages unchanged)
+Version: 1.2 (2026-10-05: §8 hand-off tickets, §9 direct wake; messages unchanged)
 Owner: Nik
 Repository: nikahanghojjati-oss/fifa17-career-showdown2
 Relay branch: leads/relay
@@ -28,7 +28,7 @@ Time = the message's commit time (UTC). Rows stay oldest to newest. Never edit o
 
 ## 3. Header (every message)
     # SHOWDOWN LEADS RELAY
-    Relay-Version: 1.1 (2026-10-05: §8 hand-off tickets; messages unchanged)
+    Relay-Version: 1.2 (2026-10-05: §8 hand-off tickets, §9 direct wake; messages unchanged)
     Message-ID: <archive stem>
     From: <Team V | Team G>
     To: <Team G | Team V>
@@ -80,3 +80,17 @@ full and Nik can watch it move.
 7. Where Nik sees it: Team G's board (BOARD.md, CUSTOM_VIEW.html) and RELAY.md on factory/gameplay-v1 show every
    message in full and every ticket's pipeline. Each team's own board may show the same tickets; neither edits the
    other's board files.
+
+## 9. Direct wake (v1.2): the other team hears in seconds
+Measured 2026-10-05: GitHub posted every ticket on PR #312 within 40 seconds, but neither lead's Claude thread woke
+from those bot comments. Team V picked up HO-001..HO-005 about 3 hours later, when Nik typed "Update?".
+1. `INBOX.json` names each team's current relay session (`session_id`). Each team keeps its own entry current
+   (one commit when its relay thread changes). Never edit the other team's entry.
+2. After pushing any message or ticket change addressed to the other team, the sender immediately calls the
+   claude-code-remote `send_message` tool with the other team's `session_id`. `handoff.py new/set` and
+   `handoff.py wake --to X --text "..."` print the exact call. The sender is already running, so this costs no extra
+   turn; the receiver wakes within seconds and spends its turn only on real work. Nothing polls.
+3. The PR #312 comment stays as the permanent record and the backup signal. Both boards show each ticket's pickup
+   time (Delivered to Received), so a slow wake is visible at once.
+4. If `send_message` to the other team fails (for example the session ended), say so to Nik in one line and ask the
+   other team to register its new session; the comment still carries the ticket.

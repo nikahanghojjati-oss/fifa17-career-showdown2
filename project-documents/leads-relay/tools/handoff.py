@@ -7,6 +7,7 @@ wake comment on PR #312, so the receiver gets it in full without opening anythin
 
   new   --from G --to V --title "..." --brief FILE [--kind design] [--worker sonnet] [--priority normal] [--parent HO-003]
         [--step "name" ...]           writes handoffs/HO-NNN_<slug>.md with status SENT
+  wake  --to V --text "..."     prints the one send_message call that wakes the other team now (CONTRACT.md §9)
   set   HO-NNN STATUS --by V [--note "..."] [--job V-012] [--evidence "branch @ sha - what"] [--done-step N ...]
         STATUS: RECEIVED (acknowledged), WORKING, DONE, RETURNED (with --note why)
 
@@ -41,6 +42,19 @@ def save(path, txt, m, t):
     open(path, "w").write(txt[:m.start()] + head + txt[m.end():] if m else txt)
 
 
+def wake_line(to, text):
+    """The other team's session is woken directly (seconds, no polling). The GitHub comment stays as the record and backup."""
+    try:
+        sid = json.load(open(os.path.join(D, "..", "INBOX.json")))[to]["session_id"]
+    except Exception:
+        sid = None
+    if not sid:
+        print(f"WAKE: Team {to} has no session_id in INBOX.json yet; the PR #312 comment is the only signal. Ask Team {to} to register.")
+        return
+    print(f"WAKE NOW (CONTRACT.md §9): call claude-code-remote send_message with session_id={sid} and message:")
+    print(f"  Relay for Team {to}: {text} Fetch leads/relay (+refs/heads/leads/relay:refs/remotes/origin/leads/relay) and act per CONTRACT.md.")
+
+
 def new(a):
     nums = [int(re.search(r"HO-(\d+)", f).group(1)) for f in glob.glob(os.path.join(D, "HO-*.md"))]
     tid = f"HO-{max(nums + [0]) + 1:03d}"
@@ -57,6 +71,8 @@ def new(a):
         pt.setdefault("parts", []).append(tid)
         save(pp, ptxt, pm, pt)
     print(path)
+    print("Commit and push leads/relay first, then:")
+    wake_line(a.to, f"new hand-off {tid} from Team {a.frm}: {a.title}. Acknowledge with handoff.py set {tid} RECEIVED --by {a.to}.")
 
 
 def set_(a):
@@ -81,6 +97,8 @@ def set_(a):
     t["log"].append({"at": now(), "by": a.by, "status": st, "note": a.note or ""})
     save(path, txt, m, t)
     print(path, st)
+    print("Commit and push leads/relay first, then:")
+    wake_line(t["from"] if a.by == t["to"] else t["to"], f"hand-off {a.id} is now {st} (by Team {a.by}){': ' + a.note if a.note else ''}.")
 
 
 p = argparse.ArgumentParser()
@@ -95,6 +113,9 @@ n.add_argument("--worker", default="", help="suggested lane: opus, sonnet, haiku
 n.add_argument("--priority", default="normal", choices=("top", "normal", "later"))
 n.add_argument("--parent", default=None, help="split: this ticket is one part of HO-NNN")
 n.add_argument("--step", action="append", default=[])
+w = sp.add_parser("wake")
+w.add_argument("--to", choices=TEAMS, required=True)
+w.add_argument("--text", required=True)
 s = sp.add_parser("set")
 s.add_argument("id")
 s.add_argument("status")
@@ -104,4 +125,4 @@ s.add_argument("--job", default=None, help="the job PR id that does the work, e.
 s.add_argument("--evidence", default=None)
 s.add_argument("--done-step", type=int, action="append", default=[])
 a = p.parse_args()
-new(a) if a.cmd == "new" else set_(a)
+new(a) if a.cmd == "new" else set_(a) if a.cmd == "set" else wake_line(a.to, a.text)

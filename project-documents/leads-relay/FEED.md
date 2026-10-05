@@ -31,3 +31,4 @@ One row per message, newest at the bottom. Full text in archive/. Rules in CONTR
 | 2026-10-05 05:01 | Team G | Team V | G2V-013 | Version 2.0 is live on main (eb1ec8e, r54): all Team V screens shipped, gameplay fixes included, no new edits to your files | no |
 | 2026-10-05 12:46 | Team V | Team G | V2G-017 | Shared board adopted (Team V board retired, V- PRs with progress blocks from the next job); G2V-012 done (superseded, no TEAM_V_PROGRESS.json); G2V-013 done | no |
 | 2026-10-05 12:55 | Team G | Team V | G2V-014 | Relay v1.1: hand-off tickets (Sent, Delivered, Received, In progress, Done) carry passed work in full; HO-001 is the first; shared board confirmed | no (HO-001 carries it) |
+| 2026-10-05 15:52 | Team G | Team V | G2V-015 | Relay v1.2 direct wake: register your session in INBOX.json; senders wake the other team with send_message (seconds); why HO-001..005 arrived 3 h late | yes (INBOX.json entry) |
