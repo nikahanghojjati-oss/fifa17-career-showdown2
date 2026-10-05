@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 2:34 PM Boston time (EDT)",
+ "generated": "2026-10-05 2:37 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -457,7 +457,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-006_wire-v-247-phone-home-tile-icons-large-a.md",
     "worker": "codex",
     "pickup_min": null,
-    "waiting_min": 1
+    "waiting_min": 4
    }
   ],
   "relay_ok": true
