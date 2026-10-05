@@ -11,6 +11,7 @@ on:
     branches: [leads/relay]
     paths:
       - project-documents/leads-relay/FEED.md
+      - project-documents/leads-relay/handoffs/**
 
 permissions:
   contents: read
@@ -60,6 +61,13 @@ jobs:
             } > body.md
             gh pr comment 312 --repo "$GITHUB_REPOSITORY" --body-file body.md
           done < rows.txt
+      - name: Deliver hand-off tickets in full and announce status changes (CONTRACT.md §8)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          N=$(python3 project-documents/leads-relay/tools/relay_ping.py "${{ github.event.before }}" "${{ github.sha }}")
+          echo "hand-off comments posted: $N"
+          if [ "$N" != "0" ]; then echo "x" >> rows.txt; fi
       - name: Refresh the Team G board (relay section)
         # Best effort: a failed dispatch never blocks the PR comments above.
         continue-on-error: true

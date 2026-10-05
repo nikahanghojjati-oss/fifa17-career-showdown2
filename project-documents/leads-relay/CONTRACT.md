@@ -1,6 +1,6 @@
 # SHOWDOWN LEADS RELAY CONTRACT (Visual lead <-> Gameplay lead)
 
-Version: 1.0
+Version: 1.1 (2026-10-05: §8 hand-off tickets; messages unchanged)
 Owner: Nik
 Repository: nikahanghojjati-oss/fifa17-career-showdown2
 Relay branch: leads/relay
@@ -28,7 +28,7 @@ Time = the message's commit time (UTC). Rows stay oldest to newest. Never edit o
 
 ## 3. Header (every message)
     # SHOWDOWN LEADS RELAY
-    Relay-Version: 1.0
+    Relay-Version: 1.1 (2026-10-05: §8 hand-off tickets; messages unchanged)
     Message-ID: <archive stem>
     From: <Team V | Team G>
     To: <Team G | Team V>
@@ -61,3 +61,22 @@ deploys need Nik's typed words.
 ## 7. Failure
 If a push fails, say so plainly to Nik in your own project, give the full message there, and
 retry when access returns. Never claim the relay was updated when it was not.
+
+## 8. Hand-off tickets (v1.1): passing and splitting work
+Messages carry news and answers. Work that one factory passes to the other travels as a hand-off ticket, so it arrives in
+full and Nik can watch it move.
+1. One ticket = one file `handoffs/HO-NNN_<slug>.md`: a fenced `ticket` JSON header (id, from, to, title, kind, priority,
+   suggested worker, parent, job, status, steps, evidence, log) and a brief with everything the receiver needs
+   (what, why, where in the repo with exact refs, done-when, how to prove it). Never "see chat".
+2. Write and update tickets only with `tools/handoff.py` (it keeps the header valid). Commit, then fast-forward push.
+3. States: SENT (sender) → DELIVERED (automatic: the relay Action posts the whole ticket as a PR #312 comment marked
+   `relay:HO-NNN:delivered`) → RECEIVED (receiver acknowledges on wake) → WORKING (receiver links its job PR with `--job`;
+   that PR's progress block drives the bar) → DONE (receiver, with evidence). RETURNED = receiver hands it back with a reason.
+4. Split: one ticket per part, each with `--parent HO-NNN`; parts can go to either factory. The parent lists its parts.
+5. Routing: gameplay and visual wiring bugs belong to Team G; only real design changes (new look, new asset, new screen)
+   go to Team V. Team G stays the only team that touches main.
+6. Ownership: the sender writes the brief; only the receiver moves RECEIVED, WORKING, DONE and RETURNED. Either side
+   may tick steps it did. A delivered ticket not acknowledged within 6 hours shows a warning on both boards.
+7. Where Nik sees it: Team G's board (BOARD.md, CUSTOM_VIEW.html) and RELAY.md on factory/gameplay-v1 show every
+   message in full and every ticket's pipeline. Each team's own board may show the same tickets; neither edits the
+   other's board files.
