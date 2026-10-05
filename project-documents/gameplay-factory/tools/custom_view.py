@@ -43,7 +43,7 @@ now = datetime.datetime.now(BOS)
 
 H = ["<style>.cv{font:14px/1.45 system-ui,sans-serif;max-width:720px}.cv h2{font-size:16px;margin:18px 0 6px}"
      ".cv .card{border:1px solid rgba(128,128,128,.45);border-radius:10px;padding:10px 12px;margin:8px 0}.cv .move{background:rgba(249,115,22,.14);border-color:#f97316}"
-     ".cv .m{opacity:.7;font-size:12px}.cv .pc{font-weight:700;margin-left:8px}.cv table{border-collapse:collapse;width:100%}"
+     ".cv .m{color:rgba(128,128,128,1);font-size:12px}.cv .pc{font-weight:700;margin-left:8px}.cv table{border-collapse:collapse;width:100%}"
      ".cv td,.cv th{border-bottom:1px solid rgba(128,128,128,.35);padding:4px 6px;text-align:left;font-size:13px}.cv a{color:inherit;text-decoration:underline}</style>",
      '<div class="cv">',
      f'<div class="m">Updated {now:%a %-d %b, %-I:%M %p} Boston time · {st["done"]} of {st["total"]} jobs done · {len(open_bugs)} open bug{"s" if len(open_bugs) != 1 else ""} · '
