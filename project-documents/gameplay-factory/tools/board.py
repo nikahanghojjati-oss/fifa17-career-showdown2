@@ -211,7 +211,7 @@ move = list(board.get("next_move") or []) or ["**Nothing for you to do right now
 L = ["# Showdown board: G Factory and V Factory", "",
      (f"🌐 **Live: runtime {lv['revision']}** (main `{lv['sha']}`) · " if lv else "🌐 Live version unknown this run · ") +
      f"🔄 **{n_moving} moving** · ⏭ {n_next} up next · 👤 {n_nik} waiting on Nik · 🗂 {n_later} later · updated {boston_now()}", "",
-     f"{TF.PHYSIO_ICON.get(TWO['physio']['state'], '⚪')} **Physio:** {TWO['physio']['line']}", "",
+     f"{TF.PHYSIO_ICON.get(TWO['physio']['state'], '🩺')} **{TWO['physio']['line']}**", "",
      "## Your next move", ""] + [f"{i}. {m}" for i, m in enumerate(move, 1)] + [""]
 
 # ---- Moving now: open releases into main with their checks, jobs being built, hand-offs not yet done.

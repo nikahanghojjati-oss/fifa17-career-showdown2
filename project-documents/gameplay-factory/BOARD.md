@@ -2,17 +2,17 @@
 
 🌐 **Live: runtime 1.9.1-r61** (main `61489dd`) · 🔄 **8 moving** · ⏭ 2 up next · 👤 4 waiting on Nik · 🗂 6 later · updated 2026-10-05 6:24 PM Boston time (EDT)
 
-🟢 **Physio:** All clear: no merge check is waiting for a machine.
+🩺 **Physio: starting soon.**
 
 ## Your next move
 
-1. **Nothing waits on you right now.** r62 is filling up: G-F6 and BH-7 are in; BH-8, BH-11, BUG-1 and G-F6b are finishing.
+1. **Nothing waits on you right now.** r62 is nearly full; BH-11, BUG-1 and G-F6b are finishing.
 
 ## 🔄 Moving now
 
 | Release / fix | Checks on the latest commit | Updated |
 | --- | --- | --- |
-| [PR #384](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/384) Every screen in Team V's look: signed-out career screens, Showdown Home, season review, L… | 🔴 9 passed, 1 running, 1 failed | 6:19 PM |
+| [PR #384](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/384) Every screen in Team V's look: signed-out career screens, Showdown Home, season review, L… | 🔴 10 passed, 2 failed | 6:19 PM |
 
 | Team | Job | What | Worker | Where it is | Details |
 | --- | --- | --- | --- | --- | --- |
@@ -20,7 +20,9 @@
 | G | G-F6b | Same ResizeObserver fix on the Club screen; the harmless browser "ResizeObserver loop" warning never shows players an error toast | 🟪 Sonnet | in progress (branch bugfix/g-f6b-observer-toast) | the lead batches it into r62 |
 | G | G-F17 | Showdown Gate: replace POS20 with a faster check system built on Claude and GitHub, keeping every check (plan: /mnt/project-files/check-system/SHOWDOWN_GATE_PLAN.md) | 🟧 Opus | building shadow; then ~10-PR shadow (3-5 days), then archive POS20 | Nik 6:02 PM Boston time: gradual replacement; POS20 is archived to authority-history/pos20-archive/, not deleted |
 | G | G-F18 | Old-design screen audit: Legacy, Career Statistics and Trophy Room still open in the old shell; drive every live screen in a browser against Team V's design and route all of them to the new design | 🟧 Opus | in progress (thread "Old-design screen audit", Nik asked at 5:16 PM Boston time) | overlaps G-F11 (old CSS collisions) |
-| G | G-F19 | BH-8: show the final winner and Close on both phones automatically, with no PREVIEW tap (Nik chose this at 5:56 PM Boston time); applying to the local save stays a tap | 🟧 Opus | in progress (branch bugfix/bh-8-auto-final) | the lead batches it into r62 |
+| G | G-F15 | Landscape phone Home layout (844x390): title sits on the wordmark, soundtrack card covers the right tiles (already in r59) | 🟧 Opus | fixed, in r62 batch (4f279dd4) | before/after screenshots in /mnt/project-files/gameplay/r62/ |
+| G | G-F16 | Phone Home nit from Team V (HO-006): second line of START A SHOWDOWN touches the clipboard icon at 393px | 🟧 Opus | fixed, in r62 batch (4f279dd4) | before/after screenshots in /mnt/project-files/gameplay/r62/ |
+| G | G-F19 | BH-8: show the final winner and Close on both phones automatically, with no PREVIEW tap (Nik chose this at 5:56 PM Boston time); applying to the local save stays a tap | 🟧 Opus | fixed, in r62 batch (54dd53a) | journey 36/36 twice |
 | G | G-F20 | BH-7 transient hardening: Setup read, Terminal Close retry, simultaneous CLOSE re-read, stale transfer status line | 🟧 Opus | fixed, in r62 batch (de4c352) | two-manager journey 36/36 |
 | G | G-F21 | BH-11 pairing and reconnect fixes from the pairing audit (7 findings, one high: a reload mid-game strands the reconnect) | 🟧 Opus | in progress (branch bugfix/bh-11-pairing-reconnect) | the lead batches it into r62 |
 
@@ -48,8 +50,6 @@ _Gameplay, online sync, every merge and every release (senior director)._ Worker
 
 | Job | What | Worker | State | Waits on |
 | --- | --- | --- | --- | --- |
-| G-F15 | Landscape phone Home layout (844x390): title sits on the wordmark, soundtrack card covers the right tiles (already in r59) | 🟧 Opus | queued for r62 | - |
-| G-F16 | Phone Home nit from Team V (HO-006): second line of START A SHOWDOWN touches the clipboard icon at 393px | 🟧 Opus | queued for r62 | - |
 | G-F3 | Bug-hunting factory: one report thread, Sonnet hunts, Opus fixes, small batch releases | 🟪 Sonnet | queued | G-F1 and Nik's OK |
 | G-F4 | GPT Q&A team: scripted paths and code-vs-rulebook reads | 🟦 Sol chat | queued | G-F1 |
 | G-F7 | Ten-season smoothness run on live 2.0 (emulator, 10 seasons with a mid-game expiry) | 🟪 Sonnet | queued | G-F1 |

@@ -211,37 +211,50 @@ def pipeline(t, md=True):
 
 
 PHYSIO_CHECKS = ("Validate POS20", "Showdown Gate")  # the merge checks the Physio watches
-PHYSIO_ICON = {"clear": "🟢", "barking": "🐕", "stuck": "🔴"}
+PHYSIO_ICON = {"clear": "🩺🟢", "barking": "🩺🐕", "stuck": "🩺🔴", "starting": "🩺"}
+
+
+def physio_line(d):
+    """One plain sentence from a physio/v1 status: {at, state, checks:[{workflow, head_sha, pr, queued_minutes, action, attempt, max_attempts}], helpers_paused}."""
+    st = d.get("state")
+    if st == "stuck":
+        return "Stuck: GitHub is down. The Physio barked twice; it isn't us."
+    if st == "barking":
+        parts = []
+        for c in d.get("checks") or []:
+            if not c.get("queued_minutes"):
+                continue
+            p = f'{str(c.get("workflow", "a check")).replace("Validate ", "")} has waited {c["queued_minutes"]} min for a machine'
+            if d.get("helpers_paused"):
+                p += "; helpers paused"
+            if c.get("attempt"):
+                p += f'; {c.get("action") or "check restarted"} ({c["attempt"]} of {c.get("max_attempts", 2)})'
+            parts.append(p)
+        return "Barking: " + ("; ".join(parts) or "a check is waiting for a machine") + "."
+    return "All clear: every check has a machine."
 
 
 def physio():
-    """The Physio line: the CI watchdog's state (Nik, 2026-10-05).
+    """The Physio line on BOARD.md and the Custom view (Nik named the CI watchdog "the Physio", 2026-10-05).
 
-    The Physio itself (built by the lead with the Showdown Gate) writes PHYSIO.json on factory/gameplay-v1:
-      {"state": "clear" | "barking" | "stuck", "updated": ISO-8601 UTC, "line": "one plain sentence for Nik",
-       "checks": [{"name": "Validate POS20", "waiting_min": 6, "barks": 1, "max_barks": 2, "action": "helpers paused, check restarted"}]}
-    While that file is missing or older than 15 minutes, this falls back to reading queued merge-check runs itself
-    (no barks, it only reports the wait), so the line is never blank and never stale."""
-    p = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "PHYSIO.json")
+    Source: the "Showdown Gate Physio" workflow's physio-status.json (schema physio/v1), saved here as
+    project-documents/gameplay-factory/physio-status.json. It counts as live for 15 minutes after its "at".
+    Until the Physio runs, the line reads "starting soon", plus any merge check GitHub has kept waiting."""
+    p = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "physio-status.json")
     try:
         d = json.load(open(p))
-        if hours_since(d["updated"]) * 60 <= 15 and d.get("state") in PHYSIO_ICON:
-            return {"state": d["state"], "line": d.get("line") or d["state"].title(), "source": "physio"}
+        if hours_since(d["at"]) * 60 <= 15 and d.get("state") in ("clear", "barking", "stuck"):
+            return {"state": d["state"], "line": physio_line(d), "source": "physio"}
     except Exception:
         pass
     runs = api("actions/runs?status=queued&per_page=100")
-    if runs is None:
-        return {"state": "unknown", "line": "Could not read GitHub's queue this run.", "source": "board"}
     waits = {}
-    for r in runs.get("workflow_runs", []):
+    for r in (runs or {}).get("workflow_runs", []):
         name = next((c for c in PHYSIO_CHECKS if (r.get("name") or "").startswith(c)), None)
         if name:
             waits[name] = max(waits.get(name, 0), int(hours_since(r["created_at"]) * 60))
-    if not waits:
-        return {"state": "clear", "line": "All clear: no merge check is waiting for a machine.", "source": "board"}
-    worst = max(waits.values())
-    line = "; ".join(f"{n.replace('Validate ', '')} has waited {m} min for a machine" for n, m in waits.items()) + "."
-    return {"state": "barking" if worst >= 5 else "clear", "line": line, "source": "board"}
+    extra = "".join(f"; {n.replace('Validate ', '')} has waited {m} min for a machine" for n, m in waits.items())
+    return {"state": "starting", "line": "Physio: starting soon" + extra + ".", "source": "board"}
 
 
 def mins(m):

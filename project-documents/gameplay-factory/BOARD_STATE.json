@@ -315,7 +315,7 @@
   "live": {
    "sha": "61489dd",
    "revision": "1.9.1-r61",
-   "when": "2026-10-05T21:37:15Z",
+   "when": "2026-10-05T21:37:15+00:00",
    "subject": "Release r61: phone track list stops below the logo and scrolls; Next To You first (#383)",
    "fixes": [
     {
@@ -326,9 +326,9 @@
      "sha": "152f769b455c3ea96395aae6cd064688130efb10",
      "updated": "2026-10-05T22:19:37Z",
      "gates": {
-      "passed": 9,
-      "running": 1,
-      "failed": 1,
+      "passed": 10,
+      "running": 0,
+      "failed": 2,
       "cancelled": 0
      }
     }
@@ -382,8 +382,8 @@
    ]
   },
   "physio": {
-   "state": "clear",
-   "line": "All clear: no merge check is waiting for a machine.",
+   "state": "starting",
+   "line": "Physio: starting soon.",
    "source": "board"
   },
   "v_headline": "Board 1 (visual package): 238 of 238 jobs done and checked",
@@ -548,13 +548,13 @@
   }
  ],
  "next_move": [
-  "**Nothing waits on you right now.** r62 is filling up: G-F6 and BH-7 are in; BH-8, BH-11, BUG-1 and G-F6b are finishing."
+  "**Nothing waits on you right now.** r62 is nearly full; BH-11, BUG-1 and G-F6b are finishing."
  ],
  "now": {
-  "moving": 8,
+  "moving": 10,
   "next": 2,
   "nik": 4,
-  "later": 6,
+  "later": 4,
   "rows": {
    "G": {
     "moving": [
@@ -590,11 +590,28 @@
       "details": "overlaps G-F11 (old CSS collisions)"
      },
      {
+      "id": "G-F15",
+      "title": "Landscape phone Home layout (844x390): title sits on the wordmark, soundtrack card covers the right tiles (already in r59)",
+      "lane": "opus",
+      "state": "fixed, in r62 batch (4f279dd4)",
+      "waits_on": "r62 release",
+      "details": "before/after screenshots in /mnt/project-files/gameplay/r62/"
+     },
+     {
+      "id": "G-F16",
+      "title": "Phone Home nit from Team V (HO-006): second line of START A SHOWDOWN touches the clipboard icon at 393px",
+      "lane": "opus",
+      "state": "fixed, in r62 batch (4f279dd4)",
+      "waits_on": "r62 release",
+      "details": "before/after screenshots in /mnt/project-files/gameplay/r62/"
+     },
+     {
       "id": "G-F19",
       "title": "BH-8: show the final winner and Close on both phones automatically, with no PREVIEW tap (Nik chose this at 5:56 PM Boston time); applying to the local save stays a tap",
       "lane": "opus",
-      "state": "in progress (branch bugfix/bh-8-auto-final)",
-      "waits_on": "the lead batches it into r62"
+      "state": "fixed, in r62 batch (54dd53a)",
+      "waits_on": "r62 release",
+      "details": "journey 36/36 twice"
      },
      {
       "id": "G-F20",
@@ -660,20 +677,6 @@
     ],
     "later": [
      {
-      "id": "G-F15",
-      "title": "Landscape phone Home layout (844x390): title sits on the wordmark, soundtrack card covers the right tiles (already in r59)",
-      "lane": "opus",
-      "state": "queued for r62",
-      "waits_on": ""
-     },
-     {
-      "id": "G-F16",
-      "title": "Phone Home nit from Team V (HO-006): second line of START A SHOWDOWN touches the clipboard icon at 393px",
-      "lane": "opus",
-      "state": "queued for r62",
-      "waits_on": ""
-     },
-     {
       "id": "G-F3",
       "title": "Bug-hunting factory: one report thread, Sonnet hunts, Opus fixes, small batch releases",
       "lane": "sonnet",
@@ -720,9 +723,9 @@
     "sha": "152f769b455c3ea96395aae6cd064688130efb10",
     "updated": "2026-10-05T22:19:37Z",
     "gates": {
-     "passed": 9,
-     "running": 1,
-     "failed": 1,
+     "passed": 10,
+     "running": 0,
+     "failed": 2,
      "cancelled": 0
     }
    }

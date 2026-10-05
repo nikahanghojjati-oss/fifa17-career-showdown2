@@ -9,6 +9,7 @@ from zoneinfo import ZoneInfo
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import eta as ETA
 from factory_common import F, running_jobs, lane_of, all_bugs, OPEN_BUG, pitch, ALL_LANES, HEX as LANE_HEX
+import re
 import two_factories as TF
 
 BOS = ZoneInfo("America/New_York")
@@ -62,13 +63,20 @@ H = ["<style>"
      '<div class="cv">',
      f'<div class="ban"><b>Showdown · G Factory + V Factory</b><span>Updated {now:%a %-d %b, %-I:%M %p} Boston time · <a href="{BLOB}BOARD.md">Job board</a> · <a href="{BLOB}BUG_BOARD.md">Bug board</a> · <a href="{BLOB}RELAY.md">Relay</a></span></div>',
      f'<div class="tiles"><div class="tile"><b>{e(((st.get("two") or {}).get("live") or {}).get("revision", "?").split("-")[-1])}</b><span>Live</span></div><div class="tile"><b>{NOW.get("moving", 0)}</b><span>Moving</span></div><div class="tile"><b>{NOW.get("next", 0)}</b><span>Up next</span></div><div class="tile"><b>{NOW.get("nik", 0)}</b><span>Waits on Nik</span></div></div>',
-     (lambda p: f'<div class="card" style="margin-top:8px">{TF.PHYSIO_ICON.get(p.get("state"), "⚪")} <b>Physio</b> {e(p.get("line", ""))}</div>')((st.get("two") or {}).get("physio") or {}),
+     (lambda p: f'<div class="card" style="margin-top:8px">{TF.PHYSIO_ICON.get(p.get("state"), "🩺")} <b>{e(p.get("line", "Physio: starting soon."))}</b></div>')((st.get("two") or {}).get("physio") or {}),
      "<h2>Your next move</h2>", '<div class="card move">' + "<br>".join(md(m) for m in st.get("next_move") or ["Nothing for you to start right now."]) + "</div>",
      "<h2>Moving now</h2>"]
 rj = sorted(running_jobs())
 G_W = lambda g: ("checks unknown" if not g else ("🔴 " if g["failed"] else "🟠 " if g["cancelled"] else "⏳ " if g["running"] else "🟢 ") + ", ".join([f'{g["passed"]} passed'] + [f'{g[k]} {k}' for k in ("running", "failed", "cancelled") if g[k]]))
 _mv = [f'<a href="{PR}{x["pr"]}">PR #{x["pr"]}</a> {e(x["title"][:70])} <span class="m">{e(G_W(x.get("gates")))}</span>' for x in NOW.get("fixes", [])]
-_mv += [f'<b>{e(k)} {e(x["id"])}</b> {e(x["title"][:52])} <span class="m">{e(x["state"].split(" (")[0].split(";")[0][:44])}</span>' for k in ("G", "V") for x in (NOW.get("rows", {}).get(k, {}).get("moving") or [])]
+_mvr = [(k, x) for k in ("G", "V") for x in (NOW.get("rows", {}).get(k, {}).get("moving") or [])]
+_batch = {}  # jobs already fixed and waiting in a release batch collapse to one line per release
+for k, x in _mvr:
+    m = re.match(r"fixed, in (r\d+) batch", x["state"])
+    if m:
+        _batch.setdefault(m.group(1), []).append(x["id"])
+_mv += [f'<b>{e(k)} {e(x["id"])}</b> {e(x["title"][:52])} <span class="m">{e(x["state"].split(" (")[0].split(";")[0][:44])}</span>' for k, x in _mvr if not re.match(r"fixed, in r\d+ batch", x["state"])]
+_mv += [f'✅ <b>Fixed, in the {e(r)} batch:</b> {e(", ".join(ids))}' for r, ids in _batch.items()]
 if _mv:
     H.append('<div class="card">' + "<br>".join(_mv) + "</div>")
 elif not rj:

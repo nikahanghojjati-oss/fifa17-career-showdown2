@@ -20,8 +20,8 @@
    "priority": "top",
    "worker": "opus",
    "job": "",
-   "status": "FIXING",
-   "note": "Nik chose show automatically (5:56 PM Boston time); branch bugfix/bh-8-auto-final, rides r62; the final winner and Close appear on both phones with no PREVIEW tap, applying to the local save stays a tap"
+   "status": "MERGED",
+   "note": "Nik chose show automatically; fixed on 54dd53a and in the r62 batch (gameplay/release-r62); journey 36/36 twice"
   },
   {
    "id": "G-F6b",
