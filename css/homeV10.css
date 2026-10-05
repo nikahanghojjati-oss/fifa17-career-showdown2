@@ -76,6 +76,9 @@
   background: rgba(6,7,9,.94) !important; border: 1px solid rgba(242,196,91,.62) !important; box-shadow: 0 18px 48px rgba(0,0,0,.6);
 }
 
+/* The Trophy Room tile carries Team V's league-title trophy at Team V's #trophyRoomButton size. */
+#mainMenu.v10Home #homeTrophyRoomButton .tileArt { right: -12px; bottom: -24px; width: 108px; height: 128px; }
+
 /* ---------- desktop and landscape (Team V's desktop camera, home.js layoutDesktop as CSS) ---------- */
 @media (min-width: 761px), (orientation: landscape) {
   #mainMenu.v10Home {
@@ -103,13 +106,19 @@
 }
 @media (min-width: 761px) and (max-width: 1100px), (orientation: landscape) and (max-width: 1100px) {
   #mainMenu.v10Home .fifaMenuGrid > .menuTile { padding-right: 12px; }
-  /* narrow desktops: Continue keeps room for its player art */
-  #mainMenu.v10Home .fifaMenuGrid > #continueCareer { flex: 2.4 1 0; padding-right: 120px; }
-  #mainMenu.v10Home .menuTileLabel { font-size: 17px; }
-  #mainMenu.v10Home #continueCareer .menuTileLabel { font-size: 22px; }
+  /* narrow desktops: Continue keeps room for its player art, and the six other tiles keep their labels whole */
+  #mainMenu.v10Home .fifaMenuGrid > #continueCareer { flex: 2.2 1 0; padding-right: 120px; }
+  #mainMenu.v10Home .menuTileLabel { font-size: 15px; }
+  #mainMenu.v10Home #continueCareer .menuTileLabel { font-size: 19px; }
+  #mainMenu.v10Home #continueCareer .tileArt, #mainMenu.v10Home #continueCareer:disabled .tileArt { right: 10px; }
+}
+@media (min-width: 761px) and (max-width: 1000px), (orientation: landscape) and (max-width: 1000px) {
+  /* seven tiles in one row on a small window: the six short tiles keep whole words */
+  #mainMenu.v10Home .fifaMenuGrid > .menuTile:not(#continueCareer) { padding-left: 10px; padding-right: 8px; }
+  #mainMenu.v10Home .fifaMenuGrid > .menuTile:not(#continueCareer) .menuTileLabel { font-size: 13px; }
 }
 
-/* ---------- phone portrait (Team V Job 33 + CC-008), with the product's four tiles ---------- */
+/* ---------- phone portrait (Team V Job 33 + CC-008), with all seven tiles (Nik, 2026-10-05) ---------- */
 @media (max-width: 760px) and (orientation: portrait) {
   #mainMenu.v10Home { height: auto; }
   #mainMenu.v10Home > .fifaMenuShell {
@@ -117,23 +126,19 @@
     background: linear-gradient(180deg, rgba(6,7,9,.97), #060709 24%);
   }
   #mainMenu.v10Home > .nav-reserve { grid-row: 3; }
+  /* Team V's phone frame: Continue, then two rows of three tiles, then the soundtrack strip. */
   #mainMenu.v10Home .fifaMenuGrid {
-    grid-template-columns: repeat(6, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     grid-template-rows: 64px minmax(44px, 1fr) minmax(44px, 1fr) 52px;
   }
   #mainMenu.v10Home #continueCareer { grid-column: 1 / -1; grid-row: 1; }
-  #mainMenu.v10Home #newShowdown { grid-column: 1 / -1; grid-row: 2; }
-  #mainMenu.v10Home #ruleBookButton { grid-column: 1 / 4; grid-row: 3; }
-  #mainMenu.v10Home #settingsButton { grid-column: 4 / -1; grid-row: 3; }
-  #mainMenu.v10Home #legacyButton, #mainMenu.v10Home #careerStatisticsButton { grid-column: span 3; grid-row: auto; }
+  #mainMenu.v10Home #newShowdown { grid-column: 1; grid-row: 2; }
+  #mainMenu.v10Home #legacyButton { grid-column: 2; grid-row: 2; }
+  #mainMenu.v10Home #careerStatisticsButton { grid-column: 3; grid-row: 2; }
+  #mainMenu.v10Home #homeTrophyRoomButton { grid-column: 1; grid-row: 3; }
+  #mainMenu.v10Home #ruleBookButton { grid-column: 2; grid-row: 3; }
+  #mainMenu.v10Home #settingsButton { grid-column: 3; grid-row: 3; }
   #mainMenu.v10Home .menuMusicTile { grid-column: 1 / -1; grid-row: 4; }
-  /* Legacy and Statistics stay contained (r43); when an internal audit shows them they get their own row. */
-  #mainMenu.v10Home .fifaMenuGrid:has(> [data-test-surface="internal-audit"]) { grid-template-rows: 64px minmax(44px, 1fr) minmax(44px, 1fr) 44px 52px; }
-  #mainMenu.v10Home .fifaMenuGrid:has(> [data-test-surface="internal-audit"]) > .menuMusicTile { grid-row: 5; }
-  #mainMenu.v10Home .fifaMenuGrid > [data-test-surface="internal-audit"] { grid-row: 4; }
-  /* New / Join takes a full row here, so it keeps the larger label. */
-  #mainMenu.v10Home #newShowdown .menuTileLabel { font-size: 19px; }
-  #mainMenu.v10Home #newShowdown .tileArt { width: 62px; height: 62px; right: 0; bottom: -8px; }
   #mainMenu.v10Home .menuMusicTile { overflow: visible; }
   #mainMenu.v10Home #persistentNikDanielPairPanel { left: 10px; right: 10px; width: auto; top: calc(max(10px, env(safe-area-inset-top)) + 44px); max-height: calc(100vh - 220px); }
   #app #topHeader { left: 10px; right: auto; top: max(10px, env(safe-area-inset-top)); gap: 6px; }

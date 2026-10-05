@@ -27,11 +27,16 @@
     audius:Object.freeze({apiBase:"https://api.audius.co/v1",appName:"CareerModeShowdown17"})
   });
   // Continue shows Team V's number-17 player (owner, 2026-10-05); css/homeV10.css hides the old Reus cover on this Home.
-  // Legacy and Statistics stay hidden by the product's r43 containment; their art shows only if the product shows them.
+  // Nik, 2026-10-05: Home shows all seven of Team V's tiles, so Legacy and Statistics are no longer contained.
   const TILE_ART=Object.freeze({
     continueCareer:"TILE_CONTINUE_V1.webp",newShowdown:"TILE_TACTICS_V1.webp",legacyButton:"TILE_HISTORY_V1.webp",careerStatisticsButton:"TILE_STATISTICS_V1.webp",
     ruleBookButton:"TILE_RULEBOOK_V1.webp",settingsButton:"TILE_SETTINGS_V1.webp"
   });
+  // The seventh tile, Trophy Room, as in Team V's Home frame (home/index.html at 5e05a1f). The product has no Home
+  // button for it, so this Home adds one that opens the product's own Trophy Room route. Its id is not Team V's
+  // #trophyRoomButton, because Career Statistics already owns that id.
+  const TROPHY_TILE=Object.freeze({id:"homeTrophyRoomButton",after:"careerStatisticsButton",code:"HONOURS",label:"TROPHY ROOM",
+    meta:"Career trophies, standings and records",art:"shared/trophies/TRO_LEAGUE_TITLE_V1_512.webp"});
   const CHEVRON='<svg class="tileChevron" aria-hidden="true" focusable="false" viewBox="0 0 12 20"><path d="M2 2l8 8-8 8" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
   const HOME_CSS=Object.freeze(["home/home.css","../../css/homeV10.css"]);
   const PANEL_CLASSES=tile=>tile.id==="continueCareer"?["sd-panel","sd-panel--hero"]:["sd-panel"];
@@ -56,14 +61,25 @@
   function hmLockup(){
     return hmEl("div","homeLockup",'<p class="lockupKicker sd-label" aria-hidden="true">THE RIVALRY STARTS HERE</p><div class="lockupWordmarkWrap sd-title sd-title--wordmark"><span class="sd-visually-hidden">CAREER MODE SHOWDOWN 17</span><img class="lockupWordmark" src="'+BASE+'home/assets/LOGO_CM17_WORDMARK_V1.webp" alt="" aria-hidden="true" width="1040" height="378" decoding="async"></div><p class="lockupLegacy sd-tagline" aria-hidden="true">TWO MANAGERS · ONE LEGACY</p>');
   }
-  function hmTile(id,file){
+  function hmTile(id,file,path){
     const button=hmDoc().getElementById(id);
     if(!button)return;
     if(!button.querySelector(".tileArt")){
-      const img=hmEl("img","tileArt");img.src=BASE+"shared/art/home-tiles/"+file;img.alt="";img.setAttribute("aria-hidden","true");img.decoding="async";
+      const img=hmEl("img","tileArt");img.src=BASE+(path||"shared/art/home-tiles/"+file);img.alt="";img.setAttribute("aria-hidden","true");img.decoding="async";
       button.appendChild(img);
     }
     if(!button.querySelector(".tileChevron"))button.insertAdjacentHTML("beforeend",CHEVRON);
+  }
+
+  function hmTrophyTile(grid){
+    const t=TROPHY_TILE;
+    if(hmDoc().getElementById(t.id))return;
+    const anchor=hmDoc().getElementById(t.after);
+    const button=hmEl("button","menuTile menuTileTrophyRoom",'<span class="menuTileCode">'+t.code+'</span><span class="menuTileLabel">'+t.label+'</span><span class="menuTileMeta">'+t.meta+'</span>');
+    button.id=t.id;button.type="button";button.dataset.routeKey="trophyRoom";
+    button.addEventListener("click",()=>{if(typeof root.openOptionalModule==="function")root.openOptionalModule("trophyRoom");});
+    if(anchor&&anchor.parentNode===grid)anchor.insertAdjacentElement("afterend",button);else grid.appendChild(button);
+    hmTile(t.id,null,t.art);
   }
 
   // The Audius card replaces the YouTube player in place. The product's YouTube nodes (#menuMusicPlayer and the seven
@@ -120,6 +136,7 @@
       host.appendChild(hmDecor("footDeco",'<span>FOOTBALL BRINGS US TOGETHER</span><svg viewBox="0 0 24 18" focusable="false"><path d="M2 16h20l1.5-12-6 5L12 1 6.5 9l-6-5z" fill="#F2C45B"/></svg>'));
     }
     Object.entries(TILE_ART).forEach(([id,file])=>hmTile(id,file));
+    hmTrophyTile(grid);
     // HO-004: every tile is Team V's shared cut-corner panel (Continue is the hero panel), as in Team V's Home frame.
     grid.querySelectorAll(".menuTile").forEach(tile=>tile.classList.add(...PANEL_CLASSES(tile)));
     hmMusic(host);
@@ -137,5 +154,5 @@
     registered=V.show("mainMenu").catch(error=>{root.console?.warn?.("[Career Mode Showdown] Team V Home unavailable.",error);return false;});
     return registered;
   }
-  return Object.freeze({MEDIA,TILE_ART,HOME_CSS,install,decorateHome:hmDecorate,unmountHome:hmUnmount});
+  return Object.freeze({MEDIA,TILE_ART,TROPHY_TILE,HOME_CSS,install,decorateHome:hmDecorate,unmountHome:hmUnmount});
 });
