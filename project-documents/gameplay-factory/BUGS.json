@@ -13,17 +13,6 @@
    "note": "branch bugfix/bh-11-pairing-reconnect, rides r62"
   },
   {
-   "id": "BH-7",
-   "title": "Transient hardening: Setup survives one failed read, throttled Terminal Close retry, quiet re-read for the phone that loses a simultaneous CLOSE, one stale transfer status line",
-   "where": "Setup, Terminal Close, Transfer Window",
-   "type": "gameplay",
-   "priority": "top",
-   "worker": "opus",
-   "job": "",
-   "status": "FIXING",
-   "note": "branch bugfix/bh-7-transient-hardening, rides r62"
-  },
-  {
    "id": "BH-8",
    "title": "Final winner only appears after tapping PREVIEW LOCAL RECONCILIATION (likely the old J10 flake)",
    "where": "Final Winner",
@@ -33,6 +22,17 @@
    "job": "",
    "status": "FIXING",
    "note": "Nik chose show automatically (5:56 PM Boston time); branch bugfix/bh-8-auto-final, rides r62; the final winner and Close appear on both phones with no PREVIEW tap, applying to the local save stays a tap"
+  },
+  {
+   "id": "G-F6b",
+   "title": "Same ResizeObserver fix on the Club screen, and the harmless browser \"ResizeObserver loop\" warning never shows players an error toast",
+   "where": "Club screen, error toasts",
+   "type": "gameplay",
+   "priority": "normal",
+   "worker": "sonnet",
+   "job": "",
+   "status": "FIXING",
+   "note": "branch bugfix/g-f6b-observer-toast, rides r62"
   },
   {
    "id": "BUG-1",
@@ -46,15 +46,26 @@
    "note": "fixed on bugfix/bug-batch-1 (9e012fd), rides r62; same batch: neutral Manager 1/2 fallbacks, 80-character limit on transfer signing names"
   },
   {
+   "id": "BH-7",
+   "title": "Transient hardening: Setup survives one failed read, throttled Terminal Close retry, quiet re-read for the phone that loses a simultaneous CLOSE, one stale transfer status line",
+   "where": "Setup, Terminal Close, Transfer Window",
+   "type": "gameplay",
+   "priority": "top",
+   "worker": "opus",
+   "job": "",
+   "status": "MERGED",
+   "note": "fixed on de4c352 and in the r62 batch (gameplay/release-r62); two-manager journey 36/36 locally"
+  },
+  {
    "id": "G-F6",
-   "title": "Flaky v10-transfer contract (WINDOW_OPEN 390: refresh not clickable)",
+   "title": "Transfer screen race: a slow load raised a 10-second red ResizeObserver toast over REFRESH on phones, and the desktop window button landed below the screen",
    "where": "Transfer Window tests",
    "type": "gameplay",
    "priority": "normal",
    "worker": "opus",
    "job": "",
-   "status": "FIXING",
-   "note": "root cause hunt on branch bugfix/g-f6-transfer-flake, ships in r62"
+   "status": "MERGED",
+   "note": "real product race, not a flaky test; fixed on 6fcda70b and in the r62 batch (gameplay/release-r62); failures went from about 1 in 7 runs to 0 of 66"
   },
   {
    "id": "BH-12",

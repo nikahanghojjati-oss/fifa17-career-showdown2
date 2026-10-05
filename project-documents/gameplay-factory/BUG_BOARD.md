@@ -1,10 +1,10 @@
 # 🐞 Team G bug hunting factory
 
-> Updated **Mon 5 Oct, 6:08 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
+> Updated **Mon 5 Oct, 6:10 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
 
 | 🔓 Open | 🔴 Top priority | 🔧 Fixing or waiting for release | ✅ Fixed and live |
 | :---: | :---: | :---: | :---: |
-| **7** | **3** | **5** | **5** |
+| **8** | **3** | **6** | **5** |
 
 **Lanes:** 🟦 Sol chat · 🟩 Sol Work mode · ⬜ Codex · 🟧 Opus · 🟪 Sonnet · 🟨 Haiku
 
@@ -13,12 +13,13 @@
 | Bug | What happened | Where | Type | Lane | Status | Progress / note |
 | :-- | :-- | :-- | :-- | :-- | :-- | :-- |
 | **BH-11** | 🔴 **top** · Pairing and reconnect fixes: a reload mid-game strands the reconnect (high), durable storage and an explicit confirm before closing the shared career, a lost join reply shows "code already used", startup retry with plain text, a stray local copy after a failed join, wording and a phone clock hint, a pasted code with extra text is rejected | Pairing, reconnect | 🎮 gameplay | 🟧 Opus | 🔧 FIXING | branch bugfix/bh-11-pairing-reconnect, rides r62 |
-| **BH-7** | 🔴 **top** · Transient hardening: Setup survives one failed read, throttled Terminal Close retry, quiet re-read for the phone that loses a simultaneous CLOSE, one stale transfer status line | Setup, Terminal Close, Transfer Window | 🎮 gameplay | 🟧 Opus | 🔧 FIXING | branch bugfix/bh-7-transient-hardening, rides r62 |
 | **BH-8** | 🔴 **top** · Final winner only appears after tapping PREVIEW LOCAL RECONCILIATION (likely the old J10 flake) | Final Winner | 🎮 gameplay | 🟧 Opus | 🔧 FIXING | Nik chose show automatically (5:56 PM Boston time); branch bugfix/bh-8-auto-final, rides r62; the final winner and Close appear on both phones with no PREVIEW tap, applying to the local save stays a tap |
-| **G-F6** | Flaky v10-transfer contract (WINDOW_OPEN 390: refresh not clickable) | Transfer Window tests | 🎮 gameplay | 🟧 Opus | 🔧 FIXING | root cause hunt on branch bugfix/g-f6-transfer-flake, ships in r62 |
+| **BH-7** | 🔴 **top** · Transient hardening: Setup survives one failed read, throttled Terminal Close retry, quiet re-read for the phone that loses a simultaneous CLOSE, one stale transfer status line | Setup, Terminal Close, Transfer Window | 🎮 gameplay | 🟧 Opus | 🔀 MERGED | fixed on de4c352 and in the r62 batch (gameplay/release-r62); two-manager journey 36/36 locally |
+| **G-F6b** | Same ResizeObserver fix on the Club screen, and the harmless browser "ResizeObserver loop" warning never shows players an error toast | Club screen, error toasts | 🎮 gameplay | 🟪 Sonnet | 🔧 FIXING | branch bugfix/g-f6b-observer-toast, rides r62 |
 | **BUG-1** | Raw error codes show in the Setup settle text | Setup | 🎮 gameplay | 🟪 Sonnet | 👀 REVIEW | fixed on bugfix/bug-batch-1 (9e012fd), rides r62; same batch: neutral Manager 1/2 fallbacks, 80-character limit on transfer signing names |
 | **BH-12** | Pairing product calls: RESTORE BACKUP as the main button instead of DELETE, a CANCEL CODE button with visible expiry, show the masked linked email and confirm before JOIN, "revoke mine and join" when both phones host, a clearer same-account message | Pairing | 🎮 gameplay | — | 🆕 NEW | waiting on Nik later; the lead asks once his two current cards are answered |
 | **BH-10** | Later, low: a full 3-of-3 lock asks no confirm (Nik decides later); session-expiry reconnect is still host, code, join rather than one tap; no release-version handshake between the two phones | Locks, reconnect, versions | 🎮 gameplay | — | 🆕 NEW | parked as low priority |
+| **G-F6** | Transfer screen race: a slow load raised a 10-second red ResizeObserver toast over REFRESH on phones, and the desktop window button landed below the screen | Transfer Window tests | 🎮 gameplay | 🟧 Opus | 🔀 MERGED | real product race, not a flaky test; fixed on 6fcda70b and in the r62 batch (gameplay/release-r62); failures went from about 1 in 7 runs to 0 of 66 |
 
 ## ⚽ Jobs running now
 

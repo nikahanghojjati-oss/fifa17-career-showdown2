@@ -1,20 +1,21 @@
 # Showdown board: G Factory and V Factory
 
-🌐 **Live: runtime 1.9.1-r61** (main `61489dd`) · 🔄 **6 moving** · ⏭ 2 up next · 👤 4 waiting on Nik · 🗂 6 later · updated 2026-10-05 6:08 PM Boston time (EDT)
+🌐 **Live: runtime 1.9.1-r61** (main `61489dd`) · 🔄 **7 moving** · ⏭ 2 up next · 👤 4 waiting on Nik · 🗂 6 later · updated 2026-10-05 6:10 PM Boston time (EDT)
 
 ## Your next move
 
-1. **Nothing waits on you right now.** Your BH-8 choice is being built for r62 with BUG-1, BH-7, BH-11 and the G-F6 test fix; the Showdown Gate runs in shadow beside POS20 first.
+1. **Nothing waits on you right now.** r62 is filling up: G-F6 and BH-7 are fixed and in the batch; BH-8, BH-11, BUG-1 and G-F6b are finishing. The Showdown Gate runs in shadow beside POS20 first.
 
 ## 🔄 Moving now
 
 | Team | Job | What | Worker | Where it is | Details |
 | --- | --- | --- | --- | --- | --- |
-| G | G-F6 | Small gameplay follow-ups: transfer message after session expiry, the 'Career screens could not load' toast when online history is only unavailable, and the flaky v10-transfer contract ('WINDOW_OPEN 390: refresh not clickable'). Raw Setup error codes moved to BUG-1 | 🟧 Opus | in progress: flaky transfer test (branch bugfix/g-f6-transfer-flake) | the lead batches it into r62 |
+| G | G-F6 | Transfer screen race (was the flaky v10-transfer test): a slow load raised a red error toast over REFRESH on phones, and the desktop window button sat below the screen | 🟧 Opus | fixed, in r62 batch (6fcda70b) | 0 failures in 66 runs, was about 1 in 7 |
+| G | G-F6b | Same ResizeObserver fix on the Club screen; the harmless browser "ResizeObserver loop" warning never shows players an error toast | 🟪 Sonnet | in progress (branch bugfix/g-f6b-observer-toast) | the lead batches it into r62 |
 | G | G-F17 | Showdown Gate: replace POS20 with a faster check system built on Claude and GitHub, keeping every check (plan: /mnt/project-files/check-system/SHOWDOWN_GATE_PLAN.md) | 🟧 Opus | building shadow; then ~10-PR shadow (3-5 days), then archive POS20 | Nik 6:02 PM Boston time: gradual replacement; POS20 is archived to authority-history/pos20-archive/, not deleted |
 | G | G-F18 | Old-design screen audit: Legacy, Career Statistics and Trophy Room still open in the old shell; drive every live screen in a browser against Team V's design and route all of them to the new design | 🟧 Opus | in progress (thread "Old-design screen audit", Nik asked at 5:16 PM Boston time) | overlaps G-F11 (old CSS collisions) |
 | G | G-F19 | BH-8: show the final winner and Close on both phones automatically, with no PREVIEW tap (Nik chose this at 5:56 PM Boston time); applying to the local save stays a tap | 🟧 Opus | in progress (branch bugfix/bh-8-auto-final) | the lead batches it into r62 |
-| G | G-F20 | BH-7 transient hardening: Setup read, Terminal Close retry, simultaneous CLOSE re-read, stale transfer status line | 🟧 Opus | in progress (branch bugfix/bh-7-transient-hardening) | the lead batches it into r62 |
+| G | G-F20 | BH-7 transient hardening: Setup read, Terminal Close retry, simultaneous CLOSE re-read, stale transfer status line | 🟧 Opus | fixed, in r62 batch (de4c352) | two-manager journey 36/36 |
 | G | G-F21 | BH-11 pairing and reconnect fixes from the pairing audit (7 findings, one high: a reload mid-game strands the reconnect) | 🟧 Opus | in progress (branch bugfix/bh-11-pairing-reconnect) | the lead batches it into r62 |
 
 ## 🟢 G Factory

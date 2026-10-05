@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 6:08 PM Boston time (EDT)",
+ "generated": "2026-10-05 6:10 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -315,7 +315,7 @@
   "live": {
    "sha": "61489dd",
    "revision": "1.9.1-r61",
-   "when": "2026-10-05T21:37:15Z",
+   "when": "2026-10-05T21:37:15+00:00",
    "subject": "Release r61: phone track list stops below the logo and scrolls; Next To You first (#383)",
    "fixes": [],
    "today": [
@@ -528,10 +528,10 @@
   }
  ],
  "next_move": [
-  "**Nothing waits on you right now.** Your BH-8 choice is being built for r62 with BUG-1, BH-7, BH-11 and the G-F6 test fix; the Showdown Gate runs in shadow beside POS20 first."
+  "**Nothing waits on you right now.** r62 is filling up: G-F6 and BH-7 are fixed and in the batch; BH-8, BH-11, BUG-1 and G-F6b are finishing. The Showdown Gate runs in shadow beside POS20 first."
  ],
  "now": {
-  "moving": 6,
+  "moving": 7,
   "next": 2,
   "nik": 4,
   "later": 6,
@@ -540,9 +540,17 @@
     "moving": [
      {
       "id": "G-F6",
-      "title": "Small gameplay follow-ups: transfer message after session expiry, the 'Career screens could not load' toast when online history is only unavailable, and the flaky v10-transfer contract ('WINDOW_OPEN 390: refresh not clickable'). Raw Setup error codes moved to BUG-1",
+      "title": "Transfer screen race (was the flaky v10-transfer test): a slow load raised a red error toast over REFRESH on phones, and the desktop window button sat below the screen",
       "lane": "opus",
-      "state": "in progress: flaky transfer test (branch bugfix/g-f6-transfer-flake)",
+      "state": "fixed, in r62 batch (6fcda70b)",
+      "waits_on": "r62 release",
+      "details": "0 failures in 66 runs, was about 1 in 7"
+     },
+     {
+      "id": "G-F6b",
+      "title": "Same ResizeObserver fix on the Club screen; the harmless browser \"ResizeObserver loop\" warning never shows players an error toast",
+      "lane": "sonnet",
+      "state": "in progress (branch bugfix/g-f6b-observer-toast)",
       "waits_on": "the lead batches it into r62"
      },
      {
@@ -572,8 +580,9 @@
       "id": "G-F20",
       "title": "BH-7 transient hardening: Setup read, Terminal Close retry, simultaneous CLOSE re-read, stale transfer status line",
       "lane": "opus",
-      "state": "in progress (branch bugfix/bh-7-transient-hardening)",
-      "waits_on": "the lead batches it into r62"
+      "state": "fixed, in r62 batch (de4c352)",
+      "waits_on": "r62 release",
+      "details": "two-manager journey 36/36"
      },
      {
       "id": "G-F21",
