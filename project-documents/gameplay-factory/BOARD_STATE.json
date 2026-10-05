@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 11:47 AM Boston time (EDT)",
+ "generated": "2026-10-05 11:50 AM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 27,
@@ -266,8 +266,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "e94dfab",
-  "head_boston": "Mon 5 Oct 11:46 AM",
+  "head": "cee0f38",
+  "head_boston": "Mon 5 Oct 11:47 AM",
   "latest_id": "G2V-014",
   "feed_matches_latest": true,
   "open_for_g": [],
@@ -322,8 +322,8 @@
     "from": "G",
     "to": "V",
     "title": "Use hand-off tickets for passing work (relay v1.1)",
-    "stage": "RECEIVED",
-    "pct": 0.0,
+    "stage": "DONE",
+    "pct": 100.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-001_use-hand-off-tickets-for-passing-work-re.md",
     "worker": "opus"
