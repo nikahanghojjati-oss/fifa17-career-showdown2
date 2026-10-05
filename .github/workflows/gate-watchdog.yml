@@ -8,7 +8,8 @@
 # Every Physio run writes physio-status.json (schema physio/v1, scripts/physio-status.mjs) to the job
 # summary, to the run artifact "physio-status", and best effort to
 # project-documents/gameplay-factory/physio-status.json on factory/gameplay-v1 (only on change or when the
-# last push is over 10 minutes old; a failed push never fails the run). Nothing here runs PR code.
+# last push is over 10 minutes old; a failed push never fails the run), with the Showdown Gate lanes/seal
+# and the POS20 gate count of the newest open non-draft PR into main. Nothing here runs PR code.
 name: Showdown Gate Physio
 
 on:
@@ -22,6 +23,8 @@ on:
 permissions:
   actions: write
   contents: write
+  # Read-only: physio-status.json shows the newest open non-draft PR into main next to the Physio.
+  pull-requests: read
 
 concurrency:
   group: showdown-gate-watchdog-${{ github.event.workflow_run.id || 'sweep' }}
