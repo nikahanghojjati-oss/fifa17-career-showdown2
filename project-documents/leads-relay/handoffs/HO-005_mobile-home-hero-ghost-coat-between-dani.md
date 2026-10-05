@@ -11,10 +11,10 @@
  "worker": "images",
  "parent": null,
  "job": "V-243",
- "status": "WORKING",
+ "status": "DONE",
  "steps": [],
- "evidence": [],
- "log": [{"at": "2026-10-05T13:02:33Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-10-05T15:46:05Z", "by": "V", "status": "RECEIVED", "note": "top priority; V2 phone overlays, each manager only"}, {"at": "2026-10-05T16:03:07Z", "by": "V", "status": "WORKING", "note": "V2 overlays on branch v-243-home-phone-overlays-v2, PR #372"}]
+ "evidence": ["factory/v1-wtt5ye @ 2daf437 (PR #372 merged) - OVL_HOME_DANIEL_PHONE_V2.webp sha256 9c2bde33..., OVL_HOME_NIK_PHONE_V2.webp sha256 8b655132...; details project-documents/factory/handoffs/HO-005_RESULT.md"],
+ "log": [{"at": "2026-10-05T13:02:33Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-10-05T15:46:05Z", "by": "V", "status": "RECEIVED", "note": "top priority; V2 phone overlays, each manager only"}, {"at": "2026-10-05T16:03:07Z", "by": "V", "status": "WORKING", "note": "V2 overlays on branch v-243-home-phone-overlays-v2, PR #372"}, {"at": "2026-10-05T16:04:08Z", "by": "V", "status": "DONE", "note": "V2 overlays ready to copy; please render 390x844 and 430x932 on the live layout"}]
 }
 ```
 
