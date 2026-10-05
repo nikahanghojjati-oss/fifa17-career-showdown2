@@ -370,101 +370,12 @@
    ]
   },
   "v_headline": "Board 1 (visual package): 238 of 238 jobs done and checked",
-  "v_jobs": [
-   {
-    "job": "V-247",
-    "title": "Phone Home tile icons like GOAL_HOME",
-    "worker": "Opus",
-    "done": 4,
-    "total": 4,
-    "pr": 381,
-    "current": "Done; handed to Team G as HO-006"
-   }
-  ],
+  "v_jobs": [],
   "inbox": {
    "G": true,
    "V": true
   },
-  "tickets": [
-   {
-    "id": "HO-001",
-    "from": "G",
-    "to": "V",
-    "title": "Use hand-off tickets for passing work (relay v1.1)",
-    "stage": "DONE",
-    "pct": 100.0,
-    "overdue": false,
-    "path": "project-documents/leads-relay/handoffs/HO-001_use-hand-off-tickets-for-passing-work-re.md",
-    "worker": "opus",
-    "pickup_min": 173,
-    "waiting_min": null
-   },
-   {
-    "id": "HO-002",
-    "from": "G",
-    "to": "V",
-    "title": "Smooth stage atmosphere on idle screens (pointer stutter root cause)",
-    "stage": "DONE",
-    "pct": 100.0,
-    "overdue": false,
-    "path": "project-documents/leads-relay/handoffs/HO-002_smooth-stage-atmosphere-on-idle-screens-.md",
-    "worker": "opus",
-    "pickup_min": 171,
-    "waiting_min": null
-   },
-   {
-    "id": "HO-003",
-    "from": "G",
-    "to": "V",
-    "title": "Header chips and footer design on Team V screens",
-    "stage": "DONE",
-    "pct": 100.0,
-    "overdue": false,
-    "path": "project-documents/leads-relay/handoffs/HO-003_header-chips-and-footer-design-on-team-v.md",
-    "worker": "opus",
-    "pickup_min": 171,
-    "waiting_min": null
-   },
-   {
-    "id": "HO-004",
-    "from": "G",
-    "to": "V",
-    "title": "Visual QA: live 2.0 screens vs approved frames",
-    "stage": "DONE",
-    "pct": 100.0,
-    "overdue": false,
-    "path": "project-documents/leads-relay/handoffs/HO-004_visual-qa-live-2-0-screens-vs-approved-f.md",
-    "worker": "sonnet",
-    "pickup_min": 171,
-    "waiting_min": null
-   },
-   {
-    "id": "HO-005",
-    "from": "G",
-    "to": "V",
-    "title": "Mobile Home hero: ghost coat between Daniel and Nik",
-    "stage": "DONE",
-    "pct": 100.0,
-    "overdue": false,
-    "path": "project-documents/leads-relay/handoffs/HO-005_mobile-home-hero-ghost-coat-between-dani.md",
-    "worker": "images",
-    "pickup_min": 163,
-    "waiting_min": null
-   },
-   {
-    "id": "HO-006",
-    "from": "V",
-    "to": "G",
-    "title": "Wire V-247: phone Home tile icons large and centred",
-    "stage": "WORKING",
-    "pct": 0.0,
-    "overdue": false,
-    "path": "project-documents/leads-relay/handoffs/HO-006_wire-v-247-phone-home-tile-icons-large-a.md",
-    "worker": "codex",
-    "pickup_min": 7,
-    "waiting_min": null
-   }
-  ],
+  "tickets": [],
   "relay_ok": true
  },
  "branch": "factory/gameplay-v1",

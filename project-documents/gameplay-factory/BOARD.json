@@ -710,19 +710,26 @@
      "id": "G-F13",
      "title": "Home soundtrack: 11 Audius tracks, Nasty first, Shelter remix and High And Low cover",
      "lane": "opus",
-     "state": "in r60 (PRs #379, #380, #382 merged into #378)",
+     "state": "merged to main in r60 (d8e6c44), live check running",
      "waits_on": "r60 release"
     },
     {
      "id": "G-F14",
      "title": "Phone track list: stop below the logo and scroll with 11 tracks",
      "lane": "opus",
-     "state": "ready (PR #383), ships in r61",
-     "waits_on": "r60 on main, then retarget #383 to main"
+     "state": "ready (PR #383 into main, 1 commit on r60), ships in r61",
+     "waits_on": "lead bundles r61"
     },
     {
      "id": "G-F15",
      "title": "Landscape phone Home layout (844x390): title sits on the wordmark, soundtrack card covers the right tiles (already in r59)",
+     "lane": "opus",
+     "state": "queued for r61",
+     "waits_on": ""
+    },
+    {
+     "id": "G-F16",
+     "title": "Phone Home nit from Team V (HO-006): second line of START A SHOWDOWN touches the clipboard icon at 393px",
      "lane": "opus",
      "state": "queued for r61",
      "waits_on": ""
