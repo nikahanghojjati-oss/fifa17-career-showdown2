@@ -177,33 +177,53 @@ def running_jobs():
     return out
 
 
-def pitch(p, width=20):
-    k = min(width - 1, p * width // 100) if p < 100 else width
-    if p >= 100:
-        return "🟩" * width + " 🥅 GOAL"
-    return "🟩" * k + "⚽" + "⬜" * (width - k - 1) + " 🥅"
+LANES = {"sol-chat": ("🟦", "Sol chat"), "sol-work": ("🟩", "Sol Work mode"), "codex": ("⬜", "Codex"),
+         "opus": ("🟧", "Opus"), "sonnet": ("🟪", "Sonnet"), "haiku": ("🟨", "Haiku")}
+
+
+def lane_of(r):
+    w = str(r.get("worker", "")).lower().replace(" ", "-")
+    if w in LANES:
+        return LANES[w]
+    o = str(r.get("owner", "")).lower()
+    for k in ("sonnet", "opus", "haiku", "codex"):
+        if k in o:
+            return LANES[k]
+    return ("⬛", "worker not set")
+
+
+def pitch(frac, sq, width=20):
+    if frac >= 1:
+        return sq * width + " 🥅 GOAL"
+    k = int(frac * width)
+    return sq * k + "⚽" + "▫️" * (width - k - 1) + " 🥅"
 
 
 rj = running_jobs()
 L += ["## Running now", ""]
 if rj:
-    L += ["Each bar is the real count of finished steps for that job (finished steps / all steps). Nothing is estimated. Job owners update their own file in [progress/](progress/).", ""]
+    L += ["Each bar is the real count of finished steps for that job (finished steps / all steps, to two decimals). Nothing is estimated. Lanes: " +
+          " · ".join(f"{sq} {name}" for sq, name in LANES.values()) + ".", ""]
     for n, r, k, t in rj:
-        p = int(100 * k / max(t, 1))
+        sq, who = lane_of(r)
+        pc = 100 * k / max(t, 1)
         try:
             upd = boston_from_utc(r["updated"][:16].replace("T", " "))
         except Exception:
             upd = "unknown"
-        nxt = next((s_["name"] for s_ in r["steps"] if not s_.get("done")), "done")
-        L += [f"**Job {n} · {r['title']}** · {r.get('owner', '')}", "",
-              f"{pitch(p)} **{p} %** ({k} of {t} steps)", "",
-              f"Now: {r.get('current', '')}  ", f"Next step: {nxt} · updated {upd} Boston time", ""]
+        left = [s_["name"] for s_ in r["steps"] if not s_.get("done")]
+        L += [f"### {sq} Job {n} · {r['title']}", "", f"{who} · {r.get('owner', '')}" + (f" · PR #{r['pr']}" if r.get("pr") else ""), "",
+              f"{pitch(k / max(t, 1), sq)} **{pc:.2f} %** ({k} of {t} steps)", "",
+              f"**Going on now:** {r.get('current', '')}", ""]
+        if left:
+            L += ["**Still to do:** " + " → ".join(left), ""]
+        L += [f"_Updated {upd} Boston time_", ""]
     ids = {n for n, *_ in rj}
     missing = [f"job {j['number']}" for j in jobs if info[j["number"]][0] == "WORKING" and j["number"] not in ids]
     if missing:
         L += ["Not reported: " + ", ".join(missing) + ".", ""]
 else:
-    L += ["No job is reporting progress right now.", ""]
+    L += ["No job is reporting progress right now (jobs show here once their PR description carries a progress block).", ""]
 
 # ---- Live fixes and bug hunt
 L += ["## Live fixes and bug hunt", ""]

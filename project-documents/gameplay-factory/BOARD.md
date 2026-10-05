@@ -1,6 +1,6 @@
 # Team G gameplay board
 
-20 of 33 jobs done (70 %) ███████░░░ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-04 8:33 PM Boston time (EDT)
+20 of 33 jobs done (70 %) ███████░░░ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-04 8:34 PM Boston time (EDT)
 
 ## Your next move
 
@@ -16,7 +16,7 @@ Gameplay factory job NN. Read https://raw.githubusercontent.com/nikahanghojjati-
 
 ## Running now
 
-No job is reporting progress right now.
+No job is reporting progress right now (jobs show here once their PR description carries a progress block).
 
 ## Live fixes and bug hunt
 

@@ -1,7 +1,12 @@
-# Job progress files
+# Job progress
 
-Job owners commit `project-documents/gameplay-factory/progress/job-NN.json` on their OWN job branch (the one with the open PR),
-and push it with their normal pushes. Nobody pushes progress to `factory/gameplay-v1`.
-Format: `job`, `title`, `owner`, `steps` (`[{name, done}]`), `current`, `updated` (UTC ISO 8601).
-`tools/collect_progress.py` reads the file from every open PR's head branch and the board shows percent = done steps / total steps.
-No file = "not reported". The file disappears from the board when the PR closes. Keep it out of the final merge diff if you can (delete it in the last commit).
+Each job owner keeps one fenced block in its PR description (edit the PR body with the GitHub MCP `update_pull_request` tool; no push, no CI):
+
+````
+```progress
+{"job":"28","title":"Rivalry Stats and Legacy","worker":"sonnet","owner":"Sonnet thread","steps":[{"name":"Build","done":true},{"name":"CI green","done":false}],"current":"what is happening now","updated":"2026-10-05T00:24:00Z"}
+```
+````
+
+`worker` is one of `sol-chat`, `sol-work`, `codex`, `opus`, `sonnet`, `haiku` (sets the lane colour). The board shows percent = done steps / total steps, to two decimals.
+`tools/collect_progress.py` reads the block from every open PR; no block = "not reported". The workflows `gameplay-factory-progress.yml` and `gameplay-factory-board.yml` refresh the board.

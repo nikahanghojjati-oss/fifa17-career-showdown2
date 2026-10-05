@@ -1,7 +1,7 @@
 name: Gameplay factory progress poller
 
-# Keeps the "Running now" bars on BOARD.md fresh with zero Claude usage. Job owners commit progress/job-NN.json on their own job branch;
-# this reads it from every open PR head (tools/collect_progress.py) every 3 minutes, rebuilds the board, and re-dispatches itself
+# Keeps the "Running now" bars on BOARD.md fresh with zero Claude usage. Job owners keep a progress block in their PR description (no push, no CI);
+# this reads it from the progress block in every open PR description (tools/collect_progress.py) every 3 minutes, rebuilds the board, and re-dispatches itself
 # while any progress file exists. It stops on its own when none exist; the board workflow restarts it on the next factory push.
 # (Schedules only run on the default branch, which this workflow deliberately never touches, so it chains itself instead.)
 on:
