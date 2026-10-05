@@ -26,7 +26,17 @@ test('POS10 remains the frozen executable safety kernel beneath POS20 successor 
   assert.equal(json('CURRENT_PRODUCT_GUARDS.json').operatingSystem,'POS10');
   for(const [file,sha] of Object.entries(kernel.gitBlobShas))assert.equal(execFileSync('git',['hash-object',file],{encoding:'utf8'}).trim(),sha,`${file} changed beneath POS20`);
   const workflowFiles=fs.readdirSync('.github/workflows').map(file=>`.github/workflows/${file}`);
-  assert.equal(workflowFiles.filter(file=>/^\s*pull_request\s*:/m.test(read(file))).length,1);
+  // Narrow allowlist: the Showdown Gate phase-1 shadow is the only extra pull_request workflow. It is never
+  // required, is read-only, and none of its checks may carry a POS20 name that POS20 recovery would consume.
+  const shadowPullRequestWorkflows=['.github/workflows/showdown-gate.yml'];
+  const pullRequestWorkflows=workflowFiles.filter(file=>/^\s*pull_request\s*:/m.test(read(file)));
+  assert.deepEqual(pullRequestWorkflows.filter(file=>!shadowPullRequestWorkflows.includes(file)),['.github/workflows/validate-pos10.yml']);
+  assert.equal(pullRequestWorkflows.length-pullRequestWorkflows.filter(file=>shadowPullRequestWorkflows.includes(file)).length,1);
+  for(const file of pullRequestWorkflows.filter(file=>shadowPullRequestWorkflows.includes(file))){
+    const text=read(file);
+    assert.doesNotMatch(text,/^\s*name:\s*['"]?POS20\b/m,`${file} must not publish POS20-named checks`);
+    assert.doesNotMatch(text,/pull_request_target|:\s*write\b/,`${file} must stay read-only`);
+  }
 });
 
 test('current POS10 kernel filing, response and recovery policies remain versioned and internally consistent',()=>{

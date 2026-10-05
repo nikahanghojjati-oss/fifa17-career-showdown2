@@ -1,0 +1,64 @@
+# Factory board tick: one round of the gameplay factory progress poller every 5 minutes, from main's
+# schedule, instead of a self-chaining poller that holds a machine for ~20 minutes. It steps aside while a
+# Validate POS20, Validate Gameplay Fast or Showdown Gate run is queued, so the board never takes a machine
+# a check is waiting for. Renders and commits on factory/gameplay-v1 exactly like the poller's round.
+name: Factory board tick
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: read
+  pull-requests: read
+  checks: read
+  issues: read
+
+concurrency:
+  group: factory-board-tick
+  cancel-in-progress: true
+
+jobs:
+  tick:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 3
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: Yield to queued checks
+        id: yield
+        shell: bash
+        run: |
+          set -euo pipefail
+          queued=$(gh api "repos/$GITHUB_REPOSITORY/actions/runs?status=queued&per_page=100" --jq '[.workflow_runs[] | select(.name | test("^(Validate POS20|Validate Gameplay Fast|Showdown Gate)"))] | length')
+          echo "queued priority runs: $queued"
+          if [ "$queued" != "0" ]; then echo "skip=1" >> "$GITHUB_OUTPUT"; echo "yield"; else echo "skip=0" >> "$GITHUB_OUTPUT"; fi
+      - uses: actions/checkout@v5
+        if: steps.yield.outputs.skip != '1'
+        with:
+          ref: factory/gameplay-v1
+          fetch-depth: 20
+      - name: Render the boards and commit when a row changed
+        if: steps.yield.outputs.skip != '1'
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          B=project-documents/gameplay-factory
+          for try in 1 2; do
+            git fetch -q origin factory/gameplay-v1
+            git reset -q --hard origin/factory/gameplay-v1
+            python3 $B/tools/collect_progress.py
+            python3 $B/tools/board.py; python3 $B/tools/bug_board.py >/dev/null; python3 $B/tools/relay_page.py >/dev/null; python3 $B/tools/custom_view.py >/dev/null
+            AGE=$(( $(date +%s) - $(git log -1 --format=%ct -- $B/CUSTOM_VIEW.html 2>/dev/null || echo 0) ))
+            if git diff -U0 -- $B/BOARD.md $B/BUG_BOARD.md $B/RELAY.md $B/CUSTOM_VIEW.html | grep '^[-+][^-+]' | grep -Ev '· generated 20|Updated [A-Z][a-z]{2} ' | grep -q . || ! git ls-files --error-unmatch $B/RELAY.md >/dev/null 2>&1 || [ "$AGE" -gt 3600 ]; then
+              git add $B/BOARD.md $B/BOARD_ARCHIVE.md $B/BOARD_STATE.json $B/BUG_BOARD.md $B/CUSTOM_VIEW.html $B/TEAM_G_PROGRESS.json $B/RELAY.md
+              git commit -qm "Gameplay factory: progress bars update [skip ci]"
+              if git push -q origin HEAD:factory/gameplay-v1; then echo "board pushed"; break; fi
+              echo "push raced; retrying from the new tip"
+            else
+              echo "no row changed and the view is under an hour old"; break
+            fi
+          done

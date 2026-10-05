@@ -1,0 +1,47 @@
+# Showdown Gate watchdog (phase 1 shadow). Re-runs only Showdown Gate jobs where GitHub never started a
+# TEST: step (no machine, lost runner, setup died), at most 2 automatic re-runs per head. A started TEST:
+# step that did not succeed is a real failure and is never re-run. It never acts on Validate POS20 or
+# Validate Gameplay Fast: scripts/gate-watchdog.mjs refuses any run that is not Showdown Gate.
+name: Showdown Gate watchdog
+
+on:
+  workflow_run:
+    workflows: [Showdown Gate]
+    types: [completed]
+  schedule:
+    - cron: '*/10 * * * *'
+  workflow_dispatch:
+
+permissions:
+  actions: write
+  contents: read
+
+concurrency:
+  group: showdown-gate-watchdog-${{ github.event.workflow_run.id || 'sweep' }}
+  cancel-in-progress: false
+
+jobs:
+  watchdog:
+    name: Showdown Gate watchdog
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 1
+          sparse-checkout: |
+            scripts
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+      - name: Classify the completed Showdown Gate run
+        if: github.event_name == 'workflow_run'
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          GATE_RUN_ID: ${{ github.event.workflow_run.id }}
+        run: node scripts/gate-watchdog.mjs --repo "$GITHUB_REPOSITORY" --run-id "$GATE_RUN_ID"
+      - name: Sweep recent Showdown Gate runs
+        if: github.event_name != 'workflow_run'
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: node scripts/gate-watchdog.mjs --repo "$GITHUB_REPOSITORY" --sweep --since-minutes 180
