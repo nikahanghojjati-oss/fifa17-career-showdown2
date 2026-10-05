@@ -72,6 +72,14 @@ html[data-v10-screen]:not([data-v10-setup]):not([data-v10-screen="mainMenu"]) #a
   }
 }
 
+/* HO-004 (V-245): css/app.css .screen clamps every screen to --safe-width (1510px) and contains its layout, so
+   Team V's full-viewport Career Statistics and Trophy Room stages were boxed with a black band on each side.
+   While mounted the host fills the viewport under the nav bar, like the Rule Book and Standings stages. */
+html[data-v10-screen="careerStatistics"] #careerStatistics.careerScreenV10,
+html[data-v10-screen="trophyRoom"] #trophyRoom.careerScreenV10 {
+  position: fixed; inset: 0; z-index: 30; width: auto; max-width: none; height: auto; min-height: 0; margin: 0; padding: 0; contain: none;
+}
+
 /* Old analytics.css styles .trophyShelf (a light #e9eef0 band), a class name Team V's Trophy Room reuses. */
 .careerScreenV10 .trophyShelf { background: none; }
 
