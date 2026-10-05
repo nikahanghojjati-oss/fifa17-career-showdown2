@@ -1,16 +1,12 @@
 # Showdown board: G Factory and V Factory
 
-🌐 **Live: runtime 1.9.1-r60** (main `d8e6c44`) · 🔄 **5 moving** · ⏭ 2 up next · 👤 3 waiting on Nik · 🗂 6 later · updated 2026-10-05 5:37 PM Boston time (EDT)
+🌐 **Live: runtime 1.9.1-r61** (main `61489dd`) · 🔄 **4 moving** · ⏭ 2 up next · 👤 3 waiting on Nik · 🗂 6 later · updated 2026-10-05 5:40 PM Boston time (EDT)
 
 ## Your next move
 
 1. **r61 is in its final checks:** the phone song list stops below the logo and scrolls, and Next To You plays first. It goes live as soon as the checks pass. Nothing for you to do.
 
 ## 🔄 Moving now
-
-| Release / fix | Checks on the latest commit | Updated |
-| --- | --- | --- |
-| [PR #383](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/383) Release r61: phone track list stops below the logo and scrolls | 🟢 16 passed | 5:24 PM |
 
 | Team | Job | What | Worker | Where it is | Details |
 | --- | --- | --- | --- | --- | --- |
@@ -71,7 +67,7 @@ Latest:
 
 ## ✅ Finished
 
-**Shipped to the live game today (8):** [#378](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/378) G-36: No old player photos + seven Home tiles (r60) · [#377](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/377) G-35: Team V screen fixes HO-003 + HO-004 (r59, includes r5… · [#371](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/371) G-34: Team V's Club Assignment on the live screen (r57) · [#369](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/369) Live 2.0 screen fixes: Trophy Room clipping, Start Showdown… · and 4 more
+**Shipped to the live game today (9):** [#383](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/383) Release r61: phone track list stops below the logo and scro… · [#378](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/378) G-36: No old player photos + seven Home tiles (r60) · [#377](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/377) G-35: Team V screen fixes HO-003 + HO-004 (r59, includes r5… · [#371](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/371) G-34: Team V's Club Assignment on the live screen (r57) · and 5 more
 
 <details>
 <summary>Done jobs (6 future-list rows, 1 Team V jobs, 6 hand-offs, 33 factory jobs)</summary>

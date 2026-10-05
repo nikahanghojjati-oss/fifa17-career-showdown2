@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 5:37 PM Boston time (EDT)",
+ "generated": "2026-10-05 5:40 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -313,27 +313,17 @@
  },
  "two": {
   "live": {
-   "sha": "d8e6c44",
-   "revision": "1.9.1-r60",
-   "when": "2026-10-05T18:51:23Z",
-   "subject": "Release r60: no old player photos, seven Home tiles, 11-track soundtrack, phone tile icons (#378)",
-   "fixes": [
+   "sha": "61489dd",
+   "revision": "1.9.1-r61",
+   "when": "2026-10-05T21:37:15Z",
+   "subject": "Release r61: phone track list stops below the logo and scrolls; Next To You first (#383)",
+   "fixes": [],
+   "today": [
     {
      "pr": 383,
      "title": "Release r61: phone track list stops below the logo and scrolls",
-     "draft": false,
-     "branch": "fix/music-phone-sheet",
-     "sha": "3407500ebd373f2e67a1645c3d82ecac6bbe5d70",
-     "updated": "2026-10-05T21:24:59Z",
-     "gates": {
-      "passed": 16,
-      "running": 0,
-      "failed": 0,
-      "cancelled": 0
-     }
-    }
-   ],
-   "today": [
+     "merged": "2026-10-05T21:37:15Z"
+    },
     {
      "pr": 378,
      "title": "G-36: No old player photos + seven Home tiles (r60)",
@@ -541,7 +531,7 @@
   "**r61 is in its final checks:** the phone song list stops below the logo and scrolls, and Next To You plays first. It goes live as soon as the checks pass. Nothing for you to do."
  ],
  "now": {
-  "moving": 5,
+  "moving": 4,
   "next": 2,
   "nik": 3,
   "later": 6,
@@ -671,22 +661,7 @@
     ]
    }
   },
-  "fixes": [
-   {
-    "pr": 383,
-    "title": "Release r61: phone track list stops below the logo and scrolls",
-    "draft": false,
-    "branch": "fix/music-phone-sheet",
-    "sha": "3407500ebd373f2e67a1645c3d82ecac6bbe5d70",
-    "updated": "2026-10-05T21:24:59Z",
-    "gates": {
-     "passed": 16,
-     "running": 0,
-     "failed": 0,
-     "cancelled": 0
-    }
-   }
-  ]
+  "fixes": []
  },
  "jobs": [
   {
