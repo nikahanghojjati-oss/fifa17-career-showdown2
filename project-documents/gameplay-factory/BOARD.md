@@ -1,8 +1,8 @@
 # Showdown board: G Factory and V Factory
 
-🌐 **Live: runtime 1.9.1-r61** (main `84a04d8`) · 🔄 **12 moving** · ⏭ 2 up next · 👤 4 waiting on Nik · 🗂 5 later · updated 2026-10-05 7:40 PM Boston time (EDT)
+🌐 **Live: runtime 1.9.1-r61** (main `84a04d8`) · 🔄 **13 moving** · ⏭ 2 up next · 👤 4 waiting on Nik · 🗂 5 later · updated 2026-10-05 7:41 PM Boston time (EDT)
 
-🐕 **Barking: Gameplay Fast has waited 2 min for a machine; POS20 has waited 2 min for a machine.** · Gate #386: L1✓ L2✓ L3✓ L4✓ L5✓ L6✓ · seal PASS · POS20 #386 16/16
+🐕 **Barking: Gameplay Fast has waited 4 min for a machine; POS20 on #388 has waited 3 min for a machine; Showdown Gate on #386 has waited 2 min for a machine; POS20 on #386 has waited 2 min for a machine; Gameplay Fast on #386 has waited 2 min for a machine.** · Gate #386: L1· L2· L3· L4· L5· L6… · seal pending · POS20 #386 1/16
 
 ## Your next move
 
@@ -30,6 +30,7 @@
 | Hand-off | From → To | What | Progress |
 | --- | --- | --- | --- |
 | [HO-007](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/handoffs/HO-007_shared-job-numbers-for-both-teams-from-1.md) | G → V | Shared job numbers for both teams, from 1001 | ✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done |
+| [HO-009](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/handoffs/HO-009_gpt-workers-ci-gates-and-the-physio-are-.md) | V → G | GPT workers: CI gates and the Physio are expected, never removed | ✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done |
 
 ## 🟢 G Factory
 
@@ -79,7 +80,7 @@ _Visuals and presentation: design changes, art, screen skins (assistant director
 
 ## 📡 Relay
 
-**Health:** ✅ working · direct wake: Team G ✅, Team V ✅ · 29 messages · 1 open hand-offs, 7 done · **[every message in full: RELAY.md](RELAY.md)**
+**Health:** ✅ working · direct wake: Team G ✅, Team V ✅ · 29 messages · 2 open hand-offs, 7 done · **[every message in full: RELAY.md](RELAY.md)**
 
 Replies owed: Team G none · Team V G2V-015, G2V-016.
 
