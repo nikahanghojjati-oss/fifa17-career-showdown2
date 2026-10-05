@@ -703,22 +703,22 @@
      "id": "G-F12",
      "title": "G-36: no old player photos on any screen, and all 7 Home tiles",
      "lane": "opus",
-     "state": "building r60 (PR #378, 3 of 5 steps)",
-     "waits_on": "16 gates on 843104a"
+     "state": "done (live in r60, d8e6c44)",
+     "waits_on": ""
     },
     {
      "id": "G-F13",
      "title": "Home soundtrack: 11 Audius tracks, Nasty first, Shelter remix and High And Low cover",
      "lane": "opus",
-     "state": "merged to main in r60 (d8e6c44), live check running",
-     "waits_on": "r60 release"
+     "state": "done (live in r60, d8e6c44)",
+     "waits_on": ""
     },
     {
      "id": "G-F14",
      "title": "Phone track list: stop below the logo and scroll with 11 tracks",
      "lane": "opus",
-     "state": "ready (PR #383 into main, 1 commit on r60), ships in r61",
-     "waits_on": "lead bundles r61"
+     "state": "ready (PR #383), lead takes it into r61",
+     "waits_on": "r61"
     },
     {
      "id": "G-F15",
@@ -837,6 +837,6 @@
   }
  },
  "next_move": [
-  "**r59 is live** (Team V screen fixes). Play it with Daniel; r60 (no old photos, 7 Home tiles, 9 soundtrack tracks) is next."
+  "**r60 is live** (no old photos, 7 Home tiles, 11-track soundtrack with Nasty first). Close and reopen the app once, then play. r61 next: phone track list, landscape phone Home, START A SHOWDOWN nit."
  ]
 }

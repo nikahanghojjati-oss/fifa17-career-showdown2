@@ -1,6 +1,6 @@
 # Showdown board: G Factory and V Factory
 
-33 of 33 jobs done (100 %) ██████████ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-05 3:06 PM Boston time (EDT)
+33 of 33 jobs done (100 %) ██████████ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-05 3:09 PM Boston time (EDT)
 
 ## Scoreboard
 
@@ -27,7 +27,7 @@
 
 ## Your next move
 
-1. **r59 is live** (Team V screen fixes). Play it with Daniel; r60 (no old photos, 7 Home tiles, 9 soundtrack tracks) is next.
+1. **r60 is live** (no old photos, 7 Home tiles, 11-track soundtrack with Nasty first). Close and reopen the app once, then play. r61 next: phone track list, landscape phone Home, START A SHOWDOWN nit.
 
 _Moving now:_ no job is running right now.
 
@@ -67,9 +67,7 @@ _Gameplay, online sync, every merge and every release (senior director)._
 | G-F5 | QA packet adoptions: truth line, wrong-target guard on main PRs, PR title rule | 🟪 Sonnet | next | - |
 | G-F6 | Small gameplay follow-ups: transfer message after session expiry, raw error codes in Setup, 'Career screens could not load' toast when the online history is only unavailable; intermittent v10-transfer contract failure 'WINDOW_OPEN 390: refresh not clickable' | 🟩 Sol Work mode | ready | after G-F5 |
 | G-F11 | Old-design CSS collisions: scope old rulebook/settings/analytics/app CSS off Team V markup (about 70 shared class names) | 🟪 Sonnet | queued (Sonnet audit, then Opus fix) | HO-004 findings |
-| G-F12 | G-36: no old player photos on any screen, and all 7 Home tiles | 🟧 Opus | building r60 (PR #378, 3 of 5 steps) | 16 gates on 843104a |
-| G-F13 | Home soundtrack: 11 Audius tracks, Nasty first, Shelter remix and High And Low cover | 🟧 Opus | merged to main in r60 (d8e6c44), live check running | r60 release |
-| G-F14 | Phone track list: stop below the logo and scroll with 11 tracks | 🟧 Opus | ready (PR #383 into main, 1 commit on r60), ships in r61 | lead bundles r61 |
+| G-F14 | Phone track list: stop below the logo and scroll with 11 tracks | 🟧 Opus | ready (PR #383), lead takes it into r61 | r61 |
 | G-F15 | Landscape phone Home layout (844x390): title sits on the wordmark, soundtrack card covers the right tiles (already in r59) | 🟧 Opus | queued for r61 | - |
 | G-F16 | Phone Home nit from Team V (HO-006): second line of START A SHOWDOWN touches the clipboard icon at 393px | 🟧 Opus | queued for r61 | - |
 | G-F3 | Bug-hunting factory: one report thread, Sonnet hunts, Opus fixes, small batch releases | 🟪 Sonnet | queued | G-F1 and Nik's OK |
@@ -82,11 +80,7 @@ _Gameplay, online sync, every merge and every release (senior director)._
 
 <sub>Visuals and presentation: design changes, art, screen skins (assistant director). Workers: 🟧 Opus (Visual lead: taste, final polish, checks) · 🟪 Sonnet (HTML/CSS builds from a clear spec) · 🟦 Sol chat (Truth sheets, text and checks (no Claude usage)) · 🟩 Sol Work mode (Work-mode builds) · 🟫 Astra (Rare senior review) · 🟥 Image tickets (ChatGPT image tickets (art, plates)) · ⬜ Codex (Package review)</sub>
 
-### 🟧 V-247 · Phone Home tile icons like GOAL_HOME · 100.0000 %
-
-🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧 🥅 GOAL  
-Opus · [PR #381](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/381) · 4 of 4 steps · Mon 5 Oct 2:38 PM Boston time  
-> **Now:** Done; handed to Team G as HO-006
+No Team V job is reporting yet (Team V jobs show here once a PR titled `V-…` carries a progress block). Board 1 (retired): Board 1 (visual package): 238 of 238 jobs done and checked ([link](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/v1-wtt5ye/project-documents/factory/BOARD.md)).
 
 | # | Future work | Worker | State | Waits on |
 | --- | --- | --- | --- | --- |
@@ -94,16 +88,7 @@ Opus · [PR #381](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2
 
 ## 📡 Relay and hand-offs
 
-**Relay health:** ✅ working · direct wake: Team G ✅, Team V ✅ · 29 messages, 6 hand-offs · branch head `7814dda` (Mon 5 Oct 2:40 PM Boston time) · **[Read every message in full: RELAY.md](RELAY.md)**
-
-| Hand-off | From → To | What | Progress | Picked up in |
-| --- | --- | --- | --- | --- |
-| [HO-001](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/handoffs/HO-001_use-hand-off-tickets-for-passing-work-re.md) | G → V | Use hand-off tickets for passing work (relay v1.1) | ✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done** | 2 h 53 min |
-| [HO-002](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/handoffs/HO-002_smooth-stage-atmosphere-on-idle-screens-.md) | G → V | Smooth stage atmosphere on idle screens (pointer stutter root cause) | ✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done** | 2 h 51 min |
-| [HO-003](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/handoffs/HO-003_header-chips-and-footer-design-on-team-v.md) | G → V | Header chips and footer design on Team V screens | ✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done** | 2 h 51 min |
-| [HO-004](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/handoffs/HO-004_visual-qa-live-2-0-screens-vs-approved-f.md) | G → V | Visual QA: live 2.0 screens vs approved frames | ✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done** | 2 h 51 min |
-| [HO-005](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/handoffs/HO-005_mobile-home-hero-ghost-coat-between-dani.md) | G → V | Mobile Home hero: ghost coat between Daniel and Nik | ✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done** | 2 h 43 min |
-| [HO-006](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/handoffs/HO-006_wire-v-247-phone-home-tile-icons-large-a.md) | V → G | Wire V-247: phone Home tile icons large and centred | ✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done | 7 min |
+**Relay health:** ✅ working · direct wake: Team G ✅, Team V ✅ · 29 messages, 0 hand-offs · branch head `186e1f3` (Mon 5 Oct 3:08 PM Boston time) · **[Read every message in full: RELAY.md](RELAY.md)**
 
 Latest messages:
 - G2V-016 · Mon 5 Oct 11:53 AM · Team G → Team V · Correction: PR #312 comments do wake a subscribed thread (2 s); subscribe your relay thread to PR #…
