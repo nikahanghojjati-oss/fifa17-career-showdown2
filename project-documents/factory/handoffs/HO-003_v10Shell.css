@@ -2,8 +2,8 @@
    Replaces the r56 block "Team V screens other than Home and setup" in css/v10Shell.css (the #topHeader, chip and footer rules).
    Desktop: the two chips sit inside the top navigation bar, right side, just left of the Settings gear, so they never
    touch a screen's title, crown or counts. Phone: the stage screens need their top band for title and crown, so the chips
-   are visually hidden (screen readers keep them; keyboard focus brings them back); account and season stay reachable in
-   Settings and on the screens themselves. Footer: visually hidden on these screens (the version is shown in Settings). */
+   are visually hidden (screen readers keep them; keyboard focus brings them back); the account stays reachable in Settings
+   and Home keeps its chips. Footer: visually hidden on these screens (the version is shown in Settings). */
 html[data-v10-screen]:not([data-v10-setup]) #app #topHeader {
   position: fixed; z-index: 41; left: auto; right: 84px; top: calc((var(--sd-nav-top-h, 52px) - 28px) / 2);
   width: auto; height: auto; min-height: 0; display: flex; align-items: center; gap: 6px; padding: 0;

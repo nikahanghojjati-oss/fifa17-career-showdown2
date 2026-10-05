@@ -14,7 +14,7 @@ Applies to every Team V screen except Home and the setup screens (`html[data-v10
 ## Phone (900px and narrower, checked at 390x844)
 - Every stage screen uses its top band for its title and crown inside the 393x660 no-scroll budget, and the gear already sits top right. There is no free corner, so **the chips are visually hidden** on these screens.
 - They stay in the page for screen readers. Keyboard focus on the manager chip brings both chips back at the top left (so nobody tabs onto something invisible).
-- Who is signed in and the season stay reachable: Settings (gear) shows the account and sign-in; Standings, Career and Season screens show the season in their own content. Home keeps its chips as they are.
+- Who is signed in stays reachable through Settings (gear), which shows the account and sign-in. Home keeps its chips as they are. If Nik wants the season visible on phone stage screens, Team V will design a place for it inside each screen's own layout.
 
 ## Footer (all sizes)
 - Visually hidden on these screens, kept for screen readers. It only repeated the product name and version; the version is shown in Settings ("Application version"). This gives the stage the bottom 36px back and removes the low-contrast dark band that Rule Book's accessibility scan flagged.
