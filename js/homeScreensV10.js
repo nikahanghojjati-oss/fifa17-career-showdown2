@@ -19,19 +19,19 @@
     statusTemplate:"{TITLE} · AUDIUS · READY",statusLoading:"CONNECTING TO AUDIUS",statusPlaying:"PLAYING",
     statusPlayingMuted:"PLAYING · MUTED",statusPaused:"PAUSED",statusError:"STREAM UNAVAILABLE · TRY AGAIN OR PICK ANOTHER TRACK",
     tracks:Object.freeze([
+      Object.freeze({key:"nextToYou",title:"NEXT TO YOU",artist:"RAC ft. Emerson Leif",audiusTrackId:"n1zqQ"}),
       Object.freeze({key:"nasty",title:"NASTY",artist:"grouptherapy.",audiusTrackId:"G5rXAWE"}),
       Object.freeze({key:"snowGlobe",title:"SNOW GLOBE",artist:"Hadji Gaviota",audiusTrackId:"X9wlA0b"}),
       Object.freeze({key:"imAlwaysRight",title:"I'M ALWAYS RIGHT",artist:"The Holdup",audiusTrackId:"9QRXKw"}),
       Object.freeze({key:"everythingIKnow",title:"EVERYTHING I KNOW",artist:"Speelburg",audiusTrackId:"bppAK"}),
       Object.freeze({key:"tellMeWhatYouWant",title:"TELL ME WHAT YOU WANT",artist:"Weezer",audiusTrackId:"4baRa"}),
-      Object.freeze({key:"nextToYou",title:"NEXT TO YOU",artist:"RAC ft. Emerson Leif",audiusTrackId:"n1zqQ"}),
       Object.freeze({key:"hardFeelings",title:"HARD FEELINGS",artist:"Miquela",audiusTrackId:"LKWVl"}),
       Object.freeze({key:"sillyBoy",title:"SILLY BOY",artist:"oshi",audiusTrackId:"zKgQq"}),
       Object.freeze({key:"uproar",title:"UPROAR",artist:"Mike Shinoda",audiusTrackId:"JGgl0"}),
       Object.freeze({key:"shelterRemix",title:"SHELTER (EFFUGIO REMIX)",artist:"Porter Robinson & Madeon",audiusTrackId:"DOpRe"}),
       Object.freeze({key:"highAndLowCover",title:"HIGH AND LOW (COVER)",artist:"Empire Of The Sun · Aba",audiusTrackId:"W677j"})
     ]),
-    defaultTrack:"nasty",
+    defaultTrack:"nextToYou",
     audius:Object.freeze({apiBase:"https://api.audius.co/v1",appName:"CareerModeShowdown17"})
   });
   // Continue shows Team V's number-17 player (owner, 2026-10-05); css/homeV10.css hides the old Reus cover on this Home.
