@@ -326,8 +326,8 @@
      "sha": "02960ba13ec0e9a6182c73fccc0ea3cec0beda05",
      "updated": "2026-10-05T23:07:02Z",
      "gates": {
-      "passed": 0,
-      "running": 5,
+      "passed": 1,
+      "running": 14,
       "failed": 0,
       "cancelled": 0
      }
@@ -398,7 +398,7 @@
   "physio": {
    "state": "clear",
    "line": "All clear (from GitHub).",
-   "gate": "POS20 #385 0/5",
+   "gate": "POS20 #385 1/15",
    "source": "github"
   },
   "v_headline": "Board 1 (visual package): 238 of 238 jobs done and checked",
@@ -738,8 +738,8 @@
     "sha": "02960ba13ec0e9a6182c73fccc0ea3cec0beda05",
     "updated": "2026-10-05T23:07:02Z",
     "gates": {
-     "passed": 0,
-     "running": 5,
+     "passed": 1,
+     "running": 14,
      "failed": 0,
      "cancelled": 0
     }
