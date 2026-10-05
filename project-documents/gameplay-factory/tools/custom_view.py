@@ -79,6 +79,13 @@ for n, r, k, t in rj:
              f'<b>Likely finish:</b> {e(d["eta"])}<br>'
              f'<b>Going on now:</b> {e(r.get("current") or "not reported")}<br>'
              f'<b>Still to do:</b> {e(" → ".join(left) or "nothing")}</div>')
+GF = ETA.gaffer()
+if GF:
+    gc = "#f0d900" if GF["pct"] < 80 else "#f97316" if GF["pct"] < 95 else "#ef4444"
+    H.append(f'<div class="card"><b>{GF["emoji"]} Gaffer · {e(GF.get("level_name", ""))} · {e(GF.get("mood", ""))}</b> <span class="m">updated {e(GF.get("updated_boston", ""))} Boston time</span><br>'
+             f'<svg width="300" height="12" viewBox="0 0 300 12"><rect width="300" height="12" rx="6" fill="#12191f" stroke="#43515b"/><rect width="{3 * GF["pct"]}" height="12" rx="6" fill="{gc}"/></svg>'
+             f'<span class="pc" style="font-size:16px">{GF["pct"]} %</span> <span class="m">5-hour usage · resets {boston(GF.get("resets_at"))}</span><br>'
+             f'<b>Last call:</b> {e(GF.get("last_decision", ""))}<br><a href="{e(GF.get("page", ""))}">Gaffer page</a></div>')
 REL = json.load(open(os.path.join(F, "BOARD.json"))).get("release") or {}
 liveprs = {}
 try:

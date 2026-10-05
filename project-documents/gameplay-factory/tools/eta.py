@@ -83,3 +83,17 @@ def whistle(descs):
     """Full-time line: when the last running job is likely done (needs a numeric estimate on at least one job)."""
     ends = [d["end"] for d in descs if d.get("end")]
     return f"🏁 last running job likely done about {clock(max(ends))} Boston time" if ends else "🏁 no finish time yet (not enough data)"
+
+
+MOOD = {"calm": "😌", "watchful": "🧐", "busy": "😅", "tight": "😬", "strained": "🥵"}
+
+
+def gaffer():
+    """Gaffer (the usage manager) from GAFFER.json: returns dict or None."""
+    try:
+        g = json.load(open(os.path.join(F, "GAFFER.json")))
+        g["emoji"] = MOOD.get(g.get("mood"), "🧑‍💼")
+        g["pct"] = round(100 * float(g.get("five_hour", 0)))
+        return g
+    except Exception:
+        return None

@@ -159,6 +159,9 @@ L = ["# Team G gameplay board", "",
      "## Scoreboard", "",
      f"⚽ **{done} of {len(jobs)} jobs done** · {len(working)} in play · 🐞 see [BUG_BOARD.md](BUG_BOARD.md) · {ETA.whistle([ETA.describe(r) for _, r, _, _ in __import__('factory_common').running_jobs()])}", "",
      "## Your next move", ""]
+_g = ETA.gaffer()
+if _g:
+    L[L.index("## Your next move"):L.index("## Your next move")] = [f"{_g['emoji']} **Gaffer ({_g.get('level_name', '')}, {_g.get('mood', '')})** · usage {_g['pct']} % of the 5-hour window · resets {_g.get('resets_at', '')[11:16]} UTC · last call: {_g.get('last_decision', '')} · [Gaffer page]({_g.get('page', '')})", ""]
 L += [f"{n}. {m}" for n, m in enumerate(move, 1)]
 nxt = next((j for j in open_jobs if j["lane"] != "lead"), None)
 L += ["", f"_Moving now:_ {moving}." + (f" _Next up:_ {nxt['key']} {nxt['title']}, waits on {(nxt.get('waits_on') or ', '.join('job %d' % d for d in nxt['depends_on'] if info[d][0] not in FINISHED) or 'nothing')}." if nxt else ""), "",
