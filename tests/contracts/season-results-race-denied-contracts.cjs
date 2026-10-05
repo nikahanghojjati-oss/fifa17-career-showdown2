@@ -10,6 +10,8 @@
 //   R4. An unreadable public document (stranger) stays permission-denied after exactly one read.
 //   R5. The re-read touches only the public seasonResults document, never a role's private result.
 //   R6. A non-denial failure is surfaced unchanged, without a re-read.
+//   R7. A denial in the league-projection preflight transaction gets the same re-read (STALE when the rival already published).
+//   R8. A contended (non-denied) re-read is retried within the same bound instead of surfacing the denial.
 const assert=require("node:assert/strict");
 const fs=require("node:fs");
 const path=require("node:path");
@@ -23,7 +25,7 @@ const op=n=>`season_result_op_${Number(n).toString(16).padStart(32,"0")}`;
 const snapshot=value=>({exists:()=>value!==null&&value!==undefined,data:()=>value});
 
 // Same keys as the production firestoreSdk bundle: no getDoc.
-function productionShapedSdk({reads,denialCode="permission-denied",readThrows=false,writeError=null}){
+function productionShapedSdk({reads,denialCode="permission-denied",readThrows=false,writeError=null,preflightError=null,readErrors=[]}){
   const counts={run:0,reads:0},paths=[];
   const sdk={
     Timestamp:{fromMillis:ms=>({toMillis:()=>ms})},
@@ -31,9 +33,9 @@ function productionShapedSdk({reads,denialCode="permission-denied",readThrows=fa
     doc:(_db,...parts)=>parts.join("/"),
     runTransaction:async(_db,callback)=>{
       counts.run+=1;
-      if(counts.run===1)return 18; // league projection already present
-      if(counts.run===2)throw writeError||{code:denialCode}; // the loser's publish write
-      const transaction={get:async ref=>{paths.push(ref);counts.reads+=1;if(readThrows)throw {code:"permission-denied"};return snapshot(reads[Math.min(counts.reads-1,reads.length-1)]);},set:()=>{throw new Error("a re-read must never write");}};
+      if(counts.run===1){if(preflightError)throw preflightError;return 18;} // league projection preflight
+      if(counts.run===2&&!preflightError)throw writeError||{code:denialCode}; // the loser's publish write
+      const transaction={get:async ref=>{paths.push(ref);counts.reads+=1;if(readThrows)throw {code:"permission-denied"};if(readErrors[counts.reads-1])throw readErrors[counts.reads-1];return snapshot(reads[Math.min(counts.reads-1,reads.length-1)]);},set:()=>{throw new Error("a re-read must never write");}};
       return callback(transaction);
     }
   };
@@ -98,6 +100,25 @@ async function r6OtherErrorsUnchanged(){
   console.log("ok R6 non-denial failures are not reinterpreted");
 }
 
+async function r7PreflightDenialIsReRead(){
+  const fake=productionShapedSdk({reads:[{revision:1,operationIds:[op(22)]}],preflightError:{code:"permission-denied"}});
+  assert.deepEqual(await Provider.publishResult(options(fake.sdk)),{ok:false,code:"SEASON_RESULTS_STALE_BASE_REVISION"},"R7 a preflight denial with a newer public revision is the retryable STALE");
+  assert.deepEqual(fake.counts,{run:2,reads:1},"R7 one fresh read after the preflight denial, no publish attempted");
+  const same=productionShapedSdk({reads:[{revision:0,operationIds:[]}],preflightError:{code:"permission-denied"}});
+  assert.deepEqual(await Provider.publishResult(options(same.sdk)),{ok:false,code:"permission-denied"},"R7 a preflight denial with no newer revision stays denied");
+  console.log("ok R7 a denial in the league-projection preflight is re-read like a publish denial");
+}
+
+async function r8ContendedReReadRetried(){
+  const fake=productionShapedSdk({reads:[null,{revision:1,operationIds:[op(22)]}],readErrors:[{code:"aborted"}]});
+  assert.deepEqual(await Provider.publishResult(options(fake.sdk)),{ok:false,code:"SEASON_RESULTS_STALE_BASE_REVISION"},"R8 a contended re-read is retried and the newer revision gives STALE");
+  assert.deepEqual(fake.counts,{run:4,reads:2},"R8 two reads: the contended one and the retry");
+  const stuck=productionShapedSdk({reads:[],readErrors:[{code:"aborted"},{code:"aborted"},{code:"aborted"}]});
+  assert.deepEqual(await Provider.publishResult(options(stuck.sdk)),{ok:false,code:"permission-denied"},"R8 three failed re-reads still surface the original denial");
+  assert.equal(stuck.counts.reads,3,"R8 the re-reads stay bounded to three");
+  console.log("ok R8 a contended re-read is retried within the bound");
+}
+
 (async()=>{
   r0ProductionShape();
   await r1NewerRevisionIsStale();
@@ -106,5 +127,7 @@ async function r6OtherErrorsUnchanged(){
   await r4StrangerOneRead();
   await r5PublicOnly();
   await r6OtherErrorsUnchanged();
-  console.log("PASS season results race-denied contracts: 7 checks (production SDK shape, newer revision -> STALE, same revision stays denied, denial spellings, stranger one read, public-only re-read, other errors unchanged).");
+  await r7PreflightDenialIsReRead();
+  await r8ContendedReReadRetried();
+  console.log("PASS season results race-denied contracts: 9 checks (production SDK shape, newer revision -> STALE, same revision stays denied, denial spellings, stranger one read, public-only re-read, other errors unchanged, preflight denial re-read, contended re-read retried).");
 })().catch(error=>{console.error(error);process.exit(1);});
