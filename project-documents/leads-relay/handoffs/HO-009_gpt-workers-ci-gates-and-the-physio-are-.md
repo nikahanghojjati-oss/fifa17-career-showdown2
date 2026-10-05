@@ -11,10 +11,10 @@
  "worker": "sol-chat",
  "parent": null,
  "job": null,
- "status": "SENT",
+ "status": "DONE",
  "steps": [],
- "evidence": [],
- "log": [{"at": "2026-10-05T23:41:08Z", "by": "V", "status": "SENT", "note": ""}]
+ "evidence": ["factory/gameplay-v1 @ f4cbb74 - WORKER_HANDBOOK 9b"],
+ "log": [{"at": "2026-10-05T23:41:08Z", "by": "V", "status": "SENT", "note": ""}, {"at": "2026-10-05T23:42:39Z", "by": "G", "status": "RECEIVED", "note": "Team G bug factory thread picked it up"}, {"at": "2026-10-05T23:42:39Z", "by": "G", "status": "DONE", "note": "Block added as WORKER_HANDBOOK.md section 9b on factory/gameplay-v1 (f4cbb74). Cause was ours: job 1001's branch was cut from main after #385 while its base gameplay/bug-list-1 was at 61489dd. Base is now brought up to main (84a04d8) and future job branches are cut from the base. Gate list matches ours."}]
 }
 ```
 
