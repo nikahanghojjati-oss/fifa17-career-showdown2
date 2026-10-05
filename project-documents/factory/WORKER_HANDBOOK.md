@@ -28,7 +28,7 @@ Every job is sized so that one normal chat turn does all of it. Nik types a numb
 ## 0. The loop in ten lines
 
 1. The user types a number **N** (or "job N"). That means: do factory job N.
-2. Read `jobs/JOB-NNN.md` (N with three digits) and `status/JOB-NNN.md`.
+2. Read `jobs/JOB-NNN.md` (N with at least three digits: 7 -> JOB-007, 1002 -> JOB-1002) and `status/JOB-NNN.md`.
 3. First reply line: `Job N · <title> · <State>`.
 4. Decide with the gate table in §6 whether you may start. If not, say why in one line and stop.
 5. Read every paper the job lists under "Read first" (always PRODUCT_TRUTH.md and QUALITY_BAR.md; CRAFT_GUIDE.md for build, polish, review and fix jobs).
@@ -101,6 +101,8 @@ Lanes say what kind of chat should run the job:
 | `project (type number)` | A normal GPT-5.6 Sol chat in the ChatGPT project Showdown visual, one new chat per number. Every build, review, fix, motion and integration job. Sol Work mode is not used for factory jobs (04 Oct: its turns are too short and it has no browser). |
 | `fresh chat (image)` | Nik runs the job's ticket in a Temporary Chat outside the project. At most 2 at once. |
 | `codex` | Codex review (job 108). |
+| `GPT blue` (bug job) | GPT-5.6 Sol, normal chat in Showdown visual. Bug jobs numbered 1002 and up; see [BUG_FACTORY.md](BUG_FACTORY.md). |
+| `GPT green` (bug job) | ChatGPT Sol 6.1 Work mode, opened with the starter line in FACTORY_RULES.md. Logic fixes with node tests; pushes its own branch and opens a PR. Allowed again for bug jobs from 5 Oct. |
 | `team-g` | Tracks Team G. Never start it. |
 
 If you are in the wrong kind of chat for the lane (a `codex` job in a Sol chat, a project job in Work mode), say so in your first reply and stop: `Job N runs in lane <lane>; open it there.`
