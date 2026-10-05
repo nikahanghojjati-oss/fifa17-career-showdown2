@@ -168,18 +168,9 @@ const FOOTBALL_VISUALS = Object.freeze({
     })
 });
 
-const FOOTBALL_VISUAL_SCREEN_PLAN = Object.freeze({
-    leagueWheelScreen: Object.freeze({ kind: "single", assets: ["ronaldo"], tone: "dark", label: "FIND YOUR STAGE", layout: "cinematic-band" }),
-    clubWheelScreen: Object.freeze({ kind: "single", assets: ["pogba"], tone: "blue", label: "CLUB IDENTITY", layout: "cinematic-band" }),
-    dashboard: Object.freeze({ kind: "single", assets: ["zlatan"], tone: "dark", label: "RIVALRY HEADQUARTERS", layout: "cinematic-band" }),
-    transferChallenge: Object.freeze({ kind: "duo", assets: ["rashford", "martial"], tone: "dark", label: "TRANSFER WINDOW", layout: "duo-subject-safe" }),
-    seasonEntry: Object.freeze({ kind: "single", assets: ["griezmann"], tone: "blue", label: "SEASON PRESSURE", layout: "cinematic-band" }),
-    seasonSummary: Object.freeze({ kind: "single", assets: ["neymar"], tone: "dark", label: "SEASON VERDICT", layout: "cinematic-band" }),
-    careerStatistics: Object.freeze({ kind: "single", assets: ["messi"], tone: "blue", label: "CAREER PERFORMANCE", layout: "analytics-subject-safe" }),
-    trophyRoom: Object.freeze({ kind: "single", assets: ["lahm"], tone: "dark", label: "CHAMPIONS ARE REMEMBERED", layout: "trophy-subject-safe" }),
-    legacy: Object.freeze({ kind: "single", assets: ["falcao"], tone: "dark", label: "LEGACY", layout: "cinematic-band" }),
-    ruleBook: Object.freeze({ kind: "single", assets: ["balotelli"], tone: "light", label: "RULES OF THE GAME", layout: "cinematic-band" })
-});
+// Owner decision (Nik, 2026-10-05): no screen shows an old player photo card any more. The licensed archive above
+// stays as it is; no route mounts it.
+const FOOTBALL_VISUAL_SCREEN_PLAN = Object.freeze({});
 
 window.FOOTBALL_VISUALS = FOOTBALL_VISUALS;
 window.FOOTBALL_VISUAL_SCREEN_PLAN = FOOTBALL_VISUAL_SCREEN_PLAN;

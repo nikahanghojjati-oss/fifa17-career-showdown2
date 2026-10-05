@@ -240,7 +240,11 @@ function mountCinematicBandVisual(screenName, plan){
 }
 
 // Screens whose art is Team V's plate, not a licensed photograph (owner, 2026-10-05): nothing to mount.
-const FOOTBALL_VISUAL_FREE_SCREENS = new Set(["createShowdown"]);
+// Nik, 2026-10-05: every old player photo card is removed, the Transfer Window's included.
+const FOOTBALL_VISUAL_FREE_SCREENS = new Set([
+    "createShowdown", "leagueWheelScreen", "clubWheelScreen", "dashboard", "transferChallenge", "seasonEntry",
+    "seasonSummary", "careerStatistics", "trophyRoom", "legacy", "ruleBook"
+]);
 
 function prepareFootballVisualScreen(screenName){
     if(FOOTBALL_VISUAL_FREE_SCREENS.has(screenName)){ return true; }

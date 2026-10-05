@@ -9,17 +9,11 @@ const runLabel = process.env.CMS_AUDIT_RUN || "football-visual";
 const resultsDirectory = path.resolve(process.env.CMS_TEST_RESULTS || "test-results");
 const manifest = JSON.parse(fs.readFileSync("assets/football/asset-manifest.json", "utf8"));
 const expectedIds = new Set(manifest.assets.map(asset => asset.id));
-const plans = [
-    ["leagueWheelScreen", 1],
-    ["clubWheelScreen", 1],
-    ["dashboard", 1],
-    ["transferChallenge", 2],
-    ["seasonEntry", 1],
-    ["seasonSummary", 1],
-    ["careerStatistics", 1],
-    ["trophyRoom", 1],
-    ["legacy", 1],
-    ["ruleBook", 1]
+// Nik, 2026-10-05: no screen shows an old player photo card any more; the licensed archive stays, unrouted.
+const plans = [];
+const photoFreeScreens = [
+    "leagueWheelScreen", "clubWheelScreen", "dashboard", "transferChallenge", "seasonEntry", "seasonSummary",
+    "careerStatistics", "trophyRoom", "legacy", "ruleBook"
 ];
 const cases = [
     { name: "desktop", viewport: { width: 1366, height: 768 }, dpr: 1 },
@@ -252,6 +246,17 @@ async function run(config){
             `${config.name}: expected 12 licensed visual records`);
 
         await ensureDynamicScreens(page);
+        for(const screenName of photoFreeScreens){
+            await exposeScreenForAudit(page, screenName);
+            await page.evaluate(() => new Promise(resolve => {
+                requestAnimationFrame(() => requestAnimationFrame(resolve));
+            }));
+            const shown = await page.evaluate(name => document.getElementById(name)
+                .querySelectorAll(".footballVisualPanel, [data-football-visual-screen]").length, screenName);
+            assert.equal(shown, 0, `${config.name}/${screenName}: no photo card may show here (Nik, 2026-10-05)`);
+        }
+        assert.equal(footballRequests.length, 0,
+            `${config.name}: photo-free screens must not fetch football photographs`);
         const seenAssets = new Set();
         for(const [screenName, expectedCount] of plans){
             await exposeScreenForAudit(page, screenName);
@@ -266,16 +271,16 @@ async function run(config){
             result.panels.forEach(panel => seenAssets.add(panel.asset));
         }
 
-        // James stays in the archive but no route shows him: Start Showdown uses Team V art (owner, 2026-10-05).
-        assert.equal(seenAssets.size, 11,
-            `${config.name}: all 11 route-owned derivatives must be exercised`);
+        // The photographs stay in the licensed archive, but no route shows them (Nik, 2026-10-05).
+        assert.equal(seenAssets.size, 0,
+            `${config.name}: no route may show a licensed photograph`);
         const diagnostics = await page.evaluate(() => window.getFootballVisualDiagnostics());
-        assert.equal(diagnostics.preloadCount, 11,
-            `${config.name}: route assets should warm only after all 10 routes are explicitly exercised`);
+        assert.equal(diagnostics.preloadCount, 0,
+            `${config.name}: no licensed photograph may warm`);
         assert.deepEqual(errors, [], `${config.name}: page errors: ${errors.join(" | ")}`);
         assert.deepEqual(failed, [], `${config.name}: failed first-party requests: ${failed.join(" | ")}`);
         await context.close();
-        process.stdout.write(`${config.name}: permanent 10-screen licensed visual audit passed.\n`);
+        process.stdout.write(`${config.name}: all 10 screens photo-free.\n`);
     }finally{
         await browser.close();
     }
