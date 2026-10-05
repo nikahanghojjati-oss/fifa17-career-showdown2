@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 7:53 PM Boston time (EDT)",
+ "generated": "2026-10-05 7:55 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -326,9 +326,9 @@
      "sha": "bb827862de3a9018e59a479f5d435c6498c3cf46",
      "updated": "2026-10-05T23:50:33Z",
      "gates": {
-      "passed": 5,
-      "running": 10,
-      "failed": 0,
+      "passed": 7,
+      "running": 6,
+      "failed": 2,
       "cancelled": 0
      }
     },
@@ -421,8 +421,8 @@
   },
   "physio": {
    "state": "barking",
-   "line": "Barking: POS20 on #390 has waited 2 min for a machine; POS20 on #313 has waited 2 min for a machine.",
-   "gate": "POS20 #390 3/16",
+   "line": "Barking: POS20 has waited 10 min for a machine.",
+   "gate": "POS20 #390 7/16",
    "source": "physio"
   },
   "v_headline": "Board 1 (visual package): 238 of 238 jobs done and checked",
@@ -638,7 +638,7 @@
   "**Nothing waits on you right now.** r62 (PR #390) is in checks; after it ships, press Update once on the laptop."
  ],
  "now": {
-  "moving": 16,
+  "moving": 17,
   "next": 2,
   "nik": 4,
   "later": 4,
@@ -736,8 +736,8 @@
       "group": "Bug list 1",
       "title": "1001 · G Home desktop tile icons: bigger, inside the tile, never on the text",
       "lane": "blue",
-      "state": "with worker (round 2)",
-      "waits_on": "GPT blue round 2: icons off the text, bigger on narrow screens, remove object-fit",
+      "state": "with worker (round 3)",
+      "waits_on": "GPT blue round 3: apply the lead-tested diff",
       "details": "Bug list 1 items L1-01..06. CSS only in css/homeV10.css desktop blocks. Job file jobs/JOB-1001.md. Lead checks screenshots at 1920/1440/1280/1100/1000 wide."
      }
     ],
@@ -835,9 +835,9 @@
     "sha": "bb827862de3a9018e59a479f5d435c6498c3cf46",
     "updated": "2026-10-05T23:50:33Z",
     "gates": {
-     "passed": 5,
-     "running": 10,
-     "failed": 0,
+     "passed": 7,
+     "running": 6,
+     "failed": 2,
      "cancelled": 0
     }
    },

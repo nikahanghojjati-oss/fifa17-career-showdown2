@@ -1,11 +1,24 @@
 {
  "team": "G",
- "updated": "2026-10-05T19:53-04:00",
+ "updated": "2026-10-05T19:55-04:00",
  "jobs_done": 33,
  "jobs_total": 33,
  "open_bugs": 8,
  "next_move": [
   "**Nothing waits on you right now.** r62 (PR #390) is in checks; after it ships, press Update once on the laptop."
  ],
- "running": []
+ "running": [
+  {
+   "job": 1001,
+   "title": "Home desktop tile icons: bigger, inside the tile, never on the text",
+   "worker": "worker not set",
+   "done": 4,
+   "total": 7,
+   "pct": 57.1429,
+   "eta": "not enough data",
+   "current": "step 5 of 7",
+   "pr": null,
+   "updated": "2026-10-05T23:57:00Z"
+  }
+ ]
 }

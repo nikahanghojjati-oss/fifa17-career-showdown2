@@ -1,8 +1,8 @@
 # Showdown board: G Factory and V Factory
 
-🌐 **Live: runtime 1.9.1-r61** (main `84a04d8`) · 🔄 **16 moving** · ⏭ 2 up next · 👤 4 waiting on Nik · 🗂 4 later · updated 2026-10-05 7:53 PM Boston time (EDT)
+🌐 **Live: runtime 1.9.1-r61** (main `84a04d8`) · 🔄 **17 moving** · ⏭ 2 up next · 👤 4 waiting on Nik · 🗂 4 later · updated 2026-10-05 7:55 PM Boston time (EDT)
 
-🐕 **Barking: POS20 on #390 has waited 2 min for a machine; POS20 on #313 has waited 2 min for a machine.** · POS20 #390 3/16
+🐕 **Barking: POS20 has waited 10 min for a machine.** · POS20 #390 7/16
 
 ## Your next move
 
@@ -12,9 +12,15 @@
 
 | Release / fix | Checks on the latest commit | Updated |
 | --- | --- | --- |
-| [PR #390](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/390) Release r62: bug-hunt fixes (errors, reconnect, auto final winner, desktop Settings, phon… | ⏳ 5 passed, 10 running | 7:50 PM |
+| [PR #390](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/390) Release r62: bug-hunt fixes (errors, reconnect, auto final winner, desktop Settings, phon… | 🔴 7 passed, 6 running, 2 failed | 7:50 PM |
 | [PR #386](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/386) Showdown Gate (shadow): six-lane check beside POS20, not required yet | 🟢 23 passed | 7:38 PM |
 | [PR #384](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/384) Every screen in Team V's look: signed-out career screens, Showdown Home, season review, L… | 🟢 12 passed | 6:29 PM |
+
+**⬛ 1001 · Home desktop tile icons: bigger, inside the tile, never on the text** · 57 % (4 of 7 steps) · worker not set
+
+⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⚽▫️▫️▫️▫️▫️▫️▫️▫️ 🥅  
+> **Now:** step 5 of 7  
+> **Left:** step 5 → step 6 → step 7
 
 **🟦 V-1002 · Transfer War window strings match production wording** · 33 % (1 of 3 steps) · Sol chat · [PR #389](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/389)
 
@@ -35,7 +41,7 @@
 | G | G-F21 | BH-11 pairing and reconnect fixes from the pairing audit (7 findings, one high: a reload mid-game strands the reconnect) | 🟧 Opus | in r62 (PR #390, head bb827862) | r62 merge to main |
 | G | G-F23 | Desktop Settings cards clipped; Update button hidden (Nik's Chrome stuck on r54) | 🟧 Opus | in r62 (PR #390, head bb827862) | branch bugfix/settings-desktop-update 1d264f7e; after r62 Nik presses Update once on the laptop |
 | G | BUG-1 | Raw error codes in the Setup settle text; neutral Manager 1/2 fallbacks; 80-character transfer names | 🟪 Sonnet | in r62 (PR #390, head bb827862) | bugfix/bug-batch-1 9e012fd |
-| G | 1001 | 🐞 Bug list 1: 1001 · G Home desktop tile icons: bigger, inside the tile, never on the text | 🟦 Sol chat | with worker (round 2) | Bug list 1 items L1-01..06. CSS only in css/homeV10.css desktop blocks. Job file jobs/JOB-1001.md. Lead checks screenshots at 1920/1440/1280/1100/1000 wide. |
+| G | 1001 | 🐞 Bug list 1: 1001 · G Home desktop tile icons: bigger, inside the tile, never on the text | 🟦 Sol chat | with worker (round 3) | Bug list 1 items L1-01..06. CSS only in css/homeV10.css desktop blocks. Job file jobs/JOB-1001.md. Lead checks screenshots at 1920/1440/1280/1100/1000 wide. |
 
 ## 🟢 G Factory
 
