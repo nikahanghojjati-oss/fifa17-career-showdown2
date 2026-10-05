@@ -1,6 +1,6 @@
 # 🐞 Team G bug hunting factory
 
-> Updated **Sun 4 Oct, 8:51 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
+> Updated **Sun 4 Oct, 8:53 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
 
 | 🔓 Open | 🔴 Top priority | 🔧 Fixing or waiting for release | ✅ Fixed and live |
 | :---: | :---: | :---: | :---: |
@@ -17,26 +17,32 @@
 
 ## ⚽ Jobs running now
 
-Bars are real: finished steps ÷ all steps from each job's progress block, to two decimals. Nothing is estimated.
+Bars show the share of each job done, to four decimals (finished steps weighted by how long that kind of step usually takes, see [ETA_STUDY.md](ETA_STUDY.md)). Finish times are estimates.
 
 ### 🟧 Opus · 2 jobs
 
 **[Job 27 · Transfer War screens](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/362)**  
-🟧🟧🟧🟧🟧🟧🟧🟧⚽▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️ 🥅 **42.86 %** · 3 of 7 steps · updated Sun 4 Oct, 8:41 PM
+🟧🟧🟧🟧🟧⚽▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️ 🥅 **27.3512 %** · 3 of 7 steps · updated Sun 4 Oct, 8:41 PM
+
+**Likely finish:** about 9:19 PM (likely 9:02 PM to 9:57 PM) Boston time
 
 > **Going on now:** Pushed bd58e2ef with the root-cause fixes and the latest test build (41660939): Home's late-loading stylesheet no longer hides Transfer War's HOME/REFRESH bar, and the replay shows one guess card per manager. Waiting for the 16 checks  
 > **Still to do:** All 16 checks green on the exact head → Bring in the latest test build once → Lead review (screenshots and diff) → Merged into the test build
 
 **[Job 29 · Season Results, Final Winner, Standings](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/357)**  
-🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧⚽▫️▫️▫️ 🥅 **81.82 %** · 9 of 11 steps · updated Sun 4 Oct, 8:39 PM
+🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧⚽▫️▫️▫️ 🥅 **83.9411 %** · 10 of 12 steps · updated Sun 4 Oct, 8:52 PM
 
-> **Going on now:** Fix ready locally; waiting for job 33 to merge, then one push  
+**Likely finish:** about 9:00 PM (likely 8:56 PM to 9:07 PM) Boston time
+
+> **Going on now:** Fixes committed locally; waiting for job 33 to merge, then one push  
 > **Still to do:** Final sync with recovery after job 33 merges, plus the log fix; CI green → Lead merges into gameplay/recovery-v1
 
 ### 🟪 Sonnet · 1 job
 
 **[Job 28 · Rivalry Stats and Legacy](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/352)**  
-🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪⚽▫️ 🥅 **90.00 %** · 9 of 10 steps · updated Sun 4 Oct, 8:46 PM
+🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪⚽ 🥅 **95.2015 %** · 9 of 10 steps · updated Sun 4 Oct, 8:46 PM
+
+**Likely finish:** about 8:48 PM (likely 8:47 PM to 9:06 PM) Boston time
 
 > **Going on now:** CI green on bdbf6a6, waiting for lead review and merge  
 > **Still to do:** Lead review and merge

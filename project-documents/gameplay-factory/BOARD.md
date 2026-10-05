@@ -1,6 +1,6 @@
 # Team G gameplay board
 
-20 of 33 jobs done (70 %) ███████░░░ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-04 8:51 PM Boston time (EDT)
+20 of 33 jobs done (70 %) ███████░░░ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-04 8:53 PM Boston time (EDT)
 
 ## Your next move
 
@@ -18,13 +18,15 @@ Gameplay factory job NN. Read https://raw.githubusercontent.com/nikahanghojjati-
 
 Bug hunting factory: [BUG_BOARD.md](BUG_BOARD.md).
 
-Each bar is the real count of finished steps for that job (finished steps / all steps, to two decimals). Nothing is estimated. Lanes: 🟦 Sol chat · 🟩 Sol Work mode · ⬜ Codex · 🟧 Opus · 🟪 Sonnet · 🟨 Haiku.
+Each bar is the share of the job done, to four decimals: finished steps weighted by how long that kind of step usually takes ([ETA_STUDY.md](ETA_STUDY.md)). Finish times are estimates with a likely range. Lanes: 🟦 Sol chat · 🟩 Sol Work mode · ⬜ Codex · 🟧 Opus · 🟪 Sonnet · 🟨 Haiku.
 
 ### 🟧 Job 27 · Transfer War screens
 
 Opus · Lead (helper) · PR #362
 
-🟧🟧🟧🟧🟧🟧🟧🟧⚽▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️ 🥅 **42.86 %** (3 of 7 steps)
+🟧🟧🟧🟧🟧⚽▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️ 🥅 **27.3512 %** (3 of 7 steps)
+
+**Likely finish:** about 9:19 PM (likely 9:02 PM to 9:57 PM) Boston time
 
 **Going on now:** Pushed bd58e2ef with the root-cause fixes and the latest test build (41660939): Home's late-loading stylesheet no longer hides Transfer War's HOME/REFRESH bar, and the replay shows one guess card per manager. Waiting for the 16 checks
 
@@ -36,7 +38,9 @@ _Updated Sun 4 Oct 8:41 PM Boston time_
 
 Sonnet · Sonnet thread · PR #352
 
-🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪⚽▫️ 🥅 **90.00 %** (9 of 10 steps)
+🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪⚽ 🥅 **95.2015 %** (9 of 10 steps)
+
+**Likely finish:** about 8:48 PM (likely 8:47 PM to 9:06 PM) Boston time
 
 **Going on now:** CI green on bdbf6a6, waiting for lead review and merge
 
@@ -48,13 +52,15 @@ _Updated Sun 4 Oct 8:46 PM Boston time_
 
 Opus · Opus thread · PR #357
 
-🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧⚽▫️▫️▫️ 🥅 **81.82 %** (9 of 11 steps)
+🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧⚽▫️▫️▫️ 🥅 **83.9411 %** (10 of 12 steps)
 
-**Going on now:** Fix ready locally; waiting for job 33 to merge, then one push
+**Likely finish:** about 9:00 PM (likely 8:56 PM to 9:07 PM) Boston time
+
+**Going on now:** Fixes committed locally; waiting for job 33 to merge, then one push
 
 **Still to do:** Final sync with recovery after job 33 merges, plus the log fix; CI green → Lead merges into gameplay/recovery-v1
 
-_Updated Sun 4 Oct 8:39 PM Boston time_
+_Updated Sun 4 Oct 8:52 PM Boston time_
 
 ## Live fixes and bug hunt
 
