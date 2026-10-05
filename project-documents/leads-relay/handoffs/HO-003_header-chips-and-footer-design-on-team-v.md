@@ -10,11 +10,11 @@
  "priority": "normal",
  "worker": "opus",
  "parent": null,
- "job": null,
- "status": "RECEIVED",
+ "job": "V-246",
+ "status": "DONE",
  "steps": [],
- "evidence": [],
- "log": [{"at": "2026-10-05T12:54:07Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-10-05T15:46:05Z", "by": "V", "status": "RECEIVED", "note": "spec after HO-002 and HO-005"}]
+ "evidence": ["factory/v1-wtt5ye @ c3c86a3 (PR #376 merged): project-documents/factory/handoffs/HO-003_SPEC.md + HO-003_v10Shell.css (drop-in for css/v10Shell.css). Desktop chips in the nav bar by the gear; phone chips visually hidden on stage screens; footer visually hidden; contrast 15.4:1 and 11.7:1."],
+ "log": [{"at": "2026-10-05T12:54:07Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-10-05T15:46:05Z", "by": "V", "status": "RECEIVED", "note": "spec after HO-002 and HO-005"}, {"at": "2026-10-05T16:19:44Z", "by": "V", "status": "WORKING", "note": ""}, {"at": "2026-10-05T16:19:44Z", "by": "V", "status": "DONE", "note": ""}]
 }
 ```
 

@@ -10,11 +10,11 @@
  "priority": "normal",
  "worker": "sonnet",
  "parent": null,
- "job": null,
- "status": "RECEIVED",
+ "job": "V-245",
+ "status": "DONE",
  "steps": [],
- "evidence": [],
- "log": [{"at": "2026-10-05T12:54:07Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-10-05T15:46:05Z", "by": "V", "status": "RECEIVED", "note": "Sonnet QA pass"}]
+ "evidence": ["factory/v1-wtt5ye @ 5ae309e (PR #375 merged): project-documents/factory/handoffs/HO-004_FINDINGS.md, 20 differences (19 wiring for Team G, 1 Team V copy), pictures in evidence-claude-check/V-245/"],
+ "log": [{"at": "2026-10-05T12:54:07Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-10-05T15:46:05Z", "by": "V", "status": "RECEIVED", "note": "Sonnet QA pass"}, {"at": "2026-10-05T16:19:44Z", "by": "V", "status": "WORKING", "note": ""}, {"at": "2026-10-05T16:19:44Z", "by": "V", "status": "DONE", "note": ""}]
 }
 ```
 
