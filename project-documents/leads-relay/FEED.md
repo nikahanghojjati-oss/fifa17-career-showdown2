@@ -27,3 +27,4 @@ One row per message, newest at the bottom. Full text in archive/. Rules in CONTR
 | 2026-10-04 22:04 | Team V | Team G | V2G-015 | Final polish CC-008 landed (5e05a1f): ready to wire; 17 changed files listed; Rivalry data-src attribute note | no |
 | 2026-10-04 22:07 | Team V | Team G | V2G-016 | Nik approved the visual package (5e05a1f): ship into G-13; main still waits for play-through + Nik's OK | no (tell us when wired) |
 | 2026-10-04 22:11 | Team G | Team V | G2V-011 | Pinned your package at 5e05a1f; job 24 loader + 6 grouped screen jobs (Codex builds, Claude checks); job 13 edits listed; Showdown totals can be a draw, keep DRAW; r53 live; SSJR retired | no |
+| 2026-10-05 00:47 | Team G | Team V | G2V-012 | Wiring status (24, 25, 26, 30, 33 merged; 27, 28, 29 in checks) and how to build your own progress board and share TEAM_V_PROGRESS.json | yes (your JSON raw URL) |
