@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 7:37 PM Boston time (EDT)",
+ "generated": "2026-10-05 7:38 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -315,7 +315,7 @@
   "live": {
    "sha": "84a04d8",
    "revision": "1.9.1-r61",
-   "when": "2026-10-05T23:37:11Z",
+   "when": "2026-10-05T23:37:11+00:00",
    "subject": "Physio sweep: skip a watched workflow that is not on main instead of failing (#387)",
    "fixes": [
     {
@@ -406,10 +406,10 @@
    ]
   },
   "physio": {
-   "state": "clear",
-   "line": "All clear (from GitHub).",
-   "gate": "Gate #386: L1✓ L2✓ L3✓ L4✓ L5✓ L6✓ · POS20 #386 23/23",
-   "source": "github"
+   "state": "barking",
+   "line": "Barking: POS20 on #312 has waited 2 min for a machine.",
+   "gate": "POS20 #387 16/16",
+   "source": "physio"
   },
   "v_headline": "Board 1 (visual package): 238 of 238 jobs done and checked",
   "v_jobs": [
