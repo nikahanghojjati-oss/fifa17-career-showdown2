@@ -200,7 +200,16 @@ const SHELL_PATHS = Object.freeze([
     "visual-assets/v10_1/shared/navbar/navbar.css",
     "visual-assets/v10_1/shared/navbar/navbar.js",
     "js/v10Setup.js",
-    "css/v10Setup.css"
+    "css/v10Setup.css",
+    "js/transferScreenV10.js",
+    "css/v10Transfer.css",
+    "visual-assets/v10_1/tr2/slice-02-plate/plate.css",
+    "visual-assets/v10_1/tr2/slice-02-plate/plate.js",
+    "visual-assets/v10_1/tr2/slice-02-plate/platemap.json",
+    "visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-600-normal.woff2",
+    "visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-700-normal.woff2",
+    "visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-latin-400-normal.woff2",
+    "visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-latin-600-normal.woff2"
 ]);
 const SHELL_PATH_SET = new Set(SHELL_PATHS);
 

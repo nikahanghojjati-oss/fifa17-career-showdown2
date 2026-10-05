@@ -859,6 +859,27 @@
         "^tests/contracts/v10-season-final-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+      {
+      "path": "tests/contracts/v10-transfer-contracts.cjs",
+      "patterns": [
+        "^js/transferScreenV10\\.js$",
+        "^css/v10Transfer\\.css$",
+        "^js/v10Screens\\.js$",
+        "^js/productionSharedTransferChallenge\\.js$",
+        "^js/transferSelector\\.js$",
+        "^js/ssjr\\.js$",
+        "^service-worker\\.js$",
+        "^index\\.html$",
+        "^css/app\\.css$",
+        "^css/transfer\\.css$",
+        "^visual-assets/v10_1/tr2/",
+        "^visual-assets/v10_1/shared/",
+        "^tests/support/chromium-runtime\\.cjs$",
+        "^tests/support/static-server\\.cjs$",
+        "^tests/contracts/v10-transfer-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }

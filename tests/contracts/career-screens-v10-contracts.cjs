@@ -152,7 +152,10 @@ check("V9 startup shell unchanged; every new lazy file is shell-cached (images: 
   assert.ok(stats.includes('window.loadRuntimeScript("career-screens-v10", "js/careerScreensV10.js"'),"lazy load from statistics.js");
   assert.ok(read("js/trophyRoom.js").includes('openCareerScreensV10("trophyRoom")'));
   for(const banned of ["index.html","preview.html","fixtures.json","evidence","review","tools"])for(const dir of ["trophy-room","career-statistics"])assert.ok(!fs.existsSync(path.join(ROOT,"visual-assets/v10_1",dir,banned)),`${dir}/${banned} not copied`);
-  assert.ok(!lazy.some(f=>/\.md$|_SRC\.png$|GUIDE_|PHONE_PROOF|\.png$/.test(f)),"no docs or png copied");
+  assert.ok(!lazy.some(f=>/\.md$|_SRC\.png$|GUIDE_|PHONE_PROOF/.test(f)),"no docs or review sources copied");
+  // Job 27: Transfer War ships three runtime PNGs (alpha overlays Team V delivers only as PNG); none elsewhere.
+  const runtimePng=new Set(["DER_TR2_PLATE_G_GLASS_C_V1.png","OVL_NIK_FINGERTIP_V1_1672.png","OVL_NIK_FINGERTIP_V1_3344.png"].map(f=>"visual-assets/v10_1/tr2/slice-02-plate/assets/"+f));
+  assert.ok(!lazy.some(f=>/\.png$/.test(f)&&!runtimePng.has(f)),"no png copied");
 });
 check("V10 production never reads fixtures",()=>{
   const binder=read("js/careerScreensV10.js");
