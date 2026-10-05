@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 7:46 PM Boston time (EDT)",
+ "generated": "2026-10-05 7:47 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -326,8 +326,8 @@
      "sha": "1a040366cd39690d4daf9fe2c9c354a4839de998",
      "updated": "2026-10-05T23:38:47Z",
      "gates": {
-      "passed": 10,
-      "running": 11,
+      "passed": 12,
+      "running": 9,
       "failed": 0,
       "cancelled": 0
      }
@@ -407,8 +407,8 @@
   },
   "physio": {
    "state": "barking",
-   "line": "Barking: POS20 has waited 12 min for a machine; POS20 on #388 has waited 7 min for a machine; POS20 on #386 has waited 7 min for a machine; Gameplay Fast has waited 3 min for a machine; POS20 has waited 3 min for a machine; POS20 on #311 has waited 1 min for a machine.",
-   "gate": "Gate #386: L1… L2… L3… L4… L5… L6… · seal pending · POS20 #386 9/16",
+   "line": "Barking: Gameplay Fast has waited 5 min for a machine; POS20 has waited 5 min for a machine; POS20 has waited 3 min for a machine; POS20 on #312 has waited 2 min for a machine.",
+   "gate": "Gate #386: L1… L2… L3… L4… L5… L6✓ · seal pending · POS20 #386 11/16",
    "source": "physio"
   },
   "v_headline": "Board 1 (visual package): 238 of 238 jobs done and checked",
@@ -805,8 +805,8 @@
     "sha": "1a040366cd39690d4daf9fe2c9c354a4839de998",
     "updated": "2026-10-05T23:38:47Z",
     "gates": {
-     "passed": 10,
-     "running": 11,
+     "passed": 12,
+     "running": 9,
      "failed": 0,
      "cancelled": 0
     }
