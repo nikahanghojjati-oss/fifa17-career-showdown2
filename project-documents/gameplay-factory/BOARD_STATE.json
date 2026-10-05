@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 7:43 PM Boston time (EDT)",
+ "generated": "2026-10-05 7:46 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -284,8 +284,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "f024c03",
-  "head_boston": "Mon 5 Oct 7:42 PM",
+  "head": "acd379c",
+  "head_boston": "Mon 5 Oct 7:45 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": true,
   "open_for_g": [],
@@ -326,8 +326,8 @@
      "sha": "1a040366cd39690d4daf9fe2c9c354a4839de998",
      "updated": "2026-10-05T23:38:47Z",
      "gates": {
-      "passed": 5,
-      "running": 16,
+      "passed": 10,
+      "running": 11,
       "failed": 0,
       "cancelled": 0
      }
@@ -407,12 +407,21 @@
   },
   "physio": {
    "state": "barking",
-   "line": "Barking: POS20 has waited 10 min for a machine; POS20 on #388 has waited 5 min for a machine; Gameplay Fast on #386 has waited 5 min for a machine; Showdown Gate on #386 has waited 5 min for a machine; POS20 on #386 has waited 5 min for a machine; POS20 has waited 3 min for a machine; POS20 on #311 has waited 2 min for a machine; Gameplay Fast has waited 1 min for a machine.",
-   "gate": "Gate #386: L1· L2… L3… L4· L5· L6… · seal pending · POS20 #386 4/16",
+   "line": "Barking: POS20 has waited 12 min for a machine; POS20 on #388 has waited 7 min for a machine; POS20 on #386 has waited 7 min for a machine; Gameplay Fast has waited 3 min for a machine; POS20 has waited 3 min for a machine; POS20 on #311 has waited 1 min for a machine.",
+   "gate": "Gate #386: L1… L2… L3… L4… L5… L6… · seal pending · POS20 #386 9/16",
    "source": "physio"
   },
   "v_headline": "Board 1 (visual package): 238 of 238 jobs done and checked",
   "v_jobs": [
+   {
+    "job": "V-1002",
+    "title": "Transfer War window strings match production wording",
+    "worker": "Sol chat",
+    "done": 1,
+    "total": 3,
+    "pr": 389,
+    "current": "waiting for Nik to type 1002 in a new Showdown visual chat"
+   },
    {
     "job": "V-247",
     "title": "Phone Home tile icons like GOAL_HOME",
@@ -511,8 +520,8 @@
     "from": "G",
     "to": "V",
     "title": "Shared job numbers for both teams, from 1001",
-    "stage": "RECEIVED",
-    "pct": 0.0,
+    "stage": "DONE",
+    "pct": 100.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-007_shared-job-numbers-for-both-teams-from-1.md",
     "worker": "",
@@ -542,7 +551,7 @@
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-009_gpt-workers-ci-gates-and-the-physio-are-.md",
     "worker": "sol-chat",
-    "pickup_min": null,
+    "pickup_min": 0,
     "waiting_min": null
    }
   ],
@@ -796,8 +805,8 @@
     "sha": "1a040366cd39690d4daf9fe2c9c354a4839de998",
     "updated": "2026-10-05T23:38:47Z",
     "gates": {
-     "passed": 5,
-     "running": 16,
+     "passed": 10,
+     "running": 11,
      "failed": 0,
      "cancelled": 0
     }
