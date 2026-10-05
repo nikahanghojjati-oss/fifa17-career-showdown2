@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 7:16 PM Boston time (EDT)",
+ "generated": "2026-10-05 7:19 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -313,25 +313,11 @@
  },
  "two": {
   "live": {
-   "sha": "61489dd",
+   "sha": "95f44fb",
    "revision": "1.9.1-r61",
-   "when": "2026-10-05T21:37:15Z",
-   "subject": "Release r61: phone track list stops below the logo and scrolls; Next To You first (#383)",
+   "when": "2026-10-05T23:18:44Z",
+   "subject": "Showdown Gate Physio: re-run infra-only check failures, preempt helpers, publish status (#385)",
    "fixes": [
-    {
-     "pr": 385,
-     "title": "Physio: re-run checks GitHub gave no machine, pause helpers while checks wait",
-     "draft": false,
-     "branch": "ci/showdown-gate-physio",
-     "sha": "02960ba13ec0e9a6182c73fccc0ea3cec0beda05",
-     "updated": "2026-10-05T23:08:26Z",
-     "gates": {
-      "passed": 15,
-      "running": 1,
-      "failed": 0,
-      "cancelled": 0
-     }
-    },
     {
      "pr": 384,
      "title": "Every screen in Team V's look: signed-out career screens, Showdown Home, season review, Legacy data tools",
@@ -348,6 +334,11 @@
     }
    ],
    "today": [
+    {
+     "pr": 385,
+     "title": "Physio: re-run checks GitHub gave no machine, pause helpers while checks wait",
+     "merged": "2026-10-05T23:18:44Z"
+    },
     {
      "pr": 383,
      "title": "Release r61: phone track list stops below the logo and scrolls",
@@ -398,7 +389,7 @@
   "physio": {
    "state": "clear",
    "line": "All clear (from GitHub).",
-   "gate": "POS20 #385 15/16",
+   "gate": "POS20 #384 12/12",
    "source": "github"
   },
   "v_headline": "Board 1 (visual package): 238 of 238 jobs done and checked",
@@ -566,7 +557,7 @@
   "**Nothing waits on you right now.** r62 is nearly full; BH-11, BUG-1 and G-F6b are finishing."
  ],
  "now": {
-  "moving": 11,
+  "moving": 10,
   "next": 2,
   "nik": 4,
   "later": 5,
@@ -713,13 +704,13 @@
       "waits_on": "G-F1"
      },
      {
-      "id": "L1-J01",
+      "id": "101",
       "group": "Bug list 1",
-      "title": "Home desktop tile icons: Start a Showdown, Legacy, Statistics, Trophy Room, Rule Book and Settings icons larger and moved left/up, never touching the text or leaving the tile",
+      "title": "JOB-101 Home desktop tile icons: bigger, inside the tile, never on the text",
       "lane": "blue",
       "state": "ready",
-      "waits_on": "after Nik says go (he is still sending list 1)",
-      "details": "Items L1-01..06. CSS only in css/homeV10.css (desktop blocks). Lead measures label and icon boxes at 1920/1440/1280/1100/1000 wide, pastes them into the GPT blue packet, then checks screenshots. List: /mnt/project-files/bug-list-factory/LIST-1.md"
+      "waits_on": "after Nik types 101 in GPT (normal chat)",
+      "details": "Bug list 1 items L1-01..06. CSS only in css/homeV10.css desktop blocks. Job file jobs/JOB-101.md. Lead checks screenshots at 1920/1440/1280/1100/1000 wide."
      }
     ]
    },
@@ -739,20 +730,6 @@
    }
   },
   "fixes": [
-   {
-    "pr": 385,
-    "title": "Physio: re-run checks GitHub gave no machine, pause helpers while checks wait",
-    "draft": false,
-    "branch": "ci/showdown-gate-physio",
-    "sha": "02960ba13ec0e9a6182c73fccc0ea3cec0beda05",
-    "updated": "2026-10-05T23:08:26Z",
-    "gates": {
-     "passed": 15,
-     "running": 1,
-     "failed": 0,
-     "cancelled": 0
-    }
-   },
    {
     "pr": 384,
     "title": "Every screen in Team V's look: signed-out career screens, Showdown Home, season review, Legacy data tools",
