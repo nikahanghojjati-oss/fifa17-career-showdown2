@@ -7,18 +7,5 @@
  "next_move": [
   "**Play r56 with Daniel** (close and reopen the app once). Report anything odd to the coordinator in the project chat."
  ],
- "running": [
-  {
-   "job": 34,
-   "title": "Club Assignment (Team V design)",
-   "worker": "Opus",
-   "done": 3,
-   "total": 5,
-   "pct": 38.0678,
-   "eta": "waiting on the job's next report (last one 1 h ago)",
-   "current": "Gates running on the exact head",
-   "pr": 371,
-   "updated": "2026-10-05T14:14:18Z"
-  }
- ]
+ "running": []
 }

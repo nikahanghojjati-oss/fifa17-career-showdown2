@@ -1,6 +1,6 @@
 # Showdown board: G Factory and V Factory
 
-33 of 33 jobs done (100 %) ██████████ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-05 11:46 AM Boston time (EDT)
+33 of 33 jobs done (100 %) ██████████ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-05 11:47 AM Boston time (EDT)
 
 ## Scoreboard
 
@@ -10,12 +10,13 @@
 
 ## Live now
 
-🌐 **main `00a1eb8` · runtime 1.9.1-r56** · last change Mon 5 Oct 8:47 AM Boston time: Version 2.0 polish from Nik's live review (r56) (#370)
+🌐 **main `3deee29` · runtime 1.9.1-r57** · last change Mon 5 Oct 11:47 AM Boston time: Team V's Club Assignment on the live screen (r57) (#371)
 
-- 🔧 Live fix in review: [PR #371](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/371) G-34: Team V's Club Assignment on the live screen (r57)
+No live fix waiting to merge.
 
-**Shipped to the live game today (5):**
+**Shipped to the live game today (6):**
 
+- ✅ 11:47 AM · [PR #371](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/371) G-34: Team V's Club Assignment on the live screen (r57)
 - ✅ 8:47 AM · [PR #369](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/369) Live 2.0 screen fixes: Trophy Room clipping, Start Showdown art, Continue Career 17 player
 - ✅ 8:47 AM · [PR #370](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/370) Version 2.0 polish from Nik's live review (r56)
 - ✅ 7:55 AM · [PR #368](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/368) Keep keyboard focus when the Settings look loads
@@ -36,15 +37,7 @@ Gameplay factory job NN. Read https://raw.githubusercontent.com/nikahanghojjati-
 
 ## Running now
 
-<sub>Percent = finished steps weighted by typical step time, finish times are estimates ([how](ETA_STUDY.md)). Lanes: 🟦 Sol chat · 🟩 Sol Work mode · ⬜ Codex · 🟧 Opus · 🟪 Sonnet · 🟨 Haiku</sub>
-
-### 🟧 Job 34 · Club Assignment (Team V design) · 38.0678 %
-
-🟧🟧🟧🟧🟧🟧🟧⚽▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️ 🥅  
-Opus · Lead (helper) · [PR #371](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/371) · 3 of 5 steps · updated Mon 5 Oct 10:14 AM Boston time  
-🏁 **Likely finish:** waiting on the job's next report (last one 1 h ago)  
-> **Now:** Gates running on the exact head  
-> **Left:** All 16 checks green on the exact head → Merged into main and live
+No job is reporting progress right now (jobs show here once their PR description carries a progress block).
 
 ## Live fixes and bug hunt
 

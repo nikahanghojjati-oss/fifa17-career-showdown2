@@ -276,20 +276,17 @@
  },
  "two": {
   "live": {
-   "sha": "00a1eb8",
-   "revision": "1.9.1-r56",
-   "when": "2026-10-05T08:47:17-04:00",
-   "subject": "Version 2.0 polish from Nik's live review (r56) (#370)",
-   "fixes": [
+   "sha": "3deee29",
+   "revision": "1.9.1-r57",
+   "when": "2026-10-05T15:47:10Z",
+   "subject": "Team V's Club Assignment on the live screen (r57) (#371)",
+   "fixes": [],
+   "today": [
     {
      "pr": 371,
      "title": "G-34: Team V's Club Assignment on the live screen (r57)",
-     "draft": false,
-     "branch": "gameplay/job-34-club-assignment",
-     "updated": "2026-10-05T14:14:19Z"
-    }
-   ],
-   "today": [
+     "merged": "2026-10-05T15:47:10Z"
+    },
     {
      "pr": 369,
      "title": "Live 2.0 screen fixes: Trophy Room clipping, Start Showdown art, Continue Career 17 player",

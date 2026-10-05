@@ -19,15 +19,8 @@
 
 <sub>Percent = finished steps weighted by typical step time; finish times are estimates ([how](ETA_STUDY.md)).</sub>
 
-🏁 no finish time yet (not enough data)
-
-### 🟧 Opus · 1 job
-
-**[Job 34 · Club Assignment (Team V design)](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/371) · 38.0678 %** · 3 of 5 steps · updated Mon 5 Oct, 10:14 AM  
-🟧🟧🟧🟧🟧🟧🟧⚽▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️ 🥅  
-🏁 **Likely finish:** waiting on the job's next report (last one 1 h ago)  
-> **Now:** Gates running on the exact head  
-> **Left:** All 16 checks green on the exact head → Merged into main and live
+> [!NOTE]
+> No job is reporting progress right now. A job shows here once its PR description carries a progress block.
 
 <details>
 <summary><b>✅ Closed: 4</b> (4 live in the game) · click to open</summary>
