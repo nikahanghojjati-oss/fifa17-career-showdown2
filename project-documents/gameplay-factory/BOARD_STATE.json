@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 3:37 PM Boston time (EDT)",
+ "generated": "2026-10-05 3:40 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -320,10 +320,10 @@
    "fixes": [
     {
      "pr": 383,
-     "title": "Phone track list: stop below the logo and scroll (r61)",
+     "title": "Release r61: phone track list stops below the logo and scrolls",
      "draft": false,
      "branch": "fix/music-phone-sheet",
-     "updated": "2026-10-05T18:54:24Z"
+     "updated": "2026-10-05T19:39:59Z"
     }
    ],
    "today": [

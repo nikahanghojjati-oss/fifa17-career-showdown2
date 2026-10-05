@@ -1,6 +1,6 @@
 # Showdown board: G Factory and V Factory
 
-33 of 33 jobs done (100 %) ██████████ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-05 3:37 PM Boston time (EDT)
+33 of 33 jobs done (100 %) ██████████ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-05 3:40 PM Boston time (EDT)
 
 ## Scoreboard
 
@@ -12,7 +12,7 @@
 
 🌐 **main `d8e6c44` · runtime 1.9.1-r60** · last change Mon 5 Oct 2:51 PM Boston time: Release r60: no old player photos, seven Home tiles, 11-track soundtrack, phone tile icons (#378)
 
-- 🔧 Live fix in review: [PR #383](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/383) Phone track list: stop below the logo and scroll (r61)
+- 🔧 Live fix in review: [PR #383](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/383) Release r61: phone track list stops below the logo and scrolls
 
 **Shipped to the live game today (8):**
 
