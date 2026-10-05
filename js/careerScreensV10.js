@@ -109,7 +109,7 @@
   }
   async function v10Platemap(screen){
     if(platemaps[screen])return platemaps[screen];
-    const response=await root.fetch(BASE+FILES[screen].platemap);
+    const response=await root.fetch(typeof root.optionalAssetUrl==="function"?root.optionalAssetUrl(BASE+FILES[screen].platemap):BASE+FILES[screen].platemap);
     if(!response.ok)throw new Error("CAREER_SCREEN_V10_PLATEMAP");
     platemaps[screen]=await response.json();
     return platemaps[screen];

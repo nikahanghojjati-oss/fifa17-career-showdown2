@@ -7,6 +7,8 @@
   // JOB-28: pure, read-only frames for Team V's current rivalry and completed History.
   const node=typeof module!=="undefined"&&module.exports;
   const seam=()=>node?require("./careerScreenSeam.js"):root.CareerModeCareerScreenSeam;
+  // Shell-cached Team V files live under the runtime ?v= URL, so fetch them the same way (offline first launch).
+  const assetUrl=path=>typeof root.optionalAssetUrl==="function"?root.optionalAssetUrl(path):path;
   const BASE="visual-assets/v10_1/",ORDER=["daniel","nik"],STATES=["loading","empty","unavailable","partial","ready"];
   const FIELDS=["seasonWins","seasonDraws","seasonLosses","championsLeagues","leagueTitles","domesticCups","totalTrophies","hundredPointSeasons","hundredGoalSeasons","topScorerSeasons","topAssistSeasons","perfectSeasons","bestSeasonScore"];
   const finite=x=>typeof x==="number"&&Number.isFinite(x);
@@ -122,7 +124,7 @@
         api.register(APP[screen],{
           css:[base+DIR[screen]+".css","../../css/rivalryLegacyV10.css"],
           js:[["v10-"+DIR[screen],base+DIR[screen]+".js",()=>typeof root[BOOT[screen]]==="function"]],
-          prepare:async()=>{const responses=await Promise.all([root.fetch(BASE+base+"strings.json"),root.fetch(BASE+base+"assets/platemap.json")]);if(responses.some(r=>!r.ok))throw new Error("RIVALRY_LEGACY_RESOURCES_UNAVAILABLE");const [strings,map]=await Promise.all(responses.map(r=>r.json()));resources[screen]={strings,map};},
+          prepare:async()=>{const responses=await Promise.all([root.fetch(assetUrl(BASE+base+"strings.json")),root.fetch(assetUrl(BASE+base+"assets/platemap.json"))]);if(responses.some(r=>!r.ok))throw new Error("RIVALRY_LEGACY_RESOURCES_UNAVAILABLE");const [strings,map]=await Promise.all(responses.map(r=>r.json()));resources[screen]={strings,map};},
           frame:()=>source(screen),mount:(model,host)=>draw(screen,model,host),unmount:host=>undraw(screen,host)
         });
       }

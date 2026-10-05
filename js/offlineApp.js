@@ -119,7 +119,9 @@ function setMenuMediaOfflineState(offline){
     const offlineStatus="OFFLINE · YOUTUBE MEDIA REQUIRES A CONNECTION";
     if(offline){
         try{
-            if(window.isMenuMediaPlaying?.()&&toggle&&!toggle.disabled){ toggle.click(); }
+            // The Team V Audius player shares this toggle; pause it too before the toggle is disabled.
+            const audius=window.HomeSoundtrack?.state?.();
+            if((window.isMenuMediaPlaying?.()||audius?.wantPlaying)&&toggle&&!toggle.disabled){ toggle.click(); }
         }catch(error){
             console.warn("[Career Mode Showdown] External media could not be paused while entering offline mode:",error);
         }

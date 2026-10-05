@@ -4,6 +4,8 @@
   else root.CareerModeSeasonFinalV10=api;
 })(typeof globalThis!=="undefined"?globalThis:this,function(root){
   "use strict";
+  // Shell-cached Team V files live under the runtime ?v= URL, so fetch them the same way (offline first launch).
+  const assetUrl=path=>typeof root.optionalAssetUrl==="function"?root.optionalAssetUrl(path):path;
   const BASE="visual-assets/v10_1/",ROLES={playerOne:"daniel",playerTwo:"nik",draw:"draw"};
   const COUNT_FIELDS=["seasonWins","seasonDraws","seasonLosses","championsLeagues","leagueTitles","domesticCups","totalTrophies"];
   const number=x=>typeof x==="number"&&Number.isFinite(x);
@@ -69,8 +71,8 @@
   function stageElement(folder){const holder=root.document.createElement("div");holder.innerHTML=templates[folder];return holder.firstElementChild;}
   const fail=error=>root.console?.warn?.("[Career Mode Showdown] Season visual unavailable",error);
   async function prepare(folder){
-    if(!templates[folder]){const r=await root.fetch(BASE+folder+"/app-shell.html");if(!r.ok)throw new Error("V10_RESULTS_TEMPLATE");templates[folder]=await r.text();}
-    if(folder!=="season-results"&&!strings[folder]){const r=await root.fetch(BASE+folder+"/app-strings.json");if(!r.ok)throw new Error("V10_RESULTS_STRINGS");strings[folder]=(await r.json()).strings;strings[folder].previewLabel="";}
+    if(!templates[folder]){const r=await root.fetch(assetUrl(BASE+folder+"/app-shell.html"));if(!r.ok)throw new Error("V10_RESULTS_TEMPLATE");templates[folder]=await r.text();}
+    if(folder!=="season-results"&&!strings[folder]){const r=await root.fetch(assetUrl(BASE+folder+"/app-strings.json"));if(!r.ok)throw new Error("V10_RESULTS_STRINGS");strings[folder]=(await r.json()).strings;strings[folder].previewLabel="";}
   }
   // The skin mounts after the legacy form is live and reparents it (and the action row). Moving a focused
   // field blurs it, so a value typed at that moment would land on <body>; put focus back on the same field.
