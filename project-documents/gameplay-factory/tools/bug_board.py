@@ -66,7 +66,7 @@ L = ["# 🐞 Team G bug hunting factory", "",
      "## 🔧 Open bugs", ""]
 L += (hdr + [row(b) for b in opn]) if opn else ["> [!TIP]", "> No open bug reports. Report one to the coordinator in the project chat.", ""]
 L += ["", "## ⚽ Jobs running now", "",
-      "Bars show the share of each job done, to four decimals (finished steps weighted by how long that kind of step usually takes, see [ETA_STUDY.md](ETA_STUDY.md)). Finish times are estimates.", ""]
+      "<sub>Percent = finished steps weighted by typical step time; finish times are estimates ([how](ETA_STUDY.md)).</sub>", ""]
 if rj:
     L += [ETA.whistle([ETA.describe(r) for r, k, t in rj.values()]), ""]
     groups = [(sq, name, [x for x in rj.items() if lane_of(x[1][0]) == (sq, name)]) for sq, name in list(LANES.values()) + [("⬛", "worker not set")]]
@@ -76,11 +76,10 @@ if rj:
         L += [f"### {sq} {name} · {len(mine)} job{'s' if len(mine) != 1 else ''}", ""]
         for n, (r, k, t) in sorted(mine, key=lambda x: int(x[0])):
             left = [s["name"] for s in r["steps"] if not s.get("done")]
-            L += [f"**{job_link(n, r, f'Job {n} · ' + r['title'])}**  ",
-                  f"{pitch(ETA.describe(r)['pct'] / 100, sq)} **{ETA.describe(r)['pct']:.4f} %** · {k} of {t} steps · updated {boston(r.get('updated'))}", "",
-                  f"**Likely finish:** {ETA.describe(r)['eta']}", "",
-                  f"> **Going on now:** {r.get('current') or 'not reported'}  ",
-                  "> **Still to do:** " + (" → ".join(left) or "nothing, all steps done"), ""]
+            d = ETA.describe(r)
+            L += [f"**{job_link(n, r, f'Job {n} · ' + r['title'])} · {d['pct']:.4f} %** · {k} of {t} steps · updated {boston(r.get('updated'))}  ",
+                  f"{pitch(d['pct'] / 100, sq)}  ", f"🏁 **Likely finish:** {d['eta']}  ",
+                  f"> **Now:** {r.get('current') or 'not reported'}  ", "> **Left:** " + (" → ".join(left) or "nothing, all steps done"), ""]
 else:
     L += ["> [!NOTE]", "> No job is reporting progress right now. A job shows here once its PR description carries a progress block.", ""]
 L += ["<details>", f"<summary><b>✅ Closed: {len(closed)}</b> ({live} live in the game) · click to open</summary>", ""] + hdr + [row(b) for b in closed] + ["", "</details>", "",

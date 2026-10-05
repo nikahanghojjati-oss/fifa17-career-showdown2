@@ -75,7 +75,8 @@ def describe(r):
     at = [anchor + datetime.timedelta(minutes=m) for m in left]
     now = datetime.datetime.now(datetime.timezone.utc)
     if at[2] < now:
-        return {"pct": pct, "eta": "past the estimate; the next report will move it", "basis": basis}
+        h = int((now - anchor).total_seconds() // 3600)
+        return {"pct": pct, "eta": f"waiting on the job's next report (last one {h} h ago)" if h >= 1 else "any minute now (past the estimate)", "basis": basis}
     return {"pct": pct, "end": at[1], "eta": f"about {clock(at[1])} (likely {clock(at[0])} to {clock(at[2])}) Boston time", "basis": basis}
 
 

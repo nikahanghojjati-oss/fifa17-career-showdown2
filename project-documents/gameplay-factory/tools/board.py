@@ -195,26 +195,21 @@ L += ["", f"_Moving now:_ {moving}." + (f" _Next up:_ {nxt['key']} {nxt['title']
 from factory_common import running_jobs, LANES, lane_of, pitch
 
 rj = running_jobs()
-L += ["## Running now", "", "Bug hunting factory: [BUG_BOARD.md](BUG_BOARD.md).", ""]
+L += ["## Running now", ""]
 if rj:
-    L += ["Each bar is the share of the job done, to four decimals: finished steps weighted by how long that kind of step usually takes ([ETA_STUDY.md](ETA_STUDY.md)). Finish times are estimates with a likely range. Lanes: " +
-          " · ".join(f"{sq} {name}" for sq, name in LANES.values()) + ".", ""]
+    L += ["<sub>Percent = finished steps weighted by typical step time, finish times are estimates ([how](ETA_STUDY.md)). Lanes: " +
+          " · ".join(f"{sq} {name}" for sq, name in LANES.values()) + "</sub>", ""]
     for n, r, k, t in rj:
         sq, who = lane_of(r)
-        pc = 100 * k / max(t, 1)
+        d = ETA.describe(r)
         try:
             upd = boston_from_utc(r["updated"][:16].replace("T", " "))
         except Exception:
             upd = "unknown"
         left = [s_["name"] for s_ in r["steps"] if not s_.get("done")]
-        d = ETA.describe(r)
-        L += [f"### {sq} Job {n} · {r['title']}", "", f"{who} · {r.get('owner', '')}" + (f" · PR #{r['pr']}" if r.get("pr") else ""), "",
-              f"{pitch(d['pct'] / 100, sq)} **{d['pct']:.4f} %** ({k} of {t} steps)", "",
-              f"**Likely finish:** {d['eta']}", "",
-              f"**Going on now:** {r.get('current', '')}", ""]
-        if left:
-            L += ["**Still to do:** " + " → ".join(left), ""]
-        L += [f"_Updated {upd} Boston time_", ""]
+        L += [f"### {sq} Job {n} · {r['title']} · {d['pct']:.4f} %", "",
+              f"{pitch(d['pct'] / 100, sq)}  ", who + (f" · {r['owner']}" if r.get("owner") else "") + (f" · [PR #{r['pr']}]({REPO}/pull/{r['pr']})" if r.get("pr") else "") + f" · {k} of {t} steps · updated {upd} Boston time  ",
+              f"🏁 **Likely finish:** {d['eta']}  ", f"> **Now:** {r.get('current', '')}  ", "> **Left:** " + (" → ".join(left) or "nothing"), ""]
     ids = {n for n, *_ in rj}
     missing = [f"job {j['number']}" for j in jobs if info[j["number"]][0] == "WORKING" and j["number"] not in ids]
     if missing:
