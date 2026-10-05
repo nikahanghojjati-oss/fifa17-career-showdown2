@@ -1,6 +1,6 @@
 {
  "team": "G",
- "updated": "2026-10-04T21:19-04:00",
+ "updated": "2026-10-04T21:22-04:00",
  "jobs_done": 20,
  "jobs_total": 33,
  "open_bugs": 2,
@@ -15,7 +15,7 @@
    "done": 6,
    "total": 7,
    "pct": 87.524,
-   "eta": "about 9:12 PM (likely 9:10 PM to 9:20 PM) Boston time",
+   "eta": "past the estimate; the next report will move it",
    "current": "Lead reviewed; final checks running on the head with the latest test build",
    "pr": 362,
    "updated": "2026-10-05T01:06:18Z"

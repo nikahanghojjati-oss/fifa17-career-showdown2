@@ -1,6 +1,6 @@
 # Team G gameplay board
 
-20 of 33 jobs done (70 %) ███████░░░ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-04 9:19 PM Boston time (EDT)
+20 of 33 jobs done (70 %) ███████░░░ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-04 9:22 PM Boston time (EDT)
 
 ## Your next move
 
@@ -26,7 +26,7 @@ Opus · Lead (helper) · PR #362
 
 🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧⚽▫️▫️ 🥅 **87.5240 %** (6 of 7 steps)
 
-**Likely finish:** about 9:12 PM (likely 9:10 PM to 9:20 PM) Boston time
+**Likely finish:** past the estimate; the next report will move it
 
 **Going on now:** Lead reviewed; final checks running on the head with the latest test build
 
