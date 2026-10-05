@@ -135,4 +135,43 @@ for(const file of fs.readdirSync(path.join(root, '.github/workflows')).filter(fi
     A.ok(!workflow.includes('actions/checkout@v4') && !workflow.includes('actions/setup-node@v4'), file);
 }
 
+// G-F6b: Chromium's two benign ResizeObserver warnings never reach players as an error toast. The boundary drops exactly
+// those two messages (keeping a console.debug) and nothing else. This runs the shipped js/app.js against a minimal page.
+{
+    const listeners = new Map();
+    const toasts = [], debugs = [], errors = [];
+    const fakeNode = () => ({ dataset: {}, style: {}, classList: { add(){}, remove(){} }, addEventListener(){}, setAttribute(){}, appendChild(){}, append(){}, remove(){}, querySelector: () => null });
+    const sandbox = {
+        URL,
+        document: { readyState: 'complete', querySelector: () => null, getElementById: () => null, createElement: fakeNode, head: fakeNode(), body: fakeNode(), addEventListener(){} },
+        location: { href: 'https://example.test/', origin: 'https://example.test' },
+        console: { debug: (...args) => debugs.push(args.join(' ')), error: (...args) => errors.push(args.join(' ')), warn(){}, log(){} },
+        addEventListener: (type, fn) => listeners.set(type, fn),
+        requestAnimationFrame(){}, setTimeout(){ return 0; }, clearTimeout(){},
+        initializeStorageLifecycle(){}, initializeScreens(){}, initializeMenuExperience(){}, initializeOptionalModules(){},
+        showScreen: () => true
+    };
+    sandbox.window = sandbox;
+    vm.createContext(sandbox);
+    vm.runInContext(app, sandbox);
+    const raise = (message) => { toasts.length = debugs.length = errors.length = 0; listeners.get('error')({ message, filename: 'https://example.test/js/clubScreenV10.js' }); return { toasts: toasts.slice(), debugs: debugs.slice(), errors: errors.slice() }; };
+    sandbox.showAppNotice = (message, type) => toasts.push(`${type}:${message}`);
+    A.equal(typeof listeners.get('error'), 'function', 'the error boundary is installed');
+    const before = sandbox.getRuntimeErrorBoundaryDiagnostics().suppressedExternalRuntimeErrors;
+    for (const message of ['ResizeObserver loop completed with undelivered notifications.', 'ResizeObserver loop completed with undelivered notifications', 'ResizeObserver loop limit exceeded']) {
+        const result = raise(message);
+        A.deepEqual(result.toasts, [], `${message}: no error toast`);
+        A.deepEqual(result.errors, [], `${message}: not reported as an application error`);
+        A.deepEqual(result.debugs, [message], `${message}: kept as a console.debug`);
+    }
+    A.equal(sandbox.getRuntimeErrorBoundaryDiagnostics().suppressedExternalRuntimeErrors, before, 'the benign warnings are not counted as external extension errors');
+    // Nothing else is filtered: a different error, near misses and a lookalike prefix or suffix still show the toast.
+    for (const message of ['TypeError: x is not a function', 'ResizeObserver loop', 'ResizeObserver loop failed', 'Uncaught ResizeObserver loop limit exceeded', 'ResizeObserver loop limit exceeded again', 'ResizeObserver loop completed with undelivered notifications. Extra', ' ResizeObserver loop limit exceeded']) {
+        const result = raise(message);
+        A.equal(result.toasts.length, 1, `${message}: still shows the error toast`);
+        A.ok(result.toasts[0].startsWith('error:A runtime error was detected.'), `${message}: toast text`);
+        A.deepEqual(result.debugs, [], `${message}: not a benign debug line`);
+    }
+}
+
 console.log(`Stability contracts passed for v${version}/${revision}; executable release identity, raw storage failures, workflow ownership and deployed product proof remain protected without player-facing architecture labels.`);
