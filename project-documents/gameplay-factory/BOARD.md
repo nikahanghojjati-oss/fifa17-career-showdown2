@@ -1,6 +1,6 @@
 # Team G gameplay board
 
-20 of 33 jobs done (70 %) ███████░░░ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-04 9:13 PM Boston time (EDT)
+20 of 33 jobs done (70 %) ███████░░░ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-04 9:16 PM Boston time (EDT)
 
 ## Your next move
 
@@ -40,13 +40,13 @@ Sonnet · Sonnet thread · PR #352
 
 🟪🟪🟪🟪🟪🟪🟪🟪🟪⚽▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️ 🥅 **49.9040 %** (9 of 11 steps)
 
-**Likely finish:** about 9:30 PM (likely 9:17 PM to 10:00 PM) Boston time
+**Likely finish:** about 9:43 PM (likely 9:30 PM to 10:12 PM) Boston time
 
-**Going on now:** CI running on new head after lead's review fixes
+**Going on now:** Paused for usage reset; all my work is pushed, waiting on the lead's J10 fix then merge
 
-**Still to do:** CI green on final head (Gameplay Fast + POS20) → Lead review and merge
+**Still to do:** CI green on final head (waits on the J10 fix on recovery) → Lead review and merge
 
-_Updated Sun 4 Oct 9:04 PM Boston time_
+_Updated Sun 4 Oct 9:17 PM Boston time_
 
 ## Live fixes and bug hunt
 

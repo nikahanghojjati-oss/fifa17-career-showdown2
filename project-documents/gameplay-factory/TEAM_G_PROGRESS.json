@@ -1,6 +1,6 @@
 {
  "team": "G",
- "updated": "2026-10-04T21:13-04:00",
+ "updated": "2026-10-04T21:16-04:00",
  "jobs_done": 20,
  "jobs_total": 33,
  "open_bugs": 2,
@@ -27,10 +27,10 @@
    "done": 9,
    "total": 11,
    "pct": 49.904,
-   "eta": "about 9:30 PM (likely 9:17 PM to 10:00 PM) Boston time",
-   "current": "CI running on new head after lead's review fixes",
+   "eta": "about 9:43 PM (likely 9:30 PM to 10:12 PM) Boston time",
+   "current": "Paused for usage reset; all my work is pushed, waiting on the lead's J10 fix then merge",
    "pr": 352,
-   "updated": "2026-10-05T01:04:10Z"
+   "updated": "2026-10-05T01:17:00Z"
   }
  ]
 }
