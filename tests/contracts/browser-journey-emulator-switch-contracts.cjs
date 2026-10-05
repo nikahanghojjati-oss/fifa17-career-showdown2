@@ -60,6 +60,12 @@ assert.ok(runtime.includes("additionalGoogleScopes:0")&&runtime.includes("enforc
 const deploy=read(".github/workflows/deploy-github-pages.yml");
 assert.ok(/cp -R acceptance assets css data js \.pages-artifact\//.test(deploy),"4a deploy copies an explicit folder list");
 assert.ok(!/cp[^\n]*\btests\b/.test(deploy),"4b deploy never copies tests/");
+// 4c. Every folder the service worker precaches is staged, so no shell file 404s on the live site (2.0 shipped without visual-assets/).
+const worker=read("service-worker.js");
+const staged=new Set([...deploy.matchAll(/^\s*cp (?:-R )?([^\n]+?) \.pages-artifact\/\s*$/gm)].flatMap(m=>m[1].split(/\s+/)));
+const precached=new Set([...worker.matchAll(/"((?:[a-z][a-z0-9_-]*\/)+[^"?]*\.[a-z0-9]+)"/gi)].map(m=>m[1].split("/")[0]));
+for(const folder of precached)assert.ok(staged.has(folder),`4c deploy stages ${folder}/ that service-worker.js precaches`);
+assert.ok(precached.has("visual-assets"),"4c the worker precaches Team V files");
 
 // 5. The startup bundle is unchanged in size class: the seven startup scripts still fit 37,500 gzip bytes.
 const html=read("index.html");
