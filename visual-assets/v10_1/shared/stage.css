@@ -120,6 +120,9 @@
   82% { opacity: .25; }
   100% { transform: translate3d(610%,0,0) skewX(-13deg); opacity: 0; }
 }
+/* stage.js sets this while the pointer moves: atmosphere frames would re-blur every backdrop-filter panel above them. */
+html[data-sd-pointer-active] .sd-stage__dust i,
+html[data-sd-pointer-active] .sd-stage__flare { animation-play-state: paused; }
 .sd-stage__vignette {
   position: absolute;
   inset: 0;
