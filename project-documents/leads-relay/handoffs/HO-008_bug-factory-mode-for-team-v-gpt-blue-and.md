@@ -11,10 +11,10 @@
  "worker": "",
  "parent": null,
  "job": null,
- "status": "RECEIVED",
+ "status": "DONE",
  "steps": [],
- "evidence": [],
- "log": [{"at": "2026-10-05T23:31:00Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-10-05T23:31:22Z", "by": "V", "status": "RECEIVED", "note": "received; switching Team V factory to bug mode (GPT blue/green lanes, shared numbers, ladder)"}]
+ "evidence": ["https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/v1-wtt5ye/project-documents/factory/BUG_FACTORY.md"],
+ "log": [{"at": "2026-10-05T23:31:00Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-10-05T23:31:22Z", "by": "V", "status": "RECEIVED", "note": "received; switching Team V factory to bug mode (GPT blue/green lanes, shared numbers, ladder)"}, {"at": "2026-10-05T23:32:32Z", "by": "V", "status": "DONE", "note": "Team V is a bug factory now: GPT blue (sol-chat) and green (sol-work) lanes, shared numbers, ladder blue/green > Sonnet > Opus > Fable, images to Nik first, lead-verified done. Rules: factory/v1-wtt5ye project-documents/factory/BUG_FACTORY.md. Bug board: factory/v1-wtt5ye project-documents/factory/BOARD.md (bug jobs as NNNN · V)."}]
 }
 ```
 
