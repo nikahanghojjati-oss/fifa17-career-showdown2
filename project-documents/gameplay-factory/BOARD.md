@@ -1,6 +1,6 @@
 # Showdown board: G Factory and V Factory
 
-🌐 **Live: runtime 1.9.1-r60** (main `d8e6c44`) · 🔄 **4 moving** · ⏭ 2 up next · 👤 3 waiting on Nik · 🗂 7 later · updated 2026-10-05 5:32 PM Boston time (EDT)
+🌐 **Live: runtime 1.9.1-r60** (main `d8e6c44`) · 🔄 **4 moving** · ⏭ 2 up next · 👤 3 waiting on Nik · 🗂 7 later · updated 2026-10-05 5:34 PM Boston time (EDT)
 
 ## Your next move
 
@@ -10,7 +10,7 @@
 
 | Release / fix | Checks on the latest commit | Updated |
 | --- | --- | --- |
-| [PR #383](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/383) Release r61: phone track list stops below the logo and scrolls | ⏳ 13 passed, 2 running | 5:24 PM |
+| [PR #383](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/383) Release r61: phone track list stops below the logo and scrolls | ⏳ 14 passed, 1 running | 5:24 PM |
 
 | Team | Job | What | Worker | Where it is | Details |
 | --- | --- | --- | --- | --- | --- |
