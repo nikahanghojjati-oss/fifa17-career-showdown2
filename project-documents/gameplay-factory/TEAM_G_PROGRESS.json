@@ -1,24 +1,11 @@
 {
  "team": "G",
- "updated": "2026-10-05T19:39-04:00",
+ "updated": "2026-10-05T19:40-04:00",
  "jobs_done": 33,
  "jobs_total": 33,
  "open_bugs": 8,
  "next_move": [
   "**Nothing waits on you right now.** r62 is nearly full; BH-11, BUG-1 and G-F6b are finishing."
  ],
- "running": [
-  {
-   "job": 1001,
-   "title": "Home desktop tile icons: bigger, inside the tile, never on the text",
-   "worker": "Sol chat",
-   "done": 1,
-   "total": 3,
-   "pct": 33.3333,
-   "eta": "not enough data",
-   "current": "step 2 of 3",
-   "pr": null,
-   "updated": "2026-10-05T23:36:00Z"
-  }
- ]
+ "running": []
 }

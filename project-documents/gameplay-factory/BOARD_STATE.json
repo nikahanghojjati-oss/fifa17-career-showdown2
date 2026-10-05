@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 7:39 PM Boston time (EDT)",
+ "generated": "2026-10-05 7:40 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -315,7 +315,7 @@
   "live": {
    "sha": "84a04d8",
    "revision": "1.9.1-r61",
-   "when": "2026-10-05T23:37:11Z",
+   "when": "2026-10-05T23:37:11+00:00",
    "subject": "Physio sweep: skip a watched workflow that is not on main instead of failing (#387)",
    "fixes": [
     {
@@ -602,7 +602,7 @@
   "**Nothing waits on you right now.** r62 is nearly full; BH-11, BUG-1 and G-F6b are finishing."
  ],
  "now": {
-  "moving": 13,
+  "moving": 12,
   "next": 2,
   "nik": 4,
   "later": 5,
