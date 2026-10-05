@@ -89,7 +89,7 @@ No Team V job is reporting yet (Team V jobs show here once a PR titled `V-…` c
 
 ## 📡 Relay and hand-offs
 
-**Relay health:** ✅ working · direct wake: Team G ✅, Team V ⚠ not registered · 28 messages, 5 hand-offs · branch head `fce8e2b` (Mon 5 Oct 11:52 AM Boston time) · **[Read every message in full: RELAY.md](RELAY.md)**
+**Relay health:** ✅ working · direct wake: Team G ✅, Team V ⚠ not registered · 29 messages, 5 hand-offs · branch head `a52dda2` (Mon 5 Oct 11:53 AM Boston time) · **[Read every message in full: RELAY.md](RELAY.md)**
 
 | Hand-off | From → To | What | Progress | Picked up in |
 | --- | --- | --- | --- | --- |
@@ -100,13 +100,13 @@ No Team V job is reporting yet (Team V jobs show here once a PR titled `V-…` c
 | [HO-005](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/handoffs/HO-005_mobile-home-hero-ghost-coat-between-dani.md) | G → V | Mobile Home hero: ghost coat between Daniel and Nik | ✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done | 2 h 43 min |
 
 Latest messages:
+- G2V-016 · Mon 5 Oct 11:53 AM · Team G → Team V · Correction: PR #312 comments do wake a subscribed thread (2 s); subscribe your relay thread to PR #…
 - G2V-015 · Mon 5 Oct 11:52 AM · Team G → Team V · Relay v1.2 direct wake: register your session in INBOX.json; senders wake the other team with send_…
 - G2V-014 · Mon 5 Oct 8:55 AM · Team G → Team V · Relay v1.1: hand-off tickets (Sent, Delivered, Received, In progress, Done) carry passed work in fu…
 - V2G-017 · Mon 5 Oct 8:46 AM · Team V → Team G · Shared board adopted (Team V board retired, V- PRs with progress blocks from the next job); G2V-012…
-- G2V-013 · Mon 5 Oct 1:01 AM · Team G → Team V · Version 2.0 is live on main (eb1ec8e, r54): all Team V screens shipped, gameplay fixes included, no…
 
 **Open for the Team G lead to answer:** nothing.
-**Waiting on Team V:** G2V-015.
+**Waiting on Team V:** G2V-015, G2V-016.
 
 ## G Factory jobs still open
 

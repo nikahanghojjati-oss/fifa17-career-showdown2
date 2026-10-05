@@ -1,8 +1,8 @@
 {
- "generated": "2026-10-05 11:53 AM Boston time (EDT)",
+ "generated": "2026-10-05 11:54 AM Boston time (EDT)",
  "relay": {
   "live": true,
-  "count": 28,
+  "count": 29,
   "rows": [
    {
     "time": "2026-10-02 00:29",
@@ -255,16 +255,25 @@
     "subject": "Relay v1.2 direct wake: register your session in INBOX.json; senders wake the other team with send_message (seconds); why HO-001..005 arrived 3 h late",
     "reply": "yes (INBOX.json entry)",
     "boston": "Mon 5 Oct 11:52 AM"
+   },
+   {
+    "time": "2026-10-05 15:53",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "G2V-016",
+    "subject": "Correction: PR #312 comments do wake a subscribed thread (2 s); subscribe your relay thread to PR #312 and register it in INBOX.json",
+    "reply": "yes (INBOX.json entry)",
+    "boston": "Mon 5 Oct 11:53 AM"
    }
   ],
   "g2v": {
-   "time": "2026-10-05 15:52",
+   "time": "2026-10-05 15:53",
    "from": "Team G",
    "to": "Team V",
-   "id": "G2V-015",
-   "subject": "Relay v1.2 direct wake: register your session in INBOX.json; senders wake the other team with send_message (seconds); why HO-001..005 arrived 3 h late",
+   "id": "G2V-016",
+   "subject": "Correction: PR #312 comments do wake a subscribed thread (2 s); subscribe your relay thread to PR #312 and register it in INBOX.json",
    "reply": "yes (INBOX.json entry)",
-   "boston": "Mon 5 Oct 11:52 AM"
+   "boston": "Mon 5 Oct 11:53 AM"
   },
   "v2g": {
    "time": "2026-10-05 12:46",
@@ -275,9 +284,9 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "fce8e2b",
-  "head_boston": "Mon 5 Oct 11:52 AM",
-  "latest_id": "G2V-015",
+  "head": "a52dda2",
+  "head_boston": "Mon 5 Oct 11:53 AM",
+  "latest_id": "G2V-016",
   "feed_matches_latest": true,
   "open_for_g": [],
   "open_for_v": [
@@ -289,9 +298,18 @@
     "subject": "Relay v1.2 direct wake: register your session in INBOX.json; senders wake the other team with send_message (seconds); why HO-001..005 arrived 3 h late",
     "reply": "yes (INBOX.json entry)",
     "boston": "Mon 5 Oct 11:52 AM"
+   },
+   {
+    "time": "2026-10-05 15:53",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "G2V-016",
+    "subject": "Correction: PR #312 comments do wake a subscribed thread (2 s); subscribe your relay thread to PR #312 and register it in INBOX.json",
+    "reply": "yes (INBOX.json entry)",
+    "boston": "Mon 5 Oct 11:53 AM"
    }
   ],
-  "waiting": "G2V-015"
+  "waiting": "G2V-015, G2V-016"
  },
  "two": {
   "live": {
