@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 7:28 PM Boston time (EDT)",
+ "generated": "2026-10-05 7:29 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -340,8 +340,8 @@
      "sha": "17754a6d1f4dfe685c135119ca1fbe7b62065dbb",
      "updated": "2026-10-05T23:21:28Z",
      "gates": {
-      "passed": 8,
-      "running": 13,
+      "passed": 13,
+      "running": 8,
       "failed": 0,
       "cancelled": 0
      }
@@ -415,8 +415,8 @@
    ]
   },
   "physio": {
-   "state": "barking",
-   "line": "Waiting: POS20 on #386 has waited 6 min for a machine (from GitHub).",
+   "state": "clear",
+   "line": "All clear (from GitHub).",
    "gate": "POS20 #387 3/15",
    "source": "github"
   },
@@ -793,8 +793,8 @@
     "sha": "17754a6d1f4dfe685c135119ca1fbe7b62065dbb",
     "updated": "2026-10-05T23:21:28Z",
     "gates": {
-     "passed": 8,
-     "running": 13,
+     "passed": 13,
+     "running": 8,
      "failed": 0,
      "cancelled": 0
     }
