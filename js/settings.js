@@ -835,6 +835,7 @@ function openSettings(){
     settingsOverlay.classList.remove("hidden");
     settingsOverlay.setAttribute("aria-hidden", "false");
     setSettingsBackgroundInert(true);
+    window.CareerModeV10Screens?.expect?.("settingsOverlay");
     window.CareerModeRulesSettingsV10?.openSettings();
 
     window.requestAnimationFrame(() => {
@@ -860,7 +861,7 @@ function closeSettings(restoreFocus = true){
 
 function initializeSettings(){
     ensureSettingsDialog();
-    window.loadRuntimeScript("rules-settings-v10", "js/rulesSettingsV10.js", () => Boolean(window.CareerModeRulesSettingsV10)).then(() => window.CareerModeRulesSettingsV10.install()).catch(() => {});
+    window.loadRuntimeScript("rules-settings-v10", "js/rulesSettingsV10.js", () => Boolean(window.CareerModeRulesSettingsV10)).then(() => window.CareerModeRulesSettingsV10.install()).catch(() => { window.CareerModeV10Screens?.settle?.("settingsOverlay"); });
 
     if(!settingsPreferenceListenerBound){
         settingsPreferenceListenerBound = true;

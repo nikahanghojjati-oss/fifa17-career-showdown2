@@ -22,21 +22,34 @@ function readCareerScreenSeam(rerender){
 
 // JOB-13: online (or model-fed) Career Statistics and Trophy Room open Team V's screens, loaded on demand.
 function openCareerScreensV10(screen){
+    if(typeof window.loadRuntimeScript !== "function"){ return; }
+    const screens = window.CareerModeV10Screens;
+    const fail = error => { screens?.settle?.(screen); if(typeof window.reportApplicationError === "function"){ window.reportApplicationError("Career screens could not load", error); } };
     const seam = window.CareerModeCareerScreenSeam;
-    if(!seam || typeof window.loadRuntimeScript !== "function"){ return; }
+    if(!seam){
+        // First open: the seam is still loading, so the route is decided when it arrives (the old screen stays hidden meanwhile).
+        screens?.expect?.(screen);
+        window.loadRuntimeScript("career-screen-seam", "js/careerScreenSeam.js", () => Boolean(window.CareerModeCareerScreenSeam))
+            .then(() => { if(typeof window.getActiveScreenName === "function" && window.getActiveScreenName() === screen){ openCareerScreensV10(screen); }else{ screens?.settle?.(screen); } })
+            .catch(fail);
+        return;
+    }
     const getModel = () => screen === "trophyRoom" ? (typeof trophyRoomModel === "undefined" ? null : trophyRoomModel) : careerStatisticsModel;
-    if(seam.selectCareerScreenSource({ identityState: readCareerIdentityState(), model: getModel() }) === "local"){ return; }
+    if(seam.selectCareerScreenSource({ identityState: readCareerIdentityState(), model: getModel() }) === "local"){ screens?.settle?.(screen); return; }
+    screens?.expect?.(screen);
     window.loadRuntimeScript("career-screens-v10", "js/careerScreensV10.js", () => Boolean(window.CareerModeCareerScreensV10))
         .then(() => window.CareerModeCareerScreensV10.mount(screen, getModel))
-        .catch(error => { if(typeof window.reportApplicationError === "function"){ window.reportApplicationError("Career screens could not load", error); } });
+        .catch(fail);
 }
 
 // JOB-28: the same live model seam, now drawn through the shared lazy loader.
 function openRivalryLegacyV10(screen, getModel){
     if(typeof window.loadRuntimeScript !== "function"){ return; }
+    const host = screen === "legacy" ? "legacy" : "statistics";
+    window.CareerModeV10Screens?.expect?.(host);
     window.loadRuntimeScript("rivalry-legacy-v10", "js/rivalryLegacyV10.js", () => Boolean(window.CareerModeRivalryLegacyV10))
         .then(() => window.CareerModeRivalryLegacyV10.mount(screen, getModel))
-        .catch(error => window.reportApplicationError?.("History and rivalry screens could not load", error));
+        .catch(error => { window.CareerModeV10Screens?.settle?.(host); window.reportApplicationError?.("History and rivalry screens could not load", error); });
 }
 window.openRivalryLegacyV10 = openRivalryLegacyV10;
 
