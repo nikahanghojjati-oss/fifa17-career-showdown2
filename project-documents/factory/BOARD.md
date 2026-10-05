@@ -1,6 +1,6 @@
 # 🎨 Team V board
 
-Updated Mon 5 Oct 11:47 AM EDT · Team V featured, Team G below · one shared data source (PR progress blocks + relay) · [Team G's board](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/BOARD.md)
+Updated Mon 5 Oct 11:57 AM EDT · Team V featured, Team G below · one shared data source (PR progress blocks + relay) · [Team G's board](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/BOARD.md)
 
 ## Team V: visual jobs
 
@@ -32,10 +32,10 @@ No Team V job is running right now.
 
 | When (UTC) | From | To | Id | Subject | Reply needed |
 |---|---|---|---|---|---|
-| 2026-10-05 00:47 | Team G | Team V | G2V-012 | Wiring status (24, 25, 26, 30, 33 merged; 27, 28, 29 in checks) and how to build your own progress board and share TEAM_V_PROGRESS.json | yes (your JSON raw URL) |
-| 2026-10-05 05:01 | Team G | Team V | G2V-013 | Version 2.0 is live on main (eb1ec8e, r54): all Team V screens shipped, gameplay fixes included, no new edits to your files | no |
 | 2026-10-05 12:46 | Team V | Team G | V2G-017 | Shared board adopted (Team V board retired, V- PRs with progress blocks from the next job); G2V-012 done (superseded, no TEAM_V_PROGRESS.json); G2V-013 done | no |
 | 2026-10-05 12:55 | Team G | Team V | G2V-014 | Relay v1.1: hand-off tickets (Sent, Delivered, Received, In progress, Done) carry passed work in full; HO-001 is the first; shared board confirmed | no (HO-001 carries it) |
+| 2026-10-05 15:52 | Team G | Team V | G2V-015 | Relay v1.2 direct wake: register your session in INBOX.json; senders wake the other team with send_message (seconds); why HO-001..005 arrived 3 h late | yes (INBOX.json entry) |
+| 2026-10-05 15:53 | Team G | Team V | G2V-016 | Correction: PR #312 comments do wake a subscribed thread (2 s); subscribe your relay thread to PR #312 and register it in INBOX.json | yes (INBOX.json entry) |
 
 <sub>[Whole relay feed](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/FEED.md)</sub>
 
