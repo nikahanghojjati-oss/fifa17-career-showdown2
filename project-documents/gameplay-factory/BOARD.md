@@ -1,8 +1,8 @@
 # Showdown board: G Factory and V Factory
 
-🌐 **Live: runtime 1.9.1-r61** (main `95f44fb`) · 🔄 **11 moving** · ⏭ 2 up next · 👤 4 waiting on Nik · 🗂 5 later · updated 2026-10-05 7:23 PM Boston time (EDT)
+🌐 **Live: runtime 1.9.1-r61** (main `95f44fb`) · 🔄 **13 moving** · ⏭ 2 up next · 👤 4 waiting on Nik · 🗂 5 later · updated 2026-10-05 7:28 PM Boston time (EDT)
 
-🩺 **All clear (from GitHub).** · Gate #386: L1… L2· L3… L4… L5· L6… · POS20 #386 0/11
+🐕 **Waiting: POS20 on #386 has waited 6 min for a machine (from GitHub).** · POS20 #387 3/15
 
 ## Your next move
 
@@ -12,7 +12,8 @@
 
 | Release / fix | Checks on the latest commit | Updated |
 | --- | --- | --- |
-| [PR #386](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/386) Showdown Gate (shadow): six-lane check beside POS20, not required yet | ⏳ 0 passed, 11 running | 7:21 PM |
+| [PR #387](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/387) Physio: a watched workflow that isn't on main no longer fails the sweep | ⏳ 3 passed, 12 running | 7:24 PM |
+| [PR #386](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/386) Showdown Gate (shadow): six-lane check beside POS20, not required yet | ⏳ 8 passed, 13 running | 7:21 PM |
 | [PR #384](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/384) Every screen in Team V's look: signed-out career screens, Showdown Home, season review, L… | 🟢 12 passed | 6:29 PM |
 
 | Team | Job | What | Worker | Where it is | Details |
@@ -26,6 +27,10 @@
 | G | G-F19 | BH-8: show the final winner and Close on both phones automatically, with no PREVIEW tap (Nik chose this at 5:56 PM Boston time); applying to the local save stays a tap | 🟧 Opus | fixed, in r62 batch (54dd53a) | journey 36/36 twice |
 | G | G-F20 | BH-7 transient hardening: Setup read, Terminal Close retry, simultaneous CLOSE re-read, stale transfer status line | 🟧 Opus | fixed, in r62 batch (de4c352) | two-manager journey 36/36 |
 | G | G-F21 | BH-11 pairing and reconnect fixes from the pairing audit (7 findings, one high: a reload mid-game strands the reconnect) | 🟧 Opus | in progress (branch bugfix/bh-11-pairing-reconnect) | the lead batches it into r62 |
+
+| Hand-off | From → To | What | Progress |
+| --- | --- | --- | --- |
+| [HO-007](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/handoffs/HO-007_shared-job-numbers-for-both-teams-from-1.md) | G → V | Shared job numbers for both teams, from 1001 | ✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done |
 
 ## 🟢 G Factory
 
@@ -61,7 +66,7 @@ _Gameplay, online sync, every merge and every release (senior director)._ Worker
 
 | Job | What | Worker | State | Waits on |
 | --- | --- | --- | --- | --- |
-| 101 | JOB-101 Home desktop tile icons: bigger, inside the tile, never on the text — Bug list 1 items L1-01..06. CSS only in css/homeV10.css desktop blocks. Job file jobs/JOB-101.md. Lead checks screenshots at 1920/1440/1280/1100/1000 wide. | 🟦 Sol chat | ready | after Nik types 101 in GPT (normal chat) |
+| 1001 | 1001 · G Home desktop tile icons: bigger, inside the tile, never on the text — Bug list 1 items L1-01..06. CSS only in css/homeV10.css desktop blocks. Job file jobs/JOB-1001.md. Lead checks screenshots at 1920/1440/1280/1100/1000 wide. | 🟦 Sol chat | ready | after Nik types 1001 in GPT (normal chat) |
 
 ## 🔵 V Factory
 
@@ -75,7 +80,7 @@ _Visuals and presentation: design changes, art, screen skins (assistant director
 
 ## 📡 Relay
 
-**Health:** ✅ working · direct wake: Team G ✅, Team V ✅ · 29 messages · 0 open hand-offs, 6 done · **[every message in full: RELAY.md](RELAY.md)**
+**Health:** ✅ working · direct wake: Team G ✅, Team V ✅ · 29 messages · 1 open hand-offs, 6 done · **[every message in full: RELAY.md](RELAY.md)**
 
 Replies owed: Team G none · Team V G2V-015, G2V-016.
 

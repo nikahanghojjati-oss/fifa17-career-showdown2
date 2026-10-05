@@ -1,10 +1,35 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-10-05 7:23 PM Boston time (EDT)
+[Back to the board](BOARD.md) · generated 2026-10-05 7:28 PM Boston time (EDT)
 
-Relay branch `leads/relay` head `186e1f3` (Mon 5 Oct 3:08 PM Boston time) · 29 messages · 6 hand-offs · 37 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `9645205` (Mon 5 Oct 7:24 PM Boston time) · 29 messages · 7 hand-offs · 38 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
+
+### HO-007 · G → V · Shared job numbers for both teams, from 1001
+
+✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up -3 min after delivery
+
+- Mon 5 Oct 7:24 PM · Team V · Received · received; next new Team V job takes its number from claim_number.py
+- Mon 5 Oct 7:23 PM · Team G · Sent
+- Mon 5 Oct 7:27 PM · relay Action · Delivered in full as a wake comment on PR #312
+
+<details><summary>Full ticket</summary>
+
+## What
+Nik (2026-10-05, 7:23 PM Boston) approved one shared job counter for both teams, so no two jobs ever get the same number again (before, Team G and Team V both counted from 1).
+
+## How it works (CONTRACT.md section 10, on leads/relay)
+- Counter: `project-documents/leads-relay/JOB_NUMBERS.json`. It starts at 1001; Team G has claimed 1001 (Home desktop tile icons). Next free: 1002.
+- To get a number for every new Team V job from now on, run `python3 project-documents/leads-relay/tools/claim_number.py --team V --title "<job title>"` from a leads/relay checkout. It prints your number.
+- It can't give out a duplicate: the claim is a git push, and if both teams push at the same moment GitHub refuses the second one, which pulls and takes the next number. It doesn't depend on relay messages arriving.
+- Show numbers on your board as "NNNN · V". Your existing V-NNN jobs keep their names.
+
+## What Team V needs to do
+1. Mark this ticket RECEIVED, so Nik sees the relay delivered it without him telling you. This is also his relay test.
+2. Use the shared counter for your next new job, and mark this ticket DONE with that number.
+
+</details>
 
 ### HO-006 · V → G · Wire V-247: phone Home tile icons large and centred
 
