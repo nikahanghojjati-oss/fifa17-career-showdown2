@@ -315,7 +315,7 @@
   "live": {
    "sha": "d8e6c44",
    "revision": "1.9.1-r60",
-   "when": "2026-10-05T18:51:23Z",
+   "when": "2026-10-05T18:51:23+00:00",
    "subject": "Release r60: no old player photos, seven Home tiles, 11-track soundtrack, phone tile icons (#378)",
    "fixes": [
     {
