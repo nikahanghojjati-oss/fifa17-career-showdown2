@@ -806,6 +806,20 @@
      "lane": "opus",
      "state": "in progress (branch bugfix/bh-7-transient-hardening)",
      "waits_on": "the lead batches it into r62"
+    },
+    {
+     "id": "G-F21",
+     "title": "BH-11 pairing and reconnect fixes from the pairing audit (7 findings, one high: a reload mid-game strands the reconnect)",
+     "lane": "opus",
+     "state": "in progress (branch bugfix/bh-11-pairing-reconnect)",
+     "waits_on": "the lead batches it into r62"
+    },
+    {
+     "id": "G-F22",
+     "title": "BH-12 pairing product calls: RESTORE BACKUP first, CANCEL CODE with expiry, masked email before JOIN, revoke mine and join, clearer same-account message",
+     "lane": "nik",
+     "state": "later: Nik decides after his two current calls",
+     "waits_on": "after Nik answers BH-8 and the Showdown Gate settings"
     }
    ]
   },

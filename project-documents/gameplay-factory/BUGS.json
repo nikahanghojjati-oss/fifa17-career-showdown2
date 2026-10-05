@@ -2,6 +2,17 @@
  "_help": "Owned by the Bug reports thread. One entry per report. status: NEW, TRIAGED, FIXING, REVIEW, MERGED, LIVE, DONE (audits), DUPLICATE, NOT A BUG. priority: top (10-season flow or session) or normal. type: gameplay, visual or data. worker: sol-chat, sol-work, codex, opus, sonnet, haiku or empty. job: the job number whose progress block drives the bar, or empty.",
  "bugs": [
   {
+   "id": "BH-11",
+   "title": "Pairing and reconnect fixes: a reload mid-game strands the reconnect (high), durable storage and an explicit confirm before closing the shared career, a lost join reply shows \"code already used\", startup retry with plain text, a stray local copy after a failed join, wording and a phone clock hint, a pasted code with extra text is rejected",
+   "where": "Pairing, reconnect",
+   "type": "gameplay",
+   "priority": "top",
+   "worker": "opus",
+   "job": "",
+   "status": "FIXING",
+   "note": "branch bugfix/bh-11-pairing-reconnect, rides r62"
+  },
+  {
    "id": "BH-7",
    "title": "Transient hardening: Setup survives one failed read, throttled Terminal Close retry, quiet re-read for the phone that loses a simultaneous CLOSE, one stale transfer status line",
    "where": "Setup, Terminal Close, Transfer Window",
@@ -22,17 +33,6 @@
    "job": "",
    "status": "TRIAGED",
    "note": "waiting on Nik: show it automatically or keep the tap (decision card in the Team G lead thread)"
-  },
-  {
-   "id": "BH-9",
-   "title": "Audit of pairing and the persistent pair",
-   "where": "Pairing",
-   "type": "gameplay",
-   "priority": "top",
-   "worker": "sonnet",
-   "job": "",
-   "status": "TRIAGED",
-   "note": "triaging; report goes to /mnt/project-files/bug-hunt/PAIRING_AUDIT_2026-10-05.md"
   },
   {
    "id": "BUG-1",
@@ -57,6 +57,17 @@
    "note": "root cause hunt on branch bugfix/g-f6-transfer-flake, ships in r62"
   },
   {
+   "id": "BH-12",
+   "title": "Pairing product calls: RESTORE BACKUP as the main button instead of DELETE, a CANCEL CODE button with visible expiry, show the masked linked email and confirm before JOIN, \"revoke mine and join\" when both phones host, a clearer same-account message",
+   "where": "Pairing",
+   "type": "gameplay",
+   "priority": "normal",
+   "worker": "",
+   "job": "",
+   "status": "NEW",
+   "note": "waiting on Nik later; the lead asks once his two current cards are answered"
+  },
+  {
    "id": "BH-10",
    "title": "Later, low: a full 3-of-3 lock asks no confirm (Nik decides later); session-expiry reconnect is still host, code, join rather than one tap; no release-version handshake between the two phones",
    "where": "Locks, reconnect, versions",
@@ -66,6 +77,17 @@
    "job": "",
    "status": "NEW",
    "note": "parked as low priority"
+  },
+  {
+   "id": "BH-9",
+   "title": "Audit of pairing and the persistent pair",
+   "where": "Pairing",
+   "type": "gameplay",
+   "priority": "top",
+   "worker": "sonnet",
+   "job": "",
+   "status": "DONE",
+   "note": "report /mnt/project-files/bug-hunt/PAIRING_AUDIT_2026-10-05.md; 11 findings, no way for a third account to get in without the code; fixes are BH-11, product calls are BH-12"
   },
   {
    "id": "BH-6",

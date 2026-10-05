@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 5:52 PM Boston time (EDT)",
+ "generated": "2026-10-05 5:53 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -315,7 +315,7 @@
   "live": {
    "sha": "61489dd",
    "revision": "1.9.1-r61",
-   "when": "2026-10-05T21:37:15Z",
+   "when": "2026-10-05T21:37:15+00:00",
    "subject": "Release r61: phone track list stops below the logo and scrolls; Next To You first (#383)",
    "fixes": [],
    "today": [
@@ -531,9 +531,9 @@
   "**Two quick calls wait for you in the Team G lead thread:** show the final winner automatically or keep the tap (BH-8), and 5 settings for the new Showdown Gate checks."
  ],
  "now": {
-  "moving": 4,
+  "moving": 5,
   "next": 2,
-  "nik": 4,
+  "nik": 5,
   "later": 6,
   "rows": {
    "G": {
@@ -567,6 +567,13 @@
       "lane": "opus",
       "state": "in progress (branch bugfix/bh-7-transient-hardening)",
       "waits_on": "the lead batches it into r62"
+     },
+     {
+      "id": "G-F21",
+      "title": "BH-11 pairing and reconnect fixes from the pairing audit (7 findings, one high: a reload mid-game strands the reconnect)",
+      "lane": "opus",
+      "state": "in progress (branch bugfix/bh-11-pairing-reconnect)",
+      "waits_on": "the lead batches it into r62"
      }
     ],
     "nik": [
@@ -597,6 +604,13 @@
       "lane": "nik",
       "state": "waiting on Nik (decision card in the Team G lead thread)",
       "waits_on": "Nik"
+     },
+     {
+      "id": "G-F22",
+      "title": "BH-12 pairing product calls: RESTORE BACKUP first, CANCEL CODE with expiry, masked email before JOIN, revoke mine and join, clearer same-account message",
+      "lane": "nik",
+      "state": "later: Nik decides after his two current calls",
+      "waits_on": "after Nik answers BH-8 and the Showdown Gate settings"
      }
     ],
     "next": [

@@ -1,10 +1,10 @@
 # 🐞 Team G bug hunting factory
 
-> Updated **Mon 5 Oct, 5:52 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
+> Updated **Mon 5 Oct, 5:53 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
 
 | 🔓 Open | 🔴 Top priority | 🔧 Fixing or waiting for release | ✅ Fixed and live |
 | :---: | :---: | :---: | :---: |
-| **6** | **3** | **3** | **5** |
+| **7** | **3** | **4** | **5** |
 
 **Lanes:** 🟦 Sol chat · 🟩 Sol Work mode · ⬜ Codex · 🟧 Opus · 🟪 Sonnet · 🟨 Haiku
 
@@ -12,11 +12,12 @@
 
 | Bug | What happened | Where | Type | Lane | Status | Progress / note |
 | :-- | :-- | :-- | :-- | :-- | :-- | :-- |
+| **BH-11** | 🔴 **top** · Pairing and reconnect fixes: a reload mid-game strands the reconnect (high), durable storage and an explicit confirm before closing the shared career, a lost join reply shows "code already used", startup retry with plain text, a stray local copy after a failed join, wording and a phone clock hint, a pasted code with extra text is rejected | Pairing, reconnect | 🎮 gameplay | 🟧 Opus | 🔧 FIXING | branch bugfix/bh-11-pairing-reconnect, rides r62 |
 | **BH-7** | 🔴 **top** · Transient hardening: Setup survives one failed read, throttled Terminal Close retry, quiet re-read for the phone that loses a simultaneous CLOSE, one stale transfer status line | Setup, Terminal Close, Transfer Window | 🎮 gameplay | 🟧 Opus | 🔧 FIXING | branch bugfix/bh-7-transient-hardening, rides r62 |
 | **BH-8** | 🔴 **top** · Final winner only appears after tapping PREVIEW LOCAL RECONCILIATION (likely the old J10 flake) | Final Winner | 🎮 gameplay | — | 🔍 TRIAGED | waiting on Nik: show it automatically or keep the tap (decision card in the Team G lead thread) |
-| **BH-9** | 🔴 **top** · Audit of pairing and the persistent pair | Pairing | 🎮 gameplay | 🟪 Sonnet | 🔍 TRIAGED | triaging; report goes to /mnt/project-files/bug-hunt/PAIRING_AUDIT_2026-10-05.md |
 | **G-F6** | Flaky v10-transfer contract (WINDOW_OPEN 390: refresh not clickable) | Transfer Window tests | 🎮 gameplay | 🟧 Opus | 🔧 FIXING | root cause hunt on branch bugfix/g-f6-transfer-flake, ships in r62 |
 | **BUG-1** | Raw error codes show in the Setup settle text | Setup | 🎮 gameplay | 🟪 Sonnet | 👀 REVIEW | fixed on bugfix/bug-batch-1 (9e012fd), rides r62; same batch: neutral Manager 1/2 fallbacks, 80-character limit on transfer signing names |
+| **BH-12** | Pairing product calls: RESTORE BACKUP as the main button instead of DELETE, a CANCEL CODE button with visible expiry, show the masked linked email and confirm before JOIN, "revoke mine and join" when both phones host, a clearer same-account message | Pairing | 🎮 gameplay | — | 🆕 NEW | waiting on Nik later; the lead asks once his two current cards are answered |
 | **BH-10** | Later, low: a full 3-of-3 lock asks no confirm (Nik decides later); session-expiry reconnect is still host, code, join rather than one tap; no release-version handshake between the two phones | Locks, reconnect, versions | 🎮 gameplay | — | 🆕 NEW | parked as low priority |
 
 ## ⚽ Jobs running now
@@ -27,7 +28,7 @@
 > No job is reporting progress right now. A job shows here once its PR description carries a progress block.
 
 <details>
-<summary><b>✅ Closed: 6</b> (5 live in the game) · click to open</summary>
+<summary><b>✅ Closed: 7</b> (5 live in the game) · click to open</summary>
 
 | Bug | What happened | Where | Type | Lane | Status | Progress / note |
 | :-- | :-- | :-- | :-- | :-- | :-- | :-- |
@@ -37,6 +38,7 @@
 | **BH-4** | Lock buttons have no confirm | — | 🎮 gameplay | — | ✅ LIVE | PR #345 adds the "Lock N of 3?" confirm; live since r53 (2026-10-04) |
 | **BH-5** | The 4-hour private session ends long games | — | 🎮 gameplay | — | ✅ LIVE | job 31, PR #350 (fb0dd02): one-tap reconnect after expiry; live since 2.0 (r54) |
 | **BH-6** | 🔴 **top** · Audit every still-open item from the 4 Oct bug hunt and Team G notes | Two-writer ledgers, Setup read, J10 final:null, Terminal Close retry, R1-to-R2 restart, mid-game service worker update | 🎮 gameplay | 🟪 Sonnet | ☑️ DONE | report /mnt/project-files/bug-hunt/OPEN_ITEMS_AUDIT_2026-10-05.md; confirmed fixed: lost races on every ledger, season-results race, clash warning, stale scoring-locked text, session-expiry resume; new items became BH-7, BH-8 and BH-9 |
+| **BH-9** | 🔴 **top** · Audit of pairing and the persistent pair | Pairing | 🎮 gameplay | 🟪 Sonnet | ☑️ DONE | report /mnt/project-files/bug-hunt/PAIRING_AUDIT_2026-10-05.md; 11 findings, no way for a third account to get in without the code; fixes are BH-11, product calls are BH-12 |
 
 </details>
 
