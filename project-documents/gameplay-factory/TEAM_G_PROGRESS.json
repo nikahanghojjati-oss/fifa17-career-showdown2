@@ -1,11 +1,11 @@
 {
  "team": "G",
- "updated": "2026-10-05T18:02-04:00",
+ "updated": "2026-10-05T18:04-04:00",
  "jobs_done": 33,
  "jobs_total": 33,
  "open_bugs": 7,
  "next_move": [
-  "**Nothing waits on you right now.** Your BH-8 choice and the Showdown Gate settings are being built; r62 collects BUG-1, BH-7, BH-8, BH-11 and the G-F6 test fix."
+  "**Nothing waits on you right now.** Your BH-8 choice is being built for r62 with BUG-1, BH-7, BH-11 and the G-F6 test fix; the Showdown Gate runs in shadow beside POS20 first."
  ],
  "running": []
 }

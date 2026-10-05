@@ -66,7 +66,7 @@ H = ["<style>"
 rj = sorted(running_jobs())
 G_W = lambda g: ("checks unknown" if not g else ("🔴 " if g["failed"] else "🟠 " if g["cancelled"] else "⏳ " if g["running"] else "🟢 ") + ", ".join([f'{g["passed"]} passed'] + [f'{g[k]} {k}' for k in ("running", "failed", "cancelled") if g[k]]))
 _mv = [f'<a href="{PR}{x["pr"]}">PR #{x["pr"]}</a> {e(x["title"][:70])} <span class="m">{e(G_W(x.get("gates")))}</span>' for x in NOW.get("fixes", [])]
-_mv += [f'<b>{e(k)} {e(x["id"])}</b> {e(x["title"][:58])} <span class="m">{e(x["state"].split(" (")[0][:44])}</span>' for k in ("G", "V") for x in (NOW.get("rows", {}).get(k, {}).get("moving") or [])]
+_mv += [f'<b>{e(k)} {e(x["id"])}</b> {e(x["title"][:58])} <span class="m">{e(x["state"].split(" (")[0].split(";")[0][:44])}</span>' for k in ("G", "V") for x in (NOW.get("rows", {}).get(k, {}).get("moving") or [])]
 if _mv:
     H.append('<div class="card">' + "<br>".join(_mv) + "</div>")
 elif not rj:

@@ -1,17 +1,17 @@
 # Showdown board: G Factory and V Factory
 
-🌐 **Live: runtime 1.9.1-r61** (main `61489dd`) · 🔄 **6 moving** · ⏭ 2 up next · 👤 4 waiting on Nik · 🗂 6 later · updated 2026-10-05 6:02 PM Boston time (EDT)
+🌐 **Live: runtime 1.9.1-r61** (main `61489dd`) · 🔄 **6 moving** · ⏭ 2 up next · 👤 4 waiting on Nik · 🗂 6 later · updated 2026-10-05 6:04 PM Boston time (EDT)
 
 ## Your next move
 
-1. **Nothing waits on you right now.** Your BH-8 choice and the Showdown Gate settings are being built; r62 collects BUG-1, BH-7, BH-8, BH-11 and the G-F6 test fix.
+1. **Nothing waits on you right now.** Your BH-8 choice is being built for r62 with BUG-1, BH-7, BH-11 and the G-F6 test fix; the Showdown Gate runs in shadow beside POS20 first.
 
 ## 🔄 Moving now
 
 | Team | Job | What | Worker | Where it is | Details |
 | --- | --- | --- | --- | --- | --- |
 | G | G-F6 | Small gameplay follow-ups: transfer message after session expiry, the 'Career screens could not load' toast when online history is only unavailable, and the flaky v10-transfer contract ('WINDOW_OPEN 390: refresh not clickable'). Raw Setup error codes moved to BUG-1 | 🟧 Opus | in progress: flaky transfer test (branch bugfix/g-f6-transfer-flake) | the lead batches it into r62 |
-| G | G-F17 | Showdown Gate: replace POS20 with a faster check system built on Claude and GitHub, keeping every check (plan: /mnt/project-files/check-system/SHOWDOWN_GATE_PLAN.md) | 🟧 Opus | building; proof run then switch, same day | Nik approved all 5 settings at 5:57 PM Boston time and chose no multi-day shadow at 6:00 PM |
+| G | G-F17 | Showdown Gate: replace POS20 with a faster check system built on Claude and GitHub, keeping every check (plan: /mnt/project-files/check-system/SHOWDOWN_GATE_PLAN.md) | 🟧 Opus | building shadow; then ~10-PR shadow (3-5 days), then archive POS20 | Nik 6:02 PM Boston time: gradual replacement; POS20 is archived to authority-history/pos20-archive/, not deleted |
 | G | G-F18 | Old-design screen audit: Legacy, Career Statistics and Trophy Room still open in the old shell; drive every live screen in a browser against Team V's design and route all of them to the new design | 🟧 Opus | in progress (thread "Old-design screen audit", Nik asked at 5:16 PM Boston time) | overlaps G-F11 (old CSS collisions) |
 | G | G-F19 | BH-8: show the final winner and Close on both phones automatically, with no PREVIEW tap (Nik chose this at 5:56 PM Boston time); applying to the local save stays a tap | 🟧 Opus | in progress (branch bugfix/bh-8-auto-final) | the lead batches it into r62 |
 | G | G-F20 | BH-7 transient hardening: Setup read, Terminal Close retry, simultaneous CLOSE re-read, stale transfer status line | 🟧 Opus | in progress (branch bugfix/bh-7-transient-hardening) | the lead batches it into r62 |

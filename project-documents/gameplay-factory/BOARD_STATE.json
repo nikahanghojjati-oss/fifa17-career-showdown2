@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 6:02 PM Boston time (EDT)",
+ "generated": "2026-10-05 6:04 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -315,7 +315,7 @@
   "live": {
    "sha": "61489dd",
    "revision": "1.9.1-r61",
-   "when": "2026-10-05T21:37:15Z",
+   "when": "2026-10-05T21:37:15+00:00",
    "subject": "Release r61: phone track list stops below the logo and scrolls; Next To You first (#383)",
    "fixes": [],
    "today": [
@@ -528,7 +528,7 @@
   }
  ],
  "next_move": [
-  "**Nothing waits on you right now.** Your BH-8 choice and the Showdown Gate settings are being built; r62 collects BUG-1, BH-7, BH-8, BH-11 and the G-F6 test fix."
+  "**Nothing waits on you right now.** Your BH-8 choice is being built for r62 with BUG-1, BH-7, BH-11 and the G-F6 test fix; the Showdown Gate runs in shadow beside POS20 first."
  ],
  "now": {
   "moving": 6,
@@ -549,9 +549,9 @@
       "id": "G-F17",
       "title": "Showdown Gate: replace POS20 with a faster check system built on Claude and GitHub, keeping every check (plan: /mnt/project-files/check-system/SHOWDOWN_GATE_PLAN.md)",
       "lane": "opus",
-      "state": "building; proof run then switch, same day",
-      "waits_on": "proof on the r62 PR plus canary branches, then the same PR retires POS20",
-      "details": "Nik approved all 5 settings at 5:57 PM Boston time and chose no multi-day shadow at 6:00 PM"
+      "state": "building shadow; then ~10-PR shadow (3-5 days), then archive POS20",
+      "waits_on": "exit bar: 10 real PRs agree (2 full seals), 2 canaries fail, 1 simulated outage recovers; POS20 stays the merge authority until then",
+      "details": "Nik 6:02 PM Boston time: gradual replacement; POS20 is archived to authority-history/pos20-archive/, not deleted"
      },
      {
       "id": "G-F18",
