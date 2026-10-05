@@ -1,12 +1,16 @@
 # Showdown board: G Factory and V Factory
 
-🌐 **Live: runtime 1.9.1-r61** (main `61489dd`) · 🔄 **7 moving** · ⏭ 2 up next · 👤 4 waiting on Nik · 🗂 6 later · updated 2026-10-05 6:18 PM Boston time (EDT)
+🌐 **Live: runtime 1.9.1-r61** (main `61489dd`) · 🔄 **8 moving** · ⏭ 2 up next · 👤 4 waiting on Nik · 🗂 6 later · updated 2026-10-05 6:21 PM Boston time (EDT)
 
 ## Your next move
 
 1. **Nothing waits on you right now.** r62 is filling up: G-F6 and BH-7 are in; BH-8, BH-11, BUG-1 and G-F6b are finishing.
 
 ## 🔄 Moving now
+
+| Release / fix | Checks on the latest commit | Updated |
+| --- | --- | --- |
+| [PR #384](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/384) Every screen in Team V's look: signed-out career screens, Showdown Home, season review, L… | 🔴 5 passed, 5 running, 1 failed | 6:19 PM |
 
 | Team | Job | What | Worker | Where it is | Details |
 | --- | --- | --- | --- | --- | --- |

@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 6:18 PM Boston time (EDT)",
+ "generated": "2026-10-05 6:21 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -317,7 +317,22 @@
    "revision": "1.9.1-r61",
    "when": "2026-10-05T21:37:15Z",
    "subject": "Release r61: phone track list stops below the logo and scrolls; Next To You first (#383)",
-   "fixes": [],
+   "fixes": [
+    {
+     "pr": 384,
+     "title": "Every screen in Team V's look: signed-out career screens, Showdown Home, season review, Legacy data tools",
+     "draft": false,
+     "branch": "claude-gameplay/team-v-everywhere",
+     "sha": "152f769b455c3ea96395aae6cd064688130efb10",
+     "updated": "2026-10-05T22:19:37Z",
+     "gates": {
+      "passed": 5,
+      "running": 5,
+      "failed": 1,
+      "cancelled": 0
+     }
+    }
+   ],
    "today": [
     {
      "pr": 383,
@@ -531,7 +546,7 @@
   "**Nothing waits on you right now.** r62 is filling up: G-F6 and BH-7 are in; BH-8, BH-11, BUG-1 and G-F6b are finishing."
  ],
  "now": {
-  "moving": 7,
+  "moving": 8,
   "next": 2,
   "nik": 4,
   "later": 6,
@@ -691,7 +706,22 @@
     ]
    }
   },
-  "fixes": []
+  "fixes": [
+   {
+    "pr": 384,
+    "title": "Every screen in Team V's look: signed-out career screens, Showdown Home, season review, Legacy data tools",
+    "draft": false,
+    "branch": "claude-gameplay/team-v-everywhere",
+    "sha": "152f769b455c3ea96395aae6cd064688130efb10",
+    "updated": "2026-10-05T22:19:37Z",
+    "gates": {
+     "passed": 5,
+     "running": 5,
+     "failed": 1,
+     "cancelled": 0
+    }
+   }
+  ]
  },
  "jobs": [
   {
