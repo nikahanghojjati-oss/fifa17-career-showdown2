@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 7:31 PM Boston time (EDT)",
+ "generated": "2026-10-05 7:32 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -284,8 +284,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "5f3ea6e",
-  "head_boston": "Mon 5 Oct 7:31 PM",
+  "head": "e8cebb0",
+  "head_boston": "Mon 5 Oct 7:32 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": true,
   "open_for_g": [],
@@ -326,8 +326,8 @@
      "sha": "41f0831bee38656ed3b064810f5cf044b5598dcc",
      "updated": "2026-10-05T23:24:01Z",
      "gates": {
-      "passed": 8,
-      "running": 7,
+      "passed": 12,
+      "running": 3,
       "failed": 0,
       "cancelled": 0
      }
@@ -417,7 +417,7 @@
   "physio": {
    "state": "clear",
    "line": "All clear (from GitHub).",
-   "gate": "POS20 #387 10/15",
+   "gate": "POS20 #387 13/15",
    "source": "github"
   },
   "v_headline": "Board 1 (visual package): 238 of 238 jobs done and checked",
@@ -533,12 +533,12 @@
     "from": "G",
     "to": "V",
     "title": "Bug factory mode for Team V: GPT blue and green lanes, escalation ladder",
-    "stage": "SENT",
+    "stage": "RECEIVED",
     "pct": 0.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-008_bug-factory-mode-for-team-v-gpt-blue-and.md",
     "worker": "",
-    "pickup_min": null,
+    "pickup_min": 0,
     "waiting_min": null
    }
   ],
@@ -792,8 +792,8 @@
     "sha": "41f0831bee38656ed3b064810f5cf044b5598dcc",
     "updated": "2026-10-05T23:24:01Z",
     "gates": {
-     "passed": 8,
-     "running": 7,
+     "passed": 12,
+     "running": 3,
      "failed": 0,
      "cancelled": 0
     }

@@ -1,8 +1,8 @@
 # Showdown board: G Factory and V Factory
 
-🌐 **Live: runtime 1.9.1-r61** (main `95f44fb`) · 🔄 **14 moving** · ⏭ 2 up next · 👤 4 waiting on Nik · 🗂 5 later · updated 2026-10-05 7:31 PM Boston time (EDT)
+🌐 **Live: runtime 1.9.1-r61** (main `95f44fb`) · 🔄 **14 moving** · ⏭ 2 up next · 👤 4 waiting on Nik · 🗂 5 later · updated 2026-10-05 7:32 PM Boston time (EDT)
 
-🩺 **All clear (from GitHub).** · POS20 #387 10/15
+🩺 **All clear (from GitHub).** · POS20 #387 13/15
 
 ## Your next move
 
@@ -12,7 +12,7 @@
 
 | Release / fix | Checks on the latest commit | Updated |
 | --- | --- | --- |
-| [PR #387](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/387) Physio: a watched workflow that isn't on main no longer fails the sweep | ⏳ 8 passed, 7 running | 7:24 PM |
+| [PR #387](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/387) Physio: a watched workflow that isn't on main no longer fails the sweep | ⏳ 12 passed, 3 running | 7:24 PM |
 | [PR #386](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/386) Showdown Gate (shadow): six-lane check beside POS20, not required yet | ⏳ 20 passed, 2 running | 7:21 PM |
 | [PR #384](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/384) Every screen in Team V's look: signed-out career screens, Showdown Home, season review, L… | 🟢 12 passed | 6:29 PM |
 
@@ -31,7 +31,7 @@
 | Hand-off | From → To | What | Progress |
 | --- | --- | --- | --- |
 | [HO-007](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/handoffs/HO-007_shared-job-numbers-for-both-teams-from-1.md) | G → V | Shared job numbers for both teams, from 1001 | ✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done |
-| [HO-008](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/handoffs/HO-008_bug-factory-mode-for-team-v-gpt-blue-and.md) | G → V | Bug factory mode for Team V: GPT blue and green lanes, escalation ladder | ✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done |
+| [HO-008](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/handoffs/HO-008_bug-factory-mode-for-team-v-gpt-blue-and.md) | G → V | Bug factory mode for Team V: GPT blue and green lanes, escalation ladder | ✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done |
 
 ## 🟢 G Factory
 
