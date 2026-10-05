@@ -896,6 +896,30 @@
         "^tests/contracts/v10-rivalry-legacy-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/v10-club-contracts.cjs",
+      "patterns": [
+        "^js/clubScreenV10\\.js$",
+        "^css/v10Club\\.css$",
+        "^js/v10Screens\\.js$",
+        "^js/v10Setup\\.js$",
+        "^js/clubAssignment\\.js$",
+        "^js/visualIdentity\\.js$",
+        "^js/screens\\.js$",
+        "^js/productionSharedShowdownPresentation\\.js$",
+        "^js/ssjr\\.js$",
+        "^service-worker\\.js$",
+        "^index\\.html$",
+        "^css/app\\.css$",
+        "^visual-assets/v10_1/club/",
+        "^visual-assets/v10_1/shared/",
+        "^visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/",
+        "^tests/support/chromium-runtime\\.cjs$",
+        "^tests/support/static-server\\.cjs$",
+        "^tests/contracts/v10-club-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }

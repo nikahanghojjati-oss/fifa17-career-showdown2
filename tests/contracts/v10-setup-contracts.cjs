@@ -6,6 +6,8 @@
 // text, disabled or hidden; it never picks: the wheel and pack results shown are the ones the shared Setup provider
 // gave the product, and the wheel highlight waits for the wheel to stop. Back routes stay as they are and the top bar
 // is locked ("setup") during the wheels, also when the shared presentation forces a wheel without showScreen.
+// JOB-34: the Club packs moved to Team V's Club Assignment (js/clubScreenV10.js, contract v10-club-contracts.cjs);
+// this skin now owns Start/Join and the League wheel only, and the checks below assert that hand-over.
 // Browser behaviour runs the real files in a small fake DOM (node:vm), no network.
 const assert=require("node:assert/strict");
 const fs=require("node:fs");
@@ -296,7 +298,9 @@ check("S1 the skin API is small, frozen and points at Team V's copied files",()=
   assert.equal(Setup.BASE,V10.BASE);
   assert.equal(Setup.EVENT,V10.EVENT);
   assert.equal(Setup.SKIN_CLASS,SKIN);
-  assert.deepEqual({...Setup.SCREENS},{createShowdown:"start",leagueWheelScreen:"league",clubWheelScreen:"club"});
+  assert.deepEqual({...Setup.SCREENS},{createShowdown:"start",leagueWheelScreen:"league"});
+  assert.ok(!Object.hasOwn(Setup.SCREENS,"clubWheelScreen"),"JOB-34: js/clubScreenV10.js owns the Club screen");
+  assert.ok(!Object.hasOwn(Setup.HEROES,"club"),"no club heroes in the setup skin");
   assert.deepEqual([...Setup.STYLE],["v10-setup-ui","css/v10Setup.css"]);
   assert.deepEqual([...Setup.TRUTH_IDS],TRUTH_MD_IDS,"TRUTH ids as in start-join/TRUTH.md");
   for(const skin of Object.values(Setup.SCREENS))for(const who of ["daniel","nik"]){
@@ -327,7 +331,7 @@ check("S2 pure helpers: league from shown text, pointer index, pack result",()=>
   assert.deepEqual({...Setup.packResult(card(true),{textContent:" Barcelona "},card(true),{textContent:"Real Madrid"})},{playerOne:"Barcelona",playerTwo:"Real Madrid"});
 });
 
-check("S3 install registers the three setup screens with the loader and loads one stylesheet, once",async()=>{
+check("S3 install registers the two setup screens with the loader (not the Club screen) and loads one stylesheet, once",async()=>{
   const root=await installed();
   root.CareerModeV10Setup.install();await flush();
   assert.deepEqual(root.styles,[["v10-setup-ui","css/v10Setup.css"]]);
@@ -336,6 +340,8 @@ check("S3 install registers the three setup screens with the loader and loads on
   for(const id of Object.keys(Setup.SCREENS)){
     assert.throws(()=>root.CareerModeV10Screens.register(id,{frame:()=>({}),mount(){}}),/V10_SCREEN_DUPLICATE/,`${id} registered`);
   }
+  // JOB-34: the Club screen is left for js/clubScreenV10.js, so its registration never collides with this skin's.
+  assert.doesNotThrow(()=>root.CareerModeV10Screens.register("clubWheelScreen",{frame:()=>null,mount(){}}),"clubWheelScreen is free");
   assert.equal(root.document.documentElement.dataset.v10Setup,undefined);
   assert.deepEqual(root.errors,[]);
 });
@@ -422,26 +428,29 @@ check("S5 the wheel shows the provider's league only after the wheel stops; the 
   }
 });
 
-check("S6 the packs show the provider's clubs; the skin only marks both revealed",async()=>{
+check("S6 the Club packs are no longer skinned here (JOB-34): revealing both packs leaves the product's screen to it",async()=>{
+  // Updated in JOB-34: this check asserted the old v26 pack payoff (v26-packs-open / data-v26-packs). Team V's Club
+  // Assignment (js/clubScreenV10.js) now owns the reveal look; the setup skin must not mount, mark or decorate it.
   const root=await installed();
   const provider={playerOne:"Barcelona",playerTwo:"Real Madrid"};// stub Shared Setup provider clubs (Daniel left, Nik right)
   root.showScreen("clubWheelScreen");await flush();
   const host=byId(root,"clubWheelScreen");
-  assert.equal(host.classList.contains("v26-packs-open"),false,"sealed packs");
+  assert.equal(root.CareerModeV10Screens.isMounted("clubWheelScreen"),false,"the setup skin does not mount the Club screen");
   const reveal=(n,club)=>{const card=byId(root,`clubCard${n}`),name=byId(root,`clubName${n}`);card.classList.add("is-revealed");root.mutated(card);name.textContent=club;root.mutated(name);};
-  reveal("One",provider.playerOne);
-  assert.equal(host.classList.contains("v26-packs-open"),false,"one pack is not the payoff");
-  reveal("Two",provider.playerTwo);
-  assert.equal(host.classList.contains("v26-packs-open"),true);
-  assert.equal(host.dataset.v26Packs,`${provider.playerOne}|${provider.playerTwo}`,"pack result equals the provider value");
+  reveal("One",provider.playerOne);reveal("Two",provider.playerTwo);await flush();
+  assert.ok(!/v26/.test(host.className),"no setup skin classes on the Club screen");
+  assert.equal(host.dataset.v26Packs,undefined,"no setup pack marker");
+  assert.equal(host.querySelectorAll("[data-v26-decor]").length,0,"no setup decoration");
+  assert.equal(root.document.documentElement.dataset.v10Setup,undefined,"the setup look is off on the Club screen");
   assert.equal(byId(root,"clubNameOne").textContent,provider.playerOne);
   assert.equal(byId(root,"clubNameTwo").textContent,provider.playerTwo);
   assert.equal(byId(root,"clubPlayerOne").textContent,"Daniel");
   assert.equal(byId(root,"clubPlayerTwo").textContent,"Nik");
   assert.equal(host.dataset.clubRevealStage,"ready","the reveal stage stays the product's");
+  // The pure pack helper stays available (and exact) for callers.
+  assert.deepEqual({...Setup.packResult(byId(root,"clubCardOne"),byId(root,"clubNameOne"),byId(root,"clubCardTwo"),byId(root,"clubNameTwo"))},provider);
   root.showScreen("mainMenu");await flush();
-  assert.equal(host.classList.contains("v26-packs-open"),false);
-  assert.equal(host.dataset.v26Packs,undefined);
+  assert.ok(!/v26/.test(host.className));
 });
 
 check("S7 Back routes unchanged: every Back keeps data-smart-back, its text and the app's listeners",async()=>{
@@ -476,9 +485,11 @@ check("S8 the top bar is locked (setup) on both wheels, also when the shared pre
   assert.equal(topBar(root).dataset.lockReason,"setup");
   forceScreen(root,"clubWheelScreen");await flush();
   assert.deepEqual(root.events,["leagueWheelScreen","clubWheelScreen"]);
-  assert.equal(root.CareerModeV10Screens.isMounted("clubWheelScreen"),true);
+  // JOB-34: the forced Club screen is Team V's Club Assignment (js/clubScreenV10.js), not this skin.
+  assert.equal(root.CareerModeV10Screens.isMounted("clubWheelScreen"),false,"the setup skin leaves the Club screen alone");
+  assert.equal(root.CareerModeV10Screens.isMounted("leagueWheelScreen"),false,"the league wheel unmounted");
   assert.equal(byId(root,"leagueWheelScreen").classList.contains(SKIN),false);
-  assert.equal(root.document.documentElement.dataset.v10Setup,"club");
+  assert.equal(root.document.documentElement.dataset.v10Setup,undefined);
   assert.equal(topBar(root).dataset.locked,"true","locked during the forced club packs");
   // No duplicate event when the class flips without a screen change, nor after a real showScreen.
   root.mutated(byId(root,"clubWheelScreen"));await flush();
