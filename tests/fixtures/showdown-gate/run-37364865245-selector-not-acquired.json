@@ -1,0 +1,128 @@
+{
+  "_source": "Recorded 2026-10-05 from GitHub REST: GET actions/runs/37364865245, its jobs (latest attempt) and check-run annotations. Validate POS20 on PR head edf18965; the selector was cancelled after 15 minutes without a machine.",
+  "run": {
+    "id": 37364865245,
+    "name": "Validate POS20",
+    "path": ".github/workflows/validate-pos10.yml",
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "failure",
+    "head_sha": "edf18965d62052eddc4220da5fb57d32ec7567be",
+    "head_branch": "fix/music-phone-sheet",
+    "run_attempt": 2,
+    "head_repository": {
+      "full_name": "nikahanghojjati-oss/fifa17-career-showdown2"
+    },
+    "pull_requests": []
+  },
+  "jobs": [
+    {
+      "id": 111954754840,
+      "name": "POS20 exact selector",
+      "status": "completed",
+      "conclusion": "cancelled",
+      "started_at": "2026-10-05T20:00:54Z",
+      "completed_at": "2026-10-05T20:15:56Z",
+      "runner_name": "",
+      "steps": []
+    },
+    {
+      "id": 111959942014,
+      "name": "POS20 exact-head cognitive seal",
+      "status": "completed",
+      "conclusion": "cancelled",
+      "started_at": "2026-10-05T20:15:57Z",
+      "completed_at": "2026-10-05T20:30:59Z",
+      "runner_name": "",
+      "steps": []
+    },
+    {
+      "id": 111959942235,
+      "name": "POS20 selected deterministic census",
+      "status": "completed",
+      "conclusion": "skipped",
+      "started_at": "2026-10-05T20:15:57Z",
+      "completed_at": "2026-10-05T20:15:57Z",
+      "runner_name": null,
+      "steps": []
+    },
+    {
+      "id": 111959942651,
+      "name": "POS20 operations authority",
+      "status": "completed",
+      "conclusion": "skipped",
+      "started_at": "2026-10-05T20:15:57Z",
+      "completed_at": "2026-10-05T20:15:57Z",
+      "runner_name": null,
+      "steps": []
+    },
+    {
+      "id": 111959943001,
+      "name": "POS20 gameplay lifecycle 1/3/5/10",
+      "status": "completed",
+      "conclusion": "skipped",
+      "started_at": "2026-10-05T20:15:57Z",
+      "completed_at": "2026-10-05T20:15:57Z",
+      "runner_name": null,
+      "steps": []
+    },
+    {
+      "id": 111959943091,
+      "name": "POS20 cognitive benchmark",
+      "status": "completed",
+      "conclusion": "skipped",
+      "started_at": "2026-10-05T20:15:57Z",
+      "completed_at": "2026-10-05T20:15:57Z",
+      "runner_name": null,
+      "steps": []
+    },
+    {
+      "id": 111959943137,
+      "name": "POS20 proof ${{ matrix.group }}",
+      "status": "completed",
+      "conclusion": "skipped",
+      "started_at": "2026-10-05T20:15:57Z",
+      "completed_at": "2026-10-05T20:15:57Z",
+      "runner_name": null,
+      "steps": []
+    }
+  ],
+  "annotations": {
+    "111954754840": [
+      {
+        "annotation_level": "failure",
+        "message": "The job was not acquired by Runner of type hosted even after multiple attempts"
+      },
+      {
+        "annotation_level": "notice",
+        "message": "\"The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748\""
+      },
+      {
+        "annotation_level": "notice",
+        "message": "\"The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748\""
+      },
+      {
+        "annotation_level": "notice",
+        "message": "\"The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748\""
+      }
+    ],
+    "111959942014": [
+      {
+        "annotation_level": "failure",
+        "message": "The job was not acquired by Runner of type hosted even after multiple attempts"
+      },
+      {
+        "annotation_level": "notice",
+        "message": "\"The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748\""
+      },
+      {
+        "annotation_level": "notice",
+        "message": "\"The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748\""
+      },
+      {
+        "annotation_level": "notice",
+        "message": "\"The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748\""
+      }
+    ]
+  }
+}
