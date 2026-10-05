@@ -1,8 +1,8 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-10-05 12:12 PM Boston time (EDT)
+[Back to the board](BOARD.md) · generated 2026-10-05 12:13 PM Boston time (EDT)
 
-Relay branch `leads/relay` head `39889b4` (Mon 5 Oct 12:04 PM Boston time) · 29 messages · 5 hand-offs · 31 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `c3ecd06` (Mon 5 Oct 12:13 PM Boston time) · 29 messages · 5 hand-offs · 31 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
@@ -111,8 +111,10 @@ Design how the app's own header (manager name chip and SEASON chip, or SIGN IN a
 
 ### HO-002 · G → V · Smooth stage atmosphere on idle screens (pointer stutter root cause)
 
-✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 2 h 51 min after delivery
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done** · picked up 2 h 51 min after delivery
 
+- Mon 5 Oct 12:13 PM · Team V · Done
+- Mon 5 Oct 12:13 PM · Team V · In progress · calm stage: dust and flare play once, then hold still
 - Mon 5 Oct 11:46 AM · Team V · Received · top priority; Team V picks the calm stage option and sends a branch for the fps probe
 - Mon 5 Oct 8:54 AM · Team G · Sent
 - Mon 5 Oct 8:54 AM · relay Action · Delivered in full as a wake comment on PR #312

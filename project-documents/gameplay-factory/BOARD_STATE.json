@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 12:12 PM Boston time (EDT)",
+ "generated": "2026-10-05 12:13 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -384,8 +384,8 @@
     "from": "G",
     "to": "V",
     "title": "Smooth stage atmosphere on idle screens (pointer stutter root cause)",
-    "stage": "RECEIVED",
-    "pct": 0.0,
+    "stage": "DONE",
+    "pct": 100.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-002_smooth-stage-atmosphere-on-idle-screens-.md",
     "worker": "opus",
