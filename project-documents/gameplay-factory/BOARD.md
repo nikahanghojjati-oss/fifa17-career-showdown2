@@ -1,6 +1,6 @@
 # Team G gameplay board
 
-20 of 33 jobs done (70 %) ███████░░░ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-04 8:01 PM Boston time (EDT)
+20 of 33 jobs done (70 %) ███████░░░ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-04 8:21 PM Boston time (EDT)
 
 ## Your next move
 
@@ -54,7 +54,7 @@ Waiting on Team V: nothing.
 | G-13d | [Part 2d: Transfer War](jobs/JOB-27.md) | lead | job 24 | NOT STARTED |
 | G-13e | [Part 2e: Rivalry Statistics and Legacy (History)](jobs/JOB-28.md) | work | job 24 | BLOCKED |
 | G-13f | [Part 2f: Season Results, Final Winner and Standings](jobs/JOB-29.md) | work | job 24 | IN PROGRESS |
-| G-13g | [Part 2g: Rule Book and Settings](jobs/JOB-30.md) | work | job 24 | BLOCKED |
+| G-13g | [Part 2g: Rule Book and Settings](jobs/JOB-30.md) | work | job 24 | MERGED |
 | G-2h | [Ten-season games: session expiry, long-game limits, 10-season emulator run](jobs/JOB-31.md) | lead | - | NOT WRITTEN |
 | G-2i | [Fewer taps: audit the flow for steps we can safely drop](jobs/JOB-32.md) | lead | - | NOT WRITTEN |
 | G-2j | [Fewer taps: auto-refresh while waiting, skip hops, drop duplicate banners](jobs/JOB-33.md) | lead | job 32 | NOT WRITTEN |

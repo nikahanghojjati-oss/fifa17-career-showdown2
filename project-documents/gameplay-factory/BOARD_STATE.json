@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-04 8:01 PM Boston time (EDT)",
+ "generated": "2026-10-04 8:21 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 23,
@@ -256,8 +256,7 @@
   29
  ],
  "blocked": [
-  28,
-  30
+  28
  ],
  "bug_hunt": [
   {
@@ -956,7 +955,7 @@
    "phase": "READY",
    "type": "build",
    "plain": "Rules copy unchanged, Settings controls kept, credits added. Sol 6.1 Work mode, High; starts from job 24's branch; the lead checks each screen in a browser and merges.",
-   "state": "BLOCKED",
+   "state": "MERGED",
    "step": 5,
    "steps_total": 6,
    "pct": 83,
