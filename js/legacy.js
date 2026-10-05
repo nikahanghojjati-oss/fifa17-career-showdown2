@@ -474,7 +474,10 @@ let legacyModel = null;
 // The data tools page lasts until the app leaves Legacy; the next Legacy visit is Team V's History again.
 if(typeof document.addEventListener === "function"){
     document.addEventListener("career-mode-screen-shown", event => {
-        if(event?.detail?.screen !== "legacy"){ window.careerModeLegacyDataTools = false; }
+        if(event?.detail?.screen !== "legacy"){
+            window.careerModeLegacyDataTools = false;
+            if(document.documentElement?.dataset){ delete document.documentElement.dataset.v10Tools; }
+        }
     });
 }
 
@@ -505,6 +508,12 @@ function renderLegacy(request = false){
     const identity = window.CareerModeOnlinePlayerIdentity;
     const identityState = identity && typeof identity.getState === "function" ? identity.getState() : null;
     const source = seam.selectCareerScreenSource({ identityState, model: legacyModel, dataTools });
+    // r61: html[data-v10-tools] dresses this page in Team V's kit (css/v10Shell.css); it never changes what the tools do.
+    const toolsMark = document.documentElement?.dataset;
+    if(toolsMark){
+        if(source === "local"){ toolsMark.v10Tools = "legacy"; }
+        else{ delete toolsMark.v10Tools; }
+    }
     if(source !== "local"){
         if(typeof window.openRivalryLegacyV10 === "function"){
             window.openRivalryLegacyV10("legacy", () => legacyModel);

@@ -16,7 +16,8 @@
   const STYLE=Object.freeze(["v10-setup-ui","css/v10Setup.css"]);
   const SKIN_CLASS="v26Skin";
   const HTML_ATTR="v10Setup";
-  const SCREENS=Object.freeze({createShowdown:"start",leagueWheelScreen:"league"});
+  // r61: Showdown Home (dashboard) has no Team V screen yet, so it wears the Start skin's stadium and kit meanwhile.
+  const SCREENS=Object.freeze({createShowdown:"start",leagueWheelScreen:"league",dashboard:"start"});
   // Phone heroes per screen (Team V phone art). Desktop uses the plates through css/v10Setup.css.
   const HEROES=Object.freeze({
     start:Object.freeze({daniel:"start-join/assets/OVL_SJ_DANIEL_PHONE_V1.webp",nik:"start-join/assets/OVL_SJ_NIK_PHONE_V1.webp"}),

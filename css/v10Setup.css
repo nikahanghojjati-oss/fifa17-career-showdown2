@@ -48,7 +48,9 @@ html[data-v10-setup] #overlay {
     radial-gradient(ellipse 34% 58% at 50% 56%, rgba(7, 8, 10, .62), rgba(7, 8, 10, .34) 62%, rgba(7, 8, 10, 0) 100%),
     linear-gradient(to bottom, rgba(7, 8, 10, .55), rgba(7, 8, 10, 0) 22%, rgba(7, 8, 10, 0) 78%, rgba(7, 8, 10, .7));
 }
-html[data-v10-setup] #topHeader {
+/* #app in the selector: css/v10Shell.css pins the header ink with "html #app #topHeader", which out-ranked this rule
+   and left the SIGN IN chip dark on dark (r61). */
+html[data-v10-setup] #app #topHeader {
   color: var(--v26-cream);
   background: linear-gradient(to bottom, rgba(6, 7, 9, .94), rgba(6, 7, 9, .8));
   border-bottom: 1px solid rgba(201, 155, 69, .45);
@@ -62,6 +64,13 @@ html[data-v10-setup] #onlinePlayerIdentityBadge {
   background: rgba(10, 12, 15, .72);
   border: 1px solid rgba(201, 155, 69, .55);
   box-shadow: none;
+}
+/* The footer takes Home's dark band (css/v10Shell.css, HM1) instead of the old slate bar (r61). */
+html[data-v10-setup] #app > footer { min-height: 0; background: #07080a; color: #b8b09c; border-top: 1px solid rgba(242, 196, 91, .22); }
+/* The SIGN IN / player chip matches the season chip beside it, as on Home (inline styles from js/onlinePlayerIdentity.js). */
+html[data-v10-setup] #app #topHeader #onlinePlayerIdentityBadge {
+  color: var(--sd-gold-400, #f2c45b) !important; white-space: nowrap;
+  font: 600 12px/1 var(--sd-font-condensed, "Barlow Condensed", sans-serif) !important; letter-spacing: .1em;
 }
 html[data-v10-setup] main { scrollbar-color: var(--v26-gold-deep) rgba(255, 255, 255, .08); }
 
@@ -92,12 +101,12 @@ html[data-v10-setup] main { scrollbar-color: var(--v26-gold-deep) rgba(255, 255,
   width: min(1040px, 94vw);
   margin: 22px auto 0;
 }
-:is(#createShowdown, #leagueWheelScreen, #clubWheelScreen).v26Skin > h2[data-route-focus-target="true"]:focus { outline: 1px solid rgba(242, 196, 91, .5); outline-offset: 4px; }
+:is(#createShowdown, #leagueWheelScreen, #clubWheelScreen, #dashboard).v26Skin > h2[data-route-focus-target="true"]:focus { outline: 1px solid rgba(242, 196, 91, .5); outline-offset: 4px; }
 
 /* ---------- shared screen kit ---------- */
-:is(#createShowdown, #leagueWheelScreen, #clubWheelScreen).v26Skin { color: var(--v26-text); }
-:is(#createShowdown, #leagueWheelScreen, #clubWheelScreen).v26Skin > :not(.v26Art) { position: relative; z-index: 1; }
-:is(#createShowdown, #leagueWheelScreen, #clubWheelScreen).v26Skin > h2 {
+:is(#createShowdown, #leagueWheelScreen, #clubWheelScreen, #dashboard).v26Skin { color: var(--v26-text); }
+:is(#createShowdown, #leagueWheelScreen, #clubWheelScreen, #dashboard).v26Skin > :not(.v26Art) { position: relative; z-index: 1; }
+:is(#createShowdown, #leagueWheelScreen, #clubWheelScreen, #dashboard).v26Skin > h2 {
   width: fit-content;
   max-width: 100%;
   margin: clamp(4px, 2vh, 22px) auto 6px;
@@ -113,9 +122,9 @@ html[data-v10-setup] main { scrollbar-color: var(--v26-gold-deep) rgba(255, 255,
   text-align: center;
   filter: drop-shadow(0 3px 1px rgba(0, 0, 0, .96)) drop-shadow(0 0 14px rgba(242, 196, 91, .28));
 }
-:is(#createShowdown, #leagueWheelScreen, #clubWheelScreen).v26Skin > h2::before,
-:is(#createShowdown, #leagueWheelScreen, #clubWheelScreen).v26Skin > h2::after { display: none; }
-:is(#createShowdown, #leagueWheelScreen, #clubWheelScreen).v26Skin .stateNote {
+:is(#createShowdown, #leagueWheelScreen, #clubWheelScreen, #dashboard).v26Skin > h2::before,
+:is(#createShowdown, #leagueWheelScreen, #clubWheelScreen, #dashboard).v26Skin > h2::after { display: none; }
+:is(#createShowdown, #leagueWheelScreen, #clubWheelScreen, #dashboard).v26Skin .stateNote {
   box-sizing: border-box;
   max-width: min(620px, 100%);
   margin: 8px auto;
@@ -129,8 +138,8 @@ html[data-v10-setup] main { scrollbar-color: var(--v26-gold-deep) rgba(255, 255,
   -webkit-backdrop-filter: blur(6px);
   backdrop-filter: blur(6px);
 }
-:is(#createShowdown, #leagueWheelScreen, #clubWheelScreen).v26Skin .stateNote.locked { border-color: rgba(242, 196, 91, .7); color: #f6ebd0; }
-:is(#createShowdown, #leagueWheelScreen, #clubWheelScreen).v26Skin .menuButton {
+:is(#createShowdown, #leagueWheelScreen, #clubWheelScreen, #dashboard).v26Skin .stateNote.locked { border-color: rgba(242, 196, 91, .7); color: #f6ebd0; }
+:is(#createShowdown, #leagueWheelScreen, #clubWheelScreen, #dashboard).v26Skin .menuButton {
   box-sizing: border-box;
   min-height: 54px;
   color: var(--sd-text-on-gold, #07080a);
@@ -142,13 +151,13 @@ html[data-v10-setup] main { scrollbar-color: var(--v26-gold-deep) rgba(255, 255,
   letter-spacing: .06em;
   transition: transform 100ms cubic-bezier(.22, 1, .36, 1), filter 100ms linear, box-shadow 100ms linear;
 }
-:is(#createShowdown, #leagueWheelScreen, #clubWheelScreen).v26Skin .menuButton:disabled {
+:is(#createShowdown, #leagueWheelScreen, #clubWheelScreen, #dashboard).v26Skin .menuButton:disabled {
   cursor: default;
   color: #2a2213;
   background: linear-gradient(180deg, #d8c184, #b79a59);
   box-shadow: none;
 }
-:is(#createShowdown, #leagueWheelScreen, #clubWheelScreen).v26Skin .backButton {
+:is(#createShowdown, #leagueWheelScreen, #clubWheelScreen, #dashboard).v26Skin .backButton {
   box-sizing: border-box;
   min-height: 48px;
   color: var(--v26-gold-hi);
@@ -161,15 +170,15 @@ html[data-v10-setup] main { scrollbar-color: var(--v26-gold-deep) rgba(255, 255,
   -webkit-backdrop-filter: blur(6px);
   backdrop-filter: blur(6px);
 }
-:is(#createShowdown, #leagueWheelScreen, #clubWheelScreen).v26Skin .backButton:disabled { color: #d8cebb; border-color: rgba(233, 223, 200, .4); }
+:is(#createShowdown, #leagueWheelScreen, #clubWheelScreen, #dashboard).v26Skin .backButton:disabled { color: #d8cebb; border-color: rgba(233, 223, 200, .4); }
 @media (hover: hover) {
-  :is(#createShowdown, #leagueWheelScreen, #clubWheelScreen).v26Skin .menuButton:not(:disabled):hover { filter: brightness(1.06); transform: translate3d(0, -1px, 0); }
-  :is(#createShowdown, #leagueWheelScreen, #clubWheelScreen).v26Skin .backButton:not(:disabled):hover { border-color: var(--v26-gold-hi); }
+  :is(#createShowdown, #leagueWheelScreen, #clubWheelScreen, #dashboard).v26Skin .menuButton:not(:disabled):hover { filter: brightness(1.06); transform: translate3d(0, -1px, 0); }
+  :is(#createShowdown, #leagueWheelScreen, #clubWheelScreen, #dashboard).v26Skin .backButton:not(:disabled):hover { border-color: var(--v26-gold-hi); }
 }
-:is(#createShowdown, #leagueWheelScreen, #clubWheelScreen).v26Skin .menuButton:not(:disabled):active,
-:is(#createShowdown, #leagueWheelScreen, #clubWheelScreen).v26Skin .backButton:not(:disabled):active { transform: translate3d(0, 1px, 0) scale(.995); }
-:is(#createShowdown, #leagueWheelScreen, #clubWheelScreen).v26Skin button:focus-visible,
-:is(#createShowdown, #leagueWheelScreen, #clubWheelScreen).v26Skin select:focus-visible { outline: 2px solid #fff1b8; outline-offset: 3px; }
+:is(#createShowdown, #leagueWheelScreen, #clubWheelScreen, #dashboard).v26Skin .menuButton:not(:disabled):active,
+:is(#createShowdown, #leagueWheelScreen, #clubWheelScreen, #dashboard).v26Skin .backButton:not(:disabled):active { transform: translate3d(0, 1px, 0) scale(.995); }
+:is(#createShowdown, #leagueWheelScreen, #clubWheelScreen, #dashboard).v26Skin button:focus-visible,
+:is(#createShowdown, #leagueWheelScreen, #clubWheelScreen, #dashboard).v26Skin select:focus-visible { outline: 2px solid #fff1b8; outline-offset: 3px; }
 
 /* Decorative phone art (Team V phone heroes); desktop shows the plate instead. */
 .v26Art { display: none; }
@@ -705,3 +714,28 @@ html:is([data-motion-reduced="true"], [data-reduced-motion="true"]) :is(#createS
   border: 1px solid var(--v26-edge);
   font-size: 16px;
 }
+
+/* ---------- Showdown Home (r61) ----------
+   No Team V screen exists for the dashboard yet; until one does it wears the Start stadium and this kit. Product
+   markup, ids and order are unchanged (js/showdownUI.js and the shared adapters keep writing the same nodes). */
+#dashboard.v26Skin { padding-bottom: 18px; }
+#dashboard.v26Skin :is(.showdownOverview, .lastSeasonSummary, .playerCard) {
+  color: var(--v26-cream); background: rgba(8, 9, 12, .86); border: 1px solid rgba(201, 155, 69, .38);
+  border-left: 1px solid rgba(201, 155, 69, .38); border-top: 2px solid var(--v26-gold-deep); box-shadow: 0 10px 28px rgba(0, 0, 0, .45);
+  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+}
+#dashboard.v26Skin :is(.showdownOverview, .lastSeasonSummary, .playerCard)::before { content: none; }
+#dashboard.v26Skin :is(.showdownOverview p, .lastSeasonSummary p, .playerCard p) { color: #d8cebb; }
+#dashboard.v26Skin :is(.overviewName, .playerCard h3, .lastSeasonResult) { color: #fff; }
+#dashboard.v26Skin :is(.overviewStatus, .transferOverviewStatus, .lastSeasonLabel) { color: var(--v26-gold-hi); }
+#dashboard.v26Skin .clubName { color: var(--v26-gold-hi); }
+#dashboard.v26Skin .showdownScoreboard {
+  color: #fff; background: rgba(6, 7, 9, .9); border: 1px solid var(--v26-edge); border-bottom: 2px solid var(--v26-gold);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, .5), 0 0 22px rgba(245, 197, 24, .12);
+}
+#dashboard.v26Skin .seriesStatusChip { color: var(--sd-text-on-gold, #07080a); background: linear-gradient(180deg, #ffd34d, #f5c518 55%, #d4a017); }
+#dashboard.v26Skin .scoreboardScores span { color: var(--v26-gold-hi); }
+#dashboard.v26Skin .scoreboardScores small, #dashboard.v26Skin .scoreDivider { color: #b8b09c; }
+#dashboard.v26Skin .playerCard { border-top-color: var(--v26-gold-deep); }
+#dashboard.v26Skin .playerCard :is(p, div) { border-color: rgba(201, 155, 69, .22); }
+#dashboard.v26Skin .dashboardActions { gap: 10px; }
