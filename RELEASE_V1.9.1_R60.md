@@ -18,7 +18,7 @@ No gameplay, scoring or Firestore Rules change. Both changes are Nik's decisions
   - Trophy Room is a new Home tile (`#homeTrophyRoomButton`, because Career Statistics owns `#trophyRoomButton`). It carries Team V's league-title trophy art from the Home frame and opens the product's own Trophy Room route.
   - On phones the tiles follow Team V's frame: Continue on its own row, then two rows of three, then the soundtrack strip. On desktop they share one row, and narrow desktops use slightly smaller labels so every label fits.
 - **Home soundtrack has 9 tracks (Nik, 2026-10-05).**
-  - "What You Got" (Valentino Khan & NITTI) is removed. Its uploader deleted it on Audius (`is_delete=true`, `is_streamable=false`), so it failed on every device. The default track is now Snow Globe.
+  - "What You Got" (Valentino Khan & NITTI) is removed. Its uploader deleted it on Audius (`is_delete=true`, `is_streamable=false`), so it failed on every device. Nasty is now first and the default track.
   - None of the six songs from the old FIFA 17 YouTube player is on Audius as an official upload. Instead there are six similar tracks, each checked by id as streamable, not deleted, not gated and not unlisted: Everything I Know (Speelburg), Tell Me What You Want (Weezer), Next To You (RAC ft. Emerson Leif), Hard Feelings (Miquela), silly boy (oshi) and Uproar (Mike Shinoda).
   - The phone track sheet sizes its CLOSE button from the number of track rows. `js/homeScreensV10.js` sets `--track-rows` and `css/homeV10.css` uses it, so CLOSE stays in the sheet's top padding instead of covering a track. Track titles stay on one line.
 - The runtime revision moves to r60 so browsers on r59 receive the changed shell-cached files.
