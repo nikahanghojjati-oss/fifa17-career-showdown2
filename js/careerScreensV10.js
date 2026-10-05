@@ -135,8 +135,7 @@
     let model=getModel();
     // Online with no supplied model: the provider-backed completed-Showdown model (shared with History).
     if(model==null&&v10Seam().isOnlineCareerRoute(identity))model=v10OnlineModel()??(onlineLoading?LOADING:null);
-    // careerModeLocalCareerScreens: internal analytics audits only (the product never sets it), like Legacy's data tools flag.
-    const source=v10Seam().selectCareerScreenSource({identityState:identity,model,dataTools:root.careerModeLocalCareerScreens===true});
+    const source=v10Seam().selectCareerScreenSource({identityState:identity,model});
     if(source==="local")return null;
     return source==="model"?model:UNAVAILABLE;
   }

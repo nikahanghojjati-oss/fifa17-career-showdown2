@@ -35,7 +35,7 @@ function openCareerScreensV10(screen){
         return;
     }
     const getModel = () => screen === "trophyRoom" ? (typeof trophyRoomModel === "undefined" ? null : trophyRoomModel) : careerStatisticsModel;
-    if(seam.selectCareerScreenSource({ identityState: readCareerIdentityState(), model: getModel(), dataTools: window.careerModeLocalCareerScreens === true }) === "local"){ screens?.settle?.(screen); return; }
+    if(seam.selectCareerScreenSource({ identityState: readCareerIdentityState(), model: getModel() }) === "local"){ screens?.settle?.(screen); return; }
     screens?.expect?.(screen);
     window.loadRuntimeScript("career-screens-v10", "js/careerScreensV10.js", () => Boolean(window.CareerModeCareerScreensV10))
         .then(() => window.CareerModeCareerScreensV10.mount(screen, getModel))
@@ -371,7 +371,7 @@ function renderCareerStatistics(request = false){
     const normalized = seam.normalizeRenderRequest(request);
     if(normalized.hasModel){ careerStatisticsModel = normalized.model; }
     const force = normalized.force;
-    const source = seam.selectCareerScreenSource({ identityState: readCareerIdentityState(), model: careerStatisticsModel, dataTools: window.careerModeLocalCareerScreens === true });
+    const source = seam.selectCareerScreenSource({ identityState: readCareerIdentityState(), model: careerStatisticsModel });
     if(source !== "local"){
         content.replaceChildren(seam.paintCareerScreenView(document, seam.careerScreenView("careerStatistics", source === "model" ? careerStatisticsModel : null)));
         careerStatisticsRenderKey = null;

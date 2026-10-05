@@ -203,7 +203,7 @@ function renderTrophyRoom(request = false){
     const normalized = seam.normalizeRenderRequest(request);
     if(normalized.hasModel){ trophyRoomModel = normalized.model; }
     const force = normalized.force;
-    const source = seam.selectCareerScreenSource({ identityState: readCareerIdentityState(), model: trophyRoomModel, dataTools: window.careerModeLocalCareerScreens === true });
+    const source = seam.selectCareerScreenSource({ identityState: readCareerIdentityState(), model: trophyRoomModel });
     if(source !== "local"){
         content.replaceChildren(seam.paintCareerScreenView(document, seam.careerScreenView("trophyRoom", source === "model" ? trophyRoomModel : null)));
         trophyRoomRenderKey = null;
