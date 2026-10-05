@@ -1,6 +1,6 @@
 # Team G gameplay board
 
-28 of 33 jobs done (87 %) ████████░░ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-05 12:15 AM Boston time (EDT)
+28 of 33 jobs done (87 %) ████████░░ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-05 12:18 AM Boston time (EDT)
 
 ## Scoreboard
 
@@ -45,7 +45,7 @@ Opus · Lead (helper) · [PR #362](https://github.com/nikahanghojjati-oss/fifa17
 
 🟪🟪🟪🟪🟪🟪🟪🟪🟪⚽▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️ 🥅  
 Sonnet · Sonnet thread · [PR #352](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/352) · 9 of 11 steps · updated Sun 4 Oct 9:17 PM Boston time  
-🏁 **Likely finish:** waiting on the job's next report (last one 2 h ago)  
+🏁 **Likely finish:** waiting on the job's next report (last one 3 h ago)  
 > **Now:** Paused for usage reset; all my work is pushed, waiting on the lead's J10 fix then merge  
 > **Left:** CI green on final head (waits on the J10 fix on recovery) → Lead review and merge
 
