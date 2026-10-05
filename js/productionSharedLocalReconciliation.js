@@ -62,6 +62,8 @@
     await api.refreshAttachedSharedState(before.binding);
     const read=api.getState?.()||null;
     if(!read||!(read.status==="refreshed"||read.status==="tombstoned"))return null;
+    // Faster season hand-offs (job 33) can leave Multi Season one poll behind here; refresh it before the terminal check.
+    if(read.status==="refreshed"&&read.observedExists===false&&read.observedTombstone!==true&&!lrMultiTerminal()){try{await root.CareerModeProductionSharedMultiSeasonProgression?.refresh?.();}catch(_error){}}
     if(read.status==="refreshed"&&read.observedExists===false&&read.observedTombstone!==true&&lrMultiTerminal()&&typeof api.publishAttachedSharedState==="function"){
       await api.publishAttachedSharedState(before.binding);
       await api.refreshAttachedSharedState(before.binding);

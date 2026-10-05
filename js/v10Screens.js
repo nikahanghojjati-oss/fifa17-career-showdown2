@@ -127,7 +127,9 @@
     const entry={link,ready:null,settled:false};
     entry.ready=new Promise(resolve=>{
       let timer=null;
-      const done=()=>{if(timer!==null)root.clearTimeout(timer);timer=null;if(!entry.settled){entry.settled=true;vsSyncStyles();}resolve(true);};
+      // A sheet that arrives after the timeout settled it is synced again: Chromium applies a late sheet even when its
+      // link was disabled while it loaded.
+      const done=()=>{if(timer!==null)root.clearTimeout(timer);timer=null;entry.settled=true;vsSyncStyles();resolve(true);};
       link.addEventListener("load",done,{once:true});link.addEventListener("error",done,{once:true});
       timer=root.setTimeout(done,STYLE_TIMEOUT_MS);
     });
@@ -173,6 +175,7 @@
       let on=ALWAYS_ON.includes(file);
       if(!on&&live.length)on=KIT.styles.some(kit=>BASE+kit===file)||live.some(def=>def.css.some(css=>BASE+css===file));
       if(link.disabled!==!on)link.disabled=!on;
+      if(link.sheet&&link.sheet.disabled!==!on)link.sheet.disabled=!on;
     }
   }
   function vsRegister(id,definition){

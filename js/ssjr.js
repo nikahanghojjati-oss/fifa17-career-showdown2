@@ -15,6 +15,9 @@
   // JOB-26: Team V's skin for Start/Join, the League wheel and the Club packs, registered with that loader.
   const v10Setup=()=>load("v10-screens","js/v10Screens.js",()=>root.CareerModeV10Screens).then(()=>load("v10-setup","js/v10Setup.js",()=>root.CareerModeV10Setup)).then(()=>root.CareerModeV10Setup.install()).catch(error=>root.console?.warn?.("[Career Mode Showdown] Team V setup skin unavailable.",error));
   if(typeof root.requestIdleCallback==="function")root.requestIdleCallback(v10Setup,{timeout:3000});else root.setTimeout?.(v10Setup,700);
+  // JOB-27: Team V's Transfer War skin for the shared Transfer Challenge (registers with the loader above).
+  const v10Transfer=()=>load("v10-transfer","js/transferScreenV10.js",()=>root.CareerModeTransferScreenV10).then(()=>root.CareerModeTransferScreenV10.install()).catch(error=>root.console?.warn?.("[Career Mode Showdown] Transfer War visuals unavailable.",error));
+  if(typeof root.requestIdleCallback==="function")root.requestIdleCallback(v10Transfer,{timeout:3000});else root.setTimeout?.(v10Transfer,700);
   (async()=>{
     const seasonResultsRoute=install("ssjr-production-season-results-route","js/productionSharedSeasonResultsRoute.js","CareerModeProductionSharedSeasonResultsRoute");
     const seasonCommit=install("ssjr-production-season-commit","js/productionSharedSeasonCommit.js","CareerModeProductionSharedSeasonCommit");
