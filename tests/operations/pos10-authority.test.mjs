@@ -87,4 +87,10 @@ test('POS20 successor workflow keeps exact-head validation and the inherited POS
   assert.match(workflow,/check_lane operations/);assert.match(workflow,/check_lane deterministic/);assert.match(workflow,/check_lane proofs/);
   assert.ok((workflow.match(/ref: \$\{\{ github\.event\.pull_request\.head\.sha \|\| github\.sha \}\}/g)||[]).length>=5);
   assert.ok(!/success\|skipped\)\s*;;/.test(workflow));
+  // Draft PRs are never merged, so POS20 skips their selector; ready_for_review re-validates the exact head,
+  // and the always-running seal fails (never passes) on a draft.
+  assert.match(workflow,/\n  pull_request:\n    types: \[opened, synchronize, reopened, ready_for_review\]\n/);
+  assert.match(workflow,/\n  route:\n    name: POS20 exact selector\n    if: github\.event_name != 'pull_request' \|\| github\.event\.pull_request\.draft == false\n/);
+  assert.match(workflow,/exact-head-summary:[\s\S]*?if: always\(\)[\s\S]*?github\.event\.pull_request\.draft \}\}' == true \]\]; then [^\n]*exit 1; fi/);
+  for(const job of ['benchmark','operations','deterministic','gameplay-lifecycle','proofs'])assert.match(workflow,new RegExp(`\\n  ${job}:\\n[\\s\\S]*?needs: route\\n`),`${job} must stay behind the route job`);
 });
