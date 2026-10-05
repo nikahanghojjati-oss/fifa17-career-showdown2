@@ -133,7 +133,7 @@ def v_factory():
 
 def tickets(ref):
     out = []
-    names = (sh("git", "ls-tree", "--name-only", ref, "project-documents/leads-relay/handoffs/") or "").split()
+    names = (sh("git", "ls-tree", "--full-tree", "--name-only", ref, "project-documents/leads-relay/handoffs/") or "").split()
     for p in names:
         if not re.search(r"/HO-\d+[^/]*\.md$", p):
             continue
@@ -162,7 +162,7 @@ def relay():
     feed = show(ref, "project-documents/leads-relay/FEED.md")
     if feed is None:
         return None
-    files = (sh("git", "ls-tree", "--name-only", ref, "project-documents/leads-relay/archive/") or "").split()
+    files = (sh("git", "ls-tree", "--full-tree", "--name-only", ref, "project-documents/leads-relay/archive/") or "").split()
     rows = []
     for line in feed.splitlines():
         c = [x.strip() for x in line.strip().strip("|").split("|")]
