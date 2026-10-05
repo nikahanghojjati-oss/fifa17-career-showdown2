@@ -1,8 +1,8 @@
 # Status · JOB-30 · G-13 part 2g: Rule Book and Settings
 
-State: BLOCKED
+State: MERGED
 Step: 5 of 6
-Updated: 2026-10-04 23:02 UTC
+Updated: 2026-10-05 UTC
 Chat: Sol Work mode
 Code branch: gameplay/job-30-v10-rules-settings
 Head commit: 180a4b4c04b5ee1218e793ee782a8a16c01ca5c7
@@ -40,3 +40,7 @@ CI run: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/r
 
 ## Blocked question
 - Team G lead: reconcile updated foundation PR #349 (26b18e0) and moving recovery (bbd7e9a), including the stylesheet-settling fix, with conflicting PR #355 without a worker force-push or merge. Then verify all four Gameplay Fast jobs and Validate POS20 on the reconciled exact head, request @codex review after green checks, and handle findings before DONE. Current CI is incomplete, not falsely reported as green.
+
+## Lead merge
+
+Merged into gameplay/recovery-v1 at 41660939 (PR #355, exact head 1568e544, 16/16 checks), Sun 4 Oct 2026, 8:21 p.m. Boston time. The lead checked the Rule Book and Settings screenshots and the js/v10Screens.js overlay change.
