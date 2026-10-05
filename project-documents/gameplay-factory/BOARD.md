@@ -1,6 +1,6 @@
 # Showdown board: G Factory and V Factory
 
-🌐 **Live: runtime 1.9.1-r61** (main `84a04d8`) · 🔄 **12 moving** · ⏭ 2 up next · 👤 4 waiting on Nik · 🗂 5 later · updated 2026-10-05 7:47 PM Boston time (EDT)
+🌐 **Live: runtime 1.9.1-r61** (main `84a04d8`) · 🔄 **14 moving** · ⏭ 2 up next · 👤 4 waiting on Nik · 🗂 4 later · updated 2026-10-05 7:48 PM Boston time (EDT)
 
 🐕 **Barking: Gameplay Fast has waited 5 min for a machine; POS20 has waited 5 min for a machine; POS20 has waited 3 min for a machine; POS20 on #312 has waited 2 min for a machine.** · Gate #386: L1… L2… L3… L4… L5… L6✓ · seal pending · POS20 #386 11/16
 
@@ -12,8 +12,14 @@
 
 | Release / fix | Checks on the latest commit | Updated |
 | --- | --- | --- |
-| [PR #386](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/386) Showdown Gate (shadow): six-lane check beside POS20, not required yet | ⏳ 12 passed, 9 running | 7:38 PM |
+| [PR #386](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/386) Showdown Gate (shadow): six-lane check beside POS20, not required yet | ⏳ 14 passed, 7 running | 7:38 PM |
 | [PR #384](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/384) Every screen in Team V's look: signed-out career screens, Showdown Home, season review, L… | 🟢 12 passed | 6:29 PM |
+
+**⬛ 1001 · Home desktop tile icons: bigger, inside the tile, never on the text** · 40 % (2 of 5 steps) · worker not set
+
+⬛⬛⬛⬛⬛⬛⬛⬛⚽▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️ 🥅  
+> **Now:** step 3 of 5  
+> **Left:** step 3 → step 4 → step 5
 
 **🟦 V-1002 · Transfer War window strings match production wording** · 33 % (1 of 3 steps) · Sol chat · [PR #389](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/389)
 
@@ -32,6 +38,7 @@
 | G | G-F19 | BH-8: show the final winner and Close on both phones automatically, with no PREVIEW tap (Nik chose this at 5:56 PM Boston time); applying to the local save stays a tap | 🟧 Opus | fixed, in r62 batch (54dd53a) | journey 36/36 twice |
 | G | G-F20 | BH-7 transient hardening: Setup read, Terminal Close retry, simultaneous CLOSE re-read, stale transfer status line | 🟧 Opus | fixed, in r62 batch (de4c352) | two-manager journey 36/36 |
 | G | G-F21 | BH-11 pairing and reconnect fixes from the pairing audit (7 findings, one high: a reload mid-game strands the reconnect) | 🟧 Opus | in progress (branch bugfix/bh-11-pairing-reconnect) | the lead batches it into r62 |
+| G | 1001 | 🐞 Bug list 1: 1001 · G Home desktop tile icons: bigger, inside the tile, never on the text | 🟦 Sol chat | with worker (round 2) | Bug list 1 items L1-01..06. CSS only in css/homeV10.css desktop blocks. Job file jobs/JOB-1001.md. Lead checks screenshots at 1920/1440/1280/1100/1000 wide. |
 
 ## 🟢 G Factory
 
@@ -60,14 +67,6 @@ _Gameplay, online sync, every merge and every release (senior director)._ Worker
 | G-F3 | Bug-hunting factory: one report thread, Sonnet hunts, Opus fixes, small batch releases | 🟪 Sonnet | queued | G-F1 and Nik's OK |
 | G-F4 | GPT Q&A team: scripted paths and code-vs-rulebook reads | 🟦 Sol chat | queued | G-F1 |
 | G-F7 | Ten-season smoothness run on live 2.0 (emulator, 10 seasons with a mid-game expiry) | 🟪 Sonnet | queued | G-F1 |
-
-### 🐞 Bug list 1
-
-**🗂 Later**
-
-| Job | What | Worker | State | Waits on |
-| --- | --- | --- | --- | --- |
-| 1001 | 1001 · G Home desktop tile icons: bigger, inside the tile, never on the text — Bug list 1 items L1-01..06. CSS only in css/homeV10.css desktop blocks. Job file jobs/JOB-1001.md. Lead checks screenshots at 1920/1440/1280/1100/1000 wide. | 🟦 Sol chat | ready | after Nik types 1001 in GPT (normal chat) |
 
 ## 🔵 V Factory
 

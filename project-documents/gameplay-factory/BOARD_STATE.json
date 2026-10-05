@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 7:47 PM Boston time (EDT)",
+ "generated": "2026-10-05 7:48 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -326,8 +326,8 @@
      "sha": "1a040366cd39690d4daf9fe2c9c354a4839de998",
      "updated": "2026-10-05T23:38:47Z",
      "gates": {
-      "passed": 12,
-      "running": 9,
+      "passed": 14,
+      "running": 7,
       "failed": 0,
       "cancelled": 0
      }
@@ -624,10 +624,10 @@
   "**Nothing waits on you right now.** r62 is nearly full; BH-11, BUG-1 and G-F6b are finishing."
  ],
  "now": {
-  "moving": 12,
+  "moving": 14,
   "next": 2,
   "nik": 4,
-  "later": 5,
+  "later": 4,
   "rows": {
    "G": {
     "moving": [
@@ -700,6 +700,15 @@
       "lane": "opus",
       "state": "in progress (branch bugfix/bh-11-pairing-reconnect)",
       "waits_on": "the lead batches it into r62"
+     },
+     {
+      "id": "1001",
+      "group": "Bug list 1",
+      "title": "1001 · G Home desktop tile icons: bigger, inside the tile, never on the text",
+      "lane": "blue",
+      "state": "with worker (round 2)",
+      "waits_on": "GPT blue round 2: icons off the text, bigger on narrow screens, remove object-fit",
+      "details": "Bug list 1 items L1-01..06. CSS only in css/homeV10.css desktop blocks. Job file jobs/JOB-1001.md. Lead checks screenshots at 1920/1440/1280/1100/1000 wide."
      }
     ],
     "nik": [
@@ -769,15 +778,6 @@
       "lane": "sonnet",
       "state": "queued",
       "waits_on": "G-F1"
-     },
-     {
-      "id": "1001",
-      "group": "Bug list 1",
-      "title": "1001 · G Home desktop tile icons: bigger, inside the tile, never on the text",
-      "lane": "blue",
-      "state": "ready",
-      "waits_on": "after Nik types 1001 in GPT (normal chat)",
-      "details": "Bug list 1 items L1-01..06. CSS only in css/homeV10.css desktop blocks. Job file jobs/JOB-1001.md. Lead checks screenshots at 1920/1440/1280/1100/1000 wide."
      }
     ]
    },
@@ -805,8 +805,8 @@
     "sha": "1a040366cd39690d4daf9fe2c9c354a4839de998",
     "updated": "2026-10-05T23:38:47Z",
     "gates": {
-     "passed": 12,
-     "running": 9,
+     "passed": 14,
+     "running": 7,
      "failed": 0,
      "cancelled": 0
     }

@@ -1,6 +1,6 @@
 # 🐞 Team G bug hunting factory
 
-> Updated **Mon 5 Oct, 7:47 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
+> Updated **Mon 5 Oct, 7:48 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
 
 | 🔓 Open | 🔴 Top priority | 🔧 Fixing or waiting for release | ✅ Fixed and live |
 | :---: | :---: | :---: | :---: |
@@ -25,8 +25,15 @@
 
 <sub>Percent = finished steps weighted by typical step time; finish times are estimates ([how](ETA_STUDY.md)).</sub>
 
-> [!NOTE]
-> No job is reporting progress right now. A job shows here once its PR description carries a progress block.
+🏁 no finish time yet (not enough data)
+
+### ⬛ worker not set · 1 job
+
+**Job 1001 · Home desktop tile icons: bigger, inside the tile, never on the text · 40.0000 %** · 2 of 5 steps · updated Mon 5 Oct, 7:39 PM  
+⬛⬛⬛⬛⬛⬛⬛⬛⚽▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️ 🥅  
+🏁 **Likely finish:** not enough data  
+> **Now:** step 3 of 5  
+> **Left:** step 3 → step 4 → step 5
 
 <details>
 <summary><b>✅ Closed: 7</b> (5 live in the game) · click to open</summary>
