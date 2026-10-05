@@ -51,6 +51,6 @@ r2 = subprocess.run(["gh", "api", f"repos/{REPO}/pulls?state=closed&base=gamepla
 for pr in (json.loads(r2.stdout) if r2.returncode == 0 and r2.stdout.strip() else []):
     m = re.search(r"job-(\d+)", pr["head"]["ref"])
     if m and pr.get("merged_at") and int(m.group(1)) not in live:
-        live[int(m.group(1))] = {"pr": pr["number"], "state": "merged"}
+        live[int(m.group(1))] = {"pr": pr["number"], "state": "merged", "merged_at": pr["merged_at"], "title": pr["title"]}
 json.dump(live, open(os.path.join(D, "prs.json"), "w"), indent=1)
 print(len(best))

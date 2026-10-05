@@ -69,6 +69,17 @@ for n, r, k, t in rj:
              f'<b>Likely finish:</b> {e(d["eta"])}<br>'
              f'<b>Going on now:</b> {e(r.get("current") or "not reported")}<br>'
              f'<b>Still to do:</b> {e(" → ".join(left) or "nothing")}</div>')
+REL = json.load(open(os.path.join(F, "BOARD.json"))).get("release") or {}
+liveprs = {}
+try:
+    liveprs = {int(k): v for k, v in json.load(open(os.path.join(F, "progress", "prs.json"))).items()}
+except Exception:
+    pass
+if REL.get("jobs"):
+    rn = len(REL["jobs"])
+    rd = sum(1 for j in REL["jobs"] if liveprs.get(j, {}).get("state") == "merged" or any(x["number"] == j and (x["state"] in ("DONE", "MERGED") or x.get("phase") in ("DONE", "MERGED")) for x in st["jobs"]))
+    H.append(f'<div class="card"><b>🏆 Road to {e(REL.get("name", "the release"))}: {rd} of {rn} jobs in recovery</b><br>'
+             f'{"🟩" * rd}{"⬜" * (rn - rd)}<br><span class="m">Then: {e(" → ".join(REL.get("after", [])))}</span></div>')
 live = {}
 try:
     live = {int(k): v for k, v in json.load(open(os.path.join(F, "progress", "prs.json"))).items()}
@@ -90,6 +101,17 @@ for j in st["jobs"]:
         state = {"NOT WRITTEN": "Not started", "NOT STARTED": "Not started"}.get(j["state"], j["state"].capitalize())
     H.append(f'<tr><td>{e(j["key"])}</td><td>{e(j["title"])}</td><td>{e(state)}</td></tr>')
 H.append("</table>")
+landed = sorted([(v.get("merged_at", ""), n, v) for n, v in liveprs.items() if v.get("state") == "merged" and v.get("merged_at")], reverse=True)[:4]
+if landed:
+    H.append("<h2>Landed recently</h2><table>")
+    for ts, n, v in landed:
+        H.append(f'<tr><td>{boston(ts)}</td><td><a href="{PR}{v["pr"]}">{e(v.get("title", ""))}</a></td></tr>')
+    H.append("</table>")
+if open_bugs:
+    H.append("<h2>Open bugs</h2><table>")
+    for b in open_bugs:
+        H.append(f'<tr><td>{e(b["id"])}</td><td>{e(b["title"])}</td><td>{e(b["status"].title())}</td></tr>')
+    H.append("</table>")
 H.append('<div class="m" style="margin-top:8px">Bars are the share done, weighted by how long each kind of step usually takes (ETA_STUDY.md). Lanes: ' +
          " · ".join(f'<span style="color:{c if c != "#ffffff" else "#6b7280"}">■</span> {l}' for l, c in HEX.items()) + "</div></div>")
 out = "\n".join(H) + "\n"

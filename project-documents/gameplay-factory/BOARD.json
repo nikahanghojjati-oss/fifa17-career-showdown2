@@ -608,5 +608,24 @@
   "DONE in job 21: 'scoring remains locked' text now says SEASON COMMITTED · SCORE BELOW",
   "NOT A BUG: Daniel/Nik fallbacks match the fixed roles (Daniel = Player One, Nik = Player Two)",
   "OPEN: raw error codes in the Setup settle text"
- ]
+ ],
+ "release": {
+  "name": "Version 2.0",
+  "jobs": [
+   24,
+   25,
+   26,
+   27,
+   28,
+   29,
+   30,
+   33
+  ],
+  "after": [
+   "Fix the two-manager journey test on recovery",
+   "Merge the last jobs",
+   "Nik plays it once with Daniel",
+   "Nik's go, then main goes live"
+  ]
+ }
 }
