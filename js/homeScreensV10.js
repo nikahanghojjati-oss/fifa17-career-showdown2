@@ -11,19 +11,25 @@
   // real DOM. Loading stays the app's startup splash (it shows before any lazy code can load).
   const BASE="visual-assets/v10_1/";
   const FRAME=Object.freeze({skin:"team-v-home-5e05a1f"});
-  // home/fixtures.json strings.media at 5e05a1f (Nik's four Audius tracks; YouTube songs and trailer dropped).
+  // Nik's Audius tracks (home/fixtures.json strings.media at 5e05a1f) minus What You Got, which Audius deleted, plus six
+  // verified streamable picks in the spirit of the old FIFA 17 YouTube list (none of those songs are on Audius).
   const MEDIA=Object.freeze({
     sectionLabel:"Menu media",selectorLabel:"Choose Audius soundtrack",category:"AUDIUS SOUNDTRACK",source:"AUDIUS",
     toggle:"PLAY TRACK",pause:"PAUSE TRACK",mute:"MUTE",unmute:"UNMUTE",
     statusTemplate:"{TITLE} · AUDIUS · READY",statusLoading:"CONNECTING TO AUDIUS",statusPlaying:"PLAYING",
     statusPlayingMuted:"PLAYING · MUTED",statusPaused:"PAUSED",statusError:"STREAM UNAVAILABLE · TRY AGAIN OR PICK ANOTHER TRACK",
     tracks:Object.freeze([
-      Object.freeze({key:"whatYouGot",title:"WHAT YOU GOT",artist:"Valentino Khan & NITTI",audiusTrackId:"XNN7jYJ"}),
       Object.freeze({key:"snowGlobe",title:"SNOW GLOBE",artist:"Hadji Gaviota",audiusTrackId:"X9wlA0b"}),
       Object.freeze({key:"nasty",title:"NASTY",artist:"grouptherapy.",audiusTrackId:"G5rXAWE"}),
-      Object.freeze({key:"imAlwaysRight",title:"I'M ALWAYS RIGHT",artist:"The Holdup",audiusTrackId:"9QRXKw"})
+      Object.freeze({key:"imAlwaysRight",title:"I'M ALWAYS RIGHT",artist:"The Holdup",audiusTrackId:"9QRXKw"}),
+      Object.freeze({key:"everythingIKnow",title:"EVERYTHING I KNOW",artist:"Speelburg",audiusTrackId:"bppAK"}),
+      Object.freeze({key:"tellMeWhatYouWant",title:"TELL ME WHAT YOU WANT",artist:"Weezer",audiusTrackId:"4baRa"}),
+      Object.freeze({key:"nextToYou",title:"NEXT TO YOU",artist:"RAC ft. Emerson Leif",audiusTrackId:"n1zqQ"}),
+      Object.freeze({key:"hardFeelings",title:"HARD FEELINGS",artist:"Miquela",audiusTrackId:"LKWVl"}),
+      Object.freeze({key:"sillyBoy",title:"SILLY BOY",artist:"oshi",audiusTrackId:"zKgQq"}),
+      Object.freeze({key:"uproar",title:"UPROAR",artist:"Mike Shinoda",audiusTrackId:"JGgl0"})
     ]),
-    defaultTrack:"whatYouGot",
+    defaultTrack:"snowGlobe",
     audius:Object.freeze({apiBase:"https://api.audius.co/v1",appName:"CareerModeShowdown17"})
   });
   // Continue shows Team V's number-17 player (owner, 2026-10-05); css/homeV10.css hides the old Reus cover on this Home.
@@ -107,6 +113,7 @@
       const choice=hmEl("button","menuMediaChoice","<strong></strong><small></small>");choice.type="button";choice.dataset.soundtrackTrack=track.key;
       choice.querySelector("strong").textContent=track.title;choice.querySelector("small").textContent=track.artist;selector.appendChild(choice);
     }
+    card.style.setProperty("--track-rows",String(Math.ceil(MEDIA.tracks.length/2)));
     const deck=hmEl("div","menuMusicPlayer",'<div class="vinylDeck" aria-hidden="true"><span class="vinyl"><i></i></span><span class="eq"><i></i><i></i><i></i><i></i><i></i></span></div>');
     const controls=hmEl("div","menuMusicControls");controls.append(nextToggle,nextMute);
     card.replaceChildren(header,sheet,label("phoneTrackSheetOpen","TRACKS",true),selector,label("phoneTrackSheetBackdrop","",true),label("phoneTrackSheetClose","CLOSE",false),deck,status,controls);

@@ -140,6 +140,11 @@
   #mainMenu.v10Home #settingsButton { grid-column: 3; grid-row: 3; }
   #mainMenu.v10Home .menuMusicTile { grid-column: 1 / -1; grid-row: 4; }
   #mainMenu.v10Home .menuMusicTile { overflow: visible; }
+  /* The phone track sheet grows with the track list (two per row), so CLOSE sits in its top padding for any row count. */
+  #mainMenu.v10Home .phoneSheetToggle:checked ~ .menuMediaSelector { grid-auto-rows: 46px; }
+  #mainMenu.v10Home .phoneSheetToggle:checked ~ .menuMediaSelector .menuMediaChoice { min-height: 0; overflow: hidden; }
+  #mainMenu.v10Home .menuMediaSelector .menuMediaChoice :is(strong, small) { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  #mainMenu.v10Home .phoneSheetToggle:checked ~ .phoneTrackSheetClose { bottom: calc(var(--phone-nav) + 16px + var(--track-rows, 2) * 54px); }
   #mainMenu.v10Home #persistentNikDanielPairPanel { left: 10px; right: 10px; width: auto; top: calc(max(10px, env(safe-area-inset-top)) + 44px); max-height: calc(100vh - 220px); }
   #app #topHeader { left: 10px; right: auto; top: max(10px, env(safe-area-inset-top)); gap: 6px; }
   #app #topHeader #onlinePlayerIdentityBadge, #app #topHeader #seasonIndicator { min-height: 30px; padding: 5px 9px !important; font-size: 11px !important; }
