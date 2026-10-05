@@ -1,0 +1,45 @@
+{
+ "team": "G",
+ "updated": "2026-10-04T20:45-04:00",
+ "jobs_done": 20,
+ "jobs_total": 33,
+ "open_bugs": 2,
+ "next_move": [
+  "**Nothing for you to start right now.**"
+ ],
+ "running": [
+  {
+   "job": 27,
+   "title": "Transfer War screens",
+   "worker": "Opus",
+   "done": 3,
+   "total": 7,
+   "pct": 42.86,
+   "current": "Pushed bd58e2ef with the root-cause fixes and the latest test build (41660939): Home's late-loading stylesheet no longer hides Transfer War's HOME/REFRESH bar, and the replay shows one guess card per manager. Waiting for the 16 checks",
+   "pr": 362,
+   "updated": "2026-10-05T00:41:53Z"
+  },
+  {
+   "job": 28,
+   "title": "Rivalry Stats and Legacy",
+   "worker": "Sonnet",
+   "done": 8,
+   "total": 10,
+   "pct": 80.0,
+   "current": "CI running on bdbf6a6",
+   "pr": 352,
+   "updated": "2026-10-05T00:35:38Z"
+  },
+  {
+   "job": 29,
+   "title": "Season Results, Final Winner, Standings",
+   "worker": "Opus",
+   "done": 9,
+   "total": 11,
+   "pct": 81.82,
+   "current": "Fix ready locally; waiting for job 33 to merge, then one push",
+   "pr": 357,
+   "updated": "2026-10-05T00:39:00Z"
+  }
+ ]
+}
