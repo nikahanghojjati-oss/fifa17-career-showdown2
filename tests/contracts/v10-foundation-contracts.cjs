@@ -527,6 +527,7 @@ const V10_IMAGES={
     "visual-assets/v10_1/home/assets/LOGO_CM17_WORDMARK_V1.webp":"d72524228798c02bd9c22750da3743099768a80b3ef904a21d8243a1f6dccda6",
     "visual-assets/v10_1/home/assets/OVL_HOME_DANIEL_PHONE_V1.webp":"fdff22d11059c6c6f4c5f38780cd183b26ae737fecc1f913e74ffe754d53e169",
     "visual-assets/v10_1/home/assets/OVL_HOME_NIK_PHONE_V1.webp":"abeb9551dc5cd8ad11d65b2993dfe5155725397ba42b7ba17020634938c62800",
+    "visual-assets/v10_1/shared/art/home-tiles/TILE_CONTINUE_V1.webp":"37ec183f8f282b0314fed20b1ee48cfc7c6c35b40cd88676ff7ee12bda3f7d68",
     "visual-assets/v10_1/shared/art/home-tiles/TILE_HISTORY_V1.webp":"3ad7b30b692ad37f4f366357a7515c7765ec7a11302bcce186b468a7772a68c5",
     "visual-assets/v10_1/shared/art/home-tiles/TILE_RULEBOOK_V1.webp":"e185a67497b0ce0340043ee5bc0e8efd35e8143679b806ad0a48d197885d7cf7",
     "visual-assets/v10_1/shared/art/home-tiles/TILE_SETTINGS_V1.webp":"92364b627bfb2f42dc62610e69c548eef6f51b3a465fc036d962e6cb6f4aa3ff",

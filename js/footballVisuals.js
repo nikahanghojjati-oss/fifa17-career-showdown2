@@ -192,24 +192,6 @@ function warmFootballVisualPlan(plan){
     });
 }
 
-function mountCreateShowdownVisual(plan){
-    const screen = document.getElementById("createShowdown");
-    const setup = screen && screen.querySelector(".setupBox");
-    if(!screen || !setup){ return null; }
-
-    const existing = screen.querySelector('[data-football-visual-screen="createShowdown"]');
-    if(existing){ return existing; }
-
-    const stage = document.createElement("div");
-    stage.className = "footballVisualStage";
-    stage.dataset.footballVisualScreen = "createShowdown";
-    stage.append(createFootballVisualPanel(plan.assets[0], plan, "footballVisualHeroSetup"));
-    setup.parentNode.insertBefore(stage, setup);
-    stage.appendChild(setup);
-    screen.classList.add("hasFootballVisual");
-    return stage;
-}
-
 function mountTransferVisual(plan){
     const screen = document.getElementById("transferChallenge");
     const anchor = screen && screen.querySelector(".transferHero");
@@ -257,7 +239,11 @@ function mountCinematicBandVisual(screenName, plan){
     return panel;
 }
 
+// Screens whose art is Team V's plate, not a licensed photograph (owner, 2026-10-05): nothing to mount.
+const FOOTBALL_VISUAL_FREE_SCREENS = new Set(["createShowdown"]);
+
 function prepareFootballVisualScreen(screenName){
+    if(FOOTBALL_VISUAL_FREE_SCREENS.has(screenName)){ return true; }
     const plans = window.FOOTBALL_VISUAL_SCREEN_PLAN;
     const plan = plans && plans[screenName];
     if(!plan){ return false; }
@@ -265,9 +251,7 @@ function prepareFootballVisualScreen(screenName){
     warmFootballVisualPlan(plan);
 
     let mount = null;
-    if(screenName === "createShowdown"){
-        mount = mountCreateShowdownVisual(plan);
-    }else if(screenName === "transferChallenge"){
+    if(screenName === "transferChallenge"){
         mount = mountTransferVisual(plan);
     }else if(screenName === "careerStatistics"){
         mount = mountAnalyticsVisual(screenName, plan, "careerStatisticsContent", "footballVisualAnalytics");

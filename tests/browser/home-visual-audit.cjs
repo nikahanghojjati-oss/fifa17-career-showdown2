@@ -11,37 +11,13 @@ const resultsDirectory = path.resolve(process.env.CMS_TEST_RESULTS || "test-resu
 const productionOrigin = "https://nikahanghojjati-oss.github.io";
 const productionPathPrefix = "/fifa17-career-showdown2/";
 
+// Continue Career shows Team V's number-17 player (owner, 2026-10-05); the old Reus cover is not shown on Home.
 const cases = [
-    {
-        name: "windowed-near-breakpoint-dpr1",
-        viewport: { width: 940, height: 700 },
-        deviceScaleFactor: 1,
-        mobileReference: false,
-        minimumPhysicalWidth: 200,
-        desktopCrop: /^53%\s+2%$/
-    },
-    {
-        name: "windowed-desktop-dpr1",
-        viewport: { width: 1100, height: 720 },
-        deviceScaleFactor: 1,
-        mobileReference: false,
-        desktopCrop: /^53%\s+12%$/
-    },
-    {
-        name: "chromebook-dpr1",
-        viewport: { width: 1366, height: 768 },
-        deviceScaleFactor: 1,
-        mobileReference: false,
-        desktopCrop: /^53%\s+12%$/
-    },
-    {
-        name: "mobile-reference-dpr2",
-        viewport: { width: 390, height: 844 },
-        deviceScaleFactor: 2,
-        isMobile: true,
-        hasTouch: true,
-        mobileReference: true
-    }
+    { name: "windowed-near-breakpoint-dpr1", viewport: { width: 940, height: 700 }, deviceScaleFactor: 1 },
+    { name: "windowed-desktop-dpr1", viewport: { width: 1100, height: 720 }, deviceScaleFactor: 1 },
+    { name: "chromebook-dpr1", viewport: { width: 1366, height: 768 }, deviceScaleFactor: 1 },
+    { name: "desktop-1080p-dpr1", viewport: { width: 1920, height: 1080 }, deviceScaleFactor: 1 },
+    { name: "mobile-reference-dpr2", viewport: { width: 390, height: 844 }, deviceScaleFactor: 2, isMobile: true, hasTouch: true }
 ];
 
 fs.mkdirSync(resultsDirectory, { recursive: true });
@@ -49,7 +25,11 @@ fs.mkdirSync(resultsDirectory, { recursive: true });
 async function waitForHome(page){
     await page.goto(baseUrl.href, { waitUntil: "domcontentloaded" });
     await page.locator("#loadingScreen").waitFor({ state: "hidden", timeout: 12000 });
-    await page.locator(".menuCoverAthlete.imageLoaded img").waitFor({ state: "visible", timeout: 12000 });
+    await page.locator("#continueCareer .tileArt").waitFor({ state: "visible", timeout: 12000 });
+    await page.waitForFunction(() => {
+        const art = document.querySelector("#continueCareer .tileArt");
+        return Boolean(art && art.complete && art.naturalWidth > 0);
+    }, null, { timeout: 12000 });
 }
 
 function isExpectedProductionAppCheckConsoleNoise(message){
@@ -72,49 +52,31 @@ function isExpectedProductionAppCheckConsoleNoise(message){
 
 async function inspectHome(page){
     return page.evaluate(() => {
-        const image = document.querySelector(".menuCoverAthlete.imageLoaded img");
-        const container = document.querySelector(".menuCoverAthlete");
-        const tile = document.querySelector(".menuTilePrimary");
-        const number = document.querySelector(".menuCoverNumber");
-        if(!image || !container || !tile || !number){
-            throw new Error("Reus Home composition is incomplete.");
+        const art = document.querySelector("#continueCareer .tileArt");
+        const tile = document.getElementById("continueCareer");
+        const label = tile && tile.querySelector(".menuTileLabel");
+        const reus = document.querySelector("#continueCareer .menuCoverAthlete");
+        const credit = document.getElementById("menuAthleteCredit");
+        if(!art || !tile || !label){
+            throw new Error("Continue Career composition is incomplete.");
         }
-
-        const imageStyle = getComputedStyle(image);
-        const containerStyle = getComputedStyle(container);
-        const beforeStyle = getComputedStyle(container, "::before");
-        const afterStyle = getComputedStyle(container, "::after");
-        const numberStyle = getComputedStyle(number);
-        const imageRect = image.getBoundingClientRect();
-        const containerRect = container.getBoundingClientRect();
+        const artStyle = getComputedStyle(art);
+        const artRect = art.getBoundingClientRect();
         const tileRect = tile.getBoundingClientRect();
-
+        const labelRect = label.getBoundingClientRect();
+        const shown = node => Boolean(node && node.getClientRects().length && getComputedStyle(node).display !== "none" && getComputedStyle(node).visibility !== "hidden");
         return {
             viewport: { width: innerWidth, height: innerHeight },
             dpr: devicePixelRatio,
-            image: {
-                naturalWidth: image.naturalWidth,
-                naturalHeight: image.naturalHeight,
-                renderedWidth: imageRect.width,
-                renderedHeight: imageRect.height,
-                opacity: imageStyle.opacity,
-                filter: imageStyle.filter,
-                objectFit: imageStyle.objectFit,
-                objectPosition: imageStyle.objectPosition,
-                imageRendering: imageStyle.imageRendering,
-                mixBlendMode: imageStyle.mixBlendMode,
-                zIndex: Number.parseInt(imageStyle.zIndex || "0", 10) || 0
-            },
-            container: {
-                width: containerRect.width,
-                height: containerRect.height,
-                clipPath: containerStyle.clipPath,
-                tileFraction: tileRect.width ? containerRect.width / tileRect.width : 0,
-                beforeZIndex: Number.parseInt(beforeStyle.zIndex || "0", 10) || 0,
-                afterZIndex: Number.parseInt(afterStyle.zIndex || "0", 10) || 0,
-                afterHeight: Number.parseFloat(afterStyle.height || "0") || 0
-            },
-            numberDisplay: numberStyle.display,
+            src: art.currentSrc || art.src,
+            naturalWidth: art.naturalWidth,
+            opacity: artStyle.opacity,
+            filter: artStyle.filter,
+            art: { left: artRect.left, right: artRect.right, top: artRect.top, width: artRect.width, height: artRect.height },
+            tile: { left: tileRect.left, right: tileRect.right, top: tileRect.top, bottom: tileRect.bottom },
+            labelRight: labelRect.right,
+            reusShown: shown(reus),
+            creditShown: shown(credit),
             documentWidth: document.documentElement.scrollWidth,
             clientWidth: document.documentElement.clientWidth
         };
@@ -122,31 +84,16 @@ async function inspectHome(page){
 }
 
 function assertCommon(result, label){
-    assert.equal(result.image.opacity, "1", `${label}: Reus must render at full opacity.`);
-    assert.equal(result.image.objectFit, "cover", `${label}: Reus must preserve the art-directed photo fill.`);
-    assert.equal(result.image.mixBlendMode, "normal", `${label}: Reus must use normal photo compositing.`);
-    assert.equal(result.image.imageRendering, "auto", `${label}: browser-native photographic resampling must remain enabled.`);
-    assert.ok(result.image.naturalWidth > 0 && result.image.naturalHeight > 0, `${label}: Reus source did not decode.`);
-    assert.ok(
-        result.image.naturalWidth >= result.image.renderedWidth,
-        `${label}: Reus must never be horizontally upscaled beyond its source pixels.`
-    );
-    assert.ok(
-        result.container.tileFraction >= 0.40 && result.container.tileFraction <= 0.54,
-        `${label}: Reus container no longer fits the intended hero-tile proportion.`
-    );
-    assert.ok(
-        result.image.zIndex > result.container.beforeZIndex,
-        `${label}: broad decorative ambience must remain behind the Reus photograph.`
-    );
-    assert.ok(
-        result.container.afterZIndex > result.image.zIndex,
-        `${label}: owner-requested Reus accent rail must render over the lower photo zone.`
-    );
-    assert.ok(
-        result.container.afterHeight > 0 && result.container.afterHeight <= result.container.height * .36,
-        `${label}: Reus foreground accent rail must remain bounded below the protected head/face zone.`
-    );
+    assert.match(result.src, /visual-assets\/v10_1\/shared\/art\/home-tiles\/TILE_CONTINUE_V1\.webp/, `${label}: Continue must use Team V's number-17 player.`);
+    assert.ok(result.naturalWidth > 0, `${label}: Continue art did not decode.`);
+    assert.equal(result.opacity, "1", `${label}: Continue art must render at full opacity.`);
+    assert.doesNotMatch(result.filter, /brightness|grayscale|saturate/, `${label}: Continue art must not be dimmed or greyed.`);
+    assert.ok(result.art.width >= 30 && result.art.height >= 60, `${label}: Continue art is too small to see.`);
+    assert.ok(result.art.left >= result.tile.left && result.art.right <= result.tile.right + 1, `${label}: Continue art must sit inside its tile.`);
+    assert.ok(result.art.top >= result.tile.top && result.art.top < result.tile.bottom - 40, `${label}: the player's head must be inside the tile.`);
+    assert.ok(result.labelRight <= result.art.left + 1, `${label}: the Continue label must not run under the player.`);
+    assert.equal(result.reusShown, false, `${label}: the old Reus cover must not show on Home.`);
+    assert.equal(result.creditShown, false, `${label}: the old Reus credit must not show on Home.`);
     assert.ok(result.documentWidth <= result.clientWidth + 1, `${label}: Home has horizontal document overflow.`);
 }
 
@@ -190,38 +137,6 @@ async function runCase(browser, config){
         const result = await inspectHome(page);
         assertCommon(result, config.name);
 
-        if(config.mobileReference){
-            assert.notEqual(
-                result.image.filter,
-                "none",
-                `${config.name}: the previously accepted mobile treatment must remain intentionally unchanged.`
-            );
-            assert.match(result.image.objectPosition, /^50%\s+7%$/, `${config.name}: mobile Reus crop changed unexpectedly.`);
-            assert.notEqual(result.container.clipPath, "none", `${config.name}: protected mobile diagonal geometry changed unexpectedly.`);
-            assert.notEqual(result.numberDisplay, "none", `${config.name}: protected mobile Reus number treatment changed unexpectedly.`);
-        }else{
-            assert.equal(
-                result.image.filter,
-                "none",
-                `${config.name}: desktop Reus must avoid CSS colour filtering.`
-            );
-            assert.match(
-                result.image.objectPosition,
-                config.desktopCrop,
-                `${config.name}: desktop Reus crop is outside the clean-anchor framing range.`
-            );
-            assert.equal(result.container.clipPath, "none", `${config.name}: desktop Reus must use a clean rectangular photo anchor with no head/neck cutting clip-path.`);
-            assert.equal(result.numberDisplay, "none", `${config.name}: desktop jersey-number overlay must not compete with the clean player anchor.`);
-        }
-
-        const physicalWidth = result.image.renderedWidth * result.dpr;
-        if(config.minimumPhysicalWidth){
-            assert.ok(
-                physicalWidth >= config.minimumPhysicalWidth,
-                `${config.name}: Reus physical raster width ${physicalWidth.toFixed(1)}px is below the ${config.minimumPhysicalWidth}px windowed-desktop quality floor.`
-            );
-        }
-
         assert.deepEqual(pageErrors, [], `${config.name}: page errors detected.`);
         assert.deepEqual(consoleErrors, [], `${config.name}: unexpected console errors detected.`);
         assert.deepEqual(localFailures, [], `${config.name}: failed first-party requests detected.`);
@@ -236,8 +151,7 @@ async function runCase(browser, config){
         await page.screenshot({ path: screenshotPath, fullPage: true });
         process.stdout.write(
             `PASS ${config.name} :: ${result.viewport.width}x${result.viewport.height} @${result.dpr}x :: ` +
-            `Reus ${Math.round(result.image.renderedWidth)}x${Math.round(result.image.renderedHeight)} CSS / ` +
-            `${Math.round(physicalWidth)}px physical width :: filter=${result.image.filter} :: crop=${result.image.objectPosition} :: clip=${result.container.clipPath}\n`
+            `Continue art ${Math.round(result.art.width)}x${Math.round(result.art.height)} CSS inside its tile :: filter=${result.filter}\n`
         );
     }finally{
         await context.close();

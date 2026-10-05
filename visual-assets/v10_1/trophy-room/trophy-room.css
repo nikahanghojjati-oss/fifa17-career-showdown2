@@ -166,3 +166,19 @@ html[data-motion-reduced="true"] .trophyGrid.tr-tab-leave,
 html[data-motion-reduced="true"] .trophyGrid.tr-tab-enter,
 [data-sd-motion-reduced="true"] .trophyGrid.tr-tab-leave,
 [data-sd-motion-reduced="true"] .trophyGrid.tr-tab-enter{transform:none!important}
+/* Team G fix (live 2.0, short desktop stages such as 1920x910): the shared title wipe makes the title block
+   overflow:hidden, so a fixed-height block cut the wordmark in half; and the ranks and plinth were placed from the
+   top, so they slid under the shelf tabs. The wordmark now shrinks to fit its block, and the ranks and plinth end
+   just above the tabs at every desktop height. */
+@media (min-width:761px){
+  .trophyTitleBlock{display:flex;flex-direction:column;align-items:center;top:8.5%;height:17.5%}
+  .trophyBrushTitle{flex:0 1 auto;min-height:0;width:100%;object-fit:contain}
+  .careerRanks{top:auto;bottom:calc(34.5% + 40px)}
+  .careerRank{top:auto;bottom:0}
+  .heroCeremony{height:calc(38% - 40px)}
+}
+@media (max-height:700px) and (min-width:761px){
+  .trophyTitleBlock{top:8%;height:16.5%}
+  .careerRanks{top:auto;bottom:calc(36% + 36px)}
+  .heroCeremony{height:calc(35.5% - 36px)}
+}

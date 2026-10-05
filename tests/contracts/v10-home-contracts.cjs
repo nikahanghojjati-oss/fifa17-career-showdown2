@@ -55,7 +55,7 @@ test("Home keeps every product id, button and text; the skin only decorates",()=
   assert.doesNotMatch(binder,/(?:continueCareer|newShowdown|legacyButton|careerStatisticsButton|ruleBookButton|settingsButton)["')\]][^\n]*(?:\.remove\(\)|replaceWith|outerHTML)/);
   assert.doesNotMatch(binder,/createElement\("button"\)[^\n]*trophyRoomButton|id="trophyRoomButton"/,"no second #trophyRoomButton (Career Statistics owns it)");
   assert.doesNotMatch(binder,/localStorage|sessionStorage|indexedDB/);
-  assert.equal(Object.keys(Home.TILE_ART).includes("continueCareer"),false,"Continue keeps the product's Reus cover");
+  assert.equal(Home.TILE_ART.continueCareer,"TILE_CONTINUE_V1.webp","Continue shows Team V's number-17 player (owner, 2026-10-05)");
 });
 test("Daniel starts and Nik joins with the product's own copy (the binder never writes it)",()=>{
   assert.match(html,/START A SHOWDOWN/);
@@ -131,8 +131,9 @@ test("Home CSS/JS are precached; Home images use the revision-keyed runtime imag
   for(const m of homeCss.matchAll(/url\((\.\.\/shared\/fonts\/[^)]+\.woff2)\)/g))assert.ok(shell.has("visual-assets/v10_1/"+m[1].slice(3)),m[1]);
   assert.doesNotMatch(homeCss,/tr2\/slice-02-plate/,"fonts come from the shared kit");
 });
-test("the adapter keeps the product's protected Home facts (Reus cover, desktop tile placement, contained tiles)",()=>{
-  assert.doesNotMatch(adapter,/menuCoverAthlete\s*(?:img|::|\.)|menuCoverNumber|object-position|object-fit/,"Reus treatment stays the product's");
+test("the adapter keeps the product's protected Home facts (desktop tile placement, contained tiles); Reus is hidden, not restyled",()=>{
+  assert.doesNotMatch(adapter,/menuCoverAthlete\s*(?:img|::|\.)|menuCoverNumber|object-fit/,"the adapter never restyles the old Reus cover");
+  assert.match(adapter,/#mainMenu\.v10Home #continueCareer \.menuCoverAthlete, #mainMenu\.v10Home \.menuAthleteCredit \{ display: none; \}/,"the old Reus cover and credit are not shown on Home");
   const desktop=adapter.split("/* ---------- phone portrait")[0];
   assert.doesNotMatch(desktop,/grid-(?:column|row)\s*:/,"desktop keeps the app's grid placement values");
   assert.doesNotMatch(adapter,/#(?:legacyButton|careerStatisticsButton|rivalryStatisticsButton)[^{]*\{[^}]*display/,"r43 containment is not undone");

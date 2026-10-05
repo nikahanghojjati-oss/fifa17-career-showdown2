@@ -12,7 +12,9 @@
 #mainMenu.v10Home .menuTile::after { height: auto; }
 #mainMenu.v10Home .v10HomeCutouts { display: contents; }
 #mainMenu.v10Home .menuMusicTile[data-playing="true"] .vinyl { animation: home-vinyl-spin var(--home-vinyl-rotation, 2400ms) linear infinite; }
-#mainMenu.v10Home .menuTile .menuCoverAthlete { z-index: 1; }
+/* Continue's art is Team V's number-17 player (owner, 2026-10-05): the old Reus cover and its credit stay in the DOM
+   for the product code that builds them, but are not shown on this Home. */
+#mainMenu.v10Home #continueCareer .menuCoverAthlete, #mainMenu.v10Home .menuAthleteCredit { display: none; }
 #mainMenu.v10Home .menuMediaChoice { min-width: 0; }
 #mainMenu.v10Home .fifaMenuHeading { display: block; min-height: 0; text-align: left; }
 #mainMenu.v10Home .fifaMenuHeadingMeta { max-width: none; text-align: left; }
@@ -26,9 +28,15 @@
 #mainMenu.v10Home #continueCareer .menuTileCode { color: #3B2C0C; }
 #mainMenu.v10Home #continueCareer .menuTileLabel { font-size: 26px; color: var(--ink); text-shadow: none; }
 #mainMenu.v10Home #continueCareer .menuTileMeta { color: #2A2008; }
-/* The product keeps the Reus hero tile undimmed when there is no save (visual-fidelity-r3); Team V's text stays. */
+/* The product keeps the Continue hero tile undimmed when there is no save (visual-fidelity-r3); Team V's text stays. */
 #mainMenu.v10Home #continueCareer:disabled { opacity: 1; filter: none; }
-#mainMenu.v10Home #continueCareer { padding-right: calc(50% + 12px); }
+#mainMenu.v10Home #continueCareer { padding-right: 150px; }
+/* The player in full colour, head to number inside the tile (GOAL_HOME), never dimmed or greyed. */
+#mainMenu.v10Home #continueCareer .tileArt,
+#mainMenu.v10Home #continueCareer:disabled .tileArt {
+  top: 6px; bottom: auto; right: 40px; width: auto; height: 135%; opacity: 1; object-position: center top;
+  filter: drop-shadow(0 8px 12px rgba(0,0,0,.45));
+}
 #mainMenu.v10Home .menuBottomStrip { min-height: 0; padding: 0; margin: 0; background: none; border: 0; box-shadow: none; }
 /* The product footer is outside the Home stage, so its band is drawn inside the stage and the footer text sits on top. */
 #app > footer { background: none; border-top: 0; z-index: 7; }
@@ -91,8 +99,8 @@
 }
 @media (min-width: 761px) and (max-width: 1100px), (orientation: landscape) and (max-width: 1100px) {
   #mainMenu.v10Home .fifaMenuGrid > .menuTile { padding-right: 12px; }
-  /* narrow desktops: Continue keeps room for the Reus photograph (home-visual-audit raster floor) */
-  #mainMenu.v10Home .fifaMenuGrid > #continueCareer { flex: 2.4 1 0; padding-right: calc(50% + 12px); }
+  /* narrow desktops: Continue keeps room for its player art */
+  #mainMenu.v10Home .fifaMenuGrid > #continueCareer { flex: 2.4 1 0; padding-right: 120px; }
   #mainMenu.v10Home .menuTileLabel { font-size: 17px; }
   #mainMenu.v10Home #continueCareer .menuTileLabel { font-size: 22px; }
 }
@@ -126,9 +134,8 @@
   #mainMenu.v10Home #persistentNikDanielPairPanel { left: 10px; right: 10px; width: auto; top: calc(max(10px, env(safe-area-inset-top)) + 44px); max-height: calc(100vh - 220px); }
   #app #topHeader { left: 10px; right: auto; top: max(10px, env(safe-area-inset-top)); gap: 6px; }
   #app #topHeader #onlinePlayerIdentityBadge, #app #topHeader #seasonIndicator { min-height: 30px; padding: 5px 9px !important; font-size: 11px !important; }
-  /* Reus credit: bottom-left of the hero band, beside the centred wordmark. */
-  #mainMenu.v10Home .menuAthleteCredit { position: fixed; z-index: 9; left: 10px; width: calc(50% - 104px); bottom: auto; top: calc(var(--phone-hero) - 64px); text-align: left; font-size: 9px; line-height: 1.25; }
-  #mainMenu.v10Home #continueCareer { padding-right: calc(50% + 8px); }
+  #mainMenu.v10Home #continueCareer { padding-right: 96px; }
+  #mainMenu.v10Home #continueCareer .tileArt, #mainMenu.v10Home #continueCareer:disabled .tileArt { top: 4px; right: 30px; height: 150%; }
   #mainMenu.v10Home #continueCareer .menuTileLabel { font-size: 17px; line-height: 1; }
   #mainMenu.v10Home #continueCareer .menuTileCode { font-size: 10px; }
   /* Team V hides the footer here; it stays for assistive technology (its words are the product footer). */

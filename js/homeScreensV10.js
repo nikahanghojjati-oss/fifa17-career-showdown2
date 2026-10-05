@@ -26,10 +26,10 @@
     defaultTrack:"whatYouGot",
     audius:Object.freeze({apiBase:"https://api.audius.co/v1",appName:"CareerModeShowdown17"})
   });
-  // Continue keeps the product's Marco Reus cover (tests/browser/home-visual-audit.cjs), so it gets no Team V art.
+  // Continue shows Team V's number-17 player (owner, 2026-10-05); css/homeV10.css hides the old Reus cover on this Home.
   // Legacy and Statistics stay hidden by the product's r43 containment; their art shows only if the product shows them.
   const TILE_ART=Object.freeze({
-    newShowdown:"TILE_TACTICS_V1.webp",legacyButton:"TILE_HISTORY_V1.webp",careerStatisticsButton:"TILE_STATISTICS_V1.webp",
+    continueCareer:"TILE_CONTINUE_V1.webp",newShowdown:"TILE_TACTICS_V1.webp",legacyButton:"TILE_HISTORY_V1.webp",careerStatisticsButton:"TILE_STATISTICS_V1.webp",
     ruleBookButton:"TILE_RULEBOOK_V1.webp",settingsButton:"TILE_SETTINGS_V1.webp"
   });
   const CHEVRON='<svg class="tileChevron" aria-hidden="true" focusable="false" viewBox="0 0 12 20"><path d="M2 2l8 8-8 8" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
