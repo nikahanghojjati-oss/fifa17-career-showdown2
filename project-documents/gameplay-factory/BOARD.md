@@ -1,6 +1,6 @@
 # Team G gameplay board
 
-20 of 33 jobs done (70 %) ███████░░░ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-04 8:26 PM Boston time (EDT)
+20 of 33 jobs done (70 %) ███████░░░ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-04 8:33 PM Boston time (EDT)
 
 ## Your next move
 
@@ -16,35 +16,7 @@ Gameplay factory job NN. Read https://raw.githubusercontent.com/nikahanghojjati-
 
 ## Running now
 
-Each bar is the real count of finished steps for that job (finished steps / all steps). Nothing is estimated. Job owners update their own file in [progress/](progress/).
-
-**Job 27 · Transfer War screens** · Lead (helper)
-
-🟩🟩🟩🟩🟩🟩🟩🟩⚽⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜ 🥅 **42 %** (3 of 7 steps)
-
-Now: Fixing a failed two-manager play-through test and full proof check: Home's stylesheet leaks onto the Transfer War screen  
-Next step: All 16 checks green on the exact head · updated Sun 4 Oct 8:23 PM Boston time
-
-**Job 28 · Rivalry Stats and Legacy** · Sonnet thread
-
-🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩⚽⬜⬜⬜⬜ 🥅 **77 %** (7 of 9 steps)
-
-Now: CI running on 5a13c8d  
-Next step: CI green on final head (Gameplay Fast + POS20) · updated Sun 4 Oct 8:25 PM Boston time
-
-**Job 29 · Season Results, Final Winner, Standings** · Opus thread
-
-🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩⚽⬜⬜⬜⬜⬜⬜⬜⬜ 🥅 **55 %** (5 of 9 steps)
-
-Now: CI running on head 3d6f4e0  
-Next step: CI green on the current head · updated Sun 4 Oct 8:24 PM Boston time
-
-**Job 33 · Fewer taps** · Lead (helper)
-
-🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩⚽⬜⬜⬜⬜⬜⬜⬜⬜ 🥅 **57 %** (4 of 7 steps)
-
-Now: All 16 checks green on PR #358 head 0e287f66; recovery job 30 merge resolved locally (not pushed, per the no sync-only push rule); waiting for Lead review  
-Next step: Bring in the latest test build once · updated Sun 4 Oct 8:25 PM Boston time
+No job is reporting progress right now.
 
 ## Live fixes and bug hunt
 

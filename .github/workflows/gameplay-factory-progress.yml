@@ -1,0 +1,49 @@
+name: Gameplay factory progress poller
+
+# Keeps the "Running now" bars on BOARD.md fresh with zero Claude usage. Job owners commit progress/job-NN.json on their own job branch;
+# this reads it from every open PR head (tools/collect_progress.py) every 3 minutes, rebuilds the board, and re-dispatches itself
+# while any progress file exists. It stops on its own when none exist; the board workflow restarts it on the next factory push.
+# (Schedules only run on the default branch, which this workflow deliberately never touches, so it chains itself instead.)
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: write
+  pull-requests: read
+
+concurrency:
+  group: gameplay-factory-progress
+  cancel-in-progress: false
+
+jobs:
+  poll:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: factory/gameplay-v1
+          fetch-depth: 50
+      - name: Poll, rebuild, commit when a bar moved
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          B=project-documents/gameplay-factory
+          FOUND=0
+          for round in $(seq 1 8); do
+            git fetch -q origin factory/gameplay-v1
+            git reset -q --hard origin/factory/gameplay-v1
+            FOUND=$(python3 $B/tools/collect_progress.py)
+            python3 $B/tools/board.py >/dev/null
+            if git diff -U0 -- $B/BOARD.md | grep '^[-+][^-+]' | grep -qv '· generated 20'; then
+              git add $B/BOARD.md $B/BOARD_ARCHIVE.md $B/BOARD_STATE.json
+              git commit -qm "Gameplay factory: progress bars update [skip ci]"
+              git push -q origin HEAD:factory/gameplay-v1 || echo "push raced; next round retries"
+            fi
+            [ "$FOUND" = "0" ] && break
+            sleep 180
+          done
+          if [ "$FOUND" != "0" ]; then gh workflow run gameplay-factory-progress.yml --ref factory/gameplay-v1; fi

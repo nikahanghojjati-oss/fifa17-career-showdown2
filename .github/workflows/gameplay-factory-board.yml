@@ -12,12 +12,13 @@ on:
       - project-documents/gameplay-factory/status/**
       - project-documents/gameplay-factory/jobs/**
       - project-documents/gameplay-factory/BOARD.json
-      - project-documents/gameplay-factory/progress/**
       - project-documents/gameplay-factory/tools/board.py
   workflow_dispatch:
 
 permissions:
   contents: write
+  actions: write
+  pull-requests: read
 
 concurrency:
   group: gameplay-factory-board
@@ -30,6 +31,8 @@ jobs:
     if: github.event_name == 'workflow_dispatch' || github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
     timeout-minutes: 5
+    env:
+      GH_TOKEN: ${{ github.token }}
     steps:
       - uses: actions/checkout@v5
         with:
@@ -43,6 +46,7 @@ jobs:
           for i in 1 2 3 4; do
             git fetch origin factory/gameplay-v1
             git reset --hard origin/factory/gameplay-v1
+            python3 $B/tools/collect_progress.py >/dev/null
             python3 $B/tools/board.py
             # Ignore the timestamp line alone: commit only when a job's row actually changed.
             if git diff -U0 -- $B/BOARD.md $B/BOARD_ARCHIVE.md | grep '^[-+][^-+]' | grep -qv '· generated 20'; then :; else echo "Board unchanged"; exit 0; fi
@@ -52,3 +56,5 @@ jobs:
             sleep $((2**i))
           done
           exit 1
+      - name: Start the progress poller if it is not running
+        run: gh workflow run gameplay-factory-progress.yml --ref factory/gameplay-v1 || true
