@@ -22,7 +22,7 @@ Evidence-Refs:
 
 **3. Gameplay fixes in the same release:** J10 reconciliation, focus kept while typing Season Results, same-moment season results never show permission denied, Stats and Trophy Room read the online career, no false reconnect error after reload.
 
-**4. Two small app-side edits touch your files' loading, not the files themselves:** Season Results, Career screens and Rivalry/History now fetch your files through the versioned (?v=) URL so they work offline, and the Audius player pauses when the app goes offline. Your files in `visual-assets/v10_1/` are byte-identical to 5e05a1f.
+**4. Two small app-side edits touch your files' loading, not the files themselves:** Season Results, Career screens and Rivalry/History now fetch your files through the versioned (?v=) URL so they work offline, and the Audius player pauses when the app goes offline. These two fixes do not edit your files in `visual-assets/v10_1/`; those keep only the app edits the jobs already listed (for example the two marked JOB-25 (app) in home/soundtrack.js).
 
 **5. Next:** Nik and Daniel play 2.0. Visual issues they find come to Team G first; only real design changes go to Team V.
 
