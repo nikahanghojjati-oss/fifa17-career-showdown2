@@ -393,8 +393,8 @@ check("F8 the bar is hidden on Loading and appears only after start-up",async()=
 check("F9 images use a runtime cache keyed by RUNTIME_REVISION; the precache keeps only kit, fonts, CSS and JS",()=>{
   const sw=read("service-worker.js"),html=read("index.html");
   const revision=/const RUNTIME_REVISION = "([^"]+)";/.exec(sw)[1];
-  assert.equal(revision,"1.9.1-r56","RUNTIME_REVISION is the Version 2.0 release (1.9.1-r56)");
-  assert.equal(/const PREVIOUS_RUNTIME_REVISION = "([^"]+)";/.exec(sw)[1],"1.9.1-r55");
+  assert.equal(revision,"1.9.1-r57","RUNTIME_REVISION is the Club Assignment release (1.9.1-r57)");
+  assert.equal(/const PREVIOUS_RUNTIME_REVISION = "([^"]+)";/.exec(sw)[1],"1.9.1-r56");
   assert.equal(/app-asset-revision"\s+content="([^"]+)/.exec(html)[1],revision);
   const shell=JSON.parse(/const SHELL_PATHS\s*=\s*Object\.freeze\((\[[\s\S]*?\])\);/.exec(sw)[1]);
   const v10=shell.filter(p=>p.startsWith("visual-assets/v10_1/"));
@@ -443,24 +443,24 @@ function swWorld(){
 
 check("F9b a rollback keeps its own Team V images (offline too); other old image caches are cleared",async()=>{
   const w=swWorld(),cur=w.diag.revision,prev=w.diag.previousRevision,IMG="career-mode-showdown-v10-images-";
-  assert.equal(cur,"1.9.1-r56");assert.equal(prev,"1.9.1-r55");
+  assert.equal(cur,"1.9.1-r57");assert.equal(prev,"1.9.1-r56");
   w.fill(cur);const prevShell=w.fill(prev);
   const art="visual-assets/v10_1/trophy-room/assets/ENV_TR_PHONE_V1.webp",only="visual-assets/v10_1/career-statistics/assets/ENV_CS_PLATE_V1_1X.webp";
   // An older revision precached the art in its shell; the retained shell still has it.
   const legacyKey=new URL(only,w.SCOPE);legacyKey.searchParams.set("v",prev);prevShell.set(legacyKey.href,new Response("prev-shell-art",{status:200}));
   const put=(revision,p,body)=>{if(!w.store.has(IMG+revision))w.store.set(IMG+revision,new Map());w.store.get(IMG+revision).set(w.SCOPE+p,new Response(body,{status:200}));};
-  put(cur,art,"r56-art");put(prev,art,"r55-art");put("1.9.1-r50",art,"r50-art");
+  put(cur,art,"r57-art");put(prev,art,"r56-art");put("1.9.1-r50",art,"r50-art");
   await w.dispatch("activate",{});
   const names=[...w.store.keys()];
   assert.ok(names.includes(IMG+cur),"current image cache kept");
   assert.ok(names.includes(IMG+prev),"recovery image cache kept with its retained shell");
   assert.ok(!names.includes(IMG+"1.9.1-r50"),"other old image caches cleared");
   w.net.set("/app/"+art,"network-art");w.net.set("/app/"+only,"network-art");
-  assert.deepEqual(await w.image(art),{status:200,body:"r56-art"},"current revision: its own image cache first");
+  assert.deepEqual(await w.image(art),{status:200,body:"r57-art"},"current revision: its own image cache first");
   let reply;await w.dispatch("message",{data:{type:"CMS_ROLLBACK_TO_PREVIOUS"},ports:[{postMessage:m=>{reply=m;}}]});
   assert.equal(reply&&reply.ok,true,"rollback accepted");assert.equal(reply.revision,prev);
   w.setOnline(false);
-  assert.deepEqual(await w.image(art),{status:200,body:"r55-art"},"offline rollback: the retained revision's art, not the newer one");
+  assert.deepEqual(await w.image(art),{status:200,body:"r56-art"},"offline rollback: the retained revision's art, not the newer one");
   assert.deepEqual(await w.image(only),{status:200,body:"prev-shell-art"},"offline rollback: art the retained shell precached");
   w.setOnline(true);
   const fresh="visual-assets/v10_1/trophy-room/assets/NEW_ONLY.webp";w.net.set("/app/"+fresh,"net-fresh");
@@ -539,6 +539,21 @@ const V10_IMAGES={
     "visual-assets/v10_1/club/assets/ENV_CLUB_PLATE_V1_2X.webp":"fed849bbb2c9f239ae1561f57eb5b145e0e33a518fb7bfd0e424691c00cfd6ca",
     "visual-assets/v10_1/club/assets/OVL_CLUB_DANIEL_PHONE_V1.webp":"6836d6b85c87fdc0d73e18d106b1a6bf98c102d1f8e0fe5eacdb81c7bf95dc2d",
     "visual-assets/v10_1/club/assets/OVL_CLUB_NIK_PHONE_V1.webp":"2f509a89aa6485eac3ae8f7892dfb2c79e7733bed066eb3371dec9a2aa9c28bc",
+    // job 34 (Club Assignment hand and seam overlays): Team V 5e05a1f, unchanged
+    "visual-assets/v10_1/club/assets/OVL_CLUB_DANIEL_SIDE_HAND_V1_1X.webp":"8cf447697e04040380835f6a30ef4d53260e4f7961cab270ca1581862127c5e4",
+    "visual-assets/v10_1/club/assets/OVL_CLUB_DANIEL_SIDE_HAND_V1_2X.webp":"fbfedd9e8d0ad7e897c15a3be5b705ecc3dacf4999e09129752df4888deff401",
+    "visual-assets/v10_1/club/assets/OVL_CLUB_DANIEL_TOP_HAND_V1_1X.webp":"37a25414eb5127375b4a935c5cbba2940a0caf6ecb92e1e0317a17708092621f",
+    "visual-assets/v10_1/club/assets/OVL_CLUB_DANIEL_TOP_HAND_V1_2X.webp":"bcf8d24932a09082f291dd95ebb718c97c104379ab7a1f61c9bfc197f18201f8",
+    "visual-assets/v10_1/club/assets/OVL_CLUB_HAND_CONTACTS_V1_1X.webp":"6c00713b7e5dec204635375345f696071dd9534f18f578ca99ecfa668475861d",
+    "visual-assets/v10_1/club/assets/OVL_CLUB_HAND_CONTACTS_V1_2X.webp":"d8a64e75d6333f0696de3777f313ffb40b6be609f9636f242b84429dc7a6ca8b",
+    "visual-assets/v10_1/club/assets/OVL_CLUB_HAND_CORES_V1_1X.webp":"5bdbf18b8900bb9d6c080a9ac6fc2b42fdb417ab5af36112af68127cba134a9e",
+    "visual-assets/v10_1/club/assets/OVL_CLUB_HAND_CORES_V1_2X.webp":"6b71c92e3fc17a06f5f0197536e0c4342afa229fdfaef32e12cddb4de59b8bb0",
+    "visual-assets/v10_1/club/assets/OVL_CLUB_NIK_SIDE_HAND_V1_1X.webp":"fe33377f87fabd6bd268a09c1c4df2e0e17a61fc7f3efbb4750d381b9f1f1b0d",
+    "visual-assets/v10_1/club/assets/OVL_CLUB_NIK_SIDE_HAND_V1_2X.webp":"bc23936920cca3332ce6e3c2f2651ff4754b4f2813262b52f88a3c41a99dac0a",
+    "visual-assets/v10_1/club/assets/OVL_CLUB_NIK_TOP_HAND_V1_1X.webp":"cccde87a5cd3f90f63bfb9c760cd3d2d029c71d049019a72dfe9576e711059aa",
+    "visual-assets/v10_1/club/assets/OVL_CLUB_NIK_TOP_HAND_V1_2X.webp":"8d538cfddfa18b5bd4ed5b5ce906e0dfcbfa563254a892563d98700143a9f480",
+    "visual-assets/v10_1/club/assets/OVL_CLUB_SEAM_MENDS_V1_1X.webp":"e6e319db851454ffeda0575cf200ab57f01f5e3c0ac899a31ec3d38aa5440de4",
+    "visual-assets/v10_1/club/assets/OVL_CLUB_SEAM_MENDS_V1_2X.webp":"eeb99a2738616e634bf96795209d810f7ac6474556318b2e1975dcaafea9e9a1",
     "visual-assets/v10_1/league/assets/ENV_LEAGUE_PHONE_V1.webp":"b0eecfe1a5d4f79e847170a787f5c8805b0630b0508732fd19302fdd66804a0b",
     "visual-assets/v10_1/league/assets/ENV_LEAGUE_PLATE_V1_1X.webp":"d9fd67a604ed9e2a1e9dd202826c664aed22061fa53b127a6a6b8cd50060fae9",
     "visual-assets/v10_1/league/assets/ENV_LEAGUE_PLATE_V1_2X.webp":"fcb07fa4c01b07ef86b238d07d7584e476ba3e780bb76ac561cb0167661057b4",
@@ -607,7 +622,7 @@ check("F9c every shipped Team V image path names one generation (versioned name,
 });
 
 check("F10 index.html is unchanged and the startup line is not higher",()=>{
-  assert.equal(sha256("index.html"),"2aaeb4c4a18a7112f269bf49ddccf9173da6da148eca261fb3253f38fc880689","index.html byte-identical to the Version 2.0 release (r56)");
+  assert.equal(sha256("index.html"),"f4fdc61eccbeb05c356c6281a5609f598edca73ed2d90d71106a7d873f9a042f","index.html byte-identical to the Club Assignment release (r57)");
   const html=read("index.html");
   for(const banned of ["v10Screens","navbar","visual-assets/v10_1","startJoinViewModel"])assert.ok(!html.includes(banned),banned);
   const refs=[...html.matchAll(/(?:src|href)="((?:js|css|data)\/[^"?#]+)(?:\?v=([^"#]+))?/g)].map(m=>m[1]);

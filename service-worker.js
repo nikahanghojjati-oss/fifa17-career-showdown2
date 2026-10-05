@@ -1,5 +1,5 @@
-const RUNTIME_REVISION = "1.9.1-r56";
-const PREVIOUS_RUNTIME_REVISION = "1.9.1-r55";
+const RUNTIME_REVISION = "1.9.1-r57";
+const PREVIOUS_RUNTIME_REVISION = "1.9.1-r56";
 const CACHE_PREFIX = "career-mode-showdown-shell-";
 const MODE_CACHE_PREFIX = "career-mode-showdown-runtime-mode-";
 const CACHE_NAME = `${CACHE_PREFIX}${RUNTIME_REVISION}`;
@@ -225,7 +225,14 @@ const SHELL_PATHS = Object.freeze([
     "visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-600-normal.woff2",
     "visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-700-normal.woff2",
     "visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-latin-400-normal.woff2",
-    "visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-latin-600-normal.woff2"
+    "visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-latin-600-normal.woff2",
+    "js/clubScreenV10.js",
+    "css/v10Club.css",
+    "visual-assets/v10_1/club/club.css",
+    "visual-assets/v10_1/club/club.js",
+    "visual-assets/v10_1/club/assets/platemap.json",
+    "visual-assets/v10_1/club/assets/handmap.json",
+    "visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/kaushan-script-latin-400-normal.woff2"
 ]);
 const SHELL_PATH_SET = new Set(SHELL_PATHS);
 

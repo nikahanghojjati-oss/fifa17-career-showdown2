@@ -5,8 +5,9 @@
 })(typeof globalThis!=="undefined"?globalThis:this,function(root){
   "use strict";
 
-  // JOB-26 (G-13 part 2c): Team V's look (pinned 5e05a1f) on the most fragile screens: Start/Join (createShowdown),
-  // the League wheel and the Club packs. SKIN ONLY. This file never writes product text, never sets disabled/hidden,
+  // JOB-26 (G-13 part 2c): Team V's look (pinned 5e05a1f) on the most fragile screens: Start/Join (createShowdown)
+  // and the League wheel (the Club packs moved to Team V's full Club Assignment in job 34: js/clubScreenV10.js).
+  // SKIN ONLY. This file never writes product text, never sets disabled/hidden,
   // never adds click handlers to product controls and never removes or moves a product node. It adds one class to the
   // screen, one html data attribute, decorative aria-hidden art, and highlight classes that follow the result the
   // product code has already shown (which comes from the shared Setup provider). The animation shows, it never picks.
@@ -15,12 +16,11 @@
   const STYLE=Object.freeze(["v10-setup-ui","css/v10Setup.css"]);
   const SKIN_CLASS="v26Skin";
   const HTML_ATTR="v10Setup";
-  const SCREENS=Object.freeze({createShowdown:"start",leagueWheelScreen:"league",clubWheelScreen:"club"});
+  const SCREENS=Object.freeze({createShowdown:"start",leagueWheelScreen:"league"});
   // Phone heroes per screen (Team V phone art). Desktop uses the plates through css/v10Setup.css.
   const HEROES=Object.freeze({
     start:Object.freeze({daniel:"start-join/assets/OVL_SJ_DANIEL_PHONE_V1.webp",nik:"start-join/assets/OVL_SJ_NIK_PHONE_V1.webp"}),
-    league:Object.freeze({daniel:"league/assets/OVL_LEAGUE_DANIEL_PHONE_V1.webp",nik:"league/assets/OVL_LEAGUE_NIK_PHONE_V1.webp"}),
-    club:Object.freeze({daniel:"club/assets/OVL_CLUB_DANIEL_PHONE_V1.webp",nik:"club/assets/OVL_CLUB_NIK_PHONE_V1.webp"})
+    league:Object.freeze({daniel:"league/assets/OVL_LEAGUE_DANIEL_PHONE_V1.webp",nik:"league/assets/OVL_LEAGUE_NIK_PHONE_V1.webp"})
   });
   // Every id start-join/TRUTH.md (5e05a1f) says must survive, plus the wheel and pack ids product code and the
   // two-manager browser journey read. The contract checks they still exist after a mount.
@@ -54,7 +54,8 @@
     return ((count-Math.round(angle/step))%count+count)%count;
   }
   // The clubs the product has revealed on the two packs (Daniel left/playerOne, Nik right/playerTwo), or null per side
-  // while that pack is still sealed. Read from the product's own DOM state only.
+  // while that pack is still sealed. Read from the product's own DOM state only. (Pure helper; the Club screen's look
+  // is js/clubScreenV10.js since job 34.)
   function v26PackResult(cardOne,nameOne,cardTwo,nameTwo){
     const side=(card,name)=>{
       const text=name?String(name.textContent||"").trim():"";
@@ -165,20 +166,6 @@
     sync();
   }
 
-  // Club packs: mark the screen once both packs show the product's clubs, for the gold payoff.
-  function v26SyncClub(state){
-    const packs=v26PackResult(v26Byid("clubCardOne"),v26Byid("clubNameOne"),v26Byid("clubCardTwo"),v26Byid("clubNameTwo"));
-    const host=state.host,both=Boolean(packs.playerOne&&packs.playerTwo);
-    host.classList.toggle("v26-packs-open",both);
-    if(both)host.dataset.v26Packs=`${packs.playerOne}|${packs.playerTwo}`;else delete host.dataset.v26Packs;
-  }
-  function v26BindClub(state){
-    const sync=()=>v26SyncClub(state);
-    for(const id of ["clubCardOne","clubCardTwo"])v26Observe(state,v26Byid(id),{attributes:true,attributeFilter:["class"]},sync);
-    for(const id of ["clubNameOne","clubNameTwo"])v26Observe(state,v26Byid(id),{childList:true,characterData:true,subtree:true},sync);
-    sync();
-  }
-
   function v26Mount(frame,host){
     const doc=v26Doc();
     if(!frame||!host||!doc)return;
@@ -189,7 +176,6 @@
     doc.documentElement.dataset[HTML_ATTR]=frame.skin;
     if(!host.querySelector(":scope > .v26Art"))host.appendChild(v26Art(frame.skin));
     if(frame.skin==="league")v26BindLeague(state);
-    if(frame.skin==="club")v26BindClub(state);
   }
   function v26Unmount(host){
     const state=host?live.get(host):null;
@@ -202,8 +188,8 @@
       if(doc&&doc.documentElement.dataset[HTML_ATTR]===state.skin)delete doc.documentElement.dataset[HTML_ATTR];
     }
     if(!host)return;
-    host.classList.remove(SKIN_CLASS,"v26-spinning","v26-packs-open");
-    delete host.dataset.v26League;delete host.dataset.v26Packs;
+    host.classList.remove(SKIN_CLASS,"v26-spinning");
+    delete host.dataset.v26League;
     Array.from(host.querySelectorAll("[data-v26-decor]")).forEach(node=>{if(node.parentNode)node.parentNode.removeChild(node);});
     Array.from(host.querySelectorAll(".v26-top,.v26-selected,.v26-payoff")).forEach(node=>node.classList.remove("v26-top","v26-selected","v26-payoff"));
   }

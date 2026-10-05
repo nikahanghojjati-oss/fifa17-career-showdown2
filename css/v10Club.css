@@ -1,0 +1,174 @@
+/* JOB-34: glue between the app's Club Assignment screen and Team V's Club Assignment (visual-assets/v10_1/club).
+   js/v10Screens.js switches this file and club.css on only while that look is mounted (#clubWheelScreen.cl-on), and
+   loads this file first, so club.css follows it in the cascade.
+   Team V's club.css was written for its own page, where #clubWheelScreen sits in a full-viewport main; here the
+   product section itself becomes that full-viewport stage. */
+/* .screen has contain: layout, which would make it the box for Team V's fixed layers. One fixed layer over the app
+   header and footer, under the Team V bar (z 40) and every app overlay (80+), like Transfer War. */
+#clubWheelScreen.cl-on {
+  position: fixed; inset: 0; z-index: 30; width: auto; min-height: 0; max-width: none; margin: 0; padding: 0;
+  contain: none; overflow: hidden; background: #050607; animation: none; will-change: auto; pointer-events: none;
+}
+#clubWheelScreen.cl-on::after { content: none; }
+/* club.css styles Team V's own page main; the app's main keeps its place (the section is the stage now). */
+html[data-v10-screen="clubWheelScreen"] #app > main { position: static; inset: auto; z-index: auto; pointer-events: auto; overflow: hidden; }
+/* The app header keeps the chips every Team V screen shows (css/v10Shell.css), above the stage on desktop. */
+@media (min-width: 761px) {
+  html[data-v10-screen="clubWheelScreen"]:not([data-v10-setup]) #app #topHeader { z-index: 31; }
+}
+/* Team V's phone frames have no app header (club.css hides it). The page's one h1 lives in it, so on the phone the
+   header stays in the accessibility tree, visually hidden, with only its brand; the chips are not shown. */
+@media (max-width: 760px) and (orientation: portrait) {
+  html[data-v10-screen="clubWheelScreen"] #app #topHeader {
+    display: block !important; position: fixed; width: 1px; height: 1px; margin: -1px; padding: 0; border: 0;
+    overflow: hidden; clip-path: inset(50%); white-space: nowrap;
+  }
+  html[data-v10-screen="clubWheelScreen"] #app #topHeader > :not(.brand) { display: none !important; }
+}
+/* Team V's entrance order (its index.html style="--i:N"), here so the product's own inline styles stay its own. */
+#clubWheelScreen.cl-on .clubAssignmentHeader { --i: 0; }
+#clubWheelScreen.cl-on .clubRevealProgress { --i: 1; }
+#clubWheelScreen.cl-on #clubCardOne { --i: 2; }
+#clubWheelScreen.cl-on .clubVs { --i: 3; }
+#clubWheelScreen.cl-on #clubCardTwo { --i: 4; }
+#clubWheelScreen.cl-on #clubRivalryConfirmation, #clubWheelScreen.cl-on #clubAssignmentBack { --i: 5; }
+/* The licensed football band is not part of Team V's Club Assignment; it stays in the DOM, hidden, while the look shows. */
+#clubWheelScreen.cl-on > [data-football-visual-screen] { display: none !important; }
+
+/* The app's own rules for the same product elements (css/app.css, and the shared .sd-sheet of showdown-ui.css, which
+   Team V's page does not load) are rolled back to the browser defaults Team V's page starts from. Each rule repeats
+   the app selector at the same specificity, so it beats the app (it loads later) and club.css (which loads after it)
+   beats it. Where the app selector outranks club.css, Team V's own value is written out instead. */
+:where(#clubWheelScreen) * { margin: revert; padding: revert; }
+:where(#clubWheelScreen) button { font: revert; }
+.screen:where(#clubWheelScreen) > h2 { text-transform: revert; width: revert; margin: revert; padding: revert; color: revert; background: revert; border-left: revert; box-shadow: revert; font: revert; letter-spacing: revert; text-align: revert; }
+.screen:where(#clubWheelScreen) { position: revert; width: revert; min-height: revert; margin: revert; padding: revert; contain: revert; }
+:where(#clubWheelScreen) footer { flex: revert; min-height: revert; padding: revert; color: revert; background: revert; border-top: revert; font-size: revert; line-height: revert; letter-spacing: revert; }
+:where(#clubWheelScreen) .menuButton { border: revert; cursor: revert; font-family: revert; font-weight: revert; text-transform: revert; width: revert; min-height: revert; padding: revert; color: revert; background: revert; letter-spacing: revert; font-size: revert; transition: revert; }
+:where(#clubWheelScreen) .backButton { border: revert; cursor: revert; font-family: revert; font-weight: revert; text-transform: revert; min-height: revert; padding: revert; color: revert; background: revert; letter-spacing: revert; font-size: revert; transition: revert; }
+:where(#clubWheelScreen) .menuButton:disabled { cursor: revert; opacity: revert; transform: revert; }
+:where(#clubWheelScreen) .clubAssignmentShell { width: revert; margin: revert; padding: revert; background: revert; border-top: revert; box-shadow: revert; overflow: revert; }
+:where(#clubWheelScreen) .clubAssignmentHeader { text-align: revert; text-transform: revert; }
+:where(#clubWheelScreen) .clubAssignmentEyebrow { color: revert; font: revert; letter-spacing: revert; }
+:where(#clubWheelScreen) #clubAssignmentLeague { margin-top: revert; color: revert; font: revert; letter-spacing: revert; }
+:where(#clubWheelScreen) #clubPackStatus { min-height: revert; margin-top: revert; color: revert; font: revert; letter-spacing: revert; }
+:where(#clubWheelScreen) .clubRevealProgress { width: revert; margin: revert; display: revert; grid-template-columns: revert; gap: revert; }
+:where(#clubWheelScreen) .clubRevealProgress span { min-width: revert; padding: revert; color: revert; background: revert; border-bottom: revert; font: revert; letter-spacing: revert; text-align: revert; }
+:where(#clubWheelScreen) .clubRevealArena { position: revert; padding: revert; overflow: revert; }
+:where(#clubWheelScreen) .clubRevealArea { position: revert; width: revert; margin: revert; display: revert; grid-template-columns: revert; align-items: revert; gap: revert; }
+:where(#clubWheelScreen) .clubRevealCard { position: revert; min-width: revert; height: revert; padding: revert; display: revert; grid-template-rows: revert; background: revert; border-width: revert; border-style: revert; border-color: revert; border-image: revert; box-shadow: revert; text-align: revert; transition: revert; overflow: revert; }
+:where(#clubWheelScreen) .clubRevealIndex { position: revert; left: revert; top: revert; z-index: revert; color: revert; font: revert; letter-spacing: revert; }
+:where(#clubWheelScreen) .clubManager { width: revert; min-width: revert; min-height: revert; padding: revert; overflow: revert; color: revert; font: revert; letter-spacing: revert; text-overflow: revert; text-transform: revert; white-space: revert; }
+:where(#clubWheelScreen) .clubPackStage { position: revert; min-width: revert; min-height: revert; height: revert; overflow: revert; background: revert; perspective: revert; }
+:where(#clubWheelScreen) .clubPackDoor { position: revert; z-index: revert; inset: revert; display: revert; place-items: revert; align-content: revert; gap: revert; color: revert; background: revert; border: revert; transform: revert; transform-origin: revert; opacity: revert; transition: revert; will-change: revert; }
+:where(#clubWheelScreen) .clubPackDoor::before { content: revert; position: revert; inset: revert; background: revert; pointer-events: revert; }
+:where(#clubWheelScreen) .clubPackDoor::after { content: revert; position: revert; inset: revert; border: revert; pointer-events: revert; }
+:where(#clubWheelScreen) .clubPackBrand { position: revert; z-index: revert; color: revert; font: revert; letter-spacing: revert; text-transform: revert; }
+:where(#clubWheelScreen) .clubPackBrand small { display: revert; margin-top: revert; color: revert; font-size: revert; letter-spacing: revert; }
+:where(#clubWheelScreen) .clubPackSeal { position: revert; z-index: revert; width: revert; height: revert; display: revert; place-items: revert; color: revert; background: revert; border: revert; outline: revert; font: revert; box-shadow: revert; }
+:where(#clubWheelScreen) .clubPackSerial { position: revert; z-index: revert; color: revert; font: revert; letter-spacing: revert; text-transform: revert; }
+:where(#clubWheelScreen) .clubCardFace { position: revert; width: revert; height: revert; min-height: revert; padding: revert; display: revert; grid-template-rows: revert; place-items: revert; overflow: revert; color: revert; background: revert; border: revert; opacity: revert; transform: revert; transition: revert; }
+:where(#clubWheelScreen) .clubCardFace::after { content: revert; position: revert; inset: revert; background: revert; pointer-events: revert; }
+:where(#clubWheelScreen) .clubCardEyebrow { position: revert; z-index: revert; font-family: revert; font-weight: revert; text-transform: revert; margin: revert; color: revert; font-size: revert; letter-spacing: revert; }
+:where(#clubWheelScreen) .clubCardLabel { position: revert; z-index: revert; font-family: revert; font-weight: revert; text-transform: revert; margin: revert; color: revert; font-size: revert; letter-spacing: revert; }
+:where(#clubWheelScreen) .clubCardState { position: revert; z-index: revert; font-family: revert; font-weight: revert; text-transform: revert; margin-top: revert; padding: revert; color: revert; background: revert; font-size: revert; letter-spacing: revert; }
+:where(#clubWheelScreen) .clubCardFace strong { position: revert; z-index: revert; width: revert; max-width: revert; min-height: revert; padding: revert; display: revert; align-items: revert; justify-content: revert; color: revert; font: revert; text-align: revert; text-shadow: revert; overflow-wrap: revert; }
+:where(#clubWheelScreen) .clubVs { min-width: revert; display: revert; flex-direction: revert; align-items: revert; justify-content: revert; gap: revert; color: revert; text-align: revert; min-height: revert; padding: revert; }
+:where(#clubWheelScreen) .clubVs span { color: revert; font: revert; letter-spacing: revert; }
+:where(#clubWheelScreen) .clubVs strong { font: revert; letter-spacing: revert; transition: revert; }
+:where(#clubWheelScreen) .clubRivalryConfirmation { width: revert; margin: revert; padding: revert; color: revert; background: revert; border-left: revert; box-shadow: revert; }
+:where(#clubWheelScreen) .clubRivalryHeadline { text-align: revert; text-transform: revert; }
+:where(#clubWheelScreen) .clubRivalryHeadline > span { color: revert; font: revert; letter-spacing: revert; }
+:where(#clubWheelScreen) .clubRivalryHeadline > strong { display: revert; margin-top: revert; font: revert; letter-spacing: revert; }
+:where(#clubWheelScreen) .clubRivalryHeadline > small { display: revert; margin-top: revert; color: revert; font: revert; letter-spacing: revert; }
+:where(#clubWheelScreen) .clubRivalryMatchup { margin-top: revert; display: revert; grid-template-columns: revert; align-items: revert; gap: revert; }
+:where(#clubWheelScreen) .clubConfirmationSide { min-width: revert; min-height: revert; padding: revert; display: revert; flex-direction: revert; align-items: revert; justify-content: revert; background: revert; border-bottom: revert; text-align: revert; }
+:where(#clubWheelScreen) .clubConfirmationSide:last-child { border-color: revert; }
+:where(#clubWheelScreen) .clubConfirmationSide span { display: revert; margin-bottom: revert; color: revert; font: revert; letter-spacing: revert; text-transform: revert; }
+:where(#clubWheelScreen) .clubConfirmationSide strong { display: revert; width: revert; color: revert; font: revert; overflow-wrap: revert; }
+:where(#clubWheelScreen) .clubConfirmationVs { display: revert; place-items: revert; color: revert; font: revert; text-align: revert; padding: revert; }
+:where(#clubWheelScreen) .clubRivalryLockNote { margin-top: revert; color: revert; font-size: revert; line-height: revert; text-align: revert; }
+:where(#clubWheelScreen) .clubAssignmentShell > .menuButton { width: revert; margin: revert; display: revert; min-height: revert; }
+:where(#clubWheelScreen) .clubAssignmentShell > .backButton { width: revert; margin: revert; display: revert; min-height: revert; }
+:where(#clubWheelScreen) .sd-sheet { position: revert; z-index: revert; width: revert; padding: revert; background: revert; border: revert; box-shadow: revert; clip-path: revert; backdrop-filter: revert; align-self: revert; max-height: revert; }
+:where(#clubWheelScreen) .backButton:disabled { cursor: revert; opacity: revert; transform: revert; }
+:where(#clubWheelScreen) .clubRevealProgress span.active { color: revert; background: revert; border-color: revert; }
+#clubWheelScreen[data-club-reveal-stage="opening"] .clubPackDoor { animation: revert; }
+:where(#clubWheelScreen) .clubRevealProgress span.done { color: revert; border-color: revert; }
+:where(#clubWheelScreen) .clubRevealCard.is-revealed { border-top-color: revert; box-shadow: revert; }
+:where(#clubWheelScreen) .clubRevealCard.is-revealed .clubPackDoor { transform: revert; opacity: revert; pointer-events: revert; }
+:where(#clubWheelScreen) .clubRevealCard.is-revealed .clubCardFace { opacity: revert; transform: revert; }
+:where(#clubWheelScreen) [data-club-identity="true"] { position: revert; }
+:where(#clubWheelScreen) [data-club-identity="true"]::before { content: revert; display: revert; width: revert; height: revert; margin-right: revert; vertical-align: revert; background-image: revert; background-position: revert; background-repeat: revert; background-size: revert; filter: revert; }
+:where(#clubWheelScreen) .clubCardFace [data-club-identity="true"]::before { position: revert; top: revert; left: revert; transform: revert; width: revert; height: revert; margin: revert; filter: revert; }
+#clubWheelScreen[data-club-reveal-stage="versus"] .clubVs strong { color: #F2C45B; animation: none; }
+:where(#clubWheelScreen) .clubConfirmationSide [data-club-identity="true"]::before { width: revert; height: revert; margin-right: revert; }
+#clubWheelScreen[data-club-reveal-stage="confirmation"] .clubVs strong { color: #F2C45B; animation: none; }
+#clubWheelScreen { padding-bottom: revert; }
+#clubWheelScreen > h2 { margin-bottom: revert; }
+/* The app's .clubVs span rule (rolled back above) outranks Team V's .clubVsFallback, whose gold fill is a clipped
+   gradient over transparent text. */
+#clubWheelScreen.cl-on .clubVsFallback { color: transparent; }
+/* The route focus ring the app draws on a screen title is kept for keyboard focus, in Team V's quiet gold (as the
+   JOB-26 setup skin); focus that follows a tap or click does not draw a box around Team V's floating title. */
+#clubWheelScreen.cl-on > h2[data-route-focus-target="true"]:focus { outline: none; }
+#clubWheelScreen.cl-on > h2[data-route-focus-target="true"]:focus-visible { outline: 1px solid rgba(242, 196, 91, .5); outline-offset: 4px; }
+
+/* ---------- Shared Showdown (js/productionSharedShowdownPresentation.js) ----------
+   Team V's frames have no place for the shared flow's status line (#sharedShowdownPresentationStatus) or its season
+   panel (#sharedShowdownSeasonChoice, which also carries .clubRivalryConfirmation). Both stay the product's own nodes
+   and text, styled as Team V glass notes: desktop status top left under the bar, season panel top right under the
+   chips; phone status over the hero sky under the title, season panel just above the action button. */
+#clubWheelScreen.cl-on > #sharedShowdownPresentationStatus,
+#clubWheelScreen.cl-on #sharedShowdownSeasonChoice {
+  position: absolute; z-index: 6; box-sizing: border-box; width: auto; margin: 0; transform: none;
+  color: var(--cream); background: rgba(6, 7, 9, .78); border: 1px solid rgba(242, 196, 91, .38); border-radius: 2px;
+  box-shadow: 0 10px 26px rgba(0, 0, 0, .45); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+  text-shadow: none; text-transform: none; pointer-events: auto;
+}
+#clubWheelScreen.cl-on > #sharedShowdownPresentationStatus {
+  top: 62px; left: 20px; max-width: min(520px, 30vw); padding: 7px 12px;
+  font: 600 13px/1.35 var(--cond); letter-spacing: .06em; text-align: left;
+}
+#clubWheelScreen.cl-on #sharedShowdownSeasonChoice {
+  top: 104px; right: 20px; left: auto; width: min(380px, 24vw); min-height: 0; padding: 10px 14px 12px;
+  display: flex; flex-direction: column; align-items: flex-start; gap: 4px; text-align: left;
+}
+#clubWheelScreen.cl-on #sharedShowdownSeasonChoice.hidden { display: none !important; }
+#clubWheelScreen.cl-on #sharedShowdownSeasonChoice > .screenEyebrow {
+  margin: 0; padding: 0; color: var(--gold); font: 600 11px/1.25 var(--cond); letter-spacing: .3em; text-transform: uppercase;
+}
+#clubWheelScreen.cl-on #sharedShowdownSeasonChoice > h3 {
+  margin: 0; padding: 0; color: #FFF6DE; font: 700 20px/1.15 var(--cond); letter-spacing: .05em; text-transform: uppercase;
+  text-shadow: 0 2px 8px #000;
+}
+#clubWheelScreen.cl-on #sharedShowdownSeasonChoice > .stateNote {
+  width: auto; margin: 0; padding: 0; color: var(--cream); background: none; border: 0;
+  font: 400 13px/1.35 var(--text); letter-spacing: 0;
+}
+#clubWheelScreen.cl-on #sharedShowdownSeasonChoice .sharedSeasonChoices { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+#clubWheelScreen.cl-on #sharedShowdownSeasonChoice .sharedSeasonChoices .compactButton {
+  min-height: 44px; padding: 0 14px; color: var(--cream); background: rgba(12, 12, 13, .94);
+  border: 1px solid rgba(242, 196, 91, .6); border-radius: 0; box-shadow: inset 0 0 18px rgba(242, 196, 91, .12);
+  font: 700 15px/1 var(--cond); letter-spacing: .1em; text-transform: uppercase; pointer-events: auto;
+}
+#clubWheelScreen.cl-on #sharedShowdownSeasonChoice .sharedSeasonChoices .compactButton:hover:not(:disabled),
+#clubWheelScreen.cl-on #sharedShowdownSeasonChoice .sharedSeasonChoices .compactButton:focus-visible { color: #FFF6DE; background: rgba(28, 24, 14, .96); border-color: var(--gold); }
+@media (max-width: 760px) and (orientation: portrait) {
+  #clubWheelScreen.cl-on > #sharedShowdownPresentationStatus {
+    top: calc(max(8px, env(safe-area-inset-top)) + 46px); left: 16px; right: 16px; max-width: none; padding: 5px 10px;
+    font-size: 12px; line-height: 1.3; text-align: center;
+  }
+  /* One compact note between the confirmation and the action: the heading runs into its copy. */
+  #clubWheelScreen.cl-on #sharedShowdownSeasonChoice {
+    top: auto; bottom: calc(var(--phone-safe) + 58px); left: 12px; right: 12px; width: auto; padding: 4px 10px;
+    display: block; text-align: center; box-shadow: none;
+  }
+  #clubWheelScreen.cl-on #sharedShowdownSeasonChoice > .screenEyebrow { display: none; }
+  #clubWheelScreen.cl-on #sharedShowdownSeasonChoice > h3 { display: inline; margin-right: 6px; font-size: 13px; line-height: 1.2; }
+  #clubWheelScreen.cl-on #sharedShowdownSeasonChoice > .stateNote { display: inline; font-size: 11px; line-height: 1.2; }
+  #clubWheelScreen.cl-on #sharedShowdownSeasonChoice .sharedSeasonChoices { justify-content: center; }
+}
+@media (max-width: 760px) and (orientation: portrait) and (max-height: 600px) {
+  #clubWheelScreen.cl-on #sharedShowdownSeasonChoice > .stateNote { display: none; }
+}

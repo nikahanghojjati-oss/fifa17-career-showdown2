@@ -44,6 +44,8 @@ async function prepare(page,{managerRole,remoteRole,initialSetup,reducedMotion=t
       async mutate(type,extra={}){
         window.__sharedMutationCounts[type]=(window.__sharedMutationCounts[type]||0)+1;
         if(providerDelayMs>0)await new Promise(resolve=>setTimeout(resolve,providerDelayMs));
+        // A held write stays in flight until the proof has delivered its repeat taps (see the pack-tap proof below).
+        if(window.__holdWrite&&window.__holdWrite[type])await window.__holdWrite[type];
         // r50 fixtures: a write can be rejected (transient failure, or authority already moved on).
         if(window.__failNext&&window.__failNext[type]>0){window.__failNext[type]-=1;return {ok:false,code:"SHARED_SETUP_TRANSIENT_WRITE_FAILURE"};}
         if(type==="open"&&serverSetup)return {ok:false,code:"SHARED_SETUP_ALREADY_OPEN"};
@@ -91,9 +93,13 @@ async function prepare(page,{managerRole,remoteRole,initialSetup,reducedMotion=t
     await host.locator("#clubWheelScreen").waitFor({state:"visible",timeout:5000});
     assert.equal(await host.locator("#leagueWheelScreen").isVisible(),false,"One Continue to Club Packs click must complete the route; no second tap is allowed.");
     const packButton=host.locator("#openClubPack");
+    // Hold the club write in flight until the repeat tap has landed. The product hides the pack button as soon as the
+    // write commits, so on a slow host an unheld 180ms write could finish before the repeat tap reached the page.
+    await host.evaluate(()=>{window.__holdWrite={"commit-clubs":new Promise(resolve=>{window.__releaseClubWrite=resolve;})};});
     await packButton.click({noWaitAfter:true});
-    await host.waitForFunction(()=>document.getElementById("openClubPack")?.getAttribute("aria-busy")==="true"||document.getElementById("openClubPack")?.classList.contains("hidden"),null,{timeout:1500});
+    await host.waitForFunction(()=>document.getElementById("openClubPack")?.getAttribute("aria-busy")==="true",null,{timeout:1500});
     await packButton.click({force:true,noWaitAfter:true});
+    await host.evaluate(()=>{delete window.__holdWrite;window.__releaseClubWrite();});
     await host.waitForFunction(()=>window.__getSharedMutationCounts()["commit-clubs"]===1,null,{timeout:3000});
     assert.equal((await host.evaluate(()=>window.__getSharedMutationCounts()))["commit-clubs"],1,"Rapid pack taps must create exactly one authoritative club assignment.");
     await host.waitForFunction(()=>Boolean(document.getElementById("clubWheelScreen")?.dataset.sharedClubPacksWitnessed),null,{timeout:6500});
