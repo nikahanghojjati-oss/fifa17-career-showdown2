@@ -10,7 +10,8 @@ No gameplay, scoring or Firestore Rules change.
 
 - The GitHub Pages deploy now publishes `visual-assets/` (PR #367). Without it every Team V file returned 404 on the live site and the r54 service worker could not finish installing.
 - The Settings and Rule Book look keeps keyboard focus on the same control when it mounts or unmounts (PR #368).
-- The runtime revision moves to r55 so browsers that already installed r54 receive the changed `js/rulesSettingsV10.js` through a fresh shell cache.
+- The Transfer War screen re-frames Team V's plate once its own styles apply, so on desktop the manager panels and the START 15-MINUTE WINDOW button sit inside the screen instead of below it (PR #368).
+- The runtime revision moves to r55 so browsers that already installed r54 receive the changed `js/rulesSettingsV10.js` and `js/transferScreenV10.js` through a fresh shell cache.
 
 ## What did not change
 

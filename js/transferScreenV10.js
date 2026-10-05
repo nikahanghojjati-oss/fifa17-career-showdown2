@@ -141,7 +141,7 @@
   const BASE="visual-assets/v10_1/";
   const ASSET_BASE=BASE+DIR;
   const ACTION_CLASSES=Object.freeze({start:"btn-end sd-btn sd-btn--secondary",continueReplay:"btn-continue sd-btn sd-btn--secondary",error:"error-line"});
-  let installed=false,registered=null,platemap=null,cached=null,mountedFrame=null,stage=null,adopted=[],cardSwaps=[],pending=false,timerNode=null,statusNode=null;
+  let installed=false,registered=null,platemap=null,cached=null,mountedFrame=null,stage=null,adopted=[],cardSwaps=[],pending=false,timerNode=null,statusNode=null,stageSize=null;
   const v10Screens=()=>root.CareerModeV10Screens;
   const tfDoc=()=>root.document||null;
   function tfWarn(context,error){if(root.console&&typeof root.console.warn==="function")root.console.warn(`[Career Mode Showdown] ${context}`,error);}
@@ -272,6 +272,7 @@
     tfRestore();
     if(stage&&stage.__tw&&typeof stage.__tw.dispose==="function"){try{stage.__tw.dispose();}catch(_error){}}
     const host=section&&section.querySelector(":scope > .tw-host");
+    if(stageSize){stageSize.disconnect();stageSize=null;}
     if(host)host.remove();
     if(section)section.classList.remove("tw-on");
     stage=null;mountedFrame=null;
@@ -284,6 +285,10 @@
       section.appendChild(host);section.classList.add("tw-on");
       stage=host.querySelector(".stage");mountedFrame=frame;
       const drawn=root.TWPlate.render(stage,toPlateFixtures(frame),platemap,"LIVE",{webpOnly:true,freeze:true});
+      // Team V's desktop camera is computed at render, but the screen's own styles switch on only after mount (js/v10Screens.js),
+      // so the stage is still the tall unstyled section then and the panels and actions land below the screen. The plate
+      // re-frames on window resize only, so tell it whenever the stage itself changes size.
+      if(typeof root.ResizeObserver==="function"){let last="";stageSize=new root.ResizeObserver(entries=>{const box=entries[0]&&entries[0].contentRect;const size=box?`${Math.round(box.width)}x${Math.round(box.height)}`:"";if(!size||size===last)return;const first=!last;last=size;if(!first&&typeof root.dispatchEvent==="function"&&typeof root.Event==="function")root.dispatchEvent(new root.Event("resize"));});stageSize.observe(stage);}
       tfAdoptAll(frame,section);
       if(drawn&&typeof drawn.catch==="function")drawn.catch(error=>tfWarn("Transfer War motion skipped.",error));
     }catch(error){

@@ -162,6 +162,9 @@ check("5 lazy loading: index.html, the startup line and RUNTIME_REVISION unchang
   const source=read("js/transferScreenV10.js");
   for(const banned of ["localStorage","sessionStorage","indexedDB","firestore","Firestore","cloneNode","RUNTIME_REVISION"])assert.ok(!source.includes(banned),`transferScreenV10.js has no ${banned}`);
   assert.ok(!source.includes("opponentInputs")||/actual==="COMPLETED"&&!replay/.test(source),"opponentInputs are read only behind the COMPLETED, non-replay gate");
+  // Screen styles switch on only after mount, so the plate must re-frame when its stage resizes or the desktop START control lands off-screen.
+  assert.ok(/new root\.ResizeObserver\(/.test(source)&&/stageSize\.observe\(stage\)/.test(source)&&/new root\.Event\("resize"\)/.test(source),"the stage re-frames the plate when it resizes");
+  assert.ok(/stageSize\.disconnect\(\)/.test(source),"the stage observer disconnects on teardown");
 });
 
 // ---- browser: the real app page in the pinned Chromium ----
