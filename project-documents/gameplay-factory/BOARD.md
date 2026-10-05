@@ -1,6 +1,6 @@
 # Team G gameplay board
 
-28 of 33 jobs done (87 %) ████████░░ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-05 12:06 AM Boston time (EDT)
+28 of 33 jobs done (87 %) ████████░░ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-05 12:09 AM Boston time (EDT)
 
 ## Scoreboard
 
@@ -15,7 +15,7 @@ GitHub is the truth; these status files disagree with the PR and need an update 
 * job 31: status file says not written, GitHub says merged (PR #350)
 * job 33: status file says not written, GitHub says merged (PR #358)
 
-🧑‍💼 **Gaffer:** no fresh report (last one 10:07 PM Boston time, 1 h old); see the [Gaffer page](https://claude.ai/artifact/33Pw2Bioktj1Nv7ebEM94Q).
+😌 **Gaffer (OK, calm)** · usage 8 % of the 5-hour window · resets 08:50 UTC · last call: New window at 8%: normal gears, any model/effort the coordinator picks · [Gaffer page](https://claude.ai/artifact/33Pw2Bioktj1Nv7ebEM94Q)
 
 ## Your next move
 
@@ -37,7 +37,7 @@ Gameplay factory job NN. Read https://raw.githubusercontent.com/nikahanghojjati-
 
 🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧⚽▫️▫️ 🥅  
 Opus · Lead (helper) · [PR #362](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/362) · 6 of 7 steps · updated Sun 4 Oct 9:06 PM Boston time  
-🏁 **Likely finish:** waiting on the job's next report (last one 2 h ago)  
+🏁 **Likely finish:** waiting on the job's next report (last one 3 h ago)  
 > **Now:** Lead reviewed; final checks running on the head with the latest test build  
 > **Left:** Merged into the test build
 

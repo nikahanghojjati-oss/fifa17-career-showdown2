@@ -1,6 +1,6 @@
 # 🐞 Team G bug hunting factory
 
-> Updated **Mon 5 Oct, 12:06 AM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
+> Updated **Mon 5 Oct, 12:09 AM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
 
 | 🔓 Open | 🔴 Top priority | 🔧 Fixing or waiting for release | ✅ Fixed and live |
 | :---: | :---: | :---: | :---: |
@@ -25,7 +25,7 @@
 
 **[Job 27 · Transfer War screens](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/362) · 87.5240 %** · 6 of 7 steps · updated Sun 4 Oct, 9:06 PM  
 🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧⚽▫️▫️ 🥅  
-🏁 **Likely finish:** waiting on the job's next report (last one 2 h ago)  
+🏁 **Likely finish:** waiting on the job's next report (last one 3 h ago)  
 > **Now:** Lead reviewed; final checks running on the head with the latest test build  
 > **Left:** Merged into the test build
 
