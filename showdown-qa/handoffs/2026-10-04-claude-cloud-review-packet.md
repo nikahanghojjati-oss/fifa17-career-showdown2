@@ -10,9 +10,10 @@ Mutation authority: none
 1. `showdown-qa/README.md`
 2. `showdown-qa/reports/2026-10-04-factory-system-master-review.md`
 3. `showdown-qa/reports/2026-10-04-historical-findings-ledger.md`
-4. `showdown-qa/reports/2026-09-25-navigation-reliability-reconstructed.md`
-5. `showdown-qa/SOURCE_MANIFEST.md`
-6. `showdown-qa/QA_PROJECT_CHARTER_SNAPSHOT.md`
+4. `showdown-qa/reports/2026-10-04-model-worker-routing-addendum.md`
+5. `showdown-qa/reports/2026-09-25-navigation-reliability-reconstructed.md`
+6. `showdown-qa/SOURCE_MANIFEST.md`
+7. `showdown-qa/QA_PROJECT_CHARTER_SNAPSHOT.md`
 
 Then independently reconcile live GitHub state before accepting any current-state claim.
 
