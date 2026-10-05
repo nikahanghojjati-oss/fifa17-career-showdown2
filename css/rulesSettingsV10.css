@@ -91,3 +91,14 @@
   #settingsOverlay.v10Settings .menuButton.sd-btn,
   #settingsOverlay.v10Settings .menuButton.settingsApplicationUpdateButton { width:100%; }
 }
+
+/* Nik 2026-10-05: on desktop, settings/settings.css sizes the two card rows to the 56% box and clips each card
+   (overflow:hidden), which cut off UPDATE TO LATEST VERSION and half of Showdown Data at every desktop height
+   since r54. Rows now follow their content and the card area scrolls, like the phone layout. */
+@media (min-width:761px) {
+  #settingsOverlay.v10Settings #settingsDialog #settingsContent { grid-template-rows:max-content max-content; align-content:start; overflow-y:auto; overflow-x:hidden; padding-bottom:8px; }
+  #settingsOverlay.v10Settings #settingsDialog #settingsContent > .settingsPanel { min-height:auto; overflow:visible; align-self:start; }
+}
+/* css/settings.css paints .settingsOfflineNote as a light box; with the light Settings text it read as an empty
+   white box under UPDATE TO LATEST VERSION. It is the update status box, so it takes the dark panel look. */
+#settingsOverlay.v10Settings .settingsOfflineNote { margin:10px 0 0; padding:9px 12px; background:rgba(0,0,0,.42); border:1px solid rgba(219,178,94,.28); border-left:3px solid #d9b15f; }

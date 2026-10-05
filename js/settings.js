@@ -234,8 +234,9 @@ function createApplicationPanel(){
     update.type = "button";
     update.disabled = settingsUpdatePending || Boolean(updateState.updateActionDisabled);
     update.addEventListener("click", handleSettingsOfflineUpdate);
-    const status = createSettingsElement("p", "settingsOfflineNote", settingsOfflineGuidance || "Updates keep your current Showdown and player identity.");
+    const status = createSettingsElement("p", "settingsOfflineNote settingsApplicationUpdateStatus", settingsOfflineGuidance || "Updates keep your current Showdown and player identity.");
     status.setAttribute("role", "status");
+    status.setAttribute("aria-live", "polite");
     panel.append(update, status);
     return panel;
 }
@@ -340,15 +341,26 @@ async function handleSettingsOfflineUpdate(event){
     if(button){
         button.disabled = true;
     }
+    // Nik 2026-10-05: the result belongs in the status box under the button, not in a toast behind Settings.
+    showSettingsUpdateStatus(state.waitingUpdate ? "Applying the downloaded update…" : "Checking for the latest version…");
 
     try{
-        const result = await action();
-        settingsOfflineGuidance = result?.message || "";
+        const result = await action({ quiet:true });
+        settingsOfflineGuidance = typeof result === "boolean"
+            ? (result ? "Updating now. The app reloads into the new version in a moment." : "The update could not be applied yet. Return to Home and try again.")
+            : (result?.message || "");
+    }catch(error){
+        settingsOfflineGuidance = error?.message || "The latest version could not be checked right now.";
     }finally{
         settingsUpdatePending = false;
         renderSettings();
         focusSettingsControl(focusSelector);
     }
+}
+
+function showSettingsUpdateStatus(message){
+    settingsOfflineGuidance = message;
+    settingsContent?.querySelectorAll(".settingsOfflineNote").forEach(note => { note.textContent = message; });
 }
 
 function createOfflinePanel(){
