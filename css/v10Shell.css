@@ -86,6 +86,10 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10 {
   position: fixed; inset: 0; z-index: 30; width: auto; height: auto; min-height: 0; margin: 0; contain: none;
 }
 
+/* Career Statistics' phone rule gives the preview chip display:block over its [hidden] attribute. The header chips
+   covered the empty box until HO-003 moved them off the phone stage; the live screen never shows a preview label. */
+.careerScreenV10 .previewChip[hidden] { visibility: hidden; }
+
 /* Old analytics.css styles .trophyShelf (a light #e9eef0 band), a class name Team V's Trophy Room reuses. */
 .careerScreenV10 .trophyShelf { background: none; }
 
