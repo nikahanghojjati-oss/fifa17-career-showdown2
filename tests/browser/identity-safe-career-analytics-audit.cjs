@@ -136,6 +136,8 @@ async function readAnalytics(page){
   const context=await browser.newContext({viewport:{width:1366,height:900}});
   const seeded=seededState();
   await context.addInitScript(({libraryKey,singletonKey,legacyKey,preferencesKey,seeded})=>{
+    // r61: signed-out Career Statistics and Trophy Room are Team V's screens; this audit checks the local analytics renderers.
+    window.careerModeLocalCareerScreens=true;
     try{
       localStorage.setItem(libraryKey,JSON.stringify(seeded.library));
       localStorage.removeItem(singletonKey);
