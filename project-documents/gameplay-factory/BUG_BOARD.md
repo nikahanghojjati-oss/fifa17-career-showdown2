@@ -1,6 +1,6 @@
 # 🐞 Team G bug hunting factory
 
-> Updated **Sun 4 Oct, 8:45 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
+> Updated **Sun 4 Oct, 8:47 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
 
 | 🔓 Open | 🔴 Top priority | 🔧 Fixing or waiting for release | ✅ Fixed and live |
 | :---: | :---: | :---: | :---: |
@@ -36,10 +36,10 @@ Bars are real: finished steps ÷ all steps from each job's progress block, to tw
 ### 🟪 Sonnet · 1 job
 
 **[Job 28 · Rivalry Stats and Legacy](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/352)**  
-🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪⚽▫️▫️▫️ 🥅 **80.00 %** · 8 of 10 steps · updated Sun 4 Oct, 8:35 PM
+🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪⚽▫️ 🥅 **90.00 %** · 9 of 10 steps · updated Sun 4 Oct, 8:46 PM
 
-> **Going on now:** CI running on bdbf6a6  
-> **Still to do:** CI green on final head (Gameplay Fast + POS20) → Lead review and merge
+> **Going on now:** CI green on bdbf6a6, waiting for lead review and merge  
+> **Still to do:** Lead review and merge
 
 <details>
 <summary><b>✅ Closed: 4</b> (4 live in the game) · click to open</summary>

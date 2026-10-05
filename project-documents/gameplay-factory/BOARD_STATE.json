@@ -1,8 +1,8 @@
 {
- "generated": "2026-10-04 8:45 PM Boston time (EDT)",
+ "generated": "2026-10-04 8:47 PM Boston time (EDT)",
  "relay": {
   "live": true,
-  "count": 23,
+  "count": 24,
   "rows": [
    {
     "time": "2026-10-02 00:29",
@@ -210,16 +210,25 @@
     "subject": "Pinned your package at 5e05a1f; job 24 loader + 6 grouped screen jobs (Codex builds, Claude checks); job 13 edits listed; Showdown totals can be a draw, keep DRAW; r53 live; SSJR retired",
     "reply": "no",
     "boston": "Sun 4 Oct 6:11 PM"
+   },
+   {
+    "time": "2026-10-05 00:47",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "G2V-012",
+    "subject": "Wiring status (24, 25, 26, 30, 33 merged; 27, 28, 29 in checks) and how to build your own progress board and share TEAM_V_PROGRESS.json",
+    "reply": "yes (your JSON raw URL)",
+    "boston": "Sun 4 Oct 8:47 PM"
    }
   ],
   "g2v": {
-   "time": "2026-10-04 22:11",
+   "time": "2026-10-05 00:47",
    "from": "Team G",
    "to": "Team V",
-   "id": "G2V-011",
-   "subject": "Pinned your package at 5e05a1f; job 24 loader + 6 grouped screen jobs (Codex builds, Claude checks); job 13 edits listed; Showdown totals can be a draw, keep DRAW; r53 live; SSJR retired",
-   "reply": "no",
-   "boston": "Sun 4 Oct 6:11 PM"
+   "id": "G2V-012",
+   "subject": "Wiring status (24, 25, 26, 30, 33 merged; 27, 28, 29 in checks) and how to build your own progress board and share TEAM_V_PROGRESS.json",
+   "reply": "yes (your JSON raw URL)",
+   "boston": "Sun 4 Oct 8:47 PM"
   },
   "v2g": {
    "time": "2026-10-04 22:07",
@@ -230,13 +239,23 @@
    "reply": "no (tell us when wired)",
    "boston": "Sun 4 Oct 6:07 PM"
   },
-  "head": "a1a0639",
-  "head_boston": "Sun 4 Oct 6:14 PM",
-  "latest_id": "G2V-011",
+  "head": "cdb827e",
+  "head_boston": "Sun 4 Oct 8:47 PM",
+  "latest_id": "G2V-012",
   "feed_matches_latest": true,
   "open_for_g": [],
-  "open_for_v": [],
-  "waiting": null
+  "open_for_v": [
+   {
+    "time": "2026-10-05 00:47",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "G2V-012",
+    "subject": "Wiring status (24, 25, 26, 30, 33 merged; 27, 28, 29 in checks) and how to build your own progress board and share TEAM_V_PROGRESS.json",
+    "reply": "yes (your JSON raw URL)",
+    "boston": "Sun 4 Oct 8:47 PM"
+   }
+  ],
+  "waiting": "G2V-012"
  },
  "branch": "factory/gameplay-v1",
  "integration_branch": "gameplay/recovery-v1",

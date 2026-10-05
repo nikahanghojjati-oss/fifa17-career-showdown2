@@ -1,6 +1,6 @@
 {
  "team": "G",
- "updated": "2026-10-04T20:45-04:00",
+ "updated": "2026-10-04T20:47-04:00",
  "jobs_done": 20,
  "jobs_total": 33,
  "open_bugs": 2,
@@ -23,12 +23,12 @@
    "job": 28,
    "title": "Rivalry Stats and Legacy",
    "worker": "Sonnet",
-   "done": 8,
+   "done": 9,
    "total": 10,
-   "pct": 80.0,
-   "current": "CI running on bdbf6a6",
+   "pct": 90.0,
+   "current": "CI green on bdbf6a6, waiting for lead review and merge",
    "pr": 352,
-   "updated": "2026-10-05T00:35:38Z"
+   "updated": "2026-10-05T00:46:12Z"
   },
   {
    "job": 29,

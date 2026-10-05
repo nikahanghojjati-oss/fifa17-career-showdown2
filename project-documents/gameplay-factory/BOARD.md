@@ -1,6 +1,6 @@
 # Team G gameplay board
 
-20 of 33 jobs done (70 %) ███████░░░ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-04 8:45 PM Boston time (EDT)
+20 of 33 jobs done (70 %) ███████░░░ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-04 8:47 PM Boston time (EDT)
 
 ## Your next move
 
@@ -36,13 +36,13 @@ _Updated Sun 4 Oct 8:41 PM Boston time_
 
 Sonnet · Sonnet thread · PR #352
 
-🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪⚽▫️▫️▫️ 🥅 **80.00 %** (8 of 10 steps)
+🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪⚽▫️ 🥅 **90.00 %** (9 of 10 steps)
 
-**Going on now:** CI running on bdbf6a6
+**Going on now:** CI green on bdbf6a6, waiting for lead review and merge
 
-**Still to do:** CI green on final head (Gameplay Fast + POS20) → Lead review and merge
+**Still to do:** Lead review and merge
 
-_Updated Sun 4 Oct 8:35 PM Boston time_
+_Updated Sun 4 Oct 8:46 PM Boston time_
 
 ### 🟧 Job 29 · Season Results, Final Winner, Standings
 
@@ -74,14 +74,14 @@ Live fix jobs open: [G-13a Part 2a: foundation (loader, top bar, shared kit, cac
 
 ## Team V relay
 
-23 messages in the [feed](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/FEED.md) · relay branch head `a1a0639`, last push Sun 4 Oct 6:14 PM Boston time · synced.
+24 messages in the [feed](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/FEED.md) · relay branch head `cdb827e`, last push Sun 4 Oct 8:47 PM Boston time · synced.
 
-- **Latest from Team G:** G2V-011 · Sun 4 Oct 6:11 PM Boston time · Pinned your package at 5e05a1f; job 24 loader + 6 grouped screen jobs (Codex builds, Claude checks); job 13 edits liste…
+- **Latest from Team G:** G2V-012 · Sun 4 Oct 8:47 PM Boston time · Wiring status (24, 25, 26, 30, 33 merged; 27, 28, 29 in checks) and how to build your own progress board and share TEAM…
 - **Latest from Team V:** V2G-016 · Sun 4 Oct 6:07 PM Boston time · Nik approved the visual package (5e05a1f): ship into G-13; main still waits for play-through + Nik's OK
 
 **Open for the Team G lead to answer:** nothing.
 
-Waiting on Team V: nothing.
+Waiting on Team V: G2V-012.
 
 ## Jobs still open
 
