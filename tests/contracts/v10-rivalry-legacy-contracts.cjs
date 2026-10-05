@@ -109,7 +109,11 @@ check('RL11 real Team V renderers show honest states and live values without fix
  {const src=read('js/rivalryLegacyV10.js'),css=read('css/rivalryLegacyV10.css');
   assert.ok(/screen==="legacy"[^;]*\.sd-stage__layer--ui[\s\S]{0,400}className="backButton /.test(src),'History keeps a .backButton for smart Back (the stability audit clicks #legacy .backButton)');
   assert.ok(/sd-stage__layer--ui\s*\{\s*pointer-events:none/.test(css),'the empty rivalry UI layer must not intercept the Back click');}
- console.log(`ok ${++n} RL14 History keeps a Back button and Rivalry Back stays clickable`);
+ {const sw=read('service-worker.js'),src=read('js/rivalryLegacyV10.js'),deps=[...src.matchAll(/\["[a-z-]+","(js\/[A-Za-z]+\.js)","[A-Za-z]+"\]/g)].map(m=>m[1]);
+  assert.ok(deps.length>=8,'the loader lists its model dependencies');
+  for(const file of deps)assert.ok(sw.includes(`"${file}"`),`${file} is loaded by the History/Rivalry loader, so the service worker must shell-cache it (otherwise it answers Response.error())`);}
+ console.log(`ok ${++n} RL14 every model dependency the History and Rivalry loader fetches is in the service-worker shell`);
+ console.log(`ok ${++n} RL15 History keeps a Back button and Rivalry Back stays clickable`);
  console.log(`v10-rivalry-legacy contracts passed (${n} checks)`);
 })().catch(error=>{console.error(error);process.exitCode=1;});
 
