@@ -4,7 +4,7 @@
 
 | 🔓 Open | 🔴 Top priority | 🔧 Fixing or waiting for release | ✅ Fixed and live |
 | :---: | :---: | :---: | :---: |
-| **7** | **3** | **4** | **5** |
+| **7** | **3** | **5** | **5** |
 
 **Lanes:** 🟦 Sol chat · 🟩 Sol Work mode · ⬜ Codex · 🟧 Opus · 🟪 Sonnet · 🟨 Haiku
 
@@ -14,7 +14,7 @@
 | :-- | :-- | :-- | :-- | :-- | :-- | :-- |
 | **BH-11** | 🔴 **top** · Pairing and reconnect fixes: a reload mid-game strands the reconnect (high), durable storage and an explicit confirm before closing the shared career, a lost join reply shows "code already used", startup retry with plain text, a stray local copy after a failed join, wording and a phone clock hint, a pasted code with extra text is rejected | Pairing, reconnect | 🎮 gameplay | 🟧 Opus | 🔧 FIXING | branch bugfix/bh-11-pairing-reconnect, rides r62 |
 | **BH-7** | 🔴 **top** · Transient hardening: Setup survives one failed read, throttled Terminal Close retry, quiet re-read for the phone that loses a simultaneous CLOSE, one stale transfer status line | Setup, Terminal Close, Transfer Window | 🎮 gameplay | 🟧 Opus | 🔧 FIXING | branch bugfix/bh-7-transient-hardening, rides r62 |
-| **BH-8** | 🔴 **top** · Final winner only appears after tapping PREVIEW LOCAL RECONCILIATION (likely the old J10 flake) | Final Winner | 🎮 gameplay | — | 🔍 TRIAGED | waiting on Nik: show it automatically or keep the tap (decision card in the Team G lead thread) |
+| **BH-8** | 🔴 **top** · Final winner only appears after tapping PREVIEW LOCAL RECONCILIATION (likely the old J10 flake) | Final Winner | 🎮 gameplay | 🟧 Opus | 🔧 FIXING | Nik chose show automatically (5:56 PM Boston time); branch bugfix/bh-8-auto-final, rides r62; the final winner and Close appear on both phones with no PREVIEW tap, applying to the local save stays a tap |
 | **G-F6** | Flaky v10-transfer contract (WINDOW_OPEN 390: refresh not clickable) | Transfer Window tests | 🎮 gameplay | 🟧 Opus | 🔧 FIXING | root cause hunt on branch bugfix/g-f6-transfer-flake, ships in r62 |
 | **BUG-1** | Raw error codes show in the Setup settle text | Setup | 🎮 gameplay | 🟪 Sonnet | 👀 REVIEW | fixed on bugfix/bug-batch-1 (9e012fd), rides r62; same batch: neutral Manager 1/2 fallbacks, 80-character limit on transfer signing names |
 | **BH-12** | Pairing product calls: RESTORE BACKUP as the main button instead of DELETE, a CANCEL CODE button with visible expiry, show the masked linked email and confirm before JOIN, "revoke mine and join" when both phones host, a clearer same-account message | Pairing | 🎮 gameplay | — | 🆕 NEW | waiting on Nik later; the lead asks once his two current cards are answered |

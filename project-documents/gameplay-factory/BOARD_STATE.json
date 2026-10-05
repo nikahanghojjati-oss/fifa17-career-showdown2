@@ -315,7 +315,7 @@
   "live": {
    "sha": "61489dd",
    "revision": "1.9.1-r61",
-   "when": "2026-10-05T21:37:15Z",
+   "when": "2026-10-05T21:37:15+00:00",
    "subject": "Release r61: phone track list stops below the logo and scrolls; Next To You first (#383)",
    "fixes": [],
    "today": [
@@ -528,12 +528,12 @@
   }
  ],
  "next_move": [
-  "**Two quick calls wait for you in the Team G lead thread:** show the final winner automatically or keep the tap (BH-8), and 5 settings for the new Showdown Gate checks."
+  "**One call waits for you in the Team G lead thread:** 5 settings for the new Showdown Gate checks. Your BH-8 choice (show the final winner automatically) is being built for r62."
  ],
  "now": {
-  "moving": 5,
+  "moving": 6,
   "next": 2,
-  "nik": 5,
+  "nik": 4,
   "later": 6,
   "rows": {
    "G": {
@@ -560,6 +560,13 @@
       "state": "in progress (thread \"Old-design screen audit\", Nik asked at 5:16 PM Boston time)",
       "waits_on": "a green PR to the lead",
       "details": "overlaps G-F11 (old CSS collisions)"
+     },
+     {
+      "id": "G-F19",
+      "title": "BH-8: show the final winner and Close on both phones automatically, with no PREVIEW tap (Nik chose this at 5:56 PM Boston time); applying to the local save stays a tap",
+      "lane": "opus",
+      "state": "in progress (branch bugfix/bh-8-auto-final)",
+      "waits_on": "the lead batches it into r62"
      },
      {
       "id": "G-F20",
@@ -599,18 +606,11 @@
       "waits_on": "Nik's typed words"
      },
      {
-      "id": "G-F19",
-      "title": "BH-8: the final winner only shows after tapping PREVIEW LOCAL RECONCILIATION. Show it automatically, or keep the tap?",
-      "lane": "nik",
-      "state": "waiting on Nik (decision card in the Team G lead thread)",
-      "waits_on": "Nik"
-     },
-     {
       "id": "G-F22",
       "title": "BH-12 pairing product calls: RESTORE BACKUP first, CANCEL CODE with expiry, masked email before JOIN, revoke mine and join, clearer same-account message",
       "lane": "nik",
       "state": "later: Nik decides after his two current calls",
-      "waits_on": "after Nik answers BH-8 and the Showdown Gate settings"
+      "waits_on": "after Nik answers the Showdown Gate settings"
      }
     ],
     "next": [

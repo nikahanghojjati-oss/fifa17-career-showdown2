@@ -29,10 +29,10 @@
    "where": "Final Winner",
    "type": "gameplay",
    "priority": "top",
-   "worker": "",
+   "worker": "opus",
    "job": "",
-   "status": "TRIAGED",
-   "note": "waiting on Nik: show it automatically or keep the tap (decision card in the Team G lead thread)"
+   "status": "FIXING",
+   "note": "Nik chose show automatically (5:56 PM Boston time); branch bugfix/bh-8-auto-final, rides r62; the final winner and Close appear on both phones with no PREVIEW tap, applying to the local save stays a tap"
   },
   {
    "id": "BUG-1",
