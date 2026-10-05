@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 1:39 PM Boston time (EDT)",
+ "generated": "2026-10-05 1:42 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -324,13 +324,6 @@
      "draft": false,
      "branch": "gameplay/job-35-ho003-ho004-wiring",
      "updated": "2026-10-05T17:39:27Z"
-    },
-    {
-     "pr": 373,
-     "title": "G: phone Home without the ghost coat, and a still stage (Team V HO-005 + HO-002, r58)",
-     "draft": false,
-     "branch": "fix/home-phone-overlays-v2",
-     "updated": "2026-10-05T16:17:39Z"
     }
    ],
    "today": [

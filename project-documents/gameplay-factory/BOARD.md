@@ -1,6 +1,6 @@
 # Showdown board: G Factory and V Factory
 
-33 of 33 jobs done (100 %) ██████████ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-05 1:39 PM Boston time (EDT)
+33 of 33 jobs done (100 %) ██████████ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-05 1:42 PM Boston time (EDT)
 
 ## Scoreboard
 
@@ -13,7 +13,6 @@
 🌐 **main `3deee29` · runtime 1.9.1-r57** · last change Mon 5 Oct 11:47 AM Boston time: Team V's Club Assignment on the live screen (r57) (#371)
 
 - 🔧 Live fix in review: [PR #377](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/377) G-35: Team V screen fixes HO-003 + HO-004 (r59, includes r58)
-- 🔧 Live fix in review: [PR #373](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/373) G: phone Home without the ghost coat, and a still stage (Team V HO-005 + HO-002, r58)
 
 **Shipped to the live game today (6):**
 
