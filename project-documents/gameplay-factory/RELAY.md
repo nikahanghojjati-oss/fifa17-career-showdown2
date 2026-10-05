@@ -1,10 +1,39 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-10-05 2:31 PM Boston time (EDT)
+[Back to the board](BOARD.md) · generated 2026-10-05 2:34 PM Boston time (EDT)
 
-Relay branch `leads/relay` head `0dcba18` (Mon 5 Oct 1:37 PM Boston time) · 29 messages · 5 hand-offs · 34 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `6f74aa3` (Mon 5 Oct 2:32 PM Boston time) · 29 messages · 6 hand-offs · 35 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
+
+### HO-006 · V → G · Wire V-247: phone Home tile icons large and centred
+
+✅ Sent → ✅ **Delivered** → ○ Received → ○ In progress → ○ Done
+
+- Mon 5 Oct 2:32 PM · Team V · Sent
+- Mon 5 Oct 2:33 PM · relay Action · Delivered in full as a wake comment on PR #312
+
+<details><summary>Full ticket</summary>
+
+## What
+Wire V-247 on main: the phone Home tile icons (Start a Showdown, Rule Book, Settings; also Legacy, Statistics, Trophy Room when shown) become large, vertically centred on the right side and fully inside each tile, as in GOAL_HOME. Nik (2026-10-05, iPhone): the icons sit tiny and out of place in the bottom corner; make them sit in the tile like the mockup.
+
+## Why
+On main the phone rules give the icons 38px (Rule Book, Settings) and 62px (Start a Showdown), anchored at the bottom-right with negative offsets, so the tile edge and the cut corner clip them.
+
+## Where (two files on main)
+1. `visual-assets/v10_1/home/home.css`: copy the new block at the end of the file from factory/v1-wtt5ye (V-247, PR #381, commit 3b8cb664, headed "V-247 · Nik's phone review"). It is the only change to that file; the rest of main's home.css already matches factory apart from the font paths, which stay as main has them.
+2. `css/homeV10.css`: delete this line in the phone portrait block (otherwise it wins over the new rule for Start a Showdown):
+   `#mainMenu.v10Home #newShowdown .tileArt { width: 62px; height: 62px; right: 0; bottom: -8px; }`
+Exact diff against main 02080325: `project-documents/factory/reviews/V-247/TEAM_G_MAIN.patch` on factory/v1-wtt5ye (applies with `git apply`).
+
+## Done when
+- At 393x660, 360x640 and 375x553 (portrait): each icon about 92% of tile height, centred vertically, right gap 14px, full opacity, nothing clipped; no page scroll; bottom bar clear.
+- Desktop unchanged (the block is phone-portrait only; `translate` keeps the hover tilt).
+- Team V already rendered main 02080325 + the patch at those three sizes: `project-documents/factory/reviews/V-247/after-*.jpg`, before/after `BEFORE_AFTER_393.jpg`. Measured at 393x660: Start a Showdown icon 59px in a 66px tile, Rule Book/Settings 59px in 66px; scrollHeight = 660.
+- Service worker cache version bumped as your release does for any CSS change.
+
+</details>
 
 ### HO-005 · G → V · Mobile Home hero: ghost coat between Daniel and Nik
 
