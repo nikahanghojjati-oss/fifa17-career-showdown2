@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 6:27 PM Boston time (EDT)",
+ "generated": "2026-10-05 6:30 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -323,11 +323,11 @@
      "title": "Every screen in Team V's look: signed-out career screens, Showdown Home, season review, Legacy data tools",
      "draft": false,
      "branch": "claude-gameplay/team-v-everywhere",
-     "sha": "55d74ff687629e88cdf9bc22d81bc3b74cacb053",
-     "updated": "2026-10-05T22:25:38Z",
+     "sha": "0be6b17371a7b81ec1aa7025cdf02290fdcc7f8b",
+     "updated": "2026-10-05T22:29:28Z",
      "gates": {
-      "passed": 6,
-      "running": 5,
+      "passed": 1,
+      "running": 10,
       "failed": 0,
       "cancelled": 0
      }
@@ -383,7 +383,7 @@
   },
   "physio": {
    "state": "starting",
-   "line": "Physio: starting soon.",
+   "line": "Physio: starting soon; POS20 has waited 1 min for a machine.",
    "source": "board"
   },
   "v_headline": "Board 1 (visual package): 238 of 238 jobs done and checked",
@@ -720,11 +720,11 @@
     "title": "Every screen in Team V's look: signed-out career screens, Showdown Home, season review, Legacy data tools",
     "draft": false,
     "branch": "claude-gameplay/team-v-everywhere",
-    "sha": "55d74ff687629e88cdf9bc22d81bc3b74cacb053",
-    "updated": "2026-10-05T22:25:38Z",
+    "sha": "0be6b17371a7b81ec1aa7025cdf02290fdcc7f8b",
+    "updated": "2026-10-05T22:29:28Z",
     "gates": {
-     "passed": 6,
-     "running": 5,
+     "passed": 1,
+     "running": 10,
      "failed": 0,
      "cancelled": 0
     }
