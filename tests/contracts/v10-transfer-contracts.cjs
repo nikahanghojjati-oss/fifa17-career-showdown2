@@ -214,6 +214,11 @@ async function browserChecks(){
     const context=await browser.newContext({viewport:{width:1440,height:900},serviceWorkers:"block"});
     const page=await context.newPage();
     const pageErrors=[];page.on("pageerror",error=>pageErrors.push(String(error&&error.message||error)));
+    // Home's Team V stylesheet arrives after the loader's 4 s style timeout, as on a slow runner: it must still stay
+    // off while Transfer War shows (its bare footer/button/.stage rules would otherwise hide Transfer War's HUD).
+    let lateSheet=null;
+    await page.route(/\/v10_1\/home\/home\.css/,async route=>{await new Promise(resolve=>setTimeout(resolve,5500));await route.continue();});
+    page.on("requestfinished",request=>{if(/\/v10_1\/home\/home\.css/.test(request.url())&&!lateSheet)lateSheet=Date.now();});
     await page.goto(`http://127.0.0.1:${port}/index.html`,{waitUntil:"load"});
     await page.waitForFunction(()=>window.CareerModeTransferScreenV10&&window.CareerModeV10Screens&&typeof window.showScreen==="function",null,{timeout:30000});
     await page.evaluate(()=>window.CareerModeTransferScreenV10.install());
@@ -295,7 +300,19 @@ async function browserChecks(){
       await page.setViewportSize({width:1440,height:900});
     });
 
-    check("9 leaving the shared view puts every production element back where it was, with its own classes",async()=>{
+    check("9 a Team V stylesheet that arrives after the loader timeout stays off while Transfer War shows",async()=>{
+      const mounted=await page.evaluate(()=>Boolean(document.querySelector("#transferChallenge > .tw-host .hud-footer")));
+      assert.ok(mounted,"Transfer War is mounted");
+      const started=Date.now();while(!lateSheet&&Date.now()-started<15000)await page.waitForTimeout(100);
+      assert.ok(lateSheet,"home.css was requested and arrived late");
+      await page.waitForTimeout(300);
+      const state=await page.evaluate(()=>({sheets:[...document.querySelectorAll("link[data-v10-style]")].filter(link=>/\/home\//.test(link.getAttribute("data-v10-style"))).map(link=>!link.sheet||link.sheet.disabled),
+        footer:getComputedStyle(document.querySelector("#transferChallenge .tw-host .hud-footer")).display}));
+      assert.ok(state.sheets.length>0&&state.sheets.every(Boolean),`home sheets stay off: ${JSON.stringify(state)}`);
+      assert.notEqual(state.footer,"none","Transfer War's HUD footer shows");
+    });
+
+    check("10 leaving the shared view puts every production element back where it was, with its own classes",async()=>{
       await page.evaluate(()=>{window.__tvActive=false;});
       await page.evaluate(()=>window.CareerModeV10Screens.show("transferChallenge"));
       await page.waitForTimeout(200);
@@ -317,5 +334,5 @@ async function browserChecks(){
   const sync=checks.slice();checks.length=0;
   for(const [name,fn] of sync){await fn();console.log(`ok ${name}`);}
   await browserChecks();
-  console.log("PASS v10 transfer contracts: 9 checks.");
+  console.log("PASS v10 transfer contracts: 10 checks.");
 })().catch(error=>{console.error(error);process.exit(1);});
