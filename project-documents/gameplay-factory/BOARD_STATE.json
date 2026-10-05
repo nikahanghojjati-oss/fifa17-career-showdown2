@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 12:16 PM Boston time (EDT)",
+ "generated": "2026-10-05 12:19 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -320,10 +320,10 @@
    "fixes": [
     {
      "pr": 373,
-     "title": "G: phone Home without the ghost coat (Team V HO-005, r58)",
+     "title": "G: phone Home without the ghost coat, and a still stage (Team V HO-005 + HO-002, r58)",
      "draft": false,
      "branch": "fix/home-phone-overlays-v2",
-     "updated": "2026-10-05T16:12:11Z"
+     "updated": "2026-10-05T16:17:39Z"
     }
    ],
    "today": [
