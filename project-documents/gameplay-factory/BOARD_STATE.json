@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 7:06 PM Boston time (EDT)",
+ "generated": "2026-10-05 7:07 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -315,9 +315,23 @@
   "live": {
    "sha": "61489dd",
    "revision": "1.9.1-r61",
-   "when": "2026-10-05T21:37:15+00:00",
+   "when": "2026-10-05T21:37:15Z",
    "subject": "Release r61: phone track list stops below the logo and scrolls; Next To You first (#383)",
    "fixes": [
+    {
+     "pr": 385,
+     "title": "Physio: re-run checks GitHub gave no machine, pause helpers while checks wait",
+     "draft": false,
+     "branch": "ci/showdown-gate-physio",
+     "sha": "02960ba13ec0e9a6182c73fccc0ea3cec0beda05",
+     "updated": "2026-10-05T23:07:02Z",
+     "gates": {
+      "passed": 0,
+      "running": 5,
+      "failed": 0,
+      "cancelled": 0
+     }
+    },
     {
      "pr": 384,
      "title": "Every screen in Team V's look: signed-out career screens, Showdown Home, season review, Legacy data tools",
@@ -384,7 +398,7 @@
   "physio": {
    "state": "clear",
    "line": "All clear (from GitHub).",
-   "gate": "POS20 #384 12/12",
+   "gate": "POS20 #385 0/5",
    "source": "github"
   },
   "v_headline": "Board 1 (visual package): 238 of 238 jobs done and checked",
@@ -552,7 +566,7 @@
   "**Nothing waits on you right now.** r62 is nearly full; BH-11, BUG-1 and G-F6b are finishing."
  ],
  "now": {
-  "moving": 10,
+  "moving": 11,
   "next": 2,
   "nik": 4,
   "later": 4,
@@ -716,6 +730,20 @@
    }
   },
   "fixes": [
+   {
+    "pr": 385,
+    "title": "Physio: re-run checks GitHub gave no machine, pause helpers while checks wait",
+    "draft": false,
+    "branch": "ci/showdown-gate-physio",
+    "sha": "02960ba13ec0e9a6182c73fccc0ea3cec0beda05",
+    "updated": "2026-10-05T23:07:02Z",
+    "gates": {
+     "passed": 0,
+     "running": 5,
+     "failed": 0,
+     "cancelled": 0
+    }
+   },
    {
     "pr": 384,
     "title": "Every screen in Team V's look: signed-out career screens, Showdown Home, season review, Legacy data tools",
