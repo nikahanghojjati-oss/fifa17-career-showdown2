@@ -687,7 +687,7 @@
     },
     {
      "id": "G-F6",
-     "title": "Small gameplay follow-ups: transfer message after session expiry, raw error codes in Setup, 'Career screens could not load' toast when the online history is only unavailable",
+     "title": "Small gameplay follow-ups: transfer message after session expiry, raw error codes in Setup, 'Career screens could not load' toast when the online history is only unavailable; intermittent v10-transfer contract failure 'WINDOW_OPEN 390: refresh not clickable'",
      "lane": "sol-work",
      "state": "ready",
      "waits_on": "after G-F5"
@@ -710,8 +710,8 @@
      "id": "G-F13",
      "title": "Home soundtrack: remove deleted What You Got, 9 streamable Audius tracks",
      "lane": "opus",
-     "state": "ready, rides r60 (PR #379 into #378)",
-     "waits_on": "lead merges #379"
+     "state": "in r60 (PRs #379 and #380 merged into #378; Nasty first)",
+     "waits_on": "r60 release"
     },
     {
      "id": "G-F3",
