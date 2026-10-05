@@ -67,7 +67,10 @@ await check("2. Online route",()=>{
 });
 await check("3. Source table",()=>{
   for(const identityState of [online,null]){
-    assert.equal(Seam.selectCareerScreenSource({identityState,model:null}),identityState?"unavailable":"local");
+    // r61: signed in or not, no model means Team V's unavailable state; only Legacy's data tools ask for the local page.
+    assert.equal(Seam.selectCareerScreenSource({identityState,model:null}),"unavailable");
+    assert.equal(Seam.selectCareerScreenSource({identityState,model:null,dataTools:true}),"local");
+    assert.equal(Seam.selectCareerScreenSource({identityState,model:ready,dataTools:true}),"model");
     assert.equal(Seam.selectCareerScreenSource({identityState,model:ready}),"model");
     assert.equal(Seam.selectCareerScreenSource({identityState,model:{}}),"unavailable");
     assert.equal(Seam.selectCareerScreenSource({identityState,model:false}),"unavailable");
@@ -160,8 +163,8 @@ await check("10. Malformed models",()=>{
   }
   assert.throws(()=>Seam.careerScreenView("unknown",ready),/CAREER_SCREEN_UNKNOWN/);
 });
-await check("11. Online never runs the local path",()=>{
-  for(const identity of [online,{...online,managerId:"daniel"},{...online,status:"offline"}]){
+await check("11. Online or signed out never runs the local path",()=>{
+  for(const identity of [online,{...online,managerId:"daniel"},{...online,status:"offline"},null,{status:"signed-out",registered:false}]){
     const h=harness(identity,{poison:true});
     for(const method of ["renderCareerStatistics","renderTrophyRoom","renderLegacy","renderRivalryStatistics","openCareerStatistics","openTrophyRoom"])h.context[method]();
     assert.ok(Object.values(h.counts).every(n=>n===0),JSON.stringify(h.counts));
@@ -169,9 +172,9 @@ await check("11. Online never runs the local path",()=>{
     assert.equal(h.legacy.textContent,Seam.TEXT.unavailable);assert.equal(h.legacy.findByClass("legacyDataControls").length,0);
   }
 });
-await check("12. Local route unchanged",()=>{
-  const h=harness(null);h.context.renderCareerStatistics();h.context.renderTrophyRoom();h.context.renderLegacy();
-  assert.equal(h.counts.buildCareerAnalytics,2);assert.equal(h.counts.loadLegacyShowdowns,1);assert.equal(h.counts.loadSavedShowdown,1);assert.equal(h.counts.importPanel,1);
+await check("12. Legacy data tools keep the local page",()=>{
+  const h=harness(null);h.context.careerModeLegacyDataTools=true;h.context.renderCareerStatistics();h.context.renderTrophyRoom();h.context.renderLegacy();
+  assert.equal(h.counts.buildCareerAnalytics,0);assert.equal(h.counts.loadLegacyShowdowns,1);assert.equal(h.counts.loadSavedShowdown,1);assert.equal(h.counts.importPanel,1);
   assert.equal(h.legacy.findByClass("legacyDataControls").length,1);
 });
 await check("13. Model given and remembered",()=>{
