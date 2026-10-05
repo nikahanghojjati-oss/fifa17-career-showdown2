@@ -675,8 +675,8 @@
      "id": "G-F10",
      "title": "Club Assignment: wire Team V's approved design (hands, seams, new layout) into the live screen",
      "lane": "opus",
-     "state": "in progress",
-     "waits_on": ""
+     "state": "waiting on Nik (PR #371, r57, 16/16 green)",
+     "waits_on": "Nik: merge 371"
     },
     {
      "id": "G-F5",
