@@ -8,55 +8,93 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from factory_common import F, running_jobs, LANES, lane_of, pitch
 
 REPO = "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2"
+BOS = ZoneInfo("America/New_York")
 OPEN = ("NEW", "TRIAGED", "FIXING", "REVIEW", "MERGED")
 ORDER = {s: i for i, s in enumerate(["FIXING", "REVIEW", "TRIAGED", "NEW", "MERGED", "LIVE", "DUPLICATE", "NOT A BUG"])}
-now = datetime.datetime.now(ZoneInfo("America/New_York"))
+ICON = {"NEW": "🆕", "TRIAGED": "🔍", "FIXING": "🔧", "REVIEW": "👀", "MERGED": "🔀", "LIVE": "✅", "DUPLICATE": "♻️", "NOT A BUG": "🚫"}
+TYPE = {"gameplay": "🎮 gameplay", "visual": "🎨 visual", "data": "📊 data"}
+now = datetime.datetime.now(BOS)
 bugs = json.load(open(os.path.join(F, "BUGS.json")))["bugs"]
 board = json.load(open(os.path.join(F, "BOARD.json")))
+def done_status(b):
+    st = b["status"].upper()
+    if st != "DONE":
+        return st
+    # DONE in the old bug hunt means fixed; it is only LIVE once a release carries it ("live since rNN").
+    return "LIVE" if "live since" in b.get("note", "").lower() or "docs fixed" in b.get("note", "").lower() else "MERGED"
+
+
 old = [dict(id=b["id"], title=b["title"], where="", type="gameplay", priority="normal", worker="", job="", note=b.get("note", ""),
-            status={"DONE": "LIVE"}.get(b["status"].upper(), b["status"].upper())) for b in board.get("bug_hunt", [])]
+            status=done_status(b)) for b in board.get("bug_hunt", [])]
 rj = {str(n): (r, k, t) for n, r, k, t in running_jobs()}
 
 
-def owner(b):
-    w = b.get("worker", "")
-    return " ".join(LANES[w]) if w in LANES else "unassigned"
+def boston(iso):
+    try:
+        t = datetime.datetime.fromisoformat(str(iso).replace("Z", "+00:00")).astimezone(BOS)
+        return f"{t:%a %-d %b, %-I:%M %p}"
+    except Exception:
+        return "unknown"
+
+
+def job_link(n, r, text):
+    return f"[{text}]({REPO}/pull/{r['pr']})" if r.get("pr") else text
+
+
+def mini(frac, sq, width=10):
+    k = min(width, int(frac * width))
+    return sq * k + "▫️" * (width - k)
 
 
 def row(b):
-    bar = ""
+    w = b.get("worker", "")
+    lane = " ".join(LANES[w]) if w in LANES else "—"
     j = str(b.get("job", ""))
     if j in rj:
         r, k, t = rj[j]
-        bar = f"job {j}: {100 * k / max(t, 1):.2f} %"
-    return f"| {b['id']} | {'**top** ' if b.get('priority') == 'top' else ''}{b['title']} | {b.get('where', '')} | {b.get('type', '')} | {owner(b)} | {b['status']} | {bar or b.get('note', '')} |"
+        prog = f"{mini(k / max(t, 1), lane_of(r)[0])} **{100 * k / max(t, 1):.2f} %** · {job_link(j, r, 'job ' + j)}"
+    elif j:
+        prog = f"job {j}: not reported" + (f" · {b['note']}" if b.get("note") else "")
+    else:
+        prog = b.get("note", "") or "—"
+    title = ("🔴 **top** · " if b.get("priority") == "top" else "") + b["title"]
+    st = b["status"]
+    return f"| **{b['id']}** | {title} | {b.get('where') or '—'} | {TYPE.get(b.get('type', ''), b.get('type') or '—')} | {lane} | {ICON.get(st, '')} {st} | {prog} |"
 
 
+bugs = bugs + old
 opn = sorted([b for b in bugs if b["status"] in OPEN], key=lambda b: (b.get("priority") != "top", ORDER.get(b["status"], 9)))
-closed = [b for b in bugs if b["status"] not in OPEN] + old
-L = ["# Team G bug hunting factory board", "",
-     f"{len(opn)} open ({sum(b.get('priority') == 'top' for b in opn)} top) · {len(closed)} closed · generated {now:%Y-%m-%d %-I:%M %p} Boston time ({now:%Z}) · [job board](BOARD.md)", "",
-     "## Fix jobs running now", ""]
+closed = sorted([b for b in bugs if b["status"] not in OPEN], key=lambda b: (ORDER.get(b["status"], 9), b["id"]))
+fixing = sum(b["status"] in ("FIXING", "REVIEW", "MERGED") for b in opn)
+live = sum(b["status"] == "LIVE" for b in closed)
+hdr = ["| Bug | What happened | Where | Type | Lane | Status | Progress / note |", "| :-- | :-- | :-- | :-- | :-- | :-- | :-- |"]
+
+L = ["# 🐞 Team G bug hunting factory", "",
+     f"> Updated **{now:%a %-d %b, %-I:%M %p} Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)", "",
+     "| 🔓 Open | 🔴 Top priority | 🔧 Fixing or waiting for release | ✅ Fixed and live |", "| :---: | :---: | :---: | :---: |",
+     f"| **{len(opn)}** | **{sum(b.get('priority') == 'top' for b in opn)}** | **{fixing}** | **{live}** |", "",
+     "**Lanes:** " + " · ".join(f"{sq} {n}" for sq, n in LANES.values()), "",
+     "## 🔧 Open bugs", ""]
+L += (hdr + [row(b) for b in opn]) if opn else ["> [!TIP]", "> No open bug reports. Report one to the coordinator in the project chat.", ""]
+L += ["", "## ⚽ Jobs running now", "",
+      "Bars are real: finished steps ÷ all steps from each job's progress block, to two decimals. Nothing is estimated.", ""]
 if rj:
-    for lane_key, (sq, name) in LANES.items():
-        mine = [(n, v) for n, v in sorted(rj.items(), key=lambda x: int(x[0])) if lane_of(v[0])[1] == name]
+    groups = [(sq, name, [x for x in rj.items() if lane_of(x[1][0]) == (sq, name)]) for sq, name in list(LANES.values()) + [("⬛", "worker not set")]]
+    for sq, name, mine in groups:
         if not mine:
             continue
-        L += [f"### {sq} {name}", ""]
-        for n, (r, k, t) in mine:
+        L += [f"### {sq} {name} · {len(mine)} job{'s' if len(mine) != 1 else ''}", ""]
+        for n, (r, k, t) in sorted(mine, key=lambda x: int(x[0])):
             left = [s["name"] for s in r["steps"] if not s.get("done")]
-            L += [f"**Job {n} · {r['title']}**  ", f"{pitch(k / max(t, 1), sq)} **{100 * k / max(t, 1):.2f} %** ({k} of {t} steps)  ",
-                  f"Going on now: {r.get('current', '')}  ", "Still to do: " + (" → ".join(left) or "nothing"), ""]
-    other = [(n, v) for n, v in rj.items() if lane_of(v[0])[0] == "⬛"]
-    for n, (r, k, t) in other:
-        L += ["### ⬛ worker not set", "", f"**Job {n} · {r['title']}** {100 * k / max(t, 1):.2f} % ({k} of {t} steps)", ""]
+            L += [f"**{job_link(n, r, f'Job {n} · ' + r['title'])}**  ",
+                  f"{pitch(k / max(t, 1), sq)} **{100 * k / max(t, 1):.2f} %** · {k} of {t} steps · updated {boston(r.get('updated'))}", "",
+                  f"> **Going on now:** {r.get('current') or 'not reported'}  ",
+                  "> **Still to do:** " + (" → ".join(left) or "nothing, all steps done"), ""]
 else:
-    L += ["No fix job is reporting progress right now.", ""]
-L += ["## Open bugs", ""]
-hdr = ["| ID | What happened | Where | Type | Lane | Status | Progress / note |", "| --- | --- | --- | --- | --- | --- | --- |"]
-L += (hdr + [row(b) for b in opn]) if opn else ["No open bug reports."]
-L += ["", "<details>", f"<summary><b>Closed: {len(closed)}</b> (click to open)</summary>", ""] + hdr + [row(b) for b in closed] + ["", "</details>", "",
-      "Lane colors: " + " · ".join(f"{sq} {n}" for sq, n in LANES.values()) + ". Percentages are finished steps / all steps from the job's progress block, never estimated.", "",
-      "Bug list lives in `BUGS.json` (kept by the Bug reports thread). This page rebuilds itself on GitHub with no Claude turn. Made by `tools/bug_board.py`."]
+    L += ["> [!NOTE]", "> No job is reporting progress right now. A job shows here once its PR description carries a progress block.", ""]
+L += ["<details>", f"<summary><b>✅ Closed: {len(closed)}</b> ({live} live in the game) · click to open</summary>", ""] + hdr + [row(b) for b in closed] + ["", "</details>", "",
+      "---", "",
+      "<sub>Bug list: `BUGS.json` (kept by the Bug reports thread). Progress: the ```` ```progress ```` block in each job's PR description. "
+      "Statuses: " + " · ".join(f"{i} {s}" for s, i in ICON.items()) + ". Made by `tools/bug_board.py`.</sub>"]
 open(os.path.join(F, "BUG_BOARD.md"), "w").write("\n".join(L) + "\n")
 print("open", len(opn), "closed", len(closed))
