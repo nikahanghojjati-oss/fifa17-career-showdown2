@@ -50,6 +50,14 @@ The reports are QA input. Any proposed change must be independently reconciled a
 6. `QA_PROJECT_CHARTER_SNAPSHOT.md`
    - Snapshot of the QA workstream boundary used for this packet: evidence-driven review, no product-code mutation from QA, exact-head discipline, and Sol/product authority separation.
 
+
+7. `reports/2026-10-04-model-worker-routing-addendum.md`
+   - Follow-up worker-routing recommendation from the Factory Review Q&A.
+   - Defines Luna Max + GPT-5.6 Sol Chat as the proposed two principal everyday QA/review worker classes.
+   - Defines GPT-6.1 Sol Work as the environment-heavy escalation lane and Astra Work as the rare system-level audit lane.
+   - Adds blind-review, bounded bug-hunt, and measurement guidance.
+   - Proposal only; no change to implementation or product authority.
+
 ## Most important current finding
 
 The factories themselves are working. The highest current systems risk is control-plane truth drift.
