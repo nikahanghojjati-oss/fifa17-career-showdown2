@@ -1,12 +1,12 @@
 # Showdown board: G Factory and V Factory
 
-33 of 33 jobs done (100 %) ██████████ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-05 1:04 PM Boston time (EDT)
+33 of 33 jobs done (100 %) ██████████ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-05 1:07 PM Boston time (EDT)
 
 ## Scoreboard
 
 ⚽ **33 of 33 jobs done** · 0 in play · 🐞 see [BUG_BOARD.md](BUG_BOARD.md) · 🏁 no finish time yet (not enough data)
 
-🧑‍💼 **Gaffer:** no fresh report (last one 12:06 AM Boston time, 12 h old); see the [Gaffer page](https://claude.ai/artifact/33Pw2Bioktj1Nv7ebEM94Q).
+🧑‍💼 **Gaffer:** no fresh report (last one 12:06 AM Boston time, 13 h old); see the [Gaffer page](https://claude.ai/artifact/33Pw2Bioktj1Nv7ebEM94Q).
 
 ## Live now
 
