@@ -1,6 +1,6 @@
 # Team G gameplay board
 
-20 of 33 jobs done (70 %) ███████░░░ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-04 8:54 PM Boston time (EDT)
+20 of 33 jobs done (70 %) ███████░░░ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-04 8:57 PM Boston time (EDT)
 
 ## Your next move
 
@@ -24,15 +24,15 @@ Each bar is the share of the job done, to four decimals: finished steps weighted
 
 Opus · Lead (helper) · PR #362
 
-🟧🟧🟧🟧🟧⚽▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️ 🥅 **27.3512 %** (3 of 7 steps)
+🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧⚽▫️▫️▫️▫️▫️ 🥅 **72.6488 %** (4 of 7 steps)
 
-**Likely finish:** about 9:19 PM (likely 9:02 PM to 9:57 PM) Boston time
+**Likely finish:** about 9:11 PM (likely 9:05 PM to 9:36 PM) Boston time
 
-**Going on now:** Pushed bd58e2ef with the root-cause fixes and the latest test build (41660939): Home's late-loading stylesheet no longer hides Transfer War's HOME/REFRESH bar, and the replay shows one guess card per manager. Waiting for the 16 checks
+**Going on now:** All 16 checks green on bd58e2ef. Now taking phone and desktop screenshots of Transfer War (waiting, guessing, verdict), then one push that brings in the latest test build (1e7775a4)
 
-**Still to do:** All 16 checks green on the exact head → Bring in the latest test build once → Lead review (screenshots and diff) → Merged into the test build
+**Still to do:** Bring in the latest test build once → Lead review (screenshots and diff) → Merged into the test build
 
-_Updated Sun 4 Oct 8:41 PM Boston time_
+_Updated Sun 4 Oct 8:57 PM Boston time_
 
 ### 🟪 Job 28 · Rivalry Stats and Legacy
 

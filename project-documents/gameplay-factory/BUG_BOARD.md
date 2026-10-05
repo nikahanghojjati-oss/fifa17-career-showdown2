@@ -1,6 +1,6 @@
 # 🐞 Team G bug hunting factory
 
-> Updated **Sun 4 Oct, 8:54 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
+> Updated **Sun 4 Oct, 8:57 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
 
 | 🔓 Open | 🔴 Top priority | 🔧 Fixing or waiting for release | ✅ Fixed and live |
 | :---: | :---: | :---: | :---: |
@@ -22,12 +22,12 @@ Bars show the share of each job done, to four decimals (finished steps weighted 
 ### 🟧 Opus · 2 jobs
 
 **[Job 27 · Transfer War screens](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/362)**  
-🟧🟧🟧🟧🟧⚽▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️ 🥅 **27.3512 %** · 3 of 7 steps · updated Sun 4 Oct, 8:41 PM
+🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧⚽▫️▫️▫️▫️▫️ 🥅 **72.6488 %** · 4 of 7 steps · updated Sun 4 Oct, 8:57 PM
 
-**Likely finish:** about 9:19 PM (likely 9:02 PM to 9:57 PM) Boston time
+**Likely finish:** about 9:11 PM (likely 9:05 PM to 9:36 PM) Boston time
 
-> **Going on now:** Pushed bd58e2ef with the root-cause fixes and the latest test build (41660939): Home's late-loading stylesheet no longer hides Transfer War's HOME/REFRESH bar, and the replay shows one guess card per manager. Waiting for the 16 checks  
-> **Still to do:** All 16 checks green on the exact head → Bring in the latest test build once → Lead review (screenshots and diff) → Merged into the test build
+> **Going on now:** All 16 checks green on bd58e2ef. Now taking phone and desktop screenshots of Transfer War (waiting, guessing, verdict), then one push that brings in the latest test build (1e7775a4)  
+> **Still to do:** Bring in the latest test build once → Lead review (screenshots and diff) → Merged into the test build
 
 **[Job 29 · Season Results, Final Winner, Standings](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/357)**  
 🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧⚽▫️▫️▫️ 🥅 **83.9411 %** · 10 of 12 steps · updated Sun 4 Oct, 8:52 PM
