@@ -1,6 +1,6 @@
 # Team G gameplay board
 
-20 of 33 jobs done (70 %) ███████░░░ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-04 8:42 PM Boston time (EDT)
+20 of 33 jobs done (70 %) ███████░░░ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-04 8:45 PM Boston time (EDT)
 
 ## Your next move
 
@@ -55,18 +55,6 @@ Opus · Opus thread · PR #357
 **Still to do:** Final sync with recovery after job 33 merges, plus the log fix; CI green → Lead merges into gameplay/recovery-v1
 
 _Updated Sun 4 Oct 8:39 PM Boston time_
-
-### 🟧 Job 33 · Fewer taps
-
-Opus · Lead (helper) · PR #358
-
-🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧⚽▫️▫️ 🥅 **85.71 %** (6 of 7 steps)
-
-**Going on now:** Lead reviewed; running the final checks on the head with the latest test build
-
-**Still to do:** Merged into the test build
-
-_Updated Sun 4 Oct 8:35 PM Boston time_
 
 ## Live fixes and bug hunt
 

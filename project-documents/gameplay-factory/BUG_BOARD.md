@@ -1,6 +1,6 @@
 # 🐞 Team G bug hunting factory
 
-> Updated **Sun 4 Oct, 8:42 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
+> Updated **Sun 4 Oct, 8:45 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
 
 | 🔓 Open | 🔴 Top priority | 🔧 Fixing or waiting for release | ✅ Fixed and live |
 | :---: | :---: | :---: | :---: |
@@ -19,7 +19,7 @@
 
 Bars are real: finished steps ÷ all steps from each job's progress block, to two decimals. Nothing is estimated.
 
-### 🟧 Opus · 3 jobs
+### 🟧 Opus · 2 jobs
 
 **[Job 27 · Transfer War screens](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/362)**  
 🟧🟧🟧🟧🟧🟧🟧🟧⚽▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️ 🥅 **42.86 %** · 3 of 7 steps · updated Sun 4 Oct, 8:41 PM
@@ -32,12 +32,6 @@ Bars are real: finished steps ÷ all steps from each job's progress block, to tw
 
 > **Going on now:** Fix ready locally; waiting for job 33 to merge, then one push  
 > **Still to do:** Final sync with recovery after job 33 merges, plus the log fix; CI green → Lead merges into gameplay/recovery-v1
-
-**[Job 33 · Fewer taps](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/358)**  
-🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧⚽▫️▫️ 🥅 **85.71 %** · 6 of 7 steps · updated Sun 4 Oct, 8:35 PM
-
-> **Going on now:** Lead reviewed; running the final checks on the head with the latest test build  
-> **Still to do:** Merged into the test build
 
 ### 🟪 Sonnet · 1 job
 
