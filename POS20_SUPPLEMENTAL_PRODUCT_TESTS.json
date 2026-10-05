@@ -821,6 +821,17 @@
       ]
     },
     {
+      "path": "tests/contracts/v10-rules-settings-contracts.cjs",
+      "patterns": [
+        "^js/(rulesSettingsV10|ruleBook|settings|v10Screens)\\.js$",
+        "^css/rulesSettingsV10\\.css$",
+        "^visual-assets/v10_1/(rule-book|settings|shared/plates|shared/wordmarks)/",
+        "^service-worker\\.js$",
+        "^tests/contracts/v10-rules-settings-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
       "path": "tests/contracts/fewer-taps-contracts.cjs",
       "patterns": [
         "^js/persistentNikDanielPair\\.js$",
