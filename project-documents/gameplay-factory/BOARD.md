@@ -1,10 +1,10 @@
 # Showdown board: G Factory and V Factory
 
-33 of 33 jobs done (100 %) ██████████ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-05 10:11 AM Boston time (EDT)
+33 of 33 jobs done (100 %) ██████████ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-05 10:14 AM Boston time (EDT)
 
 ## Scoreboard
 
-⚽ **33 of 33 jobs done** · 0 in play · 🐞 see [BUG_BOARD.md](BUG_BOARD.md) · 🏁 no finish time yet (not enough data)
+⚽ **33 of 33 jobs done** · 0 in play · 🐞 see [BUG_BOARD.md](BUG_BOARD.md) · 🏁 last running job likely done about 10:46 AM Boston time
 
 🧑‍💼 **Gaffer:** no fresh report (last one 12:06 AM Boston time, 10 h old); see the [Gaffer page](https://claude.ai/artifact/33Pw2Bioktj1Nv7ebEM94Q).
 
@@ -12,7 +12,7 @@
 
 🌐 **main `00a1eb8` · runtime 1.9.1-r56** · last change Mon 5 Oct 8:47 AM Boston time: Version 2.0 polish from Nik's live review (r56) (#370)
 
-No live fix waiting to merge.
+- 🔧 Live fix in review: [PR #371](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/371) G-34: Team V's Club Assignment on the live screen (r57)
 
 **Shipped to the live game today (5):**
 
@@ -36,7 +36,15 @@ Gameplay factory job NN. Read https://raw.githubusercontent.com/nikahanghojjati-
 
 ## Running now
 
-No job is reporting progress right now (jobs show here once their PR description carries a progress block).
+<sub>Percent = finished steps weighted by typical step time, finish times are estimates ([how](ETA_STUDY.md)). Lanes: 🟦 Sol chat · 🟩 Sol Work mode · ⬜ Codex · 🟧 Opus · 🟪 Sonnet · 🟨 Haiku</sub>
+
+### 🟧 Job 34 · Club Assignment (Team V design) · 38.0678 %
+
+🟧🟧🟧🟧🟧🟧🟧⚽▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️ 🥅  
+Opus · Lead (helper) · [PR #371](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/371) · 3 of 5 steps · updated Mon 5 Oct 10:14 AM Boston time  
+🏁 **Likely finish:** about 10:46 AM (likely 10:32 AM to 11:09 AM) Boston time  
+> **Now:** Gates running on the exact head  
+> **Left:** All 16 checks green on the exact head → Merged into main and live
 
 ## Live fixes and bug hunt
 

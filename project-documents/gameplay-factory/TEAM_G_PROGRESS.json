@@ -1,11 +1,24 @@
 {
  "team": "G",
- "updated": "2026-10-05T10:11-04:00",
+ "updated": "2026-10-05T10:14-04:00",
  "jobs_done": 33,
  "jobs_total": 33,
  "open_bugs": 2,
  "next_move": [
   "**Play r56 with Daniel** (close and reopen the app once). Report anything odd to the coordinator in the project chat."
  ],
- "running": []
+ "running": [
+  {
+   "job": 34,
+   "title": "Club Assignment (Team V design)",
+   "worker": "Opus",
+   "done": 3,
+   "total": 5,
+   "pct": 38.0678,
+   "eta": "about 10:46 AM (likely 10:32 AM to 11:09 AM) Boston time",
+   "current": "Gates running on the exact head",
+   "pr": 371,
+   "updated": "2026-10-05T14:14:18Z"
+  }
+ ]
 }

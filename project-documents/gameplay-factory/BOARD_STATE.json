@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 10:11 AM Boston time (EDT)",
+ "generated": "2026-10-05 10:14 AM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 27,
@@ -280,7 +280,15 @@
    "revision": "1.9.1-r56",
    "when": "2026-10-05T08:47:17-04:00",
    "subject": "Version 2.0 polish from Nik's live review (r56) (#370)",
-   "fixes": [],
+   "fixes": [
+    {
+     "pr": 371,
+     "title": "G-34: Team V's Club Assignment on the live screen (r57)",
+     "draft": false,
+     "branch": "gameplay/job-34-club-assignment",
+     "updated": "2026-10-05T14:14:19Z"
+    }
+   ],
    "today": [
     {
      "pr": 369,
