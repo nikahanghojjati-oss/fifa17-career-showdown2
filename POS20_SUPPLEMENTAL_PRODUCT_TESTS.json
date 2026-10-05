@@ -920,6 +920,20 @@
         "^tests/contracts/v10-club-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/pairing-reconnect-bh11-contracts.cjs",
+      "patterns": [
+        "^js/persistentNikDanielPair\\.js$",
+        "^js/sparkRemoteJoining\\.js$",
+        "^js/productionSharedJourneyReconnect\\.js$",
+        "^js/sharedJourneyReconnect\\.js$",
+        "^js/sharedMultiSeasonProgression\\.js$",
+        "^js/sparkPrivatePairing\\.js$",
+        "^js/productionSharedJourneyEntry\\.js$",
+        "^tests/contracts/pairing-reconnect-bh11-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }

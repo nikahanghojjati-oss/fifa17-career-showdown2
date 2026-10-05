@@ -98,7 +98,7 @@
       return true;
     }
     if(existing){
-      throw new Error("This browser already has a different current Showdown. Delete the old Showdown first, then paste Daniel's code again.");
+      throw new Error("This phone already has a different current Showdown. Delete it in Settings (DELETE CURRENT SHOWDOWN), then paste Daniel's code again.");
     }
 
     const round=root.document?.getElementById("roundAmount");
@@ -143,7 +143,8 @@
     const confirmed=root.confirm?.(
       "Start a new Showdown? This will close the current Daniel vs Nik Showdown for both players. Your player identity, registered device, Legacy history, app settings and existing local recovery data will be kept."
     );
-    if(confirmed===false)return false;
+    // BH-11 (#2): only an explicit yes closes the Showdown for both players; a missing confirm() never counts as consent.
+    if(confirmed!==true)return false;
 
     const pair=await loadScript("persistent-pair","js/persistentNikDanielPair.js",()=>root.CareerModePersistentNikDanielPair);
     if(!pair||typeof pair.abandonCurrentShowdown!=="function")throw new Error("Safe Showdown restart is unavailable in this build.");
