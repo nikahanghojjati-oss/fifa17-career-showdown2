@@ -97,8 +97,26 @@ def team_g():
         return None
 
 
+HO_ICON = {"SENT": "📤", "DELIVERED": "📬", "RECEIVED": "📥", "WORKING": "🔧", "DONE": "✅", "RETURNED": "↩️"}
+
+
+def handoffs():
+    """Hand-off tickets on leads/relay (CONTRACT.md §8): the fenced ticket header of every handoffs/HO-*.md."""
+    sh("git", "fetch", "-q", "--depth=1", "origin", "+leads/relay:refs/remotes/origin/leads/relay")
+    names = sh("git", "ls-tree", "--name-only", "origin/leads/relay", "project-documents/leads-relay/handoffs/").split()
+    out = []
+    for n in sorted(names):
+        m = re.search(r"```ticket\s*\n(.*?)```", sh("git", "show", f"origin/leads/relay:{n}"), re.S)
+        try:
+            t = json.loads(m.group(1))
+            t["path"] = n
+            out.append(t)
+        except Exception:
+            continue
+    return out
+
+
 def feed_rows(n=4):
-    sh("git", "fetch", "-q", "--depth=1", "origin", "leads/relay:refs/remotes/origin/leads/relay")
     raw = sh("git", "show", "origin/leads/relay:project-documents/leads-relay/FEED.md")
     rows = [l for l in raw.splitlines() if re.match(r"\|\s*20\d\d-", l)]
     return rows[-n:]
@@ -139,6 +157,23 @@ def main():
             L += [f"* ✅ [{pr['title']}]({pr['html_url']}) · {how} {eastern(pr.get('merged_at') or pr['closed_at'])}"]
         L += [""]
     L += ["<sub>Lanes: " + " · ".join(f"{sq} {name}" for sq, name in LANES.values()) + "</sub>", ""]
+
+    # ---------- Hand-offs between the teams ----------
+    tickets = handoffs()
+    to_v = [t for t in tickets if t.get("to") == "V"]
+    if to_v:
+        open_v = [t for t in to_v if t.get("status") not in ("DONE", "RETURNED")]
+        L += [f"### Hand-offs to Team V ({len(open_v)} open of {len(to_v)})", "",
+              "| Ticket | What | Priority | State | Job |", "|---|---|---|---|---|"]
+        for t in sorted(to_v, key=lambda t: (t.get("status") in ("DONE", "RETURNED"), t.get("priority") != "top", t["id"])):
+            st = t.get("status", "?")
+            pri = "🔥 top" if t.get("priority") == "top" else t.get("priority", "")
+            L += [f"| [{t['id']}]({BLOB}/leads/relay/{t['path']}) | {t.get('title', '')} | {pri} | "
+                  f"{HO_ICON.get(st, '')} {st.title()} | {t.get('job') or ''} |"]
+        L += [""]
+    from_v = [t for t in tickets if t.get("from") == "V"]
+    if from_v:
+        L += ["<sub>Sent to Team G: " + " · ".join(f"{t['id']} {HO_ICON.get(t.get('status'), '')} {t.get('status', '').title()}" for t in from_v) + "</sub>", ""]
 
     # ---------- Team G (smaller) ----------
     L += ["### Team G: gameplay", ""]

@@ -2,8 +2,9 @@ name: Team V board (shared data, Team V featured)
 
 # Rebuilds project-documents/factory/BOARD.md from the shared data: "V-" PR progress blocks (featured),
 # Team G's TEAM_G_PROGRESS.json on factory/gameplay-v1 (read-only, shown smaller) and the leads/relay feed.
-# Job owners edit their PR description (no push, no CI); this polls every 3 minutes and re-dispatches itself
-# while any job on either team is running. When nothing runs it stops; the next factory push or a manual run restarts it.
+# Job owners edit their PR description (no push, no CI); this polls every 3 minutes while a job runs on either team,
+# every 10 minutes when nothing runs, and re-dispatches itself so the board never goes stale.
+# Stop switch: commit an empty project-documents/factory/BOARD_PAUSED file; the chain ends at the next round.
 # (Schedules only run on the default branch, which this workflow never touches, so it chains itself instead.)
 # Factory branch only; it never runs on main and never writes to Team G's branch.
 on:
@@ -43,10 +44,11 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           F=project-documents/factory
-          FOUND=0
-          for round in $(seq 1 8); do
+          START=$(date +%s)
+          while :; do
             git fetch -q --depth=1 origin factory/v1-wtt5ye
             git reset -q --hard origin/factory/v1-wtt5ye
+            [ -f $F/BOARD_PAUSED ] && { echo "paused"; exit 0; }
             FOUND=$(python3 $F/tools/shared_board.py)
             # Commit only when more than the "Updated" line moved.
             if git diff -U0 -- $F/BOARD.md | grep '^[-+][^-+]' | grep -qv '^[-+]Updated '; then
@@ -54,7 +56,8 @@ jobs:
               git commit -qm "Team V board update [skip ci]"
               git push -q origin HEAD:factory/v1-wtt5ye || echo "push raced; next round retries"
             fi
-            [ "$FOUND" = "0" ] && break
-            sleep 180
+            WAIT=600; [ "$FOUND" != "0" ] && WAIT=180
+            [ $(( $(date +%s) - START + WAIT )) -gt 1500 ] && break
+            sleep $WAIT
           done
-          if [ "$FOUND" != "0" ]; then gh workflow run factory-board.yml --ref factory/v1-wtt5ye; fi
+          gh workflow run factory-board.yml --ref factory/v1-wtt5ye
