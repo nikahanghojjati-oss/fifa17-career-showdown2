@@ -11,10 +11,10 @@
  "worker": "",
  "parent": null,
  "job": null,
- "status": "RECEIVED",
+ "status": "DONE",
  "steps": [],
- "evidence": [],
- "log": [{"at": "2026-10-05T23:23:56Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-10-05T23:24:37Z", "by": "V", "status": "RECEIVED", "note": "received; next new Team V job takes its number from claim_number.py"}]
+ "evidence": ["1002"],
+ "log": [{"at": "2026-10-05T23:23:56Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-10-05T23:24:37Z", "by": "V", "status": "RECEIVED", "note": "received; next new Team V job takes its number from claim_number.py"}, {"at": "2026-10-05T23:45:18Z", "by": "V", "status": "DONE", "note": "first Team V job on the shared counter: 1002 · V (Transfer War window strings, PR #389, GPT blue)"}]
 }
 ```
 
