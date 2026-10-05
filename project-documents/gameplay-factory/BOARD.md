@@ -1,6 +1,6 @@
 # Showdown board: G Factory and V Factory
 
-🌐 **Live: runtime 1.9.1-r61** (main `95f44fb`) · 🔄 **14 moving** · ⏭ 2 up next · 👤 4 waiting on Nik · 🗂 5 later · updated 2026-10-05 7:32 PM Boston time (EDT)
+🌐 **Live: runtime 1.9.1-r61** (main `95f44fb`) · 🔄 **13 moving** · ⏭ 2 up next · 👤 4 waiting on Nik · 🗂 5 later · updated 2026-10-05 7:33 PM Boston time (EDT)
 
 🩺 **All clear (from GitHub).** · POS20 #387 13/15
 
@@ -12,7 +12,7 @@
 
 | Release / fix | Checks on the latest commit | Updated |
 | --- | --- | --- |
-| [PR #387](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/387) Physio: a watched workflow that isn't on main no longer fails the sweep | ⏳ 12 passed, 3 running | 7:24 PM |
+| [PR #387](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/387) Physio: a watched workflow that isn't on main no longer fails the sweep | ⏳ 13 passed, 2 running | 7:24 PM |
 | [PR #386](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/386) Showdown Gate (shadow): six-lane check beside POS20, not required yet | ⏳ 20 passed, 2 running | 7:21 PM |
 | [PR #384](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/384) Every screen in Team V's look: signed-out career screens, Showdown Home, season review, L… | 🟢 12 passed | 6:29 PM |
 
@@ -31,7 +31,6 @@
 | Hand-off | From → To | What | Progress |
 | --- | --- | --- | --- |
 | [HO-007](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/handoffs/HO-007_shared-job-numbers-for-both-teams-from-1.md) | G → V | Shared job numbers for both teams, from 1001 | ✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done |
-| [HO-008](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/handoffs/HO-008_bug-factory-mode-for-team-v-gpt-blue-and.md) | G → V | Bug factory mode for Team V: GPT blue and green lanes, escalation ladder | ✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done |
 
 ## 🟢 G Factory
 
@@ -81,7 +80,7 @@ _Visuals and presentation: design changes, art, screen skins (assistant director
 
 ## 📡 Relay
 
-**Health:** ✅ working · direct wake: Team G ✅, Team V ✅ · 29 messages · 2 open hand-offs, 6 done · **[every message in full: RELAY.md](RELAY.md)**
+**Health:** ✅ working · direct wake: Team G ✅, Team V ✅ · 29 messages · 1 open hand-offs, 7 done · **[every message in full: RELAY.md](RELAY.md)**
 
 Replies owed: Team G none · Team V G2V-015, G2V-016.
 
@@ -95,7 +94,7 @@ Latest:
 **Shipped to the live game today (10):** [#385](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/385) Physio: re-run checks GitHub gave no machine, pause helpers… · [#383](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/383) Release r61: phone track list stops below the logo and scro… · [#378](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/378) G-36: No old player photos + seven Home tiles (r60) · [#377](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/377) G-35: Team V screen fixes HO-003 + HO-004 (r59, includes r5… · and 6 more
 
 <details>
-<summary>Done jobs (7 future-list rows, 1 Team V jobs, 6 hand-offs, 33 factory jobs)</summary>
+<summary>Done jobs (7 future-list rows, 1 Team V jobs, 7 hand-offs, 33 factory jobs)</summary>
 
 - G G-F10: Club Assignment: wire Team V's approved design (hands, seams, new layout) into the live screen (done (live in r57, PR #371))
 - G G-F12: G-36: no old player photos on any screen, and all 7 Home tiles (done (live in r60, d8e6c44))
@@ -111,6 +110,7 @@ Latest:
 - HO-004 (G → V): Visual QA: live 2.0 screens vs approved frames
 - HO-005 (G → V): Mobile Home hero: ghost coat between Daniel and Nik
 - HO-006 (V → G): Wire V-247: phone Home tile icons large and centred
+- HO-008 (G → V): Bug factory mode for Team V: GPT blue and green lanes, escalation ladder
 - Bug hunt on r52: 5 of 5 fixed ([report](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/reports/SONNET_BUG_HUNT_2026-10-04.md))
 - The first factory plan: 33 of 33 jobs finished ([every job](BOARD_ARCHIVE.md))
 

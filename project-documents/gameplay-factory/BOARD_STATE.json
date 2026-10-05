@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 7:32 PM Boston time (EDT)",
+ "generated": "2026-10-05 7:33 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -284,7 +284,7 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "e8cebb0",
+  "head": "de54f4b",
   "head_boston": "Mon 5 Oct 7:32 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": true,
@@ -326,8 +326,8 @@
      "sha": "41f0831bee38656ed3b064810f5cf044b5598dcc",
      "updated": "2026-10-05T23:24:01Z",
      "gates": {
-      "passed": 12,
-      "running": 3,
+      "passed": 13,
+      "running": 2,
       "failed": 0,
       "cancelled": 0
      }
@@ -533,8 +533,8 @@
     "from": "G",
     "to": "V",
     "title": "Bug factory mode for Team V: GPT blue and green lanes, escalation ladder",
-    "stage": "RECEIVED",
-    "pct": 0.0,
+    "stage": "DONE",
+    "pct": 100.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-008_bug-factory-mode-for-team-v-gpt-blue-and.md",
     "worker": "",
@@ -611,7 +611,7 @@
   "**Nothing waits on you right now.** r62 is nearly full; BH-11, BUG-1 and G-F6b are finishing."
  ],
  "now": {
-  "moving": 14,
+  "moving": 13,
   "next": 2,
   "nik": 4,
   "later": 5,
@@ -792,8 +792,8 @@
     "sha": "41f0831bee38656ed3b064810f5cf044b5598dcc",
     "updated": "2026-10-05T23:24:01Z",
     "gates": {
-     "passed": 12,
-     "running": 3,
+     "passed": 13,
+     "running": 2,
      "failed": 0,
      "cancelled": 0
     }
