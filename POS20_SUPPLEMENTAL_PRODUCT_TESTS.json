@@ -860,7 +860,7 @@
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
     },
-      {
+    {
       "path": "tests/contracts/v10-transfer-contracts.cjs",
       "patterns": [
         "^js/transferScreenV10\\.js$",
@@ -881,7 +881,7 @@
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
     },
-      {
+    {
       "path": "tests/contracts/v10-rivalry-legacy-contracts.cjs",
       "patterns": [
         "^js/rivalryLegacyV10\\.js$",
@@ -918,6 +918,18 @@
         "^tests/support/chromium-runtime\\.cjs$",
         "^tests/support/static-server\\.cjs$",
         "^tests/contracts/v10-club-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/bug-batch-1-contracts.cjs",
+      "patterns": [
+        "^js/productionSharedShowdownSetup\\.js$",
+        "^js/productionSharedShowdownPresentation\\.js$",
+        "^js/productionSharedMultiSeasonProgression\\.js$",
+        "^js/productionSharedTransferChallenge\\.js$",
+        "^js/sharedTransferChallenge\\.js$",
+        "^tests/contracts/bug-batch-1-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
     }

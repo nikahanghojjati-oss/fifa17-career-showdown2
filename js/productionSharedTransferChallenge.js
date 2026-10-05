@@ -127,7 +127,11 @@
     if(method==="lockSignings")return state.phase==="COMPLETED"||Boolean(state.signingLockedRoles?.includes(role));
     return false;
   }
-  function pstcErrorText(error,fallback){const code=String(error?.code||""),message=String(error?.message||"");if(error&&error.providerResult!==true&&message&&message!==code)return message;return code||message||fallback;}
+  // BUG-3: the provider rejects a signing name over 80 characters with only a code, so the inputs are capped to the same limit and the known codes read as plain sentences.
+  const SIGNING_NAME_MAX=80;
+  const PLAIN_PROVIDER_CODES=Object.freeze({TRANSFER_SIGNINGS_INVALID:"Check each signing: a player name (80 characters at most), a previous league and a nationality.",TRANSFER_GUESSES_INVALID:"Check each guess: choose a FIFA 17 league or nationality."});
+  function pstcCapSigningNames(){if(!root.document)return;for(const prefix of ["p1","p2"])for(let i=1;i<=3;i+=1){const input=pstcField(`${prefix}Signing${i}Name`);if(input&&typeof input.setAttribute==="function")input.setAttribute("maxlength",String(SIGNING_NAME_MAX));}}
+  function pstcErrorText(error,fallback){const code=String(error?.code||""),message=String(error?.message||"");if(error&&error.providerResult!==true&&message&&message!==code)return message;if(PLAIN_PROVIDER_CODES[code])return PLAIN_PROVIDER_CODES[code];return code||message||fallback;}
   async function pstcMutate(method,payload={}){
     const request=pstcRequestContext();if(!request||busy||pstcReplayPhase())return false;busy=true;pstcSetError("");pstcRender();
     try{
@@ -228,6 +232,7 @@
   }
   function pstcRender(){
     if(!root.document||!pstcSharedMarker())return false;
+    pstcCapSigningNames();
     const state=view?.state||null,role=view?.managerRole||pstcSetupState()?.managerRole||null;
     if(!role)return false;
     const key=viewContextKey||pstcBoundContextKey(view?.rivalryId||pstcSetupState()?.rivalryId||"",view?.seasonNumber||pstcSeason());pstcResetForContext(key);

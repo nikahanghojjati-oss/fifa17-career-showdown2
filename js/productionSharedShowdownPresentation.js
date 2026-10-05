@@ -12,7 +12,7 @@
   const SEASON_PANEL_ID="sharedShowdownSeasonChoice";
   const STATUS_ID="sharedShowdownPresentationStatus";
   const POLL_MS=2500;
-  let installed=false,active=false,setupApi=null,unsubscribe=null,state=null,busy=false,pollBusy=false,pollTimer=null,preparedSeasonCommitPromise=null,actionPromise=null,presentationContextKey="",mutationPromise=null,lastMutationCode="",workingControlId="",tapFailure="",tapFailureSignature="";
+  let installed=false,active=false,setupApi=null,unsubscribe=null,state=null,busy=false,pollBusy=false,pollTimer=null,preparedSeasonCommitPromise=null,actionPromise=null,presentationContextKey="",mutationPromise=null,lastMutationCode="",lastMutationMessage="",workingControlId="",tapFailure="",tapFailureCode="",tapFailureSignature="";
   let timers=[];
   let witnessedLeagueId=null;
   let witnessedClubDigest=null;
@@ -85,7 +85,7 @@
   }
   function ssjpSetSharedStatus(message){
     let node=root.document&&root.document.getElementById(STATUS_ID);const screen=root.document&&root.document.getElementById(ssjpActiveScreen());if(!screen)return;
-    if(!node){node=root.document.createElement("p");node.id=STATUS_ID;node.className="stateNote";node.setAttribute("role","status");node.setAttribute("aria-live","polite");const container=screen.querySelector(".wheelContainer")||screen.querySelector(".clubAssignmentStage")||screen;container.insertBefore(node,container.firstChild);}if(tapFailure&&tapFailureSignature!==ssjpStateSignature()){tapFailure="";tapFailureSignature="";}ssjpText(node,tapFailure?`${tapFailure} · ${message}`:message);
+    if(!node){node=root.document.createElement("p");node.id=STATUS_ID;node.className="stateNote";node.setAttribute("role","status");node.setAttribute("aria-live","polite");const container=screen.querySelector(".wheelContainer")||screen.querySelector(".clubAssignmentStage")||screen;container.insertBefore(node,container.firstChild);}if(tapFailure&&tapFailureSignature!==ssjpStateSignature()){tapFailure="";tapFailureCode="";tapFailureSignature="";}ssjpText(node,tapFailure?`${tapFailure} · ${message}`:message);if(tapFailure&&tapFailureCode)node.setAttribute("data-failure-code",tapFailureCode);else node.removeAttribute("data-failure-code");
   }
   function ssjpRemoveForeignStatus(){const node=root.document&&root.document.getElementById(STATUS_ID);if(node&&node.closest(`#${ssjpActiveScreen()}`)==null)node.remove();}
   function ssjpSetControl(button,{label,disabled=false,hidden=false}={}){if(!button)return;if(workingControlId&&button.id===workingControlId&&!hidden){label="WORKING…";disabled=true;}button.disabled=Boolean(disabled);button.classList.toggle("hidden",Boolean(hidden));button.setAttribute("aria-disabled",String(Boolean(disabled)));if(label)ssjpText(button,label);delete button.dataset.sharedJourneyLocked;button.removeAttribute("title");}
@@ -180,7 +180,7 @@
   async function ssjpPoll(){if(!active||!ssjpPending()||busy||pollBusy||root.document&&root.document.visibilityState==="hidden")return;pollBusy=true;try{await ssjpRefresh();}catch(_error){}finally{pollBusy=false;}}
   function ssjpStartPolling(){if(pollTimer!==null||typeof root.setInterval!=="function")return;pollTimer=root.setInterval(()=>void ssjpPoll(),POLL_MS);}
   function ssjpStopPolling(){if(pollTimer!==null){root.clearInterval(pollTimer);pollTimer=null;}}
-  async function ssjpMutate(type,extra){if(busy){lastMutationCode="SHARED_SETUP_BUSY";return Promise.resolve(false);}busy=true;lastMutationCode="";const run=(async()=>{try{const api=await ssjpEnsureSetup(),result=await api.mutate(type,extra||{});ssjpAdoptState(api.getState());await ssjpRenderCurrent();lastMutationCode=result&&result.ok===true?"":String(result&&result.code||"SHARED_SETUP_MUTATION_FAILED");return result&&result.ok===true;}finally{busy=false;await ssjpRenderCurrent();}})();mutationPromise=run;run.finally(()=>{if(mutationPromise===run)mutationPromise=null;}).catch(()=>{});return run;}
+  async function ssjpMutate(type,extra){if(busy){lastMutationCode="SHARED_SETUP_BUSY";lastMutationMessage="";return Promise.resolve(false);}busy=true;lastMutationCode="";lastMutationMessage="";const run=(async()=>{try{const api=await ssjpEnsureSetup(),result=await api.mutate(type,extra||{});ssjpAdoptState(api.getState());await ssjpRenderCurrent();lastMutationCode=result&&result.ok===true?"":String(result&&result.code||"SHARED_SETUP_MUTATION_FAILED");lastMutationMessage=result&&result.ok===true?"":String(result&&result.message||"");return result&&result.ok===true;}finally{busy=false;await ssjpRenderCurrent();}})();mutationPromise=run;run.finally(()=>{if(mutationPromise===run)mutationPromise=null;}).catch(()=>{});return run;}
   function ssjpStateSignature(){return state?`${state.ready?1:0}|${state.remoteRole||""}|${state.setup?.phase||""}|${state.setup?.revision||0}`:"";}
   async function ssjpAwaitIdle(){for(let attempt=0;attempt<3&&mutationPromise;attempt+=1){try{await mutationPromise;}catch(_error){}}}
   async function ssjpCommitPreparedSeasonLength(){
@@ -232,15 +232,21 @@
     }
     return "done";
   }
+  // BUG-1: the player reads a plain sentence; the code stays in data-failure-code for diagnostics.
+  function ssjpDescribeFailure(code,message){
+    const failureCode=String(code||"SHARED_SETUP_MUTATION_FAILED");
+    if(setupApi&&typeof setupApi.describeFailure==="function")return setupApi.describeFailure({code:failureCode,message});
+    return {code:failureCode,kind:"generic",text:"That didn't go through. Tap again.",tapDetail:"Tap again."};
+  }
   async function ssjpHandleControlClickNow(id){
     if(!ssjpHandlesControl(id))return false;await ssjpEnsureSetup();await ssjpAwaitIdle();
-    tapFailure="";tapFailureSignature="";
+    tapFailure="";tapFailureCode="";tapFailureSignature="";
     const first=await ssjpDecideControl(id);if(first==="done")return true;
     const before=ssjpStateSignature();
     try{await ssjpRefresh();}catch(_error){}
     if(first==="stale"&&ssjpStateSignature()===before)return true;
     const second=await ssjpDecideControl(id);
-    if(second==="failed"){tapFailure=`THAT TAP DID NOT GO THROUGH · ${String(lastMutationCode||"SHARED_SETUP_MUTATION_FAILED").replace(/_/g," ")} · TAP AGAIN`;tapFailureSignature=ssjpStateSignature();}
+    if(second==="failed"){const failure=ssjpDescribeFailure(lastMutationCode,lastMutationMessage);tapFailure=`THAT TAP DID NOT GO THROUGH · ${failure.tapDetail}`;tapFailureCode=failure.code;tapFailureSignature=ssjpStateSignature();}
     return true;
   }
   function ssjpHandleControlClick(id){
@@ -259,7 +265,7 @@
     return current;
   }
   async function ssjpActivate(){active=true;await ssjpEnsureGameplay();await ssjpEnsureSetup();await ssjpRefresh();const plain=root.document&&root.document.getElementById("productionSharedSetupOverlay");if(plain)plain.classList.add("hidden");ssjpForceScreen("leagueWheelScreen");await ssjpRenderLeague();ssjpStartPolling();return true;}
-  function ssjpDeactivate(){active=false;ssjpStopPolling();ssjpResetWitnesses();presentationContextKey="";actionPromise=null;workingControlId="";tapFailure="";tapFailureSignature="";const panel=root.document&&root.document.getElementById(SEASON_PANEL_ID);if(panel)panel.remove();const note=root.document&&root.document.getElementById(STATUS_ID);if(note)note.remove();return true;}
+  function ssjpDeactivate(){active=false;ssjpStopPolling();ssjpResetWitnesses();presentationContextKey="";actionPromise=null;workingControlId="";tapFailure="";tapFailureCode="";tapFailureSignature="";const panel=root.document&&root.document.getElementById(SEASON_PANEL_ID);if(panel)panel.remove();const note=root.document&&root.document.getElementById(STATUS_ID);if(note)note.remove();return true;}
   function ssjpInstall(){if(installed)return true;installed=true;return true;}
 
   return Object.freeze({contractVersion:2,feature:"ssjr-production-shared-showdown-polished-presentation",productionEnabled:true,pairingRequired:true,exactActiveSessionRequired:true,providerOwnsDrawAuthority:true,bothManagerRolesWitnessLeagueWheel:true,bothManagerRolesWitnessClubPacks:true,peerAutoRefreshesAuthority:true,singleClickActionSerialization:true,contextScopedRevealWitnesses:true,oneClickFinalConfirmationHandoff:true,leagueRevealAutoForwardsToClubPacks:true,firstConfirmerAutoOpensCareerStart:true,usesLeagueWheelScreen:true,usesClubPackRevealScreen:true,engineeringSetupPanelPlayerFacing:false,localRandomLeagueAuthority:false,localRandomClubAuthority:false,canonicalStorageMutation:false,billingRequired:false,blazeRequired:false,cloudRunRequired:false,cloudFunctionsRequired:false,appCheckEnforcementRequired:false,install:ssjpInstall,activate:ssjpActivate,deactivate:ssjpDeactivate,refresh:ssjpRefresh,handleControlClick:ssjpHandleControlClick,handlesControl:ssjpHandlesControl,renderCurrent:ssjpRenderCurrent,isPresentationActive:()=>active&&ssjpPending(),getState:()=>Object.freeze({active:active&&ssjpPending(),phase:state&&state.setup&&state.setup.phase||null,revision:state&&state.setup&&state.setup.revision||0,managerRole:state&&state.managerRole||null,route:ssjpActiveScreen(),leagueWitnessed:witnessedLeagueId,clubPacksWitnessed:witnessedClubDigest,clubRevealComplete})});
