@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 6:10 PM Boston time (EDT)",
+ "generated": "2026-10-05 6:11 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -528,7 +528,7 @@
   }
  ],
  "next_move": [
-  "**Nothing waits on you right now.** r62 is filling up: G-F6 and BH-7 are fixed and in the batch; BH-8, BH-11, BUG-1 and G-F6b are finishing. The Showdown Gate runs in shadow beside POS20 first."
+  "**Nothing waits on you right now.** r62 is filling up: G-F6 and BH-7 are in; BH-8, BH-11, BUG-1 and G-F6b are finishing."
  ],
  "now": {
   "moving": 7,

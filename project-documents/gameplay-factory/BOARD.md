@@ -1,10 +1,10 @@
 # Showdown board: G Factory and V Factory
 
-🌐 **Live: runtime 1.9.1-r61** (main `61489dd`) · 🔄 **7 moving** · ⏭ 2 up next · 👤 4 waiting on Nik · 🗂 6 later · updated 2026-10-05 6:10 PM Boston time (EDT)
+🌐 **Live: runtime 1.9.1-r61** (main `61489dd`) · 🔄 **7 moving** · ⏭ 2 up next · 👤 4 waiting on Nik · 🗂 6 later · updated 2026-10-05 6:11 PM Boston time (EDT)
 
 ## Your next move
 
-1. **Nothing waits on you right now.** r62 is filling up: G-F6 and BH-7 are fixed and in the batch; BH-8, BH-11, BUG-1 and G-F6b are finishing. The Showdown Gate runs in shadow beside POS20 first.
+1. **Nothing waits on you right now.** r62 is filling up: G-F6 and BH-7 are in; BH-8, BH-11, BUG-1 and G-F6b are finishing.
 
 ## 🔄 Moving now
 
