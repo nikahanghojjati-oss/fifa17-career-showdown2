@@ -1,6 +1,6 @@
 # Showdown board: G Factory and V Factory
 
-🌐 **Live: runtime 1.9.1-r61** (main `61489dd`) · 🔄 **10 moving** · ⏭ 2 up next · 👤 4 waiting on Nik · 🗂 4 later · updated 2026-10-05 6:33 PM Boston time (EDT)
+🌐 **Live: runtime 1.9.1-r61** (main `61489dd`) · 🔄 **10 moving** · ⏭ 2 up next · 👤 4 waiting on Nik · 🗂 4 later · updated 2026-10-05 6:37 PM Boston time (EDT)
 
 🩺 **Physio: starting soon.**
 
@@ -12,7 +12,7 @@
 
 | Release / fix | Checks on the latest commit | Updated |
 | --- | --- | --- |
-| [PR #384](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/384) Every screen in Team V's look: signed-out career screens, Showdown Home, season review, L… | ⏳ 9 passed, 2 running | 6:29 PM |
+| [PR #384](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/384) Every screen in Team V's look: signed-out career screens, Showdown Home, season review, L… | 🟢 12 passed | 6:29 PM |
 
 | Team | Job | What | Worker | Where it is | Details |
 | --- | --- | --- | --- | --- | --- |
