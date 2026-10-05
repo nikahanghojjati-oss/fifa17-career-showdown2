@@ -4,7 +4,7 @@
 
 ## Scoreboard
 
-⚽ **33 of 33 jobs done** · 0 in play · 🐞 see [BUG_BOARD.md](BUG_BOARD.md) · 🏁 last running job likely done about 2:42 PM Boston time
+⚽ **33 of 33 jobs done** · 0 in play · 🐞 see [BUG_BOARD.md](BUG_BOARD.md) · 🏁 no finish time yet (not enough data)
 
 🧑‍💼 **Gaffer:** no fresh report (last one 12:06 AM Boston time, 14 h old); see the [Gaffer page](https://claude.ai/artifact/33Pw2Bioktj1Nv7ebEM94Q).
 
@@ -26,7 +26,7 @@
 
 ## Your next move
 
-1. **Play r56 with Daniel** (close and reopen the app once). Report anything odd to the coordinator in the project chat.
+1. **r59 is live** (Team V screen fixes). Play it with Daniel; r60 (no old photos, 7 Home tiles, 9 soundtrack tracks) is next.
 
 _Moving now:_ no job is running right now.
 
@@ -38,15 +38,7 @@ Gameplay factory job NN. Read https://raw.githubusercontent.com/nikahanghojjati-
 
 ## Running now
 
-<sub>Percent = finished steps weighted by typical step time, finish times are estimates ([how](ETA_STUDY.md)). Lanes: 🟦 Sol chat · 🟩 Sol Work mode · ⬜ Codex · 🟧 Opus · 🟪 Sonnet · 🟨 Haiku</sub>
-
-### 🟧 Job 36 · No old player photos + seven Home tiles (r60) · 38.0678 %
-
-🟧🟧🟧🟧🟧🟧🟧⚽▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️ 🥅  
-Opus · Lead · [PR #378](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/378) · 3 of 5 steps · updated Mon 5 Oct 2:10 PM Boston time  
-🏁 **Likely finish:** about 2:42 PM (likely 2:27 PM to 3:05 PM) Boston time  
-> **Now:** Gates running on the exact head  
-> **Left:** All 16 checks green on the exact head → Merged into main and live
+No job is reporting progress right now (jobs show here once their PR description carries a progress block).
 
 ## Live fixes and bug hunt
 
@@ -74,7 +66,8 @@ _Gameplay, online sync, every merge and every release (senior director)._
 | G-F5 | QA packet adoptions: truth line, wrong-target guard on main PRs, PR title rule | 🟪 Sonnet | next | - |
 | G-F6 | Small gameplay follow-ups: transfer message after session expiry, raw error codes in Setup, 'Career screens could not load' toast when the online history is only unavailable | 🟩 Sol Work mode | ready | after G-F5 |
 | G-F11 | Old-design CSS collisions: scope old rulebook/settings/analytics/app CSS off Team V markup (about 70 shared class names) | 🟪 Sonnet | queued (Sonnet audit, then Opus fix) | HO-004 findings |
-| G-F12 | No player photos on League and Club; hidden photos stop downloading under Team V skins | 🟪 Sonnet | queued | Nik's OK (he named Start only; Team V truth says no photos anywhere) |
+| G-F12 | G-36: no old player photos on any screen, and all 7 Home tiles | 🟧 Opus | building r60 (PR #378, 3 of 5 steps) | 16 gates on 843104a |
+| G-F13 | Home soundtrack: remove deleted What You Got, 9 streamable Audius tracks | 🟧 Opus | ready, rides r60 (PR #379 into #378) | lead merges #379 |
 | G-F3 | Bug-hunting factory: one report thread, Sonnet hunts, Opus fixes, small batch releases | 🟪 Sonnet | queued | G-F1 and Nik's OK |
 | G-F4 | GPT Q&A team: scripted paths and code-vs-rulebook reads | 🟦 Sol chat | queued | G-F1 |
 | G-F7 | Ten-season smoothness run on live 2.0 (emulator, 10 seasons with a mid-game expiry) | 🟪 Sonnet | queued | G-F1 |
@@ -93,15 +86,7 @@ No Team V job is reporting yet (Team V jobs show here once a PR titled `V-…` c
 
 ## 📡 Relay and hand-offs
 
-**Relay health:** ✅ working · direct wake: Team G ✅, Team V ✅ · 29 messages, 5 hand-offs · branch head `0dcba18` (Mon 5 Oct 1:37 PM Boston time) · **[Read every message in full: RELAY.md](RELAY.md)**
-
-| Hand-off | From → To | What | Progress | Picked up in |
-| --- | --- | --- | --- | --- |
-| [HO-001](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/handoffs/HO-001_use-hand-off-tickets-for-passing-work-re.md) | G → V | Use hand-off tickets for passing work (relay v1.1) | ✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done** | 2 h 53 min |
-| [HO-002](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/handoffs/HO-002_smooth-stage-atmosphere-on-idle-screens-.md) | G → V | Smooth stage atmosphere on idle screens (pointer stutter root cause) | ✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done** | 2 h 51 min |
-| [HO-003](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/handoffs/HO-003_header-chips-and-footer-design-on-team-v.md) | G → V | Header chips and footer design on Team V screens | ✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done** | 2 h 51 min |
-| [HO-004](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/handoffs/HO-004_visual-qa-live-2-0-screens-vs-approved-f.md) | G → V | Visual QA: live 2.0 screens vs approved frames | ✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done** | 2 h 51 min |
-| [HO-005](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/handoffs/HO-005_mobile-home-hero-ghost-coat-between-dani.md) | G → V | Mobile Home hero: ghost coat between Daniel and Nik | ✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done** | 2 h 43 min |
+**Relay health:** ✅ working · direct wake: Team G ✅, Team V ✅ · 29 messages, 0 hand-offs · branch head `0dcba18` (Mon 5 Oct 1:37 PM Boston time) · **[Read every message in full: RELAY.md](RELAY.md)**
 
 Latest messages:
 - G2V-016 · Mon 5 Oct 11:53 AM · Team G → Team V · Correction: PR #312 comments do wake a subscribed thread (2 s); subscribe your relay thread to PR #…

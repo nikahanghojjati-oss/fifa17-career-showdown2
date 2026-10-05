@@ -701,10 +701,17 @@
     },
     {
      "id": "G-F12",
-     "title": "No player photos on League and Club; hidden photos stop downloading under Team V skins",
-     "lane": "sonnet",
-     "state": "queued",
-     "waits_on": "Nik's OK (he named Start only; Team V truth says no photos anywhere)"
+     "title": "G-36: no old player photos on any screen, and all 7 Home tiles",
+     "lane": "opus",
+     "state": "building r60 (PR #378, 3 of 5 steps)",
+     "waits_on": "16 gates on 843104a"
+    },
+    {
+     "id": "G-F13",
+     "title": "Home soundtrack: remove deleted What You Got, 9 streamable Audius tracks",
+     "lane": "opus",
+     "state": "ready, rides r60 (PR #379 into #378)",
+     "waits_on": "lead merges #379"
     },
     {
      "id": "G-F3",
@@ -809,6 +816,6 @@
   }
  },
  "next_move": [
-  "**Play r56 with Daniel** (close and reopen the app once). Report anything odd to the coordinator in the project chat."
+  "**r59 is live** (Team V screen fixes). Play it with Daniel; r60 (no old photos, 7 Home tiles, 9 soundtrack tracks) is next."
  ]
 }
