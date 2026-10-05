@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 12:05 PM Boston time (EDT)",
+ "generated": "2026-10-05 12:06 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -315,7 +315,7 @@
   "live": {
    "sha": "3deee29",
    "revision": "1.9.1-r57",
-   "when": "2026-10-05T15:47:10+00:00",
+   "when": "2026-10-05T15:47:10Z",
    "subject": "Team V's Club Assignment on the live screen (r57) (#371)",
    "fixes": [],
    "today": [
