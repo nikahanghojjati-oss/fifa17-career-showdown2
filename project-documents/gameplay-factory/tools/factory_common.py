@@ -24,7 +24,9 @@ LANES = {"sol-chat": ("🟦", "Sol chat"), "sol-work": ("🟩", "Sol Work mode")
          "opus": ("🟧", "Opus"), "sonnet": ("🟪", "Sonnet"), "haiku": ("🟨", "Haiku")}
 # Lanes outside Nik's six colours (2026-10-05): Team V's senior reviewer, image tickets, and Nik on real phones.
 EXTRA_LANES = {"astra": ("🟫", "Astra"), "images": ("🟥", "Image tickets"), "nik": ("👤", "Nik and Daniel")}
-ALL_LANES = {**LANES, **EXTRA_LANES}
+# Bug list factory names (2026-10-05): blue = GPT 5.6 Sol chat, green = ChatGPT Sol 6.1 Work mode, same colours as the Sol lanes.
+ALIAS_LANES = {"blue": LANES["sol-chat"], "green": LANES["sol-work"], "lead": ("🟧", "Team G lead"), "V": ("🔵", "Team V")}
+ALL_LANES = {**LANES, **EXTRA_LANES, **ALIAS_LANES}
 HEX = {"Sol chat": "#7dd3fc", "Sol Work mode": "#22c55e", "Codex": "#ffffff", "Opus": "#f97316", "Sonnet": "#8b5cf6", "Haiku": "#facc15",
        "Astra": "#a16207", "Image tickets": "#ef4444", "Nik and Daniel": "#f0d900"}
 

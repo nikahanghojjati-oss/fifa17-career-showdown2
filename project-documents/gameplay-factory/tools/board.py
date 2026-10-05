@@ -174,8 +174,10 @@ def lane_tag(k):
 def bucket(x):
     """One of: done, moving, nik, next, later. Read from the row's state and waits_on, written by the lead."""
     s, w = str(x.get("state", "")).lower(), str(x.get("waits_on") or "").lower()
-    if s.startswith("done"):
+    if s.startswith(("done", "live")):
         return "done"
+    if s.startswith(("with worker", "worker done", "verifying", "verified", "in release")):  # bug list factory states
+        return "moving"
     if any(k in s for k in ("building", "in progress", "in review", "checks", "gates", "running", "with the lead", "in r6")):
         return "moving"
     if x.get("lane") == "nik" or "needs nik" in s or "waiting on nik" in s or w.startswith("nik"):
@@ -230,7 +232,7 @@ for n, r, k, t in g_running + v_running:
 moving_rows = [("G", x) for x in B["G"]["moving"]] + [("V", x) for x in B["V"]["moving"]]
 if moving_rows:
     L += ["| Team | Job | What | Worker | Where it is | Details |", "| --- | --- | --- | --- | --- | --- |"]
-    L += [f"| {f} | {x['id']} | {x['title']} | {lane_tag(x['lane'])} | {x['state']} | {x.get('details') or x.get('waits_on') or '-'} |" for f, x in moving_rows]
+    L += [f"| {f} | {x['id']} | {('🐞 ' + x['group'] + ': ') if x.get('group') else ''}{x['title']} | {lane_tag(x['lane'])} | {x['state']} | {x.get('details') or x.get('waits_on') or '-'} |" for f, x in moving_rows]
     L.append("")
 if open_tickets:
     L += ["| Hand-off | From → To | What | Progress |", "| --- | --- | --- | --- |"]
@@ -244,8 +246,11 @@ def factory(key, icon):
     f = FAC.get(key, {})
     workers = " · ".join(lane_tag(w["lane"]) for w in f.get("workers", []))
     out = [f"## {icon} {f.get('name', key)}", "", f"_{f.get('role', '')}._ Workers: {workers}", ""]
-    for b, head in (("next", "⏭ Up next"), ("nik", "👤 Waiting on Nik"), ("later", "🗂 Later")):
-        rows = B[key][b]
+    groups = [None] + sorted({x["group"] for b in ("next", "nik", "later") for x in B[key][b] if x.get("group")})
+    for g, (b, head) in [(g, bh) for g in groups for bh in (("next", "⏭ Up next"), ("nik", "👤 Waiting on Nik"), ("later", "🗂 Later"))]:
+        rows = [x for x in B[key][b] if x.get("group") == g]
+        if g and b == "next":
+            out += [f"### 🐞 {g}", ""]
         if rows:
             out += [f"**{head}**", "", "| Job | What | Worker | State | Waits on |", "| --- | --- | --- | --- | --- |"]
             out += [f"| {x['id']} | {x['title']}{(' — ' + x['details']) if x.get('details') else ''} | {lane_tag(x['lane'])} | {x['state']} | {x.get('waits_on') or '-'} |" for x in rows]
