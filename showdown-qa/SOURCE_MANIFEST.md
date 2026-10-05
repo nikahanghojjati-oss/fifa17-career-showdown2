@@ -282,6 +282,7 @@ This is marked UNKNOWN rather than invented.
 - `showdown-qa/reports/2026-09-25-navigation-reliability-reconstructed.md`
 - `showdown-qa/reports/2026-10-04-historical-findings-ledger.md`
 - `showdown-qa/reports/2026-10-04-factory-system-master-review.md`
+- `showdown-qa/reports/2026-10-04-model-worker-routing-addendum.md`
 - `showdown-qa/handoffs/2026-10-04-claude-cloud-review-packet.md`
 
 All are documentation/review artifacts only.
@@ -298,3 +299,17 @@ Before accepting a current finding:
 7. keep historical evidence for learning, but do not let it override current source.
 
 This is especially important because the central finding of this packet is control-plane drift itself.
+
+## L. Model worker routing addendum provenance
+
+The branch also contains `reports/2026-10-04-model-worker-routing-addendum.md`, added during the same QA-project review window and linked into the packet before final verification.
+
+It extends the model-routing discussion with a proposed future QA worker structure:
+- GPT-6 Luna Max as deep bug-hunt / adversarial QA worker;
+- GPT-5.6 Sol Chat as high-volume general QA/review worker;
+- GPT-6.1 Sol Work for environment-heavy investigations;
+- Astra Work for rare system-level audit;
+- Claude lead for routing/adjudication;
+- Sol product authority for implementation.
+
+Its Luna/Astra recommendations are proposals. Unlike the Team V GPT/Claude/Fable scorecard, Luna Max does not yet have a comparable large factory benchmark in this repo. The addendum explicitly recommends measuring matched QA job classes rather than assuming universal superiority.
