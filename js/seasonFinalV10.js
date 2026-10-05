@@ -72,6 +72,12 @@
     if(!templates[folder]){const r=await root.fetch(BASE+folder+"/app-shell.html");if(!r.ok)throw new Error("V10_RESULTS_TEMPLATE");templates[folder]=await r.text();}
     if(folder!=="season-results"&&!strings[folder]){const r=await root.fetch(BASE+folder+"/app-strings.json");if(!r.ok)throw new Error("V10_RESULTS_STRINGS");strings[folder]=(await r.json()).strings;strings[folder].previewLabel="";}
   }
+  // The skin mounts after the legacy form is live and reparents it (and the action row). Moving a focused
+  // field blurs it, so a value typed at that moment would land on <body>; put focus back on the same field.
+  function sfKeepFocus(work){
+    const doc=root.document,active=doc?.activeElement;
+    try{return work();}finally{if(active&&active!==doc.body&&active.isConnected&&doc.activeElement!==active&&typeof active.focus==="function")active.focus({preventScroll:true});}
+  }
   function restoreFinal(host){
     const final=host.querySelector(".v10FinalStage"),review=root.document.getElementById("seasonReviewPanel"),season=host.querySelector(".v10SeasonStage");
     if(final){for(const id of ["sharedTerminalClosePanel","sharedFinalReconciliationPanel"]){const n=root.document.getElementById(id);if(n&&review)review.appendChild(n);}const actions=root.document.getElementById("completeSeason")?.closest(".seasonEntryActions");if(actions&&season)season.querySelector(".season-layout").appendChild(actions);final.v10StageHandle?.destroy();final.remove();}
@@ -89,13 +95,30 @@
     const season=host.querySelector(".v10SeasonStage");if(season)season.hidden=true;host.classList.add("v10FinalMode");
     root.FINAL_WINNER_ROOT=final;root.FINAL_WINNER_FIXTURES={strings:strings["final-winner"],frames:{LIVE:frame}};root.ShowdownFinalWinnerBoot();
   }
+  // Open the phone tab on the signed-in manager's own card. The provider view can load after the skin mounts,
+  // so fall back to the one card the provider left visible, and re-check whenever a card's class changes.
+  function sfOwnerTab(stage){
+    if(stage.dataset.ownerSet)return;
+    let role=state("CareerModeProductionSharedSeasonResults")?.managerRole;
+    if(!role){const open=[...stage.querySelectorAll("#daniel-entry-panel,#nik-entry-panel")].filter(card=>!card.classList.contains("hidden"));if(open.length===1)role=open[0].id==="nik-entry-panel"?"playerTwo":"playerOne";}
+    if(role!=="playerOne"&&role!=="playerTwo")return;
+    const tab=stage.querySelector(role==="playerTwo"?"#season-phone-tab-nik":"#season-phone-tab-daniel");if(tab){tab.checked=true;stage.dataset.ownerSet=role;}
+  }
+  // The loader stops waiting for a slow stylesheet after a timeout, and Team V's phone rules hide re-classed entry
+  // cards. Keep the one rule that decides whether a manager's own card shows inline, so it never waits on a download.
+  function sfCardRule(doc){
+    const parent=doc?.head||doc?.documentElement;if(!parent||typeof doc.createElement!=="function"||doc.getElementById?.("v10SeasonCardRule"))return;
+    const style=doc.createElement("style");style.id="v10SeasonCardRule";
+    style.textContent="@media(max-width:900px){#app #seasonEntry.seasonScreenV10>.v10SeasonStage :is(#daniel-entry-panel,#nik-entry-panel):not(.hidden){display:grid!important}}";
+    parent.appendChild(style);
+  }
   function renderSeason(frame,host){
     if(typeof root.ensureSeasonReviewUI==="function")root.ensureSeasonReviewUI();
     let stage=host.querySelector(".v10SeasonStage");
-    if(!stage){stage=skinSeason(host,stageElement("season-results"));if(stage)root.ShowdownSeasonResultsBoot(stage);}
+    if(!stage)sfCardRule(root.document);
+    if(!stage){stage=skinSeason(host,stageElement("season-results"));if(stage){root.ShowdownSeasonResultsBoot(stage);if(typeof root.MutationObserver==="function"){const watch=new root.MutationObserver(()=>{if(stage.dataset.ownerSet)watch.disconnect();else sfOwnerTab(stage);});stage.querySelectorAll("#daniel-entry-panel,#nik-entry-panel").forEach(card=>watch.observe(card,{attributes:true,attributeFilter:["class"]}));}}}
     if(!stage)return;
-    const role=state("CareerModeProductionSharedSeasonResults")?.managerRole;
-    if(role){const tab=stage.querySelector(role==="playerTwo"?"#season-phone-tab-nik":"#season-phone-tab-daniel");if(tab&&!stage.dataset.ownerSet){tab.checked=true;stage.dataset.ownerSet=role;}}
+    sfOwnerTab(stage);
     renderFinal(host,frame.final);
   }
   function renderStandings(frame,host){
@@ -132,9 +155,12 @@
     if(installed)return true;installed=true;
     root.SEASON_RESULTS_APP=true;root.FINAL_WINNER_APP=true;root.STANDINGS_APP=true;
     const loader=root.CareerModeV10Screens.install();
-    loader.register("seasonEntry",{auto:false,css:["season-results/season-results.css","final-winner/final-winner.css","season-results/app.css"],js:[["v10-season-results","season-results/season-results.js",()=>typeof root.ShowdownSeasonResultsBoot==="function"],["v10-final-winner","final-winner/final-winner.js",()=>typeof root.ShowdownFinalWinnerBoot==="function"]],prepare:()=>Promise.all([prepare("season-results"),prepare("final-winner")]),frame:seasonSource,mount:renderSeason,unmount:restoreFinal});
+    loader.register("seasonEntry",{auto:false,css:["season-results/season-results.css","final-winner/final-winner.css","season-results/app.css"],js:[["v10-season-results","season-results/season-results.js",()=>typeof root.ShowdownSeasonResultsBoot==="function"],["v10-final-winner","final-winner/final-winner.js",()=>typeof root.ShowdownFinalWinnerBoot==="function"]],prepare:()=>Promise.all([prepare("season-results"),prepare("final-winner")]),frame:seasonSource,mount:(frame,host)=>sfKeepFocus(()=>renderSeason(frame,host)),unmount:host=>sfKeepFocus(()=>restoreFinal(host))});
     loader.register("standings",{auto:false,css:["standings/standings.css","season-results/app.css"],js:[["v10-standings","standings/standings.js",()=>typeof root.ShowdownStandingsBoot==="function"]],prepare:()=>Promise.all([prepare("standings"),standingsModules()]),frame:()=>standingsFrames(currentRivalry(),currentCareer()),mount:renderStandings,unmount(host){host.firstElementChild?.v10StageHandle?.destroy();host.replaceChildren();}});
     installStandingsRoute();
+    // Warm Season Results' kit, scripts and templates now (show() loads, then returns false while the screen is hidden),
+    // so the skin mounts in the same tick the screen opens instead of after the form is already being filled in.
+    if(typeof loader.show==="function")Promise.resolve(loader.show("seasonEntry")).catch(fail);
     for(const e of ["career-mode-shared-final-reconciliation-state-change","career-mode-shared-terminal-close-state-change","career-mode-shared-history-convergence-state-change","career-mode-shared-multi-season-state-change","career-mode-online-identity-change","career-mode-active-save-changed","career-mode-showdown-state-change"])root.addEventListener?.(e,wake);
     root.document.addEventListener("career-mode-screen-shown",()=>{signature="";followPair();wake();});
     followPair();
