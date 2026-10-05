@@ -838,8 +838,8 @@
      "group": "Bug list 1",
      "title": "1001 · G Home desktop tile icons: bigger, inside the tile, never on the text",
      "lane": "blue",
-     "state": "ready",
-     "waits_on": "after Nik types 1001 in GPT (normal chat)",
+     "state": "with worker (round 2)",
+     "waits_on": "GPT blue round 2: icons off the text, bigger on narrow screens, remove object-fit",
      "details": "Bug list 1 items L1-01..06. CSS only in css/homeV10.css desktop blocks. Job file jobs/JOB-1001.md. Lead checks screenshots at 1920/1440/1280/1100/1000 wide."
     }
    ]
