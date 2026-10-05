@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 7:35 PM Boston time (EDT)",
+ "generated": "2026-10-05 7:37 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -313,25 +313,11 @@
  },
  "two": {
   "live": {
-   "sha": "95f44fb",
+   "sha": "84a04d8",
    "revision": "1.9.1-r61",
-   "when": "2026-10-05T23:18:44Z",
-   "subject": "Showdown Gate Physio: re-run infra-only check failures, preempt helpers, publish status (#385)",
+   "when": "2026-10-05T23:37:11Z",
+   "subject": "Physio sweep: skip a watched workflow that is not on main instead of failing (#387)",
    "fixes": [
-    {
-     "pr": 387,
-     "title": "Physio: a watched workflow that isn't on main no longer fails the sweep",
-     "draft": false,
-     "branch": "ci/physio-sweep-404",
-     "sha": "41f0831bee38656ed3b064810f5cf044b5598dcc",
-     "updated": "2026-10-05T23:24:01Z",
-     "gates": {
-      "passed": 15,
-      "running": 1,
-      "failed": 0,
-      "cancelled": 0
-     }
-    },
     {
      "pr": 386,
      "title": "Showdown Gate (shadow): six-lane check beside POS20, not required yet",
@@ -362,6 +348,11 @@
     }
    ],
    "today": [
+    {
+     "pr": 387,
+     "title": "Physio: a watched workflow that isn't on main no longer fails the sweep",
+     "merged": "2026-10-05T23:37:12Z"
+    },
     {
      "pr": 385,
      "title": "Physio: re-run checks GitHub gave no machine, pause helpers while checks wait",
@@ -417,7 +408,7 @@
   "physio": {
    "state": "clear",
    "line": "All clear (from GitHub).",
-   "gate": "POS20 #387 16/16",
+   "gate": "Gate #386: L1✓ L2✓ L3✓ L4✓ L5✓ L6✓ · POS20 #386 23/23",
    "source": "github"
   },
   "v_headline": "Board 1 (visual package): 238 of 238 jobs done and checked",
@@ -611,7 +602,7 @@
   "**Nothing waits on you right now.** r62 is nearly full; BH-11, BUG-1 and G-F6b are finishing."
  ],
  "now": {
-  "moving": 13,
+  "moving": 12,
   "next": 2,
   "nik": 4,
   "later": 5,
@@ -784,20 +775,6 @@
    }
   },
   "fixes": [
-   {
-    "pr": 387,
-    "title": "Physio: a watched workflow that isn't on main no longer fails the sweep",
-    "draft": false,
-    "branch": "ci/physio-sweep-404",
-    "sha": "41f0831bee38656ed3b064810f5cf044b5598dcc",
-    "updated": "2026-10-05T23:24:01Z",
-    "gates": {
-     "passed": 15,
-     "running": 1,
-     "failed": 0,
-     "cancelled": 0
-    }
-   },
    {
     "pr": 386,
     "title": "Showdown Gate (shadow): six-lane check beside POS20, not required yet",

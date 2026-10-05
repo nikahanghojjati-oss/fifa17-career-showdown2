@@ -1,8 +1,8 @@
 # Showdown board: G Factory and V Factory
 
-🌐 **Live: runtime 1.9.1-r61** (main `95f44fb`) · 🔄 **13 moving** · ⏭ 2 up next · 👤 4 waiting on Nik · 🗂 5 later · updated 2026-10-05 7:35 PM Boston time (EDT)
+🌐 **Live: runtime 1.9.1-r61** (main `84a04d8`) · 🔄 **12 moving** · ⏭ 2 up next · 👤 4 waiting on Nik · 🗂 5 later · updated 2026-10-05 7:37 PM Boston time (EDT)
 
-🩺 **All clear (from GitHub).** · POS20 #387 16/16
+🩺 **All clear (from GitHub).** · Gate #386: L1✓ L2✓ L3✓ L4✓ L5✓ L6✓ · POS20 #386 23/23
 
 ## Your next move
 
@@ -12,7 +12,6 @@
 
 | Release / fix | Checks on the latest commit | Updated |
 | --- | --- | --- |
-| [PR #387](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/387) Physio: a watched workflow that isn't on main no longer fails the sweep | ⏳ 15 passed, 1 running | 7:24 PM |
 | [PR #386](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/386) Showdown Gate (shadow): six-lane check beside POS20, not required yet | 🟢 23 passed | 7:21 PM |
 | [PR #384](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/384) Every screen in Team V's look: signed-out career screens, Showdown Home, season review, L… | 🟢 12 passed | 6:29 PM |
 
@@ -91,7 +90,7 @@ Latest:
 
 ## ✅ Finished
 
-**Shipped to the live game today (10):** [#385](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/385) Physio: re-run checks GitHub gave no machine, pause helpers… · [#383](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/383) Release r61: phone track list stops below the logo and scro… · [#378](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/378) G-36: No old player photos + seven Home tiles (r60) · [#377](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/377) G-35: Team V screen fixes HO-003 + HO-004 (r59, includes r5… · and 6 more
+**Shipped to the live game today (11):** [#387](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/387) Physio: a watched workflow that isn't on main no longer fai… · [#385](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/385) Physio: re-run checks GitHub gave no machine, pause helpers… · [#383](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/383) Release r61: phone track list stops below the logo and scro… · [#378](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/378) G-36: No old player photos + seven Home tiles (r60) · and 7 more
 
 <details>
 <summary>Done jobs (7 future-list rows, 1 Team V jobs, 7 hand-offs, 33 factory jobs)</summary>
