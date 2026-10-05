@@ -111,7 +111,7 @@
     }
   }
   function undraw(screen,host){clean(screen);host.innerHTML=originalMarkup[screen]??"";delete host.dataset.rivalryLegacyV10;}
-  async function register(){
+  async function registerRivalryLegacy(){
     if(!registration)registration=(async()=>{
       await load("v10-screens","js/v10Screens.js","CareerModeV10Screens");
       await load("rivalry-legacy-v10-markup","js/rivalryLegacyV10Markup.js","CareerModeRivalryLegacyMarkup");
@@ -169,7 +169,7 @@
   async function rlMount(screen,getModel){
     if(!Object.hasOwn(APP,screen))throw new TypeError("RIVALRY_LEGACY_V10_UNKNOWN");
     getters[screen]=getModel;
-    const api=await register();wrap(screen);
+    const api=await registerRivalryLegacy();wrap(screen);
     return refresh(screen);
   }
 
