@@ -583,27 +583,9 @@ async function main(){
     }
 
     // J10 final reconciliation and Terminal Close through the real UI.
-    // Lead decision 2026-10-03: observe/preview the terminal Connected Rivalry through the real UI,
-    // Daniel first then Nik, before Final Reconciliation can become authoritative.
-    for(const m of [daniel,nik]){
-      await m.page.locator("#sharedLocalReconciliationPreview").waitFor({state:"visible",timeout:60000});
-      await m.page.locator("#sharedLocalReconciliationPreview").click({timeout:30000});
-      try{
-        await m.page.waitForFunction(()=>/PREVIEW READY/.test(document.getElementById("sharedLocalReconciliationStatus")?.textContent||""),null,{timeout:60000});
-      }catch(error){
-        const diag=await m.page.evaluate(()=>({
-          multi:window.CareerModeProductionSharedMultiSeasonProgression?.getState?.()||null,
-          history:window.CareerModeProductionSharedHistoryConvergence?.getState?.()||null,
-          local:window.CareerModeProductionSharedLocalReconciliation?.getState?.()||null,
-          final:window.CareerModeProductionSharedFinalReconciliation?.getState?.()||null,
-          terminal:window.CareerModeProductionSharedTerminalClose?.getState?.()||null,
-          localStatus:document.getElementById("sharedLocalReconciliationStatus")?.textContent||"",
-          previewVisible:Boolean(document.getElementById("sharedLocalReconciliationPreview")&&!document.getElementById("sharedLocalReconciliationPreview").classList.contains("hidden")),
-          visibility:document.visibilityState
-        }));
-        throw new Error(`J10_LOCAL_RECONCILIATION_PREVIEW_NOT_READY ${JSON.stringify(diag)}`,{cause:error});
-      }
-    }
+    // Owner decision 2026-10-05 (BH-8): once the last season is committed each phone checks on its own poll and shows the
+    // final winner and CLOSE by itself. Nobody taps PREVIEW LOCAL RECONCILIATION here; Apply stays a separate explicit tap.
+    for(const m of [daniel,nik])await m.page.evaluate(()=>{window.__bh8PreviewTaps=0;document.addEventListener("click",event=>{if(event.target?.closest?.("#sharedLocalReconciliationPreview"))window.__bh8PreviewTaps+=1;},true);});
     for(const m of [daniel,nik]){
       try{
         await m.page.locator("#sharedFinalReconciliationPanel").waitFor({state:"visible",timeout:60000});
@@ -638,6 +620,22 @@ async function main(){
       assert.equal((await m.page.locator("#sharedFinalReconciliationWinner").textContent()).trim(),"Daniel 10 · Nik 15 · Nik WINS");
       await m.page.locator("#sharedTerminalCloseAction").waitFor({state:"visible",timeout:60000});
       assert.equal((await m.page.locator("#sharedTerminalCloseAction").textContent()).trim(),"CLOSE SHARED SHOWDOWN");
+      try{
+        await m.page.waitForFunction(()=>/PREVIEW READY/.test(document.getElementById("sharedLocalReconciliationStatus")?.textContent||""),null,{timeout:60000});
+      }catch(error){
+        const diag=await m.page.evaluate(()=>({
+          multi:window.CareerModeProductionSharedMultiSeasonProgression?.getState?.()||null,
+          history:window.CareerModeProductionSharedHistoryConvergence?.getState?.()||null,
+          local:window.CareerModeProductionSharedLocalReconciliation?.getState?.()||null,
+          final:window.CareerModeProductionSharedFinalReconciliation?.getState?.()||null,
+          terminal:window.CareerModeProductionSharedTerminalClose?.getState?.()||null,
+          localStatus:document.getElementById("sharedLocalReconciliationStatus")?.textContent||"",
+          previewVisible:Boolean(document.getElementById("sharedLocalReconciliationPreview")&&!document.getElementById("sharedLocalReconciliationPreview").classList.contains("hidden")),
+          visibility:document.visibilityState
+        }));
+        throw new Error(`J10_LOCAL_RECONCILIATION_PREVIEW_NOT_READY ${JSON.stringify(diag)}`,{cause:error});
+      }
+      assert.equal(await m.page.evaluate(()=>window.__bh8PreviewTaps),0,"the final result and CLOSE appeared without a PREVIEW tap");
     }
     ok("J10.1","both pages reconcile the three-season final as Daniel 10, Nik 15, Nik wins by 5");
 

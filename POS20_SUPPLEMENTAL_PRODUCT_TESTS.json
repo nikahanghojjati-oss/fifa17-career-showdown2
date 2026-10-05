@@ -920,6 +920,17 @@
         "^tests/contracts/v10-club-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/shared-local-reconciliation-auto-final-contracts.cjs",
+      "patterns": [
+        "^js/sharedLocalReconciliation\\.js$",
+        "^js/productionSharedLocalReconciliation\\.js$",
+        "^js/productionSharedFinalReconciliation\\.js$",
+        "^tests/browser/two-manager-browser-journey\\.cjs$",
+        "^tests/contracts/shared-local-reconciliation-auto-final-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
