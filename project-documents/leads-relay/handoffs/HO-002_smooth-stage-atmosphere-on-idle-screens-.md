@@ -10,11 +10,11 @@
  "priority": "top",
  "worker": "opus",
  "parent": null,
- "job": null,
- "status": "RECEIVED",
+ "job": "V-244",
+ "status": "DONE",
  "steps": [],
- "evidence": [],
- "log": [{"at": "2026-10-05T12:54:07Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-10-05T15:46:05Z", "by": "V", "status": "RECEIVED", "note": "top priority; Team V picks the calm stage option and sends a branch for the fps probe"}]
+ "evidence": ["factory/v1-wtt5ye @ 6eb3a95 (PR #374 merged): visual-assets/v10_1/shared/stage.css + stage.js (based on main r56, copy as they are). Settings idle 13 -> 60 fps, Rule Book 22 -> 60 fps at 1920x1080 Chromium. Notes + probe: project-documents/factory/handoffs/HO-002_RESULT.md, tools/stage_fps_probe.js. Standings loading spinner still redraws while Standings is stuck loading (see note)."],
+ "log": [{"at": "2026-10-05T12:54:07Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-10-05T15:46:05Z", "by": "V", "status": "RECEIVED", "note": "top priority; Team V picks the calm stage option and sends a branch for the fps probe"}, {"at": "2026-10-05T16:13:14Z", "by": "V", "status": "WORKING", "note": "calm stage: dust and flare play once, then hold still"}, {"at": "2026-10-05T16:13:14Z", "by": "V", "status": "DONE", "note": ""}]
 }
 ```
 
