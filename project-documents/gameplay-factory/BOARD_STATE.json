@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 3:40 PM Boston time (EDT)",
+ "generated": "2026-10-05 5:29 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -315,7 +315,7 @@
   "live": {
    "sha": "d8e6c44",
    "revision": "1.9.1-r60",
-   "when": "2026-10-05T18:51:23Z",
+   "when": "2026-10-05T18:51:23+00:00",
    "subject": "Release r60: no old player photos, seven Home tiles, 11-track soundtrack, phone tile icons (#378)",
    "fixes": [
     {
@@ -323,7 +323,14 @@
      "title": "Release r61: phone track list stops below the logo and scrolls",
      "draft": false,
      "branch": "fix/music-phone-sheet",
-     "updated": "2026-10-05T19:39:59Z"
+     "sha": "3407500ebd373f2e67a1645c3d82ecac6bbe5d70",
+     "updated": "2026-10-05T21:24:59Z",
+     "gates": {
+      "passed": 10,
+      "running": 5,
+      "failed": 0,
+      "cancelled": 0
+     }
     }
    ],
    "today": [
@@ -370,17 +377,7 @@
    ]
   },
   "v_headline": "Board 1 (visual package): 238 of 238 jobs done and checked",
-  "v_jobs": [
-   {
-    "job": "V-247",
-    "title": "Phone Home tile icons like GOAL_HOME",
-    "worker": "Opus",
-    "done": 4,
-    "total": 4,
-    "pr": 381,
-    "current": "Done; handed to Team G as HO-006"
-   }
-  ],
+  "v_jobs": [],
   "inbox": {
    "G": true,
    "V": true
@@ -525,14 +522,154 @@
    "title": "The 4-hour private session ends long games",
    "plain": "A 5 or 10 season game outlives one session, so both managers must open a fresh one. Needs one retest mid-season. Now job 31 (ten-season games).",
    "likelihood": "low",
-   "status": "DONE",
+   "status": "DONE · job 31, PR #350: one-tap reconnect after expiry; live since 2.0 (r54)",
    "owner": "lead",
    "note": "job 31, PR #350 (recovery fb0dd02): one-tap reconnect after expiry; live at the next release"
   }
  ],
  "next_move": [
-  "**r60 is live** (no old photos, 7 Home tiles, 11-track soundtrack with Nasty first). Close and reopen the app once, then play. r61 next: phone track list, landscape phone Home, START A SHOWDOWN nit."
+  "**r61 is in its final checks:** the phone song list stops below the logo and scrolls, and Next To You plays first. It goes live as soon as the checks pass. Nothing for you to do."
  ],
+ "now": {
+  "moving": 3,
+  "next": 2,
+  "nik": 3,
+  "later": 7,
+  "rows": {
+   "G": {
+    "moving": [
+     {
+      "id": "G-F14",
+      "title": "r61: phone track list stops below the logo and scrolls, and Next To You plays first",
+      "lane": "opus",
+      "state": "in final checks (PR #383)",
+      "waits_on": "16 checks green, then the lead merges",
+      "details": "GitHub had no free test machines at 4 PM; the checks are re-running"
+     },
+     {
+      "id": "G-F17",
+      "title": "Replace POS20 with a faster check system built on Claude and GitHub, keeping every check",
+      "lane": "opus",
+      "state": "with the lead (Nik asked at 5:26 PM Boston time)",
+      "waits_on": "the lead's plan"
+     }
+    ],
+    "nik": [
+     {
+      "id": "G-F1",
+      "title": "Nik and Daniel play 2.0 on their phones",
+      "lane": "nik",
+      "state": "waiting on Nik",
+      "waits_on": ""
+     },
+     {
+      "id": "G-F8",
+      "title": "Commit and acknowledge a season in one tap (tap audit R7)",
+      "lane": "opus",
+      "state": "needs Nik's call",
+      "waits_on": "Nik"
+     },
+     {
+      "id": "G-F9",
+      "title": "72-character pairing code exchange (needs a Rules change)",
+      "lane": "opus",
+      "state": "needs Nik's call",
+      "waits_on": "Nik's typed words"
+     }
+    ],
+    "next": [
+     {
+      "id": "G-F5",
+      "title": "QA packet adoptions: truth line, wrong-target guard on main PRs, PR title rule",
+      "lane": "sonnet",
+      "state": "next",
+      "waits_on": ""
+     },
+     {
+      "id": "G-F11",
+      "title": "Old-design CSS collisions: scope old rulebook/settings/analytics/app CSS off Team V markup (about 70 shared class names)",
+      "lane": "sonnet",
+      "state": "ready (Sonnet audit, then Opus fix)",
+      "waits_on": ""
+     }
+    ],
+    "later": [
+     {
+      "id": "G-F6",
+      "title": "Small gameplay follow-ups: transfer message after session expiry, raw error codes in Setup, 'Career screens could not load' toast when the online history is only unavailable; intermittent v10-transfer contract failure 'WINDOW_OPEN 390: refresh not clickable'",
+      "lane": "sol-work",
+      "state": "ready",
+      "waits_on": "after G-F5"
+     },
+     {
+      "id": "G-F15",
+      "title": "Landscape phone Home layout (844x390): title sits on the wordmark, soundtrack card covers the right tiles (already in r59)",
+      "lane": "opus",
+      "state": "queued for r62",
+      "waits_on": ""
+     },
+     {
+      "id": "G-F16",
+      "title": "Phone Home nit from Team V (HO-006): second line of START A SHOWDOWN touches the clipboard icon at 393px",
+      "lane": "opus",
+      "state": "queued for r62",
+      "waits_on": ""
+     },
+     {
+      "id": "G-F3",
+      "title": "Bug-hunting factory: one report thread, Sonnet hunts, Opus fixes, small batch releases",
+      "lane": "sonnet",
+      "state": "queued",
+      "waits_on": "G-F1 and Nik's OK"
+     },
+     {
+      "id": "G-F4",
+      "title": "GPT Q&A team: scripted paths and code-vs-rulebook reads",
+      "lane": "sol-chat",
+      "state": "queued",
+      "waits_on": "G-F1"
+     },
+     {
+      "id": "G-F7",
+      "title": "Ten-season smoothness run on live 2.0 (emulator, 10 seasons with a mid-game expiry)",
+      "lane": "sonnet",
+      "state": "queued",
+      "waits_on": "G-F1"
+     }
+    ]
+   },
+   "V": {
+    "moving": [],
+    "nik": [],
+    "next": [],
+    "later": [
+     {
+      "id": "V-F2",
+      "title": "Design changes from Nik and Daniel's 2.0 play-through (only real design changes; bugs stay with G)",
+      "lane": "opus",
+      "state": "queued",
+      "waits_on": "G-F1"
+     }
+    ]
+   }
+  },
+  "fixes": [
+   {
+    "pr": 383,
+    "title": "Release r61: phone track list stops below the logo and scrolls",
+    "draft": false,
+    "branch": "fix/music-phone-sheet",
+    "sha": "3407500ebd373f2e67a1645c3d82ecac6bbe5d70",
+    "updated": "2026-10-05T21:24:59Z",
+    "gates": {
+     "passed": 10,
+     "running": 5,
+     "failed": 0,
+     "cancelled": 0
+    }
+   }
+  ]
+ },
  "jobs": [
   {
    "number": 0,

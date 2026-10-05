@@ -1,11 +1,11 @@
 {
  "team": "G",
- "updated": "2026-10-05T15:40-04:00",
+ "updated": "2026-10-05T17:29-04:00",
  "jobs_done": 33,
  "jobs_total": 33,
- "open_bugs": 2,
+ "open_bugs": 1,
  "next_move": [
-  "**r60 is live** (no old photos, 7 Home tiles, 11-track soundtrack with Nasty first). Close and reopen the app once, then play. r61 next: phone track list, landscape phone Home, START A SHOWDOWN nit."
+  "**r61 is in its final checks:** the phone song list stops below the logo and scrolls, and Next To You plays first. It goes live as soon as the checks pass. Nothing for you to do."
  ],
  "running": []
 }

@@ -151,90 +151,19 @@ def job_ref(j):
     return f"{j['key']} {j['title']}"
 
 
-# ---- Your next move: the first thing Nik reads. Plain, short, in priority order.
-move = list(board.get("next_move") or [])  # the lead can set BOARD.json "next_move" for a real question waiting for Nik
-if start["work"]:
-    move.append(f"**Start job {names(start['work'])} in Sol Work mode.** Press Use Work, paste the starter line below, change both `NN`.")
-if start["chat"]:
-    move.append(f"**Start job {names(start['chat'])} in a normal Sol chat.** Press Stay in Chat.")
-for b in bh_nik:
-    move.append(f"**Decide bug hunt {b['id']}:** {b['needs_nik']}")
-if relay and relay["open_for_g"]:
-    owed = [m for m in relay["open_for_g"] if m["reply"].lower().startswith("yes")]
-    if owed:
-        move.append("**Team G lead owes Team V a reply:** " + ", ".join(m["id"] for m in owed) + " (no action for you).")
-if not move:
-    move.append("**Nothing for you to start right now.**")
-who_busy = []
-for j in lead_jobs:
-    who_busy.append(f"{job_ref(j)}")
-if working:
-    who_busy.append("workers on jobs " + names(working))
-for b in bug_hunt:
-    if b["status"].upper().startswith("IN PROGRESS"):
-        who_busy.append(f"bug hunt {b['id'].replace('BH-', '')} ({b.get('note') or b['title']})")
-moving = "; ".join(who_busy) if who_busy else "no job is running right now"
-
-L = ["# Showdown board: G Factory and V Factory", "",
-     f"{done} of {len(jobs)} jobs done ({overall} %) {bar(overall)} · branch `{board['branch']}` · code PRs into `{board['integration_branch']}` · generated {boston_now()}", "",
-     "## Scoreboard", "",
-     f"⚽ **{done} of {len(jobs)} jobs done** · {len(working)} in play · 🐞 see [BUG_BOARD.md](BUG_BOARD.md) · {ETA.whistle([ETA.describe(r) for _, r, _, _ in __import__('factory_common').running_jobs()])}", "",
-     "## Your next move", ""]
-if stale:
-    L[L.index("## Your next move"):L.index("## Your next move")] = ["## ⚠ Stale status files", "", "GitHub is the truth; these status files disagree with the PR and need an update by their owner:", ""] + [f"* job {n}: {t}" for n, t in sorted(stale.items())] + [""]
-_g = ETA.gaffer()
-if _g and _g["stale"]:
-    L[L.index("## Your next move"):L.index("## Your next move")] = [f"🧑‍💼 **Gaffer:** no fresh report (last one {_g.get('updated_boston', '?')} Boston time, {_g['age_min'] // 60} h old); see the [Gaffer page]({_g.get('page', '')}).", ""]
-elif _g:
-    L[L.index("## Your next move"):L.index("## Your next move")] = [f"{_g['emoji']} **Gaffer ({_g.get('level_name', '')}, {_g.get('mood', '')})** · usage {_g['pct']} % of the 5-hour window · resets {_g.get('resets_at', '')[11:16]} UTC · last call: {_g.get('last_decision', '')} · [Gaffer page]({_g.get('page', '')})", ""]
-L += [f"{n}. {m}" for n, m in enumerate(move, 1)]
-nxt = next((j for j in open_jobs if j["lane"] != "lead"), None)
-L += ["", f"_Moving now:_ {moving}." + (f" _Next up:_ {nxt['key']} {nxt['title']}, waits on {(nxt.get('waits_on') or ', '.join('job %d' % d for d in nxt['depends_on'] if info[d][0] not in FINISHED) or 'nothing')}." if nxt else ""), "",
-      "**Sol Work mode starter line** (copy it, change both `NN` to the job number, paste it as the first message):", "", "```", starter, "```", ""]
-
-from factory_common import running_jobs, LANES, lane_of, pitch
-
-rj = running_jobs()
-L += ["## Running now", ""]
-if rj:
-    L += ["<sub>Percent = finished steps weighted by typical step time, finish times are estimates ([how](ETA_STUDY.md)). Lanes: " +
-          " · ".join(f"{sq} {name}" for sq, name in LANES.values()) + "</sub>", ""]
-    for n, r, k, t in rj:
-        sq, who = lane_of(r)
-        d = ETA.describe(r)
-        try:
-            upd = boston_from_utc(r["updated"][:16].replace("T", " "))
-        except Exception:
-            upd = "unknown"
-        left = [s_["name"] for s_ in r["steps"] if not s_.get("done")]
-        L += [f"### {sq} Job {n} · {r['title']} · {d['pct']:.4f} %", "",
-              f"{pitch(d['pct'] / 100, sq)}  ", who + (f" · {r['owner']}" if r.get("owner") else "") + (f" · [PR #{r['pr']}]({REPO}/pull/{r['pr']})" if r.get("pr") else "") + f" · {k} of {t} steps · updated {upd} Boston time  ",
-              f"🏁 **Likely finish:** {d['eta']}  ", f"> **Now:** {r.get('current', '')}  ", "> **Left:** " + (" → ".join(left) or "nothing"), ""]
-    ids = {n for n, *_ in rj}
-    missing = [f"job {j['number']}" for j in jobs if info[j["number"]][0] == "WORKING" and j["number"] not in ids]
-    if missing:
-        L += ["Not reported: " + ", ".join(missing) + ".", ""]
-else:
-    L += ["No job is reporting progress right now (jobs show here once their PR description carries a progress block).", ""]
-
-# ---- Live fixes and bug hunt
-L += ["## Live fixes and bug hunt", ""]
-if bug_hunt:
-    L += [f"From the read-only bug hunt on r52 (4 Oct; [report]({REPO}/blob/{board['branch']}/project-documents/gameplay-factory/reports/SONNET_BUG_HUNT_2026-10-04.md)). Most likely to hit a real game first.", "",
-          "| # | Problem in plain words | How likely | Status | Who |", "| --- | --- | --- | --- | --- |"]
-    for b in bug_hunt:
-        L.append(f"| {b['id'].replace('BH-', '')} | **{b['title']}.** {b['plain']} | {b.get('likelihood', '')} | {b['status']}{(' · ' + b['note']) if b.get('note') else ''} | {b.get('owner', '')} |")
-    if board.get("bug_hunt_extras"):
-        L += ["", "Small extras (cheap, optional): " + "; ".join(board["bug_hunt_extras"]) + "."]
-    L.append("")
-if lead_jobs:
-    L += ["Live fix jobs open: " + ", ".join(f"[{job_ref(j)}](jobs/JOB-{j['number']:02d}.md) ({info[j['number']][0].lower()})" for j in lead_jobs), ""]
-
-# ---- The two factories and the relay between them (tools/two_factories.py; relay_page.py writes the full RELAY.md)
+# ---- What Nik reads: what is live, what is moving, what is next, what waits on him. Finished work is folded away.
 import two_factories as TF
-from factory_common import ALL_LANES
+from factory_common import running_jobs, LANES, ALL_LANES, lane_of, pitch
+
 FAC = board.get("factories", {})
 TWO = {"live": TF.live(), "v": TF.v_factory(), "relay": TF.relay()}
+R2, lv, V = TWO["relay"], TWO["live"], TWO["v"]
+# A hand-off linked to a job PR ("job": "V-012" or a Team G job number) takes its progress from that PR's progress block.
+_jobs = {str(n): (r, k, t) for n, r, k, t in V["jobs"]} | {str(n): (r, k, t) for n, r, k, t in running_jobs()}
+for _t in (R2["tickets"] if R2 else []):
+    _j = _jobs.get(str(_t.get("job", "")))
+    if _j and _t["stage"] in ("RECEIVED", "WORKING", "DELIVERED", "SENT"):
+        _t["stage"], _t["pct"], _t["overdue"] = "WORKING", 100.0 * _j[1] / max(_j[2], 1), False
 
 
 def lane_tag(k):
@@ -242,111 +171,125 @@ def lane_tag(k):
     return f"{sq} {name}"
 
 
-def factory_block(key):
-    f = FAC.get(key)
-    if not f:
-        return []
-    workers = " · ".join(f"{lane_tag(w['lane'])} ({w['does']})" for w in f["workers"])
-    if key != "G":  # Team G's view: G Factory featured, V Factory smaller below (Team V's own board does the reverse)
-        return [f"## 🔵 {f['name']} (Team V's own board features it)", "", f"<sub>{f['role']}. Workers: {workers}</sub>", ""]
-    out = [f"## 🟢 {f['name']}", "", f"_{f['role']}._", "", "**Workers:** " + workers, ""]
+def bucket(x):
+    """One of: done, moving, nik, next, later. Read from the row's state and waits_on, written by the lead."""
+    s, w = str(x.get("state", "")).lower(), str(x.get("waits_on") or "").lower()
+    if s.startswith("done"):
+        return "done"
+    if any(k in s for k in ("building", "in progress", "in review", "checks", "gates", "running", "with the lead", "in r6")):
+        return "moving"
+    if x.get("lane") == "nik" or "needs nik" in s or "waiting on nik" in s or w.startswith("nik"):
+        return "nik"
+    if s.startswith(("next", "ready")) and not w.startswith("after"):
+        return "next"
+    return "later"
+
+
+ROWS = {"G": FAC.get("G", {}).get("future", []), "V": FAC.get("V", {}).get("future", [])}
+B = {k: {b: [x for x in rows if bucket(x) == b] for b in ("done", "moving", "nik", "next", "later")} for k, rows in ROWS.items()}
+open_tickets = [t for t in (R2["tickets"] if R2 else []) if t["stage"] != "DONE"]
+v_running = [(n, r, k, t) for n, r, k, t in V["jobs"] if k < t]
+v_done = [(n, r, k, t) for n, r, k, t in V["jobs"] if k >= t]
+g_running = running_jobs()
+fixes = lv["fixes"] if lv else []
+
+
+def gate_words(g):
+    if not g:
+        return "checks unknown"
+    parts = [f"{g['passed']} passed"] + [f"{g[k]} {k}" for k in ("running", "failed", "cancelled") if g[k]]
+    icon = "🔴" if g["failed"] else "🟠" if g["cancelled"] else "⏳" if g["running"] else "🟢"
+    return f"{icon} " + ", ".join(parts)
+
+
+n_moving = len(fixes) + len(B["G"]["moving"]) + len(B["V"]["moving"]) + len(v_running) + len(g_running) + len(open_tickets)
+n_next = len(B["G"]["next"]) + len(B["V"]["next"])
+n_nik = len(B["G"]["nik"]) + len(B["V"]["nik"])
+n_later = len(B["G"]["later"]) + len(B["V"]["later"])
+
+move = list(board.get("next_move") or []) or ["**Nothing for you to do right now.**"]
+L = ["# Showdown board: G Factory and V Factory", "",
+     (f"🌐 **Live: runtime {lv['revision']}** (main `{lv['sha']}`) · " if lv else "🌐 Live version unknown this run · ") +
+     f"🔄 **{n_moving} moving** · ⏭ {n_next} up next · 👤 {n_nik} waiting on Nik · 🗂 {n_later} later · updated {boston_now()}", "",
+     "## Your next move", ""] + [f"{i}. {m}" for i, m in enumerate(move, 1)] + [""]
+
+# ---- Moving now: open releases into main with their checks, jobs being built, hand-offs not yet done.
+L += ["## 🔄 Moving now", ""]
+if fixes:
+    L += ["| Release / fix | Checks on the latest commit | Updated |", "| --- | --- | --- |"]
+    for x in fixes:
+        L.append(f"| [PR #{x['pr']}]({REPO}/pull/{x['pr']}) {short(x['title'], 90)}{' (draft)' if x['draft'] else ''} | {gate_words(x.get('gates'))} | {TF.bos(x['updated'], '%-I:%M %p')} |")
+    L.append("")
+for n, r, k, t in g_running + v_running:
+    sq, who = lane_of(r)
+    pc = 100.0 * k / max(t, 1)
+    left = [s_["name"] for s_ in r.get("steps", []) if not s_.get("done")]
+    L += [f"**{sq} {n} · {r.get('title', '')}** · {pc:.0f} % ({k} of {t} steps) · {who}" + (f" · [PR #{r['pr']}]({REPO}/pull/{r['pr']})" if r.get("pr") else ""), "",
+          f"{pitch(pc / 100, sq)}  ", f"> **Now:** {r.get('current') or 'not reported'}" + (f"  \n> **Left:** {' → '.join(left)}" if left else ""), ""]
+moving_rows = [("G", x) for x in B["G"]["moving"]] + [("V", x) for x in B["V"]["moving"]]
+if moving_rows:
+    L += ["| Team | Job | What | Worker | Where it is | Details |", "| --- | --- | --- | --- | --- | --- |"]
+    L += [f"| {f} | {x['id']} | {x['title']} | {lane_tag(x['lane'])} | {x['state']} | {x.get('details') or x.get('waits_on') or '-'} |" for f, x in moving_rows]
+    L.append("")
+if open_tickets:
+    L += ["| Hand-off | From → To | What | Progress |", "| --- | --- | --- | --- |"]
+    L += [f"| [{t['id']}]({REPO}/blob/leads/relay/{t['path']}) | {t.get('from', '?')} → {t.get('to', '?')} | {t['title']}{' ⚠ overdue' if t['overdue'] else ''} | {TF.pipeline(t)} |" for t in open_tickets]
+    L.append("")
+if not n_moving:
+    L += ["Nothing is moving right now.", ""]
+
+# ---- Each factory: up next, waiting on Nik, later. Done rows are folded into "Finished".
+def factory(key, icon):
+    f = FAC.get(key, {})
+    workers = " · ".join(lane_tag(w["lane"]) for w in f.get("workers", []))
+    out = [f"## {icon} {f.get('name', key)}", "", f"_{f.get('role', '')}._ Workers: {workers}", ""]
+    for b, head in (("next", "⏭ Up next"), ("nik", "👤 Waiting on Nik"), ("later", "🗂 Later")):
+        rows = B[key][b]
+        if rows:
+            out += [f"**{head}**", "", "| Job | What | Worker | State | Waits on |", "| --- | --- | --- | --- | --- |"]
+            out += [f"| {x['id']} | {x['title']}{(' — ' + x['details']) if x.get('details') else ''} | {lane_tag(x['lane'])} | {x['state']} | {x.get('waits_on') or '-'} |" for x in rows]
+            out.append("")
+    if not any(B[key][b] for b in ("next", "nik", "later")):
+        out += ["Nothing queued.", ""]
     return out
 
 
-def future_table(rows):
-    out = ["| # | Future work | Worker | State | Waits on |", "| --- | --- | --- | --- | --- |"]
-    for x in rows:
-        if str(x.get("state", "")).lower().startswith("done"):
-            continue
-        out.append(f"| {x['id']} | {x['title']} | {lane_tag(x['lane'])} | {x['state']} | {x.get('waits_on') or '-'} |")
-    return out + [""]
+L += factory("G", "🟢")
+L += factory("V", "🔵")
 
-
-R2 = TWO["relay"]
-lv = TWO["live"]
-# A hand-off linked to a job PR ("job": "V-012" or a Team G job number) takes its progress from that PR's progress block.
-_jobs = {str(n): (r, k, t) for n, r, k, t in TWO["v"]["jobs"]} | {str(n): (r, k, t) for n, r, k, t in running_jobs()}
-for _t in (R2["tickets"] if R2 else []):
-    _j = _jobs.get(str(_t.get("job", "")))
-    if _j and _t["stage"] in ("RECEIVED", "WORKING", "DELIVERED", "SENT"):
-        _t["stage"], _t["pct"], _t["overdue"] = "WORKING", 100.0 * _j[1] / max(_j[2], 1), False
-if lv:
-    L[L.index("## Your next move"):L.index("## Your next move")] = (
-        ["## Live now", "", f"🌐 **main `{lv['sha']}` · runtime {lv['revision']}** · last change {TF.bos(lv['when'])} Boston time: {short(lv['subject'], 110)}", ""] +
-        ([f"- 🔧 Live fix in review: [PR #{x['pr']}]({REPO}/pull/{x['pr']}) {x['title']}" + (" (draft)" if x["draft"] else "") for x in lv["fixes"]] + [""] if lv["fixes"] else ["No live fix waiting to merge.", ""]) +
-        ([f"**Shipped to the live game today ({len(lv['today'])}):**", ""] + [f"- ✅ {TF.bos(x['merged'], '%-I:%M %p')} · [PR #{x['pr']}]({REPO}/pull/{x['pr']}) {x['title']}" for x in lv["today"]] + [""] if lv.get("today") else []))
-else:
-    L[L.index("## Your next move"):L.index("## Your next move")] = ["## Live now", "", "Could not read main this run. Do not trust this section.", ""]
-
-L += factory_block("G")
-L += future_table(FAC.get("G", {}).get("future", []))
-
-L += factory_block("V")
-V = TWO["v"]
-if V["jobs"]:
-    for n, r, k, t in V["jobs"]:
-        sq, who = lane_of(r)
-        pc = 100.0 * k / max(t, 1)
-        L += [f"### {sq} {n} · {r.get('title', '')} · {pc:.4f} %", "", f"{pitch(pc / 100, sq)}  ", f"{who} · [PR #{r['pr']}]({REPO}/pull/{r['pr']}) · {k} of {t} steps · {TF.bos(r.get('updated'))} Boston time  ",
-              f"> **Now:** {r.get('current') or 'not reported'}", ""]
-else:
-    L += ["No Team V job is reporting yet (Team V jobs show here once a PR titled `V-…` carries a progress block)." +
-          (f" Board 1 (retired): {V['headline']} ([link]({V['old_board']}))." if V["headline"] else ""), ""]
-v_tickets = [t for t in (R2["tickets"] if R2 else []) if t.get("to") == "V" and t["stage"] != "DONE"]
-L += future_table([{"id": t["id"], "title": f"{t['title']} (hand-off)", "lane": t.get("worker") or "opus", "state": TF.STAGE_WORD.get(t["stage"], t["stage"]), "waits_on": "Team V" if t["stage"] in ("SENT", "DELIVERED") else ""} for t in v_tickets] +
-                  [x for x in FAC.get("V", {}).get("future", []) if not any(x["id"] in (t.get("covers") or []) for t in v_tickets)])
-if V["workers"]:
-    L += ["<sub>Team V record so far: " + " · ".join(f"{w['name']} {w['jobs']} jobs ({w['first_time']} first time)" for w in V["workers"]) + "</sub>", ""]
-
-L += ["## 📡 Relay and hand-offs", ""]
+# ---- Relay, short: health and the latest messages. Every message in full lives in RELAY.md.
+L += ["## 📡 Relay", ""]
 if R2:
     ov = [t for t in R2["tickets"] if t["overdue"]]
-    wake = " · direct wake: " + ", ".join(f"Team {k} {'✅' if v else '⚠ not registered'}" for k, v in R2.get("inbox", {}).items())
-    health = "✅ working" + wake if R2["comments_read"] and not ov else ("⚠ " + ", ".join(t["id"] for t in ov) + f" not acknowledged after {TF.OVERDUE_H} h" if ov else "⚠ could not read the wake comments")
-    L += [f"**Relay health:** {health} · {len(R2['rows'])} messages, {len(R2['tickets'])} hand-offs · branch head `{R2['head']}` ({TF.bos(R2['head_time'])} Boston time) · "
-          f"**[Read every message in full: RELAY.md](RELAY.md)**", ""]
-    if R2["tickets"]:
-        L += ["| Hand-off | From → To | What | Progress | Picked up in |", "| --- | --- | --- | --- | --- |"]
-        for t in R2["tickets"]:
-            L.append(f"| [{t['id']}]({REPO}/blob/leads/relay/{t['path']}) | {t.get('from', '?')} → {t.get('to', '?')} | {t['title']}{' ⚠ overdue' if t['overdue'] else ''} | {TF.pipeline(t)} | {TF.mins(t['pickup_min']) if t.get('pickup_min') is not None else ('waiting ' + TF.mins(t['waiting_min'])) if t.get('waiting_min') is not None else '-'} |")
-        L.append("")
-    L.append("Latest messages:")
-    for m in R2["rows"][-4:][::-1]:
-        L.append(f"- {m['id']} · {boston_from_utc(m['time'])} · {m['from']} → {m['to']} · {short(m['subject'], 100)}")
+    wake = ", ".join(f"Team {k} {'✅' if v else '⚠ not registered'}" for k, v in R2.get("inbox", {}).items())
+    health = ("✅ working" if R2["comments_read"] and not ov else "⚠ " + (", ".join(t["id"] for t in ov) + f" not acknowledged after {TF.OVERDUE_H} h" if ov else "could not read the wake comments"))
+    done_t = len(R2["tickets"]) - len(open_tickets)
+    L += [f"**Health:** {health} · direct wake: {wake} · {len(R2['rows'])} messages · {len(open_tickets)} open hand-offs, {done_t} done · **[every message in full: RELAY.md](RELAY.md)**", ""]
+    owed_g = [m["id"] for m in (relay or {}).get("open_for_g", []) if m["reply"].lower().startswith("yes")]
+    owed_v = [m["id"] for m in (relay or {}).get("open_for_v", []) if m["reply"].lower().startswith("yes")]
+    if owed_g or owed_v:
+        L += [f"Replies owed: Team G {', '.join(owed_g) or 'none'} · Team V {', '.join(owed_v) or 'none'}.", ""]
+    L.append("Latest:")
+    L += [f"- {m['id']} · {boston_from_utc(m['time'])} · {m['from']} → {m['to']} · {short(m['subject'], 100)}" for m in R2["rows"][-3:][::-1]]
     L.append("")
-if relay:
-    L.append(("**Open for the Team G lead to answer:** " + ", ".join(f"{m['id']}" for m in relay["open_for_g"])) if relay["open_for_g"] else "**Open for the Team G lead to answer:** nothing.")
-    L.append("**Waiting on Team V:** " + (", ".join(m["id"] for m in relay["open_for_v"]) if relay["open_for_v"] else "nothing") + ".")
 else:
-    L.append("Could not read the relay branch this run. Do not trust the lines above about Team V.")
-L.append("")
+    L += ["Could not read the relay branch this run.", ""]
 
-# ---- Jobs still open (short)
-L += ["## G Factory jobs still open", ""]
-if open_jobs:
-    L += ["| Job | What | Lane | Waits on | State |", "| --- | --- | --- | --- | --- |"]
-    for j in open_jobs:
-        n = j["number"]
-        title = f"[{j['title']}](jobs/JOB-{n:02d}.md)" if j.get("written") else j["title"]
-        dep = [f"job {d}" for d in j["depends_on"] if info[d][0] not in FINISHED]
-        if j.get("waits_on"):
-            dep.append(j["waits_on"])
-        L.append(f"| {j['key']} | {title} | {j['lane']} | {', '.join(dep) or '-'} | {info[n][0]} |")
-else:
-    L.append("None. Every job is done.")
-L.append("")
+# ---- Finished, folded away.
+fin = [("G", x) for x in B["G"]["done"]] + [("V", x) for x in B["V"]["done"]]
+today = (lv or {}).get("today") or []
+L += ["## ✅ Finished", ""]
+if today:
+    L += [f"**Shipped to the live game today ({len(today)}):** " + " · ".join(f"[#{x['pr']}]({REPO}/pull/{x['pr']}) {short(x['title'], 60)}" for x in today[:4]) + (f" · and {len(today) - 4} more" if len(today) > 4 else ""), ""]
+L += ["<details>", f"<summary>Done jobs ({len(fin)} future-list rows, {len(v_done)} Team V jobs, {len(R2['tickets']) - len(open_tickets) if R2 else 0} hand-offs, {done} factory jobs)</summary>", ""]
+L += [f"- {f} {x['id']}: {x['title']} ({x['state']})" for f, x in fin]
+L += [f"- V {n}: {r.get('title', '')} ([PR #{r['pr']}]({REPO}/pull/{r['pr']}))" for n, r, k, t in v_done]
+L += [f"- {t['id']} ({t.get('from')} → {t.get('to')}): {t['title']}" for t in (R2["tickets"] if R2 else []) if t["stage"] == "DONE"]
+if bug_hunt:
+    L += [f"- Bug hunt on r52: {sum(1 for b in bug_hunt if b['status'].upper().startswith('DONE'))} of {len(bug_hunt)} fixed ([report]({REPO}/blob/{board['branch']}/project-documents/gameplay-factory/reports/SONNET_BUG_HUNT_2026-10-04.md))"]
+L += [f"- The first factory plan: {done} of {len(jobs)} jobs finished ([every job](BOARD_ARCHIVE.md))", "", "</details>", "",
+      "<sub>Made by `tools/board.py` from `BOARD.json` (the lead's job list), PR progress blocks, open PRs into main and the relay. It rebuilds itself on GitHub; nobody edits it by hand.</sub>"]
 
-# ---- Finished work: collapsed, full table in BOARD_ARCHIVE.md
-phases = {}
-for j in jobs:
-    p = phases.setdefault(j.get("phase", "?"), [0, 0])
-    p[1] += 1
-    p[0] += info[j["number"]][0] in FINISHED
-L += ["<details>", f"<summary><b>Finished work: {done} jobs</b> (click to open)</summary>", ""]
-L += [f"- {name}: {d} of {t} done" for name, (d, t) in sorted(phases.items()) if d]
-L += ["", f"Full list of every job with its state: [BOARD_ARCHIVE.md](BOARD_ARCHIVE.md).", "", "</details>", "",
-      f"Lanes: **chat** = normal Sol chat (text and PRs only); **work** = Sol Work mode (terminal and npm; emulator proofs run on CI); **lead** = the Team G lead does it; **nik** = Nik on his real devices. NOT WRITTEN = job file not written yet, never start it. Capacity: {cap.get('chat')} chats and {cap.get('work')} Work-mode chat at once.", "",
-      "This page rebuilds itself on GitHub when a job moves or Team V posts to the relay (workflows `gameplay-factory-board.yml` and `leads-relay-ping.yml`). Made by `project-documents/gameplay-factory/tools/board.py` from `BOARD.json`, `status/` and the relay feed. Workers never edit it."]
 open(os.path.join(F, "BOARD.md"), "w").write("\n".join(L) + "\n")
 
 # ---- Archive: every job, full table
@@ -366,7 +309,7 @@ state = {"generated": boston_now(), "relay": relay, "two": {"live": TWO["live"],
          "inbox": R2.get("inbox") if R2 else None, "tickets": [{x: t.get(x) for x in ("id", "from", "to", "title", "stage", "pct", "overdue", "path", "worker", "pickup_min", "waiting_min")} for t in (R2["tickets"] if R2 else [])], "relay_ok": bool(R2 and R2["comments_read"])}, "branch": board["branch"],
          "integration_branch": board["integration_branch"], "capacity": cap, "overall": overall, "done": done,
          "total": len(jobs), "start": start, "queued": queued, "working": working, "blocked": blocked,
-         "bug_hunt": bug_hunt, "next_move": move,
+         "bug_hunt": bug_hunt, "next_move": move, "now": {"moving": n_moving, "next": n_next, "nik": n_nik, "later": n_later, "rows": {k: {b: v for b, v in d.items() if b != "done"} for k, d in B.items()}, "fixes": fixes},
          "jobs": [dict(j, state=info[j["number"]][0], stale=stale.get(j["number"]), step=info[j["number"]][1], steps_total=info[j["number"]][2],
                        pct=pct(j["number"]), ready=ready(j)) for j in jobs]}
 json.dump(state, open(os.path.join(F, "BOARD_STATE.json"), "w"), indent=1, ensure_ascii=False)

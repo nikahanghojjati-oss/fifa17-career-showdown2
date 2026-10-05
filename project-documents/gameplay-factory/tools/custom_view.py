@@ -44,6 +44,7 @@ st = json.load(open(os.path.join(F, "BOARD_STATE.json")))
 open_bugs = [b for b in all_bugs() if b["status"] in OPEN_BUG]
 now = datetime.datetime.now(BOS)
 rj0 = running_jobs()
+NOW = st.get("now") or {}
 
 H = ["<style>"
      ".cv{--h:'Arial Narrow',Impact,sans-serif;font:14px/1.45 'Segoe UI',system-ui,sans-serif;max-width:720px;color:#fbfcfc;background:#20272d;border-radius:14px;padding:0 0 14px;overflow:hidden}"
@@ -59,13 +60,17 @@ H = ["<style>"
      ".cv a{color:#fbfcfc;text-decoration:underline}.cv code{background:#20272d;padding:0 4px;border-radius:3px}.cv .foot{margin:10px 14px 0}</style>",
      '<div class="cv">',
      f'<div class="ban"><b>Showdown · G Factory + V Factory</b><span>Updated {now:%a %-d %b, %-I:%M %p} Boston time · <a href="{BLOB}BOARD.md">Job board</a> · <a href="{BLOB}BUG_BOARD.md">Bug board</a> · <a href="{BLOB}RELAY.md">Relay</a></span></div>',
-     f'<div class="tiles"><div class="tile"><b>{st["done"]}/{st["total"]}</b><span>Jobs done</span></div><div class="tile"><b>{len(rj0)}</b><span>In play</span></div><div class="tile"><b>{len(open_bugs)}</b><span>Open bugs</span></div></div>',
-     f'<div class="m" style="margin:6px 14px 0;text-align:center">{ETA.whistle([ETA.describe(r) for _, r, _, _ in rj0])}</div>',
+     f'<div class="tiles"><div class="tile"><b>{e(((st.get("two") or {}).get("live") or {}).get("revision", "?").split("-")[-1])}</b><span>Live</span></div><div class="tile"><b>{NOW.get("moving", 0)}</b><span>Moving</span></div><div class="tile"><b>{NOW.get("next", 0)}</b><span>Up next</span></div><div class="tile"><b>{NOW.get("nik", 0)}</b><span>Waits on Nik</span></div></div>',
      "<h2>Your next move</h2>", '<div class="card move">' + "<br>".join(md(m) for m in st.get("next_move") or ["Nothing for you to start right now."]) + "</div>",
-     "<h2>Running now</h2>"]
+     "<h2>Moving now</h2>"]
 rj = sorted(running_jobs())
-if not rj:
-    H[-1] = '<h2>Running now</h2><div class="card m">No job is reporting progress right now.</div>' 
+G_W = lambda g: ("checks unknown" if not g else ("🔴 " if g["failed"] else "🟠 " if g["cancelled"] else "⏳ " if g["running"] else "🟢 ") + ", ".join([f'{g["passed"]} passed'] + [f'{g[k]} {k}' for k in ("running", "failed", "cancelled") if g[k]]))
+_mv = [f'<a href="{PR}{x["pr"]}">PR #{x["pr"]}</a> {e(x["title"][:70])} <span class="m">{e(G_W(x.get("gates")))}</span>' for x in NOW.get("fixes", [])]
+_mv += [f'<b>{e(k)} {e(x["id"])}</b> {e(x["title"][:70])} <span class="m">{e(x["state"])}</span>' for k in ("G", "V") for x in (NOW.get("rows", {}).get(k, {}).get("moving") or [])]
+if _mv:
+    H.append('<div class="card">' + "<br>".join(_mv) + "</div>")
+elif not rj:
+    H.append('<div class="card m">Nothing is moving right now.</div>')
 COMPACT = "--compact" in sys.argv  # only if the page would pass 7 KB: show the next three steps instead of all
 for n, r, k, t in rj:
     sq, who = lane_of(r)
@@ -83,7 +88,6 @@ for n, r, k, t in rj:
 GF = ETA.gaffer()
 if GF:
     if GF["stale"]:
-        H.append(f'<div class="card"><b>🧑‍💼 Gaffer</b> <span class="m">no fresh report (last one {e(GF.get("updated_boston", "?"))} Boston time, {GF["age_min"] // 60} h old). Usage shown on the Gaffer page.</span><br><a href="{e(GF.get("page", ""))}">Gaffer page</a></div>')
         GF = None
 if GF:
     gc = "#f0d900" if GF["pct"] < 80 else "#f97316" if GF["pct"] < 95 else "#ef4444"
@@ -102,7 +106,6 @@ LV = TWO.get("live")
 H.append("<h2>Live now</h2>")
 if LV:
     H.append(f'<div class="card">🌐 <b>main <code>{e(LV["sha"])}</code> · {e(LV["revision"])}</b> <span class="m">{e(TF.bos(LV["when"]))}</span><br>{e(LV["subject"][:80])}' +
-             "".join(f'<br>🔧 <a href="{PR}{x["pr"]}">PR #{x["pr"]}</a> {e(x["title"][:80])}' for x in LV["fixes"]) +
              (f'<br><b>Shipped today:</b>' + "".join(f'<br>✅ <span class="m">{e(TF.bos(x["merged"], "%-I:%M %p"))}</span> #{x["pr"]} {e(x["title"][:48])}' for x in LV.get("today", [])[:4]) if LV.get("today") and not COMPACT else "") + "</div>")
 else:
     H.append('<div class="card m">Could not read main this run.</div>')
@@ -113,12 +116,13 @@ for key, colour in (("G", "#22c55e"), ("V", "#42b9da")):
     f = FAC.get(key)
     if not f:
         continue
-    fut = [x for x in f["future"] if not str(x["state"]).lower().startswith("done")]
+    _b = NOW.get("rows", {}).get(key, {})
+    fut = (_b.get("next") or []) + (_b.get("nik") or []) + (_b.get("later") or []) if _b else [x for x in f["future"] if not str(x["state"]).lower().startswith("done")]
     rows = "".join(f'<br>{sq(x["lane"])} <b>{e(x["id"])}</b> {e(x["title"][:56])} <span class="m">{e(x["state"])}</span>' for x in fut[:3])
     extra = ""
     if key == "V":
         vj = TWO.get("v_jobs") or []
-        extra = "".join(f'<br>{sq("opus")} <b>{e(j["job"])}</b> {e(j["title"][:60])} <span class="pc" style="font-size:15px">{100 * j["done"] / max(j["total"], 1):.2f} %</span>' for j in vj) or '<br><span class="m">No V- job PR open right now.</span>'
+        extra = "".join(f'<br>{sq("opus")} <b>{e(j["job"])}</b> {e(j["title"][:60])} <span class="pc" style="font-size:15px">{100 * j["done"] / max(j["total"], 1):.0f} %</span>' for j in vj if j["done"] < j["total"]) or '<br><span class="m">No Team V job running right now.</span>'
     H.append(f'<h2 style="border-left-color:{colour}">{e(f["name"])}</h2><div class="card"><span class="m">' + " ".join(sq(w["lane"]) for w in f["workers"]) + f' {len(f["workers"])} workers</span>{extra}{rows}' +
              (f'<br><span class="m">and {len(fut) - 3} more on the board</span>' if len(fut) > 3 else "") + "</div>")
 H.append("<h2>Relay</h2>")
@@ -128,7 +132,9 @@ ov = [t["id"] for t in TK if t.get("overdue")]
 H.append('<div class="card">' + ("✅ Relay working" + "".join(f" · {k} wake {'✅' if v else '⚠'}" for k, v in (TWO.get("inbox") or {}).items()) if TWO.get("relay_ok") and not ov else "⚠ " + (", ".join(ov) + " not acknowledged" if ov else "wake comments unreadable")) +
          f' <span class="m">{rel.get("count", 0)} messages · {len(TK)} hand-offs</span>')
 STEP = ["SENT", "DELIVERED", "RECEIVED", "WORKING", "DONE"]
-for t in TK[::-1][:4]:
+_open_tk = [t for t in TK if t["stage"] != "DONE"]
+H.append(f'<br><span class="m">{len(_open_tk)} open hand-offs, {len(TK) - len(_open_tk)} done</span>')
+for t in _open_tk[::-1][:4]:
     k = STEP.index(t["stage"]) if t["stage"] in STEP else 0
     dots = "".join("🟢" if i <= k else "⚪" for i in range(5))
     H.append(f'<br>{dots} <b>{e(t["id"])}</b> {e(t.get("from") or "?")}→{e(t.get("to") or "?")} {e(t["title"][:50])} <span class="m">{e(TF.STAGE_WORD.get(t["stage"], t["stage"]))}' + (f' {t["pct"]:.0f} %' if t["stage"] == "WORKING" else "") + (f' · picked up in {TF.mins(t["pickup_min"])}' if t.get("pickup_min") is not None else f' · waiting {TF.mins(t["waiting_min"])}' if t.get("waiting_min") is not None else "") + "</span>")

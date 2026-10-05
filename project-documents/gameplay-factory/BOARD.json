@@ -599,7 +599,7 @@
    "title": "The 4-hour private session ends long games",
    "plain": "A 5 or 10 season game outlives one session, so both managers must open a fresh one. Needs one retest mid-season. Now job 31 (ten-season games).",
    "likelihood": "low",
-   "status": "DONE",
+   "status": "DONE · job 31, PR #350: one-tap reconnect after expiry; live since 2.0 (r54)",
    "owner": "lead",
    "note": "job 31, PR #350 (recovery fb0dd02): one-tap reconnect after expiry; live at the next release"
   }
@@ -696,8 +696,8 @@
      "id": "G-F11",
      "title": "Old-design CSS collisions: scope old rulebook/settings/analytics/app CSS off Team V markup (about 70 shared class names)",
      "lane": "sonnet",
-     "state": "queued (Sonnet audit, then Opus fix)",
-     "waits_on": "HO-004 findings"
+     "state": "ready (Sonnet audit, then Opus fix)",
+     "waits_on": ""
     },
     {
      "id": "G-F12",
@@ -715,23 +715,31 @@
     },
     {
      "id": "G-F14",
-     "title": "Phone track list: stop below the logo and scroll with 11 tracks",
+     "title": "r61: phone track list stops below the logo and scrolls, and Next To You plays first",
      "lane": "opus",
-     "state": "ready (PR #383), lead takes it into r61",
-     "waits_on": "r61"
+     "state": "in final checks (PR #383)",
+     "waits_on": "16 checks green, then the lead merges",
+     "details": "GitHub had no free test machines at 4 PM; the checks are re-running"
+    },
+    {
+     "id": "G-F17",
+     "title": "Replace POS20 with a faster check system built on Claude and GitHub, keeping every check",
+     "lane": "opus",
+     "state": "with the lead (Nik asked at 5:26 PM Boston time)",
+     "waits_on": "the lead's plan"
     },
     {
      "id": "G-F15",
      "title": "Landscape phone Home layout (844x390): title sits on the wordmark, soundtrack card covers the right tiles (already in r59)",
      "lane": "opus",
-     "state": "queued for r61",
+     "state": "queued for r62",
      "waits_on": ""
     },
     {
      "id": "G-F16",
      "title": "Phone Home nit from Team V (HO-006): second line of START A SHOWDOWN touches the clipboard icon at 393px",
      "lane": "opus",
-     "state": "queued for r61",
+     "state": "queued for r62",
      "waits_on": ""
     },
     {
@@ -837,6 +845,6 @@
   }
  },
  "next_move": [
-  "**r60 is live** (no old photos, 7 Home tiles, 11-track soundtrack with Nasty first). Close and reopen the app once, then play. r61 next: phone track list, landscape phone Home, START A SHOWDOWN nit."
+  "**r61 is in its final checks:** the phone song list stops below the logo and scrolls, and Next To You plays first. It goes live as soon as the checks pass. Nothing for you to do."
  ]
 }

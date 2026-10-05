@@ -67,6 +67,25 @@ def hours_since(iso):
         return 0
 
 
+def gates(sha):
+    """Check runs on a PR head, in words: how many passed, are still running, failed or were cancelled."""
+    r = api(f"commits/{sha}/check-runs?per_page=100")
+    if not r:
+        return None
+    runs = r.get("check_runs") or []
+    c = {"passed": 0, "running": 0, "failed": 0, "cancelled": 0}
+    for x in runs:
+        if x["status"] != "completed":
+            c["running"] += 1
+        elif x["conclusion"] in ("success", "skipped", "neutral"):
+            c["passed"] += 1
+        elif x["conclusion"] == "cancelled":
+            c["cancelled"] += 1
+        else:
+            c["failed"] += 1
+    return c
+
+
 def live():
     ref = fetch("main", "main-live")
     sha = sh("git", "rev-parse", "--short", ref)
@@ -75,7 +94,7 @@ def live():
     when = (sh("git", "log", "-1", "--format=%cI", ref) or "").strip()
     subj = (sh("git", "log", "-1", "--format=%s", ref) or "").strip()
     prs = api("pulls?state=open&base=main&per_page=50") or []
-    fixes = [dict(pr=p["number"], title=p["title"], draft=p.get("draft"), branch=p["head"]["ref"], updated=p["updated_at"])
+    fixes = [dict(pr=p["number"], title=p["title"], draft=p.get("draft"), branch=p["head"]["ref"], sha=p["head"]["sha"], updated=p["updated_at"], gates=gates(p["head"]["sha"]))
              for p in prs if hours_since(p["updated_at"]) < 72 and not p["title"].upper().startswith("DO NOT MERGE")]
     # Today's fixes: PRs merged into main since midnight Boston time, newest first (straight from GitHub, nothing hand-written).
     midnight = datetime.datetime.now(BOS).replace(hour=0, minute=0, second=0, microsecond=0)
