@@ -1,6 +1,6 @@
 {
  "team": "G",
- "updated": "2026-10-04T20:53-04:00",
+ "updated": "2026-10-04T21:04-04:00",
  "jobs_done": 20,
  "jobs_total": 33,
  "open_bugs": 2,
@@ -12,13 +12,13 @@
    "job": 27,
    "title": "Transfer War screens",
    "worker": "Opus",
-   "done": 3,
+   "done": 5,
    "total": 7,
-   "pct": 27.3512,
-   "eta": "about 9:19 PM (likely 9:02 PM to 9:57 PM) Boston time",
-   "current": "Pushed bd58e2ef with the root-cause fixes and the latest test build (41660939): Home's late-loading stylesheet no longer hides Transfer War's HOME/REFRESH bar, and the replay shows one guess card per manager. Waiting for the 16 checks",
+   "pct": 85.1248,
+   "eta": "about 9:09 PM (likely 9:06 PM to 9:26 PM) Boston time",
+   "current": "Pushed b9252079: the latest test build (1e7775a4, job 33) is merged in, with no other changes. Locally on this exact tree: contracts 126/126, ops 73/0, two-manager play-through 36/36 on its own ports. Screenshots are in /mnt/project-files/job-27/. Waiting for CI, then lead review",
    "pr": 362,
-   "updated": "2026-10-05T00:41:53Z"
+   "updated": "2026-10-05T01:01:54Z"
   },
   {
    "job": 28,

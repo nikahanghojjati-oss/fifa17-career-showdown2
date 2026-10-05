@@ -1,6 +1,6 @@
 # Team G gameplay board
 
-20 of 33 jobs done (70 %) ███████░░░ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-04 9:00 PM Boston time (EDT)
+20 of 33 jobs done (70 %) ███████░░░ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-04 9:04 PM Boston time (EDT)
 
 ## Your next move
 
@@ -24,15 +24,15 @@ Each bar is the share of the job done, to four decimals: finished steps weighted
 
 Opus · Lead (helper) · PR #362
 
-🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧⚽▫️▫️▫️▫️▫️ 🥅 **72.6488 %** (4 of 7 steps)
+🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧⚽▫️▫️ 🥅 **85.1248 %** (5 of 7 steps)
 
-**Likely finish:** about 9:11 PM (likely 9:05 PM to 9:36 PM) Boston time
+**Likely finish:** about 9:09 PM (likely 9:06 PM to 9:26 PM) Boston time
 
-**Going on now:** All 16 checks green on bd58e2ef. Now taking phone and desktop screenshots of Transfer War (waiting, guessing, verdict), then one push that brings in the latest test build (1e7775a4)
+**Going on now:** Pushed b9252079: the latest test build (1e7775a4, job 33) is merged in, with no other changes. Locally on this exact tree: contracts 126/126, ops 73/0, two-manager play-through 36/36 on its own ports. Screenshots are in /mnt/project-files/job-27/. Waiting for CI, then lead review
 
-**Still to do:** Bring in the latest test build once → Lead review (screenshots and diff) → Merged into the test build
+**Still to do:** Lead review (screenshots and diff) → Merged into the test build
 
-_Updated Sun 4 Oct 8:57 PM Boston time_
+_Updated Sun 4 Oct 9:01 PM Boston time_
 
 ### 🟪 Job 28 · Rivalry Stats and Legacy
 

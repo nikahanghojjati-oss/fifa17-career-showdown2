@@ -1,6 +1,6 @@
 # 🐞 Team G bug hunting factory
 
-> Updated **Sun 4 Oct, 9:00 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
+> Updated **Sun 4 Oct, 9:04 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
 
 | 🔓 Open | 🔴 Top priority | 🔧 Fixing or waiting for release | ✅ Fixed and live |
 | :---: | :---: | :---: | :---: |
@@ -22,12 +22,12 @@ Bars show the share of each job done, to four decimals (finished steps weighted 
 ### 🟧 Opus · 2 jobs
 
 **[Job 27 · Transfer War screens](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/362)**  
-🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧⚽▫️▫️▫️▫️▫️ 🥅 **72.6488 %** · 4 of 7 steps · updated Sun 4 Oct, 8:57 PM
+🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧⚽▫️▫️ 🥅 **85.1248 %** · 5 of 7 steps · updated Sun 4 Oct, 9:01 PM
 
-**Likely finish:** about 9:11 PM (likely 9:05 PM to 9:36 PM) Boston time
+**Likely finish:** about 9:09 PM (likely 9:06 PM to 9:26 PM) Boston time
 
-> **Going on now:** All 16 checks green on bd58e2ef. Now taking phone and desktop screenshots of Transfer War (waiting, guessing, verdict), then one push that brings in the latest test build (1e7775a4)  
-> **Still to do:** Bring in the latest test build once → Lead review (screenshots and diff) → Merged into the test build
+> **Going on now:** Pushed b9252079: the latest test build (1e7775a4, job 33) is merged in, with no other changes. Locally on this exact tree: contracts 126/126, ops 73/0, two-manager play-through 36/36 on its own ports. Screenshots are in /mnt/project-files/job-27/. Waiting for CI, then lead review  
+> **Still to do:** Lead review (screenshots and diff) → Merged into the test build
 
 **[Job 29 · Season Results, Final Winner, Standings](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/357)**  
 🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧⚽▫️▫️▫️ 🥅 **83.9411 %** · 10 of 12 steps · updated Sun 4 Oct, 8:52 PM
