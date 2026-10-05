@@ -62,9 +62,8 @@ _Gameplay, online sync, every merge and every release (senior director)._
 | # | Future work | Worker | State | Waits on |
 | --- | --- | --- | --- | --- |
 | G-F1 | Nik and Daniel play 2.0 on their phones | 👤 Nik and Daniel | waiting on Nik | - |
-| G-F10 | Club Assignment: wire Team V's approved design (hands, seams, new layout) into the live screen | 🟧 Opus | waiting on Nik (PR #371, r57, 16/16 green) | Nik: merge 371 |
-| G-F5 | QA packet adoptions: truth line, wrong-target guard on main PRs, PR title rule | 🟪 Sonnet | next | G-F10's PR open |
-| G-F6 | Small gameplay follow-ups: transfer message after session expiry, raw error codes in Setup, 'Career screens could not load' toast when the online history is only unavailable | 🟩 Sol Work mode | ready | - |
+| G-F5 | QA packet adoptions: truth line, wrong-target guard on main PRs, PR title rule | 🟪 Sonnet | next | - |
+| G-F6 | Small gameplay follow-ups: transfer message after session expiry, raw error codes in Setup, 'Career screens could not load' toast when the online history is only unavailable | 🟩 Sol Work mode | ready | after G-F5 |
 | G-F11 | Old-design CSS collisions: scope old rulebook/settings/analytics/app CSS off Team V markup (about 70 shared class names) | 🟪 Sonnet | queued (Sonnet audit, then Opus fix) | HO-004 findings |
 | G-F12 | No player photos on League and Club; hidden photos stop downloading under Team V skins | 🟪 Sonnet | queued | Nik's OK (he named Start only; Team V truth says no photos anywhere) |
 | G-F3 | Bug-hunting factory: one report thread, Sonnet hunts, Opus fixes, small batch releases | 🟪 Sonnet | queued | G-F1 and Nik's OK |

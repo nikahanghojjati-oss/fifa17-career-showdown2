@@ -675,22 +675,22 @@
      "id": "G-F10",
      "title": "Club Assignment: wire Team V's approved design (hands, seams, new layout) into the live screen",
      "lane": "opus",
-     "state": "waiting on Nik (PR #371, r57, 16/16 green)",
-     "waits_on": "Nik: merge 371"
+     "state": "done (live in r57, PR #371)",
+     "waits_on": ""
     },
     {
      "id": "G-F5",
      "title": "QA packet adoptions: truth line, wrong-target guard on main PRs, PR title rule",
      "lane": "sonnet",
      "state": "next",
-     "waits_on": "G-F10's PR open"
+     "waits_on": ""
     },
     {
      "id": "G-F6",
      "title": "Small gameplay follow-ups: transfer message after session expiry, raw error codes in Setup, 'Career screens could not load' toast when the online history is only unavailable",
      "lane": "sol-work",
      "state": "ready",
-     "waits_on": ""
+     "waits_on": "after G-F5"
     },
     {
      "id": "G-F11",
