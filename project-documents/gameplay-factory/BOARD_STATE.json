@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 6:44 PM Boston time (EDT)",
+ "generated": "2026-10-05 6:45 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -315,7 +315,7 @@
   "live": {
    "sha": "61489dd",
    "revision": "1.9.1-r61",
-   "when": "2026-10-05T21:37:15+00:00",
+   "when": "2026-10-05T21:37:15Z",
    "subject": "Release r61: phone track list stops below the logo and scrolls; Next To You first (#383)",
    "fixes": [
     {
