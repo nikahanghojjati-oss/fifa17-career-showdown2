@@ -234,7 +234,7 @@ async function reviewTamperAndPublish(page,role,result,{lostAcknowledgement=fals
     assert.equal(await host.locator('#seasonReviewOne').isVisible(),true);assert.equal(await host.locator('#seasonReviewTwo').isVisible(),true,'first publisher must reveal opponent only after refreshing the completed two-role state');
     await host.locator('#sharedSeasonCommitAction').waitFor({state:'visible',timeout:5000});
     assert.ok(await host.evaluate(()=>window.__commitRouteRefreshes)>0,'opening already-ready Results must explicitly refresh installed Commit, without waiting for incidental DOM or polling wakes');
-    assert.equal(await host.locator('#sharedSeasonCommitAction').textContent(),'COMMIT SHARED SEASON','real Results route must hand the coordinator directly into Shared Season Commit instead of dead-ending at r9');
+    assert.equal(await host.locator('#sharedSeasonCommitAction').textContent(),'COMMIT & ACKNOWLEDGE SHARED SEASON','real Results route must hand the coordinator directly into Shared Season Commit instead of dead-ending at r9');
 
     for(const page of [host,peer]){
       assert.deepEqual(await page.evaluate(()=>window.__ssjrResultsAudit.storageAfter()),await page.evaluate(()=>window.__ssjrResultsAudit.storageBefore),'shared publication must not mutate canonical local storage');
