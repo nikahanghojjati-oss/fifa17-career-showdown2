@@ -1,6 +1,6 @@
 # Showdown board: G Factory and V Factory
 
-🌐 **Live: runtime 1.9.1-r60** (main `d8e6c44`) · 🔄 **4 moving** · ⏭ 2 up next · 👤 3 waiting on Nik · 🗂 7 later · updated 2026-10-05 5:30 PM Boston time (EDT)
+🌐 **Live: runtime 1.9.1-r60** (main `d8e6c44`) · 🔄 **4 moving** · ⏭ 2 up next · 👤 3 waiting on Nik · 🗂 7 later · updated 2026-10-05 5:31 PM Boston time (EDT)
 
 ## Your next move
 
@@ -10,7 +10,7 @@
 
 | Release / fix | Checks on the latest commit | Updated |
 | --- | --- | --- |
-| [PR #383](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/383) Release r61: phone track list stops below the logo and scrolls | ⏳ 12 passed, 3 running | 5:24 PM |
+| [PR #383](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/383) Release r61: phone track list stops below the logo and scrolls | ⏳ 13 passed, 2 running | 5:24 PM |
 
 | Team | Job | What | Worker | Where it is | Details |
 | --- | --- | --- | --- | --- | --- |
@@ -74,7 +74,7 @@ Latest:
 **Shipped to the live game today (8):** [#378](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/378) G-36: No old player photos + seven Home tiles (r60) · [#377](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/377) G-35: Team V screen fixes HO-003 + HO-004 (r59, includes r5… · [#371](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/371) G-34: Team V's Club Assignment on the live screen (r57) · [#369](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/369) Live 2.0 screen fixes: Trophy Room clipping, Start Showdown… · and 4 more
 
 <details>
-<summary>Done jobs (6 future-list rows, 0 Team V jobs, 6 hand-offs, 33 factory jobs)</summary>
+<summary>Done jobs (6 future-list rows, 1 Team V jobs, 6 hand-offs, 33 factory jobs)</summary>
 
 - G G-F10: Club Assignment: wire Team V's approved design (hands, seams, new layout) into the live screen (done (live in r57, PR #371))
 - G G-F12: G-36: no old player photos on any screen, and all 7 Home tiles (done (live in r60, d8e6c44))
@@ -82,6 +82,7 @@ Latest:
 - G G-F2: Live 2.0 fixes from Nik's review: r55 and r56 shipped today (list in Live now) (done for r56)
 - V V-F1: Team V jobs on this board: V- PR titles with a progress block; old board retired (done (V2G-017))
 - V V-F3: Visual check of live 2.0 against the approved package 5e05a1f (done (sent as HO-004))
+- V V-247: Phone Home tile icons like GOAL_HOME ([PR #381](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/381))
 - HO-001 (G → V): Use hand-off tickets for passing work (relay v1.1)
 - HO-002 (G → V): Smooth stage atmosphere on idle screens (pointer stutter root cause)
 - HO-003 (G → V): Header chips and footer design on Team V screens
