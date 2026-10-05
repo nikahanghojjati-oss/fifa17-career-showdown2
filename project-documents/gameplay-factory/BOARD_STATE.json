@@ -315,7 +315,7 @@
   "live": {
    "sha": "84a04d8",
    "revision": "1.9.1-r61",
-   "when": "2026-10-05T23:37:11+00:00",
+   "when": "2026-10-05T23:37:11Z",
    "subject": "Physio sweep: skip a watched workflow that is not on main instead of failing (#387)",
    "fixes": [
     {
@@ -326,8 +326,8 @@
      "sha": "bb827862de3a9018e59a479f5d435c6498c3cf46",
      "updated": "2026-10-05T23:50:33Z",
      "gates": {
-      "passed": 8,
-      "running": 5,
+      "passed": 10,
+      "running": 3,
       "failed": 2,
       "cancelled": 0
      }
@@ -420,9 +420,9 @@
    ]
   },
   "physio": {
-   "state": "barking",
-   "line": "Barking: POS20 has waited 10 min for a machine.",
-   "gate": "POS20 #390 7/16",
+   "state": "clear",
+   "line": "All clear: every check has a machine.",
+   "gate": "POS20 #390 9/16",
    "source": "physio"
   },
   "v_headline": "Board 1 (visual package): 238 of 238 jobs done and checked",
@@ -837,8 +837,8 @@
     "sha": "bb827862de3a9018e59a479f5d435c6498c3cf46",
     "updated": "2026-10-05T23:50:33Z",
     "gates": {
-     "passed": 8,
-     "running": 5,
+     "passed": 10,
+     "running": 3,
      "failed": 2,
      "cancelled": 0
     }
