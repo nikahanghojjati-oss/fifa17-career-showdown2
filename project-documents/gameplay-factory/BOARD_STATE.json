@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 5:35 PM Boston time (EDT)",
+ "generated": "2026-10-05 5:36 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -315,7 +315,7 @@
   "live": {
    "sha": "d8e6c44",
    "revision": "1.9.1-r60",
-   "when": "2026-10-05T18:51:23+00:00",
+   "when": "2026-10-05T18:51:23Z",
    "subject": "Release r60: no old player photos, seven Home tiles, 11-track soundtrack, phone tile icons (#378)",
    "fixes": [
     {
