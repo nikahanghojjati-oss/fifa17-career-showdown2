@@ -10,11 +10,11 @@
  "priority": "top",
  "worker": "images",
  "parent": null,
- "job": null,
- "status": "RECEIVED",
+ "job": "V-243",
+ "status": "WORKING",
  "steps": [],
  "evidence": [],
- "log": [{"at": "2026-10-05T13:02:33Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-10-05T15:46:05Z", "by": "V", "status": "RECEIVED", "note": "top priority; V2 phone overlays, each manager only"}]
+ "log": [{"at": "2026-10-05T13:02:33Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-10-05T15:46:05Z", "by": "V", "status": "RECEIVED", "note": "top priority; V2 phone overlays, each manager only"}, {"at": "2026-10-05T16:03:07Z", "by": "V", "status": "WORKING", "note": "V2 overlays on branch v-243-home-phone-overlays-v2, PR #372"}]
 }
 ```
 
