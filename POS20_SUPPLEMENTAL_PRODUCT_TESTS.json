@@ -920,6 +920,19 @@
         "^tests/contracts/v10-club-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/showdown-gate-physio-contracts.cjs",
+      "patterns": [
+        "^\\.github/workflows/gate-watchdog\\.yml$",
+        "^scripts/gate-watchdog\\.mjs$",
+        "^scripts/gate-preempt\\.mjs$",
+        "^scripts/physio-status\\.mjs$",
+        "^tests/fixtures/showdown-gate/",
+        "^tests/support/gha-workflow-parse\\.cjs$",
+        "^tests/contracts/showdown-gate-physio-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }

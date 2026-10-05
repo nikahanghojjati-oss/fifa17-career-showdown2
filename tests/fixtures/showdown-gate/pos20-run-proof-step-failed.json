@@ -1,0 +1,220 @@
+{
+  "_source": "Synthetic Validate POS20 run in the GitHub jobs-API shape (step names as GitHub reports unnamed uses/run steps): the REMOTE proof step failed while the STORAGE proof job was never acquired. A failed test step must win: TEST_FAILURE, never re-run.",
+  "run": {
+    "id": 5151,
+    "name": "Validate POS20",
+    "path": ".github/workflows/validate-pos10.yml",
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "failure",
+    "head_sha": "ffffffffffffffffffffffffffffffffffffffff",
+    "head_branch": "feature/y",
+    "run_attempt": 1,
+    "head_repository": {
+      "full_name": "o/r"
+    },
+    "pull_requests": []
+  },
+  "jobs": [
+    {
+      "id": 1,
+      "name": "POS20 exact selector",
+      "status": "completed",
+      "conclusion": "success",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-10-05T18:00:00Z",
+          "completed_at": "2026-10-05T18:01:00Z"
+        },
+        {
+          "name": "Run actions/checkout@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-10-05T18:00:00Z",
+          "completed_at": "2026-10-05T18:01:00Z"
+        },
+        {
+          "name": "Resolve exact changed artifacts",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-10-05T18:00:00Z",
+          "completed_at": "2026-10-05T18:01:00Z"
+        },
+        {
+          "name": "Compute POS20 cognitive route",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-10-05T18:00:00Z",
+          "completed_at": "2026-10-05T18:01:00Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-10-05T18:00:00Z",
+          "completed_at": "2026-10-05T18:01:00Z"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "POS20 cognitive benchmark",
+      "status": "completed",
+      "conclusion": "success",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-10-05T18:00:00Z",
+          "completed_at": "2026-10-05T18:01:00Z"
+        },
+        {
+          "name": "Run actions/checkout@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-10-05T18:00:00Z",
+          "completed_at": "2026-10-05T18:01:00Z"
+        },
+        {
+          "name": "Run actions/setup-node@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-10-05T18:00:00Z",
+          "completed_at": "2026-10-05T18:01:00Z"
+        },
+        {
+          "name": "Run npm run work:benchmark",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-10-05T18:00:00Z",
+          "completed_at": "2026-10-05T18:01:00Z"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "POS20 proof REMOTE",
+      "status": "completed",
+      "conclusion": "failure",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-10-05T18:00:00Z",
+          "completed_at": "2026-10-05T18:01:00Z"
+        },
+        {
+          "name": "Run actions/checkout@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-10-05T18:00:00Z",
+          "completed_at": "2026-10-05T18:01:00Z"
+        },
+        {
+          "name": "Run actions/setup-node@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-10-05T18:00:00Z",
+          "completed_at": "2026-10-05T18:01:00Z"
+        },
+        {
+          "name": "Run actions/setup-java@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-10-05T18:00:00Z",
+          "completed_at": "2026-10-05T18:01:00Z"
+        },
+        {
+          "name": "Run npm ci",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-10-05T18:00:00Z",
+          "completed_at": "2026-10-05T18:01:00Z"
+        },
+        {
+          "name": "Run selected inherited heavy proofs",
+          "status": "completed",
+          "conclusion": "failure",
+          "number": 6,
+          "started_at": "2026-10-05T18:00:00Z",
+          "completed_at": "2026-10-05T18:01:00Z"
+        },
+        {
+          "name": "Post Run actions/setup-node@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-10-05T18:00:00Z",
+          "completed_at": "2026-10-05T18:01:00Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8,
+          "started_at": "2026-10-05T18:00:00Z",
+          "completed_at": "2026-10-05T18:01:00Z"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "POS20 proof STORAGE",
+      "status": "completed",
+      "conclusion": "cancelled",
+      "runner_name": "",
+      "steps": []
+    },
+    {
+      "id": 5,
+      "name": "POS20 exact-head cognitive seal",
+      "status": "completed",
+      "conclusion": "failure",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-10-05T18:00:00Z",
+          "completed_at": "2026-10-05T18:01:00Z"
+        },
+        {
+          "name": "Require benchmark and every selected lane on this head",
+          "status": "completed",
+          "conclusion": "failure",
+          "number": 2,
+          "started_at": "2026-10-05T18:00:00Z",
+          "completed_at": "2026-10-05T18:01:00Z"
+        }
+      ]
+    }
+  ],
+  "annotations": {
+    "4": [
+      {
+        "annotation_level": "failure",
+        "message": "The job was not acquired by Runner of type hosted even after multiple attempts"
+      }
+    ]
+  }
+}
