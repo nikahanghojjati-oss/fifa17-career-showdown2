@@ -691,6 +691,7 @@ function renderSettings(){
         createDataPanel()
     );
     settingsContent.replaceChildren(fragment);
+    window.CareerModeRulesSettingsV10?.refreshSettings();
 }
 
 function getSettingsFocusRestoreSelector(){
@@ -834,6 +835,7 @@ function openSettings(){
     settingsOverlay.classList.remove("hidden");
     settingsOverlay.setAttribute("aria-hidden", "false");
     setSettingsBackgroundInert(true);
+    window.CareerModeRulesSettingsV10?.openSettings();
 
     window.requestAnimationFrame(() => {
         if(settingsDialog && !settingsOverlay.classList.contains("hidden")){
@@ -847,6 +849,7 @@ function closeSettings(restoreFocus = true){
     settingsOverlay.classList.add("hidden");
     settingsOverlay.setAttribute("aria-hidden", "true");
     setSettingsBackgroundInert(false);
+    window.CareerModeRulesSettingsV10?.closeSettings();
 
     if(restoreFocus && settingsPreviousFocus && settingsPreviousFocus.isConnected){
         settingsPreviousFocus.focus();
@@ -857,6 +860,7 @@ function closeSettings(restoreFocus = true){
 
 function initializeSettings(){
     ensureSettingsDialog();
+    window.loadRuntimeScript("rules-settings-v10", "js/rulesSettingsV10.js", () => Boolean(window.CareerModeRulesSettingsV10)).then(() => window.CareerModeRulesSettingsV10.install()).catch(() => {});
 
     if(!settingsPreferenceListenerBound){
         settingsPreferenceListenerBound = true;

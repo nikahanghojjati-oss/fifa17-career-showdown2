@@ -1,10 +1,17 @@
-const RUNTIME_REVISION = "1.9.1-r53";
-const PREVIOUS_RUNTIME_REVISION = "1.9.1-r52";
+const RUNTIME_REVISION = "1.9.1-r54";
+const PREVIOUS_RUNTIME_REVISION = "1.9.1-r53";
 const CACHE_PREFIX = "career-mode-showdown-shell-";
 const MODE_CACHE_PREFIX = "career-mode-showdown-runtime-mode-";
 const CACHE_NAME = `${CACHE_PREFIX}${RUNTIME_REVISION}`;
 const PREVIOUS_CACHE_NAME = PREVIOUS_RUNTIME_REVISION ? `${CACHE_PREFIX}${PREVIOUS_RUNTIME_REVISION}` : "";
 const MODE_CACHE_NAME = `${MODE_CACHE_PREFIX}${RUNTIME_REVISION}`;
+// JOB-24: Team V images are not precached on install (about 20 MB in all). They load on first view into
+// this cache-first runtime cache, keyed by RUNTIME_REVISION. Activate keeps it and the retained recovery
+// revision's image cache (for rollback) and clears the others.
+const V10_IMAGE_CACHE_PREFIX = "career-mode-showdown-v10-images-";
+const V10_IMAGE_CACHE_NAME = `${V10_IMAGE_CACHE_PREFIX}${RUNTIME_REVISION}`;
+function v10ImageCacheName(revision){ return revision ? `${V10_IMAGE_CACHE_PREFIX}${revision}` : ""; }
+const V10_IMAGE_PATH = /^visual-assets\/v10_1\/.+\.(?:webp|png|jpe?g|avif|gif|svg)$/i;
 const NETWORK_PROBE_TIMEOUT_MS = 1800;
 const RUNTIME_CONFIG_PATH = "firebase.runtime-config.json";
 const APP_CHECK_BOOTSTRAP_PATH = "js/productionAppCheckBootstrap.js";
@@ -39,6 +46,23 @@ const SHELL_PATHS = Object.freeze([
     "data/transferOptions.js",
     "js/analytics.js",
     "js/careerScreenSeam.js",
+    "js/careerScreensV10.js",
+  "visual-assets/v10_1/legacy/legacy.css",
+  "visual-assets/v10_1/legacy/legacy.js",
+  "visual-assets/v10_1/legacy/strings.json",
+  "visual-assets/v10_1/legacy/assets/platemap.json",
+  "visual-assets/v10_1/rivalry-statistics/rivalry-statistics.css",
+  "visual-assets/v10_1/rivalry-statistics/rivalry-statistics.js",
+  "visual-assets/v10_1/rivalry-statistics/strings.json",
+  "visual-assets/v10_1/rivalry-statistics/assets/platemap.json",
+  "js/rivalryLegacyV10.js",
+  "js/rivalryLegacyV10Markup.js",
+  "js/sharedCareerAnalytics.js",
+  "js/sharedActiveShowdownAdapter.js",
+  "js/sharedClosedShowdownAdapter.js",
+  "js/sparkCompletedShowdownReader.js",
+  "js/sparkClosedShowdownCareerLoader.js",
+  "css/rivalryLegacyV10.css",
     "js/app.js",
     "js/backup.js",
     "js/clubAssignment.js",
@@ -146,7 +170,62 @@ const SHELL_PATHS = Object.freeze([
     "assets/football/zlatan-ibrahimovic-man-utd-2016-v113.webp",
     "assets/icons/showdown-192.svg",
     "assets/icons/showdown-512.svg",
-    "assets/icons/showdown-maskable-512.svg"
+    "assets/icons/showdown-maskable-512.svg",
+    "visual-assets/v10_1/career-statistics/assets/platemap.json",
+    "visual-assets/v10_1/career-statistics/career-statistics.css",
+    "visual-assets/v10_1/career-statistics/career-statistics.js",
+    "visual-assets/v10_1/shared/fonts/barlow-condensed-latin-600-normal.woff2",
+    "visual-assets/v10_1/shared/fonts/barlow-condensed-latin-700-normal.woff2",
+    "visual-assets/v10_1/shared/fonts/barlow-latin-400-normal.woff2",
+    "visual-assets/v10_1/shared/fonts/barlow-latin-600-normal.woff2",
+    "visual-assets/v10_1/shared/fonts/kaushan-script-latin-400-normal.woff2",
+    "visual-assets/v10_1/shared/motion.css",
+    "visual-assets/v10_1/shared/motion.js",
+    "visual-assets/v10_1/shared/showdown-tokens.css",
+    "visual-assets/v10_1/shared/showdown-type.css",
+    "visual-assets/v10_1/shared/showdown-ui.css",
+    "visual-assets/v10_1/shared/stage.css",
+    "visual-assets/v10_1/shared/stage.js",
+    "visual-assets/v10_1/trophy-room/assets/platemap.json",
+    "visual-assets/v10_1/trophy-room/trophy-room.css",
+    "visual-assets/v10_1/trophy-room/trophy-room.js",
+    "visual-assets/v10_1/season-results/season-results.css",
+    "visual-assets/v10_1/season-results/season-results.js",
+    "visual-assets/v10_1/season-results/app-shell.html",
+    "visual-assets/v10_1/final-winner/final-winner.css",
+    "visual-assets/v10_1/final-winner/final-winner.js",
+    "visual-assets/v10_1/final-winner/app-shell.html",
+    "visual-assets/v10_1/standings/standings.css",
+    "visual-assets/v10_1/standings/standings.js",
+    "visual-assets/v10_1/standings/app-shell.html",
+    "visual-assets/v10_1/final-winner/app-strings.json",
+    "visual-assets/v10_1/standings/app-strings.json",
+    "js/seasonFinalV10.js",
+    "visual-assets/v10_1/season-results/app.css",
+    "js/v10Screens.js",
+    "js/homeScreensV10.js",
+    "visual-assets/v10_1/home/home.css",
+    "visual-assets/v10_1/home/soundtrack.js",
+    "css/homeV10.css",
+    "js/rulesSettingsV10.js",
+    "css/rulesSettingsV10.css",
+    "visual-assets/v10_1/rule-book/rule-book.css",
+    "visual-assets/v10_1/settings/settings.css",
+    "js/startJoinViewModel.js",
+    "css/v10Shell.css",
+    "visual-assets/v10_1/shared/navbar/navbar.css",
+    "visual-assets/v10_1/shared/navbar/navbar.js",
+    "js/v10Setup.js",
+    "css/v10Setup.css",
+    "js/transferScreenV10.js",
+    "css/v10Transfer.css",
+    "visual-assets/v10_1/tr2/slice-02-plate/plate.css",
+    "visual-assets/v10_1/tr2/slice-02-plate/plate.js",
+    "visual-assets/v10_1/tr2/slice-02-plate/platemap.json",
+    "visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-600-normal.woff2",
+    "visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-700-normal.woff2",
+    "visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-latin-400-normal.woff2",
+    "visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-latin-600-normal.woff2"
 ]);
 const SHELL_PATH_SET = new Set(SHELL_PATHS);
 
@@ -233,8 +312,21 @@ self.addEventListener("message",event=>{
     if(type==="CMS_ROLLBACK_TO_PREVIOUS"){ event.waitUntil((async()=>{ try{ const recovery=await findRecoveryRuntime(); if(!recovery.ok){throw new Error("No verified previous application shell is available for rollback.");} await writeForcedRevision(recovery.revision); replyToClient(event,{type:"CMS_ROLLBACK_ACCEPTED",ok:true,revision:recovery.revision}); }catch(error){ replyToClient(event,{type:"CMS_ROLLBACK_REJECTED",ok:false,error:error?.message||String(error)}); } })()); return; }
     if(type==="CMS_CLEAR_ROLLBACK"){ event.waitUntil((async()=>{ await clearForcedRevision(); replyToClient(event,{type:"CMS_ROLLBACK_CLEARED",ok:true,revision:RUNTIME_REVISION}); })()); }
 });
-self.addEventListener("activate",event=>{ event.waitUntil((async()=>{ const status=await verifyCache(RUNTIME_REVISION); if(!status.ok){throw new Error(`Refusing activation with incomplete application shell: ${status.missing.join(", ")}`);} await clearForcedRevision(); const recovery=await findRecoveryRuntime(); const keepShellCaches=new Set([CACHE_NAME,recovery.ok?recovery.cacheName:""] .filter(Boolean)); const cacheNames=await caches.keys(); await Promise.all(cacheNames.map(name=>{if(name.startsWith(CACHE_PREFIX)&&!keepShellCaches.has(name)){return caches.delete(name);}if(name.startsWith(MODE_CACHE_PREFIX)&&name!==MODE_CACHE_NAME){return caches.delete(name);}return Promise.resolve(false);})); await self.clients.claim(); })()); });
+self.addEventListener("activate",event=>{ event.waitUntil((async()=>{ const status=await verifyCache(RUNTIME_REVISION); if(!status.ok){throw new Error(`Refusing activation with incomplete application shell: ${status.missing.join(", ")}`);} await clearForcedRevision(); const recovery=await findRecoveryRuntime(); const keepShellCaches=new Set([CACHE_NAME,recovery.ok?recovery.cacheName:""] .filter(Boolean)); const keepImageCaches=new Set([V10_IMAGE_CACHE_NAME,recovery.ok?v10ImageCacheName(recovery.revision):""].filter(Boolean)); const cacheNames=await caches.keys(); await Promise.all(cacheNames.map(name=>{if(name.startsWith(CACHE_PREFIX)&&!keepShellCaches.has(name)){return caches.delete(name);}if(name.startsWith(MODE_CACHE_PREFIX)&&name!==MODE_CACHE_NAME){return caches.delete(name);}if(name.startsWith(V10_IMAGE_CACHE_PREFIX)&&!keepImageCaches.has(name)){return caches.delete(name);}return Promise.resolve(false);})); await self.clients.claim(); })()); });
 async function cachedShellResponse(path,revision){ const cacheName=cacheNameForRevision(revision); if(!cacheName||!(await cacheExists(cacheName))){return null;} const cache=await caches.open(cacheName); return cache.match(versionedShellUrl(path,revision)); }
+function isV10ImagePath(path){ return V10_IMAGE_PATH.test(path); }
+// Images follow the shell the page runs: after a rollback they come from the retained revision's own image cache
+// (or its shell cache, for revisions that precached them), so an offline rollback keeps the art it had viewed. A miss is
+// fetched by path: each Team V image path names one generation (_V<n> name, bytes pinned by v10-foundation F9c).
+async function v10ImageRevision(){ const forced=await readForcedRevision(); return forced&&forced!==RUNTIME_REVISION&&await cacheExists(cacheNameForRevision(forced))?forced:RUNTIME_REVISION; }
+async function v10ImageResponse(event,request,path){
+    const revision=await v10ImageRevision(); const cache=await caches.open(v10ImageCacheName(revision)); const key=scopeUrl(path).href;
+    const cached=await cache.match(key); if(cached){ return cached; }
+    if(revision!==RUNTIME_REVISION){ const retained=await cachedShellResponse(path,revision); if(retained){ return retained; } }
+    const response=await fetch(request);
+    if(response&&response.ok&&response.type==="basic"){ event.waitUntil(cache.put(key,response.clone()).catch(()=>{})); }
+    return response;
+}
 self.addEventListener("fetch",event=>{
     const request=event.request; if(request.method!=="GET"){return;} const url=new URL(request.url); const scope=scopeUrl(); if(url.origin!==scope.origin){return;}
     if(request.mode==="navigate"){
@@ -242,7 +334,7 @@ self.addEventListener("fetch",event=>{
         if(NETWORK_ONLY_NAVIGATION_PATHS.has(path)){ event.respondWith(fetch(networkOnlyRequest(request))); return; }
         event.respondWith((async()=>{ const selected=await chooseNavigationRuntime(); if(selected){const cached=await cachedShellResponse("index.html",selected.revision);if(cached){return cached;}} return fetch(request); })()); return;
     }
-    const path=relativeScopePath(url); if(!path){return;} if(NETWORK_ONLY_ASSET_PATHS.has(path)){ event.respondWith(fetch(networkOnlyRequest(request))); return; } if(path===RUNTIME_CONFIG_PATH){return;} if(path===APP_CHECK_BOOTSTRAP_PATH){return;} const requestedRevision=url.searchParams.get("v")||""; if(!requestedRevision){return;}
+    const path=relativeScopePath(url); if(!path){return;} if(isV10ImagePath(path)){ event.respondWith(v10ImageResponse(event,request,path)); return; } if(NETWORK_ONLY_ASSET_PATHS.has(path)){ event.respondWith(fetch(networkOnlyRequest(request))); return; } if(path===RUNTIME_CONFIG_PATH){return;} if(path===APP_CHECK_BOOTSTRAP_PATH){return;} const requestedRevision=url.searchParams.get("v")||""; if(!requestedRevision){return;}
     event.respondWith((async()=>{const cached=await cachedShellResponse(path,requestedRevision);return cached||Response.error();})());
 });
 self.__CMS_SERVICE_WORKER_DIAGNOSTICS__=Object.freeze({revision:RUNTIME_REVISION,previousRevision:PREVIOUS_RUNTIME_REVISION,cacheName:CACHE_NAME,previousCacheName:PREVIOUS_CACHE_NAME,modeCacheName:MODE_CACHE_NAME,shellPaths:SHELL_PATHS});

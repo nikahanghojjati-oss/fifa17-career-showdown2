@@ -129,6 +129,8 @@
     if(pmspHistoryWitnessed()){
       const next=season+1;pmspText(ui.status,`SEASON ${season} HISTORY IS CONVERGED ON THIS DEVICE · CONTINUE ONCE TO SEASON ${next}`);pmspText(ui.action,`CONTINUE TO SEASON ${next}`);pmspDisable(ui.action,!pmspCanContinue());return true;
     }
+    // Job 33 (R8): the Shared Season Commit status already says SEASON COMMITTED · SCORE BELOW; do not repeat it.
+    const commitStatus=pmspField("sharedSeasonCommitStatus"),duplicate=Boolean(commitStatus&&!commitStatus.classList.contains("hidden")&&commitStatus.textContent==="SEASON COMMITTED · SCORE BELOW");pmspHidden(ui.status,duplicate);
     pmspText(ui.status,`SEASON ${season} IS ACCEPTED · SHARED HISTORY REVIEW MUST BE VISIBLE BEFORE ADVANCING`);pmspText(ui.action,"WAITING FOR SHARED HISTORY REVIEW");pmspDisable(ui.action,true);return true;
   }
   async function pmspRefreshNow(request=pmspRequest()){
@@ -144,7 +146,11 @@
     if(busy||!pmspCanContinue())return false;const request=pmspRequest();if(!request)return false;const state=view.state,season=pmspEnsureCursor();
     if(season>=state.totalSeasons)return false;exposedSeason=season+1;pmspRender();
     try{root.dispatchEvent?.(new root.CustomEvent("career-mode-shared-season-cursor-change",{detail:{rivalryId:request.rivalryId,previousSeason:season,activeSeason:exposedSeason,acceptedSeasons:state.acceptedSeasons}}));}catch(_error){}
-    if(typeof root.navigateTo==="function")await root.navigateTo("dashboard",{addToHistory:false});pmspDecorateDashboard();return true;
+    if(typeof root.navigateTo==="function")await root.navigateTo("dashboard",{addToHistory:false});pmspDecorateDashboard();
+    // Job 33 (R2): go straight on to the new season's Shared Transfer Challenge (the same open() the dashboard button runs).
+    // Opening is a read plus navigation; Daniel still taps START SHARED 15-MINUTE WINDOW. On failure the dashboard button stays.
+    try{const transfer=root.CareerModeProductionSharedTransferChallenge;if(transfer&&typeof transfer.open==="function"){if(typeof transfer.install==="function")transfer.install();await transfer.open();}}catch(_error){}
+    return true;
   }
   // Job 19: a fresh runtime starts its page-memory cursor at season 1. After the exact ACTIVE session is
   // re-established, the entry resumes at the provider-authoritative active season (acceptedSeasons+1, or the
@@ -168,5 +174,5 @@
   function pmspWake(){if(busy||!pmspSharedMarker()||root.document?.visibilityState==="hidden")return;void pmspRefresh();}
   function pmspInstall(){if(installed)return true;installed=true;if(root.document)root.document.addEventListener("click",pmspCapture,true);pmspObserveDashboard();for(const event of ["career-mode-shared-history-convergence-state-change","career-mode-shared-setup-state-change","career-mode-connected-account-state-change","career-mode-app-check-state-change"]){root.addEventListener?.(event,pmspWake);}root.document?.addEventListener?.("visibilitychange",pmspWake);if(typeof root.setInterval==="function")root.setInterval(pmspWake,POLL_MS);if(typeof root.setTimeout==="function")root.setTimeout(pmspWake,0);return true;}
 
-  return Object.freeze({lastError:()=>lastErrorCode,contractVersion:1,feature:"ssjr-production-shared-multi-season-progression",productionEnabled:true,runtimeRevision:"1.9.1-r13",supportedLengths:Object.freeze([1,3,5,10]),requiresHistoryConvergence:true,requiresVisibleHistoryWitnessBeforeAdvance:true,exactOnceLocalCursor:true,replaysAcceptedSeasonsFromOneOnFreshRuntime:true,resumesAuthoritativeSeasonAfterFreshSession:true,fixedClubs:true,canonicalStorageMutation:false,providerWriteRequired:false,listPermissionRequired:false,billingRequired:false,blazeRequired:false,cloudRunRequired:false,cloudFunctionsRequired:false,pollIntervalMs:POLL_MS,install:pmspInstall,refresh:pmspRefresh,getState:()=>view,resolveSeason:pmspResolveSeason,decorateDashboard:pmspDecorateDashboard,canContinue:pmspCanContinue,continueToNextSeason:pmspAdvance,resumeFromAuthority:pmspResumeFromAuthority,isActive:pmspSharedMarker});
+  return Object.freeze({lastError:()=>lastErrorCode,contractVersion:1,feature:"ssjr-production-shared-multi-season-progression",productionEnabled:true,runtimeRevision:"1.9.1-r13",supportedLengths:Object.freeze([1,3,5,10]),requiresHistoryConvergence:true,requiresVisibleHistoryWitnessBeforeAdvance:true,exactOnceLocalCursor:true,replaysAcceptedSeasonsFromOneOnFreshRuntime:true,resumesAuthoritativeSeasonAfterFreshSession:true,fixedClubs:true,continueOpensNextTransferChallenge:true,canonicalStorageMutation:false,providerWriteRequired:false,listPermissionRequired:false,billingRequired:false,blazeRequired:false,cloudRunRequired:false,cloudFunctionsRequired:false,pollIntervalMs:POLL_MS,install:pmspInstall,refresh:pmspRefresh,getState:()=>view,resolveSeason:pmspResolveSeason,decorateDashboard:pmspDecorateDashboard,canContinue:pmspCanContinue,continueToNextSeason:pmspAdvance,resumeFromAuthority:pmspResumeFromAuthority,isActive:pmspSharedMarker});
 });

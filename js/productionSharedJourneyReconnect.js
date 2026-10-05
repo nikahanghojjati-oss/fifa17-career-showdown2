@@ -73,17 +73,35 @@
     node=root.document.createElement("div");node.id=STATUS_ID;node.className="stateNote hidden";node.setAttribute("role","status");node.setAttribute("aria-live","polite");node.dataset.sharedJourneyReconnect="true";
     const header=root.document.getElementById("topHeader");if(header?.parentNode===app)header.insertAdjacentElement("afterend",node);else app.prepend(node);return node;
   }
+  // Job 31: say who does what, in the order Daniel and Nik actually reconnect (the first manager hosts, the second joins).
+  function pjrManagerName(role){const name=pjrShowdown()?.managers?.[role];return String(name||(role==="playerOne"?"Manager 1":"Manager 2"));}
+  function pjrReconnectStep(role){return role==="playerTwo"?`Tap RECONNECT SESSION, paste the new code from ${pjrManagerName("playerOne")} and tap JOIN PRIVATE SESSION.`:`Tap RECONNECT SESSION, then HOST PRIVATE SESSION and send the new code to ${pjrManagerName("playerTwo")}.`;}
   function pjrMessage(value){
     if(!value)return "";
     if(value.phase==="OFFLINE_HOLD")return "SHARED JOURNEY HELD OFFLINE · Provider authority is not being claimed. Reconnect to verify the preserved journey before continuing.";
     if(value.phase==="RECOVERY_PENDING")return "SHARED JOURNEY RECOVERY PENDING · Resolve the exact private-session operation before shared state can be authoritative again.";
-    if(value.phase==="FRESH_SESSION_REQUIRED")return value.resumable?"FRESH PRIVATE SESSION REQUIRED · The committed shared journey is preserved, but the old or expired session is not active authority. Open or join a fresh exact session for this rivalry to resume.":"FRESH PRIVATE SESSION REQUIRED · Establish an exact ACTIVE private session before shared journey recovery can be verified.";
+    if(value.phase==="FRESH_SESSION_REQUIRED")return `FRESH PRIVATE SESSION REQUIRED · ${value.resumable?"Your Showdown is saved; the private session has ended":"The private session has ended"} (sessions last up to 4 hours). ${pjrReconnectStep(value.managerRole)}`;
     if(value.phase==="TERMINAL_RECOVERED")return `SHARED JOURNEY RECOVERED · ALL ${value.totalSeasons} SEASONS REMAIN TERMINAL · A new session cannot resurrect another season.`;
     if(value.phase==="ACTIVE_RECOVERED")return `SHARED JOURNEY RECOVERED · SEASON ${value.activeSeason} OF ${value.totalSeasons} · League, clubs and accepted history resumed without reset or redraw.`;
     return "SHARED JOURNEY RECOVERY STATE UNAVAILABLE";
   }
+  // Job 31: after RECONNECT SESSION the Remote Joining panel stayed open over the game once the fresh session was ACTIVE.
+  // It now closes itself as soon as this page holds an exact unexpired ACTIVE session, and the banner re-checks at once.
+  let recoveryReturnUnsubscribe=null;
+  function pjrRemoteExactActive(remote){const expiry=Number(remote?.expiresAtEpochMs);return Boolean(remote&&remote.sessionState==="active"&&remote.sessionId&&remote.pendingAction==null&&Number.isFinite(expiry)&&Date.now()<expiry);}
+  function pjrArmRecoveryReturn(){
+    if(typeof recoveryReturnUnsubscribe==="function")recoveryReturnUnsubscribe();recoveryReturnUnsubscribe=null;
+    if(typeof remoteApi?.subscribe!=="function")return false;
+    recoveryReturnUnsubscribe=remoteApi.subscribe(next=>{
+      if(!pjrRemoteExactActive(next))return;
+      const stop=recoveryReturnUnsubscribe;recoveryReturnUnsubscribe=null;if(typeof stop==="function")stop();
+      try{remoteApi.closePanel?.();}catch(_error){}
+      void pjrRefresh();
+    });
+    return true;
+  }
   async function pjrOpenSessionRecovery(){
-    try{await pjrEnsureDependencies();if(typeof remoteApi?.openPanel!=="function")pjrFail("JOURNEY_RECONNECT_SESSION_UI_UNAVAILABLE","Private session recovery is unavailable.");await remoteApi.openPanel();return true;}catch(error){pjrReport("Unable to open private session recovery",error);return false;}
+    try{await pjrEnsureDependencies();if(typeof remoteApi?.openPanel!=="function")pjrFail("JOURNEY_RECONNECT_SESSION_UI_UNAVAILABLE","Private session recovery is unavailable.");if(!pjrRemoteExactActive(pjrRemoteSnapshot()))pjrArmRecoveryReturn();await remoteApi.openPanel();return true;}catch(error){pjrReport("Unable to open private session recovery",error);return false;}
   }
   function pjrRender(){
     const node=pjrStatusElement();if(!node)return false;const visible=pjrSharedMarker()&&Boolean(state);node.classList.toggle("hidden",!visible);if(!visible){node.replaceChildren();return false;}const text=pjrMessage(state);node.replaceChildren(root.document.createTextNode(text));if(state.phase==="FRESH_SESSION_REQUIRED"||state.phase==="RECOVERY_PENDING"){const action=root.document.createElement("button");action.id=ACTION_ID;action.type="button";action.className="compactButton";action.textContent=state.phase==="FRESH_SESSION_REQUIRED"?"RECONNECT SESSION":"RESOLVE SESSION";action.disabled=busy;action.addEventListener("click",()=>{void pjrOpenSessionRecovery();});node.append(root.document.createTextNode(" "),action);}node.dataset.recoveryPhase=state.phase;node.dataset.authoritative=state.activeAuthorization?"true":"false";return true;
@@ -122,9 +140,12 @@
   }
   // A new Showdown setup or a lagging progression read can fail for one poll; report only when the same failure repeats.
   const PJR_HELD_CODES=Object.freeze(["JOURNEY_RECONNECT_PROGRESSION_NOT_AUTHORITATIVE","JOURNEY_RECONNECT_SETUP_NOT_CONFIRMED"]);
+  // Account, device or rivalry authority not resolved yet (reload, startup, provider transition) is a quiet pending state:
+  // the banner cannot speak for an unresolved identity, and the next poll or wake re-checks. Role/rivalry mismatches still report.
+  const PJR_PENDING_AUTHORITY_CODES=Object.freeze(["JOURNEY_RECONNECT_AUTH_REQUIRED","JOURNEY_RECONNECT_DEVICE_REQUIRED","JOURNEY_RECONNECT_RIVALRY_REQUIRED"]);
   function pjrRefresh(){
     if(refreshPromise)return refreshPromise;busy=true;
-    const run=pjrRefreshNow().then(value=>{lastReportedCode="";heldTransientCode="";return value;},error=>{const code=`${String(accountApi?.getState?.()?.accountId||"")}|${String(pairingApi?.getState?.()?.deviceId||"")}|${String(pjrMarkerRivalry()||"")}|${String(error?.code||"JOURNEY_RECONNECT_FAILED")}|${String(multiApi?.lastError?.()||"")}`;if(PJR_HELD_CODES.includes(error?.code)&&code!==heldTransientCode&&code!==lastReportedCode){heldTransientCode=code;return state;}heldTransientCode="";if(code!==lastReportedCode)pjrReport("Unable to refresh Shared Journey recovery",error);lastReportedCode=code;return state;}).finally(()=>{busy=false;if(refreshPromise===run)refreshPromise=null;pjrRender();});refreshPromise=run;return run;
+    const run=pjrRefreshNow().then(value=>{lastReportedCode="";heldTransientCode="";return value;},error=>{if(PJR_PENDING_AUTHORITY_CODES.includes(error?.code)){heldTransientCode="";return state;}const code=`${String(accountApi?.getState?.()?.accountId||"")}|${String(pairingApi?.getState?.()?.deviceId||"")}|${String(pjrMarkerRivalry()||"")}|${String(error?.code||"JOURNEY_RECONNECT_FAILED")}|${String(multiApi?.lastError?.()||"")}`;if(PJR_HELD_CODES.includes(error?.code)&&code!==heldTransientCode&&code!==lastReportedCode){heldTransientCode=code;return state;}heldTransientCode="";if(code!==lastReportedCode)pjrReport("Unable to refresh Shared Journey recovery",error);lastReportedCode=code;return state;}).finally(()=>{busy=false;if(refreshPromise===run)refreshPromise=null;pjrRender();});refreshPromise=run;return run;
   }
   function pjrWake(){if(busy||!pjrSharedMarker()||root.document?.visibilityState==="hidden")return;void pjrRefresh();}
   function pjrInstall(){

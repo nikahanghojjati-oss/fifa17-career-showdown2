@@ -85,14 +85,15 @@ async function renderContracts(){
   let h=harness(result({leaguePosition:1}),result({leaguePosition:1}),{role:"playerOne"});h.api.install();await h.api.refresh();await settle();
   assert.match(h.status(),/^BOTH RESULTS ARE READY · AS COORDINATOR, COMMIT THE IMMUTABLE SHARED SEASON SNAPSHOT/,"the original status text must stay");
   assert.match(h.status(),/CHECK RESULTS: Both managers entered league position 1\. You can still commit; scores use what was entered\./);
-  assert.equal(h.action().textContent,"COMMIT SHARED SEASON");
+  assert.equal(h.action().textContent,"COMMIT & ACKNOWLEDGE SHARED SEASON");
   // C. The commit action stays enabled and a tap still commits.
-  assert.equal(h.action().disabled,false,"a clash must never disable COMMIT SHARED SEASON");assert.notEqual(h.action().attributes["aria-disabled"],"true");
+  assert.equal(h.action().disabled,false,"a clash must never disable COMMIT & ACKNOWLEDGE SHARED SEASON");assert.notEqual(h.action().attributes["aria-disabled"],"true");
   await h.tap();assert.equal(h.calls.commit,1,"a tap on a clashing season must still reach commitSeason");
   assert.match(h.status(),/THE SHARED RESULT SNAPSHOT IS COMMITTED/,"after commit the normal acknowledge state shows");
   assert.equal(h.action().textContent,"ACKNOWLEDGE SHARED SEASON");assert.equal(h.action().disabled,false,"acknowledge stays enabled");
   assert.ok(!/CHECK RESULTS/.test(h.status()),"the warning is only for the pre-commit decision");
-  await h.tap();assert.equal(h.calls.acknowledge,1,"acknowledge still works");
+  assert.equal(h.calls.acknowledge,1,"the coordinator's one tap also records his acknowledgement (R7)");
+  await h.tap();assert.equal(h.calls.acknowledge,2,"the ACKNOWLEDGE fallback still works");
   // B2. Several clashes together.
   h=harness(result({leaguePosition:2,championsLeague:true,domesticCup:true}),result({leaguePosition:2,championsLeague:true,domesticCup:true}));h.api.install();await h.api.refresh();await settle();
   assert.match(h.status(),/CHECK RESULTS: Both managers entered league position 2\. Both managers ticked Champions League\. Both managers ticked Domestic Cup\. You can still commit/);

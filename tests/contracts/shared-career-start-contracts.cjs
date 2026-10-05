@@ -88,7 +88,7 @@ assert.match(production,/if\(refreshPromise\)return refreshPromise;/,'concurrent
 assert.match(production,/return await pcstSerialize\(async\(\)=>\{/,'Career Start acknowledgement must participate in the shared provider-operation queue');
 assert.match(production,/if\(root\.document&&root\.document\.visibilityState==="hidden"\)return false;/,'Career Start automatic polling must stop while the page is hidden');
 assert.match(production,/if\(pcstReady\(\)\)\{pcstStopPolling\(\);return false;\}/,'Career Start automatic polling must stop permanently once both managers are ready');
-assert.match(production,/if\(pcstReady\(\)\)pcstStopPolling\(\);return view;/,'a refresh that observes terminal Career Start must cancel future polling immediately');
+assert.match(production,/if\(pcstReady\(\)\)\{pcstStopPolling\(\);pcstScheduleAutoContinue\(\);\}return view;/,'a refresh that observes terminal Career Start must cancel future polling immediately (Job 33: and then moves on to the Transfer Challenge)');
 assert.match(production,/CareerModeProductionSharedShowdownPresentation;[\s\S]*presentation\.deactivate\(\)/,'Career Start must deactivate the completed Shared Setup presentation so its provider polling cannot continue after handoff');
 assert.match(production,/serializedOperations:true,terminalPollingStops:true,deactivatesSetupPresentation:true/,'Career Start diagnostics must expose shared serialization, terminal polling shutdown and setup-presentation deactivation');
 assert.match(production,/ssjr-production-transfer-challenge","js\/productionSharedTransferChallenge\.js"/,'Career Start must load the production Shared Transfer Challenge as its next gameplay capability');

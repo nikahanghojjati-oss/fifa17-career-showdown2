@@ -201,9 +201,12 @@ await check("15. Seam loaded late",async()=>{
     assert.equal(calls[0][2](),true);assert.equal(container.textContent,Seam.TEXT.unavailable);assert.ok(Object.values(h.counts).every(n=>n===0));
   }
 });
-await check("16. Containment untouched",()=>{
+await check("16. Internal containment retained; History and Statistics reachable (job 28)",()=>{
   const identity=source("js/onlinePlayerIdentity.js");
-  for(const selector of ["#legacyButton:not([data-test-surface='internal-audit'])","#careerStatisticsButton:not([data-test-surface='internal-audit'])","#rivalryStatisticsButton:not([data-test-surface='internal-audit'])","display:none!important"])assert.ok(identity.includes(selector),selector);
+  assert.ok(identity.includes("display:none!important"));
+  for(const id of ["#legacyButton", "#rivalryStatisticsButton"])assert.equal(identity.includes(id),false,id+" is reachable online");
+  // JOB-28 completes the remaining Statistics/History containment removals.
+  assert.equal(identity.includes("#careerStatisticsButton"),false,"Career Statistics is reachable online");
   assert.equal(source("index.html").includes("trophyRoomButton"),false);
   assert.ok(source("service-worker.js").includes('    "js/analytics.js",\n    "js/careerScreenSeam.js",'));
 });

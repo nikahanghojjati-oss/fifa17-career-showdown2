@@ -134,7 +134,21 @@
     if(refreshPromise)return refreshPromise;busy=true;ptcRender();
     const run=ptcRefreshNow().catch(error=>{ptcReport("Unable to refresh Shared Showdown Terminal Close",error);return ptcCurrentState();}).finally(()=>{if(refreshPromise===run)refreshPromise=null;busy=false;ptcRender();});refreshPromise=run;return run;
   }
+  // Job 31: when the 4-hour private session ends (or a reload drops it) every shared refresher fails at once. The RECONNECT
+  // SESSION banner owns that state, so those failures wake the banner instead of stacking red error toasts.
+  function ptcSessionRecoveryOwnsFailure(){
+    try{
+      if(ptcShowdown()?.sharedJourney?.mode!=="shared")return false;
+      const remote=root.CareerModeSparkRemoteJoining?.getState?.();if(!remote)return false;
+      const expiry=Number(remote.expiresAtEpochMs);
+      if(remote.sessionState==="active"&&remote.sessionId&&remote.pendingAction==null&&Number.isFinite(expiry)&&Date.now()<expiry)return false;
+      root.console?.warn?.("[Career Mode Showdown] Shared refresh paused until the private session is reconnected.");
+      void root.CareerModeProductionSharedJourneyReconnect?.refresh?.();
+      return true;
+    }catch(_error){return false;}
+  }
   async function ptcReportUnlessClosed(context,error){
+    if(ptcSessionRecoveryOwnsFailure())return false;
     // Active-journey refreshers lose read access once the rivalry closes; a verified CLOSED state makes their failure expected, anything else is still reported.
     try{let current=ptcCurrentState();if(current?.phase!=="CLOSED"&&ptcRequest())current=await ptcRefresh();if(current&&current.phase==="CLOSED")return false;}catch(_error){}
     ptcReport(context,error);return true;

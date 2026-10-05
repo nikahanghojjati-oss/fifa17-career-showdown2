@@ -1,0 +1,57 @@
+{
+  "eyebrow": "CAREER MODE SHOWDOWN 17",
+  "heading": "LEGACY",
+  "tagline": "PAST SHOWDOWNS. A LASTING JOURNEY.",
+  "previewLabel": "",
+  "sideMenu": {
+    "legacy": "LEGACY ARCHIVE",
+    "trophyRoom": "TROPHY ROOM",
+    "records": "RECORDS"
+  },
+  "actions": {
+    "viewSeasonHistory": "VIEW SEASON HISTORY"
+  },
+  "states": {
+    "abandoned": "Abandoned · not counted",
+    "completionPending": "Completion pending",
+    "interim": "Current Showdown only. Career history is not yet available.",
+    "loading": "Loading your Showdown history…",
+    "partial": "Some Showdowns could not be loaded. Showing {READABLE} of {INDEXED} Showdowns.",
+    "unavailable": "Your Showdown history could not be loaded.",
+    "empty": "No completed showdowns yet. Finish a rivalry and it will be archived here automatically."
+  },
+  "topNav": [
+    "HOME",
+    "CAREER",
+    "STANDINGS",
+    "STATS",
+    "RULES"
+  ],
+  "decorative": {
+    "wordmark": "CM 17",
+    "moreThanAGame": "More Than A Game",
+    "leftBanner": "TWO MANAGERS ONE LEGACY",
+    "rightBanner": "FOOTBALL BRINGS US TOGETHER"
+  },
+  "ui": {
+    "managers": {
+      "daniel": "Daniel",
+      "nik": "Nik"
+    },
+    "showdown": "Showdown #{number}",
+    "score": "{daniel} – {nik}",
+    "seasons": "{played} / {total} Seasons",
+    "season": "Season {number}",
+    "managerScore": "{manager}: {score}",
+    "seasonDetail": "#{position} · {points} league pts · {goals} goals",
+    "historyHeading": "{showdown} · {action}",
+    "inProgress": "In progress",
+    "close": "Close season history",
+    "previous": "Previous archive item",
+    "next": "Next archive item",
+    "page": "Archive page {number} of {total}",
+    "winner": "{manager} wins",
+    "draw": "Draw",
+    "unavailableFallback": "Your Showdown history could not be loaded."
+  }
+}

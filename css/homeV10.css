@@ -1,0 +1,136 @@
+/* JOB-25: Team V's home.css (5e05a1f) on the app's real #mainMenu. Team V wrote home.css for a standalone page whose
+   layout home.js measured at runtime; here the same geometry is plain CSS, and the app's own Home rules are neutralised.
+   js/v10Screens.js turns this file on only while the Team V Home is mounted and showing. Looks only: no element is
+   removed, no product text changes, and the app's grid placement for the tiles is left as it is. */
+
+/* ---------- all sizes ---------- */
+#mainMenu.v10Home { position: fixed; inset: 0; width: auto; max-width: none; height: auto; margin: 0; padding: 0; }
+#mainMenu.v10Home .fifaMenuShell { min-height: 0; gap: 0; }
+#mainMenu.v10Home .fifaMenuHeading { padding: 0; border: 0; }
+#mainMenu.v10Home .fifaMenuGrid { min-height: 0; }
+#mainMenu.v10Home .menuTile::before { content: none; }
+#mainMenu.v10Home .menuTile::after { height: auto; }
+#mainMenu.v10Home .v10HomeCutouts { display: contents; }
+#mainMenu.v10Home .menuMusicTile[data-playing="true"] .vinyl { animation: home-vinyl-spin var(--home-vinyl-rotation, 2400ms) linear infinite; }
+#mainMenu.v10Home .menuTile .menuCoverAthlete { z-index: 1; }
+#mainMenu.v10Home .menuMediaChoice { min-width: 0; }
+#mainMenu.v10Home .fifaMenuHeading { display: block; min-height: 0; text-align: left; }
+#mainMenu.v10Home .fifaMenuHeadingMeta { max-width: none; text-align: left; }
+#mainMenu.v10Home .fifaMenuHeadingMeta > span { display: block; }
+/* Tile type: Team V's sizes and colours over the app's own (more specific) Home rules. */
+#mainMenu.v10Home .menuTile .menuTileCode {
+  position: relative; z-index: 2; inset: auto; margin: 0; padding: 0;
+  font: 600 12px/1.15 var(--cond); letter-spacing: .2em; color: var(--gold-deep); text-transform: uppercase;
+}
+#mainMenu.v10Home .menuTile .menuTileLabel { font: 700 20px/1.08 var(--cond); letter-spacing: .01em; color: #fff; }
+#mainMenu.v10Home #continueCareer .menuTileCode { color: #3B2C0C; }
+#mainMenu.v10Home #continueCareer .menuTileLabel { font-size: 26px; color: var(--ink); text-shadow: none; }
+#mainMenu.v10Home #continueCareer .menuTileMeta { color: #2A2008; }
+/* The product keeps the Reus hero tile undimmed when there is no save (visual-fidelity-r3); Team V's text stays. */
+#mainMenu.v10Home #continueCareer:disabled { opacity: 1; filter: none; }
+#mainMenu.v10Home #continueCareer { padding-right: calc(50% + 12px); }
+#mainMenu.v10Home .menuBottomStrip { min-height: 0; padding: 0; margin: 0; background: none; border: 0; box-shadow: none; }
+/* The product footer is outside the Home stage, so its band is drawn inside the stage and the footer text sits on top. */
+#app > footer { background: none; border-top: 0; z-index: 7; }
+#mainMenu.v10Home .menuMusicHeader { align-self: center; }
+#mainMenu.v10Home .menuAthleteCredit {
+  position: absolute; z-index: 6; margin: 0; padding: 0; max-width: none; text-align: right;
+  font: 400 11px/1.3 var(--text); color: var(--meta); text-shadow: 0 1px 6px rgba(0,0,0,.95); background: none; border: 0;
+}
+#mainMenu.v10Home .menuAthleteCredit a { color: var(--cream); }
+#mainMenu.v10Home .menuAthleteCredit a:focus-visible { outline: 2px solid var(--gold-hi); outline-offset: 2px; }
+
+/* The app's header keeps its badge and Showdown line as two Team V chips (HM1 header); the brand words stay for
+   assistive technology only, because the wordmark is the brand on this screen. */
+#app #topHeader {
+  position: fixed; z-index: 12; left: auto; right: 16px; top: calc(var(--sd-nav-top-h, 52px) + 10px); width: auto; height: auto; min-height: 0;
+  display: flex; align-items: center; gap: 8px; padding: 0; background: none; border: 0; box-shadow: none;
+}
+#app #topHeader .brand { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
+#app #topHeader #onlinePlayerIdentityBadge, #app #topHeader #seasonIndicator {
+  margin: 0 !important; min-height: 32px; box-sizing: border-box; padding: 6px 12px !important; display: inline-flex; align-items: center;
+  font: 600 13px/1 var(--cond) !important; letter-spacing: .08em; text-transform: uppercase; color: var(--cream) !important;
+  background: rgba(6,7,9,.78) !important; border: 1px solid rgba(242,196,91,.62) !important; border-radius: 2px; box-shadow: none;
+}
+#app #topHeader #onlinePlayerIdentityBadge { color: var(--gold) !important; cursor: pointer; }
+#app #topHeader #seasonIndicator::before, #app #topHeader #seasonIndicator::after { content: none; }
+#app > footer { min-height: 0; }
+/* The player connection panel (js/persistentNikDanielPair.js) is put inside the Home shell, under Team V's full-screen
+   plate; on this stage it is a card above the plate. !important beats the panel's own inline box styles. */
+#mainMenu.v10Home #persistentNikDanielPairPanel {
+  position: fixed; z-index: 11; left: var(--gutter, 32px); top: calc(var(--sd-nav-top-h, 52px) + 56px);
+  width: min(520px, calc(100vw - 2 * var(--gutter, 32px))); max-height: calc(100vh - var(--sd-nav-top-h, 52px) - 300px);
+  overflow: auto; box-sizing: border-box; margin: 0 !important; color: var(--cream);
+  background: rgba(6,7,9,.94) !important; border: 1px solid rgba(242,196,91,.62) !important; box-shadow: 0 18px 48px rgba(0,0,0,.6);
+}
+
+/* ---------- desktop and landscape (Team V's desktop camera, home.js layoutDesktop as CSS) ---------- */
+@media (min-width: 761px), (orientation: landscape) {
+  #mainMenu.v10Home {
+    --tile-h: clamp(136px, 17.5vh, 158px);
+    --tile-top: calc(100vh - 36px - var(--tile-h));
+    --col-w: min(36vw, 560px);
+  }
+  /* cover-fit, horizontally centred, top-anchored: desktopCamera() */
+  #mainMenu.v10Home .plateView { background-size: cover; background-position: 50% 0; }
+  #mainMenu.v10Home .scrimTop { left: 0; top: 0; width: 46vw; height: var(--tile-top); background: linear-gradient(90deg, rgba(6,7,9,.78) 0, rgba(6,7,9,.35) 73%, rgba(6,7,9,0)); }
+  #mainMenu.v10Home .scrimLow { display: none; }
+  #mainMenu.v10Home .fifaMenuShell { display: block; position: static; }
+  /* One row. Flex lays out only the tiles the product shows, so contained tiles leave no hole; the app's own
+     grid-column / grid-row values stay declared and simply do nothing here. */
+  #mainMenu.v10Home .fifaMenuGrid { display: flex; align-items: stretch; gap: 8px; }
+  #mainMenu.v10Home .fifaMenuGrid > .menuTile { flex: 1 1 0; height: 100%; min-height: 0; margin: 0; }
+  #mainMenu.v10Home .fifaMenuGrid > #continueCareer { flex: 1.6 1 0; }
+  #mainMenu.v10Home .menuMusicTile { margin: 0; }
+  #mainMenu.v10Home .scriptLine { top: calc(var(--hdr) + 70px); }
+  #mainMenu.v10Home .menuAthleteCredit { right: var(--gutter); top: calc(var(--tile-top) - 20px); }
+  #mainMenu.v10Home > .nav-reserve {
+    position: absolute; z-index: 5; left: 0; right: 0; bottom: 0; height: var(--ftr); pointer-events: none;
+    background: linear-gradient(180deg, rgba(6,7,9,.86), rgba(6,7,9,.96)); border-top: 1px solid rgba(201,155,69,.3);
+  }
+}
+@media (min-width: 761px) and (max-width: 1100px), (orientation: landscape) and (max-width: 1100px) {
+  #mainMenu.v10Home .fifaMenuGrid > .menuTile { padding-right: 12px; }
+  /* narrow desktops: Continue keeps room for the Reus photograph (home-visual-audit raster floor) */
+  #mainMenu.v10Home .fifaMenuGrid > #continueCareer { flex: 2.4 1 0; padding-right: calc(50% + 12px); }
+  #mainMenu.v10Home .menuTileLabel { font-size: 17px; }
+  #mainMenu.v10Home #continueCareer .menuTileLabel { font-size: 22px; }
+}
+
+/* ---------- phone portrait (Team V Job 33 + CC-008), with the product's four tiles ---------- */
+@media (max-width: 760px) and (orientation: portrait) {
+  #mainMenu.v10Home { height: auto; }
+  #mainMenu.v10Home > .fifaMenuShell {
+    grid-row: 2; position: relative; z-index: 4; display: block; height: 100%; min-height: 0; overflow: hidden;
+    background: linear-gradient(180deg, rgba(6,7,9,.97), #060709 24%);
+  }
+  #mainMenu.v10Home > .nav-reserve { grid-row: 3; }
+  #mainMenu.v10Home .fifaMenuGrid {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    grid-template-rows: 64px minmax(44px, 1fr) minmax(44px, 1fr) 52px;
+  }
+  #mainMenu.v10Home #continueCareer { grid-column: 1 / -1; grid-row: 1; }
+  #mainMenu.v10Home #newShowdown { grid-column: 1 / -1; grid-row: 2; }
+  #mainMenu.v10Home #ruleBookButton { grid-column: 1 / 4; grid-row: 3; }
+  #mainMenu.v10Home #settingsButton { grid-column: 4 / -1; grid-row: 3; }
+  #mainMenu.v10Home #legacyButton, #mainMenu.v10Home #careerStatisticsButton { grid-column: span 3; grid-row: auto; }
+  #mainMenu.v10Home .menuMusicTile { grid-column: 1 / -1; grid-row: 4; }
+  /* Legacy and Statistics stay contained (r43); when an internal audit shows them they get their own row. */
+  #mainMenu.v10Home .fifaMenuGrid:has(> [data-test-surface="internal-audit"]) { grid-template-rows: 64px minmax(44px, 1fr) minmax(44px, 1fr) 44px 52px; }
+  #mainMenu.v10Home .fifaMenuGrid:has(> [data-test-surface="internal-audit"]) > .menuMusicTile { grid-row: 5; }
+  #mainMenu.v10Home .fifaMenuGrid > [data-test-surface="internal-audit"] { grid-row: 4; }
+  /* New / Join takes a full row here, so it keeps the larger label. */
+  #mainMenu.v10Home #newShowdown .menuTileLabel { font-size: 19px; }
+  #mainMenu.v10Home #newShowdown .tileArt { width: 62px; height: 62px; right: 0; bottom: -8px; }
+  #mainMenu.v10Home .menuMusicTile { overflow: visible; }
+  #mainMenu.v10Home #persistentNikDanielPairPanel { left: 10px; right: 10px; width: auto; top: calc(max(10px, env(safe-area-inset-top)) + 44px); max-height: calc(100vh - 220px); }
+  #app #topHeader { left: 10px; right: auto; top: max(10px, env(safe-area-inset-top)); gap: 6px; }
+  #app #topHeader #onlinePlayerIdentityBadge, #app #topHeader #seasonIndicator { min-height: 30px; padding: 5px 9px !important; font-size: 11px !important; }
+  /* Reus credit: bottom-left of the hero band, beside the centred wordmark. */
+  #mainMenu.v10Home .menuAthleteCredit { position: fixed; z-index: 9; left: 10px; width: calc(50% - 104px); bottom: auto; top: calc(var(--phone-hero) - 64px); text-align: left; font-size: 9px; line-height: 1.25; }
+  #mainMenu.v10Home #continueCareer { padding-right: calc(50% + 8px); }
+  #mainMenu.v10Home #continueCareer .menuTileLabel { font-size: 17px; line-height: 1; }
+  #mainMenu.v10Home #continueCareer .menuTileCode { font-size: 10px; }
+  /* Team V hides the footer here; it stays for assistive technology (its words are the product footer). */
+  #app > footer { display: block !important; position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; border: 0; }
+}

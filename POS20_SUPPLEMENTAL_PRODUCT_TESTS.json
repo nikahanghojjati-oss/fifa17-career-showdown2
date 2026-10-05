@@ -708,6 +708,194 @@
         "^tests/contracts/season-result-clash-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/career-screens-v10-contracts.cjs",
+      "patterns": [
+        "^js/careerScreensV10\\.js$",
+        "^js/v10Screens\\.js$",
+        "^js/careerScreenSeam\\.js$",
+        "^js/sharedCareerAnalytics\\.js$",
+        "^js/statistics\\.js$",
+        "^js/trophyRoom\\.js$",
+        "^js/onlinePlayerIdentity\\.js$",
+        "^service-worker\\.js$",
+        "^index\\.html$",
+        "^visual-assets/v10_1/",
+        "^tests/fixtures/data-contract-v1/",
+        "^tests/contracts/career-screens-v10-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/ten-season-session-contracts.cjs",
+      "patterns": [
+        "^js/sparkRemoteJoining\\.js$",
+        "^js/sparkPrivateSession\\.js$",
+        "^js/productionSharedTerminalClose\\.js$",
+        "^js/productionSharedJourneyReconnect\\.js$",
+        "^js/sparkSharedSeasonResults\\.js$",
+        "^tests/firebase/two-manager-journey-emulator\\.cjs$",
+        "^\\.github/workflows/validate-gameplay-fast\\.yml$",
+        "^tests/contracts/ten-season-session-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/career-start-ready-reuse-contracts.cjs",
+      "patterns": [
+        "^js/productionSharedCareerStart\\.js$",
+        "^js/productionSharedTransferChallenge\\.js$",
+        "^js/productionSharedSeasonResults\\.js$",
+        "^js/sparkSharedTransferChallenge\\.js$",
+        "^js/sparkSharedSeasonResults\\.js$",
+        "^tests/contracts/career-start-ready-reuse-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/context-stale-quiet-contracts.cjs",
+      "patterns": [
+        "^js/productionSharedCanonicalScoring\\.js$",
+        "^js/productionSharedSeasonCommit\\.js$",
+        "^js/productionSharedHistoryConvergence\\.js$",
+        "^tests/contracts/context-stale-quiet-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/v10-foundation-contracts.cjs",
+      "patterns": [
+        "^js/v10Screens\\.js$",
+        "^js/careerScreensV10\\.js$",
+        "^js/startJoinViewModel\\.js$",
+        "^js/screens\\.js$",
+        "^js/ssjr\\.js$",
+        "^css/v10Shell\\.css$",
+        "^service-worker\\.js$",
+        "^index\\.html$",
+        "^visual-assets/v10_1/",
+        "^tests/contracts/v10-foundation-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/v10-home-contracts.cjs",
+      "patterns": [
+        "^js/homeScreensV10\\.js$",
+        "^js/ssjr\\.js$",
+        "^service-worker\\.js$",
+        "^index\\.html$",
+        "^visual-assets/v10_1/home/",
+        "^css/homeV10\\.css$",
+        "^js/diagnostics\\.js$",
+        "^js/onlinePlayerIdentity\\.js$",
+        "^visual-assets/v10_1/shared/art/home-tiles/",
+        "^tests/contracts/v10-home-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/v10-setup-contracts.cjs",
+      "patterns": [
+        "^js/v10Setup\\.js$",
+        "^css/v10Setup\\.css$",
+        "^js/v10Screens\\.js$",
+        "^js/visualIdentity\\.js$",
+        "^js/startJoinViewModel\\.js$",
+        "^js/ssjr\\.js$",
+        "^service-worker\\.js$",
+        "^index\\.html$",
+        "^visual-assets/v10_1/(start-join|league|club)/",
+        "^visual-assets/v10_1/shared/",
+        "^tests/contracts/v10-setup-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/season-results-race-denied-contracts.cjs",
+      "patterns": [
+        "^js/sparkSharedSeasonResults\\.js$",
+        "^tests/contracts/season-results-race-denied-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/v10-rules-settings-contracts.cjs",
+      "patterns": [
+        "^js/(rulesSettingsV10|ruleBook|settings|v10Screens)\\.js$",
+        "^css/rulesSettingsV10\\.css$",
+        "^visual-assets/v10_1/(rule-book|settings|shared/plates|shared/wordmarks)/",
+        "^service-worker\\.js$",
+        "^tests/contracts/v10-rules-settings-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/fewer-taps-contracts.cjs",
+      "patterns": [
+        "^js/persistentNikDanielPair\\.js$",
+        "^js/productionSharedJourneyEntry\\.js$",
+        "^js/productionSharedShowdownPresentation\\.js$",
+        "^js/productionSharedCareerStart\\.js$",
+        "^js/productionSharedTransferChallenge\\.js$",
+        "^js/productionSharedSeasonResults\\.js$",
+        "^js/productionSharedSeasonCommit\\.js$",
+        "^js/productionSharedCanonicalScoring\\.js$",
+        "^js/productionSharedHistoryConvergence\\.js$",
+        "^js/productionSharedMultiSeasonProgression\\.js$",
+        "^tests/contracts/fewer-taps-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/v10-season-final-contracts.cjs",
+      "patterns": [
+        "^js/seasonFinalV10\\.js$",
+        "^js/v10Screens\\.js$",
+        "^js/ssjr\\.js$",
+        "^visual-assets/v10_1/",
+        "^service-worker\\.js$",
+        "^tests/contracts/v10-season-final-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+      {
+      "path": "tests/contracts/v10-transfer-contracts.cjs",
+      "patterns": [
+        "^js/transferScreenV10\\.js$",
+        "^css/v10Transfer\\.css$",
+        "^js/v10Screens\\.js$",
+        "^js/productionSharedTransferChallenge\\.js$",
+        "^js/transferSelector\\.js$",
+        "^js/ssjr\\.js$",
+        "^service-worker\\.js$",
+        "^index\\.html$",
+        "^css/app\\.css$",
+        "^css/transfer\\.css$",
+        "^visual-assets/v10_1/tr2/",
+        "^visual-assets/v10_1/shared/",
+        "^tests/support/chromium-runtime\\.cjs$",
+        "^tests/support/static-server\\.cjs$",
+        "^tests/contracts/v10-transfer-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+      {
+      "path": "tests/contracts/v10-rivalry-legacy-contracts.cjs",
+      "patterns": [
+        "^js/rivalryLegacyV10\\.js$",
+        "^js/statistics\\.js$",
+        "^js/legacy\\.js$",
+        "^js/onlinePlayerIdentity\\.js$",
+        "^js/careerScreenSeam\\.js$",
+        "^js/sharedCareerAnalytics\\.js$",
+        "^js/v10Screens\\.js$",
+        "^visual-assets/v10_1/(legacy|rivalry-statistics)/",
+        "^service-worker\\.js$",
+        "^tests/contracts/v10-rivalry-legacy-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }

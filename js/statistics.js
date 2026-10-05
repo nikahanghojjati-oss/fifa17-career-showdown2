@@ -20,6 +20,26 @@ function readCareerScreenSeam(rerender){
     return null;
 }
 
+// JOB-13: online (or model-fed) Career Statistics and Trophy Room open Team V's screens, loaded on demand.
+function openCareerScreensV10(screen){
+    const seam = window.CareerModeCareerScreenSeam;
+    if(!seam || typeof window.loadRuntimeScript !== "function"){ return; }
+    const getModel = () => screen === "trophyRoom" ? (typeof trophyRoomModel === "undefined" ? null : trophyRoomModel) : careerStatisticsModel;
+    if(seam.selectCareerScreenSource({ identityState: readCareerIdentityState(), model: getModel() }) === "local"){ return; }
+    window.loadRuntimeScript("career-screens-v10", "js/careerScreensV10.js", () => Boolean(window.CareerModeCareerScreensV10))
+        .then(() => window.CareerModeCareerScreensV10.mount(screen, getModel))
+        .catch(error => { if(typeof window.reportApplicationError === "function"){ window.reportApplicationError("Career screens could not load", error); } });
+}
+
+// JOB-28: the same live model seam, now drawn through the shared lazy loader.
+function openRivalryLegacyV10(screen, getModel){
+    if(typeof window.loadRuntimeScript !== "function"){ return; }
+    window.loadRuntimeScript("rivalry-legacy-v10", "js/rivalryLegacyV10.js", () => Boolean(window.CareerModeRivalryLegacyV10))
+        .then(() => window.CareerModeRivalryLegacyV10.mount(screen, getModel))
+        .catch(error => window.reportApplicationError?.("History and rivalry screens could not load", error));
+}
+window.openRivalryLegacyV10 = openRivalryLegacyV10;
+
 function readCareerIdentityState(){
     const identity = window.CareerModeOnlinePlayerIdentity;
     return identity && typeof identity.getState === "function" ? identity.getState() : null;
@@ -582,6 +602,7 @@ function openCareerStatistics(request = false){
     createCareerStatisticsScreen();
     renderCareerStatistics(request);
     showScreen("careerStatistics");
+    openCareerScreensV10("careerStatistics");
 }
 
 function openRivalryStatistics(request = false){
@@ -590,6 +611,7 @@ function openRivalryStatistics(request = false){
     createStatisticsScreen();
     renderRivalryStatistics(request);
     showScreen("statistics");
+    openRivalryLegacyV10("rivalryStatistics", () => rivalryStatisticsModel);
 }
 
 window.renderCareerStatistics = renderCareerStatistics;

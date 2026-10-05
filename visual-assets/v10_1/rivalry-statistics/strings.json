@@ -1,0 +1,114 @@
+{
+  "heading": "RIVALRY STATISTICS",
+  "back": "BACK TO SHOWDOWN HOME",
+  "previewLabel": "",
+  "interimLabel": "Current Showdown only. Career history is not yet available.",
+  "heroScoreLabel": "SHOWDOWN POINTS",
+  "sections": {
+    "rivalryTotals": "RIVALRY TOTALS",
+    "headToHead": "HEAD-TO-HEAD",
+    "seasonBySeason": "SEASON-BY-SEASON",
+    "trophyCabinet": "TROPHY CABINET"
+  },
+  "comparisonRows": [
+    "Showdown Points",
+    "Season Wins",
+    "Total Trophies",
+    "Champions Leagues",
+    "League Titles",
+    "Domestic Cups",
+    "Transfer Signings"
+  ],
+  "seasonLabelTemplate": "SEASON {SEASON}",
+  "draw": "Draw",
+  "unavailable": "Unavailable",
+  "emptySeasonHistory": "No season has been completed yet. Statistics will build automatically as seasons are finished.",
+  "noActiveShowdown": "No active showdown is available.",
+  "leagueFallback": "League not selected",
+  "clubFallback": "Club",
+  "stringsNotOnMain": {
+    "note": "Factory strings with no text on main: TROPHY CABINET comes from the mockup, Unavailable from JOB-004. On main, HEAD-TO-HEAD heads the comparison table, not a W/D/L block.",
+    "values": [
+      "TROPHY CABINET",
+      "Unavailable"
+    ]
+  },
+  "decorativeCopy": {
+    "eyebrow": {
+      "text": "CAREER MODE SHOWDOWN 17",
+      "source": "mockup"
+    },
+    "tagline": {
+      "text": "TWO MANAGERS • ONE LEGACY",
+      "source": "mockup"
+    },
+    "leftBanner": {
+      "text": "FOOTBALL BRINGS US TOGETHER",
+      "source": "mockup"
+    },
+    "rightBanner": {
+      "text": "DIFFERENT MANAGERS SAME PASSION",
+      "source": "mockup"
+    }
+  },
+  "seasonTableHeaders": [
+    {
+      "text": "SEASON",
+      "source": "new"
+    },
+    {
+      "text": "DANIEL",
+      "source": "new",
+      "role": "daniel"
+    },
+    {
+      "text": "NIK",
+      "source": "new",
+      "role": "nik"
+    },
+    {
+      "text": "WINNER",
+      "source": "new"
+    }
+  ],
+  "trophyLabels": {
+    "showdownChampion": {
+      "text": "Showdown Champion",
+      "source": "new"
+    },
+    "leagueTitle": {
+      "text": "League Title",
+      "source": "new"
+    },
+    "domesticCup": {
+      "text": "Domestic Cup",
+      "source": "new"
+    },
+    "championsLeague": {
+      "text": "Champions League",
+      "source": "new"
+    }
+  },
+  "stateCopy": {
+    "loading": {
+      "text": "Loading rivalry statistics…",
+      "source": "new"
+    },
+    "unavailable": {
+      "text": "Rivalry statistics are unavailable right now.",
+      "source": "new"
+    },
+    "partial": {
+      "text": "Partial rivalry history. Totals reflect available seasons only.",
+      "source": "new"
+    },
+    "coverage": {
+      "text": "{readable} of {indexed} Showdowns readable.",
+      "source": "new"
+    },
+    "transferUnavailable": {
+      "text": "Transfer history is unavailable.",
+      "source": "new"
+    }
+  }
+}

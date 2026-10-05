@@ -6,6 +6,8 @@
   "use strict";
 
   const POLL_MS=15000;
+  // Job 33 (R1): while this manager waits on the rival, read every 3 s for at most 3 minutes, then the normal 15 s.
+  const FAST_POLL_MS=3000,FAST_POLL_WINDOW_MS=180000;
   const TIMER_MS=1000;
   const EXPIRY_RETRY_MS=30000;
   const CLOCK_REFRESH_MS=5*60*1000;
@@ -15,6 +17,7 @@
   let installed=false,busy=false,provider=null,setupApi=null,careerApi=null,view=null,pollTimer=null,timerLoop=null,openedKey="",expiryAttemptRevision=-1,expiryAttemptAt=0,providerChain=Promise.resolve(),refreshPromise=null,refreshContextKey="",viewContextKey="",replayContextKey="",replayQueue=[],openPromise=null;
   let clockContextKey="",clockServerEpochMs=0,clockPerformanceMs=0,clockRefreshPerformanceMs=0;
   const witnessedByContext=new Map();
+  let fastWaitKey="",fastWaitSince=0;
 
   function pstcFail(code,message){const error=new Error(message||code);error.code=code;throw error;}
   function pstcShowdown(){try{return typeof currentShowdown!=="undefined"?currentShowdown:null;}catch(_error){return null;}}
@@ -82,15 +85,17 @@
   function pstcMarkWitness(key,phase){if(key&&REPLAY_PHASES.includes(phase)&&pstcTransferScreenVisible())pstcWitnessSet(key).add(phase);}
   function pstcAdvanceReplay(){if(!pstcReplayPhase())return false;replayQueue.shift();if(!replayQueue.length){replayContextKey="";pstcPrepareReplay();}pstcRender();return true;}
   function pstcRandomOperationId(){if(!root.crypto||typeof root.crypto.getRandomValues!=="function")pstcFail("TRANSFER_CRYPTO_UNAVAILABLE");const bytes=new Uint8Array(16);root.crypto.getRandomValues(bytes);return `transfer_op_${Array.from(bytes,b=>b.toString(16).padStart(2,"0")).join("")}`;}
-  async function pstcProviderOptions(request=pstcRequestContext()){
+  // Job 33 (R1): a fast waiting read (light) reuses the already-confirmed Setup and Career Start instead of re-reading them.
+  async function pstcProviderOptions(request=pstcRequestContext(),light=false){
     if(!pstcSharedMarker())pstcFail("TRANSFER_SHARED_MODE_REQUIRED");
     if(!request||!pstcRequestMatches(request))pstcFail("TRANSFER_CONTEXT_STALE");
     await pstcEnsureDependencies();
-    await setupApi.refresh();
+    const reuse=light===true&&pstcConfirmedShared()&&pstcCareerReady();
+    if(!reuse)await setupApi.refresh();
     if(!pstcRequestMatches(request))pstcFail("TRANSFER_CONTEXT_STALE");
     const state=setupApi.getState();
     if(!state||state.ready!==true||!state.setup||state.setup.phase!=="SHOWDOWN_CONFIRMED"||state.setup.revision!==6)pstcFail("TRANSFER_SETUP_NOT_CONFIRMED","Both managers must finish Shared Setup before the Transfer Challenge.");
-    await careerApi.refresh();
+    if(!reuse)await careerApi.refresh();
     if(!pstcRequestMatches(request))pstcFail("TRANSFER_CONTEXT_STALE");
     const career=careerApi.getState();
     if(!career||!career.state||career.state.phase!=="CAREER_START_READY"||career.state.revision!==2)pstcFail("TRANSFER_CAREER_START_NOT_READY","Both managers must finish Career Start before the Transfer Challenge.");
@@ -102,13 +107,13 @@
   }
   function pstcResultError(result,message){if(result&&result.ok===true)return result;const error=new Error(message||"The shared Transfer Challenge request was rejected.");error.code=result&&result.code||"TRANSFER_PROVIDER_FAILED";error.providerResult=true;throw error;}
   function pstcQueueProvider(task){const queued=providerChain.then(task,task);providerChain=queued.catch(()=>{});return queued;}
-  async function pstcRefreshNow(request=pstcRequestContext()){
+  async function pstcRefreshNow(request=pstcRequestContext(),light=false){
     if(!request)return null;
-    const ctx=await pstcProviderOptions(request);if(!pstcRequestMatches(request,ctx))return null;
+    const ctx=await pstcProviderOptions(request,light);if(!pstcRequestMatches(request,ctx))return null;
     const result=pstcResultError(await provider.read(ctx.options),"The shared Transfer Challenge could not be read.");if(!pstcRequestMatches(request,ctx))return null;
     if(!pstcBindView(result,ctx,request))return null;if(pstcTransferScreenVisible())pstcPrepareReplay();pstcSetError("");pstcRender();pstcDecorateDashboard();return view;
   }
-  function pstcRefresh(){const request=pstcRequestContext();if(!request)return Promise.resolve(null);if(viewContextKey&&viewContextKey!==request.key)pstcClearCachedContext();if(refreshPromise&&refreshContextKey===request.key)return refreshPromise;const current=pstcQueueProvider(()=>pstcRefreshNow(request));refreshPromise=current;refreshContextKey=request.key;current.then(()=>{if(refreshPromise===current){refreshPromise=null;refreshContextKey="";}},()=>{if(refreshPromise===current){refreshPromise=null;refreshContextKey="";}});return current;}
+  function pstcRefresh(light=false){const request=pstcRequestContext();if(!request)return Promise.resolve(null);if(viewContextKey&&viewContextKey!==request.key)pstcClearCachedContext();if(refreshPromise&&refreshContextKey===request.key)return refreshPromise;const current=pstcQueueProvider(()=>pstcRefreshNow(request,light===true));refreshPromise=current;refreshContextKey=request.key;current.then(()=>{if(refreshPromise===current){refreshPromise=null;refreshContextKey="";}},()=>{if(refreshPromise===current){refreshPromise=null;refreshContextKey="";}});return current;}
   // Job 21: when both managers tap at once the loser's write is rejected by the Rules (permission-denied) or by the provider
   // (stale revision / phase already moved). Re-read once; if the refreshed state already shows the outcome, finish silently,
   // otherwise retry the same method once with a fresh revision and operation id. A real denial surfaces after that one retry.
@@ -268,15 +273,27 @@
     return false;
   }
   function pstcCapture(event){const target=event.target&&event.target.closest&&event.target.closest("button");if(!target||!CONTROL_IDS.includes(target.id)||!pstcSharedMarker())return;event.preventDefault();event.stopPropagation();if(typeof event.stopImmediatePropagation==="function")event.stopImmediatePropagation();void pstcHandleAction(target.id).catch(error=>{pstcSetError(pstcErrorText(error,"Shared Transfer Challenge failed."));pstcReport("Shared Transfer Challenge action failed",error);});}
-  async function pstcTick(){
+  async function pstcTick(light=false){
     if(!pstcSharedMarker()||root.document?.visibilityState==="hidden")return;
     const currentKey=pstcCurrentContextKey();if(viewContextKey&&(!currentKey||viewContextKey!==currentKey))pstcClearCachedContext();
     if(view?.state?.phase==="COMPLETED"&&viewContextKey&&currentKey&&viewContextKey===currentKey){pstcDecorateDashboard();return;}
-    try{if(!pstcConfirmedShared()||!pstcCareerReady()){await pstcEnsureDependencies();await setupApi.refresh();await careerApi.refresh();}if(pstcConfirmedShared()&&pstcCareerReady()&&!busy){const active=root.document&&root.document.getElementById("transferChallenge");if(active&&!active.classList.contains("hidden"))await pstcRefresh();else if(!view)await pstcRefresh();else pstcDecorateDashboard();}}catch(_error){}
+    try{if(!pstcConfirmedShared()||!pstcCareerReady()){await pstcEnsureDependencies();await setupApi.refresh();await careerApi.refresh();}if(pstcConfirmedShared()&&pstcCareerReady()&&!busy){const active=root.document&&root.document.getElementById("transferChallenge");if(active&&!active.classList.contains("hidden"))await pstcRefresh(light===true);else if(!view)await pstcRefresh();else pstcDecorateDashboard();}}catch(_error){}
   }
+  // Read-only: the fast lane only calls pstcTick (the same provider read as REFRESH SHARED CHALLENGE), never a write.
+  function pstcWaitingKey(){
+    if(!view||!view.managerRole||!pstcTransferScreenVisible()||pstcReplayPhase())return "";
+    const state=view.state||{phase:"NOT_STARTED"},role=view.managerRole,other=role==="playerOne"?"playerTwo":"playerOne",has=(list,item)=>Array.isArray(list)&&list.includes(item);
+    if((state.phase||"NOT_STARTED")==="NOT_STARTED"&&view.setup?.coordinatorRole&&role!==view.setup.coordinatorRole)return `${viewContextKey}|start`;
+    if(state.phase==="WINDOW_OPEN"&&has(state.endRequestedRoles,role)&&!has(state.endRequestedRoles,other))return `${viewContextKey}|end`;
+    if(state.phase==="GUESS_ENTRY"&&has(state.guessLockedRoles,role))return `${viewContextKey}|guesses`;
+    if(state.phase==="SIGNING_ENTRY"&&has(state.signingLockedRoles,role))return `${viewContextKey}|signings`;
+    return "";
+  }
+  function pstcFastPollDue(){const key=pstcWaitingKey();if(!key){fastWaitKey="";fastWaitSince=0;return false;}const now=Date.now();if(key!==fastWaitKey){fastWaitKey=key;fastWaitSince=now;}return now-fastWaitSince<FAST_POLL_WINDOW_MS;}
+  function pstcFastTick(){if(root.document?.visibilityState==="hidden"||busy||!pstcFastPollDue())return;void pstcTick(true);}
   function pstcTimerTick(){if(!pstcSharedMarker()||pstcReplayPhase())return;const active=root.document&&root.document.getElementById("transferChallenge");if(active&&!active.classList.contains("hidden"))pstcRenderTimer();}
   function pstcVisibilityChange(){if(root.document?.visibilityState==="hidden")return;if(view?.state?.phase==="WINDOW_OPEN"&&!pstcReplayPhase())pstcClearClock();void pstcTick();}
-  function pstcInstall(){if(installed)return true;installed=true;if(root.document){root.document.addEventListener("click",pstcCapture,true);root.document.addEventListener("change",pstcGuessTypeChange,true);root.document.addEventListener("visibilitychange",pstcVisibilityChange);}root.addEventListener?.("career-mode-shared-season-cursor-change",()=>{pstcClearCachedContext();void pstcTick();});if(typeof root.setInterval==="function"){pollTimer=root.setInterval(()=>void pstcTick(),POLL_MS);timerLoop=root.setInterval(pstcTimerTick,TIMER_MS);}if(pstcSharedMarker())void pstcTick();return true;}
+  function pstcInstall(){if(installed)return true;installed=true;if(root.document){root.document.addEventListener("click",pstcCapture,true);root.document.addEventListener("change",pstcGuessTypeChange,true);root.document.addEventListener("visibilitychange",pstcVisibilityChange);}root.addEventListener?.("career-mode-shared-season-cursor-change",()=>{pstcClearCachedContext();void pstcTick();});if(typeof root.setInterval==="function"){pollTimer=root.setInterval(()=>void pstcTick(),POLL_MS);timerLoop=root.setInterval(pstcTimerTick,TIMER_MS);root.setInterval(pstcFastTick,FAST_POLL_MS);}if(pstcSharedMarker())void pstcTick();return true;}
 
-  return Object.freeze({contractVersion:1,feature:"ssjr-production-shared-transfer-challenge",productionEnabled:true,requiresCareerStartReady:true,requiresExactActiveSession:true,privateUntilCompleted:true,serverClockAuthoritative:true,canonicalStorageMutation:false,billingRequired:false,blazeRequired:false,cloudRunRequired:false,cloudFunctionsRequired:false,orderedFullScreenReplay:true,inMemoryWitnessOnly:true,install:pstcInstall,open:pstcOpen,refresh:pstcRefresh,getState:()=>view,isActive:pstcSharedMarker,canRoute:pstcCanRoute});
+  return Object.freeze({contractVersion:1,feature:"ssjr-production-shared-transfer-challenge",productionEnabled:true,requiresCareerStartReady:true,requiresExactActiveSession:true,privateUntilCompleted:true,serverClockAuthoritative:true,canonicalStorageMutation:false,billingRequired:false,blazeRequired:false,cloudRunRequired:false,cloudFunctionsRequired:false,orderedFullScreenReplay:true,inMemoryWitnessOnly:true,pollIntervalMs:POLL_MS,fastPollIntervalMs:FAST_POLL_MS,fastPollWindowMs:FAST_POLL_WINDOW_MS,isWaitingForRival:()=>Boolean(pstcWaitingKey()),install:pstcInstall,open:pstcOpen,refresh:pstcRefresh,getState:()=>view,isActive:pstcSharedMarker,canRoute:pstcCanRoute});
 });

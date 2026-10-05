@@ -34,7 +34,6 @@ button{touch-action:manipulation;}
 #background,#overlay{position:fixed;inset:0;pointer-events:none;}
 #background{z-index:-3;background:radial-gradient(circle at 13% 4%,rgba(255,255,255,.86),transparent 31%),linear-gradient(132deg,#dce5e7 0 39%,#b9ccd2 39% 66%,#7ea8bb 66% 100%);}
 #overlay{z-index:-2;background:linear-gradient(112deg,transparent 0 31%,rgba(255,255,255,.16) 31% 46%,transparent 46%),repeating-linear-gradient(125deg,rgba(255,255,255,.025) 0 2px,rgba(17,39,53,.018) 2px 5px),linear-gradient(90deg,rgba(250,252,252,.12),transparent 55%,rgba(18,38,51,.13));}
-
 #app{height:100vh;min-height:100vh;display:flex;flex-direction:column;}
 #topHeader{flex:0 0 auto;min-height:74px;display:flex;align-items:center;justify-content:space-between;gap:18px;padding:11px clamp(22px,4.2vw,70px);background:linear-gradient(110deg,rgba(249,251,251,.98),rgba(223,231,234,.97));border-bottom:1px solid rgba(24,43,55,.24);box-shadow:0 5px 16px rgba(17,34,46,.13);z-index:3;}
 .brand{display:flex;align-items:flex-end;gap:10px;min-width:0;}

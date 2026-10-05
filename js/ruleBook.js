@@ -157,6 +157,7 @@ function createScoringRuleSection(){
 function openRuleBook(){
     createRuleBookScreen();
     showScreen("ruleBook");
+    window.loadRuntimeScript("rules-settings-v10", "js/rulesSettingsV10.js", () => Boolean(window.CareerModeRulesSettingsV10)).then(() => window.CareerModeRulesSettingsV10.install()).catch(() => {});
 }
 
 window.openRuleBook = openRuleBook;
