@@ -54,6 +54,17 @@ check('RS12 lazy text files are shell cached and referenced art uses runtime cac
     assert.equal(doc.head.children.find(n=>n.href.endsWith('rule-book/rule-book.css')).disabled,false);
   });
   check('RS14 hidden modal cannot mount after an asynchronous load or close',()=>{assert.equal(loader.isMounted('settingsOverlay'),false);});
+  check('RS15 mounting and unmounting the Settings look keeps keyboard focus on the same control',()=>{
+    // Live deployed-site smoke (54567ac) lost focus on Settings Close when the look mounted late; a browser blurs a moved focused node.
+    const host=doc.getElementById('settingsOverlay'),close=doc.getElementById('settingsClose');assert.ok(host&&close);
+    const append=FakeNode.prototype.append;FakeNode.prototype.focus=function(){doc.activeElement=this;};
+    FakeNode.prototype.append=function(...nodes){if(nodes.some(node=>node&&doc.activeElement&&(node===doc.activeElement||(typeof node.contains==="function"&&node.contains(doc.activeElement)))))doc.activeElement=body;return append.apply(this,nodes);};
+    try{
+      api.unmountSettings(host);close.focus();api.mountSettings(null,host);
+      assert.equal(doc.activeElement,close,'mount keeps focus on Close');
+      api.unmountSettings(host);assert.equal(doc.activeElement,close,'unmount keeps focus on Close');
+    }finally{FakeNode.prototype.append=append;delete FakeNode.prototype.focus;doc.activeElement=null;}
+  });
   assert.equal(await loader.show('settingsOverlay'),false);
   console.log(`PASS V10 rules/settings contracts: ${n} checks.`);
 })().catch(error=>{console.error(error);process.exitCode=1;});
