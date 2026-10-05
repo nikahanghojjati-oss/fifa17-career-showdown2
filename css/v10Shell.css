@@ -80,6 +80,12 @@ html[data-v10-screen="trophyRoom"] #trophyRoom.careerScreenV10 {
   position: fixed; inset: 0; z-index: 30; width: auto; max-width: none; height: auto; min-height: 0; margin: 0; padding: 0; contain: none;
 }
 
+/* HO-004 (V-245): Standings sat in <main> under the old 14px top gap, so at 1920x910 the head-to-head panel was
+   cut before Domestic Cups / Total Trophies. Team V's Standings stage is the full viewport under the nav bar. */
+html[data-v10-screen="standings"] #app #standings.standingsScreenV10 {
+  position: fixed; inset: 0; z-index: 30; width: auto; height: auto; min-height: 0; margin: 0; contain: none;
+}
+
 /* Old analytics.css styles .trophyShelf (a light #e9eef0 band), a class name Team V's Trophy Room reuses. */
 .careerScreenV10 .trophyShelf { background: none; }
 
