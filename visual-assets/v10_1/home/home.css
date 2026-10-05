@@ -565,12 +565,12 @@ footer {
     mask-size: contain;
   }
   .phoneHeroDaniel::after {
-    -webkit-mask-image: url("assets/OVL_HOME_DANIEL_PHONE_V1.webp");
-    mask-image: url("assets/OVL_HOME_DANIEL_PHONE_V1.webp");
+    -webkit-mask-image: url("assets/OVL_HOME_DANIEL_PHONE_V2.webp");
+    mask-image: url("assets/OVL_HOME_DANIEL_PHONE_V2.webp");
   }
   .phoneHeroNik::after {
-    -webkit-mask-image: url("assets/OVL_HOME_NIK_PHONE_V1.webp");
-    mask-image: url("assets/OVL_HOME_NIK_PHONE_V1.webp");
+    -webkit-mask-image: url("assets/OVL_HOME_NIK_PHONE_V2.webp");
+    mask-image: url("assets/OVL_HOME_NIK_PHONE_V2.webp");
   }
   @keyframes home-manager-light-sweep {
     0% { opacity: 0; transform: translate3d(-135%,0,0); }
