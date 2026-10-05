@@ -68,6 +68,7 @@ L += (hdr + [row(b) for b in opn]) if opn else ["> [!TIP]", "> No open bug repor
 L += ["", "## ⚽ Jobs running now", "",
       "Bars show the share of each job done, to four decimals (finished steps weighted by how long that kind of step usually takes, see [ETA_STUDY.md](ETA_STUDY.md)). Finish times are estimates.", ""]
 if rj:
+    L += [ETA.whistle([ETA.describe(r) for r, k, t in rj.values()]), ""]
     groups = [(sq, name, [x for x in rj.items() if lane_of(x[1][0]) == (sq, name)]) for sq, name in list(LANES.values()) + [("⬛", "worker not set")]]
     for sq, name, mine in groups:
         if not mine:
