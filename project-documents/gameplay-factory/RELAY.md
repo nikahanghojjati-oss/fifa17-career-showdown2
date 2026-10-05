@@ -1,16 +1,17 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-10-05 8:54 AM Boston time (EDT)
+[Back to the board](BOARD.md) · generated 2026-10-05 8:55 AM Boston time (EDT)
 
-Relay branch `leads/relay` head `c46e219` (Mon 5 Oct 8:54 AM Boston time) · 27 messages · 4 hand-offs · 17 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `c46e219` (Mon 5 Oct 8:54 AM Boston time) · 27 messages · 4 hand-offs · 20 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
 ### HO-004 · G → V · Visual QA: live 2.0 screens vs approved frames
 
-✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ **Delivered** → ○ Received → ○ In progress → ○ Done
 
 - Mon 5 Oct 8:54 AM · Team G · Sent
+- Mon 5 Oct 8:54 AM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
@@ -39,9 +40,10 @@ Nik (2026-10-05) sees "many elements from the old design colliding with the new 
 
 ### HO-003 · G → V · Header chips and footer design on Team V screens
 
-✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ **Delivered** → ○ Received → ○ In progress → ○ Done
 
 - Mon 5 Oct 8:54 AM · Team G · Sent
+- Mon 5 Oct 8:54 AM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
@@ -70,9 +72,10 @@ Design how the app's own header (manager name chip and SEASON chip, or SIGN IN a
 
 ### HO-002 · G → V · Smooth stage atmosphere on idle screens (pointer stutter root cause)
 
-✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ **Delivered** → ○ Received → ○ In progress → ○ Done
 
 - Mon 5 Oct 8:54 AM · Team G · Sent
+- Mon 5 Oct 8:54 AM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 

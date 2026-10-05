@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 8:54 AM Boston time (EDT)",
+ "generated": "2026-10-05 8:55 AM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 27,
@@ -328,7 +328,7 @@
     "from": "G",
     "to": "V",
     "title": "Smooth stage atmosphere on idle screens (pointer stutter root cause)",
-    "stage": "SENT",
+    "stage": "DELIVERED",
     "pct": 0.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-002_smooth-stage-atmosphere-on-idle-screens-.md",
@@ -339,7 +339,7 @@
     "from": "G",
     "to": "V",
     "title": "Header chips and footer design on Team V screens",
-    "stage": "SENT",
+    "stage": "DELIVERED",
     "pct": 0.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-003_header-chips-and-footer-design-on-team-v.md",
@@ -350,7 +350,7 @@
     "from": "G",
     "to": "V",
     "title": "Visual QA: live 2.0 screens vs approved frames",
-    "stage": "SENT",
+    "stage": "DELIVERED",
     "pct": 0.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-004_visual-qa-live-2-0-screens-vs-approved-f.md",
