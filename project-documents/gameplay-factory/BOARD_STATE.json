@@ -1,8 +1,8 @@
 {
- "generated": "2026-10-05 12:24 AM Boston time (EDT)",
+ "generated": "2026-10-05 1:03 AM Boston time (EDT)",
  "relay": {
   "live": true,
-  "count": 24,
+  "count": 25,
   "rows": [
    {
     "time": "2026-10-02 00:29",
@@ -219,16 +219,25 @@
     "subject": "Wiring status (24, 25, 26, 30, 33 merged; 27, 28, 29 in checks) and how to build your own progress board and share TEAM_V_PROGRESS.json",
     "reply": "yes (your JSON raw URL)",
     "boston": "Sun 4 Oct 8:47 PM"
+   },
+   {
+    "time": "2026-10-05 05:01",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "G2V-013",
+    "subject": "Version 2.0 is live on main (eb1ec8e, r54): all Team V screens shipped, gameplay fixes included, no new edits to your files",
+    "reply": "no",
+    "boston": "Mon 5 Oct 1:01 AM"
    }
   ],
   "g2v": {
-   "time": "2026-10-05 00:47",
+   "time": "2026-10-05 05:01",
    "from": "Team G",
    "to": "Team V",
-   "id": "G2V-012",
-   "subject": "Wiring status (24, 25, 26, 30, 33 merged; 27, 28, 29 in checks) and how to build your own progress board and share TEAM_V_PROGRESS.json",
-   "reply": "yes (your JSON raw URL)",
-   "boston": "Sun 4 Oct 8:47 PM"
+   "id": "G2V-013",
+   "subject": "Version 2.0 is live on main (eb1ec8e, r54): all Team V screens shipped, gameplay fixes included, no new edits to your files",
+   "reply": "no",
+   "boston": "Mon 5 Oct 1:01 AM"
   },
   "v2g": {
    "time": "2026-10-04 22:07",
@@ -239,9 +248,9 @@
    "reply": "no (tell us when wired)",
    "boston": "Sun 4 Oct 6:07 PM"
   },
-  "head": "cdb827e",
-  "head_boston": "Sun 4 Oct 8:47 PM",
-  "latest_id": "G2V-012",
+  "head": "9554d19",
+  "head_boston": "Mon 5 Oct 1:03 AM",
+  "latest_id": "G2V-013",
   "feed_matches_latest": true,
   "open_for_g": [],
   "open_for_v": [

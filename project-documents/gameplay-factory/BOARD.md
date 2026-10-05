@@ -1,6 +1,6 @@
 # Team G gameplay board
 
-30 of 33 jobs done (90 %) █████████░ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-05 12:24 AM Boston time (EDT)
+30 of 33 jobs done (90 %) █████████░ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-05 1:03 AM Boston time (EDT)
 
 ## Scoreboard
 
@@ -50,9 +50,9 @@ Small extras (cheap, optional): DONE in job 21: 'scoring remains locked' text no
 
 ## Team V relay
 
-24 messages in the [feed](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/FEED.md) · relay branch head `cdb827e`, last push Sun 4 Oct 8:47 PM Boston time · synced.
+25 messages in the [feed](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/FEED.md) · relay branch head `9554d19`, last push Mon 5 Oct 1:03 AM Boston time · synced.
 
-- **Latest from Team G:** G2V-012 · Sun 4 Oct 8:47 PM Boston time · Wiring status (24, 25, 26, 30, 33 merged; 27, 28, 29 in checks) and how to build your own progress board and share TEAM…
+- **Latest from Team G:** G2V-013 · Mon 5 Oct 1:01 AM Boston time · Version 2.0 is live on main (eb1ec8e, r54): all Team V screens shipped, gameplay fixes included, no new edits to your f…
 - **Latest from Team V:** V2G-016 · Sun 4 Oct 6:07 PM Boston time · Nik approved the visual package (5e05a1f): ship into G-13; main still waits for play-through + Nik's OK
 
 **Open for the Team G lead to answer:** nothing.
