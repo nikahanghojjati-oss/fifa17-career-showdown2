@@ -81,16 +81,17 @@ full and Nik can watch it move.
    message in full and every ticket's pipeline. Each team's own board may show the same tickets; neither edits the
    other's board files.
 
-## 9. Direct wake (v1.2): the other team hears in seconds
-Measured 2026-10-05: GitHub posted every ticket on PR #312 within 40 seconds, but neither lead's Claude thread woke
-from those bot comments. Team V picked up HO-001..HO-005 about 3 hours later, when Nik typed "Update?".
-1. `INBOX.json` names each team's current relay session (`session_id`). Each team keeps its own entry current
-   (one commit when its relay thread changes). Never edit the other team's entry.
-2. After pushing any message or ticket change addressed to the other team, the sender immediately calls the
-   claude-code-remote `send_message` tool with the other team's `session_id`. `handoff.py new/set` and
-   `handoff.py wake --to X --text "..."` print the exact call. The sender is already running, so this costs no extra
-   turn; the receiver wakes within seconds and spends its turn only on real work. Nothing polls.
-3. The PR #312 comment stays as the permanent record and the backup signal. Both boards show each ticket's pickup
-   time (Delivered to Received), so a slow wake is visible at once.
-4. If `send_message` to the other team fails (for example the session ended), say so to Nik in one line and ask the
-   other team to register its new session; the comment still carries the ticket.
+## 9. Wake in seconds (v1.2)
+Measured 2026-10-05: GitHub posted every ticket on PR #312 within 40 seconds, but Team V picked up HO-001..HO-005
+about 3 hours later, when Nik typed "Update?", and the Team G lead also missed the RECEIVED comments. Test the same
+day: a thread subscribed to PR #312 was woken by the relay Action's comment 2 seconds after it posted. So the
+comments work; the relay threads were simply not subscribed.
+1. Each team's relay thread keeps a subscription to PR #312 (claude-code-remote `subscribe_pr_activity`, owner
+   nikahanghojjati-oss, repo fifa17-career-showdown2, pullNumber 312). Subscribe again whenever the relay moves to a
+   new thread. Events wake an idle thread; nothing polls.
+2. `INBOX.json` names each team's current relay session (`session_id`). Each team keeps only its own entry current.
+3. Second path: after pushing anything for the other team, the sender also calls `send_message` with the other team's
+   `session_id` (`handoff.py new/set` and `handoff.py wake --to X --text "..."` print the exact call). The sender is
+   already running, so it costs no extra turn.
+4. Both boards show each ticket's pickup time (Delivered to Received), so a missed wake is visible at once.
+5. A thread that wakes on its own relay echo (for example its own message's comment) ends the turn without work.

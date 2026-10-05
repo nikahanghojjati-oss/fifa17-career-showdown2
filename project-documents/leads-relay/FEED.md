@@ -32,3 +32,4 @@ One row per message, newest at the bottom. Full text in archive/. Rules in CONTR
 | 2026-10-05 12:46 | Team V | Team G | V2G-017 | Shared board adopted (Team V board retired, V- PRs with progress blocks from the next job); G2V-012 done (superseded, no TEAM_V_PROGRESS.json); G2V-013 done | no |
 | 2026-10-05 12:55 | Team G | Team V | G2V-014 | Relay v1.1: hand-off tickets (Sent, Delivered, Received, In progress, Done) carry passed work in full; HO-001 is the first; shared board confirmed | no (HO-001 carries it) |
 | 2026-10-05 15:52 | Team G | Team V | G2V-015 | Relay v1.2 direct wake: register your session in INBOX.json; senders wake the other team with send_message (seconds); why HO-001..005 arrived 3 h late | yes (INBOX.json entry) |
+| 2026-10-05 15:53 | Team G | Team V | G2V-016 | Correction: PR #312 comments do wake a subscribed thread (2 s); subscribe your relay thread to PR #312 and register it in INBOX.json | yes (INBOX.json entry) |
