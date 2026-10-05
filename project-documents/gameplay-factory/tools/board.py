@@ -156,7 +156,7 @@ import two_factories as TF
 from factory_common import running_jobs, LANES, ALL_LANES, lane_of, pitch
 
 FAC = board.get("factories", {})
-TWO = {"live": TF.live(), "v": TF.v_factory(), "relay": TF.relay()}
+TWO = {"live": TF.live(), "v": TF.v_factory(), "relay": TF.relay(), "physio": TF.physio()}
 R2, lv, V = TWO["relay"], TWO["live"], TWO["v"]
 # A hand-off linked to a job PR ("job": "V-012" or a Team G job number) takes its progress from that PR's progress block.
 _jobs = {str(n): (r, k, t) for n, r, k, t in V["jobs"]} | {str(n): (r, k, t) for n, r, k, t in running_jobs()}
@@ -211,6 +211,7 @@ move = list(board.get("next_move") or []) or ["**Nothing for you to do right now
 L = ["# Showdown board: G Factory and V Factory", "",
      (f"🌐 **Live: runtime {lv['revision']}** (main `{lv['sha']}`) · " if lv else "🌐 Live version unknown this run · ") +
      f"🔄 **{n_moving} moving** · ⏭ {n_next} up next · 👤 {n_nik} waiting on Nik · 🗂 {n_later} later · updated {boston_now()}", "",
+     f"{TF.PHYSIO_ICON.get(TWO['physio']['state'], '⚪')} **Physio:** {TWO['physio']['line']}", "",
      "## Your next move", ""] + [f"{i}. {m}" for i, m in enumerate(move, 1)] + [""]
 
 # ---- Moving now: open releases into main with their checks, jobs being built, hand-offs not yet done.
@@ -305,7 +306,7 @@ open(os.path.join(F, "BOARD_ARCHIVE.md"), "w").write("\n".join(A) + "\n")
 # Machine-readable snapshot for the board page (tools/board_page.py).
 if relay:  # keep the old one-line field for the board page
     relay["waiting"] = ", ".join(m["id"] for m in relay["open_for_v"]) or None
-state = {"generated": boston_now(), "relay": relay, "two": {"live": TWO["live"], "v_headline": V["headline"], "v_jobs": [{"job": n, "title": r.get("title", ""), "worker": lane_of(r)[1], "done": k, "total": t, "pr": r.get("pr"), "current": r.get("current", "")} for n, r, k, t in V["jobs"]],
+state = {"generated": boston_now(), "relay": relay, "two": {"live": TWO["live"], "physio": TWO["physio"], "v_headline": V["headline"], "v_jobs": [{"job": n, "title": r.get("title", ""), "worker": lane_of(r)[1], "done": k, "total": t, "pr": r.get("pr"), "current": r.get("current", "")} for n, r, k, t in V["jobs"]],
          "inbox": R2.get("inbox") if R2 else None, "tickets": [{x: t.get(x) for x in ("id", "from", "to", "title", "stage", "pct", "overdue", "path", "worker", "pickup_min", "waiting_min")} for t in (R2["tickets"] if R2 else [])], "relay_ok": bool(R2 and R2["comments_read"])}, "branch": board["branch"],
          "integration_branch": board["integration_branch"], "capacity": cap, "overall": overall, "done": done,
          "total": len(jobs), "start": start, "queued": queued, "working": working, "blocked": blocked,

@@ -210,5 +210,39 @@ def pipeline(t, md=True):
     return " → ".join(parts)
 
 
+PHYSIO_CHECKS = ("Validate POS20", "Showdown Gate")  # the merge checks the Physio watches
+PHYSIO_ICON = {"clear": "🟢", "barking": "🐕", "stuck": "🔴"}
+
+
+def physio():
+    """The Physio line: the CI watchdog's state (Nik, 2026-10-05).
+
+    The Physio itself (built by the lead with the Showdown Gate) writes PHYSIO.json on factory/gameplay-v1:
+      {"state": "clear" | "barking" | "stuck", "updated": ISO-8601 UTC, "line": "one plain sentence for Nik",
+       "checks": [{"name": "Validate POS20", "waiting_min": 6, "barks": 1, "max_barks": 2, "action": "helpers paused, check restarted"}]}
+    While that file is missing or older than 15 minutes, this falls back to reading queued merge-check runs itself
+    (no barks, it only reports the wait), so the line is never blank and never stale."""
+    p = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "PHYSIO.json")
+    try:
+        d = json.load(open(p))
+        if hours_since(d["updated"]) * 60 <= 15 and d.get("state") in PHYSIO_ICON:
+            return {"state": d["state"], "line": d.get("line") or d["state"].title(), "source": "physio"}
+    except Exception:
+        pass
+    runs = api("actions/runs?status=queued&per_page=100")
+    if runs is None:
+        return {"state": "unknown", "line": "Could not read GitHub's queue this run.", "source": "board"}
+    waits = {}
+    for r in runs.get("workflow_runs", []):
+        name = next((c for c in PHYSIO_CHECKS if (r.get("name") or "").startswith(c)), None)
+        if name:
+            waits[name] = max(waits.get(name, 0), int(hours_since(r["created_at"]) * 60))
+    if not waits:
+        return {"state": "clear", "line": "All clear: no merge check is waiting for a machine.", "source": "board"}
+    worst = max(waits.values())
+    line = "; ".join(f"{n.replace('Validate ', '')} has waited {m} min for a machine" for n, m in waits.items()) + "."
+    return {"state": "barking" if worst >= 5 else "clear", "line": line, "source": "board"}
+
+
 def mins(m):
     return "-" if m is None else f"{m} min" if m < 90 else f"{m // 60} h {m % 60:02d} min"

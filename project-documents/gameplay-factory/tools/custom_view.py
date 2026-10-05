@@ -16,6 +16,7 @@ BLOB = "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/fact
 PR = "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/"
 # Lane colours Nik picked (2026-10-05): Sol chat light blue, Sol Work green, Codex white, Opus orange, Sonnet violet, Haiku yellow.
 HEX = LANE_HEX
+QI = {l: i for i, l in enumerate(HEX)}  # lane squares use short classes (q0..q9) so the 7 KB tab has room
 e = html.escape
 
 
@@ -57,16 +58,17 @@ H = ["<style>"
      ".cv .card{background:#2c353c;border:1px solid #43515b;border-radius:10px;padding:8px 10px;margin:6px 10px}.cv .move{background:#3a3a1c;border-color:#f0d900}"
      ".cv .m{color:#8ea2ac;font-size:12px}.cv .pc{font:italic 800 20px var(--h);color:#f0d900;margin-left:8px}"
      ".cv table{border-collapse:collapse;width:calc(100% - 24px);margin:0 12px}.cv td,.cv th{color:#fbfcfc;border-bottom:1px solid #43515b;padding:5px 6px;text-align:left;font-size:13px}.cv th{color:#8ea2ac !important;font-size:11px;text-transform:uppercase;letter-spacing:.08em}"
-     ".cv a{color:#fbfcfc;text-decoration:underline}.cv code{background:#20272d;padding:0 4px;border-radius:3px}.cv .foot{margin:10px 14px 0}</style>",
+     ".cv a{color:#fbfcfc;text-decoration:underline}.cv code{background:#20272d;padding:0 4px;border-radius:3px}.cv .foot{margin:10px 14px 0}.cv i{font-style:normal}" + "".join(f".cv .q{i}{{color:{h}}}" for i, h in enumerate(HEX.values())) + ".cv .q9{color:#9ca3af}</style>",
      '<div class="cv">',
      f'<div class="ban"><b>Showdown · G Factory + V Factory</b><span>Updated {now:%a %-d %b, %-I:%M %p} Boston time · <a href="{BLOB}BOARD.md">Job board</a> · <a href="{BLOB}BUG_BOARD.md">Bug board</a> · <a href="{BLOB}RELAY.md">Relay</a></span></div>',
      f'<div class="tiles"><div class="tile"><b>{e(((st.get("two") or {}).get("live") or {}).get("revision", "?").split("-")[-1])}</b><span>Live</span></div><div class="tile"><b>{NOW.get("moving", 0)}</b><span>Moving</span></div><div class="tile"><b>{NOW.get("next", 0)}</b><span>Up next</span></div><div class="tile"><b>{NOW.get("nik", 0)}</b><span>Waits on Nik</span></div></div>',
+     (lambda p: f'<div class="card" style="margin-top:8px">{TF.PHYSIO_ICON.get(p.get("state"), "⚪")} <b>Physio</b> {e(p.get("line", ""))}</div>')((st.get("two") or {}).get("physio") or {}),
      "<h2>Your next move</h2>", '<div class="card move">' + "<br>".join(md(m) for m in st.get("next_move") or ["Nothing for you to start right now."]) + "</div>",
      "<h2>Moving now</h2>"]
 rj = sorted(running_jobs())
 G_W = lambda g: ("checks unknown" if not g else ("🔴 " if g["failed"] else "🟠 " if g["cancelled"] else "⏳ " if g["running"] else "🟢 ") + ", ".join([f'{g["passed"]} passed'] + [f'{g[k]} {k}' for k in ("running", "failed", "cancelled") if g[k]]))
 _mv = [f'<a href="{PR}{x["pr"]}">PR #{x["pr"]}</a> {e(x["title"][:70])} <span class="m">{e(G_W(x.get("gates")))}</span>' for x in NOW.get("fixes", [])]
-_mv += [f'<b>{e(k)} {e(x["id"])}</b> {e(x["title"][:58])} <span class="m">{e(x["state"].split(" (")[0].split(";")[0][:44])}</span>' for k in ("G", "V") for x in (NOW.get("rows", {}).get(k, {}).get("moving") or [])]
+_mv += [f'<b>{e(k)} {e(x["id"])}</b> {e(x["title"][:52])} <span class="m">{e(x["state"].split(" (")[0].split(";")[0][:44])}</span>' for k in ("G", "V") for x in (NOW.get("rows", {}).get(k, {}).get("moving") or [])]
 if _mv:
     H.append('<div class="card">' + "<br>".join(_mv) + "</div>")
 elif not rj:
@@ -111,7 +113,7 @@ else:
     H.append('<div class="card m">Could not read main this run.</div>')
 FAC = json.load(open(os.path.join(F, "BOARD.json"))).get("factories", {})
 def sq(lane):
-    return f'<span style="color:{HEX.get(ALL_LANES.get(lane, ("", lane))[1], "#9ca3af")}">■</span>'
+    return f'<i class="q{QI.get(ALL_LANES.get(lane, ("", lane))[1], 9)}">■</i>'
 for key, colour in (("G", "#22c55e"), ("V", "#42b9da")):
     f = FAC.get(key)
     if not f:
@@ -139,8 +141,8 @@ for t in _open_tk[::-1][:4]:
     dots = "".join("🟢" if i <= k else "⚪" for i in range(5))
     H.append(f'<br>{dots} <b>{e(t["id"])}</b> {e(t.get("from") or "?")}→{e(t.get("to") or "?")} {e(t["title"][:50])} <span class="m">{e(TF.STAGE_WORD.get(t["stage"], t["stage"]))}' + (f' {t["pct"]:.0f} %' if t["stage"] == "WORKING" else "") + (f' · picked up in {TF.mins(t["pickup_min"])}' if t.get("pickup_min") is not None else f' · waiting {TF.mins(t["waiting_min"])}' if t.get("waiting_min") is not None else "") + "</span>")
 for m in (rel.get("rows") or [])[-1:]:
-    H.append(f'<br><span class="m">{e(m["id"])} · {e(m["subject"][:60])}</span>')
-H.append(f'<br><a href="{BLOB}RELAY.md">Every message in full</a></div>')
+    H.append(f'<br><span class="m">{e(m["id"])} · {e(m["subject"][:44])}</span>')
+H.append('</div>')  # the banner's Relay link opens every message in full
 if REL.get("jobs") and not REL.get("done"):
     rn = len(REL["jobs"])
     rd = sum(1 for j in REL["jobs"] if liveprs.get(j, {}).get("state") == "merged" or any(x["number"] == j and (x["state"] in ("DONE", "MERGED") or x.get("phase") in ("DONE", "MERGED")) for x in st["jobs"]))
@@ -179,7 +181,7 @@ if landed and False:  # "Live now" carries what is on main; recovery merges are 
 if open_bugs and not COMPACT:  # compact (page would pass 7 KB): the bug board link in the banner carries them
     H.append('<h2>Open bugs</h2><div class="card">' + "<br>".join(f'<b>{e(b["id"])}</b> {e(b["title"][:50])} <span class="m">{e(b["status"].title())} · {e(lane_of(b)[1] if b.get("worker") else "waits on Nik" if "nik" in b.get("note", "").lower()[:20] else "no owner")}</span>' for b in open_bugs[:3]) + "</div>")
 H.append('<div class="m foot">Lanes: ' +
-         " · ".join(f'<span style="color:{c}">■</span> {l}' for l, c in HEX.items()) + "</div></div>")
+         " · ".join(f'<i class="q{QI[l]}">■</i> {l}' for l in HEX) + "</div></div>")
 out = "\n".join(H) + "\n"
 open(os.path.join(F, "CUSTOM_VIEW.html"), "w").write(out)
 # Snapshot the other team reads straight from the repo (raw URL), so its own Custom view can show Team G's jobs without a relay hop.
