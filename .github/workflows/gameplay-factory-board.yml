@@ -17,6 +17,7 @@ on:
       - project-documents/gameplay-factory/tools/factory_common.py
       - project-documents/gameplay-factory/tools/custom_view.py
       - project-documents/gameplay-factory/BUGS.json
+      - project-documents/gameplay-factory/PHYSIO.json
       - project-documents/gameplay-factory/tools/two_factories.py
       - project-documents/gameplay-factory/tools/relay_page.py
   workflow_dispatch:
