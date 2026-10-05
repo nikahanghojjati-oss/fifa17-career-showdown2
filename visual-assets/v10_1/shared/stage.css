@@ -75,7 +75,10 @@
   height: 100%;
 }
 
-/* Atmosphere: <=30 JS-created particles, one slow flare and a vignette. */
+/* Atmosphere: <=30 JS-created particles, one flare and a vignette.
+   HO-002 (V-244): the dust and flare play once when a screen opens, then hold still. They sit under
+   backdrop-filter panels and blend-mode layers, so any frame they draw re-blurs the whole screen; a still
+   stage draws no frames while idle, so the pointer and the panels stay smooth. */
 .sd-stage__dust {
   position: absolute;
   inset: 0;
@@ -90,16 +93,14 @@
   border-radius: 50%;
   background: rgba(255, 224, 154, .55);
   box-shadow: 0 0 7px rgba(242, 196, 91, .38);
-  opacity: var(--dust-alpha, .25);
-  animation: sd-dust-drift var(--dust-dur, 18s) linear infinite;
-  animation-delay: var(--dust-delay, 0s);
-  will-change: transform, opacity;
+  opacity: calc(var(--dust-alpha, .25) * .8);
+  transform: translate3d(var(--dust-dx, 10px), -24px, 0);
+  animation: sd-dust-settle var(--dust-dur, 6s) cubic-bezier(.2, .6, .3, 1) var(--dust-delay, 0s) 1 both;
 }
-@keyframes sd-dust-drift {
-  0% { transform: translate3d(0, 8px, 0); opacity: 0; }
-  14% { opacity: var(--dust-alpha, .25); }
-  84% { opacity: calc(var(--dust-alpha, .25) * .72); }
-  100% { transform: translate3d(var(--dust-dx, 22px), -58px, 0); opacity: 0; }
+@keyframes sd-dust-settle {
+  0% { transform: translate3d(0, 10px, 0); opacity: 0; }
+  35% { opacity: var(--dust-alpha, .25); }
+  100% { transform: translate3d(var(--dust-dx, 10px), -24px, 0); opacity: calc(var(--dust-alpha, .25) * .8); }
 }
 .sd-stage__flare {
   position: absolute;
@@ -111,15 +112,19 @@
   background: linear-gradient(90deg, transparent 0%, rgba(255, 224, 154, .02) 25%, rgba(242, 196, 91, .15) 50%, rgba(255,255,255,.05) 56%, transparent 100%);
   filter: blur(18px);
   mix-blend-mode: screen;
-  animation: sd-flare-sweep 15s ease-in-out infinite;
-  will-change: transform;
+  visibility: hidden;
+  animation: sd-flare-once 3.6s ease-in-out .8s 1 both;
 }
-@keyframes sd-flare-sweep {
-  0%, 58% { transform: translate3d(0,0,0) skewX(-13deg); opacity: 0; }
-  66% { opacity: .7; }
-  82% { opacity: .25; }
-  100% { transform: translate3d(610%,0,0) skewX(-13deg); opacity: 0; }
+@keyframes sd-flare-once {
+  0% { transform: translate3d(0,0,0) skewX(-13deg); opacity: 0; visibility: visible; }
+  25% { opacity: .7; }
+  65% { opacity: .25; }
+  99.9% { visibility: visible; }
+  100% { transform: translate3d(610%,0,0) skewX(-13deg); opacity: 0; visibility: hidden; }
 }
+/* r56 stopgap, still harmless: stage.js sets this while the pointer moves, which only pauses the opening drift. */
+html[data-sd-pointer-active] .sd-stage__dust i,
+html[data-sd-pointer-active] .sd-stage__flare { animation-play-state: paused; }
 .sd-stage__vignette {
   position: absolute;
   inset: 0;
