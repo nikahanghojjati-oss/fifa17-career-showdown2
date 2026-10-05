@@ -184,5 +184,27 @@
     destroy() { if (this.ro) this.ro.disconnect(); removeEventListener("orientationchange", this.layout); }
   }
 
+  // Hold the drifting atmosphere still while the pointer moves (Claude fix 2026-10-05). The dust and flare sit under
+  // backdrop-filter panels and blend-mode layers, so each of their frames re-blurs and re-blends the whole screen;
+  // on Settings, Rule Book and Standings that starved the compositor and the mouse cursor stuttered or vanished.
+  // Paused animations resume where they stopped, 1.2 s after the last move.
+  const POINTER_CALM_MS = 1200;
+  let pointerMovedAt = 0, pointerCalmTimer = 0;
+  function pointerCalmCheck() {
+    const idle = performance.now() - pointerMovedAt;
+    if (idle >= POINTER_CALM_MS) { pointerCalmTimer = 0; document.documentElement.removeAttribute("data-sd-pointer-active"); }
+    else pointerCalmTimer = setTimeout(pointerCalmCheck, POINTER_CALM_MS - idle);
+  }
+  function pointerActive() {
+    pointerMovedAt = performance.now();
+    if (pointerCalmTimer) return;
+    document.documentElement.setAttribute("data-sd-pointer-active", "true");
+    pointerCalmTimer = setTimeout(pointerCalmCheck, POINTER_CALM_MS);
+  }
+  if (!global.ShowdownStage) {
+    addEventListener("pointermove", pointerActive, { passive: true, capture: true });
+    addEventListener("wheel", pointerActive, { passive: true, capture: true });
+  }
+
   global.ShowdownStage = { mount(stage, options) { return new Stage(stage, options); }, Stage };
 })(window);

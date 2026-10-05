@@ -10,7 +10,6 @@ const resultsDirectory = path.resolve(process.env.CMS_TEST_RESULTS || "test-resu
 const manifest = JSON.parse(fs.readFileSync("assets/football/asset-manifest.json", "utf8"));
 const expectedIds = new Set(manifest.assets.map(asset => asset.id));
 const plans = [
-    ["createShowdown", 1],
     ["leagueWheelScreen", 1],
     ["clubWheelScreen", 1],
     ["dashboard", 1],
@@ -267,15 +266,16 @@ async function run(config){
             result.panels.forEach(panel => seenAssets.add(panel.asset));
         }
 
-        assert.equal(seenAssets.size, 12,
-            `${config.name}: all 12 active derivatives must be exercised`);
+        // James stays in the archive but no route shows him: Start Showdown uses Team V art (owner, 2026-10-05).
+        assert.equal(seenAssets.size, 11,
+            `${config.name}: all 11 route-owned derivatives must be exercised`);
         const diagnostics = await page.evaluate(() => window.getFootballVisualDiagnostics());
-        assert.equal(diagnostics.preloadCount, 12,
-            `${config.name}: all assets should warm only after all 11 routes are explicitly exercised`);
+        assert.equal(diagnostics.preloadCount, 11,
+            `${config.name}: route assets should warm only after all 10 routes are explicitly exercised`);
         assert.deepEqual(errors, [], `${config.name}: page errors: ${errors.join(" | ")}`);
         assert.deepEqual(failed, [], `${config.name}: failed first-party requests: ${failed.join(" | ")}`);
         await context.close();
-        process.stdout.write(`${config.name}: permanent 11-screen licensed visual audit passed.\n`);
+        process.stdout.write(`${config.name}: permanent 10-screen licensed visual audit passed.\n`);
     }finally{
         await browser.close();
     }

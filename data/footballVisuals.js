@@ -169,7 +169,6 @@ const FOOTBALL_VISUALS = Object.freeze({
 });
 
 const FOOTBALL_VISUAL_SCREEN_PLAN = Object.freeze({
-    createShowdown: Object.freeze({ kind: "single", assets: ["james"], tone: "light", label: "BUILD THE NEXT RIVALRY", layout: "portrait-feature" }),
     leagueWheelScreen: Object.freeze({ kind: "single", assets: ["ronaldo"], tone: "dark", label: "FIND YOUR STAGE", layout: "cinematic-band" }),
     clubWheelScreen: Object.freeze({ kind: "single", assets: ["pogba"], tone: "blue", label: "CLUB IDENTITY", layout: "cinematic-band" }),
     dashboard: Object.freeze({ kind: "single", assets: ["zlatan"], tone: "dark", label: "RIVALRY HEADQUARTERS", layout: "cinematic-band" }),

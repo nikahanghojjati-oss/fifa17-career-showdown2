@@ -49,6 +49,7 @@
   const screenLoads=new Map();
   const styles=new Map();
   const routeOverrides=new Map();
+  const pending=new Map();
   let kitPromise=null,navPromise=null,navMounted=false,installed=false;
 
   function vsFreeze(value){if(value&&typeof value==="object"&&!Object.isFrozen(value)){Object.values(value).forEach(vsFreeze);Object.freeze(value);}return value;}
@@ -169,7 +170,10 @@
   function vsIsShown(id){const host=vsHost(id);return Boolean(host&&!host.classList.contains("hidden")&&(registry.get(id)?.overlay===true||vsActiveScreen()===id));}
   // Team V stylesheets style more than their own markup, so they are on only while a mounted Team V screen shows.
   function vsSyncStyles(){
-    const live=[...mounted.keys()].filter(vsIsShown).map(id=>registry.get(id));
+    const liveIds=[...mounted.keys()].filter(vsIsShown),live=liveIds.map(id=>registry.get(id));
+    // html[data-v10-screen] names the Team V screen on show, so css/v10Shell.css can restyle the app's own header around it.
+    const doc=vsDoc(),html=doc&&doc.documentElement,screen=liveIds.find(id=>registry.get(id).overlay!==true)||null;
+    if(html&&html.dataset&&(html.dataset.v10Screen||null)!==screen){if(screen)html.dataset.v10Screen=screen;else delete html.dataset.v10Screen;}
     for(const [file,{link,settled}] of styles){
       if(!settled)continue;
       let on=ALWAYS_ON.includes(file);
@@ -200,22 +204,44 @@
     const def=registry.get(id);
     if(def&&def.unmount){try{def.unmount(state.host);}catch(error){vsReport("Team V screen could not close",error);}}
   }
-  // Draws a registered screen if the app is showing it. A null frame keeps the app's own screen.
-  async function vsShow(id){
-    const def=registry.get(id);
-    if(!def)return false;
-    await vsLoadScreen(id);
-    if(!vsIsShown(id))return false;
-    const host=vsHost(id),frame=def.frame();
-    if(frame===null||frame===undefined){vsUnmount(id);vsSyncStyles();return false;}
-    const current=mounted.get(id);
-    if(current&&current.frame===frame&&current.host===host&&host.isConnected!==false)return true;
-    def.mount(frame,host);
-    mounted.set(id,{frame,host});
-    vsSyncStyles();
+  // The app draws its own screen at once and Team V's look mounts only after its files load. expect(id) keeps the
+  // host's own content invisible meanwhile (css/v10Shell.css [data-v10-pending]); show() ends it on every outcome
+  // (mounted, null frame, not shown, load error) and STYLE_TIMEOUT_MS ends it anyway, so the app's screen is never lost.
+  function vsSettle(id){
+    const entry=pending.get(id);
+    if(!entry)return;
+    pending.delete(id);root.clearTimeout(entry.timer);
+    if(entry.host.dataset)delete entry.host.dataset.v10Pending;
+  }
+  function vsExpect(id){
+    const host=vsHost(id);
+    if(!host||!host.dataset||mounted.has(id))return false;
+    vsSettle(id);
+    host.dataset.v10Pending="1";
+    pending.set(id,{host,timer:root.setTimeout(()=>vsSettle(id),STYLE_TIMEOUT_MS)});
     return true;
   }
-  function vsHide(id){vsUnmount(id);vsSyncStyles();}
+  // Draws a registered screen if the app is showing it. A null frame keeps the app's own screen.
+  async function vsShow(id){
+    try{
+      const def=registry.get(id);
+      if(!def)return false;
+      await vsLoadScreen(id);
+      if(!vsIsShown(id))return false;
+      const host=vsHost(id),frame=def.frame();
+      if(frame===null||frame===undefined){vsUnmount(id);vsSyncStyles();return false;}
+      const current=mounted.get(id);
+      if(current&&current.frame===frame&&current.host===host&&host.isConnected!==false)return true;
+      // Styles first, then mount: Team V's layout code measures a container its own CSS already sizes.
+      mounted.set(id,{frame,host});
+      vsSyncStyles();
+      try{def.mount(frame,host);}
+      catch(error){if(mounted.get(id)?.frame===frame)mounted.delete(id);vsSyncStyles();throw error;}
+      vsSyncStyles();
+      return true;
+    }finally{vsSettle(id);}
+  }
+  function vsHide(id){vsSettle(id);vsUnmount(id);vsSyncStyles();}
   // The app rewrote the screen's host (e.g. its old renderer ran): forget the drawn frame so the next show() draws
   // again even when the frame is unchanged. A screen the app is not showing is simply closed.
   function vsInvalidate(id){if(!vsIsShown(id)){vsHide(id);return;}mounted.delete(id);}
@@ -280,7 +306,7 @@
       vsSyncStyles();
       vsPaintNav(screen);
       const def=screen?registry.get(screen):null;
-      if(def&&def.auto)vsShow(screen).catch(error=>vsReport("Team V screen could not load",error));
+      if(def&&def.auto){vsExpect(screen);vsShow(screen).catch(error=>vsReport("Team V screen could not load",error));}
     }catch(error){vsReport("Team V screen could not update",error);}
   }
   function vsHookShowScreen(){
@@ -321,7 +347,7 @@
 
   const api=Object.freeze({
     contractVersion:1,BASE,EVENT,UI_KEY,KIT,NAV,NAV_SCREENS,ROUTES,
-    install:vsInstall,ensureKit:vsEnsureKit,register:vsRegister,show:vsShow,hide:vsHide,invalidate:vsInvalidate,isMounted:vsIsMounted,
+    install:vsInstall,ensureKit:vsEnsureKit,register:vsRegister,show:vsShow,hide:vsHide,expect:vsExpect,settle:vsSettle,invalidate:vsInvalidate,isMounted:vsIsMounted,
     navFor:vsNavFor,navigate:vsNavigate,setNavRoute:vsSetNavRoute,getUiPreference:vsGetUiPreference,setUiPreference:vsSetUiPreference
   });
   return api;
