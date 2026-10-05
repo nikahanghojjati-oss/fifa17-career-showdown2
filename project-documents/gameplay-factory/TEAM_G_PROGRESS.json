@@ -1,24 +1,11 @@
 {
  "team": "G",
- "updated": "2026-10-05T13:52-04:00",
+ "updated": "2026-10-05T13:55-04:00",
  "jobs_done": 33,
  "jobs_total": 33,
  "open_bugs": 2,
  "next_move": [
   "**Play r56 with Daniel** (close and reopen the app once). Report anything odd to the coordinator in the project chat."
  ],
- "running": [
-  {
-   "job": 35,
-   "title": "Team V screen fixes HO-003 + HO-004 (r59, includes r58)",
-   "worker": "Opus",
-   "done": 3,
-   "total": 5,
-   "pct": 38.0678,
-   "eta": "about 2:11 PM (likely 1:57 PM to 2:34 PM) Boston time",
-   "current": "Gates running on the exact head",
-   "pr": 377,
-   "updated": "2026-10-05T17:39:26Z"
-  }
- ]
+ "running": []
 }

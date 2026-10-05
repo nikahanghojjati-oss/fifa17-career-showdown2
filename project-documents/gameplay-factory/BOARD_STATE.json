@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 1:52 PM Boston time (EDT)",
+ "generated": "2026-10-05 1:55 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -313,20 +313,17 @@
  },
  "two": {
   "live": {
-   "sha": "3deee29",
-   "revision": "1.9.1-r57",
-   "when": "2026-10-05T15:47:10Z",
-   "subject": "Team V's Club Assignment on the live screen (r57) (#371)",
-   "fixes": [
+   "sha": "0208032",
+   "revision": "1.9.1-r59",
+   "when": "2026-10-05T17:55:28Z",
+   "subject": "Release r59: Team V screen fixes HO-003 + HO-004, includes r58 ghost coat fix (#377)",
+   "fixes": [],
+   "today": [
     {
      "pr": 377,
      "title": "G-35: Team V screen fixes HO-003 + HO-004 (r59, includes r58)",
-     "draft": false,
-     "branch": "gameplay/job-35-ho003-ho004-wiring",
-     "updated": "2026-10-05T17:39:27Z"
-    }
-   ],
-   "today": [
+     "merged": "2026-10-05T17:55:28Z"
+    },
     {
      "pr": 371,
      "title": "G-34: Team V's Club Assignment on the live screen (r57)",
