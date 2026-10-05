@@ -708,10 +708,24 @@
     },
     {
      "id": "G-F13",
-     "title": "Home soundtrack: remove deleted What You Got, 9 streamable Audius tracks",
+     "title": "Home soundtrack: 11 Audius tracks, Nasty first, Shelter remix and High And Low cover",
      "lane": "opus",
-     "state": "in r60 (PRs #379 and #380 merged into #378; Nasty first)",
+     "state": "in r60 (PRs #379, #380, #382 merged into #378)",
      "waits_on": "r60 release"
+    },
+    {
+     "id": "G-F14",
+     "title": "Phone track list: stop below the logo and scroll with 11 tracks",
+     "lane": "opus",
+     "state": "ready (PR #383), ships in r61",
+     "waits_on": "r60 on main, then retarget #383 to main"
+    },
+    {
+     "id": "G-F15",
+     "title": "Landscape phone Home layout (844x390): title sits on the wordmark, soundtrack card covers the right tiles (already in r59)",
+     "lane": "opus",
+     "state": "queued for r61",
+     "waits_on": ""
     },
     {
      "id": "G-F3",

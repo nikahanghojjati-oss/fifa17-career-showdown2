@@ -7,18 +7,5 @@
  "next_move": [
   "**r59 is live** (Team V screen fixes). Play it with Daniel; r60 (no old photos, 7 Home tiles, 9 soundtrack tracks) is next."
  ],
- "running": [
-  {
-   "job": 36,
-   "title": "No old player photos + seven Home tiles (r60)",
-   "worker": "Opus",
-   "done": 3,
-   "total": 5,
-   "pct": 38.0678,
-   "eta": "about 2:42 PM (likely 2:27 PM to 3:05 PM) Boston time",
-   "current": "Gates running on the exact head",
-   "pr": 378,
-   "updated": "2026-10-05T18:10:00Z"
-  }
- ]
+ "running": []
 }
