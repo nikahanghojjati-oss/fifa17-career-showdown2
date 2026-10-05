@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 7:57 PM Boston time (EDT)",
+ "generated": "2026-10-05 7:59 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -324,11 +324,11 @@
      "draft": false,
      "branch": "gameplay/release-r62",
      "sha": "bb827862de3a9018e59a479f5d435c6498c3cf46",
-     "updated": "2026-10-05T23:50:33Z",
+     "updated": "2026-10-05T23:58:31Z",
      "gates": {
-      "passed": 10,
-      "running": 3,
-      "failed": 2,
+      "passed": 13,
+      "running": 0,
+      "failed": 3,
       "cancelled": 0
      }
     },
@@ -420,9 +420,9 @@
    ]
   },
   "physio": {
-   "state": "clear",
-   "line": "All clear: every check has a machine.",
-   "gate": "POS20 #390 9/16",
+   "state": "barking",
+   "line": "Barking: POS20 on #388 has waited 2 min for a machine.",
+   "gate": "POS20 #390 13/16",
    "source": "physio"
   },
   "v_headline": "Board 1 (visual package): 238 of 238 jobs done and checked",
@@ -640,7 +640,7 @@
   "**Nothing waits on you right now.** r62 (PR #390) is in checks; after it ships, press Update once on the laptop."
  ],
  "now": {
-  "moving": 17,
+  "moving": 16,
   "next": 2,
   "nik": 4,
   "later": 4,
@@ -835,11 +835,11 @@
     "draft": false,
     "branch": "gameplay/release-r62",
     "sha": "bb827862de3a9018e59a479f5d435c6498c3cf46",
-    "updated": "2026-10-05T23:50:33Z",
+    "updated": "2026-10-05T23:58:31Z",
     "gates": {
-     "passed": 10,
-     "running": 3,
-     "failed": 2,
+     "passed": 13,
+     "running": 0,
+     "failed": 3,
      "cancelled": 0
     }
    },
