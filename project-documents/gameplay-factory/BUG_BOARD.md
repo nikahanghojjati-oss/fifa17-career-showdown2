@@ -1,6 +1,6 @@
 # 🐞 Team G bug hunting factory
 
-> Updated **Mon 5 Oct, 7:56 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
+> Updated **Mon 5 Oct, 7:57 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
 
 | 🔓 Open | 🔴 Top priority | 🔧 Fixing or waiting for release | ✅ Fixed and live |
 | :---: | :---: | :---: | :---: |
@@ -27,10 +27,10 @@
 
 🏁 no finish time yet (not enough data)
 
-### ⬛ worker not set · 1 job
+### 🟦 Sol chat · 1 job
 
 **Job 1001 · Home desktop tile icons: bigger, inside the tile, never on the text · 57.1429 %** · 4 of 7 steps · updated Mon 5 Oct, 7:57 PM  
-⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⚽▫️▫️▫️▫️▫️▫️▫️▫️ 🥅  
+🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦⚽▫️▫️▫️▫️▫️▫️▫️▫️ 🥅  
 🏁 **Likely finish:** not enough data  
 > **Now:** step 5 of 7  
 > **Left:** step 5 → step 6 → step 7

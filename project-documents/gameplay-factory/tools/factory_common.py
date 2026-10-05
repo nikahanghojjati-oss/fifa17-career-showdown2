@@ -29,6 +29,12 @@ def running_jobs():
                 continue
             chat = (re.search(r"^Chat:\s*(.+)$", t, re.M) or [None, ""])[1] if re.search(r"^Chat:", t, re.M) else ""
             worker = "sol-work" if "work" in chat.lower() else "sol-chat" if "sol" in chat.lower() else ""
+            if not worker:  # between chats (e.g. "Chat: none, lead review"): the job's lane on BOARD.json
+                try:
+                    rows = [r for f in json.load(open(os.path.join(F, "BOARD.json"))).get("factories", {}).values() for r in f.get("future", [])]
+                    worker = next((r["lane"] for r in rows if str(r.get("id")) == str(n)), "")
+                except Exception:
+                    pass
             title = re.sub(r"^#\s*Status\s*·\s*JOB-\d+\s*·\s*", "", t.splitlines()[0]).strip()
             k, total = int(step.group(1)) - 1, int(step.group(2))  # "Step 2 of 3" = working on step 2, one done
             up = re.search(r"^Updated:\s*(\d{4}-\d\d-\d\d)[ T](\d\d:\d\d)", t, re.M)
