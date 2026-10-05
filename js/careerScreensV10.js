@@ -201,6 +201,14 @@
           unmount(){}
         });
       }
+      // Signing in (or out) while a career screen shows reloads its online model: since r61 a signed-out device sees
+      // Team V's screen too, so the sign-in chip leads straight to the real career.
+      root.addEventListener?.("career-mode-online-identity-change",()=>{
+        const live=Object.keys(SCREEN_IDS).filter(screen=>screens.isMounted(screen));
+        if(!live.length)return;
+        if(live.some(screen=>getters[screen]?.()==null)&&v10Seam().isOnlineCareerRoute(v10Identity())&&v10OnlineModel()==null)v10LoadOnline().catch(v10Fail);
+        else v10Redraw();
+      });
       return screens;
     }).catch(error=>{registered=null;throw error;});
     return registered;

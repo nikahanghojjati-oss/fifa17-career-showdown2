@@ -435,8 +435,11 @@ async function openSettingsDataManagement(){
         return;
     }
 
+    // Legacy is Team V's History screen; this button asks for its data tools page (backup, restore, reset) instead.
+    window.careerModeLegacyDataTools = true;
     const opened = await window.openOptionalModule("legacy");
     if(!opened){
+        window.careerModeLegacyDataTools = false;
         openSettings();
     }
 }
