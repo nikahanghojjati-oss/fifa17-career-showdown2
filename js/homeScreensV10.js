@@ -47,7 +47,7 @@
     const frag=hmDoc().createDocumentFragment();
     frag.append(
       hmDecor("plateView",pic("phoneHeroBackground","ENV_HOME_PHONE_V1.webp")+'<div class="plateLayer"></div>'),
-      hmDecor("v10HomeCutouts",pic("phoneHeroCutout phoneHeroDaniel","OVL_HOME_DANIEL_PHONE_V1.webp")+pic("phoneHeroCutout phoneHeroNik","OVL_HOME_NIK_PHONE_V1.webp")),
+      hmDecor("v10HomeCutouts",pic("phoneHeroCutout phoneHeroDaniel","OVL_HOME_DANIEL_PHONE_V2.webp")+pic("phoneHeroCutout phoneHeroNik","OVL_HOME_NIK_PHONE_V2.webp")),
       hmDecor("phoneHeroGrade"),hmDecor("scrim scrimTop"),hmDecor("scrim scrimLow"),hmDecor("dockBed"),
       hmDecor("scriptLine","<span>More Than A Game</span>")
     );

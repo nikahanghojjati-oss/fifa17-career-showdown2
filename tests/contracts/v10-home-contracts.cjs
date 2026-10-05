@@ -125,7 +125,7 @@ test("Home CSS/JS are precached; Home images use the revision-keyed runtime imag
   const imageRule=new RegExp(/const V10_IMAGE_PATH = \/(.+)\/i;/.exec(sw)[1],"i");
   const images=[...binder.matchAll(/BASE\+"([^"]+\.webp)/g),...binder.matchAll(/\$\{BASE\}home\/assets\/\$\{file\}/g)].length;
   assert.ok(images>0);
-  const files=["home/assets/ENV_HOME_PHONE_V1.webp","home/assets/OVL_HOME_DANIEL_PHONE_V1.webp","home/assets/OVL_HOME_NIK_PHONE_V1.webp","home/assets/LOGO_CM17_WORDMARK_V1.webp",
+  const files=["home/assets/ENV_HOME_PHONE_V1.webp","home/assets/OVL_HOME_DANIEL_PHONE_V2.webp","home/assets/OVL_HOME_NIK_PHONE_V2.webp","home/assets/LOGO_CM17_WORDMARK_V1.webp",
     ...Object.values(Home.TILE_ART).map(f=>"shared/art/home-tiles/"+f),...[...homeCss.matchAll(/url\("?(assets\/[^")]+\.webp)"?\)/g)].map(m=>"home/"+m[1])];
   for(const file of files){const full="visual-assets/v10_1/"+file;assert.ok(fs.existsSync(path.join(ROOT,full)),full);assert.ok(imageRule.test(full),full);}
   for(const m of homeCss.matchAll(/url\((\.\.\/shared\/fonts\/[^)]+\.woff2)\)/g))assert.ok(shell.has("visual-assets/v10_1/"+m[1].slice(3)),m[1]);
@@ -139,8 +139,9 @@ test("the adapter keeps the product's protected Home facts (desktop tile placeme
   assert.doesNotMatch(adapter,/#(?:legacyButton|careerStatisticsButton|rivalryStatisticsButton)[^{]*\{[^}]*display/,"r43 containment is not undone");
   assert.match(adapter,/#mainMenu\.v10Home #continueCareer:disabled \{ opacity: 1; filter: none; \}/);
 });
-test("Team V files are the 5e05a1f copies with only the listed edits",()=>{
-  assert.equal(sha("visual-assets/v10_1/home/home.css"),"ae84f3e3c79b1e228abffcf1210f65fbc3066775c5aeaffe2fd357106edda8ea");
+test("Team V files are the 5e05a1f copies with only the listed edits (HO-005: phone overlays V2)",()=>{
+  assert.equal(sha("visual-assets/v10_1/home/home.css"),"5606b234209ab69e379d729ee2b9386d7f54f7929929aaa13f00a362056ffa5b");
+  assert.doesNotMatch(homeCss,/OVL_HOME_(?:DANIEL|NIK)_PHONE_V1/,"HO-005: phone overlays without the ghost coat (V2)");
   assert.equal(sha("visual-assets/v10_1/home/soundtrack.js"),"8c00f6cf547119848733082af9c6eb0c2baedb24a46b92195b6768a268fa4c72");
   assert.equal((soundtrack.match(/JOB-25 \(app\)/g)||[]).length,2);
 });
