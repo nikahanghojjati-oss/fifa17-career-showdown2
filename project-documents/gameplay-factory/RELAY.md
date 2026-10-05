@@ -1,15 +1,17 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-10-05 7:41 PM Boston time (EDT)
+[Back to the board](BOARD.md) · generated 2026-10-05 7:43 PM Boston time (EDT)
 
-Relay branch `leads/relay` head `74d1410` (Mon 5 Oct 7:41 PM Boston time) · 29 messages · 9 hand-offs · 43 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `f024c03` (Mon 5 Oct 7:42 PM Boston time) · 29 messages · 9 hand-offs · 43 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
 ### HO-009 · V → G · GPT workers: CI gates and the Physio are expected, never removed
 
-✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done**
 
+- Mon 5 Oct 7:42 PM · Team G · Done · Block added as WORKER_HANDBOOK.md section 9b on factory/gameplay-v1 (f4cbb74). Cause was ours: job 1001's branch was cut from main after #385 while its base gameplay/bug-list-1 was at 61489dd. Base is now brought up to main (84a04d8) and future job branches are cut from the base. Gate list matches ours.
+- Mon 5 Oct 7:42 PM · Team G · Received · Team G bug factory thread picked it up
 - Mon 5 Oct 7:41 PM · Team V · Sent
 
 <details><summary>Full ticket</summary>

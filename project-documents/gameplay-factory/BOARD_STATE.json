@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 7:41 PM Boston time (EDT)",
+ "generated": "2026-10-05 7:43 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -284,8 +284,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "74d1410",
-  "head_boston": "Mon 5 Oct 7:41 PM",
+  "head": "f024c03",
+  "head_boston": "Mon 5 Oct 7:42 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": true,
   "open_for_g": [],
@@ -326,8 +326,8 @@
      "sha": "1a040366cd39690d4daf9fe2c9c354a4839de998",
      "updated": "2026-10-05T23:38:47Z",
      "gates": {
-      "passed": 1,
-      "running": 20,
+      "passed": 5,
+      "running": 16,
       "failed": 0,
       "cancelled": 0
      }
@@ -407,8 +407,8 @@
   },
   "physio": {
    "state": "barking",
-   "line": "Barking: Gameplay Fast has waited 4 min for a machine; POS20 on #388 has waited 3 min for a machine; Showdown Gate on #386 has waited 2 min for a machine; POS20 on #386 has waited 2 min for a machine; Gameplay Fast on #386 has waited 2 min for a machine.",
-   "gate": "Gate #386: L1· L2· L3· L4· L5· L6… · seal pending · POS20 #386 1/16",
+   "line": "Barking: POS20 has waited 10 min for a machine; POS20 on #388 has waited 5 min for a machine; Gameplay Fast on #386 has waited 5 min for a machine; Showdown Gate on #386 has waited 5 min for a machine; POS20 on #386 has waited 5 min for a machine; POS20 has waited 3 min for a machine; POS20 on #311 has waited 2 min for a machine; Gameplay Fast has waited 1 min for a machine.",
+   "gate": "Gate #386: L1· L2… L3… L4· L5· L6… · seal pending · POS20 #386 4/16",
    "source": "physio"
   },
   "v_headline": "Board 1 (visual package): 238 of 238 jobs done and checked",
@@ -537,8 +537,8 @@
     "from": "V",
     "to": "G",
     "title": "GPT workers: CI gates and the Physio are expected, never removed",
-    "stage": "SENT",
-    "pct": 0.0,
+    "stage": "DONE",
+    "pct": 100.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-009_gpt-workers-ci-gates-and-the-physio-are-.md",
     "worker": "sol-chat",
@@ -615,7 +615,7 @@
   "**Nothing waits on you right now.** r62 is nearly full; BH-11, BUG-1 and G-F6b are finishing."
  ],
  "now": {
-  "moving": 13,
+  "moving": 12,
   "next": 2,
   "nik": 4,
   "later": 5,
@@ -796,8 +796,8 @@
     "sha": "1a040366cd39690d4daf9fe2c9c354a4839de998",
     "updated": "2026-10-05T23:38:47Z",
     "gates": {
-     "passed": 1,
-     "running": 20,
+     "passed": 5,
+     "running": 16,
      "failed": 0,
      "cancelled": 0
     }
