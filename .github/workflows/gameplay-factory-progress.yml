@@ -42,9 +42,9 @@ jobs:
             git fetch -q origin factory/gameplay-v1
             git reset -q --hard origin/factory/gameplay-v1
             FOUND=$(python3 $B/tools/collect_progress.py)
-            python3 $B/tools/board.py >/dev/null
-            if git diff -U0 -- $B/BOARD.md | grep '^[-+][^-+]' | grep -qv '· generated 20'; then
-              git add $B/BOARD.md $B/BOARD_ARCHIVE.md $B/BOARD_STATE.json
+            python3 $B/tools/board.py; python3 $B/tools/bug_board.py >/dev/null
+            if git diff -U0 -- $B/BOARD.md $B/BUG_BOARD.md | grep '^[-+][^-+]' | grep -qv '· generated 20'; then
+              git add $B/BOARD.md $B/BOARD_ARCHIVE.md $B/BOARD_STATE.json $B/BUG_BOARD.md
               git commit -qm "Gameplay factory: progress bars update [skip ci]"
               git push -q origin HEAD:factory/gameplay-v1 || echo "push raced; next round retries"
             fi

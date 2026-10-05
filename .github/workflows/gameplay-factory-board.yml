@@ -13,6 +13,9 @@ on:
       - project-documents/gameplay-factory/jobs/**
       - project-documents/gameplay-factory/BOARD.json
       - project-documents/gameplay-factory/tools/board.py
+      - project-documents/gameplay-factory/tools/bug_board.py
+      - project-documents/gameplay-factory/tools/factory_common.py
+      - project-documents/gameplay-factory/BUGS.json
   workflow_dispatch:
 
 permissions:
@@ -48,9 +51,10 @@ jobs:
             git reset --hard origin/factory/gameplay-v1
             python3 $B/tools/collect_progress.py >/dev/null
             python3 $B/tools/board.py
+            python3 $B/tools/bug_board.py
             # Ignore the timestamp line alone: commit only when a job's row actually changed.
-            if git diff -U0 -- $B/BOARD.md $B/BOARD_ARCHIVE.md | grep '^[-+][^-+]' | grep -qv '· generated 20'; then :; else echo "Board unchanged"; exit 0; fi
-            git add $B/BOARD.md $B/BOARD_ARCHIVE.md $B/BOARD_STATE.json
+            if git diff -U0 -- $B/BOARD.md $B/BUG_BOARD.md $B/BOARD_ARCHIVE.md | grep '^[-+][^-+]' | grep -qv '· generated 20'; then :; else echo "Board unchanged"; exit 0; fi
+            git add $B/BOARD.md $B/BOARD_ARCHIVE.md $B/BOARD_STATE.json $B/BUG_BOARD.md
             git commit -m "Gameplay factory: board auto-update [skip ci]"
             git push origin HEAD:factory/gameplay-v1 && exit 0
             sleep $((2**i))

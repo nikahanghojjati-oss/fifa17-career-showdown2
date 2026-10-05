@@ -1,6 +1,6 @@
 # Team G gameplay board
 
-20 of 33 jobs done (70 %) ███████░░░ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-04 8:34 PM Boston time (EDT)
+20 of 33 jobs done (70 %) ███████░░░ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-04 8:39 PM Boston time (EDT)
 
 ## Your next move
 
@@ -16,7 +16,57 @@ Gameplay factory job NN. Read https://raw.githubusercontent.com/nikahanghojjati-
 
 ## Running now
 
-No job is reporting progress right now (jobs show here once their PR description carries a progress block).
+Bug hunting factory: [BUG_BOARD.md](BUG_BOARD.md).
+
+Each bar is the real count of finished steps for that job (finished steps / all steps, to two decimals). Nothing is estimated. Lanes: 🟦 Sol chat · 🟩 Sol Work mode · ⬜ Codex · 🟧 Opus · 🟪 Sonnet · 🟨 Haiku.
+
+### 🟧 Job 27 · Transfer War screens
+
+Opus · Lead (helper) · PR #362
+
+🟧🟧🟧🟧🟧🟧🟧🟧⚽▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️ 🥅 **42.86 %** (3 of 7 steps)
+
+**Going on now:** Fixing a failed two-manager play-through test: Home's styling leaks onto the Transfer War screen
+
+**Still to do:** All 16 checks green on the exact head → Bring in the latest test build once → Lead review (screenshots and diff) → Merged into the test build
+
+_Updated Sun 4 Oct 8:35 PM Boston time_
+
+### 🟪 Job 28 · Rivalry Stats and Legacy
+
+Sonnet · Sonnet thread · PR #352
+
+🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪⚽▫️▫️▫️ 🥅 **80.00 %** (8 of 10 steps)
+
+**Going on now:** CI running on bdbf6a6
+
+**Still to do:** CI green on final head (Gameplay Fast + POS20) → Lead review and merge
+
+_Updated Sun 4 Oct 8:35 PM Boston time_
+
+### 🟧 Job 29 · Season Results, Final Winner, Standings
+
+Opus · Opus thread · PR #357
+
+🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧⚽▫️▫️▫️ 🥅 **81.82 %** (9 of 11 steps)
+
+**Going on now:** Fix ready locally; waiting for job 33 to merge, then one push
+
+**Still to do:** Final sync with recovery after job 33 merges, plus the log fix; CI green → Lead merges into gameplay/recovery-v1
+
+_Updated Sun 4 Oct 8:39 PM Boston time_
+
+### 🟧 Job 33 · Fewer taps
+
+Opus · Lead (helper) · PR #358
+
+🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧⚽▫️▫️ 🥅 **85.71 %** (6 of 7 steps)
+
+**Going on now:** Lead reviewed; running the final checks on the head with the latest test build
+
+**Still to do:** Merged into the test build
+
+_Updated Sun 4 Oct 8:35 PM Boston time_
 
 ## Live fixes and bug hunt
 

@@ -1,0 +1,6 @@
+{
+ "_help": "Owned by the Bug reports thread. One entry per report. status: NEW, TRIAGED, FIXING, REVIEW, MERGED, LIVE, DUPLICATE, NOT A BUG. priority: top (10-season flow or session) or normal. type: gameplay, visual or data. worker: sol-chat, sol-work, codex, opus, sonnet, haiku or empty. job: the job number whose progress block drives the bar, or empty.",
+ "bugs": [
+  {"id": "BUG-1", "title": "Raw error codes show in the Setup settle text", "where": "Setup", "type": "gameplay", "priority": "normal", "worker": "", "job": "", "status": "NEW", "note": "carried over from the 4 Oct bug hunt extras"}
+ ]
+}

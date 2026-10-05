@@ -3,7 +3,8 @@
     python3 project-documents/gameplay-factory/tools/board.py
 Prints what can start now in each lane.
 On GitHub, .github/workflows/gameplay-factory-board.yml runs this on every job move."""
-import json, os, re, datetime
+import json, os, re, sys, datetime
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from zoneinfo import ZoneInfo
 
 
@@ -160,47 +161,10 @@ nxt = next((j for j in open_jobs if j["lane"] != "lead"), None)
 L += ["", f"_Moving now:_ {moving}." + (f" _Next up:_ {nxt['key']} {nxt['title']}, waits on {(nxt.get('waits_on') or ', '.join('job %d' % d for d in nxt['depends_on'] if info[d][0] not in FINISHED) or 'nothing')}." if nxt else ""), "",
       "**Sol Work mode starter line** (copy it, change both `NN` to the job number, paste it as the first message):", "", "```", starter, "```", ""]
 
-# ---- Running jobs: real progress bars from progress/job-NN.json (done steps / total steps)
-def running_jobs():
-    d = os.path.join(F, "progress")
-    out = []
-    for fn in sorted(os.listdir(d)) if os.path.isdir(d) else []:
-        if not re.match(r"job-\d+\.json$", fn):
-            continue
-        try:
-            r = json.load(open(os.path.join(d, fn)))
-            steps = r["steps"]
-            k = sum(1 for s_ in steps if s_.get("done"))
-            out.append((int(r["job"]), r, k, len(steps)))
-        except Exception:
-            continue
-    return out
-
-
-LANES = {"sol-chat": ("🟦", "Sol chat"), "sol-work": ("🟩", "Sol Work mode"), "codex": ("⬜", "Codex"),
-         "opus": ("🟧", "Opus"), "sonnet": ("🟪", "Sonnet"), "haiku": ("🟨", "Haiku")}
-
-
-def lane_of(r):
-    w = str(r.get("worker", "")).lower().replace(" ", "-")
-    if w in LANES:
-        return LANES[w]
-    o = str(r.get("owner", "")).lower()
-    for k in ("sonnet", "opus", "haiku", "codex"):
-        if k in o:
-            return LANES[k]
-    return ("⬛", "worker not set")
-
-
-def pitch(frac, sq, width=20):
-    if frac >= 1:
-        return sq * width + " 🥅 GOAL"
-    k = int(frac * width)
-    return sq * k + "⚽" + "▫️" * (width - k - 1) + " 🥅"
-
+from factory_common import running_jobs, LANES, lane_of, pitch
 
 rj = running_jobs()
-L += ["## Running now", ""]
+L += ["## Running now", "", "Bug hunting factory: [BUG_BOARD.md](BUG_BOARD.md).", ""]
 if rj:
     L += ["Each bar is the real count of finished steps for that job (finished steps / all steps, to two decimals). Nothing is estimated. Lanes: " +
           " · ".join(f"{sq} {name}" for sq, name in LANES.values()) + ".", ""]
