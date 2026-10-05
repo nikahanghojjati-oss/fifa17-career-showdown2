@@ -155,7 +155,6 @@
   }
   async function ssrpPublishResult(options={}){
     try{ssrpValidateSdk(options);const operationId=ssrpNormalizeOperationId(options.operationId),baseRevision=Number(options.baseRevision);if(!Number.isInteger(baseRevision)||baseRevision<0||baseRevision>2)ssrpFail("SEASON_RESULTS_COMMAND_INVALID");
-      await ssrpEnsureLeagueProjection(options);
       const runPublishTransaction=()=>options.firebaseSdk.runTransaction(options.firestore,async transaction=>{
         const ctx=await ssrpContext(options,transaction),current=ctx.state,revision=current?current.revision:0,normalizedResult=await ssrpNormalizeResult(options.result,ctx.teamCount,ctx.setupState,ctx.career,ctx.transfer,ctx.seasonNumber,ctx.role,operationId,ctx.cryptoImpl),operationHash=await ssrpHash({actorRole:ctx.role,type:"publish-result",operationId,baseRevision},ctx.cryptoImpl),commandHash=await ssrpHash({actorRole:ctx.role,type:"publish-result",operationId,baseRevision,result:normalizedResult},ctx.cryptoImpl);
         if(current){const index=current.operationIds.indexOf(operationId);if(index>=0){if(current.operationHashes[index]!==operationHash||current.baseRevisions[index]!==baseRevision||current.actorRoles[index]!==ctx.role||!ctx.own||ctx.own.operationId!==operationId||ctx.own.commandHash!==commandHash)ssrpFail("SEASON_RESULTS_IDEMPOTENCY_CONFLICT");const projected=current.phase==="RESULTS_READY"?ssrpProjection(await ssrpContext(options,transaction,{readOpponent:true})):ssrpProjection(ctx);return ssrpFreeze({...projected,status:"accepted",replayed:true,needsRefresh:current.phase==="RESULTS_READY"});}}
@@ -164,10 +163,17 @@
         const serverNow=ssrpServerTimestamp(ctx.sdk);transaction.set(ctx.refs.public,{schemaVersion:1,objectType:"sharedSeasonResults",rivalryId:ctx.rivalryId,seasonNumber:ctx.seasonNumber,runtimeRevision:resultsModule.runtimeRevision,phase:next.phase,revision:next.revision,teamCount:ctx.teamCount,publishedRoles:[...next.publishedRoles],operationIds:[...next.operationIds],operationHashes:[...next.operationHashes],baseRevisions:[...next.baseRevisions],actorRoles:[...next.actorRoles],activeSessionId:ctx.sessionId,updatedAt:serverNow,updatedByDeviceId:ctx.deviceId});transaction.set(ctx.refs.own,{schemaVersion:1,objectType:"sharedSeasonResultRole",rivalryId:ctx.rivalryId,seasonNumber:ctx.seasonNumber,managerRole:ctx.role,result:normalizedResult,operationId,commandHash,activeSessionId:ctx.sessionId,publishedAt:serverNow,updatedByDeviceId:ctx.deviceId});
         return ssrpFreeze({ok:true,status:"accepted",replayed:false,revision:next.revision,state:ssrpClone(next),managerRole:ctx.role,seasonNumber:ctx.seasonNumber,ownResult:ssrpClone(normalizedResult),opponentResult:null,allResults:null,needsRefresh:next.phase==="RESULTS_READY"});
       });
-      try{return await runPublishTransaction();}
-      catch(error){
-        const code=error&&typeof error.code==="string"?error.code:"";
-        if(code!=="permission-denied"&&code!=="firestore/permission-denied"&&code!=="permission_denied")throw error;
+      // The league-projection preflight runs its own transaction, so a same-moment denial there gets the same recovery.
+      const ssrpDenied=failure=>{const code=failure&&typeof failure.code==="string"?failure.code:"";return code==="permission-denied"||code==="firestore/permission-denied"||code==="permission_denied";};
+      let projectionReady=false;
+      const publishOnce=async()=>{if(!projectionReady){await ssrpEnsureLeagueProjection(options);projectionReady=true;}return await runPublishTransaction();};
+      try{return await publishOnce();}
+      catch(firstError){
+        let error=firstError;
+        if(!ssrpDenied(error))throw error;
+        // A denied preflight can be a lost race to create the immutable league projection. The projection now exists,
+        // so retry the idempotent preflight and the publish once instead of depending on the rival's publish landing.
+        if(!projectionReady){try{return await publishOnce();}catch(retryError){if(!ssrpDenied(retryError))throw retryError;error=retryError;}}
         const sdk=options.firebaseSdk;
         const rivalryId=ssrpNormalizeRivalryId(options.rivalryId),seasonNumber=Number(options.seasonNumber);if(!Number.isInteger(seasonNumber)||seasonNumber<1||seasonNumber>10)throw error;
         // Race fix: the production SDK bundle (productionFirebaseRuntime firestoreSdk) and the emulator
@@ -182,7 +188,11 @@
           if(attempt>0)await new Promise(resolve=>setTimeout(resolve,250*attempt));
           let fresh;
           try{fresh=ssrpSnapshot(await readPublic());}
-          catch(_readError){throw error;}
+          catch(readError){
+            // A denied re-read (stranger) answers at once; a contended or transient re-read is retried like a stale one.
+            if(ssrpDenied(readError))throw error;
+            continue;
+          }
           if(fresh&&Array.isArray(fresh.operationIds)&&fresh.operationIds.includes(operationId))return await runPublishTransaction();
           if(fresh&&Number.isInteger(fresh.revision)&&fresh.revision>baseRevision)ssrpFail("SEASON_RESULTS_STALE_BASE_REVISION");
         }
