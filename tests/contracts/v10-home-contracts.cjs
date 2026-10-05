@@ -36,7 +36,7 @@ function fakeDom(){
   };
   const body=make("body"),card=make("section"),toggle=make("button",{id:"menuMusicToggle"}),mute=make("button",{id:"menuMusicMute"}),status=make("p",{id:"menuMusicStatus"});
   const selector=make("div"),title=make("strong"),artist=make("p");
-  const choices=["nasty","snowGlobe","imAlwaysRight","everythingIKnow","tellMeWhatYouWant","nextToYou","hardFeelings","sillyBoy","uproar"].map(key=>{const b=make("button");b.dataset.soundtrackTrack=key;return b;});
+  const choices=["nasty","snowGlobe","imAlwaysRight","everythingIKnow","tellMeWhatYouWant","nextToYou","hardFeelings","sillyBoy","uproar","shelterRemix","highAndLowCover"].map(key=>{const b=make("button");b.dataset.soundtrackTrack=key;return b;});
   card.querySelector=sel=>({".menuMusicHeader strong":title,".menuMusicArtist":artist,".menuMediaSelector":selector})[sel]||null;
   card.querySelectorAll=sel=>sel==="[data-soundtrack-track]"?choices:[];
   const ids={menuMusicToggle:toggle,menuMusicMute:mute,menuMusicStatus:status};
@@ -105,7 +105,7 @@ test("the YouTube player is retired only by lazy Home code, and product diagnost
 test("Audius is the only new network host",()=>{
   const hosts=new Set([...(binder+soundtrack).matchAll(/https?:\/\/([a-z0-9.-]+)/gi)].map(m=>m[1].toLowerCase()));
   assert.deepEqual([...hosts],["api.audius.co"]);
-  assert.equal(Home.MEDIA.tracks.length,9);assert.deepEqual(Home.MEDIA.tracks.map(t=>t.audiusTrackId),["G5rXAWE","X9wlA0b","9QRXKw","bppAK","4baRa","n1zqQ","LKWVl","zKgQq","JGgl0"]);
+  assert.equal(Home.MEDIA.tracks.length,11);assert.deepEqual(Home.MEDIA.tracks.map(t=>t.audiusTrackId),["G5rXAWE","X9wlA0b","9QRXKw","bppAK","4baRa","n1zqQ","LKWVl","zKgQq","JGgl0","DOpRe","W677j"]);
 });
 test("Home registers through job 24's loader with Team V's CSS, the adapter and the soundtrack",()=>{
   assert.match(binder,/V\.register\("mainMenu",\{css:HOME_CSS\.slice\(\),js:\[\["v10-home-soundtrack","home\/soundtrack\.js"/);

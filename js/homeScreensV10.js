@@ -27,7 +27,9 @@
       Object.freeze({key:"nextToYou",title:"NEXT TO YOU",artist:"RAC ft. Emerson Leif",audiusTrackId:"n1zqQ"}),
       Object.freeze({key:"hardFeelings",title:"HARD FEELINGS",artist:"Miquela",audiusTrackId:"LKWVl"}),
       Object.freeze({key:"sillyBoy",title:"SILLY BOY",artist:"oshi",audiusTrackId:"zKgQq"}),
-      Object.freeze({key:"uproar",title:"UPROAR",artist:"Mike Shinoda",audiusTrackId:"JGgl0"})
+      Object.freeze({key:"uproar",title:"UPROAR",artist:"Mike Shinoda",audiusTrackId:"JGgl0"}),
+      Object.freeze({key:"shelterRemix",title:"SHELTER (EFFUGIO REMIX)",artist:"Porter Robinson & Madeon",audiusTrackId:"DOpRe"}),
+      Object.freeze({key:"highAndLowCover",title:"HIGH AND LOW (COVER)",artist:"Empire Of The Sun · Aba",audiusTrackId:"W677j"})
     ]),
     defaultTrack:"nasty",
     audius:Object.freeze({apiBase:"https://api.audius.co/v1",appName:"CareerModeShowdown17"})

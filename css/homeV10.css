@@ -106,6 +106,9 @@
 }
 @media (min-width: 761px) and (max-width: 1100px), (orientation: landscape) and (max-width: 1100px) {
   #mainMenu.v10Home .fifaMenuGrid > .menuTile { padding-right: 12px; }
+  /* 11 soundtrack tracks: the track list stays below the header chips and scrolls instead of growing upward. */
+  #mainMenu.v10Home .phoneSheetToggle:checked ~ .menuMediaSelector { max-height: min(260px, calc(100dvh - 220px)); overflow-y: auto; }
+  #mainMenu.v10Home .menuMediaSelector .menuMediaChoice :is(strong, small) { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   /* narrow desktops: Continue keeps room for its player art, and the six other tiles keep their labels whole */
   #mainMenu.v10Home .fifaMenuGrid > #continueCareer { flex: 2.2 1 0; padding-right: 120px; }
   #mainMenu.v10Home .menuTileLabel { font-size: 15px; }
