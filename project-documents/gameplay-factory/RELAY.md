@@ -2,7 +2,7 @@
 
 [Back to the board](BOARD.md) · generated 2026-10-05 11:54 AM Boston time (EDT)
 
-Relay branch `leads/relay` head `a52dda2` (Mon 5 Oct 11:53 AM Boston time) · 29 messages · 5 hand-offs · 28 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `a52dda2` (Mon 5 Oct 11:53 AM Boston time) · 29 messages · 5 hand-offs · 29 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
