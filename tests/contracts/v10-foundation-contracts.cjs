@@ -522,6 +522,11 @@ const V10_IMAGES={
     "visual-assets/v10_1/start-join/assets/ENV_SJ_PLATE_V1_2X.webp":"d71bf0f4da18fd92b45727e1c1ae955d8bb83fc35c9c16bf9988c938425db003",
     "visual-assets/v10_1/start-join/assets/OVL_SJ_DANIEL_PHONE_V1.webp":"f5fdb5eedc90b83acd5225cc6b18078ddfcf9031c9b40128f91db3314c34a3cd",
     "visual-assets/v10_1/start-join/assets/OVL_SJ_NIK_PHONE_V1.webp":"7564a129eccae2bbaf1a6b5280f0073dbba5770190c2547ae245b1bb07dc5b75",
+    "visual-assets/v10_1/shared/plates/ENV_SYS_PHONE_V1.webp":"734d1d147c80e48f3b3a4744f35ea255c47cd23adb5e451c1e2e98fff6b54882",
+    "visual-assets/v10_1/shared/plates/ENV_SYS_PLATE_V1_1X.webp":"0342875dca95999886d5bd0b81daf1aca4a86d0b95bb738e2f6cc4548365a2b8",
+    "visual-assets/v10_1/shared/plates/ENV_SYS_PLATE_V1_2X.webp":"005420e4c40d42fbe34d7a66ff7e5428cd3b58b15587ad9ca7ef438b2105b9fd",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_RULE_BOOK_V1.webp":"5624230fbfa10a80a144a730970de12a7510c5f9e71c53f2e59e315eed57daad",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_SETTINGS_V1.webp":"c4ad45bc0e39c2c38f3257a47e41e1bff657f672a4345a45cf1fb7ed9481dd44",
     // Job 27: Transfer War (tr2/slice-02-plate, Team V 5e05a1f).
     "visual-assets/v10_1/shared/wordmarks/TITLE_TRANSFER_V1.webp":"692130a00695e41554036cd20061adcb9e1cf51c9384eda1ec108dfa86b8263d",
     "visual-assets/v10_1/tr2/slice-02-plate/assets/DER_TR2_PLATE_G_GLASS_C_V1.png":"b5c16f7491e9c30bf2e44478e552a26b3ef827df9d8d6787f8b47374910bc753",

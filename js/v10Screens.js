@@ -164,14 +164,14 @@
   // ---- screens ----
   const vsActiveScreen=()=>typeof root.getActiveScreenName==="function"?root.getActiveScreenName()||null:null;
   function vsHost(id){const doc=vsDoc();return doc?doc.getElementById(id):null;}
-  function vsIsShown(id){const host=vsHost(id);return Boolean(host&&!host.classList.contains("hidden")&&vsActiveScreen()===id);}
+  function vsIsShown(id){const host=vsHost(id);return Boolean(host&&!host.classList.contains("hidden")&&(registry.get(id)?.overlay===true||vsActiveScreen()===id));}
   // Team V stylesheets style more than their own markup, so they are on only while a mounted Team V screen shows.
   function vsSyncStyles(){
-    const screen=vsActiveScreen(),live=screen&&mounted.has(screen)?registry.get(screen):null;
+    const live=[...mounted.keys()].filter(vsIsShown).map(id=>registry.get(id));
     for(const [file,{link,settled}] of styles){
       if(!settled)continue;
       let on=ALWAYS_ON.includes(file);
-      if(!on&&live)on=KIT.styles.some(kit=>BASE+kit===file)||live.css.some(css=>BASE+css===file);
+      if(!on&&live.length)on=KIT.styles.some(kit=>BASE+kit===file)||live.some(def=>def.css.some(css=>BASE+css===file));
       if(link.disabled!==!on)link.disabled=!on;
     }
   }
@@ -185,6 +185,7 @@
       prepare:typeof definition.prepare==="function"?definition.prepare:null,
       frame:definition.frame,mount:definition.mount,
       unmount:typeof definition.unmount==="function"?definition.unmount:null,
+      overlay:definition.overlay===true,
       auto:definition.auto!==false
     }));
     return api;
@@ -272,7 +273,7 @@
   function vsOnScreenShown(){
     try{
       const screen=vsActiveScreen();lastScreen=screen;
-      for(const id of [...mounted.keys()])if(id!==screen)vsUnmount(id);
+      for(const id of [...mounted.keys()])if(!vsIsShown(id))vsUnmount(id);
       vsSyncStyles();
       vsPaintNav(screen);
       const def=screen?registry.get(screen):null;
