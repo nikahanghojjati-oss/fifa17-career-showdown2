@@ -1,26 +1,20 @@
 # Showdown board: G Factory and V Factory
 
-🌐 **Live: runtime 1.9.1-r61** (main `84a04d8`) · 🔄 **15 moving** · ⏭ 2 up next · 👤 4 waiting on Nik · 🗂 4 later · updated 2026-10-05 7:50 PM Boston time (EDT)
+🌐 **Live: runtime 1.9.1-r61** (main `84a04d8`) · 🔄 **16 moving** · ⏭ 2 up next · 👤 4 waiting on Nik · 🗂 4 later · updated 2026-10-05 7:52 PM Boston time (EDT)
 
-🐕 **Barking: Gameplay Fast has waited 5 min for a machine; POS20 has waited 5 min for a machine; POS20 has waited 3 min for a machine; POS20 on #312 has waited 2 min for a machine.** · Gate #386: L1… L2… L3… L4… L5… L6✓ · seal pending · POS20 #386 11/16
+🐕 **Barking: POS20 on #312 has waited 5 min for a machine; POS20 has waited 3 min for a machine.** · POS20 #390 0/16
 
 ## Your next move
 
-1. **Nothing waits on you right now.** r62 is nearly full; BH-11, BUG-1 and G-F6b are finishing.
+1. **Nothing waits on you right now.** r62 (PR #390) is in checks; after it ships, press Update once on the laptop.
 
 ## 🔄 Moving now
 
 | Release / fix | Checks on the latest commit | Updated |
 | --- | --- | --- |
-| [PR #390](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/390) Release r62: bug-hunt fixes (errors, reconnect, auto final winner, desktop Settings, phon… | ⏳ 0 passed, 5 running | 7:50 PM |
-| [PR #386](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/386) Showdown Gate (shadow): six-lane check beside POS20, not required yet | ⏳ 19 passed, 2 running | 7:38 PM |
+| [PR #390](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/390) Release r62: bug-hunt fixes (errors, reconnect, auto final winner, desktop Settings, phon… | ⏳ 3 passed, 12 running | 7:50 PM |
+| [PR #386](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/386) Showdown Gate (shadow): six-lane check beside POS20, not required yet | 🟢 23 passed | 7:38 PM |
 | [PR #384](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/384) Every screen in Team V's look: signed-out career screens, Showdown Home, season review, L… | 🟢 12 passed | 6:29 PM |
-
-**⬛ 1001 · Home desktop tile icons: bigger, inside the tile, never on the text** · 40 % (2 of 5 steps) · worker not set
-
-⬛⬛⬛⬛⬛⬛⬛⬛⚽▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️ 🥅  
-> **Now:** step 3 of 5  
-> **Left:** step 3 → step 4 → step 5
 
 **🟦 V-1002 · Transfer War window strings match production wording** · 33 % (1 of 3 steps) · Sol chat · [PR #389](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/389)
 
@@ -30,15 +24,17 @@
 
 | Team | Job | What | Worker | Where it is | Details |
 | --- | --- | --- | --- | --- | --- |
-| G | G-F6 | Transfer screen race (was the flaky v10-transfer test): a slow load raised a red error toast over REFRESH on phones, and the desktop window button sat below the screen | 🟧 Opus | fixed, in r62 batch (6fcda70b) | 0 failures in 66 runs, was about 1 in 7 |
-| G | G-F6b | Same ResizeObserver fix on the Club screen; the harmless browser "ResizeObserver loop" warning never shows players an error toast | 🟪 Sonnet | in progress (branch bugfix/g-f6b-observer-toast) | the lead batches it into r62 |
+| G | G-F6 | Transfer screen race (was the flaky v10-transfer test): a slow load raised a red error toast over REFRESH on phones, and the desktop window button sat below the screen | 🟧 Opus | in r62 (PR #390, head bb827862) | 0 failures in 66 runs, was about 1 in 7 |
+| G | G-F6b | Same ResizeObserver fix on the Club screen; the harmless browser "ResizeObserver loop" warning never shows players an error toast | 🟪 Sonnet | in r62 (PR #390, head bb827862) | r62 merge to main |
 | G | G-F17 | Showdown Gate: replace POS20 with a faster check system built on Claude and GitHub, keeping every check (plan: /mnt/project-files/check-system/SHOWDOWN_GATE_PLAN.md) | 🟧 Opus | building shadow; then ~10-PR shadow (3-5 days), then archive POS20 | Nik 6:02 PM Boston time: gradual replacement; POS20 is archived to authority-history/pos20-archive/, not deleted |
 | G | G-F18 | Old-design screen audit: Legacy, Career Statistics and Trophy Room still open in the old shell; drive every live screen in a browser against Team V's design and route all of them to the new design | 🟧 Opus | in progress (thread "Old-design screen audit", Nik asked at 5:16 PM Boston time) | overlaps G-F11 (old CSS collisions) |
-| G | G-F15 | Landscape phone Home layout (844x390): title sits on the wordmark, soundtrack card covers the right tiles (already in r59) | 🟧 Opus | fixed, in r62 batch (4f279dd4) | before/after screenshots in /mnt/project-files/gameplay/r62/ |
-| G | G-F16 | Phone Home nit from Team V (HO-006): second line of START A SHOWDOWN touches the clipboard icon at 393px | 🟧 Opus | fixed, in r62 batch (4f279dd4) | before/after screenshots in /mnt/project-files/gameplay/r62/ |
-| G | G-F19 | BH-8: show the final winner and Close on both phones automatically, with no PREVIEW tap (Nik chose this at 5:56 PM Boston time); applying to the local save stays a tap | 🟧 Opus | fixed, in r62 batch (54dd53a) | journey 36/36 twice |
-| G | G-F20 | BH-7 transient hardening: Setup read, Terminal Close retry, simultaneous CLOSE re-read, stale transfer status line | 🟧 Opus | fixed, in r62 batch (de4c352) | two-manager journey 36/36 |
-| G | G-F21 | BH-11 pairing and reconnect fixes from the pairing audit (7 findings, one high: a reload mid-game strands the reconnect) | 🟧 Opus | in progress (branch bugfix/bh-11-pairing-reconnect) | the lead batches it into r62 |
+| G | G-F15 | Landscape phone Home layout (844x390): title sits on the wordmark, soundtrack card covers the right tiles (already in r59) | 🟧 Opus | in r62 (PR #390, head bb827862) | before/after screenshots in /mnt/project-files/gameplay/r62/ |
+| G | G-F16 | Phone Home nit from Team V (HO-006): second line of START A SHOWDOWN touches the clipboard icon at 393px | 🟧 Opus | in r62 (PR #390, head bb827862) | before/after screenshots in /mnt/project-files/gameplay/r62/ |
+| G | G-F19 | BH-8: show the final winner and Close on both phones automatically, with no PREVIEW tap (Nik chose this at 5:56 PM Boston time); applying to the local save stays a tap | 🟧 Opus | in r62 (PR #390, head bb827862) | journey 36/36 twice |
+| G | G-F20 | BH-7 transient hardening: Setup read, Terminal Close retry, simultaneous CLOSE re-read, stale transfer status line | 🟧 Opus | in r62 (PR #390, head bb827862) | two-manager journey 36/36 |
+| G | G-F21 | BH-11 pairing and reconnect fixes from the pairing audit (7 findings, one high: a reload mid-game strands the reconnect) | 🟧 Opus | in r62 (PR #390, head bb827862) | r62 merge to main |
+| G | G-F23 | Desktop Settings cards clipped; Update button hidden (Nik's Chrome stuck on r54) | 🟧 Opus | in r62 (PR #390, head bb827862) | branch bugfix/settings-desktop-update 1d264f7e; after r62 Nik presses Update once on the laptop |
+| G | BUG-1 | Raw error codes in the Setup settle text; neutral Manager 1/2 fallbacks; 80-character transfer names | 🟪 Sonnet | in r62 (PR #390, head bb827862) | bugfix/bug-batch-1 9e012fd |
 | G | 1001 | 🐞 Bug list 1: 1001 · G Home desktop tile icons: bigger, inside the tile, never on the text | 🟦 Sol chat | with worker (round 2) | Bug list 1 items L1-01..06. CSS only in css/homeV10.css desktop blocks. Job file jobs/JOB-1001.md. Lead checks screenshots at 1920/1440/1280/1100/1000 wide. |
 
 ## 🟢 G Factory
@@ -81,7 +77,7 @@ _Visuals and presentation: design changes, art, screen skins (assistant director
 
 ## 📡 Relay
 
-**Health:** ✅ working · direct wake: Team G ✅, Team V ✅ · 29 messages · 0 open hand-offs, 9 done · **[every message in full: RELAY.md](RELAY.md)**
+**Health:** ✅ working · direct wake: Team G ✅, Team V ✅ · 29 messages · 0 open hand-offs, 0 done · **[every message in full: RELAY.md](RELAY.md)**
 
 Replies owed: Team G none · Team V G2V-015, G2V-016.
 
@@ -95,7 +91,7 @@ Latest:
 **Shipped to the live game today (11):** [#387](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/387) Physio: a watched workflow that isn't on main no longer fai… · [#385](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/385) Physio: re-run checks GitHub gave no machine, pause helpers… · [#383](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/383) Release r61: phone track list stops below the logo and scro… · [#378](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/378) G-36: No old player photos + seven Home tiles (r60) · and 7 more
 
 <details>
-<summary>Done jobs (7 future-list rows, 1 Team V jobs, 9 hand-offs, 33 factory jobs)</summary>
+<summary>Done jobs (7 future-list rows, 1 Team V jobs, 0 hand-offs, 33 factory jobs)</summary>
 
 - G G-F10: Club Assignment: wire Team V's approved design (hands, seams, new layout) into the live screen (done (live in r57, PR #371))
 - G G-F12: G-36: no old player photos on any screen, and all 7 Home tiles (done (live in r60, d8e6c44))
@@ -105,15 +101,6 @@ Latest:
 - V V-F1: Team V jobs on this board: V- PR titles with a progress block; old board retired (done (V2G-017))
 - V V-F3: Visual check of live 2.0 against the approved package 5e05a1f (done (sent as HO-004))
 - V V-247: Phone Home tile icons like GOAL_HOME ([PR #381](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/381))
-- HO-001 (G → V): Use hand-off tickets for passing work (relay v1.1)
-- HO-002 (G → V): Smooth stage atmosphere on idle screens (pointer stutter root cause)
-- HO-003 (G → V): Header chips and footer design on Team V screens
-- HO-004 (G → V): Visual QA: live 2.0 screens vs approved frames
-- HO-005 (G → V): Mobile Home hero: ghost coat between Daniel and Nik
-- HO-006 (V → G): Wire V-247: phone Home tile icons large and centred
-- HO-007 (G → V): Shared job numbers for both teams, from 1001
-- HO-008 (G → V): Bug factory mode for Team V: GPT blue and green lanes, escalation ladder
-- HO-009 (V → G): GPT workers: CI gates and the Physio are expected, never removed
 - Bug hunt on r52: 5 of 5 fixed ([report](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/reports/SONNET_BUG_HUNT_2026-10-04.md))
 - The first factory plan: 33 of 33 jobs finished ([every job](BOARD_ARCHIVE.md))
 

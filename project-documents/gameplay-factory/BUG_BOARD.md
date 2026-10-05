@@ -1,6 +1,6 @@
 # 🐞 Team G bug hunting factory
 
-> Updated **Mon 5 Oct, 7:50 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
+> Updated **Mon 5 Oct, 7:52 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
 
 | 🔓 Open | 🔴 Top priority | 🔧 Fixing or waiting for release | ✅ Fixed and live |
 | :---: | :---: | :---: | :---: |
@@ -12,28 +12,21 @@
 
 | Bug | What happened | Where | Type | Lane | Status | Progress / note |
 | :-- | :-- | :-- | :-- | :-- | :-- | :-- |
-| **BH-11** | 🔴 **top** · Pairing and reconnect fixes: a reload mid-game strands the reconnect (high), durable storage and an explicit confirm before closing the shared career, a lost join reply shows "code already used", startup retry with plain text, a stray local copy after a failed join, wording and a phone clock hint, a pasted code with extra text is rejected | Pairing, reconnect | 🎮 gameplay | 🟧 Opus | 🔧 FIXING | branch bugfix/bh-11-pairing-reconnect, rides r62 |
-| **BH-8** | 🔴 **top** · Final winner only appears after tapping PREVIEW LOCAL RECONCILIATION (likely the old J10 flake) | Final Winner | 🎮 gameplay | 🟧 Opus | 🔀 MERGED | Nik chose show automatically; fixed on 54dd53a and in the r62 batch (gameplay/release-r62); journey 36/36 twice |
-| **BH-7** | 🔴 **top** · Transient hardening: Setup survives one failed read, throttled Terminal Close retry, quiet re-read for the phone that loses a simultaneous CLOSE, one stale transfer status line | Setup, Terminal Close, Transfer Window | 🎮 gameplay | 🟧 Opus | 🔀 MERGED | fixed on de4c352 and in the r62 batch (gameplay/release-r62); two-manager journey 36/36 locally |
-| **G-F6b** | Same ResizeObserver fix on the Club screen, and the harmless browser "ResizeObserver loop" warning never shows players an error toast | Club screen, error toasts | 🎮 gameplay | 🟪 Sonnet | 🔧 FIXING | branch bugfix/g-f6b-observer-toast, rides r62 |
-| **BUG-1** | Raw error codes show in the Setup settle text | Setup | 🎮 gameplay | 🟪 Sonnet | 👀 REVIEW | fixed on bugfix/bug-batch-1 (9e012fd), rides r62; same batch: neutral Manager 1/2 fallbacks, 80-character limit on transfer signing names |
+| **BH-11** | 🔴 **top** · Pairing and reconnect fixes: a reload mid-game strands the reconnect (high), durable storage and an explicit confirm before closing the shared career, a lost join reply shows "code already used", startup retry with plain text, a stray local copy after a failed join, wording and a phone clock hint, a pasted code with extra text is rejected | Pairing, reconnect | 🎮 gameplay | 🟧 Opus | 🔀 MERGED | in r62 (PR #390 to main, head bb827862) |
+| **BH-8** | 🔴 **top** · Final winner only appears after tapping PREVIEW LOCAL RECONCILIATION (likely the old J10 flake) | Final Winner | 🎮 gameplay | 🟧 Opus | 🔀 MERGED | in r62 (PR #390 to main, head bb827862); fixed on 54dd53a and in the r62 batch (gameplay/release-r62); journey 36/36 twice |
+| **BH-7** | 🔴 **top** · Transient hardening: Setup survives one failed read, throttled Terminal Close retry, quiet re-read for the phone that loses a simultaneous CLOSE, one stale transfer status line | Setup, Terminal Close, Transfer Window | 🎮 gameplay | 🟧 Opus | 🔀 MERGED | in r62 (PR #390 to main, head bb827862); two-manager journey 36/36 locally |
 | **BH-12** | Pairing product calls: RESTORE BACKUP as the main button instead of DELETE, a CANCEL CODE button with visible expiry, show the masked linked email and confirm before JOIN, "revoke mine and join" when both phones host, a clearer same-account message | Pairing | 🎮 gameplay | — | 🆕 NEW | waiting on Nik later; the lead asks once his two current cards are answered |
 | **BH-10** | Later, low: a full 3-of-3 lock asks no confirm (Nik decides later); session-expiry reconnect is still host, code, join rather than one tap; no release-version handshake between the two phones | Locks, reconnect, versions | 🎮 gameplay | — | 🆕 NEW | parked as low priority |
-| **G-F6** | Transfer screen race: a slow load raised a 10-second red ResizeObserver toast over REFRESH on phones, and the desktop window button landed below the screen | Transfer Window tests | 🎮 gameplay | 🟧 Opus | 🔀 MERGED | real product race, not a flaky test; fixed on 6fcda70b and in the r62 batch (gameplay/release-r62); failures went from about 1 in 7 runs to 0 of 66 |
+| **G-F6b** | Same ResizeObserver fix on the Club screen, and the harmless browser "ResizeObserver loop" warning never shows players an error toast | Club screen, error toasts | 🎮 gameplay | 🟪 Sonnet | 🔀 MERGED | in r62 (PR #390 to main, head bb827862) |
+| **BUG-1** | Raw error codes show in the Setup settle text | Setup | 🎮 gameplay | 🟪 Sonnet | 🔀 MERGED | in r62 (PR #390 to main, head bb827862); same batch: neutral Manager 1/2 fallbacks, 80-character limit on transfer signing names |
+| **G-F6** | Transfer screen race: a slow load raised a 10-second red ResizeObserver toast over REFRESH on phones, and the desktop window button landed below the screen | Transfer Window tests | 🎮 gameplay | 🟧 Opus | 🔀 MERGED | in r62 (PR #390 to main, head bb827862); fixed on 6fcda70b and in the r62 batch (gameplay/release-r62); failures went from about 1 in 7 runs to 0 of 66 |
 
 ## ⚽ Jobs running now
 
 <sub>Percent = finished steps weighted by typical step time; finish times are estimates ([how](ETA_STUDY.md)).</sub>
 
-🏁 no finish time yet (not enough data)
-
-### ⬛ worker not set · 1 job
-
-**Job 1001 · Home desktop tile icons: bigger, inside the tile, never on the text · 40.0000 %** · 2 of 5 steps · updated Mon 5 Oct, 7:39 PM  
-⬛⬛⬛⬛⬛⬛⬛⬛⚽▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️ 🥅  
-🏁 **Likely finish:** not enough data  
-> **Now:** step 3 of 5  
-> **Left:** step 3 → step 4 → step 5
+> [!NOTE]
+> No job is reporting progress right now. A job shows here once its PR description carries a progress block.
 
 <details>
 <summary><b>✅ Closed: 7</b> (5 live in the game) · click to open</summary>

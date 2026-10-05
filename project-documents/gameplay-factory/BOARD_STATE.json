@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 7:50 PM Boston time (EDT)",
+ "generated": "2026-10-05 7:52 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -315,7 +315,7 @@
   "live": {
    "sha": "84a04d8",
    "revision": "1.9.1-r61",
-   "when": "2026-10-05T23:37:11Z",
+   "when": "2026-10-05T23:37:11+00:00",
    "subject": "Physio sweep: skip a watched workflow that is not on main instead of failing (#387)",
    "fixes": [
     {
@@ -324,10 +324,10 @@
      "draft": false,
      "branch": "gameplay/release-r62",
      "sha": "bb827862de3a9018e59a479f5d435c6498c3cf46",
-     "updated": "2026-10-05T23:50:26Z",
+     "updated": "2026-10-05T23:50:33Z",
      "gates": {
-      "passed": 0,
-      "running": 5,
+      "passed": 3,
+      "running": 12,
       "failed": 0,
       "cancelled": 0
      }
@@ -340,8 +340,8 @@
      "sha": "1a040366cd39690d4daf9fe2c9c354a4839de998",
      "updated": "2026-10-05T23:38:47Z",
      "gates": {
-      "passed": 19,
-      "running": 2,
+      "passed": 23,
+      "running": 0,
       "failed": 0,
       "cancelled": 0
      }
@@ -421,8 +421,8 @@
   },
   "physio": {
    "state": "barking",
-   "line": "Barking: Gameplay Fast has waited 5 min for a machine; POS20 has waited 5 min for a machine; POS20 has waited 3 min for a machine; POS20 on #312 has waited 2 min for a machine.",
-   "gate": "Gate #386: L1… L2… L3… L4… L5… L6✓ · seal pending · POS20 #386 11/16",
+   "line": "Barking: POS20 on #312 has waited 5 min for a machine; POS20 has waited 3 min for a machine.",
+   "gate": "POS20 #390 0/16",
    "source": "physio"
   },
   "v_headline": "Board 1 (visual package): 238 of 238 jobs done and checked",
@@ -450,125 +450,7 @@
    "G": true,
    "V": true
   },
-  "tickets": [
-   {
-    "id": "HO-001",
-    "from": "G",
-    "to": "V",
-    "title": "Use hand-off tickets for passing work (relay v1.1)",
-    "stage": "DONE",
-    "pct": 100.0,
-    "overdue": false,
-    "path": "project-documents/leads-relay/handoffs/HO-001_use-hand-off-tickets-for-passing-work-re.md",
-    "worker": "opus",
-    "pickup_min": 173,
-    "waiting_min": null
-   },
-   {
-    "id": "HO-002",
-    "from": "G",
-    "to": "V",
-    "title": "Smooth stage atmosphere on idle screens (pointer stutter root cause)",
-    "stage": "DONE",
-    "pct": 100.0,
-    "overdue": false,
-    "path": "project-documents/leads-relay/handoffs/HO-002_smooth-stage-atmosphere-on-idle-screens-.md",
-    "worker": "opus",
-    "pickup_min": 171,
-    "waiting_min": null
-   },
-   {
-    "id": "HO-003",
-    "from": "G",
-    "to": "V",
-    "title": "Header chips and footer design on Team V screens",
-    "stage": "DONE",
-    "pct": 100.0,
-    "overdue": false,
-    "path": "project-documents/leads-relay/handoffs/HO-003_header-chips-and-footer-design-on-team-v.md",
-    "worker": "opus",
-    "pickup_min": 171,
-    "waiting_min": null
-   },
-   {
-    "id": "HO-004",
-    "from": "G",
-    "to": "V",
-    "title": "Visual QA: live 2.0 screens vs approved frames",
-    "stage": "DONE",
-    "pct": 100.0,
-    "overdue": false,
-    "path": "project-documents/leads-relay/handoffs/HO-004_visual-qa-live-2-0-screens-vs-approved-f.md",
-    "worker": "sonnet",
-    "pickup_min": 171,
-    "waiting_min": null
-   },
-   {
-    "id": "HO-005",
-    "from": "G",
-    "to": "V",
-    "title": "Mobile Home hero: ghost coat between Daniel and Nik",
-    "stage": "DONE",
-    "pct": 100.0,
-    "overdue": false,
-    "path": "project-documents/leads-relay/handoffs/HO-005_mobile-home-hero-ghost-coat-between-dani.md",
-    "worker": "images",
-    "pickup_min": 163,
-    "waiting_min": null
-   },
-   {
-    "id": "HO-006",
-    "from": "V",
-    "to": "G",
-    "title": "Wire V-247: phone Home tile icons large and centred",
-    "stage": "DONE",
-    "pct": 100.0,
-    "overdue": false,
-    "path": "project-documents/leads-relay/handoffs/HO-006_wire-v-247-phone-home-tile-icons-large-a.md",
-    "worker": "codex",
-    "pickup_min": 7,
-    "waiting_min": null
-   },
-   {
-    "id": "HO-007",
-    "from": "G",
-    "to": "V",
-    "title": "Shared job numbers for both teams, from 1001",
-    "stage": "DONE",
-    "pct": 100.0,
-    "overdue": false,
-    "path": "project-documents/leads-relay/handoffs/HO-007_shared-job-numbers-for-both-teams-from-1.md",
-    "worker": "",
-    "pickup_min": 0,
-    "waiting_min": null
-   },
-   {
-    "id": "HO-008",
-    "from": "G",
-    "to": "V",
-    "title": "Bug factory mode for Team V: GPT blue and green lanes, escalation ladder",
-    "stage": "DONE",
-    "pct": 100.0,
-    "overdue": false,
-    "path": "project-documents/leads-relay/handoffs/HO-008_bug-factory-mode-for-team-v-gpt-blue-and.md",
-    "worker": "",
-    "pickup_min": 0,
-    "waiting_min": null
-   },
-   {
-    "id": "HO-009",
-    "from": "V",
-    "to": "G",
-    "title": "GPT workers: CI gates and the Physio are expected, never removed",
-    "stage": "DONE",
-    "pct": 100.0,
-    "overdue": false,
-    "path": "project-documents/leads-relay/handoffs/HO-009_gpt-workers-ci-gates-and-the-physio-are-.md",
-    "worker": "sol-chat",
-    "pickup_min": 0,
-    "waiting_min": null
-   }
-  ],
+  "tickets": [],
   "relay_ok": true
  },
  "branch": "factory/gameplay-v1",
@@ -635,10 +517,10 @@
   }
  ],
  "next_move": [
-  "**Nothing waits on you right now.** r62 is nearly full; BH-11, BUG-1 and G-F6b are finishing."
+  "**Nothing waits on you right now.** r62 (PR #390) is in checks; after it ships, press Update once on the laptop."
  ],
  "now": {
-  "moving": 15,
+  "moving": 16,
   "next": 2,
   "nik": 4,
   "later": 4,
@@ -649,16 +531,16 @@
       "id": "G-F6",
       "title": "Transfer screen race (was the flaky v10-transfer test): a slow load raised a red error toast over REFRESH on phones, and the desktop window button sat below the screen",
       "lane": "opus",
-      "state": "fixed, in r62 batch (6fcda70b)",
-      "waits_on": "r62 release",
+      "state": "in r62 (PR #390, head bb827862)",
+      "waits_on": "r62 merge to main",
       "details": "0 failures in 66 runs, was about 1 in 7"
      },
      {
       "id": "G-F6b",
       "title": "Same ResizeObserver fix on the Club screen; the harmless browser \"ResizeObserver loop\" warning never shows players an error toast",
       "lane": "sonnet",
-      "state": "in progress (branch bugfix/g-f6b-observer-toast)",
-      "waits_on": "the lead batches it into r62"
+      "state": "in r62 (PR #390, head bb827862)",
+      "waits_on": "r62 merge to main"
      },
      {
       "id": "G-F17",
@@ -680,40 +562,56 @@
       "id": "G-F15",
       "title": "Landscape phone Home layout (844x390): title sits on the wordmark, soundtrack card covers the right tiles (already in r59)",
       "lane": "opus",
-      "state": "fixed, in r62 batch (4f279dd4)",
-      "waits_on": "r62 release",
+      "state": "in r62 (PR #390, head bb827862)",
+      "waits_on": "r62 merge to main",
       "details": "before/after screenshots in /mnt/project-files/gameplay/r62/"
      },
      {
       "id": "G-F16",
       "title": "Phone Home nit from Team V (HO-006): second line of START A SHOWDOWN touches the clipboard icon at 393px",
       "lane": "opus",
-      "state": "fixed, in r62 batch (4f279dd4)",
-      "waits_on": "r62 release",
+      "state": "in r62 (PR #390, head bb827862)",
+      "waits_on": "r62 merge to main",
       "details": "before/after screenshots in /mnt/project-files/gameplay/r62/"
      },
      {
       "id": "G-F19",
       "title": "BH-8: show the final winner and Close on both phones automatically, with no PREVIEW tap (Nik chose this at 5:56 PM Boston time); applying to the local save stays a tap",
       "lane": "opus",
-      "state": "fixed, in r62 batch (54dd53a)",
-      "waits_on": "r62 release",
+      "state": "in r62 (PR #390, head bb827862)",
+      "waits_on": "r62 merge to main",
       "details": "journey 36/36 twice"
      },
      {
       "id": "G-F20",
       "title": "BH-7 transient hardening: Setup read, Terminal Close retry, simultaneous CLOSE re-read, stale transfer status line",
       "lane": "opus",
-      "state": "fixed, in r62 batch (de4c352)",
-      "waits_on": "r62 release",
+      "state": "in r62 (PR #390, head bb827862)",
+      "waits_on": "r62 merge to main",
       "details": "two-manager journey 36/36"
      },
      {
       "id": "G-F21",
       "title": "BH-11 pairing and reconnect fixes from the pairing audit (7 findings, one high: a reload mid-game strands the reconnect)",
       "lane": "opus",
-      "state": "in progress (branch bugfix/bh-11-pairing-reconnect)",
-      "waits_on": "the lead batches it into r62"
+      "state": "in r62 (PR #390, head bb827862)",
+      "waits_on": "r62 merge to main"
+     },
+     {
+      "id": "G-F23",
+      "title": "Desktop Settings cards clipped; Update button hidden (Nik's Chrome stuck on r54)",
+      "lane": "opus",
+      "state": "in r62 (PR #390, head bb827862)",
+      "waits_on": "r62 merge to main",
+      "details": "branch bugfix/settings-desktop-update 1d264f7e; after r62 Nik presses Update once on the laptop"
+     },
+     {
+      "id": "BUG-1",
+      "title": "Raw error codes in the Setup settle text; neutral Manager 1/2 fallbacks; 80-character transfer names",
+      "lane": "sonnet",
+      "state": "in r62 (PR #390, head bb827862)",
+      "waits_on": "r62 merge to main",
+      "details": "bugfix/bug-batch-1 9e012fd"
      },
      {
       "id": "1001",
@@ -817,10 +715,10 @@
     "draft": false,
     "branch": "gameplay/release-r62",
     "sha": "bb827862de3a9018e59a479f5d435c6498c3cf46",
-    "updated": "2026-10-05T23:50:26Z",
+    "updated": "2026-10-05T23:50:33Z",
     "gates": {
-     "passed": 0,
-     "running": 5,
+     "passed": 3,
+     "running": 12,
      "failed": 0,
      "cancelled": 0
     }
@@ -833,8 +731,8 @@
     "sha": "1a040366cd39690d4daf9fe2c9c354a4839de998",
     "updated": "2026-10-05T23:38:47Z",
     "gates": {
-     "passed": 19,
-     "running": 2,
+     "passed": 23,
+     "running": 0,
      "failed": 0,
      "cancelled": 0
     }

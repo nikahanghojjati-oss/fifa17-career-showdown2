@@ -70,13 +70,17 @@ rj = sorted(running_jobs())
 G_W = lambda g: ("checks unknown" if not g else ("🔴 " if g["failed"] else "🟠 " if g["cancelled"] else "⏳ " if g["running"] else "🟢 ") + ", ".join([f'{g["passed"]} passed'] + [f'{g[k]} {k}' for k in ("running", "failed", "cancelled") if g[k]]))
 _mv = [f'<a href="{PR}{x["pr"]}">PR #{x["pr"]}</a> {e(x["title"][:70])} <span class="m">{e(G_W(x.get("gates")))}</span>' for x in NOW.get("fixes", [])]
 _mvr = [(k, x) for k in ("G", "V") for x in (NOW.get("rows", {}).get(k, {}).get("moving") or [])]
+_bpr = {}
 _batch = {}  # jobs already fixed and waiting in a release batch collapse to one line per release
 for k, x in _mvr:
-    m = re.match(r"fixed, in (r\d+) batch", x["state"])
+    m = re.match(r"(?:fixed, )?in (r\d+)(?: batch)?\b", x["state"])
     if m:
         _batch.setdefault(m.group(1), []).append(x["id"])
-_mv += [f'<b>{e(k)} {e(x["id"])}</b> {e(x["title"][:52])} <span class="m">{e(x["state"].split(" (")[0].split(";")[0][:44])}</span>' for k, x in _mvr if not re.match(r"fixed, in r\d+ batch", x["state"])]
-_mv += [f'✅ <b>Fixed, in the {e(r)} batch:</b> {e(", ".join(ids))}' for r, ids in _batch.items()]
+        pr = re.search(r"PR #(\d+)", x["state"])
+        if pr:
+            _bpr[m.group(1)] = f", PR #{pr.group(1)} to main"
+_mv += [f'<b>{e(k)} {e(x["id"])}</b> {e(x["title"][:52])} <span class="m">{e(x["state"].split(" (")[0].split(";")[0][:44])}</span>' for k, x in _mvr if not re.match(r"(?:fixed, )?in r\d+\b", x["state"])]
+_mv += [f'✅ <b>In {e(r)}{_bpr.get(r, " batch")}:</b> {e(", ".join(ids))}' for r, ids in _batch.items()]
 if _mv:
     H.append('<div class="card">' + "<br>".join(_mv) + "</div>")
 elif not rj:
