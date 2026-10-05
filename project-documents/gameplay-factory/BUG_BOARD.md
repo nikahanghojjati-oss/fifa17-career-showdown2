@@ -19,6 +19,8 @@
 
 Bars show the share of each job done, to four decimals (finished steps weighted by how long that kind of step usually takes, see [ETA_STUDY.md](ETA_STUDY.md)). Finish times are estimates.
 
+🏁 last running job likely done about 9:43 PM Boston time
+
 ### 🟧 Opus · 1 job
 
 **[Job 27 · Transfer War screens](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/362)**  
