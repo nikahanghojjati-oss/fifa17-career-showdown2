@@ -151,10 +151,12 @@
   }
   #mainMenu.v10Home .menuMusicTile { overflow: visible; }
   /* The phone track sheet grows with the track list (two per row), so CLOSE sits in its top padding for any row count. */
-  #mainMenu.v10Home .phoneSheetToggle:checked ~ .menuMediaSelector { grid-auto-rows: 46px; }
+  /* The sheet never grows past the hero (where the logo and tagline sit); with more rows it scrolls. */
+  #mainMenu.v10Home .menuMusicTile { --track-sheet-h: min(calc(56px + var(--track-rows, 2) * 54px), calc(100dvh - var(--phone-hero) - var(--phone-nav) - 20px)); }
+  #mainMenu.v10Home .phoneSheetToggle:checked ~ .menuMediaSelector { grid-auto-rows: 46px; max-height: var(--track-sheet-h); box-sizing: border-box; overflow-y: auto; overscroll-behavior: contain; }
   #mainMenu.v10Home .phoneSheetToggle:checked ~ .menuMediaSelector .menuMediaChoice { min-height: 0; overflow: hidden; }
   #mainMenu.v10Home .menuMediaSelector .menuMediaChoice :is(strong, small) { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  #mainMenu.v10Home .phoneSheetToggle:checked ~ .phoneTrackSheetClose { bottom: calc(var(--phone-nav) + 16px + var(--track-rows, 2) * 54px); }
+  #mainMenu.v10Home .phoneSheetToggle:checked ~ .phoneTrackSheetClose { bottom: calc(var(--phone-nav) - 40px + var(--track-sheet-h)); }
   #mainMenu.v10Home #persistentNikDanielPairPanel { left: 10px; right: 10px; width: auto; top: calc(max(10px, env(safe-area-inset-top)) + 44px); max-height: calc(100vh - 220px); }
   #app #topHeader { left: 10px; right: auto; top: max(10px, env(safe-area-inset-top)); gap: 6px; }
   #app #topHeader #onlinePlayerIdentityBadge, #app #topHeader #seasonIndicator { min-height: 30px; padding: 5px 9px !important; font-size: 11px !important; }
