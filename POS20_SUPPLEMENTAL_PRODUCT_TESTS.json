@@ -713,6 +713,7 @@
       "path": "tests/contracts/career-screens-v10-contracts.cjs",
       "patterns": [
         "^js/careerScreensV10\\.js$",
+        "^js/v10Screens\\.js$",
         "^js/careerScreenSeam\\.js$",
         "^js/sharedCareerAnalytics\\.js$",
         "^js/statistics\\.js$",
@@ -759,6 +760,55 @@
         "^js/productionSharedSeasonCommit\\.js$",
         "^js/productionSharedHistoryConvergence\\.js$",
         "^tests/contracts/context-stale-quiet-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/v10-foundation-contracts.cjs",
+      "patterns": [
+        "^js/v10Screens\\.js$",
+        "^js/careerScreensV10\\.js$",
+        "^js/startJoinViewModel\\.js$",
+        "^js/screens\\.js$",
+        "^js/ssjr\\.js$",
+        "^css/v10Shell\\.css$",
+        "^service-worker\\.js$",
+        "^index\\.html$",
+        "^visual-assets/v10_1/",
+        "^tests/contracts/v10-foundation-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/v10-home-contracts.cjs",
+      "patterns": [
+        "^js/homeScreensV10\\.js$",
+        "^js/ssjr\\.js$",
+        "^service-worker\\.js$",
+        "^index\\.html$",
+        "^visual-assets/v10_1/home/",
+        "^css/homeV10\\.css$",
+        "^js/diagnostics\\.js$",
+        "^js/onlinePlayerIdentity\\.js$",
+        "^visual-assets/v10_1/shared/art/home-tiles/",
+        "^tests/contracts/v10-home-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/v10-setup-contracts.cjs",
+      "patterns": [
+        "^js/v10Setup\\.js$",
+        "^css/v10Setup\\.css$",
+        "^js/v10Screens\\.js$",
+        "^js/visualIdentity\\.js$",
+        "^js/startJoinViewModel\\.js$",
+        "^js/ssjr\\.js$",
+        "^service-worker\\.js$",
+        "^index\\.html$",
+        "^visual-assets/v10_1/(start-join|league|club)/",
+        "^visual-assets/v10_1/shared/",
+        "^tests/contracts/v10-setup-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
     },

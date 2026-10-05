@@ -8,6 +8,12 @@
   const acceptanceEnabled=params.get("ssjr-acceptance")==="1";
   const witnessEnabled=acceptanceEnabled&&params.get("ssjr-witness")==="1";
   const physicalEnabled=acceptanceEnabled&&!witnessEnabled&&params.get("ssjr-physical")==="1";
+  // JOB-24: Team V's screen loader and navigation bar, once the browser is idle (independent of the chain below).
+  const v10=()=>load("v10-screens","js/v10Screens.js",()=>root.CareerModeV10Screens).then(()=>root.CareerModeV10Screens.install()).then(()=>load("v10-home-screens","js/homeScreensV10.js",()=>root.CareerModeHomeScreensV10)).then(()=>root.CareerModeHomeScreensV10.install()).catch(error=>root.console?.warn?.("[Career Mode Showdown] Team V screens unavailable.",error));
+  if(typeof root.requestIdleCallback==="function")root.requestIdleCallback(v10,{timeout:2500});else root.setTimeout?.(v10,600);
+  // JOB-26: Team V's skin for Start/Join, the League wheel and the Club packs, registered with that loader.
+  const v10Setup=()=>load("v10-screens","js/v10Screens.js",()=>root.CareerModeV10Screens).then(()=>load("v10-setup","js/v10Setup.js",()=>root.CareerModeV10Setup)).then(()=>root.CareerModeV10Setup.install()).catch(error=>root.console?.warn?.("[Career Mode Showdown] Team V setup skin unavailable.",error));
+  if(typeof root.requestIdleCallback==="function")root.requestIdleCallback(v10Setup,{timeout:3000});else root.setTimeout?.(v10Setup,700);
   (async()=>{
     const seasonResultsRoute=install("ssjr-production-season-results-route","js/productionSharedSeasonResultsRoute.js","CareerModeProductionSharedSeasonResultsRoute");
     const seasonCommit=install("ssjr-production-season-commit","js/productionSharedSeasonCommit.js","CareerModeProductionSharedSeasonCommit");

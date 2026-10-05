@@ -128,7 +128,7 @@ check("V8 Legacy and Rivalry Statistics stay hidden online; Career Statistics is
   assert.ok(!selectors.some(s=>s.startsWith("#careerStatisticsButton")),"careerStatisticsButton no longer hidden");
   assert.ok(src.includes('style.id="onlineInternalSurfaceContainment"'));
 });
-check("V9 startup shell unchanged; every new lazy file is shell-cached; runtime revision untouched",()=>{
+check("V9 startup shell unchanged; every new lazy file is shell-cached (images: revision-keyed runtime cache, job 24); runtime revision untouched",()=>{
   const index=read("index.html"),sw=read("service-worker.js");
   assert.ok(!index.includes("trophyRoomButton"));assert.ok(!index.includes("careerScreensV10"));assert.ok(!index.includes("visual-assets/v10_1"));
   const revision=/const RUNTIME_REVISION = "([^"]+)";/.exec(sw)[1];
@@ -137,10 +137,17 @@ check("V9 startup shell unchanged; every new lazy file is shell-cached; runtime 
   const lazy=["js/careerScreensV10.js"];
   const walk=dir=>fs.readdirSync(path.join(ROOT,dir),{withFileTypes:true}).forEach(e=>e.isDirectory()?walk(dir+"/"+e.name):lazy.push(dir+"/"+e.name));
   walk("visual-assets/v10_1");
-  for(const file of lazy)assert.ok(shell.has(file),`shell lists ${file}`);
+  // Job 24: Team V images moved from the install precache to the SW runtime image cache keyed by RUNTIME_REVISION.
+  const imageRule=new RegExp(/const V10_IMAGE_PATH = \/(.+)\/i;/.exec(sw)[1],"i");
+  const isImage=file=>/\.(webp|png|jpe?g|avif|gif|svg)$/i.test(file);
+  for(const file of lazy){
+    if(isImage(file)){assert.ok(imageRule.test(file),`runtime image rule covers ${file}`);assert.ok(!shell.has(file),`${file} not precached`);}
+    else assert.ok(shell.has(file),`shell lists ${file}`);
+  }
+  assert.match(sw,/const V10_IMAGE_CACHE_NAME = `\$\{V10_IMAGE_CACHE_PREFIX\}\$\{RUNTIME_REVISION\}`;/);
   const binder=read("js/careerScreensV10.js");
   for(const f of [...V10.FILES.styles,...V10.FILES.scripts.map(s=>s[1]),...SCREENS.flatMap(s=>[V10.FILES[s].style,V10.FILES[s].script[1],V10.FILES[s].platemap])])assert.ok(shell.has(V10.BASE+f),`binder file ${f} is shell-cached`);
-  for(const m of binder.matchAll(/\$\{(cs|tr)\}(assets\/[A-Za-z0-9_]+\.webp)/g))assert.ok(shell.has(V10.BASE+(m[1]==="cs"?"career-statistics/":"trophy-room/")+m[2]),m[0]);
+  for(const m of binder.matchAll(/\$\{(cs|tr)\}(assets\/[A-Za-z0-9_]+\.webp)/g)){const file=V10.BASE+(m[1]==="cs"?"career-statistics/":"trophy-room/")+m[2];assert.ok(fs.existsSync(path.join(ROOT,file))&&imageRule.test(file),m[0]);}
   const stats=read("js/statistics.js");
   assert.ok(stats.includes('window.loadRuntimeScript("career-screens-v10", "js/careerScreensV10.js"'),"lazy load from statistics.js");
   assert.ok(read("js/trophyRoom.js").includes('openCareerScreensV10("trophyRoom")'));
