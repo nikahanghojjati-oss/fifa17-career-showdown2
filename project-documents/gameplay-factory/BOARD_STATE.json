@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 12:09 PM Boston time (EDT)",
+ "generated": "2026-10-05 12:12 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -317,7 +317,15 @@
    "revision": "1.9.1-r57",
    "when": "2026-10-05T15:47:10Z",
    "subject": "Team V's Club Assignment on the live screen (r57) (#371)",
-   "fixes": [],
+   "fixes": [
+    {
+     "pr": 373,
+     "title": "G: phone Home without the ghost coat (Team V HO-005, r58)",
+     "draft": false,
+     "branch": "fix/home-phone-overlays-v2",
+     "updated": "2026-10-05T16:12:11Z"
+    }
+   ],
    "today": [
     {
      "pr": 371,
