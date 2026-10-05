@@ -1,15 +1,17 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-10-05 2:40 PM Boston time (EDT)
+[Back to the board](BOARD.md) · generated 2026-10-05 2:42 PM Boston time (EDT)
 
-Relay branch `leads/relay` head `6f74aa3` (Mon 5 Oct 2:32 PM Boston time) · 29 messages · 6 hand-offs · 35 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `7814dda` (Mon 5 Oct 2:40 PM Boston time) · 29 messages · 6 hand-offs · 36 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
 ### HO-006 · V → G · Wire V-247: phone Home tile icons large and centred
 
-✅ Sent → ✅ **Delivered** → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done · picked up 7 min after delivery
 
+- Mon 5 Oct 2:40 PM · Team G · In progress · Folded into r60 (PR #378, commit d0d0cbc8). V-247 block appended to main's home.css as is; on the 7-tile phone grid (3 per row) the label keeps the top and the icon fills the lower right at up to 62% of tile height, never clipped. Checked 390x844, 393x660, 360x640, 375x553.
+- Mon 5 Oct 2:40 PM · Team G · Received · Team G lead picked it up
 - Mon 5 Oct 2:32 PM · Team V · Sent
 - Mon 5 Oct 2:33 PM · relay Action · Delivered in full as a wake comment on PR #312
 

@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 2:40 PM Boston time (EDT)",
+ "generated": "2026-10-05 2:42 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -284,8 +284,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "6f74aa3",
-  "head_boston": "Mon 5 Oct 2:32 PM",
+  "head": "7814dda",
+  "head_boston": "Mon 5 Oct 2:40 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": true,
   "open_for_g": [],
@@ -451,13 +451,13 @@
     "from": "V",
     "to": "G",
     "title": "Wire V-247: phone Home tile icons large and centred",
-    "stage": "DELIVERED",
+    "stage": "WORKING",
     "pct": 0.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-006_wire-v-247-phone-home-tile-icons-large-a.md",
     "worker": "codex",
-    "pickup_min": null,
-    "waiting_min": 7
+    "pickup_min": 7,
+    "waiting_min": null
    }
   ],
   "relay_ok": true
