@@ -4,14 +4,14 @@
 
 ## Your next move
 
-1. **One call waits for you in the Team G lead thread:** 5 settings for the new Showdown Gate checks. Your BH-8 choice (show the final winner automatically) is being built for r62.
+1. **Nothing waits on you right now.** Your BH-8 choice and the Showdown Gate settings are being built; r62 collects BUG-1, BH-7, BH-8, BH-11 and the G-F6 test fix.
 
 ## 🔄 Moving now
 
 | Team | Job | What | Worker | Where it is | Details |
 | --- | --- | --- | --- | --- | --- |
 | G | G-F6 | Small gameplay follow-ups: transfer message after session expiry, the 'Career screens could not load' toast when online history is only unavailable, and the flaky v10-transfer contract ('WINDOW_OPEN 390: refresh not clickable'). Raw Setup error codes moved to BUG-1 | 🟧 Opus | in progress: flaky transfer test (branch bugfix/g-f6-transfer-flake) | the lead batches it into r62 |
-| G | G-F17 | Showdown Gate: replace POS20 with a faster check system built on Claude and GitHub, keeping every check (plan: /mnt/project-files/check-system/SHOWDOWN_GATE_PLAN.md) | 🟧 Opus | in progress: shadow build | Opus builds it in shadow next to POS20 |
+| G | G-F17 | Showdown Gate: replace POS20 with a faster check system built on Claude and GitHub, keeping every check (plan: /mnt/project-files/check-system/SHOWDOWN_GATE_PLAN.md) | 🟧 Opus | building: shadow run next to POS20 | Nik approved all 5 settings at 5:57 PM Boston time |
 | G | G-F18 | Old-design screen audit: Legacy, Career Statistics and Trophy Room still open in the old shell; drive every live screen in a browser against Team V's design and route all of them to the new design | 🟧 Opus | in progress (thread "Old-design screen audit", Nik asked at 5:16 PM Boston time) | overlaps G-F11 (old CSS collisions) |
 | G | G-F19 | BH-8: show the final winner and Close on both phones automatically, with no PREVIEW tap (Nik chose this at 5:56 PM Boston time); applying to the local save stays a tap | 🟧 Opus | in progress (branch bugfix/bh-8-auto-final) | the lead batches it into r62 |
 | G | G-F20 | BH-7 transient hardening: Setup read, Terminal Close retry, simultaneous CLOSE re-read, stale transfer status line | 🟧 Opus | in progress (branch bugfix/bh-7-transient-hardening) | the lead batches it into r62 |
@@ -35,7 +35,7 @@ _Gameplay, online sync, every merge and every release (senior director)._ Worker
 | G-F1 | Nik and Daniel play 2.0 on their phones | 👤 Nik and Daniel | waiting on Nik | - |
 | G-F8 | Commit and acknowledge a season in one tap (tap audit R7) | 🟧 Opus | needs Nik's call | Nik |
 | G-F9 | 72-character pairing code exchange (needs a Rules change) | 🟧 Opus | needs Nik's call | Nik's typed words |
-| G-F22 | BH-12 pairing product calls: RESTORE BACKUP first, CANCEL CODE with expiry, masked email before JOIN, revoke mine and join, clearer same-account message | 👤 Nik and Daniel | later: Nik decides after his two current calls | after Nik answers the Showdown Gate settings |
+| G-F22 | BH-12 pairing product calls: RESTORE BACKUP first, CANCEL CODE with expiry, masked email before JOIN, revoke mine and join, clearer same-account message | 👤 Nik and Daniel | later: Nik decides after his two current calls | the lead asks Nik next |
 
 **🗂 Later**
 
