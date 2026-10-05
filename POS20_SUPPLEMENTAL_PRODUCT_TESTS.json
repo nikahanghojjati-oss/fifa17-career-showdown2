@@ -932,6 +932,18 @@
         "^tests/contracts/bug-batch-1-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/bh7-transient-hardening-contracts.cjs",
+      "patterns": [
+        "^js/productionSharedShowdownSetup\\.js$",
+        "^js/productionSharedTerminalClose\\.js$",
+        "^js/productionSharedTransferChallenge\\.js$",
+        "^js/sharedTerminalClose\\.js$",
+        "^css/v10Transfer\\.css$",
+        "^tests/contracts/bh7-transient-hardening-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
