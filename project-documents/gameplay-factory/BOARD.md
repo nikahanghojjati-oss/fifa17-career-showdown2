@@ -2,7 +2,7 @@
 
 🌐 **Live: runtime 1.9.1-r61** (main `61489dd`) · 🔄 **11 moving** · ⏭ 2 up next · 👤 4 waiting on Nik · 🗂 5 later · updated 2026-10-05 7:14 PM Boston time (EDT)
 
-🩺 **All clear (from GitHub).** · POS20 #385 14/16
+🩺 **All clear (from GitHub).** · POS20 #385 15/16
 
 ## Your next move
 
@@ -12,7 +12,7 @@
 
 | Release / fix | Checks on the latest commit | Updated |
 | --- | --- | --- |
-| [PR #385](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/385) Physio: re-run checks GitHub gave no machine, pause helpers while checks wait | 🔴 13 passed, 1 running, 1 failed | 7:08 PM |
+| [PR #385](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/385) Physio: re-run checks GitHub gave no machine, pause helpers while checks wait | 🔴 15 passed, 1 failed | 7:08 PM |
 | [PR #384](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/384) Every screen in Team V's look: signed-out career screens, Showdown Home, season review, L… | 🟢 12 passed | 6:29 PM |
 
 | Team | Job | What | Worker | Where it is | Details |
