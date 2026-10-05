@@ -130,7 +130,7 @@ def job_ref(j):
 
 
 # ---- Your next move: the first thing Nik reads. Plain, short, in priority order.
-move = []
+move = list(board.get("next_move") or [])  # the lead can set BOARD.json "next_move" for a real question waiting for Nik
 if start["work"]:
     move.append(f"**Start job {names(start['work'])} in Sol Work mode.** Press Use Work, paste the starter line below, change both `NN`.")
 if start["chat"]:
@@ -162,11 +162,12 @@ L += ["", f"_Moving now:_ {moving}." + (f" _Next up:_ {nxt['key']} {nxt['title']
       "**Sol Work mode starter line** (copy it, change both `NN` to the job number, paste it as the first message):", "", "```", starter, "```", ""]
 
 from factory_common import running_jobs, LANES, lane_of, pitch
+import eta as ETA
 
 rj = running_jobs()
 L += ["## Running now", "", "Bug hunting factory: [BUG_BOARD.md](BUG_BOARD.md).", ""]
 if rj:
-    L += ["Each bar is the real count of finished steps for that job (finished steps / all steps, to two decimals). Nothing is estimated. Lanes: " +
+    L += ["Each bar is the share of the job done, to four decimals: finished steps weighted by how long that kind of step usually takes ([ETA_STUDY.md](ETA_STUDY.md)). Finish times are estimates with a likely range. Lanes: " +
           " · ".join(f"{sq} {name}" for sq, name in LANES.values()) + ".", ""]
     for n, r, k, t in rj:
         sq, who = lane_of(r)
@@ -176,8 +177,10 @@ if rj:
         except Exception:
             upd = "unknown"
         left = [s_["name"] for s_ in r["steps"] if not s_.get("done")]
+        d = ETA.describe(r)
         L += [f"### {sq} Job {n} · {r['title']}", "", f"{who} · {r.get('owner', '')}" + (f" · PR #{r['pr']}" if r.get("pr") else ""), "",
-              f"{pitch(k / max(t, 1), sq)} **{pc:.2f} %** ({k} of {t} steps)", "",
+              f"{pitch(d['pct'] / 100, sq)} **{d['pct']:.4f} %** ({k} of {t} steps)", "",
+              f"**Likely finish:** {d['eta']}", "",
               f"**Going on now:** {r.get('current', '')}", ""]
         if left:
             L += ["**Still to do:** " + " → ".join(left), ""]

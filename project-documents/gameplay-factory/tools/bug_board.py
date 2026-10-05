@@ -5,6 +5,7 @@ The workflows gameplay-factory-board.yml and gameplay-factory-progress.yml run i
 import json, os, sys, datetime
 from zoneinfo import ZoneInfo
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import eta as ETA
 from factory_common import F, running_jobs, LANES, lane_of, pitch, all_bugs, OPEN_BUG
 
 REPO = "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2"
@@ -65,7 +66,7 @@ L = ["# 🐞 Team G bug hunting factory", "",
      "## 🔧 Open bugs", ""]
 L += (hdr + [row(b) for b in opn]) if opn else ["> [!TIP]", "> No open bug reports. Report one to the coordinator in the project chat.", ""]
 L += ["", "## ⚽ Jobs running now", "",
-      "Bars are real: finished steps ÷ all steps from each job's progress block, to two decimals. Nothing is estimated.", ""]
+      "Bars show the share of each job done, to four decimals (finished steps weighted by how long that kind of step usually takes, see [ETA_STUDY.md](ETA_STUDY.md)). Finish times are estimates.", ""]
 if rj:
     groups = [(sq, name, [x for x in rj.items() if lane_of(x[1][0]) == (sq, name)]) for sq, name in list(LANES.values()) + [("⬛", "worker not set")]]
     for sq, name, mine in groups:
@@ -75,7 +76,8 @@ if rj:
         for n, (r, k, t) in sorted(mine, key=lambda x: int(x[0])):
             left = [s["name"] for s in r["steps"] if not s.get("done")]
             L += [f"**{job_link(n, r, f'Job {n} · ' + r['title'])}**  ",
-                  f"{pitch(k / max(t, 1), sq)} **{100 * k / max(t, 1):.2f} %** · {k} of {t} steps · updated {boston(r.get('updated'))}", "",
+                  f"{pitch(ETA.describe(r)['pct'] / 100, sq)} **{ETA.describe(r)['pct']:.4f} %** · {k} of {t} steps · updated {boston(r.get('updated'))}", "",
+                  f"**Likely finish:** {ETA.describe(r)['eta']}", "",
                   f"> **Going on now:** {r.get('current') or 'not reported'}  ",
                   "> **Still to do:** " + (" → ".join(left) or "nothing, all steps done"), ""]
 else:

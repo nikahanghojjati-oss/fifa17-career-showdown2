@@ -28,4 +28,29 @@ for pr in prs:
         best[n] = d
 for n, d in best.items():
     json.dump(d, open(os.path.join(D, f"job-{n}.json"), "w"), indent=1)
+# Live state of every job PR (open: draft / checks running / failing / green; merged), for the "Jobs still open" table.
+live = {}
+def pr_state(pr):
+    if pr.get("draft"):
+        return "draft"
+    cr = subprocess.run(["gh", "api", f"repos/{REPO}/commits/{pr['head']['sha']}/check-runs?per_page=100", "--jq", "[.check_runs[]|.status+\":\"+(.conclusion//\"\")]"], capture_output=True, text=True)
+    try:
+        runs = json.loads(cr.stdout)
+    except Exception:
+        return "open"
+    if any(x.endswith(":failure") for x in runs):
+        return "failing"
+    if not runs or any(not x.startswith("completed") for x in runs):
+        return "running"
+    return "green"
+for pr in prs:
+    m = re.search(r"job-(\d+)", pr["head"]["ref"])
+    if m and pr["base"]["ref"] == "gameplay/recovery-v1":
+        live[int(m.group(1))] = {"pr": pr["number"], "state": pr_state(pr)}
+r2 = subprocess.run(["gh", "api", f"repos/{REPO}/pulls?state=closed&base=gameplay/recovery-v1&per_page=40"], capture_output=True, text=True)
+for pr in (json.loads(r2.stdout) if r2.returncode == 0 and r2.stdout.strip() else []):
+    m = re.search(r"job-(\d+)", pr["head"]["ref"])
+    if m and pr.get("merged_at") and int(m.group(1)) not in live:
+        live[int(m.group(1))] = {"pr": pr["number"], "state": "merged"}
+json.dump(live, open(os.path.join(D, "prs.json"), "w"), indent=1)
 print(len(best))
