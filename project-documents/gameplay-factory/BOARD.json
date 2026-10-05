@@ -1,899 +1,908 @@
 {
- "branch": "factory/gameplay-v1",
- "integration_branch": "gameplay/recovery-v1",
- "updated": "2026-10-04",
- "capacity": {
-  "chat": 2,
-  "work": 1
- },
- "jobs": [
-  {
-   "number": 0,
-   "key": "G-0",
-   "title": "Factory smoke test (chat lane)",
-   "lane": "chat",
-   "depends_on": [],
-   "steps": 6,
-   "code_branch": "gameplay/job-00-smoke",
-   "codex_review": false,
-   "written": true,
-   "waits_on": null,
-   "phase": "0 Setup",
-   "type": "test",
-   "plain": "Checks what a normal ChatGPT chat can do (save files, open PRs, screenshots)."
+  "branch": "factory/gameplay-v1",
+  "integration_branch": "gameplay/recovery-v1",
+  "updated": "2026-10-04",
+  "capacity": {
+    "chat": 2,
+    "work": 1
   },
-  {
-   "number": 90,
-   "key": "G-0W",
-   "title": "Factory smoke test (Work lane)",
-   "lane": "work",
-   "depends_on": [],
-   "steps": 6,
-   "code_branch": "gameplay/job-90-smoke-work",
-   "codex_review": false,
-   "written": true,
-   "waits_on": null,
-   "phase": "0 Setup",
-   "type": "test",
-   "plain": "Checks what Sol Work mode can do (terminal, npm, Firebase emulator)."
-  },
-  {
-   "number": 1,
-   "key": "G-1",
-   "title": "Fast regression CI on every gameplay push",
-   "lane": "work",
-   "depends_on": [],
-   "steps": 6,
-   "code_branch": "gameplay/job-01-fast-ci",
-   "codex_review": false,
-   "written": true,
-   "waits_on": null,
-   "phase": "0 Setup",
-   "type": "build",
-   "plain": "GitHub runs every gameplay test automatically on each worker save."
-  },
-  {
-   "number": 2,
-   "key": "G-2",
-   "title": "Two-manager journey on the emulator (provider level)",
-   "lane": "chat",
-   "depends_on": [
-    1
-   ],
-   "steps": 8,
-   "code_branch": "gameplay/job-02-two-manager-journey",
-   "codex_review": false,
-   "written": true,
-   "waits_on": null,
-   "phase": "1 Safety net",
-   "type": "test",
-   "plain": "Daniel and Nik play a whole Showdown against the real Rules in a test database, with a stranger and privacy checks."
-  },
-  {
-   "number": 17,
-   "key": "G-2c",
-   "title": "Simultaneous result taps: loser gets stale, not denied",
-   "lane": "chat",
-   "depends_on": [
-    2
-   ],
-   "steps": 5,
-   "code_branch": "gameplay/job-17-results-race",
-   "codex_review": false,
-   "written": true,
-   "waits_on": null,
-   "phase": "1 Safety net",
-   "type": "fix",
-   "plain": "When you both submit a result at once, the slower tap is told to refresh instead of getting an error."
-  },
-  {
-   "number": 16,
-   "key": "G-2b",
-   "title": "Two-manager browser journey (localhost-only emulator switch)",
-   "lane": "chat",
-   "depends_on": [
-    2,
-    7,
-    17
-   ],
-   "steps": 9,
-   "code_branch": "gameplay/job-16-browser-journey",
-   "codex_review": false,
-   "written": true,
-   "waits_on": null,
-   "phase": "1 Safety net",
-   "type": "test",
-   "plain": "The same journey through the real app screens in a browser, test database only."
-  },
-  {
-   "number": 12,
-   "key": "G-12",
-   "title": "Composed production Rules regression",
-   "lane": "work",
-   "depends_on": [
-    7,
-    8,
-    10
-   ],
-   "steps": 8,
-   "code_branch": "gameplay/job-12-composed-rules-regression",
-   "codex_review": true,
-   "written": true,
-   "waits_on": null,
-   "phase": "1 Safety net",
-   "type": "test",
-   "plain": "Re-proves the full production Rules after the new career-data Rules land."
-  },
-  {
-   "number": 3,
-   "key": "G-3",
-   "title": "Pure shared career model + tests",
-   "lane": "work",
-   "depends_on": [],
-   "steps": 7,
-   "code_branch": "gameplay/job-03-career-model",
-   "codex_review": false,
-   "written": true,
-   "waits_on": null,
-   "phase": "2 Career model",
-   "type": "build",
-   "plain": "One pure function that turns Showdown data into the career numbers every screen shows."
-  },
-  {
-   "number": 5,
-   "key": "G-5",
-   "title": "Active Showdown adapter (Rivalry, Continue, tiebreak, final state)",
-   "lane": "work",
-   "depends_on": [
-    3
-   ],
-   "steps": 7,
-   "code_branch": "gameplay/job-05-active-adapter",
-   "codex_review": false,
-   "written": true,
-   "waits_on": null,
-   "phase": "2 Career model",
-   "type": "build",
-   "plain": "Live Showdown (Rivalry, Continue, tiebreak, final result) feeds the career model."
-  },
-  {
-   "number": 4,
-   "key": "G-4",
-   "title": "Renderer seams: screens take a model, never the local path",
-   "lane": "work",
-   "depends_on": [
-    3
-   ],
-   "steps": 7,
-   "code_branch": "gameplay/job-04-renderer-seams",
-   "codex_review": false,
-   "written": true,
-   "waits_on": null,
-   "phase": "2 Career model",
-   "type": "build",
-   "plain": "Screens read from that career model instead of from one phone's local data."
-  },
-  {
-   "number": 6,
-   "key": "G-6",
-   "title": "Start/Join view model + nav.locked",
-   "lane": "chat",
-   "depends_on": [],
-   "steps": 7,
-   "code_branch": "gameplay/job-06-start-join-model",
-   "codex_review": false,
-   "written": true,
-   "waits_on": null,
-   "phase": "2 Career model",
-   "type": "build",
-   "plain": "Start/Join screen and top-bar locking driven by one view model."
-  },
-  {
-   "number": 11,
-   "key": "G-11",
-   "title": "Contract fixtures generated from the real model",
-   "lane": "work",
-   "depends_on": [
-    3,
-    5
-   ],
-   "steps": 8,
-   "code_branch": "gameplay/job-11-contract-fixtures",
-   "codex_review": false,
-   "written": true,
-   "waits_on": null,
-   "phase": "2 Career model",
-   "type": "test",
-   "plain": "Example data for Team V generated from the real model, so visuals and gameplay agree."
-  },
-  {
-   "number": 7,
-   "key": "G-7",
-   "title": "Career index Rules + client + emulator proofs",
-   "lane": "work",
-   "depends_on": [
-    1,
-    2
-   ],
-   "steps": 9,
-   "code_branch": "gameplay/job-07-career-index",
-   "codex_review": true,
-   "written": true,
-   "waits_on": null,
-   "phase": "3 Career history",
-   "type": "rules",
-   "plain": "A shared list of every Showdown the two of you played, protected by Rules."
-  },
-  {
-   "number": 8,
-   "key": "G-8",
-   "title": "Completed-only read grant + session-free reader",
-   "lane": "work",
-   "depends_on": [
-    7
-   ],
-   "steps": 8,
-   "code_branch": "gameplay/job-08-completed-read",
-   "codex_review": true,
-   "written": true,
-   "waits_on": null,
-   "phase": "3 Career history",
-   "type": "rules",
-   "plain": "Finished Showdowns stay readable for both managers after they close."
-  },
-  {
-   "number": 9,
-   "key": "G-9",
-   "title": "Closed-Showdown adapter into the career model",
-   "lane": "work",
-   "depends_on": [
-    3,
-    8
-   ],
-   "steps": 7,
-   "code_branch": "gameplay/job-09-closed-adapter",
-   "codex_review": false,
-   "written": true,
-   "waits_on": null,
-   "phase": "3 Career history",
-   "type": "build",
-   "plain": "Finished Showdowns flow into career totals and the Trophy Room."
-  },
-  {
-   "number": 10,
-   "key": "G-10",
-   "title": "Transfer history, completed only",
-   "lane": "work",
-   "depends_on": [
-    8
-   ],
-   "steps": 8,
-   "code_branch": "gameplay/job-10-transfer-history",
-   "codex_review": true,
-   "written": true,
-   "waits_on": null,
-   "phase": "3 Career history",
-   "type": "rules",
-   "plain": "Transfer history visible only once a challenge is completed."
-  },
-  {
-   "number": 13,
-   "key": "G-13",
-   "title": "Part 1: Trophy Room and Career Statistics on the real career model",
-   "lane": "work",
-   "depends_on": [
-    4,
-    5,
-    6,
-    9
-   ],
-   "steps": 7,
-   "code_branch": "gameplay/job-13-career-screens",
-   "codex_review": false,
-   "written": true,
-   "waits_on": "",
-   "phase": "MERGED",
-   "type": "build",
-   "plain": "Part 1 merged into recovery (PR #347, 86111ca): Trophy Room and Career Statistics show Team V's screens on the real career model. Legacy and Rivalry Statistics stay hidden for part 2. Not live until Nik approves Team V's full package."
-  },
-  {
-   "number": 14,
-   "key": "G-14",
-   "title": "Acceptance: directive §12 and Sol's 8 proofs on the emulator",
-   "lane": "work",
-   "depends_on": [
-    13
-   ],
-   "steps": null,
-   "code_branch": null,
-   "codex_review": false,
-   "written": false,
-   "waits_on": null,
-   "phase": "SKIPPED",
-   "type": "test",
-   "plain": "Final acceptance run of every promised behaviour in the test database. Superseded 2026-10-05: SSJR is retired and version 2.0 is live; the real proof is Nik and Daniel playing 2.0 (G-F1)."
-  },
-  {
-   "number": 15,
-   "key": "G-15",
-   "title": "One real two-device run with Nik",
-   "lane": "nik",
-   "depends_on": [
-    14
-   ],
-   "steps": null,
-   "code_branch": null,
-   "codex_review": false,
-   "written": false,
-   "waits_on": null,
-   "phase": "SKIPPED",
-   "type": "nik",
-   "plain": "One real game on two phones with Daniel, to sign it off. Superseded 2026-10-05: SSJR is retired and version 2.0 is live; the real proof is Nik and Daniel playing 2.0 (G-F1)."
-  },
-  {
-   "number": 18,
-   "key": "G-2d",
-   "title": "Nik's pair code survives the pair-panel re-render",
-   "lane": "chat",
-   "depends_on": [],
-   "steps": 5,
-   "code_branch": "gameplay/job-18-pair-code-race",
-   "codex_review": false,
-   "written": true,
-   "waits_on": null,
-   "phase": "1 Safety net",
-   "type": "build",
-   "plain": "When Nik pastes Daniel's code quickly, the app keeps it instead of wiping it and wrongly calling it invalid."
-  },
-  {
-   "number": 19,
-   "key": "G-2e",
-   "title": "Resume a Shared Showdown after reload; closed Showdowns stay on Home",
-   "lane": "lead",
-   "depends_on": [],
-   "steps": 3,
-   "code_branch": "gameplay/job-19-reload-resume",
-   "codex_review": false,
-   "written": true,
-   "waits_on": null,
-   "phase": "1 Safety net",
-   "type": "fix",
-   "plain": "After a reload both players land on Home, rejoin a fresh session and pick up on the right season, instead of starting over at season 1."
-  },
-  {
-   "number": 20,
-   "key": "G-2f",
-   "title": "A late season acknowledgement retries instead of failing",
-   "lane": "lead",
-   "depends_on": [],
-   "steps": 3,
-   "code_branch": "gameplay/job-20-season-ack-race",
-   "codex_review": false,
-   "written": true,
-   "waits_on": null,
-   "phase": "1 Safety net",
-   "type": "fix",
-   "plain": "When both players press acknowledge at the same moment, the second one is retried instead of showing a permission error."
-  },
-  {
-   "number": 21,
-   "key": "G-2g",
-   "title": "Same-moment taps retry quietly (bug hunt 1)",
-   "lane": "lead",
-   "depends_on": [],
-   "steps": 3,
-   "code_branch": "gameplay/job-21-tap-races",
-   "codex_review": false,
-   "written": true,
-   "waits_on": null,
-   "phase": "1 Safety net",
-   "type": "fix",
-   "plain": "When both players tap START, a lock button, early end or Setup confirm at the same moment, or the transfer timer hits 0:00 on both phones, the slower phone retries once instead of showing an error."
-  },
-  {
-   "number": 24,
-   "key": "G-13a",
-   "title": "Part 2a: foundation (loader, top bar, shared kit, caching)",
-   "lane": "lead",
-   "depends_on": [
-    13
-   ],
-   "steps": 7,
-   "code_branch": "gameplay/job-24-v10-foundation",
-   "codex_review": true,
-   "written": true,
-   "waits_on": "",
-   "phase": "IN PROGRESS",
-   "type": "build",
-   "plain": "Start first: one shared way to load Team V's screens, the top bar, and lighter caching. Built in the lead thread by a helper (Nik, 2026-10-04: no cloud sessions)."
-  },
-  {
-   "number": 25,
-   "key": "G-13b",
-   "title": "Part 2b: Home, music (Audius) and Loading",
-   "lane": "codex",
-   "depends_on": [
-    24
-   ],
-   "steps": 7,
-   "code_branch": "",
-   "codex_review": true,
-   "written": true,
-   "waits_on": "",
-   "phase": "READY",
-   "type": "build",
-   "plain": "Home in Team V's style with Nik's Audius playlist playing across screens; Loading keeps the Reus credit. Codex builds (Nik pastes the box); starts from job 24's branch; the lead checks each screen in a browser and merges."
-  },
-  {
-   "number": 26,
-   "key": "G-13c",
-   "title": "Part 2c: Start/Join, League wheel and Club packs",
-   "lane": "lead",
-   "depends_on": [
-    24
-   ],
-   "steps": 7,
-   "code_branch": "gameplay/job-26-v10-setup",
-   "codex_review": true,
-   "written": true,
-   "waits_on": "",
-   "phase": "READY",
-   "type": "build",
-   "plain": "Setup screens skinned without touching pairing, session or draw logic. Lead helper (Opus); starts from job 24's branch; the lead checks each screen in a browser and merges."
-  },
-  {
-   "number": 27,
-   "key": "G-13d",
-   "title": "Part 2d: Transfer War",
-   "lane": "lead",
-   "depends_on": [
-    24
-   ],
-   "steps": 7,
-   "code_branch": "gameplay/job-27-v10-transfer",
-   "codex_review": true,
-   "written": true,
-   "waits_on": "",
-   "phase": "READY",
-   "type": "build",
-   "plain": "Transfer window skinned; private inputs stay private; lock confirm and quiet retries kept. Lead helper (Opus); starts from job 24's branch; the lead checks each screen in a browser and merges."
-  },
-  {
-   "number": 28,
-   "key": "G-13e",
-   "title": "Part 2e: Rivalry Statistics and Legacy (History)",
-   "lane": "work",
-   "depends_on": [
-    24
-   ],
-   "steps": 7,
-   "code_branch": "gameplay/job-28-v10-history",
-   "codex_review": true,
-   "written": true,
-   "waits_on": "",
-   "phase": "READY",
-   "type": "build",
-   "plain": "Same pattern as job 13 on the real career model; un-hides the last two Statistics buttons. Sol 6.1 Work mode, High; starts from job 24's branch; the lead checks each screen in a browser and merges."
-  },
-  {
-   "number": 29,
-   "key": "G-13f",
-   "title": "Part 2f: Season Results, Final Winner and Standings",
-   "lane": "work",
-   "depends_on": [
-    24
-   ],
-   "steps": 7,
-   "code_branch": "gameplay/job-29-v10-results",
-   "codex_review": true,
-   "written": true,
-   "waits_on": "",
-   "phase": "READY",
-   "type": "build",
-   "plain": "Results and commit skinned (clash warning kept); winner reveal uses the reconciliation exactly. Sol Work mode; starts from job 24's branch; the lead checks each screen in a browser and merges."
-  },
-  {
-   "number": 30,
-   "key": "G-13g",
-   "title": "Part 2g: Rule Book and Settings",
-   "lane": "work",
-   "depends_on": [
-    24
-   ],
-   "steps": 7,
-   "code_branch": "gameplay/job-30-v10-rules-settings",
-   "codex_review": true,
-   "written": true,
-   "waits_on": "",
-   "phase": "READY",
-   "type": "build",
-   "plain": "Rules copy unchanged, Settings controls kept, credits added. Sol 6.1 Work mode, High; starts from job 24's branch; the lead checks each screen in a browser and merges."
-  },
-  {
-   "number": 31,
-   "key": "G-2h",
-   "title": "Ten-season games: session expiry, long-game limits, 10-season emulator run",
-   "lane": "lead",
-   "depends_on": [],
-   "steps": 1,
-   "code_branch": "gameplay/job-31-ten-seasons",
-   "codex_review": false,
-   "written": true,
-   "waits_on": "",
-   "phase": "MERGED",
-   "type": "build",
-   "plain": "A 10-season game now survives the 4-hour private session ending mid-game: one banner, one RECONNECT SESSION tap, Daniel hosts, Nik joins, both pages return by themselves. CI now plays 3 and 10 seasons with a mid-game expiry. PR #350, merged into recovery fb0dd02. Still open: the 72-character code exchange (needs a Rules change) and a misleading transfer message after expiry."
-  },
-  {
-   "number": 32,
-   "key": "G-2i",
-   "title": "Fewer taps: audit the flow for steps we can safely drop",
-   "lane": "lead",
-   "depends_on": [],
-   "steps": 1,
-   "code_branch": "",
-   "codex_review": false,
-   "written": true,
-   "waits_on": "",
-   "phase": "DONE",
-   "type": "audit",
-   "plain": "Audit done: /mnt/project-files/gameplay/TAP_AUDIT_2026-10-04.md. 8 reductions; R1-R6 and R8 being built in job 33; R7 (commit + acknowledge in one tap) waits on Nik."
-  },
-  {
-   "number": 33,
-   "key": "G-2j",
-   "title": "Fewer taps: auto-refresh while waiting, skip hops, drop duplicate banners",
-   "lane": "lead",
-   "depends_on": [
-    32
-   ],
-   "steps": 1,
-   "code_branch": "gameplay/job-33-fewer-taps",
-   "codex_review": false,
-   "written": true,
-   "waits_on": "",
-   "phase": "IN PROGRESS",
-   "type": "build",
-   "plain": "About 13 fewer taps for Daniel and 6 for Nik over 3 seasons, plus no refresh taps. Every lock, publish, commit, acknowledge and close stays a manual tap. Lead helper (Opus)."
-  }
- ],
- "bug_hunt": [
-  {
-   "id": "BH-1",
-   "title": "Both managers tap at the same second and the slower one sees an error",
-   "plain": "Hits Career Start, the Transfer Challenge locks and timer, and Setup confirm. Nothing is corrupted, but the loser must tap again.",
-   "likelihood": "likely",
-   "status": "DONE",
-   "owner": "lead",
-   "note": "job 21, PR #344; live since r53 (2026-10-04)"
-  },
-  {
-   "id": "BH-2",
-   "title": "A tied season is decided by league position",
-   "plain": "Code and old notes disagree on equal non-zero scores.",
-   "likelihood": "likely",
-   "status": "DONE",
-   "owner": "lead",
-   "note": "Nik chose league position; docs fixed in PR #343 (merged)"
-  },
-  {
-   "id": "BH-3",
-   "title": "Nobody cross-checks the two managers' season results",
-   "plain": "Both can publish position 1 or both tick Champions League. Nik chose (2026-10-04) to warn, not block: the commit screen now shows a CHECK RESULTS line on a clash and committing stays allowed (PR #346, merged into recovery dc78ed7). Live since r53.",
-   "likelihood": "medium",
-   "status": "DONE",
-   "owner": "lead",
-   "note": "PR #346; live since r53 (2026-10-04)"
-  },
-  {
-   "id": "BH-4",
-   "title": "Lock buttons have no confirm",
-   "plain": "One stray tap on LOCK MY GUESSES or LOCK MY SIGNINGS locks an empty list for the season; the helpful error text is hidden behind a code. Lock buttons now ask \"Lock N of 3?\" when a form is partly filled (PR #345, merged into recovery 6974408). Live since r53.",
-   "likelihood": "medium-low",
-   "status": "DONE",
-   "owner": "lead",
-   "note": "PR #345 adds the \"Lock N of 3?\" confirm; live since r53 (2026-10-04)"
-  },
-  {
-   "id": "BH-5",
-   "title": "The 4-hour private session ends long games",
-   "plain": "A 5 or 10 season game outlives one session, so both managers must open a fresh one. Needs one retest mid-season. Now job 31 (ten-season games).",
-   "likelihood": "low",
-   "status": "DONE",
-   "owner": "lead",
-   "note": "job 31, PR #350 (fb0dd02): one-tap reconnect after expiry; live since 2.0 (r54)"
-  }
- ],
- "bug_hunt_extras": [
-  "DONE in job 21: 'scoring remains locked' text now says SEASON COMMITTED · SCORE BELOW",
-  "NOT A BUG: Daniel/Nik fallbacks match the fixed roles (Daniel = Player One, Nik = Player Two)",
-  "FIXING as BUG-1 (Sonnet, bugfix/bug-batch-1), ships in r62"
- ],
- "release": {
-  "name": "Version 2.0",
   "jobs": [
-   24,
-   25,
-   26,
-   27,
-   28,
-   29,
-   30,
-   33
-  ],
-  "after": [
-   "Fix the two-manager journey test on recovery",
-   "Merge the last jobs",
-   "Nik plays it once with Daniel",
-   "Nik's go, then main goes live"
-  ],
-  "done": true
- },
- "factories": {
-  "G": {
-   "name": "G Factory",
-   "role": "Gameplay, online sync, every merge and every release (senior director)",
-   "workers": [
     {
-     "lane": "opus",
-     "does": "Lead: decides, merges, ships; risky fixes"
+      "number": 0,
+      "key": "G-0",
+      "title": "Factory smoke test (chat lane)",
+      "lane": "chat",
+      "depends_on": [],
+      "steps": 6,
+      "code_branch": "gameplay/job-00-smoke",
+      "codex_review": false,
+      "written": true,
+      "waits_on": null,
+      "phase": "0 Setup",
+      "type": "test",
+      "plain": "Checks what a normal ChatGPT chat can do (save files, open PRs, screenshots)."
     },
     {
-     "lane": "sonnet",
-     "does": "Bug hunts, audits, repros, board tools"
+      "number": 90,
+      "key": "G-0W",
+      "title": "Factory smoke test (Work lane)",
+      "lane": "work",
+      "depends_on": [],
+      "steps": 6,
+      "code_branch": "gameplay/job-90-smoke-work",
+      "codex_review": false,
+      "written": true,
+      "waits_on": null,
+      "phase": "0 Setup",
+      "type": "test",
+      "plain": "Checks what Sol Work mode can do (terminal, npm, Firebase emulator)."
     },
     {
-     "lane": "haiku",
-     "does": "Copy and refresh chores"
+      "number": 1,
+      "key": "G-1",
+      "title": "Fast regression CI on every gameplay push",
+      "lane": "work",
+      "depends_on": [],
+      "steps": 6,
+      "code_branch": "gameplay/job-01-fast-ci",
+      "codex_review": false,
+      "written": true,
+      "waits_on": null,
+      "phase": "0 Setup",
+      "type": "build",
+      "plain": "GitHub runs every gameplay test automatically on each worker save."
     },
     {
-     "lane": "sol-chat",
-     "does": "Triage, repro steps, PR review (no Claude usage)"
+      "number": 2,
+      "key": "G-2",
+      "title": "Two-manager journey on the emulator (provider level)",
+      "lane": "chat",
+      "depends_on": [
+        1
+      ],
+      "steps": 8,
+      "code_branch": "gameplay/job-02-two-manager-journey",
+      "codex_review": false,
+      "written": true,
+      "waits_on": null,
+      "phase": "1 Safety net",
+      "type": "test",
+      "plain": "Daniel and Nik play a whole Showdown against the real Rules in a test database, with a stranger and privacy checks."
     },
     {
-     "lane": "sol-work",
-     "does": "Terminal and npm jobs, one bug at a time"
+      "number": 17,
+      "key": "G-2c",
+      "title": "Simultaneous result taps: loser gets stale, not denied",
+      "lane": "chat",
+      "depends_on": [
+        2
+      ],
+      "steps": 5,
+      "code_branch": "gameplay/job-17-results-race",
+      "codex_review": false,
+      "written": true,
+      "waits_on": null,
+      "phase": "1 Safety net",
+      "type": "fix",
+      "plain": "When you both submit a result at once, the slower tap is told to refresh instead of getting an error."
     },
     {
-     "lane": "codex",
-     "does": "Auto-review on every PR (out of usage since 5 Oct)"
+      "number": 16,
+      "key": "G-2b",
+      "title": "Two-manager browser journey (localhost-only emulator switch)",
+      "lane": "chat",
+      "depends_on": [
+        2,
+        7,
+        17
+      ],
+      "steps": 9,
+      "code_branch": "gameplay/job-16-browser-journey",
+      "codex_review": false,
+      "written": true,
+      "waits_on": null,
+      "phase": "1 Safety net",
+      "type": "test",
+      "plain": "The same journey through the real app screens in a browser, test database only."
     },
     {
-     "lane": "nik",
-     "does": "Real phones with Daniel: the only physical proof"
+      "number": 12,
+      "key": "G-12",
+      "title": "Composed production Rules regression",
+      "lane": "work",
+      "depends_on": [
+        7,
+        8,
+        10
+      ],
+      "steps": 8,
+      "code_branch": "gameplay/job-12-composed-rules-regression",
+      "codex_review": true,
+      "written": true,
+      "waits_on": null,
+      "phase": "1 Safety net",
+      "type": "test",
+      "plain": "Re-proves the full production Rules after the new career-data Rules land."
+    },
+    {
+      "number": 3,
+      "key": "G-3",
+      "title": "Pure shared career model + tests",
+      "lane": "work",
+      "depends_on": [],
+      "steps": 7,
+      "code_branch": "gameplay/job-03-career-model",
+      "codex_review": false,
+      "written": true,
+      "waits_on": null,
+      "phase": "2 Career model",
+      "type": "build",
+      "plain": "One pure function that turns Showdown data into the career numbers every screen shows."
+    },
+    {
+      "number": 5,
+      "key": "G-5",
+      "title": "Active Showdown adapter (Rivalry, Continue, tiebreak, final state)",
+      "lane": "work",
+      "depends_on": [
+        3
+      ],
+      "steps": 7,
+      "code_branch": "gameplay/job-05-active-adapter",
+      "codex_review": false,
+      "written": true,
+      "waits_on": null,
+      "phase": "2 Career model",
+      "type": "build",
+      "plain": "Live Showdown (Rivalry, Continue, tiebreak, final result) feeds the career model."
+    },
+    {
+      "number": 4,
+      "key": "G-4",
+      "title": "Renderer seams: screens take a model, never the local path",
+      "lane": "work",
+      "depends_on": [
+        3
+      ],
+      "steps": 7,
+      "code_branch": "gameplay/job-04-renderer-seams",
+      "codex_review": false,
+      "written": true,
+      "waits_on": null,
+      "phase": "2 Career model",
+      "type": "build",
+      "plain": "Screens read from that career model instead of from one phone's local data."
+    },
+    {
+      "number": 6,
+      "key": "G-6",
+      "title": "Start/Join view model + nav.locked",
+      "lane": "chat",
+      "depends_on": [],
+      "steps": 7,
+      "code_branch": "gameplay/job-06-start-join-model",
+      "codex_review": false,
+      "written": true,
+      "waits_on": null,
+      "phase": "2 Career model",
+      "type": "build",
+      "plain": "Start/Join screen and top-bar locking driven by one view model."
+    },
+    {
+      "number": 11,
+      "key": "G-11",
+      "title": "Contract fixtures generated from the real model",
+      "lane": "work",
+      "depends_on": [
+        3,
+        5
+      ],
+      "steps": 8,
+      "code_branch": "gameplay/job-11-contract-fixtures",
+      "codex_review": false,
+      "written": true,
+      "waits_on": null,
+      "phase": "2 Career model",
+      "type": "test",
+      "plain": "Example data for Team V generated from the real model, so visuals and gameplay agree."
+    },
+    {
+      "number": 7,
+      "key": "G-7",
+      "title": "Career index Rules + client + emulator proofs",
+      "lane": "work",
+      "depends_on": [
+        1,
+        2
+      ],
+      "steps": 9,
+      "code_branch": "gameplay/job-07-career-index",
+      "codex_review": true,
+      "written": true,
+      "waits_on": null,
+      "phase": "3 Career history",
+      "type": "rules",
+      "plain": "A shared list of every Showdown the two of you played, protected by Rules."
+    },
+    {
+      "number": 8,
+      "key": "G-8",
+      "title": "Completed-only read grant + session-free reader",
+      "lane": "work",
+      "depends_on": [
+        7
+      ],
+      "steps": 8,
+      "code_branch": "gameplay/job-08-completed-read",
+      "codex_review": true,
+      "written": true,
+      "waits_on": null,
+      "phase": "3 Career history",
+      "type": "rules",
+      "plain": "Finished Showdowns stay readable for both managers after they close."
+    },
+    {
+      "number": 9,
+      "key": "G-9",
+      "title": "Closed-Showdown adapter into the career model",
+      "lane": "work",
+      "depends_on": [
+        3,
+        8
+      ],
+      "steps": 7,
+      "code_branch": "gameplay/job-09-closed-adapter",
+      "codex_review": false,
+      "written": true,
+      "waits_on": null,
+      "phase": "3 Career history",
+      "type": "build",
+      "plain": "Finished Showdowns flow into career totals and the Trophy Room."
+    },
+    {
+      "number": 10,
+      "key": "G-10",
+      "title": "Transfer history, completed only",
+      "lane": "work",
+      "depends_on": [
+        8
+      ],
+      "steps": 8,
+      "code_branch": "gameplay/job-10-transfer-history",
+      "codex_review": true,
+      "written": true,
+      "waits_on": null,
+      "phase": "3 Career history",
+      "type": "rules",
+      "plain": "Transfer history visible only once a challenge is completed."
+    },
+    {
+      "number": 13,
+      "key": "G-13",
+      "title": "Part 1: Trophy Room and Career Statistics on the real career model",
+      "lane": "work",
+      "depends_on": [
+        4,
+        5,
+        6,
+        9
+      ],
+      "steps": 7,
+      "code_branch": "gameplay/job-13-career-screens",
+      "codex_review": false,
+      "written": true,
+      "waits_on": "",
+      "phase": "MERGED",
+      "type": "build",
+      "plain": "Part 1 merged into recovery (PR #347, 86111ca): Trophy Room and Career Statistics show Team V's screens on the real career model. Legacy and Rivalry Statistics stay hidden for part 2. Not live until Nik approves Team V's full package."
+    },
+    {
+      "number": 14,
+      "key": "G-14",
+      "title": "Acceptance: directive §12 and Sol's 8 proofs on the emulator",
+      "lane": "work",
+      "depends_on": [
+        13
+      ],
+      "steps": null,
+      "code_branch": null,
+      "codex_review": false,
+      "written": false,
+      "waits_on": null,
+      "phase": "SKIPPED",
+      "type": "test",
+      "plain": "Final acceptance run of every promised behaviour in the test database. Superseded 2026-10-05: SSJR is retired and version 2.0 is live; the real proof is Nik and Daniel playing 2.0 (G-F1)."
+    },
+    {
+      "number": 15,
+      "key": "G-15",
+      "title": "One real two-device run with Nik",
+      "lane": "nik",
+      "depends_on": [
+        14
+      ],
+      "steps": null,
+      "code_branch": null,
+      "codex_review": false,
+      "written": false,
+      "waits_on": null,
+      "phase": "SKIPPED",
+      "type": "nik",
+      "plain": "One real game on two phones with Daniel, to sign it off. Superseded 2026-10-05: SSJR is retired and version 2.0 is live; the real proof is Nik and Daniel playing 2.0 (G-F1)."
+    },
+    {
+      "number": 18,
+      "key": "G-2d",
+      "title": "Nik's pair code survives the pair-panel re-render",
+      "lane": "chat",
+      "depends_on": [],
+      "steps": 5,
+      "code_branch": "gameplay/job-18-pair-code-race",
+      "codex_review": false,
+      "written": true,
+      "waits_on": null,
+      "phase": "1 Safety net",
+      "type": "build",
+      "plain": "When Nik pastes Daniel's code quickly, the app keeps it instead of wiping it and wrongly calling it invalid."
+    },
+    {
+      "number": 19,
+      "key": "G-2e",
+      "title": "Resume a Shared Showdown after reload; closed Showdowns stay on Home",
+      "lane": "lead",
+      "depends_on": [],
+      "steps": 3,
+      "code_branch": "gameplay/job-19-reload-resume",
+      "codex_review": false,
+      "written": true,
+      "waits_on": null,
+      "phase": "1 Safety net",
+      "type": "fix",
+      "plain": "After a reload both players land on Home, rejoin a fresh session and pick up on the right season, instead of starting over at season 1."
+    },
+    {
+      "number": 20,
+      "key": "G-2f",
+      "title": "A late season acknowledgement retries instead of failing",
+      "lane": "lead",
+      "depends_on": [],
+      "steps": 3,
+      "code_branch": "gameplay/job-20-season-ack-race",
+      "codex_review": false,
+      "written": true,
+      "waits_on": null,
+      "phase": "1 Safety net",
+      "type": "fix",
+      "plain": "When both players press acknowledge at the same moment, the second one is retried instead of showing a permission error."
+    },
+    {
+      "number": 21,
+      "key": "G-2g",
+      "title": "Same-moment taps retry quietly (bug hunt 1)",
+      "lane": "lead",
+      "depends_on": [],
+      "steps": 3,
+      "code_branch": "gameplay/job-21-tap-races",
+      "codex_review": false,
+      "written": true,
+      "waits_on": null,
+      "phase": "1 Safety net",
+      "type": "fix",
+      "plain": "When both players tap START, a lock button, early end or Setup confirm at the same moment, or the transfer timer hits 0:00 on both phones, the slower phone retries once instead of showing an error."
+    },
+    {
+      "number": 24,
+      "key": "G-13a",
+      "title": "Part 2a: foundation (loader, top bar, shared kit, caching)",
+      "lane": "lead",
+      "depends_on": [
+        13
+      ],
+      "steps": 7,
+      "code_branch": "gameplay/job-24-v10-foundation",
+      "codex_review": true,
+      "written": true,
+      "waits_on": "",
+      "phase": "IN PROGRESS",
+      "type": "build",
+      "plain": "Start first: one shared way to load Team V's screens, the top bar, and lighter caching. Built in the lead thread by a helper (Nik, 2026-10-04: no cloud sessions)."
+    },
+    {
+      "number": 25,
+      "key": "G-13b",
+      "title": "Part 2b: Home, music (Audius) and Loading",
+      "lane": "codex",
+      "depends_on": [
+        24
+      ],
+      "steps": 7,
+      "code_branch": "",
+      "codex_review": true,
+      "written": true,
+      "waits_on": "",
+      "phase": "READY",
+      "type": "build",
+      "plain": "Home in Team V's style with Nik's Audius playlist playing across screens; Loading keeps the Reus credit. Codex builds (Nik pastes the box); starts from job 24's branch; the lead checks each screen in a browser and merges."
+    },
+    {
+      "number": 26,
+      "key": "G-13c",
+      "title": "Part 2c: Start/Join, League wheel and Club packs",
+      "lane": "lead",
+      "depends_on": [
+        24
+      ],
+      "steps": 7,
+      "code_branch": "gameplay/job-26-v10-setup",
+      "codex_review": true,
+      "written": true,
+      "waits_on": "",
+      "phase": "READY",
+      "type": "build",
+      "plain": "Setup screens skinned without touching pairing, session or draw logic. Lead helper (Opus); starts from job 24's branch; the lead checks each screen in a browser and merges."
+    },
+    {
+      "number": 27,
+      "key": "G-13d",
+      "title": "Part 2d: Transfer War",
+      "lane": "lead",
+      "depends_on": [
+        24
+      ],
+      "steps": 7,
+      "code_branch": "gameplay/job-27-v10-transfer",
+      "codex_review": true,
+      "written": true,
+      "waits_on": "",
+      "phase": "READY",
+      "type": "build",
+      "plain": "Transfer window skinned; private inputs stay private; lock confirm and quiet retries kept. Lead helper (Opus); starts from job 24's branch; the lead checks each screen in a browser and merges."
+    },
+    {
+      "number": 28,
+      "key": "G-13e",
+      "title": "Part 2e: Rivalry Statistics and Legacy (History)",
+      "lane": "work",
+      "depends_on": [
+        24
+      ],
+      "steps": 7,
+      "code_branch": "gameplay/job-28-v10-history",
+      "codex_review": true,
+      "written": true,
+      "waits_on": "",
+      "phase": "READY",
+      "type": "build",
+      "plain": "Same pattern as job 13 on the real career model; un-hides the last two Statistics buttons. Sol 6.1 Work mode, High; starts from job 24's branch; the lead checks each screen in a browser and merges."
+    },
+    {
+      "number": 29,
+      "key": "G-13f",
+      "title": "Part 2f: Season Results, Final Winner and Standings",
+      "lane": "work",
+      "depends_on": [
+        24
+      ],
+      "steps": 7,
+      "code_branch": "gameplay/job-29-v10-results",
+      "codex_review": true,
+      "written": true,
+      "waits_on": "",
+      "phase": "READY",
+      "type": "build",
+      "plain": "Results and commit skinned (clash warning kept); winner reveal uses the reconciliation exactly. Sol Work mode; starts from job 24's branch; the lead checks each screen in a browser and merges."
+    },
+    {
+      "number": 30,
+      "key": "G-13g",
+      "title": "Part 2g: Rule Book and Settings",
+      "lane": "work",
+      "depends_on": [
+        24
+      ],
+      "steps": 7,
+      "code_branch": "gameplay/job-30-v10-rules-settings",
+      "codex_review": true,
+      "written": true,
+      "waits_on": "",
+      "phase": "READY",
+      "type": "build",
+      "plain": "Rules copy unchanged, Settings controls kept, credits added. Sol 6.1 Work mode, High; starts from job 24's branch; the lead checks each screen in a browser and merges."
+    },
+    {
+      "number": 31,
+      "key": "G-2h",
+      "title": "Ten-season games: session expiry, long-game limits, 10-season emulator run",
+      "lane": "lead",
+      "depends_on": [],
+      "steps": 1,
+      "code_branch": "gameplay/job-31-ten-seasons",
+      "codex_review": false,
+      "written": true,
+      "waits_on": "",
+      "phase": "MERGED",
+      "type": "build",
+      "plain": "A 10-season game now survives the 4-hour private session ending mid-game: one banner, one RECONNECT SESSION tap, Daniel hosts, Nik joins, both pages return by themselves. CI now plays 3 and 10 seasons with a mid-game expiry. PR #350, merged into recovery fb0dd02. Still open: the 72-character code exchange (needs a Rules change) and a misleading transfer message after expiry."
+    },
+    {
+      "number": 32,
+      "key": "G-2i",
+      "title": "Fewer taps: audit the flow for steps we can safely drop",
+      "lane": "lead",
+      "depends_on": [],
+      "steps": 1,
+      "code_branch": "",
+      "codex_review": false,
+      "written": true,
+      "waits_on": "",
+      "phase": "DONE",
+      "type": "audit",
+      "plain": "Audit done: /mnt/project-files/gameplay/TAP_AUDIT_2026-10-04.md. 8 reductions; R1-R6 and R8 being built in job 33; R7 (commit + acknowledge in one tap) waits on Nik."
+    },
+    {
+      "number": 33,
+      "key": "G-2j",
+      "title": "Fewer taps: auto-refresh while waiting, skip hops, drop duplicate banners",
+      "lane": "lead",
+      "depends_on": [
+        32
+      ],
+      "steps": 1,
+      "code_branch": "gameplay/job-33-fewer-taps",
+      "codex_review": false,
+      "written": true,
+      "waits_on": "",
+      "phase": "IN PROGRESS",
+      "type": "build",
+      "plain": "About 13 fewer taps for Daniel and 6 for Nik over 3 seasons, plus no refresh taps. Every lock, publish, commit, acknowledge and close stays a manual tap. Lead helper (Opus)."
     }
-   ],
-   "future": [
+  ],
+  "bug_hunt": [
     {
-     "id": "G-F1",
-     "title": "Nik and Daniel play 2.0 on their phones",
-     "lane": "nik",
-     "state": "waiting on Nik",
-     "waits_on": ""
+      "id": "BH-1",
+      "title": "Both managers tap at the same second and the slower one sees an error",
+      "plain": "Hits Career Start, the Transfer Challenge locks and timer, and Setup confirm. Nothing is corrupted, but the loser must tap again.",
+      "likelihood": "likely",
+      "status": "DONE",
+      "owner": "lead",
+      "note": "job 21, PR #344; live since r53 (2026-10-04)"
     },
     {
-     "id": "G-F10",
-     "title": "Club Assignment: wire Team V's approved design (hands, seams, new layout) into the live screen",
-     "lane": "opus",
-     "state": "done (live in r57, PR #371)",
-     "waits_on": ""
+      "id": "BH-2",
+      "title": "A tied season is decided by league position",
+      "plain": "Code and old notes disagree on equal non-zero scores.",
+      "likelihood": "likely",
+      "status": "DONE",
+      "owner": "lead",
+      "note": "Nik chose league position; docs fixed in PR #343 (merged)"
     },
     {
-     "id": "G-F5",
-     "title": "QA packet adoptions: truth line, wrong-target guard on main PRs, PR title rule",
-     "lane": "sonnet",
-     "state": "next",
-     "waits_on": ""
+      "id": "BH-3",
+      "title": "Nobody cross-checks the two managers' season results",
+      "plain": "Both can publish position 1 or both tick Champions League. Nik chose (2026-10-04) to warn, not block: the commit screen now shows a CHECK RESULTS line on a clash and committing stays allowed (PR #346, merged into recovery dc78ed7). Live since r53.",
+      "likelihood": "medium",
+      "status": "DONE",
+      "owner": "lead",
+      "note": "PR #346; live since r53 (2026-10-04)"
     },
     {
-     "id": "G-F6",
-     "title": "Transfer screen race (was the flaky v10-transfer test): a slow load raised a red error toast over REFRESH on phones, and the desktop window button sat below the screen",
-     "lane": "opus",
-     "state": "fixed, in r62 batch (6fcda70b)",
-     "waits_on": "r62 release",
-     "details": "0 failures in 66 runs, was about 1 in 7"
+      "id": "BH-4",
+      "title": "Lock buttons have no confirm",
+      "plain": "One stray tap on LOCK MY GUESSES or LOCK MY SIGNINGS locks an empty list for the season; the helpful error text is hidden behind a code. Lock buttons now ask \"Lock N of 3?\" when a form is partly filled (PR #345, merged into recovery 6974408). Live since r53.",
+      "likelihood": "medium-low",
+      "status": "DONE",
+      "owner": "lead",
+      "note": "PR #345 adds the \"Lock N of 3?\" confirm; live since r53 (2026-10-04)"
     },
     {
-     "id": "G-F6b",
-     "title": "Same ResizeObserver fix on the Club screen; the harmless browser \"ResizeObserver loop\" warning never shows players an error toast",
-     "lane": "sonnet",
-     "state": "in progress (branch bugfix/g-f6b-observer-toast)",
-     "waits_on": "the lead batches it into r62"
-    },
-    {
-     "id": "G-F11",
-     "title": "Old-design CSS collisions: scope old rulebook/settings/analytics/app CSS off Team V markup (about 70 shared class names)",
-     "lane": "sonnet",
-     "state": "ready (Sonnet audit, then Opus fix)",
-     "waits_on": ""
-    },
-    {
-     "id": "G-F12",
-     "title": "G-36: no old player photos on any screen, and all 7 Home tiles",
-     "lane": "opus",
-     "state": "done (live in r60, d8e6c44)",
-     "waits_on": ""
-    },
-    {
-     "id": "G-F13",
-     "title": "Home soundtrack: 11 Audius tracks, Nasty first, Shelter remix and High And Low cover",
-     "lane": "opus",
-     "state": "done (live in r60, d8e6c44)",
-     "waits_on": ""
-    },
-    {
-     "id": "G-F14",
-     "title": "r61: phone track list stops below the logo and scrolls, and Next To You plays first",
-     "lane": "opus",
-     "state": "done: live in r61 (5:37 PM Boston time)",
-     "waits_on": "",
-     "details": ""
-    },
-    {
-     "id": "G-F17",
-     "title": "Showdown Gate: replace POS20 with a faster check system built on Claude and GitHub, keeping every check (plan: /mnt/project-files/check-system/SHOWDOWN_GATE_PLAN.md)",
-     "lane": "opus",
-     "state": "building shadow; then ~10-PR shadow (3-5 days), then archive POS20",
-     "waits_on": "exit bar: 10 real PRs agree (2 full seals), 2 canaries fail, 1 simulated outage recovers; POS20 stays the merge authority until then",
-     "details": "Nik 6:02 PM Boston time: gradual replacement; POS20 is archived to authority-history/pos20-archive/, not deleted"
-    },
-    {
-     "id": "G-F18",
-     "title": "Old-design screen audit: Legacy, Career Statistics and Trophy Room still open in the old shell; drive every live screen in a browser against Team V's design and route all of them to the new design",
-     "lane": "opus",
-     "state": "in progress (thread \"Old-design screen audit\", Nik asked at 5:16 PM Boston time)",
-     "waits_on": "a green PR to the lead",
-     "details": "overlaps G-F11 (old CSS collisions)"
-    },
-    {
-     "id": "G-F15",
-     "title": "Landscape phone Home layout (844x390): title sits on the wordmark, soundtrack card covers the right tiles (already in r59)",
-     "lane": "opus",
-     "state": "fixed, in r62 batch (4f279dd4)",
-     "waits_on": "r62 release",
-     "details": "before/after screenshots in /mnt/project-files/gameplay/r62/"
-    },
-    {
-     "id": "G-F16",
-     "title": "Phone Home nit from Team V (HO-006): second line of START A SHOWDOWN touches the clipboard icon at 393px",
-     "lane": "opus",
-     "state": "fixed, in r62 batch (4f279dd4)",
-     "waits_on": "r62 release",
-     "details": "before/after screenshots in /mnt/project-files/gameplay/r62/"
-    },
-    {
-     "id": "G-F3",
-     "title": "Bug-hunting factory: one report thread, Sonnet hunts, Opus fixes, small batch releases",
-     "lane": "sonnet",
-     "state": "queued",
-     "waits_on": "G-F1 and Nik's OK"
-    },
-    {
-     "id": "G-F4",
-     "title": "GPT Q&A team: scripted paths and code-vs-rulebook reads",
-     "lane": "sol-chat",
-     "state": "queued",
-     "waits_on": "G-F1"
-    },
-    {
-     "id": "G-F7",
-     "title": "Ten-season smoothness run on live 2.0 (emulator, 10 seasons with a mid-game expiry)",
-     "lane": "sonnet",
-     "state": "queued",
-     "waits_on": "G-F1"
-    },
-    {
-     "id": "G-F8",
-     "title": "Commit and acknowledge a season in one tap (tap audit R7)",
-     "lane": "opus",
-     "state": "needs Nik's call",
-     "waits_on": "Nik"
-    },
-    {
-     "id": "G-F9",
-     "title": "72-character pairing code exchange (needs a Rules change)",
-     "lane": "opus",
-     "state": "needs Nik's call",
-     "waits_on": "Nik's typed words"
-    },
-    {
-     "id": "G-F2",
-     "title": "Live 2.0 fixes from Nik's review: r55 and r56 shipped today (list in Live now)",
-     "lane": "opus",
-     "state": "done for r56",
-     "waits_on": ""
-    },
-    {
-     "id": "G-F19",
-     "title": "BH-8: show the final winner and Close on both phones automatically, with no PREVIEW tap (Nik chose this at 5:56 PM Boston time); applying to the local save stays a tap",
-     "lane": "opus",
-     "state": "fixed, in r62 batch (54dd53a)",
-     "waits_on": "r62 release",
-     "details": "journey 36/36 twice"
-    },
-    {
-     "id": "G-F20",
-     "title": "BH-7 transient hardening: Setup read, Terminal Close retry, simultaneous CLOSE re-read, stale transfer status line",
-     "lane": "opus",
-     "state": "fixed, in r62 batch (de4c352)",
-     "waits_on": "r62 release",
-     "details": "two-manager journey 36/36"
-    },
-    {
-     "id": "G-F21",
-     "title": "BH-11 pairing and reconnect fixes from the pairing audit (7 findings, one high: a reload mid-game strands the reconnect)",
-     "lane": "opus",
-     "state": "in progress (branch bugfix/bh-11-pairing-reconnect)",
-     "waits_on": "the lead batches it into r62"
-    },
-    {
-     "id": "G-F22",
-     "title": "BH-12 pairing product calls: RESTORE BACKUP first, CANCEL CODE with expiry, masked email before JOIN, revoke mine and join, clearer same-account message",
-     "lane": "nik",
-     "state": "later: Nik decides after his two current calls",
-     "waits_on": "the lead asks Nik next"
+      "id": "BH-5",
+      "title": "The 4-hour private session ends long games",
+      "plain": "A 5 or 10 season game outlives one session, so both managers must open a fresh one. Needs one retest mid-season. Now job 31 (ten-season games).",
+      "likelihood": "low",
+      "status": "DONE",
+      "owner": "lead",
+      "note": "job 31, PR #350 (fb0dd02): one-tap reconnect after expiry; live since 2.0 (r54)"
     }
-   ]
+  ],
+  "bug_hunt_extras": [
+    "DONE in job 21: 'scoring remains locked' text now says SEASON COMMITTED · SCORE BELOW",
+    "NOT A BUG: Daniel/Nik fallbacks match the fixed roles (Daniel = Player One, Nik = Player Two)",
+    "FIXING as BUG-1 (Sonnet, bugfix/bug-batch-1), ships in r62"
+  ],
+  "release": {
+    "name": "Version 2.0",
+    "jobs": [
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      33
+    ],
+    "after": [
+      "Fix the two-manager journey test on recovery",
+      "Merge the last jobs",
+      "Nik plays it once with Daniel",
+      "Nik's go, then main goes live"
+    ],
+    "done": true
   },
-  "V": {
-   "name": "V Factory",
-   "role": "Visuals and presentation: design changes, art, screen skins (assistant director)",
-   "workers": [
-    {
-     "lane": "opus",
-     "does": "Visual lead: taste, final polish, checks"
+  "factories": {
+    "G": {
+      "name": "G Factory",
+      "role": "Gameplay, online sync, every merge and every release (senior director)",
+      "workers": [
+        {
+          "lane": "opus",
+          "does": "Lead: decides, merges, ships; risky fixes"
+        },
+        {
+          "lane": "sonnet",
+          "does": "Bug hunts, audits, repros, board tools"
+        },
+        {
+          "lane": "haiku",
+          "does": "Copy and refresh chores"
+        },
+        {
+          "lane": "sol-chat",
+          "does": "Triage, repro steps, PR review (no Claude usage)"
+        },
+        {
+          "lane": "sol-work",
+          "does": "Terminal and npm jobs, one bug at a time"
+        },
+        {
+          "lane": "codex",
+          "does": "Auto-review on every PR (out of usage since 5 Oct)"
+        },
+        {
+          "lane": "nik",
+          "does": "Real phones with Daniel: the only physical proof"
+        }
+      ],
+      "future": [
+        {
+          "id": "G-F1",
+          "title": "Nik and Daniel play 2.0 on their phones",
+          "lane": "nik",
+          "state": "waiting on Nik",
+          "waits_on": ""
+        },
+        {
+          "id": "G-F10",
+          "title": "Club Assignment: wire Team V's approved design (hands, seams, new layout) into the live screen",
+          "lane": "opus",
+          "state": "done (live in r57, PR #371)",
+          "waits_on": ""
+        },
+        {
+          "id": "G-F5",
+          "title": "QA packet adoptions: truth line, wrong-target guard on main PRs, PR title rule",
+          "lane": "sonnet",
+          "state": "next",
+          "waits_on": ""
+        },
+        {
+          "id": "G-F6",
+          "title": "Transfer screen race (was the flaky v10-transfer test): a slow load raised a red error toast over REFRESH on phones, and the desktop window button sat below the screen",
+          "lane": "opus",
+          "state": "fixed, in r62 batch (6fcda70b)",
+          "waits_on": "r62 release",
+          "details": "0 failures in 66 runs, was about 1 in 7"
+        },
+        {
+          "id": "G-F6b",
+          "title": "Same ResizeObserver fix on the Club screen; the harmless browser \"ResizeObserver loop\" warning never shows players an error toast",
+          "lane": "sonnet",
+          "state": "in progress (branch bugfix/g-f6b-observer-toast)",
+          "waits_on": "the lead batches it into r62"
+        },
+        {
+          "id": "G-F11",
+          "title": "Old-design CSS collisions: scope old rulebook/settings/analytics/app CSS off Team V markup (about 70 shared class names)",
+          "lane": "sonnet",
+          "state": "ready (Sonnet audit, then Opus fix)",
+          "waits_on": ""
+        },
+        {
+          "id": "G-F12",
+          "title": "G-36: no old player photos on any screen, and all 7 Home tiles",
+          "lane": "opus",
+          "state": "done (live in r60, d8e6c44)",
+          "waits_on": ""
+        },
+        {
+          "id": "G-F13",
+          "title": "Home soundtrack: 11 Audius tracks, Nasty first, Shelter remix and High And Low cover",
+          "lane": "opus",
+          "state": "done (live in r60, d8e6c44)",
+          "waits_on": ""
+        },
+        {
+          "id": "G-F14",
+          "title": "r61: phone track list stops below the logo and scrolls, and Next To You plays first",
+          "lane": "opus",
+          "state": "done: live in r61 (5:37 PM Boston time)",
+          "waits_on": "",
+          "details": ""
+        },
+        {
+          "id": "G-F17",
+          "title": "Showdown Gate: replace POS20 with a faster check system built on Claude and GitHub, keeping every check (plan: /mnt/project-files/check-system/SHOWDOWN_GATE_PLAN.md)",
+          "lane": "opus",
+          "state": "building shadow; then ~10-PR shadow (3-5 days), then archive POS20",
+          "waits_on": "exit bar: 10 real PRs agree (2 full seals), 2 canaries fail, 1 simulated outage recovers; POS20 stays the merge authority until then",
+          "details": "Nik 6:02 PM Boston time: gradual replacement; POS20 is archived to authority-history/pos20-archive/, not deleted"
+        },
+        {
+          "id": "G-F18",
+          "title": "Old-design screen audit: Legacy, Career Statistics and Trophy Room still open in the old shell; drive every live screen in a browser against Team V's design and route all of them to the new design",
+          "lane": "opus",
+          "state": "in progress (thread \"Old-design screen audit\", Nik asked at 5:16 PM Boston time)",
+          "waits_on": "a green PR to the lead",
+          "details": "overlaps G-F11 (old CSS collisions)"
+        },
+        {
+          "id": "G-F15",
+          "title": "Landscape phone Home layout (844x390): title sits on the wordmark, soundtrack card covers the right tiles (already in r59)",
+          "lane": "opus",
+          "state": "fixed, in r62 batch (4f279dd4)",
+          "waits_on": "r62 release",
+          "details": "before/after screenshots in /mnt/project-files/gameplay/r62/"
+        },
+        {
+          "id": "G-F16",
+          "title": "Phone Home nit from Team V (HO-006): second line of START A SHOWDOWN touches the clipboard icon at 393px",
+          "lane": "opus",
+          "state": "fixed, in r62 batch (4f279dd4)",
+          "waits_on": "r62 release",
+          "details": "before/after screenshots in /mnt/project-files/gameplay/r62/"
+        },
+        {
+          "id": "G-F3",
+          "title": "Bug-hunting factory: one report thread, Sonnet hunts, Opus fixes, small batch releases",
+          "lane": "sonnet",
+          "state": "queued",
+          "waits_on": "G-F1 and Nik's OK"
+        },
+        {
+          "id": "G-F4",
+          "title": "GPT Q&A team: scripted paths and code-vs-rulebook reads",
+          "lane": "sol-chat",
+          "state": "queued",
+          "waits_on": "G-F1"
+        },
+        {
+          "id": "G-F7",
+          "title": "Ten-season smoothness run on live 2.0 (emulator, 10 seasons with a mid-game expiry)",
+          "lane": "sonnet",
+          "state": "queued",
+          "waits_on": "G-F1"
+        },
+        {
+          "id": "G-F8",
+          "title": "Commit and acknowledge a season in one tap (tap audit R7)",
+          "lane": "opus",
+          "state": "needs Nik's call",
+          "waits_on": "Nik"
+        },
+        {
+          "id": "G-F9",
+          "title": "72-character pairing code exchange (needs a Rules change)",
+          "lane": "opus",
+          "state": "needs Nik's call",
+          "waits_on": "Nik's typed words"
+        },
+        {
+          "id": "G-F2",
+          "title": "Live 2.0 fixes from Nik's review: r55 and r56 shipped today (list in Live now)",
+          "lane": "opus",
+          "state": "done for r56",
+          "waits_on": ""
+        },
+        {
+          "id": "G-F19",
+          "title": "BH-8: show the final winner and Close on both phones automatically, with no PREVIEW tap (Nik chose this at 5:56 PM Boston time); applying to the local save stays a tap",
+          "lane": "opus",
+          "state": "fixed, in r62 batch (54dd53a)",
+          "waits_on": "r62 release",
+          "details": "journey 36/36 twice"
+        },
+        {
+          "id": "G-F20",
+          "title": "BH-7 transient hardening: Setup read, Terminal Close retry, simultaneous CLOSE re-read, stale transfer status line",
+          "lane": "opus",
+          "state": "fixed, in r62 batch (de4c352)",
+          "waits_on": "r62 release",
+          "details": "two-manager journey 36/36"
+        },
+        {
+          "id": "G-F21",
+          "title": "BH-11 pairing and reconnect fixes from the pairing audit (7 findings, one high: a reload mid-game strands the reconnect)",
+          "lane": "opus",
+          "state": "in progress (branch bugfix/bh-11-pairing-reconnect)",
+          "waits_on": "the lead batches it into r62"
+        },
+        {
+          "id": "G-F22",
+          "title": "BH-12 pairing product calls: RESTORE BACKUP first, CANCEL CODE with expiry, masked email before JOIN, revoke mine and join, clearer same-account message",
+          "lane": "nik",
+          "state": "later: Nik decides after his two current calls",
+          "waits_on": "the lead asks Nik next"
+        },
+        {
+          "id": "L1-J01",
+          "group": "Bug list 1",
+          "title": "Home desktop tile icons: Start a Showdown, Legacy, Statistics, Trophy Room, Rule Book and Settings icons larger and moved left/up, never touching the text or leaving the tile",
+          "lane": "blue",
+          "state": "ready",
+          "waits_on": "after Nik says go (he is still sending list 1)",
+          "details": "Items L1-01..06. CSS only in css/homeV10.css (desktop blocks). Lead measures label and icon boxes at 1920/1440/1280/1100/1000 wide, pastes them into the GPT blue packet, then checks screenshots. List: /mnt/project-files/bug-list-factory/LIST-1.md"
+        }
+      ]
     },
-    {
-     "lane": "sonnet",
-     "does": "HTML/CSS builds from a clear spec"
-    },
-    {
-     "lane": "sol-chat",
-     "does": "Truth sheets, text and checks (no Claude usage)"
-    },
-    {
-     "lane": "sol-work",
-     "does": "Work-mode builds"
-    },
-    {
-     "lane": "astra",
-     "does": "Rare senior review"
-    },
-    {
-     "lane": "images",
-     "does": "ChatGPT image tickets (art, plates)"
-    },
-    {
-     "lane": "codex",
-     "does": "Package review"
+    "V": {
+      "name": "V Factory",
+      "role": "Visuals and presentation: design changes, art, screen skins (assistant director)",
+      "workers": [
+        {
+          "lane": "opus",
+          "does": "Visual lead: taste, final polish, checks"
+        },
+        {
+          "lane": "sonnet",
+          "does": "HTML/CSS builds from a clear spec"
+        },
+        {
+          "lane": "sol-chat",
+          "does": "Truth sheets, text and checks (no Claude usage)"
+        },
+        {
+          "lane": "sol-work",
+          "does": "Work-mode builds"
+        },
+        {
+          "lane": "astra",
+          "does": "Rare senior review"
+        },
+        {
+          "lane": "images",
+          "does": "ChatGPT image tickets (art, plates)"
+        },
+        {
+          "lane": "codex",
+          "does": "Package review"
+        }
+      ],
+      "future": [
+        {
+          "id": "V-F1",
+          "title": "Team V jobs on this board: V- PR titles with a progress block; old board retired",
+          "lane": "opus",
+          "state": "done (V2G-017)",
+          "waits_on": ""
+        },
+        {
+          "id": "V-F2",
+          "title": "Design changes from Nik and Daniel's 2.0 play-through (only real design changes; bugs stay with G)",
+          "lane": "opus",
+          "state": "queued",
+          "waits_on": "G-F1"
+        },
+        {
+          "id": "V-F3",
+          "title": "Visual check of live 2.0 against the approved package 5e05a1f",
+          "lane": "sonnet",
+          "state": "done (sent as HO-004)",
+          "waits_on": "Team V's call"
+        }
+      ]
     }
-   ],
-   "future": [
-    {
-     "id": "V-F1",
-     "title": "Team V jobs on this board: V- PR titles with a progress block; old board retired",
-     "lane": "opus",
-     "state": "done (V2G-017)",
-     "waits_on": ""
-    },
-    {
-     "id": "V-F2",
-     "title": "Design changes from Nik and Daniel's 2.0 play-through (only real design changes; bugs stay with G)",
-     "lane": "opus",
-     "state": "queued",
-     "waits_on": "G-F1"
-    },
-    {
-     "id": "V-F3",
-     "title": "Visual check of live 2.0 against the approved package 5e05a1f",
-     "lane": "sonnet",
-     "state": "done (sent as HO-004)",
-     "waits_on": "Team V's call"
-    }
-   ]
-  }
- },
- "next_move": [
-  "**Nothing waits on you right now.** r62 is nearly full; BH-11, BUG-1 and G-F6b are finishing."
- ]
+  },
+  "next_move": [
+    "**Nothing waits on you right now.** r62 is nearly full; BH-11, BUG-1 and G-F6b are finishing."
+  ]
 }
