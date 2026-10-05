@@ -947,6 +947,8 @@
         "^scripts/gate-watchdog\\.mjs$",
         "^scripts/showdown-gate\\.mjs$",
         "^scripts/gate-yield\\.mjs$",
+        "^scripts/gate-preempt\\.mjs$",
+        "^scripts/physio-status\\.mjs$",
         "^scripts/gate-compare\\.mjs$",
         "^scripts/pos20-impact-router\\.mjs$",
         "^POS10_IMPACT_GRAPH\\.json$",

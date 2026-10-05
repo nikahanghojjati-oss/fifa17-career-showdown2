@@ -32,7 +32,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          queued=$(gh api "repos/$GITHUB_REPOSITORY/actions/runs?status=queued&per_page=100" --jq '[.workflow_runs[] | select(.name | test("^(Validate POS20|Validate Gameplay Fast|Showdown Gate)"))] | length')
+          queued=$(gh api "repos/$GITHUB_REPOSITORY/actions/runs?status=queued&per_page=100" --jq '[.workflow_runs[] | select(.name | test("^(Validate POS20|Validate Gameplay Fast|Showdown Gate)$"))] | length')
           echo "queued priority runs: $queued"
           if [ "$queued" != "0" ]; then echo "skip=1" >> "$GITHUB_OUTPUT"; echo "yield"; else echo "skip=0" >> "$GITHUB_OUTPUT"; fi
       - uses: actions/checkout@v5

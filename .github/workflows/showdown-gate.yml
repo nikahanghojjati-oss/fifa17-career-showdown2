@@ -26,6 +26,10 @@ jobs:
     if: ${{ github.event_name != 'pull_request' || github.event.pull_request.draft == false }}
     runs-on: ubuntu-24.04
     timeout-minutes: 25
+    # Only L1 may elevate, and only to cancel the allowlisted helper workflows (scripts/gate-preempt.mjs).
+    permissions:
+      contents: read
+      actions: write
     steps:
       - uses: actions/checkout@v5
         with:
@@ -45,6 +49,10 @@ jobs:
         with:
           node-version: 24
           cache: npm
+      - name: Preempt low-priority helpers while checks wait for machines
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: node scripts/gate-preempt.mjs --repo "$GITHUB_REPOSITORY"
       - name: 'TEST: Compute Showdown Gate route'
         id: route
         shell: bash

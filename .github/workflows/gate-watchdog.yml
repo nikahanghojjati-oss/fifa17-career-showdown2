@@ -1,12 +1,19 @@
-# Showdown Gate watchdog (phase 1 shadow). Re-runs only Showdown Gate jobs where GitHub never started a
-# TEST: step (no machine, lost runner, setup died), at most 2 automatic re-runs per head. A started TEST:
-# step that did not succeed is a real failure and is never re-run. It never acts on Validate POS20 or
-# Validate Gameplay Fast: scripts/gate-watchdog.mjs refuses any run that is not Showdown Gate.
-name: Showdown Gate watchdog
+# Showdown Gate Physio (the check watchdog). Re-runs only Showdown Gate, Validate POS20 and Validate
+# Gameplay Fast jobs where GitHub never started a test step (no machine, lost runner, setup died), at most
+# 2 automatic re-runs per head, never for superseded heads. A test step that started and did not succeed
+# is a real failure and is never re-run. scripts/gate-watchdog.mjs refuses any other workflow. The sweep
+# also preempts the allowlisted low-priority helpers while a check waits for a machine
+# (scripts/gate-preempt.mjs), never one that is mid-push. Each accepted re-run is reported as
+# "Physio: re-ran <lane> (GitHub gave it no machine), attempt N of 2" in the step summary.
+# Every Physio run writes physio-status.json (schema physio/v1, scripts/physio-status.mjs) to the job
+# summary, to the run artifact "physio-status", and best effort to
+# project-documents/gameplay-factory/physio-status.json on factory/gameplay-v1 (only on change or when the
+# last push is over 10 minutes old; a failed push never fails the run). Nothing here runs PR code.
+name: Showdown Gate Physio
 
 on:
   workflow_run:
-    workflows: [Showdown Gate]
+    workflows: [Showdown Gate, Validate POS20, Validate Gameplay Fast]
     types: [completed]
   schedule:
     - cron: '*/10 * * * *'
@@ -14,7 +21,7 @@ on:
 
 permissions:
   actions: write
-  contents: read
+  contents: write
 
 concurrency:
   group: showdown-gate-watchdog-${{ github.event.workflow_run.id || 'sweep' }}
@@ -22,8 +29,8 @@ concurrency:
 
 jobs:
   watchdog:
-    name: Showdown Gate watchdog
-    # A green gate run needs no watchdog: skip without taking a machine.
+    name: Showdown Gate Physio
+    # A green check run needs no Physio: skip without taking a machine.
     if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion != 'success'
     runs-on: ubuntu-24.04
     timeout-minutes: 5
@@ -31,19 +38,39 @@ jobs:
       - uses: actions/checkout@v5
         with:
           fetch-depth: 1
+          persist-credentials: false
           sparse-checkout: |
             scripts
       - uses: actions/setup-node@v5
         with:
           node-version: 24
-      - name: Classify the completed Showdown Gate run
+      - name: Classify the completed check run
         if: github.event_name == 'workflow_run'
         env:
           GITHUB_TOKEN: ${{ github.token }}
           GATE_RUN_ID: ${{ github.event.workflow_run.id }}
-        run: node scripts/gate-watchdog.mjs --repo "$GITHUB_REPOSITORY" --run-id "$GATE_RUN_ID"
-      - name: Sweep recent Showdown Gate runs
+        run: node scripts/gate-watchdog.mjs --repo "$GITHUB_REPOSITORY" --run-id "$GATE_RUN_ID" --out "$RUNNER_TEMP/physio/results.json"
+      - name: Preempt low-priority helpers while checks wait for machines
         if: github.event_name != 'workflow_run'
         env:
           GITHUB_TOKEN: ${{ github.token }}
-        run: node scripts/gate-watchdog.mjs --repo "$GITHUB_REPOSITORY" --sweep --since-minutes 180
+        run: node scripts/gate-preempt.mjs --repo "$GITHUB_REPOSITORY" --out "$RUNNER_TEMP/physio/preempt.json"
+      - name: Sweep recent check runs
+        if: github.event_name != 'workflow_run'
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: node scripts/gate-watchdog.mjs --repo "$GITHUB_REPOSITORY" --sweep --since-minutes 180 --out "$RUNNER_TEMP/physio/results.json"
+      - name: Write Physio status
+        if: always()
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: node scripts/physio-status.mjs --repo "$GITHUB_REPOSITORY" --results "$RUNNER_TEMP/physio/results.json" --preempt "$RUNNER_TEMP/physio/preempt.json" --out "$RUNNER_TEMP/physio/physio-status.json" --publish
+      - name: Upload Physio status
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: physio-status
+          path: ${{ runner.temp }}/physio/physio-status.json
+          if-no-files-found: warn
+          retention-days: 7
+          overwrite: true
