@@ -177,7 +177,7 @@ if landed and False:  # "Live now" carries what is on main; recovery merges are 
         H.append(f'<tr><td>{boston(ts)}</td><td><a href="{PR}{v["pr"]}">{e(v.get("title", ""))}</a></td></tr>')
     H.append("</table>")
 if open_bugs and not COMPACT:  # compact (page would pass 7 KB): the bug board link in the banner carries them
-    H.append('<h2>Open bugs</h2><div class="card">' + "<br>".join(f'<b>{e(b["id"])}</b> {e(b["title"][:50])} <span class="m">{e(b["status"].title())} · {e(lane_of(b)[1] if b.get("worker") else "no owner")}</span>' for b in open_bugs[:3]) + "</div>")
+    H.append('<h2>Open bugs</h2><div class="card">' + "<br>".join(f'<b>{e(b["id"])}</b> {e(b["title"][:50])} <span class="m">{e(b["status"].title())} · {e(lane_of(b)[1] if b.get("worker") else "waits on Nik" if "nik" in b.get("note", "").lower()[:20] else "no owner")}</span>' for b in open_bugs[:3]) + "</div>")
 H.append('<div class="m foot">Lanes: ' +
          " · ".join(f'<span style="color:{c}">■</span> {l}' for l, c in HEX.items()) + "</div></div>")
 out = "\n".join(H) + "\n"

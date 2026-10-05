@@ -717,16 +717,17 @@
      "id": "G-F14",
      "title": "r61: phone track list stops below the logo and scrolls, and Next To You plays first",
      "lane": "opus",
-     "state": "in final checks (PR #383)",
-     "waits_on": "16 checks green, then the lead merges",
-     "details": "GitHub had no free test machines at 4 PM; the checks are re-running"
+     "state": "done: live in r61 (5:37 PM Boston time)",
+     "waits_on": "",
+     "details": ""
     },
     {
      "id": "G-F17",
-     "title": "Replace POS20 with a faster check system built on Claude and GitHub, keeping every check",
+     "title": "Showdown Gate: replace POS20 with a faster check system built on Claude and GitHub, keeping every check (plan: /mnt/project-files/check-system/SHOWDOWN_GATE_PLAN.md)",
      "lane": "opus",
-     "state": "in progress: the lead is designing it",
-     "waits_on": "the lead's plan"
+     "state": "in progress: shadow build",
+     "waits_on": "Nik: 5 settings in the plan",
+     "details": "Opus builds it in shadow next to POS20"
     },
     {
      "id": "G-F18",
@@ -791,6 +792,20 @@
      "lane": "opus",
      "state": "done for r56",
      "waits_on": ""
+    },
+    {
+     "id": "G-F19",
+     "title": "BH-8: the final winner only shows after tapping PREVIEW LOCAL RECONCILIATION. Show it automatically, or keep the tap?",
+     "lane": "nik",
+     "state": "waiting on Nik (decision card in the Team G lead thread)",
+     "waits_on": "Nik"
+    },
+    {
+     "id": "G-F20",
+     "title": "BH-7 transient hardening: Setup read, Terminal Close retry, simultaneous CLOSE re-read, stale transfer status line",
+     "lane": "opus",
+     "state": "in progress (branch bugfix/bh-7-transient-hardening)",
+     "waits_on": "the lead batches it into r62"
     }
    ]
   },
@@ -852,7 +867,5 @@
    ]
   }
  },
- "next_move": [
-  "**r61 is in its final checks:** the phone song list stops below the logo and scrolls, and Next To You plays first. It goes live as soon as the checks pass. Nothing for you to do."
- ]
+ "next_move": "Two quick calls are waiting for you in the Team G lead thread: whether the final winner shows automatically (BH-8), and 5 settings for the new Showdown Gate check system. r61 is live: the phone song list scrolls below the logo and Next To You plays first. r62 is collecting BUG-1, BH-7 and the G-F6 test fix."
 }

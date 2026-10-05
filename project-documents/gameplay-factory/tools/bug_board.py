@@ -11,8 +11,8 @@ from factory_common import F, running_jobs, LANES, lane_of, pitch, all_bugs, OPE
 REPO = "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2"
 BOS = ZoneInfo("America/New_York")
 OPEN = OPEN_BUG
-ORDER = {s: i for i, s in enumerate(["FIXING", "REVIEW", "TRIAGED", "NEW", "MERGED", "LIVE", "DUPLICATE", "NOT A BUG"])}
-ICON = {"NEW": "🆕", "TRIAGED": "🔍", "FIXING": "🔧", "REVIEW": "👀", "MERGED": "🔀", "LIVE": "✅", "DUPLICATE": "♻️", "NOT A BUG": "🚫"}
+ORDER = {s: i for i, s in enumerate(["FIXING", "REVIEW", "TRIAGED", "NEW", "MERGED", "LIVE", "DONE", "DUPLICATE", "NOT A BUG"])}
+ICON = {"NEW": "🆕", "TRIAGED": "🔍", "FIXING": "🔧", "REVIEW": "👀", "MERGED": "🔀", "LIVE": "✅", "DONE": "☑️", "DUPLICATE": "♻️", "NOT A BUG": "🚫"}
 TYPE = {"gameplay": "🎮 gameplay", "visual": "🎨 visual", "data": "📊 data"}
 now = datetime.datetime.now(BOS)
 bugs = all_bugs()
