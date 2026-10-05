@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 6:25 PM Boston time (EDT)",
+ "generated": "2026-10-05 6:27 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -315,7 +315,7 @@
   "live": {
    "sha": "61489dd",
    "revision": "1.9.1-r61",
-   "when": "2026-10-05T21:37:15+00:00",
+   "when": "2026-10-05T21:37:15Z",
    "subject": "Release r61: phone track list stops below the logo and scrolls; Next To You first (#383)",
    "fixes": [
     {
@@ -323,12 +323,12 @@
      "title": "Every screen in Team V's look: signed-out career screens, Showdown Home, season review, Legacy data tools",
      "draft": false,
      "branch": "claude-gameplay/team-v-everywhere",
-     "sha": "152f769b455c3ea96395aae6cd064688130efb10",
-     "updated": "2026-10-05T22:19:37Z",
+     "sha": "55d74ff687629e88cdf9bc22d81bc3b74cacb053",
+     "updated": "2026-10-05T22:25:38Z",
      "gates": {
-      "passed": 10,
-      "running": 0,
-      "failed": 2,
+      "passed": 6,
+      "running": 5,
+      "failed": 0,
       "cancelled": 0
      }
     }
@@ -720,12 +720,12 @@
     "title": "Every screen in Team V's look: signed-out career screens, Showdown Home, season review, Legacy data tools",
     "draft": false,
     "branch": "claude-gameplay/team-v-everywhere",
-    "sha": "152f769b455c3ea96395aae6cd064688130efb10",
-    "updated": "2026-10-05T22:19:37Z",
+    "sha": "55d74ff687629e88cdf9bc22d81bc3b74cacb053",
+    "updated": "2026-10-05T22:25:38Z",
     "gates": {
-     "passed": 10,
-     "running": 0,
-     "failed": 2,
+     "passed": 6,
+     "running": 5,
+     "failed": 0,
      "cancelled": 0
     }
    }
