@@ -95,3 +95,10 @@ comments work; the relay threads were simply not subscribed.
    already running, so it costs no extra turn.
 4. Both boards show each ticket's pickup time (Delivered to Received), so a missed wake is visible at once.
 5. A thread that wakes on its own relay echo (for example its own message's comment) ends the turn without work.
+
+## 10. Shared job numbers (Nik, 2026-10-05)
+- Team G and Team V share one job counter, starting at 1001. A number is used once, ever, by one team.
+- The counter is `JOB_NUMBERS.json` on leads/relay. Claim only with `python3 project-documents/leads-relay/tools/claim_number.py --team G|V --title "..."`. It prints the number.
+- Why it can't duplicate: the claim is a git push. If both teams push at once, GitHub refuses the second, which pulls and takes the next number. It does not depend on relay messages arriving.
+- Boards show "NNNN · G" or "NNNN · V". Older numbers (Team G 00-90, Team V V-001..V-2xx) keep their names.
+- Nik types the bare number in the right GPT chat to start a GPT job.
