@@ -273,7 +273,8 @@ for _t in (R2["tickets"] if R2 else []):
 if lv:
     L[L.index("## Your next move"):L.index("## Your next move")] = (
         ["## Live now", "", f"🌐 **main `{lv['sha']}` · runtime {lv['revision']}** · last change {TF.bos(lv['when'])} Boston time: {short(lv['subject'], 110)}", ""] +
-        ([f"- 🔧 Live fix in review: [PR #{x['pr']}]({REPO}/pull/{x['pr']}) {x['title']}" + (" (draft)" if x["draft"] else "") for x in lv["fixes"]] + [""] if lv["fixes"] else ["No live fix waiting to merge.", ""]))
+        ([f"- 🔧 Live fix in review: [PR #{x['pr']}]({REPO}/pull/{x['pr']}) {x['title']}" + (" (draft)" if x["draft"] else "") for x in lv["fixes"]] + [""] if lv["fixes"] else ["No live fix waiting to merge.", ""]) +
+        ([f"**Shipped to the live game today ({len(lv['today'])}):**", ""] + [f"- ✅ {TF.bos(x['merged'], '%-I:%M %p')} · [PR #{x['pr']}]({REPO}/pull/{x['pr']}) {x['title']}" for x in lv["today"]] + [""] if lv.get("today") else []))
 else:
     L[L.index("## Your next move"):L.index("## Your next move")] = ["## Live now", "", "Could not read main this run. Do not trust this section.", ""]
 

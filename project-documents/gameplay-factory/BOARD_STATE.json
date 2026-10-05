@@ -280,7 +280,34 @@
    "revision": "1.9.1-r56",
    "when": "2026-10-05T08:47:17-04:00",
    "subject": "Version 2.0 polish from Nik's live review (r56) (#370)",
-   "fixes": []
+   "fixes": [],
+   "today": [
+    {
+     "pr": 369,
+     "title": "Live 2.0 screen fixes: Trophy Room clipping, Start Showdown art, Continue Career 17 player",
+     "merged": "2026-10-05T12:47:19Z"
+    },
+    {
+     "pr": 370,
+     "title": "Version 2.0 polish from Nik's live review (r56)",
+     "merged": "2026-10-05T12:47:17Z"
+    },
+    {
+     "pr": 368,
+     "title": "Keep keyboard focus when the Settings look loads",
+     "merged": "2026-10-05T11:55:57Z"
+    },
+    {
+     "pr": 367,
+     "title": "Publish Team V files on the live site",
+     "merged": "2026-10-05T11:03:50Z"
+    },
+    {
+     "pr": 366,
+     "title": "Release Version 2.0: Team V screens, fewer taps and game fixes (runtime 1.9.1-r54)",
+     "merged": "2026-10-05T05:00:58Z"
+    }
+   ]
   },
   "v_headline": "Board 1 (visual package): 238 of 238 jobs done and checked",
   "v_jobs": [],

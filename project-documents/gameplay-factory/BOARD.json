@@ -672,10 +672,17 @@
      "waits_on": ""
     },
     {
-     "id": "G-F2",
-     "title": "Live 2.0 fixes from Nik's review (r55, r56 shipped; next in review)",
+     "id": "G-F10",
+     "title": "Club Assignment: wire Team V's approved design (hands, seams, new layout) into the live screen",
      "lane": "opus",
-     "state": "in progress",
+     "state": "next",
+     "waits_on": "the lead's plan"
+    },
+    {
+     "id": "G-F2",
+     "title": "Live 2.0 fixes from Nik's review: r55 and r56 shipped today (list in Live now)",
+     "lane": "opus",
+     "state": "done for r56",
      "waits_on": ""
     },
     {

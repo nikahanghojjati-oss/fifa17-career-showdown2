@@ -14,6 +14,14 @@
 
 No live fix waiting to merge.
 
+**Shipped to the live game today (5):**
+
+- ✅ 8:47 AM · [PR #369](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/369) Live 2.0 screen fixes: Trophy Room clipping, Start Showdown art, Continue Career 17 player
+- ✅ 8:47 AM · [PR #370](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/370) Version 2.0 polish from Nik's live review (r56)
+- ✅ 7:55 AM · [PR #368](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/368) Keep keyboard focus when the Settings look loads
+- ✅ 7:03 AM · [PR #367](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/367) Publish Team V files on the live site
+- ✅ 1:00 AM · [PR #366](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/366) Release Version 2.0: Team V screens, fewer taps and game fixes (runtime 1.9.1-r54)
+
 ## Your next move
 
 1. **Play version 2.0 with Daniel on your phones** (G-F1). Tell the coordinator in the project chat about anything odd: gameplay bugs and visual bugs go to G Factory, real design changes become a hand-off to V Factory.
@@ -53,7 +61,7 @@ _Gameplay, online sync, every merge and every release (senior director)._
 | # | Future work | Worker | State | Waits on |
 | --- | --- | --- | --- | --- |
 | G-F1 | Nik and Daniel play 2.0 on their phones | 👤 Nik and Daniel | waiting on Nik | - |
-| G-F2 | Live 2.0 fixes from Nik's review (r55, r56 shipped; next in review) | 🟧 Opus | in progress | - |
+| G-F10 | Club Assignment: wire Team V's approved design (hands, seams, new layout) into the live screen | 🟧 Opus | next | the lead's plan |
 | G-F3 | Bug-hunting factory: one report thread, Sonnet hunts, Opus fixes, small batch releases | 🟪 Sonnet | queued | G-F1 and Nik's OK |
 | G-F4 | GPT Q&A team: scripted paths and code-vs-rulebook reads | 🟦 Sol chat | queued | G-F1 |
 | G-F5 | QA packet adoptions: truth line, wrong-target guard on main PRs, PR title rule | 🟪 Sonnet | ready | - |

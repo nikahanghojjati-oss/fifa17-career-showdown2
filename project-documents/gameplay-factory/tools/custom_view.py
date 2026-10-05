@@ -46,15 +46,15 @@ now = datetime.datetime.now(BOS)
 rj0 = running_jobs()
 
 H = ["<style>"
-     ".cv{font:14px/1.45 'Segoe UI',system-ui,sans-serif;max-width:720px;color:#fbfcfc;background:#20272d;border-radius:14px;padding:0 0 14px;overflow:hidden}"
+     ".cv{--h:'Arial Narrow',Impact,sans-serif;font:14px/1.45 'Segoe UI',system-ui,sans-serif;max-width:720px;color:#fbfcfc;background:#20272d;border-radius:14px;padding:0 0 14px;overflow:hidden}"
      ".cv .ban{background:#2c7399;background:repeating-linear-gradient(90deg,#2a6e93 0 48px,#2c7399 48px 96px);border-bottom:4px solid #f0d900;padding:8px 14px 6px}"
-     ".cv .ban b{display:block;font:italic 800 19px/1.1 'Arial Narrow','Oswald',Impact,sans-serif;letter-spacing:.04em;text-transform:uppercase}"
+     ".cv .ban b{display:block;font:italic 800 19px/1.1 var(--h);letter-spacing:.04em;text-transform:uppercase}"
      ".cv .ban span{font-size:12px;color:#dce5e8}.cv .ban a{color:#f0d900}"
      ".cv .tiles{display:flex;gap:6px;padding:8px 10px 0}.cv .tile{flex:1;background:#2c353c;border:1px solid #43515b;border-top:3px solid #f0d900;border-radius:8px;padding:3px 4px;text-align:center}"
-     ".cv .tile b{display:block;font:italic 800 22px/1.1 'Arial Narrow',Impact,sans-serif;color:#f0d900}.cv .tile span{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#8ea2ac}"
-     ".cv h2{font:italic 800 15px/1 'Arial Narrow',Impact,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#42b9da;margin:12px 12px 4px;padding-left:8px;border-left:4px solid #f0d900}"
+     ".cv .tile b{display:block;font:italic 800 22px/1.1 var(--h);color:#f0d900}.cv .tile span{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#8ea2ac}"
+     ".cv h2{font:italic 800 15px/1 var(--h);letter-spacing:.08em;text-transform:uppercase;color:#42b9da;margin:12px 12px 4px;padding-left:8px;border-left:4px solid #f0d900}"
      ".cv .card{background:#2c353c;border:1px solid #43515b;border-radius:10px;padding:8px 10px;margin:6px 10px}.cv .move{background:#3a3a1c;border-color:#f0d900}"
-     ".cv .m{color:#8ea2ac;font-size:12px}.cv .pc{font:italic 800 20px 'Arial Narrow',Impact,sans-serif;color:#f0d900;margin-left:8px}"
+     ".cv .m{color:#8ea2ac;font-size:12px}.cv .pc{font:italic 800 20px var(--h);color:#f0d900;margin-left:8px}"
      ".cv table{border-collapse:collapse;width:calc(100% - 24px);margin:0 12px}.cv td,.cv th{color:#fbfcfc;border-bottom:1px solid #43515b;padding:5px 6px;text-align:left;font-size:13px}.cv th{color:#8ea2ac !important;font-size:11px;text-transform:uppercase;letter-spacing:.08em}"
      ".cv a{color:#fbfcfc;text-decoration:underline}.cv code{background:#20272d;padding:0 4px;border-radius:3px}.cv .foot{margin:10px 14px 0}</style>",
      '<div class="cv">',
@@ -65,7 +65,7 @@ H = ["<style>"
      "<h2>Running now</h2>"]
 rj = sorted(running_jobs())
 if not rj:
-    H.append('<div class="card m">No job is reporting progress right now.</div>')
+    H[-1] = '<h2>Running now</h2><div class="card m">No job is reporting progress right now.</div>' 
 COMPACT = "--compact" in sys.argv  # only if the page would pass 7 KB: show the next three steps instead of all
 for n, r, k, t in rj:
     sq, who = lane_of(r)
@@ -101,8 +101,9 @@ TWO = st.get("two") or {}
 LV = TWO.get("live")
 H.append("<h2>Live now</h2>")
 if LV:
-    H.append(f'<div class="card">🌐 <b>main <code>{e(LV["sha"])}</code> · {e(LV["revision"])}</b> <span class="m">{e(TF.bos(LV["when"]))}</span><br>{e(LV["subject"][:110])}' +
-             "".join(f'<br>🔧 <a href="{PR}{x["pr"]}">PR #{x["pr"]}</a> {e(x["title"][:80])}' for x in LV["fixes"]) + "</div>")
+    H.append(f'<div class="card">🌐 <b>main <code>{e(LV["sha"])}</code> · {e(LV["revision"])}</b> <span class="m">{e(TF.bos(LV["when"]))}</span><br>{e(LV["subject"][:80])}' +
+             "".join(f'<br>🔧 <a href="{PR}{x["pr"]}">PR #{x["pr"]}</a> {e(x["title"][:80])}' for x in LV["fixes"]) +
+             (f'<br><b>Shipped today:</b>' + "".join(f'<br>✅ <span class="m">{e(TF.bos(x["merged"], "%-I:%M %p"))}</span> <a href="{PR}{x["pr"]}">#{x["pr"]}</a> {e(x["title"][:48])}' for x in LV.get("today", [])[:4]) if LV.get("today") else "") + "</div>")
 else:
     H.append('<div class="card m">Could not read main this run.</div>')
 FAC = json.load(open(os.path.join(F, "BOARD.json"))).get("factories", {})
@@ -113,13 +114,13 @@ for key, colour in (("G", "#22c55e"), ("V", "#42b9da")):
     if not f:
         continue
     fut = [x for x in f["future"] if not str(x["state"]).lower().startswith("done")]
-    rows = "".join(f'<br>{sq(x["lane"])} <b>{e(x["id"])}</b> {e(x["title"][:70])} <span class="m">{e(x["state"])}</span>' for x in fut[:4])
+    rows = "".join(f'<br>{sq(x["lane"])} <b>{e(x["id"])}</b> {e(x["title"][:56])} <span class="m">{e(x["state"])}</span>' for x in fut[:3])
     extra = ""
     if key == "V":
         vj = TWO.get("v_jobs") or []
         extra = "".join(f'<br>{sq("opus")} <b>{e(j["job"])}</b> {e(j["title"][:60])} <span class="pc" style="font-size:15px">{100 * j["done"] / max(j["total"], 1):.2f} %</span>' for j in vj) or '<br><span class="m">No V- job PR open right now.</span>'
     H.append(f'<h2 style="border-left-color:{colour}">{e(f["name"])}</h2><div class="card"><span class="m">' + " ".join(sq(w["lane"]) for w in f["workers"]) + f' {len(f["workers"])} workers</span>{extra}{rows}' +
-             (f'<br><span class="m">and {len(fut) - 4} more on the board</span>' if len(fut) > 4 else "") + "</div>")
+             (f'<br><span class="m">and {len(fut) - 3} more on the board</span>' if len(fut) > 3 else "") + "</div>")
 H.append("<h2>Relay</h2>")
 TK = TWO.get("tickets") or []
 rel = st.get("relay") or {}
@@ -131,8 +132,8 @@ for t in TK[::-1][:4]:
     k = STEP.index(t["stage"]) if t["stage"] in STEP else 0
     dots = "".join("🟢" if i <= k else "⚪" for i in range(5))
     H.append(f'<br>{dots} <b>{e(t["id"])}</b> {e(t.get("from") or "?")}→{e(t.get("to") or "?")} {e(t["title"][:50])} <span class="m">{e(TF.STAGE_WORD.get(t["stage"], t["stage"]))}' + (f' {t["pct"]:.0f} %' if t["stage"] == "WORKING" else "") + "</span>")
-for m in (rel.get("rows") or [])[-3:][::-1]:
-    H.append(f'<br><span class="m">{e(m["id"])} · {e(m["boston"])} · {e(m["subject"][:70])}</span>')
+for m in (rel.get("rows") or [])[-1:]:
+    H.append(f'<br><span class="m">{e(m["id"])} · {e(m["subject"][:60])}</span>')
 H.append(f'<br><a href="{BLOB}RELAY.md">Every message in full</a></div>')
 if REL.get("jobs") and not REL.get("done"):
     rn = len(REL["jobs"])
@@ -171,10 +172,10 @@ if landed and False:  # "Live now" carries what is on main; recovery merges are 
     H.append("</table>")
 if open_bugs:
     H.append("<h2>Open bugs</h2><table>")
-    for b in open_bugs:
-        H.append(f'<tr><td>{e(b["id"])}</td><td>{e(b["title"])}</td><td>{e(b["status"].title())}</td></tr>')
+    for b in open_bugs[:3]:
+        H.append(f'<tr><td>{e(b["id"])}</td><td>{e(b["title"][:50])}</td><td>{e(b["status"].title())}</td></tr>')
     H.append("</table>")
-H.append('<div class="m foot">Bars are the share done, weighted by how long each kind of step usually takes (ETA_STUDY.md). Lanes: ' +
+H.append('<div class="m foot">Lanes: ' +
          " · ".join(f'<span style="color:{c}">■</span> {l}' for l, c in HEX.items()) + "</div></div>")
 out = "\n".join(H) + "\n"
 open(os.path.join(F, "CUSTOM_VIEW.html"), "w").write(out)

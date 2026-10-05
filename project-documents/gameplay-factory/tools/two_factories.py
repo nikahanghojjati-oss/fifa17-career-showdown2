@@ -77,7 +77,12 @@ def live():
     prs = api("pulls?state=open&base=main&per_page=50") or []
     fixes = [dict(pr=p["number"], title=p["title"], draft=p.get("draft"), branch=p["head"]["ref"], updated=p["updated_at"])
              for p in prs if hours_since(p["updated_at"]) < 72 and not p["title"].upper().startswith("DO NOT MERGE")]
-    return {"sha": (sha or "?").strip(), "revision": m.group(1) if m else "?", "when": when, "subject": subj, "fixes": fixes} if sha else None
+    # Today's fixes: PRs merged into main since midnight Boston time, newest first (straight from GitHub, nothing hand-written).
+    midnight = datetime.datetime.now(BOS).replace(hour=0, minute=0, second=0, microsecond=0)
+    closed = api("pulls?state=closed&base=main&per_page=30&sort=updated&direction=desc") or []
+    today = sorted([dict(pr=p["number"], title=p["title"], merged=p["merged_at"]) for p in closed if p.get("merged_at")
+                    and datetime.datetime.fromisoformat(p["merged_at"].replace("Z", "+00:00")) >= midnight], key=lambda x: x["merged"], reverse=True)
+    return {"sha": (sha or "?").strip(), "revision": m.group(1) if m else "?", "when": when, "subject": subj, "fixes": fixes, "today": today} if sha else None
 
 
 def v_progress():
