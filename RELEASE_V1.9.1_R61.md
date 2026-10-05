@@ -12,6 +12,7 @@ No gameplay, scoring or Firestore Rules change.
   - The sheet's height is now the smaller of two values: its natural height, and the space between the hero and the bottom bar (`100dvh - --phone-hero - --phone-nav - 20px`).
   - When the list is longer than that, the sheet scrolls, with `overscroll-behavior: contain`. CLOSE is placed from the same capped height, so it stays in the sheet's top corner.
   - Only the phone portrait query in `css/homeV10.css` changes.
+- **Next To You (RAC ft. Emerson Leif) is now the first song and the default track (Nik, 2026-10-05).** Nasty moves to second, and the other nine keep their order (`MEDIA.tracks` in `js/homeScreensV10.js`).
 - The runtime revision moves to r61, so browsers on r60 receive the changed shell-cached stylesheet.
 
 ## What did not change
