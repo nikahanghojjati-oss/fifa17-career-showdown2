@@ -63,7 +63,7 @@
     return Object.freeze(resolved);
   }
   function setState(next){
-    state=freeze({...state,...next});for(const listener of listeners){try{listener(state);}catch(_error){}}render();return state;
+    state=freeze({...state,errorCode:"",...next});for(const listener of listeners){try{listener(state);}catch(_error){}}render();return state;
   }
   function storageSnapshot(){
     if(typeof root.captureCareerModeRawBackupInputs!=="function")return null;
@@ -87,6 +87,26 @@
     return `setup_op_${Array.from(bytes,value=>value.toString(16).padStart(2,"0")).join("")}`;
   }
   function safeError(error,fallback){return error&&typeof error.code==="string"?error.code:fallback;}
+  // BUG-1: players never see a raw error code. A real human message wins; otherwise known code families map to short plain text.
+  // The code stays available as state.errorCode / data-error-code for diagnostics only.
+  const PLAIN_STALE="Your partner just changed this. It's been refreshed, tap again.";
+  const PLAIN_CONNECTION="That didn't go through. Check your connection and tap again.";
+  const PLAIN_GENERIC="That didn't go through. Tap again.";
+  function humanMessage(message,code){
+    const text=String(message||"").trim();
+    if(!text||text===code||!/\s/.test(text))return "";
+    if(/^[A-Z0-9_\-\/ ]+$/.test(text)||/\b[A-Z][A-Z0-9]*(?:_[A-Z0-9]+)+\b/.test(text)||/\(\w+\/[\w-]+\)|^firebase\b/i.test(text))return "";
+    return text;
+  }
+  function describeFailure(source,fallbackCode){
+    const input=typeof source==="string"?{code:source}:(source||{});
+    const code=String(input.code||fallbackCode||"SHARED_SETUP_MUTATION_FAILED"),message=humanMessage(input.message,code);
+    if(message)return Object.freeze({code,kind:"message",text:message,tapDetail:message});
+    if(/STALE|REVISION|ALREADY|TRANSITION_INVALID|NOT_OPEN|_BUSY$/i.test(code))return Object.freeze({code,kind:"stale",text:PLAIN_STALE,tapDetail:PLAIN_STALE});
+    if(/PERMISSION|DENIED|NETWORK|OFFLINE|TIMEOUT|DEADLINE|UNAVAILABLE|UNAUTH/i.test(code))return Object.freeze({code,kind:"connection",text:PLAIN_CONNECTION,tapDetail:"Check your connection and tap again."});
+    return Object.freeze({code,kind:"generic",text:PLAIN_GENERIC,tapDetail:"Tap again."});
+  }
+  function failureState(source,fallbackCode){const failure=describeFailure(source,fallbackCode);return {errorCode:failure.code,message:failure.text};}
   function title(value){return String(value||"").replace(/_/g," ").replace(/\b\w/g,char=>char.toUpperCase());}
 
   async function resolveContext(){
@@ -160,7 +180,7 @@
       // Context failures (logout, detached pairing, expired session, account/device mismatch) and storage changes never hold: the exact ACTIVE prerequisite is gone.
       if(readReached&&!/^SHARED_SETUP_(LOCAL_SAVE_MUTATION|STORAGE_AUTHORITY_UNAVAILABLE)$/.test(String(error&&error.code||""))&&!heldReadFailure&&state.ready===true&&state.setup&&state.setup.phase==="SHOWDOWN_CONFIRMED"){heldReadFailure=true;return setState({status:"ready",busy:false});}
       heldReadFailure=false;
-      return setState({status:"locked",busy:false,ready:false,message:error&&error.message&&error.message!==error.code?error.message:String(safeError(error,"SHARED_SETUP_UNAVAILABLE")).replace(/_/g," ")});
+      return setState({status:"locked",busy:false,ready:false,...failureState(error,"SHARED_SETUP_UNAVAILABLE")});
     }
   }
   function mutate(type,extra={}){
@@ -204,8 +224,9 @@
       }
     }catch(error){
       try{assertStorageUnchanged(before);}catch(storageError){error=storageError;}
-      setState({status:"error",busy:false,message:String(safeError(error,"SHARED_SETUP_MUTATION_FAILED")).replace(/_/g," ")});
-      return Object.freeze({ok:false,code:safeError(error,"SHARED_SETUP_MUTATION_FAILED")});
+      const failure=describeFailure(error,"SHARED_SETUP_MUTATION_FAILED");
+      setState({status:"error",busy:false,errorCode:failure.code,message:failure.text});
+      return Object.freeze({ok:false,code:failure.code,message:failure.kind==="message"?failure.text:""});
     }
   }
   function create(tag,className,text){const element=root.document.createElement(tag);if(className)element.className=className;if(text!==undefined)element.textContent=String(text);return element;}
@@ -248,7 +269,7 @@
     if(state.ready)renderSetup(body);else{
       const locked=create("section","remoteJoiningCurrent");locked.append(create("strong","remoteJoiningState","LOCKED"),create("p","remoteJoiningMeta",state.message));locked.append(action("CHECK ACTIVE SESSION",()=>void refresh(),state.busy));body.append(locked);
     }
-    const note=create("p","remoteJoiningStatus",state.message);note.setAttribute("role","status");note.setAttribute("aria-live","polite");body.append(note);return overlay;
+    const note=create("p","remoteJoiningStatus",state.message);if(state.errorCode&&(state.status==="error"||state.status==="locked"))note.setAttribute("data-error-code",state.errorCode);note.setAttribute("role","status");note.setAttribute("aria-live","polite");body.append(note);return overlay;
   }
   async function openPanel(){
     if(!root.document)return false;let overlay=root.document.getElementById(PANEL_ID);
@@ -272,6 +293,6 @@
     canonicalStorageMutation:false,
     canonicalStorageKeys:CANONICAL_KEYS,
     billingRequired:false,blazeRequired:false,cloudRunRequired:false,cloudFunctionsRequired:false,appCheckEnforcementRequired:false,persistentFirestoreCache:false,
-    refresh,mutate,openPanel,closePanel,subscribe,getState:()=>state
+    refresh,mutate,openPanel,closePanel,subscribe,describeFailure,getState:()=>state
   });
 });

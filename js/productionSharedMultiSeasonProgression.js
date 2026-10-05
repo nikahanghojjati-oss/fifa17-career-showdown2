@@ -63,7 +63,7 @@
     return Object.freeze({user:services.auth.currentUser,firestore:services.firestore,firebaseSdk:services.firestoreSdk,rivalryId:setup.rivalryId,sessionId:setup.sessionId,deviceId:setup.deviceId,nowEpochMs:Date.now()});
   }
   function pmspResult(result){if(result&&result.ok===true&&result.authoritative===true&&result.state)return result;const error=new Error("Shared Multi Season progression could not be verified.");error.code=result?.code||"MULTI_SEASON_PROVIDER_FAILED";throw error;}
-  function pmspManagerName(role){const value=pmspShowdown()?.managers?.[role];return String(value||(role==="playerOne"?"Daniel":"Nik"));}
+  function pmspManagerName(role){const value=pmspShowdown()?.managers?.[role];return String(value||(role==="playerOne"?"Manager 1":"Manager 2"));}
   function pmspLeagueName(id){try{const league=typeof root.getLeagueById==="function"?root.getLeagueById(id):null;if(league?.name)return league.name;}catch(_error){}return String(id||"League").replaceAll("_"," ").replaceAll("-"," ").replace(/\b\w/g,char=>char.toUpperCase());}
   function pmspDashboardProjection(){
     const state=view?.state,dashboard=view?.dashboard;if(!state||!dashboard||!Number.isInteger(dashboard.acceptedSeasons)||dashboard.acceptedSeasons!==state.acceptedSeasons||!dashboard.managerTotals)return null;
@@ -77,7 +77,7 @@
     const setup=pmspSetupState()?.setup,dashboard=pmspDashboardProjection(),state=view.state,screen=pmspField("dashboard");if(!setup||setup.phase!=="SHOWDOWN_CONFIRMED"||!dashboard||!screen)return false;
     const total=Number(state.totalSeasons),accepted=Number(state.acceptedSeasons),cursor=pmspEnsureCursor(),n1=pmspManagerName("playerOne"),n2=pmspManagerName("playerTwo"),p1=dashboard.managerTotals.playerOne,p2=dashboard.managerTotals.playerTwo;
     screen.dataset.sharedDashboardAuthority="true";
-    pmspText(pmspField("dashboardShowdownName"),pmspShowdown()?.name||"Daniel vs Nik");
+    pmspText(pmspField("dashboardShowdownName"),pmspShowdown()?.name||"Showdown");
     pmspText(pmspField("dashboardLeague"),pmspLeagueName(setup.leagueId));
     pmspText(pmspField("dashboardRound"),state.terminal?`All ${total} seasons complete`:`Season ${cursor} of ${total}`);
     pmspText(pmspField("seasonIndicator"),state.terminal?"Showdown Complete":`Season ${cursor} / ${total}`);
