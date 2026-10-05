@@ -393,8 +393,8 @@ check("F8 the bar is hidden on Loading and appears only after start-up",async()=
 check("F9 images use a runtime cache keyed by RUNTIME_REVISION; the precache keeps only kit, fonts, CSS and JS",()=>{
   const sw=read("service-worker.js"),html=read("index.html");
   const revision=/const RUNTIME_REVISION = "([^"]+)";/.exec(sw)[1];
-  assert.equal(revision,"1.9.1-r60","RUNTIME_REVISION is the photo cards and seven Home tiles release (1.9.1-r60)");
-  assert.equal(/const PREVIOUS_RUNTIME_REVISION = "([^"]+)";/.exec(sw)[1],"1.9.1-r59");
+  assert.equal(revision,"1.9.1-r61","RUNTIME_REVISION is the phone full track list release (1.9.1-r61)");
+  assert.equal(/const PREVIOUS_RUNTIME_REVISION = "([^"]+)";/.exec(sw)[1],"1.9.1-r60");
   assert.equal(/app-asset-revision"\s+content="([^"]+)/.exec(html)[1],revision);
   const shell=JSON.parse(/const SHELL_PATHS\s*=\s*Object\.freeze\((\[[\s\S]*?\])\);/.exec(sw)[1]);
   const v10=shell.filter(p=>p.startsWith("visual-assets/v10_1/"));
@@ -443,24 +443,24 @@ function swWorld(){
 
 check("F9b a rollback keeps its own Team V images (offline too); other old image caches are cleared",async()=>{
   const w=swWorld(),cur=w.diag.revision,prev=w.diag.previousRevision,IMG="career-mode-showdown-v10-images-";
-  assert.equal(cur,"1.9.1-r60");assert.equal(prev,"1.9.1-r59");
+  assert.equal(cur,"1.9.1-r61");assert.equal(prev,"1.9.1-r60");
   w.fill(cur);const prevShell=w.fill(prev);
   const art="visual-assets/v10_1/trophy-room/assets/ENV_TR_PHONE_V1.webp",only="visual-assets/v10_1/career-statistics/assets/ENV_CS_PLATE_V1_1X.webp";
   // An older revision precached the art in its shell; the retained shell still has it.
   const legacyKey=new URL(only,w.SCOPE);legacyKey.searchParams.set("v",prev);prevShell.set(legacyKey.href,new Response("prev-shell-art",{status:200}));
   const put=(revision,p,body)=>{if(!w.store.has(IMG+revision))w.store.set(IMG+revision,new Map());w.store.get(IMG+revision).set(w.SCOPE+p,new Response(body,{status:200}));};
-  put(cur,art,"r60-art");put(prev,art,"r59-art");put("1.9.1-r50",art,"r50-art");
+  put(cur,art,"r61-art");put(prev,art,"r60-art");put("1.9.1-r50",art,"r50-art");
   await w.dispatch("activate",{});
   const names=[...w.store.keys()];
   assert.ok(names.includes(IMG+cur),"current image cache kept");
   assert.ok(names.includes(IMG+prev),"recovery image cache kept with its retained shell");
   assert.ok(!names.includes(IMG+"1.9.1-r50"),"other old image caches cleared");
   w.net.set("/app/"+art,"network-art");w.net.set("/app/"+only,"network-art");
-  assert.deepEqual(await w.image(art),{status:200,body:"r60-art"},"current revision: its own image cache first");
+  assert.deepEqual(await w.image(art),{status:200,body:"r61-art"},"current revision: its own image cache first");
   let reply;await w.dispatch("message",{data:{type:"CMS_ROLLBACK_TO_PREVIOUS"},ports:[{postMessage:m=>{reply=m;}}]});
   assert.equal(reply&&reply.ok,true,"rollback accepted");assert.equal(reply.revision,prev);
   w.setOnline(false);
-  assert.deepEqual(await w.image(art),{status:200,body:"r59-art"},"offline rollback: the retained revision's art, not the newer one");
+  assert.deepEqual(await w.image(art),{status:200,body:"r60-art"},"offline rollback: the retained revision's art, not the newer one");
   assert.deepEqual(await w.image(only),{status:200,body:"prev-shell-art"},"offline rollback: art the retained shell precached");
   w.setOnline(true);
   const fresh="visual-assets/v10_1/trophy-room/assets/NEW_ONLY.webp";w.net.set("/app/"+fresh,"net-fresh");
@@ -625,7 +625,7 @@ check("F9c every shipped Team V image path names one generation (versioned name,
 });
 
 check("F10 index.html is unchanged and the startup line is not higher",()=>{
-  assert.equal(sha256("index.html"),"d6cf3fc258939f312988697f151d9b08e381237122fff2f87da8bc6582709be1","index.html byte-identical to the photo cards and seven Home tiles release (r60)");
+  assert.equal(sha256("index.html"),"a8b22b3096d3c04c4a1c37349561ee9d3e958f83b38bc4613e66fbf4cd33859d","index.html byte-identical to the phone full track list release (r61)");
   const html=read("index.html");
   for(const banned of ["v10Screens","navbar","visual-assets/v10_1","startJoinViewModel"])assert.ok(!html.includes(banned),banned);
   const refs=[...html.matchAll(/(?:src|href)="((?:js|css|data)\/[^"?#]+)(?:\?v=([^"#]+))?/g)].map(m=>m[1]);
