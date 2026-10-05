@@ -1,6 +1,6 @@
 # Showdown board: G Factory and V Factory
 
-33 of 33 jobs done (100 %) ██████████ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-05 12:19 PM Boston time (EDT)
+33 of 33 jobs done (100 %) ██████████ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-05 12:20 PM Boston time (EDT)
 
 ## Scoreboard
 
@@ -80,20 +80,18 @@ No Team V job is reporting yet (Team V jobs show here once a PR titled `V-…` c
 
 | # | Future work | Worker | State | Waits on |
 | --- | --- | --- | --- | --- |
-| HO-003 | Header chips and footer design on Team V screens (hand-off) | 🟧 Opus | Received | - |
-| HO-004 | Visual QA: live 2.0 screens vs approved frames (hand-off) | 🟪 Sonnet | Received | - |
 | V-F2 | Design changes from Nik and Daniel's 2.0 play-through (only real design changes; bugs stay with G) | 🟧 Opus | queued | G-F1 |
 
 ## 📡 Relay and hand-offs
 
-**Relay health:** ✅ working · direct wake: Team G ✅, Team V ⚠ not registered · 29 messages, 5 hand-offs · branch head `c3ecd06` (Mon 5 Oct 12:13 PM Boston time) · **[Read every message in full: RELAY.md](RELAY.md)**
+**Relay health:** ✅ working · direct wake: Team G ✅, Team V ⚠ not registered · 29 messages, 5 hand-offs · branch head `bb9a562` (Mon 5 Oct 12:19 PM Boston time) · **[Read every message in full: RELAY.md](RELAY.md)**
 
 | Hand-off | From → To | What | Progress | Picked up in |
 | --- | --- | --- | --- | --- |
 | [HO-001](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/handoffs/HO-001_use-hand-off-tickets-for-passing-work-re.md) | G → V | Use hand-off tickets for passing work (relay v1.1) | ✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done** | 2 h 53 min |
 | [HO-002](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/handoffs/HO-002_smooth-stage-atmosphere-on-idle-screens-.md) | G → V | Smooth stage atmosphere on idle screens (pointer stutter root cause) | ✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done** | 2 h 51 min |
-| [HO-003](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/handoffs/HO-003_header-chips-and-footer-design-on-team-v.md) | G → V | Header chips and footer design on Team V screens | ✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done | 2 h 51 min |
-| [HO-004](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/handoffs/HO-004_visual-qa-live-2-0-screens-vs-approved-f.md) | G → V | Visual QA: live 2.0 screens vs approved frames | ✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done | 2 h 51 min |
+| [HO-003](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/handoffs/HO-003_header-chips-and-footer-design-on-team-v.md) | G → V | Header chips and footer design on Team V screens | ✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done** | 2 h 51 min |
+| [HO-004](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/handoffs/HO-004_visual-qa-live-2-0-screens-vs-approved-f.md) | G → V | Visual QA: live 2.0 screens vs approved frames | ✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done** | 2 h 51 min |
 | [HO-005](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/handoffs/HO-005_mobile-home-hero-ghost-coat-between-dani.md) | G → V | Mobile Home hero: ghost coat between Daniel and Nik | ✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done** | 2 h 43 min |
 
 Latest messages:

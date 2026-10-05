@@ -1,8 +1,8 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-10-05 12:19 PM Boston time (EDT)
+[Back to the board](BOARD.md) · generated 2026-10-05 12:21 PM Boston time (EDT)
 
-Relay branch `leads/relay` head `c3ecd06` (Mon 5 Oct 12:13 PM Boston time) · 29 messages · 5 hand-offs · 32 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `bb9a562` (Mon 5 Oct 12:19 PM Boston time) · 29 messages · 5 hand-offs · 34 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
@@ -45,8 +45,10 @@ Fix the mobile Home hero so the area between Daniel's and Nik's coats has no blu
 
 ### HO-004 · G → V · Visual QA: live 2.0 screens vs approved frames
 
-✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 2 h 51 min after delivery
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done** · picked up 2 h 51 min after delivery
 
+- Mon 5 Oct 12:19 PM · Team V · Done
+- Mon 5 Oct 12:19 PM · Team V · In progress
 - Mon 5 Oct 11:46 AM · Team V · Received · Sonnet QA pass
 - Mon 5 Oct 8:54 AM · Team G · Sent
 - Mon 5 Oct 8:54 AM · relay Action · Delivered in full as a wake comment on PR #312
@@ -78,8 +80,10 @@ Nik (2026-10-05) sees "many elements from the old design colliding with the new 
 
 ### HO-003 · G → V · Header chips and footer design on Team V screens
 
-✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 2 h 51 min after delivery
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done** · picked up 2 h 51 min after delivery
 
+- Mon 5 Oct 12:19 PM · Team V · Done
+- Mon 5 Oct 12:19 PM · Team V · In progress
 - Mon 5 Oct 11:46 AM · Team V · Received · spec after HO-002 and HO-005
 - Mon 5 Oct 8:54 AM · Team G · Sent
 - Mon 5 Oct 8:54 AM · relay Action · Delivered in full as a wake comment on PR #312
