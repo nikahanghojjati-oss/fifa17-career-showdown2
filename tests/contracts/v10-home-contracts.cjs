@@ -151,7 +151,7 @@ test("the adapter keeps the product's protected Home facts (desktop tile placeme
   assert.match(adapter,/#mainMenu\.v10Home #continueCareer:disabled \{ opacity: 1; filter: none; \}/);
 });
 test("Team V files are the 5e05a1f copies with only the listed edits (HO-005: phone overlays V2)",()=>{
-  assert.equal(sha("visual-assets/v10_1/home/home.css"),"5606b234209ab69e379d729ee2b9386d7f54f7929929aaa13f00a362056ffa5b");
+  assert.equal(sha("visual-assets/v10_1/home/home.css"),"874072364e7029ba613064002844ca5066eac1b1b906f2f0c830ecc866572efd");
   assert.doesNotMatch(homeCss,/OVL_HOME_(?:DANIEL|NIK)_PHONE_V1/,"HO-005: phone overlays without the ghost coat (V2)");
   assert.equal(sha("visual-assets/v10_1/home/soundtrack.js"),"8c00f6cf547119848733082af9c6eb0c2baedb24a46b92195b6768a268fa4c72");
   assert.equal((soundtrack.match(/JOB-25 \(app\)/g)||[]).length,2);

@@ -142,6 +142,13 @@
   #mainMenu.v10Home #ruleBookButton { grid-column: 2; grid-row: 3; }
   #mainMenu.v10Home #settingsButton { grid-column: 3; grid-row: 3; }
   #mainMenu.v10Home .menuMusicTile { grid-column: 1 / -1; grid-row: 4; }
+  /* V-247 (HO-006) on the seven-tile phone grid: Team V's icons are large and fully inside each tile. The tiles here are
+     three to a row, so the label keeps the top and the icon fills the space below it on the right, never clipped. */
+  #mainMenu.v10Home .fifaMenuGrid > .menuTile:not(#continueCareer) { justify-content: flex-start; padding: 8px 8px 8px 10px; }
+  #mainMenu.v10Home .fifaMenuGrid > .menuTile:not(#continueCareer) .menuTileLabel { position: relative; z-index: 2; font-size: 17px; line-height: 1.05; }
+  #mainMenu.v10Home .fifaMenuGrid > .menuTile:not(#continueCareer) .tileArt {
+    top: auto; bottom: 6px; right: 6px; width: auto; height: min(62%, 76px); aspect-ratio: 1 / 1; translate: none; opacity: 1; object-position: center;
+  }
   #mainMenu.v10Home .menuMusicTile { overflow: visible; }
   /* The phone track sheet grows with the track list (two per row), so CLOSE sits in its top padding for any row count. */
   #mainMenu.v10Home .phoneSheetToggle:checked ~ .menuMediaSelector { grid-auto-rows: 46px; }

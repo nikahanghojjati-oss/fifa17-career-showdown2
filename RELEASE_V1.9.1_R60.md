@@ -22,6 +22,7 @@ No gameplay, scoring or Firestore Rules change. Both changes are Nik's decisions
   - None of the six songs from the old FIFA 17 YouTube player is on Audius as an official upload. Instead there are six similar tracks, each checked by id as streamable, not deleted, not gated and not unlisted: Everything I Know (Speelburg), Tell Me What You Want (Weezer), Next To You (RAC ft. Emerson Leif), Hard Feelings (Miquela), silly boy (oshi) and Uproar (Mike Shinoda).
   - Two FIFA 17 songs come back in versions that are on Audius (Nik asked for them): Shelter (EFFUGIO remix, `DOpRe`) and a fan cover of High And Low (Aba, `W677j`). Both were checked by id as streamable.
   - The phone track sheet sizes its CLOSE button from the number of track rows. `js/homeScreensV10.js` sets `--track-rows` and `css/homeV10.css` uses it, so CLOSE stays in the sheet's top padding instead of covering a track. Track titles stay on one line.
+- **Phone Home tile icons are large and fully inside each tile (Team V V-247, hand-off HO-006, Nik's iPhone review).** Team V's V-247 block is appended to `visual-assets/v10_1/home/home.css`. Because the seven tiles sit three to a row, `css/homeV10.css` keeps each label at the top and puts the icon in the lower right, at up to 62% of the tile height and never clipped. Checked at 390x844, 393x660, 360x640 and 375x553 with no page scroll.
 - The runtime revision moves to r60 so browsers on r59 receive the changed shell-cached files.
 
 ## What did not change
