@@ -63,7 +63,7 @@ H = ["<style>"
      '<div class="cv">',
      f'<div class="ban"><b>Showdown · G Factory + V Factory</b><span>Updated {now:%a %-d %b, %-I:%M %p} Boston time · <a href="{BLOB}BOARD.md">Job board</a> · <a href="{BLOB}BUG_BOARD.md">Bug board</a> · <a href="{BLOB}RELAY.md">Relay</a></span></div>',
      f'<div class="tiles"><div class="tile"><b>{e(((st.get("two") or {}).get("live") or {}).get("revision", "?").split("-")[-1])}</b><span>Live</span></div><div class="tile"><b>{NOW.get("moving", 0)}</b><span>Moving</span></div><div class="tile"><b>{NOW.get("next", 0)}</b><span>Up next</span></div><div class="tile"><b>{NOW.get("nik", 0)}</b><span>Waits on Nik</span></div></div>',
-     (lambda p: f'<div class="card" style="margin-top:8px">{TF.PHYSIO_ICON.get(p.get("state"), "🩺")} <b>{e(p.get("line", "Physio: starting soon."))}</b></div>')((st.get("two") or {}).get("physio") or {}),
+     (lambda p: f'<div class="card" style="margin-top:8px">{TF.PHYSIO_ICON.get(p.get("state"), "🩺")} <b>{e(p.get("line", "Physio: starting soon."))}</b>' + (f'<br><span class="m">{e(p["gate"])}</span>' if p.get("gate") else "") + f'</div>')((st.get("two") or {}).get("physio") or {}),
      "<h2>Your next move</h2>", '<div class="card move">' + "<br>".join(md(m) for m in st.get("next_move") or ["Nothing for you to start right now."]) + "</div>",
      "<h2>Moving now</h2>"]
 rj = sorted(running_jobs())

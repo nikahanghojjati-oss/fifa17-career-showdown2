@@ -234,6 +234,22 @@ def physio_line(d):
     return "All clear: every check has a machine."
 
 
+LANE_MARK = {"pass": "✓", "fail": "✗", "running": "…", "queued": "·", "skipped": "–"}
+SEAL_WORD = {"PASS": "seal PASS", "FAIL_TEST": "seal FAIL (test)", "INFRA_RETRYING": "seal retrying (GitHub)", "INFRA_EXHAUSTED": "seal stuck (GitHub)",
+             "PENDING": "seal pending", "DRAFT": "seal draft", "SUPERSEDED": "seal superseded"}
+
+
+def gate_line(d):
+    """Showdown Gate lanes L1..L6, its seal, then POS20 passed/total (Nik, 2026-10-05 22:37 UTC). Empty when there is no gate run."""
+    g, p, out = d.get("gate"), d.get("pos20"), []
+    if g:
+        lanes = " ".join(f'{str(l.get("name", "?")).split()[0]}{LANE_MARK.get(l.get("state"), "?")}' for l in g.get("lanes") or [])
+        out.append(f'Gate #{g.get("pr", "?")}: {lanes} · {SEAL_WORD.get(g.get("seal"), str(g.get("seal", "")).lower())}')
+    if p and p.get("total"):
+        out.append(f'POS20 {p.get("passed", 0)}/{p["total"]}')
+    return " · ".join(out)
+
+
 def physio():
     """The Physio line on BOARD.md and the Custom view (Nik named the CI watchdog "the Physio", 2026-10-05).
 
@@ -244,7 +260,7 @@ def physio():
     try:
         d = json.load(open(p))
         if hours_since(d["at"]) * 60 <= 15 and d.get("state") in ("clear", "barking", "stuck"):
-            return {"state": d["state"], "line": physio_line(d), "source": "physio"}
+            return {"state": d["state"], "line": physio_line(d), "gate": gate_line(d), "source": "physio"}
     except Exception:
         pass
     runs = api("actions/runs?status=queued&per_page=100")
