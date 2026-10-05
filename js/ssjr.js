@@ -18,6 +18,9 @@
   // JOB-27: Team V's Transfer War skin for the shared Transfer Challenge (registers with the loader above).
   const v10Transfer=()=>load("v10-transfer","js/transferScreenV10.js",()=>root.CareerModeTransferScreenV10).then(()=>root.CareerModeTransferScreenV10.install()).catch(error=>root.console?.warn?.("[Career Mode Showdown] Transfer War visuals unavailable.",error));
   if(typeof root.requestIdleCallback==="function")root.requestIdleCallback(v10Transfer,{timeout:3000});else root.setTimeout?.(v10Transfer,700);
+  // JOB-34: Team V's Club Assignment for the club reveal (registers with the loader above; owns clubWheelScreen).
+  const v10Club=()=>load("v10-club","js/clubScreenV10.js",()=>root.CareerModeClubScreenV10).then(()=>root.CareerModeClubScreenV10.install()).catch(error=>root.console?.warn?.("[Career Mode Showdown] Club Assignment visuals unavailable.",error));
+  if(typeof root.requestIdleCallback==="function")root.requestIdleCallback(v10Club,{timeout:3000});else root.setTimeout?.(v10Club,700);
   (async()=>{
     const seasonResultsRoute=install("ssjr-production-season-results-route","js/productionSharedSeasonResultsRoute.js","CareerModeProductionSharedSeasonResultsRoute");
     const seasonCommit=install("ssjr-production-season-commit","js/productionSharedSeasonCommit.js","CareerModeProductionSharedSeasonCommit");
