@@ -165,6 +165,11 @@ check("5 lazy loading: index.html, the startup line and RUNTIME_REVISION unchang
   // Screen styles switch on only after mount, so the plate must re-frame when its stage resizes or the desktop START control lands off-screen.
   assert.ok(/new root\.ResizeObserver\(/.test(source)&&/stageSize\.observe\(stage\)/.test(source)&&/new root\.Event\("resize"\)/.test(source),"the stage re-frames the plate when it resizes");
   assert.ok(/stageSize\.disconnect\(\)/.test(source),"the stage observer disconnects on teardown");
+  // G-F6: the re-frame goes out on the next frame. Dispatching it inside the observer callback re-laid the still-unstyled
+  // stage during the same delivery; Chromium then fired "ResizeObserver loop completed with undelivered notifications",
+  // the app's error boundary showed it as a 10 s toast, and on a 390 px phone that toast covers the HUD's REFRESH.
+  assert.ok(/reframe=root\.requestAnimationFrame\(\(\)=>\{reframe=null;root\.dispatchEvent\(new root\.Event\("resize"\)\);\}\)/.test(source),"the stage re-frame is deferred to the next frame");
+  assert.ok(/root\.cancelAnimationFrame\(reframe\)/.test(source),"a pending re-frame is cancelled on teardown");
 });
 
 // ---- browser: the real app page in the pinned Chromium ----
@@ -217,6 +222,8 @@ async function browserChecks(){
     const context=await browser.newContext({viewport:{width:1440,height:900},serviceWorkers:"block"});
     const page=await context.newPage();
     const pageErrors=[];page.on("pageerror",error=>pageErrors.push(String(error&&error.message||error)));
+    // Chromium reports a ResizeObserver loop as a window error event (not a pageerror); the app would toast it.
+    await page.addInitScript(()=>{window.__tvLoopErrors=[];addEventListener("error",event=>{if(/ResizeObserver loop/.test(String(event&&event.message)))window.__tvLoopErrors.push(String(event.message));});});
     // Home's Team V stylesheet arrives after the loader's 4 s style timeout, as on a slow runner: it must still stay
     // off while Transfer War shows (its bare footer/button/.stage rules would otherwise hide Transfer War's HUD).
     let lateSheet=null;
@@ -244,6 +251,10 @@ async function browserChecks(){
           assert.equal(entry.count,1,`${phase}: ${entry.id} exists once`);assert.ok(entry.same,`${phase}: ${entry.id} is production's element`);
           assert.ok(entry.inHost,`${phase}: ${entry.id} is in Team V's layout`);
         }
+        // G-F6: right after mount on desktop the plate is framed to the styled stage, so the phase action is on screen
+        // without scrolling (no matter whether the styles applied before or after the stage observer's first report).
+        const offscreen=await page.evaluate(ids=>ids.filter(id=>{const n=document.getElementById(id);if(!n||n.classList.contains("hidden")||!n.getClientRects().length)return false;const r=n.getBoundingClientRect();return r.top<0||r.bottom>window.innerHeight||r.left<0||r.right>window.innerWidth;}).map(id=>`${id}@${Math.round(document.getElementById(id).getBoundingClientRect().top)}`),plan.ids.filter(id=>CONTROL_IDS.includes(id)));
+        assert.deepEqual(offscreen,[],`${phase} 1440: the phase action shows inside the viewport after mount`);
         const dupes=await page.evaluate(()=>{const seen=new Map();for(const node of document.querySelectorAll("[id]"))seen.set(node.id,(seen.get(node.id)||0)+1);return [...seen].filter(([,n])=>n>1).map(([id])=>id);});
         assert.deepEqual(dupes,[],`${phase}: no duplicate ids`);
         for(const size of [{width:390,height:844},{width:1440,height:900}]){
@@ -325,6 +336,7 @@ async function browserChecks(){
         guess:document.getElementById("p1Guess1Type").closest(".guessRow")!==null,signing:document.getElementById("p1Signing1Name").closest(".signingRow")!==null,markers:[...document.getElementById("transferChallenge").querySelectorAll("*")].length>0}));
       assert.deepEqual(after,{host:false,on:false,timer:"transferHero",end:"transferTimerActions",endClass:"menuButton",status:"transferHero",back:true,guess:true,signing:true,markers:true});
       assert.deepEqual(pageErrors.filter(message=>/transfer|v10|plate|TWPlate/i.test(message)),[],"no page errors from the skin");
+      assert.deepEqual(await page.evaluate(()=>window.__tvLoopErrors),[],"mounting and resizing the skin never leaves a ResizeObserver loop error");
     });
     for(const [name,fn] of checks.splice(checks.findIndex(([n])=>n.startsWith("6 ")))){await fn();console.log(`ok ${name}`);}
   }finally{
