@@ -1,6 +1,6 @@
 {
   "schema": "physio/v1",
-  "at": "2026-10-05T23:46:53.654Z",
+  "at": "2026-10-05T23:46:56.711Z",
   "state": "BARKING",
   "checks": [
     {
@@ -16,7 +16,7 @@
       "workflow": "Validate Gameplay Fast",
       "head_sha": "84a04d80a8a3915d00b13e55a3600df0772a6e97",
       "pr": null,
-      "queued_minutes": 4.5,
+      "queued_minutes": 4.6,
       "action": "none",
       "attempt": 0,
       "max_attempts": 2
@@ -25,7 +25,7 @@
       "workflow": "Validate POS20",
       "head_sha": "f4cbb744046aee6941c8607e6c18f772aa9cd6bc",
       "pr": null,
-      "queued_minutes": 4.4,
+      "queued_minutes": 4.5,
       "action": "none",
       "attempt": 0,
       "max_attempts": 2
@@ -34,7 +34,7 @@
       "workflow": "Validate POS20",
       "head_sha": "bcc7fc3221fe4949a9107deb1fe4eec6d04cd334",
       "pr": null,
-      "queued_minutes": 2.2,
+      "queued_minutes": 2.3,
       "action": "none",
       "attempt": 0,
       "max_attempts": 2
