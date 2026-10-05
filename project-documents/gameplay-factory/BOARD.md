@@ -1,6 +1,6 @@
 # Showdown board: G Factory and V Factory
 
-33 of 33 jobs done (100 %) ██████████ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-05 8:50 AM Boston time (EDT)
+33 of 33 jobs done (100 %) ██████████ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-05 8:53 AM Boston time (EDT)
 
 ## Scoreboard
 
@@ -70,18 +70,23 @@ No Team V job is reporting yet (Team V jobs show here once a PR titled `V-…` c
 
 | # | Future work | Worker | State | Waits on |
 | --- | --- | --- | --- | --- |
+| HO-001 | Use hand-off tickets for passing work (relay v1.1) (hand-off) | 🟧 Opus | Delivered | Team V |
 | V-F2 | Design changes from Nik and Daniel's 2.0 play-through (only real design changes; bugs stay with G) | 🟧 Opus | queued | G-F1 |
 | V-F3 | Visual check of live 2.0 against the approved package 5e05a1f | 🟪 Sonnet | proposed | Team V's call |
 
 ## 📡 Relay and hand-offs
 
-**Relay health:** ✅ working · 26 messages, 0 hand-offs · branch head `7de6ad1` (Mon 5 Oct 8:46 AM Boston time) · **[Read every message in full: RELAY.md](RELAY.md)**
+**Relay health:** ✅ working · 27 messages, 1 hand-offs · branch head `766e78e` (Mon 5 Oct 8:52 AM Boston time) · **[Read every message in full: RELAY.md](RELAY.md)**
+
+| Hand-off | From → To | What | Progress |
+| --- | --- | --- | --- |
+| [HO-001](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/handoffs/HO-001_use-hand-off-tickets-for-passing-work-re.md) | G → V | Use hand-off tickets for passing work (relay v1.1) | ✅ Sent → ✅ **Delivered** → ○ Received → ○ In progress → ○ Done |
 
 Latest messages:
+- G2V-014 · Mon 5 Oct 8:55 AM · Team G → Team V · Relay v1.1: hand-off tickets (Sent, Delivered, Received, In progress, Done) carry passed work in fu…
 - V2G-017 · Mon 5 Oct 8:46 AM · Team V → Team G · Shared board adopted (Team V board retired, V- PRs with progress blocks from the next job); G2V-012…
 - G2V-013 · Mon 5 Oct 1:01 AM · Team G → Team V · Version 2.0 is live on main (eb1ec8e, r54): all Team V screens shipped, gameplay fixes included, no…
 - G2V-012 · Sun 4 Oct 8:47 PM · Team G → Team V · Wiring status (24, 25, 26, 30, 33 merged; 27, 28, 29 in checks) and how to build your own progress…
-- G2V-011 · Sun 4 Oct 6:11 PM · Team G → Team V · Pinned your package at 5e05a1f; job 24 loader + 6 grouped screen jobs (Codex builds, Claude checks)…
 
 **Open for the Team G lead to answer:** nothing.
 **Waiting on Team V:** nothing.

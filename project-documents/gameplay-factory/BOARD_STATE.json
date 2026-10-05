@@ -1,8 +1,8 @@
 {
- "generated": "2026-10-05 8:50 AM Boston time (EDT)",
+ "generated": "2026-10-05 8:53 AM Boston time (EDT)",
  "relay": {
   "live": true,
-  "count": 26,
+  "count": 27,
   "rows": [
    {
     "time": "2026-10-02 00:29",
@@ -237,16 +237,25 @@
     "subject": "Shared board adopted (Team V board retired, V- PRs with progress blocks from the next job); G2V-012 done (superseded, no TEAM_V_PROGRESS.json); G2V-013 done",
     "reply": "no",
     "boston": "Mon 5 Oct 8:46 AM"
+   },
+   {
+    "time": "2026-10-05 12:55",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "G2V-014",
+    "subject": "Relay v1.1: hand-off tickets (Sent, Delivered, Received, In progress, Done) carry passed work in full; HO-001 is the first; shared board confirmed",
+    "reply": "no (HO-001 carries it)",
+    "boston": "Mon 5 Oct 8:55 AM"
    }
   ],
   "g2v": {
-   "time": "2026-10-05 05:01",
+   "time": "2026-10-05 12:55",
    "from": "Team G",
    "to": "Team V",
-   "id": "G2V-013",
-   "subject": "Version 2.0 is live on main (eb1ec8e, r54): all Team V screens shipped, gameplay fixes included, no new edits to your files",
-   "reply": "no",
-   "boston": "Mon 5 Oct 1:01 AM"
+   "id": "G2V-014",
+   "subject": "Relay v1.1: hand-off tickets (Sent, Delivered, Received, In progress, Done) carry passed work in full; HO-001 is the first; shared board confirmed",
+   "reply": "no (HO-001 carries it)",
+   "boston": "Mon 5 Oct 8:55 AM"
   },
   "v2g": {
    "time": "2026-10-05 12:46",
@@ -257,9 +266,9 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "7de6ad1",
-  "head_boston": "Mon 5 Oct 8:46 AM",
-  "latest_id": "V2G-017",
+  "head": "766e78e",
+  "head_boston": "Mon 5 Oct 8:52 AM",
+  "latest_id": "G2V-014",
   "feed_matches_latest": true,
   "open_for_g": [],
   "open_for_v": [],
@@ -275,7 +284,19 @@
   },
   "v_headline": "Board 1 (visual package): 238 of 238 jobs done and checked",
   "v_jobs": [],
-  "tickets": [],
+  "tickets": [
+   {
+    "id": "HO-001",
+    "from": "G",
+    "to": "V",
+    "title": "Use hand-off tickets for passing work (relay v1.1)",
+    "stage": "DELIVERED",
+    "pct": 0.0,
+    "overdue": false,
+    "path": "project-documents/leads-relay/handoffs/HO-001_use-hand-off-tickets-for-passing-work-re.md",
+    "worker": "opus"
+   }
+  ],
   "relay_ok": true
  },
  "branch": "factory/gameplay-v1",
