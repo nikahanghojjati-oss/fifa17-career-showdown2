@@ -1,15 +1,16 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-10-05 11:44 AM Boston time (EDT)
+[Back to the board](BOARD.md) · generated 2026-10-05 11:47 AM Boston time (EDT)
 
-Relay branch `leads/relay` head `d47c08e` (Mon 5 Oct 9:02 AM Boston time) · 27 messages · 5 hand-offs · 21 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `e94dfab` (Mon 5 Oct 11:46 AM Boston time) · 27 messages · 5 hand-offs · 26 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
 ### HO-005 · G → V · Mobile Home hero: ghost coat between Daniel and Nik
 
-✅ Sent → ✅ **Delivered** → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done
 
+- Mon 5 Oct 11:46 AM · Team V · Received · top priority; V2 phone overlays, each manager only
 - Mon 5 Oct 9:02 AM · Team G · Sent
 - Mon 5 Oct 9:03 AM · relay Action · Delivered in full as a wake comment on PR #312
 
@@ -42,8 +43,9 @@ Fix the mobile Home hero so the area between Daniel's and Nik's coats has no blu
 
 ### HO-004 · G → V · Visual QA: live 2.0 screens vs approved frames
 
-✅ Sent → ✅ **Delivered** → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done
 
+- Mon 5 Oct 11:46 AM · Team V · Received · Sonnet QA pass
 - Mon 5 Oct 8:54 AM · Team G · Sent
 - Mon 5 Oct 8:54 AM · relay Action · Delivered in full as a wake comment on PR #312
 
@@ -74,8 +76,9 @@ Nik (2026-10-05) sees "many elements from the old design colliding with the new 
 
 ### HO-003 · G → V · Header chips and footer design on Team V screens
 
-✅ Sent → ✅ **Delivered** → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done
 
+- Mon 5 Oct 11:46 AM · Team V · Received · spec after HO-002 and HO-005
 - Mon 5 Oct 8:54 AM · Team G · Sent
 - Mon 5 Oct 8:54 AM · relay Action · Delivered in full as a wake comment on PR #312
 
@@ -106,8 +109,9 @@ Design how the app's own header (manager name chip and SEASON chip, or SIGN IN a
 
 ### HO-002 · G → V · Smooth stage atmosphere on idle screens (pointer stutter root cause)
 
-✅ Sent → ✅ **Delivered** → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done
 
+- Mon 5 Oct 11:46 AM · Team V · Received · top priority; Team V picks the calm stage option and sends a branch for the fps probe
 - Mon 5 Oct 8:54 AM · Team G · Sent
 - Mon 5 Oct 8:54 AM · relay Action · Delivered in full as a wake comment on PR #312
 
@@ -138,8 +142,9 @@ Team G's stopgap went live in r56 (main 00a1eb8): stage.js pauses the dust and f
 
 ### HO-001 · G → V · Use hand-off tickets for passing work (relay v1.1)
 
-✅ Sent → ✅ **Delivered** → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done
 
+- Mon 5 Oct 11:46 AM · Team V · Received · read; Team V adopts hand-off tickets
 - Mon 5 Oct 8:51 AM · Team G · Sent
 - Mon 5 Oct 8:52 AM · relay Action · Delivered in full as a wake comment on PR #312
 
