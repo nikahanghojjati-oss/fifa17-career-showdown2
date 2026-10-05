@@ -11,27 +11,40 @@
   // real DOM. Loading stays the app's startup splash (it shows before any lazy code can load).
   const BASE="visual-assets/v10_1/";
   const FRAME=Object.freeze({skin:"team-v-home-5e05a1f"});
-  // home/fixtures.json strings.media at 5e05a1f (Nik's four Audius tracks; YouTube songs and trailer dropped).
+  // Nik's Audius tracks (home/fixtures.json strings.media at 5e05a1f) minus What You Got, which Audius deleted, plus six
+  // verified streamable picks in the spirit of the old FIFA 17 YouTube list (none of those songs are on Audius).
   const MEDIA=Object.freeze({
     sectionLabel:"Menu media",selectorLabel:"Choose Audius soundtrack",category:"AUDIUS SOUNDTRACK",source:"AUDIUS",
     toggle:"PLAY TRACK",pause:"PAUSE TRACK",mute:"MUTE",unmute:"UNMUTE",
     statusTemplate:"{TITLE} · AUDIUS · READY",statusLoading:"CONNECTING TO AUDIUS",statusPlaying:"PLAYING",
     statusPlayingMuted:"PLAYING · MUTED",statusPaused:"PAUSED",statusError:"STREAM UNAVAILABLE · TRY AGAIN OR PICK ANOTHER TRACK",
     tracks:Object.freeze([
-      Object.freeze({key:"whatYouGot",title:"WHAT YOU GOT",artist:"Valentino Khan & NITTI",audiusTrackId:"XNN7jYJ"}),
-      Object.freeze({key:"snowGlobe",title:"SNOW GLOBE",artist:"Hadji Gaviota",audiusTrackId:"X9wlA0b"}),
       Object.freeze({key:"nasty",title:"NASTY",artist:"grouptherapy.",audiusTrackId:"G5rXAWE"}),
-      Object.freeze({key:"imAlwaysRight",title:"I'M ALWAYS RIGHT",artist:"The Holdup",audiusTrackId:"9QRXKw"})
+      Object.freeze({key:"snowGlobe",title:"SNOW GLOBE",artist:"Hadji Gaviota",audiusTrackId:"X9wlA0b"}),
+      Object.freeze({key:"imAlwaysRight",title:"I'M ALWAYS RIGHT",artist:"The Holdup",audiusTrackId:"9QRXKw"}),
+      Object.freeze({key:"everythingIKnow",title:"EVERYTHING I KNOW",artist:"Speelburg",audiusTrackId:"bppAK"}),
+      Object.freeze({key:"tellMeWhatYouWant",title:"TELL ME WHAT YOU WANT",artist:"Weezer",audiusTrackId:"4baRa"}),
+      Object.freeze({key:"nextToYou",title:"NEXT TO YOU",artist:"RAC ft. Emerson Leif",audiusTrackId:"n1zqQ"}),
+      Object.freeze({key:"hardFeelings",title:"HARD FEELINGS",artist:"Miquela",audiusTrackId:"LKWVl"}),
+      Object.freeze({key:"sillyBoy",title:"SILLY BOY",artist:"oshi",audiusTrackId:"zKgQq"}),
+      Object.freeze({key:"uproar",title:"UPROAR",artist:"Mike Shinoda",audiusTrackId:"JGgl0"}),
+      Object.freeze({key:"shelterRemix",title:"SHELTER (EFFUGIO REMIX)",artist:"Porter Robinson & Madeon",audiusTrackId:"DOpRe"}),
+      Object.freeze({key:"highAndLowCover",title:"HIGH AND LOW (COVER)",artist:"Empire Of The Sun · Aba",audiusTrackId:"W677j"})
     ]),
-    defaultTrack:"whatYouGot",
+    defaultTrack:"nasty",
     audius:Object.freeze({apiBase:"https://api.audius.co/v1",appName:"CareerModeShowdown17"})
   });
   // Continue shows Team V's number-17 player (owner, 2026-10-05); css/homeV10.css hides the old Reus cover on this Home.
-  // Legacy and Statistics stay hidden by the product's r43 containment; their art shows only if the product shows them.
+  // Nik, 2026-10-05: Home shows all seven of Team V's tiles, so Legacy and Statistics are no longer contained.
   const TILE_ART=Object.freeze({
     continueCareer:"TILE_CONTINUE_V1.webp",newShowdown:"TILE_TACTICS_V1.webp",legacyButton:"TILE_HISTORY_V1.webp",careerStatisticsButton:"TILE_STATISTICS_V1.webp",
     ruleBookButton:"TILE_RULEBOOK_V1.webp",settingsButton:"TILE_SETTINGS_V1.webp"
   });
+  // The seventh tile, Trophy Room, as in Team V's Home frame (home/index.html at 5e05a1f). The product has no Home
+  // button for it, so this Home adds one that opens the product's own Trophy Room route. Its id is not Team V's
+  // #trophyRoomButton, because Career Statistics already owns that id.
+  const TROPHY_TILE=Object.freeze({id:"homeTrophyRoomButton",after:"careerStatisticsButton",code:"HONOURS",label:"TROPHY ROOM",
+    meta:"Career trophies, standings and records",art:"shared/trophies/TRO_LEAGUE_TITLE_V1_512.webp"});
   const CHEVRON='<svg class="tileChevron" aria-hidden="true" focusable="false" viewBox="0 0 12 20"><path d="M2 2l8 8-8 8" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
   const HOME_CSS=Object.freeze(["home/home.css","../../css/homeV10.css"]);
   const PANEL_CLASSES=tile=>tile.id==="continueCareer"?["sd-panel","sd-panel--hero"]:["sd-panel"];
@@ -56,14 +69,25 @@
   function hmLockup(){
     return hmEl("div","homeLockup",'<p class="lockupKicker sd-label" aria-hidden="true">THE RIVALRY STARTS HERE</p><div class="lockupWordmarkWrap sd-title sd-title--wordmark"><span class="sd-visually-hidden">CAREER MODE SHOWDOWN 17</span><img class="lockupWordmark" src="'+BASE+'home/assets/LOGO_CM17_WORDMARK_V1.webp" alt="" aria-hidden="true" width="1040" height="378" decoding="async"></div><p class="lockupLegacy sd-tagline" aria-hidden="true">TWO MANAGERS · ONE LEGACY</p>');
   }
-  function hmTile(id,file){
+  function hmTile(id,file,path){
     const button=hmDoc().getElementById(id);
     if(!button)return;
     if(!button.querySelector(".tileArt")){
-      const img=hmEl("img","tileArt");img.src=BASE+"shared/art/home-tiles/"+file;img.alt="";img.setAttribute("aria-hidden","true");img.decoding="async";
+      const img=hmEl("img","tileArt");img.src=BASE+(path||"shared/art/home-tiles/"+file);img.alt="";img.setAttribute("aria-hidden","true");img.decoding="async";
       button.appendChild(img);
     }
     if(!button.querySelector(".tileChevron"))button.insertAdjacentHTML("beforeend",CHEVRON);
+  }
+
+  function hmTrophyTile(grid){
+    const t=TROPHY_TILE;
+    if(hmDoc().getElementById(t.id))return;
+    const anchor=hmDoc().getElementById(t.after);
+    const button=hmEl("button","menuTile menuTileTrophyRoom",'<span class="menuTileCode">'+t.code+'</span><span class="menuTileLabel">'+t.label+'</span><span class="menuTileMeta">'+t.meta+'</span>');
+    button.id=t.id;button.type="button";button.dataset.routeKey="trophyRoom";
+    button.addEventListener("click",()=>{if(typeof root.openOptionalModule==="function")root.openOptionalModule("trophyRoom");});
+    if(anchor&&anchor.parentNode===grid)anchor.insertAdjacentElement("afterend",button);else grid.appendChild(button);
+    hmTile(t.id,null,t.art);
   }
 
   // The Audius card replaces the YouTube player in place. The product's YouTube nodes (#menuMusicPlayer and the seven
@@ -91,6 +115,7 @@
       const choice=hmEl("button","menuMediaChoice","<strong></strong><small></small>");choice.type="button";choice.dataset.soundtrackTrack=track.key;
       choice.querySelector("strong").textContent=track.title;choice.querySelector("small").textContent=track.artist;selector.appendChild(choice);
     }
+    card.style.setProperty("--track-rows",String(Math.ceil(MEDIA.tracks.length/2)));
     const deck=hmEl("div","menuMusicPlayer",'<div class="vinylDeck" aria-hidden="true"><span class="vinyl"><i></i></span><span class="eq"><i></i><i></i><i></i><i></i><i></i></span></div>');
     const controls=hmEl("div","menuMusicControls");controls.append(nextToggle,nextMute);
     card.replaceChildren(header,sheet,label("phoneTrackSheetOpen","TRACKS",true),selector,label("phoneTrackSheetBackdrop","",true),label("phoneTrackSheetClose","CLOSE",false),deck,status,controls);
@@ -120,6 +145,7 @@
       host.appendChild(hmDecor("footDeco",'<span>FOOTBALL BRINGS US TOGETHER</span><svg viewBox="0 0 24 18" focusable="false"><path d="M2 16h20l1.5-12-6 5L12 1 6.5 9l-6-5z" fill="#F2C45B"/></svg>'));
     }
     Object.entries(TILE_ART).forEach(([id,file])=>hmTile(id,file));
+    hmTrophyTile(grid);
     // HO-004: every tile is Team V's shared cut-corner panel (Continue is the hero panel), as in Team V's Home frame.
     grid.querySelectorAll(".menuTile").forEach(tile=>tile.classList.add(...PANEL_CLASSES(tile)));
     hmMusic(host);
@@ -137,5 +163,5 @@
     registered=V.show("mainMenu").catch(error=>{root.console?.warn?.("[Career Mode Showdown] Team V Home unavailable.",error);return false;});
     return registered;
   }
-  return Object.freeze({MEDIA,TILE_ART,HOME_CSS,install,decorateHome:hmDecorate,unmountHome:hmUnmount});
+  return Object.freeze({MEDIA,TILE_ART,TROPHY_TILE,HOME_CSS,install,decorateHome:hmDecorate,unmountHome:hmUnmount});
 });

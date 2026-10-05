@@ -20,8 +20,10 @@ const playerOneProfileId=`profile_${"d".repeat(24)}`;
     await page.goto(baseUrl.href,{waitUntil:"domcontentloaded"});
     await page.locator("#loadingScreen").waitFor({state:"hidden",timeout:12000});
     await page.waitForFunction(()=>typeof window.loadRuntimeScript==="function"&&window.CareerModeProductionSharedJourneyEntry,null,{timeout:12000});
-    assert.equal(await page.locator("#legacyButton").isVisible(),false,"Online-only Home must not expose retired local Legacy data as if it were shared authority.");
-    assert.equal(await page.locator("#careerStatisticsButton").isVisible(),false,"Online-only Home must not expose retired local Career Statistics alongside provider-authoritative Shared History.");
+    // Nik, 2026-10-05: Home shows all seven tiles. Legacy and Career Statistics read the shared career through the
+    // career screen seam (job 28), not retired local data.
+    assert.equal(await page.locator("#legacyButton").isVisible(),true,"Home shows the Legacy tile (Nik, 2026-10-05).");
+    assert.equal(await page.locator("#careerStatisticsButton").isVisible(),true,"Home shows the Statistics tile (Nik, 2026-10-05).");
     assert.equal(await page.locator("#ruleBookButton").isVisible(),true,"Hiding retired local analytics must not remove the active Rule Book surface.");
     const onlineDesktopGrid=await page.evaluate(()=>Object.fromEntries([["newShowdown","new"],["ruleBookButton","rules"],["settingsButton","settings"]].map(([id,key])=>{const style=getComputedStyle(document.getElementById(id));return[key,{start:style.gridColumnStart,end:style.gridColumnEnd,rowStart:style.gridRowStart,rowEnd:style.gridRowEnd}];})));
     assert.deepEqual(onlineDesktopGrid,{new:{start:"7",end:"13",rowStart:"1",rowEnd:"auto"},rules:{start:"7",end:"10",rowStart:"2",rowEnd:"auto"},settings:{start:"10",end:"13",rowStart:"2",rowEnd:"auto"}},"Online-only desktop Home must reflow remaining tiles without empty Legacy/Statistics holes.");
@@ -343,7 +345,7 @@ const playerOneProfileId=`profile_${"d".repeat(24)}`;
 
     assert.deepEqual(pageErrors,[],"User-facing routing audit emitted page errors.");
     assert.deepEqual(consoleErrors,[],"User-facing routing audit emitted unexpected console errors.");
-    process.stdout.write("PASS real user-facing routing: retired local Legacy/Statistics entry points are contained from the online-only player surface while Rule Book remains available; CONNECT PLAYERS reaches the real persistent-pair panel, stale Nik pending host-state resets safely to JOIN DANIEL'S SHOWDOWN, transient pair reads reconcile stale roles, Daniel CREATE CODE carries the season setup, Nik JOIN auto-provisions its local shell, and CONTINUE CAREER, RESTORE BACKUP and DELETE OLD SHOWDOWN & START OVER remain actionable on their intended surfaces.\n");
+    process.stdout.write("PASS real user-facing routing: Home shows Legacy and Statistics (Nik, 2026-10-05) and Rule Book; CONNECT PLAYERS reaches the real persistent-pair panel, stale Nik pending host-state resets safely to JOIN DANIEL'S SHOWDOWN, transient pair reads reconcile stale roles, Daniel CREATE CODE carries the season setup, Nik JOIN auto-provisions its local shell, and CONTINUE CAREER, RESTORE BACKUP and DELETE OLD SHOWDOWN & START OVER remain actionable on their intended surfaces.\n");
   }finally{
     await context.close().catch(()=>{});
     await browser.close().catch(()=>{});

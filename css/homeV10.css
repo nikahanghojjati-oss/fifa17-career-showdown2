@@ -76,6 +76,9 @@
   background: rgba(6,7,9,.94) !important; border: 1px solid rgba(242,196,91,.62) !important; box-shadow: 0 18px 48px rgba(0,0,0,.6);
 }
 
+/* The Trophy Room tile carries Team V's league-title trophy at Team V's #trophyRoomButton size. */
+#mainMenu.v10Home #homeTrophyRoomButton .tileArt { right: -12px; bottom: -24px; width: 108px; height: 128px; }
+
 /* ---------- desktop and landscape (Team V's desktop camera, home.js layoutDesktop as CSS) ---------- */
 @media (min-width: 761px), (orientation: landscape) {
   #mainMenu.v10Home {
@@ -103,13 +106,22 @@
 }
 @media (min-width: 761px) and (max-width: 1100px), (orientation: landscape) and (max-width: 1100px) {
   #mainMenu.v10Home .fifaMenuGrid > .menuTile { padding-right: 12px; }
-  /* narrow desktops: Continue keeps room for its player art */
-  #mainMenu.v10Home .fifaMenuGrid > #continueCareer { flex: 2.4 1 0; padding-right: 120px; }
-  #mainMenu.v10Home .menuTileLabel { font-size: 17px; }
-  #mainMenu.v10Home #continueCareer .menuTileLabel { font-size: 22px; }
+  /* 11 soundtrack tracks: the track list stays below the header chips and scrolls instead of growing upward. */
+  #mainMenu.v10Home .phoneSheetToggle:checked ~ .menuMediaSelector { max-height: min(260px, calc(100dvh - 220px)); overflow-y: auto; }
+  #mainMenu.v10Home .menuMediaSelector .menuMediaChoice :is(strong, small) { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  /* narrow desktops: Continue keeps room for its player art, and the six other tiles keep their labels whole */
+  #mainMenu.v10Home .fifaMenuGrid > #continueCareer { flex: 2.2 1 0; padding-right: 120px; }
+  #mainMenu.v10Home .menuTileLabel { font-size: 15px; }
+  #mainMenu.v10Home #continueCareer .menuTileLabel { font-size: 19px; }
+  #mainMenu.v10Home #continueCareer .tileArt, #mainMenu.v10Home #continueCareer:disabled .tileArt { right: 10px; }
+}
+@media (min-width: 761px) and (max-width: 1000px), (orientation: landscape) and (max-width: 1000px) {
+  /* seven tiles in one row on a small window: the six short tiles keep whole words */
+  #mainMenu.v10Home .fifaMenuGrid > .menuTile:not(#continueCareer) { padding-left: 10px; padding-right: 8px; }
+  #mainMenu.v10Home .fifaMenuGrid > .menuTile:not(#continueCareer) .menuTileLabel { font-size: 13px; }
 }
 
-/* ---------- phone portrait (Team V Job 33 + CC-008), with the product's four tiles ---------- */
+/* ---------- phone portrait (Team V Job 33 + CC-008), with all seven tiles (Nik, 2026-10-05) ---------- */
 @media (max-width: 760px) and (orientation: portrait) {
   #mainMenu.v10Home { height: auto; }
   #mainMenu.v10Home > .fifaMenuShell {
@@ -117,24 +129,32 @@
     background: linear-gradient(180deg, rgba(6,7,9,.97), #060709 24%);
   }
   #mainMenu.v10Home > .nav-reserve { grid-row: 3; }
+  /* Team V's phone frame: Continue, then two rows of three tiles, then the soundtrack strip. */
   #mainMenu.v10Home .fifaMenuGrid {
-    grid-template-columns: repeat(6, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     grid-template-rows: 64px minmax(44px, 1fr) minmax(44px, 1fr) 52px;
   }
   #mainMenu.v10Home #continueCareer { grid-column: 1 / -1; grid-row: 1; }
-  #mainMenu.v10Home #newShowdown { grid-column: 1 / -1; grid-row: 2; }
-  #mainMenu.v10Home #ruleBookButton { grid-column: 1 / 4; grid-row: 3; }
-  #mainMenu.v10Home #settingsButton { grid-column: 4 / -1; grid-row: 3; }
-  #mainMenu.v10Home #legacyButton, #mainMenu.v10Home #careerStatisticsButton { grid-column: span 3; grid-row: auto; }
+  #mainMenu.v10Home #newShowdown { grid-column: 1; grid-row: 2; }
+  #mainMenu.v10Home #legacyButton { grid-column: 2; grid-row: 2; }
+  #mainMenu.v10Home #careerStatisticsButton { grid-column: 3; grid-row: 2; }
+  #mainMenu.v10Home #homeTrophyRoomButton { grid-column: 1; grid-row: 3; }
+  #mainMenu.v10Home #ruleBookButton { grid-column: 2; grid-row: 3; }
+  #mainMenu.v10Home #settingsButton { grid-column: 3; grid-row: 3; }
   #mainMenu.v10Home .menuMusicTile { grid-column: 1 / -1; grid-row: 4; }
-  /* Legacy and Statistics stay contained (r43); when an internal audit shows them they get their own row. */
-  #mainMenu.v10Home .fifaMenuGrid:has(> [data-test-surface="internal-audit"]) { grid-template-rows: 64px minmax(44px, 1fr) minmax(44px, 1fr) 44px 52px; }
-  #mainMenu.v10Home .fifaMenuGrid:has(> [data-test-surface="internal-audit"]) > .menuMusicTile { grid-row: 5; }
-  #mainMenu.v10Home .fifaMenuGrid > [data-test-surface="internal-audit"] { grid-row: 4; }
-  /* New / Join takes a full row here, so it keeps the larger label. */
-  #mainMenu.v10Home #newShowdown .menuTileLabel { font-size: 19px; }
-  #mainMenu.v10Home #newShowdown .tileArt { width: 62px; height: 62px; right: 0; bottom: -8px; }
+  /* V-247 (HO-006) on the seven-tile phone grid: Team V's icons are large and fully inside each tile. The tiles here are
+     three to a row, so the label keeps the top and the icon fills the space below it on the right, never clipped. */
+  #mainMenu.v10Home .fifaMenuGrid > .menuTile:not(#continueCareer) { justify-content: flex-start; padding: 8px 8px 8px 10px; }
+  #mainMenu.v10Home .fifaMenuGrid > .menuTile:not(#continueCareer) .menuTileLabel { position: relative; z-index: 2; font-size: 17px; line-height: 1.05; }
+  #mainMenu.v10Home .fifaMenuGrid > .menuTile:not(#continueCareer) .tileArt {
+    top: auto; bottom: 6px; right: 6px; width: auto; height: min(62%, 76px); aspect-ratio: 1 / 1; translate: none; opacity: 1; object-position: center;
+  }
   #mainMenu.v10Home .menuMusicTile { overflow: visible; }
+  /* The phone track sheet grows with the track list (two per row), so CLOSE sits in its top padding for any row count. */
+  #mainMenu.v10Home .phoneSheetToggle:checked ~ .menuMediaSelector { grid-auto-rows: 46px; }
+  #mainMenu.v10Home .phoneSheetToggle:checked ~ .menuMediaSelector .menuMediaChoice { min-height: 0; overflow: hidden; }
+  #mainMenu.v10Home .menuMediaSelector .menuMediaChoice :is(strong, small) { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  #mainMenu.v10Home .phoneSheetToggle:checked ~ .phoneTrackSheetClose { bottom: calc(var(--phone-nav) + 16px + var(--track-rows, 2) * 54px); }
   #mainMenu.v10Home #persistentNikDanielPairPanel { left: 10px; right: 10px; width: auto; top: calc(max(10px, env(safe-area-inset-top)) + 44px); max-height: calc(100vh - 220px); }
   #app #topHeader { left: 10px; right: auto; top: max(10px, env(safe-area-inset-top)); gap: 6px; }
   #app #topHeader #onlinePlayerIdentityBadge, #app #topHeader #seasonIndicator { min-height: 30px; padding: 5px 9px !important; font-size: 11px !important; }

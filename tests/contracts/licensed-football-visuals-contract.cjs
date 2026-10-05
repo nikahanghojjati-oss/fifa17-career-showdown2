@@ -96,13 +96,22 @@ const lahm = manifest.assets.find(asset => asset.id === 'philipp-lahm-world-cup-
 assert.strictEqual(messi.output_sha256, 'a84eba9c108bb4237bde989c36dd837114480bd0d1a823eeacf401955995d204', 'Protected Messi derivative changed.');
 assert.strictEqual(lahm.output_sha256, 'c745c9dfd3619e384604890c6ed183dd4ff92db6cc1d4b93e1ce6edf5ebf6eb5', 'Protected Lahm derivative changed.');
 
-const plannedScreens = ['leagueWheelScreen','clubWheelScreen','dashboard','transferChallenge','seasonEntry','seasonSummary','careerStatistics','trophyRoom','legacy','ruleBook'];
+// Nik, 2026-10-05: no screen shows an old player photo card any more; the licensed archive stays, unrouted.
+const plannedScreens = [];
+const photoFreeScreens = ['createShowdown','leagueWheelScreen','clubWheelScreen','dashboard','transferChallenge','seasonEntry','seasonSummary','careerStatistics','trophyRoom','legacy','ruleBook'];
 assert.ok(!data.includes('createShowdown: Object.freeze'), 'Start Showdown uses Team V art, not a photograph (owner, 2026-10-05).');
 for(const screen of plannedScreens){
   assert.ok(data.includes(`${screen}: Object.freeze`), `Visual plan missing ${screen}.`);
   assert.ok(screens.includes(`"${screen}"`), `Required visual route ownership missing ${screen}.`);
 }
-assert.ok(data.includes('layout: "cinematic-band"'), 'Cinematic-band presentation plan missing.');
+const freeSet = renderer.match(/const FOOTBALL_VISUAL_FREE_SCREENS = new Set\(\[([\s\S]*?)\]\);/);
+assert.ok(freeSet, 'Photo-free screen list missing.');
+for(const screen of photoFreeScreens){
+  assert.ok(!data.includes(`${screen}: Object.freeze`), `${screen} shows no photo card (Nik, 2026-10-05).`);
+  assert.ok(freeSet[1].includes(`"${screen}"`), `${screen} must be a photo-free screen so its route still opens.`);
+  assert.ok(screens.includes(`"${screen}"`), `Route ownership missing ${screen}.`);
+}
+assert.ok(/const FOOTBALL_VISUAL_SCREEN_PLAN = Object\.freeze\(\{\}\);/.test(data), 'No screen has a photo plan (Nik, 2026-10-05).');
 assert.ok(data.includes('treatment: "clean-anchor"'), 'Clean-anchor source treatment missing.');
 assert.ok(data.includes('fit: "contain"'), 'Subject-safe contain policy missing.');
 assert.ok(!data.includes('fit: "cover"'), 'Blind cover framing is forbidden.');
@@ -132,4 +141,4 @@ assert.ok(app.includes(`const APP_VERSION = "${appVersion}";`), 'Runtime APP_VER
 assert.ok(app.includes(`visual-fidelity-r3.css?v=${revision}`), 'Protected visual-fidelity cache revision must advance coherently.');
 assert.ok(builder.includes('James Rodríguez (cropped).jpg') && builder.includes('Manchester United v Chelsea, 16 April 2017 (11).jpg') && builder.includes('Anthony Martial 27 September 2017 cropped.jpg'), 'Deterministic builder is not aligned with active player sources.');
 
-console.log(`Licensed visual contracts passed for app v${appVersion} / ${revision}: immutable v1.1.3 archive has 12 assets / ${total} bytes / 10 route destinations.`);
+console.log(`Licensed visual contracts passed for app v${appVersion} / ${revision}: immutable v1.1.3 archive has 12 assets / ${total} bytes / ${photoFreeScreens.length} photo-free screens.`);

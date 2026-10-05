@@ -203,5 +203,5 @@ html[data-motion-reduced="true"] .screen[data-route-state="entering"],html[data-
 @keyframes startupPulse{from{opacity:.45;transform:scaleY(.62)}to{opacity:1;transform:scaleY(1)}}
 @keyframes clubPackReady{0%{filter:brightness(.9)}45%{filter:brightness(1.16)}100%{filter:brightness(1)}}
 @keyframes clubVsHit{0%{opacity:.45;transform:scale(.78)}70%{opacity:1;transform:scale(1.12)}100%{opacity:1;transform:scale(1.04)}}
-#legacyButton:not([data-test-surface=internal-audit]),#careerStatisticsButton:not([data-test-surface=internal-audit]),#rivalryStatisticsButton:not([data-test-surface=internal-audit]){display:none!important}
+#rivalryStatisticsButton:not([data-test-surface=internal-audit]){display:none!important}
 @media(min-width:901px){#newShowdown{grid-column:7/13;grid-row:1}#ruleBookButton{grid-column:7/10;grid-row:2}#settingsButton{grid-column:10/13;grid-row:2}}

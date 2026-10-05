@@ -36,7 +36,7 @@ function fakeDom(){
   };
   const body=make("body"),card=make("section"),toggle=make("button",{id:"menuMusicToggle"}),mute=make("button",{id:"menuMusicMute"}),status=make("p",{id:"menuMusicStatus"});
   const selector=make("div"),title=make("strong"),artist=make("p");
-  const choices=["whatYouGot","snowGlobe","nasty","imAlwaysRight"].map(key=>{const b=make("button");b.dataset.soundtrackTrack=key;return b;});
+  const choices=["nasty","snowGlobe","imAlwaysRight","everythingIKnow","tellMeWhatYouWant","nextToYou","hardFeelings","sillyBoy","uproar","shelterRemix","highAndLowCover"].map(key=>{const b=make("button");b.dataset.soundtrackTrack=key;return b;});
   card.querySelector=sel=>({".menuMusicHeader strong":title,".menuMusicArtist":artist,".menuMediaSelector":selector})[sel]||null;
   card.querySelectorAll=sel=>sel==="[data-soundtrack-track]"?choices:[];
   const ids={menuMusicToggle:toggle,menuMusicMute:mute,menuMusicStatus:status};
@@ -67,12 +67,12 @@ test("Audius makes no request before the Play tap",()=>{
   api.init(Home.MEDIA);
   assert.equal(dom.created.length,0,"no <audio> before Play");
   assert.deepEqual(dom.requests,[]);
-  assert.equal(dom.status.textContent,"WHAT YOU GOT · AUDIUS · READY");
+  assert.equal(dom.status.textContent,"NASTY · AUDIUS · READY");
   dom.toggle.click();
   assert.equal(dom.created.length,1,"one <audio> on Play");
   const audio=dom.created[0];
   assert.equal(audio.preload,"none");
-  assert.equal(audio.src,"https://api.audius.co/v1/tracks/XNN7jYJ/stream?app_name=CareerModeShowdown17");
+  assert.equal(audio.src,"https://api.audius.co/v1/tracks/G5rXAWE/stream?app_name=CareerModeShowdown17");
   assert.equal(audio.paused,false);assert.deepEqual(dom.requests,[],"no fetch: the <audio> element streams");
   assert.doesNotMatch(soundtrack,/fetch\s*\(|XMLHttpRequest|localStorage/);
 });
@@ -105,7 +105,7 @@ test("the YouTube player is retired only by lazy Home code, and product diagnost
 test("Audius is the only new network host",()=>{
   const hosts=new Set([...(binder+soundtrack).matchAll(/https?:\/\/([a-z0-9.-]+)/gi)].map(m=>m[1].toLowerCase()));
   assert.deepEqual([...hosts],["api.audius.co"]);
-  assert.equal(Home.MEDIA.tracks.length,4);assert.deepEqual(Home.MEDIA.tracks.map(t=>t.audiusTrackId),["XNN7jYJ","X9wlA0b","G5rXAWE","9QRXKw"]);
+  assert.equal(Home.MEDIA.tracks.length,11);assert.deepEqual(Home.MEDIA.tracks.map(t=>t.audiusTrackId),["G5rXAWE","X9wlA0b","9QRXKw","bppAK","4baRa","n1zqQ","LKWVl","zKgQq","JGgl0","DOpRe","W677j"]);
 });
 test("Home registers through job 24's loader with Team V's CSS, the adapter and the soundtrack",()=>{
   assert.match(binder,/V\.register\("mainMenu",\{css:HOME_CSS\.slice\(\),js:\[\["v10-home-soundtrack","home\/soundtrack\.js"/);
@@ -131,16 +131,27 @@ test("Home CSS/JS are precached; Home images use the revision-keyed runtime imag
   for(const m of homeCss.matchAll(/url\((\.\.\/shared\/fonts\/[^)]+\.woff2)\)/g))assert.ok(shell.has("visual-assets/v10_1/"+m[1].slice(3)),m[1]);
   assert.doesNotMatch(homeCss,/tr2\/slice-02-plate/,"fonts come from the shared kit");
 });
-test("the adapter keeps the product's protected Home facts (desktop tile placement, contained tiles); Reus is hidden, not restyled",()=>{
+test("Home shows all seven of Team V's tiles (Nik, 2026-10-05): Legacy and Statistics are shown and Trophy Room is added",()=>{
+  const appCss=read("css/app.css");
+  assert.doesNotMatch(appCss,/#(?:legacyButton|careerStatisticsButton)[^{]*\{[^}]*display:none/,"Legacy and Statistics are not hidden");
+  assert.match(appCss,/#rivalryStatisticsButton:not\(\[data-test-surface=internal-audit\]\)\{display:none!important\}/,"the dashboard's local Rivalry Statistics stays contained");
+  assert.equal(Home.TROPHY_TILE.id,"homeTrophyRoomButton","Career Statistics keeps #trophyRoomButton");
+  assert.equal(Home.TROPHY_TILE.art,"shared/trophies/TRO_LEAGUE_TITLE_V1_512.webp","Team V's Home frame art for Trophy Room");
+  assert.ok(fs.existsSync(path.join(ROOT,"visual-assets/v10_1/"+Home.TROPHY_TILE.art)));
+  assert.match(binder,/root\.openOptionalModule\("trophyRoom"\)/,"the tile opens the product's own Trophy Room route");
+  const phone=adapter.split("/* ---------- phone portrait")[1];
+  for(const id of ["continueCareer","newShowdown","legacyButton","careerStatisticsButton","homeTrophyRoomButton","ruleBookButton","settingsButton"])assert.match(phone,new RegExp(`#${id} \\{ grid-column`),id);
+});
+test("the adapter keeps the product's protected Home facts (desktop tile placement); Reus is hidden, not restyled",()=>{
   assert.doesNotMatch(adapter,/menuCoverAthlete\s*(?:img|::|\.)|menuCoverNumber|object-fit/,"the adapter never restyles the old Reus cover");
   assert.match(adapter,/#mainMenu\.v10Home #continueCareer \.menuCoverAthlete, #mainMenu\.v10Home \.menuAthleteCredit \{ display: none; \}/,"the old Reus cover and credit are not shown on Home");
   const desktop=adapter.split("/* ---------- phone portrait")[0];
   assert.doesNotMatch(desktop,/grid-(?:column|row)\s*:/,"desktop keeps the app's grid placement values");
-  assert.doesNotMatch(adapter,/#(?:legacyButton|careerStatisticsButton|rivalryStatisticsButton)[^{]*\{[^}]*display/,"r43 containment is not undone");
+  assert.doesNotMatch(adapter,/#(?:legacyButton|careerStatisticsButton|rivalryStatisticsButton)[^{]*\{[^}]*display/,"the adapter never sets tile display");
   assert.match(adapter,/#mainMenu\.v10Home #continueCareer:disabled \{ opacity: 1; filter: none; \}/);
 });
 test("Team V files are the 5e05a1f copies with only the listed edits (HO-005: phone overlays V2)",()=>{
-  assert.equal(sha("visual-assets/v10_1/home/home.css"),"5606b234209ab69e379d729ee2b9386d7f54f7929929aaa13f00a362056ffa5b");
+  assert.equal(sha("visual-assets/v10_1/home/home.css"),"874072364e7029ba613064002844ca5066eac1b1b906f2f0c830ecc866572efd");
   assert.doesNotMatch(homeCss,/OVL_HOME_(?:DANIEL|NIK)_PHONE_V1/,"HO-005: phone overlays without the ghost coat (V2)");
   assert.equal(sha("visual-assets/v10_1/home/soundtrack.js"),"8c00f6cf547119848733082af9c6eb0c2baedb24a46b92195b6768a268fa4c72");
   assert.equal((soundtrack.match(/JOB-25 \(app\)/g)||[]).length,2);

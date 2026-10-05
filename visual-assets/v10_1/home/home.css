@@ -1167,3 +1167,16 @@ html[data-reduced-motion="true"] .phoneHeroCutout::after,
     #menuMusicMute { display: inline-flex; align-items: center; justify-content: center; }
   }
 }
+
+/* V-247 · Nik's phone review (05 Oct): the tile icons sat tiny and clipped in the bottom-right corner. As in
+   GOAL_HOME, each icon is now large, fully inside its tile, vertically centred on the right side. `translate` is
+   used (not `transform`) so the desktop hover tilt on .tileArt still works. */
+@media (max-width: 760px) and (orientation: portrait) {
+  .menuTileNew .tileArt, .menuTileLegacy .tileArt, .menuTileTrophy .tileArt,
+  .menuTileTrophyRoom .tileArt, .menuTileRules .tileArt, .menuTileSettings .tileArt,
+  #trophyRoomButton .tileArt {
+    top: 50%; bottom: auto; right: 14px; width: auto; height: 92%; aspect-ratio: 1 / 1;
+    translate: 0 -50%; opacity: 1; object-position: center;
+  }
+  .menuTileRules, .menuTileSettings { padding-right: 70px; }
+}
