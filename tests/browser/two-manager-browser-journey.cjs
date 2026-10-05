@@ -23,6 +23,14 @@ const LENGTH=Number(process.env.CMS_SHOWDOWN_LENGTH||3);
 const FORBIDDEN_HOSTS=/(^|\.)(firestore|identitytoolkit|securetoken|firebaseinstallations|firebaseappcheck|content-firebaseappcheck)\.googleapis\.com$/;
 let checks=0;
 const ok=(id,label)=>{checks+=1;console.log(`ok ${checks} ${id} ${label}`);};
+// Job 33 (fewer taps): every real button tap is logged per manager. These buttons were pure navigation or reads and are now
+// automatic, so the journey must never need them (Daniel's ACKNOWLEDGE is folded into his COMMIT & ACKNOWLEDGE tap, R7).
+const REMOVED_TAPS=new Set(["CHECK STATUS","REFRESH / READ","START CAREER","CONTINUE","CONTINUE TO CLUB PACKS","CONTINUE TO CAREER START","CONTINUE TO TRANSFER CHALLENGE","REFRESH","REFRESH SHARED CHALLENGE","#refreshSharedTransferChallenge"]);
+function assertNoRemovedTaps(m){
+  const removed=m.log.taps.filter(tap=>REMOVED_TAPS.has(tap.text)||REMOVED_TAPS.has(`#${tap.id}`));
+  assert.deepEqual(removed,[],`${m.user} never needed a removed navigation/read tap`);
+  if(m.user==="daniel")assert.equal(m.log.taps.some(tap=>tap.text==="ACKNOWLEDGE SHARED SEASON"),false,"Daniel's acknowledgement rides on his COMMIT & ACKNOWLEDGE tap");
+}
 const urlFor=user=>`${BASE}?cmsEmulator=1&cmsEmulatorUser=${user}&cmsAuthPort=${AUTH_PORT}&cmsFirestorePort=${FIRESTORE_PORT}`;
 const docUrl=p=>`${FIRESTORE}/v1/projects/${PROJECT}/databases/(default)/documents/${p}`;
 async function admin(p){const r=await fetch(docUrl(p),{headers:{Authorization:"Bearer owner"}});return r.status===200?r.json():null;}
@@ -41,7 +49,9 @@ async function loadComposedRules(){
 
 async function openManager(browser,user,viewport){
   const context=await browser.newContext({viewport});
-  const log={errors:[],forbidden:[],productionRuntime:0};
+  const log={errors:[],forbidden:[],productionRuntime:0,taps:[]};
+  await context.exposeBinding("__cmsJourneyTap",(_source,tap)=>{log.taps.push(tap);});
+  await context.addInitScript(()=>{window.addEventListener("click",event=>{if(!event.isTrusted)return;const button=event.target&&event.target.closest&&event.target.closest("button");if(button&&typeof window.__cmsJourneyTap==="function")void window.__cmsJourneyTap({id:button.id||"",text:(button.textContent||"").replace(/\s+/g," ").trim()});},true);});
   await context.route(/^https:\/\/www\.gstatic\.com\/firebasejs\/[\d.]+\/(firebase-[a-z-]+\.js)$/,route=>{
     const name=route.request().url().match(/(firebase-[a-z-]+\.js)$/)[1];
     return route.fulfill({path:path.join(SDK_DIR,name),contentType:"text/javascript; charset=utf-8"});
@@ -74,16 +84,16 @@ const accountId=m=>m.page.evaluate(()=>window.CareerModeSparkConnectedAccount?.g
 const entry=m=>m.page.locator("#productionSharedJourneyEntryOverlay");
 const remote=m=>m.page.locator("#sparkRemoteJoiningOverlay, #remoteJoiningOverlay").filter({hasText:"REMOTE JOINING"}).first();
 // Job 31: the host page picks up the peer's JOIN by itself (quiet read every few seconds); nobody taps REFRESH / READ.
-async function hostSeesJoin(m){await entry(m).getByRole("button",{name:"START CAREER"}).waitFor({state:"visible",timeout:20000});assert.equal(await remote(m).isVisible().catch(()=>false),false,`${m.user}: Remote Joining closed by itself once the peer joined`);}
+// Job 33 (R6): the ACTIVE session then continues into the Showdown by itself, so Remote Joining closes on both pages.
+async function hostSeesJoin(m){await m.page.waitForFunction(()=>window.CareerModeSparkRemoteJoining?.getState?.()?.sessionState==="active",null,{timeout:20000});await remote(m).waitFor({state:"hidden",timeout:20000});assert.equal(await entry(m).isVisible().catch(()=>false),false,`${m.user}: no GET READY after the peer joined`);}
 const pairPanel=m=>m.page.locator("#persistentNikDanielPairPanel");
 async function waitTransferPhase(m,phase){
   await m.page.waitForFunction(value=>document.getElementById("transferChallenge")?.dataset.transferPhase===value,phase,{timeout:30000});
 }
-async function refreshTransfer(m){
-  const button=m.page.locator("#refreshSharedTransferChallenge");
-  if(await button.isVisible().catch(()=>false)){
-    await button.click({timeout:30000});
-  }
+// Job 33 (R1): a manager who is waiting on the rival re-reads the shared challenge every 3 s, so no REFRESH tap is needed.
+// A manager who has the next tap is not fast-polled; the shared-state wait below only observes the normal 15 s read.
+async function waitTransferState(m,field,role){
+  await m.page.waitForFunction(([key,value])=>window.CareerModeProductionSharedTransferChallenge?.getState?.()?.state?.[key]?.includes(value)===true,[field,role],{timeout:30000});
 }
 async function fillTransferCombo(m,id,value){
   const input=m.page.locator(`#${id}`);
@@ -127,10 +137,15 @@ async function prepareSeasonReview(m){
   await m.page.waitForFunction(()=>document.getElementById("seasonReviewHeading")?.textContent==="REVIEW YOUR SEASON RESULT",null,{timeout:30000});
 }
 async function commitSeasonViaUi(daniel,nik,p1,p2,winner){
-  await daniel.page.waitForFunction(()=>document.getElementById("sharedSeasonCommitAction")?.textContent==="COMMIT SHARED SEASON",null,{timeout:45000});
+  await daniel.page.waitForFunction(()=>document.getElementById("sharedSeasonCommitAction")?.textContent==="COMMIT & ACKNOWLEDGE SHARED SEASON",null,{timeout:45000});
+  await nik.page.waitForFunction(()=>document.getElementById("sharedSeasonCommitAction")?.textContent==="WAITING FOR COORDINATOR"||document.getElementById("sharedSeasonCommitAction")?.textContent==="ACKNOWLEDGE SHARED SEASON",null,{timeout:45000});
+  if(await nik.page.locator("#sharedSeasonCommitAction").textContent()==="WAITING FOR COORDINATOR")assert.equal(await nik.page.locator("#sharedSeasonCommitAction").isDisabled(),true,"Nik cannot commit");
+  // R7 (owner decision 2026-10-04): Daniel's one tap commits, then records his own acknowledgement; Nik still acknowledges himself.
   await daniel.page.locator("#sharedSeasonCommitAction").click({timeout:30000});
-  await daniel.page.waitForFunction(()=>document.getElementById("sharedSeasonCommitAction")?.textContent==="ACKNOWLEDGE SHARED SEASON",null,{timeout:30000});
-  await daniel.page.locator("#sharedSeasonCommitAction").click({timeout:30000});
+  await daniel.page.waitForFunction(()=>/^(ACKNOWLEDGED ✓ · WAITING FOR RIVAL|SEASON COMMIT ACKNOWLEDGED ✓)$/.test(document.getElementById("sharedSeasonCommitAction")?.textContent||""),null,{timeout:30000});
+  const danielCommit=await daniel.page.evaluate(()=>{const s=window.CareerModeProductionSharedSeasonCommit?.getState?.();return s?{committed:s.committed,ownAcknowledged:s.ownAcknowledged}:null;});
+  assert.deepEqual(danielCommit,{committed:true,ownAcknowledged:true},"Daniel's single tap committed the season and recorded his own acknowledgement");
+  assert.equal(await daniel.page.locator("#sharedCanonicalScoringPanel").isVisible().catch(()=>false),false,"scoring still waits for Nik's own acknowledgement");
   await nik.page.waitForFunction(()=>document.getElementById("sharedSeasonCommitAction")?.textContent==="ACKNOWLEDGE SHARED SEASON",null,{timeout:45000});
   await nik.page.locator("#sharedSeasonCommitAction").click({timeout:30000});
   for(const m of [daniel,nik]){
@@ -154,44 +169,43 @@ async function commitSeasonViaUi(daniel,nik,p1,p2,winner){
     await m.page.locator("#sharedHistoryConvergencePanel").waitFor({state:"visible",timeout:45000});
   }
 }
+// Job 33 (R2): CONTINUE TO SEASON N updates the dashboard and opens the new season's Shared Transfer Challenge directly
+// (no START SEASON N dashboard tap). The dashboard values are still asserted from the rendered dashboard.
 async function continueToSeason(daniel,nik,season,total){
   for(const m of [daniel,nik]){
     await m.page.waitForFunction(next=>document.getElementById("sharedMultiSeasonContinueAction")?.textContent===`CONTINUE TO SEASON ${next}`,season,{timeout:45000});
     await m.page.locator("#sharedMultiSeasonContinueAction").click({timeout:30000});
-    await m.page.locator("#dashboard").waitFor({state:"visible",timeout:30000});
     await m.page.waitForFunction(value=>document.getElementById("seasonIndicator")?.textContent===value,`Season ${season} / ${total}`,{timeout:30000});
+    await m.page.locator("#transferChallenge").waitFor({state:"visible",timeout:30000});
+    assert.equal(await m.page.locator("#dashboard").isVisible(),false,`${m.user} went straight to the season-${season} Transfer Challenge`);
   }
-}
-async function openSharedTransferFromDashboard(m,season){
-  await m.page.waitForFunction(value=>(document.getElementById("seasonPrimaryAction")?.textContent||"").includes(`SEASON ${value}`)||/SHARED TRANSFER/i.test(document.getElementById("seasonPrimaryAction")?.textContent||""),season,{timeout:30000});
-  await m.page.locator("#seasonPrimaryAction").click({timeout:30000});
-  await m.page.locator("#transferChallenge").waitFor({state:"visible",timeout:30000});
 }
 async function playTransferSeason(daniel,nik,season,tokenD,tokenN){
   await daniel.page.waitForFunction(()=>document.getElementById("startTransferTimer")&&!document.getElementById("startTransferTimer").classList.contains("hidden"),null,{timeout:30000});
   await daniel.page.locator("#startTransferTimer").click({timeout:30000});
-  await waitTransferPhase(daniel,"window");await refreshTransfer(nik);await waitTransferPhase(nik,"window");
+  await waitTransferPhase(daniel,"window");await waitTransferPhase(nik,"window");
   await daniel.page.locator("#endTransferTimer").click({timeout:30000});
   await daniel.page.waitForFunction(()=>window.CareerModeProductionSharedTransferChallenge?.getState?.()?.state?.endRequestedRoles?.includes("playerOne")===true,null,{timeout:30000});
-  await refreshTransfer(nik);await nik.page.locator("#endTransferTimer").click({timeout:30000});
-  await waitTransferPhase(nik,"guess_entry");await refreshTransfer(daniel);await waitTransferPhase(daniel,"guess_entry");
+  await nik.page.locator("#endTransferTimer").click({timeout:30000});
+  await waitTransferPhase(nik,"guess_entry");await waitTransferPhase(daniel,"guess_entry");
 
   await daniel.page.locator("#p2Guess1Type").selectOption("league");await fillTransferCombo(daniel,"p2Guess1Value","Premier League");
   await nik.page.locator("#p1Guess1Type").selectOption("nationality");await fillTransferCombo(nik,"p1Guess1Value","Brazil");
   await daniel.page.getByRole("button",{name:"LOCK MY GUESSES",exact:true}).click({timeout:30000});
   await daniel.page.waitForFunction(()=>window.CareerModeProductionSharedTransferChallenge?.getState?.()?.state?.guessLockedRoles?.includes("playerOne")===true,null,{timeout:30000});
-  await refreshTransfer(nik);await nik.page.getByRole("button",{name:"LOCK MY GUESSES",exact:true}).click({timeout:30000});
-  await waitTransferPhase(nik,"signing_entry");await refreshTransfer(daniel);await waitTransferPhase(daniel,"signing_entry");
+  await nik.page.getByRole("button",{name:"LOCK MY GUESSES",exact:true}).click({timeout:30000});
+  await waitTransferPhase(nik,"signing_entry");await waitTransferPhase(daniel,"signing_entry");
 
   await daniel.page.locator("#p1Signing1Name").fill(tokenD);await fillTransferCombo(daniel,"p1Signing1League","Premier League");await fillTransferCombo(daniel,"p1Signing1Nationality","England");
   await daniel.page.getByRole("button",{name:"LOCK MY SIGNINGS",exact:true}).click({timeout:30000});
   await daniel.page.waitForFunction(()=>window.CareerModeProductionSharedTransferChallenge?.getState?.()?.state?.signingLockedRoles?.includes("playerOne")===true,null,{timeout:30000});
   await assertPrivateTokenAbsent(nik,tokenD.split(" ")[0],`season ${season} Daniel signing privacy`);
-  await refreshTransfer(nik);await waitTransferPhase(nik,"signing_entry");
+  await waitTransferState(nik,"signingLockedRoles","playerOne");await waitTransferPhase(nik,"signing_entry");
+  await assertPrivateTokenAbsent(nik,tokenD.split(" ")[0],`season ${season} Daniel signing privacy after Nik read the lock`);
   await nik.page.locator("#p2Signing1Name").fill(tokenN);await fillTransferCombo(nik,"p2Signing1League","TIM Serie A");await fillTransferCombo(nik,"p2Signing1Nationality","Brazil");
   await assertPrivateTokenAbsent(daniel,tokenN.split(" ")[0],`season ${season} Nik signing privacy`);
   await nik.page.getByRole("button",{name:"LOCK MY SIGNINGS",exact:true}).click({timeout:30000});
-  await waitTransferPhase(nik,"completed");await refreshTransfer(daniel);await waitTransferPhase(daniel,"completed");
+  await waitTransferPhase(nik,"completed");await waitTransferPhase(daniel,"completed");
   for(const m of [daniel,nik])await m.page.getByRole("button",{name:"CONTINUE TO SHARED SEASON RESULTS",exact:true}).waitFor({state:"visible",timeout:30000});
 }
 
@@ -235,8 +249,8 @@ async function main(){
     await nik.page.waitForTimeout(500);
     await pairPanel(nik).locator("#persistentNikDanielPairCode").fill(pairCode);
     await pairPanel(nik).getByRole("button",{name:"JOIN DANIEL'S SHOWDOWN",exact:true}).click();
+    // Job 33 (R1): Daniel's waiting code panel re-reads every 4 s, so Nik's join shows without CHECK STATUS.
     for(const m of [nik,daniel]){
-      if(m===daniel)await pairPanel(daniel).getByRole("button",{name:"CHECK STATUS"}).click().catch(()=>{});
       await m.page.waitForFunction(()=>/CAREER READY/.test(document.getElementById("persistentNikDanielPairPanel")?.innerText||""),null,{timeout:30000});
     }
     const linkD=await admin(`accounts/${uidD}/pairLinks/current`),linkN=await admin(`accounts/${uidN}/pairLinks/current`);
@@ -249,23 +263,25 @@ async function main(){
     ok("J2.2","Nik joined with the code; Daniel=playerOne, Nik=playerTwo, both career indexes [R1]");
     await shot(daniel,"j2-paired");await shot(nik,"j2-paired");
 
-    // J3 private session through the real Remote Joining surface, then START CAREER
+    // J3 private session through the real Remote Joining surface; the ACTIVE session continues into the league wheel.
+    // Job 33 (R5b): a connected pair goes from CONTINUE CAREER straight to Remote Joining (no GET READY CONTINUE).
     for(const m of [daniel,nik]){
       await pairPanel(m).getByRole("button",{name:"CONTINUE CAREER"}).first().click();
-      await entry(m).filter({hasText:"CONNECTED"}).getByRole("button",{name:"CONTINUE",exact:true}).click({timeout:30000});
       await remote(m).waitFor({state:"visible",timeout:30000});
+      assert.equal(await entry(m).isVisible().catch(()=>false),false,`${m.user}: no GET READY overlay before Remote Joining`);
     }
     await remote(daniel).getByRole("button",{name:"HOST PRIVATE SESSION"}).click({timeout:30000});
     await daniel.page.waitForFunction(()=>/session_[A-Za-z0-9_-]{16,}/.test(document.body.innerText),null,{timeout:30000});
     const sessionCode=await daniel.page.evaluate(()=>document.body.innerText.match(/session_[A-Za-z0-9_-]{16,}/)[0]);
     await remote(nik).getByRole("textbox",{name:"Exact private session code"}).fill(sessionCode);
     await remote(nik).getByRole("button",{name:"JOIN PRIVATE SESSION"}).click();
-    // The Remote Joining overlay may close by itself once the session is active; wait for GET READY's START CAREER instead of its text.
-    await entry(nik).getByRole("button",{name:"START CAREER"}).waitFor({state:"visible",timeout:30000});
     await hostSeesJoin(daniel);
-    for(const m of [daniel,nik]){
-      await entry(m).getByRole("button",{name:"START CAREER"}).click({timeout:30000});
+    // Job 33 (R6 + R1): the ACTIVE session takes both managers to the league wheel by itself; Daniel's hosted session is
+    // re-read every 4 s, so neither REFRESH / READ nor START CAREER is tapped.
+    for(const m of [nik,daniel]){
       await m.page.locator("#leagueWheelScreen").waitFor({state:"visible",timeout:30000});
+      assert.equal(await m.page.evaluate(()=>window.CareerModeSparkRemoteJoining?.getState?.()?.sessionState),"active",`${m.user}: the private session is ACTIVE`);
+      assert.equal(await entry(m).isVisible().catch(()=>false),false,`${m.user}: GET READY is not shown`);
     }
     ok("J3.1","private session hosted by Daniel, joined by Nik; both reached the league wheel");
     await shot(daniel,"j3-setup");await shot(nik,"j3-setup");
@@ -284,13 +300,13 @@ async function main(){
     ok("J4.2","Daniel drew the authoritative league and Nik followed it without drawing");
 
     // Both devices witness the real league screen; only Daniel performs the authoritative club draw.
-    await daniel.page.locator("#spinLeague").click({timeout:30000});
-    await daniel.page.locator("#clubWheelScreen").waitFor({state:"visible",timeout:30000});
-    await nik.page.waitForFunction(()=>document.getElementById("spinLeague")?.textContent==="CONTINUE TO CLUB PACKS",null,{timeout:30000});
-    // BUG: see JOB-16-browser-journey.md — provider authority follows automatically, but Nik's presentation does not advance to the club screen without this navigation-only tap.
-    assert.equal(await nik.page.locator("#leagueWheelScreen").isVisible(),true,"today's peer presentation remains on the witnessed league screen");
-    await nik.page.locator("#spinLeague").click({timeout:30000});
-    await nik.page.locator("#clubWheelScreen").waitFor({state:"visible",timeout:30000});
+    // Job 33 (R3, fixes the JOB-16 peer gap): after the league reveal both presentations move on to the club packs by themselves.
+    for(const m of [daniel,nik]){
+      await m.page.waitForFunction(()=>document.getElementById("spinLeague")?.textContent==="CONTINUE TO CLUB PACKS",null,{timeout:30000});
+      await m.page.locator("#clubWheelScreen").waitFor({state:"visible",timeout:30000});
+      assert.equal(await m.page.locator("#leagueWheelScreen").isVisible(),false,`${m.user}: the witnessed league screen advanced to the club packs without a tap`);
+      assert.equal((await m.page.locator("#clubAssignmentLeague").textContent()).trim(),sharedLeague,`${m.user}: the club screen names the shared league`);
+    }
     assert.match(await nik.page.locator("#openClubPack").textContent(),/WAITING FOR HOST/i,"Nik waits for host pack reveal");
     assert.equal(await nik.page.locator("#openClubPack").isDisabled(),true,"Nik cannot draw the clubs");
     await daniel.page.locator("#openClubPack").click({timeout:30000});
@@ -310,16 +326,16 @@ async function main(){
     for(const m of [daniel,nik])await m.page.getByRole("button",{name:"CONFIRM SHARED SHOWDOWN"}).waitFor({state:"visible",timeout:30000});
     await daniel.page.getByRole("button",{name:"CONFIRM SHARED SHOWDOWN"}).click({timeout:30000});
     await nik.page.getByRole("button",{name:"CONFIRM SHARED SHOWDOWN"}).click({timeout:30000});
-    for(const m of [daniel,nik])await m.page.waitForFunction(()=>document.getElementById("continueClubAssignment")?.textContent==="CONTINUE TO CAREER START",null,{timeout:30000});
+    // Job 33 (R4a): the first confirmer's Career Start opens by itself once the rival confirms (no CONTINUE TO CAREER START tap).
+    for(const m of [daniel,nik]){
+      await m.page.waitForFunction(()=>document.getElementById("continueClubAssignment")?.textContent==="CONTINUE TO CAREER START",null,{timeout:30000});
+      await m.page.locator("#productionSharedCareerStartOverlay").waitFor({state:"visible",timeout:30000});
+    }
     ok("J4.4","both managers confirmed the identical shared setup and both real club screens advanced to Career Start");
     await shot(daniel,"j4-setup");await shot(nik,"j4-setup");
 
     // J5 career start: each manager confirms only their own FIFA 17 career, then both continue.
-    for(const m of [daniel,nik]){
-      // The Career Start overlay sometimes opens before this tap and would intercept it; the tap is only needed when it has not.
-      if(!await m.page.locator("#productionSharedCareerStartOverlay").isVisible())await m.page.locator("#continueClubAssignment").click({timeout:30000});
-      await m.page.locator("#productionSharedCareerStartOverlay").waitFor({state:"visible",timeout:30000});
-    }
+    for(const m of [daniel,nik])await m.page.locator("#productionSharedCareerStartOverlay").waitFor({state:"visible",timeout:30000});
     const careerTextD=await daniel.page.locator("#productionSharedCareerStartOverlay").innerText();
     const careerTextN=await nik.page.locator("#productionSharedCareerStartOverlay").innerText();
     assert.ok(careerTextD.includes("Daniel")&&careerTextD.includes(clubsD[0]),"Daniel Career Start shows Daniel's assigned club");
@@ -333,20 +349,15 @@ async function main(){
     await daniel.page.getByRole("button",{name:danielStartLabel,exact:true}).click({timeout:30000});
     await daniel.page.getByRole("button",{name:"MY CAREER STARTED ✓",exact:true}).waitFor({state:"visible",timeout:30000});
     await nik.page.getByRole("button",{name:nikStartLabel,exact:true}).click({timeout:30000});
-    await nik.page.getByRole("button",{name:"CONTINUE TO TRANSFER CHALLENGE",exact:true}).waitFor({state:"visible",timeout:30000});
-    const danielContinue=daniel.page.getByRole("button",{name:"CONTINUE TO TRANSFER CHALLENGE",exact:true});
-    if(!await danielContinue.isVisible().catch(()=>false)){
-      const refresh=daniel.page.getByRole("button",{name:"REFRESH",exact:true});
-      if(await refresh.isVisible().catch(()=>false))await refresh.click({timeout:30000});
-    }
-    await danielContinue.waitFor({state:"visible",timeout:30000});
+    // Job 33 (R1 + R4b): Daniel's waiting Career Start re-reads every 3 s; once both attested, each Career Start moves on
+    // to the Transfer Challenge by itself (no REFRESH, no CONTINUE TO TRANSFER CHALLENGE).
+    for(const m of [daniel,nik])await m.page.waitForFunction(()=>window.CareerModeProductionSharedCareerStart?.getState?.()?.state?.phase==="CAREER_START_READY",null,{timeout:30000});
     ok("J5.2","both private Career Start acknowledgements converged to ready");
 
-    await Promise.all([
-      danielContinue.click({timeout:30000}),
-      nik.page.getByRole("button",{name:"CONTINUE TO TRANSFER CHALLENGE",exact:true}).click({timeout:30000})
-    ]);
-    for(const m of [daniel,nik])await m.page.locator("#transferChallenge").waitFor({state:"visible",timeout:30000});
+    for(const m of [daniel,nik]){
+      await m.page.locator("#transferChallenge").waitFor({state:"visible",timeout:30000});
+      await m.page.locator("#productionSharedCareerStartOverlay").waitFor({state:"hidden",timeout:30000});
+    }
     ok("J5.3","both managers reached the real Shared Transfer Challenge through the UI");
     await shot(daniel,"j5-career-start");await shot(nik,"j5-career-start");
 
@@ -355,7 +366,7 @@ async function main(){
     assert.equal(await nik.page.locator("#startTransferTimer").isVisible(),false,"Nik cannot start the shared transfer window");
     await daniel.page.locator("#startTransferTimer").click({timeout:30000});
     await waitTransferPhase(daniel,"window");
-    await refreshTransfer(nik);await waitTransferPhase(nik,"window");
+    await waitTransferPhase(nik,"window");
     // BUG: see JOB-16-browser-journey.md — the shared phase is authoritative but the legacy control copy
     // can still render "END WINDOW EARLY" instead of the intended "REQUEST EARLY END".
     assert.match(await daniel.page.locator("#endTransferTimer").textContent(),/^(REQUEST EARLY END|END WINDOW EARLY)$/);
@@ -363,10 +374,10 @@ async function main(){
     ok("J6.1","Daniel started the shared 15-minute window and both managers see the same live phase");
 
     await daniel.page.locator("#endTransferTimer").click({timeout:30000});
-    await refreshTransfer(nik);
+    await daniel.page.waitForFunction(()=>window.CareerModeProductionSharedTransferChallenge?.getState?.()?.state?.endRequestedRoles?.includes("playerOne")===true,null,{timeout:30000});
     await nik.page.locator("#endTransferTimer").click({timeout:30000});
     await waitTransferPhase(nik,"guess_entry");
-    await refreshTransfer(daniel);await waitTransferPhase(daniel,"guess_entry");
+    await waitTransferPhase(daniel,"guess_entry");
     ok("J6.2","both managers requested early end and the shared window advanced without waiting 15 minutes");
 
     await daniel.page.locator("#p2Guess1Type").selectOption("league");
@@ -381,11 +392,10 @@ async function main(){
     assert.equal(await nik.page.locator("#p2Guess1Type").locator("xpath=ancestor::*[contains(@class,'transferGuessCard')]").isVisible(),false,"Nik's rival guess card stays hidden");
     await daniel.page.getByRole("button",{name:"LOCK MY GUESSES",exact:true}).click({timeout:30000});
     await daniel.page.waitForFunction(()=>window.CareerModeProductionSharedTransferChallenge?.getState?.()?.state?.guessLockedRoles?.includes("playerOne")===true,null,{timeout:30000});
-    await refreshTransfer(nik);
     await waitTransferPhase(nik,"guess_entry");
     await nik.page.getByRole("button",{name:"LOCK MY GUESSES",exact:true}).click({timeout:30000});
     await waitTransferPhase(nik,"signing_entry");
-    await refreshTransfer(daniel);await waitTransferPhase(daniel,"signing_entry");
+    await waitTransferPhase(daniel,"signing_entry");
     ok("J6.3","both managers entered and locked their private guesses through the real controls");
 
     await daniel.page.locator("#p1Signing1Name").fill("QWX Daniel Signing");
@@ -394,7 +404,7 @@ async function main(){
     await daniel.page.getByRole("button",{name:"LOCK MY SIGNINGS",exact:true}).click({timeout:30000});
     await daniel.page.waitForFunction(()=>window.CareerModeProductionSharedTransferChallenge?.getState?.()?.state?.signingLockedRoles?.includes("playerOne")===true,null,{timeout:30000});
     await assertPrivateTokenAbsent(nik,"QWX","before transfer completion on Nik");
-    await refreshTransfer(nik);
+    await waitTransferState(nik,"signingLockedRoles","playerOne");
     await waitTransferPhase(nik,"signing_entry");
     await assertPrivateTokenAbsent(nik,"QWX","after Daniel signing lock but before COMPLETED");
 
@@ -406,7 +416,7 @@ async function main(){
 
     await nik.page.getByRole("button",{name:"LOCK MY SIGNINGS",exact:true}).click({timeout:30000});
     await waitTransferPhase(nik,"completed");
-    await refreshTransfer(daniel);await waitTransferPhase(daniel,"completed");
+    await waitTransferPhase(daniel,"completed");
     for(const m of [daniel,nik]){
       assert.equal(await m.page.locator("#p1Signing1Name").inputValue(),"QWX Daniel Signing");
       assert.equal(await m.page.locator("#p2Signing1Name").inputValue(),"ZPV Nik Signing");
@@ -465,7 +475,6 @@ async function main(){
       }
       ok("J8.1","both dashboards show 9-3 and Season 2 of 3 after season-1 commit");
 
-      for(const m of [daniel,nik])await openSharedTransferFromDashboard(m,2);
       await playTransferSeason(daniel,nik,2,"QWX2 Daniel Signing","ZPV2 Nik Signing");
       ok("J8.2","season 2 repeated the shared transfer flow with rendered privacy before completion");
 
@@ -491,7 +500,6 @@ async function main(){
       ok("J9.1","after reload both managers keep their Google session and see CAREER READY · CONTINUE CAREER without the GET READY overlay");
       for(const m of [daniel,nik]){
         await pairPanel(m).getByRole("button",{name:"CONTINUE CAREER"}).first().click({timeout:30000});
-        await entry(m).filter({hasText:"CONNECTED"}).getByRole("button",{name:"CONTINUE",exact:true}).click({timeout:30000});
         await remote(m).waitFor({state:"visible",timeout:30000});
       }
       await remote(daniel).getByRole("button",{name:"HOST PRIVATE SESSION"}).click({timeout:30000});
@@ -500,10 +508,9 @@ async function main(){
       assert.notEqual(resumeSessionCode,sessionCode,"the resume uses a fresh exact private session");
       await remote(nik).getByRole("textbox",{name:"Exact private session code"}).fill(resumeSessionCode);
       await remote(nik).getByRole("button",{name:"JOIN PRIVATE SESSION"}).click({timeout:30000});
-      await entry(nik).getByRole("button",{name:"START CAREER"}).waitFor({state:"visible",timeout:30000});
       await hostSeesJoin(daniel);
-      for(const m of [daniel,nik]){
-        await entry(m).getByRole("button",{name:"START CAREER"}).click({timeout:30000});
+      // Job 33 (R6 + R1): the fresh ACTIVE session resumes both managers by itself (no REFRESH / READ, no START CAREER).
+      for(const m of [nik,daniel]){
         try{
           await m.page.locator("#dashboard").waitFor({state:"visible",timeout:45000});
           await m.page.waitForFunction(()=>/Season 2 of 3/.test(document.getElementById("dashboardRound")?.textContent||""),null,{timeout:45000});
@@ -561,7 +568,6 @@ async function main(){
           assert.equal((await m.page.locator("#dashboardScoreTwo").textContent()).trim(),"14");
           assert.match((await m.page.locator("#dashboardRound").textContent()).trim(),/Season 3 of 3/);
         }
-        for(const m of [daniel,nik])await openSharedTransferFromDashboard(m,3);
         await playTransferSeason(daniel,nik,3,"QWX3 Daniel Signing","ZPV3 Nik Signing");
         for(const m of [daniel,nik])await m.page.getByRole("button",{name:"CONTINUE TO SHARED SEASON RESULTS",exact:true}).click({timeout:30000});
         for(const m of [daniel,nik])await m.page.locator("#seasonEntry").waitFor({state:"visible",timeout:30000});
@@ -699,7 +705,6 @@ async function main(){
     await pairPanel(nik).locator("#persistentNikDanielPairCode").fill(pairCode2);
     await pairPanel(nik).getByRole("button",{name:"JOIN DANIEL'S SHOWDOWN",exact:true}).click({timeout:30000});
     for(const m of [nik,daniel]){
-      if(m===daniel)await pairPanel(daniel).getByRole("button",{name:"CHECK STATUS"}).click().catch(()=>{});
       await m.page.waitForFunction(()=>/CAREER READY/.test(document.getElementById("persistentNikDanielPairPanel")?.innerText||""),null,{timeout:30000});
     }
     const linkD2=await admin(`accounts/${uidD}/pairLinks/current`),linkN2=await admin(`accounts/${uidN}/pairLinks/current`);
@@ -711,7 +716,6 @@ async function main(){
 
     for(const m of [daniel,nik]){
       await pairPanel(m).getByRole("button",{name:"CONTINUE CAREER"}).first().click({timeout:30000});
-      await entry(m).filter({hasText:"CONNECTED"}).getByRole("button",{name:"CONTINUE",exact:true}).click({timeout:30000});
       await remote(m).waitFor({state:"visible",timeout:30000});
     }
     await remote(daniel).getByRole("button",{name:"HOST PRIVATE SESSION"}).click({timeout:30000});
@@ -719,12 +723,8 @@ async function main(){
     const sessionCode2=await daniel.page.evaluate(()=>document.body.innerText.match(/session_[A-Za-z0-9_-]{16,}/)[0]);
     await remote(nik).getByRole("textbox",{name:"Exact private session code"}).fill(sessionCode2);
     await remote(nik).getByRole("button",{name:"JOIN PRIVATE SESSION"}).click({timeout:30000});
-    await entry(nik).getByRole("button",{name:"START CAREER"}).waitFor({state:"visible",timeout:30000});
     await hostSeesJoin(daniel);
-    for(const m of [daniel,nik]){
-      await entry(m).getByRole("button",{name:"START CAREER"}).click({timeout:30000});
-      await m.page.locator("#leagueWheelScreen").waitFor({state:"visible",timeout:30000});
-    }
+    for(const m of [nik,daniel])await m.page.locator("#leagueWheelScreen").waitFor({state:"visible",timeout:30000});
     ok("J12.1","after terminal R1, Daniel and Nik created distinct R2, both indexes are [R1,R2], and both reached R2 league wheel");
     await shot(daniel,"j12-r2");await shot(nik,"j12-r2");
 
@@ -736,6 +736,9 @@ async function main(){
       assert.deepEqual(m.log.errors,[],`${m.user} page errors`);
     }
     ok("JZ.1","no production Firebase host, no production runtime/config load, no page errors in either context");
+    for(const m of [daniel,nik])assertNoRemovedTaps(m);
+    console.log(`TAPS daniel=${daniel.log.taps.length} nik=${nik.log.taps.length} (${LENGTH}-season run incl. reload resume and second Showdown start)`);
+    ok("JZ.2",`fewer taps: neither manager needed a removed navigation/read tap (Daniel ${daniel.log.taps.length}, Nik ${nik.log.taps.length} button taps)`);
     console.log(`PASS two-manager browser journey: ${checks} numbered checks (J0-J12) on the Auth + Firestore emulators, composed production Rules, ${LENGTH}-season Showdown.`);
   }catch(error){
     for(const m of managers){console.log(`--- ${m.user}: ${await describe(m).catch(e=>e.message)}`);console.log(`--- ${m.user} errors: ${JSON.stringify(m.log.errors.slice(-10))}`);await shot(m,"failure");}

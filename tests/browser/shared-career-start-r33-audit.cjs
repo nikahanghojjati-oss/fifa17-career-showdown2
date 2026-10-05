@@ -168,20 +168,17 @@ async function prepareCareerPage(page,role,shared){
 
     const peerStart=peer.getByRole("button",{name:"I STARTED AT HERTHA BSC"});
     await peerStart.click();
-    await peer.getByRole("button",{name:"CONTINUE TO TRANSFER CHALLENGE"}).waitFor({state:"visible",timeout:5000});
+    // Job 33 (R4b): once both attested, Career Start hands each device to the Transfer Challenge by itself (no CONTINUE tap).
+    await peer.waitForFunction(()=>window.__transferOpenCount===1,null,{timeout:5000});
     assert.equal(shared.state.revision,2);
     assert.equal(shared.state.phase,"CAREER_START_READY");
     assert.deepEqual(shared.state.acknowledgedRoles,["playerOne","playerTwo"]);
 
-    await host.getByRole("button",{name:"REFRESH"}).click();
-    await host.getByRole("button",{name:"CONTINUE TO TRANSFER CHALLENGE"}).waitFor({state:"visible",timeout:5000});
-
-    await Promise.all([
-      host.getByRole("button",{name:"CONTINUE TO TRANSFER CHALLENGE"}).click(),
-      peer.getByRole("button",{name:"CONTINUE TO TRANSFER CHALLENGE"}).click()
-    ]);
-    await host.waitForFunction(()=>window.__transferOpenCount===1,null,{timeout:3000});
-    await peer.waitForFunction(()=>window.__transferOpenCount===1,null,{timeout:3000});
+    // Job 33 (R1): Daniel is waiting on Nik, so his Career Start re-reads every 3 s and needs no REFRESH tap.
+    await host.waitForFunction(()=>window.__transferOpenCount===1,null,{timeout:10000});
+    await host.waitForTimeout(3500);
+    assert.equal(await host.evaluate(()=>window.__transferOpenCount),1,"the hand-off happens exactly once on Daniel's device");
+    assert.equal(await peer.evaluate(()=>window.__transferOpenCount),1,"the hand-off happens exactly once on Nik's device");
 
     assert.equal(await host.evaluate(()=>window.CareerModeProductionSharedCareerStart.getState().state.phase),"CAREER_START_READY");
     assert.equal(await peer.evaluate(()=>window.CareerModeProductionSharedCareerStart.getState().state.phase),"CAREER_START_READY");
