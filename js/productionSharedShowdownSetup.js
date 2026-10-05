@@ -132,6 +132,13 @@
   // a refresh during a write keeps the write's state, and a write waits for an in-flight refresh.
   function refreshWaitMs(){const value=Number(root.CMS_SETUP_REFRESH_WAIT_MS);return Number.isFinite(value)&&value>=100&&value<=20000?value:20000;}
   let refreshInFlight=null,refreshStartedAt=0,mutateInFlight=null,setupGeneration=0,heldReadFailure=false;
+  const TRANSIENT_CONTEXT_CODES=Object.freeze(["SHARED_SETUP_PROVIDER_UNAVAILABLE","SHARED_SETUP_RIVALRY_REQUIRED"]);
+  function heldSessionStillActive(){
+    try{
+      const remote=root.CareerModeSparkRemoteJoining?.getState?.(),expiry=Number(remote?.expiresAtEpochMs);
+      return Boolean(remote&&remote.sessionState==="active"&&remote.sessionId&&remote.sessionId===state.sessionId&&remote.rivalryId===state.rivalryId&&remote.accountId===state.accountId&&remote.deviceId===state.deviceId&&!remote.pendingAction&&Number.isFinite(expiry)&&Date.now()<expiry);
+    }catch(_error){return false;}
+  }
   function boundedWait(promise){let timer=null;return Promise.race([promise.catch(()=>null),new Promise(resolve=>{timer=root.setTimeout?.(resolve,refreshWaitMs());})]).finally(()=>{if(timer!==null)root.clearTimeout?.(timer);});}
   function refresh(){
     // A refresh during a write resolves after the write publishes its accepted state.
@@ -156,6 +163,8 @@
     }catch(error){
       try{assertStorageUnchanged(before);}catch(storageError){error=storageError;}
       if(generation!==setupGeneration)return state;
+      // BH-7: a transient context failure (Connected Rivalry briefly unavailable, Firebase services not ready) is the one exception to "context failures never hold" below: it gets the same one-poll hold, only while the same private session is still exact-ACTIVE and unexpired.
+      if(!readReached&&TRANSIENT_CONTEXT_CODES.includes(String(error&&error.code||""))&&!heldReadFailure&&state.ready===true&&state.setup&&state.setup.phase==="SHOWDOWN_CONFIRMED"&&heldSessionStillActive()){heldReadFailure=true;return setState({status:"ready",busy:false});}
       // One failed provider read (network blip, a read racing the rival's write) keeps the confirmed Setup for one poll so every module gated on it does not go quiet; a repeat failure locks it.
       // Context failures (logout, detached pairing, expired session, account/device mismatch) and storage changes never hold: the exact ACTIVE prerequisite is gone.
       if(readReached&&!/^SHARED_SETUP_(LOCAL_SAVE_MUTATION|STORAGE_AUTHORITY_UNAVAILABLE)$/.test(String(error&&error.code||""))&&!heldReadFailure&&state.ready===true&&state.setup&&state.setup.phase==="SHOWDOWN_CONFIRMED"){heldReadFailure=true;return setState({status:"ready",busy:false});}
