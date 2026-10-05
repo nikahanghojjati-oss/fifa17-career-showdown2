@@ -96,6 +96,13 @@
   #mainMenu.v10Home .fifaMenuGrid { display: flex; align-items: stretch; gap: 8px; }
   #mainMenu.v10Home .fifaMenuGrid > .menuTile { flex: 1 1 0; height: 100%; min-height: 0; margin: 0; }
   #mainMenu.v10Home .fifaMenuGrid > #continueCareer { flex: 1.6 1 0; }
+  /* JOB-1001: Home desktop icons inside the tile (Nik, 2026-10-05) */
+  #mainMenu.v10Home #newShowdown .tileArt { right:8px; bottom:6px; width:min(120px,58%); height:calc(var(--tile-h) - 40px); object-fit:contain; }
+  #mainMenu.v10Home #legacyButton .tileArt { right:6px; bottom:6px; width:min(122px,60%); height:calc(var(--tile-h) - 36px); object-fit:contain; }
+  #mainMenu.v10Home #careerStatisticsButton .tileArt { right:12px; bottom:10px; width:min(124px,58%); height:calc(var(--tile-h) - 34px); object-fit:contain; }
+  #mainMenu.v10Home #homeTrophyRoomButton .tileArt { right:6px; bottom:4px; width:min(126px,62%); height:calc(var(--tile-h) - 28px); object-fit:contain; }
+  #mainMenu.v10Home #ruleBookButton .tileArt { right:10px; bottom:10px; width:min(122px,58%); height:calc(var(--tile-h) - 36px); object-fit:contain; }
+  #mainMenu.v10Home #settingsButton .tileArt { right:10px; bottom:10px; width:min(116px,56%); height:calc(var(--tile-h) - 40px); object-fit:contain; }
   #mainMenu.v10Home .menuMusicTile { margin: 0; }
   #mainMenu.v10Home .scriptLine { top: calc(var(--hdr) + 70px); }
   #mainMenu.v10Home .menuAthleteCredit { right: var(--gutter); top: calc(var(--tile-top) - 20px); }
