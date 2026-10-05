@@ -146,6 +146,12 @@ check("4 lazy loading: index.html, the startup line and RUNTIME_REVISION unchang
   // Screen styles switch on around mount, so club.js must lay the screen out again when its box changes size.
   assert.ok(/new root\.ResizeObserver\(/.test(source)&&/sectionSize\.observe\(section\)/.test(source)&&/clLayout\(\)/.test(source),"the section re-frames the plate when it resizes");
   assert.ok(/sectionSize\.disconnect\(\)/.test(source),"the observer disconnects on teardown");
+  // G-F6b: the layout goes out on the next frame, the first report included. Laying out inside the observer callback
+  // resized the screen again in the same delivery; Chromium then fired "ResizeObserver loop completed with undelivered
+  // notifications" and the app's error boundary showed it as a 10 s toast that covers the phone's buttons.
+  assert.ok(/relayout=root\.requestAnimationFrame\(\(\)=>\{relayout=null;clLayout\(\);\}\)/.test(source),"the section layout is deferred to the next frame");
+  assert.ok(!/const first=!last/.test(source),"the observer's first report is not skipped");
+  assert.ok(/root\.cancelAnimationFrame\(relayout\)/.test(source),"a pending layout is cancelled on teardown");
   // js/v10Setup.js no longer registers the Club screen (a second registration would throw V10_SCREEN_DUPLICATE).
   const Setup=require(path.join(ROOT,"js/v10Setup.js"));
   assert.ok(!Object.hasOwn(Setup.SCREENS,"clubWheelScreen"));
@@ -182,6 +188,10 @@ async function stage(page,name,extra={}){
   stageLog.push([name,extra]);
   await productStage(page,name,extra);
   await page.waitForFunction(stageName=>window.CareerModeClubScreenV10.isMounted()&&document.querySelector("#clubWheelScreen.cl-on > .cl-stage #world")&&document.documentElement.dataset.v10Screen==="clubWheelScreen"&&document.getElementById("clubWheelScreen").dataset.clubRevealStage===stageName,name,{timeout:20000});
+  // G-F6b: right after mount (two frames, no settling wait) the screen's visible actions are inside the viewport.
+  await page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));
+  const offscreen=await page.evaluate(ids=>ids.filter(id=>{const n=document.getElementById(id);if(!n||n.classList.contains("hidden")||!n.getClientRects().length)return false;const r=n.getBoundingClientRect();return r.top<0||r.bottom>window.innerHeight+1||r.left<0||r.right>window.innerWidth+1;}).map(id=>`${id}@${Math.round(document.getElementById(id).getBoundingClientRect().top)}`),["openClubPack","continueClubAssignment","clubAssignmentBack"]);
+  assert.deepEqual(offscreen,[],`${name}: the screen's actions show inside the viewport right after mount`);
   await page.waitForTimeout(500);
 }
 
@@ -198,6 +208,8 @@ async function browserChecks(){
     const context=await browser.newContext({viewport:{width:1920,height:1080},serviceWorkers:"block",reducedMotion:"reduce"});
     const page=await context.newPage();
     const pageErrors=[];page.on("pageerror",error=>pageErrors.push(String(error&&error.message||error)));
+    // Chromium reports a ResizeObserver loop as a window error event (not a pageerror); the app would toast it.
+    await page.addInitScript(()=>{window.__clLoopErrors=[];addEventListener("error",event=>{if(/ResizeObserver loop/.test(String(event&&event.message)))window.__clLoopErrors.push(String(event.message));});});
     await page.goto(`http://127.0.0.1:${port}/index.html`,{waitUntil:"load"});
     await page.waitForFunction(()=>window.CareerModeClubScreenV10&&window.CareerModeV10Screens&&typeof window.showScreen==="function"&&typeof window.ensureGameplayModules==="function",null,{timeout:30000});
     await page.evaluate(()=>window.ensureGameplayModules());
@@ -323,6 +335,8 @@ async function browserChecks(){
       const nodes=await page.evaluate(ids=>ids.every(id=>document.getElementById(id)===window.__clNodes.get(id)),original.ids);
       assert.ok(nodes,"every product node is the original element");
       assert.deepEqual(pageErrors.filter(message=>/club|v10|plate|ClubPlate/i.test(message)),[],"no page errors from the skin");
+      assert.deepEqual(await page.evaluate(()=>window.__clLoopErrors),[],"mounting and resizing the skin never leaves a ResizeObserver loop error");
+      assert.equal(await page.evaluate(()=>Boolean(document.getElementById("appRuntimeNotice"))),false,"no error toast was shown during the browser checks");
     });
     for(const [name,fn] of checks.splice(checks.findIndex(([n])=>n.startsWith("5 ")))){await fn();console.log(`ok ${name}`);}
   }finally{
