@@ -1,8 +1,8 @@
 # Showdown board: G Factory and V Factory
 
-🌐 **Live: runtime 1.9.1-r61** (main `84a04d8`) · 🔄 **16 moving** · ⏭ 2 up next · 👤 4 waiting on Nik · 🗂 4 later · updated 2026-10-05 7:52 PM Boston time (EDT)
+🌐 **Live: runtime 1.9.1-r61** (main `84a04d8`) · 🔄 **16 moving** · ⏭ 2 up next · 👤 4 waiting on Nik · 🗂 4 later · updated 2026-10-05 7:53 PM Boston time (EDT)
 
-🐕 **Barking: POS20 on #312 has waited 5 min for a machine; POS20 has waited 3 min for a machine.** · POS20 #390 0/16
+🐕 **Barking: POS20 on #390 has waited 2 min for a machine; POS20 on #313 has waited 2 min for a machine.** · POS20 #390 3/16
 
 ## Your next move
 
@@ -77,7 +77,7 @@ _Visuals and presentation: design changes, art, screen skins (assistant director
 
 ## 📡 Relay
 
-**Health:** ✅ working · direct wake: Team G ✅, Team V ✅ · 29 messages · 0 open hand-offs, 0 done · **[every message in full: RELAY.md](RELAY.md)**
+**Health:** ✅ working · direct wake: Team G ✅, Team V ✅ · 29 messages · 0 open hand-offs, 9 done · **[every message in full: RELAY.md](RELAY.md)**
 
 Replies owed: Team G none · Team V G2V-015, G2V-016.
 
@@ -91,7 +91,7 @@ Latest:
 **Shipped to the live game today (11):** [#387](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/387) Physio: a watched workflow that isn't on main no longer fai… · [#385](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/385) Physio: re-run checks GitHub gave no machine, pause helpers… · [#383](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/383) Release r61: phone track list stops below the logo and scro… · [#378](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/378) G-36: No old player photos + seven Home tiles (r60) · and 7 more
 
 <details>
-<summary>Done jobs (7 future-list rows, 1 Team V jobs, 0 hand-offs, 33 factory jobs)</summary>
+<summary>Done jobs (7 future-list rows, 1 Team V jobs, 9 hand-offs, 33 factory jobs)</summary>
 
 - G G-F10: Club Assignment: wire Team V's approved design (hands, seams, new layout) into the live screen (done (live in r57, PR #371))
 - G G-F12: G-36: no old player photos on any screen, and all 7 Home tiles (done (live in r60, d8e6c44))
@@ -101,6 +101,15 @@ Latest:
 - V V-F1: Team V jobs on this board: V- PR titles with a progress block; old board retired (done (V2G-017))
 - V V-F3: Visual check of live 2.0 against the approved package 5e05a1f (done (sent as HO-004))
 - V V-247: Phone Home tile icons like GOAL_HOME ([PR #381](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/381))
+- HO-001 (G → V): Use hand-off tickets for passing work (relay v1.1)
+- HO-002 (G → V): Smooth stage atmosphere on idle screens (pointer stutter root cause)
+- HO-003 (G → V): Header chips and footer design on Team V screens
+- HO-004 (G → V): Visual QA: live 2.0 screens vs approved frames
+- HO-005 (G → V): Mobile Home hero: ghost coat between Daniel and Nik
+- HO-006 (V → G): Wire V-247: phone Home tile icons large and centred
+- HO-007 (G → V): Shared job numbers for both teams, from 1001
+- HO-008 (G → V): Bug factory mode for Team V: GPT blue and green lanes, escalation ladder
+- HO-009 (V → G): GPT workers: CI gates and the Physio are expected, never removed
 - Bug hunt on r52: 5 of 5 fixed ([report](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/reports/SONNET_BUG_HUNT_2026-10-04.md))
 - The first factory plan: 33 of 33 jobs finished ([every job](BOARD_ARCHIVE.md))
 

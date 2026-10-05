@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 7:52 PM Boston time (EDT)",
+ "generated": "2026-10-05 7:53 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -315,7 +315,7 @@
   "live": {
    "sha": "84a04d8",
    "revision": "1.9.1-r61",
-   "when": "2026-10-05T23:37:11+00:00",
+   "when": "2026-10-05T23:37:11Z",
    "subject": "Physio sweep: skip a watched workflow that is not on main instead of failing (#387)",
    "fixes": [
     {
@@ -421,8 +421,8 @@
   },
   "physio": {
    "state": "barking",
-   "line": "Barking: POS20 on #312 has waited 5 min for a machine; POS20 has waited 3 min for a machine.",
-   "gate": "POS20 #390 0/16",
+   "line": "Barking: POS20 on #390 has waited 2 min for a machine; POS20 on #313 has waited 2 min for a machine.",
+   "gate": "POS20 #390 3/16",
    "source": "physio"
   },
   "v_headline": "Board 1 (visual package): 238 of 238 jobs done and checked",
@@ -450,7 +450,125 @@
    "G": true,
    "V": true
   },
-  "tickets": [],
+  "tickets": [
+   {
+    "id": "HO-001",
+    "from": "G",
+    "to": "V",
+    "title": "Use hand-off tickets for passing work (relay v1.1)",
+    "stage": "DONE",
+    "pct": 100.0,
+    "overdue": false,
+    "path": "project-documents/leads-relay/handoffs/HO-001_use-hand-off-tickets-for-passing-work-re.md",
+    "worker": "opus",
+    "pickup_min": 173,
+    "waiting_min": null
+   },
+   {
+    "id": "HO-002",
+    "from": "G",
+    "to": "V",
+    "title": "Smooth stage atmosphere on idle screens (pointer stutter root cause)",
+    "stage": "DONE",
+    "pct": 100.0,
+    "overdue": false,
+    "path": "project-documents/leads-relay/handoffs/HO-002_smooth-stage-atmosphere-on-idle-screens-.md",
+    "worker": "opus",
+    "pickup_min": 171,
+    "waiting_min": null
+   },
+   {
+    "id": "HO-003",
+    "from": "G",
+    "to": "V",
+    "title": "Header chips and footer design on Team V screens",
+    "stage": "DONE",
+    "pct": 100.0,
+    "overdue": false,
+    "path": "project-documents/leads-relay/handoffs/HO-003_header-chips-and-footer-design-on-team-v.md",
+    "worker": "opus",
+    "pickup_min": 171,
+    "waiting_min": null
+   },
+   {
+    "id": "HO-004",
+    "from": "G",
+    "to": "V",
+    "title": "Visual QA: live 2.0 screens vs approved frames",
+    "stage": "DONE",
+    "pct": 100.0,
+    "overdue": false,
+    "path": "project-documents/leads-relay/handoffs/HO-004_visual-qa-live-2-0-screens-vs-approved-f.md",
+    "worker": "sonnet",
+    "pickup_min": 171,
+    "waiting_min": null
+   },
+   {
+    "id": "HO-005",
+    "from": "G",
+    "to": "V",
+    "title": "Mobile Home hero: ghost coat between Daniel and Nik",
+    "stage": "DONE",
+    "pct": 100.0,
+    "overdue": false,
+    "path": "project-documents/leads-relay/handoffs/HO-005_mobile-home-hero-ghost-coat-between-dani.md",
+    "worker": "images",
+    "pickup_min": 163,
+    "waiting_min": null
+   },
+   {
+    "id": "HO-006",
+    "from": "V",
+    "to": "G",
+    "title": "Wire V-247: phone Home tile icons large and centred",
+    "stage": "DONE",
+    "pct": 100.0,
+    "overdue": false,
+    "path": "project-documents/leads-relay/handoffs/HO-006_wire-v-247-phone-home-tile-icons-large-a.md",
+    "worker": "codex",
+    "pickup_min": 7,
+    "waiting_min": null
+   },
+   {
+    "id": "HO-007",
+    "from": "G",
+    "to": "V",
+    "title": "Shared job numbers for both teams, from 1001",
+    "stage": "DONE",
+    "pct": 100.0,
+    "overdue": false,
+    "path": "project-documents/leads-relay/handoffs/HO-007_shared-job-numbers-for-both-teams-from-1.md",
+    "worker": "",
+    "pickup_min": 0,
+    "waiting_min": null
+   },
+   {
+    "id": "HO-008",
+    "from": "G",
+    "to": "V",
+    "title": "Bug factory mode for Team V: GPT blue and green lanes, escalation ladder",
+    "stage": "DONE",
+    "pct": 100.0,
+    "overdue": false,
+    "path": "project-documents/leads-relay/handoffs/HO-008_bug-factory-mode-for-team-v-gpt-blue-and.md",
+    "worker": "",
+    "pickup_min": 0,
+    "waiting_min": null
+   },
+   {
+    "id": "HO-009",
+    "from": "V",
+    "to": "G",
+    "title": "GPT workers: CI gates and the Physio are expected, never removed",
+    "stage": "DONE",
+    "pct": 100.0,
+    "overdue": false,
+    "path": "project-documents/leads-relay/handoffs/HO-009_gpt-workers-ci-gates-and-the-physio-are-.md",
+    "worker": "sol-chat",
+    "pickup_min": 0,
+    "waiting_min": null
+   }
+  ],
   "relay_ok": true
  },
  "branch": "factory/gameplay-v1",
