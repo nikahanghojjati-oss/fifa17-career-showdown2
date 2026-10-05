@@ -30,7 +30,7 @@ permissions:
 
 concurrency:
   group: gameplay-factory-board
-  cancel-in-progress: false
+  cancel-in-progress: true  # every run rebuilds from current state, so a newer run safely replaces an older one
 
 jobs:
   board:

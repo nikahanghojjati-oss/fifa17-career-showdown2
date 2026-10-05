@@ -5,7 +5,7 @@ name: Gameplay factory progress poller
 # Since 2026-10-05 it never stops: main, open live-fix PRs, Team V's V- PRs and the relay change without any push to this branch, so the
 # board went stale for 8 hours when the chain stopped. It commits when a fact changed, plus a heartbeat at least once an hour so the
 # "Updated" time on the Custom view stays honest. Public repo: Actions minutes are free; it costs no Claude usage.
-# (Schedules only run on the default branch, which this workflow deliberately never touches, so it chains itself instead.)
+# (Schedules only run on the default branch, so it chains itself until main carries factory-board-tick.yml, then stops: Showdown Gate setting Q3, 2026-10-05.)
 on:
   push:
     branches: [factory/gameplay-v1]
@@ -57,4 +57,9 @@ jobs:
             fi
             [ "$round" = "8" ] || sleep 180
           done
-          gh workflow run gameplay-factory-progress.yml --ref factory/gameplay-v1
+          # Handover: once main carries factory-board-tick.yml (a 5-minute schedule that yields to checks), this chain stops for good.
+          if gh api "repos/$GITHUB_REPOSITORY/contents/.github/workflows/factory-board-tick.yml?ref=main" >/dev/null 2>&1; then
+            echo "factory-board-tick.yml is on main; the self-chaining poller retires."
+          else
+            gh workflow run gameplay-factory-progress.yml --ref factory/gameplay-v1
+          fi

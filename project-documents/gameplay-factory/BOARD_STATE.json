@@ -315,7 +315,7 @@
   "live": {
    "sha": "61489dd",
    "revision": "1.9.1-r61",
-   "when": "2026-10-05T21:37:15Z",
+   "when": "2026-10-05T21:37:15+00:00",
    "subject": "Release r61: phone track list stops below the logo and scrolls; Next To You first (#383)",
    "fixes": [],
    "today": [
@@ -549,9 +549,9 @@
       "id": "G-F17",
       "title": "Showdown Gate: replace POS20 with a faster check system built on Claude and GitHub, keeping every check (plan: /mnt/project-files/check-system/SHOWDOWN_GATE_PLAN.md)",
       "lane": "opus",
-      "state": "building: shadow run next to POS20",
-      "waits_on": "matching POS20 on about 30 real heads, then the switch",
-      "details": "Nik approved all 5 settings at 5:57 PM Boston time"
+      "state": "building; proof run then switch, same day",
+      "waits_on": "proof on the r62 PR plus canary branches, then the same PR retires POS20",
+      "details": "Nik approved all 5 settings at 5:57 PM Boston time and chose no multi-day shadow at 6:00 PM"
      },
      {
       "id": "G-F18",
