@@ -1,9 +1,9 @@
 # Shared board rules for Team V (Nik, 5 Oct 2026)
 
-There is one board for both teams. Team G's workflow on `factory/gameplay-v1` builds it every few minutes:
-https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/BOARD.md
+Both teams share one data source: the progress block in each job's PR plus the `leads/relay` feed. Each team draws its own board from it and features its own work.
 
-Team V's own `BOARD.md` and its workflow (`factory-board.yml`) are retired. Do not update them.
+* **Team V board** (Team V first and big, Team G small below): https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/v1-wtt5ye/project-documents/factory/BOARD.md . Built by `tools/shared_board.py` through `.github/workflows/factory-board.yml`, which polls every 3 minutes while a job runs on either team. Never edit `BOARD.md` by hand.
+* **Team G board** (the mirror image): https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/BOARD.md
 
 1. **One PR per Team V job, titled `V-NNN <short title>`.** The `V-` prefix puts it in the V Factory section.
 2. **One fenced `progress` block in that PR's description**, the same format Team G uses. Refresh it by editing the PR description only (no push, no CI):

@@ -1,15 +1,25 @@
-name: Factory board auto-update
+name: Team V board (shared data, Team V featured)
 
-# Rebuilds project-documents/factory/BOARD.md whenever a job status or BOARD.json changes
-# on the factory branch, so Nik always sees a current board without asking Claude.
-# Factory branch only; it never runs on main.
-# RETIRED 2026-10-05 (Nik): Team G's shared board now shows Team V jobs from "V-" PR progress blocks.
-# Only a manual run remains; nothing triggers this on push any more.
+# Rebuilds project-documents/factory/BOARD.md from the shared data: "V-" PR progress blocks (featured),
+# Team G's TEAM_G_PROGRESS.json on factory/gameplay-v1 (read-only, shown smaller) and the leads/relay feed.
+# Job owners edit their PR description (no push, no CI); this polls every 3 minutes and re-dispatches itself
+# while any job on either team is running. When nothing runs it stops; the next factory push or a manual run restarts it.
+# (Schedules only run on the default branch, which this workflow never touches, so it chains itself instead.)
+# Factory branch only; it never runs on main and never writes to Team G's branch.
 on:
+  push:
+    branches: [factory/v1-wtt5ye]
+    paths:
+      - .github/workflows/factory-board.yml
+      - project-documents/factory/tools/shared_board.py
+      - project-documents/factory/jobs/**
+      - project-documents/factory/status/**
   workflow_dispatch:
 
 permissions:
   contents: write
+  actions: write
+  pull-requests: read
 
 concurrency:
   group: factory-board
@@ -20,30 +30,31 @@ jobs:
     # Loop guard: the bot's own commit never re-runs this (GITHUB_TOKEN pushes do not trigger workflows either).
     if: github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 30
+    env:
+      GH_TOKEN: ${{ github.token }}
     steps:
       - uses: actions/checkout@v5
         with:
           ref: factory/v1-wtt5ye
-          fetch-depth: 50
-      - name: Read the Team V / Team G relay feed (read-only)
-        run: |
-          git fetch --depth=1 origin leads/relay:refs/remotes/origin/leads/relay || true
-          git show origin/leads/relay:project-documents/leads-relay/FEED.md > "$RUNNER_TEMP/FEED.md" || true
-      - name: Rebuild and commit BOARD.md if it changed
-        env:
-          FEED_MD: ${{ runner.temp }}/FEED.md
+          fetch-depth: 1
+      - name: Poll, rebuild, commit when something changed
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          for i in 1 2 3 4; do
-            git fetch origin factory/v1-wtt5ye
-            git reset --hard origin/factory/v1-wtt5ye
-            python3 project-documents/factory/tools/board.py
-            if git diff --quiet -- project-documents/factory/BOARD.md project-documents/factory/board-meter.svg; then echo "Board unchanged"; exit 0; fi
-            git add project-documents/factory/BOARD.md project-documents/factory/board-meter.svg
-            git commit -m "factory: board auto-update [skip ci]"
-            git push origin HEAD:factory/v1-wtt5ye && exit 0
-            sleep $((2**i))
+          F=project-documents/factory
+          FOUND=0
+          for round in $(seq 1 8); do
+            git fetch -q --depth=1 origin factory/v1-wtt5ye
+            git reset -q --hard origin/factory/v1-wtt5ye
+            FOUND=$(python3 $F/tools/shared_board.py)
+            # Commit only when more than the "Updated" line moved.
+            if git diff -U0 -- $F/BOARD.md | grep '^[-+][^-+]' | grep -qv '^[-+]Updated '; then
+              git add $F/BOARD.md
+              git commit -qm "Team V board update [skip ci]"
+              git push -q origin HEAD:factory/v1-wtt5ye || echo "push raced; next round retries"
+            fi
+            [ "$FOUND" = "0" ] && break
+            sleep 180
           done
-          exit 1
+          if [ "$FOUND" != "0" ]; then gh workflow run factory-board.yml --ref factory/v1-wtt5ye; fi
