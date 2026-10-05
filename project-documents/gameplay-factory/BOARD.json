@@ -834,13 +834,13 @@
      "waits_on": "the lead asks Nik next"
     },
     {
-     "id": "L1-J01",
+     "id": "101",
      "group": "Bug list 1",
-     "title": "Home desktop tile icons: Start a Showdown, Legacy, Statistics, Trophy Room, Rule Book and Settings icons larger and moved left/up, never touching the text or leaving the tile",
+     "title": "JOB-101 Home desktop tile icons: bigger, inside the tile, never on the text",
      "lane": "blue",
      "state": "ready",
-     "waits_on": "after Nik says go (he is still sending list 1)",
-     "details": "Items L1-01..06. CSS only in css/homeV10.css (desktop blocks). Lead measures label and icon boxes at 1920/1440/1280/1100/1000 wide, pastes them into the GPT blue packet, then checks screenshots. List: /mnt/project-files/bug-list-factory/LIST-1.md"
+     "waits_on": "after Nik types 101 in GPT (normal chat)",
+     "details": "Bug list 1 items L1-01..06. CSS only in css/homeV10.css desktop blocks. Job file jobs/JOB-101.md. Lead checks screenshots at 1920/1440/1280/1100/1000 wide."
     }
    ]
   },
