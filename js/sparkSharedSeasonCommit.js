@@ -99,7 +99,7 @@
   // Map that one case to the existing STALE_BASE_REVISION contract only after a fresh, fully
   // authority-checked read proves the stored commit advanced past the revision this attempt read.
   async function scpConcurrentAdvance(error,seenRevision,options){
-    if((error?.code!=="permission-denied"&&error?.code!=="firestore/permission-denied")||!Number.isInteger(seenRevision))return false;
+    if((error?.code!=="permission-denied"&&error?.code!=="firestore/permission-denied"&&error?.code!=="permission_denied")||!Number.isInteger(seenRevision))return false;
     const fresh=await scpRead(options);
     return Boolean(fresh&&fresh.ok===true&&Number.isInteger(fresh.revision)&&fresh.revision>seenRevision);
   }
