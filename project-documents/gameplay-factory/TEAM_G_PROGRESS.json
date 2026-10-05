@@ -1,6 +1,6 @@
 {
  "team": "G",
- "updated": "2026-10-05T11:12-04:00",
+ "updated": "2026-10-05T11:15-04:00",
  "jobs_done": 33,
  "jobs_total": 33,
  "open_bugs": 2,
@@ -15,7 +15,7 @@
    "done": 3,
    "total": 5,
    "pct": 38.0678,
-   "eta": "any minute now (past the estimate)",
+   "eta": "waiting on the job's next report (last one 1 h ago)",
    "current": "Gates running on the exact head",
    "pr": 371,
    "updated": "2026-10-05T14:14:18Z"

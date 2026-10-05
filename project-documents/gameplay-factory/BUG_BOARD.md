@@ -1,6 +1,6 @@
 # 🐞 Team G bug hunting factory
 
-> Updated **Mon 5 Oct, 11:12 AM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
+> Updated **Mon 5 Oct, 11:15 AM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
 
 | 🔓 Open | 🔴 Top priority | 🔧 Fixing or waiting for release | ✅ Fixed and live |
 | :---: | :---: | :---: | :---: |
@@ -25,7 +25,7 @@
 
 **[Job 34 · Club Assignment (Team V design)](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/371) · 38.0678 %** · 3 of 5 steps · updated Mon 5 Oct, 10:14 AM  
 🟧🟧🟧🟧🟧🟧🟧⚽▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️ 🥅  
-🏁 **Likely finish:** any minute now (past the estimate)  
+🏁 **Likely finish:** waiting on the job's next report (last one 1 h ago)  
 > **Now:** Gates running on the exact head  
 > **Left:** All 16 checks green on the exact head → Merged into main and live
 

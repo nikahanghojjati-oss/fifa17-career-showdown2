@@ -1,6 +1,6 @@
 # Showdown board: G Factory and V Factory
 
-33 of 33 jobs done (100 %) ██████████ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-05 11:12 AM Boston time (EDT)
+33 of 33 jobs done (100 %) ██████████ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-05 11:15 AM Boston time (EDT)
 
 ## Scoreboard
 
@@ -42,7 +42,7 @@ Gameplay factory job NN. Read https://raw.githubusercontent.com/nikahanghojjati-
 
 🟧🟧🟧🟧🟧🟧🟧⚽▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️ 🥅  
 Opus · Lead (helper) · [PR #371](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/371) · 3 of 5 steps · updated Mon 5 Oct 10:14 AM Boston time  
-🏁 **Likely finish:** any minute now (past the estimate)  
+🏁 **Likely finish:** waiting on the job's next report (last one 1 h ago)  
 > **Now:** Gates running on the exact head  
 > **Left:** All 16 checks green on the exact head → Merged into main and live
 
