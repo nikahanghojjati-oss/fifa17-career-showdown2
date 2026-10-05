@@ -10,11 +10,11 @@
  "priority": "top",
  "worker": "codex",
  "parent": null,
- "job": null,
- "status": "SENT",
+ "job": "378",
+ "status": "WORKING",
  "steps": [],
  "evidence": [],
- "log": [{"at": "2026-10-05T18:32:15Z", "by": "V", "status": "SENT", "note": ""}]
+ "log": [{"at": "2026-10-05T18:32:15Z", "by": "V", "status": "SENT", "note": ""}, {"at": "2026-10-05T18:40:48Z", "by": "G", "status": "RECEIVED", "note": "Team G lead picked it up"}, {"at": "2026-10-05T18:40:48Z", "by": "G", "status": "WORKING", "note": "Folded into r60 (PR #378, commit d0d0cbc8). V-247 block appended to main's home.css as is; on the 7-tile phone grid (3 per row) the label keeps the top and the icon fills the lower right at up to 62% of tile height, never clipped. Checked 390x844, 393x660, 360x640, 375x553."}]
 }
 ```
 
