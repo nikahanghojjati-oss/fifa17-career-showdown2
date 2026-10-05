@@ -1,6 +1,6 @@
 # Showdown board: G Factory and V Factory
 
-🌐 **Live: runtime 1.9.1-r60** (main `d8e6c44`) · 🔄 **3 moving** · ⏭ 2 up next · 👤 3 waiting on Nik · 🗂 7 later · updated 2026-10-05 5:29 PM Boston time (EDT)
+🌐 **Live: runtime 1.9.1-r60** (main `d8e6c44`) · 🔄 **4 moving** · ⏭ 2 up next · 👤 3 waiting on Nik · 🗂 7 later · updated 2026-10-05 5:30 PM Boston time (EDT)
 
 ## Your next move
 
@@ -10,12 +10,13 @@
 
 | Release / fix | Checks on the latest commit | Updated |
 | --- | --- | --- |
-| [PR #383](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/383) Release r61: phone track list stops below the logo and scrolls | ⏳ 10 passed, 5 running | 5:24 PM |
+| [PR #383](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/383) Release r61: phone track list stops below the logo and scrolls | ⏳ 12 passed, 3 running | 5:24 PM |
 
 | Team | Job | What | Worker | Where it is | Details |
 | --- | --- | --- | --- | --- | --- |
 | G | G-F14 | r61: phone track list stops below the logo and scrolls, and Next To You plays first | 🟧 Opus | in final checks (PR #383) | GitHub had no free test machines at 4 PM; the checks are re-running |
-| G | G-F17 | Replace POS20 with a faster check system built on Claude and GitHub, keeping every check | 🟧 Opus | with the lead (Nik asked at 5:26 PM Boston time) | the lead's plan |
+| G | G-F17 | Replace POS20 with a faster check system built on Claude and GitHub, keeping every check | 🟧 Opus | in progress: the lead is designing it | the lead's plan |
+| G | G-F18 | Old-design screen audit: Legacy, Career Statistics and Trophy Room still open in the old shell; drive every live screen in a browser against Team V's design and route all of them to the new design | 🟧 Opus | in progress (thread "Old-design screen audit", Nik asked at 5:16 PM Boston time) | overlaps G-F11 (old CSS collisions) |
 
 ## 🟢 G Factory
 
@@ -40,7 +41,7 @@ _Gameplay, online sync, every merge and every release (senior director)._ Worker
 
 | Job | What | Worker | State | Waits on |
 | --- | --- | --- | --- | --- |
-| G-F6 | Small gameplay follow-ups: transfer message after session expiry, raw error codes in Setup, 'Career screens could not load' toast when the online history is only unavailable; intermittent v10-transfer contract failure 'WINDOW_OPEN 390: refresh not clickable' | 🟩 Sol Work mode | ready | after G-F5 |
+| G-F6 | Small gameplay follow-ups: transfer message after session expiry, raw error codes in Setup, the 'Career screens could not load' toast when online history is only unavailable, and the flaky v10-transfer contract ('WINDOW_OPEN 390: refresh not clickable') | 🟩 Sol Work mode | ready | after G-F5 |
 | G-F15 | Landscape phone Home layout (844x390): title sits on the wordmark, soundtrack card covers the right tiles (already in r59) | 🟧 Opus | queued for r62 | - |
 | G-F16 | Phone Home nit from Team V (HO-006): second line of START A SHOWDOWN touches the clipboard icon at 393px | 🟧 Opus | queued for r62 | - |
 | G-F3 | Bug-hunting factory: one report thread, Sonnet hunts, Opus fixes, small batch releases | 🟪 Sonnet | queued | G-F1 and Nik's OK |

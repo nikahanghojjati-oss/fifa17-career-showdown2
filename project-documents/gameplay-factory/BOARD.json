@@ -687,7 +687,7 @@
     },
     {
      "id": "G-F6",
-     "title": "Small gameplay follow-ups: transfer message after session expiry, raw error codes in Setup, 'Career screens could not load' toast when the online history is only unavailable; intermittent v10-transfer contract failure 'WINDOW_OPEN 390: refresh not clickable'",
+     "title": "Small gameplay follow-ups: transfer message after session expiry, raw error codes in Setup, the 'Career screens could not load' toast when online history is only unavailable, and the flaky v10-transfer contract ('WINDOW_OPEN 390: refresh not clickable')",
      "lane": "sol-work",
      "state": "ready",
      "waits_on": "after G-F5"
@@ -725,8 +725,16 @@
      "id": "G-F17",
      "title": "Replace POS20 with a faster check system built on Claude and GitHub, keeping every check",
      "lane": "opus",
-     "state": "with the lead (Nik asked at 5:26 PM Boston time)",
+     "state": "in progress: the lead is designing it",
      "waits_on": "the lead's plan"
+    },
+    {
+     "id": "G-F18",
+     "title": "Old-design screen audit: Legacy, Career Statistics and Trophy Room still open in the old shell; drive every live screen in a browser against Team V's design and route all of them to the new design",
+     "lane": "opus",
+     "state": "in progress (thread \"Old-design screen audit\", Nik asked at 5:16 PM Boston time)",
+     "waits_on": "a green PR to the lead",
+     "details": "overlaps G-F11 (old CSS collisions)"
     },
     {
      "id": "G-F15",
