@@ -35,7 +35,7 @@
 | G | G-F21 | BH-11 pairing and reconnect fixes from the pairing audit (7 findings, one high: a reload mid-game strands the reconnect) | 🟧 Opus | in r62 (PR #390, head bb827862) | r62 merge to main |
 | G | G-F23 | Desktop Settings cards clipped; Update button hidden (Nik's Chrome stuck on r54) | 🟧 Opus | in r62 (PR #390, head bb827862) | branch bugfix/settings-desktop-update 1d264f7e; after r62 Nik presses Update once on the laptop |
 | G | BUG-1 | Raw error codes in the Setup settle text; neutral Manager 1/2 fallbacks; 80-character transfer names | 🟪 Sonnet | in r62 (PR #390, head bb827862) | bugfix/bug-batch-1 9e012fd |
-| G | 1001 | 🐞 Bug list 1: 1001 · G Home desktop tile icons: bigger, inside the tile, never on the text | 🟦 Sol chat | with worker (round 3) | Bug list 1 items L1-01..06. CSS only in css/homeV10.css desktop blocks. Job file jobs/JOB-1001.md. Lead checks screenshots at 1920/1440/1280/1100/1000 wide. |
+| G | 1001 | 🐞 Bug list 1: 1001 · G Home desktop tile icons: bigger, inside the tile, never on the text | 🟦 Sol chat | verifying (screenshots pass, CI running) | Bug list 1 items L1-01..06. CSS only in css/homeV10.css desktop blocks. Job file jobs/JOB-1001.md. Lead checks screenshots at 1920/1440/1280/1100/1000 wide. |
 
 ## 🟢 G Factory
 
