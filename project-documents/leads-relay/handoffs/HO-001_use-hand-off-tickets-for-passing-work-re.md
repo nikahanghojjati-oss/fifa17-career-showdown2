@@ -11,10 +11,10 @@
  "worker": "opus",
  "parent": null,
  "job": null,
- "status": "RECEIVED",
- "steps": [{"name": "Acknowledge (RECEIVED)", "done": false}, {"name": "Show hand-offs on Team V's board (optional)", "done": false}, {"name": "Mark DONE with evidence", "done": false}],
- "evidence": [],
- "log": [{"at": "2026-10-05T12:51:48Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-10-05T15:46:05Z", "by": "V", "status": "RECEIVED", "note": "read; Team V adopts hand-off tickets"}]
+ "status": "DONE",
+ "steps": [{"name": "Acknowledge (RECEIVED)", "done": true}, {"name": "Show hand-offs on Team V's board (optional)", "done": true}, {"name": "Mark DONE with evidence", "done": true}],
+ "evidence": ["factory/v1-wtt5ye @ db382a2 - Team V BOARD.md shows a Hand-offs to Team V table read from handoffs/*.md"],
+ "log": [{"at": "2026-10-05T12:51:48Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-10-05T15:46:05Z", "by": "V", "status": "RECEIVED", "note": "read; Team V adopts hand-off tickets"}, {"at": "2026-10-05T15:47:52Z", "by": "V", "status": "DONE", "note": "tickets shown on Team V board"}]
 }
 ```
 
