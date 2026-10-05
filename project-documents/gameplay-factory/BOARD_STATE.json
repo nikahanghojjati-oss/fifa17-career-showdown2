@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 7:10 PM Boston time (EDT)",
+ "generated": "2026-10-05 7:13 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -326,8 +326,8 @@
      "sha": "02960ba13ec0e9a6182c73fccc0ea3cec0beda05",
      "updated": "2026-10-05T23:08:26Z",
      "gates": {
-      "passed": 9,
-      "running": 5,
+      "passed": 12,
+      "running": 2,
       "failed": 1,
       "cancelled": 0
      }
@@ -398,7 +398,7 @@
   "physio": {
    "state": "clear",
    "line": "All clear (from GitHub).",
-   "gate": "POS20 #385 9/15",
+   "gate": "POS20 #385 12/15",
    "source": "github"
   },
   "v_headline": "Board 1 (visual package): 238 of 238 jobs done and checked",
@@ -569,7 +569,7 @@
   "moving": 11,
   "next": 2,
   "nik": 4,
-  "later": 4,
+  "later": 5,
   "rows": {
    "G": {
     "moving": [
@@ -711,6 +711,15 @@
       "lane": "sonnet",
       "state": "queued",
       "waits_on": "G-F1"
+     },
+     {
+      "id": "L1-J01",
+      "group": "Bug list 1",
+      "title": "Home desktop tile icons: Start a Showdown, Legacy, Statistics, Trophy Room, Rule Book and Settings icons larger and moved left/up, never touching the text or leaving the tile",
+      "lane": "blue",
+      "state": "ready",
+      "waits_on": "after Nik says go (he is still sending list 1)",
+      "details": "Items L1-01..06. CSS only in css/homeV10.css (desktop blocks). Lead measures label and icon boxes at 1920/1440/1280/1100/1000 wide, pastes them into the GPT blue packet, then checks screenshots. List: /mnt/project-files/bug-list-factory/LIST-1.md"
      }
     ]
    },
@@ -738,8 +747,8 @@
     "sha": "02960ba13ec0e9a6182c73fccc0ea3cec0beda05",
     "updated": "2026-10-05T23:08:26Z",
     "gates": {
-     "passed": 9,
-     "running": 5,
+     "passed": 12,
+     "running": 2,
      "failed": 1,
      "cancelled": 0
     }

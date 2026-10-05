@@ -1,8 +1,8 @@
 # Showdown board: G Factory and V Factory
 
-🌐 **Live: runtime 1.9.1-r61** (main `61489dd`) · 🔄 **11 moving** · ⏭ 2 up next · 👤 4 waiting on Nik · 🗂 4 later · updated 2026-10-05 7:10 PM Boston time (EDT)
+🌐 **Live: runtime 1.9.1-r61** (main `61489dd`) · 🔄 **11 moving** · ⏭ 2 up next · 👤 4 waiting on Nik · 🗂 5 later · updated 2026-10-05 7:13 PM Boston time (EDT)
 
-🩺 **All clear (from GitHub).** · POS20 #385 9/15
+🩺 **All clear (from GitHub).** · POS20 #385 12/15
 
 ## Your next move
 
@@ -12,7 +12,7 @@
 
 | Release / fix | Checks on the latest commit | Updated |
 | --- | --- | --- |
-| [PR #385](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/385) Physio: re-run checks GitHub gave no machine, pause helpers while checks wait | 🔴 9 passed, 5 running, 1 failed | 7:08 PM |
+| [PR #385](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/385) Physio: re-run checks GitHub gave no machine, pause helpers while checks wait | 🔴 12 passed, 2 running, 1 failed | 7:08 PM |
 | [PR #384](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/384) Every screen in Team V's look: signed-out career screens, Showdown Home, season review, L… | 🟢 12 passed | 6:29 PM |
 
 | Team | Job | What | Worker | Where it is | Details |
@@ -54,6 +54,14 @@ _Gameplay, online sync, every merge and every release (senior director)._ Worker
 | G-F3 | Bug-hunting factory: one report thread, Sonnet hunts, Opus fixes, small batch releases | 🟪 Sonnet | queued | G-F1 and Nik's OK |
 | G-F4 | GPT Q&A team: scripted paths and code-vs-rulebook reads | 🟦 Sol chat | queued | G-F1 |
 | G-F7 | Ten-season smoothness run on live 2.0 (emulator, 10 seasons with a mid-game expiry) | 🟪 Sonnet | queued | G-F1 |
+
+### 🐞 Bug list 1
+
+**🗂 Later**
+
+| Job | What | Worker | State | Waits on |
+| --- | --- | --- | --- | --- |
+| L1-J01 | Home desktop tile icons: Start a Showdown, Legacy, Statistics, Trophy Room, Rule Book and Settings icons larger and moved left/up, never touching the text or leaving the tile — Items L1-01..06. CSS only in css/homeV10.css (desktop blocks). Lead measures label and icon boxes at 1920/1440/1280/1100/1000 wide, pastes them into the GPT blue packet, then checks screenshots. List: /mnt/project-files/bug-list-factory/LIST-1.md | 🟦 Sol chat | ready | after Nik says go (he is still sending list 1) |
 
 ## 🔵 V Factory
 
