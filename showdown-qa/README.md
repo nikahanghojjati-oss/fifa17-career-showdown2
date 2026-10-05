@@ -75,7 +75,7 @@ Treat these as PROCESS_DEFECT evidence, not as permission to alter product behav
 
 Point Claude/Cloud to this branch and use:
 
-> Review branch `qa/showdown-qa-review-2026-10-04` of `nikahanghojjati-oss/fifa17-career-showdown2`. Read `showdown-qa/README.md`, then `showdown-qa/handoffs/2026-10-04-claude-cloud-review-packet.md`, the two reports under `showdown-qa/reports/`, and `showdown-qa/SOURCE_MANIFEST.md`. This is read-only review material. Independently reconcile live main, recovery, factories, PRs and exact-head evidence before accepting any claim. Return a governance/reliability proposal only. Do not change main, either factory, recovery, provider settings, scoring, privacy, storage, pairing or destructive-apply behavior.
+> Review branch `qa/showdown-qa-review-2026-10-04` of `nikahanghojjati-oss/fifa17-career-showdown2`. Read `showdown-qa/README.md`, then `showdown-qa/handoffs/2026-10-04-claude-cloud-review-packet.md`, all reports under `showdown-qa/reports/`, especially the model-worker routing addendum, and `showdown-qa/SOURCE_MANIFEST.md`. This is read-only review material. Independently reconcile live main, recovery, factories, PRs and exact-head evidence before accepting any claim. Return a governance/reliability proposal only. Do not change main, either factory, recovery, provider settings, scoring, privacy, storage, pairing or destructive-apply behavior.
 
 ## Status vocabulary
 
