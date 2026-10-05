@@ -1,6 +1,6 @@
 # 🐞 Team G bug hunting factory
 
-> Updated **Sun 4 Oct, 9:04 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
+> Updated **Sun 4 Oct, 9:07 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
 
 | 🔓 Open | 🔴 Top priority | 🔧 Fixing or waiting for release | ✅ Fixed and live |
 | :---: | :---: | :---: | :---: |
@@ -19,33 +19,25 @@
 
 Bars show the share of each job done, to four decimals (finished steps weighted by how long that kind of step usually takes, see [ETA_STUDY.md](ETA_STUDY.md)). Finish times are estimates.
 
-### 🟧 Opus · 2 jobs
+### 🟧 Opus · 1 job
 
 **[Job 27 · Transfer War screens](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/362)**  
-🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧⚽▫️▫️ 🥅 **85.1248 %** · 5 of 7 steps · updated Sun 4 Oct, 9:01 PM
+🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧⚽▫️▫️ 🥅 **87.5240 %** · 6 of 7 steps · updated Sun 4 Oct, 9:06 PM
 
-**Likely finish:** about 9:09 PM (likely 9:06 PM to 9:26 PM) Boston time
+**Likely finish:** about 9:12 PM (likely 9:10 PM to 9:20 PM) Boston time
 
-> **Going on now:** Pushed b9252079: the latest test build (1e7775a4, job 33) is merged in, with no other changes. Locally on this exact tree: contracts 126/126, ops 73/0, two-manager play-through 36/36 on its own ports. Screenshots are in /mnt/project-files/job-27/. Waiting for CI, then lead review  
-> **Still to do:** Lead review (screenshots and diff) → Merged into the test build
-
-**[Job 29 · Season Results, Final Winner, Standings](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/357)**  
-🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧⚽▫️▫️▫️ 🥅 **83.9411 %** · 10 of 12 steps · updated Sun 4 Oct, 8:52 PM
-
-**Likely finish:** about 9:00 PM (likely 8:56 PM to 9:07 PM) Boston time
-
-> **Going on now:** Fixes committed locally; waiting for job 33 to merge, then one push  
-> **Still to do:** Final sync with recovery after job 33 merges, plus the log fix; CI green → Lead merges into gameplay/recovery-v1
+> **Going on now:** Lead reviewed; final checks running on the head with the latest test build  
+> **Still to do:** Merged into the test build
 
 ### 🟪 Sonnet · 1 job
 
 **[Job 28 · Rivalry Stats and Legacy](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/352)**  
-🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪⚽ 🥅 **95.2015 %** · 9 of 10 steps · updated Sun 4 Oct, 8:46 PM
+🟪🟪🟪🟪🟪🟪🟪🟪🟪⚽▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️ 🥅 **49.9040 %** · 9 of 11 steps · updated Sun 4 Oct, 9:04 PM
 
-**Likely finish:** about 8:48 PM (likely 8:47 PM to 9:06 PM) Boston time
+**Likely finish:** about 9:30 PM (likely 9:17 PM to 10:00 PM) Boston time
 
-> **Going on now:** CI green on bdbf6a6, waiting for lead review and merge  
-> **Still to do:** Lead review and merge
+> **Going on now:** CI running on new head after lead's review fixes  
+> **Still to do:** CI green on final head (Gameplay Fast + POS20) → Lead review and merge
 
 <details>
 <summary><b>✅ Closed: 4</b> (4 live in the game) · click to open</summary>

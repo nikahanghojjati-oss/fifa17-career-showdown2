@@ -1,6 +1,6 @@
 # Team G gameplay board
 
-20 of 33 jobs done (70 %) ███████░░░ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-04 9:04 PM Boston time (EDT)
+20 of 33 jobs done (70 %) ███████░░░ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-04 9:07 PM Boston time (EDT)
 
 ## Your next move
 
@@ -24,43 +24,29 @@ Each bar is the share of the job done, to four decimals: finished steps weighted
 
 Opus · Lead (helper) · PR #362
 
-🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧⚽▫️▫️ 🥅 **85.1248 %** (5 of 7 steps)
+🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧⚽▫️▫️ 🥅 **87.5240 %** (6 of 7 steps)
 
-**Likely finish:** about 9:09 PM (likely 9:06 PM to 9:26 PM) Boston time
+**Likely finish:** about 9:12 PM (likely 9:10 PM to 9:20 PM) Boston time
 
-**Going on now:** Pushed b9252079: the latest test build (1e7775a4, job 33) is merged in, with no other changes. Locally on this exact tree: contracts 126/126, ops 73/0, two-manager play-through 36/36 on its own ports. Screenshots are in /mnt/project-files/job-27/. Waiting for CI, then lead review
+**Going on now:** Lead reviewed; final checks running on the head with the latest test build
 
-**Still to do:** Lead review (screenshots and diff) → Merged into the test build
+**Still to do:** Merged into the test build
 
-_Updated Sun 4 Oct 9:01 PM Boston time_
+_Updated Sun 4 Oct 9:06 PM Boston time_
 
 ### 🟪 Job 28 · Rivalry Stats and Legacy
 
 Sonnet · Sonnet thread · PR #352
 
-🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪⚽ 🥅 **95.2015 %** (9 of 10 steps)
+🟪🟪🟪🟪🟪🟪🟪🟪🟪⚽▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️ 🥅 **49.9040 %** (9 of 11 steps)
 
-**Likely finish:** about 8:48 PM (likely 8:47 PM to 9:06 PM) Boston time
+**Likely finish:** about 9:30 PM (likely 9:17 PM to 10:00 PM) Boston time
 
-**Going on now:** CI green on bdbf6a6, waiting for lead review and merge
+**Going on now:** CI running on new head after lead's review fixes
 
-**Still to do:** Lead review and merge
+**Still to do:** CI green on final head (Gameplay Fast + POS20) → Lead review and merge
 
-_Updated Sun 4 Oct 8:46 PM Boston time_
-
-### 🟧 Job 29 · Season Results, Final Winner, Standings
-
-Opus · Opus thread · PR #357
-
-🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧⚽▫️▫️▫️ 🥅 **83.9411 %** (10 of 12 steps)
-
-**Likely finish:** about 9:00 PM (likely 8:56 PM to 9:07 PM) Boston time
-
-**Going on now:** Fixes committed locally; waiting for job 33 to merge, then one push
-
-**Still to do:** Final sync with recovery after job 33 merges, plus the log fix; CI green → Lead merges into gameplay/recovery-v1
-
-_Updated Sun 4 Oct 8:52 PM Boston time_
+_Updated Sun 4 Oct 9:04 PM Boston time_
 
 ## Live fixes and bug hunt
 

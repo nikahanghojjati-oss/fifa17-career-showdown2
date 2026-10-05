@@ -1,6 +1,6 @@
 {
  "team": "G",
- "updated": "2026-10-04T21:04-04:00",
+ "updated": "2026-10-04T21:07-04:00",
  "jobs_done": 20,
  "jobs_total": 33,
  "open_bugs": 2,
@@ -12,37 +12,25 @@
    "job": 27,
    "title": "Transfer War screens",
    "worker": "Opus",
-   "done": 5,
+   "done": 6,
    "total": 7,
-   "pct": 85.1248,
-   "eta": "about 9:09 PM (likely 9:06 PM to 9:26 PM) Boston time",
-   "current": "Pushed b9252079: the latest test build (1e7775a4, job 33) is merged in, with no other changes. Locally on this exact tree: contracts 126/126, ops 73/0, two-manager play-through 36/36 on its own ports. Screenshots are in /mnt/project-files/job-27/. Waiting for CI, then lead review",
+   "pct": 87.524,
+   "eta": "about 9:12 PM (likely 9:10 PM to 9:20 PM) Boston time",
+   "current": "Lead reviewed; final checks running on the head with the latest test build",
    "pr": 362,
-   "updated": "2026-10-05T01:01:54Z"
+   "updated": "2026-10-05T01:06:18Z"
   },
   {
    "job": 28,
    "title": "Rivalry Stats and Legacy",
    "worker": "Sonnet",
    "done": 9,
-   "total": 10,
-   "pct": 95.2015,
-   "eta": "about 8:48 PM (likely 8:47 PM to 9:06 PM) Boston time",
-   "current": "CI green on bdbf6a6, waiting for lead review and merge",
+   "total": 11,
+   "pct": 49.904,
+   "eta": "about 9:30 PM (likely 9:17 PM to 10:00 PM) Boston time",
+   "current": "CI running on new head after lead's review fixes",
    "pr": 352,
-   "updated": "2026-10-05T00:46:12Z"
-  },
-  {
-   "job": 29,
-   "title": "Season Results, Final Winner, Standings",
-   "worker": "Opus",
-   "done": 10,
-   "total": 12,
-   "pct": 83.9411,
-   "eta": "about 9:00 PM (likely 8:56 PM to 9:07 PM) Boston time",
-   "current": "Fixes committed locally; waiting for job 33 to merge, then one push",
-   "pr": 357,
-   "updated": "2026-10-05T00:52:00Z"
+   "updated": "2026-10-05T01:04:10Z"
   }
  ]
 }
