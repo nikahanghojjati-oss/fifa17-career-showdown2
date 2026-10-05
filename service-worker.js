@@ -187,10 +187,16 @@ const SHELL_PATHS = Object.freeze([
     "js/seasonFinalV10.js",
     "visual-assets/v10_1/season-results/app.css",
     "js/v10Screens.js",
+    "js/homeScreensV10.js",
+    "visual-assets/v10_1/home/home.css",
+    "visual-assets/v10_1/home/soundtrack.js",
+    "css/homeV10.css",
     "js/startJoinViewModel.js",
     "css/v10Shell.css",
     "visual-assets/v10_1/shared/navbar/navbar.css",
-    "visual-assets/v10_1/shared/navbar/navbar.js"
+    "visual-assets/v10_1/shared/navbar/navbar.js",
+    "js/v10Setup.js",
+    "css/v10Setup.css"
 ]);
 const SHELL_PATH_SET = new Set(SHELL_PATHS);
 

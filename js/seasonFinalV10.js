@@ -128,7 +128,7 @@
     const load=root.loadRuntimeScript;
     for(const [key,p,api] of [["career-history","js/sharedHistoryConvergence.js","CareerModeSharedHistoryConvergence"],["career-analytics","js/sharedCareerAnalytics.js","CareerModeSharedCareerAnalytics"],["career-terminal","js/sharedTerminalClose.js","CareerModeSharedTerminalClose"],["career-final","js/sharedFinalReconciliation.js","CareerModeSharedFinalReconciliation"],["career-active-adapter","js/sharedActiveShowdownAdapter.js","CareerModeSharedActiveShowdownAdapter"]])await load(key,p,()=>Boolean(root[api]));
   }
-  async function install(){
+  async function installResults(){
     if(installed)return true;installed=true;
     root.SEASON_RESULTS_APP=true;root.FINAL_WINNER_APP=true;root.STANDINGS_APP=true;
     const loader=root.CareerModeV10Screens.install();
@@ -140,5 +140,5 @@
     followPair();
     wake();return true;
   }
-  return Object.freeze({finalFrame,standingsFrames,skinSeason,install});
+  return Object.freeze({finalFrame,standingsFrames,skinSeason,install:installResults});
 });
