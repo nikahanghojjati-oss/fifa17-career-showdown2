@@ -5,15 +5,12 @@
 #settingsOverlay.v10Settings .v10SystemStage { position:fixed; inset:0; width:100vw; height:100dvh; }
 #ruleBook.v10RuleBook .ruleBookHero > .sd-eyebrow,
 #ruleBook.v10RuleBook .ruleBookHero > .sd-tagline { display:block; }
-#ruleBook.v10RuleBook .ruleSectionHeader h3 { margin:0; color:var(--sd-text-warm); font:700 clamp(12px,1vw,18px)/1.1 var(--sd-font-condensed); letter-spacing:.1em; }
-#ruleBook.v10RuleBook .ruleScoreTable { display:block; }
-#ruleBook.v10RuleBook .ruleSection { border-top:1px solid rgba(222,179,79,.62); }
 #ruleBook.v10RuleBook .ruleBookActions { pointer-events:auto; }
 #ruleBook.v10RuleBook .ruleBookGrid { pointer-events:auto; }
 #settingsOverlay.v10Settings { padding:0; background:#050505; backdrop-filter:none; color:#f5f1e8; }
 #settingsOverlay.v10Settings #settingsDialog { width:100%; max-height:none; height:100%; display:block; border:0; background:transparent; box-shadow:none; color:#f5f1e8; animation:none; }
 #settingsOverlay.v10Settings .settingsHeader { min-height:0; padding:0; border:0; background:transparent; }
-#settingsOverlay.v10Settings .settingsTitleBlock { display:block; }
+#settingsOverlay.v10Settings .settingsTitleBlock { display:block; color:var(--sd-text-primary); }
 #settingsOverlay.v10Settings #settingsClose { z-index:20; border:1px solid #d9b15f; color:#f5f1e8; background:rgba(0,0,0,.7); }
 #settingsOverlay.v10Settings #settingsContent { padding:0 5px 8px; overflow-y:auto; overscroll-behavior:contain; align-content:start; grid-template-rows:auto auto; scrollbar-color:#d9b15f #151515; }
 #settingsOverlay.v10Settings .settingsPanel,
@@ -21,7 +18,7 @@
 #settingsOverlay.v10Settings .settingsConnectedAccountPanel { grid-column:1/4; grid-row:1; }
 #settingsOverlay.v10Settings .settingsPanelHeading { margin:0 0 12px; padding:0 0 10px; border-bottom:1px solid rgba(219,178,94,.25); }
 #settingsOverlay.v10Settings .settingsPanelEyebrow { color:#d9b15f; font:700 11px/1.2 var(--sd-font-condensed); letter-spacing:.2em; }
-#settingsOverlay.v10Settings .settingsPanelHeading h3 { color:#f5f1e8; font:700 22px/1.1 var(--sd-font-display); }
+#settingsOverlay.v10Settings .settingsPanelHeading h3 { color:#f5f1e8; font:700 clamp(1rem,1.26vw,1.35rem)/1.05 var(--sd-font-display,sans-serif); letter-spacing:.035em; }
 #settingsOverlay.v10Settings .settingsPanelHeading p,
 #settingsOverlay.v10Settings .settingsDataNote,
 #settingsOverlay.v10Settings .settingsOfflineNote { color:rgba(245,241,232,.78); font:400 12px/1.45 var(--sd-font-body); }
@@ -38,10 +35,9 @@
 #settingsOverlay.v10Settings .settingsMotionChoice.selected { background:rgba(225,184,89,.2); border-color:#d9b15f; }
 #settingsOverlay.v10Settings .settingsStatus { color:#f5f1e8; background:#403318; }
 #settingsOverlay.v10Settings .settingsAudioToggleTrack { display:none; }
-#settingsOverlay.v10Settings .menuButton { min-height:44px; color:#f5f1e8; background:rgba(0,0,0,.58); border:1px solid rgba(219,178,94,.66); font-family:var(--sd-font-condensed); }
+#settingsOverlay.v10Settings .menuButton:not(.sd-btn):not(.settingsApplicationUpdateButton) { min-height:44px; color:#f5f1e8; background:rgba(0,0,0,.58); border:1px solid rgba(219,178,94,.66); font-family:var(--sd-font-condensed); }
 #settingsOverlay.v10Settings .settingsDeleteCurrentShowdown { color:#ffd9d9; background:rgba(95,15,15,.28); border-color:#d64b4b; }
-#settingsOverlay.v10Settings .settingsFooter { padding:0; border:0; background:transparent; visibility:visible; }
-#settingsOverlay.v10Settings .settingsFooter button { color:#161009; background:var(--sd-gold-metal,#d9b15f); border-color:#d9b15f; min-width:142px; }
+#settingsOverlay.v10Settings .settingsFooter { left:auto; min-height:0; padding:0!important; border:0!important; visibility:visible; }
 #settingsOverlay.v10Settings a:focus-visible,
 #settingsOverlay.v10Settings button:focus-visible { outline:2px solid #f0c96d; outline-offset:3px; }
 @media (max-width:760px) and (orientation:portrait) {
@@ -52,43 +48,46 @@
   #settingsOverlay.v10Settings #settingsClose { top:12px; right:12px; }
   #settingsOverlay.v10Settings .settingsFooter { bottom:calc(14px + env(safe-area-inset-bottom)); right:14px; left:14px; }
   #settingsOverlay.v10Settings .settingsFooter button { width:100%; }
-  #ruleBook.v10RuleBook .ruleSectionHeader h3 { font-size:15px; }
 }
 
-/* Neutralize only the old visual declarations; nodes, copy and handlers stay intact. */
-#ruleBook.v10RuleBook .ruleBookHero { display:block; margin:0; padding:0; border:0; background:none; box-shadow:none; }
-#ruleBook.v10RuleBook .ruleBookGrid { width:auto; margin:0; }
-#ruleBook.v10RuleBook .ruleSection::before { display:none; }
-#ruleBook.v10RuleBook .ruleBookHero > span { color:var(--sd-gold); font-family:var(--sd-font-condensed); }
-#ruleBook.v10RuleBook .ruleBookHero > strong { color:var(--sd-text-warm); font-family:var(--sd-font-condensed); }
-#ruleBook.v10RuleBook .ruleBookHero > p { color:rgba(244,241,234,.78); }
-#ruleBook.v10RuleBook .ruleScoreTable > div { border-left:0; }
-#ruleBook.v10RuleBook .ruleSectionHeader { display:grid; }
-#ruleBook.v10RuleBook .ruleSectionHeader > span { background:rgba(219,178,94,.15); color:var(--sd-gold); }
-#ruleBook.v10RuleBook .ruleScoreTable strong,
-#ruleBook.v10RuleBook .ruleScoreMaximum strong { color:var(--sd-gold); }
 @media (max-width:760px) {
   #ruleBook.v10RuleBook .sd-stage[data-sd-mode="phone"] .sd-stage__layer--ui,
   #ruleBook.v10RuleBook .sd-stage[data-sd-mode="phone"] .sd-stage__layer--plate,
   #ruleBook.v10RuleBook .sd-stage[data-sd-mode="phone"] .sd-stage__layer--atmosphere { top:0; bottom:0; height:100%; }
 }
 
-#ruleBook.v10RuleBook .ruleScoreRow,
-#ruleBook.v10RuleBook .ruleScoreMaximum { background:transparent; border-left:0; padding-inline:0; }
 
 /* Legacy app.css/settings.css paint these hosts with !important and give every .screen
    contain:layout, which traps the fixed stage under the top header. Undo only those. */
 #ruleBook.v10RuleBook { contain:none; position:fixed; inset:0; z-index:30; margin:0; }
 #ruleBook.v10RuleBook [data-football-visual-screen] { display:none; }
+/* css/app.css paints .ruleBookHero and .ruleSection with !important; these answers carry Team V's own values
+   (visual-assets/v10_1/rule-book/rule-book.css and the shared type classes), not new ones. */
 #ruleBook.v10RuleBook .ruleBookHero { color:inherit!important; background:none!important; border:0!important; box-shadow:none!important; }
-#ruleBook.v10RuleBook .ruleBookHero > span,
-#ruleBook.v10RuleBook .ruleBookHero strong,
-#ruleBook.v10RuleBook .ruleBookHero p { color:inherit!important; }
-#ruleBook.v10RuleBook .ruleSection { color:var(--sd-text-warm,#f4f1ea)!important; background:linear-gradient(180deg,rgba(17,17,17,.88),rgba(6,7,8,.91))!important; border:1px solid rgba(222,179,79,.62)!important; box-shadow:inset 0 1px rgba(255,231,161,.07),0 18px 34px rgba(0,0,0,.34)!important; }
+#ruleBook.v10RuleBook .ruleBookHero > .sd-eyebrow { color:var(--sd-text-primary)!important; }
+#ruleBook.v10RuleBook .ruleBookHero > .sd-tagline { color:var(--sd-text-warm)!important; }
+#ruleBook.v10RuleBook .ruleBookHero > .ruleBookSummary { color:rgba(244,241,234,.78)!important; }
+#ruleBook.v10RuleBook .ruleSection { color:var(--sd-text-primary)!important; background:linear-gradient(180deg,rgba(17,17,17,.88),rgba(6,7,8,.91)),linear-gradient(90deg,rgba(242,196,91,.045),transparent 42%)!important; border:1px solid rgba(222,179,79,.62)!important; box-shadow:inset 0 1px rgba(255,231,161,.07),0 18px 34px rgba(0,0,0,.34)!important; }
+#ruleBook.v10RuleBook .ruleSection.scoringRuleSection { background:linear-gradient(115deg,rgba(4,6,8,.90),rgba(13,14,15,.76)),linear-gradient(90deg,rgba(242,196,91,.09),transparent 45%)!important; border-color:rgba(242,196,91,.86)!important; box-shadow:inset 0 0 0 1px rgba(255,224,135,.08),0 18px 40px rgba(0,0,0,.32)!important; }
 #settingsOverlay.v10Settings .settingsAudioRow { color:#f5f1e8; background:rgba(255,255,255,.025)!important; border-color:rgba(219,178,94,.4)!important; }
 #settingsOverlay.v10Settings .settingsFooter { background:transparent!important; box-shadow:none!important; }
-#ruleBook.v10RuleBook .ruleScoreTable > .ruleScoreRow { min-width:0; min-height:0; display:flex; align-items:baseline; justify-content:space-between; gap:10px; padding:0; color:#f4f4f2; font:650 clamp(9px,.66vw,11px)/1.12 var(--sd-font-condensed); }
-#ruleBook.v10RuleBook .ruleScoreTable span,
-#ruleBook.v10RuleBook .ruleScoreMaximum span { color:inherit; font:inherit; }
-#ruleBook.v10RuleBook .ruleScoreRow strong { flex:0 0 auto; color:var(--sd-gold-300); font-size:1.18em; font-variant-numeric:tabular-nums; white-space:nowrap; }
-#ruleBook.v10RuleBook .ruleScoreMaximum { color:var(--sd-gold-300); }
+
+/* HO-004 (V-245): css/settings.css and css/app.css style the shared class names (.settingsEyebrow, .menuButton,
+   .settingsFooter) over Team V's Settings look. These rules give the product's own nodes Team V's values:
+   the shared eyebrow type, auto-width cut-corner buttons (.sd-btn, js/rulesSettingsV10.js), no light rule above DONE. */
+#settingsOverlay.v10Settings .settingsEyebrow.sd-eyebrow { display:block; color:var(--sd-text-primary); font-family:var(--sd-font-condensed); font-weight:600; line-height:1.4; }
+#settingsOverlay.v10Settings .settingsTagline { color:var(--sd-text-primary); font-family:var(--sd-font-body); font-weight:400; text-align:center; }
+#settingsOverlay.v10Settings .settingsDataActions { display:flex; flex-wrap:wrap; gap:9px; }
+@media (min-width:761px) {
+  #settingsOverlay.v10Settings .settingsEyebrow.sd-eyebrow { font-size:clamp(11px,1vw,16px); padding-inline-start:.5em; }
+  #settingsOverlay.v10Settings .settingsFooter { height:auto; line-height:normal; }
+}
+#settingsOverlay.v10Settings .menuButton.settingsApplicationUpdateButton { width:auto; clip-path:polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px); }
+#settingsOverlay.v10Settings .menuButton.sd-btn { width:auto; min-height:44px; margin-top:0; padding:0 20px; font:700 14px/1 var(--sd-font-condensed); letter-spacing:.12em; transform:none; }
+#settingsOverlay.v10Settings .menuButton.sd-btn--secondary { color:var(--sd-gold-300); background:rgba(8,9,12,.9); border:1px solid var(--sd-edge); }
+#settingsOverlay.v10Settings .menuButton.sd-btn--primary { min-width:142px; color:var(--sd-text-on-gold); background:var(--sd-gold-500); border:0; box-shadow:0 4px 18px rgba(245,197,24,.2); }
+@media (max-width:760px) and (orientation:portrait) {
+  #settingsOverlay.v10Settings .settingsDataActions { flex-direction:column; }
+  #settingsOverlay.v10Settings .menuButton.sd-btn,
+  #settingsOverlay.v10Settings .menuButton.settingsApplicationUpdateButton { width:100%; }
+}

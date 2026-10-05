@@ -13,6 +13,19 @@
   // (Settings can finish loading its look after Close or a toggle already has focus); put focus back.
   function keepFocus(work){const d=doc(),active=d.activeElement;try{return work();}finally{if(active&&active!==d.body&&active.isConnected&&d.activeElement!==active&&typeof active.focus==="function")active.focus({preventScroll:true});}}
   const focusSafe=fn=>(...args)=>keepFocus(()=>fn(...args));
+  // HO-004: css/rulebook.css (the old light look, loaded by js/optionalModules.js) styles the class names this look
+  // uses (.ruleBookHero > span, .ruleBookActions .backButton …) and beats Team V's shared type and panel classes.
+  // While the Rule Book look is mounted that sheet is switched off (its <link> stays, so the app's loader still sees it
+  // loaded); unmounting switches it back on. A sheet still loading is switched off when it arrives, if still mounted.
+  // css/settings.css also lays out the Settings overlay itself, so Settings keeps it and overrides per rule instead.
+  const OLD_SHEETS=Object.freeze({ruleBook:"rule-book-ui"}),oldSheetOff=new Set();
+  function oldSheet(name,off){
+    const key=OLD_SHEETS[name],link=doc().querySelector?.(`link[data-optional-style="${key}"]`);
+    if(off)oldSheetOff.add(name);else oldSheetOff.delete(name);
+    if(!link)return;
+    if(link.sheet){link.sheet.disabled=off;return;}
+    if(off)link.addEventListener?.("load",()=>{if(link.sheet)link.sheet.disabled=oldSheetOff.has(name);},{once:true});
+  }
   function image(cls,path){const n=element("img",cls);n.src=BASE+path;n.alt="";n.setAttribute("aria-hidden","true");n.decoding="async";return n;}
   function stage(id,host,content){
     const s=element("div","sd-stage v10SystemStage");s.id=id;
@@ -33,7 +46,7 @@
     const hero=content.querySelector('.ruleBookHero');hero.dataset.sdEnter="title";
     hero.insertBefore(image("ruleBookWordmark","shared/wordmarks/TITLE_RULE_BOOK_V1.webp"),hero.querySelector("strong"));
     content.querySelector('h2').classList.add('sd-visually-hidden');
-    hero.querySelector('span').classList.add('sd-eyebrow');hero.querySelector('strong').classList.add('sd-tagline');hero.querySelector('p').classList.add('ruleBookSummary');
+    hero.querySelector('span').classList.add('sd-eyebrow');hero.querySelector('strong').classList.add('sd-tagline');hero.querySelector('p').classList.add('sd-body','ruleBookSummary');
     const grid=content.querySelector('.ruleBookGrid');grid.id='ruleBookSections';grid.setAttribute('aria-label','Competition rules');
     const index=element('div');index.id='ruleBookIndex';index.setAttribute('aria-hidden','true');
     content.querySelectorAll('.ruleSection').forEach(card=>{
@@ -46,12 +59,13 @@
     content.querySelector('.backButton').classList.add('sd-btn','sd-btn--secondary');
     content.querySelector('.backButton').dataset.sdEnter='button';content.append(index);
     states.set(host,{...stage('v10RuleBookStage',host,content),original,content});
+    oldSheet('ruleBook',true);
     root.sdEnter?.(content);
   }
   function unmountRuleBook(host){
     const state=states.get(host);if(!state)return;
     state.engine?.destroy();state.content.querySelector('.ruleBookWordmark')?.remove();
-    host.replaceChildren(...state.original);host.classList.remove('v10RuleBook');states.delete(host);
+    host.replaceChildren(...state.original);host.classList.remove('v10RuleBook');states.delete(host);oldSheet('ruleBook',false);
   }
   function credit(panel){
     if(panel.querySelector('#photoCredit'))return;
@@ -68,19 +82,33 @@
       const name=title==='CAREER MODE SHOWDOWN'?'application':title==='MOTION & FEEDBACK'?'motion':title==='SHOWDOWN DATA'?'data':null;
       if(name){panel.classList.add('sd-panel','settingsPanel--'+name);panel.dataset.sdEnter='panel';if(name==='application')credit(panel);}
     }
+    // HO-004: the product's own Settings buttons take Team V's shared button look (renderSettings rebuilds the
+    // panel buttons, so this runs on every refresh). Nodes, text and listeners are the product's.
+    buttons(host).forEach(([button,kind])=>button.classList.add('sd-btn','sd-btn--'+kind));
+  }
+  function buttons(host){
+    const list=[];
+    host.querySelectorAll('.settingsDataButton').forEach(button=>list.push([button,'secondary']));
+    const done=host.querySelector('.settingsFooter')?.querySelector('.menuButton');if(done)list.push([done,'primary']);
+    return list;
   }
   function mountSettings(frame,host){
     if(states.has(host)){refreshSettings();return;}
     const dialog=doc().getElementById('settingsDialog');host.classList.add('v10Settings');
     const heading=dialog.querySelector('.settingsHeading');heading.classList.add('settingsTitleBlock');
     const wrap=element('span','settingsWordmarkWrap');wrap.dataset.sdEnter='title';wrap.append(image('settingsWordmark','shared/wordmarks/TITLE_SETTINGS_V1.webp'));heading.append(wrap);
+    // Team V's Settings frame: shared eyebrow type and the "TWO MANAGERS. ONE LEGACY." line under the wordmark.
+    heading.querySelector('.settingsEyebrow')?.classList.add('sd-eyebrow');heading.append(element('p','sd-kicker settingsTagline','TWO MANAGERS. ONE LEGACY.'));
     doc().getElementById('settingsTitle').classList.add('settingsVisuallyHidden');
     states.set(host,{...stage('v10SettingsStage',host,dialog),dialog});refreshSettings();root.sdEnter?.(dialog);
   }
   function unmountSettings(host){
     const state=states.get(host);if(!state)return;
     state.engine?.destroy();host.append(state.dialog);state.stage.remove();
-    state.dialog.querySelector('.settingsWordmarkWrap')?.remove();host.classList.remove('v10Settings');states.delete(host);
+    state.dialog.querySelector('.settingsWordmarkWrap')?.remove();state.dialog.querySelector('.settingsTagline')?.remove();
+    state.dialog.querySelector('.settingsEyebrow')?.classList.remove('sd-eyebrow');
+    buttons(state.dialog).forEach(([button])=>button.classList.remove('sd-btn','sd-btn--secondary','sd-btn--primary'));
+    host.classList.remove('v10Settings');states.delete(host);
   }
   function register(){
     if(registered||!root.CareerModeV10Screens)return;

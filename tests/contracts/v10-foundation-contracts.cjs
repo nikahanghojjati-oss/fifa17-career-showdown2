@@ -393,8 +393,8 @@ check("F8 the bar is hidden on Loading and appears only after start-up",async()=
 check("F9 images use a runtime cache keyed by RUNTIME_REVISION; the precache keeps only kit, fonts, CSS and JS",()=>{
   const sw=read("service-worker.js"),html=read("index.html");
   const revision=/const RUNTIME_REVISION = "([^"]+)";/.exec(sw)[1];
-  assert.equal(revision,"1.9.1-r57","RUNTIME_REVISION is the Club Assignment release (1.9.1-r57)");
-  assert.equal(/const PREVIOUS_RUNTIME_REVISION = "([^"]+)";/.exec(sw)[1],"1.9.1-r56");
+  assert.equal(revision,"1.9.1-r59","RUNTIME_REVISION is the Team V screen fixes release (1.9.1-r59)");
+  assert.equal(/const PREVIOUS_RUNTIME_REVISION = "([^"]+)";/.exec(sw)[1],"1.9.1-r58");
   assert.equal(/app-asset-revision"\s+content="([^"]+)/.exec(html)[1],revision);
   const shell=JSON.parse(/const SHELL_PATHS\s*=\s*Object\.freeze\((\[[\s\S]*?\])\);/.exec(sw)[1]);
   const v10=shell.filter(p=>p.startsWith("visual-assets/v10_1/"));
@@ -443,24 +443,24 @@ function swWorld(){
 
 check("F9b a rollback keeps its own Team V images (offline too); other old image caches are cleared",async()=>{
   const w=swWorld(),cur=w.diag.revision,prev=w.diag.previousRevision,IMG="career-mode-showdown-v10-images-";
-  assert.equal(cur,"1.9.1-r57");assert.equal(prev,"1.9.1-r56");
+  assert.equal(cur,"1.9.1-r59");assert.equal(prev,"1.9.1-r58");
   w.fill(cur);const prevShell=w.fill(prev);
   const art="visual-assets/v10_1/trophy-room/assets/ENV_TR_PHONE_V1.webp",only="visual-assets/v10_1/career-statistics/assets/ENV_CS_PLATE_V1_1X.webp";
   // An older revision precached the art in its shell; the retained shell still has it.
   const legacyKey=new URL(only,w.SCOPE);legacyKey.searchParams.set("v",prev);prevShell.set(legacyKey.href,new Response("prev-shell-art",{status:200}));
   const put=(revision,p,body)=>{if(!w.store.has(IMG+revision))w.store.set(IMG+revision,new Map());w.store.get(IMG+revision).set(w.SCOPE+p,new Response(body,{status:200}));};
-  put(cur,art,"r57-art");put(prev,art,"r56-art");put("1.9.1-r50",art,"r50-art");
+  put(cur,art,"r59-art");put(prev,art,"r58-art");put("1.9.1-r50",art,"r50-art");
   await w.dispatch("activate",{});
   const names=[...w.store.keys()];
   assert.ok(names.includes(IMG+cur),"current image cache kept");
   assert.ok(names.includes(IMG+prev),"recovery image cache kept with its retained shell");
   assert.ok(!names.includes(IMG+"1.9.1-r50"),"other old image caches cleared");
   w.net.set("/app/"+art,"network-art");w.net.set("/app/"+only,"network-art");
-  assert.deepEqual(await w.image(art),{status:200,body:"r57-art"},"current revision: its own image cache first");
+  assert.deepEqual(await w.image(art),{status:200,body:"r59-art"},"current revision: its own image cache first");
   let reply;await w.dispatch("message",{data:{type:"CMS_ROLLBACK_TO_PREVIOUS"},ports:[{postMessage:m=>{reply=m;}}]});
   assert.equal(reply&&reply.ok,true,"rollback accepted");assert.equal(reply.revision,prev);
   w.setOnline(false);
-  assert.deepEqual(await w.image(art),{status:200,body:"r56-art"},"offline rollback: the retained revision's art, not the newer one");
+  assert.deepEqual(await w.image(art),{status:200,body:"r58-art"},"offline rollback: the retained revision's art, not the newer one");
   assert.deepEqual(await w.image(only),{status:200,body:"prev-shell-art"},"offline rollback: art the retained shell precached");
   w.setOnline(true);
   const fresh="visual-assets/v10_1/trophy-room/assets/NEW_ONLY.webp";w.net.set("/app/"+fresh,"net-fresh");
@@ -527,6 +527,9 @@ const V10_IMAGES={
     "visual-assets/v10_1/home/assets/LOGO_CM17_WORDMARK_V1.webp":"d72524228798c02bd9c22750da3743099768a80b3ef904a21d8243a1f6dccda6",
     "visual-assets/v10_1/home/assets/OVL_HOME_DANIEL_PHONE_V1.webp":"fdff22d11059c6c6f4c5f38780cd183b26ae737fecc1f913e74ffe754d53e169",
     "visual-assets/v10_1/home/assets/OVL_HOME_NIK_PHONE_V1.webp":"abeb9551dc5cd8ad11d65b2993dfe5155725397ba42b7ba17020634938c62800",
+    // HO-005 (V-243, factory 2daf437): phone overlays without the ghost coat
+    "visual-assets/v10_1/home/assets/OVL_HOME_DANIEL_PHONE_V2.webp":"9c2bde331c0025b69d9122b0dc8e76200b914e2d10dc4e1f476525562f825193",
+    "visual-assets/v10_1/home/assets/OVL_HOME_NIK_PHONE_V2.webp":"8b65513283e570a8a66a6de8762369f33354d751764e2dbf71f715338bddf374",
     "visual-assets/v10_1/shared/art/home-tiles/TILE_CONTINUE_V1.webp":"37ec183f8f282b0314fed20b1ee48cfc7c6c35b40cd88676ff7ee12bda3f7d68",
     "visual-assets/v10_1/shared/art/home-tiles/TILE_HISTORY_V1.webp":"3ad7b30b692ad37f4f366357a7515c7765ec7a11302bcce186b468a7772a68c5",
     "visual-assets/v10_1/shared/art/home-tiles/TILE_RULEBOOK_V1.webp":"e185a67497b0ce0340043ee5bc0e8efd35e8143679b806ad0a48d197885d7cf7",
@@ -622,7 +625,7 @@ check("F9c every shipped Team V image path names one generation (versioned name,
 });
 
 check("F10 index.html is unchanged and the startup line is not higher",()=>{
-  assert.equal(sha256("index.html"),"f4fdc61eccbeb05c356c6281a5609f598edca73ed2d90d71106a7d873f9a042f","index.html byte-identical to the Club Assignment release (r57)");
+  assert.equal(sha256("index.html"),"149c7f34ab1cd36016a336219fe07669cc323503f622776315012b266c5d9d28","index.html byte-identical to the Team V screen fixes release (r59)");
   const html=read("index.html");
   for(const banned of ["v10Screens","navbar","visual-assets/v10_1","startJoinViewModel"])assert.ok(!html.includes(banned),banned);
   const refs=[...html.matchAll(/(?:src|href)="((?:js|css|data)\/[^"?#]+)(?:\?v=([^"#]+))?/g)].map(m=>m[1]);

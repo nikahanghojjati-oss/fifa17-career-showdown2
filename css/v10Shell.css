@@ -16,28 +16,79 @@ html #app #topHeader { color: var(--f17-ink); font-family: var(--f17-ui); }
    expect/settle; never longer than the loader's timeout). Opacity, not display or visibility, so layout and focus are kept. */
 [data-v10-pending] > * { opacity: 0 !important; transition: none !important; }
 
-/* Team V screens other than Home and setup: the app header becomes Home's two chips (css/homeV10.css, HM1) instead of the old
-   light banner, out of the page flow, so Team V's stage gets the full height under the bar. */
-html[data-v10-screen]:not([data-v10-setup]) #app #topHeader {
+/* Home (HM1, css/homeV10.css): the app header stays Home's two chips and the footer keeps its dark band, exactly as in r56.
+   js/v10Screens.js marks Home html[data-v10-screen="mainMenu"], so the HO-003 rules below leave it out. */
+html[data-v10-screen="mainMenu"]:not([data-v10-setup]) #app #topHeader {
   position: fixed; z-index: 12; left: auto; right: 16px; top: calc(var(--sd-nav-top-h, 52px) + 10px); width: auto; height: auto; min-height: 0;
   display: flex; align-items: center; gap: 8px; padding: 0; background: none; border: 0; box-shadow: none;
 }
-html[data-v10-screen]:not([data-v10-setup]) #app #topHeader .brand { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
-html[data-v10-screen]:not([data-v10-setup]) #app #topHeader #onlinePlayerIdentityBadge,
-html[data-v10-screen]:not([data-v10-setup]) #app #topHeader #seasonIndicator {
+html[data-v10-screen="mainMenu"]:not([data-v10-setup]) #app #topHeader .brand { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+html[data-v10-screen="mainMenu"]:not([data-v10-setup]) #app #topHeader #onlinePlayerIdentityBadge,
+html[data-v10-screen="mainMenu"]:not([data-v10-setup]) #app #topHeader #seasonIndicator {
   margin: 0 !important; min-height: 32px; box-sizing: border-box; padding: 6px 12px !important; display: inline-flex; align-items: center;
   font: 600 13px/1 var(--sd-font-condensed, "Barlow Condensed", sans-serif) !important; letter-spacing: .08em; text-transform: uppercase; color: #f5f1e8 !important;
   background: rgba(6,7,9,.78) !important; border: 1px solid rgba(242,196,91,.62) !important; border-radius: 2px; box-shadow: none;
 }
-html[data-v10-screen]:not([data-v10-setup]) #app #topHeader #onlinePlayerIdentityBadge { color: #f2c45b !important; }
-html[data-v10-screen]:not([data-v10-setup]) #app #topHeader #seasonIndicator::before,
-html[data-v10-screen]:not([data-v10-setup]) #app #topHeader #seasonIndicator::after { content: none; }
-html[data-v10-screen]:not([data-v10-setup]) #app > footer { min-height: 0; background: #07080a; color: #b8b09c; border-top: 1px solid rgba(242,196,91,.22); }
+html[data-v10-screen="mainMenu"]:not([data-v10-setup]) #app #topHeader #onlinePlayerIdentityBadge { color: #f2c45b !important; }
+html[data-v10-screen="mainMenu"]:not([data-v10-setup]) #app #topHeader #seasonIndicator::before,
+html[data-v10-screen="mainMenu"]:not([data-v10-setup]) #app #topHeader #seasonIndicator::after { content: none; }
+html[data-v10-screen="mainMenu"]:not([data-v10-setup]) #app > footer { min-height: 0; background: #07080a; color: #b8b09c; border-top: 1px solid rgba(242,196,91,.22); }
 @media (max-width: 900px) {
-  html[data-v10-screen]:not([data-v10-setup]) #app #topHeader { left: 10px; right: auto; top: max(10px, env(safe-area-inset-top)); gap: 6px; padding-right: 0; }
-  html[data-v10-screen]:not([data-v10-setup]) #app #topHeader #onlinePlayerIdentityBadge,
-  html[data-v10-screen]:not([data-v10-setup]) #app #topHeader #seasonIndicator { min-height: 30px; padding: 5px 9px !important; font-size: 11px !important; }
+  html[data-v10-screen="mainMenu"]:not([data-v10-setup]) #app #topHeader { left: 10px; right: auto; top: max(10px, env(safe-area-inset-top)); gap: 6px; padding-right: 0; }
+  html[data-v10-screen="mainMenu"]:not([data-v10-setup]) #app #topHeader #onlinePlayerIdentityBadge,
+  html[data-v10-screen="mainMenu"]:not([data-v10-setup]) #app #topHeader #seasonIndicator { min-height: 30px; padding: 5px 9px !important; font-size: 11px !important; }
 }
+
+/* HO-003 (Team V spec, job V-246): the app header and footer on Team V screens other than Home and setup.
+   Desktop: the two chips sit inside the top navigation bar, right side, just left of the Settings gear, so they never
+   touch a screen's title, crown or counts. Phone: the stage screens need their top band for title and crown, so the chips
+   are visually hidden (screen readers keep them; keyboard focus brings them back); the account stays reachable in Settings
+   and Home keeps its chips. Footer: visually hidden on these screens (the version is shown in Settings). Nothing is removed
+   from the page: hidden here always means visually hidden. */
+html[data-v10-screen]:not([data-v10-setup]):not([data-v10-screen="mainMenu"]) #app #topHeader {
+  position: fixed; z-index: 41; left: auto; right: 84px; top: calc((var(--sd-nav-top-h, 52px) - 28px) / 2);
+  width: auto; height: auto; min-height: 0; display: flex; align-items: center; gap: 6px; padding: 0;
+  background: none; border: 0; box-shadow: none;
+}
+html[data-v10-screen]:not([data-v10-setup]):not([data-v10-screen="mainMenu"]) #app #topHeader .brand { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+html[data-v10-screen]:not([data-v10-setup]):not([data-v10-screen="mainMenu"]) #app #topHeader #onlinePlayerIdentityBadge,
+html[data-v10-screen]:not([data-v10-setup]):not([data-v10-screen="mainMenu"]) #app #topHeader #seasonIndicator {
+  margin: 0 !important; min-height: 28px; box-sizing: border-box; padding: 0 10px !important; display: inline-flex; align-items: center;
+  font: 600 12px/1 var(--sd-font-condensed, "Barlow Condensed", sans-serif) !important; letter-spacing: .1em; text-transform: uppercase;
+  color: #ece6d6 !important; background: #0d0f13 !important; border: 1px solid rgba(242,196,91,.45) !important; border-radius: 2px; box-shadow: none;
+}
+html[data-v10-screen]:not([data-v10-setup]):not([data-v10-screen="mainMenu"]) #app #topHeader #onlinePlayerIdentityBadge { color: #f2c45b !important; cursor: pointer; }
+html[data-v10-screen]:not([data-v10-setup]):not([data-v10-screen="mainMenu"]) #app #topHeader #onlinePlayerIdentityBadge:hover,
+html[data-v10-screen]:not([data-v10-setup]):not([data-v10-screen="mainMenu"]) #app #topHeader #onlinePlayerIdentityBadge:focus-visible { border-color: #f2c45b !important; outline: none; box-shadow: 0 0 0 2px rgba(242,196,91,.35); }
+html[data-v10-screen]:not([data-v10-setup]):not([data-v10-screen="mainMenu"]) #app #topHeader #seasonIndicator::before,
+html[data-v10-screen]:not([data-v10-setup]):not([data-v10-screen="mainMenu"]) #app #topHeader #seasonIndicator::after { content: none; }
+html[data-v10-screen]:not([data-v10-setup]):not([data-v10-screen="mainMenu"]) #app > footer {
+  position: absolute; width: 1px; height: 1px; min-height: 0; margin: -1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0;
+}
+@media (max-width: 900px) {
+  html[data-v10-screen]:not([data-v10-setup]):not([data-v10-screen="mainMenu"]) #app #topHeader { left: 10px; right: auto; top: max(10px, env(safe-area-inset-top)); }
+  html[data-v10-screen]:not([data-v10-setup]):not([data-v10-screen="mainMenu"]) #app #topHeader:not(:focus-within) {
+    width: 1px; height: 1px; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap;
+  }
+}
+
+/* HO-004 (V-245): css/app.css .screen clamps every screen to --safe-width (1510px) and contains its layout, so
+   Team V's full-viewport Career Statistics and Trophy Room stages were boxed with a black band on each side.
+   While mounted the host fills the viewport under the nav bar, like the Rule Book and Standings stages. */
+html[data-v10-screen="careerStatistics"] #careerStatistics.careerScreenV10,
+html[data-v10-screen="trophyRoom"] #trophyRoom.careerScreenV10 {
+  position: fixed; inset: 0; z-index: 30; width: auto; max-width: none; height: auto; min-height: 0; margin: 0; padding: 0; contain: none;
+}
+
+/* HO-004 (V-245): Standings sat in <main> under the old 14px top gap, so at 1920x910 the head-to-head panel was
+   cut before Domestic Cups / Total Trophies. Team V's Standings stage is the full viewport under the nav bar. */
+html[data-v10-screen="standings"] #app #standings.standingsScreenV10 {
+  position: fixed; inset: 0; z-index: 30; width: auto; height: auto; min-height: 0; margin: 0; contain: none;
+}
+
+/* Career Statistics' phone rule gives the preview chip display:block over its [hidden] attribute. The header chips
+   covered the empty box until HO-003 moved them off the phone stage; the live screen never shows a preview label. */
+.careerScreenV10 .previewChip[hidden] { visibility: hidden; }
 
 /* Old analytics.css styles .trophyShelf (a light #e9eef0 band), a class name Team V's Trophy Room reuses. */
 .careerScreenV10 .trophyShelf { background: none; }

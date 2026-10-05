@@ -41,6 +41,10 @@
 /* The product footer is outside the Home stage, so its band is drawn inside the stage and the footer text sits on top. */
 #app > footer { background: none; border-top: 0; z-index: 7; }
 #mainMenu.v10Home .menuMusicHeader { align-self: center; }
+/* HO-004 (V-245): the soundtrack card takes Team V's cream ink and transparent player well; the old app.css YouTube
+   well (#1f262c, white left rule, 36-88px minimum) and its pure white tile ink stay off this Home. */
+#mainMenu.v10Home .menuMusicTile { color: var(--cream); }
+#mainMenu.v10Home .menuMusicPlayer { min-height: 0; background: none; border-left: 0; overflow: visible; }
 #mainMenu.v10Home .menuAthleteCredit {
   position: absolute; z-index: 6; margin: 0; padding: 0; max-width: none; text-align: right;
   font: 400 11px/1.3 var(--text); color: var(--meta); text-shadow: 0 1px 6px rgba(0,0,0,.95); background: none; border: 0;

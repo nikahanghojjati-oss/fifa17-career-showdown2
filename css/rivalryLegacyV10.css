@@ -13,12 +13,20 @@
 }
 /* The preview chip carries no text in the live screen (no preview label); its empty box showed as two stray dashes. */
 #statistics[data-rivalry-legacy-v10] .rv-preview, #legacy[data-rivalry-legacy-v10] .legacyPreviewTag { display:none; }
-/* Desktop: fit the screen into the space between the app header and footer so no control is cut off. The stage keeps
-   Team V's 16:9 proportion and is centred; the sides take the stage's own dark ground. */
+/* Desktop: the stage fills the viewport under the nav bar (Team V's frames reserve its 52px), as the other Team V
+   screens do. HO-004 (V-245): the old 16:9 box inside .screen's 1510px safe width left a black band on each side.
+   The header chips sit in the nav bar and the footer is visually hidden (css/v10Shell.css), so no control is cut off. */
 @media(min-width:901px) {
   main:has(> [data-rivalry-legacy-v10]) { padding:0; background:#07080a; }
-  #legacy[data-rivalry-legacy-v10], #statistics[data-rivalry-legacy-v10] { height:100%; width:100%; }
-  #legacy[data-rivalry-legacy-v10] #stage-root, #statistics[data-rivalry-legacy-v10] .rv-stage { height:100%; width:min(100%, calc((100dvh - 150px) * 1.78)); margin:0 auto; }
+  #legacy[data-rivalry-legacy-v10], #statistics[data-rivalry-legacy-v10] { position:fixed; inset:0; z-index:30; height:100%; width:100%; contain:none; }
+  #legacy[data-rivalry-legacy-v10] #stage-root, #statistics[data-rivalry-legacy-v10] .rv-stage { height:100%; width:100%; margin:0; }
+}
+/* HO-004 (V-245): Team V's History has no stand-alone back control over the art, only VIEW SEASON HISTORY under the
+   archive. Smart Back stays (the product's .backButton); on desktop it joins that action row as the secondary button
+   instead of floating over the top-left of the stage. The pair stays centred. */
+@media(min-width:901px) {
+  #legacy[data-rivalry-legacy-v10] .legacyPrimaryAction { margin-left:-116px; }
+  #legacy[data-rivalry-legacy-v10] .legacyBackV10 { top:82.1%; left:calc(50% + 36px); width:220px; min-width:0; min-height:52px; padding:0 16px; }
 }
 /* Short desktop windows (Chromebook): the seven rows must fit the comparison box. */
 @media(min-width:901px) and (max-height:860px) {

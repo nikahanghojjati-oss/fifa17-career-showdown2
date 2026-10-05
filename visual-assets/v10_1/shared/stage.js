@@ -69,9 +69,10 @@
       p.style.setProperty("--dust-y", `${b}%`);
       p.style.setProperty("--dust-size", `${size}px`);
       p.style.setProperty("--dust-alpha", `${.12 + ((i * 17) % 19) / 100}`);
-      p.style.setProperty("--dust-dur", `${16 + (i % 8) * 1.7}s`);
-      p.style.setProperty("--dust-delay", `${-((i * 1.31) % 19)}s`);
-      p.style.setProperty("--dust-dx", `${-26 + ((i * 31) % 53)}px`);
+      // HO-002: one settling drift (4 to 7.5 s, starting within 2.4 s), then still; see stage.css.
+      p.style.setProperty("--dust-dur", `${4 + (i % 8) * .5}s`);
+      p.style.setProperty("--dust-delay", `${(i * 1.31) % 2.4}s`);
+      p.style.setProperty("--dust-dx", `${-13 + ((i * 31) % 27)}px`);
       dust.appendChild(p);
     }
     const flare = document.createElement("div"); flare.className = "sd-stage__flare";

@@ -34,6 +34,7 @@
   });
   const CHEVRON='<svg class="tileChevron" aria-hidden="true" focusable="false" viewBox="0 0 12 20"><path d="M2 2l8 8-8 8" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
   const HOME_CSS=Object.freeze(["home/home.css","../../css/homeV10.css"]);
+  const PANEL_CLASSES=tile=>tile.id==="continueCareer"?["sd-panel","sd-panel--hero"]:["sd-panel"];
   let registered=null;
 
   const hmDoc=()=>root.document;
@@ -46,7 +47,7 @@
     const frag=hmDoc().createDocumentFragment();
     frag.append(
       hmDecor("plateView",pic("phoneHeroBackground","ENV_HOME_PHONE_V1.webp")+'<div class="plateLayer"></div>'),
-      hmDecor("v10HomeCutouts",pic("phoneHeroCutout phoneHeroDaniel","OVL_HOME_DANIEL_PHONE_V1.webp")+pic("phoneHeroCutout phoneHeroNik","OVL_HOME_NIK_PHONE_V1.webp")),
+      hmDecor("v10HomeCutouts",pic("phoneHeroCutout phoneHeroDaniel","OVL_HOME_DANIEL_PHONE_V2.webp")+pic("phoneHeroCutout phoneHeroNik","OVL_HOME_NIK_PHONE_V2.webp")),
       hmDecor("phoneHeroGrade"),hmDecor("scrim scrimTop"),hmDecor("scrim scrimLow"),hmDecor("dockBed"),
       hmDecor("scriptLine","<span>More Than A Game</span>")
     );
@@ -119,11 +120,13 @@
       host.appendChild(hmDecor("footDeco",'<span>FOOTBALL BRINGS US TOGETHER</span><svg viewBox="0 0 24 18" focusable="false"><path d="M2 16h20l1.5-12-6 5L12 1 6.5 9l-6-5z" fill="#F2C45B"/></svg>'));
     }
     Object.entries(TILE_ART).forEach(([id,file])=>hmTile(id,file));
+    // HO-004: every tile is Team V's shared cut-corner panel (Continue is the hero panel), as in Team V's Home frame.
+    grid.querySelectorAll(".menuTile").forEach(tile=>tile.classList.add(...PANEL_CLASSES(tile)));
     hmMusic(host);
     host.classList.add("stage","v10Home");
     return true;
   }
-  function hmUnmount(host){if(host)host.classList.remove("stage","v10Home");}
+  function hmUnmount(host){if(!host)return;host.classList.remove("stage","v10Home");host.querySelectorAll(".fifaMenuGrid .menuTile").forEach(tile=>tile.classList.remove("sd-panel","sd-panel--hero"));}
 
   function install(){
     if(registered)return registered;
