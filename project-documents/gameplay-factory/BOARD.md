@@ -1,10 +1,10 @@
 # Team G gameplay board
 
-20 of 33 jobs done (70 %) ███████░░░ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-04 10:11 PM Boston time (EDT)
+20 of 33 jobs done (70 %) ███████░░░ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-04 10:14 PM Boston time (EDT)
 
 ## Scoreboard
 
-⚽ **20 of 33 jobs done** · 1 in play · 🐞 see [BUG_BOARD.md](BUG_BOARD.md) · 🏁 last running job likely done about 9:43 PM Boston time
+⚽ **20 of 33 jobs done** · 1 in play · 🐞 see [BUG_BOARD.md](BUG_BOARD.md) · 🏁 no finish time yet (not enough data)
 
 🥵 **Gaffer (PAUSE, strained)** · usage 91 % of the 5-hour window · resets 03:50 UTC · last call: All non-2.0 threads paused at 91%; hourly checks started · [Gaffer page](https://claude.ai/artifact/33Pw2Bioktj1Nv7ebEM94Q)
 
@@ -46,7 +46,7 @@ Sonnet · Sonnet thread · PR #352
 
 🟪🟪🟪🟪🟪🟪🟪🟪🟪⚽▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️ 🥅 **49.9040 %** (9 of 11 steps)
 
-**Likely finish:** about 9:43 PM (likely 9:30 PM to 10:12 PM) Boston time
+**Likely finish:** past the estimate; the next report will move it
 
 **Going on now:** Paused for usage reset; all my work is pushed, waiting on the lead's J10 fix then merge
 
