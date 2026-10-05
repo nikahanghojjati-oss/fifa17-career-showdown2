@@ -3,17 +3,9 @@ name: Factory board auto-update
 # Rebuilds project-documents/factory/BOARD.md whenever a job status or BOARD.json changes
 # on the factory branch, so Nik always sees a current board without asking Claude.
 # Factory branch only; it never runs on main.
+# RETIRED 2026-10-05 (Nik): Team G's shared board now shows Team V jobs from "V-" PR progress blocks.
+# Only a manual run remains; nothing triggers this on push any more.
 on:
-  push:
-    branches: [factory/v1-wtt5ye]
-    paths:
-      - project-documents/factory/status/**
-      - project-documents/factory/BOARD.json
-      - project-documents/factory/tickets/**
-      - project-documents/factory/tools/board.py
-      - project-documents/factory/LANES.json
-      # Step commits ("Job N step k/n") flip a job to Working before its status file is saved.
-      - visual-assets/v10_1/**
   workflow_dispatch:
 
 permissions:

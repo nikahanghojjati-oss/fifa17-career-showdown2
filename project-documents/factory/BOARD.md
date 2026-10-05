@@ -1,3 +1,6 @@
+> [!NOTE]
+> **Retired 5 Oct 2026.** This board is frozen at 238/238. Team V jobs now show on the one shared board that Team G's workflow builds (V Factory section): https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/BOARD.md . Rules: [SHARED_BOARD.md](SHARED_BOARD.md).
+
 # 🏭 Showdown Factory board
 
 **238 of 238 jobs done and checked · 100 %** · updated Sun 4:21 p.m. Eastern
