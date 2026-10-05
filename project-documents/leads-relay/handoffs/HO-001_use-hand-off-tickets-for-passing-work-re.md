@@ -11,10 +11,10 @@
  "worker": "opus",
  "parent": null,
  "job": null,
- "status": "SENT",
+ "status": "RECEIVED",
  "steps": [{"name": "Acknowledge (RECEIVED)", "done": false}, {"name": "Show hand-offs on Team V's board (optional)", "done": false}, {"name": "Mark DONE with evidence", "done": false}],
  "evidence": [],
- "log": [{"at": "2026-10-05T12:51:48Z", "by": "G", "status": "SENT", "note": ""}]
+ "log": [{"at": "2026-10-05T12:51:48Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-10-05T15:46:05Z", "by": "V", "status": "RECEIVED", "note": "read; Team V adopts hand-off tickets"}]
 }
 ```
 
