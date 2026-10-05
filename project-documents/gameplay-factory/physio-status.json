@@ -1,13 +1,13 @@
 {
   "schema": "physio/v1",
-  "at": "2026-10-05T23:38:49.438Z",
+  "at": "2026-10-05T23:40:51.522Z",
   "state": "BARKING",
   "checks": [
     {
       "workflow": "Validate Gameplay Fast",
       "head_sha": "394ba77b9aed439cab51f770c9920702df02d970",
       "pr": null,
-      "queued_minutes": 1.8,
+      "queued_minutes": 3.8,
       "action": "none",
       "attempt": 0,
       "max_attempts": 2
@@ -16,7 +16,52 @@
       "workflow": "Validate POS20",
       "head_sha": "84a04d80a8a3915d00b13e55a3600df0772a6e97",
       "pr": null,
-      "queued_minutes": 1.6,
+      "queued_minutes": 3.6,
+      "action": "none",
+      "attempt": 0,
+      "max_attempts": 2
+    },
+    {
+      "workflow": "Validate POS20",
+      "head_sha": "28d4a9d140260a8cf6c8de648db479596589ec5e",
+      "pr": null,
+      "queued_minutes": 2.7,
+      "action": "none",
+      "attempt": 0,
+      "max_attempts": 2
+    },
+    {
+      "workflow": "Validate POS20",
+      "head_sha": "338ad33b03ccecdc672631885bdc5581b6011199",
+      "pr": 388,
+      "queued_minutes": 2.2,
+      "action": "none",
+      "attempt": 0,
+      "max_attempts": 2
+    },
+    {
+      "workflow": "Validate Gameplay Fast",
+      "head_sha": "1a040366cd39690d4daf9fe2c9c354a4839de998",
+      "pr": 386,
+      "queued_minutes": 2.1,
+      "action": "none",
+      "attempt": 0,
+      "max_attempts": 2
+    },
+    {
+      "workflow": "Showdown Gate",
+      "head_sha": "1a040366cd39690d4daf9fe2c9c354a4839de998",
+      "pr": 386,
+      "queued_minutes": 2,
+      "action": "none",
+      "attempt": 0,
+      "max_attempts": 2
+    },
+    {
+      "workflow": "Validate POS20",
+      "head_sha": "1a040366cd39690d4daf9fe2c9c354a4839de998",
+      "pr": 386,
+      "queued_minutes": 2,
       "action": "none",
       "attempt": 0,
       "max_attempts": 2
@@ -25,39 +70,39 @@
   "helpers_paused": [],
   "gate": {
     "pr": 386,
-    "head_sha": "17754a6d1f4dfe685c135119ca1fbe7b62065dbb",
+    "head_sha": "1a040366cd39690d4daf9fe2c9c354a4839de998",
     "lanes": [
       {
         "name": "L1 core",
-        "state": "pass"
+        "state": "queued"
       },
       {
         "name": "L2 browser full",
-        "state": "pass"
+        "state": "queued"
       },
       {
         "name": "L3 storage visual gameplay",
-        "state": "pass"
+        "state": "queued"
       },
       {
         "name": "L4 remote",
-        "state": "pass"
+        "state": "queued"
       },
       {
         "name": "L5 rules regression",
-        "state": "pass"
+        "state": "queued"
       },
       {
         "name": "L6 browser journey",
-        "state": "pass"
+        "state": "running"
       }
     ],
-    "seal": "PASS"
+    "seal": "PENDING"
   },
   "pos20": {
     "pr": 386,
-    "passed": 16,
+    "passed": 1,
     "total": 16,
-    "state": "pass"
+    "state": "running"
   }
 }
