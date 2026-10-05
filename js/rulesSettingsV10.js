@@ -9,6 +9,10 @@
   let registered=false;
   const doc=()=>root.document;
   function element(tag,cls="",text=""){const n=doc().createElement(tag);n.className=cls;if(text)n.textContent=text;return n;}
+  // Mounting moves the original dialog or rule content into the stage, and moving a focused control blurs it
+  // (Settings can finish loading its look after Close or a toggle already has focus); put focus back.
+  function keepFocus(work){const d=doc(),active=d.activeElement;try{return work();}finally{if(active&&active!==d.body&&active.isConnected&&d.activeElement!==active&&typeof active.focus==="function")active.focus({preventScroll:true});}}
+  const focusSafe=fn=>(...args)=>keepFocus(()=>fn(...args));
   function image(cls,path){const n=element("img",cls);n.src=BASE+path;n.alt="";n.setAttribute("aria-hidden","true");n.decoding="async";return n;}
   function stage(id,host,content){
     const s=element("div","sd-stage v10SystemStage");s.id=id;
@@ -82,8 +86,8 @@
     if(registered||!root.CareerModeV10Screens)return;
     registered=true;
     const loader=root.CareerModeV10Screens.install();
-    loader.register('ruleBook',{css:['rule-book/rule-book.css'],prepare:()=>root.loadRuntimeStyle('rules-settings-v10','css/rulesSettingsV10.css'),frame:()=>true,mount:mountRuleBook,unmount:unmountRuleBook});
-    loader.register('settingsOverlay',{css:['settings/settings.css'],prepare:()=>root.loadRuntimeStyle('rules-settings-v10','css/rulesSettingsV10.css'),overlay:true,auto:false,frame:()=>true,mount:mountSettings,unmount:unmountSettings});
+    loader.register('ruleBook',{css:['rule-book/rule-book.css'],prepare:()=>root.loadRuntimeStyle('rules-settings-v10','css/rulesSettingsV10.css'),frame:()=>true,mount:focusSafe(mountRuleBook),unmount:focusSafe(unmountRuleBook)});
+    loader.register('settingsOverlay',{css:['settings/settings.css'],prepare:()=>root.loadRuntimeStyle('rules-settings-v10','css/rulesSettingsV10.css'),overlay:true,auto:false,frame:()=>true,mount:focusSafe(mountSettings),unmount:focusSafe(unmountSettings)});
   }
   async function rsInstall(){
     await root.loadRuntimeScript('v10-screens','js/v10Screens.js',()=>Boolean(root.CareerModeV10Screens));register();
@@ -92,5 +96,5 @@
   }
   function rsOpenSettings(){if(registered)void root.CareerModeV10Screens.show('settingsOverlay').catch(()=>{});}
   function rsCloseSettings(){root.CareerModeV10Screens?.hide('settingsOverlay');}
-  return Object.freeze({install:rsInstall,register,openSettings:rsOpenSettings,closeSettings:rsCloseSettings,refreshSettings,mountRuleBook,unmountRuleBook,mountSettings,unmountSettings});
+  return Object.freeze({install:rsInstall,register,openSettings:rsOpenSettings,closeSettings:rsCloseSettings,refreshSettings,mountRuleBook:focusSafe(mountRuleBook),unmountRuleBook:focusSafe(unmountRuleBook),mountSettings:focusSafe(mountSettings),unmountSettings:focusSafe(unmountSettings)});
 });
