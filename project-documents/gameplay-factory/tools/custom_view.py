@@ -8,7 +8,7 @@ import json, os, re, sys, datetime, html
 from zoneinfo import ZoneInfo
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import eta as ETA
-from factory_common import F, running_jobs, lane_of, all_bugs, OPEN_BUG
+from factory_common import F, running_jobs, lane_of, all_bugs, OPEN_BUG, pitch
 
 BOS = ZoneInfo("America/New_York")
 BLOB = "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/"
@@ -40,6 +40,7 @@ def bar(frac, colour):
 st = json.load(open(os.path.join(F, "BOARD_STATE.json")))
 open_bugs = [b for b in all_bugs() if b["status"] in OPEN_BUG]
 now = datetime.datetime.now(BOS)
+rj0 = running_jobs()
 
 H = ["<style>.cv{font:14px/1.45 system-ui,sans-serif;max-width:720px}.cv h2{font-size:16px;margin:18px 0 6px}"
      ".cv .card{border:1px solid rgba(128,128,128,.45);border-radius:10px;padding:10px 12px;margin:8px 0}.cv .move{background:rgba(249,115,22,.14);border-color:#f97316}"
@@ -48,6 +49,7 @@ H = ["<style>.cv{font:14px/1.45 system-ui,sans-serif;max-width:720px}.cv h2{font
      '<div class="cv">',
      f'<div class="m">Updated {now:%a %-d %b, %-I:%M %p} Boston time · {st["done"]} of {st["total"]} jobs done · {len(open_bugs)} open bug{"s" if len(open_bugs) != 1 else ""} · '
      f'<a href="{BLOB}BOARD.md">Job board</a> · <a href="{BLOB}BUG_BOARD.md">Bug board</a></div>',
+     f'<div class="card" style="text-align:center;font-size:16px"><b>⚽ Team G {st["done"]} of {st["total"]} jobs done · {len(rj0)} in play · 🐞 {len(open_bugs)} open</b><br><span class="m">{ETA.whistle([ETA.describe(r) for _, r, _, _ in rj0])}</span></div>',
      "<h2>Your next move</h2>", '<div class="card move">' + "<br>".join(md(m) for m in st.get("next_move") or ["Nothing for you to start right now."]) + "</div>",
      "<h2>Running now</h2>"]
 rj = sorted(running_jobs())
@@ -63,7 +65,7 @@ for n, r, k, t in rj:
     title = f'Job {n} · {e(r.get("title", ""))}'
     title = f'<a href="{PR}{r["pr"]}">{title}</a>' if r.get("pr") else title
     H.append(f'<div class="card"><b>{title}</b> <span class="m">{e(who)} · {k} of {t} steps · {boston(r.get("updated"))}</span><br>'
-             f'{bar(d["pct"] / 100, HEX.get(who, "#6b7280"))}<span class="pc">{d["pct"]:.4f} %</span><br>'
+             f'{bar(d["pct"] / 100, HEX.get(who, "#6b7280"))}<span class="pc">{d["pct"]:.4f} %</span><br>{pitch(d["pct"] / 100, {"Sol chat": "🟦", "Sol Work mode": "🟩", "Codex": "⬜", "Opus": "🟧", "Sonnet": "🟪", "Haiku": "🟨"}.get(who, "⬛"), 16)}<br>'
              f'<b>Likely finish:</b> {e(d["eta"])}<br>'
              f'<b>Going on now:</b> {e(r.get("current") or "not reported")}<br>'
              f'<b>Still to do:</b> {e(" → ".join(left) or "nothing")}</div>')

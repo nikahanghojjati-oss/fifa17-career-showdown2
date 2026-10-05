@@ -6,6 +6,7 @@ On GitHub, .github/workflows/gameplay-factory-board.yml runs this on every job m
 import json, os, re, sys, datetime
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from zoneinfo import ZoneInfo
+import eta as ETA
 
 
 def boston_now():
@@ -155,6 +156,8 @@ moving = "; ".join(who_busy) if who_busy else "no job is running right now"
 
 L = ["# Team G gameplay board", "",
      f"{done} of {len(jobs)} jobs done ({overall} %) {bar(overall)} · branch `{board['branch']}` · code PRs into `{board['integration_branch']}` · generated {boston_now()}", "",
+     "## Scoreboard", "",
+     f"⚽ **{done} of {len(jobs)} jobs done** · {len(working)} in play · 🐞 see [BUG_BOARD.md](BUG_BOARD.md) · {ETA.whistle([ETA.describe(r) for _, r, _, _ in __import__('factory_common').running_jobs()])}", "",
      "## Your next move", ""]
 L += [f"{n}. {m}" for n, m in enumerate(move, 1)]
 nxt = next((j for j in open_jobs if j["lane"] != "lead"), None)
@@ -162,7 +165,6 @@ L += ["", f"_Moving now:_ {moving}." + (f" _Next up:_ {nxt['key']} {nxt['title']
       "**Sol Work mode starter line** (copy it, change both `NN` to the job number, paste it as the first message):", "", "```", starter, "```", ""]
 
 from factory_common import running_jobs, LANES, lane_of, pitch
-import eta as ETA
 
 rj = running_jobs()
 L += ["## Running now", "", "Bug hunting factory: [BUG_BOARD.md](BUG_BOARD.md).", ""]

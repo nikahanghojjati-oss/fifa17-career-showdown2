@@ -76,4 +76,10 @@ def describe(r):
     now = datetime.datetime.now(datetime.timezone.utc)
     if at[2] < now:
         return {"pct": pct, "eta": "past the estimate; the next report will move it", "basis": basis}
-    return {"pct": pct, "eta": f"about {clock(at[1])} (likely {clock(at[0])} to {clock(at[2])}) Boston time", "basis": basis}
+    return {"pct": pct, "end": at[1], "eta": f"about {clock(at[1])} (likely {clock(at[0])} to {clock(at[2])}) Boston time", "basis": basis}
+
+
+def whistle(descs):
+    """Full-time line: when the last running job is likely done (needs a numeric estimate on at least one job)."""
+    ends = [d["end"] for d in descs if d.get("end")]
+    return f"🏁 last running job likely done about {clock(max(ends))} Boston time" if ends else "🏁 no finish time yet (not enough data)"
