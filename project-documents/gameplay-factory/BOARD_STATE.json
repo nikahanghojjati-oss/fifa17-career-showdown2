@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 1:36 PM Boston time (EDT)",
+ "generated": "2026-10-05 1:39 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -284,8 +284,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "bb9a562",
-  "head_boston": "Mon 5 Oct 12:19 PM",
+  "head": "0dcba18",
+  "head_boston": "Mon 5 Oct 1:37 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": true,
   "open_for_g": [],
@@ -318,6 +318,13 @@
    "when": "2026-10-05T15:47:10Z",
    "subject": "Team V's Club Assignment on the live screen (r57) (#371)",
    "fixes": [
+    {
+     "pr": 377,
+     "title": "G-35: Team V screen fixes HO-003 + HO-004 (r59, includes r58)",
+     "draft": false,
+     "branch": "gameplay/job-35-ho003-ho004-wiring",
+     "updated": "2026-10-05T17:39:27Z"
+    },
     {
      "pr": 373,
      "title": "G: phone Home without the ghost coat, and a still stage (Team V HO-005 + HO-002, r58)",
@@ -363,7 +370,7 @@
   "v_jobs": [],
   "inbox": {
    "G": true,
-   "V": false
+   "V": true
   },
   "tickets": [
    {

@@ -1,10 +1,10 @@
 # Showdown board: G Factory and V Factory
 
-33 of 33 jobs done (100 %) ██████████ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-05 1:36 PM Boston time (EDT)
+33 of 33 jobs done (100 %) ██████████ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-05 1:39 PM Boston time (EDT)
 
 ## Scoreboard
 
-⚽ **33 of 33 jobs done** · 0 in play · 🐞 see [BUG_BOARD.md](BUG_BOARD.md) · 🏁 no finish time yet (not enough data)
+⚽ **33 of 33 jobs done** · 0 in play · 🐞 see [BUG_BOARD.md](BUG_BOARD.md) · 🏁 last running job likely done about 2:11 PM Boston time
 
 🧑‍💼 **Gaffer:** no fresh report (last one 12:06 AM Boston time, 13 h old); see the [Gaffer page](https://claude.ai/artifact/33Pw2Bioktj1Nv7ebEM94Q).
 
@@ -12,6 +12,7 @@
 
 🌐 **main `3deee29` · runtime 1.9.1-r57** · last change Mon 5 Oct 11:47 AM Boston time: Team V's Club Assignment on the live screen (r57) (#371)
 
+- 🔧 Live fix in review: [PR #377](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/377) G-35: Team V screen fixes HO-003 + HO-004 (r59, includes r58)
 - 🔧 Live fix in review: [PR #373](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/373) G: phone Home without the ghost coat, and a still stage (Team V HO-005 + HO-002, r58)
 
 **Shipped to the live game today (6):**
@@ -37,7 +38,15 @@ Gameplay factory job NN. Read https://raw.githubusercontent.com/nikahanghojjati-
 
 ## Running now
 
-No job is reporting progress right now (jobs show here once their PR description carries a progress block).
+<sub>Percent = finished steps weighted by typical step time, finish times are estimates ([how](ETA_STUDY.md)). Lanes: 🟦 Sol chat · 🟩 Sol Work mode · ⬜ Codex · 🟧 Opus · 🟪 Sonnet · 🟨 Haiku</sub>
+
+### 🟧 Job 35 · Team V screen fixes HO-003 + HO-004 (r59, includes r58) · 38.0678 %
+
+🟧🟧🟧🟧🟧🟧🟧⚽▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️ 🥅  
+Opus · Lead (helper) · [PR #377](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/377) · 3 of 5 steps · updated Mon 5 Oct 1:39 PM Boston time  
+🏁 **Likely finish:** about 2:11 PM (likely 1:57 PM to 2:34 PM) Boston time  
+> **Now:** Gates running on the exact head  
+> **Left:** All 16 checks green on the exact head → Merged into main and live
 
 ## Live fixes and bug hunt
 
@@ -84,7 +93,7 @@ No Team V job is reporting yet (Team V jobs show here once a PR titled `V-…` c
 
 ## 📡 Relay and hand-offs
 
-**Relay health:** ✅ working · direct wake: Team G ✅, Team V ⚠ not registered · 29 messages, 5 hand-offs · branch head `bb9a562` (Mon 5 Oct 12:19 PM Boston time) · **[Read every message in full: RELAY.md](RELAY.md)**
+**Relay health:** ✅ working · direct wake: Team G ✅, Team V ✅ · 29 messages, 5 hand-offs · branch head `0dcba18` (Mon 5 Oct 1:37 PM Boston time) · **[Read every message in full: RELAY.md](RELAY.md)**
 
 | Hand-off | From → To | What | Progress | Picked up in |
 | --- | --- | --- | --- | --- |

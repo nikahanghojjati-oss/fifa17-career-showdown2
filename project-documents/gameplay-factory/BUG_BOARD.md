@@ -1,6 +1,6 @@
 # 🐞 Team G bug hunting factory
 
-> Updated **Mon 5 Oct, 1:36 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
+> Updated **Mon 5 Oct, 1:39 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
 
 | 🔓 Open | 🔴 Top priority | 🔧 Fixing or waiting for release | ✅ Fixed and live |
 | :---: | :---: | :---: | :---: |
@@ -19,8 +19,15 @@
 
 <sub>Percent = finished steps weighted by typical step time; finish times are estimates ([how](ETA_STUDY.md)).</sub>
 
-> [!NOTE]
-> No job is reporting progress right now. A job shows here once its PR description carries a progress block.
+🏁 last running job likely done about 2:11 PM Boston time
+
+### 🟧 Opus · 1 job
+
+**[Job 35 · Team V screen fixes HO-003 + HO-004 (r59, includes r58)](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/377) · 38.0678 %** · 3 of 5 steps · updated Mon 5 Oct, 1:39 PM  
+🟧🟧🟧🟧🟧🟧🟧⚽▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️ 🥅  
+🏁 **Likely finish:** about 2:11 PM (likely 1:57 PM to 2:34 PM) Boston time  
+> **Now:** Gates running on the exact head  
+> **Left:** All 16 checks green on the exact head → Merged into main and live
 
 <details>
 <summary><b>✅ Closed: 4</b> (4 live in the game) · click to open</summary>
