@@ -1,10 +1,22 @@
 # 🎨 Team V board
 
-Updated Mon 5 Oct 1:52 PM EDT · Team V featured, Team G below · one shared data source (PR progress blocks + relay) · [Team G's board](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/BOARD.md)
+Updated Mon 5 Oct 7:46 PM EDT · Team V featured, Team G below · one shared data source (PR progress blocks + relay) · [Team G's board](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/BOARD.md)
 
 ## Team V: visual jobs
 
-No Team V job is running right now.
+### 🟦 [V-1002 · Transfer War window strings match production wording](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/389)
+
+🟦🟦🟦🟦🟦🟦🟦▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️ **33.33 %** · 1 of 3 steps · Sol chat · GPT blue (Nik types 1002) · updated Mon 5 Oct 7:57 PM EDT
+
+> **Going on now:** waiting for Nik to type 1002 in a new Showdown visual chat  
+> **Next step:** GPT blue: change two strings
+
+### 🟧 [V-247 · Phone Home tile icons like GOAL_HOME](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/381)
+
+🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧 **100.00 %** · 4 of 4 steps · Opus · Team V · updated Mon 5 Oct 2:38 PM EDT
+
+> **Going on now:** Done; handed to Team G as HO-006  
+> **Next step:** nothing left
 
 **Board 1 (visual package): 238 of 238 jobs done and checked**, shipped in version 2.0 on 5 Oct 2026.
 
@@ -19,21 +31,25 @@ No Team V job is running right now.
 
 <sub>Lanes: 🟦 Sol chat · 🟩 Sol Work mode · ⬜ Codex · 🟧 Opus · 🟪 Sonnet · 🟨 Haiku</sub>
 
-### Hand-offs to Team V (0 open of 5)
+### Hand-offs to Team V (0 open of 7)
 
 | Ticket | What | Priority | State | Job |
 |---|---|---|---|---|
 | [HO-002](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/handoffs/HO-002_smooth-stage-atmosphere-on-idle-screens-.md) | Smooth stage atmosphere on idle screens (pointer stutter root cause) | 🔥 top | ✅ Done | V-244 |
 | [HO-005](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/handoffs/HO-005_mobile-home-hero-ghost-coat-between-dani.md) | Mobile Home hero: ghost coat between Daniel and Nik | 🔥 top | ✅ Done | V-243 |
+| [HO-007](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/handoffs/HO-007_shared-job-numbers-for-both-teams-from-1.md) | Shared job numbers for both teams, from 1001 | 🔥 top | ✅ Done |  |
+| [HO-008](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/handoffs/HO-008_bug-factory-mode-for-team-v-gpt-blue-and.md) | Bug factory mode for Team V: GPT blue and green lanes, escalation ladder | 🔥 top | ✅ Done |  |
 | [HO-001](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/handoffs/HO-001_use-hand-off-tickets-for-passing-work-re.md) | Use hand-off tickets for passing work (relay v1.1) | normal | ✅ Done |  |
 | [HO-003](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/handoffs/HO-003_header-chips-and-footer-design-on-team-v.md) | Header chips and footer design on Team V screens | normal | ✅ Done | V-246 |
 | [HO-004](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/handoffs/HO-004_visual-qa-live-2-0-screens-vs-approved-f.md) | Visual QA: live 2.0 screens vs approved frames | normal | ✅ Done | V-245 |
 
+<sub>Sent to Team G: HO-006 ✅ Done · HO-009 ✅ Done</sub>
+
 ### Team G: gameplay
 
-<sub>33 of 33 jobs done (100.00 %) · 2 open bugs · their update Mon 5 Oct 11:44 AM EDT · [full board](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/BOARD.md)</sub>
+<sub>33 of 33 jobs done (100.00 %) · 8 open bugs · their update Mon 5 Oct 7:43 PM EDT · [full board](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/BOARD.md)</sub>
 
-<sub>🟧 [34 · Club Assignment (Team V design)](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/371): 🟧🟧🟧🟧▫️▫️▫️▫️▫️▫️ 38.07 % · 3 of 5 steps · Gates running on the exact head</sub>  
+<sub>No Team G job is running right now.</sub>
 
 ### Relay (latest)
 
