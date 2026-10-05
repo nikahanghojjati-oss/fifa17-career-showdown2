@@ -79,16 +79,22 @@ No Team V job is reporting yet (Team V jobs show here once a PR titled `V-…` c
 | # | Future work | Worker | State | Waits on |
 | --- | --- | --- | --- | --- |
 | HO-001 | Use hand-off tickets for passing work (relay v1.1) (hand-off) | 🟧 Opus | Delivered | Team V |
+| HO-002 | Smooth stage atmosphere on idle screens (pointer stutter root cause) (hand-off) | 🟧 Opus | Sent | Team V |
+| HO-003 | Header chips and footer design on Team V screens (hand-off) | 🟧 Opus | Sent | Team V |
+| HO-004 | Visual QA: live 2.0 screens vs approved frames (hand-off) | 🟪 Sonnet | Sent | Team V |
 | V-F2 | Design changes from Nik and Daniel's 2.0 play-through (only real design changes; bugs stay with G) | 🟧 Opus | queued | G-F1 |
 | V-F3 | Visual check of live 2.0 against the approved package 5e05a1f | 🟪 Sonnet | proposed | Team V's call |
 
 ## 📡 Relay and hand-offs
 
-**Relay health:** ✅ working · 27 messages, 1 hand-offs · branch head `766e78e` (Mon 5 Oct 8:52 AM Boston time) · **[Read every message in full: RELAY.md](RELAY.md)**
+**Relay health:** ✅ working · 27 messages, 4 hand-offs · branch head `c46e219` (Mon 5 Oct 8:54 AM Boston time) · **[Read every message in full: RELAY.md](RELAY.md)**
 
 | Hand-off | From → To | What | Progress |
 | --- | --- | --- | --- |
 | [HO-001](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/handoffs/HO-001_use-hand-off-tickets-for-passing-work-re.md) | G → V | Use hand-off tickets for passing work (relay v1.1) | ✅ Sent → ✅ **Delivered** → ○ Received → ○ In progress → ○ Done |
+| [HO-002](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/handoffs/HO-002_smooth-stage-atmosphere-on-idle-screens-.md) | G → V | Smooth stage atmosphere on idle screens (pointer stutter root cause) | ✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done |
+| [HO-003](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/handoffs/HO-003_header-chips-and-footer-design-on-team-v.md) | G → V | Header chips and footer design on Team V screens | ✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done |
+| [HO-004](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/handoffs/HO-004_visual-qa-live-2-0-screens-vs-approved-f.md) | G → V | Visual QA: live 2.0 screens vs approved frames | ✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done |
 
 Latest messages:
 - G2V-014 · Mon 5 Oct 8:55 AM · Team G → Team V · Relay v1.1: hand-off tickets (Sent, Delivered, Received, In progress, Done) carry passed work in fu…

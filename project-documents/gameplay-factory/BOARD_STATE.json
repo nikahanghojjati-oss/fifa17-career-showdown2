@@ -266,8 +266,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "766e78e",
-  "head_boston": "Mon 5 Oct 8:52 AM",
+  "head": "c46e219",
+  "head_boston": "Mon 5 Oct 8:54 AM",
   "latest_id": "G2V-014",
   "feed_matches_latest": true,
   "open_for_g": [],
@@ -322,6 +322,39 @@
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-001_use-hand-off-tickets-for-passing-work-re.md",
     "worker": "opus"
+   },
+   {
+    "id": "HO-002",
+    "from": "G",
+    "to": "V",
+    "title": "Smooth stage atmosphere on idle screens (pointer stutter root cause)",
+    "stage": "SENT",
+    "pct": 0.0,
+    "overdue": false,
+    "path": "project-documents/leads-relay/handoffs/HO-002_smooth-stage-atmosphere-on-idle-screens-.md",
+    "worker": "opus"
+   },
+   {
+    "id": "HO-003",
+    "from": "G",
+    "to": "V",
+    "title": "Header chips and footer design on Team V screens",
+    "stage": "SENT",
+    "pct": 0.0,
+    "overdue": false,
+    "path": "project-documents/leads-relay/handoffs/HO-003_header-chips-and-footer-design-on-team-v.md",
+    "worker": "opus"
+   },
+   {
+    "id": "HO-004",
+    "from": "G",
+    "to": "V",
+    "title": "Visual QA: live 2.0 screens vs approved frames",
+    "stage": "SENT",
+    "pct": 0.0,
+    "overdue": false,
+    "path": "project-documents/leads-relay/handoffs/HO-004_visual-qa-live-2-0-screens-vs-approved-f.md",
+    "worker": "sonnet"
    }
   ],
   "relay_ok": true

@@ -2,9 +2,102 @@
 
 [Back to the board](BOARD.md) · generated 2026-10-05 8:54 AM Boston time (EDT)
 
-Relay branch `leads/relay` head `766e78e` (Mon 5 Oct 8:52 AM Boston time) · 27 messages · 1 hand-offs · 17 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `c46e219` (Mon 5 Oct 8:54 AM Boston time) · 27 messages · 4 hand-offs · 17 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
+
+### HO-004 · G → V · Visual QA: live 2.0 screens vs approved frames
+
+✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+
+- Mon 5 Oct 8:54 AM · Team G · Sent
+
+<details><summary>Full ticket</summary>
+
+## What
+A visual QA pass of every live 2.0 screen against Team V's approved frames (package 5e05a1f), returning one list of where the live screen differs from the frame.
+
+## Why
+Nik (2026-10-05) sees "many elements from the old design colliding with the new design", for example on Rule Book.
+- Team G's measurements: switching the old `rulebook.css`, `settings.css` and `app.css` off changes 74 Rule Book elements and 80 Settings elements. Examples are the Rule Book summary in Segoe UI, the light-blue Settings eyebrow and a white rule above DONE.
+- About 70 class names are shared between old CSS and Team V markup. `.trophyShelf` was the visible one and is fixed in r56.
+- Team G fixes the wiring. Team V's eye is the fastest way to say which differences are wrong.
+
+## Where
+- Live site: https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/ on r56 (close and reopen once). Or main @ 00a1eb8 served locally with `tests/support/static-server.cjs`.
+- Screens: Home, Start/Join, League, Club, Transfer War, Season Entry and Results, Standings, Final Winner, Rule Book, Settings, Career Statistics, Trophy Room, Rivalry, History, Loading. Check desktop 1920x1080 and 1920x910, and phone 390x844.
+- Known and already ticketed:
+  - Club Assignment is not wired yet. That is Team G job G-34, so skip it.
+  - Header chips and footer are covered by a separate hand-off.
+
+## Done when
+- One file, `handoffs/HO-NNN-findings.md` or attached to this ticket's evidence, with one line per difference: screen, size, what the frame shows, what live shows, and a screenshot path if possible.
+- Mark each line either as a wiring bug (Team G fixes it) or a design change (Team V).
+- No code changes are needed from Team V for this ticket.
+
+</details>
+
+### HO-003 · G → V · Header chips and footer design on Team V screens
+
+✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+
+- Mon 5 Oct 8:54 AM · Team G · Sent
+
+<details><summary>Full ticket</summary>
+
+## What
+Design how the app's own header (manager name chip and SEASON chip, or SIGN IN and NO ACTIVE SHOWDOWN) and the product footer look on every Team V screen except Home and the setup screens.
+
+## Why
+- On live 2.0 the old light-grey banner ("CAREER MODE SHOWDOWN // 17", the DANIEL pill, SEASON 1 / 1) sat above Team V's stages. It took 74px of height and clipped the Trophy Room title and counts.
+- In r56 (main 00a1eb8) Team G turned it into Home's two chips, placed out of the page flow at the top right on desktop and the top left on phone. The footer became a dark band.
+- That is a functional stopgap, not an approved design:
+  - On phone the chips overlap Trophy Room's crown.
+  - The footer band is a plain dark strip. Rule Book's accessibility scan needs real text contrast there.
+
+## Where
+- `css/v10Shell.css`: the rules under `html[data-v10-screen]:not([data-v10-setup])`. These are Team G's file; Team V sends the design and Team G applies it.
+- Header markup: `index.html` `#topHeader` (`#onlinePlayerIdentityBadge`, `#seasonIndicator`). Footer: `index.html` `<footer>`.
+- Home's version, which is the reference: `css/homeV10.css` (HM1).
+- Screens affected: Trophy Room, Career Statistics, Standings, History, Rivalry, Rule Book, Season Entry, Transfer War, Final Winner.
+
+## Done when
+- One spec (frame or CSS notes) covering desktop 1920x1080 and 1920x910, and phone 390x844: chip placement per screen family, how the chips avoid each screen's title and crown, and how the footer looks (or whether it hides visually and stays for screen readers).
+- Text contrast meets the axe colour-contrast check.
+- Team G implements it in `css/v10Shell.css` and ships it.
+
+</details>
+
+### HO-002 · G → V · Smooth stage atmosphere on idle screens (pointer stutter root cause)
+
+✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+
+- Mon 5 Oct 8:54 AM · Team G · Sent
+
+<details><summary>Full ticket</summary>
+
+## What
+Design a lighter "atmosphere" for the shared stage (`visual-assets/v10_1/shared/stage.js` + `stage.css`) that keeps every stage screen smooth on a Chromebook while it sits idle.
+
+## Why
+Nik saw the mouse pointer stutter or vanish on Settings, Rule Book, Standings and other stage screens on live 2.0. Team G measured the cause in headless Chromium at 1920x1080:
+- The dust (18 to 30 particles, `sd-dust-drift … infinite`, stage.css:94) and the flare (`sd-flare-sweep 15s … infinite`, stage.css:115) never stop animating.
+- They sit under panels with `backdrop-filter: blur(6px)`, a full-screen `filter: blur(18px)` flare with `mix-blend-mode: screen`, and a soft-light grain layer.
+- So every frame re-blurs the whole screen. Settings ran at 13.5 fps idle and took 89 ms per mouse move; Home, which has no stage, ran at 60 fps.
+
+Team G's stopgap went live in r56 (main 00a1eb8): stage.js pauses the dust and flare while the pointer moves (`html[data-sd-pointer-active]`), which brings a mouse move down to about 17 ms. The idle redraw remains and costs battery. Removing it changes the look, so the choice is Team V's.
+
+## Where
+- `visual-assets/v10_1/shared/stage.js:57-80` (dust and flare build) and the r56 pointer-pause block at the end of the file.
+- `visual-assets/v10_1/shared/stage.css:94` and `:115` (the infinite animations), plus the new paused rule.
+- Panels using `backdrop-filter` on stage screens: settings, rule-book, standings, season-results, final-winner, career-statistics, trophy-room, legacy.
+
+## Done when
+- Team V picks and delivers one option, for example: a one-shot flare, dust that settles after a few seconds, no `backdrop-filter` on panels above moving layers, or a pre-blurred panel texture.
+- Idle stage screens hold about 60 fps at 1920x1080 in Chromium with the dust and flare as Team V wants them. Measure frames per second over 5 s idle and the time per mouse move. Team G can run the probe if Team V sends a branch.
+- Team G wires and ships the change, and can then drop the pointer-pause stopgap if it is no longer needed.
+
+</details>
 
 ### HO-001 · G → V · Use hand-off tickets for passing work (relay v1.1)
 
