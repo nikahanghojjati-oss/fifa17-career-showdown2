@@ -1,0 +1,157 @@
+<div id="stage-root" class="sd-stage stage" data-screen="final-winner" data-plate-width="1672" data-plate-height="941">
+  <div class="sd-stage__layer sd-stage__layer--plate" aria-hidden="true" data-sd-enter="scene">
+    <div class="sd-stage__registered"><div class="sd-stage__plate"></div></div>
+  </div>
+  <div class="sd-stage__layer sd-stage__layer--atmosphere" aria-hidden="true">
+    <span class="finalWinnerManagerShade finalWinnerManagerShade--daniel"></span>
+    <span class="finalWinnerManagerShade finalWinnerManagerShade--nik"></span>
+    <span class="finalWinnerManagerSpotlight finalWinnerManagerSpotlight--daniel"></span>
+    <span class="finalWinnerManagerSpotlight finalWinnerManagerSpotlight--nik"></span>
+    <div class="finalWinnerConfettiLayer"></div>
+  </div>
+  <div class="sd-stage__layer sd-stage__layer--ui">
+    
+    <div id="finalWinnerScreen" class="screen" aria-labelledby="finalWinnerTitle" role="region">
+      
+      <picture class="finalWinnerPhoneBackground" aria-hidden="true">
+        <source type="image/webp" srcset="visual-assets/v10_1/trophy-room/assets/ENV_TR_PHONE_V1.webp">
+        <img src="visual-assets/v10_1/trophy-room/assets/ENV_TR_PHONE_V1.webp" alt="" fetchpriority="high" decoding="async">
+      </picture>
+      <span class="finalWinnerPhoneVeil" aria-hidden="true"></span>
+      <picture class="finalWinnerPhoneHero finalWinnerPhoneHero--daniel" aria-hidden="true" data-sd-enter="character-left">
+        <source type="image/webp" srcset="visual-assets/v10_1/trophy-room/assets/OVL_TR_DANIEL_PHONE_V1.webp">
+        <img src="visual-assets/v10_1/trophy-room/assets/OVL_TR_DANIEL_PHONE_V1.webp" alt="" decoding="async">
+      </picture>
+      <picture class="finalWinnerPhoneHero finalWinnerPhoneHero--nik" aria-hidden="true" data-sd-enter="character-right">
+        <source type="image/webp" srcset="visual-assets/v10_1/trophy-room/assets/OVL_TR_NIK_PHONE_V1.webp">
+        <img src="visual-assets/v10_1/trophy-room/assets/OVL_TR_NIK_PHONE_V1.webp" alt="" decoding="async">
+      </picture>
+      <header class="finalWinnerTitleBlock" data-sd-enter="title">
+        <p class="finalWinnerEyebrow sd-eyebrow">CAREER MODE SHOWDOWN 17</p>
+        <h2 id="finalWinnerTitle" class="finalWinnerWordmark sd-title sd-title--wordmark">
+          <span class="sd-visually-hidden">SHOWDOWN CHAMPION</span>
+          <img src="visual-assets/v10_1/shared/wordmarks/TITLE_FINAL_WINNER_V1.webp" alt="" aria-hidden="true" decoding="async">
+        </h2>
+        <p class="finalWinnerTagline sd-tagline">TWO MANAGERS · ONE LEGACY</p>
+      </header>
+
+      
+      <span class="finalWinnerCrown finalWinnerCrown--daniel" aria-hidden="true"></span>
+      <span class="finalWinnerCrown finalWinnerCrown--nik" aria-hidden="true"></span>
+
+      <section class="finalWinnerHeroCopySlot" aria-labelledby="finalWinnerHeading" data-sd-enter="panel">
+        <h2 id="finalWinnerHeading" class="finalWinnerStateHeading sd-label"></h2>
+        <p id="finalWinnerTerminalHeading" class="finalWinnerTerminalHeading"></p>
+        <p id="outcomeHeadline" class="finalWinnerOutcome"></p>
+        <div class="finalWinnerTotals" aria-label="Final Showdown points">
+          <span class="finalWinnerManager finalWinnerManager--daniel"><small id="danielName">Daniel</small><strong id="danielTotal" class="sd-number"></strong></span>
+          <span class="finalWinnerScoreDash" aria-hidden="true">–</span>
+          <span class="finalWinnerManager finalWinnerManager--nik"><small id="nikName">Nik</small><strong id="nikTotal" class="sd-number"></strong></span>
+        </div>
+        <p id="resultText" class="finalWinnerResultText"></p>
+        <span id="completionMark" class="finalWinnerCompletion sd-chip"></span>
+      </section>
+
+      <div class="winnerTrophySlot" aria-hidden="true" data-sd-enter="panel">
+        <picture class="winnerTrophyPicture">
+          <source type="image/webp" srcset="visual-assets/v10_1/shared/trophies/TRO_SHOWDOWN_CHAMPION_V1_512.webp">
+          <img src="visual-assets/v10_1/shared/trophies/TRO_SHOWDOWN_CHAMPION_V1_512.webp" alt="" decoding="async">
+        </picture>
+        <span class="winnerTrophyGlow"></span>
+      </div>
+      <section class="finalWinnerResultsPanel sd-panel" aria-label="Final Showdown result" data-sd-enter="panel">
+        <input class="finalWinnerTabInput" type="radio" name="finalWinnerPhoneTab" id="finalWinnerTabSummary" checked>
+        <input class="finalWinnerTabInput" type="radio" name="finalWinnerPhoneTab" id="finalWinnerTabHonours">
+        <div class="finalWinnerPhoneTabs" role="tablist" aria-label="Final result sections">
+          <label for="finalWinnerTabSummary" role="tab" aria-controls="finalWinnerMetaStrip">SUMMARY</label>
+          <label for="finalWinnerTabHonours" role="tab" aria-controls="finalWinnerHonours">HONOURS</label>
+        </div>
+        <div id="finalWinnerMetaStrip" class="finalWinnerMetaStrip" aria-label="Showdown summary">
+          <div class="finalWinnerMetaCell">
+            <span>SEASONS</span>
+            <strong id="panelSeasons" class="sd-number sd-number--small"></strong>
+            <small>PLAYED</small>
+          </div>
+          <div class="finalWinnerMetaCell">
+            <span>MARGIN</span>
+            <strong id="panelMargin" class="sd-number sd-number--small"></strong>
+            <small>POINTS</small>
+          </div>
+        </div>
+
+        <div id="finalWinnerHonours" class="finalWinnerHonours" aria-label="Trophy attribution">
+          <div class="finalWinnerHonoursHead">
+            <strong class="finalWinnerHonoursManager finalWinnerHonoursManager--daniel">DANIEL</strong>
+            <span>SHOWDOWN HONOURS</span>
+            <strong class="finalWinnerHonoursManager finalWinnerHonoursManager--nik">NIK</strong>
+          </div>
+
+          <div class="finalWinnerTrophyMetric">
+            <strong id="panelDanielContinental" class="finalWinnerMetricValue"></strong>
+            <img src="visual-assets/v10_1/shared/trophies/TRO_CONTINENTAL_V1_512.webp" alt="" aria-hidden="true" decoding="async">
+            <span>CHAMPIONS LEAGUE</span>
+            <img src="visual-assets/v10_1/shared/trophies/TRO_CONTINENTAL_V1_512.webp" alt="" aria-hidden="true" decoding="async">
+            <strong id="panelNikContinental" class="finalWinnerMetricValue"></strong>
+          </div>
+
+          <div class="finalWinnerTrophyMetric">
+            <strong id="panelDanielLeague" class="finalWinnerMetricValue"></strong>
+            <img src="visual-assets/v10_1/shared/trophies/TRO_LEAGUE_TITLE_V1_512.webp" alt="" aria-hidden="true" decoding="async">
+            <span>LEAGUE TITLES</span>
+            <img src="visual-assets/v10_1/shared/trophies/TRO_LEAGUE_TITLE_V1_512.webp" alt="" aria-hidden="true" decoding="async">
+            <strong id="panelNikLeague" class="finalWinnerMetricValue"></strong>
+          </div>
+
+          <div class="finalWinnerTrophyMetric">
+            <strong id="panelDanielCup" class="finalWinnerMetricValue"></strong>
+            <img src="visual-assets/v10_1/shared/trophies/TRO_DOMESTIC_CUP_V1_512.webp" alt="" aria-hidden="true" decoding="async">
+            <span>DOMESTIC CUPS</span>
+            <img src="visual-assets/v10_1/shared/trophies/TRO_DOMESTIC_CUP_V1_512.webp" alt="" aria-hidden="true" decoding="async">
+            <strong id="panelNikCup" class="finalWinnerMetricValue"></strong>
+          </div>
+
+          <div class="finalWinnerTrophyMetric finalWinnerTrophyMetric--total">
+            <strong id="panelDanielTrophies" class="finalWinnerMetricValue"></strong>
+            <span class="finalWinnerTotalMark" aria-hidden="true">Σ</span>
+            <span>TOTAL TROPHIES</span>
+            <span class="finalWinnerTotalMark" aria-hidden="true">Σ</span>
+            <strong id="panelNikTrophies" class="finalWinnerMetricValue"></strong>
+          </div>
+        </div>
+
+        <div id="finalWinnerStatePanel" class="finalWinnerStatePanel" role="status" aria-live="polite">
+          <span id="finalWinnerStateGlyph" class="finalWinnerStateGlyph" aria-hidden="true"></span>
+          <strong id="finalWinnerStateTitle"></strong>
+          <p id="finalWinnerStateMessage"></p>
+        </div>
+
+        <input class="finalWinnerPartialToggle" type="checkbox" id="finalWinnerPartialToggle">
+        <label class="finalWinnerPartialTrigger" for="finalWinnerPartialToggle">HISTORY COVERAGE</label>
+        <div id="finalWinnerPartialNotice" class="finalWinnerPartialNotice sd-sheet">
+          <span class="finalWinnerPartialIcon" aria-hidden="true">!</span>
+          <p id="finalWinnerPartialMessage"></p>
+          <strong id="finalWinnerPartialCoverage"></strong>
+        </div>
+      </section>
+      <section class="finalWinnerActionsSlot" data-phone-pinned-action="true" aria-label="Final result status and actions"><div id="v10TerminalSlot"></div><div id="v10ExitSlot" class="v10FinalExit"></div></section>
+
+      
+    <details class="v10FinalProof" open><summary>Final reconciliation</summary><div id="v10ReconciliationSlot"></div></details></div>
+  </div>
+  <div class="sd-stage__layer sd-stage__layer--cutout" aria-hidden="true">
+    <div class="sd-stage__registered">
+      <span class="managerPlateMarker" data-manager="daniel" data-box="318 141 472 335"></span>
+      <span class="managerPlateMarker" data-manager="nik" data-box="1138 130 1309 336"></span>
+      <span class="finalWinnerContact finalWinnerContact--daniel"></span>
+      <span class="finalWinnerContact finalWinnerContact--nik"></span>
+      <img class="finalWinnerCutout finalWinnerCutout--daniel" src="visual-assets/v10_1/final-winner/assets/OVL_FW_DANIEL_NEAR_ARM_V1_1X.webp" srcset="visual-assets/v10_1/final-winner/assets/OVL_FW_DANIEL_NEAR_ARM_V1_1X.webp 1x, visual-assets/v10_1/final-winner/assets/OVL_FW_DANIEL_NEAR_ARM_V1_2X.webp 2x" alt="" aria-hidden="true" decoding="async">
+      <img class="finalWinnerCutout finalWinnerCutout--nik" src="visual-assets/v10_1/final-winner/assets/OVL_FW_NIK_NEAR_ARM_V1_1X.webp" srcset="visual-assets/v10_1/final-winner/assets/OVL_FW_NIK_NEAR_ARM_V1_1X.webp 1x, visual-assets/v10_1/final-winner/assets/OVL_FW_NIK_NEAR_ARM_V1_2X.webp 2x" alt="" aria-hidden="true" decoding="async">
+    </div>
+  </div>
+  <div class="sd-stage__layer sd-stage__layer--light" aria-hidden="true">
+    <div class="sd-stage__registered">
+      <span class="finalWinnerRim finalWinnerRim--daniel"></span>
+      <span class="finalWinnerRim finalWinnerRim--nik"></span>
+    </div>
+  </div>
+</div>
