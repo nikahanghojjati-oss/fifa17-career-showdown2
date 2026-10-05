@@ -103,7 +103,7 @@ H.append("<h2>Live now</h2>")
 if LV:
     H.append(f'<div class="card">🌐 <b>main <code>{e(LV["sha"])}</code> · {e(LV["revision"])}</b> <span class="m">{e(TF.bos(LV["when"]))}</span><br>{e(LV["subject"][:80])}' +
              "".join(f'<br>🔧 <a href="{PR}{x["pr"]}">PR #{x["pr"]}</a> {e(x["title"][:80])}' for x in LV["fixes"]) +
-             (f'<br><b>Shipped today:</b>' + "".join(f'<br>✅ <span class="m">{e(TF.bos(x["merged"], "%-I:%M %p"))}</span> <a href="{PR}{x["pr"]}">#{x["pr"]}</a> {e(x["title"][:48])}' for x in LV.get("today", [])[:4]) if LV.get("today") else "") + "</div>")
+             (f'<br><b>Shipped today:</b>' + "".join(f'<br>✅ <span class="m">{e(TF.bos(x["merged"], "%-I:%M %p"))}</span> #{x["pr"]} {e(x["title"][:48])}' for x in LV.get("today", [])[:4]) if LV.get("today") and not COMPACT else "") + "</div>")
 else:
     H.append('<div class="card m">Could not read main this run.</div>')
 FAC = json.load(open(os.path.join(F, "BOARD.json"))).get("factories", {})
@@ -170,11 +170,8 @@ if landed and False:  # "Live now" carries what is on main; recovery merges are 
     for ts, n, v in landed:
         H.append(f'<tr><td>{boston(ts)}</td><td><a href="{PR}{v["pr"]}">{e(v.get("title", ""))}</a></td></tr>')
     H.append("</table>")
-if open_bugs:
-    H.append("<h2>Open bugs</h2><table>")
-    for b in open_bugs[:3]:
-        H.append(f'<tr><td>{e(b["id"])}</td><td>{e(b["title"][:50])}</td><td>{e(b["status"].title())}</td></tr>')
-    H.append("</table>")
+if open_bugs and not COMPACT:  # compact (page would pass 7 KB): the bug board link in the banner carries them
+    H.append('<h2>Open bugs</h2><div class="card">' + "<br>".join(f'<b>{e(b["id"])}</b> {e(b["title"][:50])} <span class="m">{e(b["status"].title())}</span>' for b in open_bugs[:3]) + "</div>")
 H.append('<div class="m foot">Lanes: ' +
          " · ".join(f'<span style="color:{c}">■</span> {l}' for l, c in HEX.items()) + "</div></div>")
 out = "\n".join(H) + "\n"
