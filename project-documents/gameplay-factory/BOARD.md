@@ -14,6 +14,7 @@
 
 | Team | Job | What | Worker | Where it is | Details |
 | --- | --- | --- | --- | --- | --- |
+| G | G-F6 | Small gameplay follow-ups: transfer message after session expiry, the 'Career screens could not load' toast when online history is only unavailable, and the flaky v10-transfer contract ('WINDOW_OPEN 390: refresh not clickable'). Raw Setup error codes moved to BUG-1 | 🟧 Opus | in progress: root-causing the transfer contract flake (branch bugfix/g-f6-transfer-flake) | the lead batches it into r62 |
 | G | G-F14 | r61: phone track list stops below the logo and scrolls, and Next To You plays first | 🟧 Opus | in final checks (PR #383) | GitHub had no free test machines at 4 PM; the checks are re-running |
 | G | G-F17 | Replace POS20 with a faster check system built on Claude and GitHub, keeping every check | 🟧 Opus | in progress: the lead is designing it | the lead's plan |
 | G | G-F18 | Old-design screen audit: Legacy, Career Statistics and Trophy Room still open in the old shell; drive every live screen in a browser against Team V's design and route all of them to the new design | 🟧 Opus | in progress (thread "Old-design screen audit", Nik asked at 5:16 PM Boston time) | overlaps G-F11 (old CSS collisions) |
@@ -41,7 +42,6 @@ _Gameplay, online sync, every merge and every release (senior director)._ Worker
 
 | Job | What | Worker | State | Waits on |
 | --- | --- | --- | --- | --- |
-| G-F6 | Small gameplay follow-ups: transfer message after session expiry, raw error codes in Setup, the 'Career screens could not load' toast when online history is only unavailable, and the flaky v10-transfer contract ('WINDOW_OPEN 390: refresh not clickable') | 🟩 Sol Work mode | ready | after G-F5 |
 | G-F15 | Landscape phone Home layout (844x390): title sits on the wordmark, soundtrack card covers the right tiles (already in r59) | 🟧 Opus | queued for r62 | - |
 | G-F16 | Phone Home nit from Team V (HO-006): second line of START A SHOWDOWN touches the clipboard icon at 393px | 🟧 Opus | queued for r62 | - |
 | G-F3 | Bug-hunting factory: one report thread, Sonnet hunts, Opus fixes, small batch releases | 🟪 Sonnet | queued | G-F1 and Nik's OK |
@@ -74,7 +74,7 @@ Latest:
 **Shipped to the live game today (8):** [#378](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/378) G-36: No old player photos + seven Home tiles (r60) · [#377](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/377) G-35: Team V screen fixes HO-003 + HO-004 (r59, includes r5… · [#371](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/371) G-34: Team V's Club Assignment on the live screen (r57) · [#369](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/369) Live 2.0 screen fixes: Trophy Room clipping, Start Showdown… · and 4 more
 
 <details>
-<summary>Done jobs (6 future-list rows, 1 Team V jobs, 6 hand-offs, 33 factory jobs)</summary>
+<summary>Done jobs (6 future-list rows, 0 Team V jobs, 6 hand-offs, 33 factory jobs)</summary>
 
 - G G-F10: Club Assignment: wire Team V's approved design (hands, seams, new layout) into the live screen (done (live in r57, PR #371))
 - G G-F12: G-36: no old player photos on any screen, and all 7 Home tiles (done (live in r60, d8e6c44))
@@ -82,7 +82,6 @@ Latest:
 - G G-F2: Live 2.0 fixes from Nik's review: r55 and r56 shipped today (list in Live now) (done for r56)
 - V V-F1: Team V jobs on this board: V- PR titles with a progress block; old board retired (done (V2G-017))
 - V V-F3: Visual check of live 2.0 against the approved package 5e05a1f (done (sent as HO-004))
-- V V-247: Phone Home tile icons like GOAL_HOME ([PR #381](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/381))
 - HO-001 (G → V): Use hand-off tickets for passing work (relay v1.1)
 - HO-002 (G → V): Smooth stage atmosphere on idle screens (pointer stutter root cause)
 - HO-003 (G → V): Header chips and footer design on Team V screens

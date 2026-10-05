@@ -315,7 +315,7 @@
   "live": {
    "sha": "d8e6c44",
    "revision": "1.9.1-r60",
-   "when": "2026-10-05T18:51:23Z",
+   "when": "2026-10-05T18:51:23+00:00",
    "subject": "Release r60: no old player photos, seven Home tiles, 11-track soundtrack, phone tile icons (#378)",
    "fixes": [
     {
@@ -377,17 +377,7 @@
    ]
   },
   "v_headline": "Board 1 (visual package): 238 of 238 jobs done and checked",
-  "v_jobs": [
-   {
-    "job": "V-247",
-    "title": "Phone Home tile icons like GOAL_HOME",
-    "worker": "Opus",
-    "done": 4,
-    "total": 4,
-    "pr": 381,
-    "current": "Done; handed to Team G as HO-006"
-   }
-  ],
+  "v_jobs": [],
   "inbox": {
    "G": true,
    "V": true
@@ -532,22 +522,29 @@
    "title": "The 4-hour private session ends long games",
    "plain": "A 5 or 10 season game outlives one session, so both managers must open a fresh one. Needs one retest mid-season. Now job 31 (ten-season games).",
    "likelihood": "low",
-   "status": "DONE · job 31, PR #350: one-tap reconnect after expiry; live since 2.0 (r54)",
+   "status": "DONE",
    "owner": "lead",
-   "note": "job 31, PR #350 (recovery fb0dd02): one-tap reconnect after expiry; live at the next release"
+   "note": "job 31, PR #350 (fb0dd02): one-tap reconnect after expiry; live since 2.0 (r54)"
   }
  ],
  "next_move": [
   "**r61 is in its final checks:** the phone song list stops below the logo and scrolls, and Next To You plays first. It goes live as soon as the checks pass. Nothing for you to do."
  ],
  "now": {
-  "moving": 4,
+  "moving": 5,
   "next": 2,
   "nik": 3,
-  "later": 7,
+  "later": 6,
   "rows": {
    "G": {
     "moving": [
+     {
+      "id": "G-F6",
+      "title": "Small gameplay follow-ups: transfer message after session expiry, the 'Career screens could not load' toast when online history is only unavailable, and the flaky v10-transfer contract ('WINDOW_OPEN 390: refresh not clickable'). Raw Setup error codes moved to BUG-1",
+      "lane": "opus",
+      "state": "in progress: root-causing the transfer contract flake (branch bugfix/g-f6-transfer-flake)",
+      "waits_on": "the lead batches it into r62"
+     },
      {
       "id": "G-F14",
       "title": "r61: phone track list stops below the logo and scrolls, and Next To You plays first",
@@ -612,13 +609,6 @@
      }
     ],
     "later": [
-     {
-      "id": "G-F6",
-      "title": "Small gameplay follow-ups: transfer message after session expiry, raw error codes in Setup, the 'Career screens could not load' toast when online history is only unavailable, and the flaky v10-transfer contract ('WINDOW_OPEN 390: refresh not clickable')",
-      "lane": "sol-work",
-      "state": "ready",
-      "waits_on": "after G-F5"
-     },
      {
       "id": "G-F15",
       "title": "Landscape phone Home layout (844x390): title sits on the wordmark, soundtrack card covers the right tiles (already in r59)",

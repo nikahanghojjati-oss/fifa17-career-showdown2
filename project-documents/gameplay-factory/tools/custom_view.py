@@ -66,7 +66,7 @@ H = ["<style>"
 rj = sorted(running_jobs())
 G_W = lambda g: ("checks unknown" if not g else ("🔴 " if g["failed"] else "🟠 " if g["cancelled"] else "⏳ " if g["running"] else "🟢 ") + ", ".join([f'{g["passed"]} passed'] + [f'{g[k]} {k}' for k in ("running", "failed", "cancelled") if g[k]]))
 _mv = [f'<a href="{PR}{x["pr"]}">PR #{x["pr"]}</a> {e(x["title"][:70])} <span class="m">{e(G_W(x.get("gates")))}</span>' for x in NOW.get("fixes", [])]
-_mv += [f'<b>{e(k)} {e(x["id"])}</b> {e(x["title"][:70])} <span class="m">{e(x["state"])}</span>' for k in ("G", "V") for x in (NOW.get("rows", {}).get(k, {}).get("moving") or [])]
+_mv += [f'<b>{e(k)} {e(x["id"])}</b> {e(x["title"][:58])} <span class="m">{e(x["state"].split(" (")[0][:40])}</span>' for k in ("G", "V") for x in (NOW.get("rows", {}).get(k, {}).get("moving") or [])]
 if _mv:
     H.append('<div class="card">' + "<br>".join(_mv) + "</div>")
 elif not rj:
@@ -177,7 +177,7 @@ if landed and False:  # "Live now" carries what is on main; recovery merges are 
         H.append(f'<tr><td>{boston(ts)}</td><td><a href="{PR}{v["pr"]}">{e(v.get("title", ""))}</a></td></tr>')
     H.append("</table>")
 if open_bugs and not COMPACT:  # compact (page would pass 7 KB): the bug board link in the banner carries them
-    H.append('<h2>Open bugs</h2><div class="card">' + "<br>".join(f'<b>{e(b["id"])}</b> {e(b["title"][:50])} <span class="m">{e(b["status"].title())}</span>' for b in open_bugs[:3]) + "</div>")
+    H.append('<h2>Open bugs</h2><div class="card">' + "<br>".join(f'<b>{e(b["id"])}</b> {e(b["title"][:50])} <span class="m">{e(b["status"].title())} · {e(lane_of(b)[1] if b.get("worker") else "no owner")}</span>' for b in open_bugs[:3]) + "</div>")
 H.append('<div class="m foot">Lanes: ' +
          " · ".join(f'<span style="color:{c}">■</span> {l}' for l, c in HEX.items()) + "</div></div>")
 out = "\n".join(H) + "\n"

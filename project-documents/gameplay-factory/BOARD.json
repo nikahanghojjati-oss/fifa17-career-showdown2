@@ -599,15 +599,15 @@
    "title": "The 4-hour private session ends long games",
    "plain": "A 5 or 10 season game outlives one session, so both managers must open a fresh one. Needs one retest mid-season. Now job 31 (ten-season games).",
    "likelihood": "low",
-   "status": "DONE · job 31, PR #350: one-tap reconnect after expiry; live since 2.0 (r54)",
+   "status": "DONE",
    "owner": "lead",
-   "note": "job 31, PR #350 (recovery fb0dd02): one-tap reconnect after expiry; live at the next release"
+   "note": "job 31, PR #350 (fb0dd02): one-tap reconnect after expiry; live since 2.0 (r54)"
   }
  ],
  "bug_hunt_extras": [
   "DONE in job 21: 'scoring remains locked' text now says SEASON COMMITTED · SCORE BELOW",
   "NOT A BUG: Daniel/Nik fallbacks match the fixed roles (Daniel = Player One, Nik = Player Two)",
-  "OPEN: raw error codes in the Setup settle text"
+  "FIXING as BUG-1 (Sonnet, bugfix/bug-batch-1), ships in r62"
  ],
  "release": {
   "name": "Version 2.0",
@@ -687,10 +687,10 @@
     },
     {
      "id": "G-F6",
-     "title": "Small gameplay follow-ups: transfer message after session expiry, raw error codes in Setup, the 'Career screens could not load' toast when online history is only unavailable, and the flaky v10-transfer contract ('WINDOW_OPEN 390: refresh not clickable')",
-     "lane": "sol-work",
-     "state": "ready",
-     "waits_on": "after G-F5"
+     "title": "Small gameplay follow-ups: transfer message after session expiry, the 'Career screens could not load' toast when online history is only unavailable, and the flaky v10-transfer contract ('WINDOW_OPEN 390: refresh not clickable'). Raw Setup error codes moved to BUG-1",
+     "lane": "opus",
+     "state": "in progress: root-causing the transfer contract flake (branch bugfix/g-f6-transfer-flake)",
+     "waits_on": "the lead batches it into r62"
     },
     {
      "id": "G-F11",

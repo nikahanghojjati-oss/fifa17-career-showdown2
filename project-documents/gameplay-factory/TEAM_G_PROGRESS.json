@@ -3,7 +3,7 @@
  "updated": "2026-10-05T17:34-04:00",
  "jobs_done": 33,
  "jobs_total": 33,
- "open_bugs": 1,
+ "open_bugs": 3,
  "next_move": [
   "**r61 is in its final checks:** the phone song list stops below the logo and scrolls, and Next To You plays first. It goes live as soon as the checks pass. Nothing for you to do."
  ],
