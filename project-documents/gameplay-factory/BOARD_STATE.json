@@ -516,7 +516,7 @@
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-007_shared-job-numbers-for-both-teams-from-1.md",
     "worker": "",
-    "pickup_min": -3,
+    "pickup_min": 0,
     "waiting_min": null
    },
    {

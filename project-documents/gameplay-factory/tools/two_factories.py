@@ -183,7 +183,7 @@ def relay():
         t["pct"] = 100.0 if t["stage"] == "DONE" else (100.0 * sum(1 for s in steps if s.get("done")) / len(steps) if steps else 0.0)
         t["overdue"] = t["stage"] == "DELIVERED" and hours_since(t["delivered_at"]) > OVERDUE_H
         rec = next((e.get("at") for e in t.get("log") or [] if str(e.get("status")).upper() == "RECEIVED"), None)
-        t["pickup_min"] = round((hours_since(t["delivered_at"]) - hours_since(rec)) * 60) if rec and t["delivered_at"] else None
+        t["pickup_min"] = max(0, round((hours_since(t["delivered_at"]) - hours_since(rec)) * 60)) if rec and t["delivered_at"] else None
         t["waiting_min"] = round(hours_since(t["delivered_at"]) * 60) if t["stage"] == "DELIVERED" and t["delivered_at"] else None
     try:
         inbox = json.loads(show(ref, "project-documents/leads-relay/INBOX.json") or "{}")
@@ -224,16 +224,18 @@ def physio_line(d):
         for c in d.get("checks") or []:
             if not c.get("queued_minutes"):
                 continue
-            p = f'{str(c.get("workflow", "a check")).replace("Validate ", "")} has waited {c["queued_minutes"]} min for a machine'
+            pr = f' on #{c["pr"]}' if c.get("pr") else ""
+            p = f'{str(c.get("workflow", "a check")).replace("Validate ", "")}{pr} has waited {max(1, round(float(c["queued_minutes"])))} min for a machine'
             if d.get("helpers_paused"):
                 p += "; helpers paused"
-            if c.get("attempt"):
+            if c.get("attempt") and str(c.get("action", "")).lower() != "none":
                 p += f'; {c.get("action") or "check restarted"} ({c["attempt"]} of {c.get("max_attempts", 2)})'
             parts.append(p)
         return "Barking: " + ("; ".join(parts) or "a check is waiting for a machine") + "."
     return "All clear: every check has a machine."
 
 
+PHYSIO_STATE = {"clear": "clear", "all_clear": "clear", "barking": "barking", "stuck": "stuck"}  # the Physio writes ALL_CLEAR / BARKING / STUCK
 LANE_MARK = {"pass": "✓", "fail": "✗", "running": "…", "queued": "·", "skipped": "–"}
 SEAL_WORD = {"PASS": "seal PASS", "FAIL_TEST": "seal FAIL (test)", "INFRA_RETRYING": "seal retrying (GitHub)", "INFRA_EXHAUSTED": "seal stuck (GitHub)",
              "PENDING": "seal pending", "DRAFT": "seal draft", "SUPERSEDED": "seal superseded"}
@@ -246,7 +248,7 @@ def gate_line(d):
         lanes = " ".join(f'{str(l.get("name", "?")).split()[0]}{LANE_MARK.get(l.get("state"), "?")}' for l in g.get("lanes") or [])
         out.append(f'Gate #{g.get("pr", "?")}: {lanes} · {SEAL_WORD.get(g.get("seal"), str(g.get("seal", "")).lower())}')
     if p and p.get("total"):
-        out.append(f'POS20 {p.get("passed", 0)}/{p["total"]}')
+        out.append(f'POS20{" #" + str(p["pr"]) if p.get("pr") else ""} {p.get("passed", 0)}/{p["total"]}')
     return " · ".join(out)
 
 
@@ -259,8 +261,10 @@ def physio():
     p = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "physio-status.json")
     try:
         d = json.load(open(p))
-        if hours_since(d["at"]) * 60 <= 15 and d.get("state") in ("clear", "barking", "stuck"):
-            return {"state": d["state"], "line": physio_line(d), "gate": gate_line(d), "source": "physio"}
+        st = PHYSIO_STATE.get(str(d.get("state", "")).lower())
+        if hours_since(d["at"]) * 60 <= 15 and st:
+            d = {**d, "state": st}
+            return {"state": st, "line": physio_line(d), "gate": gate_line(d), "source": "physio"}
     except Exception:
         pass
     return physio_from_github()
