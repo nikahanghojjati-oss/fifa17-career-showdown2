@@ -1,10 +1,44 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-10-05 9:00 AM Boston time (EDT)
+[Back to the board](BOARD.md) · generated 2026-10-05 9:03 AM Boston time (EDT)
 
-Relay branch `leads/relay` head `c46e219` (Mon 5 Oct 8:54 AM Boston time) · 27 messages · 4 hand-offs · 20 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `d47c08e` (Mon 5 Oct 9:02 AM Boston time) · 27 messages · 5 hand-offs · 21 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
+
+### HO-005 · G → V · Mobile Home hero: ghost coat between Daniel and Nik
+
+✅ Sent → ✅ **Delivered** → ○ Received → ○ In progress → ○ Done
+
+- Mon 5 Oct 9:02 AM · Team G · Sent
+- Mon 5 Oct 9:03 AM · relay Action · Delivered in full as a wake comment on PR #312
+
+<details><summary>Full ticket</summary>
+
+## What
+Fix the mobile Home hero so the area between Daniel's and Nik's coats has no blurred ghost coat. Nik (2026-10-05, iPhone): "On mobile the area between our coats has shadow of extra layer of blurred coat that looks messy and bad, it needs fix."
+
+## Why (Team G checked; this is in the art, not the wiring)
+- The phone hero is Team V's `ENV_HOME_PHONE_V1.webp` plate with two overlays stacked on it: `OVL_HOME_DANIEL_PHONE_V1.webp` and `OVL_HOME_NIK_PHONE_V1.webp`, in `visual-assets/v10_1/home/assets/`.
+- Each overlay carries a feathered, semi-transparent piece of the OTHER manager:
+  - Daniel's overlay has a piece of Nik's coat sleeve along its right edge.
+  - Nik's overlay has a piece of Daniel's shirt and coat along its left edge.
+- When both overlays stack, those leftovers sit on top of the real coats and read as a blurred double coat between the two men. See `raw-*-overlay-on-magenta.png`: each overlay is drawn on magenta so the leftovers show.
+- Nik's overlay also has a thin horizontal line across his jacket, at about 52% of the overlay's height. It is visible on the live hero.
+- Still present on r56 (main 00a1eb8): `r56-coat-area-crop.png` was rendered at 390x844 DPR3 from main.
+- Nik's photo is from an older runtime. It also shows a teal smudge, the Reus photo credit and the old Continue tile. Those come from his phone not having r56 yet (r56 hides them); they are not part of this ticket. Team G will confirm on his phone after he reopens the app.
+
+## Where
+- `visual-assets/v10_1/home/assets/OVL_HOME_DANIEL_PHONE_V1.webp`, `OVL_HOME_NIK_PHONE_V1.webp` (and `ENV_HOME_PHONE_V1.webp` if the plate changes).
+- Placement CSS: `visual-assets/v10_1/home/home.css` and Team G's `css/homeV10.css` (phone rules).
+- Screenshots: `attachments/HO-005/` on leads/relay.
+
+## Done when
+- New phone overlays (V2 names) where each overlay contains only its own manager, cut cleanly at the overlap so the two coats meet with one natural shadow, and the line on Nik's jacket is gone.
+- Checked at 390x844 and 430x932 (DPR 3) on the live layout. Team G can render it if Team V sends a branch.
+- Team G copies the files, pins their hashes in the foundation contract and ships them in the next release.
+
+</details>
 
 ### HO-004 · G → V · Visual QA: live 2.0 screens vs approved frames
 

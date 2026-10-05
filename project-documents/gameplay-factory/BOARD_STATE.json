@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 9:00 AM Boston time (EDT)",
+ "generated": "2026-10-05 9:03 AM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 27,
@@ -266,8 +266,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "c46e219",
-  "head_boston": "Mon 5 Oct 8:54 AM",
+  "head": "d47c08e",
+  "head_boston": "Mon 5 Oct 9:02 AM",
   "latest_id": "G2V-014",
   "feed_matches_latest": true,
   "open_for_g": [],
@@ -355,6 +355,17 @@
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-004_visual-qa-live-2-0-screens-vs-approved-f.md",
     "worker": "sonnet"
+   },
+   {
+    "id": "HO-005",
+    "from": "G",
+    "to": "V",
+    "title": "Mobile Home hero: ghost coat between Daniel and Nik",
+    "stage": "DELIVERED",
+    "pct": 0.0,
+    "overdue": false,
+    "path": "project-documents/leads-relay/handoffs/HO-005_mobile-home-hero-ghost-coat-between-dani.md",
+    "worker": "images"
    }
   ],
   "relay_ok": true
