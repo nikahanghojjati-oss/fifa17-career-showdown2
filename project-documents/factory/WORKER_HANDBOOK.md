@@ -215,6 +215,25 @@ Older job files may still say "zip", "inbox" or "upload". Read them as this sect
 9. **Never ask Nik product questions.** If something is truly missing or contradictory: `State: BLOCKED`, write the exact question under "Blocked question", save, and reply `Job N is blocked: <question>`. Claude answers it.
 10. **Never touch `main`**, never force-push, never delete branches or files you did not create.
 
+## 9b. CI checks and the Physio (2026-10-05)
+
+Main now has automatic CI checks ("gates") and a check watchdog, the **Showdown Gate Physio**, both built by Team G. They are not the start gate in section 6. Workers see their files on branches cut from main, so this section says what they are and what you do with them.
+
+| Thing | What it is |
+| --- | --- |
+| **Validate POS20** | The main merge gate. Its last job is `POS20 exact-head cognitive seal`. It is red on our factory and relay PRs because those never merge into main; that is expected. |
+| **Validate Gameplay Fast** | Quick gameplay tests on PRs into main. |
+| **Showdown Gate** | The new six-lane check (L1 core to L6 browser journey), in shadow beside POS20 until Team G makes it required. |
+| **Showdown Gate Physio** | `.github/workflows/gate-watchdog.yml` with `scripts/gate-watchdog.mjs`, `scripts/gate-preempt.mjs`, `scripts/physio-status.mjs`. It re-runs a check only when GitHub gave it no machine (at most 2 re-runs), pauses low-priority helper workflows while a check waits, and publishes `physio-status.json` (ALL_CLEAR, BARKING or STUCK). BARKING is normal. It never runs or edits your code. |
+
+Rules:
+
+1. These files belong to the project: `.github/workflows/`, `scripts/gate-*.mjs`, `scripts/physio-status.mjs`, `POS20_*.json`, `tests/contracts/`, `tests/support/`, `tests/operations/`. Never delete, revert, edit, rename, disable or skip them, and never re-run, trigger or wait on a check (Pace rule 5).
+2. If your branch or PR shows files you did not write, the branch was cut from a newer main than the PR base. That is not contamination. Leave the files alone and do one of these: open the PR anyway and name the files in your status note (`from main, not mine, untouched`), or make a new branch from the PR base and re-apply only your own change (job 1001 did this, PR #388). Never delete the old branch.
+3. A red or missing check is the lead's job. Finish your job and end with `the lead checks CI`.
+
+The same text, short, is in the boot box in FACTORY_RULES.md.
+
 ## 10. Image jobs (lane fresh chat (image))
 
 - **Image jobs are not run inside the Showdown visual project** (Nik, 2026-10-02): images come out better in a ChatGPT Temporary Chat outside any project (no memory, no chat history; save only the picture that chat made). Nik runs each image from its ticket in `project-documents/factory/tickets/` and drops the result in Claude's factory thread; Claude checks, commits and finishes the job. If a project chat is given an image job's number, it replies only: "Job N is an image job. Run its ticket in a new chat outside this project (see project-documents/factory/tickets/README.md)." The rules below still describe what a correct image is.

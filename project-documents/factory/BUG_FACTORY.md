@@ -37,6 +37,10 @@ Write the reason on the job (a `ESCALATED: <lane> because <reason>` line in the 
 
 Anything that needs a new Team V image or a GPT image ticket goes to Nik first: tell him what is needed and he handles it. The lead never starts an image ticket on its own.
 
+## CI checks and the Physio
+
+Workers leave the CI gates and the Showdown Gate Physio alone and never treat their files as contamination: WORKER_HANDBOOK.md section 9b. A bug job's PR may show files from a newer main; that is expected.
+
 ## Done means verified
 
 GPT cannot see the screen or CI, so a bug job is done only after the lead checks it:
