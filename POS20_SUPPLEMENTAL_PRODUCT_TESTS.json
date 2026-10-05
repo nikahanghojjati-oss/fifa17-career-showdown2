@@ -795,6 +795,23 @@
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
     },
+      {
+      "path": "tests/contracts/v10-setup-contracts.cjs",
+      "patterns": [
+        "^js/v10Setup\\.js$",
+        "^css/v10Setup\\.css$",
+        "^js/v10Screens\\.js$",
+        "^js/visualIdentity\\.js$",
+        "^js/startJoinViewModel\\.js$",
+        "^js/ssjr\\.js$",
+        "^service-worker\\.js$",
+        "^index\\.html$",
+        "^visual-assets/v10_1/(start-join|league|club)/",
+        "^visual-assets/v10_1/shared/",
+        "^tests/contracts/v10-setup-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
     {
       "path": "tests/contracts/v10-transfer-contracts.cjs",
       "patterns": [
