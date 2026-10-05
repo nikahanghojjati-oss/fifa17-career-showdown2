@@ -1,0 +1,474 @@
+{
+  "_source": "Synthetic Showdown Gate run (shape copied from the GitHub jobs API): L3 ran 'TEST: Terminal Close matrix' and it failed, while L5 was never acquired by a runner. A started TEST: step that failed must win: TEST_FAILURE, never re-run.",
+  "run": {
+    "id": 4242,
+    "name": "Showdown Gate",
+    "path": ".github/workflows/showdown-gate.yml",
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "failure",
+    "head_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "head_branch": "feature/x",
+    "run_attempt": 1,
+    "head_repository": {
+      "full_name": "o/r"
+    },
+    "pull_requests": []
+  },
+  "jobs": [
+    {
+      "id": 901,
+      "name": "L1 core",
+      "status": "completed",
+      "conclusion": "success",
+      "runner_name": "GitHub Actions 1",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-10-05T21:00:00Z",
+          "completed_at": "2026-10-05T21:01:00Z"
+        },
+        {
+          "name": "Run actions/checkout@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-10-05T21:00:00Z",
+          "completed_at": "2026-10-05T21:01:00Z"
+        },
+        {
+          "name": "Fetch exact diff base",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-10-05T21:00:00Z",
+          "completed_at": "2026-10-05T21:01:00Z"
+        },
+        {
+          "name": "Run actions/setup-node@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-10-05T21:00:00Z",
+          "completed_at": "2026-10-05T21:01:00Z"
+        },
+        {
+          "name": "TEST: Compute Showdown Gate route",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-10-05T21:00:00Z",
+          "completed_at": "2026-10-05T21:01:00Z"
+        },
+        {
+          "name": "TEST: POS20 cognitive benchmark",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-10-05T21:00:00Z",
+          "completed_at": "2026-10-05T21:01:00Z"
+        },
+        {
+          "name": "TEST: Operations audit",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-10-05T21:00:00Z",
+          "completed_at": "2026-10-05T21:01:00Z"
+        },
+        {
+          "name": "TEST: Product contracts (every registered contract)",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8,
+          "started_at": "2026-10-05T21:00:00Z",
+          "completed_at": "2026-10-05T21:01:00Z"
+        },
+        {
+          "name": "Record lane result",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 20,
+          "started_at": "2026-10-05T21:00:00Z",
+          "completed_at": "2026-10-05T21:01:00Z"
+        },
+        {
+          "name": "Upload lane record",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 21,
+          "started_at": "2026-10-05T21:00:00Z",
+          "completed_at": "2026-10-05T21:01:00Z"
+        }
+      ]
+    },
+    {
+      "id": 902,
+      "name": "L2 browser full",
+      "status": "completed",
+      "conclusion": "success",
+      "runner_name": "GitHub Actions 2",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-10-05T21:00:00Z",
+          "completed_at": "2026-10-05T21:01:00Z"
+        },
+        {
+          "name": "Run actions/checkout@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-10-05T21:00:00Z",
+          "completed_at": "2026-10-05T21:01:00Z"
+        },
+        {
+          "name": "Fetch exact diff base",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-10-05T21:00:00Z",
+          "completed_at": "2026-10-05T21:01:00Z"
+        },
+        {
+          "name": "Run actions/setup-node@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-10-05T21:00:00Z",
+          "completed_at": "2026-10-05T21:01:00Z"
+        },
+        {
+          "name": "TEST: Compute Showdown Gate route",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-10-05T21:00:00Z",
+          "completed_at": "2026-10-05T21:01:00Z"
+        },
+        {
+          "name": "Record lane result",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 20,
+          "started_at": "2026-10-05T21:00:00Z",
+          "completed_at": "2026-10-05T21:01:00Z"
+        },
+        {
+          "name": "Upload lane record",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 21,
+          "started_at": "2026-10-05T21:00:00Z",
+          "completed_at": "2026-10-05T21:01:00Z"
+        }
+      ]
+    },
+    {
+      "id": 903,
+      "name": "L3 storage visual gameplay",
+      "status": "completed",
+      "conclusion": "failure",
+      "runner_name": "GitHub Actions 3",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-10-05T21:00:00Z",
+          "completed_at": "2026-10-05T21:01:00Z"
+        },
+        {
+          "name": "Run actions/checkout@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-10-05T21:00:00Z",
+          "completed_at": "2026-10-05T21:01:00Z"
+        },
+        {
+          "name": "Fetch exact diff base",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-10-05T21:00:00Z",
+          "completed_at": "2026-10-05T21:01:00Z"
+        },
+        {
+          "name": "Run actions/setup-node@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-10-05T21:00:00Z",
+          "completed_at": "2026-10-05T21:01:00Z"
+        },
+        {
+          "name": "TEST: Compute Showdown Gate route",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-10-05T21:00:00Z",
+          "completed_at": "2026-10-05T21:01:00Z"
+        },
+        {
+          "name": "Install locked dependencies",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-10-05T21:00:00Z",
+          "completed_at": "2026-10-05T21:01:00Z"
+        },
+        {
+          "name": "TEST: Build the composed production Rules",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-10-05T21:00:00Z",
+          "completed_at": "2026-10-05T21:01:00Z"
+        },
+        {
+          "name": "TEST: Shared Setup provider matrix",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8,
+          "started_at": "2026-10-05T21:00:00Z",
+          "completed_at": "2026-10-05T21:01:00Z"
+        },
+        {
+          "name": "TEST: Terminal Close matrix",
+          "status": "completed",
+          "conclusion": "failure",
+          "number": 9,
+          "started_at": "2026-10-05T21:00:00Z",
+          "completed_at": "2026-10-05T21:01:00Z"
+        },
+        {
+          "name": "TEST: Career index matrix",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 10,
+          "started_at": null,
+          "completed_at": null
+        },
+        {
+          "name": "Record lane result",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 20,
+          "started_at": "2026-10-05T21:00:00Z",
+          "completed_at": "2026-10-05T21:01:00Z"
+        },
+        {
+          "name": "Upload lane record",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 21,
+          "started_at": "2026-10-05T21:00:00Z",
+          "completed_at": "2026-10-05T21:01:00Z"
+        }
+      ]
+    },
+    {
+      "id": 904,
+      "name": "L4 remote",
+      "status": "completed",
+      "conclusion": "success",
+      "runner_name": "GitHub Actions 4",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-10-05T21:00:00Z",
+          "completed_at": "2026-10-05T21:01:00Z"
+        },
+        {
+          "name": "Run actions/checkout@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-10-05T21:00:00Z",
+          "completed_at": "2026-10-05T21:01:00Z"
+        },
+        {
+          "name": "Fetch exact diff base",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-10-05T21:00:00Z",
+          "completed_at": "2026-10-05T21:01:00Z"
+        },
+        {
+          "name": "Run actions/setup-node@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-10-05T21:00:00Z",
+          "completed_at": "2026-10-05T21:01:00Z"
+        },
+        {
+          "name": "TEST: Compute Showdown Gate route",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-10-05T21:00:00Z",
+          "completed_at": "2026-10-05T21:01:00Z"
+        },
+        {
+          "name": "Record lane result",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 20,
+          "started_at": "2026-10-05T21:00:00Z",
+          "completed_at": "2026-10-05T21:01:00Z"
+        },
+        {
+          "name": "Upload lane record",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 21,
+          "started_at": "2026-10-05T21:00:00Z",
+          "completed_at": "2026-10-05T21:01:00Z"
+        }
+      ]
+    },
+    {
+      "id": 905,
+      "name": "L5 rules regression",
+      "status": "completed",
+      "conclusion": "cancelled",
+      "runner_name": "",
+      "steps": []
+    },
+    {
+      "id": 906,
+      "name": "L6 browser journey",
+      "status": "completed",
+      "conclusion": "success",
+      "runner_name": "GitHub Actions 6",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-10-05T21:00:00Z",
+          "completed_at": "2026-10-05T21:01:00Z"
+        },
+        {
+          "name": "Run actions/checkout@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-10-05T21:00:00Z",
+          "completed_at": "2026-10-05T21:01:00Z"
+        },
+        {
+          "name": "Fetch exact diff base",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-10-05T21:00:00Z",
+          "completed_at": "2026-10-05T21:01:00Z"
+        },
+        {
+          "name": "Run actions/setup-node@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-10-05T21:00:00Z",
+          "completed_at": "2026-10-05T21:01:00Z"
+        },
+        {
+          "name": "TEST: Compute Showdown Gate route",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-10-05T21:00:00Z",
+          "completed_at": "2026-10-05T21:01:00Z"
+        },
+        {
+          "name": "TEST: Build the composed production Rules",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-10-05T21:00:00Z",
+          "completed_at": "2026-10-05T21:01:00Z"
+        },
+        {
+          "name": "TEST: Two-manager browser journey",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-10-05T21:00:00Z",
+          "completed_at": "2026-10-05T21:01:00Z"
+        },
+        {
+          "name": "Record lane result",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 20,
+          "started_at": "2026-10-05T21:00:00Z",
+          "completed_at": "2026-10-05T21:01:00Z"
+        },
+        {
+          "name": "Upload lane record",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 21,
+          "started_at": "2026-10-05T21:00:00Z",
+          "completed_at": "2026-10-05T21:01:00Z"
+        }
+      ]
+    },
+    {
+      "id": 907,
+      "name": "seal",
+      "status": "completed",
+      "conclusion": "failure",
+      "runner_name": "GitHub Actions 7",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-10-05T21:00:00Z",
+          "completed_at": "2026-10-05T21:01:00Z"
+        },
+        {
+          "name": "SEAL: Recompute the route independently of every lane",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-10-05T21:00:00Z",
+          "completed_at": "2026-10-05T21:01:00Z"
+        },
+        {
+          "name": "SEAL: Require every lane green on this exact head with every routed id run",
+          "status": "completed",
+          "conclusion": "failure",
+          "number": 3,
+          "started_at": "2026-10-05T21:00:00Z",
+          "completed_at": "2026-10-05T21:01:00Z"
+        }
+      ]
+    }
+  ],
+  "annotations": {
+    "905": [
+      {
+        "annotation_level": "failure",
+        "message": "The job was not acquired by Runner of type hosted even after multiple attempts"
+      }
+    ]
+  }
+}
