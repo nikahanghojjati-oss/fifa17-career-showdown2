@@ -58,7 +58,7 @@ F = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
 board = json.load(open(os.path.join(F, "BOARD.json")))
 jobs = board["jobs"]
 by_num = {j["number"]: j for j in jobs}
-FINISHED = ("DONE", "SKIPPED")
+FINISHED = ("DONE", "SKIPPED", "MERGED")
 
 
 def read_status(j):
@@ -75,7 +75,28 @@ def read_status(j):
     return state, k, total
 
 
-info = {j["number"]: read_status(j) for j in jobs}
+# GitHub is the truth: a job whose PR is merged is MERGED whatever the status file says; a stale status file gets a flag, not its old text.
+try:
+    LIVE = {int(k): v for k, v in json.load(open(os.path.join(F, "progress", "prs.json"))).items()}
+except Exception:
+    LIVE = {}
+stale = {}
+
+
+def read_status_live(j):
+    state, k, total = read_status(j)
+    lv = LIVE.get(j["number"])
+    if lv and lv["state"] == "merged":
+        if state not in FINISHED:
+            stale[j["number"]] = f"status file says {state.lower()}, GitHub says merged (PR #{lv['pr']})"
+        return "MERGED", total, total
+    if lv and state in ("NOT WRITTEN", "NOT STARTED"):
+        stale[j["number"]] = f"status file says {state.lower()}, but PR #{lv['pr']} is {lv['state']}"
+        return "IN PROGRESS", k, total
+    return state, k, total
+
+
+info = {j["number"]: read_status_live(j) for j in jobs}
 
 
 def pct(n):
@@ -159,8 +180,12 @@ L = ["# Team G gameplay board", "",
      "## Scoreboard", "",
      f"⚽ **{done} of {len(jobs)} jobs done** · {len(working)} in play · 🐞 see [BUG_BOARD.md](BUG_BOARD.md) · {ETA.whistle([ETA.describe(r) for _, r, _, _ in __import__('factory_common').running_jobs()])}", "",
      "## Your next move", ""]
+if stale:
+    L[L.index("## Your next move"):L.index("## Your next move")] = ["## ⚠ Stale status files", "", "GitHub is the truth; these status files disagree with the PR and need an update by their owner:", ""] + [f"* job {n}: {t}" for n, t in sorted(stale.items())] + [""]
 _g = ETA.gaffer()
-if _g:
+if _g and _g["stale"]:
+    L[L.index("## Your next move"):L.index("## Your next move")] = [f"🧑‍💼 **Gaffer:** no fresh report (last one {_g.get('updated_boston', '?')} Boston time, {_g['age_min'] // 60} h old); see the [Gaffer page]({_g.get('page', '')}).", ""]
+elif _g:
     L[L.index("## Your next move"):L.index("## Your next move")] = [f"{_g['emoji']} **Gaffer ({_g.get('level_name', '')}, {_g.get('mood', '')})** · usage {_g['pct']} % of the 5-hour window · resets {_g.get('resets_at', '')[11:16]} UTC · last call: {_g.get('last_decision', '')} · [Gaffer page]({_g.get('page', '')})", ""]
 L += [f"{n}. {m}" for n, m in enumerate(move, 1)]
 nxt = next((j for j in open_jobs if j["lane"] != "lead"), None)
@@ -278,7 +303,7 @@ state = {"generated": boston_now(), "relay": relay, "branch": board["branch"],
          "integration_branch": board["integration_branch"], "capacity": cap, "overall": overall, "done": done,
          "total": len(jobs), "start": start, "queued": queued, "working": working, "blocked": blocked,
          "bug_hunt": bug_hunt, "next_move": move,
-         "jobs": [dict(j, state=info[j["number"]][0], step=info[j["number"]][1], steps_total=info[j["number"]][2],
+         "jobs": [dict(j, state=info[j["number"]][0], stale=stale.get(j["number"]), step=info[j["number"]][1], steps_total=info[j["number"]][2],
                        pct=pct(j["number"]), ready=ready(j)) for j in jobs]}
 json.dump(state, open(os.path.join(F, "BOARD_STATE.json"), "w"), indent=1, ensure_ascii=False)
 print("start chat:", start["chat"], "start work:", start["work"], "queued:", queued, "overall:", overall, "%")

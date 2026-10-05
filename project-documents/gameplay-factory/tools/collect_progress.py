@@ -47,7 +47,7 @@ for pr in prs:
     m = re.search(r"job-(\d+)", pr["head"]["ref"])
     if m and pr["base"]["ref"] == "gameplay/recovery-v1":
         live[int(m.group(1))] = {"pr": pr["number"], "state": pr_state(pr)}
-r2 = subprocess.run(["gh", "api", f"repos/{REPO}/pulls?state=closed&base=gameplay/recovery-v1&per_page=40"], capture_output=True, text=True)
+r2 = subprocess.run(["gh", "api", f"repos/{REPO}/pulls?state=closed&base=gameplay/recovery-v1&per_page=100&sort=updated&direction=desc"], capture_output=True, text=True)
 for pr in (json.loads(r2.stdout) if r2.returncode == 0 and r2.stdout.strip() else []):
     m = re.search(r"job-(\d+)", pr["head"]["ref"])
     if m and pr.get("merged_at") and int(m.group(1)) not in live:

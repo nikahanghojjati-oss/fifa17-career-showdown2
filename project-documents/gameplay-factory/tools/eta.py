@@ -94,6 +94,9 @@ def gaffer():
         g = json.load(open(os.path.join(F, "GAFFER.json")))
         g["emoji"] = MOOD.get(g.get("mood"), "🧑‍💼")
         g["pct"] = round(100 * float(g.get("five_hour", 0)))
+        u = parse(g.get("updated"))
+        g["age_min"] = int((datetime.datetime.now(datetime.timezone.utc) - u).total_seconds() / 60) if u else None
+        g["stale"] = g["age_min"] is None or g["age_min"] > 90
         return g
     except Exception:
         return None

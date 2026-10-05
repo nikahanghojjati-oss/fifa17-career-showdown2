@@ -81,6 +81,10 @@ for n, r, k, t in rj:
              f'<b>Still to do:</b> {e(" → ".join(left) or "nothing")}</div>')
 GF = ETA.gaffer()
 if GF:
+    if GF["stale"]:
+        H.append(f'<div class="card"><b>🧑‍💼 Gaffer</b> <span class="m">no fresh report (last one {e(GF.get("updated_boston", "?"))} Boston time, {GF["age_min"] // 60} h old). Usage shown on the Gaffer page.</span><br><a href="{e(GF.get("page", ""))}">Gaffer page</a></div>')
+        GF = None
+if GF:
     gc = "#f0d900" if GF["pct"] < 80 else "#f97316" if GF["pct"] < 95 else "#ef4444"
     H.append(f'<div class="card"><b>{GF["emoji"]} Gaffer · {e(GF.get("level_name", ""))} · {e(GF.get("mood", ""))}</b> <span class="m">updated {e(GF.get("updated_boston", ""))} Boston time</span><br>'
              f'<svg width="300" height="12" viewBox="0 0 300 12"><rect width="300" height="12" rx="6" fill="#12191f" stroke="#43515b"/><rect width="{3 * GF["pct"]}" height="12" rx="6" fill="{gc}"/></svg>'
@@ -110,7 +114,9 @@ for j in st["jobs"]:
     lv = live.get(n)
     if j["state"] in ("DONE", "SKIPPED", "MERGED") or j.get("phase") in ("DONE", "MERGED") or (lv and lv["state"] == "merged"):
         continue
-    if lv:
+    if j.get("stale"):
+        state = "⚠ stale status: " + (PRSTATE.get(lv["state"], "PR open") if lv else j["state"].capitalize())
+    elif lv:
         state = PRSTATE.get(lv["state"], "PR open")
     elif n in rep:
         state = "In progress"
