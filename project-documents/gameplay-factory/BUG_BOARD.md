@@ -25,8 +25,15 @@
 
 <sub>Percent = finished steps weighted by typical step time; finish times are estimates ([how](ETA_STUDY.md)).</sub>
 
-> [!NOTE]
-> No job is reporting progress right now. A job shows here once its PR description carries a progress block.
+🏁 no finish time yet (not enough data)
+
+### 🟦 Sol chat · 1 job
+
+**Job 1001 · Home desktop tile icons: bigger, inside the tile, never on the text · 33.3333 %** · 1 of 3 steps · updated Mon 5 Oct, 7:36 PM  
+🟦🟦🟦🟦🟦🟦⚽▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️ 🥅  
+🏁 **Likely finish:** not enough data  
+> **Now:** step 2 of 3  
+> **Left:** step 2 → step 3
 
 <details>
 <summary><b>✅ Closed: 7</b> (5 live in the game) · click to open</summary>

@@ -1,5 +1,5 @@
 """Shared by board.py and bug_board.py: progress files, worker lanes, two-decimal football bars."""
-import json, os, re
+import glob, json, os, re
 
 F = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
 
@@ -15,6 +15,26 @@ def running_jobs():
             steps = r["steps"]
             k = sum(1 for s_ in steps if s_.get("done"))
             out.append((int(r["job"]), r, k, len(steps)))
+        except Exception:
+            continue
+    # Jobs from 1001 that report only through status/JOB-NNNN.md (no PR progress block yet, e.g. job 1001 in a Sol chat): "State: IN PROGRESS" + "Step: k of n".
+    have = {n for n, *_ in out}
+    for p in sorted(glob.glob(os.path.join(F, "status", "JOB-*.md"))):
+        try:
+            t = open(p).read()
+            n = int(re.search(r"JOB-(\d+)", os.path.basename(p)).group(1))
+            st = re.search(r"^State:\s*(.+)$", t, re.M)
+            step = re.search(r"^Step:\s*(\d+)\s+of\s+(\d+)", t, re.M)
+            if n < 1001 or n in have or not st or "PROGRESS" not in st.group(1).upper() or not step:  # shared numbering from 1001 (HO-007); older status files are history
+                continue
+            chat = (re.search(r"^Chat:\s*(.+)$", t, re.M) or [None, ""])[1] if re.search(r"^Chat:", t, re.M) else ""
+            worker = "sol-work" if "work" in chat.lower() else "sol-chat" if "sol" in chat.lower() else ""
+            title = re.sub(r"^#\s*Status\s*·\s*JOB-\d+\s*·\s*", "", t.splitlines()[0]).strip()
+            k, total = int(step.group(1)) - 1, int(step.group(2))  # "Step 2 of 3" = working on step 2, one done
+            up = re.search(r"^Updated:\s*(\d{4}-\d\d-\d\d)[ T](\d\d:\d\d)", t, re.M)
+            out.append((n, {"job": n, "title": title, "worker": worker, "current": f"step {step.group(1)} of {total}",
+                            "updated": f"{up.group(1)}T{up.group(2)}:00Z" if up else None,
+                            "steps": [{"name": f"step {i + 1}", "done": i < k} for i in range(total)]}, k, total))
         except Exception:
             continue
     return out

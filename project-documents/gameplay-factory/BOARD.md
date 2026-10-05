@@ -15,6 +15,12 @@
 | [PR #386](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/386) Showdown Gate (shadow): six-lane check beside POS20, not required yet | ⏳ 1 passed, 20 running | 7:38 PM |
 | [PR #384](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/384) Every screen in Team V's look: signed-out career screens, Showdown Home, season review, L… | 🟢 12 passed | 6:29 PM |
 
+**🟦 1001 · Home desktop tile icons: bigger, inside the tile, never on the text** · 33 % (1 of 3 steps) · Sol chat
+
+🟦🟦🟦🟦🟦🟦⚽▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️ 🥅  
+> **Now:** step 2 of 3  
+> **Left:** step 2 → step 3
+
 | Team | Job | What | Worker | Where it is | Details |
 | --- | --- | --- | --- | --- | --- |
 | G | G-F6 | Transfer screen race (was the flaky v10-transfer test): a slow load raised a red error toast over REFRESH on phones, and the desktop window button sat below the screen | 🟧 Opus | fixed, in r62 batch (6fcda70b) | 0 failures in 66 runs, was about 1 in 7 |

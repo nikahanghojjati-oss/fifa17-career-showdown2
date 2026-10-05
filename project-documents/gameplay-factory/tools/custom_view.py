@@ -91,10 +91,11 @@ for n, r, k, t in rj:
     title = f'Job {n} · {e(r.get("title", ""))}'
     title = f'<a href="{PR}{r["pr"]}">{title}</a>' if r.get("pr") else title
     H.append(f'<div class="card"><b>{title}</b> <span class="m">{e(who)} · {k} of {t} steps · {boston(r.get("updated"))}</span><br>'
-             f'{bar(d["pct"] / 100, HEX.get(who, "#6b7280"))}<span class="pc">{d["pct"]:.4f} %</span><br>{pitch(d["pct"] / 100, {"Sol chat": "🟦", "Sol Work mode": "🟩", "Codex": "⬜", "Opus": "🟧", "Sonnet": "🟪", "Haiku": "🟨"}.get(who, "⬛"), 16)}<br>'
-             f'<b>Likely finish:</b> {e(d["eta"])}<br>'
-             f'<b>Going on now:</b> {e(r.get("current") or "not reported")}<br>'
-             f'<b>Still to do:</b> {e(" → ".join(left) or "nothing")}</div>')
+             f'{bar(d["pct"] / 100, HEX.get(who, "#6b7280"))}<span class="pc">{d["pct"]:.4f} %</span><br>'
+             + ("" if COMPACT else f'{pitch(d["pct"] / 100, {"Sol chat": "🟦", "Sol Work mode": "🟩", "Codex": "⬜", "Opus": "🟧", "Sonnet": "🟪", "Haiku": "🟨"}.get(who, "⬛"), 16)}<br>')
+             + (f'<b>Likely finish:</b> {e(d["eta"])}<br>' if d.get("eta") else "")
+             + f'<b>Going on now:</b> {e(r.get("current") or "not reported")}'
+             + ("" if COMPACT else f'<br><b>Still to do:</b> {e(" → ".join(left) or "nothing")}') + "</div>")
 GF = ETA.gaffer()
 if GF:
     if GF["stale"]:
