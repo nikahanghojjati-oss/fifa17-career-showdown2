@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 12:00 PM Boston time (EDT)",
+ "generated": "2026-10-05 12:03 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -284,8 +284,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "a52dda2",
-  "head_boston": "Mon 5 Oct 11:53 AM",
+  "head": "330a838",
+  "head_boston": "Mon 5 Oct 12:03 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": true,
   "open_for_g": [],
@@ -352,7 +352,17 @@
    ]
   },
   "v_headline": "Board 1 (visual package): 238 of 238 jobs done and checked",
-  "v_jobs": [],
+  "v_jobs": [
+   {
+    "job": "V-243",
+    "title": "Home phone overlays V2 (HO-005)",
+    "worker": "Opus",
+    "done": 2,
+    "total": 4,
+    "pr": 372,
+    "current": "Renders checked; merging into the factory branch"
+   }
+  ],
   "inbox": {
    "G": true,
    "V": false
@@ -415,8 +425,8 @@
     "from": "G",
     "to": "V",
     "title": "Mobile Home hero: ghost coat between Daniel and Nik",
-    "stage": "RECEIVED",
-    "pct": 0.0,
+    "stage": "WORKING",
+    "pct": 50.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-005_mobile-home-hero-ghost-coat-between-dani.md",
     "worker": "images",
