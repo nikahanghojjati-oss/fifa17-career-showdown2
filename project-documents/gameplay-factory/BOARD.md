@@ -1,6 +1,6 @@
 # Team G gameplay board
 
-28 of 33 jobs done (87 %) ████████░░ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-04 11:59 PM Boston time (EDT)
+28 of 33 jobs done (87 %) ████████░░ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-05 12:00 AM Boston time (EDT)
 
 ## Scoreboard
 
@@ -31,37 +31,23 @@ Gameplay factory job NN. Read https://raw.githubusercontent.com/nikahanghojjati-
 
 ## Running now
 
-Bug hunting factory: [BUG_BOARD.md](BUG_BOARD.md).
+<sub>Percent = finished steps weighted by typical step time, finish times are estimates ([how](ETA_STUDY.md)). Lanes: 🟦 Sol chat · 🟩 Sol Work mode · ⬜ Codex · 🟧 Opus · 🟪 Sonnet · 🟨 Haiku</sub>
 
-Each bar is the share of the job done, to four decimals: finished steps weighted by how long that kind of step usually takes ([ETA_STUDY.md](ETA_STUDY.md)). Finish times are estimates with a likely range. Lanes: 🟦 Sol chat · 🟩 Sol Work mode · ⬜ Codex · 🟧 Opus · 🟪 Sonnet · 🟨 Haiku.
+### 🟧 Job 27 · Transfer War screens · 87.5240 %
 
-### 🟧 Job 27 · Transfer War screens
+🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧⚽▫️▫️ 🥅  
+Opus · Lead (helper) · [PR #362](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/362) · 6 of 7 steps · updated Sun 4 Oct 9:06 PM Boston time  
+🏁 **Likely finish:** waiting on the job's next report (last one 2 h ago)  
+> **Now:** Lead reviewed; final checks running on the head with the latest test build  
+> **Left:** Merged into the test build
 
-Opus · Lead (helper) · PR #362
+### 🟪 Job 28 · Rivalry Stats and Legacy · 49.9040 %
 
-🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧⚽▫️▫️ 🥅 **87.5240 %** (6 of 7 steps)
-
-**Likely finish:** past the estimate; the next report will move it
-
-**Going on now:** Lead reviewed; final checks running on the head with the latest test build
-
-**Still to do:** Merged into the test build
-
-_Updated Sun 4 Oct 9:06 PM Boston time_
-
-### 🟪 Job 28 · Rivalry Stats and Legacy
-
-Sonnet · Sonnet thread · PR #352
-
-🟪🟪🟪🟪🟪🟪🟪🟪🟪⚽▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️ 🥅 **49.9040 %** (9 of 11 steps)
-
-**Likely finish:** past the estimate; the next report will move it
-
-**Going on now:** Paused for usage reset; all my work is pushed, waiting on the lead's J10 fix then merge
-
-**Still to do:** CI green on final head (waits on the J10 fix on recovery) → Lead review and merge
-
-_Updated Sun 4 Oct 9:17 PM Boston time_
+🟪🟪🟪🟪🟪🟪🟪🟪🟪⚽▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️ 🥅  
+Sonnet · Sonnet thread · [PR #352](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/352) · 9 of 11 steps · updated Sun 4 Oct 9:17 PM Boston time  
+🏁 **Likely finish:** waiting on the job's next report (last one 2 h ago)  
+> **Now:** Paused for usage reset; all my work is pushed, waiting on the lead's J10 fix then merge  
+> **Left:** CI green on final head (waits on the J10 fix on recovery) → Lead review and merge
 
 ## Live fixes and bug hunt
 

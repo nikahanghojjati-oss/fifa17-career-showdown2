@@ -1,6 +1,6 @@
 {
  "team": "G",
- "updated": "2026-10-04T23:59-04:00",
+ "updated": "2026-10-05T00:00-04:00",
  "jobs_done": 28,
  "jobs_total": 33,
  "open_bugs": 2,
@@ -15,7 +15,7 @@
    "done": 6,
    "total": 7,
    "pct": 87.524,
-   "eta": "past the estimate; the next report will move it",
+   "eta": "waiting on the job's next report (last one 2 h ago)",
    "current": "Lead reviewed; final checks running on the head with the latest test build",
    "pr": 362,
    "updated": "2026-10-05T01:06:18Z"
@@ -27,7 +27,7 @@
    "done": 9,
    "total": 11,
    "pct": 49.904,
-   "eta": "past the estimate; the next report will move it",
+   "eta": "waiting on the job's next report (last one 2 h ago)",
    "current": "Paused for usage reset; all my work is pushed, waiting on the lead's J10 fix then merge",
    "pr": 352,
    "updated": "2026-10-05T01:17:00Z"
