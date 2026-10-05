@@ -98,7 +98,8 @@
   const platemaps={};
   // Online with no readable model: one fixed frame, drawn as Team V's unavailable state.
   const UNAVAILABLE=Object.freeze({careerScreenV10:"unavailable"});
-  let registered=null;
+  const LOADING=Object.freeze({status:"loading"});
+  let registered=null,onlineLoading=false,onlineToken=0;
   const v10Screens=()=>root.CareerModeV10Screens;
   function v10Fail(error){if(typeof root.reportApplicationError==="function")root.reportApplicationError("Career screens could not load",error);}
 
@@ -130,7 +131,11 @@
   function v10Source(screen){
     const getModel=getters[screen];
     if(typeof getModel!=="function")return null;
-    const model=getModel(),source=v10Seam().selectCareerScreenSource({identityState:v10Identity(),model});
+    const identity=v10Identity();
+    let model=getModel();
+    // Online with no supplied model: the provider-backed completed-Showdown model (shared with History).
+    if(model==null&&v10Seam().isOnlineCareerRoute(identity))model=v10OnlineModel()??(onlineLoading?LOADING:null);
+    const source=v10Seam().selectCareerScreenSource({identityState:identity,model});
     if(source==="local")return null;
     return source==="model"?model:UNAVAILABLE;
   }
@@ -200,12 +205,26 @@
     }).catch(error=>{registered=null;throw error;});
     return registered;
   }
+  function v10OnlineModel(){try{return root.CareerModeRivalryLegacyV10?.cachedCareerModel?.()??null;}catch(_){return null;}}
+  function v10Redraw(){
+    const screens=v10Screens();
+    for(const screen of Object.keys(SCREEN_IDS))if(screens.isMounted(screen)){screens.invalidate(screen);screens.show(screen).catch(v10Fail);}
+  }
+  // Reads the closed-Showdown career through the same lazy loader History uses (exact gets only, no writes).
+  async function v10LoadOnline(){
+    const token=++onlineToken;onlineLoading=true;v10Redraw();
+    try{
+      await root.loadRuntimeScript("rivalry-legacy-v10","js/rivalryLegacyV10.js",()=>Boolean(root.CareerModeRivalryLegacyV10));
+      await root.CareerModeRivalryLegacyV10.loadCareerModel();
+    }finally{if(token===onlineToken){onlineLoading=false;v10Redraw();}}
+  }
   // Called by statistics.js / trophyRoom.js after the old open path; getModel returns the screen's current model.
   async function mount(screen,getModel){
     if(!Object.prototype.hasOwnProperty.call(SCREEN_IDS,screen))throw new TypeError("CAREER_SCREEN_V10_UNKNOWN");
     const screens=await v10Register();
     getters[screen]=getModel;
     v10WrapRender(screen);
+    if(getModel()==null&&v10Seam().isOnlineCareerRoute(v10Identity()))v10LoadOnline().catch(v10Fail);
     return screens.show(screen);
   }
   const openCareerStatistics=getModel=>mount("careerStatistics",getModel);

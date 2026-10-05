@@ -125,8 +125,8 @@ async function t3QuietWhenSessionEnded(){
   console.log("ok T3 an ended session wakes the reconnect banner instead of stacking error toasts; real failures still report");
 }
 
-function reconnectHarness(role){
-  const listeners=new Set(),panel={opens:0,closes:0};
+function reconnectHarness(role,authority={}){
+  const listeners=new Set(),panel={opens:0,closes:0},reports=[];
   let remote={sessionId:OLD_SESSION,rivalryId:RIVALRY,accountId:ACCOUNT,deviceId:DEVICE,sessionState:"active",pendingAction:null,expiresAtEpochMs:Date.now()-1000};
   const status={id:"sharedJourneyReconnectStatus",text:"",dataset:{},hidden:true,
     classList:{toggle:(name,force)=>{if(name==="hidden")status.hidden=Boolean(force);}},
@@ -136,20 +136,20 @@ function reconnectHarness(role){
     createElement:()=>({textContent:"",dataset:{},addEventListener(){}}),addEventListener(){}};
   const sandbox={console,Promise,Date,document,navigator:{onLine:true},setTimeout,clearTimeout,setInterval(){return 0;},addEventListener(){},dispatchEvent(){},CustomEvent:class{constructor(type,init){this.type=type;this.detail=init&&init.detail;}},
     currentShowdown:{sharedJourney:{mode:"shared",rivalryId:RIVALRY},managers:{playerOne:"Daniel",playerTwo:"Nik"}},
-    reportApplicationError(){},
+    reportApplicationError(_context,error){reports.push(error);},
     CareerModeSharedMultiSeasonProgression:require("../../js/sharedMultiSeasonProgression.js"),
     CareerModeSharedJourneyReconnect:require("../../js/sharedJourneyReconnect.js"),
     CareerModeProductionSharedShowdownSetup:{refresh:async()=>null,getState:()=>null},
     CareerModeProductionSharedMultiSeasonProgression:{refresh:async()=>null,getState:()=>null,lastError:()=>""},
     CareerModeSparkRemoteJoining:{getState:()=>remote,subscribe:listener=>{listeners.add(listener);return()=>listeners.delete(listener);},openPanel:async()=>{panel.opens+=1;return true;},closePanel:()=>{panel.closes+=1;return true;}},
-    CareerModeSparkConnectedAccount:{getState:()=>({connected:true,accountId:ACCOUNT})},
-    CareerModeSparkPrivatePairing:{getState:()=>({registered:true,deviceId:DEVICE})},
-    CareerModeSparkConnectedRivalry:{getState:()=>({attached:true,rivalryId:RIVALRY,binding:{managerRole:role}})}};
+    CareerModeSparkConnectedAccount:{getState:()=>authority.account?authority.account():({connected:true,accountId:ACCOUNT})},
+    CareerModeSparkPrivatePairing:{getState:()=>authority.device?authority.device():({registered:true,deviceId:DEVICE})},
+    CareerModeSparkConnectedRivalry:{getState:()=>authority.rivalry?authority.rivalry():({attached:true,rivalryId:RIVALRY,binding:{managerRole:role}})}};
   sandbox.globalThis=sandbox;vm.createContext(sandbox);
   vm.runInContext(read("js/productionSharedJourneyReconnect.js"),sandbox,{filename:"productionSharedJourneyReconnect.js"});
   const api=sandbox.CareerModeProductionSharedJourneyReconnect;
   assert.ok(api&&typeof api.openSessionRecovery==="function","Journey Reconnect must load in the harness");
-  return {api,panel,status,listeners,setRemote(next){remote={...remote,...next};for(const listener of [...listeners])listener(remote);}};
+  return {api,panel,status,listeners,reports,setRemote(next){remote={...remote,...next};for(const listener of [...listeners])listener(remote);}};
 }
 
 async function t4ClearReconnect(){
@@ -217,6 +217,31 @@ async function t6SimultaneousPublishLoser(){
   console.log("ok T6 a simultaneous-publish loser gets the retryable STALE code even when the rival write lands a moment late");
 }
 
+// Codex P1 on #366: every refresher failure during an ended session wakes Journey Reconnect, often before Connected Rivalry
+// (or the account/device) has attached after a reload. That unresolved authority is a quiet pending state, not a red error;
+// a real identity conflict (wrong rivalry, invalid role) still reports.
+async function t7PendingAuthorityQuiet(){
+  let rivalry={attached:false,rivalryId:"",binding:null};
+  const nik=reconnectHarness("playerTwo",{rivalry:()=>rivalry});
+  for(let poll=0;poll<3;poll+=1)await nik.api.refresh();
+  assert.deepEqual(nik.reports.map(error=>error.code),[],"T7 an unattached rivalry after reload never reports JOURNEY_RECONNECT_RIVALRY_REQUIRED");
+  assert.equal(nik.api.getState(),null,"T7 nothing is claimed while the rivalry is unresolved");
+  rivalry={attached:true,rivalryId:RIVALRY,binding:{managerRole:"playerTwo"}};
+  await nik.api.refresh();
+  assert.equal(nik.api.getState().phase,"FRESH_SESSION_REQUIRED","T7 once the rivalry attaches the RECONNECT SESSION banner takes over");
+  assert.equal(nik.status.hidden,false);
+  assert.equal(nik.reports.length,0);
+  for(const [label,authority] of [["signed-out account",{account:()=>({connected:false,accountId:""})}],["unregistered device",{device:()=>({registered:false,deviceId:""})}]]){
+    const h=reconnectHarness("playerOne",authority);await h.api.refresh();await h.api.refresh();
+    assert.equal(h.reports.length,0,`T7 ${label} is a quiet pending state`);
+  }
+  for(const [label,state,code] of [["another rivalry",{attached:true,rivalryId:"rivalry_other",binding:{managerRole:"playerOne"}},"JOURNEY_RECONNECT_RIVALRY_MISMATCH"],["an invalid role",{attached:true,rivalryId:RIVALRY,binding:{managerRole:"referee"}},"JOURNEY_RECONNECT_ROLE_INVALID"]]){
+    const h=reconnectHarness("playerOne",{rivalry:()=>state});await h.api.refresh();
+    assert.deepEqual(h.reports.map(error=>error.code),[code],`T7 ${label} is still reported`);
+  }
+  console.log("ok T7 unresolved account/device/rivalry authority stays quiet until attached; identity conflicts still report");
+}
+
 (async()=>{
   await t1HostLifetime();
   await t2HostSeesJoin();
@@ -224,5 +249,6 @@ async function t6SimultaneousPublishLoser(){
   await t4ClearReconnect();
   t5TenSeasonCi();
   await t6SimultaneousPublishLoser();
-  console.log("PASS ten-season session contracts: 6 checks (host clock margin, host sees the join, quiet refreshers while reconnecting, clear reconnect banner and auto-close, 10-season CI journey with mid-game expiry, simultaneous-publish loser stays retryable).");
+  await t7PendingAuthorityQuiet();
+  console.log("PASS ten-season session contracts: 7 checks (host clock margin, host sees the join, quiet refreshers while reconnecting, clear reconnect banner and auto-close, 10-season CI journey with mid-game expiry, simultaneous-publish loser stays retryable, unresolved reconnect authority stays quiet).");
 })().catch(error=>{console.error(error);process.exit(1);});

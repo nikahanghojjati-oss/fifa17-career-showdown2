@@ -133,31 +133,44 @@
     })().catch(error=>{registration=null;throw error;});
     return registration;
   }
+  // One provider-backed completed-Showdown career model for every online career screen (History here,
+  // Career Statistics and Trophy Room, and the Standings Career view). Same exact gets and services as
+  // before; the last result is kept in memory for the current account, manager and pair only.
+  let careerCache=null;
+  async function rlLoadCareerModel(){
+    const key=context();
+    await modelDependencies();
+    const active=root.CareerModeSharedActiveShowdownAdapter.buildActiveShowdownViews(rlSnapshot());
+    const account=state("CareerModeSparkConnectedAccount"),runtime=root.CareerModeProductionFirebaseRuntime;
+    let model;
+    if(!account?.connected||!runtime)model=UNAVAILABLE;
+    else{
+      const services=await runtime.ensureAccountServices(),user=services?.auth?.currentUser;
+      if(!services?.ok||!user||user.uid!==account.accountId)model=UNAVAILABLE;
+      else{
+        // Reuse the configured SDK host and memory-only services. This only adds an exact-get
+        // function to the reader argument; it changes no auth scope, provider setting or Rules.
+        const sdk=services.firestoreSdk?.getDoc?services.firestoreSdk:await import(runtime.firebaseFirestoreModule);
+        const result=await root.CareerModeSparkClosedShowdownCareerLoader.loadClosedShowdownCareer({firestore:services.firestore,firebaseSdk:{...services.firestoreSdk,getDoc:sdk.getDoc},user,current:active.careerInput});
+        model=result.model??UNAVAILABLE;
+      }
+    }
+    if(context()===key){careerCache={key,model};if(typeof root.CustomEvent==="function")root.dispatchEvent?.(new root.CustomEvent("career-mode-online-career-model-change"));}
+    return model;
+  }
+  const rlCachedCareerModel=()=>careerCache&&careerCache.key===context()?careerCache.model:null;
   async function refresh(screen){
     const key=context(),token=(tokens[screen]??0)+1;tokens[screen]=token;
     const supplied=getters[screen]?.();
     if(supplied!=null){screens().invalidate(APP[screen]);return screens().show(APP[screen]);}
     sources[screen]=LOADING;await screens().show(APP[screen]);
     try{
-      await modelDependencies();
-      const active=root.CareerModeSharedActiveShowdownAdapter.buildActiveShowdownViews(rlSnapshot());
       let model;
-      if(screen==="rivalryStatistics")model={...active.rivalry,lifecycle:active.classification};
-      else{
-        const account=state("CareerModeSparkConnectedAccount"),runtime=root.CareerModeProductionFirebaseRuntime;
-        if(!account?.connected||!runtime)model=UNAVAILABLE;
-        else{
-          const services=await runtime.ensureAccountServices(),user=services?.auth?.currentUser;
-          if(!services?.ok||!user||user.uid!==account.accountId)model=UNAVAILABLE;
-          else{
-            // Reuse the configured SDK host and memory-only services. This only adds an exact-get
-            // function to the reader argument; it changes no auth scope, provider setting or Rules.
-            const sdk=services.firestoreSdk?.getDoc?services.firestoreSdk:await import(runtime.firebaseFirestoreModule);
-            const result=await root.CareerModeSparkClosedShowdownCareerLoader.loadClosedShowdownCareer({firestore:services.firestore,firebaseSdk:{...services.firestoreSdk,getDoc:sdk.getDoc},user,current:active.careerInput});
-            model=result.model??UNAVAILABLE;
-          }
-        }
-      }
+      if(screen==="rivalryStatistics"){
+        await modelDependencies();
+        const active=root.CareerModeSharedActiveShowdownAdapter.buildActiveShowdownViews(rlSnapshot());
+        model={...active.rivalry,lifecycle:active.classification};
+      }else model=await rlLoadCareerModel();
       if(tokens[screen]!==token||context()!==key)return false;
       sources[screen]=model;return screens().show(APP[screen]);
     }catch(error){if(tokens[screen]!==token||context()!==key)return false;sources[screen]=UNAVAILABLE;await screens().show(APP[screen]);report(error);return false;}
@@ -176,5 +189,5 @@
   }
 
   const RUNTIME_FILES=["visual-assets/v10_1/legacy/legacy.css", "visual-assets/v10_1/legacy/legacy.js", "visual-assets/v10_1/legacy/strings.json", "visual-assets/v10_1/legacy/assets/platemap.json", "visual-assets/v10_1/legacy/assets/ENV_LG_PHONE_V1.webp", "visual-assets/v10_1/legacy/assets/ENV_LG_PLATE_V1_1X.webp", "visual-assets/v10_1/legacy/assets/ENV_LG_PLATE_V1_2X.webp", "visual-assets/v10_1/legacy/assets/OVL_LG_DANIEL_FOREGROUND_V1_1X.webp", "visual-assets/v10_1/legacy/assets/OVL_LG_DANIEL_FOREGROUND_V1_2X.webp", "visual-assets/v10_1/legacy/assets/OVL_LG_DANIEL_FOREGROUND_V1_RIM_1X.webp", "visual-assets/v10_1/legacy/assets/OVL_LG_DANIEL_FOREGROUND_V1_RIM_2X.webp", "visual-assets/v10_1/legacy/assets/OVL_LG_DANIEL_PHONE_V1.webp", "visual-assets/v10_1/legacy/assets/OVL_LG_NIK_FOREGROUND_V1_1X.webp", "visual-assets/v10_1/legacy/assets/OVL_LG_NIK_FOREGROUND_V1_2X.webp", "visual-assets/v10_1/legacy/assets/OVL_LG_NIK_FOREGROUND_V1_RIM_1X.webp", "visual-assets/v10_1/legacy/assets/OVL_LG_NIK_FOREGROUND_V1_RIM_2X.webp", "visual-assets/v10_1/legacy/assets/OVL_LG_NIK_PHONE_V1.webp", "visual-assets/v10_1/legacy/assets/TITLE_LG_V1.webp", "visual-assets/v10_1/rivalry-statistics/rivalry-statistics.css", "visual-assets/v10_1/rivalry-statistics/rivalry-statistics.js", "visual-assets/v10_1/rivalry-statistics/strings.json", "visual-assets/v10_1/rivalry-statistics/assets/platemap.json", "visual-assets/v10_1/rivalry-statistics/assets/ENV_RV_PHONE_V1.webp", "visual-assets/v10_1/rivalry-statistics/assets/ENV_RV_PLATE_V1_1X.webp", "visual-assets/v10_1/rivalry-statistics/assets/ENV_RV_PLATE_V1_2X.webp", "visual-assets/v10_1/rivalry-statistics/assets/OVL_RV_DANIEL_PHONE_V1.webp", "visual-assets/v10_1/rivalry-statistics/assets/OVL_RV_DANIEL_POINT_V1_1X.webp", "visual-assets/v10_1/rivalry-statistics/assets/OVL_RV_DANIEL_POINT_V1_2X.webp", "visual-assets/v10_1/rivalry-statistics/assets/OVL_RV_DANIEL_POINT_V1_RIM_1X.webp", "visual-assets/v10_1/rivalry-statistics/assets/OVL_RV_DANIEL_POINT_V1_RIM_2X.webp", "visual-assets/v10_1/rivalry-statistics/assets/OVL_RV_NIK_ARMS_V1_1X.webp", "visual-assets/v10_1/rivalry-statistics/assets/OVL_RV_NIK_ARMS_V1_2X.webp", "visual-assets/v10_1/rivalry-statistics/assets/OVL_RV_NIK_ARMS_V1_RIM_1X.webp", "visual-assets/v10_1/rivalry-statistics/assets/OVL_RV_NIK_ARMS_V1_RIM_2X.webp", "visual-assets/v10_1/rivalry-statistics/assets/OVL_RV_NIK_PHONE_V1.webp", "visual-assets/v10_1/rivalry-statistics/assets/TITLE_RV_V1.webp", "visual-assets/v10_1/rivalry-statistics/assets/TITLE_RV_V1_PHONE.webp", "js/rivalryLegacyV10.js", "js/rivalryLegacyV10Markup.js", "css/rivalryLegacyV10.css"];
-  return rlFreeze({toV10Frame:rlToV10Frame,mount:rlMount,markup,RUNTIME_FILES});
+  return rlFreeze({toV10Frame:rlToV10Frame,mount:rlMount,markup,loadCareerModel:rlLoadCareerModel,cachedCareerModel:rlCachedCareerModel,RUNTIME_FILES});
 });

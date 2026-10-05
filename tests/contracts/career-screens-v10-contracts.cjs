@@ -164,4 +164,47 @@ check("V10 production never reads fixtures",()=>{
   assert.ok(!binder.includes("Preview data"));
   assert.ok(!/console\.(error|warn)/.test(binder),"loading is a normal state, never an error log");
 });
-console.log(`PASS career screens V10 contracts: ${n} checks.`);
+// Codex P1 on release PR #366: a registered manager opening Stats or Trophy Room with no supplied model must
+// get the provider-backed completed-Showdown career (the loader History uses), not a permanent "unavailable".
+(async()=>{
+  const vm=require("node:vm");
+  const registrations=new Map(),drawn=new Map(),frames=[];let release,loads=0;
+  const shown=new Set(["careerStatistics","trophyRoom"]);
+  const career=fixture("multi-showdown-career").career;
+  const ctx={console,setTimeout,document:{getElementById:()=>null},
+    CareerModeCareerScreenSeam:require(path.join(ROOT,"js/careerScreenSeam.js")),
+    CareerModeOnlinePlayerIdentity:{getState:()=>({registered:true,managerId:"nik"})},
+    CareerModeSparkConnectedAccount:{getState:()=>({connected:true,accountId:"uid-nik"})},
+    CareerModePersistentNikDanielPair:{getState:()=>({rivalryId:"r1"})},
+    CareerModeProductionFirebaseRuntime:{ensureAccountServices:async()=>({ok:true,auth:{currentUser:{uid:"uid-nik"}},firestore:{},firestoreSdk:{doc(){},getDoc(){}}})},
+    CareerModeSharedActiveShowdownAdapter:{buildActiveShowdownViews:()=>({careerInput:null})},
+    CareerModeSparkClosedShowdownCareerLoader:{loadClosedShowdownCareer:async options=>{loads+=1;assert.equal(options.user.uid,"uid-nik");await new Promise(r=>{release=r;});return {model:career};}},
+    addEventListener(){},dispatchEvent(){}};
+  for(const g of ["CareerModeSharedHistoryConvergence","CareerModeSharedFinalReconciliation","CareerModeSharedTerminalClose","CareerModeSharedCareerAnalytics","CareerModeSharedClosedShowdownAdapter","CareerModeSparkCompletedShowdownReader"])ctx[g]={};
+  ctx.window=ctx;
+  ctx.CareerModeV10Screens={install(){return this;},register(id,def){registrations.set(id,def);},isMounted:id=>drawn.has(id),invalidate:id=>drawn.delete(id),hide:id=>drawn.delete(id),
+    async show(id){const def=registrations.get(id);if(!shown.has(id))return false;const frame=def.frame();if(!frame)return false;if(drawn.get(id)!==frame){drawn.set(id,frame);frames.push([id,frame]);}return true;}};
+  vm.createContext(ctx);
+  ctx.loadRuntimeScript=async(key,file,ready)=>{if(!ready()){vm.runInContext(read(file),ctx);}assert.ok(ready(),file);};
+  vm.runInContext(read("js/careerScreensV10.js"),ctx);
+  const settle=async()=>{for(let i=0;i<20;i++)await new Promise(r=>setImmediate(r));};
+  await ctx.CareerModeCareerScreensV10.mount("careerStatistics",()=>null);await settle();
+  assert.equal(loads,1,"opening online Career Statistics reads the closed-Showdown career once");
+  assert.equal(drawn.get("careerStatistics").status,"loading","a normal loading state while the provider read runs");
+  release();await settle();
+  assert.equal(drawn.get("careerStatistics"),career,"Career Statistics draws the provider-backed career model, not unavailable");
+  await ctx.CareerModeCareerScreensV10.mount("trophyRoom",()=>null);await settle();
+  assert.equal(drawn.get("trophyRoom"),career,"Trophy Room shows the cached model at once while it refreshes");
+  release();await settle();
+  assert.equal(ctx.CareerModeRivalryLegacyV10.cachedCareerModel(),career);
+  ctx.CareerModeSparkConnectedAccount.getState=()=>({connected:true,accountId:"uid-other"});
+  assert.equal(ctx.CareerModeRivalryLegacyV10.cachedCareerModel(),null,"another account never sees the cached career");
+  const supplied={status:"empty"};
+  await ctx.CareerModeCareerScreensV10.mount("careerStatistics",()=>supplied);await settle();
+  assert.equal(loads,2,"a supplied model adds no provider read");
+  assert.equal(drawn.get("careerStatistics"),supplied);
+  const sf=read("js/seasonFinalV10.js");
+  assert.ok(/function currentCareer\(\)\{[^\n]*cachedCareerModel/.test(sf)&&sf.includes('"career-mode-online-career-model-change"'),"the Standings Career view reads the same provider-backed model and redraws when it arrives");
+  console.log(`ok ${++n} V-P1 online Career Statistics, Trophy Room and Standings Career read the provider-backed completed-Showdown model`);
+  console.log(`PASS career screens V10 contracts: ${n} checks.`);
+})().catch(error=>{console.error(error);process.exitCode=1;});
