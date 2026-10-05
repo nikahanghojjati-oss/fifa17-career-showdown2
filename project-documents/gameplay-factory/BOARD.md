@@ -1,10 +1,12 @@
 # Team G gameplay board
 
-20 of 33 jobs done (70 %) ███████░░░ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-04 10:05 PM Boston time (EDT)
+20 of 33 jobs done (70 %) ███████░░░ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-04 10:07 PM Boston time (EDT)
 
 ## Scoreboard
 
 ⚽ **20 of 33 jobs done** · 1 in play · 🐞 see [BUG_BOARD.md](BUG_BOARD.md) · 🏁 last running job likely done about 9:43 PM Boston time
+
+🥵 **Gaffer (PAUSE, strained)** · usage 91 % of the 5-hour window · resets 03:50 UTC · last call: All non-2.0 threads paused at 91%; hourly checks started · [Gaffer page](https://claude.ai/artifact/33Pw2Bioktj1Nv7ebEM94Q)
 
 ## Your next move
 
