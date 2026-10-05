@@ -59,8 +59,16 @@
   flex: 0 1 auto; min-height: 0; border-top: 0; color: inherit; font-size: inherit; line-height: inherit; letter-spacing: inherit;
 }
 #transferChallenge .tw-host #completeTransferChallenge.btn-lock { display: inline-flex; width: auto; margin: 0; }
+/* Production's previous-league and nationality selectors keep a usable 100px each (the app's own signing-row floor);
+   the typed player name takes the rest of Team V's row. */
+#transferChallenge .tw-host .signing-row.signingRow:not(.is-readonly) {
+  grid-template-columns: calc(var(--k) * 16px) minmax(0, 1.22fr) minmax(100px, 1.1fr) minmax(100px, 0.92fr);
+}
 @media (max-width: 760px) and (orientation: portrait) {
   :where(.guessRow, .signingRow) > span.guess-num { font-size: 13px; }
+  #transferChallenge .tw-host .signing-row.signingRow:not(.is-readonly) {
+    grid-template-columns: 16px minmax(0, 1.08fr) minmax(100px, 1.14fr) minmax(100px, 0.92fr);
+  }
   /* Guess entry shows production's two-part status as a two-line band, like Team V's signing band. */
   #transferChallenge .tw-host .stage[data-phase="GUESS_ENTRY"] { --band-h: 42px; }
 }

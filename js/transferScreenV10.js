@@ -74,7 +74,8 @@
       windowLive:phase==="WINDOW_OPEN"&&actual==="WINDOW_OPEN"&&!replay,
       endRequested:phase==="WINDOW_OPEN"&&actual==="WINDOW_OPEN"&&!replay&&Array.isArray(state&&state.endRequestedRoles)&&state.endRequestedRoles.includes(role),
       guessesLocked:phase==="GUESS_ENTRY"&&(replay||(Array.isArray(state&&state.guessLockedRoles)&&state.guessLockedRoles.includes(role))),
-      signingsLocked:phase==="SIGNING_ENTRY"&&(replay||(Array.isArray(state&&state.signingLockedRoles)&&state.signingLockedRoles.includes(role))),
+      // A historical replay keeps production's own (read-only, disabled by production) signing fields in the rows.
+      signingsLocked:phase==="SIGNING_ENTRY"&&!replay&&Array.isArray(state&&state.signingLockedRoles)&&state.signingLockedRoles.includes(role),
       ownSignings:[],verdicts:null};
     // Own committed signings read back when they are locked (own data only).
     if(frame.signingsLocked)frame.ownSignings=tfSigningRows(view.ownInputs&&view.ownInputs.signings,source.label);
@@ -140,7 +141,7 @@
   const BASE="visual-assets/v10_1/";
   const ASSET_BASE=BASE+DIR;
   const ACTION_CLASSES=Object.freeze({start:"btn-end sd-btn sd-btn--secondary",continueReplay:"btn-continue sd-btn sd-btn--secondary",error:"error-line"});
-  let installed=false,registered=null,platemap=null,cached=null,mountedFrame=null,stage=null,adopted=[],pending=false,timerNode=null,statusNode=null;
+  let installed=false,registered=null,platemap=null,cached=null,mountedFrame=null,stage=null,adopted=[],cardSwaps=[],pending=false,timerNode=null,statusNode=null;
   const v10Screens=()=>root.CareerModeV10Screens;
   const tfDoc=()=>root.document||null;
   function tfWarn(context,error){if(root.console&&typeof root.console.warn==="function")root.console.warn(`[Career Mode Showdown] ${context}`,error);}
@@ -181,6 +182,10 @@
     return true;
   }
   function tfRestore(){
+    for(const {card,name,className} of cardSwaps.splice(0)){
+      const now=card.getAttribute("class")||"";
+      if(now===className.split(/\s+/).filter(part=>part!==name).join(" "))card.setAttribute("class",className);else card.classList.add(name);
+    }
     for(const record of adopted.splice(0).reverse()){
       const {node,marker}=record;
       for(const name of record.classes)node.classList.remove(name);
@@ -220,6 +225,15 @@
     for(const id of plan.ids){
       const node=tfProduction(id),place=tfPlace(id);
       if(node&&place)tfAdopt(node,place,"replace");
+    }
+    // The production card whose fields moved hands its card class to the Team V block while they are there, so one card
+    // per manager carries it (production's own/rival lookups and the replay's one-visible-card guard stay exact).
+    for(const name of ["transferGuessCard","transferManagerCard"]){
+      if(!stage.querySelector(`.panel.own .${name}`))continue;
+      for(const record of adopted){
+        const parent=record.marker.parentNode,card=parent&&parent.closest?parent.closest(`.${name}`):null;
+        if(card&&!stage.contains(card)&&!cardSwaps.some(swap=>swap.card===card)){cardSwaps.push({card,name,className:card.getAttribute("class")||""});card.classList.remove(name);}
+      }
     }
     // HOME: the screen's own smart-back control (delegated by its .backButton class in js/screens.js).
     const home=section.querySelector(":scope > .seasonEntryActions .backButton"),homePlace=tfPlace("backToShowdownHome");
