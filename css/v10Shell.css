@@ -32,7 +32,7 @@ html[data-v10-screen]:not([data-v10-setup]) #app #topHeader #seasonIndicator {
 html[data-v10-screen]:not([data-v10-setup]) #app #topHeader #onlinePlayerIdentityBadge { color: #f2c45b !important; }
 html[data-v10-screen]:not([data-v10-setup]) #app #topHeader #seasonIndicator::before,
 html[data-v10-screen]:not([data-v10-setup]) #app #topHeader #seasonIndicator::after { content: none; }
-html[data-v10-screen]:not([data-v10-setup]) #app > footer { min-height: 0; background: none; border-top: 0; }
+html[data-v10-screen]:not([data-v10-setup]) #app > footer { min-height: 0; background: #07080a; color: #b8b09c; border-top: 1px solid rgba(242,196,91,.22); }
 @media (max-width: 900px) {
   html[data-v10-screen]:not([data-v10-setup]) #app #topHeader { left: 10px; right: auto; top: max(10px, env(safe-area-inset-top)); gap: 6px; padding-right: 0; }
   html[data-v10-screen]:not([data-v10-setup]) #app #topHeader #onlinePlayerIdentityBadge,
