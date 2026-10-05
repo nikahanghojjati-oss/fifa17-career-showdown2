@@ -108,7 +108,8 @@ async function prepare(page,{role,saveId,entry}){
         routeReady:CareerModeProductionSharedSeasonResultsRoute.canRoute(),
         adapterCanRoute:CareerModeProductionSharedSeasonResults.canRoute(),
         adapterState:CareerModeProductionSharedSeasonResults.getState(),
-        routerOwnsResults:String(window.isRouteStateValid||'').includes('CareerModeProductionSharedSeasonResults'),
+        // Optional screens (job 29 Standings) may wrap the core router and tag the wrapper .original; the core hook must still be the innermost function.
+        routerOwnsResults:(()=>{let fn=window.isRouteStateValid;for(let hops=0;hops<5&&typeof fn?.original==='function';hops+=1)fn=fn.original;return String(fn||'').includes('CareerModeProductionSharedSeasonResults');})(),
         activeScreen:typeof window.getActiveScreenName==='function'?window.getActiveScreenName():null,
         navigation:typeof window.getNavigationDiagnostics==='function'?window.getNavigationDiagnostics():null,
         seasonHidden:Boolean(document.getElementById('seasonEntry')?.classList.contains('hidden')),
