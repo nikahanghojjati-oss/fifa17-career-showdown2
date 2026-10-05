@@ -22,10 +22,10 @@ Bars are real: finished steps ÷ all steps from each job's progress block, to tw
 ### 🟧 Opus · 3 jobs
 
 **[Job 27 · Transfer War screens](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/362)**  
-🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧⚽▫️▫️▫️▫️▫️ 🥅 **71.43 %** · 5 of 7 steps · updated Sun 4 Oct, 8:41 PM
+🟧🟧🟧🟧🟧🟧🟧🟧⚽▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️ 🥅 **42.86 %** · 3 of 7 steps · updated Sun 4 Oct, 8:41 PM
 
-> **Going on now:** Pushed bd58e2ef with the root-cause fixes and the latest test build: Home's late-loading stylesheet no longer hides Transfer War's HOME/REFRESH bar, and the replay shows one guess card per manager. Waiting for the 16 checks  
-> **Still to do:** Lead review (screenshots and diff) → Merged into the test build
+> **Going on now:** Pushed bd58e2ef with the root-cause fixes and the latest test build (41660939): Home's late-loading stylesheet no longer hides Transfer War's HOME/REFRESH bar, and the replay shows one guess card per manager. Waiting for the 16 checks  
+> **Still to do:** All 16 checks green on the exact head → Bring in the latest test build once → Lead review (screenshots and diff) → Merged into the test build
 
 **[Job 29 · Season Results, Final Winner, Standings](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/357)**  
 🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧⚽▫️▫️▫️ 🥅 **81.82 %** · 9 of 11 steps · updated Sun 4 Oct, 8:39 PM

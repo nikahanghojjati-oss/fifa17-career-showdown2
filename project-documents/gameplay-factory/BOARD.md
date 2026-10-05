@@ -1,6 +1,6 @@
 # Team G gameplay board
 
-20 of 33 jobs done (70 %) ███████░░░ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-04 8:39 PM Boston time (EDT)
+20 of 33 jobs done (70 %) ███████░░░ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-04 8:42 PM Boston time (EDT)
 
 ## Your next move
 
@@ -26,11 +26,11 @@ Opus · Lead (helper) · PR #362
 
 🟧🟧🟧🟧🟧🟧🟧🟧⚽▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️ 🥅 **42.86 %** (3 of 7 steps)
 
-**Going on now:** Fixing a failed two-manager play-through test: Home's styling leaks onto the Transfer War screen
+**Going on now:** Pushed bd58e2ef with the root-cause fixes and the latest test build (41660939): Home's late-loading stylesheet no longer hides Transfer War's HOME/REFRESH bar, and the replay shows one guess card per manager. Waiting for the 16 checks
 
 **Still to do:** All 16 checks green on the exact head → Bring in the latest test build once → Lead review (screenshots and diff) → Merged into the test build
 
-_Updated Sun 4 Oct 8:35 PM Boston time_
+_Updated Sun 4 Oct 8:41 PM Boston time_
 
 ### 🟪 Job 28 · Rivalry Stats and Legacy
 
