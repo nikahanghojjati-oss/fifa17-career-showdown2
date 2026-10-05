@@ -1,6 +1,6 @@
 # Showdown board: G Factory and V Factory
 
-33 of 33 jobs done (100 %) ██████████ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-05 8:49 AM Boston time (EDT)
+33 of 33 jobs done (100 %) ██████████ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-05 8:50 AM Boston time (EDT)
 
 ## Scoreboard
 
@@ -66,14 +66,12 @@ _Gameplay, online sync, every merge and every release (senior director)._
 
 <sub>Visuals and presentation: design changes, art, screen skins (assistant director). Workers: 🟧 Opus (Visual lead: taste, final polish, checks) · 🟪 Sonnet (HTML/CSS builds from a clear spec) · 🟦 Sol chat (Truth sheets, text and checks (no Claude usage)) · 🟩 Sol Work mode (Work-mode builds) · 🟫 Astra (Rare senior review) · 🟥 Image tickets (ChatGPT image tickets (art, plates)) · ⬜ Codex (Package review)</sub>
 
-No Team V job is reporting yet (Team V jobs show here once a PR titled `V-…` carries a progress block). Board 1 (retired): 238 of 238 jobs done and checked · 100 % ([link](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/v1-wtt5ye/project-documents/factory/BOARD.md)).
+No Team V job is reporting yet (Team V jobs show here once a PR titled `V-…` carries a progress block). Board 1 (retired): Board 1 (visual package): 238 of 238 jobs done and checked ([link](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/v1-wtt5ye/project-documents/factory/BOARD.md)).
 
 | # | Future work | Worker | State | Waits on |
 | --- | --- | --- | --- | --- |
 | V-F2 | Design changes from Nik and Daniel's 2.0 play-through (only real design changes; bugs stay with G) | 🟧 Opus | queued | G-F1 |
 | V-F3 | Visual check of live 2.0 against the approved package 5e05a1f | 🟪 Sonnet | proposed | Team V's call |
-
-<sub>Team V record so far: GPT-5.6 Sol (normal chat) 121 jobs (83 % first time) · Claude Sonnet 5.5 52 jobs (96 % first time) · Claude Opus 5.5 34 jobs (100 % first time) · Astra (Work mode) 9 jobs (100 % first time) · Image tickets (ChatGPT) 8 jobs (100 % first time) · Codex 7 jobs (100 % first time) · GPT-6.1 Sol (Work mode) 6 jobs (100 % first time)</sub>
 
 ## 📡 Relay and hand-offs
 

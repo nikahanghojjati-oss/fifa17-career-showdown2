@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 8:49 AM Boston time (EDT)",
+ "generated": "2026-10-05 8:50 AM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 26,
@@ -273,7 +273,7 @@
    "subject": "Version 2.0 polish from Nik's live review (r56) (#370)",
    "fixes": []
   },
-  "v_headline": "238 of 238 jobs done and checked · 100 %",
+  "v_headline": "Board 1 (visual package): 238 of 238 jobs done and checked",
   "v_jobs": [],
   "tickets": [],
   "relay_ok": true
