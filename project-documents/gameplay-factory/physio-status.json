@@ -1,12 +1,12 @@
 {
   "schema": "physio/v1",
-  "at": "2026-10-05T23:47:30.771Z",
+  "at": "2026-10-05T23:50:37.964Z",
   "state": "BARKING",
   "checks": [
     {
-      "workflow": "Validate Gameplay Fast",
-      "head_sha": "84a04d80a8a3915d00b13e55a3600df0772a6e97",
-      "pr": null,
+      "workflow": "Validate POS20",
+      "head_sha": "acd379ccbda13acacd4d2b21272838b088154904",
+      "pr": 312,
       "queued_minutes": 5.2,
       "action": "none",
       "attempt": 0,
@@ -14,67 +14,19 @@
     },
     {
       "workflow": "Validate POS20",
-      "head_sha": "f4cbb744046aee6941c8607e6c18f772aa9cd6bc",
+      "head_sha": "2c0f16363a4bc626c2103d413962693f3bc6b320",
       "pr": null,
-      "queued_minutes": 5,
-      "action": "none",
-      "attempt": 0,
-      "max_attempts": 2
-    },
-    {
-      "workflow": "Validate POS20",
-      "head_sha": "bcc7fc3221fe4949a9107deb1fe4eec6d04cd334",
-      "pr": null,
-      "queued_minutes": 2.8,
-      "action": "none",
-      "attempt": 0,
-      "max_attempts": 2
-    },
-    {
-      "workflow": "Validate POS20",
-      "head_sha": "acd379ccbda13acacd4d2b21272838b088154904",
-      "pr": 312,
-      "queued_minutes": 2.1,
+      "queued_minutes": 2.6,
       "action": "none",
       "attempt": 0,
       "max_attempts": 2
     }
   ],
   "helpers_paused": [],
-  "gate": {
-    "pr": 386,
-    "head_sha": "1a040366cd39690d4daf9fe2c9c354a4839de998",
-    "lanes": [
-      {
-        "name": "L1 core",
-        "state": "running"
-      },
-      {
-        "name": "L2 browser full",
-        "state": "running"
-      },
-      {
-        "name": "L3 storage visual gameplay",
-        "state": "running"
-      },
-      {
-        "name": "L4 remote",
-        "state": "running"
-      },
-      {
-        "name": "L5 rules regression",
-        "state": "running"
-      },
-      {
-        "name": "L6 browser journey",
-        "state": "pass"
-      }
-    ],
-    "seal": "PENDING"
-  },
+  "gate": null,
   "pos20": {
-    "pr": 386,
-    "passed": 11,
+    "pr": 390,
+    "passed": 0,
     "total": 16,
     "state": "running"
   }
