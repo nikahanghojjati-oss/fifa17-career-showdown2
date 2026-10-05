@@ -23,6 +23,8 @@ concurrency:
 jobs:
   watchdog:
     name: Showdown Gate watchdog
+    # A green gate run needs no watchdog: skip without taking a machine.
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion != 'success'
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     steps:

@@ -145,12 +145,26 @@ let checks=0;const ok=label=>{checks++;void label;};
   assert.deepEqual(wd.on.workflow_run,{workflows:['Showdown Gate'],types:['completed']});
   assert.deepEqual(wd.on.schedule,[{cron:'*/10 * * * *'}]);
   assert.ok(!('pull_request' in wd.on)&&!('pull_request_target' in wd.on));
+  assert.equal(wd.jobs.watchdog.if,"github.event_name != 'workflow_run' || github.event.workflow_run.conclusion != 'success'",'green gate runs take no watchdog machine');
   const gate=readWorkflow(root,'.github/workflows/showdown-gate.yml');
   assert.equal(gate.name,W.GATE_WORKFLOW_NAME);assert.ok(gate.jobs.seal&&gate.jobs.seal.name===W.SEAL_JOB_NAME);
   assert.equal(W.MAX_ATTEMPTS,3);
   const wdText=fs.readFileSync(path.join(root,'scripts/gate-watchdog.mjs'),'utf8');
   assert.doesNotMatch(wdText,/validate-pos10\.yml|validate-gameplay-fast\.yml/,'the watchdog never names the old workflows');
   ok('watchdog workflow');
+
+  // 5b. Factory board tick: yields to queued checks and never holds a machine for long.
+  const tick=readWorkflow(root,'.github/workflows/factory-board-tick.yml');
+  assert.equal(tick.name,'Factory board tick');
+  assert.deepEqual(tick.on,{schedule:[{cron:'*/5 * * * *'}],workflow_dispatch:null});
+  assert.deepEqual(tick.permissions,{contents:'write',actions:'read','pull-requests':'read',checks:'read',issues:'read'});
+  assert.deepEqual(tick.concurrency,{group:'factory-board-tick','cancel-in-progress':true});
+  const tickJob=Object.values(tick.jobs)[0];
+  assert.equal(tickJob['runs-on'],'ubuntu-24.04');assert.equal(tickJob['timeout-minutes'],3);
+  assert.equal(tickJob.steps[0].id,'yield');assert.match(tickJob.steps[0].run,/Validate POS20\|Validate Gameplay Fast\|Showdown Gate/);
+  for(const step of tickJob.steps.slice(1))assert.equal(step.if,"steps.yield.outputs.skip != '1'",`tick step "${step.label}" must yield`);
+  assert.doesNotMatch(JSON.stringify(tick),/sleep |gh workflow run/,'one round per tick: no sleep, no self-dispatch');
+  ok('factory board tick');
 
   // 6. gate-yield: yield when any Showdown Gate / Validate POS20 run or job is queued.
   assert.deepEqual(Y.PRIORITY_WORKFLOWS.map(w=>w.name),['Showdown Gate','Validate POS20']);
@@ -168,6 +182,18 @@ let checks=0;const ok=label=>{checks++;void label;};
   assert.equal(cmp.gate_pass_old_fail,true);assert.equal(cmp.gate_ran_superset,false);assert.deepEqual(cmp.missing_in_gate,['b']);
   const log='2026-10-05T20:00:00.0000000Z {\n2026-10-05T20:00:00.0000000Z   "profile": "POS20_DOC_ONLY",\n2026-10-05T20:00:00.0000000Z   "tests": [\n2026-10-05T20:00:00.0000000Z     "tests/contracts/x.cjs"\n2026-10-05T20:00:00.0000000Z   ],\n2026-10-05T20:00:00.0000000Z   "proofs": []\n';
   assert.deepEqual(C.parsePos20SelectorLog(log),{profile:'POS20_DOC_ONLY',tests:['tests/contracts/x.cjs'],proofs:[],operations:false});
+  assert.equal(C.compareHead({head,pos20:{...same,verdict:'INFRA'},gameplayFast:{verdict:'ABSENT',ran:[]},gate:{verdict:'PASS',profile:'COGNITIVE_FULL_SEAL',ran:['a','b']}}).comparable,false,'old-side infra failures are excluded from agreement');
+  const heads=n=>Array.from({length:n},(_,i)=>({head:String(i),comparable:true,full_seal:i<2,gate_ran_superset:true,gate_pass_old_fail:false}));
+  const canaries=[{gate:{verdict:'FAIL_TEST',run_attempt:1}},{gate:{verdict:'FAIL_TEST',run_attempt:1}}];
+  const infraOnce=[{run_attempt:2,watchdog_reruns:1}];
+  assert.equal(C.evaluateExitCriteria({comparisons:heads(10),canaries,infraRuns:infraOnce}).ready,true);
+  assert.equal(C.evaluateExitCriteria({comparisons:heads(9),canaries,infraRuns:infraOnce}).ready,false,'needs 10 real heads');
+  const oneFull=heads(10).map((c,i)=>({...c,full_seal:i===0}));
+  assert.equal(C.evaluateExitCriteria({comparisons:oneFull,canaries,infraRuns:infraOnce}).ready,false,'needs 2 full seals');
+  const disagree=heads(10);disagree[3].gate_pass_old_fail=true;
+  assert.equal(C.evaluateExitCriteria({comparisons:disagree,canaries,infraRuns:infraOnce}).ready,false,'any gate-pass/old-fail blocks the exit');
+  assert.equal(C.evaluateExitCriteria({comparisons:heads(10),canaries:[canaries[0],{gate:{verdict:'FAIL_TEST',run_attempt:2}}],infraRuns:infraOnce}).ready,false,'a re-run canary does not count');
+  assert.equal(C.evaluateExitCriteria({comparisons:heads(10),canaries,infraRuns:[{run_attempt:3,watchdog_reruns:2}]}).ready,false,'infra must be re-run exactly once');
   ok('gate-compare');
 
   console.log(`PASS Showdown Gate watchdog contracts (${checks} groups): recorded not-acquired selector is INFRA and re-run at most twice per head, a started TEST: failure is never re-run, only Showdown Gate is touched, the seal fails closed on draft, superseded, foreign-head, missing or narrowed lanes.`);

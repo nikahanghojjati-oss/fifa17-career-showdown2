@@ -943,6 +943,7 @@
       "patterns": [
         "^\\.github/workflows/showdown-gate\\.yml$",
         "^\\.github/workflows/gate-watchdog\\.yml$",
+        "^\\.github/workflows/factory-board-tick\\.yml$",
         "^scripts/gate-watchdog\\.mjs$",
         "^scripts/showdown-gate\\.mjs$",
         "^scripts/gate-yield\\.mjs$",
