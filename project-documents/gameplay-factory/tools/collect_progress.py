@@ -9,10 +9,26 @@ D = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "progress")
 r = subprocess.run(["gh", "api", f"repos/{REPO}/pulls?state=open&per_page=100"], capture_output=True, text=True)
 prs = json.loads(r.stdout) if r.returncode == 0 and r.stdout.strip() else []
 os.makedirs(D, exist_ok=True)
-for f in glob.glob(os.path.join(D, "job-*.json")):
+for f in glob.glob(os.path.join(D, "job-*.json")) + glob.glob(os.path.join(D, "v-*.json")):
     os.remove(f)
 best = {}
+vbest = {}  # Team V jobs: PR title starts with "V-" (for example "V-12: ..."); same progress block, own lane on the board
 for pr in prs:
+    vm = re.match(r"\s*(V-[\w.-]+?)[:\s]", pr.get("title") or "")
+    if vm:
+        m = re.search(r"```progress\s*\n(.*?)```", pr.get("body") or "", re.S)
+        try:
+            d = json.loads(m.group(1)) if m else {"steps": [{"name": "Progress block not added yet", "done": False}]}
+            assert isinstance(d["steps"], list) and d["steps"]
+        except Exception:
+            continue
+        d["job"] = vm.group(1)
+        d.setdefault("title", pr["title"][len(vm.group(1)):].lstrip(": "))
+        d.setdefault("updated", pr["updated_at"])
+        d["pr"] = pr["number"]
+        if d["job"] not in vbest or d["updated"] > vbest[d["job"]]["updated"]:
+            vbest[d["job"]] = d
+        continue
     m = re.search(r"```progress\s*\n(.*?)```", pr.get("body") or "", re.S)
     if not m:
         continue
@@ -28,6 +44,8 @@ for pr in prs:
         best[n] = d
 for n, d in best.items():
     json.dump(d, open(os.path.join(D, f"job-{n}.json"), "w"), indent=1)
+for n, d in vbest.items():
+    json.dump(d, open(os.path.join(D, f"v-{re.sub(r'[^A-Za-z0-9.-]', '_', n)}.json"), "w"), indent=1)
 # Live state of every job PR (open: draft / checks running / failing / green; merged), for the "Jobs still open" table.
 live = {}
 def pr_state(pr):
@@ -53,4 +71,4 @@ for pr in (json.loads(r2.stdout) if r2.returncode == 0 and r2.stdout.strip() els
     if m and pr.get("merged_at") and int(m.group(1)) not in live:
         live[int(m.group(1))] = {"pr": pr["number"], "state": "merged", "merged_at": pr["merged_at"], "title": pr["title"]}
 json.dump(live, open(os.path.join(D, "prs.json"), "w"), indent=1)
-print(len(best))
+print(len(best) + len(vbest))

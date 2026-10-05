@@ -1,8 +1,10 @@
 name: Gameplay factory progress poller
 
 # Keeps the "Running now" bars on BOARD.md, BUG_BOARD.md and CUSTOM_VIEW.html (the Custom view tab, copied as is) fresh with zero Claude usage. Job owners keep a progress block in their PR description (no push, no CI);
-# this reads it from the progress block in every open PR description (tools/collect_progress.py) every 3 minutes, rebuilds the board, and re-dispatches itself
-# while any progress file exists. It stops on its own when none exist; the board workflow restarts it on the next factory push.
+# this reads it from the progress block in every open PR description (tools/collect_progress.py) every 3 minutes, rebuilds the board, and re-dispatches itself.
+# Since 2026-10-05 it never stops: main, open live-fix PRs, Team V's V- PRs and the relay change without any push to this branch, so the
+# board went stale for 8 hours when the chain stopped. It commits when a fact changed, plus a heartbeat at least once an hour so the
+# "Updated" time on the Custom view stays honest. Public repo: Actions minutes are free; it costs no Claude usage.
 # (Schedules only run on the default branch, which this workflow deliberately never touches, so it chains itself instead.)
 on:
   push:
@@ -10,12 +12,15 @@ on:
     paths:
       - .github/workflows/gameplay-factory-progress.yml
       - project-documents/gameplay-factory/tools/collect_progress.py
+      - project-documents/gameplay-factory/tools/two_factories.py
+      - project-documents/gameplay-factory/tools/relay_page.py
   workflow_dispatch:
 
 permissions:
   contents: write
   actions: write
   pull-requests: read
+  issues: read
 
 concurrency:
   group: gameplay-factory-progress
@@ -42,13 +47,13 @@ jobs:
             git fetch -q origin factory/gameplay-v1
             git reset -q --hard origin/factory/gameplay-v1
             FOUND=$(python3 $B/tools/collect_progress.py)
-            python3 $B/tools/board.py; python3 $B/tools/bug_board.py >/dev/null; python3 $B/tools/custom_view.py >/dev/null
-            if git diff -U0 -- $B/BOARD.md $B/BUG_BOARD.md | grep '^[-+][^-+]' | grep -qv '· generated 20' || ! git ls-files --error-unmatch $B/CUSTOM_VIEW.html >/dev/null 2>&1; then
-              git add $B/BOARD.md $B/BOARD_ARCHIVE.md $B/BOARD_STATE.json $B/BUG_BOARD.md $B/CUSTOM_VIEW.html $B/TEAM_G_PROGRESS.json
+            python3 $B/tools/board.py; python3 $B/tools/bug_board.py >/dev/null; python3 $B/tools/relay_page.py >/dev/null; python3 $B/tools/custom_view.py >/dev/null
+            AGE=$(( $(date +%s) - $(git log -1 --format=%ct -- $B/CUSTOM_VIEW.html 2>/dev/null || echo 0) ))
+            if git diff -U0 -- $B/BOARD.md $B/BUG_BOARD.md $B/RELAY.md $B/CUSTOM_VIEW.html | grep '^[-+][^-+]' | grep -Ev '· generated 20|Updated [A-Z][a-z]{2} ' | grep -q . || ! git ls-files --error-unmatch $B/RELAY.md >/dev/null 2>&1 || [ "$AGE" -gt 3600 ]; then
+              git add $B/BOARD.md $B/BOARD_ARCHIVE.md $B/BOARD_STATE.json $B/BUG_BOARD.md $B/CUSTOM_VIEW.html $B/TEAM_G_PROGRESS.json $B/RELAY.md
               git commit -qm "Gameplay factory: progress bars update [skip ci]"
               git push -q origin HEAD:factory/gameplay-v1 || echo "push raced; next round retries"
             fi
-            [ "$FOUND" = "0" ] && break
-            sleep 180
+            [ "$round" = "8" ] || sleep 180
           done
-          if [ "$FOUND" != "0" ]; then gh workflow run gameplay-factory-progress.yml --ref factory/gameplay-v1; fi
+          gh workflow run gameplay-factory-progress.yml --ref factory/gameplay-v1

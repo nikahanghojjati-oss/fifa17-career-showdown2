@@ -1,11 +1,11 @@
 {
  "team": "G",
- "updated": "2026-10-05T08:47-04:00",
- "jobs_done": 30,
+ "updated": "2026-10-05T08:49-04:00",
+ "jobs_done": 33,
  "jobs_total": 33,
  "open_bugs": 2,
  "next_move": [
-  "**Nothing for you to start right now.**"
+  "**Play version 2.0 with Daniel on your phones** (G-F1). Tell the coordinator in the project chat about anything odd: gameplay bugs and visual bugs go to G Factory, real design changes become a hand-off to V Factory."
  ],
  "running": []
 }

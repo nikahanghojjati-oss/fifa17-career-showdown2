@@ -1,28 +1,24 @@
-# Team G gameplay board
+# Showdown board: G Factory and V Factory
 
-30 of 33 jobs done (90 %) █████████░ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-05 8:47 AM Boston time (EDT)
+33 of 33 jobs done (100 %) ██████████ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-05 8:49 AM Boston time (EDT)
 
 ## Scoreboard
 
-⚽ **30 of 33 jobs done** · 0 in play · 🐞 see [BUG_BOARD.md](BUG_BOARD.md) · 🏁 no finish time yet (not enough data)
-
-## ⚠ Stale status files
-
-GitHub is the truth; these status files disagree with the PR and need an update by their owner:
-
-* job 27: status file says not started, GitHub says merged (PR #362)
-* job 28: status file says blocked, GitHub says merged (PR #352)
-* job 29: status file says in progress, GitHub says merged (PR #357)
-* job 31: status file says not written, GitHub says merged (PR #350)
-* job 33: status file says not written, GitHub says merged (PR #358)
+⚽ **33 of 33 jobs done** · 0 in play · 🐞 see [BUG_BOARD.md](BUG_BOARD.md) · 🏁 no finish time yet (not enough data)
 
 🧑‍💼 **Gaffer:** no fresh report (last one 12:06 AM Boston time, 8 h old); see the [Gaffer page](https://claude.ai/artifact/33Pw2Bioktj1Nv7ebEM94Q).
 
+## Live now
+
+🌐 **main `00a1eb8` · runtime 1.9.1-r56** · last change Mon 5 Oct 8:47 AM Boston time: Version 2.0 polish from Nik's live review (r56) (#370)
+
+No live fix waiting to merge.
+
 ## Your next move
 
-1. **Nothing for you to start right now.**
+1. **Play version 2.0 with Daniel on your phones** (G-F1). Tell the coordinator in the project chat about anything odd: gameplay bugs and visual bugs go to G Factory, real design changes become a hand-off to V Factory.
 
-_Moving now:_ no job is running right now. _Next up:_ G-14 Acceptance: directive §12 and Sol's 8 proofs on the emulator, waits on nothing.
+_Moving now:_ no job is running right now.
 
 **Sol Work mode starter line** (copy it, change both `NN` to the job number, paste it as the first message):
 
@@ -48,35 +44,66 @@ From the read-only bug hunt on r52 (4 Oct; [report](https://github.com/nikahangh
 
 Small extras (cheap, optional): DONE in job 21: 'scoring remains locked' text now says SEASON COMMITTED · SCORE BELOW; NOT A BUG: Daniel/Nik fallbacks match the fixed roles (Daniel = Player One, Nik = Player Two); OPEN: raw error codes in the Setup settle text.
 
-## Team V relay
+## 🟢 G Factory
 
-26 messages in the [feed](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/FEED.md) · relay branch head `7de6ad1`, last push Mon 5 Oct 8:46 AM Boston time · synced.
+_Gameplay, online sync, every merge and every release (senior director)._
 
-- **Latest from Team G:** G2V-013 · Mon 5 Oct 1:01 AM Boston time · Version 2.0 is live on main (eb1ec8e, r54): all Team V screens shipped, gameplay fixes included, no new edits to your f…
-- **Latest from Team V:** V2G-017 · Mon 5 Oct 8:46 AM Boston time · Shared board adopted (Team V board retired, V- PRs with progress blocks from the next job); G2V-012 done (superseded, n…
+**Workers:** 🟧 Opus (Lead: decides, merges, ships; risky fixes) · 🟪 Sonnet (Bug hunts, audits, repros, board tools) · 🟨 Haiku (Copy and refresh chores) · 🟦 Sol chat (Triage, repro steps, PR review (no Claude usage)) · 🟩 Sol Work mode (Terminal and npm jobs, one bug at a time) · ⬜ Codex (Auto-review on every PR (out of usage since 5 Oct)) · 👤 Nik and Daniel (Real phones with Daniel: the only physical proof)
+
+| # | Future work | Worker | State | Waits on |
+| --- | --- | --- | --- | --- |
+| G-F1 | Nik and Daniel play 2.0 on their phones | 👤 Nik and Daniel | waiting on Nik | - |
+| G-F2 | Live 2.0 fixes from Nik's review (r55, r56 shipped; next in review) | 🟧 Opus | in progress | - |
+| G-F3 | Bug-hunting factory: one report thread, Sonnet hunts, Opus fixes, small batch releases | 🟪 Sonnet | queued | G-F1 and Nik's OK |
+| G-F4 | GPT Q&A team: scripted paths and code-vs-rulebook reads | 🟦 Sol chat | queued | G-F1 |
+| G-F5 | QA packet adoptions: truth line, wrong-target guard on main PRs, PR title rule | 🟪 Sonnet | ready | - |
+| G-F6 | Small gameplay follow-ups: transfer message after session expiry, raw error codes in Setup | 🟧 Opus | queued | G-F3 batch |
+| G-F7 | Ten-season smoothness run on live 2.0 (emulator, 10 seasons with a mid-game expiry) | 🟪 Sonnet | queued | G-F1 |
+| G-F8 | Commit and acknowledge a season in one tap (tap audit R7) | 🟧 Opus | needs Nik's call | Nik |
+| G-F9 | 72-character pairing code exchange (needs a Rules change) | 🟧 Opus | needs Nik's call | Nik's typed words |
+
+## 🔵 V Factory (Team V's own board features it)
+
+<sub>Visuals and presentation: design changes, art, screen skins (assistant director). Workers: 🟧 Opus (Visual lead: taste, final polish, checks) · 🟪 Sonnet (HTML/CSS builds from a clear spec) · 🟦 Sol chat (Truth sheets, text and checks (no Claude usage)) · 🟩 Sol Work mode (Work-mode builds) · 🟫 Astra (Rare senior review) · 🟥 Image tickets (ChatGPT image tickets (art, plates)) · ⬜ Codex (Package review)</sub>
+
+No Team V job is reporting yet (Team V jobs show here once a PR titled `V-…` carries a progress block). Board 1 (retired): 238 of 238 jobs done and checked · 100 % ([link](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/v1-wtt5ye/project-documents/factory/BOARD.md)).
+
+| # | Future work | Worker | State | Waits on |
+| --- | --- | --- | --- | --- |
+| V-F2 | Design changes from Nik and Daniel's 2.0 play-through (only real design changes; bugs stay with G) | 🟧 Opus | queued | G-F1 |
+| V-F3 | Visual check of live 2.0 against the approved package 5e05a1f | 🟪 Sonnet | proposed | Team V's call |
+
+<sub>Team V record so far: GPT-5.6 Sol (normal chat) 121 jobs (83 % first time) · Claude Sonnet 5.5 52 jobs (96 % first time) · Claude Opus 5.5 34 jobs (100 % first time) · Astra (Work mode) 9 jobs (100 % first time) · Image tickets (ChatGPT) 8 jobs (100 % first time) · Codex 7 jobs (100 % first time) · GPT-6.1 Sol (Work mode) 6 jobs (100 % first time)</sub>
+
+## 📡 Relay and hand-offs
+
+**Relay health:** ✅ working · 26 messages, 0 hand-offs · branch head `7de6ad1` (Mon 5 Oct 8:46 AM Boston time) · **[Read every message in full: RELAY.md](RELAY.md)**
+
+Latest messages:
+- V2G-017 · Mon 5 Oct 8:46 AM · Team V → Team G · Shared board adopted (Team V board retired, V- PRs with progress blocks from the next job); G2V-012…
+- G2V-013 · Mon 5 Oct 1:01 AM · Team G → Team V · Version 2.0 is live on main (eb1ec8e, r54): all Team V screens shipped, gameplay fixes included, no…
+- G2V-012 · Sun 4 Oct 8:47 PM · Team G → Team V · Wiring status (24, 25, 26, 30, 33 merged; 27, 28, 29 in checks) and how to build your own progress…
+- G2V-011 · Sun 4 Oct 6:11 PM · Team G → Team V · Pinned your package at 5e05a1f; job 24 loader + 6 grouped screen jobs (Codex builds, Claude checks)…
 
 **Open for the Team G lead to answer:** nothing.
+**Waiting on Team V:** nothing.
 
-Waiting on Team V: nothing.
+## G Factory jobs still open
 
-## Jobs still open
-
-| Job | What | Lane | Waits on | State |
-| --- | --- | --- | --- | --- |
-| G-14 | Acceptance: directive §12 and Sol's 8 proofs on the emulator | work | - | NOT WRITTEN |
-| G-15 | One real two-device run with Nik | nik | job 14 | NOT WRITTEN |
-| G-2i | [Fewer taps: audit the flow for steps we can safely drop](jobs/JOB-32.md) | lead | - | NOT WRITTEN |
+None. Every job is done.
 
 <details>
-<summary><b>Finished work: 30 jobs</b> (click to open)</summary>
+<summary><b>Finished work: 33 jobs</b> (click to open)</summary>
 
 - 0 Setup: 3 of 3 done
 - 1 Safety net: 8 of 8 done
 - 2 Career model: 5 of 5 done
 - 3 Career history: 4 of 4 done
+- DONE: 1 of 1 done
 - IN PROGRESS: 2 of 2 done
 - MERGED: 2 of 2 done
 - READY: 6 of 6 done
+- SKIPPED: 2 of 2 done
 
 Full list of every job with its state: [BOARD_ARCHIVE.md](BOARD_ARCHIVE.md).
 

@@ -1,6 +1,6 @@
 # Team G gameplay board: all jobs
 
-[Back to the board](BOARD.md) · generated 2026-10-05 8:47 AM Boston time (EDT)
+[Back to the board](BOARD.md) · generated 2026-10-05 8:49 AM Boston time (EDT)
 
 | # | G id | Job | Phase | Type | Lane | Depends on | Codex | Progress | State |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -21,8 +21,8 @@
 | 9 | G-9 | [Closed-Showdown adapter into the career model](jobs/JOB-09.md) | 3 Career history | build | work | 3, 8 |  | ██████████ 100 % | MERGED |
 | 10 | G-10 | [Transfer history, completed only](jobs/JOB-10.md) | 3 Career history | rules | work | 8 | yes | ██████████ 100 % | MERGED |
 | 13 | G-13 | [Part 1: Trophy Room and Career Statistics on the real career model](jobs/JOB-13.md) | MERGED | build | work | 4, 5, 6, 9 |  | ██████████ 100 % | MERGED |
-| 14 | G-14 | Acceptance: directive §12 and Sol's 8 proofs on the emulator | 4 Ship | test | work | 13 |  | ░░░░░░░░░░ 0 % | NOT WRITTEN |
-| 15 | G-15 | One real two-device run with Nik | 4 Ship | nik | nik | 14 |  | ░░░░░░░░░░ 0 % | NOT WRITTEN |
+| 14 | G-14 | Acceptance: directive §12 and Sol's 8 proofs on the emulator | SKIPPED | test | work | 13 |  | ██████████ 100 % | SKIPPED |
+| 15 | G-15 | One real two-device run with Nik | SKIPPED | nik | nik | 14 |  | ██████████ 100 % | SKIPPED |
 | 18 | G-2d | [Nik's pair code survives the pair-panel re-render](jobs/JOB-18.md) | 1 Safety net | build | chat | - |  | ██████████ 100 % | MERGED |
 | 19 | G-2e | [Resume a Shared Showdown after reload; closed Showdowns stay on Home](jobs/JOB-19.md) | 1 Safety net | fix | lead | - |  | ██████████ 100 % | MERGED |
 | 20 | G-2f | [A late season acknowledgement retries instead of failing](jobs/JOB-20.md) | 1 Safety net | fix | lead | - |  | ██████████ 100 % | MERGED |
@@ -35,5 +35,5 @@
 | 29 | G-13f | [Part 2f: Season Results, Final Winner and Standings](jobs/JOB-29.md) | READY | build | work | 24 | yes | ██████████ 100 % | MERGED |
 | 30 | G-13g | [Part 2g: Rule Book and Settings](jobs/JOB-30.md) | READY | build | work | 24 | yes | ██████████ 100 % | MERGED |
 | 31 | G-2h | [Ten-season games: session expiry, long-game limits, 10-season emulator run](jobs/JOB-31.md) | MERGED | build | lead | - |  | ██████████ 100 % | MERGED |
-| 32 | G-2i | [Fewer taps: audit the flow for steps we can safely drop](jobs/JOB-32.md) | DONE | audit | lead | - |  | ░░░░░░░░░░ 0 % | NOT WRITTEN |
+| 32 | G-2i | [Fewer taps: audit the flow for steps we can safely drop](jobs/JOB-32.md) | DONE | audit | lead | - |  | ██████████ 100 % | DONE |
 | 33 | G-2j | [Fewer taps: auto-refresh while waiting, skip hops, drop duplicate banners](jobs/JOB-33.md) | IN PROGRESS | build | lead | 32 |  | ██████████ 100 % | MERGED |

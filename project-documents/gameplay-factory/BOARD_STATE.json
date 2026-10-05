@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 8:47 AM Boston time (EDT)",
+ "generated": "2026-10-05 8:49 AM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 26,
@@ -265,14 +265,27 @@
   "open_for_v": [],
   "waiting": null
  },
+ "two": {
+  "live": {
+   "sha": "00a1eb8",
+   "revision": "1.9.1-r56",
+   "when": "2026-10-05T08:47:17-04:00",
+   "subject": "Version 2.0 polish from Nik's live review (r56) (#370)",
+   "fixes": []
+  },
+  "v_headline": "238 of 238 jobs done and checked · 100 %",
+  "v_jobs": [],
+  "tickets": [],
+  "relay_ok": true
+ },
  "branch": "factory/gameplay-v1",
  "integration_branch": "gameplay/recovery-v1",
  "capacity": {
   "chat": 2,
   "work": 1
  },
- "overall": 90,
- "done": 30,
+ "overall": 100,
+ "done": 33,
  "total": 33,
  "start": {
   "chat": [],
@@ -329,7 +342,7 @@
   }
  ],
  "next_move": [
-  "**Nothing for you to start right now.**"
+  "**Play version 2.0 with Daniel on your phones** (G-F1). Tell the coordinator in the project chat about anything odd: gameplay bugs and visual bugs go to G Factory, real design changes become a hand-off to V Factory."
  ],
  "jobs": [
   {
@@ -736,14 +749,14 @@
    "codex_review": false,
    "written": false,
    "waits_on": null,
-   "phase": "4 Ship",
+   "phase": "SKIPPED",
    "type": "test",
-   "plain": "Final acceptance run of every promised behaviour in the test database.",
-   "state": "NOT WRITTEN",
+   "plain": "Final acceptance run of every promised behaviour in the test database. Superseded 2026-10-05: SSJR is retired and version 2.0 is live; the real proof is Nik and Daniel playing 2.0 (G-F1).",
+   "state": "SKIPPED",
    "stale": null,
-   "step": 0,
+   "step": 1,
    "steps_total": 1,
-   "pct": 0,
+   "pct": 100,
    "ready": false
   },
   {
@@ -759,14 +772,14 @@
    "codex_review": false,
    "written": false,
    "waits_on": null,
-   "phase": "4 Ship",
+   "phase": "SKIPPED",
    "type": "nik",
-   "plain": "One real game on two phones with Daniel, to sign it off.",
-   "state": "NOT WRITTEN",
+   "plain": "One real game on two phones with Daniel, to sign it off. Superseded 2026-10-05: SSJR is retired and version 2.0 is live; the real proof is Nik and Daniel playing 2.0 (G-F1).",
+   "state": "SKIPPED",
    "stale": null,
-   "step": 0,
+   "step": 1,
    "steps_total": 1,
-   "pct": 0,
+   "pct": 100,
    "ready": false
   },
   {
@@ -939,7 +952,7 @@
    "type": "build",
    "plain": "Transfer window skinned; private inputs stay private; lock confirm and quiet retries kept. Lead helper (Opus); starts from job 24's branch; the lead checks each screen in a browser and merges.",
    "state": "MERGED",
-   "stale": "status file says not started, GitHub says merged (PR #362)",
+   "stale": null,
    "step": 7,
    "steps_total": 7,
    "pct": 100,
@@ -962,7 +975,7 @@
    "type": "build",
    "plain": "Same pattern as job 13 on the real career model; un-hides the last two Statistics buttons. Sol 6.1 Work mode, High; starts from job 24's branch; the lead checks each screen in a browser and merges.",
    "state": "MERGED",
-   "stale": "status file says blocked, GitHub says merged (PR #352)",
+   "stale": null,
    "step": 5,
    "steps_total": 5,
    "pct": 100,
@@ -985,7 +998,7 @@
    "type": "build",
    "plain": "Results and commit skinned (clash warning kept); winner reveal uses the reconciliation exactly. Sol Work mode; starts from job 24's branch; the lead checks each screen in a browser and merges.",
    "state": "MERGED",
-   "stale": "status file says in progress, GitHub says merged (PR #357)",
+   "stale": null,
    "step": 4,
    "steps_total": 4,
    "pct": 100,
@@ -1029,7 +1042,7 @@
    "type": "build",
    "plain": "A 10-season game now survives the 4-hour private session ending mid-game: one banner, one RECONNECT SESSION tap, Daniel hosts, Nik joins, both pages return by themselves. CI now plays 3 and 10 seasons with a mid-game expiry. PR #350, merged into recovery fb0dd02. Still open: the 72-character code exchange (needs a Rules change) and a misleading transfer message after expiry.",
    "state": "MERGED",
-   "stale": "status file says not written, GitHub says merged (PR #350)",
+   "stale": null,
    "step": 1,
    "steps_total": 1,
    "pct": 100,
@@ -1049,11 +1062,11 @@
    "phase": "DONE",
    "type": "audit",
    "plain": "Audit done: /mnt/project-files/gameplay/TAP_AUDIT_2026-10-04.md. 8 reductions; R1-R6 and R8 being built in job 33; R7 (commit + acknowledge in one tap) waits on Nik.",
-   "state": "NOT WRITTEN",
+   "state": "DONE",
    "stale": null,
-   "step": 0,
+   "step": 1,
    "steps_total": 1,
-   "pct": 0,
+   "pct": 100,
    "ready": false
   },
   {
@@ -1073,7 +1086,7 @@
    "type": "build",
    "plain": "About 13 fewer taps for Daniel and 6 for Nik over 3 seasons, plus no refresh taps. Every lock, publish, commit, acknowledge and close stays a manual tap. Lead helper (Opus).",
    "state": "MERGED",
-   "stale": "status file says not written, GitHub says merged (PR #358)",
+   "stale": null,
    "step": 1,
    "steps_total": 1,
    "pct": 100,

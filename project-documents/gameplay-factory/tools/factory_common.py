@@ -22,12 +22,17 @@ def running_jobs():
 
 LANES = {"sol-chat": ("🟦", "Sol chat"), "sol-work": ("🟩", "Sol Work mode"), "codex": ("⬜", "Codex"),
          "opus": ("🟧", "Opus"), "sonnet": ("🟪", "Sonnet"), "haiku": ("🟨", "Haiku")}
+# Lanes outside Nik's six colours (2026-10-05): Team V's senior reviewer, image tickets, and Nik on real phones.
+EXTRA_LANES = {"astra": ("🟫", "Astra"), "images": ("🟥", "Image tickets"), "nik": ("👤", "Nik and Daniel")}
+ALL_LANES = {**LANES, **EXTRA_LANES}
+HEX = {"Sol chat": "#7dd3fc", "Sol Work mode": "#22c55e", "Codex": "#ffffff", "Opus": "#f97316", "Sonnet": "#8b5cf6", "Haiku": "#facc15",
+       "Astra": "#a16207", "Image tickets": "#ef4444", "Nik and Daniel": "#f0d900"}
 
 
 def lane_of(r):
     w = str(r.get("worker", "")).lower().replace(" ", "-")
-    if w in LANES:
-        return LANES[w]
+    if w in ALL_LANES:
+        return ALL_LANES[w]
     o = str(r.get("owner", "")).lower()
     for k in ("sonnet", "opus", "haiku", "codex"):
         if k in o:

@@ -8,13 +8,14 @@ import json, os, re, sys, datetime, html
 from zoneinfo import ZoneInfo
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import eta as ETA
-from factory_common import F, running_jobs, lane_of, all_bugs, OPEN_BUG, pitch
+from factory_common import F, running_jobs, lane_of, all_bugs, OPEN_BUG, pitch, ALL_LANES, HEX as LANE_HEX
+import two_factories as TF
 
 BOS = ZoneInfo("America/New_York")
 BLOB = "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/"
 PR = "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/"
 # Lane colours Nik picked (2026-10-05): Sol chat light blue, Sol Work green, Codex white, Opus orange, Sonnet violet, Haiku yellow.
-HEX = {"Sol chat": "#7dd3fc", "Sol Work mode": "#22c55e", "Codex": "#ffffff", "Opus": "#f97316", "Sonnet": "#8b5cf6", "Haiku": "#facc15"}
+HEX = LANE_HEX
 e = html.escape
 
 
@@ -57,7 +58,7 @@ H = ["<style>"
      ".cv table{border-collapse:collapse;width:calc(100% - 24px);margin:0 12px}.cv td,.cv th{color:#fbfcfc;border-bottom:1px solid #43515b;padding:5px 6px;text-align:left;font-size:13px}.cv th{color:#8ea2ac !important;font-size:11px;text-transform:uppercase;letter-spacing:.08em}"
      ".cv a{color:#fbfcfc;text-decoration:underline}.cv code{background:#20272d;padding:0 4px;border-radius:3px}.cv .foot{margin:10px 14px 0}</style>",
      '<div class="cv">',
-     f'<div class="ban"><b>Team G · Career Mode Showdown tracker</b><span>Updated {now:%a %-d %b, %-I:%M %p} Boston time · <a href="{BLOB}BOARD.md">Job board</a> · <a href="{BLOB}BUG_BOARD.md">Bug board</a></span></div>',
+     f'<div class="ban"><b>Showdown · G Factory + V Factory</b><span>Updated {now:%a %-d %b, %-I:%M %p} Boston time · <a href="{BLOB}BOARD.md">Job board</a> · <a href="{BLOB}BUG_BOARD.md">Bug board</a> · <a href="{BLOB}RELAY.md">Relay</a></span></div>',
      f'<div class="tiles"><div class="tile"><b>{st["done"]}/{st["total"]}</b><span>Jobs done</span></div><div class="tile"><b>{len(rj0)}</b><span>In play</span></div><div class="tile"><b>{len(open_bugs)}</b><span>Open bugs</span></div></div>',
      f'<div class="m" style="margin:6px 14px 0;text-align:center">{ETA.whistle([ETA.describe(r) for _, r, _, _ in rj0])}</div>',
      "<h2>Your next move</h2>", '<div class="card move">' + "<br>".join(md(m) for m in st.get("next_move") or ["Nothing for you to start right now."]) + "</div>",
@@ -96,7 +97,44 @@ try:
     liveprs = {int(k): v for k, v in json.load(open(os.path.join(F, "progress", "prs.json"))).items()}
 except Exception:
     pass
-if REL.get("jobs"):
+TWO = st.get("two") or {}
+LV = TWO.get("live")
+H.append("<h2>Live now</h2>")
+if LV:
+    H.append(f'<div class="card">🌐 <b>main <code>{e(LV["sha"])}</code> · {e(LV["revision"])}</b> <span class="m">{e(TF.bos(LV["when"]))}</span><br>{e(LV["subject"][:110])}' +
+             "".join(f'<br>🔧 <a href="{PR}{x["pr"]}">PR #{x["pr"]}</a> {e(x["title"][:80])}' for x in LV["fixes"]) + "</div>")
+else:
+    H.append('<div class="card m">Could not read main this run.</div>')
+FAC = json.load(open(os.path.join(F, "BOARD.json"))).get("factories", {})
+def sq(lane):
+    return f'<span style="color:{HEX.get(ALL_LANES.get(lane, ("", lane))[1], "#9ca3af")}">■</span>'
+for key, colour in (("G", "#22c55e"), ("V", "#42b9da")):
+    f = FAC.get(key)
+    if not f:
+        continue
+    fut = [x for x in f["future"] if not str(x["state"]).lower().startswith("done")]
+    rows = "".join(f'<br>{sq(x["lane"])} <b>{e(x["id"])}</b> {e(x["title"][:70])} <span class="m">{e(x["state"])}</span>' for x in fut[:4])
+    extra = ""
+    if key == "V":
+        vj = TWO.get("v_jobs") or []
+        extra = "".join(f'<br>{sq("opus")} <b>{e(j["job"])}</b> {e(j["title"][:60])} <span class="pc" style="font-size:15px">{100 * j["done"] / max(j["total"], 1):.2f} %</span>' for j in vj) or '<br><span class="m">No V- job PR open right now.</span>'
+    H.append(f'<h2 style="border-left-color:{colour}">{e(f["name"])}</h2><div class="card"><span class="m">' + " ".join(sq(w["lane"]) for w in f["workers"]) + f' {len(f["workers"])} workers</span>{extra}{rows}' +
+             (f'<br><span class="m">and {len(fut) - 4} more on the board</span>' if len(fut) > 4 else "") + "</div>")
+H.append("<h2>Relay</h2>")
+TK = TWO.get("tickets") or []
+rel = st.get("relay") or {}
+ov = [t["id"] for t in TK if t.get("overdue")]
+H.append('<div class="card">' + ("✅ Relay working" if TWO.get("relay_ok") and not ov else "⚠ " + (", ".join(ov) + " not acknowledged" if ov else "wake comments unreadable")) +
+         f' <span class="m">{rel.get("count", 0)} messages · {len(TK)} hand-offs</span>')
+STEP = ["SENT", "DELIVERED", "RECEIVED", "WORKING", "DONE"]
+for t in TK[::-1][:4]:
+    k = STEP.index(t["stage"]) if t["stage"] in STEP else 0
+    dots = "".join("🟢" if i <= k else "⚪" for i in range(5))
+    H.append(f'<br>{dots} <b>{e(t["id"])}</b> {e(t.get("from") or "?")}→{e(t.get("to") or "?")} {e(t["title"][:50])} <span class="m">{e(TF.STAGE_WORD.get(t["stage"], t["stage"]))}' + (f' {t["pct"]:.0f} %' if t["stage"] == "WORKING" else "") + "</span>")
+for m in (rel.get("rows") or [])[-3:][::-1]:
+    H.append(f'<br><span class="m">{e(m["id"])} · {e(m["boston"])} · {e(m["subject"][:70])}</span>')
+H.append(f'<br><a href="{BLOB}RELAY.md">Every message in full</a></div>')
+if REL.get("jobs") and not REL.get("done"):
     rn = len(REL["jobs"])
     rd = sum(1 for j in REL["jobs"] if liveprs.get(j, {}).get("state") == "merged" or any(x["number"] == j and (x["state"] in ("DONE", "MERGED") or x.get("phase") in ("DONE", "MERGED")) for x in st["jobs"]))
     H.append(f'<div class="card"><b>🏆 Road to {e(REL.get("name", "the release"))}: {rd} of {rn} jobs in recovery</b><br>'
@@ -108,7 +146,7 @@ except Exception:
     pass
 PRSTATE = {"merged": None, "green": "Checks green, waiting for the lead to merge", "running": "Checks running", "failing": "Fixing failing checks", "draft": "Draft PR", "open": "PR open"}
 rep = {n for n, *_ in rj}
-H.append("<h2>Jobs still open</h2><table><tr><th>Job</th><th>What</th><th>State</th></tr>")
+_open_rows = []
 for j in st["jobs"]:
     n = j["number"]
     lv = live.get(n)
@@ -122,10 +160,11 @@ for j in st["jobs"]:
         state = "In progress"
     else:
         state = {"NOT WRITTEN": "Not started", "NOT STARTED": "Not started"}.get(j["state"], j["state"].capitalize())
-    H.append(f'<tr><td>{e(j["key"])}</td><td>{e(j["title"])}</td><td>{e(state)}</td></tr>')
-H.append("</table>")
+    _open_rows.append(f'<tr><td>{e(j["key"])}</td><td>{e(j["title"])}</td><td>{e(state)}</td></tr>')
+if _open_rows:
+    H += ["<h2>G jobs still open</h2><table><tr><th>Job</th><th>What</th><th>State</th></tr>"] + _open_rows + ["</table>"]
 landed = sorted([(v.get("merged_at", ""), n, v) for n, v in liveprs.items() if v.get("state") == "merged" and v.get("merged_at")], reverse=True)[:4]
-if landed:
+if landed and False:  # "Live now" carries what is on main; recovery merges are history since 2.0
     H.append("<h2>Landed recently</h2><table>")
     for ts, n, v in landed:
         H.append(f'<tr><td>{boston(ts)}</td><td><a href="{PR}{v["pr"]}">{e(v.get("title", ""))}</a></td></tr>')
