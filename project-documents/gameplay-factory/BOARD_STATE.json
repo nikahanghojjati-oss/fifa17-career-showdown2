@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 8:55 AM Boston time (EDT)",
+ "generated": "2026-10-05 8:56 AM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 27,
@@ -423,7 +423,7 @@
   }
  ],
  "next_move": [
-  "**Play version 2.0 with Daniel on your phones** (G-F1). Tell the coordinator in the project chat about anything odd: gameplay bugs and visual bugs go to G Factory, real design changes become a hand-off to V Factory."
+  "**Play r56 with Daniel** (close and reopen the app once). Report anything odd to the coordinator in the project chat."
  ],
  "jobs": [
   {

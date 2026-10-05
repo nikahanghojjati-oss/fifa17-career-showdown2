@@ -1,6 +1,6 @@
 # Showdown board: G Factory and V Factory
 
-33 of 33 jobs done (100 %) ██████████ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-05 8:55 AM Boston time (EDT)
+33 of 33 jobs done (100 %) ██████████ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-05 8:56 AM Boston time (EDT)
 
 ## Scoreboard
 
@@ -24,7 +24,7 @@ No live fix waiting to merge.
 
 ## Your next move
 
-1. **Play version 2.0 with Daniel on your phones** (G-F1). Tell the coordinator in the project chat about anything odd: gameplay bugs and visual bugs go to G Factory, real design changes become a hand-off to V Factory.
+1. **Play r56 with Daniel** (close and reopen the app once). Report anything odd to the coordinator in the project chat.
 
 _Moving now:_ no job is running right now.
 
@@ -61,11 +61,13 @@ _Gameplay, online sync, every merge and every release (senior director)._
 | # | Future work | Worker | State | Waits on |
 | --- | --- | --- | --- | --- |
 | G-F1 | Nik and Daniel play 2.0 on their phones | 👤 Nik and Daniel | waiting on Nik | - |
-| G-F10 | Club Assignment: wire Team V's approved design (hands, seams, new layout) into the live screen | 🟧 Opus | next | the lead's plan |
+| G-F10 | Club Assignment: wire Team V's approved design (hands, seams, new layout) into the live screen | 🟧 Opus | in progress | - |
+| G-F5 | QA packet adoptions: truth line, wrong-target guard on main PRs, PR title rule | 🟪 Sonnet | next | G-F10's PR open |
+| G-F6 | Small gameplay follow-ups: transfer message after session expiry, raw error codes in Setup, 'Career screens could not load' toast when the online history is only unavailable | 🟩 Sol Work mode | ready | - |
+| G-F11 | Old-design CSS collisions: scope old rulebook/settings/analytics/app CSS off Team V markup (about 70 shared class names) | 🟪 Sonnet | queued (Sonnet audit, then Opus fix) | HO-004 findings |
+| G-F12 | No player photos on League and Club; hidden photos stop downloading under Team V skins | 🟪 Sonnet | queued | Nik's OK (he named Start only; Team V truth says no photos anywhere) |
 | G-F3 | Bug-hunting factory: one report thread, Sonnet hunts, Opus fixes, small batch releases | 🟪 Sonnet | queued | G-F1 and Nik's OK |
 | G-F4 | GPT Q&A team: scripted paths and code-vs-rulebook reads | 🟦 Sol chat | queued | G-F1 |
-| G-F5 | QA packet adoptions: truth line, wrong-target guard on main PRs, PR title rule | 🟪 Sonnet | ready | - |
-| G-F6 | Small gameplay follow-ups: transfer message after session expiry, raw error codes in Setup | 🟧 Opus | queued | G-F3 batch |
 | G-F7 | Ten-season smoothness run on live 2.0 (emulator, 10 seasons with a mid-game expiry) | 🟪 Sonnet | queued | G-F1 |
 | G-F8 | Commit and acknowledge a season in one tap (tap audit R7) | 🟧 Opus | needs Nik's call | Nik |
 | G-F9 | 72-character pairing code exchange (needs a Rules change) | 🟧 Opus | needs Nik's call | Nik's typed words |
@@ -83,7 +85,6 @@ No Team V job is reporting yet (Team V jobs show here once a PR titled `V-…` c
 | HO-003 | Header chips and footer design on Team V screens (hand-off) | 🟧 Opus | Delivered | Team V |
 | HO-004 | Visual QA: live 2.0 screens vs approved frames (hand-off) | 🟪 Sonnet | Delivered | Team V |
 | V-F2 | Design changes from Nik and Daniel's 2.0 play-through (only real design changes; bugs stay with G) | 🟧 Opus | queued | G-F1 |
-| V-F3 | Visual check of live 2.0 against the approved package 5e05a1f | 🟪 Sonnet | proposed | Team V's call |
 
 ## 📡 Relay and hand-offs
 

@@ -675,15 +675,36 @@
      "id": "G-F10",
      "title": "Club Assignment: wire Team V's approved design (hands, seams, new layout) into the live screen",
      "lane": "opus",
-     "state": "next",
-     "waits_on": "the lead's plan"
+     "state": "in progress",
+     "waits_on": ""
     },
     {
-     "id": "G-F2",
-     "title": "Live 2.0 fixes from Nik's review: r55 and r56 shipped today (list in Live now)",
-     "lane": "opus",
-     "state": "done for r56",
+     "id": "G-F5",
+     "title": "QA packet adoptions: truth line, wrong-target guard on main PRs, PR title rule",
+     "lane": "sonnet",
+     "state": "next",
+     "waits_on": "G-F10's PR open"
+    },
+    {
+     "id": "G-F6",
+     "title": "Small gameplay follow-ups: transfer message after session expiry, raw error codes in Setup, 'Career screens could not load' toast when the online history is only unavailable",
+     "lane": "sol-work",
+     "state": "ready",
      "waits_on": ""
+    },
+    {
+     "id": "G-F11",
+     "title": "Old-design CSS collisions: scope old rulebook/settings/analytics/app CSS off Team V markup (about 70 shared class names)",
+     "lane": "sonnet",
+     "state": "queued (Sonnet audit, then Opus fix)",
+     "waits_on": "HO-004 findings"
+    },
+    {
+     "id": "G-F12",
+     "title": "No player photos on League and Club; hidden photos stop downloading under Team V skins",
+     "lane": "sonnet",
+     "state": "queued",
+     "waits_on": "Nik's OK (he named Start only; Team V truth says no photos anywhere)"
     },
     {
      "id": "G-F3",
@@ -698,20 +719,6 @@
      "lane": "sol-chat",
      "state": "queued",
      "waits_on": "G-F1"
-    },
-    {
-     "id": "G-F5",
-     "title": "QA packet adoptions: truth line, wrong-target guard on main PRs, PR title rule",
-     "lane": "sonnet",
-     "state": "ready",
-     "waits_on": ""
-    },
-    {
-     "id": "G-F6",
-     "title": "Small gameplay follow-ups: transfer message after session expiry, raw error codes in Setup",
-     "lane": "opus",
-     "state": "queued",
-     "waits_on": "G-F3 batch"
     },
     {
      "id": "G-F7",
@@ -733,6 +740,13 @@
      "lane": "opus",
      "state": "needs Nik's call",
      "waits_on": "Nik's typed words"
+    },
+    {
+     "id": "G-F2",
+     "title": "Live 2.0 fixes from Nik's review: r55 and r56 shipped today (list in Live now)",
+     "lane": "opus",
+     "state": "done for r56",
+     "waits_on": ""
     }
    ]
   },
@@ -788,13 +802,13 @@
      "id": "V-F3",
      "title": "Visual check of live 2.0 against the approved package 5e05a1f",
      "lane": "sonnet",
-     "state": "proposed",
+     "state": "done (sent as HO-004)",
      "waits_on": "Team V's call"
     }
    ]
   }
  },
  "next_move": [
-  "**Play version 2.0 with Daniel on your phones** (G-F1). Tell the coordinator in the project chat about anything odd: gameplay bugs and visual bugs go to G Factory, real design changes become a hand-off to V Factory."
+  "**Play r56 with Daniel** (close and reopen the app once). Report anything odd to the coordinator in the project chat."
  ]
 }
