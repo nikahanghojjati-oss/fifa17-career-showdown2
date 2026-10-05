@@ -193,3 +193,13 @@ Your job is only DONE when the lead can merge it without re-testing it.
 | Emulator pair tests fail with `PERMISSION_DENIED … L2428` locally | `npm run test:contracts` rewrote `firestore.spark.generated.rules` without the pair fragment. Rebuild with `node scripts/build-production-firestore-rules.mjs && node scripts/build-production-firestore-rules-with-persistent-pair.mjs`. |
 | You run out of room mid-job | Save at the last finished step and tell Nik: `Open a new chat and type N; it continues from step k+1.` |
 | You remember an older Showdown process from ChatGPT memory | Ignore it. This handbook and the job file are the only rules here. |
+
+## 9b. Checks and the Physio (5 Oct 2026, relay HO-009)
+
+```
+CHECKS AND THE PHYSIO (5 Oct 2026). The repo has automatic CI checks ("gates") and a check watchdog called Showdown Gate Physio. Both belong to the project. They are not contamination, not part of your job, and not yours to fix.
+- The gates: Validate POS20 (its last step is "POS20 exact-head cognitive seal"), Validate Gameplay Fast, and the new Showdown Gate (six lanes, L1 to L6). The Physio re-runs a check only when GitHub gave it no machine, at most twice. It reports ALL_CLEAR, BARKING or STUCK, and BARKING is normal. It never edits your branch.
+- Their files: .github/workflows/, scripts/gate-watchdog.mjs, scripts/gate-preempt.mjs, scripts/physio-status.mjs, POS20_*.json, tests/contracts/, tests/support/, tests/operations/. Never delete, revert, edit, rename, disable or skip any of them, and never re-run, trigger or wait on a check.
+- If your branch or PR shows files you did not write, they came from a newer main than the PR base. Leave them alone. Either open the PR anyway and name those files in your status note ("from main, not mine, untouched"), or make a new branch from the PR base and re-apply only your own change. Never delete a branch.
+- A red or missing check is the lead's job. Finish your job and end with "the lead checks CI".
+```
