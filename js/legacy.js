@@ -494,6 +494,13 @@ function renderLegacy(request = false){
     const identityState = identity && typeof identity.getState === "function" ? identity.getState() : null;
     const source = seam.selectCareerScreenSource({ identityState, model: legacyModel });
     if(source !== "local"){
+        if(typeof window.openRivalryLegacyV10 === "function"){
+            window.openRivalryLegacyV10("legacy", () => legacyModel);
+        }else if(typeof window.loadRuntimeScript === "function"){
+            window.loadRuntimeScript("rivalry-legacy-v10", "js/rivalryLegacyV10.js", () => Boolean(window.CareerModeRivalryLegacyV10))
+                .then(() => window.CareerModeRivalryLegacyV10.mount("legacy", () => legacyModel))
+                .catch(error => window.reportApplicationError?.("History screen could not load", error));
+        }
         seamContainer.replaceChildren(seam.paintCareerScreenView(document, seam.careerScreenView("legacy", source === "model" ? legacyModel : null)));
         lastLegacyRenderedRevision = null;
         return;

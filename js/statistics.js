@@ -31,6 +31,15 @@ function openCareerScreensV10(screen){
         .catch(error => { if(typeof window.reportApplicationError === "function"){ window.reportApplicationError("Career screens could not load", error); } });
 }
 
+// JOB-28: the same live model seam, now drawn through the shared lazy loader.
+function openRivalryLegacyV10(screen, getModel){
+    if(typeof window.loadRuntimeScript !== "function"){ return; }
+    window.loadRuntimeScript("rivalry-legacy-v10", "js/rivalryLegacyV10.js", () => Boolean(window.CareerModeRivalryLegacyV10))
+        .then(() => window.CareerModeRivalryLegacyV10.mount(screen, getModel))
+        .catch(error => window.reportApplicationError?.("History and rivalry screens could not load", error));
+}
+window.openRivalryLegacyV10 = openRivalryLegacyV10;
+
 function readCareerIdentityState(){
     const identity = window.CareerModeOnlinePlayerIdentity;
     return identity && typeof identity.getState === "function" ? identity.getState() : null;
@@ -602,6 +611,7 @@ function openRivalryStatistics(request = false){
     createStatisticsScreen();
     renderRivalryStatistics(request);
     showScreen("statistics");
+    openRivalryLegacyV10("rivalryStatistics", () => rivalryStatisticsModel);
 }
 
 window.renderCareerStatistics = renderCareerStatistics;
