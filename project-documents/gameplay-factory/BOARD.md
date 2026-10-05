@@ -1,21 +1,22 @@
 # Showdown board: G Factory and V Factory
 
-33 of 33 jobs done (100 %) ██████████ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-05 2:50 PM Boston time (EDT)
+33 of 33 jobs done (100 %) ██████████ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-05 2:54 PM Boston time (EDT)
 
 ## Scoreboard
 
-⚽ **33 of 33 jobs done** · 0 in play · 🐞 see [BUG_BOARD.md](BUG_BOARD.md) · 🏁 last running job likely done about 2:42 PM Boston time
+⚽ **33 of 33 jobs done** · 0 in play · 🐞 see [BUG_BOARD.md](BUG_BOARD.md) · 🏁 no finish time yet (not enough data)
 
 🧑‍💼 **Gaffer:** no fresh report (last one 12:06 AM Boston time, 14 h old); see the [Gaffer page](https://claude.ai/artifact/33Pw2Bioktj1Nv7ebEM94Q).
 
 ## Live now
 
-🌐 **main `0208032` · runtime 1.9.1-r59** · last change Mon 5 Oct 1:55 PM Boston time: Release r59: Team V screen fixes HO-003 + HO-004, includes r58 ghost coat fix (#377)
+🌐 **main `d8e6c44` · runtime 1.9.1-r60** · last change Mon 5 Oct 2:51 PM Boston time: Release r60: no old player photos, seven Home tiles, 11-track soundtrack, phone tile icons (#378)
 
-- 🔧 Live fix in review: [PR #378](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/378) G-36: No old player photos + seven Home tiles (r60)
+- 🔧 Live fix in review: [PR #383](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/383) Phone track list: stop below the logo and scroll (r61)
 
-**Shipped to the live game today (7):**
+**Shipped to the live game today (8):**
 
+- ✅ 2:51 PM · [PR #378](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/378) G-36: No old player photos + seven Home tiles (r60)
 - ✅ 1:55 PM · [PR #377](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/377) G-35: Team V screen fixes HO-003 + HO-004 (r59, includes r58)
 - ✅ 11:47 AM · [PR #371](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/371) G-34: Team V's Club Assignment on the live screen (r57)
 - ✅ 8:47 AM · [PR #369](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/369) Live 2.0 screen fixes: Trophy Room clipping, Start Showdown art, Continue Career 17 player
@@ -38,15 +39,7 @@ Gameplay factory job NN. Read https://raw.githubusercontent.com/nikahanghojjati-
 
 ## Running now
 
-<sub>Percent = finished steps weighted by typical step time, finish times are estimates ([how](ETA_STUDY.md)). Lanes: 🟦 Sol chat · 🟩 Sol Work mode · ⬜ Codex · 🟧 Opus · 🟪 Sonnet · 🟨 Haiku</sub>
-
-### 🟧 Job 36 · No old player photos + seven Home tiles (r60) · 38.0678 %
-
-🟧🟧🟧🟧🟧🟧🟧⚽▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️ 🥅  
-Opus · Lead · [PR #378](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/378) · 3 of 5 steps · updated Mon 5 Oct 2:10 PM Boston time  
-🏁 **Likely finish:** about 2:42 PM (likely 2:27 PM to 3:05 PM) Boston time  
-> **Now:** Gates running on the exact head  
-> **Left:** All 16 checks green on the exact head → Merged into main and live
+No job is reporting progress right now (jobs show here once their PR description carries a progress block).
 
 ## Live fixes and bug hunt
 

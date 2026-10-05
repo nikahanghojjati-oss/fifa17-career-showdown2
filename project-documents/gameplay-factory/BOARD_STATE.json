@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 2:51 PM Boston time (EDT)",
+ "generated": "2026-10-05 2:54 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -313,20 +313,25 @@
  },
  "two": {
   "live": {
-   "sha": "0208032",
-   "revision": "1.9.1-r59",
-   "when": "2026-10-05T17:55:28Z",
-   "subject": "Release r59: Team V screen fixes HO-003 + HO-004, includes r58 ghost coat fix (#377)",
+   "sha": "d8e6c44",
+   "revision": "1.9.1-r60",
+   "when": "2026-10-05T18:51:23Z",
+   "subject": "Release r60: no old player photos, seven Home tiles, 11-track soundtrack, phone tile icons (#378)",
    "fixes": [
     {
-     "pr": 378,
-     "title": "G-36: No old player photos + seven Home tiles (r60)",
+     "pr": 383,
+     "title": "Phone track list: stop below the logo and scroll (r61)",
      "draft": false,
-     "branch": "gameplay/job-36-photos-and-home-tiles",
-     "updated": "2026-10-05T18:40:17Z"
+     "branch": "fix/music-phone-sheet",
+     "updated": "2026-10-05T18:54:24Z"
     }
    ],
    "today": [
+    {
+     "pr": 378,
+     "title": "G-36: No old player photos + seven Home tiles (r60)",
+     "merged": "2026-10-05T18:51:24Z"
+    },
     {
      "pr": 377,
      "title": "G-35: Team V screen fixes HO-003 + HO-004 (r59, includes r58)",
