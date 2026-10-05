@@ -1,0 +1,32 @@
+/* HO-003 (Team V spec, job V-246): the app header and footer on Team V screens other than Home and setup.
+   Replaces the r56 block "Team V screens other than Home and setup" in css/v10Shell.css (the #topHeader, chip and footer rules).
+   Desktop: the two chips sit inside the top navigation bar, right side, just left of the Settings gear, so they never
+   touch a screen's title, crown or counts. Phone: the stage screens need their top band for title and crown, so the chips
+   are visually hidden (screen readers keep them; keyboard focus brings them back); the account stays reachable in Settings
+   and Home keeps its chips. Footer: visually hidden on these screens (the version is shown in Settings). */
+html[data-v10-screen]:not([data-v10-setup]) #app #topHeader {
+  position: fixed; z-index: 41; left: auto; right: 84px; top: calc((var(--sd-nav-top-h, 52px) - 28px) / 2);
+  width: auto; height: auto; min-height: 0; display: flex; align-items: center; gap: 6px; padding: 0;
+  background: none; border: 0; box-shadow: none;
+}
+html[data-v10-screen]:not([data-v10-setup]) #app #topHeader .brand { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+html[data-v10-screen]:not([data-v10-setup]) #app #topHeader #onlinePlayerIdentityBadge,
+html[data-v10-screen]:not([data-v10-setup]) #app #topHeader #seasonIndicator {
+  margin: 0 !important; min-height: 28px; box-sizing: border-box; padding: 0 10px !important; display: inline-flex; align-items: center;
+  font: 600 12px/1 var(--sd-font-condensed, "Barlow Condensed", sans-serif) !important; letter-spacing: .1em; text-transform: uppercase;
+  color: #ece6d6 !important; background: #0d0f13 !important; border: 1px solid rgba(242,196,91,.45) !important; border-radius: 2px; box-shadow: none;
+}
+html[data-v10-screen]:not([data-v10-setup]) #app #topHeader #onlinePlayerIdentityBadge { color: #f2c45b !important; cursor: pointer; }
+html[data-v10-screen]:not([data-v10-setup]) #app #topHeader #onlinePlayerIdentityBadge:hover,
+html[data-v10-screen]:not([data-v10-setup]) #app #topHeader #onlinePlayerIdentityBadge:focus-visible { border-color: #f2c45b !important; outline: none; box-shadow: 0 0 0 2px rgba(242,196,91,.35); }
+html[data-v10-screen]:not([data-v10-setup]) #app #topHeader #seasonIndicator::before,
+html[data-v10-screen]:not([data-v10-setup]) #app #topHeader #seasonIndicator::after { content: none; }
+html[data-v10-screen]:not([data-v10-setup]) #app > footer {
+  position: absolute; width: 1px; height: 1px; min-height: 0; margin: -1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0;
+}
+@media (max-width: 900px) {
+  html[data-v10-screen]:not([data-v10-setup]) #app #topHeader { left: 10px; right: auto; top: max(10px, env(safe-area-inset-top)); }
+  html[data-v10-screen]:not([data-v10-setup]) #app #topHeader:not(:focus-within) {
+    width: 1px; height: 1px; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap;
+  }
+}
