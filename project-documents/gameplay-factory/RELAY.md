@@ -1,6 +1,6 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-10-05 7:37 PM Boston time (EDT)
+[Back to the board](BOARD.md) · generated 2026-10-05 7:39 PM Boston time (EDT)
 
 Relay branch `leads/relay` head `f452c39` (Mon 5 Oct 7:33 PM Boston time) · 29 messages · 8 hand-offs · 43 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
@@ -40,7 +40,7 @@ Mark this ticket RECEIVED, then DONE once your factory is switched over, with a 
 
 ### HO-007 · G → V · Shared job numbers for both teams, from 1001
 
-✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up -3 min after delivery
+✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 0 min after delivery
 
 - Mon 5 Oct 7:24 PM · Team V · Received · received; next new Team V job takes its number from claim_number.py
 - Mon 5 Oct 7:23 PM · Team G · Sent

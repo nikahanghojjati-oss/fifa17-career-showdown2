@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 7:38 PM Boston time (EDT)",
+ "generated": "2026-10-05 7:39 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -315,7 +315,7 @@
   "live": {
    "sha": "84a04d8",
    "revision": "1.9.1-r61",
-   "when": "2026-10-05T23:37:11+00:00",
+   "when": "2026-10-05T23:37:11Z",
    "subject": "Physio sweep: skip a watched workflow that is not on main instead of failing (#387)",
    "fixes": [
     {
@@ -323,11 +323,11 @@
      "title": "Showdown Gate (shadow): six-lane check beside POS20, not required yet",
      "draft": false,
      "branch": "ci/showdown-gate-shadow",
-     "sha": "17754a6d1f4dfe685c135119ca1fbe7b62065dbb",
-     "updated": "2026-10-05T23:21:28Z",
+     "sha": "1a040366cd39690d4daf9fe2c9c354a4839de998",
+     "updated": "2026-10-05T23:38:47Z",
      "gates": {
-      "passed": 23,
-      "running": 0,
+      "passed": 1,
+      "running": 20,
       "failed": 0,
       "cancelled": 0
      }
@@ -407,8 +407,8 @@
   },
   "physio": {
    "state": "barking",
-   "line": "Barking: POS20 on #312 has waited 2 min for a machine.",
-   "gate": "POS20 #387 16/16",
+   "line": "Barking: Gameplay Fast has waited 2 min for a machine; POS20 has waited 2 min for a machine.",
+   "gate": "Gate #386: L1✓ L2✓ L3✓ L4✓ L5✓ L6✓ · seal PASS · POS20 #386 16/16",
    "source": "physio"
   },
   "v_headline": "Board 1 (visual package): 238 of 238 jobs done and checked",
@@ -780,11 +780,11 @@
     "title": "Showdown Gate (shadow): six-lane check beside POS20, not required yet",
     "draft": false,
     "branch": "ci/showdown-gate-shadow",
-    "sha": "17754a6d1f4dfe685c135119ca1fbe7b62065dbb",
-    "updated": "2026-10-05T23:21:28Z",
+    "sha": "1a040366cd39690d4daf9fe2c9c354a4839de998",
+    "updated": "2026-10-05T23:38:47Z",
     "gates": {
-     "passed": 23,
-     "running": 0,
+     "passed": 1,
+     "running": 20,
      "failed": 0,
      "cancelled": 0
     }
