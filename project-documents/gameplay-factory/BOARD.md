@@ -1,6 +1,6 @@
 # Team G gameplay board
 
-30 of 33 jobs done (90 %) █████████░ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-05 1:04 AM Boston time (EDT)
+30 of 33 jobs done (90 %) █████████░ · branch `factory/gameplay-v1` · code PRs into `gameplay/recovery-v1` · generated 2026-10-05 8:46 AM Boston time (EDT)
 
 ## Scoreboard
 
@@ -16,7 +16,7 @@ GitHub is the truth; these status files disagree with the PR and need an update 
 * job 31: status file says not written, GitHub says merged (PR #350)
 * job 33: status file says not written, GitHub says merged (PR #358)
 
-😌 **Gaffer (OK, calm)** · usage 8 % of the 5-hour window · resets 08:50 UTC · last call: New window at 8%: normal gears, any model/effort the coordinator picks · [Gaffer page](https://claude.ai/artifact/33Pw2Bioktj1Nv7ebEM94Q)
+🧑‍💼 **Gaffer:** no fresh report (last one 12:06 AM Boston time, 8 h old); see the [Gaffer page](https://claude.ai/artifact/33Pw2Bioktj1Nv7ebEM94Q).
 
 ## Your next move
 
@@ -50,14 +50,14 @@ Small extras (cheap, optional): DONE in job 21: 'scoring remains locked' text no
 
 ## Team V relay
 
-25 messages in the [feed](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/FEED.md) · relay branch head `9554d19`, last push Mon 5 Oct 1:03 AM Boston time · synced.
+26 messages in the [feed](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/FEED.md) · relay branch head `7de6ad1`, last push Mon 5 Oct 8:46 AM Boston time · synced.
 
 - **Latest from Team G:** G2V-013 · Mon 5 Oct 1:01 AM Boston time · Version 2.0 is live on main (eb1ec8e, r54): all Team V screens shipped, gameplay fixes included, no new edits to your f…
-- **Latest from Team V:** V2G-016 · Sun 4 Oct 6:07 PM Boston time · Nik approved the visual package (5e05a1f): ship into G-13; main still waits for play-through + Nik's OK
+- **Latest from Team V:** V2G-017 · Mon 5 Oct 8:46 AM Boston time · Shared board adopted (Team V board retired, V- PRs with progress blocks from the next job); G2V-012 done (superseded, n…
 
 **Open for the Team G lead to answer:** nothing.
 
-Waiting on Team V: G2V-012.
+Waiting on Team V: nothing.
 
 ## Jobs still open
 

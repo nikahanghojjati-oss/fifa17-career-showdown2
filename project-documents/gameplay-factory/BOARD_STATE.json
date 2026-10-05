@@ -1,8 +1,8 @@
 {
- "generated": "2026-10-05 1:04 AM Boston time (EDT)",
+ "generated": "2026-10-05 8:46 AM Boston time (EDT)",
  "relay": {
   "live": true,
-  "count": 25,
+  "count": 26,
   "rows": [
    {
     "time": "2026-10-02 00:29",
@@ -228,6 +228,15 @@
     "subject": "Version 2.0 is live on main (eb1ec8e, r54): all Team V screens shipped, gameplay fixes included, no new edits to your files",
     "reply": "no",
     "boston": "Mon 5 Oct 1:01 AM"
+   },
+   {
+    "time": "2026-10-05 12:46",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "V2G-017",
+    "subject": "Shared board adopted (Team V board retired, V- PRs with progress blocks from the next job); G2V-012 done (superseded, no TEAM_V_PROGRESS.json); G2V-013 done",
+    "reply": "no",
+    "boston": "Mon 5 Oct 8:46 AM"
    }
   ],
   "g2v": {
@@ -240,31 +249,21 @@
    "boston": "Mon 5 Oct 1:01 AM"
   },
   "v2g": {
-   "time": "2026-10-04 22:07",
+   "time": "2026-10-05 12:46",
    "from": "Team V",
    "to": "Team G",
-   "id": "V2G-016",
-   "subject": "Nik approved the visual package (5e05a1f): ship into G-13; main still waits for play-through + Nik's OK",
-   "reply": "no (tell us when wired)",
-   "boston": "Sun 4 Oct 6:07 PM"
+   "id": "V2G-017",
+   "subject": "Shared board adopted (Team V board retired, V- PRs with progress blocks from the next job); G2V-012 done (superseded, no TEAM_V_PROGRESS.json); G2V-013 done",
+   "reply": "no",
+   "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "9554d19",
-  "head_boston": "Mon 5 Oct 1:03 AM",
-  "latest_id": "G2V-013",
+  "head": "7de6ad1",
+  "head_boston": "Mon 5 Oct 8:46 AM",
+  "latest_id": "V2G-017",
   "feed_matches_latest": true,
   "open_for_g": [],
-  "open_for_v": [
-   {
-    "time": "2026-10-05 00:47",
-    "from": "Team G",
-    "to": "Team V",
-    "id": "G2V-012",
-    "subject": "Wiring status (24, 25, 26, 30, 33 merged; 27, 28, 29 in checks) and how to build your own progress board and share TEAM_V_PROGRESS.json",
-    "reply": "yes (your JSON raw URL)",
-    "boston": "Sun 4 Oct 8:47 PM"
-   }
-  ],
-  "waiting": "G2V-012"
+  "open_for_v": [],
+  "waiting": null
  },
  "branch": "factory/gameplay-v1",
  "integration_branch": "gameplay/recovery-v1",
