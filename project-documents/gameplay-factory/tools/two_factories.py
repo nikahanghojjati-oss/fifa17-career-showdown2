@@ -211,7 +211,7 @@ def pipeline(t, md=True):
 
 
 PHYSIO_CHECKS = ("Validate POS20", "Showdown Gate")  # the merge checks the Physio watches
-PHYSIO_ICON = {"clear": "🩺🟢", "barking": "🩺🐕", "stuck": "🩺🔴", "starting": "🩺"}
+PHYSIO_ICON = {"clear": "🩺", "barking": "🐕", "stuck": "🩺🔴", "starting": "🩺"}
 
 
 def physio_line(d):
@@ -263,14 +263,46 @@ def physio():
             return {"state": d["state"], "line": physio_line(d), "gate": gate_line(d), "source": "physio"}
     except Exception:
         pass
-    runs = api("actions/runs?status=queued&per_page=100")
-    waits = {}
-    for r in (runs or {}).get("workflow_runs", []):
-        name = next((c for c in PHYSIO_CHECKS if (r.get("name") or "").startswith(c)), None)
-        if name:
-            waits[name] = max(waits.get(name, 0), int(hours_since(r["created_at"]) * 60))
-    extra = "".join(f"; {n.replace('Validate ', '')} has waited {m} min for a machine" for n, m in waits.items())
-    return {"state": "starting", "line": "Physio: starting soon" + extra + ".", "source": "board"}
+    return physio_from_github()
+
+
+FALLBACK_CHECKS = ("Validate POS20", "Validate Gameplay Fast", "Showdown Gate")
+
+
+def physio_from_github():
+    """Physio line read straight from GitHub while physio-status.json is missing or stale (marked "(from GitHub)").
+    Physio part: any merge check for an open PR into main queued over 5 min. Gate part: the newest open non-draft PR
+    into main, its Showdown Gate lanes when that workflow ran on the head. POS20 part: passed/total check runs on that head."""
+    prs = [p for p in (api("pulls?state=open&base=main&per_page=30") or []) if isinstance(p, dict)]
+    by_sha = {p["head"]["sha"]: p["number"] for p in prs}
+    by_num = {p["number"] for p in prs}
+    waiting = []
+    for r in (api("actions/runs?status=queued&per_page=100") or {}).get("workflow_runs", []):
+        name = next((c for c in FALLBACK_CHECKS if (r.get("name") or "").startswith(c)), None)
+        num = next((x["number"] for x in r.get("pull_requests") or [] if x["number"] in by_num), None) or by_sha.get(r.get("head_sha"))
+        m = int(hours_since(r["created_at"]) * 60)
+        if name and num and m > 5:
+            waiting.append((m, name, num))
+    if waiting:
+        m, name, num = max(waiting)
+        state, line = "barking", f"Waiting: {name.replace('Validate ', '')} on #{num} has waited {m} min for a machine (from GitHub)."
+    else:
+        state, line = "clear", "All clear (from GitHub)."
+    gate = ""
+    pr = next((p for p in sorted(prs, key=lambda p: p["number"], reverse=True) if not p.get("draft")), None)
+    if pr:
+        sha, out = pr["head"]["sha"], []
+        run = next((r for r in (api(f"actions/runs?head_sha={sha}&per_page=50") or {}).get("workflow_runs", []) if (r.get("name") or "").startswith("Showdown Gate") and "Physio" not in r.get("name", "")), None)
+        if run:
+            jobs = sorted((j for j in (api(f"actions/runs/{run['id']}/jobs?per_page=50") or {}).get("jobs", []) if re.match(r"L[1-6]\b", j.get("name") or "")), key=lambda j: j["name"])
+            st = lambda j: "running" if j["status"] == "in_progress" else "queued" if j["status"] != "completed" else {"success": "pass", "skipped": "skipped"}.get(j.get("conclusion"), "fail")
+            if jobs:
+                out.append(f'Gate #{pr["number"]}: ' + " ".join(f'{j["name"].split()[0]}{LANE_MARK[st(j)]}' for j in jobs))
+        c = gates(sha)
+        if c:
+            out.append(f'POS20 #{pr["number"]} {c["passed"]}/{sum(c.values())}')
+        gate = " · ".join(out)
+    return {"state": state, "line": line, "gate": gate, "source": "github"}
 
 
 def mins(m):
