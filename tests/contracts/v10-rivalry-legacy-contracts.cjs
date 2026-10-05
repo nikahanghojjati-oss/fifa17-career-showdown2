@@ -114,6 +114,10 @@ check('RL11 real Team V renderers show honest states and live values without fix
   for(const file of deps)assert.ok(sw.includes(`"${file}"`),`${file} is loaded by the History/Rivalry loader, so the service worker must shell-cache it (otherwise it answers Response.error())`);}
  console.log(`ok ${++n} RL14 every model dependency the History and Rivalry loader fetches is in the service-worker shell`);
  console.log(`ok ${++n} RL15 History keeps a Back button and Rivalry Back stays clickable`);
+ {const css=read('css/rivalryLegacyV10.css');
+  assert.ok(/\.rv-preview[^{]*\{\s*display:none/.test(css),'the empty rivalry preview chip must stay hidden (it showed as two stray dashes)');
+  assert.ok(/@media\(min-width:901px\)\s*\{[^@]*#stage-root,[^{]*\.rv-stage\s*\{[^}]*height:100%/.test(css)&&!/100dvh - 52px/.test(css),'on desktop the stage fits the space between the app header and footer, so no button is cut off');}
+ console.log(`ok ${++n} RL16 rivalry preview chip stays hidden and the desktop stage fits its space`);
  console.log(`v10-rivalry-legacy contracts passed (${n} checks)`);
 })().catch(error=>{console.error(error);process.exitCode=1;});
 
