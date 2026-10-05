@@ -311,7 +311,7 @@ open(os.path.join(F, "BOARD_ARCHIVE.md"), "w").write("\n".join(A) + "\n")
 # Machine-readable snapshot for the board page (tools/board_page.py).
 if relay:  # keep the old one-line field for the board page
     relay["waiting"] = ", ".join(m["id"] for m in relay["open_for_v"]) or None
-state = {"generated": boston_now(), "relay": relay, "two": {"live": TWO["live"], "physio": TWO["physio"], "v_headline": V["headline"], "v_jobs": [{"job": n, "title": r.get("title", ""), "worker": lane_of(r)[1], "done": k, "total": t, "pr": r.get("pr"), "current": r.get("current", "")} for n, r, k, t in V["jobs"]],
+state = {"generated": boston_now(), "relay": relay, "two": {"live": TWO["live"], "physio": TWO["physio"], "v_headline": V["headline"], "v_jobs": [{"job": n, "title": r.get("title", ""), "worker": lane_of(r)[1], "lane": str(r.get("worker", "")).lower().replace(" ", "-"), "done": k, "total": t, "pr": r.get("pr"), "current": r.get("current", "")} for n, r, k, t in V["jobs"]],
          "inbox": R2.get("inbox") if R2 else None, "tickets": [{x: t.get(x) for x in ("id", "from", "to", "title", "stage", "pct", "overdue", "path", "worker", "pickup_min", "waiting_min")} for t in (R2["tickets"] if R2 else [])], "relay_ok": bool(R2 and R2["comments_read"])}, "branch": board["branch"],
          "integration_branch": board["integration_branch"], "capacity": cap, "overall": overall, "done": done,
          "total": len(jobs), "start": start, "queued": queued, "working": working, "blocked": blocked,

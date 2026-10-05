@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 7:55 PM Boston time (EDT)",
+ "generated": "2026-10-05 7:56 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -315,7 +315,7 @@
   "live": {
    "sha": "84a04d8",
    "revision": "1.9.1-r61",
-   "when": "2026-10-05T23:37:11Z",
+   "when": "2026-10-05T23:37:11+00:00",
    "subject": "Physio sweep: skip a watched workflow that is not on main instead of failing (#387)",
    "fixes": [
     {
@@ -431,6 +431,7 @@
     "job": "V-1002",
     "title": "Transfer War window strings match production wording",
     "worker": "Sol chat",
+    "lane": "sol-chat",
     "done": 1,
     "total": 3,
     "pr": 389,
@@ -440,6 +441,7 @@
     "job": "V-247",
     "title": "Phone Home tile icons like GOAL_HOME",
     "worker": "Opus",
+    "lane": "opus",
     "done": 4,
     "total": 4,
     "pr": 381,

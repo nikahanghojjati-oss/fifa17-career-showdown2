@@ -137,7 +137,7 @@ for key, colour in (("G", "#22c55e"), ("V", "#42b9da")):
     extra = ""
     if key == "V":
         vj = TWO.get("v_jobs") or []
-        extra = "".join(f'<br>{sq("opus")} <b>{e(j["job"])}</b> {e(j["title"][:60])} <span class="pc" style="font-size:15px">{100 * j["done"] / max(j["total"], 1):.0f} %</span>' for j in vj if j["done"] < j["total"]) or '<br><span class="m">No Team V job running right now.</span>'
+        extra = "".join(f'<br>{sq(j.get("lane") or "opus")} <b>{e(j["job"])}</b> {e(j["title"][:60])} <span class="pc" style="font-size:15px">{100 * j["done"] / max(j["total"], 1):.0f} %</span>' for j in vj if j["done"] < j["total"]) or '<br><span class="m">No Team V job running right now.</span>'
     H.append(f'<h2 style="border-left-color:{colour}">{e(f["name"])}</h2><div class="card"><span class="m">' + " ".join(sq(w["lane"]) for w in f["workers"]) + f' {len(f["workers"])} workers</span>{extra}{rows}' +
              (f'<br><span class="m">and {len(fut) - 3} more on the board</span>' if len(fut) > 3 else "") + "</div>")
 H.append("<h2>Relay</h2>")
@@ -153,7 +153,7 @@ for t in _open_tk[::-1][:4]:
     k = STEP.index(t["stage"]) if t["stage"] in STEP else 0
     dots = "".join("🟢" if i <= k else "⚪" for i in range(5))
     H.append(f'<br>{dots} <b>{e(t["id"])}</b> {e(t.get("from") or "?")}→{e(t.get("to") or "?")} {e(t["title"][:50])} <span class="m">{e(TF.STAGE_WORD.get(t["stage"], t["stage"]))}' + (f' {t["pct"]:.0f} %' if t["stage"] == "WORKING" else "") + (f' · picked up in {TF.mins(t["pickup_min"])}' if t.get("pickup_min") is not None else f' · waiting {TF.mins(t["waiting_min"])}' if t.get("waiting_min") is not None else "") + "</span>")
-for m in (rel.get("rows") or [])[-1:]:
+for m in ([] if COMPACT else (rel.get("rows") or [])[-1:]):
     H.append(f'<br><span class="m">{e(m["id"])} · {e(m["subject"][:44])}</span>')
 H.append('</div>')  # the banner's Relay link opens every message in full
 if REL.get("jobs") and not REL.get("done"):
