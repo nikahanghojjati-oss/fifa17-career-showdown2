@@ -1,0 +1,40 @@
+{
+  "strings": {
+    "heading": "STANDINGS",
+    "viewThisShowdown": "This Showdown",
+    "viewCareer": "Career",
+    "sectionThisShowdown": "HEAD-TO-HEAD",
+    "sectionCareer": "CAREER STANDINGS",
+    "sectionPartial": "Available history",
+    "sectionInterim": "This Showdown",
+    "managers": {
+      "daniel": "Daniel",
+      "nik": "Nik"
+    },
+    "fields": {
+      "score": "Showdown Points",
+      "careerPoints": "Career Points",
+      "seasonWins": "Season Wins",
+      "seasonDraws": "Season Draws",
+      "seasonLosses": "Season Losses",
+      "totalTrophies": "Total Trophies",
+      "championsLeagues": "Champions Leagues",
+      "leagueTitles": "League Titles",
+      "domesticCups": "Domestic Cups"
+    },
+    "seasonTemplate": "Season {season} of {totalSeasons}",
+    "level": "Level",
+    "leaderTemplate": "{manager} leads",
+    "leaderSeasonWinsTemplate": "{manager} leads on season wins",
+    "emptyShowdown": "No active showdown is available.",
+    "emptySeason": "No season has been completed yet. Statistics will build automatically as seasons are finished.",
+    "emptyCareer": "Career standings will appear after the first recorded season.",
+    "loading": "Loading standings.",
+    "unavailable": "Standings are unavailable right now.",
+    "partial": "Some Showdowns could not be read. These totals cover available history only.",
+    "coverageTemplate": "{readable} of {indexed} Showdowns available.",
+    "interimLabel": "Current Showdown only. Career history is not yet available.",
+    "previewLabel": "Preview data",
+    "navLocked": "Finish this step first"
+  }
+}
