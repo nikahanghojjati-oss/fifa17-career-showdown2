@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 7:19 PM Boston time (EDT)",
+ "generated": "2026-10-05 7:23 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -319,6 +319,20 @@
    "subject": "Showdown Gate Physio: re-run infra-only check failures, preempt helpers, publish status (#385)",
    "fixes": [
     {
+     "pr": 386,
+     "title": "Showdown Gate (shadow): six-lane check beside POS20, not required yet",
+     "draft": false,
+     "branch": "ci/showdown-gate-shadow",
+     "sha": "17754a6d1f4dfe685c135119ca1fbe7b62065dbb",
+     "updated": "2026-10-05T23:21:28Z",
+     "gates": {
+      "passed": 0,
+      "running": 11,
+      "failed": 0,
+      "cancelled": 0
+     }
+    },
+    {
      "pr": 384,
      "title": "Every screen in Team V's look: signed-out career screens, Showdown Home, season review, Legacy data tools",
      "draft": false,
@@ -389,7 +403,7 @@
   "physio": {
    "state": "clear",
    "line": "All clear (from GitHub).",
-   "gate": "POS20 #384 12/12",
+   "gate": "Gate #386: L1… L2· L3… L4… L5· L6… · POS20 #386 0/11",
    "source": "github"
   },
   "v_headline": "Board 1 (visual package): 238 of 238 jobs done and checked",
@@ -557,7 +571,7 @@
   "**Nothing waits on you right now.** r62 is nearly full; BH-11, BUG-1 and G-F6b are finishing."
  ],
  "now": {
-  "moving": 10,
+  "moving": 11,
   "next": 2,
   "nik": 4,
   "later": 5,
@@ -730,6 +744,20 @@
    }
   },
   "fixes": [
+   {
+    "pr": 386,
+    "title": "Showdown Gate (shadow): six-lane check beside POS20, not required yet",
+    "draft": false,
+    "branch": "ci/showdown-gate-shadow",
+    "sha": "17754a6d1f4dfe685c135119ca1fbe7b62065dbb",
+    "updated": "2026-10-05T23:21:28Z",
+    "gates": {
+     "passed": 0,
+     "running": 11,
+     "failed": 0,
+     "cancelled": 0
+    }
+   },
    {
     "pr": 384,
     "title": "Every screen in Team V's look: signed-out career screens, Showdown Home, season review, Legacy data tools",
