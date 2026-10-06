@@ -124,6 +124,26 @@ def where(text, lane):
     return m.group(1).strip() if m else ("in " + LANE_PLACE[lane] if lane in LANE_PLACE else "")
 
 
+def _merged_jobs():
+    # job PRs ("JOB-NNNN ...") already merged into the bug-list branch: done, riding the next release (coordinator, 2026-10-06 02:41 UTC)
+    import subprocess
+    repo = os.environ.get("GITHUB_REPOSITORY", "nikahanghojjati-oss/fifa17-career-showdown2")
+    try:
+        r = subprocess.run(["gh", "api", f"repos/{repo}/pulls?state=closed&per_page=60&sort=updated&direction=desc"], capture_output=True, text=True, timeout=30)
+        prs = json.loads(r.stdout) if r.returncode == 0 else []
+    except Exception:
+        prs = []
+    out = {}
+    for pr in prs if isinstance(prs, list) else []:
+        m = re.match(r"\s*JOB-?(\d{4})\b", pr.get("title") or "")
+        if m and pr.get("merged_at") and str((pr.get("base") or {}).get("ref", "")).startswith("gameplay/"):
+            out.setdefault(m.group(1), pr["number"])
+    return out
+
+
+MERGED = _merged_jobs()
+
+
 def status_done(n):
     # status/JOB-NNNN.md "State: DONE": the worker finished and the lead hasn't verified yet; still running, not "Next for you"
     try:
@@ -142,7 +162,7 @@ def q_add(it, team):
     st = str(row.get("state") or it.get("state") or "")
     lane = row.get("lane") or it.get("lane", "")
     q = dict(it, n=n, team=team, lane=lane)
-    if re.match(r"(in release|verified|in r\d)", st, re.I):
+    if re.match(r"(in release|verified|in r\d|merged)", st, re.I) or n in MERGED:
         Q["release"].append(q)
     elif status_done(n):
         q["state"] = "worker done, lead checking"
@@ -185,6 +205,7 @@ nik = _nk
 # the bug factory sets `order` on BOARD.json rows (its priority for Nik); unordered jobs follow by number
 for v in Q.values():
     v.sort(key=lambda q: (float((rowmap.get(str(q["id"])) or {}).get("order") or 9999), int(q["n"])))
+Q["release"].sort(key=lambda q: int(q["n"]))
 
 for m in BJ.get("next_move") or []:
     nik.insert(0, {"id": "", "title": "", "decision": m, "md": True})

@@ -10,12 +10,8 @@ Updated Mon 5 Oct, 10:42 PM Boston time. Bug hunting only, no new features until
 
 **Running now**
 
-- **1015** Connect Players screen: create code / join off Home · worker done, lead checking
 - **1020** Season Results patch: one column on phone, no overlap on desktop · worker done, lead checking
-- **1009** Showdown Champion: dark oval over the losing manager · worker done, lead checking
-- **1004** Rule Book: remove the useless 01-06 side number rail (desktop and phone) · worker done, lead checking
 - **1014** No reconnect prompt after a finished Showdown · worker done, lead checking
-- **1021** Transfer War on phone: port Team V's revamp · running
 - **1022** Connect Players: match Team V's start-join design (1015 follow-up) · with the lead
 - **1010** 10-season sweep: scoring, history and final math · worker done, lead checking
 - **1018** Gameplay hunt 2: sessions, pairing and reconnect · step 1 of 3 · 0.0000 %
@@ -31,7 +27,7 @@ Updated Mon 5 Oct, 10:42 PM Boston time. Bug hunting only, no new features until
 
 - **1005** Last season's score is skipped before the Final Winner · after Team V designs the combined screen (HO-011)
 
-**Done, in the next release:** 1001, 1003
+**Done, in the next release:** 1001, 1003, 1004, 1009, 1015, 1021
 
 ## Other asks
 
