@@ -1,8 +1,8 @@
 # Showdown board: G Factory and V Factory
 
-🌐 **Live: runtime 1.9.1-r62** (main `e7b556c`) · 🔄 **18 moving** · ⏭ 2 up next · 👤 4 waiting on Nik · 🗂 5 later · updated 2026-10-05 8:35 PM Boston time (EDT)
+🌐 **Live: runtime 1.9.1-r62** (main `e7b556c`) · 🔄 **18 moving** · ⏭ 2 up next · 👤 4 waiting on Nik · 🗂 5 later · updated 2026-10-05 8:38 PM Boston time (EDT)
 
-🩺 **All clear: every check has a machine.** · POS20 #390 16/16
+🐕 **Barking: POS20 on #393 has waited 3 min for a machine; POS20 on #312 has waited 2 min for a machine.** · Gate #386: L1✓ L2✓ L3✓ L4✓ L5✓ L6✓ · seal PASS · POS20 #386 16/16
 
 ## Your next move
 
