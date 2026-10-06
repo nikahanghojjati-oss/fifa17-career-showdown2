@@ -1,15 +1,24 @@
 {
   "schema": "physio/v1",
-  "at": "2026-10-06T01:40:18.019Z",
+  "at": "2026-10-06T01:41:11.856Z",
   "state": "BARKING",
   "checks": [
+    {
+      "workflow": "Validate POS20",
+      "head_sha": "d44d99842e4fc2b7f35f7f21d62e86ad0fc744ef",
+      "pr": 312,
+      "queued_minutes": 2.8,
+      "action": "none",
+      "attempt": 0,
+      "max_attempts": 2
+    },
     {
       "workflow": "Showdown Gate",
       "head_sha": "61161337fa58344482e44a7bd088c7a9d63f98ab",
       "pr": 396,
-      "queued_minutes": 20.8,
-      "action": "none",
-      "attempt": 0,
+      "queued_minutes": 0,
+      "action": "rerun",
+      "attempt": 1,
       "max_attempts": 2
     }
   ],
@@ -24,11 +33,11 @@
       },
       {
         "name": "L2 browser full",
-        "state": "pass"
+        "state": "queued"
       },
       {
         "name": "L3 storage visual gameplay",
-        "state": "pass"
+        "state": "queued"
       },
       {
         "name": "L4 remote",
@@ -36,14 +45,14 @@
       },
       {
         "name": "L5 rules regression",
-        "state": "fail"
+        "state": "queued"
       },
       {
         "name": "L6 browser journey",
-        "state": "pass"
+        "state": "queued"
       }
     ],
-    "seal": "PENDING"
+    "seal": "INFRA_RETRYING"
   },
   "pos20": {
     "pr": 396,
