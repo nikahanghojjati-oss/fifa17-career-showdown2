@@ -1,16 +1,18 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-10-05 9:31 PM Boston time (EDT)
+[Back to the board](BOARD.md) · generated 2026-10-05 9:32 PM Boston time (EDT)
 
-Relay branch `leads/relay` head `63a3542` (Mon 5 Oct 9:31 PM Boston time) · 29 messages · 14 hand-offs · 57 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `ddff30e` (Mon 5 Oct 9:32 PM Boston time) · 29 messages · 14 hand-offs · 58 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
 ### HO-014 · V → G · Create code / Join on its own Connect Players screen, never on top of Home
 
-✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 0 min after delivery
 
+- Mon 5 Oct 9:32 PM · Team G · Received · bug factory: job 1015 · G (GPT green; Sonnet if green fails), lead runs pairing contracts + audits, Team V 1013 visual check
 - Mon 5 Oct 9:31 PM · Team V · Sent
+- Mon 5 Oct 9:32 PM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 

@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 9:31 PM Boston time (EDT)",
+ "generated": "2026-10-05 9:32 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -633,12 +633,12 @@
     "from": "V",
     "to": "G",
     "title": "Create code / Join on its own Connect Players screen, never on top of Home",
-    "stage": "SENT",
+    "stage": "RECEIVED",
     "pct": 0.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-014_create-code-join-on-its-own-connect-play.md",
     "worker": "opus",
-    "pickup_min": null,
+    "pickup_min": 0,
     "waiting_min": null
    }
   ],
