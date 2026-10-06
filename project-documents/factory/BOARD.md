@@ -1,6 +1,6 @@
 # 🎨 Team V board
 
-Updated Tue 6 Oct 12:49 AM EDT · Team V featured, Team G below · one shared data source (PR progress blocks + relay) · [Team G's board](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/BOARD.md)
+Updated Tue 6 Oct 1:08 AM EDT · Team V featured, Team G below · one shared data source (PR progress blocks + relay) · [Team G's board](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/BOARD.md)
 
 ## Team V: visual jobs
 
@@ -24,6 +24,7 @@ Updated Tue 6 Oct 12:49 AM EDT · Team V featured, Team G below · one shared da
 
 **Recently finished:**
 
+* ✅ [V-1030 Select League: brush title wordmark like the mockup](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/416) · merged Tue 6 Oct 1:07 AM EDT
 * ✅ [V-1029 Season Results desktop: closer to the mockup](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/413) · merged Tue 6 Oct 12:46 AM EDT
 * ✅ [V-1016 Transfer War phone revamp: whole faces, action on the plate](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/398) · merged Mon 5 Oct 9:52 PM EDT
 * ✅ [V-1007 Transfer War phone: early-end button visible](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/394) · closed Mon 5 Oct 9:32 PM EDT
@@ -50,7 +51,7 @@ Updated Tue 6 Oct 12:49 AM EDT · Team V featured, Team G below · one shared da
 | [HO-003](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/handoffs/HO-003_header-chips-and-footer-design-on-team-v.md) | Header chips and footer design on Team V screens | normal | ✅ Done | V-246 |
 | [HO-004](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/handoffs/HO-004_visual-qa-live-2-0-screens-vs-approved-f.md) | Visual QA: live 2.0 screens vs approved frames | normal | ✅ Done | V-245 |
 
-<sub>Sent to Team G: HO-006 ✅ Done · HO-009 ✅ Done · HO-010 ✅ Done · HO-013 📥 Received · HO-014 📥 Received · HO-015 📥 Received · HO-016 📥 Received · HO-018 📥 Received</sub>
+<sub>Sent to Team G: HO-006 ✅ Done · HO-009 ✅ Done · HO-010 ✅ Done · HO-013 📥 Received · HO-014 📥 Received · HO-015 📥 Received · HO-016 📥 Received · HO-018 📥 Received · HO-019 📥 Received</sub>
 
 ### Team G: gameplay
 
