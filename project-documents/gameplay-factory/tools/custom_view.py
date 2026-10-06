@@ -144,6 +144,42 @@ def _merged_jobs():
 MERGED = _merged_jobs()
 
 
+import goals as GOALS
+GL = GOALS.load(MERGED.keys())
+
+
+def goal_lines():
+    """The Thursday goals (Nik, 2026-10-06 04:01 UTC): {"G": text, "V": text}, plain text."""
+    g, v = GL["G"], GL["V"]
+    if g["state"] not in ("ok", "missing") and (g["areas"] or g["found"]):  # GitHub unreadable this run: last known numbers, flagged
+        warn.append("Couldn't read the Bug Olympiad this run; its numbers are from the last good read.")
+        g = dict(g, state="ok")
+    if v["state"] not in ("ok", "missing") and v["studied"]:
+        warn.append("Couldn't read the Mockup Lab this run; its numbers are from the last good read.")
+        v = dict(v, state="ok")
+    if g["state"] == "missing" or (g["state"] == "ok" and not g["areas"] and not g["found"]):
+        gt = "Bug-free game: no Bug Olympiad run saved yet (it starts Thursday)."
+    elif g["state"] != "ok":
+        gt = "Bug-free game: couldn't read the Bug Olympiad this run."
+    else:
+        gt = (f"Bug-free game: {g['pct']:.4f} % · {g['areas']} of {g['of']} areas studied · open S1 {g['s1']}, S2 {g['s2']} · fixed {g['fixed']} of {g['found']} findings"
+              + (" · weakest: area " + " and ".join(f"{a:02d}" for _, a in g["weakest"]) if g["areas"] else ""))
+    if v["state"] == "missing":
+        vt = "Mockup match: the Mockup Lab hasn't saved a study yet."
+    elif v["state"] != "ok":
+        vt = "Mockup match: couldn't read the Mockup Lab this run."
+    else:
+        vt = f"Mockup match: {v['studied']} of {v['screens']} screens studied · {v['diffs']} differences from the mockups to fix"
+    if g.get("bad"):
+        warn.append(f"{len(g['bad'])} Bug Olympiad file(s) didn't parse: " + ", ".join(g["bad"][:3]) + ".")
+    if v.get("bad"):
+        warn.append(f"{len(v['bad'])} Mockup Lab file(s) didn't parse: " + ", ".join(v["bad"][:3]) + ".")
+    return {"G": gt, "V": vt}
+
+
+GOAL = goal_lines()
+
+
 def status_done(n):
     # status/JOB-NNNN.md "State: DONE": the worker finished and the lead hasn't verified yet; still running, not "Next for you"
     try:
@@ -294,6 +330,9 @@ def render(first, compact=False):
     if Q["release"]:
         J.append('<span class="k">Done, in the next release</span> ' + ", ".join(e(q["n"]) for q in Q["release"]))
     H.append('<div class="card move">' + ("<br>".join(J) or "No numbered job is open.") + "</div>")
+    order = ("G", "V") if first == "G" else ("V", "G")
+    H.append("<h2>Goals for Thursday</h2>")
+    H.append('<div class="card">' + "<br>".join(("🐞 " if t == "G" else "🎨 ") + (f"<b>{e(GOAL[t])}</b>" if t == first else e(GOAL[t])) for t in order) + "</div>")
     if nik:
         H.append("<h2>Other asks</h2>")
         H.append('<div class="card">' + "<br>".join((md(x["decision"]) if x.get("md") else f'<b>{e(x["id"])}</b> {e(x["decision"])}') for x in nik) + "</div>")
@@ -361,6 +400,7 @@ if Q["wait"]:
     L += ["**Waiting on something else**", ""] + [f"- **{q['n']}** {q['title']} · {q.get('after', '')}" for q in Q["wait"]] + [""]
 if Q["release"]:
     L += ["**Done, in the next release:** " + ", ".join(q["n"] for q in Q["release"]), ""]
+L += ["## Goals for Thursday", "", f"- 🐞 {GOAL['G']}", f"- 🎨 {GOAL['V']}", ""]
 L += ["## Other asks", ""]
 L += [f"- {x['decision']}" if x.get("md") else f"- **{x['id']}** {x['decision']}" for x in nik] or ["- Nothing else needs you right now."]
 for t in ("G", "V"):

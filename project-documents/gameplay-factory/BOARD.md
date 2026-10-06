@@ -1,6 +1,6 @@
 # Bug hunt board
 
-Updated Tue 6 Oct, 12:04 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
+Updated Tue 6 Oct, 12:06 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r62** (main `bc77a0b`, Mon 5 Oct 9:18 PM)
 
@@ -19,6 +19,11 @@ Updated Tue 6 Oct, 12:04 AM Boston time. Bug hunting only, no new features until
 - **1005** Last season's score is skipped before the Final Winner · after Team V designs the combined screen (HO-011)
 
 **Done, in the next release:** 1001, 1003, 1004, 1009, 1014, 1015, 1020, 1021
+
+## Goals for Thursday
+
+- 🐞 Bug-free game: no Bug Olympiad run saved yet (it starts Thursday).
+- 🎨 Mockup match: 1 of 16 screens studied · 7 differences from the mockups to fix
 
 ## Other asks
 
