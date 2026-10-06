@@ -1,6 +1,6 @@
 {
  "_how": "One shared job counter for Team G and Team V (Nik, 2026-10-05). Claim with tools/claim_number.py only. A number is used once, ever. CONTRACT.md section 10.",
- "next": 1022,
+ "next": 1023,
  "claims": [
   {
    "number": 1001,
@@ -128,6 +128,12 @@
    "team": "G",
    "title": "Transfer War phone revamp port (HO-016)",
    "claimed": "2026-10-06T01:54:26Z"
+  },
+  {
+   "number": 1022,
+   "team": "G",
+   "title": "Connect Players: match Team V's SJ design (1015 follow-up)",
+   "claimed": "2026-10-06T02:39:17Z"
   }
  ]
 }
