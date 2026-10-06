@@ -768,6 +768,24 @@
      "state": "ready",
      "waits_on": "Nik types it in the gameplay project",
      "details": "GPT blue, one file: delete the loser shade rule in final-winner.css."
+    },
+    {
+     "id": "1010",
+     "group": "Bug list 1",
+     "title": "1010 · G 10-season sweep: scoring, history and final math",
+     "lane": "green",
+     "state": "ready",
+     "waits_on": "Nik types it in the gameplay project (Work mode)",
+     "details": "GPT green, one run. Node check of 10-season scoring, ties and final winner; report only, no game code."
+    },
+    {
+     "id": "1011",
+     "group": "Bug list 1",
+     "title": "1011 · G Plain-words sweep: jargon on game screens",
+     "lane": "green",
+     "state": "ready",
+     "waits_on": "Nik types it in the gameplay project (Work mode)",
+     "details": "GPT green, one run. Replaces engineering words players see; leaves test-asserted strings to the lead."
     }
    ]
   },
