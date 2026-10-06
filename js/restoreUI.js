@@ -96,7 +96,7 @@
     const planHost=root.querySelector(".careerRestorePlanHost"),conflictHost=root.querySelector(".careerRestoreConflictHost"),recoveryHost=root.querySelector(".careerRestoreRecoveryHost"),apply=root.querySelector(".careerRestoreApply");
     const snapshot=captureReviewedRaw();
     if(!snapshot||snapshot.ok!==true){
-      if(planHost){planHost.replaceChildren();const box=make("div","careerRestorePlan blocked");box.append(make("strong","","EXACT STORAGE SNAPSHOT UNAVAILABLE"),make("span","","Browser storage could not be read without ambiguity. Nothing can be applied until a complete exact snapshot succeeds."));planHost.appendChild(box);}
+      if(planHost){planHost.replaceChildren();const box=make("div","careerRestorePlan blocked");box.append(make("strong","","BROWSER DATA CHECK UNAVAILABLE"),make("span","","Browser data could not be checked safely. Nothing can be applied until the check succeeds."));planHost.appendChild(box);}
       if(conflictHost)conflictHost.replaceChildren();
       if(recoveryHost)recoveryHost.replaceChildren();
       if(apply)apply.disabled=true;
@@ -199,7 +199,7 @@
     let criticalRecovery=false;
     try{
       const result=await window.applyCareerModeRestore(confirmedFile,confirmedChoices,{expectedRaw:confirmedRaw});
-      if(result.ok){status("Restore committed and verified. Refreshing the application from canonical state…");await afterSuccess(result);return;}
+      if(result.ok){status("Restore verified. Refreshing the application from your saved data…");await afterSuccess(result);return;}
       if(result.analysis)analysis=result.analysis;
       if(result.status==="stale-state"){
         reviewedRaw=result.currentRaw||null;
@@ -252,7 +252,7 @@
   function mountCareerModeRestorePanel(){
     const controls=document.querySelector("#legacy .legacyDataControls");if(!controls||controls.querySelector("#careerModeRestorePanel")){syncCandidateBStatusCopy();return false;}
     const root=make("section","careerRestorePanel");root.id="careerModeRestorePanel";
-    root.append(make("span","careerRestoreEyebrow","CANDIDATE C · VERIFIED APPLY"),make("h4","","ATOMIC RESTORE & RECOVERY"),make("p","careerRestoreIntro","Choose a backup to review restore choices. Apply locks the exact confirmed file and choices, revalidates browser state, snapshots exact raw bytes, verifies the complete commit and rolls back only transaction-owned mutations if any write or verification fails."));
+    root.append(make("span","careerRestoreEyebrow","VERIFIED RESTORE"),make("h4","","ATOMIC RESTORE & RECOVERY"),make("p","careerRestoreIntro","Choose a backup to review restore choices. Apply rechecks the selected file and browser data, verifies the full restore, and safely rolls back only changes made by this restore if anything fails."));
     const picker=make("div","careerRestorePicker"),input=document.createElement("input"),reviewButton=make("button","compactButton careerRestoreReviewButton","REVIEW RESTORE");
     input.type="file";input.accept=".json,application/json";input.setAttribute("aria-label","Backup file for restore");reviewButton.type="button";reviewButton.disabled=!file;
     input.addEventListener("change",()=>{
