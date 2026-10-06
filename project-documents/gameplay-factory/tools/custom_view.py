@@ -163,7 +163,7 @@ def goal_lines():
         gt = "Bug-free game: couldn't read the Bug Olympiad this run."
     else:
         gt = (f"Bug-free game: {g['pct']:.4f} % · {g['areas']} of {g['of']} areas studied · open S1 {g['s1']}, S2 {g['s2']} · fixed {g['fixed']} of {g['found']} findings"
-              + (" · weakest: area " + " and ".join(f"{a:02d}" for _, a in g["weakest"]) if g["areas"] else ""))
+              + (" · weakest: area " + " and ".join(f"{a:02d}" for _, a in g["weakest"]) if g["weakest"] else ""))
     if v["state"] == "missing":
         vt = "Mockup match: the Mockup Lab hasn't saved a study yet."
     elif v["state"] != "ok":

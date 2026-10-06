@@ -141,7 +141,7 @@ def load(merged_jobs=()):
         if x["sev"] in ("S1", "S2") and x["area"] in area_score:
             area_score[x["area"]] = max(0.0, area_score[x["area"]] - 10.0)
     g = {"state": o.get("state", "unreadable"), "areas": len(runs), "of": AREAS, "pct": sum(area_score.values()) / AREAS,
-         "weakest": sorted(((area_score.get(a, 0.0), a) for a in range(1, AREAS + 1)))[:2],
+         "weakest": sorted((v, a) for a, v in area_score.items())[:2] if len(area_score) >= 3 else [],  # among studied areas only
          "found": len(real), "fixed": len(real) - len(opened), "open": len(opened),
          "s1": sum(1 for x in opened if x["sev"] == "S1"), "s2": sum(1 for x in opened if x["sev"] == "S2"), "bad": bad,
          "top": [x for x in opened if x["sev"] == "S1"][:3]}
