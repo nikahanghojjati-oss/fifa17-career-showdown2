@@ -1,0 +1,18 @@
+{
+  "run": "chat-1006-1332",
+  "mode": "chat",
+  "date_utc": "2026-10-06T13:32:00Z",
+  "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+  "area": "09",
+  "files_read": [
+    "js/productionSharedSeasonResults.js",
+    "js/productionSharedCanonicalScoring.js",
+    "js/sharedCanonicalScoring.js",
+    "index.html"
+  ],
+  "findings": [],
+  "coverage_pct": 82,
+  "clean_confidence_pct": 91,
+  "next_focus": "Provider-side canonical scoring projection and the Season Commit handoff, especially a tied 0-0 season crossing from acknowledged results into the saved season score.",
+  "partial": false
+}
