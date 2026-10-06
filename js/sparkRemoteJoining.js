@@ -23,7 +23,10 @@
   // reconnect looked stuck on the host. While this page holds its own OPEN hosted session it reads it quietly every few
   // seconds (for at most ten minutes, never while hidden) and picks up the join by itself.
   const SRJ_JOIN_WATCH_MS=4000,SRJ_JOIN_WATCH_LIMIT_MS=10*60*1000;
-  let srjJoinWatchTimer=null;
+  // Hunt 1018 (H1018-2): the watcher belongs to one sessionId, so hosting a replacement cancels the old session's timer.
+  let srjJoinWatchTimer=null,srjJoinWatchSessionId=null;
+  // Hunt 1018 (H1018-1): one replacement (end the held session, then host or join) runs at a time; it is taken before any await.
+  let srjReplaceAction=null;
   const srjScriptPromises=new Map();
   const srjListeners=new Set();
   let srjState=srjFreeze({status:"idle",open:false,busy:false,sessionId:null,rivalryId:null,accountId:null,deviceId:null,role:null,sessionState:null,revision:null,expiresAtEpochMs:null,pendingAction:null,capabilityCopyAllowed:false,message:"Remote Joining is private and action-only. No session request has been sent."});
@@ -183,9 +186,12 @@
   }
   function srjHostWaitingForJoin(sessionId){return Boolean(sessionId&&srjState.sessionId===sessionId&&srjState.role==="host"&&srjState.sessionState==="open"&&!srjState.pendingAction&&!srjExpiredByClock());}
   function srjWatchForJoin(sessionId,startedAt=Date.now()){
-    if(srjJoinWatchTimer!==null||!root.document||typeof root.setTimeout!=="function"||!srjHostWaitingForJoin(sessionId))return false;
-    srjJoinWatchTimer=root.setTimeout(async()=>{
-      srjJoinWatchTimer=null;
+    if(!root.document||typeof root.setTimeout!=="function"||!srjHostWaitingForJoin(sessionId))return false;
+    if(srjJoinWatchTimer!==null){if(srjJoinWatchSessionId===sessionId)return false;if(typeof root.clearTimeout==="function")root.clearTimeout(srjJoinWatchTimer);}
+    srjJoinWatchSessionId=sessionId;
+    const timer=root.setTimeout(async()=>{
+      if(srjJoinWatchTimer!==timer)return;
+      srjJoinWatchTimer=null;srjJoinWatchSessionId=null;
       if(!srjHostWaitingForJoin(sessionId)||Date.now()-startedAt>SRJ_JOIN_WATCH_LIMIT_MS)return;
       if(!srjState.busy&&root.document.visibilityState!=="hidden"){
         try{
@@ -196,6 +202,7 @@
       }
       srjWatchForJoin(sessionId,startedAt);
     },SRJ_JOIN_WATCH_MS);
+    srjJoinWatchTimer=timer;
     return true;
   }
   async function srjRetryPendingOperation(){
@@ -208,11 +215,17 @@
       return {ok:false,code:error&&error.code||"REMOTE_JOINING_RECOVERY_CONTEXT_UNAVAILABLE",message:error&&error.message||"Current private authority could not be resolved.",recoverable:true,pendingAction:srjState.pendingAction};
     }
   }
+  function srjReplaceBusy(){return {ok:false,code:"REMOTE_JOINING_BUSY",message:"A private-session operation is already in progress."};}
+  function srjReplaceHeld(start){srjReplaceAction=(async()=>{const ended=await srjEndHeldSession();return ended.ok?await start():ended;})().finally(()=>{srjReplaceAction=null;});return srjReplaceAction;}
   async function srjHostSession(options={}){
+    if(srjReplaceAction)return srjReplaceBusy();
     if(srjSessionBlocksStart()){
       if(!(options&&options.replaceCurrent===true)||!srjHeldSessionReplaceable())return {ok:false,code:"REMOTE_JOINING_SESSION_ALREADY_HELD",message:"Resolve, revoke or close the current private session before hosting another."};
-      const ended=await srjEndHeldSession();if(!ended.ok)return ended;
+      return srjReplaceHeld(srjStartHost);
     }
+    return srjStartHost();
+  }
+  async function srjStartHost(){
     srjSetState({status:"hosting",busy:true,message:"Creating an exact private session capability…"});
     try{
       const context=await srjResolveContext();
@@ -227,15 +240,22 @@
     }
   }
   async function srjJoinSession(value,options={}){
+    if(srjReplaceAction)return srjReplaceBusy();
     if(srjSessionBlocksStart()){
       // BH-11 (#1): only an ACTIVE session may be ended to join a fresh code; an OPEN hosted one keeps the existing guard.
       if(!(options&&options.replaceCurrent===true)||!srjHeldSessionReplaceable()||srjState.sessionState!=="active")return {ok:false,code:"REMOTE_JOINING_SESSION_ALREADY_HELD",message:"Resolve, revoke or close the current private session before joining another."};
-      let nextSessionId;
-      try{const deps=await srjEnsureDependencies();nextSessionId=deps["standard-auth-session"].normalizeSessionId(value);}
-      catch(error){const message=`${error&&error.message?error.message:"That private session code is invalid."} The current private session was kept.`;srjSetState({status:"error",busy:false,message});return {ok:false,code:error&&error.code||"REMOTE_JOINING_JOIN_FAILED",message};}
-      if(nextSessionId===srjState.sessionId){const message="This phone is already in that private session.";srjSetState({message});return {ok:false,code:"REMOTE_JOINING_SAME_SESSION",message};}
-      const ended=await srjEndHeldSession();if(!ended.ok)return ended;
+      srjReplaceAction=(async()=>{
+        let nextSessionId;
+        try{const deps=await srjEnsureDependencies();nextSessionId=deps["standard-auth-session"].normalizeSessionId(value);}
+        catch(error){const message=`${error&&error.message?error.message:"That private session code is invalid."} The current private session was kept.`;srjSetState({status:"error",busy:false,message});return {ok:false,code:error&&error.code||"REMOTE_JOINING_JOIN_FAILED",message};}
+        if(nextSessionId===srjState.sessionId){const message="This phone is already in that private session.";srjSetState({message});return {ok:false,code:"REMOTE_JOINING_SAME_SESSION",message};}
+        const ended=await srjEndHeldSession();return ended.ok?await srjStartJoin(value):ended;
+      })().finally(()=>{srjReplaceAction=null;});
+      return srjReplaceAction;
     }
+    return srjStartJoin(value);
+  }
+  async function srjStartJoin(value){
     srjSetState({status:"joining",busy:true,message:"Joining the exact private session…"});
     try{
       const context=await srjResolveContext();

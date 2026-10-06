@@ -982,6 +982,16 @@
         "^tests/contracts/showdown-gate-physio-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/hunt-1018-session-replacement-contracts.cjs",
+      "patterns": [
+        "^js/sparkRemoteJoining\\.js$",
+        "^js/sparkPrivateSession\\.js$",
+        "^js/sparkStandardAuthPrivateSession\\.js$",
+        "^tests/contracts/hunt-1018-session-replacement-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
