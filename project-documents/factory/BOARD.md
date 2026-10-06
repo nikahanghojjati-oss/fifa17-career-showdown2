@@ -1,8 +1,15 @@
 # 🎨 Team V board
 
-Updated Mon 5 Oct 8:35 PM EDT · Team V featured, Team G below · one shared data source (PR progress blocks + relay) · [Team G's board](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/BOARD.md)
+Updated Mon 5 Oct 8:38 PM EDT · Team V featured, Team G below · one shared data source (PR progress blocks + relay) · [Team G's board](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/BOARD.md)
 
 ## Team V: visual jobs
+
+### 🟦 [V-1006 · Final Winner: last season's score block](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/393)
+
+🟦🟦🟦🟦🟦▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️ **25.00 %** · 1 of 4 steps · Sol chat · GPT blue (Nik types 1006) · updated Mon 5 Oct 8:52 PM EDT
+
+> **Going on now:** waiting for Nik to type 1006 in a new Showdown visual chat  
+> **Next step:** GPT blue: markup and fixtures
 
 ### 🟧 [V-247 · Phone Home tile icons like GOAL_HOME](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/381)
 
@@ -29,7 +36,7 @@ Updated Mon 5 Oct 8:35 PM EDT · Team V featured, Team G below · one shared dat
 
 | Ticket | What | Priority | State | Job |
 |---|---|---|---|---|
-| [HO-011](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/handoffs/HO-011_final-winner-screen-with-the-last-season.md) | Final Winner screen with the last season's score (job 1005) | 🔥 top | 📥 Received |  |
+| [HO-011](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/handoffs/HO-011_final-winner-screen-with-the-last-season.md) | Final Winner screen with the last season's score (job 1005) | 🔥 top | 🔧 Working | 1006 |
 | [HO-002](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/handoffs/HO-002_smooth-stage-atmosphere-on-idle-screens-.md) | Smooth stage atmosphere on idle screens (pointer stutter root cause) | 🔥 top | ✅ Done | V-244 |
 | [HO-005](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/handoffs/HO-005_mobile-home-hero-ghost-coat-between-dani.md) | Mobile Home hero: ghost coat between Daniel and Nik | 🔥 top | ✅ Done | V-243 |
 | [HO-007](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/handoffs/HO-007_shared-job-numbers-for-both-teams-from-1.md) | Shared job numbers for both teams, from 1001 | 🔥 top | ✅ Done |  |
