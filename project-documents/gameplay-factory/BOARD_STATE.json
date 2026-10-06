@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 9:14 PM Boston time (EDT)",
+ "generated": "2026-10-05 9:17 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -284,8 +284,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "2f0872b",
-  "head_boston": "Mon 5 Oct 8:56 PM",
+  "head": "aec9f12",
+  "head_boston": "Mon 5 Oct 9:16 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": true,
   "open_for_g": [],
@@ -668,7 +668,7 @@
  "now": {
   "moving": 10,
   "next": 2,
-  "nik": 2,
+  "nik": 3,
   "later": 4,
   "rows": {
    "G": {
@@ -733,6 +733,15 @@
       "state": "later: Nik decides after his two current calls",
       "waits_on": "the lead asks Nik next",
       "decision": "Five pairing choices (RESTORE BACKUP first, a CANCEL CODE button, the masked email before JOIN, revoke-and-join, a clearer same-account message). The lead brings them to you on one card; nothing to do until then."
+     },
+     {
+      "id": "1009",
+      "group": "Bug list 1",
+      "title": "1009 · G Showdown Champion: dark oval over the losing manager",
+      "lane": "blue",
+      "state": "ready",
+      "waits_on": "Nik types it in the gameplay project",
+      "details": "GPT blue, one file: delete the loser shade rule in final-winner.css."
      }
     ],
     "next": [
