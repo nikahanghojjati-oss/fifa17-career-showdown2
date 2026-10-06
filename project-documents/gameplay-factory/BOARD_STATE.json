@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-06 12:47 AM Boston time (EDT)",
+ "generated": "2026-10-06 12:48 AM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -284,7 +284,7 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "345cd49",
+  "head": "ff58f24",
   "head_boston": "Tue 6 Oct 12:47 AM",
   "latest_id": "G2V-016",
   "feed_matches_latest": true,
@@ -321,8 +321,8 @@
    "today": []
   },
   "physio": {
-   "state": "clear",
-   "line": "All clear: every check has a machine.",
+   "state": "barking",
+   "line": "Barking: POS20 has waited 1 min for a machine.",
    "gate": "POS20 #304 6/16",
    "source": "physio"
   },
@@ -580,12 +580,12 @@
     "from": "V",
     "to": "G",
     "title": "Season Results desktop: port Team V's mockup-match CSS (1029 · V)",
-    "stage": "SENT",
+    "stage": "RECEIVED",
     "pct": 0.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-018_season-results-desktop-port-team-v-s-moc.md",
     "worker": "sonnet",
-    "pickup_min": null,
+    "pickup_min": 0,
     "waiting_min": null
    }
   ],
