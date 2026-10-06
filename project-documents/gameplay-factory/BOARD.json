@@ -798,7 +798,8 @@
      "details": "GPT green, one run. Replaces engineering words players see; leaves test-asserted strings to the lead.",
      "order": 11,
      "place": "in the gameplay project (normal chat), new chat",
-     "after": "1014, 1015 and 1020 merge"
+     "after": "1014, 1015 and 1020 merge",
+     "note": "1014, 1015 and 1020 are merged"
     },
     {
      "id": "1014",
@@ -863,11 +864,12 @@
      "group": "Bug list 1",
      "title": "1020 · G Season Results patch: one column on phone, no overlap on desktop",
      "lane": "green",
-     "state": "with the lead (PR #399, Team V grid fix pushed, CI running)",
+     "state": "merged into bug-list-1",
      "waits_on": "Nik types it in the gameplay project (Work mode)",
      "details": "GPT green, one run. Team V phone CSS (HO-015) + desktop window below the scoring card + reconciliation look. Team V 1012 checks the look.",
      "order": 2,
-     "place": "in the gameplay project (Work mode), new chat"
+     "place": "in the gameplay project (Work mode), new chat",
+     "archived": true
     },
     {
      "id": "1021",
