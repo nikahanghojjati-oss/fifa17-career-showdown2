@@ -41,6 +41,18 @@ jobs:
           fetch-depth: 50
       - name: Poll, rebuild, commit when a bar moved
         run: |
+          # Starvation watch, once a minute, a few API calls: a Validate POS20 / Validate Gameplay Fast / Showdown Gate
+          # run or job waiting over 90 s for a machine. Then this poller yields its own machine to the checks: it queues
+          # its next run (behind the waiting checks) and exits. Tracker branches (factory/*, leads/relay) never count: their
+          # draft PRs skip POS20 without a machine. The Physio itself reacts to every finished check within seconds.
+          starved() {
+            local CHECKS='^(Validate POS20|Validate Gameplay Fast|Showdown Gate)$' n=0 id
+            n=$(gh api "repos/$GITHUB_REPOSITORY/actions/runs?status=queued&per_page=50" --jq "[.workflow_runs[]|select(.name|test(\"$CHECKS\"))|select(.head_branch|test(\"^(factory/|leads/relay$)\")|not)|select(now-(.created_at|fromdateiso8601)>90)]|length" 2>/dev/null || echo 0)
+            for id in $(gh api "repos/$GITHUB_REPOSITORY/actions/runs?status=in_progress&per_page=50" --jq ".workflow_runs[]|select(.name|test(\"$CHECKS\"))|select(.head_branch|test(\"^(factory/|leads/relay$)\")|not)|.id" 2>/dev/null); do
+              n=$(( n + $(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$id/jobs?per_page=50" --jq '[.jobs[]|select(.status=="queued" and (now-(.created_at|fromdateiso8601))>90)]|length' 2>/dev/null || echo 0) ))
+            done
+            [ "${n:-0}" -gt 0 ]
+          }
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           B=project-documents/gameplay-factory
@@ -64,7 +76,20 @@ jobs:
             if [ $(( NOW - PAT )) -gt 600 ] && [ $(( NOW - PHYSIO_KICK )) -gt 600 ]; then
               gh workflow run gate-watchdog.yml --ref main && PHYSIO_KICK=$NOW || echo "physio dispatch failed; next round retries"
             fi
-            [ "$round" = "8" ] || sleep 180
+            [ "$round" = "8" ] && break
+            for minute in 1 2 3; do
+              sleep 60
+              if starved; then
+                echo "A check is waiting for a machine: yielding this poller's machine and queueing the next round behind it."
+                gh workflow run gameplay-factory-progress.yml --ref factory/gameplay-v1
+                exit 0
+              fi
+            done
           done
           # No handover to factory-board-tick.yml: its schedule never fires in this repo, so the chain continues.
           gh workflow run gameplay-factory-progress.yml --ref factory/gameplay-v1
+      # The Physio may cancel this poller to free a machine for a waiting check (scripts/gate-preempt.mjs). A cancelled
+      # run would end the chain for good (schedules never fire here), so it queues its successor first.
+      - name: Resume the chain after a cancel
+        if: cancelled()
+        run: gh workflow run gameplay-factory-progress.yml --ref factory/gameplay-v1
