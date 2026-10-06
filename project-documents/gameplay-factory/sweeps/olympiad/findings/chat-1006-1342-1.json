@@ -1,0 +1,50 @@
+{
+  "id": "A03-GUESS-COUNT-001",
+  "run": "chat-1006-1342",
+  "area": "03",
+  "title": "Guess phase can lock with fewer than three opponent guesses",
+  "severity": "S2",
+  "status": "likely",
+  "where": [
+    {
+      "file": "js/transferChallenge.js",
+      "line": 550,
+      "function": "getGuessRows"
+    },
+    {
+      "file": "js/transferChallenge.js",
+      "line": 636,
+      "function": "getGuessValidationMessage"
+    },
+    {
+      "file": "js/transferChallenge.js",
+      "line": 873,
+      "function": "getTransferPhaseIntro"
+    }
+  ],
+  "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+  "steps": [
+    "Finish the Season 1 transfer window and enter the guess phase.",
+    "For guesses against Daniel, enter only two valid guesses, for example League = LaLiga and Nationality = Spain, leaving the third row blank.",
+    "Enter three valid guesses against Nik.",
+    "Choose LOCK GUESSES & CONTINUE TO SIGNINGS.",
+    "The challenge advances to signing entry even though Daniel only received two recorded opponent guesses."
+  ],
+  "expected": "The Rule Book says the opponent receives three guesses, so both managers should have three valid guesses before the guess phase can lock.",
+  "actual": "Blank guess rows are ignored and validation only checks guesses that exist, so zero, one, or two guesses can be locked. The phase text also says each manager may record up to three guesses.",
+  "root_cause": "getGuessRows omits blank rows and getGuessValidationMessage validates only completeness of recorded rows; it never requires three guesses in each opponent array.",
+  "checked_against": [
+    "js/ruleBook.js lines 49-55: the Transfer Challenge says the opponent receives three guesses.",
+    "index.html lines 277-280: the challenge header says 3 OPPONENT GUESSES.",
+    "js/transferChallenge.js lines 636-639: validation has no count check."
+  ],
+  "fix": {
+    "files": [
+      "js/transferChallenge.js"
+    ],
+    "change": "Before locking guesses, require exactly three valid guesses against each manager. Change the guess-phase helper text from 'up to three' to wording that matches the Rule Book."
+  },
+  "assumptions": [
+    "The Rule Book wording 'receives three guesses' means each manager must submit exactly three guesses, not merely have a maximum allowance of three."
+  ]
+}
