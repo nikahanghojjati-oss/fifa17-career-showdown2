@@ -149,7 +149,7 @@ html #app #topHeader{color:var(--f17-ink);font-family:var(--f17-ui)}
 
 /* JOB-1020 (HO-015): Team V phone Season Results, one page scroll */
 /* PROPOSED (visual-assets/v10_1/season-results/app.css, appended): phone Season Results = one page scroll. */
-@media(max-width:760px){
+@media(max-width:760px) and (orientation:portrait){ /* lead: portrait only, so narrow landscape (desktop stage mode) keeps its stage height */
  /* 1. One scroll: the app's <main>. The screen grows with its content instead of clipping at 100%. */
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode){height:auto;overflow:visible}
  #app #seasonEntry.seasonScreenV10>.v10SeasonStage{--sr-hero:min(28svh,180px);position:relative;inset:auto;height:auto;min-height:100%;max-height:none;overflow:visible}
