@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-06 12:10 AM Boston time (EDT)",
+ "generated": "2026-10-06 12:14 AM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -284,8 +284,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "408af82",
-  "head_boston": "Tue 6 Oct 12:03 AM",
+  "head": "30c4278",
+  "head_boston": "Tue 6 Oct 12:11 AM",
   "latest_id": "G2V-016",
   "feed_matches_latest": true,
   "open_for_g": [],
@@ -315,7 +315,7 @@
   "live": {
    "sha": "bc77a0b",
    "revision": "1.9.1-r62",
-   "when": "2026-10-06T01:18:19+00:00",
+   "when": "2026-10-06T01:18:19Z",
    "subject": "Showdown Gate shadow: 6-lane gate runs beside POS20, coverage-proven (#386)",
    "fixes": [],
    "today": []
