@@ -1,10 +1,10 @@
 # Bug hunt board
 
-Updated Mon 5 Oct, 10:32 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
+Updated Mon 5 Oct, 10:34 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r62** (main `bc77a0b`, Mon 5 Oct 9:18 PM)
 
-🐕 **Barking: Gameplay Fast on #399 has waited 8 min for a machine; POS20 has waited 7 min for a machine; POS20 on #402 has waited 4 min for a machine; POS20 on #392 has waited 3 min for a machine; POS20 on #311 has waited 3 min for a machine.** · POS20 #304 6/16
+🐕 **Barking: POS20 on #399 has waited 10 min for a machine; Gameplay Fast on #399 has waited 10 min for a machine; POS20 on #402 has waited 6 min for a machine; POS20 on #392 has waited 6 min for a machine; POS20 on #311 has waited 5 min for a machine; Gameplay Fast has waited 3 min for a machine; Gameplay Fast on #403 has waited 3 min for a machine; POS20 on #403 has waited 2 min for a machine; POS20 has waited 2 min for a machine.** · POS20 #304 6/16
 
 ## Jobs
 

@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 10:32 PM Boston time (EDT)",
+ "generated": "2026-10-05 10:34 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -388,7 +388,7 @@
   },
   "physio": {
    "state": "barking",
-   "line": "Barking: Gameplay Fast on #399 has waited 8 min for a machine; POS20 has waited 7 min for a machine; POS20 on #402 has waited 4 min for a machine; POS20 on #392 has waited 3 min for a machine; POS20 on #311 has waited 3 min for a machine.",
+   "line": "Barking: POS20 on #399 has waited 10 min for a machine; Gameplay Fast on #399 has waited 10 min for a machine; POS20 on #402 has waited 6 min for a machine; POS20 on #392 has waited 6 min for a machine; POS20 on #311 has waited 5 min for a machine; Gameplay Fast has waited 3 min for a machine; Gameplay Fast on #403 has waited 3 min for a machine; POS20 on #403 has waited 2 min for a machine; POS20 has waited 2 min for a machine.",
    "gate": "POS20 #304 6/16",
    "source": "physio"
   },
