@@ -137,7 +137,10 @@ def q_add(it, team):
     elif w.lower().startswith("nik types") or re.search(r"waiting (for|on) Nik to type", st + " " + str(it.get("state", "")), re.I):
         q["type"] = n + (" again" if "again" in w else "")
         q["note"] = re.sub(r"^.*?\bagain\s*", "", w).strip() if "again" in w else ""
-        q["where"] = where(w + " " + str(it.get("state", "")), lane)
+        q["where"] = row.get("place") or where(w + " " + str(it.get("state", "")), lane)
+        q["note"] = row.get("note") or q["note"]
+        if row.get("after"):
+            q["note"] = "only after " + re.sub(r"^(only )?after ", "", row["after"]) + (" · " + q["note"] if q["note"] else "")
         Q["next"].append(q)
     elif it.get("progress") or it.get("pct") is not None or re.match(r"(with worker|worker done|verifying|building|in progress)", st, re.I):
         Q["run"].append(q)
@@ -160,8 +163,9 @@ for x in nik:
     else:
         _nk.append(x)
 nik = _nk
+# the bug factory sets `order` on BOARD.json rows (its priority for Nik); unordered jobs follow by number
 for v in Q.values():
-    v.sort(key=lambda q: int(q["n"]))
+    v.sort(key=lambda q: (float((rowmap.get(str(q["id"])) or {}).get("order") or 9999), int(q["n"])))
 
 for m in BJ.get("next_move") or []:
     nik.insert(0, {"id": "", "title": "", "decision": m, "md": True})
@@ -257,7 +261,8 @@ def render(first, compact=False):
     if GF and not GF.get("stale"):
         H.append(f'<div class="card">{GF["emoji"]} <b>Gaffer: {GF["pct"]} % of 5-hour usage</b> <span class="m">{e(GF.get("mood", ""))} · updated {e(GF.get("updated_boston", ""))}</span>' + (f'<br><span class="m">{e(str(GF.get("last_decision", ""))[:110])}</span>' if not compact else "") + "</div>")
     elif GF:
-        H.append(f'<div class="card m">Gaffer: no report for {GF.get("age_min") or "?"} min.</div>')
+        _a = GF.get("age_min")
+        H.append(f'<div class="card m">Gaffer: no report for {f"{round(_a / 60)} h" if isinstance(_a, (int, float)) and _a >= 90 else f"{_a or chr(63)} min"}.</div>')
     H.append(f'<div class="card">{TF.PHYSIO_ICON.get(ph.get("state"), "🩺")} <b>{e(ph.get("line", "Physio: no report yet."))}</b>' + (f'<br><span class="m">{e(ph["gate"])}</span>' if ph.get("gate") else "") + "</div>")
     if warn:
         H.append('<div class="card warn">⚠ <b>Not fully current:</b> ' + " ".join(e(w) for w in warn) + "</div>")
