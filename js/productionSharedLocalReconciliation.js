@@ -5,7 +5,9 @@
 })(typeof globalThis!=="undefined"?globalThis:this,function(root){
   "use strict";
   const POLL_MS=15000,PANEL_ID="sharedLocalReconciliationPanel",ACTION_ID="sharedLocalReconciliationPreview";
-  let installed=false,state=null,unsubscribe=null,timer=null,uiBusy=false,uiError="",uiContextKey="";
+  // BH-8: once the last season is committed each phone runs the same read-only observe/preview by itself, at most once per poll (never Apply).
+  const AUTO_GAP_MS=POLL_MS-1000;
+  let installed=false,state=null,unsubscribe=null,timer=null,uiBusy=false,uiError="",uiContextKey="",previewInFlight=null,autoLastAt=-Infinity;
   function lrShowdown(){try{return typeof currentShowdown!=="undefined"?currentShowdown:null;}catch(_error){return null;}}
   function lrSharedActive(){const s=lrShowdown();return Boolean(s&&s.sharedJourney&&s.sharedJourney.mode==="shared");}
   function lrOnline(){return !(root.navigator&&root.navigator.onLine===false);}
@@ -25,7 +27,7 @@
     let preview=lrField(ACTION_ID);if(!preview){preview=root.document.createElement("button");preview.id=ACTION_ID;preview.className="menuButton";preview.type="button";preview.addEventListener("click",()=>{void lrPreviewFromUi();});actions.appendChild(preview);}
     return {panel,heading,summary,status,actions,preview};
   }
-  function lrReason(reason){return ({["history-not-authoritative"]:"Waiting for authoritative Shared History.",["connected-rivalry-not-exact"]:"Checking the exact connected rivalry and registered local Save.",["remote-not-observed"]:"Waiting for the current remote snapshot.",["offline-preview-only"]:"Offline: the read-only preview can use the last observed remote snapshot.",["offline-no-observed-remote"]:"Offline with no observed remote snapshot yet."})[reason]||"Local Reconciliation is preparing.";}
+  function lrReason(reason){return ({["history-not-authoritative"]:"Waiting for authoritative Shared History.",["connected-rivalry-not-exact"]:"Checking the exact connected rivalry and registered local Save.",["remote-not-observed"]:lrMultiTerminal()?"Last season committed. Getting the final result; this updates by itself.":"Waiting for your partner to finish the last season. The final result shows here by itself.",["offline-preview-only"]:"Offline: the read-only preview can use the last observed remote snapshot.",["offline-no-observed-remote"]:"Offline with no observed remote snapshot yet."})[reason]||"Local Reconciliation is preparing.";}
   function lrRender(){
     const ui=lrEnsureUi();if(!ui)return false;const visible=Boolean(lrSharedActive()&&lrHistoryReady()&&state);lrHidden(ui.panel,!visible);if(!visible)return false;
     lrText(ui.heading,"LOCAL RECONCILIATION");
@@ -84,9 +86,34 @@
     if(!after||!(after.phase==="PREVIEW_READY"||after.phase==="OFFLINE_FALLBACK"))return {ok:false,code:"LOCAL_RECONCILIATION_PREVIEW_FAILED",state:after};
     return {ok:true,state:after};
   }
+  function lrPreviewOnce(){
+    // Single flight: a manual tap during an automatic check shares the same observe/preview instead of starting a second one.
+    if(previewInFlight)return previewInFlight;
+    const current=Promise.resolve().then(lrPreview).finally(()=>{if(previewInFlight===current)previewInFlight=null;});
+    previewInFlight=current;return current;
+  }
+  function lrClosed(){
+    try{if(root.CareerModeProductionSharedTerminalClose?.getState?.()?.phase==="CLOSED")return true;}catch(_error){}
+    try{if(lrConnected()?.getState?.()?.observedTombstone===true)return true;}catch(_error){}
+    return false;
+  }
+  function lrAutoEligible(){
+    if(!state||!lrSharedActive()||!lrOnline()||!lrHistoryReady()||!lrMultiTerminal()||lrClosed())return false;
+    if(root.document&&root.document.visibilityState==="hidden")return false;
+    return state.phase==="WAITING_REMOTE"||state.phase==="REMOTE_OBSERVED"||(state.phase==="BLOCKED"&&state.reason==="connected-rivalry-not-exact");
+  }
+  function lrAutoCheck(){
+    // Only after Multi Season is authoritatively SHOWDOWN_COMPLETE; stops at PREVIEW_READY/APPLIED or CLOSED. Not woken by Connected Rivalry
+    // state changes (its own writes), so it cannot loop; throttled to the poll cadence so it never crowds other modules' reads and publishes.
+    if(previewInFlight||uiBusy||!lrAutoEligible())return null;
+    const now=Date.now();if(now-autoLastAt<AUTO_GAP_MS)return null;autoLastAt=now;
+    // Quiet: a transient failure leaves the status as is and is retried on the next poll.
+    return lrPreviewOnce().catch(()=>null);
+  }
+  function lrPoll(){lrRefresh();lrAutoCheck();}
   async function lrPreviewFromUi(){
     if(uiBusy)return false;uiBusy=true;uiError="";lrRender();
-    try{const result=await lrPreview();if(!result||result.ok!==true){uiError=`LOCAL RECONCILIATION PREVIEW NOT READY · ${result?.code||"TRY AGAIN AFTER SHARED HISTORY/CONNECTION RECOVERS"}`;return false;}return true;}
+    try{const result=await lrPreviewOnce();if(!result||result.ok!==true){uiError=`LOCAL RECONCILIATION PREVIEW NOT READY · ${result?.code||"TRY AGAIN AFTER SHARED HISTORY/CONNECTION RECOVERS"}`;return false;}return true;}
     catch(error){uiError=`LOCAL RECONCILIATION PREVIEW FAILED · ${error?.code||error?.message||"TRY AGAIN"}`;return false;}
     finally{uiBusy=false;lrRender();}
   }
@@ -105,8 +132,9 @@
     const c=lrConnected();if(c&&typeof c.subscribe==="function")unsubscribe=c.subscribe(lrRefresh);
     root.addEventListener?.("online",lrRefresh);root.addEventListener?.("offline",lrRefresh);
     for(const event of ["career-mode-shared-history-convergence-state-change","career-mode-shared-season-cursor-change","career-mode-showdown-state-change"])root.addEventListener?.(event,lrRefresh);
-    if(typeof root.setInterval==="function")timer=root.setInterval(lrRefresh,POLL_MS);
-    lrRefresh();return true;
+    for(const event of ["career-mode-shared-multi-season-state-change","career-mode-shared-history-convergence-state-change","career-mode-showdown-state-change","online"])root.addEventListener?.(event,lrAutoCheck);
+    if(typeof root.setInterval==="function")timer=root.setInterval(lrPoll,POLL_MS);
+    lrPoll();return true;
   }
-  return Object.freeze({contractVersion:2,feature:"ssjr-production-shared-local-reconciliation",productionEnabled:true,runtimeRevision:"1.9.1-r20",pollIntervalMs:POLL_MS,install:lrInstall,refresh:lrRefresh,preview:lrPreview,previewFromUi:lrPreviewFromUi,apply:lrApply,getState:()=>state,isActive:lrSharedActive,canonicalStorageMutation:false,providerWriteRequired:false,automaticLocalApply:false,candidateCOnly:true,acceptanceStorageProofScope:"local-reconciliation-preview"});
+  return Object.freeze({contractVersion:2,feature:"ssjr-production-shared-local-reconciliation",productionEnabled:true,runtimeRevision:"1.9.1-r20",pollIntervalMs:POLL_MS,autoFinalCheck:true,autoCheckMinGapMs:AUTO_GAP_MS,install:lrInstall,refresh:lrRefresh,preview:lrPreviewOnce,previewFromUi:lrPreviewFromUi,apply:lrApply,getState:()=>state,isActive:lrSharedActive,canonicalStorageMutation:false,providerWriteRequired:false,automaticLocalApply:false,candidateCOnly:true,acceptanceStorageProofScope:"local-reconciliation-preview"});
 });

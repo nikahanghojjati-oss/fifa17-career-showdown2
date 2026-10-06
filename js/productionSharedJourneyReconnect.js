@@ -8,6 +8,7 @@
   const POLL_MS=15000;
   const STATUS_ID="sharedJourneyReconnectStatus";
   const ACTION_ID="sharedJourneyReconnectAction";
+  const NEW_CODE_ACTION_ID="sharedJourneyReconnectNewCode";
   const DEPENDENCIES=Object.freeze([
     ["ssjr-multi-season-protocol","js/sharedMultiSeasonProgression.js",()=>root.CareerModeSharedMultiSeasonProgression],
     ["ssjr-journey-reconnect-protocol","js/sharedJourneyReconnect.js",()=>root.CareerModeSharedJourneyReconnect],
@@ -76,10 +77,15 @@
   // Job 31: say who does what, in the order Daniel and Nik actually reconnect (the first manager hosts, the second joins).
   function pjrManagerName(role){const name=pjrShowdown()?.managers?.[role];return String(name||(role==="playerOne"?"Manager 1":"Manager 2"));}
   function pjrReconnectStep(role){return role==="playerTwo"?`Tap RECONNECT SESSION, paste the new code from ${pjrManagerName("playerOne")} and tap JOIN PRIVATE SESSION.`:`Tap RECONNECT SESSION, then HOST PRIVATE SESSION and send the new code to ${pjrManagerName("playerTwo")}.`;}
+  // BH-11 (#1): a reload drops the page-memory session code, so this phone simply has no session. That is not an ended
+  // session; say so plainly. Kept about as short as the ended-session line so the banner does not reflow the game screens;
+  // where the other phone takes the new code is said in the Remote Joining panel.
+  function pjrNotConnectedStep(role){const other=pjrManagerName(role==="playerTwo"?"playerOne":"playerTwo");return `Tap RECONNECT SESSION, then HOST and send the code to ${other}, or JOIN ${other}'s new code.`;}
   function pjrMessage(value){
     if(!value)return "";
     if(value.phase==="OFFLINE_HOLD")return "SHARED JOURNEY HELD OFFLINE · Provider authority is not being claimed. Reconnect to verify the preserved journey before continuing.";
     if(value.phase==="RECOVERY_PENDING")return "SHARED JOURNEY RECOVERY PENDING · Resolve the exact private-session operation before shared state can be authoritative again.";
+    if(value.phase==="FRESH_SESSION_REQUIRED"&&!value.sessionId)return `NOT CONNECTED ON THIS PHONE · No private session here (for example after a reload). ${pjrNotConnectedStep(value.managerRole)}`;
     if(value.phase==="FRESH_SESSION_REQUIRED")return `FRESH PRIVATE SESSION REQUIRED · ${value.resumable?"Your Showdown is saved; the private session has ended":"The private session has ended"} (sessions last up to 4 hours). ${pjrReconnectStep(value.managerRole)}`;
     if(value.phase==="TERMINAL_RECOVERED")return `SHARED JOURNEY RECOVERED · ALL ${value.totalSeasons} SEASONS REMAIN TERMINAL · A new session cannot resurrect another season.`;
     if(value.phase==="ACTIVE_RECOVERED")return `SHARED JOURNEY RECOVERED · SEASON ${value.activeSeason} OF ${value.totalSeasons} · League, clubs and accepted history resumed without reset or redraw.`;
@@ -89,11 +95,11 @@
   // It now closes itself as soon as this page holds an exact unexpired ACTIVE session, and the banner re-checks at once.
   let recoveryReturnUnsubscribe=null;
   function pjrRemoteExactActive(remote){const expiry=Number(remote?.expiresAtEpochMs);return Boolean(remote&&remote.sessionState==="active"&&remote.sessionId&&remote.pendingAction==null&&Number.isFinite(expiry)&&Date.now()<expiry);}
-  function pjrArmRecoveryReturn(){
+  function pjrArmRecoveryReturn(exceptSessionId=null){
     if(typeof recoveryReturnUnsubscribe==="function")recoveryReturnUnsubscribe();recoveryReturnUnsubscribe=null;
     if(typeof remoteApi?.subscribe!=="function")return false;
     recoveryReturnUnsubscribe=remoteApi.subscribe(next=>{
-      if(!pjrRemoteExactActive(next))return;
+      if(!pjrRemoteExactActive(next)||(exceptSessionId&&next.sessionId===exceptSessionId))return;
       const stop=recoveryReturnUnsubscribe;recoveryReturnUnsubscribe=null;if(typeof stop==="function")stop();
       try{remoteApi.closePanel?.();}catch(_error){}
       void pjrRefresh();
@@ -103,8 +109,13 @@
   async function pjrOpenSessionRecovery(){
     try{await pjrEnsureDependencies();if(typeof remoteApi?.openPanel!=="function")pjrFail("JOURNEY_RECONNECT_SESSION_UI_UNAVAILABLE","Private session recovery is unavailable.");if(!pjrRemoteExactActive(pjrRemoteSnapshot()))pjrArmRecoveryReturn();await remoteApi.openPanel();return true;}catch(error){pjrReport("Unable to open private session recovery",error);return false;}
   }
+  // BH-11 (#1): open Remote Joining from a phone that still holds an ACTIVE session; the panel closes once a different
+  // (fresh) session is ACTIVE, never because the old one still is.
+  async function pjrOpenFreshSessionCode(){
+    try{await pjrEnsureDependencies();if(typeof remoteApi?.openPanel!=="function")pjrFail("JOURNEY_RECONNECT_SESSION_UI_UNAVAILABLE","Private session recovery is unavailable.");const held=pjrRemoteSnapshot();pjrArmRecoveryReturn(pjrRemoteExactActive(held)?held.sessionId:null);await remoteApi.openPanel();return true;}catch(error){pjrReport("Unable to open private session recovery",error);return false;}
+  }
   function pjrRender(){
-    const node=pjrStatusElement();if(!node)return false;const visible=pjrSharedMarker()&&Boolean(state);node.classList.toggle("hidden",!visible);if(!visible){node.replaceChildren();return false;}const text=pjrMessage(state);node.replaceChildren(root.document.createTextNode(text));if(state.phase==="FRESH_SESSION_REQUIRED"||state.phase==="RECOVERY_PENDING"){const action=root.document.createElement("button");action.id=ACTION_ID;action.type="button";action.className="compactButton";action.textContent=state.phase==="FRESH_SESSION_REQUIRED"?"RECONNECT SESSION":"RESOLVE SESSION";action.disabled=busy;action.addEventListener("click",()=>{void pjrOpenSessionRecovery();});node.append(root.document.createTextNode(" "),action);}node.dataset.recoveryPhase=state.phase;node.dataset.authoritative=state.activeAuthorization?"true":"false";return true;
+    const node=pjrStatusElement();if(!node)return false;const visible=pjrSharedMarker()&&Boolean(state);node.classList.toggle("hidden",!visible);if(!visible){node.replaceChildren();return false;}const text=pjrMessage(state);node.replaceChildren(root.document.createTextNode(text));if(state.phase==="FRESH_SESSION_REQUIRED"||state.phase==="RECOVERY_PENDING"){const action=root.document.createElement("button");action.id=ACTION_ID;action.type="button";action.className="compactButton";action.textContent=state.phase==="FRESH_SESSION_REQUIRED"?"RECONNECT SESSION":"RESOLVE SESSION";action.disabled=busy;action.addEventListener("click",()=>{void pjrOpenSessionRecovery();});node.append(root.document.createTextNode(" "),action);}else if(state.phase==="ACTIVE_RECOVERED"){/* BH-11 (#1): this phone may still hold the session the other phone lost; let it take the other phone's new code. */const fresh=root.document.createElement("button");fresh.id=NEW_CODE_ACTION_ID;fresh.type="button";fresh.className="compactButton";fresh.textContent="NEW SESSION CODE";fresh.disabled=busy;fresh.addEventListener("click",()=>{void pjrOpenFreshSessionCode();});node.append(root.document.createTextNode(" "),fresh);}node.dataset.recoveryPhase=state.phase;node.dataset.authoritative=state.activeAuthorization?"true":"false";return true;
   }
   function pjrPublish(next){
     state=next||null;contextKey=state?`${state.accountId}|${state.deviceId}|${state.rivalryId}`:"";pjrRender();
@@ -168,6 +179,6 @@
     contractVersion:1,feature:"ssjr-production-shared-journey-reconnect",productionEnabled:true,runtimeRevision:"1.9.1-r14",pollIntervalMs:POLL_MS,
     sessionAuthorityReplaceable:true,durableRivalryStatePreserved:true,expiredSessionNeverActive:true,offlineNeverAuthoritative:true,freshRuntimeRequiresReauthorization:true,
     dualManagerStatusVisible:true,canonicalStorageMutation:false,providerWriteRequired:false,listPermissionRequired:false,billingRequired:false,blazeRequired:false,cloudRunRequired:false,cloudFunctionsRequired:false,
-    install:pjrInstall,refresh:pjrRefresh,openSessionRecovery:pjrOpenSessionRecovery,getState:()=>state,isRecovered:()=>Boolean(state?.recovered&&state?.activeAuthorization),isBusy:()=>busy
+    install:pjrInstall,refresh:pjrRefresh,openSessionRecovery:pjrOpenSessionRecovery,openFreshSessionCode:pjrOpenFreshSessionCode,getState:()=>state,isRecovered:()=>Boolean(state?.recovered&&state?.activeAuthorization),isBusy:()=>busy
   });
 });

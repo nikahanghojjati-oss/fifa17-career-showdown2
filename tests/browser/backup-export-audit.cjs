@@ -20,7 +20,7 @@ async function waitForApp(page){
 
 async function openLegacy(page){
     await page.locator("#mainMenu").waitFor({ state: "visible", timeout: 5000 });
-    const opened = await page.evaluate(async () => window.openOptionalModule("legacy"));
+    const opened = await page.evaluate(async () => (window.careerModeLegacyDataTools = true, window.openOptionalModule("legacy")));
     assert.equal(opened, true, "Legacy/Data Management must open from a stable Home route.");
     await page.locator("#legacy").waitFor({ state: "visible", timeout: 12000 });
     const exportButton = page.getByRole("button", { name: "EXPORT BACKUP" });

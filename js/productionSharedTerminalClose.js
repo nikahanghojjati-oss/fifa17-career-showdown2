@@ -10,6 +10,9 @@
   const AMBIGUOUS_CODES=new Set(["unavailable","deadline-exceeded","aborted","internal","unknown","network-request-failed"]);
   let installed=false,busy=false,state=null,stateContextKey="",refreshPromise=null,closePromise=null,unsubscribeRemote=null;
   let rivalryWakeRequested=false;
+  // BH-7: throttled, single-flight re-ask of Connected Rivalry (see ptcRetryUnavailableRivalry).
+  const RIVALRY_RETRY_MS=30000;
+  let rivalryRetryAt=0,rivalryRetryInFlight=false;
   let protocol=null,provider=null,finalApi=null,runtimeApi=null,accountApi=null,pairingApi=null,rivalryApi=null,remoteApi=null;
 
   function ptcFail(code,message){const error=new Error(message||code);error.code=code;throw error;}
@@ -158,6 +161,20 @@
     const closed=protocol.closeResult(intent,result);try{remoteApi?.forgetSession?.();}catch(_error){}
     return ptcPublish(request,{phase:"CLOSED",rivalryId:request.rivalryId,sessionId:intent.sessionId,rivalryRevision:closed.rivalryRevision,sessionRevision:closed.sessionRevision,terminal:true,terminalWitness:ptcClone(intent),replayed:closed.replayed,canonicalStorageMutation:false,listPermissionRequired:false,billingRequired:false});
   }
+  // BH-7: when both managers tap CLOSE together the loser's write is refused (permission-denied once the winner closed the
+  // session/rivalry). Re-read once, like Season Results does; if the rivalry is already CLOSED with this exact witness, show
+  // CLOSED quietly. Anything else keeps the existing rejection path.
+  const PTC_RACE_CODES=new Set(["permission-denied","permission_denied","terminal_close_session_not_active","terminal_close_rivalry_not_active"]);
+  async function ptcClosedByRival(request,context,intent,result){
+    if(!PTC_RACE_CODES.has(ptcCode(result)))return null;
+    try{
+      const terminalRead=await provider.read({user:context.user,firestore:context.services.firestore,firebaseSdk:context.services.firestoreSdk,rivalryId:request.rivalryId,deviceId:context.deviceId,cryptoImpl:root.crypto});
+      if(ptcRequest()?.key!==request.key||terminalRead?.ok!==true||terminalRead.terminal!==true||!protocol.sameWitness(terminalRead.terminalWitness,intent))return null;
+      try{remoteApi?.forgetSession?.();}catch(_error){}
+      ptcPublish(request,ptcClosedState(request,terminalRead));
+      return {ok:true,status:"replayed",replayed:true,closedByRival:true,rivalryId:request.rivalryId,sessionId:intent.sessionId,rivalryState:"closed",sessionState:"closed",rivalryRevision:terminalRead.rivalryRevision};
+    }catch(_error){return null;}
+  }
   async function ptcClose(){
     if(closePromise)return closePromise;
     const current=ptcCurrentState();if(!current||current.phase!=="READY"||!current.intent)return {ok:false,code:"TERMINAL_CLOSE_NOT_READY",message:"Terminal Close is not ready for this exact Shared Showdown."};
@@ -170,6 +187,7 @@
         if(ptcRequest()?.key!==request.key)return {ok:false,code:"TERMINAL_CLOSE_CONTEXT_CHANGED"};
         if(result?.ok===true){ptcAccepted(request,intent,result);return result;}
         if(ptcAmbiguous(result)){ptcPublish(request,{phase:"RECOVERY_PENDING",rivalryId:request.rivalryId,sessionId:intent.sessionId,terminal:false,intent:ptcClone(intent),message:"Terminal Close acknowledgement was not received. The exact same terminal witness is retained in page memory for deterministic retry; no replacement session or local-save mutation will be generated.",canonicalStorageMutation:false,listPermissionRequired:false,billingRequired:false});return {...result,recoverable:true};}
+        const rivalClosed=await ptcClosedByRival(request,context,intent,result);if(rivalClosed)return rivalClosed;
         ptcPublish(request,{...current,message:result?.message||"Terminal Close was rejected without changing the completed Showdown."});return result||{ok:false,code:"TERMINAL_CLOSE_FAILED"};
       }catch(error){
         if(ptcAmbiguous(error)){ptcPublish(request,{phase:"RECOVERY_PENDING",rivalryId:request.rivalryId,sessionId:intent.sessionId,terminal:false,intent:ptcClone(intent),message:"Terminal Close acknowledgement was not received. Retry is bound to the exact same witness and session capability.",canonicalStorageMutation:false,listPermissionRequired:false,billingRequired:false});return {ok:false,code:error.code||"TERMINAL_CLOSE_RECOVERY_PENDING",message:error.message,recoverable:true};}
@@ -189,9 +207,27 @@
         const result=await provider.close(ptcCloseOptions(context,intent));
         if(result?.ok===true){ptcAccepted(request,intent,result);return result;}
         if(ptcAmbiguous(result)){ptcPublish(request,current);return {...result,recoverable:true};}
+        const rivalClosed=await ptcClosedByRival(request,context,intent,result);if(rivalClosed)return rivalClosed;
         ptcPublish(request,{...current,message:result?.message||"The same Terminal Close retry was rejected; the exact witness remains held for inspection."});return result||{ok:false,code:"TERMINAL_CLOSE_FAILED"};
       }catch(error){if(ptcAmbiguous(error)){ptcPublish(request,current);return {ok:false,code:error.code||"TERMINAL_CLOSE_RECOVERY_PENDING",message:error.message,recoverable:true};}ptcReport("Shared Showdown Terminal Close retry failed",error);return {ok:false,code:error.code||"TERMINAL_CLOSE_FAILED",message:error.message};}
     })().finally(()=>{if(closePromise===run)closePromise=null;busy=false;ptcRender();});closePromise=run;return run;
+  }
+  // BH-7: the one-shot wake below never asks again when an initialize left Connected Rivalry unattached and "unavailable".
+  // Re-ask at most once per 30 s, one attempt at a time (flag cleared in finally), only while no request exists and the page is
+  // visible. r52's unthrottled retry re-ran initialize on every wake; each initialize emits a rivalry state-change event that
+  // wakes this module again, so it looped and stalled the season-3 publish. The 30 s clock starts before the attempt, so the
+  // attempt's own state-change event cannot start another one; it is fire-and-forget and nothing else waits on it.
+  function ptcRivalryRetryDue(api){
+    if(rivalryRetryInFlight||root.document?.visibilityState==="hidden")return false;
+    if(ptcShowdown()?.sharedJourney?.mode!=="shared"||!api||typeof api.initialize!=="function")return false;
+    const s=api.getState?.();if(!s||s.initialized!==true||s.attached===true||s.status!=="unavailable"||s.busy===true)return false;
+    return !rivalryRetryAt||Date.now()-rivalryRetryAt>=RIVALRY_RETRY_MS;
+  }
+  function ptcRetryUnavailableRivalry(api){
+    if(!ptcRivalryRetryDue(api))return false;
+    rivalryRetryAt=Date.now();rivalryRetryInFlight=true;
+    void Promise.resolve().then(()=>{const s=api.getState?.();if(s&&s.attached!==true&&s.status==="unavailable"&&!ptcRequest())return api.initialize();return null;}).catch(()=>{}).finally(()=>{rivalryRetryInFlight=false;});
+    return true;
   }
   function ptcWake(event){
     if(event?.type==="career-mode-save-library-authority-invalidated")return ptcClear();
@@ -199,7 +235,8 @@
     if(!request){
       ptcClear();
       // After a reload the durable rivalry binding is only known once Connected Rivalry initializes; its state-change event wakes this module again.
-      const api=ptcRivalryApi();if(!rivalryWakeRequested&&ptcShowdown()?.sharedJourney?.mode==="shared"&&api&&typeof api.initialize==="function"&&api.getState?.()?.initialized!==true){rivalryWakeRequested=true;void Promise.resolve().then(()=>api.initialize()).catch(()=>{});}
+      const api=ptcRivalryApi();if(!rivalryWakeRequested&&ptcShowdown()?.sharedJourney?.mode==="shared"&&api&&typeof api.initialize==="function"&&api.getState?.()?.initialized!==true){rivalryWakeRequested=true;rivalryRetryAt=Date.now();void Promise.resolve().then(()=>api.initialize()).catch(()=>{});}
+      else ptcRetryUnavailableRivalry(api);
       return;
     }
     if(stateContextKey&&stateContextKey!==request.key)ptcClear();
