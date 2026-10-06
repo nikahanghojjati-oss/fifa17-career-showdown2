@@ -1,0 +1,1218 @@
+{
+  "schema": "showdown-gate-coverage/v1",
+  "purpose": "Maps every step of the 16 current gates (all jobs of Validate POS20, with its proof matrix expanded per group, and Validate Gameplay Fast) to the Showdown Gate step that runs it. tests/contracts/showdown-gate-coverage-contracts.cjs fails if an old step is unmapped, a mapping is stale, or a mapped Showdown Gate step does not run the old command.",
+  "gateWorkflow": ".github/workflows/showdown-gate.yml",
+  "oldWorkflows": [
+    ".github/workflows/validate-pos10.yml",
+    ".github/workflows/validate-gameplay-fast.yml"
+  ],
+  "modes": {
+    "checkout": "Target is actions/checkout of the same major version pinned to the exact PR head or push sha.",
+    "setup": "Target uses the same action with identical with: values (node-version, distribution, java-version).",
+    "exact": "Every command line of the old run block appears verbatim in the target run block, and every old step env entry is identical.",
+    "contracts-all": "Old routed contract subset; target runs npm run test:contracts, which must be run-selected-product-contracts.cjs --all.",
+    "proof-groups": "Old proof matrix; one target per POS10 proof group runs the identical proof-runner command with POS20_PROOF_GROUP set to that group and the full routed proof list.",
+    "route": "Old selector; targets compute the changed files and call the unchanged POS20 router CLI the same way (verified functionally).",
+    "seal": "Old exact-head seal; target is the Showdown Gate seal (needs every lane, never skipped unless the run is cancelled).",
+    "cache": "Old emulator cache; target caches ~/.cache/firebase/emulators.",
+    "artifact": "Target uploads with the same action and identical with: values (extra overwrite allowed)."
+  },
+  "oldJobNames": {
+    ".github/workflows/validate-pos10.yml#route": "POS20 exact selector",
+    ".github/workflows/validate-pos10.yml#benchmark": "POS20 cognitive benchmark",
+    ".github/workflows/validate-pos10.yml#operations": "POS20 operations authority",
+    ".github/workflows/validate-pos10.yml#deterministic": "POS20 selected deterministic census",
+    ".github/workflows/validate-pos10.yml#gameplay-lifecycle": "POS20 gameplay lifecycle 1/3/5/10",
+    ".github/workflows/validate-pos10.yml#proofs": "POS20 proof ${{ matrix.group }}",
+    ".github/workflows/validate-pos10.yml#exact-head-summary": "POS20 exact-head cognitive seal",
+    ".github/workflows/validate-gameplay-fast.yml#contracts": "Gameplay contracts",
+    ".github/workflows/validate-gameplay-fast.yml#rules-emulator": "Composed Rules on the emulator",
+    ".github/workflows/validate-gameplay-fast.yml#browser-journey": "Two-manager browser journey",
+    ".github/workflows/validate-gameplay-fast.yml#composed-rules-regression": "Composed production Rules regression"
+  },
+  "gates": [
+    {
+      "workflow": ".github/workflows/validate-pos10.yml",
+      "job": "route",
+      "name": "POS20 exact selector",
+      "lanes": [
+        "l1-core",
+        "l2-browser-full",
+        "l3-storage-visual-gameplay",
+        "l4-remote",
+        "l5-rules-regression",
+        "l6-browser-journey"
+      ]
+    },
+    {
+      "workflow": ".github/workflows/validate-pos10.yml",
+      "job": "benchmark",
+      "name": "POS20 cognitive benchmark",
+      "lanes": [
+        "l1-core"
+      ]
+    },
+    {
+      "workflow": ".github/workflows/validate-pos10.yml",
+      "job": "operations",
+      "name": "POS20 operations authority",
+      "lanes": [
+        "l1-core"
+      ]
+    },
+    {
+      "workflow": ".github/workflows/validate-pos10.yml",
+      "job": "deterministic",
+      "name": "POS20 selected deterministic census",
+      "lanes": [
+        "l1-core"
+      ]
+    },
+    {
+      "workflow": ".github/workflows/validate-pos10.yml",
+      "job": "gameplay-lifecycle",
+      "name": "POS20 gameplay lifecycle 1/3/5/10",
+      "lanes": [
+        "l4-remote"
+      ]
+    },
+    {
+      "workflow": ".github/workflows/validate-pos10.yml",
+      "job": "proofs",
+      "matrixGroup": "FULL",
+      "name": "POS20 proof FULL",
+      "lanes": [
+        "l2-browser-full"
+      ]
+    },
+    {
+      "workflow": ".github/workflows/validate-pos10.yml",
+      "job": "proofs",
+      "matrixGroup": "INLINE",
+      "name": "POS20 proof INLINE",
+      "lanes": [
+        "l1-core"
+      ]
+    },
+    {
+      "workflow": ".github/workflows/validate-pos10.yml",
+      "job": "proofs",
+      "matrixGroup": "REMOTE",
+      "name": "POS20 proof REMOTE",
+      "lanes": [
+        "l4-remote"
+      ]
+    },
+    {
+      "workflow": ".github/workflows/validate-pos10.yml",
+      "job": "proofs",
+      "matrixGroup": "STATIC",
+      "name": "POS20 proof STATIC",
+      "lanes": [
+        "l1-core"
+      ]
+    },
+    {
+      "workflow": ".github/workflows/validate-pos10.yml",
+      "job": "proofs",
+      "matrixGroup": "STORAGE",
+      "name": "POS20 proof STORAGE",
+      "lanes": [
+        "l3-storage-visual-gameplay"
+      ]
+    },
+    {
+      "workflow": ".github/workflows/validate-pos10.yml",
+      "job": "proofs",
+      "matrixGroup": "VISUAL",
+      "name": "POS20 proof VISUAL",
+      "lanes": [
+        "l3-storage-visual-gameplay"
+      ]
+    },
+    {
+      "workflow": ".github/workflows/validate-pos10.yml",
+      "job": "exact-head-summary",
+      "name": "POS20 exact-head cognitive seal",
+      "lanes": [
+        "seal"
+      ]
+    },
+    {
+      "workflow": ".github/workflows/validate-gameplay-fast.yml",
+      "job": "contracts",
+      "name": "Gameplay contracts",
+      "lanes": [
+        "l1-core"
+      ]
+    },
+    {
+      "workflow": ".github/workflows/validate-gameplay-fast.yml",
+      "job": "rules-emulator",
+      "name": "Composed Rules on the emulator",
+      "lanes": [
+        "l3-storage-visual-gameplay"
+      ]
+    },
+    {
+      "workflow": ".github/workflows/validate-gameplay-fast.yml",
+      "job": "browser-journey",
+      "name": "Two-manager browser journey",
+      "lanes": [
+        "l6-browser-journey"
+      ]
+    },
+    {
+      "workflow": ".github/workflows/validate-gameplay-fast.yml",
+      "job": "composed-rules-regression",
+      "name": "Composed production Rules regression",
+      "lanes": [
+        "l5-rules-regression"
+      ]
+    }
+  ],
+  "mappings": [
+    {
+      "workflow": ".github/workflows/validate-pos10.yml",
+      "job": "route",
+      "step": "uses:actions/checkout@v5",
+      "mode": "checkout",
+      "targets": [
+        {
+          "job": "l1-core",
+          "step": "uses:actions/checkout@v5"
+        },
+        {
+          "job": "l2-browser-full",
+          "step": "uses:actions/checkout@v5"
+        },
+        {
+          "job": "l3-storage-visual-gameplay",
+          "step": "uses:actions/checkout@v5"
+        },
+        {
+          "job": "l4-remote",
+          "step": "uses:actions/checkout@v5"
+        },
+        {
+          "job": "l5-rules-regression",
+          "step": "uses:actions/checkout@v5"
+        },
+        {
+          "job": "l6-browser-journey",
+          "step": "uses:actions/checkout@v5"
+        },
+        {
+          "job": "seal",
+          "step": "uses:actions/checkout@v5"
+        }
+      ],
+      "ids": [],
+      "note": "Every lane and the seal check out the exact PR head (or push sha); the full-history clone is replaced by a depth-1 fetch of the exact diff base."
+    },
+    {
+      "workflow": ".github/workflows/validate-pos10.yml",
+      "job": "route",
+      "step": "Resolve exact changed artifacts",
+      "mode": "route",
+      "targets": [
+        {
+          "job": "l1-core",
+          "step": "Fetch exact diff base"
+        },
+        {
+          "job": "l2-browser-full",
+          "step": "Fetch exact diff base"
+        },
+        {
+          "job": "l3-storage-visual-gameplay",
+          "step": "Fetch exact diff base"
+        },
+        {
+          "job": "l4-remote",
+          "step": "Fetch exact diff base"
+        },
+        {
+          "job": "l5-rules-regression",
+          "step": "Fetch exact diff base"
+        },
+        {
+          "job": "l6-browser-journey",
+          "step": "Fetch exact diff base"
+        },
+        {
+          "job": "l1-core",
+          "step": "TEST: Compute Showdown Gate route"
+        },
+        {
+          "job": "l2-browser-full",
+          "step": "TEST: Compute Showdown Gate route"
+        },
+        {
+          "job": "l3-storage-visual-gameplay",
+          "step": "TEST: Compute Showdown Gate route"
+        },
+        {
+          "job": "l4-remote",
+          "step": "TEST: Compute Showdown Gate route"
+        },
+        {
+          "job": "l5-rules-regression",
+          "step": "TEST: Compute Showdown Gate route"
+        },
+        {
+          "job": "l6-browser-journey",
+          "step": "TEST: Compute Showdown Gate route"
+        },
+        {
+          "job": "seal",
+          "step": "Fetch exact diff base"
+        },
+        {
+          "job": "seal",
+          "step": "SEAL: Recompute the route independently of every lane"
+        }
+      ],
+      "ids": [],
+      "note": "Same git diff --name-only base..head (PR) or before..sha (push) in scripts/showdown-gate.mjs changedFiles()."
+    },
+    {
+      "workflow": ".github/workflows/validate-pos10.yml",
+      "job": "route",
+      "step": "Compute POS20 cognitive route",
+      "mode": "route",
+      "targets": [
+        {
+          "job": "l1-core",
+          "step": "TEST: Compute Showdown Gate route"
+        },
+        {
+          "job": "l2-browser-full",
+          "step": "TEST: Compute Showdown Gate route"
+        },
+        {
+          "job": "l3-storage-visual-gameplay",
+          "step": "TEST: Compute Showdown Gate route"
+        },
+        {
+          "job": "l4-remote",
+          "step": "TEST: Compute Showdown Gate route"
+        },
+        {
+          "job": "l5-rules-regression",
+          "step": "TEST: Compute Showdown Gate route"
+        },
+        {
+          "job": "l6-browser-journey",
+          "step": "TEST: Compute Showdown Gate route"
+        },
+        {
+          "job": "seal",
+          "step": "SEAL: Recompute the route independently of every lane"
+        }
+      ],
+      "ids": [],
+      "note": "Each lane calls the unchanged scripts/pos20-impact-router.mjs CLI with --files-file and --force-full on push; no shared selector job."
+    },
+    {
+      "workflow": ".github/workflows/validate-pos10.yml",
+      "job": "benchmark",
+      "step": "uses:actions/checkout@v5",
+      "mode": "checkout",
+      "targets": [
+        {
+          "job": "l1-core",
+          "step": "uses:actions/checkout@v5"
+        }
+      ],
+      "ids": []
+    },
+    {
+      "workflow": ".github/workflows/validate-pos10.yml",
+      "job": "benchmark",
+      "step": "uses:actions/setup-node@v5",
+      "mode": "setup",
+      "targets": [
+        {
+          "job": "l1-core",
+          "step": "uses:actions/setup-node@v5"
+        }
+      ],
+      "ids": []
+    },
+    {
+      "workflow": ".github/workflows/validate-pos10.yml",
+      "job": "benchmark",
+      "step": "run:npm run work:benchmark",
+      "mode": "exact",
+      "targets": [
+        {
+          "job": "l1-core",
+          "step": "TEST: POS20 cognitive benchmark"
+        }
+      ],
+      "ids": [
+        "BENCHMARK"
+      ]
+    },
+    {
+      "workflow": ".github/workflows/validate-pos10.yml",
+      "job": "operations",
+      "step": "uses:actions/checkout@v5",
+      "mode": "checkout",
+      "targets": [
+        {
+          "job": "l1-core",
+          "step": "uses:actions/checkout@v5"
+        }
+      ],
+      "ids": []
+    },
+    {
+      "workflow": ".github/workflows/validate-pos10.yml",
+      "job": "operations",
+      "step": "uses:actions/setup-node@v5",
+      "mode": "setup",
+      "targets": [
+        {
+          "job": "l1-core",
+          "step": "uses:actions/setup-node@v5"
+        }
+      ],
+      "ids": []
+    },
+    {
+      "workflow": ".github/workflows/validate-pos10.yml",
+      "job": "operations",
+      "step": "run:npm run test:ops",
+      "mode": "exact",
+      "targets": [
+        {
+          "job": "l1-core",
+          "step": "TEST: Operations audit"
+        }
+      ],
+      "ids": [
+        "OPERATIONS_AUDIT",
+        "OPERATIONS"
+      ],
+      "note": "Runs on every head, a superset of the routed run_operations condition."
+    },
+    {
+      "workflow": ".github/workflows/validate-pos10.yml",
+      "job": "deterministic",
+      "step": "uses:actions/checkout@v5",
+      "mode": "checkout",
+      "targets": [
+        {
+          "job": "l1-core",
+          "step": "uses:actions/checkout@v5"
+        }
+      ],
+      "ids": []
+    },
+    {
+      "workflow": ".github/workflows/validate-pos10.yml",
+      "job": "deterministic",
+      "step": "uses:actions/setup-node@v5",
+      "mode": "setup",
+      "targets": [
+        {
+          "job": "l1-core",
+          "step": "uses:actions/setup-node@v5"
+        }
+      ],
+      "ids": []
+    },
+    {
+      "workflow": ".github/workflows/validate-pos10.yml",
+      "job": "deterministic",
+      "step": "run:npm ci",
+      "mode": "exact",
+      "targets": [
+        {
+          "job": "l1-core",
+          "step": "Install locked dependencies"
+        }
+      ],
+      "ids": []
+    },
+    {
+      "workflow": ".github/workflows/validate-pos10.yml",
+      "job": "deterministic",
+      "step": "Run selected product contracts",
+      "mode": "contracts-all",
+      "targets": [
+        {
+          "job": "l1-core",
+          "step": "TEST: Product contracts (every registered contract)"
+        }
+      ],
+      "ids": [
+        "CONTRACTS_ALL",
+        "@route-tests"
+      ],
+      "note": "The routed subset is replaced by every registered contract (run-selected-product-contracts.cjs --all)."
+    },
+    {
+      "workflow": ".github/workflows/validate-pos10.yml",
+      "job": "gameplay-lifecycle",
+      "step": "uses:actions/checkout@v5",
+      "mode": "checkout",
+      "targets": [
+        {
+          "job": "l4-remote",
+          "step": "uses:actions/checkout@v5"
+        }
+      ],
+      "ids": []
+    },
+    {
+      "workflow": ".github/workflows/validate-pos10.yml",
+      "job": "gameplay-lifecycle",
+      "step": "uses:actions/setup-node@v5",
+      "mode": "setup",
+      "targets": [
+        {
+          "job": "l4-remote",
+          "step": "uses:actions/setup-node@v5"
+        }
+      ],
+      "ids": []
+    },
+    {
+      "workflow": ".github/workflows/validate-pos10.yml",
+      "job": "gameplay-lifecycle",
+      "step": "uses:actions/setup-java@v5",
+      "mode": "setup",
+      "targets": [
+        {
+          "job": "l4-remote",
+          "step": "uses:actions/setup-java@v5"
+        }
+      ],
+      "ids": []
+    },
+    {
+      "workflow": ".github/workflows/validate-pos10.yml",
+      "job": "gameplay-lifecycle",
+      "step": "run:npm ci",
+      "mode": "exact",
+      "targets": [
+        {
+          "job": "l4-remote",
+          "step": "Install locked dependencies"
+        }
+      ],
+      "ids": []
+    },
+    {
+      "workflow": ".github/workflows/validate-pos10.yml",
+      "job": "gameplay-lifecycle",
+      "step": "Install pinned Firebase emulator test dependencies",
+      "mode": "exact",
+      "targets": [
+        {
+          "job": "l4-remote",
+          "step": "Install pinned Firebase emulator test dependencies"
+        }
+      ],
+      "ids": []
+    },
+    {
+      "workflow": ".github/workflows/validate-pos10.yml",
+      "job": "gameplay-lifecycle",
+      "step": "Build exact production Firestore Rules",
+      "mode": "exact",
+      "targets": [
+        {
+          "job": "l4-remote",
+          "step": "TEST: Build exact production Firestore Rules"
+        }
+      ],
+      "ids": [
+        "LIFECYCLE_COMPOSED_RULES_BUILD"
+      ]
+    },
+    {
+      "workflow": ".github/workflows/validate-pos10.yml",
+      "job": "gameplay-lifecycle",
+      "step": "Prove all supported Showdown lengths",
+      "mode": "exact",
+      "targets": [
+        {
+          "job": "l4-remote",
+          "step": "TEST: Prove all supported Showdown lengths"
+        }
+      ],
+      "ids": [
+        "LIFECYCLE_COMPOSED_1_3_5_10"
+      ],
+      "note": "Same condition as the old job: runs when the route selects SHARED_GAMEPLAY_PROVIDER_LIFECYCLE_EMULATOR. It runs after the REMOTE group in the same lane, which also runs that proof against the base Rules build; both Rules variants stay covered."
+    },
+    {
+      "workflow": ".github/workflows/validate-pos10.yml",
+      "job": "proofs",
+      "step": "uses:actions/checkout@v5",
+      "mode": "checkout",
+      "targets": [
+        {
+          "job": "l1-core",
+          "step": "uses:actions/checkout@v5"
+        },
+        {
+          "job": "l2-browser-full",
+          "step": "uses:actions/checkout@v5"
+        },
+        {
+          "job": "l3-storage-visual-gameplay",
+          "step": "uses:actions/checkout@v5"
+        },
+        {
+          "job": "l4-remote",
+          "step": "uses:actions/checkout@v5"
+        }
+      ],
+      "ids": []
+    },
+    {
+      "workflow": ".github/workflows/validate-pos10.yml",
+      "job": "proofs",
+      "step": "uses:actions/setup-node@v5",
+      "mode": "setup",
+      "targets": [
+        {
+          "job": "l1-core",
+          "step": "uses:actions/setup-node@v5"
+        },
+        {
+          "job": "l2-browser-full",
+          "step": "uses:actions/setup-node@v5"
+        },
+        {
+          "job": "l3-storage-visual-gameplay",
+          "step": "uses:actions/setup-node@v5"
+        },
+        {
+          "job": "l4-remote",
+          "step": "uses:actions/setup-node@v5"
+        }
+      ],
+      "ids": []
+    },
+    {
+      "workflow": ".github/workflows/validate-pos10.yml",
+      "job": "proofs",
+      "step": "uses:actions/setup-java@v5",
+      "mode": "setup",
+      "targets": [
+        {
+          "job": "l1-core",
+          "step": "uses:actions/setup-java@v5"
+        },
+        {
+          "job": "l2-browser-full",
+          "step": "uses:actions/setup-java@v5"
+        },
+        {
+          "job": "l3-storage-visual-gameplay",
+          "step": "uses:actions/setup-java@v5"
+        },
+        {
+          "job": "l4-remote",
+          "step": "uses:actions/setup-java@v5"
+        }
+      ],
+      "ids": []
+    },
+    {
+      "workflow": ".github/workflows/validate-pos10.yml",
+      "job": "proofs",
+      "step": "run:npm ci",
+      "mode": "exact",
+      "targets": [
+        {
+          "job": "l1-core",
+          "step": "Install locked dependencies"
+        },
+        {
+          "job": "l2-browser-full",
+          "step": "Install locked dependencies"
+        },
+        {
+          "job": "l3-storage-visual-gameplay",
+          "step": "Install locked dependencies"
+        },
+        {
+          "job": "l4-remote",
+          "step": "Install locked dependencies"
+        }
+      ],
+      "ids": []
+    },
+    {
+      "workflow": ".github/workflows/validate-pos10.yml",
+      "job": "proofs",
+      "step": "Run selected inherited heavy proofs",
+      "mode": "proof-groups",
+      "targets": [
+        {
+          "job": "l1-core",
+          "step": "TEST: Proof group INLINE"
+        },
+        {
+          "job": "l1-core",
+          "step": "TEST: Proof group STATIC"
+        },
+        {
+          "job": "l2-browser-full",
+          "step": "TEST: Proof group FULL"
+        },
+        {
+          "job": "l3-storage-visual-gameplay",
+          "step": "TEST: Proof group STORAGE"
+        },
+        {
+          "job": "l3-storage-visual-gameplay",
+          "step": "TEST: Proof group VISUAL"
+        },
+        {
+          "job": "l4-remote",
+          "step": "TEST: Proof group REMOTE"
+        }
+      ],
+      "ids": [
+        "@route-proofs"
+      ],
+      "note": "Each matrix group runs the identical proof-runner command with the full routed proof list and its group."
+    },
+    {
+      "workflow": ".github/workflows/validate-pos10.yml",
+      "job": "exact-head-summary",
+      "step": "Require benchmark and every selected lane on this head",
+      "mode": "seal",
+      "targets": [
+        {
+          "job": "seal",
+          "step": "SEAL: Require every lane green on this exact head with every routed id run"
+        }
+      ],
+      "ids": []
+    },
+    {
+      "workflow": ".github/workflows/validate-gameplay-fast.yml",
+      "job": "contracts",
+      "step": "uses:actions/checkout@v5",
+      "mode": "checkout",
+      "targets": [
+        {
+          "job": "l1-core",
+          "step": "uses:actions/checkout@v5"
+        }
+      ],
+      "ids": []
+    },
+    {
+      "workflow": ".github/workflows/validate-gameplay-fast.yml",
+      "job": "contracts",
+      "step": "uses:actions/setup-node@v5",
+      "mode": "setup",
+      "targets": [
+        {
+          "job": "l1-core",
+          "step": "uses:actions/setup-node@v5"
+        }
+      ],
+      "ids": []
+    },
+    {
+      "workflow": ".github/workflows/validate-gameplay-fast.yml",
+      "job": "contracts",
+      "step": "run:npm ci",
+      "mode": "exact",
+      "targets": [
+        {
+          "job": "l1-core",
+          "step": "Install locked dependencies"
+        }
+      ],
+      "ids": []
+    },
+    {
+      "workflow": ".github/workflows/validate-gameplay-fast.yml",
+      "job": "contracts",
+      "step": "Product contracts",
+      "mode": "exact",
+      "targets": [
+        {
+          "job": "l1-core",
+          "step": "TEST: Product contracts (every registered contract)"
+        }
+      ],
+      "ids": [
+        "CONTRACTS_ALL"
+      ]
+    },
+    {
+      "workflow": ".github/workflows/validate-gameplay-fast.yml",
+      "job": "contracts",
+      "step": "Operations audit",
+      "mode": "exact",
+      "targets": [
+        {
+          "job": "l1-core",
+          "step": "TEST: Operations audit"
+        }
+      ],
+      "ids": [
+        "OPERATIONS_AUDIT"
+      ]
+    },
+    {
+      "workflow": ".github/workflows/validate-gameplay-fast.yml",
+      "job": "rules-emulator",
+      "step": "uses:actions/checkout@v5",
+      "mode": "checkout",
+      "targets": [
+        {
+          "job": "l3-storage-visual-gameplay",
+          "step": "uses:actions/checkout@v5"
+        }
+      ],
+      "ids": []
+    },
+    {
+      "workflow": ".github/workflows/validate-gameplay-fast.yml",
+      "job": "rules-emulator",
+      "step": "uses:actions/setup-node@v5",
+      "mode": "setup",
+      "targets": [
+        {
+          "job": "l3-storage-visual-gameplay",
+          "step": "uses:actions/setup-node@v5"
+        }
+      ],
+      "ids": []
+    },
+    {
+      "workflow": ".github/workflows/validate-gameplay-fast.yml",
+      "job": "rules-emulator",
+      "step": "uses:actions/setup-java@v5",
+      "mode": "setup",
+      "targets": [
+        {
+          "job": "l3-storage-visual-gameplay",
+          "step": "uses:actions/setup-java@v5"
+        }
+      ],
+      "ids": []
+    },
+    {
+      "workflow": ".github/workflows/validate-gameplay-fast.yml",
+      "job": "rules-emulator",
+      "step": "run:npm ci",
+      "mode": "exact",
+      "targets": [
+        {
+          "job": "l3-storage-visual-gameplay",
+          "step": "Install locked dependencies"
+        }
+      ],
+      "ids": []
+    },
+    {
+      "workflow": ".github/workflows/validate-gameplay-fast.yml",
+      "job": "rules-emulator",
+      "step": "Install pinned Firebase emulator test dependencies",
+      "mode": "exact",
+      "targets": [
+        {
+          "job": "l3-storage-visual-gameplay",
+          "step": "Install pinned Firebase emulator test dependencies"
+        }
+      ],
+      "ids": []
+    },
+    {
+      "workflow": ".github/workflows/validate-gameplay-fast.yml",
+      "job": "rules-emulator",
+      "step": "Build the composed production Rules",
+      "mode": "exact",
+      "targets": [
+        {
+          "job": "l3-storage-visual-gameplay",
+          "step": "TEST: Build the composed production Rules"
+        }
+      ],
+      "ids": [
+        "GF_RULES_BUILD_ZERO_BILLING"
+      ]
+    },
+    {
+      "workflow": ".github/workflows/validate-gameplay-fast.yml",
+      "job": "rules-emulator",
+      "step": "Shared Setup provider matrix",
+      "mode": "exact",
+      "targets": [
+        {
+          "job": "l3-storage-visual-gameplay",
+          "step": "TEST: Shared Setup provider matrix"
+        }
+      ],
+      "ids": [
+        "GF_SHARED_SETUP_PROVIDER"
+      ]
+    },
+    {
+      "workflow": ".github/workflows/validate-gameplay-fast.yml",
+      "job": "rules-emulator",
+      "step": "Transfer fresh-session recovery",
+      "mode": "exact",
+      "targets": [
+        {
+          "job": "l3-storage-visual-gameplay",
+          "step": "TEST: Transfer fresh-session recovery"
+        }
+      ],
+      "ids": [
+        "GF_TRANSFER_FRESH_SESSION"
+      ]
+    },
+    {
+      "workflow": ".github/workflows/validate-gameplay-fast.yml",
+      "job": "rules-emulator",
+      "step": "Gameplay lifecycle (1 and 3 seasons)",
+      "mode": "exact",
+      "targets": [
+        {
+          "job": "l3-storage-visual-gameplay",
+          "step": "TEST: Gameplay lifecycle (1 and 3 seasons)"
+        }
+      ],
+      "ids": [
+        "GF_LIFECYCLE_1_3"
+      ]
+    },
+    {
+      "workflow": ".github/workflows/validate-gameplay-fast.yml",
+      "job": "rules-emulator",
+      "step": "Terminal Close matrix",
+      "mode": "exact",
+      "targets": [
+        {
+          "job": "l3-storage-visual-gameplay",
+          "step": "TEST: Terminal Close matrix"
+        }
+      ],
+      "ids": [
+        "GF_TERMINAL_CLOSE"
+      ]
+    },
+    {
+      "workflow": ".github/workflows/validate-gameplay-fast.yml",
+      "job": "rules-emulator",
+      "step": "Persistent Nik and Daniel pair matrix",
+      "mode": "exact",
+      "targets": [
+        {
+          "job": "l3-storage-visual-gameplay",
+          "step": "TEST: Persistent Nik and Daniel pair matrix"
+        }
+      ],
+      "ids": [
+        "GF_PERSISTENT_PAIR"
+      ]
+    },
+    {
+      "workflow": ".github/workflows/validate-gameplay-fast.yml",
+      "job": "rules-emulator",
+      "step": "Two-manager journey (3 and 10 seasons, session expires and is re-joined mid-game)",
+      "mode": "exact",
+      "targets": [
+        {
+          "job": "l3-storage-visual-gameplay",
+          "step": "TEST: Two-manager journey (3 and 10 seasons, session expires and is re-joined mid-game)"
+        }
+      ],
+      "ids": [
+        "GF_TWO_MANAGER_JOURNEY_3_10"
+      ]
+    },
+    {
+      "workflow": ".github/workflows/validate-gameplay-fast.yml",
+      "job": "rules-emulator",
+      "step": "Career index matrix",
+      "mode": "exact",
+      "targets": [
+        {
+          "job": "l3-storage-visual-gameplay",
+          "step": "TEST: Career index matrix"
+        }
+      ],
+      "ids": [
+        "GF_CAREER_INDEX"
+      ]
+    },
+    {
+      "workflow": ".github/workflows/validate-gameplay-fast.yml",
+      "job": "rules-emulator",
+      "step": "Completed-only read matrix",
+      "mode": "exact",
+      "targets": [
+        {
+          "job": "l3-storage-visual-gameplay",
+          "step": "TEST: Completed-only read matrix"
+        }
+      ],
+      "ids": [
+        "GF_COMPLETED_READ"
+      ]
+    },
+    {
+      "workflow": ".github/workflows/validate-gameplay-fast.yml",
+      "job": "rules-emulator",
+      "step": "Closed-Showdown adapter journey",
+      "mode": "exact",
+      "targets": [
+        {
+          "job": "l3-storage-visual-gameplay",
+          "step": "TEST: Closed-Showdown adapter journey"
+        }
+      ],
+      "ids": [
+        "GF_CLOSED_ADAPTER"
+      ]
+    },
+    {
+      "workflow": ".github/workflows/validate-gameplay-fast.yml",
+      "job": "rules-emulator",
+      "step": "Completed transfer history matrix",
+      "mode": "exact",
+      "targets": [
+        {
+          "job": "l3-storage-visual-gameplay",
+          "step": "TEST: Completed transfer history matrix"
+        }
+      ],
+      "ids": [
+        "GF_COMPLETED_TRANSFER"
+      ]
+    },
+    {
+      "workflow": ".github/workflows/validate-gameplay-fast.yml",
+      "job": "rules-emulator",
+      "step": "Season commit concurrent acknowledge",
+      "mode": "exact",
+      "targets": [
+        {
+          "job": "l3-storage-visual-gameplay",
+          "step": "TEST: Season commit concurrent acknowledge"
+        }
+      ],
+      "ids": [
+        "GF_SEASON_ACK"
+      ]
+    },
+    {
+      "workflow": ".github/workflows/validate-gameplay-fast.yml",
+      "job": "browser-journey",
+      "step": "uses:actions/checkout@v5",
+      "mode": "checkout",
+      "targets": [
+        {
+          "job": "l6-browser-journey",
+          "step": "uses:actions/checkout@v5"
+        }
+      ],
+      "ids": []
+    },
+    {
+      "workflow": ".github/workflows/validate-gameplay-fast.yml",
+      "job": "browser-journey",
+      "step": "uses:actions/setup-node@v5",
+      "mode": "setup",
+      "targets": [
+        {
+          "job": "l6-browser-journey",
+          "step": "uses:actions/setup-node@v5"
+        }
+      ],
+      "ids": []
+    },
+    {
+      "workflow": ".github/workflows/validate-gameplay-fast.yml",
+      "job": "browser-journey",
+      "step": "uses:actions/setup-java@v5",
+      "mode": "setup",
+      "targets": [
+        {
+          "job": "l6-browser-journey",
+          "step": "uses:actions/setup-java@v5"
+        }
+      ],
+      "ids": []
+    },
+    {
+      "workflow": ".github/workflows/validate-gameplay-fast.yml",
+      "job": "browser-journey",
+      "step": "run:npm ci",
+      "mode": "exact",
+      "targets": [
+        {
+          "job": "l6-browser-journey",
+          "step": "Install locked dependencies"
+        }
+      ],
+      "ids": []
+    },
+    {
+      "workflow": ".github/workflows/validate-gameplay-fast.yml",
+      "job": "browser-journey",
+      "step": "Install pinned Firebase emulator test dependencies",
+      "mode": "exact",
+      "targets": [
+        {
+          "job": "l6-browser-journey",
+          "step": "Install pinned Firebase emulator test dependencies"
+        }
+      ],
+      "ids": []
+    },
+    {
+      "workflow": ".github/workflows/validate-gameplay-fast.yml",
+      "job": "browser-journey",
+      "step": "Build the composed production Rules",
+      "mode": "exact",
+      "targets": [
+        {
+          "job": "l6-browser-journey",
+          "step": "TEST: Build the composed production Rules"
+        }
+      ],
+      "ids": [
+        "JOURNEY_RULES_BUILD_ZERO_BILLING"
+      ]
+    },
+    {
+      "workflow": ".github/workflows/validate-gameplay-fast.yml",
+      "job": "browser-journey",
+      "step": "Two-manager browser journey",
+      "mode": "exact",
+      "targets": [
+        {
+          "job": "l6-browser-journey",
+          "step": "TEST: Two-manager browser journey"
+        }
+      ],
+      "ids": [
+        "TWO_MANAGER_BROWSER_JOURNEY"
+      ]
+    },
+    {
+      "workflow": ".github/workflows/validate-gameplay-fast.yml",
+      "job": "browser-journey",
+      "step": "Upload journey screenshots",
+      "mode": "artifact",
+      "targets": [
+        {
+          "job": "l6-browser-journey",
+          "step": "Upload journey screenshots"
+        }
+      ],
+      "ids": []
+    },
+    {
+      "workflow": ".github/workflows/validate-gameplay-fast.yml",
+      "job": "composed-rules-regression",
+      "step": "uses:actions/checkout@v5",
+      "mode": "checkout",
+      "targets": [
+        {
+          "job": "l5-rules-regression",
+          "step": "uses:actions/checkout@v5"
+        }
+      ],
+      "ids": []
+    },
+    {
+      "workflow": ".github/workflows/validate-gameplay-fast.yml",
+      "job": "composed-rules-regression",
+      "step": "Fetch production main for the reviewed Rules delta",
+      "mode": "exact",
+      "targets": [
+        {
+          "job": "l5-rules-regression",
+          "step": "Fetch production main for the reviewed Rules delta"
+        }
+      ],
+      "ids": []
+    },
+    {
+      "workflow": ".github/workflows/validate-gameplay-fast.yml",
+      "job": "composed-rules-regression",
+      "step": "uses:actions/setup-node@v5",
+      "mode": "setup",
+      "targets": [
+        {
+          "job": "l5-rules-regression",
+          "step": "uses:actions/setup-node@v5"
+        }
+      ],
+      "ids": []
+    },
+    {
+      "workflow": ".github/workflows/validate-gameplay-fast.yml",
+      "job": "composed-rules-regression",
+      "step": "uses:actions/setup-java@v5",
+      "mode": "setup",
+      "targets": [
+        {
+          "job": "l5-rules-regression",
+          "step": "uses:actions/setup-java@v5"
+        }
+      ],
+      "ids": []
+    },
+    {
+      "workflow": ".github/workflows/validate-gameplay-fast.yml",
+      "job": "composed-rules-regression",
+      "step": "run:npm ci",
+      "mode": "exact",
+      "targets": [
+        {
+          "job": "l5-rules-regression",
+          "step": "Install locked dependencies"
+        }
+      ],
+      "ids": []
+    },
+    {
+      "workflow": ".github/workflows/validate-gameplay-fast.yml",
+      "job": "composed-rules-regression",
+      "step": "Install pinned Firebase emulator test dependencies",
+      "mode": "exact",
+      "targets": [
+        {
+          "job": "l5-rules-regression",
+          "step": "Install pinned Firebase emulator test dependencies"
+        }
+      ],
+      "ids": []
+    },
+    {
+      "workflow": ".github/workflows/validate-gameplay-fast.yml",
+      "job": "composed-rules-regression",
+      "step": "Composed production Rules regression matrix",
+      "mode": "exact",
+      "targets": [
+        {
+          "job": "l5-rules-regression",
+          "step": "TEST: Composed production Rules regression matrix"
+        }
+      ],
+      "ids": [
+        "COMPOSED_RULES_REGRESSION"
+      ]
+    }
+  ]
+}
