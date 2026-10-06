@@ -1,6 +1,6 @@
 # Showdown board: G Factory and V Factory
 
-🌐 **Live: runtime 1.9.1-r61** (main `84a04d8`) · 🔄 **18 moving** · ⏭ 2 up next · 👤 5 waiting on Nik · 🗂 4 later · updated 2026-10-05 8:19 PM Boston time (EDT)
+🌐 **Live: runtime 1.9.1-r61** (main `84a04d8`) · 🔄 **18 moving** · ⏭ 2 up next · 👤 4 waiting on Nik · 🗂 4 later · updated 2026-10-05 8:20 PM Boston time (EDT)
 
 🩺 **All clear: every check has a machine.** · POS20 #390 12/16
 
@@ -36,11 +36,8 @@
 | G | G-F23 | Desktop Settings cards clipped; Update button hidden (Nik's Chrome stuck on r54) | 🟧 Opus | in r62 (PR #390, head bb827862) | branch bugfix/settings-desktop-update 1d264f7e; after r62 Nik presses Update once on the laptop |
 | G | BUG-1 | Raw error codes in the Setup settle text; neutral Manager 1/2 fallbacks; 80-character transfer names | 🟪 Sonnet | in r62 (PR #390, head bb827862) | bugfix/bug-batch-1 9e012fd |
 | G | 1001 | 🐞 Bug list 1: 1001 · G Home desktop tile icons: bigger, inside the tile, never on the text | 🟦 Sol chat | in release (merged into gameplay/bug-list-1, 215e34a) | Bug list 1 items L1-01..06. CSS only in css/homeV10.css desktop blocks. Job file jobs/JOB-1001.md. Lead checks screenshots at 1920/1440/1280/1100/1000 wide. |
+| G | 1003 | 🐞 Bug list 1: 1003 · G Transfer War: main's copy of Team V's early-end string matches (HO-010) | 🟦 Sol chat | in release (merged into gameplay/bug-list-1) | Low priority, no live impact. js/transferScreenV10.js lines 26 and 30. Job file jobs/JOB-1003.md. |
 | G | 1004 | 🐞 Bug list 1: 1004 · G Rule Book: remove the useless 01-06 side number rail (desktop and phone) | 🟦 Sol chat | with worker (round 2) | js/rulesSettingsV10.js only: stop building #ruleBookIndex. Per-rule number badges stay. |
-
-| Hand-off | From → To | What | Progress |
-| --- | --- | --- | --- |
-| [HO-010](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/handoffs/HO-010_sync-main-s-copy-of-transfer-war-f1actio.md) | V → G | Sync main's copy of Transfer War f1Action to REQUEST EARLY END (1002 · V) | ✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done |
 
 ## 🟢 G Factory
 
@@ -70,14 +67,6 @@ _Gameplay, online sync, every merge and every release (senior director)._ Worker
 | G-F4 | GPT Q&A team: scripted paths and code-vs-rulebook reads | 🟦 Sol chat | queued | G-F1 |
 | G-F7 | Ten-season smoothness run on live 2.0 (emulator, 10 seasons with a mid-game expiry) | 🟪 Sonnet | queued | G-F1 |
 
-### 🐞 Bug list 1
-
-**👤 Waiting on Nik**
-
-| Job | What | Worker | State | Waits on |
-| --- | --- | --- | --- | --- |
-| 1003 | 1003 · G Transfer War: main's copy of Team V's early-end string matches (HO-010) — Low priority, no live impact. js/transferScreenV10.js lines 26 and 30. Job file jobs/JOB-1003.md. | 🟦 Sol chat | ready | Nik types 1003 in the gameplay GPT project (normal chat) |
-
 ## 🔵 V Factory
 
 _Visuals and presentation: design changes, art, screen skins (assistant director)._ Workers: 🟧 Opus · 🟪 Sonnet · 🟦 Sol chat · 🟩 Sol Work mode · 🟫 Astra · 🟥 Image tickets · ⬜ Codex
@@ -90,7 +79,7 @@ _Visuals and presentation: design changes, art, screen skins (assistant director
 
 ## 📡 Relay
 
-**Health:** ✅ working · direct wake: Team G ✅, Team V ✅ · 29 messages · 1 open hand-offs, 9 done · **[every message in full: RELAY.md](RELAY.md)**
+**Health:** ✅ working · direct wake: Team G ✅, Team V ✅ · 29 messages · 0 open hand-offs, 10 done · **[every message in full: RELAY.md](RELAY.md)**
 
 Replies owed: Team G none · Team V G2V-015, G2V-016.
 
@@ -104,7 +93,7 @@ Latest:
 **Shipped to the live game today (11):** [#387](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/387) Physio: a watched workflow that isn't on main no longer fai… · [#385](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/385) Physio: re-run checks GitHub gave no machine, pause helpers… · [#383](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/383) Release r61: phone track list stops below the logo and scro… · [#378](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/378) G-36: No old player photos + seven Home tiles (r60) · and 7 more
 
 <details>
-<summary>Done jobs (7 future-list rows, 1 Team V jobs, 9 hand-offs, 33 factory jobs)</summary>
+<summary>Done jobs (7 future-list rows, 1 Team V jobs, 10 hand-offs, 33 factory jobs)</summary>
 
 - G G-F10: Club Assignment: wire Team V's approved design (hands, seams, new layout) into the live screen (done (live in r57, PR #371))
 - G G-F12: G-36: no old player photos on any screen, and all 7 Home tiles (done (live in r60, d8e6c44))
@@ -123,6 +112,7 @@ Latest:
 - HO-007 (G → V): Shared job numbers for both teams, from 1001
 - HO-008 (G → V): Bug factory mode for Team V: GPT blue and green lanes, escalation ladder
 - HO-009 (V → G): GPT workers: CI gates and the Physio are expected, never removed
+- HO-010 (V → G): Sync main's copy of Transfer War f1Action to REQUEST EARLY END (1002 · V)
 - Bug hunt on r52: 5 of 5 fixed ([report](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/reports/SONNET_BUG_HUNT_2026-10-04.md))
 - The first factory plan: 33 of 33 jobs finished ([every job](BOARD_ARCHIVE.md))
 

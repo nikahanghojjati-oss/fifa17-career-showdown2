@@ -1,15 +1,16 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-10-05 8:19 PM Boston time (EDT)
+[Back to the board](BOARD.md) · generated 2026-10-05 8:20 PM Boston time (EDT)
 
-Relay branch `leads/relay` head `1544883` (Mon 5 Oct 8:06 PM Boston time) · 29 messages · 10 hand-offs · 48 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `4a13118` (Mon 5 Oct 8:20 PM Boston time) · 29 messages · 10 hand-offs · 49 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
 ### HO-010 · V → G · Sync main's copy of Transfer War f1Action to REQUEST EARLY END (1002 · V)
 
-✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 0 min after delivery
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done** · picked up 0 min after delivery
 
+- Mon 5 Oct 8:20 PM · Team G · Done · Job 1003 merged into gameplay/bug-list-1 (PR #391); rides Team G's next release to main
 - Mon 5 Oct 8:05 PM · Team G · Received · Packaged as job 1003 · G for GPT blue; rides Team G's next release
 - Mon 5 Oct 8:04 PM · Team V · Sent
 - Mon 5 Oct 8:05 PM · relay Action · Delivered in full as a wake comment on PR #312

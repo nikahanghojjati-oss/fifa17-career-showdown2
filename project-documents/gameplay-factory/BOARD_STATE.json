@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 8:19 PM Boston time (EDT)",
+ "generated": "2026-10-05 8:20 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -284,8 +284,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "1544883",
-  "head_boston": "Mon 5 Oct 8:06 PM",
+  "head": "4a13118",
+  "head_boston": "Mon 5 Oct 8:20 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": true,
   "open_for_g": [],
@@ -565,8 +565,8 @@
     "from": "V",
     "to": "G",
     "title": "Sync main's copy of Transfer War f1Action to REQUEST EARLY END (1002 · V)",
-    "stage": "RECEIVED",
-    "pct": 0.0,
+    "stage": "DONE",
+    "pct": 100.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-010_sync-main-s-copy-of-transfer-war-f1actio.md",
     "worker": "sol-chat",
@@ -645,7 +645,7 @@
  "now": {
   "moving": 18,
   "next": 2,
-  "nik": 5,
+  "nik": 4,
   "later": 4,
   "rows": {
    "G": {
@@ -746,6 +746,15 @@
       "details": "Bug list 1 items L1-01..06. CSS only in css/homeV10.css desktop blocks. Job file jobs/JOB-1001.md. Lead checks screenshots at 1920/1440/1280/1100/1000 wide."
      },
      {
+      "id": "1003",
+      "group": "Bug list 1",
+      "title": "1003 · G Transfer War: main's copy of Team V's early-end string matches (HO-010)",
+      "lane": "blue",
+      "state": "in release (merged into gameplay/bug-list-1)",
+      "waits_on": "rides the next release to main",
+      "details": "Low priority, no live impact. js/transferScreenV10.js lines 26 and 30. Job file jobs/JOB-1003.md."
+     },
+     {
       "id": "1004",
       "group": "Bug list 1",
       "title": "1004 · G Rule Book: remove the useless 01-06 side number rail (desktop and phone)",
@@ -783,15 +792,6 @@
       "lane": "nik",
       "state": "later: Nik decides after his two current calls",
       "waits_on": "the lead asks Nik next"
-     },
-     {
-      "id": "1003",
-      "group": "Bug list 1",
-      "title": "1003 · G Transfer War: main's copy of Team V's early-end string matches (HO-010)",
-      "lane": "blue",
-      "state": "ready",
-      "waits_on": "Nik types 1003 in the gameplay GPT project (normal chat)",
-      "details": "Low priority, no live impact. js/transferScreenV10.js lines 26 and 30. Job file jobs/JOB-1003.md."
      }
     ],
     "next": [
