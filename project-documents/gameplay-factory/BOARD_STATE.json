@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 8:07 PM Boston time (EDT)",
+ "generated": "2026-10-05 8:09 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -323,12 +323,12 @@
      "title": "Release r62: bug-hunt fixes (errors, reconnect, auto final winner, desktop Settings, phone Home)",
      "draft": false,
      "branch": "gameplay/release-r62",
-     "sha": "bb827862de3a9018e59a479f5d435c6498c3cf46",
-     "updated": "2026-10-06T00:00:40Z",
+     "sha": "284097dde49228a76a812d6f32e1dca1c261629e",
+     "updated": "2026-10-06T00:09:11Z",
      "gates": {
-      "passed": 13,
-      "running": 0,
-      "failed": 3,
+      "passed": 0,
+      "running": 5,
+      "failed": 0,
       "cancelled": 0
      }
     },
@@ -420,8 +420,8 @@
    ]
   },
   "physio": {
-   "state": "clear",
-   "line": "All clear: every check has a machine.",
+   "state": "barking",
+   "line": "Barking: POS20 on #312 has waited 2 min for a machine; POS20 has waited 2 min for a machine.",
    "gate": "POS20 #390 13/16",
    "source": "physio"
   },
@@ -855,12 +855,12 @@
     "title": "Release r62: bug-hunt fixes (errors, reconnect, auto final winner, desktop Settings, phone Home)",
     "draft": false,
     "branch": "gameplay/release-r62",
-    "sha": "bb827862de3a9018e59a479f5d435c6498c3cf46",
-    "updated": "2026-10-06T00:00:40Z",
+    "sha": "284097dde49228a76a812d6f32e1dca1c261629e",
+    "updated": "2026-10-06T00:09:11Z",
     "gates": {
-     "passed": 13,
-     "running": 0,
-     "failed": 3,
+     "passed": 0,
+     "running": 5,
+     "failed": 0,
      "cancelled": 0
     }
    },
