@@ -1976,3 +1976,45 @@ html[data-motion-reduced="true"] .finalWinnerActionsSlot button, html[data-reduc
     transform: none;
   }
 }
+
+/* JOB-1006: final season score in the summary strip (Nik, 2026-10-06) */
+@media (min-width: 761px) {
+  .finalWinnerResultsPanel { grid-template-columns: 31% 1fr; }
+  .finalWinnerMetaStrip { grid-template-columns: 1.4fr 1fr 1fr; }
+}
+
+.finalWinnerLastSeasonScore {
+  display: inline-flex;
+  align-items: baseline;
+  gap: .25em;
+  white-space: nowrap;
+}
+
+.finalWinnerLastSeasonScore i {
+  font-style: normal;
+  opacity: .7;
+}
+
+.finalWinnerMetaCell--lastSeason small {
+  white-space: nowrap;
+}
+
+@media (max-width: 760px) {
+  .finalWinnerMetaStrip {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1.25fr 1fr;
+  }
+
+  .finalWinnerMetaCell--lastSeason {
+    grid-column: 1 / -1;
+    border-bottom: 1px solid rgb(242 196 91 / .18);
+  }
+
+  .finalWinnerMetaCell--lastSeason + .finalWinnerMetaCell {
+    border-left: 0;
+  }
+
+  .finalWinnerMetaCell--lastSeason strong {
+    font-size: 34px;
+  }
+}
