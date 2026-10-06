@@ -15,7 +15,6 @@ Updated Mon 5 Oct, 9:40 PM Boston time. Bug hunting only, no new features until 
 - **1010** 10-season sweep: scoring, history and final math. Type 1010 in the gameplay project (Work mode) to start it.
 - **1011** Plain-words sweep: jargon on game screens. Type 1011 in the gameplay project (Work mode) to start it.
 - **1014** No reconnect prompt after a finished Showdown. Type 1014 in the gameplay project (Work mode) to start it.
-- **1015** Connect Players screen: create code / join off Home. Type 1015 in the gameplay project (Work mode) to start it.
 - **1017** Gameplay hunt 1: shared season flow across devices. Type 1017 in the Q&A team project to start it.
 - **1018** Gameplay hunt 2: sessions, pairing and reconnect. Type 1018 in the Q&A team project to start it.
 - **1019** Gameplay hunt 3: entries, saves and career numbers. Type 1019 in the Q&A team project to start it.
@@ -34,7 +33,7 @@ Updated Mon 5 Oct, 9:40 PM Boston time. Bug hunting only, no new features until 
 | 🟦 Sol chat | **1001** | Home desktop tile icons: bigger, inside the tile, never on the text | in release |
 | 🟦 Sol chat | **1003** | Transfer War: main's copy of Team V's early-end string matches (HO-010) | in release |
 | 🟦 Sol chat | **1004** | Rule Book: remove the useless 01-06 side number rail (desktop and phone) | with worker |
-| 🟩 Sol Work mode | **Job 1015** | Connect Players screen: create code / join off Home | step 2 of 5 · 20.0000 % |
+| 🟩 Sol Work mode | **1015** | Connect Players screen: create code / join off Home | step 2 of 5 · 20.0000 % |
 
 **Up next**
 

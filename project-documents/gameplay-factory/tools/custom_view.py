@@ -80,6 +80,11 @@ for team in ("G", "V"):
             items[team][dest].append(it)
             seen.add(str(x["id"]))
     for x in rows.get("nik") or []:
+        if str(x["id"]) in running:  # already started (its status file shows a step), so it is no longer Nik's move
+            r, k, t = running.pop(str(x["id"]))
+            items[team]["fix"].append({"id": x["id"], "title": re.sub(r"^\d+ · [GV] ", "", x["title"]), "state": r.get("current") or "in progress", "lane": x.get("lane", ""), "progress": (ETA.describe(r), r)})
+            seen.add(str(x["id"]))
+            continue
         full = next((y for y in BJ["factories"][team]["future"] if y["id"] == x["id"]), x)
         ttl = re.sub(r"^\d+ · [GV] ", "", x["title"])
         w = str(full.get("waits_on") or "")
