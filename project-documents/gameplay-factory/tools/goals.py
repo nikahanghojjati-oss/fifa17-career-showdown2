@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """The two Thursday goals (Nik, 2026-10-06 04:01 UTC), read from GitHub and cached in GOALS.json:
 - Team G, bug-free game: Showdown Bug Olympiad on qa/bug-olympiad, project-documents/gameplay-factory/sweeps/olympiad/
-  (format: /mnt/project-files/bug-list-factory/SOLO_HUNT_KIT.md). The meter is the mean over areas 01-15 of
+  (format: /mnt/project-files/bug-list-factory/SOLO_HUNT_KIT.md). The meter is the mean over the hunt's areas (AREA_LIST) of
   coverage_pct x clean_confidence_pct from each area's newest runs/*.json, minus 10 points per open S1/S2 finding
   in that area. Findings' lifecycle is "state" (open | fixed | not-a-bug | duplicate; missing = open); a challenges/ file on a
   finding counts it as not-a-bug until the lead checks it.
@@ -17,7 +17,8 @@ F = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
 CACHE = os.path.join(F, "GOALS.json")
 SCREENS = 16
 G_BRANCH, G_DIR = "qa/bug-olympiad", "project-documents/gameplay-factory/sweeps/olympiad/"
-AREAS = 15  # 01-15 since 2026-10-06 04:29 UTC (13 saving/Legacy/history, 14 Firestore/rules/sign-in, 15 full journey)
+AREA_LIST = (1, 2, 3, 4, 5, 6, 8, 9, 11, 13, 15)  # v4 "Showdown Rules Check" (2026-10-06 05:18 UTC): gameplay only; 07, 10, 12, 14 dropped
+AREAS = len(AREA_LIST)
 V_BRANCH, V_DIR = "study/mockup-lab", "project-documents/visual-study/"
 
 
@@ -113,7 +114,7 @@ def load(merged_jobs=()):
                 area = int(str(d.get("area", "")).strip()[:2])
             except ValueError:
                 continue
-            if 1 <= area <= AREAS and str(d.get("date_utc", "")) >= str(runs.get(area, {}).get("date_utc", "")):
+            if area in AREA_LIST and str(d.get("date_utc", "")) >= str(runs.get(area, {}).get("date_utc", "")):
                 runs[area] = d
         else:
             st = str(d.get("state") or "open").lower()  # lifecycle, set by the bug factory; GPT's "status" is its confidence
