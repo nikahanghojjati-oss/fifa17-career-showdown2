@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 8:06 PM Boston time (EDT)",
+ "generated": "2026-10-05 8:07 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -284,8 +284,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "17f9827",
-  "head_boston": "Mon 5 Oct 8:05 PM",
+  "head": "1544883",
+  "head_boston": "Mon 5 Oct 8:06 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": true,
   "open_for_g": [],
@@ -420,8 +420,8 @@
    ]
   },
   "physio": {
-   "state": "barking",
-   "line": "Barking: POS20 has waited 1 min for a machine.",
+   "state": "clear",
+   "line": "All clear: every check has a machine.",
    "gate": "POS20 #390 13/16",
    "source": "physio"
   },
@@ -645,7 +645,7 @@
  "now": {
   "moving": 16,
   "next": 2,
-  "nik": 5,
+  "nik": 6,
   "later": 4,
   "rows": {
    "G": {
@@ -783,6 +783,15 @@
       "state": "ready",
       "waits_on": "Nik types 1003 in the gameplay GPT project (normal chat)",
       "details": "Low priority, no live impact. js/transferScreenV10.js lines 26 and 30. Job file jobs/JOB-1003.md."
+     },
+     {
+      "id": "1004",
+      "group": "Bug list 1",
+      "title": "1004 · G Rule Book: remove the useless 01-06 side number rail (desktop and phone)",
+      "lane": "blue",
+      "state": "ready",
+      "waits_on": "Nik types 1004 in the gameplay GPT project (normal chat)",
+      "details": "js/rulesSettingsV10.js only: stop building #ruleBookIndex. Per-rule number badges stay."
      }
     ],
     "next": [

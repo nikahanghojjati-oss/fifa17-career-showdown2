@@ -1,8 +1,8 @@
 # Showdown board: G Factory and V Factory
 
-🌐 **Live: runtime 1.9.1-r61** (main `84a04d8`) · 🔄 **16 moving** · ⏭ 2 up next · 👤 5 waiting on Nik · 🗂 4 later · updated 2026-10-05 8:06 PM Boston time (EDT)
+🌐 **Live: runtime 1.9.1-r61** (main `84a04d8`) · 🔄 **16 moving** · ⏭ 2 up next · 👤 6 waiting on Nik · 🗂 4 later · updated 2026-10-05 8:07 PM Boston time (EDT)
 
-🐕 **Barking: POS20 has waited 1 min for a machine.** · POS20 #390 13/16
+🩺 **All clear: every check has a machine.** · POS20 #390 13/16
 
 ## Your next move
 
@@ -70,6 +70,7 @@ _Gameplay, online sync, every merge and every release (senior director)._ Worker
 | Job | What | Worker | State | Waits on |
 | --- | --- | --- | --- | --- |
 | 1003 | 1003 · G Transfer War: main's copy of Team V's early-end string matches (HO-010) — Low priority, no live impact. js/transferScreenV10.js lines 26 and 30. Job file jobs/JOB-1003.md. | 🟦 Sol chat | ready | Nik types 1003 in the gameplay GPT project (normal chat) |
+| 1004 | 1004 · G Rule Book: remove the useless 01-06 side number rail (desktop and phone) — js/rulesSettingsV10.js only: stop building #ruleBookIndex. Per-rule number badges stay. | 🟦 Sol chat | ready | Nik types 1004 in the gameplay GPT project (normal chat) |
 
 ## 🔵 V Factory
 
