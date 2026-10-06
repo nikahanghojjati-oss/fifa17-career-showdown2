@@ -863,8 +863,8 @@
      "group": "Bug list 1",
      "title": "1003 · G Transfer War: main's copy of Team V's early-end string matches (HO-010)",
      "lane": "blue",
-     "state": "ready",
-     "waits_on": "Nik types 1003 in the gameplay GPT project (normal chat)",
+     "state": "in release (merged into gameplay/bug-list-1)",
+     "waits_on": "rides the next release to main",
      "details": "Low priority, no live impact. js/transferScreenV10.js lines 26 and 30. Job file jobs/JOB-1003.md."
     },
     {
