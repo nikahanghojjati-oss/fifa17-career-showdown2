@@ -1,14 +1,14 @@
 {
   "schema": "physio/v1",
-  "at": "2026-10-06T00:32:31.850Z",
+  "at": "2026-10-06T00:32:53.800Z",
   "state": "ALL_CLEAR",
   "checks": [],
   "helpers_paused": [],
   "gate": null,
   "pos20": {
     "pr": 390,
-    "passed": 14,
+    "passed": 16,
     "total": 16,
-    "state": "running"
+    "state": "pass"
   }
 }
