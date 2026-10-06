@@ -279,7 +279,9 @@ async function main(){
     // J3 private session through the real Remote Joining surface; the ACTIVE session continues into the league wheel.
     // Job 33 (R5b): a connected pair goes from CONTINUE CAREER straight to Remote Joining (no GET READY CONTINUE).
     for(const m of [daniel,nik]){
-      await m.page.locator("#connectPlayersScreen .connectPlayersBack").click();
+      // JOB-1015: the Connect Players layer may already be closed on this phone; Back only when it is showing.
+      if(await m.page.locator("#connectPlayersScreen").isVisible())await m.page.locator("#connectPlayersScreen .connectPlayersBack").click();
+      assert.equal(await m.page.locator("#connectPlayersScreen").isVisible(),false,`${m.user}: Connect Players closed before CONTINUE CAREER`);
       await m.page.locator("#continueCareer").click();
       await remote(m).waitFor({state:"visible",timeout:30000});
       assert.equal(await entry(m).isVisible().catch(()=>false),false,`${m.user}: no GET READY overlay before Remote Joining`);
@@ -729,7 +731,9 @@ async function main(){
     assert.deepEqual(ids(field(await admin(`accounts/${uidN}/careerIndex/current`),"data","rivalryIds")),[R1,R2],"Nik career index [R1,R2]");
 
     for(const m of [daniel,nik]){
-      await m.page.locator("#connectPlayersScreen .connectPlayersBack").click();
+      // JOB-1015: the Connect Players layer may already be closed on this phone; Back only when it is showing.
+      if(await m.page.locator("#connectPlayersScreen").isVisible())await m.page.locator("#connectPlayersScreen .connectPlayersBack").click();
+      assert.equal(await m.page.locator("#connectPlayersScreen").isVisible(),false,`${m.user}: Connect Players closed before CONTINUE CAREER`);
       await m.page.locator("#continueCareer").click({timeout:30000});
       await remote(m).waitFor({state:"visible",timeout:30000});
     }
