@@ -1,6 +1,6 @@
 # Bug hunt board
 
-Updated Tue 6 Oct, 10:11 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
+Updated Tue 6 Oct, 10:17 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r62** (main `bc77a0b`, Mon 5 Oct 9:18 PM)
 
@@ -11,11 +11,11 @@ Updated Tue 6 Oct, 10:11 AM Boston time. Bug hunting only, no new features until
 **Running now**
 
 - **1011** Plain-words sweep: jargon on game screens · step 1 of 4 · 0.0000 %
+- **1028** Statistics shows an abandoned-only career (hunt 1019 H5) · ready · 0.0000 %
 
 **Next for you, in this order**
 
-1. **1028** Statistics shows an abandoned-only career (hunt 1019 H5): GPT chat (normal mode), gameplay project: type 1028 · one-file fix, exact change in the ticket
-2. **1006** Final Winner: last season's score block: type **1006** in a new Showdown visual chat
+1. **1006** Final Winner: last season's score block: type **1006** in a new Showdown visual chat
 
 **Waiting on something else**
 
