@@ -1,0 +1,164 @@
+{
+  "run": "codex-1006-1206",
+  "mode": "codex",
+  "date_utc": "2026-10-06T12:15:07.615207+00:00",
+  "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+  "area": "11",
+  "files_read": [
+    "AGENTS.md",
+    ".github/workflows/validate-gameplay-fast.yml",
+    "package.json",
+    "tests/browser/two-manager-browser-journey.cjs",
+    "tests/browser/support/firebase.browser-journey.json",
+    "tests/browser/support/emulator-runtime-switch.js",
+    "tests/support/chromium-runtime.cjs",
+    "tests/contracts/full-gameplay-lifecycle-contracts.cjs",
+    "tests/contracts/ten-season-session-contracts.cjs",
+    "tests/contracts/shared-final-reconciliation-contracts.cjs",
+    "tests/contracts/shared-history-convergence-contracts.cjs",
+    "tests/contracts/v10-season-final-contracts.cjs",
+    "tests/contracts/v10-rivalry-legacy-contracts.cjs",
+    "tests/browser/shared-showdown-polished-presentation-audit.cjs",
+    "tests/browser/shared-season-results-audit.cjs",
+    "tests/browser/shared-canonical-scoring-audit.cjs",
+    "tests/browser/shared-history-convergence-audit.cjs",
+    "tests/browser/shared-multi-season-progression-audit.cjs",
+    "tests/browser/shared-transfer-challenge-replay-audit.cjs",
+    "tests/browser/stability-audit.cjs",
+    "js/scoring.js",
+    "js/seasonEngine.js",
+    "js/sharedCanonicalScoring.js",
+    "js/sharedHistoryConvergence.js",
+    "js/sharedFinalReconciliation.js",
+    "js/seasonFinalV10.js",
+    "js/productionSharedSeasonResults.js",
+    "js/productionSharedShowdownPresentation.js",
+    "js/productionSharedJourneyGuard.js",
+    "js/leagueWheel.js",
+    "js/clubAssignment.js",
+    "js/legacy.js",
+    "js/statistics.js",
+    "js/careerScreenSeam.js",
+    "js/careerScreensV10.js",
+    "js/sharedCareerAnalytics.js",
+    "js/showdownUI.js",
+    "js/ruleBook.js",
+    "js/sharedShowdownSetup.js",
+    "js/productionSharedFinalReconciliation.js",
+    "visual-assets/v10_1/career-statistics/career-statistics.js",
+    "tests/fixtures/data-contract-v1/multi-showdown-career.json"
+  ],
+  "findings": [],
+  "coverage_pct": 75,
+  "clean_confidence_pct": 70,
+  "next_focus": "Run the full two-manager CI journey three times once the official emulator download is permitted; verify both managers resume halfway and keep the same finished history.",
+  "status": "partial_external_blocker",
+  "summary": "No new confirmed normal-play game bug in the completed checks. Seasonal tiebreak wins do not add Showdown points. Tied final totals remain DRAW. Fixed clubs, season scores, trophies and season history agree in the tested chains.",
+  "coverage_basis": "Judgment estimates for Area 11, not line coverage or a statistical probability. Node chains and isolated Chromium screens passed; a full two-manager continuous browser journey, both-manager halfway reload, and three-run repeatability remain unverified.",
+  "scope": "Fair-play game rules, points, seasons and history. No game code changed. Local screen tests supply game facts and do not replace the CI journey.",
+  "checks": [
+    {
+      "name": "area11-edges",
+      "command": "node project-documents/gameplay-factory/sweeps/olympiad/test/codex-1006-1206-edges.cjs",
+      "result": "passed",
+      "kind": "Node rules and full season chains",
+      "output": "PASS 768 season-score combinations; maximum 11; shared bonuses never double-count\nPASS tied season score uses league position, then league points; goals do not break the final tie; 0-0 remains valid\nPASS continuous 1/3/5/10-season chains: transfers, results, scoring, history, final result and close; fixed clubs retained; no extra season\nPASS 3 seasons at 0-0: season tiebreak wins never add points; final result DRAW\nPASS 10 seasons at 0-0: season tiebreak wins never add points; final result DRAW\nPASS 3-3 final total: DRAW even when Daniel wins every seasonal tiebreak\n"
+    },
+    {
+      "name": "browser-edges",
+      "command": "CMS_CHROMIUM_MULTI_CONTEXT=1 node project-documents/gameplay-factory/sweeps/olympiad/test/codex-1006-1206-browser.cjs",
+      "result": "passed",
+      "kind": "Chromium final DRAW and career table, supplied game facts",
+      "output": "PASS real final-screen renderer: 10 seasons, 0-0, DRAW\nPASS real final-screen renderer: 3 seasons, 3-3, DRAW\nPASS chat-1006-0534-1 disproof: current Career Table shows Showdowns = 4 for Nik, not 2-1-1\n"
+    },
+    {
+      "name": "presentation",
+      "command": "CMS_BASE_URL=http://127.0.0.1:4194/ CMS_CHROMIUM_MULTI_CONTEXT=1 node tests/browser/shared-showdown-polished-presentation-audit.cjs",
+      "result": "passed",
+      "kind": "Chromium screens with test game facts",
+      "output": "PASS Shared Showdown polished presentation + bunny click reliability: delayed provider work disables controls immediately, rapid repeat taps coalesce to one authoritative mutation, one Continue click enters club packs, one final confirmation enters Career Start when the rival already confirmed, fresh rivalries reset reveal witnesses, a tap on a stale view or after a rejected write re-reads authority and completes in the same tap (r50) or shows the failure, Daniel's original season choice remains authoritative, and both manager roles still witness the real League Wheel and two-pack club reveal.\n"
+    },
+    {
+      "name": "results",
+      "command": "CMS_BASE_URL=http://127.0.0.1:4194/ CMS_CHROMIUM_MULTI_CONTEXT=1 node tests/browser/shared-season-results-audit.cjs",
+      "result": "passed",
+      "kind": "Chromium screens with test game facts",
+      "output": "PASS Shared Season Results desktop/mobile production flow: completed shared Transfer authority reaches Season Results without local completion markers; Player One enters from verdicts and Player Two from Showdown Home; each sees only their own seven-field form; review tampering is blocked; first publication stays private; both-publication reveals both sides; the real Results route bootstraps Commit, Scoring, History, Reconnect, Reconciliation and Terminal Close; waiting users retain a dashboard escape; replay cannot enter live results; and canonical local storage/history/scoring remain untouched.\n"
+    },
+    {
+      "name": "scoring",
+      "command": "CMS_BASE_URL=http://127.0.0.1:4194/ CMS_CHROMIUM_MULTI_CONTEXT=1 node tests/browser/shared-canonical-scoring-audit.cjs",
+      "result": "passed",
+      "kind": "Chromium screens with test game facts",
+      "output": "PASS Shared Canonical Scoring desktop/mobile production flow: both managers traverse the real r9 results and r10 commit adapters, the bootstrapped r11 scoring adapter converges without duplicate observers, both see the same provider-authoritative 11\u20130 canonical score and five-part breakdown only after r10 ACKNOWLEDGED, exact account/device/rivalry/session context is forwarded for provider enforcement, and canonical local storage/history/scoring remain untouched.\n"
+    },
+    {
+      "name": "history",
+      "command": "CMS_BASE_URL=http://127.0.0.1:4194/ CMS_CHROMIUM_MULTI_CONTEXT=1 node tests/browser/shared-history-convergence-audit.cjs",
+      "result": "passed",
+      "kind": "Chromium screens with test game facts",
+      "output": "PASS Shared History Convergence desktop/mobile production audit: both isolated manager contexts render the same two-season provider-authoritative history, cumulative score/lead, manager records and trophy attribution with exact account/device/rivalry/session forwarding; stale r10/r11 hashes, provider denial and an incomplete next season fail closed; canonical local storage remains byte-for-byte unchanged.\n"
+    },
+    {
+      "name": "progression",
+      "command": "CMS_BASE_URL=http://127.0.0.1:4194/ CMS_CHROMIUM_MULTI_CONTEXT=1 node tests/browser/shared-multi-season-progression-audit.cjs",
+      "result": "passed",
+      "kind": "Chromium screens with test game facts",
+      "output": "PASS Shared Multi Season desktop/mobile production flow: both isolated manager contexts complete 1/3/5/10 plans from Season 1, require a visible authoritative History Convergence witness before each exact-once advance, converge on identical next-season cursors, preserve fixed clubs, render Showdown Home from shared league/club/season/accumulated-score authority instead of stale local Save fields, reject duplicate advances, close exactly at the configured final season, and leave local currentRound plus canonical storage unchanged.\n"
+    },
+    {
+      "name": "replay",
+      "command": "CMS_BASE_URL=http://127.0.0.1:4194/ CMS_CHROMIUM_MULTI_CONTEXT=1 node tests/browser/shared-transfer-challenge-replay-audit.cjs",
+      "result": "passed",
+      "kind": "Chromium screens with test game facts",
+      "output": "PASS Shared Transfer Challenge ordered full-screen replay and Save isolation: Player One desktop and Player Two mobile each replay missed WINDOW_OPEN -> GUESS_ENTRY -> SIGNING_ENTRY before actual COMPLETED, with both previous-league and nationality signing selectors independently usable; the live mobile guess value remains disabled until a League/Nationality type is selected and clears safely when type is removed; returning the mobile page to the foreground forces a fresh server-time anchor so a suspended monotonic clock cannot leave the 15-minute display stale; replay stays read-only/private with zero provider mutations or replay reads; the r9 Season Results route activates only after replay is complete; an in-flight Save A read is discarded when Save B becomes active; and the real 15-second automatic poll detects a completed-Save context switch.\n"
+    },
+    {
+      "name": "stability",
+      "command": "CMS_BASE_URL=http://127.0.0.1:4194/ CMS_CHROMIUM_MULTI_CONTEXT=1 node tests/browser/stability-audit.cjs",
+      "result": "passed",
+      "kind": "Chromium desktop/mobile recovery; single page per manager",
+      "output": "Chromium 149.0.7827.0 \u00b7 run-1\nPASS  Corrupt singleton bytes fail closed at canonical Start\nPASS  Save Library quota rejection rolls back before canonical retry\nPASS  Chromebook clean product identity :: v1.9.1 \u00b7 Settings\nPASS  Chromebook Empty Home accessibility scan\nPASS  Chromebook Empty Home responsive containment :: 1366 \u00d7 768\nPASS  Chromebook Create Showdown accessibility scan\nPASS  Chromebook canonical rapid Start :: paired-first lock active \u00b7 0 singleton writes\nPASS  Chromebook paired-first precondition isolated :: Daniel/P1 \u00b7 Nik/P2\nPASS  Chromebook League Selected accessibility scan\nPASS  Chromebook League Selected responsive containment :: 1366 \u00d7 768\nPASS  Chromebook direct stability resume :: leagueWheelScreen\nPASS  Chromebook league confirmation recovery :: Serie A\nPASS  Chromebook Club Confirmation accessibility scan\nPASS  Chromebook Showdown Home accessibility scan\nPASS  Chromebook Showdown Home responsive containment :: 1366 \u00d7 768\nPASS  Chromebook permanent club assignment :: Genoa vs Palermo\nPASS  Chromebook provider-owned career boundary :: dashboard stable \u00b7 transfer/season remain gated\nPASS  Chromebook direct stability resume :: dashboard\nPASS  Chromebook direct stability resume :: dashboard\nPASS  Chromebook reload and browser-history recovery :: pre-season dashboard retained without legacy local progression\nPASS  Chromebook Rivalry Statistics accessibility scan\nPASS  Chromebook Rule Book accessibility scan\nPASS  Chromebook Settings accessibility scan\nPASS  Chromebook optional destinations and clean Settings with Showdown Data\nPASS  Chromebook clean runtime and local assets\nPASS  Mobile clean product identity :: v1.9.1 \u00b7 Settings\nPASS  Mobile Empty Home accessibility scan\nPASS  Mobile Empty Home responsive containment :: 390 \u00d7 844\nPASS  Mobile Create Showdown accessibility scan\nPASS  Mobile canonical rapid Start :: paired-first lock active \u00b7 0 singleton writes\nPASS  Mobile paired-first precondition isolated :: Daniel/P1 \u00b7 Nik/P2\nPASS  Mobile League Selected accessibility scan\nPASS  Mobile League Selected responsive containment :: 390 \u00d7 844\nPASS  Mobile direct stability resume :: leagueWheelScreen\nPASS  Mobile league confirmation recovery :: Bundesliga\nPASS  Mobile Club Confirmation accessibility scan\nPASS  Mobile Showdown Home accessibility scan\nPASS  Mobile Showdown Home responsive containment :: 390 \u00d7 844\nPASS  Mobile permanent club assignment :: Schalke 04 vs Werder Bremen\nPASS  Mobile provider-owned career boundary :: dashboard stable \u00b7 transfer/season remain gated\nPASS  Mobile direct stability resume :: dashboard\nPASS  Mobile direct stability resume :: dashboard\nPASS  Mobile reload and browser-history recovery :: pre-season dashboard retained without legacy local progression\nPASS  Mobile Dashboard Recovery accessibility scan\nPASS  Mobile Dashboard Recovery responsive containment :: 390 \u00d7 844\nPASS  Mobile clean runtime and local assets\nREPORT /workspace/fifa17-career-showdown2/test-results/stability-audit-run-1.json\nCHECKPOINTS 46\nAXE_SCANS 14\n"
+    },
+    {
+      "name": "full-lifecycle",
+      "command": "node tests/contracts/full-gameplay-lifecycle-contracts.cjs",
+      "result": "passed",
+      "kind": "Node full chains",
+      "output": "PASS Full gameplay lifecycle: one continuous deterministic authority chain completed 1/3/5/10-season Showdowns from Career Start through every season's Transfer Challenge, private Results, dual-ack Season Commit, canonical scoring, converged history, exact next-season progression, Final Reconciliation and Terminal Close while preserving Bundesliga + SC Freiburg/Hertha BSC. [{\"totalSeasons\":1,\"careerPhase\":\"CAREER_START_READY\",\"completedSeasons\":1,\"finalWinner\":\"playerTwo\",\"managerTotals\":{\"playerOne\":0,\"playerTwo\":1},\"terminalPhase\":\"TERMINAL_CLOSED\"},{\"totalSeasons\":3,\"careerPhase\":\"CAREER_START_READY\",\"completedSeasons\":3,\"finalWinner\":\"playerTwo\",\"managerTotals\":{\"playerOne\":2,\"playerTwo\":5},\"terminalPhase\":\"TERMINAL_CLOSED\"},{\"totalSeasons\":5,\"careerPhase\":\"CAREER_START_READY\",\"completedSeasons\":5,\"finalWinner\":\"playerOne\",\"managerTotals\":{\"playerOne\":11,\"playerTwo\":7},\"terminalPhase\":\"TERMINAL_CLOSED\"},{\"totalSeasons\":10,\"careerPhase\":\"CAREER_START_READY\",\"completedSeasons\":10,\"finalWinner\":\"playerOne\",\"managerTotals\":{\"playerOne\":27,\"playerTwo\":24},\"terminalPhase\":\"TERMINAL_CLOSED\"}]\n"
+    },
+    {
+      "name": "final",
+      "command": "node tests/contracts/shared-final-reconciliation-contracts.cjs",
+      "result": "passed",
+      "kind": "Node final score",
+      "output": "PASS r17 Final Reconciliation deterministic complete-showdown projection, exact local manager binding, winner authority and no-extra-season boundary\n"
+    },
+    {
+      "name": "transfer-history",
+      "command": "node tests/contracts/completed-transfer-history-contracts.cjs",
+      "result": "passed",
+      "kind": "Node transfer history",
+      "output": "PASS completed-only transfer history contracts: reader API, exact-get source, classification, witness checks, unavailable states, protocol-equal verdicts, provenance, Rules text, composed artifact, JOB-08 API intact.\n"
+    },
+    {
+      "name": "legacy",
+      "command": "node tests/contracts/v10-rivalry-legacy-contracts.cjs",
+      "result": "passed",
+      "kind": "Node history screen",
+      "output": "ok 1 RL1 all contract fixtures map History and the current rivalry separately\nok 2 RL2 History includes only verified completed rows, without backfill\nok 3 RL3 current rivalry uses adapter numbers, Daniel first even when Nik leads\nok 4 RL4 loading and unavailable contain no numbers or made-up cards\nok 5 RL5 partial History keeps coverage; transfer gaps stay unavailable\nok 6 RL6 a missing numeric field is unavailable, never zero\nok 7 RL7 final draws and season tiebreaks survive mapping unchanged\nok 8 RL8 all statistics buttons are outside online containment\nok 9 RL9 production entry points are lazy and never read sample fixtures\nok 10 RL10 referenced assets exist and only text enters the shell precache\nok 11 RL11 real Team V renderers show honest states and live values without fixture fetches\nok 12 RL12 loader registration, remount and unmount preserve the existing routes\nok 13 RL13 the crest and league-mark globals Team V's screens call are provided by js/visualIdentity.js\nok 14 RL14 every model dependency the History and Rivalry loader fetches is in the service-worker shell\nok 15 RL15 History keeps a Back button and Rivalry Back stays clickable\nok 16 RL16 rivalry preview chip stays hidden and the desktop stage fits its space\nv10-rivalry-legacy contracts passed (16 checks)\n"
+    },
+    {
+      "name": "final-ui",
+      "command": "node tests/contracts/v10-season-final-contracts.cjs",
+      "result": "passed",
+      "kind": "Node final screen",
+      "output": "ok 1 V29.1 Final Winner copies reconciliation winner, including equal-total draw\nok 2 V29.2 missing/invalid final authority never supplies zeroes or a winner\nok 3 V29.3 Standings copies acknowledged rivalry rows and career standings in Daniel/Nik order\nok 4 V29.4 failed and partial reads stay honest; interim history never masquerades as career\nok 5 V29.5 mount preserves every live field, action, status, draft and listener by identity\nok 6 V29.6 the lazy registry and shell cache include every binder resource\nok 7 V29.7 live Team V scripts bypass preview fetches and never rebuild product actions\nok 8 V29.8 registry mount keeps the native final proof, close and Back nodes reachable, then restores them\nok 9 V29.9 the real clash contract keeps CHECK RESULTS and enabled commit/acknowledge\nPASS 9 V10 season/final/standings contracts\n"
+    }
+  ],
+  "assumptions": [
+    "Two friends play fairly and enter their FIFA results correctly.",
+    "The intended seasonal tiebreak is better league position, then more league points; final Showdown winner uses accumulated Showdown points only.",
+    "The full CI journey is required to establish end-to-end browser readiness; its test services could not start."
+  ]
+}
