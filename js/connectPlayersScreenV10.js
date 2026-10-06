@@ -5,8 +5,43 @@
 })(typeof globalThis!=="undefined"?globalThis:this,function(root){
   "use strict";
   // JOB-1015: a lazy presentation layer. The startup router and pairing operations stay untouched.
-  const MARKUP="<section id=\"connectPlayersScreen\" role=\"dialog\" aria-modal=\"true\" aria-labelledby=\"connectPlayersTitle\" aria-hidden=\"true\" class=\"connectPlayersLayer hidden\" data-role=\"unknown\" data-connection=\"none\">\n<div class=\"connectPlayersArt\" aria-hidden=\"true\">\n<img class=\"connectPlayersDaniel\" src=\"visual-assets/v10_1/start-join/assets/OVL_SJ_DANIEL_PHONE_V1.webp\" alt=\"\" loading=\"lazy\">\n<img class=\"connectPlayersNik\" src=\"visual-assets/v10_1/start-join/assets/OVL_SJ_NIK_PHONE_V1.webp\" alt=\"\" loading=\"lazy\">\n</div>\n<h2 id=\"connectPlayersTitle\">CONNECT PLAYERS</h2>\n<p class=\"connectPlayersTagline\">TWO MANAGERS \u00b7 ONE RIVALRY</p>\n<div class=\"connectPlayersWorkspace\">\n<div class=\"connectPlayersTabs\" role=\"group\" aria-label=\"Connection steps\">\n<label><input type=\"radio\" name=\"connectPlayersTab\" id=\"connectPlayersDanielTab\" value=\"daniel\" checked><span>DANIEL \u00b7 START</span></label>\n<label><input type=\"radio\" name=\"connectPlayersTab\" id=\"connectPlayersNikTab\" value=\"nik\"><span>NIK \u00b7 JOIN</span></label>\n<label><input type=\"radio\" name=\"connectPlayersTab\" id=\"connectPlayersConnectionTab\" value=\"connection\"><span>CONNECTION</span></label>\n</div>\n<div class=\"connectPlayersRoles\">\n<section class=\"connectPlayersRole connectPlayersRoleDaniel\" aria-label=\"Daniel starts\">\n<span>PLAYER ONE</span><h3>DANIEL \u00b7 START</h3>\n<p>Choose seasons, create your code, and send it to Nik.</p>\n<button id=\"connectPlayersSetup\" class=\"menuButton\" type=\"button\">CHOOSE SEASONS</button>\n</section>\n<section class=\"connectPlayersRole connectPlayersRoleNik\" aria-label=\"Nik joins\">\n<span>PLAYER TWO</span><h3>NIK \u00b7 JOIN</h3>\n<p>On Nik's device, paste Daniel's code to join the rivalry.</p>\n</section>\n</div>\n<div id=\"connectPlayersPairSlot\" aria-live=\"polite\"></div>\n</div>\n<button class=\"connectPlayersBack\" type=\"button\">BACK</button>\n</section>";
+  const MARKUP=[
+    "<section id=\"connectPlayersScreen\" role=\"dialog\" aria-modal=\"true\" aria-labelledby=\"connectPlayersTitle\" aria-hidden=\"true\" class=\"connectPlayersLayer hidden\" data-role=\"unknown\" data-connection=\"none\">",
+    "<div class=\"connectPlayersArt\" aria-hidden=\"true\">",
+    "<img class=\"connectPlayersDaniel\" src=\"visual-assets/v10_1/start-join/assets/OVL_SJ_DANIEL_PHONE_V1.webp\" alt=\"\" loading=\"lazy\">",
+    "<img class=\"connectPlayersNik\" src=\"visual-assets/v10_1/start-join/assets/OVL_SJ_NIK_PHONE_V1.webp\" alt=\"\" loading=\"lazy\">",
+    "</div>",
+    "<header class=\"connectPlayersHeader\">",
+    "<p class=\"connectPlayersKicker\">CAREER MODE SHOWDOWN // 17</p>",
+    "<h2 id=\"connectPlayersTitle\">CONNECT PLAYERS</h2>",
+    "<p class=\"connectPlayersTagline\">Daniel and Nik must both be connected before the career begins.</p>",
+    "</header>",
+    "<div class=\"connectPlayersWorkspace\">",
+    "<div class=\"connectPlayersTabRow\">",
+    "<div class=\"connectPlayersTabs\" role=\"group\" aria-label=\"Connection steps\">",
+    "<label><input type=\"radio\" name=\"connectPlayersTab\" id=\"connectPlayersDanielTab\" value=\"daniel\" checked><span>DANIEL \u00b7 START</span></label>",
+    "<label><input type=\"radio\" name=\"connectPlayersTab\" id=\"connectPlayersNikTab\" value=\"nik\"><span>NIK \u00b7 JOIN</span></label>",
+    "<label><input type=\"radio\" name=\"connectPlayersTab\" id=\"connectPlayersConnectionTab\" value=\"connection\"><span>CONNECTION</span></label>",
+    "</div>",
+    "<button class=\"connectPlayersBack\" type=\"button\">BACK</button>",
+    "</div>",
+    "<div class=\"connectPlayersRoles\">",
+    "<section class=\"connectPlayersRole connectPlayersRoleDaniel\" aria-label=\"Daniel starts\">",
+    "<span>PLAYER ONE</span><h3>DANIEL \u00b7 START</h3>",
+    "<p>Choose seasons, create your code, and send it to Nik.</p>",
+    "<button id=\"connectPlayersSetup\" class=\"menuButton\" type=\"button\">CHOOSE SEASONS</button>",
+    "</section>",
+    "<section class=\"connectPlayersRole connectPlayersRoleNik\" aria-label=\"Nik joins\">",
+    "<span>PLAYER TWO</span><h3>NIK \u00b7 JOIN</h3>",
+    "<p>On Nik's device, paste Daniel's code to join the rivalry.</p>",
+    "</section>",
+    "</div>",
+    "<div id=\"connectPlayersPairSlot\" aria-live=\"polite\"></div>",
+    "</div>",
+    "</section>"
+  ].join("\n");
   let layer=null,opening=null,opener=null,observer=null,homeObserver=null;
+  const PRIMARY=/^(START A SHOWDOWN|CREATE CODE FOR NIK|JOIN DANIEL'S SHOWDOWN|START CAREER|TRY CONTINUE AGAIN)$/;
   const inertBefore=new Map();
   function byId(id){return root.document?.getElementById(id)||null;}
   function report(error){root.reportApplicationError?.("Unable to open Connect Players",error);}
@@ -31,7 +66,12 @@
     }
     // pairRender owns every control and listener; its original inline skin is removed here only.
     const panel=byId("persistentNikDanielPairPanel");
-    if(panel){panel.removeAttribute("style");for(const node of panel.querySelectorAll("[style]"))node.removeAttribute("style");}
+    if(panel){
+      panel.removeAttribute("style");for(const node of panel.querySelectorAll("[style]"))node.removeAttribute("style");
+      // Team V's design: the yellow title above is the only CONNECT PLAYERS heading; main actions are solid yellow.
+      for(const heading of panel.querySelectorAll(":scope>strong"))heading.classList.toggle("connectPlayersRepeat",heading.textContent.trim()==="CONNECT PLAYERS");
+      for(const button of panel.querySelectorAll("button"))button.classList.toggle("connectPlayersPrimary",PRIMARY.test(button.textContent.trim()));
+    }
   }
   function setBackgroundInert(active){
     if(active){

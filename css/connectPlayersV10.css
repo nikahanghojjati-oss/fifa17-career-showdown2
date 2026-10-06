@@ -1,60 +1,77 @@
-/* JOB-1015: live pairing controls over Team V's Start / Join art, pinned 5e05a1f. */
-#connectPlayersScreen{position:fixed;inset:0;z-index:90;width:100%;height:100dvh;min-height:0;padding:24px 16px 12px;overflow:hidden;color:#f7f7f2;
- display:flex;flex-direction:column;align-items:center;gap:10px;background:linear-gradient(0deg,#07080a 0%,transparent 82%),url('../visual-assets/v10_1/start-join/assets/ENV_SJ_PLATE_V1_1X.webp') center/cover;}
-#connectPlayersScreen>*{position:relative;z-index:1;}
-#connectPlayersScreen>h2{width:auto;margin:0;padding:0;color:#fff1ae;background:none;border:0;box-shadow:none;text-align:center;font:800 italic clamp(30px,4vw,56px)/1 var(--f17-display);letter-spacing:.02em;}
-.connectPlayersTagline{font:600 11px var(--f17-display);letter-spacing:.26em;color:#d9c489;}
-#connectPlayersScreen .connectPlayersArt{position:absolute;z-index:0;inset:0;pointer-events:none;overflow:hidden;}
-.connectPlayersArt img{position:absolute;top:0;height:100%;width:auto;filter:drop-shadow(0 8px 15px #0009);}
-.connectPlayersDaniel{left:-5%;}.connectPlayersNik{right:-3%;}
-.connectPlayersWorkspace{width:min(760px,70%);min-height:0;display:flex;flex-direction:column;gap:12px;margin:auto 0;padding:16px;border:1px solid #e0b23080;background:linear-gradient(145deg,#070a0de8,#0c0e11bd);box-shadow:inset 0 1px #ffde6f24,0 12px 44px #0008;}
-.connectPlayersRoles{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+/* JOB-1015 live pairing controls over Team V's Start / Join art; JOB-1022 matches the start-join (SJ) layout. */
+#connectPlayersScreen{--cp-top:0px;--cp-bottom:0px;--cp-gold:#f0c84b;position:fixed;left:0;right:0;top:var(--cp-top);bottom:var(--cp-bottom);z-index:90;width:100%;height:auto;min-height:0;margin:0;padding:0;overflow:hidden;color:#f7f7f2;box-sizing:border-box;background:#07080a url('../visual-assets/v10_1/start-join/assets/ENV_SJ_PLATE_V1_1X.webp') center/cover no-repeat;background-image:image-set(url('../visual-assets/v10_1/start-join/assets/ENV_SJ_PLATE_V1_1X.webp') 1x,url('../visual-assets/v10_1/start-join/assets/ENV_SJ_PLATE_V1_2X.webp') 2x);}
+@media(min-width:901px){html[data-nav="hub"] #connectPlayersScreen,html[data-nav="hidden"] #connectPlayersScreen{--cp-top:var(--sd-nav-top-h,52px);}}
+#connectPlayersScreen.hidden{display:none;}
+#connectPlayersScreen .connectPlayersArt{display:none;}
+/* Desktop: the plate already carries both men and Daniel's pointing hand. Daniel's separate hand overlay (OVL_SJ_DANIEL_HAND_V1) is not shipped in this repo's pinned Team V image list, so none is drawn. */
+.connectPlayersHeader{position:absolute;z-index:1;inset:0;pointer-events:none;text-align:center;}
+.connectPlayersKicker{position:absolute;top:10.2%;left:50.3%;width:40%;margin:0;transform:translateX(-50%);font:600 clamp(13px,1.1vw,16px)/1.4 var(--sd-font-condensed,var(--f17-display));letter-spacing:.36em;white-space:nowrap;color:#d9c489;text-transform:uppercase;text-shadow:0 1px 6px #000;}
+#connectPlayersScreen h2#connectPlayersTitle{position:absolute;top:14.4%;left:50%;width:fit-content;max-width:90%;margin:0;padding:.04em .14em .14em;transform:translateX(-50%);border:0;box-shadow:none;background:linear-gradient(to bottom,#fff1b8,#f2c45b 55%,#b98a2f);-webkit-background-clip:text;background-clip:text;color:transparent;font:400 clamp(2.8rem,4.35vw,4.8rem)/1.12 var(--sd-font-title,"Kaushan Script","Brush Script MT",cursive);letter-spacing:.01em;text-align:center;white-space:nowrap;text-transform:uppercase;filter:drop-shadow(0 3px 1px #000000f5) drop-shadow(0 0 14px #f2c45b47);}
+#connectPlayersScreen h2#connectPlayersTitle::before,#connectPlayersScreen h2#connectPlayersTitle::after{display:none;}
+.connectPlayersTagline{position:absolute;top:23.7%;left:50.3%;width:60%;margin:0;transform:translateX(-50%);font:600 clamp(10px,.75vw,13px)/1.4 var(--sd-font-condensed,var(--f17-display));letter-spacing:.3em;white-space:nowrap;color:#e6d4a3;text-transform:uppercase;text-shadow:0 1px 6px #000;}
+.connectPlayersWorkspace{position:absolute;z-index:2;left:23.7%;top:27.6%;width:51.3%;height:63.5%;box-sizing:border-box;min-height:0;display:flex;flex-direction:column;gap:12px;padding:14px;border:1px solid #e0b23080;background:linear-gradient(145deg,#070a0de8,#0c0e11bd);box-shadow:inset 0 1px #ffde6f24,0 12px 44px #0008;}
+.connectPlayersTabRow{display:contents;}
+.connectPlayersTabs{display:none;}
+.connectPlayersRoles{display:grid;grid-template-columns:1fr 1fr;gap:12px;flex-shrink:0;}
 .connectPlayersRole{min-width:0;padding:14px;border:1px solid #e0b23080;background:#070a0da8;}
-.connectPlayersRole>span{font:700 11px var(--f17-display);letter-spacing:.16em;color:#f0c84b;}
+.connectPlayersRole>span{font:700 11px var(--f17-display);letter-spacing:.16em;color:var(--cp-gold);}
 .connectPlayersRole h3{margin:3px 0 9px;font:700 25px var(--f17-display);}
 .connectPlayersRole p{font-size:13px;line-height:1.35;color:#c9c9c5;}
-#connectPlayersScreen[data-role="daniel"] .connectPlayersRoleDaniel,#connectPlayersScreen[data-role="nik"] .connectPlayersRoleNik{border-color:#f0c84b;box-shadow:0 0 18px #d09d241c;}
+#connectPlayersScreen[data-role="daniel"] .connectPlayersRoleDaniel,#connectPlayersScreen[data-role="nik"] .connectPlayersRoleNik{border-color:var(--cp-gold);box-shadow:0 0 18px #d09d241c;}
 #connectPlayersScreen:not([data-role="daniel"]) #connectPlayersSetup{display:none;}
-#connectPlayersPairSlot{min-height:0;overflow:auto;overscroll-behavior:contain;scrollbar-color:#f0c84b #07080a;}
+#connectPlayersPairSlot{flex:1 1 auto;min-height:0;overflow:auto;overscroll-behavior:contain;scrollbar-color:var(--cp-gold) #07080a;}
 #persistentNikDanielPairPanel{margin:0;padding:14px;border:1px solid #e0b23080;background:linear-gradient(145deg,#070a0deb,#0c0e11d1);color:#f7f7f2;text-align:left;}
-#persistentNikDanielPairPanel>strong{font:700 23px var(--f17-display);letter-spacing:.06em;color:#fff1ae;}
+#persistentNikDanielPairPanel>strong{display:block;font:700 23px var(--f17-display);letter-spacing:.06em;color:#fff1ae;}
+#persistentNikDanielPairPanel>strong.connectPlayersRepeat{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;}
 #persistentNikDanielPairPanel>p{margin:7px 0 10px;font-size:13px;line-height:1.35;overflow-wrap:anywhere;}
 #persistentNikDanielPairPanel>div{display:flex;flex-wrap:wrap;align-items:center;gap:8px;}
 #persistentNikDanielPairPanel span{flex-basis:100%;font:600 11px/1.25 var(--f17-display);letter-spacing:.06em;color:#d9c489;}
 #connectPlayersScreen .menuButton,#connectPlayersScreen .connectPlayersBack{width:auto;min-height:44px;margin:0;padding:8px 13px;border:1px solid #f0c84b80;border-radius:2px;background:#0b0f12eb;color:#fff1ae;font:700 15px/1.1 var(--f17-display);letter-spacing:.05em;}
+/* Primary actions are solid yellow (Team V sd-btn--primary); COPY CODE, NEW CODE, CHECK STATUS, MORE and the rest stay outlined. */
+#connectPlayersScreen #connectPlayersSetup,#connectPlayersScreen .menuButton.connectPlayersPrimary{background:#f5c518;border-color:#f5c518;color:#1a1305;box-shadow:0 4px 18px #f5c51833;}
+#connectPlayersScreen #connectPlayersSetup:hover:not(:disabled),#connectPlayersScreen .menuButton.connectPlayersPrimary:hover:not(:disabled){filter:brightness(1.08);}
+#connectPlayersScreen .connectPlayersBack{position:absolute;z-index:4;top:-1px;right:-1px;width:58px;min-width:58px;height:44px;min-height:44px;padding:0 10px;border-radius:0 0 0 8px;font-size:15px;letter-spacing:.1em;}
 #connectPlayersSetup{margin-top:10px!important;}
 #persistentNikDanielPairPanel .menuButton{flex:1 1 auto;}
 #persistentNikDanielPairPanel code{flex-basis:100%;display:block;min-width:0;padding:10px 12px;border:1px solid #cdd6df94;background:#05080bcc;color:#fff1ae;overflow-wrap:anywhere;word-break:break-all;font:600 23px/1.2 var(--f17-display);letter-spacing:.07em;user-select:text;}
 #persistentNikDanielPairCode{width:100%;min-width:0;min-height:44px;margin:0;padding:8px 12px;border:1px solid #ced7df85;border-radius:2px;background:#06090dc7;color:#f7f7f2;font:600 18px var(--f17-display);}
 #connectPlayersScreen button:disabled{opacity:.45;}
-#connectPlayersScreen button:focus-visible,#connectPlayersScreen input:focus-visible{outline:2px solid #f0c84b;outline-offset:2px;}
-.connectPlayersTabs{display:none;}
+#connectPlayersScreen button:focus-visible,#connectPlayersScreen input:focus-visible{outline:2px solid var(--cp-gold);outline-offset:2px;}
 #connectPlayersScreen[data-connection="active"] #persistentNikDanielPairPanel{border-color:#80c97ab3;}
 @media(max-width:900px){
- #connectPlayersScreen{padding:0 12px 8px;gap:5px;background:linear-gradient(0deg,#07080a 10%,#07080ad9 65%,transparent),url('../visual-assets/v10_1/start-join/assets/ENV_SJ_PHONE_V1.webp') center 36%/cover;}
- #connectPlayersScreen .connectPlayersArt{height:31%;}
- .connectPlayersArt img{height:155%;top:0;}.connectPlayersDaniel{left:-4%;}.connectPlayersNik{right:-6%;}
- #connectPlayersScreen>h2{margin-top:clamp(70px,16svh,132px);font-size:32px;}
- .connectPlayersTagline{font-size:9px;letter-spacing:.12em;}
- .connectPlayersWorkspace{width:100%;flex:1;gap:6px;padding:0;margin:3px 0 0;border:0;background:none;box-shadow:none;overflow:hidden;}
- .connectPlayersTabs{display:flex;flex-shrink:0;gap:0;border:1px solid #e0b23080;background:#07080ae6;}
+ html[data-nav="hub"] #connectPlayersScreen{--cp-bottom:calc(var(--sd-nav-bottom-space,56px) + env(safe-area-inset-bottom,0px));}
+ #connectPlayersScreen{display:flex;flex-direction:column;justify-content:flex-end;gap:5px;padding:0 12px 10px;background:#07080a url('../visual-assets/v10_1/start-join/assets/ENV_SJ_PHONE_V1.webp') 50% 36%/cover no-repeat;}
+ #connectPlayersScreen.hidden{display:none;}
+ #connectPlayersScreen .connectPlayersArt{display:block;position:absolute;z-index:1;inset:0;pointer-events:none;overflow:hidden;}
+ #connectPlayersScreen .connectPlayersArt::after{content:"";position:absolute;z-index:4;inset:36% 0 0;background:linear-gradient(180deg,#07080a00 0%,#07080ad1 34%,#07080a 62%);}
+ .connectPlayersArt img{position:absolute;z-index:3;top:0;width:auto;max-width:none;filter:drop-shadow(0 8px 10px #00000080) drop-shadow(0 0 3px #ffd34d4d);}
+ .connectPlayersArt .connectPlayersDaniel{left:-4%;top:1%;height:60%;}.connectPlayersArt .connectPlayersNik{left:49%;right:auto;top:0;height:58%;}
+ .connectPlayersHeader{position:relative;z-index:5;inset:auto;order:1;display:flex;flex-direction:column;align-items:center;gap:2px;pointer-events:auto;}
+ .connectPlayersKicker,#connectPlayersScreen h2#connectPlayersTitle,.connectPlayersTagline{position:static;transform:none;width:100%;max-width:none;}
+ .connectPlayersKicker{font-size:8px;letter-spacing:.3em;}
+ #connectPlayersScreen h2#connectPlayersTitle{width:fit-content;max-width:100%;font-size:clamp(28px,8.6vw,36px);line-height:1;}
+ .connectPlayersTagline{font-size:9px;letter-spacing:.06em;white-space:normal;line-height:1.2;}
+ .connectPlayersWorkspace{position:relative;z-index:5;order:2;left:auto;top:auto;width:auto;height:max(200px,calc(100svh - var(--cp-top) - var(--cp-bottom) - 300px));flex:0 1 auto;gap:6px;padding:0;border:0;background:none;box-shadow:none;overflow:hidden;}
+ .connectPlayersTabRow{display:flex;flex-shrink:0;position:relative;}
+ .connectPlayersTabs{display:flex;flex:1 1 auto;min-width:0;margin-right:58px;gap:0;border:1px solid #e0b23080;background:#07080ae6;}
  .connectPlayersTabs label{position:relative;flex:1;min-width:0;cursor:pointer;}
  .connectPlayersTabs input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer;margin:0;}
- .connectPlayersTabs span{display:flex;align-items:center;justify-content:center;min-height:44px;padding:0 2px;font:700 12px var(--f17-display);color:#d9c489;}
+ .connectPlayersTabs span{display:flex;align-items:center;justify-content:center;min-height:44px;padding:0 2px;font:700 11px var(--f17-display);letter-spacing:.05em;color:#d9c489;}
  .connectPlayersTabs input:checked+span{background:#f0c84b21;color:#fff1ae;box-shadow:inset 0 -2px #f0c84b;}
- .connectPlayersTabs input:focus-visible+span{outline:2px solid #f0c84b;outline-offset:-3px;}
- .connectPlayersRoles{display:block;flex-shrink:0;}.connectPlayersRole{display:none;padding:8px 10px;}
+ .connectPlayersTabs input:focus-visible+span{outline:2px solid var(--cp-gold);outline-offset:-3px;}
+ #connectPlayersScreen .connectPlayersBack{top:0;right:0;width:52px;min-width:52px;height:100%;min-height:44px;padding:0;border-radius:0;font-size:12px;letter-spacing:.06em;}
+ .connectPlayersRoles{display:block;flex-shrink:0;}.connectPlayersRole{display:none;padding:8px 10px;background:#070a0de6;}
  .connectPlayersRole>span{display:none;}.connectPlayersRole h3{margin:0 0 4px;font-size:20px;}.connectPlayersRole p{font-size:12px;}
  .connectPlayersWorkspace:has(#connectPlayersDanielTab:checked) .connectPlayersRoleDaniel,.connectPlayersWorkspace:has(#connectPlayersNikTab:checked) .connectPlayersRoleNik{display:block;}
- #connectPlayersPairSlot{flex:1;min-height:0;}
+ #connectPlayersPairSlot{flex:1 1 auto;min-height:0;}
  #connectPlayersScreen[data-role="nik"] .connectPlayersWorkspace:has(#connectPlayersDanielTab:checked) #connectPlayersPairSlot,#connectPlayersScreen[data-role="daniel"] .connectPlayersWorkspace:has(#connectPlayersNikTab:checked) #connectPlayersPairSlot{visibility:hidden;}
  #persistentNikDanielPairPanel{padding:10px;}
  #persistentNikDanielPairPanel>strong{font-size:20px;}#persistentNikDanielPairPanel>p{font-size:12px;margin:6px 0 8px;}
  #persistentNikDanielPairPanel code{font-size:19px;line-height:1.1;padding:7px 9px;}
  #persistentNikDanielPairPanel>div{gap:6px;}#persistentNikDanielPairPanel .menuButton{font-size:13px;padding:8px;}
- #connectPlayersScreen>.connectPlayersBack{flex-shrink:0;min-width:100px;}
 }
 @media(max-width:900px) and (max-height:650px){
- #connectPlayersScreen>h2{margin-top:58px;font-size:28px;}.connectPlayersTagline{display:none;}
+ .connectPlayersKicker,.connectPlayersTagline{display:none;}
+ .connectPlayersWorkspace{height:max(180px,calc(100svh - var(--cp-top) - var(--cp-bottom) - 270px));}
  .connectPlayersRole p{display:none;}#persistentNikDanielPairPanel>p{font-size:11px;}
 }
