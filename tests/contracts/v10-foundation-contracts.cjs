@@ -583,6 +583,8 @@ const V10_IMAGES={
     "visual-assets/v10_1/tr2/slice-02-plate/assets/OVL_NIK_FINGERTIP_V1_3344.png":"36ebfa43f2a1717be42f8a3e5dc708d1455de5fda4ea1be6f33ac42cd2fa136d",
     "visual-assets/v10_1/tr2/slice-02-plate/assets/OVL_TRANSFER_DANIEL_PHONE_V1.webp":"b57581b59b461ef11fa38e19e665103b3fb716e788a0e96ef315d3704ced351a",
     "visual-assets/v10_1/tr2/slice-02-plate/assets/OVL_TRANSFER_NIK_PHONE_V1.webp":"c15f8a2df3892472895978ae3f8ba029ee5b0a1dafa3afac9bbe10e03906c929",
+    "visual-assets/v10_1/tr2/slice-02-plate/assets/OVL_TRANSFER_DANIEL_PHONE_V2.webp":"739359106c586b8e98640290c5091b97008550f4bebad4919eabde3c0c9c1086",
+    "visual-assets/v10_1/tr2/slice-02-plate/assets/OVL_TRANSFER_NIK_PHONE_V2.webp":"d0d59dddf6988f0b24394d2363c30f15445f68dea3840fc4247dbf23ee826316",
     "visual-assets/v10_1/legacy/assets/ENV_LG_PHONE_V1.webp":"53832e23888504219270897b8c43ff165fca63d26d25e6d023220ee5c416fda1",
     "visual-assets/v10_1/legacy/assets/ENV_LG_PLATE_V1_1X.webp":"23a0ca4d5754484ed398b484563dd39f06ef889f177cd40cd6c155513aa5c200",
     "visual-assets/v10_1/legacy/assets/ENV_LG_PLATE_V1_2X.webp":"8717d782eb337b4f77f7596a76c36b0ab461a9bc319a8cc149d16d51a7a039a1",
