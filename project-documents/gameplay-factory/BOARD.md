@@ -1,6 +1,6 @@
 # Bug hunt board
 
-Updated Mon 5 Oct, 11:50 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
+Updated Tue 6 Oct, 12:01 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r62** (main `bc77a0b`, Mon 5 Oct 9:18 PM)
 
@@ -52,20 +52,4 @@ Updated Mon 5 Oct, 11:50 PM Boston time. Bug hunting only, no new features until
 | Lane | Item | What | State |
 | --- | --- | --- | --- |
 | 🟧 Opus | **V-F2** | Design changes from Nik and Daniel's 2.0 play-through (only real design changes; bugs stay with G) | queued · after G-F1 |
-
-## Shipped today
-
-- 9:18 PM · #386 Showdown Gate (shadow): six-lane check beside POS20, not required yet
-- 8:35 PM · #390 Release r62: bug-hunt fixes (errors, reconnect, auto final winner, desktop Settings, phone Home)
-- 7:37 PM · #387 Physio: a watched workflow that isn't on main no longer fails the sweep
-- 7:18 PM · #385 Physio: re-run checks GitHub gave no machine, pause helpers while checks wait
-- 5:37 PM · #383 Release r61: phone track list stops below the logo and scrolls
-- 2:51 PM · #378 G-36: No old player photos + seven Home tiles (r60)
-- 1:55 PM · #377 G-35: Team V screen fixes HO-003 + HO-004 (r59, includes r58)
-- 11:47 AM · #371 G-34: Team V's Club Assignment on the live screen (r57)
-- 8:47 AM · #369 Live 2.0 screen fixes: Trophy Room clipping, Start Showdown art, Continue Career 17 player
-- 8:47 AM · #370 Version 2.0 polish from Nik's live review (r56)
-- 7:55 AM · #368 Keep keyboard focus when the Settings look loads
-- 7:03 AM · #367 Publish Team V files on the live site
-- 1:00 AM · #366 Release Version 2.0: Team V screens, fewer taps and game fixes (runtime 1.9.1-r54)
 
