@@ -136,7 +136,7 @@ async function prepareSeasonReview(m){
   await m.page.locator("#completeSeason").click({timeout:30000});
   await m.page.waitForFunction(()=>document.getElementById("seasonReviewHeading")?.textContent==="REVIEW YOUR SEASON RESULT",null,{timeout:30000});
 }
-async function commitSeasonViaUi(daniel,nik,p1,p2,winner,{finalSeason=false}={}){
+async function commitSeasonViaUi(daniel,nik,p1,p2,winner,{finalSeason=false,seasonNumber=null}={}){
   await daniel.page.waitForFunction(()=>document.getElementById("sharedSeasonCommitAction")?.textContent==="COMMIT & ACKNOWLEDGE SHARED SEASON",null,{timeout:45000});
   await nik.page.waitForFunction(()=>document.getElementById("sharedSeasonCommitAction")?.textContent==="WAITING FOR COORDINATOR"||document.getElementById("sharedSeasonCommitAction")?.textContent==="ACKNOWLEDGE SHARED SEASON",null,{timeout:45000});
   if(await nik.page.locator("#sharedSeasonCommitAction").textContent()==="WAITING FOR COORDINATOR")assert.equal(await nik.page.locator("#sharedSeasonCommitAction").isDisabled(),true,"Nik cannot commit");
@@ -170,6 +170,10 @@ async function commitSeasonViaUi(daniel,nik,p1,p2,winner,{finalSeason=false}={})
       // the rendered scoring panel or the Final Winner screen is accepted; the panel text below is still asserted either way.
       await m.page.waitForFunction(()=>{const shown=id=>{const el=document.getElementById(id);return Boolean(el&&el.getClientRects().length&&getComputedStyle(el).visibility!=="hidden");};return shown("sharedCanonicalScoringPanel")||shown("finalWinnerScreen");},null,{timeout:45000});
       assert.equal(await m.page.locator("#sharedCanonicalScoringPanel").evaluate(el=>el.classList.contains("hidden")),false,`${m.user} scoring panel was rendered for the final season`);
+      // JOB-1005: the Final Winner screen itself shows the final season's number and score (no extra tap).
+      assert.ok(Number.isInteger(seasonNumber),"the final season number is passed to commitSeasonViaUi");
+      await m.page.waitForFunction(({n,s1,s2})=>{const t=id=>document.getElementById(id)?.textContent?.trim();return t("panelLastSeasonLabel")===`FINAL SEASON ${n}`&&t("panelLastSeasonDaniel")===String(s1)&&t("panelLastSeasonNik")===String(s2);},{n:seasonNumber,s1:p1,s2:p2},{timeout:60000});
+      assert.equal(await m.page.locator("#finalWinnerLastSeason").isVisible(),true,`${m.user} Final Winner shows the last season cell`);
     }else{
       await m.page.locator("#sharedCanonicalScoringPanel").waitFor({state:"visible",timeout:5000});
     }
@@ -479,7 +483,7 @@ async function main(){
     ok("J7.2","RESULTS_READY reveals the same raw season facts on both pages; canonical scoring correctly remains locked until commit");
 
     // J8 season 1 commit + canonical scoring, then seasons 2 and 3.
-    await commitSeasonViaUi(daniel,nik,9,3,"Daniel",{finalSeason:LENGTH===1});
+    await commitSeasonViaUi(daniel,nik,9,3,"Daniel",{finalSeason:LENGTH===1,seasonNumber:1});
     ok("J7.3","after the immutable season-1 commit both pages show canonical 9-3 and Daniel as season winner");
 
     if(LENGTH>1){
@@ -575,7 +579,7 @@ async function main(){
         assert.equal((await m.page.locator("#seasonReviewError").textContent()).trim(),"","simultaneous publish must not leave an error banner");
       }
       ok("J8.3","season-2 simultaneous publish converged to RESULTS_READY with no error banner");
-      await commitSeasonViaUi(daniel,nik,0,11,"Nik",{finalSeason:LENGTH===2});
+      await commitSeasonViaUi(daniel,nik,0,11,"Nik",{finalSeason:LENGTH===2,seasonNumber:2});
       ok("J8.4","season 2 canonical score is 0-11 and Nik wins");
 
       if(LENGTH>2){
@@ -594,7 +598,7 @@ async function main(){
         assert.equal(await nik.page.locator("#seasonReviewOne").isVisible(),false,"season 3 Daniel result stays private until Nik publishes");
         await fillSeasonResult(nik,"p2",season3Nik);await publishSeasonResult(nik);
         for(const m of [daniel,nik])await m.page.waitForFunction(()=>document.getElementById("seasonReviewHeading")?.textContent==="BOTH MANAGERS PUBLISHED",null,{timeout:45000});
-        await commitSeasonViaUi(daniel,nik,1,1,"Daniel",{finalSeason:true});
+        await commitSeasonViaUi(daniel,nik,1,1,"Daniel",{finalSeason:true,seasonNumber:3});
         ok("J8.5","season 3 repeated privacy and scoring; 1-1 tie is won by Daniel on league position");
       }
     }
