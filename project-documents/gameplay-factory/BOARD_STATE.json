@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-06 1:13 AM Boston time (EDT)",
+ "generated": "2026-10-06 1:17 AM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -284,8 +284,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "6305511",
-  "head_boston": "Tue 6 Oct 1:08 AM",
+  "head": "ec87402",
+  "head_boston": "Tue 6 Oct 1:16 AM",
   "latest_id": "G2V-016",
   "feed_matches_latest": true,
   "open_for_g": [],
@@ -600,6 +600,19 @@
     "worker": "sonnet",
     "pickup_min": 0,
     "waiting_min": null
+   },
+   {
+    "id": "HO-020",
+    "from": "V",
+    "to": "G",
+    "title": "Team V screens lose kit CSS when a stylesheet takes over 4 s (v10Screens.js timeout)",
+    "stage": "RECEIVED",
+    "pct": 0.0,
+    "overdue": false,
+    "path": "project-documents/leads-relay/handoffs/HO-020_team-v-screens-lose-kit-css-when-a-style.md",
+    "worker": "sonnet",
+    "pickup_min": null,
+    "waiting_min": null
    }
   ],
   "relay_ok": true
@@ -671,7 +684,7 @@
   "**r62 is live.** On the laptop, close every game tab in Chrome and reopen the game; if Settings still looks clipped, do it once more."
  ],
  "now": {
-  "moving": 14,
+  "moving": 15,
   "next": 3,
   "nik": 7,
   "later": 6,

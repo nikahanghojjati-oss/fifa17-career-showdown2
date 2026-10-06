@@ -335,6 +335,51 @@
      "verified": []
     },
     "sha": "1637353e62bc7e85e5f1def68b1a00c13f16b956"
+   },
+   "project-documents/gameplay-factory/sweeps/olympiad/runs/chat-1006-0503.json": {
+    "data": {
+     "area": "03",
+     "challenges": [],
+     "clean_confidence_pct": 61,
+     "coverage_pct": 79,
+     "date_utc": "2026-10-06T05:03:00Z",
+     "files_read": [
+      "js/sharedTransferChallenge.js",
+      "js/productionSharedTransferChallenge.js",
+      "js/sparkSharedTransferChallenge.js",
+      "js/sparkCompletedTransferHistoryReader.js",
+      "js/transferSelector.js",
+      "firestore.transfer-challenge-production.fragment.rules"
+     ],
+     "findings": [
+      "chat-1006-0503-1"
+     ],
+     "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+     "map": [
+      "Entry and controls: productionSharedTransferChallenge captures the shared Transfer Challenge controls before legacy listeners and sends only the active manager's private guesses/signings through the provider.",
+      "State: public transferChallenges/season_N records phase, revision and lock receipts; each manager's guesses/signings live in a separate roles/{managerRole} private document.",
+      "Signing lock: sparkSharedTransferChallenge performs the actor private-role write and public signingLockedRoles/phase update in one Firestore transaction; the second signing lock changes public phase to COMPLETED.",
+      "Reveal: before COMPLETED reads include only the actor's private role; at COMPLETED the provider rereads in the same transaction with readOpponent=true and requires both role documents to normalize successfully before producing verdicts.",
+      "Verdict: a signing is RELEASE when at least one rival guess matches either its canonical previous-league ID or its canonical nationality ID. Multiple matching guesses still produce one release decision.",
+      "Concurrency: production serializes mutations, blocks local double taps and retries one stale/permission race; after a competing final lock it treats COMPLETED or the actor already being locked as convergence and refreshes.",
+      "Reload/waiting: role payloads and public lock state are remote authority; waiting signers poll every 3 seconds for up to 3 minutes then every 15 seconds, with hidden tabs refreshing on visibility return.",
+      "History: completed transfer history later requires every season's public ledger and both private roles and recomputes public operation-hash provenance; transfer-history unavailability is kept separate from career points/trophies.",
+      "Rules boundary: production Firestore Rules enforce atomic role/session/device linkage and transfer phase deltas, but their option validator checks only slug shape while the provider reader requires exact FIFA 17 catalog membership and trimmed signing names.",
+      "Surviving failure: an entitled modified client can therefore create rule-valid/provider-invalid signing authority; the honest rival can make the final lock, after which the completed reveal must read the poisoned opponent role and fails."
+     ],
+     "mode": "chat",
+     "next_focus": "04: trace seasons 2 to 10 and the next-season step end to end: accepted-season gating, cursor advancement, double continue, reload/offline between seasons, transfer-state reset, season 10 boundary and 1-season immediate terminal behavior.",
+     "partial": false,
+     "premortem": [
+      "Most likely: simultaneous final signing locks race and one device gets stranded. Disproof: the provider transaction rejects the stale loser, production rereads once, recognizes an already-locked/COMPLETED outcome and refreshes the full completed projection.",
+      "Reload after only one manager locks signings loses that manager's private payload or reopens editing. Disproof: the private role document and public signingLockedRoles persist independently of page memory, and rendering disables the locked actor after the authoritative read.",
+      "A write accepted by Firestore can violate the provider's canonical signing contract and poison reveal. Tested against the Rules/provider validators; this survived as chat-1006-0503-1."
+     ],
+     "questions_asked": 0,
+     "run": "chat-1006-0503",
+     "verified": []
+    },
+    "sha": "0fd6550a532e727056ecb6b35a677838f882686c"
    }
   },
   "state": "ok"
