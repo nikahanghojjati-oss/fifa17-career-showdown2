@@ -1,0 +1,27 @@
+{
+  "id": "chat-1006-1335-1",
+  "result": "real",
+  "evidence": {
+    "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+    "qa_source_sha": "69bf7be6ccc81a9b2b82513c58631467915d3e34",
+    "finding_id": "A07-RESTORE-KEEP-LIBRARY-IGNORED",
+    "finding_sha256": "e775dca8ba4b65b71b9251b2e51642f9400d816f8335400c75fe7c1fa4a1665d",
+    "observations": "Confirmed the same clean-destination defect as codex-1006-1312-2: a valid one-Showdown format-v2 backup is imported despite Keep current in all four selectors. The full-library condition in restore.js ignores explicit keep-current whenever both current library and active state are empty. The supplied browser reproduction reaches preview and Apply and records the imported library.",
+    "source_refs": [
+      "js/restore.js:144",
+      "js/restore.js:159",
+      "js/restore.js:178",
+      "js/restoreUI.js:137"
+    ],
+    "runner": {
+      "source": "project-documents/gameplay-factory/sweeps/olympiad/test/codex-1006-1312-keep-empty.cjs",
+      "sha256": "7267c46198020377c6a10e69608d516df4f1cde91d6896742de63903af1f540b",
+      "preparation": "Copied the QA runner into the same relative path in the detached main worktree; the game source is unchanged."
+    },
+    "scope": "Real backup download, review selections and Apply clicks in isolated Chromium local storage, using ordinary saves prepared with the game save/score helpers.",
+    "exit_code": 1,
+    "failure_kind": "The reproduction reaches the claimed behavior and fails its intended correctness assertion; this is evidence of the defect."
+  },
+  "command": "cd /workspace/cms-olympiad-main\nCMS_BASE_URL=http://127.0.0.1:4196/ CMS_CHROMIUM_PATH=/usr/bin/chromium CMS_CHROMIUM_MULTI_CONTEXT=1 node project-documents/gameplay-factory/sweeps/olympiad/test/codex-1006-1312-keep-empty.cjs",
+  "output": "Selected: Keep current in Active Showdown, Legacy History, Preferences and Save Library.\nPreview: RESTORE PLAN READY | Save Library full restore (clean destination) · active matches backup · Legacy stays local · preferences stay local.\nExpected: the empty game stays empty.\nActual: {\"gamesRestored\":1,\"activeSaveId\":\"save_18fc954facedd4b5abbcc07a\"}\nAssertionError [ERR_ASSERTION]: Explicit keep-current choices must not bring games back after reset\n\nfalse !== true\n\n    at /workspace/cms-olympiad-main/project-documents/gameplay-factory/sweeps/olympiad/test/codex-1006-1312-keep-empty.cjs:44:9\n"
+}

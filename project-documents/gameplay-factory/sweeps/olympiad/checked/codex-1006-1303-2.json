@@ -1,0 +1,27 @@
+{
+  "id": "codex-1006-1303-2",
+  "result": "real",
+  "evidence": {
+    "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+    "qa_source_sha": "69bf7be6ccc81a9b2b82513c58631467915d3e34",
+    "finding_id": "CMS08-codex-1006-1303-final-rule",
+    "finding_sha256": "1f520a7d7b1b194d7ce97ea0dff1b15b3e47e63ad73213a2a199062b82fa726c",
+    "observations": "Real history/scoring/final reconciliation for a valid ten-season 5-5 total with season wins 9-1 gives DRAW, and the actual final screen displays DRAW. The rendered Rule Book has no rule that accumulated points decide the Showdown or that tied final totals are a draw. Season tiebreak rules do not explain this final result.",
+    "source_refs": [
+      "js/ruleBook.js:36",
+      "js/ruleBook.js:57",
+      "js/sharedFinalReconciliation.js:48",
+      "js/showdown.js:18"
+    ],
+    "runner": {
+      "source": "project-documents/gameplay-factory/sweeps/olympiad/test/CMS08-codex-1006-1303-final-rule.cjs",
+      "sha256": "65812a8e079c5658afc04148565103b0cce1703f72daea60126e08ea401dbf6b",
+      "preparation": "Copied the QA runner into the same relative path in the detached main worktree; the game source is unchanged."
+    },
+    "scope": "Chromium on the local server serving detached main. Provider responses are supplied in memory at the existing game boundary; game logic, screens and controls run unchanged. No live manager data is touched.",
+    "exit_code": 1,
+    "failure_kind": "The reproduction reaches the claimed behavior and fails its intended correctness assertion; this is evidence of the defect."
+  },
+  "command": "cd /workspace/cms-olympiad-main\nCMS_BASE_URL=http://127.0.0.1:4196/ CMS_CHROMIUM_PATH=/usr/bin/chromium CMS_CHROMIUM_MULTI_CONTEXT=1 node project-documents/gameplay-factory/sweeps/olympiad/test/CMS08-codex-1006-1303-final-rule.cjs",
+  "output": "Season 10 of 10: final points Daniel 5, Nik 5; season wins {\"Daniel\":9,\"Nik\":1}.\nExisting final rule: points are added across seasons; equal totals produce DRAW even with unequal season wins.\nActual final screen: DRAW. Rule Book: only season tiebreak rules; no final points rule or tied-total DRAW.\nPROOF RESULT: Rule Book must state that the highest accumulated points win the Showdown and a tied total is DRAW.\n"
+}

@@ -1,0 +1,26 @@
+{
+  "id": "codex-1006-1303-1",
+  "result": "real",
+  "evidence": {
+    "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+    "qa_source_sha": "69bf7be6ccc81a9b2b82513c58631467915d3e34",
+    "finding_id": "CMS08-codex-1006-1303-window-rule",
+    "finding_sha256": "ab6ce1094d4dd398d3467c66d9ece57231b700516c36f17e179e927b0df97f06",
+    "observations": "The real Rule Book says only that the window lasts 15 minutes. Actual two-manager browser controls, backed by the real shared Transfer protocol, keep the window open after the first request and enter Guess Entry after the second request before 15 minutes. The agreed early-end exception is absent from the written rules.",
+    "source_refs": [
+      "js/ruleBook.js:51",
+      "js/sharedTransferChallenge.js:174",
+      "js/productionSharedTransferChallenge.js:220"
+    ],
+    "runner": {
+      "source": "project-documents/gameplay-factory/sweeps/olympiad/test/CMS08-codex-1006-1303-window-rule.cjs",
+      "sha256": "9e22ad5128424b7d608414f359d489ef7cf18e6353cbd5c9b93e0cf1ae0cb37b",
+      "preparation": "Copied the QA runner into the same relative path in the detached main worktree; the game source is unchanged."
+    },
+    "scope": "Chromium on the local server serving detached main. Provider responses are supplied in memory at the existing game boundary; game logic, screens and controls run unchanged. No live manager data is touched.",
+    "exit_code": 1,
+    "failure_kind": "The reproduction reaches the claimed behavior and fails its intended correctness assertion; this is evidence of the defect."
+  },
+  "command": "cd /workspace/cms-olympiad-main\nCMS_BASE_URL=http://127.0.0.1:4196/ CMS_CHROMIUM_PATH=/usr/bin/chromium CMS_CHROMIUM_MULTI_CONTEXT=1 node project-documents/gameplay-factory/sweeps/olympiad/test/CMS08-codex-1006-1303-window-rule.cjs",
+  "output": "Rule Book: \"The transfer window challenge lasts 15 minutes.\"\nGame screens: Daniel requests early end; window stays open. Nik requests early end; both reach Guess Entry before 15 minutes.\nExisting shared rule correctly requires both managers. The Rule Book does not mention that exception.\nPROOF RESULT: Rule Book must explain the existing rule that both managers may agree to end the window early.\n"
+}

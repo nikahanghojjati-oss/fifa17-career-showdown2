@@ -1,0 +1,26 @@
+{
+  "id": "codex-1006-1251-1",
+  "result": "real",
+  "evidence": {
+    "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+    "qa_source_sha": "69bf7be6ccc81a9b2b82513c58631467915d3e34",
+    "finding_id": "codex-1006-1251-stale-season-results",
+    "finding_sha256": "215e74860dfa5aec57d75f627467e790ce77ca4cb1d5248cac41122cf70019b4",
+    "observations": "Opening Season 2 after Season 1 publication retains position 1, points 100, goals 100 and all four trophy/award ticks. Review accepts the retained values as Season 2 facts. The new-context path clears draft but not input values.",
+    "source_refs": [
+      "js/productionSharedSeasonResults.js:120",
+      "js/productionSharedSeasonResults.js:128",
+      "js/productionSharedSeasonResults.js:131"
+    ],
+    "runner": {
+      "source": "project-documents/gameplay-factory/sweeps/olympiad/test/codex-1006-1251-stale-season-results.cjs",
+      "sha256": "5e9395777e7c01d697e82d41b44833abccd84d2c55da7a547e4d8d5038048fb7",
+      "preparation": "Copied the QA runner into the same relative path in the detached main worktree; the game source is unchanged."
+    },
+    "scope": "Chromium on the local server serving detached main. Provider responses are supplied in memory at the existing game boundary; game logic, screens and controls run unchanged. No live manager data is touched.",
+    "exit_code": 1,
+    "failure_kind": "The reproduction reaches the claimed behavior and fails its intended correctness assertion; this is evidence of the defect."
+  },
+  "command": "cd /workspace/cms-olympiad-main\nCMS_BASE_URL=http://127.0.0.1:4196/ CMS_CHROMIUM_PATH=/usr/bin/chromium CMS_CHROMIUM_MULTI_CONTEXT=1 node project-documents/gameplay-factory/sweeps/olympiad/test/codex-1006-1251-stale-season-results.cjs",
+  "output": "SEASON 2 EXPECTED {\"LeaguePosition\":\"\",\"LeaguePoints\":\"\",\"LeagueGoals\":\"\",\"DomesticCup\":false,\"ChampionsLeague\":false,\"TopScorer\":false,\"TopAssist\":false}\nSEASON 2 ACTUAL {\"LeaguePosition\":\"1\",\"LeaguePoints\":\"100\",\"LeagueGoals\":\"100\",\"DomesticCup\":true,\"ChampionsLeague\":true,\"TopScorer\":true,\"TopAssist\":true}\nSEASON 2 REVIEW \"Daniel\\n\\nArsenal\\n\\nLeague Position\\n1\\nLeague Points\\n100\\nLeague Goals\\n100\\n✓ DOMESTIC CUP\\n✓ CHAMPIONS LEAGUE\\n✓ TOP SCORER\\n✓ TOP ASSIST\"\nAssertionError [ERR_ASSERTION]: New season entry must not carry the previous season facts and trophies.\n+ actual - expected\n\n  {\n+   ChampionsLeague: true,\n+   DomesticCup: true,\n+   LeagueGoals: '100',\n+   LeaguePoints: '100',\n+   LeaguePosition: '1',\n+   TopAssist: true,\n+   TopScorer: true\n-   ChampionsLeague: false,\n-   DomesticCup: false,\n-   LeagueGoals: '',\n-   LeaguePoints: '',\n-   LeaguePosition: '',\n-   TopAssist: false,\n-   TopScorer: false\n  }\n\n    at /workspace/cms-olympiad-main/project-documents/gameplay-factory/sweeps/olympiad/test/codex-1006-1251-stale-season-results.cjs:49:10 {\n  generatedMessage: false,\n  code: 'ERR_ASSERTION',\n  actual: [Object],\n  expected: [Object],\n  operator: 'deepStrictEqual',\n  diff: 'simple'\n}\n"
+}

@@ -1,0 +1,27 @@
+{
+  "id": "codex-1006-1301-1",
+  "result": "real",
+  "evidence": {
+    "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+    "qa_source_sha": "69bf7be6ccc81a9b2b82513c58631467915d3e34",
+    "finding_id": "codex-1006-1301-01",
+    "finding_sha256": "f8ce4054c40357621a5e1440e06a990878b5e8f4143f4b3360ae44130376842a",
+    "observations": "The real shared season-advance function moves to Season 2, but all seven Season 1 facts remain in the entry form. Actual Review and Publish clicks publish those old facts as a new result worth 11 points without any new input. The same reproduction checks a halfway publication reload and unchanged scoring boundaries.",
+    "source_refs": [
+      "js/productionSharedSeasonResults.js:120",
+      "js/productionSharedSeasonResults.js:128",
+      "js/productionSharedSeasonResultsRoute.js",
+      "js/productionSharedMultiSeasonProgression.js"
+    ],
+    "runner": {
+      "source": "project-documents/gameplay-factory/sweeps/olympiad/test/codex-1006-1301-01.cjs",
+      "sha256": "5b9a391270639736983757f43bfaaf7c321db2c20e9048dfcf7c945a59ad5767",
+      "preparation": "Copied the QA runner into the same relative path in the detached main worktree; the game source is unchanged."
+    },
+    "scope": "Chromium on the local server serving detached main. Provider responses are supplied in memory at the existing game boundary; game logic, screens and controls run unchanged. No live manager data is touched.",
+    "exit_code": 1,
+    "failure_kind": "The reproduction reaches the claimed behavior and fails its intended correctness assertion; this is evidence of the defect."
+  },
+  "command": "cd /workspace/cms-olympiad-main\nCMS_BASE_URL=http://127.0.0.1:4196/ CMS_CHROMIUM_PATH=/usr/bin/chromium CMS_CHROMIUM_MULTI_CONTEXT=1 node project-documents/gameplay-factory/sweeps/olympiad/test/codex-1006-1301-01.cjs",
+  "output": "PASS 576 season-score combinations in 18/20-club leagues: 0/99/100 boundaries and every trophy/award combination.\nPASS season 1 of 3: 11-0; both shared bonuses capped; published result survives halfway reload; no duplicate season.\nSeason 2 before any new results were entered: {\"LeaguePosition\":\"1\",\"LeaguePoints\":\"100\",\"LeagueGoals\":\"100\",\"DomesticCup\":true,\"ChampionsLeague\":true,\"TopScorer\":true,\"TopAssist\":true}\nSeason 2 review: Daniel Arsenal League Position 1 League Points 100 League Goals 100 ✓ DOMESTIC CUP ✓ CHAMPIONS LEAGUE ✓ TOP SCORER ✓ TOP ASSIST\nWRONG RESULT: season 2 published all seven season 1 facts without a new result being entered (worth 11 points).\nPASS season 10 of 10: 0-0; equal position and points draw despite different goals.\nPASS season tiebreak: league position, then league points.\nAssertionError [ERR_ASSERTION]: A new season must not inherit last season results or trophy checks.\n+ actual - expected\n\n  {\n+   ChampionsLeague: true,\n+   DomesticCup: true,\n+   LeagueGoals: '100',\n+   LeaguePoints: '100',\n+   LeaguePosition: '1',\n+   TopAssist: true,\n+   TopScorer: true\n-   ChampionsLeague: false,\n-   DomesticCup: false,\n-   LeagueGoals: '',\n-   LeaguePoints: '',\n-   LeaguePosition: '',\n-   TopAssist: false,\n-   TopScorer: false\n  }\n\n    at /workspace/cms-olympiad-main/project-documents/gameplay-factory/sweeps/olympiad/test/codex-1006-1301-01.cjs:151:12 {\n  generatedMessage: false,\n  code: 'ERR_ASSERTION',\n  actual: [Object],\n  expected: [Object],\n  operator: 'deepStrictEqual',\n  diff: 'simple'\n}\n"
+}

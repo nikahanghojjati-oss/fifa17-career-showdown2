@@ -1,0 +1,27 @@
+{
+  "id": "codex-1006-1313-1",
+  "result": "real",
+  "evidence": {
+    "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+    "qa_source_sha": "69bf7be6ccc81a9b2b82513c58631467915d3e34",
+    "finding_id": "OLY-06-EMPTY-AFTER-RESTART",
+    "finding_sha256": "c32786ab49e490193b9dbabecb42f97c6414390b6dac7aca90cd5c689f5e5be4",
+    "observations": "The unchanged closed-history adapter and career model read 1 of 1 abandoned Showdowns and count zero seasons. History is empty, but Career Statistics maps the valid null season-record fields to unavailable. Chromium visibly displays CAREER HISTORY UNAVAILABLE. The targeted assertion fails on unavailable versus expected empty.",
+    "source_refs": [
+      "js/careerScreensV10.js:31",
+      "js/careerScreensV10.js:41",
+      "js/careerScreensV10.js:78",
+      "js/sharedCareerAnalytics.js:155"
+    ],
+    "runner": {
+      "source": "project-documents/gameplay-factory/sweeps/olympiad/test/OLY-06-EMPTY-AFTER-RESTART.cjs",
+      "sha256": "6b8cf5f2fff21ac1f1612cc7acbf3814e2c51709d6665f1ac6739d09ad0c9c4d",
+      "preparation": "Copied the QA runner into the same relative path in the detached main worktree; the game source is unchanged. Only the test server port was changed from 4196 to 4198 to avoid a local server collision."
+    },
+    "scope": "Real history adapter, career model and local Chromium renderer; an abandoned record is supplied at the history read boundary. The two-account New Showdown action is traced in source rather than performed live.",
+    "exit_code": 1,
+    "failure_kind": "The reproduction reaches the claimed behavior and fails its intended correctness assertion; this is evidence of the defect."
+  },
+  "command": "cd /workspace/cms-olympiad-main\nCMS_BASE_URL=http://127.0.0.1:4196/ CMS_CHROMIUM_PATH=/usr/bin/chromium CMS_CHROMIUM_MULTI_CONTEXT=1 node project-documents/gameplay-factory/sweeps/olympiad/test/OLY-06-EMPTY-AFTER-RESTART.cjs --browser",
+  "output": "Readable Showdowns: 1 of 1. Counted seasons: 0. History: empty.\nExpected Career Statistics: empty (no completed record yet).\nActual Career Statistics: unavailable.\nChromium: ! CAREER HISTORY UNAVAILABLE Career history could not be loaded. No statistics are being shown.\nA readable career with only an unfinished Showdown ended early has no counted seasons; it must not claim history is unavailable.\n+ actual - expected\n\n+ 'unavailable'\n- 'empty'\n\n"
+}

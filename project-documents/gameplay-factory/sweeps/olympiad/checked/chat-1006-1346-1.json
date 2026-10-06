@@ -1,0 +1,19 @@
+{
+  "id": "chat-1006-1346-1",
+  "result": "real",
+  "evidence": {
+    "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+    "qa_source_sha": "69bf7be6ccc81a9b2b82513c58631467915d3e34",
+    "finding_id": "area08-exact-season-tie-undefined",
+    "finding_sha256": "2b9bc794b283ef7f823cbcfc31801034dd53810857d885ee199b73d6e1cc74e6",
+    "observations": "The rendered Rule Book TIEBREAK section stops after league position and league points and excludes other tiebreaks; it omits the exact-tie DRAW outcome. Actual main scoring returns draw for equal season score, position and league points, including different goals. This is a written-rules omission; gameplay already handles the tie.",
+    "source_refs": [
+      "js/ruleBook.js:57",
+      "js/scoring.js:41"
+    ],
+    "scope": "Real menu click renders the current Rule Book in Chromium; a small Node VM executes unchanged main determineSeasonWinner for the exact-tie case.",
+    "exit_code": 0
+  },
+  "command": "cd /workspace/cms-olympiad-main\nnode <<'NODE'\n'use strict';\nconst assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');\nconst {chromium}=require('playwright');\n(async()=>{\n const index=fs.readFileSync('index.html','utf8');\n console.log('Static index contains #ruleBook section: '+/id=\"ruleBook\"/.test(index));\n const browser=await chromium.launch({executablePath:'/usr/bin/chromium',headless:true,args:['--no-sandbox','--disable-dev-shm-usage']});\n try{\n  const page=await browser.newPage({reducedMotion:'reduce',serviceWorkers:'block'});\n  await page.goto('http://127.0.0.1:4196/',{waitUntil:'domcontentloaded'});\n  await page.locator('#loadingScreen').waitFor({state:'hidden',timeout:15000});\n  await page.locator('#ruleBookButton').click();\n  await page.locator('#ruleBook').waitFor({state:'visible',timeout:15000});\n  const sections=await page.locator('#ruleBook .ruleSection').allTextContents();\n  assert.equal(sections.length,6);\n  assert.ok(sections.some(s=>s.includes('A Showdown may contain 1, 3, 5, or 10 seasons.')));\n  console.log('PASS chat-1006-1331-1: real Rule Book menu click lazily constructs #ruleBook with all six rule sections; static-shell absence is intentional.');\n  const tie=sections.find(s=>s.includes('TIEBREAK'));\n  const c={console};vm.createContext(c);vm.runInContext(fs.readFileSync('js/scoring.js','utf8'),c);\n  const facts={leaguePosition:2,leaguePoints:80,leagueGoals:50,scoring:{total:0}};\n  const winner=c.determineSeasonWinner(facts,{...facts,leagueGoals:99});\n  assert.equal(winner,'draw');\n  assert.ok(!/draw|level|equal league points|same league points/i.test(tie));\n  console.log('TIEBREAK section: '+tie.replace(/\\s+/g,' '));\n  console.log('chat-1006-1346-1: actual scorer returns '+winner+' for equal season score 0, league position 2 and league points 80 (goals 50/99); Rule Book omits this final exact-tie outcome.');\n }finally{await browser.close();}\n})().catch(e=>{console.error(e);process.exitCode=1;});\nNODE",
+  "output": "Static index contains #ruleBook section: false\nPASS chat-1006-1331-1: real Rule Book menu click lazily constructs #ruleBook with all six rule sections; static-shell absence is intentional.\nTIEBREAK section: 05TIEBREAKIf both managers finish a season with the same Showdown points, use the approved fallback.The manager with the better league finishing position wins the season.If both managers finish in the same league position, the manager with more league points wins.No goal-difference, goals-scored, or head-to-head tiebreak is used.\nchat-1006-1346-1: actual scorer returns draw for equal season score 0, league position 2 and league points 80 (goals 50/99); Rule Book omits this final exact-tie outcome.\n"
+}

@@ -1,0 +1,26 @@
+{
+  "id": "codex-1006-1312-1",
+  "result": "real",
+  "evidence": {
+    "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+    "qa_source_sha": "69bf7be6ccc81a9b2b82513c58631467915d3e34",
+    "finding_id": "codex-1006-1312-keep-current",
+    "finding_sha256": "0281883c5cba36dd3b05ee8333dc222b528de6e64bf7406e601f946070d3fad5",
+    "observations": "The browser preview promises Keep current and no storage rewrite. Apply nevertheless replaces two saved games, including a Season-10 game with nine played seasons and 9-9 totals, with the older backup game at Season 2 with one played season and 0-0 totals. A page reload preserves the wrong result. The apply planner receives the smaller raw snapshot without the Save Library, so it takes the clean-destination full-restore path.",
+    "source_refs": [
+      "js/restore.js:283",
+      "js/restore.js:144",
+      "js/restoreUI.js:108"
+    ],
+    "runner": {
+      "source": "project-documents/gameplay-factory/sweeps/olympiad/test/codex-1006-1312-keep-current.cjs",
+      "sha256": "2aeab66ba22c32af1ae2953e10193247f2934d9c7526504448545cb7b75c13e9",
+      "preparation": "Copied the QA runner into the same relative path in the detached main worktree; the game source is unchanged."
+    },
+    "scope": "Real backup export, all four Keep current selectors, Apply confirmation and reload in isolated Chromium local storage. Normal save/score helpers prepare ordinary game records; no live saves are used.",
+    "exit_code": 1,
+    "failure_kind": "The reproduction reaches the claimed behavior and fails its intended correctness assertion; this is evidence of the defect."
+  },
+  "command": "cd /workspace/cms-olympiad-main\nCMS_BASE_URL=http://127.0.0.1:4196/ CMS_CHROMIUM_PATH=/usr/bin/chromium CMS_CHROMIUM_MULTI_CONTEXT=1 node project-documents/gameplay-factory/sweeps/olympiad/test/codex-1006-1312-keep-current.cjs",
+  "output": "Preview: RESTORE PLAN READY | Save Library stays local · active stays local · Legacy stays local · preferences stay local · no storage rewrite currently required.\nExpected: current season-10 game and every saved game remain unchanged.\nBefore: {\"games\":[1780000000101,1780000000102],\"season\":10,\"seasonsPlayed\":9,\"total\":{\"playerOne\":9,\"playerTwo\":9}}\nActual: {\"games\":[1780000000101],\"season\":2,\"seasonsPlayed\":1,\"total\":{\"playerOne\":0,\"playerTwo\":0}}\nAfter reload: {\"games\":[1780000000101],\"season\":2,\"seasonsPlayed\":1,\"total\":{\"playerOne\":0,\"playerTwo\":0}}\nAssertionError [ERR_ASSERTION]: Keep current must leave all games and progress unchanged\n\nfalse !== true\n\n    at /workspace/cms-olympiad-main/project-documents/gameplay-factory/sweeps/olympiad/test/codex-1006-1312-keep-current.cjs:50:9\n"
+}

@@ -1,0 +1,27 @@
+{
+  "id": "codex-1006-1939-1",
+  "result": "real",
+  "evidence": {
+    "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+    "qa_source_sha": "69bf7be6ccc81a9b2b82513c58631467915d3e34",
+    "finding_id": "CMS05-codex-1006-1939-closed-honours",
+    "finding_sha256": "862728f9c5ca2bad6531e74e4ecab53521c3fa14985f9dd05700fd09bd91b48b",
+    "observations": "Real verified three-season history has Daniel domestic cups 3 and Nik league titles 1, with final totals 3-3 DRAW. The final reconciliation path renders the trophies; the closed-result-only path after Chromium reload renders dashes and Trophy attribution is unavailable right now. The same history and existing finalWinnerView helper still produce the correct trophy counts. The screen requires an acceptedRevisionKey that the closed witness does not carry.",
+    "source_refs": [
+      "js/seasonFinalV10.js:20",
+      "js/seasonFinalV10.js:140",
+      "js/sharedTerminalClose.js:32",
+      "js/sharedActiveShowdownAdapter.js:128"
+    ],
+    "runner": {
+      "source": "project-documents/gameplay-factory/sweeps/olympiad/test/CMS05-codex-1006-1939-closed-honours.cjs",
+      "sha256": "8d949fb3ce2edad9d2dba42660e2b42a3e6300404e5a5bb46c09fd940874cbcb",
+      "preparation": "Copied the QA runner into the same relative path in the detached main worktree; the game source is unchanged."
+    },
+    "scope": "Chromium on the local server serving detached main. Provider responses are supplied in memory at the existing game boundary; game logic, screens and controls run unchanged. No live manager data is touched.",
+    "exit_code": 1,
+    "failure_kind": "The reproduction reaches the claimed behavior and fails its intended correctness assertion; this is evidence of the defect."
+  },
+  "command": "cd /workspace/cms-olympiad-main\nCMS_BASE_URL=http://127.0.0.1:4196/ CMS_CHROMIUM_PATH=/usr/bin/chromium CMS_CHROMIUM_MULTI_CONTEXT=1 node project-documents/gameplay-factory/sweeps/olympiad/test/CMS05-codex-1006-1939-closed-honours.cjs --browser",
+  "output": "Before finishing: {\"status\":\"ready\",\"winner\":\"DRAW\",\"totals\":{\"daniel\":3,\"nik\":3},\"trophies\":{\"daniel\":{\"championsLeague\":0,\"leagueTitles\":0,\"domesticCups\":3,\"total\":3},\"nik\":{\"championsLeague\":0,\"leagueTitles\":1,\"domesticCups\":0,\"total\":1}}}\nAfter finishing and reading the same saved history: {\"status\":\"partial\",\"winner\":\"DRAW\",\"totals\":{\"daniel\":3,\"nik\":3},\"trophies\":null,\"message\":\"Trophy attribution is unavailable right now.\"}\nExisting final-result helper still finds: {\"daniel\":{\"championsLeague\":0,\"leagueTitles\":0,\"domesticCups\":3,\"total\":3},\"nik\":{\"championsLeague\":0,\"leagueTitles\":1,\"domesticCups\":0,\"total\":1}}\nChromium before: {\"outcomeHeadline\":\"DRAW\",\"danielTotal\":\"3\",\"nikTotal\":\"3\",\"panelSeasons\":\"3\",\"panelMargin\":\"0\",\"panelDanielCup\":\"3\",\"panelNikCup\":\"0\",\"panelDanielTrophies\":\"3\",\"panelNikTrophies\":\"1\",\"finalWinnerPartialMessage\":\"\"}\nChromium after reload: {\"outcomeHeadline\":\"DRAW\",\"danielTotal\":\"3\",\"nikTotal\":\"3\",\"panelSeasons\":\"3\",\"panelMargin\":\"0\",\"panelDanielCup\":\"—\",\"panelNikCup\":\"—\",\"panelDanielTrophies\":\"—\",\"panelNikTrophies\":\"—\",\"finalWinnerPartialMessage\":\"Trophy attribution is unavailable right now.\"}\nFinishing/reloading a Showdown must keep its known trophy counts on the final screen\n+ actual - expected\n\n+ undefined\n- {\n-   daniel: {\n-     championsLeague: 0,\n-     domesticCups: 3,\n-     leagueTitles: 0,\n-     total: 3\n-   },\n-   nik: {\n-     championsLeague: 0,\n-     domesticCups: 0,\n-     leagueTitles: 1,\n-     total: 1\n-   }\n- }\n\n"
+}
