@@ -1,6 +1,6 @@
 {
  "_how": "One shared job counter for Team G and Team V (Nik, 2026-10-05). Claim with tools/claim_number.py only. A number is used once, ever. CONTRACT.md section 10.",
- "next": 1017,
+ "next": 1018,
  "claims": [
   {
    "number": 1001,
@@ -98,6 +98,12 @@
    "team": "V",
    "title": "Transfer War phone revamp: both faces whole, no overlap, action on the plate (folds in 1007, 1008)",
    "claimed": "2026-10-06T01:32:20Z"
+  },
+  {
+   "number": 1017,
+   "team": "G",
+   "title": "Gameplay hunt 1: shared season flow across devices",
+   "claimed": "2026-10-06T01:33:24Z"
   }
  ]
 }
