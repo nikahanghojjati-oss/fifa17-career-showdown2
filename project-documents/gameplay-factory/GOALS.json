@@ -583,6 +583,14 @@
     },
     "sha": "819aa4512f648b960637a08cc048d0040cd4008c"
    },
+   "project-documents/gameplay-factory/sweeps/olympiad/claims/codex-1006-2349.json": {
+    "data": {
+     "area": "01",
+     "run": "codex-1006-2349",
+     "started_utc": "2026-10-06T23:49:12.080Z"
+    },
+    "sha": "7456967fa470a45dbb7ba40d3c1f504802e8835f"
+   },
    "project-documents/gameplay-factory/sweeps/olympiad/evidence/codex-1006-2237/startup-diagnostic.json": {
     "data": {
      "badge": null,
@@ -2932,6 +2940,60 @@
      ]
     },
     "sha": "712d220ae92ca7059970ea84bcd0aa363594e80d"
+   },
+   "project-documents/gameplay-factory/sweeps/olympiad/findings/codex-1006-2349-1.json": {
+    "data": {
+     "actual": "At the first-pack stage, Daniel has West Ham United and Nik is still shown as ?. The visible rivalry summary already says Nik Southampton. Both clubs are shown correctly when the second pack opens.",
+     "area": "01",
+     "assumptions": [
+      "Daniel and Nik are ready to play and follow the rules.",
+      "Ordinary motion is enabled. Reduced motion reveals both clubs together and does not have this sealed-pack interval.",
+      "The test uses the real league and club draw rules, real game screens, and a local ready-to-play fixture.",
+      "This is a small reveal-order problem. It does not change either club, give points, or permit an early confirmation.",
+      "Before retaining the finding, the code that hides the opening summary and waits for both packs was checked, and the completed reveal was played through."
+     ],
+     "expected": "A sealed pack should keep its club unrevealed. Show the full rivalry summary after both packs have opened.",
+     "fix": {
+      "change": "Keep the rivalry summary hidden while either pack is sealed. Show and fill it once both packs have been revealed on this screen; keep the existing club picks and confirmation rules.",
+      "files": [
+       "js/productionSharedShowdownPresentation.js"
+      ]
+     },
+     "id": "CMS01-codex-1006-2349-sealed-club",
+     "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+     "root_cause": "ssjpAnimatePacks hides the rivalry summary when the draw starts, but ssjpRenderClub immediately calls ssjpFillConfirmation. That function shows the summary and fills both club names before the second pack opens. The later pack stages and disabled confirmation button work, but they do not keep the summary hidden.",
+     "run": "codex-1006-2349",
+     "script": "project-documents/gameplay-factory/sweeps/olympiad/test/CMS01-codex-1006-2349-sealed-club.cjs",
+     "script_output": "Command: node project-documents/gameplay-factory/sweeps/olympiad/test/CMS01-codex-1006-2349-sealed-club.cjs\nExit: 1 (the expected result is asserted; the current screen fails it)\nHALFWAY {\"stage\":\"manager-one\",\"packNames\":[\"West Ham United\",\"?\"],\"sealed\":[false,true],\"summaryVisible\":true,\"summaryNames\":[\"West Ham United\",\"Southampton\"],\"draw\":{\"playerOne\":\"West Ham United\",\"playerTwo\":\"Southampton\"}}\nAFTER BOTH PACKS {\"stage\":\"confirmation\",\"clubs\":[\"West Ham United\",\"Southampton\"],\"confirmEnabled\":true}\nNik's club must remain unrevealed on the visible screen until his pack opens.\n\ntrue !== false\n\n",
+     "severity": "S3",
+     "status": "confirmed",
+     "steps": [
+      "Start a three-season Showdown as Daniel, with Nik ready to play.",
+      "Spin the league wheel and continue to Club Assignment.",
+      "Choose OPEN SHOWDOWN PACKS with ordinary motion enabled.",
+      "While Daniel has PACK 01 OPEN and Nik still has a sealed pack marked ?, read the rivalry summary below the packs.",
+      "Wait for both packs to open: the same two clubs remain assigned and confirmation works."
+     ],
+     "title": "The rivalry summary shows a club while its pack is still sealed",
+     "where": [
+      {
+       "file": "js/productionSharedShowdownPresentation.js",
+       "function": "ssjpFillConfirmation",
+       "line": 137
+      },
+      {
+       "file": "js/productionSharedShowdownPresentation.js",
+       "function": "ssjpRenderClub",
+       "line": 175
+      },
+      {
+       "file": "js/productionSharedShowdownPresentation.js",
+       "function": "ssjpAnimatePacks",
+       "line": 140
+      }
+     ]
+    },
+    "sha": "66da30cec93b5425362b0e0163e72b44f9c90a3d"
    },
    "project-documents/gameplay-factory/sweeps/olympiad/runs/chat-1006-0418.json": {
     "data": {
@@ -5942,6 +6004,72 @@
      "status": "completed_with_failures"
     },
     "sha": "c2d0ca59c8004758f663864adbdfe79d37bade95"
+   },
+   "project-documents/gameplay-factory/sweeps/olympiad/runs/codex-1006-2349.json": {
+    "data": {
+     "area": "01",
+     "clean_confidence_pct": 88,
+     "coverage_pct": 92,
+     "date_utc": "2026-10-06T23:56:11.140Z",
+     "files_read": [
+      "AGENTS.md",
+      "PROJECT_OPERATING_SYSTEM_POS20.json",
+      "PROJECT_OPERATING_SYSTEM_POS20.md",
+      "POS20_CURRENT_STATE.json",
+      "CURRENT_PRODUCT_GUARDS.json",
+      "NEXT_TASK.md",
+      "SHARED_SHOWDOWN_JOURNEY_READINESS.json",
+      "MILESTONE_DELIVERY_PROGRESS.json",
+      "package.json",
+      "index.html",
+      "data/leagues.js",
+      "data/clubs.js",
+      "js/dataEngine.js",
+      "js/showdown.js",
+      "js/showdownUI.js",
+      "js/leagueWheel.js",
+      "js/clubAssignment.js",
+      "js/productionSharedShowdownSetup.js",
+      "js/sharedShowdownSetup.js",
+      "js/sparkSharedShowdownSetup.js",
+      "js/sharedShowdownCatalog.js",
+      "js/productionSharedShowdownPresentation.js",
+      "js/productionSharedJourneyGuard.js",
+      "js/productionSharedCareerStart.js",
+      "js/productionSharedMultiSeasonProgression.js",
+      "js/sharedMultiSeasonProgression.js",
+      "js/sparkSharedMultiSeasonProgression.js",
+      "js/sharedHistoryConvergence.js",
+      "js/productionSharedHistoryConvergence.js",
+      "js/sharedFinalReconciliation.js",
+      "js/careerScreenSeam.js",
+      "js/careerScreensV10.js",
+      "js/v10Setup.js",
+      "js/clubScreenV10.js",
+      "js/app.js",
+      "js/screens.js",
+      "js/optionalModules.js",
+      "js/ruleBook.js",
+      "js/scoring.js",
+      "visual-assets/v10_1/club/club.js",
+      "tests/support/static-server.cjs",
+      "tests/support/chromium-runtime.cjs",
+      "tests/support/active-showdown-fixtures.cjs",
+      "tests/support/career-fixture-helpers.cjs",
+      "tests/fixtures/shared-showdown-setup.cjs",
+      "tests/browser/shared-showdown-setup-audit.cjs",
+      "tests/browser/shared-showdown-polished-presentation-audit.cjs",
+      "tests/browser/shared-multi-season-progression-audit.cjs"
+     ],
+     "findings": [
+      "CMS01-codex-1006-2349-sealed-club"
+     ],
+     "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+     "mode": "codex",
+     "next_focus": "Fix the early club-name reveal, then rerun test/CMS01-codex-1006-2349-sealed-club.cjs and test/codex-1006-2349-coverage.cjs. Checked 600 legal draws reaching all five leagues and all 98 clubs; distinct same-league pairs; repeat reads; desktop Daniel and phone Nik; spin, pack reveal, reload after pack 1, both confirmations; season 1 of 3, season 10 of 10, a 0-0 season and tied 5-5 totals. Real history and season rules preserve the picks through 1, 3, 5 and 10 seasons and a JSON reload. Later-season results were legal fixtures for checking the picks; this was not a full start-to-finish Showdown run. Coverage script passed; the separate finding script failed as expected. Game code is unchanged and matches main.",
+     "run": "codex-1006-2349"
+    },
+    "sha": "1d317f34343aa0ca76d554b3e645c413756806a1"
    }
   },
   "state": "ok"
