@@ -875,6 +875,15 @@
      "state": "with worker (round 2)",
      "waits_on": "GPT blue round 2: one test line",
      "details": "js/rulesSettingsV10.js only: stop building #ruleBookIndex. Per-rule number badges stay."
+    },
+    {
+     "id": "1005",
+     "group": "Bug list 1",
+     "title": "1005 · G Last season's score is skipped before the Final Winner",
+     "lane": "green",
+     "state": "needs Nik",
+     "waits_on": "Nik picks how the last season's score shows (one tap recommended)",
+     "details": "GPT green, one run. js/seasonFinalV10.js gate + strict final-season check in the two-player journey. Rides r62."
     }
    ]
   },
