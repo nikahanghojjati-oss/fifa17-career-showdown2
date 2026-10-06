@@ -1,15 +1,8 @@
 # 🎨 Team V board
 
-Updated Mon 5 Oct 9:31 PM EDT · Team V featured, Team G below · one shared data source (PR progress blocks + relay) · [Team G's board](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/BOARD.md)
+Updated Mon 5 Oct 9:35 PM EDT · Team V featured, Team G below · one shared data source (PR progress blocks + relay) · [Team G's board](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/BOARD.md)
 
 ## Team V: visual jobs
-
-### 🟦 [V-1007 · Transfer War phone: early-end button visible](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/394)
-
-🟦🟦🟦🟦🟦🟦🟦▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️ **33.33 %** · 1 of 3 steps · Sol chat · GPT blue (Nik types 1007) · updated Mon 5 Oct 8:58 PM EDT
-
-> **Going on now:** waiting for Nik to type 1007 in a new Showdown visual chat  
-> **Next step:** GPT blue: append the CSS fix
 
 ### 🟦 [V-1006 · Final Winner: last season's score block](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/393)
 
@@ -31,6 +24,7 @@ Updated Mon 5 Oct 9:31 PM EDT · Team V featured, Team G below · one shared dat
 
 **Recently finished:**
 
+* ✅ [V-1007 Transfer War phone: early-end button visible](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/394) · closed Mon 5 Oct 9:32 PM EDT
 * ✅ [V-1002 Transfer War window strings match production wording](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/389) · merged Mon 5 Oct 8:04 PM EDT
 * ✅ [V-245 Visual QA: live 2.0 vs approved frames (HO-004)](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/375) · merged Mon 5 Oct 12:18 PM EDT
 * ✅ [V-246 Header chips and footer on Team V screens (HO-003)](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/376) · merged Mon 5 Oct 12:19 PM EDT
@@ -53,7 +47,7 @@ Updated Mon 5 Oct 9:31 PM EDT · Team V featured, Team G below · one shared dat
 | [HO-003](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/handoffs/HO-003_header-chips-and-footer-design-on-team-v.md) | Header chips and footer design on Team V screens | normal | ✅ Done | V-246 |
 | [HO-004](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/handoffs/HO-004_visual-qa-live-2-0-screens-vs-approved-f.md) | Visual QA: live 2.0 screens vs approved frames | normal | ✅ Done | V-245 |
 
-<sub>Sent to Team G: HO-006 ✅ Done · HO-009 ✅ Done · HO-010 ✅ Done · HO-013 📥 Received · HO-014 📤 Sent</sub>
+<sub>Sent to Team G: HO-006 ✅ Done · HO-009 ✅ Done · HO-010 ✅ Done · HO-013 📥 Received · HO-014 📥 Received</sub>
 
 ### Team G: gameplay
 
