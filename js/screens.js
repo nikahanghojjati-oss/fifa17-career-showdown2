@@ -1,6 +1,5 @@
 const screens = [
     "mainMenu",
-    "connectPlayersScreen",
     "createShowdown",
     "leagueWheelScreen",
     "clubWheelScreen",
@@ -26,7 +25,6 @@ const GAMEPLAY_SCREENS = new Set([
 
 const SAFE_BACK_TARGETS = Object.freeze({
     mainMenu: [],
-    connectPlayersScreen: ["mainMenu"],
     createShowdown: ["dashboard", "mainMenu"],
     leagueWheelScreen: ["createShowdown", "mainMenu"],
     clubWheelScreen: ["leagueWheelScreen", "mainMenu"],
@@ -41,7 +39,7 @@ const SAFE_BACK_TARGETS = Object.freeze({
     ruleBook: ["mainMenu"]
 });
 
-const REQUIRED_FOOTBALL_VISUAL_SCREENS=new Set(screens.filter(name=>name!=="mainMenu"&&name!=="statistics"&&name!=="connectPlayersScreen"));
+const REQUIRED_FOOTBALL_VISUAL_SCREENS=new Set(screens.filter(name=>name!=="mainMenu"&&name!=="statistics"));
 
 const MAX_SCREEN_HISTORY = 18;
 const ROUTE_TRANSITION_FALLBACK_MS = 260;
@@ -223,7 +221,7 @@ function getCurrentChallengeRouteState(showdown = currentShowdown){
 function isRouteStateValid(screenName){
     const showdown = typeof currentShowdown !== "undefined" ? currentShowdown : null;
 
-    if(["mainMenu", "connectPlayersScreen", "createShowdown", "careerStatistics", "trophyRoom", "legacy", "ruleBook"].includes(screenName)){
+    if(["mainMenu", "createShowdown", "careerStatistics", "trophyRoom", "legacy", "ruleBook"].includes(screenName)){
         return true;
     }
 
@@ -367,17 +365,7 @@ function flushScreenBeforeLeave(currentScreen, nextScreen){
     return true;
 }
 
-function loadConnectPlayersStyle(){
-    return typeof window.loadRuntimeStyle === "function"
-        ? window.loadRuntimeStyle("connect-players-v10", "css/connectPlayersV10.css")
-        : Promise.resolve();
-}
-
 function renderScreenBeforeEnter(screenName){
-    if(screenName === "connectPlayersScreen"){
-        loadConnectPlayersStyle().catch(error => reportRouteError("Unable to load Connect Players styles", error));
-        window.CareerModePersistentNikDanielPair?.render?.();
-    }
     if(screenName === "mainMenu" && typeof window.refreshMainMenuExperience === "function"){
         window.refreshMainMenuExperience();
     }
@@ -502,7 +490,6 @@ async function navigateTo(screenName, options = {}){
     let target = screenName;
 
     try{
-        if(target === "connectPlayersScreen")await loadConnectPlayersStyle();
         if(REQUIRED_FOOTBALL_VISUAL_SCREENS.has(target)){
             if(typeof window.ensureRequiredFootballVisualExperience !== "function"){
                 throw new Error("Required football presentation loader is unavailable.");
@@ -784,11 +771,10 @@ function initializeScreens(){
     const legacyButton = document.getElementById("legacyButton");
     const startButton = document.getElementById("startShowdown");
 
-    bindNavigationButton(newShowdownButton, () => navigateTo("connectPlayersScreen"), "navigationBound");
+    bindNavigationButton(newShowdownButton, () => navigateTo("createShowdown"), "navigationBound");
     bindNavigationButton(continueButton, resumeSavedShowdown, "navigationBound");
     bindNavigationButton(legacyButton, openLegacy, "navigationBound");
     bindNavigationButton(startButton, startShowdownFromSetup, "navigationBound");
-    bindNavigationButton(document.getElementById("connectPlayersSetup"), () => navigateTo("createShowdown"), "navigationBound");
     synchronizeScreenAccessibility();
 
     [continueButton, startButton].forEach(button => {
