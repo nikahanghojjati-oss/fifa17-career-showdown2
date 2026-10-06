@@ -42,3 +42,15 @@ None. `index.html` `<h2>SELECT LEAGUE</h2>` is untouched.
 
 ## 4. Showcase reference (not for main)
 In `visual-assets/v10_1/league/` the same image is set in `league.css` (`#leagueWheelScreen h2`) and sized/placed by `league.js` from the plate scale (box x 470-1053, y 118.5-232.5 of the 1536x864 goal). Main's flow layout cannot place by plate coordinates, so the width above uses the same ratio instead. Do not copy `league.js` changes.
+
+## Addendum (06 Oct, lead check of Team G PR #419)
+
+The rule above makes the title about 50px taller than the old text title. On short desktop windows (1366x650, 1280x620) that pushes CONTINUE TO CLUB ASSIGNMENT below the window. Add this block right after the phone override:
+
+```css
+@media (min-width: 761px) and (max-height: 760px) {
+  #leagueWheelScreen.v26Skin > h2 { width: clamp(240px, 24vw, 420px); margin: 2px auto 4px; }
+}
+```
+
+Checked with Team G's layout auditor at 1366x650, 1280x620, 1536x730 and 1440x900. CONTINUE and BACK are fully inside the window at all four sizes, at least as high as before the port. 1440x900 and taller windows and phones are unchanged. Sheet: `short_desktop_base_port_fix.jpg` (base | PORT | with this block).
