@@ -81,7 +81,8 @@
   // session; say so plainly. Kept about as short as the ended-session line so the banner does not reflow the game screens;
   // where the other phone takes the new code is said in the Remote Joining panel.
   function pjrNotConnectedStep(role){const other=pjrManagerName(role==="playerTwo"?"playerOne":"playerTwo");return `Tap RECONNECT SESSION, then HOST and send the code to ${other}, or JOIN ${other}'s new code.`;}
-  function pjrShowdownClosed(){try{const t=root.CareerModeProductionSharedTerminalClose?.getState?.();return Boolean(t&&t.phase==="CLOSED"&&t.terminal===true);}catch(_){return false;}}\n  function pjrMessage(value){
+  function pjrShowdownClosed(){try{const t=root.CareerModeProductionSharedTerminalClose?.getState?.();return Boolean(t&&t.phase==="CLOSED"&&t.terminal===true);}catch(_){return false;}}
+  function pjrMessage(value){
     if(!value)return "";
     if(value.phase==="FRESH_SESSION_REQUIRED"&&pjrShowdownClosed())return "SHOWDOWN COMPLETE · Open the Final Winner or History from Home.";
     if(value.phase==="OFFLINE_HOLD")return "SHARED JOURNEY HELD OFFLINE · Provider authority is not being claimed. Reconnect to verify the preserved journey before continuing.";
