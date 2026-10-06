@@ -1,6 +1,6 @@
 # 🎨 Team V board
 
-Updated Mon 5 Oct 9:41 PM EDT · Team V featured, Team G below · one shared data source (PR progress blocks + relay) · [Team G's board](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/BOARD.md)
+Updated Mon 5 Oct 9:53 PM EDT · Team V featured, Team G below · one shared data source (PR progress blocks + relay) · [Team G's board](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/BOARD.md)
 
 ## Team V: visual jobs
 
@@ -24,6 +24,7 @@ Updated Mon 5 Oct 9:41 PM EDT · Team V featured, Team G below · one shared dat
 
 **Recently finished:**
 
+* ✅ [V-1016 Transfer War phone revamp: whole faces, action on the plate](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/398) · merged Mon 5 Oct 9:52 PM EDT
 * ✅ [V-1007 Transfer War phone: early-end button visible](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/394) · closed Mon 5 Oct 9:32 PM EDT
 * ✅ [V-1002 Transfer War window strings match production wording](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/389) · merged Mon 5 Oct 8:04 PM EDT
 * ✅ [V-245 Visual QA: live 2.0 vs approved frames (HO-004)](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/375) · merged Mon 5 Oct 12:18 PM EDT
