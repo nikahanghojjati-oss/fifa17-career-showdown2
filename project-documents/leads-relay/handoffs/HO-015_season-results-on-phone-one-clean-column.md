@@ -11,10 +11,10 @@
  "worker": "sol-chat",
  "parent": null,
  "job": null,
- "status": "SENT",
+ "status": "RECEIVED",
  "steps": [],
  "evidence": [],
- "log": [{"at": "2026-10-06T01:37:36Z", "by": "V", "status": "SENT", "note": ""}]
+ "log": [{"at": "2026-10-06T01:37:36Z", "by": "V", "status": "SENT", "note": ""}, {"at": "2026-10-06T01:38:18Z", "by": "G", "status": "RECEIVED", "note": "bug factory: job 1020 · G (GPT green) with the desktop window fix; Team V 1012 visual check"}]
 }
 ```
 
