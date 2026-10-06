@@ -1,0 +1,20 @@
+{
+  "run": "chat-1006-1331",
+  "mode": "chat",
+  "date_utc": "2026-10-06T13:31:00Z",
+  "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+  "area": "08",
+  "files_read": [
+    "index.html",
+    "js/app.js",
+    "js/scoring.js",
+    "js/showdown.js"
+  ],
+  "findings": [
+    "A08-rulebook-markup-missing"
+  ],
+  "coverage_pct": 68,
+  "clean_confidence_pct": 82,
+  "next_focus": "Next area 08 pass: inspect screens.js and optionalModules.js for Rule Book navigation or runtime-generated rule text, then compare transfer and tie-break wording against their enforcing code.",
+  "partial": false
+}
