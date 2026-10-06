@@ -1,12 +1,12 @@
 # Board archive
 
-[Back to the board](BOARD.md) · generated 2026-10-05 10:22 PM Boston time (EDT). Detail and history behind the one board.
+[Back to the board](BOARD.md) · generated 2026-10-05 10:24 PM Boston time (EDT). Detail and history behind the one board.
 
 ## Old detailed board
 
 # Showdown board: G Factory and V Factory
 
-🌐 **Live: runtime 1.9.1-r62** (main `bc77a0b`) · 🔄 **13 moving** · ⏭ 2 up next · 👤 11 waiting on Nik · 🗂 4 later · updated 2026-10-05 10:22 PM Boston time (EDT)
+🌐 **Live: runtime 1.9.1-r62** (main `bc77a0b`) · 🔄 **14 moving** · ⏭ 2 up next · 👤 11 waiting on Nik · 🗂 4 later · updated 2026-10-05 10:24 PM Boston time (EDT)
 
 🩺 **All clear: every check has a machine.** · POS20 #304 6/16
 
@@ -15,6 +15,12 @@
 1. **r62 is live.** On the laptop, close every game tab in Chrome and reopen the game; if Settings still looks clipped, do it once more.
 
 ## 🔄 Moving now
+
+**🟦 1014 · No reconnect prompt after a finished Showdown** · 0 % (0 of 5 steps) · Sol chat
+
+⚽▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️ 🥅  
+> **Now:** step 1 of 5  
+> **Left:** step 1 → step 2 → step 3 → step 4 → step 5
 
 **🟦 V-1006 · Final Winner: last season's score block** · 25 % (1 of 4 steps) · Sol chat · [PR #393](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/393)
 
@@ -174,7 +180,7 @@ Latest:
 ## Every bug report
 
 
-> Updated **Mon 5 Oct, 10:22 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
+> Updated **Mon 5 Oct, 10:24 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
 
 | 🔓 Open | 🔴 Top priority | 🔧 Fixing or waiting for release | ✅ Fixed and live |
 | :---: | :---: | :---: | :---: |
@@ -192,8 +198,15 @@ Latest:
 
 <sub>Percent = finished steps weighted by typical step time; finish times are estimates ([how](ETA_STUDY.md)).</sub>
 
-> [!NOTE]
-> No job is reporting progress right now. A job shows here once its PR description carries a progress block.
+🏁 no finish time yet (not enough data)
+
+### 🟦 Sol chat · 1 job
+
+**Job 1014 · No reconnect prompt after a finished Showdown · 0.0000 %** · 0 of 5 steps · updated Mon 5 Oct, 10:22 PM  
+⚽▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️ 🥅  
+🏁 **Likely finish:** not enough data  
+> **Now:** step 1 of 5  
+> **Left:** step 1 → step 2 → step 3 → step 4 → step 5
 
 <details>
 <summary><b>✅ Closed: 14</b> (11 live in the game) · click to open</summary>

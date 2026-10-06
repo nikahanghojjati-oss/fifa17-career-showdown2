@@ -1,9 +1,22 @@
 {
  "team": "G",
- "updated": "2026-10-05T22:22-04:00",
+ "updated": "2026-10-05T22:24-04:00",
  "open_bugs": 1,
  "next_move": [
   "**r62 is live.** On the laptop, close every game tab in Chrome and reopen the game; if Settings still looks clipped, do it once more."
  ],
- "running": []
+ "running": [
+  {
+   "job": 1014,
+   "title": "No reconnect prompt after a finished Showdown",
+   "worker": "Sol chat",
+   "done": 0,
+   "total": 5,
+   "pct": 0.0,
+   "eta": "not enough data",
+   "current": "step 1 of 5",
+   "pr": null,
+   "updated": "2026-10-06T02:22:00Z"
+  }
+ ]
 }
