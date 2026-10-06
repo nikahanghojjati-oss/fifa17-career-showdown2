@@ -1,0 +1,206 @@
+{
+  "run": "codex-1006-2308",
+  "area": "11",
+  "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+  "severity": "S1",
+  "status": "confirmed",
+  "id": "codex-1006-2308-1",
+  "title": "Startup sometimes skips the online identity gate and blocks initial sign-in",
+  "failing_step": "J1.1",
+  "step_location": {
+    "file": "tests/browser/two-manager-browser-journey.cjs",
+    "line": 115,
+    "function": "signIn"
+  },
+  "where": [
+    {
+      "file": "js/showdown.js",
+      "line": 4,
+      "function": "ensureOnlinePlayerIdentitySurface"
+    },
+    {
+      "file": "js/showdown.js",
+      "line": 6,
+      "function": "initializeOnlinePlayerEntry"
+    },
+    {
+      "file": "index.html",
+      "line": 411,
+      "function": "deferred script ordering"
+    },
+    {
+      "file": "js/optionalModules.js",
+      "line": 92,
+      "function": "loadRuntimeScript"
+    },
+    {
+      "file": "js/screens.js",
+      "line": 774,
+      "function": "initializeScreens"
+    },
+    {
+      "file": "js/onlinePlayerIdentity.js",
+      "line": 57,
+      "function": "gameplay entry capture listener"
+    }
+  ],
+  "steps": [
+    "Run the unchanged Validate Gameplay Fast browser command with CMS_CHROMIUM_MULTI_CONTEXT=1, CMS_SHOWDOWN_LENGTH=3, and fresh Auth/Firestore emulators on the recorded main SHA.",
+    "Open Daniel and Nik in separate Chromium contexts; wait for the loading screen to hide.",
+    "Click #newShowdown, then attempt SIGN IN WITH GOOGLE for each manager."
+  ],
+  "expected": "Both unsigned managers see the identity gate, sign in, choose their player, and pass J1.1.",
+  "actual": "Run 1 signed Daniel in but Nik opened createShowdown with no identity badge/gate. Run 2 failed for Daniel in the same way. Both timed out waiting for SIGN IN WITH GOOGLE after 30000 ms with empty manager error arrays. Run 3 passed J1.1.",
+  "root_cause": "Likely startup dependency race in game code, reproduced by the separate diagnostic: showdown.js is deferred before optionalModules.js and app.js. With document.readyState=interactive, initializeOnlinePlayerEntry sets its one-shot bootstrap flag and schedules a zero-delay start. That timer can run before loadRuntimeScript is defined. ensureOnlinePlayerIdentitySurface throws Online runtime loader unavailable; the catch only calls the still-undefined optional reportApplicationError, so it reports nothing and does not retry. The identity module and its capture listener never install. The existing #newShowdown listener in screens.js then navigates directly to createShowdown.",
+  "cause_confidence": "high: source ordering plus an isolated 300 ms script-delay reproduction; internal timing of the two natural failures was not instrumented",
+  "output": [
+    {
+      "attempt": 1,
+      "result": "failed",
+      "manager": "nik",
+      "text": "--- daniel: screens=mainMenu | badge=DANIEL | panel=CONNECT PLAYERS Daniel and Nik need to connect before the first Showdown. CREATE CODE FOR NIK DANIEL STARTS THE SHOWDOWN AND SENDS THIS CODE TO NIK | overlays=\n--- daniel errors: []\n--- nik: screens=createShowdown | badge= | panel= | overlays=\n--- nik errors: []\nlocator.click: Timeout 30000ms exceeded.\nCall log:\n  - waiting for getByRole('button', { name: 'SIGN IN WITH GOOGLE' })\n\n    at signIn (/workspace/fifa17-career-showdown2/tests/browser/two-manager-browser-journey.cjs:115:65)\n    at async main (/workspace/fifa17-career-showdown2/tests/browser/two-manager-browser-journey.cjs:238:35) {\n  log: [\n    \"  - waiting for getByRole('button', { name: 'SIGN IN WITH GOOGLE' })\"\n  ],\n  name: 'TimeoutError'\n}"
+    },
+    {
+      "attempt": 2,
+      "result": "failed",
+      "manager": "daniel",
+      "text": "--- daniel: screens=createShowdown | badge= | panel= | overlays=\n--- daniel errors: []\n--- nik: screens=mainMenu | badge= | panel= | overlays=\n--- nik errors: []\nlocator.click: Timeout 30000ms exceeded.\nCall log:\n  - waiting for getByRole('button', { name: 'SIGN IN WITH GOOGLE' })\n\n    at signIn (/workspace/fifa17-career-showdown2/tests/browser/two-manager-browser-journey.cjs:115:65)\n    at async main (/workspace/fifa17-career-showdown2/tests/browser/two-manager-browser-journey.cjs:238:5) {\n  log: [\n    \"  - waiting for getByRole('button', { name: 'SIGN IN WITH GOOGLE' })\"\n  ],\n  name: 'TimeoutError'\n}"
+    },
+    {
+      "attempt": 3,
+      "result": "passed",
+      "manager": null,
+      "text": "Daniel and Nik signed in through SIGN IN WITH GOOGLE and chose their players"
+    }
+  ],
+  "diagnostic": {
+    "scope": "Additional startup-only browser check, separate from the three unchanged journey runs; only optionalModules.js response delivery was delayed, with no source changes.",
+    "repro": "In a fresh Chromium context, route **/js/optionalModules.js?* and continue the request after 300 ms; load current main with the normal localhost emulator switch, wait for loadingScreen to hide, click #newShowdown, then inspect the identity API/gate and entry bootstrap flag.",
+    "output": {
+      "delay_ms": 300,
+      "samples": [
+        {
+          "label": "bootstrap-before-loader",
+          "time_ms": 129,
+          "readyState": "interactive",
+          "entryBootstrap": true,
+          "loader": "undefined",
+          "reporter": "undefined",
+          "identityApi": false
+        },
+        {
+          "label": "bootstrap-before-loader",
+          "time_ms": 161,
+          "readyState": "interactive",
+          "entryBootstrap": true,
+          "loader": "undefined",
+          "reporter": "undefined",
+          "identityApi": false
+        },
+        {
+          "label": "bootstrap-before-loader",
+          "time_ms": 169,
+          "readyState": "interactive",
+          "entryBootstrap": true,
+          "loader": "undefined",
+          "reporter": "undefined",
+          "identityApi": false
+        },
+        {
+          "label": "bootstrap-before-loader",
+          "time_ms": 194,
+          "readyState": "interactive",
+          "entryBootstrap": true,
+          "loader": "undefined",
+          "reporter": "undefined",
+          "identityApi": false
+        },
+        {
+          "label": "bootstrap-before-loader",
+          "time_ms": 219,
+          "readyState": "interactive",
+          "entryBootstrap": true,
+          "loader": "undefined",
+          "reporter": "undefined",
+          "identityApi": false
+        },
+        {
+          "label": "bootstrap-before-loader",
+          "time_ms": 245,
+          "readyState": "interactive",
+          "entryBootstrap": true,
+          "loader": "undefined",
+          "reporter": "undefined",
+          "identityApi": false
+        },
+        {
+          "label": "bootstrap-before-loader",
+          "time_ms": 269,
+          "readyState": "interactive",
+          "entryBootstrap": true,
+          "loader": "undefined",
+          "reporter": "undefined",
+          "identityApi": false
+        },
+        {
+          "label": "bootstrap-before-loader",
+          "time_ms": 294,
+          "readyState": "interactive",
+          "entryBootstrap": true,
+          "loader": "undefined",
+          "reporter": "undefined",
+          "identityApi": false
+        },
+        {
+          "label": "bootstrap-before-loader",
+          "time_ms": 319,
+          "readyState": "interactive",
+          "entryBootstrap": true,
+          "loader": "undefined",
+          "reporter": "undefined",
+          "identityApi": false
+        },
+        {
+          "label": "bootstrap-before-loader",
+          "time_ms": 344,
+          "readyState": "interactive",
+          "entryBootstrap": true,
+          "loader": "undefined",
+          "reporter": "undefined",
+          "identityApi": false
+        },
+        {
+          "label": "DOMContentLoaded",
+          "time_ms": 376,
+          "readyState": "interactive",
+          "entryBootstrap": true,
+          "loader": "function",
+          "reporter": "function",
+          "identityApi": false
+        }
+      ],
+      "bootstrap": true,
+      "loader": "function",
+      "reporter": "function",
+      "identityApi": false,
+      "identityScriptRequested": false,
+      "screen": [
+        "createShowdown"
+      ],
+      "identityGatePresent": false,
+      "badgePresent": false,
+      "signInButtons": 0,
+      "errors": [
+        "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED"
+      ]
+    }
+  },
+  "fix": {
+    "files": [
+      "js/showdown.js",
+      "js/screens.js"
+    ],
+    "change": "In a separate authorized code change, order identity bootstrap after its loader and error reporter are ready, retry failed bootstrap, and ensure the Start action cannot bypass identity readiness."
+  },
+  "game_code_changed": false
+}

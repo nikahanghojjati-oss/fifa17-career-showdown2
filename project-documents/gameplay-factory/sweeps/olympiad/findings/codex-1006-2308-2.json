@@ -1,0 +1,79 @@
+{
+  "run": "codex-1006-2308",
+  "area": "11",
+  "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+  "severity": "S1",
+  "status": "confirmed",
+  "id": "codex-1006-2308-2",
+  "title": "Reload after completed season-2 transfers loses the identity and career entry surfaces",
+  "failing_step": "J9.1",
+  "step_location": {
+    "file": "tests/browser/two-manager-browser-journey.cjs",
+    "line": 502,
+    "function": "main reload/resume block"
+  },
+  "where": [
+    {
+      "file": "js/showdown.js",
+      "line": 6,
+      "function": "initializeOnlinePlayerEntry"
+    },
+    {
+      "file": "js/showdown.js",
+      "line": 4,
+      "function": "ensureOnlinePlayerIdentitySurface"
+    },
+    {
+      "file": "js/onlinePlayerIdentity.js",
+      "line": 9,
+      "function": "setOnlineIdentityState"
+    },
+    {
+      "file": "js/onlinePlayerIdentity.js",
+      "line": 21,
+      "function": "syncPersistentPairSidecar"
+    },
+    {
+      "file": "index.html",
+      "line": 411,
+      "function": "deferred script ordering"
+    }
+  ],
+  "steps": [
+    "Follow the unchanged three-season CI journey through the committed season-1 score of Daniel 9 / Nik 3 and the completed season-2 transfer flow.",
+    "Reload Daniel with browserSessionPersistence retained and the emulator switch reinstalled.",
+    "Wait for mainMenu, then wait for CAREER READY in persistentNikDanielPairPanel before continuing the career."
+  ],
+  "expected": "Daniel retains his identity and sees CAREER READY / CONTINUE CAREER after reload, allowing a fresh exact private session to resume season 2.",
+  "actual": "Run 3 passed 24 checkpoints through J8.2, then timed out after 30000 ms waiting for CAREER READY on Daniel. Daniel was at mainMenu with empty badge and pair panel; Nik remained at transferChallenge with badge NIK and CAREER READY. Both manager error arrays were empty. Runs 1 and 2 never reached this step because J1.1 failed.",
+  "root_cause": "Likely the same one-shot identity-bootstrap ordering race as finding 1, now triggered by reload. The missing badge and pair panel match the startup-only reproduction. The persistent pair sidecar is initialized only after online identity becomes registered with an accountId (onlinePlayerIdentity.js lines 9 and 21); if identity bootstrap stops before loading its module, remembered-pair UI cannot restore even though browserSessionPersistence survives. This failure does not prove loss of provider or stored career data.",
+  "cause_confidence": "likely: source and matching DOM evidence; the natural reload failure did not capture the internal bootstrap timer",
+  "related_findings": [
+    "codex-1006-2308-1"
+  ],
+  "output": [
+    {
+      "attempt": 1,
+      "result": "not_reached",
+      "blocked_by": "codex-1006-2308-1"
+    },
+    {
+      "attempt": 2,
+      "result": "not_reached",
+      "blocked_by": "codex-1006-2308-1"
+    },
+    {
+      "attempt": 3,
+      "result": "failed",
+      "manager": "daniel",
+      "text": "--- daniel: screens=mainMenu | badge= | panel= | overlays=\n--- daniel errors: []\n--- nik: screens=transferChallenge | badge=NIK | panel=CAREER READYCareer ready.CONTINUE CAREERNik | overlays=\n--- nik errors: []\npage.waitForFunction: Timeout 30000ms exceeded.\n    at main (/workspace/fifa17-career-showdown2/tests/browser/two-manager-browser-journey.cjs:502:22) {\n  log: [],\n  name: 'TimeoutError'\n}"
+    }
+  ],
+  "fix": {
+    "files": [
+      "js/showdown.js"
+    ],
+    "change": "Resolve the identity bootstrap dependency race in a separate code task, then rerun the original journey to verify reload recovery and all later checkpoints."
+  },
+  "game_code_changed": false
+}
