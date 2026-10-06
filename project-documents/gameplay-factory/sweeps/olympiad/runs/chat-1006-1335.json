@@ -1,0 +1,20 @@
+{
+  "run": "chat-1006-1335",
+  "mode": "chat",
+  "date_utc": "2026-10-06T13:35:16Z",
+  "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+  "area": "07",
+  "files_read": [
+    "js/settings.js",
+    "js/backup.js",
+    "js/restore.js",
+    "js/restoreUI.js"
+  ],
+  "findings": [
+    "A07-RESTORE-KEEP-LIBRARY-IGNORED"
+  ],
+  "coverage_pct": 72,
+  "clean_confidence_pct": 80,
+  "next_focus": "Full reset implementation behind History & Backup was outside the four-file cap; next area 07 pass should inspect that reset path first, then recheck Save Library restore choice semantics.",
+  "partial": false
+}
