@@ -1,54 +1,8 @@
 {
   "schema": "physio/v1",
-  "at": "2026-10-06T01:25:10.292Z",
-  "state": "BARKING",
-  "checks": [
-    {
-      "workflow": "Validate POS20",
-      "head_sha": "84f7331d94064cf5547ab8ea3a28a7da264950ac",
-      "pr": 312,
-      "queued_minutes": 6.7,
-      "action": "none",
-      "attempt": 0,
-      "max_attempts": 2
-    },
-    {
-      "workflow": "Showdown Gate",
-      "head_sha": "61161337fa58344482e44a7bd088c7a9d63f98ab",
-      "pr": 396,
-      "queued_minutes": 5.7,
-      "action": "none",
-      "attempt": 0,
-      "max_attempts": 2
-    },
-    {
-      "workflow": "Validate POS20",
-      "head_sha": "61161337fa58344482e44a7bd088c7a9d63f98ab",
-      "pr": 396,
-      "queued_minutes": 5.7,
-      "action": "none",
-      "attempt": 0,
-      "max_attempts": 2
-    },
-    {
-      "workflow": "Validate POS20",
-      "head_sha": "b381233f04619eba1a85dc93de827de6d7ae32b0",
-      "pr": 395,
-      "queued_minutes": 5.7,
-      "action": "none",
-      "attempt": 0,
-      "max_attempts": 2
-    },
-    {
-      "workflow": "Validate POS20",
-      "head_sha": "a0db305979f2a269c618d19ed1489d1e7aeec9b3",
-      "pr": null,
-      "queued_minutes": 3.1,
-      "action": "none",
-      "attempt": 0,
-      "max_attempts": 2
-    }
-  ],
+  "at": "2026-10-06T01:30:05.702Z",
+  "state": "ALL_CLEAR",
+  "checks": [],
   "helpers_paused": [],
   "gate": {
     "pr": 395,
@@ -60,30 +14,30 @@
       },
       {
         "name": "L2 browser full",
-        "state": "running"
+        "state": "pass"
       },
       {
         "name": "L3 storage visual gameplay",
-        "state": "running"
+        "state": "fail"
       },
       {
         "name": "L4 remote",
-        "state": "running"
+        "state": "pass"
       },
       {
         "name": "L5 rules regression",
-        "state": "running"
+        "state": "fail"
       },
       {
         "name": "L6 browser journey",
-        "state": "running"
+        "state": "pass"
       }
     ],
     "seal": "PENDING"
   },
   "pos20": {
     "pr": 395,
-    "passed": 3,
+    "passed": 9,
     "total": 16,
     "state": "running"
   }
