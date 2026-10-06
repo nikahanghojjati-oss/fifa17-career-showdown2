@@ -349,6 +349,102 @@
     },
     "sha": "f70112a7bbc3e55d9d3f7dbf904f128eb4df3089"
    },
+   "project-documents/gameplay-factory/sweeps/olympiad/findings/chat-1006-1331-1.json": {
+    "data": {
+     "actual": "index.html contains #ruleBookButton but no #ruleBook section or Rule Book text. The scoring hint that is present matches the scoring implementation, but the requested Rule Book source is absent.",
+     "area": "08",
+     "assumptions": [
+      "A later runtime module may generate a Rule Book screen dynamically; that module was not read because the chat check is capped at four code files. Even if it does, #ruleBook is still absent from the required index.html source."
+     ],
+     "checked_against": [
+      "index.html full file",
+      "js/scoring.js SCORING_RULES and calculatePlayerSeasonScore",
+      "js/showdown.js ALLOWED_SHOWDOWN_ROUNDS"
+     ],
+     "expected": "index.html contains #ruleBook with the competition rules, so the written Rule Book can be checked directly against the gameplay code.",
+     "fix": {
+      "change": "Restore or add the #ruleBook section in index.html and make its season length, transfer, scoring, tie and final-winner wording match the current gameplay rules.",
+      "files": [
+       "index.html"
+      ]
+     },
+     "id": "A08-rulebook-markup-missing",
+     "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+     "root_cause": "The Rule Book markup/text is not present in index.html on main.",
+     "run": "chat-1006-1331",
+     "severity": "S2",
+     "status": "likely",
+     "steps": [
+      "Open index.html on main and locate the Rule Book menu button.",
+      "Scan the full index.html for a section with id=\"ruleBook\" and its rule text.",
+      "Compare the visible season scoring hint with js/scoring.js and the allowed season counts with js/showdown.js."
+     ],
+     "title": "Rule Book button exists but #ruleBook text is missing from index.html",
+     "where": [
+      {
+       "file": "index.html",
+       "function": "main menu Rule Book entry",
+       "line": 70
+      }
+     ]
+    },
+    "sha": "75ad943936bda3a1d6b1e8d09af2f7cfe96218a2"
+   },
+   "project-documents/gameplay-factory/sweeps/olympiad/findings/chat-1006-1333-1.json": {
+    "data": {
+     "actual": "The archive transaction saves the third record, but the same Legacy render can keep showing the previous two-record cached history until cache invalidation or reload.",
+     "area": "10",
+     "assumptions": [
+      "Normal local play uses Save Library runtime authority before the completed Showdown is opened in Legacy.",
+      "A successful archive should be visible on the same Legacy visit without requiring a page reload."
+     ],
+     "checked_against": [
+      "js/saveLibraryRuntime.js runtimeArchiveShowdown replaces an existing record by showdown id, so repeated archive attempts do not create a duplicate.",
+      "js/storage.js saveLegacyShowdowns correctly refreshes legacyCache and increments legacyStorageRevision, but runtimeArchiveShowdown bypasses that helper.",
+      "js/storage.js invalidateLegacyCache exists and is used for other Legacy storage changes, but is not called after the Save Library archive transaction."
+     ],
+     "expected": "The first Legacy render after completion should show 3 completed Showdowns, including the new 11 to 9 result, immediately after the archive succeeds.",
+     "fix": {
+      "change": "After a successful runtimeArchiveShowdown Legacy write, invalidate or refresh the same-tab Legacy cache and revision through a small public storage hook. Keep the existing raw transaction and ID replacement logic unchanged.",
+      "files": [
+       "js/saveLibraryRuntime.js",
+       "js/storage.js"
+      ]
+     },
+     "id": "chat-1006-1333-1",
+     "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+     "root_cause": "runtimeArchiveShowdown writes legacyShowdowns through applyCareerModeRawStorageTransaction but does not invalidate legacyCache or increment legacyStorageRevision. archiveCompletedSaveBeforeLegacy has already populated that cache before the write. The later render therefore reads stale cached history.",
+     "run": "chat-1006-1333",
+     "severity": "S2",
+     "status": "likely",
+     "steps": [
+      "Have two completed Showdowns already in Legacy history.",
+      "Finish a third Showdown normally, for example Nik 11 to Daniel 9, so the active Showdown status is Completed.",
+      "Open Legacy. archiveCompletedSaveBeforeLegacy first calls loadLegacyShowdowns, which caches the two-record history, then archiveShowdown writes the third record through the Save Library raw transaction.",
+      "The same render then calls loadLegacyShowdowns again and receives the unchanged two-record cache, so SHOWDOWNS PLAYED and the card list still show 2 instead of 3.",
+      "Reloading or otherwise invalidating the Legacy cache lets the saved third record appear."
+     ],
+     "title": "Newly completed Showdown is archived but the same Legacy visit renders stale history",
+     "where": [
+      {
+       "file": "js/legacy.js",
+       "function": "archiveCompletedSaveBeforeLegacy",
+       "line": 16
+      },
+      {
+       "file": "js/storage.js",
+       "function": "loadLegacyShowdowns",
+       "line": 51
+      },
+      {
+       "file": "js/saveLibraryRuntime.js",
+       "function": "runtimeArchiveShowdown",
+       "line": 491
+      }
+     ]
+    },
+    "sha": "b322d1fc128da94ea4a9c84829f19d46b2cccac1"
+   },
    "project-documents/gameplay-factory/sweeps/olympiad/findings/codex-1006-1251-1.json": {
     "data": {
      "actual": "Season 2 starts with position 1, 100 points, 100 goals and all four honours checked from season 1. Review accepts those old facts as Daniel’s season 2 result.",
@@ -767,6 +863,94 @@
      "run": "chat-1006-0534"
     },
     "sha": "9ecda5550ca1d07e76900a7d37cb4bf8d5672f05"
+   },
+   "project-documents/gameplay-factory/sweeps/olympiad/runs/chat-1006-1330.json": {
+    "data": {
+     "area": "01",
+     "clean_confidence_pct": 86,
+     "coverage_pct": 72,
+     "date_utc": "2026-10-06T13:30:00Z",
+     "files_read": [
+      "js/leagueWheel.js",
+      "js/clubAssignment.js",
+      "js/app.js",
+      "js/showdown.js"
+     ],
+     "findings": [],
+     "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+     "mode": "chat",
+     "next_focus": "On the next Area 01 cycle, read the league and club data helpers that implement getRandomLeague, getRandomClubPair, and getClubsForLeague; this run verified their callers and integrity checks but not those helper implementations.",
+     "partial": false,
+     "run": "chat-1006-1330"
+    },
+    "sha": "60d4d4fe7d116ee4030c0df87b8e63fdfcf2defb"
+   },
+   "project-documents/gameplay-factory/sweeps/olympiad/runs/chat-1006-1331.json": {
+    "data": {
+     "area": "08",
+     "clean_confidence_pct": 82,
+     "coverage_pct": 68,
+     "date_utc": "2026-10-06T13:31:00Z",
+     "files_read": [
+      "index.html",
+      "js/app.js",
+      "js/scoring.js",
+      "js/showdown.js"
+     ],
+     "findings": [
+      "A08-rulebook-markup-missing"
+     ],
+     "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+     "mode": "chat",
+     "next_focus": "Next area 08 pass: inspect screens.js and optionalModules.js for Rule Book navigation or runtime-generated rule text, then compare transfer and tie-break wording against their enforcing code.",
+     "partial": false,
+     "run": "chat-1006-1331"
+    },
+    "sha": "1ba6dfe36b13bdeaed91564181a02a5211a0547d"
+   },
+   "project-documents/gameplay-factory/sweeps/olympiad/runs/chat-1006-1332.json": {
+    "data": {
+     "area": "09",
+     "clean_confidence_pct": 91,
+     "coverage_pct": 82,
+     "date_utc": "2026-10-06T13:32:00Z",
+     "files_read": [
+      "js/productionSharedSeasonResults.js",
+      "js/productionSharedCanonicalScoring.js",
+      "js/sharedCanonicalScoring.js",
+      "index.html"
+     ],
+     "findings": [],
+     "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+     "mode": "chat",
+     "next_focus": "Provider-side canonical scoring projection and the Season Commit handoff, especially a tied 0-0 season crossing from acknowledged results into the saved season score.",
+     "partial": false,
+     "run": "chat-1006-1332"
+    },
+    "sha": "1ef1606671c848c846de3057d3dd0489c82d8022"
+   },
+   "project-documents/gameplay-factory/sweeps/olympiad/runs/chat-1006-1333.json": {
+    "data": {
+     "area": "10",
+     "clean_confidence_pct": 74,
+     "coverage_pct": 78,
+     "date_utc": "2026-10-06T13:33:00Z",
+     "files_read": [
+      "js/legacy.js",
+      "js/storage.js",
+      "js/saveLibraryRuntime.js",
+      "js/saveLibraryPersistence.js"
+     ],
+     "findings": [
+      "chat-1006-1333-1"
+     ],
+     "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+     "mode": "chat",
+     "next_focus": "Area 11 full Showdown walkthrough, with attention to whether the just-completed career appears in Legacy immediately and remains correct after loading another saved career.",
+     "partial": false,
+     "run": "chat-1006-1333"
+    },
+    "sha": "3c5d7ff73466664ed5c3a762ee1caa7f15d6736f"
    },
    "project-documents/gameplay-factory/sweeps/olympiad/runs/codex-1006-1206.json": {
     "data": {
