@@ -183,3 +183,9 @@ html #app #topHeader{color:var(--f17-ink);font-family:var(--f17-ui)}
  #app #seasonEntry.seasonScreenV10 #seasonReviewOne{grid-column:1}
  #app #seasonEntry.seasonScreenV10 #seasonReviewTwo{grid-column:2}
 }
+
+/* JOB-1020: desktop review box starts below the scoring card; buttons follow the content */
+@media(min-width:761px){
+ #app #seasonEntry.seasonScreenV10 .season-review-panel:not(.hidden){top:52.66%;bottom:80px;left:20%;width:60%;overflow:auto}
+ #app #seasonEntry.seasonScreenV10 .season-review-panel .seasonReviewActions{position:static;background:none;padding:8px 0 0}
+}
