@@ -1646,6 +1646,27 @@
     },
     "sha": "9721a6823b756fdc67b98fa3d2508d091d564f39"
    },
+   "project-documents/gameplay-factory/sweeps/olympiad/runs/chat-1006-1407.json": {
+    "data": {
+     "area": "03",
+     "clean_confidence_pct": 95,
+     "coverage_pct": 90,
+     "date_utc": "2026-10-06T14:07:00Z",
+     "files_read": [
+      "js/transferScreenV10.js",
+      "js/productionSharedTransferChallenge.js",
+      "js/sharedTransferChallenge.js",
+      "js/sparkSharedTransferChallenge.js"
+     ],
+     "findings": [],
+     "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+     "mode": "chat",
+     "next_focus": "Next Area 03 pass: use code not read in this pass, especially transfer UI markup or transfer challenge tests, to cross-check exact signing-slot expectations and completed verdict presentation.",
+     "partial": false,
+     "run": "chat-1006-1407"
+    },
+    "sha": "e3564a67d75896d6cfea4c1c14bd96e8d586b73c"
+   },
    "project-documents/gameplay-factory/sweeps/olympiad/runs/codex-1006-1206.json": {
     "data": {
      "area": "11",

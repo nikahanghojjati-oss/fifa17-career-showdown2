@@ -1,6 +1,6 @@
 # Bug hunt board
 
-Updated Tue 6 Oct, 9:59 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
+Updated Tue 6 Oct, 10:11 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r62** (main `bc77a0b`, Mon 5 Oct 9:18 PM)
 
@@ -8,11 +8,14 @@ Updated Tue 6 Oct, 9:59 AM Boston time. Bug hunting only, no new features until 
 
 ## Jobs
 
+**Running now**
+
+- **1011** Plain-words sweep: jargon on game screens · step 1 of 4 · 0.0000 %
+
 **Next for you, in this order**
 
-1. **1011** Plain-words sweep: jargon on game screens: type **1011** in the gameplay project (normal chat), new chat · 1014, 1015 and 1020 are merged
-2. **1028** Statistics shows an abandoned-only career (hunt 1019 H5): GPT chat (normal mode), gameplay project: type 1028 · one-file fix, exact change in the ticket
-3. **1006** Final Winner: last season's score block: type **1006** in a new Showdown visual chat
+1. **1028** Statistics shows an abandoned-only career (hunt 1019 H5): GPT chat (normal mode), gameplay project: type 1028 · one-file fix, exact change in the ticket
+2. **1006** Final Winner: last season's score block: type **1006** in a new Showdown visual chat
 
 **Waiting on something else**
 
@@ -22,7 +25,7 @@ Updated Tue 6 Oct, 9:59 AM Boston time. Bug hunting only, no new features until 
 
 ## Goals for Thursday
 
-- 🐞 Bug-free game: 38.0909 % · 11 of 11 areas studied · open S1 3, S2 12 · fixed 0 of 17 findings · weakest: area 03 and 09
+- 🐞 Bug-free game: 43.1364 % · 11 of 11 areas studied · open S1 3, S2 12 · fixed 0 of 17 findings · weakest: area 09 and 08
 - 🎨 Mockup match: 1 of 16 screens studied · 7 differences from the mockups to fix
 
 ## Other asks
