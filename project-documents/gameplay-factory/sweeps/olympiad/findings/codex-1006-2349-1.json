@@ -1,0 +1,51 @@
+{
+  "id": "CMS01-codex-1006-2349-sealed-club",
+  "run": "codex-1006-2349",
+  "area": "01",
+  "title": "The rivalry summary shows a club while its pack is still sealed",
+  "severity": "S3",
+  "status": "confirmed",
+  "where": [
+    {
+      "file": "js/productionSharedShowdownPresentation.js",
+      "line": 137,
+      "function": "ssjpFillConfirmation"
+    },
+    {
+      "file": "js/productionSharedShowdownPresentation.js",
+      "line": 175,
+      "function": "ssjpRenderClub"
+    },
+    {
+      "file": "js/productionSharedShowdownPresentation.js",
+      "line": 140,
+      "function": "ssjpAnimatePacks"
+    }
+  ],
+  "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+  "steps": [
+    "Start a three-season Showdown as Daniel, with Nik ready to play.",
+    "Spin the league wheel and continue to Club Assignment.",
+    "Choose OPEN SHOWDOWN PACKS with ordinary motion enabled.",
+    "While Daniel has PACK 01 OPEN and Nik still has a sealed pack marked ?, read the rivalry summary below the packs.",
+    "Wait for both packs to open: the same two clubs remain assigned and confirmation works."
+  ],
+  "expected": "A sealed pack should keep its club unrevealed. Show the full rivalry summary after both packs have opened.",
+  "actual": "At the first-pack stage, Daniel has West Ham United and Nik is still shown as ?. The visible rivalry summary already says Nik Southampton. Both clubs are shown correctly when the second pack opens.",
+  "root_cause": "ssjpAnimatePacks hides the rivalry summary when the draw starts, but ssjpRenderClub immediately calls ssjpFillConfirmation. That function shows the summary and fills both club names before the second pack opens. The later pack stages and disabled confirmation button work, but they do not keep the summary hidden.",
+  "fix": {
+    "files": [
+      "js/productionSharedShowdownPresentation.js"
+    ],
+    "change": "Keep the rivalry summary hidden while either pack is sealed. Show and fill it once both packs have been revealed on this screen; keep the existing club picks and confirmation rules."
+  },
+  "script": "project-documents/gameplay-factory/sweeps/olympiad/test/CMS01-codex-1006-2349-sealed-club.cjs",
+  "script_output": "Command: node project-documents/gameplay-factory/sweeps/olympiad/test/CMS01-codex-1006-2349-sealed-club.cjs\nExit: 1 (the expected result is asserted; the current screen fails it)\nHALFWAY {\"stage\":\"manager-one\",\"packNames\":[\"West Ham United\",\"?\"],\"sealed\":[false,true],\"summaryVisible\":true,\"summaryNames\":[\"West Ham United\",\"Southampton\"],\"draw\":{\"playerOne\":\"West Ham United\",\"playerTwo\":\"Southampton\"}}\nAFTER BOTH PACKS {\"stage\":\"confirmation\",\"clubs\":[\"West Ham United\",\"Southampton\"],\"confirmEnabled\":true}\nNik's club must remain unrevealed on the visible screen until his pack opens.\n\ntrue !== false\n\n",
+  "assumptions": [
+    "Daniel and Nik are ready to play and follow the rules.",
+    "Ordinary motion is enabled. Reduced motion reveals both clubs together and does not have this sealed-pack interval.",
+    "The test uses the real league and club draw rules, real game screens, and a local ready-to-play fixture.",
+    "This is a small reveal-order problem. It does not change either club, give points, or permit an early confirmation.",
+    "Before retaining the finding, the code that hides the opening summary and waits for both packs was checked, and the completed reveal was played through."
+  ]
+}
