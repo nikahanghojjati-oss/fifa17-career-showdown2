@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 8:29 PM Boston time (EDT)",
+ "generated": "2026-10-05 8:32 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -284,8 +284,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "f9ec127",
-  "head_boston": "Mon 5 Oct 8:29 PM",
+  "head": "9060351",
+  "head_boston": "Mon 5 Oct 8:32 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": true,
   "open_for_g": [],
@@ -326,8 +326,8 @@
      "sha": "4f67929b0a25306d63621d4d912d3935c71b0579",
      "updated": "2026-10-06T00:25:21Z",
      "gates": {
-      "passed": 10,
-      "running": 5,
+      "passed": 14,
+      "running": 1,
       "failed": 0,
       "cancelled": 0
      }
@@ -422,7 +422,7 @@
   "physio": {
    "state": "clear",
    "line": "All clear: every check has a machine.",
-   "gate": "POS20 #390 15/16",
+   "gate": "POS20 #390 12/16",
    "source": "physio"
   },
   "v_headline": "Board 1 (visual package): 238 of 238 jobs done and checked",
@@ -572,6 +572,19 @@
     "worker": "sol-chat",
     "pickup_min": 0,
     "waiting_min": null
+   },
+   {
+    "id": "HO-011",
+    "from": "G",
+    "to": "V",
+    "title": "Final Winner screen with the last season's score (job 1005)",
+    "stage": "SENT",
+    "pct": 0.0,
+    "overdue": false,
+    "path": "project-documents/leads-relay/handoffs/HO-011_final-winner-screen-with-the-last-season.md",
+    "worker": "sol-chat",
+    "pickup_min": null,
+    "waiting_min": null
    }
   ],
   "relay_ok": true
@@ -643,10 +656,10 @@
   "**Nothing waits on you right now.** r62 (PR #390) is in checks; after it ships, press Update once on the laptop."
  ],
  "now": {
-  "moving": 17,
+  "moving": 18,
   "next": 2,
-  "nik": 5,
-  "later": 4,
+  "nik": 4,
+  "later": 5,
   "rows": {
    "G": {
     "moving": [
@@ -792,15 +805,6 @@
       "lane": "nik",
       "state": "later: Nik decides after his two current calls",
       "waits_on": "the lead asks Nik next"
-     },
-     {
-      "id": "1005",
-      "group": "Bug list 1",
-      "title": "1005 · G Last season's score is skipped before the Final Winner",
-      "lane": "green",
-      "state": "needs Nik",
-      "waits_on": "Nik picks how the last season's score shows (one tap recommended)",
-      "details": "GPT green, one run. js/seasonFinalV10.js gate + strict final-season check in the two-player journey. Rides r62."
      }
     ],
     "next": [
@@ -840,6 +844,15 @@
       "lane": "sonnet",
       "state": "queued",
       "waits_on": "G-F1"
+     },
+     {
+      "id": "1005",
+      "group": "Bug list 1",
+      "title": "1005 · G Last season's score is skipped before the Final Winner",
+      "lane": "green",
+      "state": "ready",
+      "waits_on": "after Team V designs the combined screen (HO-011)",
+      "details": "Nik picked No tap, combined: one screen shows the last season's score and the Final Winner. Team V designs it (HO-011), then a GPT green job builds it and restores the strict final-season check."
      }
     ]
    },
@@ -867,8 +880,8 @@
     "sha": "4f67929b0a25306d63621d4d912d3935c71b0579",
     "updated": "2026-10-06T00:25:21Z",
     "gates": {
-     "passed": 10,
-     "running": 5,
+     "passed": 14,
+     "running": 1,
      "failed": 0,
      "cancelled": 0
     }

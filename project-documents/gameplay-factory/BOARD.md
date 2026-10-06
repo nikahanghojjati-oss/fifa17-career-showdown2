@@ -1,8 +1,8 @@
 # Showdown board: G Factory and V Factory
 
-🌐 **Live: runtime 1.9.1-r61** (main `84a04d8`) · 🔄 **17 moving** · ⏭ 2 up next · 👤 5 waiting on Nik · 🗂 4 later · updated 2026-10-05 8:29 PM Boston time (EDT)
+🌐 **Live: runtime 1.9.1-r61** (main `84a04d8`) · 🔄 **18 moving** · ⏭ 2 up next · 👤 4 waiting on Nik · 🗂 5 later · updated 2026-10-05 8:32 PM Boston time (EDT)
 
-🩺 **All clear: every check has a machine.** · POS20 #390 15/16
+🩺 **All clear: every check has a machine.** · POS20 #390 12/16
 
 ## Your next move
 
@@ -12,7 +12,7 @@
 
 | Release / fix | Checks on the latest commit | Updated |
 | --- | --- | --- |
-| [PR #390](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/390) Release r62: bug-hunt fixes (errors, reconnect, auto final winner, desktop Settings, phon… | ⏳ 10 passed, 5 running | 8:25 PM |
+| [PR #390](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/390) Release r62: bug-hunt fixes (errors, reconnect, auto final winner, desktop Settings, phon… | ⏳ 14 passed, 1 running | 8:25 PM |
 | [PR #386](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/386) Showdown Gate (shadow): six-lane check beside POS20, not required yet | 🟢 23 passed | 7:38 PM |
 | [PR #384](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/384) Every screen in Team V's look: signed-out career screens, Showdown Home, season review, L… | 🟢 12 passed | 6:29 PM |
 
@@ -32,6 +32,10 @@
 | G | 1001 | 🐞 Bug list 1: 1001 · G Home desktop tile icons: bigger, inside the tile, never on the text | 🟦 Sol chat | in release (merged into gameplay/bug-list-1, 215e34a) | Bug list 1 items L1-01..06. CSS only in css/homeV10.css desktop blocks. Job file jobs/JOB-1001.md. Lead checks screenshots at 1920/1440/1280/1100/1000 wide. |
 | G | 1003 | 🐞 Bug list 1: 1003 · G Transfer War: main's copy of Team V's early-end string matches (HO-010) | 🟦 Sol chat | in release (merged into gameplay/bug-list-1) | Low priority, no live impact. js/transferScreenV10.js lines 26 and 30. Job file jobs/JOB-1003.md. |
 | G | 1004 | 🐞 Bug list 1: 1004 · G Rule Book: remove the useless 01-06 side number rail (desktop and phone) | 🟦 Sol chat | with worker (round 2) | js/rulesSettingsV10.js only: stop building #ruleBookIndex. Per-rule number badges stay. |
+
+| Hand-off | From → To | What | Progress |
+| --- | --- | --- | --- |
+| [HO-011](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/handoffs/HO-011_final-winner-screen-with-the-last-season.md) | G → V | Final Winner screen with the last season's score (job 1005) | ✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done |
 
 ## 🟢 G Factory
 
@@ -63,11 +67,11 @@ _Gameplay, online sync, every merge and every release (senior director)._ Worker
 
 ### 🐞 Bug list 1
 
-**👤 Waiting on Nik**
+**🗂 Later**
 
 | Job | What | Worker | State | Waits on |
 | --- | --- | --- | --- | --- |
-| 1005 | 1005 · G Last season's score is skipped before the Final Winner — GPT green, one run. js/seasonFinalV10.js gate + strict final-season check in the two-player journey. Rides r62. | 🟩 Sol Work mode | needs Nik | Nik picks how the last season's score shows (one tap recommended) |
+| 1005 | 1005 · G Last season's score is skipped before the Final Winner — Nik picked No tap, combined: one screen shows the last season's score and the Final Winner. Team V designs it (HO-011), then a GPT green job builds it and restores the strict final-season check. | 🟩 Sol Work mode | ready | after Team V designs the combined screen (HO-011) |
 
 ## 🔵 V Factory
 
@@ -81,7 +85,7 @@ _Visuals and presentation: design changes, art, screen skins (assistant director
 
 ## 📡 Relay
 
-**Health:** ✅ working · direct wake: Team G ✅, Team V ✅ · 29 messages · 0 open hand-offs, 10 done · **[every message in full: RELAY.md](RELAY.md)**
+**Health:** ✅ working · direct wake: Team G ✅, Team V ✅ · 29 messages · 1 open hand-offs, 10 done · **[every message in full: RELAY.md](RELAY.md)**
 
 Replies owed: Team G none · Team V G2V-015, G2V-016.
 

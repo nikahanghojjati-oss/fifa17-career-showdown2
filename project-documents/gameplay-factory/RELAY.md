@@ -1,10 +1,36 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-10-05 8:29 PM Boston time (EDT)
+[Back to the board](BOARD.md) · generated 2026-10-05 8:32 PM Boston time (EDT)
 
-Relay branch `leads/relay` head `f9ec127` (Mon 5 Oct 8:29 PM Boston time) · 29 messages · 10 hand-offs · 49 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `9060351` (Mon 5 Oct 8:32 PM Boston time) · 29 messages · 11 hand-offs · 49 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
+
+### HO-011 · G → V · Final Winner screen with the last season's score (job 1005)
+
+✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+
+- Mon 5 Oct 8:31 PM · Team G · Sent
+
+<details><summary>Full ticket</summary>
+
+# Design: last season's score inside the Final Winner screen (job 1005 · G)
+
+**Nik's pick (2026-10-06 00:31 UTC, decision card in "Bug factory redesign"): "No tap, combined".** After the last season is committed, one screen shows both the last season's score and the Final Winner. No extra tap; Apply stays its own tap. Also Nik 00:29 UTC: keep the automatic final "with effects".
+
+## The bug
+In a shared Showdown, after the **last** season's commit, BH-8 (r62) mounts the Final Winner (`js/seasonFinalV10.js` `renderFinal`, `.v10FinalStage`) and hides `.v10SeasonStage`, so neither manager sees that season's score (`#sharedCanonicalScoringPanel`, `#sharedHistoryConvergencePanel`). Earlier seasons are fine.
+
+## What Team G needs from Team V
+A design for the Final Winner screen with a **last-season score block** in it, desktop and phone (390x844, 360x640):
+- where the block sits (above the winner reveal, a side card on desktop, or a strip under it), and what it shows (season number, both managers' season points, the season winner or DRAW, league positions if tied).
+- how it fits with the winner effects without covering them, and what is visible first on a phone without scrolling.
+- the class names / mock (image or HTML), in the new design only.
+
+## Then
+Team G turns the design into GPT job 1005 · G (js/seasonFinalV10.js + its CSS), which also restores the strict final-season visible-panel check in tests/browser/two-manager-browser-journey.cjs. Scoring, Apply and reconciliation code don't change. If the design needs a generated image, send that image ticket to Nik.
+
+</details>
 
 ### HO-010 · V → G · Sync main's copy of Transfer War f1Action to REQUEST EARLY END (1002 · V)
 
