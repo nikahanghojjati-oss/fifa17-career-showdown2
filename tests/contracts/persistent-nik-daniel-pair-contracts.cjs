@@ -43,7 +43,7 @@ assert.match(pairSource,/freshBrowserGameplayRequiresVerifiedLocalRecovery:true/
 assert.match(pairSource,/state\.connectionState==="pending-pair"&&state\.capability/);
 assert.match(pairSource,/pairCopyText\(state\.capability\)/);
 assert.match(pairSource,/state\.connectionState==="pending-pair"&&state\.capability[\s\S]*"NEW CODE"[\s\S]*pairStartPairing\(\{managerRole:state\.managerRole\}\)/,'A pending creator must always have a provider-guarded replacement action so an expired invite cannot strand the account.');
-assert.match(pairSource,/"CONTINUE CAREER"/);
+assert.match(pairSource,/"START CAREER"/);
 assert.match(pairSource,/rivalryValue\.data\?\.connectionState==="closed"/,'A terminal Showdown must become a replaceable fresh-start state instead of poisoning the remembered pair.');
 assert.match(pairSource,/rivalryValue\.data\?\.connectionState==="closed"[\s\S]*return null/,'A valid closed remembered pair must resolve as no current pair.');
 assert.match(pairSource,/oldState==="active"\)throw pairErrorWithCode\("PERSISTENT_PAIR_ACTIVE_CONFLICT"/,'An active real Showdown must remain protected from replacement.');

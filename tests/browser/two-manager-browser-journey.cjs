@@ -86,7 +86,12 @@ const remote=m=>m.page.locator("#sparkRemoteJoiningOverlay, #remoteJoiningOverla
 // Job 31: the host page picks up the peer's JOIN by itself (quiet read every few seconds); nobody taps REFRESH / READ.
 // Job 33 (R6): the ACTIVE session then continues into the Showdown by itself, so Remote Joining closes on both pages.
 async function hostSeesJoin(m){await m.page.waitForFunction(()=>window.CareerModeSparkRemoteJoining?.getState?.()?.sessionState==="active",null,{timeout:20000});await remote(m).waitFor({state:"hidden",timeout:20000});assert.equal(await entry(m).isVisible().catch(()=>false),false,`${m.user}: no GET READY after the peer joined`);}
-const pairPanel=m=>m.page.locator("#persistentNikDanielPairPanel");
+const pairPanel=m=>m.page.locator("#connectPlayersScreen #persistentNikDanielPairPanel");
+async function openPairControlsFromHome(m){
+  if(await m.page.locator("#connectPlayersScreen").isVisible())return;
+  await m.page.locator("#newShowdown").click({timeout:30000});
+  await m.page.locator("#connectPlayersScreen").waitFor({state:"visible",timeout:30000});
+}
 async function waitTransferPhase(m,phase){
   await m.page.waitForFunction(value=>document.getElementById("transferChallenge")?.dataset.transferPhase===value,phase,{timeout:30000});
 }
@@ -244,10 +249,13 @@ async function main(){
 
     // J2 pairing (seasons chosen on the real create screen)
     await daniel.page.locator("#newShowdown").click();
+    await daniel.page.locator("#connectPlayersScreen").waitFor({state:"visible",timeout:30000});
+    await daniel.page.locator("#connectPlayersSetup").click({timeout:30000});
     await daniel.page.locator("#createShowdown").waitFor({state:"visible",timeout:30000});
     await daniel.page.locator("#roundAmount").selectOption(String(LENGTH));
     await daniel.page.locator("#startShowdown").click();
     await entry(daniel).getByRole("button",{name:"CONNECT PLAYERS"}).click({timeout:30000});
+    assert.equal(await daniel.page.locator("#mainMenu #persistentNikDanielPairPanel").count(),0,"Home must never contain the pair panel.");
     await pairPanel(daniel).getByRole("button",{name:"CREATE CODE FOR NIK"}).click({timeout:30000});
     await pairPanel(daniel).locator("code").waitFor({timeout:30000});
     const pairCode=(await pairPanel(daniel).locator("code").innerText()).trim();
@@ -276,7 +284,8 @@ async function main(){
     // J3 private session through the real Remote Joining surface; the ACTIVE session continues into the league wheel.
     // Job 33 (R5b): a connected pair goes from CONTINUE CAREER straight to Remote Joining (no GET READY CONTINUE).
     for(const m of [daniel,nik]){
-      await pairPanel(m).getByRole("button",{name:"CONTINUE CAREER"}).first().click();
+      await openPairControlsFromHome(m);
+      await pairPanel(m).getByRole("button",{name:"START CAREER"}).first().click();
       await remote(m).waitFor({state:"visible",timeout:30000});
       assert.equal(await entry(m).isVisible().catch(()=>false),false,`${m.user}: no GET READY overlay before Remote Joining`);
     }
@@ -500,6 +509,7 @@ async function main(){
         await m.page.locator("#mainMenu").waitFor({state:"visible",timeout:30000});
         assert.equal(await m.page.evaluate(()=>window.__cmsEmulatorSwitch?.active===true),true,`${m.user} emulator switch re-installed after reload`);
         await m.page.waitForFunction(()=>/CAREER READY/.test(document.getElementById("persistentNikDanielPairPanel")?.innerText||""),null,{timeout:30000});
+        await openPairControlsFromHome(m);
       }
       for(const m of [daniel,nik]){
         // Give the entry install its pair-authority decision time before asserting it stayed closed.
@@ -507,9 +517,10 @@ async function main(){
         await m.page.waitForTimeout(2500);
         assert.equal(await entry(m).isVisible().catch(()=>false),false,`${m.user}: an ACTIVE paired Showdown must not re-open GET READY over CONTINUE CAREER after reload`);
       }
-      ok("J9.1","after reload both managers keep their Google session and see CAREER READY · CONTINUE CAREER without the GET READY overlay");
+      ok("J9.1","after reload both managers keep their Google session and open CAREER READY · START CAREER on Connect Players without the GET READY overlay");
       for(const m of [daniel,nik]){
-        await pairPanel(m).getByRole("button",{name:"CONTINUE CAREER"}).first().click({timeout:30000});
+        await openPairControlsFromHome(m);
+        await pairPanel(m).getByRole("button",{name:"START CAREER"}).first().click({timeout:30000});
         await remote(m).waitFor({state:"visible",timeout:30000});
       }
       await remote(daniel).getByRole("button",{name:"HOST PRIVATE SESSION"}).click({timeout:30000});
@@ -699,6 +710,8 @@ async function main(){
       assert.equal(await entryOverlay.isVisible().catch(()=>false),false,`${m.user}: a CLOSED Showdown must not re-open the GET READY career entry overlay after reload`);
     }
     await daniel.page.locator("#newShowdown").click({timeout:30000});
+    await daniel.page.locator("#connectPlayersScreen").waitFor({state:"visible",timeout:30000});
+    await daniel.page.locator("#connectPlayersSetup").click({timeout:30000});
     await daniel.page.locator("#createShowdown").waitFor({state:"visible",timeout:30000});
     await daniel.page.locator("#roundAmount").selectOption(String(LENGTH));
     await daniel.page.locator("#startShowdown").click({timeout:30000});
@@ -723,7 +736,8 @@ async function main(){
     assert.deepEqual(ids(field(await admin(`accounts/${uidN}/careerIndex/current`),"data","rivalryIds")),[R1,R2],"Nik career index [R1,R2]");
 
     for(const m of [daniel,nik]){
-      await pairPanel(m).getByRole("button",{name:"CONTINUE CAREER"}).first().click({timeout:30000});
+      await openPairControlsFromHome(m);
+      await pairPanel(m).getByRole("button",{name:"START CAREER"}).first().click({timeout:30000});
       await remote(m).waitFor({state:"visible",timeout:30000});
     }
     await remote(daniel).getByRole("button",{name:"HOST PRIVATE SESSION"}).click({timeout:30000});

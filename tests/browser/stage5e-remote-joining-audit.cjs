@@ -83,11 +83,14 @@ const baseUrl=new URL(process.env.CMS_BASE_URL||"http://127.0.0.1:4173/");
     // Stage 5E's engineering overlay is retired from normal play. The clean product
   // surface is the persistent Nik/Daniel pair sidecar loaded behind identity.
   await page.waitForFunction(()=>Boolean(window.CareerModePersistentNikDanielPair),null,{timeout:15000});
-  await page.locator("#persistentNikDanielPairPanel").waitFor({state:"visible",timeout:12000});
+  await page.locator("#newShowdown").click();
+  await page.locator("#connectPlayersScreen").waitFor({state:"visible",timeout:12000});
+  await page.locator("#connectPlayersScreen #persistentNikDanielPairPanel").waitFor({state:"visible",timeout:12000});
+  assert.equal(await page.locator("#mainMenu #persistentNikDanielPairPanel").count(),0,"Home must never contain the pair panel.");
   assert.equal(await page.locator("#remoteJoiningButton").isHidden(),true,"Engineering Remote Joining entry must stay hidden from normal play.");
   assert.equal(await page.locator('script[data-runtime-script="rj"]').count(),0,"Retired Remote Joining runtime must remain unloaded on the clean player surface.");
   assert.equal(await page.locator("script[data-srj-dependency]").count(),0,"Retired provider session dependencies must remain unloaded on the clean player surface.");
-  const pairText=await page.locator("#persistentNikDanielPairPanel").innerText();
+  const pairText=await page.locator("#connectPlayersScreen #persistentNikDanielPairPanel").innerText();
   assert.doesNotMatch(pairText,/HOST PRIVATE SESSION|JOIN PRIVATE SESSION/);
 
   const after=await page.evaluate(()=>[
