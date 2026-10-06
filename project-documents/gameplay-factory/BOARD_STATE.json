@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 8:00 PM Boston time (EDT)",
+ "generated": "2026-10-05 8:03 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -324,7 +324,7 @@
      "draft": false,
      "branch": "gameplay/release-r62",
      "sha": "bb827862de3a9018e59a479f5d435c6498c3cf46",
-     "updated": "2026-10-05T23:58:31Z",
+     "updated": "2026-10-06T00:00:40Z",
      "gates": {
       "passed": 13,
       "running": 0,
@@ -420,8 +420,8 @@
    ]
   },
   "physio": {
-   "state": "barking",
-   "line": "Barking: POS20 on #388 has waited 2 min for a machine.",
+   "state": "clear",
+   "line": "All clear: every check has a machine.",
    "gate": "POS20 #390 13/16",
    "source": "physio"
   },
@@ -835,7 +835,7 @@
     "draft": false,
     "branch": "gameplay/release-r62",
     "sha": "bb827862de3a9018e59a479f5d435c6498c3cf46",
-    "updated": "2026-10-05T23:58:31Z",
+    "updated": "2026-10-06T00:00:40Z",
     "gates": {
      "passed": 13,
      "running": 0,
