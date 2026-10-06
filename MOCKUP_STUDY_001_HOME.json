@@ -1,0 +1,497 @@
+{
+  "study_id": "MOCKUP_STUDY_001_HOME",
+  "date": "2026-10-05",
+  "branch": "study/mockup-lab",
+  "mode": "chat",
+  "scope": "study_only_no_game_code_changes",
+  "screen": "Home / Rivalry Headquarters",
+  "status": "complete",
+  "branch_preexisting": false,
+  "preexisting_index_found": false,
+  "source": {
+    "goal_mockup": {
+      "file": "HOME_APPROVED_COMPOSITION_REFERENCE_R8_17_V1.png",
+      "width": 1672,
+      "height": 941
+    },
+    "implementation_capture": {
+      "file": "01_HOME_R8_56_ACTIVE.png",
+      "width": 1366,
+      "height": 768
+    },
+    "mobile_capture": {
+      "file": "03_HOME_R8_56_MOBILE.png",
+      "width": 780,
+      "height": 2300
+    },
+    "repo_checked": "main:index.html"
+  },
+  "measurement": {
+    "python_pixel_analysis_available": false,
+    "python_attempted": true,
+    "failure_reason": "Project/Library image raw-byte materialization was not authorized; /mnt/data contained no image bytes.",
+    "exact_dimensions_source": "image metadata",
+    "geometry_source": "approved Home brief coordinates plus manual visual measurement",
+    "target_percent": {
+      "hero_left_column": {
+        "x1": 2.4,
+        "x2": 36,
+        "y1": 12,
+        "y2": 42
+      },
+      "heading": {
+        "y1": 57,
+        "y2": 71
+      },
+      "action_dock": {
+        "x1": 2.4,
+        "x2": 97.6,
+        "y1": 73,
+        "y2": 91
+      },
+      "soundtrack": {
+        "x1": 64,
+        "x2": 97.6,
+        "y1": 52.5,
+        "y2": 70
+      }
+    },
+    "target_pixels_1672x941": {
+      "hero_left_column": {
+        "x1": 40,
+        "x2": 602,
+        "y1": 113,
+        "y2": 395
+      },
+      "heading": {
+        "y1": 536,
+        "y2": 668
+      },
+      "action_dock": {
+        "x1": 40,
+        "x2": 1632,
+        "y1": 687,
+        "y2": 856
+      },
+      "soundtrack": {
+        "x1": 1070,
+        "x2": 1632,
+        "y1": 494,
+        "y2": 659
+      }
+    },
+    "normalized_target_at_1366x768": {
+      "hero_left_column": {
+        "x1": 33,
+        "x2": 492,
+        "y1": 92,
+        "y2": 323
+      },
+      "heading": {
+        "y1": 438,
+        "y2": 545
+      },
+      "action_dock": {
+        "x1": 33,
+        "x2": 1333,
+        "y1": 561,
+        "y2": 699
+      },
+      "soundtrack": {
+        "x1": 874,
+        "x2": 1333,
+        "y1": 403,
+        "y2": 538
+      }
+    }
+  },
+  "steps": [
+    {
+      "step": 1,
+      "name": "target_and_product_truth",
+      "summary": "Cinematic night-stadium Home with Daniel and Nik as co-heroes; mockup text/state is subordinate to current product truth."
+    },
+    {
+      "step": 2,
+      "name": "hierarchy",
+      "summary": "Franchise identity, managers, screen identity, action dock, soundtrack, world dressing/footer."
+    },
+    {
+      "step": 3,
+      "name": "macro_composition",
+      "summary": "Asymmetric left text / center-right characters / right media / bottom action dock composition."
+    },
+    {
+      "step": 4,
+      "name": "geometry",
+      "summary": "Measured normalized anchor rectangles for hero, heading, soundtrack and dock."
+    },
+    {
+      "step": 5,
+      "name": "typography",
+      "summary": "Brush franchise wordmark, condensed UI type, handwritten notes; current capture is more uniform and compressed."
+    },
+    {
+      "step": 6,
+      "name": "color_depth",
+      "summary": "Near-black smoked glass, restrained gold, cool atmospheric sky, warm rim light; current capture is more gold-saturated and flatter."
+    },
+    {
+      "step": 7,
+      "name": "character_staging",
+      "summary": "Daniel left-center pointing, Nik right hand-on-chin; faces/hands are protected landmarks."
+    },
+    {
+      "step": 8,
+      "name": "responsive_interaction",
+      "summary": "Phone must recompose, not shrink; product state/accessibility must remain authoritative."
+    },
+    {
+      "step": 9,
+      "name": "live_gap",
+      "summary": "No fresh user screenshot; compared available R8_56 Home capture plus current main markup. Largest gaps: hero typography, character/world staging, soundtrack position and atmospheric depth."
+    }
+  ],
+  "step9_deltas": [
+    {
+      "area": "hero_lockup",
+      "priority": "high",
+      "target": "x 2.4-36%, y 12-42%, brush wordmark ~32vw",
+      "current": "similar zone but shorter, mostly gold, less dominant"
+    },
+    {
+      "area": "character_staging",
+      "priority": "medium-high",
+      "target": "Daniel center-left, Nik right, atmospheric separation",
+      "current": "more central/large and more gold-saturated"
+    },
+    {
+      "area": "heading",
+      "priority": "medium",
+      "target": "y 57-71%",
+      "current": "approx y 55-74%"
+    },
+    {
+      "area": "soundtrack",
+      "priority": "high",
+      "target": "x 64-97.6%, y 52.5-70%",
+      "current": "approx x 61.5-96.5%, y 56-74%"
+    },
+    {
+      "area": "action_dock",
+      "priority": "medium",
+      "target": "x 2.4-97.6%, y 73-91%",
+      "current": "approx x 2.4-97.6%, y 74.5-92%; geometry close"
+    },
+    {
+      "area": "loading_progress",
+      "priority": "not_a_gap",
+      "target": "old goal includes it",
+      "current": "shared-ready state",
+      "note": "latest Home guidance says startup owns loading; do not reproduce stale local-only copy"
+    },
+    {
+      "area": "material_depth",
+      "priority": "medium-high",
+      "target": "cool/dark atmospheric separation with warm rim",
+      "current": "higher gold saturation and flatter separation"
+    }
+  ],
+  "inventory_scope": "Distinct full-screen UI mockups and UI boards in the Showdown visual project library. Excludes pure character/trophy/environment assets, promo/cinematic posters, guides, R8 implementation/revalidation captures, and exact duplicate copies.",
+  "inventory": [
+    {
+      "file": "HOME_APPROVED_COMPOSITION_REFERENCE_R8_17_V1.png",
+      "screen": "Home / Rivalry Headquarters",
+      "form_factor": "desktop",
+      "width": 1672,
+      "height": 941
+    },
+    {
+      "file": "Career Mode Showdown 17.png",
+      "screen": "Home / main menu concept",
+      "form_factor": "desktop",
+      "width": 1672,
+      "height": 941
+    },
+    {
+      "file": "Career Mode Showdown 17(1).png",
+      "screen": "Showdown Home / rivalry dashboard",
+      "form_factor": "desktop",
+      "width": 1672,
+      "height": 941
+    },
+    {
+      "file": "Career Mode Showdown 17(2).png",
+      "screen": "Home / main menu concept",
+      "form_factor": "desktop",
+      "width": 1672,
+      "height": 941
+    },
+    {
+      "file": "Career Mode Showdown 17(3).png",
+      "screen": "Home / main menu concept",
+      "form_factor": "desktop",
+      "width": 1672,
+      "height": 941
+    },
+    {
+      "file": "Career Mode Showdown 17(4).png",
+      "screen": "Home / main menu concept",
+      "form_factor": "desktop",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "file": "CM17 Career Mode Showdown Dashboard(1).png",
+      "screen": "Home / dashboard concept",
+      "form_factor": "desktop",
+      "width": 1672,
+      "height": 941
+    },
+    {
+      "file": "CM17 Career Mode Showdown.png",
+      "screen": "Home / main menu concept",
+      "form_factor": "desktop",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "file": "CM17 Career Mode Showdown(1).png",
+      "screen": "Home / Rivalry Headquarters concept",
+      "form_factor": "desktop",
+      "width": 1672,
+      "height": 941
+    },
+    {
+      "file": "Career Mode Showdown: Select League.png",
+      "screen": "Select League",
+      "form_factor": "desktop",
+      "width": 1672,
+      "height": 941
+    },
+    {
+      "file": "CM 17 Select League Showdown.png",
+      "screen": "Select League",
+      "form_factor": "desktop",
+      "width": 1672,
+      "height": 941
+    },
+    {
+      "file": "Gold-Black Career Mode League Selector.png",
+      "screen": "Select League",
+      "form_factor": "desktop",
+      "width": 1672,
+      "height": 941
+    },
+    {
+      "file": "Club Assignment: Career Mode Showdown.png",
+      "screen": "Club Assignment",
+      "form_factor": "desktop",
+      "width": 1672,
+      "height": 941
+    },
+    {
+      "file": "Career Mode Showdown: Transfer Challenge.png",
+      "screen": "Transfer Challenge",
+      "form_factor": "desktop",
+      "width": 1672,
+      "height": 941
+    },
+    {
+      "file": "Career Mode Showdown: Transfer Challenge(1).png",
+      "screen": "Transfer Challenge",
+      "form_factor": "desktop",
+      "width": 1672,
+      "height": 941
+    },
+    {
+      "file": "CM17 Transfer Challenge Showdown.png",
+      "screen": "Transfer Challenge",
+      "form_factor": "desktop",
+      "width": 1672,
+      "height": 941
+    },
+    {
+      "file": "CM17 Transfer Challenge Showdown(1).png",
+      "screen": "Transfer Challenge",
+      "form_factor": "desktop",
+      "width": 1672,
+      "height": 941
+    },
+    {
+      "file": "Career Mode Showdown Trophy Room.png",
+      "screen": "Trophy Room",
+      "form_factor": "desktop",
+      "width": 1672,
+      "height": 941
+    },
+    {
+      "file": "Golden Trophy Room Showdown.png",
+      "screen": "Trophy Room",
+      "form_factor": "desktop",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "file": "Cinematic Career Statistics Showdown Dashboard.png",
+      "screen": "Career Statistics",
+      "form_factor": "desktop",
+      "width": 1672,
+      "height": 941
+    },
+    {
+      "file": "Rivalry Statistics: Daniel vs Nik.png",
+      "screen": "Rivalry Statistics",
+      "form_factor": "desktop",
+      "width": 1672,
+      "height": 941
+    },
+    {
+      "file": "Rivalry Statistics_ Daniel vs Nik.png",
+      "screen": "Rivalry Statistics",
+      "form_factor": "desktop",
+      "width": 1672,
+      "height": 941
+    },
+    {
+      "file": "CM17 Legacy Showdown Archive.png",
+      "screen": "Legacy / History",
+      "form_factor": "desktop",
+      "width": 1672,
+      "height": 941
+    },
+    {
+      "file": "CM17 Legacy Showdown Archive(1).png",
+      "screen": "Legacy / History",
+      "form_factor": "desktop",
+      "width": 1672,
+      "height": 941
+    },
+    {
+      "file": "CM17 Legacy Showdown Archive(2).png",
+      "screen": "Legacy / History",
+      "form_factor": "desktop",
+      "width": 1672,
+      "height": 941
+    },
+    {
+      "file": "Career Mode Showdown: Season Summary.png",
+      "screen": "Season Summary",
+      "form_factor": "desktop",
+      "width": 1672,
+      "height": 941
+    },
+    {
+      "file": "Season Results: Daniel vs Nik.png",
+      "screen": "Season Results",
+      "form_factor": "desktop",
+      "width": 1672,
+      "height": 941
+    },
+    {
+      "file": "Create Showdown: Two Managers, One Legacy.png",
+      "screen": "Create Showdown",
+      "form_factor": "desktop",
+      "width": 1672,
+      "height": 941
+    },
+    {
+      "file": "Career Mode Showdown: Private Joining.png",
+      "screen": "Private Joining / Start-Join",
+      "form_factor": "desktop",
+      "width": 1672,
+      "height": 941
+    },
+    {
+      "file": "Career Mode Showdown Settings.png",
+      "screen": "Settings",
+      "form_factor": "desktop",
+      "width": 1672,
+      "height": 941
+    },
+    {
+      "file": "Career Mode Showdown Settings(1).png",
+      "screen": "Settings",
+      "form_factor": "desktop",
+      "width": 1672,
+      "height": 941
+    },
+    {
+      "file": "Career Mode Showdown Settings(2).png",
+      "screen": "Settings",
+      "form_factor": "desktop",
+      "width": 1672,
+      "height": 941
+    },
+    {
+      "file": "CM 17 Remote Play Dashboard.png",
+      "screen": "Remote pairing/joining/settings multi-screen board",
+      "form_factor": "desktop",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "file": "Career Mode Showdown 17 Interface.png",
+      "screen": "Multi-screen UI concept board",
+      "form_factor": "desktop",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "file": "Career Mode Showdown 17 UI Board.png",
+      "screen": "Multi-screen UI board",
+      "form_factor": "desktop",
+      "width": 1672,
+      "height": 941
+    },
+    {
+      "file": "Career Mode Showdown 17 UI Collage.png",
+      "screen": "Multi-screen UI collage",
+      "form_factor": "desktop",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "file": "Career Mode Showdown 17 UI Grid.png",
+      "screen": "Multi-screen UI grid",
+      "form_factor": "desktop",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "file": "Career Mode Showdown 17 UI Library.png",
+      "screen": "Multi-screen UI library board",
+      "form_factor": "desktop",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "file": "Career Mode Showdown UI Board.png",
+      "screen": "Multi-screen UI board",
+      "form_factor": "desktop",
+      "width": 1672,
+      "height": 941
+    },
+    {
+      "file": "CM 17 Football Manager UI Collage.png",
+      "screen": "Multi-screen UI collage",
+      "form_factor": "desktop",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "file": "CM17 Career Mode Showdown Dashboard.png",
+      "screen": "Multi-screen dashboard board",
+      "form_factor": "desktop",
+      "width": 1672,
+      "height": 941
+    },
+    {
+      "file": "CM17 Career Mode Showdown Reference Sheet.png",
+      "screen": "Multi-screen UI reference sheet",
+      "form_factor": "desktop",
+      "width": 1536,
+      "height": 1024
+    }
+  ]
+}
