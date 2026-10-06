@@ -752,7 +752,7 @@
      "state": "ready",
      "waits_on": "Nik types it again in the gameplay project (normal chat) for round 2",
      "details": "js/rulesSettingsV10.js only: stop building #ruleBookIndex. Per-rule number badges stay.",
-     "order": 6,
+     "order": 4,
      "place": "in the gameplay project (normal chat), same chat as before",
      "note": "round 2"
     },
@@ -774,7 +774,7 @@
      "state": "ready",
      "waits_on": "Nik types it in the gameplay project (normal chat)",
      "details": "GPT blue, one file: delete the loser shade rule in final-winner.css.",
-     "order": 5,
+     "order": 3,
      "place": "in the gameplay project (normal chat), new chat"
     },
     {
@@ -792,24 +792,24 @@
      "id": "1011",
      "group": "Bug list 1",
      "title": "1011 · G Plain-words sweep: jargon on game screens",
-     "lane": "green",
+     "lane": "blue",
      "state": "ready",
      "waits_on": "Nik types it in the gameplay project (Work mode)",
      "details": "GPT green, one run. Replaces engineering words players see; leaves test-asserted strings to the lead.",
      "order": 11,
-     "place": "in the gameplay project (Work mode), new chat",
+     "place": "in the gameplay project (normal chat), new chat",
      "after": "1014, 1015 and 1020 merge"
     },
     {
      "id": "1014",
      "group": "Bug list 1",
      "title": "1014 · G No reconnect prompt after a finished Showdown",
-     "lane": "green",
+     "lane": "blue",
      "state": "ready",
      "waits_on": "Nik types it in the gameplay project (Work mode)",
      "details": "GPT green, one run. HO-013: closed Showdown shows SHOWDOWN COMPLETE instead of RECONNECT SESSION. Lead runs the reconnect audit.",
-     "order": 4,
-     "place": "in the gameplay project (Work mode), new chat"
+     "order": 5,
+     "place": "in the gameplay project (normal chat), new chat"
     },
     {
      "id": "1015",
@@ -871,12 +871,12 @@
      "id": "1021",
      "group": "Bug list 1",
      "title": "1021 · G Transfer War on phone: port Team V's revamp",
-     "lane": "green",
-     "state": "ready",
+     "lane": "claude",
+     "state": "with the lead",
      "waits_on": "Nik types it in the gameplay project (Work mode)",
      "details": "GPT green, one run. HO-016: Team V's checked phone CSS + 2 cut-outs into css/v10Transfer.css. Desktop unchanged.",
-     "order": 3,
-     "place": "in the gameplay project (Work mode), new chat"
+     "order": 6,
+     "place": "nothing to type: the lead does it in a Claude thread"
     }
    ]
   },
