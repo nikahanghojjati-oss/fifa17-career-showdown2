@@ -1002,6 +1002,19 @@
         "^tests/contracts/hunt-1018-reconnect-authority-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/hunt-1019-restore-career-contracts.cjs",
+      "patterns": [
+        "^js/restore\\.js$",
+        "^js/importAnalysis\\.js$",
+        "^js/rivalryLegacyV10\\.js$",
+        "^js/saveLibraryFoundation\\.js$",
+        "^js/saveLibraryRuntime\\.js$",
+        "^js/storageTransaction\\.js$",
+        "^tests/contracts/hunt-1019-restore-career-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
