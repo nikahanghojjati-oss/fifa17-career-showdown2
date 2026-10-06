@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 8:55 PM Boston time (EDT)",
+ "generated": "2026-10-05 8:57 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -284,8 +284,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "785ed6d",
-  "head_boston": "Mon 5 Oct 8:54 PM",
+  "head": "2f0872b",
+  "head_boston": "Mon 5 Oct 8:56 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": true,
   "open_for_g": [],
@@ -326,8 +326,8 @@
      "sha": "9243705b96a426a33ec352c5afb73cc2e9a8dc20",
      "updated": "2026-10-06T00:53:30Z",
      "gates": {
-      "passed": 1,
-      "running": 16,
+      "passed": 5,
+      "running": 12,
       "failed": 0,
       "cancelled": 0
      }
@@ -397,9 +397,9 @@
    ]
   },
   "physio": {
-   "state": "clear",
-   "line": "All clear: every check has a machine.",
-   "gate": "Gate #386: L1✓ L2✓ L3✓ L4✓ L5✓ L6✓ · seal PASS · POS20 #386 16/16",
+   "state": "barking",
+   "line": "Barking: POS20 on #386 has waited 4 min for a machine; POS20 has waited 2 min for a machine.",
+   "gate": "Gate #386: L1✓ L2… L3… L4… L5… L6… · seal pending · POS20 #386 2/16",
    "source": "physio"
   },
   "v_headline": "Board 1 (visual package): 238 of 238 jobs done and checked",
@@ -588,7 +588,7 @@
     "from": "G",
     "to": "V",
     "title": "One board: your lead view copies CUSTOM_VIEW_V.html (Team V first, same facts)",
-    "stage": "WORKING",
+    "stage": "RECEIVED",
     "pct": 0.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-012_one-board-your-lead-view-copies-custom-v.md",
@@ -801,8 +801,8 @@
     "sha": "9243705b96a426a33ec352c5afb73cc2e9a8dc20",
     "updated": "2026-10-06T00:53:30Z",
     "gates": {
-     "passed": 1,
-     "running": 16,
+     "passed": 5,
+     "running": 12,
      "failed": 0,
      "cancelled": 0
     }

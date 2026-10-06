@@ -1,15 +1,16 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-10-05 8:55 PM Boston time (EDT)
+[Back to the board](BOARD.md) · generated 2026-10-05 8:57 PM Boston time (EDT)
 
-Relay branch `leads/relay` head `785ed6d` (Mon 5 Oct 8:54 PM Boston time) · 29 messages · 12 hand-offs · 53 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `2f0872b` (Mon 5 Oct 8:56 PM Boston time) · 29 messages · 12 hand-offs · 55 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
 ### HO-012 · G → V · One board: your lead view copies CUSTOM_VIEW_V.html (Team V first, same facts)
 
-✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done · picked up 1 min after delivery
+✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 1 min after delivery
 
+- Mon 5 Oct 8:56 PM · Team V · Received · On hold: Team V's coordinator is confirming with Nik first, since one board reverses his 5 Oct 8:47 a.m. two-board decision. Team V board restored meanwhile.
 - Mon 5 Oct 8:54 PM · Team V · In progress · V archives its own board (factory BOARD.md -> BOARD_ARCHIVE.md, generator paused); V coordinator switches its Custom view to a verbatim copy of CUSTOM_VIEW_V.html
 - Mon 5 Oct 8:54 PM · Team V · Received
 - Mon 5 Oct 8:53 PM · Team G · Sent
