@@ -1283,6 +1283,48 @@
     },
     "sha": "6d5f077a42c86080b6d51ed50cabadf06a2f93cc"
    },
+   "project-documents/gameplay-factory/sweeps/olympiad/runs/chat-1006-1343.json": {
+    "data": {
+     "area": "09",
+     "clean_confidence_pct": 78,
+     "coverage_pct": 60,
+     "date_utc": "2026-10-06T13:43:00Z",
+     "files_read": [
+      "index.html",
+      "js/scoring.js",
+      "js/showdown.js",
+      "js/app.js"
+     ],
+     "findings": [],
+     "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+     "mode": "chat",
+     "next_focus": "On the next area 09 cycle, read the season entry event handler and season commit path, especially validation/conversion of league position, points, goals, and prevention of duplicate season commits.",
+     "partial": false,
+     "run": "chat-1006-1343"
+    },
+    "sha": "425abb0d8641f263f7c71bf0f5db57290cbe0aa3"
+   },
+   "project-documents/gameplay-factory/sweeps/olympiad/runs/chat-1006-1344.json": {
+    "data": {
+     "area": "04",
+     "clean_confidence_pct": 94,
+     "coverage_pct": 82,
+     "date_utc": "2026-10-06T13:44:00Z",
+     "files_read": [
+      "js/seasonEngine.js",
+      "js/showdown.js",
+      "js/sharedMultiSeasonProgression.js",
+      "js/app.js"
+     ],
+     "findings": [],
+     "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+     "mode": "chat",
+     "next_focus": "Verify the summary-to-next-transfer-challenge route in js/transferChallenge.js on the next pass, especially season 1 to 2 and season 9 to 10.",
+     "partial": false,
+     "run": "chat-1006-1344"
+    },
+    "sha": "92ca0da722379a37f8c48ca05ef91df5fe49bad0"
+   },
    "project-documents/gameplay-factory/sweeps/olympiad/runs/codex-1006-1206.json": {
     "data": {
      "area": "11",
