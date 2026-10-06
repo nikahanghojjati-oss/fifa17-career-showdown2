@@ -277,6 +277,8 @@ const playerOneProfileId=`profile_${"d".repeat(24)}`;
       }
     },{saveId,profileId,playerOneProfileId});
     assert.deepEqual(reloadAuthority,{status:"paired",continuedStatus:"paired",activationCount:1,switchCount:1,hydratedSaveId:saveId,hydratedMode:"shared",hydratedSeasons:5,continueOpened:1,recoveryReady:true},"A normal paired-browser reload must activate storage, hydrate the already-active canonical Save, and open Continue Career without false recovery.");
+    // JOB-1015: START CAREER closed the Connect Players layer above; reopen it to read the panel the player would see.
+    await page.evaluate(()=>window.CareerModeConnectPlayersScreenV10.open());
     await page.locator("#persistentNikDanielPairPanel",{hasText:"CAREER READY"}).waitFor({state:"visible",timeout:5000});
     await page.locator("#persistentNikDanielPairPanel button",{hasText:"START CAREER"}).waitFor({state:"visible"});
     assert.equal(await page.locator("#persistentNikDanielPairPanel",{hasText:"CAREER RECOVERY NEEDED"}).count(),0,"A valid local paired reload must not show false recovery UI.");

@@ -505,7 +505,8 @@ async function main(){
         await m.page.locator("#loadingScreen").waitFor({state:"hidden",timeout:30000});
         await m.page.locator("#mainMenu").waitFor({state:"visible",timeout:30000});
         assert.equal(await m.page.evaluate(()=>window.__cmsEmulatorSwitch?.active===true),true,`${m.user} emulator switch re-installed after reload`);
-        await m.page.waitForFunction(()=>/CAREER READY/.test(document.getElementById("persistentNikDanielPairPanel")?.innerText||""),null,{timeout:30000});
+        // JOB-1015: the pair panel now lives only in the Connect Players layer, so read the paired state behind Home CONTINUE CAREER.
+        await m.page.waitForFunction(()=>window.CareerModePersistentNikDanielPair?.getState?.()?.status==="paired",null,{timeout:30000});
       }
       for(const m of [daniel,nik]){
         // Give the entry install its pair-authority decision time before asserting it stayed closed.
