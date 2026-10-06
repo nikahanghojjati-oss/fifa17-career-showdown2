@@ -43,7 +43,7 @@
 | Hand-off | From → To | What | Progress |
 | --- | --- | --- | --- |
 | [HO-011](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/handoffs/HO-011_final-winner-screen-with-the-last-season.md) | G → V | Final Winner screen with the last season's score (job 1005) | ✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done |
-| [HO-012](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/handoffs/HO-012_one-board-your-lead-view-copies-custom-v.md) | G → V | One board: your lead view copies CUSTOM_VIEW_V.html (Team V first, same facts) | ✅ Sent → ✅ **Delivered** → ○ Received → ○ In progress → ○ Done |
+| [HO-012](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/handoffs/HO-012_one-board-your-lead-view-copies-custom-v.md) | G → V | One board: your lead view copies CUSTOM_VIEW_V.html (Team V first, same facts) | ✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done |
 
 ## 🟢 G Factory
 

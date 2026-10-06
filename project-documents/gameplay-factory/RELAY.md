@@ -8,7 +8,7 @@ Relay branch `leads/relay` head `785ed6d` (Mon 5 Oct 8:54 PM Boston time) · 29 
 
 ### HO-012 · G → V · One board: your lead view copies CUSTOM_VIEW_V.html (Team V first, same facts)
 
-✅ Sent → ✅ **Delivered** → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done · picked up 1 min after delivery
 
 - Mon 5 Oct 8:54 PM · Team V · In progress · V archives its own board (factory BOARD.md -> BOARD_ARCHIVE.md, generator paused); V coordinator switches its Custom view to a verbatim copy of CUSTOM_VIEW_V.html
 - Mon 5 Oct 8:54 PM · Team V · Received
