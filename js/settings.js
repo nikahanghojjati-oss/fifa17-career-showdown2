@@ -408,7 +408,7 @@ function createOfflinePanel(){
         "settingsOfflineNote",
         settingsOfflineGuidance || (
             state.standalone
-                ? "Installed mode is active. The verified local application shell is kept separate from your three canonical Showdown data keys."
+                ? "Installed mode is active. The verified local application is kept separate from your saved Showdown data."
                 : "Choose the install action for device-specific instructions or your browser's native install prompt when available."
         )
     );
