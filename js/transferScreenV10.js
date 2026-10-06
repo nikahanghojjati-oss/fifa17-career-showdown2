@@ -266,7 +266,7 @@
   function tfHostMarkup(){
     const media="(max-width: 760px) and (orientation: portrait)",a=ASSET_BASE+"assets/";
     const pic=(cls,file,enter,size)=>`<picture class="${cls}"${enter?` data-sd-enter="${enter}"`:""}><source media="${media}" srcset="${a}${file}" type="image/webp"><img alt=""${size||""} decoding="async"></picture>`;
-    return `<div class="phone-hero-art" aria-hidden="true" data-sd-enter="scene">${pic("phone-hero-bg","ENV_TRANSFER_PHONE_V1.webp","",' width="1179" height="2096"')}${pic("phone-hero phone-hero-daniel","OVL_TRANSFER_DANIEL_PHONE_V1.webp","character-left")}${pic("phone-hero phone-hero-nik","OVL_TRANSFER_NIK_PHONE_V1.webp","character-right")}</div><div class="stage" data-phone-contract="cinematic" role="region" aria-label="Transfer Challenge"></div>`;
+    return `<div class="phone-hero-art" aria-hidden="true" data-sd-enter="scene">${pic("phone-hero-bg","ENV_TRANSFER_PHONE_V1.webp","",' width="1179" height="2096"')}${pic("phone-hero phone-hero-daniel","OVL_TRANSFER_DANIEL_PHONE_V2.webp","character-left")}${pic("phone-hero phone-hero-nik","OVL_TRANSFER_NIK_PHONE_V2.webp","character-right")}</div><div class="stage" data-phone-contract="cinematic" role="region" aria-label="Transfer Challenge"></div>`;
   }
   function tfTeardown(section){
     tfRestore();
