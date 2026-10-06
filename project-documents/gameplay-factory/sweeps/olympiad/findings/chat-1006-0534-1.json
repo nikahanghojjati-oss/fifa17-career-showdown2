@@ -1,0 +1,41 @@
+{
+  "id": "chat-1006-0534-1",
+  "run": "chat-1006-0534",
+  "area": "06",
+  "title": "Career Table labels Showdown W-D-L as Showdowns",
+  "severity": "S2",
+  "status": "likely",
+  "where": [
+    {
+      "file": "js/statistics.js",
+      "line": 228,
+      "function": "createCareerStandingsTable"
+    },
+    {
+      "file": "js/statistics.js",
+      "line": 242,
+      "function": "createCareerStandingsTable"
+    }
+  ],
+  "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+  "steps": [
+    "Use a completed career where Nik has 4 Showdowns with 2 wins, 1 draw and 1 loss.",
+    "Open Career Statistics and read Nik's row in the Career Table.",
+    "The column headed Showdowns displays 2-1-1."
+  ],
+  "expected": "A column headed Showdowns should display 4. If the intended value is 2-1-1, the header should say Showdown W-D-L.",
+  "actual": "The header says Showdowns while the row value is the showdown win-draw-loss string, such as 2-1-1.",
+  "root_cause": "The table header defines the third column as Showdowns, but the corresponding row cell is built from showdownWins, showdownDraws and showdownLosses instead of manager.showdowns.",
+  "checked_against": [
+    "js/trophyRoom.js line 76 createManagerCabinet, which separately shows the W-D-L record and the total number of Showdowns."
+  ],
+  "fix": {
+    "files": [
+      "js/statistics.js"
+    ],
+    "change": "Make the header and value agree. Prefer renaming the third header to Showdown W-D-L, since the existing row intentionally presents the rivalry record; alternatively keep Showdowns and render manager.showdowns."
+  },
+  "assumptions": [
+    "Career Table is intended to communicate either the Showdown count or the Showdown W-D-L record accurately; the current header-value mismatch is not intentional."
+  ]
+}
