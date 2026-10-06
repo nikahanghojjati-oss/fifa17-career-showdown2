@@ -19,7 +19,7 @@ Updated Mon 5 Oct, 10:50 PM Boston time. Bug hunting only, no new features until
 
 1. **1019** Gameplay hunt 3: entries, saves and career numbers: type **1019** in the Q&A team project (Work mode), new chat
 2. **1017** Gameplay hunt 1: shared season flow across devices: type **1017** in the Q&A team project (Astra Work mode), new chat
-3. **1011** Plain-words sweep: jargon on game screens: type **1011** in the gameplay project (normal chat), new chat · only after 1014, 1015 and 1020 merge · 1014, 1015 and 1020 are merged
+3. **1011** Plain-words sweep: jargon on game screens: type **1011** in the gameplay project (normal chat), new chat · 1014, 1015 and 1020 are merged
 4. **1006** Final Winner: last season's score block: type **1006** in a new Showdown visual chat
 
 **Waiting on something else**

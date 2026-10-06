@@ -178,7 +178,7 @@ def q_add(it, team):
         q["note"] = re.sub(r"^.*?\bagain\s*", "", w).strip() if "again" in w else ""
         q["where"] = row.get("place") or where(w + " " + str(it.get("state", "")), lane)
         q["note"] = row.get("note") or q["note"]
-        if row.get("after"):
+        if row.get("after") and not all(x in MERGED for x in re.findall(r"\b(\d{4})\b", row["after"]) or ["-"]):  # the wait clears itself once every job it names is merged
             q["note"] = "only after " + re.sub(r"^(only )?after ", "", row["after"]) + (" · " + q["note"] if q["note"] else "")
         Q["next"].append(q)
     elif it.get("progress") or it.get("pct") is not None or re.match(r"(with worker|worker done|verifying|building|in progress)", st, re.I):
