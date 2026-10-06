@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 9:40 PM Boston time (EDT)",
+ "generated": "2026-10-05 9:42 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -327,8 +327,8 @@
      "updated": "2026-10-06T01:21:35Z",
      "gates": {
       "passed": 17,
-      "running": 0,
-      "failed": 2,
+      "running": 1,
+      "failed": 0,
       "cancelled": 0
      }
     }
@@ -402,9 +402,9 @@
    ]
   },
   "physio": {
-   "state": "barking",
-   "line": "Barking: Showdown Gate on #396 has waited 21 min for a machine.",
-   "gate": "Gate #396: L1✓ L2✓ L3✓ L4✓ L5✗ L6✓ · seal pending · POS20 #396 12/16",
+   "state": "clear",
+   "line": "All clear: every check has a machine.",
+   "gate": "Gate #396: L1✓ L2✓ L3✓ L4✓ L5… L6✓ · seal retrying (GitHub) · POS20 #396 12/16",
    "source": "physio"
   },
   "v_headline": "Board 1 (visual package): 238 of 238 jobs done and checked",
@@ -700,9 +700,9 @@
   "**r62 is live.** On the laptop, close every game tab in Chrome and reopen the game; if Settings still looks clipped, do it once more."
  ],
  "now": {
-  "moving": 13,
+  "moving": 14,
   "next": 2,
-  "nik": 11,
+  "nik": 10,
   "later": 4,
   "rows": {
    "G": {
@@ -749,6 +749,15 @@
       "state": "with worker (round 2)",
       "waits_on": "GPT blue round 2: one test line",
       "details": "js/rulesSettingsV10.js only: stop building #ruleBookIndex. Per-rule number badges stay."
+     },
+     {
+      "id": "1015",
+      "group": "Bug list 1",
+      "title": "1015 · G Connect Players screen: create code / join off Home",
+      "lane": "green",
+      "state": "with worker",
+      "waits_on": "GPT green running (Nik started 01:40 UTC)",
+      "details": "GPT green, one run. HO-014: pair panel moves from Home to its own CONNECT PLAYERS screen (Team V SJ design). Pairing logic unchanged; lead runs pairing audits."
      }
     ],
     "nik": [
@@ -803,15 +812,6 @@
       "state": "ready",
       "waits_on": "Nik types it in the gameplay project (Work mode)",
       "details": "GPT green, one run. HO-013: closed Showdown shows SHOWDOWN COMPLETE instead of RECONNECT SESSION. Lead runs the reconnect audit."
-     },
-     {
-      "id": "1015",
-      "group": "Bug list 1",
-      "title": "1015 · G Connect Players screen: create code / join off Home",
-      "lane": "green",
-      "state": "ready",
-      "waits_on": "Nik types it in the gameplay project (Work mode)",
-      "details": "GPT green, one run. HO-014: pair panel moves from Home to its own CONNECT PLAYERS screen (Team V SJ design). Pairing logic unchanged; lead runs pairing audits."
      },
      {
       "id": "1017",
@@ -917,8 +917,8 @@
     "updated": "2026-10-06T01:21:35Z",
     "gates": {
      "passed": 17,
-     "running": 0,
-     "failed": 2,
+     "running": 1,
+     "failed": 0,
      "cancelled": 0
     }
    }
