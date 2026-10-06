@@ -29,7 +29,7 @@ A check scores 1 when done, ½ when partly done, and 0 when missing. A check the
 
 The overall number is the average of the screens that were measured.
 
-Mockups used are the ones in `project-documents/factory/mockups/`. When Nik's approved Mockup Lab images (`APPROVED_NN_desktop/phone.png`) are added, they replace these.
+Mockups used are the ones in `project-documents/factory/mockups/`. (Nik, 6 Oct: the Mockup Lab project was dropped, so these stay the reference.)
 
 Evidence for run 01 is in [run-01/](run-01/): a sheet with one row per screen showing mockup, live desktop and live phone, plus `RESULTS.json`.
 
@@ -38,7 +38,7 @@ Evidence for run 01 is in [run-01/](run-01/): a sheet with one row per screen sh
 1. **Already passed, waiting for Team G to put live** (about +14 points): Connect Players (#405), Season Results phone (#399), Transfer War phone (1021).
 2. **Measure the screens the run couldn't open**: ask Team G to give the audit filled data for Trophy Room, Statistics, Rivalry, Legacy, Transfer War and Connect Players.
 3. **GPT jobs for the biggest gaps**, in this order:
-   - Season Results desktop: put Daniel and Nik where the mockup has them, with two cards side by side.
-   - Select League: brush title wordmark.
-   - Home: bigger tile pictures, and Daniel and Nik on phone.
+   - Season Results desktop: put Daniel and Nik where the mockup has them, with two cards side by side. **Job 1029 · V PASS, sent to Team G (HO-018).**
+   - Select League: brush title wordmark. **Job 1030 · V PASS, sent to Team G.**
+   - Home: bigger tile pictures. (Phone heroes wait: there is no phone mockup for Home.)
 4. Re-measure after each Team G release and update this page.
