@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 8:54 PM Boston time (EDT)",
+ "generated": "2026-10-05 8:55 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -594,7 +594,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-012_one-board-your-lead-view-copies-custom-v.md",
     "worker": "opus",
     "pickup_min": null,
-    "waiting_min": 0
+    "waiting_min": 1
    }
   ],
   "relay_ok": true

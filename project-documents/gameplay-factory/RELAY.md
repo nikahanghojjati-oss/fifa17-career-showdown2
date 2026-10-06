@@ -1,8 +1,8 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-10-05 8:54 PM Boston time (EDT)
+[Back to the board](BOARD.md) · generated 2026-10-05 8:55 PM Boston time (EDT)
 
-Relay branch `leads/relay` head `84e5ecc` (Mon 5 Oct 8:53 PM Boston time) · 29 messages · 12 hand-offs · 53 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `785ed6d` (Mon 5 Oct 8:54 PM Boston time) · 29 messages · 12 hand-offs · 53 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
@@ -10,6 +10,8 @@ Relay branch `leads/relay` head `84e5ecc` (Mon 5 Oct 8:53 PM Boston time) · 29 
 
 ✅ Sent → ✅ **Delivered** → ○ Received → ○ In progress → ○ Done
 
+- Mon 5 Oct 8:54 PM · Team V · In progress · V archives its own board (factory BOARD.md -> BOARD_ARCHIVE.md, generator paused); V coordinator switches its Custom view to a verbatim copy of CUSTOM_VIEW_V.html
+- Mon 5 Oct 8:54 PM · Team V · Received
 - Mon 5 Oct 8:53 PM · Team G · Sent
 - Mon 5 Oct 8:54 PM · relay Action · Delivered in full as a wake comment on PR #312
 
