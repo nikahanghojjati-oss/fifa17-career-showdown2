@@ -1,26 +1,20 @@
 # Board archive
 
-[Back to the board](BOARD.md) · generated 2026-10-05 11:04 PM Boston time (EDT). Detail and history behind the one board.
+[Back to the board](BOARD.md) · generated 2026-10-05 11:05 PM Boston time (EDT). Detail and history behind the one board.
 
 ## Old detailed board
 
 # Showdown board: G Factory and V Factory
 
-🌐 **Live: runtime 1.9.1-r62** (main `bc77a0b`) · 🔄 **14 moving** · ⏭ 2 up next · 👤 9 waiting on Nik · 🗂 6 later · updated 2026-10-05 11:04 PM Boston time (EDT)
+🌐 **Live: runtime 1.9.1-r62** (main `bc77a0b`) · 🔄 **13 moving** · ⏭ 2 up next · 👤 9 waiting on Nik · 🗂 6 later · updated 2026-10-05 11:05 PM Boston time (EDT)
 
-🐕 **Barking: Gameplay Fast has waited 2 min for a machine.** · POS20 #304 6/16
+🩺 **All clear: every check has a machine.** · POS20 #304 6/16
 
 ## Your next move
 
 1. **r62 is live.** On the laptop, close every game tab in Chrome and reopen the game; if Settings still looks clipped, do it once more.
 
 ## 🔄 Moving now
-
-**🟩 1019 · Gameplay hunt 3: entries, saves and career numbers** · 33 % (1 of 3 steps) · Sol Work mode
-
-🟩🟩🟩🟩🟩🟩⚽▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️ 🥅  
-> **Now:** step 2 of 3  
-> **Left:** step 2 → step 3
 
 **🟦 V-1006 · Final Winner: last season's score block** · 25 % (1 of 4 steps) · Sol chat · [PR #393](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/393)
 
@@ -183,7 +177,7 @@ Latest:
 ## Every bug report
 
 
-> Updated **Mon 5 Oct, 11:04 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
+> Updated **Mon 5 Oct, 11:05 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
 
 | 🔓 Open | 🔴 Top priority | 🔧 Fixing or waiting for release | ✅ Fixed and live |
 | :---: | :---: | :---: | :---: |
@@ -201,15 +195,8 @@ Latest:
 
 <sub>Percent = finished steps weighted by typical step time; finish times are estimates ([how](ETA_STUDY.md)).</sub>
 
-🏁 no finish time yet (not enough data)
-
-### 🟩 Sol Work mode · 1 job
-
-**Job 1019 · Gameplay hunt 3: entries, saves and career numbers · 33.3333 %** · 1 of 3 steps · updated Mon 5 Oct, 11:03 PM  
-🟩🟩🟩🟩🟩🟩⚽▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️ 🥅  
-🏁 **Likely finish:** not enough data  
-> **Now:** step 2 of 3  
-> **Left:** step 2 → step 3
+> [!NOTE]
+> No job is reporting progress right now. A job shows here once its PR description carries a progress block.
 
 <details>
 <summary><b>✅ Closed: 14</b> (11 live in the game) · click to open</summary>

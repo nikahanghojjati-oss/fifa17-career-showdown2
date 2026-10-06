@@ -1,16 +1,16 @@
 # Bug hunt board
 
-Updated Mon 5 Oct, 11:04 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
+Updated Mon 5 Oct, 11:05 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r62** (main `bc77a0b`, Mon 5 Oct 9:18 PM)
 
-🐕 **Barking: Gameplay Fast has waited 2 min for a machine.** · POS20 #304 6/16
+🩺 **All clear: every check has a machine.** · POS20 #304 6/16
 
 ## Jobs
 
 **Running now**
 
-- **1019** Gameplay hunt 3: entries, saves and career numbers · step 2 of 3 · 33.3333 %
+- **1019** Gameplay hunt 3: entries, saves and career numbers · worker done, lead checking
 - **1017** Gameplay hunt 1: shared season flow across devices · worker done, lead checking
 
 **Next for you, in this order**

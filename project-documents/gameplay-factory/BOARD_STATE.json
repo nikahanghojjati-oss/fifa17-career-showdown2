@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 11:04 PM Boston time (EDT)",
+ "generated": "2026-10-05 11:05 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -387,8 +387,8 @@
    ]
   },
   "physio": {
-   "state": "barking",
-   "line": "Barking: Gameplay Fast has waited 2 min for a machine.",
+   "state": "clear",
+   "line": "All clear: every check has a machine.",
    "gate": "POS20 #304 6/16",
    "source": "physio"
   },
@@ -698,7 +698,7 @@
   "**r62 is live.** On the laptop, close every game tab in Chrome and reopen the game; if Settings still looks clipped, do it once more."
  ],
  "now": {
-  "moving": 14,
+  "moving": 13,
   "next": 2,
   "nik": 9,
   "later": 6,
