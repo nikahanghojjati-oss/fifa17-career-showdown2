@@ -1,6 +1,6 @@
 {
  "_how": "One shared job counter for Team G and Team V (Nik, 2026-10-05). Claim with tools/claim_number.py only. A number is used once, ever. CONTRACT.md section 10.",
- "next": 1020,
+ "next": 1021,
  "claims": [
   {
    "number": 1001,
@@ -116,6 +116,12 @@
    "team": "G",
    "title": "Gameplay hunt 3: entries, saves and career numbers",
    "claimed": "2026-10-06T01:33:27Z"
+  },
+  {
+   "number": 1020,
+   "team": "G",
+   "title": "Season Results patch: one column on phone, no overlap on desktop (HO-015)",
+   "claimed": "2026-10-06T01:38:16Z"
   }
  ]
 }
