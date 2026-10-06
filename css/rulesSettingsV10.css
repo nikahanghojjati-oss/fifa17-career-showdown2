@@ -91,3 +91,8 @@
   #settingsOverlay.v10Settings .menuButton.sd-btn,
   #settingsOverlay.v10Settings .menuButton.settingsApplicationUpdateButton { width:100%; }
 }
+
+/* JOB-1004: the side number rail is gone, so the phone rule cards start where it began (Nik, 2026-10-05) */
+@media (max-width:760px) {
+  #ruleBook.v10RuleBook #ruleBookSections.ruleBookGrid { top: 110px; }
+}
