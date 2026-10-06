@@ -1,15 +1,8 @@
 # 🎨 Team V board
 
-Updated Mon 5 Oct 7:46 PM EDT · Team V featured, Team G below · one shared data source (PR progress blocks + relay) · [Team G's board](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/BOARD.md)
+Updated Mon 5 Oct 8:04 PM EDT · Team V featured, Team G below · one shared data source (PR progress blocks + relay) · [Team G's board](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/BOARD.md)
 
 ## Team V: visual jobs
-
-### 🟦 [V-1002 · Transfer War window strings match production wording](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/389)
-
-🟦🟦🟦🟦🟦🟦🟦▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️ **33.33 %** · 1 of 3 steps · Sol chat · GPT blue (Nik types 1002) · updated Mon 5 Oct 7:57 PM EDT
-
-> **Going on now:** waiting for Nik to type 1002 in a new Showdown visual chat  
-> **Next step:** GPT blue: change two strings
 
 ### 🟧 [V-247 · Phone Home tile icons like GOAL_HOME](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/381)
 
@@ -24,6 +17,7 @@ Updated Mon 5 Oct 7:46 PM EDT · Team V featured, Team G below · one shared dat
 
 **Recently finished:**
 
+* ✅ [V-1002 Transfer War window strings match production wording](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/389) · merged Mon 5 Oct 8:04 PM EDT
 * ✅ [V-245 Visual QA: live 2.0 vs approved frames (HO-004)](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/375) · merged Mon 5 Oct 12:18 PM EDT
 * ✅ [V-246 Header chips and footer on Team V screens (HO-003)](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/376) · merged Mon 5 Oct 12:19 PM EDT
 * ✅ [V-244 Calm stage: dust and flare play once (HO-002)](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/374) · merged Mon 5 Oct 12:13 PM EDT
