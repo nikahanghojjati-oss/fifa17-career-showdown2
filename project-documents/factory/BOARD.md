@@ -1,6 +1,6 @@
 # 🎨 Team V board
 
-Updated Tue 6 Oct 12:13 AM EDT · Team V featured, Team G below · one shared data source (PR progress blocks + relay) · [Team G's board](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/BOARD.md)
+Updated Tue 6 Oct 12:46 AM EDT · Team V featured, Team G below · one shared data source (PR progress blocks + relay) · [Team G's board](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/BOARD.md)
 
 ## Team V: visual jobs
 
@@ -24,6 +24,7 @@ Updated Tue 6 Oct 12:13 AM EDT · Team V featured, Team G below · one shared da
 
 **Recently finished:**
 
+* ✅ [V-1029 Season Results desktop: closer to the mockup](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/413) · merged Tue 6 Oct 12:46 AM EDT
 * ✅ [V-1016 Transfer War phone revamp: whole faces, action on the plate](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/398) · merged Mon 5 Oct 9:52 PM EDT
 * ✅ [V-1007 Transfer War phone: early-end button visible](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/394) · closed Mon 5 Oct 9:32 PM EDT
 * ✅ [V-1002 Transfer War window strings match production wording](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/389) · merged Mon 5 Oct 8:04 PM EDT
@@ -53,7 +54,7 @@ Updated Tue 6 Oct 12:13 AM EDT · Team V featured, Team G below · one shared da
 
 ### Team G: gameplay
 
-<sub>0 of 0 jobs done (0.00 %) · 1 open bugs · their update Tue 6 Oct 12:10 AM EDT · [full board](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/BOARD.md)</sub>
+<sub>0 of 0 jobs done (0.00 %) · 1 open bugs · their update Tue 6 Oct 12:40 AM EDT · [full board](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/BOARD.md)</sub>
 
 <sub>No Team G job is running right now.</sub>
 
