@@ -35,7 +35,7 @@ Evidence for run 01 is in [run-01/](run-01/): a sheet with one row per screen sh
 
 ## Plan to Thursday
 
-1. **Already passed, waiting for Team G to put live** (+19 points): Connect Players (#405), Season Results phone (#399), Transfer War phone (1021).
+1. **Already passed, waiting for Team G to put live** (about +14 points): Connect Players (#405), Season Results phone (#399), Transfer War phone (1021).
 2. **Measure the screens the run couldn't open**: ask Team G to give the audit filled data for Trophy Room, Statistics, Rivalry, Legacy, Transfer War and Connect Players.
 3. **GPT jobs for the biggest gaps**, in this order:
    - Season Results desktop: put Daniel and Nik where the mockup has them, with two cards side by side.
