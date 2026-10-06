@@ -11,7 +11,7 @@ Updated Tue 6 Oct, 10:20 AM Boston time. Bug hunting only, no new features until
 **Running now**
 
 - **1011** Plain-words sweep: jargon on game screens · step 1 of 4 · 0.0000 %
-- **1028** Statistics shows an abandoned-only career (hunt 1019 H5) · ready · 0.0000 %
+- **1028** Statistics shows an abandoned-only career (hunt 1019 H5) · worker done, lead checking
 
 **Next for you, in this order**
 

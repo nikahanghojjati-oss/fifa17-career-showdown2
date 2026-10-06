@@ -6,7 +6,7 @@
 
 # Showdown board: G Factory and V Factory
 
-🌐 **Live: runtime 1.9.1-r62** (main `bc77a0b`) · 🔄 **17 moving** · ⏭ 3 up next · 👤 7 waiting on Nik · 🗂 6 later · updated 2026-10-06 10:20 AM Boston time (EDT)
+🌐 **Live: runtime 1.9.1-r62** (main `bc77a0b`) · 🔄 **16 moving** · ⏭ 3 up next · 👤 7 waiting on Nik · 🗂 6 later · updated 2026-10-06 10:20 AM Boston time (EDT)
 
 🩺 **All clear: every check has a machine.** · POS20 #304 6/16
 
@@ -21,12 +21,6 @@
 ⚽▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️ 🥅  
 > **Now:** step 1 of 4  
 > **Left:** step 1 → step 2 → step 3 → step 4
-
-**🟦 1028 · Statistics shows an abandoned-only career instead of "unavailable"** · 0 % (0 of 3 steps) · Sol chat
-
-⚽▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️ 🥅  
-> **Now:** step 1 of 3  
-> **Left:** step 1 → step 2 → step 3
 
 **🟦 V-1006 · Final Winner: last season's score block** · 25 % (1 of 4 steps) · Sol chat · [PR #393](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/393)
 
@@ -215,19 +209,13 @@ Latest:
 
 🏁 no finish time yet (not enough data)
 
-### 🟦 Sol chat · 2 jobs
+### 🟦 Sol chat · 1 job
 
 **Job 1011 · Plain-words sweep: jargon on game screens · 0.0000 %** · 0 of 4 steps · updated Tue 6 Oct, 10:10 AM  
 ⚽▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️ 🥅  
 🏁 **Likely finish:** not enough data  
 > **Now:** step 1 of 4  
 > **Left:** step 1 → step 2 → step 3 → step 4
-
-**Job 1028 · Statistics shows an abandoned-only career instead of "unavailable" · 0.0000 %** · 0 of 3 steps · updated Tue 6 Oct, 10:18 AM  
-⚽▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️ 🥅  
-🏁 **Likely finish:** not enough data  
-> **Now:** step 1 of 3  
-> **Left:** step 1 → step 2 → step 3
 
 <details>
 <summary><b>✅ Closed: 14</b> (11 live in the game) · click to open</summary>
