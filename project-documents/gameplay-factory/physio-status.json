@@ -1,20 +1,11 @@
 {
   "schema": "physio/v1",
-  "at": "2026-10-06T00:59:02.172Z",
+  "at": "2026-10-06T01:19:04.043Z",
   "state": "BARKING",
   "checks": [
     {
       "workflow": "Validate POS20",
-      "head_sha": "2f0872b6b353e58f47e52c38436d0767c917175e",
-      "pr": 312,
-      "queued_minutes": 2.3,
-      "action": "none",
-      "attempt": 0,
-      "max_attempts": 2
-    },
-    {
-      "workflow": "Validate POS20",
-      "head_sha": "67532f3fca51a0bd3fb8b5666793dc30531239af",
+      "head_sha": "aec9f121cbecc7387a89d9a815d3f9d367522702",
       "pr": null,
       "queued_minutes": 2.3,
       "action": "none",
@@ -23,41 +14,11 @@
     }
   ],
   "helpers_paused": [],
-  "gate": {
-    "pr": 386,
-    "head_sha": "9243705b96a426a33ec352c5afb73cc2e9a8dc20",
-    "lanes": [
-      {
-        "name": "L1 core",
-        "state": "pass"
-      },
-      {
-        "name": "L2 browser full",
-        "state": "running"
-      },
-      {
-        "name": "L3 storage visual gameplay",
-        "state": "running"
-      },
-      {
-        "name": "L4 remote",
-        "state": "pass"
-      },
-      {
-        "name": "L5 rules regression",
-        "state": "running"
-      },
-      {
-        "name": "L6 browser journey",
-        "state": "running"
-      }
-    ],
-    "seal": "PENDING"
-  },
+  "gate": null,
   "pos20": {
-    "pr": 386,
-    "passed": 8,
+    "pr": 304,
+    "passed": 6,
     "total": 16,
-    "state": "running"
+    "state": "pass"
   }
 }
