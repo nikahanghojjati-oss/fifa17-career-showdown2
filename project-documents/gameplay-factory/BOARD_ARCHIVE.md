@@ -1,12 +1,12 @@
 # Board archive
 
-[Back to the board](BOARD.md) · generated 2026-10-05 11:38 PM Boston time (EDT). Detail and history behind the one board.
+[Back to the board](BOARD.md) · generated 2026-10-05 11:50 PM Boston time (EDT). Detail and history behind the one board.
 
 ## Old detailed board
 
 # Showdown board: G Factory and V Factory
 
-🌐 **Live: runtime 1.9.1-r62** (main `bc77a0b`) · 🔄 **16 moving** · ⏭ 3 up next · 👤 7 waiting on Nik · 🗂 6 later · updated 2026-10-05 11:38 PM Boston time (EDT)
+🌐 **Live: runtime 1.9.1-r62** (main `bc77a0b`) · 🔄 **11 moving** · ⏭ 3 up next · 👤 7 waiting on Nik · 🗂 6 later · updated 2026-10-05 11:50 PM Boston time (EDT)
 
 🩺 **All clear: every check has a machine.** · POS20 #304 6/16
 
@@ -28,11 +28,6 @@
 | G | G-F18 | Old-design screen audit: Legacy, Career Statistics and Trophy Room still open in the old shell; drive every live screen in a browser against Team V's design and route all of them to the new design | 🟧 Opus | in progress (thread "Old-design screen audit", Nik asked at 5:16 PM Boston time) | overlaps G-F11 (old CSS collisions) |
 | G | 1001 | 🐞 Bug list 1: 1001 · G Home desktop tile icons: bigger, inside the tile, never on the text | 🟦 Sol chat | in release (merged into gameplay/bug-list-1, 215e34a) | Bug list 1 items L1-01..06. CSS only in css/homeV10.css desktop blocks. Job file jobs/JOB-1001.md. Lead checks screenshots at 1920/1440/1280/1100/1000 wide. |
 | G | 1003 | 🐞 Bug list 1: 1003 · G Transfer War: main's copy of Team V's early-end string matches (HO-010) | 🟦 Sol chat | in release (merged into gameplay/bug-list-1) | Low priority, no live impact. js/transferScreenV10.js lines 26 and 30. Job file jobs/JOB-1003.md. |
-| G | 1023 | 🐞 Bug list 1: Session code replacement: double tap and lost join watcher | ⬛ claude | in review: PR #406, CI running | Hunt 1018 H1 (S1) and H2 (S2), js/sparkRemoteJoining.js |
-| G | 1024 | 🐞 Bug list 1: Reconnect keeps stale authority after sign-out, offline or expiry | ⬛ claude | in review: PR #408, CI running | Hunt 1018 H3, H4 and H5 (S2), js/productionSharedJourneyReconnect.js |
-| G | 1025 | Terminal close recovery and closed-frame trophies (hunt 1017 H1-H3) | ⬛ claude | with the lead (Claude helper building) | - |
-| G | 1026 | New shared season clears last season's result fields (hunt 1017 H4) | ⬛ claude | with the lead (Claude helper building) | - |
-| G | 1027 | Restore keeps and checks the Save Library; career cache race (hunt 1019 H1, H2, H4) | ⬛ claude | with the lead (Claude helper building) | - |
 
 | Hand-off | From → To | What | Progress |
 | --- | --- | --- | --- |
@@ -115,13 +110,18 @@ Latest:
 **Shipped to the live game today (13):** [#386](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/386) Showdown Gate (shadow): six-lane check beside POS20, not re… · [#390](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/390) Release r62: bug-hunt fixes (errors, reconnect, auto final… · [#387](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/387) Physio: a watched workflow that isn't on main no longer fai… · [#385](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/385) Physio: re-run checks GitHub gave no machine, pause helpers… · and 9 more
 
 <details>
-<summary>Done jobs (5 future-list rows, 1 Team V jobs, 10 hand-offs, 33 factory jobs)</summary>
+<summary>Done jobs (10 future-list rows, 1 Team V jobs, 10 hand-offs, 33 factory jobs)</summary>
 
 - G 1010: 1010 · G 10-season sweep: scoring, history and final math (done (merged into bug-list-1))
 - G 1017: 1017 · G Gameplay hunt 1: shared season flow across devices (done (4 bugs found, PR #407))
 - G 1018: 1018 · G Gameplay hunt 2: sessions, pairing and reconnect (done: 5 confirmed findings (PR #404), fixes are 1023 and 1024)
 - G 1019: 1019 · G Gameplay hunt 3: entries, saves and career numbers (done (5 bugs found, PR #409))
 - G 1022: Connect Players: match Team V's start-join design (1015 follow-up) (done (merged into bug-list-1))
+- G 1023: Session code replacement: double tap and lost join watcher (done (merged into bug-list-1))
+- G 1024: Reconnect keeps stale authority after sign-out, offline or expiry (done (merged into bug-list-1))
+- G 1025: Terminal close recovery and closed-frame trophies (hunt 1017 H1-H3) (done (merged into bug-list-1))
+- G 1026: New shared season clears last season's result fields (hunt 1017 H4) (done (merged into bug-list-1))
+- G 1027: Restore keeps and checks the Save Library; career cache race (hunt 1019 H1, H2, H4) (done (merged into bug-list-1))
 - V V-247: Phone Home tile icons like GOAL_HOME ([PR #381](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/381))
 - HO-001 (G → V): Use hand-off tickets for passing work (relay v1.1)
 - HO-002 (G → V): Smooth stage atmosphere on idle screens (pointer stutter root cause)
@@ -181,7 +181,7 @@ Latest:
 ## Every bug report
 
 
-> Updated **Mon 5 Oct, 11:38 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
+> Updated **Mon 5 Oct, 11:50 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
 
 | 🔓 Open | 🔴 Top priority | 🔧 Fixing or waiting for release | ✅ Fixed and live |
 | :---: | :---: | :---: | :---: |

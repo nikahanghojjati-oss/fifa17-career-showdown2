@@ -1,17 +1,12 @@
 # Bug hunt board
 
-Updated Mon 5 Oct, 11:38 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
+Updated Mon 5 Oct, 11:50 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r62** (main `bc77a0b`, Mon 5 Oct 9:18 PM)
 
 🩺 **All clear: every check has a machine.** · POS20 #304 6/16
 
 ## Jobs
-
-**Running now**
-
-- **1025** Terminal close recovery and closed-frame trophies (hunt 1017 H1-H3) · with the lead
-- **1026** New shared season clears last season's result fields (hunt 1017 H4) · with the lead
 
 **Next for you, in this order**
 
@@ -23,7 +18,7 @@ Updated Mon 5 Oct, 11:38 PM Boston time. Bug hunting only, no new features until
 
 - **1005** Last season's score is skipped before the Final Winner · after Team V designs the combined screen (HO-011)
 
-**Done, in the next release:** 1001, 1003, 1004, 1009, 1014, 1015, 1020, 1021, 1023, 1024, 1027
+**Done, in the next release:** 1001, 1003, 1004, 1009, 1014, 1015, 1020, 1021
 
 ## Other asks
 

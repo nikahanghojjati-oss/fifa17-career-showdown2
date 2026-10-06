@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 11:38 PM Boston time (EDT)",
+ "generated": "2026-10-05 11:50 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -698,7 +698,7 @@
   "**r62 is live.** On the laptop, close every game tab in Chrome and reopen the game; if Settings still looks clipped, do it once more."
  ],
  "now": {
-  "moving": 16,
+  "moving": 11,
   "next": 3,
   "nik": 7,
   "later": 6,
@@ -740,53 +740,6 @@
       "waits_on": "rides the next release to main",
       "details": "Low priority, no live impact. js/transferScreenV10.js lines 26 and 30. Job file jobs/JOB-1003.md.",
       "archived": true
-     },
-     {
-      "id": "1023",
-      "group": "Bug list 1",
-      "title": "Session code replacement: double tap and lost join watcher",
-      "lane": "claude",
-      "state": "in review: PR #406, CI running",
-      "waits_on": "",
-      "order": 0,
-      "details": "Hunt 1018 H1 (S1) and H2 (S2), js/sparkRemoteJoining.js"
-     },
-     {
-      "id": "1024",
-      "group": "Bug list 1",
-      "title": "Reconnect keeps stale authority after sign-out, offline or expiry",
-      "lane": "claude",
-      "state": "in review: PR #408, CI running",
-      "waits_on": "",
-      "order": 0,
-      "details": "Hunt 1018 H3, H4 and H5 (S2), js/productionSharedJourneyReconnect.js"
-     },
-     {
-      "id": "1025",
-      "title": "Terminal close recovery and closed-frame trophies (hunt 1017 H1-H3)",
-      "lane": "claude",
-      "state": "with the lead (Claude helper building)",
-      "order": 0,
-      "place": "Claude helper (nothing for Nik to type)",
-      "note": "from hunt 1017"
-     },
-     {
-      "id": "1026",
-      "title": "New shared season clears last season's result fields (hunt 1017 H4)",
-      "lane": "claude",
-      "state": "with the lead (Claude helper building)",
-      "order": 0,
-      "place": "Claude helper (nothing for Nik to type)",
-      "note": "from hunt 1017"
-     },
-     {
-      "id": "1027",
-      "title": "Restore keeps and checks the Save Library; career cache race (hunt 1019 H1, H2, H4)",
-      "lane": "claude",
-      "state": "with the lead (Claude helper building)",
-      "order": 0,
-      "place": "Claude helper (nothing for Nik to type)",
-      "note": "from hunt 1019; H3 is fixed by 1026"
      }
     ],
     "nik": [
