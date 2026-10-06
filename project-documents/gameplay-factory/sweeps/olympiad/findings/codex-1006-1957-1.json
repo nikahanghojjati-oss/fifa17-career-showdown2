@@ -1,0 +1,425 @@
+{
+  "id": "codex-1006-1957-1",
+  "run": "codex-1006-1957",
+  "mode": "codex",
+  "date_utc": "2026-10-06T20:04:12.214704Z",
+  "area": "11",
+  "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+  "title": "Identity bootstrap can run before its loader exists, permanently bypassing the sign-in gate",
+  "severity": "S1",
+  "status": "confirmed",
+  "failing_step": "J1.1",
+  "failing_substep": "tests/browser/two-manager-browser-journey.cjs:115 signIn -> click SIGN IN WITH GOOGLE",
+  "where": [
+    {
+      "file": "js/showdown.js",
+      "line": 4,
+      "function": "ensureOnlinePlayerIdentitySurface"
+    },
+    {
+      "file": "js/showdown.js",
+      "line": 6,
+      "function": "initializeOnlinePlayerEntry"
+    },
+    {
+      "file": "js/showdown.js",
+      "line": 21,
+      "function": "top-level initializeOnlinePlayerEntry invocation"
+    },
+    {
+      "file": "index.html",
+      "line": 411,
+      "function": "deferred startup script order"
+    },
+    {
+      "file": "js/screens.js",
+      "line": 774,
+      "function": "initializeScreens"
+    },
+    {
+      "file": "js/onlinePlayerIdentity.js",
+      "line": 57,
+      "function": "capture-phase gameplay identity gate"
+    }
+  ],
+  "steps": [
+    "Run the unchanged Validate Gameplay Fast browser-journey command with CMS_CHROMIUM_MULTI_CONTEXT=1 and CMS_SHOWDOWN_LENGTH=3 on current main.",
+    "After both pages finish the loading presentation, click Start a Showdown (#newShowdown) as signIn() does.",
+    "Wait for the SIGN IN WITH GOOGLE button. In runs 1 and 2 Daniel times out; in run 3 Daniel signs in and selects his manager, then Nik times out."
+  ],
+  "expected": "Both fresh signed-out browsers must open the identity gate and offer SIGN IN WITH GOOGLE. J1.1 passes only after both distinct accounts select their managers.",
+  "actual": "All three official runs pass J0.1/J0.2 and fail J1.1 with locator.click: Timeout 30000ms exceeded, waiting for getByRole(button, name=SIGN IN WITH GOOGLE). The affected manager has already navigated to createShowdown, has an empty identity badge and no identity overlay. Both recorded page-error lists are empty.",
+  "output": [
+    {
+      "number": 1,
+      "started_utc": "2026-10-06T19:57:38.943253+00:00",
+      "finished_utc": "2026-10-06T19:58:42.635427+00:00",
+      "duration_seconds": 63.692,
+      "exit_code": 1,
+      "result": "failed",
+      "passed_steps": [
+        "J0.1",
+        "J0.2"
+      ],
+      "failing_step": "J1.1",
+      "failing_substep": "signIn: click SIGN IN WITH GOOGLE after #newShowdown",
+      "failing_manager": "daniel",
+      "manager_sign_in_completed": {
+        "daniel": false,
+        "nik": false
+      },
+      "diagnostics": [
+        "--- daniel: screens=createShowdown | badge= | panel= | overlays=",
+        "--- daniel errors: []",
+        "--- nik: screens=mainMenu | badge=SIGN IN | panel= | overlays=",
+        "--- nik errors: []"
+      ],
+      "output": "⚠  Unable to fetch the CLI MOTD and remote config. This is not a fatal error, but may indicate an issue with your network connection.\ni  emulators: Starting emulators: auth, firestore\ni  emulators: Detected demo project ID \"demo-cms-browser-journey\", emulated services will use a demo configuration and attempts to access non-emulated services for this project will fail.\n⚠  firestore: Cloud Firestore Emulator does not support multiple databases yet.\n⚠  firestore: Did not find a Cloud Firestore rules file specified in a firebase.json config file.\n⚠  firestore: The emulator will default to allowing all reads and writes. Learn more about this option: https://firebase.google.com/docs/emulator-suite/install_and_configure#security_rules_configuration.\ni  firestore: downloading cloud-firestore-emulator-v1.22.0.jar...\n\ni  firestore: Firestore Emulator logging to firestore-debug.log\n✔  firestore: Firestore Emulator was started in standard edition.\n✔  firestore: Firestore Emulator UI websocket is running on 9150.\ni  Running script: CMS_SHOWDOWN_LENGTH=3 node tests/browser/two-manager-browser-journey.cjs\nok 1 J0.1 composed production Rules active on the emulator (open read 404 -> 403)\nok 2 J0.2 emulator switch active only via localhost + cmsEmulator=1 in both contexts\n--- daniel: screens=createShowdown | badge= | panel= | overlays=\n--- daniel errors: []\n--- nik: screens=mainMenu | badge=SIGN IN | panel= | overlays=\n--- nik errors: []\nlocator.click: Timeout 30000ms exceeded.\nCall log:\n  - waiting for getByRole('button', { name: 'SIGN IN WITH GOOGLE' })\n\n    at signIn (/workspace/fifa17-career-showdown2/tests/browser/two-manager-browser-journey.cjs:115:65)\n    at async main (/workspace/fifa17-career-showdown2/tests/browser/two-manager-browser-journey.cjs:238:5) {\n  log: [\n    \"  - waiting for getByRole('button', { name: 'SIGN IN WITH GOOGLE' })\"\n  ],\n  name: 'TimeoutError'\n}\n⚠  Script exited unsuccessfully (code 1)\ni  emulators: Shutting down emulators.\ni  firestore: Stopping Firestore Emulator\ni  auth: Stopping Authentication Emulator\ni  hub: Stopping emulator hub\ni  logging: Stopping Logging Emulator\n\nError: Script \"CMS_SHOWDOWN_LENGTH=3 node tests/browser/two-manager-browser-journey.cjs\" exited with code 1\nnpm notice\nnpm notice New major version of npm available! 11.9.0 -> 12.2.0\nnpm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0\nnpm notice To update run: npm install -g npm@12.2.0\nnpm notice\n",
+      "screenshots": [
+        {
+          "file": "project-documents/gameplay-factory/sweeps/olympiad/evidence/codex-1006-1957/run-1/failure-daniel.png",
+          "sha256": "72815ee96058ad4345ece3ccde0e070cd931166c22664358f6f780a96584f69c"
+        },
+        {
+          "file": "project-documents/gameplay-factory/sweeps/olympiad/evidence/codex-1006-1957/run-1/failure-nik.png",
+          "sha256": "c3158006c41270e72c26fe68d075163c68ff6bd10448a7e419477fb1ffea66ca"
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "started_utc": "2026-10-06T19:58:42.635832+00:00",
+      "finished_utc": "2026-10-06T19:59:38.604846+00:00",
+      "duration_seconds": 55.969,
+      "exit_code": 1,
+      "result": "failed",
+      "passed_steps": [
+        "J0.1",
+        "J0.2"
+      ],
+      "failing_step": "J1.1",
+      "failing_substep": "signIn: click SIGN IN WITH GOOGLE after #newShowdown",
+      "failing_manager": "daniel",
+      "manager_sign_in_completed": {
+        "daniel": false,
+        "nik": false
+      },
+      "diagnostics": [
+        "--- daniel: screens=createShowdown | badge= | panel= | overlays=",
+        "--- daniel errors: []",
+        "--- nik: screens=mainMenu | badge= | panel= | overlays=",
+        "--- nik errors: []"
+      ],
+      "output": "⚠  Unable to fetch the CLI MOTD and remote config. This is not a fatal error, but may indicate an issue with your network connection.\ni  emulators: Starting emulators: auth, firestore\ni  emulators: Detected demo project ID \"demo-cms-browser-journey\", emulated services will use a demo configuration and attempts to access non-emulated services for this project will fail.\n⚠  firestore: Cloud Firestore Emulator does not support multiple databases yet.\n⚠  firestore: Did not find a Cloud Firestore rules file specified in a firebase.json config file.\n⚠  firestore: The emulator will default to allowing all reads and writes. Learn more about this option: https://firebase.google.com/docs/emulator-suite/install_and_configure#security_rules_configuration.\ni  firestore: Firestore Emulator logging to firestore-debug.log\n✔  firestore: Firestore Emulator was started in standard edition.\n✔  firestore: Firestore Emulator UI websocket is running on 9150.\ni  Running script: CMS_SHOWDOWN_LENGTH=3 node tests/browser/two-manager-browser-journey.cjs\nok 1 J0.1 composed production Rules active on the emulator (open read 404 -> 403)\nok 2 J0.2 emulator switch active only via localhost + cmsEmulator=1 in both contexts\n--- daniel: screens=createShowdown | badge= | panel= | overlays=\n--- daniel errors: []\n--- nik: screens=mainMenu | badge= | panel= | overlays=\n--- nik errors: []\nlocator.click: Timeout 30000ms exceeded.\nCall log:\n  - waiting for getByRole('button', { name: 'SIGN IN WITH GOOGLE' })\n\n    at signIn (/workspace/fifa17-career-showdown2/tests/browser/two-manager-browser-journey.cjs:115:65)\n    at async main (/workspace/fifa17-career-showdown2/tests/browser/two-manager-browser-journey.cjs:238:5) {\n  log: [\n    \"  - waiting for getByRole('button', { name: 'SIGN IN WITH GOOGLE' })\"\n  ],\n  name: 'TimeoutError'\n}\n⚠  Script exited unsuccessfully (code 1)\ni  emulators: Shutting down emulators.\ni  firestore: Stopping Firestore Emulator\ni  auth: Stopping Authentication Emulator\ni  hub: Stopping emulator hub\ni  logging: Stopping Logging Emulator\n\nError: Script \"CMS_SHOWDOWN_LENGTH=3 node tests/browser/two-manager-browser-journey.cjs\" exited with code 1\n",
+      "screenshots": [
+        {
+          "file": "project-documents/gameplay-factory/sweeps/olympiad/evidence/codex-1006-1957/run-2/failure-daniel.png",
+          "sha256": "72815ee96058ad4345ece3ccde0e070cd931166c22664358f6f780a96584f69c"
+        },
+        {
+          "file": "project-documents/gameplay-factory/sweeps/olympiad/evidence/codex-1006-1957/run-2/failure-nik.png",
+          "sha256": "0ee38228da591d9141050836030f06aa697056a23f012be625014c7f62bf4b36"
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "started_utc": "2026-10-06T19:59:38.605401+00:00",
+      "finished_utc": "2026-10-06T20:00:34.765961+00:00",
+      "duration_seconds": 56.161,
+      "exit_code": 1,
+      "result": "failed",
+      "passed_steps": [
+        "J0.1",
+        "J0.2"
+      ],
+      "failing_step": "J1.1",
+      "failing_substep": "signIn: click SIGN IN WITH GOOGLE after #newShowdown",
+      "failing_manager": "nik",
+      "manager_sign_in_completed": {
+        "daniel": true,
+        "nik": false
+      },
+      "diagnostics": [
+        "--- daniel: screens=mainMenu | badge=DANIEL | panel=CONNECT PLAYERS Daniel and Nik need to connect before the first Showdown. CREATE CODE FOR NIK DANIEL STARTS THE SHOWDOWN AND SENDS THIS CODE TO NIK | overlays=",
+        "--- daniel errors: []",
+        "--- nik: screens=createShowdown | badge= | panel= | overlays=",
+        "--- nik errors: []"
+      ],
+      "output": "⚠  Unable to fetch the CLI MOTD and remote config. This is not a fatal error, but may indicate an issue with your network connection.\ni  emulators: Starting emulators: auth, firestore\ni  emulators: Detected demo project ID \"demo-cms-browser-journey\", emulated services will use a demo configuration and attempts to access non-emulated services for this project will fail.\n⚠  firestore: Cloud Firestore Emulator does not support multiple databases yet.\n⚠  firestore: Did not find a Cloud Firestore rules file specified in a firebase.json config file.\n⚠  firestore: The emulator will default to allowing all reads and writes. Learn more about this option: https://firebase.google.com/docs/emulator-suite/install_and_configure#security_rules_configuration.\ni  firestore: Firestore Emulator logging to firestore-debug.log\n✔  firestore: Firestore Emulator was started in standard edition.\n✔  firestore: Firestore Emulator UI websocket is running on 9150.\ni  Running script: CMS_SHOWDOWN_LENGTH=3 node tests/browser/two-manager-browser-journey.cjs\nok 1 J0.1 composed production Rules active on the emulator (open read 404 -> 403)\nok 2 J0.2 emulator switch active only via localhost + cmsEmulator=1 in both contexts\n--- daniel: screens=mainMenu | badge=DANIEL | panel=CONNECT PLAYERS Daniel and Nik need to connect before the first Showdown. CREATE CODE FOR NIK DANIEL STARTS THE SHOWDOWN AND SENDS THIS CODE TO NIK | overlays=\n--- daniel errors: []\n--- nik: screens=createShowdown | badge= | panel= | overlays=\n--- nik errors: []\nlocator.click: Timeout 30000ms exceeded.\nCall log:\n  - waiting for getByRole('button', { name: 'SIGN IN WITH GOOGLE' })\n\n    at signIn (/workspace/fifa17-career-showdown2/tests/browser/two-manager-browser-journey.cjs:115:65)\n    at async main (/workspace/fifa17-career-showdown2/tests/browser/two-manager-browser-journey.cjs:238:35) {\n  log: [\n    \"  - waiting for getByRole('button', { name: 'SIGN IN WITH GOOGLE' })\"\n  ],\n  name: 'TimeoutError'\n}\n⚠  Script exited unsuccessfully (code 1)\ni  emulators: Shutting down emulators.\ni  firestore: Stopping Firestore Emulator\ni  auth: Stopping Authentication Emulator\ni  hub: Stopping emulator hub\ni  logging: Stopping Logging Emulator\n\nError: Script \"CMS_SHOWDOWN_LENGTH=3 node tests/browser/two-manager-browser-journey.cjs\" exited with code 1\n",
+      "screenshots": [
+        {
+          "file": "project-documents/gameplay-factory/sweeps/olympiad/evidence/codex-1006-1957/run-3/failure-daniel.png",
+          "sha256": "da6457ea873439f8534295e59d0cdf5368fdcd4331d4a62d54917efd6b2bef1c"
+        },
+        {
+          "file": "project-documents/gameplay-factory/sweeps/olympiad/evidence/codex-1006-1957/run-3/failure-nik.png",
+          "sha256": "ce64cf8b45ce5cbf8bf53e85fe1e2caa71826861fb0865a8d7f8b5a1e3e83ef5"
+        }
+      ]
+    }
+  ],
+  "differences_between_runs": [
+    {
+      "step": "J1.1",
+      "observation": "Affected manager is Daniel in runs 1/2 and Nik in run 3. Run 3 completes Daniel sign-in and manager choice before failing on Nik."
+    },
+    {
+      "step": "J1.1",
+      "observation": "Untouched Nik remains on mainMenu with badge SIGN IN in run 1 and an empty badge in run 2. Daniel remains on mainMenu with badge DANIEL and an unpaired CONNECT PLAYERS panel when Nik fails in run 3."
+    }
+  ],
+  "root_cause": "index.html loads deferred showdown.js before optionalModules.js and app.js. While a deferred script executes, document.readyState can already be interactive. initializeOnlinePlayerEntry() sets __cmsOnlinePlayerEntryBootstrap=true and then schedules start() with setTimeout(0) instead of waiting for DOMContentLoaded. The timer can execute before the later deferred scripts supply loadRuntimeScript and reportApplicationError. ensureOnlinePlayerIdentitySurface() then throws Online runtime loader unavailable; the catch calls an optional error reporter that is also absent and silently loses the error. The bootstrap flag remains true and there is no automatic retry. onlinePlayerIdentity.js never loads, so its capture-phase gameplay guard is absent and initializeScreens() routes #newShowdown directly to createShowdown. This explains both the blank badge and the empty page-error lists.",
+  "cause_evidence": {
+    "scope": "Additional startup diagnostics only; these are not extra invocations of the official journey and grant no journey-check passes. Fresh contexts, same unmodified main, test-only emulator switch, separate local server port 4194. Auth/Firestore emulators had stopped; no sign-in or gameplay writes were attempted.",
+    "instrumentation": "An addInitScript wrapper logs document.readyState, typeof window.loadRuntimeScript, typeof window.reportApplicationError and identity presence immediately before the original setTimeout callback containing \"void start()\". It forwards the original callback and delay unchanged.",
+    "timer_events": [
+      {
+        "at": "2026-10-06T20:01:57.506Z",
+        "manager": "daniel",
+        "readyState": "interactive",
+        "loader": "function",
+        "reporter": "function",
+        "identity": false,
+        "delay": 0
+      },
+      {
+        "at": "2026-10-06T20:02:00.613Z",
+        "manager": "nik",
+        "readyState": "interactive",
+        "loader": "undefined",
+        "reporter": "undefined",
+        "identity": false,
+        "delay": 0
+      },
+      {
+        "at": "2026-10-06T20:02:04.081Z",
+        "manager": "daniel",
+        "readyState": "interactive",
+        "loader": "function",
+        "reporter": "function",
+        "identity": false,
+        "delay": 0
+      },
+      {
+        "at": "2026-10-06T20:02:07.234Z",
+        "manager": "nik",
+        "readyState": "interactive",
+        "loader": "undefined",
+        "reporter": "undefined",
+        "identity": false,
+        "delay": 0
+      }
+    ],
+    "snapshots": [
+      {
+        "at": "2026-10-06T20:02:00.510Z",
+        "label": "daniel loading hidden",
+        "screen": [
+          "mainMenu"
+        ],
+        "identity": {
+          "status": "signed-out",
+          "initialized": true,
+          "busy": false,
+          "online": true,
+          "accountId": null,
+          "managerId": null,
+          "managerLabel": null,
+          "deviceId": null,
+          "registered": false,
+          "message": "Sign in with Google to play."
+        },
+        "identityScript": "http://127.0.0.1:4194/js/onlinePlayerIdentity.js?v=1.9.1-r62",
+        "bootstrap": true,
+        "badge": "SIGN IN",
+        "gate": false,
+        "notice": null
+      },
+      {
+        "at": "2026-10-06T20:02:03.949Z",
+        "label": "nik loading hidden",
+        "screen": [
+          "mainMenu"
+        ],
+        "identity": null,
+        "identityScript": null,
+        "bootstrap": true,
+        "badge": null,
+        "gate": false,
+        "notice": null
+      },
+      {
+        "at": "2026-10-06T20:02:07.152Z",
+        "label": "daniel loading hidden",
+        "screen": [
+          "mainMenu"
+        ],
+        "identity": {
+          "status": "signed-out",
+          "initialized": true,
+          "busy": false,
+          "online": true,
+          "accountId": null,
+          "managerId": null,
+          "managerLabel": null,
+          "deviceId": null,
+          "registered": false,
+          "message": "Sign in with Google to play."
+        },
+        "identityScript": "http://127.0.0.1:4194/js/onlinePlayerIdentity.js?v=1.9.1-r62",
+        "bootstrap": true,
+        "badge": "SIGN IN",
+        "gate": false,
+        "notice": null
+      },
+      {
+        "at": "2026-10-06T20:02:10.319Z",
+        "label": "nik loading hidden",
+        "screen": [
+          "mainMenu"
+        ],
+        "identity": null,
+        "identityScript": null,
+        "bootstrap": true,
+        "badge": null,
+        "gate": false,
+        "notice": null
+      },
+      {
+        "at": "2026-10-06T20:02:10.324Z",
+        "label": "Daniel before first click",
+        "screen": [
+          "mainMenu"
+        ],
+        "identity": {
+          "status": "signed-out",
+          "initialized": true,
+          "busy": false,
+          "online": true,
+          "accountId": null,
+          "managerId": null,
+          "managerLabel": null,
+          "deviceId": null,
+          "registered": false,
+          "message": "Sign in with Google to play."
+        },
+        "identityScript": "http://127.0.0.1:4194/js/onlinePlayerIdentity.js?v=1.9.1-r62",
+        "bootstrap": true,
+        "badge": "SIGN IN",
+        "gate": false,
+        "notice": null
+      },
+      {
+        "at": "2026-10-06T20:02:10.369Z",
+        "label": "Daniel immediately after first click",
+        "screen": [
+          "mainMenu"
+        ],
+        "identity": {
+          "status": "signed-out",
+          "initialized": true,
+          "busy": false,
+          "online": true,
+          "accountId": null,
+          "managerId": null,
+          "managerLabel": null,
+          "deviceId": null,
+          "registered": false,
+          "message": "Sign in with Google to play."
+        },
+        "identityScript": "http://127.0.0.1:4194/js/onlinePlayerIdentity.js?v=1.9.1-r62",
+        "bootstrap": true,
+        "badge": "SIGN IN",
+        "gate": true,
+        "notice": null
+      },
+      {
+        "at": "2026-10-06T20:02:15.377Z",
+        "label": "Daniel five seconds later",
+        "screen": [
+          "mainMenu"
+        ],
+        "identity": {
+          "status": "signed-out",
+          "initialized": true,
+          "busy": false,
+          "online": true,
+          "accountId": null,
+          "managerId": null,
+          "managerLabel": null,
+          "deviceId": null,
+          "registered": false,
+          "message": "Sign in with Google to play."
+        },
+        "identityScript": "http://127.0.0.1:4194/js/onlinePlayerIdentity.js?v=1.9.1-r62",
+        "bootstrap": true,
+        "badge": "SIGN IN",
+        "gate": true,
+        "notice": null
+      },
+      {
+        "at": "2026-10-06T20:02:15.382Z",
+        "label": "Nik five seconds later",
+        "screen": [
+          "mainMenu"
+        ],
+        "identity": null,
+        "identityScript": null,
+        "bootstrap": true,
+        "badge": null,
+        "gate": false,
+        "notice": null
+      },
+      {
+        "at": "2026-10-06T20:02:15.386Z",
+        "label": "Daniel2 five seconds later",
+        "screen": [
+          "mainMenu"
+        ],
+        "identity": {
+          "status": "signed-out",
+          "initialized": true,
+          "busy": false,
+          "online": true,
+          "accountId": null,
+          "managerId": null,
+          "managerLabel": null,
+          "deviceId": null,
+          "registered": false,
+          "message": "Sign in with Google to play."
+        },
+        "identityScript": "http://127.0.0.1:4194/js/onlinePlayerIdentity.js?v=1.9.1-r62",
+        "bootstrap": true,
+        "badge": "SIGN IN",
+        "gate": false,
+        "notice": null
+      },
+      {
+        "at": "2026-10-06T20:02:15.390Z",
+        "label": "Nik2 five seconds later",
+        "screen": [
+          "mainMenu"
+        ],
+        "identity": null,
+        "identityScript": null,
+        "bootstrap": true,
+        "badge": null,
+        "gate": false,
+        "notice": null
+      }
+    ]
+  },
+  "cause_confidence_pct": 99,
+  "fix": {
+    "files": [
+      "js/showdown.js"
+    ],
+    "change": "For the follow-up game-code owner: schedule identity startup after all deferred dependencies initialize, and keep failed initialization retryable. Install or await the identity gate before enabling gameplay-entry navigation. This audit applies no fix."
+  },
+  "limitations": [
+    "No official run reaches J1.2 or any pairing/gameplay/reload/terminal check.",
+    "JZ.1 does not execute, so the full journey production-host/error assertions are not credited.",
+    "The additional timer probe diagnoses initialization ordering only; it does not replace or rescue a failed CI journey."
+  ]
+}
