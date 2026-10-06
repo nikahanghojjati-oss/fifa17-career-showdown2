@@ -1,14 +1,14 @@
 # Board archive
 
-[Back to the board](BOARD.md) · generated 2026-10-05 8:57 PM Boston time (EDT). Detail and history behind the one board.
+[Back to the board](BOARD.md) · generated 2026-10-05 8:58 PM Boston time (EDT). Detail and history behind the one board.
 
 ## Old detailed board
 
 # Showdown board: G Factory and V Factory
 
-🌐 **Live: runtime 1.9.1-r62** (main `e7b556c`) · 🔄 **10 moving** · ⏭ 2 up next · 👤 2 waiting on Nik · 🗂 4 later · updated 2026-10-05 8:57 PM Boston time (EDT)
+🌐 **Live: runtime 1.9.1-r62** (main `e7b556c`) · 🔄 **10 moving** · ⏭ 2 up next · 👤 2 waiting on Nik · 🗂 4 later · updated 2026-10-05 8:58 PM Boston time (EDT)
 
-🐕 **Barking: POS20 on #386 has waited 4 min for a machine; POS20 has waited 2 min for a machine.** · Gate #386: L1✓ L2… L3… L4… L5… L6… · seal pending · POS20 #386 2/16
+🐕 **Barking: POS20 on #312 has waited 2 min for a machine; POS20 has waited 2 min for a machine.** · Gate #386: L1✓ L2… L3… L4… L5… L6… · seal pending · POS20 #386 5/16
 
 ## Your next move
 
@@ -18,7 +18,7 @@
 
 | Release / fix | Checks on the latest commit | Updated |
 | --- | --- | --- |
-| [PR #386](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/386) Showdown Gate (shadow): six-lane check beside POS20, not required yet | ⏳ 5 passed, 12 running | 8:53 PM |
+| [PR #386](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/386) Showdown Gate (shadow): six-lane check beside POS20, not required yet | ⏳ 8 passed, 9 running | 8:53 PM |
 
 **🟦 V-1006 · Final Winner: last season's score block** · 25 % (1 of 4 steps) · Sol chat · [PR #393](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/393)
 
@@ -165,7 +165,7 @@ Latest:
 ## Every bug report
 
 
-> Updated **Mon 5 Oct, 8:57 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
+> Updated **Mon 5 Oct, 8:58 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
 
 | 🔓 Open | 🔴 Top priority | 🔧 Fixing or waiting for release | ✅ Fixed and live |
 | :---: | :---: | :---: | :---: |
