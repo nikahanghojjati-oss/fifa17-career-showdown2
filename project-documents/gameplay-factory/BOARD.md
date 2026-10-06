@@ -4,7 +4,7 @@ Updated Mon 5 Oct, 9:40 PM Boston time. Bug hunting only, no new features until 
 
 🌐 **Live: 1.9.1-r62** (main `bc77a0b`, Mon 5 Oct 9:18 PM)
 
-🐕 **Barking: Showdown Gate on #396 has waited 20 min for a machine; POS20 has waited 2 min for a machine.** · Gate #396: L1✓ L2✓ L3✓ L4✓ L5✗ L6✓ · seal pending · POS20 #396 12/16
+🐕 **Barking: Showdown Gate on #396 has waited 21 min for a machine.** · Gate #396: L1✓ L2✓ L3✓ L4✓ L5✗ L6✓ · seal pending · POS20 #396 12/16
 
 ## Needs you
 
@@ -27,13 +27,13 @@ Updated Mon 5 Oct, 9:40 PM Boston time. Bug hunting only, no new features until 
 
 | Lane | Item | What | State |
 | --- | --- | --- | --- |
-| 🟧 Team G lead | [PR #396](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/396) | INFRA SIM: L5 setup dies on attempt 1 for the Showdown Gate shadow (never merge) | 🔴 17 passed, 1 running, 1 failed |
+| 🟧 Team G lead | [PR #396](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/396) | INFRA SIM: L5 setup dies on attempt 1 for the Showdown Gate shadow (never merge) | 🔴 17 passed, 2 failed |
 | 🟧 Opus | **G-F17** | Showdown Gate: replace POS20 with a faster check system built on Claude and GitHub, keeping every check (plan: /mnt/project-files/check-system/SHOWDOWN_GATE_PLAN.md) | building shadow |
 | 🟧 Opus | **G-F18** | Old-design screen audit: Legacy, Career Statistics and Trophy Room still open in the old shell; drive every live screen in a browser against Team V's design and route all of them to the new design | in progress |
 | 🟦 Sol chat | **1001** | Home desktop tile icons: bigger, inside the tile, never on the text | in release |
 | 🟦 Sol chat | **1003** | Transfer War: main's copy of Team V's early-end string matches (HO-010) | in release |
 | 🟦 Sol chat | **1004** | Rule Book: remove the useless 01-06 side number rail (desktop and phone) | with worker |
-| 🟩 Sol Work mode | **1015** | Connect Players screen: create code / join off Home | step 2 of 5 · 20.0000 % |
+| 🟩 Sol Work mode | **1015** | Connect Players screen: create code / join off Home | step 3 of 5 · 40.0000 % |
 
 **Up next**
 

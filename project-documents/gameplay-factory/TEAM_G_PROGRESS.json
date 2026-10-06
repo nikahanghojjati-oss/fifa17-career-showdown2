@@ -10,13 +10,13 @@
    "job": 1015,
    "title": "Connect Players screen: create code / join off Home",
    "worker": "Sol Work mode",
-   "done": 1,
+   "done": 2,
    "total": 5,
-   "pct": 20.0,
+   "pct": 40.0,
    "eta": "not enough data",
-   "current": "step 2 of 5",
+   "current": "step 3 of 5",
    "pr": null,
-   "updated": "2026-10-06T01:39:00Z"
+   "updated": "2026-10-06T01:40:00Z"
   }
  ]
 }

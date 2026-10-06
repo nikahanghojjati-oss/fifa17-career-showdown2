@@ -315,7 +315,7 @@
   "live": {
    "sha": "bc77a0b",
    "revision": "1.9.1-r62",
-   "when": "2026-10-06T01:18:19+00:00",
+   "when": "2026-10-06T01:18:19Z",
    "subject": "Showdown Gate shadow: 6-lane gate runs beside POS20, coverage-proven (#386)",
    "fixes": [
     {
@@ -327,8 +327,8 @@
      "updated": "2026-10-06T01:21:35Z",
      "gates": {
       "passed": 17,
-      "running": 1,
-      "failed": 1,
+      "running": 0,
+      "failed": 2,
       "cancelled": 0
      }
     }
@@ -403,7 +403,7 @@
   },
   "physio": {
    "state": "barking",
-   "line": "Barking: Showdown Gate on #396 has waited 20 min for a machine; POS20 has waited 2 min for a machine.",
+   "line": "Barking: Showdown Gate on #396 has waited 21 min for a machine.",
    "gate": "Gate #396: L1✓ L2✓ L3✓ L4✓ L5✗ L6✓ · seal pending · POS20 #396 12/16",
    "source": "physio"
   },
@@ -917,8 +917,8 @@
     "updated": "2026-10-06T01:21:35Z",
     "gates": {
      "passed": 17,
-     "running": 1,
-     "failed": 1,
+     "running": 0,
+     "failed": 2,
      "cancelled": 0
     }
    }
