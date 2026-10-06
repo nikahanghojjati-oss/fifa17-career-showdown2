@@ -1,6 +1,6 @@
 {
  "_how": "One shared job counter for Team G and Team V (Nik, 2026-10-05). Claim with tools/claim_number.py only. A number is used once, ever. CONTRACT.md section 10.",
- "next": 1023,
+ "next": 1024,
  "claims": [
   {
    "number": 1001,
@@ -134,6 +134,12 @@
    "team": "G",
    "title": "Connect Players: match Team V's SJ design (1015 follow-up)",
    "claimed": "2026-10-06T02:39:17Z"
+  },
+  {
+   "number": 1023,
+   "team": "G",
+   "title": "Session code replacement: double tap and lost join watcher (hunt 1018 H1, H2)",
+   "claimed": "2026-10-06T02:48:41Z"
   }
  ]
 }
