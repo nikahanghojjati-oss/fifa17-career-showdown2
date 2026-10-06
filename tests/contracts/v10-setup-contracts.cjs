@@ -30,6 +30,7 @@ const LEAGUES=[["premier_league","Premier League"],["laliga","LaLiga"],["bundesl
 const TRUTH_MD_IDS=["newShowdown","createShowdown","createShowdownScreenTitle","showdownName","managerOne","managerTwo","roundAmount","onlineShowdownSetupNote","onlinePlayerIdentityOverlay","onlinePlayerIdentityBadge","onlinePlayerIdentitySettingsPanel","startShowdown","productionSharedJourneyEntryOverlay","startSharedShowdown","continueSharedSetupGate","sharedJourneyLeagueLockNote","spinLeague","openClubPack","persistentNikDanielPairPanel","persistentNikDanielPairCode","sparkRemoteJoiningOverlay","settingsContent","settingsOverlay","sparkConnectedAccountPanel","sparkPrivatePairingPanel","sparkPrivatePairingCodeInput"];
 // Team V files copied byte for byte from factory/v1-wtt5ye 5e05a1f (sha256 of `git show 5e05a1f:<path>`).
 const TEAM_V_FILES={
+  "visual-assets/v10_1/shared/wordmarks/TITLE_LEAGUE_V1.webp":"a35299752e9d3cfcc44b21ff882ac7fdd81b727af78002c5ce5d76459b29e322",
   "visual-assets/v10_1/club/assets/ENV_CLUB_PHONE_V1.webp":"b31092d3eac35a9851d9c51406dd0cf7972e2dd9a5a8adb83c78d4a27497ba2a",
   "visual-assets/v10_1/club/assets/ENV_CLUB_PLATE_V1_1X.webp":"398e74faeb18ab2df655122fa0f78e9737aad4c1eff1ba16d019a305f275c255",
   "visual-assets/v10_1/club/assets/ENV_CLUB_PLATE_V1_2X.webp":"fed849bbb2c9f239ae1561f57eb5b145e0e33a518fb7bfd0e424691c00cfd6ca",

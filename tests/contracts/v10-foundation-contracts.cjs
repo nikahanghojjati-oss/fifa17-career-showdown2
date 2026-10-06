@@ -571,6 +571,7 @@ const V10_IMAGES={
     "visual-assets/v10_1/shared/plates/ENV_SYS_PHONE_V1.webp":"734d1d147c80e48f3b3a4744f35ea255c47cd23adb5e451c1e2e98fff6b54882",
     "visual-assets/v10_1/shared/plates/ENV_SYS_PLATE_V1_1X.webp":"0342875dca95999886d5bd0b81daf1aca4a86d0b95bb738e2f6cc4548365a2b8",
     "visual-assets/v10_1/shared/plates/ENV_SYS_PLATE_V1_2X.webp":"005420e4c40d42fbe34d7a66ff7e5428cd3b58b15587ad9ca7ef438b2105b9fd",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_LEAGUE_V1.webp":"a35299752e9d3cfcc44b21ff882ac7fdd81b727af78002c5ce5d76459b29e322",
     "visual-assets/v10_1/shared/wordmarks/TITLE_RULE_BOOK_V1.webp":"5624230fbfa10a80a144a730970de12a7510c5f9e71c53f2e59e315eed57daad",
     "visual-assets/v10_1/shared/wordmarks/TITLE_SETTINGS_V1.webp":"c4ad45bc0e39c2c38f3257a47e41e1bff657f672a4345a45cf1fb7ed9481dd44",
     // Job 27: Transfer War (tr2/slice-02-plate, Team V 5e05a1f).

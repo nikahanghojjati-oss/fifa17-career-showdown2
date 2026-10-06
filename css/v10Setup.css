@@ -122,6 +122,31 @@ html[data-v10-setup] main { scrollbar-color: var(--v26-gold-deep) rgba(255, 255,
   text-align: center;
   filter: drop-shadow(0 3px 1px rgba(0, 0, 0, .96)) drop-shadow(0 0 14px rgba(242, 196, 91, .28));
 }
+/* Job 1030: Select League brush wordmark (Nik's goal lettering, TITLE_LEAGUE_V1). Text stays for screen readers. */
+#leagueWheelScreen.v26Skin > h2 {
+  box-sizing: border-box;
+  width: clamp(240px, 38vw, 729px);
+  max-width: calc(100% - 16px);
+  aspect-ratio: 2332 / 456;
+  height: auto;
+  margin: clamp(4px, 2vh, 22px) auto 6px;
+  padding: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-indent: 150%;
+  color: transparent;
+  background: url("../visual-assets/v10_1/shared/wordmarks/TITLE_LEAGUE_V1.webp") center / 100% 100% no-repeat;
+  -webkit-background-clip: border-box;
+  background-clip: border-box;
+  filter: none;
+}
+@media (max-width: 760px) {
+  #leagueWheelScreen.v26Skin > h2 { width: min(66vw, 280px); }
+}
+/* Job 1030 (HO-019 addendum): short desktop windows keep CONTINUE and BACK in view. */
+@media (min-width: 761px) and (max-height: 760px) {
+  #leagueWheelScreen.v26Skin > h2 { width: clamp(240px, 24vw, 420px); margin: 2px auto 4px; }
+}
 :is(#createShowdown, #leagueWheelScreen, #clubWheelScreen, #dashboard).v26Skin > h2::before,
 :is(#createShowdown, #leagueWheelScreen, #clubWheelScreen, #dashboard).v26Skin > h2::after { display: none; }
 :is(#createShowdown, #leagueWheelScreen, #clubWheelScreen, #dashboard).v26Skin .stateNote {
