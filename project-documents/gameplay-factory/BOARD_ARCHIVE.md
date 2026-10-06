@@ -1,26 +1,20 @@
 # Board archive
 
-[Back to the board](BOARD.md) · generated 2026-10-05 10:31 PM Boston time (EDT). Detail and history behind the one board.
+[Back to the board](BOARD.md) · generated 2026-10-05 10:32 PM Boston time (EDT). Detail and history behind the one board.
 
 ## Old detailed board
 
 # Showdown board: G Factory and V Factory
 
-🌐 **Live: runtime 1.9.1-r62** (main `bc77a0b`) · 🔄 **15 moving** · ⏭ 2 up next · 👤 10 waiting on Nik · 🗂 4 later · updated 2026-10-05 10:31 PM Boston time (EDT)
+🌐 **Live: runtime 1.9.1-r62** (main `bc77a0b`) · 🔄 **14 moving** · ⏭ 2 up next · 👤 10 waiting on Nik · 🗂 4 later · updated 2026-10-05 10:32 PM Boston time (EDT)
 
-🐕 **Barking: POS20 on #397 has waited 9 min for a machine; POS20 has waited 5 min for a machine; POS20 on #402 has waited 2 min for a machine; POS20 on #392 has waited 2 min for a machine; Gameplay Fast on #392 has waited 2 min for a machine.** · POS20 #304 6/16
+🐕 **Barking: Gameplay Fast on #399 has waited 8 min for a machine; POS20 has waited 7 min for a machine; POS20 on #402 has waited 4 min for a machine; POS20 on #392 has waited 3 min for a machine; POS20 on #311 has waited 3 min for a machine.** · POS20 #304 6/16
 
 ## Your next move
 
 1. **r62 is live.** On the laptop, close every game tab in Chrome and reopen the game; if Settings still looks clipped, do it once more.
 
 ## 🔄 Moving now
-
-**🟩 1010 · 10-season sweep: scoring, history and final math** · 25 % (1 of 4 steps) · Sol Work mode
-
-🟩🟩🟩🟩🟩⚽▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️ 🥅  
-> **Now:** step 2 of 4  
-> **Left:** step 2 → step 3 → step 4
 
 **🟦 V-1006 · Final Winner: last season's score block** · 25 % (1 of 4 steps) · Sol chat · [PR #393](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/393)
 
@@ -34,9 +28,9 @@
 | G | G-F18 | Old-design screen audit: Legacy, Career Statistics and Trophy Room still open in the old shell; drive every live screen in a browser against Team V's design and route all of them to the new design | 🟧 Opus | in progress (thread "Old-design screen audit", Nik asked at 5:16 PM Boston time) | overlaps G-F11 (old CSS collisions) |
 | G | 1001 | 🐞 Bug list 1: 1001 · G Home desktop tile icons: bigger, inside the tile, never on the text | 🟦 Sol chat | in release (merged into gameplay/bug-list-1, 215e34a) | Bug list 1 items L1-01..06. CSS only in css/homeV10.css desktop blocks. Job file jobs/JOB-1001.md. Lead checks screenshots at 1920/1440/1280/1100/1000 wide. |
 | G | 1003 | 🐞 Bug list 1: 1003 · G Transfer War: main's copy of Team V's early-end string matches (HO-010) | 🟦 Sol chat | in release (merged into gameplay/bug-list-1) | Low priority, no live impact. js/transferScreenV10.js lines 26 and 30. Job file jobs/JOB-1003.md. |
-| G | 1004 | 🐞 Bug list 1: 1004 · G Rule Book: remove the useless 01-06 side number rail (desktop and phone) | ⬛ claude | with the lead (PR #392, CI running) | js/rulesSettingsV10.js only: stop building #ruleBookIndex. Per-rule number badges stay. |
+| G | 1004 | 🐞 Bug list 1: 1004 · G Rule Book: remove the useless 01-06 side number rail (desktop and phone) | ⬛ claude | with the lead (PR #392, round 2 done) | js/rulesSettingsV10.js only: stop building #ruleBookIndex. Per-rule number badges stay. |
 | G | 1015 | 🐞 Bug list 1: 1015 · G Connect Players screen: create code / join off Home | 🟩 Sol Work mode | with worker (round 3) | GPT green, one run. HO-014: pair panel moves from Home to its own CONNECT PLAYERS screen (Team V SJ design). Pairing logic unchanged; lead runs pairing audits. |
-| G | 1021 | 🐞 Bug list 1: 1021 · G Transfer War on phone: port Team V's revamp | ⬛ claude | with the lead | GPT green, one run. HO-016: Team V's checked phone CSS + 2 cut-outs into css/v10Transfer.css. Desktop unchanged. |
+| G | 1021 | 🐞 Bug list 1: 1021 · G Transfer War on phone: port Team V's revamp | ⬛ claude | with the lead (PR #401, Team V PASS) | GPT green, one run. HO-016: Team V's checked phone CSS + 2 cut-outs into css/v10Transfer.css. Desktop unchanged. |
 
 | Hand-off | From → To | What | Progress |
 | --- | --- | --- | --- |
@@ -78,7 +72,7 @@ _Gameplay, online sync, every merge and every release (senior director)._ Worker
 
 | Job | What | Worker | State | Waits on |
 | --- | --- | --- | --- | --- |
-| 1009 | 1009 · G Showdown Champion: dark oval over the losing manager — GPT blue, one file: delete the loser shade rule in final-winner.css. | 🟦 Sol chat | ready | Nik types it in the gameplay project (normal chat) |
+| 1009 | 1009 · G Showdown Champion: dark oval over the losing manager — GPT blue, one file: delete the loser shade rule in final-winner.css. | 🟦 Sol chat | merged into bug-list-1 (23bb974) | Nik types it in the gameplay project (normal chat) |
 | 1010 | 1010 · G 10-season sweep: scoring, history and final math — GPT green, one run. Node check of 10-season scoring, ties and final winner; report only, no game code. | 🟩 Sol Work mode | ready | Nik types it in the gameplay project (Work mode) |
 | 1011 | 1011 · G Plain-words sweep: jargon on game screens — GPT green, one run. Replaces engineering words players see; leaves test-asserted strings to the lead. | 🟦 Sol chat | ready | Nik types it in the gameplay project (Work mode) |
 | 1014 | 1014 · G No reconnect prompt after a finished Showdown — GPT green, one run. HO-013: closed Showdown shows SHOWDOWN COMPLETE instead of RECONNECT SESSION. Lead runs the reconnect audit. | 🟦 Sol chat | ready | Nik types it in the gameplay project (Work mode) |
@@ -180,7 +174,7 @@ Latest:
 ## Every bug report
 
 
-> Updated **Mon 5 Oct, 10:31 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
+> Updated **Mon 5 Oct, 10:32 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
 
 | 🔓 Open | 🔴 Top priority | 🔧 Fixing or waiting for release | ✅ Fixed and live |
 | :---: | :---: | :---: | :---: |
@@ -198,15 +192,8 @@ Latest:
 
 <sub>Percent = finished steps weighted by typical step time; finish times are estimates ([how](ETA_STUDY.md)).</sub>
 
-🏁 no finish time yet (not enough data)
-
-### 🟩 Sol Work mode · 1 job
-
-**Job 1010 · 10-season sweep: scoring, history and final math · 25.0000 %** · 1 of 4 steps · updated Mon 5 Oct, 10:30 PM  
-🟩🟩🟩🟩🟩⚽▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️ 🥅  
-🏁 **Likely finish:** not enough data  
-> **Now:** step 2 of 4  
-> **Left:** step 2 → step 3 → step 4
+> [!NOTE]
+> No job is reporting progress right now. A job shows here once its PR description carries a progress block.
 
 <details>
 <summary><b>✅ Closed: 14</b> (11 live in the game) · click to open</summary>

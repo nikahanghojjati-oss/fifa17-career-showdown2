@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 10:31 PM Boston time (EDT)",
+ "generated": "2026-10-05 10:32 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -388,7 +388,7 @@
   },
   "physio": {
    "state": "barking",
-   "line": "Barking: POS20 on #397 has waited 9 min for a machine; POS20 has waited 5 min for a machine; POS20 on #402 has waited 2 min for a machine; POS20 on #392 has waited 2 min for a machine; Gameplay Fast on #392 has waited 2 min for a machine.",
+   "line": "Barking: Gameplay Fast on #399 has waited 8 min for a machine; POS20 has waited 7 min for a machine; POS20 on #402 has waited 4 min for a machine; POS20 on #392 has waited 3 min for a machine; POS20 on #311 has waited 3 min for a machine.",
    "gate": "POS20 #304 6/16",
    "source": "physio"
   },
@@ -698,7 +698,7 @@
   "**r62 is live.** On the laptop, close every game tab in Chrome and reopen the game; if Settings still looks clipped, do it once more."
  ],
  "now": {
-  "moving": 15,
+  "moving": 14,
   "next": 2,
   "nik": 10,
   "later": 4,
@@ -746,7 +746,7 @@
       "group": "Bug list 1",
       "title": "1004 · G Rule Book: remove the useless 01-06 side number rail (desktop and phone)",
       "lane": "claude",
-      "state": "with the lead (PR #392, CI running)",
+      "state": "with the lead (PR #392, round 2 done)",
       "waits_on": "CI on PR #392, then the lead merges it into bug-list-1",
       "details": "js/rulesSettingsV10.js only: stop building #ruleBookIndex. Per-rule number badges stay.",
       "order": 4
@@ -768,7 +768,7 @@
       "group": "Bug list 1",
       "title": "1021 · G Transfer War on phone: port Team V's revamp",
       "lane": "claude",
-      "state": "with the lead",
+      "state": "with the lead (PR #401, Team V PASS)",
       "waits_on": "Nik types it in the gameplay project (Work mode)",
       "details": "GPT green, one run. HO-016: Team V's checked phone CSS + 2 cut-outs into css/v10Transfer.css. Desktop unchanged.",
       "order": 6,
@@ -797,11 +797,12 @@
       "group": "Bug list 1",
       "title": "1009 · G Showdown Champion: dark oval over the losing manager",
       "lane": "blue",
-      "state": "ready",
+      "state": "merged into bug-list-1 (23bb974)",
       "waits_on": "Nik types it in the gameplay project (normal chat)",
       "details": "GPT blue, one file: delete the loser shade rule in final-winner.css.",
       "order": 3,
-      "place": "in the gameplay project (normal chat), new chat"
+      "place": "in the gameplay project (normal chat), new chat",
+      "archived": true
      },
      {
       "id": "1010",
