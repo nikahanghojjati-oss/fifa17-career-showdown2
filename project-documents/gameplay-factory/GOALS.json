@@ -559,6 +559,112 @@
     },
     "sha": "be66cff4a15f98713f4c955da405601e0ab827af"
    },
+   "project-documents/gameplay-factory/sweeps/olympiad/findings/chat-1006-1336-1.json": {
+    "data": {
+     "actual": "Blank guess rows are ignored and validation only checks guesses that exist, so zero, one, or two guesses can be locked. The phase text also says each manager may record up to three guesses.",
+     "area": "03",
+     "assumptions": [
+      "The Rule Book wording 'receives three guesses' means each manager must submit exactly three guesses, not merely have a maximum allowance of three."
+     ],
+     "checked_against": [
+      "js/ruleBook.js lines 49-55: the Transfer Challenge says the opponent receives three guesses.",
+      "index.html lines 277-280: the challenge header says 3 OPPONENT GUESSES.",
+      "js/transferChallenge.js lines 636-639: validation has no count check."
+     ],
+     "expected": "The Rule Book says the opponent receives three guesses, so both managers should have three valid guesses before the guess phase can lock.",
+     "fix": {
+      "change": "Before locking guesses, require exactly three valid guesses against each manager. Change the guess-phase helper text from 'up to three' to wording that matches the Rule Book.",
+      "files": [
+       "js/transferChallenge.js"
+      ]
+     },
+     "id": "A03-GUESS-COUNT-001",
+     "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+     "root_cause": "getGuessRows omits blank rows and getGuessValidationMessage validates only completeness of recorded rows; it never requires three guesses in each opponent array.",
+     "run": "chat-1006-1336",
+     "severity": "S2",
+     "status": "likely",
+     "steps": [
+      "Finish the Season 1 transfer window and enter the guess phase.",
+      "For guesses against Daniel, enter only two valid guesses, for example League = LaLiga and Nationality = Spain, leaving the third row blank.",
+      "Enter three valid guesses against Nik.",
+      "Choose LOCK GUESSES & CONTINUE TO SIGNINGS.",
+      "The challenge advances to signing entry even though Daniel only received two recorded opponent guesses."
+     ],
+     "title": "Guess phase can lock with fewer than three opponent guesses",
+     "where": [
+      {
+       "file": "js/transferChallenge.js",
+       "function": "getGuessRows",
+       "line": 550
+      },
+      {
+       "file": "js/transferChallenge.js",
+       "function": "getGuessValidationMessage",
+       "line": 636
+      },
+      {
+       "file": "js/transferChallenge.js",
+       "function": "getTransferPhaseIntro",
+       "line": 873
+      }
+     ]
+    },
+    "sha": "fbdd6bbd2bec581b674629924f5cfac8450f2b31"
+   },
+   "project-documents/gameplay-factory/sweeps/olympiad/findings/chat-1006-1342-1.json": {
+    "data": {
+     "actual": "Blank guess rows are ignored and validation only checks guesses that exist, so zero, one, or two guesses can be locked. The phase text also says each manager may record up to three guesses.",
+     "area": "03",
+     "assumptions": [
+      "The Rule Book wording 'receives three guesses' means each manager must submit exactly three guesses, not merely have a maximum allowance of three."
+     ],
+     "checked_against": [
+      "js/ruleBook.js lines 49-55: the Transfer Challenge says the opponent receives three guesses.",
+      "index.html lines 277-280: the challenge header says 3 OPPONENT GUESSES.",
+      "js/transferChallenge.js lines 636-639: validation has no count check."
+     ],
+     "expected": "The Rule Book says the opponent receives three guesses, so both managers should have three valid guesses before the guess phase can lock.",
+     "fix": {
+      "change": "Before locking guesses, require exactly three valid guesses against each manager. Change the guess-phase helper text from 'up to three' to wording that matches the Rule Book.",
+      "files": [
+       "js/transferChallenge.js"
+      ]
+     },
+     "id": "A03-GUESS-COUNT-001",
+     "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+     "root_cause": "getGuessRows omits blank rows and getGuessValidationMessage validates only completeness of recorded rows; it never requires three guesses in each opponent array.",
+     "run": "chat-1006-1342",
+     "severity": "S2",
+     "status": "likely",
+     "steps": [
+      "Finish the Season 1 transfer window and enter the guess phase.",
+      "For guesses against Daniel, enter only two valid guesses, for example League = LaLiga and Nationality = Spain, leaving the third row blank.",
+      "Enter three valid guesses against Nik.",
+      "Choose LOCK GUESSES & CONTINUE TO SIGNINGS.",
+      "The challenge advances to signing entry even though Daniel only received two recorded opponent guesses."
+     ],
+     "title": "Guess phase can lock with fewer than three opponent guesses",
+     "where": [
+      {
+       "file": "js/transferChallenge.js",
+       "function": "getGuessRows",
+       "line": 550
+      },
+      {
+       "file": "js/transferChallenge.js",
+       "function": "getGuessValidationMessage",
+       "line": 636
+      },
+      {
+       "file": "js/transferChallenge.js",
+       "function": "getTransferPhaseIntro",
+       "line": 873
+      }
+     ]
+    },
+    "sha": "57e88f0f58f317a35eaca3e85494c683619f22cb"
+   },
    "project-documents/gameplay-factory/sweeps/olympiad/findings/codex-1006-1251-1.json": {
     "data": {
      "actual": "Season 2 starts with position 1, 100 points, 100 goals and all four honours checked from season 1. Review accepts those old facts as Daniel’s season 2 result.",
@@ -1153,6 +1259,29 @@
      "run": "chat-1006-1338"
     },
     "sha": "e4bdef6399fbb8108ca875fec70c09530c3ac279"
+   },
+   "project-documents/gameplay-factory/sweeps/olympiad/runs/chat-1006-1342.json": {
+    "data": {
+     "area": "03",
+     "clean_confidence_pct": 88,
+     "coverage_pct": 92,
+     "date_utc": "2026-10-06T13:42:15Z",
+     "files_read": [
+      "js/transferChallenge.js",
+      "index.html",
+      "js/ruleBook.js",
+      "js/transferSelector.js"
+     ],
+     "findings": [
+      "A03-GUESS-COUNT-001"
+     ],
+     "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+     "mode": "chat",
+     "next_focus": "Area 04: verify transfer completion hands off cleanly into seasons 2 through 10 without skipping, duplicating, or blocking a season.",
+     "partial": false,
+     "run": "chat-1006-1342"
+    },
+    "sha": "6d5f077a42c86080b6d51ed50cabadf06a2f93cc"
    },
    "project-documents/gameplay-factory/sweeps/olympiad/runs/codex-1006-1206.json": {
     "data": {
