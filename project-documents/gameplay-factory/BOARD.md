@@ -1,8 +1,8 @@
 # Showdown board: G Factory and V Factory
 
-🌐 **Live: runtime 1.9.1-r62** (main `e7b556c`) · 🔄 **18 moving** · ⏭ 2 up next · 👤 4 waiting on Nik · 🗂 5 later · updated 2026-10-05 8:39 PM Boston time (EDT)
+🌐 **Live: runtime 1.9.1-r62** (main `e7b556c`) · 🔄 **19 moving** · ⏭ 2 up next · 👤 4 waiting on Nik · 🗂 5 later · updated 2026-10-05 8:42 PM Boston time (EDT)
 
-🐕 **Barking: POS20 on #393 has waited 3 min for a machine; POS20 on #312 has waited 2 min for a machine.** · Gate #386: L1✓ L2✓ L3✓ L4✓ L5✓ L6✓ · seal PASS · POS20 #386 16/16
+🩺 **All clear: every check has a machine.** · Gate #386: L1✓ L2✓ L3✓ L4✓ L5✓ L6✓ · seal PASS · POS20 #386 16/16
 
 ## Your next move
 
@@ -20,6 +20,12 @@
 🟦🟦🟦🟦🟦⚽▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️ 🥅  
 > **Now:** waiting for Nik to type 1006 in a new Showdown visual chat  
 > **Left:** GPT blue: markup and fixtures → GPT blue: fill and style → Lead check: phone + desktop render
+
+**🟦 V-1007 · Transfer War phone: early-end button visible** · 33 % (1 of 3 steps) · Sol chat · [PR #394](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/394)
+
+🟦🟦🟦🟦🟦🟦⚽▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️ 🥅  
+> **Now:** waiting for Nik to type 1007 in a new Showdown visual chat  
+> **Left:** GPT blue: append the CSS fix → Lead check: phone render
 
 | Team | Job | What | Worker | Where it is | Details |
 | --- | --- | --- | --- | --- | --- |

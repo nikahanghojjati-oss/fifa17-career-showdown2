@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 8:39 PM Boston time (EDT)",
+ "generated": "2026-10-05 8:42 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -284,8 +284,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "d6d0228",
-  "head_boston": "Mon 5 Oct 8:35 PM",
+  "head": "9a4cc0b",
+  "head_boston": "Mon 5 Oct 8:41 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": true,
   "open_for_g": [],
@@ -411,8 +411,8 @@
    ]
   },
   "physio": {
-   "state": "barking",
-   "line": "Barking: POS20 on #393 has waited 3 min for a machine; POS20 on #312 has waited 2 min for a machine.",
+   "state": "clear",
+   "line": "All clear: every check has a machine.",
    "gate": "Gate #386: L1✓ L2✓ L3✓ L4✓ L5✓ L6✓ · seal PASS · POS20 #386 16/16",
    "source": "physio"
   },
@@ -427,6 +427,16 @@
     "total": 4,
     "pr": 393,
     "current": "waiting for Nik to type 1006 in a new Showdown visual chat"
+   },
+   {
+    "job": "V-1007",
+    "title": "Transfer War phone: early-end button visible",
+    "worker": "Sol chat",
+    "lane": "sol-chat",
+    "done": 1,
+    "total": 3,
+    "pr": 394,
+    "current": "waiting for Nik to type 1007 in a new Showdown visual chat"
    },
    {
     "job": "V-247",
@@ -657,7 +667,7 @@
   "**Nothing waits on you right now.** r62 (PR #390) is in checks; after it ships, press Update once on the laptop."
  ],
  "now": {
-  "moving": 18,
+  "moving": 19,
   "next": 2,
   "nik": 4,
   "later": 5,
