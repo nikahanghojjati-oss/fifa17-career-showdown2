@@ -1,18 +1,8 @@
 {
   "schema": "physio/v1",
-  "at": "2026-10-06T04:31:22.652Z",
-  "state": "BARKING",
-  "checks": [
-    {
-      "workflow": "Validate POS20",
-      "head_sha": "e1c250d2eb23e75b261d819d3b0d4b3b12277de6",
-      "pr": null,
-      "queued_minutes": 1.1,
-      "action": "none",
-      "attempt": 0,
-      "max_attempts": 2
-    }
-  ],
+  "at": "2026-10-06T04:37:56.006Z",
+  "state": "ALL_CLEAR",
+  "checks": [],
   "helpers_paused": [],
   "gate": null,
   "pos20": {
