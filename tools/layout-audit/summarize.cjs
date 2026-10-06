@@ -6,7 +6,7 @@ const outDir = path.resolve(process.argv[2] || process.env.LAYOUT_AUDIT_OUT || "
 const data = JSON.parse(fs.readFileSync(path.join(outDir, "findings.json"), "utf8"));
 const sizes = data.sizes;
 const screens = [...new Set(data.captured.map(c => c.screen))];
-const rules = ["text-clipped", "overlap", "off-screen", "page-scroll", "stretched-image", "tap-target"];
+const rules = ["text-clipped", "art-clipped", "overlap", "off-screen", "page-scroll", "stretched-image", "tap-target"];
 
 const count = (screen, size) => data.findings.filter(f => f.screen === screen && f.size === size).length;
 const lines = [];
@@ -19,6 +19,9 @@ for(const screen of screens){
     lines.push(`| ${screen} | ${row.join(" | ")} | ${data.findings.filter(f => f.screen === screen).length} |`);
 }
 lines.push("| **all** | " + sizes.map(size => data.findings.filter(f => f.size === size).length).join(" | ") + ` | ${data.findings.length} |`, "");
+lines.push("## Module and route per capture (393x660; same module at every size)", "", "| capture | route (active screen) | module | DOM evidence |", "|---|---|---|---|");
+for(const screen of screens){ const m = (data.captureMeta || {})[screen + "|" + (sizes.includes("393x660") ? "393x660" : sizes[0])] || {}; lines.push(`| ${screen} | ${m.route || ""} | ${m.module || ""} | ${(m.evidence || []).join(" ")} |`); }
+lines.push("");
 lines.push("## Findings per rule", "", "| rule | " + sizes.join(" | ") + " | total |", "|---|" + sizes.map(() => "---:").join("|") + "|---:|");
 for(const rule of rules) lines.push(`| ${rule} | ${sizes.map(size => data.findings.filter(f => f.rule === rule && f.size === size).length).join(" | ")} | ${data.findings.filter(f => f.rule === rule).length} |`);
 lines.push("");
@@ -33,7 +36,7 @@ for(const f of data.findings){
 }
 function amount(f){ const m = f.detail.match(/(\d+(?:\.\d+)?)px (?:horizontal|vertical)|by (\d+(?:\.\d+)?)px2|(\d+(?:\.\d+)?)% off|past/); return m ? parseFloat(m[1] || m[2] || m[3]) : 0; }
 function score(f){
-    const base = { "off-screen": 900, "page-scroll": 800, "text-clipped": 600, overlap: 500, "stretched-image": 400, "tap-target": 100 }[f.rule] || 0;
+    const base = { "off-screen": 900, "page-scroll": 800, "text-clipped": 600, overlap: 500, "stretched-image": 400, "art-clipped": 450, "tap-target": 100 }[f.rule] || 0;
     const sev = f.severity === "minor" || f.severity === "low" ? 0.15 : 1;
     let extra = 0;
     if(f.rule === "overlap") extra = Math.min(300, amount(f) / 20);
@@ -47,6 +50,7 @@ function plain(f){
     switch(f.rule){
         case "off-screen": return `On ${where}, ${f.selector}${name} runs off the edge of the screen: ${f.detail}. People cannot see or press all of it.`;
         case "text-clipped": return `On ${where}, text${name} in ${f.selector} is cut off: ${f.detail.replace(/^text cut by overflow-hidden/, "hidden by the container")}.`;
+        case "art-clipped": return `On ${where}, character/figure art ${f.selector} is cut off: ${f.detail}.`;
         case "overlap": return `On ${where}, two things sit on top of each other (${f.detail}): ${f.selector.replace(/\s+/g, " ")}.`;
         case "page-scroll": return `On ${where}, the whole page scrolls (${f.detail}), so it does not fit the window.`;
         case "stretched-image": return `On ${where}, an image is squashed or stretched: ${f.selector} ${f.detail}.`;

@@ -21,6 +21,20 @@ const SIZES = [
     { name: "1920x1080", width: 1920, height: 1080 }
 ].filter(size => !onlySizes.length || onlySizes.includes(size.name));
 
+const fixtures = require("./fixtures/data.cjs");
+const nodeFixtures = fixtures.build();
+// Which module renders each capture (reported next to the evidence found in the DOM).
+const MODULES = {
+    "home-empty": "js/homeScreensV10.js (Team V home)", "rule-book": "js/rulesSettingsV10.js (Rule Book)", "statistics-career": "js/careerScreensV10.js mount('careerStatistics', fixture model)",
+    "trophy-room": "js/careerScreensV10.js mount('trophyRoom', fixture model)", "legacy-history": "js/rivalryLegacyV10.js (Legacy)", "settings": "js/rulesSettingsV10.js (Settings)",
+    "create-showdown": "js/v10Setup.js (Start/Join)", "league-wheel": "js/v10Setup.js (league wheel)", "club-wheel": "js/clubScreenV10.js (Club Assignment)",
+    "dashboard": "app dashboard screen (js/screens.js route 'dashboard', v10 shell styling)", "statistics-rivalry": "js/rivalryLegacyV10.js (Rivalry Statistics)",
+    "transfer-war": "js/transferScreenV10.js skin on js/productionSharedTransferChallenge.js (real module, fake Spark provider)",
+    "season-results": "js/seasonFinalV10.js season-results skin on js/productionSharedSeasonResults.js (shared marker on)",
+    "final-winner": "js/seasonFinalV10.js final-winner skin on route 'seasonEntry' (fixture reconciliation + terminal close)",
+    "standings": "js/seasonFinalV10.js standings skin (route 'standings')", "connect-players": "js/connectPlayersScreenV10.js open()"
+};
+const moduleFor = id => Object.entries(MODULES).find(([k]) => id.startsWith(k))?.[1] || "";
 const activeStorageKey = "careerModeShowdown.activeShowdown";
 const libraryKey = "careerModeShowdown.saveLibrary";
 
@@ -76,13 +90,18 @@ async function clickJs(page, sel){ await page.evaluate(s => document.querySelect
 // ---------- the reach plan: ordered steps that leave the app on a screen/overlay, then ask for a capture ----------
 // Each capture: { id, root } where root is the CSS selector of the thing being audited.
 async function walk(page, cap, unreached){
-    const tryStep = async (id, fn) => { if(onlyScreens.length && !onlyScreens.some(s => id.startsWith(s))) { try{ await fn(true); }catch(e){} return; } try{ await fn(false); }catch(error){ unreached.push({ screen: id, why: String(error.message || error).split("\n")[0].slice(0, 200) }); } };
+    const tryStep = async (id, fn) => { if(onlyScreens.length && !onlyScreens.some(s => id.startsWith(s))) { try{ await fn(true); }catch(e){} return; } try{ await fn(false); }catch(error){
+            let state = "";
+            try{ state = await page.evaluate(() => " | visible screens: " + [...document.querySelectorAll(".screen:not(.hidden)")].map(e => e.id).join(",") + "; overlays: " + [...document.querySelectorAll("[id*=verlay],[role=dialog]")].filter(e => e.offsetHeight > 0 && !e.classList.contains("hidden")).map(e => e.id).join(",")); await page.screenshot({ path: path.join(outDir, "screenshots", `UNREACHED-${id}__${page.viewportSize().width}x${page.viewportSize().height}.png`) }); }catch(e){}
+            unreached.push({ screen: id, why: String(error.message || error).split("\n")[0].slice(0, 200) + state });
+        } };
 
     await openApp(page);
+    await page.addScriptTag({ path: fixtures.pageFixturesPath });
     await tryStep("home-empty", async skip => { if(!skip) await cap("home-empty", "#mainMenu"); });
 
     // Static destinations that need no showdown
-    for(const [id, button, screen] of [["rule-book", "#ruleBookButton", "ruleBook"], ["statistics-career", "#careerStatisticsButton", "careerStatistics"], ["legacy-history", "#legacyButton", "legacy"]]){
+    for(const [id, button, screen] of [["rule-book", "#ruleBookButton", "ruleBook"]]){
         await tryStep(id, async skip => {
             await clickJs(page, button); await waitScreen(page, screen);
             if(!skip) await cap(id, "#" + screen);
@@ -90,12 +109,19 @@ async function walk(page, cap, unreached){
             await waitScreen(page, "mainMenu");
         });
     }
-    await tryStep("trophy-room", async skip => {
-        await page.evaluate(async () => { await window.ensureOptionalModule?.("trophyRoom"); window.createTrophyRoomScreen?.(); await window.navigateTo("trophyRoom", { addToHistory: false }); });
-        await waitScreen(page, "trophyRoom");
-        if(!skip) await cap("trophy-room", "#trophyRoom");
-        await page.evaluate(() => window.navigateTo("mainMenu", { addToHistory: false })); await waitScreen(page, "mainMenu");
-    });
+    // Career Statistics / Trophy Room: open the route, then mount Team V's screen with the contract fixture career model (the way the app does after a loaded career).
+    for(const [id, button, screen] of [["statistics-career", "#careerStatisticsButton", "careerStatistics"], ["trophy-room", null, "trophyRoom"]]){
+        await tryStep(id, async skip => {
+            if(!nodeFixtures.careerModel) throw new Error("career fixture unavailable: " + nodeFixtures.careerError);
+            if(button) await clickJs(page, button);
+            else await page.evaluate(async () => { await window.ensureOptionalModule?.("trophyRoom"); window.createTrophyRoomScreen?.(); await window.navigateTo("trophyRoom", { addToHistory: false }); });
+            await waitScreen(page, screen);
+            await page.evaluate(({ screen, model }) => window.__auditFixtures.mountCareer(screen, model), { screen, model: nodeFixtures.careerModel });
+            await settle(page, 1500);
+            if(!skip) await cap(id, "#" + screen);
+            await page.evaluate(() => window.navigateTo("mainMenu", { addToHistory: false })); await waitScreen(page, "mainMenu");
+        });
+    }
 
     // Settings and its panels
     await tryStep("settings", async skip => {
@@ -118,9 +144,19 @@ async function walk(page, cap, unreached){
 
     // New Showdown flow
     let haveShowdown = false;
+    let connectCaptured = false;
     await tryStep("create-showdown", async skip => {
         await installIdentity(page);
-        await page.locator("#newShowdown").click(); await waitScreen(page, "createShowdown");
+        await page.locator("#newShowdown").click();
+        // Newer builds open Connect Players first (js/connectPlayersScreenV10.js); older ones go straight to Create Showdown.
+        await page.waitForFunction(() => document.getElementById("createShowdown") && !document.getElementById("createShowdown").classList.contains("hidden") || document.querySelector("#connectPlayersScreen:not(.hidden)"), null, { timeout: 12000 });
+        if(await page.evaluate(() => Boolean(document.querySelector("#connectPlayersScreen:not(.hidden)")))){
+            await settle(page, 1500);
+            if(!skip){ await cap("connect-players", "#connectPlayersScreen"); connectCaptured = true; }
+            await page.evaluate(() => window.CareerModeConnectPlayersScreenV10?.close?.()); await settle(page, 400);
+            await page.evaluate(() => window.navigateTo("createShowdown", { addToHistory: false }));
+        }
+        await waitScreen(page, "createShowdown");
         if(!skip) await cap("create-showdown", "#createShowdown");
         await page.locator("#roundAmount").selectOption("1");
         await page.locator("#startShowdown").click(); await waitScreen(page, "leagueWheelScreen");
@@ -147,46 +183,77 @@ async function walk(page, cap, unreached){
         await page.locator("#continueClubAssignment").click(); await waitScreen(page, "dashboard");
         if(!skip) await cap("dashboard", "#dashboard");
     });
-    await tryStep("statistics-rivalry", async skip => {
-        await page.evaluate(() => document.getElementById("rivalryStatisticsButton").click()); await waitScreen(page, "statistics");
-        if(!skip) await cap("statistics-rivalry", "#statistics");
-        await page.evaluate(() => document.querySelector("#statistics .backButton").click()); await waitScreen(page, "dashboard");
+    // Provider-owned screens, rendered by the REAL production modules with a fake in-page provider (no network, no auth).
+    await tryStep("connect-players", async skip => {
+        if(connectCaptured) return;
+        const ok = await page.evaluate(async () => { try{ await window.loadRuntimeScript("audit-connect-players", "js/connectPlayersScreenV10.js", () => window.CareerModeConnectPlayersScreenV10); }catch(e){ return false; } return Boolean(window.CareerModeConnectPlayersScreenV10); });
+        if(!ok) throw new Error("js/connectPlayersScreenV10.js does not exist on this branch (not on main)");
+        await page.evaluate(() => window.CareerModeConnectPlayersScreenV10.open()); await settle(page, 1500);
+        if(!skip) await cap("connect-players", "#connectPlayersScreen");
+        await page.evaluate(() => window.CareerModeConnectPlayersScreenV10.close?.()); await settle(page, 300);
     });
-    await tryStep("trophy-room-with-showdown", async skip => {
-        await page.evaluate(() => window.navigateTo("trophyRoom", { addToHistory: false })); await waitScreen(page, "trophyRoom");
-        if(!skip) await cap("trophy-room-with-showdown", "#trophyRoom");
-        await page.evaluate(() => window.navigateTo("dashboard", { addToHistory: false })); await waitScreen(page, "dashboard");
+    let transferReady = false;
+    await tryStep("transfer-war-window", async skip => {
+        await page.evaluate(() => window.__auditFixtures.installTransfer());
+        await page.evaluate(() => window.__auditTransfer.open("WINDOW_OPEN")); await page.locator("#transferChallenge").waitFor({ state: "visible", timeout: 12000 }); await settle(page, 2500);
+        transferReady = true;
+        if(!skip) await cap("transfer-war-window", "#transferChallenge");
     });
-
-    // Provider-owned screens: Transfer War, Season Results (entry/review), Season Summary / Final Winner.
-    // Reached by installing the same in-page fake provider adapters the repo's own audits use (shared-season-results-audit.cjs).
-    await tryStep("transfer-war", async skip => {
-        await installSharedFixture(page, "pending");
-        await page.evaluate(() => window.navigateTo("transferChallenge", { addToHistory: false })); await waitScreen(page, "transferChallenge");
-        if(!skip) await cap("transfer-war", "#transferChallenge");
-    });
+    for(const [id, phase] of [["transfer-war-guess", "GUESS_ENTRY"], ["transfer-war-signing", "SIGNING_ENTRY"], ["transfer-war-completed", "COMPLETED"]]){
+        await tryStep(id, async skip => {
+            if(!transferReady) throw new Error("transfer fixture did not open");
+            await page.evaluate(p => window.__auditTransfer.setPhase(p), phase); await settle(page, 2500);
+            if(!skip) await cap(id, "#transferChallenge");
+        });
+    }
     await tryStep("season-results-entry", async skip => {
-        await page.evaluate(async () => { await window.CareerModeProductionSharedSeasonResults?.refresh?.(); await window.navigateTo("seasonEntry", { addToHistory: false }); }); await waitScreen(page, "seasonEntry");
+        await installSharedFixture(page, "pending");
+        await page.evaluate(async () => { await window.CareerModeProductionSharedSeasonResults?.refresh?.(); await window.navigateTo("seasonEntry", { addToHistory: false }); }); await waitScreen(page, "seasonEntry"); await settle(page, 1500);
         if(!skip) await cap("season-results-entry", "#seasonEntry");
     });
     await tryStep("season-results-review", async skip => {
         await installSharedFixture(page, "ready");
         await page.evaluate(async () => { await window.CareerModeProductionSharedSeasonResults?.refresh?.(); await window.navigateTo("seasonEntry", { addToHistory: false }); });
-        await settle(page, 1000);
+        await settle(page, 1500);
         if(!skip) await cap("season-results-review", "#seasonEntry");
     });
-    await tryStep("season-summary-final-winner", async skip => {
-        await page.evaluate(() => {
-            const side = (position, points, goals, flags) => ({ leaguePosition: position, leaguePoints: points, leagueGoals: goals, domesticCup: false, championsLeague: false, topScorer: false, topAssist: false, ...flags });
-            const record = buildSeasonRecord(1, side(1, 86, 92, { championsLeague: true, topScorer: true }), side(4, 71, 68, { domesticCup: true }));
-            currentShowdown.rounds = [record]; currentShowdown.totalRounds = 1; currentShowdown.currentRound = 1;
-            recalculateShowdownScores(currentShowdown); currentShowdown.status = "Completed"; currentShowdown.completedAt = new Date().toISOString();
-        });
-        await page.evaluate(() => window.navigateTo("seasonSummary", { addToHistory: false })); await waitScreen(page, "seasonSummary");
-        if(!skip) await cap("season-summary-final-winner", "#seasonSummary");
+    await tryStep("final-winner", async skip => {
+        if(nodeFixtures.error) throw new Error("fixtures unavailable: " + nodeFixtures.error);
+        await page.evaluate(async fx => {
+            await window.__auditFixtures.installFinalState(fx);
+            await loadRuntimeScript("audit-final-v10", "js/seasonFinalV10.js", () => window.CareerModeSeasonFinalV10); await window.CareerModeSeasonFinalV10.install();
+            // Fixture: the season-results route is open (the provider adapter is faked), so Final Winner can show on 'seasonEntry'.
+            if(window.CareerModeProductionSharedSeasonResults) window.CareerModeProductionSharedSeasonResults = { ...window.CareerModeProductionSharedSeasonResults, canRoute: () => true };
+            window.CareerModeV10Screens.invalidate("seasonEntry");
+            await window.navigateTo("dashboard", { addToHistory: false }); await window.navigateTo("seasonEntry", { addToHistory: false });
+        }, nodeFixtures);
+        await settle(page, 3000);
+        const finalMounted = await page.evaluate(() => Boolean(document.querySelector(".v10FinalStage")));
+        if(!finalMounted){
+            const dbg = await page.evaluate(fx => { const f = window.CareerModeSeasonFinalV10.finalFrame(fx.finalReconciliation, fx.closed, fx.history); return JSON.stringify({ status: f.status, state: f.state, winner: f.winner, screens: [...document.querySelectorAll(".screen:not(.hidden)")].map(e => e.id), seasonHost: document.getElementById("seasonEntry")?.className, canRoute: window.CareerModeProductionSharedSeasonResults?.canRoute?.() }); }, nodeFixtures);
+            throw new Error("Final Winner skin did not mount (.v10FinalStage absent) " + dbg);
+        }
+        if(!skip) await cap("final-winner", "#seasonEntry");
+    });
+    await tryStep("statistics-rivalry", async skip => {
+        await page.evaluate(async () => { await window.navigateTo("dashboard", { addToHistory: false }); document.getElementById("rivalryStatisticsButton").click(); });
+        await waitScreen(page, "statistics");
+        await page.evaluate(() => window.__auditFixtures.mountRivalryLegacy("rivalryStatistics")); await settle(page, 2000);
+        if(!skip) await cap("statistics-rivalry", "#statistics");
+    });
+    await tryStep("legacy-history", async skip => {
+        await page.evaluate(async () => { await ensureOptionalModule?.("legacy"); await window.navigateTo("legacy", { addToHistory: false }); });
+        await waitScreen(page, "legacy");
+        await page.evaluate(model => window.__auditFixtures.mountRivalryLegacy("legacy", model), nodeFixtures.careerModel); await settle(page, 2000);
+        if(!skip) await cap("legacy-history", "#legacy");
+    });
+    await tryStep("standings", async skip => {
+        await page.evaluate(async () => { await window.CareerModeV10Screens.navigate("standings"); }); await waitScreen(page, "standings"); await settle(page, 2000);
+        if(!skip) await cap("standings", "#standings");
     });
 }
 
+// Real js/productionSharedTransferChallenge.js with a fake Spark provider read (same fixture shape as tests/browser/shared-transfer-challenge-replay-audit.cjs).
 // Installs fake provider adapters so the provider-gated Transfer/Season Results routes open (no network, no auth).
 async function installSharedFixture(page, mode){
     await page.evaluate(async ({ mode }) => {
@@ -214,6 +281,7 @@ const report = { tool: "layout-audit", baseUrl: baseUrl.href, sizes: SIZES.map(s
 const findings = [];
 const captured = []; // {screen,size}
 const unreachedBySize = {};
+const captureMeta = {};
 
 async function run(){
     fs.mkdirSync(path.join(outDir, "screenshots"), { recursive: true });
@@ -229,7 +297,13 @@ async function run(){
                 await settle(page, 250);
                 await waitStable(page);
                 await page.evaluate(() => document.getElementById("appRuntimeNotice")?.remove()); // fixture-induced provider error toast, not part of the screen
-                const results = await page.evaluate(`(${measureSource})(${JSON.stringify(rootSel)}, ${JSON.stringify({ phone: Boolean(size.phone) })})`);
+                const results = await page.evaluate(`(${measureSource})(${JSON.stringify(rootSel)}, ${JSON.stringify({ phone: Boolean(size.phone), artMin: process.env.LAYOUT_AUDIT_ART_MIN ? Number(process.env.LAYOUT_AUDIT_ART_MIN) : undefined })})`);
+                const where = await page.evaluate(() => ({ route: typeof window.getActiveScreenName === "function" ? window.getActiveScreenName() : null, evidence: [".sd-stage", ".v10SeasonStage", ".v10FinalStage", ".standingsScreenV10", ".seasonScreenV10", "#connectPlayersScreen:not(.hidden)", ".v10Settings", ".v10Home", "[data-v10-screen]", ".transferScreenV10", ".tw-root", ".footballVisualPanel"].filter(q => document.querySelector(q)), transferMounted: window.CareerModeTransferScreenV10?.isMounted?.() ?? null }));
+                captureMeta[screen + "|" + size.name] = { module: moduleFor(screen), ...where };
+                if(process.env.LAYOUT_AUDIT_DUMP && screen.startsWith(process.env.LAYOUT_AUDIT_DUMP)){
+                    const inv = await page.evaluate(rootSel => [...document.querySelector(rootSel).querySelectorAll("*")].map(e => { const s = getComputedStyle(e), r = e.getBoundingClientRect(); const anc = []; for(let n = e.parentElement; n && n !== document.body; n = n.parentElement){ const o = getComputedStyle(n); if(/hidden|clip/.test(o.overflow + o.overflowX + o.overflowY)) anc.push((n.id || n.className || n.tagName).toString().slice(0, 30)); } return { t: e.tagName, c: (e.id || e.className || "").toString().slice(0, 40), r: [r.left, r.top, r.width, r.height].map(Math.round), img: e.tagName === "IMG" ? { src: e.currentSrc.split("/").pop(), nat: [e.naturalWidth, e.naturalHeight], fit: s.objectFit } : undefined, bg: s.backgroundImage !== "none" ? s.backgroundImage.slice(0, 80) + " | " + s.backgroundSize + " | " + s.backgroundPosition : undefined, bi: s.borderImageSource !== "none" ? s.borderImageSource.slice(0, 60) : undefined, pos: s.position, clip: anc.slice(0, 3).join(">") }; }).filter(x => x.img || x.bg || x.bi || x.t === "BUTTON"), rootSel);
+                    fs.writeFileSync(path.join(outDir, `dump-${screen}__${size.name}.json`), JSON.stringify(inv, null, 1));
+                }
                 const file = `${screen}__${size.name}.png`;
                 await page.screenshot({ path: path.join(outDir, "screenshots", file) });
                 captured.push({ screen, size: size.name });
@@ -242,6 +316,6 @@ async function run(){
         }catch(error){ console.error(`size ${size.name} failed: ${error.message}`); }
         finally{ try{ await browser.close(); }catch(e){} }
     }
-    fs.writeFileSync(path.join(outDir, "findings.json"), JSON.stringify({ ...report, captured, unreached: unreachedBySize, findings }, null, 1));
+    fs.writeFileSync(path.join(outDir, "findings.json"), JSON.stringify({ ...report, captureMeta, captured, unreached: unreachedBySize, findings }, null, 1));
 }
 run().then(() => require("./summarize.cjs")).catch(error => { console.error(error); process.exitCode = 1; });

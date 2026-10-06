@@ -21,12 +21,18 @@ Output in `LAYOUT_AUDIT_OUT`: `findings.json` (every finding with screen, size, 
 
 360x640, 393x660 (phones: touch + mobile, tap-target rule on), 768x1024, 1440x900, 1920x1080. Reduced motion is on so entrance animations are settled.
 
-## Screens
+## Screens and fixtures
 
-Reached with the same fixtures the repo audits use (`tests/browser/stability-audit.cjs`, `shared-season-results-audit.cjs`): fake online identity, the paired-first gate released by the test hook, in-page fake Transfer/Season-Results provider adapters. Plan, in `walk()`:
-home-empty, rule-book, statistics-career, legacy-history, trophy-room, settings (whole overlay plus one capture per Settings panel), create-showdown, league-wheel-locked, league-wheel-selected, club-wheel, club-wheel-revealed, dashboard, statistics-rivalry, trophy-room-with-showdown, transfer-war, season-results-entry, season-results-review, season-summary-final-winner (a completed 1-season showdown built with `buildSeasonRecord`).
-A screen that cannot be reached is recorded under `unreached` with the reason instead of failing the run.
-Real two-device, real-provider content is not reproduced; provider screens show fixture data. Destructive Settings actions (restore, reset) are never confirmed.
+Every capture is the Team V (v10) screen a player sees, rendered by the real module; `findings.json` `captureMeta` and SUMMARY.md record per capture the route, module and DOM evidence. Old-design local routes are not captured.
+
+Reusable fixtures live in `fixtures/` so other teams measure the same screens:
+- `fixtures/data.cjs`: `build()` returns one filled showdown (Daniel playerOne vs Nik playerTwo, three accepted seasons with trophies on both sides, final reconciliation, terminal close, the career model from `tests/fixtures/data-contract-v1/finished-three-seasons.json`). `node fixtures/data.cjs` prints it as JSON.
+- `fixtures/page-fixtures.js`: page-side installers on `window.__auditFixtures`: `installTransfer()` (real `productionSharedTransferChallenge.js` + `transferScreenV10.js`, fake Spark read, role playerOne, phases WINDOW_OPEN/GUESS_ENTRY/SIGNING_ENTRY/COMPLETED via `__auditTransfer`), `installFinalState(fx)`, `mountCareer(screen, model)` (Statistics, Trophy Room), `mountRivalryLegacy(screen, model)` (Rivalry Statistics, Legacy).
+
+Plan (`walk()`): home-empty, rule-book, statistics-career and trophy-room (careerScreensV10 + fixture model), settings (overlay plus one capture per panel), create-showdown (and connect-players when the build opens it first), league wheel, club wheel, dashboard, transfer-war-window/guess/signing/completed, season-results-entry/review (seasonFinalV10 skin on productionSharedSeasonResults, shared marker on), final-winner (seasonFinalV10 final skin; route `seasonEntry`, season-results `canRoute` forced true), statistics-rivalry and legacy-history (rivalryLegacyV10 + fixtures), standings (`CareerModeV10Screens.navigate("standings")`).
+Connect Players: `js/connectPlayersScreenV10.js` is only on branches that have it (not main r62); on main it is listed as unreached. Where it exists it is captured through the real route (New Showdown opens it).
+A screen that cannot be reached is listed under `unreached` with the reason, active screens and an `UNREACHED-*.png` screenshot.
+Destructive Settings actions (restore, reset) are never confirmed.
 
 ## Rules (measure.js, runs inside the page)
 
@@ -37,6 +43,9 @@ Only visible elements count: non-zero box, no `display:none`/`visibility:hidden`
 3. `off-screen`: controls partly outside the viewport on the left/right, or past top/bottom when neither the page nor a scroll container can reach them.
 4. `page-scroll`: `document.scrollingElement` scrollHeight > innerHeight + 1 or scrollWidth > innerWidth + 1. Note this app scrolls inside `main`/screens on most screens, so vertical page scroll is rare; check the screenshot and the off-screen rule for hidden content.
 5. `stretched-image`: `<img>` with `object-fit: fill` whose rendered ratio differs from natural by over 3%; CSS `background-size: 100% 100%` images measured against the real image ratio.
+5a. `art-clipped`: share of a figure image's non-transparent pixels (alpha mask) cut off by the screen edge or an overflow-hidden parent; over 10% reported, under 25% marked minor, `object-fit: cover` plates skipped.
+5b. figure/figure `overlap` is measured on real pixels (alpha mask), not boxes; under 8% of the smaller figure is minor. Also `border-image` frames whose corners scale unevenly (`stretched-image`).
+3b. phones: a main action within 10px of the bottom edge is reported as `off-screen` (home-indicator zone), minor.
 6. `tap-target` (phones only): visible controls under 32x32.
 
 ## Tuning and known false-positive patterns

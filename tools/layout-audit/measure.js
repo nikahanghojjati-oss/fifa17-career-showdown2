@@ -125,13 +125,14 @@
     }
 
     // 2. overlaps
-    const isImage = el => el.matches("img,picture,canvas,video") || (cs(el).backgroundImage !== "none" && !(el.innerText || "").trim() && el.children.length === 0 && !el.matches(interactiveSel));
+    const isImage = el => el.matches("img,canvas,video") || (cs(el).backgroundImage !== "none" && !(el.innerText || "").trim() && el.children.length === 0 && !el.matches(interactiveSel));
     const isCard = el => /(^|[\s_-])(card|panel|tile)|Card|Panel|Tile/.test(el.className && el.className.baseVal === undefined ? String(el.className) : "") && !el.matches(interactiveSel);
     const isHeading = el => /^H[1-6]$/.test(el.tagName);
     const candidates = visible.filter(el => {
         const s = cs(el);
-        if(s.pointerEvents === "none" && !isHeading(el)) return false;
-        if(el.closest("[aria-hidden='true']")) return false;
+        const art = isImage(el); // decorative character art is aria-hidden and pointer-events:none on purpose, so images are never skipped for that
+        if(s.pointerEvents === "none" && !isHeading(el) && !art) return false;
+        if(el.closest("[aria-hidden='true']") && !art) return false;
         if(el.matches("input[type=checkbox],input[type=radio]") && el.closest("label")) return false;
         const r = el.getBoundingClientRect();
         if(r.width * r.height > 0.7 * vw * vh) return false; // full-screen backdrops
@@ -153,14 +154,15 @@
             const w = Math.min(ra.right, rb.right) - Math.max(ra.left, rb.left), h = Math.min(ra.bottom, rb.bottom) - Math.max(ra.top, rb.top);
             if(w <= 0 || h <= 0 || w * h <= 8) continue;
             // stacked (positioned) layers deliberately sit above/below each other: ignore pairs where one is a pure image and the other a card/panel it decorates
-            if((ka === "image" && kb === "card") || (kb === "image" && ka === "card")) continue;
+            if((ka === "image" && kb !== "image") || (kb === "image" && ka !== "image")){ const im = ka === "image" ? a : b; if(im.closest("[aria-hidden='true']") || kb === "card" || ka === "card") continue; } // decorative (aria-hidden) art behind text/cards is by design
+            if(ka === "image" && kb === "image") continue; // art vs art is judged on real (non-transparent) pixels below
             const sa = scrollerOf(a), sb = scrollerOf(b);
             if(sa !== sb && ((sa && !sa.contains(b)) || (sb && !sb.contains(a)))) continue; // scrolling content passing under non-scrolling chrome
             if(cs(a).display === "inline" && cs(b).display === "inline") continue; // wrapped inline links have overlapping line boxes
             if(layered(a) !== layered(b)) continue; // scrolling content passing under a fixed/sticky bar is expected
             const key = sel(a) + "|" + sel(b);
             if(seen.has(key)) continue; seen.add(key);
-            findings.push({ rule: "overlap", selector: sel(a) + "  <->  " + sel(b), rect: { x: round(Math.max(ra.left, rb.left)), y: round(Math.max(ra.top, rb.top)), w: round(w), h: round(h) }, detail: `${ka} overlaps ${kb} by ${round(w * h)}px2`, text: ((a.innerText || a.alt || "").trim().slice(0, 25) + " / " + (b.innerText || b.alt || "").trim().slice(0, 25)).replace(/\s+/g, " ") });
+            findings.push({ rule: "overlap", severity: ka === "image" && kb === "image" && w * h < 0.15 * Math.min(ra.width * ra.height, rb.width * rb.height) ? "minor" : undefined, selector: sel(a) + "  <->  " + sel(b), rect: { x: round(Math.max(ra.left, rb.left)), y: round(Math.max(ra.top, rb.top)), w: round(w), h: round(h) }, detail: `${ka} overlaps ${kb} by ${round(w * h)}px2`, text: ((a.innerText || a.alt || "").trim().slice(0, 25) + " / " + (b.innerText || b.alt || "").trim().slice(0, 25)).replace(/\s+/g, " ") });
         }
     }
 
@@ -181,6 +183,17 @@
         }
     }
 
+    // 3b. phones: a control glued to the bottom edge (within 10px) sits in the home-indicator / browser-bar zone and is hard or impossible to press.
+    if(opts.phone){
+        for(const el of visible){
+            if(!el.matches("a[href],button,[role=button]")) continue;
+            if(el.closest("nav,footer,[role=navigation],[role=tablist],[aria-hidden='true']")) continue;
+            const r = el.getBoundingClientRect();
+            if(r.width < 0.3 * vw || r.height < 28) continue;
+            if(r.bottom > vh - 10 && r.bottom <= vh + 1 && r.top < vh) add("off-screen", el, `bottom edge ${round(r.bottom)} is only ${round(vh - r.bottom)}px from the screen bottom (${vh}): inside the phone home-indicator zone`, r, 0);
+        }
+    }
+
     // 5. stretched images
     for(const el of visible){
         if(el.tagName !== "IMG" || !el.naturalWidth || !el.naturalHeight) continue;
@@ -191,6 +204,85 @@
         const rendered = r.width / r.height, natural = el.naturalWidth / el.naturalHeight;
         const diff = Math.abs(rendered - natural) / natural;
         if(diff > 0.03) add("stretched-image", el, `rendered ${round(r.width)}x${round(r.height)} (ratio ${round(rendered * 100) / 100}) vs natural ${el.naturalWidth}x${el.naturalHeight} (ratio ${round(natural * 100) / 100}), ${round(diff * 100)}% off`);
+    }
+    // 5a/2b. Figure art (characters, props): judged on REAL pixels, not boxes, because the art has transparent padding.
+    // - art-clipped: share of the non-transparent pixels that fall outside the screen or outside an overflow-hidden ancestor.
+    // - overlap: area where the non-transparent pixels of two figures coincide.
+    // Full-bleed plates (object-fit: cover, or wide+tall bands) are meant to be cropped/layered and are skipped.
+    const maskCache = new Map();
+    function maskOf(img){
+        if(maskCache.has(img)) return maskCache.get(img);
+        let mask = null;
+        try{
+            const w = 64, h = Math.max(8, Math.round(64 * img.naturalHeight / img.naturalWidth));
+            const canvas = document.createElement("canvas"); canvas.width = w; canvas.height = h;
+            const g = canvas.getContext("2d", { willReadFrequently: true }); g.drawImage(img, 0, 0, w, h);
+            const d = g.getImageData(0, 0, w, h).data; const alpha = new Uint8Array(w * h);
+            for(let i = 0; i < w * h; i += 1) alpha[i] = d[i * 4 + 3];
+            mask = { w, h, alpha };
+        }catch(error){ mask = null; } // tainted/undecodable: fall back to boxes
+        maskCache.set(img, mask); return mask;
+    }
+    function figureOf(el){
+        const s = cs(el);
+        if(s.objectFit === "cover") return null;
+        const r = el.getBoundingClientRect();
+        if(r.width < 40 || r.height < 40) return null;
+        if(r.width >= 0.85 * vw && r.height >= 0.4 * vh) return null;
+        let cr = { left: r.left, top: r.top, width: r.width, height: r.height };
+        if(s.objectFit === "contain" || s.objectFit === "scale-down"){
+            const k = Math.min(r.width / el.naturalWidth, r.height / el.naturalHeight), cw = el.naturalWidth * k, ch = el.naturalHeight * k;
+            const pos = (s.objectPosition || "50% 50%").split(/\s+/).map(x => /%$/.test(x) ? parseFloat(x) / 100 : 0.5);
+            cr = { left: r.left + (r.width - cw) * (pos[0] ?? 0.5), top: r.top + (r.height - ch) * (pos[1] ?? 0.5), width: cw, height: ch };
+        }
+        const c = clippedRect(el);
+        const vis = { left: Math.max(c.left, 0), right: Math.min(c.right, vw), top: c.top, bottom: c.bottom };
+        return { el, r, cr, vis, mask: maskOf(el) };
+    }
+    const opaque = (f, x, y) => {
+        if(x < f.cr.left || x >= f.cr.left + f.cr.width || y < f.cr.top || y >= f.cr.top + f.cr.height) return false;
+        if(!f.mask) return true;
+        const u = Math.min(f.mask.w - 1, Math.floor((x - f.cr.left) / f.cr.width * f.mask.w)), v = Math.min(f.mask.h - 1, Math.floor((y - f.cr.top) / f.cr.height * f.mask.h));
+        return f.mask.alpha[v * f.mask.w + u] > 96;
+    };
+    const inVis = (f, x, y) => x >= f.vis.left && x <= f.vis.right && y >= f.vis.top && y <= f.vis.bottom;
+    const figures = [];
+    for(const el of visible){ if(el.tagName === "IMG" && el.naturalWidth && el.naturalHeight){ const f = figureOf(el); if(f) figures.push(f); } }
+    for(const f of figures){
+        let total = 0, shown = 0;
+        const cols = f.mask ? f.mask.w : 32, rows = f.mask ? f.mask.h : 32;
+        for(let j = 0; j < rows; j += 1) for(let i = 0; i < cols; i += 1){
+            const x = f.cr.left + (i + 0.5) / cols * f.cr.width, y = f.cr.top + (j + 0.5) / rows * f.cr.height;
+            if(f.mask && f.mask.alpha[j * cols + i] <= 96) continue;
+            total += 1; if(inVis(f, x, y)) shown += 1;
+        }
+        if(!total) continue;
+        const hidden = 1 - shown / total;
+        if(hidden < 0.99 && hidden > (opts.artMin ?? 0.1)) add("art-clipped", f.el, `${round(hidden * 100)}% of the visible figure pixels are cut off by the screen edge or a clipping parent (box ${round(f.r.width)}x${round(f.r.height)} at x ${round(f.r.left)}; src ${(f.el.currentSrc || "").split("/").pop()})`, f.r, hidden < 0.25 ? 4 : 99); // under 25% cut is usually a deliberate crop: reported as minor
+    }
+    for(let i = 0; i < figures.length; i += 1) for(let j = i + 1; j < figures.length; j += 1){
+        const a = figures[i], b = figures[j];
+        if(a.el.contains(b.el) || b.el.contains(a.el)) continue;
+        const l = Math.max(a.cr.left, b.cr.left), t = Math.max(a.cr.top, b.cr.top), r = Math.min(a.cr.left + a.cr.width, b.cr.left + b.cr.width), bt = Math.min(a.cr.top + a.cr.height, b.cr.top + b.cr.height);
+        if(r <= l || bt <= t) continue;
+        const step = 2; let both = 0;
+        for(let y = t; y < bt; y += step) for(let x = l; x < r; x += step) if(opaque(a, x, y) && opaque(b, x, y) && inVis(a, x, y) && inVis(b, x, y)) both += step * step;
+        if(both <= 8) continue;
+        const area = f => { let n = 0; const cols = f.mask ? f.mask.w : 1, rows = f.mask ? f.mask.h : 1; if(!f.mask) return f.cr.width * f.cr.height; for(let k = 0; k < f.mask.alpha.length; k += 1) if(f.mask.alpha[k] > 96) n += 1; return n / (cols * rows) * f.cr.width * f.cr.height; };
+        const frac = both / Math.max(1, Math.min(area(a), area(b)));
+        findings.push({ rule: "overlap", severity: frac < 0.08 ? "minor" : undefined, selector: sel(a.el) + "  <->  " + sel(b.el), rect: { x: round(l), y: round(t), w: round(r - l), h: round(bt - t) }, detail: `figure art overlaps figure art: ${round(both)}px2 of real pixels = ${round(frac * 100)}% of the smaller figure`, text: `${(a.el.currentSrc || "").split("/").pop()} / ${(b.el.currentSrc || "").split("/").pop()}` });
+    }
+    // 5c. nine-slice frames whose corners are squeezed unevenly (stretched look)
+    for(const el of visible){
+        const s = cs(el);
+        if(s.borderImageSource === "none" || !/url\(/.test(s.borderImageSource)) continue;
+        const slice = (s.borderImageSlice || "").split(/\s+/).filter(x => /^[\d.]+$/.test(x)).map(Number);
+        if(slice.length < 4) continue;
+        const bw = [parseFloat(s.borderTopWidth), parseFloat(s.borderRightWidth), parseFloat(s.borderBottomWidth), parseFloat(s.borderLeftWidth)];
+        const k = bw.map((w, i) => slice[i] > 0 ? w / slice[i] : null).filter(x => x);
+        if(k.length < 2) continue;
+        const ratio = Math.max(...k) / Math.min(...k);
+        if(ratio > 1.3) add("stretched-image", el, `border-image frame corners scaled unevenly (scale ${k.map(x => round(x * 100) / 100).join("/")}, ratio ${round(ratio * 100) / 100})`);
     }
     // 5b. CSS background images forced to 100% 100%: compare the box ratio with the real image ratio
     const bgChecks = [];
