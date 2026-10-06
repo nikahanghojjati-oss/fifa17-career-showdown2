@@ -1,0 +1,55 @@
+{
+  "run": "codex-1006-1207",
+  "mode": "codex",
+  "date_utc": "2026-10-06T12:15:07.615207+00:00",
+  "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+  "area": "11",
+  "files_read": [
+    ".github/workflows/validate-gameplay-fast.yml",
+    "tests/browser/two-manager-browser-journey.cjs",
+    "tests/browser/support/firebase.browser-journey.json",
+    "tests/browser/support/emulator-runtime-switch.js",
+    "package.json"
+  ],
+  "findings": [],
+  "coverage_pct": 0,
+  "clean_confidence_pct": 0,
+  "next_focus": "Save the pending storage.googleapis.com network addition in environment settings, retry the official emulator download, then run the unchanged CI journey three times on the same current-main commit.",
+  "status": "blocked_before_gameplay",
+  "requested_runs": 3,
+  "completed_runs": 0,
+  "game_steps_executed": 0,
+  "attempts": [
+    {
+      "number": 1,
+      "command": "FIREBASE_EMULATORS_PATH=/workspace/.qa-emulators XDG_CONFIG_HOME=/workspace/.qa-config CI=1 node_modules/.bin/firebase emulators:exec --config tests/browser/support/firebase.browser-journey.json --only auth,firestore --project demo-cms-browser-journey \"CMS_TEST_PORT=4193 CMS_CHROMIUM_MULTI_CONTEXT=1 CMS_BROWSER_JOURNEY_ARTIFACTS=/tmp/olympiad-evidence/journey-1 CMS_SHOWDOWN_LENGTH=3 node tests/browser/two-manager-browser-journey.cjs\"",
+      "exit_code": 1,
+      "result": "blocked_before_J0",
+      "output": "i  emulators: Starting emulators: auth, firestore\ni  emulators: Detected demo project ID \"demo-cms-browser-journey\", emulated services will use a demo configuration and attempts to access non-emulated services for this project will fail.\n\u26a0  firestore: Cloud Firestore Emulator does not support multiple databases yet.\n\u26a0  firestore: Did not find a Cloud Firestore rules file specified in a firebase.json config file.\n\u26a0  firestore: The emulator will default to allowing all reads and writes. Learn more about this option: https://firebase.google.com/docs/emulator-suite/install_and_configure#security_rules_configuration.\n\u26a0  It appears you are running in a CI environment. You can avoid downloading the Firestore Emulator repeatedly by caching the /workspace/.qa-emulators directory.\ni  firestore: downloading cloud-firestore-emulator-v1.22.0.jar...\ni  emulators: Shutting down emulators.\ni  firestore: Stopping Firestore Emulator\ni  hub: Stopping emulator hub\n\nError: Failed to make request to https://storage.googleapis.com/firebase-preview-drop/emulator/cloud-firestore-emulator-v1.22.0.jar\n"
+    },
+    {
+      "number": 2,
+      "result": "not_run",
+      "reason": "The required test service is unavailable; repeating the unchanged blocked download cannot run the game."
+    },
+    {
+      "number": 3,
+      "result": "not_run",
+      "reason": "The required test service is unavailable; repeating the unchanged blocked download cannot run the game."
+    }
+  ],
+  "blocker": {
+    "destination": "storage.googleapis.com",
+    "artifact": "firebase-preview-drop/emulator/cloud-firestore-emulator-v1.22.0.jar",
+    "observed": "The environment proxy refused the official download with HTTP 403. An approved download attempt also returned 403.",
+    "draft_change": "Added storage.googleapis.com to custom allowed domains, preserving existing presets. Saved draft does not apply the change to the running instance.",
+    "classification": "test environment prerequisite, not a game finding"
+  },
+  "comparison": "No between-run gameplay comparison is possible. No game steps ran, so no failing game result or game-code cause is asserted.",
+  "prepared": [
+    "Node 24 and Java 21 available",
+    "CI-pinned Firebase SDK 12.17.0, rules-unit-testing 5.0.1, firebase-admin 14.2.0 and firebase-tools 15.28.1 installed without changing dependency files",
+    "Composed game Rules generated in the ignored output file",
+    "Zero-billing boundary check passed"
+  ]
+}
