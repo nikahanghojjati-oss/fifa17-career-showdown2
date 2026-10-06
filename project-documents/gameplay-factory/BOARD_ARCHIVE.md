@@ -1,14 +1,14 @@
 # Board archive
 
-[Back to the board](BOARD.md) · generated 2026-10-05 9:33 PM Boston time (EDT). Detail and history behind the one board.
+[Back to the board](BOARD.md) · generated 2026-10-05 9:34 PM Boston time (EDT). Detail and history behind the one board.
 
 ## Old detailed board
 
 # Showdown board: G Factory and V Factory
 
-🌐 **Live: runtime 1.9.1-r62** (main `bc77a0b`) · 🔄 **12 moving** · ⏭ 2 up next · 👤 7 waiting on Nik · 🗂 4 later · updated 2026-10-05 9:33 PM Boston time (EDT)
+🌐 **Live: runtime 1.9.1-r62** (main `bc77a0b`) · 🔄 **11 moving** · ⏭ 2 up next · 👤 10 waiting on Nik · 🗂 4 later · updated 2026-10-05 9:34 PM Boston time (EDT)
 
-🐕 **Barking: POS20 has waited 1 min for a machine.** · Gate #395: L1✗ L2✓ L3✗ L4✓ L5✗ L6✓ · seal FAIL (test) · POS20 #395 9/16
+🐕 **Barking: POS20 has waited 3 min for a machine.** · Gate #396: L1✓ L2✓ L3… L4✓ L5✗ L6✓ · seal pending · POS20 #396 10/16
 
 ## Your next move
 
@@ -18,8 +18,7 @@
 
 | Release / fix | Checks on the latest commit | Updated |
 | --- | --- | --- |
-| [PR #396](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/396) INFRA SIM: L5 setup dies on attempt 1 for the Showdown Gate shadow (never merge) | 🔴 14 passed, 2 running, 1 failed | 9:21 PM |
-| [PR #395](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/395) CANARY: planted failing tests for the Showdown Gate shadow (never merge) | 🔴 12 passed, 1 running, 5 failed | 9:21 PM |
+| [PR #396](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/396) INFRA SIM: L5 setup dies on attempt 1 for the Showdown Gate shadow (never merge) | 🔴 16 passed, 1 running, 1 failed | 9:21 PM |
 
 **🟦 V-1006 · Final Winner: last season's score block** · 25 % (1 of 4 steps) · Sol chat · [PR #393](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/393)
 
@@ -73,11 +72,14 @@ _Gameplay, online sync, every merge and every release (senior director)._ Worker
 
 | Job | What | Worker | State | Waits on |
 | --- | --- | --- | --- | --- |
-| 1009 | 1009 · G Showdown Champion: dark oval over the losing manager — GPT blue, one file: delete the loser shade rule in final-winner.css. | 🟦 Sol chat | ready | Nik types it in the gameplay project |
+| 1009 | 1009 · G Showdown Champion: dark oval over the losing manager — GPT green (Nik prefers Work mode until his GPT subscription ends ~2026-10-08), one file: delete the loser shade rule in final-winner.css. | 🟩 Sol Work mode | ready | Nik types it in the gameplay project (Work mode) |
 | 1010 | 1010 · G 10-season sweep: scoring, history and final math — GPT green, one run. Node check of 10-season scoring, ties and final winner; report only, no game code. | 🟩 Sol Work mode | ready | Nik types it in the gameplay project (Work mode) |
 | 1011 | 1011 · G Plain-words sweep: jargon on game screens — GPT green, one run. Replaces engineering words players see; leaves test-asserted strings to the lead. | 🟩 Sol Work mode | ready | Nik types it in the gameplay project (Work mode) |
 | 1014 | 1014 · G No reconnect prompt after a finished Showdown — GPT green, one run. HO-013: closed Showdown shows SHOWDOWN COMPLETE instead of RECONNECT SESSION. Lead runs the reconnect audit. | 🟩 Sol Work mode | ready | Nik types it in the gameplay project (Work mode) |
 | 1015 | 1015 · G Connect Players screen: create code / join off Home — GPT green, one run. HO-014: pair panel moves from Home to its own CONNECT PLAYERS screen (Team V SJ design). Pairing logic unchanged; lead runs pairing audits. | 🟩 Sol Work mode | ready | Nik types it in the gameplay project (Work mode) |
+| 1017 | 1017 · G Gameplay hunt 1: shared season flow across devices — GPT Q&A team, Astra Work (Sol Work if out). Report only (sweeps/hunt-1017.md); the lead turns findings into fix jobs. | 🟩 Sol Work mode | ready | Nik types it in the Q&A team project |
+| 1018 | 1018 · G Gameplay hunt 2: sessions, pairing and reconnect — GPT Q&A team, Sol Work. Report only (sweeps/hunt-1018.md); the lead turns findings into fix jobs. | 🟩 Sol Work mode | ready | Nik types it in the Q&A team project |
+| 1019 | 1019 · G Gameplay hunt 3: entries, saves and career numbers — GPT Q&A team, Sol Work. Report only (sweeps/hunt-1019.md); the lead turns findings into fix jobs. | 🟩 Sol Work mode | ready | Nik types it in the Q&A team project |
 
 **🗂 Later**
 
@@ -172,7 +174,7 @@ Latest:
 ## Every bug report
 
 
-> Updated **Mon 5 Oct, 9:33 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
+> Updated **Mon 5 Oct, 9:34 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
 
 | 🔓 Open | 🔴 Top priority | 🔧 Fixing or waiting for release | ✅ Fixed and live |
 | :---: | :---: | :---: | :---: |

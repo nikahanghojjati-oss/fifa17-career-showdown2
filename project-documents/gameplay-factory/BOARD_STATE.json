@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 9:33 PM Boston time (EDT)",
+ "generated": "2026-10-05 9:34 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -284,7 +284,7 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "6c66e3b",
+  "head": "5a21417",
   "head_boston": "Mon 5 Oct 9:33 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": true,
@@ -326,23 +326,9 @@
      "sha": "61161337fa58344482e44a7bd088c7a9d63f98ab",
      "updated": "2026-10-06T01:21:35Z",
      "gates": {
-      "passed": 14,
-      "running": 2,
-      "failed": 1,
-      "cancelled": 0
-     }
-    },
-    {
-     "pr": 395,
-     "title": "CANARY: planted failing tests for the Showdown Gate shadow (never merge)",
-     "draft": false,
-     "branch": "ci/gate-canary-planted-failures",
-     "sha": "b381233f04619eba1a85dc93de827de6d7ae32b0",
-     "updated": "2026-10-06T01:21:55Z",
-     "gates": {
-      "passed": 12,
+      "passed": 16,
       "running": 1,
-      "failed": 5,
+      "failed": 1,
       "cancelled": 0
      }
     }
@@ -417,8 +403,8 @@
   },
   "physio": {
    "state": "barking",
-   "line": "Barking: POS20 has waited 1 min for a machine.",
-   "gate": "Gate #395: L1✗ L2✓ L3✗ L4✓ L5✗ L6✓ · seal FAIL (test) · POS20 #395 9/16",
+   "line": "Barking: POS20 has waited 3 min for a machine.",
+   "gate": "Gate #396: L1✓ L2✓ L3… L4✓ L5✗ L6✓ · seal pending · POS20 #396 10/16",
    "source": "physio"
   },
   "v_headline": "Board 1 (visual package): 238 of 238 jobs done and checked",
@@ -701,9 +687,9 @@
   "**r62 is live.** On the laptop, close every game tab in Chrome and reopen the game; if Settings still looks clipped, do it once more."
  ],
  "now": {
-  "moving": 12,
+  "moving": 11,
   "next": 2,
-  "nik": 7,
+  "nik": 10,
   "later": 4,
   "rows": {
    "G": {
@@ -773,10 +759,10 @@
       "id": "1009",
       "group": "Bug list 1",
       "title": "1009 · G Showdown Champion: dark oval over the losing manager",
-      "lane": "blue",
+      "lane": "green",
       "state": "ready",
-      "waits_on": "Nik types it in the gameplay project",
-      "details": "GPT blue, one file: delete the loser shade rule in final-winner.css."
+      "waits_on": "Nik types it in the gameplay project (Work mode)",
+      "details": "GPT green (Nik prefers Work mode until his GPT subscription ends ~2026-10-08), one file: delete the loser shade rule in final-winner.css."
      },
      {
       "id": "1010",
@@ -813,6 +799,33 @@
       "state": "ready",
       "waits_on": "Nik types it in the gameplay project (Work mode)",
       "details": "GPT green, one run. HO-014: pair panel moves from Home to its own CONNECT PLAYERS screen (Team V SJ design). Pairing logic unchanged; lead runs pairing audits."
+     },
+     {
+      "id": "1017",
+      "group": "Bug list 1",
+      "title": "1017 · G Gameplay hunt 1: shared season flow across devices",
+      "lane": "green",
+      "state": "ready",
+      "waits_on": "Nik types it in the Q&A team project",
+      "details": "GPT Q&A team, Astra Work (Sol Work if out). Report only (sweeps/hunt-1017.md); the lead turns findings into fix jobs."
+     },
+     {
+      "id": "1018",
+      "group": "Bug list 1",
+      "title": "1018 · G Gameplay hunt 2: sessions, pairing and reconnect",
+      "lane": "green",
+      "state": "ready",
+      "waits_on": "Nik types it in the Q&A team project",
+      "details": "GPT Q&A team, Sol Work. Report only (sweeps/hunt-1018.md); the lead turns findings into fix jobs."
+     },
+     {
+      "id": "1019",
+      "group": "Bug list 1",
+      "title": "1019 · G Gameplay hunt 3: entries, saves and career numbers",
+      "lane": "green",
+      "state": "ready",
+      "waits_on": "Nik types it in the Q&A team project",
+      "details": "GPT Q&A team, Sol Work. Report only (sweeps/hunt-1019.md); the lead turns findings into fix jobs."
      }
     ],
     "next": [
@@ -881,23 +894,9 @@
     "sha": "61161337fa58344482e44a7bd088c7a9d63f98ab",
     "updated": "2026-10-06T01:21:35Z",
     "gates": {
-     "passed": 14,
-     "running": 2,
-     "failed": 1,
-     "cancelled": 0
-    }
-   },
-   {
-    "pr": 395,
-    "title": "CANARY: planted failing tests for the Showdown Gate shadow (never merge)",
-    "draft": false,
-    "branch": "ci/gate-canary-planted-failures",
-    "sha": "b381233f04619eba1a85dc93de827de6d7ae32b0",
-    "updated": "2026-10-06T01:21:55Z",
-    "gates": {
-     "passed": 12,
+     "passed": 16,
      "running": 1,
-     "failed": 5,
+     "failed": 1,
      "cancelled": 0
     }
    }

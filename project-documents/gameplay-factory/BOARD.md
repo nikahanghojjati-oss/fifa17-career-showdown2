@@ -1,21 +1,24 @@
 # Bug hunt board
 
-Updated Mon 5 Oct, 9:33 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
+Updated Mon 5 Oct, 9:34 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r62** (main `bc77a0b`, Mon 5 Oct 9:18 PM)
 
-🐕 **Barking: POS20 has waited 1 min for a machine.** · Gate #395: L1✗ L2✓ L3✗ L4✓ L5✗ L6✓ · seal FAIL (test) · POS20 #395 9/16
+🐕 **Barking: POS20 has waited 3 min for a machine.** · Gate #396: L1✓ L2✓ L3… L4✓ L5✗ L6✓ · seal pending · POS20 #396 10/16
 
 ## Needs you
 
 - **r62 is live.** On the laptop, close every game tab in Chrome and reopen the game; if Settings still looks clipped, do it once more.
 - **G-F1** Play a game of the live version (r62) with Daniel on two phones and send what goes wrong to the bug factory thread.
 - **G-F22** Five pairing choices. The lead brings them to you on one card; nothing to do until then.
-- **1009** Showdown Champion: dark oval over the losing manager. Type 1009 in the gameplay project to start it.
+- **1009** Showdown Champion: dark oval over the losing manager. Type 1009 in the gameplay project (Work mode) to start it.
 - **1010** 10-season sweep: scoring, history and final math. Type 1010 in the gameplay project (Work mode) to start it.
 - **1011** Plain-words sweep: jargon on game screens. Type 1011 in the gameplay project (Work mode) to start it.
 - **1014** No reconnect prompt after a finished Showdown. Type 1014 in the gameplay project (Work mode) to start it.
 - **1015** Connect Players screen: create code / join off Home. Type 1015 in the gameplay project (Work mode) to start it.
+- **1017** Gameplay hunt 1: shared season flow across devices. Type 1017 in the Q&A team project to start it.
+- **1018** Gameplay hunt 2: sessions, pairing and reconnect. Type 1018 in the Q&A team project to start it.
+- **1019** Gameplay hunt 3: entries, saves and career numbers. Type 1019 in the Q&A team project to start it.
 - **V-1006** Final Winner: last season's score block. Type 1006 in a new Showdown visual chat to start it.
 
 ## Team G
@@ -24,8 +27,7 @@ Updated Mon 5 Oct, 9:33 PM Boston time. Bug hunting only, no new features until 
 
 | Lane | Item | What | State |
 | --- | --- | --- | --- |
-| 🟧 Team G lead | [PR #396](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/396) | INFRA SIM: L5 setup dies on attempt 1 for the Showdown Gate shadow (never merge) | 🔴 14 passed, 2 running, 1 failed |
-| 🟧 Team G lead | [PR #395](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/395) | CANARY: planted failing tests for the Showdown Gate shadow (never merge) | 🔴 12 passed, 1 running, 5 failed |
+| 🟧 Team G lead | [PR #396](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/396) | INFRA SIM: L5 setup dies on attempt 1 for the Showdown Gate shadow (never merge) | 🔴 16 passed, 1 running, 1 failed |
 | 🟧 Opus | **G-F17** | Showdown Gate: replace POS20 with a faster check system built on Claude and GitHub, keeping every check (plan: /mnt/project-files/check-system/SHOWDOWN_GATE_PLAN.md) | building shadow |
 | 🟧 Opus | **G-F18** | Old-design screen audit: Legacy, Career Statistics and Trophy Room still open in the old shell; drive every live screen in a browser against Team V's design and route all of them to the new design | in progress |
 | 🟦 Sol chat | **1001** | Home desktop tile icons: bigger, inside the tile, never on the text | in release |
