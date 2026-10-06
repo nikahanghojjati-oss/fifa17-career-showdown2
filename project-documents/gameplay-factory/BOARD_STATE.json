@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 9:36 PM Boston time (EDT)",
+ "generated": "2026-10-05 9:37 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -315,7 +315,7 @@
   "live": {
    "sha": "bc77a0b",
    "revision": "1.9.1-r62",
-   "when": "2026-10-06T01:18:19+00:00",
+   "when": "2026-10-06T01:18:19Z",
    "subject": "Showdown Gate shadow: 6-lane gate runs beside POS20, coverage-proven (#386)",
    "fixes": [
     {
