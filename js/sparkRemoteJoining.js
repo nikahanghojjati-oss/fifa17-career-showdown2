@@ -87,15 +87,15 @@
     if(!account||typeof account.initialize!=="function"||typeof account.getState!=="function")throw srjError("REMOTE_JOINING_ACCOUNT_UNAVAILABLE","Connected Account is unavailable.");
     await account.initialize();
     const accountState=account.getState();
-    if(!accountState||accountState.connected!==true||!accountState.accountId)throw srjError("REMOTE_JOINING_AUTH_REQUIRED","Sign in with Google from Save Library before starting or joining a private session.");
+    if(!accountState||accountState.connected!==true||!accountState.accountId)throw srjError("REMOTE_JOINING_AUTH_REQUIRED","Sign in with Google on Home before starting or joining a private session.");
     if(!pairing||typeof pairing.initialize!=="function"||typeof pairing.getState!=="function")throw srjError("REMOTE_JOINING_DEVICE_UNAVAILABLE","Registered-device authority is unavailable.");
     await pairing.initialize();
     const pairingState=pairing.getState();
-    if(!pairingState||pairingState.registered!==true||!pairingState.deviceId)throw srjError("REMOTE_JOINING_DEVICE_REQUIRED","Register this browser from Save Library before using Remote Joining.");
+    if(!pairingState||pairingState.registered!==true||!pairingState.deviceId)throw srjError("REMOTE_JOINING_DEVICE_REQUIRED","This phone is not set up yet. Go Home, sign in again and choose Daniel or Nik, then try again.");
     if(!rivalry||typeof rivalry.initialize!=="function"||typeof rivalry.getState!=="function")throw srjError("REMOTE_JOINING_RIVALRY_UNAVAILABLE","Connected Rivalry authority is unavailable.");
     await rivalry.initialize();
     const rivalryState=rivalry.getState();
-    if(!rivalryState||rivalryState.attached!==true||!rivalryState.rivalryId)throw srjError("REMOTE_JOINING_RIVALRY_REQUIRED","Attach the exact paired Connected Rivalry from Save Library before using Remote Joining.");
+    if(!rivalryState||rivalryState.attached!==true||!rivalryState.rivalryId)throw srjError("REMOTE_JOINING_RIVALRY_REQUIRED","Daniel and Nik are not connected on this phone yet. Go Home and tap CONTINUE CAREER first.");
     const services=await runtime.ensureAccountServices();
     if(!services||services.ok!==true||!services.auth||!services.firestore||!services.firestoreSdk)throw srjError("REMOTE_JOINING_PROVIDER_UNAVAILABLE","Private Firebase services are unavailable. Local Career Mode remains available.");
     const user=services.auth.currentUser;
@@ -115,6 +115,20 @@
   function srjExpiredByClock(){const expiresAt=Number(srjState.expiresAtEpochMs);return Boolean(srjState.sessionId&&Number.isFinite(expiresAt)&&Date.now()>=expiresAt);}
   function srjHasNonterminalSession(){return !!srjState.sessionId&&["open","active"].includes(srjState.sessionState)&&!srjExpiredByClock();}
   function srjSessionBlocksStart(){return srjHasNonterminalSession()||!!srjState.pendingAction||srjState.sessionState==="unresolved";}
+  // BH-11 (#1): after a reload the other phone loses its page-memory code while this phone still holds the old session, so
+  // HOST and JOIN were dead here. This page may end its OWN confirmed session (close an ACTIVE one, revoke an OPEN one it
+  // hosts) and then host or join a fresh one. Unresolved or pending capabilities are never replaced.
+  function srjHeldSessionReplaceable(){return srjHasNonterminalSession()&&!srjState.pendingAction&&!srjState.busy&&(srjState.sessionState==="active"||(srjState.sessionState==="open"&&srjState.role==="host"));}
+  async function srjEndHeldSession(){
+    if(!srjHeldSessionReplaceable())return {ok:false,code:"REMOTE_JOINING_SESSION_ALREADY_HELD",message:"The current private session cannot be replaced right now."};
+    let context;
+    try{context=await srjResolveContext();}
+    catch(error){const message=`${error&&error.message?error.message:"Current private authority could not be resolved."} The current private session was kept.`;srjSetState({status:"error",busy:false,message});return {ok:false,code:error&&error.code||"REMOTE_JOINING_REPLACE_FAILED",message};}
+    if(!srjPendingContextMatches(context)){const message="The current private session belongs to a different Google account, browser or Showdown, so it was not replaced.";srjSetState({status:"error",busy:false,message});return {ok:false,code:"REMOTE_JOINING_REPLACE_CONTEXT_CHANGED",message};}
+    const result=srjState.sessionState==="active"?await srjCloseSession():await srjRevokeSession();
+    if(!result||result.ok!==true)return result||{ok:false,code:"REMOTE_JOINING_REPLACE_FAILED",message:"The current private session could not be ended."};
+    return srjSessionBlocksStart()?{ok:false,code:"REMOTE_JOINING_SESSION_ALREADY_HELD",message:"The current private session could not be ended."}:{ok:true};
+  }
   function srjAcceptResult(result,context,role,message){
     return srjSetState({status:"ready",busy:false,sessionId:result.sessionId,rivalryId:context.rivalryId,accountId:context.accountId,deviceId:context.deviceId,role,sessionState:result.state,revision:result.revision,expiresAtEpochMs:result.expiresAtEpochMs,pendingAction:null,capabilityCopyAllowed:true,message});
   }
@@ -126,8 +140,15 @@
     srjSetState({status:"recovery-pending",busy:false,pendingAction:action,capabilityCopyAllowed:false,message:`${message} The outcome is unresolved. The exact same page-memory capability is retained for deterministic retry; no new session will be generated and no local save was changed.`});
     return {ok:false,code:error&&error.code||"REMOTE_JOINING_RECOVERY_PENDING",message,recoverable:true,pendingAction:action};
   }
+  // BH-11 (#10): a host or join write is refused when the phone clock is minutes off server time (the Rules check createdAt and
+  // lastActivityAt against request.time), which used to surface as a raw permission error.
+  const SRJ_CLOCK_HINT=" If the code is right, check that your phone's date and time are set automatically; a phone clock that is several minutes off is refused.";
+  function srjRejectionMessage(error,action){
+    if((action==="host"||action==="join")&&srjErrorCode(error)==="permission-denied")return `The private session was refused.${SRJ_CLOCK_HINT}`;
+    return error&&error.message?error.message:"Private session request was rejected.";
+  }
   function srjClearRejectedPending(error,action){
-    const message=error&&error.message?error.message:"Private session request was rejected.";
+    const message=srjRejectionMessage(error,action);
     if(action==="close"){
       srjSetState({status:"error",busy:false,pendingAction:null,capabilityCopyAllowed:true,message:`${message} The last confirmed active session remains held in page memory; no local save was changed.`});
     }else{
@@ -187,8 +208,11 @@
       return {ok:false,code:error&&error.code||"REMOTE_JOINING_RECOVERY_CONTEXT_UNAVAILABLE",message:error&&error.message||"Current private authority could not be resolved.",recoverable:true,pendingAction:srjState.pendingAction};
     }
   }
-  async function srjHostSession(){
-    if(srjSessionBlocksStart())return {ok:false,code:"REMOTE_JOINING_SESSION_ALREADY_HELD",message:"Resolve, revoke or close the current private session before hosting another."};
+  async function srjHostSession(options={}){
+    if(srjSessionBlocksStart()){
+      if(!(options&&options.replaceCurrent===true)||!srjHeldSessionReplaceable())return {ok:false,code:"REMOTE_JOINING_SESSION_ALREADY_HELD",message:"Resolve, revoke or close the current private session before hosting another."};
+      const ended=await srjEndHeldSession();if(!ended.ok)return ended;
+    }
     srjSetState({status:"hosting",busy:true,message:"Creating an exact private session capability…"});
     try{
       const context=await srjResolveContext();
@@ -202,8 +226,16 @@
       return {ok:false,code:error&&error.code||"REMOTE_JOINING_HOST_FAILED",message:error&&error.message||"Private session could not be opened."};
     }
   }
-  async function srjJoinSession(value){
-    if(srjSessionBlocksStart())return {ok:false,code:"REMOTE_JOINING_SESSION_ALREADY_HELD",message:"Resolve, revoke or close the current private session before joining another."};
+  async function srjJoinSession(value,options={}){
+    if(srjSessionBlocksStart()){
+      // BH-11 (#1): only an ACTIVE session may be ended to join a fresh code; an OPEN hosted one keeps the existing guard.
+      if(!(options&&options.replaceCurrent===true)||!srjHeldSessionReplaceable()||srjState.sessionState!=="active")return {ok:false,code:"REMOTE_JOINING_SESSION_ALREADY_HELD",message:"Resolve, revoke or close the current private session before joining another."};
+      let nextSessionId;
+      try{const deps=await srjEnsureDependencies();nextSessionId=deps["standard-auth-session"].normalizeSessionId(value);}
+      catch(error){const message=`${error&&error.message?error.message:"That private session code is invalid."} The current private session was kept.`;srjSetState({status:"error",busy:false,message});return {ok:false,code:error&&error.code||"REMOTE_JOINING_JOIN_FAILED",message};}
+      if(nextSessionId===srjState.sessionId){const message="This phone is already in that private session.";srjSetState({message});return {ok:false,code:"REMOTE_JOINING_SAME_SESSION",message};}
+      const ended=await srjEndHeldSession();if(!ended.ok)return ended;
+    }
     srjSetState({status:"joining",busy:true,message:"Joining the exact private session…"});
     try{
       const context=await srjResolveContext();
@@ -285,11 +317,12 @@
     const grid=srjCreate("div","remoteJoiningGrid");
     const host=srjCreate("section","remoteJoiningCard");
     host.append(srjCreate("span","remoteJoiningStep","01 · HOST"),srjCreate("h3","","OPEN PRIVATE SESSION"),srjCreate("p","","Creates one fresh 256-bit capability for the currently attached two-manager Connected Rivalry."));
-    const hostButton=srjCreate("button","menuButton","HOST PRIVATE SESSION");hostButton.type="button";hostButton.disabled=srjState.busy||srjSessionBlocksStart();hostButton.addEventListener("click",()=>{void srjHostSession();});host.appendChild(hostButton);
+    const replaceable=srjHeldSessionReplaceable(),joinReplaces=replaceable&&srjState.sessionState==="active";
+    const hostButton=srjCreate("button","menuButton",replaceable?"HOST NEW SESSION (REPLACES CURRENT)":"HOST PRIVATE SESSION");hostButton.type="button";hostButton.disabled=srjState.busy||(srjSessionBlocksStart()&&!replaceable);hostButton.addEventListener("click",()=>{void srjHostSession(replaceable?{replaceCurrent:true}:{});});host.appendChild(hostButton);
     const join=srjCreate("section","remoteJoiningCard");
     join.append(srjCreate("span","remoteJoiningStep","02 · JOIN"),srjCreate("h3","","JOIN EXACT SESSION"),srjCreate("p","","Paste the full code shared directly by the other already-paired manager."));
     const input=srjCreate("input","remoteJoiningInput");input.type="text";input.placeholder="session_…";input.autocomplete="off";input.autocapitalize="none";input.spellcheck=false;input.setAttribute("aria-label","Exact private session code");
-    const joinButton=srjCreate("button","menuButton","JOIN PRIVATE SESSION");joinButton.type="button";joinButton.disabled=srjState.busy||srjSessionBlocksStart();joinButton.addEventListener("click",()=>{void srjJoinSession(input.value);});join.append(input,joinButton);grid.append(host,join);body.appendChild(grid);
+    const joinButton=srjCreate("button","menuButton",joinReplaces?"JOIN NEW SESSION (ENDS CURRENT)":"JOIN PRIVATE SESSION");joinButton.type="button";joinButton.disabled=srjState.busy||(srjSessionBlocksStart()&&!joinReplaces);joinButton.addEventListener("click",()=>{void srjJoinSession(input.value,joinReplaces?{replaceCurrent:true}:{});});join.append(input,joinButton);grid.append(host,join);body.appendChild(grid);
     const current=srjCreate("section","remoteJoiningCurrent");
     current.append(srjCreate("span","remoteJoiningEyebrow","CURRENT PAGE-MEMORY SESSION"));
     if(srjState.sessionId){
@@ -297,6 +330,7 @@
       const visibleCode=srjState.capabilityCopyAllowed===true&&!srjState.pendingAction?srjState.sessionId:srjShort(srjState.sessionId);
       const code=srjCreate("code","remoteJoiningCode",visibleCode);current.appendChild(code);
       const meta=srjCreate("p","remoteJoiningMeta",`Rivalry ${srjShort(srjState.rivalryId)}${Number.isFinite(srjState.expiresAtEpochMs)?` · expires ${new Date(srjState.expiresAtEpochMs).toLocaleTimeString()}`:""}`);current.appendChild(meta);
+      if(joinReplaces)current.appendChild(srjCreate("p","remoteJoiningMeta","If the other phone lost this session (for example after a reload), start a fresh one: host a new session here and send the code, or paste their new code above and join it. Either one ends this session first."));
       const actions=srjCreate("div","remoteJoiningActions");
       if(srjState.pendingAction){const retry=srjCreate("button","compactButton",`RETRY SAME ${srjState.pendingAction.toUpperCase()}`);retry.type="button";retry.disabled=srjState.busy;retry.addEventListener("click",()=>{void srjRetryPendingOperation();});actions.appendChild(retry);}
       const copy=srjCreate("button","compactButton","COPY CODE");copy.type="button";copy.disabled=srjState.busy||expiredByClock||srjState.capabilityCopyAllowed!==true||!!srjState.pendingAction;copy.addEventListener("click",async()=>{copy.textContent=await srjCopySessionCode()?"COPIED":"COPY UNAVAILABLE";});
@@ -304,7 +338,11 @@
       const revoke=srjCreate("button","compactButton","REVOKE OPEN SESSION");revoke.type="button";revoke.disabled=srjState.busy||expiredByClock||!!srjState.pendingAction||srjState.sessionState!=="open";revoke.addEventListener("click",()=>{void srjRevokeSession();});
       const close=srjCreate("button","compactButton","CLOSE SESSION");close.type="button";close.disabled=srjState.busy||expiredByClock||!!srjState.pendingAction||srjState.sessionState!=="active";close.addEventListener("click",()=>{void srjCloseSession();});
       const forget=srjCreate("button","compactButton","FORGET CODE");forget.type="button";forget.disabled=srjState.busy||!!srjState.pendingAction||srjHasNonterminalSession()||srjState.sessionState==="unresolved";forget.addEventListener("click",srjForgetSession);actions.append(copy,refresh,revoke,close,forget);current.appendChild(actions);
-    }else current.append(srjCreate("p","remoteJoiningEmpty","No session capability is held in page memory."));
+    }else{
+      current.append(srjCreate("p","remoteJoiningEmpty","No session capability is held in page memory."));
+      // BH-11 (#1): after a reload the other phone may still show the game with the old session; say where it takes the new code.
+      current.append(srjCreate("p","remoteJoiningMeta","If the other phone still shows the game, it takes your new code from NEW SESSION CODE on its game banner, or from Home > CONTINUE CAREER > CONNECTED."));
+    }
     body.appendChild(current);
     const note=srjCreate("p","remoteJoiningStatus",srjState.message);note.setAttribute("role","status");note.setAttribute("aria-live","polite");body.appendChild(note);
     return overlay;

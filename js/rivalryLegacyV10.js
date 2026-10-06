@@ -86,7 +86,8 @@
   function source(screen){
     const model=getters[screen]?.();
     if(model!=null)return model;
-    return seam().isOnlineCareerRoute(identity())?(sources[screen]??UNAVAILABLE):null;
+    // Signed in or not, Team V draws the screen; only Legacy's data tools page keeps the app's own markup.
+    return screen==="legacy"&&root.careerModeLegacyDataTools===true?null:(sources[screen]??UNAVAILABLE);
   }
   function clean(screen){
     if(screen==="legacy"){root.LEGACY_BOOT?.cleanup?.();root.LegacyFixture?.stageController?.destroy?.();}

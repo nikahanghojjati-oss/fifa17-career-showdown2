@@ -40,7 +40,7 @@ status.textContent = "YOUTUBE · PLAYING";
 context.runOfflineMediaState(false);
 assert.equal(status.textContent, "YOUTUBE · PLAYING", "A later online render must not overwrite live media state with a stale pre-offline snapshot.");
 
-const activation = (source.match(/async function activateWaitingUpdate\(\)\{[\s\S]*?\nasync function requestPreviousRuntimeRollback/) || [""])[0];
+const activation = (source.match(/async function activateWaitingUpdate\([^)]*\)\{[\s\S]*?\nasync function requestPreviousRuntimeRollback/) || [""])[0];
 assert.ok(activation, "Update activation lifecycle function was not found.");
 const intentIndex = activation.indexOf("activationRequested=true");
 const messageIndex = activation.indexOf('sendWorkerMessage(waiting,"CMS_ACTIVATE_UPDATE"');
