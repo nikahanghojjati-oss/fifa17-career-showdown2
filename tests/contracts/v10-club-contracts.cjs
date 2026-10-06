@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 "use strict";
+// CANARY (Showdown Gate shadow proof, never merge): a planted failing contract.
+require("node:assert/strict").fail("CANARY: planted failing contract");
 // G-34 (job 34) contract: Team V's Club Assignment (visual-assets/v10_1/club, Team V 5e05a1f, frames CL1-CL6) on the
 // live #clubWheelScreen. Skin, don't rewire:
 // - js/clubScreenV10.js leaves the product elements where they are (Team V's club markup is the product's markup plus

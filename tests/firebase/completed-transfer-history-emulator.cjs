@@ -2,6 +2,7 @@
 // JOB-10 completed-only transfer history, against the COMPOSED production Rules
 // (firestore.spark.generated.rules built by BOTH scripts). One `ok <n> <id> <label>` line per check.
 const assert=require("node:assert/strict");
+assert.fail("CANARY: planted emulator failure (Showdown Gate shadow proof; never merge)");
 const crypto=require("node:crypto");
 const fs=require("node:fs");
 const firestoreSdk=require("firebase/firestore");
