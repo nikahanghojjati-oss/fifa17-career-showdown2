@@ -689,16 +689,16 @@
      "id": "G-F6",
      "title": "Transfer screen race (was the flaky v10-transfer test): a slow load raised a red error toast over REFRESH on phones, and the desktop window button sat below the screen",
      "lane": "opus",
-     "state": "in r62 (PR #390, head bb827862)",
-     "waits_on": "r62 merge to main",
+     "state": "done: live in r62 (8:35 PM Boston time, e7b556cd)",
+     "waits_on": "",
      "details": "0 failures in 66 runs, was about 1 in 7"
     },
     {
      "id": "G-F6b",
      "title": "Same ResizeObserver fix on the Club screen; the harmless browser \"ResizeObserver loop\" warning never shows players an error toast",
      "lane": "sonnet",
-     "state": "in r62 (PR #390, head bb827862)",
-     "waits_on": "r62 merge to main"
+     "state": "done: live in r62 (8:35 PM Boston time, e7b556cd)",
+     "waits_on": ""
     },
     {
      "id": "G-F11",
@@ -749,16 +749,16 @@
      "id": "G-F15",
      "title": "Landscape phone Home layout (844x390): title sits on the wordmark, soundtrack card covers the right tiles (already in r59)",
      "lane": "opus",
-     "state": "in r62 (PR #390, head bb827862)",
-     "waits_on": "r62 merge to main",
+     "state": "done: live in r62 (8:35 PM Boston time, e7b556cd)",
+     "waits_on": "",
      "details": "before/after screenshots in /mnt/project-files/gameplay/r62/"
     },
     {
      "id": "G-F16",
      "title": "Phone Home nit from Team V (HO-006): second line of START A SHOWDOWN touches the clipboard icon at 393px",
      "lane": "opus",
-     "state": "in r62 (PR #390, head bb827862)",
-     "waits_on": "r62 merge to main",
+     "state": "done: live in r62 (8:35 PM Boston time, e7b556cd)",
+     "waits_on": "",
      "details": "before/after screenshots in /mnt/project-files/gameplay/r62/"
     },
     {
@@ -807,39 +807,39 @@
      "id": "G-F19",
      "title": "BH-8: show the final winner and Close on both phones automatically, with no PREVIEW tap (Nik chose this at 5:56 PM Boston time); applying to the local save stays a tap",
      "lane": "opus",
-     "state": "in r62 (PR #390, head bb827862)",
-     "waits_on": "r62 merge to main",
+     "state": "done: live in r62 (8:35 PM Boston time, e7b556cd)",
+     "waits_on": "",
      "details": "journey 36/36 twice"
     },
     {
      "id": "G-F20",
      "title": "BH-7 transient hardening: Setup read, Terminal Close retry, simultaneous CLOSE re-read, stale transfer status line",
      "lane": "opus",
-     "state": "in r62 (PR #390, head bb827862)",
-     "waits_on": "r62 merge to main",
+     "state": "done: live in r62 (8:35 PM Boston time, e7b556cd)",
+     "waits_on": "",
      "details": "two-manager journey 36/36"
     },
     {
      "id": "G-F21",
      "title": "BH-11 pairing and reconnect fixes from the pairing audit (7 findings, one high: a reload mid-game strands the reconnect)",
      "lane": "opus",
-     "state": "in r62 (PR #390, head bb827862)",
-     "waits_on": "r62 merge to main"
+     "state": "done: live in r62 (8:35 PM Boston time, e7b556cd)",
+     "waits_on": ""
     },
     {
      "id": "G-F23",
      "title": "Desktop Settings cards clipped; Update button hidden (Nik's Chrome stuck on r54)",
      "lane": "opus",
-     "state": "in r62 (PR #390, head bb827862)",
-     "waits_on": "r62 merge to main",
+     "state": "done: live in r62 (8:35 PM Boston time, e7b556cd)",
+     "waits_on": "",
      "details": "branch bugfix/settings-desktop-update 1d264f7e; after r62 Nik presses Update once on the laptop"
     },
     {
      "id": "BUG-1",
      "title": "Raw error codes in the Setup settle text; neutral Manager 1/2 fallbacks; 80-character transfer names",
      "lane": "sonnet",
-     "state": "in r62 (PR #390, head bb827862)",
-     "waits_on": "r62 merge to main",
+     "state": "done: live in r62 (8:35 PM Boston time, e7b556cd)",
+     "waits_on": "",
      "details": "bugfix/bug-batch-1 9e012fd"
     },
     {
@@ -946,6 +946,6 @@
   }
  },
  "next_move": [
-  "**Nothing waits on you right now.** r62 (PR #390) is in checks; after it ships, press Update once on the laptop."
+  "**r62 is live.** On the laptop, open Settings and press Update once so Chrome moves off r54."
  ]
 }

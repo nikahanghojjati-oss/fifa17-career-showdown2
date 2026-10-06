@@ -1,12 +1,12 @@
 # Showdown board: G Factory and V Factory
 
-🌐 **Live: runtime 1.9.1-r62** (main `e7b556c`) · 🔄 **19 moving** · ⏭ 2 up next · 👤 4 waiting on Nik · 🗂 5 later · updated 2026-10-05 8:42 PM Boston time (EDT)
+🌐 **Live: runtime 1.9.1-r62** (main `e7b556c`) · 🔄 **10 moving** · ⏭ 2 up next · 👤 4 waiting on Nik · 🗂 5 later · updated 2026-10-05 8:43 PM Boston time (EDT)
 
 🩺 **All clear: every check has a machine.** · Gate #386: L1✓ L2✓ L3✓ L4✓ L5✓ L6✓ · seal PASS · POS20 #386 16/16
 
 ## Your next move
 
-1. **Nothing waits on you right now.** r62 (PR #390) is in checks; after it ships, press Update once on the laptop.
+1. **r62 is live.** On the laptop, open Settings and press Update once so Chrome moves off r54.
 
 ## 🔄 Moving now
 
@@ -29,17 +29,8 @@
 
 | Team | Job | What | Worker | Where it is | Details |
 | --- | --- | --- | --- | --- | --- |
-| G | G-F6 | Transfer screen race (was the flaky v10-transfer test): a slow load raised a red error toast over REFRESH on phones, and the desktop window button sat below the screen | 🟧 Opus | in r62 (PR #390, head bb827862) | 0 failures in 66 runs, was about 1 in 7 |
-| G | G-F6b | Same ResizeObserver fix on the Club screen; the harmless browser "ResizeObserver loop" warning never shows players an error toast | 🟪 Sonnet | in r62 (PR #390, head bb827862) | r62 merge to main |
 | G | G-F17 | Showdown Gate: replace POS20 with a faster check system built on Claude and GitHub, keeping every check (plan: /mnt/project-files/check-system/SHOWDOWN_GATE_PLAN.md) | 🟧 Opus | building shadow; then ~10-PR shadow (3-5 days), then archive POS20 | Nik 6:02 PM Boston time: gradual replacement; POS20 is archived to authority-history/pos20-archive/, not deleted |
 | G | G-F18 | Old-design screen audit: Legacy, Career Statistics and Trophy Room still open in the old shell; drive every live screen in a browser against Team V's design and route all of them to the new design | 🟧 Opus | in progress (thread "Old-design screen audit", Nik asked at 5:16 PM Boston time) | overlaps G-F11 (old CSS collisions) |
-| G | G-F15 | Landscape phone Home layout (844x390): title sits on the wordmark, soundtrack card covers the right tiles (already in r59) | 🟧 Opus | in r62 (PR #390, head bb827862) | before/after screenshots in /mnt/project-files/gameplay/r62/ |
-| G | G-F16 | Phone Home nit from Team V (HO-006): second line of START A SHOWDOWN touches the clipboard icon at 393px | 🟧 Opus | in r62 (PR #390, head bb827862) | before/after screenshots in /mnt/project-files/gameplay/r62/ |
-| G | G-F19 | BH-8: show the final winner and Close on both phones automatically, with no PREVIEW tap (Nik chose this at 5:56 PM Boston time); applying to the local save stays a tap | 🟧 Opus | in r62 (PR #390, head bb827862) | journey 36/36 twice |
-| G | G-F20 | BH-7 transient hardening: Setup read, Terminal Close retry, simultaneous CLOSE re-read, stale transfer status line | 🟧 Opus | in r62 (PR #390, head bb827862) | two-manager journey 36/36 |
-| G | G-F21 | BH-11 pairing and reconnect fixes from the pairing audit (7 findings, one high: a reload mid-game strands the reconnect) | 🟧 Opus | in r62 (PR #390, head bb827862) | r62 merge to main |
-| G | G-F23 | Desktop Settings cards clipped; Update button hidden (Nik's Chrome stuck on r54) | 🟧 Opus | in r62 (PR #390, head bb827862) | branch bugfix/settings-desktop-update 1d264f7e; after r62 Nik presses Update once on the laptop |
-| G | BUG-1 | Raw error codes in the Setup settle text; neutral Manager 1/2 fallbacks; 80-character transfer names | 🟪 Sonnet | in r62 (PR #390, head bb827862) | bugfix/bug-batch-1 9e012fd |
 | G | 1001 | 🐞 Bug list 1: 1001 · G Home desktop tile icons: bigger, inside the tile, never on the text | 🟦 Sol chat | in release (merged into gameplay/bug-list-1, 215e34a) | Bug list 1 items L1-01..06. CSS only in css/homeV10.css desktop blocks. Job file jobs/JOB-1001.md. Lead checks screenshots at 1920/1440/1280/1100/1000 wide. |
 | G | 1003 | 🐞 Bug list 1: 1003 · G Transfer War: main's copy of Team V's early-end string matches (HO-010) | 🟦 Sol chat | in release (merged into gameplay/bug-list-1) | Low priority, no live impact. js/transferScreenV10.js lines 26 and 30. Job file jobs/JOB-1003.md. |
 | G | 1004 | 🐞 Bug list 1: 1004 · G Rule Book: remove the useless 01-06 side number rail (desktop and phone) | 🟦 Sol chat | with worker (round 2) | js/rulesSettingsV10.js only: stop building #ruleBookIndex. Per-rule number badges stay. |
@@ -110,13 +101,22 @@ Latest:
 **Shipped to the live game today (12):** [#390](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/390) Release r62: bug-hunt fixes (errors, reconnect, auto final… · [#387](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/387) Physio: a watched workflow that isn't on main no longer fai… · [#385](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/385) Physio: re-run checks GitHub gave no machine, pause helpers… · [#383](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/383) Release r61: phone track list stops below the logo and scro… · and 8 more
 
 <details>
-<summary>Done jobs (7 future-list rows, 1 Team V jobs, 10 hand-offs, 33 factory jobs)</summary>
+<summary>Done jobs (16 future-list rows, 1 Team V jobs, 10 hand-offs, 33 factory jobs)</summary>
 
 - G G-F10: Club Assignment: wire Team V's approved design (hands, seams, new layout) into the live screen (done (live in r57, PR #371))
+- G G-F6: Transfer screen race (was the flaky v10-transfer test): a slow load raised a red error toast over REFRESH on phones, and the desktop window button sat below the screen (done: live in r62 (8:35 PM Boston time, e7b556cd))
+- G G-F6b: Same ResizeObserver fix on the Club screen; the harmless browser "ResizeObserver loop" warning never shows players an error toast (done: live in r62 (8:35 PM Boston time, e7b556cd))
 - G G-F12: G-36: no old player photos on any screen, and all 7 Home tiles (done (live in r60, d8e6c44))
 - G G-F13: Home soundtrack: 11 Audius tracks, Nasty first, Shelter remix and High And Low cover (done (live in r60, d8e6c44))
 - G G-F14: r61: phone track list stops below the logo and scrolls, and Next To You plays first (done: live in r61 (5:37 PM Boston time))
+- G G-F15: Landscape phone Home layout (844x390): title sits on the wordmark, soundtrack card covers the right tiles (already in r59) (done: live in r62 (8:35 PM Boston time, e7b556cd))
+- G G-F16: Phone Home nit from Team V (HO-006): second line of START A SHOWDOWN touches the clipboard icon at 393px (done: live in r62 (8:35 PM Boston time, e7b556cd))
 - G G-F2: Live 2.0 fixes from Nik's review: r55 and r56 shipped today (list in Live now) (done for r56)
+- G G-F19: BH-8: show the final winner and Close on both phones automatically, with no PREVIEW tap (Nik chose this at 5:56 PM Boston time); applying to the local save stays a tap (done: live in r62 (8:35 PM Boston time, e7b556cd))
+- G G-F20: BH-7 transient hardening: Setup read, Terminal Close retry, simultaneous CLOSE re-read, stale transfer status line (done: live in r62 (8:35 PM Boston time, e7b556cd))
+- G G-F21: BH-11 pairing and reconnect fixes from the pairing audit (7 findings, one high: a reload mid-game strands the reconnect) (done: live in r62 (8:35 PM Boston time, e7b556cd))
+- G G-F23: Desktop Settings cards clipped; Update button hidden (Nik's Chrome stuck on r54) (done: live in r62 (8:35 PM Boston time, e7b556cd))
+- G BUG-1: Raw error codes in the Setup settle text; neutral Manager 1/2 fallbacks; 80-character transfer names (done: live in r62 (8:35 PM Boston time, e7b556cd))
 - V V-F1: Team V jobs on this board: V- PR titles with a progress block; old board retired (done (V2G-017))
 - V V-F3: Visual check of live 2.0 against the approved package 5e05a1f (done (sent as HO-004))
 - V V-247: Phone Home tile icons like GOAL_HOME ([PR #381](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/381))
