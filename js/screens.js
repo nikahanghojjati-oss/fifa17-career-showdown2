@@ -773,7 +773,7 @@ function initializeScreens(){
     const legacyButton = document.getElementById("legacyButton");
     const startButton = document.getElementById("startShowdown");
 
-    bindNavigationButton(newShowdownButton, () => navigateTo("createShowdown"), "navigationBound");
+    bindNavigationButton(newShowdownButton, () => navigateTo("connectPlayersScreen"), "navigationBound");
     bindNavigationButton(continueButton, resumeSavedShowdown, "navigationBound");
     bindNavigationButton(legacyButton, openLegacy, "navigationBound");
     bindNavigationButton(startButton, startShowdownFromSetup, "navigationBound");

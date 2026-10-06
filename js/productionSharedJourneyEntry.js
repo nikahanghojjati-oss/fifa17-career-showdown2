@@ -181,7 +181,7 @@
     try{
       const pair=await loadScript("persistent-pair","js/persistentNikDanielPair.js",()=>root.CareerModePersistentNikDanielPair),identity=root.CareerModeOnlinePlayerIdentity;
       if(!pair||typeof pair.render!=="function"||!identity||typeof identity.syncPair!=="function")throw new Error("Player connection controls are unavailable.");
-      if(typeof root.navigateTo==="function")await root.navigateTo("mainMenu",{addToHistory:false,allowCanonicalFallback:true});else if(typeof root.showScreen==="function")await root.showScreen("mainMenu",false);
+      if(typeof root.navigateTo==="function")await root.navigateTo("connectPlayersScreen",{addToHistory:false,allowCanonicalFallback:true});else if(typeof root.showScreen==="function")await root.showScreen("connectPlayersScreen",false);
       const first=await identity.syncPair(),next=!first||first.status==="unavailable"?await identity.syncPair():first;
       if(!next||next.status==="unavailable")throw new Error("Player connection controls are temporarily unavailable.");
       pair.render();
