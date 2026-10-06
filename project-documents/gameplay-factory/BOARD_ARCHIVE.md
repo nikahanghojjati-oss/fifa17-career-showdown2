@@ -1,12 +1,12 @@
 # Board archive
 
-[Back to the board](BOARD.md) · generated 2026-10-05 9:30 PM Boston time (EDT). Detail and history behind the one board.
+[Back to the board](BOARD.md) · generated 2026-10-05 9:31 PM Boston time (EDT). Detail and history behind the one board.
 
 ## Old detailed board
 
 # Showdown board: G Factory and V Factory
 
-🌐 **Live: runtime 1.9.1-r62** (main `bc77a0b`) · 🔄 **12 moving** · ⏭ 2 up next · 👤 5 waiting on Nik · 🗂 4 later · updated 2026-10-05 9:30 PM Boston time (EDT)
+🌐 **Live: runtime 1.9.1-r62** (main `bc77a0b`) · 🔄 **13 moving** · ⏭ 2 up next · 👤 6 waiting on Nik · 🗂 4 later · updated 2026-10-05 9:31 PM Boston time (EDT)
 
 🩺 **All clear: every check has a machine.** · Gate #395: L1✗ L2✓ L3✗ L4✓ L5✗ L6✓ · seal FAIL (test) · POS20 #395 9/16
 
@@ -46,6 +46,7 @@
 | [HO-011](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/handoffs/HO-011_final-winner-screen-with-the-last-season.md) | G → V | Final Winner screen with the last season's score (job 1005) | ✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done |
 | [HO-012](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/handoffs/HO-012_one-board-your-lead-view-copies-custom-v.md) | G → V | One board: your lead view copies CUSTOM_VIEW_V.html (Team V first, same facts) | ✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done |
 | [HO-013](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/handoffs/HO-013_finished-showdown-shows-the-private-sess.md) | V → G | Finished Showdown shows the 'private session has ended, reconnect' line | ✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done |
+| [HO-014](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/handoffs/HO-014_create-code-join-on-its-own-connect-play.md) | V → G | Create code / Join on its own Connect Players screen, never on top of Home | ✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done |
 
 ## 🟢 G Factory
 
@@ -81,6 +82,7 @@ _Gameplay, online sync, every merge and every release (senior director)._ Worker
 | 1009 | 1009 · G Showdown Champion: dark oval over the losing manager — GPT blue, one file: delete the loser shade rule in final-winner.css. | 🟦 Sol chat | ready | Nik types it in the gameplay project |
 | 1010 | 1010 · G 10-season sweep: scoring, history and final math — GPT green, one run. Node check of 10-season scoring, ties and final winner; report only, no game code. | 🟩 Sol Work mode | ready | Nik types it in the gameplay project (Work mode) |
 | 1011 | 1011 · G Plain-words sweep: jargon on game screens — GPT green, one run. Replaces engineering words players see; leaves test-asserted strings to the lead. | 🟩 Sol Work mode | ready | Nik types it in the gameplay project (Work mode) |
+| 1014 | 1014 · G No reconnect prompt after a finished Showdown — GPT green, one run. HO-013: closed Showdown shows SHOWDOWN COMPLETE instead of RECONNECT SESSION. Lead runs the reconnect audit. | 🟩 Sol Work mode | ready | Nik types it in the gameplay project (Work mode) |
 
 **🗂 Later**
 
@@ -100,7 +102,7 @@ _Visuals and presentation: design changes, art, screen skins (assistant director
 
 ## 📡 Relay
 
-**Health:** ✅ working · direct wake: Team G ✅, Team V ✅ · 29 messages · 3 open hand-offs, 10 done · **[every message in full: RELAY.md](RELAY.md)**
+**Health:** ✅ working · direct wake: Team G ✅, Team V ✅ · 29 messages · 4 open hand-offs, 10 done · **[every message in full: RELAY.md](RELAY.md)**
 
 Replies owed: Team G none · Team V G2V-015, G2V-016.
 
@@ -175,7 +177,7 @@ Latest:
 ## Every bug report
 
 
-> Updated **Mon 5 Oct, 9:30 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
+> Updated **Mon 5 Oct, 9:31 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
 
 | 🔓 Open | 🔴 Top priority | 🔧 Fixing or waiting for release | ✅ Fixed and live |
 | :---: | :---: | :---: | :---: |

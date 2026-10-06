@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 9:30 PM Boston time (EDT)",
+ "generated": "2026-10-05 9:31 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -284,8 +284,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "dba2103",
-  "head_boston": "Mon 5 Oct 9:30 PM",
+  "head": "63a3542",
+  "head_boston": "Mon 5 Oct 9:31 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": true,
   "open_for_g": [],
@@ -627,6 +627,19 @@
     "worker": "sol-work",
     "pickup_min": 1,
     "waiting_min": null
+   },
+   {
+    "id": "HO-014",
+    "from": "V",
+    "to": "G",
+    "title": "Create code / Join on its own Connect Players screen, never on top of Home",
+    "stage": "SENT",
+    "pct": 0.0,
+    "overdue": false,
+    "path": "project-documents/leads-relay/handoffs/HO-014_create-code-join-on-its-own-connect-play.md",
+    "worker": "opus",
+    "pickup_min": null,
+    "waiting_min": null
    }
   ],
   "relay_ok": true
@@ -698,9 +711,9 @@
   "**r62 is live.** On the laptop, close every game tab in Chrome and reopen the game; if Settings still looks clipped, do it once more."
  ],
  "now": {
-  "moving": 12,
+  "moving": 13,
   "next": 2,
-  "nik": 5,
+  "nik": 6,
   "later": 4,
   "rows": {
    "G": {
@@ -792,6 +805,15 @@
       "state": "ready",
       "waits_on": "Nik types it in the gameplay project (Work mode)",
       "details": "GPT green, one run. Replaces engineering words players see; leaves test-asserted strings to the lead."
+     },
+     {
+      "id": "1014",
+      "group": "Bug list 1",
+      "title": "1014 · G No reconnect prompt after a finished Showdown",
+      "lane": "green",
+      "state": "ready",
+      "waits_on": "Nik types it in the gameplay project (Work mode)",
+      "details": "GPT green, one run. HO-013: closed Showdown shows SHOWDOWN COMPLETE instead of RECONNECT SESSION. Lead runs the reconnect audit."
      }
     ],
     "next": [

@@ -14,6 +14,7 @@ Updated Mon 5 Oct, 9:31 PM Boston time. Bug hunting only, no new features until 
 - **1009** Showdown Champion: dark oval over the losing manager. Type 1009 in the gameplay project to start it.
 - **1010** 10-season sweep: scoring, history and final math. Type 1010 in the gameplay project (Work mode) to start it.
 - **1011** Plain-words sweep: jargon on game screens. Type 1011 in the gameplay project (Work mode) to start it.
+- **1014** No reconnect prompt after a finished Showdown. Type 1014 in the gameplay project (Work mode) to start it.
 - **V-1006** Final Winner: last season's score block. Type 1006 in a new Showdown visual chat to start it.
 - **V-1007** Transfer War phone: early-end button visible. Type 1007 in a new Showdown visual chat to start it.
 
