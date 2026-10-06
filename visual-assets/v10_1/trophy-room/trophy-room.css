@@ -190,3 +190,9 @@ html[data-motion-reduced="true"] .trophyGrid.tr-tab-enter,
   .careerRanks{bottom:calc(41.5% + 40px)}
   .heroCeremony{height:calc(31% - 40px)}
 }
+/* JOB-1033: desktop trophy cards. The heading's -2px top margin pulled it up under the trophy picture (a 3px overlap the layout
+   auditor measured at 1280x620 to 1536x730). The picture gives up 4px so the heading sits clear and the card height is unchanged. */
+@media (min-width:761px){
+  .trophyCardPicture{height:calc(70% - 4px)}
+  .trophyCard h3{margin-top:0}
+}
