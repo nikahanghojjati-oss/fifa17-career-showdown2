@@ -84,7 +84,8 @@ for team in ("G", "V"):
         ttl = re.sub(r"^\d+ · [GV] ", "", x["title"])
         w = str(full.get("waits_on") or "")
         ask = re.sub(r"^Nik types it", f"Type {x['id']}", w) + " to start it." if w.lower().startswith("nik types") else f"({short_state(x['state'])})"
-        nik.append({"id": x["id"], "title": ttl, "decision": full.get("decision") or f"{ttl}. {ask}"})
+        place = re.sub(r"^Nik types it ", "", w) if w.lower().startswith("nik types") and not full.get("decision") else None
+        nik.append({"id": x["id"], "title": ttl, "decision": full.get("decision") or f"{ttl}. {ask}", "place": place})
         seen.add(str(x["id"]))
 for n, (r, k, t) in running.items():  # running jobs with no board row
     items["G"]["fix"].append({"id": f"Job {n}", "title": r.get("title", ""), "state": r.get("current") or "in progress", "lane": str(r.get("worker", "")), "progress": (ETA.describe(r), r)})
@@ -102,7 +103,8 @@ for team in ("G", "V"):  # a job that waits for Nik to start it (type its number
     for it in items[team]["fix"]:
         if re.search(r"waiting (for|on) Nik", it["state"], re.I):
             act = re.sub(r"^.*?waiting (for|on) Nik to ", "", it["state"], flags=re.I)
-            nik.append({"id": it["id"], "title": it["title"], "decision": f'{it["title"]}. {act[0].upper()}{act[1:]} to start it.'})
+            m = re.match(r"type \S+ (.*)$", act, re.I)
+            nik.append({"id": it["id"], "title": it["title"], "decision": f'{it["title"]}. {act[0].upper()}{act[1:]} to start it.', "place": m.group(1) if m else None})
 for m in BJ.get("next_move") or []:
     nik.insert(0, {"id": "", "title": "", "decision": m, "md": True})
 
@@ -180,7 +182,15 @@ def render(first, compact=False):
         H.append('<div class="card warn">⚠ <b>Not fully current:</b> ' + " ".join(e(w) for w in warn) + "</div>")
     H.append(f'<div class="card">{TF.PHYSIO_ICON.get(ph.get("state"), "🩺")} <b>{e(ph.get("line", "Physio: no report yet."))}</b>' + (f'<br><span class="m">{e(ph["gate"])}</span>' if ph.get("gate") else "") + "</div>")
     H.append("<h2>Needs you</h2>")
-    H.append('<div class="card move">' + ("<br>".join((md(x["decision"]) if x.get("md") else f'<b>{e(x["id"])}</b> {e(x["decision"])}') for x in nik) or "Nothing needs you right now.") + "</div>")
+    shown = [x for x in nik if not (compact and x.get("place"))]
+    lines = [(md(x["decision"]) if x.get("md") else f'<b>{e(x["id"])}</b> {e(x["decision"])}') for x in shown]
+    if compact:  # tight on space: jobs started by typing their number, grouped by where to type
+        places = {}
+        for x in nik:
+            if x.get("place"):
+                places.setdefault(x["place"], []).append(re.sub(r"^[GV]-", "", str(x["id"])))
+        lines += [f'<b>Type to start</b> {e(", ".join(ids))} <span class="m">{e(pl)}</span>' for pl, ids in places.items()]
+    H.append('<div class="card move">' + ("<br>".join(lines) or "Nothing needs you right now.") + "</div>")
     for t in (first, "V" if first == "G" else "G"):
         H.append(team_html(t, t == first, cut))
     H.append("<h2>Live now</h2>")

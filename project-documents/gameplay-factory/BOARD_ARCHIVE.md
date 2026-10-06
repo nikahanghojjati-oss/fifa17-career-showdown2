@@ -1,14 +1,14 @@
 # Board archive
 
-[Back to the board](BOARD.md) · generated 2026-10-05 9:34 PM Boston time (EDT). Detail and history behind the one board.
+[Back to the board](BOARD.md) · generated 2026-10-05 9:36 PM Boston time (EDT). Detail and history behind the one board.
 
 ## Old detailed board
 
 # Showdown board: G Factory and V Factory
 
-🌐 **Live: runtime 1.9.1-r62** (main `bc77a0b`) · 🔄 **11 moving** · ⏭ 2 up next · 👤 10 waiting on Nik · 🗂 4 later · updated 2026-10-05 9:34 PM Boston time (EDT)
+🌐 **Live: runtime 1.9.1-r62** (main `bc77a0b`) · 🔄 **11 moving** · ⏭ 2 up next · 👤 10 waiting on Nik · 🗂 4 later · updated 2026-10-05 9:36 PM Boston time (EDT)
 
-🐕 **Barking: POS20 has waited 3 min for a machine.** · Gate #396: L1✓ L2✓ L3… L4✓ L5✗ L6✓ · seal pending · POS20 #396 10/16
+🐕 **Barking: POS20 has waited 3 min for a machine; POS20 has waited 2 min for a machine; POS20 on #312 has waited 2 min for a machine.** · Gate #396: L1✓ L2✓ L3… L4✓ L5✗ L6✓ · seal pending · POS20 #396 12/16
 
 ## Your next move
 
@@ -18,7 +18,7 @@
 
 | Release / fix | Checks on the latest commit | Updated |
 | --- | --- | --- |
-| [PR #396](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/396) INFRA SIM: L5 setup dies on attempt 1 for the Showdown Gate shadow (never merge) | 🔴 16 passed, 1 running, 1 failed | 9:21 PM |
+| [PR #396](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/396) INFRA SIM: L5 setup dies on attempt 1 for the Showdown Gate shadow (never merge) | 🔴 17 passed, 1 running, 1 failed | 9:21 PM |
 
 **🟦 V-1006 · Final Winner: last season's score block** · 25 % (1 of 4 steps) · Sol chat · [PR #393](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/393)
 
@@ -174,7 +174,7 @@ Latest:
 ## Every bug report
 
 
-> Updated **Mon 5 Oct, 9:34 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
+> Updated **Mon 5 Oct, 9:36 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
 
 | 🔓 Open | 🔴 Top priority | 🔧 Fixing or waiting for release | ✅ Fixed and live |
 | :---: | :---: | :---: | :---: |
