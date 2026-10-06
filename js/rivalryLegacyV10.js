@@ -137,9 +137,10 @@
   // One provider-backed completed-Showdown career model for every online career screen (History here,
   // Career Statistics and Trophy Room, and the Standings Career view). Same exact gets and services as
   // before; the last result is kept in memory for the current account, manager and pair only.
-  let careerCache=null;
+  // careerLoadSequence orders overlapping loads: only the newest started load may publish the shared cache.
+  let careerCache=null,careerLoadSequence=0;
   async function rlLoadCareerModel(){
-    const key=context();
+    const key=context(),sequence=++careerLoadSequence;
     await modelDependencies();
     const active=root.CareerModeSharedActiveShowdownAdapter.buildActiveShowdownViews(rlSnapshot());
     const account=state("CareerModeSparkConnectedAccount"),runtime=root.CareerModeProductionFirebaseRuntime;
@@ -156,7 +157,7 @@
         model=result.model??UNAVAILABLE;
       }
     }
-    if(context()===key){careerCache={key,model};if(typeof root.CustomEvent==="function")root.dispatchEvent?.(new root.CustomEvent("career-mode-online-career-model-change"));}
+    if(context()===key&&sequence===careerLoadSequence){careerCache={key,model};if(typeof root.CustomEvent==="function")root.dispatchEvent?.(new root.CustomEvent("career-mode-online-career-model-change"));}
     return model;
   }
   const rlCachedCareerModel=()=>careerCache&&careerCache.key===context()?careerCache.model:null;
