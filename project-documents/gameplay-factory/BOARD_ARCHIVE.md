@@ -8,7 +8,7 @@
 
 🌐 **Live: runtime 1.9.1-r62** (main `bc77a0b`) · 🔄 **15 moving** · ⏭ 2 up next · 👤 10 waiting on Nik · 🗂 4 later · updated 2026-10-05 10:37 PM Boston time (EDT)
 
-🐕 **Barking: POS20 on #402 has waited 7 min for a machine; POS20 on #392 has waited 7 min for a machine; POS20 on #311 has waited 6 min for a machine; Gameplay Fast has waited 4 min for a machine; POS20 on #403 has waited 4 min for a machine; POS20 has waited 3 min for a machine.** · POS20 #304 6/16
+🐕 **Barking: POS20 on #403 has waited 5 min for a machine; Gameplay Fast has waited 2 min for a machine.** · POS20 #304 6/16
 
 ## Your next move
 
