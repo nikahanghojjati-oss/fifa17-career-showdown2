@@ -1,6 +1,6 @@
 {
  "_how": "One shared job counter for Team G and Team V (Nik, 2026-10-05). Claim with tools/claim_number.py only. A number is used once, ever. CONTRACT.md section 10.",
- "next": 1029,
+ "next": 1030,
  "claims": [
   {
    "number": 1001,
@@ -170,6 +170,12 @@
    "team": "G",
    "title": "Hunt 1019 fix: Statistics shows an abandoned-only career instead of unavailable (H1019-5)",
    "claimed": "2026-10-06T03:06:47Z"
+  },
+  {
+   "number": 1029,
+   "team": "V",
+   "title": "Season Results desktop: closer to the mockup",
+   "claimed": "2026-10-06T04:11:51Z"
   }
  ]
 }
