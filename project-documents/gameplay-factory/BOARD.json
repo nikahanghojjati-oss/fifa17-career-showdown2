@@ -786,6 +786,15 @@
      "state": "ready",
      "waits_on": "Nik types it in the gameplay project (Work mode)",
      "details": "GPT green, one run. Replaces engineering words players see; leaves test-asserted strings to the lead."
+    },
+    {
+     "id": "1014",
+     "group": "Bug list 1",
+     "title": "1014 · G No reconnect prompt after a finished Showdown",
+     "lane": "green",
+     "state": "ready",
+     "waits_on": "Nik types it in the gameplay project (Work mode)",
+     "details": "GPT green, one run. HO-013: closed Showdown shows SHOWDOWN COMPLETE instead of RECONNECT SESSION. Lead runs the reconnect audit."
     }
    ]
   },
