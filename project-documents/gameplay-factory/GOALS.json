@@ -665,6 +665,97 @@
     },
     "sha": "57e88f0f58f317a35eaca3e85494c683619f22cb"
    },
+   "project-documents/gameplay-factory/sweeps/olympiad/findings/chat-1006-1345-1.json": {
+    "data": {
+     "actual": "The local Career Statistics table and Trophy Room cabinets assign rank from array position, so the two tied managers are displayed as #1 and #2.",
+     "area": "06",
+     "assumptions": [
+      "A tied career total is a level table and should display joint first, as the V10 code explicitly states.",
+      "Local career screens remain part of normal play for the local route."
+     ],
+     "checked_against": [
+      "js/careerScreensV10.js:35-38 v10Ranks explicitly ranks a level table joint first.",
+      "js/statistics.js:222-250 local career table rendering.",
+      "js/trophyRoom.js:63-115 and 246-247 local cabinet rank rendering."
+     ],
+     "expected": "A level career table should rank both managers joint #1, matching the tie-aware V10 ranking path.",
+     "fix": {
+      "change": "Use the same tie-aware career rank supplied by the standings model, or compute equal ranks for equal career totals, instead of displaying index + 1.",
+      "files": [
+       "js/statistics.js",
+       "js/trophyRoom.js"
+      ]
+     },
+     "id": "A06-TIED-CAREER-RANK",
+     "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+     "root_cause": "Both local renderers use index + 1 as the displayed rank instead of a tie-aware rank. The newer V10 path already checks standings[index].level and assigns rank 1 to a level table.",
+     "run": "chat-1006-1345",
+     "severity": "S2",
+     "status": "likely",
+     "steps": [
+      "Complete normal Showdown history so Daniel and Nik are level in the career standings, for example 20 career points each.",
+      "Open local Career Statistics and Trophy Room.",
+      "Read the rank number shown for each manager."
+     ],
+     "title": "Tied career standings can show one manager as #2",
+     "where": [
+      {
+       "file": "js/statistics.js",
+       "function": "createCareerStandingsTable",
+       "line": 240
+      },
+      {
+       "file": "js/trophyRoom.js",
+       "function": "renderTrophyRoom",
+       "line": 247
+      }
+     ]
+    },
+    "sha": "6c492c6df41e781bcb091d1a876cb5049977095a"
+   },
+   "project-documents/gameplay-factory/sweeps/olympiad/findings/chat-1006-1346-1.json": {
+    "data": {
+     "actual": "Section 05 says better league position wins, then more league points wins, while also excluding goal difference, goals scored and head to head. It gives no result when both fallback values are equal.",
+     "area": "08",
+     "assumptions": [
+      "Daniel and Nik play separate Career Mode saves, so the same finishing position and same league points can occur in normal play.",
+      "When every allowed tiebreak value is equal, DRAW is the sensible terminal result rather than inventing another criterion."
+     ],
+     "checked_against": [
+      "index.html season result inputs and scoring text",
+      "js/screens.js Rule Book routing",
+      "js/optionalModules.js lazy Rule Book loading"
+     ],
+     "expected": "The Rule Book should give a terminal result for this valid tie state, with DRAW as the sensible fallback when position and league points are also equal.",
+     "fix": {
+      "change": "Add a final rule stating that if Showdown points, league position and league points are all equal, the season result is DRAW. Keep the implementation's season result label aligned with that rule.",
+      "files": [
+       "js/ruleBook.js"
+      ]
+     },
+     "id": "area08-exact-season-tie-undefined",
+     "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+     "root_cause": "The tiebreak list stops after league points and has no final exact-tie clause.",
+     "run": "chat-1006-1346",
+     "severity": "S2",
+     "status": "likely",
+     "steps": [
+      "Use a normal season where Daniel and Nik earn the same Showdown score, for example 0 to 0.",
+      "Give both managers the same league finishing position, for example 2nd.",
+      "Give both managers the same league points, for example 80.",
+      "Apply Rule Book section 05."
+     ],
+     "title": "Rule Book leaves an exact season tiebreak without an outcome",
+     "where": [
+      {
+       "file": "js/ruleBook.js",
+       "function": "createRuleBookScreen",
+       "line": 57
+      }
+     ]
+    },
+    "sha": "3e194e6962ecb2732f842f427d3020a863928ac1"
+   },
    "project-documents/gameplay-factory/sweeps/olympiad/findings/codex-1006-1251-1.json": {
     "data": {
      "actual": "Season 2 starts with position 1, 100 points, 100 goals and all four honours checked from season 1. Review accepts those old facts as Daniel’s season 2 result.",
@@ -1324,6 +1415,52 @@
      "run": "chat-1006-1344"
     },
     "sha": "92ca0da722379a37f8c48ca05ef91df5fe49bad0"
+   },
+   "project-documents/gameplay-factory/sweeps/olympiad/runs/chat-1006-1345.json": {
+    "data": {
+     "area": "06",
+     "clean_confidence_pct": 82,
+     "coverage_pct": 78,
+     "date_utc": "2026-10-06T13:45:00Z",
+     "files_read": [
+      "js/trophyRoom.js",
+      "js/statistics.js",
+      "js/rivalryLegacyV10.js",
+      "js/careerScreensV10.js"
+     ],
+     "findings": [
+      "A06-TIED-CAREER-RANK"
+     ],
+     "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+     "mode": "chat",
+     "next_focus": "On the next Area 06 pass, read code not used here around shared career analytics record construction and completed-history ordering.",
+     "partial": false,
+     "run": "chat-1006-1345"
+    },
+    "sha": "5bb2fa06acb81789c119b4d269281cf5035e27fc"
+   },
+   "project-documents/gameplay-factory/sweeps/olympiad/runs/chat-1006-1346.json": {
+    "data": {
+     "area": "08",
+     "clean_confidence_pct": 70,
+     "coverage_pct": 55,
+     "date_utc": "2026-10-06T13:46:56Z",
+     "files_read": [
+      "index.html",
+      "js/screens.js",
+      "js/optionalModules.js",
+      "js/ruleBook.js"
+     ],
+     "findings": [
+      "area08-exact-season-tie-undefined"
+     ],
+     "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+     "mode": "chat",
+     "next_focus": "On the next Area 08 cycle, read code not read in this run, prioritizing scoring.js, seasonEngine.js, transferChallenge.js and rulesSettingsV10.js to compare scoring, tiebreak execution, transfer enforcement and any Rule Book augmentation.",
+     "partial": false,
+     "run": "chat-1006-1346"
+    },
+    "sha": "7ca6d351059921c07e32cdd8ee28755374da943b"
    },
    "project-documents/gameplay-factory/sweeps/olympiad/runs/codex-1006-1206.json": {
     "data": {
