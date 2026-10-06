@@ -1,0 +1,45 @@
+{
+  "id": "A06-TIED-CAREER-RANK",
+  "run": "chat-1006-1345",
+  "area": "06",
+  "title": "Tied career standings can show one manager as #2",
+  "severity": "S2",
+  "status": "likely",
+  "where": [
+    {
+      "file": "js/statistics.js",
+      "line": 240,
+      "function": "createCareerStandingsTable"
+    },
+    {
+      "file": "js/trophyRoom.js",
+      "line": 247,
+      "function": "renderTrophyRoom"
+    }
+  ],
+  "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+  "steps": [
+    "Complete normal Showdown history so Daniel and Nik are level in the career standings, for example 20 career points each.",
+    "Open local Career Statistics and Trophy Room.",
+    "Read the rank number shown for each manager."
+  ],
+  "expected": "A level career table should rank both managers joint #1, matching the tie-aware V10 ranking path.",
+  "actual": "The local Career Statistics table and Trophy Room cabinets assign rank from array position, so the two tied managers are displayed as #1 and #2.",
+  "root_cause": "Both local renderers use index + 1 as the displayed rank instead of a tie-aware rank. The newer V10 path already checks standings[index].level and assigns rank 1 to a level table.",
+  "checked_against": [
+    "js/careerScreensV10.js:35-38 v10Ranks explicitly ranks a level table joint first.",
+    "js/statistics.js:222-250 local career table rendering.",
+    "js/trophyRoom.js:63-115 and 246-247 local cabinet rank rendering."
+  ],
+  "fix": {
+    "files": [
+      "js/statistics.js",
+      "js/trophyRoom.js"
+    ],
+    "change": "Use the same tie-aware career rank supplied by the standings model, or compute equal ranks for equal career totals, instead of displaying index + 1."
+  },
+  "assumptions": [
+    "A tied career total is a level table and should display joint first, as the V10 code explicitly states.",
+    "Local career screens remain part of normal play for the local route."
+  ]
+}
