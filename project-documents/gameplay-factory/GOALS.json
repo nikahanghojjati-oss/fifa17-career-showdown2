@@ -51,6 +51,22 @@
     },
     "sha": "232bc202ddc838f47499c1bf1d12ad7d0cd8a20d"
    },
+   "project-documents/gameplay-factory/sweeps/olympiad/claims/codex-1006-1312.json": {
+    "data": {
+     "area": "07",
+     "run": "codex-1006-1312",
+     "started_utc": "2026-10-06T13:12:32.415Z"
+    },
+    "sha": "c5ade13d691166fab847d1122eae69a0f95b3f4e"
+   },
+   "project-documents/gameplay-factory/sweeps/olympiad/claims/codex-1006-1313.json": {
+    "data": {
+     "area": "06",
+     "run": "codex-1006-1313",
+     "started_utc": "2026-10-06T13:13:27.817Z"
+    },
+    "sha": "b9cf846e8f60f5dd336f5773588952d8152ec9b4"
+   },
    "project-documents/gameplay-factory/sweeps/olympiad/findings/chat-1006-0418-1.json": {
     "data": {
      "actual": "The shared presentation exports handlesControl and handleControlClick, but ssjpInstall only records installed state and adds no click binding. productionSharedJourneyEntry re-enables the legacy controls while the presentation owns them. leagueWheel.js and clubAssignment.js retain direct click listeners on the same controls. Targeted review of the loaded entry, identity, Showdown UI, football visual and V10 club modules found no external caller of the shared dispatcher. The written repro scans all js files to challenge that conclusion.",
@@ -384,6 +400,173 @@
      ]
     },
     "sha": "f60e0cf8d8758c48c682ed7d486445a86a43798a"
+   },
+   "project-documents/gameplay-factory/sweeps/olympiad/findings/codex-1006-1301-1.json": {
+    "data": {
+     "actual": "Season 2 starts with position 1, points 100, goals 100 and all four boxes ticked from Season 1. Review and Publish accept the copied seven facts as the new season result, worth 11 points, with no new result entered.",
+     "area": "09",
+     "assumptions": [
+      "Daniel is Player One and Nik is Player Two; both friends enter their FIFA season facts fairly.",
+      "A new season should require its own results; no rule says last season’s trophies carry forward.",
+      "The replay uses Chromium on the local server, the real Results route and form, real result and scoring rules, and the real season-advance function. Completed-transfer and finished-season-history responses are supplied in memory; no live career is touched.",
+      "The season-advance function is called directly in the replay to keep the test within result entry. Results review, edit and publish use the visible game buttons.",
+      "Before keeping this finding, checked the existing reset in openSeasonEntry, both shared Results route functions, the screen router, and the season-advance code. None clears these fields in the shared path."
+     ],
+     "expected": "Season 2 asks for fresh league position, points and goals, with all trophy and award boxes unticked. Review without new results asks Daniel to fill them in.",
+     "fix": {
+      "change": "On a change of Showdown or season, clear both managers’ numeric fields and trophy/award boxes before filling any published result for that season. Keep entered values when returning to the same season or choosing Edit My Result. Continue restoring published results after reload.",
+      "files": [
+       "js/productionSharedSeasonResults.js"
+      ]
+     },
+     "id": "codex-1006-1301-01",
+     "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+     "root_cause": "When the shared Season Results screen sees a different season, pssrRender clears its review draft but leaves the form values and trophy boxes intact. pssrRenderEntry fills published results but does not clear them for a new season. openSeasonEntry already resets fields for the older season route; the shared Results route opens the screen directly and skips that reset.",
+     "run": "codex-1006-1301",
+     "script": "test/codex-1006-1301-01.cjs",
+     "script_output": "PASS 576 season-score combinations in 18/20-club leagues: 0/99/100 boundaries and every trophy/award combination.\nPASS season 1 of 3: 11-0; both shared bonuses capped; published result survives halfway reload; no duplicate season.\nSeason 2 before any new results were entered: {\"LeaguePosition\":\"1\",\"LeaguePoints\":\"100\",\"LeagueGoals\":\"100\",\"DomesticCup\":true,\"ChampionsLeague\":true,\"TopScorer\":true,\"TopAssist\":true}\nSeason 2 review: Daniel Arsenal League Position 1 League Points 100 League Goals 100 ✓ DOMESTIC CUP ✓ CHAMPIONS LEAGUE ✓ TOP SCORER ✓ TOP ASSIST\nWRONG RESULT: season 2 published all seven season 1 facts without a new result being entered (worth 11 points).\nPASS season 10 of 10: 0-0; equal position and points draw despite different goals.\nPASS season tiebreak: league position, then league points.\nAssertionError [ERR_ASSERTION]: A new season must not inherit last season results or trophy checks.\n+ actual - expected\n\n  {\n+   ChampionsLeague: true,\n+   DomesticCup: true,\n+   LeagueGoals: '100',\n+   LeaguePoints: '100',\n+   LeaguePosition: '1',\n+   TopAssist: true,\n+   TopScorer: true\n-   ChampionsLeague: false,\n-   DomesticCup: false,\n-   LeagueGoals: '',\n-   LeaguePoints: '',\n-   LeaguePosition: '',\n-   TopAssist: false,\n-   TopScorer: false\n  }\n\n    at /workspace/fifa17-career-showdown2/project-documents/gameplay-factory/sweeps/olympiad/test/codex-1006-1301-01.cjs:151:12 {\n  generatedMessage: false,\n  code: 'ERR_ASSERTION',\n  actual: [Object],\n  expected: [Object],\n  operator: 'deepStrictEqual',\n  diff: 'simple'\n}\n\nExit code: 1 (expected failure showing copied season results).\n",
+     "severity": "S2",
+     "status": "confirmed",
+     "steps": [
+      "Start a three-season Showdown as Daniel and Nik and finish the Season 1 Transfer Challenge.",
+      "Daniel enters league position 1, league points 100, league goals 100, and ticks Domestic Cup, Champions League, Top Scorer and Top Assist. Review and publish.",
+      "Reload Daniel halfway through result entry; his published Season 1 result returns. Nik enters position 2, points 0, goals 0, with no trophy or award ticks, and publishes.",
+      "Finish the Season 1 confirmation and history review, continue to Season 2, and finish its Transfer Challenge without reloading the page.",
+      "Open Season 2 Results. Do not enter any new numbers or ticks. Press Review My Season Result and Publish My Season Result.",
+      "Replay from the repository root with the local server running: node project-documents/gameplay-factory/sweeps/olympiad/test/codex-1006-1301-01.cjs"
+     ],
+     "title": "New season reuses last season's results and trophy ticks",
+     "where": [
+      {
+       "file": "js/productionSharedSeasonResults.js",
+       "function": "pssrRender",
+       "line": 128
+      },
+      {
+       "file": "js/productionSharedSeasonResults.js",
+       "function": "pssrRenderEntry",
+       "line": 123
+      },
+      {
+       "file": "js/seasonEngine.js",
+       "function": "openSeasonEntry",
+       "line": 334
+      }
+     ]
+    },
+    "sha": "f87759c4eeeb22c237470c4c38f87d69c390ed76"
+   },
+   "project-documents/gameplay-factory/sweeps/olympiad/findings/codex-1006-1303-1.json": {
+    "data": {
+     "actual": "The Rule Book says only that the challenge lasts 15 minutes. The game correctly allows both managers to end it early, and explains this on the transfer screen.",
+     "area": "08",
+     "assumptions": [
+      "This is a minor written-rules gap; the shared early-end behavior itself is correct.",
+      "Both friends play fairly and agree to finish their transfers early.",
+      "The proof opens the unchanged game in Chromium on a local server and uses the real transfer rules behind a local game test double."
+     ],
+     "expected": "The Rule Book says the transfer window lasts up to 15 minutes and may end early if both managers agree.",
+     "fix": {
+      "change": "Replace the fixed-duration sentence with: The transfer window lasts up to 15 minutes. Both managers may agree to end it early.",
+      "files": [
+       "js/ruleBook.js"
+      ]
+     },
+     "id": "CMS08-codex-1006-1303-window-rule",
+     "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+     "root_cause": "The transfer screen and shared game rules already include agreement to finish early; the Rule Book sentence has not kept up.",
+     "run": "codex-1006-1303",
+     "script": "project-documents/gameplay-factory/sweeps/olympiad/test/CMS08-codex-1006-1303-window-rule.cjs",
+     "script_output": "Rule Book: \"The transfer window challenge lasts 15 minutes.\"\nGame screens: Daniel requests early end; window stays open. Nik requests early end; both reach Guess Entry before 15 minutes.\nExisting shared rule correctly requires both managers. The Rule Book does not mention that exception.\nPROOF RESULT: Rule Book must explain the existing rule that both managers may agree to end the window early.\nExit code: 1 (the missing Rule Book explanation is the expected failed check).",
+     "severity": "S3",
+     "status": "confirmed",
+     "steps": [
+      "Open RULE BOOK from the main menu and read TRANSFER CHALLENGE. It says the window lasts 15 minutes, with no early-end exception.",
+      "Start season 1 of a 3-season Showdown with Daniel at Arsenal and Nik at Liverpool.",
+      "Start the shared 15-minute window. Daniel asks to end it early; check that the window stays open.",
+      "Nik also asks to end it early, before 15 minutes have passed. Both friends reach Guess Entry."
+     ],
+     "title": "Rule Book leaves out the agreed early end of the transfer window",
+     "where": [
+      {
+       "file": "js/ruleBook.js",
+       "function": "createRuleBookScreen",
+       "line": 51
+      },
+      {
+       "file": "js/sharedTransferChallenge.js",
+       "function": "stcApply",
+       "line": 174
+      },
+      {
+       "file": "js/productionSharedTransferChallenge.js",
+       "function": "pstcRenderProgress",
+       "line": 220
+      }
+     ]
+    },
+    "sha": "75e760733786a2fa5b90d9e8276d82c0df15bfd0"
+   },
+   "project-documents/gameplay-factory/sweeps/olympiad/findings/codex-1006-1303-2.json": {
+    "data": {
+     "actual": "The game correctly shows DRAW for 5–5 despite season wins of 9–1. The Rule Book describes only season tiebreaks and does not explain accumulated final points, the final winner, or a tied-total DRAW.",
+     "area": "08",
+     "assumptions": [
+      "This is a minor Rule Book omission; the final winner and DRAW code already handle the outcome correctly.",
+      "The proof uses normal Premier League clubs and valid manual season results.",
+      "The ten-season history is built by the real history and scoring rules; Chromium mounts the actual final screen from that completed game test history."
+     ],
+     "expected": "The Rule Book says to add each manager's points across all seasons; the higher total wins the Showdown; an equal total is DRAW. It makes clear that season tiebreaks and season-win counts do not break a tied final total.",
+     "fix": {
+      "change": "Add the final Showdown rule: Add each manager's points from every season. The higher total wins. If the totals are tied, the Showdown is a DRAW; season wins and season tiebreaks do not decide it.",
+      "files": [
+       "js/ruleBook.js"
+      ]
+     },
+     "id": "CMS08-codex-1006-1303-final-rule",
+     "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+     "root_cause": "The Rule Book stops after season scoring and season tiebreaks. The existing final-winner rule is not included.",
+     "run": "codex-1006-1303",
+     "script": "project-documents/gameplay-factory/sweeps/olympiad/test/CMS08-codex-1006-1303-final-rule.cjs",
+     "script_output": "Season 10 of 10: final points Daniel 5, Nik 5; season wins {\"Daniel\":9,\"Nik\":1}.\nExisting final rule: points are added across seasons; equal totals produce DRAW even with unequal season wins.\nActual final screen: DRAW. Rule Book: only season tiebreak rules; no final points rule or tied-total DRAW.\nPROOF RESULT: Rule Book must state that the highest accumulated points win the Showdown and a tied total is DRAW.\nExit code: 1 (the missing final-winner rule is the expected failed check).",
+     "severity": "S3",
+     "status": "confirmed",
+     "steps": [
+      "Open RULE BOOK and read SHOWDOWN FORMAT, SCORING and TIEBREAK. There is no final-winner rule.",
+      "Finish ten seasons with Daniel at Arsenal and Nik at Liverpool. Daniel wins the Champions League in season 1; Nik wins it in season 2; neither receives any other Showdown points.",
+      "Give Daniel the better league position in the other seasons. The season wins are Daniel 9, Nik 1; total Showdown points are 5 each.",
+      "Open the final screen: it correctly displays DRAW. Return to the Rule Book and look for the rule explaining that outcome."
+     ],
+     "title": "Rule Book does not explain the final winner or DRAW on tied total points",
+     "where": [
+      {
+       "file": "js/ruleBook.js",
+       "function": "createRuleBookScreen",
+       "line": 36
+      },
+      {
+       "file": "js/ruleBook.js",
+       "function": "createRuleBookScreen",
+       "line": 57
+      },
+      {
+       "file": "js/sharedFinalReconciliation.js",
+       "function": "frReconcile",
+       "line": 48
+      },
+      {
+       "file": "js/showdown.js",
+       "function": "getShowdownWinner",
+       "line": 18
+      },
+      {
+       "file": "js/seasonFinalV10.js",
+       "function": "finalFrame",
+       "line": 20
+      }
+     ]
+    },
+    "sha": "58de2e5b4ccdb79b6e2e4d6d6e864adac8cf01e2"
    },
    "project-documents/gameplay-factory/sweeps/olympiad/runs/chat-1006-0418.json": {
     "data": {
@@ -983,6 +1166,126 @@
      "run": "codex-1006-1251"
     },
     "sha": "16310d71f3282c44cc9fe8e04d3f921230c266d6"
+   },
+   "project-documents/gameplay-factory/sweeps/olympiad/runs/codex-1006-1301.json": {
+    "data": {
+     "area": "09",
+     "clean_confidence_pct": 75,
+     "coverage_pct": 90,
+     "date_utc": "2026-10-06T13:12:15.710Z",
+     "files_read": [
+      "AGENTS.md",
+      "PROJECT_OPERATING_SYSTEM_POS20.json",
+      "package.json",
+      "index.html",
+      "js/seasonEngine.js",
+      "js/scoring.js",
+      "js/sharedSeasonResults.js",
+      "js/sharedCanonicalScoring.js",
+      "js/productionSharedSeasonResults.js",
+      "js/productionSharedSeasonResultsRoute.js",
+      "js/productionSharedMultiSeasonProgression.js",
+      "js/productionSharedCanonicalScoring.js",
+      "js/sharedShowdownCatalog.js",
+      "js/seasonFinalV10.js",
+      "js/rulesSettingsV10.js",
+      "js/ruleBook.js",
+      "js/screens.js",
+      "js/sharedCareerAnalytics.js",
+      "css/season.css",
+      "visual-assets/v10_1/season-results/season-results.js",
+      "visual-assets/v10_1/season-results/app.css",
+      "tests/support/static-server.cjs",
+      "tests/support/chromium-runtime.cjs",
+      "tests/browser/stability-audit.cjs",
+      "tests/browser/shared-season-results-audit.cjs",
+      "tests/browser/shared-canonical-scoring-audit.cjs",
+      "tests/browser/shared-multi-season-progression-audit.cjs",
+      "tests/browser/shared-final-reconciliation-audit.cjs",
+      "tests/contracts/shared-season-results-contracts.cjs",
+      "tests/contracts/shared-season-results-production-contracts.cjs",
+      "tests/contracts/shared-canonical-scoring-contracts.cjs",
+      "tests/contracts/season-review-snapshot.cjs",
+      "tests/contracts/shared-final-reconciliation-contracts.cjs",
+      "tests/contracts/shared-season-commit-contracts.cjs",
+      "tests/contracts/shared-season-commit-production-contracts.cjs",
+      "tests/contracts/shared-canonical-scoring-production-contracts.cjs",
+      "tests/contracts/v10-season-final-contracts.cjs"
+     ],
+     "findings": [
+      "codex-1006-1301-01"
+     ],
+     "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+     "mode": "codex",
+     "next_focus": "Recheck fresh forms after a season-change reset, including Season 9 to 10 and starting another Showdown. Further check unpublished drafts when leaving and returning. Completed: 576 score combinations across 18/20-club leagues, blank-form review, review/edit before publication, both friends’ result entry on desktop/mobile, Season 1 of 3, Season 10 of 10, 0-0, season tiebreaks, published-result reload halfway, real confirmation and score screens, plus final tied-total/DRAW checks in Node. Three existing browser checks and nine relevant Node checks passed; the new replay fails on the copied results. Live service and whole-career history checks are outside this area.",
+     "run": "codex-1006-1301"
+    },
+    "sha": "23482f830cb7361d2a2c3be57d56c336125a535f"
+   },
+   "project-documents/gameplay-factory/sweeps/olympiad/runs/codex-1006-1303.json": {
+    "data": {
+     "area": "08",
+     "clean_confidence_pct": 90,
+     "coverage_pct": 96,
+     "date_utc": "2026-10-06",
+     "files_read": [
+      "AGENTS.md",
+      "PROJECT_OPERATING_SYSTEM_POS20.json",
+      "PROJECT_OPERATING_SYSTEM_POS20.md",
+      "POS20_CURRENT_STATE.json",
+      "CURRENT_PRODUCT_GUARDS.json",
+      "NEXT_TASK.md",
+      "SHARED_SHOWDOWN_JOURNEY_READINESS.json",
+      "MILESTONE_DELIVERY_PROGRESS.json",
+      "package.json",
+      "index.html",
+      "js/ruleBook.js",
+      "js/rulesSettingsV10.js",
+      "js/scoring.js",
+      "js/showdown.js",
+      "js/showdownUI.js",
+      "js/seasonEngine.js",
+      "js/seasonFinalV10.js",
+      "js/sharedCanonicalScoring.js",
+      "js/sharedTransferChallenge.js",
+      "js/productionSharedTransferChallenge.js",
+      "js/productionSharedSeasonResults.js",
+      "js/sharedFinalReconciliation.js",
+      "js/sharedMultiSeasonProgression.js",
+      "js/sharedShowdownCatalog.js",
+      "js/transferChallenge.js",
+      "js/transferSelector.js",
+      "js/screens.js",
+      "js/optionalModules.js",
+      "js/storage.js",
+      "js/saveLibraryCutover.js",
+      "js/saveLibraryRuntime.js",
+      "js/saveLibraryFoundation.js",
+      "tests/support/static-server.cjs",
+      "tests/support/chromium-runtime.cjs",
+      "tests/support/career-fixture-helpers.cjs",
+      "tests/support/active-showdown-fixtures.cjs",
+      "tests/contracts/full-gameplay-lifecycle-contracts.cjs",
+      "tests/contracts/v10-rules-settings-contracts.cjs",
+      "tests/browser/shared-season-results-audit.cjs",
+      "tests/browser/shared-transfer-challenge-replay-audit.cjs",
+      "tests/browser/backup-export-audit.cjs",
+      "project-documents/gameplay-factory/sweeps/olympiad/runs/codex-1006-1206.json",
+      "project-documents/gameplay-factory/sweeps/olympiad/runs/codex-1006-1207.json",
+      "project-documents/gameplay-factory/sweeps/olympiad/runs/codex-1006-1233.json",
+      "project-documents/gameplay-factory/sweeps/olympiad/claims/codex-1006-1301.json",
+      "project-documents/gameplay-factory/sweeps/olympiad/claims/codex-1006-1303.json"
+     ],
+     "findings": [
+      "CMS08-codex-1006-1303-window-rule",
+      "CMS08-codex-1006-1303-final-rule"
+     ],
+     "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+     "mode": "codex",
+     "next_focus": "Update only the two Rule Book explanations in a separate approved game change, then rerun both proof scripts. Checked: the real #ruleBook is created lazily by js/ruleBook.js rather than written directly in index.html; Daniel/Nik mapping, same league, fixed clubs, 1/3/5/10 lengths, three signing and guess slots, league/nationality guesses, release verdicts, 15-minute expiry and agreed early end, all 768 score combinations in both score paths, 99/100/101 bonus thresholds, maximum 11, season position/points fallback and ignored goals, final tied total DRAW despite unequal season wins. Chromium played all 3 and all 10 seasons through the existing core screens using the real Save Library and Legacy paths after a normal fixed-club starting fixture; all seasons scored 0–0, season 1 of 3 and season 10 of 10 were reviewed, and a reload during the transfer window preserved the exact deadline and clubs. Separate shared-screen proofs checked agreed early end and a nonzero 5–5 final DRAW. Existing full-gameplay lifecycle, shared scoring and shared transfer Node suites passed. Confidence is for these local rules checks, not a live two-device game. Match simulation and the two allowed final exceptions happen in FIFA 17 and cannot be checked inside this companion game; they are the remaining coverage limit. Sign-in, accounts and storage setup were outside the review.",
+     "run": "codex-1006-1303"
+    },
+    "sha": "80b92811f8c76a7ab7f74fb18e98e270dc1766b0"
    }
   },
   "state": "ok"
