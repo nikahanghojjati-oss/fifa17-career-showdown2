@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 8:33 PM Boston time (EDT)",
+ "generated": "2026-10-05 8:35 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -284,8 +284,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "960cf7b",
-  "head_boston": "Mon 5 Oct 8:32 PM",
+  "head": "d6d0228",
+  "head_boston": "Mon 5 Oct 8:35 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": true,
   "open_for_g": [],
@@ -313,25 +313,11 @@
  },
  "two": {
   "live": {
-   "sha": "84a04d8",
-   "revision": "1.9.1-r61",
-   "when": "2026-10-05T23:37:11Z",
-   "subject": "Physio sweep: skip a watched workflow that is not on main instead of failing (#387)",
+   "sha": "e7b556c",
+   "revision": "1.9.1-r62",
+   "when": "2026-10-06T00:35:12Z",
+   "subject": "Release r62: bug-hunt fixes, desktop Settings no longer clipped (#390)",
    "fixes": [
-    {
-     "pr": 390,
-     "title": "Release r62: bug-hunt fixes (errors, reconnect, auto final winner, desktop Settings, phone Home)",
-     "draft": false,
-     "branch": "gameplay/release-r62",
-     "sha": "4f67929b0a25306d63621d4d912d3935c71b0579",
-     "updated": "2026-10-06T00:25:21Z",
-     "gates": {
-      "passed": 16,
-      "running": 0,
-      "failed": 0,
-      "cancelled": 0
-     }
-    },
     {
      "pr": 386,
      "title": "Showdown Gate (shadow): six-lane check beside POS20, not required yet",
@@ -362,6 +348,11 @@
     }
    ],
    "today": [
+    {
+     "pr": 390,
+     "title": "Release r62: bug-hunt fixes (errors, reconnect, auto final winner, desktop Settings, phone Home)",
+     "merged": "2026-10-06T00:35:12Z"
+    },
     {
      "pr": 387,
      "title": "Physio: a watched workflow that isn't on main no longer fails the sweep",
@@ -427,6 +418,16 @@
   },
   "v_headline": "Board 1 (visual package): 238 of 238 jobs done and checked",
   "v_jobs": [
+   {
+    "job": "V-1006",
+    "title": "Final Winner: last season's score block",
+    "worker": "Sol chat",
+    "lane": "sol-chat",
+    "done": 1,
+    "total": 4,
+    "pr": 393,
+    "current": "waiting for Nik to type 1006 in a new Showdown visual chat"
+   },
    {
     "job": "V-247",
     "title": "Phone Home tile icons like GOAL_HOME",
@@ -578,7 +579,7 @@
     "from": "G",
     "to": "V",
     "title": "Final Winner screen with the last season's score (job 1005)",
-    "stage": "RECEIVED",
+    "stage": "WORKING",
     "pct": 0.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-011_final-winner-screen-with-the-last-season.md",
@@ -872,20 +873,6 @@
    }
   },
   "fixes": [
-   {
-    "pr": 390,
-    "title": "Release r62: bug-hunt fixes (errors, reconnect, auto final winner, desktop Settings, phone Home)",
-    "draft": false,
-    "branch": "gameplay/release-r62",
-    "sha": "4f67929b0a25306d63621d4d912d3935c71b0579",
-    "updated": "2026-10-06T00:25:21Z",
-    "gates": {
-     "passed": 16,
-     "running": 0,
-     "failed": 0,
-     "cancelled": 0
-    }
-   },
    {
     "pr": 386,
     "title": "Showdown Gate (shadow): six-lane check beside POS20, not required yet",
