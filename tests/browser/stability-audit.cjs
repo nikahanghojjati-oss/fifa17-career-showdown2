@@ -39,6 +39,8 @@ function createPageMonitors(page,expectedConsoleErrors=[]){
   page.on("response",response=>{if(isFirstParty(response.url())&&response.status()>=400)localFailures.push(`${response.status()} ${response.url()}`);});
   return{assertClean(label){assert.deepEqual(pageErrors,[],`${label} emitted page errors.`);assert.deepEqual(severeConsole,[],`${label} emitted unexpected console errors.`);assert.deepEqual(localFailures,[],`${label} had failed local assets or requests.`);}};
 }
+// JOB-1015: New Showdown opens the Connect Players layer; CHOOSE SEASONS leads to the season picker.
+async function chooseSeasonsFromConnectPlayers(page){await page.locator("#connectPlayersScreen").waitFor({state:"visible",timeout:12000});await page.locator("#connectPlayersSetup").click();}
 async function installAuditRuntime(page){
   await page.addInitScript(()=>{window.__cmsRouteEvents=[];document.addEventListener("DOMContentLoaded",()=>{const observer=new MutationObserver(records=>records.forEach(record=>{if(record.type==="attributes"&&record.attributeName==="data-route-state"&&record.target instanceof Element&&record.target.getAttribute("data-route-state")==="entering")window.__cmsRouteEvents.push({id:record.target.id,direction:record.target.getAttribute("data-route-direction")});}));observer.observe(document.body,{subtree:true,attributes:true});},{once:true});});
   await page.addInitScript({path:axePath});
@@ -129,7 +131,7 @@ async function resumeSavedUnderStability(page,expectedScreen,prefix){
 }
 async function createShowdownWithRapidActivation(page,prefix){
   await installAuthorizedOnlineIdentityFixture(page);
-  await page.locator("#newShowdown").click();await waitForScreen(page,"createShowdown");await runAxe(page,`${prefix} Create Showdown`);
+  await page.locator("#newShowdown").click();await chooseSeasonsFromConnectPlayers(page);await waitForScreen(page,"createShowdown");await runAxe(page,`${prefix} Create Showdown`);
   assert.deepEqual(await page.evaluate(()=>["showdownName","managerOne","managerTwo"].map(id=>{const input=document.getElementById(id);return{id,value:input.value,hidden:input.hidden,ariaHidden:input.getAttribute("aria-hidden")};})),[
     {id:"showdownName",value:"Daniel vs Nik",hidden:true,ariaHidden:"true"},{id:"managerOne",value:"Daniel",hidden:true,ariaHidden:"true"},{id:"managerTwo",value:"Nik",hidden:true,ariaHidden:"true"}
   ],"Setup must preserve the canonical Daniel/P1 and Nik/P2 mapping without exposing editable manager fields.");
@@ -220,13 +222,13 @@ async function runCorruptStorageFixture(browser){
   const page=await context.newPage(),monitors=createPageMonitors(page,[/Unable to parse the active showdown/,/Unable to parse Legacy history/,/Unable to parse application preferences/,/Unable to prepare local Save Library authority/,/Save Library activation failed/,/Unable to prepare Showdown/]);await installAuditRuntime(page);
   try{
     await openApplication(page);await installAuthorizedOnlineIdentityFixture(page);assert.equal(await page.locator("#continueCareer").isEnabled(),false);assert.equal(await page.evaluate(key=>localStorage.getItem(key),activeStorageKey),"{corrupt active");
-    await page.locator("#newShowdown").click();await waitForScreen(page,"createShowdown");await page.locator("#startShowdown").click();await page.waitForFunction(()=>!document.getElementById("startShowdown").disabled);assert.deepEqual(await activeScreens(page),["createShowdown"]);assert.equal(await page.evaluate(key=>localStorage.getItem(key),activeStorageKey),"{corrupt active","Unreadable legacy singleton bytes must remain byte-for-byte untouched when canonical Start fails closed.");assert.equal(await page.evaluate(key=>localStorage.getItem(key),saveLibraryStorageKey),null,"Corrupt singleton failure must not fabricate Save Library authority.");monitors.assertClean("Corrupt storage fixture");checkpoint("Corrupt singleton bytes fail closed at canonical Start");
+    await page.locator("#newShowdown").click();await chooseSeasonsFromConnectPlayers(page);await waitForScreen(page,"createShowdown");await page.locator("#startShowdown").click();await page.waitForFunction(()=>!document.getElementById("startShowdown").disabled);assert.deepEqual(await activeScreens(page),["createShowdown"]);assert.equal(await page.evaluate(key=>localStorage.getItem(key),activeStorageKey),"{corrupt active","Unreadable legacy singleton bytes must remain byte-for-byte untouched when canonical Start fails closed.");assert.equal(await page.evaluate(key=>localStorage.getItem(key),saveLibraryStorageKey),null,"Corrupt singleton failure must not fabricate Save Library authority.");monitors.assertClean("Corrupt storage fixture");checkpoint("Corrupt singleton bytes fail closed at canonical Start");
   }finally{await context.close();}
 }
 async function runQuotaFailureFixture(browser){
   const context=await browser.newContext({viewport:{width:1366,height:768},locale:"en-US"});const page=await context.newPage(),monitors=createPageMonitors(page,[/Unable to write local save data/,/Unable to prepare local Save Library authority/,/Save Library/,/Unable to prepare Showdown/]);await installAuditRuntime(page);
   try{
-    await openApplication(page);await installAuthorizedOnlineIdentityFixture(page);await page.locator("#newShowdown").click();await waitForScreen(page,"createShowdown");
+    await openApplication(page);await installAuthorizedOnlineIdentityFixture(page);await page.locator("#newShowdown").click();await chooseSeasonsFromConnectPlayers(page);await waitForScreen(page,"createShowdown");
     await page.evaluate(key=>{window.__cmsQuotaOriginalSetItem=Storage.prototype.setItem;Storage.prototype.setItem=function(storageKey,value){if(storageKey===key)throw new DOMException("Simulated quota exhaustion","QuotaExceededError");return window.__cmsQuotaOriginalSetItem.call(this,storageKey,value);};},saveLibraryStorageKey);
     await page.locator("#startShowdown").click();await page.waitForFunction(()=>!document.getElementById("startShowdown").disabled);assert.deepEqual(await activeScreens(page),["createShowdown"]);assert.equal(await page.evaluate(key=>localStorage.getItem(key),saveLibraryStorageKey),null,"Failed Save Library write must roll back without accepting authority.");
     await page.evaluate(()=>{Storage.prototype.setItem=window.__cmsQuotaOriginalSetItem;delete window.__cmsQuotaOriginalSetItem;document.getElementById("startShowdown").click();});await waitForScreen(page,"leagueWheelScreen");assert.equal((await readActiveSave(page)).name,"Daniel vs Nik");monitors.assertClean("Quota failure fixture");checkpoint("Save Library quota rejection rolls back before canonical retry");

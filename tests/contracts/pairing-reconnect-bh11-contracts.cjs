@@ -52,11 +52,12 @@ function createDom(){
   }
   const body=new El("body"),menu=new El("div"),shell=new El("div");
   menu.id="mainMenu";shell.className="fifaMenuShell";body.append(menu);menu.append(shell);
+  const connect=new El("section"),slot=new El("div");connect.id="connectPlayersScreen";slot.id="connectPlayersPairSlot";body.append(connect);connect.append(slot);
   const document={
     visibilityState:"visible",body,head:new El("head"),
     createElement:tag=>new El(tag),
     getElementById:id=>body.all().find(n=>n.id===id)||null,
-    querySelector:sel=>sel==="#mainMenu .fifaMenuShell"?shell:null,
+    querySelector:sel=>sel==="#connectPlayersScreen #connectPlayersPairSlot"?slot:sel==="#mainMenu .fifaMenuShell"?shell:null,
     get activeElement(){return active&&active.isConnected?active:body;}
   };
   return{document,body,El};

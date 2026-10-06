@@ -492,6 +492,7 @@ async function r1ScoringHistoryContracts(){
 function envelope(objectType,objectId,data,revision=1){return {schemaVersion:1,objectType,objectId,revision,parentRevision:revision-1,lifecycleState:"live",contentHash:`sha256:${"0".repeat(64)}`,data};}
 function pairHarness(){
   const dom=createDom();const menu=dom.add("mainMenu");const shell=dom.add("menuShell",{parent:menu,className:"fifaMenuShell"});void shell;
+  const connect=dom.add("connectPlayersScreen");dom.add("connectPlayersPairSlot",{parent:connect});
   const timers=makeTimers(),clock=makeClock();
   const rivalry=envelope("rivalry",RIVALRY,{connectionState:"pending-pair",managerSlots:[{accountId:"uid_daniel",slotId:"playerOne",saveId:`save_${"a".repeat(24)}`,profileId:`profile_${"b".repeat(24)}`}]});
   const docs={"accounts/uid_daniel/pairLinks/current":envelope("pairLink","current",{managerRole:"playerOne",managerId:"daniel",rivalryId:RIVALRY}),[`rivalries/${RIVALRY}`]:rivalry};
@@ -675,7 +676,7 @@ async function r3r4aPresentationContracts(){
 // ------------------------------------------------------------------ R5 + R6 career entry
 const PENDING_KEY="careerModeShowdown.sharedJourneyPending.v1";
 function entryHarness({rivalryReady=false,active=false,pairState={status:"unpaired",rivalryId:null,connectionState:null},openExperience="presentation"}={}){
-  const dom=createDom();const menu=dom.add("mainMenu");void menu;dom.add("roundAmount",{tag:"select"}).value="3";dom.add("startShowdown",{tag:"button"});
+  const dom=createDom();const menu=dom.add("mainMenu");void menu;const connect=dom.add("connectPlayersScreen");dom.add("connectPlayersPairSlot",{parent:connect});dom.add("roundAmount",{tag:"select"}).value="3";dom.add("startShowdown",{tag:"button"});
   const calls={pairRender:0,startPairing:0,remoteOpen:0,remoteClose:0,presentation:0,careerStart:0,navigate:[],host:0,join:0};
   const storage=new Map([[PENDING_KEY,"1"]]);
   const remoteListeners=new Set();
@@ -689,7 +690,7 @@ function entryHarness({rivalryReady=false,active=false,pairState={status:"unpair
     createShowdown:async()=>{sandbox.currentShowdown={id:"save_1",totalRounds:3,managers:{}};library.activeSaveId="save_1";library.saves=[{saveId:"save_1",showdown:sandbox.currentShowdown}];return true;},
     CareerModeSaveLibraryRuntime:{isReady:()=>true,getLibrarySnapshot:()=>library,saveCurrentShowdown:()=>true,clearActiveShowdown(){}},
     CareerModeOnlinePlayerIdentity:{getState:()=>({status:"ready",managerId:"daniel",registered:true}),subscribe:()=>()=>{},syncPair:async()=>pairState},
-    CareerModePersistentNikDanielPair:{getState:()=>pairState,render:()=>{calls.pairRender+=1;if(!dom.document.getElementById("persistentNikDanielPairPanel"))dom.add("persistentNikDanielPairPanel",{parent:dom.document.getElementById("mainMenu")});},startPairing:async()=>{calls.startPairing+=1;}},
+    CareerModePersistentNikDanielPair:{getState:()=>pairState,render:()=>{calls.pairRender+=1;if(!dom.document.getElementById("persistentNikDanielPairPanel"))dom.add("persistentNikDanielPairPanel",{parent:dom.document.getElementById("connectPlayersPairSlot")});},startPairing:async()=>{calls.startPairing+=1;}},
     CareerModeProductionFirebaseRuntime:{ensureAccountServices:async()=>({ok:true})},
     CareerModeSparkConnectedAccount:{initialize:async()=>true,getState:()=>({connected:true,accountId:"uid_daniel"})},
     CareerModeSparkPrivatePairing:{initialize:async()=>true,getState:()=>({registered:true,deviceId:DEVICE})},

@@ -1,0 +1,60 @@
+/* JOB-1015: live pairing controls over Team V's Start / Join art, pinned 5e05a1f. */
+#connectPlayersScreen{position:fixed;inset:0;z-index:90;width:100%;height:100dvh;min-height:0;padding:24px 16px 12px;overflow:hidden;color:#f7f7f2;
+ display:flex;flex-direction:column;align-items:center;gap:10px;background:linear-gradient(0deg,#07080a 0%,transparent 82%),url('../visual-assets/v10_1/start-join/assets/ENV_SJ_PLATE_V1_1X.webp') center/cover;}
+#connectPlayersScreen>*{position:relative;z-index:1;}
+#connectPlayersScreen>h2{width:auto;margin:0;padding:0;color:#fff1ae;background:none;border:0;box-shadow:none;text-align:center;font:800 italic clamp(30px,4vw,56px)/1 var(--f17-display);letter-spacing:.02em;}
+.connectPlayersTagline{font:600 11px var(--f17-display);letter-spacing:.26em;color:#d9c489;}
+#connectPlayersScreen .connectPlayersArt{position:absolute;z-index:0;inset:0;pointer-events:none;overflow:hidden;}
+.connectPlayersArt img{position:absolute;top:0;height:100%;width:auto;filter:drop-shadow(0 8px 15px #0009);}
+.connectPlayersDaniel{left:-5%;}.connectPlayersNik{right:-3%;}
+.connectPlayersWorkspace{width:min(760px,70%);min-height:0;display:flex;flex-direction:column;gap:12px;margin:auto 0;padding:16px;border:1px solid #e0b23080;background:linear-gradient(145deg,#070a0de8,#0c0e11bd);box-shadow:inset 0 1px #ffde6f24,0 12px 44px #0008;}
+.connectPlayersRoles{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.connectPlayersRole{min-width:0;padding:14px;border:1px solid #e0b23080;background:#070a0da8;}
+.connectPlayersRole>span{font:700 11px var(--f17-display);letter-spacing:.16em;color:#f0c84b;}
+.connectPlayersRole h3{margin:3px 0 9px;font:700 25px var(--f17-display);}
+.connectPlayersRole p{font-size:13px;line-height:1.35;color:#c9c9c5;}
+#connectPlayersScreen[data-role="daniel"] .connectPlayersRoleDaniel,#connectPlayersScreen[data-role="nik"] .connectPlayersRoleNik{border-color:#f0c84b;box-shadow:0 0 18px #d09d241c;}
+#connectPlayersScreen:not([data-role="daniel"]) #connectPlayersSetup{display:none;}
+#connectPlayersPairSlot{min-height:0;overflow:auto;overscroll-behavior:contain;scrollbar-color:#f0c84b #07080a;}
+#persistentNikDanielPairPanel{margin:0;padding:14px;border:1px solid #e0b23080;background:linear-gradient(145deg,#070a0deb,#0c0e11d1);color:#f7f7f2;text-align:left;}
+#persistentNikDanielPairPanel>strong{font:700 23px var(--f17-display);letter-spacing:.06em;color:#fff1ae;}
+#persistentNikDanielPairPanel>p{margin:7px 0 10px;font-size:13px;line-height:1.35;overflow-wrap:anywhere;}
+#persistentNikDanielPairPanel>div{display:flex;flex-wrap:wrap;align-items:center;gap:8px;}
+#persistentNikDanielPairPanel span{flex-basis:100%;font:600 11px/1.25 var(--f17-display);letter-spacing:.06em;color:#d9c489;}
+#connectPlayersScreen .menuButton,#connectPlayersScreen .connectPlayersBack{width:auto;min-height:44px;margin:0;padding:8px 13px;border:1px solid #f0c84b80;border-radius:2px;background:#0b0f12eb;color:#fff1ae;font:700 15px/1.1 var(--f17-display);letter-spacing:.05em;}
+#connectPlayersSetup{margin-top:10px!important;}
+#persistentNikDanielPairPanel .menuButton{flex:1 1 auto;}
+#persistentNikDanielPairPanel code{flex-basis:100%;display:block;min-width:0;padding:10px 12px;border:1px solid #cdd6df94;background:#05080bcc;color:#fff1ae;overflow-wrap:anywhere;word-break:break-all;font:600 23px/1.2 var(--f17-display);letter-spacing:.07em;user-select:text;}
+#persistentNikDanielPairCode{width:100%;min-width:0;min-height:44px;margin:0;padding:8px 12px;border:1px solid #ced7df85;border-radius:2px;background:#06090dc7;color:#f7f7f2;font:600 18px var(--f17-display);}
+#connectPlayersScreen button:disabled{opacity:.45;}
+#connectPlayersScreen button:focus-visible,#connectPlayersScreen input:focus-visible{outline:2px solid #f0c84b;outline-offset:2px;}
+.connectPlayersTabs{display:none;}
+#connectPlayersScreen[data-connection="active"] #persistentNikDanielPairPanel{border-color:#80c97ab3;}
+@media(max-width:900px){
+ #connectPlayersScreen{padding:0 12px 8px;gap:5px;background:linear-gradient(0deg,#07080a 10%,#07080ad9 65%,transparent),url('../visual-assets/v10_1/start-join/assets/ENV_SJ_PHONE_V1.webp') center 36%/cover;}
+ #connectPlayersScreen .connectPlayersArt{height:31%;}
+ .connectPlayersArt img{height:155%;top:0;}.connectPlayersDaniel{left:-4%;}.connectPlayersNik{right:-6%;}
+ #connectPlayersScreen>h2{margin-top:clamp(70px,16svh,132px);font-size:32px;}
+ .connectPlayersTagline{font-size:9px;letter-spacing:.12em;}
+ .connectPlayersWorkspace{width:100%;flex:1;gap:6px;padding:0;margin:3px 0 0;border:0;background:none;box-shadow:none;overflow:hidden;}
+ .connectPlayersTabs{display:flex;flex-shrink:0;gap:0;border:1px solid #e0b23080;background:#07080ae6;}
+ .connectPlayersTabs label{position:relative;flex:1;min-width:0;cursor:pointer;}
+ .connectPlayersTabs input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer;margin:0;}
+ .connectPlayersTabs span{display:flex;align-items:center;justify-content:center;min-height:44px;padding:0 2px;font:700 12px var(--f17-display);color:#d9c489;}
+ .connectPlayersTabs input:checked+span{background:#f0c84b21;color:#fff1ae;box-shadow:inset 0 -2px #f0c84b;}
+ .connectPlayersTabs input:focus-visible+span{outline:2px solid #f0c84b;outline-offset:-3px;}
+ .connectPlayersRoles{display:block;flex-shrink:0;}.connectPlayersRole{display:none;padding:8px 10px;}
+ .connectPlayersRole>span{display:none;}.connectPlayersRole h3{margin:0 0 4px;font-size:20px;}.connectPlayersRole p{font-size:12px;}
+ .connectPlayersWorkspace:has(#connectPlayersDanielTab:checked) .connectPlayersRoleDaniel,.connectPlayersWorkspace:has(#connectPlayersNikTab:checked) .connectPlayersRoleNik{display:block;}
+ #connectPlayersPairSlot{flex:1;min-height:0;}
+ #connectPlayersScreen[data-role="nik"] .connectPlayersWorkspace:has(#connectPlayersDanielTab:checked) #connectPlayersPairSlot,#connectPlayersScreen[data-role="daniel"] .connectPlayersWorkspace:has(#connectPlayersNikTab:checked) #connectPlayersPairSlot{visibility:hidden;}
+ #persistentNikDanielPairPanel{padding:10px;}
+ #persistentNikDanielPairPanel>strong{font-size:20px;}#persistentNikDanielPairPanel>p{font-size:12px;margin:6px 0 8px;}
+ #persistentNikDanielPairPanel code{font-size:19px;line-height:1.1;padding:7px 9px;}
+ #persistentNikDanielPairPanel>div{gap:6px;}#persistentNikDanielPairPanel .menuButton{font-size:13px;padding:8px;}
+ #connectPlayersScreen>.connectPlayersBack{flex-shrink:0;min-width:100px;}
+}
+@media(max-width:900px) and (max-height:650px){
+ #connectPlayersScreen>h2{margin-top:58px;font-size:28px;}.connectPlayersTagline{display:none;}
+ .connectPlayersRole p{display:none;}#persistentNikDanielPairPanel>p{font-size:11px;}
+}

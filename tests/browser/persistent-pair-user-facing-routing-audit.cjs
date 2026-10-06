@@ -32,6 +32,7 @@ const playerOneProfileId=`profile_${"d".repeat(24)}`;
     await page.evaluate(({rivalryId,saveId,profileId,playerOneProfileId})=>{
       const accountId="account_user_route_fixture",deviceId="device_user_route_fixture";
       window.__pairProviderMode="unpaired";
+      window.__pairRoutingEntry=window.CareerModeProductionSharedJourneyEntry;
       window.__localRecoveryReady=true;
       window.__continueOpened=0;
       window.__recoveryOpened=0;
@@ -137,10 +138,11 @@ const playerOneProfileId=`profile_${"d".repeat(24)}`;
     await connect.waitFor({state:"visible",timeout:5000});
     assert.equal(await connect.isDisabled(),false,"CONNECT PLAYERS must be actionable before pairing.");
     await connect.click();
-    await page.locator("#mainMenu").waitFor({state:"visible",timeout:5000});
-    const panel=page.locator("#persistentNikDanielPairPanel");
+    await page.locator("#connectPlayersScreen").waitFor({state:"visible",timeout:5000});
+    const panel=page.locator("#connectPlayersScreen #persistentNikDanielPairPanel");
     await panel.waitFor({state:"visible",timeout:5000});
-    assert.equal(await panel.evaluate(node=>Boolean(node.closest("#mainMenu"))),true,"Connection controls must land on the visible Home shell.");
+    assert.equal(await panel.evaluate(node=>Boolean(node.closest("#connectPlayersScreen"))),true,"Connection controls must land on Connect Players.");
+    assert.equal(await page.locator("#mainMenu #persistentNikDanielPairPanel").count(),0,"Home must never contain the pair panel.");
     await page.locator("#persistentNikDanielPairCode").waitFor({state:"visible"});
     await page.locator("#persistentNikDanielPairPanel button",{hasText:"JOIN DANIEL'S SHOWDOWN"}).waitFor({state:"visible"});
     assert.equal(await page.locator("#persistentNikDanielPairPanel button",{hasText:"CREATE CODE FOR NIK"}).count(),0,"Nik must not be shown Daniel's host action.");
@@ -193,7 +195,7 @@ const playerOneProfileId=`profile_${"d".repeat(24)}`;
     await page.locator("#persistentNikDanielPairPanel",{hasText:"CAREER READY"}).waitFor({state:"visible",timeout:5000});
     const connectReconciliation=await page.evaluate(()=>({managerId:window.__routeManagerId,syncCalls:window.__identitySyncCalls,status:window.CareerModePersistentNikDanielPair.getState().status,role:window.CareerModePersistentNikDanielPair.getState().managerRole}));
     assert.deepEqual(connectReconciliation,{managerId:"nik",syncCalls:2,status:"paired",role:"playerTwo"},"CONNECT PLAYERS must retry one transient sidecar failure, reconcile stale Daniel to provider-authoritative Nik, and reach paired state.");
-    await page.locator("#persistentNikDanielPairPanel button",{hasText:"CONTINUE CAREER"}).waitFor({state:"visible",timeout:5000});
+    await page.locator("#persistentNikDanielPairPanel button",{hasText:"START CAREER"}).waitFor({state:"visible",timeout:5000});
     assert.equal(await page.locator("#persistentNikDanielPairPanel",{hasText:"CAREER RECOVERY NEEDED"}).count(),0,"Successful stale-role reconciliation must not dead-end into recovery or unavailable controls.");
     await page.evaluate(async()=>{window.__pairProviderMode="unpaired";window.__routeManagerId="daniel";window.__identitySyncTransientFailures=0;await window.CareerModePersistentNikDanielPair.initialize({force:true});});
 
@@ -228,7 +230,7 @@ const playerOneProfileId=`profile_${"d".repeat(24)}`;
     assert.match(playerJoinCode,/^CMS17-pair_5[0-9a-f]{63}$/i,"The five-season plan must be bound into the exact provider capability itself.");
     assert.equal(await page.evaluate(()=>window.__joinerProvisionRounds),5,"Nik Join must automatically provision the same season length Daniel selected.");
     assert.match(await panel.innerText(),/Nik joined Daniel's Showdown/i,"Nik must receive a single successful Join outcome, not another Start Showdown instruction.");
-    const continueButton=page.locator("#persistentNikDanielPairPanel button",{hasText:"CONTINUE CAREER"});
+    const continueButton=page.locator("#persistentNikDanielPairPanel button",{hasText:"START CAREER"});
     await continueButton.waitFor({state:"visible"});
     await page.evaluate(()=>{window.CareerModeProductionSharedJourneyEntry={install(){},openPanel:async()=>{window.__continueOpened+=1;return true;}};});
     await continueButton.click();
@@ -275,8 +277,10 @@ const playerOneProfileId=`profile_${"d".repeat(24)}`;
       }
     },{saveId,profileId,playerOneProfileId});
     assert.deepEqual(reloadAuthority,{status:"paired",continuedStatus:"paired",activationCount:1,switchCount:1,hydratedSaveId:saveId,hydratedMode:"shared",hydratedSeasons:5,continueOpened:1,recoveryReady:true},"A normal paired-browser reload must activate storage, hydrate the already-active canonical Save, and open Continue Career without false recovery.");
+    // JOB-1015: START CAREER closed the Connect Players layer above; reopen it to read the panel the player would see.
+    await page.evaluate(()=>window.CareerModeConnectPlayersScreenV10.open());
     await page.locator("#persistentNikDanielPairPanel",{hasText:"CAREER READY"}).waitFor({state:"visible",timeout:5000});
-    await page.locator("#persistentNikDanielPairPanel button",{hasText:"CONTINUE CAREER"}).waitFor({state:"visible"});
+    await page.locator("#persistentNikDanielPairPanel button",{hasText:"START CAREER"}).waitFor({state:"visible"});
     assert.equal(await page.locator("#persistentNikDanielPairPanel",{hasText:"CAREER RECOVERY NEEDED"}).count(),0,"A valid local paired reload must not show false recovery UI.");
 
     // If another tab invalidates Save Library after ACTIVE pair state is already rendered, the panel Continue action must reactivate authority before checking recovery.
@@ -317,6 +321,9 @@ const playerOneProfileId=`profile_${"d".repeat(24)}`;
     await page.locator("#careerModeRestorePanel input[type=file]").waitFor({state:"attached",timeout:3000});
     assert.equal(await page.locator("#careerModeRestorePanel input[type=file]").evaluate(input=>document.activeElement===input),true,"Recovery routing must focus the verified restore input.");
     await page.evaluate(async()=>{window.showScreen("mainMenu",false);window.__pairProviderMode="active-recovery";window.__localRecoveryReady=false;await window.CareerModePersistentNikDanielPair.initialize({force:true});window.CareerModePersistentNikDanielPair.render();});
+    await page.evaluate(()=>window.__pairRoutingEntry.openPanel({routeToRemote:false}));
+    await page.locator("#productionSharedJourneyEntryOverlay button",{hasText:/CONNECT PLAYERS|REVIEW CONNECTION/}).click();
+    await page.locator("#connectPlayersScreen").waitFor({state:"visible",timeout:5000});
     const staleStartOver=page.locator("#persistentNikDanielPairPanel button",{hasText:"DELETE OLD SHOWDOWN & START OVER"});
     await staleStartOver.waitFor({state:"visible"});
 
@@ -328,7 +335,7 @@ const playerOneProfileId=`profile_${"d".repeat(24)}`;
     assert.equal(restoredProof.providerMode,"active-recovery","A successfully restored career must keep the provider Showdown active.");
     assert.equal(restoredProof.abandonCount,0,"A stale delete button must never abandon the provider Showdown after local recovery becomes valid.");
     assert.equal(restoredProof.pairStatus,"paired","Fresh recovery revalidation must promote the restored browser to CAREER READY.");
-    await page.locator("#persistentNikDanielPairPanel button",{hasText:"CONTINUE CAREER"}).waitFor({state:"visible",timeout:5000});
+    await page.locator("#persistentNikDanielPairPanel button",{hasText:"START CAREER"}).waitFor({state:"visible",timeout:5000});
 
     // With recovery still genuinely missing, the same action may close exactly one old provider Showdown and route to fresh season selection.
     await page.evaluate(async()=>{window.__localRecoveryReady=false;window.__pairProviderMode="active-recovery";await window.CareerModePersistentNikDanielPair.initialize({force:true});window.CareerModePersistentNikDanielPair.render();});

@@ -217,6 +217,8 @@ const SHELL_PATHS = Object.freeze([
     "visual-assets/v10_1/shared/navbar/navbar.js",
     "js/v10Setup.js",
     "css/v10Setup.css",
+    "js/connectPlayersScreenV10.js",
+    "css/connectPlayersV10.css",
     "js/transferScreenV10.js",
     "css/v10Transfer.css",
     "visual-assets/v10_1/tr2/slice-02-plate/plate.css",
