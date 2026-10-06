@@ -1,14 +1,14 @@
 # Board archive
 
-[Back to the board](BOARD.md) · generated 2026-10-05 10:29 PM Boston time (EDT). Detail and history behind the one board.
+[Back to the board](BOARD.md) · generated 2026-10-05 10:30 PM Boston time (EDT). Detail and history behind the one board.
 
 ## Old detailed board
 
 # Showdown board: G Factory and V Factory
 
-🌐 **Live: runtime 1.9.1-r62** (main `bc77a0b`) · 🔄 **14 moving** · ⏭ 2 up next · 👤 11 waiting on Nik · 🗂 4 later · updated 2026-10-05 10:29 PM Boston time (EDT)
+🌐 **Live: runtime 1.9.1-r62** (main `bc77a0b`) · 🔄 **14 moving** · ⏭ 2 up next · 👤 11 waiting on Nik · 🗂 4 later · updated 2026-10-05 10:30 PM Boston time (EDT)
 
-🐕 **Barking: POS20 on #400 has waited 8 min for a machine; POS20 on #401 has waited 3 min for a machine; POS20 has waited 2 min for a machine.** · POS20 #304 6/16
+🐕 **Barking: POS20 on #397 has waited 8 min for a machine; POS20 has waited 4 min for a machine; Gameplay Fast has waited 2 min for a machine; Gameplay Fast on #392 has waited 1 min for a machine.** · POS20 #304 6/16
 
 ## Your next move
 
@@ -180,7 +180,7 @@ Latest:
 ## Every bug report
 
 
-> Updated **Mon 5 Oct, 10:29 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
+> Updated **Mon 5 Oct, 10:30 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
 
 | 🔓 Open | 🔴 Top priority | 🔧 Fixing or waiting for release | ✅ Fixed and live |
 | :---: | :---: | :---: | :---: |

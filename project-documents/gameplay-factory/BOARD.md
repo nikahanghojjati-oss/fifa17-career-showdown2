@@ -1,10 +1,10 @@
 # Bug hunt board
 
-Updated Mon 5 Oct, 10:29 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
+Updated Mon 5 Oct, 10:30 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r62** (main `bc77a0b`, Mon 5 Oct 9:18 PM)
 
-🐕 **Barking: POS20 on #400 has waited 8 min for a machine; POS20 on #401 has waited 3 min for a machine; POS20 has waited 2 min for a machine.** · POS20 #304 6/16
+🐕 **Barking: POS20 on #397 has waited 8 min for a machine; POS20 has waited 4 min for a machine; Gameplay Fast has waited 2 min for a machine; Gameplay Fast on #392 has waited 1 min for a machine.** · POS20 #304 6/16
 
 ## Jobs
 
@@ -13,18 +13,18 @@ Updated Mon 5 Oct, 10:29 PM Boston time. Bug hunting only, no new features until
 - **1015** Connect Players screen: create code / join off Home · worker done, lead checking
 - **1020** Season Results patch: one column on phone, no overlap on desktop · worker done, lead checking
 - **1009** Showdown Champion: dark oval over the losing manager · worker done, lead checking
+- **1004** Rule Book: remove the useless 01-06 side number rail (desktop and phone) · worker done, lead checking
 - **1014** No reconnect prompt after a finished Showdown · worker done, lead checking
 - **1021** Transfer War on phone: port Team V's revamp · with the lead
 - **1010** 10-season sweep: scoring, history and final math · step 1 of 4 · 0.0000 %
 
 **Next for you, in this order**
 
-1. **1004** Rule Book: remove the useless 01-06 side number rail (desktop and phone): type **1004 again** in the gameplay project (normal chat), same chat as before · round 2
-2. **1018** Gameplay hunt 2: sessions, pairing and reconnect: type **1018** in the Q&A team project (Work mode), new chat
-3. **1019** Gameplay hunt 3: entries, saves and career numbers: type **1019** in the Q&A team project (Work mode), new chat
-4. **1017** Gameplay hunt 1: shared season flow across devices: type **1017** in the Q&A team project (Astra Work mode), new chat
-5. **1011** Plain-words sweep: jargon on game screens: type **1011** in the gameplay project (normal chat), new chat · only after 1014, 1015 and 1020 merge
-6. **1006** Final Winner: last season's score block: type **1006** in a new Showdown visual chat
+1. **1018** Gameplay hunt 2: sessions, pairing and reconnect: type **1018** in the Q&A team project (Work mode), new chat
+2. **1019** Gameplay hunt 3: entries, saves and career numbers: type **1019** in the Q&A team project (Work mode), new chat
+3. **1017** Gameplay hunt 1: shared season flow across devices: type **1017** in the Q&A team project (Astra Work mode), new chat
+4. **1011** Plain-words sweep: jargon on game screens: type **1011** in the gameplay project (normal chat), new chat · only after 1014, 1015 and 1020 merge
+5. **1006** Final Winner: last season's score block: type **1006** in a new Showdown visual chat
 
 **Waiting on something else**
 
