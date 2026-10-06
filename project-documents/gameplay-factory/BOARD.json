@@ -872,8 +872,8 @@
      "group": "Bug list 1",
      "title": "1004 · G Rule Book: remove the useless 01-06 side number rail (desktop and phone)",
      "lane": "blue",
-     "state": "ready",
-     "waits_on": "Nik types 1004 in the gameplay GPT project (normal chat)",
+     "state": "with worker (round 2)",
+     "waits_on": "GPT blue round 2: one test line",
      "details": "js/rulesSettingsV10.js only: stop building #ruleBookIndex. Per-rule number badges stay."
     }
    ]
