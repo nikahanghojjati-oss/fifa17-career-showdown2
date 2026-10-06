@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 10:47 PM Boston time (EDT)",
+ "generated": "2026-10-05 10:49 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -284,8 +284,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "38f63f0",
-  "head_boston": "Mon 5 Oct 10:39 PM",
+  "head": "0257aa3",
+  "head_boston": "Mon 5 Oct 10:48 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": true,
   "open_for_g": [],
@@ -698,7 +698,7 @@
   "**r62 is live.** On the laptop, close every game tab in Chrome and reopen the game; if Settings still looks clipped, do it once more."
  ],
  "now": {
-  "moving": 13,
+  "moving": 14,
   "next": 2,
   "nik": 10,
   "later": 6,
@@ -742,17 +742,6 @@
       "archived": true
      },
      {
-      "id": "1020",
-      "group": "Bug list 1",
-      "title": "1020 · G Season Results patch: one column on phone, no overlap on desktop",
-      "lane": "green",
-      "state": "with the lead (PR #399, Team V grid fix pushed, CI running)",
-      "waits_on": "Nik types it in the gameplay project (Work mode)",
-      "details": "GPT green, one run. Team V phone CSS (HO-015) + desktop window below the scoring card + reconciliation look. Team V 1012 checks the look.",
-      "order": 2,
-      "place": "in the gameplay project (Work mode), new chat"
-     },
-     {
       "id": "1022",
       "group": "Bug list 1",
       "title": "Connect Players: match Team V's start-join design (1015 follow-up)",
@@ -761,6 +750,26 @@
       "waits_on": "",
       "order": 6,
       "details": "Team V check on #397: desktop shows Nik twice; phone title, Back position and bottom nav; yellow primary buttons."
+     },
+     {
+      "id": "1023",
+      "group": "Bug list 1",
+      "title": "Session code replacement: double tap and lost join watcher",
+      "lane": "claude",
+      "state": "with the lead (Claude helper building)",
+      "waits_on": "",
+      "order": 7,
+      "details": "Hunt 1018 H1 (S1) and H2 (S2), js/sparkRemoteJoining.js"
+     },
+     {
+      "id": "1024",
+      "group": "Bug list 1",
+      "title": "Reconnect keeps stale authority after sign-out, offline or expiry",
+      "lane": "claude",
+      "state": "with the lead (Claude helper building)",
+      "waits_on": "",
+      "order": 7,
+      "details": "Hunt 1018 H3, H4 and H5 (S2), js/productionSharedJourneyReconnect.js"
      }
     ],
     "nik": [
@@ -813,7 +822,8 @@
       "details": "GPT green, one run. Replaces engineering words players see; leaves test-asserted strings to the lead.",
       "order": 11,
       "place": "in the gameplay project (normal chat), new chat",
-      "after": "1014, 1015 and 1020 merge"
+      "after": "1014, 1015 and 1020 merge",
+      "note": "1014, 1015 and 1020 are merged"
      },
      {
       "id": "1014",
@@ -838,17 +848,6 @@
       "place": "in the Q&A team project (Astra Work mode), new chat"
      },
      {
-      "id": "1018",
-      "group": "Bug list 1",
-      "title": "1018 · G Gameplay hunt 2: sessions, pairing and reconnect",
-      "lane": "green",
-      "state": "ready",
-      "waits_on": "Nik types it in the Q&A team project",
-      "details": "GPT Q&A team, Sol Work. Report only (sweeps/hunt-1018.md); the lead turns findings into fix jobs.",
-      "order": 8,
-      "place": "in the Q&A team project (Work mode), new chat"
-     },
-     {
       "id": "1019",
       "group": "Bug list 1",
       "title": "1019 · G Gameplay hunt 3: entries, saves and career numbers",
@@ -858,6 +857,18 @@
       "details": "GPT Q&A team, Sol Work. Report only (sweeps/hunt-1019.md); the lead turns findings into fix jobs.",
       "order": 9,
       "place": "in the Q&A team project (Work mode), new chat"
+     },
+     {
+      "id": "1020",
+      "group": "Bug list 1",
+      "title": "1020 · G Season Results patch: one column on phone, no overlap on desktop",
+      "lane": "green",
+      "state": "merged into bug-list-1",
+      "waits_on": "Nik types it in the gameplay project (Work mode)",
+      "details": "GPT green, one run. Team V phone CSS (HO-015) + desktop window below the scoring card + reconciliation look. Team V 1012 checks the look.",
+      "order": 2,
+      "place": "in the gameplay project (Work mode), new chat",
+      "archived": true
      },
      {
       "id": "1021",

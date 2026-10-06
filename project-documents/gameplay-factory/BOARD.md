@@ -1,6 +1,6 @@
 # Bug hunt board
 
-Updated Mon 5 Oct, 10:47 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
+Updated Mon 5 Oct, 10:50 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r62** (main `bc77a0b`, Mon 5 Oct 9:18 PM)
 
@@ -10,23 +10,23 @@ Updated Mon 5 Oct, 10:47 PM Boston time. Bug hunting only, no new features until
 
 **Running now**
 
-- **1020** Season Results patch: one column on phone, no overlap on desktop · worker done, lead checking
 - **1022** Connect Players: match Team V's start-join design (1015 follow-up) · with the lead
 - **1010** 10-season sweep: scoring, history and final math · worker done, lead checking
-- **1018** Gameplay hunt 2: sessions, pairing and reconnect · worker done, lead checking
+- **1023** Session code replacement: double tap and lost join watcher · with the lead
+- **1024** Reconnect keeps stale authority after sign-out, offline or expiry · with the lead
 
 **Next for you, in this order**
 
 1. **1019** Gameplay hunt 3: entries, saves and career numbers: type **1019** in the Q&A team project (Work mode), new chat
 2. **1017** Gameplay hunt 1: shared season flow across devices: type **1017** in the Q&A team project (Astra Work mode), new chat
-3. **1011** Plain-words sweep: jargon on game screens: type **1011** in the gameplay project (normal chat), new chat · only after 1014, 1015 and 1020 merge
+3. **1011** Plain-words sweep: jargon on game screens: type **1011** in the gameplay project (normal chat), new chat · only after 1014, 1015 and 1020 merge · 1014, 1015 and 1020 are merged
 4. **1006** Final Winner: last season's score block: type **1006** in a new Showdown visual chat
 
 **Waiting on something else**
 
 - **1005** Last season's score is skipped before the Final Winner · after Team V designs the combined screen (HO-011)
 
-**Done, in the next release:** 1001, 1003, 1004, 1009, 1014, 1015, 1021
+**Done, in the next release:** 1001, 1003, 1004, 1009, 1014, 1015, 1020, 1021
 
 ## Other asks
 
