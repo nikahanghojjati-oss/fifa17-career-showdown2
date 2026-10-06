@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 9:21 PM Boston time (EDT)",
+ "generated": "2026-10-05 9:24 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -315,7 +315,7 @@
   "live": {
    "sha": "bc77a0b",
    "revision": "1.9.1-r62",
-   "when": "2026-10-06T01:18:19+00:00",
+   "when": "2026-10-06T01:18:19Z",
    "subject": "Showdown Gate shadow: 6-lane gate runs beside POS20, coverage-proven (#386)",
    "fixes": [
     {
@@ -326,9 +326,9 @@
      "sha": "61161337fa58344482e44a7bd088c7a9d63f98ab",
      "updated": "2026-10-06T01:21:35Z",
      "gates": {
-      "passed": 0,
-      "running": 7,
-      "failed": 0,
+      "passed": 2,
+      "running": 14,
+      "failed": 1,
       "cancelled": 0
      }
     },
@@ -338,11 +338,11 @@
      "draft": false,
      "branch": "ci/gate-canary-planted-failures",
      "sha": "b381233f04619eba1a85dc93de827de6d7ae32b0",
-     "updated": "2026-10-06T01:21:48Z",
+     "updated": "2026-10-06T01:21:55Z",
      "gates": {
-      "passed": 1,
-      "running": 16,
-      "failed": 0,
+      "passed": 2,
+      "running": 14,
+      "failed": 1,
       "cancelled": 0
      }
     }
@@ -417,8 +417,8 @@
   },
   "physio": {
    "state": "barking",
-   "line": "Barking: POS20 has waited 1 min for a machine.",
-   "gate": "POS20 #304 6/16",
+   "line": "Barking: POS20 on #312 has waited 6 min for a machine; Showdown Gate on #396 has waited 5 min for a machine; POS20 on #396 has waited 5 min for a machine; POS20 on #395 has waited 5 min for a machine; Showdown Gate on #395 has waited 5 min for a machine.",
+   "gate": "Gate #395: L1✗ L2… L3… L4… L5· L6… · seal pending · POS20 #395 2/16",
    "source": "physio"
   },
   "v_headline": "Board 1 (visual package): 238 of 238 jobs done and checked",
@@ -847,9 +847,9 @@
     "sha": "61161337fa58344482e44a7bd088c7a9d63f98ab",
     "updated": "2026-10-06T01:21:35Z",
     "gates": {
-     "passed": 0,
-     "running": 7,
-     "failed": 0,
+     "passed": 2,
+     "running": 14,
+     "failed": 1,
      "cancelled": 0
     }
    },
@@ -859,11 +859,11 @@
     "draft": false,
     "branch": "ci/gate-canary-planted-failures",
     "sha": "b381233f04619eba1a85dc93de827de6d7ae32b0",
-    "updated": "2026-10-06T01:21:48Z",
+    "updated": "2026-10-06T01:21:55Z",
     "gates": {
-     "passed": 1,
-     "running": 16,
-     "failed": 0,
+     "passed": 2,
+     "running": 14,
+     "failed": 1,
      "cancelled": 0
     }
    }
