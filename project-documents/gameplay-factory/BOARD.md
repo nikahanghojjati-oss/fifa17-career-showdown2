@@ -1,10 +1,10 @@
 # Bug hunt board
 
-Updated Mon 5 Oct, 9:54 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
+Updated Mon 5 Oct, 9:56 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r62** (main `bc77a0b`, Mon 5 Oct 9:18 PM)
 
-🐕 **Barking: POS20 on #397 has waited 4 min for a machine; POS20 has waited 2 min for a machine.** · POS20 #304 6/16
+🐕 **Barking: POS20 on #312 has waited 2 min for a machine.** · POS20 #304 6/16
 
 ## Jobs
 
@@ -15,7 +15,7 @@ Updated Mon 5 Oct, 9:54 PM Boston time. Bug hunting only, no new features until 
 **Next for you, in this order**
 
 1. **1006** Final Winner: last season's score block: type **1006** in a new Showdown visual chat
-2. **1009** Showdown Champion: dark oval over the losing manager: type **1009** in the gameplay project (Work mode)
+2. **1009** Showdown Champion: dark oval over the losing manager: type **1009** in the gameplay project (normal chat)
 3. **1010** 10-season sweep: scoring, history and final math: type **1010** in the gameplay project (Work mode)
 4. **1011** Plain-words sweep: jargon on game screens: type **1011** in the gameplay project (Work mode)
 5. **1014** No reconnect prompt after a finished Showdown: type **1014** in the gameplay project (Work mode)
@@ -24,6 +24,7 @@ Updated Mon 5 Oct, 9:54 PM Boston time. Bug hunting only, no new features until 
 8. **1018** Gameplay hunt 2: sessions, pairing and reconnect: type **1018** in the Q&A team project
 9. **1019** Gameplay hunt 3: entries, saves and career numbers: type **1019** in the Q&A team project
 10. **1020** Season Results patch: one column on phone, no overlap on desktop: type **1020** in the gameplay project (Work mode)
+11. **1021** Transfer War on phone: port Team V's revamp: type **1021** in the gameplay project (Work mode)
 
 **Waiting on something else**
 

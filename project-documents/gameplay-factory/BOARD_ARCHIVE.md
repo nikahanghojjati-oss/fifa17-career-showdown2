@@ -1,14 +1,14 @@
 # Board archive
 
-[Back to the board](BOARD.md) · generated 2026-10-05 9:54 PM Boston time (EDT). Detail and history behind the one board.
+[Back to the board](BOARD.md) · generated 2026-10-05 9:56 PM Boston time (EDT). Detail and history behind the one board.
 
 ## Old detailed board
 
 # Showdown board: G Factory and V Factory
 
-🌐 **Live: runtime 1.9.1-r62** (main `bc77a0b`) · 🔄 **12 moving** · ⏭ 2 up next · 👤 11 waiting on Nik · 🗂 4 later · updated 2026-10-05 9:54 PM Boston time (EDT)
+🌐 **Live: runtime 1.9.1-r62** (main `bc77a0b`) · 🔄 **12 moving** · ⏭ 2 up next · 👤 12 waiting on Nik · 🗂 4 later · updated 2026-10-05 9:56 PM Boston time (EDT)
 
-🐕 **Barking: POS20 on #397 has waited 4 min for a machine; POS20 has waited 2 min for a machine.** · POS20 #304 6/16
+🐕 **Barking: POS20 on #312 has waited 2 min for a machine.** · POS20 #304 6/16
 
 ## Your next move
 
@@ -37,7 +37,7 @@
 | [HO-013](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/handoffs/HO-013_finished-showdown-shows-the-private-sess.md) | V → G | Finished Showdown shows the 'private session has ended, reconnect' line | ✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done |
 | [HO-014](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/handoffs/HO-014_create-code-join-on-its-own-connect-play.md) | V → G | Create code / Join on its own Connect Players screen, never on top of Home | ✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done |
 | [HO-015](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/handoffs/HO-015_season-results-on-phone-one-clean-column.md) | V → G | Season Results on phone: one clean column (Team V's tested CSS for app.css) | ✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done |
-| [HO-016](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/handoffs/HO-016_transfer-war-on-phone-port-team-v-s-reva.md) | V → G | Transfer War on phone: port Team V's revamp (1016) into the live game | ✅ Sent → ✅ **Delivered** → ○ Received → ○ In progress → ○ Done |
+| [HO-016](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/handoffs/HO-016_transfer-war-on-phone-port-team-v-s-reva.md) | V → G | Transfer War on phone: port Team V's revamp (1016) into the live game | ✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done |
 
 ## 🟢 G Factory
 
@@ -70,7 +70,7 @@ _Gameplay, online sync, every merge and every release (senior director)._ Worker
 
 | Job | What | Worker | State | Waits on |
 | --- | --- | --- | --- | --- |
-| 1009 | 1009 · G Showdown Champion: dark oval over the losing manager — GPT green (Nik prefers Work mode until his GPT subscription ends ~2026-10-08), one file: delete the loser shade rule in final-winner.css. | 🟩 Sol Work mode | ready | Nik types it in the gameplay project (Work mode) |
+| 1009 | 1009 · G Showdown Champion: dark oval over the losing manager — GPT blue, one file: delete the loser shade rule in final-winner.css. | 🟦 Sol chat | ready | Nik types it in the gameplay project (normal chat) |
 | 1010 | 1010 · G 10-season sweep: scoring, history and final math — GPT green, one run. Node check of 10-season scoring, ties and final winner; report only, no game code. | 🟩 Sol Work mode | ready | Nik types it in the gameplay project (Work mode) |
 | 1011 | 1011 · G Plain-words sweep: jargon on game screens — GPT green, one run. Replaces engineering words players see; leaves test-asserted strings to the lead. | 🟩 Sol Work mode | ready | Nik types it in the gameplay project (Work mode) |
 | 1014 | 1014 · G No reconnect prompt after a finished Showdown — GPT green, one run. HO-013: closed Showdown shows SHOWDOWN COMPLETE instead of RECONNECT SESSION. Lead runs the reconnect audit. | 🟩 Sol Work mode | ready | Nik types it in the gameplay project (Work mode) |
@@ -79,6 +79,7 @@ _Gameplay, online sync, every merge and every release (senior director)._ Worker
 | 1018 | 1018 · G Gameplay hunt 2: sessions, pairing and reconnect — GPT Q&A team, Sol Work. Report only (sweeps/hunt-1018.md); the lead turns findings into fix jobs. | 🟩 Sol Work mode | ready | Nik types it in the Q&A team project |
 | 1019 | 1019 · G Gameplay hunt 3: entries, saves and career numbers — GPT Q&A team, Sol Work. Report only (sweeps/hunt-1019.md); the lead turns findings into fix jobs. | 🟩 Sol Work mode | ready | Nik types it in the Q&A team project |
 | 1020 | 1020 · G Season Results patch: one column on phone, no overlap on desktop — GPT green, one run. Team V phone CSS (HO-015) + desktop window below the scoring card + reconciliation look. Team V 1012 checks the look. | 🟩 Sol Work mode | ready | Nik types it in the gameplay project (Work mode) |
+| 1021 | 1021 · G Transfer War on phone: port Team V's revamp — GPT green, one run. HO-016: Team V's checked phone CSS + 2 cut-outs into css/v10Transfer.css. Desktop unchanged. | 🟩 Sol Work mode | ready | Nik types it in the gameplay project (Work mode) |
 
 **🗂 Later**
 
@@ -173,7 +174,7 @@ Latest:
 ## Every bug report
 
 
-> Updated **Mon 5 Oct, 9:54 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
+> Updated **Mon 5 Oct, 9:56 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
 
 | 🔓 Open | 🔴 Top priority | 🔧 Fixing or waiting for release | ✅ Fixed and live |
 | :---: | :---: | :---: | :---: |

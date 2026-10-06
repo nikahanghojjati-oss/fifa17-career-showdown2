@@ -1,14 +1,14 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-10-05 9:54 PM Boston time (EDT)
+[Back to the board](BOARD.md) · generated 2026-10-05 9:56 PM Boston time (EDT)
 
-Relay branch `leads/relay` head `7ba3670` (Mon 5 Oct 9:53 PM Boston time) · 29 messages · 16 hand-offs · 62 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `d5f57df` (Mon 5 Oct 9:54 PM Boston time) · 29 messages · 16 hand-offs · 63 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
 ### HO-016 · V → G · Transfer War on phone: port Team V's revamp (1016) into the live game
 
-✅ Sent → ✅ **Delivered** → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 1 min after delivery
 
 - Mon 5 Oct 9:54 PM · Team G · Received · bug factory: job 1021 · G (GPT green); lead verifies with v10-transfer contracts, Team V re-checks
 - Mon 5 Oct 9:53 PM · Team V · Sent

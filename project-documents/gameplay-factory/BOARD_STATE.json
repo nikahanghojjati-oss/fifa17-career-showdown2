@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 9:54 PM Boston time (EDT)",
+ "generated": "2026-10-05 9:56 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -284,8 +284,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "7ba3670",
-  "head_boston": "Mon 5 Oct 9:53 PM",
+  "head": "d5f57df",
+  "head_boston": "Mon 5 Oct 9:54 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": true,
   "open_for_g": [],
@@ -315,7 +315,7 @@
   "live": {
    "sha": "bc77a0b",
    "revision": "1.9.1-r62",
-   "when": "2026-10-06T01:18:19+00:00",
+   "when": "2026-10-06T01:18:19Z",
    "subject": "Showdown Gate shadow: 6-lane gate runs beside POS20, coverage-proven (#386)",
    "fixes": [],
    "today": [
@@ -388,7 +388,7 @@
   },
   "physio": {
    "state": "barking",
-   "line": "Barking: POS20 on #397 has waited 4 min for a machine; POS20 has waited 2 min for a machine.",
+   "line": "Barking: POS20 on #312 has waited 2 min for a machine.",
    "gate": "POS20 #304 6/16",
    "source": "physio"
   },
@@ -620,13 +620,13 @@
     "from": "V",
     "to": "G",
     "title": "Transfer War on phone: port Team V's revamp (1016) into the live game",
-    "stage": "DELIVERED",
+    "stage": "RECEIVED",
     "pct": 0.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-016_transfer-war-on-phone-port-team-v-s-reva.md",
     "worker": "sol-chat",
-    "pickup_min": null,
-    "waiting_min": 0
+    "pickup_min": 1,
+    "waiting_min": null
    }
   ],
   "relay_ok": true
@@ -700,7 +700,7 @@
  "now": {
   "moving": 12,
   "next": 2,
-  "nik": 11,
+  "nik": 12,
   "later": 4,
   "rows": {
    "G": {
@@ -749,8 +749,8 @@
       "state": "with worker (round 2)",
       "waits_on": "GPT blue round 2: one test line",
       "details": "js/rulesSettingsV10.js only: stop building #ruleBookIndex. Per-rule number badges stay.",
-      "type_order": 5,
-      "type_where": "Type 1004 in the gameplay project (same chat as before): round 2"
+      "type_order": 6,
+      "type_where": "Type 1004 in the gameplay project, normal chat (same chat as before): round 2"
      }
     ],
     "nik": [
@@ -774,12 +774,12 @@
       "id": "1009",
       "group": "Bug list 1",
       "title": "1009 · G Showdown Champion: dark oval over the losing manager",
-      "lane": "green",
+      "lane": "blue",
       "state": "ready",
-      "waits_on": "Nik types it in the gameplay project (Work mode)",
-      "details": "GPT green (Nik prefers Work mode until his GPT subscription ends ~2026-10-08), one file: delete the loser shade rule in final-winner.css.",
-      "type_order": 4,
-      "type_where": "Type 1009 in the gameplay project, Work mode (new chat)"
+      "waits_on": "Nik types it in the gameplay project (normal chat)",
+      "details": "GPT blue, one file: delete the loser shade rule in final-winner.css.",
+      "type_order": 5,
+      "type_where": "Type 1009 in the gameplay project, normal chat (new chat)"
      },
      {
       "id": "1010",
@@ -789,7 +789,7 @@
       "state": "ready",
       "waits_on": "Nik types it in the gameplay project (Work mode)",
       "details": "GPT green, one run. Node check of 10-season scoring, ties and final winner; report only, no game code.",
-      "type_order": 6,
+      "type_order": 7,
       "type_where": "Type 1010 in the gameplay project, Work mode (new chat)"
      },
      {
@@ -800,7 +800,7 @@
       "state": "ready",
       "waits_on": "Nik types it in the gameplay project (Work mode)",
       "details": "GPT green, one run. Replaces engineering words players see; leaves test-asserted strings to the lead.",
-      "type_order": 10,
+      "type_order": 11,
       "type_where": "Type 1011 in the gameplay project, Work mode, after 1014, 1015 and 1020 are merged"
      },
      {
@@ -811,7 +811,7 @@
       "state": "ready",
       "waits_on": "Nik types it in the gameplay project (Work mode)",
       "details": "GPT green, one run. HO-013: closed Showdown shows SHOWDOWN COMPLETE instead of RECONNECT SESSION. Lead runs the reconnect audit.",
-      "type_order": 3,
+      "type_order": 4,
       "type_where": "Type 1014 in the gameplay project, Work mode (new chat)"
      },
      {
@@ -833,7 +833,7 @@
       "state": "ready",
       "waits_on": "Nik types it in the Q&A team project",
       "details": "GPT Q&A team, Astra Work (Sol Work if out). Report only (sweeps/hunt-1017.md); the lead turns findings into fix jobs.",
-      "type_order": 9,
+      "type_order": 10,
       "type_where": "Type 1017 in the Q&A team project, Astra Work mode (new chat)"
      },
      {
@@ -844,7 +844,7 @@
       "state": "ready",
       "waits_on": "Nik types it in the Q&A team project",
       "details": "GPT Q&A team, Sol Work. Report only (sweeps/hunt-1018.md); the lead turns findings into fix jobs.",
-      "type_order": 7,
+      "type_order": 8,
       "type_where": "Type 1018 in the Q&A team project, Work mode (new chat)"
      },
      {
@@ -855,7 +855,7 @@
       "state": "ready",
       "waits_on": "Nik types it in the Q&A team project",
       "details": "GPT Q&A team, Sol Work. Report only (sweeps/hunt-1019.md); the lead turns findings into fix jobs.",
-      "type_order": 8,
+      "type_order": 9,
       "type_where": "Type 1019 in the Q&A team project, Work mode (new chat)"
      },
      {
@@ -868,6 +868,17 @@
       "details": "GPT green, one run. Team V phone CSS (HO-015) + desktop window below the scoring card + reconciliation look. Team V 1012 checks the look.",
       "type_order": 2,
       "type_where": "Type 1020 in the gameplay project, Work mode (new chat)"
+     },
+     {
+      "id": "1021",
+      "group": "Bug list 1",
+      "title": "1021 · G Transfer War on phone: port Team V's revamp",
+      "lane": "green",
+      "state": "ready",
+      "waits_on": "Nik types it in the gameplay project (Work mode)",
+      "details": "GPT green, one run. HO-016: Team V's checked phone CSS + 2 cut-outs into css/v10Transfer.css. Desktop unchanged.",
+      "type_order": 3,
+      "type_where": "Type 1021 in the gameplay project, Work mode (new chat)"
      }
     ],
     "next": [
@@ -909,7 +920,7 @@
       "state": "ready",
       "waits_on": "after Team V designs the combined screen (HO-011)",
       "details": "Nik picked No tap, combined: one screen shows the last season's score and the Final Winner. Team V designs it (HO-011), then a GPT green job builds it and restores the strict final-season check.",
-      "type_order": 11,
+      "type_order": 12,
       "type_where": "Wait: needs Team V's 1006 first"
      }
     ]
