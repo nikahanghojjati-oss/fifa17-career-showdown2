@@ -17,7 +17,7 @@ F = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
 CACHE = os.path.join(F, "GOALS.json")
 SCREENS = 16
 G_BRANCH, G_DIR = "qa/bug-olympiad", "project-documents/gameplay-factory/sweeps/olympiad/"
-AREA_LIST = (1, 2, 3, 4, 5, 6, 8, 9, 11, 13, 15)  # v4 "Showdown Rules Check" (2026-10-06 05:18 UTC): gameplay only; 07, 10, 12, 14 dropped
+AREA_LIST = tuple(range(1, 12))  # "Showdown Rules Check" areas 01-11 (renumbered 2026-10-06 05:25 UTC; old 07, 10, 12, 14 dropped)
 AREAS = len(AREA_LIST)
 V_BRANCH, V_DIR = "study/mockup-lab", "project-documents/visual-study/"
 
