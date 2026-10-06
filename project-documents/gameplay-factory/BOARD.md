@@ -1,8 +1,8 @@
 # Showdown board: G Factory and V Factory
 
-🌐 **Live: runtime 1.9.1-r61** (main `84a04d8`) · 🔄 **16 moving** · ⏭ 2 up next · 👤 4 waiting on Nik · 🗂 4 later · updated 2026-10-05 8:04 PM Boston time (EDT)
+🌐 **Live: runtime 1.9.1-r61** (main `84a04d8`) · 🔄 **16 moving** · ⏭ 2 up next · 👤 5 waiting on Nik · 🗂 4 later · updated 2026-10-05 8:05 PM Boston time (EDT)
 
-🩺 **All clear: every check has a machine.** · POS20 #390 13/16
+🐕 **Barking: POS20 has waited 1 min for a machine.** · POS20 #390 13/16
 
 ## Your next move
 
@@ -33,7 +33,7 @@
 
 | Hand-off | From → To | What | Progress |
 | --- | --- | --- | --- |
-| [HO-010](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/handoffs/HO-010_sync-main-s-copy-of-transfer-war-f1actio.md) | V → G | Sync main's copy of Transfer War f1Action to REQUEST EARLY END (1002 · V) | ✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done |
+| [HO-010](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/handoffs/HO-010_sync-main-s-copy-of-transfer-war-f1actio.md) | V → G | Sync main's copy of Transfer War f1Action to REQUEST EARLY END (1002 · V) | ✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done |
 
 ## 🟢 G Factory
 
@@ -62,6 +62,14 @@ _Gameplay, online sync, every merge and every release (senior director)._ Worker
 | G-F3 | Bug-hunting factory: one report thread, Sonnet hunts, Opus fixes, small batch releases | 🟪 Sonnet | queued | G-F1 and Nik's OK |
 | G-F4 | GPT Q&A team: scripted paths and code-vs-rulebook reads | 🟦 Sol chat | queued | G-F1 |
 | G-F7 | Ten-season smoothness run on live 2.0 (emulator, 10 seasons with a mid-game expiry) | 🟪 Sonnet | queued | G-F1 |
+
+### 🐞 Bug list 1
+
+**👤 Waiting on Nik**
+
+| Job | What | Worker | State | Waits on |
+| --- | --- | --- | --- | --- |
+| 1003 | 1003 · G Transfer War: main's copy of Team V's early-end string matches (HO-010) — Low priority, no live impact. js/transferScreenV10.js lines 26 and 30. Job file jobs/JOB-1003.md. | 🟦 Sol chat | ready | Nik types 1003 in the gameplay GPT project (normal chat) |
 
 ## 🔵 V Factory
 
