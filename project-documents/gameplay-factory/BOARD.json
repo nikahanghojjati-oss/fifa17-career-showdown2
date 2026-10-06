@@ -763,7 +763,7 @@
      "state": "ready",
      "waits_on": "after Team V designs the combined screen (HO-011)",
      "details": "Nik picked No tap, combined: one screen shows the last season's score and the Final Winner. Team V designs it (HO-011), then a GPT green job builds it and restores the strict final-season check.",
-     "order": 4
+     "order": 3
     },
     {
      "id": "1009",
@@ -796,7 +796,7 @@
      "state": "ready",
      "waits_on": "Nik types it in the gameplay project (Work mode)",
      "details": "GPT green, one run. Replaces engineering words players see; leaves test-asserted strings to the lead.",
-     "order": 3,
+     "order": 2,
      "place": "in the gameplay project (normal chat), new chat",
      "after": "1014, 1015 and 1020 merge",
      "note": "1014, 1015 and 1020 are merged"
@@ -830,11 +830,11 @@
      "group": "Bug list 1",
      "title": "1017 · G Gameplay hunt 1: shared season flow across devices",
      "lane": "green",
-     "state": "ready",
+     "state": "done (4 bugs found, PR #407)",
      "waits_on": "Nik types it in the Q&A team project",
      "details": "GPT Q&A team, Astra Work (Sol Work if out). Report only (sweeps/hunt-1017.md); the lead turns findings into fix jobs.",
-     "order": 2,
-     "place": "in the Q&A team project (Astra Work mode), new chat"
+     "place": "in the Q&A team project (Astra Work mode), new chat",
+     "archived": true
     },
     {
      "id": "1018",
@@ -912,6 +912,24 @@
      "waits_on": "",
      "order": 0,
      "details": "Hunt 1018 H3, H4 and H5 (S2), js/productionSharedJourneyReconnect.js"
+    },
+    {
+     "id": "1025",
+     "title": "Terminal close recovery and closed-frame trophies (hunt 1017 H1-H3)",
+     "lane": "claude",
+     "state": "with the lead (Claude helper building)",
+     "order": 0,
+     "place": "Claude helper (nothing for Nik to type)",
+     "note": "from hunt 1017"
+    },
+    {
+     "id": "1026",
+     "title": "New shared season clears last season's result fields (hunt 1017 H4)",
+     "lane": "claude",
+     "state": "with the lead (Claude helper building)",
+     "order": 0,
+     "place": "Claude helper (nothing for Nik to type)",
+     "note": "from hunt 1017"
     }
    ]
   },
