@@ -428,13 +428,18 @@
     const s = k / (1366 / PW);
     q("#leagueWheelScreen h2").style.setProperty("--title-size", px(Math.round((short ? 52 : 64) * Math.min(Math.max(s, 1), 1.25))));
     const tb = q(".title-block");
-    const kickerTop = Math.max(hdr + (short ? 6 : 12), oy + 86 * k);
+    const kickerTop = Math.max(hdr + (short ? 6 : 12), oy + 98 * k);
+    // Job 1030: wordmark box = goal image box x 470-1053, y 118.5-232.5 (plate px); 13 px kicker above it
+    const h2el = q("#leagueWheelScreen h2");
+    h2el.style.setProperty("--wm-w", px(583 * k));
+    h2el.style.setProperty("--wm-h", px(114 * k));
+    h2el.style.setProperty("--wm-mt", px(Math.max(0, (oy + 118.5 * k) - kickerTop - 13)));
     tb.style.top = px(kickerTop);
     const h2b = rel(q("#leagueWheelScreen h2"));
     const sub = q(".subtitle-row");
     // the h2 line box carries ~0.2em of italic-glyph headroom (G5); tuck the subtitle into it
     const ts = parseFloat(getComputedStyle(q("#leagueWheelScreen h2")).fontSize);
-    sub.style.top = px(h2b.bottom - ts * 0.16);
+    sub.style.top = px(h2b.bottom - 10.5 * k); // goal: subtitle text centre y 231, wordmark box ends 232.5
     const titleBottom = rel(sub).bottom;
 
     const row = q(".button-row");
@@ -499,6 +504,7 @@
     const hdr = 48;
     stage.dataset.mode = "phone";
     q("#leagueWheelScreen h2").style.removeProperty("--title-size");
+    for (const v of ["--wm-w", "--wm-h", "--wm-mt"]) q("#leagueWheelScreen h2").style.removeProperty(v);
     const kb = W / (PHONE_X[1] - PHONE_X[0]);
     const tb = q(".title-block");
     tb.style.top = px(hdr + 6);
