@@ -1,0 +1,40 @@
+{
+  "run": "chat-1006-0418",
+  "mode": "chat",
+  "date_utc": "2026-10-06T04:18:00Z",
+  "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+  "area": "01",
+  "files_read": [
+    "index.html",
+    "js/showdown.js",
+    "js/screens.js",
+    "js/optionalModules.js",
+    "js/leagueWheel.js",
+    "js/clubAssignment.js"
+  ],
+  "map": [
+    "Entry: START A SHOWDOWN is intercepted by online identity and productionSharedJourneyEntry; a fresh local shell is created only after identity/storage prerequisites and is marked sharedJourney.setupPending.",
+    "Authority gate: shared setup requires the exact connected account, registered device, attached Daniel/Nik rivalry and unexpired ACTIVE private session before provider reads or mutations.",
+    "Remote state: Shared Setup advances through empty/open, LEAGUE_WHEEL_COMMITTED, CLUB_ASSIGNMENTS_COMMITTED, SEASON_LENGTH_COMMITTED and SHOWDOWN_CONFIRMED; provider protocol owns deterministic league and club draws.",
+    "Local state: the shell starts with selectedLeague=null and empty clubs; the shared setup contract intentionally does not mutate canonical local league/club fields while remote setup is being established.",
+    "Presentation: productionSharedShowdownPresentation reuses #spinLeague, #openClubPack and #continueClubAssignment, relabels/locks them from remote state, animates the authoritative league and club results, and exposes handleControlClick for mutations.",
+    "Legacy writes: leagueWheel.js and clubAssignment.js still bind direct click handlers that generate and save local league/club choices; productionSharedJourneyEntry removes its local-draw lock when the shared presentation reports active.",
+    "Timers: local wheel uses a 4 s reveal; local club reveal uses 650/1750/2850/3300 ms stages. Shared presentation uses a 4 s league animation, 4.2 s auto-forward, 650/1750/3000 ms pack stages, visibility deferral, and polling.",
+    "Awaits/races: shared setup refreshes coalesce, mutations serialize, stale/permission races re-read and retry once, and presentation actions have their own actionPromise guard."
+  ],
+  "premortem": [
+    "Most likely: reused setup buttons keep their legacy local click handlers while the shared presentation only changes their appearance/state, so a visible shared tap does not advance remote authority. This survived review and became chat-1006-0418-1.",
+    "Reload or backgrounding during league/club reveal could strand a device before confirmation. Disproof: authoritative phase is reread, reveal witnesses reset by context, hidden-tab league forward is deferred until visible, and pack animations restart from remote state.",
+    "Host/peer ordering or double taps could duplicate a draw or leave different remote revisions. Disproof: only coordinator transitions draw phases, presentation serializes actions, provider mutations serialize, and stale/permission races re-read/retry against immutable provider-bound draws."
+  ],
+  "questions_asked": 0,
+  "findings": [
+    "chat-1006-0418-1"
+  ],
+  "verified": [],
+  "challenges": [],
+  "coverage_pct": 62,
+  "clean_confidence_pct": 48,
+  "next_focus": "Area 02: trace transfer timer authority and private guess secrecy across simultaneous start/end, reload, expired session, offline recovery and cross-device polling.",
+  "partial": false
+}
