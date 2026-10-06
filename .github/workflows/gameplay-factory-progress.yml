@@ -5,7 +5,8 @@ name: Gameplay factory progress poller
 # Since 2026-10-05 it never stops: main, open live-fix PRs, Team V's V- PRs and the relay change without any push to this branch, so the
 # board went stale for 8 hours when the chain stopped. It commits when a fact changed, plus a heartbeat at least once an hour so the
 # "Updated" time on the Custom view stays honest. Public repo: Actions minutes are free; it costs no Claude usage.
-# (Schedules only run on the default branch, so it chains itself until main carries factory-board-tick.yml, then stops: Showdown Gate setting Q3, 2026-10-05.)
+# It keeps chaining itself for good: GitHub has never fired a `schedule` trigger in this repo (zero schedule runs, checked 2026-10-06),
+# so main's factory-board-tick.yml and the Physio's 10-minute sweep are inert. Each round also wakes the Physio when its report is stale.
 on:
   push:
     branches: [factory/gameplay-v1]
@@ -44,6 +45,7 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           B=project-documents/gameplay-factory
           FOUND=0
+          PHYSIO_KICK=0
           for round in $(seq 1 8); do
             git fetch -q origin factory/gameplay-v1
             git reset -q --hard origin/factory/gameplay-v1
@@ -55,11 +57,14 @@ jobs:
               git commit -qm "Gameplay factory: progress bars update [skip ci]"
               git push -q origin HEAD:factory/gameplay-v1 || echo "push raced; next round retries"
             fi
+            # The Physio's own */10 cron never fires here, so wake its sweep when physio-status.json is over 10 minutes old
+            # (at most once per 10 minutes from this chain). A failed dispatch never stops the board.
+            PAT=$(python3 -c "import json,sys,datetime;print(int(datetime.datetime.fromisoformat(json.load(open(sys.argv[1]))['at'].replace('Z','+00:00')).timestamp()))" $B/physio-status.json 2>/dev/null || echo 0)
+            NOW=$(date +%s)
+            if [ $(( NOW - PAT )) -gt 600 ] && [ $(( NOW - PHYSIO_KICK )) -gt 600 ]; then
+              gh workflow run gate-watchdog.yml --ref main && PHYSIO_KICK=$NOW || echo "physio dispatch failed; next round retries"
+            fi
             [ "$round" = "8" ] || sleep 180
           done
-          # Handover: once main carries factory-board-tick.yml (a 5-minute schedule that yields to checks), this chain stops for good.
-          if gh api "repos/$GITHUB_REPOSITORY/contents/.github/workflows/factory-board-tick.yml?ref=main" >/dev/null 2>&1; then
-            echo "factory-board-tick.yml is on main; the self-chaining poller retires."
-          else
-            gh workflow run gameplay-factory-progress.yml --ref factory/gameplay-v1
-          fi
+          # No handover to factory-board-tick.yml: its schedule never fires in this repo, so the chain continues.
+          gh workflow run gameplay-factory-progress.yml --ref factory/gameplay-v1
