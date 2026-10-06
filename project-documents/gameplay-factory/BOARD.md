@@ -4,7 +4,7 @@ Updated Mon 5 Oct, 11:10 PM Boston time. Bug hunting only, no new features until
 
 🌐 **Live: 1.9.1-r62** (main `bc77a0b`, Mon 5 Oct 9:18 PM)
 
-🐕 **Barking: POS20 on #312 has waited 3 min for a machine.** · POS20 #304 6/16
+🩺 **All clear: every check has a machine.** · POS20 #304 6/16
 
 ## Jobs
 
