@@ -73,7 +73,7 @@ for(const required of [
   'view?.opponentInputs||null',
   'phase==="COMPLETED"',
   'SHARED SEASON RESULTS COMING NEXT',
-  'will not fall through to local-only season authority',
+  'if(id==="continueFromTransfers"){pstcSetError("Season results are not open yet. Tap REFRESH, then try again.");return false;}',
   'POLL_MS=15000',
   'providerChain=Promise.resolve()',
   'refreshPromise',

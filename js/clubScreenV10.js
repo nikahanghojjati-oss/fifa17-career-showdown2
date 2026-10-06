@@ -84,7 +84,7 @@
   const ROOT_PROPS=Object.freeze(["--s","--k","--compactRoom","--noteBleedL","--noteBleedR","--tabH","--btnTop","--btnCx","--vsFs","--club-walkout-ms","--club-walkout-ease","--club-anticipation-ms","--club-anticipation-ease","--club-vs-ms","--club-vs-ease","--club-lock-ms","--club-lock-ease"]);
   const MOTION_CLASSES=Object.freeze(["sd-entered","sd-is-animating","sd-is-pulsing","sd-is-popping","sd-is-flipping","sd-is-slamming","sd-is-glinting","sd-motion-ready","clubNameWalkout","is-vs-slamming","is-lock-stamping","is-anticipating"]);
   let installed=false,registered=null,platemap=null,handmap=null,cached=null,mountedFrame=null,mountedSection=null,fx=null;
-  let records=[],classStates=new Map(),observers=[],sectionSize=null,crestFor=["",""],glyphs=null,fontsWait=false;
+  let records=[],classStates=new Map(),observers=[],sectionSize=null,relayout=null,crestFor=["",""],glyphs=null,fontsWait=false;
   const v10Screens=()=>root.CareerModeV10Screens;
   const clDoc=()=>root.document||null;
   function clWarn(context,error){if(root.console&&typeof root.console.warn==="function")root.console.warn(`[Career Mode Showdown] ${context}`,error);}
@@ -250,6 +250,7 @@
   function clTeardown(section){
     for(const observer of observers.splice(0))observer.disconnect();
     if(sectionSize){sectionSize.disconnect();sectionSize=null;}
+    if(relayout!==null){root.cancelAnimationFrame(relayout);relayout=null;}
     if(mountedFrame&&root.ClubPlate&&root.ClubPlate.app){try{root.ClubPlate.app.unmount();}catch(_error){}}
     const host=section||mountedSection;
     if(host){
@@ -283,10 +284,13 @@
       glyphs=clGlyphs(section);
       clWatchButtons(section);
       // club.js measures the screen when it lays it out, and the screen's own styles switch on around mount
-      // (js/v10Screens.js): lay it out again whenever the screen box changes size, and once the fonts are in.
-      if(typeof root.ResizeObserver==="function"){
+      // (js/v10Screens.js): lay it out again whenever the observer reports a new screen size, the first report included
+      // (when the styles apply before it, that report is already the styled size and is the only one), and once the fonts are in.
+      // The layout runs on the next frame, never inside the observer callback: laying out there resizes the screen again in
+      // the same delivery, and Chromium then reports "ResizeObserver loop completed with undelivered notifications".
+      if(typeof root.ResizeObserver==="function"&&typeof root.requestAnimationFrame==="function"){
         let last="";
-        sectionSize=new root.ResizeObserver(entries=>{const box=entries[0]&&entries[0].contentRect;const size=box?`${Math.round(box.width)}x${Math.round(box.height)}`:"";if(!size||size===last)return;const first=!last;last=size;if(!first)clLayout();});
+        sectionSize=new root.ResizeObserver(entries=>{const box=entries[0]&&entries[0].contentRect;const size=box?`${Math.round(box.width)}x${Math.round(box.height)}`:"";if(!size||size===last)return;last=size;if(relayout===null)relayout=root.requestAnimationFrame(()=>{relayout=null;clLayout();});});
         sectionSize.observe(section);
       }
       const fonts=root.document.fonts;

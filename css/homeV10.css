@@ -171,12 +171,21 @@
   #mainMenu.v10Home #ruleBookButton { grid-column: 2; grid-row: 3; }
   #mainMenu.v10Home #settingsButton { grid-column: 3; grid-row: 3; }
   #mainMenu.v10Home .menuMusicTile { grid-column: 1 / -1; grid-row: 4; }
-  /* V-247 (HO-006) on the seven-tile phone grid: Team V's icons are large and fully inside each tile. The tiles here are
-     three to a row, so the label keeps the top and the icon fills the space below it on the right, never clipped. */
-  #mainMenu.v10Home .fifaMenuGrid > .menuTile:not(#continueCareer) { justify-content: flex-start; padding: 8px 8px 8px 10px; }
+  /* V-247 (HO-006) on the seven-tile phone grid: Team V's icons are large and fully inside each tile. G-F16 (r62): the
+     label and its icon never touch, at any phone width. Each tile is a size container, so the icon is sized from the
+     tile itself. Tall tiles (the common case): the label keeps the top (up to two lines, START A SHOWDOWN) and the icon
+     fills the room below it on the right. Short tiles (360x640, 375x553, 393x660): there is no room under a two-line
+     label, so the icon takes the bottom-right corner and the label wraps in the space left of it. */
+  #mainMenu.v10Home .fifaMenuGrid > .menuTile:not(#continueCareer) { container-type: size; justify-content: flex-start; padding: 8px 8px 8px 10px; }
   #mainMenu.v10Home .fifaMenuGrid > .menuTile:not(#continueCareer) .menuTileLabel { position: relative; z-index: 2; font-size: 17px; line-height: 1.05; }
   #mainMenu.v10Home .fifaMenuGrid > .menuTile:not(#continueCareer) .tileArt {
-    top: auto; bottom: 6px; right: 6px; width: auto; height: min(62%, 76px); aspect-ratio: 1 / 1; translate: none; opacity: 1; object-position: center;
+    top: auto; bottom: 6px; right: 6px; width: auto; height: max(28px, min(62%, 76px, calc(100% - 53px))); aspect-ratio: 1 / 1; translate: none; opacity: 1; object-position: center;
+  }
+  @container (max-height: 78px) {
+    #mainMenu.v10Home .fifaMenuGrid > .menuTile:not(#continueCareer) .menuTileLabel {
+      font-size: clamp(12px, 13.4cqw, 17px); max-width: calc(100cqw - min(76px, 40cqw, 100cqh) - 2px);
+    }
+    #mainMenu.v10Home .fifaMenuGrid > .menuTile:not(#continueCareer) .tileArt { width: min(76px, 40cqw, 100cqh); height: min(76px, 40cqw, 100cqh); }
   }
   #mainMenu.v10Home .menuMusicTile { overflow: visible; }
   /* The phone track sheet grows with the track list (two per row), so CLOSE sits in its top padding for any row count. */
@@ -195,4 +204,99 @@
   #mainMenu.v10Home #continueCareer .menuTileCode { font-size: 10px; }
   /* Team V hides the footer here; it stays for assistive technology (its words are the product footer). */
   #app > footer { display: block !important; position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; border: 0; }
+}
+
+/* ---------- phone landscape (G-F15, r62) ----------
+   Team V's desktop camera assumes a window at least ~600px tall: a 136px tile row, a 44px headline and a floating
+   soundtrack card. On a landscape phone (844x390, 932x430, 740x360, 667x375) that put the card over four tiles, the tile
+   row under the bottom bar, the headline over the logo and the 11-track list over everything. Here the same pieces are
+   stacked inside the height there is: logo and managers on top, the soundtrack as one slim strip, then one row of the
+   seven tiles, all above the app's bottom bar (up to 900px wide) or footer band (wider, with the top bar above). */
+@media (orientation: landscape) and (max-height: 480px) {
+  #mainMenu.v10Home {
+    --land-top: 0px; --land-bot: 56px; --land-gap: 6px; --land-strip-h: 44px; --gutter: 12px;
+    --land-tile-h: clamp(80px, 24dvh, 100px); --land-fs: clamp(11px, 1.75vw, 14px);
+    --tile-h: var(--land-tile-h);
+    --tile-top: calc(100dvh - var(--land-bot) - var(--land-gap) - var(--land-tile-h));
+    --land-strip-top: calc(var(--tile-top) - var(--land-gap) - var(--land-strip-h));
+    --bed-top: calc(var(--land-strip-top) - 6px);
+    --land-lock-top: 50px;
+  }
+  /* wider than 900px the app shows its top bar and a 28px footer band instead of the bottom bar */
+  @media (min-width: 901px) {
+    #mainMenu.v10Home { --land-top: 52px; --land-bot: 28px; --land-lock-top: 64px; }
+  }
+  /* the headline and the script line are decoration for the desktop frame; the words stay for assistive technology */
+  #mainMenu.v10Home .fifaMenuHeading, #mainMenu.v10Home .scriptLine {
+    display: block; position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden;
+    clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap;
+  }
+  #mainMenu.v10Home .fifaMenuHeading::before, #mainMenu.v10Home .scriptLine::before { content: none; }
+  #mainMenu.v10Home .homeLockup {
+    left: var(--gutter); top: var(--land-lock-top); gap: 2px;
+    width: clamp(170px, calc((var(--land-strip-top) - var(--land-lock-top) - 40px) * 2.75), min(34vw, 300px));
+  }
+  #mainMenu.v10Home .homeLockup::before, #mainMenu.v10Home .homeLockup::after { display: none; }
+  #mainMenu.v10Home .lockupKicker { font-size: 10px; letter-spacing: .27em; padding: 0; }
+  #mainMenu.v10Home .lockupLegacy { font-size: 9px; letter-spacing: .19em; }
+
+  /* one row of seven tiles above the bottom bar */
+  #mainMenu.v10Home .fifaMenuGrid { top: auto; bottom: calc(var(--land-bot) + var(--land-gap)); height: var(--land-tile-h); left: var(--gutter); right: var(--gutter); gap: 6px; }
+  #mainMenu.v10Home .fifaMenuGrid > .menuTile { container-type: size; overflow: hidden; }
+  #mainMenu.v10Home .fifaMenuGrid > .menuTile:not(#continueCareer) { justify-content: flex-start; padding: 8px 6px 6px 8px; gap: 0; }
+  #mainMenu.v10Home .fifaMenuGrid > .menuTile:not(#continueCareer) .menuTileCode {
+    position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap;
+  }
+  #mainMenu.v10Home .fifaMenuGrid > .menuTile:not(#continueCareer) .menuTileLabel { font-size: var(--land-fs); line-height: 1.05; }
+  /* The icon is the room under a two-line label, on the right: label and icon never touch. */
+  #mainMenu.v10Home .fifaMenuGrid > .menuTile:not(#continueCareer) .tileArt,
+  #mainMenu.v10Home #homeTrophyRoomButton .tileArt {
+    top: auto; bottom: 5px; right: 5px; translate: none; opacity: 1; object-position: center;
+    width: min(76px, 100cqw, calc(100cqh - 2.1 * var(--land-fs) - 3px)); height: min(76px, 100cqw, calc(100cqh - 2.1 * var(--land-fs) - 3px)); aspect-ratio: 1 / 1;
+  }
+  #mainMenu.v10Home .tileChevron { display: none; }
+  /* Continue: label, hint and Team V's player side by side inside the tile */
+  #mainMenu.v10Home .fifaMenuGrid > #continueCareer { flex: 2.4 1 0; padding: 7px calc(0.83 * var(--land-tile-h) + 14px) 7px 10px; gap: 1px; }
+  #mainMenu.v10Home #continueCareer .menuTileCode { font-size: 9px; }
+  #mainMenu.v10Home #continueCareer .menuTileLabel { font-size: clamp(15px, 2.2vw, 19px); line-height: 1; }
+  #mainMenu.v10Home #continueCareer .menuTileMeta { font-size: 10.5px; line-height: 1.15; max-width: 100%; }
+  #mainMenu.v10Home #continueCareer .tileArt, #mainMenu.v10Home #continueCareer:disabled .tileArt { top: 4px; right: 8px; height: calc(var(--land-tile-h) * 1.25); width: auto; }
+
+  /* the soundtrack as one strip between the logo and the tiles */
+  #mainMenu.v10Home .menuMusicTile, #mainMenu.v10Home .menuMusicTile.side {
+    position: fixed; left: var(--gutter) !important; right: var(--gutter) !important; width: auto !important; top: auto !important;
+    bottom: calc(100dvh - var(--land-strip-top) - var(--land-strip-h)) !important; height: var(--land-strip-h) !important; min-height: 0 !important; max-height: none !important;
+    padding: 3px 8px; overflow: visible; align-items: center; column-gap: 8px; row-gap: 0;
+    grid-template-columns: minmax(0, 1fr) auto auto; grid-template-rows: minmax(0, 1fr); grid-template-areas: "head ctrl tracks";
+  }
+  #mainMenu.v10Home .menuMusicPlayer, #mainMenu.v10Home .menuMusicSource { display: none; }
+  #mainMenu.v10Home .menuMusicHeader > div { display: flex; align-items: baseline; gap: 10px; min-width: 0; }
+  #mainMenu.v10Home .menuMusicHeader span { flex: none; font-weight: 700; color: var(--gold); letter-spacing: .08em; white-space: nowrap; }
+  #mainMenu.v10Home .menuMusicHeader strong { display: block; min-width: 0; font-size: 15px; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  #mainMenu.v10Home .menuMusicArtist { display: none; }
+  #mainMenu.v10Home .menuMusicStatus {
+    position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap;
+  }
+  #mainMenu.v10Home .menuMusicControls { align-self: center; gap: 6px; }
+  #mainMenu.v10Home .menuMusicControl { height: 32px; padding: 0 12px; font-size: 13px; }
+  #mainMenu.v10Home .phoneSheetToggle {
+    grid-area: tracks; align-self: center; justify-self: end; position: relative; z-index: 3; display: block; width: 64px; height: 32px; margin: 0; padding: 0; opacity: 0; cursor: pointer; border: 0;
+  }
+  #mainMenu.v10Home .phoneTrackSheetOpen {
+    grid-area: tracks; align-self: center; justify-self: end; pointer-events: none; display: inline-flex; width: 64px; height: 32px; box-sizing: border-box; align-items: center; justify-content: center;
+    border: 1px solid rgba(242,196,91,.72); background: rgba(255,255,255,.04); color: var(--cream);
+    font: 700 12px/1 var(--cond); letter-spacing: .08em; text-transform: uppercase;
+  }
+  #mainMenu.v10Home .phoneSheetToggle:hover + .phoneTrackSheetOpen, #mainMenu.v10Home .phoneSheetToggle:checked + .phoneTrackSheetOpen { border-color: var(--gold); background: rgba(242,196,91,.16); }
+  #mainMenu.v10Home .phoneSheetToggle:focus-visible + .phoneTrackSheetOpen { outline: 2px solid var(--gold-hi); outline-offset: 2px; }
+  /* the track list opens above the strip, four to a row, and scrolls if the window is shorter than the list */
+  #mainMenu.v10Home .menuMediaSelector { display: none; }
+  #mainMenu.v10Home .phoneSheetToggle:checked ~ .menuMediaSelector {
+    display: grid; position: absolute; z-index: 8; left: 0; right: 0; bottom: calc(100% + 8px); grid-area: auto; width: auto; box-sizing: border-box;
+    grid-template-columns: repeat(4, minmax(0, 1fr)); grid-auto-rows: 42px; gap: 6px; padding: 8px 10px;
+    max-height: calc(var(--land-strip-top) - 8px - var(--land-lock-top)); overflow-y: auto; overscroll-behavior: contain;
+    background: rgba(8,10,13,.97); border: 1px solid var(--gold); box-shadow: 0 -12px 40px rgba(0,0,0,.6), inset 0 2px 0 rgba(255,241,184,.5);
+  }
+  #mainMenu.v10Home .phoneSheetToggle:checked ~ .menuMediaSelector .menuMediaChoice { min-height: 0; overflow: hidden; }
+  #mainMenu.v10Home .menuBottomStrip { z-index: 6; }
 }

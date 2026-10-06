@@ -112,10 +112,31 @@ async function waitForHome(page){
   await page.locator("#careerStatisticsButton").waitFor({state:"visible",timeout:15000});
 }
 
+// r61: Career Statistics and Trophy Room are always Team V's screens (js/careerScreenSeam.js); the app's old local
+// analytics pages no longer ship. Identity safety is checked on the analytics model both screens are built from.
+async function openTeamVScreen(page,screen){
+  await page.waitForFunction(screen=>document.documentElement.dataset.v10Screen===screen,screen,{timeout:15000});
+  assert.equal(await page.locator(`#${screen}Content .analyticsIdentityNotice, #${screen}Content .careerStandingsRow, #${screen}Content .managerCabinet`).count(),0,`${screen} must not paint the old local analytics page.`);
+}
+
+// What a player actually sees: Team V's screens draw only the provider-backed career model, so with local history alone
+// they show their honest unavailable state, never a local, borrowed or merged manager name and never a made-up total.
+const LOCAL_NAMES=["Canonical Manager","Same Name","Analytics Active","Analytics History","Analytics Unresolved"];
+async function assertTeamVIdentitySafe(page,screen,stage){
+  await page.waitForFunction(screen=>/unavailable/i.test(document.getElementById(screen)?.innerText||""),screen,{timeout:10000});
+  const text=await page.locator(`#${screen}`).innerText();
+  for(const name of LOCAL_NAMES)assert.ok(!text.toLowerCase().includes(name.toLowerCase()),`${screen} (${stage}) must not show the local name "${name}".`);
+  assert.match(text,/unavailable/i,`${screen} (${stage}) must show Team V's unavailable state.`);
+  if(screen==="careerStatistics"){
+    for(const label of ["COMPLETED SHOWDOWNS","SEASONS PLAYED","CAREER POINTS","TROPHIES WON"])assert.match(text,new RegExp(`${label}\\s*\\n\\s*—`),`${screen} (${stage}) must show no ${label} total.`);
+  }
+  assert.ok(!/\b(19|11)\b/.test(text.replace(/SHOWDOWN 17/g,"")),`${screen} (${stage}) must not show local totals or records.`);
+}
+
 async function openCareerStatistics(page){
   await page.locator("#careerStatisticsButton").evaluate(button=>button.click());
   await page.locator("#careerStatistics").waitFor({state:"visible",timeout:15000});
-  await page.locator("#careerStatisticsContent").waitFor({state:"visible",timeout:15000});
+  await openTeamVScreen(page,"careerStatistics");
 }
 
 async function readAnalytics(page){
@@ -161,12 +182,14 @@ async function readAnalytics(page){
     assert.equal(reused.name,"Canonical Manager","Identified career labels should use the Local Profile display name when available.");
     assert.equal(analytics.identity.unresolvedRoleCount,1,"Unresolved historical role must remain explicit in browser Analytics.");
     assert.equal(analytics.highestSeasonScore.value,11,"Season-scoped records must retain unresolved historical achievements.");
+    await assertTeamVIdentitySafe(page,"careerStatistics","one unresolved role");
+    await page.evaluate(()=>window.openOptionalModule("trophyRoom"));
+    await openTeamVScreen(page,"trophyRoom");
+    await assertTeamVIdentitySafe(page,"trophyRoom","one unresolved role");
+    await page.evaluate(()=>window.openOptionalModule("careerStatistics"));
+    await openTeamVScreen(page,"careerStatistics");
 
-    const identityNotice=page.locator("#careerStatisticsContent .analyticsIdentityNotice[data-unresolved-roles='1']");
-    await identityNotice.waitFor({state:"visible",timeout:10000});
-    assert.match(await identityNotice.innerText(),/EXCLUDED FROM LONGITUDINAL MANAGER TOTALS AND LEADERBOARDS/i);
-    assert.equal(await page.locator("#careerStatisticsContent .careerStandingsRow[data-profile-id]").count(),4,"Career table must render one row per stable profile identity.");
-    assert.equal(await page.locator(`#careerStatisticsContent .careerStandingsRow[data-profile-id="${ids.profileA}"]`).count(),1,"Explicitly reused profile must render as one longitudinal career row.");
+    assert.equal(analytics.managers.filter(manager=>manager.profileId===ids.profileA).length,1,"Explicitly reused profile must be one longitudinal career identity.");
     assert.equal(
       await page.evaluate(()=>Boolean(window.CareerModeSaveLibraryRuntime?.isReady?.())),
       false,
@@ -188,9 +211,7 @@ async function readAnalytics(page){
       if(!mapping||mapping.ok!==true){
         throw new Error("Canonical Save Library identity mapping failed during Analytics audit.");
       }
-      window.renderCareerStatistics();
     },{profileA:ids.profileA});
-    await page.waitForFunction(()=>!document.querySelector("#careerStatisticsContent .analyticsIdentityNotice"),null,{timeout:10000});
     const afterRevision=await page.evaluate(()=>window.getCareerAnalyticsRevisionKey());
     assert.notEqual(afterRevision,beforeRevision,"Explicit historical identity mapping must invalidate the Career Analytics render/cache revision.");
 
@@ -200,45 +221,19 @@ async function readAnalytics(page){
     assert.equal(remapped.showdowns,3,"Mapped historical role must join the explicitly selected stable profile's longitudinal career.");
     assert.equal(remapped.totalPoints,19,"Mapped historical contribution did not join the selected stable profile.");
     assert.equal(analytics.managers.length,4,"Mapping one unresolved role must not merge any unrelated same-name profiles.");
+    await assertTeamVIdentitySafe(page,"careerStatistics","after mapping");
 
-    await page.locator("#careerStatisticsTrophyButton").click();
+    await page.evaluate(()=>window.openOptionalModule("trophyRoom"));
     await page.locator("#trophyRoom").waitFor({state:"visible",timeout:15000});
-    assert.equal(await page.locator("#trophyRoom .managerCabinet[data-profile-id]").count(),4,"Trophy Room must consume the same four stable longitudinal identities.");
-    const trophyCabinet=page.locator(`#trophyRoom .managerCabinet[data-profile-id="${ids.profileA}"]`);
-    assert.equal(await trophyCabinet.count(),1,"Trophy Room must render one cabinet for the explicitly reused profile.");
-
-    const trophyRevision=await page.evaluate(()=>({
-      career:window.getCareerAnalyticsRevisionKey(),
-      trophy:typeof getTrophyRoomRenderKey==="function"?getTrophyRoomRenderKey():null,
-      rendered:typeof trophyRoomRenderKey==="string"?trophyRoomRenderKey:null
-    }));
+    await openTeamVScreen(page,"trophyRoom");
+    const trophyRevision=await page.evaluate(()=>({career:window.getCareerAnalyticsRevisionKey(),trophy:typeof getTrophyRoomRenderKey==="function"?getTrophyRoomRenderKey():null}));
     assert.equal(trophyRevision.career,afterRevision,"Career Analytics revision changed unexpectedly before Trophy Room validation.");
-    assert.equal(trophyRevision.trophy,afterRevision,"Trophy Room render key must consume the current Career Analytics revision.");
-    assert.equal(trophyRevision.rendered,afterRevision,"Trophy Room must record the current Career Analytics revision after rendering.");
-
-    const trophyCabinetBeforeScroll=await trophyCabinet.evaluate(element=>{
-      const rect=element.getBoundingClientRect();
-      return {
-        textContent:element.textContent||"",
-        innerText:element.innerText||"",
-        contentVisibility:getComputedStyle(element).contentVisibility,
-        rect:{top:rect.top,bottom:rect.bottom,left:rect.left,right:rect.right,width:rect.width,height:rect.height},
-        viewport:{width:window.innerWidth,height:window.innerHeight,scrollY:window.scrollY}
-      };
-    });
-    assert.match(trophyCabinetBeforeScroll.textContent,/ACROSS 3 SHOWDOWNS/i,"Trophy cabinet DOM did not refresh after explicit historical mapping.");
-
-    await trophyCabinet.scrollIntoViewIfNeeded();
-    const trophyCabinetAfterScroll=await trophyCabinet.evaluate(element=>{
-      const rect=element.getBoundingClientRect();
-      return {
-        innerText:element.innerText||"",
-        rect:{top:rect.top,bottom:rect.bottom,left:rect.left,right:rect.right,width:rect.width,height:rect.height},
-        viewport:{width:window.innerWidth,height:window.innerHeight,scrollY:window.scrollY}
-      };
-    });
-    assert.match(trophyCabinetAfterScroll.innerText,/ACROSS 3 SHOWDOWNS/i,"Visible Trophy cabinet did not refresh after explicit historical mapping.");
-    assert.equal(await page.locator("#trophyRoom .analyticsIdentityNotice").count(),0,"Resolved historical identity must not leave a stale Trophy Room warning.");
+    assert.equal(trophyRevision.trophy,afterRevision,"Trophy Room must consume the current Career Analytics revision.");
+    const trophyAnalytics=await readAnalytics(page);
+    assert.equal(trophyAnalytics.managers.length,4,"Trophy Room must consume the same four stable longitudinal identities.");
+    assert.equal(trophyAnalytics.managers.find(manager=>manager.profileId===ids.profileA)?.showdowns,3,"Trophy Room analytics must include the explicitly mapped historical Showdown.");
+    assert.equal(trophyAnalytics.identity.unresolvedRoleCount,0,"Resolved historical identity must not leave a stale unresolved role.");
+    await assertTeamVIdentitySafe(page,"trophyRoom","after mapping");
 
     const singleton=await page.evaluate(key=>localStorage.getItem(key),singletonKey);
     assert.equal(singleton,null,"Read-only Analytics and historical identity mapping must not resurrect retired singleton authority.");
@@ -253,13 +248,11 @@ async function readAnalytics(page){
       linkedShowdowns:remapped.showdowns,
       unresolvedAfterMapping:analytics.identity.unresolvedRoleCount,
       trophyRevision,
-      trophyCabinetBeforeScroll,
-      trophyCabinetAfterScroll,
       screenshot:screenshotPath
     };
     fs.writeFileSync(path.join(resultsDirectory,`identity-safe-career-analytics-${runLabel}.json`),JSON.stringify(result,null,2));
     assert.deepEqual(errors,[],`Identity-safe Career Analytics emitted page/console errors: ${errors.join(" | ")}`);
-    console.log("Identity-safe Career Analytics browser audit passed: same-name profiles remain distinct, explicit profile reuse aggregates across Saves, unresolved history stays honest, mapping refreshes Career Statistics and Trophy Room, and singleton authority stays retired.");
+    console.log("Identity-safe Career Analytics browser audit passed: same-name profiles remain distinct, explicit profile reuse aggregates across Saves, unresolved history stays honest, mapping refreshes the analytics behind Career Statistics and Trophy Room (both Team V screens), and singleton authority stays retired.");
   }finally{
     await context.close();
     await browser.close();

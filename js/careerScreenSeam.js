@@ -43,9 +43,11 @@
   function isOnlineCareerRoute(identityState){
     return Boolean(identityState&&identityState.registered===true&&["daniel","nik"].includes(identityState.managerId));
   }
-  function selectCareerScreenSource({identityState,model}){
+  // The game is online only, so every career screen is Team V's (r61): with no model it shows the unavailable state,
+  // signed in or not. The old local page runs only when Legacy's data tools (backup, restore, reset) are asked for.
+  function selectCareerScreenSource({identityState,model,dataTools=false}){
     if(model!==undefined&&model!==null)return model&&STATUSES.includes(model.status)?"model":"unavailable";
-    return isOnlineCareerRoute(identityState)?"unavailable":"local";
+    return dataTools===true?"local":"unavailable";
   }
   function csNumber(value){return value===null?"-":Number.isInteger(value)?String(value):value.toFixed(1);}
   function csNumeric(value){return value===null||typeof value==="number"&&Number.isFinite(value);}

@@ -15,7 +15,7 @@ async function waitForApp(page){
     await page.locator("#mainMenu").waitFor({ state: "visible", timeout: 5000 });
 }
 async function openDataManagement(page){
-    const opened = await page.evaluate(async () => window.openOptionalModule("legacy"));
+    const opened = await page.evaluate(async () => (window.careerModeLegacyDataTools = true, window.openOptionalModule("legacy")));
     assert.equal(opened, true);
     await page.locator("#legacy").waitFor({ state: "visible", timeout: 12000 });
     await page.locator("#careerModeRestorePanel").waitFor({ state: "visible", timeout: 5000 });
