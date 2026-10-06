@@ -41,7 +41,10 @@
   function v10CareerStatistics(model,status){
     const managers={},showdowns={};
     for(const manager of MANAGERS){
-      // JOB-1028 (H1019-5): an abandoned-only career has no best season or averages yet; show 0 like the old Statistics screen.\n      const csRecord=model.managers[manager]&&{...model.managers[manager]};\n      if(csRecord)for(const key of ["bestSeasonScore","averageLeaguePoints","averageLeagueGoals"])if(csRecord[key]===null)csRecord[key]=0;\n      managers[manager]=v10Pick(csRecord,CS_FIELDS);
+      // JOB-1028 (H1019-5): an abandoned-only career has no best season or averages yet; show 0 like the old Statistics screen.
+      const csRecord=model.managers[manager]&&{...model.managers[manager]};
+      if(csRecord)for(const key of ["bestSeasonScore","averageLeaguePoints","averageLeagueGoals"])if(csRecord[key]===null)csRecord[key]=0;
+      managers[manager]=v10Pick(csRecord,CS_FIELDS);
       showdowns[manager]=v10Pick(model.managers[manager].showdowns,SHOWDOWN_FIELDS);
       if(!managers[manager]||!showdowns[manager])return null;
     }
