@@ -82,10 +82,13 @@ footer .foot-ver::before { content: "·"; margin-right: 8px; }
 .title-block { left: 0; right: 0; text-align: center; pointer-events: none; }
 .title-block > * { width: fit-content; margin-left: auto !important; margin-right: auto !important; }
 .kicker { font: 600 13px/1 var(--cond); letter-spacing: .5em; color: var(--cream); margin-right: -.5em; }
-/* TODO-WORDMARK: replace this display-font fallback with shared/wordmarks/TITLE_LEAGUE_V1.webp when job 124 adds it. */
-#leagueWheelScreen h2 { margin: 0; font: 400 var(--title-size, 64px)/1.16 "Kaushan Script", cursive; text-transform: uppercase; letter-spacing: .01em; padding: .10em .12em .18em;
-  background: linear-gradient(to bottom, #FFF1B8, #F2C45B 55%, #B98A2F); -webkit-background-clip: text; background-clip: text; color: transparent;
-  filter: drop-shadow(0 3px 1px rgba(0,0,0,.96)) drop-shadow(0 0 14px rgba(242,196,91,.28)); }
+/* Job 1030: the SELECT LEAGUE wordmark is Nik's goal-image lettering (shared/wordmarks/TITLE_LEAGUE_V1.webp).
+   The <h2> keeps its text for screen readers: it is pushed out of the box and clipped. --title-size still sizes the
+   box on phone and feeds the JS subtitle offset; on desktop league.js sets --wm-w/--wm-h/--wm-mt from the plate scale. */
+#leagueWheelScreen h2 { margin: var(--wm-mt, 14px) auto 0; padding: 0; box-sizing: border-box; overflow: hidden; white-space: nowrap; text-indent: 150%; color: transparent;
+  font: 400 var(--title-size, 64px)/1 "Kaushan Script", cursive; text-transform: uppercase;
+  width: var(--wm-w, 583px); height: var(--wm-h, 114px);
+  background: url("../shared/wordmarks/TITLE_LEAGUE_V1.webp") center / 100% 100% no-repeat; }
 .subtitle-row { left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 14px; white-space: nowrap; }
 .subtitle-row::before, .subtitle-row::after { content: ""; width: 92px; height: 1px; background: linear-gradient(to right, rgba(201,155,69,0), rgba(201,155,69,.9)); }
 .subtitle-row::after { transform: scaleX(-1); }
@@ -382,9 +385,10 @@ button:focus-visible { outline: 2px solid #FFF1B8; outline-offset: 3px; }
   .stage[data-mode="phone"] .kicker { display: none; }
   .stage[data-mode="phone"] #leagueWheelScreen h2 {
     --title-size: clamp(30px, 8.6vw, 36px);
-    margin: 0;
-    padding: .04em .08em .08em;
-    line-height: 1.08;
+    margin: 0 auto;
+    padding: 0;
+    width: calc(var(--title-size) * 6.4);
+    height: calc(var(--title-size) * 1.2); background-size: contain;
   }
 
   /* Claude fix 1: the live wheel must stay fully readable above the hero bodies. */
