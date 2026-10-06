@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 11:02 PM Boston time (EDT)",
+ "generated": "2026-10-05 11:04 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -284,8 +284,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "0257aa3",
-  "head_boston": "Mon 5 Oct 10:48 PM",
+  "head": "aa3619f",
+  "head_boston": "Mon 5 Oct 11:04 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": true,
   "open_for_g": [],
@@ -387,8 +387,8 @@
    ]
   },
   "physio": {
-   "state": "clear",
-   "line": "All clear: every check has a machine.",
+   "state": "barking",
+   "line": "Barking: Gameplay Fast has waited 2 min for a machine.",
    "gate": "POS20 #304 6/16",
    "source": "physio"
   },
@@ -698,9 +698,9 @@
   "**r62 is live.** On the laptop, close every game tab in Chrome and reopen the game; if Settings still looks clipped, do it once more."
  ],
  "now": {
-  "moving": 15,
+  "moving": 14,
   "next": 2,
-  "nik": 10,
+  "nik": 9,
   "later": 6,
   "rows": {
    "G": {
@@ -742,23 +742,13 @@
       "archived": true
      },
      {
-      "id": "1022",
-      "group": "Bug list 1",
-      "title": "Connect Players: match Team V's start-join design (1015 follow-up)",
-      "lane": "claude",
-      "state": "with the lead (Claude helper building)",
-      "waits_on": "",
-      "order": 6,
-      "details": "Team V check on #397: desktop shows Nik twice; phone title, Back position and bottom nav; yellow primary buttons."
-     },
-     {
       "id": "1023",
       "group": "Bug list 1",
       "title": "Session code replacement: double tap and lost join watcher",
       "lane": "claude",
-      "state": "with the lead (Claude helper building)",
+      "state": "in review: PR #406, CI running",
       "waits_on": "",
-      "order": 7,
+      "order": 0,
       "details": "Hunt 1018 H1 (S1) and H2 (S2), js/sparkRemoteJoining.js"
      },
      {
@@ -766,9 +756,9 @@
       "group": "Bug list 1",
       "title": "Reconnect keeps stale authority after sign-out, offline or expiry",
       "lane": "claude",
-      "state": "with the lead (Claude helper building)",
+      "state": "in review: PR #408, CI running",
       "waits_on": "",
-      "order": 7,
+      "order": 0,
       "details": "Hunt 1018 H3, H4 and H5 (S2), js/productionSharedJourneyReconnect.js"
      }
     ],
@@ -802,17 +792,6 @@
       "archived": true
      },
      {
-      "id": "1010",
-      "group": "Bug list 1",
-      "title": "1010 · G 10-season sweep: scoring, history and final math",
-      "lane": "green",
-      "state": "ready",
-      "waits_on": "Nik types it in the gameplay project (Work mode)",
-      "details": "GPT green, one run. Node check of 10-season scoring, ties and final winner; report only, no game code.",
-      "order": 7,
-      "place": "in the gameplay project (Work mode), new chat"
-     },
-     {
       "id": "1011",
       "group": "Bug list 1",
       "title": "1011 · G Plain-words sweep: jargon on game screens",
@@ -820,7 +799,7 @@
       "state": "ready",
       "waits_on": "Nik types it in the gameplay project (Work mode)",
       "details": "GPT green, one run. Replaces engineering words players see; leaves test-asserted strings to the lead.",
-      "order": 11,
+      "order": 3,
       "place": "in the gameplay project (normal chat), new chat",
       "after": "1014, 1015 and 1020 merge",
       "note": "1014, 1015 and 1020 are merged"
@@ -844,7 +823,7 @@
       "state": "ready",
       "waits_on": "Nik types it in the Q&A team project",
       "details": "GPT Q&A team, Astra Work (Sol Work if out). Report only (sweeps/hunt-1017.md); the lead turns findings into fix jobs.",
-      "order": 10,
+      "order": 2,
       "place": "in the Q&A team project (Astra Work mode), new chat"
      },
      {
@@ -855,7 +834,7 @@
       "state": "ready",
       "waits_on": "Nik types it in the Q&A team project",
       "details": "GPT Q&A team, Sol Work. Report only (sweeps/hunt-1019.md); the lead turns findings into fix jobs.",
-      "order": 9,
+      "order": 1,
       "place": "in the Q&A team project (Work mode), new chat"
      },
      {
@@ -933,7 +912,7 @@
       "state": "ready",
       "waits_on": "after Team V designs the combined screen (HO-011)",
       "details": "Nik picked No tap, combined: one screen shows the last season's score and the Final Winner. Team V designs it (HO-011), then a GPT green job builds it and restores the strict final-season check.",
-      "order": 12
+      "order": 4
      },
      {
       "id": "1015",
