@@ -1,20 +1,26 @@
 # Board archive
 
-[Back to the board](BOARD.md) · generated 2026-10-05 10:35 PM Boston time (EDT). Detail and history behind the one board.
+[Back to the board](BOARD.md) · generated 2026-10-05 10:37 PM Boston time (EDT). Detail and history behind the one board.
 
 ## Old detailed board
 
 # Showdown board: G Factory and V Factory
 
-🌐 **Live: runtime 1.9.1-r62** (main `bc77a0b`) · 🔄 **14 moving** · ⏭ 2 up next · 👤 10 waiting on Nik · 🗂 4 later · updated 2026-10-05 10:35 PM Boston time (EDT)
+🌐 **Live: runtime 1.9.1-r62** (main `bc77a0b`) · 🔄 **15 moving** · ⏭ 2 up next · 👤 10 waiting on Nik · 🗂 4 later · updated 2026-10-05 10:37 PM Boston time (EDT)
 
-🐕 **Barking: POS20 on #399 has waited 10 min for a machine; Gameplay Fast on #399 has waited 10 min for a machine; POS20 on #402 has waited 6 min for a machine; POS20 on #392 has waited 6 min for a machine; POS20 on #311 has waited 5 min for a machine; Gameplay Fast has waited 3 min for a machine; Gameplay Fast on #403 has waited 3 min for a machine; POS20 on #403 has waited 2 min for a machine; POS20 has waited 2 min for a machine.** · POS20 #304 6/16
+🐕 **Barking: POS20 on #402 has waited 7 min for a machine; POS20 on #392 has waited 7 min for a machine; POS20 on #311 has waited 6 min for a machine; Gameplay Fast has waited 4 min for a machine; POS20 on #403 has waited 4 min for a machine; POS20 has waited 3 min for a machine.** · POS20 #304 6/16
 
 ## Your next move
 
 1. **r62 is live.** On the laptop, close every game tab in Chrome and reopen the game; if Settings still looks clipped, do it once more.
 
 ## 🔄 Moving now
+
+**🟩 1018 · Gameplay hunt 2: sessions, pairing and reconnect** · 0 % (0 of 3 steps) · Sol Work mode
+
+⚽▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️ 🥅  
+> **Now:** step 1 of 3  
+> **Left:** step 1 → step 2 → step 3
 
 **🟦 V-1006 · Final Winner: last season's score block** · 25 % (1 of 4 steps) · Sol chat · [PR #393](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/393)
 
@@ -29,8 +35,8 @@
 | G | 1001 | 🐞 Bug list 1: 1001 · G Home desktop tile icons: bigger, inside the tile, never on the text | 🟦 Sol chat | in release (merged into gameplay/bug-list-1, 215e34a) | Bug list 1 items L1-01..06. CSS only in css/homeV10.css desktop blocks. Job file jobs/JOB-1001.md. Lead checks screenshots at 1920/1440/1280/1100/1000 wide. |
 | G | 1003 | 🐞 Bug list 1: 1003 · G Transfer War: main's copy of Team V's early-end string matches (HO-010) | 🟦 Sol chat | in release (merged into gameplay/bug-list-1) | Low priority, no live impact. js/transferScreenV10.js lines 26 and 30. Job file jobs/JOB-1003.md. |
 | G | 1004 | 🐞 Bug list 1: 1004 · G Rule Book: remove the useless 01-06 side number rail (desktop and phone) | ⬛ claude | with the lead (PR #392, round 2 done) | js/rulesSettingsV10.js only: stop building #ruleBookIndex. Per-rule number badges stay. |
+| G | 1014 | 🐞 Bug list 1: 1014 · G No reconnect prompt after a finished Showdown | 🟦 Sol chat | with the lead (PR #402, CI running) | GPT green, one run. HO-013: closed Showdown shows SHOWDOWN COMPLETE instead of RECONNECT SESSION. Lead runs the reconnect audit. |
 | G | 1015 | 🐞 Bug list 1: 1015 · G Connect Players screen: create code / join off Home | 🟩 Sol Work mode | with worker (round 3) | GPT green, one run. HO-014: pair panel moves from Home to its own CONNECT PLAYERS screen (Team V SJ design). Pairing logic unchanged; lead runs pairing audits. |
-| G | 1021 | 🐞 Bug list 1: 1021 · G Transfer War on phone: port Team V's revamp | ⬛ claude | with the lead (PR #401, Team V PASS) | GPT green, one run. HO-016: Team V's checked phone CSS + 2 cut-outs into css/v10Transfer.css. Desktop unchanged. |
 
 | Hand-off | From → To | What | Progress |
 | --- | --- | --- | --- |
@@ -75,11 +81,11 @@ _Gameplay, online sync, every merge and every release (senior director)._ Worker
 | 1009 | 1009 · G Showdown Champion: dark oval over the losing manager — GPT blue, one file: delete the loser shade rule in final-winner.css. | 🟦 Sol chat | merged into bug-list-1 (23bb974) | Nik types it in the gameplay project (normal chat) |
 | 1010 | 1010 · G 10-season sweep: scoring, history and final math — GPT green, one run. Node check of 10-season scoring, ties and final winner; report only, no game code. | 🟩 Sol Work mode | ready | Nik types it in the gameplay project (Work mode) |
 | 1011 | 1011 · G Plain-words sweep: jargon on game screens — GPT green, one run. Replaces engineering words players see; leaves test-asserted strings to the lead. | 🟦 Sol chat | ready | Nik types it in the gameplay project (Work mode) |
-| 1014 | 1014 · G No reconnect prompt after a finished Showdown — GPT green, one run. HO-013: closed Showdown shows SHOWDOWN COMPLETE instead of RECONNECT SESSION. Lead runs the reconnect audit. | 🟦 Sol chat | ready | Nik types it in the gameplay project (Work mode) |
 | 1017 | 1017 · G Gameplay hunt 1: shared season flow across devices — GPT Q&A team, Astra Work (Sol Work if out). Report only (sweeps/hunt-1017.md); the lead turns findings into fix jobs. | 🟩 Sol Work mode | ready | Nik types it in the Q&A team project |
 | 1018 | 1018 · G Gameplay hunt 2: sessions, pairing and reconnect — GPT Q&A team, Sol Work. Report only (sweeps/hunt-1018.md); the lead turns findings into fix jobs. | 🟩 Sol Work mode | ready | Nik types it in the Q&A team project |
 | 1019 | 1019 · G Gameplay hunt 3: entries, saves and career numbers — GPT Q&A team, Sol Work. Report only (sweeps/hunt-1019.md); the lead turns findings into fix jobs. | 🟩 Sol Work mode | ready | Nik types it in the Q&A team project |
 | 1020 | 1020 · G Season Results patch: one column on phone, no overlap on desktop — GPT green, one run. Team V phone CSS (HO-015) + desktop window below the scoring card + reconciliation look. Team V 1012 checks the look. | 🟩 Sol Work mode | ready | Nik types it in the gameplay project (Work mode) |
+| 1021 | 1021 · G Transfer War on phone: port Team V's revamp — GPT green, one run. HO-016: Team V's checked phone CSS + 2 cut-outs into css/v10Transfer.css. Desktop unchanged. | ⬛ claude | merged into bug-list-1 (2d71f79) | Nik types it in the gameplay project (Work mode) |
 
 **🗂 Later**
 
@@ -174,7 +180,7 @@ Latest:
 ## Every bug report
 
 
-> Updated **Mon 5 Oct, 10:35 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
+> Updated **Mon 5 Oct, 10:37 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
 
 | 🔓 Open | 🔴 Top priority | 🔧 Fixing or waiting for release | ✅ Fixed and live |
 | :---: | :---: | :---: | :---: |
@@ -192,8 +198,15 @@ Latest:
 
 <sub>Percent = finished steps weighted by typical step time; finish times are estimates ([how](ETA_STUDY.md)).</sub>
 
-> [!NOTE]
-> No job is reporting progress right now. A job shows here once its PR description carries a progress block.
+🏁 no finish time yet (not enough data)
+
+### 🟩 Sol Work mode · 1 job
+
+**Job 1018 · Gameplay hunt 2: sessions, pairing and reconnect · 0.0000 %** · 0 of 3 steps · updated Mon 5 Oct, 10:38 PM  
+⚽▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️ 🥅  
+🏁 **Likely finish:** not enough data  
+> **Now:** step 1 of 3  
+> **Left:** step 1 → step 2 → step 3
 
 <details>
 <summary><b>✅ Closed: 14</b> (11 live in the game) · click to open</summary>

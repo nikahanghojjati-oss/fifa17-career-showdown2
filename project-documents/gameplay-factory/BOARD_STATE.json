@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 10:35 PM Boston time (EDT)",
+ "generated": "2026-10-05 10:37 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -388,7 +388,7 @@
   },
   "physio": {
    "state": "barking",
-   "line": "Barking: POS20 on #399 has waited 10 min for a machine; Gameplay Fast on #399 has waited 10 min for a machine; POS20 on #402 has waited 6 min for a machine; POS20 on #392 has waited 6 min for a machine; POS20 on #311 has waited 5 min for a machine; Gameplay Fast has waited 3 min for a machine; Gameplay Fast on #403 has waited 3 min for a machine; POS20 on #403 has waited 2 min for a machine; POS20 has waited 2 min for a machine.",
+   "line": "Barking: POS20 on #402 has waited 7 min for a machine; POS20 on #392 has waited 7 min for a machine; POS20 on #311 has waited 6 min for a machine; Gameplay Fast has waited 4 min for a machine; POS20 on #403 has waited 4 min for a machine; POS20 has waited 3 min for a machine.",
    "gate": "POS20 #304 6/16",
    "source": "physio"
   },
@@ -698,7 +698,7 @@
   "**r62 is live.** On the laptop, close every game tab in Chrome and reopen the game; if Settings still looks clipped, do it once more."
  ],
  "now": {
-  "moving": 14,
+  "moving": 15,
   "next": 2,
   "nik": 10,
   "later": 4,
@@ -752,6 +752,16 @@
       "order": 4
      },
      {
+      "id": "1014",
+      "group": "Bug list 1",
+      "title": "1014 · G No reconnect prompt after a finished Showdown",
+      "lane": "blue",
+      "state": "with the lead (PR #402, CI running)",
+      "waits_on": "Nik types it in the gameplay project (Work mode)",
+      "details": "GPT green, one run. HO-013: closed Showdown shows SHOWDOWN COMPLETE instead of RECONNECT SESSION. Lead runs the reconnect audit.",
+      "order": 5
+     },
+     {
       "id": "1015",
       "group": "Bug list 1",
       "title": "1015 · G Connect Players screen: create code / join off Home",
@@ -762,17 +772,6 @@
       "order": 1,
       "place": "in the gameplay project (Work mode), same chat",
       "note": "round 3"
-     },
-     {
-      "id": "1021",
-      "group": "Bug list 1",
-      "title": "1021 · G Transfer War on phone: port Team V's revamp",
-      "lane": "claude",
-      "state": "with the lead (PR #401, Team V PASS)",
-      "waits_on": "Nik types it in the gameplay project (Work mode)",
-      "details": "GPT green, one run. HO-016: Team V's checked phone CSS + 2 cut-outs into css/v10Transfer.css. Desktop unchanged.",
-      "order": 6,
-      "place": "nothing to type: the lead does it in a Claude thread"
      }
     ],
     "nik": [
@@ -828,17 +827,6 @@
       "after": "1014, 1015 and 1020 merge"
      },
      {
-      "id": "1014",
-      "group": "Bug list 1",
-      "title": "1014 · G No reconnect prompt after a finished Showdown",
-      "lane": "blue",
-      "state": "ready",
-      "waits_on": "Nik types it in the gameplay project (Work mode)",
-      "details": "GPT green, one run. HO-013: closed Showdown shows SHOWDOWN COMPLETE instead of RECONNECT SESSION. Lead runs the reconnect audit.",
-      "order": 5,
-      "place": "in the gameplay project (normal chat), new chat"
-     },
-     {
       "id": "1017",
       "group": "Bug list 1",
       "title": "1017 · G Gameplay hunt 1: shared season flow across devices",
@@ -881,6 +869,18 @@
       "details": "GPT green, one run. Team V phone CSS (HO-015) + desktop window below the scoring card + reconciliation look. Team V 1012 checks the look.",
       "order": 2,
       "place": "in the gameplay project (Work mode), new chat"
+     },
+     {
+      "id": "1021",
+      "group": "Bug list 1",
+      "title": "1021 · G Transfer War on phone: port Team V's revamp",
+      "lane": "claude",
+      "state": "merged into bug-list-1 (2d71f79)",
+      "waits_on": "Nik types it in the gameplay project (Work mode)",
+      "details": "GPT green, one run. HO-016: Team V's checked phone CSS + 2 cut-outs into css/v10Transfer.css. Desktop unchanged.",
+      "order": 6,
+      "place": "nothing to type: the lead does it in a Claude thread",
+      "archived": true
      }
     ],
     "next": [
