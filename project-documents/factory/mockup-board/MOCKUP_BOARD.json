@@ -1,0 +1,22 @@
+{
+  "board": "Team V mockup progress",
+  "goal": "Live game looks like Nik's mockups (HO-017, Thursday 2026-10-08)",
+  "run": "run-01",
+  "measured_at": "2026-10-06T04:10:00Z",
+  "build": "origin/main bc77a0b9 (r62, live)",
+  "method": "Six checks per screen, each done=1, partial=0.5, missing=0: scene, title, layout, art objects, real content, phone. A check that the run could not see is left out of that screen's score and listed under not_measured. Desktop numbers come from mockup_diff.py at 1920x1080; phone from 393x660.",
+  "overall_percent": 74,
+  "screens": [
+    {"screen":"Home","mockup":"GOAL_HOME.jpg","percent":83,"scene":1,"title":1,"layout":1,"art":0.5,"content":1,"phone":0.5,"gap":"tile icons smaller than the mockup's big objects; phone has no Daniel/Nik"},
+    {"screen":"Select League","mockup":"GOAL_LEAGUE.jpg","percent":92,"scene":1,"title":0.5,"layout":1,"art":1,"content":1,"phone":1,"gap":"title is a thin script, mockup is a bold brush wordmark"},
+    {"screen":"Club Assignment","mockup":"GOAL_CLUB.jpg","percent":92,"scene":1,"title":1,"layout":0.5,"art":1,"content":1,"phone":1,"gap":"2 layout-audit findings on phone"},
+    {"screen":"Transfer War","mockup":"GOAL_TRANSFER_PLATE_G.png","percent":83,"scene":1,"title":1,"layout":1,"art":1,"content":1,"phone":0,"gap":"phone revamp (1016/1021) not on main yet","note":"audit fixtures did not open the skin; scored from Team V checks of 1016 and #401"},
+    {"screen":"Season Results","mockup":"MOCKUP_SEASON_RESULTS.jpg","percent":75,"scene":0.5,"title":1,"layout":0.5,"art":1,"content":1,"phone":0.5,"gap":"desktop heroes bigger and moved (face boxes 0.16); one card instead of two side by side; phone fix #399 not on main yet"},
+    {"screen":"Connect Players","mockup":"MOCKUP_START_JOIN.png","percent":0,"scene":0,"title":0,"layout":0,"art":0,"content":0,"phone":0,"gap":"main still shows the pair box on Home; the Connect Players screen (#397/#405, PASS) is not on main yet"},
+    {"screen":"Career Statistics","mockup":"MOCKUP_CAREER_STATISTICS.png","percent":80,"scene":1,"title":1,"layout":0.5,"art":0.5,"phone":1,"not_measured":["content"],"gap":"leader cards and comparison bars not seen; run had no data"},
+    {"screen":"Rivalry Statistics","mockup":"MOCKUP_RIVALRY_STATISTICS.png","percent":80,"scene":1,"title":1,"layout":0.5,"art":0.5,"phone":1,"not_measured":["content"],"gap":"run showed the loading state only"},
+    {"screen":"Legacy","mockup":"MOCKUP_LEGACY_V2.png","percent":80,"scene":1,"title":1,"layout":0.5,"art":0.5,"phone":1,"not_measured":["content"],"gap":"run showed 'history could not be loaded'; showdown cards not seen"},
+    {"screen":"Trophy Room","mockup":"MOCKUP_TROPHY_ROOM.png","percent":null,"not_measured":["all"],"gap":"audit fixtures did not open Team V's skin (plain page); needs a filled capture"}
+  ],
+  "no_mockup_in_repo": ["Create Showdown","Final Winner / Season Summary","Settings","Rule Book","Standings"]
+}
