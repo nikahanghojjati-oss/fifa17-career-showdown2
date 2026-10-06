@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """The two Thursday goals (Nik, 2026-10-06 04:01 UTC), read from GitHub and cached in GOALS.json:
 - Team G, bug-free game: Showdown Bug Olympiad on qa/bug-olympiad, project-documents/gameplay-factory/sweeps/olympiad/
-  (format: /mnt/project-files/bug-list-factory/SOLO_HUNT_KIT.md). The meter is the mean over areas 01-12 of
+  (format: /mnt/project-files/bug-list-factory/SOLO_HUNT_KIT.md). The meter is the mean over areas 01-15 of
   coverage_pct x clean_confidence_pct from each area's newest runs/*.json, minus 10 points per open S1/S2 finding
   in that area. Findings' lifecycle is "state" (open | fixed | not-a-bug | duplicate; missing = open); a challenges/ file on a
   finding counts it as not-a-bug until the lead checks it.
@@ -17,7 +17,7 @@ F = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
 CACHE = os.path.join(F, "GOALS.json")
 SCREENS = 16
 G_BRANCH, G_DIR = "qa/bug-olympiad", "project-documents/gameplay-factory/sweeps/olympiad/"
-AREAS = 12
+AREAS = 15  # 01-15 since 2026-10-06 04:29 UTC (13 saving/Legacy/history, 14 Firestore/rules/sign-in, 15 full journey)
 V_BRANCH, V_DIR = "study/mockup-lab", "project-documents/visual-study/"
 
 
