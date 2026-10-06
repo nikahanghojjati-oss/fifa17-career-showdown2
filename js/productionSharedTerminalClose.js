@@ -10,6 +10,8 @@
   const AMBIGUOUS_CODES=new Set(["unavailable","deadline-exceeded","aborted","internal","unknown","network-request-failed"]);
   let installed=false,busy=false,state=null,stateContextKey="",refreshPromise=null,closePromise=null,unsubscribeRemote=null;
   let rivalryWakeRequested=false;
+  // H1017-2: bumped whenever the held state is dropped, so an awaited retry can tell its context was cleared under it.
+  let stateGeneration=0;
   // BH-7: throttled, single-flight re-ask of Connected Rivalry (see ptcRetryUnavailableRivalry).
   const RIVALRY_RETRY_MS=30000;
   let rivalryRetryAt=0,rivalryRetryInFlight=false;
@@ -110,19 +112,27 @@
     ptcText(ui.heading,"FINAL RESULT READY FOR TERMINAL CLOSE");ptcText(ui.summary,ptcWinnerText(witness));ptcText(ui.status,"This permanently closes the shared rivalry and exact active private session. Final results remain readable; another season or replacement session cannot resurrect this Showdown.");ptcHidden(ui.close,false);ui.close.disabled=busy;ptcText(ui.close,"CLOSE SHARED SHOWDOWN");ptcHidden(ui.retry,true);return true;
   }
   function ptcPublish(request,next){
-    if(!request||!next){state=null;stateContextKey="";ptcRender();return null;}
+    if(!request||!next){stateGeneration+=1;state=null;stateContextKey="";ptcRender();return null;}
     const current=ptcRequest();if(!current||current.key!==request.key)return null;
     state=ptcFreeze(next);stateContextKey=request.key;ptcRender();
     try{root.dispatchEvent?.(new root.CustomEvent("career-mode-shared-terminal-close-state-change",{detail:{phase:state.phase,rivalryId:state.rivalryId||request.rivalryId,terminal:state.phase==="CLOSED"}}));}catch(_error){}
     return state;
   }
-  function ptcClear(){state=null;stateContextKey="";ptcRender();return null;}
+  function ptcClear(){stateGeneration+=1;state=null;stateContextKey="";ptcRender();return null;}
+  function ptcStillCurrent(request,generation){return ptcRequest()?.key===request.key&&stateGeneration===generation;}
   function ptcClosedState(request,terminalRead){const witness=protocol.verifyIntent(terminalRead.terminalWitness);return {phase:"CLOSED",rivalryId:request.rivalryId,sessionId:witness.sessionId,rivalryRevision:terminalRead.rivalryRevision,terminal:true,terminalWitness:ptcClone(witness),canonicalStorageMutation:false,listPermissionRequired:false,billingRequired:false};}
   async function ptcRefreshNow(){
     const request=ptcRequest();if(!request)return ptcClear();
     await ptcEnsureDependencies();const context=await ptcResolveContext(request);if(ptcRequest()?.key!==request.key)return null;
     const terminalRead=await provider.read({user:context.user,firestore:context.services.firestore,firebaseSdk:context.services.firestoreSdk,rivalryId:request.rivalryId,deviceId:context.deviceId,cryptoImpl:root.crypto});
     if(ptcRequest()?.key!==request.key)return null;
+    // H1017-1: an unresolved close holds its exact witness. Only a verified closed read of that same witness resolves it here;
+    // an open, mismatched or failed read keeps RECOVERY_PENDING so RETRY SAME TERMINAL CLOSE stays bound to that witness.
+    const held=ptcCurrentState();
+    if(held?.phase==="RECOVERY_PENDING"&&held.intent){
+      if(terminalRead?.ok===true&&terminalRead.terminal===true&&protocol.sameWitness(terminalRead.terminalWitness,held.intent)){try{remoteApi?.forgetSession?.();}catch(_error){}return ptcPublish(request,ptcClosedState(request,terminalRead));}
+      return held;
+    }
     if(terminalRead?.ok===true&&terminalRead.terminal===true){try{remoteApi?.forgetSession?.();}catch(_error){}return ptcPublish(request,ptcClosedState(request,terminalRead));}
     if(!terminalRead||terminalRead.ok!==true)ptcFail(terminalRead?.code||"TERMINAL_CLOSE_READ_FAILED",terminalRead?.message||"Terminal state could not be verified.");
     let final=finalApi.getState();if(!final||final.phase!=="FINAL_SEASON_RECONCILED"||final.rivalryId!==request.rivalryId)final=await finalApi.refresh();
@@ -158,7 +168,7 @@
   }
   function ptcCloseOptions(context,intent){return {user:context.user,firestore:context.services.firestore,firebaseSdk:context.services.firestoreSdk,rivalryId:context.request.rivalryId,sessionId:intent.sessionId,deviceId:context.deviceId,intent,nowEpochMs:Date.now(),cryptoImpl:root.crypto};}
   function ptcAccepted(request,intent,result){
-    const closed=protocol.closeResult(intent,result);try{remoteApi?.forgetSession?.();}catch(_error){}
+    const closed=protocol.closeResult(intent,result);if(ptcRequest()?.key!==request.key)return null;try{remoteApi?.forgetSession?.();}catch(_error){}
     return ptcPublish(request,{phase:"CLOSED",rivalryId:request.rivalryId,sessionId:intent.sessionId,rivalryRevision:closed.rivalryRevision,sessionRevision:closed.sessionRevision,terminal:true,terminalWitness:ptcClone(intent),replayed:closed.replayed,canonicalStorageMutation:false,listPermissionRequired:false,billingRequired:false});
   }
   // BH-7: when both managers tap CLOSE together the loser's write is refused (permission-denied once the winner closed the
@@ -198,13 +208,17 @@
   async function ptcRetry(){
     if(closePromise)return closePromise;
     const current=ptcCurrentState();if(!current||current.phase!=="RECOVERY_PENDING"||!current.intent)return {ok:false,code:"TERMINAL_CLOSE_RECOVERY_REQUIRED",message:"No unresolved Terminal Close is waiting for retry."};
-    const request=ptcRequest(),intent=protocol.verifyIntent(current.intent);busy=true;ptcRender();
+    const request=ptcRequest(),intent=protocol.verifyIntent(current.intent),generation=stateGeneration;busy=true;ptcRender();
+    // H1017-2: the request and state generation are re-checked after every await, before any close call or session cleanup.
+    const changed={ok:false,code:"TERMINAL_CLOSE_CONTEXT_CHANGED"};
     const run=(async()=>{
       try{
-        const context=await ptcResolveContext(request);if(ptcRequest()?.key!==request.key)ptcFail("TERMINAL_CLOSE_CONTEXT_CHANGED");
+        const context=await ptcResolveContext(request);if(!ptcStillCurrent(request,generation))return changed;
         const terminalRead=await provider.read({user:context.user,firestore:context.services.firestore,firebaseSdk:context.services.firestoreSdk,rivalryId:request.rivalryId,deviceId:context.deviceId,cryptoImpl:root.crypto});
+        if(!ptcStillCurrent(request,generation))return changed;
         if(terminalRead?.ok===true&&terminalRead.terminal===true){if(!protocol.sameWitness(terminalRead.terminalWitness,intent))ptcFail("TERMINAL_CLOSE_REPLAY_CONFLICT");try{remoteApi?.forgetSession?.();}catch(_error){}ptcPublish(request,ptcClosedState(request,terminalRead));return {ok:true,status:"replayed",replayed:true,rivalryId:request.rivalryId,sessionId:intent.sessionId,rivalryState:"closed",sessionState:"closed",rivalryRevision:terminalRead.rivalryRevision};}
         const result=await provider.close(ptcCloseOptions(context,intent));
+        if(!ptcStillCurrent(request,generation))return changed;
         if(result?.ok===true){ptcAccepted(request,intent,result);return result;}
         if(ptcAmbiguous(result)){ptcPublish(request,current);return {...result,recoverable:true};}
         const rivalClosed=await ptcClosedByRival(request,context,intent,result);if(rivalClosed)return rivalClosed;
