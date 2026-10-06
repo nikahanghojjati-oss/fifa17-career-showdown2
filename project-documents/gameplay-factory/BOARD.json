@@ -759,6 +759,15 @@
      "state": "ready",
      "waits_on": "after Team V designs the combined screen (HO-011)",
      "details": "Nik picked No tap, combined: one screen shows the last season's score and the Final Winner. Team V designs it (HO-011), then a GPT green job builds it and restores the strict final-season check."
+    },
+    {
+     "id": "1009",
+     "group": "Bug list 1",
+     "title": "1009 · G Showdown Champion: dark oval over the losing manager",
+     "lane": "blue",
+     "state": "ready",
+     "waits_on": "Nik types it in the gameplay project",
+     "details": "GPT blue, one file: delete the loser shade rule in final-winner.css."
     }
    ]
   },
