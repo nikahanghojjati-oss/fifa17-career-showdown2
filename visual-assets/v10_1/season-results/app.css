@@ -122,3 +122,27 @@ html #app #topHeader{color:var(--f17-ink);font-family:var(--f17-ui)}
 @media(max-width:900px) and (max-height:700px){
  #seasonEntry .v10FinalProof{bottom:43.5%}
 }
+
+/* r61 (Nik: no old-design leftovers): the review / published / commit panel is the app's own markup (seasonEngine.js,
+   Shared Season Results and Commit). css/season.css and css/app.css drew it as light cards with blue bars and slate
+   buttons inside Team V's frame; here it takes Team V's black-and-gold panel kit. Classes and ids are unchanged. */
+#app #seasonEntry.seasonScreenV10 .season-review-panel{color:#efe7d2}
+#app #seasonEntry.seasonScreenV10 .season-review-panel .seasonReviewStatus{color:#c9c2b0;background:rgb(5 7 9 / .82);border:1px solid rgb(242 196 91 / .35)}
+#app #seasonEntry.seasonScreenV10 .season-review-panel .seasonReviewStatus span{color:#f2c45b}
+#app #seasonEntry.seasonScreenV10 .season-review-panel :is(.seasonReviewIntro,.summaryClub,.summaryLine){color:#c9c2b0}
+#app #seasonEntry.seasonScreenV10 .season-review-panel .seasonSummaryCard{color:#efe7d2;background:rgb(5 7 9 / .86);border:1px solid rgb(242 196 91 / .35);border-top:2px solid #f2c45b;box-shadow:none}
+#app #seasonEntry.seasonScreenV10 .season-review-panel .seasonSummaryCard::before{content:none}
+#app #seasonEntry.seasonScreenV10 .season-review-panel .seasonSummaryCard h3{color:#fff}
+#app #seasonEntry.seasonScreenV10 .season-review-panel .summaryLine{border-bottom-color:rgb(242 196 91 / .16)}
+#app #seasonEntry.seasonScreenV10 .season-review-panel .summaryLine strong,#app #seasonEntry.seasonScreenV10 .season-review-panel .seasonReviewLine.isScoring strong{color:#fff}
+#app #seasonEntry.seasonScreenV10 .season-review-panel .seasonReviewScoreHeading{color:#f2c45b}
+#app #seasonEntry.seasonScreenV10 .season-review-panel .seasonReviewAchievements{border-top-color:rgb(242 196 91 / .16)}
+#app #seasonEntry.seasonScreenV10 .season-review-panel .seasonReviewAchievements .isEarned{color:#111;background:#f2c45b;border-left:0}
+#app #seasonEntry.seasonScreenV10 .season-review-panel .seasonReviewAchievements .isNotEarned{color:#9d968a;background:rgb(255 255 255 / .04);border-left:0}
+#app #seasonEntry.seasonScreenV10 .season-review-panel :is(.summaryTotal,.overallScoreBox){color:#111;background:#f2c45b;border-left:0;box-shadow:none}
+#app #seasonEntry.seasonScreenV10 .season-review-panel .overallScoreBox span{color:#3b3424}
+#app #seasonEntry.seasonScreenV10 .season-review-panel .seasonReviewWarning{color:#efe7d2;background:rgb(5 7 9 / .82);border-left:3px solid #f2c45b}
+#app #seasonEntry.seasonScreenV10 .season-review-panel .seasonReviewActions .menuButton{color:#111;background:#f2c45b;border:1px solid #f2c45b;font:800 13px/1 var(--f17-display,inherit);letter-spacing:1.2px}
+#app #seasonEntry.seasonScreenV10 .season-review-panel .seasonReviewActions :is(.compactButton,.backButton){color:#f2c45b;background:rgb(5 7 9 / .9);border:1px solid #f2c45b}
+#app #seasonEntry.seasonScreenV10 .season-review-panel .seasonReviewActions :is(.menuButton,.compactButton):disabled{color:#c9c2b0;background:rgb(5 7 9 / .9);border-color:rgb(242 196 91 / .35);opacity:1}
+#app #seasonEntry.seasonScreenV10 .season-review-panel .seasonReviewActions{background:rgb(9 11 14 / .96)}

@@ -23,11 +23,11 @@
   });
   const ROLES=Object.freeze(["playerOne","playerTwo"]);
   const LAYOUTS=Object.freeze({window:"WINDOW_OPEN",guess_entry:"GUESS_ENTRY",signing_entry:"SIGNING_ENTRY",completed:"COMPLETED"});
-  // Team V's approved copy (fixtures.json "strings" at 5e05a1f) for the labels Team V draws itself. Production keeps
+  // Team V's approved copy (fixtures.json "strings" at 5e05a1f, f1Action as factory/v1-wtt5ye 273115c) for the labels Team V draws itself. Production keeps
   // every text it renders (status, buttons, timer, lock summary, errors): those elements are the production ones.
   const STRINGS=Object.freeze({
     title:"SEASON {season} · TRANSFER CHALLENGE",back:"HOME",refresh:"REFRESH",rail:Object.freeze(["Window","Guesses","Signings","Verdicts"]),railAriaLabel:"Transfer Challenge progress",
-    f1Intro:"Ends early only if you both agree.",f1RulesLine:"15 MIN · 3 SIGNINGS · 3 GUESSES",f1Action:"END EARLY",f1ActionRequested:"EARLY END REQUESTED ✓",
+    f1Intro:"Ends early only if you both agree.",f1RulesLine:"15 MIN · 3 SIGNINGS · 3 GUESSES",f1Action:"REQUEST EARLY END",f1ActionRequested:"EARLY END REQUESTED ✓",
     ruleNote:"Guess a league or nationality. A matching signing must be released.",
     guessHeading:"Guess {RIVAL}'s signings",privacyNote:"Hidden from {RIVAL} until you both lock.",
     selectPlaceholder:"Guess type",selectLeague:"League",selectNationality:"Nationality",valuePlaceholder:"Pick a type first",primary:"LOCK GUESSES",
@@ -141,7 +141,7 @@
   const BASE="visual-assets/v10_1/";
   const ASSET_BASE=BASE+DIR;
   const ACTION_CLASSES=Object.freeze({start:"btn-end sd-btn sd-btn--secondary",continueReplay:"btn-continue sd-btn sd-btn--secondary",error:"error-line"});
-  let installed=false,registered=null,platemap=null,cached=null,mountedFrame=null,stage=null,adopted=[],cardSwaps=[],pending=false,timerNode=null,statusNode=null,stageSize=null;
+  let installed=false,registered=null,platemap=null,cached=null,mountedFrame=null,stage=null,adopted=[],cardSwaps=[],pending=false,timerNode=null,statusNode=null,stageSize=null,reframe=null;
   const v10Screens=()=>root.CareerModeV10Screens;
   const tfDoc=()=>root.document||null;
   function tfWarn(context,error){if(root.console&&typeof root.console.warn==="function")root.console.warn(`[Career Mode Showdown] ${context}`,error);}
@@ -273,6 +273,7 @@
     if(stage&&stage.__tw&&typeof stage.__tw.dispose==="function"){try{stage.__tw.dispose();}catch(_error){}}
     const host=section&&section.querySelector(":scope > .tw-host");
     if(stageSize){stageSize.disconnect();stageSize=null;}
+    if(reframe!==null){root.cancelAnimationFrame(reframe);reframe=null;}
     if(host)host.remove();
     if(section)section.classList.remove("tw-on");
     stage=null;mountedFrame=null;
@@ -287,8 +288,12 @@
       const drawn=root.TWPlate.render(stage,toPlateFixtures(frame),platemap,"LIVE",{webpOnly:true,freeze:true});
       // Team V's desktop camera is computed at render, but the screen's own styles switch on only after mount (js/v10Screens.js),
       // so the stage is still the tall unstyled section then and the panels and actions land below the screen. The plate
-      // re-frames on window resize only, so tell it whenever the stage itself changes size.
-      if(typeof root.ResizeObserver==="function"){let last="";stageSize=new root.ResizeObserver(entries=>{const box=entries[0]&&entries[0].contentRect;const size=box?`${Math.round(box.width)}x${Math.round(box.height)}`:"";if(!size||size===last)return;const first=!last;last=size;if(!first&&typeof root.dispatchEvent==="function"&&typeof root.Event==="function")root.dispatchEvent(new root.Event("resize"));});stageSize.observe(stage);}
+      // re-frames on window resize only, so tell it whenever the observer reports a stage size, the first report included:
+      // when the styles apply before the observer's first report, that report is already the styled size and is the only
+      // one. The resize goes out on the next frame, never inside the observer callback: re-framing there resizes the
+      // still-unstyled stage again in the same delivery, and Chromium then reports "ResizeObserver loop completed with
+      // undelivered notifications", which the app's error boundary shows as a 10 s error toast over the phone HUD's REFRESH.
+      if(typeof root.ResizeObserver==="function"&&typeof root.requestAnimationFrame==="function"){let last="";stageSize=new root.ResizeObserver(entries=>{const box=entries[0]&&entries[0].contentRect;const size=box?`${Math.round(box.width)}x${Math.round(box.height)}`:"";if(!size||size===last)return;last=size;if(reframe===null&&typeof root.dispatchEvent==="function"&&typeof root.Event==="function")reframe=root.requestAnimationFrame(()=>{reframe=null;root.dispatchEvent(new root.Event("resize"));});});stageSize.observe(stage);}
       tfAdoptAll(frame,section);
       if(drawn&&typeof drawn.catch==="function")drawn.catch(error=>tfWarn("Transfer War motion skipped.",error));
     }catch(error){

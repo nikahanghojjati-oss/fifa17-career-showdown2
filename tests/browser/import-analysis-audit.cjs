@@ -21,7 +21,7 @@ async function waitForApp(page){
 }
 
 async function openDataManagement(page){
-    const opened = await page.evaluate(async () => window.openOptionalModule("legacy"));
+    const opened = await page.evaluate(async () => (window.careerModeLegacyDataTools = true, window.openOptionalModule("legacy")));
     assert.equal(opened, true);
     await page.locator("#legacy").waitFor({ state: "visible", timeout: 12000 });
     // Candidate B/C are recovery/data-integrity subsystem proofs, not normal-play entry proofs.
@@ -135,7 +135,7 @@ async function assertDesktopMatrix(browser){
     page.on("pageerror", error => pageErrors.push(error.message));
     try{
         await waitForApp(page);
-        await page.evaluate(() => window.openOptionalModule("legacy"));
+        await page.evaluate(() => (window.careerModeLegacyDataTools = true, window.openOptionalModule("legacy")));
         await page.locator("#legacy").waitFor({ state: "visible", timeout: 12000 });
         const envelope = await seedSourceAndCreateEnvelope(page);
         await seedTarget(page);
@@ -214,7 +214,7 @@ async function assertDropAndMobile(browser){
     const page = await context.newPage();
     try{
         await waitForApp(page);
-        await page.evaluate(() => window.openOptionalModule("legacy"));
+        await page.evaluate(() => (window.careerModeLegacyDataTools = true, window.openOptionalModule("legacy")));
         await page.locator("#legacy").waitFor({ state: "visible", timeout: 12000 });
         const envelope = await seedSourceAndCreateEnvelope(page);
         await seedTarget(page);

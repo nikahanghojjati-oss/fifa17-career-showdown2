@@ -298,7 +298,7 @@ check("S1 the skin API is small, frozen and points at Team V's copied files",()=
   assert.equal(Setup.BASE,V10.BASE);
   assert.equal(Setup.EVENT,V10.EVENT);
   assert.equal(Setup.SKIN_CLASS,SKIN);
-  assert.deepEqual({...Setup.SCREENS},{createShowdown:"start",leagueWheelScreen:"league"});
+  assert.deepEqual({...Setup.SCREENS},{createShowdown:"start",leagueWheelScreen:"league",dashboard:"start"});
   assert.ok(!Object.hasOwn(Setup.SCREENS,"clubWheelScreen"),"JOB-34: js/clubScreenV10.js owns the Club screen");
   assert.ok(!Object.hasOwn(Setup.HEROES,"club"),"no club heroes in the setup skin");
   assert.deepEqual([...Setup.STYLE],["v10-setup-ui","css/v10Setup.css"]);
@@ -497,7 +497,8 @@ check("S8 the top bar is locked (setup) on both wheels, also when the shared pre
   root.showScreen("dashboard");await flush();
   assert.deepEqual(root.events,["leagueWheelScreen","clubWheelScreen","dashboard"],"showScreen's own event, not repeated");
   assert.equal(topBar(root).dataset.locked,"false");
-  assert.equal(root.document.documentElement.dataset.v10Setup,undefined);
+  // r61: Showdown Home wears the Start skin until Team V draws it.
+  assert.equal(root.document.documentElement.dataset.v10Setup,"start");
   assert.equal(byId(root,"clubWheelScreen").classList.contains(SKIN),false);
 });
 

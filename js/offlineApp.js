@@ -7,6 +7,7 @@ const SAFE_UPDATE_SCREENS=new Set(["mainMenu","dashboard"]);
 let offlineRegistration=null;
 let deferredInstallPrompt=window.__cmsDeferredInstallPrompt||null;
 let activationRequested=false;
+let lastActivationMessage="";
 let controllerReloaded=false;
 let installPromptCaptured=Boolean(deferredInstallPrompt);
 let installedStandalone=false;
@@ -324,15 +325,17 @@ function waitForUpdateInstallation(registration,timeoutMs=30000){
     });
 }
 
-async function requestLatestOfflineUpdate(){
+async function requestLatestOfflineUpdate(options={}){
+    // Settings shows the result in its own status box (options.quiet), so it skips the Home toast.
+    const notice=options?.quiet?()=>{}:(...args)=>window.showAppNotice?.(...args);
     if(!isServiceWorkerSupported()){
         const message="This browser does not support the application update service.";
-        window.showAppNotice?.(message,"error",6500);
+        notice(message,"error",6500);
         return{ok:false,kind:"unsupported",message};
     }
     if(isOffline()){
         const message="Connect to the internet before checking for the latest Career Mode Showdown version.";
-        window.showAppNotice?.(message,"error",6500);
+        notice(message,"error",6500);
         return{ok:false,kind:"offline",message};
     }
 
@@ -347,45 +350,47 @@ async function requestLatestOfflineUpdate(){
 
         offlineRegistration=registration;
         if(registration.waiting){
-            const applied=await activateWaitingUpdate();
+            const applied=await activateWaitingUpdate(options);
             return{
                 ok:Boolean(applied),
                 kind:applied?"activated":"ready",
-                message:applied?"Latest verified version is being applied.":"A verified update is ready to apply."
+                message:applied?"Updating now. The app reloads into the new version in a moment.":(lastActivationMessage||"A verified update is ready to apply.")
             };
         }
 
-        window.showAppNotice?.("Checking for the latest Career Mode Showdown version…","info",3500);
+        notice("Checking for the latest Career Mode Showdown version…","info",3500);
         await registration.update();
         await waitForUpdateInstallation(registration);
         markUpdateReady();
 
         if(registration.waiting){
-            const applied=await activateWaitingUpdate();
+            const applied=await activateWaitingUpdate(options);
             return{
                 ok:Boolean(applied),
                 kind:applied?"activated":"ready",
-                message:applied?"Latest verified version is being applied.":"A verified update is ready to apply."
+                message:applied?"Updating now. The app reloads into the new version in a moment.":(lastActivationMessage||"A verified update is ready to apply.")
             };
         }
 
         if(registration.installing){
             const message="The latest application update is still downloading. Keep this page open and press Update to Latest Version again in a moment.";
-            window.showAppNotice?.(message,"info",8000);
+            notice(message,"info",8000);
             return{ok:true,kind:"downloading",message};
         }
 
         const message="You are already using the latest available Career Mode Showdown version.";
-        window.showAppNotice?.(message,"success",5000);
+        notice(message,"success",5000);
         return{ok:true,kind:"current",message};
     }catch(error){
         const message=error?.message||"The latest version could not be checked right now.";
-        window.reportApplicationError?.("The latest application version could not be checked",error);
+        if(options?.quiet)console.error("[Career Mode Showdown] The latest application version could not be checked:",error);
+        else window.reportApplicationError?.("The latest application version could not be checked",error);
         return{ok:false,kind:"error",message};
     }
 }
 
-async function activateWaitingUpdate(){
+async function activateWaitingUpdate(options={}){
+    lastActivationMessage="";
     const waiting=offlineRegistration?.waiting;
     if(!waiting){
         activationRequested=false;
@@ -397,7 +402,8 @@ async function activateWaitingUpdate(){
         const message=boundary.recoveryBusy||boundary.uiBusy
             ? "Update is ready, but an application operation is still in progress. Finish it and return to Home or Showdown Home before updating."
             : "Update is ready. Return to Home or Showdown Home before applying it so unsaved form work is never discarded.";
-        window.showAppNotice?.(message,"error",8000);
+        lastActivationMessage=message;
+        if(!options?.quiet)window.showAppNotice?.(message,"error",8000);
         return false;
     }
     activationRequested=true;
@@ -417,7 +423,9 @@ async function activateWaitingUpdate(){
     }catch(error){
         activationRequested=false;
         dispatchOfflineState();
-        window.reportApplicationError?.(
+        lastActivationMessage=`The update was not applied because its offline files could not be verified. ${error?.message||""}`.trim();
+        if(options?.quiet)console.error("[Career Mode Showdown] Update activation failed:",error);
+        else window.reportApplicationError?.(
             "The update was not activated because its offline shell could not be verified",
             error
         );
