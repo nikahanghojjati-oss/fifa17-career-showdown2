@@ -1,6 +1,6 @@
 {
  "_how": "One shared job counter for Team G and Team V (Nik, 2026-10-05). Claim with tools/claim_number.py only. A number is used once, ever. CONTRACT.md section 10.",
- "next": 1034,
+ "next": 1035,
  "claims": [
   {
    "number": 1001,
@@ -200,6 +200,12 @@
    "team": "G",
    "title": "Cleanup C: Standings and Trophy Room desktop overlaps",
    "claimed": "2026-10-06T04:50:52Z"
+  },
+  {
+   "number": 1034,
+   "team": "G",
+   "title": "HO-020: v10 style loader keeps a slow kit stylesheet (Final Winner ghost title)",
+   "claimed": "2026-10-06T05:17:05Z"
   }
  ]
 }
