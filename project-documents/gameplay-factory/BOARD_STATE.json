@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 9:27 PM Boston time (EDT)",
+ "generated": "2026-10-05 9:30 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -284,8 +284,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "84f7331",
-  "head_boston": "Mon 5 Oct 9:18 PM",
+  "head": "00a2a03",
+  "head_boston": "Mon 5 Oct 9:29 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": true,
   "open_for_g": [],
@@ -326,8 +326,8 @@
      "sha": "61161337fa58344482e44a7bd088c7a9d63f98ab",
      "updated": "2026-10-06T01:21:35Z",
      "gates": {
-      "passed": 5,
-      "running": 11,
+      "passed": 13,
+      "running": 3,
       "failed": 1,
       "cancelled": 0
      }
@@ -340,9 +340,9 @@
      "sha": "b381233f04619eba1a85dc93de827de6d7ae32b0",
      "updated": "2026-10-06T01:21:55Z",
      "gates": {
-      "passed": 8,
-      "running": 7,
-      "failed": 2,
+      "passed": 12,
+      "running": 1,
+      "failed": 5,
       "cancelled": 0
      }
     }
@@ -416,9 +416,9 @@
    ]
   },
   "physio": {
-   "state": "barking",
-   "line": "Barking: POS20 on #312 has waited 7 min for a machine; Showdown Gate on #396 has waited 6 min for a machine; POS20 on #396 has waited 6 min for a machine; POS20 on #395 has waited 6 min for a machine; POS20 has waited 3 min for a machine.",
-   "gate": "Gate #395: L1✗ L2… L3… L4… L5… L6… · seal pending · POS20 #395 3/16",
+   "state": "clear",
+   "line": "All clear: every check has a machine.",
+   "gate": "Gate #395: L1✗ L2✓ L3✗ L4✓ L5✗ L6✓ · seal FAIL (test) · POS20 #395 9/16",
    "source": "physio"
   },
   "v_headline": "Board 1 (visual package): 238 of 238 jobs done and checked",
@@ -614,6 +614,19 @@
     "worker": "opus",
     "pickup_min": 1,
     "waiting_min": null
+   },
+   {
+    "id": "HO-013",
+    "from": "V",
+    "to": "G",
+    "title": "Finished Showdown shows the 'private session has ended, reconnect' line",
+    "stage": "DELIVERED",
+    "pct": 0.0,
+    "overdue": false,
+    "path": "project-documents/leads-relay/handoffs/HO-013_finished-showdown-shows-the-private-sess.md",
+    "worker": "sol-work",
+    "pickup_min": null,
+    "waiting_min": 1
    }
   ],
   "relay_ok": true
@@ -685,7 +698,7 @@
   "**r62 is live.** On the laptop, close every game tab in Chrome and reopen the game; if Settings still looks clipped, do it once more."
  ],
  "now": {
-  "moving": 11,
+  "moving": 12,
   "next": 2,
   "nik": 5,
   "later": 4,
@@ -847,8 +860,8 @@
     "sha": "61161337fa58344482e44a7bd088c7a9d63f98ab",
     "updated": "2026-10-06T01:21:35Z",
     "gates": {
-     "passed": 5,
-     "running": 11,
+     "passed": 13,
+     "running": 3,
      "failed": 1,
      "cancelled": 0
     }
@@ -861,9 +874,9 @@
     "sha": "b381233f04619eba1a85dc93de827de6d7ae32b0",
     "updated": "2026-10-06T01:21:55Z",
     "gates": {
-     "passed": 8,
-     "running": 7,
-     "failed": 2,
+     "passed": 12,
+     "running": 1,
+     "failed": 5,
      "cancelled": 0
     }
    }

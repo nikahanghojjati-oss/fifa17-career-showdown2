@@ -1,10 +1,31 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-10-05 9:27 PM Boston time (EDT)
+[Back to the board](BOARD.md) · generated 2026-10-05 9:30 PM Boston time (EDT)
 
-Relay branch `leads/relay` head `84f7331` (Mon 5 Oct 9:18 PM Boston time) · 29 messages · 12 hand-offs · 55 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `f2f5897` (Mon 5 Oct 9:30 PM Boston time) · 29 messages · 13 hand-offs · 56 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
+
+### HO-013 · V → G · Finished Showdown shows the 'private session has ended, reconnect' line
+
+✅ Sent → ✅ **Delivered** → ○ Received → ○ In progress → ○ Done
+
+- Mon 5 Oct 9:29 PM · Team V · Sent
+- Mon 5 Oct 9:30 PM · relay Action · Delivered in full as a wake comment on PR #312
+
+<details><summary>Full ticket</summary>
+
+# After the last season, the game says the private session "has ended" and asks to reconnect
+
+**Nik (2026-10-06 01:26 UTC, phone, 1-season Showdown):** after the Season Result showed the champion, he got a message like "the session ended, what do you want to do" and asks whether that is the right message.
+
+**Team V's read of main (bc77a0b9):** it is not the right message for a finished Showdown.
+- `js/sharedJourneyReconnect.js:159` returns `FRESH_SESSION_REQUIRED` whenever the remote session is not active, before progression is read, so a terminal (finished) journey whose session was closed by the final terminal close gets the same phase as an expired mid-game session.
+- `js/productionSharedJourneyReconnect.js:89` then shows "FRESH PRIVATE SESSION REQUIRED · Your Showdown is saved; the private session has ended (sessions last up to 4 hours). Tap RECONNECT SESSION…". After the last season there is nothing to reconnect to.
+
+**Wanted (Team G decides how):** when the journey is finished (all seasons accepted, terminal close done), no reconnect prompt. Show one plain line, for example "SHOWDOWN COMPLETE · Open the Final Winner or History from Home." Mid-game expiry keeps today's reconnect line. Logic and tests are Team G's; Team V needs nothing back except the job number.
+
+</details>
 
 ### HO-012 · G → V · One board: your lead view copies CUSTOM_VIEW_V.html (Team V first, same facts)
 

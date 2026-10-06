@@ -1,14 +1,14 @@
 # Board archive
 
-[Back to the board](BOARD.md) · generated 2026-10-05 9:27 PM Boston time (EDT). Detail and history behind the one board.
+[Back to the board](BOARD.md) · generated 2026-10-05 9:30 PM Boston time (EDT). Detail and history behind the one board.
 
 ## Old detailed board
 
 # Showdown board: G Factory and V Factory
 
-🌐 **Live: runtime 1.9.1-r62** (main `bc77a0b`) · 🔄 **11 moving** · ⏭ 2 up next · 👤 5 waiting on Nik · 🗂 4 later · updated 2026-10-05 9:27 PM Boston time (EDT)
+🌐 **Live: runtime 1.9.1-r62** (main `bc77a0b`) · 🔄 **12 moving** · ⏭ 2 up next · 👤 5 waiting on Nik · 🗂 4 later · updated 2026-10-05 9:30 PM Boston time (EDT)
 
-🐕 **Barking: POS20 on #312 has waited 7 min for a machine; Showdown Gate on #396 has waited 6 min for a machine; POS20 on #396 has waited 6 min for a machine; POS20 on #395 has waited 6 min for a machine; POS20 has waited 3 min for a machine.** · Gate #395: L1✗ L2… L3… L4… L5… L6… · seal pending · POS20 #395 3/16
+🩺 **All clear: every check has a machine.** · Gate #395: L1✗ L2✓ L3✗ L4✓ L5✗ L6✓ · seal FAIL (test) · POS20 #395 9/16
 
 ## Your next move
 
@@ -18,8 +18,8 @@
 
 | Release / fix | Checks on the latest commit | Updated |
 | --- | --- | --- |
-| [PR #396](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/396) INFRA SIM: L5 setup dies on attempt 1 for the Showdown Gate shadow (never merge) | 🔴 5 passed, 11 running, 1 failed | 9:21 PM |
-| [PR #395](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/395) CANARY: planted failing tests for the Showdown Gate shadow (never merge) | 🔴 8 passed, 7 running, 2 failed | 9:21 PM |
+| [PR #396](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/396) INFRA SIM: L5 setup dies on attempt 1 for the Showdown Gate shadow (never merge) | 🔴 13 passed, 3 running, 1 failed | 9:21 PM |
+| [PR #395](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/395) CANARY: planted failing tests for the Showdown Gate shadow (never merge) | 🔴 12 passed, 1 running, 5 failed | 9:21 PM |
 
 **🟦 V-1006 · Final Winner: last season's score block** · 25 % (1 of 4 steps) · Sol chat · [PR #393](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/393)
 
@@ -45,6 +45,7 @@
 | --- | --- | --- | --- |
 | [HO-011](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/handoffs/HO-011_final-winner-screen-with-the-last-season.md) | G → V | Final Winner screen with the last season's score (job 1005) | ✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done |
 | [HO-012](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/handoffs/HO-012_one-board-your-lead-view-copies-custom-v.md) | G → V | One board: your lead view copies CUSTOM_VIEW_V.html (Team V first, same facts) | ✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done |
+| [HO-013](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/handoffs/HO-013_finished-showdown-shows-the-private-sess.md) | V → G | Finished Showdown shows the 'private session has ended, reconnect' line | ✅ Sent → ✅ **Delivered** → ○ Received → ○ In progress → ○ Done |
 
 ## 🟢 G Factory
 
@@ -99,7 +100,7 @@ _Visuals and presentation: design changes, art, screen skins (assistant director
 
 ## 📡 Relay
 
-**Health:** ✅ working · direct wake: Team G ✅, Team V ✅ · 29 messages · 2 open hand-offs, 10 done · **[every message in full: RELAY.md](RELAY.md)**
+**Health:** ✅ working · direct wake: Team G ✅, Team V ✅ · 29 messages · 3 open hand-offs, 10 done · **[every message in full: RELAY.md](RELAY.md)**
 
 Replies owed: Team G none · Team V G2V-015, G2V-016.
 
@@ -174,7 +175,7 @@ Latest:
 ## Every bug report
 
 
-> Updated **Mon 5 Oct, 9:27 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
+> Updated **Mon 5 Oct, 9:30 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
 
 | 🔓 Open | 🔴 Top priority | 🔧 Fixing or waiting for release | ✅ Fixed and live |
 | :---: | :---: | :---: | :---: |
