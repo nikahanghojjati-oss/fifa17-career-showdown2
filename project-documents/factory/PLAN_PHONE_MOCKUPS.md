@@ -1,4 +1,4 @@
-# Plan: phone mockups, then a phone brush-up (start after Thursday 8 Oct)
+# Plan after Thursday 8 Oct: phone mockups, and a next-level desktop
 
 Nik, Tue 6 Oct 1:09 a.m. Eastern: "phone is just so bad, but we can definitely fix it."
 
@@ -20,5 +20,11 @@ Push the live game toward the desktop mockups, tracked on the [mockup board](moc
 4. **The mockup board gets a phone column**, scored the same way as desktop.
 5. **Phone brush-up jobs**, one per screen, going GPT first, then Sonnet or Opus for anything that needs eyes on the screen. Team G puts them live.
 
+## Desktop: step by step to the next level (Nik, Tue 6 Oct 1:11 a.m. Eastern)
+1. **Reach the current desktop mockups first.** Keep the mockup board's desktop score climbing until every screen is close to its mockup.
+2. **Then a next-level visual pass.** For each screen, Claude writes an image ticket for GPT Image 2.5 that starts from a screenshot of our live screen and asks for a higher-quality, more polished version: richer light, depth and materials, the same layout and product text, Daniel left and Nik right. Nik makes the pictures, Claude checks them, and the approved ones become the new desktop mockups (`mockups/NEXT_<SCREEN>.png`).
+3. **Work toward the new mockups** with jobs the same way, and re-score the board against them.
+4. Repeat, one level at a time.
+
 ## To restart
-Tell the factory thread: "start the phone mockup plan".
+Tell the factory thread "start the phone mockup plan" or "start the next-level desktop plan". Both can run side by side.
