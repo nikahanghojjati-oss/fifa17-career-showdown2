@@ -1,6 +1,6 @@
 # 🎨 Team V board
 
-Updated Mon 5 Oct 8:07 PM EDT · Team V featured, Team G below · one shared data source (PR progress blocks + relay) · [Team G's board](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/BOARD.md)
+Updated Mon 5 Oct 8:35 PM EDT · Team V featured, Team G below · one shared data source (PR progress blocks + relay) · [Team G's board](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/BOARD.md)
 
 ## Team V: visual jobs
 
@@ -25,10 +25,11 @@ Updated Mon 5 Oct 8:07 PM EDT · Team V featured, Team G below · one shared dat
 
 <sub>Lanes: 🟦 Sol chat · 🟩 Sol Work mode · ⬜ Codex · 🟧 Opus · 🟪 Sonnet · 🟨 Haiku</sub>
 
-### Hand-offs to Team V (0 open of 7)
+### Hand-offs to Team V (1 open of 8)
 
 | Ticket | What | Priority | State | Job |
 |---|---|---|---|---|
+| [HO-011](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/handoffs/HO-011_final-winner-screen-with-the-last-season.md) | Final Winner screen with the last season's score (job 1005) | 🔥 top | 📥 Received |  |
 | [HO-002](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/handoffs/HO-002_smooth-stage-atmosphere-on-idle-screens-.md) | Smooth stage atmosphere on idle screens (pointer stutter root cause) | 🔥 top | ✅ Done | V-244 |
 | [HO-005](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/handoffs/HO-005_mobile-home-hero-ghost-coat-between-dani.md) | Mobile Home hero: ghost coat between Daniel and Nik | 🔥 top | ✅ Done | V-243 |
 | [HO-007](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/handoffs/HO-007_shared-job-numbers-for-both-teams-from-1.md) | Shared job numbers for both teams, from 1001 | 🔥 top | ✅ Done |  |
@@ -37,11 +38,11 @@ Updated Mon 5 Oct 8:07 PM EDT · Team V featured, Team G below · one shared dat
 | [HO-003](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/handoffs/HO-003_header-chips-and-footer-design-on-team-v.md) | Header chips and footer design on Team V screens | normal | ✅ Done | V-246 |
 | [HO-004](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/handoffs/HO-004_visual-qa-live-2-0-screens-vs-approved-f.md) | Visual QA: live 2.0 screens vs approved frames | normal | ✅ Done | V-245 |
 
-<sub>Sent to Team G: HO-006 ✅ Done · HO-009 ✅ Done · HO-010 📥 Received</sub>
+<sub>Sent to Team G: HO-006 ✅ Done · HO-009 ✅ Done · HO-010 ✅ Done</sub>
 
 ### Team G: gameplay
 
-<sub>33 of 33 jobs done (100.00 %) · 8 open bugs · their update Mon 5 Oct 7:43 PM EDT · [full board](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/BOARD.md)</sub>
+<sub>33 of 33 jobs done (100.00 %) · 8 open bugs · their update Mon 5 Oct 8:33 PM EDT · [full board](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/BOARD.md)</sub>
 
 <sub>No Team G job is running right now.</sub>
 
