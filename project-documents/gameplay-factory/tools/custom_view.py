@@ -81,7 +81,10 @@ for team in ("G", "V"):
             seen.add(str(x["id"]))
     for x in rows.get("nik") or []:
         full = next((y for y in BJ["factories"][team]["future"] if y["id"] == x["id"]), x)
-        nik.append({"id": x["id"], "title": x["title"], "decision": full.get("decision") or f'{x["title"]} ({short_state(x["state"])})'})
+        ttl = re.sub(r"^\d+ · [GV] ", "", x["title"])
+        w = str(full.get("waits_on") or "")
+        ask = re.sub(r"^Nik types it", f"Type {x['id']}", w) + " to start it." if w.lower().startswith("nik types") else f"({short_state(x['state'])})"
+        nik.append({"id": x["id"], "title": ttl, "decision": full.get("decision") or f"{ttl}. {ask}"})
         seen.add(str(x["id"]))
 for n, (r, k, t) in running.items():  # running jobs with no board row
     items["G"]["fix"].append({"id": f"Job {n}", "title": r.get("title", ""), "state": r.get("current") or "in progress", "lane": str(r.get("worker", "")), "progress": (ETA.describe(r), r)})
@@ -156,7 +159,7 @@ def team_html(team, emph, cut):
 
 
 def render(first, compact=False):
-    cut = 46 if compact else 70
+    cut = 40 if compact else 70
     n_fix = sum(len(items[t]["fix"]) for t in items)
     n_next = sum(len(items[t]["next"]) + len(items[t]["later"]) for t in items)
     n_nik = len([x for x in nik if not x.get("md")])
@@ -189,7 +192,7 @@ def render(first, compact=False):
     H.append("<h2>Relay</h2>")
     H.append('<div class="card">' + ("✅ working" if TWO.get("relay_ok") else "⚠ unreadable") + f' <span class="m">{len(open_tk)} open hand-offs, {len(TK) - len(open_tk)} done</span>'
              + "".join(f'<br><b>{e(x["id"])}</b> {e(x.get("from") or "?")}→{e(x.get("to") or "?")} {e(x["title"][:cut])} <span class="m">{e(TF.STAGE_WORD.get(x["stage"], x["stage"]))}</span>' for x in open_tk[::-1][:3]) + "</div>")
-    H.append('<div class="m foot">Lanes: ' + " · ".join(f'<i class="q{QI[l]}">■</i> {l}' for l in HEX) + "</div></div>")
+    H.append(("" if compact else '<div class="m foot">Lanes: ' + " · ".join(f'<i class="q{QI[l]}">■</i> {l}' for l in HEX) + "</div>") + "</div>")
     return "\n".join(H) + "\n"
 
 

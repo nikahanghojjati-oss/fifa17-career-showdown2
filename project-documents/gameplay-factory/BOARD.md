@@ -10,10 +10,10 @@ Updated Mon 5 Oct, 9:21 PM Boston time. Bug hunting only, no new features until 
 
 - **r62 is live.** On the laptop, close every game tab in Chrome and reopen the game; if Settings still looks clipped, do it once more.
 - **G-F1** Play a game of the live version (r62) with Daniel on two phones and send what goes wrong to the bug factory thread.
-- **G-F22** Five pairing choices (RESTORE BACKUP first, a CANCEL CODE button, the masked email before JOIN, revoke-and-join, a clearer same-account message). The lead brings them to you on one card; nothing to do until then.
-- **1009** 1009 · G Showdown Champion: dark oval over the losing manager (ready)
-- **1010** 1010 · G 10-season sweep: scoring, history and final math (ready)
-- **1011** 1011 · G Plain-words sweep: jargon on game screens (ready)
+- **G-F22** Five pairing choices. The lead brings them to you on one card; nothing to do until then.
+- **1009** Showdown Champion: dark oval over the losing manager. Type 1009 in the gameplay project to start it.
+- **1010** 10-season sweep: scoring, history and final math. Type 1010 in the gameplay project (Work mode) to start it.
+- **1011** Plain-words sweep: jargon on game screens. Type 1011 in the gameplay project (Work mode) to start it.
 - **V-1006** Final Winner: last season's score block. Type 1006 in a new Showdown visual chat to start it.
 - **V-1007** Transfer War phone: early-end button visible. Type 1007 in a new Showdown visual chat to start it.
 

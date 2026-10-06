@@ -722,7 +722,7 @@
      "lane": "nik",
      "state": "later: Nik decides after his two current calls",
      "waits_on": "the lead asks Nik next",
-     "decision": "Five pairing choices (RESTORE BACKUP first, a CANCEL CODE button, the masked email before JOIN, revoke-and-join, a clearer same-account message). The lead brings them to you on one card; nothing to do until then."
+     "decision": "Five pairing choices. The lead brings them to you on one card; nothing to do until then."
     },
     {
      "id": "1001",

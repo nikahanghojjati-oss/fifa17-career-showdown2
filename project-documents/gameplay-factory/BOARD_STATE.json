@@ -315,7 +315,7 @@
   "live": {
    "sha": "bc77a0b",
    "revision": "1.9.1-r62",
-   "when": "2026-10-06T01:18:19Z",
+   "when": "2026-10-06T01:18:19+00:00",
    "subject": "Showdown Gate shadow: 6-lane gate runs beside POS20, coverage-proven (#386)",
    "fixes": [
     {
@@ -324,7 +324,7 @@
      "draft": false,
      "branch": "ci/gate-infra-sim-l5",
      "sha": "61161337fa58344482e44a7bd088c7a9d63f98ab",
-     "updated": "2026-10-06T01:19:34Z",
+     "updated": "2026-10-06T01:21:35Z",
      "gates": {
       "passed": 0,
       "running": 7,
@@ -338,7 +338,7 @@
      "draft": false,
      "branch": "ci/gate-canary-planted-failures",
      "sha": "b381233f04619eba1a85dc93de827de6d7ae32b0",
-     "updated": "2026-10-06T01:19:31Z",
+     "updated": "2026-10-06T01:21:48Z",
      "gates": {
       "passed": 1,
       "running": 16,
@@ -751,7 +751,7 @@
       "lane": "nik",
       "state": "later: Nik decides after his two current calls",
       "waits_on": "the lead asks Nik next",
-      "decision": "Five pairing choices (RESTORE BACKUP first, a CANCEL CODE button, the masked email before JOIN, revoke-and-join, a clearer same-account message). The lead brings them to you on one card; nothing to do until then."
+      "decision": "Five pairing choices. The lead brings them to you on one card; nothing to do until then."
      },
      {
       "id": "1009",
@@ -845,7 +845,7 @@
     "draft": false,
     "branch": "ci/gate-infra-sim-l5",
     "sha": "61161337fa58344482e44a7bd088c7a9d63f98ab",
-    "updated": "2026-10-06T01:19:34Z",
+    "updated": "2026-10-06T01:21:35Z",
     "gates": {
      "passed": 0,
      "running": 7,
@@ -859,7 +859,7 @@
     "draft": false,
     "branch": "ci/gate-canary-planted-failures",
     "sha": "b381233f04619eba1a85dc93de827de6d7ae32b0",
-    "updated": "2026-10-06T01:19:31Z",
+    "updated": "2026-10-06T01:21:48Z",
     "gates": {
      "passed": 1,
      "running": 16,
