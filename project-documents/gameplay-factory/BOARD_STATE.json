@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 9:47 PM Boston time (EDT)",
+ "generated": "2026-10-05 9:50 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -317,22 +317,7 @@
    "revision": "1.9.1-r62",
    "when": "2026-10-06T01:18:19Z",
    "subject": "Showdown Gate shadow: 6-lane gate runs beside POS20, coverage-proven (#386)",
-   "fixes": [
-    {
-     "pr": 396,
-     "title": "INFRA SIM: L5 setup dies on attempt 1 for the Showdown Gate shadow (never merge)",
-     "draft": false,
-     "branch": "ci/gate-infra-sim-l5",
-     "sha": "61161337fa58344482e44a7bd088c7a9d63f98ab",
-     "updated": "2026-10-06T01:21:35Z",
-     "gates": {
-      "passed": 19,
-      "running": 0,
-      "failed": 0,
-      "cancelled": 0
-     }
-    }
-   ],
+   "fixes": [],
    "today": [
     {
      "pr": 386,
@@ -404,7 +389,7 @@
   "physio": {
    "state": "clear",
    "line": "All clear: every check has a machine.",
-   "gate": "Gate #396: L1✓ L2✓ L3✓ L4✓ L5… L6✓ · seal retrying (GitHub) · POS20 #396 12/16",
+   "gate": "POS20 #304 6/16",
    "source": "physio"
   },
   "v_headline": "Board 1 (visual package): 238 of 238 jobs done and checked",
@@ -700,7 +685,7 @@
   "**r62 is live.** On the laptop, close every game tab in Chrome and reopen the game; if Settings still looks clipped, do it once more."
  ],
  "now": {
-  "moving": 12,
+  "moving": 11,
   "next": 2,
   "nik": 11,
   "later": 4,
@@ -907,22 +892,7 @@
     ]
    }
   },
-  "fixes": [
-   {
-    "pr": 396,
-    "title": "INFRA SIM: L5 setup dies on attempt 1 for the Showdown Gate shadow (never merge)",
-    "draft": false,
-    "branch": "ci/gate-infra-sim-l5",
-    "sha": "61161337fa58344482e44a7bd088c7a9d63f98ab",
-    "updated": "2026-10-06T01:21:35Z",
-    "gates": {
-     "passed": 19,
-     "running": 0,
-     "failed": 0,
-     "cancelled": 0
-    }
-   }
-  ]
+  "fixes": []
  },
  "jobs": [
   {
