@@ -326,8 +326,8 @@
      "sha": "284097dde49228a76a812d6f32e1dca1c261629e",
      "updated": "2026-10-06T00:09:11Z",
      "gates": {
-      "passed": 0,
-      "running": 5,
+      "passed": 1,
+      "running": 14,
       "failed": 0,
       "cancelled": 0
      }
@@ -420,9 +420,9 @@
    ]
   },
   "physio": {
-   "state": "clear",
-   "line": "All clear: every check has a machine.",
-   "gate": "POS20 #390 0/16",
+   "state": "barking",
+   "line": "Barking: Gameplay Fast on #391 has waited 2 min for a machine; POS20 on #391 has waited 2 min for a machine; POS20 has waited 2 min for a machine; POS20 on #390 has waited 2 min for a machine.",
+   "gate": "POS20 #390 1/16",
    "source": "physio"
   },
   "v_headline": "Board 1 (visual package): 238 of 238 jobs done and checked",
@@ -858,8 +858,8 @@
     "sha": "284097dde49228a76a812d6f32e1dca1c261629e",
     "updated": "2026-10-06T00:09:11Z",
     "gates": {
-     "passed": 0,
-     "running": 5,
+     "passed": 1,
+     "running": 14,
      "failed": 0,
      "cancelled": 0
     }
