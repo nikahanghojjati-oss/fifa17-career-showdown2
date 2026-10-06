@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 9:25 PM Boston time (EDT)",
+ "generated": "2026-10-05 9:27 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -326,8 +326,8 @@
      "sha": "61161337fa58344482e44a7bd088c7a9d63f98ab",
      "updated": "2026-10-06T01:21:35Z",
      "gates": {
-      "passed": 3,
-      "running": 13,
+      "passed": 5,
+      "running": 11,
       "failed": 1,
       "cancelled": 0
      }
@@ -340,9 +340,9 @@
      "sha": "b381233f04619eba1a85dc93de827de6d7ae32b0",
      "updated": "2026-10-06T01:21:55Z",
      "gates": {
-      "passed": 2,
-      "running": 14,
-      "failed": 1,
+      "passed": 8,
+      "running": 7,
+      "failed": 2,
       "cancelled": 0
      }
     }
@@ -417,8 +417,8 @@
   },
   "physio": {
    "state": "barking",
-   "line": "Barking: POS20 on #312 has waited 6 min for a machine; Showdown Gate on #396 has waited 5 min for a machine; POS20 on #396 has waited 5 min for a machine; POS20 on #395 has waited 5 min for a machine; POS20 has waited 3 min for a machine.",
-   "gate": "Gate #395: L1✗ L2… L3… L4… L5… L6… · seal pending · POS20 #395 2/16",
+   "line": "Barking: POS20 on #312 has waited 7 min for a machine; Showdown Gate on #396 has waited 6 min for a machine; POS20 on #396 has waited 6 min for a machine; POS20 on #395 has waited 6 min for a machine; POS20 has waited 3 min for a machine.",
+   "gate": "Gate #395: L1✗ L2… L3… L4… L5… L6… · seal pending · POS20 #395 3/16",
    "source": "physio"
   },
   "v_headline": "Board 1 (visual package): 238 of 238 jobs done and checked",
@@ -847,8 +847,8 @@
     "sha": "61161337fa58344482e44a7bd088c7a9d63f98ab",
     "updated": "2026-10-06T01:21:35Z",
     "gates": {
-     "passed": 3,
-     "running": 13,
+     "passed": 5,
+     "running": 11,
      "failed": 1,
      "cancelled": 0
     }
@@ -861,9 +861,9 @@
     "sha": "b381233f04619eba1a85dc93de827de6d7ae32b0",
     "updated": "2026-10-06T01:21:55Z",
     "gates": {
-     "passed": 2,
-     "running": 14,
-     "failed": 1,
+     "passed": 8,
+     "running": 7,
+     "failed": 2,
      "cancelled": 0
     }
    }
