@@ -67,6 +67,22 @@
     },
     "sha": "6a3014d9bfbffb1da750f8e6cc87c48b50a6bdd5"
    },
+   "project-documents/gameplay-factory/sweeps/olympiad/claims/codex-1006-1939.json": {
+    "data": {
+     "area": "05",
+     "run": "codex-1006-1939",
+     "started_utc": "2026-10-06T19:39:10Z"
+    },
+    "sha": "b3c1b72cc9eb98a9e8d40565dabd60be4ef7831b"
+   },
+   "project-documents/gameplay-factory/sweeps/olympiad/claims/codex-1006-1942.json": {
+    "data": {
+     "area": "04",
+     "run": "codex-1006-1942",
+     "started_utc": "2026-10-06T19:42:15.475Z"
+    },
+    "sha": "069ea0f2715ba856da774728ab5619c6718d752e"
+   },
    "project-documents/gameplay-factory/sweeps/olympiad/findings/chat-1006-0418-1.json": {
     "data": {
      "actual": "The shared presentation exports handlesControl and handleControlClick, but ssjpInstall only records installed state and adds no click binding. productionSharedJourneyEntry re-enables the legacy controls while the presentation owns them. leagueWheel.js and clubAssignment.js retain direct click listeners on the same controls. Targeted review of the loaded entry, identity, Showdown UI, football visual and V10 club modules found no external caller of the shared dispatcher. The written repro scans all js files to challenge that conclusion.",
@@ -2483,6 +2499,65 @@
      "run": "codex-1006-1313"
     },
     "sha": "ad947a7544ea12c4bbce87ede953883ab62f51d5"
+   },
+   "project-documents/gameplay-factory/sweeps/olympiad/runs/codex-1006-1942.json": {
+    "data": {
+     "area": "04",
+     "clean_confidence_pct": 88,
+     "coverage_pct": 88,
+     "date_utc": "2026-10-06T19:46:49.053Z",
+     "files_read": [
+      "AGENTS.md",
+      "PROJECT_OPERATING_SYSTEM_POS20.json",
+      "PROJECT_OPERATING_SYSTEM_POS20.md",
+      "POS20_CURRENT_STATE.json",
+      "CURRENT_PRODUCT_GUARDS.json",
+      "NEXT_TASK.md",
+      "SHARED_SHOWDOWN_JOURNEY_READINESS.json",
+      "MILESTONE_DELIVERY_PROGRESS.json",
+      "package.json",
+      "index.html",
+      "js/app.js",
+      "js/showdown.js",
+      "js/showdownUI.js",
+      "js/storage.js",
+      "js/scoring.js",
+      "js/seasonEngine.js",
+      "js/transferChallenge.js",
+      "js/seasonFinalV10.js",
+      "js/ruleBook.js",
+      "js/sharedMultiSeasonProgression.js",
+      "js/sparkSharedMultiSeasonProgression.js",
+      "js/productionSharedMultiSeasonProgression.js",
+      "js/sharedHistoryConvergence.js",
+      "js/sharedFinalReconciliation.js",
+      "js/productionSharedJourneyEntry.js",
+      "js/productionSharedJourneyReconnect.js",
+      "js/productionSharedTransferChallenge.js",
+      "js/productionSharedSeasonResults.js",
+      "js/productionSharedSeasonResultsRoute.js",
+      "tests/support/chromium-runtime.cjs",
+      "tests/support/static-server.cjs",
+      "tests/support/career-fixture-helpers.cjs",
+      "tests/support/active-showdown-fixtures.cjs",
+      "tests/contracts/full-gameplay-lifecycle-contracts.cjs",
+      "tests/contracts/ten-season-session-contracts.cjs",
+      "tests/contracts/shared-multi-season-progression-contracts.cjs",
+      "tests/contracts/season-review-snapshot.cjs",
+      "tests/contracts/shared-final-reconciliation-contracts.cjs",
+      "tests/browser/stability-audit.cjs",
+      "tests/browser/shared-multi-season-progression-audit.cjs",
+      "tests/browser/shared-transfer-challenge-replay-audit.cjs",
+      "tests/browser/shared-season-results-audit.cjs",
+      "project-documents/gameplay-factory/sweeps/olympiad/test/codex-1006-1942-coverage.cjs"
+     ],
+     "findings": [],
+     "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+     "mode": "codex",
+     "next_focus": "No confirmed season-progression problem. Node and local Chromium passed: seasons 1–3 and 1–10 for Daniel and Nik, fresh transfer challenge opened by each next-season button, fixed league and clubs, earlier scores carried forward, each season counted once, halfway reload at Season 2 of 3 and Season 6 of 10, a 0–0 season with the league-position fallback, a final tied 1–1 total producing DRAW, and no Season 11. The existing 1/3/5/10 full-game rules check and the season-progression browser check also passed. The suspected reload-to-Season-1 problem is already handled by resumeFromAuthority in js/productionSharedMultiSeasonProgression.js and resumeAcceptedSeason in js/productionSharedJourneyEntry.js, so it is not a finding. Repeat with CMS_CHROMIUM_MULTI_CONTEXT=1 node project-documents/gameplay-factory/sweeps/olympiad/test/codex-1006-1942-coverage.cjs while node tests/support/static-server.cjs is running. Remaining checks: play two separate browsers with real saved seasons and reload during an unfinished transfer window or results form. Chromium used finished-season history supplied by Node and the real game screens; the run did not prove every saved-history write end to end. Screenshots are generated in /tmp/area04-*.png. Game files are identical to main bc77a0b934c3d43279f27f73a72db21c2db2b4f2 and were not changed.",
+     "run": "codex-1006-1942"
+    },
+    "sha": "94e8f619ec4455082f25d3727bb94b5683547a0d"
    }
   },
   "state": "ok"
