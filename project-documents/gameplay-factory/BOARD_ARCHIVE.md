@@ -1,14 +1,14 @@
 # Board archive
 
-[Back to the board](BOARD.md) · generated 2026-10-05 10:39 PM Boston time (EDT). Detail and history behind the one board.
+[Back to the board](BOARD.md) · generated 2026-10-05 10:40 PM Boston time (EDT). Detail and history behind the one board.
 
 ## Old detailed board
 
 # Showdown board: G Factory and V Factory
 
-🌐 **Live: runtime 1.9.1-r62** (main `bc77a0b`) · 🔄 **15 moving** · ⏭ 2 up next · 👤 10 waiting on Nik · 🗂 4 later · updated 2026-10-05 10:39 PM Boston time (EDT)
+🌐 **Live: runtime 1.9.1-r62** (main `bc77a0b`) · 🔄 **15 moving** · ⏭ 2 up next · 👤 9 waiting on Nik · 🗂 6 later · updated 2026-10-05 10:40 PM Boston time (EDT)
 
-🩺 **All clear: every check has a machine.** · POS20 #304 6/16
+🐕 **Barking: POS20 has waited 2 min for a machine; Gameplay Fast on #399 has waited 2 min for a machine; Gameplay Fast has waited 2 min for a machine; POS20 on #312 has waited 1 min for a machine.** · POS20 #304 6/16
 
 ## Your next move
 
@@ -34,9 +34,9 @@
 | G | G-F18 | Old-design screen audit: Legacy, Career Statistics and Trophy Room still open in the old shell; drive every live screen in a browser against Team V's design and route all of them to the new design | 🟧 Opus | in progress (thread "Old-design screen audit", Nik asked at 5:16 PM Boston time) | overlaps G-F11 (old CSS collisions) |
 | G | 1001 | 🐞 Bug list 1: 1001 · G Home desktop tile icons: bigger, inside the tile, never on the text | 🟦 Sol chat | in release (merged into gameplay/bug-list-1, 215e34a) | Bug list 1 items L1-01..06. CSS only in css/homeV10.css desktop blocks. Job file jobs/JOB-1001.md. Lead checks screenshots at 1920/1440/1280/1100/1000 wide. |
 | G | 1003 | 🐞 Bug list 1: 1003 · G Transfer War: main's copy of Team V's early-end string matches (HO-010) | 🟦 Sol chat | in release (merged into gameplay/bug-list-1) | Low priority, no live impact. js/transferScreenV10.js lines 26 and 30. Job file jobs/JOB-1003.md. |
-| G | 1004 | 🐞 Bug list 1: 1004 · G Rule Book: remove the useless 01-06 side number rail (desktop and phone) | ⬛ claude | with the lead (PR #392, round 2 done) | js/rulesSettingsV10.js only: stop building #ruleBookIndex. Per-rule number badges stay. |
 | G | 1014 | 🐞 Bug list 1: 1014 · G No reconnect prompt after a finished Showdown | 🟦 Sol chat | with the lead (PR #402, CI running) | GPT green, one run. HO-013: closed Showdown shows SHOWDOWN COMPLETE instead of RECONNECT SESSION. Lead runs the reconnect audit. |
-| G | 1015 | 🐞 Bug list 1: 1015 · G Connect Players screen: create code / join off Home | 🟩 Sol Work mode | with worker (round 3) | GPT green, one run. HO-014: pair panel moves from Home to its own CONNECT PLAYERS screen (Team V SJ design). Pairing logic unchanged; lead runs pairing audits. |
+| G | 1020 | 🐞 Bug list 1: 1020 · G Season Results patch: one column on phone, no overlap on desktop | 🟩 Sol Work mode | with the lead (PR #399, Team V grid fix pushed, CI running) | GPT green, one run. Team V phone CSS (HO-015) + desktop window below the scoring card + reconciliation look. Team V 1012 checks the look. |
+| G | 1022 | 🐞 Bug list 1: Connect Players: match Team V's start-join design (1015 follow-up) | ⬛ claude | with the lead (Claude helper building) | Team V check on #397: desktop shows Nik twice; phone title, Back position and bottom nav; yellow primary buttons. |
 
 | Hand-off | From → To | What | Progress |
 | --- | --- | --- | --- |
@@ -84,14 +84,15 @@ _Gameplay, online sync, every merge and every release (senior director)._ Worker
 | 1017 | 1017 · G Gameplay hunt 1: shared season flow across devices — GPT Q&A team, Astra Work (Sol Work if out). Report only (sweeps/hunt-1017.md); the lead turns findings into fix jobs. | 🟩 Sol Work mode | ready | Nik types it in the Q&A team project |
 | 1018 | 1018 · G Gameplay hunt 2: sessions, pairing and reconnect — GPT Q&A team, Sol Work. Report only (sweeps/hunt-1018.md); the lead turns findings into fix jobs. | 🟩 Sol Work mode | ready | Nik types it in the Q&A team project |
 | 1019 | 1019 · G Gameplay hunt 3: entries, saves and career numbers — GPT Q&A team, Sol Work. Report only (sweeps/hunt-1019.md); the lead turns findings into fix jobs. | 🟩 Sol Work mode | ready | Nik types it in the Q&A team project |
-| 1020 | 1020 · G Season Results patch: one column on phone, no overlap on desktop — GPT green, one run. Team V phone CSS (HO-015) + desktop window below the scoring card + reconciliation look. Team V 1012 checks the look. | 🟩 Sol Work mode | ready | Nik types it in the gameplay project (Work mode) |
 | 1021 | 1021 · G Transfer War on phone: port Team V's revamp — GPT green, one run. HO-016: Team V's checked phone CSS + 2 cut-outs into css/v10Transfer.css. Desktop unchanged. | ⬛ claude | merged into bug-list-1 (2d71f79) | Nik types it in the gameplay project (Work mode) |
 
 **🗂 Later**
 
 | Job | What | Worker | State | Waits on |
 | --- | --- | --- | --- | --- |
+| 1004 | 1004 · G Rule Book: remove the useless 01-06 side number rail (desktop and phone) — js/rulesSettingsV10.js only: stop building #ruleBookIndex. Per-rule number badges stay. | ⬛ claude | merged into bug-list-1 (4466b57) | CI on PR #392, then the lead merges it into bug-list-1 |
 | 1005 | 1005 · G Last season's score is skipped before the Final Winner — Nik picked No tap, combined: one screen shows the last season's score and the Final Winner. Team V designs it (HO-011), then a GPT green job builds it and restores the strict final-season check. | 🟩 Sol Work mode | ready | after Team V designs the combined screen (HO-011) |
+| 1015 | 1015 · G Connect Players screen: create code / join off Home — GPT green, one run. HO-014: pair panel moves from Home to its own CONNECT PLAYERS screen (Team V SJ design). Pairing logic unchanged; lead runs pairing audits. | 🟩 Sol Work mode | merged into bug-list-1 (e9615a7) | GPT green round 3 (same chat, Work mode) |
 
 ## 🔵 V Factory
 
@@ -180,7 +181,7 @@ Latest:
 ## Every bug report
 
 
-> Updated **Mon 5 Oct, 10:39 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
+> Updated **Mon 5 Oct, 10:40 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
 
 | 🔓 Open | 🔴 Top priority | 🔧 Fixing or waiting for release | ✅ Fixed and live |
 | :---: | :---: | :---: | :---: |
