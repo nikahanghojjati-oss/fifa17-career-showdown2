@@ -11,15 +11,15 @@ Updated Mon 5 Oct, 9:50 PM Boston time. Bug hunting only, no new features until 
 - **r62 is live.** On the laptop, close every game tab in Chrome and reopen the game; if Settings still looks clipped, do it once more.
 - **G-F1** Play a game of the live version (r62) with Daniel on two phones and send what goes wrong to the bug factory thread.
 - **G-F22** Five pairing choices. The lead brings them to you on one card; nothing to do until then.
-- **1009** Showdown Champion: dark oval over the losing manager. Type 1009 in the gameplay project (Work mode) to start it.
-- **1010** 10-season sweep: scoring, history and final math. Type 1010 in the gameplay project (Work mode) to start it.
-- **1011** Plain-words sweep: jargon on game screens. Type 1011 in the gameplay project (Work mode) to start it.
-- **1014** No reconnect prompt after a finished Showdown. Type 1014 in the gameplay project (Work mode) to start it.
-- **1015** Connect Players screen: create code / join off Home. Nik types 1015 again for round 2 (test updates authorized) to start it.
-- **1017** Gameplay hunt 1: shared season flow across devices. Type 1017 in the Q&A team project to start it.
-- **1018** Gameplay hunt 2: sessions, pairing and reconnect. Type 1018 in the Q&A team project to start it.
-- **1019** Gameplay hunt 3: entries, saves and career numbers. Type 1019 in the Q&A team project to start it.
-- **1020** Season Results patch: one column on phone, no overlap on desktop. Type 1020 in the gameplay project (Work mode) to start it.
+- **1009** Showdown Champion: dark oval over the losing manager. Type 1009 in the gameplay project (Work mode).
+- **1010** 10-season sweep: scoring, history and final math. Type 1010 in the gameplay project (Work mode).
+- **1011** Plain-words sweep: jargon on game screens. Type 1011 in the gameplay project (Work mode).
+- **1014** No reconnect prompt after a finished Showdown. Type 1014 in the gameplay project (Work mode).
+- **1015** Connect Players screen: create code / join off Home. Type 1015 again for round 2 (test updates authorized).
+- **1017** Gameplay hunt 1: shared season flow across devices. Type 1017 in the Q&A team project.
+- **1018** Gameplay hunt 2: sessions, pairing and reconnect. Type 1018 in the Q&A team project.
+- **1019** Gameplay hunt 3: entries, saves and career numbers. Type 1019 in the Q&A team project.
+- **1020** Season Results patch: one column on phone, no overlap on desktop. Type 1020 in the gameplay project (Work mode).
 - **V-1006** Final Winner: last season's score block. Type 1006 in a new Showdown visual chat to start it.
 
 ## Team G

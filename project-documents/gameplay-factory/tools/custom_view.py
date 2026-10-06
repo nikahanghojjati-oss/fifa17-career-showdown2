@@ -88,8 +88,9 @@ for team in ("G", "V"):
         full = next((y for y in BJ["factories"][team]["future"] if y["id"] == x["id"]), x)
         ttl = re.sub(r"^\d+ · [GV] ", "", x["title"])
         w = str(full.get("waits_on") or "")
-        ask = re.sub(r"^Nik types it", f"Type {x['id']}", w) + " to start it." if w.lower().startswith("nik types") else f"({short_state(x['state'])})"
-        place = re.sub(r"^Nik types it ", "", w) if w.lower().startswith("nik types") and not full.get("decision") else None
+        ask = re.sub(r"^Nik types( it)?", lambda m: f"Type {x['id']}" if m.group(1) else "Type", w) + "." if w.lower().startswith("nik types") else f"({short_state(x['state'])})"
+        pm = re.match(r"^Nik types it (in .*)$", w)
+        place = pm.group(1) if pm and not full.get("decision") else None
         nik.append({"id": x["id"], "title": ttl, "decision": full.get("decision") or f"{ttl}. {ask}", "place": place})
         seen.add(str(x["id"]))
 for n, (r, k, t) in running.items():  # running jobs with no board row
