@@ -854,8 +854,8 @@
      "group": "Bug list 1",
      "title": "1001 · G Home desktop tile icons: bigger, inside the tile, never on the text",
      "lane": "blue",
-     "state": "verifying (screenshots pass, CI running)",
-     "waits_on": "the lead merges PR #388 into gameplay/bug-list-1 when CI is green",
+     "state": "in release (merged into gameplay/bug-list-1, 215e34a)",
+     "waits_on": "rides the next release to main",
      "details": "Bug list 1 items L1-01..06. CSS only in css/homeV10.css desktop blocks. Job file jobs/JOB-1001.md. Lead checks screenshots at 1920/1440/1280/1100/1000 wide."
     }
    ]
