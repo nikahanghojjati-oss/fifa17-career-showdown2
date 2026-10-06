@@ -982,6 +982,14 @@
         "^tests/contracts/showdown-gate-physio-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/hunt-1017-season-fields-reset-contracts.cjs",
+      "patterns": [
+        "^js/productionSharedSeasonResults\\.js$",
+        "^tests/contracts/hunt-1017-season-fields-reset-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
