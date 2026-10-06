@@ -1,12 +1,12 @@
 # Board archive
 
-[Back to the board](BOARD.md) · generated 2026-10-05 10:00 PM Boston time (EDT). Detail and history behind the one board.
+[Back to the board](BOARD.md) · generated 2026-10-05 10:07 PM Boston time (EDT). Detail and history behind the one board.
 
 ## Old detailed board
 
 # Showdown board: G Factory and V Factory
 
-🌐 **Live: runtime 1.9.1-r62** (main `bc77a0b`) · 🔄 **13 moving** · ⏭ 2 up next · 👤 12 waiting on Nik · 🗂 4 later · updated 2026-10-05 10:00 PM Boston time (EDT)
+🌐 **Live: runtime 1.9.1-r62** (main `bc77a0b`) · 🔄 **12 moving** · ⏭ 2 up next · 👤 12 waiting on Nik · 🗂 4 later · updated 2026-10-05 10:07 PM Boston time (EDT)
 
 🩺 **All clear: every check has a machine.** · POS20 #304 6/16
 
@@ -15,12 +15,6 @@
 1. **r62 is live.** On the laptop, close every game tab in Chrome and reopen the game; if Settings still looks clipped, do it once more.
 
 ## 🔄 Moving now
-
-**🟩 1015 · Connect Players screen: create code / join off Home** · 80 % (4 of 5 steps) · Sol Work mode
-
-🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩⚽▫️▫️▫️ 🥅  
-> **Now:** step 5 of 5  
-> **Left:** step 5
 
 **🟦 V-1006 · Final Winner: last season's score block** · 25 % (1 of 4 steps) · Sol chat · [PR #393](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/393)
 
@@ -180,7 +174,7 @@ Latest:
 ## Every bug report
 
 
-> Updated **Mon 5 Oct, 10:00 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
+> Updated **Mon 5 Oct, 10:07 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
 
 | 🔓 Open | 🔴 Top priority | 🔧 Fixing or waiting for release | ✅ Fixed and live |
 | :---: | :---: | :---: | :---: |
@@ -198,15 +192,8 @@ Latest:
 
 <sub>Percent = finished steps weighted by typical step time; finish times are estimates ([how](ETA_STUDY.md)).</sub>
 
-🏁 no finish time yet (not enough data)
-
-### 🟩 Sol Work mode · 1 job
-
-**Job 1015 · Connect Players screen: create code / join off Home · 80.0000 %** · 4 of 5 steps · updated Mon 5 Oct, 9:59 PM  
-🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩⚽▫️▫️▫️ 🥅  
-🏁 **Likely finish:** not enough data  
-> **Now:** step 5 of 5  
-> **Left:** step 5
+> [!NOTE]
+> No job is reporting progress right now. A job shows here once its PR description carries a progress block.
 
 <details>
 <summary><b>✅ Closed: 14</b> (11 live in the game) · click to open</summary>
