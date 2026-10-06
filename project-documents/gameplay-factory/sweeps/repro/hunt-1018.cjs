@@ -123,8 +123,22 @@ async function expiryDuringRead() {
   await r.reconnect.refresh();
   check('H1018-5', r.reconnect.isRecovered(), false, `now>=expiry=${e.now() >= r.remote.expiresAtEpochMs}; phase=${r.reconnect.getState().phase}; activeAuthorization=${r.reconnect.getState().activeAuthorization}`);
 }
+async function controls() {
+  const e = environment(), hosted = await e.remote.hostSession();
+  await e.protocol.joinSession(e.options('nik', hosted.sessionId));
+  const pending = [...e.timers]; e.timers.clear(); for (const [, fn] of pending) await fn();
+  assert.equal(e.remote.getState().sessionState, 'active');
+  const n = environment(), r = prepareReconnect(n); await recovered(n, r);
+  n.context.navigator.onLine = false; await r.reconnect.refresh();
+  assert.equal(r.reconnect.getState().phase, 'OFFLINE_HOLD');
+  n.context.navigator.onLine = true; n.advance(60001); await r.reconnect.refresh();
+  assert.equal(r.reconnect.getState().phase, 'FRESH_SESSION_REQUIRED');
+  assert.equal(r.reconnect.isRecovered(), false);
+  console.log('Controls PASS: normal watcher activates; offline-before-read holds; expired-before-read requires fresh session');
+}
 (async () => {
   for (const run of [replacementRace, replacementWatcher, logoutRetainsAuthority, offlineDuringRead, expiryDuringRead]) await run();
+  await controls();
   console.log(`Confirmed invariant failures: ${failures.length}/5`);
   process.exitCode = failures.length ? 1 : 0;
 })().catch(error => { console.error('REPRO HARNESS ERROR', error); process.exitCode = 2; });
