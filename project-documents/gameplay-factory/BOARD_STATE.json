@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 10:07 PM Boston time (EDT)",
+ "generated": "2026-10-05 10:12 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -698,7 +698,7 @@
   "**r62 is live.** On the laptop, close every game tab in Chrome and reopen the game; if Settings still looks clipped, do it once more."
  ],
  "now": {
-  "moving": 12,
+  "moving": 13,
   "next": 2,
   "nik": 12,
   "later": 4,
