@@ -246,6 +246,50 @@
     },
     "sha": "1ac0208f521fba15b4c99fd8b180ab3212ae82f5"
    },
+   "project-documents/gameplay-factory/sweeps/olympiad/findings/chat-1006-0534-1.json": {
+    "data": {
+     "actual": "The header says Showdowns while the row value is the showdown win-draw-loss string, such as 2-1-1.",
+     "area": "06",
+     "assumptions": [
+      "Career Table is intended to communicate either the Showdown count or the Showdown W-D-L record accurately; the current header-value mismatch is not intentional."
+     ],
+     "checked_against": [
+      "js/trophyRoom.js line 76 createManagerCabinet, which separately shows the W-D-L record and the total number of Showdowns."
+     ],
+     "expected": "A column headed Showdowns should display 4. If the intended value is 2-1-1, the header should say Showdown W-D-L.",
+     "fix": {
+      "change": "Make the header and value agree. Prefer renaming the third header to Showdown W-D-L, since the existing row intentionally presents the rivalry record; alternatively keep Showdowns and render manager.showdowns.",
+      "files": [
+       "js/statistics.js"
+      ]
+     },
+     "id": "chat-1006-0534-1",
+     "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+     "root_cause": "The table header defines the third column as Showdowns, but the corresponding row cell is built from showdownWins, showdownDraws and showdownLosses instead of manager.showdowns.",
+     "run": "chat-1006-0534",
+     "severity": "S2",
+     "status": "likely",
+     "steps": [
+      "Use a completed career where Nik has 4 Showdowns with 2 wins, 1 draw and 1 loss.",
+      "Open Career Statistics and read Nik's row in the Career Table.",
+      "The column headed Showdowns displays 2-1-1."
+     ],
+     "title": "Career Table labels Showdown W-D-L as Showdowns",
+     "where": [
+      {
+       "file": "js/statistics.js",
+       "function": "createCareerStandingsTable",
+       "line": 228
+      },
+      {
+       "file": "js/statistics.js",
+       "function": "createCareerStandingsTable",
+       "line": 242
+      }
+     ]
+    },
+    "sha": "f70112a7bbc3e55d9d3f7dbf904f128eb4df3089"
+   },
    "project-documents/gameplay-factory/sweeps/olympiad/runs/chat-1006-0418.json": {
     "data": {
      "area": "01",
@@ -422,6 +466,29 @@
      "run": "chat-1006-0528"
     },
     "sha": "86885b9be5b9f14d773806d650a255f90792f277"
+   },
+   "project-documents/gameplay-factory/sweeps/olympiad/runs/chat-1006-0534.json": {
+    "data": {
+     "area": "06",
+     "clean_confidence_pct": 82,
+     "coverage_pct": 70,
+     "date_utc": "2026-10-06T05:34:00Z",
+     "files_read": [
+      "js/trophyRoom.js",
+      "js/statistics.js",
+      "js/rivalryLegacyV10.js",
+      "js/sharedHistoryConvergence.js"
+     ],
+     "findings": [
+      "chat-1006-0534-1"
+     ],
+     "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+     "mode": "chat",
+     "next_focus": "On the next area-06 cycle after area 11, read the analytics aggregation and legacy history renderer code not read in this run, especially the sources that build career records and completed Showdown history rows.",
+     "partial": false,
+     "run": "chat-1006-0534"
+    },
+    "sha": "9ecda5550ca1d07e76900a7d37cb4bf8d5672f05"
    }
   },
   "state": "ok"
