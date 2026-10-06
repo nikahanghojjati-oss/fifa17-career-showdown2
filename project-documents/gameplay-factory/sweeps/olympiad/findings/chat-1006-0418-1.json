@@ -1,0 +1,22 @@
+{
+  "id": "chat-1006-0418-1",
+  "run": "chat-1006-0418",
+  "area": "01",
+  "title": "Shared setup controls may use the local handlers",
+  "severity": "S1",
+  "reach": "first_time",
+  "player_hurt": "Both managers can be unable to advance shared setup.",
+  "status": "likely",
+  "proof": "repro_written",
+  "where": [],
+  "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+  "steps": [],
+  "expected": "Shared controls use shared authority.",
+  "actual": "The shared dispatcher has no visible binding in the studied path.",
+  "symptoms": [],
+  "root_cause": "Control ownership is not visibly delegated.",
+  "disproof_attempts": [],
+  "fix": {"files":[],"change":"Bind shared controls exclusively while shared setup is active.","test":"Exercise real shared setup clicks."},
+  "related": [],
+  "assumptions": []
+}
