@@ -1,20 +1,19 @@
 # Bug hunt board
 
-Updated Mon 5 Oct, 10:43 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
+Updated Mon 5 Oct, 10:46 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r62** (main `bc77a0b`, Mon 5 Oct 9:18 PM)
 
-🐕 **Barking: POS20 has waited 3 min for a machine.** · POS20 #304 6/16
+🩺 **All clear: every check has a machine.** · POS20 #304 6/16
 
 ## Jobs
 
 **Running now**
 
 - **1020** Season Results patch: one column on phone, no overlap on desktop · worker done, lead checking
-- **1014** No reconnect prompt after a finished Showdown · worker done, lead checking
 - **1022** Connect Players: match Team V's start-join design (1015 follow-up) · with the lead
 - **1010** 10-season sweep: scoring, history and final math · worker done, lead checking
-- **1018** Gameplay hunt 2: sessions, pairing and reconnect · step 1 of 3 · 0.0000 %
+- **1018** Gameplay hunt 2: sessions, pairing and reconnect · step 2 of 3 · 33.3333 %
 
 **Next for you, in this order**
 
@@ -27,7 +26,7 @@ Updated Mon 5 Oct, 10:43 PM Boston time. Bug hunting only, no new features until
 
 - **1005** Last season's score is skipped before the Final Winner · after Team V designs the combined screen (HO-011)
 
-**Done, in the next release:** 1001, 1003, 1004, 1009, 1015, 1021
+**Done, in the next release:** 1001, 1003, 1004, 1009, 1014, 1015, 1021
 
 ## Other asks
 

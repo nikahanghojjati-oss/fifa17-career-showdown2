@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 10:43 PM Boston time (EDT)",
+ "generated": "2026-10-05 10:46 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -387,8 +387,8 @@
    ]
   },
   "physio": {
-   "state": "barking",
-   "line": "Barking: POS20 has waited 3 min for a machine.",
+   "state": "clear",
+   "line": "All clear: every check has a machine.",
    "gate": "POS20 #304 6/16",
    "source": "physio"
   },
@@ -698,9 +698,9 @@
   "**r62 is live.** On the laptop, close every game tab in Chrome and reopen the game; if Settings still looks clipped, do it once more."
  ],
  "now": {
-  "moving": 15,
+  "moving": 14,
   "next": 2,
-  "nik": 9,
+  "nik": 10,
   "later": 6,
   "rows": {
    "G": {
@@ -740,16 +740,6 @@
       "waits_on": "rides the next release to main",
       "details": "Low priority, no live impact. js/transferScreenV10.js lines 26 and 30. Job file jobs/JOB-1003.md.",
       "archived": true
-     },
-     {
-      "id": "1014",
-      "group": "Bug list 1",
-      "title": "1014 · G No reconnect prompt after a finished Showdown",
-      "lane": "blue",
-      "state": "with the lead (PR #402, CI running)",
-      "waits_on": "Nik types it in the gameplay project (Work mode)",
-      "details": "GPT green, one run. HO-013: closed Showdown shows SHOWDOWN COMPLETE instead of RECONNECT SESSION. Lead runs the reconnect audit.",
-      "order": 5
      },
      {
       "id": "1020",
@@ -824,6 +814,17 @@
       "order": 11,
       "place": "in the gameplay project (normal chat), new chat",
       "after": "1014, 1015 and 1020 merge"
+     },
+     {
+      "id": "1014",
+      "group": "Bug list 1",
+      "title": "1014 · G No reconnect prompt after a finished Showdown",
+      "lane": "blue",
+      "state": "merged into bug-list-1",
+      "waits_on": "Nik types it in the gameplay project (Work mode)",
+      "details": "GPT green, one run. HO-013: closed Showdown shows SHOWDOWN COMPLETE instead of RECONNECT SESSION. Lead runs the reconnect audit.",
+      "order": 5,
+      "archived": true
      },
      {
       "id": "1017",
