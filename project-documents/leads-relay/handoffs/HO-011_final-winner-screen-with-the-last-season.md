@@ -10,11 +10,11 @@
  "priority": "top",
  "worker": "sol-chat",
  "parent": null,
- "job": null,
- "status": "RECEIVED",
+ "job": "1006",
+ "status": "WORKING",
  "steps": [],
  "evidence": [],
- "log": [{"at": "2026-10-06T00:31:52Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-10-06T00:32:32Z", "by": "V", "status": "RECEIVED", "note": "received; packaging the design as a GPT blue job (shared number), lead renders phone + desktop"}]
+ "log": [{"at": "2026-10-06T00:31:52Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-10-06T00:32:32Z", "by": "V", "status": "RECEIVED", "note": "received; packaging the design as a GPT blue job (shared number), lead renders phone + desktop"}, {"at": "2026-10-06T00:35:45Z", "by": "V", "status": "WORKING", "note": "design packaged as 1006 · V for GPT blue (PR #393): FINAL SEASON cell first in the summary strip (desktop 3 cells; phone full-width top row of SUMMARY). Waiting for Nik to type 1006; lead renders, then sends ids + CSS."}]
 }
 ```
 
