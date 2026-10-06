@@ -1,5 +1,6 @@
 const assert=require('node:assert/strict');
 const fs=require('node:fs');
+const vm=require('node:vm');
 const read=file=>fs.readFileSync(file,'utf8');
 
 const production=read('js/productionSharedJourneyReconnect.js');
@@ -77,5 +78,58 @@ assert.equal(protocol.providerWriteRequired,false);
 assert.equal(protocol.listPermissionRequired,false);
 assert.equal(protocol.billingRequired,false);
 
-console.log('PASS Journey Reconnect production contract: strict finite ACTIVE session authority, normal ACTIVE-gameplay dormancy, authoritative pre-confirmation setup deferral, ordered r12→r13→r14 bootstrap, read-only durable recovery, visible dual-manager status, a direct fresh-session recovery action, and permanent Spark zero-billing boundary.');
-require('./persistent-nik-daniel-pair-contracts.cjs');
+
+function reconnectDocument(){
+  const byId=new Map();
+  function element(tag){
+    let id="";
+    const classes=new Set();
+    const node={tagName:String(tag).toUpperCase(),children:[],parentNode:null,dataset:{},attributes:{},className:"",
+      classList:{toggle(name,on){if(on)classes.add(name);else classes.delete(name);},contains(name){return classes.has(name);}},
+      setAttribute(name,value){this.attributes[name]=String(value);},
+      addEventListener(){},
+      append(...items){for(const item of items){if(item&&typeof item==="object")item.parentNode=this;this.children.push(item);}},
+      prepend(...items){for(const item of items){if(item&&typeof item==="object")item.parentNode=this;}this.children.unshift(...items);},
+      replaceChildren(...items){this.children=[];this.append(...items);},
+      insertAdjacentElement(_where,item){this.append(item);}
+    };
+    Object.defineProperty(node,"id",{get(){return id;},set(value){id=String(value);if(id)byId.set(id,node);}});
+    return node;
+  }
+  const app=element("main");app.id="app";
+  return {visibilityState:"visible",createElement:element,createTextNode:text=>({nodeType:3,textContent:String(text),parentNode:null}),getElementById:id=>byId.get(id)||null,app};
+}
+async function renderFreshReconnect(terminalState){
+  const document=reconnectDocument();
+  const authority={rivalryId:"pair_job1014",accountId:"account_job1014",deviceId:"device_job1014",managerRole:"playerOne"};
+  const fresh=Object.freeze({...authority,phase:"FRESH_SESSION_REQUIRED",sessionId:"session_job1014",resumable:true,activeAuthorization:false,recovered:false,acceptedSeasons:1,activeSeason:1,totalSeasons:1,terminal:false,sessionChanged:true});
+  const root={
+    console,navigator:{onLine:true},document,
+    currentShowdown:{managers:{playerOne:"Daniel",playerTwo:"Nik"},sharedJourney:{mode:"shared",rivalryId:authority.rivalryId}},
+    CareerModeProductionSharedTerminalClose:{getState:()=>terminalState},
+    CareerModeSharedMultiSeasonProgression:{},
+    CareerModeSharedJourneyReconnect:{createProtocol:()=>({observe:()=>fresh})},
+    CareerModeProductionSharedShowdownSetup:{refresh:async()=>true,getState:()=>null},
+    CareerModeProductionSharedMultiSeasonProgression:{refresh:async()=>true,getState:()=>null},
+    CareerModeSparkRemoteJoining:{getState:()=>({sessionState:"expired",sessionId:fresh.sessionId,expiresAtEpochMs:0}),openPanel:async()=>true},
+    CareerModeSparkConnectedAccount:{initialize:async()=>true,getState:()=>({connected:true,accountId:authority.accountId})},
+    CareerModeSparkPrivatePairing:{initialize:async()=>true,getState:()=>({registered:true,deviceId:authority.deviceId})},
+    CareerModeSparkConnectedRivalry:{initialize:async()=>true,getState:()=>({attached:true,rivalryId:authority.rivalryId,binding:{managerRole:authority.managerRole}})}
+  };
+  vm.runInNewContext(production,root,{filename:"productionSharedJourneyReconnect.js"});
+  await root.CareerModeProductionSharedJourneyReconnect.refresh();
+  const status=document.getElementById("sharedJourneyReconnectStatus");
+  return {message:status?.children?.[0]?.textContent||"",hasReconnect:Boolean(document.getElementById("sharedJourneyReconnectAction"))};
+}
+
+(async()=>{
+  const closed=await renderFreshReconnect({phase:"CLOSED",terminal:true});
+  assert.equal(closed.message,"SHOWDOWN COMPLETE · Open the Final Winner or History from Home.");
+  assert.equal(closed.hasReconnect,false,"A terminal CLOSED Showdown must not offer RECONNECT SESSION.");
+  const open=await renderFreshReconnect({phase:"READY",terminal:false});
+  assert.match(open.message,/^FRESH PRIVATE SESSION REQUIRED ·/,"A non-closed Showdown must keep the existing reconnect line.");
+  assert.equal(open.hasReconnect,true,"A non-closed FRESH_SESSION_REQUIRED Showdown must keep RECONNECT SESSION.");
+
+  console.log('PASS Journey Reconnect production contract: strict finite ACTIVE session authority, normal ACTIVE-gameplay dormancy, authoritative pre-confirmation setup deferral, ordered r12→r13→r14 bootstrap, read-only durable recovery, visible dual-manager status, terminal-closed completion messaging, a direct fresh-session recovery action, and permanent Spark zero-billing boundary.');
+  require('./persistent-nik-daniel-pair-contracts.cjs');
+})().catch(error=>{console.error(error);process.exitCode=1;});
