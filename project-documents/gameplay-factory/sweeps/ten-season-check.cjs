@@ -32,7 +32,7 @@ const boundaries = [[zero({ leaguePoints: 99, leagueGoals: 99 }), 0], [zero({ ch
   [zero({ leaguePosition: 1 }), 3], [zero({ domesticCup: true }), 1], [zero({ leaguePoints: 100 }), 1],
   [zero({ leagueGoals: 100 }), 1], [zero({ topScorer: true }), 1], [zero({ topAssist: true }), 1],
   [zero({ leaguePoints: 100, leagueGoals: 100, topScorer: true, topAssist: true }), 2], [max(), 11]];
-cases.push(["individual awards and 99/100 boundaries", boundaries.map(([r, n]) => pair(r, zero(), n, 0, n ? "playerOne" : "draw"))]);
+cases.push(["individual awards and 99/100 boundaries", boundaries.map(([r, n], i) => pair(r, zero(i === 0 ? { leaguePoints: 99, leagueGoals: 99 } : {}), n, 0, n ? "playerOne" : "draw"))]);
 let comparisons = 0, operation = 0; const bugs = [];
 function check(label, expected, actual, source) {
   comparisons++; const pass = JSON.stringify(expected) === JSON.stringify(actual);
