@@ -1,12 +1,12 @@
 # Board archive
 
-[Back to the board](BOARD.md) · generated 2026-10-06 4:01 PM Boston time (EDT). Detail and history behind the one board.
+[Back to the board](BOARD.md) · generated 2026-10-06 4:04 PM Boston time (EDT). Detail and history behind the one board.
 
 ## Old detailed board
 
 # Showdown board: G Factory and V Factory
 
-🌐 **Live: runtime 1.9.1-r62** (main `bc77a0b`) · 🔄 **15 moving** · ⏭ 3 up next · 👤 7 waiting on Nik · 🗂 6 later · updated 2026-10-06 4:01 PM Boston time (EDT)
+🌐 **Live: runtime 1.9.1-r62** (main `bc77a0b`) · 🔄 **15 moving** · ⏭ 3 up next · 👤 7 waiting on Nik · 🗂 6 later · updated 2026-10-06 4:04 PM Boston time (EDT)
 
 🩺 **All clear: every check has a machine.** · POS20 #304 6/16
 
@@ -183,7 +183,7 @@ Latest:
 ## Every bug report
 
 
-> Updated **Tue 6 Oct, 4:01 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
+> Updated **Tue 6 Oct, 4:04 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
 
 | 🔓 Open | 🔴 Top priority | 🔧 Fixing or waiting for release | ✅ Fixed and live |
 | :---: | :---: | :---: | :---: |
@@ -205,7 +205,7 @@ Latest:
 
 ### 🟦 Sol chat · 1 job
 
-**Job 1011 · Plain-words sweep: jargon on game screens · 0.0000 %** · 0 of 4 steps · updated Tue 6 Oct, 4:00 PM  
+**Job 1011 · Plain-words sweep: jargon on game screens · 0.0000 %** · 0 of 4 steps · updated Tue 6 Oct, 4:10 PM  
 ⚽▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️ 🥅  
 🏁 **Likely finish:** not enough data  
 > **Now:** step 1 of 4  
