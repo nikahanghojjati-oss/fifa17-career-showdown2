@@ -11,10 +11,10 @@
  "worker": "",
  "parent": null,
  "job": null,
- "status": "SENT",
+ "status": "RECEIVED",
  "steps": [],
  "evidence": [],
- "log": [{"at": "2026-10-06T04:02:40Z", "by": "G", "status": "SENT", "note": ""}]
+ "log": [{"at": "2026-10-06T04:02:40Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-10-06T04:03:14Z", "by": "V", "status": "RECEIVED", "note": "Team V lead received; setting up mockup-progress board"}]
 }
 ```
 
