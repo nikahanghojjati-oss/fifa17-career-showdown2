@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 8:24 PM Boston time (EDT)",
+ "generated": "2026-10-05 8:25 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -323,12 +323,12 @@
      "title": "Release r62: bug-hunt fixes (errors, reconnect, auto final winner, desktop Settings, phone Home)",
      "draft": false,
      "branch": "gameplay/release-r62",
-     "sha": "284097dde49228a76a812d6f32e1dca1c261629e",
-     "updated": "2026-10-06T00:09:11Z",
+     "sha": "4f67929b0a25306d63621d4d912d3935c71b0579",
+     "updated": "2026-10-06T00:25:21Z",
      "gates": {
-      "passed": 15,
-      "running": 0,
-      "failed": 1,
+      "passed": 3,
+      "running": 12,
+      "failed": 0,
       "cancelled": 0
      }
     },
@@ -855,12 +855,12 @@
     "title": "Release r62: bug-hunt fixes (errors, reconnect, auto final winner, desktop Settings, phone Home)",
     "draft": false,
     "branch": "gameplay/release-r62",
-    "sha": "284097dde49228a76a812d6f32e1dca1c261629e",
-    "updated": "2026-10-06T00:09:11Z",
+    "sha": "4f67929b0a25306d63621d4d912d3935c71b0579",
+    "updated": "2026-10-06T00:25:21Z",
     "gates": {
-     "passed": 15,
-     "running": 0,
-     "failed": 1,
+     "passed": 3,
+     "running": 12,
+     "failed": 0,
      "cancelled": 0
     }
    },
