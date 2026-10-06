@@ -1,20 +1,26 @@
 # Board archive
 
-[Back to the board](BOARD.md) · generated 2026-10-05 10:26 PM Boston time (EDT). Detail and history behind the one board.
+[Back to the board](BOARD.md) · generated 2026-10-05 10:28 PM Boston time (EDT). Detail and history behind the one board.
 
 ## Old detailed board
 
 # Showdown board: G Factory and V Factory
 
-🌐 **Live: runtime 1.9.1-r62** (main `bc77a0b`) · 🔄 **14 moving** · ⏭ 2 up next · 👤 11 waiting on Nik · 🗂 4 later · updated 2026-10-05 10:26 PM Boston time (EDT)
+🌐 **Live: runtime 1.9.1-r62** (main `bc77a0b`) · 🔄 **15 moving** · ⏭ 2 up next · 👤 11 waiting on Nik · 🗂 4 later · updated 2026-10-05 10:28 PM Boston time (EDT)
 
-🐕 **Barking: POS20 on #399 has waited 2 min for a machine.** · POS20 #304 6/16
+🐕 **Barking: POS20 on #400 has waited 8 min for a machine; POS20 on #401 has waited 3 min for a machine; POS20 has waited 2 min for a machine.** · POS20 #304 6/16
 
 ## Your next move
 
 1. **r62 is live.** On the laptop, close every game tab in Chrome and reopen the game; if Settings still looks clipped, do it once more.
 
 ## 🔄 Moving now
+
+**🟩 1010 · 10-season sweep: scoring, history and final math** · 0 % (0 of 4 steps) · Sol Work mode
+
+⚽▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️ 🥅  
+> **Now:** step 1 of 4  
+> **Left:** step 1 → step 2 → step 3 → step 4
 
 **🟦 1014 · No reconnect prompt after a finished Showdown** · 40 % (2 of 5 steps) · Sol chat
 
@@ -180,7 +186,7 @@ Latest:
 ## Every bug report
 
 
-> Updated **Mon 5 Oct, 10:26 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
+> Updated **Mon 5 Oct, 10:28 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
 
 | 🔓 Open | 🔴 Top priority | 🔧 Fixing or waiting for release | ✅ Fixed and live |
 | :---: | :---: | :---: | :---: |
@@ -207,6 +213,14 @@ Latest:
 🏁 **Likely finish:** not enough data  
 > **Now:** step 3 of 5  
 > **Left:** step 3 → step 4 → step 5
+
+### 🟩 Sol Work mode · 1 job
+
+**Job 1010 · 10-season sweep: scoring, history and final math · 0.0000 %** · 0 of 4 steps · updated Mon 5 Oct, 10:27 PM  
+⚽▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️ 🥅  
+🏁 **Likely finish:** not enough data  
+> **Now:** step 1 of 4  
+> **Left:** step 1 → step 2 → step 3 → step 4
 
 <details>
 <summary><b>✅ Closed: 14</b> (11 live in the game) · click to open</summary>
