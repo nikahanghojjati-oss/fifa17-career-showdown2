@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 8:53 PM Boston time (EDT)",
+ "generated": "2026-10-05 8:54 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -284,8 +284,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "9a4cc0b",
-  "head_boston": "Mon 5 Oct 8:41 PM",
+  "head": "84e5ecc",
+  "head_boston": "Mon 5 Oct 8:53 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": true,
   "open_for_g": [],
@@ -323,25 +323,11 @@
      "title": "Showdown Gate (shadow): six-lane check beside POS20, not required yet",
      "draft": false,
      "branch": "ci/showdown-gate-shadow",
-     "sha": "1a040366cd39690d4daf9fe2c9c354a4839de998",
-     "updated": "2026-10-05T23:38:47Z",
+     "sha": "9243705b96a426a33ec352c5afb73cc2e9a8dc20",
+     "updated": "2026-10-06T00:53:30Z",
      "gates": {
-      "passed": 23,
-      "running": 0,
-      "failed": 0,
-      "cancelled": 0
-     }
-    },
-    {
-     "pr": 384,
-     "title": "Every screen in Team V's look: signed-out career screens, Showdown Home, season review, Legacy data tools",
-     "draft": false,
-     "branch": "claude-gameplay/team-v-everywhere",
-     "sha": "0be6b17371a7b81ec1aa7025cdf02290fdcc7f8b",
-     "updated": "2026-10-05T22:29:28Z",
-     "gates": {
-      "passed": 12,
-      "running": 0,
+      "passed": 1,
+      "running": 16,
       "failed": 0,
       "cancelled": 0
      }
@@ -602,13 +588,13 @@
     "from": "G",
     "to": "V",
     "title": "One board: your lead view copies CUSTOM_VIEW_V.html (Team V first, same facts)",
-    "stage": "SENT",
+    "stage": "DELIVERED",
     "pct": 0.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-012_one-board-your-lead-view-copies-custom-v.md",
     "worker": "opus",
     "pickup_min": null,
-    "waiting_min": null
+    "waiting_min": 0
    }
   ],
   "relay_ok": true
@@ -680,7 +666,7 @@
   "**r62 is live.** On the laptop, close every game tab in Chrome and reopen the game; if Settings still looks clipped, do it once more."
  ],
  "now": {
-  "moving": 11,
+  "moving": 10,
   "next": 2,
   "nik": 2,
   "later": 4,
@@ -812,25 +798,11 @@
     "title": "Showdown Gate (shadow): six-lane check beside POS20, not required yet",
     "draft": false,
     "branch": "ci/showdown-gate-shadow",
-    "sha": "1a040366cd39690d4daf9fe2c9c354a4839de998",
-    "updated": "2026-10-05T23:38:47Z",
+    "sha": "9243705b96a426a33ec352c5afb73cc2e9a8dc20",
+    "updated": "2026-10-06T00:53:30Z",
     "gates": {
-     "passed": 23,
-     "running": 0,
-     "failed": 0,
-     "cancelled": 0
-    }
-   },
-   {
-    "pr": 384,
-    "title": "Every screen in Team V's look: signed-out career screens, Showdown Home, season review, Legacy data tools",
-    "draft": false,
-    "branch": "claude-gameplay/team-v-everywhere",
-    "sha": "0be6b17371a7b81ec1aa7025cdf02290fdcc7f8b",
-    "updated": "2026-10-05T22:29:28Z",
-    "gates": {
-     "passed": 12,
-     "running": 0,
+     "passed": 1,
+     "running": 16,
      "failed": 0,
      "cancelled": 0
     }

@@ -1,6 +1,6 @@
 # Bug hunt board
 
-Updated Mon 5 Oct, 8:53 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
+Updated Mon 5 Oct, 8:54 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r62** (main `e7b556c`, Mon 5 Oct 8:35 PM)
 
@@ -20,8 +20,7 @@ Updated Mon 5 Oct, 8:53 PM Boston time. Bug hunting only, no new features until 
 
 | Lane | Item | What | State |
 | --- | --- | --- | --- |
-| 🟧 Team G lead | [PR #386](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/386) | Showdown Gate (shadow): six-lane check beside POS20, not required yet | 🟢 23 passed |
-| 🟧 Team G lead | [PR #384](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/384) | Every screen in Team V's look: signed-out career screens, Showdown Home, season review, Legacy data tools | 🟢 12 passed |
+| 🟧 Team G lead | [PR #386](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/386) | Showdown Gate (shadow): six-lane check beside POS20, not required yet | ⏳ 1 passed, 16 running |
 | 🟧 Opus | **G-F17** | Showdown Gate: replace POS20 with a faster check system built on Claude and GitHub, keeping every check (plan: /mnt/project-files/check-system/SHOWDOWN_GATE_PLAN.md) | building shadow |
 | 🟧 Opus | **G-F18** | Old-design screen audit: Legacy, Career Statistics and Trophy Room still open in the old shell; drive every live screen in a browser against Team V's design and route all of them to the new design | in progress |
 | 🟦 Sol chat | **1001** | Home desktop tile icons: bigger, inside the tile, never on the text | in release |
