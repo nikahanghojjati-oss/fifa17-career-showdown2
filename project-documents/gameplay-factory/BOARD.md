@@ -1,6 +1,6 @@
 # Bug hunt board
 
-Updated Mon 5 Oct, 9:58 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
+Updated Mon 5 Oct, 9:59 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r62** (main `bc77a0b`, Mon 5 Oct 9:18 PM)
 
@@ -10,7 +10,7 @@ Updated Mon 5 Oct, 9:58 PM Boston time. Bug hunting only, no new features until 
 
 **Running now**
 
-- **1015** Connect Players screen: create code / join off Home · with worker
+- **1015** Connect Players screen: create code / join off Home · with worker · 80.0000 %
 
 **Next for you, in this order**
 
