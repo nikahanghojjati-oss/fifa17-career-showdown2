@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 9:51 PM Boston time (EDT)",
+ "generated": "2026-10-05 9:53 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -614,6 +614,19 @@
     "worker": "sol-chat",
     "pickup_min": 0,
     "waiting_min": null
+   },
+   {
+    "id": "HO-016",
+    "from": "V",
+    "to": "G",
+    "title": "Transfer War on phone: port Team V's revamp (1016) into the live game",
+    "stage": "SENT",
+    "pct": 0.0,
+    "overdue": false,
+    "path": "project-documents/leads-relay/handoffs/HO-016_transfer-war-on-phone-port-team-v-s-reva.md",
+    "worker": "sol-chat",
+    "pickup_min": null,
+    "waiting_min": null
    }
   ],
   "relay_ok": true
@@ -685,7 +698,7 @@
   "**r62 is live.** On the laptop, close every game tab in Chrome and reopen the game; if Settings still looks clipped, do it once more."
  ],
  "now": {
-  "moving": 11,
+  "moving": 12,
   "next": 2,
   "nik": 11,
   "later": 4,
