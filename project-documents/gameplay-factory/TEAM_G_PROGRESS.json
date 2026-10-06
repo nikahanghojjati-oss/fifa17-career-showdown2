@@ -1,11 +1,11 @@
 {
  "team": "G",
- "updated": "2026-10-05T20:43-04:00",
+ "updated": "2026-10-05T20:44-04:00",
  "jobs_done": 33,
  "jobs_total": 33,
  "open_bugs": 2,
  "next_move": [
-  "**r62 is live.** On the laptop, open Settings and press Update once so Chrome moves off r54."
+  "**r62 is live.** On the laptop, close every game tab in Chrome and reopen the game; if Settings still looks clipped, do it once more."
  ],
  "running": []
 }

@@ -946,6 +946,6 @@
   }
  },
  "next_move": [
-  "**r62 is live.** On the laptop, open Settings and press Update once so Chrome moves off r54."
+  "**r62 is live.** On the laptop, close every game tab in Chrome and reopen the game; if Settings still looks clipped, do it once more."
  ]
 }

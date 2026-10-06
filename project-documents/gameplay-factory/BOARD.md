@@ -1,12 +1,12 @@
 # Showdown board: G Factory and V Factory
 
-🌐 **Live: runtime 1.9.1-r62** (main `e7b556c`) · 🔄 **10 moving** · ⏭ 2 up next · 👤 4 waiting on Nik · 🗂 5 later · updated 2026-10-05 8:43 PM Boston time (EDT)
+🌐 **Live: runtime 1.9.1-r62** (main `e7b556c`) · 🔄 **10 moving** · ⏭ 2 up next · 👤 4 waiting on Nik · 🗂 5 later · updated 2026-10-05 8:44 PM Boston time (EDT)
 
 🩺 **All clear: every check has a machine.** · Gate #386: L1✓ L2✓ L3✓ L4✓ L5✓ L6✓ · seal PASS · POS20 #386 16/16
 
 ## Your next move
 
-1. **r62 is live.** On the laptop, open Settings and press Update once so Chrome moves off r54.
+1. **r62 is live.** On the laptop, close every game tab in Chrome and reopen the game; if Settings still looks clipped, do it once more.
 
 ## 🔄 Moving now
 
