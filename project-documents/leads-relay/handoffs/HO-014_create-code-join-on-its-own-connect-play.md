@@ -11,10 +11,10 @@
  "worker": "opus",
  "parent": null,
  "job": null,
- "status": "SENT",
+ "status": "RECEIVED",
  "steps": [],
  "evidence": [],
- "log": [{"at": "2026-10-06T01:31:04Z", "by": "V", "status": "SENT", "note": ""}]
+ "log": [{"at": "2026-10-06T01:31:04Z", "by": "V", "status": "SENT", "note": ""}, {"at": "2026-10-06T01:32:16Z", "by": "G", "status": "RECEIVED", "note": "bug factory: job 1015 · G (GPT green; Sonnet if green fails), lead runs pairing contracts + audits, Team V 1013 visual check"}]
 }
 ```
 
