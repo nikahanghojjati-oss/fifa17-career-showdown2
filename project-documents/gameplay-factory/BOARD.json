@@ -748,13 +748,11 @@
      "id": "1004",
      "group": "Bug list 1",
      "title": "1004 · G Rule Book: remove the useless 01-06 side number rail (desktop and phone)",
-     "lane": "blue",
-     "state": "ready",
-     "waits_on": "Nik types it again in the gameplay project (normal chat) for round 2",
+     "lane": "claude",
+     "state": "with the lead (PR #392, CI running)",
+     "waits_on": "CI on PR #392, then the lead merges it into bug-list-1",
      "details": "js/rulesSettingsV10.js only: stop building #ruleBookIndex. Per-rule number badges stay.",
-     "order": 4,
-     "place": "in the gameplay project (normal chat), same chat as before",
-     "note": "round 2"
+     "order": 4
     },
     {
      "id": "1005",
