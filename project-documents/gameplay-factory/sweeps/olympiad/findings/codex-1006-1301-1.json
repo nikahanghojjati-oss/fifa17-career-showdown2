@@ -1,0 +1,52 @@
+{
+  "id": "codex-1006-1301-01",
+  "run": "codex-1006-1301",
+  "area": "09",
+  "title": "New season reuses last season's results and trophy ticks",
+  "severity": "S2",
+  "status": "confirmed",
+  "where": [
+    {
+      "file": "js/productionSharedSeasonResults.js",
+      "line": 128,
+      "function": "pssrRender"
+    },
+    {
+      "file": "js/productionSharedSeasonResults.js",
+      "line": 123,
+      "function": "pssrRenderEntry"
+    },
+    {
+      "file": "js/seasonEngine.js",
+      "line": 334,
+      "function": "openSeasonEntry"
+    }
+  ],
+  "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+  "steps": [
+    "Start a three-season Showdown as Daniel and Nik and finish the Season 1 Transfer Challenge.",
+    "Daniel enters league position 1, league points 100, league goals 100, and ticks Domestic Cup, Champions League, Top Scorer and Top Assist. Review and publish.",
+    "Reload Daniel halfway through result entry; his published Season 1 result returns. Nik enters position 2, points 0, goals 0, with no trophy or award ticks, and publishes.",
+    "Finish the Season 1 confirmation and history review, continue to Season 2, and finish its Transfer Challenge without reloading the page.",
+    "Open Season 2 Results. Do not enter any new numbers or ticks. Press Review My Season Result and Publish My Season Result.",
+    "Replay from the repository root with the local server running: node project-documents/gameplay-factory/sweeps/olympiad/test/codex-1006-1301-01.cjs"
+  ],
+  "expected": "Season 2 asks for fresh league position, points and goals, with all trophy and award boxes unticked. Review without new results asks Daniel to fill them in.",
+  "actual": "Season 2 starts with position 1, points 100, goals 100 and all four boxes ticked from Season 1. Review and Publish accept the copied seven facts as the new season result, worth 11 points, with no new result entered.",
+  "root_cause": "When the shared Season Results screen sees a different season, pssrRender clears its review draft but leaves the form values and trophy boxes intact. pssrRenderEntry fills published results but does not clear them for a new season. openSeasonEntry already resets fields for the older season route; the shared Results route opens the screen directly and skips that reset.",
+  "fix": {
+    "files": [
+      "js/productionSharedSeasonResults.js"
+    ],
+    "change": "On a change of Showdown or season, clear both managers’ numeric fields and trophy/award boxes before filling any published result for that season. Keep entered values when returning to the same season or choosing Edit My Result. Continue restoring published results after reload."
+  },
+  "script": "test/codex-1006-1301-01.cjs",
+  "script_output": "PASS 576 season-score combinations in 18/20-club leagues: 0/99/100 boundaries and every trophy/award combination.\nPASS season 1 of 3: 11-0; both shared bonuses capped; published result survives halfway reload; no duplicate season.\nSeason 2 before any new results were entered: {\"LeaguePosition\":\"1\",\"LeaguePoints\":\"100\",\"LeagueGoals\":\"100\",\"DomesticCup\":true,\"ChampionsLeague\":true,\"TopScorer\":true,\"TopAssist\":true}\nSeason 2 review: Daniel Arsenal League Position 1 League Points 100 League Goals 100 ✓ DOMESTIC CUP ✓ CHAMPIONS LEAGUE ✓ TOP SCORER ✓ TOP ASSIST\nWRONG RESULT: season 2 published all seven season 1 facts without a new result being entered (worth 11 points).\nPASS season 10 of 10: 0-0; equal position and points draw despite different goals.\nPASS season tiebreak: league position, then league points.\nAssertionError [ERR_ASSERTION]: A new season must not inherit last season results or trophy checks.\n+ actual - expected\n\n  {\n+   ChampionsLeague: true,\n+   DomesticCup: true,\n+   LeagueGoals: '100',\n+   LeaguePoints: '100',\n+   LeaguePosition: '1',\n+   TopAssist: true,\n+   TopScorer: true\n-   ChampionsLeague: false,\n-   DomesticCup: false,\n-   LeagueGoals: '',\n-   LeaguePoints: '',\n-   LeaguePosition: '',\n-   TopAssist: false,\n-   TopScorer: false\n  }\n\n    at /workspace/fifa17-career-showdown2/project-documents/gameplay-factory/sweeps/olympiad/test/codex-1006-1301-01.cjs:151:12 {\n  generatedMessage: false,\n  code: 'ERR_ASSERTION',\n  actual: [Object],\n  expected: [Object],\n  operator: 'deepStrictEqual',\n  diff: 'simple'\n}\n\nExit code: 1 (expected failure showing copied season results).\n",
+  "assumptions": [
+    "Daniel is Player One and Nik is Player Two; both friends enter their FIFA season facts fairly.",
+    "A new season should require its own results; no rule says last season’s trophies carry forward.",
+    "The replay uses Chromium on the local server, the real Results route and form, real result and scoring rules, and the real season-advance function. Completed-transfer and finished-season-history responses are supplied in memory; no live career is touched.",
+    "The season-advance function is called directly in the replay to keep the test within result entry. Results review, edit and publish use the visible game buttons.",
+    "Before keeping this finding, checked the existing reset in openSeasonEntry, both shared Results route functions, the screen router, and the season-advance code. None clears these fields in the shared path."
+  ]
+}
