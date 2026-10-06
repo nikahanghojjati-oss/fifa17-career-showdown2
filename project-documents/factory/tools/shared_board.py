@@ -13,7 +13,7 @@ import json, os, re, subprocess, datetime as dt
 
 REPO = os.environ.get("GITHUB_REPOSITORY", "nikahanghojjati-oss/fifa17-career-showdown2")
 HERE = os.path.dirname(os.path.abspath(__file__))
-OUT = os.path.join(HERE, "..", "BOARD_ARCHIVE.md")  # HO-012: archived; the one board is Team G's CUSTOM_VIEW_V.html
+OUT = os.path.join(HERE, "..", "BOARD.md")
 BLOB = f"https://github.com/{REPO}/blob"
 G_BOARD = f"{BLOB}/factory/gameplay-v1/project-documents/gameplay-factory/BOARD.md"
 FEED_URL = f"{BLOB}/leads/relay/project-documents/leads-relay/FEED.md"

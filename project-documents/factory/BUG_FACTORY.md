@@ -51,4 +51,4 @@ GPT cannot see the screen or CI, so a bug job is done only after the lead checks
 
 ## Bug board
 
-One board for both teams (HO-012), built by Team G; Team V jobs show as `NNNN · V`: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/BOARD.md
+The Team V board, bug jobs included (shown as `NNNN · V`): https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/v1-wtt5ye/project-documents/factory/BOARD.md
