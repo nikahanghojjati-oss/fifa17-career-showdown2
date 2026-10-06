@@ -21,7 +21,7 @@ check('RS1 current rule constructors preserve all six sections and scoring',()=>
 // Missing binder makes this contract fail before the implementation is saved.
 const api=require(path.join(ROOT,'js/rulesSettingsV10.js')).createBindings(root);
 const rules=doc.getElementById('ruleBook'),ruleText=rules.textContent,ruleBack=rules.querySelector('button');
-check('RS2 Rule Book skin carries exactly the current app rule text',()=>{api.mountRuleBook(null,rules);assert.equal(rules.textContent,ruleText+'010203040506');assert.equal(rules.querySelector('.backButton'),ruleBack);assert.equal(rules.querySelectorAll('.ruleSection').length,6);});
+check('RS2 Rule Book skin carries exactly the current app rule text',()=>{api.mountRuleBook(null,rules);assert.equal(rules.textContent,ruleText);assert.equal(rules.querySelector('.backButton'),ruleBack);assert.equal(rules.querySelectorAll('.ruleSection').length,6);});
 check('RS3 rule render is idempotent and unmount restores the original DOM',()=>{const stage=rules.querySelector('.v10SystemStage');api.mountRuleBook(null,rules);assert.equal(rules.querySelector('.v10SystemStage'),stage);api.unmountRuleBook(rules);assert.equal(rules.textContent,ruleText);assert.equal(rules.querySelector('.backButton'),ruleBack);api.mountRuleBook(null,rules);});
 root.ensureSettingsDialog();root.renderSettings();const overlay=doc.getElementById('settingsOverlay'),content=doc.getElementById('settingsContent');
 // Seed hidden/internal recovery controls: visual decoration must leave visibility and listeners intact.

@@ -102,3 +102,8 @@
 /* css/settings.css paints .settingsOfflineNote as a light box; with the light Settings text it read as an empty
    white box under UPDATE TO LATEST VERSION. It is the update status box, so it takes the dark panel look. */
 #settingsOverlay.v10Settings .settingsOfflineNote { margin:10px 0 0; padding:9px 12px; background:rgba(0,0,0,.42); border:1px solid rgba(219,178,94,.28); border-left:3px solid #d9b15f; }
+
+/* JOB-1004: the side number rail is gone, so the phone rule cards start where it began (Nik, 2026-10-05) */
+@media (max-width:760px) {
+  #ruleBook.v10RuleBook #ruleBookSections.ruleBookGrid { top: 110px; }
+}
