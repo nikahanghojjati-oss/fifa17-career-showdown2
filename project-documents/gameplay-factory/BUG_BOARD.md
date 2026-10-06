@@ -1,4 +1,4 @@
-# 🐞 Team G bug hunting factory
+# Bug board
 
 > Updated **Mon 5 Oct, 8:51 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
 

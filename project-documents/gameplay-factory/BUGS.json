@@ -1,5 +1,5 @@
 {
- "_help": "Owned by the Bug reports thread. One entry per report. status: NEW, TRIAGED, FIXING, REVIEW, MERGED, LIVE, DONE (audits), DUPLICATE, NOT A BUG. priority: top (10-season flow or session) or normal. type: gameplay, visual or data. worker: sol-chat, sol-work, codex, opus, sonnet, haiku or empty. job: the job number whose progress block drives the bar, or empty.",
+ "_help": "Owned by the Bug reports thread. One entry per report. status: NEW, TRIAGED, FIXING, REVIEW, MERGED, LIVE, DONE (audits), DUPLICATE, NOT A BUG, PARKED (off the board). priority: top (10-season flow or session) or normal. type: gameplay, visual or data. worker: sol-chat, sol-work, codex, opus, sonnet, haiku or empty. job: the job number whose progress block drives the bar, or empty.",
  "bugs": [
   {
    "id": "BH-11",
@@ -86,8 +86,8 @@
    "priority": "normal",
    "worker": "",
    "job": "",
-   "status": "NEW",
-   "note": "parked as low priority"
+   "status": "PARKED",
+   "note": "cleared by Nik 2026-10-06: low priority, off the board; reopen only if it shows up in play"
   },
   {
    "id": "BH-9",

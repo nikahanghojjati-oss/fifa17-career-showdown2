@@ -86,5 +86,5 @@ L += ["<details>", f"<summary><b>✅ Closed: {len(closed)}</b> ({live} live in t
       "---", "",
       "<sub>Bug list: `BUGS.json` (kept by the Bug reports thread). Progress: the ```` ```progress ```` block in each job's PR description. "
       "Statuses: " + " · ".join(f"{i} {s}" for s, i in ICON.items()) + ". Made by `tools/bug_board.py`.</sub>"]
-open(os.path.join(F, "BUG_BOARD.md"), "w").write("\n".join(L) + "\n")
+open(os.path.join(F, "BOARD_ARCHIVE.md"), "a").write("\n## Every bug report\n\n" + "\n".join(L[1:]) + "\n")  # the bug board folded into the one board (2026-10-06)
 print("open", len(opn), "closed", len(closed))

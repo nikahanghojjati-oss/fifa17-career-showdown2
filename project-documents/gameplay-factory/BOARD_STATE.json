@@ -315,7 +315,7 @@
   "live": {
    "sha": "e7b556c",
    "revision": "1.9.1-r62",
-   "when": "2026-10-06T00:35:12Z",
+   "when": "2026-10-06T00:35:12+00:00",
    "subject": "Release r62: bug-hunt fixes, desktop Settings no longer clipped (#390)",
    "fixes": [
     {
@@ -669,8 +669,8 @@
  "now": {
   "moving": 10,
   "next": 2,
-  "nik": 4,
-  "later": 5,
+  "nik": 2,
+  "later": 4,
   "rows": {
    "G": {
     "moving": [
@@ -724,28 +724,16 @@
       "title": "Nik and Daniel play 2.0 on their phones",
       "lane": "nik",
       "state": "waiting on Nik",
-      "waits_on": ""
-     },
-     {
-      "id": "G-F8",
-      "title": "Commit and acknowledge a season in one tap (tap audit R7)",
-      "lane": "opus",
-      "state": "needs Nik's call",
-      "waits_on": "Nik"
-     },
-     {
-      "id": "G-F9",
-      "title": "72-character pairing code exchange (needs a Rules change)",
-      "lane": "opus",
-      "state": "needs Nik's call",
-      "waits_on": "Nik's typed words"
+      "waits_on": "",
+      "decision": "Play a game of the live version (r62) with Daniel on two phones and send what goes wrong to the bug factory thread."
      },
      {
       "id": "G-F22",
       "title": "BH-12 pairing product calls: RESTORE BACKUP first, CANCEL CODE with expiry, masked email before JOIN, revoke mine and join, clearer same-account message",
       "lane": "nik",
       "state": "later: Nik decides after his two current calls",
-      "waits_on": "the lead asks Nik next"
+      "waits_on": "the lead asks Nik next",
+      "decision": "Five pairing choices (RESTORE BACKUP first, a CANCEL CODE button, the masked email before JOIN, revoke-and-join, a clearer same-account message). The lead brings them to you on one card; nothing to do until then."
      }
     ],
     "next": [
@@ -765,13 +753,6 @@
      }
     ],
     "later": [
-     {
-      "id": "G-F3",
-      "title": "Bug-hunting factory: one report thread, Sonnet hunts, Opus fixes, small batch releases",
-      "lane": "sonnet",
-      "state": "queued",
-      "waits_on": "G-F1 and Nik's OK"
-     },
      {
       "id": "G-F4",
       "title": "GPT Q&A team: scripted paths and code-vs-rulebook reads",

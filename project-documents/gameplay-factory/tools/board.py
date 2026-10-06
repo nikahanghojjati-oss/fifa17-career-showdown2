@@ -296,10 +296,10 @@ if bug_hunt:
 L += [f"- The first factory plan: {done} of {len(jobs)} jobs finished ([every job](BOARD_ARCHIVE.md))", "", "</details>", "",
       "<sub>Made by `tools/board.py` from `BOARD.json` (the lead's job list), PR progress blocks, open PRs into main and the relay. It rebuilds itself on GitHub; nobody edits it by hand.</sub>"]
 
-open(os.path.join(F, "BOARD.md"), "w").write("\n".join(L) + "\n")
+_DETAIL = L  # the old detailed board lives in the archive now; BOARD.md is the one board (custom_view.py)
 
 # ---- Archive: every job, full table
-A = ["# Team G gameplay board: all jobs", "", f"[Back to the board](BOARD.md) · generated {boston_now()}", "",
+A = ["# Board archive", "", f"[Back to the board](BOARD.md) · generated {boston_now()}. Detail and history behind the one board.", "", "## Old detailed board", ""] + [re.sub(r"\(BOARD_ARCHIVE.md\)", "(#all-jobs)", x) for x in _DETAIL] + ["", "## All jobs", "",
      "| # | G id | Job | Phase | Type | Lane | Depends on | Codex | Progress | State |", "| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |"]
 for j in jobs:
     n = j["number"]

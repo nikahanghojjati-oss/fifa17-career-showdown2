@@ -1,208 +1,248 @@
 #!/usr/bin/env python3
-"""Write CUSTOM_VIEW.html: the whole Custom view tab as one HTML fragment (no scripts, no images, under 7 KB).
-Reads BOARD_STATE.json (run board.py first), progress/ (run collect_progress.py first) and BUGS.json.
-The coordinator only copies this file onto the tab, so a refresh costs no Claude reasoning.
-Also writes TEAM_G_PROGRESS.json, the snapshot Team V reads from the repo for its own tab.
+"""The one board (Nik, 2026-10-06: bug hunting only, one board, accurate and current first, light second).
+Writes, from the same data:
+  CUSTOM_VIEW.html    Team G lead's Custom view (Team G first)
+  CUSTOM_VIEW_V.html  Team V lead's view (Team V first, same facts)
+  BOARD.md            the same board on GitHub
+  BUG_BOARD.md        a pointer to BOARD.md (the bug board folded into the one board)
+  TEAM_G_PROGRESS.json  snapshot Team V reads from the repo
+Reads BOARD_STATE.json (run board.py first), progress/ (run collect_progress.py first), BOARD.json and BUGS.json.
+Anything that keeps a fact from being current is shown on the board itself as a ⚠ line.
 Run from the repo root: python3 project-documents/gameplay-factory/tools/custom_view.py"""
 import json, os, re, sys, datetime, html
 from zoneinfo import ZoneInfo
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import eta as ETA
-from factory_common import F, running_jobs, lane_of, all_bugs, OPEN_BUG, pitch, ALL_LANES, HEX as LANE_HEX
-import re
+from factory_common import F, running_jobs, lane_of, all_bugs, OPEN_BUG, ALL_LANES, HEX
 import two_factories as TF
 
 BOS = ZoneInfo("America/New_York")
-BLOB = "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/"
-PR = "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/"
-# Lane colours Nik picked (2026-10-05): Sol chat light blue, Sol Work green, Codex white, Opus orange, Sonnet violet, Haiku yellow.
-HEX = LANE_HEX
-QI = {l: i for i, l in enumerate(HEX)}  # lane squares use short classes (q0..q9) so the 7 KB tab has room
+REPO = "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2"
+BLOB = f"{REPO}/blob/factory/gameplay-v1/project-documents/gameplay-factory/"
+PR = f"{REPO}/pull/"
+QI = {l: i for i, l in enumerate(HEX)}
 e = html.escape
+LIMIT = 7000  # the coordinator's Custom view tab
+
+st = json.load(open(os.path.join(F, "BOARD_STATE.json")))
+BJ = json.load(open(os.path.join(F, "BOARD.json")))
+NOW = st.get("now") or {}
+TWO = st.get("two") or {}
+now = datetime.datetime.now(BOS)
+warn = []  # anything that keeps the board from showing current facts
 
 
-def md(t):  # the tiny bit of Markdown the board uses: **bold** and `code`
+def bos_t(iso, fmt="%-I:%M %p"):
+    try:
+        return datetime.datetime.fromisoformat(str(iso).replace("Z", "+00:00")).astimezone(BOS).strftime(fmt)
+    except Exception:
+        return ""
+
+
+def age_h(iso):
+    try:
+        return (now - datetime.datetime.fromisoformat(str(iso).replace("Z", "+00:00")).astimezone(BOS)).total_seconds() / 3600
+    except Exception:
+        return None
+
+
+def md(t):
     t = e(t)
     t = re.sub(r"\*\*(.+?)\*\*", r"<b>\1</b>", t)
     return re.sub(r"`(.+?)`", r"<code>\1</code>", t)
 
 
-def boston(iso):
-    try:
-        return f"{datetime.datetime.fromisoformat(str(iso).replace('Z', '+00:00')).astimezone(BOS):%-I:%M %p}"
-    except Exception:
-        return "unknown"
+def short_state(s):
+    return str(s).split(" (")[0].split(";")[0].strip()
 
 
-def bar(frac, colour):
-    f = min(max(frac, 0), 1)
-    w = round(10 + 280 * f, 1)
-    return (f'<svg width="300" height="22" viewBox="0 0 300 22"><rect y="4" width="300" height="14" rx="7" fill="#12191f" stroke="#43515b"/>'
-            f'<rect y="4" width="{w}" height="14" rx="7" fill="{colour}"/><rect y="4" width="{w}" height="4" rx="2" fill="#ffffff" fill-opacity=".25"/>'
-            f'<circle cx="{w}" cy="11" r="9" fill="#fbfcfc" stroke="#f0d900" stroke-width="2"/><circle cx="{w}" cy="11" r="3.5" fill="#20272d"/></svg>')
+def lane_name(lane):
+    return ALL_LANES.get(lane, ("", lane))[1]
 
 
-st = json.load(open(os.path.join(F, "BOARD_STATE.json")))
-open_bugs = [b for b in all_bugs() if b["status"] in OPEN_BUG]
-now = datetime.datetime.now(BOS)
-rj0 = running_jobs()
-NOW = st.get("now") or {}
+# ---------- the items, one list per team and bucket ----------
+running = {str(n): (r, k, t) for n, r, k, t in running_jobs()}
+items = {"G": {"fix": [], "next": [], "later": []}, "V": {"fix": [], "next": [], "later": []}}
+nik = []
+for x in NOW.get("fixes", []):  # open releases and fixes into main, with their checks
+    g = x.get("gates") or {}
+    chk = "checks unknown" if not g else ("🔴 " if g["failed"] else "🟠 " if g["cancelled"] else "⏳ " if g["running"] else "🟢 ") + ", ".join([f'{g["passed"]} passed'] + [f'{g[k]} {k}' for k in ("running", "failed", "cancelled") if g[k]])
+    items["G"]["fix"].append({"id": f"PR #{x['pr']}", "url": f"{PR}{x['pr']}", "title": x["title"], "state": chk + (" (draft)" if x.get("draft") else ""), "lane": "lead"})
+seen = set()
+for team in ("G", "V"):
+    rows = NOW.get("rows", {}).get(team, {})
+    for b, dest in (("moving", "fix"), ("next", "next"), ("later", "later")):
+        for x in rows.get(b) or []:
+            it = {"id": x["id"], "title": re.sub(r"^\d+ · [GV] ", "", x["title"]), "state": short_state(x["state"]), "lane": x.get("lane", ""), "waits": x.get("waits_on") or ""}
+            if str(x["id"]) in running:
+                r, k, t = running.pop(str(x["id"]))
+                it["progress"] = (ETA.describe(r), r)
+            items[team][dest].append(it)
+            seen.add(str(x["id"]))
+    for x in rows.get("nik") or []:
+        full = next((y for y in BJ["factories"][team]["future"] if y["id"] == x["id"]), x)
+        nik.append({"id": x["id"], "title": x["title"], "decision": full.get("decision") or f'{x["title"]} ({short_state(x["state"])})'})
+        seen.add(str(x["id"]))
+for n, (r, k, t) in running.items():  # running jobs with no board row
+    items["G"]["fix"].append({"id": f"Job {n}", "title": r.get("title", ""), "state": r.get("current") or "in progress", "lane": str(r.get("worker", "")), "progress": (ETA.describe(r), r)})
+for j in TWO.get("v_jobs") or []:  # Team V jobs reported by their PR progress block
+    if j["done"] < j["total"]:
+        items["V"]["fix"].append({"id": j["job"], "url": f"{PR}{j['pr']}" if j.get("pr") else None, "title": j["title"], "state": j.get("current") or "in progress",
+                                  "lane": j.get("lane") or "", "pct": 100.0 * j["done"] / max(j["total"], 1), "steps": f'{j["done"]} of {j["total"]} steps'})
+# Open bug reports that no board row carries yet
+rowtext = " ".join(f'{y["id"]} {y["title"]}' for t in ("G", "V") for y in BJ["factories"][t]["future"])
+for b in all_bugs():
+    if b["status"] in OPEN_BUG and b["id"] not in rowtext:
+        dest = "fix" if b["status"] in ("FIXING", "REVIEW", "MERGED") else "next"
+        items["V" if b.get("type") == "visual" else "G"][dest].append({"id": b["id"], "title": b["title"], "state": b["status"].title(), "lane": b.get("worker") or ""})
+for team in ("G", "V"):  # a job that waits for Nik to start it (type its number in a GPT chat) is his move too
+    for it in items[team]["fix"]:
+        if re.search(r"waiting (for|on) Nik", it["state"], re.I):
+            act = re.sub(r"^.*?waiting (for|on) Nik to ", "", it["state"], flags=re.I)
+            nik.append({"id": it["id"], "title": it["title"], "decision": f'{it["title"]}. {act[0].upper()}{act[1:]} to start it.'})
+for m in BJ.get("next_move") or []:
+    nik.insert(0, {"id": "", "title": "", "decision": m, "md": True})
 
-H = ["<style>"
-     ".cv{--h:'Arial Narrow',Impact,sans-serif;font:14px/1.45 'Segoe UI',system-ui,sans-serif;max-width:720px;color:#fbfcfc;background:#20272d;border-radius:14px;padding:0 0 14px;overflow:hidden}"
-     ".cv .ban{background:#2c7399;background:repeating-linear-gradient(90deg,#2a6e93 0 48px,#2c7399 48px 96px);border-bottom:4px solid #f0d900;padding:8px 14px 6px}"
-     ".cv .ban b{display:block;font:italic 800 19px/1.1 var(--h);letter-spacing:.04em;text-transform:uppercase}"
-     ".cv .ban span{font-size:12px;color:#dce5e8}.cv .ban a{color:#f0d900}"
-     ".cv .tiles{display:flex;gap:6px;padding:8px 10px 0}.cv .tile{flex:1;background:#2c353c;border:1px solid #43515b;border-top:3px solid #f0d900;border-radius:8px;padding:3px 4px;text-align:center}"
-     ".cv .tile b{display:block;font:italic 800 22px/1.1 var(--h);color:#f0d900}.cv .tile span{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#8ea2ac}"
-     ".cv h2{font:italic 800 15px/1 var(--h);letter-spacing:.08em;text-transform:uppercase;color:#42b9da;margin:12px 12px 4px;padding-left:8px;border-left:4px solid #f0d900}"
-     ".cv .card{background:#2c353c;border:1px solid #43515b;border-radius:10px;padding:8px 10px;margin:6px 10px}.cv .move{background:#3a3a1c;border-color:#f0d900}"
-     ".cv .m{color:#8ea2ac;font-size:12px}.cv .pc{font:italic 800 20px var(--h);color:#f0d900;margin-left:8px}"
-     ".cv table{border-collapse:collapse;width:calc(100% - 24px);margin:0 12px}.cv td,.cv th{color:#fbfcfc;border-bottom:1px solid #43515b;padding:5px 6px;text-align:left;font-size:13px}.cv th{color:#8ea2ac !important;font-size:11px;text-transform:uppercase;letter-spacing:.08em}"
-     ".cv a{color:#fbfcfc;text-decoration:underline}.cv code{background:#20272d;padding:0 4px;border-radius:3px}.cv .foot{margin:10px 14px 0}.cv i{font-style:normal}" + "".join(f".cv .q{i}{{color:{h}}}" for i, h in enumerate(HEX.values())) + ".cv .q9{color:#9ca3af}</style>",
-     '<div class="cv">',
-     f'<div class="ban"><b>Showdown · G Factory + V Factory</b><span>Updated {now:%a %-d %b, %-I:%M %p} Boston time · <a href="{BLOB}BOARD.md">Job board</a> · <a href="{BLOB}BUG_BOARD.md">Bug board</a> · <a href="{BLOB}RELAY.md">Relay</a></span></div>',
-     f'<div class="tiles"><div class="tile"><b>{e(((st.get("two") or {}).get("live") or {}).get("revision", "?").split("-")[-1])}</b><span>Live</span></div><div class="tile"><b>{NOW.get("moving", 0)}</b><span>Moving</span></div><div class="tile"><b>{NOW.get("next", 0)}</b><span>Up next</span></div><div class="tile"><b>{NOW.get("nik", 0)}</b><span>Waits on Nik</span></div></div>',
-     (lambda p: f'<div class="card" style="margin-top:8px">{TF.PHYSIO_ICON.get(p.get("state"), "🩺")} <b>{e(p.get("line", "Physio: starting soon."))}</b>' + (f'<br><span class="m">{e(p["gate"])}</span>' if p.get("gate") else "") + f'</div>')((st.get("two") or {}).get("physio") or {}),
-     "<h2>Your next move</h2>", '<div class="card move">' + "<br>".join(md(m) for m in st.get("next_move") or ["Nothing for you to start right now."]) + "</div>",
-     "<h2>Moving now</h2>"]
-rj = sorted(running_jobs())
-G_W = lambda g: ("checks unknown" if not g else ("🔴 " if g["failed"] else "🟠 " if g["cancelled"] else "⏳ " if g["running"] else "🟢 ") + ", ".join([f'{g["passed"]} passed'] + [f'{g[k]} {k}' for k in ("running", "failed", "cancelled") if g[k]]))
-_mv = [f'<a href="{PR}{x["pr"]}">PR #{x["pr"]}</a> {e(x["title"][:70])} <span class="m">{e(G_W(x.get("gates")))}</span>' for x in NOW.get("fixes", [])]
-_mvr = [(k, x) for k in ("G", "V") for x in (NOW.get("rows", {}).get(k, {}).get("moving") or [])]
-_bpr = {}
-_batch = {}  # jobs already fixed and waiting in a release batch collapse to one line per release
-for k, x in _mvr:
-    m = re.match(r"(?:fixed, )?in (r\d+)(?: batch)?\b", x["state"])
-    if m:
-        _batch.setdefault(m.group(1), []).append(x["id"])
-        pr = re.search(r"PR #(\d+)", x["state"])
-        if pr:
-            _bpr[m.group(1)] = f", PR #{pr.group(1)} to main"
-_mv += [f'<b>{e(k)} {e(x["id"])}</b> {e(x["title"][:52])} <span class="m">{e(x["state"].split(" (")[0].split(";")[0][:44])}</span>' for k, x in _mvr if not re.match(r"(?:fixed, )?in r\d+\b", x["state"])]
-_mv += [f'✅ <b>In {e(r)}{_bpr.get(r, " batch")}:</b> {e(", ".join(ids))}' for r, ids in _batch.items()]
-if _mv:
-    H.append('<div class="card">' + "<br>".join(_mv) + "</div>")
-elif not rj:
-    H.append('<div class="card m">Nothing is moving right now.</div>')
-COMPACT = "--compact" in sys.argv  # only if the page would pass 7 KB: show the next three steps instead of all
-for n, r, k, t in rj:
-    sq, who = lane_of(r)
-    d = ETA.describe(r)
-    left = [x["name"] for x in r["steps"] if not x.get("done")]
-    if COMPACT and len(left) > 3:
-        left = left[:3] + [f"and {len(left) - 3} more"]
-    title = f'Job {n} · {e(r.get("title", ""))}'
-    title = f'<a href="{PR}{r["pr"]}">{title}</a>' if r.get("pr") else title
-    H.append(f'<div class="card"><b>{title}</b> <span class="m">{e(who)} · {k} of {t} steps · {boston(r.get("updated"))}</span><br>'
-             f'{bar(d["pct"] / 100, HEX.get(who, "#6b7280"))}<span class="pc">{d["pct"]:.4f} %</span><br>'
-             + ("" if COMPACT else f'{pitch(d["pct"] / 100, {"Sol chat": "🟦", "Sol Work mode": "🟩", "Codex": "⬜", "Opus": "🟧", "Sonnet": "🟪", "Haiku": "🟨"}.get(who, "⬛"), 16)}<br>')
-             + (f'<b>Likely finish:</b> {e(d["eta"])}<br>' if d.get("eta") else "")
-             + f'<b>Going on now:</b> {e(r.get("current") or "not reported")}'
-             + ("" if COMPACT else f'<br><b>Still to do:</b> {e(" → ".join(left) or "nothing")}') + "</div>")
-GF = ETA.gaffer()
-if GF:
-    if GF["stale"]:
-        GF = None
-if GF:
-    gc = "#f0d900" if GF["pct"] < 80 else "#f97316" if GF["pct"] < 95 else "#ef4444"
-    H.append(f'<div class="card"><b>{GF["emoji"]} Gaffer · {e(GF.get("level_name", ""))} · {e(GF.get("mood", ""))}</b> <span class="m">updated {e(GF.get("updated_boston", ""))} Boston time</span><br>'
-             f'<svg width="300" height="12" viewBox="0 0 300 12"><rect width="300" height="12" rx="6" fill="#12191f" stroke="#43515b"/><rect width="{3 * GF["pct"]}" height="12" rx="6" fill="{gc}"/></svg>'
-             f'<span class="pc" style="font-size:16px">{GF["pct"]} %</span> <span class="m">5-hour usage · resets {boston(GF.get("resets_at"))}</span><br>'
-             f'<b>Last call:</b> {e(GF.get("last_decision", ""))}<br><a href="{e(GF.get("page", ""))}">Gaffer page</a></div>')
-REL = json.load(open(os.path.join(F, "BOARD.json"))).get("release") or {}
-liveprs = {}
-try:
-    liveprs = {int(k): v for k, v in json.load(open(os.path.join(F, "progress", "prs.json"))).items()}
-except Exception:
-    pass
-TWO = st.get("two") or {}
+# ---------- facts that may be out of date ----------
 LV = TWO.get("live")
-H.append("<h2>Live now</h2>")
-if LV:
-    H.append(f'<div class="card">🌐 <b>main <code>{e(LV["sha"])}</code> · {e(LV["revision"])}</b> <span class="m">{e(TF.bos(LV["when"]))}</span><br>{e(LV["subject"][:80])}' +
-             (f'<br><b>Shipped today:</b>' + "".join(f'<br>✅ <span class="m">{e(TF.bos(x["merged"], "%-I:%M %p"))}</span> #{x["pr"]} {e(x["title"][:48])}' for x in LV.get("today", [])[:4]) if LV.get("today") and not COMPACT else "") + "</div>")
-else:
-    H.append('<div class="card m">Could not read main this run.</div>')
-FAC = json.load(open(os.path.join(F, "BOARD.json"))).get("factories", {})
+if not LV:
+    warn.append("Could not read main this run, so the live version may be old.")
+ph = TWO.get("physio") or {}
+if "(from GitHub)" in str(ph.get("line", "")):
+    warn.append("The Physio's own report is missing or older than 15 minutes; the check line comes straight from GitHub.")
+if not TWO.get("relay_ok"):
+    warn.append("The relay could not be read this run.")
+for team in ("G", "V"):
+    for it in items[team]["fix"]:
+        if it.get("progress"):
+            h = age_h(it["progress"][1].get("updated"))
+            if h is not None and h > 3:
+                it["stale"] = f"no update for {h:.0f} h"
+
+
+# ---------- HTML ----------
 def sq(lane):
-    return f'<i class="q{QI.get(ALL_LANES.get(lane, ("", lane))[1], 9)}">■</i>'
-for key, colour in (("G", "#22c55e"), ("V", "#42b9da")):
-    f = FAC.get(key)
-    if not f:
-        continue
-    _b = NOW.get("rows", {}).get(key, {})
-    fut = (_b.get("next") or []) + (_b.get("nik") or []) + (_b.get("later") or []) if _b else [x for x in f["future"] if not str(x["state"]).lower().startswith("done")]
-    rows = "".join(f'<br>{sq(x["lane"])} <b>{e(x["id"])}</b> {e(x["title"][:56])} <span class="m">{e(x["state"])}</span>' for x in fut[:3])
-    extra = ""
-    if key == "V":
-        vj = TWO.get("v_jobs") or []
-        extra = "".join(f'<br>{sq(j.get("lane") or "opus")} <b>{e(j["job"])}</b> {e(j["title"][:60])} <span class="pc" style="font-size:15px">{100 * j["done"] / max(j["total"], 1):.0f} %</span>' for j in vj if j["done"] < j["total"]) or '<br><span class="m">No Team V job running right now.</span>'
-    H.append(f'<h2 style="border-left-color:{colour}">{e(f["name"])}</h2><div class="card"><span class="m">' + " ".join(sq(w["lane"]) for w in f["workers"]) + f' {len(f["workers"])} workers</span>{extra}{rows}' +
-             (f'<br><span class="m">and {len(fut) - 3} more on the board</span>' if len(fut) > 3 else "") + "</div>")
-H.append("<h2>Relay</h2>")
-TK = TWO.get("tickets") or []
-rel = st.get("relay") or {}
-ov = [t["id"] for t in TK if t.get("overdue")]
-H.append('<div class="card">' + ("✅ Relay working" + "".join(f" · {k} wake {'✅' if v else '⚠'}" for k, v in (TWO.get("inbox") or {}).items()) if TWO.get("relay_ok") and not ov else "⚠ " + (", ".join(ov) + " not acknowledged" if ov else "wake comments unreadable")) +
-         f' <span class="m">{rel.get("count", 0)} messages · {len(TK)} hand-offs</span>')
-STEP = ["SENT", "DELIVERED", "RECEIVED", "WORKING", "DONE"]
-_open_tk = [t for t in TK if t["stage"] != "DONE"]
-H.append(f'<br><span class="m">{len(_open_tk)} open hand-offs, {len(TK) - len(_open_tk)} done</span>')
-for t in _open_tk[::-1][:4]:
-    k = STEP.index(t["stage"]) if t["stage"] in STEP else 0
-    dots = "".join("🟢" if i <= k else "⚪" for i in range(5))
-    H.append(f'<br>{dots} <b>{e(t["id"])}</b> {e(t.get("from") or "?")}→{e(t.get("to") or "?")} {e(t["title"][:50])} <span class="m">{e(TF.STAGE_WORD.get(t["stage"], t["stage"]))}' + (f' {t["pct"]:.0f} %' if t["stage"] == "WORKING" else "") + (f' · picked up in {TF.mins(t["pickup_min"])}' if t.get("pickup_min") is not None else f' · waiting {TF.mins(t["waiting_min"])}' if t.get("waiting_min") is not None else "") + "</span>")
-for m in ([] if COMPACT else (rel.get("rows") or [])[-1:]):
-    H.append(f'<br><span class="m">{e(m["id"])} · {e(m["subject"][:44])}</span>')
-H.append('</div>')  # the banner's Relay link opens every message in full
-if REL.get("jobs") and not REL.get("done"):
-    rn = len(REL["jobs"])
-    rd = sum(1 for j in REL["jobs"] if liveprs.get(j, {}).get("state") == "merged" or any(x["number"] == j and (x["state"] in ("DONE", "MERGED") or x.get("phase") in ("DONE", "MERGED")) for x in st["jobs"]))
-    H.append(f'<div class="card"><b>🏆 Road to {e(REL.get("name", "the release"))}: {rd} of {rn} jobs in recovery</b><br>'
-             f'{"🟩" * rd}{"⬜" * (rn - rd)}<br><span class="m">Then: {e(" → ".join(REL.get("after", [])))}</span></div>')
-live = {}
-try:
-    live = {int(k): v for k, v in json.load(open(os.path.join(F, "progress", "prs.json"))).items()}
-except Exception:
-    pass
-PRSTATE = {"merged": None, "green": "Checks green, waiting for the lead to merge", "running": "Checks running", "failing": "Fixing failing checks", "draft": "Draft PR", "open": "PR open"}
-rep = {n for n, *_ in rj}
-_open_rows = []
-for j in st["jobs"]:
-    n = j["number"]
-    lv = live.get(n)
-    if j["state"] in ("DONE", "SKIPPED", "MERGED") or j.get("phase") in ("DONE", "MERGED") or (lv and lv["state"] == "merged"):
-        continue
-    if j.get("stale"):
-        state = "⚠ stale status: " + (PRSTATE.get(lv["state"], "PR open") if lv else j["state"].capitalize())
-    elif lv:
-        state = PRSTATE.get(lv["state"], "PR open")
-    elif n in rep:
-        state = "In progress"
-    else:
-        state = {"NOT WRITTEN": "Not started", "NOT STARTED": "Not started"}.get(j["state"], j["state"].capitalize())
-    _open_rows.append(f'<tr><td>{e(j["key"])}</td><td>{e(j["title"])}</td><td>{e(state)}</td></tr>')
-if _open_rows:
-    H += ["<h2>G jobs still open</h2><table><tr><th>Job</th><th>What</th><th>State</th></tr>"] + _open_rows + ["</table>"]
-landed = sorted([(v.get("merged_at", ""), n, v) for n, v in liveprs.items() if v.get("state") == "merged" and v.get("merged_at")], reverse=True)[:4]
-if landed and False:  # "Live now" carries what is on main; recovery merges are history since 2.0
-    H.append("<h2>Landed recently</h2><table>")
-    for ts, n, v in landed:
-        H.append(f'<tr><td>{boston(ts)}</td><td><a href="{PR}{v["pr"]}">{e(v.get("title", ""))}</a></td></tr>')
-    H.append("</table>")
-if open_bugs and not COMPACT:  # compact (page would pass 7 KB): the bug board link in the banner carries them
-    H.append('<h2>Open bugs</h2><div class="card">' + "<br>".join(f'<b>{e(b["id"])}</b> {e(b["title"][:50])} <span class="m">{e(b["status"].title())} · {e(lane_of(b)[1] if b.get("worker") else "waits on Nik" if "nik" in b.get("note", "").lower()[:20] else "no owner")}</span>' for b in open_bugs[:3]) + "</div>")
-H.append('<div class="m foot">Lanes: ' +
-         " · ".join(f'<i class="q{QI[l]}">■</i> {l}' for l in HEX) + "</div></div>")
-out = "\n".join(H) + "\n"
-open(os.path.join(F, "CUSTOM_VIEW.html"), "w").write(out)
-# Snapshot the other team reads straight from the repo (raw URL), so its own Custom view can show Team G's jobs without a relay hop.
-snap = {"team": "G", "updated": now.isoformat(timespec="minutes"), "jobs_done": st["done"], "jobs_total": st["total"], "open_bugs": len(open_bugs),
-        "next_move": st.get("next_move") or [],
+    return f'<i class="q{QI.get(lane_name(lane), 9)}">■</i>'
+
+
+def item_html(it, cut):
+    idt = f'<a href="{it["url"]}">{e(it["id"])}</a>' if it.get("url") else f'<b>{e(it["id"])}</b>'
+    s = f'{sq(it.get("lane", ""))} {idt} {e(it["title"][:cut])} <span class="m">{e(it["state"][:48])}'
+    if it.get("progress"):
+        d, r = it["progress"]
+        s += f' · {d["pct"]:.4f} %' + (f' · done ~{e(d["eta"])}' if d.get("eta") and d["eta"] != "not enough data" else "")
+    elif it.get("pct") is not None:
+        s += f' · {it["pct"]:.0f} % ({it["steps"]})'
+    if it.get("stale"):
+        s += f' · ⚠ {it["stale"]}'
+    return s + "</span>"
+
+
+def team_html(team, emph, cut):
+    T = items[team]
+    name = {"G": "Team G · gameplay fixes", "V": "Team V · visual fixes"}[team]
+    out = [f'<h2 style="border-left-color:{"#f0d900" if emph else "#43515b"}">{name}</h2><div class="card">']
+    lines = []
+    if T["fix"]:
+        lines.append('<span class="k">Fixing now</span>')
+        lines += [item_html(x, cut) for x in T["fix"]]
+    if T["next"] or T["later"]:
+        lines.append('<span class="k">Up next</span>')
+        lines += [item_html(x, cut) for x in T["next"]]
+        lines += [item_html(dict(x, state="queued" + (f' · after {re.sub(r"^after ", "", x["waits"])[:30]}' if x.get("waits") else "")), cut) for x in T["later"]]
+    if not lines:
+        lines.append('<span class="m">Nothing open for this team.</span>')
+    return "".join(out) + "<br>".join(lines) + "</div>"
+
+
+def render(first, compact=False):
+    cut = 46 if compact else 70
+    n_fix = sum(len(items[t]["fix"]) for t in items)
+    n_next = sum(len(items[t]["next"]) + len(items[t]["later"]) for t in items)
+    n_nik = len([x for x in nik if not x.get("md")])
+    H = ["<style>.cv{--h:'Arial Narrow',Impact,sans-serif;font:14px/1.45 'Segoe UI',system-ui,sans-serif;max-width:720px;color:#fbfcfc;background:#20272d;border-radius:14px;padding:0 0 14px;overflow:hidden}"
+         ".cv .ban{background:#2c7399;border-bottom:4px solid #f0d900;padding:8px 14px 6px}.cv .ban b{display:block;font:italic 800 19px/1.1 var(--h);letter-spacing:.04em;text-transform:uppercase}"
+         ".cv .ban span{font-size:12px;color:#dce5e8}.cv .ban a{color:#f0d900}"
+         ".cv .tiles{display:flex;gap:6px;padding:8px 10px 0}.cv .tile{flex:1;background:#2c353c;border:1px solid #43515b;border-top:3px solid #f0d900;border-radius:8px;padding:3px 4px;text-align:center}"
+         ".cv .tile b{display:block;font:italic 800 22px/1.1 var(--h);color:#f0d900}.cv .tile span{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#8ea2ac}"
+         ".cv h2{font:italic 800 15px/1 var(--h);letter-spacing:.08em;text-transform:uppercase;color:#42b9da;margin:12px 12px 4px;padding-left:8px;border-left:4px solid #f0d900}"
+         ".cv .card{background:#2c353c;border:1px solid #43515b;border-radius:10px;padding:8px 10px;margin:6px 10px}.cv .move{background:#3a3a1c;border-color:#f0d900}.cv .warn{background:#3d2216;border-color:#f97316}"
+         ".cv .m{color:#8ea2ac;font-size:12px}.cv .k{font:italic 800 12px var(--h);letter-spacing:.08em;text-transform:uppercase;color:#f0d900}"
+         ".cv a{color:#fbfcfc;text-decoration:underline}.cv code{background:#20272d;padding:0 4px;border-radius:3px}.cv .foot{margin:10px 14px 0}.cv i{font-style:normal}"
+         + "".join(f".cv .q{i}{{color:{h}}}" for i, h in enumerate(HEX.values())) + ".cv .q9{color:#9ca3af}</style>",
+         '<div class="cv">',
+         f'<div class="ban"><b>Bug hunt board · Team {first} lead</b><span>Updated {now:%a %-d %b, %-I:%M %p} Boston time · same board as Team {"V" if first == "G" else "G"}\'s · <a href="{BLOB}BOARD.md">on GitHub</a> · <a href="{BLOB}RELAY.md">relay</a></span></div>',
+         f'<div class="tiles"><div class="tile"><b>{e((LV or {}).get("revision", "?").split("-")[-1])}</b><span>Live</span></div><div class="tile"><b>{n_fix}</b><span>Fixing</span></div><div class="tile"><b>{n_next}</b><span>Up next</span></div><div class="tile"><b>{n_nik}</b><span>Needs you</span></div></div>']
+    if warn:
+        H.append('<div class="card warn">⚠ <b>Not fully current:</b> ' + " ".join(e(w) for w in warn) + "</div>")
+    H.append(f'<div class="card">{TF.PHYSIO_ICON.get(ph.get("state"), "🩺")} <b>{e(ph.get("line", "Physio: no report yet."))}</b>' + (f'<br><span class="m">{e(ph["gate"])}</span>' if ph.get("gate") else "") + "</div>")
+    H.append("<h2>Needs you</h2>")
+    H.append('<div class="card move">' + ("<br>".join((md(x["decision"]) if x.get("md") else f'<b>{e(x["id"])}</b> {e(x["decision"])}') for x in nik) or "Nothing needs you right now.") + "</div>")
+    for t in (first, "V" if first == "G" else "G"):
+        H.append(team_html(t, t == first, cut))
+    H.append("<h2>Live now</h2>")
+    if LV:
+        H.append(f'<div class="card">🌐 <b>{e(LV["revision"])}</b> <span class="m">main <code>{e(LV["sha"])}</code> · {e(TF.bos(LV["when"]))}</span><br>{e(LV["subject"][:90])}'
+                 + "".join(f'<br>✅ <span class="m">{e(TF.bos(x["merged"], "%-I:%M %p"))}</span> #{x["pr"]} {e(x["title"][:cut])}' for x in (LV.get("today") or [])[:2 if compact else 4]) + "</div>")
+    TK = TWO.get("tickets") or []
+    open_tk = [x for x in TK if x["stage"] != "DONE"]
+    H.append("<h2>Relay</h2>")
+    H.append('<div class="card">' + ("✅ working" if TWO.get("relay_ok") else "⚠ unreadable") + f' <span class="m">{len(open_tk)} open hand-offs, {len(TK) - len(open_tk)} done</span>'
+             + "".join(f'<br><b>{e(x["id"])}</b> {e(x.get("from") or "?")}→{e(x.get("to") or "?")} {e(x["title"][:cut])} <span class="m">{e(TF.STAGE_WORD.get(x["stage"], x["stage"]))}</span>' for x in open_tk[::-1][:3]) + "</div>")
+    H.append('<div class="m foot">Lanes: ' + " · ".join(f'<i class="q{QI[l]}">■</i> {l}' for l in HEX) + "</div></div>")
+    return "\n".join(H) + "\n"
+
+
+for team, fn in (("G", "CUSTOM_VIEW.html"), ("V", "CUSTOM_VIEW_V.html")):
+    out = render(team)
+    if len(out.encode()) > LIMIT:
+        out = render(team, compact=True)
+    open(os.path.join(F, fn), "w").write(out)
+    print(fn, "bytes", len(out.encode()))
+
+
+# ---------- BOARD.md: the same board on GitHub ----------
+def item_md(it):
+    idt = f'[{it["id"]}]({it["url"]})' if it.get("url") else f'**{it["id"]}**'
+    s = f'| {ALL_LANES.get(it.get("lane", ""), ("⬛", ""))[0]} {lane_name(it.get("lane", "")) or "?"} | {idt} | {it["title"]} | {it["state"]}'
+    if it.get("progress"):
+        d, _ = it["progress"]
+        s += f' · {d["pct"]:.4f} %' + (f' · done ~{d["eta"]}' if d.get("eta") and d["eta"] != "not enough data" else "")
+    elif it.get("pct") is not None:
+        s += f' · {it["pct"]:.0f} % ({it["steps"]})'
+    if it.get("stale"):
+        s += f' · ⚠ {it["stale"]}'
+    if it.get("waits") and it in sum((items[t]["later"] for t in items), []):
+        s += f' · after {re.sub(r"^after ", "", it["waits"])}'
+    return s.replace("\n", " ") + " |"
+
+
+L = ["# Bug hunt board", "",
+     f"Updated {now:%a %-d %b, %-I:%M %p} Boston time. Bug hunting only, no new features until further notice. "
+     "The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).", ""]
+if warn:
+    L += ["> ⚠ **Not fully current:** " + " ".join(warn), ""]
+L += [f"🌐 **Live: {LV['revision']}** (main `{LV['sha']}`, {TF.bos(LV['when'])})" if LV else "🌐 Live version unknown this run", "",
+      f"{TF.PHYSIO_ICON.get(ph.get('state'), '🩺')} **{ph.get('line', 'Physio: no report yet.')}**" + (f" · {ph['gate']}" if ph.get("gate") else ""), "",
+      "## Needs you", ""]
+L += [f"- {x['decision']}" if x.get("md") else f"- **{x['id']}** {x['decision']}" for x in nik] or ["- Nothing needs you right now."]
+for t in ("G", "V"):
+    T = items[t]
+    L += ["", f"## Team {t}", ""]
+    for label, rows in (("Fixing now", T["fix"]), ("Up next", T["next"] + T["later"])):
+        if rows:
+            L += [f"**{label}**", "", "| Lane | Item | What | State |", "| --- | --- | --- | --- |"] + [item_md(x) for x in rows] + [""]
+    if not (T["fix"] or T["next"] or T["later"]):
+        L += ["Nothing open for this team.", ""]
+if LV and LV.get("today"):
+    L += ["## Shipped today", ""] + [f"- {TF.bos(x['merged'], '%-I:%M %p')} · #{x['pr']} {x['title']}" for x in LV["today"]] + [""]
+open(os.path.join(F, "BOARD.md"), "w").write("\n".join(L) + "\n")
+open(os.path.join(F, "BUG_BOARD.md"), "w").write("# Bug board\n\nFolded into the one board on 2026-10-06: see [BOARD.md](BOARD.md). Every bug report, fixed or not, is listed in [the archive](BOARD_ARCHIVE.md).\n")
+
+# Snapshot Team V reads straight from the repo
+rj = running_jobs()
+snap = {"team": "G", "updated": now.isoformat(timespec="minutes"), "open_bugs": len([b for b in all_bugs() if b["status"] in OPEN_BUG]),
+        "next_move": BJ.get("next_move") or [],
         "running": [{"job": n, "title": r.get("title", ""), "worker": lane_of(r)[1], "done": k, "total": t, "pct": round(ETA.describe(r)["pct"], 4), "eta": ETA.describe(r)["eta"],
                      "current": r.get("current", ""), "pr": r.get("pr"), "updated": r.get("updated", "")} for n, r, k, t in rj]}
 json.dump(snap, open(os.path.join(F, "TEAM_G_PROGRESS.json"), "w"), indent=1, ensure_ascii=False)
-print("custom view bytes", len(out.encode()))
-if len(out.encode()) > 7000 and not COMPACT:
-    os.execv(sys.executable, [sys.executable, os.path.abspath(__file__), "--compact"])

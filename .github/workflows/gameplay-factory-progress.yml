@@ -51,7 +51,7 @@ jobs:
             python3 $B/tools/board.py; python3 $B/tools/bug_board.py >/dev/null; python3 $B/tools/relay_page.py >/dev/null; python3 $B/tools/custom_view.py >/dev/null
             AGE=$(( $(date +%s) - $(git log -1 --format=%ct -- $B/CUSTOM_VIEW.html 2>/dev/null || echo 0) ))
             if git diff -U0 -- $B/BOARD.md $B/BUG_BOARD.md $B/RELAY.md $B/CUSTOM_VIEW.html | grep '^[-+][^-+]' | grep -Ev '· generated 20|Updated [A-Z][a-z]{2} ' | grep -q . || ! git ls-files --error-unmatch $B/RELAY.md >/dev/null 2>&1 || [ "$AGE" -gt 3600 ]; then
-              git add $B/BOARD.md $B/BOARD_ARCHIVE.md $B/BOARD_STATE.json $B/BUG_BOARD.md $B/CUSTOM_VIEW.html $B/TEAM_G_PROGRESS.json $B/RELAY.md
+              git add $B/BOARD.md $B/BOARD_ARCHIVE.md $B/BOARD_STATE.json $B/BUG_BOARD.md $B/CUSTOM_VIEW.html $B/CUSTOM_VIEW_V.html $B/TEAM_G_PROGRESS.json $B/RELAY.md
               git commit -qm "Gameplay factory: progress bars update [skip ci]"
               git push -q origin HEAD:factory/gameplay-v1 || echo "push raced; next round retries"
             fi
