@@ -1,6 +1,6 @@
 # 🎨 Team V board
 
-Updated Mon 5 Oct 9:38 PM EDT · Team V featured, Team G below · one shared data source (PR progress blocks + relay) · [Team G's board](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/BOARD.md)
+Updated Mon 5 Oct 9:41 PM EDT · Team V featured, Team G below · one shared data source (PR progress blocks + relay) · [Team G's board](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/BOARD.md)
 
 ## Team V: visual jobs
 
@@ -47,7 +47,7 @@ Updated Mon 5 Oct 9:38 PM EDT · Team V featured, Team G below · one shared dat
 | [HO-003](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/handoffs/HO-003_header-chips-and-footer-design-on-team-v.md) | Header chips and footer design on Team V screens | normal | ✅ Done | V-246 |
 | [HO-004](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/handoffs/HO-004_visual-qa-live-2-0-screens-vs-approved-f.md) | Visual QA: live 2.0 screens vs approved frames | normal | ✅ Done | V-245 |
 
-<sub>Sent to Team G: HO-006 ✅ Done · HO-009 ✅ Done · HO-010 ✅ Done · HO-013 📥 Received · HO-014 📥 Received · HO-015 📤 Sent</sub>
+<sub>Sent to Team G: HO-006 ✅ Done · HO-009 ✅ Done · HO-010 ✅ Done · HO-013 📥 Received · HO-014 📥 Received · HO-015 📥 Received</sub>
 
 ### Team G: gameplay
 
