@@ -756,6 +756,62 @@
     },
     "sha": "3e194e6962ecb2732f842f427d3020a863928ac1"
    },
+   "project-documents/gameplay-factory/sweeps/olympiad/findings/chat-1006-1349-1.json": {
+    "data": {
+     "actual": "Legacy can still show the earlier 0-showdown view until the app is reloaded or another path invalidates the Legacy cache.",
+     "area": "10",
+     "assumptions": [
+      "Normal local play is being checked; no account, device, network, or remote-history behavior is included.",
+      "Legacy was opened at least once before the Showdown was completed, which is a normal navigation path.",
+      "No page reload occurs between finishing the Showdown and reopening Legacy."
+     ],
+     "checked_against": [
+      "js/seasonEngine.js persistCompletedSeason saves the completed Showdown before calling archiveShowdown.",
+      "js/legacy.js archiveCompletedSaveBeforeLegacy retries missing archives, but it begins from loadLegacyShowdowns and therefore can consult the stale cache.",
+      "js/saveLibraryRuntime.js runtimeArchiveShowdown avoids duplicate records by Showdown id and revision, so duplicate history is not the problem.",
+      "js/storage.js saveLegacyShowdowns does advance the cache revision, but runtimeArchiveShowdown does not use that function."
+     ],
+     "expected": "Legacy immediately shows 1 completed Showdown, the 5-3 final score, and its Season 1 history.",
+     "fix": {
+      "change": "Give same-page Save Library runtime writes that change Legacy history a shared cache-invalidation hook, and call it after every successful Legacy-changing transaction so the next History render reads the new record and revision.",
+      "files": [
+       "js/storage.js",
+       "js/saveLibraryRuntime.js"
+      ]
+     },
+     "id": "A10-LEGACY-CACHE-STALE",
+     "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+     "root_cause": "Legacy history has an in-memory cache and render revision in storage.js/legacy.js, but Save Library runtime writes to the same Legacy history in the same page without invalidating that cache or advancing the revision. Same-page writes do not receive the browser storage event used for cross-tab invalidation.",
+     "run": "chat-1006-1349",
+     "severity": "S2",
+     "status": "likely",
+     "steps": [
+      "Open Legacy once before the Showdown is finished, with 0 completed Showdowns, so the in-memory Legacy list and rendered revision both represent 0 records.",
+      "Play a normal 1-season Showdown and finish it 5-3 overall. The season completion path saves the completed Showdown and runtimeArchiveShowdown writes the completed record into Legacy.",
+      "Open Legacy again without reloading the app.",
+      "Because the runtime archive write does not invalidate storage.js's Legacy cache or advance its Legacy revision, renderLegacy can reuse the old rendered revision or load the stale cached list."
+     ],
+     "title": "Legacy history can stay stale after a completed Showdown is archived",
+     "where": [
+      {
+       "file": "js/storage.js",
+       "function": "loadLegacyShowdowns",
+       "line": 51
+      },
+      {
+       "file": "js/saveLibraryRuntime.js",
+       "function": "runtimeArchiveShowdown",
+       "line": 491
+      },
+      {
+       "file": "js/legacy.js",
+       "function": "renderLegacy",
+       "line": 495
+      }
+     ]
+    },
+    "sha": "f7dc85d4c9c583e7992eb2aef0df86d44a6cf646"
+   },
    "project-documents/gameplay-factory/sweeps/olympiad/findings/codex-1006-1251-1.json": {
     "data": {
      "actual": "Season 2 starts with position 1, 100 points, 100 goals and all four honours checked from season 1. Review accepts those old facts as Daniel’s season 2 result.",
@@ -1461,6 +1517,69 @@
      "run": "chat-1006-1346"
     },
     "sha": "7ca6d351059921c07e32cdd8ee28755374da943b"
+   },
+   "project-documents/gameplay-factory/sweeps/olympiad/runs/chat-1006-1349.json": {
+    "data": {
+     "area": "09",
+     "clean_confidence_pct": 78,
+     "coverage_pct": 60,
+     "date_utc": "2026-10-06T13:49:00Z",
+     "files_read": [
+      "index.html",
+      "js/app.js",
+      "js/scoring.js",
+      "js/showdown.js"
+     ],
+     "findings": [],
+     "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+     "mode": "chat",
+     "next_focus": "Season-entry submit/validation and round-commit handlers were not reached within the four-file chat cap; next Area 09 pass should prioritize those paths while rechecking zero-score persistence.",
+     "partial": false,
+     "run": "chat-1006-1349"
+    },
+    "sha": "4ecbf13281f761cae87de9ce1005251e76ce6941"
+   },
+   "project-documents/gameplay-factory/sweeps/olympiad/runs/chat-1006-1350.json": {
+    "data": {
+     "area": "09",
+     "clean_confidence_pct": 72,
+     "coverage_pct": 45,
+     "date_utc": "2026-10-06T13:50:00Z",
+     "files_read": [
+      "index.html",
+      "js/scoring.js",
+      "js/showdown.js",
+      "js/screens.js"
+     ],
+     "findings": [],
+     "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+     "mode": "chat",
+     "next_focus": "Season result submission and validation in the dynamically loaded season-results modules not opened under this four-file chat cap.",
+     "partial": false,
+     "run": "chat-1006-1350"
+    },
+    "sha": "1782c71ab044977df4ed7ab0cc64ee6a589064e3"
+   },
+   "project-documents/gameplay-factory/sweeps/olympiad/runs/chat-1006-1352.json": {
+    "data": {
+     "area": "03",
+     "clean_confidence_pct": 45,
+     "coverage_pct": 35,
+     "date_utc": "2026-10-06T13:52:00Z",
+     "files_read": [
+      "index.html",
+      "js/showdown.js",
+      "js/app.js",
+      "js/screens.js"
+     ],
+     "findings": [],
+     "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+     "mode": "chat",
+     "next_focus": "On the next area 03 pass after the cycle, inspect the dynamically loaded gameplay module that implements transfer signings, reveal, and verdict logic without rereading these four files.",
+     "partial": false,
+     "run": "chat-1006-1352"
+    },
+    "sha": "edcb7b47de6dc31c505f29f4e3e3c4bf73d394b6"
    },
    "project-documents/gameplay-factory/sweeps/olympiad/runs/codex-1006-1206.json": {
     "data": {
