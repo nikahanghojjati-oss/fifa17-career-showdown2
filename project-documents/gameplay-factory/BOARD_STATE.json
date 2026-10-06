@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-06 12:51 AM Boston time (EDT)",
+ "generated": "2026-10-06 12:54 AM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -284,8 +284,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "ff58f24",
-  "head_boston": "Tue 6 Oct 12:47 AM",
+  "head": "5c49e4c",
+  "head_boston": "Tue 6 Oct 12:50 AM",
   "latest_id": "G2V-016",
   "feed_matches_latest": true,
   "open_for_g": [],
@@ -321,8 +321,8 @@
    "today": []
   },
   "physio": {
-   "state": "barking",
-   "line": "Barking: POS20 on #311 has waited 2 min for a machine.",
+   "state": "clear",
+   "line": "All clear: every check has a machine.",
    "gate": "POS20 #304 6/16",
    "source": "physio"
   },
