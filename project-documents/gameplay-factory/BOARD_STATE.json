@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 8:44 PM Boston time (EDT)",
+ "generated": "2026-10-05 8:45 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -315,7 +315,7 @@
   "live": {
    "sha": "e7b556c",
    "revision": "1.9.1-r62",
-   "when": "2026-10-06T00:35:12+00:00",
+   "when": "2026-10-06T00:35:12Z",
    "subject": "Release r62: bug-hunt fixes, desktop Settings no longer clipped (#390)",
    "fixes": [
     {
