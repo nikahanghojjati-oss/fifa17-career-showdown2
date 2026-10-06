@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-06 10:38 AM Boston time (EDT)",
+ "generated": "2026-10-06 10:58 AM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -328,16 +328,6 @@
   },
   "v_headline": "Board 1 (visual package): 238 of 238 jobs done and checked",
   "v_jobs": [
-   {
-    "job": "V-1006",
-    "title": "Final Winner: last season's score block",
-    "worker": "Sol chat",
-    "lane": "sol-chat",
-    "done": 1,
-    "total": 4,
-    "pr": 393,
-    "current": "waiting for Nik to type 1006 in a new Showdown visual chat"
-   },
    {
     "job": "V-247",
     "title": "Phone Home tile icons like GOAL_HOME",
@@ -684,7 +674,7 @@
   "**r62 is live.** On the laptop, close every game tab in Chrome and reopen the game; if Settings still looks clipped, do it once more."
  ],
  "now": {
-  "moving": 16,
+  "moving": 15,
   "next": 3,
   "nik": 7,
   "later": 6,
