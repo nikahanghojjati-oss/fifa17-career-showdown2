@@ -1,0 +1,52 @@
+{
+  "id": "chat-1006-1333-1",
+  "run": "chat-1006-1333",
+  "area": "10",
+  "title": "Newly completed Showdown is archived but the same Legacy visit renders stale history",
+  "severity": "S2",
+  "status": "likely",
+  "where": [
+    {
+      "file": "js/legacy.js",
+      "line": 16,
+      "function": "archiveCompletedSaveBeforeLegacy"
+    },
+    {
+      "file": "js/storage.js",
+      "line": 51,
+      "function": "loadLegacyShowdowns"
+    },
+    {
+      "file": "js/saveLibraryRuntime.js",
+      "line": 491,
+      "function": "runtimeArchiveShowdown"
+    }
+  ],
+  "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+  "steps": [
+    "Have two completed Showdowns already in Legacy history.",
+    "Finish a third Showdown normally, for example Nik 11 to Daniel 9, so the active Showdown status is Completed.",
+    "Open Legacy. archiveCompletedSaveBeforeLegacy first calls loadLegacyShowdowns, which caches the two-record history, then archiveShowdown writes the third record through the Save Library raw transaction.",
+    "The same render then calls loadLegacyShowdowns again and receives the unchanged two-record cache, so SHOWDOWNS PLAYED and the card list still show 2 instead of 3.",
+    "Reloading or otherwise invalidating the Legacy cache lets the saved third record appear."
+  ],
+  "expected": "The first Legacy render after completion should show 3 completed Showdowns, including the new 11 to 9 result, immediately after the archive succeeds.",
+  "actual": "The archive transaction saves the third record, but the same Legacy render can keep showing the previous two-record cached history until cache invalidation or reload.",
+  "root_cause": "runtimeArchiveShowdown writes legacyShowdowns through applyCareerModeRawStorageTransaction but does not invalidate legacyCache or increment legacyStorageRevision. archiveCompletedSaveBeforeLegacy has already populated that cache before the write. The later render therefore reads stale cached history.",
+  "checked_against": [
+    "js/saveLibraryRuntime.js runtimeArchiveShowdown replaces an existing record by showdown id, so repeated archive attempts do not create a duplicate.",
+    "js/storage.js saveLegacyShowdowns correctly refreshes legacyCache and increments legacyStorageRevision, but runtimeArchiveShowdown bypasses that helper.",
+    "js/storage.js invalidateLegacyCache exists and is used for other Legacy storage changes, but is not called after the Save Library archive transaction."
+  ],
+  "fix": {
+    "files": [
+      "js/saveLibraryRuntime.js",
+      "js/storage.js"
+    ],
+    "change": "After a successful runtimeArchiveShowdown Legacy write, invalidate or refresh the same-tab Legacy cache and revision through a small public storage hook. Keep the existing raw transaction and ID replacement logic unchanged."
+  },
+  "assumptions": [
+    "Normal local play uses Save Library runtime authority before the completed Showdown is opened in Legacy.",
+    "A successful archive should be visible on the same Legacy visit without requiring a page reload."
+  ]
+}
