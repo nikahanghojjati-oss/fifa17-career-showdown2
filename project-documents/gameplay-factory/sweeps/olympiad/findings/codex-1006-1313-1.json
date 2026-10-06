@@ -1,0 +1,55 @@
+{
+  "id": "OLY-06-EMPTY-AFTER-RESTART",
+  "run": "codex-1006-1313",
+  "area": "06",
+  "title": "Career Statistics says history is unavailable after the only Showdown is ended early",
+  "severity": "S3",
+  "status": "confirmed",
+  "where": [
+    {
+      "file": "js/careerScreensV10.js",
+      "line": 31,
+      "function": "v10Pick"
+    },
+    {
+      "file": "js/careerScreensV10.js",
+      "line": 41,
+      "function": "v10CareerStatistics"
+    },
+    {
+      "file": "js/careerScreensV10.js",
+      "line": 78,
+      "function": "toV10Frame"
+    },
+    {
+      "file": "js/sharedCareerAnalytics.js",
+      "line": 155,
+      "function": "buildCareerModel"
+    }
+  ],
+  "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+  "steps": [
+    "Begin the first Showdown with three seasons. There are no earlier completed Showdowns.",
+    "End that Showdown early by choosing to start a new Showdown and accepting the game's confirmation. Do not finish a season in the new Showdown.",
+    "Open Career Statistics after the old Showdown is read as ended early.",
+    "Repeat without finishing any seasons in the old Showdown; the same result occurs.",
+    "Run node project-documents/gameplay-factory/sweeps/olympiad/test/OLY-06-EMPTY-AFTER-RESTART.cjs --browser to reproduce the saved-history state through the real history reader adapter, career totals and local Chromium screen."
+  ],
+  "expected": "Career Statistics shows its empty-season message: No completed record yet. The ended-early Showdown contributes no seasons, trophies or points. A readable history must not be called unavailable.",
+  "actual": "The game has read 1 of 1 Showdowns and correctly counts zero seasons, but Career Statistics displays CAREER HISTORY UNAVAILABLE / Career history could not be loaded. No statistics are being shown. History correctly shows no completed Showdowns; Trophy Room correctly has zero trophies.",
+  "root_cause": "A history containing only Showdowns ended early is marked ready because every Showdown was read. Its best season score and season averages stay null because no season counts. v10Pick requires every Career Statistics field to be a number; it rejects these normal empty-season values. toV10Frame then changes the screen to unavailable. The existing empty message handles a career with no Showdowns, but not this readable career with no counted seasons.",
+  "fix": {
+    "files": [
+      "js/careerScreensV10.js"
+    ],
+    "change": "Map a fully readable career with zero counted seasons to the existing empty Career Statistics screen before requiring best-season and average numbers. Keep genuinely unreadable history unavailable. Keep a completed 0-0 season as real zero-point history, not empty history. Add checks for one or several early-ended Showdowns, and for early-ended plus completed Showdowns."
+  },
+  "script": "project-documents/gameplay-factory/sweeps/olympiad/test/OLY-06-EMPTY-AFTER-RESTART.cjs",
+  "script_output": "Readable Showdowns: 1 of 1. Counted seasons: 0. History: empty.\nExpected Career Statistics: empty (no completed record yet).\nActual Career Statistics: unavailable.\nChromium: ! CAREER HISTORY UNAVAILABLE Career history could not be loaded. No statistics are being shown.\nA readable career with only an unfinished Showdown ended early has no counted seasons; it must not claim history is unavailable.\n+ actual - expected\n\n+ 'unavailable'\n- 'empty'",
+  "assumptions": [
+    "The career has no completed Showdowns and no accepted seasons in its current new Showdown.",
+    "Ending a Showdown early is the existing normal New Showdown action; it deliberately excludes the old seasons from career trophies and records.",
+    "The reproduction uses the real saved-history adapter with a successful ended-early read, then the real career model and screen. Chromium runs locally and receives that model through the existing screen entry. The full New Showdown sequence was traced in code, not driven against two live players.",
+    "The suggested fix is recorded only; no game code was changed."
+  ]
+}
