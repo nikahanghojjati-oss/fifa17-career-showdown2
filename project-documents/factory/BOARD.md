@@ -1,15 +1,8 @@
 # 🎨 Team V board
 
-Updated Tue 6 Oct 1:59 AM EDT · Team V featured, Team G below · one shared data source (PR progress blocks + relay) · [Team G's board](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/BOARD.md)
+Updated Tue 6 Oct 10:57 AM EDT · Team V featured, Team G below · one shared data source (PR progress blocks + relay) · [Team G's board](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/BOARD.md)
 
 ## Team V: visual jobs
-
-### 🟦 [V-1006 · Final Winner: last season's score block](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/393)
-
-🟦🟦🟦🟦🟦▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️ **25.00 %** · 1 of 4 steps · Sol chat · GPT blue (Nik types 1006) · updated Mon 5 Oct 8:52 PM EDT
-
-> **Going on now:** waiting for Nik to type 1006 in a new Showdown visual chat  
-> **Next step:** GPT blue: markup and fixtures
 
 ### 🟧 [V-247 · Phone Home tile icons like GOAL_HOME](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/381)
 
@@ -24,6 +17,7 @@ Updated Tue 6 Oct 1:59 AM EDT · Team V featured, Team G below · one shared dat
 
 **Recently finished:**
 
+* ✅ [V-1006 Final Winner: last season's score block](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/393) · merged Tue 6 Oct 10:56 AM EDT
 * ✅ [V-1029b Season Results on short desktop windows](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/421) · merged Tue 6 Oct 1:59 AM EDT
 * ✅ [V-1030 Select League: brush title wordmark like the mockup](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/416) · merged Tue 6 Oct 1:07 AM EDT
 * ✅ [V-1029 Season Results desktop: closer to the mockup](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/413) · merged Tue 6 Oct 12:46 AM EDT
@@ -33,7 +27,6 @@ Updated Tue 6 Oct 1:59 AM EDT · Team V featured, Team G below · one shared dat
 * ✅ [V-245 Visual QA: live 2.0 vs approved frames (HO-004)](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/375) · merged Mon 5 Oct 12:18 PM EDT
 * ✅ [V-246 Header chips and footer on Team V screens (HO-003)](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/376) · merged Mon 5 Oct 12:19 PM EDT
 * ✅ [V-244 Calm stage: dust and flare play once (HO-002)](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/374) · merged Mon 5 Oct 12:13 PM EDT
-* ✅ [V-243 Home phone overlays V2: no ghost coat (HO-005)](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/372) · merged Mon 5 Oct 12:03 PM EDT
 
 <sub>Lanes: 🟦 Sol chat · 🟩 Sol Work mode · ⬜ Codex · 🟧 Opus · 🟪 Sonnet · 🟨 Haiku</sub>
 
@@ -56,9 +49,9 @@ Updated Tue 6 Oct 1:59 AM EDT · Team V featured, Team G below · one shared dat
 
 ### Team G: gameplay
 
-<sub>0 of 0 jobs done (0.00 %) · 1 open bugs · their update Tue 6 Oct 1:36 AM EDT · [full board](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/BOARD.md)</sub>
+<sub>0 of 0 jobs done (0.00 %) · 1 open bugs · their update Tue 6 Oct 10:38 AM EDT · [full board](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/BOARD.md)</sub>
 
-<sub>No Team G job is running right now.</sub>
+<sub>🟦 1011 · Plain-words sweep: jargon on game screens: ▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️ 0.00 % · 0 of 4 steps · step 1 of 4</sub>  
 
 ### Relay (latest)
 
