@@ -1,0 +1,12 @@
+{
+  "id": "chat-1006-0534-1",
+  "result": "not_real",
+  "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+  "date_utc": "2026-10-06T12:15:07.615207+00:00",
+  "evidence": "The old createCareerStandingsTable helper does have the claimed heading mismatch, but normal Career Statistics no longer renders it. js/careerScreenSeam.js:45-50 routes career screens to the current view; js/statistics.js:374-379 returns before the old table. The current table in visual-assets/v10_1/career-statistics/career-statistics.js:92-104 renders completed Showdowns as a number. Chromium showed Nik: Showdowns = 4 with the claimed two wins, one draw, one loss. This is not a current normal-play bug.",
+  "command": "CMS_CHROMIUM_MULTI_CONTEXT=1 node project-documents/gameplay-factory/sweeps/olympiad/test/codex-1006-1206-browser.cjs",
+  "output": "PASS real final-screen renderer: 10 seasons, 0-0, DRAW\nPASS real final-screen renderer: 3 seasons, 3-3, DRAW\nPASS chat-1006-0534-1 disproof: current Career Table shows Showdowns = 4 for Nik, not 2-1-1\n",
+  "assumptions": [
+    "Classified as a normal-play claim against current main, not as a dormant helper-code discrepancy. The browser check supplies the finished career facts to the current screen renderer."
+  ]
+}

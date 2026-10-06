@@ -1,0 +1,9 @@
+{
+  "id": "chat-1006-0418-1",
+  "result": "not_real",
+  "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+  "date_utc": "2026-10-06T12:15:07.615207+00:00",
+  "evidence": "Current main already handles the real league and club presses in js/productionSharedJourneyGuard.js:66-90. Its capturing click handler stops the old handler and calls the shared handler. js/ssjr.js loads the guard. The supplied reproduction finds this caller and passes. The Chromium shared setup check also passes real button presses.",
+  "command": "node project-documents/gameplay-factory/sweeps/olympiad/repro/chat-1006-0418-1.cjs; CMS_BASE_URL=http://127.0.0.1:4194/ CMS_CHROMIUM_MULTI_CONTEXT=1 node tests/browser/shared-showdown-polished-presentation-audit.cjs",
+  "output": "{\n  \"legacyLeagueClickBound\": true,\n  \"legacyClubOpenClickBound\": true,\n  \"legacyClubContinueClickBound\": true,\n  \"sharedPresentationInternalDispatcherBinding\": false,\n  \"dispatcherReferencesOutsidePresentation\": [\n    \"js/productionSharedJourneyGuard.js\"\n  ]\n}\nPASS: shared setup controls have an explicit authoritative click-dispatch path.\nPASS Shared Showdown polished presentation + bunny click reliability: delayed provider work disables controls immediately, rapid repeat taps coalesce to one authoritative mutation, one Continue click enters club packs, one final confirmation enters Career Start when the rival already confirmed, fresh rivalries reset reveal witnesses, a tap on a stale view or after a rejected write re-reads authority and completes in the same tap (r50) or shows the failure, Daniel's original season choice remains authoritative, and both manager roles still witness the real League Wheel and two-pack club reveal.\n"
+}
