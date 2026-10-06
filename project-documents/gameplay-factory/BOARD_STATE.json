@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 8:21 PM Boston time (EDT)",
+ "generated": "2026-10-05 8:22 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -422,7 +422,7 @@
   "physio": {
    "state": "clear",
    "line": "All clear: every check has a machine.",
-   "gate": "POS20 #390 12/16",
+   "gate": "POS20 #390 15/16",
    "source": "physio"
   },
   "v_headline": "Board 1 (visual package): 238 of 238 jobs done and checked",
