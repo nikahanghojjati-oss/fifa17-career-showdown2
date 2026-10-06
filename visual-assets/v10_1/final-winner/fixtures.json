@@ -3,6 +3,7 @@
   "authority": "DATA_CONTRACT_V1.md §0/§4 + main js/sharedFinalReconciliation.js, js/productionSharedFinalReconciliation.js, js/productionSharedTerminalClose.js, js/showdownUI.js, js/screens.js, js/seasonEngine.js",
   "strings": {
     "previewLabel": "Preview data",
+    "lastSeason": {"label": "FINAL SEASON {season}", "result": {"daniel": "DANIEL TAKES THE SEASON", "nik": "NIK TAKES THE SEASON", "draw": "SEASON DRAWN"}},
     "interimLabel": "Current Showdown only. Career history is not yet available.",
     "statusTokens": [
       "loading",
@@ -126,6 +127,7 @@
       "winner": "daniel",
       "margin": 10,
       "seasonsPlayed": 3,
+      "lastSeason": {"season": 3, "daniel": 7, "nik": 2, "winner": "daniel"},
       "trophies": {
         "daniel": {
           "championsLeague": 1,
@@ -191,6 +193,7 @@
       "winner": "nik",
       "margin": 6,
       "seasonsPlayed": 5,
+      "lastSeason": {"season": 5, "daniel": 4, "nik": 9, "winner": "nik"},
       "trophies": {
         "daniel": {
           "championsLeague": 1,
@@ -238,6 +241,7 @@
       "winner": "draw",
       "margin": 0,
       "seasonsPlayed": 3,
+      "lastSeason": {"season": 3, "daniel": 5, "nik": 5, "winner": "draw"},
       "trophies": {
         "daniel": {
           "championsLeague": 0,
@@ -304,6 +308,7 @@
       "winner": "daniel",
       "margin": 1,
       "seasonsPlayed": 3,
+      "lastSeason": {"season": 3, "daniel": 3, "nik": 2, "winner": "daniel"},
       "trophies": {
         "daniel": {
           "championsLeague": 0,
@@ -370,6 +375,7 @@
       "winner": "daniel",
       "margin": 2,
       "seasonsPlayed": 3,
+      "lastSeason": {"season": 3, "daniel": 6, "nik": 6, "winner": "draw"},
       "trophies": {
         "daniel": {
           "championsLeague": 1,
@@ -510,6 +516,7 @@
       "winner": "daniel",
       "margin": 2,
       "seasonsPlayed": 3,
+      "lastSeason": {"season": 3, "daniel": 6, "nik": 6, "winner": "draw"},
       "trophies": {
         "daniel": {
           "championsLeague": 1,
