@@ -323,6 +323,13 @@
                 if(typeof entry.saveId !== "string"){ errors.push(`Save Library saves[${index}].saveId must be a string.`); }
             });
         }
+        // Shape checks above keep their existing messages; the Save Library foundation is the single
+        // authority for identity, reference and nested Showdown invariants, so a library it would
+        // reject is never reported as ready. Restore re-checks the complete candidate before writing.
+        const foundation = typeof window !== "undefined" ? window.CareerModeSaveLibraryFoundation : null;
+        if(errors.length === 0 && foundation && typeof foundation.validateSaveLibrary === "function"){
+            errors.push(...foundation.validateSaveLibrary(record));
+        }
         return {
             ok: errors.length === 0,
             path,
