@@ -198,3 +198,76 @@ html #app #topHeader{color:var(--f17-ink);font-family:var(--f17-ui)}
  #app #seasonEntry.seasonScreenV10 .sharedLocalReconciliationPanel .stateNote{width:auto;color:#efe7d2;background:rgb(5 7 9 / .82);border-left:3px solid #f2c45b}
  #app #seasonEntry.seasonScreenV10 #sharedHistoryConvergencePanel h3{margin:0;color:#f2c45b;font:800 13px/1.2 var(--f17-display,inherit);letter-spacing:1.2px}
  #app #seasonEntry.seasonScreenV10 #sharedHistoryConvergencePanel p{margin:4px 0;font-size:12px;line-height:1.4;color:#c9c2b0}
+
+/* JOB-1029: desktop Season Results toward MOCKUP_SEASON_RESULTS (desktop only: the phone rules above stay as they are). Everything sits inside one 761px+ media rule; the
+   901px+ rules nested in it leave 761-900 px windows exactly as they were.
+   Port rule: append this block to visual-assets/v10_1/season-results/app.css as the last rules. CSS only. */
+@media(min-width:761px){
+@media(min-width:901px){
+ /* 1. Scene. The stage is the whole window (the fixed app header paints over the plate's own nav strip), so the 16:9 plate
+    is registered 1:1 with the mockup and every percentage the stage lays out (title, scoring panel, cards, buttons) lands
+    where the mockup has it. Other ratios crop the plate edges only. Final Winner keeps its own stage. */
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode){position:fixed;inset:0;height:auto;z-index:0}
+}
+/* 1b. Windows between 16:10 and 16:9 (1440x900, 1280x800): the plate is fitted to the window width, as at 16:9, so the faces stay at
+   the mockup's size and place. The spare bands above and below are plain dark (the top one sits under the app header) and the
+   UI layer takes the plate's box, so its percentages stay the mockup's. Wider windows keep the full-height crop. */
+@media(min-width:901px) and (min-aspect-ratio:8/5) and (max-aspect-ratio:16/9){
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .sd-stage__registered{left:0!important;width:100%!important;height:56.25vw!important;top:calc((100% - 56.25vw) / 2)!important}
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .sd-stage__layer--ui{top:calc((100% - 56.25vw) / 2);bottom:calc((100% - 56.25vw) / 2)}
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .sd-stage__layer--plate{background:#050605}
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .sd-stage__layer--plate::before,
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .sd-stage__layer--plate::after{content:"";position:absolute;left:0;right:0;height:5vw;z-index:2;pointer-events:none}
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .sd-stage__layer--plate::before{top:calc((100% - 56.25vw) / 2);background:linear-gradient(#050605,transparent)}
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .sd-stage__layer--plate::after{bottom:calc((100% - 56.25vw) / 2);background:linear-gradient(transparent,#050605)}
+}
+@media(min-width:901px){
+ /* 2. Scoring panel: centred, x 28-72%, y 31.6-51%, text about 14 px at 1920. */
+ #app #seasonEntry.seasonScreenV10 .scoring-panel{left:27.73%;top:31.6%;width:44.47%;height:auto;min-height:19.44%;box-sizing:border-box;padding:1% 2.1%}
+ #app #seasonEntry.seasonScreenV10 #scoring-heading{margin:0 0 6px;font-size:clamp(17px,1.35vw,26px)}
+ #app #seasonEntry.seasonScreenV10 .scoring-panel{grid-template-columns:20% 1fr}
+ #app #seasonEntry.seasonScreenV10 .scoring-grid{gap:5px clamp(14px,1.45vw,28px);padding-top:7px}
+ #app #seasonEntry.seasonScreenV10 .scoring-rule{font-size:clamp(12px,.75vw,15px)}
+ #app #seasonEntry.seasonScreenV10 .scoring-trophy{max-height:min(150px,13vh)}
+ /* 3. Entry cards (about 35% wide each, y 52.7-84.6%). Both cards: Daniel left, Nik right. A single own card is centred.
+    Daniel's forearm cut-out (plate x 139-298 at 1536 wide, drawn above the panels) reaches 20.4% of the width, so his card
+    keeps its content right of it; Nik's fist ends 1.8% inside his card's right edge. */
+ #app #seasonEntry.seasonScreenV10 .seasonResultCard{padding:12px 1.8vw 14px 20px;grid-template-rows:auto repeat(3,minmax(0,1fr));row-gap:0;align-content:stretch;overflow:hidden}
+ #app #seasonEntry.seasonScreenV10 .seasonResultCard.entry-panel--daniel{padding-left:6.8vw}
+ #app #seasonEntry.seasonScreenV10 #daniel-entry-panel.hidden+#nik-entry-panel,
+ #app #seasonEntry.seasonScreenV10 .seasonEntryGrid:has(#nik-entry-panel.hidden) #daniel-entry-panel{left:32.5%;width:35%}
+ #app #seasonEntry.seasonScreenV10 .seasonEntryGrid:has(#nik-entry-panel.hidden) #daniel-entry-panel.seasonResultCard{padding-left:20px}
+ #app #seasonEntry.seasonScreenV10 .seasonResultCard .seasonManagerHeader{margin:0;padding-bottom:8px;align-items:baseline}
+ #app #seasonEntry.seasonScreenV10 .seasonResultCard .seasonManagerHeader h3{font-size:clamp(22px,1.7vw,34px);letter-spacing:.02em}
+ #app #seasonEntry.seasonScreenV10 .seasonResultCard .seasonManagerHeader p{font-size:clamp(13px,.8vw,16px)}
+ #app #seasonEntry.seasonScreenV10 .seasonResultCard>label{font-size:clamp(12px,.7vw,14px);letter-spacing:.9px}
+ #app #seasonEntry.seasonScreenV10 .seasonResultCard>label input[type=number]{flex-basis:clamp(84px,6vw,112px);width:clamp(84px,6vw,112px);height:clamp(36px,2.7vw,48px);font-size:16px}
+ #app #seasonEntry.seasonScreenV10 .seasonResultCard .achievementChecks{grid-row:2/5;justify-content:space-around}
+ #app #seasonEntry.seasonScreenV10 .seasonResultCard .achievementChecks label,#app #seasonEntry.seasonScreenV10 .seasonResultCard .achievementChecks label:has(input:checked){font-size:clamp(12px,.7vw,14px);min-height:34px}
+ /* 4. Buttons: big solid gold primary and outlined Back side by side under the cards. */
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage .season-action-row{top:88%;height:auto;gap:clamp(10px,.8vw,16px)}
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage .season-action-row button{min-width:clamp(190px,17vw,340px);min-height:clamp(44px,3.1vw,60px);font-size:clamp(13px,.85vw,17px);letter-spacing:.12em}
+ /* The error line sits under the buttons so it never covers the cards or the buttons, in the same black-and-gold kit. */
+ #app #seasonEntry.seasonScreenV10 #seasonEntryError{top:calc(88% + clamp(44px,3.1vw,60px) + 16px);left:20%;right:20%;width:auto;margin:0;min-height:0;font-size:clamp(12px,.8vw,15px);line-height:1.3}
+ #app #seasonEntry.seasonScreenV10 #seasonEntryError:not(:empty){padding:6px 12px;color:#ffd9d6;background:rgb(24 8 9 / .94);border-left:4px solid #e0575f}
+ /* 5. Review: one box on the entry cards' span. Daniel's card stays right of his forearm, Nik's left of his fist; the two result
+    cards sit side by side (Daniel left, Nik right) with the actions in a row under them and Back below the box. */
+ #app #seasonEntry.seasonScreenV10 .season-review-panel:not(.hidden){top:52.66%;bottom:8%;left:13.67%;width:72.66%;box-sizing:border-box;padding:10px 1.8vw 10px 6.8vw}
+ #app #seasonEntry.seasonScreenV10 .season-review-panel>*{margin-left:0;margin-right:0}
+ #app #seasonEntry.seasonScreenV10 .season-review-panel .seasonReviewStatus{min-height:0;margin-bottom:4px;padding:3px 10px}
+ #app #seasonEntry.seasonScreenV10 .season-review-panel>h3{margin:0;font-size:clamp(16px,1.2vw,24px)}
+ #app #seasonEntry.seasonScreenV10 .season-review-panel :is(.seasonReviewIntro,.seasonReviewResult){margin:2px 0;font-size:clamp(11px,.7vw,14px)}
+ #app #seasonEntry.seasonScreenV10 .season-review-panel .seasonReviewGrid{gap:clamp(12px,1.2vw,24px);margin:6px 0}
+ #app #seasonEntry.seasonScreenV10 .season-review-panel .seasonSummaryCard{padding:10px 14px}
+ #app #seasonEntry.seasonScreenV10 .season-review-panel .seasonSummaryCard h3{display:inline-block;margin:0 10px 0 0;font-size:clamp(18px,1.3vw,26px)}
+ #app #seasonEntry.seasonScreenV10 .season-review-panel .summaryClub{display:inline-block;margin:0;font-size:clamp(12px,.8vw,16px)}
+ #app #seasonEntry.seasonScreenV10 .season-review-panel .seasonReviewGrid .summaryLine{padding:4px 0;font-size:clamp(12px,.75vw,15px)}
+ #app #seasonEntry.seasonScreenV10 .season-review-panel .seasonReviewAchievements{margin:6px 0 0;padding-top:6px;gap:4px}
+ #app #seasonEntry.seasonScreenV10 .season-review-panel .seasonReviewAchievements span{min-height:0;padding:5px 8px;font-size:clamp(10px,.65vw,13px)}
+ #app #seasonEntry.seasonScreenV10 .season-review-panel :is(.overallScoreBox,.seasonReviewWarning,.seasonReviewError){margin:4px 0;padding:6px 10px;font-size:clamp(10px,.65vw,13px)}
+ #app #seasonEntry.seasonScreenV10 .season-review-panel .seasonReviewError:empty{min-height:0;margin:0;padding:0;border:0}
+ #app #seasonEntry.seasonScreenV10 .season-review-panel .seasonReviewActions{display:flex;flex-flow:row wrap;justify-content:center;gap:clamp(10px,.8vw,16px);margin:6px 0 0;padding:6px 0 0}
+ #app #seasonEntry.seasonScreenV10 .season-review-panel .seasonReviewActions button{flex:1 1 clamp(190px,17vw,340px);width:auto;max-width:340px;min-height:clamp(44px,3vw,56px);font-size:clamp(13px,.85vw,16px)}
+ #app #seasonEntry.seasonScreenV10:has(.season-review-panel:not(.hidden)) .v10SeasonStage .season-action-row{top:92%}
+}
+}
