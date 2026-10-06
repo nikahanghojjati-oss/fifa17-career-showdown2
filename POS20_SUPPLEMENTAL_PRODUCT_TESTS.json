@@ -982,6 +982,17 @@
         "^tests/contracts/showdown-gate-physio-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/hunt-1017-terminal-close-recovery-contracts.cjs",
+      "patterns": [
+        "^js/productionSharedTerminalClose\\.js$",
+        "^js/sharedTerminalClose\\.js$",
+        "^js/seasonFinalV10\\.js$",
+        "^js/sharedHistoryConvergence\\.js$",
+        "^tests/contracts/hunt-1017-terminal-close-recovery-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
