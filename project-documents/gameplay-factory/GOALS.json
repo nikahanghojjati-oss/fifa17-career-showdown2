@@ -1214,6 +1214,64 @@
     },
     "sha": "beb84fb4c07594c192dec659f35d0adec1e2b80b"
    },
+   "project-documents/gameplay-factory/sweeps/olympiad/findings/codex-1006-1939-1.json": {
+    "data": {
+     "actual": "DRAW and 3-3 remain correct, but all final honours counts become dashes and the page says “Trophy attribution is unavailable right now.” The same season history still contains all four trophies.",
+     "area": "05",
+     "assumptions": [
+      "Daniel and Nik enter fair, ordinary results: different league positions and no duplicated cup or league winners in a season.",
+      "The problem is confirmed for the supported finished-result-only path with matching readable history. It does not occur while the earlier full final check is still held.",
+      "Node builds and verifies the actual game history and finished result. Chromium uses the real local app and final-screen files with those game snapshots supplied at the game boundary; no live connection setup or remote history read was tested.",
+      "History verification and the existing final-result helper prove that the trophies are available. This finding is about the final screen, not lost saved seasons."
+     ],
+     "expected": "DRAW and the 3-3 total remain. The final honours table keeps Daniel’s three domestic cups and Nik’s one league title, with total trophies 3 and 1.",
+     "fix": {
+      "change": "Use the existing finalWinnerView helper for the finished final-screen facts and honours. Keep its checks that the same Showdown, season count and point totals match the verified season history. Keep the earlier final-check path for a Showdown that has not yet been finished.",
+      "files": [
+       "js/seasonFinalV10.js"
+      ]
+     },
+     "id": "CMS05-codex-1006-1939-closed-honours",
+     "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+     "root_cause": "After a finished result is read, finalFrame uses the finished-result record. It then requires its acceptedRevisionKey to equal the history key before showing trophies. The finished-result record deliberately has no such key, so readable matching history can never pass that check. The existing finalWinnerView helper already verifies finished results against history and supplies the correct trophies, but this screen does not use it.",
+     "run": "codex-1006-1939",
+     "script": "project-documents/gameplay-factory/sweeps/olympiad/test/CMS05-codex-1006-1939-closed-honours.cjs",
+     "script_output": "Before finishing: {\"status\":\"ready\",\"winner\":\"DRAW\",\"totals\":{\"daniel\":3,\"nik\":3},\"trophies\":{\"daniel\":{\"championsLeague\":0,\"leagueTitles\":0,\"domesticCups\":3,\"total\":3},\"nik\":{\"championsLeague\":0,\"leagueTitles\":1,\"domesticCups\":0,\"total\":1}}}\nAfter finishing and reading the same saved history: {\"status\":\"partial\",\"winner\":\"DRAW\",\"totals\":{\"daniel\":3,\"nik\":3},\"trophies\":null,\"message\":\"Trophy attribution is unavailable right now.\"}\nExisting final-result helper still finds: {\"daniel\":{\"championsLeague\":0,\"leagueTitles\":0,\"domesticCups\":3,\"total\":3},\"nik\":{\"championsLeague\":0,\"leagueTitles\":1,\"domesticCups\":0,\"total\":1}}\nChromium before: {\"outcomeHeadline\":\"DRAW\",\"danielTotal\":\"3\",\"nikTotal\":\"3\",\"panelSeasons\":\"3\",\"panelMargin\":\"0\",\"panelDanielCup\":\"3\",\"panelNikCup\":\"0\",\"panelDanielTrophies\":\"3\",\"panelNikTrophies\":\"1\",\"finalWinnerPartialMessage\":\"\"}\nChromium after reload: {\"outcomeHeadline\":\"DRAW\",\"danielTotal\":\"3\",\"nikTotal\":\"3\",\"panelSeasons\":\"3\",\"panelMargin\":\"0\",\"panelDanielCup\":\"—\",\"panelNikCup\":\"—\",\"panelDanielTrophies\":\"—\",\"panelNikTrophies\":\"—\",\"finalWinnerPartialMessage\":\"Trophy attribution is unavailable right now.\"}\nFinishing/reloading a Showdown must keep its known trophy counts on the final screen\n+ actual - expected\n\n+ undefined\n- {\n-   daniel: {\n-     championsLeague: 0,\n-     domesticCups: 3,\n-     leagueTitles: 0,\n-     total: 3\n-   },\n-   nik: {\n-     championsLeague: 0,\n-     domesticCups: 0,\n-     leagueTitles: 1,\n-     total: 1\n-   }\n- }\n\n",
+     "severity": "S3",
+     "status": "confirmed",
+     "steps": [
+      "Play a three-season Showdown with Daniel at Arsenal and Nik at Liverpool.",
+      "Daniel wins the domestic cup in all three seasons. Nik wins the league in season 3. No other scoring bonuses are earned. The final total is 3-3.",
+      "View the final result before finishing: DRAW, Daniel has three domestic cups, Nik has one league title.",
+      "Finish the Showdown and reload its final screen. Use the same readable season history and the finished result, after the earlier final check is no longer held.",
+      "Read the final honours table. The repeatable script supplies these valid game snapshots to the real local screens, then reloads Chromium."
+     ],
+     "title": "The final screen loses known trophy counts after a finished Showdown reload",
+     "where": [
+      {
+       "file": "js/seasonFinalV10.js",
+       "function": "finalFrame",
+       "line": 22
+      },
+      {
+       "file": "js/seasonFinalV10.js",
+       "function": "seasonSource",
+       "line": 140
+      },
+      {
+       "file": "js/sharedTerminalClose.js",
+       "function": "tcPrepare",
+       "line": 32
+      },
+      {
+       "file": "js/sharedActiveShowdownAdapter.js",
+       "function": "winner",
+       "line": 128
+      }
+     ]
+    },
+    "sha": "8c90314427a0ada22fd14718cc7aa982d72f55c9"
+   },
    "project-documents/gameplay-factory/sweeps/olympiad/runs/chat-1006-0418.json": {
     "data": {
      "area": "01",
@@ -2499,6 +2557,66 @@
      "run": "codex-1006-1313"
     },
     "sha": "ad947a7544ea12c4bbce87ede953883ab62f51d5"
+   },
+   "project-documents/gameplay-factory/sweeps/olympiad/runs/codex-1006-1939.json": {
+    "data": {
+     "area": "05",
+     "clean_confidence_pct": 80,
+     "coverage_pct": 88,
+     "date_utc": "2026-10-06T19:52:53.982Z",
+     "files_read": [
+      "AGENTS.md",
+      "package.json",
+      "index.html",
+      "data/leagues.js",
+      "data/clubs.js",
+      "js/showdown.js",
+      "js/scoring.js",
+      "js/seasonEngine.js",
+      "js/showdownUI.js",
+      "js/legacy.js",
+      "js/storage.js",
+      "js/sharedFinalReconciliation.js",
+      "js/sharedTerminalClose.js",
+      "js/sharedHistoryConvergence.js",
+      "js/sharedMultiSeasonProgression.js",
+      "js/sharedCareerAnalytics.js",
+      "js/sharedActiveShowdownAdapter.js",
+      "js/sharedLocalReconciliation.js",
+      "js/productionSharedFinalReconciliation.js",
+      "js/productionSharedTerminalClose.js",
+      "js/productionSharedSeasonResults.js",
+      "js/productionSharedLocalReconciliation.js",
+      "js/productionSharedHistoryConvergence.js",
+      "js/productionSharedMultiSeasonProgression.js",
+      "js/seasonFinalV10.js",
+      "js/screens.js",
+      "js/ssjr.js",
+      "js/optionalModules.js",
+      "js/v10Screens.js",
+      "js/ruleBook.js",
+      "js/rulesSettingsV10.js",
+      "visual-assets/v10_1/final-winner/final-winner.js",
+      "visual-assets/v10_1/final-winner/app-shell.html",
+      "tests/support/static-server.cjs",
+      "tests/support/chromium-runtime.cjs",
+      "tests/support/active-showdown-fixtures.cjs",
+      "tests/support/career-fixture-helpers.cjs",
+      "tests/contracts/full-gameplay-lifecycle-contracts.cjs",
+      "tests/contracts/v10-season-final-contracts.cjs",
+      "tests/browser/shared-final-reconciliation-audit.cjs",
+      "tests/browser/shared-season-results-audit.cjs",
+      "tests/browser/identity-safe-career-analytics-audit.cjs"
+     ],
+     "findings": [
+      "CMS05-codex-1006-1939-closed-honours"
+     ],
+     "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+     "mode": "codex",
+     "next_focus": "Retest final honours after finishing and reloading a real saved Showdown. Area 05 winner checks passed in Node and Chromium: Season 1 of 3 has no early final winner; 0-0 is DRAW; 3-3 is DRAW despite Daniel winning two seasons and Nik the last; Season 10 of 10 uses the whole total for Daniel and Nik wins; history round-trips keep totals, winners and trophies; there is no season 11. The existing full journey checks also passed for 1/3/5/10 seasons. Run test/codex-1006-1939-coverage.cjs --browser with the local server. Browser reload checks supplied valid saved-game snapshots at the game boundary; they did not verify live game saving or connection setup. One final-screen honours problem remains confirmed by the intentionally failing script.",
+     "run": "codex-1006-1939"
+    },
+    "sha": "361ef41a905d7751ead449fdb8408cebede25218"
    },
    "project-documents/gameplay-factory/sweeps/olympiad/runs/codex-1006-1942.json": {
     "data": {
