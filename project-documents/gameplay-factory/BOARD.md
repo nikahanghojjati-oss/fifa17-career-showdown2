@@ -1,6 +1,8 @@
 # Bug hunt board
 
-🌐 **Live: runtime 1.9.1-r62** (main `e7b556c`) · 🔄 **10 moving** · ⏭ 2 up next · 👤 4 waiting on Nik · 🗂 5 later · updated 2026-10-05 8:51 PM Boston time (EDT)
+Updated Mon 5 Oct, 8:52 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
+
+🌐 **Live: 1.9.1-r62** (main `e7b556c`, Mon 5 Oct 8:35 PM)
 
 🩺 **All clear: every check has a machine.** · Gate #386: L1✓ L2✓ L3✓ L4✓ L5✓ L6✓ · seal PASS · POS20 #386 16/16
 

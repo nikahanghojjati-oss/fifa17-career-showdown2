@@ -1,9 +1,7 @@
 {
  "team": "G",
- "updated": "2026-10-05T20:51-04:00",
- "jobs_done": 33,
- "jobs_total": 33,
- "open_bugs": 2,
+ "updated": "2026-10-05T20:52-04:00",
+ "open_bugs": 1,
  "next_move": [
   "**r62 is live.** On the laptop, close every game tab in Chrome and reopen the game; if Settings still looks clipped, do it once more."
  ],
