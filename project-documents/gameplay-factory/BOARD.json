@@ -801,8 +801,8 @@
      "group": "Bug list 1",
      "title": "1015 · G Connect Players screen: create code / join off Home",
      "lane": "green",
-     "state": "ready",
-     "waits_on": "Nik types it in the gameplay project (Work mode)",
+     "state": "with worker",
+     "waits_on": "GPT green running (Nik started 01:40 UTC)",
      "details": "GPT green, one run. HO-014: pair panel moves from Home to its own CONNECT PLAYERS screen (Team V SJ design). Pairing logic unchanged; lead runs pairing audits."
     },
     {
