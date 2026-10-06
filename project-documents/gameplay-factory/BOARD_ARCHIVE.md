@@ -1,12 +1,12 @@
 # Board archive
 
-[Back to the board](BOARD.md) · generated 2026-10-05 9:53 PM Boston time (EDT). Detail and history behind the one board.
+[Back to the board](BOARD.md) · generated 2026-10-05 9:54 PM Boston time (EDT). Detail and history behind the one board.
 
 ## Old detailed board
 
 # Showdown board: G Factory and V Factory
 
-🌐 **Live: runtime 1.9.1-r62** (main `bc77a0b`) · 🔄 **12 moving** · ⏭ 2 up next · 👤 11 waiting on Nik · 🗂 4 later · updated 2026-10-05 9:53 PM Boston time (EDT)
+🌐 **Live: runtime 1.9.1-r62** (main `bc77a0b`) · 🔄 **12 moving** · ⏭ 2 up next · 👤 11 waiting on Nik · 🗂 4 later · updated 2026-10-05 9:54 PM Boston time (EDT)
 
 🩺 **All clear: every check has a machine.** · POS20 #304 6/16
 
@@ -37,7 +37,7 @@
 | [HO-013](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/handoffs/HO-013_finished-showdown-shows-the-private-sess.md) | V → G | Finished Showdown shows the 'private session has ended, reconnect' line | ✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done |
 | [HO-014](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/handoffs/HO-014_create-code-join-on-its-own-connect-play.md) | V → G | Create code / Join on its own Connect Players screen, never on top of Home | ✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done |
 | [HO-015](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/handoffs/HO-015_season-results-on-phone-one-clean-column.md) | V → G | Season Results on phone: one clean column (Team V's tested CSS for app.css) | ✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done |
-| [HO-016](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/handoffs/HO-016_transfer-war-on-phone-port-team-v-s-reva.md) | V → G | Transfer War on phone: port Team V's revamp (1016) into the live game | ✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done |
+| [HO-016](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/handoffs/HO-016_transfer-war-on-phone-port-team-v-s-reva.md) | V → G | Transfer War on phone: port Team V's revamp (1016) into the live game | ✅ Sent → ✅ **Delivered** → ○ Received → ○ In progress → ○ Done |
 
 ## 🟢 G Factory
 
@@ -173,7 +173,7 @@ Latest:
 ## Every bug report
 
 
-> Updated **Mon 5 Oct, 9:53 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
+> Updated **Mon 5 Oct, 9:54 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
 
 | 🔓 Open | 🔴 Top priority | 🔧 Fixing or waiting for release | ✅ Fixed and live |
 | :---: | :---: | :---: | :---: |
