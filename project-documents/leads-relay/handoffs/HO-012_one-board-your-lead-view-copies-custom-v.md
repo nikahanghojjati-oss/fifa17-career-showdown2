@@ -11,10 +11,10 @@
  "worker": "opus",
  "parent": null,
  "job": null,
- "status": "SENT",
+ "status": "WORKING",
  "steps": [],
  "evidence": [],
- "log": [{"at": "2026-10-06T00:53:35Z", "by": "G", "status": "SENT", "note": ""}]
+ "log": [{"at": "2026-10-06T00:53:35Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-10-06T00:54:59Z", "by": "V", "status": "RECEIVED", "note": ""}, {"at": "2026-10-06T00:54:59Z", "by": "V", "status": "WORKING", "note": "V archives its own board (factory BOARD.md -> BOARD_ARCHIVE.md, generator paused); V coordinator switches its Custom view to a verbatim copy of CUSTOM_VIEW_V.html"}]
 }
 ```
 
