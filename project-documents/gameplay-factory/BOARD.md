@@ -4,25 +4,40 @@ Updated Mon 5 Oct, 9:54 PM Boston time. Bug hunting only, no new features until 
 
 🌐 **Live: 1.9.1-r62** (main `bc77a0b`, Mon 5 Oct 9:18 PM)
 
-🩺 **All clear: every check has a machine.** · POS20 #304 6/16
+🐕 **Barking: POS20 on #397 has waited 4 min for a machine; POS20 has waited 2 min for a machine.** · POS20 #304 6/16
 
-## Needs you
+## Jobs
+
+**Running now**
+
+- **1004** Rule Book: remove the useless 01-06 side number rail (desktop and phone) · with worker
+
+**Next for you, in this order**
+
+1. **1006** Final Winner: last season's score block: type **1006** in a new Showdown visual chat
+2. **1009** Showdown Champion: dark oval over the losing manager: type **1009** in the gameplay project (Work mode)
+3. **1010** 10-season sweep: scoring, history and final math: type **1010** in the gameplay project (Work mode)
+4. **1011** Plain-words sweep: jargon on game screens: type **1011** in the gameplay project (Work mode)
+5. **1014** No reconnect prompt after a finished Showdown: type **1014** in the gameplay project (Work mode)
+6. **1015** Connect Players screen: create code / join off Home: type **1015 again** in the gameplay project (Work mode) · for round 3 (startup budget)
+7. **1017** Gameplay hunt 1: shared season flow across devices: type **1017** in the Q&A team project
+8. **1018** Gameplay hunt 2: sessions, pairing and reconnect: type **1018** in the Q&A team project
+9. **1019** Gameplay hunt 3: entries, saves and career numbers: type **1019** in the Q&A team project
+10. **1020** Season Results patch: one column on phone, no overlap on desktop: type **1020** in the gameplay project (Work mode)
+
+**Waiting on something else**
+
+- **1005** Last season's score is skipped before the Final Winner · after Team V designs the combined screen (HO-011)
+
+**Done, in the next release:** 1001, 1003
+
+## Other asks
 
 - **r62 is live.** On the laptop, close every game tab in Chrome and reopen the game; if Settings still looks clipped, do it once more.
 - **G-F1** Play a game of the live version (r62) with Daniel on two phones and send what goes wrong to the bug factory thread.
 - **G-F22** Five pairing choices. The lead brings them to you on one card; nothing to do until then.
-- **1009** Showdown Champion: dark oval over the losing manager. Type 1009 in the gameplay project (Work mode).
-- **1010** 10-season sweep: scoring, history and final math. Type 1010 in the gameplay project (Work mode).
-- **1011** Plain-words sweep: jargon on game screens. Type 1011 in the gameplay project (Work mode).
-- **1014** No reconnect prompt after a finished Showdown. Type 1014 in the gameplay project (Work mode).
-- **1015** Connect Players screen: create code / join off Home. Type 1015 again for round 3 (startup budget).
-- **1017** Gameplay hunt 1: shared season flow across devices. Type 1017 in the Q&A team project.
-- **1018** Gameplay hunt 2: sessions, pairing and reconnect. Type 1018 in the Q&A team project.
-- **1019** Gameplay hunt 3: entries, saves and career numbers. Type 1019 in the Q&A team project.
-- **1020** Season Results patch: one column on phone, no overlap on desktop. Type 1020 in the gameplay project (Work mode).
-- **V-1006** Final Winner: last season's score block. Type 1006 in a new Showdown visual chat to start it.
 
-## Team G
+## Other Team G work
 
 **Fixing now**
 
@@ -30,9 +45,6 @@ Updated Mon 5 Oct, 9:54 PM Boston time. Bug hunting only, no new features until 
 | --- | --- | --- | --- |
 | 🟧 Opus | **G-F17** | Showdown Gate: replace POS20 with a faster check system built on Claude and GitHub, keeping every check (plan: /mnt/project-files/check-system/SHOWDOWN_GATE_PLAN.md) | building shadow |
 | 🟧 Opus | **G-F18** | Old-design screen audit: Legacy, Career Statistics and Trophy Room still open in the old shell; drive every live screen in a browser against Team V's design and route all of them to the new design | in progress |
-| 🟦 Sol chat | **1001** | Home desktop tile icons: bigger, inside the tile, never on the text | in release |
-| 🟦 Sol chat | **1003** | Transfer War: main's copy of Team V's early-end string matches (HO-010) | in release |
-| 🟦 Sol chat | **1004** | Rule Book: remove the useless 01-06 side number rail (desktop and phone) | with worker |
 
 **Up next**
 
@@ -42,16 +54,9 @@ Updated Mon 5 Oct, 9:54 PM Boston time. Bug hunting only, no new features until 
 | 🟪 Sonnet | **G-F11** | Old-design CSS collisions: scope old rulebook/settings/analytics/app CSS off Team V markup (about 70 shared class names) | ready |
 | 🟦 Sol chat | **G-F4** | GPT Q&A team: scripted paths and code-vs-rulebook reads | queued · after G-F1 |
 | 🟪 Sonnet | **G-F7** | Ten-season smoothness run on live 2.0 (emulator, 10 seasons with a mid-game expiry) | queued · after G-F1 |
-| 🟩 Sol Work mode | **1005** | Last season's score is skipped before the Final Winner | ready · after Team V designs the combined screen (HO-011) |
 
 
-## Team V
-
-**Fixing now**
-
-| Lane | Item | What | State |
-| --- | --- | --- | --- |
-| 🟦 Sol chat | [V-1006](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/393) | Final Winner: last season's score block | waiting for Nik to type 1006 in a new Showdown visual chat · 25 % (1 of 4 steps) |
+## Other Team V work
 
 **Up next**
 

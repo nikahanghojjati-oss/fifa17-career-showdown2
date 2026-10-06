@@ -8,7 +8,7 @@
 
 🌐 **Live: runtime 1.9.1-r62** (main `bc77a0b`) · 🔄 **12 moving** · ⏭ 2 up next · 👤 11 waiting on Nik · 🗂 4 later · updated 2026-10-05 9:54 PM Boston time (EDT)
 
-🩺 **All clear: every check has a machine.** · POS20 #304 6/16
+🐕 **Barking: POS20 on #397 has waited 4 min for a machine; POS20 has waited 2 min for a machine.** · POS20 #304 6/16
 
 ## Your next move
 

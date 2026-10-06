@@ -111,6 +111,58 @@ for team in ("G", "V"):  # a job that waits for Nik to start it (type its number
             act = re.sub(r"^.*?waiting (for|on) Nik to ", "", it["state"], flags=re.I)
             m = re.match(r"type \S+ (.*)$", act, re.I)
             nik.append({"id": it["id"], "title": it["title"], "decision": f'{it["title"]}. {act[0].upper()}{act[1:]} to start it.', "place": m.group(1) if m else None})
+
+# ---------- the job queue (Nik, 2026-10-06 01:53 UTC): every numbered job, ongoing and upcoming, with what to type and where ----------
+JOB = re.compile(r"^(?:Job |V-)?(\d{4})$")
+LANE_PLACE = {"green": "the gameplay project (Work mode)", "sol-work": "the gameplay project (Work mode)", "blue": "the gameplay project (chat)", "sol-chat": "the gameplay project (chat)"}
+rowmap = {str(y["id"]): y for t in ("G", "V") for y in BJ["factories"][t]["future"]}
+Q = {"run": [], "next": [], "wait": [], "release": []}
+
+
+def where(text, lane):
+    m = re.search(r"\b(in (?:the|a new) [^.;]+)", text or "")
+    return m.group(1).strip() if m else ("in " + LANE_PLACE[lane] if lane in LANE_PLACE else "")
+
+
+def q_add(it, team):
+    m = JOB.match(str(it["id"]))
+    n = m.group(1)
+    row = rowmap.get(str(it["id"])) or {}
+    w = str(row.get("waits_on") or it.get("waits") or "")
+    st = str(row.get("state") or it.get("state") or "")
+    lane = row.get("lane") or it.get("lane", "")
+    q = dict(it, n=n, team=team, lane=lane)
+    if re.match(r"(in release|verified|in r\d)", st, re.I):
+        Q["release"].append(q)
+    elif w.lower().startswith("nik types") or re.search(r"waiting (for|on) Nik to type", st + " " + str(it.get("state", "")), re.I):
+        q["type"] = n + (" again" if "again" in w else "")
+        q["note"] = re.sub(r"^.*?\bagain\s*", "", w).strip() if "again" in w else ""
+        q["where"] = where(w + " " + str(it.get("state", "")), lane)
+        Q["next"].append(q)
+    elif it.get("progress") or it.get("pct") is not None or re.match(r"(with worker|worker done|verifying|building|in progress)", st, re.I):
+        Q["run"].append(q)
+    else:
+        q["after"] = re.sub(r"^after ", "", w)
+        Q["wait"].append(q)
+
+
+for team in ("G", "V"):
+    for b in ("fix", "next", "later"):
+        keep = []
+        for it in items[team][b]:
+            (q_add(it, team) if JOB.match(str(it["id"])) else keep.append(it))
+        items[team][b] = keep
+_nk = []
+for x in nik:
+    if JOB.match(str(x["id"])):
+        if not any(q["id"] == x["id"] for v in Q.values() for q in v):
+            q_add({"id": x["id"], "title": x["title"], "state": "", "lane": ""}, "G")
+    else:
+        _nk.append(x)
+nik = _nk
+for v in Q.values():
+    v.sort(key=lambda q: int(q["n"]))
+
 for m in BJ.get("next_move") or []:
     nik.insert(0, {"id": "", "title": "", "decision": m, "md": True})
 
@@ -149,15 +201,17 @@ def item_html(it, cut):
     return s + "</span>"
 
 
-def team_html(team, emph, cut):
+def team_html(team, emph, cut, compact=False):
     T = items[team]
-    name = {"G": "Team G · gameplay fixes", "V": "Team V · visual fixes"}[team]
+    name = {"G": "Other Team G work", "V": "Other Team V work"}[team]
     out = [f'<h2 style="border-left-color:{"#f0d900" if emph else "#43515b"}">{name}</h2><div class="card">']
     lines = []
     if T["fix"]:
         lines.append('<span class="k">Fixing now</span>')
         lines += [item_html(x, cut) for x in T["fix"]]
-    if T["next"] or T["later"]:
+    if (T["next"] or T["later"]) and compact:  # tight on space: the jobs card comes first, so other work is listed by id
+        lines.append('<span class="k">Up next</span> ' + ", ".join(e(str(x["id"])) for x in T["next"] + T["later"]))
+    elif T["next"] or T["later"]:
         lines.append('<span class="k">Up next</span>')
         lines += [item_html(x, cut) for x in T["next"]]
         lines += [item_html(dict(x, state="queued" + (f' · after {re.sub(r"^after ", "", x["waits"])[:30]}' if x.get("waits") else "")), cut) for x in T["later"]]
@@ -168,9 +222,7 @@ def team_html(team, emph, cut):
 
 def render(first, compact=False):
     cut = 40 if compact else 70
-    n_fix = sum(len(items[t]["fix"]) for t in items)
-    n_next = sum(len(items[t]["next"]) + len(items[t]["later"]) for t in items)
-    n_nik = len([x for x in nik if not x.get("md")])
+    n_run, n_next, n_nik = len(Q["run"]), len(Q["next"]), len([x for x in nik if not x.get("md")])
     H = ["<style>.cv{--h:'Arial Narrow',Impact,sans-serif;font:14px/1.45 'Segoe UI',system-ui,sans-serif;max-width:720px;color:#fbfcfc;background:#20272d;border-radius:14px;padding:0 0 14px;overflow:hidden}"
          ".cv .ban{background:#2c7399;border-bottom:4px solid #f0d900;padding:8px 14px 6px}.cv .ban b{display:block;font:italic 800 19px/1.1 var(--h);letter-spacing:.04em;text-transform:uppercase}"
          ".cv .ban span{font-size:12px;color:#dce5e8}.cv .ban a{color:#f0d900}"
@@ -183,22 +235,34 @@ def render(first, compact=False):
          + "".join(f".cv .q{i}{{color:{h}}}" for i, h in enumerate(HEX.values())) + ".cv .q9{color:#9ca3af}</style>",
          '<div class="cv">',
          f'<div class="ban"><b>Bug hunt board · Team {first} lead</b><span>Updated {now:%a %-d %b, %-I:%M %p} Boston time · same board as Team {"V" if first == "G" else "G"}\'s · <a href="{BLOB}BOARD.md">on GitHub</a> · <a href="{BLOB}RELAY.md">relay</a></span></div>',
-         f'<div class="tiles"><div class="tile"><b>{e((LV or {}).get("revision", "?").split("-")[-1])}</b><span>Live</span></div><div class="tile"><b>{n_fix}</b><span>Fixing</span></div><div class="tile"><b>{n_next}</b><span>Up next</span></div><div class="tile"><b>{n_nik}</b><span>Needs you</span></div></div>']
+         f'<div class="tiles"><div class="tile"><b>{e((LV or {}).get("revision", "?").split("-")[-1])}</b><span>Live</span></div><div class="tile"><b>{n_run}</b><span>Jobs running</span></div><div class="tile"><b>{n_next}</b><span>Jobs to start</span></div><div class="tile"><b>{n_nik}</b><span>Other asks</span></div></div>']
+    H.append("<h2>Jobs</h2>")
+    J = []
+    if Q["run"]:
+        J.append('<span class="k">Running now</span>')
+        J += [item_html(dict(q, id=q["n"], state=short_state(q.get("state", "")) or "running"), cut) for q in Q["run"]]
+    if Q["next"]:
+        J.append('<span class="k">Next for you, in this order</span>')
+        J += [f'{sq(q["lane"])} <b>{e(q["n"])}</b> {e(q["title"][:cut])}<br>&nbsp;&nbsp;&nbsp;→ type <b>{e(q["type"])}</b> {e(q["where"] or "(place not given)")}' + (f' <span class="m">· {e(q["note"])}</span>' if q.get("note") else "") for q in Q["next"]]
+    if Q["wait"]:
+        J.append('<span class="k">Waiting on something else</span>')
+        J += [f'{sq(q["lane"])} <b>{e(q["n"])}</b> {e(q["title"][:cut])} <span class="m">after {e(q.get("after", "")[:50])}</span>' for q in Q["wait"]]
+    if Q["release"]:
+        J.append('<span class="k">Done, in the next release</span> ' + ", ".join(e(q["n"]) for q in Q["release"]))
+    H.append('<div class="card move">' + ("<br>".join(J) or "No numbered job is open.") + "</div>")
+    if nik:
+        H.append("<h2>Other asks</h2>")
+        H.append('<div class="card">' + "<br>".join((md(x["decision"]) if x.get("md") else f'<b>{e(x["id"])}</b> {e(x["decision"])}') for x in nik) + "</div>")
+    GF = ETA.gaffer()
+    if GF and not GF.get("stale"):
+        H.append(f'<div class="card">{GF["emoji"]} <b>Gaffer: {GF["pct"]} % of 5-hour usage</b> <span class="m">{e(GF.get("mood", ""))} · updated {e(GF.get("updated_boston", ""))}</span>' + (f'<br><span class="m">{e(str(GF.get("last_decision", ""))[:110])}</span>' if not compact else "") + "</div>")
+    elif GF:
+        H.append(f'<div class="card m">Gaffer: no report for {GF.get("age_min") or "?"} min.</div>')
+    H.append(f'<div class="card">{TF.PHYSIO_ICON.get(ph.get("state"), "🩺")} <b>{e(ph.get("line", "Physio: no report yet."))}</b>' + (f'<br><span class="m">{e(ph["gate"])}</span>' if ph.get("gate") else "") + "</div>")
     if warn:
         H.append('<div class="card warn">⚠ <b>Not fully current:</b> ' + " ".join(e(w) for w in warn) + "</div>")
-    H.append(f'<div class="card">{TF.PHYSIO_ICON.get(ph.get("state"), "🩺")} <b>{e(ph.get("line", "Physio: no report yet."))}</b>' + (f'<br><span class="m">{e(ph["gate"])}</span>' if ph.get("gate") else "") + "</div>")
-    H.append("<h2>Needs you</h2>")
-    shown = [x for x in nik if not (compact and x.get("place"))]
-    lines = [(md(x["decision"]) if x.get("md") else f'<b>{e(x["id"])}</b> {e(x["decision"])}') for x in shown]
-    if compact:  # tight on space: jobs started by typing their number, grouped by where to type
-        places = {}
-        for x in nik:
-            if x.get("place"):
-                places.setdefault(x["place"], []).append(re.sub(r"^[GV]-", "", str(x["id"])))
-        lines += [f'<b>Type to start</b> {e(", ".join(ids))} <span class="m">{e(pl)}</span>' for pl, ids in places.items()]
-    H.append('<div class="card move">' + ("<br>".join(lines) or "Nothing needs you right now.") + "</div>")
     for t in (first, "V" if first == "G" else "G"):
-        H.append(team_html(t, t == first, cut))
+        H.append(team_html(t, t == first, cut, compact))
     H.append("<h2>Live now</h2>")
     if LV:
         H.append(f'<div class="card">🌐 <b>{e(LV["revision"])}</b> <span class="m">main <code>{e(LV["sha"])}</code> · {e(TF.bos(LV["when"]))}</span><br>{e(LV["subject"][:90])}'
@@ -243,11 +307,20 @@ if warn:
     L += ["> ⚠ **Not fully current:** " + " ".join(warn), ""]
 L += [f"🌐 **Live: {LV['revision']}** (main `{LV['sha']}`, {TF.bos(LV['when'])})" if LV else "🌐 Live version unknown this run", "",
       f"{TF.PHYSIO_ICON.get(ph.get('state'), '🩺')} **{ph.get('line', 'Physio: no report yet.')}**" + (f" · {ph['gate']}" if ph.get("gate") else ""), "",
-      "## Needs you", ""]
-L += [f"- {x['decision']}" if x.get("md") else f"- **{x['id']}** {x['decision']}" for x in nik] or ["- Nothing needs you right now."]
+      "## Jobs", ""]
+if Q["run"]:
+    L += ["**Running now**", ""] + [f"- **{q['n']}** {q['title']} · {short_state(q.get('state', '')) or 'running'}" + (f" · {q['progress'][0]['pct']:.4f} %" if q.get("progress") else f" · {q['pct']:.0f} %" if q.get("pct") is not None else "") for q in Q["run"]] + [""]
+if Q["next"]:
+    L += ["**Next for you, in this order**", ""] + [f"{i}. **{q['n']}** {q['title']}: type **{q['type']}** {q['where'] or '(place not given)'}" + (f" · {q['note']}" if q.get("note") else "") for i, q in enumerate(Q["next"], 1)] + [""]
+if Q["wait"]:
+    L += ["**Waiting on something else**", ""] + [f"- **{q['n']}** {q['title']} · after {q.get('after', '')}" for q in Q["wait"]] + [""]
+if Q["release"]:
+    L += ["**Done, in the next release:** " + ", ".join(q["n"] for q in Q["release"]), ""]
+L += ["## Other asks", ""]
+L += [f"- {x['decision']}" if x.get("md") else f"- **{x['id']}** {x['decision']}" for x in nik] or ["- Nothing else needs you right now."]
 for t in ("G", "V"):
     T = items[t]
-    L += ["", f"## Team {t}", ""]
+    L += ["", f"## Other Team {t} work", ""]
     for label, rows in (("Fixing now", T["fix"]), ("Up next", T["next"] + T["later"])):
         if rows:
             L += [f"**{label}**", "", "| Lane | Item | What | State |", "| --- | --- | --- | --- |"] + [item_md(x) for x in rows] + [""]
