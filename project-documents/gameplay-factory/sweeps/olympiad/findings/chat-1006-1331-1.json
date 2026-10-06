@@ -1,0 +1,38 @@
+{
+  "id": "A08-rulebook-markup-missing",
+  "run": "chat-1006-1331",
+  "area": "08",
+  "title": "Rule Book button exists but #ruleBook text is missing from index.html",
+  "severity": "S2",
+  "status": "likely",
+  "where": [
+    {
+      "file": "index.html",
+      "line": 70,
+      "function": "main menu Rule Book entry"
+    }
+  ],
+  "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+  "steps": [
+    "Open index.html on main and locate the Rule Book menu button.",
+    "Scan the full index.html for a section with id=\"ruleBook\" and its rule text.",
+    "Compare the visible season scoring hint with js/scoring.js and the allowed season counts with js/showdown.js."
+  ],
+  "expected": "index.html contains #ruleBook with the competition rules, so the written Rule Book can be checked directly against the gameplay code.",
+  "actual": "index.html contains #ruleBookButton but no #ruleBook section or Rule Book text. The scoring hint that is present matches the scoring implementation, but the requested Rule Book source is absent.",
+  "root_cause": "The Rule Book markup/text is not present in index.html on main.",
+  "checked_against": [
+    "index.html full file",
+    "js/scoring.js SCORING_RULES and calculatePlayerSeasonScore",
+    "js/showdown.js ALLOWED_SHOWDOWN_ROUNDS"
+  ],
+  "fix": {
+    "files": [
+      "index.html"
+    ],
+    "change": "Restore or add the #ruleBook section in index.html and make its season length, transfer, scoring, tie and final-winner wording match the current gameplay rules."
+  },
+  "assumptions": [
+    "A later runtime module may generate a Rule Book screen dynamically; that module was not read because the chat check is capped at four code files. Even if it does, #ruleBook is still absent from the required index.html source."
+  ]
+}
