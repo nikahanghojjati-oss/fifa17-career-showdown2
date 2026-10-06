@@ -1,12 +1,12 @@
 # Board archive
 
-[Back to the board](BOARD.md) · generated 2026-10-05 9:46 PM Boston time (EDT). Detail and history behind the one board.
+[Back to the board](BOARD.md) · generated 2026-10-05 9:47 PM Boston time (EDT). Detail and history behind the one board.
 
 ## Old detailed board
 
 # Showdown board: G Factory and V Factory
 
-🌐 **Live: runtime 1.9.1-r62** (main `bc77a0b`) · 🔄 **12 moving** · ⏭ 2 up next · 👤 11 waiting on Nik · 🗂 4 later · updated 2026-10-05 9:46 PM Boston time (EDT)
+🌐 **Live: runtime 1.9.1-r62** (main `bc77a0b`) · 🔄 **12 moving** · ⏭ 2 up next · 👤 11 waiting on Nik · 🗂 4 later · updated 2026-10-05 9:47 PM Boston time (EDT)
 
 🩺 **All clear: every check has a machine.** · Gate #396: L1✓ L2✓ L3✓ L4✓ L5… L6✓ · seal retrying (GitHub) · POS20 #396 12/16
 
@@ -18,7 +18,7 @@
 
 | Release / fix | Checks on the latest commit | Updated |
 | --- | --- | --- |
-| [PR #396](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/396) INFRA SIM: L5 setup dies on attempt 1 for the Showdown Gate shadow (never merge) | ⏳ 17 passed, 1 running | 9:21 PM |
+| [PR #396](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/396) INFRA SIM: L5 setup dies on attempt 1 for the Showdown Gate shadow (never merge) | 🟢 19 passed | 9:21 PM |
 
 **🟦 V-1006 · Final Winner: last season's score block** · 25 % (1 of 4 steps) · Sol chat · [PR #393](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/393)
 
@@ -176,7 +176,7 @@ Latest:
 ## Every bug report
 
 
-> Updated **Mon 5 Oct, 9:46 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
+> Updated **Mon 5 Oct, 9:47 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
 
 | 🔓 Open | 🔴 Top priority | 🔧 Fixing or waiting for release | ✅ Fixed and live |
 | :---: | :---: | :---: | :---: |
