@@ -99,3 +99,7 @@ body{font-family:var(--sd-font-body);color:var(--sd-text-primary)}
 @media (min-width: 901px) {
   .sdg-preview { position: absolute; z-index: 20; top: 0; right: 0; left: auto; bottom: auto; transform: none; }
 }
+
+/* JOB-1033: wide, shortish desktop windows (1536x730, aspect 2:1 or wider, taller than 700px). The wordmark ran down over the board and
+   the toggle over the section heading. Same compact title block as the short-window rule above, scoped to the standings stage. */
+@media(min-width:901px) and (min-height:701px) and (min-aspect-ratio:2/1){.sdg-stage .sdg-header{top:56px}.sdg-stage .sdg-wordmark{width:44%!important;margin:0 auto}.sdg-stage .sdg-header .sd-tagline{display:none}.sdg-stage .sdg-header .sd-eyebrow{margin-bottom:0}.sdg-stage .sdg-board{top:29%;height:66%}.sdg-stage .sdg-crest{width:40px;height:48px}.sdg-stage .sdg-scoreboard{margin-top:6px}.sdg-stage .sdg-toggle button{min-height:32px}}
