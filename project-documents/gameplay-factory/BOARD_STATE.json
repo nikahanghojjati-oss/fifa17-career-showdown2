@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 9:11 PM Boston time (EDT)",
+ "generated": "2026-10-05 9:14 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -326,8 +326,8 @@
      "sha": "9243705b96a426a33ec352c5afb73cc2e9a8dc20",
      "updated": "2026-10-06T00:53:30Z",
      "gates": {
-      "passed": 21,
-      "running": 2,
+      "passed": 23,
+      "running": 0,
       "failed": 0,
       "cancelled": 0
      }
@@ -397,10 +397,10 @@
    ]
   },
   "physio": {
-   "state": "barking",
-   "line": "Barking: POS20 on #312 has waited 2 min for a machine; POS20 has waited 2 min for a machine.",
-   "gate": "Gate #386: L1✓ L2… L3… L4✓ L5… L6… · seal pending · POS20 #386 8/16",
-   "source": "physio"
+   "state": "clear",
+   "line": "All clear (from GitHub).",
+   "gate": "Gate #386: L1✓ L2✓ L3✓ L4✓ L5✓ L6✓ · POS20 #386 23/23",
+   "source": "github"
   },
   "v_headline": "Board 1 (visual package): 238 of 238 jobs done and checked",
   "v_jobs": [
@@ -801,8 +801,8 @@
     "sha": "9243705b96a426a33ec352c5afb73cc2e9a8dc20",
     "updated": "2026-10-06T00:53:30Z",
     "gates": {
-     "passed": 21,
-     "running": 2,
+     "passed": 23,
+     "running": 0,
      "failed": 0,
      "cancelled": 0
     }
