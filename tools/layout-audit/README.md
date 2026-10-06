@@ -17,7 +17,11 @@ Optional filters: `LAYOUT_AUDIT_SIZES=393x660,768x1024`, `LAYOUT_AUDIT_SCREENS=c
 
 Output in `LAYOUT_AUDIT_OUT`: `findings.json` (every finding with screen, size, rule, selector, rect, detail, screenshot), `SUMMARY.md` (screen x size table, per-rule table, top 30 in plain words, unreached screens), `top30.json`, `screenshots/<screen>__<size>.png` (viewport screenshot, one per screen x size).
 
-## Sizes
+## Sizes (run 3)
+
+393x660, 375x553 (phone with Chrome bars), 360x560, 412x750 (phones, tap-target and bottom-edge rules on), 1440x900, 1366x650 (Chromebook with Chrome bars), 1280x620, 1536x730. Edit `SIZES` in `layout-audit.cjs` to change them.
+
+## Sizes (earlier runs)
 
 360x640, 393x660 (phones: touch + mobile, tap-target rule on), 768x1024, 1440x900, 1920x1080. Reduced motion is on so entrance animations are settled.
 
@@ -47,6 +51,13 @@ Only visible elements count: non-zero box, no `display:none`/`visibility:hidden`
 5b. figure/figure `overlap` is measured on real pixels (alpha mask), not boxes; under 8% of the smaller figure is minor. Also `border-image` frames whose corners scale unevenly (`stretched-image`).
 3b. phones: a main action within 10px of the bottom edge is reported as `off-screen` (home-indicator zone), minor.
 6. `tap-target` (phones only): visible controls under 32x32.
+
+## Run 3 rule changes
+
+- Figure/figure `overlap` is skipped when both images sit in the same `aria-hidden` art group (one composed hero). `art-clipped` now judges only the head band (top 40% of the figure's pixels) and only cuts by the screen edge; images inside buttons/links/tiles are marked `severity: ignored` (kept in findings.json, not counted).
+- `duplicate-text`: same text twice in overlapping boxes, plus screen-reader-only text that is actually painted (missing visually-hidden CSS, the ghost title).
+- `edge-gap`: measured on the screenshot pixels (built-in PNG decoder): a 4px or wider strip of body/main background colour along an edge that contrasts with the content beside it; edges covered by a fixed/sticky bar are skipped.
+- Probable false positives still seen: wordmark-over-hero-figure overlaps on Home, Legacy and Standings (separate images, not in one aria-hidden group).
 
 ## Tuning and known false-positive patterns
 

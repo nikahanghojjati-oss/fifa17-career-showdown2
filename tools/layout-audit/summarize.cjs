@@ -4,9 +4,11 @@ const fs = require("node:fs");
 const path = require("node:path");
 const outDir = path.resolve(process.argv[2] || process.env.LAYOUT_AUDIT_OUT || "layout-audit-out");
 const data = JSON.parse(fs.readFileSync(path.join(outDir, "findings.json"), "utf8"));
+const ignored = data.findings.filter(f => f.severity === "ignored").length;
+data.findings = data.findings.filter(f => f.severity !== "ignored"); // deliberate crops etc. stay in findings.json but are not counted
 const sizes = data.sizes;
 const screens = [...new Set(data.captured.map(c => c.screen))];
-const rules = ["text-clipped", "art-clipped", "overlap", "off-screen", "page-scroll", "stretched-image", "tap-target"];
+const rules = ["text-clipped", "art-clipped", "duplicate-text", "edge-gap", "overlap", "off-screen", "page-scroll", "stretched-image", "tap-target"];
 
 const count = (screen, size) => data.findings.filter(f => f.screen === screen && f.size === size).length;
 const lines = [];
@@ -36,7 +38,7 @@ for(const f of data.findings){
 }
 function amount(f){ const m = f.detail.match(/(\d+(?:\.\d+)?)px (?:horizontal|vertical)|by (\d+(?:\.\d+)?)px2|(\d+(?:\.\d+)?)% off|past/); return m ? parseFloat(m[1] || m[2] || m[3]) : 0; }
 function score(f){
-    const base = { "off-screen": 900, "page-scroll": 800, "text-clipped": 600, overlap: 500, "stretched-image": 400, "art-clipped": 450, "tap-target": 100 }[f.rule] || 0;
+    const base = { "off-screen": 900, "page-scroll": 800, "text-clipped": 600, overlap: 500, "stretched-image": 400, "art-clipped": 450, "duplicate-text": 550, "edge-gap": 650, "tap-target": 100 }[f.rule] || 0;
     const sev = f.severity === "minor" || f.severity === "low" ? 0.15 : 1;
     let extra = 0;
     if(f.rule === "overlap") extra = Math.min(300, amount(f) / 20);
@@ -51,6 +53,8 @@ function plain(f){
         case "off-screen": return `On ${where}, ${f.selector}${name} runs off the edge of the screen: ${f.detail}. People cannot see or press all of it.`;
         case "text-clipped": return `On ${where}, text${name} in ${f.selector} is cut off: ${f.detail.replace(/^text cut by overflow-hidden/, "hidden by the container")}.`;
         case "art-clipped": return `On ${where}, character/figure art ${f.selector} is cut off: ${f.detail}.`;
+        case "duplicate-text": return `On ${where}, the same text is drawn twice on top of itself (${f.detail}): ${f.selector.replace(/\s+/g, " ")}.`;
+        case "edge-gap": return `On ${where}, ${f.detail}.`;
         case "overlap": return `On ${where}, two things sit on top of each other (${f.detail}): ${f.selector.replace(/\s+/g, " ")}.`;
         case "page-scroll": return `On ${where}, the whole page scrolls (${f.detail}), so it does not fit the window.`;
         case "stretched-image": return `On ${where}, an image is squashed or stretched: ${f.selector} ${f.detail}.`;
@@ -64,6 +68,11 @@ ranked.slice(0, 30).forEach((g, i) => {
     const f = g.worst;
     lines.push(`${i + 1}. **${f.rule}** ${plain(f)} Seen at: ${[...new Set(g.sizes)].join(", ")}. Rect (x,y,w,h): ${f.rect.x}, ${f.rect.y}, ${f.rect.w}, ${f.rect.h}. Screenshot: ${f.screenshot}`);
 });
+lines.push("", "## Fix jobs estimate (one screen each, real defects only: not minor, not ignored)", "");
+const jobs = new Map();
+for(const f of data.findings){ if(f.severity === "minor") continue; const j = jobs.get(f.screen.replace(/^settings-panel-.*/, "settings").replace(/^transfer-war-.*/, "transfer-war").replace(/^season-results-.*/, "season-results").replace(/^club-wheel.*/, "club-wheel").replace(/^league-wheel.*/, "league-wheel")) || {}; j[f.rule] = (j[f.rule] || 0) + 1; jobs.set(f.screen.replace(/^settings-panel-.*/, "settings").replace(/^transfer-war-.*/, "transfer-war").replace(/^season-results-.*/, "season-results").replace(/^club-wheel.*/, "club-wheel").replace(/^league-wheel.*/, "league-wheel"), j); }
+for(const [screen, j] of [...jobs].sort()) lines.push(`- ${screen}: ${Object.entries(j).map(([r, n]) => r + " x" + n).join(", ")}`);
+lines.push("", `Estimated separate fix jobs (screens with at least one non-minor finding): ${jobs.size}. Ignored findings kept in findings.json: ${ignored}.`);
 lines.push("", "## Screens not reached", "");
 for(const size of sizes){ const u = data.unreached[size] || []; lines.push(`- ${size}: ${u.length ? u.map(x => `${x.screen} (${x.why})`).join("; ") : "none, every planned screen was reached"}`); }
 lines.push("", "## Not covered", "", "- Screens that need a real Google sign-in or a live second device (connected rivalry, pairing, live Transfer War timers, Season Results from a real opponent) are shown only through the in-page fake provider fixtures, so their content is representative, not real.", "- Settings sub-panels behind confirmation dialogs (restore, reset) are never confirmed; only what is visible without a destructive click is measured.", "");

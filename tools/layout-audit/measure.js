@@ -249,20 +249,32 @@
     const figures = [];
     for(const el of visible){ if(el.tagName === "IMG" && el.naturalWidth && el.naturalHeight){ const f = figureOf(el); if(f) figures.push(f); } }
     for(const f of figures){
-        let total = 0, shown = 0;
+        // Only the HEAD band (top 40% of the non-transparent rows) is judged, and only cuts made by the screen edge count:
+        // the image's own crop, ancestor clipping and deliberate tile crops are not reported.
+        const tile = f.el.closest("button,a,[class*=tile],[class*=Tile]");
+        let total = 0, shown = 0, minRow = Infinity, maxRow = -1;
         const cols = f.mask ? f.mask.w : 32, rows = f.mask ? f.mask.h : 32;
-        for(let j = 0; j < rows; j += 1) for(let i = 0; i < cols; i += 1){
-            const x = f.cr.left + (i + 0.5) / cols * f.cr.width, y = f.cr.top + (j + 0.5) / rows * f.cr.height;
+        if(f.mask){ for(let j = 0; j < rows; j += 1) for(let i = 0; i < cols; i += 1) if(f.mask.alpha[j * cols + i] > 96){ minRow = Math.min(minRow, j); maxRow = Math.max(maxRow, j); } }
+        else { minRow = 0; maxRow = rows - 1; }
+        if(maxRow < 0) continue;
+        const headEnd = minRow + Math.max(1, Math.round((maxRow - minRow + 1) * 0.4));
+        for(let j = minRow; j < headEnd; j += 1) for(let i = 0; i < cols; i += 1){
             if(f.mask && f.mask.alpha[j * cols + i] <= 96) continue;
-            total += 1; if(inVis(f, x, y)) shown += 1;
+            const x = f.cr.left + (i + 0.5) / cols * f.cr.width;
+            total += 1; if(x >= 0 && x <= vw) shown += 1;
         }
         if(!total) continue;
         const hidden = 1 - shown / total;
-        if(hidden < 0.99 && hidden > (opts.artMin ?? 0.1)) add("art-clipped", f.el, `${round(hidden * 100)}% of the visible figure pixels are cut off by the screen edge or a clipping parent (box ${round(f.r.width)}x${round(f.r.height)} at x ${round(f.r.left)}; src ${(f.el.currentSrc || "").split("/").pop()})`, f.r, hidden < 0.25 ? 4 : 99); // under 25% cut is usually a deliberate crop: reported as minor
+        if(hidden < 0.99 && hidden > (opts.artMin ?? 0.1)){
+            const finding = { rule: "art-clipped", severity: tile ? "ignored" : hidden < 0.25 ? "minor" : undefined, selector: sel(f.el), rect: rectOf(f.r), detail: `${round(hidden * 100)}% of the head/face pixels of this figure are past the screen edge (box ${round(f.r.width)}x${round(f.r.height)} at x ${round(f.r.left)}; src ${(f.el.currentSrc || "").split("/").pop()})${tile ? " [deliberate tile crop, ignored]" : ""}`, text: "" };
+            findings.push(finding);
+        }
     }
     for(let i = 0; i < figures.length; i += 1) for(let j = i + 1; j < figures.length; j += 1){
         const a = figures[i], b = figures[j];
         if(a.el.contains(b.el) || b.el.contains(a.el)) continue;
+        const ga = a.el.closest("[aria-hidden='true']"), gb = b.el.closest("[aria-hidden='true']");
+        if(ga && ga === gb) continue; // one decorative art composition: its overlaps are by design
         const l = Math.max(a.cr.left, b.cr.left), t = Math.max(a.cr.top, b.cr.top), r = Math.min(a.cr.left + a.cr.width, b.cr.left + b.cr.width), bt = Math.min(a.cr.top + a.cr.height, b.cr.top + b.cr.height);
         if(r <= l || bt <= t) continue;
         const step = 2; let both = 0;
@@ -313,6 +325,34 @@
         }
     }
 
+    // 7. the same text drawn twice in overlapping boxes (ghost/duplicate titles)
+    {
+        const items = [];
+        for(const el of visible){
+            if(!hasOwnText(el)) continue;
+            const t = [...el.childNodes].filter(n => n.nodeType === 3).map(n => n.textContent).join(" ").replace(/\s+/g, " ").trim().toLowerCase();
+            if(t.length < 4) continue;
+            const box = textBox(el); if(!box) continue;
+            items.push({ el, t, box });
+        }
+        const done = new Set();
+        for(let i = 0; i < items.length; i += 1) for(let j = i + 1; j < items.length; j += 1){
+            const a = items[i], b = items[j];
+            if(a.t !== b.t || a.el.contains(b.el) || b.el.contains(a.el)) continue;
+            const w = Math.min(a.box.right, b.box.right) - Math.max(a.box.left, b.box.left), h = Math.min(a.box.bottom, b.box.bottom) - Math.max(a.box.top, b.box.top);
+            if(w <= 0 || h <= 0) continue;
+            const smaller = Math.min((a.box.right - a.box.left) * (a.box.bottom - a.box.top), (b.box.right - b.box.left) * (b.box.bottom - b.box.top));
+            if(w * h < 0.5 * smaller) continue;
+            const key = sel(a.el) + "|" + sel(b.el); if(done.has(key)) continue; done.add(key);
+            findings.push({ rule: "duplicate-text", selector: sel(a.el) + "  <->  " + sel(b.el), rect: { x: round(Math.max(a.box.left, b.box.left)), y: round(Math.max(a.box.top, b.box.top)), w: round(w), h: round(h) }, detail: `the text "${a.t.slice(0, 40)}" is drawn twice in overlapping boxes`, text: a.t.slice(0, 40) });
+        }
+    }
+    // 7b. screen-reader-only text that is actually painted (its hiding CSS is missing): shows as a ghost copy of the title
+    for(const el of visible){
+        if(!/visually-hidden|sr-only|screen-reader/.test(String(el.className)) || !hasOwnText(el)) continue;
+        const r = el.getBoundingClientRect();
+        if(r.width > 20 && r.height > 8) findings.push({ rule: "duplicate-text", selector: sel(el), rect: rectOf(r), detail: `screen-reader-only text "${(el.innerText || "").trim().slice(0, 40)}" is painted on screen (${round(r.width)}x${round(r.height)}); its visually-hidden styling is not applied`, text: (el.innerText || "").trim().slice(0, 40) });
+    }
     // 4. page scroll (whole document, not the root)
     const pageFindings = [];
     if(se.scrollHeight > vh + 1) pageFindings.push({ rule: "page-scroll", selector: "document", rect: { x: 0, y: 0, w: se.scrollWidth, h: se.scrollHeight }, detail: `vertical: scrollHeight ${se.scrollHeight} > innerHeight ${vh}`, text: "" });

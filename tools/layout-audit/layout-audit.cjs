@@ -14,11 +14,14 @@ const onlyScreens = (process.env.LAYOUT_AUDIT_SCREENS || "").split(",").filter(B
 const measureSource = fs.readFileSync(path.join(__dirname, "measure.js"), "utf8").trim().replace(/;$/, "");
 
 const SIZES = [
-    { name: "360x640", width: 360, height: 640, phone: true },
     { name: "393x660", width: 393, height: 660, phone: true },
-    { name: "768x1024", width: 768, height: 1024 },
+    { name: "375x553", width: 375, height: 553, phone: true }, // phone with Chrome bars
+    { name: "360x560", width: 360, height: 560, phone: true },
+    { name: "412x750", width: 412, height: 750, phone: true },
     { name: "1440x900", width: 1440, height: 900 },
-    { name: "1920x1080", width: 1920, height: 1080 }
+    { name: "1366x650", width: 1366, height: 650 }, // Chromebook with Chrome bars
+    { name: "1280x620", width: 1280, height: 620 },
+    { name: "1536x730", width: 1536, height: 730 }
 ].filter(size => !onlySizes.length || onlySizes.includes(size.name));
 
 const fixtures = require("./fixtures/data.cjs");
@@ -276,6 +279,48 @@ async function installSharedFixture(page, mode){
     }, { mode });
 }
 
+
+// Minimal PNG decoder (8-bit RGB/RGBA, non-interlaced), enough to read Playwright screenshots without a dependency.
+function decodePng(buf){
+    const zlib = require("node:zlib");
+    let pos = 8, width = 0, height = 0, channels = 4; const idat = [];
+    while(pos < buf.length){
+        const len = buf.readUInt32BE(pos), type = buf.toString("ascii", pos + 4, pos + 8), data = buf.subarray(pos + 8, pos + 8 + len);
+        if(type === "IHDR"){ width = data.readUInt32BE(0); height = data.readUInt32BE(4); channels = data[9] === 6 ? 4 : 3; }
+        else if(type === "IDAT") idat.push(data);
+        pos += 12 + len;
+    }
+    const raw = zlib.inflateSync(Buffer.concat(idat)), stride = width * channels, out = Buffer.alloc(height * stride);
+    for(let y = 0; y < height; y += 1){
+        const f = raw[y * (stride + 1)], line = raw.subarray(y * (stride + 1) + 1, (y + 1) * (stride + 1)), cur = out.subarray(y * stride, (y + 1) * stride), prev = y ? out.subarray((y - 1) * stride, y * stride) : null;
+        for(let i = 0; i < stride; i += 1){
+            const a = i >= channels ? cur[i - channels] : 0, b = prev ? prev[i] : 0, c = prev && i >= channels ? prev[i - channels] : 0;
+            let v = line[i];
+            if(f === 1) v += a; else if(f === 2) v += b; else if(f === 3) v += (a + b) >> 1;
+            else if(f === 4){ const p = a + b - c, pa = Math.abs(p - a), pb = Math.abs(p - b), pc = Math.abs(p - c); v += pa <= pb && pa <= pc ? a : pb <= pc ? b : c; }
+            cur[i] = v & 255;
+        }
+    }
+    return { width, height, channels, data: out };
+}
+// Edge-gap rule: a strip, 4px or wider, of the page/body background colour along a viewport edge whose colour differs clearly from the content just inside it.
+function edgeGaps(png, bgColors){
+    const px = (x, y) => { const o = (y * png.width + x) * png.channels; return [png.data[o], png.data[o + 1], png.data[o + 2]]; };
+    const dist = (a, b) => (Math.abs(a[0] - b[0]) + Math.abs(a[1] - b[1]) + Math.abs(a[2] - b[2])) / 3;
+    const near = c => bgColors.some(bg => dist(c, bg) < 10);
+    const out = [];
+    const edges = { left: [i => [0, i], d => [d, 0], png.height], right: [i => [png.width - 1, i], d => [-d, 0], png.height], top: [i => [i, 0], d => [0, d], png.width], bottom: [i => [i, png.height - 1], d => [0, -d], png.width] };
+    for(const [edge, [at, step, len]] of Object.entries(edges)){
+        const samples = []; for(let i = 12; i < len - 12; i += Math.max(8, Math.floor(len / 50))) samples.push(i);
+        const colAt = (i, d) => { const [x, y] = at(i), [dx, dy] = step(d); return px(x + dx, y + dy); };
+        let width = 0;
+        for(let d = 0; d < 240; d += 1){ const hit = samples.filter(i => near(colAt(i, d))).length; if(hit / samples.length >= 0.85) width = d + 1; else break; }
+        if(width < 4) continue;
+        const contrast = samples.reduce((n, i) => n + dist(colAt(i, 0), colAt(i, Math.min(width + 6, 250))), 0) / samples.length;
+        if(contrast > 30) out.push({ edge, width, contrast: Math.round(contrast) });
+    }
+    return out;
+}
 // ---------- measuring ----------
 const report = { tool: "layout-audit", baseUrl: baseUrl.href, sizes: SIZES.map(s => s.name), generatedAt: new Date().toISOString(), settingsButtonsSeen: [] };
 const findings = [];
@@ -300,12 +345,19 @@ async function run(){
                 const results = await page.evaluate(`(${measureSource})(${JSON.stringify(rootSel)}, ${JSON.stringify({ phone: Boolean(size.phone), artMin: process.env.LAYOUT_AUDIT_ART_MIN ? Number(process.env.LAYOUT_AUDIT_ART_MIN) : undefined })})`);
                 const where = await page.evaluate(() => ({ route: typeof window.getActiveScreenName === "function" ? window.getActiveScreenName() : null, evidence: [".sd-stage", ".v10SeasonStage", ".v10FinalStage", ".standingsScreenV10", ".seasonScreenV10", "#connectPlayersScreen:not(.hidden)", ".v10Settings", ".v10Home", "[data-v10-screen]", ".transferScreenV10", ".tw-root", ".footballVisualPanel"].filter(q => document.querySelector(q)), transferMounted: window.CareerModeTransferScreenV10?.isMounted?.() ?? null }));
                 captureMeta[screen + "|" + size.name] = { module: moduleFor(screen), ...where };
+                if(process.env.LAYOUT_AUDIT_EVAL && screen.startsWith(process.env.LAYOUT_AUDIT_DUMP || "")){ fs.writeFileSync(path.join(outDir, `eval-${screen}__${size.name}.txt`), String(await page.evaluate(process.env.LAYOUT_AUDIT_EVAL))); }
                 if(process.env.LAYOUT_AUDIT_DUMP && screen.startsWith(process.env.LAYOUT_AUDIT_DUMP)){
                     const inv = await page.evaluate(rootSel => [...document.querySelector(rootSel).querySelectorAll("*")].map(e => { const s = getComputedStyle(e), r = e.getBoundingClientRect(); const anc = []; for(let n = e.parentElement; n && n !== document.body; n = n.parentElement){ const o = getComputedStyle(n); if(/hidden|clip/.test(o.overflow + o.overflowX + o.overflowY)) anc.push((n.id || n.className || n.tagName).toString().slice(0, 30)); } return { t: e.tagName, c: (e.id || e.className || "").toString().slice(0, 40), r: [r.left, r.top, r.width, r.height].map(Math.round), img: e.tagName === "IMG" ? { src: e.currentSrc.split("/").pop(), nat: [e.naturalWidth, e.naturalHeight], fit: s.objectFit } : undefined, bg: s.backgroundImage !== "none" ? s.backgroundImage.slice(0, 80) + " | " + s.backgroundSize + " | " + s.backgroundPosition : undefined, bi: s.borderImageSource !== "none" ? s.borderImageSource.slice(0, 60) : undefined, pos: s.position, clip: anc.slice(0, 3).join(">") }; }).filter(x => x.img || x.bg || x.bi || x.t === "BUTTON"), rootSel);
                     fs.writeFileSync(path.join(outDir, `dump-${screen}__${size.name}.json`), JSON.stringify(inv, null, 1));
                 }
                 const file = `${screen}__${size.name}.png`;
-                await page.screenshot({ path: path.join(outDir, "screenshots", file) });
+                const shot = await page.screenshot({ path: path.join(outDir, "screenshots", file) });
+                try{
+                    const bgs = await page.evaluate(() => [document.documentElement, document.body, document.querySelector("main"), document.getElementById("app")].filter(Boolean).map(e => getComputedStyle(e).backgroundColor).filter(c => /^rgb\(/.test(c)).map(c => c.match(/\d+/g).slice(0, 3).map(Number)));
+                    // edges already covered by a fixed/sticky bar (bottom nav, header, footer) are the bar itself, not a gap
+                    const barEdges = await page.evaluate(() => { const out = new Set(), vw = innerWidth, vh = innerHeight; for(const e of document.querySelectorAll("body *")){ const st = getComputedStyle(e); if(st.position !== "fixed" && st.position !== "sticky") continue; const r = e.getBoundingClientRect(); if(r.width < 0.8 * vw || r.height < 20 || st.visibility === "hidden" || st.display === "none") continue; if(r.top <= 2 && r.bottom > 20) out.add("top"); if(r.bottom >= vh - 2 && r.top < vh - 20) out.add("bottom"); } return [...out]; });
+                    for(const g of edgeGaps(decodePng(shot), bgs).filter(g => !barEdges.includes(g.edge))) results.push({ rule: "edge-gap", selector: "document (" + g.edge + " edge)", rect: g.edge === "left" ? { x: 0, y: 0, w: g.width, h: size.height } : g.edge === "right" ? { x: size.width - g.width, y: 0, w: g.width, h: size.height } : g.edge === "top" ? { x: 0, y: 0, w: size.width, h: g.width } : { x: 0, y: size.height - g.width, w: size.width, h: g.width }, detail: `${g.width}px strip of page background colour shows along the ${g.edge} edge (contrast with the content beside it ${g.contrast})`, text: "" });
+                }catch(error){ /* decoder limits: skip the rule for this capture */ }
                 captured.push({ screen, size: size.name });
                 for(const f of results){ const key = [size.name, rootSel, f.rule, f.selector, f.detail].join("|"); if(extra.panelIndex !== undefined && dedupe.has(key)) continue; dedupe.add(key); findings.push({ screen, size: size.name, ...f, screenshot: "screenshots/" + file }); }
             };
