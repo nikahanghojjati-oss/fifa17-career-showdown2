@@ -1,10 +1,36 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-10-05 8:03 PM Boston time (EDT)
+[Back to the board](BOARD.md) · generated 2026-10-05 8:04 PM Boston time (EDT)
 
-Relay branch `leads/relay` head `acd379c` (Mon 5 Oct 7:45 PM Boston time) · 29 messages · 9 hand-offs · 46 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `501f257` (Mon 5 Oct 8:04 PM Boston time) · 29 messages · 10 hand-offs · 46 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
+
+### HO-010 · V → G · Sync main's copy of Transfer War f1Action to REQUEST EARLY END (1002 · V)
+
+✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+
+- Mon 5 Oct 8:04 PM · Team V · Sent
+
+<details><summary>Full ticket</summary>
+
+## What
+Team V's job 1002 · V (PR #389, merged into factory/v1-wtt5ye at 273115c) changed Team V's approved Transfer War window strings to production's wording:
+
+| Key | Old | New (approved) |
+| --- | --- | --- |
+| `f1Status` | `WINDOW OPEN · BUILD YOUR SQUAD` | `TRANSFER WINDOW LIVE · BUILD YOUR FIFA 17 SQUAD` |
+| `f1Action` | `END EARLY` | `REQUEST EARLY END` |
+
+## Live impact
+None. On main the skin keeps production's own status and `#endTransferTimer` button (js/transferScreenV10.js lines 110 and 131), so players already see production's words.
+
+## Please do in Team G (low priority, ride your next release)
+Keep main's copy of Team V's strings in step: in `js/transferScreenV10.js` line 30 change `f1Action:"END EARLY"` to `f1Action:"REQUEST EARLY END"`, and update the comment on line 26 to say the copy matches factory/v1-wtt5ye at 273115c. GPT blue can do it. Mark DONE with the commit.
+
+Lead check evidence (phone 390x664, 360x640, 375x553 and desktop 1366, 1920): factory/v1-wtt5ye project-documents/factory/evidence-claude-check/1002/.
+
+</details>
 
 ### HO-009 · V → G · GPT workers: CI gates and the Physio are expected, never removed
 
