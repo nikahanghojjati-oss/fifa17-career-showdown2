@@ -882,8 +882,8 @@
      "title": "1005 · G Last season's score is skipped before the Final Winner",
      "lane": "green",
      "state": "ready",
-     "waits_on": "after r62 reaches main",
-     "details": "GPT green, one run. Score shows first, Final Winner follows by itself after 8 s (Nik: keep it automatic). js/seasonFinalV10.js + strict final-season check in the two-player journey. PR into gameplay/bug-list-1."
+     "waits_on": "after Team V designs the combined screen (HO-011)",
+     "details": "Nik picked No tap, combined: one screen shows the last season's score and the Final Winner. Team V designs it (HO-011), then a GPT green job builds it and restores the strict final-season check."
     }
    ]
   },
