@@ -134,6 +134,9 @@ def q_add(it, team):
     q = dict(it, n=n, team=team, lane=lane)
     if re.match(r"(in release|verified|in r\d)", st, re.I):
         Q["release"].append(q)
+    elif (it.get("progress") or it.get("pct") is not None) and not re.search(r"waiting (for|on) Nik to type", st + " " + str(it.get("state", "")), re.I):
+        # the worker's first saved step (status/JOB-NNNN.md "State: IN PROGRESS" or a PR progress block) moves the job to Running now, even before the row's waits_on is updated
+        Q["run"].append(q)
     elif w.lower().startswith("nik types") or re.search(r"waiting (for|on) Nik to type", st + " " + str(it.get("state", "")), re.I):
         q["type"] = n + (" again" if "again" in w else "")
         q["note"] = re.sub(r"^.*?\bagain\s*", "", w).strip() if "again" in w else ""
