@@ -898,38 +898,38 @@
      "group": "Bug list 1",
      "title": "Session code replacement: double tap and lost join watcher",
      "lane": "claude",
-     "state": "in review: PR #406, CI running",
+     "state": "done (merged into bug-list-1)",
      "waits_on": "",
-     "order": 0,
-     "details": "Hunt 1018 H1 (S1) and H2 (S2), js/sparkRemoteJoining.js"
+     "details": "Hunt 1018 H1 (S1) and H2 (S2), js/sparkRemoteJoining.js",
+     "archived": true
     },
     {
      "id": "1024",
      "group": "Bug list 1",
      "title": "Reconnect keeps stale authority after sign-out, offline or expiry",
      "lane": "claude",
-     "state": "in review: PR #408, CI running",
+     "state": "done (merged into bug-list-1)",
      "waits_on": "",
-     "order": 0,
-     "details": "Hunt 1018 H3, H4 and H5 (S2), js/productionSharedJourneyReconnect.js"
+     "details": "Hunt 1018 H3, H4 and H5 (S2), js/productionSharedJourneyReconnect.js",
+     "archived": true
     },
     {
      "id": "1025",
      "title": "Terminal close recovery and closed-frame trophies (hunt 1017 H1-H3)",
      "lane": "claude",
-     "state": "with the lead (Claude helper building)",
-     "order": 0,
+     "state": "done (merged into bug-list-1)",
      "place": "Claude helper (nothing for Nik to type)",
-     "note": "from hunt 1017"
+     "note": "from hunt 1017",
+     "archived": true
     },
     {
      "id": "1026",
      "title": "New shared season clears last season's result fields (hunt 1017 H4)",
      "lane": "claude",
-     "state": "with the lead (Claude helper building)",
-     "order": 0,
+     "state": "done (merged into bug-list-1)",
      "place": "Claude helper (nothing for Nik to type)",
-     "note": "from hunt 1017"
+     "note": "from hunt 1017",
+     "archived": true
     },
     {
      "id": "1028",
@@ -944,10 +944,10 @@
      "id": "1027",
      "title": "Restore keeps and checks the Save Library; career cache race (hunt 1019 H1, H2, H4)",
      "lane": "claude",
-     "state": "with the lead (Claude helper building)",
-     "order": 0,
+     "state": "done (merged into bug-list-1)",
      "place": "Claude helper (nothing for Nik to type)",
-     "note": "from hunt 1019; H3 is fixed by 1026"
+     "note": "from hunt 1019; H3 is fixed by 1026",
+     "archived": true
     }
    ]
   },
