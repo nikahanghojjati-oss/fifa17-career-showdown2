@@ -401,6 +401,27 @@
      "run": "chat-1006-0522"
     },
     "sha": "10ec5b9e254ffdbb4906ff89c58634e22cb2dc41"
+   },
+   "project-documents/gameplay-factory/sweeps/olympiad/runs/chat-1006-0528.json": {
+    "data": {
+     "area": "05",
+     "clean_confidence_pct": 92,
+     "coverage_pct": 65,
+     "date_utc": "2026-10-06T05:28:00Z",
+     "files_read": [
+      "index.html",
+      "js/showdown.js",
+      "js/seasonFinalV10.js",
+      "visual-assets/v10_1/final-winner/final-winner.js"
+     ],
+     "findings": [],
+     "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+     "mode": "chat",
+     "next_focus": "If area 05 is checked again, spend the four-file budget on the authoritative final reconciliation and terminal close path first, then the final winner presentation, to verify the upstream winner matches accumulated totals and completion is recorded once.",
+     "partial": false,
+     "run": "chat-1006-0528"
+    },
+    "sha": "86885b9be5b9f14d773806d650a255f90792f277"
    }
   },
   "state": "ok"
