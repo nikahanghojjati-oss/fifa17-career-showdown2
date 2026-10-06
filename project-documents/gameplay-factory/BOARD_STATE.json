@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 8:22 PM Boston time (EDT)",
+ "generated": "2026-10-05 8:24 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -643,7 +643,7 @@
   "**Nothing waits on you right now.** r62 (PR #390) is in checks; after it ships, press Update once on the laptop."
  ],
  "now": {
-  "moving": 18,
+  "moving": 17,
   "next": 2,
   "nik": 4,
   "later": 4,
