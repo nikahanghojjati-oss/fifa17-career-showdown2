@@ -143,6 +143,10 @@ html[data-v10-setup] main { scrollbar-color: var(--v26-gold-deep) rgba(255, 255,
 @media (max-width: 760px) {
   #leagueWheelScreen.v26Skin > h2 { width: min(66vw, 280px); }
 }
+/* Job 1030 (HO-019 addendum): short desktop windows keep CONTINUE and BACK in view. */
+@media (min-width: 761px) and (max-height: 760px) {
+  #leagueWheelScreen.v26Skin > h2 { width: clamp(240px, 24vw, 420px); margin: 2px auto 4px; }
+}
 :is(#createShowdown, #leagueWheelScreen, #clubWheelScreen, #dashboard).v26Skin > h2::before,
 :is(#createShowdown, #leagueWheelScreen, #clubWheelScreen, #dashboard).v26Skin > h2::after { display: none; }
 :is(#createShowdown, #leagueWheelScreen, #clubWheelScreen, #dashboard).v26Skin .stateNote {
