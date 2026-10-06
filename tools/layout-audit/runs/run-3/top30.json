@@ -1,0 +1,762 @@
+[
+ {
+  "rule": "duplicate-text",
+  "screen": "final-winner",
+  "selector": "#finalWinnerTitle > span.sd-visually-hidden",
+  "sizes": [
+   "393x660",
+   "375x553",
+   "360x560",
+   "412x750",
+   "1440x900",
+   "1366x650",
+   "1280x620",
+   "1536x730"
+  ],
+  "worst": {
+   "screen": "final-winner",
+   "size": "1440x900",
+   "rule": "duplicate-text",
+   "selector": "#finalWinnerTitle > span.sd-visually-hidden",
+   "rect": {
+    "x": 568.9,
+    "y": 195.1,
+    "w": 288,
+    "h": 27
+   },
+   "detail": "screen-reader-only text \"SHOWDOWN CHAMPION\" is painted on screen (288x27); its visually-hidden styling is not applied",
+   "text": "SHOWDOWN CHAMPION",
+   "screenshot": "screenshots/final-winner__1440x900.png"
+  }
+ },
+ {
+  "rule": "overlap",
+  "screen": "season-results-entry",
+  "selector": "#daniel-entry-panel  <->  #completeSeason",
+  "sizes": [
+   "1366x650",
+   "1280x620",
+   "1536x730"
+  ],
+  "worst": {
+   "screen": "season-results-entry",
+   "size": "1280x620",
+   "rule": "overlap",
+   "selector": "#daniel-entry-panel  <->  #completeSeason",
+   "rect": {
+    "x": 442.1,
+    "y": 532.7,
+    "w": 190.4,
+    "h": 37
+   },
+   "detail": "card overlaps control by 7037.3px2",
+   "text": "Daniel Arsenal LEAGUE P / REVIEW MY SEASON RESULT",
+   "screenshot": "screenshots/season-results-entry__1280x620.png"
+  }
+ },
+ {
+  "rule": "overlap",
+  "screen": "season-results-review",
+  "selector": "#daniel-entry-panel  <->  #completeSeason",
+  "sizes": [
+   "1366x650",
+   "1280x620",
+   "1536x730"
+  ],
+  "worst": {
+   "screen": "season-results-review",
+   "size": "1280x620",
+   "rule": "overlap",
+   "selector": "#daniel-entry-panel  <->  #completeSeason",
+   "rect": {
+    "x": 442.1,
+    "y": 532.7,
+    "w": 190.4,
+    "h": 37
+   },
+   "detail": "card overlaps control by 7037.3px2",
+   "text": "Daniel Arsenal LEAGUE P / REVIEW MY SEASON RESULT",
+   "screenshot": "screenshots/season-results-review__1280x620.png"
+  }
+ },
+ {
+  "rule": "overlap",
+  "screen": "statistics-rivalry",
+  "selector": "#statisticsScreenTitle  <->  #rvPanelTotals",
+  "sizes": [
+   "1366x650",
+   "1280x620",
+   "1536x730"
+  ],
+  "worst": {
+   "screen": "statistics-rivalry",
+   "size": "1536x730",
+   "rule": "overlap",
+   "selector": "#statisticsScreenTitle  <->  #rvPanelTotals",
+   "rect": {
+    "x": 463.9,
+    "y": 195.6,
+    "w": 614.4,
+    "h": 10.6
+   },
+   "detail": "heading overlaps card by 6518.3px2",
+   "text": "RIVALRY STATISTICS / DANIEL CLUB_A NIK CLUB_B ",
+   "screenshot": "screenshots/statistics-rivalry__1536x730.png"
+  }
+ },
+ {
+  "rule": "duplicate-text",
+  "screen": "statistics-rivalry",
+  "selector": "#statisticsScreenTitle > span.sd-visually-hidden",
+  "sizes": [
+   "393x660",
+   "375x553",
+   "360x560",
+   "412x750",
+   "1440x900",
+   "1366x650",
+   "1280x620",
+   "1536x730"
+  ],
+  "worst": {
+   "screen": "statistics-rivalry",
+   "size": "393x660",
+   "rule": "duplicate-text",
+   "selector": "#statisticsScreenTitle > span.sd-visually-hidden",
+   "rect": {
+    "x": 87,
+    "y": 208.7,
+    "w": 218.9,
+    "h": 29
+   },
+   "detail": "screen-reader-only text \"RIVALRY STATISTICS\" is painted on screen (218.9x29); its visually-hidden styling is not applied",
+   "text": "RIVALRY STATISTICS",
+   "screenshot": "screenshots/statistics-rivalry__393x660.png"
+  }
+ },
+ {
+  "rule": "edge-gap",
+  "screen": "legacy-history",
+  "selector": "document (right edge)",
+  "sizes": [
+   "393x660",
+   "375x553",
+   "360x560",
+   "412x750"
+  ],
+  "worst": {
+   "screen": "legacy-history",
+   "size": "393x660",
+   "rule": "edge-gap",
+   "selector": "document (right edge)",
+   "rect": {
+    "x": 377,
+    "y": 0,
+    "w": 16,
+    "h": 660
+   },
+   "detail": "16px strip of page background colour shows along the right edge (contrast with the content beside it 129)",
+   "text": "",
+   "screenshot": "screenshots/legacy-history__393x660.png"
+  }
+ },
+ {
+  "rule": "stretched-image",
+  "screen": "final-winner",
+  "selector": "#stage-root > div.sd-stage__layer.sd-stage__layer--cutout > div.sd-stage__registered > img.finalWinnerCutout.finalWinnerCutout--daniel",
+  "sizes": [
+   "1366x650",
+   "1280x620",
+   "1536x730"
+  ],
+  "worst": {
+   "screen": "final-winner",
+   "size": "1536x730",
+   "rule": "stretched-image",
+   "selector": "#stage-root > div.sd-stage__layer.sd-stage__layer--cutout > div.sd-stage__registered > img.finalWinnerCutout.finalWinnerCutout--daniel",
+   "rect": {
+    "x": 0,
+    "y": 61,
+    "w": 1536,
+    "h": 643
+   },
+   "detail": "rendered 1536x643 (ratio 2.3890000000000002) vs natural 1672x941 (ratio 1.777), 34.4% off",
+   "text": "",
+   "screenshot": "screenshots/final-winner__1536x730.png"
+  }
+ },
+ {
+  "rule": "stretched-image",
+  "screen": "final-winner",
+  "selector": "#stage-root > div.sd-stage__layer.sd-stage__layer--cutout > div.sd-stage__registered > img.finalWinnerCutout.finalWinnerCutout--nik",
+  "sizes": [
+   "1366x650",
+   "1280x620",
+   "1536x730"
+  ],
+  "worst": {
+   "screen": "final-winner",
+   "size": "1536x730",
+   "rule": "stretched-image",
+   "selector": "#stage-root > div.sd-stage__layer.sd-stage__layer--cutout > div.sd-stage__registered > img.finalWinnerCutout.finalWinnerCutout--nik",
+   "rect": {
+    "x": 0,
+    "y": 61,
+    "w": 1536,
+    "h": 643
+   },
+   "detail": "rendered 1536x643 (ratio 2.3890000000000002) vs natural 1672x941 (ratio 1.777), 34.4% off",
+   "text": "",
+   "screenshot": "screenshots/final-winner__1536x730.png"
+  }
+ },
+ {
+  "rule": "overlap",
+  "screen": "transfer-war-signing",
+  "selector": "div.tw-host > div.stage.pv-mobile > div.world > section.panel.sealed  <->  #refreshSharedTransferChallenge",
+  "sizes": [
+   "375x553",
+   "360x560",
+   "412x750"
+  ],
+  "worst": {
+   "screen": "transfer-war-signing",
+   "size": "375x553",
+   "rule": "overlap",
+   "selector": "div.tw-host > div.stage.pv-mobile > div.world > section.panel.sealed  <->  #refreshSharedTransferChallenge",
+   "rect": {
+    "x": 283.5,
+    "y": 457,
+    "w": 80.1,
+    "h": 30.2
+   },
+   "detail": "card overlaps control by 2417.1px2",
+   "text": "NIK SEALED CM17 / REFRESH SHARED CHALLENGE",
+   "screenshot": "screenshots/transfer-war-signing__375x553.png"
+  }
+ },
+ {
+  "rule": "overlap",
+  "screen": "transfer-war-signing",
+  "selector": "div.tw-host > div.stage.pv-mobile > div.world > section.panel.sealed  <->  #tw-transferChallengeTitle",
+  "sizes": [
+   "375x553",
+   "360x560",
+   "412x750"
+  ],
+  "worst": {
+   "screen": "transfer-war-signing",
+   "size": "375x553",
+   "rule": "overlap",
+   "selector": "div.tw-host > div.stage.pv-mobile > div.world > section.panel.sealed  <->  #tw-transferChallengeTitle",
+   "rect": {
+    "x": 91.5,
+    "y": 463.5,
+    "w": 170.6,
+    "h": 14
+   },
+   "detail": "card overlaps heading by 2389px2",
+   "text": "NIK SEALED CM17 / SEASON 1 · TRANSFER CHALL",
+   "screenshot": "screenshots/transfer-war-signing__375x553.png"
+  }
+ },
+ {
+  "rule": "overlap",
+  "screen": "transfer-war-signing",
+  "selector": "div.stage.pv-mobile > div.world > section.panel.sealed > div.panel-title.reg  <->  #tw-transferChallengeTitle",
+  "sizes": [
+   "375x553",
+   "360x560",
+   "412x750"
+  ],
+  "worst": {
+   "screen": "transfer-war-signing",
+   "size": "375x553",
+   "rule": "overlap",
+   "selector": "div.stage.pv-mobile > div.world > section.panel.sealed > div.panel-title.reg  <->  #tw-transferChallengeTitle",
+   "rect": {
+    "x": 91.5,
+    "y": 463.5,
+    "w": 170.6,
+    "h": 14
+   },
+   "detail": "card overlaps heading by 2389px2",
+   "text": "NIK SEALED / SEASON 1 · TRANSFER CHALL",
+   "screenshot": "screenshots/transfer-war-signing__375x553.png"
+  }
+ },
+ {
+  "rule": "text-clipped",
+  "screen": "club-wheel",
+  "selector": "#clubWheelScreenScreenTitle > span.clubTitleFallback",
+  "sizes": [
+   "1440x900",
+   "1536x730"
+  ],
+  "worst": {
+   "screen": "club-wheel",
+   "size": "1440x900",
+   "rule": "text-clipped",
+   "selector": "#clubWheelScreenScreenTitle > span.clubTitleFallback",
+   "rect": {
+    "x": 368.3,
+    "y": 105.4,
+    "w": 662.6,
+    "h": 90
+   },
+   "detail": "text cut by overflow-hidden #clubWheelScreenScreenTitle: 0px horizontal, 5px vertical hidden",
+   "text": "CLUB ASSIGNMENT",
+   "screenshot": "screenshots/club-wheel__1440x900.png"
+  }
+ },
+ {
+  "rule": "text-clipped",
+  "screen": "club-wheel-revealed",
+  "selector": "#clubWheelScreenScreenTitle > span.clubTitleFallback",
+  "sizes": [
+   "1440x900",
+   "1536x730"
+  ],
+  "worst": {
+   "screen": "club-wheel-revealed",
+   "size": "1440x900",
+   "rule": "text-clipped",
+   "selector": "#clubWheelScreenScreenTitle > span.clubTitleFallback",
+   "rect": {
+    "x": 368.3,
+    "y": 105.4,
+    "w": 662.6,
+    "h": 90
+   },
+   "detail": "text cut by overflow-hidden #clubWheelScreenScreenTitle: 0px horizontal, 5px vertical hidden",
+   "text": "CLUB ASSIGNMENT",
+   "screenshot": "screenshots/club-wheel-revealed__1440x900.png"
+  }
+ },
+ {
+  "rule": "overlap",
+  "screen": "transfer-war-signing",
+  "selector": "div.stage.pv-mobile > div.world > section.panel.sealed > div.panel-title.reg  <->  #refreshSharedTransferChallenge",
+  "sizes": [
+   "375x553",
+   "360x560",
+   "412x750"
+  ],
+  "worst": {
+   "screen": "transfer-war-signing",
+   "size": "375x553",
+   "rule": "overlap",
+   "selector": "div.stage.pv-mobile > div.world > section.panel.sealed > div.panel-title.reg  <->  #refreshSharedTransferChallenge",
+   "rect": {
+    "x": 283.5,
+    "y": 457,
+    "w": 67.1,
+    "h": 29.2
+   },
+   "detail": "card overlaps control by 1957.7px2",
+   "text": "NIK SEALED / REFRESH SHARED CHALLENGE",
+   "screenshot": "screenshots/transfer-war-signing__375x553.png"
+  }
+ },
+ {
+  "rule": "overlap",
+  "screen": "final-winner",
+  "selector": "#finalWinnerTitle  <->  #finalWinnerHeading",
+  "sizes": [
+   "1440x900",
+   "1366x650",
+   "1536x730"
+  ],
+  "worst": {
+   "screen": "final-winner",
+   "size": "1536x730",
+   "rule": "overlap",
+   "selector": "#finalWinnerTitle  <->  #finalWinnerHeading",
+   "rect": {
+    "x": 641.4,
+    "y": 255.2,
+    "w": 253.1,
+    "h": 7.7
+   },
+   "detail": "heading overlaps heading by 1953.4px2",
+   "text": "SHOWDOWN CHAMPION / SHARED SHOWDOWN CLOSED",
+   "screenshot": "screenshots/final-winner__1536x730.png"
+  }
+ },
+ {
+  "rule": "overlap",
+  "screen": "transfer-war-signing",
+  "selector": "div.tw-host > div.stage.pv-mobile > div.world > section.panel.sealed  <->  div.tw-host > div.stage.pv-mobile > footer.hud-footer.sd-entered > button.backButton.ghost",
+  "sizes": [
+   "375x553",
+   "360x560",
+   "412x750"
+  ],
+  "worst": {
+   "screen": "transfer-war-signing",
+   "size": "375x553",
+   "rule": "overlap",
+   "selector": "div.tw-host > div.stage.pv-mobile > div.world > section.panel.sealed  <->  div.tw-host > div.stage.pv-mobile > footer.hud-footer.sd-entered > button.backButton.ghost",
+   "rect": {
+    "x": 11.4,
+    "y": 457,
+    "w": 58.8,
+    "h": 30.2
+   },
+   "detail": "card overlaps control by 1774.5px2",
+   "text": "NIK SEALED CM17 / BACK TO SHOWDOWN HOME",
+   "screenshot": "screenshots/transfer-war-signing__375x553.png"
+  }
+ },
+ {
+  "rule": "overlap",
+  "screen": "trophy-room",
+  "selector": "div.shelfGlass > div.trophyGrid > article.trophyCard.sd-glint > picture.trophyCardPicture  <->  div.shelfGlass > div.trophyGrid > article.trophyCard.sd-glint > h3",
+  "sizes": [
+   "1440x900",
+   "1366x650",
+   "1280x620",
+   "1536x730"
+  ],
+  "worst": {
+   "screen": "trophy-room",
+   "size": "1536x730",
+   "rule": "overlap",
+   "selector": "div.shelfGlass > div.trophyGrid > article.trophyCard.sd-glint > picture.trophyCardPicture  <->  div.shelfGlass > div.trophyGrid > article.trophyCard.sd-glint > h3",
+   "rect": {
+    "x": 149.6,
+    "y": 531.8,
+    "w": 290.4,
+    "h": 2
+   },
+   "detail": "card overlaps heading by 580.9px2",
+   "text": " / SHOWDOWN CHAMPION",
+   "screenshot": "screenshots/trophy-room__1536x730.png"
+  }
+ },
+ {
+  "rule": "overlap",
+  "screen": "trophy-room",
+  "selector": "div.trophyGrid > article.trophyCard.sd-glint > picture.trophyCardPicture > img  <->  div.shelfGlass > div.trophyGrid > article.trophyCard.sd-glint > h3",
+  "sizes": [
+   "1440x900",
+   "1366x650",
+   "1280x620",
+   "1536x730"
+  ],
+  "worst": {
+   "screen": "trophy-room",
+   "size": "1536x730",
+   "rule": "overlap",
+   "selector": "div.trophyGrid > article.trophyCard.sd-glint > picture.trophyCardPicture > img  <->  div.shelfGlass > div.trophyGrid > article.trophyCard.sd-glint > h3",
+   "rect": {
+    "x": 149.6,
+    "y": 531.8,
+    "w": 290.4,
+    "h": 2
+   },
+   "detail": "image overlaps heading by 580.9px2",
+   "text": "Showdown Champion / SHOWDOWN CHAMPION",
+   "screenshot": "screenshots/trophy-room__1536x730.png"
+  }
+ },
+ {
+  "rule": "text-clipped",
+  "screen": "statistics-career",
+  "selector": "#headlineTiles > article.headlineTile.sd-entered > div.headlineCopy > div.headlineTogether",
+  "sizes": [
+   "375x553",
+   "360x560"
+  ],
+  "worst": {
+   "screen": "statistics-career",
+   "size": "375x553",
+   "rule": "text-clipped",
+   "selector": "#headlineTiles > article.headlineTile.sd-entered > div.headlineCopy > div.headlineTogether",
+   "rect": {
+    "x": 44,
+    "y": 233.8,
+    "w": 25.5,
+    "h": 7
+   },
+   "detail": "text cut by overflow-hidden #headlineTiles > article.headlineTile.sd-entered: 0px horizontal, 6px vertical hidden",
+   "text": "TOGETHER",
+   "screenshot": "screenshots/statistics-career__375x553.png"
+  }
+ },
+ {
+  "rule": "overlap",
+  "screen": "standings",
+  "selector": "#sdgTitle  <->  #standingsScreen > section.sdg-board.sd-panel",
+  "sizes": [
+   "1536x730"
+  ],
+  "worst": {
+   "screen": "standings",
+   "size": "1536x730",
+   "rule": "overlap",
+   "selector": "#sdgTitle  <->  #standingsScreen > section.sdg-board.sd-panel",
+   "rect": {
+    "x": 445.4,
+    "y": 274.5,
+    "w": 645.1,
+    "h": 4.8
+   },
+   "detail": "heading overlaps card by 3084.4px2",
+   "text": "STANDINGS / THIS SHOWDOWN CAREER HEAD",
+   "screenshot": "screenshots/standings__1536x730.png"
+  }
+ },
+ {
+  "rule": "overlap",
+  "screen": "home-empty",
+  "selector": "#mainMenu > div.v10HomeCutouts > picture.phoneHeroCutout.phoneHeroDaniel > img  <->  div.fifaMenuShell > div.homeLockup > div.lockupWordmarkWrap.sd-title > img.lockupWordmark",
+  "sizes": [
+   "393x660",
+   "375x553",
+   "360x560",
+   "412x750"
+  ],
+  "worst": {
+   "screen": "home-empty",
+   "size": "393x660",
+   "rule": "overlap",
+   "selector": "#mainMenu > div.v10HomeCutouts > picture.phoneHeroCutout.phoneHeroDaniel > img  <->  div.fifaMenuShell > div.homeLockup > div.lockupWordmarkWrap.sd-title > img.lockupWordmark",
+   "rect": {
+    "x": 110.5,
+    "y": 249.9,
+    "w": 104.1,
+    "h": 57
+   },
+   "detail": "figure art overlaps figure art: 1532px2 of real pixels = 27.6% of the smaller figure",
+   "text": "OVL_HOME_DANIEL_PHONE_V2.webp / LOGO_CM17_WORDMARK_V1.webp",
+   "screenshot": "screenshots/home-empty__393x660.png"
+  }
+ },
+ {
+  "rule": "overlap",
+  "screen": "home-empty",
+  "selector": "#mainMenu > div.v10HomeCutouts > picture.phoneHeroCutout.phoneHeroNik > img  <->  div.fifaMenuShell > div.homeLockup > div.lockupWordmarkWrap.sd-title > img.lockupWordmark",
+  "sizes": [
+   "393x660",
+   "375x553",
+   "360x560",
+   "412x750"
+  ],
+  "worst": {
+   "screen": "home-empty",
+   "size": "393x660",
+   "rule": "overlap",
+   "selector": "#mainMenu > div.v10HomeCutouts > picture.phoneHeroCutout.phoneHeroNik > img  <->  div.fifaMenuShell > div.homeLockup > div.lockupWordmarkWrap.sd-title > img.lockupWordmark",
+   "rect": {
+    "x": 141.1,
+    "y": 249.9,
+    "w": 141.4,
+    "h": 62.5
+   },
+   "detail": "figure art overlaps figure art: 1652px2 of real pixels = 29.8% of the smaller figure",
+   "text": "OVL_HOME_NIK_PHONE_V2.webp / LOGO_CM17_WORDMARK_V1.webp",
+   "screenshot": "screenshots/home-empty__393x660.png"
+  }
+ },
+ {
+  "rule": "overlap",
+  "screen": "legacy-history",
+  "selector": "#legacyHeading > picture.legacyWordmarkPicture.sd-glint > img.legacyWordmark  <->  #stage-root > div.sd-stage__layer.sd-stage__layer--cutout > picture.legacyPhoneHero.legacyPhoneHero--daniel > img",
+  "sizes": [
+   "393x660",
+   "375x553",
+   "360x560",
+   "412x750"
+  ],
+  "worst": {
+   "screen": "legacy-history",
+   "size": "393x660",
+   "rule": "overlap",
+   "selector": "#legacyHeading > picture.legacyWordmarkPicture.sd-glint > img.legacyWordmark  <->  #stage-root > div.sd-stage__layer.sd-stage__layer--cutout > picture.legacyPhoneHero.legacyPhoneHero--daniel > img",
+   "rect": {
+    "x": 75.4,
+    "y": 200.3,
+    "w": 166.3,
+    "h": 61.6
+   },
+   "detail": "figure art overlaps figure art: 4316px2 of real pixels = 62.2% of the smaller figure",
+   "text": "TITLE_LG_V1.webp / OVL_LG_DANIEL_PHONE_V1.webp",
+   "screenshot": "screenshots/legacy-history__393x660.png"
+  }
+ },
+ {
+  "rule": "overlap",
+  "screen": "legacy-history",
+  "selector": "#legacyHeading > picture.legacyWordmarkPicture.sd-glint > img.legacyWordmark  <->  #stage-root > div.sd-stage__layer.sd-stage__layer--cutout > picture.legacyPhoneHero.legacyPhoneHero--nik > img",
+  "sizes": [
+   "393x660",
+   "375x553",
+   "360x560",
+   "412x750"
+  ],
+  "worst": {
+   "screen": "legacy-history",
+   "size": "393x660",
+   "rule": "overlap",
+   "selector": "#legacyHeading > picture.legacyWordmarkPicture.sd-glint > img.legacyWordmark  <->  #stage-root > div.sd-stage__layer.sd-stage__layer--cutout > picture.legacyPhoneHero.legacyPhoneHero--nik > img",
+   "rect": {
+    "x": 177.3,
+    "y": 200.3,
+    "w": 124.5,
+    "h": 61.6
+   },
+   "detail": "figure art overlaps figure art: 3452px2 of real pixels = 49.8% of the smaller figure",
+   "text": "TITLE_LG_V1.webp / OVL_LG_NIK_PHONE_V1.webp",
+   "screenshot": "screenshots/legacy-history__393x660.png"
+  }
+ },
+ {
+  "rule": "overlap",
+  "screen": "standings",
+  "selector": "#stage-root > div.sdg-phoneArt > picture.sdg-phoneHero.sdg-phoneHero--daniel > img  <->  #sdgTitle > picture > img",
+  "sizes": [
+   "393x660",
+   "375x553",
+   "360x560",
+   "412x750"
+  ],
+  "worst": {
+   "screen": "standings",
+   "size": "393x660",
+   "rule": "overlap",
+   "selector": "#stage-root > div.sdg-phoneArt > picture.sdg-phoneHero.sdg-phoneHero--daniel > img  <->  #sdgTitle > picture > img",
+   "rect": {
+    "x": 82.1,
+    "y": 270.3,
+    "w": 158.9,
+    "h": 53.1
+   },
+   "detail": "figure art overlaps figure art: 3520px2 of real pixels = 60.1% of the smaller figure",
+   "text": "OVL_RV_DANIEL_PHONE_V1.webp / TITLE_STANDINGS_V1.webp",
+   "screenshot": "screenshots/standings__393x660.png"
+  }
+ },
+ {
+  "rule": "overlap",
+  "screen": "standings",
+  "selector": "#stage-root > div.sdg-phoneArt > picture.sdg-phoneHero.sdg-phoneHero--nik > img  <->  #sdgTitle > picture > img",
+  "sizes": [
+   "393x660",
+   "375x553",
+   "360x560",
+   "412x750"
+  ],
+  "worst": {
+   "screen": "standings",
+   "size": "393x660",
+   "rule": "overlap",
+   "selector": "#stage-root > div.sdg-phoneArt > picture.sdg-phoneHero.sdg-phoneHero--nik > img  <->  #sdgTitle > picture > img",
+   "rect": {
+    "x": 188.6,
+    "y": 270.3,
+    "w": 122.3,
+    "h": 53.1
+   },
+   "detail": "figure art overlaps figure art: 2312px2 of real pixels = 39.5% of the smaller figure",
+   "text": "OVL_RV_NIK_PHONE_V1.webp / TITLE_STANDINGS_V1.webp",
+   "screenshot": "screenshots/standings__393x660.png"
+  }
+ },
+ {
+  "rule": "overlap",
+  "screen": "transfer-war-signing",
+  "selector": "div.stage.pv-mobile > div.world > section.panel.sealed > div.panel-title.reg  <->  div.tw-host > div.stage.pv-mobile > footer.hud-footer.sd-entered > button.backButton.ghost",
+  "sizes": [
+   "375x553",
+   "360x560",
+   "412x750"
+  ],
+  "worst": {
+   "screen": "transfer-war-signing",
+   "size": "375x553",
+   "rule": "overlap",
+   "selector": "div.stage.pv-mobile > div.world > section.panel.sealed > div.panel-title.reg  <->  div.tw-host > div.stage.pv-mobile > footer.hud-footer.sd-entered > button.backButton.ghost",
+   "rect": {
+    "x": 50.4,
+    "y": 457,
+    "w": 19.8,
+    "h": 29.2
+   },
+   "detail": "card overlaps control by 578px2",
+   "text": "NIK SEALED / BACK TO SHOWDOWN HOME",
+   "screenshot": "screenshots/transfer-war-signing__375x553.png"
+  }
+ },
+ {
+  "rule": "overlap",
+  "screen": "legacy-history",
+  "selector": "#legacyCardGrid  <->  #legacyPager > button",
+  "sizes": [
+   "1366x650",
+   "1280x620",
+   "1536x730"
+  ],
+  "worst": {
+   "screen": "legacy-history",
+   "size": "1280x620",
+   "rule": "overlap",
+   "selector": "#legacyCardGrid  <->  #legacyPager > button",
+   "rect": {
+    "x": 677.8,
+    "y": 470.2,
+    "w": 32,
+    "h": 4.7
+   },
+   "detail": "card overlaps control by 149px2",
+   "text": "Showdown #1 Daniel Barcel / ‹",
+   "screenshot": "screenshots/legacy-history__1280x620.png"
+  }
+ },
+ {
+  "rule": "overlap",
+  "screen": "standings",
+  "selector": "#sdgViewShowdown  <->  #sdgSection",
+  "sizes": [
+   "1536x730"
+  ],
+  "worst": {
+   "screen": "standings",
+   "size": "1536x730",
+   "rule": "overlap",
+   "selector": "#sdgViewShowdown  <->  #sdgSection",
+   "rect": {
+    "x": 652,
+    "y": 327.2,
+    "w": 141.5,
+    "h": 1.3
+   },
+   "detail": "control overlaps heading by 181.3px2",
+   "text": "THIS SHOWDOWN / HEAD-TO-HEAD",
+   "screenshot": "screenshots/standings__1536x730.png"
+  }
+ },
+ {
+  "rule": "overlap",
+  "screen": "standings",
+  "selector": "#sdgViewCareer  <->  #sdgSection",
+  "sizes": [
+   "1536x730"
+  ],
+  "worst": {
+   "screen": "standings",
+   "size": "1536x730",
+   "rule": "overlap",
+   "selector": "#sdgViewCareer  <->  #sdgSection",
+   "rect": {
+    "x": 795.5,
+    "y": 327.2,
+    "w": 88.4,
+    "h": 1.3
+   },
+   "detail": "control overlaps heading by 113.3px2",
+   "text": "CAREER / HEAD-TO-HEAD",
+   "screenshot": "screenshots/standings__1536x730.png"
+  }
+ }
+]
