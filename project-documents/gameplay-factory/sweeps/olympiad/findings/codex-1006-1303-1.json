@@ -1,0 +1,48 @@
+{
+  "id": "CMS08-codex-1006-1303-window-rule",
+  "run": "codex-1006-1303",
+  "area": "08",
+  "title": "Rule Book leaves out the agreed early end of the transfer window",
+  "severity": "S3",
+  "status": "confirmed",
+  "where": [
+    {
+      "file": "js/ruleBook.js",
+      "line": 51,
+      "function": "createRuleBookScreen"
+    },
+    {
+      "file": "js/sharedTransferChallenge.js",
+      "line": 174,
+      "function": "stcApply"
+    },
+    {
+      "file": "js/productionSharedTransferChallenge.js",
+      "line": 220,
+      "function": "pstcRenderProgress"
+    }
+  ],
+  "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+  "steps": [
+    "Open RULE BOOK from the main menu and read TRANSFER CHALLENGE. It says the window lasts 15 minutes, with no early-end exception.",
+    "Start season 1 of a 3-season Showdown with Daniel at Arsenal and Nik at Liverpool.",
+    "Start the shared 15-minute window. Daniel asks to end it early; check that the window stays open.",
+    "Nik also asks to end it early, before 15 minutes have passed. Both friends reach Guess Entry."
+  ],
+  "expected": "The Rule Book says the transfer window lasts up to 15 minutes and may end early if both managers agree.",
+  "actual": "The Rule Book says only that the challenge lasts 15 minutes. The game correctly allows both managers to end it early, and explains this on the transfer screen.",
+  "root_cause": "The transfer screen and shared game rules already include agreement to finish early; the Rule Book sentence has not kept up.",
+  "fix": {
+    "files": [
+      "js/ruleBook.js"
+    ],
+    "change": "Replace the fixed-duration sentence with: The transfer window lasts up to 15 minutes. Both managers may agree to end it early."
+  },
+  "script": "project-documents/gameplay-factory/sweeps/olympiad/test/CMS08-codex-1006-1303-window-rule.cjs",
+  "script_output": "Rule Book: \"The transfer window challenge lasts 15 minutes.\"\nGame screens: Daniel requests early end; window stays open. Nik requests early end; both reach Guess Entry before 15 minutes.\nExisting shared rule correctly requires both managers. The Rule Book does not mention that exception.\nPROOF RESULT: Rule Book must explain the existing rule that both managers may agree to end the window early.\nExit code: 1 (the missing Rule Book explanation is the expected failed check).",
+  "assumptions": [
+    "This is a minor written-rules gap; the shared early-end behavior itself is correct.",
+    "Both friends play fairly and agree to finish their transfers early.",
+    "The proof opens the unchanged game in Chromium on a local server and uses the real transfer rules behind a local game test double."
+  ]
+}

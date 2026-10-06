@@ -1,0 +1,58 @@
+{
+  "id": "CMS08-codex-1006-1303-final-rule",
+  "run": "codex-1006-1303",
+  "area": "08",
+  "title": "Rule Book does not explain the final winner or DRAW on tied total points",
+  "severity": "S3",
+  "status": "confirmed",
+  "where": [
+    {
+      "file": "js/ruleBook.js",
+      "line": 36,
+      "function": "createRuleBookScreen"
+    },
+    {
+      "file": "js/ruleBook.js",
+      "line": 57,
+      "function": "createRuleBookScreen"
+    },
+    {
+      "file": "js/sharedFinalReconciliation.js",
+      "line": 48,
+      "function": "frReconcile"
+    },
+    {
+      "file": "js/showdown.js",
+      "line": 18,
+      "function": "getShowdownWinner"
+    },
+    {
+      "file": "js/seasonFinalV10.js",
+      "line": 20,
+      "function": "finalFrame"
+    }
+  ],
+  "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+  "steps": [
+    "Open RULE BOOK and read SHOWDOWN FORMAT, SCORING and TIEBREAK. There is no final-winner rule.",
+    "Finish ten seasons with Daniel at Arsenal and Nik at Liverpool. Daniel wins the Champions League in season 1; Nik wins it in season 2; neither receives any other Showdown points.",
+    "Give Daniel the better league position in the other seasons. The season wins are Daniel 9, Nik 1; total Showdown points are 5 each.",
+    "Open the final screen: it correctly displays DRAW. Return to the Rule Book and look for the rule explaining that outcome."
+  ],
+  "expected": "The Rule Book says to add each manager's points across all seasons; the higher total wins the Showdown; an equal total is DRAW. It makes clear that season tiebreaks and season-win counts do not break a tied final total.",
+  "actual": "The game correctly shows DRAW for 5–5 despite season wins of 9–1. The Rule Book describes only season tiebreaks and does not explain accumulated final points, the final winner, or a tied-total DRAW.",
+  "root_cause": "The Rule Book stops after season scoring and season tiebreaks. The existing final-winner rule is not included.",
+  "fix": {
+    "files": [
+      "js/ruleBook.js"
+    ],
+    "change": "Add the final Showdown rule: Add each manager's points from every season. The higher total wins. If the totals are tied, the Showdown is a DRAW; season wins and season tiebreaks do not decide it."
+  },
+  "script": "project-documents/gameplay-factory/sweeps/olympiad/test/CMS08-codex-1006-1303-final-rule.cjs",
+  "script_output": "Season 10 of 10: final points Daniel 5, Nik 5; season wins {\"Daniel\":9,\"Nik\":1}.\nExisting final rule: points are added across seasons; equal totals produce DRAW even with unequal season wins.\nActual final screen: DRAW. Rule Book: only season tiebreak rules; no final points rule or tied-total DRAW.\nPROOF RESULT: Rule Book must state that the highest accumulated points win the Showdown and a tied total is DRAW.\nExit code: 1 (the missing final-winner rule is the expected failed check).",
+  "assumptions": [
+    "This is a minor Rule Book omission; the final winner and DRAW code already handle the outcome correctly.",
+    "The proof uses normal Premier League clubs and valid manual season results.",
+    "The ten-season history is built by the real history and scoring rules; Chromium mounts the actual final screen from that completed game test history."
+  ]
+}
