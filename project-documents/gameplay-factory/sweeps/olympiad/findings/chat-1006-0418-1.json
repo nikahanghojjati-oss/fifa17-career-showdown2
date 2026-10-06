@@ -2,21 +2,76 @@
   "id": "chat-1006-0418-1",
   "run": "chat-1006-0418",
   "area": "01",
-  "title": "Shared setup controls may use the local handlers",
+  "title": "Shared league and club controls are unlocked without wiring the authoritative click dispatcher",
   "severity": "S1",
   "reach": "first_time",
-  "player_hurt": "Both managers can be unable to advance shared setup.",
+  "player_hurt": "Both managers can be unable to advance a fresh shared Showdown because the coordinator can press a control that is still attached to the local draw path while the remote Shared Setup remains on the earlier phase.",
   "status": "likely",
   "proof": "repro_written",
-  "where": [],
+  "where": [
+    {
+      "file": "js/productionSharedShowdownPresentation.js",
+      "line": 271,
+      "function": "ssjpInstall"
+    },
+    {
+      "file": "js/productionSharedShowdownPresentation.js",
+      "line": 254,
+      "function": "ssjpHandleControlClick"
+    },
+    {
+      "file": "js/productionSharedJourneyEntry.js",
+      "line": 55,
+      "function": "applyLocalDrawLock"
+    },
+    {
+      "file": "js/leagueWheel.js",
+      "line": 11,
+      "function": "initializeLeagueWheel"
+    },
+    {
+      "file": "js/clubAssignment.js",
+      "line": 71,
+      "function": "initializeClubAssignment"
+    }
+  ],
   "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
-  "steps": [],
-  "expected": "Shared controls use shared authority.",
-  "actual": "The shared dispatcher has no visible binding in the studied path.",
-  "symptoms": [],
-  "root_cause": "Control ownership is not visibly delegated.",
-  "disproof_attempts": [],
-  "fix": {"files":[],"change":"Bind shared controls exclusively while shared setup is active.","test":"Exercise real shared setup clicks."},
+  "steps": [
+    "Start a fresh shared Showdown, pair Daniel and Nik, and reach an exact ACTIVE private session.",
+    "Enter the polished shared league wheel so the shared presentation is active and the league action is enabled.",
+    "Press the league action once on the coordinator device.",
+    "Check whether the press is exclusively routed to CareerModeProductionSharedShowdownPresentation.handleControlClick or reaches leagueWheel.js handleLeagueWheelAction.",
+    "Repeat on the club-pack action and check whether clubAssignment.js assignClubs receives the press.",
+    "Compare local selectedLeague/clubs with the provider Shared Setup phase on both devices."
+  ],
+  "expected": "While the shared presentation owns setup, each handled control press is routed once to the shared dispatcher and the legacy local draw handlers do not run. The provider remains the only league and club authority.",
+  "actual": "The shared presentation exports handlesControl and handleControlClick, but ssjpInstall only records installed state and adds no click binding. productionSharedJourneyEntry re-enables the legacy controls while the presentation owns them. leagueWheel.js and clubAssignment.js retain direct click listeners on the same controls. Targeted review of the loaded entry, identity, Showdown UI, football visual and V10 club modules found no external caller of the shared dispatcher. The written repro scans all js files to challenge that conclusion.",
+  "symptoms": [
+    "The shared league control can change only the coordinator's local league while the rival remains on the previous remote setup phase.",
+    "The club-pack control can enter the local club assignment path instead of the provider-bound draw.",
+    "One phone can appear to advance while the other keeps waiting.",
+    "The journey can fail to reach Career Start until the authoritative transition is performed by some other path."
+  ],
+  "root_cause": "The shared presentation takes over labels, disabled state and rendering but not click ownership. The reused controls already have legacy listeners from gameplay initialization, and the local draw lock is removed once presentationActive() becomes true.",
+  "disproof_attempts": [
+    "Checked productionSharedShowdownPresentation: activate refreshes, renders and starts polling; ssjpInstall has no event binding.",
+    "Checked productionSharedJourneyEntry, onlinePlayerIdentity, showdownUI, footballVisuals, data/footballVisuals and clubScreenV10 for calls to handleControlClick or handlesControl; none were found.",
+    "Confirmed leagueWheel.js binds #spinLeague directly to handleLeagueWheelAction.",
+    "Confirmed clubAssignment.js binds #openClubPack to assignClubs and #continueClubAssignment to continueToShowdownHome.",
+    "Checked hunt-1017, hunt-1018, hunt-1019 and factory/gameplay-v1 BOARD.json; no duplicate of this control-ownership defect was found.",
+    "This chat cannot execute the repository repro, so the finding stays likely until its whole-js scan runs."
+  ],
+  "fix": {
+    "files": [
+      "js/productionSharedShowdownPresentation.js"
+    ],
+    "change": "While shared setup is active, install one capture-phase delegate for the handled control ids, dispatch to ssjpHandleControlClick, and consume that event before legacy target listeners execute. Remove or inert the delegate when the shared presentation deactivates.",
+    "test": "In a two-manager browser run, press the real league, club-pack and final-confirm controls. Assert one shared provider transition per press, zero local random draw authority, and matching phase on both devices. Run repro/chat-1006-0418-1.cjs as a source-wiring guard."
+  },
   "related": [],
-  "assumptions": []
+  "assumptions": [
+    "The production path is the online shared path owned by productionSharedJourneyEntry and productionSharedShowdownPresentation.",
+    "No unexamined runtime dynamically delegates these controls; the repository-wide repro is written specifically to disprove this assumption when executed.",
+    "No prior olympiad report existed on qa/bug-olympiad at run start, so the lowest-coverage tie selected area 01."
+  ]
 }
