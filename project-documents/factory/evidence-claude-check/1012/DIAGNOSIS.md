@@ -8,3 +8,10 @@
 - **Button over the reconciliation text and cut-off line:** `app.css:21` makes every `.seasonReviewActions` sticky with a solid background, including the reconciliation panel's (`productionSharedLocalReconciliation.js:25`), inside the 205px window.
 
 Fix (tested by simulation, not on a real phone): `proposed-app.css` appended to main's `app.css`. Before: `before-sheet.jpg`; after: `fixed-sheet-A.jpg`, `fixed-sheet-B.jpg`.
+
+## Lead check · Team G PR #399 (job 1020 · G, head 3834668) · 2026-10-06 02:45 UTC
+Phone portrait PASS: at 393x660 and 360x640 there is one page scroll, the cards are full width with Daniel first, nothing is covered or cut, and there is no sideways scroll.
+Desktop 1920 PASS.
+Desktop 1440 FIX: Nik's card is clipped about 153px on the right. The review panel is 864px wide, but `.seasonReviewGrid` keeps 1000px from `css/app.css` `.seasonSummaryGrid{width:min(1000px,94vw)}`. This was already clipped before the PR.
+Narrow landscape 660x393: cramped (82px inner box, sticky button over the heading), but the same as main, so not a regression.
+Sheet: `team_g_pr399_check.jpg`.
