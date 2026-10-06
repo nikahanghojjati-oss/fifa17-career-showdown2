@@ -8,7 +8,7 @@
 
 🌐 **Live: runtime 1.9.1-r62** (main `bc77a0b`) · 🔄 **13 moving** · ⏭ 2 up next · 👤 11 waiting on Nik · 🗂 4 later · updated 2026-10-05 9:39 PM Boston time (EDT)
 
-🐕 **Barking: Showdown Gate on #396 has waited 19 min for a machine; POS20 has waited 7 min for a machine; POS20 has waited 6 min for a machine.** · Gate #396: L1✓ L2✓ L3✓ L4✓ L5✗ L6✓ · seal pending · POS20 #396 12/16
+🐕 **Barking: Showdown Gate on #396 has waited 20 min for a machine; POS20 has waited 2 min for a machine.** · Gate #396: L1✓ L2✓ L3✓ L4✓ L5✗ L6✓ · seal pending · POS20 #396 12/16
 
 ## Your next move
 
@@ -20,11 +20,11 @@
 | --- | --- | --- |
 | [PR #396](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/396) INFRA SIM: L5 setup dies on attempt 1 for the Showdown Gate shadow (never merge) | 🔴 17 passed, 1 running, 1 failed | 9:21 PM |
 
-**🟩 1015 · Connect Players screen: create code / join off Home** · -20 % (-1 of 5 steps) · Sol Work mode
+**🟩 1015 · Connect Players screen: create code / join off Home** · 20 % (1 of 5 steps) · Sol Work mode
 
-⚽▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️ 🥅  
-> **Now:** step 0 of 5  
-> **Left:** step 1 → step 2 → step 3 → step 4 → step 5
+🟩🟩🟩🟩⚽▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️ 🥅  
+> **Now:** step 2 of 5  
+> **Left:** step 2 → step 3 → step 4 → step 5
 
 **🟦 V-1006 · Final Winner: last season's score block** · 25 % (1 of 4 steps) · Sol chat · [PR #393](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/393)
 
@@ -204,11 +204,11 @@ Latest:
 
 ### 🟩 Sol Work mode · 1 job
 
-**Job 1015 · Connect Players screen: create code / join off Home · 0.0000 %** · -1 of 5 steps · updated Mon 5 Oct, 9:40 PM  
-⚽▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️ 🥅  
+**Job 1015 · Connect Players screen: create code / join off Home · 20.0000 %** · 1 of 5 steps · updated Mon 5 Oct, 9:39 PM  
+🟩🟩🟩🟩⚽▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️ 🥅  
 🏁 **Likely finish:** not enough data  
-> **Now:** step 0 of 5  
-> **Left:** step 1 → step 2 → step 3 → step 4 → step 5
+> **Now:** step 2 of 5  
+> **Left:** step 2 → step 3 → step 4 → step 5
 
 <details>
 <summary><b>✅ Closed: 14</b> (11 live in the game) · click to open</summary>
