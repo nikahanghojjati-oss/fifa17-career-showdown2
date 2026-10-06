@@ -190,3 +190,17 @@ html[data-motion-reduced="true"] .trophyGrid.tr-tab-enter,
   .careerRanks{bottom:calc(41.5% + 40px)}
   .heroCeremony{height:calc(31% - 40px)}
 }
+/* JOB-1033: desktop trophy cards. The heading's -2px top margin pulled it up under the trophy picture (a 3px overlap the layout
+   auditor measured at 1280x620 to 1536x730). The picture gives up 4px so the heading sits clear and the card height is unchanged. */
+@media (min-width:761px){
+  .trophyCardPicture{height:calc(70% - 4px)}
+  .trophyCard h3{margin-top:0}
+}
+/* JOB-1033: BACK button on short desktop windows (1280x620 to 1536x730) sat on or within 5px of the all-time records strip.
+   It drops 14px toward the bottom edge (still 20px clear of it) so it stays 8px or more below the strip; trophy cards keep their size. */
+@media (min-width:761px) and (max-height:760px){
+  .trophyBack{bottom:calc(7.4% - 14px)}
+}
+@media (min-width:761px) and (max-height:700px){
+  .trophyBack{bottom:calc(5.4% - 14px)}
+}
