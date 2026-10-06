@@ -881,9 +881,9 @@
      "group": "Bug list 1",
      "title": "1005 · G Last season's score is skipped before the Final Winner",
      "lane": "green",
-     "state": "needs Nik",
-     "waits_on": "Nik picks how the last season's score shows (one tap recommended)",
-     "details": "GPT green, one run. js/seasonFinalV10.js gate + strict final-season check in the two-player journey. Rides r62."
+     "state": "ready",
+     "waits_on": "after r62 reaches main",
+     "details": "GPT green, one run. Score shows first, Final Winner follows by itself after 8 s (Nik: keep it automatic). js/seasonFinalV10.js + strict final-season check in the two-player journey. PR into gameplay/bug-list-1."
     }
    ]
   },
