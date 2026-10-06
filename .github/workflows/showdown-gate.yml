@@ -451,7 +451,11 @@ jobs:
             ~/.npm/_npx
           key: showdown-gate-L5-emulators-ubuntu-24.04-firebase-tools-15.27.0-15.28.1-v1
       - name: Install locked dependencies
-        run: npm ci
+        run: |
+          # INFRA SIMULATION (Showdown Gate shadow proof, never merge): setup dies on attempt 1 only,
+          # before any TEST: step, exactly like a lost machine. The Physio must re-run it once.
+          if [ "$GITHUB_RUN_ATTEMPT" = "1" ]; then echo "simulated setup failure on attempt 1" >&2; exit 1; fi
+          npm ci
       - name: Install pinned Firebase emulator test dependencies
         run: npm install --no-save --package-lock=false firebase@12.17.1 @firebase/rules-unit-testing@5.0.1 firebase-admin@14.2.0
       - name: 'TEST: Composed production Rules regression matrix'
