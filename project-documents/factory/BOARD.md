@@ -1,8 +1,15 @@
 # 🎨 Team V board
 
-Updated Mon 5 Oct 8:38 PM EDT · Team V featured, Team G below · one shared data source (PR progress blocks + relay) · [Team G's board](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/BOARD.md)
+Updated Mon 5 Oct 8:41 PM EDT · Team V featured, Team G below · one shared data source (PR progress blocks + relay) · [Team G's board](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/BOARD.md)
 
 ## Team V: visual jobs
+
+### 🟦 [V-1007 · Transfer War phone: early-end button visible](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/394)
+
+🟦🟦🟦🟦🟦🟦🟦▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️ **33.33 %** · 1 of 3 steps · Sol chat · GPT blue (Nik types 1007) · updated Mon 5 Oct 8:58 PM EDT
+
+> **Going on now:** waiting for Nik to type 1007 in a new Showdown visual chat  
+> **Next step:** GPT blue: append the CSS fix
 
 ### 🟦 [V-1006 · Final Winner: last season's score block](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/393)
 
