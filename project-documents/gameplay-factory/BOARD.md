@@ -1,8 +1,8 @@
 # Showdown board: G Factory and V Factory
 
-🌐 **Live: runtime 1.9.1-r61** (main `84a04d8`) · 🔄 **18 moving** · ⏭ 2 up next · 👤 4 waiting on Nik · 🗂 5 later · updated 2026-10-05 8:32 PM Boston time (EDT)
+🌐 **Live: runtime 1.9.1-r61** (main `84a04d8`) · 🔄 **18 moving** · ⏭ 2 up next · 👤 4 waiting on Nik · 🗂 5 later · updated 2026-10-05 8:33 PM Boston time (EDT)
 
-🩺 **All clear: every check has a machine.** · POS20 #390 12/16
+🩺 **All clear: every check has a machine.** · POS20 #390 16/16
 
 ## Your next move
 
@@ -12,7 +12,7 @@
 
 | Release / fix | Checks on the latest commit | Updated |
 | --- | --- | --- |
-| [PR #390](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/390) Release r62: bug-hunt fixes (errors, reconnect, auto final winner, desktop Settings, phon… | ⏳ 14 passed, 1 running | 8:25 PM |
+| [PR #390](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/390) Release r62: bug-hunt fixes (errors, reconnect, auto final winner, desktop Settings, phon… | 🟢 16 passed | 8:25 PM |
 | [PR #386](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/386) Showdown Gate (shadow): six-lane check beside POS20, not required yet | 🟢 23 passed | 7:38 PM |
 | [PR #384](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/384) Every screen in Team V's look: signed-out career screens, Showdown Home, season review, L… | 🟢 12 passed | 6:29 PM |
 
@@ -35,7 +35,7 @@
 
 | Hand-off | From → To | What | Progress |
 | --- | --- | --- | --- |
-| [HO-011](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/handoffs/HO-011_final-winner-screen-with-the-last-season.md) | G → V | Final Winner screen with the last season's score (job 1005) | ✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done |
+| [HO-011](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/handoffs/HO-011_final-winner-screen-with-the-last-season.md) | G → V | Final Winner screen with the last season's score (job 1005) | ✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done |
 
 ## 🟢 G Factory
 

@@ -1,16 +1,18 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-10-05 8:32 PM Boston time (EDT)
+[Back to the board](BOARD.md) · generated 2026-10-05 8:33 PM Boston time (EDT)
 
-Relay branch `leads/relay` head `9060351` (Mon 5 Oct 8:32 PM Boston time) · 29 messages · 11 hand-offs · 49 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `960cf7b` (Mon 5 Oct 8:32 PM Boston time) · 29 messages · 11 hand-offs · 51 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
 ### HO-011 · G → V · Final Winner screen with the last season's score (job 1005)
 
-✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 0 min after delivery
 
+- Mon 5 Oct 8:32 PM · Team V · Received · received; packaging the design as a GPT blue job (shared number), lead renders phone + desktop
 - Mon 5 Oct 8:31 PM · Team G · Sent
+- Mon 5 Oct 8:32 PM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 

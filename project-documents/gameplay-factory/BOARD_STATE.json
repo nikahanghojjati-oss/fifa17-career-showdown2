@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 8:32 PM Boston time (EDT)",
+ "generated": "2026-10-05 8:33 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -284,7 +284,7 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "9060351",
+  "head": "960cf7b",
   "head_boston": "Mon 5 Oct 8:32 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": true,
@@ -326,8 +326,8 @@
      "sha": "4f67929b0a25306d63621d4d912d3935c71b0579",
      "updated": "2026-10-06T00:25:21Z",
      "gates": {
-      "passed": 14,
-      "running": 1,
+      "passed": 16,
+      "running": 0,
       "failed": 0,
       "cancelled": 0
      }
@@ -422,7 +422,7 @@
   "physio": {
    "state": "clear",
    "line": "All clear: every check has a machine.",
-   "gate": "POS20 #390 12/16",
+   "gate": "POS20 #390 16/16",
    "source": "physio"
   },
   "v_headline": "Board 1 (visual package): 238 of 238 jobs done and checked",
@@ -578,12 +578,12 @@
     "from": "G",
     "to": "V",
     "title": "Final Winner screen with the last season's score (job 1005)",
-    "stage": "SENT",
+    "stage": "RECEIVED",
     "pct": 0.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-011_final-winner-screen-with-the-last-season.md",
     "worker": "sol-chat",
-    "pickup_min": null,
+    "pickup_min": 0,
     "waiting_min": null
    }
   ],
@@ -880,8 +880,8 @@
     "sha": "4f67929b0a25306d63621d4d912d3935c71b0579",
     "updated": "2026-10-06T00:25:21Z",
     "gates": {
-     "passed": 14,
-     "running": 1,
+     "passed": 16,
+     "running": 0,
      "failed": 0,
      "cancelled": 0
     }
