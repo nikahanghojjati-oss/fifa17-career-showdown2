@@ -1,0 +1,66 @@
+{
+  "id": "chat-1006-0441-1",
+  "run": "chat-1006-0441",
+  "area": "02",
+  "title": "Public operation hashes let the rival brute-force private guesses before reveal",
+  "severity": "S1",
+  "reach": "regular",
+  "player_hurt": "Nik or Daniel can have locked private guesses recovered by the rival before the Transfer Challenge reaches COMPLETED.",
+  "status": "likely",
+  "proof": "repro_written",
+  "where": [
+    {
+      "file": "js/sparkSharedTransferChallenge.js",
+      "line": 149,
+      "function": "stspMutate"
+    },
+    {
+      "file": "js/sparkSharedTransferChallenge.js",
+      "line": 110,
+      "function": "stspPublicLedger"
+    },
+    {
+      "file": "firestore.transfer-challenge-production.fragment.rules",
+      "line": 314,
+      "function": "match /transferChallenges/{transferId}"
+    }
+  ],
+  "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+  "steps": [
+    "Start a shared Transfer Challenge and reach GUESS_ENTRY.",
+    "Have playerOne lock exactly one valid league or nationality guess.",
+    "As playerTwo, read the public transferChallenges/season_N document; production Rules allow any entitled manager to get it.",
+    "Take the lock-guesses operationId, operationType, operationHash, baseRevision and actorRole from the public append-only operation arrays.",
+    "Enumerate the 36 league IDs plus 164 nationality IDs for the locked slot and SHA-256 the exact canonical command shape used by stspMutate.",
+    "Stop when a candidate hash equals the public operationHash. The matching candidate is playerOne's private guess even though the public phase is not COMPLETED."
+  ],
+  "expected": "Before COMPLETED, the rival can learn only public phase/lock metadata; the values of private guesses must not be testable or recoverable from rival-readable data.",
+  "actual": "The provider hashes the private normalized guess payload together with operation metadata, then publishes both that hash and every non-private hash input in the rival-readable public ledger. A one-slot guess has only 200 possible values, so it is recoverable in at most 200 hashes. Across three optional slots the full space is only 201^3 = 8,120,601 candidates.",
+  "symptoms": [
+    "A rival can recover a one-slot private guess essentially immediately after it is locked.",
+    "The UI and role-document Rules still hide the rival's private card/document, creating a false privacy boundary.",
+    "The same deterministic commitment exposes low-entropy information before the intended reveal phase."
+  ],
+  "root_cause": "A deterministic unsalted SHA-256 commitment to the low-entropy private guesses is stored in a public document. operationId acts like a salt in the hash input but is published beside the hash, so it adds no secrecy.",
+  "disproof_attempts": [
+    "Checked the role-document Rules: opponent role documents are correctly unreadable before public phase COMPLETED, but this does not protect the public operationHash.",
+    "Checked the public transfer Rules: entitled rivals are explicitly allowed to get the whole public document, including operationIds, operationTypes, operationHashes, baseRevisions and actorRoles.",
+    "Checked whether the random operationId makes brute force impractical: it is public in the same ledger, so every hash input except guesses is known.",
+    "Checked whether SHA-256 preimage resistance is sufficient: the guess domain is deliberately tiny, 36 leagues plus 164 nationalities per occupied slot, so exhaustive candidate verification is practical.",
+    "Checked earlier olympiad findings, hunts 1017/1018/1019 and BOARD.json; none reports this low-entropy public-hash privacy leak."
+  ],
+  "fix": {
+    "files": [
+      "js/sparkSharedTransferChallenge.js",
+      "firestore.transfer-challenge-production.fragment.rules"
+    ],
+    "change": "Do not expose a deterministic private-payload commitment whose verification inputs are all public before COMPLETED. Keep the payload hash/nonce in the actor's private role document, or salt the payload with a cryptographically random nonce that remains private until reveal, while retaining a public receipt that excludes private guess values.",
+    "test": "In the Firestore emulator, lock one and three guesses as one manager. As the rival, read every document the Rules permit before COMPLETED and exhaust the complete 36-league/164-nationality catalog against any public receipt. No candidate must be verifiable; after COMPLETED both managers must still receive the same revealed guesses and verdict inputs."
+  },
+  "related": [],
+  "assumptions": [
+    "The production deployment uses the generated Rules source that includes firestore.transfer-challenge-production.fragment.rules, as configured by deploy-firestore-rules-zero-billing.yml on this main revision.",
+    "An entitled rival is treated as adversarial within their own authenticated browser; privacy must be enforced by stored data and Rules, not by hiding DOM controls.",
+    "One locked guess is a valid protocol state, so the 200-candidate case is reachable without malformed input."
+  ]
+}
