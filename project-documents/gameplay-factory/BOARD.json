@@ -804,11 +804,10 @@
      "group": "Bug list 1",
      "title": "1014 · G No reconnect prompt after a finished Showdown",
      "lane": "blue",
-     "state": "ready",
+     "state": "with the lead (PR #402, CI running)",
      "waits_on": "Nik types it in the gameplay project (Work mode)",
      "details": "GPT green, one run. HO-013: closed Showdown shows SHOWDOWN COMPLETE instead of RECONNECT SESSION. Lead runs the reconnect audit.",
-     "order": 5,
-     "place": "in the gameplay project (normal chat), new chat"
+     "order": 5
     },
     {
      "id": "1015",
@@ -871,11 +870,12 @@
      "group": "Bug list 1",
      "title": "1021 · G Transfer War on phone: port Team V's revamp",
      "lane": "claude",
-     "state": "with the lead (PR #401, Team V PASS)",
+     "state": "merged into bug-list-1 (2d71f79)",
      "waits_on": "Nik types it in the gameplay project (Work mode)",
      "details": "GPT green, one run. HO-016: Team V's checked phone CSS + 2 cut-outs into css/v10Transfer.css. Desktop unchanged.",
      "order": 6,
-     "place": "nothing to type: the lead does it in a Claude thread"
+     "place": "nothing to type: the lead does it in a Claude thread",
+     "archived": true
     }
    ]
   },
