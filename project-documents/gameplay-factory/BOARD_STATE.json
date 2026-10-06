@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 9:17 PM Boston time (EDT)",
+ "generated": "2026-10-05 9:19 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -284,8 +284,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "aec9f12",
-  "head_boston": "Mon 5 Oct 9:16 PM",
+  "head": "84f7331",
+  "head_boston": "Mon 5 Oct 9:18 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": true,
   "open_for_g": [],
@@ -313,27 +313,46 @@
  },
  "two": {
   "live": {
-   "sha": "e7b556c",
+   "sha": "bc77a0b",
    "revision": "1.9.1-r62",
-   "when": "2026-10-06T00:35:12Z",
-   "subject": "Release r62: bug-hunt fixes, desktop Settings no longer clipped (#390)",
+   "when": "2026-10-06T01:18:19Z",
+   "subject": "Showdown Gate shadow: 6-lane gate runs beside POS20, coverage-proven (#386)",
    "fixes": [
     {
-     "pr": 386,
-     "title": "Showdown Gate (shadow): six-lane check beside POS20, not required yet",
+     "pr": 396,
+     "title": "INFRA SIM: L5 setup dies on attempt 1 for the Showdown Gate shadow (never merge)",
      "draft": false,
-     "branch": "ci/showdown-gate-shadow",
-     "sha": "9243705b96a426a33ec352c5afb73cc2e9a8dc20",
-     "updated": "2026-10-06T00:53:30Z",
+     "branch": "ci/gate-infra-sim-l5",
+     "sha": "61161337fa58344482e44a7bd088c7a9d63f98ab",
+     "updated": "2026-10-06T01:19:34Z",
      "gates": {
-      "passed": 23,
-      "running": 0,
+      "passed": 0,
+      "running": 7,
+      "failed": 0,
+      "cancelled": 0
+     }
+    },
+    {
+     "pr": 395,
+     "title": "CANARY: planted failing tests for the Showdown Gate shadow (never merge)",
+     "draft": false,
+     "branch": "ci/gate-canary-planted-failures",
+     "sha": "b381233f04619eba1a85dc93de827de6d7ae32b0",
+     "updated": "2026-10-06T01:19:31Z",
+     "gates": {
+      "passed": 0,
+      "running": 7,
       "failed": 0,
       "cancelled": 0
      }
     }
    ],
    "today": [
+    {
+     "pr": 386,
+     "title": "Showdown Gate (shadow): six-lane check beside POS20, not required yet",
+     "merged": "2026-10-06T01:18:20Z"
+    },
     {
      "pr": 390,
      "title": "Release r62: bug-hunt fixes (errors, reconnect, auto final winner, desktop Settings, phone Home)",
@@ -397,10 +416,10 @@
    ]
   },
   "physio": {
-   "state": "clear",
-   "line": "All clear (from GitHub).",
-   "gate": "Gate #386: L1✓ L2✓ L3✓ L4✓ L5✓ L6✓ · POS20 #386 23/23",
-   "source": "github"
+   "state": "barking",
+   "line": "Barking: POS20 has waited 1 min for a machine.",
+   "gate": "POS20 #304 6/16",
+   "source": "physio"
   },
   "v_headline": "Board 1 (visual package): 238 of 238 jobs done and checked",
   "v_jobs": [
@@ -666,9 +685,9 @@
   "**r62 is live.** On the laptop, close every game tab in Chrome and reopen the game; if Settings still looks clipped, do it once more."
  ],
  "now": {
-  "moving": 10,
+  "moving": 11,
   "next": 2,
-  "nik": 3,
+  "nik": 5,
   "later": 4,
   "rows": {
    "G": {
@@ -742,6 +761,24 @@
       "state": "ready",
       "waits_on": "Nik types it in the gameplay project",
       "details": "GPT blue, one file: delete the loser shade rule in final-winner.css."
+     },
+     {
+      "id": "1010",
+      "group": "Bug list 1",
+      "title": "1010 · G 10-season sweep: scoring, history and final math",
+      "lane": "green",
+      "state": "ready",
+      "waits_on": "Nik types it in the gameplay project (Work mode)",
+      "details": "GPT green, one run. Node check of 10-season scoring, ties and final winner; report only, no game code."
+     },
+     {
+      "id": "1011",
+      "group": "Bug list 1",
+      "title": "1011 · G Plain-words sweep: jargon on game screens",
+      "lane": "green",
+      "state": "ready",
+      "waits_on": "Nik types it in the gameplay project (Work mode)",
+      "details": "GPT green, one run. Replaces engineering words players see; leaves test-asserted strings to the lead."
      }
     ],
     "next": [
@@ -803,15 +840,29 @@
   },
   "fixes": [
    {
-    "pr": 386,
-    "title": "Showdown Gate (shadow): six-lane check beside POS20, not required yet",
+    "pr": 396,
+    "title": "INFRA SIM: L5 setup dies on attempt 1 for the Showdown Gate shadow (never merge)",
     "draft": false,
-    "branch": "ci/showdown-gate-shadow",
-    "sha": "9243705b96a426a33ec352c5afb73cc2e9a8dc20",
-    "updated": "2026-10-06T00:53:30Z",
+    "branch": "ci/gate-infra-sim-l5",
+    "sha": "61161337fa58344482e44a7bd088c7a9d63f98ab",
+    "updated": "2026-10-06T01:19:34Z",
     "gates": {
-     "passed": 23,
-     "running": 0,
+     "passed": 0,
+     "running": 7,
+     "failed": 0,
+     "cancelled": 0
+    }
+   },
+   {
+    "pr": 395,
+    "title": "CANARY: planted failing tests for the Showdown Gate shadow (never merge)",
+    "draft": false,
+    "branch": "ci/gate-canary-planted-failures",
+    "sha": "b381233f04619eba1a85dc93de827de6d7ae32b0",
+    "updated": "2026-10-06T01:19:31Z",
+    "gates": {
+     "passed": 0,
+     "running": 7,
      "failed": 0,
      "cancelled": 0
     }

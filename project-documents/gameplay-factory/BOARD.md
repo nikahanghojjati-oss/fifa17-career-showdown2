@@ -1,12 +1,10 @@
 # Bug hunt board
 
-Updated Mon 5 Oct, 9:17 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
+Updated Mon 5 Oct, 9:19 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
 
-> ⚠ **Not fully current:** The Physio's own report is missing or older than 15 minutes; the check line comes straight from GitHub.
+🌐 **Live: 1.9.1-r62** (main `bc77a0b`, Mon 5 Oct 9:18 PM)
 
-🌐 **Live: 1.9.1-r62** (main `e7b556c`, Mon 5 Oct 8:35 PM)
-
-🩺 **All clear (from GitHub).** · Gate #386: L1✓ L2✓ L3✓ L4✓ L5✓ L6✓ · POS20 #386 23/23
+🐕 **Barking: POS20 has waited 1 min for a machine.** · POS20 #304 6/16
 
 ## Needs you
 
@@ -14,6 +12,8 @@ Updated Mon 5 Oct, 9:17 PM Boston time. Bug hunting only, no new features until 
 - **G-F1** Play a game of the live version (r62) with Daniel on two phones and send what goes wrong to the bug factory thread.
 - **G-F22** Five pairing choices (RESTORE BACKUP first, a CANCEL CODE button, the masked email before JOIN, revoke-and-join, a clearer same-account message). The lead brings them to you on one card; nothing to do until then.
 - **1009** 1009 · G Showdown Champion: dark oval over the losing manager (ready)
+- **1010** 1010 · G 10-season sweep: scoring, history and final math (ready)
+- **1011** 1011 · G Plain-words sweep: jargon on game screens (ready)
 - **V-1006** Final Winner: last season's score block. Type 1006 in a new Showdown visual chat to start it.
 - **V-1007** Transfer War phone: early-end button visible. Type 1007 in a new Showdown visual chat to start it.
 
@@ -23,7 +23,8 @@ Updated Mon 5 Oct, 9:17 PM Boston time. Bug hunting only, no new features until 
 
 | Lane | Item | What | State |
 | --- | --- | --- | --- |
-| 🟧 Team G lead | [PR #386](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/386) | Showdown Gate (shadow): six-lane check beside POS20, not required yet | 🟢 23 passed |
+| 🟧 Team G lead | [PR #396](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/396) | INFRA SIM: L5 setup dies on attempt 1 for the Showdown Gate shadow (never merge) | ⏳ 0 passed, 7 running |
+| 🟧 Team G lead | [PR #395](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/395) | CANARY: planted failing tests for the Showdown Gate shadow (never merge) | ⏳ 0 passed, 7 running |
 | 🟧 Opus | **G-F17** | Showdown Gate: replace POS20 with a faster check system built on Claude and GitHub, keeping every check (plan: /mnt/project-files/check-system/SHOWDOWN_GATE_PLAN.md) | building shadow |
 | 🟧 Opus | **G-F18** | Old-design screen audit: Legacy, Career Statistics and Trophy Room still open in the old shell; drive every live screen in a browser against Team V's design and route all of them to the new design | in progress |
 | 🟦 Sol chat | **1001** | Home desktop tile icons: bigger, inside the tile, never on the text | in release |
@@ -58,6 +59,7 @@ Updated Mon 5 Oct, 9:17 PM Boston time. Bug hunting only, no new features until 
 
 ## Shipped today
 
+- 9:18 PM · #386 Showdown Gate (shadow): six-lane check beside POS20, not required yet
 - 8:35 PM · #390 Release r62: bug-hunt fixes (errors, reconnect, auto final winner, desktop Settings, phone Home)
 - 7:37 PM · #387 Physio: a watched workflow that isn't on main no longer fails the sweep
 - 7:18 PM · #385 Physio: re-run checks GitHub gave no machine, pause helpers while checks wait

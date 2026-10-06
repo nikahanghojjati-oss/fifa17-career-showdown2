@@ -1,14 +1,14 @@
 # Board archive
 
-[Back to the board](BOARD.md) · generated 2026-10-05 9:17 PM Boston time (EDT). Detail and history behind the one board.
+[Back to the board](BOARD.md) · generated 2026-10-05 9:19 PM Boston time (EDT). Detail and history behind the one board.
 
 ## Old detailed board
 
 # Showdown board: G Factory and V Factory
 
-🌐 **Live: runtime 1.9.1-r62** (main `e7b556c`) · 🔄 **10 moving** · ⏭ 2 up next · 👤 3 waiting on Nik · 🗂 4 later · updated 2026-10-05 9:17 PM Boston time (EDT)
+🌐 **Live: runtime 1.9.1-r62** (main `bc77a0b`) · 🔄 **11 moving** · ⏭ 2 up next · 👤 5 waiting on Nik · 🗂 4 later · updated 2026-10-05 9:19 PM Boston time (EDT)
 
-🩺 **All clear (from GitHub).** · Gate #386: L1✓ L2✓ L3✓ L4✓ L5✓ L6✓ · POS20 #386 23/23
+🐕 **Barking: POS20 has waited 1 min for a machine.** · POS20 #304 6/16
 
 ## Your next move
 
@@ -18,7 +18,8 @@
 
 | Release / fix | Checks on the latest commit | Updated |
 | --- | --- | --- |
-| [PR #386](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/386) Showdown Gate (shadow): six-lane check beside POS20, not required yet | 🟢 23 passed | 8:53 PM |
+| [PR #396](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/396) INFRA SIM: L5 setup dies on attempt 1 for the Showdown Gate shadow (never merge) | ⏳ 0 passed, 7 running | 9:19 PM |
+| [PR #395](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/395) CANARY: planted failing tests for the Showdown Gate shadow (never merge) | ⏳ 0 passed, 7 running | 9:19 PM |
 
 **🟦 V-1006 · Final Winner: last season's score block** · 25 % (1 of 4 steps) · Sol chat · [PR #393](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/393)
 
@@ -77,6 +78,8 @@ _Gameplay, online sync, every merge and every release (senior director)._ Worker
 | Job | What | Worker | State | Waits on |
 | --- | --- | --- | --- | --- |
 | 1009 | 1009 · G Showdown Champion: dark oval over the losing manager — GPT blue, one file: delete the loser shade rule in final-winner.css. | 🟦 Sol chat | ready | Nik types it in the gameplay project |
+| 1010 | 1010 · G 10-season sweep: scoring, history and final math — GPT green, one run. Node check of 10-season scoring, ties and final winner; report only, no game code. | 🟩 Sol Work mode | ready | Nik types it in the gameplay project (Work mode) |
+| 1011 | 1011 · G Plain-words sweep: jargon on game screens — GPT green, one run. Replaces engineering words players see; leaves test-asserted strings to the lead. | 🟩 Sol Work mode | ready | Nik types it in the gameplay project (Work mode) |
 
 **🗂 Later**
 
@@ -107,7 +110,7 @@ Latest:
 
 ## ✅ Finished
 
-**Shipped to the live game today (12):** [#390](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/390) Release r62: bug-hunt fixes (errors, reconnect, auto final… · [#387](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/387) Physio: a watched workflow that isn't on main no longer fai… · [#385](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/385) Physio: re-run checks GitHub gave no machine, pause helpers… · [#383](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/383) Release r61: phone track list stops below the logo and scro… · and 8 more
+**Shipped to the live game today (13):** [#386](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/386) Showdown Gate (shadow): six-lane check beside POS20, not re… · [#390](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/390) Release r62: bug-hunt fixes (errors, reconnect, auto final… · [#387](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/387) Physio: a watched workflow that isn't on main no longer fai… · [#385](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/385) Physio: re-run checks GitHub gave no machine, pause helpers… · and 9 more
 
 <details>
 <summary>Done jobs (0 future-list rows, 1 Team V jobs, 10 hand-offs, 33 factory jobs)</summary>
@@ -171,7 +174,7 @@ Latest:
 ## Every bug report
 
 
-> Updated **Mon 5 Oct, 9:17 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
+> Updated **Mon 5 Oct, 9:19 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
 
 | 🔓 Open | 🔴 Top priority | 🔧 Fixing or waiting for release | ✅ Fixed and live |
 | :---: | :---: | :---: | :---: |
