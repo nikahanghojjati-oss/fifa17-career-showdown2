@@ -873,7 +873,7 @@ function getTransferPhaseIntro(challenge){
         return "<strong>Guess Entry</strong><span>Guesses come first.</span> Each manager may record up to three League or Nationality guesses against the opponent. Locking this phase is a permanent saved transition.";
     }
     if(phase === TRANSFER_PHASES.SIGNING){
-        return "<strong>Signing Entry</strong><span>Opponent guesses are already locked.</span> Record up to three completed signings for each manager using the canonical FIFA 17 former-league and nationality lists.";
+        return "<strong>Signing Entry</strong><span>Opponent guesses are already locked.</span> Record up to three completed signings for each manager using the FIFA 17 former-league and nationality lists.";
     }
     return "<strong>Transfer Verdicts</strong><span>The challenge is locked.</span> Any signing matching at least one opponent League or Nationality guess must be released before the season begins.";
 }
