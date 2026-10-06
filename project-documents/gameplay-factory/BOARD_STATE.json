@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 8:10 PM Boston time (EDT)",
+ "generated": "2026-10-05 8:15 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -326,8 +326,8 @@
      "sha": "284097dde49228a76a812d6f32e1dca1c261629e",
      "updated": "2026-10-06T00:09:11Z",
      "gates": {
-      "passed": 1,
-      "running": 14,
+      "passed": 11,
+      "running": 4,
       "failed": 0,
       "cancelled": 0
      }
@@ -421,8 +421,8 @@
   },
   "physio": {
    "state": "barking",
-   "line": "Barking: Gameplay Fast on #391 has waited 2 min for a machine; POS20 on #391 has waited 2 min for a machine; POS20 has waited 2 min for a machine; POS20 on #390 has waited 2 min for a machine.",
-   "gate": "POS20 #390 1/16",
+   "line": "Barking: Gameplay Fast on #392 has waited 1 min for a machine.",
+   "gate": "POS20 #390 10/16",
    "source": "physio"
   },
   "v_headline": "Board 1 (visual package): 238 of 238 jobs done and checked",
@@ -858,8 +858,8 @@
     "sha": "284097dde49228a76a812d6f32e1dca1c261629e",
     "updated": "2026-10-06T00:09:11Z",
     "gates": {
-     "passed": 1,
-     "running": 14,
+     "passed": 11,
+     "running": 4,
      "failed": 0,
      "cancelled": 0
     }

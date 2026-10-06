@@ -1,8 +1,8 @@
 # Showdown board: G Factory and V Factory
 
-🌐 **Live: runtime 1.9.1-r61** (main `84a04d8`) · 🔄 **16 moving** · ⏭ 2 up next · 👤 6 waiting on Nik · 🗂 4 later · updated 2026-10-05 8:10 PM Boston time (EDT)
+🌐 **Live: runtime 1.9.1-r61** (main `84a04d8`) · 🔄 **16 moving** · ⏭ 2 up next · 👤 6 waiting on Nik · 🗂 4 later · updated 2026-10-05 8:15 PM Boston time (EDT)
 
-🐕 **Barking: Gameplay Fast on #391 has waited 2 min for a machine; POS20 on #391 has waited 2 min for a machine; POS20 has waited 2 min for a machine; POS20 on #390 has waited 2 min for a machine.** · POS20 #390 1/16
+🐕 **Barking: Gameplay Fast on #392 has waited 1 min for a machine.** · POS20 #390 10/16
 
 ## Your next move
 
@@ -12,7 +12,7 @@
 
 | Release / fix | Checks on the latest commit | Updated |
 | --- | --- | --- |
-| [PR #390](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/390) Release r62: bug-hunt fixes (errors, reconnect, auto final winner, desktop Settings, phon… | ⏳ 1 passed, 14 running | 8:09 PM |
+| [PR #390](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/390) Release r62: bug-hunt fixes (errors, reconnect, auto final winner, desktop Settings, phon… | ⏳ 11 passed, 4 running | 8:09 PM |
 | [PR #386](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/386) Showdown Gate (shadow): six-lane check beside POS20, not required yet | 🟢 23 passed | 7:38 PM |
 | [PR #384](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/384) Every screen in Team V's look: signed-out career screens, Showdown Home, season review, L… | 🟢 12 passed | 6:29 PM |
 
