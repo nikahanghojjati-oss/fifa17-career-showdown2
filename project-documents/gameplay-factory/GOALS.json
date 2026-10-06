@@ -2483,6 +2483,456 @@
     },
     "sha": "76994acea99c862cbe77d31bce3d6521d59c9946"
    },
+   "project-documents/gameplay-factory/sweeps/olympiad/findings/codex-1006-2238-1.json": {
+    "data": {
+     "actual": "The field silently chooses argentina-primera-division while displaying only Primera División. The signing locks and the Spain guess gives a KEEP verdict.",
+     "area": "03",
+     "assumptions": [
+      "Daniel is Player One and Nik is Player Two; both enter their real signings fairly.",
+      "Chromium runs the unchanged local game screens. A prepared, already-started Showdown uses the real transfer rules in Node and retains locked moves between page loads.",
+      "No game code was changed."
+     ],
+     "expected": "The game asks Daniel to choose Spain or Argentina before locking this shared league name. A signing from Spain must be released when Nik guessed Spain.",
+     "fix": {
+      "change": "Only accept an exact typed label automatically when it names one league. For shared labels, require an explicit country choice before locking; preserve saved league IDs and explicit list choices.",
+      "files": [
+       "js/transferSelector.js"
+      ]
+     },
+     "id": "CMS03-codex-1006-2238-ambiguous-league",
+     "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+     "root_cause": "The league-name lookup keeps the first league for a shared name. Typing an exact label immediately fills that league choice, and signing validation accepts it. The list does show both countries and an explicit Spain selection works; it is the unchosen typed label that is accepted incorrectly.",
+     "run": "codex-1006-2238",
+     "script": "project-documents/gameplay-factory/sweeps/olympiad/test/CMS03-codex-1006-2238-ambiguous-league.cjs",
+     "script_output": "{\n  \"typed\": \"Primera División\",\n  \"countryChoiceMade\": false,\n  \"candidates\": [\n    {\n      \"id\": \"argentina-primera-division\",\n      \"text\": \"Primera DivisiónArgentina\"\n    },\n    {\n      \"id\": \"spain-primera-division\",\n      \"text\": \"Primera DivisiónSpain\"\n    },\n    {\n      \"id\": \"chile-campeonato-nacional\",\n      \"text\": \"Campeonato Nacional ScotiabankChile\"\n    }\n  ],\n  \"canonicalBeforeLock\": \"argentina-primera-division\",\n  \"signingAccepted\": true,\n  \"savedLeague\": \"argentina-primera-division\",\n  \"rivalGuess\": {\n    \"slot\": 1,\n    \"type\": \"league\",\n    \"valueId\": \"spain-primera-division\"\n  },\n  \"verdict\": {\n    \"slot\": 1,\n    \"name\": \"Spanish league signing\",\n    \"leagueId\": \"argentina-primera-division\",\n    \"nationalityId\": \"brazil\",\n    \"release\": false,\n    \"matchedBy\": []\n  },\n  \"screen\": \"Daniel · Arsenal\\n\\nSpanish league signing — KEEP · NO RIVAL GUESS MATCH\"\n}\nAssertionError [ERR_ASSERTION]: A league name shared by Spain and Argentina must require a country choice before it locks.\n\ntrue !== false\n\n    at /workspace/fifa17-career-showdown2/project-documents/gameplay-factory/sweeps/olympiad/test/CMS03-codex-1006-2238-ambiguous-league.cjs:22:12 {\n  generatedMessage: false,\n  code: 'ERR_ASSERTION',\n  actual: true,\n  expected: false,\n  operator: 'strictEqual',\n  diff: 'simple'\n}\n",
+     "severity": "S2",
+     "status": "confirmed",
+     "steps": [
+      "Start season 1 of a 3-season Showdown and finish the transfer window.",
+      "Nik chooses the Spain Primera División league guess; both friends lock their guesses.",
+      "Daniel enters a signing name, types Primera División as the previous league, and chooses Brazil as the nationality. Do not choose a league country from the list.",
+      "Daniel locks his signing; Nik locks his signings; read the reveal."
+     ],
+     "title": "Typing a shared league name locks Argentina without choosing a country",
+     "where": [
+      {
+       "file": "js/transferSelector.js",
+       "function": "handleTransferSelectorInput",
+       "line": 189
+      },
+      {
+       "file": "data/transferOptions.js",
+       "function": "buildTransferOptionIndex",
+       "line": 53
+      },
+      {
+       "file": "js/productionSharedTransferChallenge.js",
+       "function": "pstcBuildSignings",
+       "line": 193
+      }
+     ]
+    },
+    "sha": "352188b5559a977edc1a775416e18ea1dd70569f"
+   },
+   "project-documents/gameplay-factory/sweeps/olympiad/findings/codex-1006-2238-2.json": {
+    "data": {
+     "actual": "The Spain option occupies y=735 to 783, but the footer title is above its center. A normal click times out and the field still holds Argentina. Keyboard selection works, and desktop list selection works.",
+     "area": "03",
+     "assumptions": [
+      "Daniel is Player One and Nik is Player Two; both enter their real signings fairly.",
+      "Chromium runs the unchanged local game screens. A prepared, already-started Showdown uses the real transfer rules in Node and retains locked moves between page loads.",
+      "No game code was changed."
+     ],
+     "expected": "The Spain option receives the tap and becomes the signing's previous league.",
+     "fix": {
+      "change": "Place an open phone option list above the footer and signing action, outside the lower panel layer if necessary. Keep every visible previous-league and nationality option tappable.",
+      "files": [
+       "css/v10Transfer.css",
+       "js/transferSelector.js"
+      ]
+     },
+     "id": "CMS03-codex-1006-2238-phone-league-pick",
+     "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+     "root_cause": "The phone option list is fixed 12 pixels from the bottom of the screen inside the signing panel's lower drawing layer. The fixed footer draws above that panel and receives taps intended for the league options. The existing option-list drawing order of 80 cannot escape its parent layer.",
+     "run": "codex-1006-2238",
+     "script": "project-documents/gameplay-factory/sweeps/olympiad/test/CMS03-codex-1006-2238-phone-league-pick.cjs",
+     "script_output": "TAP FAILED: locator.click: Timeout 2000ms exceeded.\n{\n  \"viewport\": {\n    \"width\": 390,\n    \"height\": 844\n  },\n  \"choice\": \"Primera DivisiónSpain\",\n  \"rect\": {\n    \"x\": 11,\n    \"y\": 735,\n    \"width\": 368,\n    \"height\": 48,\n    \"top\": 735,\n    \"right\": 379,\n    \"bottom\": 783,\n    \"left\": 11\n  },\n  \"targetTag\": \"H2\",\n  \"targetId\": \"tw-transferChallengeTitle\",\n  \"targetText\": \"SEASON 1 · TRANSFER CHALLENGE\",\n  \"targetIsChoice\": false,\n  \"clicked\": false,\n  \"signingLeague\": \"argentina-primera-division\"\n}\nAssertionError [ERR_ASSERTION]: A previous-league choice must be tappable; the phone footer must not cover it.\n\nfalse !== true\n\n    at /workspace/fifa17-career-showdown2/project-documents/gameplay-factory/sweeps/olympiad/test/CMS03-codex-1006-2238-phone-league-pick.cjs:16:12 {\n  generatedMessage: false,\n  code: 'ERR_ASSERTION',\n  actual: false,\n  expected: true,\n  operator: 'strictEqual',\n  diff: 'simple'\n}\n",
+     "severity": "S2",
+     "status": "confirmed",
+     "steps": [
+      "Use Chromium at a 390 by 844 phone size. Start season 1 of 3 and lock both friends' guesses.",
+      "As Nik, enter a signing name and type Primera División in the previous-league field.",
+      "Try tapping the Spain option."
+     ],
+     "title": "The phone footer blocks a previous-league choice during signing entry",
+     "where": [
+      {
+       "file": "css/transfer.css",
+       "function": ".transferComboboxList at phone widths",
+       "line": 133
+      },
+      {
+       "file": "visual-assets/v10_1/tr2/slice-02-plate/plate.css",
+       "function": ".panel > *",
+       "line": 558
+      },
+      {
+       "file": "visual-assets/v10_1/tr2/slice-02-plate/plate.css",
+       "function": ".hud-footer",
+       "line": 912
+      }
+     ]
+    },
+    "sha": "64899a704377af27acf50e0706f1882cb012ba85"
+   },
+   "project-documents/gameplay-factory/sweeps/olympiad/findings/codex-1006-2238-3.json": {
+    "data": {
+     "actual": "Player name, previous league and nationality all return blank. Both friends' locked guesses remain. The same loss occurred at season 10 of 10. Locked signings and completed verdicts survive reload.",
+     "area": "03",
+     "assumptions": [
+      "Daniel is Player One and Nik is Player Two; both enter their real signings fairly.",
+      "Chromium runs the unchanged local game screens. A prepared, already-started Showdown uses the real transfer rules in Node and retains locked moves between page loads.",
+      "No game code was changed.",
+      "Unfinished signing entry is treated as progress worth recovering. The Rule Book does not explicitly promise unfinished-entry recovery, so this finding is likely. There is no loss of already-locked signings or saved verdicts."
+     ],
+     "expected": "Daniel's unfinished signing returns so he can finish entering his three signings.",
+     "fix": {
+      "change": "Remember each friend's unfinished signing rows for this Showdown and season, restore them after reload, and clear them only after a successful lock. Keep locked signings and completed verdicts as the final record.",
+      "files": [
+       "js/productionSharedTransferChallenge.js"
+      ]
+     },
+     "id": "CMS03-codex-1006-2238-draft-reload",
+     "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+     "root_cause": "The shared signing screen keeps unfinished rows only in the page. Reopening after a page load clears both forms and restores locked inputs only. The older draft-save handlers check for a local recording challenge, which this shared screen does not create.",
+     "run": "codex-1006-2238",
+     "script": "project-documents/gameplay-factory/sweeps/olympiad/test/CMS03-codex-1006-2238-draft-reload.cjs",
+     "script_output": "{\n  \"season\": \"1 of 3\",\n  \"expected\": {\n    \"slot\": 1,\n    \"name\": \"Paulo Dybala\",\n    \"leagueId\": \"italy-serie-a\",\n    \"nationalityId\": \"argentina\"\n  },\n  \"actual\": {\n    \"name\": \"\",\n    \"league\": \"\",\n    \"nationality\": \"\"\n  },\n  \"phase\": \"SIGNING_ENTRY\",\n  \"guessesStillLocked\": [\n    \"playerOne\",\n    \"playerTwo\"\n  ]\n}\nAssertionError [ERR_ASSERTION]: Reload halfway through signing entry should restore the unfinished signing.\n\n'' !== 'Paulo Dybala'\n\n    at /workspace/fifa17-career-showdown2/project-documents/gameplay-factory/sweeps/olympiad/test/CMS03-codex-1006-2238-draft-reload.cjs:17:12 {\n  generatedMessage: false,\n  code: 'ERR_ASSERTION',\n  actual: '',\n  expected: 'Paulo Dybala',\n  operator: 'strictEqual',\n  diff: 'simple'\n}\n",
+     "severity": "S3",
+     "status": "likely",
+     "steps": [
+      "Start season 1 of a 3-season Showdown; both friends lock their guesses.",
+      "Daniel enters Paulo Dybala, Italy Serie A, Argentina, but does not lock his signings.",
+      "Wait one second. A normal challenge refresh keeps the row.",
+      "Reload the page, reopen the same season, and continue the replay to signing entry."
+     ],
+     "title": "Reloading halfway through signing entry clears unfinished signings",
+     "where": [
+      {
+       "file": "js/productionSharedTransferChallenge.js",
+       "function": "pstcResetForContext",
+       "line": 181
+      },
+      {
+       "file": "js/productionSharedTransferChallenge.js",
+       "function": "pstcPopulateRole",
+       "line": 213
+      },
+      {
+       "file": "js/transferChallenge.js",
+       "function": "scheduleTransferDraftSave",
+       "line": 585
+      },
+      {
+       "file": "js/transferChallenge.js",
+       "function": "saveTransferFieldChange",
+       "line": 597
+      }
+     ]
+    },
+    "sha": "0b4a3a164325e8f37b3f8f50fa6728b58573fc52"
+   },
+   "project-documents/gameplay-factory/sweeps/olympiad/findings/codex-1006-2308-1.json": {
+    "data": {
+     "actual": "Run 1 signed Daniel in but Nik opened createShowdown with no identity badge/gate. Run 2 failed for Daniel in the same way. Both timed out waiting for SIGN IN WITH GOOGLE after 30000 ms with empty manager error arrays. Run 3 passed J1.1.",
+     "area": "11",
+     "cause_confidence": "high: source ordering plus an isolated 300 ms script-delay reproduction; internal timing of the two natural failures was not instrumented",
+     "diagnostic": {
+      "output": {
+       "badgePresent": false,
+       "bootstrap": true,
+       "delay_ms": 300,
+       "errors": [
+        "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED"
+       ],
+       "identityApi": false,
+       "identityGatePresent": false,
+       "identityScriptRequested": false,
+       "loader": "function",
+       "reporter": "function",
+       "samples": [
+        {
+         "entryBootstrap": true,
+         "identityApi": false,
+         "label": "bootstrap-before-loader",
+         "loader": "undefined",
+         "readyState": "interactive",
+         "reporter": "undefined",
+         "time_ms": 129
+        },
+        {
+         "entryBootstrap": true,
+         "identityApi": false,
+         "label": "bootstrap-before-loader",
+         "loader": "undefined",
+         "readyState": "interactive",
+         "reporter": "undefined",
+         "time_ms": 161
+        },
+        {
+         "entryBootstrap": true,
+         "identityApi": false,
+         "label": "bootstrap-before-loader",
+         "loader": "undefined",
+         "readyState": "interactive",
+         "reporter": "undefined",
+         "time_ms": 169
+        },
+        {
+         "entryBootstrap": true,
+         "identityApi": false,
+         "label": "bootstrap-before-loader",
+         "loader": "undefined",
+         "readyState": "interactive",
+         "reporter": "undefined",
+         "time_ms": 194
+        },
+        {
+         "entryBootstrap": true,
+         "identityApi": false,
+         "label": "bootstrap-before-loader",
+         "loader": "undefined",
+         "readyState": "interactive",
+         "reporter": "undefined",
+         "time_ms": 219
+        },
+        {
+         "entryBootstrap": true,
+         "identityApi": false,
+         "label": "bootstrap-before-loader",
+         "loader": "undefined",
+         "readyState": "interactive",
+         "reporter": "undefined",
+         "time_ms": 245
+        },
+        {
+         "entryBootstrap": true,
+         "identityApi": false,
+         "label": "bootstrap-before-loader",
+         "loader": "undefined",
+         "readyState": "interactive",
+         "reporter": "undefined",
+         "time_ms": 269
+        },
+        {
+         "entryBootstrap": true,
+         "identityApi": false,
+         "label": "bootstrap-before-loader",
+         "loader": "undefined",
+         "readyState": "interactive",
+         "reporter": "undefined",
+         "time_ms": 294
+        },
+        {
+         "entryBootstrap": true,
+         "identityApi": false,
+         "label": "bootstrap-before-loader",
+         "loader": "undefined",
+         "readyState": "interactive",
+         "reporter": "undefined",
+         "time_ms": 319
+        },
+        {
+         "entryBootstrap": true,
+         "identityApi": false,
+         "label": "bootstrap-before-loader",
+         "loader": "undefined",
+         "readyState": "interactive",
+         "reporter": "undefined",
+         "time_ms": 344
+        },
+        {
+         "entryBootstrap": true,
+         "identityApi": false,
+         "label": "DOMContentLoaded",
+         "loader": "function",
+         "readyState": "interactive",
+         "reporter": "function",
+         "time_ms": 376
+        }
+       ],
+       "screen": [
+        "createShowdown"
+       ],
+       "signInButtons": 0
+      },
+      "repro": "In a fresh Chromium context, route **/js/optionalModules.js?* and continue the request after 300 ms; load current main with the normal localhost emulator switch, wait for loadingScreen to hide, click #newShowdown, then inspect the identity API/gate and entry bootstrap flag.",
+      "scope": "Additional startup-only browser check, separate from the three unchanged journey runs; only optionalModules.js response delivery was delayed, with no source changes."
+     },
+     "expected": "Both unsigned managers see the identity gate, sign in, choose their player, and pass J1.1.",
+     "failing_step": "J1.1",
+     "fix": {
+      "change": "In a separate authorized code change, order identity bootstrap after its loader and error reporter are ready, retry failed bootstrap, and ensure the Start action cannot bypass identity readiness.",
+      "files": [
+       "js/showdown.js",
+       "js/screens.js"
+      ]
+     },
+     "game_code_changed": false,
+     "id": "codex-1006-2308-1",
+     "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+     "output": [
+      {
+       "attempt": 1,
+       "manager": "nik",
+       "result": "failed",
+       "text": "--- daniel: screens=mainMenu | badge=DANIEL | panel=CONNECT PLAYERS Daniel and Nik need to connect before the first Showdown. CREATE CODE FOR NIK DANIEL STARTS THE SHOWDOWN AND SENDS THIS CODE TO NIK | overlays=\n--- daniel errors: []\n--- nik: screens=createShowdown | badge= | panel= | overlays=\n--- nik errors: []\nlocator.click: Timeout 30000ms exceeded.\nCall log:\n  - waiting for getByRole('button', { name: 'SIGN IN WITH GOOGLE' })\n\n    at signIn (/workspace/fifa17-career-showdown2/tests/browser/two-manager-browser-journey.cjs:115:65)\n    at async main (/workspace/fifa17-career-showdown2/tests/browser/two-manager-browser-journey.cjs:238:35) {\n  log: [\n    \"  - waiting for getByRole('button', { name: 'SIGN IN WITH GOOGLE' })\"\n  ],\n  name: 'TimeoutError'\n}"
+      },
+      {
+       "attempt": 2,
+       "manager": "daniel",
+       "result": "failed",
+       "text": "--- daniel: screens=createShowdown | badge= | panel= | overlays=\n--- daniel errors: []\n--- nik: screens=mainMenu | badge= | panel= | overlays=\n--- nik errors: []\nlocator.click: Timeout 30000ms exceeded.\nCall log:\n  - waiting for getByRole('button', { name: 'SIGN IN WITH GOOGLE' })\n\n    at signIn (/workspace/fifa17-career-showdown2/tests/browser/two-manager-browser-journey.cjs:115:65)\n    at async main (/workspace/fifa17-career-showdown2/tests/browser/two-manager-browser-journey.cjs:238:5) {\n  log: [\n    \"  - waiting for getByRole('button', { name: 'SIGN IN WITH GOOGLE' })\"\n  ],\n  name: 'TimeoutError'\n}"
+      },
+      {
+       "attempt": 3,
+       "manager": null,
+       "result": "passed",
+       "text": "Daniel and Nik signed in through SIGN IN WITH GOOGLE and chose their players"
+      }
+     ],
+     "root_cause": "Likely startup dependency race in game code, reproduced by the separate diagnostic: showdown.js is deferred before optionalModules.js and app.js. With document.readyState=interactive, initializeOnlinePlayerEntry sets its one-shot bootstrap flag and schedules a zero-delay start. That timer can run before loadRuntimeScript is defined. ensureOnlinePlayerIdentitySurface throws Online runtime loader unavailable; the catch only calls the still-undefined optional reportApplicationError, so it reports nothing and does not retry. The identity module and its capture listener never install. The existing #newShowdown listener in screens.js then navigates directly to createShowdown.",
+     "run": "codex-1006-2308",
+     "severity": "S1",
+     "status": "confirmed",
+     "step_location": {
+      "file": "tests/browser/two-manager-browser-journey.cjs",
+      "function": "signIn",
+      "line": 115
+     },
+     "steps": [
+      "Run the unchanged Validate Gameplay Fast browser command with CMS_CHROMIUM_MULTI_CONTEXT=1, CMS_SHOWDOWN_LENGTH=3, and fresh Auth/Firestore emulators on the recorded main SHA.",
+      "Open Daniel and Nik in separate Chromium contexts; wait for the loading screen to hide.",
+      "Click #newShowdown, then attempt SIGN IN WITH GOOGLE for each manager."
+     ],
+     "title": "Startup sometimes skips the online identity gate and blocks initial sign-in",
+     "where": [
+      {
+       "file": "js/showdown.js",
+       "function": "ensureOnlinePlayerIdentitySurface",
+       "line": 4
+      },
+      {
+       "file": "js/showdown.js",
+       "function": "initializeOnlinePlayerEntry",
+       "line": 6
+      },
+      {
+       "file": "index.html",
+       "function": "deferred script ordering",
+       "line": 411
+      },
+      {
+       "file": "js/optionalModules.js",
+       "function": "loadRuntimeScript",
+       "line": 92
+      },
+      {
+       "file": "js/screens.js",
+       "function": "initializeScreens",
+       "line": 774
+      },
+      {
+       "file": "js/onlinePlayerIdentity.js",
+       "function": "gameplay entry capture listener",
+       "line": 57
+      }
+     ]
+    },
+    "sha": "54f6d382e8e37d3203d00124187e97a3701d490a"
+   },
+   "project-documents/gameplay-factory/sweeps/olympiad/findings/codex-1006-2308-2.json": {
+    "data": {
+     "actual": "Run 3 passed 24 checkpoints through J8.2, then timed out after 30000 ms waiting for CAREER READY on Daniel. Daniel was at mainMenu with empty badge and pair panel; Nik remained at transferChallenge with badge NIK and CAREER READY. Both manager error arrays were empty. Runs 1 and 2 never reached this step because J1.1 failed.",
+     "area": "11",
+     "cause_confidence": "likely: source and matching DOM evidence; the natural reload failure did not capture the internal bootstrap timer",
+     "expected": "Daniel retains his identity and sees CAREER READY / CONTINUE CAREER after reload, allowing a fresh exact private session to resume season 2.",
+     "failing_step": "J9.1",
+     "fix": {
+      "change": "Resolve the identity bootstrap dependency race in a separate code task, then rerun the original journey to verify reload recovery and all later checkpoints.",
+      "files": [
+       "js/showdown.js"
+      ]
+     },
+     "game_code_changed": false,
+     "id": "codex-1006-2308-2",
+     "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+     "output": [
+      {
+       "attempt": 1,
+       "blocked_by": "codex-1006-2308-1",
+       "result": "not_reached"
+      },
+      {
+       "attempt": 2,
+       "blocked_by": "codex-1006-2308-1",
+       "result": "not_reached"
+      },
+      {
+       "attempt": 3,
+       "manager": "daniel",
+       "result": "failed",
+       "text": "--- daniel: screens=mainMenu | badge= | panel= | overlays=\n--- daniel errors: []\n--- nik: screens=transferChallenge | badge=NIK | panel=CAREER READYCareer ready.CONTINUE CAREERNik | overlays=\n--- nik errors: []\npage.waitForFunction: Timeout 30000ms exceeded.\n    at main (/workspace/fifa17-career-showdown2/tests/browser/two-manager-browser-journey.cjs:502:22) {\n  log: [],\n  name: 'TimeoutError'\n}"
+      }
+     ],
+     "related_findings": [
+      "codex-1006-2308-1"
+     ],
+     "root_cause": "Likely the same one-shot identity-bootstrap ordering race as finding 1, now triggered by reload. The missing badge and pair panel match the startup-only reproduction. The persistent pair sidecar is initialized only after online identity becomes registered with an accountId (onlinePlayerIdentity.js lines 9 and 21); if identity bootstrap stops before loading its module, remembered-pair UI cannot restore even though browserSessionPersistence survives. This failure does not prove loss of provider or stored career data.",
+     "run": "codex-1006-2308",
+     "severity": "S1",
+     "status": "confirmed",
+     "step_location": {
+      "file": "tests/browser/two-manager-browser-journey.cjs",
+      "function": "main reload/resume block",
+      "line": 502
+     },
+     "steps": [
+      "Follow the unchanged three-season CI journey through the committed season-1 score of Daniel 9 / Nik 3 and the completed season-2 transfer flow.",
+      "Reload Daniel with browserSessionPersistence retained and the emulator switch reinstalled.",
+      "Wait for mainMenu, then wait for CAREER READY in persistentNikDanielPairPanel before continuing the career."
+     ],
+     "title": "Reload after completed season-2 transfers loses the identity and career entry surfaces",
+     "where": [
+      {
+       "file": "js/showdown.js",
+       "function": "initializeOnlinePlayerEntry",
+       "line": 6
+      },
+      {
+       "file": "js/showdown.js",
+       "function": "ensureOnlinePlayerIdentitySurface",
+       "line": 4
+      },
+      {
+       "file": "js/onlinePlayerIdentity.js",
+       "function": "setOnlineIdentityState",
+       "line": 9
+      },
+      {
+       "file": "js/onlinePlayerIdentity.js",
+       "function": "syncPersistentPairSidecar",
+       "line": 21
+      },
+      {
+       "file": "index.html",
+       "function": "deferred script ordering",
+       "line": 411
+      }
+     ]
+    },
+    "sha": "712d220ae92ca7059970ea84bcd0aa363594e80d"
+   },
    "project-documents/gameplay-factory/sweeps/olympiad/runs/chat-1006-0418.json": {
     "data": {
      "area": "01",
@@ -4787,6 +5237,83 @@
     },
     "sha": "c73718e2a2cdd2a5a4df01a2c0d171682ab87a94"
    },
+   "project-documents/gameplay-factory/sweeps/olympiad/runs/codex-1006-2238.json": {
+    "data": {
+     "area": "03",
+     "clean_confidence_pct": 55,
+     "coverage_pct": 92,
+     "date_utc": "2026-10-06",
+     "files_read": [
+      "AGENTS.md",
+      "PROJECT_OPERATING_SYSTEM_POS20.json",
+      "PROJECT_OPERATING_SYSTEM_POS20.md",
+      "POS20_CURRENT_STATE.json",
+      "CURRENT_PRODUCT_GUARDS.json",
+      "NEXT_TASK.md",
+      "SHARED_SHOWDOWN_JOURNEY_READINESS.json",
+      "MILESTONE_DELIVERY_PROGRESS.json",
+      "package.json",
+      "index.html",
+      "js/showdown.js",
+      "js/scoring.js",
+      "js/app.js",
+      "js/screens.js",
+      "js/optionalModules.js",
+      "js/ssjr.js",
+      "js/storage.js",
+      "js/transferChallenge.js",
+      "js/sharedTransferChallenge.js",
+      "js/sparkSharedTransferChallenge.js",
+      "js/productionSharedTransferChallenge.js",
+      "js/transferSelector.js",
+      "js/transferScreenV10.js",
+      "js/ruleBook.js",
+      "js/productionSharedSeasonResults.js",
+      "js/productionSharedSeasonResultsRoute.js",
+      "js/sparkCompletedTransferHistoryReader.js",
+      "js/legacy.js",
+      "data/transferOptions.js",
+      "css/transfer.css",
+      "css/v10Transfer.css",
+      "visual-assets/v10_1/tr2/slice-02-plate/plate.js",
+      "visual-assets/v10_1/tr2/slice-02-plate/plate.css",
+      "tests/browser/shared-transfer-challenge-replay-audit.cjs",
+      "tests/browser/stability-audit.cjs",
+      "tests/contracts/shared-transfer-challenge-contracts.cjs",
+      "tests/contracts/completed-transfer-history-contracts.cjs",
+      "tests/support/static-server.cjs",
+      "tests/support/career-fixture-helpers.cjs",
+      "tests/support/active-showdown-fixtures.cjs",
+      "project-documents/gameplay-factory/sweeps/olympiad/runs/codex-1006-1206.json",
+      "project-documents/gameplay-factory/sweeps/olympiad/runs/codex-1006-1207.json",
+      "project-documents/gameplay-factory/sweeps/olympiad/runs/codex-1006-1233.json",
+      "project-documents/gameplay-factory/sweeps/olympiad/runs/codex-1006-1251.json",
+      "project-documents/gameplay-factory/sweeps/olympiad/runs/codex-1006-1301.json",
+      "project-documents/gameplay-factory/sweeps/olympiad/runs/codex-1006-1303.json",
+      "project-documents/gameplay-factory/sweeps/olympiad/runs/codex-1006-1312.json",
+      "project-documents/gameplay-factory/sweeps/olympiad/runs/codex-1006-1313.json",
+      "project-documents/gameplay-factory/sweeps/olympiad/runs/codex-1006-1939.json",
+      "project-documents/gameplay-factory/sweeps/olympiad/runs/codex-1006-1942.json",
+      "project-documents/gameplay-factory/sweeps/olympiad/runs/codex-1006-1957.json",
+      "project-documents/gameplay-factory/sweeps/olympiad/claims/codex-1006-1301.json",
+      "project-documents/gameplay-factory/sweeps/olympiad/claims/codex-1006-1303.json",
+      "project-documents/gameplay-factory/sweeps/olympiad/claims/codex-1006-1312.json",
+      "project-documents/gameplay-factory/sweeps/olympiad/claims/codex-1006-1313.json",
+      "project-documents/gameplay-factory/sweeps/olympiad/claims/codex-1006-1939.json",
+      "project-documents/gameplay-factory/sweeps/olympiad/claims/codex-1006-1942.json"
+     ],
+     "findings": [
+      "CMS03-codex-1006-2238-ambiguous-league",
+      "CMS03-codex-1006-2238-phone-league-pick",
+      "CMS03-codex-1006-2238-draft-reload"
+     ],
+     "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+     "mode": "codex",
+     "next_focus": "Require a country choice for shared league names; keep phone league/nationality choices above the footer; decide whether unfinished signing rows should survive reload. Node checked 28,192 match/miss pairs and every season in 1/3/5/10-season formats; Chromium played season 1 of 3, season 10 of 10, empty signing reveals, locked and unfinished reloads, 0-0 scoring and the tied-total DRAW rule. Saved transfer-history checks passed. The two-player browser games used the real transfer rules with a prepared game kept between reloads; the entire final-winner journey belongs to area 05/11 and was not claimed here. Coverage script: test/codex-1006-2238-coverage.cjs. All three finding scripts reproduced their reported wrong results and exited 1 as expected. Game files match main and remain unchanged.",
+     "run": "codex-1006-2238"
+    },
+    "sha": "377dbd8b39b882b2b9e3d43e5c276ad346a84c6d"
+   },
    "project-documents/gameplay-factory/sweeps/olympiad/runs/codex-1006-2239.json": {
     "data": {
      "area": "02",
@@ -4841,6 +5368,580 @@
      "run": "codex-1006-2239"
     },
     "sha": "fc91ea141f2eaef6e4919e249bf12ed5beda67d1"
+   },
+   "project-documents/gameplay-factory/sweeps/olympiad/runs/codex-1006-2308.json": {
+    "data": {
+     "area": "11",
+     "attempts": [
+      {
+       "attempt": 1,
+       "checks": [
+        {
+         "number": 1,
+         "output": "composed production Rules active on the emulator (open read 404 -> 403)",
+         "step": "J0.1"
+        },
+        {
+         "number": 2,
+         "output": "emulator switch active only via localhost + cmsEmulator=1 in both contexts",
+         "step": "J0.2"
+        }
+       ],
+       "duration_seconds": 277.707,
+       "exit_code": 1,
+       "failing_manager": "nik",
+       "failing_step": "J1.1",
+       "finished_utc": "2026-10-06T23:12:50.477996Z",
+       "manager_states": {
+        "daniel": "screens=mainMenu | badge=DANIEL | panel=CONNECT PLAYERS Daniel and Nik need to connect before the first Showdown. CREATE CODE FOR NIK DANIEL STARTS THE SHOWDOWN AND SENDS THIS CODE TO NIK | overlays=",
+        "nik": "screens=createShowdown | badge= | panel= | overlays="
+       },
+       "output": "ok 1 J0.1 composed production Rules active on the emulator (open read 404 -> 403)\nok 2 J0.2 emulator switch active only via localhost + cmsEmulator=1 in both contexts\n--- daniel: screens=mainMenu | badge=DANIEL | panel=CONNECT PLAYERS Daniel and Nik need to connect before the first Showdown. CREATE CODE FOR NIK DANIEL STARTS THE SHOWDOWN AND SENDS THIS CODE TO NIK | overlays=\n--- daniel errors: []\n--- nik: screens=createShowdown | badge= | panel= | overlays=\n--- nik errors: []\nlocator.click: Timeout 30000ms exceeded.\nCall log:\n  - waiting for getByRole('button', { name: 'SIGN IN WITH GOOGLE' })\n\n    at signIn (/workspace/fifa17-career-showdown2/tests/browser/two-manager-browser-journey.cjs:115:65)\n    at async main (/workspace/fifa17-career-showdown2/tests/browser/two-manager-browser-journey.cjs:238:35) {\n  log: [\n    \"  - waiting for getByRole('button', { name: 'SIGN IN WITH GOOGLE' })\"\n  ],\n  name: 'TimeoutError'\n}\n⚠  Script exited unsuccessfully (code 1)\ni  emulators: Shutting down emulators.\ni  firestore: Stopping Firestore Emulator\ni  auth: Stopping Authentication Emulator\ni  hub: Stopping emulator hub\ni  logging: Stopping Logging Emulator\n\nError: Script \"CMS_SHOWDOWN_LENGTH=3 node tests/browser/two-manager-browser-journey.cjs\" exited with code 1\n",
+       "output_sha256": "6024c5cb1a99c6ccaa1757c629e16740c5fad8fdbe8d851b06cf7c583f8fb987",
+       "pass": false,
+       "started_utc": "2026-10-06T23:08:12.771042Z",
+       "terminal_output": "--- daniel: screens=mainMenu | badge=DANIEL | panel=CONNECT PLAYERS Daniel and Nik need to connect before the first Showdown. CREATE CODE FOR NIK DANIEL STARTS THE SHOWDOWN AND SENDS THIS CODE TO NIK | overlays=\n--- daniel errors: []\n--- nik: screens=createShowdown | badge= | panel= | overlays=\n--- nik errors: []\nlocator.click: Timeout 30000ms exceeded.\nCall log:\n  - waiting for getByRole('button', { name: 'SIGN IN WITH GOOGLE' })\n\n    at signIn (/workspace/fifa17-career-showdown2/tests/browser/two-manager-browser-journey.cjs:115:65)\n    at async main (/workspace/fifa17-career-showdown2/tests/browser/two-manager-browser-journey.cjs:238:35) {\n  log: [\n    \"  - waiting for getByRole('button', { name: 'SIGN IN WITH GOOGLE' })\"\n  ],\n  name: 'TimeoutError'\n}"
+      },
+      {
+       "attempt": 2,
+       "checks": [
+        {
+         "number": 1,
+         "output": "composed production Rules active on the emulator (open read 404 -> 403)",
+         "step": "J0.1"
+        },
+        {
+         "number": 2,
+         "output": "emulator switch active only via localhost + cmsEmulator=1 in both contexts",
+         "step": "J0.2"
+        }
+       ],
+       "duration_seconds": 62.746,
+       "exit_code": 1,
+       "failing_manager": "daniel",
+       "failing_step": "J1.1",
+       "finished_utc": "2026-10-06T23:13:53.233849Z",
+       "manager_states": {
+        "daniel": "screens=createShowdown | badge= | panel= | overlays=",
+        "nik": "screens=mainMenu | badge= | panel= | overlays="
+       },
+       "output": "ok 1 J0.1 composed production Rules active on the emulator (open read 404 -> 403)\nok 2 J0.2 emulator switch active only via localhost + cmsEmulator=1 in both contexts\n--- daniel: screens=createShowdown | badge= | panel= | overlays=\n--- daniel errors: []\n--- nik: screens=mainMenu | badge= | panel= | overlays=\n--- nik errors: []\nlocator.click: Timeout 30000ms exceeded.\nCall log:\n  - waiting for getByRole('button', { name: 'SIGN IN WITH GOOGLE' })\n\n    at signIn (/workspace/fifa17-career-showdown2/tests/browser/two-manager-browser-journey.cjs:115:65)\n    at async main (/workspace/fifa17-career-showdown2/tests/browser/two-manager-browser-journey.cjs:238:5) {\n  log: [\n    \"  - waiting for getByRole('button', { name: 'SIGN IN WITH GOOGLE' })\"\n  ],\n  name: 'TimeoutError'\n}\n⚠  Script exited unsuccessfully (code 1)\ni  emulators: Shutting down emulators.\ni  firestore: Stopping Firestore Emulator\ni  auth: Stopping Authentication Emulator\ni  hub: Stopping emulator hub\ni  logging: Stopping Logging Emulator\n\nError: Script \"CMS_SHOWDOWN_LENGTH=3 node tests/browser/two-manager-browser-journey.cjs\" exited with code 1\n",
+       "output_sha256": "17f290093d2e9ed96248040cd20daaa710235cf201f7c6d6fd55529a4dc7d72f",
+       "pass": false,
+       "started_utc": "2026-10-06T23:12:50.487654Z",
+       "terminal_output": "--- daniel: screens=createShowdown | badge= | panel= | overlays=\n--- daniel errors: []\n--- nik: screens=mainMenu | badge= | panel= | overlays=\n--- nik errors: []\nlocator.click: Timeout 30000ms exceeded.\nCall log:\n  - waiting for getByRole('button', { name: 'SIGN IN WITH GOOGLE' })\n\n    at signIn (/workspace/fifa17-career-showdown2/tests/browser/two-manager-browser-journey.cjs:115:65)\n    at async main (/workspace/fifa17-career-showdown2/tests/browser/two-manager-browser-journey.cjs:238:5) {\n  log: [\n    \"  - waiting for getByRole('button', { name: 'SIGN IN WITH GOOGLE' })\"\n  ],\n  name: 'TimeoutError'\n}"
+      },
+      {
+       "attempt": 3,
+       "checks": [
+        {
+         "number": 1,
+         "output": "composed production Rules active on the emulator (open read 404 -> 403)",
+         "step": "J0.1"
+        },
+        {
+         "number": 2,
+         "output": "emulator switch active only via localhost + cmsEmulator=1 in both contexts",
+         "step": "J0.2"
+        },
+        {
+         "number": 3,
+         "output": "Daniel and Nik signed in through SIGN IN WITH GOOGLE and chose their players",
+         "step": "J1.1"
+        },
+        {
+         "number": 4,
+         "output": "both accounts bootstrapped and devices registered through the composed Rules",
+         "step": "J1.2"
+        },
+        {
+         "number": 5,
+         "output": "Daniel created the pair code on the real Start screen",
+         "step": "J2.1"
+        },
+        {
+         "number": 6,
+         "output": "Nik joined with the code; Daniel=playerOne, Nik=playerTwo, both career indexes [R1]",
+         "step": "J2.2"
+        },
+        {
+         "number": 7,
+         "output": "private session hosted by Daniel, joined by Nik; both reached the league wheel",
+         "step": "J3.1"
+        },
+        {
+         "number": 8,
+         "output": "Nik is visibly waiting for the host and cannot draw the shared league",
+         "step": "J4.1"
+        },
+        {
+         "number": 9,
+         "output": "Daniel drew the authoritative league and Nik followed it without drawing",
+         "step": "J4.2"
+        },
+        {
+         "number": 10,
+         "output": "host opened the real club packs; both pages agree on two clubs with Daniel in the LEFT slot",
+         "step": "J4.3"
+        },
+        {
+         "number": 11,
+         "output": "both managers confirmed the identical shared setup and both real club screens advanced to Career Start",
+         "step": "J4.4"
+        },
+        {
+         "number": 12,
+         "output": "each manager sees the start acknowledgement for only their assigned club",
+         "step": "J5.1"
+        },
+        {
+         "number": 13,
+         "output": "both private Career Start acknowledgements converged to ready",
+         "step": "J5.2"
+        },
+        {
+         "number": 14,
+         "output": "both managers reached the real Shared Transfer Challenge through the UI",
+         "step": "J5.3"
+        },
+        {
+         "number": 15,
+         "output": "Daniel started the shared 15-minute window and both managers see the same live phase",
+         "step": "J6.1"
+        },
+        {
+         "number": 16,
+         "output": "both managers requested early end and the shared window advanced without waiting 15 minutes",
+         "step": "J6.2"
+        },
+        {
+         "number": 17,
+         "output": "both managers entered and locked their private guesses through the real controls",
+         "step": "J6.3"
+        },
+        {
+         "number": 18,
+         "output": "unfinished rival signings remain absent from rendered text and every input value",
+         "step": "J6.4"
+        },
+        {
+         "number": 19,
+         "output": "COMPLETED reveals both signings identically and enables Shared Season Results",
+         "step": "J6.5"
+        },
+        {
+         "number": 20,
+         "output": "Daniel published first and his season result stayed private from Nik",
+         "step": "J7.1"
+        },
+        {
+         "number": 21,
+         "output": "RESULTS_READY reveals the same raw season facts on both pages; canonical scoring correctly remains locked until commit",
+         "step": "J7.2"
+        },
+        {
+         "number": 22,
+         "output": "after the immutable season-1 commit both pages show canonical 9-3 and Daniel as season winner",
+         "step": "J7.3"
+        },
+        {
+         "number": 23,
+         "output": "both dashboards show 9-3 and Season 2 of 3 after season-1 commit",
+         "step": "J8.1"
+        },
+        {
+         "number": 24,
+         "output": "season 2 repeated the shared transfer flow with rendered privacy before completion",
+         "step": "J8.2"
+        }
+       ],
+       "duration_seconds": 260.967,
+       "exit_code": 1,
+       "failing_manager": "daniel",
+       "failing_step": "J9.1",
+       "finished_utc": "2026-10-06T23:18:14.204257Z",
+       "manager_states": {
+        "daniel": "screens=mainMenu | badge= | panel= | overlays=",
+        "nik": "screens=transferChallenge | badge=NIK | panel=CAREER READYCareer ready.CONTINUE CAREERNik | overlays="
+       },
+       "output": "ok 1 J0.1 composed production Rules active on the emulator (open read 404 -> 403)\nok 2 J0.2 emulator switch active only via localhost + cmsEmulator=1 in both contexts\nok 3 J1.1 Daniel and Nik signed in through SIGN IN WITH GOOGLE and chose their players\nok 4 J1.2 both accounts bootstrapped and devices registered through the composed Rules\nok 5 J2.1 Daniel created the pair code on the real Start screen\nok 6 J2.2 Nik joined with the code; Daniel=playerOne, Nik=playerTwo, both career indexes [R1]\nok 7 J3.1 private session hosted by Daniel, joined by Nik; both reached the league wheel\nok 8 J4.1 Nik is visibly waiting for the host and cannot draw the shared league\nok 9 J4.2 Daniel drew the authoritative league and Nik followed it without drawing\nok 10 J4.3 host opened the real club packs; both pages agree on two clubs with Daniel in the LEFT slot\nok 11 J4.4 both managers confirmed the identical shared setup and both real club screens advanced to Career Start\nok 12 J5.1 each manager sees the start acknowledgement for only their assigned club\nok 13 J5.2 both private Career Start acknowledgements converged to ready\nok 14 J5.3 both managers reached the real Shared Transfer Challenge through the UI\nok 15 J6.1 Daniel started the shared 15-minute window and both managers see the same live phase\nok 16 J6.2 both managers requested early end and the shared window advanced without waiting 15 minutes\nok 17 J6.3 both managers entered and locked their private guesses through the real controls\nok 18 J6.4 unfinished rival signings remain absent from rendered text and every input value\nok 19 J6.5 COMPLETED reveals both signings identically and enables Shared Season Results\nok 20 J7.1 Daniel published first and his season result stayed private from Nik\nok 21 J7.2 RESULTS_READY reveals the same raw season facts on both pages; canonical scoring correctly remains locked until commit\nok 22 J7.3 after the immutable season-1 commit both pages show canonical 9-3 and Daniel as season winner\nok 23 J8.1 both dashboards show 9-3 and Season 2 of 3 after season-1 commit\nok 24 J8.2 season 2 repeated the shared transfer flow with rendered privacy before completion\n--- daniel: screens=mainMenu | badge= | panel= | overlays=\n--- daniel errors: []\n--- nik: screens=transferChallenge | badge=NIK | panel=CAREER READYCareer ready.CONTINUE CAREERNik | overlays=\n--- nik errors: []\npage.waitForFunction: Timeout 30000ms exceeded.\n    at main (/workspace/fifa17-career-showdown2/tests/browser/two-manager-browser-journey.cjs:502:22) {\n  log: [],\n  name: 'TimeoutError'\n}\n⚠  Script exited unsuccessfully (code 1)\ni  emulators: Shutting down emulators.\ni  firestore: Stopping Firestore Emulator\ni  auth: Stopping Authentication Emulator\ni  hub: Stopping emulator hub\ni  logging: Stopping Logging Emulator\n\nError: Script \"CMS_SHOWDOWN_LENGTH=3 node tests/browser/two-manager-browser-journey.cjs\" exited with code 1\n",
+       "output_sha256": "9a406a138966d712782f9b1f8aacb83c5065686c6d56a4bcd2fe21812770d4f2",
+       "pass": false,
+       "started_utc": "2026-10-06T23:13:53.237174Z",
+       "terminal_output": "--- daniel: screens=mainMenu | badge= | panel= | overlays=\n--- daniel errors: []\n--- nik: screens=transferChallenge | badge=NIK | panel=CAREER READYCareer ready.CONTINUE CAREERNik | overlays=\n--- nik errors: []\npage.waitForFunction: Timeout 30000ms exceeded.\n    at main (/workspace/fifa17-career-showdown2/tests/browser/two-manager-browser-journey.cjs:502:22) {\n  log: [],\n  name: 'TimeoutError'\n}"
+      }
+     ],
+     "between_run_differences": "J1.1 failed for Nik in run 1 and Daniel in run 2, then passed in run 3. J1.2 through J8.2 only executed in run 3; their passed/not_reached differences are downstream effects of finding 1, not separately observed alternate gameplay. J9.1 failed only in run 3. All remaining checkpoints were not reached in any run. J0.1/J0.2 produced identical successful output in all three runs.",
+     "checkpoint_comparison": [
+      {
+       "attempt_1": "passed",
+       "attempt_2": "passed",
+       "attempt_3": "passed",
+       "step": "J0.1"
+      },
+      {
+       "attempt_1": "passed",
+       "attempt_2": "passed",
+       "attempt_3": "passed",
+       "step": "J0.2"
+      },
+      {
+       "attempt_1": "failed",
+       "attempt_2": "failed",
+       "attempt_3": "passed",
+       "finding": "codex-1006-2308-1",
+       "step": "J1.1"
+      },
+      {
+       "attempt_1": "not_reached",
+       "attempt_2": "not_reached",
+       "attempt_3": "passed",
+       "blocked_by_finding": "codex-1006-2308-1",
+       "difference_cause": "Runs 1 and 2 stopped at J1.1; no alternate gameplay behavior was observed at this checkpoint.",
+       "step": "J1.2"
+      },
+      {
+       "attempt_1": "not_reached",
+       "attempt_2": "not_reached",
+       "attempt_3": "passed",
+       "blocked_by_finding": "codex-1006-2308-1",
+       "difference_cause": "Runs 1 and 2 stopped at J1.1; no alternate gameplay behavior was observed at this checkpoint.",
+       "step": "J2.1"
+      },
+      {
+       "attempt_1": "not_reached",
+       "attempt_2": "not_reached",
+       "attempt_3": "passed",
+       "blocked_by_finding": "codex-1006-2308-1",
+       "difference_cause": "Runs 1 and 2 stopped at J1.1; no alternate gameplay behavior was observed at this checkpoint.",
+       "step": "J2.2"
+      },
+      {
+       "attempt_1": "not_reached",
+       "attempt_2": "not_reached",
+       "attempt_3": "passed",
+       "blocked_by_finding": "codex-1006-2308-1",
+       "difference_cause": "Runs 1 and 2 stopped at J1.1; no alternate gameplay behavior was observed at this checkpoint.",
+       "step": "J3.1"
+      },
+      {
+       "attempt_1": "not_reached",
+       "attempt_2": "not_reached",
+       "attempt_3": "passed",
+       "blocked_by_finding": "codex-1006-2308-1",
+       "difference_cause": "Runs 1 and 2 stopped at J1.1; no alternate gameplay behavior was observed at this checkpoint.",
+       "step": "J4.1"
+      },
+      {
+       "attempt_1": "not_reached",
+       "attempt_2": "not_reached",
+       "attempt_3": "passed",
+       "blocked_by_finding": "codex-1006-2308-1",
+       "difference_cause": "Runs 1 and 2 stopped at J1.1; no alternate gameplay behavior was observed at this checkpoint.",
+       "step": "J4.2"
+      },
+      {
+       "attempt_1": "not_reached",
+       "attempt_2": "not_reached",
+       "attempt_3": "passed",
+       "blocked_by_finding": "codex-1006-2308-1",
+       "difference_cause": "Runs 1 and 2 stopped at J1.1; no alternate gameplay behavior was observed at this checkpoint.",
+       "step": "J4.3"
+      },
+      {
+       "attempt_1": "not_reached",
+       "attempt_2": "not_reached",
+       "attempt_3": "passed",
+       "blocked_by_finding": "codex-1006-2308-1",
+       "difference_cause": "Runs 1 and 2 stopped at J1.1; no alternate gameplay behavior was observed at this checkpoint.",
+       "step": "J4.4"
+      },
+      {
+       "attempt_1": "not_reached",
+       "attempt_2": "not_reached",
+       "attempt_3": "passed",
+       "blocked_by_finding": "codex-1006-2308-1",
+       "difference_cause": "Runs 1 and 2 stopped at J1.1; no alternate gameplay behavior was observed at this checkpoint.",
+       "step": "J5.1"
+      },
+      {
+       "attempt_1": "not_reached",
+       "attempt_2": "not_reached",
+       "attempt_3": "passed",
+       "blocked_by_finding": "codex-1006-2308-1",
+       "difference_cause": "Runs 1 and 2 stopped at J1.1; no alternate gameplay behavior was observed at this checkpoint.",
+       "step": "J5.2"
+      },
+      {
+       "attempt_1": "not_reached",
+       "attempt_2": "not_reached",
+       "attempt_3": "passed",
+       "blocked_by_finding": "codex-1006-2308-1",
+       "difference_cause": "Runs 1 and 2 stopped at J1.1; no alternate gameplay behavior was observed at this checkpoint.",
+       "step": "J5.3"
+      },
+      {
+       "attempt_1": "not_reached",
+       "attempt_2": "not_reached",
+       "attempt_3": "passed",
+       "blocked_by_finding": "codex-1006-2308-1",
+       "difference_cause": "Runs 1 and 2 stopped at J1.1; no alternate gameplay behavior was observed at this checkpoint.",
+       "step": "J6.1"
+      },
+      {
+       "attempt_1": "not_reached",
+       "attempt_2": "not_reached",
+       "attempt_3": "passed",
+       "blocked_by_finding": "codex-1006-2308-1",
+       "difference_cause": "Runs 1 and 2 stopped at J1.1; no alternate gameplay behavior was observed at this checkpoint.",
+       "step": "J6.2"
+      },
+      {
+       "attempt_1": "not_reached",
+       "attempt_2": "not_reached",
+       "attempt_3": "passed",
+       "blocked_by_finding": "codex-1006-2308-1",
+       "difference_cause": "Runs 1 and 2 stopped at J1.1; no alternate gameplay behavior was observed at this checkpoint.",
+       "step": "J6.3"
+      },
+      {
+       "attempt_1": "not_reached",
+       "attempt_2": "not_reached",
+       "attempt_3": "passed",
+       "blocked_by_finding": "codex-1006-2308-1",
+       "difference_cause": "Runs 1 and 2 stopped at J1.1; no alternate gameplay behavior was observed at this checkpoint.",
+       "step": "J6.4"
+      },
+      {
+       "attempt_1": "not_reached",
+       "attempt_2": "not_reached",
+       "attempt_3": "passed",
+       "blocked_by_finding": "codex-1006-2308-1",
+       "difference_cause": "Runs 1 and 2 stopped at J1.1; no alternate gameplay behavior was observed at this checkpoint.",
+       "step": "J6.5"
+      },
+      {
+       "attempt_1": "not_reached",
+       "attempt_2": "not_reached",
+       "attempt_3": "passed",
+       "blocked_by_finding": "codex-1006-2308-1",
+       "difference_cause": "Runs 1 and 2 stopped at J1.1; no alternate gameplay behavior was observed at this checkpoint.",
+       "step": "J7.1"
+      },
+      {
+       "attempt_1": "not_reached",
+       "attempt_2": "not_reached",
+       "attempt_3": "passed",
+       "blocked_by_finding": "codex-1006-2308-1",
+       "difference_cause": "Runs 1 and 2 stopped at J1.1; no alternate gameplay behavior was observed at this checkpoint.",
+       "step": "J7.2"
+      },
+      {
+       "attempt_1": "not_reached",
+       "attempt_2": "not_reached",
+       "attempt_3": "passed",
+       "blocked_by_finding": "codex-1006-2308-1",
+       "difference_cause": "Runs 1 and 2 stopped at J1.1; no alternate gameplay behavior was observed at this checkpoint.",
+       "step": "J7.3"
+      },
+      {
+       "attempt_1": "not_reached",
+       "attempt_2": "not_reached",
+       "attempt_3": "passed",
+       "blocked_by_finding": "codex-1006-2308-1",
+       "difference_cause": "Runs 1 and 2 stopped at J1.1; no alternate gameplay behavior was observed at this checkpoint.",
+       "step": "J8.1"
+      },
+      {
+       "attempt_1": "not_reached",
+       "attempt_2": "not_reached",
+       "attempt_3": "passed",
+       "blocked_by_finding": "codex-1006-2308-1",
+       "difference_cause": "Runs 1 and 2 stopped at J1.1; no alternate gameplay behavior was observed at this checkpoint.",
+       "step": "J8.2"
+      },
+      {
+       "attempt_1": "not_reached",
+       "attempt_2": "not_reached",
+       "attempt_3": "failed",
+       "finding": "codex-1006-2308-2",
+       "step": "J9.1"
+      },
+      {
+       "attempt_1": "not_reached",
+       "attempt_2": "not_reached",
+       "attempt_3": "not_reached",
+       "step": "J9.2"
+      },
+      {
+       "attempt_1": "not_reached",
+       "attempt_2": "not_reached",
+       "attempt_3": "not_reached",
+       "step": "J9.3"
+      },
+      {
+       "attempt_1": "not_reached",
+       "attempt_2": "not_reached",
+       "attempt_3": "not_reached",
+       "step": "J8.3"
+      },
+      {
+       "attempt_1": "not_reached",
+       "attempt_2": "not_reached",
+       "attempt_3": "not_reached",
+       "step": "J8.4"
+      },
+      {
+       "attempt_1": "not_reached",
+       "attempt_2": "not_reached",
+       "attempt_3": "not_reached",
+       "step": "J8.5"
+      },
+      {
+       "attempt_1": "not_reached",
+       "attempt_2": "not_reached",
+       "attempt_3": "not_reached",
+       "step": "J10.1"
+      },
+      {
+       "attempt_1": "not_reached",
+       "attempt_2": "not_reached",
+       "attempt_3": "not_reached",
+       "step": "J10.2"
+      },
+      {
+       "attempt_1": "not_reached",
+       "attempt_2": "not_reached",
+       "attempt_3": "not_reached",
+       "step": "J11.1"
+      },
+      {
+       "attempt_1": "not_reached",
+       "attempt_2": "not_reached",
+       "attempt_3": "not_reached",
+       "step": "J12.1"
+      },
+      {
+       "attempt_1": "not_reached",
+       "attempt_2": "not_reached",
+       "attempt_3": "not_reached",
+       "step": "JZ.1"
+      },
+      {
+       "attempt_1": "not_reached",
+       "attempt_2": "not_reached",
+       "attempt_3": "not_reached",
+       "step": "JZ.2"
+      }
+     ],
+     "checkpoint_counts": {
+      "never_reached": 11,
+      "passed_all_three": 2,
+      "passed_at_least_once": 24,
+      "reached_unique": 25,
+      "total": 36
+     },
+     "clean_confidence_method": "0: no full journey passed (0/3), and 11 checkpoints were never reached. No clean-journey claim is supported.",
+     "clean_confidence_pct": 0,
+     "command": "CMS_CHROMIUM_MULTI_CONTEXT=1 CMS_BROWSER_JOURNEY_ARTIFACTS=<separate-attempt-directory> npx --yes firebase-tools@15.28.1 emulators:exec --config tests/browser/support/firebase.browser-journey.json --only auth,firestore --project demo-cms-browser-journey \"CMS_SHOWDOWN_LENGTH=3 node tests/browser/two-manager-browser-journey.cjs\"",
+     "coverage_method": "Unique numbered CI checkpoints reached, including failed checkpoints, divided by all 36 checkpoints for the three-season journey: 25/36 = 69.44%. Reached does not mean passed.",
+     "coverage_pct": 69.44,
+     "date_utc": "2026-10-06T23:08:12.765032Z",
+     "diagnostic_scope": "One additional isolated startup-only check with a 300 ms optionalModules.js delivery delay; not included in the three journey runs.",
+     "environment": {
+      "CI": true,
+      "browser": "Chromium",
+      "chromium_package": "149.0.0",
+      "emulator_project": "demo-cms-browser-journey",
+      "firebase_sdk": "12.17.0",
+      "firebase_tools": "15.28.1",
+      "fresh_emulators_per_attempt": true,
+      "java": "21.0.12.1",
+      "manager_viewports": {
+       "daniel": "393x660",
+       "nik": "360x640"
+      },
+      "multi_context": true,
+      "node": "24.19.0",
+      "playwright": "1.62.1",
+      "showdown_length": 3
+     },
+     "executed_runs": 3,
+     "failed_runs": 3,
+     "files_read": [
+      "AGENTS.md",
+      "PROJECT_OPERATING_SYSTEM_POS20.json",
+      "PROJECT_OPERATING_SYSTEM_POS20.md",
+      "POS20_CURRENT_STATE.json",
+      "CURRENT_PRODUCT_GUARDS.json",
+      "NEXT_TASK.md",
+      "SHARED_SHOWDOWN_JOURNEY_READINESS.json",
+      "MILESTONE_DELIVERY_PROGRESS.json",
+      ".github/workflows/validate-gameplay-fast.yml",
+      "package.json",
+      "tests/browser/two-manager-browser-journey.cjs",
+      "tests/support/chromium-runtime.cjs",
+      "tests/support/static-server.cjs",
+      "tests/browser/support/firebase.browser-journey.json",
+      "tests/browser/support/emulator-runtime-switch.js",
+      "scripts/build-production-firestore-rules.mjs",
+      "scripts/build-production-firestore-rules-with-persistent-pair.mjs",
+      ".gitignore",
+      "index.html",
+      "js/showdown.js",
+      "js/onlinePlayerIdentity.js",
+      "js/screens.js",
+      "js/optionalModules.js",
+      "js/app.js",
+      "js/sharedShowdownSetup.js",
+      "js/productionSharedShowdownSetup.js",
+      "js/sparkSharedShowdownSetup.js",
+      "js/productionSharedShowdownPresentation.js",
+      "js/leagueWheel.js",
+      "js/clubAssignment.js",
+      "js/v10Setup.js",
+      "js/diagnostics.js",
+      "js/ssjr.js",
+      "project-documents/gameplay-factory/sweeps/olympiad/runs/chat-1006-0534.json",
+      "project-documents/gameplay-factory/sweeps/olympiad/findings/chat-1006-0534-1.json",
+      "project-documents/gameplay-factory/sweeps/olympiad/runs/codex-1006-1207.json"
+     ],
+     "findings": [
+      "codex-1006-2308-1",
+      "codex-1006-2308-2"
+     ],
+     "limitations": [
+      "No complete journey succeeded. Later reload rejoin, season-2 publication/commit, season 3, final reconciliation, terminal close, stranger isolation, second Showdown, and final global error/network assertions were not reached.",
+      "Empty error arrays are diagnostic observations at failure, not completed JZ.1 assertions.",
+      "The 300 ms delay confirms the startup mechanism; natural failures were not instrumented internally.",
+      "All browser activity used local Auth/Firestore emulators. This sweep earns no production, SSJR, or MDP credit."
+     ],
+     "local_artifact_directory": "/tmp/codex-1006-2308",
+     "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+     "mode": "codex",
+     "next_focus": "Correct the online identity startup dependency ordering in a separate code task, then rerun this unchanged Chromium journey three times; verify both initial sign-in and season-2 reload before assessing the currently unreached J9.2 onward checkpoints.",
+     "partial": true,
+     "passed_runs": 0,
+     "requested_runs": 3,
+     "run": "codex-1006-2308",
+     "saved_output": "Journey stdout/stderr is embedded in attempts[].output; finding output is embedded in each finding. Local screenshots are retained in separate attempt artifact directories. Emulator capabilities, if present, are redacted.",
+     "setup": [
+      "npm ci",
+      "npm install --no-save --package-lock=false firebase@12.17.0 @firebase/rules-unit-testing@5.0.1 firebase-admin@14.2.0",
+      "node scripts/build-production-firestore-rules.mjs",
+      "node scripts/build-production-firestore-rules-with-persistent-pair.mjs",
+      "node scripts/assert-firestore-zero-billing-boundary.mjs"
+     ],
+     "source_verification": {
+      "composed_rules_sha256": "a0a0d0b6412ab610666f7f94ac0e55d505a44afdfdcf83ea2a3eec52ab0cbff6",
+      "game_code_changed": false,
+      "journey_sha256": "b3bbc92fa9b92003e5c8f2d99c30d451a6a56e2502d52daf292911f0df923d54",
+      "main_rechecked_after_runs": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+      "test_source_unchanged": true
+     },
+     "status": "completed_with_failures"
+    },
+    "sha": "c2d0ca59c8004758f663864adbdfe79d37bade95"
    }
   },
   "state": "ok"
