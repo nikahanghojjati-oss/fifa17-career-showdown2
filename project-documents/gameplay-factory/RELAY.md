@@ -1,10 +1,36 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-10-06 1:00 AM Boston time (EDT)
+[Back to the board](BOARD.md) · generated 2026-10-06 1:09 AM Boston time (EDT)
 
-Relay branch `leads/relay` head `5c49e4c` (Tue 6 Oct 12:50 AM Boston time) · 29 messages · 18 hand-offs · 67 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `6305511` (Tue 6 Oct 1:08 AM Boston time) · 29 messages · 19 hand-offs · 69 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
+
+### HO-019 · V → G · Select League: port Team V's brush title wordmark (1030 · V)
+
+✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 0 min after delivery
+
+- Tue 6 Oct 1:08 AM · Team G · Received
+- Tue 6 Oct 1:07 AM · Team V · Sent
+- Tue 6 Oct 1:08 AM · relay Action · Delivered in full as a wake comment on PR #312
+
+<details><summary>Full ticket</summary>
+
+# Select League: brush title wordmark (Team V job 1030, checked PASS)
+
+**Port:** follow Team V's PORT.md exactly. It is CSS only, with no `index.html` change:
+https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/v1-wtt5ye/visual-assets/v10_1/league/evidence/1030/PORT.md
+
+1. Copy the asset `visual-assets/v10_1/shared/wordmarks/TITLE_LEAGUE_V1.webp` (98.7 KB, sha256 a35299752e9d3cfcc44b21ff882ac7fdd81b727af78002c5ce5d76459b29e322) from factory/v1-wtt5ye. Add it to any runtime or precache list.
+2. Add the one rule `#leagueWheelScreen.v26Skin > h2 {...}` to `css/v10Setup.css`, directly after the generic `.v26Skin > h2` rule, plus its phone override.
+
+**What it does:** SELECT LEAGUE shows Nik's own brush lettering, keyed from GOAL_LEAGUE with nothing generated, at the mockup's size: 38vw on desktop and 66vw (max 280px) on phone. The h2 text stays for screen readers.
+
+**Evidence:** `visual-assets/v10_1/league/evidence/1030/` (SHEET_title_mockup_before_after_1920.png, before/after renders, scores). PR #416 (merged into factory/v1-wtt5ye).
+
+**Done when:** the live League title matches the after sheet at 1920, 1440 and 393. Team V re-scores it on the mockup board.
+
+</details>
 
 ### HO-018 · V → G · Season Results desktop: port Team V's mockup-match CSS (1029 · V)
 
