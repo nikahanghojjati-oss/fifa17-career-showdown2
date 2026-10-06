@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 8:15 PM Boston time (EDT)",
+ "generated": "2026-10-05 8:16 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -326,9 +326,9 @@
      "sha": "284097dde49228a76a812d6f32e1dca1c261629e",
      "updated": "2026-10-06T00:09:11Z",
      "gates": {
-      "passed": 11,
-      "running": 4,
-      "failed": 0,
+      "passed": 12,
+      "running": 2,
+      "failed": 1,
       "cancelled": 0
      }
     },
@@ -420,9 +420,9 @@
    ]
   },
   "physio": {
-   "state": "barking",
-   "line": "Barking: Gameplay Fast on #392 has waited 1 min for a machine.",
-   "gate": "POS20 #390 10/16",
+   "state": "clear",
+   "line": "All clear: every check has a machine.",
+   "gate": "POS20 #390 12/16",
    "source": "physio"
   },
   "v_headline": "Board 1 (visual package): 238 of 238 jobs done and checked",
@@ -643,9 +643,9 @@
   "**Nothing waits on you right now.** r62 (PR #390) is in checks; after it ships, press Update once on the laptop."
  ],
  "now": {
-  "moving": 16,
+  "moving": 18,
   "next": 2,
-  "nik": 6,
+  "nik": 5,
   "later": 4,
   "rows": {
    "G": {
@@ -744,6 +744,15 @@
       "state": "in release (merged into gameplay/bug-list-1, 215e34a)",
       "waits_on": "rides the next release to main",
       "details": "Bug list 1 items L1-01..06. CSS only in css/homeV10.css desktop blocks. Job file jobs/JOB-1001.md. Lead checks screenshots at 1920/1440/1280/1100/1000 wide."
+     },
+     {
+      "id": "1004",
+      "group": "Bug list 1",
+      "title": "1004 · G Rule Book: remove the useless 01-06 side number rail (desktop and phone)",
+      "lane": "blue",
+      "state": "with worker (round 2)",
+      "waits_on": "GPT blue round 2: one test line",
+      "details": "js/rulesSettingsV10.js only: stop building #ruleBookIndex. Per-rule number badges stay."
      }
     ],
     "nik": [
@@ -783,15 +792,6 @@
       "state": "ready",
       "waits_on": "Nik types 1003 in the gameplay GPT project (normal chat)",
       "details": "Low priority, no live impact. js/transferScreenV10.js lines 26 and 30. Job file jobs/JOB-1003.md."
-     },
-     {
-      "id": "1004",
-      "group": "Bug list 1",
-      "title": "1004 · G Rule Book: remove the useless 01-06 side number rail (desktop and phone)",
-      "lane": "blue",
-      "state": "ready",
-      "waits_on": "Nik types 1004 in the gameplay GPT project (normal chat)",
-      "details": "js/rulesSettingsV10.js only: stop building #ruleBookIndex. Per-rule number badges stay."
      }
     ],
     "next": [
@@ -858,9 +858,9 @@
     "sha": "284097dde49228a76a812d6f32e1dca1c261629e",
     "updated": "2026-10-06T00:09:11Z",
     "gates": {
-     "passed": 11,
-     "running": 4,
-     "failed": 0,
+     "passed": 12,
+     "running": 2,
+     "failed": 1,
      "cancelled": 0
     }
    },
