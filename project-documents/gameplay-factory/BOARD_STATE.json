@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 10:30 PM Boston time (EDT)",
+ "generated": "2026-10-05 10:31 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -388,7 +388,7 @@
   },
   "physio": {
    "state": "barking",
-   "line": "Barking: POS20 on #397 has waited 8 min for a machine; POS20 has waited 4 min for a machine; Gameplay Fast has waited 2 min for a machine; Gameplay Fast on #392 has waited 1 min for a machine.",
+   "line": "Barking: POS20 on #397 has waited 9 min for a machine; POS20 has waited 5 min for a machine; POS20 on #402 has waited 2 min for a machine; POS20 on #392 has waited 2 min for a machine; Gameplay Fast on #392 has waited 2 min for a machine.",
    "gate": "POS20 #304 6/16",
    "source": "physio"
   },
@@ -698,9 +698,9 @@
   "**r62 is live.** On the laptop, close every game tab in Chrome and reopen the game; if Settings still looks clipped, do it once more."
  ],
  "now": {
-  "moving": 14,
+  "moving": 15,
   "next": 2,
-  "nik": 11,
+  "nik": 10,
   "later": 4,
   "rows": {
    "G": {
@@ -742,6 +742,16 @@
       "archived": true
      },
      {
+      "id": "1004",
+      "group": "Bug list 1",
+      "title": "1004 · G Rule Book: remove the useless 01-06 side number rail (desktop and phone)",
+      "lane": "claude",
+      "state": "with the lead (PR #392, CI running)",
+      "waits_on": "CI on PR #392, then the lead merges it into bug-list-1",
+      "details": "js/rulesSettingsV10.js only: stop building #ruleBookIndex. Per-rule number badges stay.",
+      "order": 4
+     },
+     {
       "id": "1015",
       "group": "Bug list 1",
       "title": "1015 · G Connect Players screen: create code / join off Home",
@@ -781,18 +791,6 @@
       "state": "later: Nik decides after his two current calls",
       "waits_on": "the lead asks Nik next",
       "decision": "Five pairing choices. The lead brings them to you on one card; nothing to do until then."
-     },
-     {
-      "id": "1004",
-      "group": "Bug list 1",
-      "title": "1004 · G Rule Book: remove the useless 01-06 side number rail (desktop and phone)",
-      "lane": "blue",
-      "state": "ready",
-      "waits_on": "Nik types it again in the gameplay project (normal chat) for round 2",
-      "details": "js/rulesSettingsV10.js only: stop building #ruleBookIndex. Per-rule number badges stay.",
-      "order": 4,
-      "place": "in the gameplay project (normal chat), same chat as before",
-      "note": "round 2"
      },
      {
       "id": "1009",

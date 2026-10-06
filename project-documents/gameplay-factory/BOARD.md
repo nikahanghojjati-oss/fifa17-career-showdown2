@@ -1,10 +1,10 @@
 # Bug hunt board
 
-Updated Mon 5 Oct, 10:30 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
+Updated Mon 5 Oct, 10:31 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r62** (main `bc77a0b`, Mon 5 Oct 9:18 PM)
 
-🐕 **Barking: POS20 on #397 has waited 8 min for a machine; POS20 has waited 4 min for a machine; Gameplay Fast has waited 2 min for a machine; Gameplay Fast on #392 has waited 1 min for a machine.** · POS20 #304 6/16
+🐕 **Barking: POS20 on #397 has waited 9 min for a machine; POS20 has waited 5 min for a machine; POS20 on #402 has waited 2 min for a machine; POS20 on #392 has waited 2 min for a machine; Gameplay Fast on #392 has waited 2 min for a machine.** · POS20 #304 6/16
 
 ## Jobs
 
@@ -16,7 +16,7 @@ Updated Mon 5 Oct, 10:30 PM Boston time. Bug hunting only, no new features until
 - **1004** Rule Book: remove the useless 01-06 side number rail (desktop and phone) · worker done, lead checking
 - **1014** No reconnect prompt after a finished Showdown · worker done, lead checking
 - **1021** Transfer War on phone: port Team V's revamp · with the lead
-- **1010** 10-season sweep: scoring, history and final math · step 1 of 4 · 0.0000 %
+- **1010** 10-season sweep: scoring, history and final math · step 2 of 4 · 25.0000 %
 
 **Next for you, in this order**
 
