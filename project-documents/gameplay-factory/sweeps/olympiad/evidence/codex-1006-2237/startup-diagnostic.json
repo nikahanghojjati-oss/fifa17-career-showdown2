@@ -1,0 +1,20 @@
+{
+  "probe": [
+    {
+      "event": "identity-bootstrap-timer",
+      "readyState": "interactive",
+      "loader": "undefined",
+      "reporter": "undefined",
+      "time": 79.19999999995343
+    }
+  ],
+  "loader": "function",
+  "reporter": "function",
+  "identityPresent": false,
+  "bootstrapMarked": true,
+  "screen": [
+    "createShowdown"
+  ],
+  "badge": null,
+  "signInVisible": false
+}

@@ -1,0 +1,126 @@
+{
+  "run": "codex-1006-2237",
+  "mode": "codex",
+  "area": "11",
+  "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+  "severity": "S1",
+  "root_cause": "index.html loads deferred showdown.js before optionalModules.js and app.js. During deferred script execution document.readyState may be interactive. initializeOnlinePlayerEntry() marks __cmsOnlinePlayerEntryBootstrap=true and schedules start() via setTimeout(0). That timer may run before loadRuntimeScript and reportApplicationError are defined. ensureOnlinePlayerIdentitySurface() throws Online runtime loader unavailable; its catch invokes the still-absent optional reporter, silently losing the error. The bootstrap is marked complete and has no retry, so onlinePlayerIdentity.js never installs. Its capture-phase identity gate, identity badge and remembered-pair initialization are absent.",
+  "where": [
+    {
+      "file": "js/showdown.js",
+      "line": 4,
+      "function": "ensureOnlinePlayerIdentitySurface"
+    },
+    {
+      "file": "js/showdown.js",
+      "line": 6,
+      "function": "initializeOnlinePlayerEntry"
+    },
+    {
+      "file": "js/showdown.js",
+      "line": 21,
+      "function": "top-level initializeOnlinePlayerEntry invocation"
+    },
+    {
+      "file": "index.html",
+      "line": 411,
+      "function": "deferred startup script order"
+    },
+    {
+      "file": "js/onlinePlayerIdentity.js",
+      "line": 57,
+      "function": "capture-phase gameplay gate"
+    },
+    {
+      "file": "js/screens.js",
+      "line": 774,
+      "function": "initializeScreens"
+    }
+  ],
+  "root_cause_status": "confirmed by targeted startup probe; official-run cause inferred from matching symptoms, not instrumented during those three runs",
+  "diagnostic": {
+    "method": "A separate Chromium startup probe delays only the optionalModules.js response by 500 ms, observes the original identity timer without changing its scheduling, then taps NEW SHOWDOWN. No source file or official journey was changed. This probe is not a fourth journey run.",
+    "output": {
+      "probe": [
+        {
+          "event": "identity-bootstrap-timer",
+          "readyState": "interactive",
+          "loader": "undefined",
+          "reporter": "undefined",
+          "time": 79.19999999995343
+        }
+      ],
+      "loader": "function",
+      "reporter": "function",
+      "identityPresent": false,
+      "bootstrapMarked": true,
+      "screen": [
+        "createShowdown"
+      ],
+      "badge": null,
+      "signInVisible": false
+    },
+    "script": "project-documents/gameplay-factory/sweeps/olympiad/evidence/codex-1006-2237/startup-diagnostic.cjs",
+    "result": "Timer observes both loader and reporter undefined. After startup both are functions, identity remains absent, bootstrap flag stays true, and NEW SHOWDOWN bypasses sign-in to createShowdown."
+  },
+  "related": [
+    "codex-1006-1957-1"
+  ],
+  "deduplication": "Additional independent three-run evidence for the existing startup-race report; not an independent new underlying defect.",
+  "game_code_changed": false,
+  "id": "codex-1006-2237-1",
+  "title": "J1.1 sign-in fails intermittently for different managers",
+  "status": "confirmed",
+  "step": "J1.1",
+  "failing_step": {
+    "file": "tests/browser/two-manager-browser-journey.cjs",
+    "line": 115,
+    "function": "signIn"
+  },
+  "steps": [
+    "Use the exact Validate Gameplay Fast browser-journey command on the stated main SHA with CMS_CHROMIUM_MULTI_CONTEXT=1 and CMS_SHOWDOWN_LENGTH=3.",
+    "On each fresh manager context, wait for loadingScreen to hide and tap NEW SHOWDOWN.",
+    "Expect SIGN IN WITH GOOGLE, then select Daniel or Nik; compare three independent fresh emulator runs."
+  ],
+  "expected": "Both managers receive the identity gate, sign in with distinct emulator accounts and select their players.",
+  "actual": "Run 1: Daniel signs in, Nik navigates to createShowdown with an empty badge and no identity overlay. Run 2: Daniel navigates to createShowdown with an empty badge and no overlay before any manager signs in. Both timeout after 30 seconds waiting for SIGN IN WITH GOOGLE. Run 3 passes J1.1.",
+  "between_run_difference": [
+    {
+      "attempt": 1,
+      "status": "failed",
+      "manager": "nik",
+      "passed_checkpoints": 2
+    },
+    {
+      "attempt": 2,
+      "status": "failed",
+      "manager": "daniel",
+      "passed_checkpoints": 2
+    },
+    {
+      "attempt": 3,
+      "status": "passed",
+      "output": "Daniel and Nik signed in through SIGN IN WITH GOOGLE and chose their players"
+    }
+  ],
+  "output": [
+    {
+      "attempt": 1,
+      "exit_code": 1,
+      "text": "i  emulators: Starting emulators: auth, firestore\ni  emulators: Detected demo project ID \"demo-cms-browser-journey\", emulated services will use a demo configuration and attempts to access non-emulated services for this project will fail.\n\u26a0  firestore: Cloud Firestore Emulator does not support multiple databases yet.\n\u26a0  firestore: Did not find a Cloud Firestore rules file specified in a firebase.json config file.\n\u26a0  firestore: The emulator will default to allowing all reads and writes. Learn more about this option: https://firebase.google.com/docs/emulator-suite/install_and_configure#security_rules_configuration.\n\u26a0  It appears you are running in a CI environment. You can avoid downloading the Firestore Emulator repeatedly by caching the /home/agent/.cache/firebase/emulators directory.\ni  firestore: downloading cloud-firestore-emulator-v1.22.0.jar...\n\ni  firestore: Firestore Emulator logging to firestore-debug.log\n\u2714  firestore: Firestore Emulator was started in standard edition.\n\u2714  firestore: Firestore Emulator UI websocket is running on 9150.\ni  Running script: CMS_SHOWDOWN_LENGTH=3 node tests/browser/two-manager-browser-journey.cjs\nok 1 J0.1 composed production Rules active on the emulator (open read 404 -> 403)\nok 2 J0.2 emulator switch active only via localhost + cmsEmulator=1 in both contexts\n--- daniel: screens=mainMenu | badge=DANIEL | panel=CONNECT PLAYERS Daniel and Nik need to connect before the first Showdown. CREATE CODE FOR NIK DANIEL STARTS THE SHOWDOWN AND SENDS THIS CODE TO NIK | overlays=\n--- daniel errors: []\n--- nik: screens=createShowdown | badge= | panel= | overlays=\n--- nik errors: []\nlocator.click: Timeout 30000ms exceeded.\nCall log:\n  - waiting for getByRole('button', { name: 'SIGN IN WITH GOOGLE' })\n\n    at signIn (/workspace/fifa17-career-showdown2/tests/browser/two-manager-browser-journey.cjs:115:65)\n    at async main (/workspace/fifa17-career-showdown2/tests/browser/two-manager-browser-journey.cjs:238:35) {\n  log: [\n    \"  - waiting for getByRole('button', { name: 'SIGN IN WITH GOOGLE' })\"\n  ],\n  name: 'TimeoutError'\n}\n\u26a0  Script exited unsuccessfully (code 1)\ni  emulators: Shutting down emulators.\ni  firestore: Stopping Firestore Emulator\ni  auth: Stopping Authentication Emulator\ni  hub: Stopping emulator hub\ni  logging: Stopping Logging Emulator\n\nError: Script \"CMS_SHOWDOWN_LENGTH=3 node tests/browser/two-manager-browser-journey.cjs\" exited with code 1\n"
+    },
+    {
+      "attempt": 2,
+      "exit_code": 1,
+      "text": "i  emulators: Starting emulators: auth, firestore\ni  emulators: Detected demo project ID \"demo-cms-browser-journey\", emulated services will use a demo configuration and attempts to access non-emulated services for this project will fail.\n\u26a0  firestore: Cloud Firestore Emulator does not support multiple databases yet.\n\u26a0  firestore: Did not find a Cloud Firestore rules file specified in a firebase.json config file.\n\u26a0  firestore: The emulator will default to allowing all reads and writes. Learn more about this option: https://firebase.google.com/docs/emulator-suite/install_and_configure#security_rules_configuration.\ni  firestore: Firestore Emulator logging to firestore-debug.log\n\u2714  firestore: Firestore Emulator was started in standard edition.\n\u2714  firestore: Firestore Emulator UI websocket is running on 9150.\ni  Running script: CMS_SHOWDOWN_LENGTH=3 node tests/browser/two-manager-browser-journey.cjs\nok 1 J0.1 composed production Rules active on the emulator (open read 404 -> 403)\nok 2 J0.2 emulator switch active only via localhost + cmsEmulator=1 in both contexts\n--- daniel: screens=createShowdown | badge= | panel= | overlays=\n--- daniel errors: []\n--- nik: screens=mainMenu | badge=SIGN IN | panel= | overlays=\n--- nik errors: []\nlocator.click: Timeout 30000ms exceeded.\nCall log:\n  - waiting for getByRole('button', { name: 'SIGN IN WITH GOOGLE' })\n\n    at signIn (/workspace/fifa17-career-showdown2/tests/browser/two-manager-browser-journey.cjs:115:65)\n    at async main (/workspace/fifa17-career-showdown2/tests/browser/two-manager-browser-journey.cjs:238:5) {\n  log: [\n    \"  - waiting for getByRole('button', { name: 'SIGN IN WITH GOOGLE' })\"\n  ],\n  name: 'TimeoutError'\n}\n\u26a0  Script exited unsuccessfully (code 1)\ni  emulators: Shutting down emulators.\ni  firestore: Stopping Firestore Emulator\ni  auth: Stopping Authentication Emulator\ni  hub: Stopping emulator hub\ni  logging: Stopping Logging Emulator\n\nError: Script \"CMS_SHOWDOWN_LENGTH=3 node tests/browser/two-manager-browser-journey.cjs\" exited with code 1\n"
+    }
+  ],
+  "likely_cause_in_game_code": "index.html loads deferred showdown.js before optionalModules.js and app.js. During deferred script execution document.readyState may be interactive. initializeOnlinePlayerEntry() marks __cmsOnlinePlayerEntryBootstrap=true and schedules start() via setTimeout(0). That timer may run before loadRuntimeScript and reportApplicationError are defined. ensureOnlinePlayerIdentitySurface() throws Online runtime loader unavailable; its catch invokes the still-absent optional reporter, silently losing the error. The bootstrap is marked complete and has no retry, so onlinePlayerIdentity.js never installs. Its capture-phase identity gate, identity badge and remembered-pair initialization are absent. Without onlinePlayerIdentity.js, initializeScreens() routes NEW SHOWDOWN directly to createShowdown.",
+  "next_verification": "After a separately authorized fix, repeat the same unmodified CI journey three times and verify startup cannot run identity initialization ahead of its required loader.",
+  "screenshots": [
+    "project-documents/gameplay-factory/sweeps/olympiad/evidence/codex-1006-2237/run-1/failure-daniel.png",
+    "project-documents/gameplay-factory/sweeps/olympiad/evidence/codex-1006-2237/run-1/failure-nik.png",
+    "project-documents/gameplay-factory/sweeps/olympiad/evidence/codex-1006-2237/run-2/failure-daniel.png",
+    "project-documents/gameplay-factory/sweeps/olympiad/evidence/codex-1006-2237/run-2/failure-nik.png"
+  ]
+}

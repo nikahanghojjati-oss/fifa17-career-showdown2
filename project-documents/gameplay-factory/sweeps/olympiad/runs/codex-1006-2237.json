@@ -1,0 +1,667 @@
+{
+  "run": "codex-1006-2237",
+  "mode": "codex",
+  "date_utc": "2026-10-06T22:37:13Z",
+  "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+  "area": "11",
+  "files_read": [
+    "AGENTS.md",
+    "PROJECT_OPERATING_SYSTEM_POS20.json",
+    "PROJECT_OPERATING_SYSTEM_POS20.md",
+    "POS20_CURRENT_STATE.json",
+    "CURRENT_PRODUCT_GUARDS.json",
+    "NEXT_TASK.md",
+    "SHARED_SHOWDOWN_JOURNEY_READINESS.json",
+    "MILESTONE_DELIVERY_PROGRESS.json",
+    ".github/workflows/validate-gameplay-fast.yml",
+    "package.json",
+    ".gitignore",
+    "tests/browser/two-manager-browser-journey.cjs",
+    "tests/browser/support/firebase.browser-journey.json",
+    "tests/browser/support/emulator-runtime-switch.js",
+    "tests/support/chromium-runtime.cjs",
+    "tests/support/static-server.cjs",
+    "scripts/build-production-firestore-rules.mjs",
+    "scripts/build-production-firestore-rules-with-persistent-pair.mjs",
+    "index.html",
+    "js/showdown.js",
+    "js/onlinePlayerIdentity.js",
+    "js/screens.js",
+    "js/optionalModules.js",
+    "js/app.js",
+    "service-worker.js",
+    "js/persistentNikDanielPair.js",
+    "js/productionSharedJourneyEntry.js",
+    "js/productionSharedCareerStart.js",
+    "js/productionSharedMultiSeasonProgression.js",
+    "js/productionSharedFinalReconciliation.js",
+    "js/productionSharedLocalReconciliation.js",
+    "js/productionSharedTransferChallenge.js",
+    "project-documents/gameplay-factory/sweeps/olympiad/findings/codex-1006-1957-1.json",
+    "project-documents/gameplay-factory/sweeps/olympiad/runs/codex-1006-1207.json"
+  ],
+  "findings": [
+    "codex-1006-2237-1",
+    "codex-1006-2237-2"
+  ],
+  "coverage_pct": 69.44,
+  "clean_confidence_pct": 0,
+  "next_focus": "Fix the identity bootstrap ordering in a separately authorized game-code task, then repeat the unchanged CI journey three times, prioritizing J9 reload recovery and the currently unobserved remainder through Terminal Close, stranger denial and R2 creation.",
+  "status": "completed_three_runs_with_failures",
+  "requested_runs": 3,
+  "completed_runs": 3,
+  "successful_runs": 0,
+  "game_code_changed": false,
+  "test_source_changed": false,
+  "command": [
+    "npx",
+    "--yes",
+    "firebase-tools@15.28.1",
+    "emulators:exec",
+    "--config",
+    "tests/browser/support/firebase.browser-journey.json",
+    "--only",
+    "auth,firestore",
+    "--project",
+    "demo-cms-browser-journey",
+    "CMS_SHOWDOWN_LENGTH=3 node tests/browser/two-manager-browser-journey.cjs"
+  ],
+  "environment": {
+    "node": "24.19.0",
+    "java": "OpenJDK 21.0.12.1",
+    "chromium": "149.0.7827.0",
+    "playwright": "1.62.1",
+    "firebase_tools": "15.28.1",
+    "firebase": "12.17.0",
+    "rules_unit_testing": "5.0.1",
+    "firebase_admin": "14.2.0",
+    "CMS_CHROMIUM_MULTI_CONTEXT": "1",
+    "CMS_SHOWDOWN_LENGTH": "3",
+    "project": "demo-cms-browser-journey",
+    "viewports": {
+      "daniel": "393x660",
+      "nik": "360x640"
+    },
+    "isolation": "Serial emulators:exec commands start and stop fresh Auth/Firestore emulators without import/export; test launches fresh browser contexts for each attempt.",
+    "preflight": "Both CI Rules builders and zero-billing boundary assertion passed; J0.1 proves composed Rules replaced initially open emulator Rules in all three runs."
+  },
+  "attempts": [
+    {
+      "attempt": 1,
+      "started_utc": "2026-10-06T22:38:02.278630+00:00",
+      "ended_utc": "2026-10-06T22:40:19.004694+00:00",
+      "duration_seconds": 136.726064,
+      "exit_code": 1,
+      "command": [
+        "npx",
+        "--yes",
+        "firebase-tools@15.28.1",
+        "emulators:exec",
+        "--config",
+        "tests/browser/support/firebase.browser-journey.json",
+        "--only",
+        "auth,firestore",
+        "--project",
+        "demo-cms-browser-journey",
+        "CMS_SHOWDOWN_LENGTH=3 node tests/browser/two-manager-browser-journey.cjs"
+      ],
+      "result": "failed",
+      "failed_step": "J1.1",
+      "failed_manager": "nik",
+      "passed_checkpoints": 2,
+      "passed_steps": [
+        "J0.1",
+        "J0.2"
+      ],
+      "output_path": "project-documents/gameplay-factory/sweeps/olympiad/evidence/codex-1006-2237/run-1/output.log",
+      "finding": "codex-1006-2237-1",
+      "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2"
+    },
+    {
+      "attempt": 2,
+      "started_utc": "2026-10-06T22:40:19.005146+00:00",
+      "ended_utc": "2026-10-06T22:41:08.971304+00:00",
+      "duration_seconds": 49.966158,
+      "exit_code": 1,
+      "command": [
+        "npx",
+        "--yes",
+        "firebase-tools@15.28.1",
+        "emulators:exec",
+        "--config",
+        "tests/browser/support/firebase.browser-journey.json",
+        "--only",
+        "auth,firestore",
+        "--project",
+        "demo-cms-browser-journey",
+        "CMS_SHOWDOWN_LENGTH=3 node tests/browser/two-manager-browser-journey.cjs"
+      ],
+      "result": "failed",
+      "failed_step": "J1.1",
+      "failed_manager": "daniel",
+      "passed_checkpoints": 2,
+      "passed_steps": [
+        "J0.1",
+        "J0.2"
+      ],
+      "output_path": "project-documents/gameplay-factory/sweeps/olympiad/evidence/codex-1006-2237/run-2/output.log",
+      "finding": "codex-1006-2237-1",
+      "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2"
+    },
+    {
+      "attempt": 3,
+      "started_utc": "2026-10-06T22:41:08.971803+00:00",
+      "ended_utc": "2026-10-06T22:44:32.852070+00:00",
+      "duration_seconds": 203.880267,
+      "exit_code": 1,
+      "command": [
+        "npx",
+        "--yes",
+        "firebase-tools@15.28.1",
+        "emulators:exec",
+        "--config",
+        "tests/browser/support/firebase.browser-journey.json",
+        "--only",
+        "auth,firestore",
+        "--project",
+        "demo-cms-browser-journey",
+        "CMS_SHOWDOWN_LENGTH=3 node tests/browser/two-manager-browser-journey.cjs"
+      ],
+      "result": "failed",
+      "failed_step": "J9.1",
+      "failed_manager": "daniel",
+      "passed_checkpoints": 24,
+      "passed_steps": [
+        "J0.1",
+        "J0.2",
+        "J1.1",
+        "J1.2",
+        "J2.1",
+        "J2.2",
+        "J3.1",
+        "J4.1",
+        "J4.2",
+        "J4.3",
+        "J4.4",
+        "J5.1",
+        "J5.2",
+        "J5.3",
+        "J6.1",
+        "J6.2",
+        "J6.3",
+        "J6.4",
+        "J6.5",
+        "J7.1",
+        "J7.2",
+        "J7.3",
+        "J8.1",
+        "J8.2"
+      ],
+      "output_path": "project-documents/gameplay-factory/sweeps/olympiad/evidence/codex-1006-2237/run-3/output.log",
+      "finding": "codex-1006-2237-2",
+      "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2"
+    }
+  ],
+  "checkpoint_comparison": [
+    {
+      "step": "J0.1",
+      "runs": [
+        "passed",
+        "passed",
+        "passed"
+      ],
+      "output": "composed production Rules active on the emulator (open read 404 -> 403)",
+      "comparison": "same status in all runs"
+    },
+    {
+      "step": "J0.2",
+      "runs": [
+        "passed",
+        "passed",
+        "passed"
+      ],
+      "output": "emulator switch active only via localhost + cmsEmulator=1 in both contexts",
+      "comparison": "same status in all runs"
+    },
+    {
+      "step": "J1.1",
+      "runs": [
+        "failed",
+        "failed",
+        "passed"
+      ],
+      "output": "Daniel and Nik signed in through SIGN IN WITH GOOGLE and chose their players",
+      "comparison": "observed pass/fail difference"
+    },
+    {
+      "step": "J1.2",
+      "runs": [
+        "not_reached",
+        "not_reached",
+        "passed"
+      ],
+      "output": "both accounts bootstrapped and devices registered through the composed Rules",
+      "comparison": "coverage differs because earlier failure prevents comparison"
+    },
+    {
+      "step": "J2.1",
+      "runs": [
+        "not_reached",
+        "not_reached",
+        "passed"
+      ],
+      "output": "Daniel created the pair code on the real Start screen",
+      "comparison": "coverage differs because earlier failure prevents comparison"
+    },
+    {
+      "step": "J2.2",
+      "runs": [
+        "not_reached",
+        "not_reached",
+        "passed"
+      ],
+      "output": "Nik joined with the code; Daniel=playerOne, Nik=playerTwo, both career indexes [R1]",
+      "comparison": "coverage differs because earlier failure prevents comparison"
+    },
+    {
+      "step": "J3.1",
+      "runs": [
+        "not_reached",
+        "not_reached",
+        "passed"
+      ],
+      "output": "private session hosted by Daniel, joined by Nik; both reached the league wheel",
+      "comparison": "coverage differs because earlier failure prevents comparison"
+    },
+    {
+      "step": "J4.1",
+      "runs": [
+        "not_reached",
+        "not_reached",
+        "passed"
+      ],
+      "output": "Nik is visibly waiting for the host and cannot draw the shared league",
+      "comparison": "coverage differs because earlier failure prevents comparison"
+    },
+    {
+      "step": "J4.2",
+      "runs": [
+        "not_reached",
+        "not_reached",
+        "passed"
+      ],
+      "output": "Daniel drew the authoritative league and Nik followed it without drawing",
+      "comparison": "coverage differs because earlier failure prevents comparison"
+    },
+    {
+      "step": "J4.3",
+      "runs": [
+        "not_reached",
+        "not_reached",
+        "passed"
+      ],
+      "output": "host opened the real club packs; both pages agree on two clubs with Daniel in the LEFT slot",
+      "comparison": "coverage differs because earlier failure prevents comparison"
+    },
+    {
+      "step": "J4.4",
+      "runs": [
+        "not_reached",
+        "not_reached",
+        "passed"
+      ],
+      "output": "both managers confirmed the identical shared setup and both real club screens advanced to Career Start",
+      "comparison": "coverage differs because earlier failure prevents comparison"
+    },
+    {
+      "step": "J5.1",
+      "runs": [
+        "not_reached",
+        "not_reached",
+        "passed"
+      ],
+      "output": "each manager sees the start acknowledgement for only their assigned club",
+      "comparison": "coverage differs because earlier failure prevents comparison"
+    },
+    {
+      "step": "J5.2",
+      "runs": [
+        "not_reached",
+        "not_reached",
+        "passed"
+      ],
+      "output": "both private Career Start acknowledgements converged to ready",
+      "comparison": "coverage differs because earlier failure prevents comparison"
+    },
+    {
+      "step": "J5.3",
+      "runs": [
+        "not_reached",
+        "not_reached",
+        "passed"
+      ],
+      "output": "both managers reached the real Shared Transfer Challenge through the UI",
+      "comparison": "coverage differs because earlier failure prevents comparison"
+    },
+    {
+      "step": "J6.1",
+      "runs": [
+        "not_reached",
+        "not_reached",
+        "passed"
+      ],
+      "output": "Daniel started the shared 15-minute window and both managers see the same live phase",
+      "comparison": "coverage differs because earlier failure prevents comparison"
+    },
+    {
+      "step": "J6.2",
+      "runs": [
+        "not_reached",
+        "not_reached",
+        "passed"
+      ],
+      "output": "both managers requested early end and the shared window advanced without waiting 15 minutes",
+      "comparison": "coverage differs because earlier failure prevents comparison"
+    },
+    {
+      "step": "J6.3",
+      "runs": [
+        "not_reached",
+        "not_reached",
+        "passed"
+      ],
+      "output": "both managers entered and locked their private guesses through the real controls",
+      "comparison": "coverage differs because earlier failure prevents comparison"
+    },
+    {
+      "step": "J6.4",
+      "runs": [
+        "not_reached",
+        "not_reached",
+        "passed"
+      ],
+      "output": "unfinished rival signings remain absent from rendered text and every input value",
+      "comparison": "coverage differs because earlier failure prevents comparison"
+    },
+    {
+      "step": "J6.5",
+      "runs": [
+        "not_reached",
+        "not_reached",
+        "passed"
+      ],
+      "output": "COMPLETED reveals both signings identically and enables Shared Season Results",
+      "comparison": "coverage differs because earlier failure prevents comparison"
+    },
+    {
+      "step": "J7.1",
+      "runs": [
+        "not_reached",
+        "not_reached",
+        "passed"
+      ],
+      "output": "Daniel published first and his season result stayed private from Nik",
+      "comparison": "coverage differs because earlier failure prevents comparison"
+    },
+    {
+      "step": "J7.2",
+      "runs": [
+        "not_reached",
+        "not_reached",
+        "passed"
+      ],
+      "output": "RESULTS_READY reveals the same raw season facts on both pages; canonical scoring correctly remains locked until commit",
+      "comparison": "coverage differs because earlier failure prevents comparison"
+    },
+    {
+      "step": "J7.3",
+      "runs": [
+        "not_reached",
+        "not_reached",
+        "passed"
+      ],
+      "output": "after the immutable season-1 commit both pages show canonical 9-3 and Daniel as season winner",
+      "comparison": "coverage differs because earlier failure prevents comparison"
+    },
+    {
+      "step": "J8.1",
+      "runs": [
+        "not_reached",
+        "not_reached",
+        "passed"
+      ],
+      "output": "both dashboards show 9-3 and Season 2 of 3 after season-1 commit",
+      "comparison": "coverage differs because earlier failure prevents comparison"
+    },
+    {
+      "step": "J8.2",
+      "runs": [
+        "not_reached",
+        "not_reached",
+        "passed"
+      ],
+      "output": "season 2 repeated the shared transfer flow with rendered privacy before completion",
+      "comparison": "coverage differs because earlier failure prevents comparison"
+    },
+    {
+      "step": "J9.1",
+      "runs": [
+        "not_reached",
+        "not_reached",
+        "failed"
+      ],
+      "output": null,
+      "comparison": "failure with other runs blocked earlier"
+    },
+    {
+      "step": "J9.2",
+      "runs": [
+        "not_reached",
+        "not_reached",
+        "not_reached"
+      ],
+      "output": null,
+      "comparison": "same status in all runs"
+    },
+    {
+      "step": "J9.3",
+      "runs": [
+        "not_reached",
+        "not_reached",
+        "not_reached"
+      ],
+      "output": null,
+      "comparison": "same status in all runs"
+    },
+    {
+      "step": "J8.3",
+      "runs": [
+        "not_reached",
+        "not_reached",
+        "not_reached"
+      ],
+      "output": null,
+      "comparison": "same status in all runs"
+    },
+    {
+      "step": "J8.4",
+      "runs": [
+        "not_reached",
+        "not_reached",
+        "not_reached"
+      ],
+      "output": null,
+      "comparison": "same status in all runs"
+    },
+    {
+      "step": "J8.5",
+      "runs": [
+        "not_reached",
+        "not_reached",
+        "not_reached"
+      ],
+      "output": null,
+      "comparison": "same status in all runs"
+    },
+    {
+      "step": "J10.1",
+      "runs": [
+        "not_reached",
+        "not_reached",
+        "not_reached"
+      ],
+      "output": null,
+      "comparison": "same status in all runs"
+    },
+    {
+      "step": "J10.2",
+      "runs": [
+        "not_reached",
+        "not_reached",
+        "not_reached"
+      ],
+      "output": null,
+      "comparison": "same status in all runs"
+    },
+    {
+      "step": "J11.1",
+      "runs": [
+        "not_reached",
+        "not_reached",
+        "not_reached"
+      ],
+      "output": null,
+      "comparison": "same status in all runs"
+    },
+    {
+      "step": "J12.1",
+      "runs": [
+        "not_reached",
+        "not_reached",
+        "not_reached"
+      ],
+      "output": null,
+      "comparison": "same status in all runs"
+    },
+    {
+      "step": "JZ.1",
+      "runs": [
+        "not_reached",
+        "not_reached",
+        "not_reached"
+      ],
+      "output": null,
+      "comparison": "same status in all runs"
+    },
+    {
+      "step": "JZ.2",
+      "runs": [
+        "not_reached",
+        "not_reached",
+        "not_reached"
+      ],
+      "output": null,
+      "comparison": "same status in all runs"
+    }
+  ],
+  "coverage_definition": {
+    "basis": "Unique numbered checkpoints reached at least once, including the failing checkpoint, divided by the 36 checkpoints in the three-season CI path. This is journey coverage, not code/area-wide coverage.",
+    "unique_reached": 25,
+    "unique_passed": 24,
+    "total_checkpoints": 36,
+    "unique_passed_pct": 66.67,
+    "passed_checkpoint_executions": 28,
+    "total_requested_checkpoint_executions": 108,
+    "passed_execution_pct": 25.93,
+    "not_reached_all_runs": [
+      "J9.2",
+      "J9.3",
+      "J8.3",
+      "J8.4",
+      "J8.5",
+      "J10.1",
+      "J10.2",
+      "J11.1",
+      "J12.1",
+      "JZ.1",
+      "JZ.2"
+    ]
+  },
+  "confidence_definition": "0% clean confidence: all three official journeys fail and no full journey reaches the global error/production-host assertions JZ.1 or JZ.2. Root-cause confidence is separate from cleanliness.",
+  "comparison_notes": [
+    "J1.1 fails for Nik in run 1 and Daniel in run 2, and passes in run 3.",
+    "J1.2 through J8.2 are observed only in run 3. These are blocked comparisons in runs 1/2, not additional game failures.",
+    "J9.1 fails in run 3; it is not reached in runs 1/2.",
+    "The remaining 11 checkpoints never execute. No claim is made for completed season-2/3 results, final reconciliation, closure, stranger denial, R2 or global end-of-test safeguards.",
+    "Timing differences include first-run CLI installation and emulator download; they are infrastructure timing, not additional gameplay defects."
+  ],
+  "diagnostic": {
+    "type": "additional targeted startup probe, not a journey run",
+    "output": {
+      "probe": [
+        {
+          "event": "identity-bootstrap-timer",
+          "readyState": "interactive",
+          "loader": "undefined",
+          "reporter": "undefined",
+          "time": 79.19999999995343
+        }
+      ],
+      "loader": "function",
+      "reporter": "function",
+      "identityPresent": false,
+      "bootstrapMarked": true,
+      "screen": [
+        "createShowdown"
+      ],
+      "badge": null,
+      "signInVisible": false
+    },
+    "game_code_mutation": false
+  },
+  "evidence": [
+    {
+      "path": "project-documents/gameplay-factory/sweeps/olympiad/evidence/codex-1006-2237/run-1/failure-daniel.png",
+      "sha256": "da6457ea873439f8534295e59d0cdf5368fdcd4331d4a62d54917efd6b2bef1c"
+    },
+    {
+      "path": "project-documents/gameplay-factory/sweeps/olympiad/evidence/codex-1006-2237/run-1/failure-nik.png",
+      "sha256": "ce64cf8b45ce5cbf8bf53e85fe1e2caa71826861fb0865a8d7f8b5a1e3e83ef5"
+    },
+    {
+      "path": "project-documents/gameplay-factory/sweeps/olympiad/evidence/codex-1006-2237/run-1/output.log",
+      "sha256": "8da277bee0f68217da431eb4d18464d588399d29cf406fcd07321e3217120135"
+    },
+    {
+      "path": "project-documents/gameplay-factory/sweeps/olympiad/evidence/codex-1006-2237/run-2/failure-daniel.png",
+      "sha256": "72815ee96058ad4345ece3ccde0e070cd931166c22664358f6f780a96584f69c"
+    },
+    {
+      "path": "project-documents/gameplay-factory/sweeps/olympiad/evidence/codex-1006-2237/run-2/failure-nik.png",
+      "sha256": "c3158006c41270e72c26fe68d075163c68ff6bd10448a7e419477fb1ffea66ca"
+    },
+    {
+      "path": "project-documents/gameplay-factory/sweeps/olympiad/evidence/codex-1006-2237/run-2/output.log",
+      "sha256": "11335a2b33889f0ee4239294e6209188d6f85c08dfac70eefc592a21e22f63ac"
+    },
+    {
+      "path": "project-documents/gameplay-factory/sweeps/olympiad/evidence/codex-1006-2237/run-3/failure-daniel.png",
+      "sha256": "6360018229a271f7f492f1933fb79e1e20e2c4518658de957236a00320239272"
+    },
+    {
+      "path": "project-documents/gameplay-factory/sweeps/olympiad/evidence/codex-1006-2237/run-3/failure-nik.png",
+      "sha256": "0269fb102328badca1e719ff4ea33be91e7615668373f50bfe05e0eaa9b36ccc"
+    },
+    {
+      "path": "project-documents/gameplay-factory/sweeps/olympiad/evidence/codex-1006-2237/run-3/output.log",
+      "sha256": "9a406a138966d712782f9b1f8aacb83c5065686c6d56a4bcd2fe21812770d4f2"
+    }
+  ],
+  "related_existing_finding": "codex-1006-1957-1",
+  "publication": "Reports and evidence only on qa/bug-olympiad; original test source and main checkout remain unchanged.",
+  "limitations": [
+    "The official three runs were not instrumented beyond the original test; their startup-race cause is inferred from code, matching blank UI diagnostics and a separately reproduced timer ordering.",
+    "GitHub PR/check APIs returned Forbidden; live main and QA refs were verified with git. This task does not merge, deploy or claim production physical-journey credit.",
+    "Only failure screenshots are committed; intermediate pair/session-code screenshots remain temporary. Failure screenshots and logs contain synthetic test data and no auth, pair or session capability values."
+  ]
+}

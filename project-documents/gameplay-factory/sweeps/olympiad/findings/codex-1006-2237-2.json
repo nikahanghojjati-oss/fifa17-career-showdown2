@@ -1,0 +1,128 @@
+{
+  "run": "codex-1006-2237",
+  "mode": "codex",
+  "area": "11",
+  "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+  "severity": "S1",
+  "root_cause": "index.html loads deferred showdown.js before optionalModules.js and app.js. During deferred script execution document.readyState may be interactive. initializeOnlinePlayerEntry() marks __cmsOnlinePlayerEntryBootstrap=true and schedules start() via setTimeout(0). That timer may run before loadRuntimeScript and reportApplicationError are defined. ensureOnlinePlayerIdentitySurface() throws Online runtime loader unavailable; its catch invokes the still-absent optional reporter, silently losing the error. The bootstrap is marked complete and has no retry, so onlinePlayerIdentity.js never installs. Its capture-phase identity gate, identity badge and remembered-pair initialization are absent.",
+  "where": [
+    {
+      "file": "js/showdown.js",
+      "line": 4,
+      "function": "ensureOnlinePlayerIdentitySurface"
+    },
+    {
+      "file": "js/showdown.js",
+      "line": 6,
+      "function": "initializeOnlinePlayerEntry"
+    },
+    {
+      "file": "js/showdown.js",
+      "line": 21,
+      "function": "top-level initializeOnlinePlayerEntry invocation"
+    },
+    {
+      "file": "index.html",
+      "line": 411,
+      "function": "deferred startup script order"
+    },
+    {
+      "file": "js/onlinePlayerIdentity.js",
+      "line": 57,
+      "function": "capture-phase gameplay gate"
+    },
+    {
+      "file": "js/screens.js",
+      "line": 774,
+      "function": "initializeScreens"
+    },
+    {
+      "file": "js/onlinePlayerIdentity.js",
+      "line": 49,
+      "function": "initializeOnlineIdentity"
+    },
+    {
+      "file": "js/onlinePlayerIdentity.js",
+      "line": 9,
+      "function": "setOnlineIdentityState / syncPersistentPairSidecar"
+    }
+  ],
+  "root_cause_status": "confirmed by targeted startup probe; official-run cause inferred from matching symptoms, not instrumented during those three runs",
+  "diagnostic": {
+    "method": "A separate Chromium startup probe delays only the optionalModules.js response by 500 ms, observes the original identity timer without changing its scheduling, then taps NEW SHOWDOWN. No source file or official journey was changed. This probe is not a fourth journey run.",
+    "output": {
+      "probe": [
+        {
+          "event": "identity-bootstrap-timer",
+          "readyState": "interactive",
+          "loader": "undefined",
+          "reporter": "undefined",
+          "time": 79.19999999995343
+        }
+      ],
+      "loader": "function",
+      "reporter": "function",
+      "identityPresent": false,
+      "bootstrapMarked": true,
+      "screen": [
+        "createShowdown"
+      ],
+      "badge": null,
+      "signInVisible": false
+    },
+    "script": "project-documents/gameplay-factory/sweeps/olympiad/evidence/codex-1006-2237/startup-diagnostic.cjs",
+    "result": "Timer observes both loader and reporter undefined. After startup both are functions, identity remains absent, bootstrap flag stays true, and NEW SHOWDOWN bypasses sign-in to createShowdown."
+  },
+  "related": [
+    "codex-1006-1957-1"
+  ],
+  "deduplication": "Additional independent three-run evidence for the existing startup-race report; not an independent new underlying defect.",
+  "game_code_changed": false,
+  "id": "codex-1006-2237-2",
+  "title": "J9.1 reload loses the remembered-pair surface and stalls at CAREER READY",
+  "status": "confirmed",
+  "step": "J9.1",
+  "failing_step": {
+    "file": "tests/browser/two-manager-browser-journey.cjs",
+    "line": 502,
+    "function": "main: season-2 reload"
+  },
+  "steps": [
+    "Complete J0.1 through J8.2 in the unchanged three-season browser journey.",
+    "Reload Daniel after season-2 transfer completion; retain the same browser context and URL.",
+    "Wait for mainMenu and the persistentNikDanielPairPanel containing CAREER READY."
+  ],
+  "expected": "After reload both signed-in managers see CAREER READY and CONTINUE CAREER, then re-establish an exact private session and resume season 2 at 9-3.",
+  "actual": "Run 3 passes 24 checkpoints including season-1 commit/scoring and season-2 transfer privacy/completion. Daniel reloads to mainMenu with an empty badge, no remembered-pair panel and no overlays. The CAREER READY wait at line 502 times out after 30 seconds. Nik has not yet reloaded and remains on transferChallenge with NIK and CAREER READY. Both page-error lists are empty.",
+  "between_run_difference": [
+    {
+      "attempt": 1,
+      "status": "not_reached",
+      "blocked_by": "J1.1"
+    },
+    {
+      "attempt": 2,
+      "status": "not_reached",
+      "blocked_by": "J1.1"
+    },
+    {
+      "attempt": 3,
+      "status": "failed",
+      "manager": "daniel",
+      "passed_checkpoints": 24
+    }
+  ],
+  "output": [
+    {
+      "attempt": 3,
+      "exit_code": 1,
+      "text": "i  emulators: Starting emulators: auth, firestore\ni  emulators: Detected demo project ID \"demo-cms-browser-journey\", emulated services will use a demo configuration and attempts to access non-emulated services for this project will fail.\n\u26a0  firestore: Cloud Firestore Emulator does not support multiple databases yet.\n\u26a0  firestore: Did not find a Cloud Firestore rules file specified in a firebase.json config file.\n\u26a0  firestore: The emulator will default to allowing all reads and writes. Learn more about this option: https://firebase.google.com/docs/emulator-suite/install_and_configure#security_rules_configuration.\ni  firestore: Firestore Emulator logging to firestore-debug.log\n\u2714  firestore: Firestore Emulator was started in standard edition.\n\u2714  firestore: Firestore Emulator UI websocket is running on 9150.\ni  Running script: CMS_SHOWDOWN_LENGTH=3 node tests/browser/two-manager-browser-journey.cjs\nok 1 J0.1 composed production Rules active on the emulator (open read 404 -> 403)\nok 2 J0.2 emulator switch active only via localhost + cmsEmulator=1 in both contexts\nok 3 J1.1 Daniel and Nik signed in through SIGN IN WITH GOOGLE and chose their players\nok 4 J1.2 both accounts bootstrapped and devices registered through the composed Rules\nok 5 J2.1 Daniel created the pair code on the real Start screen\nok 6 J2.2 Nik joined with the code; Daniel=playerOne, Nik=playerTwo, both career indexes [R1]\nok 7 J3.1 private session hosted by Daniel, joined by Nik; both reached the league wheel\nok 8 J4.1 Nik is visibly waiting for the host and cannot draw the shared league\nok 9 J4.2 Daniel drew the authoritative league and Nik followed it without drawing\nok 10 J4.3 host opened the real club packs; both pages agree on two clubs with Daniel in the LEFT slot\nok 11 J4.4 both managers confirmed the identical shared setup and both real club screens advanced to Career Start\nok 12 J5.1 each manager sees the start acknowledgement for only their assigned club\nok 13 J5.2 both private Career Start acknowledgements converged to ready\nok 14 J5.3 both managers reached the real Shared Transfer Challenge through the UI\nok 15 J6.1 Daniel started the shared 15-minute window and both managers see the same live phase\nok 16 J6.2 both managers requested early end and the shared window advanced without waiting 15 minutes\nok 17 J6.3 both managers entered and locked their private guesses through the real controls\nok 18 J6.4 unfinished rival signings remain absent from rendered text and every input value\nok 19 J6.5 COMPLETED reveals both signings identically and enables Shared Season Results\nok 20 J7.1 Daniel published first and his season result stayed private from Nik\nok 21 J7.2 RESULTS_READY reveals the same raw season facts on both pages; canonical scoring correctly remains locked until commit\nok 22 J7.3 after the immutable season-1 commit both pages show canonical 9-3 and Daniel as season winner\nok 23 J8.1 both dashboards show 9-3 and Season 2 of 3 after season-1 commit\nok 24 J8.2 season 2 repeated the shared transfer flow with rendered privacy before completion\n--- daniel: screens=mainMenu | badge= | panel= | overlays=\n--- daniel errors: []\n--- nik: screens=transferChallenge | badge=NIK | panel=CAREER READYCareer ready.CONTINUE CAREERNik | overlays=\n--- nik errors: []\npage.waitForFunction: Timeout 30000ms exceeded.\n    at main (/workspace/fifa17-career-showdown2/tests/browser/two-manager-browser-journey.cjs:502:22) {\n  log: [],\n  name: 'TimeoutError'\n}\n\u26a0  Script exited unsuccessfully (code 1)\ni  emulators: Shutting down emulators.\ni  firestore: Stopping Firestore Emulator\ni  auth: Stopping Authentication Emulator\ni  hub: Stopping emulator hub\ni  logging: Stopping Logging Emulator\n\nError: Script \"CMS_SHOWDOWN_LENGTH=3 node tests/browser/two-manager-browser-journey.cjs\" exited with code 1\n"
+    }
+  ],
+  "likely_cause_in_game_code": "index.html loads deferred showdown.js before optionalModules.js and app.js. During deferred script execution document.readyState may be interactive. initializeOnlinePlayerEntry() marks __cmsOnlinePlayerEntryBootstrap=true and schedules start() via setTimeout(0). That timer may run before loadRuntimeScript and reportApplicationError are defined. ensureOnlinePlayerIdentitySurface() throws Online runtime loader unavailable; its catch invokes the still-absent optional reporter, silently losing the error. The bootstrap is marked complete and has no retry, so onlinePlayerIdentity.js never installs. Its capture-phase identity gate, identity badge and remembered-pair initialization are absent. The same startup ordering repeats on reload. initializeOnlineIdentity() never reads the stored manager role or syncs the persistent pair sidecar. This evidence does not prove the Google session or durable remote pair was deleted.",
+  "next_verification": "Once startup reliably installs identity on reload, repeat J9.1-J9.3 with the same CI journey to establish whether any additional resume defect exists.",
+  "screenshots": [
+    "project-documents/gameplay-factory/sweeps/olympiad/evidence/codex-1006-2237/run-3/failure-daniel.png",
+    "project-documents/gameplay-factory/sweeps/olympiad/evidence/codex-1006-2237/run-3/failure-nik.png"
+  ]
+}

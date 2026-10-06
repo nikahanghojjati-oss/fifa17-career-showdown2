@@ -1,0 +1,37 @@
+i  emulators: Starting emulators: auth, firestore
+i  emulators: Detected demo project ID "demo-cms-browser-journey", emulated services will use a demo configuration and attempts to access non-emulated services for this project will fail.
+⚠  firestore: Cloud Firestore Emulator does not support multiple databases yet.
+⚠  firestore: Did not find a Cloud Firestore rules file specified in a firebase.json config file.
+⚠  firestore: The emulator will default to allowing all reads and writes. Learn more about this option: https://firebase.google.com/docs/emulator-suite/install_and_configure#security_rules_configuration.
+⚠  It appears you are running in a CI environment. You can avoid downloading the Firestore Emulator repeatedly by caching the /home/agent/.cache/firebase/emulators directory.
+i  firestore: downloading cloud-firestore-emulator-v1.22.0.jar...
+
+i  firestore: Firestore Emulator logging to firestore-debug.log
+✔  firestore: Firestore Emulator was started in standard edition.
+✔  firestore: Firestore Emulator UI websocket is running on 9150.
+i  Running script: CMS_SHOWDOWN_LENGTH=3 node tests/browser/two-manager-browser-journey.cjs
+ok 1 J0.1 composed production Rules active on the emulator (open read 404 -> 403)
+ok 2 J0.2 emulator switch active only via localhost + cmsEmulator=1 in both contexts
+--- daniel: screens=mainMenu | badge=DANIEL | panel=CONNECT PLAYERS Daniel and Nik need to connect before the first Showdown. CREATE CODE FOR NIK DANIEL STARTS THE SHOWDOWN AND SENDS THIS CODE TO NIK | overlays=
+--- daniel errors: []
+--- nik: screens=createShowdown | badge= | panel= | overlays=
+--- nik errors: []
+locator.click: Timeout 30000ms exceeded.
+Call log:
+  - waiting for getByRole('button', { name: 'SIGN IN WITH GOOGLE' })
+
+    at signIn (/workspace/fifa17-career-showdown2/tests/browser/two-manager-browser-journey.cjs:115:65)
+    at async main (/workspace/fifa17-career-showdown2/tests/browser/two-manager-browser-journey.cjs:238:35) {
+  log: [
+    "  - waiting for getByRole('button', { name: 'SIGN IN WITH GOOGLE' })"
+  ],
+  name: 'TimeoutError'
+}
+⚠  Script exited unsuccessfully (code 1)
+i  emulators: Shutting down emulators.
+i  firestore: Stopping Firestore Emulator
+i  auth: Stopping Authentication Emulator
+i  hub: Stopping emulator hub
+i  logging: Stopping Logging Emulator
+
+Error: Script "CMS_SHOWDOWN_LENGTH=3 node tests/browser/two-manager-browser-journey.cjs" exited with code 1
