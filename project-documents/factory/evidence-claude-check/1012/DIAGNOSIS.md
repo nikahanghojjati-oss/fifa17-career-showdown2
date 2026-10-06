@@ -15,3 +15,5 @@ Desktop 1920 PASS.
 Desktop 1440 FIX: Nik's card is clipped about 153px on the right. The review panel is 864px wide, but `.seasonReviewGrid` keeps 1000px from `css/app.css` `.seasonSummaryGrid{width:min(1000px,94vw)}`. This was already clipped before the PR.
 Narrow landscape 660x393: cramped (82px inner box, sticky button over the heading), but the same as main, so not a regression.
 Sheet: `team_g_pr399_check.jpg`.
+
+Re-check df32435 (2026-10-06 02:50 UTC): desktop 1440 PASS. The grid is 830px inside the 864px panel, both cards are fully visible (Daniel left, Nik right) and there is no sideways scroll: `team_g_pr399_df32435_1440.jpg`. Job 1012 visual check PASS.
