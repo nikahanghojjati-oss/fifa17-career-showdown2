@@ -189,3 +189,10 @@ html #app #topHeader{color:var(--f17-ink);font-family:var(--f17-ui)}
  #app #seasonEntry.seasonScreenV10 .season-review-panel:not(.hidden){top:52.66%;bottom:80px;left:20%;width:60%;overflow:auto}
  #app #seasonEntry.seasonScreenV10 .season-review-panel .seasonReviewActions{position:static;background:none;padding:8px 0 0}
 }
+
+/* JOB-1020: reconciliation and Shared History use the black-and-gold kit at every width */
+ #app #seasonEntry.seasonScreenV10 .sharedLocalReconciliationPanel h3{margin:0;color:#f2c45b;font:800 13px/1.2 var(--f17-display,inherit);letter-spacing:1.2px}
+ #app #seasonEntry.seasonScreenV10 .sharedLocalReconciliationPanel p{margin:4px 0;font-size:12px;line-height:1.4;color:#c9c2b0}
+ #app #seasonEntry.seasonScreenV10 .sharedLocalReconciliationPanel .stateNote{width:auto;color:#efe7d2;background:rgb(5 7 9 / .82);border-left:3px solid #f2c45b}
+ #app #seasonEntry.seasonScreenV10 #sharedHistoryConvergencePanel h3{margin:0;color:#f2c45b;font:800 13px/1.2 var(--f17-display,inherit);letter-spacing:1.2px}
+ #app #seasonEntry.seasonScreenV10 #sharedHistoryConvergencePanel p{margin:4px 0;font-size:12px;line-height:1.4;color:#c9c2b0}
