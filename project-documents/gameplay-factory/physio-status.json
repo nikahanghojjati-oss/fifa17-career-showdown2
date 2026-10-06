@@ -1,13 +1,22 @@
 {
   "schema": "physio/v1",
-  "at": "2026-10-06T01:35:03.518Z",
+  "at": "2026-10-06T01:37:42.442Z",
   "state": "BARKING",
   "checks": [
+    {
+      "workflow": "Showdown Gate",
+      "head_sha": "61161337fa58344482e44a7bd088c7a9d63f98ab",
+      "pr": 396,
+      "queued_minutes": 18.2,
+      "action": "none",
+      "attempt": 0,
+      "max_attempts": 2
+    },
     {
       "workflow": "Validate POS20",
       "head_sha": "fed6ec9a5a2b1a16ddcd27afe89d83a68eb1e889",
       "pr": null,
-      "queued_minutes": 3.4,
+      "queued_minutes": 6.1,
       "action": "none",
       "attempt": 0,
       "max_attempts": 2
@@ -16,7 +25,7 @@
       "workflow": "Validate POS20",
       "head_sha": "a6d018b77bf12e8c7a82dc02d79c92cf07c26e1e",
       "pr": null,
-      "queued_minutes": 2.2,
+      "queued_minutes": 4.8,
       "action": "none",
       "attempt": 0,
       "max_attempts": 2
@@ -24,8 +33,8 @@
     {
       "workflow": "Validate POS20",
       "head_sha": "5a21417e12f0ef753430da491034cf8340240d34",
-      "pr": 312,
-      "queued_minutes": 1.5,
+      "pr": null,
+      "queued_minutes": 4.1,
       "action": "none",
       "attempt": 0,
       "max_attempts": 2
@@ -46,7 +55,7 @@
       },
       {
         "name": "L3 storage visual gameplay",
-        "state": "running"
+        "state": "pass"
       },
       {
         "name": "L4 remote",
