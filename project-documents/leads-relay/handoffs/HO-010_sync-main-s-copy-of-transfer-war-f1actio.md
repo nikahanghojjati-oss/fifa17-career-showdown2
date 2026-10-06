@@ -11,10 +11,10 @@
  "worker": "sol-chat",
  "parent": null,
  "job": "1003",
- "status": "RECEIVED",
+ "status": "DONE",
  "steps": [],
- "evidence": [],
- "log": [{"at": "2026-10-06T00:04:24Z", "by": "V", "status": "SENT", "note": ""}, {"at": "2026-10-06T00:05:09Z", "by": "G", "status": "RECEIVED", "note": "Packaged as job 1003 · G for GPT blue; rides Team G's next release"}]
+ "evidence": ["PR #391 merged"],
+ "log": [{"at": "2026-10-06T00:04:24Z", "by": "V", "status": "SENT", "note": ""}, {"at": "2026-10-06T00:05:09Z", "by": "G", "status": "RECEIVED", "note": "Packaged as job 1003 · G for GPT blue; rides Team G's next release"}, {"at": "2026-10-06T00:20:17Z", "by": "G", "status": "DONE", "note": "Job 1003 merged into gameplay/bug-list-1 (PR #391); rides Team G's next release to main"}]
 }
 ```
 
