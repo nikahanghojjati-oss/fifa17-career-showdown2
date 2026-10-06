@@ -124,6 +124,16 @@ def where(text, lane):
     return m.group(1).strip() if m else ("in " + LANE_PLACE[lane] if lane in LANE_PLACE else "")
 
 
+def status_done(n):
+    # status/JOB-NNNN.md "State: DONE": the worker finished and the lead hasn't verified yet; still running, not "Next for you"
+    try:
+        t = open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "status", f"JOB-{n}.md")).read()
+    except OSError:
+        return False
+    m = re.search(r"^State:\s*(.+)$", t, re.M)
+    return bool(m and re.match(r"DONE\b", m.group(1).strip(), re.I))
+
+
 def q_add(it, team):
     m = JOB.match(str(it["id"]))
     n = m.group(1)
@@ -134,6 +144,9 @@ def q_add(it, team):
     q = dict(it, n=n, team=team, lane=lane)
     if re.match(r"(in release|verified|in r\d)", st, re.I):
         Q["release"].append(q)
+    elif status_done(n):
+        q["state"] = "worker done, lead checking"
+        Q["run"].append(q)
     elif (it.get("progress") or it.get("pct") is not None) and not re.search(r"waiting (for|on) Nik to type", st + " " + str(it.get("state", "")), re.I):
         # the worker's first saved step (status/JOB-NNNN.md "State: IN PROGRESS" or a PR progress block) moves the job to Running now, even before the row's waits_on is updated
         Q["run"].append(q)
