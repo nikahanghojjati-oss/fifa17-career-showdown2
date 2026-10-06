@@ -1,24 +1,33 @@
 {
   "schema": "physio/v1",
-  "at": "2026-10-06T01:41:11.856Z",
+  "at": "2026-10-06T01:41:43.412Z",
   "state": "BARKING",
   "checks": [
     {
       "workflow": "Validate POS20",
       "head_sha": "d44d99842e4fc2b7f35f7f21d62e86ad0fc744ef",
       "pr": 312,
-      "queued_minutes": 2.8,
+      "queued_minutes": 3.3,
       "action": "none",
       "attempt": 0,
       "max_attempts": 2
     },
     {
-      "workflow": "Showdown Gate",
-      "head_sha": "61161337fa58344482e44a7bd088c7a9d63f98ab",
-      "pr": 396,
-      "queued_minutes": 0,
-      "action": "rerun",
-      "attempt": 1,
+      "workflow": "Validate POS20",
+      "head_sha": "641a4a510f065cd0108ceed47dd8a71d7c2f1311",
+      "pr": null,
+      "queued_minutes": 2.3,
+      "action": "none",
+      "attempt": 0,
+      "max_attempts": 2
+    },
+    {
+      "workflow": "Validate Gameplay Fast",
+      "head_sha": "c3e2120018f94d44fce17ba609bffef6f093b028",
+      "pr": null,
+      "queued_minutes": 1.2,
+      "action": "none",
+      "attempt": 0,
       "max_attempts": 2
     }
   ],
@@ -33,11 +42,11 @@
       },
       {
         "name": "L2 browser full",
-        "state": "queued"
+        "state": "pass"
       },
       {
         "name": "L3 storage visual gameplay",
-        "state": "queued"
+        "state": "pass"
       },
       {
         "name": "L4 remote",
@@ -45,11 +54,11 @@
       },
       {
         "name": "L5 rules regression",
-        "state": "queued"
+        "state": "running"
       },
       {
         "name": "L6 browser journey",
-        "state": "queued"
+        "state": "pass"
       }
     ],
     "seal": "INFRA_RETRYING"
