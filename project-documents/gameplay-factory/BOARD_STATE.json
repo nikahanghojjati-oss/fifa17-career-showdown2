@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 8:58 PM Boston time (EDT)",
+ "generated": "2026-10-05 8:59 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -326,8 +326,8 @@
      "sha": "9243705b96a426a33ec352c5afb73cc2e9a8dc20",
      "updated": "2026-10-06T00:53:30Z",
      "gates": {
-      "passed": 8,
-      "running": 9,
+      "passed": 11,
+      "running": 6,
       "failed": 0,
       "cancelled": 0
      }
@@ -399,7 +399,7 @@
   "physio": {
    "state": "barking",
    "line": "Barking: POS20 on #312 has waited 2 min for a machine; POS20 has waited 2 min for a machine.",
-   "gate": "Gate #386: L1✓ L2… L3… L4… L5… L6… · seal pending · POS20 #386 5/16",
+   "gate": "Gate #386: L1✓ L2… L3… L4✓ L5… L6… · seal pending · POS20 #386 8/16",
    "source": "physio"
   },
   "v_headline": "Board 1 (visual package): 238 of 238 jobs done and checked",
@@ -801,8 +801,8 @@
     "sha": "9243705b96a426a33ec352c5afb73cc2e9a8dc20",
     "updated": "2026-10-06T00:53:30Z",
     "gates": {
-     "passed": 8,
-     "running": 9,
+     "passed": 11,
+     "running": 6,
      "failed": 0,
      "cancelled": 0
     }
