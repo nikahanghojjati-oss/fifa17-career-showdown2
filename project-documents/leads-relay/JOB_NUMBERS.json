@@ -1,6 +1,6 @@
 {
  "_how": "One shared job counter for Team G and Team V (Nik, 2026-10-05). Claim with tools/claim_number.py only. A number is used once, ever. CONTRACT.md section 10.",
- "next": 1015,
+ "next": 1016,
  "claims": [
   {
    "number": 1001,
@@ -86,6 +86,12 @@
    "team": "G",
    "title": "No reconnect prompt after a finished Showdown (HO-013)",
    "claimed": "2026-10-06T01:30:40Z"
+  },
+  {
+   "number": 1015,
+   "team": "G",
+   "title": "Connect Players screen: create code / join off Home (HO-014)",
+   "claimed": "2026-10-06T01:32:15Z"
   }
  ]
 }
