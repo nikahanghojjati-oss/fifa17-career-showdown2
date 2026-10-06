@@ -804,6 +804,33 @@
      "state": "ready",
      "waits_on": "Nik types it in the gameplay project (Work mode)",
      "details": "GPT green, one run. HO-014: pair panel moves from Home to its own CONNECT PLAYERS screen (Team V SJ design). Pairing logic unchanged; lead runs pairing audits."
+    },
+    {
+     "id": "1017",
+     "group": "Bug list 1",
+     "title": "1017 · G Gameplay hunt 1: shared season flow across devices",
+     "lane": "green",
+     "state": "ready",
+     "waits_on": "Nik types it in the Q&A team project",
+     "details": "GPT Q&A team, Astra Work (Sol Work if out). Report only (sweeps/hunt-1017.md); the lead turns findings into fix jobs."
+    },
+    {
+     "id": "1018",
+     "group": "Bug list 1",
+     "title": "1018 · G Gameplay hunt 2: sessions, pairing and reconnect",
+     "lane": "green",
+     "state": "ready",
+     "waits_on": "Nik types it in the Q&A team project",
+     "details": "GPT Q&A team, Sol Work. Report only (sweeps/hunt-1018.md); the lead turns findings into fix jobs."
+    },
+    {
+     "id": "1019",
+     "group": "Bug list 1",
+     "title": "1019 · G Gameplay hunt 3: entries, saves and career numbers",
+     "lane": "green",
+     "state": "ready",
+     "waits_on": "Nik types it in the Q&A team project",
+     "details": "GPT Q&A team, Sol Work. Report only (sweeps/hunt-1019.md); the lead turns findings into fix jobs."
     }
    ]
   },
