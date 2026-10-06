@@ -16,11 +16,11 @@
 
 ## 🔄 Moving now
 
-**🟩 1020 · Season Results patch: one column on phone, no overlap on desktop** · 20 % (1 of 5 steps) · Sol Work mode
+**🟩 1020 · Season Results patch: one column on phone, no overlap on desktop** · 60 % (3 of 5 steps) · Sol Work mode
 
-🟩🟩🟩🟩⚽▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️ 🥅  
-> **Now:** step 2 of 5  
-> **Left:** step 2 → step 3 → step 4 → step 5
+🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩⚽▫️▫️▫️▫️▫️▫️▫️ 🥅  
+> **Now:** step 4 of 5  
+> **Left:** step 4 → step 5
 
 **🟦 V-1006 · Final Winner: last season's score block** · 25 % (1 of 4 steps) · Sol chat · [PR #393](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/393)
 
@@ -202,11 +202,11 @@ Latest:
 
 ### 🟩 Sol Work mode · 1 job
 
-**Job 1020 · Season Results patch: one column on phone, no overlap on desktop · 20.0000 %** · 1 of 5 steps · updated Mon 5 Oct, 10:11 PM  
-🟩🟩🟩🟩⚽▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️ 🥅  
+**Job 1020 · Season Results patch: one column on phone, no overlap on desktop · 60.0000 %** · 3 of 5 steps · updated Mon 5 Oct, 10:11 PM  
+🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩⚽▫️▫️▫️▫️▫️▫️▫️ 🥅  
 🏁 **Likely finish:** not enough data  
-> **Now:** step 2 of 5  
-> **Left:** step 2 → step 3 → step 4 → step 5
+> **Now:** step 4 of 5  
+> **Left:** step 4 → step 5
 
 <details>
 <summary><b>✅ Closed: 14</b> (11 live in the game) · click to open</summary>

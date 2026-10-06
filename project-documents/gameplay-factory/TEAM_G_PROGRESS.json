@@ -10,11 +10,11 @@
    "job": 1020,
    "title": "Season Results patch: one column on phone, no overlap on desktop",
    "worker": "Sol Work mode",
-   "done": 1,
+   "done": 3,
    "total": 5,
-   "pct": 20.0,
+   "pct": 60.0,
    "eta": "not enough data",
-   "current": "step 2 of 5",
+   "current": "step 4 of 5",
    "pr": null,
    "updated": "2026-10-06T02:11:00Z"
   }
