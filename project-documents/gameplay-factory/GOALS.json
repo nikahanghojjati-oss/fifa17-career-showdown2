@@ -567,6 +567,22 @@
     },
     "sha": "069ea0f2715ba856da774728ab5619c6718d752e"
    },
+   "project-documents/gameplay-factory/sweeps/olympiad/claims/codex-1006-2238.json": {
+    "data": {
+     "area": "03",
+     "run": "codex-1006-2238",
+     "started_utc": "2026-10-06T22:38:12.039Z"
+    },
+    "sha": "f2cd8a1301f2bf4df761a70909c8130e74a185e9"
+   },
+   "project-documents/gameplay-factory/sweeps/olympiad/claims/codex-1006-2239.json": {
+    "data": {
+     "area": "02",
+     "run": "codex-1006-2239",
+     "started_utc": "2026-10-06T22:39:00.111Z"
+    },
+    "sha": "819aa4512f648b960637a08cc048d0040cd4008c"
+   },
    "project-documents/gameplay-factory/sweeps/olympiad/findings/chat-1006-0418-1.json": {
     "data": {
      "actual": "The shared presentation exports handlesControl and handleControlClick, but ssjpInstall only records installed state and adds no click binding. productionSharedJourneyEntry re-enables the legacy controls while the presentation owns them. leagueWheel.js and clubAssignment.js retain direct click listeners on the same controls. Targeted review of the loaded entry, identity, Showdown UI, football visual and V10 club modules found no external caller of the shared dispatcher. The written repro scans all js files to challenge that conclusion.",
