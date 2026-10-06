@@ -6,7 +6,7 @@
 
 # Showdown board: G Factory and V Factory
 
-🌐 **Live: runtime 1.9.1-r62** (main `bc77a0b`) · 🔄 **15 moving** · ⏭ 3 up next · 👤 7 waiting on Nik · 🗂 6 later · updated 2026-10-06 4:10 PM Boston time (EDT)
+🌐 **Live: runtime 1.9.1-r62** (main `bc77a0b`) · 🔄 **14 moving** · ⏭ 3 up next · 👤 7 waiting on Nik · 🗂 6 later · updated 2026-10-06 4:10 PM Boston time (EDT)
 
 🩺 **All clear: every check has a machine.** · POS20 #304 6/16
 
@@ -15,12 +15,6 @@
 1. **r62 is live.** On the laptop, close every game tab in Chrome and reopen the game; if Settings still looks clipped, do it once more.
 
 ## 🔄 Moving now
-
-**🟦 1011 · Plain-words sweep: jargon on game screens** · 50 % (2 of 4 steps) · Sol chat
-
-🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦⚽▫️▫️▫️▫️▫️▫️▫️▫️▫️ 🥅  
-> **Now:** step 3 of 4  
-> **Left:** step 3 → step 4
 
 | Team | Job | What | Worker | Where it is | Details |
 | --- | --- | --- | --- | --- | --- |
@@ -201,15 +195,8 @@ Latest:
 
 <sub>Percent = finished steps weighted by typical step time; finish times are estimates ([how](ETA_STUDY.md)).</sub>
 
-🏁 no finish time yet (not enough data)
-
-### 🟦 Sol chat · 1 job
-
-**Job 1011 · Plain-words sweep: jargon on game screens · 50.0000 %** · 2 of 4 steps · updated Tue 6 Oct, 4:30 PM  
-🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦⚽▫️▫️▫️▫️▫️▫️▫️▫️▫️ 🥅  
-🏁 **Likely finish:** not enough data  
-> **Now:** step 3 of 4  
-> **Left:** step 3 → step 4
+> [!NOTE]
+> No job is reporting progress right now. A job shows here once its PR description carries a progress block.
 
 <details>
 <summary><b>✅ Closed: 14</b> (11 live in the game) · click to open</summary>

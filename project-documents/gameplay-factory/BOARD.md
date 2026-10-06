@@ -10,7 +10,7 @@ Updated Tue 6 Oct, 4:10 PM Boston time. Bug hunting only, no new features until 
 
 **Running now**
 
-- **1011** Plain-words sweep: jargon on game screens · step 3 of 4 · 50.0000 %
+- **1011** Plain-words sweep: jargon on game screens · worker done, lead checking
 - **1028** Statistics shows an abandoned-only career (hunt 1019 H5) · worker done, lead checking
 
 **Done, in the next release:** 1001, 1003, 1004, 1005, 1009, 1014, 1015, 1020, 1021

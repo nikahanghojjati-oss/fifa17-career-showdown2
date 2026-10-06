@@ -5,18 +5,5 @@
  "next_move": [
   "**r62 is live.** On the laptop, close every game tab in Chrome and reopen the game; if Settings still looks clipped, do it once more."
  ],
- "running": [
-  {
-   "job": 1011,
-   "title": "Plain-words sweep: jargon on game screens",
-   "worker": "Sol chat",
-   "done": 2,
-   "total": 4,
-   "pct": 50.0,
-   "eta": "not enough data",
-   "current": "step 3 of 4",
-   "pr": null,
-   "updated": "2026-10-06T20:30:00Z"
-  }
- ]
+ "running": []
 }
