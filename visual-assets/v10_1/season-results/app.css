@@ -146,3 +146,55 @@ html #app #topHeader{color:var(--f17-ink);font-family:var(--f17-ui)}
 #app #seasonEntry.seasonScreenV10 .season-review-panel .seasonReviewActions :is(.compactButton,.backButton){color:#f2c45b;background:rgb(5 7 9 / .9);border:1px solid #f2c45b}
 #app #seasonEntry.seasonScreenV10 .season-review-panel .seasonReviewActions :is(.menuButton,.compactButton):disabled{color:#c9c2b0;background:rgb(5 7 9 / .9);border-color:rgb(242 196 91 / .35);opacity:1}
 #app #seasonEntry.seasonScreenV10 .season-review-panel .seasonReviewActions{background:rgb(9 11 14 / .96)}
+
+/* JOB-1020 (HO-015): Team V phone Season Results, one page scroll */
+/* PROPOSED (visual-assets/v10_1/season-results/app.css, appended): phone Season Results = one page scroll. */
+@media(max-width:760px) and (orientation:portrait){ /* lead: portrait only, so narrow landscape (desktop stage mode) keeps its stage height */
+ /* 1. One scroll: the app's <main>. The screen grows with its content instead of clipping at 100%. */
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode){height:auto;overflow:visible}
+ #app #seasonEntry.seasonScreenV10>.v10SeasonStage{--sr-hero:min(28svh,180px);position:relative;inset:auto;height:auto;min-height:100%;max-height:none;overflow:visible}
+ /* 2. Hero capped: art layers are a fixed band at the top; UI flows below it. */
+ #app #seasonEntry .v10SeasonStage[data-sd-mode="phone"] :is(.sd-stage__layer--plate,.sd-stage__layer--atmosphere,.sd-stage__layer--cutout,.sd-stage__layer--light){height:var(--sr-hero)}
+ #app #seasonEntry .v10SeasonStage[data-sd-mode="phone"] .sd-stage__layer--ui{position:relative;inset:auto;padding-top:var(--sr-hero)}
+ #app #seasonEntry .v10SeasonStage .season-phone-title{top:auto;bottom:4%;width:min(62vw,240px)}
+ #app #seasonEntry .v10SeasonStage :is(#season-results-screen,.season-layout){position:static;inset:auto;overflow:visible}
+ #app #seasonEntry .v10SeasonStage .season-layout{display:flex;flex-direction:column;gap:8px;padding:8px 12px 12px;pointer-events:auto}
+ #app #seasonEntry .v10SeasonStage :is(.season-phone-toolbar,.entry-panel,.season-review-panel,.scoring-panel,.season-action-row,#seasonEntryError){position:relative;inset:auto;width:auto;height:auto;max-height:none;margin:0}
+ #app #seasonEntry .v10SeasonStage :is(.season-phone-tab-input,.season-phone-sheet-toggle){top:var(--sr-hero)}
+ /* 3. Panels show all their content; no inner scroll, no centring. */
+ #app #seasonEntry.seasonScreenV10 :is(.seasonResultCard,.season-review-panel:not(.hidden)){overflow:visible;align-content:start}
+ #app #seasonEntry.seasonScreenV10 .season-review-panel:not(.hidden){display:flex!important;flex-direction:column;gap:6px}
+ /* 4. Result cards full width, stacked: Daniel (seasonReviewOne) then Nik (seasonReviewTwo). */
+ #app #seasonEntry.seasonScreenV10 .season-review-panel .seasonReviewGrid{width:auto;grid-template-columns:1fr;margin:0}
+ /* 5. Status lines sit together as one block just above the buttons; buttons last and not sticky. */
+ #app #seasonEntry.seasonScreenV10 .season-review-panel>:is(.seasonReviewWarning,.seasonReviewError){order:8;margin:0}
+ #app #seasonEntry.seasonScreenV10 .season-review-panel>.seasonReviewWarning:not(.hidden)~.seasonReviewWarning{margin-top:-6px;border-top:1px solid rgb(242 196 91 / .16)}
+ #app #seasonEntry.seasonScreenV10 .season-review-panel>.seasonReviewActions{order:9}
+ #app #seasonEntry.seasonScreenV10 .season-review-panel .seasonReviewActions{position:static;width:auto;margin:0;padding:0;background:none}
+ /* 6. Local Reconciliation in the black-and-gold kit, readable size. */
+ #app #seasonEntry.seasonScreenV10 .sharedLocalReconciliationPanel h3{margin:0;color:#f2c45b;font:800 13px/1.2 var(--f17-display,inherit);letter-spacing:1.2px}
+ #app #seasonEntry.seasonScreenV10 .sharedLocalReconciliationPanel p{margin:4px 0;font-size:12px;line-height:1.4;color:#c9c2b0}
+ #app #seasonEntry.seasonScreenV10 .sharedLocalReconciliationPanel .stateNote{width:auto;color:#efe7d2;background:rgb(5 7 9 / .82);border-left:3px solid #f2c45b}
+ /* 7. Entry actions (REVIEW / BACK) pinned to the bottom of the page scroll. */
+ #app #seasonEntry .v10SeasonStage .season-action-row{position:sticky;bottom:max(8px,env(safe-area-inset-bottom));order:10}
+}
+/* Desktop: Daniel's card always left, Nik's always right, even when only one is shown. */
+@media(min-width:761px){
+ #app #seasonEntry.seasonScreenV10 #seasonReviewOne{grid-column:1}
+ #app #seasonEntry.seasonScreenV10 #seasonReviewTwo{grid-column:2}
+}
+
+/* JOB-1020: desktop review box starts below the scoring card; buttons follow the content */
+@media(min-width:761px){
+ #app #seasonEntry.seasonScreenV10 .season-review-panel:not(.hidden){top:52.66%;bottom:80px;left:20%;width:60%;overflow:auto}
+ #app #seasonEntry.seasonScreenV10 .season-review-panel .seasonReviewActions{position:static;background:none;padding:8px 0 0}
+ /* Team V check (1440): the grid also carries .seasonSummaryGrid (width:min(1000px,94vw)), wider than the panel */
+ #app #seasonEntry.seasonScreenV10 .season-review-panel .seasonReviewGrid{width:auto}
+}
+
+/* JOB-1020: reconciliation and Shared History use the black-and-gold kit at every width */
+ #app #seasonEntry.seasonScreenV10 .sharedLocalReconciliationPanel h3{margin:0;color:#f2c45b;font:800 13px/1.2 var(--f17-display,inherit);letter-spacing:1.2px}
+ #app #seasonEntry.seasonScreenV10 .sharedLocalReconciliationPanel p{margin:4px 0;font-size:12px;line-height:1.4;color:#c9c2b0}
+ #app #seasonEntry.seasonScreenV10 .sharedLocalReconciliationPanel .stateNote{width:auto;color:#efe7d2;background:rgb(5 7 9 / .82);border-left:3px solid #f2c45b}
+ #app #seasonEntry.seasonScreenV10 #sharedHistoryConvergencePanel h3{margin:0;color:#f2c45b;font:800 13px/1.2 var(--f17-display,inherit);letter-spacing:1.2px}
+ #app #seasonEntry.seasonScreenV10 #sharedHistoryConvergencePanel p{margin:4px 0;font-size:12px;line-height:1.4;color:#c9c2b0}
