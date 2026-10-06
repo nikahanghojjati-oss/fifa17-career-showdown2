@@ -1,6 +1,6 @@
 # Bug hunt board
 
-Updated Tue 6 Oct, 10:58 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
+Updated Tue 6 Oct, 11:28 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r62** (main `bc77a0b`, Mon 5 Oct 9:18 PM)
 
@@ -13,11 +13,7 @@ Updated Tue 6 Oct, 10:58 AM Boston time. Bug hunting only, no new features until
 - **1011** Plain-words sweep: jargon on game screens · step 1 of 4 · 0.0000 %
 - **1028** Statistics shows an abandoned-only career (hunt 1019 H5) · worker done, lead checking
 
-**Waiting on something else**
-
-- **1005** Last season's score is skipped before the Final Winner · after Team V designs the combined screen (HO-011)
-
-**Done, in the next release:** 1001, 1003, 1004, 1009, 1014, 1015, 1020, 1021
+**Done, in the next release:** 1001, 1003, 1004, 1005, 1009, 1014, 1015, 1020, 1021
 
 ## Goals for Thursday
 
