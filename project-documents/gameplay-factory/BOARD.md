@@ -1,6 +1,6 @@
 # Bug hunt board
 
-Updated Mon 5 Oct, 10:28 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
+Updated Mon 5 Oct, 10:29 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r62** (main `bc77a0b`, Mon 5 Oct 9:18 PM)
 
@@ -13,7 +13,7 @@ Updated Mon 5 Oct, 10:28 PM Boston time. Bug hunting only, no new features until
 - **1015** Connect Players screen: create code / join off Home · worker done, lead checking
 - **1020** Season Results patch: one column on phone, no overlap on desktop · worker done, lead checking
 - **1009** Showdown Champion: dark oval over the losing manager · worker done, lead checking
-- **1014** No reconnect prompt after a finished Showdown · step 3 of 5 · 40.0000 %
+- **1014** No reconnect prompt after a finished Showdown · worker done, lead checking
 - **1021** Transfer War on phone: port Team V's revamp · with the lead
 - **1010** 10-season sweep: scoring, history and final math · step 1 of 4 · 0.0000 %
 

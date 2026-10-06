@@ -1,12 +1,12 @@
 # Board archive
 
-[Back to the board](BOARD.md) · generated 2026-10-05 10:28 PM Boston time (EDT). Detail and history behind the one board.
+[Back to the board](BOARD.md) · generated 2026-10-05 10:29 PM Boston time (EDT). Detail and history behind the one board.
 
 ## Old detailed board
 
 # Showdown board: G Factory and V Factory
 
-🌐 **Live: runtime 1.9.1-r62** (main `bc77a0b`) · 🔄 **15 moving** · ⏭ 2 up next · 👤 11 waiting on Nik · 🗂 4 later · updated 2026-10-05 10:28 PM Boston time (EDT)
+🌐 **Live: runtime 1.9.1-r62** (main `bc77a0b`) · 🔄 **14 moving** · ⏭ 2 up next · 👤 11 waiting on Nik · 🗂 4 later · updated 2026-10-05 10:29 PM Boston time (EDT)
 
 🐕 **Barking: POS20 on #400 has waited 8 min for a machine; POS20 on #401 has waited 3 min for a machine; POS20 has waited 2 min for a machine.** · POS20 #304 6/16
 
@@ -21,12 +21,6 @@
 ⚽▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️ 🥅  
 > **Now:** step 1 of 4  
 > **Left:** step 1 → step 2 → step 3 → step 4
-
-**🟦 1014 · No reconnect prompt after a finished Showdown** · 40 % (2 of 5 steps) · Sol chat
-
-🟦🟦🟦🟦🟦🟦🟦🟦⚽▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️ 🥅  
-> **Now:** step 3 of 5  
-> **Left:** step 3 → step 4 → step 5
 
 **🟦 V-1006 · Final Winner: last season's score block** · 25 % (1 of 4 steps) · Sol chat · [PR #393](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/393)
 
@@ -186,7 +180,7 @@ Latest:
 ## Every bug report
 
 
-> Updated **Mon 5 Oct, 10:28 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
+> Updated **Mon 5 Oct, 10:29 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
 
 | 🔓 Open | 🔴 Top priority | 🔧 Fixing or waiting for release | ✅ Fixed and live |
 | :---: | :---: | :---: | :---: |
@@ -205,14 +199,6 @@ Latest:
 <sub>Percent = finished steps weighted by typical step time; finish times are estimates ([how](ETA_STUDY.md)).</sub>
 
 🏁 no finish time yet (not enough data)
-
-### 🟦 Sol chat · 1 job
-
-**Job 1014 · No reconnect prompt after a finished Showdown · 40.0000 %** · 2 of 5 steps · updated Mon 5 Oct, 10:22 PM  
-🟦🟦🟦🟦🟦🟦🟦🟦⚽▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️ 🥅  
-🏁 **Likely finish:** not enough data  
-> **Now:** step 3 of 5  
-> **Left:** step 3 → step 4 → step 5
 
 ### 🟩 Sol Work mode · 1 job
 
