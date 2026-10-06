@@ -1,0 +1,52 @@
+{
+  "run": "codex-1006-1312",
+  "area": "07",
+  "status": "confirmed",
+  "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+  "assumptions": [
+    "Daniel and Nik play fairly; no altered guesses, scores or rule exploits are needed.",
+    "Game records are prepared with the game's own season-score and save helpers. Backup downloads, choice boxes and Apply are played through the real screens in Chromium.",
+    "The downloaded backup is valid and was made by this game. The game files checked match the recorded main version.",
+    "An explicit Keep current choice should keep an empty game empty. The preview currently warns of a full restore, but its choice boxes still promise Keep current.",
+    "This case is reproduced on a separate empty Chromium game; it does not depend on the first finding."
+  ],
+  "id": "codex-1006-1312-keep-empty",
+  "title": "Keep current brings backup games back onto an empty game",
+  "severity": "S2",
+  "where": [
+    {
+      "file": "js/restore.js",
+      "line": 159,
+      "function": "createCareerModeRestorePlan"
+    },
+    {
+      "file": "js/restore.js",
+      "line": 178,
+      "function": "createCareerModeRestorePlan"
+    },
+    {
+      "file": "js/restoreUI.js",
+      "line": 145,
+      "function": "renderReview"
+    }
+  ],
+  "steps": [
+    "Export a valid backup containing a Showdown after season 1 of 3.",
+    "Open History & Backup on an empty game, such as after Reset All Showdown Data.",
+    "Choose the downloaded backup and press Review Restore.",
+    "Choose Keep current for every choice, including Active Showdown and Save Library.",
+    "Observe that the plan changes to a full restore and active matches backup, while the choices still say Keep current.",
+    "Press Apply Restore and confirm."
+  ],
+  "expected": "The empty game stays empty when all choices say Keep current. A backup game returns only when the player chooses to restore it.",
+  "actual": "One backup Showdown is brought back and selected as the current game despite every choice saying Keep current.",
+  "root_cause": "The full-restore rule runs whenever the game is empty, even when the player explicitly chose Keep current. It changes the active choice to use the backup. This also happens in the preview using a complete snapshot, so it is separate from the missing-snapshot problem in the first finding.",
+  "fix": {
+    "files": [
+      "js/restore.js"
+    ],
+    "change": "Require the player's restore choice before bringing back the full Save Library. If older callers may omit that choice, distinguish an omitted choice from an explicit Keep current. Use the same decision for the full-restore and active-only paths so an empty game stays empty when Keep current is selected."
+  },
+  "script": "project-documents/gameplay-factory/sweeps/olympiad/test/codex-1006-1312-keep-empty.cjs",
+  "script_output": "Selected: Keep current in Active Showdown, Legacy History, Preferences and Save Library.\nPreview: RESTORE PLAN READY | Save Library full restore (clean destination) · active matches backup · Legacy stays local · preferences stay local.\nExpected: the empty game stays empty.\nActual: {\"gamesRestored\":1,\"activeSaveId\":\"save_18fc954facedd4b5abbcc07a\"}\nAssertionError [ERR_ASSERTION]: Explicit keep-current choices must not bring games back after reset\n\nfalse !== true\n\n    at /workspace/fifa17-career-showdown2/project-documents/gameplay-factory/sweeps/olympiad/test/codex-1006-1312-keep-empty.cjs:44:9\n\nExit code: 1 (expected result assertion fails)."
+}

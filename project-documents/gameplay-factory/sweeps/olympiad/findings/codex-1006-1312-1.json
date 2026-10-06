@@ -1,0 +1,51 @@
+{
+  "run": "codex-1006-1312",
+  "area": "07",
+  "status": "confirmed",
+  "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+  "assumptions": [
+    "Daniel and Nik play fairly; no altered guesses, scores or rule exploits are needed.",
+    "Game records are prepared with the game's own season-score and save helpers. Backup downloads, choice boxes and Apply are played through the real screens in Chromium.",
+    "The downloaded backup is valid and was made by this game. The game files checked match the recorded main version.",
+    "The existing keep-current code and tests were checked first. They handle the preview correctly; they do not test this full Apply path."
+  ],
+  "id": "codex-1006-1312-keep-current",
+  "title": "Keep current restore removes the current Showdown and loses season progress",
+  "severity": "S1",
+  "where": [
+    {
+      "file": "js/restore.js",
+      "line": 283,
+      "function": "applyCareerModeRestore"
+    },
+    {
+      "file": "js/restore.js",
+      "line": 144,
+      "function": "createCareerModeRestorePlan"
+    },
+    {
+      "file": "js/restoreUI.js",
+      "line": 108,
+      "function": "refreshPlan"
+    }
+  ],
+  "steps": [
+    "Have a three-season Showdown with season 1 saved. Open Settings, Open History & Backup, and Export Backup.",
+    "Start another ten-season Showdown and finish nine seasons. The current game is at season 10 with a 9-9 total; both games are saved.",
+    "Choose the older downloaded backup and press Review Restore.",
+    "Choose Keep current for Active Showdown, Legacy History, Preferences and Save Library.",
+    "Read the preview: Save Library stays local; active stays local; no storage rewrite currently required.",
+    "Press Apply Restore and confirm. Reload the game."
+  ],
+  "expected": "Both saved games stay as they were. The current game stays at season 10 with nine played seasons and a 9-9 total.",
+  "actual": "The season-10 game disappears. Only the old backup game remains, at season 2 with one played season and a 0-0 total. Reload keeps the wrong result.",
+  "root_cause": "The preview checks all saved games. Apply builds its final plan using a smaller snapshot that leaves out the Save Library. The plan mistakes the current game for an empty game and restores the entire older backup, despite the keep-current choices. Backup checks, change-after-review checks and the final write check do not catch the wrong choice.",
+  "fix": {
+    "files": [
+      "js/restore.js"
+    ],
+    "change": "Pass completeRaw, including saveLibrary, to createCareerModeRestorePlan when Apply builds the final plan. Keep the existing checks before and after Apply. Use the failing screen test to verify that keep-current leaves all games and season progress unchanged."
+  },
+  "script": "project-documents/gameplay-factory/sweeps/olympiad/test/codex-1006-1312-keep-current.cjs",
+  "script_output": "Preview: RESTORE PLAN READY | Save Library stays local · active stays local · Legacy stays local · preferences stay local · no storage rewrite currently required.\nExpected: current season-10 game and every saved game remain unchanged.\nBefore: {\"games\":[1780000000101,1780000000102],\"season\":10,\"seasonsPlayed\":9,\"total\":{\"playerOne\":9,\"playerTwo\":9}}\nActual: {\"games\":[1780000000101],\"season\":2,\"seasonsPlayed\":1,\"total\":{\"playerOne\":0,\"playerTwo\":0}}\nAfter reload: {\"games\":[1780000000101],\"season\":2,\"seasonsPlayed\":1,\"total\":{\"playerOne\":0,\"playerTwo\":0}}\nAssertionError [ERR_ASSERTION]: Keep current must leave all games and progress unchanged\n\nfalse !== true\n\n    at /workspace/fifa17-career-showdown2/project-documents/gameplay-factory/sweeps/olympiad/test/codex-1006-1312-keep-current.cjs:50:9\n\nExit code: 1 (expected result assertion fails)."
+}
