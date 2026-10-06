@@ -10,7 +10,6 @@ Updated Mon 5 Oct, 11:02 PM Boston time. Bug hunting only, no new features until
 
 **Running now**
 
-- **1022** Connect Players: match Team V's start-join design (1015 follow-up) · with the lead
 - **1023** Session code replacement: double tap and lost join watcher · with the lead
 - **1024** Reconnect keeps stale authority after sign-out, offline or expiry · with the lead
 - **1019** Gameplay hunt 3: entries, saves and career numbers · step 1 of 3 · 0.0000 %
@@ -25,7 +24,7 @@ Updated Mon 5 Oct, 11:02 PM Boston time. Bug hunting only, no new features until
 
 - **1005** Last season's score is skipped before the Final Winner · after Team V designs the combined screen (HO-011)
 
-**Done, in the next release:** 1001, 1003, 1004, 1009, 1010, 1014, 1015, 1020, 1021
+**Done, in the next release:** 1001, 1003, 1004, 1009, 1010, 1014, 1015, 1020, 1021, 1022
 
 ## Other asks
 
