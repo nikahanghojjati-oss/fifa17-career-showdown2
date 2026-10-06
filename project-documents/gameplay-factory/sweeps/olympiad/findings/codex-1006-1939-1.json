@@ -1,0 +1,55 @@
+{
+  "id": "CMS05-codex-1006-1939-closed-honours",
+  "run": "codex-1006-1939",
+  "area": "05",
+  "title": "The final screen loses known trophy counts after a finished Showdown reload",
+  "severity": "S3",
+  "status": "confirmed",
+  "where": [
+    {
+      "file": "js/seasonFinalV10.js",
+      "line": 22,
+      "function": "finalFrame"
+    },
+    {
+      "file": "js/seasonFinalV10.js",
+      "line": 140,
+      "function": "seasonSource"
+    },
+    {
+      "file": "js/sharedTerminalClose.js",
+      "line": 32,
+      "function": "tcPrepare"
+    },
+    {
+      "file": "js/sharedActiveShowdownAdapter.js",
+      "line": 128,
+      "function": "winner"
+    }
+  ],
+  "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+  "steps": [
+    "Play a three-season Showdown with Daniel at Arsenal and Nik at Liverpool.",
+    "Daniel wins the domestic cup in all three seasons. Nik wins the league in season 3. No other scoring bonuses are earned. The final total is 3-3.",
+    "View the final result before finishing: DRAW, Daniel has three domestic cups, Nik has one league title.",
+    "Finish the Showdown and reload its final screen. Use the same readable season history and the finished result, after the earlier final check is no longer held.",
+    "Read the final honours table. The repeatable script supplies these valid game snapshots to the real local screens, then reloads Chromium."
+  ],
+  "expected": "DRAW and the 3-3 total remain. The final honours table keeps Daniel’s three domestic cups and Nik’s one league title, with total trophies 3 and 1.",
+  "actual": "DRAW and 3-3 remain correct, but all final honours counts become dashes and the page says “Trophy attribution is unavailable right now.” The same season history still contains all four trophies.",
+  "root_cause": "After a finished result is read, finalFrame uses the finished-result record. It then requires its acceptedRevisionKey to equal the history key before showing trophies. The finished-result record deliberately has no such key, so readable matching history can never pass that check. The existing finalWinnerView helper already verifies finished results against history and supplies the correct trophies, but this screen does not use it.",
+  "fix": {
+    "files": [
+      "js/seasonFinalV10.js"
+    ],
+    "change": "Use the existing finalWinnerView helper for the finished final-screen facts and honours. Keep its checks that the same Showdown, season count and point totals match the verified season history. Keep the earlier final-check path for a Showdown that has not yet been finished."
+  },
+  "script": "project-documents/gameplay-factory/sweeps/olympiad/test/CMS05-codex-1006-1939-closed-honours.cjs",
+  "script_output": "Before finishing: {\"status\":\"ready\",\"winner\":\"DRAW\",\"totals\":{\"daniel\":3,\"nik\":3},\"trophies\":{\"daniel\":{\"championsLeague\":0,\"leagueTitles\":0,\"domesticCups\":3,\"total\":3},\"nik\":{\"championsLeague\":0,\"leagueTitles\":1,\"domesticCups\":0,\"total\":1}}}\nAfter finishing and reading the same saved history: {\"status\":\"partial\",\"winner\":\"DRAW\",\"totals\":{\"daniel\":3,\"nik\":3},\"trophies\":null,\"message\":\"Trophy attribution is unavailable right now.\"}\nExisting final-result helper still finds: {\"daniel\":{\"championsLeague\":0,\"leagueTitles\":0,\"domesticCups\":3,\"total\":3},\"nik\":{\"championsLeague\":0,\"leagueTitles\":1,\"domesticCups\":0,\"total\":1}}\nChromium before: {\"outcomeHeadline\":\"DRAW\",\"danielTotal\":\"3\",\"nikTotal\":\"3\",\"panelSeasons\":\"3\",\"panelMargin\":\"0\",\"panelDanielCup\":\"3\",\"panelNikCup\":\"0\",\"panelDanielTrophies\":\"3\",\"panelNikTrophies\":\"1\",\"finalWinnerPartialMessage\":\"\"}\nChromium after reload: {\"outcomeHeadline\":\"DRAW\",\"danielTotal\":\"3\",\"nikTotal\":\"3\",\"panelSeasons\":\"3\",\"panelMargin\":\"0\",\"panelDanielCup\":\"—\",\"panelNikCup\":\"—\",\"panelDanielTrophies\":\"—\",\"panelNikTrophies\":\"—\",\"finalWinnerPartialMessage\":\"Trophy attribution is unavailable right now.\"}\nFinishing/reloading a Showdown must keep its known trophy counts on the final screen\n+ actual - expected\n\n+ undefined\n- {\n-   daniel: {\n-     championsLeague: 0,\n-     domesticCups: 3,\n-     leagueTitles: 0,\n-     total: 3\n-   },\n-   nik: {\n-     championsLeague: 0,\n-     domesticCups: 0,\n-     leagueTitles: 1,\n-     total: 1\n-   }\n- }\n\n",
+  "assumptions": [
+    "Daniel and Nik enter fair, ordinary results: different league positions and no duplicated cup or league winners in a season.",
+    "The problem is confirmed for the supported finished-result-only path with matching readable history. It does not occur while the earlier full final check is still held.",
+    "Node builds and verifies the actual game history and finished result. Chromium uses the real local app and final-screen files with those game snapshots supplied at the game boundary; no live connection setup or remote history read was tested.",
+    "History verification and the existing final-result helper prove that the trophies are available. This finding is about the final screen, not lost saved seasons."
+  ]
+}
