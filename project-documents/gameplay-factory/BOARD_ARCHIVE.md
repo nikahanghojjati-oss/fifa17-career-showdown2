@@ -1,14 +1,14 @@
 # Board archive
 
-[Back to the board](BOARD.md) · generated 2026-10-05 9:37 PM Boston time (EDT). Detail and history behind the one board.
+[Back to the board](BOARD.md) · generated 2026-10-05 9:39 PM Boston time (EDT). Detail and history behind the one board.
 
 ## Old detailed board
 
 # Showdown board: G Factory and V Factory
 
-🌐 **Live: runtime 1.9.1-r62** (main `bc77a0b`) · 🔄 **11 moving** · ⏭ 2 up next · 👤 10 waiting on Nik · 🗂 4 later · updated 2026-10-05 9:37 PM Boston time (EDT)
+🌐 **Live: runtime 1.9.1-r62** (main `bc77a0b`) · 🔄 **13 moving** · ⏭ 2 up next · 👤 11 waiting on Nik · 🗂 4 later · updated 2026-10-05 9:39 PM Boston time (EDT)
 
-🐕 **Barking: POS20 has waited 3 min for a machine; POS20 has waited 2 min for a machine; POS20 on #312 has waited 2 min for a machine.** · Gate #396: L1✓ L2✓ L3… L4✓ L5✗ L6✓ · seal pending · POS20 #396 12/16
+🐕 **Barking: Showdown Gate on #396 has waited 19 min for a machine; POS20 has waited 7 min for a machine; POS20 has waited 6 min for a machine.** · Gate #396: L1✓ L2✓ L3✓ L4✓ L5✗ L6✓ · seal pending · POS20 #396 12/16
 
 ## Your next move
 
@@ -19,6 +19,12 @@
 | Release / fix | Checks on the latest commit | Updated |
 | --- | --- | --- |
 | [PR #396](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/396) INFRA SIM: L5 setup dies on attempt 1 for the Showdown Gate shadow (never merge) | 🔴 17 passed, 1 running, 1 failed | 9:21 PM |
+
+**🟩 1015 · Connect Players screen: create code / join off Home** · -20 % (-1 of 5 steps) · Sol Work mode
+
+⚽▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️ 🥅  
+> **Now:** step 0 of 5  
+> **Left:** step 1 → step 2 → step 3 → step 4 → step 5
 
 **🟦 V-1006 · Final Winner: last season's score block** · 25 % (1 of 4 steps) · Sol chat · [PR #393](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/393)
 
@@ -40,6 +46,7 @@
 | [HO-012](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/handoffs/HO-012_one-board-your-lead-view-copies-custom-v.md) | G → V | One board: your lead view copies CUSTOM_VIEW_V.html (Team V first, same facts) | ✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done |
 | [HO-013](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/handoffs/HO-013_finished-showdown-shows-the-private-sess.md) | V → G | Finished Showdown shows the 'private session has ended, reconnect' line | ✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done |
 | [HO-014](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/handoffs/HO-014_create-code-join-on-its-own-connect-play.md) | V → G | Create code / Join on its own Connect Players screen, never on top of Home | ✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done |
+| [HO-015](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/handoffs/HO-015_season-results-on-phone-one-clean-column.md) | V → G | Season Results on phone: one clean column (Team V's tested CSS for app.css) | ✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done |
 
 ## 🟢 G Factory
 
@@ -80,6 +87,7 @@ _Gameplay, online sync, every merge and every release (senior director)._ Worker
 | 1017 | 1017 · G Gameplay hunt 1: shared season flow across devices — GPT Q&A team, Astra Work (Sol Work if out). Report only (sweeps/hunt-1017.md); the lead turns findings into fix jobs. | 🟩 Sol Work mode | ready | Nik types it in the Q&A team project |
 | 1018 | 1018 · G Gameplay hunt 2: sessions, pairing and reconnect — GPT Q&A team, Sol Work. Report only (sweeps/hunt-1018.md); the lead turns findings into fix jobs. | 🟩 Sol Work mode | ready | Nik types it in the Q&A team project |
 | 1019 | 1019 · G Gameplay hunt 3: entries, saves and career numbers — GPT Q&A team, Sol Work. Report only (sweeps/hunt-1019.md); the lead turns findings into fix jobs. | 🟩 Sol Work mode | ready | Nik types it in the Q&A team project |
+| 1020 | 1020 · G Season Results patch: one column on phone, no overlap on desktop — GPT green, one run. Team V phone CSS (HO-015) + desktop window below the scoring card + reconciliation look. Team V 1012 checks the look. | 🟩 Sol Work mode | ready | Nik types it in the gameplay project (Work mode) |
 
 **🗂 Later**
 
@@ -99,7 +107,7 @@ _Visuals and presentation: design changes, art, screen skins (assistant director
 
 ## 📡 Relay
 
-**Health:** ✅ working · direct wake: Team G ✅, Team V ✅ · 29 messages · 4 open hand-offs, 10 done · **[every message in full: RELAY.md](RELAY.md)**
+**Health:** ✅ working · direct wake: Team G ✅, Team V ✅ · 29 messages · 5 open hand-offs, 10 done · **[every message in full: RELAY.md](RELAY.md)**
 
 Replies owed: Team G none · Team V G2V-015, G2V-016.
 
@@ -174,7 +182,7 @@ Latest:
 ## Every bug report
 
 
-> Updated **Mon 5 Oct, 9:37 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
+> Updated **Mon 5 Oct, 9:39 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
 
 | 🔓 Open | 🔴 Top priority | 🔧 Fixing or waiting for release | ✅ Fixed and live |
 | :---: | :---: | :---: | :---: |
@@ -192,8 +200,15 @@ Latest:
 
 <sub>Percent = finished steps weighted by typical step time; finish times are estimates ([how](ETA_STUDY.md)).</sub>
 
-> [!NOTE]
-> No job is reporting progress right now. A job shows here once its PR description carries a progress block.
+🏁 no finish time yet (not enough data)
+
+### 🟩 Sol Work mode · 1 job
+
+**Job 1015 · Connect Players screen: create code / join off Home · 0.0000 %** · -1 of 5 steps · updated Mon 5 Oct, 9:40 PM  
+⚽▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️ 🥅  
+🏁 **Likely finish:** not enough data  
+> **Now:** step 0 of 5  
+> **Left:** step 1 → step 2 → step 3 → step 4 → step 5
 
 <details>
 <summary><b>✅ Closed: 14</b> (11 live in the game) · click to open</summary>

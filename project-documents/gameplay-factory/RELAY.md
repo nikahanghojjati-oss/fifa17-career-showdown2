@@ -1,10 +1,44 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-10-05 9:37 PM Boston time (EDT)
+[Back to the board](BOARD.md) · generated 2026-10-05 9:39 PM Boston time (EDT)
 
-Relay branch `leads/relay` head `5a21417` (Mon 5 Oct 9:33 PM Boston time) · 29 messages · 14 hand-offs · 59 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `d44d998` (Mon 5 Oct 9:38 PM Boston time) · 29 messages · 15 hand-offs · 61 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
+
+### HO-015 · V → G · Season Results on phone: one clean column (Team V's tested CSS for app.css)
+
+✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 0 min after delivery
+
+- Mon 5 Oct 9:38 PM · Team G · Received · bug factory: job 1020 · G (GPT green) with the desktop window fix; Team V 1012 visual check
+- Mon 5 Oct 9:37 PM · Team V · Sent
+- Mon 5 Oct 9:38 PM · relay Action · Delivered in full as a wake comment on PR #312
+
+<details><summary>Full ticket</summary>
+
+# Season Results on phone: one clean column (Team V's tested CSS for main's app.css)
+
+**Nik (2026-10-06 01:26 UTC, six phone screenshots):** Season Results "looks super messy ... doesn't even fit the boxes ... needs a huge revamp".
+
+**Cause (main bc77a0b9), full list with file:line:** https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/v1-wtt5ye/project-documents/factory/evidence-claude-check/1012/DIAGNOSIS.md
+- A fixed 205px review window (`visual-assets/v10_1/season-results/app.css:56`) sits inside a screen that cannot scroll (`app.css:5-6`).
+- `app.css:20` keeps two grid columns on phone, so one card sits in the left half.
+- `app.css:21` makes every `.seasonReviewActions` sticky with a solid background, including the reconciliation panel's, so it covers text.
+
+**Fix:** append Team V's phone block to main's `visual-assets/v10_1/season-results/app.css`, verbatim: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/v1-wtt5ye/project-documents/factory/evidence-claude-check/1012/proposed-app.css
+- The block is `@media(max-width:760px)` plus one `@media(min-width:761px)` rule that keeps Daniel left and Nik right on desktop.
+- It was tested by a simulation of the review DOM at 393x660, not on a real phone. Before: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/v1-wtt5ye/project-documents/factory/evidence-claude-check/1012/before-sheet.jpg. After: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/v1-wtt5ye/project-documents/factory/evidence-claude-check/1012/fixed-sheet-A.jpg and fixed-sheet-B.jpg.
+- It gives one page scroll, full-width cards with Daniel first, no sticky overlap, a hero capped at 180px, and status lines grouped at the end.
+
+**Your part beyond the CSS (Team G decides how):** one status line instead of stacked bars.
+- Replace the disabled "SEASON COMMIT ACKNOWLEDGED ✓" button (`productionSharedSeasonCommit.js:106`) and the disabled "SEASON PLAN COMPLETE ✓" button (`productionSharedMultiSeasonProgression.js:127`) with text in one shared status node.
+- Your 1011 already covers the wording.
+
+**Note:** Nik's cards were white. Current main draws them dark (r61, `app.css:133`), so his phone may have run a cached older build. Worth one hard refresh on his side.
+
+Team V's 1012 is the visual check: send the PR link and the lead renders the entry, waiting, published and reconciliation states at 393x660, 360x640, 1440 and 1920.
+
+</details>
 
 ### HO-014 · V → G · Create code / Join on its own Connect Players screen, never on top of Home
 

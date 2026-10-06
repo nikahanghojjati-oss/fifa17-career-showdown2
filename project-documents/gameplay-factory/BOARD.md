@@ -1,10 +1,10 @@
 # Bug hunt board
 
-Updated Mon 5 Oct, 9:37 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
+Updated Mon 5 Oct, 9:39 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r62** (main `bc77a0b`, Mon 5 Oct 9:18 PM)
 
-🐕 **Barking: POS20 has waited 3 min for a machine; POS20 has waited 2 min for a machine; POS20 on #312 has waited 2 min for a machine.** · Gate #396: L1✓ L2✓ L3… L4✓ L5✗ L6✓ · seal pending · POS20 #396 12/16
+🐕 **Barking: Showdown Gate on #396 has waited 19 min for a machine; POS20 has waited 7 min for a machine; POS20 has waited 6 min for a machine.** · Gate #396: L1✓ L2✓ L3✓ L4✓ L5✗ L6✓ · seal pending · POS20 #396 12/16
 
 ## Needs you
 
@@ -19,6 +19,7 @@ Updated Mon 5 Oct, 9:37 PM Boston time. Bug hunting only, no new features until 
 - **1017** Gameplay hunt 1: shared season flow across devices. Type 1017 in the Q&A team project to start it.
 - **1018** Gameplay hunt 2: sessions, pairing and reconnect. Type 1018 in the Q&A team project to start it.
 - **1019** Gameplay hunt 3: entries, saves and career numbers. Type 1019 in the Q&A team project to start it.
+- **1020** Season Results patch: one column on phone, no overlap on desktop. Type 1020 in the gameplay project (Work mode) to start it.
 - **V-1006** Final Winner: last season's score block. Type 1006 in a new Showdown visual chat to start it.
 
 ## Team G
@@ -33,6 +34,7 @@ Updated Mon 5 Oct, 9:37 PM Boston time. Bug hunting only, no new features until 
 | 🟦 Sol chat | **1001** | Home desktop tile icons: bigger, inside the tile, never on the text | in release |
 | 🟦 Sol chat | **1003** | Transfer War: main's copy of Team V's early-end string matches (HO-010) | in release |
 | 🟦 Sol chat | **1004** | Rule Book: remove the useless 01-06 side number rail (desktop and phone) | with worker |
+| 🟩 Sol Work mode | **Job 1015** | Connect Players screen: create code / join off Home | step 0 of 5 · 0.0000 % |
 
 **Up next**
 
