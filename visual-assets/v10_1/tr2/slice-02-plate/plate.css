@@ -1309,3 +1309,87 @@ html[data-motion-reduced="true"] .stage :is(.tw-guess-flight, .tw-guess-wax, .tw
   }
   .phone-hero-art[data-heroes="off"] .phone-hero { display: none; }
 }
+
+
+/* JOB-1016 (Team V, Nik 2026-10-06): Transfer War phone revamp. Phone only; the desktop plate is untouched.
+   1) Both managers are re-cut from the locked plate (phonemap.json outlines now follow the real people, so no face is
+      cut or blurred) and sit at one plate scale --tw-s: Daniel LEFT, Nik RIGHT, never mirrored, faces apart.
+   2) The primary action (REQUEST EARLY END / LOCK GUESSES / LOCK MY SIGNINGS) stands on the plate directly above
+      the HOME / REFRESH footer. It sat below the footer, and the .panel.own clip-path clipped it away (1007 rule). */
+@media (max-width: 760px) and (orientation: portrait) {
+  .panel.own, .rules-card { clip-path: none; }
+
+  .phone-hero-art {
+    /* plate px -> css px. Width rule: both heads fit side by side; window rule: head + shoulders fit above the band. */
+    --tw-s: min(calc(100vw * .001629), calc((var(--tw-window, 55svh) - 52px) / 300));
+    --tw-top: calc(max(8px, env(safe-area-inset-top)) + 40px);
+  }
+  .phone-hero { transform: none; }
+  /* on tall phones the stadium picture fades out where the two figures end (no desk / mug under them) */
+  .phone-hero-bg {
+    -webkit-mask-image: linear-gradient(to bottom, #000 calc(var(--tw-top) + 434 * var(--tw-s) - 70px), transparent calc(var(--tw-top) + 434 * var(--tw-s) + 6px));
+            mask-image: linear-gradient(to bottom, #000 calc(var(--tw-top) + 434 * var(--tw-s) - 70px), transparent calc(var(--tw-top) + 434 * var(--tw-s) + 6px));
+  }
+  /* hero (both faces + shoulders) is at most about 40% of the screen; the spare height stays with the plate */
+  .scene { max-height: calc(40svh + var(--band-h)); }
+  /* face centres: Daniel (plate x 563) at 24.7% of the width, Nik (plate x 1170) at 75.6% */
+  .phone-hero-daniel {
+    height: calc(434 * var(--tw-s));
+    top: var(--tw-top);
+    left: calc(24.7vw - 313 * var(--tw-s));
+    z-index: 3;
+    -webkit-mask-image: linear-gradient(to bottom, #000 78%, transparent 100%);
+            mask-image: linear-gradient(to bottom, #000 78%, transparent 100%);
+  }
+  .phone-hero-nik {
+    height: calc(434 * var(--tw-s));
+    top: calc(var(--tw-top) + 10 * var(--tw-s));
+    left: calc(75.6vw - 340 * var(--tw-s));
+    z-index: 2;
+    -webkit-mask-image: linear-gradient(to bottom, #000 78%, transparent 100%);
+            mask-image: linear-gradient(to bottom, #000 78%, transparent 100%);
+  }
+
+  /* the pictures stop at the caption band: everything below it is the plain dark plate (no stadium behind the text) */
+  .phone-hero-art::after { top: var(--tw-window, 46svh); background: var(--sd-black); }
+  /* the scene-scale "WINDOW CLOSED" sign floated between the two faces; the caption band already says the phase */
+  .sign-main.closed, .sign-screen.status-board .sign-main.closed { display: none; }
+
+  /* cards: the painted 9-slice glass was stretched to a 54-71 px strip (flared corners, notches). On phone the
+     cards are a clean gold-edged glass panel; same DOM, same ids. */
+  .panel {
+    clip-path: none; border-radius: 5px;
+    background: linear-gradient(180deg, rgba(36,28,14,.94), rgba(10,9,6,.97));
+    border: 1px solid rgba(242,196,91,.50);
+    box-shadow: inset 0 1px 0 rgba(255,232,160,.30), inset 0 0 18px rgba(242,196,91,.07), 0 6px 16px rgba(0,0,0,.50), 0 0 14px rgba(242,196,91,.10);
+  }
+  .panel.own {
+    border-color: rgba(255,211,77,.78);
+    box-shadow: inset 0 1px 0 rgba(255,232,160,.42), inset 0 0 22px rgba(242,196,91,.10), 0 6px 16px rgba(0,0,0,.50), 0 0 18px rgba(242,196,91,.20);
+  }
+  .panel::before {
+    border: 1px solid rgba(242,196,91,.14); border-image: none; border-radius: 3px; inset: 3px; filter: none;
+  }
+  .panel-title { margin: 6px 12px 0 12px; }
+  .panel-title::before {
+    content: ""; flex: none; width: 20px; height: 12px;
+    background: repeating-linear-gradient(115deg, var(--sd-gold-500, #f5c518) 0 3px, transparent 3px 7px);
+    opacity: .85;
+  }
+  .panel.sealed .panel-title { margin: 0 14px 0 12px; }
+  .panel.sealed .reg.frost { inset: 7px 10px 7px 10px; }
+  .panel-body::before { inset: 3px 6px; }
+
+  /* footer at the very bottom, the primary action on the plate right above it */
+  .hud-footer {
+    bottom: 0;
+    height: calc(var(--footer-h) + env(safe-area-inset-bottom));
+    padding: 0 8px env(safe-area-inset-bottom);
+  }
+  .btn-end,
+  .phase-guess .btn-lock,
+  .phase-signing .btn-lock,
+  .btn-continue {
+    bottom: calc(var(--footer-h) + env(safe-area-inset-bottom) + var(--phone-action-gap));
+  }
+}
