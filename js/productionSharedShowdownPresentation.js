@@ -85,7 +85,7 @@
   }
   function ssjpSetSharedStatus(message){
     let node=root.document&&root.document.getElementById(STATUS_ID);const screen=root.document&&root.document.getElementById(ssjpActiveScreen());if(!screen)return;
-    if(!node){node=root.document.createElement("p");node.id=STATUS_ID;node.className="stateNote";node.setAttribute("role","status");node.setAttribute("aria-live","polite");const container=screen.querySelector(".wheelContainer")||screen.querySelector(".clubAssignmentStage")||screen;container.insertBefore(node,container.firstChild);}if(tapFailure&&tapFailureSignature!==ssjpStateSignature()){tapFailure="";tapFailureCode="";tapFailureSignature="";}ssjpText(node,tapFailure?`${tapFailure} · ${message}`:message);if(tapFailure&&tapFailureCode)node.setAttribute("data-failure-code",tapFailureCode);else node.removeAttribute("data-failure-code");
+    if(!node){node=root.document.createElement("p");node.id=STATUS_ID;node.className="stateNote";node.setAttribute("role","status");node.setAttribute("aria-live","polite");const container=screen.querySelector(".wheelContainer")||screen.querySelector(".clubAssignmentStage")||screen;container.insertBefore(node,container.firstChild);}if(tapFailure&&tapFailureSignature!==ssjpStateSignature()){tapFailure="";tapFailureCode="";tapFailureSignature="";}ssjpText(node,tapFailure?`${tapFailure}${tapFailureCode?` · Ref ${ssjpFailureRef(tapFailureCode)}`:""} · ${message}`:message);if(tapFailure&&tapFailureCode)node.setAttribute("data-failure-code",tapFailureCode);else node.removeAttribute("data-failure-code");
   }
   function ssjpRemoveForeignStatus(){const node=root.document&&root.document.getElementById(STATUS_ID);if(node&&node.closest(`#${ssjpActiveScreen()}`)==null)node.remove();}
   function ssjpSetControl(button,{label,disabled=false,hidden=false}={}){if(!button)return;if(workingControlId&&button.id===workingControlId&&!hidden){label="WORKING…";disabled=true;}button.disabled=Boolean(disabled);button.classList.toggle("hidden",Boolean(hidden));button.setAttribute("aria-disabled",String(Boolean(disabled)));if(label)ssjpText(button,label);delete button.dataset.sharedJourneyLocked;button.removeAttribute("title");}
@@ -232,7 +232,9 @@
     }
     return "done";
   }
-  // BUG-1: the player reads a plain sentence; the code stays in data-failure-code for diagnostics.
+  // BUG-1: the player reads a plain sentence first. The code follows only as a short "Ref" so a failed tap is never
+  // mistaken for an ignored one (POS10 proof SHARED_POLISHED_PRESENTATION_BROWSER), and stays in data-failure-code.
+  function ssjpFailureRef(code){return String(code).split("_").join(" ");}
   function ssjpDescribeFailure(code,message){
     const failureCode=String(code||"SHARED_SETUP_MUTATION_FAILED");
     if(setupApi&&typeof setupApi.describeFailure==="function")return setupApi.describeFailure({code:failureCode,message});

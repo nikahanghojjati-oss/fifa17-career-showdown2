@@ -73,6 +73,9 @@ function setupSandbox(mutate){
   assert.match(presentation,/setupApi\.describeFailure\(/);
   assert.match(presentation,/data-failure-code/);
   assert.doesNotMatch(presentation,/TAP AGAIN`/,"no raw code and no trailing code sentence");
+  // The code may follow the plain sentence only as a "Ref" detail (POS10 proof SHARED_POLISHED_PRESENTATION_BROWSER requires it visible).
+  assert.match(presentation,/\$\{tapFailure\}\$\{tapFailureCode\?` · Ref \$\{ssjpFailureRef\(tapFailureCode\)\}`:""\}/,"the code shows only after the plain sentence, as Ref");
+  assert.equal((presentation.match(/ssjpFailureRef\(/g)||[]).length,2,"Ref is defined once and used only for the tap-failure detail");
 
   // No other visible `.replace(/_/g," ")` of an error code in the shared production modules.
   for(const file of fs.readdirSync(path.join(root,"js")).filter(name=>/^productionShared.*\.js$/.test(name))){
