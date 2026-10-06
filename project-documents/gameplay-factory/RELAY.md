@@ -2,14 +2,15 @@
 
 [Back to the board](BOARD.md) · generated 2026-10-05 9:30 PM Boston time (EDT)
 
-Relay branch `leads/relay` head `f2f5897` (Mon 5 Oct 9:30 PM Boston time) · 29 messages · 13 hand-offs · 56 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `dba2103` (Mon 5 Oct 9:30 PM Boston time) · 29 messages · 13 hand-offs · 56 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
 ### HO-013 · V → G · Finished Showdown shows the 'private session has ended, reconnect' line
 
-✅ Sent → ✅ **Delivered** → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 1 min after delivery
 
+- Mon 5 Oct 9:30 PM · Team G · Received · bug factory: job 1014 · G (GPT green), lead verifies with the reconnect audit
 - Mon 5 Oct 9:29 PM · Team V · Sent
 - Mon 5 Oct 9:30 PM · relay Action · Delivered in full as a wake comment on PR #312
 

@@ -284,8 +284,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "00a2a03",
-  "head_boston": "Mon 5 Oct 9:29 PM",
+  "head": "dba2103",
+  "head_boston": "Mon 5 Oct 9:30 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": true,
   "open_for_g": [],
@@ -620,13 +620,13 @@
     "from": "V",
     "to": "G",
     "title": "Finished Showdown shows the 'private session has ended, reconnect' line",
-    "stage": "DELIVERED",
+    "stage": "RECEIVED",
     "pct": 0.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-013_finished-showdown-shows-the-private-sess.md",
     "worker": "sol-work",
-    "pickup_min": null,
-    "waiting_min": 1
+    "pickup_min": 1,
+    "waiting_min": null
    }
   ],
   "relay_ok": true
