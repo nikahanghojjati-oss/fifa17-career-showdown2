@@ -167,13 +167,13 @@ def q_add(it, team):
     elif status_done(n):
         q["state"] = "worker done, lead checking"
         Q["run"].append(q)
-    elif re.match(r"(with (the )?(worker|lead)|worker done|verifying|building|in progress)", st, re.I) or re.match(r"nothing to type", str(row.get("place") or ""), re.I):
+    elif re.match(r"(with (the )?(worker|lead)|worker done|verifying|building|in progress|in review|checks|ci )", st, re.I) or re.match(r"nothing to type", str(row.get("place") or ""), re.I):
         # the row's state says someone already has it (e.g. "with the lead"), so a stale "Nik types it" waits_on must not list it under Next for you
         Q["run"].append(q)
     elif (it.get("progress") or it.get("pct") is not None) and not re.search(r"waiting (for|on) Nik to type", st + " " + str(it.get("state", "")), re.I):
         # the worker's first saved step (status/JOB-NNNN.md "State: IN PROGRESS" or a PR progress block) moves the job to Running now, even before the row's waits_on is updated
         Q["run"].append(q)
-    elif w.lower().startswith("nik types") or re.search(r"waiting (for|on) Nik to type", st + " " + str(it.get("state", "")), re.I):
+    elif w.lower().startswith("nik types") or re.search(r"waiting (for|on) Nik to type", st + " " + str(it.get("state", "")), re.I) or (row.get("place") and re.match(r"(ready|next)", st, re.I)):
         q["type"] = n + (" again" if "again" in w else "")
         q["note"] = re.sub(r"^.*?\bagain\s*", "", w).strip() if "again" in w else ""
         q["where"] = row.get("place") or where(w + " " + str(it.get("state", "")), lane)
@@ -184,7 +184,7 @@ def q_add(it, team):
     elif it.get("progress") or it.get("pct") is not None or re.match(r"(with worker|worker done|verifying|building|in progress)", st, re.I):
         Q["run"].append(q)
     else:
-        q["after"] = re.sub(r"^after ", "", w)
+        q["after"] = ("after " + re.sub(r"^after ", "", w)) if w else short_state(st)
         Q["wait"].append(q)
 
 
@@ -287,10 +287,10 @@ def render(first, compact=False):
         J += [item_html(dict(q, id=q["n"], state=short_state(q.get("state", "")) or "running"), cut) for q in Q["run"]]
     if Q["next"]:
         J.append('<span class="k">Next for you, in this order</span>')
-        J += [f'{sq(q["lane"])} <b>{e(q["n"])}</b> {e(q["title"][:cut])}<br>&nbsp;&nbsp;&nbsp;→ type <b>{e(q["type"])}</b> {e(q["where"] or "(place not given)")}' + (f' <span class="m">· {e(q["note"])}</span>' if q.get("note") else "") for q in Q["next"]]
+        J += [f'{sq(q["lane"])} <b>{e(q["n"])}</b> {e(q["title"][:cut])}<br>&nbsp;&nbsp;&nbsp;→ ' + (e(q["where"]) if re.search(r"\btype\b", q["where"] or "", re.I) else f'type <b>{e(q["type"])}</b> {e(q["where"] or "(place not given)")}') + '' + (f' <span class="m">· {e(q["note"])}</span>' if q.get("note") else "") for q in Q["next"]]
     if Q["wait"]:
         J.append('<span class="k">Waiting on something else</span>')
-        J += [f'{sq(q["lane"])} <b>{e(q["n"])}</b> {e(q["title"][:cut])} <span class="m">after {e(q.get("after", "")[:50])}</span>' for q in Q["wait"]]
+        J += [f'{sq(q["lane"])} <b>{e(q["n"])}</b> {e(q["title"][:cut])} <span class="m">{e(q.get("after", "")[:56])}</span>' for q in Q["wait"]]
     if Q["release"]:
         J.append('<span class="k">Done, in the next release</span> ' + ", ".join(e(q["n"]) for q in Q["release"]))
     H.append('<div class="card move">' + ("<br>".join(J) or "No numbered job is open.") + "</div>")
@@ -356,9 +356,9 @@ L += [f"🌐 **Live: {LV['revision']}** (main `{LV['sha']}`, {TF.bos(LV['when'])
 if Q["run"]:
     L += ["**Running now**", ""] + [f"- **{q['n']}** {q['title']} · {short_state(q.get('state', '')) or 'running'}" + (f" · {q['progress'][0]['pct']:.4f} %" if q.get("progress") else f" · {q['pct']:.0f} %" if q.get("pct") is not None else "") for q in Q["run"]] + [""]
 if Q["next"]:
-    L += ["**Next for you, in this order**", ""] + [f"{i}. **{q['n']}** {q['title']}: type **{q['type']}** {q['where'] or '(place not given)'}" + (f" · {q['note']}" if q.get("note") else "") for i, q in enumerate(Q["next"], 1)] + [""]
+    L += ["**Next for you, in this order**", ""] + [f"{i}. **{q['n']}** {q['title']}: " + (q['where'] if re.search(r"\btype\b", q['where'] or "", re.I) else f"type **{q['type']}** {q['where'] or '(place not given)'}") + (f" · {q['note']}" if q.get("note") else "") for i, q in enumerate(Q["next"], 1)] + [""]
 if Q["wait"]:
-    L += ["**Waiting on something else**", ""] + [f"- **{q['n']}** {q['title']} · after {q.get('after', '')}" for q in Q["wait"]] + [""]
+    L += ["**Waiting on something else**", ""] + [f"- **{q['n']}** {q['title']} · {q.get('after', '')}" for q in Q["wait"]] + [""]
 if Q["release"]:
     L += ["**Done, in the next release:** " + ", ".join(q["n"] for q in Q["release"]), ""]
 L += ["## Other asks", ""]

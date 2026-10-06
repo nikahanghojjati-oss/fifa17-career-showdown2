@@ -10,6 +10,7 @@ Updated Mon 5 Oct, 11:10 PM Boston time. Bug hunting only, no new features until
 
 **Running now**
 
+- **1024** Reconnect keeps stale authority after sign-out, offline or expiry · in review: PR #408, CI running
 - **1025** Terminal close recovery and closed-frame trophies (hunt 1017 H1-H3) · with the lead
 - **1026** New shared season clears last season's result fields (hunt 1017 H4) · with the lead
 - **1027** Restore keeps and checks the Save Library; career cache race (hunt 1019 H1, H2, H4) · with the lead
@@ -17,13 +18,12 @@ Updated Mon 5 Oct, 11:10 PM Boston time. Bug hunting only, no new features until
 **Next for you, in this order**
 
 1. **1011** Plain-words sweep: jargon on game screens: type **1011** in the gameplay project (normal chat), new chat · 1014, 1015 and 1020 are merged
-2. **1006** Final Winner: last season's score block: type **1006** in a new Showdown visual chat
+2. **1028** Statistics shows an abandoned-only career (hunt 1019 H5): GPT chat (normal mode), gameplay project: type 1028 · one-file fix, exact change in the ticket
+3. **1006** Final Winner: last season's score block: type **1006** in a new Showdown visual chat
 
 **Waiting on something else**
 
-- **1028** Statistics shows an abandoned-only career (hunt 1019 H5) · after 
 - **1005** Last season's score is skipped before the Final Winner · after Team V designs the combined screen (HO-011)
-- **1024** Reconnect keeps stale authority after sign-out, offline or expiry · after 
 
 **Done, in the next release:** 1001, 1003, 1004, 1009, 1014, 1015, 1020, 1021, 1023
 
