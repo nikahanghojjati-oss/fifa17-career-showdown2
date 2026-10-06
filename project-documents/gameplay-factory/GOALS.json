@@ -445,6 +445,120 @@
     },
     "sha": "b322d1fc128da94ea4a9c84829f19d46b2cccac1"
    },
+   "project-documents/gameplay-factory/sweeps/olympiad/findings/chat-1006-1334-1.json": {
+    "data": {
+     "actual": "The UI explicitly offers to lock a partial set, and both protocol/provider validators accept any guess array with length 0 through 3, so the challenge can complete with fewer than 3 guesses.",
+     "area": "02",
+     "assumptions": [
+      "The displayed rule '3 OPPONENT GUESSES' means each manager must make exactly three guesses, not merely up to three."
+     ],
+     "checked_against": [
+      "index.html:277-280",
+      "js/productionSharedTransferChallenge.js:182-190,274-275",
+      "js/sharedTransferChallenge.js:56-67",
+      "js/sparkSharedTransferChallenge.js:51-53"
+     ],
+     "expected": "The game should require 3 opponent guesses from each manager before guesses can be locked, matching the on-screen rule '3 OPPONENT GUESSES'.",
+     "fix": {
+      "change": "If the rule is exactly 3 guesses, require guess arrays to contain exactly 3 valid slots and do not allow partial-lock confirmation for guesses. Keep partial signing entry allowed because signings are explicitly 'MAX 3'. If fewer guesses are intentionally allowed, change the displayed rule to 'UP TO 3 OPPONENT GUESSES' instead.",
+      "files": [
+       "js/productionSharedTransferChallenge.js",
+       "js/sharedTransferChallenge.js",
+       "js/sparkSharedTransferChallenge.js"
+      ]
+     },
+     "id": "AREA02-GUESS-COUNT-001",
+     "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+     "root_cause": "Guess validation enforces only a maximum of 3, while production UI code treats partial guess entry as a valid lockable state.",
+     "run": "chat-1006-1334",
+     "severity": "S2",
+     "status": "likely",
+     "steps": [
+      "Start a season Transfer Challenge and run the 15-minute window to expiry, or have both managers request an early end.",
+      "At private guess entry, enter only 1 valid opponent guess and leave guesses 2 and 3 empty.",
+      "Press LOCK MY GUESSES and accept the partial-lock confirmation.",
+      "Repeat with the other manager, then enter signings and finish the challenge."
+     ],
+     "title": "Transfer challenge can lock fewer than the stated 3 opponent guesses",
+     "where": [
+      {
+       "file": "index.html",
+       "function": "#transferChallenge rules line",
+       "line": 277
+      },
+      {
+       "file": "js/productionSharedTransferChallenge.js",
+       "function": "pstcConfirmPartialLock",
+       "line": 184
+      },
+      {
+       "file": "js/productionSharedTransferChallenge.js",
+       "function": "pstcBuildGuesses",
+       "line": 188
+      },
+      {
+       "file": "js/sharedTransferChallenge.js",
+       "function": "stcNormalizeGuesses",
+       "line": 56
+      },
+      {
+       "file": "js/sparkSharedTransferChallenge.js",
+       "function": "stspNormalizeGuesses",
+       "line": 51
+      }
+     ]
+    },
+    "sha": "08945e9b7684c9c44301834ef6f908b1e6199335"
+   },
+   "project-documents/gameplay-factory/sweeps/olympiad/findings/chat-1006-1335-1.json": {
+    "data": {
+     "actual": "Because destinationIsClean is true, createCareerModeRestorePlan takes the full-library path even when saveLibraryChoice is keep-current. It writes the backup saveLibrary, clears singleton activeShowdown, and changes the summary active choice to use-backup.",
+     "area": "07",
+     "assumptions": [
+      "A clean destination has no current Save Library or singleton active Showdown.",
+      "The reviewed backup is format v2 and contains a complete Save Library with one saved Showdown."
+     ],
+     "checked_against": [
+      "js/restoreUI.js renderReview explicitly offers Keep current Save Library and Replace entire Save Library with backup.",
+      "js/restore.js applyCareerModeRestore uses the full-library candidateRaw produced by createCareerModeRestorePlan.",
+      "js/backup.js format v2 backup envelope carries the complete Save Library payload when available."
+     ],
+     "expected": "The explicit Keep current Save Library choice should leave saveLibrary null, so no saved Showdown from the backup is imported.",
+     "fix": {
+      "change": "Honor an explicit keep-current Save Library choice even on a clean destination. If clean-destination full restore is the desired default, preselect or clearly require Use backup in the UI instead of overriding Keep current inside the plan.",
+      "files": [
+       "js/restore.js",
+       "js/restoreUI.js"
+      ]
+     },
+     "id": "A07-RESTORE-KEEP-LIBRARY-IGNORED",
+     "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+     "root_cause": "The full-library condition is hasBackupLibrary && (saveLibraryChoice === \"use-backup\" || destinationIsClean), so destinationIsClean overrides the user's explicit keep-current Save Library selection.",
+     "run": "chat-1006-1335",
+     "severity": "S2",
+     "status": "likely",
+     "steps": [
+      "Start with a clean destination: saveLibrary=null, activeShowdown=null, legacyShowdowns=null, preferences=null.",
+      "Review a format v2 backup whose Save Library contains 1 saved Showdown and has an activeSaveId.",
+      "Choose Keep current active state, Keep current Legacy only, Keep current preferences, and Keep current Save Library.",
+      "Build the restore plan and apply it."
+     ],
+     "title": "Clean restore ignores Keep current Save Library choice",
+     "where": [
+      {
+       "file": "js/restore.js",
+       "function": "createCareerModeRestorePlan",
+       "line": 159
+      },
+      {
+       "file": "js/restoreUI.js",
+       "function": "renderReview",
+       "line": 137
+      }
+     ]
+    },
+    "sha": "be66cff4a15f98713f4c955da405601e0ab827af"
+   },
    "project-documents/gameplay-factory/sweeps/olympiad/findings/codex-1006-1251-1.json": {
     "data": {
      "actual": "Season 2 starts with position 1, 100 points, 100 goals and all four honours checked from season 1. Review accepts those old facts as Daniel’s season 2 result.",
@@ -951,6 +1065,94 @@
      "run": "chat-1006-1333"
     },
     "sha": "3c5d7ff73466664ed5c3a762ee1caa7f15d6736f"
+   },
+   "project-documents/gameplay-factory/sweeps/olympiad/runs/chat-1006-1334.json": {
+    "data": {
+     "area": "02",
+     "clean_confidence_pct": 82,
+     "coverage_pct": 76,
+     "date_utc": "2026-10-06T13:34:00Z",
+     "files_read": [
+      "index.html",
+      "js/sharedTransferChallenge.js",
+      "js/productionSharedTransferChallenge.js",
+      "js/sparkSharedTransferChallenge.js"
+     ],
+     "findings": [
+      "AREA02-GUESS-COUNT-001"
+     ],
+     "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+     "mode": "chat",
+     "next_focus": "On the next area 02 cycle, read the local/non-shared transfer path and any transfer input catalog code not read in this run, then re-check exact guess-count intent against the Rule Book area without reopening these files.",
+     "partial": false,
+     "run": "chat-1006-1334"
+    },
+    "sha": "29a926d4ba5b68c997aca20af16be898d1e12537"
+   },
+   "project-documents/gameplay-factory/sweeps/olympiad/runs/chat-1006-1335.json": {
+    "data": {
+     "area": "07",
+     "clean_confidence_pct": 80,
+     "coverage_pct": 72,
+     "date_utc": "2026-10-06T13:35:16Z",
+     "files_read": [
+      "js/settings.js",
+      "js/backup.js",
+      "js/restore.js",
+      "js/restoreUI.js"
+     ],
+     "findings": [
+      "A07-RESTORE-KEEP-LIBRARY-IGNORED"
+     ],
+     "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+     "mode": "chat",
+     "next_focus": "Full reset implementation behind History & Backup was outside the four-file cap; next area 07 pass should inspect that reset path first, then recheck Save Library restore choice semantics.",
+     "partial": false,
+     "run": "chat-1006-1335"
+    },
+    "sha": "80d0469d0fb56c0ac5bd3abb0b8807de4a13187c"
+   },
+   "project-documents/gameplay-factory/sweeps/olympiad/runs/chat-1006-1336.json": {
+    "data": {
+     "area": "05",
+     "clean_confidence_pct": 86,
+     "coverage_pct": 78,
+     "date_utc": "2026-10-06T13:36:00Z",
+     "files_read": [
+      "js/seasonFinalV10.js",
+      "js/seasonEngine.js",
+      "js/scoring.js",
+      "js/showdown.js"
+     ],
+     "findings": [],
+     "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+     "mode": "chat",
+     "next_focus": "On the next area 05 cycle, inspect sharedFinalReconciliation winner derivation and terminal close witness handling, which were outside this four-file chat cap.",
+     "partial": false,
+     "run": "chat-1006-1336"
+    },
+    "sha": "61163ebb85377b724098433bb34046806571bf8d"
+   },
+   "project-documents/gameplay-factory/sweeps/olympiad/runs/chat-1006-1338.json": {
+    "data": {
+     "area": "04",
+     "clean_confidence_pct": 93,
+     "coverage_pct": 62,
+     "date_utc": "2026-10-06T13:38:00Z",
+     "files_read": [
+      "js/seasonEngine.js",
+      "js/sharedMultiSeasonProgression.js",
+      "js/seasonFinalV10.js",
+      "js/showdown.js"
+     ],
+     "findings": [],
+     "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+     "mode": "chat",
+     "next_focus": "Read the production and Spark multi-season progression adapters plus their season handoff path, which were outside this four-file chat check.",
+     "partial": false,
+     "run": "chat-1006-1338"
+    },
+    "sha": "e4bdef6399fbb8108ca875fec70c09530c3ac279"
    },
    "project-documents/gameplay-factory/sweeps/olympiad/runs/codex-1006-1206.json": {
     "data": {
