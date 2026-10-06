@@ -1,0 +1,46 @@
+{
+  "id": "A07-RESTORE-KEEP-LIBRARY-IGNORED",
+  "run": "chat-1006-1335",
+  "area": "07",
+  "title": "Clean restore ignores Keep current Save Library choice",
+  "severity": "S2",
+  "status": "likely",
+  "where": [
+    {
+      "file": "js/restore.js",
+      "line": 159,
+      "function": "createCareerModeRestorePlan"
+    },
+    {
+      "file": "js/restoreUI.js",
+      "line": 137,
+      "function": "renderReview"
+    }
+  ],
+  "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+  "steps": [
+    "Start with a clean destination: saveLibrary=null, activeShowdown=null, legacyShowdowns=null, preferences=null.",
+    "Review a format v2 backup whose Save Library contains 1 saved Showdown and has an activeSaveId.",
+    "Choose Keep current active state, Keep current Legacy only, Keep current preferences, and Keep current Save Library.",
+    "Build the restore plan and apply it."
+  ],
+  "expected": "The explicit Keep current Save Library choice should leave saveLibrary null, so no saved Showdown from the backup is imported.",
+  "actual": "Because destinationIsClean is true, createCareerModeRestorePlan takes the full-library path even when saveLibraryChoice is keep-current. It writes the backup saveLibrary, clears singleton activeShowdown, and changes the summary active choice to use-backup.",
+  "root_cause": "The full-library condition is hasBackupLibrary && (saveLibraryChoice === \"use-backup\" || destinationIsClean), so destinationIsClean overrides the user's explicit keep-current Save Library selection.",
+  "checked_against": [
+    "js/restoreUI.js renderReview explicitly offers Keep current Save Library and Replace entire Save Library with backup.",
+    "js/restore.js applyCareerModeRestore uses the full-library candidateRaw produced by createCareerModeRestorePlan.",
+    "js/backup.js format v2 backup envelope carries the complete Save Library payload when available."
+  ],
+  "fix": {
+    "files": [
+      "js/restore.js",
+      "js/restoreUI.js"
+    ],
+    "change": "Honor an explicit keep-current Save Library choice even on a clean destination. If clean-destination full restore is the desired default, preselect or clearly require Use backup in the UI instead of overriding Keep current inside the plan."
+  },
+  "assumptions": [
+    "A clean destination has no current Save Library or singleton active Showdown.",
+    "The reviewed backup is format v2 and contains a complete Save Library with one saved Showdown."
+  ]
+}
