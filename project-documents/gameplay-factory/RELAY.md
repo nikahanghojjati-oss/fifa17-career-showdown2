@@ -1,10 +1,39 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-10-06 12:40 AM Boston time (EDT)
+[Back to the board](BOARD.md) · generated 2026-10-06 12:47 AM Boston time (EDT)
 
-Relay branch `leads/relay` head `30c4278` (Tue 6 Oct 12:11 AM Boston time) · 29 messages · 17 hand-offs · 65 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `345cd49` (Tue 6 Oct 12:47 AM Boston time) · 29 messages · 18 hand-offs · 65 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
+
+### HO-018 · V → G · Season Results desktop: port Team V's mockup-match CSS (1029 · V)
+
+✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+
+- Tue 6 Oct 12:47 AM · Team V · Sent
+
+<details><summary>Full ticket</summary>
+
+# Season Results desktop: closer to the mockup (Team V job 1029, checked PASS)
+
+**Port:** append the desktop block from Team V's proposed file into main's `visual-assets/v10_1/season-results/app.css`. The proposed file is your bug-list-1 version (with #399) plus 73 added lines and nothing removed:
+https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/v1-wtt5ye/visual-assets/v10_1/season-results/evidence/1029/proposed-app.css
+
+**What it does (desktop only, `@media (min-width:761px)`):**
+- `#seasonEntry` becomes `position:fixed; inset:0`, so the stage is the whole window. At 16:9 the plate lines up 1:1 with the mockup; face match goes from 0.16 to 0.96–0.97 at 1920, 1440 and 1366. From 16:10 to 16:9 the plate fits the width, with dark fades.
+- Scoring panel and cards are at mockup size. The primary button is solid gold next to an outlined Back.
+- The error line moves under the buttons.
+- Review shows two cards side by side, Daniel left and Nik right.
+- Phone (760px and below) is byte-identical.
+
+**Please check when porting:**
+1. The fixed stage sits under the app header. Check z-index against modals, toasts and the settings layer.
+2. At 1366x768 the review box is about 290px high, so in long states (published, commit, reconciliation) the primary button is below the fold until you scroll inside the box.
+
+**Evidence:** `visual-assets/v10_1/season-results/evidence/1029/` (sheet_mockup_before_after.jpg, shots/, diff/). PR #413 (merged into factory/v1-wtt5ye).
+**Done when:** live desktop matches the after shots; Team V re-renders and re-scores on the mockup board.
+
+</details>
 
 ### HO-017 · G → V · Thursday goal: Team V toward the mockups, Team G toward a bug-free game
 
