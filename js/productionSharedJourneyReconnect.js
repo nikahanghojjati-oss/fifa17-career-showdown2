@@ -83,6 +83,7 @@
   function pjrNotConnectedStep(role){const other=pjrManagerName(role==="playerTwo"?"playerOne":"playerTwo");return `Tap RECONNECT SESSION, then HOST and send the code to ${other}, or JOIN ${other}'s new code.`;}
   function pjrShowdownClosed(){try{const t=root.CareerModeProductionSharedTerminalClose?.getState?.();return Boolean(t&&t.phase==="CLOSED"&&t.terminal===true);}catch(_){return false;}}\n  function pjrMessage(value){
     if(!value)return "";
+    if(value.phase==="FRESH_SESSION_REQUIRED"&&pjrShowdownClosed())return "SHOWDOWN COMPLETE · Open the Final Winner or History from Home.";
     if(value.phase==="OFFLINE_HOLD")return "SHARED JOURNEY HELD OFFLINE · Provider authority is not being claimed. Reconnect to verify the preserved journey before continuing.";
     if(value.phase==="RECOVERY_PENDING")return "SHARED JOURNEY RECOVERY PENDING · Resolve the exact private-session operation before shared state can be authoritative again.";
     if(value.phase==="FRESH_SESSION_REQUIRED"&&!value.sessionId)return `NOT CONNECTED ON THIS PHONE · No private session here (for example after a reload). ${pjrNotConnectedStep(value.managerRole)}`;
