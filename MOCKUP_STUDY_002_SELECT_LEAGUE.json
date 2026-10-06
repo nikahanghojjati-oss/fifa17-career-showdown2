@@ -1,0 +1,262 @@
+{
+  "study_id": "MOCKUP_STUDY_002_SELECT_LEAGUE",
+  "date": "2026-10-06",
+  "branch": "study/mockup-lab",
+  "mode": "chat",
+  "scope": "study_only_no_game_code_changes",
+  "screen": "Select League",
+  "status": "complete",
+  "source": {
+    "goal_mockup": {
+      "file": "visual-assets/goals/GOAL_LEAGUE_LOGOS_BLURRED.jpg",
+      "ref": "claude-cloud/hlc-goals",
+      "sha": "fb17b6bfa523a9b7eddf5583a2978e3352bb8855",
+      "width": 1536,
+      "height": 864
+    },
+    "curated_mockups": [
+      {
+        "file": "Career Mode Showdown: Select League.png",
+        "width": 1672,
+        "height": 941
+      },
+      {
+        "file": "CM 17 Select League Showdown.png",
+        "width": 1672,
+        "height": 941
+      },
+      {
+        "file": "Gold-Black Career Mode League Selector.png",
+        "width": 1672,
+        "height": 941
+      }
+    ],
+    "implementation_capture": {
+      "file": "R8_43_DESKTOP_1366_READY.png",
+      "width": 1366,
+      "height": 768,
+      "status": "ASSEMBLED_PROPOSAL / BROWSER_PROVEN / OWNER REVIEW PENDING"
+    },
+    "mobile_capture": {
+      "file": "R8_42_MOBILE_390_READY.png",
+      "stored_width": 780,
+      "stored_height": 1688,
+      "css_width": 390,
+      "css_height": 844,
+      "dpr": 2
+    },
+    "production_main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+    "production_files_checked": [
+      "index.html#leagueWheelScreen",
+      "js/leagueWheel.js",
+      "css/app.css"
+    ]
+  },
+  "measurement": {
+    "python_attempted": true,
+    "python_current_capture_measured": true,
+    "goal_python_materialized": false,
+    "goal_geometry_source": "HLC League V1 R3 brief",
+    "target_1536x864": {
+      "wheel_center": [
+        762,
+        496
+      ],
+      "wheel_radius": 240,
+      "wheel_bounds": [
+        522,
+        256,
+        1002,
+        736
+      ],
+      "finger_keep_rect": [
+        440,
+        425,
+        560,
+        480
+      ],
+      "title_y_percent": [
+        10,
+        28
+      ],
+      "actions_y_percent": [
+        86,
+        93
+      ]
+    },
+    "target_mapped_1366x768": {
+      "scale": 0.8893,
+      "wheel_center": [
+        677.6,
+        440.9
+      ],
+      "wheel_radius": 213.4,
+      "wheel_bounds": [
+        464.2,
+        227.5,
+        891.1,
+        654.3
+      ],
+      "primary_width": 300,
+      "primary_height": 56,
+      "action_band_y": [
+        660,
+        714
+      ]
+    },
+    "candidate_python_1366x768": {
+      "wheel_center": [
+        658.2,
+        431.4
+      ],
+      "wheel_radius": 226.3,
+      "primary_button_bounds": [
+        434,
+        684,
+        737,
+        733
+      ],
+      "primary_button_size": [
+        303,
+        49
+      ]
+    },
+    "candidate_delta": {
+      "wheel_center_x_px": -19.4,
+      "wheel_center_y_px": -9.5,
+      "wheel_radius_px": 12.9,
+      "wheel_diameter_percent_larger": 6,
+      "primary_button_top_vs_target_band_px": 24,
+      "primary_button_height_px": -7
+    }
+  },
+  "steps": [
+    {
+      "step": 1,
+      "name": "target_and_product_truth",
+      "summary": "Cinematic night-stadium league draw; current product order, original league marks, current chrome and behavior override stale goal details."
+    },
+    {
+      "step": 2,
+      "name": "hierarchy",
+      "summary": "Title, wheel/pointer, rivalry managers, wheel state, primary action, back action, then world dressing."
+    },
+    {
+      "step": 3,
+      "name": "macro_composition",
+      "summary": "Central wheel framed by Daniel left and Nik right, title above, compact actions below."
+    },
+    {
+      "step": 4,
+      "name": "geometry",
+      "summary": "Target wheel center/radius from HLC brief mapped to Tier-S 1366x768; R8.43 measured with Python."
+    },
+    {
+      "step": 5,
+      "name": "typography",
+      "summary": "Goal uses rough gold brush title and condensed game UI type; R8.43 is smoother/bevelled, production main is generic."
+    },
+    {
+      "step": 6,
+      "name": "color_depth",
+      "summary": "Dark glass, metallic gold and stadium rim light; production main remains a flat bright panel/spinner."
+    },
+    {
+      "step": 7,
+      "name": "character_staging",
+      "summary": "Daniel left pointing over rim, Nik right thinking; faces/hands protected; production main has no manager staging."
+    },
+    {
+      "step": 8,
+      "name": "responsive_interaction",
+      "summary": "Phone must recompose around a 220-250 CSS px wheel with no scroll at 360x640 while preserving main's race-safe wheel state machine."
+    },
+    {
+      "step": 9,
+      "name": "live_gap",
+      "summary": "No fresh user screenshot. Production main is a critical composition gap; R8.43 is much closer but has precision, mark-language, title and mobile gaps."
+    }
+  ],
+  "step9_deltas": [
+    {
+      "area": "world_stage",
+      "production_priority": "critical",
+      "candidate_priority": "low",
+      "target": "night stadium full-screen cinematic",
+      "production": "generic panel",
+      "candidate": "stadium world present"
+    },
+    {
+      "area": "managers",
+      "production_priority": "critical",
+      "candidate_priority": "low-medium",
+      "target": "Daniel left pointing, Nik right thinking",
+      "production": "absent",
+      "candidate": "present"
+    },
+    {
+      "area": "wheel_geometry",
+      "production_priority": "high",
+      "candidate_priority": "high",
+      "target": "mapped center 677.6,440.9 and radius 213.4 at 1366x768",
+      "candidate": "center 658.2,431.4 and radius 226.3"
+    },
+    {
+      "area": "wheel_material",
+      "production_priority": "critical",
+      "candidate_priority": "low",
+      "target": "dark glass with metallic gold fixed selected wedge",
+      "production": "bright conic wheel and white label cards",
+      "candidate": "close dark/gold construction"
+    },
+    {
+      "area": "league_marks",
+      "production_priority": "high",
+      "candidate_priority": "high",
+      "target": "original marks in monochrome pale/black-gold state language",
+      "production": "text-only wheel labels",
+      "candidate": "multicolour marks"
+    },
+    {
+      "area": "title",
+      "production_priority": "high",
+      "candidate_priority": "high",
+      "target": "rough gold brush SELECT LEAGUE",
+      "production": "generic h2",
+      "candidate": "large gold bevelled/italic"
+    },
+    {
+      "area": "buttons",
+      "production_priority": "high",
+      "candidate_priority": "medium",
+      "target": "side-by-side under wheel in y 86-93% band",
+      "production": "stacked full-width",
+      "candidate": "side-by-side but primary about 24px too low and 7px too short"
+    },
+    {
+      "area": "phone",
+      "production_priority": "high",
+      "candidate_priority": "high",
+      "target": "220-250 CSS px wheel and no scroll at 360x640",
+      "candidate": "roughly 355 CSS px wheel and composed around 390x844"
+    }
+  ],
+  "product_truth_conflicts": [
+    "Do not reproduce the goal's historical global navigation tabs or utility icons.",
+    "Do not restore real league logos from the historical goal.",
+    "Current main league order wins over the goal's apparent segment order.",
+    "Use project-original league marks and the later monochrome wheel direction.",
+    "Preserve current main wheel timing, accessibility, BACK lockout, persistence and selected/locked behavior."
+  ],
+  "recommended_fidelity_order": [
+    "Move production onto the cinematic stadium/manager stage instead of reskinning the flat panel.",
+    "Pin the wheel to the target plate anchor and correct R8.43's left/up/oversize drift.",
+    "Replace multicolour wheel marks with the monochrome pale-on-dark and near-black-on-gold language.",
+    "Restore rough brush title character while keeping semantic DOM text.",
+    "Register Daniel's fingertip precisely above the rim.",
+    "Move desktop actions upward and restore intended control height.",
+    "Use current shared chrome instead of historical goal navigation.",
+    "Recompose phone around a 220-250 CSS px wheel and prove 360x640 no-scroll and 375x553 primary-action visibility."
+  ],
+  "conclusion": "R8.43 is already close as a visual proposal and mainly needs precision, title-language, monochrome-mark and mobile corrections. Current production main is still the old flat spinner/panel composition, so the live-production fidelity gap remains critical."
+}
