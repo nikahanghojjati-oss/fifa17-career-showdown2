@@ -749,10 +749,6 @@ body {
   opacity: .06;
 }
 
-#stage-root[data-spotlight="daniel"] .finalWinnerManagerShade--nik,
-#stage-root[data-spotlight="nik"] .finalWinnerManagerShade--daniel {
-  opacity: 1;
-}
 
 #stage-root[data-spotlight="daniel"] .finalWinnerCutout--nik,
 #stage-root[data-spotlight="nik"] .finalWinnerCutout--daniel {
