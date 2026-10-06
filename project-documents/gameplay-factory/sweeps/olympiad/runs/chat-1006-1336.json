@@ -1,0 +1,18 @@
+{
+  "run": "chat-1006-1336",
+  "mode": "chat",
+  "date_utc": "2026-10-06T13:36:00Z",
+  "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+  "area": "05",
+  "files_read": [
+    "js/seasonFinalV10.js",
+    "js/seasonEngine.js",
+    "js/scoring.js",
+    "js/showdown.js"
+  ],
+  "findings": [],
+  "coverage_pct": 78,
+  "clean_confidence_pct": 86,
+  "next_focus": "On the next area 05 cycle, inspect sharedFinalReconciliation winner derivation and terminal close witness handling, which were outside this four-file chat cap.",
+  "partial": false
+}
