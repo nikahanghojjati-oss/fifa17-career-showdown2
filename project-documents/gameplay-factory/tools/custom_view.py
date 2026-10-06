@@ -180,6 +180,15 @@ def goal_lines():
 GOAL = goal_lines()
 
 
+def run_state(q):
+    # a running job whose row still says "ready" shows the worker's own step instead (e.g. 1028 started before the factory updated its row)
+    st = short_state(q.get("state", ""))
+    if (not st or re.match(r"(ready|next|queued)\b", st, re.I)) and q.get("progress"):
+        p = q["progress"]
+        return str((p[1] if isinstance(p[1], dict) else {}).get("current") or p[0].get("current") or "running")
+    return st or "running"
+
+
 def status_done(n):
     # status/JOB-NNNN.md "State: DONE": the worker finished and the lead hasn't verified yet; still running, not "Next for you"
     try:
@@ -320,7 +329,7 @@ def render(first, compact=False):
     J = []
     if Q["run"]:
         J.append('<span class="k">Running now</span>')
-        J += [item_html(dict(q, id=q["n"], state=short_state(q.get("state", "")) or "running"), cut) for q in Q["run"]]
+        J += [item_html(dict(q, id=q["n"], state=run_state(q)), cut) for q in Q["run"]]
     if Q["next"]:
         J.append('<span class="k">Next for you, in this order</span>')
         J += [f'{sq(q["lane"])} <b>{e(q["n"])}</b> {e(q["title"][:cut])}<br>&nbsp;&nbsp;&nbsp;→ ' + (e(q["where"]) if re.search(r"\btype\b", q["where"] or "", re.I) else f'type <b>{e(q["type"])}</b> {e(q["where"] or "(place not given)")}') + '' + (f' <span class="m">· {e(q["note"])}</span>' if q.get("note") else "") for q in Q["next"]]
