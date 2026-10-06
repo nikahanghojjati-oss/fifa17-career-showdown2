@@ -814,12 +814,13 @@
      "group": "Bug list 1",
      "title": "1015 · G Connect Players screen: create code / join off Home",
      "lane": "green",
-     "state": "with worker (round 3)",
+     "state": "merged into bug-list-1 (e9615a7)",
      "waits_on": "GPT green round 3 (same chat, Work mode)",
      "details": "GPT green, one run. HO-014: pair panel moves from Home to its own CONNECT PLAYERS screen (Team V SJ design). Pairing logic unchanged; lead runs pairing audits.",
      "order": 1,
      "place": "in the gameplay project (Work mode), same chat",
-     "note": "round 3"
+     "note": "round 3",
+     "archived": true
     },
     {
      "id": "1017",
@@ -859,7 +860,7 @@
      "group": "Bug list 1",
      "title": "1020 · G Season Results patch: one column on phone, no overlap on desktop",
      "lane": "green",
-     "state": "ready",
+     "state": "with the lead (PR #399, Team V grid fix pushed, CI running)",
      "waits_on": "Nik types it in the gameplay project (Work mode)",
      "details": "GPT green, one run. Team V phone CSS (HO-015) + desktop window below the scoring card + reconciliation look. Team V 1012 checks the look.",
      "order": 2,
@@ -876,6 +877,16 @@
      "order": 6,
      "place": "nothing to type: the lead does it in a Claude thread",
      "archived": true
+    },
+    {
+     "id": "1022",
+     "group": "Bug list 1",
+     "title": "Connect Players: match Team V's start-join design (1015 follow-up)",
+     "lane": "claude",
+     "state": "with the lead (Claude helper building)",
+     "waits_on": "",
+     "order": 6,
+     "details": "Team V check on #397: desktop shows Nik twice; phone title, Back position and bottom nav; yellow primary buttons."
     }
    ]
   },
