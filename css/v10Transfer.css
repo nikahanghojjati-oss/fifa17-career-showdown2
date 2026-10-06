@@ -131,3 +131,20 @@
   #transferChallenge .tw-host .phase-signing .btn-lock,
   #transferChallenge .tw-host .btn-continue { bottom: calc(var(--footer-h) + env(safe-area-inset-bottom) + var(--phone-action-gap)); }
 }
+
+/* JOB-1031: phone signing entry. The Team V world is a fixed 100dvh box with hidden overflow, so on short phones the
+   Nik card ran under the fixed LOCK MY SIGNINGS and footer. The signing form now scrolls inside its own area, which
+   ends above the action button; the footer row and the button stay fully visible and every control stays in order. */
+@media (max-width: 760px) and (orientation: portrait) {
+  #transferChallenge .tw-host .stage[data-phase="SIGNING_ENTRY"] .world {
+    height: calc(100dvh - var(--phone-footer) - var(--phone-action-h) - (var(--phone-action-gap) * 2));
+    padding-bottom: var(--phone-gap);
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+  /* The hero window is the flexible part: it keeps its full size when there is room and gives way first on short
+     phones, so the form normally fits without scrolling. */
+  #transferChallenge .tw-host .stage[data-phase="SIGNING_ENTRY"] .scene { min-height: 72px; }
+}
