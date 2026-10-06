@@ -63,9 +63,9 @@
     "data": {
      "area": "06",
      "run": "codex-1006-1313",
-     "started_utc": "2026-10-06T13:13:27.817Z"
+     "started_utc": "2026-10-06T18:04:53.965Z"
     },
-    "sha": "b9cf846e8f60f5dd336f5773588952d8152ec9b4"
+    "sha": "6a3014d9bfbffb1da750f8e6cc87c48b50a6bdd5"
    },
    "project-documents/gameplay-factory/sweeps/olympiad/findings/chat-1006-0418-1.json": {
     "data": {
@@ -1030,6 +1030,173 @@
      ]
     },
     "sha": "58de2e5b4ccdb79b6e2e4d6d6e864adac8cf01e2"
+   },
+   "project-documents/gameplay-factory/sweeps/olympiad/findings/codex-1006-1312-1.json": {
+    "data": {
+     "actual": "The season-10 game disappears. Only the old backup game remains, at season 2 with one played season and a 0-0 total. Reload keeps the wrong result.",
+     "area": "07",
+     "assumptions": [
+      "Daniel and Nik play fairly; no altered guesses, scores or rule exploits are needed.",
+      "Game records are prepared with the game's own season-score and save helpers. Backup downloads, choice boxes and Apply are played through the real screens in Chromium.",
+      "The downloaded backup is valid and was made by this game. The game files checked match the recorded main version.",
+      "The existing keep-current code and tests were checked first. They handle the preview correctly; they do not test this full Apply path."
+     ],
+     "expected": "Both saved games stay as they were. The current game stays at season 10 with nine played seasons and a 9-9 total.",
+     "fix": {
+      "change": "Pass completeRaw, including saveLibrary, to createCareerModeRestorePlan when Apply builds the final plan. Keep the existing checks before and after Apply. Use the failing screen test to verify that keep-current leaves all games and season progress unchanged.",
+      "files": [
+       "js/restore.js"
+      ]
+     },
+     "id": "codex-1006-1312-keep-current",
+     "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+     "root_cause": "The preview checks all saved games. Apply builds its final plan using a smaller snapshot that leaves out the Save Library. The plan mistakes the current game for an empty game and restores the entire older backup, despite the keep-current choices. Backup checks, change-after-review checks and the final write check do not catch the wrong choice.",
+     "run": "codex-1006-1312",
+     "script": "project-documents/gameplay-factory/sweeps/olympiad/test/codex-1006-1312-keep-current.cjs",
+     "script_output": "Preview: RESTORE PLAN READY | Save Library stays local · active stays local · Legacy stays local · preferences stay local · no storage rewrite currently required.\nExpected: current season-10 game and every saved game remain unchanged.\nBefore: {\"games\":[1780000000101,1780000000102],\"season\":10,\"seasonsPlayed\":9,\"total\":{\"playerOne\":9,\"playerTwo\":9}}\nActual: {\"games\":[1780000000101],\"season\":2,\"seasonsPlayed\":1,\"total\":{\"playerOne\":0,\"playerTwo\":0}}\nAfter reload: {\"games\":[1780000000101],\"season\":2,\"seasonsPlayed\":1,\"total\":{\"playerOne\":0,\"playerTwo\":0}}\nAssertionError [ERR_ASSERTION]: Keep current must leave all games and progress unchanged\n\nfalse !== true\n\n    at /workspace/fifa17-career-showdown2/project-documents/gameplay-factory/sweeps/olympiad/test/codex-1006-1312-keep-current.cjs:50:9\n\nExit code: 1 (expected result assertion fails).",
+     "severity": "S1",
+     "status": "confirmed",
+     "steps": [
+      "Have a three-season Showdown with season 1 saved. Open Settings, Open History & Backup, and Export Backup.",
+      "Start another ten-season Showdown and finish nine seasons. The current game is at season 10 with a 9-9 total; both games are saved.",
+      "Choose the older downloaded backup and press Review Restore.",
+      "Choose Keep current for Active Showdown, Legacy History, Preferences and Save Library.",
+      "Read the preview: Save Library stays local; active stays local; no storage rewrite currently required.",
+      "Press Apply Restore and confirm. Reload the game."
+     ],
+     "title": "Keep current restore removes the current Showdown and loses season progress",
+     "where": [
+      {
+       "file": "js/restore.js",
+       "function": "applyCareerModeRestore",
+       "line": 283
+      },
+      {
+       "file": "js/restore.js",
+       "function": "createCareerModeRestorePlan",
+       "line": 144
+      },
+      {
+       "file": "js/restoreUI.js",
+       "function": "refreshPlan",
+       "line": 108
+      }
+     ]
+    },
+    "sha": "d7c18a87d0e9136454557f2fc228e4e3b380c52d"
+   },
+   "project-documents/gameplay-factory/sweeps/olympiad/findings/codex-1006-1312-2.json": {
+    "data": {
+     "actual": "One backup Showdown is brought back and selected as the current game despite every choice saying Keep current.",
+     "area": "07",
+     "assumptions": [
+      "Daniel and Nik play fairly; no altered guesses, scores or rule exploits are needed.",
+      "Game records are prepared with the game's own season-score and save helpers. Backup downloads, choice boxes and Apply are played through the real screens in Chromium.",
+      "The downloaded backup is valid and was made by this game. The game files checked match the recorded main version.",
+      "An explicit Keep current choice should keep an empty game empty. The preview currently warns of a full restore, but its choice boxes still promise Keep current.",
+      "This case is reproduced on a separate empty Chromium game; it does not depend on the first finding."
+     ],
+     "expected": "The empty game stays empty when all choices say Keep current. A backup game returns only when the player chooses to restore it.",
+     "fix": {
+      "change": "Require the player's restore choice before bringing back the full Save Library. If older callers may omit that choice, distinguish an omitted choice from an explicit Keep current. Use the same decision for the full-restore and active-only paths so an empty game stays empty when Keep current is selected.",
+      "files": [
+       "js/restore.js"
+      ]
+     },
+     "id": "codex-1006-1312-keep-empty",
+     "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+     "root_cause": "The full-restore rule runs whenever the game is empty, even when the player explicitly chose Keep current. It changes the active choice to use the backup. This also happens in the preview using a complete snapshot, so it is separate from the missing-snapshot problem in the first finding.",
+     "run": "codex-1006-1312",
+     "script": "project-documents/gameplay-factory/sweeps/olympiad/test/codex-1006-1312-keep-empty.cjs",
+     "script_output": "Selected: Keep current in Active Showdown, Legacy History, Preferences and Save Library.\nPreview: RESTORE PLAN READY | Save Library full restore (clean destination) · active matches backup · Legacy stays local · preferences stay local.\nExpected: the empty game stays empty.\nActual: {\"gamesRestored\":1,\"activeSaveId\":\"save_18fc954facedd4b5abbcc07a\"}\nAssertionError [ERR_ASSERTION]: Explicit keep-current choices must not bring games back after reset\n\nfalse !== true\n\n    at /workspace/fifa17-career-showdown2/project-documents/gameplay-factory/sweeps/olympiad/test/codex-1006-1312-keep-empty.cjs:44:9\n\nExit code: 1 (expected result assertion fails).",
+     "severity": "S2",
+     "status": "confirmed",
+     "steps": [
+      "Export a valid backup containing a Showdown after season 1 of 3.",
+      "Open History & Backup on an empty game, such as after Reset All Showdown Data.",
+      "Choose the downloaded backup and press Review Restore.",
+      "Choose Keep current for every choice, including Active Showdown and Save Library.",
+      "Observe that the plan changes to a full restore and active matches backup, while the choices still say Keep current.",
+      "Press Apply Restore and confirm."
+     ],
+     "title": "Keep current brings backup games back onto an empty game",
+     "where": [
+      {
+       "file": "js/restore.js",
+       "function": "createCareerModeRestorePlan",
+       "line": 159
+      },
+      {
+       "file": "js/restore.js",
+       "function": "createCareerModeRestorePlan",
+       "line": 178
+      },
+      {
+       "file": "js/restoreUI.js",
+       "function": "renderReview",
+       "line": 145
+      }
+     ]
+    },
+    "sha": "cea89f3a0e8ae8dafd7220febf66754410665ec3"
+   },
+   "project-documents/gameplay-factory/sweeps/olympiad/findings/codex-1006-1313-1.json": {
+    "data": {
+     "actual": "The game has read 1 of 1 Showdowns and correctly counts zero seasons, but Career Statistics displays CAREER HISTORY UNAVAILABLE / Career history could not be loaded. No statistics are being shown. History correctly shows no completed Showdowns; Trophy Room correctly has zero trophies.",
+     "area": "06",
+     "assumptions": [
+      "The career has no completed Showdowns and no accepted seasons in its current new Showdown.",
+      "Ending a Showdown early is the existing normal New Showdown action; it deliberately excludes the old seasons from career trophies and records.",
+      "The reproduction uses the real saved-history adapter with a successful ended-early read, then the real career model and screen. Chromium runs locally and receives that model through the existing screen entry. The full New Showdown sequence was traced in code, not driven against two live players.",
+      "The suggested fix is recorded only; no game code was changed."
+     ],
+     "expected": "Career Statistics shows its empty-season message: No completed record yet. The ended-early Showdown contributes no seasons, trophies or points. A readable history must not be called unavailable.",
+     "fix": {
+      "change": "Map a fully readable career with zero counted seasons to the existing empty Career Statistics screen before requiring best-season and average numbers. Keep genuinely unreadable history unavailable. Keep a completed 0-0 season as real zero-point history, not empty history. Add checks for one or several early-ended Showdowns, and for early-ended plus completed Showdowns.",
+      "files": [
+       "js/careerScreensV10.js"
+      ]
+     },
+     "id": "OLY-06-EMPTY-AFTER-RESTART",
+     "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+     "root_cause": "A history containing only Showdowns ended early is marked ready because every Showdown was read. Its best season score and season averages stay null because no season counts. v10Pick requires every Career Statistics field to be a number; it rejects these normal empty-season values. toV10Frame then changes the screen to unavailable. The existing empty message handles a career with no Showdowns, but not this readable career with no counted seasons.",
+     "run": "codex-1006-1313",
+     "script": "project-documents/gameplay-factory/sweeps/olympiad/test/OLY-06-EMPTY-AFTER-RESTART.cjs",
+     "script_output": "Readable Showdowns: 1 of 1. Counted seasons: 0. History: empty.\nExpected Career Statistics: empty (no completed record yet).\nActual Career Statistics: unavailable.\nChromium: ! CAREER HISTORY UNAVAILABLE Career history could not be loaded. No statistics are being shown.\nA readable career with only an unfinished Showdown ended early has no counted seasons; it must not claim history is unavailable.\n+ actual - expected\n\n+ 'unavailable'\n- 'empty'",
+     "severity": "S3",
+     "status": "confirmed",
+     "steps": [
+      "Begin the first Showdown with three seasons. There are no earlier completed Showdowns.",
+      "End that Showdown early by choosing to start a new Showdown and accepting the game's confirmation. Do not finish a season in the new Showdown.",
+      "Open Career Statistics after the old Showdown is read as ended early.",
+      "Repeat without finishing any seasons in the old Showdown; the same result occurs.",
+      "Run node project-documents/gameplay-factory/sweeps/olympiad/test/OLY-06-EMPTY-AFTER-RESTART.cjs --browser to reproduce the saved-history state through the real history reader adapter, career totals and local Chromium screen."
+     ],
+     "title": "Career Statistics says history is unavailable after the only Showdown is ended early",
+     "where": [
+      {
+       "file": "js/careerScreensV10.js",
+       "function": "v10Pick",
+       "line": 31
+      },
+      {
+       "file": "js/careerScreensV10.js",
+       "function": "v10CareerStatistics",
+       "line": 41
+      },
+      {
+       "file": "js/careerScreensV10.js",
+       "function": "toV10Frame",
+       "line": 78
+      },
+      {
+       "file": "js/sharedCareerAnalytics.js",
+       "function": "buildCareerModel",
+       "line": 155
+      }
+     ]
+    },
+    "sha": "beb84fb4c07594c192dec659f35d0adec1e2b80b"
    },
    "project-documents/gameplay-factory/sweeps/olympiad/runs/chat-1006-0418.json": {
     "data": {
@@ -2185,6 +2352,137 @@
      "run": "codex-1006-1303"
     },
     "sha": "80b92811f8c76a7ab7f74fb18e98e270dc1766b0"
+   },
+   "project-documents/gameplay-factory/sweeps/olympiad/runs/codex-1006-1312.json": {
+    "data": {
+     "area": "07",
+     "clean_confidence_pct": 30,
+     "coverage_pct": 90,
+     "date_utc": "2026-10-06T18:08:08.146Z",
+     "files_read": [
+      "AGENTS.md",
+      "PROJECT_OPERATING_SYSTEM_POS20.json",
+      "PROJECT_OPERATING_SYSTEM_POS20.md",
+      "POS20_CURRENT_STATE.json",
+      "CURRENT_PRODUCT_GUARDS.json",
+      "NEXT_TASK.md",
+      "SHARED_SHOWDOWN_JOURNEY_READINESS.json",
+      "MILESTONE_DELIVERY_PROGRESS.json",
+      "package.json",
+      "index.html",
+      "data/leagues.js",
+      "data/transferOptions.js",
+      "js/app.js",
+      "js/storage.js",
+      "js/backup.js",
+      "js/importAnalysis.js",
+      "js/restore.js",
+      "js/restoreUI.js",
+      "js/storageTransaction.js",
+      "js/settings.js",
+      "js/legacy.js",
+      "js/saveLibraryCutover.js",
+      "js/saveLibraryFoundation.js",
+      "js/saveLibraryPersistence.js",
+      "js/saveLibraryRuntime.js",
+      "js/saveLibraryUI.js",
+      "js/showdown.js",
+      "js/showdownUI.js",
+      "js/scoring.js",
+      "js/screens.js",
+      "js/optionalModules.js",
+      "js/seasonEngine.js",
+      "js/seasonFinalV10.js",
+      "js/transferChallenge.js",
+      "js/transferSelector.js",
+      "js/rivalryLegacyV10.js",
+      "tests/support/static-server.cjs",
+      "tests/support/chromium-runtime.cjs",
+      "tests/support/run-restore-contracts.cjs",
+      "tests/browser/backup-export-audit.cjs",
+      "tests/browser/multi-save-portability-audit.cjs",
+      "tests/contracts/multi-save-portability-contracts.cjs",
+      "tests/contracts/restore-storage-contracts.cjs",
+      "tests/contracts/restore-plan-contracts.cjs",
+      "tests/contracts/restore-stale-state-contracts.cjs",
+      "tests/contracts/restore-maintenance-contracts.cjs"
+     ],
+     "findings": [
+      "codex-1006-1312-keep-current",
+      "codex-1006-1312-keep-empty"
+     ],
+     "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+     "mode": "codex",
+     "next_focus": "Fix the two Keep current restore choices, then rerun their failing Chromium tests. The separate codex-1006-1312-coverage.cjs passes 13 game checks: season 1 of 3 and a 0-0 season; season 10 of 10 and a tied total; saved history; halfway reload; downloaded backup; deliberate full restore; motion and menu settings; reset and cancellation; deleting current or completed history; halfway transfer backup/reload/restore; and damaged-backup refusal. Season records use the game's own score/save helpers; the area-07 actions use real screens. Existing restore and multi-save contract checks pass. Percentages are estimates for this area. No game code was changed.",
+     "run": "codex-1006-1312"
+    },
+    "sha": "b98ce74b96e795e567b2960acd7239bc5ce865a3"
+   },
+   "project-documents/gameplay-factory/sweeps/olympiad/runs/codex-1006-1313.json": {
+    "data": {
+     "area": "06",
+     "clean_confidence_pct": 88,
+     "coverage_pct": 90,
+     "date_utc": "2026-10-06T18:07:28.721Z",
+     "files_read": [
+      "AGENTS.md",
+      "PROJECT_OPERATING_SYSTEM_POS20.json",
+      "PROJECT_OPERATING_SYSTEM_POS20.md",
+      "POS20_CURRENT_STATE.json",
+      "CURRENT_PRODUCT_GUARDS.json",
+      "NEXT_TASK.md",
+      "SHARED_SHOWDOWN_JOURNEY_READINESS.json",
+      "MILESTONE_DELIVERY_PROGRESS.json",
+      "index.html",
+      "js/analytics.js",
+      "js/trophyRoom.js",
+      "js/statistics.js",
+      "js/legacy.js",
+      "js/careerScreenSeam.js",
+      "js/careerScreensV10.js",
+      "js/rivalryLegacyV10.js",
+      "js/rivalryLegacyV10Markup.js",
+      "js/sharedCareerAnalytics.js",
+      "js/sharedHistoryConvergence.js",
+      "js/sharedActiveShowdownAdapter.js",
+      "js/sharedClosedShowdownAdapter.js",
+      "js/sharedTerminalClose.js",
+      "js/sharedFinalReconciliation.js",
+      "js/seasonEngine.js",
+      "js/ruleBook.js",
+      "js/optionalModules.js",
+      "js/screens.js",
+      "js/v10Screens.js",
+      "js/homeScreensV10.js",
+      "js/visualIdentity.js",
+      "js/productionSharedJourneyEntry.js",
+      "js/persistentNikDanielPair.js",
+      "css/rivalryLegacyV10.css",
+      "visual-assets/v10_1/trophy-room/trophy-room.js",
+      "visual-assets/v10_1/career-statistics/career-statistics.js",
+      "visual-assets/v10_1/legacy/legacy.js",
+      "visual-assets/v10_1/legacy/legacy.css",
+      "visual-assets/v10_1/legacy/strings.json",
+      "tests/support/chromium-runtime.cjs",
+      "tests/support/static-server.cjs",
+      "tests/support/career-fixture-helpers.cjs",
+      "tests/support/data-contract-v1-fixtures.cjs",
+      "tests/browser/identity-safe-career-analytics-audit.cjs",
+      "tests/contracts/shared-career-analytics-contracts.cjs",
+      "tests/contracts/career-screens-v10-contracts.cjs",
+      "tests/contracts/v10-rivalry-legacy-contracts.cjs",
+      "tests/contracts/career-screen-seam-contracts.cjs",
+      "tests/fixtures/data-contract-v1/empty-career.json"
+     ],
+     "findings": [
+      "OLY-06-EMPTY-AFTER-RESTART"
+     ],
+     "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+     "mode": "codex",
+     "next_focus": "After fixing the empty-season message, check ending the only Showdown early from both friends' screens. Checked here: season 1 of 3; ten seasons and season 10; tied final totals; completed 0-0 seasons; perfect 11-point seasons; capped bonuses; individual trophy counts; shared records; repeat reads without double counting; career totals and averages; six completed Showdowns; desktop pages and phone selection; season-history drawers; and a reload halfway. All 61 existing Node checks passed. Local Chromium passed those score, trophy and history screens. The reload check re-read the same saved season facts through the real screen model; this area did not test the act of saving or a full two-player Showdown. Only the one reported empty-season screen problem held up. The initial History-unavailable observation was a test setup mistake and was discarded.",
+     "run": "codex-1006-1313"
+    },
+    "sha": "ad947a7544ea12c4bbce87ede953883ab62f51d5"
    }
   },
   "state": "ok"
