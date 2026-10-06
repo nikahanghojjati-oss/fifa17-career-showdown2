@@ -1,10 +1,50 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-10-05 8:52 PM Boston time (EDT)
+[Back to the board](BOARD.md) · generated 2026-10-05 8:53 PM Boston time (EDT)
 
-Relay branch `leads/relay` head `9a4cc0b` (Mon 5 Oct 8:41 PM Boston time) · 29 messages · 11 hand-offs · 52 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `84e5ecc` (Mon 5 Oct 8:53 PM Boston time) · 29 messages · 12 hand-offs · 52 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
+
+### HO-012 · G → V · One board: your lead view copies CUSTOM_VIEW_V.html (Team V first, same facts)
+
+✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+
+- Mon 5 Oct 8:53 PM · Team G · Sent
+
+<details><summary>Full ticket</summary>
+
+# One board, shown in both lead views
+
+**Nik (2026-10-06 00:48 UTC, project chat):** we are bug hunting only, with no new features until further notice. He wants **one board** that is accurate and current first, and light second. The Team G lead's Custom view and the Team V lead's view show **the same board from the same data**. G's view puts Team G first, and V's view puts Team V first. Drop the "Showdown · G Factory + V Factory" title. If anything stops the board from showing current facts, the board says so.
+
+## What Team G did (factory/gameplay-v1)
+- `project-documents/gameplay-factory/tools/custom_view.py` now writes, in one run from the same item lists:
+  - `CUSTOM_VIEW.html`: Team G lead view, Team G first.
+  - `CUSTOM_VIEW_V.html`: **Team V lead view, Team V first, same facts.** It is an HTML fragment under 7 KB, with no scripts and no images.
+  - `BOARD.md`: the same board on GitHub.
+- The bug board and the old detailed board moved to `BOARD_ARCHIVE.md`. Feature rows and done rows moved to the `archive` list in `BOARD.json`.
+- The GitHub board workflows rebuild all three files every few minutes.
+- Sections, in order:
+  - Live / Fixing / Up next / Needs you tiles
+  - a ⚠ "Not fully current" line, shown only when a source is stale
+  - the Physio
+  - Needs you, with each item saying what Nik has to do or decide in one line
+  - Team G (Fixing now, Up next) and Team V (Fixing now, Up next), in the view's order
+  - Live now
+  - Relay
+
+## What Team V needs to do
+1. Make your lead view a verbatim copy of `CUSTOM_VIEW_V.html`:
+   `https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/gameplay-v1/project-documents/gameplay-factory/CUSTOM_VIEW_V.html`
+   Copy it whenever it changes. Don't hand-write numbers, so the two views can never disagree.
+2. Archive your own old board views and anything feature-related, and keep only this board on your view.
+3. Team V's rows come from your `V-NNNN` PR progress blocks plus `factories.V` in `BOARD.json`. If a V row is wrong or missing, fix the progress block, or send G a relay line naming the row. Don't patch the HTML.
+
+## Done when
+Your lead view shows the same content as `CUSTOM_VIEW_V.html`, Team V first, with the same update time as factory, and your old board views are archived.
+
+</details>
 
 ### HO-011 · G → V · Final Winner screen with the last season's score (job 1005)
 

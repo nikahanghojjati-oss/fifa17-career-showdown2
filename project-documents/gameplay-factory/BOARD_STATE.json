@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 8:52 PM Boston time (EDT)",
+ "generated": "2026-10-05 8:53 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -315,7 +315,7 @@
   "live": {
    "sha": "e7b556c",
    "revision": "1.9.1-r62",
-   "when": "2026-10-06T00:35:12+00:00",
+   "when": "2026-10-06T00:35:12Z",
    "subject": "Release r62: bug-hunt fixes, desktop Settings no longer clipped (#390)",
    "fixes": [
     {
@@ -596,6 +596,19 @@
     "worker": "sol-chat",
     "pickup_min": 0,
     "waiting_min": null
+   },
+   {
+    "id": "HO-012",
+    "from": "G",
+    "to": "V",
+    "title": "One board: your lead view copies CUSTOM_VIEW_V.html (Team V first, same facts)",
+    "stage": "SENT",
+    "pct": 0.0,
+    "overdue": false,
+    "path": "project-documents/leads-relay/handoffs/HO-012_one-board-your-lead-view-copies-custom-v.md",
+    "worker": "opus",
+    "pickup_min": null,
+    "waiting_min": null
    }
   ],
   "relay_ok": true
@@ -667,7 +680,7 @@
   "**r62 is live.** On the laptop, close every game tab in Chrome and reopen the game; if Settings still looks clipped, do it once more."
  ],
  "now": {
-  "moving": 10,
+  "moving": 11,
   "next": 2,
   "nik": 2,
   "later": 4,
