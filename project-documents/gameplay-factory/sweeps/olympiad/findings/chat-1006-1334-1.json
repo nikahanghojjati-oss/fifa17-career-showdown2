@@ -1,0 +1,62 @@
+{
+  "id": "AREA02-GUESS-COUNT-001",
+  "run": "chat-1006-1334",
+  "area": "02",
+  "title": "Transfer challenge can lock fewer than the stated 3 opponent guesses",
+  "severity": "S2",
+  "status": "likely",
+  "where": [
+    {
+      "file": "index.html",
+      "line": 277,
+      "function": "#transferChallenge rules line"
+    },
+    {
+      "file": "js/productionSharedTransferChallenge.js",
+      "line": 184,
+      "function": "pstcConfirmPartialLock"
+    },
+    {
+      "file": "js/productionSharedTransferChallenge.js",
+      "line": 188,
+      "function": "pstcBuildGuesses"
+    },
+    {
+      "file": "js/sharedTransferChallenge.js",
+      "line": 56,
+      "function": "stcNormalizeGuesses"
+    },
+    {
+      "file": "js/sparkSharedTransferChallenge.js",
+      "line": 51,
+      "function": "stspNormalizeGuesses"
+    }
+  ],
+  "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+  "steps": [
+    "Start a season Transfer Challenge and run the 15-minute window to expiry, or have both managers request an early end.",
+    "At private guess entry, enter only 1 valid opponent guess and leave guesses 2 and 3 empty.",
+    "Press LOCK MY GUESSES and accept the partial-lock confirmation.",
+    "Repeat with the other manager, then enter signings and finish the challenge."
+  ],
+  "expected": "The game should require 3 opponent guesses from each manager before guesses can be locked, matching the on-screen rule '3 OPPONENT GUESSES'.",
+  "actual": "The UI explicitly offers to lock a partial set, and both protocol/provider validators accept any guess array with length 0 through 3, so the challenge can complete with fewer than 3 guesses.",
+  "root_cause": "Guess validation enforces only a maximum of 3, while production UI code treats partial guess entry as a valid lockable state.",
+  "checked_against": [
+    "index.html:277-280",
+    "js/productionSharedTransferChallenge.js:182-190,274-275",
+    "js/sharedTransferChallenge.js:56-67",
+    "js/sparkSharedTransferChallenge.js:51-53"
+  ],
+  "fix": {
+    "files": [
+      "js/productionSharedTransferChallenge.js",
+      "js/sharedTransferChallenge.js",
+      "js/sparkSharedTransferChallenge.js"
+    ],
+    "change": "If the rule is exactly 3 guesses, require guess arrays to contain exactly 3 valid slots and do not allow partial-lock confirmation for guesses. Keep partial signing entry allowed because signings are explicitly 'MAX 3'. If fewer guesses are intentionally allowed, change the displayed rule to 'UP TO 3 OPPONENT GUESSES' instead."
+  },
+  "assumptions": [
+    "The displayed rule '3 OPPONENT GUESSES' means each manager must make exactly three guesses, not merely up to three."
+  ]
+}
