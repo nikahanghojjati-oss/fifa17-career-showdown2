@@ -157,6 +157,95 @@
     },
     "sha": "36b78e854bfde58912fe9ae5c977c004d9fcd4d4"
    },
+   "project-documents/gameplay-factory/sweeps/olympiad/findings/chat-1006-0503-1.json": {
+    "data": {
+     "actual": "The Rules accept any 2-to-80-character lowercase hyphenated option ID and any 1-to-80-character signing name. The provider reader instead requires exact membership in the repository's canonical league/nationality sets and requires signing names to equal their trimmed form. Therefore rule-valid data can be provider-invalid. Once public phase is COMPLETED, stspRead loads both role documents and returns a provider error instead of verdicts.",
+     "area": "03",
+     "assumptions": [
+      "An entitled manager can use or modify the same browser Firestore client that the app uses; Firestore Rules, not UI code, are the authorization/integrity boundary for direct client writes.",
+      "The production deployment composes firestore.transfer-challenge-production.fragment.rules into its active Rules source, as verified in the preceding area-02 run.",
+      "The example fake league ID is absent from the repository canonical league catalog; the repro checks this against data/transferOptions.js.",
+      "No server-only mutation gateway sits between the production browser provider and these transfer documents; sparkSharedTransferChallenge uses client Firestore transactions."
+     ],
+     "disproof_attempts": [
+      "Checked the normal production UI and provider path: transfer selectors produce canonical IDs and stspNormalizeSignings rejects unknown league/nationality IDs and untrimmed names, so ordinary taps are safe. That does not protect the Firestore security boundary from a modified authenticated client.",
+      "Checked the Rules around the private/public atomic lock: they enforce actor role, active session/device authority, timestamps, slot uniqueness, public phase transition and public/private linkage, but ssjrTransferValidOptionId never checks the 36-league or 164-nationality allowlists and the signing-name rule never checks trim equality.",
+      "Checked completed-read behavior: before COMPLETED the rival role document stays unreadable, but at COMPLETED stspRead explicitly rereads with readOpponent=true and stspPrivateState invokes the stricter catalog normalization, so the malformed payload is no longer avoidable.",
+      "Checked simultaneous normal final locks: production retries one stale/permission race and converges to COMPLETED, so the ordinary race itself is not the defect.",
+      "Checked earlier olympiad findings, hunt-1017, hunt-1018, hunt-1019 and factory/gameplay-v1 BOARD.json. Hunt 1019 confirms that the provider rejects unknown catalogs, but none of those reports identifies the weaker Firestore Rules validator or the rule-valid/provider-invalid persisted state.",
+      "This chat run cannot execute the Firestore emulator, so the finding remains likely. The written Node repro statically proves the validator disagreement and is intended to be followed by an emulator write in Work mode."
+     ],
+     "expected": "Every private transfer payload that production Firestore Rules permit must satisfy the same canonical catalog and normalization contract as the normal provider reader. A non-FIFA league or nationality ID, or a signing name the reader would reject as untrimmed, must be denied before it becomes shared authority.",
+     "fix": {
+      "change": "Make the Firestore transfer validators enforce the same canonical league and nationality ID sets and the same trimmed-name invariant as sparkSharedTransferChallenge. Generate or otherwise maintain exact allowlists from the canonical transfer catalog, then regenerate the composed production Rules through the existing Rules workflow.",
+      "files": [
+       "firestore.transfer-challenge-production.fragment.rules"
+      ],
+      "test": "In the Firestore emulator, as an entitled manager with a valid active session/device, attempt direct lock-signings transactions with a fake slug-shaped league ID, fake nationality ID and an untrimmed player name; each must be denied. A canonical control signing must be accepted, and two normal final locks must still reach COMPLETED with identical readable verdicts on both manager accounts."
+     },
+     "id": "chat-1006-0503-1",
+     "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+     "player_hurt": "A validly authenticated manager can commit syntactically valid but noncanonical transfer signing data that Firestore Rules accept; when the challenge reaches COMPLETED, the normal shared reader rejects that stored role document, so both managers can lose the verdict reveal and be unable to continue the Showdown.",
+     "proof": "repro_written",
+     "reach": "rare",
+     "related": [
+      "chat-1006-0441-1"
+     ],
+     "root_cause": "The production Firestore Rules model canonical transfer IDs as a generic slug shape and signing names as only a length-bounded string, while the browser provider treats exact FIFA 17 catalog membership and trimmed names as invariants when reading authority. The write boundary is therefore weaker than the read boundary.",
+     "run": "chat-1006-0503",
+     "severity": "S1",
+     "status": "likely",
+     "steps": [
+      "Run a shared Transfer Challenge normally until both managers have locked canonical guesses and the public phase is SIGNING_ENTRY.",
+      "On the manager who will lock signings first, bypass the normal provider helper but stay authenticated on that manager's active account, device and private session. Submit the same atomic public lock-signings transition plus that manager's private role update, but put a slug-shaped leagueId that is not one of the 36 FIFA 17 transfer league IDs, for example definitely-not-a-fifa17-league.",
+      "Keep every other field rule-valid: preserve the locked guesses, use a valid nationality ID, valid slot/name/timestamps, append the public operation metadata, and satisfy the current actor/session/device linkage.",
+      "The production Rules accept the fake leagueId because their option validator checks only slug syntax and length, not membership in the canonical FIFA 17 catalog.",
+      "On the other manager's untouched client, lock normal canonical signings. The public transaction advances the challenge to COMPLETED because the rival private payload is still unreadable before completion.",
+      "Allow the normal post-lock refresh to read the completed challenge. It now must read both private role documents; sparkSharedTransferChallenge normalizes the poisoned signing against the real catalog and rejects the read."
+     ],
+     "symptoms": [
+      "A malicious or modified authenticated client can poison its own signing role document while the public ledger records a valid signing lock.",
+      "The honest rival can still perform the second signing lock because SIGNING_ENTRY reads only the honest manager's private payload.",
+      "The public ledger can reach COMPLETED while the normal completed projection is unreadable because it now requires the invalid opponent role document.",
+      "Further transfer mutations are blocked by the completed public phase, leaving the verdict/season-results handoff stuck unless remote data is repaired.",
+      "The same validator mismatch also permits an untrimmed signing name that Rules accept but the provider rejects."
+     ],
+     "title": "Firestore Rules can accept transfer inputs that the normal reader rejects",
+     "where": [
+      {
+       "file": "firestore.transfer-challenge-production.fragment.rules",
+       "function": "ssjrTransferValidOptionId",
+       "line": 5
+      },
+      {
+       "file": "firestore.transfer-challenge-production.fragment.rules",
+       "function": "ssjrTransferSigningRowValid",
+       "line": 212
+      },
+      {
+       "file": "firestore.transfer-challenge-production.fragment.rules",
+       "function": "ssjrTransferPrivateUpdateValid",
+       "line": 277
+      },
+      {
+       "file": "js/sparkSharedTransferChallenge.js",
+       "function": "stspNormalizeSignings",
+       "line": 55
+      },
+      {
+       "file": "js/sparkSharedTransferChallenge.js",
+       "function": "stspPrivateState",
+       "line": 96
+      },
+      {
+       "file": "js/sparkSharedTransferChallenge.js",
+       "function": "stspRead",
+       "line": 142
+      }
+     ]
+    },
+    "sha": "1ac0208f521fba15b4c99fd8b180ab3212ae82f5"
+   },
    "project-documents/gameplay-factory/sweeps/olympiad/runs/chat-1006-0418.json": {
     "data": {
      "area": "01",
