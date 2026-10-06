@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 8:09 PM Boston time (EDT)",
+ "generated": "2026-10-05 8:10 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -420,9 +420,9 @@
    ]
   },
   "physio": {
-   "state": "barking",
-   "line": "Barking: POS20 on #312 has waited 2 min for a machine; POS20 has waited 2 min for a machine.",
-   "gate": "POS20 #390 13/16",
+   "state": "clear",
+   "line": "All clear: every check has a machine.",
+   "gate": "POS20 #390 0/16",
    "source": "physio"
   },
   "v_headline": "Board 1 (visual package): 238 of 238 jobs done and checked",
