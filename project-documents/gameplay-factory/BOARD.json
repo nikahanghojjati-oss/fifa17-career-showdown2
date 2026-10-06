@@ -752,8 +752,6 @@
      "state": "ready",
      "waits_on": "Nik types it again in the gameplay project (normal chat) for round 2",
      "details": "js/rulesSettingsV10.js only: stop building #ruleBookIndex. Per-rule number badges stay.",
-     "type_order": 6,
-     "type_where": "Type 1004 in the gameplay project, normal chat (same chat as before): round 2",
      "order": 6,
      "place": "in the gameplay project (normal chat), same chat as before",
      "note": "round 2"
@@ -766,8 +764,7 @@
      "state": "ready",
      "waits_on": "after Team V designs the combined screen (HO-011)",
      "details": "Nik picked No tap, combined: one screen shows the last season's score and the Final Winner. Team V designs it (HO-011), then a GPT green job builds it and restores the strict final-season check.",
-     "type_order": 12,
-     "type_where": "Wait: needs Team V's 1006 first"
+     "order": 12
     },
     {
      "id": "1009",
@@ -777,8 +774,6 @@
      "state": "ready",
      "waits_on": "Nik types it in the gameplay project (normal chat)",
      "details": "GPT blue, one file: delete the loser shade rule in final-winner.css.",
-     "type_order": 5,
-     "type_where": "Type 1009 in the gameplay project, normal chat (new chat)",
      "order": 5,
      "place": "in the gameplay project (normal chat), new chat"
     },
@@ -790,8 +785,6 @@
      "state": "ready",
      "waits_on": "Nik types it in the gameplay project (Work mode)",
      "details": "GPT green, one run. Node check of 10-season scoring, ties and final winner; report only, no game code.",
-     "type_order": 7,
-     "type_where": "Type 1010 in the gameplay project, Work mode (new chat)",
      "order": 7,
      "place": "in the gameplay project (Work mode), new chat"
     },
@@ -803,8 +796,6 @@
      "state": "ready",
      "waits_on": "Nik types it in the gameplay project (Work mode)",
      "details": "GPT green, one run. Replaces engineering words players see; leaves test-asserted strings to the lead.",
-     "type_order": 11,
-     "type_where": "Type 1011 in the gameplay project, Work mode, after 1014, 1015 and 1020 are merged",
      "order": 11,
      "place": "in the gameplay project (Work mode), new chat",
      "after": "1014, 1015 and 1020 merge"
@@ -817,8 +808,6 @@
      "state": "ready",
      "waits_on": "Nik types it in the gameplay project (Work mode)",
      "details": "GPT green, one run. HO-013: closed Showdown shows SHOWDOWN COMPLETE instead of RECONNECT SESSION. Lead runs the reconnect audit.",
-     "type_order": 4,
-     "type_where": "Type 1014 in the gameplay project, Work mode (new chat)",
      "order": 4,
      "place": "in the gameplay project (Work mode), new chat"
     },
@@ -830,9 +819,9 @@
      "state": "with worker (round 3)",
      "waits_on": "GPT green round 3 (same chat, Work mode)",
      "details": "GPT green, one run. HO-014: pair panel moves from Home to its own CONNECT PLAYERS screen (Team V SJ design). Pairing logic unchanged; lead runs pairing audits.",
-     "type_order": 1,
-     "type_where": "Type 1015 in the gameplay project, Work mode (same chat): round 3",
-     "order": 1
+     "order": 1,
+     "place": "in the gameplay project (Work mode), same chat",
+     "note": "round 3"
     },
     {
      "id": "1017",
@@ -842,8 +831,6 @@
      "state": "ready",
      "waits_on": "Nik types it in the Q&A team project",
      "details": "GPT Q&A team, Astra Work (Sol Work if out). Report only (sweeps/hunt-1017.md); the lead turns findings into fix jobs.",
-     "type_order": 10,
-     "type_where": "Type 1017 in the Q&A team project, Astra Work mode (new chat)",
      "order": 10,
      "place": "in the Q&A team project (Astra Work mode), new chat"
     },
@@ -855,8 +842,6 @@
      "state": "ready",
      "waits_on": "Nik types it in the Q&A team project",
      "details": "GPT Q&A team, Sol Work. Report only (sweeps/hunt-1018.md); the lead turns findings into fix jobs.",
-     "type_order": 8,
-     "type_where": "Type 1018 in the Q&A team project, Work mode (new chat)",
      "order": 8,
      "place": "in the Q&A team project (Work mode), new chat"
     },
@@ -868,8 +853,6 @@
      "state": "ready",
      "waits_on": "Nik types it in the Q&A team project",
      "details": "GPT Q&A team, Sol Work. Report only (sweeps/hunt-1019.md); the lead turns findings into fix jobs.",
-     "type_order": 9,
-     "type_where": "Type 1019 in the Q&A team project, Work mode (new chat)",
      "order": 9,
      "place": "in the Q&A team project (Work mode), new chat"
     },
@@ -881,8 +864,6 @@
      "state": "ready",
      "waits_on": "Nik types it in the gameplay project (Work mode)",
      "details": "GPT green, one run. Team V phone CSS (HO-015) + desktop window below the scoring card + reconciliation look. Team V 1012 checks the look.",
-     "type_order": 2,
-     "type_where": "Type 1020 in the gameplay project, Work mode (new chat)",
      "order": 2,
      "place": "in the gameplay project (Work mode), new chat"
     },
@@ -894,8 +875,6 @@
      "state": "ready",
      "waits_on": "Nik types it in the gameplay project (Work mode)",
      "details": "GPT green, one run. HO-016: Team V's checked phone CSS + 2 cut-outs into css/v10Transfer.css. Desktop unchanged.",
-     "type_order": 3,
-     "type_where": "Type 1021 in the gameplay project, Work mode (new chat)",
      "order": 3,
      "place": "in the gameplay project (Work mode), new chat"
     }
