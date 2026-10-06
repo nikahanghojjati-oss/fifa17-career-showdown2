@@ -1,17 +1,18 @@
 # Bug hunt board
 
-Updated Mon 5 Oct, 11:05 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
+Updated Mon 5 Oct, 11:06 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r62** (main `bc77a0b`, Mon 5 Oct 9:18 PM)
 
-🩺 **All clear: every check has a machine.** · POS20 #304 6/16
+🐕 **Barking: POS20 on #409 has waited 2 min for a machine; POS20 on #312 has waited 1 min for a machine; POS20 has waited 1 min for a machine.** · POS20 #304 6/16
 
 ## Jobs
 
 **Running now**
 
 - **1019** Gameplay hunt 3: entries, saves and career numbers · worker done, lead checking
-- **1017** Gameplay hunt 1: shared season flow across devices · worker done, lead checking
+- **1025** Terminal close recovery and closed-frame trophies (hunt 1017 H1-H3) · with the lead
+- **1026** New shared season clears last season's result fields (hunt 1017 H4) · with the lead
 
 **Next for you, in this order**
 

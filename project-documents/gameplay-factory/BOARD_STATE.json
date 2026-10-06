@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 11:05 PM Boston time (EDT)",
+ "generated": "2026-10-05 11:06 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -387,8 +387,8 @@
    ]
   },
   "physio": {
-   "state": "clear",
-   "line": "All clear: every check has a machine.",
+   "state": "barking",
+   "line": "Barking: POS20 on #409 has waited 2 min for a machine; POS20 on #312 has waited 1 min for a machine; POS20 has waited 1 min for a machine.",
    "gate": "POS20 #304 6/16",
    "source": "physio"
   },
@@ -698,9 +698,9 @@
   "**r62 is live.** On the laptop, close every game tab in Chrome and reopen the game; if Settings still looks clipped, do it once more."
  ],
  "now": {
-  "moving": 13,
+  "moving": 15,
   "next": 2,
-  "nik": 9,
+  "nik": 8,
   "later": 6,
   "rows": {
    "G": {
@@ -760,6 +760,24 @@
       "waits_on": "",
       "order": 0,
       "details": "Hunt 1018 H3, H4 and H5 (S2), js/productionSharedJourneyReconnect.js"
+     },
+     {
+      "id": "1025",
+      "title": "Terminal close recovery and closed-frame trophies (hunt 1017 H1-H3)",
+      "lane": "claude",
+      "state": "with the lead (Claude helper building)",
+      "order": 0,
+      "place": "Claude helper (nothing for Nik to type)",
+      "note": "from hunt 1017"
+     },
+     {
+      "id": "1026",
+      "title": "New shared season clears last season's result fields (hunt 1017 H4)",
+      "lane": "claude",
+      "state": "with the lead (Claude helper building)",
+      "order": 0,
+      "place": "Claude helper (nothing for Nik to type)",
+      "note": "from hunt 1017"
      }
     ],
     "nik": [
@@ -799,7 +817,7 @@
       "state": "ready",
       "waits_on": "Nik types it in the gameplay project (Work mode)",
       "details": "GPT green, one run. Replaces engineering words players see; leaves test-asserted strings to the lead.",
-      "order": 3,
+      "order": 2,
       "place": "in the gameplay project (normal chat), new chat",
       "after": "1014, 1015 and 1020 merge",
       "note": "1014, 1015 and 1020 are merged"
@@ -814,17 +832,6 @@
       "details": "GPT green, one run. HO-013: closed Showdown shows SHOWDOWN COMPLETE instead of RECONNECT SESSION. Lead runs the reconnect audit.",
       "order": 5,
       "archived": true
-     },
-     {
-      "id": "1017",
-      "group": "Bug list 1",
-      "title": "1017 · G Gameplay hunt 1: shared season flow across devices",
-      "lane": "green",
-      "state": "ready",
-      "waits_on": "Nik types it in the Q&A team project",
-      "details": "GPT Q&A team, Astra Work (Sol Work if out). Report only (sweeps/hunt-1017.md); the lead turns findings into fix jobs.",
-      "order": 2,
-      "place": "in the Q&A team project (Astra Work mode), new chat"
      },
      {
       "id": "1019",
@@ -912,7 +919,7 @@
       "state": "ready",
       "waits_on": "after Team V designs the combined screen (HO-011)",
       "details": "Nik picked No tap, combined: one screen shows the last season's score and the Final Winner. Team V designs it (HO-011), then a GPT green job builds it and restores the strict final-season check.",
-      "order": 4
+      "order": 3
      },
      {
       "id": "1015",
