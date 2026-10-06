@@ -8,8 +8,8 @@ Purpose: read-only visual study outputs. Never change game code from this branch
 | # | Screen | Status | Study files |
 | --- | --- | --- | --- |
 | 001 | Home / Rivalry Headquarters | COMPLETE | `MOCKUP_STUDY_001_HOME.md`, `MOCKUP_STUDY_001_HOME.json` |
-| 002 | Select League | NEXT CANDIDATE | — |
-| 003 | Club Assignment | UNSTUDIED | — |
+| 002 | Select League | COMPLETE | `MOCKUP_STUDY_002_SELECT_LEAGUE.md`, `MOCKUP_STUDY_002_SELECT_LEAGUE.json` |
+| 003 | Club Assignment | NEXT CANDIDATE | — |
 | 004 | Transfer Challenge | UNSTUDIED | — |
 | 005 | Trophy Room | UNSTUDIED | — |
 | 006 | Career / Rivalry Statistics | UNSTUDIED | — |
