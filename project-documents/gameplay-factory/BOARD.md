@@ -4,7 +4,7 @@ Updated Mon 5 Oct, 11:06 PM Boston time. Bug hunting only, no new features until
 
 🌐 **Live: 1.9.1-r62** (main `bc77a0b`, Mon 5 Oct 9:18 PM)
 
-🐕 **Barking: POS20 on #409 has waited 2 min for a machine; POS20 on #312 has waited 1 min for a machine; POS20 has waited 1 min for a machine.** · POS20 #304 6/16
+🐕 **Barking: POS20 on #409 has waited 2 min for a machine; Gameplay Fast has waited 1 min for a machine.** · POS20 #304 6/16
 
 ## Jobs
 
