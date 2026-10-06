@@ -67,7 +67,13 @@
     else el.setAttribute("aria-label", "Unavailable");
   }
 
-  function renderResultPanel(frame) {
+  function renderResultPanel(frame, fixtures) {
+    const ls = frame.lastSeason;
+    const LS = fixtures.strings.lastSeason;
+    setText("panelLastSeasonLabel", ls ? LS.label.replace("{season}", ls.season) : "FINAL SEASON");
+    setMetricValue("panelLastSeasonDaniel", ls && ls.daniel);
+    setMetricValue("panelLastSeasonNik", ls && ls.nik);
+    setText("panelLastSeasonResult", ls ? LS.result[ls.winner] || "" : "");
     setMetricValue("panelSeasons", frame.seasonsPlayed);
     setMetricValue("panelMargin", frame.margin);
     const d = frame.trophies && frame.trophies.daniel;
@@ -158,7 +164,7 @@
       glyph.textContent = "";
       glyph.dataset.kind = frame.status || "";
     }
-    renderResultPanel(frame);
+    renderResultPanel(frame, fixtures);
     if (!window.FINAL_WINNER_APP) renderActions(frame, fixtures);
     setText("fixtureDump", JSON.stringify(frame, null, 2));
 
@@ -235,7 +241,7 @@
     }
 
     if (typeof window.sdCountUp === "function") {
-      ["danielTotal", "nikTotal", "panelSeasons", "panelMargin"].forEach((id) => {
+      ["danielTotal", "nikTotal", "panelSeasons", "panelMargin", "panelLastSeasonDaniel", "panelLastSeasonNik"].forEach((id) => {
         const el = document.getElementById(id);
         const to = el ? Number(el.textContent) : NaN;
         if (!Number.isFinite(to)) return;
