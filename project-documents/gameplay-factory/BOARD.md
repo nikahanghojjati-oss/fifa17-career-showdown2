@@ -1,18 +1,18 @@
 # Bug hunt board
 
-Updated Mon 5 Oct, 11:06 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
+Updated Mon 5 Oct, 11:08 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r62** (main `bc77a0b`, Mon 5 Oct 9:18 PM)
 
-🐕 **Barking: POS20 on #409 has waited 2 min for a machine; Gameplay Fast has waited 1 min for a machine.** · POS20 #304 6/16
+🩺 **All clear: every check has a machine.** · POS20 #304 6/16
 
 ## Jobs
 
 **Running now**
 
-- **1019** Gameplay hunt 3: entries, saves and career numbers · worker done, lead checking
 - **1025** Terminal close recovery and closed-frame trophies (hunt 1017 H1-H3) · with the lead
 - **1026** New shared season clears last season's result fields (hunt 1017 H4) · with the lead
+- **1027** Restore keeps and checks the Save Library; career cache race (hunt 1019 H1, H2, H4) · with the lead
 
 **Next for you, in this order**
 
@@ -21,6 +21,7 @@ Updated Mon 5 Oct, 11:06 PM Boston time. Bug hunting only, no new features until
 
 **Waiting on something else**
 
+- **1028** Statistics shows an abandoned-only career (hunt 1019 H5) · after 
 - **1005** Last season's score is skipped before the Final Winner · after Team V designs the combined screen (HO-011)
 - **1023** Session code replacement: double tap and lost join watcher · after 
 - **1024** Reconnect keeps stale authority after sign-out, offline or expiry · after 
