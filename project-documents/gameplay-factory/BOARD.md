@@ -1,10 +1,10 @@
 # Bug hunt board
 
-Updated Mon 5 Oct, 9:32 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
+Updated Mon 5 Oct, 9:33 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r62** (main `bc77a0b`, Mon 5 Oct 9:18 PM)
 
-🩺 **All clear: every check has a machine.** · Gate #395: L1✗ L2✓ L3✗ L4✓ L5✗ L6✓ · seal FAIL (test) · POS20 #395 9/16
+🐕 **Barking: POS20 has waited 1 min for a machine.** · Gate #395: L1✗ L2✓ L3✗ L4✓ L5✗ L6✓ · seal FAIL (test) · POS20 #395 9/16
 
 ## Needs you
 
@@ -15,8 +15,8 @@ Updated Mon 5 Oct, 9:32 PM Boston time. Bug hunting only, no new features until 
 - **1010** 10-season sweep: scoring, history and final math. Type 1010 in the gameplay project (Work mode) to start it.
 - **1011** Plain-words sweep: jargon on game screens. Type 1011 in the gameplay project (Work mode) to start it.
 - **1014** No reconnect prompt after a finished Showdown. Type 1014 in the gameplay project (Work mode) to start it.
+- **1015** Connect Players screen: create code / join off Home. Type 1015 in the gameplay project (Work mode) to start it.
 - **V-1006** Final Winner: last season's score block. Type 1006 in a new Showdown visual chat to start it.
-- **V-1007** Transfer War phone: early-end button visible. Type 1007 in a new Showdown visual chat to start it.
 
 ## Team G
 
@@ -24,7 +24,7 @@ Updated Mon 5 Oct, 9:32 PM Boston time. Bug hunting only, no new features until 
 
 | Lane | Item | What | State |
 | --- | --- | --- | --- |
-| 🟧 Team G lead | [PR #396](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/396) | INFRA SIM: L5 setup dies on attempt 1 for the Showdown Gate shadow (never merge) | 🔴 13 passed, 3 running, 1 failed |
+| 🟧 Team G lead | [PR #396](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/396) | INFRA SIM: L5 setup dies on attempt 1 for the Showdown Gate shadow (never merge) | 🔴 14 passed, 2 running, 1 failed |
 | 🟧 Team G lead | [PR #395](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/395) | CANARY: planted failing tests for the Showdown Gate shadow (never merge) | 🔴 12 passed, 1 running, 5 failed |
 | 🟧 Opus | **G-F17** | Showdown Gate: replace POS20 with a faster check system built on Claude and GitHub, keeping every check (plan: /mnt/project-files/check-system/SHOWDOWN_GATE_PLAN.md) | building shadow |
 | 🟧 Opus | **G-F18** | Old-design screen audit: Legacy, Career Statistics and Trophy Room still open in the old shell; drive every live screen in a browser against Team V's design and route all of them to the new design | in progress |
@@ -50,7 +50,6 @@ Updated Mon 5 Oct, 9:32 PM Boston time. Bug hunting only, no new features until 
 | Lane | Item | What | State |
 | --- | --- | --- | --- |
 | 🟦 Sol chat | [V-1006](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/393) | Final Winner: last season's score block | waiting for Nik to type 1006 in a new Showdown visual chat · 25 % (1 of 4 steps) |
-| 🟦 Sol chat | [V-1007](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/394) | Transfer War phone: early-end button visible | waiting for Nik to type 1007 in a new Showdown visual chat · 33 % (1 of 3 steps) |
 
 **Up next**
 

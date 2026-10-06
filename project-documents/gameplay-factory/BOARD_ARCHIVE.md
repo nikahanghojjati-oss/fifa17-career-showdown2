@@ -1,14 +1,14 @@
 # Board archive
 
-[Back to the board](BOARD.md) · generated 2026-10-05 9:32 PM Boston time (EDT). Detail and history behind the one board.
+[Back to the board](BOARD.md) · generated 2026-10-05 9:33 PM Boston time (EDT). Detail and history behind the one board.
 
 ## Old detailed board
 
 # Showdown board: G Factory and V Factory
 
-🌐 **Live: runtime 1.9.1-r62** (main `bc77a0b`) · 🔄 **13 moving** · ⏭ 2 up next · 👤 6 waiting on Nik · 🗂 4 later · updated 2026-10-05 9:32 PM Boston time (EDT)
+🌐 **Live: runtime 1.9.1-r62** (main `bc77a0b`) · 🔄 **12 moving** · ⏭ 2 up next · 👤 7 waiting on Nik · 🗂 4 later · updated 2026-10-05 9:33 PM Boston time (EDT)
 
-🩺 **All clear: every check has a machine.** · Gate #395: L1✗ L2✓ L3✗ L4✓ L5✗ L6✓ · seal FAIL (test) · POS20 #395 9/16
+🐕 **Barking: POS20 has waited 1 min for a machine.** · Gate #395: L1✗ L2✓ L3✗ L4✓ L5✗ L6✓ · seal FAIL (test) · POS20 #395 9/16
 
 ## Your next move
 
@@ -18,7 +18,7 @@
 
 | Release / fix | Checks on the latest commit | Updated |
 | --- | --- | --- |
-| [PR #396](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/396) INFRA SIM: L5 setup dies on attempt 1 for the Showdown Gate shadow (never merge) | 🔴 13 passed, 3 running, 1 failed | 9:21 PM |
+| [PR #396](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/396) INFRA SIM: L5 setup dies on attempt 1 for the Showdown Gate shadow (never merge) | 🔴 14 passed, 2 running, 1 failed | 9:21 PM |
 | [PR #395](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/395) CANARY: planted failing tests for the Showdown Gate shadow (never merge) | 🔴 12 passed, 1 running, 5 failed | 9:21 PM |
 
 **🟦 V-1006 · Final Winner: last season's score block** · 25 % (1 of 4 steps) · Sol chat · [PR #393](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/393)
@@ -26,12 +26,6 @@
 🟦🟦🟦🟦🟦⚽▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️ 🥅  
 > **Now:** waiting for Nik to type 1006 in a new Showdown visual chat  
 > **Left:** GPT blue: markup and fixtures → GPT blue: fill and style → Lead check: phone + desktop render
-
-**🟦 V-1007 · Transfer War phone: early-end button visible** · 33 % (1 of 3 steps) · Sol chat · [PR #394](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/394)
-
-🟦🟦🟦🟦🟦🟦⚽▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️ 🥅  
-> **Now:** waiting for Nik to type 1007 in a new Showdown visual chat  
-> **Left:** GPT blue: append the CSS fix → Lead check: phone render
 
 | Team | Job | What | Worker | Where it is | Details |
 | --- | --- | --- | --- | --- | --- |
@@ -83,6 +77,7 @@ _Gameplay, online sync, every merge and every release (senior director)._ Worker
 | 1010 | 1010 · G 10-season sweep: scoring, history and final math — GPT green, one run. Node check of 10-season scoring, ties and final winner; report only, no game code. | 🟩 Sol Work mode | ready | Nik types it in the gameplay project (Work mode) |
 | 1011 | 1011 · G Plain-words sweep: jargon on game screens — GPT green, one run. Replaces engineering words players see; leaves test-asserted strings to the lead. | 🟩 Sol Work mode | ready | Nik types it in the gameplay project (Work mode) |
 | 1014 | 1014 · G No reconnect prompt after a finished Showdown — GPT green, one run. HO-013: closed Showdown shows SHOWDOWN COMPLETE instead of RECONNECT SESSION. Lead runs the reconnect audit. | 🟩 Sol Work mode | ready | Nik types it in the gameplay project (Work mode) |
+| 1015 | 1015 · G Connect Players screen: create code / join off Home — GPT green, one run. HO-014: pair panel moves from Home to its own CONNECT PLAYERS screen (Team V SJ design). Pairing logic unchanged; lead runs pairing audits. | 🟩 Sol Work mode | ready | Nik types it in the gameplay project (Work mode) |
 
 **🗂 Later**
 
@@ -177,7 +172,7 @@ Latest:
 ## Every bug report
 
 
-> Updated **Mon 5 Oct, 9:32 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
+> Updated **Mon 5 Oct, 9:33 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
 
 | 🔓 Open | 🔴 Top priority | 🔧 Fixing or waiting for release | ✅ Fixed and live |
 | :---: | :---: | :---: | :---: |

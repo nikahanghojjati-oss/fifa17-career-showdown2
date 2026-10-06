@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05 9:32 PM Boston time (EDT)",
+ "generated": "2026-10-05 9:33 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -284,8 +284,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "63a3542",
-  "head_boston": "Mon 5 Oct 9:31 PM",
+  "head": "6c66e3b",
+  "head_boston": "Mon 5 Oct 9:33 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": true,
   "open_for_g": [],
@@ -326,8 +326,8 @@
      "sha": "61161337fa58344482e44a7bd088c7a9d63f98ab",
      "updated": "2026-10-06T01:21:35Z",
      "gates": {
-      "passed": 13,
-      "running": 3,
+      "passed": 14,
+      "running": 2,
       "failed": 1,
       "cancelled": 0
      }
@@ -416,8 +416,8 @@
    ]
   },
   "physio": {
-   "state": "clear",
-   "line": "All clear: every check has a machine.",
+   "state": "barking",
+   "line": "Barking: POS20 has waited 1 min for a machine.",
    "gate": "Gate #395: L1✗ L2✓ L3✗ L4✓ L5✗ L6✓ · seal FAIL (test) · POS20 #395 9/16",
    "source": "physio"
   },
@@ -432,16 +432,6 @@
     "total": 4,
     "pr": 393,
     "current": "waiting for Nik to type 1006 in a new Showdown visual chat"
-   },
-   {
-    "job": "V-1007",
-    "title": "Transfer War phone: early-end button visible",
-    "worker": "Sol chat",
-    "lane": "sol-chat",
-    "done": 1,
-    "total": 3,
-    "pr": 394,
-    "current": "waiting for Nik to type 1007 in a new Showdown visual chat"
    },
    {
     "job": "V-247",
@@ -711,9 +701,9 @@
   "**r62 is live.** On the laptop, close every game tab in Chrome and reopen the game; if Settings still looks clipped, do it once more."
  ],
  "now": {
-  "moving": 13,
+  "moving": 12,
   "next": 2,
-  "nik": 6,
+  "nik": 7,
   "later": 4,
   "rows": {
    "G": {
@@ -814,6 +804,15 @@
       "state": "ready",
       "waits_on": "Nik types it in the gameplay project (Work mode)",
       "details": "GPT green, one run. HO-013: closed Showdown shows SHOWDOWN COMPLETE instead of RECONNECT SESSION. Lead runs the reconnect audit."
+     },
+     {
+      "id": "1015",
+      "group": "Bug list 1",
+      "title": "1015 · G Connect Players screen: create code / join off Home",
+      "lane": "green",
+      "state": "ready",
+      "waits_on": "Nik types it in the gameplay project (Work mode)",
+      "details": "GPT green, one run. HO-014: pair panel moves from Home to its own CONNECT PLAYERS screen (Team V SJ design). Pairing logic unchanged; lead runs pairing audits."
      }
     ],
     "next": [
@@ -882,8 +881,8 @@
     "sha": "61161337fa58344482e44a7bd088c7a9d63f98ab",
     "updated": "2026-10-06T01:21:35Z",
     "gates": {
-     "passed": 13,
-     "running": 3,
+     "passed": 14,
+     "running": 2,
      "failed": 1,
      "cancelled": 0
     }
