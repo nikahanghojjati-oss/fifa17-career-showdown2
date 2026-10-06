@@ -1,6 +1,6 @@
 {
  "_how": "One shared job counter for Team G and Team V (Nik, 2026-10-05). Claim with tools/claim_number.py only. A number is used once, ever. CONTRACT.md section 10.",
- "next": 1032,
+ "next": 1033,
  "claims": [
   {
    "number": 1001,
@@ -188,6 +188,12 @@
    "team": "G",
    "title": "Cleanup A: Transfer War signing on phones (footer over Nik card) + Career Statistics tile clip",
    "claimed": "2026-10-06T04:50:48Z"
+  },
+  {
+   "number": 1032,
+   "team": "G",
+   "title": "Cleanup B: Rivalry Statistics ghost title + title overlap; Legacy grey edge strip",
+   "claimed": "2026-10-06T04:50:50Z"
   }
  ]
 }
