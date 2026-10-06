@@ -11,10 +11,10 @@
  "worker": "sol-chat",
  "parent": null,
  "job": null,
- "status": "SENT",
+ "status": "RECEIVED",
  "steps": [],
  "evidence": [],
- "log": [{"at": "2026-10-06T01:53:20Z", "by": "V", "status": "SENT", "note": ""}]
+ "log": [{"at": "2026-10-06T01:53:20Z", "by": "V", "status": "SENT", "note": ""}, {"at": "2026-10-06T01:54:28Z", "by": "G", "status": "RECEIVED", "note": "bug factory: job 1021 · G (GPT green); lead verifies with v10-transfer contracts, Team V re-checks"}]
 }
 ```
 
