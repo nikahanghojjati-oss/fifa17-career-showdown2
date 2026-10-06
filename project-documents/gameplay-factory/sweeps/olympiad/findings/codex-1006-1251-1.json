@@ -1,0 +1,49 @@
+{
+  "id": "codex-1006-1251-stale-season-results",
+  "run": "codex-1006-1251",
+  "area": "09",
+  "title": "The next season starts with last season’s results and trophies still filled in",
+  "severity": "S2",
+  "status": "confirmed",
+  "where": [
+    {
+      "file": "js/productionSharedSeasonResults.js",
+      "line": 128,
+      "function": "pssrRender"
+    },
+    {
+      "file": "js/productionSharedSeasonResults.js",
+      "line": 120,
+      "function": "pssrRenderEntry"
+    },
+    {
+      "file": "js/productionSharedSeasonResults.js",
+      "line": 131,
+      "function": "pssrBeginReview"
+    }
+  ],
+  "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+  "steps": [
+    "Play a three-season Showdown as Daniel and Nik in the same browser tab.",
+    "Enter Daniel’s season 1 result: league position 1, 100 points, 100 goals, domestic cup, Champions League, Top Scorer and Top Assist. Review and publish it.",
+    "Let Nik publish his season 1 result, finish season 1, and continue to season 2.",
+    "Finish season 2’s transfer guessing game and open its season results.",
+    "Look at Daniel’s new season form, then press Review My Season Result before entering any season 2 facts."
+  ],
+  "expected": "A new season starts with empty league position, points and goals, and no trophies or awards checked. Review must ask for the new season’s results. Already published results should still reappear when reopening their own season.",
+  "actual": "Season 2 starts with position 1, 100 points, 100 goals and all four honours checked from season 1. Review accepts those old facts as Daniel’s season 2 result.",
+  "root_cause": "When the season changes, the current results screen clears its review draft but leaves the form fields as they were. It fills saved results when there are some, but does not clear the previous season’s fields when the new season has no published result. The older results screen already calls resetSeasonEntryFields for a new season; the current results route does not use that opening step.",
+  "fix": {
+    "files": [
+      "js/productionSharedSeasonResults.js"
+    ],
+    "change": "On a change of season or Showdown, clear both managers’ league number fields and untick their trophies and awards before filling any saved result for the new season. Keep entries and review drafts when refreshing the same season."
+  },
+  "script": "CMS_CHROMIUM_MULTI_CONTEXT=1 node project-documents/gameplay-factory/sweeps/olympiad/test/codex-1006-1251-stale-season-results.cjs",
+  "script_output": "SEASON 2 EXPECTED {\"LeaguePosition\":\"\",\"LeaguePoints\":\"\",\"LeagueGoals\":\"\",\"DomesticCup\":false,\"ChampionsLeague\":false,\"TopScorer\":false,\"TopAssist\":false}\nSEASON 2 ACTUAL {\"LeaguePosition\":\"1\",\"LeaguePoints\":\"100\",\"LeagueGoals\":\"100\",\"DomesticCup\":true,\"ChampionsLeague\":true,\"TopScorer\":true,\"TopAssist\":true}\nSEASON 2 REVIEW \"Daniel\\n\\nArsenal\\n\\nLeague Position\\n1\\nLeague Points\\n100\\nLeague Goals\\n100\\n✓ DOMESTIC CUP\\n✓ CHAMPIONS LEAGUE\\n✓ TOP SCORER\\n✓ TOP ASSIST\"\nAssertionError [ERR_ASSERTION]: New season entry must not carry the previous season facts and trophies.\n+ actual - expected\n\n  {\n+   ChampionsLeague: true,\n+   DomesticCup: true,\n+   LeagueGoals: '100',\n+   LeaguePoints: '100',\n+   LeaguePosition: '1',\n+   TopAssist: true,\n+   TopScorer: true\n-   ChampionsLeague: false,\n-   DomesticCup: false,\n-   LeagueGoals: '',\n-   LeaguePoints: '',\n-   LeaguePosition: '',\n-   TopAssist: false,\n-   TopScorer: false\n  }\n\n    at /workspace/fifa17-career-showdown2/project-documents/gameplay-factory/sweeps/olympiad/test/codex-1006-1251-stale-season-results.cjs:49:10 {\n  generatedMessage: false,\n  code: 'ERR_ASSERTION',\n  actual: [Object],\n  expected: [Object],\n  operator: 'deepStrictEqual',\n  diff: 'simple'\n}\n",
+  "assumptions": [
+    "The check prepares finished-transfer and next-season game states; the real results screen, Review button and result publication run unchanged.",
+    "The check concerns opening a new season in the same tab. Keeping a published result when reopening its own season is correct.",
+    "The game source files tested on qa/bug-olympiad match the recorded main_sha."
+  ]
+}
