@@ -857,6 +857,15 @@
      "state": "in release (merged into gameplay/bug-list-1, 215e34a)",
      "waits_on": "rides the next release to main",
      "details": "Bug list 1 items L1-01..06. CSS only in css/homeV10.css desktop blocks. Job file jobs/JOB-1001.md. Lead checks screenshots at 1920/1440/1280/1100/1000 wide."
+    },
+    {
+     "id": "1003",
+     "group": "Bug list 1",
+     "title": "1003 · G Transfer War: main's copy of Team V's early-end string matches (HO-010)",
+     "lane": "blue",
+     "state": "ready",
+     "waits_on": "Nik types 1003 in the gameplay GPT project (normal chat)",
+     "details": "Low priority, no live impact. js/transferScreenV10.js lines 26 and 30. Job file jobs/JOB-1003.md."
     }
    ]
   },
