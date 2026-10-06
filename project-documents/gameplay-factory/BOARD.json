@@ -840,11 +840,12 @@
      "group": "Bug list 1",
      "title": "1018 · G Gameplay hunt 2: sessions, pairing and reconnect",
      "lane": "green",
-     "state": "ready",
+     "state": "done: 5 confirmed findings (PR #404), fixes are 1023 and 1024",
      "waits_on": "Nik types it in the Q&A team project",
      "details": "GPT Q&A team, Sol Work. Report only (sweeps/hunt-1018.md); the lead turns findings into fix jobs.",
      "order": 8,
-     "place": "in the Q&A team project (Work mode), new chat"
+     "place": "in the Q&A team project (Work mode), new chat",
+     "archived": true
     },
     {
      "id": "1019",
@@ -889,6 +890,26 @@
      "waits_on": "",
      "order": 6,
      "details": "Team V check on #397: desktop shows Nik twice; phone title, Back position and bottom nav; yellow primary buttons."
+    },
+    {
+     "id": "1023",
+     "group": "Bug list 1",
+     "title": "Session code replacement: double tap and lost join watcher",
+     "lane": "claude",
+     "state": "with the lead (Claude helper building)",
+     "waits_on": "",
+     "order": 7,
+     "details": "Hunt 1018 H1 (S1) and H2 (S2), js/sparkRemoteJoining.js"
+    },
+    {
+     "id": "1024",
+     "group": "Bug list 1",
+     "title": "Reconnect keeps stale authority after sign-out, offline or expiry",
+     "lane": "claude",
+     "state": "with the lead (Claude helper building)",
+     "waits_on": "",
+     "order": 7,
+     "details": "Hunt 1018 H3, H4 and H5 (S2), js/productionSharedJourneyReconnect.js"
     }
    ]
   },
