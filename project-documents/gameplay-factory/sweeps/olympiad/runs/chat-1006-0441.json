@@ -1,0 +1,44 @@
+{
+  "run": "chat-1006-0441",
+  "mode": "chat",
+  "date_utc": "2026-10-06T04:41:00Z",
+  "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+  "area": "02",
+  "files_read": [
+    "js/sharedTransferChallenge.js",
+    "js/productionSharedTransferChallenge.js",
+    "js/sparkSharedTransferChallenge.js",
+    "js/transferChallenge.js",
+    "js/productionFirebaseRuntime.js",
+    "firestore.rules"
+  ],
+  "map": [
+    "Entry: shared seasonPrimaryAction is intercepted in capture phase by productionSharedTransferChallenge, which refreshes authority before navigating to transferChallenge; legacy transfer button handlers are stopped for shared controls.",
+    "State: one public season-scoped transferChallenges/season_N ledger carries phase, revision, timer timestamps, lock-role lists and operation receipts; each manager has a separate roles/{managerRole} private document for guesses/signings.",
+    "Writes: coordinator start creates the public ledger; each early-end request or timer expiry updates public state; lock-guesses atomically appends a public operation receipt and creates/updates only the actor's private role payload.",
+    "Privacy projection: sparkSharedTransferChallenge reads only the actor private role before COMPLETED; production UI hides the rival guess/signing card. Production Rules likewise gate rival private-role get until public phase COMPLETED.",
+    "Public authority: the deployed Rules path is generated from firestore.spark.rules plus production fragments; the transfer fragment allows an entitled rival to get the entire public transfer ledger, including operationIds, operationTypes, operationHashes, baseRevisions and actorRoles.",
+    "Timer: display ticks every 1 second from public startedAt plus 15 minutes using a forced Firebase ID-token issuedAtTime anchor and performance.now; server clock is refreshed every 5 minutes and reset on visibility return.",
+    "Expiry: client calls advanceExpiredWindow at displayed zero, but production Rules independently require request.time >= stored startedAt + 15 minutes, preventing an early client-clock advance.",
+    "Polling: normal refresh is 15 seconds; a waiting manager gets 3-second reads for up to 3 minutes; expiry writes retry after 30 seconds. Hidden tabs suspend transfer polling/timer work and refresh on visibility return.",
+    "Concurrency: mutations are serialized through providerChain and guarded by busy; stale/permission race codes re-read and retry once, with special convergence handling for simultaneous expiry.",
+    "Await boundaries: dependency loading, Setup refresh, Career Start refresh, account services, server-clock token refresh, provider read, provider transaction and post-start refresh all carry an exact save/rivalry/season request key before rebinding view.",
+    "Targeted support reads disproved a false Rules finding: production deploys generated Rules containing the transfer fragment, not root firestore.rules alone. Targeted session snippets also showed the UI preflight rejects an already-expired held session; the broader expiry/reconnect scope is already represented by hunt 1018/job 31.",
+    "Surviving privacy failure: lock-guesses hashes the private normalized payload deterministically, while the same rival-readable public ledger exposes every other hash input. The repository catalog is only 36 leagues plus 164 nationalities."
+  ],
+  "premortem": [
+    "Private guesses leak before reveal through public/shared metadata even though rival role documents and cards are hidden. Tested first; survived as chat-1006-0441-1.",
+    "The two devices disagree on the 15-minute deadline or advance the window early after reload, clock skew, sleep or simultaneous zero. Server request.time expiry enforcement, post-start refresh, monotonic display clock and visibility resync disproved the early-advance path; offline recovery remains dependent on reconnect.",
+    "Double taps, simultaneous early-end/expiry, or one device acting one phase ahead strands the other or duplicates a lock. busy/providerChain plus append-only revisions, role lists and one stale-race retry cover the ordinary races examined; known session-expiry recovery defects were deduplicated against hunt 1018/BOARD job 31."
+  ],
+  "questions_asked": 0,
+  "findings": [
+    "chat-1006-0441-1"
+  ],
+  "verified": [],
+  "challenges": [],
+  "coverage_pct": 82,
+  "clean_confidence_pct": 58,
+  "next_focus": "03: trace signing locks through atomic private/public writes, check whether signing receipts leak unrevealed payloads, verify reveal completeness and league-or-nationality verdict semantics, then attack simultaneous final locks and reload after only one manager has locked signings.",
+  "partial": false
+}
