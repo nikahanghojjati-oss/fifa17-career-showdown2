@@ -992,6 +992,16 @@
         "^tests/contracts/hunt-1018-session-replacement-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/hunt-1018-reconnect-authority-contracts.cjs",
+      "patterns": [
+        "^js/productionSharedJourneyReconnect\\.js$",
+        "^js/sharedJourneyReconnect\\.js$",
+        "^js/sharedMultiSeasonProgression\\.js$",
+        "^tests/contracts/hunt-1018-reconnect-authority-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
