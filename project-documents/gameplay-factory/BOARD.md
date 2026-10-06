@@ -1,6 +1,6 @@
 # Bug hunt board
 
-Updated Mon 5 Oct, 10:51 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
+Updated Mon 5 Oct, 10:53 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r62** (main `bc77a0b`, Mon 5 Oct 9:18 PM)
 
@@ -15,12 +15,12 @@ Updated Mon 5 Oct, 10:51 PM Boston time. Bug hunting only, no new features until
 - **1023** Session code replacement: double tap and lost join watcher · with the lead
 - **1024** Reconnect keeps stale authority after sign-out, offline or expiry · with the lead
 - **1019** Gameplay hunt 3: entries, saves and career numbers · step 1 of 3 · 0.0000 %
+- **1017** Gameplay hunt 1: shared season flow across devices · step 1 of 3 · 0.0000 %
 
 **Next for you, in this order**
 
-1. **1017** Gameplay hunt 1: shared season flow across devices: type **1017** in the Q&A team project (Astra Work mode), new chat
-2. **1011** Plain-words sweep: jargon on game screens: type **1011** in the gameplay project (normal chat), new chat · 1014, 1015 and 1020 are merged
-3. **1006** Final Winner: last season's score block: type **1006** in a new Showdown visual chat
+1. **1011** Plain-words sweep: jargon on game screens: type **1011** in the gameplay project (normal chat), new chat · 1014, 1015 and 1020 are merged
+2. **1006** Final Winner: last season's score block: type **1006** in a new Showdown visual chat
 
 **Waiting on something else**
 

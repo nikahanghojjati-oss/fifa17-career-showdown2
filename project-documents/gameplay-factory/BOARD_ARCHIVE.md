@@ -1,12 +1,12 @@
 # Board archive
 
-[Back to the board](BOARD.md) · generated 2026-10-05 10:51 PM Boston time (EDT). Detail and history behind the one board.
+[Back to the board](BOARD.md) · generated 2026-10-05 10:53 PM Boston time (EDT). Detail and history behind the one board.
 
 ## Old detailed board
 
 # Showdown board: G Factory and V Factory
 
-🌐 **Live: runtime 1.9.1-r62** (main `bc77a0b`) · 🔄 **15 moving** · ⏭ 2 up next · 👤 10 waiting on Nik · 🗂 6 later · updated 2026-10-05 10:51 PM Boston time (EDT)
+🌐 **Live: runtime 1.9.1-r62** (main `bc77a0b`) · 🔄 **16 moving** · ⏭ 2 up next · 👤 10 waiting on Nik · 🗂 6 later · updated 2026-10-05 10:53 PM Boston time (EDT)
 
 🩺 **All clear: every check has a machine.** · POS20 #304 6/16
 
@@ -15,6 +15,12 @@
 1. **r62 is live.** On the laptop, close every game tab in Chrome and reopen the game; if Settings still looks clipped, do it once more.
 
 ## 🔄 Moving now
+
+**🟩 1017 · Gameplay hunt 1: shared season flow across devices** · 0 % (0 of 3 steps) · Sol Work mode
+
+⚽▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️ 🥅  
+> **Now:** step 1 of 3  
+> **Left:** step 1 → step 2 → step 3
 
 **🟩 1019 · Gameplay hunt 3: entries, saves and career numbers** · 0 % (0 of 3 steps) · Sol Work mode
 
@@ -183,7 +189,7 @@ Latest:
 ## Every bug report
 
 
-> Updated **Mon 5 Oct, 10:51 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
+> Updated **Mon 5 Oct, 10:53 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
 
 | 🔓 Open | 🔴 Top priority | 🔧 Fixing or waiting for release | ✅ Fixed and live |
 | :---: | :---: | :---: | :---: |
@@ -203,7 +209,13 @@ Latest:
 
 🏁 no finish time yet (not enough data)
 
-### 🟩 Sol Work mode · 1 job
+### 🟩 Sol Work mode · 2 jobs
+
+**Job 1017 · Gameplay hunt 1: shared season flow across devices · 0.0000 %** · 0 of 3 steps · updated Mon 5 Oct, 10:52 PM  
+⚽▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️ 🥅  
+🏁 **Likely finish:** not enough data  
+> **Now:** step 1 of 3  
+> **Left:** step 1 → step 2 → step 3
 
 **Job 1019 · Gameplay hunt 3: entries, saves and career numbers · 0.0000 %** · 0 of 3 steps · updated Mon 5 Oct, 10:50 PM  
 ⚽▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️ 🥅  
