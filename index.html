@@ -102,9 +102,32 @@
 </div>
 </section>
 
-<section id="connectPlayersScreen" class="screen hidden">
+<section id="connectPlayersScreen" class="screen hidden" data-role="unknown" data-connection="none">
+<div class="connectPlayersArt" aria-hidden="true">
+<img class="connectPlayersDaniel" src="visual-assets/v10_1/start-join/assets/OVL_SJ_DANIEL_PHONE_V1.webp" alt="" loading="lazy">
+<img class="connectPlayersNik" src="visual-assets/v10_1/start-join/assets/OVL_SJ_NIK_PHONE_V1.webp" alt="" loading="lazy">
+</div>
 <h2>CONNECT PLAYERS</h2>
-<div id="connectPlayersPairSlot"></div>
+<p class="connectPlayersTagline">TWO MANAGERS · ONE RIVALRY</p>
+<div class="connectPlayersWorkspace">
+<div class="connectPlayersTabs" role="group" aria-label="Connection steps">
+<label><input type="radio" name="connectPlayersTab" id="connectPlayersDanielTab" value="daniel" checked><span>DANIEL · START</span></label>
+<label><input type="radio" name="connectPlayersTab" id="connectPlayersNikTab" value="nik"><span>NIK · JOIN</span></label>
+<label><input type="radio" name="connectPlayersTab" id="connectPlayersConnectionTab" value="connection"><span>CONNECTION</span></label>
+</div>
+<div class="connectPlayersRoles">
+<section class="connectPlayersRole connectPlayersRoleDaniel" aria-label="Daniel starts">
+<span>PLAYER ONE</span><h3>DANIEL · START</h3>
+<p>Choose seasons, create your code, and send it to Nik.</p>
+<button id="connectPlayersSetup" class="menuButton" type="button">CHOOSE SEASONS</button>
+</section>
+<section class="connectPlayersRole connectPlayersRoleNik" aria-label="Nik joins">
+<span>PLAYER TWO</span><h3>NIK · JOIN</h3>
+<p>On Nik's device, paste Daniel's code to join the rivalry.</p>
+</section>
+</div>
+<div id="connectPlayersPairSlot" aria-live="polite"></div>
+</div>
 <button class="backButton" data-smart-back type="button">BACK</button>
 </section>
 

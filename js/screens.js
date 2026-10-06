@@ -367,7 +367,17 @@ function flushScreenBeforeLeave(currentScreen, nextScreen){
     return true;
 }
 
+function loadConnectPlayersStyle(){
+    return typeof window.loadRuntimeStyle === "function"
+        ? window.loadRuntimeStyle("connect-players-v10", "css/connectPlayersV10.css")
+        : Promise.resolve();
+}
+
 function renderScreenBeforeEnter(screenName){
+    if(screenName === "connectPlayersScreen"){
+        loadConnectPlayersStyle().catch(error => reportRouteError("Unable to load Connect Players styles", error));
+        window.CareerModePersistentNikDanielPair?.render?.();
+    }
     if(screenName === "mainMenu" && typeof window.refreshMainMenuExperience === "function"){
         window.refreshMainMenuExperience();
     }
@@ -492,6 +502,7 @@ async function navigateTo(screenName, options = {}){
     let target = screenName;
 
     try{
+        if(target === "connectPlayersScreen")await loadConnectPlayersStyle();
         if(REQUIRED_FOOTBALL_VISUAL_SCREENS.has(target)){
             if(typeof window.ensureRequiredFootballVisualExperience !== "function"){
                 throw new Error("Required football presentation loader is unavailable.");
@@ -777,6 +788,7 @@ function initializeScreens(){
     bindNavigationButton(continueButton, resumeSavedShowdown, "navigationBound");
     bindNavigationButton(legacyButton, openLegacy, "navigationBound");
     bindNavigationButton(startButton, startShowdownFromSetup, "navigationBound");
+    bindNavigationButton(document.getElementById("connectPlayersSetup"), () => navigateTo("createShowdown"), "navigationBound");
     synchronizeScreenAccessibility();
 
     [continueButton, startButton].forEach(button => {
