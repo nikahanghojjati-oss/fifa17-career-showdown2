@@ -1,0 +1,48 @@
+{
+  "id": "CMS03-codex-1006-2238-phone-league-pick",
+  "run": "codex-1006-2238",
+  "area": "03",
+  "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+  "assumptions": [
+    "Daniel is Player One and Nik is Player Two; both enter their real signings fairly.",
+    "Chromium runs the unchanged local game screens. A prepared, already-started Showdown uses the real transfer rules in Node and retains locked moves between page loads.",
+    "No game code was changed."
+  ],
+  "title": "The phone footer blocks a previous-league choice during signing entry",
+  "severity": "S2",
+  "status": "confirmed",
+  "where": [
+    {
+      "file": "css/transfer.css",
+      "line": 133,
+      "function": ".transferComboboxList at phone widths"
+    },
+    {
+      "file": "visual-assets/v10_1/tr2/slice-02-plate/plate.css",
+      "line": 558,
+      "function": ".panel > *"
+    },
+    {
+      "file": "visual-assets/v10_1/tr2/slice-02-plate/plate.css",
+      "line": 912,
+      "function": ".hud-footer"
+    }
+  ],
+  "steps": [
+    "Use Chromium at a 390 by 844 phone size. Start season 1 of 3 and lock both friends' guesses.",
+    "As Nik, enter a signing name and type Primera División in the previous-league field.",
+    "Try tapping the Spain option."
+  ],
+  "expected": "The Spain option receives the tap and becomes the signing's previous league.",
+  "actual": "The Spain option occupies y=735 to 783, but the footer title is above its center. A normal click times out and the field still holds Argentina. Keyboard selection works, and desktop list selection works.",
+  "root_cause": "The phone option list is fixed 12 pixels from the bottom of the screen inside the signing panel's lower drawing layer. The fixed footer draws above that panel and receives taps intended for the league options. The existing option-list drawing order of 80 cannot escape its parent layer.",
+  "fix": {
+    "files": [
+      "css/v10Transfer.css",
+      "js/transferSelector.js"
+    ],
+    "change": "Place an open phone option list above the footer and signing action, outside the lower panel layer if necessary. Keep every visible previous-league and nationality option tappable."
+  },
+  "script": "project-documents/gameplay-factory/sweeps/olympiad/test/CMS03-codex-1006-2238-phone-league-pick.cjs",
+  "script_output": "TAP FAILED: locator.click: Timeout 2000ms exceeded.\n{\n  \"viewport\": {\n    \"width\": 390,\n    \"height\": 844\n  },\n  \"choice\": \"Primera DivisiónSpain\",\n  \"rect\": {\n    \"x\": 11,\n    \"y\": 735,\n    \"width\": 368,\n    \"height\": 48,\n    \"top\": 735,\n    \"right\": 379,\n    \"bottom\": 783,\n    \"left\": 11\n  },\n  \"targetTag\": \"H2\",\n  \"targetId\": \"tw-transferChallengeTitle\",\n  \"targetText\": \"SEASON 1 · TRANSFER CHALLENGE\",\n  \"targetIsChoice\": false,\n  \"clicked\": false,\n  \"signingLeague\": \"argentina-primera-division\"\n}\nAssertionError [ERR_ASSERTION]: A previous-league choice must be tappable; the phone footer must not cover it.\n\nfalse !== true\n\n    at /workspace/fifa17-career-showdown2/project-documents/gameplay-factory/sweeps/olympiad/test/CMS03-codex-1006-2238-phone-league-pick.cjs:16:12 {\n  generatedMessage: false,\n  code: 'ERR_ASSERTION',\n  actual: false,\n  expected: true,\n  operator: 'strictEqual',\n  diff: 'simple'\n}\n"
+}

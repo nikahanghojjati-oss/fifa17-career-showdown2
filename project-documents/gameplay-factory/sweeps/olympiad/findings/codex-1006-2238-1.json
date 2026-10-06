@@ -1,0 +1,48 @@
+{
+  "id": "CMS03-codex-1006-2238-ambiguous-league",
+  "run": "codex-1006-2238",
+  "area": "03",
+  "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+  "assumptions": [
+    "Daniel is Player One and Nik is Player Two; both enter their real signings fairly.",
+    "Chromium runs the unchanged local game screens. A prepared, already-started Showdown uses the real transfer rules in Node and retains locked moves between page loads.",
+    "No game code was changed."
+  ],
+  "title": "Typing a shared league name locks Argentina without choosing a country",
+  "severity": "S2",
+  "status": "confirmed",
+  "where": [
+    {
+      "file": "js/transferSelector.js",
+      "line": 189,
+      "function": "handleTransferSelectorInput"
+    },
+    {
+      "file": "data/transferOptions.js",
+      "line": 53,
+      "function": "buildTransferOptionIndex"
+    },
+    {
+      "file": "js/productionSharedTransferChallenge.js",
+      "line": 193,
+      "function": "pstcBuildSignings"
+    }
+  ],
+  "steps": [
+    "Start season 1 of a 3-season Showdown and finish the transfer window.",
+    "Nik chooses the Spain Primera División league guess; both friends lock their guesses.",
+    "Daniel enters a signing name, types Primera División as the previous league, and chooses Brazil as the nationality. Do not choose a league country from the list.",
+    "Daniel locks his signing; Nik locks his signings; read the reveal."
+  ],
+  "expected": "The game asks Daniel to choose Spain or Argentina before locking this shared league name. A signing from Spain must be released when Nik guessed Spain.",
+  "actual": "The field silently chooses argentina-primera-division while displaying only Primera División. The signing locks and the Spain guess gives a KEEP verdict.",
+  "root_cause": "The league-name lookup keeps the first league for a shared name. Typing an exact label immediately fills that league choice, and signing validation accepts it. The list does show both countries and an explicit Spain selection works; it is the unchosen typed label that is accepted incorrectly.",
+  "fix": {
+    "files": [
+      "js/transferSelector.js"
+    ],
+    "change": "Only accept an exact typed label automatically when it names one league. For shared labels, require an explicit country choice before locking; preserve saved league IDs and explicit list choices."
+  },
+  "script": "project-documents/gameplay-factory/sweeps/olympiad/test/CMS03-codex-1006-2238-ambiguous-league.cjs",
+  "script_output": "{\n  \"typed\": \"Primera División\",\n  \"countryChoiceMade\": false,\n  \"candidates\": [\n    {\n      \"id\": \"argentina-primera-division\",\n      \"text\": \"Primera DivisiónArgentina\"\n    },\n    {\n      \"id\": \"spain-primera-division\",\n      \"text\": \"Primera DivisiónSpain\"\n    },\n    {\n      \"id\": \"chile-campeonato-nacional\",\n      \"text\": \"Campeonato Nacional ScotiabankChile\"\n    }\n  ],\n  \"canonicalBeforeLock\": \"argentina-primera-division\",\n  \"signingAccepted\": true,\n  \"savedLeague\": \"argentina-primera-division\",\n  \"rivalGuess\": {\n    \"slot\": 1,\n    \"type\": \"league\",\n    \"valueId\": \"spain-primera-division\"\n  },\n  \"verdict\": {\n    \"slot\": 1,\n    \"name\": \"Spanish league signing\",\n    \"leagueId\": \"argentina-primera-division\",\n    \"nationalityId\": \"brazil\",\n    \"release\": false,\n    \"matchedBy\": []\n  },\n  \"screen\": \"Daniel · Arsenal\\n\\nSpanish league signing — KEEP · NO RIVAL GUESS MATCH\"\n}\nAssertionError [ERR_ASSERTION]: A league name shared by Spain and Argentina must require a country choice before it locks.\n\ntrue !== false\n\n    at /workspace/fifa17-career-showdown2/project-documents/gameplay-factory/sweeps/olympiad/test/CMS03-codex-1006-2238-ambiguous-league.cjs:22:12 {\n  generatedMessage: false,\n  code: 'ERR_ASSERTION',\n  actual: true,\n  expected: false,\n  operator: 'strictEqual',\n  diff: 'simple'\n}\n"
+}

@@ -1,0 +1,54 @@
+{
+  "id": "CMS03-codex-1006-2238-draft-reload",
+  "run": "codex-1006-2238",
+  "area": "03",
+  "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+  "assumptions": [
+    "Daniel is Player One and Nik is Player Two; both enter their real signings fairly.",
+    "Chromium runs the unchanged local game screens. A prepared, already-started Showdown uses the real transfer rules in Node and retains locked moves between page loads.",
+    "No game code was changed.",
+    "Unfinished signing entry is treated as progress worth recovering. The Rule Book does not explicitly promise unfinished-entry recovery, so this finding is likely. There is no loss of already-locked signings or saved verdicts."
+  ],
+  "title": "Reloading halfway through signing entry clears unfinished signings",
+  "severity": "S3",
+  "status": "likely",
+  "where": [
+    {
+      "file": "js/productionSharedTransferChallenge.js",
+      "line": 181,
+      "function": "pstcResetForContext"
+    },
+    {
+      "file": "js/productionSharedTransferChallenge.js",
+      "line": 213,
+      "function": "pstcPopulateRole"
+    },
+    {
+      "file": "js/transferChallenge.js",
+      "line": 585,
+      "function": "scheduleTransferDraftSave"
+    },
+    {
+      "file": "js/transferChallenge.js",
+      "line": 597,
+      "function": "saveTransferFieldChange"
+    }
+  ],
+  "steps": [
+    "Start season 1 of a 3-season Showdown; both friends lock their guesses.",
+    "Daniel enters Paulo Dybala, Italy Serie A, Argentina, but does not lock his signings.",
+    "Wait one second. A normal challenge refresh keeps the row.",
+    "Reload the page, reopen the same season, and continue the replay to signing entry."
+  ],
+  "expected": "Daniel's unfinished signing returns so he can finish entering his three signings.",
+  "actual": "Player name, previous league and nationality all return blank. Both friends' locked guesses remain. The same loss occurred at season 10 of 10. Locked signings and completed verdicts survive reload.",
+  "root_cause": "The shared signing screen keeps unfinished rows only in the page. Reopening after a page load clears both forms and restores locked inputs only. The older draft-save handlers check for a local recording challenge, which this shared screen does not create.",
+  "fix": {
+    "files": [
+      "js/productionSharedTransferChallenge.js"
+    ],
+    "change": "Remember each friend's unfinished signing rows for this Showdown and season, restore them after reload, and clear them only after a successful lock. Keep locked signings and completed verdicts as the final record."
+  },
+  "script": "project-documents/gameplay-factory/sweeps/olympiad/test/CMS03-codex-1006-2238-draft-reload.cjs",
+  "script_output": "{\n  \"season\": \"1 of 3\",\n  \"expected\": {\n    \"slot\": 1,\n    \"name\": \"Paulo Dybala\",\n    \"leagueId\": \"italy-serie-a\",\n    \"nationalityId\": \"argentina\"\n  },\n  \"actual\": {\n    \"name\": \"\",\n    \"league\": \"\",\n    \"nationality\": \"\"\n  },\n  \"phase\": \"SIGNING_ENTRY\",\n  \"guessesStillLocked\": [\n    \"playerOne\",\n    \"playerTwo\"\n  ]\n}\nAssertionError [ERR_ASSERTION]: Reload halfway through signing entry should restore the unfinished signing.\n\n'' !== 'Paulo Dybala'\n\n    at /workspace/fifa17-career-showdown2/project-documents/gameplay-factory/sweeps/olympiad/test/CMS03-codex-1006-2238-draft-reload.cjs:17:12 {\n  generatedMessage: false,\n  code: 'ERR_ASSERTION',\n  actual: '',\n  expected: 'Paulo Dybala',\n  operator: 'strictEqual',\n  diff: 'simple'\n}\n"
+}
