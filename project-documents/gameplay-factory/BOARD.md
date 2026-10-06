@@ -15,7 +15,7 @@ Updated Mon 5 Oct, 9:51 PM Boston time. Bug hunting only, no new features until 
 - **1010** 10-season sweep: scoring, history and final math. Type 1010 in the gameplay project (Work mode).
 - **1011** Plain-words sweep: jargon on game screens. Type 1011 in the gameplay project (Work mode).
 - **1014** No reconnect prompt after a finished Showdown. Type 1014 in the gameplay project (Work mode).
-- **1015** Connect Players screen: create code / join off Home. Type 1015 again for round 2 (test updates authorized).
+- **1015** Connect Players screen: create code / join off Home. Type 1015 again for round 3 (startup budget).
 - **1017** Gameplay hunt 1: shared season flow across devices. Type 1017 in the Q&A team project.
 - **1018** Gameplay hunt 2: sessions, pairing and reconnect. Type 1018 in the Q&A team project.
 - **1019** Gameplay hunt 3: entries, saves and career numbers. Type 1019 in the Q&A team project.
