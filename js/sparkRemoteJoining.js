@@ -332,19 +332,19 @@
     if(!body)return overlay;
     body.replaceChildren();
     const intro=srjCreate("div","remoteJoiningIntro");
-    intro.append(srjCreate("span","remoteJoiningEyebrow","PRIVATE SESSION · EXACT CAPABILITY ONLY"),srjCreate("h2","","REMOTE JOINING"),srjCreate("p","","No lobby, listing or public discovery. Session services resolve only after a private action. Ambiguous network outcomes retain only the exact page-memory capability for safe same-capability retry; no replacement session is generated."));
+    intro.append(srjCreate("span","remoteJoiningEyebrow","PRIVATE CONNECTION"),srjCreate("h2","","REMOTE JOINING"),srjCreate("p","","This connection is only for Daniel and Nik. If the network drops, retry the same code instead of creating another one."));
     body.appendChild(intro);
     const grid=srjCreate("div","remoteJoiningGrid");
     const host=srjCreate("section","remoteJoiningCard");
-    host.append(srjCreate("span","remoteJoiningStep","01 · HOST"),srjCreate("h3","","OPEN PRIVATE SESSION"),srjCreate("p","","Creates one fresh 256-bit capability for the currently attached two-manager Connected Rivalry."));
+    host.append(srjCreate("span","remoteJoiningStep","01 · HOST"),srjCreate("h3","","CREATE CONNECTION CODE"),srjCreate("p","","Creates one fresh code for this Showdown."));
     const replaceable=srjHeldSessionReplaceable(),joinReplaces=replaceable&&srjState.sessionState==="active";
     const hostButton=srjCreate("button","menuButton",replaceable?"HOST NEW SESSION (REPLACES CURRENT)":"HOST PRIVATE SESSION");hostButton.type="button";hostButton.disabled=srjState.busy||(srjSessionBlocksStart()&&!replaceable);hostButton.addEventListener("click",()=>{void srjHostSession(replaceable?{replaceCurrent:true}:{});});host.appendChild(hostButton);
     const join=srjCreate("section","remoteJoiningCard");
-    join.append(srjCreate("span","remoteJoiningStep","02 · JOIN"),srjCreate("h3","","JOIN EXACT SESSION"),srjCreate("p","","Paste the full code shared directly by the other already-paired manager."));
-    const input=srjCreate("input","remoteJoiningInput");input.type="text";input.placeholder="session_…";input.autocomplete="off";input.autocapitalize="none";input.spellcheck=false;input.setAttribute("aria-label","Exact private session code");
+    join.append(srjCreate("span","remoteJoiningStep","02 · JOIN"),srjCreate("h3","","JOIN CONNECTION"),srjCreate("p","","Paste the full code shared directly by the other already-paired manager."));
+    const input=srjCreate("input","remoteJoiningInput");input.type="text";input.placeholder="session_…";input.autocomplete="off";input.autocapitalize="none";input.spellcheck=false;input.setAttribute("aria-label","Connection code");
     const joinButton=srjCreate("button","menuButton",joinReplaces?"JOIN NEW SESSION (ENDS CURRENT)":"JOIN PRIVATE SESSION");joinButton.type="button";joinButton.disabled=srjState.busy||(srjSessionBlocksStart()&&!joinReplaces);joinButton.addEventListener("click",()=>{void srjJoinSession(input.value,joinReplaces?{replaceCurrent:true}:{});});join.append(input,joinButton);grid.append(host,join);body.appendChild(grid);
     const current=srjCreate("section","remoteJoiningCurrent");
-    current.append(srjCreate("span","remoteJoiningEyebrow","CURRENT PAGE-MEMORY SESSION"));
+    current.append(srjCreate("span","remoteJoiningEyebrow","CURRENT CONNECTION"));
     if(srjState.sessionId){
       const expiredByClock=srjExpiredByClock();current.append(srjCreate("strong","remoteJoiningState",`${expiredByClock?"EXPIRED":String(srjState.sessionState||"unknown").toUpperCase()} · REV ${Number.isInteger(srjState.revision)?srjState.revision:"—"} · ${srjState.role||"member"}`));
       const visibleCode=srjState.capabilityCopyAllowed===true&&!srjState.pendingAction?srjState.sessionId:srjShort(srjState.sessionId);
