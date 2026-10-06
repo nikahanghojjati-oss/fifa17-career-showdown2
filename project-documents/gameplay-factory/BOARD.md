@@ -1,10 +1,10 @@
 # Bug hunt board
 
-Updated Mon 5 Oct, 11:08 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
+Updated Mon 5 Oct, 11:09 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r62** (main `bc77a0b`, Mon 5 Oct 9:18 PM)
 
-🩺 **All clear: every check has a machine.** · POS20 #304 6/16
+🐕 **Barking: POS20 on #312 has waited 2 min for a machine.** · POS20 #304 6/16
 
 ## Jobs
 
@@ -23,10 +23,9 @@ Updated Mon 5 Oct, 11:08 PM Boston time. Bug hunting only, no new features until
 
 - **1028** Statistics shows an abandoned-only career (hunt 1019 H5) · after 
 - **1005** Last season's score is skipped before the Final Winner · after Team V designs the combined screen (HO-011)
-- **1023** Session code replacement: double tap and lost join watcher · after 
 - **1024** Reconnect keeps stale authority after sign-out, offline or expiry · after 
 
-**Done, in the next release:** 1001, 1003, 1004, 1009, 1014, 1015, 1020, 1021
+**Done, in the next release:** 1001, 1003, 1004, 1009, 1014, 1015, 1020, 1021, 1023
 
 ## Other asks
 
