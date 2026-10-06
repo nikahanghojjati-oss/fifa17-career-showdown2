@@ -764,10 +764,10 @@
      "id": "1009",
      "group": "Bug list 1",
      "title": "1009 · G Showdown Champion: dark oval over the losing manager",
-     "lane": "blue",
+     "lane": "green",
      "state": "ready",
-     "waits_on": "Nik types it in the gameplay project",
-     "details": "GPT blue, one file: delete the loser shade rule in final-winner.css."
+     "waits_on": "Nik types it in the gameplay project (Work mode)",
+     "details": "GPT green (Nik prefers Work mode until his GPT subscription ends ~2026-10-08), one file: delete the loser shade rule in final-winner.css."
     },
     {
      "id": "1010",
