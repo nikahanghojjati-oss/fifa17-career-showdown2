@@ -96,7 +96,7 @@ Team G official job: NOT READY TO CLAIM
 
 ## Intake trigger
 
-Submit this to Team G only after the catalog reaches the agreed evidence floor and the current Team G bug-only freeze permits feature intake, or when Nik explicitly asks Team G to evaluate it despite the freeze.
+This packet is intentionally for the post-bug-hunt feature board, not the current bug-hunt board. Nik's plan is to finish the present visual/gameplay bug-hunt phase first, then start a new feature board where soundtrack expansion can become an official Team G job. Submit this packet when that future feature-board intake opens and the catalog has reached the agreed evidence floor.
 
 At submission time:
 1. re-resolve live main;
