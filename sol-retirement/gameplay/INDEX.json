@@ -1,0 +1,1595 @@
+[
+  {
+    "id": "B001",
+    "file": "BUGS_AND_TESTS.md",
+    "date": "2026-08-13",
+    "type": "bug_or_test",
+    "summary": "Service Worker prematurely acknowledged activation and Candidate C allowed a loose snapshot fallback; PR #40/#42 and v1.3.0-r1 were later reported as fixing them. Automated/deployment evidence is not physical owner acceptance.",
+    "status": "assistant-reported technical fix",
+    "source_chat": "CAREER MODE SHOWDOWN — MASTER DEVELOPMENT CONTINUATION PROMPT"
+  },
+  {
+    "id": "D001",
+    "file": "DECISIONS.md",
+    "date": "2026-08-13",
+    "type": "decision",
+    "summary": "Preserve the proven project architecture; continue from verified state rather than restarting or redesigning.",
+    "status": "still valid",
+    "source_chat": "CAREER MODE SHOWDOWN — MASTER DEVELOPMENT CONTINUATION PROMPT"
+  },
+  {
+    "id": "D002",
+    "file": "DECISIONS.md",
+    "date": "2026-08-13",
+    "type": "decision",
+    "summary": "Sequential zero-padded Dev Continuation chat titles and matching handoffs were accepted; later factory job naming may supersede this convention.",
+    "status": "unsure",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: Dev Continuation naming]"
+  },
+  {
+    "id": "L001",
+    "file": "LESSONS.md",
+    "date": "2026-08-13",
+    "type": "lesson",
+    "summary": "GitHub green checks, deploy success and a shipped version are separate from owner visual acceptance and a real two-device journey.",
+    "status": "lesson",
+    "source_chat": "CAREER MODE SHOWDOWN — MASTER DEVELOPMENT CONTINUATION PROMPT"
+  },
+  {
+    "id": "L002",
+    "file": "LESSONS.md",
+    "date": "2026-08-13",
+    "type": "lesson",
+    "summary": "Connector safety/publication blocks can stop a release even after technical validation; record the last verified state and never report a blocked write as successful.",
+    "status": "lesson",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: connector publication failure]"
+  },
+  {
+    "id": "R001",
+    "file": "REJECTED.md",
+    "date": "2026-08-13",
+    "type": "rejected",
+    "summary": "PR #37 shell was treated as untrusted and was not to be merged/deployed; retain only as historical rejected direction, with exact technical cause not recovered.",
+    "status": "rejected",
+    "source_chat": "CAREER MODE SHOWDOWN — MASTER DEVELOPMENT CONTINUATION PROMPT"
+  },
+  {
+    "id": "B002",
+    "file": "BUGS_AND_TESTS.md",
+    "date": "2026-08-14",
+    "type": "bug_or_test",
+    "summary": "Switching/deleting Save cards rerendered focus and broke Settings Escape closure; PR #53 reportedly restored dialog focus. No paired-device test was involved.",
+    "status": "assistant-reported technical fix",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: Save Library UI shipment]"
+  },
+  {
+    "id": "B003",
+    "file": "BUGS_AND_TESTS.md",
+    "date": "2026-08-14",
+    "type": "bug_or_test",
+    "summary": "Analytics combined distinct same-name profiles using normalized names; a profile-ID-only replacement could instead split one human. Cross-Save linkage resolution is not recovered.",
+    "status": "fix unknown",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: Analytics audit]"
+  },
+  {
+    "id": "D003",
+    "file": "DECISIONS.md",
+    "date": "2026-08-14",
+    "type": "decision",
+    "summary": "Nik made proactive handoffs at clean boundaries a standing quality rule; preserve unfinished work and exact evidence before context or usage runs out.",
+    "status": "still valid",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: quality-first handoff]"
+  },
+  {
+    "id": "D004",
+    "file": "DECISIONS.md",
+    "date": "2026-08-14",
+    "type": "decision",
+    "summary": "Cloud/accounts/sync were outside that milestone's scope, not a permanent prohibition; later remote-play authorization replaced the deferral.",
+    "status": "replaced",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: v1.3 and Save Library continuation]"
+  },
+  {
+    "id": "L003",
+    "file": "LESSONS.md",
+    "date": "2026-08-14",
+    "type": "lesson",
+    "summary": "A wrong tool route reportedly replaced PR #40's body with 'checkpoint' and created TEMP IGNORE issue #41; repaired with no source impact. Check the intended operation before mutations.",
+    "status": "lesson",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: tool-routing mistake]"
+  },
+  {
+    "id": "L004",
+    "file": "LESSONS.md",
+    "date": "2026-08-14",
+    "type": "lesson",
+    "summary": "Short, exact handoffs at coherent boundaries worked better than exhausting a long chat; include what is done, blocked, and unverified, rather than reassurance about model continuity.",
+    "status": "lesson",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: quality-first continuity]"
+  },
+  {
+    "id": "L005",
+    "file": "LESSONS.md",
+    "date": "2026-08-14",
+    "type": "lesson",
+    "summary": "External Grok advice can contain stale roadmap states or unsafe fixes; evaluate against current behavior and identity semantics before adopting it.",
+    "status": "lesson",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: Grok audit]"
+  },
+  {
+    "id": "O001",
+    "file": "OPEN.md",
+    "date": "2026-08-14",
+    "type": "open",
+    "summary": "Audit identified same-name profile conflation and missing historical/cross-Save linkage semantics. Later resolution is not shown; do not reopen or claim fixed without Claude's current evidence.",
+    "status": "unsure",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: cross-Save Analytics audit]"
+  },
+  {
+    "id": "R002",
+    "file": "REJECTED.md",
+    "date": "2026-08-14",
+    "type": "rejected",
+    "summary": "Device/writer IDs, distributed locks, cloud/conflict metadata, and backup-envelope redesign were deferred outside the local Save Library milestone, then reconsidered for authorized remote work.",
+    "status": "deferred",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: Grok audit of Save Library]"
+  },
+  {
+    "id": "R003",
+    "file": "REJECTED.md",
+    "date": "2026-08-14",
+    "type": "rejected",
+    "summary": "A profile-ID-only Analytics repair was unsafe: fresh Save profiles could split one human across Saves. Explicit cross-Save identity linkage was needed first.",
+    "status": "rejected",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: cross-Save Analytics audit]"
+  },
+  {
+    "id": "D005",
+    "file": "DECISIONS.md",
+    "date": "2026-08-16",
+    "type": "decision",
+    "summary": "The game is permanently private for the owner and one friend; eliminate community and global leaderboards. September narrowed the two managers to Nik and Daniel.",
+    "status": "still valid",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: private owner plus one friend]"
+  },
+  {
+    "id": "D006",
+    "file": "DECISIONS.md",
+    "date": "2026-08-16",
+    "type": "decision",
+    "summary": "Local-first play with optional cloud was the historical product direction; the September 14 online-only Shared Showdown decision replaced it.",
+    "status": "replaced",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: optional cloud roadmap]"
+  },
+  {
+    "id": "R004",
+    "file": "REJECTED.md",
+    "date": "2026-08-16",
+    "type": "rejected",
+    "summary": "Public community and global leaderboards were permanently dropped because the product is a private two-manager competition.",
+    "status": "rejected",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: private product boundary]"
+  },
+  {
+    "id": "L006",
+    "file": "LESSONS.md",
+    "date": "2026-08-20",
+    "type": "lesson",
+    "summary": "The attachment is an old local/offline-first App Check checkpoint and explicitly defers to later truth; it is not a current runtime, readiness, merge, or deployment authority.",
+    "status": "lesson",
+    "source_chat": "SUCCESSOR_HANDOFF_PR115_APP_CHECK_RUNTIME_SLE_2026-08-20(1).md [attached handoff; original chat title unavailable]"
+  },
+  {
+    "id": "L007",
+    "file": "LESSONS.md",
+    "date": "2026-08-20",
+    "type": "lesson",
+    "summary": "Fetching logs before a job finished reportedly produced transient 404; this is a tool-timing failure, not a product bug. Current factory workers leave CI handling to Claude.",
+    "status": "lesson",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: PR115 validation experience]"
+  },
+  {
+    "id": "O002",
+    "file": "OPEN.md",
+    "date": "2026-08-20",
+    "type": "open",
+    "summary": "PR115 publication and legitimate production App Check proof were successor tasks. Later remote releases make this a historical checkpoint, not a current blocker; attachment contains no final physical acceptance.",
+    "status": "historical, verification unknown",
+    "source_chat": "SUCCESSOR_HANDOFF_PR115_APP_CHECK_RUNTIME_SLE_2026-08-20(1).md [attached handoff; original chat title unavailable]"
+  },
+  {
+    "id": "B004",
+    "file": "BUGS_AND_TESTS.md",
+    "date": "2026-08-21",
+    "type": "bug_or_test",
+    "summary": "Two distinct browser storage identities on one Chromebook were reported, not two physical machines; do not count this as a paired Chromebook/iPhone play test.",
+    "status": "automated only, physical proof absent",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: Grok expert review]"
+  },
+  {
+    "id": "B005",
+    "file": "BUGS_AND_TESTS.md",
+    "date": "2026-08-24",
+    "type": "bug_or_test",
+    "summary": "Saved memory reports Chromebook versus iPhone Safari and a Player2 permission error. Exact release, error text, and final passing outcome are unavailable.",
+    "status": "physical failure, fix unknown",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: first physical pairing report]"
+  },
+  {
+    "id": "B006",
+    "file": "BUGS_AND_TESTS.md",
+    "date": "2026-08-24",
+    "type": "bug_or_test",
+    "summary": "Owner supplied Chromebook screenshot; assistant said refresh/authorization succeeded and instructed Player2 'Lil' to publish revision 0. Actual publish outcome and second-device details are unknown.",
+    "status": "physical observation, completion unknown",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: shared revision-zero publish]"
+  },
+  {
+    "id": "B007",
+    "file": "BUGS_AND_TESTS.md",
+    "date": "2026-08-24",
+    "type": "bug_or_test",
+    "summary": "Safari required relogin/reconnect; Nik/Player1 showed pair_a07108…756fb at revision1, while Player2 'Gop' showed pair_d1db8e… not published; later both showed pair_d1db8e…ff677. These historical labels must not be relabelled Daniel without evidence.",
+    "status": "physical observation, fix unknown",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: Safari reconnect / mismatched pair views]"
+  },
+  {
+    "id": "L008",
+    "file": "LESSONS.md",
+    "date": "2026-08-24",
+    "type": "lesson",
+    "summary": "Pair ID, revision and exact runtime on each device matter; a refresh or same displayed version does not prove both browsers use the same authoritative session.",
+    "status": "lesson",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: paired browser test]"
+  },
+  {
+    "id": "O003",
+    "file": "OPEN.md",
+    "date": "2026-08-24",
+    "type": "open",
+    "summary": "Two browser views showed mismatched pair IDs/revisions, later matching IDs; final Safari pairing repair/physical reconciliation outcome is not recovered.",
+    "status": "unsure",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: Safari pairing repair]"
+  },
+  {
+    "id": "D007",
+    "file": "DECISIONS.md",
+    "date": "2026-09-01",
+    "type": "decision",
+    "summary": "Keep fifa17-career-showdown-prod on Firebase Spark with billing OFF; durable access must be least-privilege and must not expose credentials in chat.",
+    "status": "still valid",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: zero-billing Firebase access]"
+  },
+  {
+    "id": "O004",
+    "file": "OPEN.md",
+    "date": "2026-09-01",
+    "type": "open",
+    "summary": "Owner setup for the dedicated Rules deployer and provider readback was requested. Later Rules-proof claims exist, but the complete setup closure is not recoverable here.",
+    "status": "unsure",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: zero-billing Rules access instructions]"
+  },
+  {
+    "id": "B008",
+    "file": "BUGS_AND_TESTS.md",
+    "date": "2026-09-05",
+    "type": "bug_or_test",
+    "summary": "Chromebook host/Home Wi-Fi plus iPhone peer/cellular reportedly proved ACTIVE rev1, iPhone offline→online recovery, CLOSED rev2 and no resurrection on v1.9.1/1.9.1-r2. Sanitized evidence and PR #197 validator repair were reported; full SSJR gameplay was not proven.",
+    "status": "assistant-reported physical pass, scope limited",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: RJR physical acceptance]"
+  },
+  {
+    "id": "D008",
+    "file": "DECISIONS.md",
+    "date": "2026-09-05",
+    "type": "decision",
+    "summary": "One active writer per shared branch; avoid collisions between chats. Later isolated factory jobs allow bounded work without granting concurrent edits to the same files.",
+    "status": "still valid",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: single active developer]"
+  },
+  {
+    "id": "D009",
+    "file": "DECISIONS.md",
+    "date": "2026-09-05",
+    "type": "decision",
+    "summary": "Nik wanted a numerical successor milestone and an explicit map of the remote Showdown journey, rather than treating pairing readiness as the finished product.",
+    "status": "still valid",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: RJR100 successor milestone]"
+  },
+  {
+    "id": "L009",
+    "file": "LESSONS.md",
+    "date": "2026-09-05",
+    "type": "lesson",
+    "summary": "ChatGPT chat could not reliably tell whether another chat was actively editing; coordinate with explicit branch/PR/SHA checkpoints and one writer per shared surface.",
+    "status": "lesson",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: other chat visibility]"
+  },
+  {
+    "id": "O005",
+    "file": "OPEN.md",
+    "date": "2026-09-05",
+    "type": "open",
+    "summary": "RJR100 evidence was reported while stale RJR91 authority and premature successor naming blocked a clean handoff. Current resolution is not established by this archive.",
+    "status": "historical, verification unknown",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: RJR publication cleanup]"
+  },
+  {
+    "id": "D010",
+    "file": "DECISIONS.md",
+    "date": "2026-09-06",
+    "type": "decision",
+    "summary": "The actual goal is remote play with a friend in Spain. RJR100 means the connection foundation; SSJR must prove the playable shared journey.",
+    "status": "still valid",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: RJR versus SSJR clarification]"
+  },
+  {
+    "id": "D011",
+    "file": "DECISIONS.md",
+    "date": "2026-09-06",
+    "type": "decision",
+    "summary": "Pair the managers before league and club selection; shared progress, return/continue, seasons, results, history, and recovery belong to playable acceptance.",
+    "status": "still valid",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: pair before setup]"
+  },
+  {
+    "id": "L010",
+    "file": "LESSONS.md",
+    "date": "2026-09-06",
+    "type": "lesson",
+    "summary": "A100% connection metric can be correct while the game remains unplayable; define a separate user-journey acceptance target and do not infer progress from PR count.",
+    "status": "lesson",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: RJR versus SSJR]"
+  },
+  {
+    "id": "O006",
+    "file": "OPEN.md",
+    "date": "2026-09-06",
+    "type": "open",
+    "summary": "Complete the actual shared playable journey; RJR100 alone cannot close setup, transfer, season publishing/commit, continuation, history, and recovery acceptance.",
+    "status": "open, current verification needed",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: SSJR owner clarification]"
+  },
+  {
+    "id": "R005",
+    "file": "REJECTED.md",
+    "date": "2026-09-06",
+    "type": "rejected",
+    "summary": "Connection-only success as the final completion target was rejected; it did not deliver the remote playable Showdown Nik expected.",
+    "status": "replaced",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: RJR versus playable remote game]"
+  },
+  {
+    "id": "D012",
+    "file": "DECISIONS.md",
+    "date": "2026-09-09",
+    "type": "decision",
+    "summary": "Use one living visual master index and only its approved assets; older prototypes need an explicit reference. Current Claude asset authority may supersede the old index.",
+    "status": "unsure",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: visual asset authority]"
+  },
+  {
+    "id": "L011",
+    "file": "LESSONS.md",
+    "date": "2026-09-09",
+    "type": "lesson",
+    "summary": "Repeated promises of a master index did not substitute for actual files; Nik requested concrete artifacts, after which index and asset-standard files were reported delivered.",
+    "status": "lesson",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: promised visual master index]"
+  },
+  {
+    "id": "L012",
+    "file": "LESSONS.md",
+    "date": "2026-09-09",
+    "type": "lesson",
+    "summary": "That chat lacked GitHub/folder/automatic asset-save execution. Such limitations describe that session, not a permanent rule for all ChatGPT tools; do not promise unavailable automation.",
+    "status": "lesson",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: chat automation limitations]"
+  },
+  {
+    "id": "D013",
+    "file": "DECISIONS.md",
+    "date": "2026-09-10",
+    "type": "decision",
+    "summary": "Remove the gameplay/YouTube trailer and use an Audius free-tier player with Audius-supported tracks only. Memory supplies the date; exact source title is unavailable.",
+    "status": "still valid",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: soundtrack and trailer change]"
+  },
+  {
+    "id": "R006",
+    "file": "REJECTED.md",
+    "date": "2026-09-10",
+    "type": "rejected",
+    "summary": "Gameplay/YouTube trailer integration was dropped in favor of Audius-supported music. The precise chat-recorded rationale is not exposed.",
+    "status": "rejected",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: Audius soundtrack change]"
+  },
+  {
+    "id": "D014",
+    "file": "DECISIONS.md",
+    "date": "2026-09-11",
+    "type": "decision",
+    "summary": "The iPhone/main-game assistant owned engineering while Chromebook Showdown Visual owned isolated presentation; Claude's later lead role replaces the old model/device ownership mapping.",
+    "status": "replaced",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: senior gameplay / junior visual split]"
+  },
+  {
+    "id": "D015",
+    "file": "DECISIONS.md",
+    "date": "2026-09-11",
+    "type": "decision",
+    "summary": "Visual proposals must preserve real state, actions, persistence, privacy, and edge cases; document integration mappings and obtain owner review before production integration.",
+    "status": "still valid",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: isolated visual integration]"
+  },
+  {
+    "id": "L013",
+    "file": "LESSONS.md",
+    "date": "2026-09-11",
+    "type": "lesson",
+    "summary": "Isolated visual proposals preserve gameplay safety when they map real actions/privacy/state and wait for integration review; a pretty prototype is not proof of working gameplay.",
+    "status": "lesson",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: visual/gameplay roles]"
+  },
+  {
+    "id": "D016",
+    "file": "DECISIONS.md",
+    "date": "2026-09-14",
+    "type": "decision",
+    "summary": "Online-only, Shared Showdown only, and exactly Nik and Daniel. This replaces the earlier one-device and optional-cloud product direction.",
+    "status": "still valid",
+    "source_chat": "Simplify Showdown System"
+  },
+  {
+    "id": "D017",
+    "file": "DECISIONS.md",
+    "date": "2026-09-14",
+    "type": "decision",
+    "summary": "Simplify the interface while keeping essential features and architecture; move unnecessary technical controls behind the scenes or into an advanced tab.",
+    "status": "still valid",
+    "source_chat": "Simplify Showdown System"
+  },
+  {
+    "id": "D018",
+    "file": "DECISIONS.md",
+    "date": "2026-09-14",
+    "type": "decision",
+    "summary": "Startup budgets may change when the revamp requires it; this is permission for considered changes, not permission to ignore performance.",
+    "status": "still valid",
+    "source_chat": "Simplify Showdown System"
+  },
+  {
+    "id": "O007",
+    "file": "OPEN.md",
+    "date": "2026-09-14",
+    "type": "open",
+    "summary": "Persistent pairing and simple host/join were intended; available handoff evidence explicitly warned that lifecycle completion must not be assumed.",
+    "status": "unsure",
+    "source_chat": "Simplify Showdown System"
+  },
+  {
+    "id": "R007",
+    "file": "REJECTED.md",
+    "date": "2026-09-14",
+    "type": "rejected",
+    "summary": "Offline/one-device/optional-cloud play as the main product route was replaced by online-only Shared Showdown for Nik and Daniel.",
+    "status": "replaced",
+    "source_chat": "Simplify Showdown System"
+  },
+  {
+    "id": "R008",
+    "file": "REJECTED.md",
+    "date": "2026-09-14",
+    "type": "rejected",
+    "summary": "Removing essential features to simplify the interface was rejected; move clutter out of the primary flow instead.",
+    "status": "rejected",
+    "source_chat": "Simplify Showdown System"
+  },
+  {
+    "id": "B009",
+    "file": "BUGS_AND_TESTS.md",
+    "date": "2026-09-18",
+    "type": "bug_or_test",
+    "summary": "Nik reported Continue unresponsive on iPhone/Chrome around r32/r34/r36 and subsequent transfer/login problems. Memory dates span September18–21; exact first release and final physical fix are unavailable.",
+    "status": "physical failure, fix unknown",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: Continue regression]"
+  },
+  {
+    "id": "B010",
+    "file": "BUGS_AND_TESTS.md",
+    "date": "2026-09-19",
+    "type": "bug_or_test",
+    "summary": "Daniel Chromebook/Chrome host and Nik iPhone/Safari joiner, Bundesliga, SC Freiburg versus Hertha BSC, one season: r31 Chrome/r29 iPhone lacked OFFLINE APP despite source-level updater code.",
+    "status": "physical failure, fix unknown",
+    "source_chat": "Game Update Steps"
+  },
+  {
+    "id": "B011",
+    "file": "BUGS_AND_TESTS.md",
+    "date": "2026-09-19",
+    "type": "bug_or_test",
+    "summary": "The paired Freiburg/Hertha setup reached league/club selection and Career Start, but acknowledgements did nothing even after reconnect/refresh. This is not a completed playable journey.",
+    "status": "physical partial success, then failure",
+    "source_chat": "Game Update Steps"
+  },
+  {
+    "id": "B012",
+    "file": "BUGS_AND_TESTS.md",
+    "date": "2026-09-19",
+    "type": "bug_or_test",
+    "summary": "Nik's I STARTED AT HERTHA BSC on r32 produced CAREER_START_SETUP_PROVIDER_UNAVAILABLE; pairing remained intact and update UI offered the latest version.",
+    "status": "physical failure, fix unknown",
+    "source_chat": "Game Update Steps"
+  },
+  {
+    "id": "D019",
+    "file": "DECISIONS.md",
+    "date": "2026-09-19",
+    "type": "decision",
+    "summary": "Prioritize a safe, working playable game quickly; instructions must match the deployed client UI and be supported by actual browser verification.",
+    "status": "still valid",
+    "source_chat": "Game Update Steps"
+  },
+  {
+    "id": "L014",
+    "file": "LESSONS.md",
+    "date": "2026-09-19",
+    "type": "lesson",
+    "summary": "Source code containing an updater panel did not make it appear on Chromebook/iPhone. Runtime/module/cache coherence must be tested on the actual served UI.",
+    "status": "lesson",
+    "source_chat": "Game Update Steps"
+  },
+  {
+    "id": "O008",
+    "file": "OPEN.md",
+    "date": "2026-09-19",
+    "type": "open",
+    "summary": "Nik requested a working hosted game and instructions based on current UI. Repeated later physical blockers mean this promise was not fully demonstrated by the visible chat.",
+    "status": "unsure",
+    "source_chat": "Game Update Steps"
+  },
+  {
+    "id": "B013",
+    "file": "BUGS_AND_TESTS.md",
+    "date": "2026-09-19/20",
+    "type": "bug_or_test",
+    "summary": "Both devices hit SETUP PROVIDER UNAVAILABLE after Continue Career on r34; r35/PR #281 reportedly fixed provider dependency ordering. A complete post-fix physical journey is not shown.",
+    "status": "assistant-reported technical fix",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: r34 setup / r35 dependency fix]"
+  },
+  {
+    "id": "B014",
+    "file": "BUGS_AND_TESTS.md",
+    "date": "2026-09-19/20",
+    "type": "bug_or_test",
+    "summary": "Daniel Chromebook showed 14:51 live while Nik iPhone showed 15:00 waiting; FRESH PRIVATE SESSION REQUIRED and JOURNEY_RECONNECT_PROGRESSION_NOT_AUTHORITATIVE appeared. r36 reportedly extended the private capability from 15 to 30 minutes; Nik later rejected 30.",
+    "status": "physical failure; partial technical fix reported",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: r35 transfer timer mismatch]"
+  },
+  {
+    "id": "B015",
+    "file": "BUGS_AND_TESTS.md",
+    "date": "2026-09-20",
+    "type": "bug_or_test",
+    "summary": "Both Transfer screens reportedly reached 00:00 and could not start, with permission-denied, TRANSFER_SETUP_NOT_CONFIRMED and reconnect-authority errors. Later r42/r44 technical claims do not prove owner acceptance.",
+    "status": "physical failure; final physical fix unknown",
+    "source_chat": "Choose Next Task"
+  },
+  {
+    "id": "B016",
+    "file": "BUGS_AND_TESTS.md",
+    "date": "2026-09-20",
+    "type": "bug_or_test",
+    "summary": "iPhone displayed nationality only while Chrome displayed nationality plus league; signing produced permission denied. r42 reportedly fixed mobile signing fields, permission handling, timer/guessing and reconnect behavior; no completed physical rerun is visible.",
+    "status": "physical failure; assistant-reported r42 fix",
+    "source_chat": "Choose Next Task"
+  },
+  {
+    "id": "B017",
+    "file": "BUGS_AND_TESTS.md",
+    "date": "2026-09-20",
+    "type": "bug_or_test",
+    "summary": "r42/r44 checkpoints claimed successful Transfer/Results/Commit/Acknowledge/scoring/history/multi-season/browser smoke. Treat these as technical reports, not proof the two physical devices finished a season.",
+    "status": "assistant-reported technical fixes, physical acceptance pending",
+    "source_chat": "Choose Next Task"
+  },
+  {
+    "id": "B018",
+    "file": "BUGS_AND_TESTS.md",
+    "date": "2026-09-20",
+    "type": "bug_or_test",
+    "summary": "r43 bug hunt identified mobile timer visual lag after background/sleep, stale legacy/shared-home displays, and session-expiry recovery weaknesses.",
+    "status": "assistant-reported finding, closure unknown",
+    "source_chat": "Choose Next Task"
+  },
+  {
+    "id": "B019",
+    "file": "BUGS_AND_TESTS.md",
+    "date": "2026-09-20",
+    "type": "bug_or_test",
+    "summary": "Later handoff evidence adopted a four-hour replaceable capability. This is distinct from permanent showdown/pairing lifetime; continued sessions/recovery still need physical proof.",
+    "status": "historical technical change, acceptance unknown",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: private-session duration]"
+  },
+  {
+    "id": "D020",
+    "file": "DECISIONS.md",
+    "date": "2026-09-20",
+    "type": "decision",
+    "summary": "Provide a candid account of current bugs, fixes, expected behavior, and remaining playability work; do not promise a bug-free date without evidence.",
+    "status": "still valid",
+    "source_chat": "Choose Next Task"
+  },
+  {
+    "id": "D021",
+    "file": "DECISIONS.md",
+    "date": "2026-09-20",
+    "type": "decision",
+    "summary": "Nik rejected a 30-minute private capability. Requested at least one hour, preferably two hours or more; later handoff evidence describes a four-hour capability.",
+    "status": "still valid",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: private session lifetime feedback]"
+  },
+  {
+    "id": "L015",
+    "file": "LESSONS.md",
+    "date": "2026-09-20",
+    "type": "lesson",
+    "summary": "Starting a short authorization lifetime before setup caused it to expire during a 15-minute transfer window; capability renewal and game/pairing lifetime need separate treatment.",
+    "status": "lesson",
+    "source_chat": "Choose Next Task"
+  },
+  {
+    "id": "O009",
+    "file": "OPEN.md",
+    "date": "2026-09-20",
+    "type": "open",
+    "summary": "A full issue/fix report and realistic completion expectations were requested. No visible evidence proves every reported issue was later closed.",
+    "status": "unsure",
+    "source_chat": "Choose Next Task"
+  },
+  {
+    "id": "R009",
+    "file": "REJECTED.md",
+    "date": "2026-09-20",
+    "type": "rejected",
+    "summary": "Thirty-minute private capability was too short for setup and a 15-minute transfer window; Nik asked for at least one hour, preferably two or more.",
+    "status": "rejected",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: private-session feedback]"
+  },
+  {
+    "id": "D022",
+    "file": "DECISIONS.md",
+    "date": "2026-09-21",
+    "type": "decision",
+    "summary": "Review the visual proposal and produce coaching only; do not implement it on main merely because it was reviewed.",
+    "status": "still valid",
+    "source_chat": "Review guidance documents"
+  },
+  {
+    "id": "L016",
+    "file": "LESSONS.md",
+    "date": "2026-09-21",
+    "type": "lesson",
+    "summary": "Study chat-on-steroids for useful workflow practices, but keep it an external research input rather than project truth or automatic implementation authority.",
+    "status": "research idea",
+    "source_chat": "Review guidance documents"
+  },
+  {
+    "id": "O010",
+    "file": "OPEN.md",
+    "date": "2026-09-21",
+    "type": "open",
+    "summary": "Requested a downloadable visual coaching package within five minutes, then teaching material for totec448-spec/chat-on-steroids within seven minutes; filenames/outcome are not verified here. The intended URL was https://github.com/totec448-spec/chat-on-steroids.",
+    "status": "unsure",
+    "source_chat": "Review guidance documents"
+  },
+  {
+    "id": "B020",
+    "file": "BUGS_AND_TESTS.md",
+    "date": "2026-09-21/22",
+    "type": "bug_or_test",
+    "summary": "Seven findings B1–B7 were reported; B1 was not privacy-clean and B5/B6/B7 remained unresolved. Exact definitions are not visible, so retain identifiers without inventing symptoms.",
+    "status": "assistant findings, not physical pass",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: r44 full journey review]"
+  },
+  {
+    "id": "D023",
+    "file": "DECISIONS.md",
+    "date": "2026-09-22",
+    "type": "decision",
+    "summary": "Nik rated SV01 about 7/10 and wanted stronger immersion; preserve manager identities Daniel and Nik during visual improvements.",
+    "status": "still valid",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: SV01 owner rating]"
+  },
+  {
+    "id": "B021",
+    "file": "BUGS_AND_TESTS.md",
+    "date": "2026-09-23",
+    "type": "bug_or_test",
+    "summary": "Run card called for Daniel Chromebook host/Home Wi-Fi and Nik iPhone Safari peer/cellular, sanitized exports and 35-second Results dwell. A checklist itself awards no physical acceptance.",
+    "status": "planned test, not a completed run",
+    "source_chat": "Ambiguity Reasoning Rule"
+  },
+  {
+    "id": "D024",
+    "file": "DECISIONS.md",
+    "date": "2026-09-23",
+    "type": "decision",
+    "summary": "Build bug hunting into the workflow and continue until physical owner testing is ready; verify online routes are linked across the full journey.",
+    "status": "still valid",
+    "source_chat": "Ambiguity Reasoning Rule"
+  },
+  {
+    "id": "D025",
+    "file": "DECISIONS.md",
+    "date": "2026-09-23",
+    "type": "decision",
+    "summary": "Sol was lead, Luna handled bounded assistance, and Astra handled escalation; Claude now owns project truth, so these historical roles are not current authority.",
+    "status": "replaced",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: Sol / Luna / Astra roles]"
+  },
+  {
+    "id": "L017",
+    "file": "LESSONS.md",
+    "date": "2026-09-23",
+    "type": "lesson",
+    "summary": "Repeated CI polling, reloads, interruptions, stale wording and dead-end routes consumed effort; tie each investigation to a concrete bug and evidence-bearing next action.",
+    "status": "lesson",
+    "source_chat": "Ambiguity Reasoning Rule"
+  },
+  {
+    "id": "L018",
+    "file": "LESSONS.md",
+    "date": "2026-09-23",
+    "type": "lesson",
+    "summary": "Focused briefs, isolated work and centralized verification helped delegation; more agents were not automatically better. Current retirement work does not need subagents.",
+    "status": "lesson",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: bounded delegation]"
+  },
+  {
+    "id": "O011",
+    "file": "OPEN.md",
+    "date": "2026-09-23",
+    "type": "open",
+    "summary": "Nik requested sustained reliability/bug-hunt work and asked whether every online page was properly linked/routed. No complete physical end-to-end route certificate is visible.",
+    "status": "unsure",
+    "source_chat": "Ambiguity Reasoning Rule"
+  },
+  {
+    "id": "O012",
+    "file": "OPEN.md",
+    "date": "2026-09-23",
+    "type": "open",
+    "summary": "PR302 had reportedly passed technical validation while five review threads remained unresolved. Its merge/fix acceptance must not be inferred from that checkpoint.",
+    "status": "historical, verification unknown",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: PR302 Results-to-Commit fix]"
+  },
+  {
+    "id": "B022",
+    "file": "BUGS_AND_TESTS.md",
+    "date": "2026-09-25",
+    "type": "bug_or_test",
+    "summary": "PR #280 tap coalescing/busy states reportedly fixed repeated Shared Setup/club taps and was present in r46; owner-device success was not demonstrated in the QA report.",
+    "status": "assistant-reported earlier technical fix",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: repeated-click QA]"
+  },
+  {
+    "id": "B023",
+    "file": "BUGS_AND_TESTS.md",
+    "date": "2026-09-25",
+    "type": "bug_or_test",
+    "summary": "Controlled loader harness found stale delayed route overwrites; stale NEXT_TASK authority and missing generic delayed-load tests were also reported. Browser tests were blocked by tar-fs.",
+    "status": "reproduced harness finding, physical proof absent",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: delayed-route QA]"
+  },
+  {
+    "id": "B024",
+    "file": "BUGS_AND_TESTS.md",
+    "date": "2026-09-25",
+    "type": "bug_or_test",
+    "summary": "Review of r46 said the pilot's timer/early-end UI, proposal IDs and role mappings disagreed with product truth; map canonical actions before integration.",
+    "status": "proposal discrepancy, implementation unverified",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: Transfer Guess Entry pilot review]"
+  },
+  {
+    "id": "D026",
+    "file": "DECISIONS.md",
+    "date": "2026-09-25",
+    "type": "decision",
+    "summary": "Luna QA investigated and proposed; Sol reviewed, implemented, tested, and shipped. Claude's retirement-era lead role replaces Sol's ownership; proposal-only separation still matters.",
+    "status": "replaced",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: QA proposal-only boundary]"
+  },
+  {
+    "id": "D027",
+    "file": "DECISIONS.md",
+    "date": "2026-09-25",
+    "type": "decision",
+    "summary": "SV01 visual work required L1 then L2, a browser-openable frozen candidate, fingerprint, and compact handoff; image generation was locked in that lane. Later authorized standalone image tickets are scoped exceptions.",
+    "status": "unsure",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: Showdown Visual proposal lock]"
+  },
+  {
+    "id": "L019",
+    "file": "LESSONS.md",
+    "date": "2026-09-25",
+    "type": "lesson",
+    "summary": "Missing tar-fs blocked browser tests; a controlled harness finding still needs appropriate browser/physical verification, and blocked tests must remain labelled blocked.",
+    "status": "lesson",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: QA tool failure]"
+  },
+  {
+    "id": "L020",
+    "file": "LESSONS.md",
+    "date": "2026-09-25",
+    "type": "lesson",
+    "summary": "Nik had Codex review set up and wanted sparing use; no evidence here establishes unlimited review access or availability after the Free downgrade.",
+    "status": "lesson",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: Codex QA setup]"
+  },
+  {
+    "id": "O013",
+    "file": "OPEN.md",
+    "date": "2026-09-25",
+    "type": "open",
+    "summary": "Bounded fix proposal plus at least three additional bugs was requested; findings were reported, but implementation and current closure of delayed-route/stale-authority/test gaps are unverified.",
+    "status": "unsure",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: QA repeated-click investigation]"
+  },
+  {
+    "id": "O014",
+    "file": "OPEN.md",
+    "date": "2026-09-25",
+    "type": "open",
+    "summary": "Browser testing was blocked by missing tar-fs; no physical-device evidence accompanied that QA report.",
+    "status": "unsure",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: QA browser test environment]"
+  },
+  {
+    "id": "R010",
+    "file": "REJECTED.md",
+    "date": "2026-09-25",
+    "type": "rejected",
+    "summary": "Wholesale adoption of every QA glossary/POS20 idea was rejected; study selectively and use Codex sparingly.",
+    "status": "rejected",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: QA operating lessons]"
+  },
+  {
+    "id": "B025",
+    "file": "BUGS_AND_TESTS.md",
+    "date": "2026-09-27",
+    "type": "bug_or_test",
+    "summary": "Nik said both devices waited 35 seconds on Review My Season Result without navigating away; this supports stability of that checkpoint only, not full SSJR acceptance.",
+    "status": "physical pass for one checkpoint",
+    "source_chat": "SSJR Test Instructions"
+  },
+  {
+    "id": "B026",
+    "file": "BUGS_AND_TESTS.md",
+    "date": "2026-09-27",
+    "type": "bug_or_test",
+    "summary": "Both managers reached Publish My Season Result; Daniel lacked Commit Shared Season after both cards were published. Devices: Daniel Chromebook/Chrome, Nik iPhone/Safari from surrounding test context; exact deployed runtime in screenshot not independently verified here.",
+    "status": "physical failure, r47 remedy not physically proven",
+    "source_chat": "SSJR Test Instructions"
+  },
+  {
+    "id": "D028",
+    "file": "DECISIONS.md",
+    "date": "2026-09-27",
+    "type": "decision",
+    "summary": "Only the host starts the actual Shared Showdown. Nik rejected instructions requiring both devices to create fake offline saves or fresh local shells first.",
+    "status": "still valid",
+    "source_chat": "SSJR Test Instructions"
+  },
+  {
+    "id": "D029",
+    "file": "DECISIONS.md",
+    "date": "2026-09-27",
+    "type": "decision",
+    "summary": "Promote Claude Opus 5.5 to main visual producer and make Sol a coordinator; the retirement instruction extends Claude's ownership to project truth.",
+    "status": "replaced",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: Claude visual producer promotion]"
+  },
+  {
+    "id": "D030",
+    "file": "DECISIONS.md",
+    "date": "2026-09-27",
+    "type": "decision",
+    "summary": "Study FIFA 17 menus and The Journey deeply: camera, staging, depth, typography, grids, transitions, lighting, motion, materials, and mobile recomposition should inform Showdown.",
+    "status": "still valid",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: FIFA 17 Journey research]"
+  },
+  {
+    "id": "L021",
+    "file": "LESSONS.md",
+    "date": "2026-09-27",
+    "type": "lesson",
+    "summary": "Vague visual briefs/asset placement wasted Claude session usage and missed atmosphere; use exact canonical references, screen-specific direction and clear approval checkpoints.",
+    "status": "lesson",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: Claude visual lead]"
+  },
+  {
+    "id": "L022",
+    "file": "LESSONS.md",
+    "date": "2026-09-27",
+    "type": "lesson",
+    "summary": "For individual character assets, one person/image and self-contained tickets worked better than collage requests; use transparency, likeness priority and hand/anatomy checks.",
+    "status": "lesson",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: standalone image tickets]"
+  },
+  {
+    "id": "L023",
+    "file": "LESSONS.md",
+    "date": "2026-09-27",
+    "type": "lesson",
+    "summary": "Nik reported interrupted streaming/reference handling where images displaced written responses; retain the written brief alongside each image reference.",
+    "status": "lesson",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: reference-image streaming]"
+  },
+  {
+    "id": "O015",
+    "file": "OPEN.md",
+    "date": "2026-09-27",
+    "type": "open",
+    "summary": "Daniel lacked COMMIT SHARED SEASON after both managers published. r47 reportedly adds read/retry/error handling; deployed r47 and a new passing paired run are not proven in visible history.",
+    "status": "open, last physical failure",
+    "source_chat": "SSJR Test Instructions"
+  },
+  {
+    "id": "O016",
+    "file": "OPEN.md",
+    "date": "2026-09-27",
+    "type": "open",
+    "summary": "Updated host-only test instructions and a Sol continuation handoff were requested. Any successor run should use the current UI, not the rejected fresh-shell instruction.",
+    "status": "unsure",
+    "source_chat": "SSJR Test Instructions"
+  },
+  {
+    "id": "O017",
+    "file": "OPEN.md",
+    "date": "2026-09-27",
+    "type": "open",
+    "summary": "Reconcile LEAN V4, sign PT1–PT4, and prepare the final fresh Claude Project build prompt; exact completion evidence is not visible.",
+    "status": "unsure",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: Claude CP1P / LEAN V4 preparation]"
+  },
+  {
+    "id": "O018",
+    "file": "OPEN.md",
+    "date": "2026-09-27",
+    "type": "open",
+    "summary": "Deep Journey/menu research and a Showdown-specific presentation bible were requested; preserve the requested topics, but no complete verified research deliverable is visible here.",
+    "status": "unsure",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: FIFA 17 Journey presentation bible]"
+  },
+  {
+    "id": "R011",
+    "file": "REJECTED.md",
+    "date": "2026-09-27",
+    "type": "rejected",
+    "summary": "Two fresh local shells/fake offline saves before pairing were rejected as incorrect instructions for the actual host/join flow.",
+    "status": "rejected",
+    "source_chat": "SSJR Test Instructions"
+  },
+  {
+    "id": "R012",
+    "file": "REJECTED.md",
+    "date": "2026-09-27",
+    "type": "rejected",
+    "summary": "Sol as the main visual producer was dropped after unsatisfactory atmosphere and wasted Claude session effort; Claude was promoted and Sol coordinated.",
+    "status": "replaced",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: visual producer change]"
+  },
+  {
+    "id": "R013",
+    "file": "REJECTED.md",
+    "date": "2026-09-27",
+    "type": "rejected",
+    "summary": "Collages/contact sheets failed individual asset delivery. Replace them with self-contained, one-image tickets using canonical references.",
+    "status": "rejected",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: five standalone asset tickets]"
+  },
+  {
+    "id": "B027",
+    "file": "BUGS_AND_TESTS.md",
+    "date": "2026-09-28",
+    "type": "bug_or_test",
+    "summary": "Retrieved handoff says r46 swallowed failed Commit reads and r47 adds authoritative read, check/retry and sanitized failure code. PR #305/deployed r47 plus a fresh paired export were required; closure is not exposed.",
+    "status": "proposed/recorded technical remedy, physical fix unknown",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: r47 commit-recovery handoff]"
+  },
+  {
+    "id": "D031",
+    "file": "DECISIONS.md",
+    "date": "2026-09-28",
+    "type": "decision",
+    "summary": "Transfer War Room should use premium cinematic smoked-glass plates with thin bright gold frames, slim title bars, soft gold spill, and adjustable transparency.",
+    "status": "still valid",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: Transfer War Room owner feedback]"
+  },
+  {
+    "id": "D032",
+    "file": "DECISIONS.md",
+    "date": "2026-09-28",
+    "type": "decision",
+    "summary": "Transfer War Room needs two hero poses; generic rectangular boxes were rejected for this screen.",
+    "status": "still valid",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: Transfer War Room poses]"
+  },
+  {
+    "id": "D033",
+    "file": "DECISIONS.md",
+    "date": "2026-09-28",
+    "type": "decision",
+    "summary": "Home may use FIFA 17-inspired geometric tiles; Settings and season entry/summary may use rectangular or shaped panels when appropriate.",
+    "status": "still valid",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: Home and other panel shapes]"
+  },
+  {
+    "id": "D034",
+    "file": "DECISIONS.md",
+    "date": "2026-09-28",
+    "type": "decision",
+    "summary": "Club Assignment target shows Daniel and Nik holding black/gold club packs, with Draw → Pack 1 → Pack 2 → VS → Lock and a rivalry reveal panel.",
+    "status": "still valid",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: Club Assignment target authority]"
+  },
+  {
+    "id": "D035",
+    "file": "DECISIONS.md",
+    "date": "2026-09-28",
+    "type": "decision",
+    "summary": "Preserve the latest Home build plus target, Select League R8.43 implementation plus target, and Club Assignment target; later work should not discard these references.",
+    "status": "still valid",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: preserved screen packages]"
+  },
+  {
+    "id": "L024",
+    "file": "LESSONS.md",
+    "date": "2026-09-28",
+    "type": "lesson",
+    "summary": "One blanket 'no boxes' rule was too broad; War Room glass plates and Home geometric tiles serve different screen needs.",
+    "status": "lesson",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: War Room direction]"
+  },
+  {
+    "id": "O019",
+    "file": "OPEN.md",
+    "date": "2026-09-28",
+    "type": "open",
+    "summary": "Nik asked for recovered Home, Leagueville/Select League, and Club Assignment copies for review; preservation was discussed but delivery/owner approval cannot be verified.",
+    "status": "unsure",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: preserved screen recovery]"
+  },
+  {
+    "id": "O020",
+    "file": "OPEN.md",
+    "date": "2026-09-28",
+    "type": "open",
+    "summary": "The premium plates and two-pose War Room target remained an owner acceptance requirement; later implementation quality is not demonstrated by available screenshots in this chat.",
+    "status": "unsure",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: War Room premium direction]"
+  },
+  {
+    "id": "R014",
+    "file": "REJECTED.md",
+    "date": "2026-09-28",
+    "type": "rejected",
+    "summary": "Generic rectangular War Room boxes failed Nik's premium cinematic target; replace with custom glass plates. This rejection does not apply to Home or Settings.",
+    "status": "rejected",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: Transfer War Room boxes]"
+  },
+  {
+    "id": "D036",
+    "file": "DECISIONS.md",
+    "date": "2026-09-29",
+    "type": "decision",
+    "summary": "Nik declined changing his plan for Dot and preferred the existing coordinator; October's move to Free replaces the earlier Plus-era working setup.",
+    "status": "replaced",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: Dot discussion]"
+  },
+  {
+    "id": "L025",
+    "file": "LESSONS.md",
+    "date": "2026-09-29",
+    "type": "lesson",
+    "summary": "Earlier conversation described the existing coordinator as avoiding Dot usage; do not turn this into an unlimited/free-compute guarantee. Plan, surface and tool usage are separate.",
+    "status": "replaced",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: Dot / coordinator usage]"
+  },
+  {
+    "id": "O021",
+    "file": "OPEN.md",
+    "date": "2026-09-29",
+    "type": "open",
+    "summary": "About $70 of Claude session credit was mentioned; that was a historical balance, not current funding or permission to buy more.",
+    "status": "unsure",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: Claude session budget]"
+  },
+  {
+    "id": "R015",
+    "file": "REJECTED.md",
+    "date": "2026-09-29",
+    "type": "rejected",
+    "summary": "Adopting Dot or changing the subscription for it was dropped; Nik preferred his existing coordination workflow.",
+    "status": "rejected",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: Dot discussion]"
+  },
+  {
+    "id": "D037",
+    "file": "DECISIONS.md",
+    "date": "2026-09-30",
+    "type": "decision",
+    "summary": "Whenever Nik supplies a Claude file, return the full answer and a downloadable file containing that full answer.",
+    "status": "still valid",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: Claude-file response contract]"
+  },
+  {
+    "id": "L026",
+    "file": "LESSONS.md",
+    "date": "2026-09-30",
+    "type": "lesson",
+    "summary": "Full-answer download copies improve cross-model continuity and iPhone usability; a file mention or sandbox link alone does not establish a Git commit.",
+    "status": "lesson",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: Claude document handoff]"
+  },
+  {
+    "id": "D038",
+    "file": "DECISIONS.md",
+    "date": "2026-10-01",
+    "type": "decision",
+    "summary": "Small Axe is the gaming studio identity; promo direction connects FIFA 17 Career Mode Showdown, GTA VI, Nik, and Daniel.",
+    "status": "still valid",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: Small Axe studio branding]"
+  },
+  {
+    "id": "D039",
+    "file": "DECISIONS.md",
+    "date": "2026-10-01",
+    "type": "decision",
+    "summary": "Restore usable Legacy/Shared History, Career Statistics, Rivalry Statistics, and Trophy Room/Honours with authoritative online data. Their temporary hiding was not owner approval to remove them.",
+    "status": "still valid",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: home feature recovery directive]"
+  },
+  {
+    "id": "D040",
+    "file": "DECISIONS.md",
+    "date": "2026-10-01",
+    "type": "decision",
+    "summary": "That retrieval task was read-only across branches; deliver an archive and LATEST.md to Claude, skip already held Home/League/Club/Transfer assets, and never change main.",
+    "status": "still valid",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: C2W-003 mockup search]"
+  },
+  {
+    "id": "D041",
+    "file": "DECISIONS.md",
+    "date": "2026-10-01",
+    "type": "decision",
+    "summary": "Preserve Nik's proposed promotional wording: 'Fifa 17 CMS and GTA VI gaming is saved until small axe drops.' This is branding copy, not a game-release promise.",
+    "status": "still valid",
+    "source_chat": "[chat title unavailable; saved memory: Small Axe motto]"
+  },
+  {
+    "id": "L027",
+    "file": "LESSONS.md",
+    "date": "2026-10-01",
+    "type": "lesson",
+    "summary": "Search previous chats and branches for existing approved mockups before remaking them; branch/title breadcrumbs establish candidates, not final asset authority.",
+    "status": "lesson",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: image retrieval]"
+  },
+  {
+    "id": "L028",
+    "file": "LESSONS.md",
+    "date": "2026-10-01",
+    "type": "lesson",
+    "summary": "Online migration can hide established features to contain stale local authority; document the reason and restoration target so a temporary workaround does not become an accidental deletion.",
+    "status": "lesson",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: temporary analytics hiding]"
+  },
+  {
+    "id": "O022",
+    "file": "OPEN.md",
+    "date": "2026-10-01",
+    "type": "open",
+    "summary": "Locate loading Reus asset path/size/credit and original Tim Reckmann Flickr/Wikimedia source; no verified lookup result is visible.",
+    "status": "unsure",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: C2W-001 Reus photo lookup]"
+  },
+  {
+    "id": "O023",
+    "file": "OPEN.md",
+    "date": "2026-10-01",
+    "type": "open",
+    "summary": "Requested mockups for Trophy Room, Statistics, History/Legacy, season/final result, Start/Join, rivalry statistics, Rule Book, Settings, and Loading, plus archive/LATEST.md; delivery is unverified.",
+    "status": "unsure",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: C2W-003 mockup search]"
+  },
+  {
+    "id": "O024",
+    "file": "OPEN.md",
+    "date": "2026-10-01",
+    "type": "open",
+    "summary": "Online-backed Legacy/History, Career/Rivalry Statistics, and Trophy/Honours restoration remained required; no completed owner-accepted restoration is visible.",
+    "status": "unsure",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: Home feature recovery]"
+  },
+  {
+    "id": "O025",
+    "file": "OPEN.md",
+    "date": "2026-10-01",
+    "type": "open",
+    "summary": "Highest-quality promo campaign including FIFA17 CMS, GTA VI, Nik, and Daniel was requested; approval/completion is not recoverable.",
+    "status": "unsure",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: Small Axe hype campaign]"
+  },
+  {
+    "id": "R016",
+    "file": "REJECTED.md",
+    "date": "2026-10-01",
+    "type": "rejected",
+    "summary": "Treating temporarily hidden Statistics/Legacy/Trophy destinations as permanently deleted features was rejected; hiding addressed online/local authority incompatibility.",
+    "status": "rejected",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: Home feature recovery]"
+  },
+  {
+    "id": "D042",
+    "file": "DECISIONS.md",
+    "date": "2026-10-02",
+    "type": "decision",
+    "summary": "Save completed work in the repository before ending a factory session. Memory's word 'respiratory' is ambiguous and must not be treated as a new project requirement.",
+    "status": "still valid",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: factory wrap-up]"
+  },
+  {
+    "id": "D043",
+    "file": "DECISIONS.md",
+    "date": "2026-10-02",
+    "type": "decision",
+    "summary": "Hero trophy spec: polished gold football inside three swept gold ribbon cages, fluted stem, small five-point crown, wide black/gold stepped base and empty gold band; warm upper-left key, soft right gold rim, deep black backdrop.",
+    "status": "still valid",
+    "source_chat": "[chat title unavailable; saved memory: trophy render specifications]"
+  },
+  {
+    "id": "D044",
+    "file": "DECISIONS.md",
+    "date": "2026-10-02",
+    "type": "decision",
+    "summary": "League trophy spec: slim silver urn, thin upright laurel-leaf handles, gold star band, dark wood/gold round plinth with empty band. Avoid real-league resemblance, lion crown, coloured ribbons and Schale.",
+    "status": "still valid",
+    "source_chat": "[chat title unavailable; saved memory: trophy render specifications]"
+  },
+  {
+    "id": "D045",
+    "file": "DECISIONS.md",
+    "date": "2026-10-02",
+    "type": "decision",
+    "summary": "Both trophy renders: centred portrait 2:3, slight high angle, about 85% image height; transparent if available, otherwise #000000; no text, logos, people or hands; premium trophy-room lighting.",
+    "status": "still valid",
+    "source_chat": "[chat title unavailable; saved memory: trophy render specifications]"
+  },
+  {
+    "id": "L029",
+    "file": "LESSONS.md",
+    "date": "2026-10-02",
+    "type": "lesson",
+    "summary": "Factory jobs and compact C2W/W2C handoffs can preserve work between bounded sessions; numbered chat titles alone cannot certify completed commits.",
+    "status": "lesson",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: factory relay use]"
+  },
+  {
+    "id": "O026",
+    "file": "OPEN.md",
+    "date": "2026-10-02",
+    "type": "open",
+    "summary": "Hero gold ribbon-cage trophy and original silver urn league trophy were requested as isolated renders, without text/logos/people; final asset approval is not shown.",
+    "status": "unsure",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: trophy render requests]"
+  },
+  {
+    "id": "B028",
+    "file": "BUGS_AND_TESTS.md",
+    "date": "2026-10-03",
+    "type": "bug_or_test",
+    "summary": "Three Club fixes were reported, with Club/VS wordmarks still missing and Claude rechecks documented; exact symptoms and physical approval are not exposed.",
+    "status": "assistant-reported fixes, owner acceptance unknown",
+    "source_chat": "[chat title unavailable; saved memory/retrieved chat: Job47 Club fix round]"
+  },
+  {
+    "id": "O027",
+    "file": "OPEN.md",
+    "date": "2026-10-03",
+    "type": "open",
+    "summary": "Repeated continue messages and a job-title mismatch (12 versus NN) appear in visible history; the actual job status must come from Claude/current factory state.",
+    "status": "unsure",
+    "source_chat": "Gameplay factory job 12"
+  },
+  {
+    "id": "D046",
+    "file": "DECISIONS.md",
+    "date": "2026-10-04",
+    "type": "decision",
+    "summary": "For resumed Job 29, reread its amended READY job/status and execute every step through DONE or BLOCKED without asking Nik to continue.",
+    "status": "still valid",
+    "source_chat": "Gameplay job blocked"
+  },
+  {
+    "id": "O028",
+    "file": "OPEN.md",
+    "date": "2026-10-04",
+    "type": "open",
+    "summary": "Job29 was amended to READY and Nik requested full resumption; subsequent DONE evidence is not visible here.",
+    "status": "unsure",
+    "source_chat": "Gameplay job blocked"
+  },
+  {
+    "id": "O029",
+    "file": "OPEN.md",
+    "date": "2026-10-04",
+    "type": "open",
+    "summary": "Nik asked to execute C2W-005 back-to-back, skip DONE jobs, save after each step, and never pause. Visible history does not verify bundle completion.",
+    "status": "unsure",
+    "source_chat": "Continue C2W 005 Jobs"
+  },
+  {
+    "id": "O030",
+    "file": "OPEN.md",
+    "date": "2026-10-04",
+    "type": "open",
+    "summary": "C2W-004 and C2W-005 interruption titles are visible; causes, completed jobs, and remaining steps are not exposed, so do not invent blockers.",
+    "status": "unsure",
+    "source_chat": "Factory bundle stopped / Factory jobs stopped"
+  },
+  {
+    "id": "D047",
+    "file": "DECISIONS.md",
+    "date": "2026-10-05",
+    "type": "decision",
+    "summary": "Gameplay workers must leave gates and Physio untouched, not trigger/rerun/wait for CI, and let the lead handle red or missing checks. Imported main files are not contamination.",
+    "status": "still valid",
+    "source_chat": "Team G gameplay factory worker boot [standing project instructions]"
+  },
+  {
+    "id": "L030",
+    "file": "LESSONS.md",
+    "date": "2026-10-05",
+    "type": "lesson",
+    "summary": "Physio BARKING is normal and infrastructure-only retries belong to the watchdog/lead; workers must not treat unfamiliar gate files as contamination or fix CI during unrelated jobs.",
+    "status": "lesson",
+    "source_chat": "Team G gameplay factory worker boot [standing project instructions]"
+  },
+  {
+    "id": "O031",
+    "file": "OPEN.md",
+    "date": "2026-10-05/06",
+    "type": "open",
+    "summary": "Only number triggers/titles are exposed for these sessions. A 'Complete' title is not proof of repository state or successful delivery.",
+    "status": "unsure",
+    "source_chat": "Job 1006 Summary; Job 1015 Update; Job 1020 Complete"
+  },
+  {
+    "id": "D048",
+    "file": "DECISIONS.md",
+    "date": "2026-10-06",
+    "type": "decision",
+    "summary": "Keep R&D isolated on r-and-d/persian-soundtrack-lab; no main changes without explicit direction. The experimentation lane is broader than music alone.",
+    "status": "still valid",
+    "source_chat": "Persian Rap Soundtrack Research"
+  },
+  {
+    "id": "D049",
+    "file": "DECISIONS.md",
+    "date": "2026-10-06",
+    "type": "decision",
+    "summary": "Nik wrote that Zedbazi 'Tabestoon Kootah' and 'va and gdaal bahman' are locked in; preserve the latter wording because exact artist/title interpretation is unresolved.",
+    "status": "unsure",
+    "source_chat": "Persian Rap Soundtrack Research"
+  },
+  {
+    "id": "D050",
+    "file": "DECISIONS.md",
+    "date": "2026-10-06",
+    "type": "decision",
+    "summary": "Nik approved a separate DLSS 5-informed visual R&D branch from main; use it as methodology inspiration and do not claim NVIDIA technology is integrated.",
+    "status": "still valid",
+    "source_chat": "DLSS 5 Likeness Claim"
+  },
+  {
+    "id": "D051",
+    "file": "DECISIONS.md",
+    "date": "2026-10-06",
+    "type": "decision",
+    "summary": "Claude owns project truth from now on. This chat archives gameplay history; it does not authorize gameplay changes, deployment, or main edits.",
+    "status": "still valid",
+    "source_chat": "Final notes before this account moves to the free plan [current chat]"
+  },
+  {
+    "id": "D052",
+    "file": "DECISIONS.md",
+    "date": "2026-10-06",
+    "type": "decision",
+    "summary": "Use the latest owner note when histories conflict; label old notes replaced and label uncertain outcomes unsure. This archive belongs in sol-retirement/gameplay on handoff/sol-retirement.",
+    "status": "still valid",
+    "source_chat": "Final notes before this account moves to the free plan [current chat]"
+  },
+  {
+    "id": "L031",
+    "file": "LESSONS.md",
+    "date": "2026-10-06",
+    "type": "lesson",
+    "summary": "Compare historical build cost/time using dated labor/tool assumptions and real scope; count architecture, design and operating systems, but do not treat AI token work as equivalent to validated human engineering hours.",
+    "status": "research idea",
+    "source_chat": "Historical Website Cost Comparison"
+  },
+  {
+    "id": "L032",
+    "file": "LESSONS.md",
+    "date": "2026-10-06",
+    "type": "lesson",
+    "summary": "The isolated R&D lane may explore history, imaginary builds and other playful experiments; do not silently promote experiments or song selections into main.",
+    "status": "research idea",
+    "source_chat": "Persian Rap Soundtrack Research"
+  },
+  {
+    "id": "L033",
+    "file": "LESSONS.md",
+    "date": "2026-10-06",
+    "type": "lesson",
+    "summary": "Research immutable likeness anchors plus constrained lighting/tone enhancement, regional masks and compare/correct/freeze QA; methodology inspiration is separate from actual NVIDIA integration.",
+    "status": "research idea",
+    "source_chat": "DLSS 5 Likeness Claim"
+  },
+  {
+    "id": "L034",
+    "file": "LESSONS.md",
+    "date": "2026-10-06",
+    "type": "lesson",
+    "summary": "Scanned all project/recent-chat excerpts visible in this chat plus saved memory and targeted history retrieval. Full transcripts were unavailable for many sessions; unknown titles are explicitly labelled.",
+    "status": "coverage limitation",
+    "source_chat": "Final notes before this account moves to the free plan [current chat]"
+  },
+  {
+    "id": "L035",
+    "file": "LESSONS.md",
+    "date": "2026-10-06",
+    "type": "lesson",
+    "summary": "Read only the permitted historical owner index from old repository file contents; read the supplied local attachment. Omitted matching pre-Aug12 decisions and detailed architecture already documented there or in the handoff.",
+    "status": "coverage limitation",
+    "source_chat": "Final notes before this account moves to the free plan [current chat]"
+  },
+  {
+    "id": "L036",
+    "file": "LESSONS.md",
+    "date": "2026-10-06",
+    "type": "lesson",
+    "summary": "Repository absence after Aug12 cannot be certified without opening forbidden files. Treat these as chat/memory supplements for Claude to deduplicate, not proof that every entry is unique to history.",
+    "status": "coverage limitation",
+    "source_chat": "Final notes before this account moves to the free plan [current chat]"
+  },
+  {
+    "id": "L037",
+    "file": "LESSONS.md",
+    "date": "2026-10-06",
+    "type": "lesson",
+    "summary": "Dates follow visible chat/memory source dates; September19/20 overlap is explicit. Retrieval timestamps on October7 UTC can refer to October6 evening in New York; unavailable dates/titles are never invented.",
+    "status": "provenance rule",
+    "source_chat": "Final notes before this account moves to the free plan [current chat]"
+  },
+  {
+    "id": "L038",
+    "file": "LESSONS.md",
+    "date": "2026-10-06",
+    "type": "lesson",
+    "summary": "Official pricing reviewed today lists Free at $0/month for quick coding tasks with GPT-6 Luna at Standard speed in the desktop app, subject to rollout: https://learn.chatgpt.com/docs/pricing . This does not prove this Chromebook/browser account's post-downgrade tool access.",
+    "status": "free-tier guidance, verified docs",
+    "source_chat": "Final notes before this account moves to the free plan [current chat]"
+  },
+  {
+    "id": "L039",
+    "file": "LESSONS.md",
+    "date": "2026-10-06",
+    "type": "lesson",
+    "summary": "The reviewed Work/Codex pricing page says included image generation is unavailable on Free and API-key use is separately billed. Preserve existing approved assets; do not assume new image work or API use is zero cost: https://learn.chatgpt.com/docs/pricing .",
+    "status": "free-tier guidance, verified docs",
+    "source_chat": "Final notes before this account moves to the free plan [current chat]"
+  },
+  {
+    "id": "L040",
+    "file": "LESSONS.md",
+    "date": "2026-10-06",
+    "type": "lesson",
+    "summary": "No verified fixed Free message allowance, GitHub connector entitlement, background monitoring or automated PR review was established. Use only features actually available after downgrade and stay within included allowance.",
+    "status": "free-tier guidance, uncertain limits",
+    "source_chat": "Final notes before this account moves to the free plan [current chat]"
+  },
+  {
+    "id": "L041",
+    "file": "LESSONS.md",
+    "date": "2026-10-06",
+    "type": "lesson",
+    "summary": "Use permitted chat allowance for small reviews, bounded prompts and handoff preparation; preserve artifacts in Git and let Claude use its existing setup. Do not buy credits, enable billing or promise unlimited/background work.",
+    "status": "zero-cost workflow",
+    "source_chat": "Final notes before this account moves to the free plan [current chat]"
+  },
+  {
+    "id": "L042",
+    "file": "LESSONS.md",
+    "date": "2026-10-06",
+    "type": "lesson",
+    "summary": "Firestore Standard free quota: one free database/project, 1 GiB stored, 50,000 reads/day, 20,000 writes/day, 20,000 deletes/day and 10 GiB outbound/month; daily reset is around midnight Pacific. Billing-required TTL deletes, PITR and managed backups/restores do not fit the billing-OFF constraint: https://firebase.google.com/docs/firestore/pricing .",
+    "status": "zero-cost guidance, verified docs",
+    "source_chat": "Final notes before this account moves to the free plan [current chat]"
+  },
+  {
+    "id": "L043",
+    "file": "LESSONS.md",
+    "date": "2026-10-06",
+    "type": "lesson",
+    "summary": "GitHub Pages is available for public repositories on GitHub Free, so the existing public static-site route can remain without a hosting subscription; this does not supply a trusted game server or guarantee third-party service quota: https://docs.github.com/en/pages/getting-started-with-github-pages .",
+    "status": "zero-cost guidance, verified docs",
+    "source_chat": "Final notes before this account moves to the free plan [current chat]"
+  },
+  {
+    "id": "O032",
+    "file": "OPEN.md",
+    "date": "2026-10-06",
+    "type": "open",
+    "summary": "Clarify the exact 'va and gdaal bahman' track wording against Claude's R&D truth; locked music choices do not establish Audius availability or permission to bundle audio.",
+    "status": "open, research lane",
+    "source_chat": "Persian Rap Soundtrack Research"
+  },
+  {
+    "id": "O033",
+    "file": "OPEN.md",
+    "date": "2026-10-06",
+    "type": "open",
+    "summary": "Nik requested deep analysis of the repo's operating systems, POS20, gates/Physio, factories, and relays versus a senior developer without AI; complete grounded historical cost/math deliverables are not visible.",
+    "status": "unsure",
+    "source_chat": "Historical Website Cost Comparison"
+  },
+  {
+    "id": "O034",
+    "file": "OPEN.md",
+    "date": "2026-10-06",
+    "type": "open",
+    "summary": "DLSS-informed enhancement, immutable identity anchors, regional controls, and likeness QA were proposed; actual R&D branch name, implementation, and validation are not recovered.",
+    "status": "open, research lane",
+    "source_chat": "DLSS 5 Likeness Claim"
+  },
+  {
+    "id": "O035",
+    "file": "OPEN.md",
+    "date": "2026-10-06",
+    "type": "open",
+    "summary": "Nik could not find Auto-review in browser settings; the visible chat does not establish which Chrome/account surface exposes it or whether setup succeeded.",
+    "status": "unsure",
+    "source_chat": "Enable Auto-review in Chrome"
+  },
+  {
+    "id": "O036",
+    "file": "OPEN.md",
+    "date": "2026-10-06",
+    "type": "open",
+    "summary": "Full transcripts are not exposed for every project chat. Preserve unknown titles/dates and leave unseen outcomes unresolved rather than claiming exhaustive account access.",
+    "status": "coverage limitation",
+    "source_chat": "Final notes before this account moves to the free plan [current chat]"
+  },
+  {
+    "id": "R017",
+    "file": "REJECTED.md",
+    "date": "2026-10-06",
+    "type": "rejected",
+    "summary": "Calling the browser likeness pipeline an actual DLSS 5 implementation is unsupported; only inspired enhancement methods were discussed.",
+    "status": "rejected",
+    "source_chat": "DLSS 5 Likeness Claim"
+  },
+  {
+    "id": "R018",
+    "file": "REJECTED.md",
+    "date": "2026-10-06",
+    "type": "rejected",
+    "summary": "Describing POS20/project tooling as AGI is unsupported; it is a sophisticated operating/control workflow inspired by cognitive loops.",
+    "status": "rejected",
+    "source_chat": "Historical Website Cost Comparison"
+  }
+]
