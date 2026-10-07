@@ -1,0 +1,20 @@
+{
+  "run": "chat-1007-0103",
+  "mode": "chat",
+  "date_utc": "2026-10-07T01:03:00Z",
+  "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+  "area": "08",
+  "files_read": [
+    "index.html",
+    "js/scoring.js",
+    "js/showdown.js",
+    "js/screens.js"
+  ],
+  "findings": [
+    "A08-RULEBOOK-MARKUP-MISSING"
+  ],
+  "coverage_pct": 68,
+  "clean_confidence_pct": 78,
+  "next_focus": "On the next Area 08 pass, spend a file slot on js/optionalModules.js or the Rule Book opener first to determine whether #ruleBook is injected at runtime, then compare the complete displayed rules with transfer and season tiebreak behavior.",
+  "partial": false
+}
