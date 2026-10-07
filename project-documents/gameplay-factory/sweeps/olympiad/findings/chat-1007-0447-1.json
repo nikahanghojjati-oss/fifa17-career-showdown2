@@ -1,0 +1,43 @@
+{
+  "id": "A02-LOCAL-TIMER-VISIBILITY",
+  "run": "chat-1007-0447",
+  "area": "02",
+  "title": "Local transfer timer can stop permanently after the tab is hidden",
+  "severity": "S1",
+  "status": "question",
+  "where": [
+    {
+      "file": "js/transferChallenge.js",
+      "line": 456,
+      "function": "updateTransferTimer"
+    },
+    {
+      "file": "js/transferChallenge.js",
+      "line": 294,
+      "function": "initializeTransferChallenge"
+    }
+  ],
+  "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+  "steps": [
+    "Start the local transfer window at 15:00.",
+    "While the Transfer Challenge screen is still open, hide or background the tab before the deadline.",
+    "The next timer tick sees document.visibilityState === hidden, stops transferTimerInterval and returns.",
+    "Return to the same tab after the original deadline without navigating away and reopening the Transfer Challenge."
+  ],
+  "expected": "The timer resumes or immediately reconciles the deadline, shows 00:00 and moves the challenge to Guess Entry.",
+  "actual": "This file has no visibilitychange restart. The local challenge can remain status active with a stale clock after return until another action reopens/reconciles it or the player manually ends the window.",
+  "root_cause": "updateTransferTimer stops the interval whenever the document is hidden, but initializeTransferChallenge does not register a visibilitychange handler and synchronizeTransferDeadline is only called when openTransferChallenge runs.",
+  "checked_against": [
+    "js/productionSharedTransferChallenge.js:299-301 handles visibility return for the shared path by clearing the clock and ticking again.",
+    "js/transferChallenge.js:377-394 reconciles an expired deadline only when openTransferChallenge is called."
+  ],
+  "fix": {
+    "files": [
+      "js/transferChallenge.js"
+    ],
+    "change": "Add a visibilitychange handler for the local transfer engine. On visible, reconcile the current challenge deadline and restart the timer loop only when the Transfer Challenge screen is active."
+  },
+  "assumptions": [
+    "The local/legacy transferChallenge.js path is still a supported normal-play path. If production always routes every current Showdown through productionSharedTransferChallenge.js, this finding does not affect current shared play and should be closed."
+  ]
+}
