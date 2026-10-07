@@ -3660,6 +3660,27 @@
     },
     "sha": "36d12bf2fdf846ec2779af635a692c818e384bce"
    },
+   "project-documents/gameplay-factory/sweeps/olympiad/runs/chat-1007-0013.json": {
+    "data": {
+     "area": "09",
+     "clean_confidence_pct": 82,
+     "coverage_pct": 65,
+     "date_utc": "2026-10-07T00:13:00Z",
+     "files_read": [
+      "js/sharedSeasonResults.js",
+      "js/sharedCanonicalScoring.js",
+      "js/seasonEngine.js",
+      "js/careerScreensV10.js"
+     ],
+     "findings": [],
+     "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+     "mode": "chat",
+     "next_focus": "Read the legacy scoring helper used by seasonEngine and compare its exact score and season-winner tie handling with sharedCanonicalScoring, then inspect the season result form limits without exceeding the next four-file cap.",
+     "partial": false,
+     "run": "chat-1007-0013"
+    },
+    "sha": "17988b737b3b65fdcf539d7ed45dfac06b489168"
+   },
    "project-documents/gameplay-factory/sweeps/olympiad/runs/codex-1006-1206.json": {
     "data": {
      "area": "11",
