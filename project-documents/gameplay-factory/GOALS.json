@@ -1483,6 +1483,112 @@
     },
     "sha": "4a39f9820272b0adbf14a5fc26fb6e8d24dd47bb"
    },
+   "project-documents/gameplay-factory/sweeps/olympiad/findings/chat-1007-0439-1.json": {
+    "data": {
+     "actual": "The normal season-entry path accepts and can save an impossible league-points total, while the shared result and canonical scoring paths reject it.",
+     "area": "09",
+     "assumptions": [
+      "The selected leagues use a standard double round-robin league schedule, matching the formula already treated as authoritative by the shared validation and scoring code.",
+      "Chat checks do not create Node repro scripts, so this finding is marked likely rather than confirmed."
+     ],
+     "checked_against": [
+      "js/scoring.js calculatePlayerSeasonScore and recalculateShowdownScores",
+      "js/sharedSeasonResults.js ssrNormalizeResult",
+      "js/sharedCanonicalScoring.js scResult and scBreakdown"
+     ],
+     "expected": "Season result entry should reject league points above the maximum possible for the selected league before review and saving.",
+     "fix": {
+      "change": "After obtaining the selected league team count, calculate maxPoints = (teamCount - 1) * 2 * 3 and reject league points above that value before creating the season review.",
+      "files": [
+       "js/seasonEngine.js"
+      ]
+     },
+     "id": "OLY09-20261007-01",
+     "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+     "root_cause": "getSeasonEntryValidationMessage validates league points only as a non-negative integer and does not apply the team-count-based maxPoints rule already used by the shared season-results and canonical-scoring modules.",
+     "run": "chat-1007-0439",
+     "severity": "S2",
+     "status": "likely",
+     "steps": [
+      "Use a normal season in a 20-team league, whose double round-robin maximum is 114 league points.",
+      "Enter league position 1, league points 115 and a normal non-negative goals total for one manager; enter valid values for the other manager.",
+      "The local season-entry validator accepts 115 because it only checks that league points are a non-negative whole number.",
+      "The same 115-point result is rejected by shared season-results and canonical scoring because both calculate maxPoints as (teamCount - 1) * 2 * 3."
+     ],
+     "title": "Season entry accepts impossible league-points totals above the league maximum",
+     "where": [
+      {
+       "file": "js/seasonEngine.js",
+       "function": "getSeasonEntryValidationMessage",
+       "line": 398
+      },
+      {
+       "file": "js/sharedSeasonResults.js",
+       "function": "ssrNormalizeResult",
+       "line": 32
+      },
+      {
+       "file": "js/sharedCanonicalScoring.js",
+       "function": "scResult",
+       "line": 25
+      }
+     ]
+    },
+    "sha": "bf5895d860ca9239334a21f788d018fba9ad08b4"
+   },
+   "project-documents/gameplay-factory/sweeps/olympiad/findings/chat-1007-0443-1.json": {
+    "data": {
+     "actual": "The normal season-entry path accepts and can save an impossible league-points total, while the shared result and canonical scoring paths reject it.",
+     "area": "09",
+     "assumptions": [
+      "The selected leagues use a standard double round-robin league schedule, matching the formula already treated as authoritative by the shared validation and scoring code.",
+      "Chat checks do not create Node repro scripts, so this finding is marked likely rather than confirmed."
+     ],
+     "checked_against": [
+      "js/scoring.js calculatePlayerSeasonScore and recalculateShowdownScores",
+      "js/sharedSeasonResults.js ssrNormalizeResult",
+      "js/sharedCanonicalScoring.js scResult and scBreakdown"
+     ],
+     "expected": "Season result entry should reject league points above the maximum possible for the selected league before review and saving.",
+     "fix": {
+      "change": "After obtaining the selected league team count, calculate maxPoints = (teamCount - 1) * 2 * 3 and reject league points above that value before creating the season review.",
+      "files": [
+       "js/seasonEngine.js"
+      ]
+     },
+     "id": "OLY09-20261007-02",
+     "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+     "root_cause": "getSeasonEntryValidationMessage validates league points only as a non-negative integer and does not apply the team-count-based maxPoints rule already used by the shared season-results and canonical-scoring modules.",
+     "run": "chat-1007-0443",
+     "severity": "S2",
+     "status": "likely",
+     "steps": [
+      "Use a normal season in a 20-team league, whose double round-robin maximum is 114 league points.",
+      "Enter league position 1, league points 115 and a normal non-negative goals total for one manager; enter valid values for the other manager.",
+      "The local season-entry validator accepts 115 because it only checks that league points are a non-negative whole number.",
+      "The same 115-point result is rejected by shared season-results and canonical scoring because both calculate maxPoints as (teamCount - 1) * 2 * 3."
+     ],
+     "title": "Season entry accepts impossible league-points totals above the league maximum",
+     "where": [
+      {
+       "file": "js/seasonEngine.js",
+       "function": "getSeasonEntryValidationMessage",
+       "line": 398
+      },
+      {
+       "file": "js/sharedSeasonResults.js",
+       "function": "ssrNormalizeResult",
+       "line": 32
+      },
+      {
+       "file": "js/sharedCanonicalScoring.js",
+       "function": "scResult",
+       "line": 25
+      }
+     ]
+    },
+    "sha": "b8564b46dce98574fc8934b266ba36b362ecdc77"
+   },
    "project-documents/gameplay-factory/sweeps/olympiad/findings/codex-1006-1251-1.json": {
     "data": {
      "actual": "Season 2 starts with position 1, 100 points, 100 goals and all four honours checked from season 1. Review accepts those old facts as Daniel’s season 2 result.",
@@ -4093,6 +4199,113 @@
      "run": "chat-1007-0115"
     },
     "sha": "16a5e00b64fb0c98930bfccbe4073187b8943419"
+   },
+   "project-documents/gameplay-factory/sweeps/olympiad/runs/chat-1007-0438.json": {
+    "data": {
+     "area": "06",
+     "clean_confidence_pct": 76,
+     "coverage_pct": 60,
+     "date_utc": "2026-10-07T04:38:00Z",
+     "files_read": [
+      "js/app.js",
+      "js/trophyRoom.js",
+      "js/careerScreensV10.js",
+      "js/sharedHistoryConvergence.js"
+     ],
+     "findings": [],
+     "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+     "mode": "chat",
+     "next_focus": "Read the career analytics aggregation and history model builder not covered in this run, especially tied all-time records and completed-showdown rollups.",
+     "partial": false,
+     "run": "chat-1007-0438"
+    },
+    "sha": "72bf43f53cfbcde331edb4ab323897e527a85640"
+   },
+   "project-documents/gameplay-factory/sweeps/olympiad/runs/chat-1007-0439.json": {
+    "data": {
+     "area": "08",
+     "clean_confidence_pct": 78,
+     "coverage_pct": 60,
+     "date_utc": "2026-10-07T04:39:00Z",
+     "files_read": [
+      "index.html",
+      "js/app.js",
+      "js/optionalModules.js",
+      "js/ruleBook.js"
+     ],
+     "findings": [],
+     "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+     "mode": "chat",
+     "next_focus": "Next Area 08 cycle: compare Rule Book rules against js/scoring.js, js/transferChallenge.js, js/seasonEngine.js, and js/showdown.js without reopening these four files.",
+     "partial": false,
+     "run": "chat-1007-0439"
+    },
+    "sha": "450adaf91e9411dd77f32635e3a10a5c4d03a82e"
+   },
+   "project-documents/gameplay-factory/sweeps/olympiad/runs/chat-1007-0440.json": {
+    "data": {
+     "area": "11",
+     "clean_confidence_pct": 60,
+     "coverage_pct": 42,
+     "date_utc": "2026-10-07T04:40:00Z",
+     "files_read": [
+      "index.html",
+      "js/showdown.js",
+      "js/scoring.js",
+      "js/app.js"
+     ],
+     "findings": [],
+     "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+     "mode": "chat",
+     "next_focus": "Area 01. Read code not used in this pass, prioritizing the league and club selection handlers in js/screens.js or js/optionalModules.js.",
+     "partial": false,
+     "run": "chat-1007-0440"
+    },
+    "sha": "6d1613e1cfd7836f884dc3a96687737a656aa85c"
+   },
+   "project-documents/gameplay-factory/sweeps/olympiad/runs/chat-1007-0441.json": {
+    "data": {
+     "area": "10",
+     "clean_confidence_pct": 91,
+     "coverage_pct": 78,
+     "date_utc": "2026-10-07T04:41:52Z",
+     "files_read": [
+      "js/storage.js",
+      "js/legacy.js",
+      "js/saveLibraryPersistence.js",
+      "js/saveLibraryRuntime.js"
+     ],
+     "findings": [],
+     "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+     "mode": "chat",
+     "next_focus": "Completion-to-archive integration call sequence and alternate V10/shared history rendering, which were not read because this chat check reached the four-code-file cap.",
+     "partial": false,
+     "run": "chat-1007-0441"
+    },
+    "sha": "9ce834b6bb91e5a410ac94835779d850ed8e035d"
+   },
+   "project-documents/gameplay-factory/sweeps/olympiad/runs/chat-1007-0443.json": {
+    "data": {
+     "area": "09",
+     "clean_confidence_pct": 78,
+     "coverage_pct": 72,
+     "date_utc": "2026-10-07T04:43:00Z",
+     "files_read": [
+      "js/seasonEngine.js",
+      "js/scoring.js",
+      "js/sharedSeasonResults.js",
+      "js/sharedCanonicalScoring.js"
+     ],
+     "findings": [
+      "OLY09-20261007-02"
+     ],
+     "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+     "mode": "chat",
+     "next_focus": "On the next area 09 cycle, inspect the production season-results/scoring wrappers and any remaining result-entry path not covered by these four files, especially parity of validation limits and season-score presentation.",
+     "partial": false,
+     "run": "chat-1007-0443"
+    },
+    "sha": "b8ca72e2174c1b8a1b5811e83038dbb1dc64b6fe"
    },
    "project-documents/gameplay-factory/sweeps/olympiad/runs/codex-1006-1206.json": {
     "data": {
