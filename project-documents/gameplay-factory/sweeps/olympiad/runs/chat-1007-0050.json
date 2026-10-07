@@ -1,0 +1,18 @@
+{
+  "run": "chat-1007-0050",
+  "mode": "chat",
+  "date_utc": "2026-10-07T00:50:00Z",
+  "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+  "area": "11",
+  "files_read": [
+    "index.html",
+    "js/showdown.js",
+    "js/scoring.js",
+    "js/app.js"
+  ],
+  "findings": [],
+  "coverage_pct": 52,
+  "clean_confidence_pct": 78,
+  "next_focus": "Area 01 cycle restart: read league and club-pick flow code not read in this run, especially the screen/controller path that advances from league selection through permanent club assignment.",
+  "partial": false
+}
