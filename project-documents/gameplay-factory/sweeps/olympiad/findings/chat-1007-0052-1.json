@@ -1,0 +1,42 @@
+{
+  "id": "A06-CAREER-TABLE-SHOWDOWNS-COLUMN",
+  "run": "chat-1007-0052",
+  "area": "06",
+  "title": "Career Table Showdowns column displays W-D-L instead of showdown count",
+  "severity": "S2",
+  "status": "likely",
+  "where": [
+    {
+      "file": "js/statistics.js",
+      "line": 228,
+      "function": "createCareerStandingsTable"
+    },
+    {
+      "file": "js/statistics.js",
+      "line": 242,
+      "function": "createCareerStandingsTable"
+    }
+  ],
+  "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+  "steps": [
+    "Complete 3 showdowns for one manager.",
+    "Use a record of 2 showdown wins, 1 draw and 0 losses.",
+    "Open Career Statistics or Trophy Room and read the Career Table."
+  ],
+  "expected": "The column headed Showdowns shows 3, or the heading clearly says it is a Showdown W-D-L record.",
+  "actual": "The heading says Showdowns, but the row prints 2-1-0 from showdownWins, showdownDraws and showdownLosses.",
+  "root_cause": "createCareerStandingsTable labels the third column Showdowns while filling it with the three-part showdown W-D-L record.",
+  "checked_against": [
+    "js/trophyRoom.js createManagerCabinet, which separately shows W-D-L and the total showdown count in plain text",
+    "js/statistics.js career summary, which separately reports the completed-showdown total"
+  ],
+  "fix": {
+    "files": [
+      "js/statistics.js"
+    ],
+    "change": "Make the Career Table heading and value agree. Prefer showing manager.showdowns under Showdowns; if the W-D-L record is intended, rename the heading to Showdown W-D-L."
+  },
+  "assumptions": [
+    "The Career Table heading Showdowns is intended to mean the number of completed showdowns, consistent with the surrounding career summary."
+  ]
+}
