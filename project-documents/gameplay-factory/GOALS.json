@@ -3681,6 +3681,27 @@
     },
     "sha": "17988b737b3b65fdcf539d7ed45dfac06b489168"
    },
+   "project-documents/gameplay-factory/sweeps/olympiad/runs/chat-1007-0018.json": {
+    "data": {
+     "area": "10",
+     "clean_confidence_pct": 82,
+     "coverage_pct": 72,
+     "date_utc": "2026-10-07T00:18:00Z",
+     "files_read": [
+      "js/legacy.js",
+      "js/storage.js",
+      "js/rivalryLegacyV10.js",
+      "js/saveLibraryRuntime.js"
+     ],
+     "findings": [],
+     "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+     "mode": "chat",
+     "next_focus": "On the next Area 10 cycle, read code not covered here around completed-career loading and the completion-to-history handoff, especially whether a completed Showdown is archived before the active save can change.",
+     "partial": false,
+     "run": "chat-1007-0018"
+    },
+    "sha": "4de2a7b5845dfa14c7e27d9f798d061b456dd961"
+   },
    "project-documents/gameplay-factory/sweeps/olympiad/runs/codex-1006-1206.json": {
     "data": {
      "area": "11",
