@@ -3924,6 +3924,27 @@
     },
     "sha": "1676c0d1ee6c1550abc4353d97350588272cc5ef"
    },
+   "project-documents/gameplay-factory/sweeps/olympiad/runs/chat-1007-0110.json": {
+    "data": {
+     "area": "11",
+     "clean_confidence_pct": 78,
+     "coverage_pct": 68,
+     "date_utc": "2026-10-07T01:10:00Z",
+     "files_read": [
+      "js/transferChallenge.js",
+      "js/seasonEngine.js",
+      "js/showdown.js",
+      "js/seasonFinalV10.js"
+     ],
+     "findings": [],
+     "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+     "mode": "chat",
+     "next_focus": "Area 01 next: inspect league and club selection code not read in this area 11 slice.",
+     "partial": false,
+     "run": "chat-1007-0110"
+    },
+    "sha": "2909c23f84d356afd9affaff97733b738d6c3433"
+   },
    "project-documents/gameplay-factory/sweeps/olympiad/runs/codex-1006-1206.json": {
     "data": {
      "area": "11",
