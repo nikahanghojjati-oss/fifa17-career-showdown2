@@ -591,6 +591,14 @@
     },
     "sha": "7456967fa470a45dbb7ba40d3c1f504802e8835f"
    },
+   "project-documents/gameplay-factory/sweeps/olympiad/claims/codex-1007-0010.json": {
+    "data": {
+     "area": "11",
+     "run": "codex-1007-0010",
+     "started_utc": "2026-10-07T00:10:04.282Z"
+    },
+    "sha": "48dcffaef750462eef2ecea024d5b4c0b38329db"
+   },
    "project-documents/gameplay-factory/sweeps/olympiad/evidence/codex-1006-2237/startup-diagnostic.json": {
     "data": {
      "badge": null,
@@ -3630,6 +3638,27 @@
      "run": "chat-1006-1407"
     },
     "sha": "e3564a67d75896d6cfea4c1c14bd96e8d586b73c"
+   },
+   "project-documents/gameplay-factory/sweeps/olympiad/runs/chat-1007-0011.json": {
+    "data": {
+     "area": "06",
+     "clean_confidence_pct": 86,
+     "coverage_pct": 68,
+     "date_utc": "2026-10-07T00:11:00Z",
+     "files_read": [
+      "js/careerScreensV10.js",
+      "js/rivalryLegacyV10.js",
+      "js/app.js",
+      "index.html"
+     ],
+     "findings": [],
+     "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+     "mode": "chat",
+     "next_focus": "On the next area 06 pass, read code not used in this pass: the career analytics/model producer that builds managers, trophyRoom, records and history.showdowns, plus the concrete history/trophy renderers if the four-file cap allows.",
+     "partial": false,
+     "run": "chat-1007-0011"
+    },
+    "sha": "36d12bf2fdf846ec2779af635a692c818e384bce"
    },
    "project-documents/gameplay-factory/sweeps/olympiad/runs/codex-1006-1206.json": {
     "data": {
