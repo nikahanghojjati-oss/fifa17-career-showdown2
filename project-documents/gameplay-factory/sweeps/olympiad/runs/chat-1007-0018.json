@@ -1,0 +1,18 @@
+{
+  "run": "chat-1007-0018",
+  "mode": "chat",
+  "date_utc": "2026-10-07T00:18:00Z",
+  "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+  "area": "10",
+  "files_read": [
+    "js/legacy.js",
+    "js/storage.js",
+    "js/rivalryLegacyV10.js",
+    "js/saveLibraryRuntime.js"
+  ],
+  "findings": [],
+  "coverage_pct": 72,
+  "clean_confidence_pct": 82,
+  "next_focus": "On the next Area 10 cycle, read code not covered here around completed-career loading and the completion-to-history handoff, especially whether a completed Showdown is archived before the active save can change.",
+  "partial": false
+}
