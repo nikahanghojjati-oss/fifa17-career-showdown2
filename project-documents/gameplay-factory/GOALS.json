@@ -615,6 +615,14 @@
     },
     "sha": "fb658f4a98ad05853d10c16dfdc27e21920f9444"
    },
+   "project-documents/gameplay-factory/sweeps/olympiad/claims/codex-1007-0355.json": {
+    "data": {
+     "area": "07",
+     "run": "codex-1007-0355",
+     "started_utc": "2026-10-07T03:55:35.086Z"
+    },
+    "sha": "996df651dbb8685f341db4beac865161e128aa6e"
+   },
    "project-documents/gameplay-factory/sweeps/olympiad/evidence/codex-1006-2237/startup-diagnostic.json": {
     "data": {
      "badge": null,
@@ -3110,6 +3118,62 @@
      ]
     },
     "sha": "66da30cec93b5425362b0e0163e72b44f9c90a3d"
+   },
+   "project-documents/gameplay-factory/sweeps/olympiad/findings/codex-1007-0355-1.json": {
+    "data": {
+     "actual": "The current nine-season career is replaced by the backup career with one saved season and an 11–11 total. The game announces a successful restore. Completed history and preferences remain unchanged. The replacement survives reload.",
+     "area": "07",
+     "assumptions": [
+      "The saved-game examples use Daniel and Nik, separate clubs, ordinary season results, and the game's own stable career and season identifiers. The examples are prepared before clicking the real game tools in Chromium.",
+      "The 0–0 example means zero Showdown points for each friend; their league points are 70 and league goals 65.",
+      "Season 1 of 3 is checked as one saved season; season 10 of 10 is checked both ready to play with nine saved seasons and fully completed with ten. A restore review is also reloaded halfway.",
+      "This finding concerns normal backup choices; it uses no broken backup or forced game failure.",
+      "Game files on qa/bug-olympiad match main_sha. The claim was pushed before the game check started."
+     ],
+     "expected": "The current ten-season Showdown keeps all nine saved seasons and its 99–99 total. Its current career selection, completed history and preferences all stay as chosen.",
+     "fix": {
+      "change": "Build the apply plan from completeRaw when the complete current-career snapshot is available, matching the preview. Require an explicit replace choice before replacing an existing collection of careers. Check both a populated and an empty backup while Keep current is selected.",
+      "files": [
+       "js/restore.js"
+      ]
+     },
+     "id": "CMS07-codex-1007-0355-keep-career",
+     "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+     "root_cause": "The preview includes the current collection of careers. Apply builds its plan at restore.js:283 using currentRaw, which omits that collection. Normal current games also have no old single-career entry, so createCareerModeRestorePlan wrongly calls the destination empty and restores the entire backup collection despite Keep current. The later complete-state checks verify the write but do not compare the applied plan with the previewed promise.",
+     "run": "codex-1007-0355",
+     "script": "project-documents/gameplay-factory/sweeps/olympiad/test/CMS07-codex-1007-0355-keep-career.cjs",
+     "script_output": "Command: node project-documents/gameplay-factory/sweeps/olympiad/test/CMS07-codex-1007-0355-keep-career.cjs\nExit code: 1 (the final assertion catches the wrong career replacement).\nPASS export season-1-of-3 {\"playerOne\":11,\"playerTwo\":11}\nPASS export season-10-of-10 {\"playerOne\":110,\"playerTwo\":110}\nPASS export zero-zero {\"playerOne\":0,\"playerTwo\":0}\nPREVIEW RESTORE PLAN READY\nSave Library stays local · active stays local · Legacy stays local · preferences stay local · no storage rewrite currently required.\nPASS reload halfway through a restore review keeps the career and discards unconfirmed choices\nPREVIEW RESTORE PLAN READY\nSave Library stays local · active stays local · Legacy stays local · preferences stay local · no storage rewrite currently required.\nKEEP_ALL {\"same\":false,\"beforeId\":7999,\"afterId\":7001,\"historyKept\":true,\"preferencesKept\":true}\nPASS reload preserves restored season and score\nPASS cancel history deletion keeps everything; confirmed history deletion keeps the unfinished career\nPASS cancelled reset\nPASS reset clears careers and history, keeps preferences\nPREVIEW RESTORE PLAN READY\nSave Library full restore (clean destination) · active matches backup · Legacy matches backup · preferences match backup.\nPASS clean restore final tied total 110-110, ten seasons\nPASS restored tied career has ten saved season rows and finishes level\nPASS deleting completed history removes its current copy and does not return after reload\nPREVIEW RESTORE PLAN READY\nSave Library replace entire library with backup · active matches backup · Legacy matches backup · preferences match backup.\nPASS 0-0 saved season restores without losing the season\nEXPECTED current career 7999, nine saved seasons; ACTUAL backup career 7001, one saved season\nAssertionError [ERR_ASSERTION]: Keep current active state and Keep current Save Library must keep the current career; restore replaced it with the backup.\n\nfalse !== true\n\n    at /workspace/fifa17-career-showdown2/project-documents/gameplay-factory/sweeps/olympiad/test/CMS07-codex-1007-0355-keep-career.cjs:63:9 {\n  generatedMessage: false,\n  code: 'ERR_ASSERTION',\n  actual: false,\n  expected: true,\n  operator: 'strictEqual',\n  diff: 'simple'\n}\n",
+     "severity": "S1",
+     "status": "confirmed",
+     "steps": [
+      "Save a backup of Daniel and Nik's three-season Showdown after season 1 (11–11).",
+      "Have a different ten-season Showdown with nine seasons saved (99–99).",
+      "Open Settings, then OPEN HISTORY & BACKUP. Choose the earlier backup and press REVIEW RESTORE.",
+      "Choose Keep current active state, Keep current Legacy only, Keep current preferences, and Keep current Save Library.",
+      "Check the ready plan: it promises the current career stays and no changes are needed.",
+      "Press APPLY RESTORE and accept the game's confirmation.",
+      "Export another backup or reload and reopen the game: the current career is now the earlier one-season career."
+     ],
+     "title": "Restore replaces the current career even when every choice says Keep current",
+     "where": [
+      {
+       "file": "js/restore.js",
+       "function": "applyCareerModeRestore",
+       "line": 283
+      },
+      {
+       "file": "js/restore.js",
+       "function": "createCareerModeRestorePlan",
+       "line": 141
+      },
+      {
+       "file": "js/restoreUI.js",
+       "function": "refreshPlan",
+       "line": 105
+      }
+     ]
+    },
+    "sha": "06435b7ba88de1bb57cdb26d55237f1243495e72"
    },
    "project-documents/gameplay-factory/sweeps/olympiad/runs/chat-1006-0418.json": {
     "data": {
@@ -6442,6 +6506,64 @@
      "run": "codex-1007-0343"
     },
     "sha": "e4e24447b31ab538ab995d7acc5711749d1e4e7e"
+   },
+   "project-documents/gameplay-factory/sweeps/olympiad/runs/codex-1007-0355.json": {
+    "data": {
+     "area": "07",
+     "clean_confidence_pct": 20,
+     "coverage_pct": 85,
+     "date_utc": "2026-10-07T04:03:55.908Z",
+     "files_read": [
+      "AGENTS.md",
+      "PROJECT_OPERATING_SYSTEM_POS20.json",
+      "PROJECT_OPERATING_SYSTEM_POS20.md",
+      "POS20_CURRENT_STATE.json",
+      "CURRENT_PRODUCT_GUARDS.json",
+      "NEXT_TASK.md",
+      "SHARED_SHOWDOWN_JOURNEY_READINESS.json",
+      "MILESTONE_DELIVERY_PROGRESS.json",
+      "package.json",
+      "index.html",
+      "js/settings.js",
+      "js/backup.js",
+      "js/restore.js",
+      "js/restoreUI.js",
+      "js/importAnalysis.js",
+      "js/legacy.js",
+      "js/storage.js",
+      "js/saveLibraryRuntime.js",
+      "js/saveLibraryUI.js",
+      "js/saveLibraryCutover.js",
+      "js/saveLibraryFoundation.js",
+      "js/showdown.js",
+      "js/scoring.js",
+      "js/seasonEngine.js",
+      "js/optionalModules.js",
+      "js/screens.js",
+      "js/rulesSettingsV10.js",
+      "js/transferChallenge.js",
+      "js/statistics.js",
+      "css/legacy.css",
+      "tests/support/static-server.cjs",
+      "tests/support/chromium-runtime.cjs",
+      "tests/contracts/full-gameplay-lifecycle-contracts.cjs",
+      "tests/contracts/save-library-runtime-contracts.cjs",
+      "tests/browser/backup-export-audit.cjs",
+      "tests/browser/restore-audit.cjs",
+      "tests/browser/restore-maintenance-audit.cjs",
+      "tests/browser/multi-save-portability-audit.cjs",
+      "tests/browser/settings-offline-save-library-editor-audit.cjs",
+      "tests/browser/stability-audit.cjs"
+     ],
+     "findings": [
+      "CMS07-codex-1007-0355-keep-career"
+     ],
+     "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+     "mode": "codex",
+     "next_focus": "Recheck Keep current after the restore fix, especially with an empty backup. Check deleting just the current Showdown during a live game and restoring older backups with transfer guesses still in progress. Passing checks this run: three-season and ten-season backup scores and history; a 0–0 season export and restore; a tied final total and ten visible saved season rows; reload halfway through restore review; read-only export/review; cancelled history deletion/reset; history deletion preserving an unfinished career; deleting a completed career without it returning after reload; full reset keeping preferences; clean full restore. Existing backup, restore and multi-career Chromium checks, plus import/restore and career-history Node checks, passed; the new regression fails on the confirmed replacement.",
+     "run": "codex-1007-0355"
+    },
+    "sha": "ad5c509d8a8227aa777e01f05b7321c1d2ea9bc6"
    }
   },
   "state": "ok"

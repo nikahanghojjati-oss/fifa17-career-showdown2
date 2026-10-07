@@ -1,6 +1,6 @@
 # Bug hunt board
 
-Updated Tue 6 Oct, 11:51 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
+Updated Wed 7 Oct, 12:04 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r62** (main `bc77a0b`, Mon 5 Oct 9:18 PM)
 
@@ -17,7 +17,7 @@ Updated Tue 6 Oct, 11:51 PM Boston time. Bug hunting only, no new features until
 
 ## Goals for Thursday
 
-- 🐞 Bug-free game: 36.2364 % · 11 of 11 areas studied · open S1 9, S2 17 · fixed 0 of 32 findings · weakest: area 03 and 07
+- 🐞 Bug-free game: 36.2364 % · 11 of 11 areas studied · open S1 10, S2 17 · fixed 0 of 33 findings · weakest: area 03 and 07
 - 🎨 Mockup match: 1 of 16 screens studied · 7 differences from the mockups to fix
 
 ## Other asks
