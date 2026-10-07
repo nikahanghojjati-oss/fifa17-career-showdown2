@@ -599,6 +599,22 @@
     },
     "sha": "48dcffaef750462eef2ecea024d5b4c0b38329db"
    },
+   "project-documents/gameplay-factory/sweeps/olympiad/claims/codex-1007-0342.json": {
+    "data": {
+     "area": "11",
+     "run": "codex-1007-0342",
+     "started_utc": "2026-10-07T03:42:03.226Z"
+    },
+    "sha": "7ddbf08770631c8bbfdc9171648cde4678c1e766"
+   },
+   "project-documents/gameplay-factory/sweeps/olympiad/claims/codex-1007-0343.json": {
+    "data": {
+     "area": "10",
+     "run": "codex-1007-0343",
+     "started_utc": "2026-10-07T03:43:00Z"
+    },
+    "sha": "fb658f4a98ad05853d10c16dfdc27e21920f9444"
+   },
    "project-documents/gameplay-factory/sweeps/olympiad/evidence/codex-1006-2237/startup-diagnostic.json": {
     "data": {
      "badge": null,
@@ -6405,6 +6421,27 @@
      "run": "codex-1006-2349"
     },
     "sha": "1d317f34343aa0ca76d554b3e645c413756806a1"
+   },
+   "project-documents/gameplay-factory/sweeps/olympiad/runs/codex-1007-0343.json": {
+    "data": {
+     "area": "10",
+     "clean_confidence_pct": 92,
+     "coverage_pct": 85,
+     "date_utc": "2026-10-07T03:45:00Z",
+     "files_read": [
+      "js/legacy.js",
+      "js/rivalryLegacyV10.js",
+      "js/saveLibraryPersistence.js",
+      "js/saveLibraryRuntime.js",
+      "index.html"
+     ],
+     "findings": [],
+     "main_sha": "2fd89b62860e63d04ba3eaddfd4067f9fa87deb5",
+     "mode": "codex",
+     "next_focus": "Verify full end-to-end archive after multi-season complete with reload",
+     "run": "codex-1007-0343"
+    },
+    "sha": "e4e24447b31ab538ab995d7acc5711749d1e4e7e"
    }
   },
   "state": "ok"
