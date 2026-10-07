@@ -1,0 +1,18 @@
+{
+  "run": "chat-1007-0447",
+  "mode": "chat",
+  "date_utc": "2026-10-07T04:47:00Z",
+  "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+  "area": "03",
+  "files_read": [
+    "js/showdown.js",
+    "js/showdownUI.js",
+    "js/app.js",
+    "index.html"
+  ],
+  "findings": [],
+  "coverage_pct": 40,
+  "clean_confidence_pct": 55,
+  "next_focus": "On the next area 03 cycle, inspect the transfer-phase handlers that actually record signings, reveal guesses, compute verdicts, and unlock continuation; those handlers are referenced here but live outside the four-file cap.",
+  "partial": false
+}
