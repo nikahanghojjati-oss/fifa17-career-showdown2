@@ -115,6 +115,8 @@ Strong alternates:
 
 This is the signature default tab. These are references to songs above, not ten additional unique songs.
 
+Owner lock (2026-10-06): RAC feat. Emerson Leif — Next To You is confirmed by Nik as one of the final ten and must remain unless Nik explicitly changes that decision.
+
 1. Behzad Leito & Sijal + collaborators — Business
 2. Zedbazi feat. Behzad Leito — Nakoni Bavar
 3. Shayea — Asabani
@@ -122,8 +124,8 @@ This is the signature default tab. These are references to songs above, not ten 
 5. Ho3ein feat. Sadegh — Shaba
 6. grouptherapy. — Nasty
 7. Mike Shinoda — Uproar
-8. Hadji Gaviota — Snow Globe
-9. Dillon Francis feat. Bow Anderson — Reaching Out
+8. RAC feat. Emerson Leif — Next To You
+9. Hadji Gaviota — Snow Globe
 10. Zedbazi — Tabestoon Kootahe
 
 ## Listening order recommendation
