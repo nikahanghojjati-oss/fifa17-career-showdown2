@@ -3903,6 +3903,27 @@
     },
     "sha": "9b04276539823d648e9789aa9aeb5bb631abd71f"
    },
+   "project-documents/gameplay-factory/sweeps/olympiad/runs/chat-1007-0106.json": {
+    "data": {
+     "area": "10",
+     "clean_confidence_pct": 90,
+     "coverage_pct": 82,
+     "date_utc": "2026-10-07T01:06:00Z",
+     "files_read": [
+      "js/storage.js",
+      "js/legacy.js",
+      "js/saveLibraryPersistence.js",
+      "js/saveLibraryRuntime.js"
+     ],
+     "findings": [],
+     "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+     "mode": "chat",
+     "next_focus": "On the next area 10 pass, inspect career-history presentation code not read in this run, especially the alternate history screen path, while rechecking reload after final-season completion.",
+     "partial": false,
+     "run": "chat-1007-0106"
+    },
+    "sha": "1676c0d1ee6c1550abc4353d97350588272cc5ef"
+   },
    "project-documents/gameplay-factory/sweeps/olympiad/runs/codex-1006-1206.json": {
     "data": {
      "area": "11",
