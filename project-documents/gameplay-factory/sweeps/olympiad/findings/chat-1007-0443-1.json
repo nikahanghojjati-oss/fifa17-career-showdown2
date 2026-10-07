@@ -1,0 +1,50 @@
+{
+  "id": "OLY09-20261007-02",
+  "run": "chat-1007-0443",
+  "area": "09",
+  "title": "Season entry accepts impossible league-points totals above the league maximum",
+  "severity": "S2",
+  "status": "likely",
+  "where": [
+    {
+      "file": "js/seasonEngine.js",
+      "line": 398,
+      "function": "getSeasonEntryValidationMessage"
+    },
+    {
+      "file": "js/sharedSeasonResults.js",
+      "line": 32,
+      "function": "ssrNormalizeResult"
+    },
+    {
+      "file": "js/sharedCanonicalScoring.js",
+      "line": 25,
+      "function": "scResult"
+    }
+  ],
+  "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+  "steps": [
+    "Use a normal season in a 20-team league, whose double round-robin maximum is 114 league points.",
+    "Enter league position 1, league points 115 and a normal non-negative goals total for one manager; enter valid values for the other manager.",
+    "The local season-entry validator accepts 115 because it only checks that league points are a non-negative whole number.",
+    "The same 115-point result is rejected by shared season-results and canonical scoring because both calculate maxPoints as (teamCount - 1) * 2 * 3."
+  ],
+  "expected": "Season result entry should reject league points above the maximum possible for the selected league before review and saving.",
+  "actual": "The normal season-entry path accepts and can save an impossible league-points total, while the shared result and canonical scoring paths reject it.",
+  "root_cause": "getSeasonEntryValidationMessage validates league points only as a non-negative integer and does not apply the team-count-based maxPoints rule already used by the shared season-results and canonical-scoring modules.",
+  "checked_against": [
+    "js/scoring.js calculatePlayerSeasonScore and recalculateShowdownScores",
+    "js/sharedSeasonResults.js ssrNormalizeResult",
+    "js/sharedCanonicalScoring.js scResult and scBreakdown"
+  ],
+  "fix": {
+    "files": [
+      "js/seasonEngine.js"
+    ],
+    "change": "After obtaining the selected league team count, calculate maxPoints = (teamCount - 1) * 2 * 3 and reject league points above that value before creating the season review."
+  },
+  "assumptions": [
+    "The selected leagues use a standard double round-robin league schedule, matching the formula already treated as authoritative by the shared validation and scoring code.",
+    "Chat checks do not create Node repro scripts, so this finding is marked likely rather than confirmed."
+  ]
+}
