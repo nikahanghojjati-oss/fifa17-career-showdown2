@@ -115,18 +115,18 @@ Strong alternates:
 
 This is the signature default tab. These are references to songs above, not ten additional unique songs.
 
-Owner lock (2026-10-06): RAC feat. Emerson Leif — Next To You is confirmed by Nik as one of the final ten and must remain unless Nik explicitly changes that decision.
+Owner locks (2026-10-06): Nik has confirmed these as members of the final ten unless he explicitly changes them: RAC feat. Emerson Leif — Next To You; Behzad Leito & Sijal feat. Sepehr Khalse, Saman Wilson, Sohrab MJ & Alireza JJ — Business; Zedbazi — Tabestoon Kootahe; Gdaal feat. Ezzrail — Bahman.
 
-1. Behzad Leito & Sijal + collaborators — Business
+1. [LOCKED] Behzad Leito & Sijal + collaborators — Business
 2. Zedbazi feat. Behzad Leito — Nakoni Bavar
 3. Shayea — Asabani
 4. Gdaal feat. Erfan, Sami Beigi & Madgal — Hala Na
-5. Ho3ein feat. Sadegh — Shaba
-6. grouptherapy. — Nasty
-7. Mike Shinoda — Uproar
-8. RAC feat. Emerson Leif — Next To You
-9. Hadji Gaviota — Snow Globe
-10. Zedbazi — Tabestoon Kootahe
+5. [LOCKED] Gdaal feat. Ezzrail — Bahman
+6. Ho3ein feat. Sadegh — Shaba
+7. grouptherapy. — Nasty
+8. Mike Shinoda — Uproar
+9. [LOCKED] RAC feat. Emerson Leif — Next To You
+10. [LOCKED] Zedbazi — Tabestoon Kootahe
 
 ## Listening order recommendation
 
