@@ -3119,6 +3119,54 @@
     },
     "sha": "66da30cec93b5425362b0e0163e72b44f9c90a3d"
    },
+   "project-documents/gameplay-factory/sweeps/olympiad/findings/codex-1007-0342-1.json": {
+    "data": {
+     "actual": "Both results are published and can no longer be edited, but the visible review still says: “Nothing becomes permanent until Confirm & Save Season is pressed.” Confirm & Save Season is not shown.",
+     "area": "11",
+     "assumptions": [
+      "Normal play: Daniel and Nik enter their own FIFA 17 season facts and publish once each.",
+      "The short repeatable script prepares a ready game and plays both publish steps in Chromium.",
+      "Also visible in the full ten-season Chromium game after the season-1 score was accepted.",
+      "This is a misleading instruction; no lost result or incorrect score was observed."
+     ],
+     "expected": "The review should say both results have been published and are final, then explain the next season step using the button that is actually shown.",
+     "fix": {
+      "change": "Update .seasonReviewIntro along with each review step. Before publishing, ask the manager to check their own result; after publishing, say that result is final; after both publish, say both results are saved and use the current season button name.",
+      "files": [
+       "js/productionSharedSeasonResults.js"
+      ]
+     },
+     "id": "CMS11-codex-1007-0342-review-instruction",
+     "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+     "root_cause": "The review keeps the old save instruction created by ensureSeasonReviewUI. pssrRenderReview changes the heading, result message and buttons for the current publish steps but never replaces the introduction.",
+     "run": "codex-1007-0342",
+     "script": "project-documents/gameplay-factory/sweeps/olympiad/test/CMS11-codex-1007-0342-review-instruction.cjs",
+     "script_output": "Both players published. The results are final and the old save button is absent.\nVisible instruction: Verify both managers' results and the calculated scores. Nothing becomes permanent until Confirm & Save Season is pressed.\nAssertionError [ERR_ASSERTION]: published season results must not claim they remain unsaved until an absent save button is pressed\n    at project-documents/gameplay-factory/sweeps/olympiad/test/CMS11-codex-1007-0342-review-instruction.cjs:186:12 {\n  generatedMessage: false,\n  code: 'ERR_ASSERTION',\n  actual: \"Verify both managers' results and the calculated scores. Nothing becomes permanent until Confirm & Save Season is pressed.\",\n  expected: /Nothing becomes permanent until Confirm & Save Season is pressed/i,\n  operator: 'doesNotMatch',\n  diff: 'simple'\n}\n",
+     "severity": "S3",
+     "status": "confirmed",
+     "steps": [
+      "Start a three-season or ten-season Showdown with Daniel and Nik.",
+      "Finish the season transfer guesses and reveal the signings.",
+      "Enter Daniel’s season result, review it and press Publish My Season Result.",
+      "Enter Nik’s season result, review it and press Publish My Season Result.",
+      "Read the instruction below Both Managers Published. The same instruction remains after the season score is accepted."
+     ],
+     "title": "Season review says the published results are still unsaved",
+     "where": [
+      {
+       "file": "js/seasonEngine.js",
+       "function": "ensureSeasonReviewUI",
+       "line": 47
+      },
+      {
+       "file": "js/productionSharedSeasonResults.js",
+       "function": "pssrRenderReview",
+       "line": 109
+      }
+     ]
+    },
+    "sha": "a970d1e2c33b08276e2fc6605cb292e54c6d8801"
+   },
    "project-documents/gameplay-factory/sweeps/olympiad/findings/codex-1007-0355-1.json": {
     "data": {
      "actual": "The current nine-season career is replaced by the backup career with one saved season and an 11–11 total. The game announces a successful restore. Completed history and preferences remain unchanged. The replacement survives reload.",
@@ -6485,6 +6533,92 @@
      "run": "codex-1006-2349"
     },
     "sha": "1d317f34343aa0ca76d554b3e645c413756806a1"
+   },
+   "project-documents/gameplay-factory/sweeps/olympiad/runs/codex-1007-0342.json": {
+    "data": {
+     "area": "11",
+     "clean_confidence_pct": 90,
+     "coverage_pct": 95,
+     "date_utc": "2026-10-07T04:10:00.530Z",
+     "files_read": [
+      "AGENTS.md",
+      "PROJECT_OPERATING_SYSTEM_POS20.json",
+      "PROJECT_OPERATING_SYSTEM_POS20.md",
+      "POS20_CURRENT_STATE.json",
+      "CURRENT_PRODUCT_GUARDS.json",
+      "NEXT_TASK.md",
+      "SHARED_SHOWDOWN_JOURNEY_READINESS.json",
+      "MILESTONE_DELIVERY_PROGRESS.json",
+      "package.json",
+      "index.html",
+      "js/scoring.js",
+      "js/showdown.js",
+      "js/screens.js",
+      "js/optionalModules.js",
+      "js/sharedShowdownCatalog.js",
+      "js/sharedCareerStart.js",
+      "js/sharedTransferChallenge.js",
+      "js/sharedSeasonResults.js",
+      "js/sharedSeasonCommit.js",
+      "js/sharedCanonicalScoring.js",
+      "js/sharedHistoryConvergence.js",
+      "js/sharedMultiSeasonProgression.js",
+      "js/sharedFinalReconciliation.js",
+      "js/sharedTerminalClose.js",
+      "js/sharedCareerAnalytics.js",
+      "js/sharedClosedShowdownAdapter.js",
+      "js/seasonEngine.js",
+      "js/seasonFinalV10.js",
+      "js/productionSharedShowdownSetup.js",
+      "js/productionSharedCareerStart.js",
+      "js/productionSharedTransferChallenge.js",
+      "js/productionSharedSeasonResults.js",
+      "js/productionSharedSeasonResultsRoute.js",
+      "js/productionSharedSeasonCommit.js",
+      "js/productionSharedCanonicalScoring.js",
+      "js/productionSharedHistoryConvergence.js",
+      "js/productionSharedMultiSeasonProgression.js",
+      "js/productionSharedFinalReconciliation.js",
+      "js/productionSharedTerminalClose.js",
+      "js/sparkSharedHistoryConvergence.js",
+      "js/sparkCompletedShowdownReader.js",
+      "js/sparkClosedShowdownCareerLoader.js",
+      "js/rivalryLegacyV10.js",
+      "js/ruleBook.js",
+      "js/rulesSettingsV10.js",
+      "js/transferScreenV10.js",
+      "js/productionFirebaseRuntime.js",
+      "css/season.css",
+      "css/v10Transfer.css",
+      "visual-assets/v10_1/season-results/app.css",
+      "visual-assets/v10_1/season-results/season-results.css",
+      "visual-assets/v10_1/season-results/season-results.js",
+      "visual-assets/v10_1/shared/motion.js",
+      "tests/contracts/full-gameplay-lifecycle-contracts.cjs",
+      "tests/browser/two-manager-browser-journey.cjs",
+      "tests/browser/stability-audit.cjs",
+      "tests/browser/shared-season-results-audit.cjs",
+      "tests/browser/shared-multi-season-progression-audit.cjs",
+      "tests/browser/shared-terminal-close-audit.cjs",
+      "tests/browser/shared-transfer-challenge-replay-audit.cjs",
+      "tests/browser/support/emulator-runtime-switch.js",
+      "tests/browser/support/firebase.browser-journey.json",
+      "tests/support/chromium-runtime.cjs",
+      "tests/support/static-server.cjs",
+      "tests/support/active-showdown-fixtures.cjs",
+      "visual-assets/v10_1/legacy/legacy.js",
+      "visual-assets/v10_1/legacy/legacy.css",
+      "js/onlinePlayerIdentity.js"
+     ],
+     "findings": [
+      "CMS11-codex-1007-0342-review-instruction"
+     ],
+     "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+     "mode": "codex",
+     "next_focus": "Repeat a full Showdown with mixed cup wins and bonuses, with Nik leading into the final season. Check the review message again after its old save instruction is replaced.",
+     "run": "codex-1007-0342"
+    },
+    "sha": "87b46c2ecaf70ce8acb9f47df73ad506227c3d7f"
    },
    "project-documents/gameplay-factory/sweeps/olympiad/runs/codex-1007-0343.json": {
     "data": {
