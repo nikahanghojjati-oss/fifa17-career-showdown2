@@ -1412,6 +1412,53 @@
     },
     "sha": "28fb7edf00ca26f5c8d90b5f7e3c5ba5151723e9"
    },
+   "project-documents/gameplay-factory/sweeps/olympiad/findings/chat-1007-0103-1.json": {
+    "data": {
+     "actual": "index.html contains the RULE BOOK menu tile but no #ruleBook section or Rule Book text. screens.js still expects document.getElementById('ruleBook') to exist before it can show that screen.",
+     "area": "08",
+     "assumptions": [
+      "This chat check is limited to four code files. A separate optional module could inject #ruleBook at runtime; that module was not read in this pass.",
+      "Because no node reproduction was run in Chat mode, status is likely rather than confirmed."
+     ],
+     "checked_against": [
+      "index.html:347-349 visible season scoring hint says Champions League +5, league title +3, domestic cup +1, one shared +1 performance bonus, one shared +1 awards bonus, maximum 11.",
+      "js/scoring.js:1-35 implements those same scoring values and shared bonus rules.",
+      "js/screens.js:1-15 registers ruleBook and showScreen requires a matching DOM element."
+     ],
+     "expected": "index.html contains a #ruleBook screen whose rule text can be read and checked against the scoring and competition code.",
+     "fix": {
+      "change": "Restore a #ruleBook screen in index.html with the complete current rules, or make the rule screen's dynamic creation explicit and guaranteed before navigation. Keep its scoring text aligned with SCORING_RULES and winner/tiebreak behavior.",
+      "files": [
+       "index.html"
+      ]
+     },
+     "id": "A08-RULEBOOK-MARKUP-MISSING",
+     "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+     "root_cause": "The static Rule Book section was omitted from index.html while ruleBook remains registered as a routable screen.",
+     "run": "chat-1007-0103",
+     "severity": "S2",
+     "status": "likely",
+     "steps": [
+      "Open the main menu, where the RULE BOOK tile is present.",
+      "Follow the Rule Book route: screens.js treats ruleBook as a valid screen name.",
+      "Check index.html for the corresponding #ruleBook section and rules text."
+     ],
+     "title": "Rule Book screen text is missing from index.html",
+     "where": [
+      {
+       "file": "index.html",
+       "function": "Rule Book menu tile / expected #ruleBook markup",
+       "line": 70
+      },
+      {
+       "file": "js/screens.js",
+       "function": "showScreen",
+       "line": 425
+      }
+     ]
+    },
+    "sha": "4a39f9820272b0adbf14a5fc26fb6e8d24dd47bb"
+   },
    "project-documents/gameplay-factory/sweeps/olympiad/findings/codex-1006-1251-1.json": {
     "data": {
      "actual": "Season 2 starts with position 1, 100 points, 100 goals and all four honours checked from season 1. Review accepts those old facts as Daniel’s season 2 result.",
@@ -3832,6 +3879,29 @@
      "run": "chat-1007-0057"
     },
     "sha": "3171998893d3c89694ac5f847885d712020f5041"
+   },
+   "project-documents/gameplay-factory/sweeps/olympiad/runs/chat-1007-0103.json": {
+    "data": {
+     "area": "08",
+     "clean_confidence_pct": 78,
+     "coverage_pct": 68,
+     "date_utc": "2026-10-07T01:03:00Z",
+     "files_read": [
+      "index.html",
+      "js/scoring.js",
+      "js/showdown.js",
+      "js/screens.js"
+     ],
+     "findings": [
+      "A08-RULEBOOK-MARKUP-MISSING"
+     ],
+     "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+     "mode": "chat",
+     "next_focus": "On the next Area 08 pass, spend a file slot on js/optionalModules.js or the Rule Book opener first to determine whether #ruleBook is injected at runtime, then compare the complete displayed rules with transfer and season tiebreak behavior.",
+     "partial": false,
+     "run": "chat-1007-0103"
+    },
+    "sha": "9b04276539823d648e9789aa9aeb5bb631abd71f"
    },
    "project-documents/gameplay-factory/sweeps/olympiad/runs/codex-1006-1206.json": {
     "data": {
