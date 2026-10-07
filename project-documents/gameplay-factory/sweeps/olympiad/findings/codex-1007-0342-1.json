@@ -1,0 +1,45 @@
+{
+  "id": "CMS11-codex-1007-0342-review-instruction",
+  "run": "codex-1007-0342",
+  "area": "11",
+  "title": "Season review says the published results are still unsaved",
+  "severity": "S3",
+  "status": "confirmed",
+  "where": [
+    {
+      "file": "js/seasonEngine.js",
+      "line": 47,
+      "function": "ensureSeasonReviewUI"
+    },
+    {
+      "file": "js/productionSharedSeasonResults.js",
+      "line": 109,
+      "function": "pssrRenderReview"
+    }
+  ],
+  "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+  "steps": [
+    "Start a three-season or ten-season Showdown with Daniel and Nik.",
+    "Finish the season transfer guesses and reveal the signings.",
+    "Enter Daniel’s season result, review it and press Publish My Season Result.",
+    "Enter Nik’s season result, review it and press Publish My Season Result.",
+    "Read the instruction below Both Managers Published. The same instruction remains after the season score is accepted."
+  ],
+  "expected": "The review should say both results have been published and are final, then explain the next season step using the button that is actually shown.",
+  "actual": "Both results are published and can no longer be edited, but the visible review still says: “Nothing becomes permanent until Confirm & Save Season is pressed.” Confirm & Save Season is not shown.",
+  "root_cause": "The review keeps the old save instruction created by ensureSeasonReviewUI. pssrRenderReview changes the heading, result message and buttons for the current publish steps but never replaces the introduction.",
+  "fix": {
+    "files": [
+      "js/productionSharedSeasonResults.js"
+    ],
+    "change": "Update .seasonReviewIntro along with each review step. Before publishing, ask the manager to check their own result; after publishing, say that result is final; after both publish, say both results are saved and use the current season button name."
+  },
+  "script": "project-documents/gameplay-factory/sweeps/olympiad/test/CMS11-codex-1007-0342-review-instruction.cjs",
+  "script_output": "Both players published. The results are final and the old save button is absent.\nVisible instruction: Verify both managers' results and the calculated scores. Nothing becomes permanent until Confirm & Save Season is pressed.\nAssertionError [ERR_ASSERTION]: published season results must not claim they remain unsaved until an absent save button is pressed\n    at project-documents/gameplay-factory/sweeps/olympiad/test/CMS11-codex-1007-0342-review-instruction.cjs:186:12 {\n  generatedMessage: false,\n  code: 'ERR_ASSERTION',\n  actual: \"Verify both managers' results and the calculated scores. Nothing becomes permanent until Confirm & Save Season is pressed.\",\n  expected: /Nothing becomes permanent until Confirm & Save Season is pressed/i,\n  operator: 'doesNotMatch',\n  diff: 'simple'\n}\n",
+  "assumptions": [
+    "Normal play: Daniel and Nik enter their own FIFA 17 season facts and publish once each.",
+    "The short repeatable script prepares a ready game and plays both publish steps in Chromium.",
+    "Also visible in the full ten-season Chromium game after the season-1 score was accepted.",
+    "This is a misleading instruction; no lost result or incorrect score was observed."
+  ]
+}
