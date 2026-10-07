@@ -4307,6 +4307,48 @@
     },
     "sha": "b8ca72e2174c1b8a1b5811e83038dbb1dc64b6fe"
    },
+   "project-documents/gameplay-factory/sweeps/olympiad/runs/chat-1007-0446.json": {
+    "data": {
+     "area": "05",
+     "clean_confidence_pct": 94,
+     "coverage_pct": 90,
+     "date_utc": "2026-10-07T04:46:00Z",
+     "files_read": [
+      "js/seasonFinalV10.js",
+      "js/showdown.js",
+      "js/scoring.js",
+      "js/sharedFinalReconciliation.js"
+     ],
+     "findings": [],
+     "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+     "mode": "chat",
+     "next_focus": "On the next area 05 cycle, inspect terminal-close witness consistency with final reconciliation without re-reading these files.",
+     "partial": false,
+     "run": "chat-1007-0446"
+    },
+    "sha": "34b56b166d77917f36fec42d8f02d4af167a999e"
+   },
+   "project-documents/gameplay-factory/sweeps/olympiad/runs/chat-1007-0449.json": {
+    "data": {
+     "area": "04",
+     "clean_confidence_pct": 96,
+     "coverage_pct": 88,
+     "date_utc": "2026-10-07T04:49:00Z",
+     "files_read": [
+      "js/seasonEngine.js",
+      "js/sharedMultiSeasonProgression.js",
+      "js/showdown.js",
+      "js/transferChallenge.js"
+     ],
+     "findings": [],
+     "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+     "mode": "chat",
+     "next_focus": "On the next Area 04 cycle, inspect progression code not read in this run, especially productionSharedMultiSeasonProgression, sharedSeasonCommit, seasonFinalV10, and screen routing around the Season 9 to 10 boundary.",
+     "partial": false,
+     "run": "chat-1007-0449"
+    },
+    "sha": "7656748615de7217155b324b341856204f798e3f"
+   },
    "project-documents/gameplay-factory/sweeps/olympiad/runs/codex-1006-1206.json": {
     "data": {
      "area": "11",
