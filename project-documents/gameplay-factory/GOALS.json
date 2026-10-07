@@ -1589,6 +1589,98 @@
     },
     "sha": "b8564b46dce98574fc8934b266ba36b362ecdc77"
    },
+   "project-documents/gameplay-factory/sweeps/olympiad/findings/chat-1007-0447-1.json": {
+    "data": {
+     "actual": "This file has no visibilitychange restart. The local challenge can remain status active with a stale clock after return until another action reopens/reconciles it or the player manually ends the window.",
+     "area": "02",
+     "assumptions": [
+      "The local/legacy transferChallenge.js path is still a supported normal-play path. If production always routes every current Showdown through productionSharedTransferChallenge.js, this finding does not affect current shared play and should be closed."
+     ],
+     "checked_against": [
+      "js/productionSharedTransferChallenge.js:299-301 handles visibility return for the shared path by clearing the clock and ticking again.",
+      "js/transferChallenge.js:377-394 reconciles an expired deadline only when openTransferChallenge is called."
+     ],
+     "expected": "The timer resumes or immediately reconciles the deadline, shows 00:00 and moves the challenge to Guess Entry.",
+     "fix": {
+      "change": "Add a visibilitychange handler for the local transfer engine. On visible, reconcile the current challenge deadline and restart the timer loop only when the Transfer Challenge screen is active.",
+      "files": [
+       "js/transferChallenge.js"
+      ]
+     },
+     "id": "A02-LOCAL-TIMER-VISIBILITY",
+     "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+     "root_cause": "updateTransferTimer stops the interval whenever the document is hidden, but initializeTransferChallenge does not register a visibilitychange handler and synchronizeTransferDeadline is only called when openTransferChallenge runs.",
+     "run": "chat-1007-0447",
+     "severity": "S1",
+     "status": "question",
+     "steps": [
+      "Start the local transfer window at 15:00.",
+      "While the Transfer Challenge screen is still open, hide or background the tab before the deadline.",
+      "The next timer tick sees document.visibilityState === hidden, stops transferTimerInterval and returns.",
+      "Return to the same tab after the original deadline without navigating away and reopening the Transfer Challenge."
+     ],
+     "title": "Local transfer timer can stop permanently after the tab is hidden",
+     "where": [
+      {
+       "file": "js/transferChallenge.js",
+       "function": "updateTransferTimer",
+       "line": 456
+      },
+      {
+       "file": "js/transferChallenge.js",
+       "function": "initializeTransferChallenge",
+       "line": 294
+      }
+     ]
+    },
+    "sha": "9cc94ede20349b4455f895f826f9340360609450"
+   },
+   "project-documents/gameplay-factory/sweeps/olympiad/findings/chat-1007-0451-1.json": {
+    "data": {
+     "actual": "This file has no visibilitychange restart. The local challenge can remain status active with a stale clock after return until another action reopens/reconciles it or the player manually ends the window.",
+     "area": "02",
+     "assumptions": [
+      "The local/legacy transferChallenge.js path is still a supported normal-play path. If production always routes every current Showdown through productionSharedTransferChallenge.js, this finding does not affect current shared play and should be closed."
+     ],
+     "checked_against": [
+      "js/productionSharedTransferChallenge.js:299-301 handles visibility return for the shared path by clearing the clock and ticking again.",
+      "js/transferChallenge.js:377-394 reconciles an expired deadline only when openTransferChallenge is called."
+     ],
+     "expected": "The timer resumes or immediately reconciles the deadline, shows 00:00 and moves the challenge to Guess Entry.",
+     "fix": {
+      "change": "Add a visibilitychange handler for the local transfer engine. On visible, reconcile the current challenge deadline and restart the timer loop only when the Transfer Challenge screen is active.",
+      "files": [
+       "js/transferChallenge.js"
+      ]
+     },
+     "id": "A02-LOCAL-TIMER-VISIBILITY",
+     "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+     "root_cause": "updateTransferTimer stops the interval whenever the document is hidden, but initializeTransferChallenge does not register a visibilitychange handler and synchronizeTransferDeadline is only called when openTransferChallenge runs.",
+     "run": "chat-1007-0451",
+     "severity": "S1",
+     "status": "question",
+     "steps": [
+      "Start the local transfer window at 15:00.",
+      "While the Transfer Challenge screen is still open, hide or background the tab before the deadline.",
+      "The next timer tick sees document.visibilityState === hidden, stops transferTimerInterval and returns.",
+      "Return to the same tab after the original deadline without navigating away and reopening the Transfer Challenge."
+     ],
+     "title": "Local transfer timer can stop permanently after the tab is hidden",
+     "where": [
+      {
+       "file": "js/transferChallenge.js",
+       "function": "updateTransferTimer",
+       "line": 456
+      },
+      {
+       "file": "js/transferChallenge.js",
+       "function": "initializeTransferChallenge",
+       "line": 294
+      }
+     ]
+    },
+    "sha": "39efd08b744749b6ec18834e95437ea744f62df3"
+   },
    "project-documents/gameplay-factory/sweeps/olympiad/findings/codex-1006-1251-1.json": {
     "data": {
      "actual": "Season 2 starts with position 1, 100 points, 100 goals and all four honours checked from season 1. Review accepts those old facts as Daniel’s season 2 result.",
@@ -4328,6 +4420,27 @@
     },
     "sha": "34b56b166d77917f36fec42d8f02d4af167a999e"
    },
+   "project-documents/gameplay-factory/sweeps/olympiad/runs/chat-1007-0447.json": {
+    "data": {
+     "area": "03",
+     "clean_confidence_pct": 55,
+     "coverage_pct": 40,
+     "date_utc": "2026-10-07T04:47:00Z",
+     "files_read": [
+      "js/showdown.js",
+      "js/showdownUI.js",
+      "js/app.js",
+      "index.html"
+     ],
+     "findings": [],
+     "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+     "mode": "chat",
+     "next_focus": "On the next area 03 cycle, inspect the transfer-phase handlers that actually record signings, reveal guesses, compute verdicts, and unlock continuation; those handlers are referenced here but live outside the four-file cap.",
+     "partial": false,
+     "run": "chat-1007-0447"
+    },
+    "sha": "83f915fdf2a940122a035205d7c7408534ae9d05"
+   },
    "project-documents/gameplay-factory/sweeps/olympiad/runs/chat-1007-0449.json": {
     "data": {
      "area": "04",
@@ -4348,6 +4461,50 @@
      "run": "chat-1007-0449"
     },
     "sha": "7656748615de7217155b324b341856204f798e3f"
+   },
+   "project-documents/gameplay-factory/sweeps/olympiad/runs/chat-1007-0450.json": {
+    "data": {
+     "area": "01",
+     "clean_confidence_pct": 90,
+     "coverage_pct": 72,
+     "date_utc": "2026-10-07T04:49:54.987Z",
+     "files_read": [
+      "data/leagues.js",
+      "data/clubs.js",
+      "js/leagueWheel.js",
+      "js/clubAssignment.js"
+     ],
+     "findings": [],
+     "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+     "mode": "chat",
+     "next_focus": "Next Area 01 cycle: inspect the screen-routing and bootstrap/randomizer paths not read in this run, especially js/screens.js and js/optionalModules.js, while avoiding these four files.",
+     "partial": false,
+     "run": "chat-1007-0450"
+    },
+    "sha": "47be0587a7f4c5d5d19f10c2583d47b4e9db3f4c"
+   },
+   "project-documents/gameplay-factory/sweeps/olympiad/runs/chat-1007-0451.json": {
+    "data": {
+     "area": "02",
+     "clean_confidence_pct": 78,
+     "coverage_pct": 72,
+     "date_utc": "2026-10-07T04:51:05Z",
+     "files_read": [
+      "js/transferChallenge.js",
+      "js/transferScreenV10.js",
+      "js/scoring.js",
+      "js/productionSharedTransferChallenge.js"
+     ],
+     "findings": [
+      "A02-LOCAL-TIMER-VISIBILITY"
+     ],
+     "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+     "mode": "chat",
+     "next_focus": "Next Area 02 cycle: read provider-side shared transfer challenge code not read in this run, especially guess verdict matching and phase advancement, while avoiding these four files.",
+     "partial": false,
+     "run": "chat-1007-0451"
+    },
+    "sha": "da3397d668d12538cfbc668dcb5d6c6ac6f98645"
    },
    "project-documents/gameplay-factory/sweeps/olympiad/runs/codex-1006-1206.json": {
     "data": {
