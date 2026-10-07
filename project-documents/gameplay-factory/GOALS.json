@@ -3945,6 +3945,27 @@
     },
     "sha": "2909c23f84d356afd9affaff97733b738d6c3433"
    },
+   "project-documents/gameplay-factory/sweeps/olympiad/runs/chat-1007-0115.json": {
+    "data": {
+     "area": "03",
+     "clean_confidence_pct": 60,
+     "coverage_pct": 35,
+     "date_utc": "2026-10-07T01:15:00Z",
+     "files_read": [
+      "index.html",
+      "js/showdown.js",
+      "js/screens.js",
+      "js/app.js"
+     ],
+     "findings": [],
+     "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+     "mode": "chat",
+     "next_focus": "Read the deferred gameplay module that defines transfer signing normalization, reveal matching, and verdict rendering without reopening these four files.",
+     "partial": false,
+     "run": "chat-1007-0115"
+    },
+    "sha": "16a5e00b64fb0c98930bfccbe4073187b8943419"
+   },
    "project-documents/gameplay-factory/sweeps/olympiad/runs/codex-1006-1206.json": {
     "data": {
      "area": "11",
