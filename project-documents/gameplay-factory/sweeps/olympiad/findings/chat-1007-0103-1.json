@@ -1,0 +1,44 @@
+{
+  "id": "A08-RULEBOOK-MARKUP-MISSING",
+  "run": "chat-1007-0103",
+  "area": "08",
+  "title": "Rule Book screen text is missing from index.html",
+  "severity": "S2",
+  "status": "likely",
+  "where": [
+    {
+      "file": "index.html",
+      "line": 70,
+      "function": "Rule Book menu tile / expected #ruleBook markup"
+    },
+    {
+      "file": "js/screens.js",
+      "line": 425,
+      "function": "showScreen"
+    }
+  ],
+  "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+  "steps": [
+    "Open the main menu, where the RULE BOOK tile is present.",
+    "Follow the Rule Book route: screens.js treats ruleBook as a valid screen name.",
+    "Check index.html for the corresponding #ruleBook section and rules text."
+  ],
+  "expected": "index.html contains a #ruleBook screen whose rule text can be read and checked against the scoring and competition code.",
+  "actual": "index.html contains the RULE BOOK menu tile but no #ruleBook section or Rule Book text. screens.js still expects document.getElementById('ruleBook') to exist before it can show that screen.",
+  "root_cause": "The static Rule Book section was omitted from index.html while ruleBook remains registered as a routable screen.",
+  "checked_against": [
+    "index.html:347-349 visible season scoring hint says Champions League +5, league title +3, domestic cup +1, one shared +1 performance bonus, one shared +1 awards bonus, maximum 11.",
+    "js/scoring.js:1-35 implements those same scoring values and shared bonus rules.",
+    "js/screens.js:1-15 registers ruleBook and showScreen requires a matching DOM element."
+  ],
+  "fix": {
+    "files": [
+      "index.html"
+    ],
+    "change": "Restore a #ruleBook screen in index.html with the complete current rules, or make the rule screen's dynamic creation explicit and guaranteed before navigation. Keep its scoring text aligned with SCORING_RULES and winner/tiebreak behavior."
+  },
+  "assumptions": [
+    "This chat check is limited to four code files. A separate optional module could inject #ruleBook at runtime; that module was not read in this pass.",
+    "Because no node reproduction was run in Chat mode, status is likely rather than confirmed."
+  ]
+}
