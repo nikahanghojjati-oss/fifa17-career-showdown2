@@ -1367,6 +1367,51 @@
     },
     "sha": "a3ee0305e9a75570946d2567d9a0b459f67444ad"
    },
+   "project-documents/gameplay-factory/sweeps/olympiad/findings/chat-1007-0052-1.json": {
+    "data": {
+     "actual": "The heading says Showdowns, but the row prints 2-1-0 from showdownWins, showdownDraws and showdownLosses.",
+     "area": "06",
+     "assumptions": [
+      "The Career Table heading Showdowns is intended to mean the number of completed showdowns, consistent with the surrounding career summary."
+     ],
+     "checked_against": [
+      "js/trophyRoom.js createManagerCabinet, which separately shows W-D-L and the total showdown count in plain text",
+      "js/statistics.js career summary, which separately reports the completed-showdown total"
+     ],
+     "expected": "The column headed Showdowns shows 3, or the heading clearly says it is a Showdown W-D-L record.",
+     "fix": {
+      "change": "Make the Career Table heading and value agree. Prefer showing manager.showdowns under Showdowns; if the W-D-L record is intended, rename the heading to Showdown W-D-L.",
+      "files": [
+       "js/statistics.js"
+      ]
+     },
+     "id": "A06-CAREER-TABLE-SHOWDOWNS-COLUMN",
+     "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+     "root_cause": "createCareerStandingsTable labels the third column Showdowns while filling it with the three-part showdown W-D-L record.",
+     "run": "chat-1007-0052",
+     "severity": "S2",
+     "status": "likely",
+     "steps": [
+      "Complete 3 showdowns for one manager.",
+      "Use a record of 2 showdown wins, 1 draw and 0 losses.",
+      "Open Career Statistics or Trophy Room and read the Career Table."
+     ],
+     "title": "Career Table Showdowns column displays W-D-L instead of showdown count",
+     "where": [
+      {
+       "file": "js/statistics.js",
+       "function": "createCareerStandingsTable",
+       "line": 228
+      },
+      {
+       "file": "js/statistics.js",
+       "function": "createCareerStandingsTable",
+       "line": 242
+      }
+     ]
+    },
+    "sha": "28fb7edf00ca26f5c8d90b5f7e3c5ba5151723e9"
+   },
    "project-documents/gameplay-factory/sweeps/olympiad/findings/codex-1006-1251-1.json": {
     "data": {
      "actual": "Season 2 starts with position 1, 100 points, 100 goals and all four honours checked from season 1. Review accepts those old facts as Daniel’s season 2 result.",
@@ -3701,6 +3746,50 @@
      "run": "chat-1007-0018"
     },
     "sha": "4de2a7b5845dfa14c7e27d9f798d061b456dd961"
+   },
+   "project-documents/gameplay-factory/sweeps/olympiad/runs/chat-1007-0050.json": {
+    "data": {
+     "area": "11",
+     "clean_confidence_pct": 78,
+     "coverage_pct": 52,
+     "date_utc": "2026-10-07T00:50:00Z",
+     "files_read": [
+      "index.html",
+      "js/showdown.js",
+      "js/scoring.js",
+      "js/app.js"
+     ],
+     "findings": [],
+     "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+     "mode": "chat",
+     "next_focus": "Area 01 cycle restart: read league and club-pick flow code not read in this run, especially the screen/controller path that advances from league selection through permanent club assignment.",
+     "partial": false,
+     "run": "chat-1007-0050"
+    },
+    "sha": "b5f0d92bd380d984c1309cddb93af81319e1759f"
+   },
+   "project-documents/gameplay-factory/sweeps/olympiad/runs/chat-1007-0052.json": {
+    "data": {
+     "area": "06",
+     "clean_confidence_pct": 72,
+     "coverage_pct": 68,
+     "date_utc": "2026-10-07T00:52:00Z",
+     "files_read": [
+      "js/trophyRoom.js",
+      "js/statistics.js",
+      "js/rivalryLegacyV10.js",
+      "js/seasonEngine.js"
+     ],
+     "findings": [
+      "A06-CAREER-TABLE-SHOWDOWNS-COLUMN"
+     ],
+     "main_sha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+     "mode": "chat",
+     "next_focus": "On the next Area 06 cycle, read the career analytics builder and the History page renderer files not read in this run, with special attention to trophy totals, tied records, and completed-showdown ordering.",
+     "partial": false,
+     "run": "chat-1007-0052"
+    },
+    "sha": "2cc43279724047894b638324d25919f1429eec5f"
    },
    "project-documents/gameplay-factory/sweeps/olympiad/runs/codex-1006-1206.json": {
     "data": {
