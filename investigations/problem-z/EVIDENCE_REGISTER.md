@@ -1,6 +1,6 @@
 # Problem Z — Evidence register
 
-**Status:** Initial corpus only (2026-10-08). **Branch-source basis:** `main` at `bc77a0b934c3d43279f27f73a72db21c2db2b4f2` (the research branch originated at that head). **Evidence tiers:** O owner report/photo; S code/docs source; T deterministic/browser reproduction; P authorized genuine production/physical observation; H hypothesis only.
+**Status:** Initial owner/source corpus plus 2026-10-08 source/PR provenance addendum; physical root cause remains unverified. **Branch-source basis:** `main` at `bc77a0b934c3d43279f27f73a72db21c2db2b4f2` (the research branch originated at that head). **Evidence tiers:** O owner report/photo; S code/docs source; T deterministic/browser reproduction; P authorized genuine production/physical observation; H hypothesis only.
 
 ## Owner-observed corpus (O — descriptions only; screenshots are in the original conversation, not copied into the public repo)
 
@@ -28,6 +28,29 @@
 | S-08 | [service-worker.js lines 1–13](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/bc77a0b934c3d43279f27f73a72db21c2db2b4f2/service-worker.js#L1-L13) and [index.html line 6](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/bc77a0b934c3d43279f27f73a72db21c2db2b4f2/index.html#L6) | Checked-in runtime is `1.9.1-r62`, service-worker tracks previous `r61`. | Deployed and device-active revisions not verified yet. |
 | S-09 | [CURRENT_PRODUCT_GUARDS.json](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/bc77a0b934c3d43279f27f73a72db21c2db2b4f2/CURRENT_PRODUCT_GUARDS.json) and [AGENTS.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/bc77a0b934c3d43279f27f73a72db21c2db2b4f2/AGENTS.md) | Exactly two players, zero billing, session-only popup, non-destructive recovery boundaries and dual-full-screen invariant. | Do not infer all safeguards actually held in each device runtime. |
 
+## Astra recovered and current checked source leads — addendum (2026-10-08)
+
+**Important provenance distinction:** S-01–S-09 are the original baseline entries above. S-10–S-19, T-01 and P-01 were indexed in Astra's recovered ledger, but not fully integrated here until this addendum. Source paths below are exact pinned revision pointers where available; `reviewed-imported` means the underlying prior session's verification has **not** been independently repeated. **Evidence IDs are preserved** rather than silently reallocated. The historical five H labels below are superseded by the narrower H-01–H-11 and contradictions in [revision-2 ledger](RESEARCH_LEDGER.json); do not use their old phrasing for current verdicts.
+
+| ID | Tier / lineage | Attributable finding and actual support | Limit |
+|---|---|---|---|
+| S-10 | S, earlier Astra GitHub/publication review | Recorded main `bc77a0b934c3d43279f27f73a72db21c2db2b4f2`, research head `740a706129d963ec2ff1c5f35c68e3c71b0a7a3f` prior to later commits, plus reported successful Pages workflow | Recorded publication sampling, not a complete deployment or device history. Current live refs must be fetched each session |
+| S-11 | S, **source directly rechecked** | [`index.html` deferred ordering](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/bc77a0b934c3d43279f27f73a72db21c2db2b4f2/index.html#L410-L417), [`showdown.js` startup and latch](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/bc77a0b934c3d43279f27f73a72db21c2db2b4f2/js/showdown.js#L4-L7), [`optionalModules.js` loader](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/bc77a0b934c3d43279f27f73a72db21c2db2b4f2/js/optionalModules.js#L92) | Code makes timing defect plausible; an executed independent delayed-load test is still required |
+| S-12 | S, partially directly checked + Astra review | [`onlinePlayerIdentity.js` identity/account/device distinctions](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/bc77a0b934c3d43279f27f73a72db21c2db2b4f2/js/onlinePlayerIdentity.js#L1-L60), [`sparkConnectedAccount.js`](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/bc77a0b934c3d43279f27f73a72db21c2db2b4f2/js/sparkConnectedAccount.js) | No original provider success, popup invocation, device registration or account status trace |
+| S-13 | S, partially directly checked + Astra review | [`persistentNikDanielPair.js` membership and continuation](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/bc77a0b934c3d43279f27f73a72db21c2db2b4f2/js/persistentNikDanielPair.js#L223-L225), [`screens.js` Continue](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/bc77a0b934c3d43279f27f73a72db21c2db2b4f2/js/screens.js#L643) | No original provider+local before/after state; route coexistence not proof of event conflict |
+| S-14 | S, **source directly rechecked** | [`productionSharedTransferChallenge.js` canonical field IDs and client preflight](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/bc77a0b934c3d43279f27f73a72db21c2db2b4f2/js/productionSharedTransferChallenge.js#L193-L196), [submit before `lockSignings`](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/bc77a0b934c3d43279f27f73a72db21c2db2b4f2/js/productionSharedTransferChallenge.js#L268-L276) | No test proving the actual tablet field was missing canonical IDs |
+| S-15 | S, Astra source review | [`service-worker.js` caches and revision policy](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/bc77a0b934c3d43279f27f73a72db21c2db2b4f2/service-worker.js) | No October 7 device cache/controller fingerprint |
+| S-16 | S, Astra source review | Transfer visual plate/layout constraints in `js/productionSharedTransferChallenge.js` and its associated responsive CSS/selector bridge | No original device dimensions or keyboard state, no independent physical test |
+| S-17 | S, **source directly rechecked** | [`sparkRemoteJoining.js` page-memory context/expiry and exact session checks](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/bc77a0b934c3d43279f27f73a72db21c2db2b4f2/js/sparkRemoteJoining.js#L107-L133) | Fresh session after reload may be expected, not permission to lose durable pair/career |
+| S-18 | S, Astra source review | Transfer context resets and provider-committed replay paths in `js/productionSharedTransferChallenge.js` | Draft persistence not fully mapped; no evidence of committed data deletion |
+| S-19 | S, Astra source review | Force-initialization/auth callbacks and possible completion-order races in `js/onlinePlayerIdentity.js` | No executed overlapping-completion proof |
+| T-01 | T-imported, single QA lineage `qa-codex-1006-2350` | [PR #425](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/425) and [saved run report](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/qa/codex-two-manager-1006-2350/project-documents/gameplay-factory/sweeps/olympiad/findings/codex-1006-2350-1.json): three sign-in-gate timeouts and reported 0 ms / 400 ms optional-loader contrast | Underlying run/output recorded, read in this session; **not independently rerun**. 33 downstream checkpoints were not reached; original physical incident not reproduced |
+| P-01 | P-public-imported, Astra sampled assets | Prior audit reports four public HTTP assets matched the pinned main and a Pages run succeeded around 2026-10-08 16:58 UTC | No full response/hash manifest integrated; public served bytes do not establish October 7 device bytes, authenticated production behavior, Firestore Rules deployment or physical playtest |
+
+**New source safety observation (not a physical failure verdict):** `persistentNikDanielPair.js` contains a destructive DELETE CURRENT SHOWDOWN recommendation in one error around line 205 and START OVER recovery wording around line 241. Do not execute or prescribe these suggestions to Nik/Daniel. Team G should specifically review any modified recovery UX and preserve canonical data. No save was removed during this research.
+
+**Direct verification scope in this session:** live GitHub readbacks for main/Studio refs, pinned source paths, the PR #425 JSON report and guarded documentation commits. **No product code test was run**, no real physical, provider, deployment or login state observed, and no root cause independently verified. Do not convert these source confirmations into research block completions or physical/SSJR/MDP credit.
+
 ## Current hypotheses (H, **unverified**)
 
 - H-01: popup user activation or asynchronous dependency setup leaves authentication unresolved.
@@ -36,10 +59,10 @@
 - H-04: Continue Career active authority and local saved/pair/session routing diverged.
 - H-05: tablet layout/focus hid signing requirements or data was missing/invalid independently of clipping.
 
-## Not yet present
+## Historical baseline gaps (original subsection; updated status in addendum above)
 
-- **No T:** No replayed browser/deterministic tests run by this research program.
-- **No P:** No observed authenticated Firebase state, provider logs, actual production device revision or new consented physical reproduction gathered here.
+- **No independently executed new Studio T:** imported T-01 controlled report is recorded above; this session performed no new browser product test.
+- **No P-device:** no authenticated Firebase/provider trace, actual October 7 device revision or new consented physical reproduction. P-01 is imported **P-public** sampling only.
 - No repair or deployment proof, no Team G Lead review/approval, no product milestone credit.
 
 **Update rule:** Every research block records new evidence IDs, rejected alternatives, gaps and SHA provenance. Do not delete contradictory observations to make a hypothesis look certain.
