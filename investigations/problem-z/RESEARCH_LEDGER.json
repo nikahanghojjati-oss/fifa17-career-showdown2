@@ -1226,6 +1226,13 @@
       "outcome": "partial-model-not-complete",
       "artifact": "research-blocks/Z-003_STARTUP_SOURCE_EXCERPT_MODEL_2026-10-08.md",
       "note": "Executed a bounded Node VM event-order model using verbatim pinned startup functions; same-loader-timing controls discriminate, but full Chromium fixture was blocked. Not independent browser or incident verification."
+    },
+    {
+      "date": "2026-10-08",
+      "block": null,
+      "outcome": "implementation-planning-only",
+      "artifact": "STUDIO_Z_BUILD_READINESS.md",
+      "note": "Prepared exact pinned-code repair boundaries and owner-check reservations for Team G. Static S-20/S-21 only; no test, implementation, new block completion or additional authority."
     }
   ],
   "roadmapRevision": 2,
@@ -1849,6 +1856,24 @@
       "ref": "research-blocks/Z-003_STARTUP_SOURCE_EXCERPT_MODEL_2026-10-08.md",
       "lineageGroup": "studio-z-node-event-order-2026-10-08",
       "independentIncidentVerification": false
+    },
+    {
+      "id": "S-20",
+      "tier": "S",
+      "scope": "pinned source static route trace",
+      "label": "Online capture-phase Continue handler and legacy local-saved Continue handler coexist; missing identity layer may expose local fallback; physical cause unknown.",
+      "ref": "EVIDENCE_REGISTER.md",
+      "lineageGroup": "studio-z-source-reading-2026-10-08",
+      "independentIncidentVerification": false
+    },
+    {
+      "id": "S-21",
+      "tier": "S",
+      "scope": "pinned source static transfer-selector trace",
+      "label": "Transfer signing builder requires league/nationality canonical dataset IDs; displayed labels alone do not demonstrate canonical selection; physical UI not reproduced.",
+      "ref": "EVIDENCE_REGISTER.md",
+      "lineageGroup": "studio-z-source-reading-2026-10-08",
+      "independentIncidentVerification": false
     }
   ],
   "contradictions": [
@@ -1967,5 +1992,5 @@
     "originalManifestByteHashVerified": false,
     "meaning": "Text recovered and authority/status fields minimally reconciled; imported S/T/P claims retain recorded limitations."
   },
-  "statusNote": "In-progress Z-003: source-excerpt model discriminated event order; full browser X-01 and all physical/engineering approvals remain pending."
+  "statusNote": "Finite preparation complete. All actual product/browser/provider/physical checks intentionally reserved for Claude/Team G as requested; Z-003 still in-progress, source-excerpt model only, no repair permission."
 }
