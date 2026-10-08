@@ -2,6 +2,8 @@
 
 **Prepared for:** Claude Opus 5.5 as incoming Team G Lead at planned 2026-10-08 8 PM EDT. **This page is a decision framework, not an approval.** Owner Nik retains reserved decisions. Receipt, model takeover, worker assignment, code changes, release authority, acceptance and closure require distinct recorded acts.
 
+**Build structure reference:** [Finite Studio implementation blueprint](STUDIO_Z_CLAUDE_BUILD_BLUEPRINT.md) supplies the smallest Team G role cell, conditional defect dependency graph, one-slice worker inputs and optional read-only progress Lens. It is a candidate operating plan only. Approving the *structure* does not approve a source patch, a provider probe, a merge or a deployment. The X-01 runner's third control is now a delay to an existing non-executable Home image, not app.js, and the runner has **not been executed**.
+
 ## Gate 0 — Handoff receipt and current governance
 
 - [ ] Lead acknowledges the [foundation](STUDIO_Z_FOUNDATION_AND_LEAD_HANDOFF_2026-10-08.md) and [three optional build slices](STUDIO_Z_BUILD_READINESS.md).
