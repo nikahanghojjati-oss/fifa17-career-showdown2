@@ -65,6 +65,10 @@
 
 **Provenance:** only source review and exact static test-map inspection. No new `T` or `P` observations, physical original-cause attribution, independent verification, product code modification, release or owner acceptance.
 
+## S-24 — verified inert image asset as controlled delay target (source only)
+
+Pinned `index.html` includes `<img id="startupAthlete" src="assets/marco-reus-2015-cc-by.webp?v=1.9.1-r62" ...>` before the deferred application scripts. In the unexecuted X-01 probe, the unrelated-load negative control now delays that existing **image** by 400 ms instead of `js/app.js`. The image is not executable and is not the `loadRuntimeScript` provider. This better separates an unrelated asset delay from intentionally delaying application initialization; browser fetch priority can still shift load scheduling and must be measured. The probe aborts outside-origin requests and checks image intercept count. **This is S static source evidence, not a run of the probe, not a browser result and not physical-device evidence.** Full [Claude build blueprint](STUDIO_Z_CLAUDE_BUILD_BLUEPRINT.md) describes the conditional Studio work cell; that document does not grant authorization.
+
 ## T-02-MODEL — new source-excerpt deterministic event-order result (2026-10-08)
 
 See [Z-003 source-excerpt model report](research-blocks/Z-003_STARTUP_SOURCE_EXCERPT_MODEL_2026-10-08.md). This was an actual local **Node v22.16.0 VM simulation** with **verbatim `showdown.js` source function bodies at pinned main**, but synthetic document, timer, loader, identity and reporter. Normal loader-ready and unrelated-latency controls both yielded identity present; a scheduled start *before* loader availability yielded a latched flag, no identity and no retry on invoking the bootstrap entry function again. The script's emitted outputs and local SHA-256 records are in the report. This supports only a **source-level event-order mechanism**; it is NOT independent X-01 full-browser verification, a real OAuth/provider test or October 7 physical-root-cause evidence.
