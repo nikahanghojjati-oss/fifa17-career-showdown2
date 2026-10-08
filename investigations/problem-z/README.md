@@ -6,6 +6,8 @@
 
 **Working entry:** [Foundation and lead charter](STUDIO_Z_FOUNDATION_AND_LEAD_HANDOFF_2026-10-08.md) → [three minimal conditional build slices + proof](STUDIO_Z_BUILD_READINESS.md) → [one next experiment: Z-003 / X-01](NEXT_RESEARCH_SESSION.md). Read live POS20/AGENTS/guards before any action.
 
+**Prepared, unexecuted:** [Three-condition local browser probe](tools/x01-local-browser-probe.cjs) and [exact run commands, SHA pins and limitations](NEXT_RESEARCH_SESSION.md#claude-ready-local-probe-prepared-not-executed) are staged for Claude; no tests are being run or credited by the foundation author. This is a disposable research probe, not a new Studio platform or game code change.
+
 **New narrow result:** [Z-003 deterministic source-excerpt model](research-blocks/Z-003_STARTUP_SOURCE_EXCERPT_MODEL_2026-10-08.md) supports the loader-before-start versus loader-after-start latch mechanism in an isolated Node VM. Full Chromium X-01 was environmentally blocked and remains the single next research gate. This does **not** establish the physical incident cause or a full-browser result.
 
 **Status:** foundation documentation and Astra research integration prepared; **root cause of October 7 physical attempts unverified; no new independent product/browser test, gameplay fix, Team G acceptance, release or owner physical acceptance**. Issue [#426](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/issues/426) remains open. Dedicated documentation branch: `investigation/problem-z-z-studio-2026-10-08`; allowed changes only under `investigations/problem-z/`.
