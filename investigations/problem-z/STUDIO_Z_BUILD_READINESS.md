@@ -139,7 +139,7 @@ These source files/scripts were inspected at pinned main bc77a0b934c3d43279f27f7
 
 | Concern | Existing source/script | Already covers / not a substitute for |
 |---|---|---|
-| X-01 loader readiness | [Unexecuted research probe](tools/x01-local-browser-probe.cjs) and [single next action](NEXT_RESEARCH_SESSION.md) | Loopback-only three conditions, source hashes, external network blocked; **cannot** verify OAuth/Firebase; app.js control is downstream defer timing, not an independent unrelated asset |
+| X-01 loader readiness | [Unexecuted research probe](tools/x01-local-browser-probe.cjs) and [single next action](NEXT_RESEARCH_SESSION.md) | Loopback-only three conditions, source hashes, external network blocked; **cannot** verify OAuth/Firebase; in-page Reus image negative control does not delay application JS (the image is unrelated but can affect browser scheduling) |
 | Two-manager identity J1.1 | tests/browser/two-manager-browser-journey.cjs | Mock/emulator Sign In With Google → Daniel/Nik identities and badges; requires explicitly controlled Auth/Firestore emulator writes |
 | Canonical typed transfer entries | same two-manager journey, helper fillTransferCombo | Types exact labels and waits for dataset.canonicalId, then locks and checks rival privacy; **does not** prove original tablet interaction |
 | Online Continue/pair recovery | npm run test:persistent-pair-routing | Synthetic active/recovery state and contained Settings; **does not** prove original local/provider save survived |
