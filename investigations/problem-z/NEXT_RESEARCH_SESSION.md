@@ -10,6 +10,27 @@ Pinned main `bc77a0b934c3d43279f27f73a72db21c2db2b4f2` runs `showdown.js` before
 
 Full Chromium X-01 could not run locally: all synthetic/local browser navigations failed at the environment boundary with `net::ERR_BLOCKED_BY_ADMINISTRATOR`; direct git clone failed DNS. **No new physical/product browser test has been passed and no root cause is verified.** Existing PR #425 remains imported support only. The model runner/log digests and exact limitations are in the new report.
 
+## Claude-ready local probe (PREPARED, NOT EXECUTED)
+
+A small zero-auth [research-only browser probe](tools/x01-local-browser-probe.cjs) is staged under the **investigation directory**, not in the production game or official test suite. It uses the existing test server and Chromium resolver, refuses non-loopback URLs, blocks **all** outbound non-local requests, isolates three new disposable browser contexts, and compares baseline vs a 400ms delay of `js/optionalModules.js` vs the same delay to `js/app.js` (a script sequenced **after** optionalModules). It also refuses to start unless five pinned game files have the exact expected Git blob digests. It writes coarse identity state, badge existence, script timing and controlled request counts to a local temporary JSON file, not user identities or codes. This is a **prepared unexecuted test artifact** and must not be credited as evidence or a passed test.
+
+After accepting actual Team G research execution responsibility, Claude may run in an isolated pinned-source checkout with current Node `>=24` and installed devDependencies:
+
+```bash
+# Terminal A, disposable local checkout, no production credentials:
+npm run serve:test
+
+# Terminal B:
+CMS_CHROMIUM_MULTI_CONTEXT=1 node investigations/problem-z/tools/x01-local-browser-probe.cjs
+```
+
+The script default output goes to OS temp, prefixed `studio-z-x01-`. Environment variable `CMS_Z_X01_OUTPUT` can override. If local navigation is still blocked, record the exact environment blocker and **stop**; do not route around administrator policy. If the source pin fails, re-resolve current authority/source and prepare a new explicitly versioned fixture before running. Do not force source hashes.
+
+**Limits:** because Firebase and Google resources are blocked, the probe can discriminate *startup module/identity surface readiness*, **not** Google popup success, Firebase state, real sign-in, or physical Run C. Failure to sign in is expected under this isolation and is not a product defect. The 400ms app-script control is a downstream deferred-script timing control, not a perfect asset-load control; record this limitation. If deeper sign-in flow is justified, separately use the repo's existing `tests/browser/two-manager-browser-journey.cjs` emulator-only fixture under Team G's normal test approval and exact-head POS20 gates. That fixture can perform emulator writes and must not be treated as a pure read. Do not point it at production.
+
+**Operator proof ledger:** exact Git HEAD, five verified blob SHAs, command, environment, case reports, negative control, failure observations, fixture diff/no product diff, external request blocking, and a separate reviewer. Do not award a browser result based only on the script existing or command being documented.
+
+
 ## The single next task
 
 Independently test H-03 with a **permitted isolated full product checkout and browser harness** against pinned unmodified main:
