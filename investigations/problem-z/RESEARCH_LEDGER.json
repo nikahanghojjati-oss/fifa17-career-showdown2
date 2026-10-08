@@ -1240,6 +1240,13 @@
       "outcome": "research-instrument-prepared-not-run",
       "artifact": "tools/x01-local-browser-probe.cjs",
       "note": "Optional local-only three-condition browser observation scaffold committed for Claude; not executed; all real X-01 checks remain reserved."
+    },
+    {
+      "date": "2026-10-08",
+      "block": null,
+      "outcome": "test-map-and-layout-readiness",
+      "artifact": "STUDIO_Z_BUILD_READINESS.md",
+      "note": "Mapped existing test lanes and exact CSS breakpoint/oracle to avoid a duplicate harness or misguided option-input patch. Source reviews only; browser/emulator/physical tests reserved for Team G."
     }
   ],
   "roadmapRevision": 2,
@@ -1881,6 +1888,24 @@
       "ref": "EVIDENCE_REGISTER.md",
       "lineageGroup": "studio-z-source-reading-2026-10-08",
       "independentIncidentVerification": false
+    },
+    {
+      "id": "S-22",
+      "tier": "S",
+      "scope": "pinned transfer stylesheet static inspection",
+      "label": "css/transfer.css has responsive combobox wrapper, fixed-bottom suggestion list <=760px, min touch height <=480px; physical layout not verified",
+      "ref": "EVIDENCE_REGISTER.md",
+      "lineageGroup": "studio-z-source-reading-2026-10-08",
+      "independentIncidentVerification": false
+    },
+    {
+      "id": "S-23",
+      "tier": "S",
+      "scope": "pinned selector and prior test source static inspection",
+      "label": "Exact typed option labels can canonicalize; existing emulator journey tests typing then canonical dataset IDs; no current test execution",
+      "ref": "EVIDENCE_REGISTER.md",
+      "lineageGroup": "studio-z-source-reading-2026-10-08",
+      "independentIncidentVerification": false
     }
   ],
   "contradictions": [
@@ -2001,5 +2026,5 @@
     "originalManifestByteHashVerified": false,
     "meaning": "Text recovered and authority/status fields minimally reconciled; imported S/T/P claims retain recorded limitations."
   },
-  "statusNote": "Finite preparation complete. All actual product/browser/provider/physical checks intentionally reserved for Claude/Team G as requested; Z-003 still in-progress, source-excerpt model only, no repair permission."
+  "statusNote": "Finite research preparation expanded with targeted existing test coverage map and tablet CSS boundary facts; Z-003 browser X-01, other product tests, implementation, review and deployment reserved for Claude/Team G."
 }
