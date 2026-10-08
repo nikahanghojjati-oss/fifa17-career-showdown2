@@ -62,6 +62,9 @@ Neither original screenshot bytes nor actual October 7 device runtime/auth/provi
 
 **Important contradiction:** A visible Connecting overlay in one physical attempt means an always-absent identity module cannot explain every symptom without different chronology or an additional mechanism. Preserve that uncertainty.
 
+
+**Lead implementation structure:** The [Studio Z Claude construction blueprint](STUDIO_Z_CLAUDE_BUILD_BLUEPRINT.md) documents a finite, conditional one-slice workflow, source-owning roles, current check reuse and read-only optional progress Lens. It is design-only, not another permanent infrastructure plan or engineering authorization.
+
 ## 4. Minimal Studio construction inside Factory G
 
 No new standing organization is needed. The lead may assign one investigator/engineer plus an independent verifier **per active defect**, reusing Factory G tooling. Keep only **one active repair slice** unless there is a concrete blocking dependency that makes parallel work safer and faster.
