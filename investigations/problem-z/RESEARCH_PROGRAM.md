@@ -1,171 +1,117 @@
-# Problem Z — Multi-session Research Program (40-block initial roadmap)
+# Studio Z — Research program, revision 2
 
-**Program status:** ACTIVE RESEARCH / NO IMPLEMENTATION AUTHORIZATION  
-**Created:** 2026-10-08  
-**Repository:** [Career Mode Showdown](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2)  
-**Sole research branch:** `investigation/problem-z-z-studio-2026-10-08` (never write to `main`)  
-**Escalation:** [Problem Z #426](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/issues/426)  
-**Final decision authority:** Team G Lead (Claude Opus 5.5), after dossier submission; owner may clarify or change research priority.  
-**Initial plan:** 40 focused research blocks across 10 phases, likely 40 or more chat sessions. No deadline or fixed number of conversations guarantees a solved bug. A research block can be split, revisited, or added if evidence demands it.
+**Research only. Implementation authorization: none.** Branch: `investigation/problem-z-z-studio-2026-10-08`.
 
-## North-star question
+The inherited program is a useful inventory, but a forty-session sequence would delay the questions that distinguish causes. Revision 2 preserves **40 historical IDs**, consolidates eight overlapping reporting units into **32 active work units**, and groups them into **seven dependency tracks**. Tracks are navigational phases, not a required serial calendar. A work unit can take several sessions. Consolidation earns no progress credit. The historical revision remains available at commit `740a706129d963ec2ff1c5f35c68e3c71b0a7a3f`.
 
-Why did a real Daniel-and-Nik two-manager session experience tablet Transfer War Room clipping/validation and loss of continuity, repeat pairing after Continue Career, and ultimately a missing Home sign-in plus unusable Google account-to-game identity, and what evidence-backed, safe options could resolve the full failure chain without compromising security, shared-game integrity or local saves?
+Current state: **one research-complete baseline; zero independently verified blocks; no established physical root cause; no product repair.** This architecture assignment does not close the blocks whose initial models it seeds.
 
-## Boundaries and evidence rules
+## Research objective and selection
 
-- This is a **research program**, not a parallel development team. No product code, prod provider data, remote account/device state, live credentials, deployments, main commits, merging, worker assignments or security policy changes are authorized by this plan.
-- One active **atomic research block per chat session** is the default. A session must produce a durable, cited research artifact and update the ledger + next handoff; if blocked, record the blocker rather than fake completion. Extra sessions for deeper evidence are encouraged.
-- **Evidence tiers:** O = owner-observed/screenshots; S = repo-source verified at a recorded SHA; T = deterministic/browser reproduction with explicit environment; P = legitimate physical/production observation with consent and full provenance; H = hypothesis/inference. Never promote H to observed fact, and never promote T to P.
-- Separate `research-complete` from `independently-verified` and `lead-approved`. Even 40 completed research blocks do not mean the cause is fixed or the lead authorized building.
-- Preserve POS20 active project governance and POS10 proof floor; zero SSJR/MDP product score earned by research. Respect two managers, exact ACTIVE before league/club authority, pop-up Google auth with session persistence, Spark/zero billing, memory-only Firestore, Candidate C-only destructive Apply and dual-full-screen experience.
-- No repeated logins or destructive cleanup on the two real player devices as a substitute for targeted evidence. Never include passwords, tokens, raw Firebase UIDs, invite capabilities, account emails, device identifiers or full save content in this public repository.
+Explain the three owner-reported attempts while distinguishing authentication, private-account/device readiness, pairing, exact ACTIVE session authority, canonical local data, provider progress, runtime delivery and UI failures. Permit multiple independent causes and shared causes; do not force one story to explain every symptom.
 
-## Deliverable model
+The immediate question is **Z-003 / X-01**: independently discriminate the existing exact-main startup-loader failure report. Its reported intervention, control and source anchors offer more immediate information than repeating general popup speculation. **Z-002 remains next provenance work**, with public asset sampling already recorded but device attribution open. See [audit](ARCHITECTURE_AUDIT.md), [causal model](CAUSAL_MODEL.md) and [checkpoint](NEXT_RESEARCH_SESSION.md).
 
-Each research block records the question, source SHA/asset revision, evidence tier and direct citations, analysis, tested/falsified hypotheses, uncertainty, safety boundary, conclusion or blocker, open questions, and one next question. Research artifacts live under `research-blocks/`. `RESEARCH_LEDGER.json` is the machine-readable plan/status source, `NEXT_RESEARCH_SESSION.md` the working checkpoint, `EVIDENCE_REGISTER.md` the provenance record and `TEAM_G_REVIEW_GATE.md` the eventual decision threshold. See `RESEARCH_PROTOCOL.md` for the exact per-chat procedure.
+`dependencies` in the ledger are prerequisites for the full unit's conclusion. Source reading and test design may start earlier with recorded assumptions; do not close a dependent conclusion on unresolved authority. Z-033/Z-034/Z-035 and security review are updated throughout, not postponed until all technical tracks finish. Z-039 is final independent audit, not a reason to defer ordinary contradiction handling.
 
-## Research roadmap
+## Critical research paths
 
-### Phase I — Incident forensics & baseline
+- Access: Z-003 → Z-005 → Z-009 → Z-010/Z-011, with Z-013 and Z-015 investigating UI separately. Distinguish no popup invocation from popup failure and successful authentication followed by failed bootstrap.
+- Continuity: Z-021 + identity → Z-017 → Z-018 → Z-024 → Z-019. Required outcome is the **same rivalry/career under valid current authority**, not unauthorized persistence of the old session capability. Both managers retain their ordered screen obligations.
+- Runtime: Z-002 → Z-025 → Z-027, with coherent-source timing failure as a control against mixed-revision explanations.
+- Transfers: Z-031 can proceed alongside Z-029; combine only at Z-032. Client error attribution, control reachability and committed/draft persistence require separate oracles.
+- Verification: Z-034/Z-035 define tests and capture early; Z-036 designs authorized physical verification; Z-037 → Z-039 → Z-040 supports cause-specific engineering decisions. A supported urgent finding can reach the lead before this final path finishes.
 
-**Goal:** Preserve what actually happened, normalize provenance and establish the exact technical and safety baseline before causal claims.
+## Roadmap and per-unit exit gates
 
-| Block | Investigation | Question | Required output |
+Priority `now` means selected next; `early` means high-value source/design work when dependencies allow; `conditional` means schedule only when evidence or a decision makes it useful. No fictional dates or numerical information-gain scores. Every unit inherits the privacy and no-production-mutation rules in [protocol](RESEARCH_PROTOCOL.md).
+
+### A — Foundations and experiment design
+
+| ID / priority | Focused question | Prerequisites | Evidence and completion gate |
 |---|---|---|---|
-| Z-001 | Physical-playtest incident timeline | Which observed events and on-screen states can be established from the three runs? | A sourced timeline, evidence categories, known unknowns, and a non-destructive recovery caution. |
-| Z-002 | Live revision and deployment provenance | Which exact main head, deployed Pages build, service-worker revision, and asset versions were in use? | An as-of timeline separating repository state from live deployment and each device's unverified runtime. |
-| Z-003 | Application module/load graph | How do bootstrapping, lazy script loading, styling, Settings and entry bind to one another? | A cross-referenced module diagram with startup and failure edges. |
-| Z-004 | Authority, policy and hazards | Which security/privacy/canonical-journey rules constrain diagnosis and later remediation? | A signed-off-for-research-only constraints and hazardous-action register. |
+| Z-001 · recorded | What is actually known about each of the three attempts? | None | O/S; original images unavailable to this review. Preserved timeline with O provenance and unknowns; original report retained. |
+| Z-002 · next | Which source, publication and device revisions can be established independently? | Z-001 | S/P-public; P-device needed only for device attribution. Timeline distinguishes commit, successful deployment, sampled served bytes and device runtime; exact gaps remain explicit. |
+| Z-003 · now | Can deferred startup latch identity initialization before its loader exists? | Z-001 | S + isolated T; imported T-01 is a lead, not independent replication. Matched control, delayed optional loader and delayed unrelated asset discriminate H-03; record events and negative control or exact blocker. |
+| Z-004 · early | Which permitted diagnostic calls can themselves write or destroy state? | None | S; relevant POS20/POS10 and provider rules. Action inventory classifies passive reads, initialization side effects, synthetic actions and forbidden production operations. |
+| Z-033 · early | Which causal models survive evidence, including independent defects? | Z-001, Z-003, Z-004 | O/S/T/P as available; H remains explicitly hypothetical. Symptoms linked to alternatives and falsifiers; contradiction and observation needed to distinguish each recorded. Revisit on new evidence. |
+| Z-034 · early | Which smallest experiments separate candidate causes without changing application code? | Z-003, Z-004 | S; T design, not execution credit. Oracle, negative control, fault variable, environment, stop rule and relevant suite specified for each selected experiment. |
+| Z-035 · early | Which physical observations cannot safely be replaced by source or simulation? | Z-001, Z-004 | O/S; plan only, P requires authorization. Minimal consented capture protocol with allowlisted fields, redaction, retention and no initialization disguised as reading. |
 
-**Exit criterion:** Findings are source-grounded, inconsistencies recorded and phase-level unknowns listed. No phase exit is evidence of a real-device fix.
+### B — Authentication and identity
 
-### Phase II — Firebase authentication & popup lifecycle
-
-**Goal:** Understand why Google sign-in can stay on Connecting and how to distinguish provider, app and UI failures.
-
-| Block | Investigation | Question | Required output |
+| ID / priority | Focused question | Prerequisites | Evidence and completion gate |
 |---|---|---|---|
-| Z-005 | Auth transition state machine | What are all states between signed out, popup attempt, Firebase user, account bootstrap, and terminal results? | State/transition table with missing guards and provenance. |
-| Z-006 | Popup and user-activation boundary | Can asynchronous initialization interrupt popup launch on target browsers? | Causal hypotheses and controlled timing test design across browser contexts. |
-| Z-007 | Auth failure taxonomy and recoverability | Which error codes are swallowed, converted or misreported as signed out? | Provider-to-UI error map, retry policy proposal, no secrets. |
-| Z-008 | Cross-browser login compatibility | How do iOS, Android tablet, desktop, PWA and browser restrictions differ? | Real vs simulated browser matrix with evidence labeling and safe reproduction steps. |
+| Z-005 · early (includes Z-007) | Where can sign-in stop, and how are each return, rejection and pending state presented? | Z-003, Z-004 | S + T; includes former Z-007. Transition/error table separates loader, popup, Firebase user, bootstrap, device and UI; success/popup-cancel/bootstrap-fail alternatives have distinguishable traces. |
+| Z-006 · conditional | Does delayed pre-popup preparation cause popup failure in a specified browser? | Z-005 | T real browser; P needed for original-device attribution. Record trusted click, activation at invocation, actual popup call/result and timing controls; distinguish no call from rejected call. |
+| Z-008 · conditional | Which affected environments differ after the same boundary is exercised? | Z-005, Z-006, Z-035 | T + separately authorized P. Small evidence-led browser matrix; actual browser identities sourced, simulations labelled; unknown environments remain gaps. |
+| Z-009 · early | Can Firebase authentication succeed while private bootstrap fails or is unavailable? | Z-005 | S/T; live provider state not assumed. Account transaction/status map and success-versus-bootstrap-failure control; no claim of device readiness from auth alone. |
+| Z-010 · early | What survives reload, browser replacement, storage failure or device revocation? | Z-009 | S/T; no live revoke, clear or re-register diagnostic. IndexedDB identity and registered-device authority map; synthetic missing/blocked/revoked cases fail closed with storage unchanged. |
+| Z-011 · early (includes Z-012) | How does local manager selection reconcile with UID-bound pair membership and mismatches? | Z-009, Z-010 | S/T; includes former Z-012; no third production account. Both roles, wrong local selection and changed synthetic UID matrix; remote membership remains authority. |
 
-**Exit criterion:** Findings are source-grounded, inconsistencies recorded and phase-level unknowns listed. No phase exit is evidence of a real-device fix.
+### C — UI and runtime consistency
 
-### Phase III — Account, device and player identity
-
-**Goal:** Show how Firebase UID, private account, registered device and chosen manager become a trustworthy ready-to-play identity.
-
-| Block | Investigation | Question | Required output |
+| ID / priority | Focused question | Prerequisites | Evidence and completion gate |
 |---|---|---|---|
-| Z-009 | Connected Account bootstrap | What conditions turn a real Firebase user into a connected private account? | Bootstrap and Firestore rules decision tree; explicit negative states. |
-| Z-010 | Registered-device lifecycle | What makes a device recognized or unavailable across browser/storage changes? | Device and IndexedDB dependency diagram and recovery constraints. |
-| Z-011 | Nik/Daniel role binding | How is manager selection bound and recovered for exactly two people? | Role binding and persistence invariants, conflict taxonomy. |
-| Z-012 | Account/device mismatch scenarios | What happens when a valid Google account is not the expected linked manager/device? | Matrix of fail-closed states, privacy-safe messages and authorized next steps. |
+| Z-013 · early (includes Z-014) | Can one identity lifecycle failure explain both missing badge and legacy Settings visibility? | Z-003 | S/T; includes former Z-014. Separate DOM absence, hidden DOM and containment-not-installed cases; test badge and panel independently under matched load conditions. |
+| Z-015 · early | Which capture and target handlers own each entry action? | Z-003, Z-005 | S/T. Event-order table with loaded/unloaded identity and pending/ready states; no duplicate-handler cause inferred from coexistence. |
+| Z-016 · conditional | Which waits have a terminal, accessible recovery path? | Z-005, Z-013 | S/T + accessibility design, no UI implementation. Observed deadlines distinguished from proposed deadlines; bounded-feedback/focus/close specification for every selected wait. |
+| Z-025 · early (includes Z-026) | Can retained shell and network-only assets produce a mixed executable revision? | Z-002, Z-003 | S/T; P-device required for historical cache attribution; includes Z-026. Cache/network matrix and fault experiment with byte fingerprints; same-revision load failure remains a competing explanation. |
+| Z-027 · conditional | Do network, visibility or controller changes expose stale async completion? | Z-005, Z-018, Z-025 | S/T. Ordered event schedules identify authority generation and stale completion, with single-trigger controls. |
+| Z-028 · conditional | Which update or rollback paths preserve saves and remain compatible? | Z-025, Z-019, Z-022 | S/T design; production action separately approved. Non-destructive options and stop conditions tied to tested cache compatibility; no automatic rollback/clear recommendation. |
 
-**Exit criterion:** Findings are source-grounded, inconsistencies recorded and phase-level unknowns listed. No phase exit is evidence of a real-device fix.
+### D — Pairing, sessions and recovery
 
-### Phase IV — Home, Settings and identity presentation
-
-**Goal:** Explain why Home can lose its sign-in CTA while displaying season progress and why old Settings modules leak into UI.
-
-| Block | Investigation | Question | Required output |
+| ID / priority | Focused question | Prerequisites | Evidence and completion gate |
 |---|---|---|---|
-| Z-013 | Header and badge lifecycle | Can lazy identity initialization fail to mount the Home sign-in badge? | Home CTA lifecycle chart and testable reproduction branches. |
-| Z-014 | Legacy Settings containment | Under which load/mutation/style sequences does OFFLINE APP become visible? | CSS injection + observers timing model with evidence of any actual failure. |
-| Z-015 | Navigation and event ownership | Do capture-phase handlers, local entry and optional modules race or conflict? | Event ordering table, possible swallowed/replayed clicks. |
-| Z-016 | Accessible feedback and exit paths | Can Connecting remain forever; how should signing in fail or recover clearly? | Bounded UX state specification with actionable errors and focus behavior. |
+| Z-017 · early (includes Z-020) | Which durable pair link and local recovery binding identify the same career? | Z-009, Z-010, Z-011, Z-021 | S/T; includes former Z-020. Pair/rivalry/UID/device/local binding invariants plus safe recovery tree; pair active explicitly separated from session ACTIVE. |
+| Z-018 · early | What expires or vanishes when a private session is reloaded? | Z-017 | S/T; no capability publication. Capability memory, remote lifecycle and exact ACTIVE validation table, including no-session versus expired-session and wrong context. |
+| Z-019 · conditional (includes Z-023) | Which interruption outcomes preserve the same career and each manager’s screen sequence? | Z-018, Z-021, Z-024 | S/T; physical debt explicit; includes Z-023. Before/after invariants for reload/offline/delayed peer; fresh session versus new rivalry distinguished; committed and draft state separated. |
+| Z-021 · early | Where do canonical saves, recovery pointers and pending markers persist? | Z-003, Z-004 | S/T. Key/object ownership and write/normalization matrix; read-only snapshots or disposable synthetic fixtures only. |
+| Z-022 · conditional | When is remote comparison read-only, and when may Candidate C Apply mutate local data? | Z-017, Z-021 | S/T design; no production Apply. Preview/explicit Apply/backup/exact rollback authority traced; no alternative destructive recovery path recommended. |
+| Z-024 · early | Which Continue Career route wins for each exact authority and save state? | Z-015, Z-017, Z-018, Z-021 | S/T. Trace local fallback, pair continuation and shared entry; absent/mismatched/valid binding controls explain route without assuming data deletion. |
 
-**Exit criterion:** Findings are source-grounded, inconsistencies recorded and phase-level unknowns listed. No phase exit is evidence of a real-device fix.
+### E — Transfer usability and persistence
 
-### Phase V — Private pairing and shared sessions
-
-**Goal:** Trace authorized Daniel/Nik connection so valid relationships survive reload while invalid ones fail closed.
-
-| Block | Investigation | Question | Required output |
+| ID / priority | Focused question | Prerequisites | Evidence and completion gate |
 |---|---|---|---|
-| Z-017 | Persistent pairing authority | How does an existing two-player rivalry map to local and remote state? | Pairing state machine, unique authority keys, re-pair rules. |
-| Z-018 | ACTIVE private session lifecycle | What starts/ends/renews a private session and what is ephemeral? | Host/join/expiry/revocation/ACTIVE transition model. |
-| Z-019 | Reconnect after reload | Why might refresh lose a private session despite persisted pairing? | Reload-vs-memory-vs-provider state grid and continuation oracle. |
-| Z-020 | Safe pairing recovery boundary | Which recovery steps preserve the current rivalry and which are destructive? | Recovery decision tree, prohibitions, no implicit abandon. |
+| Z-029 · early (includes Z-030) | Which transfer controls are unreachable at measured viewport and keyboard conditions? | Z-001, Z-003, Z-035 | O/S/T; physical coverage separate; includes Z-030. Screenshot provenance plus CSS/DOM constraint audit and reachability tests; unknown original viewport does not block labelled generic tests. |
+| Z-031 · early | Can visible signing labels differ from canonical IDs before submission? | Z-003, Z-004 | S/T; mutation spy in disposable harness. Client build → selector IDs → provider validation traced; identical displayed text with/without valid IDs distinguishes H-05 from provider rejection. |
+| Z-032 · conditional | Which transfer drafts, locks and replay witnesses survive interruption? | Z-018, Z-019, Z-029, Z-031 | S/T; P later; preserve private rival inputs. Draft versus provider-committed input and per-manager screen ledger tested across reload; idempotent locks and zero replay writes checked. |
 
-**Exit criterion:** Findings are source-grounded, inconsistencies recorded and phase-level unknowns listed. No phase exit is evidence of a real-device fix.
+### F — Physical verification design
 
-### Phase VI — Save, Continue Career and canonical recovery
-
-**Goal:** Prove what can be resumed, from where, without new pairing or skipped gameplay scenes.
-
-| Block | Investigation | Question | Required output |
+| ID / priority | Focused question | Prerequisites | Evidence and completion gate |
 |---|---|---|---|
-| Z-021 | Local Showdown and Save Library | Which objects persist and which operations normalize or overwrite local state? | Local state provenance and storage key ownership. |
-| Z-022 | Remote authority and Candidate C | When may server state be read, compared or destructively applied to local? | Read-only and destructive boundaries with exact rollback guarantees. |
-| Z-023 | Interruption and reconciliation model | Which gameplay transitions survive reload, offline and delayed second-player action? | Full shared-journey interruption matrix, both manager perspectives. |
-| Z-024 | Continue Career route audit | Which handler owns Continue Career for each authorized user/context? | Route arbitration and exact-session resume invariant, independent of guessed bug cause. |
+| Z-036 · conditional | What authorized physical run can verify the supported mechanism and full recovery? | Z-008, Z-019, Z-022, Z-029, Z-031, Z-032, Z-034, Z-035 | Plan S/T; actual P and attestation remain separate gates. Executable one-season diagnosis and, when justified, current SSJR-2.1 three-season acceptance plan; each manager supplies own evidence. |
 
-**Exit criterion:** Findings are source-grounded, inconsistencies recorded and phase-level unknowns listed. No phase exit is evidence of a real-device fix.
+### G — Causal synthesis and lead decisions
 
-### Phase VII — Offline, service worker and runtime drift
-
-**Goal:** Rule in or out stale shell, mixed asset versions and background/network lifecycle as causes.
-
-| Block | Investigation | Question | Required output |
+| ID / priority | Focused question | Prerequisites | Evidence and completion gate |
 |---|---|---|---|
-| Z-025 | Offline cache and fetch behavior | What is cached, network-only, retained or switched across updates? | Service-worker cache/control map. |
-| Z-026 | Mixed runtime and stale UI | Can two tabs/devices load incompatible shell, CSS or identity modules? | Version-drift test matrix and evidence rules. |
-| Z-027 | Network/visibility transition races | What runs on offline/online, visibility and controllerchange events? | Event race catalog and suggested deterministic timing fixtures. |
-| Z-028 | Safe update and rollback UX | How can a broken shell report versions and recover without deleting saves? | Non-destructive recovery proposal respecting existing rollback design. |
+| Z-037 · conditional (includes Z-038) | Which remedies address supported causes within every guard? | Z-033, Z-034 | Evidence-supported recommendation only; includes Z-038. At least two feasible alternatives or reason only one is viable; security/privacy/cost and regression obligations assessed per option. |
+| Z-039 · conditional | Which claims withstand an independent evidence and contradiction audit? | Z-036, Z-037 | Independent review of actual O/S/T/P; no automatic pass. Reviewer cites inspected artifacts, scope, contradictory results and unresolved debt; author self-review cannot self-award independent verification. |
+| Z-040 · conditional | What engineering decisions does the lead have sufficient evidence to make? | Z-039 | Lead receipt/decision evidence separate; tonight’s leadership package is not this completed block. Cause-specific dossier and accept/reject/defer decisions requested; unknowns dispositioned without forced completion of irrelevant blocks. |
 
-**Exit criterion:** Findings are source-grounded, inconsistencies recorded and phase-level unknowns listed. No phase exit is evidence of a real-device fix.
+## Identifier mapping and adaptation
 
-### Phase VIII — Tablet Transfer War Room
+All unlisted IDs map to themselves. Original titles and phases are retained in each ledger entry. Aliases remain searchable and excluded from active, completed and verified counts.
 
-**Goal:** Separate responsive-layout defects from validation, focus, provider state and transfer-stage continuity defects.
+| Historical ID | Active unit | Reason |
+|---|---|---|
+| Z-007 | Z-005 | Error taxonomy is the observable output of the auth state machine. |
+| Z-012 | Z-011 | Mismatch scenarios validate the same role/UID binding invariants. |
+| Z-014 | Z-013 | Badge and containment share identity-module lifecycle; keep separate symptom tests within one report. |
+| Z-020 | Z-017 | Recovery boundaries belong beside pairing authority, not a duplicate state map. |
+| Z-023 | Z-019 | One interruption matrix covers reload, offline and delayed peer; Continue routing remains Z-024. |
+| Z-026 | Z-025 | Cache policy and mixed-runtime experiments use one source/version matrix. |
+| Z-030 | Z-029 | Layout observation and constraint analysis share one responsive report; missing photographs block only physical attribution. |
+| Z-038 | Z-037 | Every remedy must carry its security/privacy/budget review; Z-004 remains an early diagnostic safety gate. |
 
-| Block | Investigation | Question | Required output |
-|---|---|---|---|
-| Z-029 | Photographic layout evidence map | What precisely is and is not visible in the tablet screenshot and known viewport? | Measured UI symptom map with no invented device dimensions. |
-| Z-030 | Landscape responsive constraints | Which grids, fixed panels, clipping, scrolling and keyboard interactions fail on tablets? | Viewport/orientation CSS constraint audit with target test sizes. |
-| Z-031 | Signing/guess validation contract | Why does signing 1 fail validation; are displayed and canonical values aligned? | Client/provider contract trace, field-level actionable error specification. |
-| Z-032 | Transfer reload/replay safety | What happens to draft signing data and stage authority after refresh/late peer? | Full-screen transfer replay checklist and state continuity matrix. |
+Split a unit only when its questions require materially different evidence, independent acceptance or repeated sessions that cannot maintain one coherent report. Add a stable suffix or new ID with `supersedes`/`splitFrom`; never reuse an old ID. Reopening retains the old verdict at its old source fingerprint. Dropping irrelevant work requires a reason and lead/owner disposition; it is not completion.
 
-**Exit criterion:** Findings are source-grounded, inconsistencies recorded and phase-level unknowns listed. No phase exit is evidence of a real-device fix.
+## Research versus response
 
-### Phase IX — Causal synthesis and proof design
+The roadmap never holds an urgent, independently supported access/data/security finding until unit 40. Prepare a narrowly scoped escalation with the exact mechanism, source, control, intervention, limitations and decision needed. Existing issue #426 and the prepared leadership package are references, not proof of acceptance. No worker assignment, application change, merge, Rules change, deployment or Lens implementation follows automatically.
 
-**Goal:** Reduce uncertainty systematically and design falsifiable, privacy-safe experiments and acceptance criteria.
-
-| Block | Investigation | Question | Required output |
-|---|---|---|---|
-| Z-033 | Competing root-cause model | Which hypotheses best explain all three runs and which contradict evidence? | Ranked causal graph, discriminating experiments and uncertainty. |
-| Z-034 | Deterministic test architecture | How should contract, browser and fault injection coverage be organized? | Non-executing test specification mapped to current suites. |
-| Z-035 | Safe production observation plan | What minimum non-secret runtime evidence is necessary for real-device diagnosis? | Approved-only evidence collection protocol, retention and redaction. |
-| Z-036 | Two-device acceptance design | What exact one- and three-season physical experiments demonstrate end-to-end recovery? | Daniel/Nik physical acceptance checklist, failure captures and independent attestations. |
-
-**Exit criterion:** Findings are source-grounded, inconsistencies recorded and phase-level unknowns listed. No phase exit is evidence of a real-device fix.
-
-### Phase X — Lead-ready research decision dossier
-
-**Goal:** Deliver a complete body of evidence and decisions to Team G Lead, without silently authorizing implementation.
-
-| Block | Investigation | Question | Required output |
-|---|---|---|---|
-| Z-037 | Remediation options and tradeoffs | What candidate approaches address the supported causes without unsafe shortcuts? | Alternative options, constraints, risk/complexity/cost, no source changes. |
-| Z-038 | Security, privacy and budget review | Do all proposed paths preserve private two-manager auth, zero billing and Candidate C? | Constraint-by-constraint design assessment; unresolved blockers explicit. |
-| Z-039 | Integrated evidence/contradictions audit | Which claims are observed, reproduced, inferred or still unknown? | Final evidence index, falsified hypotheses, remaining debt and readiness. |
-| Z-040 | Team G Lead decision packet | What precise decisions, staffing, implementation branches and verification gates should the lead own? | Executive summary and option table, implementation boundaries, approval requests. |
-
-**Exit criterion:** Findings are source-grounded, inconsistencies recorded and phase-level unknowns listed. No phase exit is evidence of a real-device fix.
-
-## Adaptive scheduling and prioritization
-
-1. **Baseline-first:** start with Z-001→Z-004 unless high-risk new evidence calls for immediate non-destructive forensic preservation.
-2. **Causal discipline:** before a new experiment, name a competing hypothesis, the result that would falsify it, and the lowest-risk observation that separates alternatives.
-3. **Explicit gates:** later blocks may continue with carefully marked unknowns; no evidence is invented to make an earlier block green. The lead packet is not final while safety-critical unknowns lack documented rationale.
-4. **Incident urgency:** a P0 recommendation can prompt the owner/lead to authorize an independent urgent mitigation outside this long research program; the research branch still may not touch production.
-5. **Research debt:** if two iterations fail under unchanged evidence, reframe the hypothesis (aligning with POS20); preserve contradictory evidence and negative findings.
-6. **No autopilot:** future chats resume only when a user starts a new session/request; the program does not claim autonomous background research.
-
-## Review handoff (after investigation, not now)
-
-Once the ledger demonstrates each required block completed **or explicitly dispositioned with an accepted blocker** and cross-block contradictions are reconciled, prepare the decision dossier for Team G Lead. Only the lead decides whether to authorize a Z Studio implementation team, worker selection, code branches, security changes (if any), PRs, test gates, merge and deployment. An issue or document addressed to the lead is not approval.
+The October 8 leadership transfer package may be ready while the investigation is incomplete. Its readiness gate and the later root-cause/engineering gates are deliberately separate in [TEAM_G_REVIEW_GATE.md](TEAM_G_REVIEW_GATE.md).
