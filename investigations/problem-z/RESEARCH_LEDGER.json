@@ -15,7 +15,7 @@
   "totalPlannedBlocks": 32,
   "researchCompleteBlocks": 1,
   "independentlyVerifiedBlocks": 0,
-  "activeBlock": null,
+  "activeBlock": "Z-003",
   "nextBlock": "Z-003",
   "statusDefinitions": {
     "planned": "Research question queued and not yet investigated",
@@ -108,11 +108,13 @@
       "id": "Z-003",
       "phase": "A",
       "title": "Application module/load graph",
-      "status": "planned",
+      "status": "in-progress",
       "reviewStatus": "unreviewed",
-      "evidenceFile": null,
-      "lastResearched": null,
-      "blockingEvidence": [],
+      "evidenceFile": "research-blocks/Z-003_STARTUP_SOURCE_EXCERPT_MODEL_2026-10-08.md",
+      "lastResearched": "2026-10-08",
+      "blockingEvidence": [
+        "Full pinned-source real-browser X-01 could not run here; Chromium navigation blocked by environment; no independent browser replication"
+      ],
       "acceptedUnknowns": [],
       "originalPhase": "I",
       "originalTitle": "Application module/load graph",
@@ -123,7 +125,8 @@
       },
       "evidenceRefs": [
         "S-11",
-        "T-01"
+        "T-01",
+        "T-02-MODEL"
       ],
       "hypothesisRefs": [
         "H-03",
@@ -1216,6 +1219,13 @@
       "outcome": "foundation-integrated",
       "artifact": "STUDIO_Z_FOUNDATION_AND_LEAD_HANDOFF_2026-10-08.md",
       "note": "Finite studio charter committed; Astra working ledger restored from owner export with historical evidence boundaries. No implementation, independent test, or physical root-cause credit."
+    },
+    {
+      "date": "2026-10-08",
+      "block": "Z-003",
+      "outcome": "partial-model-not-complete",
+      "artifact": "research-blocks/Z-003_STARTUP_SOURCE_EXCERPT_MODEL_2026-10-08.md",
+      "note": "Executed a bounded Node VM event-order model using verbatim pinned startup functions; same-loader-timing controls discriminate, but full Chromium fixture was blocked. Not independent browser or incident verification."
     }
   ],
   "roadmapRevision": 2,
@@ -1308,9 +1318,9 @@
     "objective": "Independently discriminate the reported startup loader failure from generic authentication failure.",
     "selectedAction": "Z-003 / X-01, using unchanged pinned source and disposable local browser contexts.",
     "reason": "Exact-main imported control/intervention report offers high information value and no physical-account cost. Z-002 remains partial provenance debt, not a blocker for source-matched local testing.",
-    "blocker": null,
-    "nextVerification": "Matched control and delayed unrelated asset must separate dependency ordering from general slowness; record limitations.",
-    "evidenceFingerprint": "bc77a0b:S-11:T-01@2b88d4ae;P-01 sampled assets",
+    "blocker": "Browser fixture unavailable in current isolated environment; deterministic source model is partial evidence only.",
+    "nextVerification": "Run unchanged pinned full-site real-browser ordinary / 400ms optionalModules.js / 400ms unrelated asset controls; maintain no account/provider writes.",
+    "evidenceFingerprint": "bc77a0b:S-11:T-01(imported):T-02-MODEL(synthetic);P-01(public)",
     "unchangedEvidenceNonDiscriminatingAttempts": 0
   },
   "hypotheses": [
@@ -1370,7 +1380,8 @@
         "S-01",
         "S-02",
         "S-11",
-        "T-01"
+        "T-01",
+        "T-02-MODEL"
       ],
       "contradictoryOrLimitingEvidence": [
         "O-05"
@@ -1381,8 +1392,8 @@
       ],
       "falsifyingObservation": "On unchanged source, firing startup before the loader is ready still automatically recovers after loader availability with no intervention.",
       "cheapestSafeExperiment": "X-01",
-      "disposition": "imported-controlled-support-needs-independent-replication",
-      "remainingUncertainty": "O-05 contains an identity overlay, so absent identity cannot explain every state of Run C; Settings may trigger a later load. Same-device chronology missing.",
+      "disposition": "source-and-synthetic-ordering-supported-browser-not-reproduced",
+      "remainingUncertainty": "Synthetic Node VM confirms source-excerpt schedule only; full pinned-site browser timing and original physical attribution remain unverified. Local Chromium navigation blocked by administrator.",
       "independentlyVerified": false
     },
     {
@@ -1829,6 +1840,15 @@
       "ref": "EVIDENCE_REGISTER.md",
       "lineageGroup": "http-sample-2026-10-08",
       "independentIncidentVerification": false
+    },
+    {
+      "id": "T-02-MODEL",
+      "tier": "T",
+      "scope": "synthetic-source-excerpt-event-order-model",
+      "label": "Node VM model reproduces latch/no-retry event order with normal, missing-loader and unrelated-latency controls; no full browser result",
+      "ref": "research-blocks/Z-003_STARTUP_SOURCE_EXCERPT_MODEL_2026-10-08.md",
+      "lineageGroup": "studio-z-node-event-order-2026-10-08",
+      "independentIncidentVerification": false
     }
   ],
   "contradictions": [
@@ -1916,6 +1936,15 @@
       ],
       "blocks": "claiming completed transfer or operational acceptance",
       "needed": "Actual lead response linked to this package"
+    },
+    {
+      "id": "B-04",
+      "summary": "Full-site X-01 browser trial not executable in this container: Chromium navigation net::ERR_BLOCKED_BY_ADMINISTRATOR and GitHub git clone DNS unavailable.",
+      "affects": [
+        "Z-003"
+      ],
+      "blocks": "real-browser timing proof at pinned unchanged app revision",
+      "needed": "Isolated permitted checkout/browser elsewhere, matched optional-loader/unrelated-delay controls; no production credentials."
     }
   ],
   "records": {
@@ -1938,5 +1967,5 @@
     "originalManifestByteHashVerified": false,
     "meaning": "Text recovered and authority/status fields minimally reconciled; imported S/T/P claims retain recorded limitations."
   },
-  "statusNote": "Astra drafts restored in research branch; source corroboration and build-ready design only; X-01 independent execution and all physical/engineering approval remain pending."
+  "statusNote": "In-progress Z-003: source-excerpt model discriminated event order; full browser X-01 and all physical/engineering approvals remain pending."
 }
