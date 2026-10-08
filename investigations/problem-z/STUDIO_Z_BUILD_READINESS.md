@@ -120,6 +120,42 @@ This is **preparation, not implementation or test credit**. The following findin
 **All test execution intentionally deferred to Claude/Team G.** Proposed checks remain in sections B–E and `NEXT_RESEARCH_SESSION.md`. Preserve the order: (1) real browser X-01 discriminator and negative control; (2) authorized minimal repair only if confirmed; (3) source-revision-matched local/provider continuation fixtures, then tablet selector/viewport tests as indicated by new evidence; (4) reviewer and genuinely independent dual-device owner acceptance. Never run actual signed-in/auth/session operations as 'harmless reads'; `initialize`, `refresh`, `attach` and retry can write remote or local state.
 
 
+## F.2. Tablet selector and stylesheet discriminators — diagnosis, not a CSS rewrite
+
+**New pinned-source detail:** The transfer-specific stylesheet is [css/transfer.css](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/bc77a0b934c3d43279f27f73a72db21c2db2b4f2/css/transfer.css) (blob 1c1f09b10161e9556ced28c475577df66d0f86b9), loaded by js/optionalModules.js. Do not assume the responsive selector code lives mainly in css/app.css.
+
+- Width 900 px or less: signing row's .transferCombobox wrapper is explicitly set to the second CSS grid column.
+- Width 760 px or less: the suggestion list changes to position fixed, 10 px left and right, 12 px from bottom, with maximum height 48vh. Compare keyboard/visual viewport and hit-testing.
+- Width 480 px or less: suggestion options have minimum height 48 px.
+- Desktop width above 900 and height 800 or less: compact phase navigation and shorter suggestion list.
+
+**Correct canonical-value interpretation:** In js/transferSelector.js, handleTransferSelectorInput clears the previous canonical ID but *repopulates it if the entered text exactly normalizes to a resolved FIFA 17 option label*. chooseTransferSelectorOption also sets that ID; getTransferSelectorCanonicalValue returns dataset.canonicalId. Therefore the code already supports some exactly typed valid labels. In tests/browser/two-manager-browser-journey.cjs, fillTransferCombo literally calls input.fill(value), then waits for the canonical ID. **Do not claim typed text is always invalid**, or change validation before proving a specific mismatch.
+
+**Targeted test oracle, reserved for Claude:** With unchanged approved fixture, compare valid exact typed labels, list-click selection, partial labels and deliberately invalid labels; record only presence/absence of canonical ID, not private values. Use synthetic breakpoint probes at 759/760/761 and 899/900/901 px; additionally record the actual consenting tablet's measured dimensions, visualViewport offset/height with keyboard open, focus, dropdown/CTA rectangles, horizontal and vertical scrolling, and touch hit-testing. Synthetic dimensions do not establish real device behavior. A missing ID should reject before lockSignings with **zero provider writes**. Valid exact ID should lock only once after explicitly authorized fixture. Preserve per-manager private data and historical phase replay.
+
+## F.3. Existing Factory G test lanes — do not build duplicate test infrastructure
+
+These source files/scripts were inspected at pinned main bc77a0b934c3d43279f27f73a72db21c2db2b4f2; **none was executed** in this foundation session. Use the current POS20 impact router and inherited POS10 proof floor to select sufficient tests. Read live versions on Claude's takeover.
+
+| Concern | Existing source/script | Already covers / not a substitute for |
+|---|---|---|
+| X-01 loader readiness | [Unexecuted research probe](tools/x01-local-browser-probe.cjs) and [single next action](NEXT_RESEARCH_SESSION.md) | Loopback-only three conditions, source hashes, external network blocked; **cannot** verify OAuth/Firebase; app.js control is downstream defer timing, not an independent unrelated asset |
+| Two-manager identity J1.1 | tests/browser/two-manager-browser-journey.cjs | Mock/emulator Sign In With Google → Daniel/Nik identities and badges; requires explicitly controlled Auth/Firestore emulator writes |
+| Canonical typed transfer entries | same two-manager journey, helper fillTransferCombo | Types exact labels and waits for dataset.canonicalId, then locks and checks rival privacy; **does not** prove original tablet interaction |
+| Online Continue/pair recovery | npm run test:persistent-pair-routing | Synthetic active/recovery state and contained Settings; **does not** prove original local/provider save survived |
+| Exact shared reconnection | npm run test:ssjr:journey-reconnect | Synthetic authoritative league, clubs and season progression; **does not** replace real two-device continuity |
+| Replay without writes | tests/browser/shared-transfer-challenge-replay-audit.cjs | Phase witness replay; asserts zero provider mutation and no extra replay reads |
+| Contained Settings | tests/browser/connected-account-settings-audit.cjs; npm run test:settings-layout | Internal panels hidden / Settings accessibility; not tablet transfers |
+| General Home sizes | npm run test:home-visual | Home regression viewports; not a physical transfer-keyboard test |
+| Required physical journey evidence | npm run test:ssjr:physical-journey; npm run test:ssjr:physical-journey:browser; active SSJR2_PHYSICAL_RUN_GUIDE.md | Recorder/contracts only; real dual-device proof and Nik's owner-attested SSJR-2.1 credit remain separate |
+
+The full emulator journey's source header gives this operator command; it must be run **only** by authorized Team G in an isolated local checkout and test-only emulator project, never against live Firebase:
+
+    npx --yes firebase-tools@15.28.1 emulators:exec --config tests/browser/support/firebase.browser-journey.json --only auth,firestore --project demo-cms-browser-journey "node tests/browser/two-manager-browser-journey.cjs"
+
+The journey itself performs emulator Rules updates and test-document writes, so this is NOT read-only. Its external downloads and tooling readiness must be approved. Never weaken J1.1 to artificially reach later checks. If a correctly evidenced startup repair also resolves Continue, avoid redundant patches but separately verify the two original user-visible symptoms. Check transfer validity and layout independently before authorizing any styling change.
+
+
 ## G. One active next action and lead decision
 
 **Selected:** independently perform **Z-003 / X-01** on unchanged pinned source with three matched response timing conditions. Its gate is an attributable comparison or the exact blocker. Then the Team G Lead decides whether to authorize the small startup repair or select another single discriminating boundary. Z-002 public/device revision provenance is a *separate historical attribution debt*, not a reason to postpone useful pinned-source experiments.
