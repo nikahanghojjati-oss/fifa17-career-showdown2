@@ -6,6 +6,8 @@
 // Terminal 2: CMS_CHROMIUM_MULTI_CONTEXT=1 node investigations/problem-z/tools/x01-local-browser-probe.cjs
 // Prerequisites: Node >=24, npm dev dependencies installed, permitted local Chromium.
 // Outputs synthetic/non-sensitive startup flags only. No OAuth, Firebase or external requests.
+// Third condition delays ONLY a fixture-local inert fetch (not an app dependency).
+// This is an IO-latency negative control, not a perfect matched asset delay.
 const { createHash } = require("node:crypto");
 const fs = require("node:fs");
 const os = require("node:os");
@@ -44,7 +46,7 @@ const delayMs = 400;
 const scenarios = [
     { id: "baseline", target: null },
     { id: "delay-optional-module", target: "/js/optionalModules.js" },
-    { id: "delay-unrelated-app-script", target: "/js/app.js" }
+    { id: "delay-independent-local-fetch", target: "/__studio_z_latency_control__" }
 ];
 const output = process.env.CMS_Z_X01_OUTPUT ||
     path.join(os.tmpdir(), "studio-z-x01-" + Date.now() + ".json");
@@ -93,6 +95,7 @@ async function runOne(browser, scenario) {
         sameOriginOnly: true,
         blockedExternalRequestCount: 0,
         expectedDelayIntercepts: 0,
+        controlFetchIntercepts: 0,
         pageErrorCount: 0,
         checkpoints: [],
         navigationError: null
@@ -106,6 +109,16 @@ async function runOne(browser, scenario) {
                 entry.blockedExternalRequestCount += 1;
                 return route.abort();
             }
+            // Independently requested by the research fixture in ALL cases.
+            // It is not an app script, stylesheet or production data endpoint.
+            if (u.pathname === "/__studio_z_latency_control__") {
+                entry.controlFetchIntercepts += 1;
+                if (scenario.target === u.pathname) {
+                    entry.expectedDelayIntercepts += 1;
+                    await new Promise(resolve => setTimeout(resolve, delayMs));
+                }
+                return route.fulfill({ status: 204, headers: { "cache-control": "no-store" }, body: "" });
+            }
             if (scenario.target && u.pathname === scenario.target) {
                 entry.expectedDelayIntercepts += 1;
                 await new Promise(resolve => setTimeout(resolve, delayMs));
@@ -116,6 +129,9 @@ async function runOne(browser, scenario) {
         page.on("pageerror", () => { entry.pageErrorCount += 1; });
         await page.addInitScript(() => {
             window.__studioZReadinessTrace = [];
+            // Control-only inert local fetch. No game state is accessed and no
+            // app resource is delayed in the negative-control case.
+            void fetch("/__studio_z_latency_control__").catch(() => {});
             const trace = label => window.__studioZReadinessTrace.push({
                 event: label,
                 atMs: Math.round(performance.now()),
@@ -164,15 +180,23 @@ async function runOne(browser, scenario) {
         pinnedMainRevision: "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
         checkedWorkingTreeSourceBlobs: blobDigests,
         pinnedSourceVerification: "Five source blob hashes checked on execution; operator must also record git HEAD and clean-tree status separately",
-        interpretationLimit: "External runtime resources intentionally blocked; no OAuth/provider/physical device proof.",
+        interpretationLimit: "External runtime resources intentionally blocked; the control delays an independent fixture-local fetch, not an app asset or OAuth/provider/physical-device journey.",
         cases: results
     };
     fs.mkdirSync(path.dirname(output), { recursive: true });
     fs.writeFileSync(output, JSON.stringify(report, null, 2) + "\n", { mode: 0o600 });
     process.stdout.write("X-01 observational report saved: " + output + "\n");
     for (const item of results) process.stdout.write(item.id + ": " +
-        (item.navigationError || "observations captured") + "\n");
-    if (results.some(item => item.navigationError)) process.exitCode = 2;
+        (item.navigationError || "observations captured") +
+        "; delayedHits=" + item.expectedDelayIntercepts +
+        "; controlFetchHits=" + item.controlFetchIntercepts + "\n");
+    // A missed targeted intercept makes comparison invalid, not a pass.
+    if (results.some(item => item.navigationError ||
+        item.controlFetchIntercepts !== 1 ||
+        (item.delayTarget && item.expectedDelayIntercepts !== 1) ||
+        (!item.delayTarget && item.expectedDelayIntercepts !== 0))) {
+        process.exitCode = 2;
+    }
 })().catch(error => {
     console.error("X-01 local probe could not execute:", error && error.name || "Error");
     process.exitCode = 1;
