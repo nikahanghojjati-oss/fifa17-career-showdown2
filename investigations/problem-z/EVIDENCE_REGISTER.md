@@ -51,6 +51,12 @@
 
 **Direct verification scope in this session:** live GitHub readbacks for main/Studio refs, pinned source paths, the PR #425 JSON report and guarded documentation commits. **No product code test was run**, no real physical, provider, deployment or login state observed, and no root cause independently verified. Do not convert these source confirmations into research block completions or physical/SSJR/MDP credit.
 
+## T-02-MODEL — new source-excerpt deterministic event-order result (2026-10-08)
+
+See [Z-003 source-excerpt model report](research-blocks/Z-003_STARTUP_SOURCE_EXCERPT_MODEL_2026-10-08.md). This was an actual local **Node v22.16.0 VM simulation** with **verbatim `showdown.js` source function bodies at pinned main**, but synthetic document, timer, loader, identity and reporter. Normal loader-ready and unrelated-latency controls both yielded identity present; a scheduled start *before* loader availability yielded a latched flag, no identity and no retry on invoking the bootstrap entry function again. The script's emitted outputs and local SHA-256 records are in the report. This supports only a **source-level event-order mechanism**; it is NOT independent X-01 full-browser verification, a real OAuth/provider test or October 7 physical-root-cause evidence.
+
+A locally attempted Chromium/Playwright browser synthetic trial was **blocked before experiment execution** by `net::ERR_BLOCKED_BY_ADMINISTRATOR` for localhost, data and a routed synthetic origin; GitHub clone was unavailable through container DNS. Treat these as **environmental test access blockers**, not product failures. The next task remains a permitted source-unchanged full-site three-condition browser comparison. No application code or real private player data were touched.
+
 ## Current hypotheses (H, **unverified**)
 
 - H-01: popup user activation or asynchronous dependency setup leaves authentication unresolved.
