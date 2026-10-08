@@ -6,6 +6,8 @@
 
 **Working entry:** [Foundation and lead charter](STUDIO_Z_FOUNDATION_AND_LEAD_HANDOFF_2026-10-08.md) → [three minimal conditional build slices + proof](STUDIO_Z_BUILD_READINESS.md) → [one next experiment: Z-003 / X-01](NEXT_RESEARCH_SESSION.md). Read live POS20/AGENTS/guards before any action.
 
+**Factory G construction design:** [Claude's finite Studio build blueprint](STUDIO_Z_CLAUDE_BUILD_BLUEPRINT.md) defines small roles, conditional repair dependencies, nonduplicative reuse of POS20/tests, optional read-only Lens, and strict closeout. The X-01 probe now delays an existing non-executable Home image as its unrelated 400ms control, not the gameplay-startup `js/app.js`; **the probe remains unexecuted**.
+
 **Source and test coverage refinement:** [Build-readiness sections F.2–F.3](STUDIO_Z_BUILD_READINESS.md#f2-tablet-selector-and-stylesheet-discriminators--diagnosis-not-a-css-rewrite) now identify the actual `css/transfer.css` breakpoint rules, exact typed-label canonicalization, and existing pair/reconnect/emulator/replay/UI test lanes. This avoids a redundant test infrastructure or premature CSS/selector rewrite. **S-22/S-23 are static source evidence only; no checks have been executed.**
 
 **Prepared, unexecuted:** [Three-condition local browser probe](tools/x01-local-browser-probe.cjs) and [exact run commands, SHA pins and limitations](NEXT_RESEARCH_SESSION.md#claude-ready-local-probe-prepared-not-executed) are staged for Claude; no tests are being run or credited by the foundation author. This is a disposable research probe, not a new Studio platform or game code change.
