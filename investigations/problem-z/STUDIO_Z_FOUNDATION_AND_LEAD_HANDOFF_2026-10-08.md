@@ -4,6 +4,20 @@
 
 **Status:** Foundation prepared; incident unresolved; engineering authorization **NOT GRANTED** by this document. Receipt, review, approval, implementation, release and physical acceptance have not occurred merely because this file exists or the clock reaches 8 PM.
 
+## Foundation completion addendum — later on October 8, 2026
+
+The owner subsequently authorized continued **research/documentation foundation work only**, not building/repairing the application. Since this charter's first commit:
+
+- Astra's unpublished audit and causal model were recovered from the owner-supplied handoff and committed as [ARCHITECTURE_AUDIT.md](ARCHITECTURE_AUDIT.md) and [CAUSAL_MODEL.md](CAUSAL_MODEL.md). **Recovered text is not asserted byte-for-byte identical to the original unsaved files; the full earlier export remains independent historical preservation.**
+- Astra's revised [RESEARCH_PROGRAM.md](RESEARCH_PROGRAM.md) (32 selectable units, 40 preserved IDs) and reconciled [RESEARCH_LEDGER.json](RESEARCH_LEDGER.json) were committed; **no additional research question was marked independently verified**. The old paragraph below suggesting those drafts remain unpublished is historical and now superseded.
+- The small, conditional [STUDIO_Z_BUILD_READINESS.md](STUDIO_Z_BUILD_READINESS.md) provides engineering candidate options, explicit entry/exit tests and physical acceptance for the three incident clusters. It is a **specification**, not a repair.
+- [EVIDENCE_REGISTER.md](EVIDENCE_REGISTER.md) now records scoped S-10–S-19/T-01/P-01 provenance including imported-versus-direct review; [RESEARCH_PROTOCOL.md](RESEARCH_PROTOCOL.md) and [TEAM_G_REVIEW_GATE.md](TEAM_G_REVIEW_GATE.md) enforce finite scope and the one-file-per-session export. [NEXT_RESEARCH_SESSION.md](NEXT_RESEARCH_SESSION.md) still selects only X-01.
+- This work **did not execute X-01, modify game/test files, assign workers, test real accounts, mutate Firebase, release anything, grant Team G authority, or establish a physical cause**. Do not confuse source-check corroboration with browser test T evidence.
+
+**Lead entry order:** this addendum → current foundation → build readiness → NEXT_RESEARCH_SESSION → ledger/causal/evidence only as needed → live POS20/guards. Do not read the entire historical catalog before making the first discriminating decision. The latest **single-file export** is linked from the workspace README when available; actual lead receipt/acceptance remains a separate recorded action.
+
+---
+
 ## 1. Mission and stop rule
 
 Studio Z is a **temporary, narrow Factory G incident team** for GitHub issue [#426](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/issues/426). Its purpose is to:
