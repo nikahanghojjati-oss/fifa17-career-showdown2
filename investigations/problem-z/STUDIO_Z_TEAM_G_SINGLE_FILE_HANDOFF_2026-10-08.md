@@ -1,24 +1,22 @@
-# Studio Z — final foundation and optional test kit for incoming Team G Lead
+# Studio Z — complete one-file Claude Opus 5.5 takeover packet
 
-**Prepared for:** Claude Opus 5.5 / Team G, under Nik's reserved authority | **Date:** October 8, 2026 EDT | **Planned takeover:** 8:00 PM EDT | **Actual receipt or engineering authorization:** NOT EVIDENCED.
+**As of 2026-10-08 EDT.** Owner Nik. Incoming Team G Lead Claude Opus 5.5 requested at 8 PM EDT; actual receipt/approval has **not been evidenced**. Prepared by GPT-6 on a documentation/research-only branch. **One file, 16 embedded exact source documents.** Original full earlier Astra transfer remains a separate historical attachment; all active recovered research artifacts and the exact unexecuted X-01 runner are embedded below.
 
-**MISSION AND STOP RULE:** A small temporary Factory G Studio to investigate only three reported October 7 game failures (identity/startup, same-career Continue/reconnect, tablet transfers), implement independently justified minimal fixes only after Team G authorization, obtain real Nik/Daniel acceptance, **close issue #426 only when approved**, retire Studio. This is NOT a 32-unit or 40-unit mandatory study or permanent lab; optional Lens is not a dependency.
+**Purpose and closure:** Factory G's small **finite** Studio Z addresses three owner-reported October 7 clusters: online identity/sign-in; Continue same durable career with fresh exact session; tablet transfer signing/viewport and safe replay. Investigate only until enough evidence supports bounded Team G implementation, prove through inherited gates and genuine Nik/Daniel physical acceptance, close approved issue #426 and retire Studio. Historical 40 IDs / 32 selected catalog are OPTIONAL, not a research quota or long-lived dashboard. Optional Lens is strictly read-only/on-demand and not required.
 
-**WHAT IS FINISHED:** Astra's earlier architecture and causal findings restored and integrated; finite charter/ledger; code-anchored possible repair strategies; guardrails; exact closure criteria; one active experiment Z-003/X-01. GPT-6 identified a possible shared failure mechanism: `showdown.js` early latch versus later identity loader, and two potential Continue Career handlers with different authority. A controlled Node source-excerpt event-order model (T-02-MODEL) supports the latch mechanism *in a synthetic test only*. Transfer canonical dataset ID requirement was confirmed through pinned code reading, not on a real tablet. None is physical incident root-cause proof.
+**Completed on the research side:** Recovered Astra causal/model audit and ledger, consolidated finite charter, source mapping and implementation envelopes, tracked existing X-01 Node VM source-excerpt evidence, identified possible online-vs-legacy Continue handler interaction and transfer canonical-ID issue through static source reading, prepared **unexecuted** standalone local X-01 browser probe (Section 4) with exact revision pins and external-network denial. All product code, production data, Rules, deployment and real account state remain untouched by this handoff work.
 
-**WHAT CLAUDE MUST DO:** First independently run a real-source browser X-01 three-condition observation: no delay, 400ms delayed `js/optionalModules.js`, and a 400ms delayed `js/app.js` downstream control. Then independently review controls/other causes, approve or reject a minimal startup implementation with explicit lead/owner permissions and inherited test gates. Continue/reconnect/transfer tests and eventual code changes follow only as needed. Genuine physical two-manager acceptance, exact-head publication and closure are separate steps. **The user's instruction is to leave all further checks and application construction for Claude.**
+**Still reserved for Claude/Team G:** every further full-source browser/provider/dual-device check and implementation authorization. The Node VM source-excerpt result is not a full-site browser or original-device diagnosis; prior PR #425 QA results remain imported evidence. The browser probe in Section 4 **has not been run, debugged or passed**; it requires local checkout, Node >=24, Playwright/Chromium, pre-running `npm run serve:test`, and POS20 authorization. It cannot test actual Google sign-in since outbound requests are blocked. If its source pin or navigation fails, stop and record the blocker.
 
-**X-01 READY TO EXECUTE BUT UNRUN:** Section 4 contains full source for `tools/x01-local-browser-probe.cjs`. It uses the existing static-server script and Chromium launcher; hard-refuses non-loopback URLs; blocks all external requests, requires exact blob SHA pins for 5 source files, records only coarse state, and writes a local JSON report. See Section 3 for exact command lines. This does NOT validate real Google sign-in, Firebase, SSJR/MDP, any physical devices or production. The harness has **not** been executed or validated against a browser. Running it is reserved for Claude. If the source hash changes or browser navigation is blocked, stop and document, do not bypass controls.
+**One and only next task:** independently execute X-01 three scenarios on pinned app: baseline, 400ms `optionalModules.js` only, 400ms `app.js` unrelated downstream control; record timing/loader/latch/badge/error facts, exact HEAD and private data untouched, then make a stop/go decision on the smallest authorized startup repair. `Z-003` is *in-progress*, 1 original research baseline complete, 0 independent verifications, implementation permission **FALSE**, no owner physical acceptance. If not reproduced, do not force a patch. Pursue the other two failures only through similarly minimal discriminating checks.
 
-**GUARDRAILS:** Exactly two private managers Daniel/Nik; popup-only Google browserSession auth, Firestore memory-only, Firebase Spark zero billing, App Check enforcement OFF, exact ACTIVE private session with UID/device binding, Candidate C exclusive destructive Apply with backups; no automated re-pair/deletion/storage-clearing, no unauthorized data reads (initialization may write), no scope expansion. Current main code SHA previously resolved `bc77a0b934c3d43279f27f73a72db21c2db2b4f2`; this export captures research head `3b2752f03f20cadeb282683bf691ab9db4ab047b` BEFORE the export commit. Re-resolve HEAD and POS20/AGENTS/guards upon receipt. Existing QA PR #425 evidence is imported, not independent Studio execution.
+**Repo:** `nikahanghojjati-oss/fifa17-career-showdown2`. Pinned product main: `bc77a0b934c3d43279f27f73a72db21c2db2b4f2`. Research branch: `investigation/problem-z-z-studio-2026-10-08` at pre-export commit `e74c31efa25ffff4302fd7d244021812f018b1a8`. Resolve current GitHub refs again when Claude takes over. POS20/AGENTS/guards and owner authority control over this file; clock time does not grant credentials or merge rights.
 
-**TRUTHFUL STATUS:** Z-003 remains in progress, baseline Z-001 is the only historical research-complete unit, independently verified count 0, implementation authorization false, no actual browser/provider/owner test this preparation turn, no gameplay/source modification, no deployment. No lead acknowledgment proven. This file is the complete source snapshot for this checkpoint.
+**Fast path:** Sections 1–3 show mission, prepared repair boundaries and exact X-01 command. Section 4 includes full runnable-but-unexecuted source. Other sections preserve evidence/causal limitations and original plan only when relevant.
 
-**FAST READ:** Section 1 mission → 2 minimal build repair boundaries → 3 exact next action → 4 runnable opt-in probe source. Consult sections 5–16 only when relevant; do not read all of them as mandatory preliminary work.
+## Source snapshot manifest
 
-## Manifest — exact GitHub text snapshots before this export
-
-| Section | Source file | Git blob SHA |
+| Section | Investigation artifact | GitHub blob SHA |
 |---|---|---|
 | 1 | `investigations/problem-z/STUDIO_Z_FOUNDATION_AND_LEAD_HANDOFF_2026-10-08.md` | `3564b0c00275c83e0f024cf5f8261fe8a7d67206` |
 | 2 | `investigations/problem-z/STUDIO_Z_BUILD_READINESS.md` | `ec26549684fd64ccbe7d1a7a7316eacf3e9c9de1` |
@@ -30,7 +28,7 @@
 | 8 | `investigations/problem-z/CAUSAL_MODEL.md` | `7553a29d4676751c34067e0b909ed28d128ccb2b` |
 | 9 | `investigations/problem-z/ARCHITECTURE_AUDIT.md` | `3720326972b774fb95422f39bcf73a724c6cddaf` |
 | 10 | `investigations/problem-z/RESEARCH_PROGRAM.md` | `0246cce3b291d100f889c213400ea8fc1c1a3245` |
-| 11 | `investigations/problem-z/RESEARCH_PROTOCOL.md` | `8b979ae0e711ef3385fdb9b07ecbcf4ee55e479b` |
+| 11 | `investigations/problem-z/RESEARCH_PROTOCOL.md` | `0f5a5895246719cc3843f764b304595fc871db6d` |
 | 12 | `investigations/problem-z/TEAM_G_REVIEW_GATE.md` | `cb78fec2a189ca5faec2edcb1321a27ca2817f09` |
 | 13 | `investigations/problem-z/README.md` | `7d34c52621b6e55439f52e67e7a23d7a821e7a71` |
 | 14 | `investigations/problem-z/research-blocks/Z-001_INCIDENT_BASELINE.md` | `8236fd1018c05fa51b6e8cdc41ff320fdb316a80` |
@@ -39,9 +37,9 @@
 
 ---
 
-## SECTION 1 — `investigations/problem-z/STUDIO_Z_FOUNDATION_AND_LEAD_HANDOFF_2026-10-08.md`
+## SECTION 1: `investigations/problem-z/STUDIO_Z_FOUNDATION_AND_LEAD_HANDOFF_2026-10-08.md`
 
-**GitHub blob:** `3564b0c00275c83e0f024cf5f8261fe8a7d67206` on research branch `3b2752f03f20cadeb282683bf691ab9db4ab047b`. **Evidence rules and authority limits from the source text apply.**
+*Exact GitHub research source e74c31efa25ffff4302fd7d244021812f018b1a8, blob 3564b0c00275c83e0f024cf5f8261fe8a7d67206.*
 
 ~~~~~~~~markdown
 # Studio Z — finite foundation and Team G build handoff
@@ -154,9 +152,9 @@ Default to the existing ledger/checkpoint as source of truth and an **on-demand 
 
 ---
 
-## SECTION 2 — `investigations/problem-z/STUDIO_Z_BUILD_READINESS.md`
+## SECTION 2: `investigations/problem-z/STUDIO_Z_BUILD_READINESS.md`
 
-**GitHub blob:** `ec26549684fd64ccbe7d1a7a7316eacf3e9c9de1` on research branch `3b2752f03f20cadeb282683bf691ab9db4ab047b`. **Evidence rules and authority limits from the source text apply.**
+*Exact GitHub research source e74c31efa25ffff4302fd7d244021812f018b1a8, blob ec26549684fd64ccbe7d1a7a7316eacf3e9c9de1.*
 
 ~~~~~~~~markdown
 # Studio Z — build-ready incident work packages (decision-only, no implementation)
@@ -292,9 +290,9 @@ This is **preparation, not implementation or test credit**. The following findin
 
 ---
 
-## SECTION 3 — `investigations/problem-z/NEXT_RESEARCH_SESSION.md`
+## SECTION 3: `investigations/problem-z/NEXT_RESEARCH_SESSION.md`
 
-**GitHub blob:** `2a98ea6e38c63ed6d27d7e28fd199995632f0eb6` on research branch `3b2752f03f20cadeb282683bf691ab9db4ab047b`. **Evidence rules and authority limits from the source text apply.**
+*Exact GitHub research source e74c31efa25ffff4302fd7d244021812f018b1a8, blob 2a98ea6e38c63ed6d27d7e28fd199995632f0eb6.*
 
 ~~~~~~~~markdown
 # Studio Z — selected next experiment and precise blocker
@@ -349,9 +347,9 @@ Independently test H-03 with a **permitted isolated full product checkout and br
 
 ---
 
-## SECTION 4 — `investigations/problem-z/tools/x01-local-browser-probe.cjs`
+## SECTION 4: `investigations/problem-z/tools/x01-local-browser-probe.cjs`
 
-**GitHub blob:** `426e11ff9159e3c9bcdda61fba39c393447cf195` on research branch `3b2752f03f20cadeb282683bf691ab9db4ab047b`. **Evidence rules and authority limits from the source text apply.**
+*Exact GitHub research source e74c31efa25ffff4302fd7d244021812f018b1a8, blob 426e11ff9159e3c9bcdda61fba39c393447cf195.*
 
 ~~~~~~~~javascript
 "use strict";
@@ -537,9 +535,9 @@ async function runOne(browser, scenario) {
 
 ---
 
-## SECTION 5 — `investigations/problem-z/research-blocks/Z-003_STARTUP_SOURCE_EXCERPT_MODEL_2026-10-08.md`
+## SECTION 5: `investigations/problem-z/research-blocks/Z-003_STARTUP_SOURCE_EXCERPT_MODEL_2026-10-08.md`
 
-**GitHub blob:** `f7f1f0bc535ec97c9c3aa0b4f41342366639fd89` on research branch `3b2752f03f20cadeb282683bf691ab9db4ab047b`. **Evidence rules and authority limits from the source text apply.**
+*Exact GitHub research source e74c31efa25ffff4302fd7d244021812f018b1a8, blob f7f1f0bc535ec97c9c3aa0b4f41342366639fd89.*
 
 ~~~~~~~~markdown
 # Z-003 / X-01 — source-excerpt event-order model (partial, NOT full-app reproduction)
@@ -597,9 +595,9 @@ No extra manager, real OAuth, pairing, session, Firebase service, save, producti
 
 ---
 
-## SECTION 6 — `investigations/problem-z/RESEARCH_LEDGER.json`
+## SECTION 6: `investigations/problem-z/RESEARCH_LEDGER.json`
 
-**GitHub blob:** `1e0cb856499d5023ea914d76d8561169baf0e7c4` on research branch `3b2752f03f20cadeb282683bf691ab9db4ab047b`. **Evidence rules and authority limits from the source text apply.**
+*Exact GitHub research source e74c31efa25ffff4302fd7d244021812f018b1a8, blob 1e0cb856499d5023ea914d76d8561169baf0e7c4.*
 
 ~~~~~~~~json
 {
@@ -2611,9 +2609,9 @@ No extra manager, real OAuth, pairing, session, Firebase service, save, producti
 
 ---
 
-## SECTION 7 — `investigations/problem-z/EVIDENCE_REGISTER.md`
+## SECTION 7: `investigations/problem-z/EVIDENCE_REGISTER.md`
 
-**GitHub blob:** `8cda2f203db4adf96b832d2364b0cdd286fd79b4` on research branch `3b2752f03f20cadeb282683bf691ab9db4ab047b`. **Evidence rules and authority limits from the source text apply.**
+*Exact GitHub research source e74c31efa25ffff4302fd7d244021812f018b1a8, blob 8cda2f203db4adf96b832d2364b0cdd286fd79b4.*
 
 ~~~~~~~~markdown
 # Problem Z — Evidence register
@@ -2701,9 +2699,9 @@ A locally attempted Chromium/Playwright browser synthetic trial was **blocked be
 
 ---
 
-## SECTION 8 — `investigations/problem-z/CAUSAL_MODEL.md`
+## SECTION 8: `investigations/problem-z/CAUSAL_MODEL.md`
 
-**GitHub blob:** `7553a29d4676751c34067e0b909ed28d128ccb2b` on research branch `3b2752f03f20cadeb282683bf691ab9db4ab047b`. **Evidence rules and authority limits from the source text apply.**
+*Exact GitHub research source e74c31efa25ffff4302fd7d244021812f018b1a8, blob 7553a29d4676751c34067e0b909ed28d128ccb2b.*
 
 ~~~~~~~~markdown
 # Studio Z — Causal model and discriminating experiments
@@ -2804,9 +2802,9 @@ Select the narrow experiment needed for the current decision. Broader regression
 
 ---
 
-## SECTION 9 — `investigations/problem-z/ARCHITECTURE_AUDIT.md`
+## SECTION 9: `investigations/problem-z/ARCHITECTURE_AUDIT.md`
 
-**GitHub blob:** `3720326972b774fb95422f39bcf73a724c6cddaf` on research branch `3b2752f03f20cadeb282683bf691ab9db4ab047b`. **Evidence rules and authority limits from the source text apply.**
+*Exact GitHub research source e74c31efa25ffff4302fd7d244021812f018b1a8, blob 3720326972b774fb95422f39bcf73a724c6cddaf.*
 
 ~~~~~~~~markdown
 # Studio Z — Independent architecture audit and risk register
@@ -2940,9 +2938,9 @@ This is a self-review of the design, not ten successful product tests. No indepe
 
 ---
 
-## SECTION 10 — `investigations/problem-z/RESEARCH_PROGRAM.md`
+## SECTION 10: `investigations/problem-z/RESEARCH_PROGRAM.md`
 
-**GitHub blob:** `0246cce3b291d100f889c213400ea8fc1c1a3245` on research branch `3b2752f03f20cadeb282683bf691ab9db4ab047b`. **Evidence rules and authority limits from the source text apply.**
+*Exact GitHub research source e74c31efa25ffff4302fd7d244021812f018b1a8, blob 0246cce3b291d100f889c213400ea8fc1c1a3245.*
 
 ~~~~~~~~markdown
 # Studio Z — Research program, revision 2
@@ -3066,9 +3064,9 @@ The October 8 leadership transfer package may be ready while the investigation i
 
 ---
 
-## SECTION 11 — `investigations/problem-z/RESEARCH_PROTOCOL.md`
+## SECTION 11: `investigations/problem-z/RESEARCH_PROTOCOL.md`
 
-**GitHub blob:** `8b979ae0e711ef3385fdb9b07ecbcf4ee55e479b` on research branch `3b2752f03f20cadeb282683bf691ab9db4ab047b`. **Evidence rules and authority limits from the source text apply.**
+*Exact GitHub research source e74c31efa25ffff4302fd7d244021812f018b1a8, blob 0f5a5895246719cc3843f764b304595fc871db6d.*
 
 ~~~~~~~~markdown
 # Studio Z — finite evidence-first session protocol
@@ -3090,7 +3088,7 @@ Studio Z is finite: diagnose the three October 7 playtest failure clusters just 
 
 **Evidence:** `O`=owner reports or supplied descriptions (not actual screenshots unless bytes available), `S`=exact-revision source, `T`=actually run controlled test with command/fixture/outputs, `P-public`=served asset observation, `P-device`=authorized real device or provider observation, `H`=hypothesis. Public HTTP cannot stand in for actual device. Imported PR run observations are **imported evidence**, not independent Studio re-execution. Distinguish one shared run lineage from independent replication.
 
-**Safety:** research may modify only investigation Markdown/JSON on its branch. Disposable source-unchanged local harnesses, synthetic fixture checks and passive public metadata are allowed. No production auth, Firestore, Rules, device registrations, account state, session creation, pairing, reset, save Apply, cache clearing, service-worker rollback, source/game/test edit, merge/deploy/release or credential work without separate competent authorization. Initialization/retry/attach can WRITE and cannot be called 'read-only.' No secrets, tokens, full saves, UIDs, codes or private device/account fingerprints in files.
+**Safety:** research work must remain within `investigations/problem-z/` on its isolated branch. Allowed artifacts are Markdown/JSON evidence and **only when owner-requested preparation requires it**, an explicitly **unexecuted**, standalone observational runner under `investigations/problem-z/tools/` using unchanged pinned game files. No product, live test-suite, governance, release or provider change is implied; higher POS20/POS10 restrictions control. Disposable source-unchanged local harnesses, synthetic fixture checks and passive public metadata are allowed only when separately authorized for execution. No production auth, Firestore, Rules, device registrations, account state, session creation, pairing, reset, save Apply, cache clearing, service-worker rollback, source/game/test edit, merge/deploy/release or credential work without separate competent authorization. Initialization/retry/attach can WRITE and cannot be called 'read-only.' No secrets, tokens, full saves, UIDs, codes or private device/account fingerprints in files.
 
 **Analysis:** define exact environment/revision, instrument one variable, include matched negative controls, log observed outcomes and artifact hashes, preserve contradictory tests and falsifiers. A model/source-only review is not T/P. Do not treat a healthy CI run as invalidation of another different timing fixture; compare conditions. If an experiment becomes nondiscriminating, stop and articulate the missing oracle.
 
@@ -3109,9 +3107,9 @@ A Team G Lead decision is an explicit recorded review; no model or clock automat
 
 ---
 
-## SECTION 12 — `investigations/problem-z/TEAM_G_REVIEW_GATE.md`
+## SECTION 12: `investigations/problem-z/TEAM_G_REVIEW_GATE.md`
 
-**GitHub blob:** `cb78fec2a189ca5faec2edcb1321a27ca2817f09` on research branch `3b2752f03f20cadeb282683bf691ab9db4ab047b`. **Evidence rules and authority limits from the source text apply.**
+*Exact GitHub research source e74c31efa25ffff4302fd7d244021812f018b1a8, blob cb78fec2a189ca5faec2edcb1321a27ca2817f09.*
 
 ~~~~~~~~markdown
 # Studio Z — Team G Lead review and finite incident closure gate
@@ -3162,9 +3160,9 @@ First choose: **Is X-01 independently confirmed sufficiently to authorize one mi
 
 ---
 
-## SECTION 13 — `investigations/problem-z/README.md`
+## SECTION 13: `investigations/problem-z/README.md`
 
-**GitHub blob:** `7d34c52621b6e55439f52e67e7a23d7a821e7a71` on research branch `3b2752f03f20cadeb282683bf691ab9db4ab047b`. **Evidence rules and authority limits from the source text apply.**
+*Exact GitHub research source e74c31efa25ffff4302fd7d244021812f018b1a8, blob 7d34c52621b6e55439f52e67e7a23d7a821e7a71.*
 
 ~~~~~~~~markdown
 # Studio Z / Problem Z — finite Factory G incident foundation
@@ -3192,9 +3190,9 @@ Recovered Astra text is preserved from the owner's prior full handoff and **not 
 
 ---
 
-## SECTION 14 — `investigations/problem-z/research-blocks/Z-001_INCIDENT_BASELINE.md`
+## SECTION 14: `investigations/problem-z/research-blocks/Z-001_INCIDENT_BASELINE.md`
 
-**GitHub blob:** `8236fd1018c05fa51b6e8cdc41ff320fdb316a80` on research branch `3b2752f03f20cadeb282683bf691ab9db4ab047b`. **Evidence rules and authority limits from the source text apply.**
+*Exact GitHub research source e74c31efa25ffff4302fd7d244021812f018b1a8, blob 8236fd1018c05fa51b6e8cdc41ff320fdb316a80.*
 
 ~~~~~~~~markdown
 # Z-001 — Physical incident baseline and source-supported boundaries
@@ -3263,9 +3261,9 @@ The inspected [index asset revision](https://github.com/nikahanghojjati-oss/fifa
 
 ---
 
-## SECTION 15 — `investigations/problem-z/Z_STUDIO_TRIAGE_PROPOSAL.md`
+## SECTION 15: `investigations/problem-z/Z_STUDIO_TRIAGE_PROPOSAL.md`
 
-**GitHub blob:** `411893b31837109c7259b7dbeca9d73b51e57f0a` on research branch `3b2752f03f20cadeb282683bf691ab9db4ab047b`. **Evidence rules and authority limits from the source text apply.**
+*Exact GitHub research source e74c31efa25ffff4302fd7d244021812f018b1a8, blob 411893b31837109c7259b7dbeca9d73b51e57f0a.*
 
 ~~~~~~~~markdown
 # Problem Z — Critical two-manager access and continuity investigation
@@ -3400,9 +3398,9 @@ The inspected [index asset revision](https://github.com/nikahanghojjati-oss/fifa
 
 ---
 
-## SECTION 16 — `investigations/problem-z/BLOCK_TEMPLATE.md`
+## SECTION 16: `investigations/problem-z/BLOCK_TEMPLATE.md`
 
-**GitHub blob:** `3d0c94aec2fe649462c4ea75e83a5b6ba16a5f01` on research branch `3b2752f03f20cadeb282683bf691ab9db4ab047b`. **Evidence rules and authority limits from the source text apply.**
+*Exact GitHub research source e74c31efa25ffff4302fd7d244021812f018b1a8, blob 3d0c94aec2fe649462c4ea75e83a5b6ba16a5f01.*
 
 ~~~~~~~~markdown
 # Z-### — [Single research question]
@@ -3454,8 +3452,7 @@ The inspected [index asset revision](https://github.com/nikahanghojjati-oss/fifa
 ~~~~~~~~
 
 ---
-## TRANSFER COMPLETION / NO AUTONOMOUS HANDOVER
+## Exact stopping condition
 
-- File created, code scaffold **unexecuted**; no product checks except earlier narrowly described source-excerpt Node model. A prepared runner is not a passed check.
-- Team G lead must actually acknowledge receiving this package and explicitly accept the bounded assignment. 8 PM is a requested leadership transition, not an automatic credential, merge or session handover.
-- The next owner-facing checkpoint should be one new self-contained transferable Markdown file at the end of the next session. Do not expand the project's duration without decision-relevant evidence.
+No additional GPT-6 checks, no simulated sign-in credited, no code or auth fix, no Firebase/provider mutation, no release, no automatic lead transfer. Team G must accept the handoff, run actual X-01 and only approved tests, choose minimal justifiable fixes, independently review and obtain dual-manager physical acceptance. Future session end requires one similarly transferable file. After accepted resolutions, **close Studio Z**.
+
