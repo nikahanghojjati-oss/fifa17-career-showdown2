@@ -1,5 +1,7 @@
 # Studio Z / Problem Z — finite Factory G incident foundation
 
+**Lead-ready source planning update (2026-10-08):** The [build-readiness shelf](STUDIO_Z_BUILD_READINESS.md#f1-precise-source-mapped-implementation-shelf--review-before-coding-no-checks-executed) now maps exact startup/Continue/transfer source boundaries and concrete minimal change contracts. Static S-20/S-21 source observations are recorded without new test credit. **The owner has reserved all further browser/provider/physical checks and application engineering for Claude/Team G**; Studio preparation is complete. No automatic 8 PM authority transfer or approval is implied.
+
 **Single-file current transfer:** [STUDIO_Z_TEAM_G_SINGLE_FILE_HANDOFF_2026-10-08.md](STUDIO_Z_TEAM_G_SINGLE_FILE_HANDOFF_2026-10-08.md) — portable research/documentation snapshot for the receiving Team G Lead (Claude Opus 5.5). It does **not** grant build authority.
 
 **Working entry:** [Foundation and lead charter](STUDIO_Z_FOUNDATION_AND_LEAD_HANDOFF_2026-10-08.md) → [three minimal conditional build slices + proof](STUDIO_Z_BUILD_READINESS.md) → [one next experiment: Z-003 / X-01](NEXT_RESEARCH_SESSION.md). Read live POS20/AGENTS/guards before any action.
