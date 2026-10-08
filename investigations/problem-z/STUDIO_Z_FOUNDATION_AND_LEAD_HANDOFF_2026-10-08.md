@@ -18,6 +18,10 @@ The owner subsequently authorized continued **research/documentation foundation 
 
 ---
 
+### Targeted post-foundation research update
+
+The [Z-003 source-excerpt model report](research-blocks/Z-003_STARTUP_SOURCE_EXCERPT_MODEL_2026-10-08.md) now records a **locally executed Node VM event-order experiment** using verbatim pinned startup function excerpts. Three deterministic loader-availability schedules discriminated the latched failure in the model, but a Chromium real-browser attempt was **blocked at environment navigation**, so X-01 remains **in progress, not independently browser verified**. The research ledger/evidence and next session have been updated. No application patch, real account, production provider activity, deployment or original physical incident reproduction occurred.
+
 ## 1. Mission and stop rule
 
 Studio Z is a **temporary, narrow Factory G incident team** for GitHub issue [#426](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/issues/426). Its purpose is to:
