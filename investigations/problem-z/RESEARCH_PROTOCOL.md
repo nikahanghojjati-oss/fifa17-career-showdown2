@@ -1,48 +1,34 @@
-# Problem Z — Research session operating protocol
+# Studio Z — finite evidence-first session protocol
 
-**Scope:** Research only, on `investigation/problem-z-z-studio-2026-10-08`. **Authority:** User directs the research agenda; Team G Lead (Claude Opus 5.5) owns later implementation/assignment/publication decisions. **External scheduling:** none.
+**Current authority:** [Studio Z foundation](STUDIO_Z_FOUNDATION_AND_LEAD_HANDOFF_2026-10-08.md) and [build-readiness gates](STUDIO_Z_BUILD_READINESS.md), subordinate to live `AGENTS.md`, `CURRENT_PRODUCT_GUARDS.json`, POS20/POS10, SSJR/MDP. This is **research documentation only** on `investigation/problem-z-z-studio-2026-10-08` under `investigations/problem-z/`. Existing implementation authorization: **none**.
 
-## Definition of an atomic session
-A research session aims to investigate exactly **one Z-### block**, with one attributable artifact. It may read other modules to understand the block, but its conclusion must not falsely close adjacent blocks. If a question requires deeper investigation, subdivide the block in the ledger, add follow-up sessions, and retain uncertainties. The starting 40 blocks are a research map, not a promise that every question can be answered in exactly 40 chats.
+## Objective and work selection
 
-## Mandatory first actions in each future chat
-1. Confirm intent to continue Problem Z research (not gameplay development). Read [program](RESEARCH_PROGRAM.md), [ledger](RESEARCH_LEDGER.json), [next checkpoint](NEXT_RESEARCH_SESSION.md), [evidence register](EVIDENCE_REGISTER.md), the immediately preceding block and any relevant lead feedback.
-2. Fetch live `main` and the exact research branch head; capture current SHAs. Reconcile any source/deployment drift rather than treating an old recorded SHA as live authority.
-3. Read `AGENTS.md`, `CURRENT_PRODUCT_GUARDS.json`, POS20/POS10 relevant controls and current project handoff. These remain authoritative over the research notes.
-4. Select the ledger's `nextBlock`, unless the user redirects or safety-critical new evidence justifies an explicit resequencing entry. Never claim an already closed block is unrevised; annotate a recheck/revisit if evidence changed.
-5. State one block question, relevant hypotheses, required proof tier, safe actions, prohibitions and deliverable. Distinguish static investigation from authorized real-device observation.
+Studio Z is finite: diagnose the three October 7 playtest failure clusters just enough for an authorized bounded Factory G repair, verify through applicable product/physical gates and close. The revised 32-unit/7-track catalog preserves the 40 historical IDs but **is not a schedule, quota or requirement to study everything**. Only investigate a question that changes a repair, safety or acceptance decision. Select one active question; after two nondiscriminating attempts with unchanged evidence fingerprint, reframe or escalate the precise blocker. Immediately escalate separately evidenced urgent risks; no need to complete a full catalog first.
 
-## Research mechanics: OBSERVE → MODEL → HYPOTHESIZE → PLAN → (SAFE) ACT → VERIFY → LEARN → RECOVER
+## Required entry checks
 
-- **OBSERVE:** Ground claims with precise source paths and commit SHA, captured test output, or user-observed text. `main` code does not automatically describe what was running on each device.
-- **MODEL:** Diagram the relevant actors and trust boundaries (Firebase user, Connected Account, registered device, chosen manager, pairing, ACTIVE session, local save, canonical screen, service worker).
-- **HYPOTHESIZE:** Keep alternative explanations and specific falsifiers. Reject any conclusion that merely fits one symptom while contradicting others.
-- **PLAN:** Prefer inspecting source, tests, public GitHub metadata or an isolated harness. Request physical-owner action only if source/simulation cannot answer the question.
-- **ACT:** Research may add or update Markdown/JSON under `investigations/problem-z/` on the dedicated branch. No mutation of game code, prod Firebase, auth settings, service workers, existing saves, open production PRs, or `main` is granted by this protocol.
-- **VERIFY:** Verify citations, provenance and contradiction handling; a static-code finding is S, not a reproduction T/P. Do not claim CI, auth, deployment, physical evidence or bugs are fixed without executing and documenting such proof.
-- **LEARN:** Update evidence, hypothesis standings, research output and open questions. Two failed attempts under unchanged evidence require reframing.
-- **RECOVER:** On missing tools, permission, or evidence: mark `blocked`, document exact blocker, record the safest next step. Never falsify a green result.
+1. Inspect live main, research branch, any newer candidate/ref and actual GitHub/lead decisions; separate pinned historic source from live source, served deployment and unknown physical device runtime.
+2. Read the current foundation, build readiness, research ledger, evidence register, next checkpoint and relevant prior report. Preserve the owner-uploaded historical transfer file as background; its appendices can be stale.
+3. Check live AGENTS, product guards, active POS20 and inherited POS10 proof floor. Never infer approvals from a scheduled handoff, issue/PR existence, previous AI claim or elapsed time.
+4. Declare one focal question, testable alternative, falsifier, exact source/provenance, proof tier, safe action, and completion/no-go conditions.
 
-## Research status transitions
-`planned` → `in-progress` → `research-complete` (or `blocked`), and `research-complete` → `revisit-required` if contradictory new evidence surfaces. Research-complete **does not mean** independently validated, lead approved, or resolved. Ledger tracks review status separately. Evidence gaps are allowed when prominent and specific.
+## Observe → model → test safely → learn → decide
 
-A block may be marked `research-complete` only when:
-- A unique `research-blocks/Z-###_*.md` exists and cites source context at an explicit head.
-- The question is answered to the available evidence level, or demonstrably unanswerable without an exact missing piece.
-- Observed / supported / inferred / unknown are separated.
-- At least one falsifiable follow-up or justified negative finding is preserved.
-- Privacy/billing/security and production isolation are respected.
+**Evidence:** `O`=owner reports or supplied descriptions (not actual screenshots unless bytes available), `S`=exact-revision source, `T`=actually run controlled test with command/fixture/outputs, `P-public`=served asset observation, `P-device`=authorized real device or provider observation, `H`=hypothesis. Public HTTP cannot stand in for actual device. Imported PR run observations are **imported evidence**, not independent Studio re-execution. Distinguish one shared run lineage from independent replication.
 
-## Mandatory end-of-chat checkpoint
-1. Save/update one block report (or blocked work log).
-2. Update `RESEARCH_LEDGER.json` status and history **only after** the artifact exists; do not count a half-investigated section as complete.
-3. Update `EVIDENCE_REGISTER.md` with new positive/negative facts, contradictions and evidence gaps; never paste raw secret/PII.
-4. Update `NEXT_RESEARCH_SESSION.md` with exact next Z-block, its question, prerequisite files, 3–6 specific actions and exit test.
-5. Re-read research files on the branch; compare `main...research-branch` and confirm ONLY investigation paths changed. Do not merge, deploy or create implementation PR without separate Team G Lead authorization.
-6. Give the user a concise recap: block investigated, new evidence, what remains uncertain, links and what next chat will do.
+**Safety:** research may modify only investigation Markdown/JSON on its branch. Disposable source-unchanged local harnesses, synthetic fixture checks and passive public metadata are allowed. No production auth, Firestore, Rules, device registrations, account state, session creation, pairing, reset, save Apply, cache clearing, service-worker rollback, source/game/test edit, merge/deploy/release or credential work without separate competent authorization. Initialization/retry/attach can WRITE and cannot be called 'read-only.' No secrets, tokens, full saves, UIDs, codes or private device/account fingerprints in files.
 
-## Citation and privacy standard
-Use GitHub blob permalinks/line links for S claims, explicit test commands/environment/log snippets for T claims, and authorized physical evidence provenance for P claims. Label screenshots O with description/date and attach **only sanitized descriptions** to this public repository. No account emails, raw tokens, Firebase UIDs, browser fingerprint, device IDs, private invite codes, complete saves or unsupported personal claims.
+**Analysis:** define exact environment/revision, instrument one variable, include matched negative controls, log observed outcomes and artifact hashes, preserve contradictory tests and falsifiers. A model/source-only review is not T/P. Do not treat a healthy CI run as invalidation of another different timing fixture; compare conditions. If an experiment becomes nondiscriminating, stop and articulate the missing oracle.
 
-## Final review trigger
-Completion means the research questions were responsibly investigated, not necessarily that the root cause is known or remediation is ready. The Team G Lead packet is prepared when Z-040 and the [review gate](TEAM_G_REVIEW_GATE.md) are satisfied or explicit unresolved matters are listed for lead adjudication. Creating GitHub Issue #426 did not submit a final reviewed dossier.
+**Decision:** `planned → in-progress → research-complete` only when the declared gate is met; otherwise `blocked`. Source review/experimental design alone never grants independent verification, owner acceptance, repaired status, SSJR/MDP credit or implementation permission. When a supported mechanism has adequate controls and narrow repair options, **stop research** and submit the decision to Team G Lead. Irrelevant catalog units can remain unstarted.
+
+## Mandatory one-file closeout on EVERY session
+
+Before handing off, produce **one self-contained, downloadable Markdown file** with: objective; exact Git refs and other source fingerprints; concrete actions actually performed and commands; resulting `O/S/T/P/H` observations; positive/negative controls; hypothesis support/contradictions; safety/guard checks; changed files/commit IDs; separate review/implementation/release/owner states; precise missing evidence; one next decision or assignment; closure state. Embed every unpublished substantive draft or otherwise include its actual contents; no dead workspace links or phantom commits. A concise message may accompany the file but is not a substitute.
+
+Update the minimum canonical research ledger, evidence register and next checkpoint if new facts actually justify it. Ensure every branch diff path stays within `investigations/problem-z/` and do not use this session protocol to authorize source implementation. An interrupted chat does not auto-save: next session exports the latest honestly recoverable work and marks unknowns.
+
+## Repair, verification and shutdown
+
+A Team G Lead decision is an explicit recorded review; no model or clock automatically takes authority. Team G decides implementation branches/workers, reviews, expected-head publication and release under POS20. Both Nik and Daniel must genuinely verify affected entry/reconnect/transfer paths as required by active SSJR-2.1/MDP, separately from CI/emulator proof. Closing requires actual resolution evidence or explicit owner acceptance of limitations. Final handoff closes #426 only if authorized, archives Studio Z and retires temporary Lens/tasks. Lens is optional, read-only, on-demand and never a dependency.
