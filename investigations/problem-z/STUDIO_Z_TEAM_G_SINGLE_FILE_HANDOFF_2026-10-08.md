@@ -1,47 +1,47 @@
-# Studio Z — complete pre-8 PM Team G handoff (SINGLE TRANSFERABLE FILE)
+# Studio Z — final foundation and optional test kit for incoming Team G Lead
 
-**Prepared for:** Team G Lead, Claude Opus 5.5, Factory G | **Owner / final authority:** Nik | **Date:** October 8, 2026 EDT | **Planned handoff:** 8:00 PM EDT (actual transfer/acceptance NOT verified)
+**Prepared for:** Claude Opus 5.5 / Team G, under Nik's reserved authority | **Date:** October 8, 2026 EDT | **Planned takeover:** 8:00 PM EDT | **Actual receipt or engineering authorization:** NOT EVIDENCED.
 
-## Read this first — what is ready and what is reserved
+**MISSION AND STOP RULE:** A small temporary Factory G Studio to investigate only three reported October 7 game failures (identity/startup, same-career Continue/reconnect, tablet transfers), implement independently justified minimal fixes only after Team G authorization, obtain real Nik/Daniel acceptance, **close issue #426 only when approved**, retire Studio. This is NOT a 32-unit or 40-unit mandatory study or permanent lab; optional Lens is not a dependency.
 
-**Studio Z's research/documentation foundation is ready for the planned takeover.** Do **not** continue expanding the Studio as a permanent research laboratory. It exists solely to resolve three October 7 reported playtest clusters: Google identity/startup; the same career on Continue/reconnect; tablet transfer input/viewport/replay. Research only until the minimum safe repair choice is evidenced, then authorized Factory G implementation, independent proof, real two-manager acceptance, closure. The old 40/32 research catalog is OPTIONAL coverage, not a workload or duration requirement.
+**WHAT IS FINISHED:** Astra's earlier architecture and causal findings restored and integrated; finite charter/ledger; code-anchored possible repair strategies; guardrails; exact closure criteria; one active experiment Z-003/X-01. GPT-6 identified a possible shared failure mechanism: `showdown.js` early latch versus later identity loader, and two potential Continue Career handlers with different authority. A controlled Node source-excerpt event-order model (T-02-MODEL) supports the latch mechanism *in a synthetic test only*. Transfer canonical dataset ID requirement was confirmed through pinned code reading, not on a real tablet. None is physical incident root-cause proof.
 
-**Already done by GPT-6:** Astra's recovered audit, causal model, finite plan and ledger preserved; source-mapped architecture/causal options; minimal conditional implementation plans; code-anchored startup/Continue/transfer entry points; non-destructive safety and owner verification gates; honest evidence register; and one next task. A deterministic **Node source-excerpt** model supported a possible latch/no-retry startup ordering, but full Chromium/browser test was environmentally blocked. The older QA PR #425 experiment is imported evidence only. New static source observations S-20 (two Continue handlers) and S-21 (transfer selector canonical ID) are **not executed tests or physical incident proof**.
+**WHAT CLAUDE MUST DO:** First independently run a real-source browser X-01 three-condition observation: no delay, 400ms delayed `js/optionalModules.js`, and a 400ms delayed `js/app.js` downstream control. Then independently review controls/other causes, approve or reject a minimal startup implementation with explicit lead/owner permissions and inherited test gates. Continue/reconnect/transfer tests and eventual code changes follow only as needed. Genuine physical two-manager acceptance, exact-head publication and closure are separate steps. **The user's instruction is to leave all further checks and application construction for Claude.**
 
-**Explicitly RESERVED for Claude/Team G:** independent full-app X-01 browser comparison; exact-head inherited tests/negative controls; genuine provider/dual-device observation with appropriate owner permission; deciding whether any patch is warranted; implementation branch/worker/patch review; merge/deploy; physical manager acceptance; issue closure. **This session deliberately performed no new code/product/provider checks after the owner's instruction.** No governance rights pass automatically at the specified clock time; lead must acknowledge the packet and obtain actual separate authority.
+**X-01 READY TO EXECUTE BUT UNRUN:** Section 4 contains full source for `tools/x01-local-browser-probe.cjs`. It uses the existing static-server script and Chromium launcher; hard-refuses non-loopback URLs; blocks all external requests, requires exact blob SHA pins for 5 source files, records only coarse state, and writes a local JSON report. See Section 3 for exact command lines. This does NOT validate real Google sign-in, Firebase, SSJR/MDP, any physical devices or production. The harness has **not** been executed or validated against a browser. Running it is reserved for Claude. If the source hash changes or browser navigation is blocked, stop and document, do not bypass controls.
 
-**One next task ONLY:** resolve current source and governance then run unchanged pinned-main X-01 in a permitted isolated browser: normal startup, delay only `js/optionalModules.js` by 400ms, and delay a matched unrelated asset by 400ms. Record page timing, badge, loader/identity/reporter APIs, route and negative control; no real OAuth/Firebase mutation. If independently confirmed, choose a narrowly authorized startup remedy; otherwise falsify/reframe without forcing a patch. Section 3 holds full instructions.
+**GUARDRAILS:** Exactly two private managers Daniel/Nik; popup-only Google browserSession auth, Firestore memory-only, Firebase Spark zero billing, App Check enforcement OFF, exact ACTIVE private session with UID/device binding, Candidate C exclusive destructive Apply with backups; no automated re-pair/deletion/storage-clearing, no unauthorized data reads (initialization may write), no scope expansion. Current main code SHA previously resolved `bc77a0b934c3d43279f27f73a72db21c2db2b4f2`; this export captures research head `3b2752f03f20cadeb282683bf691ab9db4ab047b` BEFORE the export commit. Re-resolve HEAD and POS20/AGENTS/guards upon receipt. Existing QA PR #425 evidence is imported, not independent Studio execution.
 
-**Source:** `nikahanghojjati-oss/fifa17-career-showdown2`, pinned production code main `bc77a0b934c3d43279f27f73a72db21c2db2b4f2`. Research-only branch `investigation/problem-z-z-studio-2026-10-08`, **pre-export head** `18795d61aa70025c43ee42985b8735acc509bff5`. The export commit advances the branch; use current remote ref on receipt. PR #425 remains an unmerged QA lineage and should not be treated as production code. Governing `AGENTS.md`, POS20/POS10, product guards, SSJR/MDP are superior to this packet.
+**TRUTHFUL STATUS:** Z-003 remains in progress, baseline Z-001 is the only historical research-complete unit, independently verified count 0, implementation authorization false, no actual browser/provider/owner test this preparation turn, no gameplay/source modification, no deployment. No lead acknowledgment proven. This file is the complete source snapshot for this checkpoint.
 
-**Truthful status:** 1 baseline research-complete historical unit, 0 independently verified units; Z-003/X-01 remains in progress, physical root cause unverified, implementation authorized = **false**, owner dual-device acceptance = not obtained, team handoff acknowledgment = not obtained, issue #426 still open. No app/gameplay config or code modified.
+**FAST READ:** Section 1 mission → 2 minimal build repair boundaries → 3 exact next action → 4 runnable opt-in probe source. Consult sections 5–16 only when relevant; do not read all of them as mandatory preliminary work.
 
-**Efficient lead reading route:** Read the current executive entry, then sections 1–4; open ledger / evidence / causal model selectively, not all 15 sections by default. This file keeps the rest self-contained so no discovery work must be repeated. Each new session must close with one complete transferable Markdown file.
+## Manifest — exact GitHub text snapshots before this export
 
-## Embedded exact-source manifest — branch `18795d61aa70025c43ee42985b8735acc509bff5`
-
-| Section | File in investigation branch | Git blob SHA |
+| Section | Source file | Git blob SHA |
 |---|---|---|
 | 1 | `investigations/problem-z/STUDIO_Z_FOUNDATION_AND_LEAD_HANDOFF_2026-10-08.md` | `3564b0c00275c83e0f024cf5f8261fe8a7d67206` |
 | 2 | `investigations/problem-z/STUDIO_Z_BUILD_READINESS.md` | `ec26549684fd64ccbe7d1a7a7316eacf3e9c9de1` |
-| 3 | `investigations/problem-z/NEXT_RESEARCH_SESSION.md` | `1a3ceccf21c054378218ab5db7b44f96676c5227` |
-| 4 | `investigations/problem-z/research-blocks/Z-003_STARTUP_SOURCE_EXCERPT_MODEL_2026-10-08.md` | `f7f1f0bc535ec97c9c3aa0b4f41342366639fd89` |
-| 5 | `investigations/problem-z/RESEARCH_LEDGER.json` | `e83534984a57147d3f618fb28a783fa679451153` |
-| 6 | `investigations/problem-z/EVIDENCE_REGISTER.md` | `8cda2f203db4adf96b832d2364b0cdd286fd79b4` |
-| 7 | `investigations/problem-z/CAUSAL_MODEL.md` | `7553a29d4676751c34067e0b909ed28d128ccb2b` |
-| 8 | `investigations/problem-z/ARCHITECTURE_AUDIT.md` | `3720326972b774fb95422f39bcf73a724c6cddaf` |
-| 9 | `investigations/problem-z/RESEARCH_PROGRAM.md` | `0246cce3b291d100f889c213400ea8fc1c1a3245` |
-| 10 | `investigations/problem-z/RESEARCH_PROTOCOL.md` | `8b979ae0e711ef3385fdb9b07ecbcf4ee55e479b` |
-| 11 | `investigations/problem-z/TEAM_G_REVIEW_GATE.md` | `cb78fec2a189ca5faec2edcb1321a27ca2817f09` |
-| 12 | `investigations/problem-z/README.md` | `9ffa0934bb245660b6ce4b938922ccac65f50443` |
-| 13 | `investigations/problem-z/research-blocks/Z-001_INCIDENT_BASELINE.md` | `8236fd1018c05fa51b6e8cdc41ff320fdb316a80` |
-| 14 | `investigations/problem-z/Z_STUDIO_TRIAGE_PROPOSAL.md` | `411893b31837109c7259b7dbeca9d73b51e57f0a` |
-| 15 | `investigations/problem-z/BLOCK_TEMPLATE.md` | `3d0c94aec2fe649462c4ea75e83a5b6ba16a5f01` |
+| 3 | `investigations/problem-z/NEXT_RESEARCH_SESSION.md` | `2a98ea6e38c63ed6d27d7e28fd199995632f0eb6` |
+| 4 | `investigations/problem-z/tools/x01-local-browser-probe.cjs` | `426e11ff9159e3c9bcdda61fba39c393447cf195` |
+| 5 | `investigations/problem-z/research-blocks/Z-003_STARTUP_SOURCE_EXCERPT_MODEL_2026-10-08.md` | `f7f1f0bc535ec97c9c3aa0b4f41342366639fd89` |
+| 6 | `investigations/problem-z/RESEARCH_LEDGER.json` | `1e0cb856499d5023ea914d76d8561169baf0e7c4` |
+| 7 | `investigations/problem-z/EVIDENCE_REGISTER.md` | `8cda2f203db4adf96b832d2364b0cdd286fd79b4` |
+| 8 | `investigations/problem-z/CAUSAL_MODEL.md` | `7553a29d4676751c34067e0b909ed28d128ccb2b` |
+| 9 | `investigations/problem-z/ARCHITECTURE_AUDIT.md` | `3720326972b774fb95422f39bcf73a724c6cddaf` |
+| 10 | `investigations/problem-z/RESEARCH_PROGRAM.md` | `0246cce3b291d100f889c213400ea8fc1c1a3245` |
+| 11 | `investigations/problem-z/RESEARCH_PROTOCOL.md` | `8b979ae0e711ef3385fdb9b07ecbcf4ee55e479b` |
+| 12 | `investigations/problem-z/TEAM_G_REVIEW_GATE.md` | `cb78fec2a189ca5faec2edcb1321a27ca2817f09` |
+| 13 | `investigations/problem-z/README.md` | `7d34c52621b6e55439f52e67e7a23d7a821e7a71` |
+| 14 | `investigations/problem-z/research-blocks/Z-001_INCIDENT_BASELINE.md` | `8236fd1018c05fa51b6e8cdc41ff320fdb316a80` |
+| 15 | `investigations/problem-z/Z_STUDIO_TRIAGE_PROPOSAL.md` | `411893b31837109c7259b7dbeca9d73b51e57f0a` |
+| 16 | `investigations/problem-z/BLOCK_TEMPLATE.md` | `3d0c94aec2fe649462c4ea75e83a5b6ba16a5f01` |
 
 ---
+
 ## SECTION 1 — `investigations/problem-z/STUDIO_Z_FOUNDATION_AND_LEAD_HANDOFF_2026-10-08.md`
 
-*Blob SHA `3564b0c00275c83e0f024cf5f8261fe8a7d67206`; recovered and newly authored documentation retains its own evidence-tier limitations.*
+**GitHub blob:** `3564b0c00275c83e0f024cf5f8261fe8a7d67206` on research branch `3b2752f03f20cadeb282683bf691ab9db4ab047b`. **Evidence rules and authority limits from the source text apply.**
 
 ~~~~~~~~markdown
 # Studio Z — finite foundation and Team G build handoff
@@ -156,7 +156,7 @@ Default to the existing ledger/checkpoint as source of truth and an **on-demand 
 
 ## SECTION 2 — `investigations/problem-z/STUDIO_Z_BUILD_READINESS.md`
 
-*Blob SHA `ec26549684fd64ccbe7d1a7a7316eacf3e9c9de1`; recovered and newly authored documentation retains its own evidence-tier limitations.*
+**GitHub blob:** `ec26549684fd64ccbe7d1a7a7316eacf3e9c9de1` on research branch `3b2752f03f20cadeb282683bf691ab9db4ab047b`. **Evidence rules and authority limits from the source text apply.**
 
 ~~~~~~~~markdown
 # Studio Z — build-ready incident work packages (decision-only, no implementation)
@@ -294,7 +294,7 @@ This is **preparation, not implementation or test credit**. The following findin
 
 ## SECTION 3 — `investigations/problem-z/NEXT_RESEARCH_SESSION.md`
 
-*Blob SHA `1a3ceccf21c054378218ab5db7b44f96676c5227`; recovered and newly authored documentation retains its own evidence-tier limitations.*
+**GitHub blob:** `2a98ea6e38c63ed6d27d7e28fd199995632f0eb6` on research branch `3b2752f03f20cadeb282683bf691ab9db4ab047b`. **Evidence rules and authority limits from the source text apply.**
 
 ~~~~~~~~markdown
 # Studio Z — selected next experiment and precise blocker
@@ -308,6 +308,27 @@ This is **preparation, not implementation or test credit**. The following findin
 Pinned main `bc77a0b934c3d43279f27f73a72db21c2db2b4f2` runs `showdown.js` before `optionalModules.js` and `app.js`. The excerpted `ensureOnlinePlayerIdentitySurface` and `initializeOnlinePlayerEntry` functions were run unchanged in a local deterministic Node VM with controlled stand-ins. When the startup timer ran before loader readiness, identity remained absent and a later repeated invocation did not retry because the latch had already been set. Ready-loader and unrelated-latency controls loaded the modeled identity. **This is T-02-MODEL, not proof of real browser ordering or the October 7 device incident.**
 
 Full Chromium X-01 could not run locally: all synthetic/local browser navigations failed at the environment boundary with `net::ERR_BLOCKED_BY_ADMINISTRATOR`; direct git clone failed DNS. **No new physical/product browser test has been passed and no root cause is verified.** Existing PR #425 remains imported support only. The model runner/log digests and exact limitations are in the new report.
+
+## Claude-ready local probe (PREPARED, NOT EXECUTED)
+
+A small zero-auth [research-only browser probe](tools/x01-local-browser-probe.cjs) is staged under the **investigation directory**, not in the production game or official test suite. It uses the existing test server and Chromium resolver, refuses non-loopback URLs, blocks **all** outbound non-local requests, isolates three new disposable browser contexts, and compares baseline vs a 400ms delay of `js/optionalModules.js` vs the same delay to `js/app.js` (a script sequenced **after** optionalModules). It also refuses to start unless five pinned game files have the exact expected Git blob digests. It writes coarse identity state, badge existence, script timing and controlled request counts to a local temporary JSON file, not user identities or codes. This is a **prepared unexecuted test artifact** and must not be credited as evidence or a passed test.
+
+After accepting actual Team G research execution responsibility, Claude may run in an isolated pinned-source checkout with current Node `>=24` and installed devDependencies:
+
+```bash
+# Terminal A, disposable local checkout, no production credentials:
+npm run serve:test
+
+# Terminal B:
+CMS_CHROMIUM_MULTI_CONTEXT=1 node investigations/problem-z/tools/x01-local-browser-probe.cjs
+```
+
+The script default output goes to OS temp, prefixed `studio-z-x01-`. Environment variable `CMS_Z_X01_OUTPUT` can override. If local navigation is still blocked, record the exact environment blocker and **stop**; do not route around administrator policy. If the source pin fails, re-resolve current authority/source and prepare a new explicitly versioned fixture before running. Do not force source hashes.
+
+**Limits:** because Firebase and Google resources are blocked, the probe can discriminate *startup module/identity surface readiness*, **not** Google popup success, Firebase state, real sign-in, or physical Run C. Failure to sign in is expected under this isolation and is not a product defect. The 400ms app-script control is a downstream deferred-script timing control, not a perfect asset-load control; record this limitation. If deeper sign-in flow is justified, separately use the repo's existing `tests/browser/two-manager-browser-journey.cjs` emulator-only fixture under Team G's normal test approval and exact-head POS20 gates. That fixture can perform emulator writes and must not be treated as a pure read. Do not point it at production.
+
+**Operator proof ledger:** exact Git HEAD, five verified blob SHAs, command, environment, case reports, negative control, failure observations, fixture diff/no product diff, external request blocking, and a separate reviewer. Do not award a browser result based only on the script existing or command being documented.
+
 
 ## The single next task
 
@@ -328,9 +349,197 @@ Independently test H-03 with a **permitted isolated full product checkout and br
 
 ---
 
-## SECTION 4 — `investigations/problem-z/research-blocks/Z-003_STARTUP_SOURCE_EXCERPT_MODEL_2026-10-08.md`
+## SECTION 4 — `investigations/problem-z/tools/x01-local-browser-probe.cjs`
 
-*Blob SHA `f7f1f0bc535ec97c9c3aa0b4f41342366639fd89`; recovered and newly authored documentation retains its own evidence-tier limitations.*
+**GitHub blob:** `426e11ff9159e3c9bcdda61fba39c393447cf195` on research branch `3b2752f03f20cadeb282683bf691ab9db4ab047b`. **Evidence rules and authority limits from the source text apply.**
+
+~~~~~~~~javascript
+"use strict";
+// Studio Z research-only X-01 browser probe. NOT a game fix or a production test.
+// Prepared 2026-10-08 for Team G Lead; intentionally NOT EXECUTED by the author.
+// Run ONLY against a locally served, disposable, unchanged repository checkout.
+// Terminal 1: npm run serve:test
+// Terminal 2: CMS_CHROMIUM_MULTI_CONTEXT=1 node investigations/problem-z/tools/x01-local-browser-probe.cjs
+// Prerequisites: Node >=24, npm dev dependencies installed, permitted local Chromium.
+// Outputs synthetic/non-sensitive startup flags only. No OAuth, Firebase or external requests.
+const { createHash } = require("node:crypto");
+const fs = require("node:fs");
+const os = require("node:os");
+const path = require("node:path");
+const { chromium } = require("playwright");
+const { resolveChromiumRuntime } = require("../../../tests/support/chromium-runtime.cjs");
+
+const source = process.env.CMS_BASE_URL || "http://127.0.0.1:4173/";
+const base = new URL(source);
+const permittedHost = base.hostname === "127.0.0.1" || base.hostname === "localhost";
+if (base.protocol !== "http:" || !permittedHost || base.pathname !== "/" ||
+    base.username || base.password || base.search || base.hash) {
+    throw new Error("X-01 refuses non-loopback, non-root or authenticated URLs.");
+}
+// Fail closed on a mixed/new source revision, rather than misattributing timing to pinned main.
+// Git blob SHA-1 is computed from actual working-tree bytes; no repo mutation is required.
+const root = path.resolve(__dirname, "../../..");
+const expectedBlobs = Object.freeze({
+    "index.html": "85bcd2f1d7677f5c1979940e426e741a4ed5821b",
+    "js/showdown.js": "b1a09367635c0d9a5b72db8e4e312f83ba6ed26f",
+    "js/optionalModules.js": "f3fc6c751ef2c4c3a779682c05b3c23c458ffe08",
+    "js/app.js": "5b3627d2a1727cf1c621fbcdf9ea98718cea7952",
+    "js/onlinePlayerIdentity.js": "24f57222575b3bf9018ad795d9dabcf6003717eb"
+});
+const blobDigests = {};
+for (const [relative, expected] of Object.entries(expectedBlobs)) {
+    const bytes = fs.readFileSync(path.join(root, relative));
+    const sha = createHash("sha1")
+        .update(Buffer.from("blob " + bytes.length + "\0")).update(bytes).digest("hex");
+    if (sha !== expected) throw new Error(
+        "X-01 source pin mismatch for " + relative + " (operator must re-resolve source; no test run)."
+    );
+    blobDigests[relative] = sha;
+}
+const delayMs = 400;
+const scenarios = [
+    { id: "baseline", target: null },
+    { id: "delay-optional-module", target: "/js/optionalModules.js" },
+    { id: "delay-unrelated-app-script", target: "/js/app.js" }
+];
+const output = process.env.CMS_Z_X01_OUTPUT ||
+    path.join(os.tmpdir(), "studio-z-x01-" + Date.now() + ".json");
+
+async function sample(page) {
+    return page.evaluate(() => {
+        const identity = window.CareerModeOnlinePlayerIdentity;
+        let state = null;
+        try { state = identity && identity.getState && identity.getState(); }
+        catch (_) { /* Preserve only the fact that identity state is unavailable. */ }
+        const relevant = performance.getEntriesByType("resource")
+            .filter(e => /\/js\/(showdown|optionalModules|app|onlinePlayerIdentity)\.js/.test(e.name))
+            .map(e => ({
+                path: new URL(e.name).pathname,
+                fetchStartMs: Math.round(e.fetchStart),
+                responseEndMs: Math.round(e.responseEnd),
+                durationMs: Math.round(e.duration)
+            }));
+        return {
+            clockMs: Math.round(performance.now()),
+            readyState: document.readyState,
+            startupLatch: window.__cmsOnlinePlayerEntryBootstrap === true,
+            loaderDefined: typeof window.loadRuntimeScript === "function",
+            identityModuleAvailable: Boolean(identity),
+            identityInitialized: state ? state.initialized === true : null,
+            identityStatus: state ? String(state.status || "unknown") : null,
+            identityBadgePresent: Boolean(document.getElementById("onlinePlayerIdentityBadge")),
+            identityOverlayPresent: Boolean(document.getElementById("onlinePlayerIdentityOverlay")),
+            currentScreen: typeof window.getActiveScreenName === "function"
+                ? String(window.getActiveScreenName() || "") : null,
+            resources: relevant
+        };
+    });
+}
+
+async function runOne(browser, scenario) {
+    const context = await browser.newContext({
+        viewport: { width: 1200, height: 800 },
+        serviceWorkers: "block",
+        acceptDownloads: false
+    });
+    const entry = {
+        id: scenario.id,
+        delayTarget: scenario.target,
+        delayMs: scenario.target ? delayMs : 0,
+        sameOriginOnly: true,
+        blockedExternalRequestCount: 0,
+        expectedDelayIntercepts: 0,
+        pageErrorCount: 0,
+        checkpoints: [],
+        navigationError: null
+    };
+    try {
+        await context.route("**/*", async route => {
+            let u;
+            try { u = new URL(route.request().url()); }
+            catch (_) { return route.abort(); }
+            if (u.origin !== base.origin) {
+                entry.blockedExternalRequestCount += 1;
+                return route.abort();
+            }
+            if (scenario.target && u.pathname === scenario.target) {
+                entry.expectedDelayIntercepts += 1;
+                await new Promise(resolve => setTimeout(resolve, delayMs));
+            }
+            return route.continue();
+        });
+        const page = await context.newPage();
+        page.on("pageerror", () => { entry.pageErrorCount += 1; });
+        await page.addInitScript(() => {
+            window.__studioZReadinessTrace = [];
+            const trace = label => window.__studioZReadinessTrace.push({
+                event: label,
+                atMs: Math.round(performance.now()),
+                readyState: document.readyState,
+                loaderDefined: typeof window.loadRuntimeScript === "function",
+                latch: window.__cmsOnlinePlayerEntryBootstrap === true
+            });
+            document.addEventListener("readystatechange", () => trace("readystatechange"));
+            document.addEventListener("DOMContentLoaded", () => trace("domcontentloaded"));
+        });
+        await page.goto(base.href, { waitUntil: "domcontentloaded", timeout: 25000 });
+        entry.checkpoints.push(await sample(page));
+        await page.waitForTimeout(200);
+        entry.checkpoints.push(await sample(page));
+        await page.waitForTimeout(1400);
+        entry.checkpoints.push(await sample(page));
+        entry.lifecycle = await page.evaluate(() => window.__studioZReadinessTrace || []);
+    } catch (error) {
+        entry.navigationError = error && error.name ? String(error.name) : "UnknownError";
+        entry.navigationFailed = true;
+    } finally {
+        await context.close();
+    }
+    return entry;
+}
+
+(async () => {
+    const runtime = await resolveChromiumRuntime();
+    const browser = await chromium.launch({
+        executablePath: runtime.executablePath,
+        headless: true,
+        args: runtime.args
+    });
+    const results = [];
+    try {
+        for (const scenario of scenarios) results.push(await runOne(browser, scenario));
+    } finally {
+        await browser.close();
+    }
+    const report = {
+        title: "Studio Z X-01 three-condition LOCAL startup timing observation",
+        testExecutionOwner: "Team G operator, not the research author",
+        executedAt: new Date().toISOString(),
+        fixedDelayMs: delayMs,
+        localOrigin: base.origin,
+        pinnedMainRevision: "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+        checkedWorkingTreeSourceBlobs: blobDigests,
+        pinnedSourceVerification: "Five source blob hashes checked on execution; operator must also record git HEAD and clean-tree status separately",
+        interpretationLimit: "External runtime resources intentionally blocked; no OAuth/provider/physical device proof.",
+        cases: results
+    };
+    fs.mkdirSync(path.dirname(output), { recursive: true });
+    fs.writeFileSync(output, JSON.stringify(report, null, 2) + "\n", { mode: 0o600 });
+    process.stdout.write("X-01 observational report saved: " + output + "\n");
+    for (const item of results) process.stdout.write(item.id + ": " +
+        (item.navigationError || "observations captured") + "\n");
+    if (results.some(item => item.navigationError)) process.exitCode = 2;
+})().catch(error => {
+    console.error("X-01 local probe could not execute:", error && error.name || "Error");
+    process.exitCode = 1;
+});
+~~~~~~~~
+
+---
+
+## SECTION 5 — `investigations/problem-z/research-blocks/Z-003_STARTUP_SOURCE_EXCERPT_MODEL_2026-10-08.md`
+
+**GitHub blob:** `f7f1f0bc535ec97c9c3aa0b4f41342366639fd89` on research branch `3b2752f03f20cadeb282683bf691ab9db4ab047b`. **Evidence rules and authority limits from the source text apply.**
 
 ~~~~~~~~markdown
 # Z-003 / X-01 — source-excerpt event-order model (partial, NOT full-app reproduction)
@@ -388,9 +597,9 @@ No extra manager, real OAuth, pairing, session, Firebase service, save, producti
 
 ---
 
-## SECTION 5 — `investigations/problem-z/RESEARCH_LEDGER.json`
+## SECTION 6 — `investigations/problem-z/RESEARCH_LEDGER.json`
 
-*Blob SHA `e83534984a57147d3f618fb28a783fa679451153`; recovered and newly authored documentation retains its own evidence-tier limitations.*
+**GitHub blob:** `1e0cb856499d5023ea914d76d8561169baf0e7c4` on research branch `3b2752f03f20cadeb282683bf691ab9db4ab047b`. **Evidence rules and authority limits from the source text apply.**
 
 ~~~~~~~~json
 {
@@ -1628,6 +1837,13 @@ No extra manager, real OAuth, pairing, session, Firebase service, save, producti
       "outcome": "implementation-planning-only",
       "artifact": "STUDIO_Z_BUILD_READINESS.md",
       "note": "Prepared exact pinned-code repair boundaries and owner-check reservations for Team G. Static S-20/S-21 only; no test, implementation, new block completion or additional authority."
+    },
+    {
+      "date": "2026-10-08",
+      "block": null,
+      "outcome": "research-instrument-prepared-not-run",
+      "artifact": "tools/x01-local-browser-probe.cjs",
+      "note": "Optional local-only three-condition browser observation scaffold committed for Claude; not executed; all real X-01 checks remain reserved."
     }
   ],
   "roadmapRevision": 2,
@@ -2379,7 +2595,9 @@ No extra manager, real OAuth, pairing, session, Firebase service, save, producti
     "lens": null,
     "foundation": "STUDIO_Z_FOUNDATION_AND_LEAD_HANDOFF_2026-10-08.md",
     "readiness": "STUDIO_Z_BUILD_READINESS.md",
-    "sessionExport": "STUDIO_Z_TEAM_G_SINGLE_FILE_HANDOFF_2026-10-08.md"
+    "sessionExport": "STUDIO_Z_TEAM_G_SINGLE_FILE_HANDOFF_2026-10-08.md",
+    "x01LocalProbe": "tools/x01-local-browser-probe.cjs",
+    "x01LocalProbeStatus": "Prepared unexecuted on research branch; five expected application blob SHA pin checks enforced when run; blocks external requests; gives no authentication/provider proof."
   },
   "exportProvenance": {
     "source": "Owner-uploaded STUDIO_Z_HANDOFF_2026-10-08(1).md historical snapshot",
@@ -2393,9 +2611,9 @@ No extra manager, real OAuth, pairing, session, Firebase service, save, producti
 
 ---
 
-## SECTION 6 — `investigations/problem-z/EVIDENCE_REGISTER.md`
+## SECTION 7 — `investigations/problem-z/EVIDENCE_REGISTER.md`
 
-*Blob SHA `8cda2f203db4adf96b832d2364b0cdd286fd79b4`; recovered and newly authored documentation retains its own evidence-tier limitations.*
+**GitHub blob:** `8cda2f203db4adf96b832d2364b0cdd286fd79b4` on research branch `3b2752f03f20cadeb282683bf691ab9db4ab047b`. **Evidence rules and authority limits from the source text apply.**
 
 ~~~~~~~~markdown
 # Problem Z — Evidence register
@@ -2483,9 +2701,9 @@ A locally attempted Chromium/Playwright browser synthetic trial was **blocked be
 
 ---
 
-## SECTION 7 — `investigations/problem-z/CAUSAL_MODEL.md`
+## SECTION 8 — `investigations/problem-z/CAUSAL_MODEL.md`
 
-*Blob SHA `7553a29d4676751c34067e0b909ed28d128ccb2b`; recovered and newly authored documentation retains its own evidence-tier limitations.*
+**GitHub blob:** `7553a29d4676751c34067e0b909ed28d128ccb2b` on research branch `3b2752f03f20cadeb282683bf691ab9db4ab047b`. **Evidence rules and authority limits from the source text apply.**
 
 ~~~~~~~~markdown
 # Studio Z — Causal model and discriminating experiments
@@ -2586,9 +2804,9 @@ Select the narrow experiment needed for the current decision. Broader regression
 
 ---
 
-## SECTION 8 — `investigations/problem-z/ARCHITECTURE_AUDIT.md`
+## SECTION 9 — `investigations/problem-z/ARCHITECTURE_AUDIT.md`
 
-*Blob SHA `3720326972b774fb95422f39bcf73a724c6cddaf`; recovered and newly authored documentation retains its own evidence-tier limitations.*
+**GitHub blob:** `3720326972b774fb95422f39bcf73a724c6cddaf` on research branch `3b2752f03f20cadeb282683bf691ab9db4ab047b`. **Evidence rules and authority limits from the source text apply.**
 
 ~~~~~~~~markdown
 # Studio Z — Independent architecture audit and risk register
@@ -2722,9 +2940,9 @@ This is a self-review of the design, not ten successful product tests. No indepe
 
 ---
 
-## SECTION 9 — `investigations/problem-z/RESEARCH_PROGRAM.md`
+## SECTION 10 — `investigations/problem-z/RESEARCH_PROGRAM.md`
 
-*Blob SHA `0246cce3b291d100f889c213400ea8fc1c1a3245`; recovered and newly authored documentation retains its own evidence-tier limitations.*
+**GitHub blob:** `0246cce3b291d100f889c213400ea8fc1c1a3245` on research branch `3b2752f03f20cadeb282683bf691ab9db4ab047b`. **Evidence rules and authority limits from the source text apply.**
 
 ~~~~~~~~markdown
 # Studio Z — Research program, revision 2
@@ -2848,9 +3066,9 @@ The October 8 leadership transfer package may be ready while the investigation i
 
 ---
 
-## SECTION 10 — `investigations/problem-z/RESEARCH_PROTOCOL.md`
+## SECTION 11 — `investigations/problem-z/RESEARCH_PROTOCOL.md`
 
-*Blob SHA `8b979ae0e711ef3385fdb9b07ecbcf4ee55e479b`; recovered and newly authored documentation retains its own evidence-tier limitations.*
+**GitHub blob:** `8b979ae0e711ef3385fdb9b07ecbcf4ee55e479b` on research branch `3b2752f03f20cadeb282683bf691ab9db4ab047b`. **Evidence rules and authority limits from the source text apply.**
 
 ~~~~~~~~markdown
 # Studio Z — finite evidence-first session protocol
@@ -2891,9 +3109,9 @@ A Team G Lead decision is an explicit recorded review; no model or clock automat
 
 ---
 
-## SECTION 11 — `investigations/problem-z/TEAM_G_REVIEW_GATE.md`
+## SECTION 12 — `investigations/problem-z/TEAM_G_REVIEW_GATE.md`
 
-*Blob SHA `cb78fec2a189ca5faec2edcb1321a27ca2817f09`; recovered and newly authored documentation retains its own evidence-tier limitations.*
+**GitHub blob:** `cb78fec2a189ca5faec2edcb1321a27ca2817f09` on research branch `3b2752f03f20cadeb282683bf691ab9db4ab047b`. **Evidence rules and authority limits from the source text apply.**
 
 ~~~~~~~~markdown
 # Studio Z — Team G Lead review and finite incident closure gate
@@ -2944,9 +3162,9 @@ First choose: **Is X-01 independently confirmed sufficiently to authorize one mi
 
 ---
 
-## SECTION 12 — `investigations/problem-z/README.md`
+## SECTION 13 — `investigations/problem-z/README.md`
 
-*Blob SHA `9ffa0934bb245660b6ce4b938922ccac65f50443`; recovered and newly authored documentation retains its own evidence-tier limitations.*
+**GitHub blob:** `7d34c52621b6e55439f52e67e7a23d7a821e7a71` on research branch `3b2752f03f20cadeb282683bf691ab9db4ab047b`. **Evidence rules and authority limits from the source text apply.**
 
 ~~~~~~~~markdown
 # Studio Z / Problem Z — finite Factory G incident foundation
@@ -2956,6 +3174,8 @@ First choose: **Is X-01 independently confirmed sufficiently to authorize one mi
 **Single-file current transfer:** [STUDIO_Z_TEAM_G_SINGLE_FILE_HANDOFF_2026-10-08.md](STUDIO_Z_TEAM_G_SINGLE_FILE_HANDOFF_2026-10-08.md) — portable research/documentation snapshot for the receiving Team G Lead (Claude Opus 5.5). It does **not** grant build authority.
 
 **Working entry:** [Foundation and lead charter](STUDIO_Z_FOUNDATION_AND_LEAD_HANDOFF_2026-10-08.md) → [three minimal conditional build slices + proof](STUDIO_Z_BUILD_READINESS.md) → [one next experiment: Z-003 / X-01](NEXT_RESEARCH_SESSION.md). Read live POS20/AGENTS/guards before any action.
+
+**Prepared, unexecuted:** [Three-condition local browser probe](tools/x01-local-browser-probe.cjs) and [exact run commands, SHA pins and limitations](NEXT_RESEARCH_SESSION.md#claude-ready-local-probe-prepared-not-executed) are staged for Claude; no tests are being run or credited by the foundation author. This is a disposable research probe, not a new Studio platform or game code change.
 
 **New narrow result:** [Z-003 deterministic source-excerpt model](research-blocks/Z-003_STARTUP_SOURCE_EXCERPT_MODEL_2026-10-08.md) supports the loader-before-start versus loader-after-start latch mechanism in an isolated Node VM. Full Chromium X-01 was environmentally blocked and remains the single next research gate. This does **not** establish the physical incident cause or a full-browser result.
 
@@ -2972,9 +3192,9 @@ Recovered Astra text is preserved from the owner's prior full handoff and **not 
 
 ---
 
-## SECTION 13 — `investigations/problem-z/research-blocks/Z-001_INCIDENT_BASELINE.md`
+## SECTION 14 — `investigations/problem-z/research-blocks/Z-001_INCIDENT_BASELINE.md`
 
-*Blob SHA `8236fd1018c05fa51b6e8cdc41ff320fdb316a80`; recovered and newly authored documentation retains its own evidence-tier limitations.*
+**GitHub blob:** `8236fd1018c05fa51b6e8cdc41ff320fdb316a80` on research branch `3b2752f03f20cadeb282683bf691ab9db4ab047b`. **Evidence rules and authority limits from the source text apply.**
 
 ~~~~~~~~markdown
 # Z-001 — Physical incident baseline and source-supported boundaries
@@ -3043,9 +3263,9 @@ The inspected [index asset revision](https://github.com/nikahanghojjati-oss/fifa
 
 ---
 
-## SECTION 14 — `investigations/problem-z/Z_STUDIO_TRIAGE_PROPOSAL.md`
+## SECTION 15 — `investigations/problem-z/Z_STUDIO_TRIAGE_PROPOSAL.md`
 
-*Blob SHA `411893b31837109c7259b7dbeca9d73b51e57f0a`; recovered and newly authored documentation retains its own evidence-tier limitations.*
+**GitHub blob:** `411893b31837109c7259b7dbeca9d73b51e57f0a` on research branch `3b2752f03f20cadeb282683bf691ab9db4ab047b`. **Evidence rules and authority limits from the source text apply.**
 
 ~~~~~~~~markdown
 # Problem Z — Critical two-manager access and continuity investigation
@@ -3180,9 +3400,9 @@ The inspected [index asset revision](https://github.com/nikahanghojjati-oss/fifa
 
 ---
 
-## SECTION 15 — `investigations/problem-z/BLOCK_TEMPLATE.md`
+## SECTION 16 — `investigations/problem-z/BLOCK_TEMPLATE.md`
 
-*Blob SHA `3d0c94aec2fe649462c4ea75e83a5b6ba16a5f01`; recovered and newly authored documentation retains its own evidence-tier limitations.*
+**GitHub blob:** `3d0c94aec2fe649462c4ea75e83a5b6ba16a5f01` on research branch `3b2752f03f20cadeb282683bf691ab9db4ab047b`. **Evidence rules and authority limits from the source text apply.**
 
 ~~~~~~~~markdown
 # Z-### — [Single research question]
@@ -3234,8 +3454,8 @@ The inspected [index asset revision](https://github.com/nikahanghojjati-oss/fifa
 ~~~~~~~~
 
 ---
-## STOP RULE AND LEAD SIGN-OFF
+## TRANSFER COMPLETION / NO AUTONOMOUS HANDOVER
 
-The Studio has **not** built or fixed the game. Before any code: lead confirms current POS20 and owner's approval for a specific implementation slice. Before publication: independent review, exact-head build and safety proofs. Before closure: Nik and Daniel's separately evidenced required full-screen, saved-career and affected physical tablet behavior. If evidence does not support a patch, do not invent one. Close the temporary Studio and retire Lens/temporary infrastructure after accepted resolution. Every session outputs one actual self-contained file rather than assuming an interrupted chat persisted the work.
-
-**Handoff status at the time this file was prepared: prepared, not automatically delivered or accepted.**
+- File created, code scaffold **unexecuted**; no product checks except earlier narrowly described source-excerpt Node model. A prepared runner is not a passed check.
+- Team G lead must actually acknowledge receiving this package and explicitly accept the bounded assignment. 8 PM is a requested leadership transition, not an automatic credential, merge or session handover.
+- The next owner-facing checkpoint should be one new self-contained transferable Markdown file at the end of the next session. Do not expand the project's duration without decision-relevant evidence.
