@@ -6,6 +6,7 @@
 // Terminal 2: CMS_CHROMIUM_MULTI_CONTEXT=1 node investigations/problem-z/tools/x01-local-browser-probe.cjs
 // Prerequisites: Node >=24, npm dev dependencies installed, permitted local Chromium.
 // Outputs synthetic/non-sensitive startup flags only. No OAuth, Firebase or external requests.
+const { createHash } = require("node:crypto");
 const fs = require("node:fs");
 const os = require("node:os");
 const path = require("node:path");
@@ -18,6 +19,26 @@ const permittedHost = base.hostname === "127.0.0.1" || base.hostname === "localh
 if (base.protocol !== "http:" || !permittedHost || base.pathname !== "/" ||
     base.username || base.password || base.search || base.hash) {
     throw new Error("X-01 refuses non-loopback, non-root or authenticated URLs.");
+}
+// Fail closed on a mixed/new source revision, rather than misattributing timing to pinned main.
+// Git blob SHA-1 is computed from actual working-tree bytes; no repo mutation is required.
+const root = path.resolve(__dirname, "../../..");
+const expectedBlobs = Object.freeze({
+    "index.html": "85bcd2f1d7677f5c1979940e426e741a4ed5821b",
+    "js/showdown.js": "b1a09367635c0d9a5b72db8e4e312f83ba6ed26f",
+    "js/optionalModules.js": "f3fc6c751ef2c4c3a779682c05b3c23c458ffe08",
+    "js/app.js": "5b3627d2a1727cf1c621fbcdf9ea98718cea7952",
+    "js/onlinePlayerIdentity.js": "24f57222575b3bf9018ad795d9dabcf6003717eb"
+});
+const blobDigests = {};
+for (const [relative, expected] of Object.entries(expectedBlobs)) {
+    const bytes = fs.readFileSync(path.join(root, relative));
+    const sha = createHash("sha1")
+        .update(Buffer.from("blob " + bytes.length + "\0")).update(bytes).digest("hex");
+    if (sha !== expected) throw new Error(
+        "X-01 source pin mismatch for " + relative + " (operator must re-resolve source; no test run)."
+    );
+    blobDigests[relative] = sha;
 }
 const delayMs = 400;
 const scenarios = [
@@ -140,7 +161,9 @@ async function runOne(browser, scenario) {
         executedAt: new Date().toISOString(),
         fixedDelayMs: delayMs,
         localOrigin: base.origin,
-        pinnedSourceVerification: "OPERATOR MUST SUPPLY exact current git SHA separately",
+        pinnedMainRevision: "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+        checkedWorkingTreeSourceBlobs: blobDigests,
+        pinnedSourceVerification: "Five source blob hashes checked on execution; operator must also record git HEAD and clean-tree status separately",
         interpretationLimit: "External runtime resources intentionally blocked; no OAuth/provider/physical device proof.",
         cases: results
     };
