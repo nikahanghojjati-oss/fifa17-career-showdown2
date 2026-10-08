@@ -1,40 +1,42 @@
-# STUDIO Z — ONE TRANSFERABLE TEAM G FOUNDATION AND RESEARCH HANDOFF
+# Studio Z — current single-file Factory G research foundation and handoff
 
-**Snapshot date:** 2026-10-08 EDT. **Owner:** Nik. **Receiving authority requested:** Team G Lead, Claude Opus 5.5, Factory G, at planned 8:00 PM EDT. **Actual receipt/approval:** NOT EVIDENCED. **Application code implementation:** NOT AUTHORIZED in this packet.
+**Prepared:** 2026-10-08 EDT | **Owner:** Nik | **Incoming Team G Lead:** Claude Opus 5.5 (planned 8 PM EDT takeover, actual receipt/acceptance unverified).
 
-**Purpose:** one self-contained portable file for Claude. It contains all currently committed Studio Z research, grounded engineering specifications, exact provenance, acceptance gates, and one next assignment. Do **not** build a long-term Studio; diagnose only until a small approved fix can be selected, verify affected behaviors, close #426, archive and stop.
+**Status:** finite incident foundation prepared, Z-003 *in-progress*, one research-complete baseline, zero independently verified blocks, **no application repair, production mutation or real physical acceptance**. This document does not grant Team G implementation authority. The 32 selectable work units are an OPTIONAL question catalog, never a required 32-session laboratory. Close Studio Z after bounded authorized repairs and verified Nik/Daniel outcomes.
 
-**Source authority:** live GitHub repository `nikahanghojjati-oss/fifa17-career-showdown2`; research branch `investigation/problem-z-z-studio-2026-10-08` at PRE-EXPORT head `e600265e42720ad4f5ea7cf8861e74fd422008b1`; product main previously verified at `bc77a0b934c3d43279f27f73a72db21c2db2b4f2`. The export itself creates a subsequent commit on that research branch. Re-resolve all live refs before any later mutation.
+**Pinned source:** `bc77a0b934c3d43279f27f73a72db21c2db2b4f2`. **Research branch before this new export:** `76577fed26e8340c7a3e1367e5ce9122ab09debe`. The export update commit necessarily moves the research branch beyond this source snapshot. Re-resolve live Git refs and authority when acting.
 
-**Current documented facts:** original October 7 physical root cause **not verified**; no standalone X-01 product/browser rerun in Studio Z; one owner-report baseline research complete, zero independently verified blocks, no sanctioned code repair, no deployment/real-account action. Astra's drafts have been recovered into GitHub from the owner-supplied earlier handoff, but their reconstructed byte-for-byte identity to the original unpublished workspace is not independently verified.
+**Latest independent research-side action:** deterministic Node VM event-order model with two exact pinned startup function excerpts. Normal and unrelated-latency schedules loaded synthetic identity; loader-after-start schedule left bootstrap latched with identity absent and no retry on re-invoking the entry bootstrap. This is **T-02-MODEL** only, not actual browser X-01, original physical attribution or verified repair. Chromium full-browser testing was blocked by local environment navigation policy, so a real-browser comparison remains the single next X-01 action.
 
-**One next decision:** perform independent Z-003 / X-01 startup delayed optional-loader experiment (ordinary vs 400ms optional loader vs 400ms unrelated delay), then obtain explicit Team G Lead go/no-go for a bounded access repair. Do not require all 32 optional work units before a justified fix. Other two repair clusters remain conditional, with separate acceptance.
+**One next task:** use isolated permitted **unchanged complete pinned source** in a real browser: normal load, 400ms delay only to `js/optionalModules.js`, matched 400ms unrelated asset control. Record identity/loader/reporter flags, badge/overlay, Start route, timing/error artifacts and exact source/harness hashes. No live Google auth/Firebase mutations. If independent source-level browser reproduction confirms, obtain separate Team G Lead permission for a minimal access fix; otherwise narrow the alternate cause.
 
-**Priority order for successor:** Section 1 charter, Section 2 build-ready work packages, Section 3 exact next experiment, then evidence/model and ledger only when relevant. The remaining snapshots are provenance/history; dated newer documents control over stale earlier text. Live POS20/guards govern over everything in this export.
+**Read order:** Section 1 finite charter → 2 conditional build-readiness → 3 next experiment → 4 partial model evidence → ledger/register if needed. Older history is supporting material; follow live POS20/AGENTS/guards before any action. The model runner and exact local output are additionally preserved in the owner-facing sandbox transfer `STUDIO_Z_CURRENT_TRANSFER_WITH_X01_MODEL_2026-10-08.md` (conversation attachment), not falsely claimed as a GitHub executable.
 
-**Manifest** (GitHub blob SHAs as observed for exact research-pre-export head; these are content identities, not hashes of physical evidence):
+## File manifest at pre-export research head
 
-| Section | Source repository path | Blob SHA |
+| Section | Source path | GitHub blob SHA |
 |---|---|---|
-| 1 | `investigations/problem-z/STUDIO_Z_FOUNDATION_AND_LEAD_HANDOFF_2026-10-08.md` | `d01f479b751444409cf940ccccf3fa052a95953c` |
+| 1 | `investigations/problem-z/STUDIO_Z_FOUNDATION_AND_LEAD_HANDOFF_2026-10-08.md` | `3564b0c00275c83e0f024cf5f8261fe8a7d67206` |
 | 2 | `investigations/problem-z/STUDIO_Z_BUILD_READINESS.md` | `dab941a5a824d6e9251642ba811ceef3c2c2d254` |
-| 3 | `investigations/problem-z/NEXT_RESEARCH_SESSION.md` | `a8e544eeb03ed2c649a71d68893f4b38226ebd31` |
-| 4 | `investigations/problem-z/EVIDENCE_REGISTER.md` | `e1c5c06f86279f8d293c1d270848a103bd3c80ca` |
-| 5 | `investigations/problem-z/CAUSAL_MODEL.md` | `7553a29d4676751c34067e0b909ed28d128ccb2b` |
-| 6 | `investigations/problem-z/ARCHITECTURE_AUDIT.md` | `3720326972b774fb95422f39bcf73a724c6cddaf` |
-| 7 | `investigations/problem-z/RESEARCH_LEDGER.json` | `47708d5689edd999e9bc938d24e9c660bc9cd231` |
-| 8 | `investigations/problem-z/RESEARCH_PROGRAM.md` | `0246cce3b291d100f889c213400ea8fc1c1a3245` |
-| 9 | `investigations/problem-z/RESEARCH_PROTOCOL.md` | `8b979ae0e711ef3385fdb9b07ecbcf4ee55e479b` |
-| 10 | `investigations/problem-z/TEAM_G_REVIEW_GATE.md` | `cb78fec2a189ca5faec2edcb1321a27ca2817f09` |
-| 11 | `investigations/problem-z/README.md` | `7e9a0b5704e934e68aee74a1939941eeb66a8f48` |
-| 12 | `investigations/problem-z/research-blocks/Z-001_INCIDENT_BASELINE.md` | `8236fd1018c05fa51b6e8cdc41ff320fdb316a80` |
-| 13 | `investigations/problem-z/BLOCK_TEMPLATE.md` | `3d0c94aec2fe649462c4ea75e83a5b6ba16a5f01` |
+| 3 | `investigations/problem-z/NEXT_RESEARCH_SESSION.md` | `1a3ceccf21c054378218ab5db7b44f96676c5227` |
+| 4 | `investigations/problem-z/research-blocks/Z-003_STARTUP_SOURCE_EXCERPT_MODEL_2026-10-08.md` | `f7f1f0bc535ec97c9c3aa0b4f41342366639fd89` |
+| 5 | `investigations/problem-z/RESEARCH_LEDGER.json` | `d22e9293fadd661e23897e81efaef8ce7c9a6d68` |
+| 6 | `investigations/problem-z/EVIDENCE_REGISTER.md` | `75c1217fb1b66c68a874fa758587348d3ec644ce` |
+| 7 | `investigations/problem-z/CAUSAL_MODEL.md` | `7553a29d4676751c34067e0b909ed28d128ccb2b` |
+| 8 | `investigations/problem-z/ARCHITECTURE_AUDIT.md` | `3720326972b774fb95422f39bcf73a724c6cddaf` |
+| 9 | `investigations/problem-z/RESEARCH_PROGRAM.md` | `0246cce3b291d100f889c213400ea8fc1c1a3245` |
+| 10 | `investigations/problem-z/RESEARCH_PROTOCOL.md` | `8b979ae0e711ef3385fdb9b07ecbcf4ee55e479b` |
+| 11 | `investigations/problem-z/TEAM_G_REVIEW_GATE.md` | `cb78fec2a189ca5faec2edcb1321a27ca2817f09` |
+| 12 | `investigations/problem-z/README.md` | `edba6deceb40956adab91e51df59a1731b79ccc8` |
+| 13 | `investigations/problem-z/research-blocks/Z-001_INCIDENT_BASELINE.md` | `8236fd1018c05fa51b6e8cdc41ff320fdb316a80` |
 | 14 | `investigations/problem-z/Z_STUDIO_TRIAGE_PROPOSAL.md` | `411893b31837109c7259b7dbeca9d73b51e57f0a` |
+| 15 | `investigations/problem-z/BLOCK_TEMPLATE.md` | `3d0c94aec2fe649462c4ea75e83a5b6ba16a5f01` |
 
 ---
-## SECTION 1 — investigations/problem-z/STUDIO_Z_FOUNDATION_AND_LEAD_HANDOFF_2026-10-08.md
 
-**Immutable observed GitHub source:** `e600265e42720ad4f5ea7cf8861e74fd422008b1` / `d01f479b751444409cf940ccccf3fa052a95953c`. **Source status:** current research-branch snapshot; authored/recovered documentation is not product verification.
+## SECTION 1: `investigations/problem-z/STUDIO_Z_FOUNDATION_AND_LEAD_HANDOFF_2026-10-08.md`
+
+**Source:** `76577fed26e8340c7a3e1367e5ce9122ab09debe` / Git blob `3564b0c00275c83e0f024cf5f8261fe8a7d67206`.
 
 ~~~~~~~~markdown
 # Studio Z — finite foundation and Team G build handoff
@@ -56,6 +58,10 @@ The owner subsequently authorized continued **research/documentation foundation 
 **Lead entry order:** this addendum → current foundation → build readiness → NEXT_RESEARCH_SESSION → ledger/causal/evidence only as needed → live POS20/guards. Do not read the entire historical catalog before making the first discriminating decision. The latest **single-file export** is linked from the workspace README when available; actual lead receipt/acceptance remains a separate recorded action.
 
 ---
+
+### Targeted post-foundation research update
+
+The [Z-003 source-excerpt model report](research-blocks/Z-003_STARTUP_SOURCE_EXCERPT_MODEL_2026-10-08.md) now records a **locally executed Node VM event-order experiment** using verbatim pinned startup function excerpts. Three deterministic loader-availability schedules discriminated the latched failure in the model, but a Chromium real-browser attempt was **blocked at environment navigation**, so X-01 remains **in progress, not independently browser verified**. The research ledger/evidence and next session have been updated. No application patch, real account, production provider activity, deployment or original physical incident reproduction occurred.
 
 ## 1. Mission and stop rule
 
@@ -143,9 +149,9 @@ Default to the existing ledger/checkpoint as source of truth and an **on-demand 
 
 ---
 
-## SECTION 2 — investigations/problem-z/STUDIO_Z_BUILD_READINESS.md
+## SECTION 2: `investigations/problem-z/STUDIO_Z_BUILD_READINESS.md`
 
-**Immutable observed GitHub source:** `e600265e42720ad4f5ea7cf8861e74fd422008b1` / `dab941a5a824d6e9251642ba811ceef3c2c2d254`. **Source status:** current research-branch snapshot; authored/recovered documentation is not product verification.
+**Source:** `76577fed26e8340c7a3e1367e5ce9122ab09debe` / Git blob `dab941a5a824d6e9251642ba811ceef3c2c2d254`.
 
 ~~~~~~~~markdown
 # Studio Z — build-ready incident work packages (decision-only, no implementation)
@@ -251,356 +257,105 @@ A proposed remedy is blocked if it requires: Firebase billing/Blaze, Cloud Run/F
 
 ---
 
-## SECTION 3 — investigations/problem-z/NEXT_RESEARCH_SESSION.md
+## SECTION 3: `investigations/problem-z/NEXT_RESEARCH_SESSION.md`
 
-**Immutable observed GitHub source:** `e600265e42720ad4f5ea7cf8861e74fd422008b1` / `a8e544eeb03ed2c649a71d68893f4b38226ebd31`. **Source status:** current research-branch snapshot; authored/recovered documentation is not product verification.
+**Source:** `76577fed26e8340c7a3e1367e5ce9122ab09debe` / Git blob `1a3ceccf21c054378218ab5db7b44f96676c5227`.
 
 ~~~~~~~~markdown
-# Studio Z — next exact research assignment
+# Studio Z — selected next experiment and precise blocker
 
-**Prepared:** 2026-10-08 EDT | **Status:** queued, **NOT TESTED IN THIS FOUNDATION SESSION** | **Unit:** Z-003 / X-01 / H-03 | **Decision:** can Team G authorize a small access/UI repair?
+**Date:** 2026-10-08 EDT · **Status:** `Z-003 / X-01` in progress, **completion gate not met** · **Implementation approval:** none.
 
-**Start at:** [finite Studio foundation / Team G handoff](STUDIO_Z_FOUNDATION_AND_LEAD_HANDOFF_2026-10-08.md). The old 40-session sequence and Z-002 priority are superseded here. Preserve historic ledger and research; do not erase it or claim the saved Astra revision-2 drafts are pushed. Z-002 provenance debt remains open and cannot be substituted for device-byte proof.
+**Start here:** [Finite foundation](STUDIO_Z_FOUNDATION_AND_LEAD_HANDOFF_2026-10-08.md) → [build decision/acceptance packets](STUDIO_Z_BUILD_READINESS.md) → [partial source-excerpt model](research-blocks/Z-003_STARTUP_SOURCE_EXCERPT_MODEL_2026-10-08.md) → active POS20/AGENTS/guards.
 
-## One question
+## What was actually established in the most recent research session
 
-On exact source `bc77a0b934c3d43279f27f73a72db21c2db2b4f2`, can only delaying `js/optionalModules.js` make `initializeOnlinePlayerEntry` latch `__cmsOnlinePlayerEntryBootstrap` before `loadRuntimeScript` exists and leave sign-in identity unavailable without recovery after loader arrival?
+Pinned main `bc77a0b934c3d43279f27f73a72db21c2db2b4f2` runs `showdown.js` before `optionalModules.js` and `app.js`. The excerpted `ensureOnlinePlayerIdentitySurface` and `initializeOnlinePlayerEntry` functions were run unchanged in a local deterministic Node VM with controlled stand-ins. When the startup timer ran before loader readiness, identity remained absent and a later repeated invocation did not retry because the latch had already been set. Ready-loader and unrelated-latency controls loaded the modeled identity. **This is T-02-MODEL, not proof of real browser ordering or the October 7 device incident.**
 
-## Execution when an authorized investigator continues
+Full Chromium X-01 could not run locally: all synthetic/local browser navigations failed at the environment boundary with `net::ERR_BLOCKED_BY_ADMINISTRATOR`; direct git clone failed DNS. **No new physical/product browser test has been passed and no root cause is verified.** Existing PR #425 remains imported support only. The model runner/log digests and exact limitations are in the new report.
 
-1. Read live `AGENTS.md`, `CURRENT_PRODUCT_GUARDS.json`, POS20/POS10 and current source/branch refs. Inspect [PR #425](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/425) report and its harness; imported evidence is **not** new Studio verification.
-2. Serve **unchanged pinned assets** with a disposable local browser fixture and no real Google login, production provider calls or changes to product/test files. Note any emulator/stub limitations.
-3. Compare three fresh matched contexts: ordinary load; **400 ms delay only to `js/optionalModules.js`**; **400 ms delay to an unrelated asset**. Keep all other factors constant.
-4. Record document readyState, flag, loader/reporter/API presence, badge/overlay, Start route, errors, timing, file/source hashes and executable commands. Capture honest negative-control results, not only screenshots of failure.
-5. Falsify/reframe if loader arrival recovers identity, or all cases fail. Document the precise blocker after two nondiscriminating attempts under unchanged evidence.
-6. Update the minimum provenance/checkpoint/ledger fields **only if actually executed and evidenced**; record what does not prove the physical October 7 incident. If supported, ask Team G Lead for a **separate** bounded repair authorization. No implementation by default.
+## The single next task
 
-**Completion:** attributable controlled comparison with independent artifacts or exact blocker. No change to `main`, game code, deployed Firebase, real player saves, private sessions or governance. End with **ONE complete transferable session file**, including the actual outcome, exact commits, evidence limitations and one next decision.
+Independently test H-03 with a **permitted isolated full product checkout and browser harness** against pinned unmodified main:
 
-**Leadership:** scheduled handoff October 8 at 8 PM EDT to Team G Lead Claude Opus 5.5; actual delivery/receipt/acceptance and implementation permission require explicit evidence.
+1. Resolve live repo/GitHub branch and read `AGENTS.md`, guards, POS20/POS10, imported PR #425 fixture, the model result and its limitations. Do not treat report duplication as independent execution.
+2. Use fresh disposable browser contexts, no real Google sign-in, no production service/provider mutation, no application source edits and no manufactured passing tests.
+3. Compare ordinary startup, **400 ms delay only to `js/optionalModules.js`**, and an equally delayed **unrelated asset** with the same source/fixtures and matched controls. Confirm environment/race conditions rather than assuming an injected stub is identical to production.
+4. Capture clocked `document.readyState`, `__cmsOnlinePlayerEntryBootstrap`, loader/reporter/identity APIs, Home badge/sign-in overlay, Start route, page errors, exact source/relevant fixture hashes, commands and artifacts. A later Settings-triggered identity load is a separate chronology, not automatic startup recovery.
+5. If the delayed loader alone prevents sign-in after its arrival and controls recover, submit a **cause-limited repair authorization question** to Team G Lead. If not, mark H-03 as not reproduced in that environment and narrow the next auth/runtime alternative. After two nondiscriminating experiments with unchanged evidence, stop and reframe.
+
+**Completion:** attributable real-browser matched comparison or a precise new blocker. A prior synthetic event-order model is useful support, but **does not close Z-003**, receive independent review credit, or authorize a patch.
+
+**Session end:** one self-contained portable file with this outcome, exact refs, actual evidence/code changes, limitations, permission state and **one next assignment**. Keep research-only commits under `investigations/problem-z/` until Team G authorizes a separate implementation path.
+
+**Leadership:** planned 8 PM EDT October 8 handoff to Claude Opus 5.5 in Factory G. Actual receipt, acknowledgment, authority, engineering permission, release and acceptance are separately evidenced; none is automatic.
 ~~~~~~~~
 
 ---
 
-## SECTION 4 — investigations/problem-z/EVIDENCE_REGISTER.md
+## SECTION 4: `investigations/problem-z/research-blocks/Z-003_STARTUP_SOURCE_EXCERPT_MODEL_2026-10-08.md`
 
-**Immutable observed GitHub source:** `e600265e42720ad4f5ea7cf8861e74fd422008b1` / `e1c5c06f86279f8d293c1d270848a103bd3c80ca`. **Source status:** current research-branch snapshot; authored/recovered documentation is not product verification.
-
-~~~~~~~~markdown
-# Problem Z — Evidence register
-
-**Status:** Initial owner/source corpus plus 2026-10-08 source/PR provenance addendum; physical root cause remains unverified. **Branch-source basis:** `main` at `bc77a0b934c3d43279f27f73a72db21c2db2b4f2` (the research branch originated at that head). **Evidence tiers:** O owner report/photo; S code/docs source; T deterministic/browser reproduction; P authorized genuine production/physical observation; H hypothesis only.
-
-## Owner-observed corpus (O — descriptions only; screenshots are in the original conversation, not copied into the public repo)
-
-| ID | Evidence | Supports | Does NOT establish |
-|---|---|---|---|
-| O-01 | Owner reports Run 1 on Daniel's tablet: Transfer War Room cards didn't fit; game couldn't safely continue; refresh lost continuity. | Usability and continuation failure during a physical two-person run. | Device resolution/browser details, server cause or code root cause. |
-| O-02 | Tablet photo of Transfer War Room shows the error: "Shared Transfer Challenge league action failed. Complete signing 1 with player name, previous league and nationality." | A displayed field/validation failure during transfer stage. | That clipped UI alone caused the validation failure; which signing field/canonical value was missing. |
-| O-03 | Owner reports Run 2 lost continuity after league/club draw and Continue Career, forcing repeated pairing/setup. | Resume failure during another physical run. | Whether remote state actually reset vs local navigation displaying another route. |
-| O-04 | Owner reports Run 3 Home sign-in disappeared and "Season 1/1" remained. | Account UI/season indicator disagreement. | That account was really signed out, that no user badge DOM node existed, or which script failed. |
-| O-05 | iOS screenshot shows overlay "CONNECTING / Opening Google sign-in…" on the hosted site. | A sign-in UI pending state was visible. | Whether Google popup was never opened, remained blocked, succeeded, or provider bootstrap failed. |
-| O-06 | Owner reports attempts with other accounts, browsers/devices and Settings sign-in didn't make the game recognize the manager. | Severe repeated user-visible login/re-entry failure. | Which exact provider codes/states each attempt returned. |
-| O-07 | Wide screenshot shows narrow "DEVICE / OFFLINE APP" box over stadium/background. | A Settings-derived older module became visible in an unexpected narrow layout. | Exact DOM location, applied styles, service-worker revision or its role in auth. |
-
-## Repo-source anchors (S — at recorded code base; click through for precise lines)
-
-| ID | Anchor | Supported statement | Boundary |
-|---|---|---|---|
-| S-01 | [index.html lines 41–45](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/bc77a0b934c3d43279f27f73a72db21c2db2b4f2/index.html#L41-L45) | Home has `#topHeader` and static `#seasonIndicator`; no hard-coded sign-in badge in that section. | Does not prove what DOM looked like in the user's browser. |
-| S-02 | [onlinePlayerIdentity.js line 42](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/bc77a0b934c3d43279f27f73a72db21c2db2b4f2/js/onlinePlayerIdentity.js#L42) | Sign-in badge is dynamically inserted near `seasonIndicator` by identity module. | Root cause requires initialization trace. |
-| S-03 | [onlinePlayerIdentity.js lines 49–50](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/bc77a0b934c3d43279f27f73a72db21c2db2b4f2/js/onlinePlayerIdentity.js#L49-L50) | Popup message precedes `resolveOnlineDependencies()`, `account.signIn()`, and `initializeOnlineIdentity(true)`; returned signIn state is not inspected here. | Does not by itself prove popup gesture loss. |
-| S-04 | [sparkConnectedAccount.js lines 154–184](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/bc77a0b934c3d43279f27f73a72db21c2db2b4f2/js/sparkConnectedAccount.js#L154-L184) | Initialization and session persistence precede popup call; account state includes separate bootstrap/connected failures. | Browser behavior remains untested. |
-| S-05 | [settings.js createOfflinePanel](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/bc77a0b934c3d43279f27f73a72db21c2db2b4f2/js/settings.js) | Settings still creates a DEVICE/OFFLINE APP panel. | Presence in source is not evidence it should be visible in current online UI. |
-| S-06 | [onlinePlayerIdentity.js lines 24, 43–46](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/bc77a0b934c3d43279f27f73a72db21c2db2b4f2/js/onlinePlayerIdentity.js#L24-L46) | Online identity module inserts containment style and hides Settings Offline/internal panels. | Unexpected visibility needs CSS/JS/runtime evidence. |
-| S-07 | [screens.js resumeSavedShowdown](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/bc77a0b934c3d43279f27f73a72db21c2db2b4f2/js/screens.js) and [online identity continue handler](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/bc77a0b934c3d43279f27f73a72db21c2db2b4f2/js/onlinePlayerIdentity.js#L53-L57) | Local and connected Continue Career routes coexist. | No direct evidence of handler conflict in physical run. |
-| S-08 | [service-worker.js lines 1–13](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/bc77a0b934c3d43279f27f73a72db21c2db2b4f2/service-worker.js#L1-L13) and [index.html line 6](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/bc77a0b934c3d43279f27f73a72db21c2db2b4f2/index.html#L6) | Checked-in runtime is `1.9.1-r62`, service-worker tracks previous `r61`. | Deployed and device-active revisions not verified yet. |
-| S-09 | [CURRENT_PRODUCT_GUARDS.json](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/bc77a0b934c3d43279f27f73a72db21c2db2b4f2/CURRENT_PRODUCT_GUARDS.json) and [AGENTS.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/bc77a0b934c3d43279f27f73a72db21c2db2b4f2/AGENTS.md) | Exactly two players, zero billing, session-only popup, non-destructive recovery boundaries and dual-full-screen invariant. | Do not infer all safeguards actually held in each device runtime. |
-
-## Astra recovered and current checked source leads — addendum (2026-10-08)
-
-**Important provenance distinction:** S-01–S-09 are the original baseline entries above. S-10–S-19, T-01 and P-01 were indexed in Astra's recovered ledger, but not fully integrated here until this addendum. Source paths below are exact pinned revision pointers where available; `reviewed-imported` means the underlying prior session's verification has **not** been independently repeated. **Evidence IDs are preserved** rather than silently reallocated. The historical five H labels below are superseded by the narrower H-01–H-11 and contradictions in [revision-2 ledger](RESEARCH_LEDGER.json); do not use their old phrasing for current verdicts.
-
-| ID | Tier / lineage | Attributable finding and actual support | Limit |
-|---|---|---|---|
-| S-10 | S, earlier Astra GitHub/publication review | Recorded main `bc77a0b934c3d43279f27f73a72db21c2db2b4f2`, research head `740a706129d963ec2ff1c5f35c68e3c71b0a7a3f` prior to later commits, plus reported successful Pages workflow | Recorded publication sampling, not a complete deployment or device history. Current live refs must be fetched each session |
-| S-11 | S, **source directly rechecked** | [`index.html` deferred ordering](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/bc77a0b934c3d43279f27f73a72db21c2db2b4f2/index.html#L410-L417), [`showdown.js` startup and latch](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/bc77a0b934c3d43279f27f73a72db21c2db2b4f2/js/showdown.js#L4-L7), [`optionalModules.js` loader](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/bc77a0b934c3d43279f27f73a72db21c2db2b4f2/js/optionalModules.js#L92) | Code makes timing defect plausible; an executed independent delayed-load test is still required |
-| S-12 | S, partially directly checked + Astra review | [`onlinePlayerIdentity.js` identity/account/device distinctions](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/bc77a0b934c3d43279f27f73a72db21c2db2b4f2/js/onlinePlayerIdentity.js#L1-L60), [`sparkConnectedAccount.js`](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/bc77a0b934c3d43279f27f73a72db21c2db2b4f2/js/sparkConnectedAccount.js) | No original provider success, popup invocation, device registration or account status trace |
-| S-13 | S, partially directly checked + Astra review | [`persistentNikDanielPair.js` membership and continuation](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/bc77a0b934c3d43279f27f73a72db21c2db2b4f2/js/persistentNikDanielPair.js#L223-L225), [`screens.js` Continue](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/bc77a0b934c3d43279f27f73a72db21c2db2b4f2/js/screens.js#L643) | No original provider+local before/after state; route coexistence not proof of event conflict |
-| S-14 | S, **source directly rechecked** | [`productionSharedTransferChallenge.js` canonical field IDs and client preflight](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/bc77a0b934c3d43279f27f73a72db21c2db2b4f2/js/productionSharedTransferChallenge.js#L193-L196), [submit before `lockSignings`](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/bc77a0b934c3d43279f27f73a72db21c2db2b4f2/js/productionSharedTransferChallenge.js#L268-L276) | No test proving the actual tablet field was missing canonical IDs |
-| S-15 | S, Astra source review | [`service-worker.js` caches and revision policy](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/bc77a0b934c3d43279f27f73a72db21c2db2b4f2/service-worker.js) | No October 7 device cache/controller fingerprint |
-| S-16 | S, Astra source review | Transfer visual plate/layout constraints in `js/productionSharedTransferChallenge.js` and its associated responsive CSS/selector bridge | No original device dimensions or keyboard state, no independent physical test |
-| S-17 | S, **source directly rechecked** | [`sparkRemoteJoining.js` page-memory context/expiry and exact session checks](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/bc77a0b934c3d43279f27f73a72db21c2db2b4f2/js/sparkRemoteJoining.js#L107-L133) | Fresh session after reload may be expected, not permission to lose durable pair/career |
-| S-18 | S, Astra source review | Transfer context resets and provider-committed replay paths in `js/productionSharedTransferChallenge.js` | Draft persistence not fully mapped; no evidence of committed data deletion |
-| S-19 | S, Astra source review | Force-initialization/auth callbacks and possible completion-order races in `js/onlinePlayerIdentity.js` | No executed overlapping-completion proof |
-| T-01 | T-imported, single QA lineage `qa-codex-1006-2350` | [PR #425](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/425) and [saved run report](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/qa/codex-two-manager-1006-2350/project-documents/gameplay-factory/sweeps/olympiad/findings/codex-1006-2350-1.json): three sign-in-gate timeouts and reported 0 ms / 400 ms optional-loader contrast | Underlying run/output recorded, read in this session; **not independently rerun**. 33 downstream checkpoints were not reached; original physical incident not reproduced |
-| P-01 | P-public-imported, Astra sampled assets | Prior audit reports four public HTTP assets matched the pinned main and a Pages run succeeded around 2026-10-08 16:58 UTC | No full response/hash manifest integrated; public served bytes do not establish October 7 device bytes, authenticated production behavior, Firestore Rules deployment or physical playtest |
-
-**New source safety observation (not a physical failure verdict):** `persistentNikDanielPair.js` contains a destructive DELETE CURRENT SHOWDOWN recommendation in one error around line 205 and START OVER recovery wording around line 241. Do not execute or prescribe these suggestions to Nik/Daniel. Team G should specifically review any modified recovery UX and preserve canonical data. No save was removed during this research.
-
-**Direct verification scope in this session:** live GitHub readbacks for main/Studio refs, pinned source paths, the PR #425 JSON report and guarded documentation commits. **No product code test was run**, no real physical, provider, deployment or login state observed, and no root cause independently verified. Do not convert these source confirmations into research block completions or physical/SSJR/MDP credit.
-
-## Current hypotheses (H, **unverified**)
-
-- H-01: popup user activation or asynchronous dependency setup leaves authentication unresolved.
-- H-02: app collapses distinct Firebase/Connected Account/device failures into an unhelpful signed-out or connecting experience.
-- H-03: identity UI module/containment CSS failed or old/new assets were mixed.
-- H-04: Continue Career active authority and local saved/pair/session routing diverged.
-- H-05: tablet layout/focus hid signing requirements or data was missing/invalid independently of clipping.
-
-## Historical baseline gaps (original subsection; updated status in addendum above)
-
-- **No independently executed new Studio T:** imported T-01 controlled report is recorded above; this session performed no new browser product test.
-- **No P-device:** no authenticated Firebase/provider trace, actual October 7 device revision or new consented physical reproduction. P-01 is imported **P-public** sampling only.
-- No repair or deployment proof, no Team G Lead review/approval, no product milestone credit.
-
-**Update rule:** Every research block records new evidence IDs, rejected alternatives, gaps and SHA provenance. Do not delete contradictory observations to make a hypothesis look certain.
-~~~~~~~~
-
----
-
-## SECTION 5 — investigations/problem-z/CAUSAL_MODEL.md
-
-**Immutable observed GitHub source:** `e600265e42720ad4f5ea7cf8861e74fd422008b1` / `7553a29d4676751c34067e0b909ed28d128ccb2b`. **Source status:** current research-branch snapshot; authored/recovered documentation is not product verification.
+**Source:** `76577fed26e8340c7a3e1367e5ce9122ab09debe` / Git blob `f7f1f0bc535ec97c9c3aa0b4f41342366639fd89`.
 
 ~~~~~~~~markdown
-# Studio Z — Causal model and discriminating experiments
+# Z-003 / X-01 — source-excerpt event-order model (partial, NOT full-app reproduction)
 
-**Source anchor:** `bc77a0b934c3d43279f27f73a72db21c2db2b4f2`. Full provenance in [EVIDENCE_REGISTER.md](EVIDENCE_REGISTER.md). Stable hypothesis records, including evidence, alternatives, falsifiers, disposition and uncertainty, are authoritative in `RESEARCH_LEDGER.json#/hypotheses`.
+**Date:** 2026-10-08 EDT. **Question:** does the startup code latch before the loader exists and then fail to automatically recover? **Status:** `in-progress`, declared X-01 browser completion gate **NOT MET**. **Engineering authorization:** none. **Production action:** none.
 
-## The implemented chain branches
+## Sources and pinning
 
-The original linear account-to-gameplay chain is a useful list, not the actual execution order. Startup loads storage/showdown before the optional loader; identity lazily resolves runtime/account/pairing; account initialization can inspect an existing Firebase user before any popup. Save-library preparation and a pending local shell participate **before** durable pairing. Manager selection is local and later reconciled with the UID-bound provider membership. Pairing `connectionState=active` is different from private-session `sessionState=active`. The latter must be exact, finite and unexpired before shared authority. Continue Career rejoins several paths rather than simply advancing the chain.
+- Pinned application main: `bc77a0b934c3d43279f27f73a72db21c2db2b4f2` (runtime `1.9.1-r62`).
+- Direct exact function bodies copied **verbatim** for the model from [`js/showdown.js` lines 4 and 6](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/bc77a0b934c3d43279f27f73a72db21c2db2b4f2/js/showdown.js#L4-L6). The model also invokes `initializeOnlinePlayerEntry()` as the pinned file does at line 21.
+- Script order checked at [`index.html` lines 410–416](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/bc77a0b934c3d43279f27f73a72db21c2db2b4f2/index.html#L410-L416): `showdown.js` precedes `optionalModules.js` and `app.js`.
+- Existing **imported** [PR #425](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/425) reported three identity-entry journey failures and its own 0/400ms browser contrast. That test lineage has **not** been rerun independently here.
+- This new observation is **T-02-MODEL**, a deterministic Node VM simulation of the exact two pinned startup functions. It is not a full app, a real browser/DOM/deferred-download execution, a physical reproduction, or a proof that October 7 failures had this cause.
 
-```mermaid
-flowchart TD
-  B["Shell and startup loader"] --> I["Identity UI and Firebase account"]
-  B --> L["Canonical local save and shell"]
-  I --> D["Registered device and manager selection"]
-  D --> P["Durable pair and rivalry membership"]
-  L --> P
-  P --> A["Exact ACTIVE private session"]
-  A --> G["Provider-authoritative gameplay"]
-  G --> W["Per-manager canonical screen witness"]
-  L --> C["Continue Career route"]
-  P --> C
-  C --> A
-  G --> R["Committed-state recovery"]
-  R --> W
+## Actions actually attempted
+
+1. Checked availability of repository/source and tools. A full repo clone was **unavailable** because this isolated container could not resolve github.com. Pinned source was read safely through the connected GitHub read tools instead.
+2. Constructed a disposable Playwright/Chromium synthetic page with the same two copied source functions, three asset-delay cases and stand-in loader/identity UI. The Chromium navigation attempt failed before any UI experiment with `net::ERR_BLOCKED_BY_ADMINISTRATOR` even for an isolated synthetic/local origin. A second basic navigation probe also failed, including a data URL. **No Chromium X-01 result exists from these attempts.** Neither failure implies anything about the game.
+3. Ran a deterministic event-order model in Node `v22.16.0` using `vm.runInNewContext`: an `interactive` document and captured `setTimeout(0)`, then three manually controlled loader-availability schedules. The real function bodies were unchanged; the loader, document, identity state and reporter were **stand-ins**. No network, real Google popup or Firebase was used.
+4. No application, official test, configuration, provider or deployment file was changed. The model source file and output remained in a disposable local research directory; exact recorded content digests appear below.
+
+## Observations — deterministic model, not product proof
+
+| Controlled schedule | Loader invoked | Latch true | Identity available after callback | Repeating bootstrap without reset | Errors after reporter later appears |
+|---|---:|---|---|---|---|
+| Loader ready **before** startup timer | 1 | yes | yes | already initialized | none |
+| Startup timer runs **before** loader; loader appears later | 0 | yes | **no** | **still absent** | none, since original error occurred before reporter was available |
+| Unrelated latency ahead of startup; loader ready by callback | 1 | yes | yes | already initialized | none |
+
+Console:
+```text
+{"first":{"case":"loader available before scheduled start","loaderUsed":1,"bootstrapFlag":true,"identityLoaded":true,"reporterReady":false,"errors":[]},"afterRepeatedBootstrap":{"loaderUsed":1,"identityLoaded":true}}
+{"first":{"case":"loader appears only after scheduled start","loaderUsed":0,"bootstrapFlag":true,"identityLoaded":false,"reporterReady":true,"errors":[]},"afterRepeatedBootstrap":{"loaderUsed":0,"identityLoaded":false}}
+{"first":{"case":"unrelated latency before bootstrap, loader available at start","loaderUsed":1,"bootstrapFlag":true,"identityLoaded":true,"reporterReady":false,"errors":[]},"afterRepeatedBootstrap":{"loaderUsed":1,"identityLoaded":true}}
+PASS: deterministic source-excerpt ordering discriminator; NOT independent full-app browser X-01 reproduction
 ```
 
-A local draft, local canonical save, provider commit and per-device screen witness are distinct. A late device may need to render earlier screens even when remote state has advanced. A reload can retain the pair and save while losing session capability and in-memory cursors.
+**Reproducibility identifiers:** local runner `x01_node_order_model.cjs` SHA-256 `c2fb27076638c9bd2458b70239f72a3e6fccea4fd8753d0450add6685e7497ff`; emitted console file `x01_node_result.txt` SHA-256 `19270bb15ce54c44ed9c04bb1a5fa7956028bc915c4f77cd9774e9660d927d17`; Node `v22.16.0`. The local runner is preserved in the owner-facing session export, not assumed to be present on GitHub. The scope of the digest is local research material, not a hash of application source. `showdown.js` at pinned main had Git blob SHA `b1a09367635c0d9a5b72db8e4e312f83ba6ed26f` at source read time.
 
-## Boundary inventory
+## Causal interpretation and honest limitations
 
-Recovery entries describe permitted design directions, not authorization to run them on real accounts. Source/tests listed here were inspected or located; they were not executed in this assignment.
+- **Supported within the synthetic event schedule:** the actual pinned startup function sets the bootstrap latch before checking loader availability; if the timer callback reaches the absent-loader branch, a rejection is caught, the latch persists, and a call to `initializeOnlinePlayerEntry()` later returns early without retrying. A reporter installed after that failure has no retained error event in this model.
+- **Not independently established:** that the real browser/deferred script order reaches this timing on unchanged complete source; whether an unrelated-asset delay control behaves identically in the real application; whether Settings or another interaction later calls `ensureOnlinePlayerIdentitySurface`; whether any specific October 7 device reached this schedule; whether the visible Connecting overlay belongs to the same causal branch.
+- **Alternative mechanisms remain:** H-02 auth/connected bootstrap state collapse, H-06 mixed revision, H-10 stale async completion, and H-11 provider/network/config outcomes. The physical Connecting overlay still prevents a one-cause claim that the identity module was absent throughout the entire third run.
+- **Scope-of-test classification:** T-02-MODEL (controlled deterministic model). It does not satisfy the declared S+T full source **real browser** comparison with 400ms targeted load and matched unrelated-delay control. The experiment is in-progress/blocked on a working permitted browser/full source fixture, **not research-complete** or independently verified.
 
-| Boundary / owner | Authority, persistence and preconditions | Failure propagation / UI | Safe distinguishing action and recovery boundary | Coverage / missing evidence |
-|---|---|---|---|---|
-| Startup: `index.html`, `showdown.js`, `optionalModules.js` | Deferred ordering; page flag; runtime script loader must exist | Flag set before failed load can leave badge and capture guard absent; optional reporter may also be absent | X-01 on unchanged files; no production script edits | S-11/T-01; existing two-manager browser journey; independent replay needed |
-| Asset/runtime: service worker + Firebase runtime | Shell caches r62/r61, network-only exceptions; public config and SDK resolve before account services | Missing/mixed module or runtime-unavailable result | X-03; compare safe byte fingerprints, do not clear/activate/rollback caches | S-08/15, P-01; original cache/Rules/config not read |
-| Firebase auth: Connected Account | Browser-session persistence; Google popup only, no scopes; may restore existing user | Distinct popup fail/cancel, pending or auth-state errors | X-02 invocation/result trace with synthetic services; no production account switching | S-04/12; actual popup and activation trace missing |
-| Private account: `sparkAccountBootstrap` | UID-keyed Firestore envelope, active/disabled/deletion-pending; can create missing account transactionally | `signedIn=true` but `connected=false`; identity may map to signed-out | Controlled auth-success/bootstrap-fail; never run initializer as passive production diagnosis | S-12; current bootstrap transaction tests versus older Stage2I boundary must be distinguished |
-| Registered device: `sparkPrivatePairing` | Browser IndexedDB identity plus account-owned provider device; connected account required | device-error/revoked/registered states; browser replacement differs from reload | Synthetic missing/blocked IDB versus provider revoked state; no actual clearing/revoking | S-12; real device registration state unknown |
-| Manager identity: `onlinePlayerIdentity` | Local UID-bound role in IndexedDB; Daniel playerOne, Nik playerTwo; provider pair membership reconciles role | choose-manager, device-error, ready; stale/concurrent completion alternative | X-08 with synthetic generations; displayed manager is not authorization | S-12/19; no physical UID/role trace; store only categories |
-| Local career shell: Save Library + shared entry | Canonical library/runtime, active save/profile, shared pending marker; storage ready before pairing setup | Missing/invalid binding or normalization may display new setup | Inspect exact local binding in disposable fixture; preserve production saves | S-07/13; save-runtime tests; no physical before/after snapshot |
-| Durable pairing: `persistentNikDanielPair` | Account pairLink + rivalry membership and provider save/profile binding; UID/device match | unpaired/waiting/paired/recovery-required; some source text offers destructive recovery | Distinguish unavailable read from absent link and absent local copy; same-career recovery only | S-13; pair contracts/emulator; actual provider/local binding unknown |
-| Connected Rivalry: `sparkConnectedRivalry` | Verified account/device/local binding + attached rivalry pointer; exact provider membership | Attach fail versus no local recovery copy | Synthetic pointer mismatch; no live attach or Apply | S-13; complete pointer schema audit remains Z-017/021 |
-| Private session: `sparkRemoteJoining`, standard-auth session adapter | Capability in page memory, provider session with same rivalry/account/device, ACTIVE, no pending action, finite future expiry | No session after reload or expired session requires reauthorization; pair can remain active | X-04, no-session vs expiry vs wrong-context controls; never persist capability as a shortcut | S-17; reload/reconnect contracts exist; physical session category unknown |
-| Shared setup and career: production entry/setup/career modules | Exact session, confirmed setup revision and accepted provider progression | Local shell/GET READY/Career Start/dashboard branches | Compare expected canonical routes for zero and ≥1 accepted seasons; no draw replay to rebuild data | S-13/17; entry and reload tests; causal mapping incomplete |
-| Transfer UI → canonical input → provider: production transfer + selector + visual bridge | Visible text plus canonical league/nationality IDs; valid phase/role; locked inputs committed remotely | Client can throw exact signing text before provider call; layout can independently hide controls | X-05/X-06; provider-call spy in fixture, true input interaction rather than prefilled dataset | S-14/16; mock replay test doesn't establish tablet keyboard correctness |
-| Transfer persistence/replay | DOM/context state and committed own inputs; provider stage plus per-manager witness | Draft loss and canonical stage recovery may differ; other manager's private inputs must stay private | X-07 compares draft/locked state and snapshot hashes; read-only replay has zero writes | S-18; complete draft persistence map and physical input state absent |
-| Continue/reconnect: screens, identity capture, pair continuation, shared entry | Local fallback versus online capture; same-career binding before shared authority | Missing save routes to creation; context failure can appear like restart without deletion | X-04 event trace + pre/post synthetic snapshots; preserve exact identity and witness ordering | S-07/13/17; physical click chronology missing |
-| Candidate C reconciliation | Remote preview distinct from explicit destructive Apply; backup-first transaction and rollback authority | Preview unavailable or Apply blocked must not overwrite data | Design test for failure/rollback with disposable data; no real Apply | Z-022; source `productionSharedLocalReconciliation` delegates to Connected Rivalry authority |
+## Next smallest actual task
 
-## Competing explanations and evidence limits
+Team G or an authorized researcher with a functioning isolated browser checkout should execute **Z-003/X-01 proper**: current [NEXT_RESEARCH_SESSION.md](../NEXT_RESEARCH_SESSION.md), unchanged pinned source, real browser, three matched contexts (normal, 400ms only `optionalModules.js`, 400ms unrelated asset), no Google account or production writes. Inspect J1.1 fixture carefully. Record exact timing, badge/identity API/guard, bootstrap flag, errors and route. If the race is independently reproduced, prepare Team G's bounded implementation decision and required regression gates; otherwise reframe the alternate access boundary. **Do not change product code before separate authorization.**
 
-| ID | Mechanism under investigation | Best current discriminator |
-|---|---|---|
-| H-01 | Pre-popup work loses browser user activation | Actual popup invocation and success versus pre-call stall; X-02 |
-| H-02 | Authenticated but bootstrap-unready result becomes signed-out UI | Successful synthetic Firebase user + bootstrap failure; X-02 |
-| H-03 | Startup attempts identity before its loader, leaving a latched failed initialization | Matched optional-loader delay and unrelated-delay control; X-01 |
-| H-04 | Continue resolves wrong/missing binding or route | Exact-context route trace and unchanged save snapshots; X-04 |
-| H-05 | Visible signing fields lack canonical selector IDs | Same labels, valid/missing IDs, provider-call spy; X-05 |
-| H-06 | Mixed revision or missing cached/network-only asset | Byte-matched coherent control versus controlled mismatch; X-03 |
-| H-07 | Layout/keyboard makes controls inaccessible | Measured reachability with valid input held constant; X-06 |
-| H-08 | Expected page-memory session loss mistaken for pair/career loss | Absent capability but preserved pair/career, fresh-session resumption; X-04 |
-| H-09 | Uncommitted draft disappears while committed state survives | Same fields before/after reload, unlocked versus locked; X-07 |
-| H-10 | Overlapping asynchronous identity completion publishes stale state | Deferred old/new completions, no account data; X-08 |
-| H-11 | Config/network/provider permission/quota failure | Captured phase and safe error category versus local-only rejection; X-02 |
+## Safety and decision disposition
 
-No hypothesis is an established cause of the October 7 incident. O-05's overlay limits a universal “identity never loaded” explanation. Source-identical CI success and imported CI-like failures require environment/timing comparison, not a vote. The four coherent public asset samples cannot rule out cached device drift. A visible signing error cannot establish a provider rejection. Retelling T-01 in another session adds no independent support.
-
-## Minimal experiment catalog — design only
-
-Each experiment records unchanged source/file hashes, environment, conditions, intervention, control, expected discriminating outcome, actual outcome and artifact hash. Local harnesses are disposable and non-production; do not edit game files or official tests. A VM stub proves only the modeled logic. Use a real isolated browser for claims about deferred script execution, popup activation or layout. Never use real credentials, provider URLs or accounts in fault injection.
-
-| Experiment | Cheapest safe setup and controls | Distinguishing results / stop gate |
-|---|---|---|
-| X-01 startup | Serve pinned unchanged source locally. Fresh contexts: ordinary load, delay only `optionalModules.js` response 400 ms, delay an unrelated asset by same amount. Record readyState, bootstrap flag, loader/reporter/API presence, badge/overlay and Start route. No auth. | Loader delay alone reproduces latched absence after loader arrives: supports H-03 narrowly. All recover: falsifies the reported schedule, inspect environment. Broad delays all fail: general timing/fixture issue. One matched repeat; after two nondiscriminating designs reframe. |
-| X-02 sign-in boundaries | Disposable services with (a) popup success/account active, (b) popup rejection, (c) popup success/bootstrap fail, (d) blocked persistence, (e) unresolved dependency. Record invocation and categorical state transitions. Only later, separately authorized real-browser popup observation if needed. | H-02 predicts auth success plus connected=false becomes signed-out. No popup invocation is not popup blocking. Successful popup disconfirms H-01 for that attempt. Stub result never establishes Google/mobile behavior. |
-| X-03 revision | First passive source/HTTP metadata comparison. Then isolated current/retained shell with unchanged asset bytes and one controlled network-only mismatch; coherent source is negative control. | Failure only under mismatched bytes supports compatibility fault; coherent delayed-loader failure supports H-03 instead. Device-specific attribution needs original controller/cache evidence, not speculative cache clearing. |
-| X-04 recovery | Disposable valid local save/pair fixtures; vary absent session, expired session, exact ACTIVE, wrong rivalry/device and absent local copy one at a time. Trace actual winning click handler and provider-call categories; hash synthetic canonical saves before/after. | Distinguish expected new session for same career (H-08), wrong route (H-04), and actual mutation. Preserve each manager's canonical screen witness ordering. No production host/join/re-pair. |
-| X-05 signing | Through the actual selector, create valid labels/IDs, then same visible label with missing ID, partial row and fully empty row. Hold layout constant; spy on `lockSignings`. | Exact message with zero provider calls supports client preflight H-05. Valid IDs with downstream denial require provider branch. Direct dataset injection can be a control, not sole end-to-end input proof. |
-| X-06 layout | Source audit followed by local portrait/landscape samples, e.g. 1024×768, 768×1024, 390×844, explicitly synthetic. Use visual viewport/keyboard conditions when observable; record zoom and all required field/CTA bounds. | Inaccessible controls with otherwise valid data supports H-07 usability defect. Successful reachability with rejected canonical values separates H-05. Do not claim synthetic keyboard behavior reproduces a physical keyboard. |
-| X-07 drafts/replay | Disposable shared transfer fixture at entry, partial draft, locked state and completed state. Reload/rerender one condition at a time; compare DOM draft, canonical storage and provider committed inputs without exposing rival private values. | Loss only before commitment distinguishes H-09 from provider data loss; replay must not write or skip a role's screens. Unknown draft contract is a lead/owner UX decision, not permission to change storage. |
-| X-08 async generations | Delay two initialize/activation completions with synthetic accounts; reverse completion order and fire one online/offline event. Compare latest intended context to published category. | Older completion overwrites newer state: supports H-10; robust generation rejection falsifies that schedule. No raw identifiers in logs; no real sign-out/account switching. |
-
-## Existing test coverage to reuse selectively
-
-- `tests/browser/two-manager-browser-journey.cjs`: actual entry route in an emulator-backed Chromium harness; T-01 fails before later gameplay. Its failed runs give no coverage of 33 later checkpoints.
-- `tests/browser/connected-account-settings-audit.cjs`: deferred runtime/Settings containment, mobile-sized Chromium and injected timing; not a real Google popup/physical-device proof.
-- `tests/contracts/shared-journey-reload-resume-contracts.cjs`: VM fixtures for confirmed setup, accepted-season route and intentionally memory-only capability. Useful oracle, not real-network behavior.
-- `tests/browser/shared-journey-reconnect-audit.cjs`: candidate for route/reconnect testing; inspect its injected authority before claiming provider coverage.
-- `tests/browser/shared-transfer-challenge-replay-audit.cjs`: mocked provider progression, own-input privacy, zero replay writes and selector widths at 1280×800 and 390×844. No measured original tablet viewport.
-- `tests/contracts/shared-transfer-challenge-provider-contracts.cjs` and `tests/firebase/shared-transfer-challenge-fresh-session-emulator.cjs`: provider/session contract leads, subject to exact Rules composition and source fingerprint.
-- `tests/contracts/persistent-nik-daniel-pair-contracts.cjs` and `tests/firebase/persistent-nik-daniel-pair-provider-emulator.cjs`: verify availability and scope at next source head before selecting.
-- The older `private-account-auth-stage2i-contracts.cjs` asserts App Check/trusted-runtime boundaries. Its existence is not proof of current Spark popup/bootstrap coverage, and it does not authorize enabling App Check.
-
-Select the narrow experiment needed for the current decision. Broader regression and physical acceptance belong to the approved repair gate, not an endless attempt to run every historical test.
+No extra manager, real OAuth, pairing, session, Firebase service, save, production telemetry or billing was involved. Existing POS20/POS10/Firebase Spark/private authority unchanged. Neither Studio leadership acceptance nor application engineering permission was inferred. This report is a narrow new piece of evidence to help Claude decide how to verify, not a license to patch.
 ~~~~~~~~
 
 ---
 
-## SECTION 6 — investigations/problem-z/ARCHITECTURE_AUDIT.md
+## SECTION 5: `investigations/problem-z/RESEARCH_LEDGER.json`
 
-**Immutable observed GitHub source:** `e600265e42720ad4f5ea7cf8861e74fd422008b1` / `3720326972b774fb95422f39bcf73a724c6cddaf`. **Source status:** current research-branch snapshot; authored/recovered documentation is not product verification.
-
-~~~~~~~~markdown
-# Studio Z — Independent architecture audit and risk register
-
-**Review date:** 2026-10-08. **Product source:** `bc77a0b934c3d43279f27f73a72db21c2db2b4f2`. **Inherited research head:** `740a706129d963ec2ff1c5f35c68e3c71b0a7a3f`. This is an independent examination of the inherited plan, followed by author self-review; it is not a second reviewer's verification of findings.
-
-## Executive assessment
-
-The inherited ten-phase, forty-block outline correctly separates owner observations, source, controlled tests and physical evidence, and protects production authority. Its weakness is operational: it inventories subsystems without an executable dependency model, gives every phase the same generic exit, postpones causal/test/capture design, and risks equating forty reports with useful investigation. It also defers lead review in ways that could delay response to a serious access blocker.
-
-**Owner correction at 2026-10-08 13:03 EDT supersedes the original long-term-laboratory framing.** Studio Z is a finite Problem Z incident project. Research ends when there is sufficient evidence to choose safe fixes or explicitly identify the one remaining decision/evidence blocker. A bounded Studio within Factory G then implements only separately approved repairs, verifies the original failures, and closes. The question catalog is optional coverage, not a work quota. No standing research lab, indefinite monitoring or Lens project is a success requirement.
-
-Keep 40 historical IDs; consolidate eight overlaps into **32 selectable work units in seven tracks**. Select one question at a time by decision value. Do not execute all units merely because they exist. The original Z-001 report remains the only research-complete unit. This assignment seeds architecture and evidence records without declaring the underlying investigation finished.
-
-## Material findings from this review
-
-1. **Startup failure has existing controlled support.** PR [#425](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/425), head `2b88d4ae727c20e4329ca7b74d92befd70872e2b`, reports three exact-main Chromium/emulator journeys failing at sign-in entry and a separate 0 ms/400 ms loader-response comparison. Source inspection supports the dependency ordering and latched flag. All six stored screenshot hashes match the report. This verifies artifact integrity, not the reported execution or original physical incident. Independently replicate the narrow mechanism before designing a repair. See S-11/T-01.
-2. **Auth success is not game readiness.** Firebase user, Connected Account active status, registered device, chosen manager, provider membership, local recovery binding and exact ACTIVE session are distinct. Some non-connected outcomes are mapped to signed-out UI. No physical popup result or provider-state trace was obtained. See S-12.
-3. **The signing message can originate before the provider call.** `pstcBuildSignings` requires canonical selector IDs as well as visible text; `pstcHandleAction` builds those rows before `lockSignings`. Describing this message as a server rejection is unsupported without a trace. Layout, canonical input and persistence need separate experiments. See S-14.
-4. **Pairing survival differs from session survival.** The private session capability is page-memory state. Reload may legitimately require a fresh exact private session for the same rivalry and saved career. The existing acceptance proposal's language about the “same session” must not become a requirement to persist that capability. A new session is not permission to repeat permanent pairing, erase a save or redraw setup. See S-13/S-17.
-5. **Public source delivery was sampled, not physical runtime proven.** Four public HTTP assets matched main byte-for-byte at 16:58 UTC. A successful Pages run for main was observed. Neither establishes loaded bytes on October 7, deployment history completeness, live Rules contents, or authenticated behavior. See S-10/P-01.
-6. **“Read-only diagnosis” can accidentally write.** Account initialization can bootstrap a remote account; pairing initialization can register a device. Production observations must not call arbitrary `initialize`, sign-in, retry, attach or restore APIs as if they were passive readers. See S-12 and protocol.
-7. **Existing tests are not interchangeable proof.** The inherited `private-account-auth-stage2i` lead concerns an older App Check/trusted-runtime boundary, whereas the inspected account path uses Spark browser transactions. Transfer replay tests mock provider responses at desktop/phone sizes and do not prove the affected tablet keyboard layout. Select coverage by current call path and inspect mocks. See causal model coverage map.
-
-No repair, product test rerun, original screenshot inspection, physical reproduction or private provider diagnosis was performed in this review.
-
-## Audit of every inherited block
-
-Importance/value are qualitative and relative to the incident: **high** reduces an immediate access, continuity, integrity or authority uncertainty; **conditional** is useful only after an earlier discriminating result. “Available” below means source or inherited evidence exists, not that the block is completed. Revised prerequisites, exact questions, evidence gates and falsifiers are in the program and ledger. All rows inherit privacy and product guards; specific hazards are identified where material.
-
-| Old ID | Importance / expected information value | Evidence available and main weakness | Decision / specificity, safety and completion improvement |
-|---|---|---|---|
-| Z-001 | High baseline; low value to repeat | Owner narrative and inherited screenshot descriptions; original images absent here | Preserve report; reopen only for new observations, not a new model's retelling. |
-| Z-002 | High attribution | Live Git refs, Pages metadata, sampled public bytes; device history absent | Retain; separate source/publication/served/device revisions. Do not block local experiments on unavailable device history. |
-| Z-003 | Highest near-term access value | Source and exact-main QA timing report | Retain and select next; intervention plus unrelated-delay control replaces generic module diagram as exit. |
-| Z-004 | High harm avoidance | Guards, initialization and recovery code | Retain early; classify apparently passive calls with side effects. No permission shortcut. |
-| Z-005 | High access diagnosis | Sign-in and initialization source | Absorb Z-007; require returned, thrown and never-settled outcomes across boundaries. |
-| Z-006 | Conditional after popup-stage trace | Async calls exist; physical activation data absent | Retain; actual invocation/activation oracle, not “async implies blocked popup.” |
-| Z-007 | High question, duplicated report | Error mapping shares Z-005 source | Alias to Z-005; taxonomy tied to state and UI transitions. |
-| Z-008 | Conditional environment discriminator | Original browser details incomplete | Retain; test only justified environments, label engine simulation; do not assume tablet OS or installed PWA. |
-| Z-009 | High auth-versus-account discriminator | Account envelope transaction and status handling | Retain; valid Firebase user + failed bootstrap contrast, no live account creation. |
-| Z-010 | High identity/data risk | IndexedDB + provider device registration | Retain; missing/blocked/revoked synthetic states; no real revoke or storage clearing. |
-| Z-011 | High private-role authority | UID-bound local role and provider membership | Absorb Z-012; role selection must not be mistaken for remote authorization. |
-| Z-012 | High negative control, duplicated matrix | Shares Z-009–011 context | Alias to Z-011; both legitimate roles plus synthetic mismatch cases, no third production identity. |
-| Z-013 | High observable access boundary | Static header, dynamic badge and common identity module | Absorb Z-014; distinguish node absent, hidden and initialization failed. |
-| Z-014 | High symptom, shared lifecycle | Legacy panel builder + injected containment | Alias to Z-013; test separately from badge; common module is not proof of common cause. |
-| Z-015 | High route discrimination | Capture/target handler source | Retain; event-order table and controls; no inference of conflict from multiple listeners alone. |
-| Z-016 | Conditional repair requirement | Close control exists; some waits bounded, some not | Retain; inventory real deadlines and focus behavior before proposing UX. Not a design expansion. |
-| Z-017 | High career identity | Pair link, rivalry slots and exact local recovery binding | Absorb Z-020; trace UID/device/save/profile/rivalry as one context. |
-| Z-018 | High expected-versus-bug discriminator | Remote Joining memory state and exact expiry checks | Retain; no-session, expired, wrong-rivalry, unresolved action and ACTIVE distinguished. |
-| Z-019 | High continuity | Existing reconnect source/tests, incomplete physical traces | Absorb Z-023; one interruption matrix; require same career, not necessarily same session capability. |
-| Z-020 | High safety, duplicate state map | Pairing and recovery contracts | Alias to Z-017; forbidden destructive paths visible at every transition. |
-| Z-021 | High data-integrity boundary | Canonical library, current save and pending markers | Retain early; distinguish draft, canonical local and remote committed data. |
-| Z-022 | Conditional but mandatory if remedy touches reconciliation | Candidate B/C source | Retain; preview versus explicit Apply, backup and exact rollback; no live Apply experiment. |
-| Z-023 | High matrix, duplicated interruption study | Same route and recovery consumers | Alias to Z-019; per-manager screen witnessing remains an independent invariant. |
-| Z-024 | High Continue Career symptom value | Local resume, identity capture, pair and shared entry | Retain; bind route outcome to exact authority, not apparent restart. |
-| Z-025 | High if drift implicated | Revision caches and network-only exceptions | Absorb Z-026; cache behavior plus byte-provenance experiment in one report. |
-| Z-026 | High alternative, overlapping source | Public sample coherent; device cache absent | Alias to Z-025; coherent-source loader failure serves as competing explanation. |
-| Z-027 | Conditional race discriminator | Online/offline/visibility events and forced initialization | Retain; controlled ordering and generation checks, not arbitrary retry storms. |
-| Z-028 | Conditional remediation option | Rollback code and compatibility gaps | Retain only if selected remedy requires it; no cache deletion/update on real devices by default. |
-| Z-029 | High tablet usability | Owner report, inherited photo text; no original image | Absorb Z-030; source audit can proceed, physical attribution cannot. |
-| Z-030 | High source companion to photo | CSS, visual plate, canonical-input bridge | Alias to Z-029; test clipping, scroll and keyboard with recorded synthetic sizes. |
-| Z-031 | High cheap validation discriminator | Exact client message and canonical ID code | Retain early in parallel with layout; provider-mutation spy identifies where rejection occurs. |
-| Z-032 | High if refresh loses progress | Context reset, committed provider inputs and replay tests | Retain; split uncommitted drafts from locked/committed data, protect rival privacy. |
-| Z-033 | Essential, wrongly late | Existing H leads and new contradicting/limiting evidence | Move to foundations and update incrementally; support multiple causal clusters. |
-| Z-034 | Essential, wrongly late | Current deterministic/browser suites | Move early; specify controls/oracles before experiments; old test name does not prove current coverage. |
-| Z-035 | Essential, wrongly late | Device evidence gaps already known | Move early; collect only irreducible safe fields with authorization; avoid creating accounts during inspection. |
-| Z-036 | Conditional physical acceptance design | Current dual-screen and SSJR-2.1 rules | Retain; scoped incident acceptance first; longer run only if affected dependencies/governance require it. |
-| Z-037 | High once a mechanism is supported | No independently verified incident cause yet | Absorb Z-038; alternatives with security/cost analysis; stop research when lead can choose responsibly. |
-| Z-038 | Essential constraint, redundant end report | Guards available now | Alias to Z-037; continuous Z-004 safety checks remain, not delayed end-stage approval. |
-| Z-039 | Essential final evidence quality | Original gate conflates reports and readiness | Retain; independent verification requires a cited reviewer/action; no self-award. |
-| Z-040 | Essential decision, overly late for leadership | Owner has separately scheduled handoff | Retain for final cause-specific dossier; tonight's operational handoff is separate and can be ready now. |
-
-## Finite execution and closure
-
-Use four project stages: **diagnose → approved Factory G repair → verify → close**. This session is in diagnose/architecture preparation. Team G decides any bounded Studio work package, worker assignments, engineering branch, verification and release under governance; none is assigned or implemented here.
-
-Before each question ask: “Which repair, acceptance or safety decision changes with its answer?” If none, remove it from the active queue. Stop expanding a causal cluster when one mechanism has an adequate differentiating control, competing serious explanations are addressed, repair options are clear and verification can be specified. Physical attribution uncertainty can remain explicit while a reproducible product defect is repaired with approval. Do not require proof that one cause explains all three runs.
-
-After two nondiscriminating attempts with unchanged source/evidence, record the dead end and reframe or escalate the exact missing evidence. After each completed question, decide research-next, repair-ready, externally-blocked or closure-ready. There is no required session count. Do not spend a third session repackaging the same findings.
-
-Success closure is conditional on all of these, with evidence references:
-
-| Outcome | Acceptance needed before `closed-verified` |
-|---|---|
-| Reliable entry | Both legitimate managers can reach authorized game-ready state; targeted adverse conditions reach bounded actionable failure; Home sign-in remains accessible and legacy Offline App does not leak in the tested normal surface. |
-| Career continuity | Continue Career and relevant reload/interruption cases preserve the same rivalry/career and committed progress; session reauthorization is explicit when required; no unnecessary permanent re-pairing/redraw or silent save destruction. |
-| Usable transfers | At the affected measured tablet conditions, required inputs/actions are reachable; canonical selections submit correctly; invalid fields are explained; committed data and each manager's replay obligations survive the tested interruptions. |
-| Safe integration | Exact approved source, selected inherited proofs, review and release evidence; guards preserved; genuine two-manager physical observations for affected journeys. Source/CI/deployment alone insufficient. |
-| Owner/lead acceptance and shutdown | Team G records verification and Nik accepts incident outcomes or explicitly adjudicates remaining debt. Publish one final transferable closeout, archive the record and retire temporary Studio tasks/diagnostics. Stop routine research and Lens work. |
-
-If unresolved risk is accepted without verified repair, use **closed-inconclusive / owner-accepted limitations**, never “fixed.” A later recurrence opens a scoped new incident or explicitly reopens this one with new evidence. Merely planning closure does not close #426.
-
-## Risk and uncertainty register
-
-| ID | Risk / present evidence | Response and owner of decision |
-|---|---|---|
-| R-01 | Severe manager access blocker; O-04–06, S-11/T-01 | Prioritize X-01 and auth boundary isolation. Lead decides urgency; do not wait for all catalog units. |
-| R-02 | Data loss from misdiagnosing UI/session state; O-01/03 | Snapshot categories only; never clear, abandon, revoke or Apply as routine diagnosis. Lead/owner must authorize destructive action separately. |
-| R-03 | Treating a manager label as UID/device/session authority | Model exact bindings and negative controls; no alternate-account workaround. Security review follows any proposed authority change. |
-| R-04 | Public disclosure of private capability, UID, email or saves | Allowlisted categorical diagnostics, synthetic fixtures and public-code hashes only. Redact before any repository write or handoff. |
-| R-05 | Mixed source, deployment, device or Rules revisions | Fingerprint relevant files; public asset and workflow observations have timestamps/scopes. Reopen affected claims on drift. |
-| R-06 | Research or Lens expands beyond incident benefit | One question at a time; conditional catalog; Lens optional, design-only now; stop rule and explicit closure. |
-| R-07 | 8 PM schedule mistaken for authority, acceptance or deployment grant | Handoff receipt states require links; no timed automatic transfer or credential change. |
-| R-08 | Report counts masquerade as reliability or SSJR/MDP score | Separate documented, independently verified, physically linked and fixed/accepted outcomes. Aliases never count as completion. |
-| R-09 | “Inspect state” executes bootstrap/device writes | Inspect source first; passive public HTTP only in this review. Any initializer on production is an action requiring a separate scoped decision. |
-| R-10 | Test harness hides dependency races or supplies canonical IDs directly | Inspect injections/mocks; keep unchanged-source controls and report engine/environment. Imported repeats share one lineage, not independent evidence. |
-| R-11 | Device evidence unavailable / original screenshots missing | Mark blocked only the physical attribution; continue useful safe discrimination. No invented browser, dimensions or chronology. |
-| R-12 | Handoff files become a second drifting database | One canonical GitHub ledger/provenance; one immutable self-contained derivative file at each closeout, stamped to its commit. Never edit the export as live authority. |
-| R-13 | Harmful current recovery wording encourages reset | Record source wording as a hazard, not endorsed advice; incorporate into later authorized repair review. |
-
-## Adversarial self-review — weaknesses found and design changes
-
-| Scenario | Weakness actually found | Correction and remaining limitation |
-|---|---|---|
-| Repeated speculation | Original H list has no evidence fingerprint or lineage | Stable hypothesis records; unchanged-evidence counter and shared lineage. Author must still honestly record failed attempts. |
-| Contradictory popup tests | Original umbrella can conflate popup and bootstrap | Trace invocation/result/auth/connected/device separately; successful popup rejects only the popup explanation for that attempt. |
-| Runtime drift | Top-level handoffs carry old refs and r18; current source is r62 | Freshness check against live refs + per-source fingerprint. Original device revision remains unknown. |
-| Urgent defect | Lead review deferred until full dossier | Separate critical escalation path; #425 support placed prominently in handoff. No new lead receipt is claimed. |
-| Seventy-session horizon | Session-count framing rewards persistence | Finite decision gates, no mandatory completion of catalog, two-attempt reframe; an unusually long run needs lead/owner scope review, not passive extension. |
-| Failed experiments | Generic completion could count “unanswerable” as finished | Declared gate unmet means blocked; record what was learned and redesign the oracle. |
-| Missing Lens | Native snapshot cannot self-refresh | GitHub checkpoint sufficient; no Lens dependency, polling or heartbeat. |
-| Misleading progress | One count cannot convey physical verification | Distinct evidence scopes and verification states; public HTTP P never counts as physical incident proof. |
-| Authority conflict | Old triage wording suggests Studio establishment/worker decisions | Research recommendations are not assignments; schedule is not acceptance; current implementation flag remains false. |
-| Unexpected cause | Serial subsystem phases protect the first story | Adaptive competing hypotheses; aliases/splits and reopening preserve old evidence without defending it. |
-| Efficient closure | Initial mission described a long-term lab | Owner's finite-project correction embedded in roadmap, protocol, gate, ledger and handoff; Lens cannot block closure. |
-| Interrupted session | Prior chat work could be lost without a transferable artifact | Mandatory one-file closeout/checkpoint; if abruptly interrupted, next session exports the honest latest saved state, never invented completion. No chat-end automation capability is claimed. |
-
-This is a self-review of the design, not ten successful product tests. No independent reviewer has accepted this architecture package yet.
-~~~~~~~~
-
----
-
-## SECTION 7 — investigations/problem-z/RESEARCH_LEDGER.json
-
-**Immutable observed GitHub source:** `e600265e42720ad4f5ea7cf8861e74fd422008b1` / `47708d5689edd999e9bc938d24e9c660bc9cd231`. **Source status:** current research-branch snapshot; authored/recovered documentation is not product verification.
+**Source:** `76577fed26e8340c7a3e1367e5ce9122ab09debe` / Git blob `d22e9293fadd661e23897e81efaef8ce7c9a6d68`.
 
 ~~~~~~~~json
 {
@@ -620,7 +375,7 @@ This is a self-review of the design, not ten successful product tests. No indepe
   "totalPlannedBlocks": 32,
   "researchCompleteBlocks": 1,
   "independentlyVerifiedBlocks": 0,
-  "activeBlock": null,
+  "activeBlock": "Z-003",
   "nextBlock": "Z-003",
   "statusDefinitions": {
     "planned": "Research question queued and not yet investigated",
@@ -713,11 +468,13 @@ This is a self-review of the design, not ten successful product tests. No indepe
       "id": "Z-003",
       "phase": "A",
       "title": "Application module/load graph",
-      "status": "planned",
+      "status": "in-progress",
       "reviewStatus": "unreviewed",
-      "evidenceFile": null,
-      "lastResearched": null,
-      "blockingEvidence": [],
+      "evidenceFile": "research-blocks/Z-003_STARTUP_SOURCE_EXCERPT_MODEL_2026-10-08.md",
+      "lastResearched": "2026-10-08",
+      "blockingEvidence": [
+        "Full pinned-source real-browser X-01 could not run here; Chromium navigation blocked by environment; no independent browser replication"
+      ],
       "acceptedUnknowns": [],
       "originalPhase": "I",
       "originalTitle": "Application module/load graph",
@@ -728,7 +485,8 @@ This is a self-review of the design, not ten successful product tests. No indepe
       },
       "evidenceRefs": [
         "S-11",
-        "T-01"
+        "T-01",
+        "T-02-MODEL"
       ],
       "hypothesisRefs": [
         "H-03",
@@ -1821,6 +1579,13 @@ This is a self-review of the design, not ten successful product tests. No indepe
       "outcome": "foundation-integrated",
       "artifact": "STUDIO_Z_FOUNDATION_AND_LEAD_HANDOFF_2026-10-08.md",
       "note": "Finite studio charter committed; Astra working ledger restored from owner export with historical evidence boundaries. No implementation, independent test, or physical root-cause credit."
+    },
+    {
+      "date": "2026-10-08",
+      "block": "Z-003",
+      "outcome": "partial-model-not-complete",
+      "artifact": "research-blocks/Z-003_STARTUP_SOURCE_EXCERPT_MODEL_2026-10-08.md",
+      "note": "Executed a bounded Node VM event-order model using verbatim pinned startup functions; same-loader-timing controls discriminate, but full Chromium fixture was blocked. Not independent browser or incident verification."
     }
   ],
   "roadmapRevision": 2,
@@ -1913,9 +1678,9 @@ This is a self-review of the design, not ten successful product tests. No indepe
     "objective": "Independently discriminate the reported startup loader failure from generic authentication failure.",
     "selectedAction": "Z-003 / X-01, using unchanged pinned source and disposable local browser contexts.",
     "reason": "Exact-main imported control/intervention report offers high information value and no physical-account cost. Z-002 remains partial provenance debt, not a blocker for source-matched local testing.",
-    "blocker": null,
-    "nextVerification": "Matched control and delayed unrelated asset must separate dependency ordering from general slowness; record limitations.",
-    "evidenceFingerprint": "bc77a0b:S-11:T-01@2b88d4ae;P-01 sampled assets",
+    "blocker": "Browser fixture unavailable in current isolated environment; deterministic source model is partial evidence only.",
+    "nextVerification": "Run unchanged pinned full-site real-browser ordinary / 400ms optionalModules.js / 400ms unrelated asset controls; maintain no account/provider writes.",
+    "evidenceFingerprint": "bc77a0b:S-11:T-01(imported):T-02-MODEL(synthetic);P-01(public)",
     "unchangedEvidenceNonDiscriminatingAttempts": 0
   },
   "hypotheses": [
@@ -1975,7 +1740,8 @@ This is a self-review of the design, not ten successful product tests. No indepe
         "S-01",
         "S-02",
         "S-11",
-        "T-01"
+        "T-01",
+        "T-02-MODEL"
       ],
       "contradictoryOrLimitingEvidence": [
         "O-05"
@@ -1986,8 +1752,8 @@ This is a self-review of the design, not ten successful product tests. No indepe
       ],
       "falsifyingObservation": "On unchanged source, firing startup before the loader is ready still automatically recovers after loader availability with no intervention.",
       "cheapestSafeExperiment": "X-01",
-      "disposition": "imported-controlled-support-needs-independent-replication",
-      "remainingUncertainty": "O-05 contains an identity overlay, so absent identity cannot explain every state of Run C; Settings may trigger a later load. Same-device chronology missing.",
+      "disposition": "source-and-synthetic-ordering-supported-browser-not-reproduced",
+      "remainingUncertainty": "Synthetic Node VM confirms source-excerpt schedule only; full pinned-site browser timing and original physical attribution remain unverified. Local Chromium navigation blocked by administrator.",
       "independentlyVerified": false
     },
     {
@@ -2434,6 +2200,15 @@ This is a self-review of the design, not ten successful product tests. No indepe
       "ref": "EVIDENCE_REGISTER.md",
       "lineageGroup": "http-sample-2026-10-08",
       "independentIncidentVerification": false
+    },
+    {
+      "id": "T-02-MODEL",
+      "tier": "T",
+      "scope": "synthetic-source-excerpt-event-order-model",
+      "label": "Node VM model reproduces latch/no-retry event order with normal, missing-loader and unrelated-latency controls; no full browser result",
+      "ref": "research-blocks/Z-003_STARTUP_SOURCE_EXCERPT_MODEL_2026-10-08.md",
+      "lineageGroup": "studio-z-node-event-order-2026-10-08",
+      "independentIncidentVerification": false
     }
   ],
   "contradictions": [
@@ -2521,6 +2296,15 @@ This is a self-review of the design, not ten successful product tests. No indepe
       ],
       "blocks": "claiming completed transfer or operational acceptance",
       "needed": "Actual lead response linked to this package"
+    },
+    {
+      "id": "B-04",
+      "summary": "Full-site X-01 browser trial not executable in this container: Chromium navigation net::ERR_BLOCKED_BY_ADMINISTRATOR and GitHub git clone DNS unavailable.",
+      "affects": [
+        "Z-003"
+      ],
+      "blocks": "real-browser timing proof at pinned unchanged app revision",
+      "needed": "Isolated permitted checkout/browser elsewhere, matched optional-loader/unrelated-delay controls; no production credentials."
     }
   ],
   "records": {
@@ -2543,15 +2327,337 @@ This is a self-review of the design, not ten successful product tests. No indepe
     "originalManifestByteHashVerified": false,
     "meaning": "Text recovered and authority/status fields minimally reconciled; imported S/T/P claims retain recorded limitations."
   },
-  "statusNote": "Astra drafts restored in research branch; source corroboration and build-ready design only; X-01 independent execution and all physical/engineering approval remain pending."
+  "statusNote": "In-progress Z-003: source-excerpt model discriminated event order; full browser X-01 and all physical/engineering approvals remain pending."
 }
 ~~~~~~~~
 
 ---
 
-## SECTION 8 — investigations/problem-z/RESEARCH_PROGRAM.md
+## SECTION 6: `investigations/problem-z/EVIDENCE_REGISTER.md`
 
-**Immutable observed GitHub source:** `e600265e42720ad4f5ea7cf8861e74fd422008b1` / `0246cce3b291d100f889c213400ea8fc1c1a3245`. **Source status:** current research-branch snapshot; authored/recovered documentation is not product verification.
+**Source:** `76577fed26e8340c7a3e1367e5ce9122ab09debe` / Git blob `75c1217fb1b66c68a874fa758587348d3ec644ce`.
+
+~~~~~~~~markdown
+# Problem Z — Evidence register
+
+**Status:** Initial owner/source corpus plus 2026-10-08 source/PR provenance addendum; physical root cause remains unverified. **Branch-source basis:** `main` at `bc77a0b934c3d43279f27f73a72db21c2db2b4f2` (the research branch originated at that head). **Evidence tiers:** O owner report/photo; S code/docs source; T deterministic/browser reproduction; P authorized genuine production/physical observation; H hypothesis only.
+
+## Owner-observed corpus (O — descriptions only; screenshots are in the original conversation, not copied into the public repo)
+
+| ID | Evidence | Supports | Does NOT establish |
+|---|---|---|---|
+| O-01 | Owner reports Run 1 on Daniel's tablet: Transfer War Room cards didn't fit; game couldn't safely continue; refresh lost continuity. | Usability and continuation failure during a physical two-person run. | Device resolution/browser details, server cause or code root cause. |
+| O-02 | Tablet photo of Transfer War Room shows the error: "Shared Transfer Challenge league action failed. Complete signing 1 with player name, previous league and nationality." | A displayed field/validation failure during transfer stage. | That clipped UI alone caused the validation failure; which signing field/canonical value was missing. |
+| O-03 | Owner reports Run 2 lost continuity after league/club draw and Continue Career, forcing repeated pairing/setup. | Resume failure during another physical run. | Whether remote state actually reset vs local navigation displaying another route. |
+| O-04 | Owner reports Run 3 Home sign-in disappeared and "Season 1/1" remained. | Account UI/season indicator disagreement. | That account was really signed out, that no user badge DOM node existed, or which script failed. |
+| O-05 | iOS screenshot shows overlay "CONNECTING / Opening Google sign-in…" on the hosted site. | A sign-in UI pending state was visible. | Whether Google popup was never opened, remained blocked, succeeded, or provider bootstrap failed. |
+| O-06 | Owner reports attempts with other accounts, browsers/devices and Settings sign-in didn't make the game recognize the manager. | Severe repeated user-visible login/re-entry failure. | Which exact provider codes/states each attempt returned. |
+| O-07 | Wide screenshot shows narrow "DEVICE / OFFLINE APP" box over stadium/background. | A Settings-derived older module became visible in an unexpected narrow layout. | Exact DOM location, applied styles, service-worker revision or its role in auth. |
+
+## Repo-source anchors (S — at recorded code base; click through for precise lines)
+
+| ID | Anchor | Supported statement | Boundary |
+|---|---|---|---|
+| S-01 | [index.html lines 41–45](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/bc77a0b934c3d43279f27f73a72db21c2db2b4f2/index.html#L41-L45) | Home has `#topHeader` and static `#seasonIndicator`; no hard-coded sign-in badge in that section. | Does not prove what DOM looked like in the user's browser. |
+| S-02 | [onlinePlayerIdentity.js line 42](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/bc77a0b934c3d43279f27f73a72db21c2db2b4f2/js/onlinePlayerIdentity.js#L42) | Sign-in badge is dynamically inserted near `seasonIndicator` by identity module. | Root cause requires initialization trace. |
+| S-03 | [onlinePlayerIdentity.js lines 49–50](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/bc77a0b934c3d43279f27f73a72db21c2db2b4f2/js/onlinePlayerIdentity.js#L49-L50) | Popup message precedes `resolveOnlineDependencies()`, `account.signIn()`, and `initializeOnlineIdentity(true)`; returned signIn state is not inspected here. | Does not by itself prove popup gesture loss. |
+| S-04 | [sparkConnectedAccount.js lines 154–184](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/bc77a0b934c3d43279f27f73a72db21c2db2b4f2/js/sparkConnectedAccount.js#L154-L184) | Initialization and session persistence precede popup call; account state includes separate bootstrap/connected failures. | Browser behavior remains untested. |
+| S-05 | [settings.js createOfflinePanel](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/bc77a0b934c3d43279f27f73a72db21c2db2b4f2/js/settings.js) | Settings still creates a DEVICE/OFFLINE APP panel. | Presence in source is not evidence it should be visible in current online UI. |
+| S-06 | [onlinePlayerIdentity.js lines 24, 43–46](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/bc77a0b934c3d43279f27f73a72db21c2db2b4f2/js/onlinePlayerIdentity.js#L24-L46) | Online identity module inserts containment style and hides Settings Offline/internal panels. | Unexpected visibility needs CSS/JS/runtime evidence. |
+| S-07 | [screens.js resumeSavedShowdown](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/bc77a0b934c3d43279f27f73a72db21c2db2b4f2/js/screens.js) and [online identity continue handler](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/bc77a0b934c3d43279f27f73a72db21c2db2b4f2/js/onlinePlayerIdentity.js#L53-L57) | Local and connected Continue Career routes coexist. | No direct evidence of handler conflict in physical run. |
+| S-08 | [service-worker.js lines 1–13](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/bc77a0b934c3d43279f27f73a72db21c2db2b4f2/service-worker.js#L1-L13) and [index.html line 6](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/bc77a0b934c3d43279f27f73a72db21c2db2b4f2/index.html#L6) | Checked-in runtime is `1.9.1-r62`, service-worker tracks previous `r61`. | Deployed and device-active revisions not verified yet. |
+| S-09 | [CURRENT_PRODUCT_GUARDS.json](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/bc77a0b934c3d43279f27f73a72db21c2db2b4f2/CURRENT_PRODUCT_GUARDS.json) and [AGENTS.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/bc77a0b934c3d43279f27f73a72db21c2db2b4f2/AGENTS.md) | Exactly two players, zero billing, session-only popup, non-destructive recovery boundaries and dual-full-screen invariant. | Do not infer all safeguards actually held in each device runtime. |
+
+## Astra recovered and current checked source leads — addendum (2026-10-08)
+
+**Important provenance distinction:** S-01–S-09 are the original baseline entries above. S-10–S-19, T-01 and P-01 were indexed in Astra's recovered ledger, but not fully integrated here until this addendum. Source paths below are exact pinned revision pointers where available; `reviewed-imported` means the underlying prior session's verification has **not** been independently repeated. **Evidence IDs are preserved** rather than silently reallocated. The historical five H labels below are superseded by the narrower H-01–H-11 and contradictions in [revision-2 ledger](RESEARCH_LEDGER.json); do not use their old phrasing for current verdicts.
+
+| ID | Tier / lineage | Attributable finding and actual support | Limit |
+|---|---|---|---|
+| S-10 | S, earlier Astra GitHub/publication review | Recorded main `bc77a0b934c3d43279f27f73a72db21c2db2b4f2`, research head `740a706129d963ec2ff1c5f35c68e3c71b0a7a3f` prior to later commits, plus reported successful Pages workflow | Recorded publication sampling, not a complete deployment or device history. Current live refs must be fetched each session |
+| S-11 | S, **source directly rechecked** | [`index.html` deferred ordering](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/bc77a0b934c3d43279f27f73a72db21c2db2b4f2/index.html#L410-L417), [`showdown.js` startup and latch](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/bc77a0b934c3d43279f27f73a72db21c2db2b4f2/js/showdown.js#L4-L7), [`optionalModules.js` loader](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/bc77a0b934c3d43279f27f73a72db21c2db2b4f2/js/optionalModules.js#L92) | Code makes timing defect plausible; an executed independent delayed-load test is still required |
+| S-12 | S, partially directly checked + Astra review | [`onlinePlayerIdentity.js` identity/account/device distinctions](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/bc77a0b934c3d43279f27f73a72db21c2db2b4f2/js/onlinePlayerIdentity.js#L1-L60), [`sparkConnectedAccount.js`](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/bc77a0b934c3d43279f27f73a72db21c2db2b4f2/js/sparkConnectedAccount.js) | No original provider success, popup invocation, device registration or account status trace |
+| S-13 | S, partially directly checked + Astra review | [`persistentNikDanielPair.js` membership and continuation](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/bc77a0b934c3d43279f27f73a72db21c2db2b4f2/js/persistentNikDanielPair.js#L223-L225), [`screens.js` Continue](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/bc77a0b934c3d43279f27f73a72db21c2db2b4f2/js/screens.js#L643) | No original provider+local before/after state; route coexistence not proof of event conflict |
+| S-14 | S, **source directly rechecked** | [`productionSharedTransferChallenge.js` canonical field IDs and client preflight](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/bc77a0b934c3d43279f27f73a72db21c2db2b4f2/js/productionSharedTransferChallenge.js#L193-L196), [submit before `lockSignings`](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/bc77a0b934c3d43279f27f73a72db21c2db2b4f2/js/productionSharedTransferChallenge.js#L268-L276) | No test proving the actual tablet field was missing canonical IDs |
+| S-15 | S, Astra source review | [`service-worker.js` caches and revision policy](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/bc77a0b934c3d43279f27f73a72db21c2db2b4f2/service-worker.js) | No October 7 device cache/controller fingerprint |
+| S-16 | S, Astra source review | Transfer visual plate/layout constraints in `js/productionSharedTransferChallenge.js` and its associated responsive CSS/selector bridge | No original device dimensions or keyboard state, no independent physical test |
+| S-17 | S, **source directly rechecked** | [`sparkRemoteJoining.js` page-memory context/expiry and exact session checks](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/bc77a0b934c3d43279f27f73a72db21c2db2b4f2/js/sparkRemoteJoining.js#L107-L133) | Fresh session after reload may be expected, not permission to lose durable pair/career |
+| S-18 | S, Astra source review | Transfer context resets and provider-committed replay paths in `js/productionSharedTransferChallenge.js` | Draft persistence not fully mapped; no evidence of committed data deletion |
+| S-19 | S, Astra source review | Force-initialization/auth callbacks and possible completion-order races in `js/onlinePlayerIdentity.js` | No executed overlapping-completion proof |
+| T-01 | T-imported, single QA lineage `qa-codex-1006-2350` | [PR #425](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/425) and [saved run report](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/qa/codex-two-manager-1006-2350/project-documents/gameplay-factory/sweeps/olympiad/findings/codex-1006-2350-1.json): three sign-in-gate timeouts and reported 0 ms / 400 ms optional-loader contrast | Underlying run/output recorded, read in this session; **not independently rerun**. 33 downstream checkpoints were not reached; original physical incident not reproduced |
+| P-01 | P-public-imported, Astra sampled assets | Prior audit reports four public HTTP assets matched the pinned main and a Pages run succeeded around 2026-10-08 16:58 UTC | No full response/hash manifest integrated; public served bytes do not establish October 7 device bytes, authenticated production behavior, Firestore Rules deployment or physical playtest |
+
+**New source safety observation (not a physical failure verdict):** `persistentNikDanielPair.js` contains a destructive DELETE CURRENT SHOWDOWN recommendation in one error around line 205 and START OVER recovery wording around line 241. Do not execute or prescribe these suggestions to Nik/Daniel. Team G should specifically review any modified recovery UX and preserve canonical data. No save was removed during this research.
+
+**Direct verification scope in this session:** live GitHub readbacks for main/Studio refs, pinned source paths, the PR #425 JSON report and guarded documentation commits. **No product code test was run**, no real physical, provider, deployment or login state observed, and no root cause independently verified. Do not convert these source confirmations into research block completions or physical/SSJR/MDP credit.
+
+## T-02-MODEL — new source-excerpt deterministic event-order result (2026-10-08)
+
+See [Z-003 source-excerpt model report](research-blocks/Z-003_STARTUP_SOURCE_EXCERPT_MODEL_2026-10-08.md). This was an actual local **Node v22.16.0 VM simulation** with **verbatim `showdown.js` source function bodies at pinned main**, but synthetic document, timer, loader, identity and reporter. Normal loader-ready and unrelated-latency controls both yielded identity present; a scheduled start *before* loader availability yielded a latched flag, no identity and no retry on invoking the bootstrap entry function again. The script's emitted outputs and local SHA-256 records are in the report. This supports only a **source-level event-order mechanism**; it is NOT independent X-01 full-browser verification, a real OAuth/provider test or October 7 physical-root-cause evidence.
+
+A locally attempted Chromium/Playwright browser synthetic trial was **blocked before experiment execution** by `net::ERR_BLOCKED_BY_ADMINISTRATOR` for localhost, data and a routed synthetic origin; GitHub clone was unavailable through container DNS. Treat these as **environmental test access blockers**, not product failures. The next task remains a permitted source-unchanged full-site three-condition browser comparison. No application code or real private player data were touched.
+
+## Current hypotheses (H, **unverified**)
+
+- H-01: popup user activation or asynchronous dependency setup leaves authentication unresolved.
+- H-02: app collapses distinct Firebase/Connected Account/device failures into an unhelpful signed-out or connecting experience.
+- H-03: identity UI module/containment CSS failed or old/new assets were mixed.
+- H-04: Continue Career active authority and local saved/pair/session routing diverged.
+- H-05: tablet layout/focus hid signing requirements or data was missing/invalid independently of clipping.
+
+## Historical baseline gaps (original subsection; updated status in addendum above)
+
+- **No independently executed new Studio T:** imported T-01 controlled report is recorded above; this session performed no new browser product test.
+- **No P-device:** no authenticated Firebase/provider trace, actual October 7 device revision or new consented physical reproduction. P-01 is imported **P-public** sampling only.
+- No repair or deployment proof, no Team G Lead review/approval, no product milestone credit.
+
+**Update rule:** Every research block records new evidence IDs, rejected alternatives, gaps and SHA provenance. Do not delete contradictory observations to make a hypothesis look certain.
+~~~~~~~~
+
+---
+
+## SECTION 7: `investigations/problem-z/CAUSAL_MODEL.md`
+
+**Source:** `76577fed26e8340c7a3e1367e5ce9122ab09debe` / Git blob `7553a29d4676751c34067e0b909ed28d128ccb2b`.
+
+~~~~~~~~markdown
+# Studio Z — Causal model and discriminating experiments
+
+**Source anchor:** `bc77a0b934c3d43279f27f73a72db21c2db2b4f2`. Full provenance in [EVIDENCE_REGISTER.md](EVIDENCE_REGISTER.md). Stable hypothesis records, including evidence, alternatives, falsifiers, disposition and uncertainty, are authoritative in `RESEARCH_LEDGER.json#/hypotheses`.
+
+## The implemented chain branches
+
+The original linear account-to-gameplay chain is a useful list, not the actual execution order. Startup loads storage/showdown before the optional loader; identity lazily resolves runtime/account/pairing; account initialization can inspect an existing Firebase user before any popup. Save-library preparation and a pending local shell participate **before** durable pairing. Manager selection is local and later reconciled with the UID-bound provider membership. Pairing `connectionState=active` is different from private-session `sessionState=active`. The latter must be exact, finite and unexpired before shared authority. Continue Career rejoins several paths rather than simply advancing the chain.
+
+```mermaid
+flowchart TD
+  B["Shell and startup loader"] --> I["Identity UI and Firebase account"]
+  B --> L["Canonical local save and shell"]
+  I --> D["Registered device and manager selection"]
+  D --> P["Durable pair and rivalry membership"]
+  L --> P
+  P --> A["Exact ACTIVE private session"]
+  A --> G["Provider-authoritative gameplay"]
+  G --> W["Per-manager canonical screen witness"]
+  L --> C["Continue Career route"]
+  P --> C
+  C --> A
+  G --> R["Committed-state recovery"]
+  R --> W
+```
+
+A local draft, local canonical save, provider commit and per-device screen witness are distinct. A late device may need to render earlier screens even when remote state has advanced. A reload can retain the pair and save while losing session capability and in-memory cursors.
+
+## Boundary inventory
+
+Recovery entries describe permitted design directions, not authorization to run them on real accounts. Source/tests listed here were inspected or located; they were not executed in this assignment.
+
+| Boundary / owner | Authority, persistence and preconditions | Failure propagation / UI | Safe distinguishing action and recovery boundary | Coverage / missing evidence |
+|---|---|---|---|---|
+| Startup: `index.html`, `showdown.js`, `optionalModules.js` | Deferred ordering; page flag; runtime script loader must exist | Flag set before failed load can leave badge and capture guard absent; optional reporter may also be absent | X-01 on unchanged files; no production script edits | S-11/T-01; existing two-manager browser journey; independent replay needed |
+| Asset/runtime: service worker + Firebase runtime | Shell caches r62/r61, network-only exceptions; public config and SDK resolve before account services | Missing/mixed module or runtime-unavailable result | X-03; compare safe byte fingerprints, do not clear/activate/rollback caches | S-08/15, P-01; original cache/Rules/config not read |
+| Firebase auth: Connected Account | Browser-session persistence; Google popup only, no scopes; may restore existing user | Distinct popup fail/cancel, pending or auth-state errors | X-02 invocation/result trace with synthetic services; no production account switching | S-04/12; actual popup and activation trace missing |
+| Private account: `sparkAccountBootstrap` | UID-keyed Firestore envelope, active/disabled/deletion-pending; can create missing account transactionally | `signedIn=true` but `connected=false`; identity may map to signed-out | Controlled auth-success/bootstrap-fail; never run initializer as passive production diagnosis | S-12; current bootstrap transaction tests versus older Stage2I boundary must be distinguished |
+| Registered device: `sparkPrivatePairing` | Browser IndexedDB identity plus account-owned provider device; connected account required | device-error/revoked/registered states; browser replacement differs from reload | Synthetic missing/blocked IDB versus provider revoked state; no actual clearing/revoking | S-12; real device registration state unknown |
+| Manager identity: `onlinePlayerIdentity` | Local UID-bound role in IndexedDB; Daniel playerOne, Nik playerTwo; provider pair membership reconciles role | choose-manager, device-error, ready; stale/concurrent completion alternative | X-08 with synthetic generations; displayed manager is not authorization | S-12/19; no physical UID/role trace; store only categories |
+| Local career shell: Save Library + shared entry | Canonical library/runtime, active save/profile, shared pending marker; storage ready before pairing setup | Missing/invalid binding or normalization may display new setup | Inspect exact local binding in disposable fixture; preserve production saves | S-07/13; save-runtime tests; no physical before/after snapshot |
+| Durable pairing: `persistentNikDanielPair` | Account pairLink + rivalry membership and provider save/profile binding; UID/device match | unpaired/waiting/paired/recovery-required; some source text offers destructive recovery | Distinguish unavailable read from absent link and absent local copy; same-career recovery only | S-13; pair contracts/emulator; actual provider/local binding unknown |
+| Connected Rivalry: `sparkConnectedRivalry` | Verified account/device/local binding + attached rivalry pointer; exact provider membership | Attach fail versus no local recovery copy | Synthetic pointer mismatch; no live attach or Apply | S-13; complete pointer schema audit remains Z-017/021 |
+| Private session: `sparkRemoteJoining`, standard-auth session adapter | Capability in page memory, provider session with same rivalry/account/device, ACTIVE, no pending action, finite future expiry | No session after reload or expired session requires reauthorization; pair can remain active | X-04, no-session vs expiry vs wrong-context controls; never persist capability as a shortcut | S-17; reload/reconnect contracts exist; physical session category unknown |
+| Shared setup and career: production entry/setup/career modules | Exact session, confirmed setup revision and accepted provider progression | Local shell/GET READY/Career Start/dashboard branches | Compare expected canonical routes for zero and ≥1 accepted seasons; no draw replay to rebuild data | S-13/17; entry and reload tests; causal mapping incomplete |
+| Transfer UI → canonical input → provider: production transfer + selector + visual bridge | Visible text plus canonical league/nationality IDs; valid phase/role; locked inputs committed remotely | Client can throw exact signing text before provider call; layout can independently hide controls | X-05/X-06; provider-call spy in fixture, true input interaction rather than prefilled dataset | S-14/16; mock replay test doesn't establish tablet keyboard correctness |
+| Transfer persistence/replay | DOM/context state and committed own inputs; provider stage plus per-manager witness | Draft loss and canonical stage recovery may differ; other manager's private inputs must stay private | X-07 compares draft/locked state and snapshot hashes; read-only replay has zero writes | S-18; complete draft persistence map and physical input state absent |
+| Continue/reconnect: screens, identity capture, pair continuation, shared entry | Local fallback versus online capture; same-career binding before shared authority | Missing save routes to creation; context failure can appear like restart without deletion | X-04 event trace + pre/post synthetic snapshots; preserve exact identity and witness ordering | S-07/13/17; physical click chronology missing |
+| Candidate C reconciliation | Remote preview distinct from explicit destructive Apply; backup-first transaction and rollback authority | Preview unavailable or Apply blocked must not overwrite data | Design test for failure/rollback with disposable data; no real Apply | Z-022; source `productionSharedLocalReconciliation` delegates to Connected Rivalry authority |
+
+## Competing explanations and evidence limits
+
+| ID | Mechanism under investigation | Best current discriminator |
+|---|---|---|
+| H-01 | Pre-popup work loses browser user activation | Actual popup invocation and success versus pre-call stall; X-02 |
+| H-02 | Authenticated but bootstrap-unready result becomes signed-out UI | Successful synthetic Firebase user + bootstrap failure; X-02 |
+| H-03 | Startup attempts identity before its loader, leaving a latched failed initialization | Matched optional-loader delay and unrelated-delay control; X-01 |
+| H-04 | Continue resolves wrong/missing binding or route | Exact-context route trace and unchanged save snapshots; X-04 |
+| H-05 | Visible signing fields lack canonical selector IDs | Same labels, valid/missing IDs, provider-call spy; X-05 |
+| H-06 | Mixed revision or missing cached/network-only asset | Byte-matched coherent control versus controlled mismatch; X-03 |
+| H-07 | Layout/keyboard makes controls inaccessible | Measured reachability with valid input held constant; X-06 |
+| H-08 | Expected page-memory session loss mistaken for pair/career loss | Absent capability but preserved pair/career, fresh-session resumption; X-04 |
+| H-09 | Uncommitted draft disappears while committed state survives | Same fields before/after reload, unlocked versus locked; X-07 |
+| H-10 | Overlapping asynchronous identity completion publishes stale state | Deferred old/new completions, no account data; X-08 |
+| H-11 | Config/network/provider permission/quota failure | Captured phase and safe error category versus local-only rejection; X-02 |
+
+No hypothesis is an established cause of the October 7 incident. O-05's overlay limits a universal “identity never loaded” explanation. Source-identical CI success and imported CI-like failures require environment/timing comparison, not a vote. The four coherent public asset samples cannot rule out cached device drift. A visible signing error cannot establish a provider rejection. Retelling T-01 in another session adds no independent support.
+
+## Minimal experiment catalog — design only
+
+Each experiment records unchanged source/file hashes, environment, conditions, intervention, control, expected discriminating outcome, actual outcome and artifact hash. Local harnesses are disposable and non-production; do not edit game files or official tests. A VM stub proves only the modeled logic. Use a real isolated browser for claims about deferred script execution, popup activation or layout. Never use real credentials, provider URLs or accounts in fault injection.
+
+| Experiment | Cheapest safe setup and controls | Distinguishing results / stop gate |
+|---|---|---|
+| X-01 startup | Serve pinned unchanged source locally. Fresh contexts: ordinary load, delay only `optionalModules.js` response 400 ms, delay an unrelated asset by same amount. Record readyState, bootstrap flag, loader/reporter/API presence, badge/overlay and Start route. No auth. | Loader delay alone reproduces latched absence after loader arrives: supports H-03 narrowly. All recover: falsifies the reported schedule, inspect environment. Broad delays all fail: general timing/fixture issue. One matched repeat; after two nondiscriminating designs reframe. |
+| X-02 sign-in boundaries | Disposable services with (a) popup success/account active, (b) popup rejection, (c) popup success/bootstrap fail, (d) blocked persistence, (e) unresolved dependency. Record invocation and categorical state transitions. Only later, separately authorized real-browser popup observation if needed. | H-02 predicts auth success plus connected=false becomes signed-out. No popup invocation is not popup blocking. Successful popup disconfirms H-01 for that attempt. Stub result never establishes Google/mobile behavior. |
+| X-03 revision | First passive source/HTTP metadata comparison. Then isolated current/retained shell with unchanged asset bytes and one controlled network-only mismatch; coherent source is negative control. | Failure only under mismatched bytes supports compatibility fault; coherent delayed-loader failure supports H-03 instead. Device-specific attribution needs original controller/cache evidence, not speculative cache clearing. |
+| X-04 recovery | Disposable valid local save/pair fixtures; vary absent session, expired session, exact ACTIVE, wrong rivalry/device and absent local copy one at a time. Trace actual winning click handler and provider-call categories; hash synthetic canonical saves before/after. | Distinguish expected new session for same career (H-08), wrong route (H-04), and actual mutation. Preserve each manager's canonical screen witness ordering. No production host/join/re-pair. |
+| X-05 signing | Through the actual selector, create valid labels/IDs, then same visible label with missing ID, partial row and fully empty row. Hold layout constant; spy on `lockSignings`. | Exact message with zero provider calls supports client preflight H-05. Valid IDs with downstream denial require provider branch. Direct dataset injection can be a control, not sole end-to-end input proof. |
+| X-06 layout | Source audit followed by local portrait/landscape samples, e.g. 1024×768, 768×1024, 390×844, explicitly synthetic. Use visual viewport/keyboard conditions when observable; record zoom and all required field/CTA bounds. | Inaccessible controls with otherwise valid data supports H-07 usability defect. Successful reachability with rejected canonical values separates H-05. Do not claim synthetic keyboard behavior reproduces a physical keyboard. |
+| X-07 drafts/replay | Disposable shared transfer fixture at entry, partial draft, locked state and completed state. Reload/rerender one condition at a time; compare DOM draft, canonical storage and provider committed inputs without exposing rival private values. | Loss only before commitment distinguishes H-09 from provider data loss; replay must not write or skip a role's screens. Unknown draft contract is a lead/owner UX decision, not permission to change storage. |
+| X-08 async generations | Delay two initialize/activation completions with synthetic accounts; reverse completion order and fire one online/offline event. Compare latest intended context to published category. | Older completion overwrites newer state: supports H-10; robust generation rejection falsifies that schedule. No raw identifiers in logs; no real sign-out/account switching. |
+
+## Existing test coverage to reuse selectively
+
+- `tests/browser/two-manager-browser-journey.cjs`: actual entry route in an emulator-backed Chromium harness; T-01 fails before later gameplay. Its failed runs give no coverage of 33 later checkpoints.
+- `tests/browser/connected-account-settings-audit.cjs`: deferred runtime/Settings containment, mobile-sized Chromium and injected timing; not a real Google popup/physical-device proof.
+- `tests/contracts/shared-journey-reload-resume-contracts.cjs`: VM fixtures for confirmed setup, accepted-season route and intentionally memory-only capability. Useful oracle, not real-network behavior.
+- `tests/browser/shared-journey-reconnect-audit.cjs`: candidate for route/reconnect testing; inspect its injected authority before claiming provider coverage.
+- `tests/browser/shared-transfer-challenge-replay-audit.cjs`: mocked provider progression, own-input privacy, zero replay writes and selector widths at 1280×800 and 390×844. No measured original tablet viewport.
+- `tests/contracts/shared-transfer-challenge-provider-contracts.cjs` and `tests/firebase/shared-transfer-challenge-fresh-session-emulator.cjs`: provider/session contract leads, subject to exact Rules composition and source fingerprint.
+- `tests/contracts/persistent-nik-daniel-pair-contracts.cjs` and `tests/firebase/persistent-nik-daniel-pair-provider-emulator.cjs`: verify availability and scope at next source head before selecting.
+- The older `private-account-auth-stage2i-contracts.cjs` asserts App Check/trusted-runtime boundaries. Its existence is not proof of current Spark popup/bootstrap coverage, and it does not authorize enabling App Check.
+
+Select the narrow experiment needed for the current decision. Broader regression and physical acceptance belong to the approved repair gate, not an endless attempt to run every historical test.
+~~~~~~~~
+
+---
+
+## SECTION 8: `investigations/problem-z/ARCHITECTURE_AUDIT.md`
+
+**Source:** `76577fed26e8340c7a3e1367e5ce9122ab09debe` / Git blob `3720326972b774fb95422f39bcf73a724c6cddaf`.
+
+~~~~~~~~markdown
+# Studio Z — Independent architecture audit and risk register
+
+**Review date:** 2026-10-08. **Product source:** `bc77a0b934c3d43279f27f73a72db21c2db2b4f2`. **Inherited research head:** `740a706129d963ec2ff1c5f35c68e3c71b0a7a3f`. This is an independent examination of the inherited plan, followed by author self-review; it is not a second reviewer's verification of findings.
+
+## Executive assessment
+
+The inherited ten-phase, forty-block outline correctly separates owner observations, source, controlled tests and physical evidence, and protects production authority. Its weakness is operational: it inventories subsystems without an executable dependency model, gives every phase the same generic exit, postpones causal/test/capture design, and risks equating forty reports with useful investigation. It also defers lead review in ways that could delay response to a serious access blocker.
+
+**Owner correction at 2026-10-08 13:03 EDT supersedes the original long-term-laboratory framing.** Studio Z is a finite Problem Z incident project. Research ends when there is sufficient evidence to choose safe fixes or explicitly identify the one remaining decision/evidence blocker. A bounded Studio within Factory G then implements only separately approved repairs, verifies the original failures, and closes. The question catalog is optional coverage, not a work quota. No standing research lab, indefinite monitoring or Lens project is a success requirement.
+
+Keep 40 historical IDs; consolidate eight overlaps into **32 selectable work units in seven tracks**. Select one question at a time by decision value. Do not execute all units merely because they exist. The original Z-001 report remains the only research-complete unit. This assignment seeds architecture and evidence records without declaring the underlying investigation finished.
+
+## Material findings from this review
+
+1. **Startup failure has existing controlled support.** PR [#425](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/425), head `2b88d4ae727c20e4329ca7b74d92befd70872e2b`, reports three exact-main Chromium/emulator journeys failing at sign-in entry and a separate 0 ms/400 ms loader-response comparison. Source inspection supports the dependency ordering and latched flag. All six stored screenshot hashes match the report. This verifies artifact integrity, not the reported execution or original physical incident. Independently replicate the narrow mechanism before designing a repair. See S-11/T-01.
+2. **Auth success is not game readiness.** Firebase user, Connected Account active status, registered device, chosen manager, provider membership, local recovery binding and exact ACTIVE session are distinct. Some non-connected outcomes are mapped to signed-out UI. No physical popup result or provider-state trace was obtained. See S-12.
+3. **The signing message can originate before the provider call.** `pstcBuildSignings` requires canonical selector IDs as well as visible text; `pstcHandleAction` builds those rows before `lockSignings`. Describing this message as a server rejection is unsupported without a trace. Layout, canonical input and persistence need separate experiments. See S-14.
+4. **Pairing survival differs from session survival.** The private session capability is page-memory state. Reload may legitimately require a fresh exact private session for the same rivalry and saved career. The existing acceptance proposal's language about the “same session” must not become a requirement to persist that capability. A new session is not permission to repeat permanent pairing, erase a save or redraw setup. See S-13/S-17.
+5. **Public source delivery was sampled, not physical runtime proven.** Four public HTTP assets matched main byte-for-byte at 16:58 UTC. A successful Pages run for main was observed. Neither establishes loaded bytes on October 7, deployment history completeness, live Rules contents, or authenticated behavior. See S-10/P-01.
+6. **“Read-only diagnosis” can accidentally write.** Account initialization can bootstrap a remote account; pairing initialization can register a device. Production observations must not call arbitrary `initialize`, sign-in, retry, attach or restore APIs as if they were passive readers. See S-12 and protocol.
+7. **Existing tests are not interchangeable proof.** The inherited `private-account-auth-stage2i` lead concerns an older App Check/trusted-runtime boundary, whereas the inspected account path uses Spark browser transactions. Transfer replay tests mock provider responses at desktop/phone sizes and do not prove the affected tablet keyboard layout. Select coverage by current call path and inspect mocks. See causal model coverage map.
+
+No repair, product test rerun, original screenshot inspection, physical reproduction or private provider diagnosis was performed in this review.
+
+## Audit of every inherited block
+
+Importance/value are qualitative and relative to the incident: **high** reduces an immediate access, continuity, integrity or authority uncertainty; **conditional** is useful only after an earlier discriminating result. “Available” below means source or inherited evidence exists, not that the block is completed. Revised prerequisites, exact questions, evidence gates and falsifiers are in the program and ledger. All rows inherit privacy and product guards; specific hazards are identified where material.
+
+| Old ID | Importance / expected information value | Evidence available and main weakness | Decision / specificity, safety and completion improvement |
+|---|---|---|---|
+| Z-001 | High baseline; low value to repeat | Owner narrative and inherited screenshot descriptions; original images absent here | Preserve report; reopen only for new observations, not a new model's retelling. |
+| Z-002 | High attribution | Live Git refs, Pages metadata, sampled public bytes; device history absent | Retain; separate source/publication/served/device revisions. Do not block local experiments on unavailable device history. |
+| Z-003 | Highest near-term access value | Source and exact-main QA timing report | Retain and select next; intervention plus unrelated-delay control replaces generic module diagram as exit. |
+| Z-004 | High harm avoidance | Guards, initialization and recovery code | Retain early; classify apparently passive calls with side effects. No permission shortcut. |
+| Z-005 | High access diagnosis | Sign-in and initialization source | Absorb Z-007; require returned, thrown and never-settled outcomes across boundaries. |
+| Z-006 | Conditional after popup-stage trace | Async calls exist; physical activation data absent | Retain; actual invocation/activation oracle, not “async implies blocked popup.” |
+| Z-007 | High question, duplicated report | Error mapping shares Z-005 source | Alias to Z-005; taxonomy tied to state and UI transitions. |
+| Z-008 | Conditional environment discriminator | Original browser details incomplete | Retain; test only justified environments, label engine simulation; do not assume tablet OS or installed PWA. |
+| Z-009 | High auth-versus-account discriminator | Account envelope transaction and status handling | Retain; valid Firebase user + failed bootstrap contrast, no live account creation. |
+| Z-010 | High identity/data risk | IndexedDB + provider device registration | Retain; missing/blocked/revoked synthetic states; no real revoke or storage clearing. |
+| Z-011 | High private-role authority | UID-bound local role and provider membership | Absorb Z-012; role selection must not be mistaken for remote authorization. |
+| Z-012 | High negative control, duplicated matrix | Shares Z-009–011 context | Alias to Z-011; both legitimate roles plus synthetic mismatch cases, no third production identity. |
+| Z-013 | High observable access boundary | Static header, dynamic badge and common identity module | Absorb Z-014; distinguish node absent, hidden and initialization failed. |
+| Z-014 | High symptom, shared lifecycle | Legacy panel builder + injected containment | Alias to Z-013; test separately from badge; common module is not proof of common cause. |
+| Z-015 | High route discrimination | Capture/target handler source | Retain; event-order table and controls; no inference of conflict from multiple listeners alone. |
+| Z-016 | Conditional repair requirement | Close control exists; some waits bounded, some not | Retain; inventory real deadlines and focus behavior before proposing UX. Not a design expansion. |
+| Z-017 | High career identity | Pair link, rivalry slots and exact local recovery binding | Absorb Z-020; trace UID/device/save/profile/rivalry as one context. |
+| Z-018 | High expected-versus-bug discriminator | Remote Joining memory state and exact expiry checks | Retain; no-session, expired, wrong-rivalry, unresolved action and ACTIVE distinguished. |
+| Z-019 | High continuity | Existing reconnect source/tests, incomplete physical traces | Absorb Z-023; one interruption matrix; require same career, not necessarily same session capability. |
+| Z-020 | High safety, duplicate state map | Pairing and recovery contracts | Alias to Z-017; forbidden destructive paths visible at every transition. |
+| Z-021 | High data-integrity boundary | Canonical library, current save and pending markers | Retain early; distinguish draft, canonical local and remote committed data. |
+| Z-022 | Conditional but mandatory if remedy touches reconciliation | Candidate B/C source | Retain; preview versus explicit Apply, backup and exact rollback; no live Apply experiment. |
+| Z-023 | High matrix, duplicated interruption study | Same route and recovery consumers | Alias to Z-019; per-manager screen witnessing remains an independent invariant. |
+| Z-024 | High Continue Career symptom value | Local resume, identity capture, pair and shared entry | Retain; bind route outcome to exact authority, not apparent restart. |
+| Z-025 | High if drift implicated | Revision caches and network-only exceptions | Absorb Z-026; cache behavior plus byte-provenance experiment in one report. |
+| Z-026 | High alternative, overlapping source | Public sample coherent; device cache absent | Alias to Z-025; coherent-source loader failure serves as competing explanation. |
+| Z-027 | Conditional race discriminator | Online/offline/visibility events and forced initialization | Retain; controlled ordering and generation checks, not arbitrary retry storms. |
+| Z-028 | Conditional remediation option | Rollback code and compatibility gaps | Retain only if selected remedy requires it; no cache deletion/update on real devices by default. |
+| Z-029 | High tablet usability | Owner report, inherited photo text; no original image | Absorb Z-030; source audit can proceed, physical attribution cannot. |
+| Z-030 | High source companion to photo | CSS, visual plate, canonical-input bridge | Alias to Z-029; test clipping, scroll and keyboard with recorded synthetic sizes. |
+| Z-031 | High cheap validation discriminator | Exact client message and canonical ID code | Retain early in parallel with layout; provider-mutation spy identifies where rejection occurs. |
+| Z-032 | High if refresh loses progress | Context reset, committed provider inputs and replay tests | Retain; split uncommitted drafts from locked/committed data, protect rival privacy. |
+| Z-033 | Essential, wrongly late | Existing H leads and new contradicting/limiting evidence | Move to foundations and update incrementally; support multiple causal clusters. |
+| Z-034 | Essential, wrongly late | Current deterministic/browser suites | Move early; specify controls/oracles before experiments; old test name does not prove current coverage. |
+| Z-035 | Essential, wrongly late | Device evidence gaps already known | Move early; collect only irreducible safe fields with authorization; avoid creating accounts during inspection. |
+| Z-036 | Conditional physical acceptance design | Current dual-screen and SSJR-2.1 rules | Retain; scoped incident acceptance first; longer run only if affected dependencies/governance require it. |
+| Z-037 | High once a mechanism is supported | No independently verified incident cause yet | Absorb Z-038; alternatives with security/cost analysis; stop research when lead can choose responsibly. |
+| Z-038 | Essential constraint, redundant end report | Guards available now | Alias to Z-037; continuous Z-004 safety checks remain, not delayed end-stage approval. |
+| Z-039 | Essential final evidence quality | Original gate conflates reports and readiness | Retain; independent verification requires a cited reviewer/action; no self-award. |
+| Z-040 | Essential decision, overly late for leadership | Owner has separately scheduled handoff | Retain for final cause-specific dossier; tonight's operational handoff is separate and can be ready now. |
+
+## Finite execution and closure
+
+Use four project stages: **diagnose → approved Factory G repair → verify → close**. This session is in diagnose/architecture preparation. Team G decides any bounded Studio work package, worker assignments, engineering branch, verification and release under governance; none is assigned or implemented here.
+
+Before each question ask: “Which repair, acceptance or safety decision changes with its answer?” If none, remove it from the active queue. Stop expanding a causal cluster when one mechanism has an adequate differentiating control, competing serious explanations are addressed, repair options are clear and verification can be specified. Physical attribution uncertainty can remain explicit while a reproducible product defect is repaired with approval. Do not require proof that one cause explains all three runs.
+
+After two nondiscriminating attempts with unchanged source/evidence, record the dead end and reframe or escalate the exact missing evidence. After each completed question, decide research-next, repair-ready, externally-blocked or closure-ready. There is no required session count. Do not spend a third session repackaging the same findings.
+
+Success closure is conditional on all of these, with evidence references:
+
+| Outcome | Acceptance needed before `closed-verified` |
+|---|---|
+| Reliable entry | Both legitimate managers can reach authorized game-ready state; targeted adverse conditions reach bounded actionable failure; Home sign-in remains accessible and legacy Offline App does not leak in the tested normal surface. |
+| Career continuity | Continue Career and relevant reload/interruption cases preserve the same rivalry/career and committed progress; session reauthorization is explicit when required; no unnecessary permanent re-pairing/redraw or silent save destruction. |
+| Usable transfers | At the affected measured tablet conditions, required inputs/actions are reachable; canonical selections submit correctly; invalid fields are explained; committed data and each manager's replay obligations survive the tested interruptions. |
+| Safe integration | Exact approved source, selected inherited proofs, review and release evidence; guards preserved; genuine two-manager physical observations for affected journeys. Source/CI/deployment alone insufficient. |
+| Owner/lead acceptance and shutdown | Team G records verification and Nik accepts incident outcomes or explicitly adjudicates remaining debt. Publish one final transferable closeout, archive the record and retire temporary Studio tasks/diagnostics. Stop routine research and Lens work. |
+
+If unresolved risk is accepted without verified repair, use **closed-inconclusive / owner-accepted limitations**, never “fixed.” A later recurrence opens a scoped new incident or explicitly reopens this one with new evidence. Merely planning closure does not close #426.
+
+## Risk and uncertainty register
+
+| ID | Risk / present evidence | Response and owner of decision |
+|---|---|---|
+| R-01 | Severe manager access blocker; O-04–06, S-11/T-01 | Prioritize X-01 and auth boundary isolation. Lead decides urgency; do not wait for all catalog units. |
+| R-02 | Data loss from misdiagnosing UI/session state; O-01/03 | Snapshot categories only; never clear, abandon, revoke or Apply as routine diagnosis. Lead/owner must authorize destructive action separately. |
+| R-03 | Treating a manager label as UID/device/session authority | Model exact bindings and negative controls; no alternate-account workaround. Security review follows any proposed authority change. |
+| R-04 | Public disclosure of private capability, UID, email or saves | Allowlisted categorical diagnostics, synthetic fixtures and public-code hashes only. Redact before any repository write or handoff. |
+| R-05 | Mixed source, deployment, device or Rules revisions | Fingerprint relevant files; public asset and workflow observations have timestamps/scopes. Reopen affected claims on drift. |
+| R-06 | Research or Lens expands beyond incident benefit | One question at a time; conditional catalog; Lens optional, design-only now; stop rule and explicit closure. |
+| R-07 | 8 PM schedule mistaken for authority, acceptance or deployment grant | Handoff receipt states require links; no timed automatic transfer or credential change. |
+| R-08 | Report counts masquerade as reliability or SSJR/MDP score | Separate documented, independently verified, physically linked and fixed/accepted outcomes. Aliases never count as completion. |
+| R-09 | “Inspect state” executes bootstrap/device writes | Inspect source first; passive public HTTP only in this review. Any initializer on production is an action requiring a separate scoped decision. |
+| R-10 | Test harness hides dependency races or supplies canonical IDs directly | Inspect injections/mocks; keep unchanged-source controls and report engine/environment. Imported repeats share one lineage, not independent evidence. |
+| R-11 | Device evidence unavailable / original screenshots missing | Mark blocked only the physical attribution; continue useful safe discrimination. No invented browser, dimensions or chronology. |
+| R-12 | Handoff files become a second drifting database | One canonical GitHub ledger/provenance; one immutable self-contained derivative file at each closeout, stamped to its commit. Never edit the export as live authority. |
+| R-13 | Harmful current recovery wording encourages reset | Record source wording as a hazard, not endorsed advice; incorporate into later authorized repair review. |
+
+## Adversarial self-review — weaknesses found and design changes
+
+| Scenario | Weakness actually found | Correction and remaining limitation |
+|---|---|---|
+| Repeated speculation | Original H list has no evidence fingerprint or lineage | Stable hypothesis records; unchanged-evidence counter and shared lineage. Author must still honestly record failed attempts. |
+| Contradictory popup tests | Original umbrella can conflate popup and bootstrap | Trace invocation/result/auth/connected/device separately; successful popup rejects only the popup explanation for that attempt. |
+| Runtime drift | Top-level handoffs carry old refs and r18; current source is r62 | Freshness check against live refs + per-source fingerprint. Original device revision remains unknown. |
+| Urgent defect | Lead review deferred until full dossier | Separate critical escalation path; #425 support placed prominently in handoff. No new lead receipt is claimed. |
+| Seventy-session horizon | Session-count framing rewards persistence | Finite decision gates, no mandatory completion of catalog, two-attempt reframe; an unusually long run needs lead/owner scope review, not passive extension. |
+| Failed experiments | Generic completion could count “unanswerable” as finished | Declared gate unmet means blocked; record what was learned and redesign the oracle. |
+| Missing Lens | Native snapshot cannot self-refresh | GitHub checkpoint sufficient; no Lens dependency, polling or heartbeat. |
+| Misleading progress | One count cannot convey physical verification | Distinct evidence scopes and verification states; public HTTP P never counts as physical incident proof. |
+| Authority conflict | Old triage wording suggests Studio establishment/worker decisions | Research recommendations are not assignments; schedule is not acceptance; current implementation flag remains false. |
+| Unexpected cause | Serial subsystem phases protect the first story | Adaptive competing hypotheses; aliases/splits and reopening preserve old evidence without defending it. |
+| Efficient closure | Initial mission described a long-term lab | Owner's finite-project correction embedded in roadmap, protocol, gate, ledger and handoff; Lens cannot block closure. |
+| Interrupted session | Prior chat work could be lost without a transferable artifact | Mandatory one-file closeout/checkpoint; if abruptly interrupted, next session exports the honest latest saved state, never invented completion. No chat-end automation capability is claimed. |
+
+This is a self-review of the design, not ten successful product tests. No independent reviewer has accepted this architecture package yet.
+~~~~~~~~
+
+---
+
+## SECTION 9: `investigations/problem-z/RESEARCH_PROGRAM.md`
+
+**Source:** `76577fed26e8340c7a3e1367e5ce9122ab09debe` / Git blob `0246cce3b291d100f889c213400ea8fc1c1a3245`.
 
 ~~~~~~~~markdown
 # Studio Z — Research program, revision 2
@@ -2675,9 +2781,9 @@ The October 8 leadership transfer package may be ready while the investigation i
 
 ---
 
-## SECTION 9 — investigations/problem-z/RESEARCH_PROTOCOL.md
+## SECTION 10: `investigations/problem-z/RESEARCH_PROTOCOL.md`
 
-**Immutable observed GitHub source:** `e600265e42720ad4f5ea7cf8861e74fd422008b1` / `8b979ae0e711ef3385fdb9b07ecbcf4ee55e479b`. **Source status:** current research-branch snapshot; authored/recovered documentation is not product verification.
+**Source:** `76577fed26e8340c7a3e1367e5ce9122ab09debe` / Git blob `8b979ae0e711ef3385fdb9b07ecbcf4ee55e479b`.
 
 ~~~~~~~~markdown
 # Studio Z — finite evidence-first session protocol
@@ -2718,9 +2824,9 @@ A Team G Lead decision is an explicit recorded review; no model or clock automat
 
 ---
 
-## SECTION 10 — investigations/problem-z/TEAM_G_REVIEW_GATE.md
+## SECTION 11: `investigations/problem-z/TEAM_G_REVIEW_GATE.md`
 
-**Immutable observed GitHub source:** `e600265e42720ad4f5ea7cf8861e74fd422008b1` / `cb78fec2a189ca5faec2edcb1321a27ca2817f09`. **Source status:** current research-branch snapshot; authored/recovered documentation is not product verification.
+**Source:** `76577fed26e8340c7a3e1367e5ce9122ab09debe` / Git blob `cb78fec2a189ca5faec2edcb1321a27ca2817f09`.
 
 ~~~~~~~~markdown
 # Studio Z — Team G Lead review and finite incident closure gate
@@ -2771,9 +2877,9 @@ First choose: **Is X-01 independently confirmed sufficiently to authorize one mi
 
 ---
 
-## SECTION 11 — investigations/problem-z/README.md
+## SECTION 12: `investigations/problem-z/README.md`
 
-**Immutable observed GitHub source:** `e600265e42720ad4f5ea7cf8861e74fd422008b1` / `7e9a0b5704e934e68aee74a1939941eeb66a8f48`. **Source status:** current research-branch snapshot; authored/recovered documentation is not product verification.
+**Source:** `76577fed26e8340c7a3e1367e5ce9122ab09debe` / Git blob `edba6deceb40956adab91e51df59a1731b79ccc8`.
 
 ~~~~~~~~markdown
 # Studio Z / Problem Z — finite Factory G incident foundation
@@ -2781,6 +2887,8 @@ First choose: **Is X-01 independently confirmed sufficiently to authorize one mi
 **Single-file current transfer:** [STUDIO_Z_TEAM_G_SINGLE_FILE_HANDOFF_2026-10-08.md](STUDIO_Z_TEAM_G_SINGLE_FILE_HANDOFF_2026-10-08.md) — portable research/documentation snapshot for the receiving Team G Lead (Claude Opus 5.5). It does **not** grant build authority.
 
 **Working entry:** [Foundation and lead charter](STUDIO_Z_FOUNDATION_AND_LEAD_HANDOFF_2026-10-08.md) → [three minimal conditional build slices + proof](STUDIO_Z_BUILD_READINESS.md) → [one next experiment: Z-003 / X-01](NEXT_RESEARCH_SESSION.md). Read live POS20/AGENTS/guards before any action.
+
+**New narrow result:** [Z-003 deterministic source-excerpt model](research-blocks/Z-003_STARTUP_SOURCE_EXCERPT_MODEL_2026-10-08.md) supports the loader-before-start versus loader-after-start latch mechanism in an isolated Node VM. Full Chromium X-01 was environmentally blocked and remains the single next research gate. This does **not** establish the physical incident cause or a full-browser result.
 
 **Status:** foundation documentation and Astra research integration prepared; **root cause of October 7 physical attempts unverified; no new independent product/browser test, gameplay fix, Team G acceptance, release or owner physical acceptance**. Issue [#426](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/issues/426) remains open. Dedicated documentation branch: `investigation/problem-z-z-studio-2026-10-08`; allowed changes only under `investigations/problem-z/`.
 
@@ -2795,9 +2903,9 @@ Recovered Astra text is preserved from the owner's prior full handoff and **not 
 
 ---
 
-## SECTION 12 — investigations/problem-z/research-blocks/Z-001_INCIDENT_BASELINE.md
+## SECTION 13: `investigations/problem-z/research-blocks/Z-001_INCIDENT_BASELINE.md`
 
-**Immutable observed GitHub source:** `e600265e42720ad4f5ea7cf8861e74fd422008b1` / `8236fd1018c05fa51b6e8cdc41ff320fdb316a80`. **Source status:** current research-branch snapshot; authored/recovered documentation is not product verification.
+**Source:** `76577fed26e8340c7a3e1367e5ce9122ab09debe` / Git blob `8236fd1018c05fa51b6e8cdc41ff320fdb316a80`.
 
 ~~~~~~~~markdown
 # Z-001 — Physical incident baseline and source-supported boundaries
@@ -2866,64 +2974,9 @@ The inspected [index asset revision](https://github.com/nikahanghojjati-oss/fifa
 
 ---
 
-## SECTION 13 — investigations/problem-z/BLOCK_TEMPLATE.md
+## SECTION 14: `investigations/problem-z/Z_STUDIO_TRIAGE_PROPOSAL.md`
 
-**Immutable observed GitHub source:** `e600265e42720ad4f5ea7cf8861e74fd422008b1` / `3d0c94aec2fe649462c4ea75e83a5b6ba16a5f01`. **Source status:** current research-branch snapshot; authored/recovered documentation is not product verification.
-
-~~~~~~~~markdown
-# Z-### — [Single research question]
-
-**Status:** planned / in-progress / research-complete / blocked / revisit-required  
-**Date:** YYYY-MM-DD  
-**Reference GitHub head:** [full SHA, main/branch and any deployment head separately]  
-**Evidence tiers actually available:** O / S / T / P / H (label each claim)  
-**Implementation authorization:** none by default
-
-## Focused question and why it matters
-[One objective, and how it discriminates between competing explanations.]
-
-## Source/deployment baseline
-[Relevant exact files, line permalinks, GitHub refs, deployment identifiers. Never assume main is on a device.]
-
-## Evidence
-| Evidence ID | Type | Source/observed outcome | Reliability / limitation |
-|---|---|---|---|
-| | | | |
-
-## State/flow model
-[Actors, states, trust boundary, order of operations; use safe pseudocode if necessary.]
-
-## Competing hypotheses and falsifiers
-| Hypothesis | Supporting evidence | Contradicting evidence | Cheapest safe differentiating test | Standing |
-|---|---|---|---|---|
-| | | | | untested |
-
-## Research actions taken
-[Commands/tools/inputs and results. If none, say none. Never claim production test from static analysis.]
-
-## Results
-**Known:**  
-**Inferred (not verified):**  
-**Contradictions:**  
-**Unknown / blocked on:**  
-
-## Security/privacy/canonical gameplay constraints
-[Explicitly confirm the guardrails applicable to this specific block.]
-
-## Exit decision and next question
-[Research-complete vs blocked; exact reason; what another chat must investigate next.]
-
-## Provenance
-[Link to evidence register and sources, repository commit SHA.]
-
-**Lead review:** not requested / pending / reviewed (link to actual disposition). No auto-approval.
-~~~~~~~~
-
----
-
-## SECTION 14 — investigations/problem-z/Z_STUDIO_TRIAGE_PROPOSAL.md
-
-**Immutable observed GitHub source:** `e600265e42720ad4f5ea7cf8861e74fd422008b1` / `411893b31837109c7259b7dbeca9d73b51e57f0a`. **Source status:** current research-branch snapshot; authored/recovered documentation is not product verification.
+**Source:** `76577fed26e8340c7a3e1367e5ce9122ab09debe` / Git blob `411893b31837109c7259b7dbeca9d73b51e57f0a`.
 
 ~~~~~~~~markdown
 # Problem Z — Critical two-manager access and continuity investigation
@@ -3058,8 +3111,63 @@ The inspected [index asset revision](https://github.com/nikahanghojjati-oss/fifa
 
 ---
 
-## FINAL TRANSFER SAFETY CHECK
+## SECTION 15: `investigations/problem-z/BLOCK_TEMPLATE.md`
 
-- This export **does not establish** that Claude read the material, that Team G accepted authority, that a new browser test ran, that any gameplay code changed, that Firebase was touched, or that Nik/Daniel completed physical verification.
-- Enforce exact ACTIVE private-session and UID/device authority, popup-only browser-session auth, Spark zero billing, App Check enforcement OFF, Firestore browser memory-only, Candidate C-only destructive Apply with backup, no storage-clearing shortcuts and genuine dual-full-screen acceptance.
-- Every later Studio Z session produces **one** similarly transferable actual-state file before closeout. Stop researching and close the finite Studio when sufficient approved repairs, physical verification and owner acceptance are recorded.
+**Source:** `76577fed26e8340c7a3e1367e5ce9122ab09debe` / Git blob `3d0c94aec2fe649462c4ea75e83a5b6ba16a5f01`.
+
+~~~~~~~~markdown
+# Z-### — [Single research question]
+
+**Status:** planned / in-progress / research-complete / blocked / revisit-required  
+**Date:** YYYY-MM-DD  
+**Reference GitHub head:** [full SHA, main/branch and any deployment head separately]  
+**Evidence tiers actually available:** O / S / T / P / H (label each claim)  
+**Implementation authorization:** none by default
+
+## Focused question and why it matters
+[One objective, and how it discriminates between competing explanations.]
+
+## Source/deployment baseline
+[Relevant exact files, line permalinks, GitHub refs, deployment identifiers. Never assume main is on a device.]
+
+## Evidence
+| Evidence ID | Type | Source/observed outcome | Reliability / limitation |
+|---|---|---|---|
+| | | | |
+
+## State/flow model
+[Actors, states, trust boundary, order of operations; use safe pseudocode if necessary.]
+
+## Competing hypotheses and falsifiers
+| Hypothesis | Supporting evidence | Contradicting evidence | Cheapest safe differentiating test | Standing |
+|---|---|---|---|---|
+| | | | | untested |
+
+## Research actions taken
+[Commands/tools/inputs and results. If none, say none. Never claim production test from static analysis.]
+
+## Results
+**Known:**  
+**Inferred (not verified):**  
+**Contradictions:**  
+**Unknown / blocked on:**  
+
+## Security/privacy/canonical gameplay constraints
+[Explicitly confirm the guardrails applicable to this specific block.]
+
+## Exit decision and next question
+[Research-complete vs blocked; exact reason; what another chat must investigate next.]
+
+## Provenance
+[Link to evidence register and sources, repository commit SHA.]
+
+**Lead review:** not requested / pending / reviewed (link to actual disposition). No auto-approval.
+~~~~~~~~
+
+---
+## Final release and safety notice
+
+- No full-app browser result yet; test model cannot establish October 7 physical cause.
+- Exactly two private managers; exact ACTIVE session; UID/device binding; popup-only browser-session Google sign-in; permanent Spark zero billing; App Check enforcement OFF; browser Firestore memory-only; Candidate C-only destructive Apply and rollback; no reset, routine storage clearing or public token logs.
+- Engineering, exact-head tests, peer review, merge, deployment, physical acceptance and issue closure remain subject to independent Team G/owner authorization.
+- Every subsequent Studio Z session must end with ONE truthful transferable file, and Studio must close after accepted incident resolution rather than becoming a standing research lab.
