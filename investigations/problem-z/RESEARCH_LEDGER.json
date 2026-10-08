@@ -1290,7 +1290,7 @@
     "incomingLead": "Team G Lead — Claude Opus 5.5, Factory G",
     "owner": "Nik",
     "status": "Package committed; owner transfer and lead acceptance not evidenced",
-    "package": "STUDIO_Z_FOUNDATION_AND_LEAD_HANDOFF_2026-10-08.md",
+    "package": "STUDIO_Z_TEAM_G_SINGLE_FILE_HANDOFF_2026-10-08.md",
     "deliveredToLeadEvidence": null,
     "acknowledgmentEvidence": null,
     "acceptanceEvidence": null,
@@ -1929,12 +1929,14 @@
     "reviewGates": "TEAM_G_REVIEW_GATE.md",
     "lens": null,
     "foundation": "STUDIO_Z_FOUNDATION_AND_LEAD_HANDOFF_2026-10-08.md",
-    "readiness": "STUDIO_Z_BUILD_READINESS.md (planned at this checkpoint)"
+    "readiness": "STUDIO_Z_BUILD_READINESS.md",
+    "sessionExport": "STUDIO_Z_TEAM_G_SINGLE_FILE_HANDOFF_2026-10-08.md"
   },
   "exportProvenance": {
     "source": "Owner-uploaded STUDIO_Z_HANDOFF_2026-10-08(1).md historical snapshot",
     "recoveredOn": "2026-10-08",
     "originalManifestByteHashVerified": false,
     "meaning": "Text recovered and authority/status fields minimally reconciled; imported S/T/P claims retain recorded limitations."
-  }
+  },
+  "statusNote": "Astra drafts restored in research branch; source corroboration and build-ready design only; X-01 independent execution and all physical/engineering approval remain pending."
 }
