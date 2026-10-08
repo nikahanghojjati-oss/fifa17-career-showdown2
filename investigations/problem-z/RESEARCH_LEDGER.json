@@ -1233,6 +1233,13 @@
       "outcome": "implementation-planning-only",
       "artifact": "STUDIO_Z_BUILD_READINESS.md",
       "note": "Prepared exact pinned-code repair boundaries and owner-check reservations for Team G. Static S-20/S-21 only; no test, implementation, new block completion or additional authority."
+    },
+    {
+      "date": "2026-10-08",
+      "block": null,
+      "outcome": "research-instrument-prepared-not-run",
+      "artifact": "tools/x01-local-browser-probe.cjs",
+      "note": "Optional local-only three-condition browser observation scaffold committed for Claude; not executed; all real X-01 checks remain reserved."
     }
   ],
   "roadmapRevision": 2,
@@ -1984,7 +1991,9 @@
     "lens": null,
     "foundation": "STUDIO_Z_FOUNDATION_AND_LEAD_HANDOFF_2026-10-08.md",
     "readiness": "STUDIO_Z_BUILD_READINESS.md",
-    "sessionExport": "STUDIO_Z_TEAM_G_SINGLE_FILE_HANDOFF_2026-10-08.md"
+    "sessionExport": "STUDIO_Z_TEAM_G_SINGLE_FILE_HANDOFF_2026-10-08.md",
+    "x01LocalProbe": "tools/x01-local-browser-probe.cjs",
+    "x01LocalProbeStatus": "Prepared unexecuted on research branch; five expected application blob SHA pin checks enforced when run; blocks external requests; gives no authentication/provider proof."
   },
   "exportProvenance": {
     "source": "Owner-uploaded STUDIO_Z_HANDOFF_2026-10-08(1).md historical snapshot",
