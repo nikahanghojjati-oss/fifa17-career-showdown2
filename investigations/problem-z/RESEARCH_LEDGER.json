@@ -1,6 +1,6 @@
 {
-  "schemaVersion": 1,
-  "program": "Problem Z / Z Studio research",
+  "schemaVersion": 2,
+  "program": "Studio Z / Problem Z research",
   "created": "2026-10-08",
   "lastUpdated": "2026-10-08",
   "repository": "nikahanghojjati-oss/fifa17-career-showdown2",
@@ -8,21 +8,22 @@
   "issue": 426,
   "mainAnchorAtCreation": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
   "governance": "POS20 active / POS10 inherited proof floor",
-  "phase": "research",
+  "phase": "foundation-research",
   "implementationAuthorized": false,
   "leadReviewed": false,
   "leadApproval": "pending",
-  "totalPlannedBlocks": 40,
+  "totalPlannedBlocks": 32,
   "researchCompleteBlocks": 1,
   "independentlyVerifiedBlocks": 0,
   "activeBlock": null,
-  "nextBlock": "Z-002",
+  "nextBlock": "Z-003",
   "statusDefinitions": {
     "planned": "Research question queued and not yet investigated",
     "in-progress": "Owner/researcher explicitly opened this block and has not closed it",
-    "research-complete": "Block artifact and evidence-based conclusion or explicitly documented remaining unknowns saved; not independent verification",
-    "blocked": "Cannot close until named external evidence or decision is available",
-    "revisit-required": "Evidence changed; earlier research requires reassessment"
+    "research-complete": "Scoped question answered to its declared evidence gate with cited report; residual unknowns explicit. Not independent verification, causal proof, repair or acceptance.",
+    "blocked": "Declared evidence gate cannot be met; exact missing observation/decision required. Not research-complete merely because the gap was documented.",
+    "revisit-required": "Evidence changed; earlier research requires reassessment",
+    "consolidated": "Historical ID retained as an alias; excluded from active-work counts, never a completion."
   },
   "evidenceTierDefinitions": {
     "O": "owner observation/screenshot",
@@ -34,7 +35,7 @@
   "blocks": [
     {
       "id": "Z-001",
-      "phase": "I",
+      "phase": "A",
       "title": "Physical-playtest incident timeline",
       "status": "research-complete",
       "reviewStatus": "unreviewed",
@@ -44,436 +45,1154 @@
       "acceptedUnknowns": [
         "device exact build and browser revision unknown",
         "no live reproduction performed"
-      ]
+      ],
+      "originalPhase": "I",
+      "originalTitle": "Physical-playtest incident timeline",
+      "independentVerification": {
+        "status": "not-verified",
+        "reviewer": null,
+        "evidenceRef": null
+      },
+      "evidenceRefs": [
+        "O-01",
+        "O-02",
+        "O-03",
+        "O-04",
+        "O-05",
+        "O-06",
+        "O-07",
+        "S-01",
+        "S-09"
+      ],
+      "hypothesisRefs": [],
+      "priority": "recorded",
+      "question": "What is actually known about each of the three attempts?",
+      "dependencies": [],
+      "completionGate": "Preserved timeline with O provenance and unknowns; original report retained.",
+      "requiredEvidence": "O/S; original images unavailable to this review",
+      "absorbs": []
     },
     {
       "id": "Z-002",
-      "phase": "I",
+      "phase": "A",
       "title": "Live revision and deployment provenance",
       "status": "planned",
       "reviewStatus": "unreviewed",
       "evidenceFile": null,
       "lastResearched": null,
       "blockingEvidence": [],
-      "acceptedUnknowns": []
+      "acceptedUnknowns": [],
+      "originalPhase": "I",
+      "originalTitle": "Live revision and deployment provenance",
+      "independentVerification": {
+        "status": "not-verified",
+        "reviewer": null,
+        "evidenceRef": null
+      },
+      "evidenceRefs": [
+        "S-08",
+        "S-10",
+        "P-01"
+      ],
+      "hypothesisRefs": [],
+      "priority": "next",
+      "question": "Which source, publication and device revisions can be established independently?",
+      "dependencies": [
+        "Z-001"
+      ],
+      "completionGate": "Timeline distinguishes commit, successful deployment, sampled served bytes and device runtime; exact gaps remain explicit.",
+      "requiredEvidence": "S/P-public; P-device needed only for device attribution",
+      "absorbs": []
     },
     {
       "id": "Z-003",
-      "phase": "I",
+      "phase": "A",
       "title": "Application module/load graph",
       "status": "planned",
       "reviewStatus": "unreviewed",
       "evidenceFile": null,
       "lastResearched": null,
       "blockingEvidence": [],
-      "acceptedUnknowns": []
+      "acceptedUnknowns": [],
+      "originalPhase": "I",
+      "originalTitle": "Application module/load graph",
+      "independentVerification": {
+        "status": "not-verified",
+        "reviewer": null,
+        "evidenceRef": null
+      },
+      "evidenceRefs": [
+        "S-11",
+        "T-01"
+      ],
+      "hypothesisRefs": [
+        "H-03",
+        "H-06"
+      ],
+      "priority": "now",
+      "question": "Can deferred startup latch identity initialization before its loader exists?",
+      "dependencies": [
+        "Z-001"
+      ],
+      "completionGate": "Matched control, delayed optional loader and delayed unrelated asset discriminate H-03; record events and negative control or exact blocker.",
+      "requiredEvidence": "S + isolated T; imported T-01 is a lead, not independent replication",
+      "absorbs": []
     },
     {
       "id": "Z-004",
-      "phase": "I",
+      "phase": "A",
       "title": "Authority, policy and hazards",
       "status": "planned",
       "reviewStatus": "unreviewed",
       "evidenceFile": null,
       "lastResearched": null,
       "blockingEvidence": [],
-      "acceptedUnknowns": []
+      "acceptedUnknowns": [],
+      "originalPhase": "I",
+      "originalTitle": "Authority, policy and hazards",
+      "independentVerification": {
+        "status": "not-verified",
+        "reviewer": null,
+        "evidenceRef": null
+      },
+      "evidenceRefs": [],
+      "hypothesisRefs": [],
+      "priority": "early",
+      "question": "Which permitted diagnostic calls can themselves write or destroy state?",
+      "dependencies": [],
+      "completionGate": "Action inventory classifies passive reads, initialization side effects, synthetic actions and forbidden production operations.",
+      "requiredEvidence": "S; relevant POS20/POS10 and provider rules",
+      "absorbs": []
     },
     {
       "id": "Z-005",
-      "phase": "II",
+      "phase": "B",
       "title": "Auth transition state machine",
       "status": "planned",
       "reviewStatus": "unreviewed",
       "evidenceFile": null,
       "lastResearched": null,
       "blockingEvidence": [],
-      "acceptedUnknowns": []
+      "acceptedUnknowns": [],
+      "originalPhase": "II",
+      "originalTitle": "Auth transition state machine",
+      "independentVerification": {
+        "status": "not-verified",
+        "reviewer": null,
+        "evidenceRef": null
+      },
+      "evidenceRefs": [],
+      "hypothesisRefs": [],
+      "priority": "early",
+      "question": "Where can sign-in stop, and how are each return, rejection and pending state presented?",
+      "dependencies": [
+        "Z-003",
+        "Z-004"
+      ],
+      "completionGate": "Transition/error table separates loader, popup, Firebase user, bootstrap, device and UI; success/popup-cancel/bootstrap-fail alternatives have distinguishable traces.",
+      "requiredEvidence": "S + T; includes former Z-007",
+      "absorbs": [
+        "Z-007"
+      ]
     },
     {
       "id": "Z-006",
-      "phase": "II",
+      "phase": "B",
       "title": "Popup and user-activation boundary",
       "status": "planned",
       "reviewStatus": "unreviewed",
       "evidenceFile": null,
       "lastResearched": null,
       "blockingEvidence": [],
-      "acceptedUnknowns": []
+      "acceptedUnknowns": [],
+      "originalPhase": "II",
+      "originalTitle": "Popup and user-activation boundary",
+      "independentVerification": {
+        "status": "not-verified",
+        "reviewer": null,
+        "evidenceRef": null
+      },
+      "evidenceRefs": [],
+      "hypothesisRefs": [],
+      "priority": "conditional",
+      "question": "Does delayed pre-popup preparation cause popup failure in a specified browser?",
+      "dependencies": [
+        "Z-005"
+      ],
+      "completionGate": "Record trusted click, activation at invocation, actual popup call/result and timing controls; distinguish no call from rejected call.",
+      "requiredEvidence": "T real browser; P needed for original-device attribution",
+      "absorbs": []
     },
     {
       "id": "Z-007",
-      "phase": "II",
+      "phase": "B",
       "title": "Auth failure taxonomy and recoverability",
-      "status": "planned",
+      "status": "consolidated",
       "reviewStatus": "unreviewed",
       "evidenceFile": null,
       "lastResearched": null,
       "blockingEvidence": [],
-      "acceptedUnknowns": []
+      "acceptedUnknowns": [],
+      "originalPhase": "II",
+      "originalTitle": "Auth failure taxonomy and recoverability",
+      "independentVerification": {
+        "status": "not-verified",
+        "reviewer": null,
+        "evidenceRef": null
+      },
+      "evidenceRefs": [],
+      "hypothesisRefs": [],
+      "canonicalBlock": "Z-005",
+      "dependencies": [],
+      "priority": "alias"
     },
     {
       "id": "Z-008",
-      "phase": "II",
+      "phase": "B",
       "title": "Cross-browser login compatibility",
       "status": "planned",
       "reviewStatus": "unreviewed",
       "evidenceFile": null,
       "lastResearched": null,
       "blockingEvidence": [],
-      "acceptedUnknowns": []
+      "acceptedUnknowns": [],
+      "originalPhase": "II",
+      "originalTitle": "Cross-browser login compatibility",
+      "independentVerification": {
+        "status": "not-verified",
+        "reviewer": null,
+        "evidenceRef": null
+      },
+      "evidenceRefs": [],
+      "hypothesisRefs": [],
+      "priority": "conditional",
+      "question": "Which affected environments differ after the same boundary is exercised?",
+      "dependencies": [
+        "Z-005",
+        "Z-006",
+        "Z-035"
+      ],
+      "completionGate": "Small evidence-led browser matrix; actual browser identities sourced, simulations labelled; unknown environments remain gaps.",
+      "requiredEvidence": "T + separately authorized P",
+      "absorbs": []
     },
     {
       "id": "Z-009",
-      "phase": "III",
+      "phase": "B",
       "title": "Connected Account bootstrap",
       "status": "planned",
       "reviewStatus": "unreviewed",
       "evidenceFile": null,
       "lastResearched": null,
       "blockingEvidence": [],
-      "acceptedUnknowns": []
+      "acceptedUnknowns": [],
+      "originalPhase": "III",
+      "originalTitle": "Connected Account bootstrap",
+      "independentVerification": {
+        "status": "not-verified",
+        "reviewer": null,
+        "evidenceRef": null
+      },
+      "evidenceRefs": [],
+      "hypothesisRefs": [],
+      "priority": "early",
+      "question": "Can Firebase authentication succeed while private bootstrap fails or is unavailable?",
+      "dependencies": [
+        "Z-005"
+      ],
+      "completionGate": "Account transaction/status map and success-versus-bootstrap-failure control; no claim of device readiness from auth alone.",
+      "requiredEvidence": "S/T; live provider state not assumed",
+      "absorbs": []
     },
     {
       "id": "Z-010",
-      "phase": "III",
+      "phase": "B",
       "title": "Registered-device lifecycle",
       "status": "planned",
       "reviewStatus": "unreviewed",
       "evidenceFile": null,
       "lastResearched": null,
       "blockingEvidence": [],
-      "acceptedUnknowns": []
+      "acceptedUnknowns": [],
+      "originalPhase": "III",
+      "originalTitle": "Registered-device lifecycle",
+      "independentVerification": {
+        "status": "not-verified",
+        "reviewer": null,
+        "evidenceRef": null
+      },
+      "evidenceRefs": [],
+      "hypothesisRefs": [],
+      "priority": "early",
+      "question": "What survives reload, browser replacement, storage failure or device revocation?",
+      "dependencies": [
+        "Z-009"
+      ],
+      "completionGate": "IndexedDB identity and registered-device authority map; synthetic missing/blocked/revoked cases fail closed with storage unchanged.",
+      "requiredEvidence": "S/T; no live revoke, clear or re-register diagnostic",
+      "absorbs": []
     },
     {
       "id": "Z-011",
-      "phase": "III",
+      "phase": "B",
       "title": "Nik/Daniel role binding",
       "status": "planned",
       "reviewStatus": "unreviewed",
       "evidenceFile": null,
       "lastResearched": null,
       "blockingEvidence": [],
-      "acceptedUnknowns": []
+      "acceptedUnknowns": [],
+      "originalPhase": "III",
+      "originalTitle": "Nik/Daniel role binding",
+      "independentVerification": {
+        "status": "not-verified",
+        "reviewer": null,
+        "evidenceRef": null
+      },
+      "evidenceRefs": [],
+      "hypothesisRefs": [],
+      "priority": "early",
+      "question": "How does local manager selection reconcile with UID-bound pair membership and mismatches?",
+      "dependencies": [
+        "Z-009",
+        "Z-010"
+      ],
+      "completionGate": "Both roles, wrong local selection and changed synthetic UID matrix; remote membership remains authority.",
+      "requiredEvidence": "S/T; includes former Z-012; no third production account",
+      "absorbs": [
+        "Z-012"
+      ]
     },
     {
       "id": "Z-012",
-      "phase": "III",
+      "phase": "B",
       "title": "Account/device mismatch scenarios",
-      "status": "planned",
+      "status": "consolidated",
       "reviewStatus": "unreviewed",
       "evidenceFile": null,
       "lastResearched": null,
       "blockingEvidence": [],
-      "acceptedUnknowns": []
+      "acceptedUnknowns": [],
+      "originalPhase": "III",
+      "originalTitle": "Account/device mismatch scenarios",
+      "independentVerification": {
+        "status": "not-verified",
+        "reviewer": null,
+        "evidenceRef": null
+      },
+      "evidenceRefs": [],
+      "hypothesisRefs": [],
+      "canonicalBlock": "Z-011",
+      "dependencies": [],
+      "priority": "alias"
     },
     {
       "id": "Z-013",
-      "phase": "IV",
+      "phase": "C",
       "title": "Header and badge lifecycle",
       "status": "planned",
       "reviewStatus": "unreviewed",
       "evidenceFile": null,
       "lastResearched": null,
       "blockingEvidence": [],
-      "acceptedUnknowns": []
+      "acceptedUnknowns": [],
+      "originalPhase": "IV",
+      "originalTitle": "Header and badge lifecycle",
+      "independentVerification": {
+        "status": "not-verified",
+        "reviewer": null,
+        "evidenceRef": null
+      },
+      "evidenceRefs": [],
+      "hypothesisRefs": [],
+      "priority": "early",
+      "question": "Can one identity lifecycle failure explain both missing badge and legacy Settings visibility?",
+      "dependencies": [
+        "Z-003"
+      ],
+      "completionGate": "Separate DOM absence, hidden DOM and containment-not-installed cases; test badge and panel independently under matched load conditions.",
+      "requiredEvidence": "S/T; includes former Z-014",
+      "absorbs": [
+        "Z-014"
+      ]
     },
     {
       "id": "Z-014",
-      "phase": "IV",
+      "phase": "C",
       "title": "Legacy Settings containment",
-      "status": "planned",
+      "status": "consolidated",
       "reviewStatus": "unreviewed",
       "evidenceFile": null,
       "lastResearched": null,
       "blockingEvidence": [],
-      "acceptedUnknowns": []
+      "acceptedUnknowns": [],
+      "originalPhase": "IV",
+      "originalTitle": "Legacy Settings containment",
+      "independentVerification": {
+        "status": "not-verified",
+        "reviewer": null,
+        "evidenceRef": null
+      },
+      "evidenceRefs": [],
+      "hypothesisRefs": [],
+      "canonicalBlock": "Z-013",
+      "dependencies": [],
+      "priority": "alias"
     },
     {
       "id": "Z-015",
-      "phase": "IV",
+      "phase": "C",
       "title": "Navigation and event ownership",
       "status": "planned",
       "reviewStatus": "unreviewed",
       "evidenceFile": null,
       "lastResearched": null,
       "blockingEvidence": [],
-      "acceptedUnknowns": []
+      "acceptedUnknowns": [],
+      "originalPhase": "IV",
+      "originalTitle": "Navigation and event ownership",
+      "independentVerification": {
+        "status": "not-verified",
+        "reviewer": null,
+        "evidenceRef": null
+      },
+      "evidenceRefs": [],
+      "hypothesisRefs": [],
+      "priority": "early",
+      "question": "Which capture and target handlers own each entry action?",
+      "dependencies": [
+        "Z-003",
+        "Z-005"
+      ],
+      "completionGate": "Event-order table with loaded/unloaded identity and pending/ready states; no duplicate-handler cause inferred from coexistence.",
+      "requiredEvidence": "S/T",
+      "absorbs": []
     },
     {
       "id": "Z-016",
-      "phase": "IV",
+      "phase": "C",
       "title": "Accessible feedback and exit paths",
       "status": "planned",
       "reviewStatus": "unreviewed",
       "evidenceFile": null,
       "lastResearched": null,
       "blockingEvidence": [],
-      "acceptedUnknowns": []
+      "acceptedUnknowns": [],
+      "originalPhase": "IV",
+      "originalTitle": "Accessible feedback and exit paths",
+      "independentVerification": {
+        "status": "not-verified",
+        "reviewer": null,
+        "evidenceRef": null
+      },
+      "evidenceRefs": [],
+      "hypothesisRefs": [],
+      "priority": "conditional",
+      "question": "Which waits have a terminal, accessible recovery path?",
+      "dependencies": [
+        "Z-005",
+        "Z-013"
+      ],
+      "completionGate": "Observed deadlines distinguished from proposed deadlines; bounded-feedback/focus/close specification for every selected wait.",
+      "requiredEvidence": "S/T + accessibility design, no UI implementation",
+      "absorbs": []
     },
     {
       "id": "Z-017",
-      "phase": "V",
+      "phase": "D",
       "title": "Persistent pairing authority",
       "status": "planned",
       "reviewStatus": "unreviewed",
       "evidenceFile": null,
       "lastResearched": null,
       "blockingEvidence": [],
-      "acceptedUnknowns": []
+      "acceptedUnknowns": [],
+      "originalPhase": "V",
+      "originalTitle": "Persistent pairing authority",
+      "independentVerification": {
+        "status": "not-verified",
+        "reviewer": null,
+        "evidenceRef": null
+      },
+      "evidenceRefs": [],
+      "hypothesisRefs": [],
+      "priority": "early",
+      "question": "Which durable pair link and local recovery binding identify the same career?",
+      "dependencies": [
+        "Z-009",
+        "Z-010",
+        "Z-011",
+        "Z-021"
+      ],
+      "completionGate": "Pair/rivalry/UID/device/local binding invariants plus safe recovery tree; pair active explicitly separated from session ACTIVE.",
+      "requiredEvidence": "S/T; includes former Z-020",
+      "absorbs": [
+        "Z-020"
+      ]
     },
     {
       "id": "Z-018",
-      "phase": "V",
+      "phase": "D",
       "title": "ACTIVE private session lifecycle",
       "status": "planned",
       "reviewStatus": "unreviewed",
       "evidenceFile": null,
       "lastResearched": null,
       "blockingEvidence": [],
-      "acceptedUnknowns": []
+      "acceptedUnknowns": [],
+      "originalPhase": "V",
+      "originalTitle": "ACTIVE private session lifecycle",
+      "independentVerification": {
+        "status": "not-verified",
+        "reviewer": null,
+        "evidenceRef": null
+      },
+      "evidenceRefs": [],
+      "hypothesisRefs": [],
+      "priority": "early",
+      "question": "What expires or vanishes when a private session is reloaded?",
+      "dependencies": [
+        "Z-017"
+      ],
+      "completionGate": "Capability memory, remote lifecycle and exact ACTIVE validation table, including no-session versus expired-session and wrong context.",
+      "requiredEvidence": "S/T; no capability publication",
+      "absorbs": []
     },
     {
       "id": "Z-019",
-      "phase": "V",
+      "phase": "D",
       "title": "Reconnect after reload",
       "status": "planned",
       "reviewStatus": "unreviewed",
       "evidenceFile": null,
       "lastResearched": null,
       "blockingEvidence": [],
-      "acceptedUnknowns": []
+      "acceptedUnknowns": [],
+      "originalPhase": "V",
+      "originalTitle": "Reconnect after reload",
+      "independentVerification": {
+        "status": "not-verified",
+        "reviewer": null,
+        "evidenceRef": null
+      },
+      "evidenceRefs": [],
+      "hypothesisRefs": [],
+      "priority": "conditional",
+      "question": "Which interruption outcomes preserve the same career and each manager’s screen sequence?",
+      "dependencies": [
+        "Z-018",
+        "Z-021",
+        "Z-024"
+      ],
+      "completionGate": "Before/after invariants for reload/offline/delayed peer; fresh session versus new rivalry distinguished; committed and draft state separated.",
+      "requiredEvidence": "S/T; physical debt explicit; includes Z-023",
+      "absorbs": [
+        "Z-023"
+      ]
     },
     {
       "id": "Z-020",
-      "phase": "V",
+      "phase": "D",
       "title": "Safe pairing recovery boundary",
-      "status": "planned",
+      "status": "consolidated",
       "reviewStatus": "unreviewed",
       "evidenceFile": null,
       "lastResearched": null,
       "blockingEvidence": [],
-      "acceptedUnknowns": []
+      "acceptedUnknowns": [],
+      "originalPhase": "V",
+      "originalTitle": "Safe pairing recovery boundary",
+      "independentVerification": {
+        "status": "not-verified",
+        "reviewer": null,
+        "evidenceRef": null
+      },
+      "evidenceRefs": [],
+      "hypothesisRefs": [],
+      "canonicalBlock": "Z-017",
+      "dependencies": [],
+      "priority": "alias"
     },
     {
       "id": "Z-021",
-      "phase": "VI",
+      "phase": "D",
       "title": "Local Showdown and Save Library",
       "status": "planned",
       "reviewStatus": "unreviewed",
       "evidenceFile": null,
       "lastResearched": null,
       "blockingEvidence": [],
-      "acceptedUnknowns": []
+      "acceptedUnknowns": [],
+      "originalPhase": "VI",
+      "originalTitle": "Local Showdown and Save Library",
+      "independentVerification": {
+        "status": "not-verified",
+        "reviewer": null,
+        "evidenceRef": null
+      },
+      "evidenceRefs": [],
+      "hypothesisRefs": [],
+      "priority": "early",
+      "question": "Where do canonical saves, recovery pointers and pending markers persist?",
+      "dependencies": [
+        "Z-003",
+        "Z-004"
+      ],
+      "completionGate": "Key/object ownership and write/normalization matrix; read-only snapshots or disposable synthetic fixtures only.",
+      "requiredEvidence": "S/T",
+      "absorbs": []
     },
     {
       "id": "Z-022",
-      "phase": "VI",
+      "phase": "D",
       "title": "Remote authority and Candidate C",
       "status": "planned",
       "reviewStatus": "unreviewed",
       "evidenceFile": null,
       "lastResearched": null,
       "blockingEvidence": [],
-      "acceptedUnknowns": []
+      "acceptedUnknowns": [],
+      "originalPhase": "VI",
+      "originalTitle": "Remote authority and Candidate C",
+      "independentVerification": {
+        "status": "not-verified",
+        "reviewer": null,
+        "evidenceRef": null
+      },
+      "evidenceRefs": [],
+      "hypothesisRefs": [],
+      "priority": "conditional",
+      "question": "When is remote comparison read-only, and when may Candidate C Apply mutate local data?",
+      "dependencies": [
+        "Z-017",
+        "Z-021"
+      ],
+      "completionGate": "Preview/explicit Apply/backup/exact rollback authority traced; no alternative destructive recovery path recommended.",
+      "requiredEvidence": "S/T design; no production Apply",
+      "absorbs": []
     },
     {
       "id": "Z-023",
-      "phase": "VI",
+      "phase": "D",
       "title": "Interruption and reconciliation model",
-      "status": "planned",
+      "status": "consolidated",
       "reviewStatus": "unreviewed",
       "evidenceFile": null,
       "lastResearched": null,
       "blockingEvidence": [],
-      "acceptedUnknowns": []
+      "acceptedUnknowns": [],
+      "originalPhase": "VI",
+      "originalTitle": "Interruption and reconciliation model",
+      "independentVerification": {
+        "status": "not-verified",
+        "reviewer": null,
+        "evidenceRef": null
+      },
+      "evidenceRefs": [],
+      "hypothesisRefs": [],
+      "canonicalBlock": "Z-019",
+      "dependencies": [],
+      "priority": "alias"
     },
     {
       "id": "Z-024",
-      "phase": "VI",
+      "phase": "D",
       "title": "Continue Career route audit",
       "status": "planned",
       "reviewStatus": "unreviewed",
       "evidenceFile": null,
       "lastResearched": null,
       "blockingEvidence": [],
-      "acceptedUnknowns": []
+      "acceptedUnknowns": [],
+      "originalPhase": "VI",
+      "originalTitle": "Continue Career route audit",
+      "independentVerification": {
+        "status": "not-verified",
+        "reviewer": null,
+        "evidenceRef": null
+      },
+      "evidenceRefs": [],
+      "hypothesisRefs": [],
+      "priority": "early",
+      "question": "Which Continue Career route wins for each exact authority and save state?",
+      "dependencies": [
+        "Z-015",
+        "Z-017",
+        "Z-018",
+        "Z-021"
+      ],
+      "completionGate": "Trace local fallback, pair continuation and shared entry; absent/mismatched/valid binding controls explain route without assuming data deletion.",
+      "requiredEvidence": "S/T",
+      "absorbs": []
     },
     {
       "id": "Z-025",
-      "phase": "VII",
+      "phase": "C",
       "title": "Offline cache and fetch behavior",
       "status": "planned",
       "reviewStatus": "unreviewed",
       "evidenceFile": null,
       "lastResearched": null,
       "blockingEvidence": [],
-      "acceptedUnknowns": []
+      "acceptedUnknowns": [],
+      "originalPhase": "VII",
+      "originalTitle": "Offline cache and fetch behavior",
+      "independentVerification": {
+        "status": "not-verified",
+        "reviewer": null,
+        "evidenceRef": null
+      },
+      "evidenceRefs": [],
+      "hypothesisRefs": [],
+      "priority": "early",
+      "question": "Can retained shell and network-only assets produce a mixed executable revision?",
+      "dependencies": [
+        "Z-002",
+        "Z-003"
+      ],
+      "completionGate": "Cache/network matrix and fault experiment with byte fingerprints; same-revision load failure remains a competing explanation.",
+      "requiredEvidence": "S/T; P-device required for historical cache attribution; includes Z-026",
+      "absorbs": [
+        "Z-026"
+      ]
     },
     {
       "id": "Z-026",
-      "phase": "VII",
+      "phase": "C",
       "title": "Mixed runtime and stale UI",
-      "status": "planned",
+      "status": "consolidated",
       "reviewStatus": "unreviewed",
       "evidenceFile": null,
       "lastResearched": null,
       "blockingEvidence": [],
-      "acceptedUnknowns": []
+      "acceptedUnknowns": [],
+      "originalPhase": "VII",
+      "originalTitle": "Mixed runtime and stale UI",
+      "independentVerification": {
+        "status": "not-verified",
+        "reviewer": null,
+        "evidenceRef": null
+      },
+      "evidenceRefs": [],
+      "hypothesisRefs": [],
+      "canonicalBlock": "Z-025",
+      "dependencies": [],
+      "priority": "alias"
     },
     {
       "id": "Z-027",
-      "phase": "VII",
+      "phase": "C",
       "title": "Network/visibility transition races",
       "status": "planned",
       "reviewStatus": "unreviewed",
       "evidenceFile": null,
       "lastResearched": null,
       "blockingEvidence": [],
-      "acceptedUnknowns": []
+      "acceptedUnknowns": [],
+      "originalPhase": "VII",
+      "originalTitle": "Network/visibility transition races",
+      "independentVerification": {
+        "status": "not-verified",
+        "reviewer": null,
+        "evidenceRef": null
+      },
+      "evidenceRefs": [],
+      "hypothesisRefs": [],
+      "priority": "conditional",
+      "question": "Do network, visibility or controller changes expose stale async completion?",
+      "dependencies": [
+        "Z-005",
+        "Z-018",
+        "Z-025"
+      ],
+      "completionGate": "Ordered event schedules identify authority generation and stale completion, with single-trigger controls.",
+      "requiredEvidence": "S/T",
+      "absorbs": []
     },
     {
       "id": "Z-028",
-      "phase": "VII",
+      "phase": "C",
       "title": "Safe update and rollback UX",
       "status": "planned",
       "reviewStatus": "unreviewed",
       "evidenceFile": null,
       "lastResearched": null,
       "blockingEvidence": [],
-      "acceptedUnknowns": []
+      "acceptedUnknowns": [],
+      "originalPhase": "VII",
+      "originalTitle": "Safe update and rollback UX",
+      "independentVerification": {
+        "status": "not-verified",
+        "reviewer": null,
+        "evidenceRef": null
+      },
+      "evidenceRefs": [],
+      "hypothesisRefs": [],
+      "priority": "conditional",
+      "question": "Which update or rollback paths preserve saves and remain compatible?",
+      "dependencies": [
+        "Z-025",
+        "Z-019",
+        "Z-022"
+      ],
+      "completionGate": "Non-destructive options and stop conditions tied to tested cache compatibility; no automatic rollback/clear recommendation.",
+      "requiredEvidence": "S/T design; production action separately approved",
+      "absorbs": []
     },
     {
       "id": "Z-029",
-      "phase": "VIII",
+      "phase": "E",
       "title": "Photographic layout evidence map",
       "status": "planned",
       "reviewStatus": "unreviewed",
       "evidenceFile": null,
       "lastResearched": null,
       "blockingEvidence": [],
-      "acceptedUnknowns": []
+      "acceptedUnknowns": [],
+      "originalPhase": "VIII",
+      "originalTitle": "Photographic layout evidence map",
+      "independentVerification": {
+        "status": "not-verified",
+        "reviewer": null,
+        "evidenceRef": null
+      },
+      "evidenceRefs": [],
+      "hypothesisRefs": [],
+      "priority": "early",
+      "question": "Which transfer controls are unreachable at measured viewport and keyboard conditions?",
+      "dependencies": [
+        "Z-001",
+        "Z-003",
+        "Z-035"
+      ],
+      "completionGate": "Screenshot provenance plus CSS/DOM constraint audit and reachability tests; unknown original viewport does not block labelled generic tests.",
+      "requiredEvidence": "O/S/T; physical coverage separate; includes Z-030",
+      "absorbs": [
+        "Z-030"
+      ]
     },
     {
       "id": "Z-030",
-      "phase": "VIII",
+      "phase": "E",
       "title": "Landscape responsive constraints",
-      "status": "planned",
+      "status": "consolidated",
       "reviewStatus": "unreviewed",
       "evidenceFile": null,
       "lastResearched": null,
       "blockingEvidence": [],
-      "acceptedUnknowns": []
+      "acceptedUnknowns": [],
+      "originalPhase": "VIII",
+      "originalTitle": "Landscape responsive constraints",
+      "independentVerification": {
+        "status": "not-verified",
+        "reviewer": null,
+        "evidenceRef": null
+      },
+      "evidenceRefs": [],
+      "hypothesisRefs": [],
+      "canonicalBlock": "Z-029",
+      "dependencies": [],
+      "priority": "alias"
     },
     {
       "id": "Z-031",
-      "phase": "VIII",
+      "phase": "E",
       "title": "Signing/guess validation contract",
       "status": "planned",
       "reviewStatus": "unreviewed",
       "evidenceFile": null,
       "lastResearched": null,
       "blockingEvidence": [],
-      "acceptedUnknowns": []
+      "acceptedUnknowns": [],
+      "originalPhase": "VIII",
+      "originalTitle": "Signing/guess validation contract",
+      "independentVerification": {
+        "status": "not-verified",
+        "reviewer": null,
+        "evidenceRef": null
+      },
+      "evidenceRefs": [
+        "O-02",
+        "S-14"
+      ],
+      "hypothesisRefs": [
+        "H-05",
+        "H-07"
+      ],
+      "priority": "early",
+      "question": "Can visible signing labels differ from canonical IDs before submission?",
+      "dependencies": [
+        "Z-003",
+        "Z-004"
+      ],
+      "completionGate": "Client build → selector IDs → provider validation traced; identical displayed text with/without valid IDs distinguishes H-05 from provider rejection.",
+      "requiredEvidence": "S/T; mutation spy in disposable harness",
+      "absorbs": []
     },
     {
       "id": "Z-032",
-      "phase": "VIII",
+      "phase": "E",
       "title": "Transfer reload/replay safety",
       "status": "planned",
       "reviewStatus": "unreviewed",
       "evidenceFile": null,
       "lastResearched": null,
       "blockingEvidence": [],
-      "acceptedUnknowns": []
+      "acceptedUnknowns": [],
+      "originalPhase": "VIII",
+      "originalTitle": "Transfer reload/replay safety",
+      "independentVerification": {
+        "status": "not-verified",
+        "reviewer": null,
+        "evidenceRef": null
+      },
+      "evidenceRefs": [],
+      "hypothesisRefs": [],
+      "priority": "conditional",
+      "question": "Which transfer drafts, locks and replay witnesses survive interruption?",
+      "dependencies": [
+        "Z-018",
+        "Z-019",
+        "Z-029",
+        "Z-031"
+      ],
+      "completionGate": "Draft versus provider-committed input and per-manager screen ledger tested across reload; idempotent locks and zero replay writes checked.",
+      "requiredEvidence": "S/T; P later; preserve private rival inputs",
+      "absorbs": []
     },
     {
       "id": "Z-033",
-      "phase": "IX",
+      "phase": "A",
       "title": "Competing root-cause model",
       "status": "planned",
       "reviewStatus": "unreviewed",
       "evidenceFile": null,
       "lastResearched": null,
       "blockingEvidence": [],
-      "acceptedUnknowns": []
+      "acceptedUnknowns": [],
+      "originalPhase": "IX",
+      "originalTitle": "Competing root-cause model",
+      "independentVerification": {
+        "status": "not-verified",
+        "reviewer": null,
+        "evidenceRef": null
+      },
+      "evidenceRefs": [],
+      "hypothesisRefs": [],
+      "priority": "early",
+      "question": "Which causal models survive evidence, including independent defects?",
+      "dependencies": [
+        "Z-001",
+        "Z-003",
+        "Z-004"
+      ],
+      "completionGate": "Symptoms linked to alternatives and falsifiers; contradiction and observation needed to distinguish each recorded. Revisit on new evidence.",
+      "requiredEvidence": "O/S/T/P as available; H remains explicitly hypothetical",
+      "absorbs": []
     },
     {
       "id": "Z-034",
-      "phase": "IX",
+      "phase": "A",
       "title": "Deterministic test architecture",
       "status": "planned",
       "reviewStatus": "unreviewed",
       "evidenceFile": null,
       "lastResearched": null,
       "blockingEvidence": [],
-      "acceptedUnknowns": []
+      "acceptedUnknowns": [],
+      "originalPhase": "IX",
+      "originalTitle": "Deterministic test architecture",
+      "independentVerification": {
+        "status": "not-verified",
+        "reviewer": null,
+        "evidenceRef": null
+      },
+      "evidenceRefs": [],
+      "hypothesisRefs": [],
+      "priority": "early",
+      "question": "Which smallest experiments separate candidate causes without changing application code?",
+      "dependencies": [
+        "Z-003",
+        "Z-004"
+      ],
+      "completionGate": "Oracle, negative control, fault variable, environment, stop rule and relevant suite specified for each selected experiment.",
+      "requiredEvidence": "S; T design, not execution credit",
+      "absorbs": []
     },
     {
       "id": "Z-035",
-      "phase": "IX",
+      "phase": "A",
       "title": "Safe production observation plan",
       "status": "planned",
       "reviewStatus": "unreviewed",
       "evidenceFile": null,
       "lastResearched": null,
       "blockingEvidence": [],
-      "acceptedUnknowns": []
+      "acceptedUnknowns": [],
+      "originalPhase": "IX",
+      "originalTitle": "Safe production observation plan",
+      "independentVerification": {
+        "status": "not-verified",
+        "reviewer": null,
+        "evidenceRef": null
+      },
+      "evidenceRefs": [],
+      "hypothesisRefs": [],
+      "priority": "early",
+      "question": "Which physical observations cannot safely be replaced by source or simulation?",
+      "dependencies": [
+        "Z-001",
+        "Z-004"
+      ],
+      "completionGate": "Minimal consented capture protocol with allowlisted fields, redaction, retention and no initialization disguised as reading.",
+      "requiredEvidence": "O/S; plan only, P requires authorization",
+      "absorbs": []
     },
     {
       "id": "Z-036",
-      "phase": "IX",
+      "phase": "F",
       "title": "Two-device acceptance design",
       "status": "planned",
       "reviewStatus": "unreviewed",
       "evidenceFile": null,
       "lastResearched": null,
       "blockingEvidence": [],
-      "acceptedUnknowns": []
+      "acceptedUnknowns": [],
+      "originalPhase": "IX",
+      "originalTitle": "Two-device acceptance design",
+      "independentVerification": {
+        "status": "not-verified",
+        "reviewer": null,
+        "evidenceRef": null
+      },
+      "evidenceRefs": [],
+      "hypothesisRefs": [],
+      "priority": "conditional",
+      "question": "What authorized physical run can verify the supported mechanism and full recovery?",
+      "dependencies": [
+        "Z-008",
+        "Z-019",
+        "Z-022",
+        "Z-029",
+        "Z-031",
+        "Z-032",
+        "Z-034",
+        "Z-035"
+      ],
+      "completionGate": "Executable one-season diagnosis and, when justified, current SSJR-2.1 three-season acceptance plan; each manager supplies own evidence.",
+      "requiredEvidence": "Plan S/T; actual P and attestation remain separate gates",
+      "absorbs": []
     },
     {
       "id": "Z-037",
-      "phase": "X",
+      "phase": "G",
       "title": "Remediation options and tradeoffs",
       "status": "planned",
       "reviewStatus": "unreviewed",
       "evidenceFile": null,
       "lastResearched": null,
       "blockingEvidence": [],
-      "acceptedUnknowns": []
+      "acceptedUnknowns": [],
+      "originalPhase": "X",
+      "originalTitle": "Remediation options and tradeoffs",
+      "independentVerification": {
+        "status": "not-verified",
+        "reviewer": null,
+        "evidenceRef": null
+      },
+      "evidenceRefs": [],
+      "hypothesisRefs": [],
+      "priority": "conditional",
+      "question": "Which remedies address supported causes within every guard?",
+      "dependencies": [
+        "Z-033",
+        "Z-034"
+      ],
+      "completionGate": "At least two feasible alternatives or reason only one is viable; security/privacy/cost and regression obligations assessed per option.",
+      "requiredEvidence": "Evidence-supported recommendation only; includes Z-038",
+      "absorbs": [
+        "Z-038"
+      ]
     },
     {
       "id": "Z-038",
-      "phase": "X",
+      "phase": "G",
       "title": "Security, privacy and budget review",
-      "status": "planned",
+      "status": "consolidated",
       "reviewStatus": "unreviewed",
       "evidenceFile": null,
       "lastResearched": null,
       "blockingEvidence": [],
-      "acceptedUnknowns": []
+      "acceptedUnknowns": [],
+      "originalPhase": "X",
+      "originalTitle": "Security, privacy and budget review",
+      "independentVerification": {
+        "status": "not-verified",
+        "reviewer": null,
+        "evidenceRef": null
+      },
+      "evidenceRefs": [],
+      "hypothesisRefs": [],
+      "canonicalBlock": "Z-037",
+      "dependencies": [],
+      "priority": "alias"
     },
     {
       "id": "Z-039",
-      "phase": "X",
+      "phase": "G",
       "title": "Integrated evidence/contradictions audit",
       "status": "planned",
       "reviewStatus": "unreviewed",
       "evidenceFile": null,
       "lastResearched": null,
       "blockingEvidence": [],
-      "acceptedUnknowns": []
+      "acceptedUnknowns": [],
+      "originalPhase": "X",
+      "originalTitle": "Integrated evidence/contradictions audit",
+      "independentVerification": {
+        "status": "not-verified",
+        "reviewer": null,
+        "evidenceRef": null
+      },
+      "evidenceRefs": [],
+      "hypothesisRefs": [],
+      "priority": "conditional",
+      "question": "Which claims withstand an independent evidence and contradiction audit?",
+      "dependencies": [
+        "Z-036",
+        "Z-037"
+      ],
+      "completionGate": "Reviewer cites inspected artifacts, scope, contradictory results and unresolved debt; author self-review cannot self-award independent verification.",
+      "requiredEvidence": "Independent review of actual O/S/T/P; no automatic pass",
+      "absorbs": []
     },
     {
       "id": "Z-040",
-      "phase": "X",
+      "phase": "G",
       "title": "Team G Lead decision packet",
       "status": "planned",
       "reviewStatus": "unreviewed",
       "evidenceFile": null,
       "lastResearched": null,
       "blockingEvidence": [],
-      "acceptedUnknowns": []
+      "acceptedUnknowns": [],
+      "originalPhase": "X",
+      "originalTitle": "Team G Lead decision packet",
+      "independentVerification": {
+        "status": "not-verified",
+        "reviewer": null,
+        "evidenceRef": null
+      },
+      "evidenceRefs": [],
+      "hypothesisRefs": [],
+      "priority": "conditional",
+      "question": "What engineering decisions does the lead have sufficient evidence to make?",
+      "dependencies": [
+        "Z-039"
+      ],
+      "completionGate": "Cause-specific dossier and accept/reject/defer decisions requested; unknowns dispositioned without forced completion of irrelevant blocks.",
+      "requiredEvidence": "Lead receipt/decision evidence separate; tonight’s leadership package is not this completed block",
+      "absorbs": []
     }
   ],
   "history": [
@@ -483,6 +1202,739 @@
       "outcome": "research-complete",
       "artifact": "research-blocks/Z-001_INCIDENT_BASELINE.md",
       "note": "Physical-playtest incident and static source anchors; no physical reproductions or fixes."
+    },
+    {
+      "date": "2026-10-08",
+      "block": null,
+      "outcome": "architecture-redesign",
+      "artifact": "ARCHITECTURE_AUDIT.md",
+      "note": "40 historical IDs retained; 8 aliases consolidated into 32 active units across 7 tracks. No additional research blocks closed. Next changed Z-002 → Z-003 due to exact-main QA evidence T-01. Leadership and final causal dossier gates separated."
+    },
+    {
+      "date": "2026-10-08",
+      "block": null,
+      "outcome": "foundation-integrated",
+      "artifact": "STUDIO_Z_FOUNDATION_AND_LEAD_HANDOFF_2026-10-08.md",
+      "note": "Finite studio charter committed; Astra working ledger restored from owner export with historical evidence boundaries. No implementation, independent test, or physical root-cause credit."
     }
-  ]
+  ],
+  "roadmapRevision": 2,
+  "totalHistoricalBlockIds": 40,
+  "continuityState": "READY",
+  "rootCauseStatus": "unverified",
+  "physicalIncidentReproduced": false,
+  "sourceBaseline": {
+    "observedAt": "2026-10-08T17:00:27Z",
+    "mainSha": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+    "researchParentSha": "740a706129d963ec2ff1c5f35c68e3c71b0a7a3f",
+    "productTreeRelation": "Research branch differs from main only under investigations/problem-z/",
+    "checkedInRuntime": "1.9.1-r62",
+    "servedSampleEvidence": "P-01",
+    "originalDeviceRuntime": "unknown",
+    "deploymentEvidence": "S-10",
+    "providerDeployment": "not verified in this review",
+    "freshness": "as-of observation; re-resolve at next session"
+  },
+  "architectureReview": {
+    "id": "AR-2026-10-08",
+    "status": "documented",
+    "independentReview": "not performed",
+    "report": "ARCHITECTURE_AUDIT.md",
+    "scope": "Astra research program review, source hypotheses and proposed experiments, not independent validation or Lens implementation",
+    "newProductTestsExecuted": false,
+    "importedTestEvidence": [
+      "T-01"
+    ]
+  },
+  "phases": [
+    {
+      "id": "A",
+      "title": "Foundations and experiment design",
+      "kind": "dependency-track-not-calendar-stage"
+    },
+    {
+      "id": "B",
+      "title": "Authentication and identity",
+      "kind": "dependency-track-not-calendar-stage"
+    },
+    {
+      "id": "C",
+      "title": "UI and runtime consistency",
+      "kind": "dependency-track-not-calendar-stage"
+    },
+    {
+      "id": "D",
+      "title": "Pairing, sessions and recovery",
+      "kind": "dependency-track-not-calendar-stage"
+    },
+    {
+      "id": "E",
+      "title": "Transfer usability and persistence",
+      "kind": "dependency-track-not-calendar-stage"
+    },
+    {
+      "id": "F",
+      "title": "Physical verification design",
+      "kind": "dependency-track-not-calendar-stage"
+    },
+    {
+      "id": "G",
+      "title": "Causal synthesis and lead decisions",
+      "kind": "dependency-track-not-calendar-stage"
+    }
+  ],
+  "leadershipHandoff": {
+    "scheduledAt": "2026-10-08T20:00:00-04:00",
+    "timeZone": "America/New_York",
+    "scheduledAtUtc": "2026-10-09T00:00:00Z",
+    "incomingLead": "Team G Lead — Claude Opus 5.5, Factory G",
+    "owner": "Nik",
+    "status": "Package committed; owner transfer and lead acceptance not evidenced",
+    "package": "STUDIO_Z_FOUNDATION_AND_LEAD_HANDOFF_2026-10-08.md",
+    "deliveredToLeadEvidence": null,
+    "acknowledgmentEvidence": null,
+    "acceptanceEvidence": null,
+    "effectiveOperationalAuthority": "Owner-directed research until actual acceptance; scheduled time alone is not acceptance",
+    "implementationAuthorization": false
+  },
+  "lens": {
+    "status": "optional-on-demand-read-only-concept",
+    "design": null,
+    "implementationAuthorized": false,
+    "mode": "on-demand snapshot",
+    "continuousMonitoring": false
+  },
+  "selection": {
+    "objective": "Independently discriminate the reported startup loader failure from generic authentication failure.",
+    "selectedAction": "Z-003 / X-01, using unchanged pinned source and disposable local browser contexts.",
+    "reason": "Exact-main imported control/intervention report offers high information value and no physical-account cost. Z-002 remains partial provenance debt, not a blocker for source-matched local testing.",
+    "blocker": null,
+    "nextVerification": "Matched control and delayed unrelated asset must separate dependency ordering from general slowness; record limitations.",
+    "evidenceFingerprint": "bc77a0b:S-11:T-01@2b88d4ae;P-01 sampled assets",
+    "unchangedEvidenceNonDiscriminatingAttempts": 0
+  },
+  "hypotheses": [
+    {
+      "id": "H-01",
+      "causalClaim": "Awaited pre-popup work causes loss of transient activation and prevents the Google popup in some environments.",
+      "symptoms": [
+        "C: pending sign-in"
+      ],
+      "supportingEvidence": [
+        "S-03",
+        "S-04"
+      ],
+      "contradictoryOrLimitingEvidence": [],
+      "alternativeHypotheses": [
+        "H-02",
+        "H-11"
+      ],
+      "falsifyingObservation": "The popup is invoked and succeeds during the same failing attempt; that attempt must be explained after authentication.",
+      "cheapestSafeExperiment": "X-02",
+      "disposition": "untested-browser-mechanism",
+      "remainingUncertainty": "No activation or popup trace from either physical device. Async code alone does not prove gesture loss.",
+      "independentlyVerified": false
+    },
+    {
+      "id": "H-02",
+      "causalClaim": "Connected-account bootstrap failure after Firebase authentication is presented as signed out by the online identity layer.",
+      "symptoms": [
+        "C: Settings sign-in not game-ready",
+        "C: misleading sign-in state"
+      ],
+      "supportingEvidence": [
+        "S-03",
+        "S-04",
+        "S-12"
+      ],
+      "contradictoryOrLimitingEvidence": [],
+      "alternativeHypotheses": [
+        "H-01",
+        "H-10",
+        "H-11"
+      ],
+      "falsifyingObservation": "A controlled connected=false/bootstrap-error result retains a distinct actionable bootstrap error in the online UI.",
+      "cheapestSafeExperiment": "X-02",
+      "disposition": "source-supported-path-unverified-incident",
+      "remainingUncertainty": "Source supports state collapse; no failing physical account trace. A permanently pending promise is a different mechanism.",
+      "independentlyVerified": false
+    },
+    {
+      "id": "H-03",
+      "causalClaim": "Identity startup runs before the optional loader is defined, latches its bootstrap flag and never automatically retries, leaving badge and identity guard absent.",
+      "symptoms": [
+        "C: missing Home sign-in",
+        "C: possible legacy panel exposure"
+      ],
+      "supportingEvidence": [
+        "S-01",
+        "S-02",
+        "S-11",
+        "T-01"
+      ],
+      "contradictoryOrLimitingEvidence": [
+        "O-05"
+      ],
+      "alternativeHypotheses": [
+        "H-06",
+        "H-10"
+      ],
+      "falsifyingObservation": "On unchanged source, firing startup before the loader is ready still automatically recovers after loader availability with no intervention.",
+      "cheapestSafeExperiment": "X-01",
+      "disposition": "imported-controlled-support-needs-independent-replication",
+      "remainingUncertainty": "O-05 contains an identity overlay, so absent identity cannot explain every state of Run C; Settings may trigger a later load. Same-device chronology missing.",
+      "independentlyVerified": false
+    },
+    {
+      "id": "H-04",
+      "causalClaim": "Continue Career resolves a different or incomplete local/remote authority context and routes into setup despite a preserved existing career.",
+      "symptoms": [
+        "B: repeat setup/pairing",
+        "A: refresh continuity"
+      ],
+      "supportingEvidence": [
+        "S-07",
+        "S-13"
+      ],
+      "contradictoryOrLimitingEvidence": [],
+      "alternativeHypotheses": [
+        "H-08",
+        "H-09",
+        "H-11"
+      ],
+      "falsifyingObservation": "The failing synthetic case preserves exact binding and takes the expected canonical resume route; actual failure lies in another boundary.",
+      "cheapestSafeExperiment": "X-04",
+      "disposition": "untested-causal-claim",
+      "remainingUncertainty": "Multiple handlers are present, but no observed event conflict or physical deletion trace exists.",
+      "independentlyVerified": false
+    },
+    {
+      "id": "H-05",
+      "causalClaim": "Partly populated signing controls have display text but missing canonical selector IDs, triggering client validation before provider mutation.",
+      "symptoms": [
+        "A: signing 1 error"
+      ],
+      "supportingEvidence": [
+        "O-02",
+        "S-14"
+      ],
+      "contradictoryOrLimitingEvidence": [],
+      "alternativeHypotheses": [
+        "H-07",
+        "H-09",
+        "H-11"
+      ],
+      "falsifyingObservation": "At the precise rejection, the client sees valid player text and both valid canonical IDs, and the emitted error demonstrably originates downstream.",
+      "cheapestSafeExperiment": "X-05",
+      "disposition": "source-supported-path-unverified-incident",
+      "remainingUncertainty": "Required text exists in client source. Missing field/ID on physical tablet remains unknown; wording of screenshot wrapper not rechecked.",
+      "independentlyVerified": false
+    },
+    {
+      "id": "H-06",
+      "causalClaim": "A retained shell combined with newer network-only assets or a missing versioned resource yields incompatible runtime/UI behavior.",
+      "symptoms": [
+        "C: missing badge/legacy panel",
+        "A: transfer surface",
+        "B: navigation"
+      ],
+      "supportingEvidence": [
+        "S-08",
+        "S-15"
+      ],
+      "contradictoryOrLimitingEvidence": [
+        "P-01",
+        "T-01"
+      ],
+      "alternativeHypotheses": [
+        "H-03",
+        "H-10"
+      ],
+      "falsifyingObservation": "The relevant loaded asset bytes and cache/controller context match one tested revision during the failure and the failure remains under that coherent runtime.",
+      "cheapestSafeExperiment": "X-03",
+      "disposition": "untested-runtime-attribution",
+      "remainingUncertainty": "P-01 weakens a currently stale public-server sample only; it does not inspect device caches. T-01 offers a coherent-source alternative.",
+      "independentlyVerified": false
+    },
+    {
+      "id": "H-07",
+      "causalClaim": "Tablet layout or keyboard constraints make required transfer controls inaccessible, increasing the chance of incomplete input.",
+      "symptoms": [
+        "A: cards do not fit",
+        "A: possible incomplete signing"
+      ],
+      "supportingEvidence": [
+        "O-01",
+        "S-16"
+      ],
+      "contradictoryOrLimitingEvidence": [],
+      "alternativeHypotheses": [
+        "H-05",
+        "H-09"
+      ],
+      "falsifyingObservation": "Every required input and action is reachable at the actual measured failing viewport and keyboard state, while rejection persists with valid input.",
+      "cheapestSafeExperiment": "X-06",
+      "disposition": "untested-layout-causality",
+      "remainingUncertainty": "Original screenshot and viewport unavailable; generic responsive failure cannot be labelled the original incident.",
+      "independentlyVerified": false
+    },
+    {
+      "id": "H-08",
+      "causalClaim": "Reload discards a page-memory private-session capability, and expected reauthorization is mistaken for lost pairing or lost career.",
+      "symptoms": [
+        "A/B: apparent disconnect after reload/Continue"
+      ],
+      "supportingEvidence": [
+        "S-13",
+        "S-17"
+      ],
+      "contradictoryOrLimitingEvidence": [],
+      "alternativeHypotheses": [
+        "H-04",
+        "H-09",
+        "H-11"
+      ],
+      "falsifyingObservation": "A valid exact unexpired session is present during failure, or the durable pair/career was actually lost.",
+      "cheapestSafeExperiment": "X-04",
+      "disposition": "source-supported-distinction-unverified-incident",
+      "remainingUncertainty": "Fresh private session may be required; repeated permanent pairing/setup should not be assumed necessary or acceptable.",
+      "independentlyVerified": false
+    },
+    {
+      "id": "H-09",
+      "causalClaim": "Uncommitted transfer draft fields are lost on rerender/reload while provider-committed state survives, producing apparent total progress loss.",
+      "symptoms": [
+        "A: lost inputs/continuity"
+      ],
+      "supportingEvidence": [
+        "S-14",
+        "S-18"
+      ],
+      "contradictoryOrLimitingEvidence": [],
+      "alternativeHypotheses": [
+        "H-04",
+        "H-08"
+      ],
+      "falsifyingObservation": "Draft inputs round-trip through an identified persistence path in the failing conditions, or committed state is what is lost instead.",
+      "cheapestSafeExperiment": "X-07",
+      "disposition": "untested-persistence-claim",
+      "remainingUncertainty": "No complete draft-storage audit yet. Observed UI reset is not proof of local or remote deletion.",
+      "independentlyVerified": false
+    },
+    {
+      "id": "H-10",
+      "causalClaim": "Overlapping forced identity initialization or auth callbacks allow an older completion to overwrite newer identity/readiness state.",
+      "symptoms": [
+        "C: inconsistent readiness",
+        "B: context mismatch"
+      ],
+      "supportingEvidence": [
+        "S-12",
+        "S-19"
+      ],
+      "contradictoryOrLimitingEvidence": [],
+      "alternativeHypotheses": [
+        "H-02",
+        "H-03",
+        "H-11"
+      ],
+      "falsifyingObservation": "Controlled old/new completions cannot publish a state inconsistent with the latest synthetic account generation because all relevant paths reject stale completions.",
+      "cheapestSafeExperiment": "X-08",
+      "disposition": "untested-race",
+      "remainingUncertainty": "Force initialization and multiple callbacks are source facts, not a demonstrated stale-state defect.",
+      "independentlyVerified": false
+    },
+    {
+      "id": "H-11",
+      "causalClaim": "Network, runtime configuration, provider quota or permission failures block private bootstrap/session operations after the UI starts.",
+      "symptoms": [
+        "C: sign-in/bootstrap unavailable",
+        "B: failed resume",
+        "A: provider rejection alternative"
+      ],
+      "supportingEvidence": [
+        "S-04",
+        "S-12",
+        "S-13"
+      ],
+      "contradictoryOrLimitingEvidence": [],
+      "alternativeHypotheses": [
+        "H-01",
+        "H-02",
+        "H-05"
+      ],
+      "falsifyingObservation": "For the failing boundary, a recorded successful response and valid runtime configuration precede a purely local failure.",
+      "cheapestSafeExperiment": "X-02",
+      "disposition": "untested-environmental-alternative",
+      "remainingUncertainty": "No provider logs, deployed Rules readback, incident network trace or safe error codes available.",
+      "independentlyVerified": false
+    }
+  ],
+  "hypothesisLineage": {
+    "H-01": "Retains original popup/async lead; precise activation claim now separated from generic waits.",
+    "H-02": "Retains readiness/error-presentation lead.",
+    "H-03": "Refines original UI/bootstrap/cache umbrella to loader latch; runtime-mix alternative preserved as H-06.",
+    "H-04": "Retains continuation lead; expected ephemeral session and draft persistence separated as H-08/H-09.",
+    "H-05": "Refines original combined layout/validation lead to canonical input validation; layout preserved as H-07."
+  },
+  "evidenceIndex": [
+    {
+      "id": "O-01",
+      "tier": "O",
+      "scope": "owner-report",
+      "label": "Tablet usability and lost continuation",
+      "ref": "EVIDENCE_REGISTER.md",
+      "lineageGroup": "incident-2026-10-07",
+      "independentIncidentVerification": false
+    },
+    {
+      "id": "O-02",
+      "tier": "O",
+      "scope": "inherited-screenshot-description",
+      "label": "Signing 1 validation text",
+      "ref": "EVIDENCE_REGISTER.md",
+      "lineageGroup": "incident-2026-10-07",
+      "independentIncidentVerification": false
+    },
+    {
+      "id": "O-03",
+      "tier": "O",
+      "scope": "owner-report",
+      "label": "Continue Career restart appearance",
+      "ref": "EVIDENCE_REGISTER.md",
+      "lineageGroup": "incident-2026-10-07",
+      "independentIncidentVerification": false
+    },
+    {
+      "id": "O-04",
+      "tier": "O",
+      "scope": "owner-report",
+      "label": "Missing Home sign-in",
+      "ref": "EVIDENCE_REGISTER.md",
+      "lineageGroup": "incident-2026-10-07",
+      "independentIncidentVerification": false
+    },
+    {
+      "id": "O-05",
+      "tier": "O",
+      "scope": "inherited-screenshot-description",
+      "label": "Connecting overlay",
+      "ref": "EVIDENCE_REGISTER.md",
+      "lineageGroup": "incident-2026-10-07",
+      "independentIncidentVerification": false
+    },
+    {
+      "id": "O-06",
+      "tier": "O",
+      "scope": "owner-report",
+      "label": "Repeated sign-in failures",
+      "ref": "EVIDENCE_REGISTER.md",
+      "lineageGroup": "incident-2026-10-07",
+      "independentIncidentVerification": false
+    },
+    {
+      "id": "O-07",
+      "tier": "O",
+      "scope": "inherited-screenshot-description",
+      "label": "Legacy Offline App surface",
+      "ref": "EVIDENCE_REGISTER.md",
+      "lineageGroup": "incident-2026-10-07",
+      "independentIncidentVerification": false
+    },
+    {
+      "id": "S-01",
+      "tier": "S",
+      "scope": "repository-source",
+      "label": "Static Home header",
+      "ref": "EVIDENCE_REGISTER.md",
+      "lineageGroup": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+      "independentIncidentVerification": false
+    },
+    {
+      "id": "S-02",
+      "tier": "S",
+      "scope": "repository-source",
+      "label": "Dynamic identity badge",
+      "ref": "EVIDENCE_REGISTER.md",
+      "lineageGroup": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+      "independentIncidentVerification": false
+    },
+    {
+      "id": "S-03",
+      "tier": "S",
+      "scope": "repository-source",
+      "label": "Online identity sign-in flow",
+      "ref": "EVIDENCE_REGISTER.md",
+      "lineageGroup": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+      "independentIncidentVerification": false
+    },
+    {
+      "id": "S-04",
+      "tier": "S",
+      "scope": "repository-source",
+      "label": "Connected Account sign-in/activation",
+      "ref": "EVIDENCE_REGISTER.md",
+      "lineageGroup": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+      "independentIncidentVerification": false
+    },
+    {
+      "id": "S-05",
+      "tier": "S",
+      "scope": "repository-source",
+      "label": "Legacy Settings builder",
+      "ref": "EVIDENCE_REGISTER.md",
+      "lineageGroup": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+      "independentIncidentVerification": false
+    },
+    {
+      "id": "S-06",
+      "tier": "S",
+      "scope": "repository-source",
+      "label": "Identity containment style",
+      "ref": "EVIDENCE_REGISTER.md",
+      "lineageGroup": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+      "independentIncidentVerification": false
+    },
+    {
+      "id": "S-07",
+      "tier": "S",
+      "scope": "repository-source",
+      "label": "Local and connected continuation routes",
+      "ref": "EVIDENCE_REGISTER.md",
+      "lineageGroup": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+      "independentIncidentVerification": false
+    },
+    {
+      "id": "S-08",
+      "tier": "S",
+      "scope": "repository-source",
+      "label": "Checked-in r62/r61",
+      "ref": "EVIDENCE_REGISTER.md",
+      "lineageGroup": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+      "independentIncidentVerification": false
+    },
+    {
+      "id": "S-09",
+      "tier": "S",
+      "scope": "repository-source",
+      "label": "Product guards and governance",
+      "ref": "EVIDENCE_REGISTER.md",
+      "lineageGroup": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+      "independentIncidentVerification": false
+    },
+    {
+      "id": "S-10",
+      "tier": "S",
+      "scope": "repository-source",
+      "label": "Live refs and GitHub publication metadata",
+      "ref": "EVIDENCE_REGISTER.md",
+      "lineageGroup": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+      "independentIncidentVerification": false
+    },
+    {
+      "id": "S-11",
+      "tier": "S",
+      "scope": "repository-source",
+      "label": "Deferred startup ordering and latch",
+      "ref": "EVIDENCE_REGISTER.md",
+      "lineageGroup": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+      "independentIncidentVerification": false
+    },
+    {
+      "id": "S-12",
+      "tier": "S",
+      "scope": "repository-source",
+      "label": "Auth, bootstrap, device and role distinctions",
+      "ref": "EVIDENCE_REGISTER.md",
+      "lineageGroup": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+      "independentIncidentVerification": false
+    },
+    {
+      "id": "S-13",
+      "tier": "S",
+      "scope": "repository-source",
+      "label": "Pair binding and exact session continuation",
+      "ref": "EVIDENCE_REGISTER.md",
+      "lineageGroup": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+      "independentIncidentVerification": false
+    },
+    {
+      "id": "S-14",
+      "tier": "S",
+      "scope": "repository-source",
+      "label": "Client signing validation and selector IDs",
+      "ref": "EVIDENCE_REGISTER.md",
+      "lineageGroup": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+      "independentIncidentVerification": false
+    },
+    {
+      "id": "S-15",
+      "tier": "S",
+      "scope": "repository-source",
+      "label": "Cache versus network-only assets",
+      "ref": "EVIDENCE_REGISTER.md",
+      "lineageGroup": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+      "independentIncidentVerification": false
+    },
+    {
+      "id": "S-16",
+      "tier": "S",
+      "scope": "repository-source",
+      "label": "Transfer visual plate and responsive constraints",
+      "ref": "EVIDENCE_REGISTER.md",
+      "lineageGroup": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+      "independentIncidentVerification": false
+    },
+    {
+      "id": "S-17",
+      "tier": "S",
+      "scope": "repository-source",
+      "label": "Page-memory session and reconnect contract",
+      "ref": "EVIDENCE_REGISTER.md",
+      "lineageGroup": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+      "independentIncidentVerification": false
+    },
+    {
+      "id": "S-18",
+      "tier": "S",
+      "scope": "repository-source",
+      "label": "Transfer context reset and committed replay",
+      "ref": "EVIDENCE_REGISTER.md",
+      "lineageGroup": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+      "independentIncidentVerification": false
+    },
+    {
+      "id": "S-19",
+      "tier": "S",
+      "scope": "repository-source",
+      "label": "Forced initialization and auth callbacks",
+      "ref": "EVIDENCE_REGISTER.md",
+      "lineageGroup": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
+      "independentIncidentVerification": false
+    },
+    {
+      "id": "T-01",
+      "tier": "T",
+      "scope": "imported-controlled-report",
+      "label": "PR425 exact-main startup timing report, not independently rerun",
+      "ref": "EVIDENCE_REGISTER.md",
+      "lineageGroup": "qa-codex-1006-2350",
+      "independentIncidentVerification": false
+    },
+    {
+      "id": "P-01",
+      "tier": "P",
+      "scope": "public-http-assets",
+      "label": "Four public assets match main; no physical device observed",
+      "ref": "EVIDENCE_REGISTER.md",
+      "lineageGroup": "http-sample-2026-10-08",
+      "independentIncidentVerification": false
+    }
+  ],
+  "contradictions": [
+    {
+      "id": "C-01",
+      "summary": "Successful exact-main CI coexists with imported startup failures; timing/coverage differ, so neither cancels the other.",
+      "evidenceRefs": [
+        "S-10",
+        "T-01"
+      ],
+      "status": "unresolved",
+      "nextExperiment": "X-01"
+    },
+    {
+      "id": "C-02",
+      "summary": "An identity overlay was visible during one attempt; an absent identity module cannot explain that entire attempt without a later load or distinct chronology.",
+      "evidenceRefs": [
+        "O-05",
+        "S-11"
+      ],
+      "status": "unresolved",
+      "nextExperiment": "X-01"
+    },
+    {
+      "id": "C-03",
+      "summary": "Current source emits the signing text before provider mutation; inherited wording suggests provider error without a response trace.",
+      "evidenceRefs": [
+        "O-02",
+        "S-14"
+      ],
+      "status": "source-attribution-corrected-incident-open",
+      "nextExperiment": "X-05"
+    },
+    {
+      "id": "C-04",
+      "summary": "Original lead asks same-session recovery; current contract intentionally loses capability on reload and may require a fresh exact session for the same rivalry.",
+      "evidenceRefs": [
+        "S-13",
+        "S-17"
+      ],
+      "status": "research-oracle-corrected",
+      "nextExperiment": "X-04"
+    },
+    {
+      "id": "C-05",
+      "summary": "POS20 observed refs and NEXT_TASK runtime are stale relative to live refs; they do not set current execution priority.",
+      "evidenceRefs": [
+        "S-09",
+        "S-10"
+      ],
+      "status": "reconciled-for-research-only",
+      "nextExperiment": null
+    }
+  ],
+  "blockers": [
+    {
+      "id": "B-01",
+      "summary": "Original three physical screenshots were not available to this review.",
+      "affects": [
+        "Z-001",
+        "Z-029"
+      ],
+      "blocks": "image-specific conclusions only",
+      "needed": "Owner-supplied originals with minimal sanitized context if later authorized"
+    },
+    {
+      "id": "B-02",
+      "summary": "No original device asset, popup, session or canonical-input trace.",
+      "affects": [
+        "Z-002",
+        "Z-008",
+        "Z-019",
+        "Z-029",
+        "Z-031",
+        "Z-036"
+      ],
+      "blocks": "historical physical root-cause verification",
+      "needed": "Targeted consented observations under Z-035"
+    },
+    {
+      "id": "B-03",
+      "summary": "Team G Lead receipt, acknowledgment and acceptance not evidenced.",
+      "affects": [
+        "handoff"
+      ],
+      "blocks": "claiming completed transfer or operational acceptance",
+      "needed": "Actual lead response linked to this package"
+    }
+  ],
+  "records": {
+    "roadmap": "RESEARCH_PROGRAM.md",
+    "auditAndRisks": "ARCHITECTURE_AUDIT.md",
+    "causalModelAndExperiments": "CAUSAL_MODEL.md",
+    "hypotheses": "RESEARCH_LEDGER.json#/hypotheses",
+    "provenance": "EVIDENCE_REGISTER.md",
+    "protocol": "RESEARCH_PROTOCOL.md",
+    "nextSession": "NEXT_RESEARCH_SESSION.md",
+    "reviewGates": "TEAM_G_REVIEW_GATE.md",
+    "lens": null,
+    "foundation": "STUDIO_Z_FOUNDATION_AND_LEAD_HANDOFF_2026-10-08.md",
+    "readiness": "STUDIO_Z_BUILD_READINESS.md (planned at this checkpoint)"
+  },
+  "exportProvenance": {
+    "source": "Owner-uploaded STUDIO_Z_HANDOFF_2026-10-08(1).md historical snapshot",
+    "recoveredOn": "2026-10-08",
+    "originalManifestByteHashVerified": false,
+    "meaning": "Text recovered and authority/status fields minimally reconciled; imported S/T/P claims retain recorded limitations."
+  }
 }
