@@ -431,3 +431,23 @@ Fresh inspection of `tests/browser/two-manager-browser-journey.cjs:491–554` co
 ### C4. 7 p.m. readiness freeze
 
 No new Codex run or independent reproduction was received after the previous integrated return. The 19:00 ET scheduled checkpoint should read this canonical document, refresh live refs/status, preserve any essential proof discrepancies, and stop extending the bug catalog. **Decision at 7:** first narrow C review is adequately specified; X-01 is **optional and reserved**, J9.3's conditional gap now explicitly covered, and phone A evidence is kept separate from actual tablet acceptance. Final 20:00 ET output remains one self-contained file and a truthful research-only lens, with owner/lead implementation/physical gates pending. No standing authority transferred by time alone.
+
+
+---
+
+## APPENDIX D — Conditional B authority-read fallback discriminator
+
+**18:30 ET source discovery, not an executed reproduction or authorized B repair.** This is independent of the imported one-shot identity-bootstrap race and should be investigated **only if** C startup/module/recovery fixes pass yet B still presents a restart-like screen.
+
+`js/productionSharedJourneyEntry.js:218–225` calls `confirmedSetupSnapshot()` and **returns `null` both when setup is genuinely not confirmed AND when the setup dependency/provider read throws** (catch discards the error). `js/productionSharedMultiSeasonProgression.js:158–164` tries `pmspRefresh()` twice and returns `null` when provider results are missing/unavailable/untrusted. `js/productionSharedJourneyEntry.js:234–240` converts that null to `false`, **the same `false` used for legitimately zero accepted seasons**.
+
+Crucially, `openSharedExperience():245–255` then branches:
+- `confirmed && resumed` → same accepted season dashboard (expected when durable Season 1 was accepted).
+- `confirmed && !resumed` → `openCareerStart()` (whether this is first legitimate start **or a transient/untrusted progression read**).
+- `!confirmed` → polished shared Setup presentation (whether truly not confirmed **or a temporary setup authority failure**).
+
+This is a **source-verified classification collapse**: `not established` and `unavailable/read failed` share fallback paths. It is *not* proof that the fallback actually creates new data, overwrites old saves, restarts seasons on the owner's phone, or is reachable in ordinary healthy provider conditions. Career Start and Setup have separate provider authorization checks; the router's choice alone is a display/routing outcome. No provider/test was run to reproduce this. **Do not present it as confirmed root cause B.**
+
+**Minimal B follow-up discriminator after C (only if still required):** distinguish four sanitized events on an approved disposable fixture: `setupConfirmed`, `setupReadAvailable`, `progressionAcceptedSeasonsKnown`, `progressionReadAvailable`, plus `screenChosen` and `existingSaveAndRivalryStillSame`. Never log any raw private identity, career/save, season history or session code. Use a **read-failed** control and a **genuine pre-season-zero** control. An unavailable authority read should **not be counted as proof that presentation/start screens are appropriate**; decide fail-closed or retry behavior under Team G authority, preserving all existing gates. This source question has *lower priority than C's proven injected race* and should not justify preemptively rewriting B or any remote provider.
+
+**19:00 checkpoint instruction:** recognize this as a bounded potential second mechanism, not an invitation to expand Studio scope. The first repair candidate remains C; J9.1–J9.3 **plus unconditional transfer-data equality** remain the next authorized acceptance gate. Keep original tablet A independent and explicit; no physical credit claimed.
