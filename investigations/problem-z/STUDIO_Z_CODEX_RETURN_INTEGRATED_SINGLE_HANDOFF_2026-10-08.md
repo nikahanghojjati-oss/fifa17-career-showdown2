@@ -335,3 +335,63 @@ Finite stopping condition: enough source/imported evidence for the first safe de
 **One next task:** Team G independently reviews this source-bound decision and decides whether to authorize the single minimal C startup candidate with preserved guards and J9 acceptance gates. If matched negative-control evidence is required first, authorize the existing X-01 rather than duplicate the research program.
 
 RETURN_TO_GPT6: Upload this complete file for integration before Claude's handoff; preserve evidence, contradictions and permission boundaries.
+
+
+---
+
+## APPENDIX B — 18:03–19:00 ET foundation sprint
+
+**Status:** bounded GPT-6 source audit before the scheduled 19:00 ET research checkpoint. This extends the source-level decision evidence only. No authorized product changes, browser/provider/emulator/physical experiments, new game tests, scored SSJR/MDP proof or Claude acceptance occurred in this session. Preserve Appendix A Codex report verbatim.
+
+### B1. Identity startup minimal patch *contract*, not patch
+
+The precise current main callgraph now checked as a whole:
+
+- `index.html:410–416` puts deferred `js/showdown.js` before `js/optionalModules.js` and `js/app.js`.
+- `showdown.js:6` writes `window.__cmsOnlinePlayerEntryBootstrap=true` *before* its asynchronous startup attempt and schedules the attempt with `setTimeout(...,0)` whenever `document.readyState !== 'loading'`; for a deferred script, `interactive` does not imply that later deferred scripts executed.
+- `optionalModules.js:92–137` defines `loadRuntimeScript`; main `js/app.js` assigns `window.reportApplicationError` at source offset approximately 2502, then its `sa()` (near offset 7220) initializes screens and optional modules and opens Home. It invokes `sa()` immediately when its deferred execution sees `readyState !== 'loading'`. A `DOMContentLoaded` handler registered by the earlier deferred `showdown.js` would fire only after that script processing is complete, so it is a plausible **readiness boundary**, not a guarantee in dynamic-async/error cases.
+- `onlinePlayerIdentity.js:24,42–46,57` supplies the containment style, identity badge, Settings observer and capture-phase gameplay Continue; legacy `screens.js:643–656,774–775` binds older Continue. Existing imported checked Chromium confirms one failed load interleaving; no new experiment here.
+
+**First candidate minimum acceptance:** all source-defined loader dependencies available before one identity attempt; no latch permanently representing failed initialization; duplicate scheduling and Settings entry do not mount duplicate badge/style/capture handlers; missing script/loader has actionable reporter/retry; signed-out Start/Continue cannot commit a new career; normal mobile online Home/Settings survive; working old local recovery is not overwritten; no change to Google popup-only persistence or ACTIVE/private authority. **A single `DOMContentLoaded` delay alone must not be claimed to solve Google popup hangs, absent local saves, or offline/failed dependencies**. Test the failed/late-load path only with separate approved harness execution, and preserve the existing inner `createShowdown()` ready-identity check at `showdown.js:7`.
+
+**Alternative script-reorder risk:** moving `optionalModules.js` before `showdown.js` in `index.html` may solve dependency order but touches broader application shell/asset ordering and must still independently prove reporter/UI initialization and all existing runtime contracts. Neither patch location is preapproved.
+
+### B2. Exact proof-routing release trap (fresh static router check)
+
+At pinned main, `POS10_IMPACT_GRAPH.json` patterns and `scripts/pos10-impact-router.mjs:79–120` show:
+- A **source-only** change to `js/showdown.js` matches `core-runtime` and its inherited CORE_RUNTIME_RELEASE deterministic/proof bundle floor. The prior Studio final-lap proof table documents that static projection.
+- A **source-only** change to `index.html` matches `core-runtime`, `home-inline`, and `v1-visual-inline`, so it adds the Home and V1 visual inline routes. **This is why script reordering is not automatically a smaller release.**
+- Most importantly `service-worker.js` is explicitly inside `graph.fullSealPatterns`; `pos10-impact-router.mjs:79–80` selects `FULL_SEAL` when that file changes, *before* ordinary artifact routing. GitHub Pages shell SW `service-worker.js:298–302,337–345` can serve a retained verified runtime/cache when a current one is missing and assets are looked up with `?v=...`. Source `main` = r62 is not proof the affected phone/tablet served r62.
+- Therefore **do not promise an end-to-end “showdown.js-only low-cost patch”**. Actual publication may require updated HTML asset URL/runtime revision and service worker/release files. The **actual final diff union** (not a hypothetical one-file mutation) determines POS10 proof, POS20 benchmark/seal, live review, deployment, cache coherence, and owner physical proof. Avoid doing a code change solely to reduce test selection.
+
+No router, browser, emulator or release job was executed for this source observation. It is an inspectable rule/regex consequence, not a completed proof.
+
+### B3. Newly explicit data-safety trap along canonical Continue
+
+`onlinePlayerIdentity.js:55` → `persistentNikDanielPair.js:224` does not construct a replacement rivalry, but:
+1. `pairEnsureSaveLibraryAuthority():177` can activate `js/saveLibraryCutover.js` if the local Save Library runtime is not ready. Readiness setup is **not guaranteed read-only**.
+2. `pairHasExactLocalRecoveryCopy():92` requires matching `saveId` and manager `profileId` inside canonical saves. `pairExactLocalBindingForProviderSlot():93` deliberately calls `runtime.switchActiveSave(saveId)` and verifies the resulting selected ID. An expected active-save switch is a permitted controlled state change, not evidence of game loss.
+3. `pairAttachRecoveryPointer():165` calls a provider attachment/initialization routine; it is **not** a read-only UI navigation. Equality checks of durable rivalry, save/profile, unrelated saves and committed scores/history before/after must be part of independent approved tests. No remote production provider action may be run by Studio research.
+4. On absence of the exact local copy, `pairInitialize():192` currently displays advice to *“Restore a backup … or delete the old Showdown and start fresh.”* `pairContinueOnlineShowdown():224` can also recommend a verified backup. Both source strings are dangerous to follow as immediate user troubleshooting while confirmed **Restore/Apply Keep current** defects remain unresolved. **Operational safety no-go**: do not instruct the owner to tap Restore/Apply, Delete, Forget device, Reset, or Start Over in response to these strings. Escalate under assigned Candidate C/recovery authority. Do **not** rewrite UI strings from GPT research without approval.
+5. `js/screens.js:643–656` old Continue can navigate to Create Showdown after a missing local saved Showdown. That is *navigation*, not proof old provider history or local canonical Save Library was erased. Likewise an expected fresh private session is never a new rivalry.
+
+### B4. Transfer discrimination refined to avoid resolver collateral damage
+
+`data/transferOptions.js:52–77` uses **first-match normalized option** lookup. `js/transferSelector.js:189–203` auto-sets canonical metadata for exact typed labels. Because duplicate league labels exist (Spain and Argentina both `Primera División`), the naive index collapses country-distinct choices. **Preferred review question:** can the UI typing-path ambiguity be resolved without globally changing `resolveFifa17TransferOption`, whose existing canonical/alias callers may rely on exact ID and unique-label behavior? Check all callsites and negative controls; never silently remap locked signings or scoring.
+
+`css/transfer.css:127–143` fixes a mobile dropdown to 12px from bottom at <=760px, and Codex's phone repro sees a V10 footer/title intercept. `css/v10Transfer.css:67–74` applies a distinct portrait <=760px layout; the owner's landscape tablet is a **different viewport/orientation**. Do not infer that curing the 390×844 phone layering will cure the tablet's 3-column signing/card fit. Tablet acceptance must separately record dimensions, orientation, keyboard open/closed, complete signing-1 field hitboxes and safe error copy. Keyboard ArrowDown/Enter at small widths is a valid functionality check but **not** touch acceptance. Draft persistence still needs product-owner decision; committed guesses/signings/verdicts must remain unchanged on reload.
+
+### B5. Evidence-based use of the 18:00–20:00 period
+
+The planned checkpoint and cutoff are **scheduled individual tasks**, not a silently operating long-running worker:
+- **Before 19:00:** finish only material source gaps (startup timing, proof-routing, active save/pair side effects, ambiguous transfer UI and true tablet distinction), preserve contradictions and stop speculative bug hunting. This appendix records them.
+- **19:00 ET reset checkpoint:** separately scheduled GPT-6 task reads current research branch, rechecks heads and only truly new evidence, measures which of C/B/A decision questions are answered, and returns **one complete portable checkpoint**. No reserved probe or software implementation.
+- **19:00–19:40 (if actively invoked):** use returned checkpoint to resolve at most **one** high-value new source uncertainty; no 40-block study or duplicated Codex diagnostics.
+- **19:40–20:00:** consolidate final handoff; no new independent scope.
+- **20:00 ET final:** existing scheduled task provides **one** fully portable report and closes the GPT-6 foundation effort, pending Claude's explicit receipt and authority. A clock alone does not appoint, authorize or merge; the game remains unresolved without repair and real two-manager acceptance.
+
+**Research speed/throughput estimate:** budget by **decision value**, not fake percentages or unobserved “compute hours.” Each narrow source thread should take roughly one evidence question plus explicit falsifier, expected file/proof footprint and no-go checklist. Reuse already checked Olympiad/Codex fixtures before creating any new tests. The actual source inspection cannot establish physical readiness or automated test pass.
+
+**Lens interpretation:** research milestones reflect files/evidence read and reconciled, not developer implementation or product acceptance. No progress scoreboard should count a Codex diagnostic as a verified fix, or a scheduled checkpoint as completed before its execution.
+
+**Current state:** `main` `bc77a0b9...`, Studio research before this appendix `cdfbd9de...`, QA `6fc04f68...`, PR #425 QA-only/open at latest check; core game unchanged; zero new product tests/probes/deploys/physical attestations; 19:00/20:00 checkpoint pending. **First next authorized action for Claude remains review of the narrow C bootstrap candidate and whether independent X-01 matched delay is needed.** Do not endorse a particular patch as already approved.
