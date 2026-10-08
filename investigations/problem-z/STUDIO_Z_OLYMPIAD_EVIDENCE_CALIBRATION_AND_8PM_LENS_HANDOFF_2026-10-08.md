@@ -1,0 +1,70 @@
+# STUDIO Z — CALIBRATED OLYMPIAD EVIDENCE × 8 PM HANDOFF
+**2026-10-08 EDT · bounded GPT-6 foundation update · not product authorization**
+
+## Purpose and limits
+Deepen—not extend—the existing finite three-incident Studio Z foundation. The 2026-10-07 owner incident issue [#426](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/issues/426) concerns (C) disappearing/stuck Google sign-in and mixed Settings, (B) Continue opening a new setup or failing to recover the same career, and (A) tablet landscape Transfer War Room clipping/signing errors/continuity. The integrated [Olympiad × Codex master handoff](STUDIO_Z_OLYMPIAD_CODEX_INTEGRATED_HANDOFF_2026-10-08.md), [deep causal audit](STUDIO_Z_DEEPER_CAUSAL_AUDIT_AND_CODEX_BRIEF_2026-10-08.md) and [physical acceptance matrix](STUDIO_Z_ACCEPTANCE_PROOF_AND_PRESERVATION_MATRIX_2026-10-08.md) remain complementary research documents. This note adds **checked-versus-disproved calibration**, risk boundary review, and a finite schedule before the planned 8 PM lead handoff.
+
+**Snapshot refs checked 2026-10-08:** `main` `bc77a0b934c3d43279f27f73a72db21c2db2b4f2` (r62); `qa/bug-olympiad` `6fc04f6823115525eb7950f75576b82d5dc2cbfe`; research branch predecessor `0e26661af25e887d2e6cfc9899e4a461afbda34f`; Codex PR #425 head `2b88d4ae727c20e4329ca7b74d92befd70872e2b`, **open/unmerged**; issue #426 **open**. Sources from these refs are research, not current production/device evidence. Refresh live refs/permissions before Team G acts.
+
+## Critical new quality-control result: 38 findings is NOT 38 live bugs
+The QA Olympiad findings directory has **38** JSON files. Its `checked/` directory has **20** checked files. Read each check and adjudicate on the check's `result`, *not* the initial finding's sometimes-stale `status`.
+
+**11 checks return `real`**:
+- `chat-1006-1335-1` — Restore clean-destination Keep-current override.
+- `chat-1006-1346-1` — Rule Book omits actual exact season-tie DRAW wording.
+- `codex-1006-1251-1` and `codex-1006-1301-1` — the **same substantive shared season-results stale-input failure**, with independent fixture/run evidence but not two unique product root causes.
+- `codex-1006-1303-1`, `codex-1006-1303-2` — distinct Rule Book wording gaps about mutual early end and final total-score DRAW.
+- `codex-1006-1312-1` — Restore **Apply** uses incomplete `currentRaw` snapshot even though full `completeRaw` exists.
+- `codex-1006-1312-2` — separate Restore preview/Apply `destinationIsClean` choice override.
+- `codex-1006-1313-1` — finished-early empty career history inaccurately displayed as unavailable.
+- `codex-1006-1939-1` — closed final trophy counts missing on reload despite verifiable history.
+- `codex-1006-1957-1` — source-unchanged Chromium deferred-loader startup race, identity gate skipped.
+
+**9 checks return `not_real`**:
+- `chat-1006-0418-1` — suspected missing authoritative shared presentation click ownership (checked disproof).
+- `chat-1006-0534-1` — suspected current Career Table W-D-L/Showdowns label defect (checked disproof).
+- `chat-1006-1331-1` — supposed missing Rule Book `#ruleBook`; actually **lazy-created** by `js/ruleBook.js` on actual menu click. `chat-1007-0103-1` repeats the initial suspicion, so do not resurrect it as a defect without new evidence.
+- `chat-1006-1333-1`, `chat-1006-1355-1` — supposed stale Legacy cache after archive; actual Save Library transaction already invalidates cache/revision.
+- `chat-1006-1334-1`, `chat-1006-1336-1`, `chat-1006-1342-1` — supposed **exactly** three transfer guesses required; in fact product text says **up to three**, partial lock is confirmed and explicitly supported by existing contracts. Do not "fix" by requiring three.
+- `chat-1006-1345-1` — tie-rank behavior in retired helper, not the actual current career screen.
+
+**Interpretation:** 11/20 confirmed real and 9/20 checked not-real says nothing about the remaining 18 unadjudicated finding files; it is **not a 55% defect rate or Studio completion percentage**. Tested samples vary in fixtures/realism; source-level and simulated browser evidence confer **zero** SSJR physical credit. A `real` check with exit code **1** can be an intentionally failed correctness assertion proving the *bug*, not a test pass. Some `real` cases repeat the same cause. Avoid false repairs based only on titles or finding.status.
+
+[Inspect checked source at exact SHA](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/tree/6fc04f6823115525eb7950f75576b82d5dc2cbfe/project-documents/gameplay-factory/sweeps/olympiad/checked)
+
+## Codex review provenance and run independence
+PR [#425](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/425) remains an **unmerged QA-reporting PR**, not a game fix. GitHub returned one `chatgpt-codex-connector[bot]` issue-level comment marking a **Code Review activity completed** for `2b88d4a`, but **zero submitted PR reviews and zero inline review threads**. Do not misstate review completion as approval, merge or verified patch. Separate 22:38–22:41 / 23:08–23:18 / 23:50–23:55 UTC October 6 run batches exercise the same official two-manager browser journey family and main SHA: different executions, **correlated mechanism**. Later run J9.1 had 24 passes then failed Daniel's remembered-pair UI; PR #425 J1.1 failures only have two actual passes per run (3/36 checkpoints reached including failure). Official J9.2/J9.3 were **not passed**.
+
+## Fresh risk-boundary source audit (not new runtime tests)
+**Private-guess hash leakage — `chat-1006-0441-1`, S1, likely, *unadjudicated*.** `js/sparkSharedTransferChallenge.js:147–150` derives `operationHash` over manager role, operation type, **published operationId**, baseRevision and normalized guesses; the public ledger contains `operationIds, operationTypes, operationHashes, baseRevisions, actorRoles`. `runs/chat-1006-0441.json` observes the publicly readable metadata alongside a small finite FIFA league/nationality guess space, so guessed candidates could in principle be checked offline. No entry exists in `checked/` for this finding: treat as **plausible privacy risk requiring authorized separate security analysis**, not a proven exploit or license to test real players.
+
+**Rules/client canonicalization mismatch — `chat-1006-0503-1`, S1, likely, *unadjudicated*.** `firestore.transfer-challenge-production.fragment.rules:5,212–222` accepts any slug-shaped league/nationality ID and loosely validates name length. `js/sparkSharedTransferChallenge.js:55–57,99,142` requires catalog membership, trimmed signing names and reads *both* role documents upon COMPLETED. An altered authorized client could hypothetically store data that Rules allow but the reader rejects, poisoning final shared verdict display. The source predicate mismatch is confirmed by source read; **no provider/Rules emulator replay was performed in this GPT investigation**, and the original claim's status is `likely`. Escalate separately for Team G release/safety gate; do not expand Studio Z into a new security program. This matters more than misclassified styling findings.
+
+**Honest stale-season-input hazard — checked real, scope adjacent.** `codex-1006-1251-1` and `codex-1006-1301-1` record the same Season 1's position/points/goals/trophies retained in Season 2. It can cause unintentional **new season** publication if an honest player taps Review/Publish, not just a misleading view. Include a no-stale-input regression when necessary, but do not silently add a fourth original Studio incident.
+
+**Two independent Restore defects — checked real, strictly no-go.** `js/restore.js:264–283` computes full `completeRaw` but calls `createCareerModeRestorePlan(analysis,currentRaw,...)`; `js/restore.js:144–160` allows `destinationIsClean` to override explicit `keep-current`. Fixing only one branch of this logic would not automatically fix the other. Candidate C reserved for destructive remote-to-local Apply; **no Restore/Apply/Reset/Forget/Start Over as Studio diagnostics**. These Restore defects are separate from ordinary Continue; do not make an unproven claim of provider career erasure.
+
+**Dormant path guard.** Before prioritizing an Olympiad item, ask: which real current entrypoint invokes it? Example `chat-1007-0447-1` and `chat-1007-0451-1` conjecture a legacy local timer freezing on background tab; the *shared* controller already handles visibility return. They are `question`, and their owner-facing relevance depends on legacy path reachability. Source presence ≠ supported active path. Likewise retired career table helper and lazily built Rule Book were false positives.
+
+## High-information repair order, without duplicated Codex work
+1. **C — identity first:** Claude checks the imported unchanged Chromium race and (if independently required) runs the prepared unexecuted X-01 with unrelated-image delay control. A minimal loader/latch recovery fix must preserve genuine Google popup-only auth, visible retry/terminal error, online Settings and no unsigned gameplay. Do not infer actual physical device cause until observed.
+2. **B — same career:** Reuse existing `tests/browser/two-manager-browser-journey.cjs` J9.1–J9.3 after C, requiring a new finite *session* while preserving exact durable pair/save, Season 2, score 9–3 and committed transfer verdicts. `js/onlinePlayerIdentity.js` capture Continue, `js/screens.js` old local Continue and `js/persistentNikDanielPair.js:224` exact local recovery copy must be kept distinct. If C cures B, avoid a second patch.
+3. **A — transfer:** Confirm ambiguous `Primera División` label canonicalization without prohibiting valid unique typed labels; actual touch targets with footer/header occlusion under 390×844 and **owner tablet landscape** separate; signing 1 error evidence distinct from CSS. Unlocked draft persistence remains **owner expectation unresolved**.
+4. **Adjacent:** separate Team G handling for likely hash/Rules risks, confirmed stale season-input, and confirmed Restore Keep-current (the last under Candidate C). No automatic expansion of 3 owner failures.
+
+**Physical acceptance gap:** `SSJR2_PHYSICAL_RUN_GUIDE.md` tests one clean 3-season real Chromebook/iPhone run with reload *after* season 3; this cannot replace a distinct authorized mid-career Continue observation or original tablet-landscape touch proof. Preserve the existing scored SSJR-2.1 model/physical owner hash attestation and avoid inventing a second full 3-season requirement. No SSJR/MDP credit from research.
+
+## The GPT-only Lens (no Claude dependency)
+A **single static HTML/ChatGPT visualization** can show an **automatic local countdown** to 2026-10-08 20:00 America/New_York, verified research tokens and separate labels `Codex pending`, `Team G unaccepted`, `game not repaired`. Research progress is a manually verified snapshot updated on demand in ChatGPT, **not automatically synchronized** with GitHub or ongoing reasoning. **No plugin, cloud API, backend, persisted provider state, scheduled worker, always-on dashboard, Firebase costs, Claude runtime dependency or gameplay code.** Destroy/archive lens after handoff; it is a user convenience, not an operating-system authority.
+
+## Timebox: 16:52–20:00 America/New_York, *only during active requests/sessions*
+- **16:52–17:35:** source-quality calibration and 20 checked dispositions, PR review authenticity, important false-claim exclusions — **completed in this research snapshot**.
+- **17:35–18:20:** inspect current security/career source boundaries, explicit falsifiers and no-go paths; one bounded matrix — source review recorded here, further work only when it answers a specific uncertainty.
+- **18:20–19:00:** consolidate repair and acceptance packet for Team G; stop adding new studies once decisions are actionable.
+- **19:00–19:40:** **conditional** ingest the separate Codex diagnostic return *if the user provides it*, reconcile exact SHA/evidence and emit one final decision; otherwise keep an explicit `CODEX_PENDING` and do not stall handoff.
+- **19:40–20:00:** freeze one portable handoff, issue receipt questions to Claude, mark approvals/proofs unknown. This schedule is a **planning proposal, not autonomous background execution**. ChatGPT does not silently keep researching between user turns or transfer authority when the clock reaches 8.
+
+### Team G receipt question at 8 PM
+"Have you independently verified the live refs/permissions and accepted this finite 3-incident mandate? Do you authorize *one* minimal C identity startup candidate after the appropriate evidence/proof gates? What is the separate owner-approved path for genuine device proof, and who owns the unrelated safety escalations?"
+
+**State on authorship:** This is research/source review. No newly executed browser/emulator/production test, provider action, approval, product edit, CI result, merge or physical attestation. Codex investigation has **not** been represented as finished. End this research session with one portable Markdown handoff; close Studio Z only after approved fixes and actual owner acceptance.
