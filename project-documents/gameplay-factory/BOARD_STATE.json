@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-08 11:32 PM Boston time (EDT)",
+ "generated": "2026-10-08 11:45 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -284,8 +284,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "29e27c6",
-  "head_boston": "Thu 8 Oct 11:02 PM",
+  "head": "9b15d5f",
+  "head_boston": "Thu 8 Oct 11:44 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": true,
   "open_for_g": [],
@@ -630,8 +630,8 @@
     "from": "G",
     "to": "V",
     "title": "Studio Z leftovers: real upright-tablet layout and sideways-phone Signing Entry",
-    "stage": "WORKING",
-    "pct": 0.0,
+    "stage": "DONE",
+    "pct": 100.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-021_studio-z-leftovers-real-upright-tablet-l.md",
     "worker": "",
@@ -708,7 +708,7 @@
   "**r62 is live.** On the laptop, close every game tab in Chrome and reopen the game; if Settings still looks clipped, do it once more."
  ],
  "now": {
-  "moving": 24,
+  "moving": 23,
   "next": 3,
   "nik": 7,
   "later": 6,
