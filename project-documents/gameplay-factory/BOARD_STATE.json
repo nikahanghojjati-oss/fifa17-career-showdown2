@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-09 9:11 AM Boston time (EDT)",
+ "generated": "2026-10-09 9:17 AM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -706,7 +706,7 @@
   "moving": 40,
   "next": 4,
   "nik": 2,
-  "later": 7,
+  "later": 5,
   "rows": {
    "G": {
     "moving": [
@@ -1070,15 +1070,6 @@
     ],
     "later": [
      {
-      "id": "1041",
-      "title": "Season Results on phone: ACKNOWLEDGE reachable, no inner scroll box, title clear, photos aligned",
-      "lane": "codex",
-      "state": "review (PR #437)",
-      "order": 6,
-      "place": "Codex cloud, branch gameplay/bug-list-1: type 'Job 1041'",
-      "note": "same family as Studio Z's Signing Entry fix"
-     },
-     {
       "id": "G-F17",
       "title": "Showdown Gate: replace POS20 with a faster check system built on Claude and GitHub, keeping every check (plan: /mnt/project-files/check-system/SHOWDOWN_GATE_PLAN.md)",
       "lane": "opus",
@@ -1110,15 +1101,6 @@
       "waits_on": "after Team V designs the combined screen (HO-011)",
       "details": "Nik picked No tap, combined: one screen shows the last season's score and the Final Winner. Team V designs it (HO-011), then a GPT green job builds it and restores the strict final-season check.",
       "order": 13
-     },
-     {
-      "id": "1042",
-      "title": "Closed Final Winner shows the final season on both phones",
-      "lane": "codex",
-      "state": "review (PR #439)",
-      "order": 7,
-      "place": "Codex cloud, branch gameplay/bug-list-1: type 'Job 1042'",
-      "note": "follow-up to 1038; ticket jobs/JOB-1042.md"
      }
     ]
    },
