@@ -3,13 +3,13 @@
   "purpose": "Reviewed allowlist of every line by which the composed production Firestore Rules on gameplay/recovery-v1 differ from what production main deploys. The main gate must see exactly these changes and nothing else. Regenerate only with node tests/support/composed-production-rules.cjs --print-main-delta origin/main, then review every hunk.",
   "productionMain": {
     "ref": "main",
-    "commit": "bc77a0b934c3d43279f27f73a72db21c2db2b4f2",
-    "sha256": "a0a0d0b6412ab610666f7f94ac0e55d505a44afdfdcf83ea2a3eec52ab0cbff6",
-    "gitBlobSha1": "0f2cb384024281a64180721716a4684c2624f759",
-    "bytes": 132878
+    "commit": "2b8b043fa7c56531a622f658da27dbda0c98771f",
+    "sha256": "0f2b8f894fb315bb523b5f8bbd6ffe04f65c8d07af8419efd4e0b7ce0ceb8ee6",
+    "gitBlobSha1": "649d339091a68ac902d525215ec8a27b86e6ee98",
+    "bytes": 134679
   },
   "candidate": {
-    "base": "studio-z/r63 (gameplay/bug-list-1 + main bc77a0b r62) with the Studio Z4 session pointer",
+    "base": "main 2b8b043 (r63). Studio Z4's session pointer shipped in r63, so the candidate equals production main (owner-approved re-pin 2026-10-09 05:06 UTC)",
     "sha256": "0f2b8f894fb315bb523b5f8bbd6ffe04f65c8d07af8419efd4e0b7ce0ceb8ee6",
     "gitBlobSha1": "649d339091a68ac902d525215ec8a27b86e6ee98",
     "bytes": 134679
@@ -22,58 +22,5 @@
     "G-7+G-8+G-10",
     "Z4"
   ],
-  "hunks": [
-    {
-      "mainLine": 854,
-      "candidateLine": 854,
-      "removed": [],
-      "added": [
-        "    // Studio Z4: one shared pointer to the pair's current session, so the rival's phone joins without a typed code.",
-        "    // Only the two accounts of the live paired rivalry read it; only a session's own host may point it at that open or",
-        "    // active session, with the session's own expiry and a server write time. It is never listed or deleted.",
-        "    function validSessionOfferWrite(rivalryId, offerId) {",
-        "      let offer = request.resource.data;",
-        "      return offerId == \"current\"",
-        "        && activeActor()",
-        "        && activePairedRivalry(rivalryId)",
-        "        && currentlyEntitled(rivalryId)",
-        "        && offer.keys().hasOnly([\"schemaVersion\", \"sessionId\", \"hostAccountId\", \"expiresAt\", \"updatedAt\"])",
-        "        && offer.keys().hasAll([\"schemaVersion\", \"sessionId\", \"hostAccountId\", \"expiresAt\", \"updatedAt\"])",
-        "        && offer.schemaVersion == 1",
-        "        && validSessionId(offer.sessionId)",
-        "        && offer.hostAccountId == request.auth.uid",
-        "        && offer.updatedAt == request.time",
-        "        && offer.expiresAt is timestamp",
-        "        && offer.expiresAt > request.time",
-        "        && validSessionOfferTarget(rivalryId, offer);",
-        "    }",
-        "",
-        "    function validSessionOfferTarget(rivalryId, offer) {",
-        "      let session = get(/databases/$(database)/documents/rivalries/$(rivalryId)/sessions/$(offer.sessionId)).data.data;",
-        "      return session.rivalryId == rivalryId",
-        "        && session.hostAccountId == request.auth.uid",
-        "        && (session.state == \"open\" || session.state == \"active\")",
-        "        && session.expiresAt == offer.expiresAt;",
-        "    }",
-        ""
-      ],
-      "owner": "Z4",
-      "why": "Studio Z4 helpers: the pair's session pointer may only be written by the session's own host, for an open or active session of the live paired rivalry, with that session's expiry and a server write time."
-    },
-    {
-      "mainLine": 2821,
-      "candidateLine": 2849,
-      "removed": [],
-      "added": [
-        "",
-        "      match /sessionOffers/{offerId} {",
-        "        allow get: if offerId == \"current\" && activeActor() && activePairedRivalry(rivalryId) && currentlyEntitled(rivalryId);",
-        "        allow create, update: if validSessionOfferWrite(rivalryId, offerId);",
-        "        allow list, delete: if false;",
-        "      }"
-      ],
-      "owner": "Z4",
-      "why": "Studio Z4 match: the two paired accounts get the single 'current' pointer; the host creates or moves it; it is never listed or deleted."
-    }
-  ]
+  "hunks": []
 }
