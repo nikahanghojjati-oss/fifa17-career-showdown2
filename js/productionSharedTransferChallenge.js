@@ -213,21 +213,21 @@
   function pstcPopulateRole(role,inputs){if(!inputs)return;if(inputs.guesses)pstcPopulateGuesses(role,inputs.guesses);if(inputs.signings)pstcPopulateSignings(role,inputs.signings);}
   let signingDraftKey="";
   function pstcSigningDraftKey(role){const request=pstcRequestContext();return request&&role?(`cms.signingDraft.v1:${request.rivalryId}:${request.seasonNumber}:${role}`):"";}
-  function pstcRemoveSigningDraft(key){try{if(key&&root.localStorage)root.localStorage.removeItem(key);}catch(_error){}}
+  function pstcRemoveSigningDraft(key){if(key&&typeof root.removeStorageValue==="function")root.removeStorageValue(key);}
   function pstcClearSigningDraft(role){const key=pstcSigningDraftKey(role);pstcRemoveSigningDraft(key);if(signingDraftKey===key)signingDraftKey="";}
   function pstcSaveSigningDraft(role){
     const request=pstcRequestContext(),state=view?.state;
     if(!request||!state||state.phase!=="SIGNING_ENTRY"||state.signingLockedRoles?.includes(role)||view.managerRole!==role||pstcReplayPhase())return false;
     const prefix=pstcRolePrefix(role),rows=[];
     for(let slot=1;slot<=3;slot+=1){const name=pstcField(`${prefix}Signing${slot}Name`),league=pstcField(`${prefix}Signing${slot}League`),nationality=pstcField(`${prefix}Signing${slot}Nationality`);rows.push({slot,name:String(name?.value||""),leagueId:pstcCanonical(league),league:String(league?.value||""),nationalityId:pstcCanonical(nationality),nationality:String(nationality?.value||"")});}
-    try{const key=pstcSigningDraftKey(role);if(!key||!root.localStorage)return false;root.localStorage.setItem(key,JSON.stringify({version:1,rivalryId:request.rivalryId,seasonNumber:request.seasonNumber,role,rows}));signingDraftKey=key;return true;}catch(_error){return false;}
+    const key=pstcSigningDraftKey(role);if(!key||typeof root.writeStorageValue!=="function")return false;if(!root.writeStorageValue(key,JSON.stringify({version:1,rivalryId:request.rivalryId,seasonNumber:request.seasonNumber,role,rows})))return false;signingDraftKey=key;return true;
   }
   function pstcRestoreSigningDraft(role,own){
     const key=pstcSigningDraftKey(role),request=pstcRequestContext(),state=view?.state;
     if(!key||!request||!state||state.phase!=="SIGNING_ENTRY")return false;
     const shared=Array.isArray(own?.signings)?own.signings:[];
     if(state.signingLockedRoles?.includes(role)||shared.length){pstcRemoveSigningDraft(key);return false;}
-    let draft;try{draft=JSON.parse(root.localStorage?.getItem(key)||"null");}catch(_error){return false;}
+    let draft;try{draft=JSON.parse((typeof root.readStorageValue==="function"?root.readStorageValue(key):null)||"null");}catch(_error){return false;}
     if(!draft||draft.version!==1||draft.rivalryId!==request.rivalryId||Number(draft.seasonNumber)!==request.seasonNumber||draft.role!==role||!Array.isArray(draft.rows))return false;
     const prefix=pstcRolePrefix(role);
     for(let slot=1;slot<=3;slot+=1){if(shared.some(row=>Number(row.slot)===slot))continue;const row=draft.rows.find(item=>Number(item.slot)===slot);if(!row)continue;const name=pstcField(`${prefix}Signing${slot}Name`),league=pstcField(`${prefix}Signing${slot}League`),nationality=pstcField(`${prefix}Signing${slot}Nationality`);if(name&&!String(name.value||""))name.value=String(row.name||"");if(league&&!String(league.value||"")){if(row.leagueId)pstcSetSelector(league,"league",row.leagueId);else league.value=String(row.league||"");}if(nationality&&!String(nationality.value||"")){if(row.nationalityId)pstcSetSelector(nationality,"nationality",row.nationalityId);else nationality.value=String(row.nationality||"");}}

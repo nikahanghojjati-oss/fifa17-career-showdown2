@@ -22,12 +22,15 @@ check("D3", "locking signings clears the manager's draft and locked shared rows 
   assert.ok(source.includes('method==="lockSignings")pstcClearSigningDraft(view.managerRole)'));
   assert.ok(source.includes("state.signingLockedRoles?.includes(role)||shared.length"));
 });
-check("D4", "typing saves only this manager's signing fields on this device", () => {
+check("D4", "typing saves only this manager's signing fields on this device, through the storage.js helpers", () => {
   assert.ok(source.includes("function pstcSaveSigningDraft(role)"));
   assert.ok(source.includes("view.managerRole!==role"));
   assert.ok(source.includes("const prefix=pstcRolePrefix(role),rows=[]"));
-  assert.ok(source.includes("root.localStorage.setItem(key,JSON.stringify"));
+  assert.ok(source.includes("root.writeStorageValue(key,JSON.stringify"));
+  assert.ok(source.includes("root.readStorageValue(key)"));
+  assert.ok(source.includes("root.removeStorageValue(key)"));
   assert.equal(source.includes("sessionStorage"), false);
+  assert.equal(/\blocalStorage\b/.test(source), false, "drafts go through the js/storage.js helpers, never localStorage directly");
 });
 check("D5", "a rivalry, season, or role context change removes the previous local draft", () => {
   assert.ok(source.includes("signingDraftKey&&draftKey&&signingDraftKey!==draftKey)pstcRemoveSigningDraft(signingDraftKey)"));
