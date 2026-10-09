@@ -226,6 +226,43 @@ async function playTransferSeason(daniel,nik,season,tokenD,tokenN){
   for(const m of [daniel,nik])await m.page.getByRole("button",{name:"CONTINUE TO SHARED SEASON RESULTS",exact:true}).waitFor({state:"visible",timeout:30000});
 }
 
+async function zLayout(m,phase){
+  const orig=m.page.viewportSize();const rows=[];
+  for(const [w,h] of ZSIZES){
+    await m.page.setViewportSize({width:w,height:h});await m.page.waitForTimeout(700);
+    await m.page.screenshot({path:path.join(ARTIFACTS,`layout-${phase}-${w}x${h}-${m.user}.png`)});
+    rows.push(await m.page.evaluate(([w,h])=>{
+      const vis=el=>{if(!el)return false;const r=el.getBoundingClientRect();return r.width>0&&r.height>0&&getComputedStyle(el).visibility!=="hidden";};
+      const out=[];
+      for(const el of document.querySelectorAll("#transferChallenge button:not([hidden]), #transferChallenge input:not([type=hidden]), #transferChallenge select")){
+        if(!vis(el))continue;const r=el.getBoundingClientRect();
+        if(r.right>innerWidth+1||r.left<-1)out.push(`${el.id||el.textContent.trim().slice(0,20)}:offX(${Math.round(r.left)},${Math.round(r.right)})`);
+        const cx=Math.min(Math.max(r.left+r.width/2,0),innerWidth-1),cy=r.top+r.height/2;
+        if(cy>=0&&cy<innerHeight){const hit=document.elementFromPoint(cx,cy);if(hit&&hit!==el&&!el.contains(hit)&&!hit.contains(el))out.push(`${el.id||el.textContent.trim().slice(0,20)}:covered-by(${hit.id||hit.className||hit.tagName})`);}
+      }
+      const doc=document.documentElement;return {size:`${w}x${h}`,hscroll:doc.scrollWidth>innerWidth+1,issues:out.slice(0,12)};
+    },[w,h]));
+  }
+  await m.page.setViewportSize(orig);
+  console.log("ZLAYOUT "+phase+" "+JSON.stringify(rows));
+}
+async function zProbe(tag,m,other){
+  const out={tag};
+  await shot(m,`z-${tag}-before`);
+  await m.page.reload({waitUntil:"domcontentloaded"});
+  await m.page.locator("#loadingScreen").waitFor({state:"hidden",timeout:30000});
+  await m.page.waitForTimeout(4000);
+  out.afterReload=await describe(m);
+  await shot(m,`z-${tag}-after-reload`);
+  // Studio Z3: no tap after the reload; the tab must rejoin by itself.
+  await m.page.waitForTimeout(6000);
+  out.afterContinue=await describe(m);
+  out.remote=await m.page.evaluate(()=>window.CareerModeSparkRemoteJoining?.getState?.()||null);
+  await shot(m,`z-${tag}-after-continue`);
+  out.otherNow=await describe(other);
+  await shot(other,`z-${tag}-other`);
+  console.log("ZPROBE "+JSON.stringify(out));
+}
 async function main(){
   // J0 preflight
   assert.equal(JSON.parse(fs.readFileSync(path.join(SDK_DIR,"package.json"),"utf8")).version,require(SWITCH).sdkVersion,"J0 SDK pin matches the switch");
@@ -236,8 +273,8 @@ async function main(){
   const browser=await chromium.launch({executablePath:runtime.executablePath,headless:true,args:runtime.args});
   const managers=[];
   try{
-    const daniel=await openManager(browser,"daniel",{width:393,height:660});managers.push(daniel);
-    const nik=await openManager(browser,"nik",{width:360,height:640});managers.push(nik);
+    const daniel=await openManager(browser,"daniel",{width:Number(process.env.ZVW||393),height:Number(process.env.ZVH||660)});managers.push(daniel);
+    const nik=await openManager(browser,"nik",{width:Number(process.env.ZNW||360),height:Number(process.env.ZNH||640)});managers.push(nik);
     for(const m of [daniel,nik]){const s=await m.page.evaluate(()=>window.__cmsEmulatorSwitch||null);assert.equal(s&&s.active,true,`${m.user} switch active`);}
     ok("J0.2","emulator switch active only via localhost + cmsEmulator=1 in both contexts");
 
@@ -307,7 +344,7 @@ async function main(){
       assert.equal(await m.page.evaluate(()=>window.CareerModeSparkRemoteJoining?.getState?.()?.sessionState),"active",`${m.user}: the private session is ACTIVE`);
       assert.equal(await entry(m).isVisible().catch(()=>false),false,`${m.user}: GET READY is not shown`);
     }
-    ok("J3.1","private session hosted by Daniel, joined by Nik; both reached the league wheel");
+    ok("J3.1","private session hosted by Daniel, joined by Nik; both reached the league wheel");if(process.env.ZP==="wheel"){await zProbe("wheel",daniel,nik);return;}
     await shot(daniel,"j3-setup");await shot(nik,"j3-setup");
 
     // J4 shared setup through the real league wheel and club-pack screens.
@@ -395,7 +432,7 @@ async function main(){
     // can still render "END WINDOW EARLY" instead of the intended "REQUEST EARLY END".
     assert.match(await daniel.page.locator("#endTransferTimer").textContent(),/^(REQUEST EARLY END|END WINDOW EARLY)$/);
     assert.match(await nik.page.locator("#endTransferTimer").textContent(),/^(REQUEST EARLY END|END WINDOW EARLY)$/);
-    ok("J6.1","Daniel started the shared 15-minute window and both managers see the same live phase");
+    ok("J6.1","Daniel started the shared 15-minute window and both managers see the same live phase");if(process.env.ZP==="window"){await zProbe("window",daniel,nik);return;}if(process.env.ZP==="layout"){await zLayout(daniel,"window");await daniel.page.locator("#endTransferTimer").click();await nik.page.locator("#endTransferTimer").click();await waitTransferPhase(daniel,"guess_entry");await zLayout(daniel,"guess");await daniel.page.locator("#p2Guess1Type").selectOption("league");await fillTransferCombo(daniel,"p2Guess1Value","Premier League");await daniel.page.getByRole("button",{name:"LOCK MY GUESSES",exact:true}).click();await nik.page.locator("#p1Guess1Type").selectOption("nationality");await fillTransferCombo(nik,"p1Guess1Value","Brazil");await nik.page.getByRole("button",{name:"LOCK MY GUESSES",exact:true}).click();await waitTransferPhase(daniel,"signing_entry");await zLayout(daniel,"signing");await daniel.page.locator("#p1Signing1League").fill("Primera");await daniel.page.waitForTimeout(500);await zLayout(daniel,"signing-list");return;}
 
     await daniel.page.locator("#endTransferTimer").click({timeout:30000});
     await daniel.page.waitForFunction(()=>window.CareerModeProductionSharedTransferChallenge?.getState?.()?.state?.endRequestedRoles?.includes("playerOne")===true,null,{timeout:30000});
