@@ -677,10 +677,10 @@
      "id": "1038",
      "title": "Final winner closes the Showdown so it counts in the career",
      "lane": "codex",
-     "state": "waiting on Nik's card",
+     "state": "ready",
      "order": 5,
-     "place": "Codex cloud: type 'Job 1038' after the card",
-     "note": "ticket assumes Auto close"
+     "place": "Codex cloud, branch gameplay/bug-list-1: type 'Job 1038' (see the lead's thread)",
+     "note": "Nik chose Auto close (04:09 UTC)"
     },
     {
      "id": "1040",
