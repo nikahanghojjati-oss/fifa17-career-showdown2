@@ -1,10 +1,10 @@
 # Bug hunt board
 
-Updated Fri 9 Oct, 7:16 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Fri 9 Oct, 7:17 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r66** (main `8e1a583`, Fri 9 Oct 12:04 PM)
 
-🐕 **Barking: Showdown Gate on #444 has waited 14 min for a machine; POS20 on #445 has waited 7 min for a machine; POS20 has waited 7 min for a machine.** · POS20 #304 6/16
+🐕 **Barking: POS20 has waited 13 min for a machine; Showdown Gate on #445 has waited 1 min for a machine.** · POS20 #304 6/16
 
 ## Jobs
 
