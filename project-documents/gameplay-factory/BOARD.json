@@ -668,7 +668,7 @@
      "id": "1041",
      "title": "Season Results on phone: ACKNOWLEDGE reachable, no inner scroll box, title clear, photos aligned",
      "lane": "codex",
-     "state": "review (PR #437)",
+     "state": "done (merged into bug-list-1, PR #437)",
      "order": 6,
      "place": "Codex cloud, branch gameplay/bug-list-1: type 'Job 1041'",
      "note": "same family as Studio Z's Signing Entry fix"
@@ -1079,7 +1079,7 @@
      "id": "1042",
      "title": "Closed Final Winner shows the final season on both phones",
      "lane": "codex",
-     "state": "review (PR #439)",
+     "state": "done (merged into bug-list-1, PR #439)",
      "order": 7,
      "place": "Codex cloud, branch gameplay/bug-list-1: type 'Job 1042'",
      "note": "follow-up to 1038; ticket jobs/JOB-1042.md"
