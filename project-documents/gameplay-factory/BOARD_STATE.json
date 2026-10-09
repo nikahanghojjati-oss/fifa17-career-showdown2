@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-09 6:09 PM Boston time (EDT)",
+ "generated": "2026-10-09 6:10 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -284,7 +284,7 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "5430506d",
+  "head": "5430506",
   "head_boston": "Fri 9 Oct 6:02 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": true,
@@ -313,9 +313,9 @@
  },
  "two": {
   "live": {
-   "sha": "8e1a5833",
+   "sha": "8e1a583",
    "revision": "1.9.1-r66",
-   "when": "2026-10-09T16:04:25+00:00",
+   "when": "2026-10-09T16:04:25Z",
    "subject": "Release r66: Season Results on phones, closed Final Winner on both phones (#440)",
    "fixes": [],
    "today": [
@@ -1079,34 +1079,34 @@
       "state": "ready (after 1050)",
       "order": 24,
       "place": "Codex cloud, branch gameplay/bug-list-1: type 'Job 1045'",
-      "note": "ticket jobs/JOB-1045.md; Gate hardening, after the Olympiad bug jobs (Nik 2026-10-09: bugs first)"
+      "note": "ticket jobs/JOB-1045.md; stays Codex: it must read GitHub Actions release tags, which chat and Claude lanes cannot"
      },
      {
       "id": "1048",
       "title": "Rule Book: three missing rules, and the season review stops pointing at a missing button (Olympiad V1, V2)",
-      "lane": "codex",
+      "lane": "gpt-chat",
       "state": "ready",
       "order": 21,
-      "place": "Codex cloud, branch gameplay/bug-list-1: type 'Job 1048'",
-      "note": "text only; ticket jobs/JOB-1048.md"
+      "place": "in the gameplay project (normal chat, GPT-6), new chat: type '1048'",
+      "note": "text only; ticket jobs/JOB-1048.md; lane moved off Codex (Nik 2026-10-09 22:09 UTC: more GPT-6 chat, Work mode cheaper models, Haiku)"
      },
      {
       "id": "1049",
       "title": "Club reveal stops spoiling the sealed club; empty-device restore respects Keep current (Olympiad V3, V5)",
-      "lane": "codex",
+      "lane": "gpt-chat",
       "state": "ready (after 1048)",
       "order": 22,
-      "place": "Codex cloud, branch gameplay/bug-list-1: type 'Job 1049'",
-      "note": "ticket jobs/JOB-1049.md"
+      "place": "in the gameplay project (normal chat, GPT-6), new chat: type '1049'",
+      "note": "ticket jobs/JOB-1049.md; lane moved off Codex (Nik 2026-10-09 22:09 UTC: more GPT-6 chat, Work mode cheaper models, Haiku)"
      },
      {
       "id": "1050",
       "title": "Unfinished Signing Entry rows survive a refresh (Olympiad V4)",
-      "lane": "codex",
+      "lane": "gpt-work",
       "state": "ready (after 1049)",
       "order": 23,
-      "place": "Codex cloud, branch gameplay/bug-list-1: type 'Job 1050'",
-      "note": "draft kept on the player's own device only; ticket jobs/JOB-1050.md"
+      "place": "in the gameplay project (Work mode, cheaper model), new chat: type '1050'",
+      "note": "draft kept on the player's own device only; ticket jobs/JOB-1050.md; lane moved off Codex (Nik 2026-10-09 22:09 UTC: more GPT-6 chat, Work mode cheaper models, Haiku)"
      }
     ],
     "later": [
