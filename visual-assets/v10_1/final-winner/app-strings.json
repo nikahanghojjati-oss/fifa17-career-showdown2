@@ -39,22 +39,22 @@
       "separator": " \u00b7 "
     },
     "finalReconciliation": {
-      "heading": "SHOWDOWN FINAL RECONCILED",
+      "heading": "SHOWDOWN FINAL RESULT",
       "seasonsTemplate": "{acceptedSeasons} OF {totalSeasons} SEASONS ACCEPTED \u00b7 NO ADDITIONAL SEASON",
       "winnerTemplate": "{Daniel} {danielTotal} \u00b7 {Nik} {nikTotal} \u00b7 {winner}",
-      "readOnlyNote": "FINAL RESULTS ARE READ-ONLY \u00b7 TERMINAL CLOSE REMAINS A SEPARATE STEP"
+      "readOnlyNote": "FINAL RESULTS ARE LOCKED \u00b7 CLOSE THE SHOWDOWN WHEN READY"
     },
     "terminalClose": {
-      "readyHeading": "FINAL RESULT READY FOR TERMINAL CLOSE",
-      "readyStatus": "This permanently closes the shared rivalry and exact active private session. Final results remain readable; another season or replacement session cannot resurrect this Showdown.",
+      "readyHeading": "FINAL RESULT READY TO CLOSE",
+      "readyStatus": "This closes the shared Showdown and current connection for good. Final results stay available, and no new season can be added.",
       "closeAction": "CLOSE SHARED SHOWDOWN",
-      "recoveryHeading": "TERMINAL CLOSE OUTCOME PENDING",
-      "recoveryStatus": "Provider acknowledgement was not received. Retry uses the exact same terminal witness and session capability.",
+      "recoveryHeading": "SHOWDOWN CLOSE STILL PENDING",
+      "recoveryStatus": "The close may have finished online. Retry checks the same close request.",
       "retryAction": "RETRY SAME TERMINAL CLOSE",
-      "blockedHeading": "TERMINAL CLOSE READY WHEN PRIVATE AUTHORITY RETURNS",
-      "blockedStatus": "Final results are preserved. Open or join one fresh exact private session for this rivalry, then refresh Terminal Close.",
+      "blockedHeading": "SHOWDOWN CAN CLOSE WHEN BOTH PLAYERS RECONNECT",
+      "blockedStatus": "Final results are safe. Reconnect both players to this Showdown, then refresh.",
       "closedHeading": "SHARED SHOWDOWN CLOSED",
-      "closedStatus": "TERMINAL \u00b7 NO NEW SESSION \u00b7 NO NEW SEASON \u00b7 FINAL RESULTS REMAIN READ-ONLY"
+      "closedStatus": "CLOSED \u00b7 NO NEW SESSION \u00b7 NO NEW SEASON \u00b7 FINAL RESULTS STAY READ-ONLY"
     },
     "completedHub": {
       "danielWinTemplate": "{Daniel} wins the showdown",

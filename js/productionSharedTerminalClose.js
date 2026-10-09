@@ -10,6 +10,33 @@
   const AMBIGUOUS_CODES=new Set(["unavailable","deadline-exceeded","aborted","internal","unknown","network-request-failed"]);
   let installed=false,busy=false,state=null,stateContextKey="",refreshPromise=null,closePromise=null,unsubscribeRemote=null;
   let rivalryWakeRequested=false;
+  // JOB-1038: one automatic attempt per exact Showdown, account and device in this runtime.
+  // Reloads first read the durable terminal witness; provider idempotency remains the authority.
+  const automaticAttempts=new Map();
+  function ptcAutomaticKey(context){return `${context.request.key}|${context.accountId}|${context.deviceId}`;}
+  function ptcScheduleAutomaticClose(context){
+    if(!installed||typeof root.setTimeout!=="function")return;
+    const key=ptcAutomaticKey(context);if(automaticAttempts.has(key))return;
+    const request=context.request,generation=stateGeneration;let polls=0;
+    const attempt=()=>{
+      if(!ptcStillCurrent(request,generation)||busy||closePromise||ptcCurrentState()?.phase!=="READY"||automaticAttempts.has(key)||!ptcRemoteActive(context,ptcCurrentState().intent.sessionId))return;
+      // Close forgets the session, which clears Shared History, so the close waits (bounded) for the converged history the
+      // Final Winner shows as the final season and trophies. Without the history module it closes at once.
+      if(!ptcHistoryConverged(request.rivalryId)&&polls<HISTORY_WAIT_POLLS){polls++;root.setTimeout(attempt,HISTORY_POLL_MS);return;}
+      automaticAttempts.set(key,{failed:false});
+      ptcPublish(request,{...ptcCurrentState(),automaticSaving:true,automaticCloseFailed:false});
+      void ptcClose(key).then(result=>{
+        if(result?.ok===true)return;
+        automaticAttempts.set(key,{failed:true});
+        if(ptcStillCurrent(request,generation)&&ptcCurrentState()?.phase!=="CLOSED")ptcPublish(request,{...ptcCurrentState(),automaticSaving:false,automaticCloseFailed:true});
+      });
+    };
+    root.setTimeout(attempt,0);
+  }
+  const HISTORY_POLL_MS=250,HISTORY_WAIT_POLLS=60;
+  function ptcHistoryConverged(rivalryId){
+    try{const api=root.CareerModeProductionSharedHistoryConvergence;if(typeof api?.getState!=="function")return true;const h=api.getState();return h?.authoritative===true&&h.phase==="HISTORY_CONVERGED"&&h.rivalryId===rivalryId;}catch(_){return true;}
+  }
   // H1017-2: bumped whenever the held state is dropped, so an awaited retry can tell its context was cleared under it.
   let stateGeneration=0;
   // BH-7: throttled, single-flight re-ask of Connected Rivalry (see ptcRetryUnavailableRivalry).
@@ -90,7 +117,7 @@
     const summary=ensure("sharedTerminalCloseSummary","p");
     const status=ensure("sharedTerminalCloseStatus","p","stateNote");status.setAttribute("role","status");status.setAttribute("aria-live","polite");
     const actions=ensure("sharedTerminalCloseActions","div","seasonReviewActions");
-    let close=ptcField("sharedTerminalCloseAction");if(!close){close=root.document.createElement("button");close.id="sharedTerminalCloseAction";close.className="menuButton";close.type="button";close.addEventListener("click",()=>{void ptcClose();});actions.appendChild(close);}
+    let close=ptcField("sharedTerminalCloseAction");if(!close){close=root.document.createElement("button");close.id="sharedTerminalCloseAction";close.className="menuButton";close.type="button";close.addEventListener("click",()=>{void (ptcCurrentState()?.phase==="RECOVERY_PENDING"?ptcRetry():ptcClose());});actions.appendChild(close);}
     let retry=ptcField("sharedTerminalCloseRetry");if(!retry){retry=root.document.createElement("button");retry.id="sharedTerminalCloseRetry";retry.className="compactButton hidden";retry.type="button";retry.addEventListener("click",()=>{void ptcRetry();});actions.appendChild(retry);}
     return {panel,heading,summary,status,actions,close,retry};
   }
@@ -100,16 +127,16 @@
     const visible=Boolean(current&&["READY","RECOVERY_PENDING","CLOSED","BLOCKED"].includes(current.phase));ptcHidden(ui.panel,!visible);if(!visible)return false;
     const witness=current.terminalWitness||current.intent||current.finalReconciliation||null;
     if(current.phase==="CLOSED"){
-      ptcText(ui.heading,"SHARED SHOWDOWN CLOSED");ptcText(ui.summary,ptcWinnerText(witness));ptcText(ui.status,"TERMINAL · NO NEW SESSION · NO NEW SEASON · FINAL RESULTS REMAIN READ-ONLY");ptcHidden(ui.close,true);ptcHidden(ui.retry,true);ui.panel.dataset.terminal="true";return true;
+      ptcText(ui.heading,"SHARED SHOWDOWN CLOSED");ptcText(ui.summary,ptcWinnerText(witness));ptcText(ui.status,"CLOSED · NO NEW SESSION · NO NEW SEASON · FINAL RESULTS STAY READ-ONLY");ptcHidden(ui.close,true);ptcHidden(ui.retry,true);ui.panel.dataset.terminal="true";return true;
     }
     ui.panel.dataset.terminal="false";
     if(current.phase==="RECOVERY_PENDING"){
-      ptcText(ui.heading,"TERMINAL CLOSE OUTCOME PENDING");ptcText(ui.summary,ptcWinnerText(witness));ptcText(ui.status,current.message||"Provider acknowledgement was not received. Retry uses the exact same terminal witness and session capability.");ptcHidden(ui.close,true);ptcHidden(ui.retry,false);ui.retry.disabled=busy;ptcText(ui.retry,"RETRY SAME TERMINAL CLOSE");return true;
+      ptcText(ui.heading,"SHOWDOWN CLOSE STILL PENDING");ptcText(ui.summary,ptcWinnerText(witness));ptcText(ui.status,current.automaticSaving?"Saving this Showdown to your career…":current.message||"The close may have finished online. Retry checks the same close request.");ptcHidden(ui.close,!current.automaticCloseFailed);ui.close.disabled=busy;ptcText(ui.close,"CLOSE SHARED SHOWDOWN");ptcHidden(ui.retry,false);ui.retry.disabled=busy;ptcText(ui.retry,"RETRY SAME TERMINAL CLOSE");return true;
     }
     if(current.phase==="BLOCKED"){
-      ptcText(ui.heading,"TERMINAL CLOSE READY WHEN PRIVATE AUTHORITY RETURNS");ptcText(ui.summary,ptcWinnerText(witness));ptcText(ui.status,current.message||"Final results are preserved. Open or join one fresh exact private session for this rivalry, then refresh Terminal Close.");ptcHidden(ui.close,true);ptcHidden(ui.retry,true);return true;
+      ptcText(ui.heading,"SHOWDOWN CAN CLOSE WHEN BOTH PLAYERS RECONNECT");ptcText(ui.summary,ptcWinnerText(witness));ptcText(ui.status,current.message||"Final results are safe. Reconnect both players to this Showdown, then refresh.");ptcHidden(ui.close,true);ptcHidden(ui.retry,true);return true;
     }
-    ptcText(ui.heading,"FINAL RESULT READY FOR TERMINAL CLOSE");ptcText(ui.summary,ptcWinnerText(witness));ptcText(ui.status,"This permanently closes the shared rivalry and exact active private session. Final results remain readable; another season or replacement session cannot resurrect this Showdown.");ptcHidden(ui.close,false);ui.close.disabled=busy;ptcText(ui.close,"CLOSE SHARED SHOWDOWN");ptcHidden(ui.retry,true);return true;
+    ptcText(ui.heading,"FINAL RESULT READY TO CLOSE");ptcText(ui.summary,ptcWinnerText(witness));ptcText(ui.status,current.automaticCloseFailed?"This Showdown could not be saved. Tap CLOSE SHARED SHOWDOWN to try again.":"Saving this Showdown to your career…");ptcHidden(ui.close,!current.automaticCloseFailed);ui.close.disabled=busy;ptcText(ui.close,"CLOSE SHARED SHOWDOWN");ptcHidden(ui.retry,true);return true;
   }
   function ptcPublish(request,next){
     if(!request||!next){stateGeneration+=1;state=null;stateContextKey="";ptcRender();return null;}
@@ -141,7 +168,10 @@
     const remote=ptcRemoteActive(context);
     if(!remote)return ptcPublish(request,{phase:"BLOCKED",rivalryId:request.rivalryId,terminal:false,finalReconciliation:ptcClone(final),message:"Final results are preserved, but Terminal Close requires one exact ACTIVE private session for this rivalry.",canonicalStorageMutation:false,listPermissionRequired:false,billingRequired:false});
     const intent=protocol.prepare(final,{sessionId:remote.sessionId});
-    return ptcPublish(request,{phase:"READY",rivalryId:request.rivalryId,sessionId:remote.sessionId,terminal:false,intent:ptcClone(intent),canonicalStorageMutation:false,listPermissionRequired:false,billingRequired:false});
+    const failed=automaticAttempts.get(ptcAutomaticKey(context))?.failed===true;
+    const ready=ptcPublish(request,{phase:"READY",rivalryId:request.rivalryId,sessionId:remote.sessionId,terminal:false,intent:ptcClone(intent),automaticSaving:!failed,automaticCloseFailed:failed,canonicalStorageMutation:false,listPermissionRequired:false,billingRequired:false});
+    ptcScheduleAutomaticClose(context);
+    return ready;
   }
   function ptcRefresh(){
     if(refreshPromise)return refreshPromise;busy=true;ptcRender();
@@ -175,32 +205,34 @@
   // session/rivalry). Re-read once, like Season Results does; if the rivalry is already CLOSED with this exact witness, show
   // CLOSED quietly. Anything else keeps the existing rejection path.
   const PTC_RACE_CODES=new Set(["permission-denied","permission_denied","terminal_close_session_not_active","terminal_close_rivalry_not_active"]);
-  async function ptcClosedByRival(request,context,intent,result){
+  async function ptcClosedByRival(request,context,intent,result,generation){
     if(!PTC_RACE_CODES.has(ptcCode(result)))return null;
     try{
       const terminalRead=await provider.read({user:context.user,firestore:context.services.firestore,firebaseSdk:context.services.firestoreSdk,rivalryId:request.rivalryId,deviceId:context.deviceId,cryptoImpl:root.crypto});
-      if(ptcRequest()?.key!==request.key||terminalRead?.ok!==true||terminalRead.terminal!==true||!protocol.sameWitness(terminalRead.terminalWitness,intent))return null;
+      if(!ptcStillCurrent(request,generation)||terminalRead?.ok!==true||terminalRead.terminal!==true||!protocol.sameWitness(terminalRead.terminalWitness,intent))return null;
       try{remoteApi?.forgetSession?.();}catch(_error){}
       ptcPublish(request,ptcClosedState(request,terminalRead));
       return {ok:true,status:"replayed",replayed:true,closedByRival:true,rivalryId:request.rivalryId,sessionId:intent.sessionId,rivalryState:"closed",sessionState:"closed",rivalryRevision:terminalRead.rivalryRevision};
     }catch(_error){return null;}
   }
-  async function ptcClose(){
+  async function ptcClose(automaticKey=null){
     if(closePromise)return closePromise;
     const current=ptcCurrentState();if(!current||current.phase!=="READY"||!current.intent)return {ok:false,code:"TERMINAL_CLOSE_NOT_READY",message:"Terminal Close is not ready for this exact Shared Showdown."};
-    const request=ptcRequest(),intent=protocol.verifyIntent(current.intent);busy=true;ptcRender();
+    const request=ptcRequest(),intent=protocol.verifyIntent(current.intent),generation=stateGeneration;busy=true;ptcPublish(request,{...current,automaticSaving:true,automaticCloseFailed:false});
     const run=(async()=>{
       try{
-        const context=await ptcResolveContext(request);if(ptcRequest()?.key!==request.key)ptcFail("TERMINAL_CLOSE_CONTEXT_CHANGED");
+        const context=await ptcResolveContext(request);if(!ptcStillCurrent(request,generation)||(automaticKey&&ptcAutomaticKey(context)!==automaticKey))ptcFail("TERMINAL_CLOSE_CONTEXT_CHANGED");
         if(!ptcRemoteActive(context,intent.sessionId))ptcFail("TERMINAL_CLOSE_ACTIVE_SESSION_REQUIRED","The exact private session used by this terminal witness is no longer ACTIVE.");
         const result=await provider.close(ptcCloseOptions(context,intent));
-        if(ptcRequest()?.key!==request.key)return {ok:false,code:"TERMINAL_CLOSE_CONTEXT_CHANGED"};
+        if(!ptcStillCurrent(request,generation))return {ok:false,code:"TERMINAL_CLOSE_CONTEXT_CHANGED"};
         if(result?.ok===true){ptcAccepted(request,intent,result);return result;}
-        if(ptcAmbiguous(result)){ptcPublish(request,{phase:"RECOVERY_PENDING",rivalryId:request.rivalryId,sessionId:intent.sessionId,terminal:false,intent:ptcClone(intent),message:"Terminal Close acknowledgement was not received. The exact same terminal witness is retained in page memory for deterministic retry; no replacement session or local-save mutation will be generated.",canonicalStorageMutation:false,listPermissionRequired:false,billingRequired:false});return {...result,recoverable:true};}
-        const rivalClosed=await ptcClosedByRival(request,context,intent,result);if(rivalClosed)return rivalClosed;
-        ptcPublish(request,{...current,message:result?.message||"Terminal Close was rejected without changing the completed Showdown."});return result||{ok:false,code:"TERMINAL_CLOSE_FAILED"};
+        if(ptcAmbiguous(result)){ptcPublish(request,{phase:"RECOVERY_PENDING",rivalryId:request.rivalryId,sessionId:intent.sessionId,terminal:false,intent:ptcClone(intent),automaticSaving:false,automaticCloseFailed:true,message:"Terminal Close acknowledgement was not received. The exact same terminal witness is retained in page memory for deterministic retry; no replacement session or local-save mutation will be generated.",canonicalStorageMutation:false,listPermissionRequired:false,billingRequired:false});return {...result,recoverable:true};}
+        const rivalClosed=await ptcClosedByRival(request,context,intent,result,generation);if(rivalClosed)return rivalClosed;
+        ptcPublish(request,{...current,automaticSaving:false,automaticCloseFailed:true,message:result?.message||"Terminal Close was rejected without changing the completed Showdown."});return result||{ok:false,code:"TERMINAL_CLOSE_FAILED"};
       }catch(error){
-        if(ptcAmbiguous(error)){ptcPublish(request,{phase:"RECOVERY_PENDING",rivalryId:request.rivalryId,sessionId:intent.sessionId,terminal:false,intent:ptcClone(intent),message:"Terminal Close acknowledgement was not received. Retry is bound to the exact same witness and session capability.",canonicalStorageMutation:false,listPermissionRequired:false,billingRequired:false});return {ok:false,code:error.code||"TERMINAL_CLOSE_RECOVERY_PENDING",message:error.message,recoverable:true};}
+        if(!ptcStillCurrent(request,generation))return {ok:false,code:"TERMINAL_CLOSE_CONTEXT_CHANGED"};
+        if(ptcAmbiguous(error)){ptcPublish(request,{phase:"RECOVERY_PENDING",rivalryId:request.rivalryId,sessionId:intent.sessionId,terminal:false,intent:ptcClone(intent),automaticSaving:false,automaticCloseFailed:true,message:"Terminal Close acknowledgement was not received. Retry is bound to the exact same witness and session capability.",canonicalStorageMutation:false,listPermissionRequired:false,billingRequired:false});return {ok:false,code:error.code||"TERMINAL_CLOSE_RECOVERY_PENDING",message:error.message,recoverable:true};}
+        ptcPublish(request,{...current,automaticSaving:false,automaticCloseFailed:true,message:error.message});
         ptcReport("Shared Showdown Terminal Close failed",error);return {ok:false,code:error.code||"TERMINAL_CLOSE_FAILED",message:error.message};
       }
     })().finally(()=>{if(closePromise===run)closePromise=null;busy=false;ptcRender();});closePromise=run;return run;
@@ -208,7 +240,7 @@
   async function ptcRetry(){
     if(closePromise)return closePromise;
     const current=ptcCurrentState();if(!current||current.phase!=="RECOVERY_PENDING"||!current.intent)return {ok:false,code:"TERMINAL_CLOSE_RECOVERY_REQUIRED",message:"No unresolved Terminal Close is waiting for retry."};
-    const request=ptcRequest(),intent=protocol.verifyIntent(current.intent),generation=stateGeneration;busy=true;ptcRender();
+    const request=ptcRequest(),intent=protocol.verifyIntent(current.intent),generation=stateGeneration;busy=true;ptcPublish(request,{...current,automaticSaving:true});
     // H1017-2: the request and state generation are re-checked after every await, before any close call or session cleanup.
     const changed={ok:false,code:"TERMINAL_CLOSE_CONTEXT_CHANGED"};
     const run=(async()=>{
@@ -221,9 +253,9 @@
         if(!ptcStillCurrent(request,generation))return changed;
         if(result?.ok===true){ptcAccepted(request,intent,result);return result;}
         if(ptcAmbiguous(result)){ptcPublish(request,current);return {...result,recoverable:true};}
-        const rivalClosed=await ptcClosedByRival(request,context,intent,result);if(rivalClosed)return rivalClosed;
+        const rivalClosed=await ptcClosedByRival(request,context,intent,result,generation);if(rivalClosed)return rivalClosed;
         ptcPublish(request,{...current,message:result?.message||"The same Terminal Close retry was rejected; the exact witness remains held for inspection."});return result||{ok:false,code:"TERMINAL_CLOSE_FAILED"};
-      }catch(error){if(ptcAmbiguous(error)){ptcPublish(request,current);return {ok:false,code:error.code||"TERMINAL_CLOSE_RECOVERY_PENDING",message:error.message,recoverable:true};}ptcReport("Shared Showdown Terminal Close retry failed",error);return {ok:false,code:error.code||"TERMINAL_CLOSE_FAILED",message:error.message};}
+      }catch(error){if(ptcAmbiguous(error)){ptcPublish(request,current);return {ok:false,code:error.code||"TERMINAL_CLOSE_RECOVERY_PENDING",message:error.message,recoverable:true};}if(ptcStillCurrent(request,generation))ptcPublish(request,current);ptcReport("Shared Showdown Terminal Close retry failed",error);return {ok:false,code:error.code||"TERMINAL_CLOSE_FAILED",message:error.message};}
     })().finally(()=>{if(closePromise===run)closePromise=null;busy=false;ptcRender();});closePromise=run;return run;
   }
   // BH-7: the one-shot wake below never asks again when an initialize left Connected Rivalry unattached and "unavailable".

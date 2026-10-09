@@ -10,7 +10,7 @@
   // No reads, no writes, no storage, no globals: everything arrives as one argument.
   const ROLES=Object.freeze(["playerOne","playerTwo"]);
   const RIVALRY_ID=/^pair_[0-9a-f]{64}$/;
-  const READ_STATUSES=Object.freeze(["completed","abandoned","not-closed","unavailable"]);
+  const READ_STATUSES=Object.freeze(["completed","abandoned","not-closed","unavailable","never-started"]);
   const CURRENT_CLASSES=Object.freeze(["pending","active","completion-pending","completed","abandoned","unavailable"]);
   const INDEX_STATUSES=Object.freeze(["loading","unavailable","ready"]);
 
@@ -28,14 +28,15 @@
     if(!Array.isArray(ids)||ids.some(id=>typeof id!=="string"||!RIVALRY_ID.test(id))||new Set(ids).size!==ids.length)return {status:"unavailable",ids:[],code:"CLOSED_INDEX_INVALID"};
     return {status:"ready",ids:[...ids],code:null};
   }
-  // current = sharedActiveShowdownAdapter.careerInput(snapshot): {indexStatus, showdowns:[entry]|[], currentShowdownOnly:true}.
+  // current = sharedActiveShowdownAdapter.careerInput(snapshot): indexStatus, showdowns,
+  // currentShowdownOnly and (when loading/unavailable) an optional currentRivalryId.
   function cadCurrent(current){
     if(!cadPlain(current)||current.currentShowdownOnly!==true||!INDEX_STATUSES.includes(current.indexStatus)||!Array.isArray(current.showdowns))return {status:"unknown",entry:null};
-    if(current.indexStatus!=="ready")return {status:current.indexStatus==="loading"?"loading":"unknown",entry:null};
+    if(current.indexStatus!=="ready")return {status:current.indexStatus==="loading"?"loading":"unknown",entry:null,rivalryId:typeof current.currentRivalryId==="string"&&RIVALRY_ID.test(current.currentRivalryId)?current.currentRivalryId:null};
     if(current.showdowns.length===0)return {status:"known",entry:null};
     const entry=current.showdowns[0];
     if(current.showdowns.length!==1||!cadPlain(entry)||typeof entry.rivalryId!=="string"||!RIVALRY_ID.test(entry.rivalryId)||!CURRENT_CLASSES.includes(entry.classification))return {status:"unknown",entry:null};
-    return {status:"known",entry};
+    return {status:"known",entry,rivalryId:entry.rivalryId};
   }
   // A completed read counts only if the rebuilt projection, the reader's final and the Terminal Close witness all agree.
   function cadCompleted(read,rivalryId){
@@ -53,6 +54,7 @@
     if(!READ_STATUSES.includes(read.status)||read.rivalryId!==rivalryId)return [cadEntry(rivalryId,"unavailable"),cadNote(rivalryId,"reader","unavailable","CLOSED_READ_INVALID")];
     if(read.status==="unavailable")return [cadEntry(rivalryId,"unavailable"),cadNote(rivalryId,"reader","unavailable",typeof read.code==="string"&&read.code?read.code:"CLOSED_READ_UNAVAILABLE")];
     if(!ROLES.includes(read.managerRole))return [cadEntry(rivalryId,"unavailable"),cadNote(rivalryId,"reader","unavailable","CLOSED_READ_INVALID")];
+    if(read.status==="never-started")return [null,cadNote(rivalryId,"excluded","never-started")];
     const live=current.entry&&current.entry.rivalryId===rivalryId?current.entry:null;
     if(read.status==="completed"){
       let entry;
@@ -69,7 +71,10 @@
       return [cadEntry(rivalryId,"abandoned"),cadNote(rivalryId,"reader","abandoned")];
     }
     // not-closed: the root is active or pending-pair. Only the live Showdown can say which, and what it holds.
-    if(current.status!=="known")return [cadEntry(rivalryId,"unavailable"),cadNote(rivalryId,"current","unavailable","CLOSED_CURRENT_UNKNOWN")];
+    if(current.status!=="known"&&current.rivalryId===rivalryId){
+      if(current.status==="loading")return [cadEntry(rivalryId,"pending"),cadNote(rivalryId,"current","pending","CLOSED_CURRENT_LOADING")];
+      return [cadEntry(rivalryId,"unavailable"),cadNote(rivalryId,"current","unavailable","CLOSED_CURRENT_UNKNOWN")];
+    }
     if(!live)return [cadEntry(rivalryId,"pending"),cadNote(rivalryId,"excluded","pending","CLOSED_NOT_CURRENT")];
     if(live.classification==="completed"||live.classification==="abandoned")return [cadEntry(rivalryId,"unavailable"),cadNote(rivalryId,"current","unavailable","CLOSED_STATE_CONFLICT")];
     if(live.classification==="unavailable")return [cadEntry(rivalryId,"unavailable"),cadNote(rivalryId,"current","unavailable","CLOSED_CURRENT_UNAVAILABLE")];
@@ -79,9 +84,14 @@
     const o=cadPlain(options)?options:{},index=cadIndex(o.index),current=cadCurrent(o.current),reads=cadPlain(o.reads)?o.reads:{};
     if(index.status==="loading")return {indexStatus:"loading",showdowns:[],notes:[]};
     if(index.status!=="ready")return {indexStatus:"unavailable",showdowns:[],notes:[cadNote(null,"index","unavailable",index.code)]};
-    if(current.status==="loading")return {indexStatus:"loading",showdowns:[],notes:[]};
+    // A lone open root can identify the unknown current row after a reload.
+    // With several open roots and no current id, do not spread uncertainty to all of them.
+    if(current.status!=="known"&&!current.rivalryId){
+      const open=index.ids.filter(id=>reads[id]?.rivalryId===id&&reads[id]?.status==="not-closed");
+      if(open.length===1)current.rivalryId=open[0];
+    }
     const showdowns=[],notes=[];
-    for(const id of index.ids){const [entry,note]=cadClassify(id,Object.hasOwn(reads,id)?reads[id]:null,current);showdowns.push(entry);notes.push(note);}
+    for(const id of index.ids){const [entry,note]=cadClassify(id,Object.hasOwn(reads,id)?reads[id]:null,current);if(entry)showdowns.push(entry);notes.push(note);}
     // No backfill: a live Showdown that is not in the career index never enters career history.
     if(current.entry&&!index.ids.includes(current.entry.rivalryId))notes.push(cadNote(current.entry.rivalryId,"outside-index",current.entry.classification,"CLOSED_NOT_INDEXED"));
     return {indexStatus:"ready",showdowns,notes};

@@ -20,6 +20,10 @@ const SWITCH=path.join(ROOT,"tests/browser/support/emulator-runtime-switch.js");
 const SDK_DIR=path.join(ROOT,"node_modules/firebase");
 const ARTIFACTS=process.env.CMS_BROWSER_JOURNEY_ARTIFACTS||path.join(os.tmpdir(),"cms-browser-journey");
 const LENGTH=Number(process.env.CMS_SHOWDOWN_LENGTH||3);
+// JOB-1040: the final totals the scripted seasons produce. The 3-season row is the original expectation; the 1-season row is the
+// season-1 result alone (9-3, Daniel wins), so the journey can also be run with CMS_SHOWDOWN_LENGTH=1 without changing any check.
+const FINAL_EXPECTED={3:{daniel:10,nik:15,winner:"playerTwo",winnerName:"Nik"},1:{daniel:9,nik:3,winner:"playerOne",winnerName:"Daniel"}}[LENGTH]||{daniel:10,nik:15,winner:"playerTwo",winnerName:"Nik"};
+const FINAL_NO_CLOSE_TAP=process.env.CMS_FINAL_NO_CLOSE_TAP==="1";
 const FORBIDDEN_HOSTS=/(^|\.)(firestore|identitytoolkit|securetoken|firebaseinstallations|firebaseappcheck|content-firebaseappcheck)\.googleapis\.com$/;
 let checks=0;
 const ok=(id,label)=>{checks+=1;console.log(`ok ${checks} ${id} ${label}`);};
@@ -63,6 +67,13 @@ async function openManager(browser,user,viewport){
   await context.route(/^https:\/\/www\.gstatic\.com\/firebasejs\/[\d.]+\/(firebase-[a-z-]+\.js)$/,route=>{
     const name=route.request().url().match(/(firebase-[a-z-]+\.js)$/)[1];
     return route.fulfill({path:path.join(SDK_DIR,name),contentType:"text/javascript; charset=utf-8"});
+  });
+  // JOB-1038: the existing CLOSE path now proves a manual retry after an automatic save failure.
+  // Inject at the provider boundary before bootstrap binds it; the no-tap path uses the real provider.
+  if(!FINAL_NO_CLOSE_TAP)await context.route("**/js/sparkTerminalClose.js*",async route=>{
+    const source=fs.readFileSync(path.join(ROOT,"js/sparkTerminalClose.js"),"utf8");
+    await route.fulfill({contentType:"text/javascript",body:source+`
+;(()=>{const provider=window.CareerModeSparkTerminalClose;let failed=false;window.CareerModeSparkTerminalClose=Object.freeze({...provider,close:async options=>{if(!failed){failed=true;return {ok:false,code:"TEST_AUTOMATIC_SAVE_FAILED",message:"Test automatic save failed before any write."};}return provider.close(options);}});})();`});
   });
   await context.addInitScript({path:SWITCH});
   const page=await context.newPage();
@@ -159,8 +170,13 @@ async function commitSeasonViaUi(daniel,nik,p1,p2,winner,{finalSeason=false,seas
   assert.equal(await daniel.page.locator("#sharedCanonicalScoringPanel").isVisible().catch(()=>false),false,"scoring still waits for Nik's own acknowledgement");
   await nik.page.waitForFunction(()=>document.getElementById("sharedSeasonCommitAction")?.textContent==="ACKNOWLEDGE SHARED SEASON",null,{timeout:45000});
   await nik.page.locator("#sharedSeasonCommitAction").click({timeout:30000});
+  // JOB-1038 no-tap mode: on the final season the automatic close can finish before this page is checked; the closed
+  // Showdown then no longer shows the live commit and scoring panels, so only the Final Winner checks below apply.
+  const autoClosedFinal=FINAL_NO_CLOSE_TAP&&finalSeason;
   for(const m of [daniel,nik]){
-    await m.page.waitForFunction(()=>document.getElementById("sharedSeasonCommitAction")?.textContent==="SEASON COMMIT ACKNOWLEDGED ✓",null,{timeout:45000});
+    await m.page.waitForFunction(allowClosed=>document.getElementById("sharedSeasonCommitAction")?.textContent==="SEASON COMMIT ACKNOWLEDGED ✓"||(allowClosed&&window.CareerModeProductionSharedTerminalClose?.getState?.()?.phase==="CLOSED"),autoClosedFinal,{timeout:45000});
+    const closedAlready=autoClosedFinal&&await m.page.evaluate(()=>window.CareerModeProductionSharedTerminalClose?.getState?.()?.phase==="CLOSED");
+    if(!closedAlready){
     try{
       await m.page.waitForFunction(()=>window.CareerModeProductionSharedCanonicalScoring?.getState?.()?.phase==="SCORING_RECONCILED",null,{timeout:60000});
     }catch(error){
@@ -176,11 +192,12 @@ async function commitSeasonViaUi(daniel,nik,p1,p2,winner,{finalSeason=false,seas
     }
     const scoringView=await m.page.evaluate(()=>{const v=window.CareerModeProductionSharedCanonicalScoring?.getState?.();return v?{authoritative:v.authoritative,p1:v.scoring?.playerOne?.total,p2:v.scoring?.playerTwo?.total,winner:v.winner}:null;});
     assert.deepEqual(scoringView,{authoritative:true,p1,p2,winner:winner==="draw"?"draw":winner==="Daniel"?"playerOne":"playerTwo"},`${m.user} canonical scoring state`);
+    }
     if(finalSeason){
       // BH-8: after the last commit the Final Winner screen can take over before this check runs, so on the final season either
       // the rendered scoring panel or the Final Winner screen is accepted; the panel text below is still asserted either way.
       await m.page.waitForFunction(()=>{const shown=id=>{const el=document.getElementById(id);return Boolean(el&&el.getClientRects().length&&getComputedStyle(el).visibility!=="hidden");};return shown("sharedCanonicalScoringPanel")||shown("finalWinnerScreen");},null,{timeout:45000});
-      assert.equal(await m.page.locator("#sharedCanonicalScoringPanel").evaluate(el=>el.classList.contains("hidden")),false,`${m.user} scoring panel was rendered for the final season`);
+      if(!closedAlready)assert.equal(await m.page.locator("#sharedCanonicalScoringPanel").evaluate(el=>el.classList.contains("hidden")),false,`${m.user} scoring panel was rendered for the final season`);
       // JOB-1005: the Final Winner screen itself shows the final season's number and score (no extra tap).
       assert.ok(Number.isInteger(seasonNumber),"the final season number is passed to commitSeasonViaUi");
       await m.page.waitForFunction(({n,s1,s2})=>{const t=id=>document.getElementById(id)?.textContent?.trim();return t("panelLastSeasonLabel")===`FINAL SEASON ${n}`&&t("panelLastSeasonDaniel")===String(s1)&&t("panelLastSeasonNik")===String(s2);},{n:seasonNumber,s1:p1,s2:p2},{timeout:60000});
@@ -188,8 +205,8 @@ async function commitSeasonViaUi(daniel,nik,p1,p2,winner,{finalSeason=false,seas
     }else{
       await m.page.locator("#sharedCanonicalScoringPanel").waitFor({state:"visible",timeout:5000});
     }
-    assert.equal((await m.page.locator("#sharedCanonicalScoringTotals").textContent()).trim(),`Daniel: ${p1} · Nik: ${p2}`);
-    assert.equal((await m.page.locator("#sharedCanonicalScoringWinner").textContent()).trim(),winner==="draw"?"Season result: Draw":`Season winner: ${winner}`);
+    if(!closedAlready)assert.equal((await m.page.locator("#sharedCanonicalScoringTotals").textContent()).trim(),`Daniel: ${p1} · Nik: ${p2}`);
+    if(!closedAlready)assert.equal((await m.page.locator("#sharedCanonicalScoringWinner").textContent()).trim(),winner==="draw"?"Season result: Draw":`Season winner: ${winner}`);
     // On the final season the J10 Final Reconciliation step below waits for authoritative Shared History instead.
     if(!finalSeason)await m.page.locator("#sharedHistoryConvergencePanel").waitFor({state:"visible",timeout:45000});
   }
@@ -232,6 +249,70 @@ async function playTransferSeason(daniel,nik,season,tokenD,tokenN){
   await nik.page.getByRole("button",{name:"LOCK MY SIGNINGS",exact:true}).click({timeout:30000});
   await waitTransferPhase(nik,"completed");await waitTransferPhase(daniel,"completed");
   for(const m of [daniel,nik])await m.page.getByRole("button",{name:"CONTINUE TO SHARED SEASON RESULTS",exact:true}).waitFor({state:"visible",timeout:30000});
+}
+
+// JOB-1040: reads one career screen (host element) until `ready` accepts its text or 20 s pass; returns the last text either way.
+async function readCareerScreenText(m,hostId,ready){
+  const deadline=Date.now()+20000;let text="";
+  while(Date.now()<deadline){
+    text=await m.page.evaluate(id=>{const h=document.getElementById(id);return h&&!h.classList.contains("hidden")?(h.innerText||"").replace(/\s+/g," ").trim():"";},hostId);
+    if(text&&ready(text))return text;
+    await m.page.waitForTimeout(250);
+  }
+  return text;
+}
+async function backToShowdownHome(m){
+  // Real navigation: press the visible SHOWDOWN HOME / BACK TO MAIN MENU button until Showdown Home (#mainMenu) shows. Bounded to 20 s.
+  const deadline=Date.now()+20000;
+  while(Date.now()<deadline){
+    if(await m.page.locator("#mainMenu").isVisible().catch(()=>false))return;
+    for(const label of [/^\s*(SHOWDOWN HOME|BACK TO MAIN MENU|BACK TO SHOWDOWN HOME)\s*$/i,/^\s*HOME\s*$/i,/^\s*BACK\s*$/i]){
+      const back=m.page.locator("button:visible").filter({hasText:label}).first();
+      if(await back.count()){await back.click({timeout:5000}).catch(()=>{});break;}
+    }
+    await m.page.waitForTimeout(500);
+  }
+  const diag=await m.page.evaluate(()=>({screens:[...document.querySelectorAll(".screen:not(.hidden)")].map(s=>s.id),buttons:[...document.querySelectorAll("button")].filter(b=>b.offsetParent!==null).map(b=>(b.innerText||b.id||"").replace(/\s+/g," ").trim()).slice(0,30)}));
+  throw new Error(`${m.user}: could not reach Showdown Home from the finished Showdown within 20 s ${JSON.stringify(diag)}`);
+}
+async function assertCareerScreensShowCompletedShowdown(managers,id){
+  for(const m of managers){
+    const who=`${id} ${m.user}`;
+    const fail=(screen,text,why)=>new Error(`${who}: ${screen} ${why}. Screen text: ${text.slice(0,600)||"(screen did not appear)"}`);
+    const bad=/unavailable|could not be read|could not be loaded|failed to|loading your showdown history|loading career history/i;
+    // Career Statistics
+    await backToShowdownHome(m);
+    await m.page.locator("#careerStatisticsButton").click({timeout:20000});
+    const oneCompleted=t=>/(COMPLETED SHOWDOWNS\s*1(?!\d)|(?<![\d.])1\s*COMPLETED SHOWDOWNS)/i.test(t);
+    let text=await readCareerScreenText(m,"careerStatistics",t=>!bad.test(t)&&oneCompleted(t));
+    if(bad.test(text)||!/COMPLETED SHOWDOWNS/i.test(text))throw fail("Career Statistics",text,"did not load career history");
+    if(!oneCompleted(text))throw fail("Career Statistics",text,"does not show COMPLETED SHOWDOWNS 1");
+    await shot(m,`j10-career-statistics-${id}`);
+    // Trophy Room (opened from Career Statistics with the screen's own button)
+    await m.page.locator("#trophyRoomButton").click({timeout:20000});
+    text=await readCareerScreenText(m,"trophyRoom",t=>!bad.test(t)&&/Showdown Champion/i.test(t));
+    if(bad.test(text))throw fail("Trophy Room",text,"reports the career history as unavailable or unreadable");
+    if(!/Showdown Champion/i.test(text))throw fail("Trophy Room",text,"does not show the Showdown Champion trophy");
+    // The Showdown Champion card counts up from 0, so read the settled data-count-value (or the dash for "not won yet").
+    const loser=FINAL_EXPECTED.winnerName==="Daniel"?"nik":"daniel",winner=FINAL_EXPECTED.winnerName.toLowerCase();
+    const champions=()=>m.page.evaluate(([w,l])=>{
+      const card=document.querySelector('#trophyRoom .trophyCard[data-trophy="showdown"]');
+      const read=side=>{const el=card?.querySelector(`[data-side="${side}"] strong`);return el?(el.dataset.countValue||(el.textContent||"").trim()):null;};
+      return {winner:read(w),loser:read(l)};
+    },[winner,loser]);
+    let seen=await champions();const champDeadline=Date.now()+20000;
+    while(seen.winner!=="1"&&Date.now()<champDeadline){await m.page.waitForTimeout(250);seen=await champions();}
+    if(seen.winner!=="1"||seen.loser==="1")throw fail("Trophy Room",text,`does not award the Showdown Champion trophy to ${FINAL_EXPECTED.winnerName} only (cabinet counts ${JSON.stringify(seen)})`);
+    await shot(m,`j10-trophy-room-${id}`);
+    // Legacy
+    await backToShowdownHome(m);
+    await m.page.locator("#legacyButton").click({timeout:20000});
+    text=await readCareerScreenText(m,"legacy",t=>!bad.test(t)&&/Showdown #1\b/i.test(t));
+    if(bad.test(text)||!text)throw fail("Legacy",text,"is unavailable or still loading");
+    if(!/Showdown #1\b/i.test(text)||/Showdown #2\b/i.test(text))throw fail("Legacy",text,"does not list exactly one completed Showdown card (#1)");
+    if(!new RegExp(`${FINAL_EXPECTED.winnerName} WINS`,"i").test(text))throw fail("Legacy",text,`does not show ${FINAL_EXPECTED.winnerName} as the Showdown winner`);
+    await shot(m,`j10-legacy-${id}`);
+  }
 }
 
 async function main(){
@@ -622,6 +703,21 @@ async function main(){
     }
 
     // J10 final reconciliation and Terminal Close through the real UI.
+    if(FINAL_NO_CLOSE_TAP){
+      for(const m of [daniel,nik]){
+        await m.page.locator("#finalWinnerScreen").waitFor({state:"visible",timeout:60000});
+        await m.page.waitForFunction(()=>window.CareerModeProductionSharedTerminalClose?.getState?.()?.phase==="CLOSED"&&window.FINAL_WINNER_FIXTURES?.frames?.LIVE?.state==="completed",null,{timeout:60000});
+        const frame=await m.page.evaluate(()=>window.FINAL_WINNER_FIXTURES?.frames?.LIVE);
+        assert.equal(frame.state,"completed",`${m.user}: the final winner remains visible after automatic close`);
+        assert.equal(frame.winner,FINAL_EXPECTED.winnerName.toLowerCase());
+        assert.deepEqual(frame.totals,{daniel:FINAL_EXPECTED.daniel,nik:FINAL_EXPECTED.nik});
+        assert.equal(frame.status,"ready",`${m.user}: the closed Final Winner keeps the verified history (trophies and final season)`);
+        assert.equal(frame.lastSeason.season,LENGTH);
+        assert.equal(await m.page.locator("#sharedTerminalCloseAction").isVisible(),false,"successful auto-close needs no CLOSE retry");
+        assert.equal(m.log.taps.some(t=>t.id==="sharedTerminalCloseAction"||t.id==="sharedTerminalCloseRetry"),false,`${m.user}: no terminal close tap`);
+      }
+      ok("J10.1-auto","both pages keep the final winner and close without a CLOSE tap");
+    }else{
     // Owner decision 2026-10-05 (BH-8): once the last season is committed each phone checks on its own poll and shows the
     // final winner and CLOSE by itself. Nobody taps PREVIEW LOCAL RECONCILIATION here; Apply stays a separate explicit tap.
     for(const m of [daniel,nik])await m.page.evaluate(()=>{window.__bh8PreviewTaps=0;document.addEventListener("click",event=>{if(event.target?.closest?.("#sharedLocalReconciliationPreview"))window.__bh8PreviewTaps+=1;},true);});
@@ -655,8 +751,8 @@ async function main(){
         }));
         throw new Error(`J10_FINAL_RECONCILIATION_NOT_VISIBLE ${JSON.stringify(diag)}`,{cause:error});
       }
-      assert.equal((await m.page.locator("#sharedFinalReconciliationHeading").textContent()).trim(),"SHOWDOWN FINAL RECONCILED");
-      assert.equal((await m.page.locator("#sharedFinalReconciliationWinner").textContent()).trim(),"Daniel 10 · Nik 15 · Nik WINS");
+      assert.equal((await m.page.locator("#sharedFinalReconciliationHeading").textContent()).trim(),"SHOWDOWN FINAL RESULT");
+      assert.equal((await m.page.locator("#sharedFinalReconciliationWinner").textContent()).trim(),`Daniel ${FINAL_EXPECTED.daniel} · Nik ${FINAL_EXPECTED.nik} · ${FINAL_EXPECTED.winnerName} WINS`);
       await m.page.locator("#sharedTerminalCloseAction").waitFor({state:"visible",timeout:60000});
       assert.equal((await m.page.locator("#sharedTerminalCloseAction").textContent()).trim(),"CLOSE SHARED SHOWDOWN");
       try{
@@ -679,20 +775,33 @@ async function main(){
     ok("J10.1","both pages reconcile the three-season final as Daniel 10, Nik 15, Nik wins by 5");
 
     await daniel.page.locator("#sharedTerminalCloseAction").click({timeout:30000});
+    }
     for(const m of [daniel,nik]){
       await m.page.waitForFunction(()=>document.getElementById("sharedTerminalCloseHeading")?.textContent==="SHARED SHOWDOWN CLOSED",null,{timeout:60000});
-      assert.match((await m.page.locator("#sharedTerminalCloseStatus").textContent()).trim(),/TERMINAL · NO NEW SESSION · NO NEW SEASON/);
+      assert.match((await m.page.locator("#sharedTerminalCloseStatus").textContent()).trim(),/CLOSED · NO NEW SESSION · NO NEW SEASON/);
     }
     const closedR1=await admin(`rivalries/${R1}`);
     assert.ok(closedR1,"closed R1 rivalry root exists");
     assert.equal(field(closedR1,"data","connectionState").stringValue,"closed","R1 root is closed");
     const terminalWitness=field(closedR1,"data","terminalClose");
     assert.ok(terminalWitness?.mapValue,"R1 root stores terminalClose witness");
-    assert.equal(field(terminalWitness,"winner").stringValue,"playerTwo","terminal witness records Nik as winner");
-    assert.equal(field(terminalWitness,"managerTotals","playerOne").integerValue,"10","terminal witness Daniel total");
-    assert.equal(field(terminalWitness,"managerTotals","playerTwo").integerValue,"15","terminal witness Nik total");
+    assert.equal(field(terminalWitness,"winner").stringValue,FINAL_EXPECTED.winner,`terminal witness records ${FINAL_EXPECTED.winnerName} as winner`);
+    assert.equal(field(terminalWitness,"managerTotals","playerOne").integerValue,String(FINAL_EXPECTED.daniel),"terminal witness Daniel total");
+    assert.equal(field(terminalWitness,"managerTotals","playerTwo").integerValue,String(FINAL_EXPECTED.nik),"terminal witness Nik total");
     ok("J10.2","Terminal Close completed through the UI and R1 root is closed with a terminalClose witness");
     await shot(daniel,"j10-terminal");await shot(nik,"j10-terminal");
+
+    // JOB-1040: after a finished online Showdown both devices open Career Statistics, Trophy Room and Legacy from Showdown Home
+    // (real buttons) and must see the just-completed Showdown, before and after a reload. Every wait is bounded to 20 s.
+    await assertCareerScreensShowCompletedShowdown([daniel,nik],"J10.3");
+    for(const m of [daniel,nik]){
+      await m.page.reload({waitUntil:"domcontentloaded"});
+      await m.page.locator("#loadingScreen").waitFor({state:"hidden",timeout:30000});
+      await m.page.locator("#mainMenu").waitFor({state:"visible",timeout:30000});
+    }
+    await assertCareerScreensShowCompletedShowdown([daniel,nik],"J10.4");
+    ok("J10.3","after the finished online Showdown both devices open Career Statistics, Trophy Room and Legacy and each shows the completed Showdown");
+    ok("J10.4","after reloading both devices the same three screens still show the completed Showdown");
 
     // J11 stranger: redeemed R1 capability never grants a third account access or leaks private content.
     const stranger=await openManager(browser,"stranger",{width:375,height:650});managers.push(stranger);

@@ -122,4 +122,14 @@ check("V29.8 registry mount keeps the native final proof, close and Back nodes r
   defs.seasonEntry.unmount(host);assert.ok(proof.parentNode===review,"proof restored");assert.ok(terminal.parentNode===review,"terminal restored");assert.ok(back.closest(".v10SeasonStage")===host.querySelector(".v10SeasonStage"),"Back restored");
 });
 check("V29.9 the real clash contract keeps CHECK RESULTS and enabled commit/acknowledge",()=>{const r=spawnSync(process.execPath,["tests/contracts/season-result-clash-contracts.cjs"],{cwd:ROOT,encoding:"utf8"});assert.equal(r.status,0,r.stdout+r.stderr);});
+// JOB-1038: keep the winner frame visible while career saving runs, then retain the existing closed state.
+check("JOB-1038 Final Winner stays visible while saving and after success",()=>{
+  const r={phase:"FINAL_SEASON_RECONCILED",finalSeasonReconciled:true,rivalryId:"job1038",winner:"draw",managerTotals:{playerOne:10,playerTwo:10},totalSeasons:3};
+  const saving=api.finalFrame(r,{phase:"READY",automaticSaving:true});
+  assert.equal(saving.winner,"draw");
+  assert.equal(saving.completionMark,"Saving this Showdown to your career…");
+  assert.equal(api.finalFrame(r,{phase:"READY",automaticCloseFailed:true}).completionMark,"Saving failed. Try CLOSE SHARED SHOWDOWN again.");
+  const closed=api.finalFrame(r,{phase:"CLOSED",terminal:true,rivalryId:r.rivalryId,terminalWitness:r});
+  assert.equal(closed.state,"completed");assert.equal(closed.heading,"SHARED SHOWDOWN CLOSED");assert.equal(closed.completionMark,"");
+});
 (async()=>{for(let i=0;i<checks.length;i++){await checks[i][1]();process.stdout.write(`ok ${i+1} ${checks[i][0]}\n`);}process.stdout.write(`PASS ${checks.length} V10 season/final/standings contracts\n`);})().catch(e=>{console.error(e);process.exitCode=1;});
