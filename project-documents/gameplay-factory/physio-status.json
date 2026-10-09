@@ -1,6 +1,6 @@
 {
   "schema": "physio/v1",
-  "at": "2026-10-09T03:26:23.899Z",
+  "at": "2026-10-09T03:31:17.336Z",
   "state": "ALL_CLEAR",
   "checks": [],
   "helpers_paused": [],
@@ -14,15 +14,15 @@
       },
       {
         "name": "L2 browser full",
-        "state": "running"
+        "state": "pass"
       },
       {
         "name": "L3 storage visual gameplay",
-        "state": "running"
+        "state": "pass"
       },
       {
         "name": "L4 remote",
-        "state": "running"
+        "state": "pass"
       },
       {
         "name": "L5 rules regression",
@@ -30,15 +30,15 @@
       },
       {
         "name": "L6 browser journey",
-        "state": "running"
+        "state": "pass"
       }
     ],
-    "seal": "PENDING"
+    "seal": "FAIL_TEST"
   },
   "pos20": {
     "pr": 429,
-    "passed": 9,
+    "passed": 12,
     "total": 16,
-    "state": "running"
+    "state": "pass"
   }
 }
