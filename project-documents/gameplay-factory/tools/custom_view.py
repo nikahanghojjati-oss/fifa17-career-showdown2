@@ -459,7 +459,7 @@ def job_html(q, i, kind):
     if kind == "wait" and (q.get("after") or "") != st:
         meta.append("waits: " + (q.get("after") or "something else"))
     pct = q["progress"][0]["pct"] if q.get("progress") else (100.0 if kind == "run" and re.search(r"worker done", st or "", re.I) else 0.0)
-    m0 = re.search(r"step (\d+) of (\d+)", st or "")
+    m0 = re.search(r"step (\d+) of (\d+)", (st or "") + " " + str((rowmap.get(str(q["id"])) or {}).get("state") or q.get("state") or ""))
     if m0 and not q.get("progress"):
         pct = 100.0 * (int(m0.group(1)) - 1) / int(m0.group(2))
     col = HEX.get(worker, "#6b7280")  # Nik, 2026-10-09 21:57: bring back the bar, the % and the worker's colour on every card
