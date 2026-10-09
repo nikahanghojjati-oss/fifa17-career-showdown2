@@ -396,7 +396,9 @@ def job_html(q, i, kind):
     worker, prog, fin = job_prog(q)
     st = run_state(q) if kind == "run" else short_state(q.get("state", ""))
     head = f'{sq(q["lane"])} <b>#{i} · {e(q["n"])}</b> <span class="tm">{e(q.get("team", "G"))}</span> {e(q["title"])}'
-    meta = [f"Worker: {worker}"] + ([st] if st and kind != "next" else []) + ([prog] if kind != "wait" else []) + ([fin] if fin and kind == "run" else [])
+    if kind == "run" and prog == "not started":  # already with a worker or the lead: its state says where it is
+        prog = ""
+    meta = [f"Worker: {worker}"] + ([st] if st and kind != "next" else []) + ([prog] if prog and kind != "wait" else []) + ([fin] if fin and kind == "run" else [])
     if kind == "wait":
         meta.append("waits: " + (q.get("after") or "something else"))
     out = head + '<br><span class="m">' + e(" · ".join(meta)) + "</span>"
