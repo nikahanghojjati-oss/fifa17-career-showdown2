@@ -1140,7 +1140,7 @@
      "id": "1049",
      "title": "Club reveal stops spoiling the sealed club (Olympiad V3)",
      "lane": "gpt-chat",
-     "state": "worker done, lead checking (PR #444): bug repro fails before and passes after; Claude Haiku added the test; CI running",
+     "state": "worker done, lead checking (PR #444): repro and test proven, merged bug-list-1 in, CI running",
      "order": 22,
      "place": "nothing to type: the chat is finished",
      "note": "V5 moved to 1053 so each chat job fits one turn; ticket jobs/JOB-1049.md",
@@ -1199,7 +1199,7 @@
      "prompt": "",
      "title": "Restore on an empty device respects Keep current (Olympiad V5)",
      "order": 23,
-     "state": "held: worker done (PR #445), waiting on Nik's choice about Keep current on an empty device (it clashes with the job 1027 test); Claude Haiku prepares the tests"
+     "state": "worker done, lead checking (PR #445): Nik chose \"Keep means keep\" 2026-10-09 22:55 UTC; Claude Haiku adds the tests"
     },
     {
      "id": "1054",
