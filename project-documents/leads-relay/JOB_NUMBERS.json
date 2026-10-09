@@ -1,6 +1,6 @@
 {
  "_how": "One shared job counter for Team G and Team V (Nik, 2026-10-05). Claim with tools/claim_number.py only. A number is used once, ever. CONTRACT.md section 10.",
- "next": 1038,
+ "next": 1039,
  "claims": [
   {
    "number": 1001,
@@ -224,6 +224,12 @@
    "team": "G",
    "title": "Career history: never-joined codes and an unknown current Showdown no longer break Legacy, Trophy Room, Stats",
    "claimed": "2026-10-09T03:55:36Z"
+  },
+  {
+   "number": 1038,
+   "team": "G",
+   "title": "Final winner closes the Showdown so it counts in the career (Nik's card)",
+   "claimed": "2026-10-09T03:55:38Z"
   }
  ]
 }
