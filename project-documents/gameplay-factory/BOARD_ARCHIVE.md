@@ -1,12 +1,12 @@
 # Board archive
 
-[Back to the board](BOARD.md) · generated 2026-10-09 4:55 PM Boston time (EDT). Detail and history behind the one board.
+[Back to the board](BOARD.md) · generated 2026-10-09 5:28 PM Boston time (EDT). Detail and history behind the one board.
 
 ## Old detailed board
 
 # Showdown board: G Factory and V Factory
 
-🌐 **Live: runtime 1.9.1-r66** (main `8e1a583`) · 🔄 **40 moving** · ⏭ 4 up next · 👤 2 waiting on Nik · 🗂 5 later · updated 2026-10-09 4:55 PM Boston time (EDT)
+🌐 **Live: runtime 1.9.1-r66** (main `8e1a5833`) · 🔄 **40 moving** · ⏭ 5 up next · 👤 2 waiting on Nik · 🗂 5 later · updated 2026-10-09 5:28 PM Boston time (EDT)
 
 🩺 **All clear: every check has a machine.** · POS20 #304 6/16
 
@@ -102,6 +102,12 @@ _Gameplay, online sync, every merge and every release (senior director)._ Worker
 
 _Visuals and presentation: design changes, art, screen skins (assistant director)._ Workers: 🟧 Opus · 🟪 Sonnet · 🟦 Sol chat · 🟩 Sol Work mode · 🟫 Astra · 🟥 Image tickets · ⬜ Codex
 
+**⏭ Up next**
+
+| Job | What | Worker | State | Waits on |
+| --- | --- | --- | --- | --- |
+| 1047 | Truth keeper handover notes (visual project) | 🟦 Sol chat | ready | - |
+
 **🗂 Later**
 
 | Job | What | Worker | State | Waits on |
@@ -124,7 +130,7 @@ Latest:
 **Shipped to the live game today (4):** [#440](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/440) Release r66: Season Results on phones, closed Final Winner… · [#436](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/436) Release r65: career history fixes, auto close, plain words · [#429](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/429) Release r64: Forget device sign-back-in, phone LOCK MY SIGN… · [#435](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/435) Re-pin the composed Rules check to production main r63
 
 <details>
-<summary>Done jobs (6 future-list rows, 1 Team V jobs, 11 hand-offs, 33 factory jobs)</summary>
+<summary>Done jobs (7 future-list rows, 1 Team V jobs, 11 hand-offs, 33 factory jobs)</summary>
 
 - G 1041: Season Results on phone: ACKNOWLEDGE reachable, no inner scroll box, title clear, photos aligned (done (merged into bug-list-1, PR #437))
 - G 1017: 1017 · G Gameplay hunt 1: shared season flow across devices (done (4 bugs found, PR #407))
@@ -132,6 +138,7 @@ Latest:
 - G 1019: 1019 · G Gameplay hunt 3: entries, saves and career numbers (done (5 bugs found, PR #409))
 - G 1042: Closed Final Winner shows the final season on both phones (done (merged into bug-list-1, PR #439))
 - G 1043: Showdown Gate: no write token for pull-request code (audit F1) (done (merged into bug-list-1, PR #438))
+- G 1046: Truth keeper handover notes (gameplay project) (done (checked: 6 files, 132 items on handoff/truth-keeper))
 - V V-247: Phone Home tile icons like GOAL_HOME ([PR #381](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/381))
 - HO-001 (G → V): Use hand-off tickets for passing work (relay v1.1)
 - HO-002 (G → V): Smooth stage atmosphere on idle screens (pointer stutter root cause)
@@ -192,7 +199,7 @@ Latest:
 ## Every bug report
 
 
-> Updated **Fri 9 Oct, 4:55 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
+> Updated **Fri 9 Oct, 5:28 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
 
 | 🔓 Open | 🔴 Top priority | 🔧 Fixing or waiting for release | ✅ Fixed and live |
 | :---: | :---: | :---: | :---: |
