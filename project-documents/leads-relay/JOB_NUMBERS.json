@@ -1,6 +1,6 @@
 {
  "_how": "One shared job counter for Team G and Team V (Nik, 2026-10-05). Claim with tools/claim_number.py only. A number is used once, ever. CONTRACT.md section 10.",
- "next": 1058,
+ "next": 1059,
  "claims": [
   {
    "number": 1001,
@@ -344,6 +344,12 @@
    "team": "G",
    "title": "S3 and S4 recheck: Local Reconciliation waiting and transfer timers",
    "claimed": "2026-10-09T23:17:47Z"
+  },
+  {
+   "number": 1058,
+   "team": "G",
+   "title": "S4 transfer countdown agrees across phones",
+   "claimed": "2026-10-09T23:47:36Z"
   }
  ]
 }
