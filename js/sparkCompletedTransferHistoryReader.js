@@ -20,6 +20,9 @@
   const PROGRESS_KEYS=Object.freeze(["schemaVersion","runtimeRevision","totalSeasons","acceptedThroughSeason","managerTotals","closedSessionRevision"]);
   const PUBLIC_KEYS=Object.freeze(["schemaVersion","objectType","rivalryId","seasonNumber","runtimeRevision","coordinatorRole","phase","revision","startedAt","endedAt","endRequestedRoles","guessLockedRoles","signingLockedRoles","operationIds","operationTypes","operationHashes","baseRevisions","actorRoles","activeSessionId","updatedAt","updatedByDeviceId"]);
   const PRIVATE_KEYS=Object.freeze(["schemaVersion","objectType","rivalryId","seasonNumber","managerRole","guesses","signings","guessLockedAt","signingLockedAt","activeSessionId","updatedAt","updatedByDeviceId"]);
+  // JOB-1051: r66 role documents have exactly PRIVATE_KEYS; salted ones add both salt keys (each null or 64 lowercase hex). Nothing else is read.
+  const SALT_KEYS=Object.freeze(["guessSalt","signingSalt"]);
+  const SALT=/^[0-9a-f]{64}$/;
   const STATUSES=Object.freeze(["completed","abandoned","not-closed","unavailable"]);
 
   function cthFail(code){const error=new Error(code);error.code=code;throw error;}
@@ -101,15 +104,18 @@
     return value.map(item=>{cthExact(item,["slot","name","leagueId","nationalityId"],"TRANSFER_HISTORY_SEASON_INVALID");if(!Number.isInteger(item.slot)||item.slot<1||item.slot>3||slots.has(item.slot)||typeof item.name!=="string"||!item.name||item.name!==item.name.trim()||item.name.length>80||!catalog.leagueIds.has(item.leagueId)||!catalog.nationalityIds.has(item.nationalityId))cthFail("TRANSFER_HISTORY_SEASON_INVALID");slots.add(item.slot);return {slot:item.slot,name:item.name,leagueId:item.leagueId,nationalityId:item.nationalityId};}).sort((a,b)=>a.slot-b.slot);
   }
   function cthAssertRole(value,rivalryId,seasonNumber,role,catalog){
-    cthExact(value,PRIVATE_KEYS,"TRANSFER_HISTORY_SEASON_INVALID");
+    const salted=cthPlain(value)&&Object.hasOwn(value,SALT_KEYS[0]);
+    cthExact(value,salted?[...PRIVATE_KEYS,...SALT_KEYS]:PRIVATE_KEYS,"TRANSFER_HISTORY_SEASON_INVALID");
+    if(salted&&SALT_KEYS.some(key=>value[key]!==null&&(typeof value[key]!=="string"||!SALT.test(value[key]))))cthFail("TRANSFER_HISTORY_SEASON_INVALID");
     if(value.schemaVersion!==1||value.objectType!=="sharedTransferChallengeRole"||value.rivalryId!==rivalryId||value.seasonNumber!==seasonNumber||value.managerRole!==role||value.signings===null||!cthIsTimestamp(value.guessLockedAt)||!cthIsTimestamp(value.signingLockedAt))cthFail("TRANSFER_HISTORY_SEASON_INVALID");
-    return {guesses:cthGuesses(value.guesses,catalog),signings:cthSignings(value.signings,catalog)};
+    return {guesses:cthGuesses(value.guesses,catalog),signings:cthSignings(value.signings,catalog),guessSalt:salted?value.guessSalt:null,signingSalt:salted?value.signingSalt:null};
   }
   // Provenance: each role's stored guesses and signings must hash to the operation that locked them on the public ledger.
   async function cthAssertProvenance(publicValue,locks,role,inputs,cryptoImpl){
-    for(const [type,payload] of [["lock-guesses",{guesses:inputs.guesses}],["lock-signings",{signings:inputs.signings}]]){
+    for(const [type,payload,salt] of [["lock-guesses",{guesses:inputs.guesses},inputs.guessSalt],["lock-signings",{signings:inputs.signings},inputs.signingSalt]]){
       const index=locks[`${type}:${role}`];
-      const hash=await cthDigest(cthSortedCanonical({actorRole:role,type,operationId:publicValue.operationIds[index],baseRevision:publicValue.baseRevisions[index],...payload}),cryptoImpl);
+      // A role document with a salt proves its lock with the salted commitment; one without (written by r66) with the old unsalted payload hash.
+      const hash=await cthDigest(cthSortedCanonical({actorRole:role,type,operationId:publicValue.operationIds[index],baseRevision:publicValue.baseRevisions[index],...payload,...(salt?{salt}:{})}),cryptoImpl);
       if(hash!==publicValue.operationHashes[index])cthFail("TRANSFER_HISTORY_PROVENANCE_MISMATCH");
     }
   }
