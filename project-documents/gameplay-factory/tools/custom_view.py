@@ -116,6 +116,9 @@ for team in ("G", "V"):  # a job that waits for Nik to start it (type its number
 JOB = re.compile(r"^(?:Job |V-)?(\d{4})$")
 LANE_PLACE = {"green": "the gameplay project (Work mode)", "sol-work": "the gameplay project (Work mode)", "blue": "the gameplay project (chat)", "sol-chat": "the gameplay project (chat)"}
 rowmap = {str(y["id"]): y for t in ("G", "V") for y in BJ["factories"][t]["future"]}
+# emergency studios inside the factory (Nik 2026-10-09: Studio Z). BOARD.json "studios": [{id, title, scope, state}]; a closed one
+# is set to state "archived" (never deleted) and leaves the board. Rows join a studio with "studio": "<id>".
+STUDIO = {str(x["id"]): x for x in BJ.get("studios") or [] if str(x.get("state", "open")).lower() != "archived"}
 Q = {"run": [], "next": [], "wait": [], "release": []}
 
 
@@ -207,6 +210,9 @@ def q_add(it, team):
     st = str(row.get("state") or it.get("state") or "")
     lane = row.get("lane") or it.get("lane", "")
     q = dict(it, n=n, team=team, lane=lane)
+    if row.get("studio") in STUDIO:  # an open studio's job (e.g. Studio Z) is named on every line and sorts above the other jobs
+        q["studio"] = row["studio"]
+        q["title"] = f'Studio {row["studio"]} · ' + str(q.get("title", ""))
     if re.match(r"(in release|verified|in r\d|merged)", st, re.I) or n in MERGED:
         Q["release"].append(q)
     elif status_done(n):
@@ -249,7 +255,7 @@ for x in nik:
 nik = _nk
 # the bug factory sets `order` on BOARD.json rows (its priority for Nik); unordered jobs follow by number
 for v in Q.values():
-    v.sort(key=lambda q: (float((rowmap.get(str(q["id"])) or {}).get("order") or 9999), int(q["n"])))
+    v.sort(key=lambda q: (0 if q.get("studio") else 1, float((rowmap.get(str(q["id"])) or {}).get("order") or 9999), int(q["n"])))
 Q["release"].sort(key=lambda q: int(q["n"]))
 
 for m in BJ.get("next_move") or []:
@@ -327,6 +333,9 @@ def render(first, compact=False):
          f'<div class="tiles"><div class="tile"><b>{e((LV or {}).get("revision", "?").split("-")[-1])}</b><span>Live</span></div><div class="tile"><b>{n_run}</b><span>Jobs running</span></div><div class="tile"><b>{n_next}</b><span>Jobs to start</span></div><div class="tile"><b>{n_nik}</b><span>Other asks</span></div></div>']
     H.append("<h2>Jobs</h2>")
     J = []
+    for z in STUDIO.values():
+        nz = sum(1 for v in ("run", "next", "wait") for q in Q[v] if q.get("studio") == z["id"])
+        J.append(f'<span class="k">🚨 Studio {e(z["id"])} first: {e(z.get("title", ""))}</span>' + (f' <span class="m">{e(z.get("scope", ""))}</span>' if z.get("scope") and not compact else "") + ("" if nz else ' <span class="m">· no jobs yet</span>'))
     if Q["run"]:
         J.append('<span class="k">Running now</span>')
         J += [item_html(dict(q, id=q["n"], state=run_state(q)), cut) for q in Q["run"]]
@@ -395,6 +404,8 @@ if warn:
 L += [f"🌐 **Live: {LV['revision']}** (main `{LV['sha']}`, {TF.bos(LV['when'])})" if LV else "🌐 Live version unknown this run", "",
       f"{TF.PHYSIO_ICON.get(ph.get('state'), '🩺')} **{ph.get('line', 'Physio: no report yet.')}**" + (f" · {ph['gate']}" if ph.get("gate") else ""), "",
       "## Jobs", ""]
+for z in STUDIO.values():
+    L += [f"🚨 **Studio {z['id']} first: {z.get('title', '')}**" + (f" · {z['scope']}" if z.get("scope") else "") + ("" if any(q.get("studio") == z["id"] for v in ("run", "next", "wait") for q in Q[v]) else " · no jobs yet"), ""]
 if Q["run"]:
     L += ["**Running now**", ""] + [f"- **{q['n']}** {q['title']} · {short_state(q.get('state', '')) or 'running'}" + (f" · {q['progress'][0]['pct']:.4f} %" if q.get("progress") else f" · {q['pct']:.0f} %" if q.get("pct") is not None else "") for q in Q["run"]] + [""]
 if Q["next"]:
