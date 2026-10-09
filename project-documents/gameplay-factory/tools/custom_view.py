@@ -392,6 +392,7 @@ def job_prog(q):
     return worker, "not started", ""
 
 
+LASTNOTE = []
 LASTPLACE = [None]  # 'Type this in X' shows once for jobs in a row that go to the same place
 
 
@@ -421,6 +422,10 @@ def job_html(q, i, kind):
         prompt = (rowmap.get(str(q["id"])) or {}).get("prompt") or (m.group(1).strip() if m else q.get("type") or f"Job {q['n']}")
         place = re.sub(r":?\s*type\b.*$", "", pl, flags=re.I).strip(" ,:") or "(place not given)"
         note = re.sub(r";?\s*ticket jobs/JOB-\d+\.md;?\s*", "; ", q.get("note") or "").strip("; ")
+        parts = [x for x in note.split("; ") if x and x not in LASTNOTE]  # a reason shared with the job above shows once
+        LASTNOTE[:] = note.split("; ")
+        note = "; ".join(parts)
+        place = re.sub(r"^in\s+", "", place)
         if re.search(r"nothing for (nik|you)", pl, re.I):
             out += '<br><span class="m">Nothing for you to type: the lead starts it.</span>'
         else:
@@ -499,6 +504,7 @@ def render(first, compact=False, tight=False):
         if Q[kind]:
             J.append(f'<span class="k">{label}</span>')
             LASTPLACE[0] = None
+            LASTNOTE[:] = []
             J += [job_html(q, i, kind) for i, q in enumerate(Q[kind], 1)]  # #1 is the first job of each list
     if Q["release"]:
         J.append('<span class="k">Done, in the next release</span> ' + (", ".join(e(q["n"]) for q in Q["release"]) if not tight else f'{len(Q["release"])} jobs ({e(Q["release"][0]["n"])} to {e(Q["release"][-1]["n"])})'))
