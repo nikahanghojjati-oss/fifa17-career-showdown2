@@ -22,11 +22,11 @@ Updated Fri 9 Oct, 7:40 PM Boston time. Bug hunting only, no new features until 
 `████████░░` **80.0000 %**  
 🔵 Team blue · **GPT-6 Sol** · High effort · worker done, PR #448 open, CI green, waiting for the lead
 
-**#5 · 1056** `G` Recheck Sol leads S2 and S5 by reading the code  
+**#4 · 1056** `G` Recheck Sol leads S2 and S5 by reading the code  
 `████████░░` **80.0000 %**  
 🔵 Team blue · **GPT-6 Sol** · High effort · worker done, report saved on qa/sol-leads-recheck, waiting for the lead
 
-**#6 · 1057** `G` Recheck Sol leads S3 and S4 by reading the code  
+**#5 · 1057** `G` Recheck Sol leads S3 and S4 by reading the code  
 `████████░░` **80.0000 %**  
 🔵 Team blue · **GPT-6 Sol** · High effort · worker done, report saved on qa/sol-leads-recheck, waiting for the lead
 
