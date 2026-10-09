@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-09 1:51 AM Boston time (EDT)",
+ "generated": "2026-10-09 1:58 AM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -284,8 +284,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "e85e19c",
-  "head_boston": "Thu 8 Oct 11:55 PM",
+  "head": "0a0ee647",
+  "head_boston": "Fri 9 Oct 1:57 AM",
   "latest_id": "G2V-016",
   "feed_matches_latest": true,
   "open_for_g": [],
@@ -313,9 +313,9 @@
  },
  "two": {
   "live": {
-   "sha": "963a979",
+   "sha": "963a9791",
    "revision": "1.9.1-r64",
-   "when": "2026-10-09T05:44:20Z",
+   "when": "2026-10-09T05:44:20+00:00",
    "subject": "Release r64: Forget device sign-back-in, phone LOCK MY SIGNINGS (#429)",
    "fixes": [],
    "today": [
@@ -699,7 +699,7 @@
  ],
  "now": {
   "moving": 22,
-  "next": 2,
+  "next": 3,
   "nik": 7,
   "later": 12,
   "rows": {
@@ -914,6 +914,15 @@
       "lane": "sonnet",
       "state": "ready (Sonnet audit, then Opus fix)",
       "waits_on": ""
+     },
+     {
+      "id": "1042",
+      "title": "Closed Final Winner shows the final season on both phones",
+      "lane": "codex",
+      "state": "ready",
+      "order": 7,
+      "place": "Codex cloud, branch gameplay/bug-list-1: type 'Job 1042'",
+      "note": "follow-up to 1038; ticket jobs/JOB-1042.md"
      }
     ],
     "later": [

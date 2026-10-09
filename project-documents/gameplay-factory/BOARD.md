@@ -1,8 +1,8 @@
 # Bug hunt board
 
-Updated Fri 9 Oct, 1:51 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
+Updated Fri 9 Oct, 1:58 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
 
-🌐 **Live: 1.9.1-r64** (main `963a979`, Fri 9 Oct 1:44 AM)
+🌐 **Live: 1.9.1-r64** (main `963a9791`, Fri 9 Oct 1:44 AM)
 
 🐕 **Barking: POS20 has waited 7 min for a machine; POS20 has waited 6 min for a machine; POS20 has waited 4 min for a machine.** · POS20 #304 6/16
 
@@ -11,6 +11,10 @@ Updated Fri 9 Oct, 1:51 AM Boston time. Bug hunting only, no new features until 
 **Running now**
 
 - **1011** Plain-words sweep: jargon on game screens · worker done, lead checking
+
+**Next for you, in this order**
+
+1. **1042** Closed Final Winner shows the final season on both phones: Codex cloud, branch gameplay/bug-list-1: type 'Job 1042' · follow-up to 1038; ticket jobs/JOB-1042.md
 
 **Waiting on something else**
 
