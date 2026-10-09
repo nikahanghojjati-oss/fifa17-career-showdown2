@@ -668,9 +668,9 @@
      "id": "1041",
      "title": "Season Results on phone: ACKNOWLEDGE reachable, no inner scroll box, title clear, photos aligned",
      "lane": "codex",
-     "state": "waiting on r64",
+     "state": "ready",
      "order": 6,
-     "place": "Codex cloud: type 'Job 1041' after r64",
+     "place": "Codex cloud, branch gameplay/bug-list-1: type 'Job 1041'",
      "note": "same family as Studio Z's Signing Entry fix"
     },
     {
