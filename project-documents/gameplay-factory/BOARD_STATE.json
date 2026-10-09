@@ -284,7 +284,7 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "e85e19c",
+  "head": "e85e19cd",
   "head_boston": "Thu 8 Oct 11:55 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": true,
@@ -313,7 +313,7 @@
  },
  "two": {
   "live": {
-   "sha": "2b8b043",
+   "sha": "2b8b043f",
    "revision": "1.9.1-r63",
    "when": "2026-10-08T22:40:16-04:00",
    "subject": "Release r63: Studio Z fixes from the physical test, plus the waiting factory jobs (#427)",
