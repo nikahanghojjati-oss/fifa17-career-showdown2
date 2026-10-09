@@ -1252,6 +1252,19 @@
      "title": "Recheck Sol leads S3 and S4 by reading the code",
      "order": 29,
      "state": "done (report on qa/sol-leads-recheck, checked by the lead)"
+    },
+    {
+     "id": "1058",
+     "lane": "gpt-chat",
+     "note": "Sol lead S4 (real, small); ticket jobs/JOB-1058.md",
+     "team": "blue",
+     "model": "GPT-6 Sol",
+     "effort": "High",
+     "place": "ChatGPT project \"Career Mode Showdown\", new normal chat",
+     "prompt": "Job 1058. Read the ticket at https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/gameplay-v1/project-documents/gameplay-factory/jobs/JOB-1058.md and do exactly what it says in this one turn. Start from branch gameplay/bug-list-1, push the branch the ticket names and open the PR into gameplay/bug-list-1.",
+     "title": "Transfer countdown agrees across both phones (Sol lead S4)",
+     "order": 30,
+     "state": "ready"
     }
    ]
   },
