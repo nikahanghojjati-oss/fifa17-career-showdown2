@@ -23,6 +23,7 @@ PR = f"{REPO}/pull/"
 QI = {l: i for i, l in enumerate(HEX)}
 e = html.escape
 LIMIT = 7000  # the coordinator's Custom view tab
+RAW = "https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/gameplay-v1/project-documents/gameplay-factory/"
 
 st = json.load(open(os.path.join(F, "BOARD_STATE.json")))
 BJ = json.load(open(os.path.join(F, "BOARD.json")))
@@ -284,6 +285,11 @@ def ticket_rows():
         place = ("GPT chat" if lane == "sol-chat" else "GPT Work mode" if lane == "sol-work" else "Codex cloud" if lane == "codex" else where) \
             + (f" ({acct.group(0)})" if acct else "") + (f", {proj.group(1)} project" if proj else "") + f": type 'Job {n}'"
         row = {"id": n, "title": title, "lane": lane, "state": {"READY": "ready", "DONE": "worker done"}.get(st.upper(), st.lower()), "place": place, "team": team, "ticket_only": True}
+        pm = re.search(r"^(?:Prompt|Starter line):\s*`?(.+?)`?\s*$", t, re.M)  # a ticket may name its own starter line
+        if pm:
+            row["prompt"] = pm.group(1)
+        elif team == "V":  # Team V's GPT worker looks in Team V's factory folder, so a V ticket kept here needs its full link (Job 1047, 2026-10-09)
+            row["prompt"] = f"Job {n}. Read {RAW}jobs/JOB-{n}.md and do it."
         rowmap[n] = row
         out.append(row)
     return out
@@ -399,7 +405,7 @@ def job_html(q, i, kind):
     if kind == "next":
         pl = q.get("where") or ""
         m = re.search(r"type\s+['‘\"]?([^'’\"]+?)['’\"]?\s*(?:\(|$|·|;)", pl + " ", re.I) if re.search(r"\btype\b", pl, re.I) else None
-        prompt = m.group(1).strip() if m else q.get("type") or f"Job {q['n']}"
+        prompt = (rowmap.get(str(q["id"])) or {}).get("prompt") or (m.group(1).strip() if m else q.get("type") or f"Job {q['n']}")
         place = re.sub(r":?\s*type\b.*$", "", pl, flags=re.I).strip(" ,:") or "(place not given)"
         out += f'<br><span class="m">Type this in {e(place)}:</span><code class="cp">{e(prompt)}</code>' + (f'<span class="m">{e(q["note"])}</span>' if q.get("note") else "")
     return out
