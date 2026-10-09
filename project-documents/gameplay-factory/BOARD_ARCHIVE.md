@@ -1,12 +1,12 @@
 # Board archive
 
-[Back to the board](BOARD.md) · generated 2026-10-09 6:04 PM Boston time (EDT). Detail and history behind the one board.
+[Back to the board](BOARD.md) · generated 2026-10-09 6:05 PM Boston time (EDT). Detail and history behind the one board.
 
 ## Old detailed board
 
 # Showdown board: G Factory and V Factory
 
-🌐 **Live: runtime 1.9.1-r66** (main `8e1a583`) · 🔄 **41 moving** · ⏭ 3 up next · 👤 2 waiting on Nik · 🗂 5 later · updated 2026-10-09 6:04 PM Boston time (EDT)
+🌐 **Live: runtime 1.9.1-r66** (main `8e1a583`) · 🔄 **41 moving** · ⏭ 7 up next · 👤 3 waiting on Nik · 🗂 5 later · updated 2026-10-09 6:05 PM Boston time (EDT)
 
 🩺 **All clear: every check has a machine.** · POS20 #304 6/16
 
@@ -73,7 +73,11 @@ _Gameplay, online sync, every merge and every release (senior director)._ Worker
 | --- | --- | --- | --- | --- |
 | G-F5 | QA packet adoptions: truth line, wrong-target guard on main PRs, PR title rule | 🟪 Sonnet | next | - |
 | G-F11 | Old-design CSS collisions: scope old rulebook/settings/analytics/app CSS off Team V markup (about 70 shared class names) | 🟪 Sonnet | ready (Sonnet audit, then Opus fix) | - |
-| 1045 | Showdown Gate: pin actions and tool installs (audit F4) | ⬜ Codex | ready (after 1044) | - |
+| 1045 | Showdown Gate: pin actions and tool installs (audit F4) | ⬜ Codex | ready (after 1050) | - |
+| 1048 | Rule Book: three missing rules, and the season review stops pointing at a missing button (Olympiad V1, V2) | ⬜ Codex | ready | - |
+| 1049 | Club reveal stops spoiling the sealed club; empty-device restore respects Keep current (Olympiad V3, V5) | ⬜ Codex | ready (after 1048) | - |
+| 1050 | Unfinished Signing Entry rows survive a refresh (Olympiad V4) | ⬜ Codex | ready (after 1049) | - |
+| 1051 | Transfer ledger hash no longer reveals locked guesses (Olympiad V6) | 🟪 Sonnet | ready | - |
 
 **👤 Waiting on Nik**
 
@@ -81,6 +85,7 @@ _Gameplay, online sync, every merge and every release (senior director)._ Worker
 | --- | --- | --- | --- | --- |
 | G-F1 | Nik and Daniel play 2.0 on their phones | 👤 Nik and Daniel | waiting on Nik | - |
 | G-F22 | BH-12 pairing product calls: RESTORE BACKUP first, CANCEL CODE with expiry, masked email before JOIN, revoke mine and join, clearer same-account message | 👤 Nik and Daniel | later: Nik decides after his two current calls | the lead asks Nik next |
+| 1052 | Transfer Rules reject option ids the game cannot read (Olympiad V7) | 🟪 Sonnet | held: needs Nik's OK for a Rules change | - |
 
 **🗂 Later**
 
@@ -194,7 +199,7 @@ Latest:
 ## Every bug report
 
 
-> Updated **Fri 9 Oct, 6:04 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
+> Updated **Fri 9 Oct, 6:05 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
 
 | 🔓 Open | 🔴 Top priority | 🔧 Fixing or waiting for release | ✅ Fixed and live |
 | :---: | :---: | :---: | :---: |

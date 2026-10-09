@@ -1,6 +1,6 @@
 # Bug hunt board
 
-Updated Fri 9 Oct, 6:04 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
+Updated Fri 9 Oct, 6:05 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r66** (main `8e1a583`, Fri 9 Oct 12:04 PM)
 
@@ -14,13 +14,21 @@ Updated Fri 9 Oct, 6:04 PM Boston time. Bug hunting only, no new features until 
 
 **Next for you, in this order**
 
-1. **1045** (G, Codex) Showdown Gate: pin actions and tool installs (audit F4): Codex cloud, branch gameplay/bug-list-1: type 'Job 1045' · ticket jobs/JOB-1045.md; lead sessions cannot read actions/* tags
+1. **1048** (G, Codex) Rule Book: three missing rules, and the season review stops pointing at a missing button (Olympiad V1, V2): Codex cloud, branch gameplay/bug-list-1: type 'Job 1048' · text only; ticket jobs/JOB-1048.md
+2. **1049** (G, Codex) Club reveal stops spoiling the sealed club; empty-device restore respects Keep current (Olympiad V3, V5): Codex cloud, branch gameplay/bug-list-1: type 'Job 1049' · ticket jobs/JOB-1049.md
+3. **1050** (G, Codex) Unfinished Signing Entry rows survive a refresh (Olympiad V4): Codex cloud, branch gameplay/bug-list-1: type 'Job 1050' · draft kept on the player's own device only; ticket jobs/JOB-1050.md
+4. **1045** (G, Codex) Showdown Gate: pin actions and tool installs (audit F4): Codex cloud, branch gameplay/bug-list-1: type 'Job 1045' · ticket jobs/JOB-1045.md; Gate hardening, after the Olympiad bug jobs (Nik 2026-10-09: bugs first)
+5. **1051** (G, Sonnet) Transfer ledger hash no longer reveals locked guesses (Olympiad V6): lead worker (nothing for Nik to type) · not a GPT job (safety filter); ticket jobs/JOB-1051.md
+
+**Waiting on something else**
+
+- **1052** Transfer Rules reject option ids the game cannot read (Olympiad V7) · held: needs Nik's OK for a Rules change
 
 **Done, in the next release:** 1001, 1003, 1004, 1005, 1009, 1010, 1011, 1014, 1015, 1020, 1021, 1022, 1023, 1024, 1025, 1026, 1027, 1028, 1037, 1038, 1039, 1040, 1041, 1042, 1043, 1046, 1047, Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8
 
 ## Goals, in this order
 
-1. **Finish the remaining bugs** (now) · 78.4615 % · Numbered jobs: 35 done, 2 open · Olympiad recheck: 16 of 23 settled, 7 still to fix · Sol's old leads: 5 open (1 confirmed, the rest to recheck on live)
+1. **Finish the remaining bugs** (now) · 72.8571 % · Numbered jobs: 35 done, 7 open · Olympiad recheck: 16 of 23 settled, 7 still to fix · Sol's old leads: 5 open (1 confirmed, the rest to recheck on live)
 2. **Visual fixes** (later) · 52.3810 % · Team V hand-offs: 11 of 21 done
 3. **Visual mockups for phone** (later) · 0.0000 % · Not started
 4. **Improved desktop versions** (later) · 0.0000 % · Not started
