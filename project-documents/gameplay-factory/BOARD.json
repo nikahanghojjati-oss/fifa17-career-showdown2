@@ -1106,7 +1106,7 @@
      "id": "1045",
      "title": "Showdown Gate: pin actions and tool installs (audit F4)",
      "lane": "codex",
-     "state": "ready (after 1050)",
+     "state": "ready (next for Nik)",
      "order": 25,
      "place": "Codex cloud, this repo, branch gameplay/bug-list-1",
      "note": "ticket jobs/JOB-1045.md; stays Codex: it must read GitHub Actions release tags, which chat and Claude lanes cannot",
@@ -1153,14 +1153,14 @@
      "id": "1050",
      "title": "Unfinished Signing Entry rows survive a refresh (Olympiad V4)",
      "lane": "gpt-work",
-     "state": "ready (after the blue jobs)",
+     "state": "worker done, lead checking (PR #446): repro fails before and passes after; lead moved the draft onto the storage.js helpers (two existing tests forbid direct localStorage) and registered the test; CI running",
      "order": 24,
      "place": "ChatGPT project \"Career Mode Showdown\", new chat switched to Work mode",
      "note": "must run code (node checks), so Work mode; Luna is the cheapest Work mode model, first Luna run; ticket jobs/JOB-1050.md",
      "team": "yellow",
      "model": "GPT Luna (Work mode); if it fails, Sol 6.1 Work mode",
      "effort": "High",
-     "prompt": "Job 1050. Read the ticket at https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/gameplay-v1/project-documents/gameplay-factory/jobs/JOB-1050.md and the worker handbook it links, then do the whole job in one run without stopping to ask. Start from branch gameplay/bug-list-1, run node and the checks the ticket names, push branch gameplay/job-1050-signing-draft, open the PR into gameplay/bug-list-1, and end with 'Job 1050 done, PR <link>.'"
+     "prompt": ""
     },
     {
      "id": "1051",
@@ -1199,7 +1199,7 @@
      "prompt": "",
      "title": "Restore on an empty device respects Keep current (Olympiad V5)",
      "order": 23,
-     "state": "worker done, lead checking (PR #445): Nik chose \"Keep means keep\" 2026-10-09 22:55 UTC; Claude Haiku adds the tests"
+     "state": "worker done, lead checking (PR #445): Nik chose \"Keep means keep\"; repro fails before and passes after; Claude Haiku added the tests; CI running"
     },
     {
      "id": "1054",
