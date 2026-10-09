@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-09 6:40 PM Boston time (EDT)",
+ "generated": "2026-10-09 6:41 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -284,7 +284,7 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "720670e",
+  "head": "720670e1",
   "head_boston": "Fri 9 Oct 6:37 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": true,
@@ -313,9 +313,9 @@
  },
  "two": {
   "live": {
-   "sha": "8e1a583",
+   "sha": "8e1a5833",
    "revision": "1.9.1-r66",
-   "when": "2026-10-09T16:04:25Z",
+   "when": "2026-10-09T16:04:25+00:00",
    "subject": "Release r66: Season Results on phones, closed Final Winner on both phones (#440)",
    "fixes": [],
    "today": [
@@ -708,10 +708,10 @@
   "**r62 is live.** On the laptop, close every game tab in Chrome and reopen the game; if Settings still looks clipped, do it once more."
  ],
  "now": {
-  "moving": 40,
+  "moving": 41,
   "next": 7,
   "nik": 2,
-  "later": 8,
+  "later": 7,
   "rows": {
    "G": {
     "moving": [
@@ -1019,6 +1019,19 @@
       "place": "Claude helper (nothing for Nik to type)",
       "note": "from hunt 1019; H3 is fixed by 1026",
       "archived": true
+     },
+     {
+      "id": "1048",
+      "title": "Rule Book: three missing rules, and the season review stops pointing at a missing button (Olympiad V1, V2)",
+      "lane": "gpt-chat",
+      "state": "worker done, lead checking (PR #443): the lead registered the test the worker was blocked on",
+      "order": 21,
+      "place": "nothing to type: the chat is finished",
+      "note": "Nik ran it on GPT-6 Sol chat; the Luna trial moved to 1054; ticket jobs/JOB-1048.md",
+      "team": "blue",
+      "model": "GPT-6 Sol (chat)",
+      "effort": "High",
+      "prompt": ""
      }
     ],
     "nik": [
@@ -1153,19 +1166,6 @@
       "waits_on": "after Team V designs the combined screen (HO-011)",
       "details": "Nik picked No tap, combined: one screen shows the last season's score and the Final Winner. Team V designs it (HO-011), then a GPT green job builds it and restores the strict final-season check.",
       "order": 13
-     },
-     {
-      "id": "1048",
-      "title": "Rule Book: three missing rules, and the season review stops pointing at a missing button (Olympiad V1, V2)",
-      "lane": "gpt-chat",
-      "state": "with the worker (GPT-6 Sol chat), step 3 of 5",
-      "order": 21,
-      "place": "ChatGPT project \"Career Mode Showdown\", new normal chat",
-      "note": "Nik ran it on GPT-6 Sol chat; the Luna trial moved to 1054; ticket jobs/JOB-1048.md",
-      "team": "blue",
-      "model": "GPT-6 Sol (chat)",
-      "effort": "High",
-      "prompt": "Job 1048. Read the ticket at https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/gameplay-v1/project-documents/gameplay-factory/jobs/JOB-1048.md and do exactly what it says in this one turn. Start from branch gameplay/bug-list-1, push the branch the ticket names, open the PR into gameplay/bug-list-1, and end with 'Job 1048 done, PR <link>.'"
      },
      {
       "id": "1051",
