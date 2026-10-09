@@ -401,7 +401,15 @@ def job_html(q, i, kind):
     meta = [f"Worker: {worker}"] + ([st] if st and kind != "next" else []) + ([prog] if prog and kind != "wait" else []) + ([fin] if fin and kind == "run" else [])
     if kind == "wait":
         meta.append("waits: " + (q.get("after") or "something else"))
-    out = head + '<br><span class="m">' + e(" · ".join(meta)) + "</span>"
+    pct = q["progress"][0]["pct"] if q.get("progress") else (100.0 if kind == "run" and re.search(r"worker done", st or "", re.I) else 0.0)
+    m0 = re.search(r"step (\d+) of (\d+)", st or "")
+    if m0 and not q.get("progress"):
+        pct = 100.0 * (int(m0.group(1)) - 1) / int(m0.group(2))
+    col = HEX.get(worker, "#6b7280")  # Nik, 2026-10-09 21:57: bring back the bar, the % and the worker's colour on every card
+    meta = [x for x in meta if not x.startswith("Worker: ") and not x.endswith("% done") and " % done (" not in x]
+    out = (head + f'<br><span class="br"><span style="width:{max(pct, 2):.1f}%;background:{col}"></span></span><span class="pc">{pct:.4f} %</span>'
+           + ("<span class='m'> worker's part done</span>" if kind == "run" and not q.get("progress") and pct == 100 else "")
+           + f'<br><b class="q{QI.get(worker, 9)}">{e(worker)}</b> <span class="m">' + e(" · ".join(meta)) + "</span>")
     if kind == "run" and q.get("lane") in ("sol-chat", "blue", "chat", "sol-work", "green") and not status_done(q["n"]):
         out += '<br><span class="m">To keep it going, type this in the same chat:</span><code class="cp">next</code>'  # GPT jobs end each reply with NEXT
     if kind == "next":
@@ -426,7 +434,7 @@ def render(first, compact=False, tight=False):
          ".cv .m{color:#8ea2ac;font-size:12px}.cv .k{font:italic 800 12px var(--h);letter-spacing:.08em;text-transform:uppercase;color:#f0d900}"
          ".cv a{color:#fbfcfc;text-decoration:underline}.cv code{background:#20272d;padding:0 4px;border-radius:3px}.cv .foot{margin:10px 14px 0}.cv i{font-style:normal}"
          ".cv .cp{display:block;user-select:all;-webkit-user-select:all;background:#111820;border:1px dashed #f0d900;border-radius:6px;padding:4px 8px;margin:2px 0 4px;font:13px monospace;white-space:pre-wrap}"
-         ".cv .tm{font-size:11px;border:1px solid #8ea2ac;border-radius:4px;padding:0 3px;color:#dce5e8}"
+         ".cv .br{display:inline-block;vertical-align:middle;width:50%;height:12px;border-radius:6px;background:#12191f;border:1px solid #43515b;overflow:hidden}.cv .br span{display:block;height:100%;border-radius:6px}.cv .pc{font:italic 800 16px var(--h);color:#f0d900;margin-left:8px}.cv .tm{font-size:11px;border:1px solid #8ea2ac;border-radius:4px;padding:0 3px;color:#dce5e8}"
          + "".join(f".cv .q{i}{{color:{h}}}" for i, h in enumerate(HEX.values())) + ".cv .q9{color:#9ca3af}</style>",
          '<div class="cv">',
          f'<div class="ban"><b>Bug hunt board · Team {first} lead</b><span>Updated {now:%a %-d %b, %-I:%M %p} Boston time · same board as Team {"V" if first == "G" else "G"}\'s · <a href="{BLOB}BOARD.md">on GitHub</a> · <a href="{BLOB}RELAY.md">relay</a></span></div>',

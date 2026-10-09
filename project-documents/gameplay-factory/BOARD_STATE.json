@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-09 5:54 PM Boston time (EDT)",
+ "generated": "2026-10-09 5:59 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -284,7 +284,7 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "4c641b9",
+  "head": "4c641b99",
   "head_boston": "Fri 9 Oct 12:10 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": true,
@@ -313,9 +313,9 @@
  },
  "two": {
   "live": {
-   "sha": "8e1a583",
+   "sha": "8e1a5833",
    "revision": "1.9.1-r66",
-   "when": "2026-10-09T16:04:25Z",
+   "when": "2026-10-09T16:04:25+00:00",
    "subject": "Release r66: Season Results on phones, closed Final Winner on both phones (#440)",
    "fixes": [],
    "today": [
