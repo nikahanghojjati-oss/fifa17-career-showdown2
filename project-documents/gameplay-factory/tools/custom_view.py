@@ -148,6 +148,38 @@ def _merged_jobs():
 MERGED = _merged_jobs()
 
 
+def _open_job_prs():
+    """job -> open PR number: a worker's "JOB-NNNN ..." PR moves the job to Running by itself (Nik, 2026-10-09 23:29 UTC: no more reporting "Job N done")."""
+    import subprocess
+    repo = os.environ.get("GITHUB_REPOSITORY", "nikahanghojjati-oss/fifa17-career-showdown2")
+    try:
+        r = subprocess.run(["gh", "api", f"repos/{repo}/pulls?state=open&per_page=60"], capture_output=True, text=True, timeout=30)
+        prs = json.loads(r.stdout) if r.returncode == 0 else []
+    except Exception:
+        prs = []
+    out = {}
+    for pr in prs if isinstance(prs, list) else []:
+        for m in re.finditer(r"\bJOB-?(\d{4})\b", pr.get("title") or "", re.I):
+            out.setdefault(m.group(1), pr["number"])
+    return out
+
+
+OPEN_PR = _open_job_prs()
+
+
+def status_step(n):
+    """status/JOB-NNNN.md "State: IN PROGRESS" + "Step: k of t": the worker has started, so the job is Running."""
+    try:
+        t = open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "status", f"JOB-{n}.md")).read()
+    except OSError:
+        return ""
+    m = re.search(r"^State:\s*(.+)$", t, re.M)
+    if not (m and re.match(r"IN PROGRESS\b", m.group(1).strip(), re.I)):
+        return ""
+    k = re.search(r"^Step:\s*(\d+)\s*of\s*(\d+)", t, re.M)
+    return f"with the worker, step {k.group(1)} of {k.group(2)}" if k else "with the worker"
+
+
 import goals as GOALS
 GL = GOALS.load(MERGED.keys())
 
@@ -238,6 +270,12 @@ def q_add(it, team):
         Q["wait"].append(q)
     elif status_done(n):
         q["state"] = "worker done, lead checking"
+        Q["run"].append(q)
+    elif n in OPEN_PR and re.match(r"(ready|next|queued)\b", st, re.I):  # the worker opened its PR: the lead checks it next, nothing for Nik
+        q["state"] = f"worker done, PR #{OPEN_PR[n]} open, lead checking"
+        Q["run"].append(q)
+    elif status_step(n) and re.match(r"(ready|next|queued)\b", st, re.I):
+        q["state"] = status_step(n)
         Q["run"].append(q)
     elif re.match(r"(with (the )?(worker|lead)|worker done|verifying|building|running|in progress|(in )?review|checks|ci )", st, re.I) or re.match(r"nothing to type", str(row.get("place") or ""), re.I):
         # the row's state says someone already has it (e.g. "with the lead"), so a stale "Nik types it" waits_on must not list it under Next for you
