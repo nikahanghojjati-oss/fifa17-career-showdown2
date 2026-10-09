@@ -75,7 +75,7 @@
       return servicesPromise;
     }
     return Object.freeze({
-      contractVersion:2,emulatorSwitch:true,emulatorProjectId:PROJECT_ID,
+      contractVersion:2,emulatorSwitch:true,firebaseFirestoreModule:`${SDK_BASE}firebase-firestore.js`,emulatorProjectId:PROJECT_ID,
       enforcementEnabled:false,billingRequired:false,blazeRequired:false,cloudRunRequired:false,cloudFunctionsRequired:false,
       persistentFirestoreCache:false,authPersistence:"browserSessionPersistence",provider:"google",signInFlow:"popup",additionalGoogleScopes:0,
       browserFirestoreWrites:BROWSER_FIRESTORE_WRITE_SCOPE,
