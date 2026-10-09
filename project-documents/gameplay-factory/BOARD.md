@@ -1,8 +1,8 @@
 # Bug hunt board
 
-Updated Fri 9 Oct, 12:42 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
+Updated Fri 9 Oct, 12:43 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
 
-🌐 **Live: 1.9.1-r66** (main `8e1a5833`, Fri 9 Oct 12:04 PM)
+🌐 **Live: 1.9.1-r66** (main `8e1a583`, Fri 9 Oct 12:04 PM)
 
 🩺 **All clear: every check has a machine.** · POS20 #304 6/16
 
