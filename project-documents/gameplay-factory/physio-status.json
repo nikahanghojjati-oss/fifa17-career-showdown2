@@ -1,6 +1,6 @@
 {
   "schema": "physio/v1",
-  "at": "2026-10-09T02:03:36.860Z",
+  "at": "2026-10-09T02:05:57.072Z",
   "state": "ALL_CLEAR",
   "checks": [],
   "helpers_paused": [],
@@ -10,7 +10,7 @@
     "lanes": [
       {
         "name": "L1 core",
-        "state": "running"
+        "state": "pass"
       },
       {
         "name": "L2 browser full",
@@ -37,7 +37,7 @@
   },
   "pos20": {
     "pr": 427,
-    "passed": 4,
+    "passed": 9,
     "total": 16,
     "state": "running"
   }
