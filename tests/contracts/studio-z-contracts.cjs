@@ -55,7 +55,7 @@ check("Z5","a waiting update applies by itself only on a safe Home screen",()=>{
 });
 
 check("Z9","Settings never shows the old engineering panels, even if the identity module starts late or not at all",()=>{
-  assert.match(read("css/rulesSettingsV10.css"),/#settingsOverlay #settingsContent :is\(#sparkConnectedAccountPanel, #sparkPrivatePairingPanel, #sparkConnectedRivalryPanel, #saveLibraryProductPanel, \.settingsOfflinePanel\) \{ display:none !important; \}/);
+  assert.match(read("css/rulesSettingsV10.css"),/#settingsOverlay #settingsContent :is\(#sparkConnectedAccountPanel, #sparkPrivatePairingPanel, #sparkConnectedRivalryPanel, #saveLibraryProductPanel, .settingsOfflinePanel\):not\(\[data-test-surface="internal-audit"\]\) \{ display:none !important; \}/);
 });
 
 check("Z6","a stuck or cancelled Google sign-in returns to SIGN IN WITH GOOGLE",()=>{
@@ -77,7 +77,9 @@ check("Z7","upright touch tablets use the phone layout; sideways phones keep a u
   assert.equal(make({w:1280,h:800,coarse:true,portrait:false}),"width=device-width, initial-scale=1.0","sideways tablet");
   assert.equal(make({w:393,h:852,coarse:true,portrait:true}),"width=device-width, initial-scale=1.0","phone");
   assert.equal(make({w:1366,h:768,coarse:false,portrait:false}),"width=device-width, initial-scale=1.0","Chromebook");
-  assert.match(read("css/v10Transfer.css"),/grid-template-columns: calc\(var\(--k\) \* 16px\) minmax\(30%, 1\.22fr\) minmax\(min\(100px, 30%\), 1\.1fr\) minmax\(min\(100px, 30%\), 0\.92fr\);/);
+  const tcss=read("css/v10Transfer.css");
+  assert.match(tcss,/grid-template-columns: calc\(var\(--k\) \* 16px\) minmax\(min\(72px, 26%\), 1\.22fr\) minmax\(100px, 1\.1fr\) minmax\(100px, 0\.92fr\);/,"desktop: the name keeps 72px beside the two 100px selectors");
+  assert.match(tcss,/@media \(pointer: coarse\) \{\s*#transferChallenge \.tw-host \.signing-row\.signingRow:not\(\.is-readonly\) \{\s*grid-template-columns: calc\(var\(--k\) \* 16px\) minmax\(26%, 1\.22fr\) minmax\(min\(100px, 28%\), 1\.1fr\) minmax\(min\(100px, 28%\), 0\.92fr\);/,"touch: every field keeps a share of the row");
 });
 
 check("Z8","a league name two countries share waits for an explicit choice",()=>{

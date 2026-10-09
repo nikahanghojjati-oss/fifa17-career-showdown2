@@ -60,11 +60,16 @@
 }
 #transferChallenge .tw-host #completeTransferChallenge.btn-lock { display: inline-flex; width: auto; margin: 0; }
 /* Production's previous-league and nationality selectors keep a usable 100px each (the app's own signing-row floor);
-   the typed player name takes the rest of Team V's row. Studio Z7: on a sideways phone or foldable the panel is so
-   small that the two 100px floors left the name no width at all (LOCK failed on "player name"); every field now keeps
-   at least 30% of the row. */
+   the typed player name takes the rest of Team V's row. Studio Z7: on a small desktop panel or a sideways foldable the
+   two 100px floors left the name no width at all (LOCK failed on "player name"). The name now keeps at least 72px, and
+   on touch screens, where the panel is smallest, the selectors may give way to 28% of the row each. */
 #transferChallenge .tw-host .signing-row.signingRow:not(.is-readonly) {
-  grid-template-columns: calc(var(--k) * 16px) minmax(30%, 1.22fr) minmax(min(100px, 30%), 1.1fr) minmax(min(100px, 30%), 0.92fr);
+  grid-template-columns: calc(var(--k) * 16px) minmax(min(72px, 26%), 1.22fr) minmax(100px, 1.1fr) minmax(100px, 0.92fr);
+}
+@media (pointer: coarse) {
+  #transferChallenge .tw-host .signing-row.signingRow:not(.is-readonly) {
+    grid-template-columns: calc(var(--k) * 16px) minmax(26%, 1.22fr) minmax(min(100px, 28%), 1.1fr) minmax(min(100px, 28%), 0.92fr);
+  }
 }
 @media (max-width: 760px) and (orientation: portrait) {
   :where(.guessRow, .signingRow) > span.guess-num { font-size: 13px; }
