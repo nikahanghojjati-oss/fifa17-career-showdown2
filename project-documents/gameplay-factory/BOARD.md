@@ -1,6 +1,6 @@
 # Bug hunt board
 
-Updated Fri 9 Oct, 7:37 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Fri 9 Oct, 7:38 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r66** (main `8e1a583`, Fri 9 Oct 12:04 PM)
 
@@ -11,8 +11,8 @@ Updated Fri 9 Oct, 7:37 PM Boston time. Bug hunting only, no new features until 
 ### ▶️ Running now
 
 **#1 · 1050** `G` Unfinished Signing Entry rows survive a refresh (Olympiad V4)  
-`███████░░░` **70.0000 %**  
-🟡 Team yellow · **GPT Luna (Work mode); if it fails, Sol 6.1 Work mode** · High effort · worker done, PR #446 open, CI running
+`████████░░` **80.0000 %**  
+🟡 Team yellow · **GPT Luna (Work mode); if it fails, Sol 6.1 Work mode** · High effort · worker done, PR #446 open, CI green, waiting for the lead
 
 **#2 · 1051** `G` Transfer ledger hash no longer reveals locked guesses (Olympiad V6)  
 `███████░░░` **70.0000 %**  
