@@ -1,0 +1,1190 @@
+[
+  {
+    "id": "DEC-001",
+    "file": "DECISIONS.md",
+    "date": "2026-08-13",
+    "type": "decision",
+    "summary": "v1.3 was a narrow Recovery & Device Resilience milestone: retain the three canonical local persistence keys, PWA behavior and exact current architecture; postpone cloud, profiles and gameplay redesign. Later v1.3+ work and September online-first direction replaced that temporary freeze.",
+    "status": "replaced",
+    "source_chat": "Career Mode Showdown — Dev Continuation (title sequence unavailable)"
+  },
+  {
+    "id": "DEC-002",
+    "file": "DECISIONS.md",
+    "date": "2026-08-14",
+    "type": "decision",
+    "summary": "Architecture, scoring, route behavior, performance and existing saves must survive targeted repairs; a green PR is not permission for unrelated redesign.",
+    "status": "still valid",
+    "source_chat": "Career Mode Showdown — Dev Continuation (title sequence unavailable)"
+  },
+  {
+    "id": "DEC-003",
+    "file": "DECISIONS.md",
+    "date": "2026-08-14",
+    "type": "decision",
+    "summary": "Exactly Daniel/playerOne on the left and Nik/playerTwo; same league, separate permanent clubs for the full showdown; selectable lengths 1/3/5/10 seasons.",
+    "status": "still valid",
+    "source_chat": "Career Mode Showdown — Dev Continuation (title sequence unavailable)"
+  },
+  {
+    "id": "DEC-004",
+    "file": "DECISIONS.md",
+    "date": "2026-08-14",
+    "type": "decision",
+    "summary": "Scoring locked: Champions League +5, league title +3, domestic cup +1, points-or-goals performance bonus at most +1, top-scorer-or-assist bonus at most +1; max 11 per season. Season tie uses league position then league points, otherwise draw; tied final totals draw.",
+    "status": "still valid",
+    "source_chat": "Career Mode Showdown — Dev Continuation (title sequence unavailable)"
+  },
+  {
+    "id": "DEC-005",
+    "file": "DECISIONS.md",
+    "date": "2026-08-14",
+    "type": "decision",
+    "summary": "Identity × Legacy × Analytics was to be audited before person-level analytics or profile linking; v1.3 work disallowed a quick same-name identity patch. Later shared online career model/factory took precedence; historic name mappings remain uncertain.",
+    "status": "replaced",
+    "source_chat": "Career Mode Showdown — Dev Continuation (title sequence unavailable)"
+  },
+  {
+    "id": "DEC-006",
+    "file": "DECISIONS.md",
+    "date": "2026-08-14",
+    "type": "decision",
+    "summary": "At clean boundaries, verify exact live/source state and give a ready-to-paste successor handoff instead of relying on a chat's memory.",
+    "status": "still valid",
+    "source_chat": "Career Mode Showdown — Dev Continuation (title sequence unavailable)"
+  },
+  {
+    "id": "DEC-007",
+    "file": "DECISIONS.md",
+    "date": "2026-08-16",
+    "type": "decision",
+    "summary": "No public community, discovery or global leaderboards; the game is private for owner Nik and friend Daniel.",
+    "status": "still valid",
+    "source_chat": "Career Mode Showdown — Dev Continuation (title sequence unavailable)"
+  },
+  {
+    "id": "DEC-008",
+    "file": "DECISIONS.md",
+    "date": "2026-08-16",
+    "type": "decision",
+    "summary": "Format-version-2 multi-save backup portability and independently deletable saves were accepted in the older local product; their surface relevance after the September shared-only redesign should be reconciled, not assumed.",
+    "status": "unsure",
+    "source_chat": "Career Mode Showdown — Dev Continuation (title sequence unavailable)"
+  },
+  {
+    "id": "DEC-009",
+    "file": "DECISIONS.md",
+    "date": "2026-08-20",
+    "type": "decision",
+    "summary": "Firebase project must stay on Spark with billing off, App Check/Auth security preserved, and private capability pairing rejected on wrong manager-slot without modifying local saves.",
+    "status": "still valid",
+    "source_chat": "Stage 2G / Stage 3 production handoff (chat title unavailable)"
+  },
+  {
+    "id": "DEC-010",
+    "file": "DECISIONS.md",
+    "date": "2026-08-24",
+    "type": "decision",
+    "summary": "Chromebook Chrome and iPhone Safari are the important independent browser/device pair; two tabs or Chrome normal+Incognito on one Chromebook are different app identities but not proof of two physical machines.",
+    "status": "still valid",
+    "source_chat": "Two-device pairing acceptance (chat title unavailable)"
+  },
+  {
+    "id": "DEC-011",
+    "file": "DECISIONS.md",
+    "date": "2026-09-05",
+    "type": "decision",
+    "summary": "Use Chromebook host on home Wi-Fi and iPhone peer on cellular for adversarial real-device validation. RJR100 security/session proof does not itself prove complete season/transfer gameplay.",
+    "status": "still valid",
+    "source_chat": "RJR100 physical acceptance (chat title unavailable)"
+  },
+  {
+    "id": "DEC-012",
+    "file": "DECISIONS.md",
+    "date": "2026-09-08",
+    "type": "decision",
+    "summary": "Older 'handoff proximity' progress gauge was retired in favor of POS10 routing; later Team G factory handbooks/job statuses supersede ad hoc relay instructions.",
+    "status": "replaced",
+    "source_chat": "Safe Transfer Specification"
+  },
+  {
+    "id": "DEC-013",
+    "file": "DECISIONS.md",
+    "date": "2026-09-09",
+    "type": "decision",
+    "summary": "Visual assets must depict actual implemented game states and must not promise nonexistent gameplay; deliver concrete artifacts rather than only reassuring plans.",
+    "status": "still valid",
+    "source_chat": "Showdown Visual master materials (chat title unavailable)"
+  },
+  {
+    "id": "DEC-014",
+    "file": "DECISIONS.md",
+    "date": "2026-09-11",
+    "type": "decision",
+    "summary": "iPhone = senior gameplay production, Chromebook = junior isolated visual proposals, with main integration only after explicit review. September 25 formalized Luna/Sol/Team V separation.",
+    "status": "replaced",
+    "source_chat": "Visual senior/junior coordination (chat title unavailable)"
+  },
+  {
+    "id": "DEC-015",
+    "file": "DECISIONS.md",
+    "date": "2026-09-14",
+    "type": "decision",
+    "summary": "Product direction: private online Shared Showdown only, exactly Nik and Daniel, simplified UI and existing reliable architecture. Local persistence may still protect recovery, but offline-only showdowns are not the primary gameplay path.",
+    "status": "still valid",
+    "source_chat": "Online-only Shared Showdown revamp (chat title unavailable)"
+  },
+  {
+    "id": "DEC-016",
+    "file": "DECISIONS.md",
+    "date": "2026-09-18",
+    "type": "decision",
+    "summary": "Owner wants private session expiry of at least one hour, preferably two hours or more, because 30-minute windows interrupted play.",
+    "status": "still valid",
+    "source_chat": "Online play regression discussion (chat title unavailable)"
+  },
+  {
+    "id": "DEC-017",
+    "file": "DECISIONS.md",
+    "date": "2026-09-19",
+    "type": "decision",
+    "summary": "Prioritize a usable, good, playable shared game for both real managers over ambitious extra polish. Provide instructions matched to the current client UI rather than obsolete paths.",
+    "status": "still valid",
+    "source_chat": "Game Update Steps"
+  },
+  {
+    "id": "DEC-018",
+    "file": "DECISIONS.md",
+    "date": "2026-09-21",
+    "type": "decision",
+    "summary": "Visual proposals/coaching are review-only until deliberately integrated; do not silently implement visual coaching on main.",
+    "status": "still valid",
+    "source_chat": "Review guidance documents"
+  },
+  {
+    "id": "DEC-019",
+    "file": "DECISIONS.md",
+    "date": "2026-09-23",
+    "type": "decision",
+    "summary": "The bug-hunt/reliability program must be incorporated into project progress, not displaced by speculative future polish; continue toward a genuine owner-testable SSJR state.",
+    "status": "still valid",
+    "source_chat": "Ambiguity Reasoning Rule"
+  },
+  {
+    "id": "DEC-020",
+    "file": "DECISIONS.md",
+    "date": "2026-09-25",
+    "type": "decision",
+    "summary": "Separate main game, Q&A/reliability review, and isolated visual factory; Luna Max produces visual candidates, Sol reviews against DOM/product truth, senior team integrates.",
+    "status": "still valid",
+    "source_chat": "Showdown Visual relay protocol discussion (title unavailable)"
+  },
+  {
+    "id": "DEC-021",
+    "file": "DECISIONS.md",
+    "date": "2026-09-25",
+    "type": "decision",
+    "summary": "Visual relay V2: up to two Luna work units, two Sol review units, at most two revision rounds; unresolved product/design issues route back to owner rather than silent compromise.",
+    "status": "still valid",
+    "source_chat": "Showdown Visual relay protocol discussion (title unavailable)"
+  },
+  {
+    "id": "DEC-022",
+    "file": "DECISIONS.md",
+    "date": "2026-09-25",
+    "type": "decision",
+    "summary": "Freeze visual candidate with fingerprint and browser-openable prototype plus product-truth handoff; never change backend behavior or scoring to make a visual mockup fit.",
+    "status": "still valid",
+    "source_chat": "Showdown Visual relay protocol discussion (title unavailable)"
+  },
+  {
+    "id": "DEC-023",
+    "file": "DECISIONS.md",
+    "date": "2026-09-27",
+    "type": "decision",
+    "summary": "The host starts a fresh Shared Showdown; a peer should join that game, not manufacture a fake offline save or a second parallel offline shell. Instructions must follow the real host/join UI.",
+    "status": "still valid",
+    "source_chat": "SSJR Test Instructions"
+  },
+  {
+    "id": "DEC-024",
+    "file": "DECISIONS.md",
+    "date": "2026-09-28",
+    "type": "decision",
+    "summary": "Transfer War Room target: premium cinematic two-hero composition with smoked-glass plates, bright thin gold outlines and subtle gold spill; no generic rectangle-stack there.",
+    "status": "still valid",
+    "source_chat": "Showdown Visual mockup direction (title unavailable)"
+  },
+  {
+    "id": "DEC-025",
+    "file": "DECISIONS.md",
+    "date": "2026-09-28",
+    "type": "decision",
+    "summary": "Home can use FIFA-17-like geometric/tile navigation; Settings and summaries may use ordinary rectangles. Club assignment targets separate black/gold Daniel and Nik packs, Draw → Pack 1 → Pack 2 → VS → Lock.",
+    "status": "still valid",
+    "source_chat": "Showdown Visual mockup direction (title unavailable)"
+  },
+  {
+    "id": "DEC-026",
+    "file": "DECISIONS.md",
+    "date": "2026-09-29",
+    "type": "decision",
+    "summary": "Study camera families, composition, depth, typography, motion and responsive/mobile recomposition to improve cinematic fidelity without losing functional UI.",
+    "status": "still valid",
+    "source_chat": "FIFA 17 The Journey design study (title unavailable)"
+  },
+  {
+    "id": "DEC-027",
+    "file": "DECISIONS.md",
+    "date": "2026-10-01",
+    "type": "decision",
+    "summary": "Visual and Gameplay factories are separate branches and teams; reports and proposals should travel through their own lead-owned intake process rather than bypass it.",
+    "status": "still valid",
+    "source_chat": "Factory and relay setup (title unavailable)"
+  },
+  {
+    "id": "DEC-028",
+    "file": "DECISIONS.md",
+    "date": "2026-10-02",
+    "type": "decision",
+    "summary": "Gameplay factory jobs are identified by number, status and lane; Claude Team G lead owns product decisions and integration; workers preserve status and commit only assigned scoped files.",
+    "status": "still valid",
+    "source_chat": "Gameplay factory jobs (e.g. Gameplay CI Added / Factory smoke test)"
+  },
+  {
+    "id": "DEC-029",
+    "file": "DECISIONS.md",
+    "date": "2026-10-05",
+    "type": "decision",
+    "summary": "Do not repair/disable protected Showdown Gate, POS20 checks or gate Physio while performing unrelated factory jobs; red/missing gate review belongs to Team G lead.",
+    "status": "still valid",
+    "source_chat": "Factory check and Physio policy (title unavailable)"
+  },
+  {
+    "id": "DEC-030",
+    "file": "DECISIONS.md",
+    "date": "2026-10-06",
+    "type": "decision",
+    "summary": "R&D is intentionally broader than music, including historic cost comparisons and visual/technology studies; keep it isolated from production until Team G governance approves integration.",
+    "status": "still valid",
+    "source_chat": "Persian Rap Soundtrack Research"
+  },
+  {
+    "id": "DEC-031",
+    "file": "DECISIONS.md",
+    "date": "2026-10-06",
+    "type": "decision",
+    "summary": "Soundtrack laboratory is separate on r-and-d/persian-soundtrack-lab; no direct main merges. Envision six or seven genre/artist tabs with up to ten tracks each, roughly 60–70 total for listening/review.",
+    "status": "still valid",
+    "source_chat": "Persian Rap Soundtrack Research"
+  },
+  {
+    "id": "DEC-032",
+    "file": "DECISIONS.md",
+    "date": "2026-10-07",
+    "type": "decision",
+    "summary": "Music choices locked by owner so far: RAC feat. Emerson Leif 'Next To You', Zed Bazi 'Tabestoon Kotah' (business version noted), Gdaal 'Bahman'. No assumption that audio can be bundled without platform/licensing approval.",
+    "status": "still valid",
+    "source_chat": "Persian Rap Soundtrack Research"
+  },
+  {
+    "id": "DEC-033",
+    "file": "DECISIONS.md",
+    "date": "2026-10-07",
+    "type": "decision",
+    "summary": "Investigate DLSS5-like likeness techniques only in visual R&D; call methods 'inspired' only with qualification, never claim actual NVIDIA DLSS5 integration or operation.",
+    "status": "still valid",
+    "source_chat": "DLSS 5 Likeness Claim"
+  },
+  {
+    "id": "DEC-034",
+    "file": "DECISIONS.md",
+    "date": "2026-10-07",
+    "type": "decision",
+    "summary": "Claude becomes owner of source-of-truth decisions; ChatGPT remains helper. Preserve useful post-August project-chat knowledge in repo-owned handover, respecting newer decisions.",
+    "status": "still valid",
+    "source_chat": "Sol retirement handoff notes"
+  },
+  {
+    "id": "DEC-035",
+    "file": "DECISIONS.md",
+    "date": "2026-10-09",
+    "type": "decision",
+    "summary": "Write post-Aug-12 truth-keeper notes to isolated handoff/truth-keeper, not main; include dated chat provenance and mark contradictions/replaced decisions.",
+    "status": "still valid",
+    "source_chat": "JOB-1046 truth keeper instructions"
+  },
+  {
+    "id": "REJ-001",
+    "file": "REJECTED.md",
+    "date": "2026-08-13",
+    "type": "rejected",
+    "summary": "Grok's older Profiles/Save Library/cloud-roadmap suggestions were not authority for the then-current v1.3 resilience task; source audit and existing implementation came first.",
+    "status": "replaced",
+    "source_chat": "Career Mode Showdown — Dev Continuation (title sequence unavailable)"
+  },
+  {
+    "id": "REJ-002",
+    "file": "REJECTED.md",
+    "date": "2026-08-14",
+    "type": "rejected",
+    "summary": "PR #37 was treated as untrusted/not to merge in the v1.3 release sequence rather than accepted because it existed.",
+    "status": "dropped",
+    "source_chat": "Career Mode Showdown — Dev Continuation (title sequence unavailable)"
+  },
+  {
+    "id": "REJ-003",
+    "file": "REJECTED.md",
+    "date": "2026-08-14",
+    "type": "rejected",
+    "summary": "Quick name-normalization/profile-ID fix for cross-Save Analytics rejected as unsafe: distinct people can share names, and new saves create new profile identities.",
+    "status": "deferred",
+    "source_chat": "Career Mode Showdown — Dev Continuation (title sequence unavailable)"
+  },
+  {
+    "id": "REJ-004",
+    "file": "REJECTED.md",
+    "date": "2026-08-16",
+    "type": "rejected",
+    "summary": "Public global rankings, community discovery and general social network removed permanently; the target is a private two-person rivalry.",
+    "status": "dropped",
+    "source_chat": "Career Mode Showdown — Dev Continuation (title sequence unavailable)"
+  },
+  {
+    "id": "REJ-005",
+    "file": "REJECTED.md",
+    "date": "2026-08-20",
+    "type": "rejected",
+    "summary": "Normal Chrome and Incognito identities on one Chromebook cannot be called two-physical-device proof, although cross-account pairing worked.",
+    "status": "rejected claim",
+    "source_chat": "Stage 3 proof / successor handoff (title unavailable)"
+  },
+  {
+    "id": "REJ-006",
+    "file": "REJECTED.md",
+    "date": "2026-09-08",
+    "type": "rejected",
+    "summary": "Ad hoc 'handoff proximity' as progress/authority was retired for POS10 and subsequently factory status/job files.",
+    "status": "replaced",
+    "source_chat": "Safe Transfer Specification"
+  },
+  {
+    "id": "REJ-007",
+    "file": "REJECTED.md",
+    "date": "2026-09-09",
+    "type": "rejected",
+    "summary": "Assurances and prolonged planning without actual files were rejected; owner asked for artifacts and playable/provable progress.",
+    "status": "dropped",
+    "source_chat": "Showdown Visual artifacts conversation (title unavailable)"
+  },
+  {
+    "id": "REJ-008",
+    "file": "REJECTED.md",
+    "date": "2026-09-11",
+    "type": "rejected",
+    "summary": "Automatic junior/visual-to-main implementation rejected; visual track must remain isolated and senior/owner review before integration.",
+    "status": "dropped",
+    "source_chat": "Visual senior/junior coordination (chat title unavailable)"
+  },
+  {
+    "id": "REJ-009",
+    "file": "REJECTED.md",
+    "date": "2026-09-14",
+    "type": "rejected",
+    "summary": "Older one-device/offline-only primary UX was superseded by private online-only Shared Showdown, while local resilience rules continue where necessary.",
+    "status": "replaced",
+    "source_chat": "Online-only Shared Showdown revamp (title unavailable)"
+  },
+  {
+    "id": "REJ-010",
+    "file": "REJECTED.md",
+    "date": "2026-09-19",
+    "type": "rejected",
+    "summary": "Expanding into ambitious features instead of fixing blocking gameplay was explicitly deprioritized in favor of a reliably playable game.",
+    "status": "dropped",
+    "source_chat": "Game Update Steps"
+  },
+  {
+    "id": "REJ-011",
+    "file": "REJECTED.md",
+    "date": "2026-09-21",
+    "type": "rejected",
+    "summary": "Immediate implementation of outside visual dossier on main rejected for this task; requested coaching/review file for visual branch first.",
+    "status": "deferred",
+    "source_chat": "Review guidance documents"
+  },
+  {
+    "id": "REJ-012",
+    "file": "REJECTED.md",
+    "date": "2026-09-25",
+    "type": "rejected",
+    "summary": "Static screenshot alone is not a sufficient freeze artifact for interactive Transfer Guess Entry review; use a browser-openable proposal with state/actions and product contract.",
+    "status": "dropped",
+    "source_chat": "Showdown Visual relay protocol discussion (title unavailable)"
+  },
+  {
+    "id": "REJ-013",
+    "file": "REJECTED.md",
+    "date": "2026-09-27",
+    "type": "rejected",
+    "summary": "The instruction to create a separate fresh Shared Showdown shell on both devices sounded like fake offline save setup and contradicted host-driven shared creation; owner challenged it.",
+    "status": "rejected claim",
+    "source_chat": "SSJR Test Instructions"
+  },
+  {
+    "id": "REJ-014",
+    "file": "REJECTED.md",
+    "date": "2026-10-04",
+    "type": "rejected",
+    "summary": "A PR #359 STALE-vs-permission-denied fix should not be treated as exhaustive proof for later-season concurrency; season 3+ still warranted read/write race inspection.",
+    "status": "rejected claim",
+    "source_chat": "Simultaneous Season Result race (New chat)"
+  },
+  {
+    "id": "REJ-015",
+    "file": "REJECTED.md",
+    "date": "2026-10-06",
+    "type": "rejected",
+    "summary": "Soundtrack research does not mean automatically shipping copyrighted tracks or directly modifying main; isolated music lab plus Team G approval is required.",
+    "status": "dropped",
+    "source_chat": "Persian Rap Soundtrack Research"
+  },
+  {
+    "id": "REJ-016",
+    "file": "REJECTED.md",
+    "date": "2026-10-07",
+    "type": "rejected",
+    "summary": "Claims that existing face-generation pipeline actually uses DLSS5 were rejected as technically unsubstantiated; reference-photo prompts and iterative review are not NVIDIA runtime technology.",
+    "status": "rejected claim",
+    "source_chat": "DLSS 5 Likeness Claim"
+  },
+  {
+    "id": "REJ-017",
+    "file": "REJECTED.md",
+    "date": "2026-10-09",
+    "type": "rejected",
+    "summary": "ChatGPT as sole project-truth keeper is superseded by Claude lead; ChatGPT remains a bounded helper and handover contributor.",
+    "status": "replaced",
+    "source_chat": "JOB-1046 truth keeper instructions"
+  },
+  {
+    "id": "OPN-001",
+    "file": "OPEN.md",
+    "date": "2026-08-14",
+    "type": "open",
+    "summary": "Historical cross-Save person identity mappings were unresolved in the name-based Analytics audit; current career history reconciliation needs explicit newer proof before claiming repair.",
+    "status": "uncertain",
+    "source_chat": "Career Mode Showdown — Dev Continuation (title sequence unavailable)"
+  },
+  {
+    "id": "OPN-002",
+    "file": "OPEN.md",
+    "date": "2026-08-14",
+    "type": "open",
+    "summary": "Prolonged real Chromebook/iPhone/PWA acceptance and cross-Save portability originally outstanding; later releases report portions proven, but avoid converting automated/local browser evidence to physical proof.",
+    "status": "partially addressed",
+    "source_chat": "Career Mode Showdown — Dev Continuation (title sequence unavailable)"
+  },
+  {
+    "id": "OPN-003",
+    "file": "OPEN.md",
+    "date": "2026-08-24",
+    "type": "open",
+    "summary": "Investigate the P2 permission error seen on Chromebook/iPhone Safari private-pair testing; subsequent stage evidence may supersede it, but the specific fix/release is not established in these chats.",
+    "status": "unknown current status",
+    "source_chat": "Two-device pairing acceptance (chat title unavailable)"
+  },
+  {
+    "id": "OPN-004",
+    "file": "OPEN.md",
+    "date": "2026-09-05",
+    "type": "open",
+    "summary": "RJR100 covered remote session and reconnect authority, not every wheel, club, transfer, season publication or Statistics/Trophy UI. Full end-to-end game remains a separate acceptance target.",
+    "status": "partially addressed",
+    "source_chat": "RJR100 physical acceptance (chat title unavailable)"
+  },
+  {
+    "id": "OPN-005",
+    "file": "OPEN.md",
+    "date": "2026-09-18",
+    "type": "open",
+    "summary": "Verify 30-minute private-session expiration was increased to a durable two-hour-preferred minimum-one-hour duration in the actual current release.",
+    "status": "not independently verified",
+    "source_chat": "Online play regression discussion (title unavailable)"
+  },
+  {
+    "id": "OPN-006",
+    "file": "OPEN.md",
+    "date": "2026-09-18",
+    "type": "open",
+    "summary": "Verify Continue button responsiveness on iPhone and Chromebook across R32/R34/R36-era reports; must be tested on exact live build.",
+    "status": "not independently verified",
+    "source_chat": "Online play regression discussion (title unavailable)"
+  },
+  {
+    "id": "OPN-007",
+    "file": "OPEN.md",
+    "date": "2026-09-18",
+    "type": "open",
+    "summary": "Verify both devices see the same live 15-minute transfer timer and a restart/start path when countdown reaches zero.",
+    "status": "not independently verified",
+    "source_chat": "Online play regression discussion (title unavailable)"
+  },
+  {
+    "id": "OPN-008",
+    "file": "OPEN.md",
+    "date": "2026-09-18",
+    "type": "open",
+    "summary": "Investigate transfer screen errors and login failure with precise build/browser/error evidence, without guessing the resolution.",
+    "status": "not independently verified",
+    "source_chat": "Online play regression discussion (title unavailable)"
+  },
+  {
+    "id": "OPN-009",
+    "file": "OPEN.md",
+    "date": "2026-09-19",
+    "type": "open",
+    "summary": "Owner still needs simple current-UI instructions for reliably starting and playing a full two-manager online Showdown; avoid old fake offline-save steps.",
+    "status": "open acceptance",
+    "source_chat": "Game Update Steps"
+  },
+  {
+    "id": "OPN-010",
+    "file": "OPEN.md",
+    "date": "2026-09-21",
+    "type": "open",
+    "summary": "Visual dossier's coaching proposals belong in Team V review lane, not production, until approved and reconciled with live routes.",
+    "status": "pending integration",
+    "source_chat": "Review guidance documents"
+  },
+  {
+    "id": "OPN-011",
+    "file": "OPEN.md",
+    "date": "2026-09-23",
+    "type": "open",
+    "summary": "Owner wanted SSJR ready for physical testing with all screens linked and routed correctly; do not infer whole-journey readiness from isolated gate successes.",
+    "status": "pending proof",
+    "source_chat": "Ambiguity Reasoning Rule"
+  },
+  {
+    "id": "OPN-012",
+    "file": "OPEN.md",
+    "date": "2026-09-25",
+    "type": "open",
+    "summary": "Shared in-flight navigation guard and delayed-load route tests proposed after r34 tap fix; confirm whether adopted into production and covered with physical retest.",
+    "status": "proposal, not proven fix",
+    "source_chat": "QA multi-click investigation (title unavailable)"
+  },
+  {
+    "id": "OPN-013",
+    "file": "OPEN.md",
+    "date": "2026-09-27",
+    "type": "open",
+    "summary": "On Daniel's 'Publish My Season Result' screen the 'Commit Share Season' action was missing while Nik's flow progressed; locate root cause and current-release regression proof.",
+    "status": "reported unresolved",
+    "source_chat": "SSJR Test Instructions"
+  },
+  {
+    "id": "OPN-014",
+    "file": "OPEN.md",
+    "date": "2026-09-27",
+    "type": "open",
+    "summary": "Replace 'both devices create fresh shells' guidance with tested host-created Shared Showdown and peer join steps, matching current UI labels.",
+    "status": "open documentation",
+    "source_chat": "SSJR Test Instructions"
+  },
+  {
+    "id": "OPN-015",
+    "file": "OPEN.md",
+    "date": "2026-09-28",
+    "type": "open",
+    "summary": "Validate War Room two-hero gold/glass prototype on phone and Chromebook and freeze only after functional DOM/persistence compatibility review.",
+    "status": "proposal",
+    "source_chat": "Showdown Visual mockup direction (title unavailable)"
+  },
+  {
+    "id": "OPN-016",
+    "file": "OPEN.md",
+    "date": "2026-10-01",
+    "type": "open",
+    "summary": "Inventory actual mockups, measure differences against live screens (Home first when unsure), and save per-screen MD/JSON/INDEX only on study/mockup-lab.",
+    "status": "pending verification",
+    "source_chat": "Mockup Lab study instructions (title unavailable)"
+  },
+  {
+    "id": "OPN-017",
+    "file": "OPEN.md",
+    "date": "2026-10-04",
+    "type": "open",
+    "summary": "Read PR #358 and js/productionSharedLocalReconciliation.js plus js/sparkConnectedRivalry.js to find why auto-refresh/skipped steps leave waiting screen stuck. No verified fix from the chat excerpt.",
+    "status": "reported unresolved",
+    "source_chat": "Local Reconciliation waiting bug (New chat)"
+  },
+  {
+    "id": "OPN-018",
+    "file": "OPEN.md",
+    "date": "2026-10-04",
+    "type": "open",
+    "summary": "PR #359 converted losing simultaneous publication toward STALE; long multi-season game still sporadically fails. Identify stale season number/document ID/read or write in season 3+ before claiming fix.",
+    "status": "reported unresolved",
+    "source_chat": "Simultaneous Season Result race (New chat)"
+  },
+  {
+    "id": "OPN-019",
+    "file": "OPEN.md",
+    "date": "2026-10-04",
+    "type": "open",
+    "summary": "Compare factory output and reviewers (Sol chat, Work, Claude/Opus/Sonnet, Luna, other reviewers) using actual outcomes and proofs; separate marketing labels from performance.",
+    "status": "research",
+    "source_chat": "Factory-wide review / Q&A (title unavailable)"
+  },
+  {
+    "id": "OPN-020",
+    "file": "OPEN.md",
+    "date": "2026-10-06",
+    "type": "open",
+    "summary": "Build a reviewable list of 60–70 legal/sourceable songs across 6–7 tabs; three selections are locked, others not yet accepted. Route after bug-hunt board finishes.",
+    "status": "planned, not implemented",
+    "source_chat": "Persian Rap Soundtrack Research"
+  },
+  {
+    "id": "OPN-021",
+    "file": "OPEN.md",
+    "date": "2026-10-06",
+    "type": "open",
+    "summary": "Later R&D governance/intake must reconcile experimental branch against then-current main and obtain Team G job and approval; no automatic integration.",
+    "status": "planned",
+    "source_chat": "Persian Rap Soundtrack Research"
+  },
+  {
+    "id": "OPN-022",
+    "file": "OPEN.md",
+    "date": "2026-10-06",
+    "type": "open",
+    "summary": "Owner asked about adding assistant to project board and granting narrow GitHub soundtrack permissions; no completed permission change is established.",
+    "status": "unconfirmed",
+    "source_chat": "Persian Rap Soundtrack Research"
+  },
+  {
+    "id": "OPN-023",
+    "file": "OPEN.md",
+    "date": "2026-10-07",
+    "type": "open",
+    "summary": "Test visual likeness techniques inspired by neural rendering research, document actual technology used and fidelity metrics; do not label this implementation DLSS5-powered.",
+    "status": "research",
+    "source_chat": "DLSS 5 Likeness Claim"
+  },
+  {
+    "id": "OPN-024",
+    "file": "OPEN.md",
+    "date": "2026-10-07",
+    "type": "open",
+    "summary": "Study POS20/POS10 reasoning-loop architecture and whether AGI-inspired workflow improvements are concrete and measurable without weakening security/proof gates.",
+    "status": "research",
+    "source_chat": "POS20 / AGI-inspired study (title unavailable)"
+  },
+  {
+    "id": "OPN-025",
+    "file": "OPEN.md",
+    "date": "2026-10-07",
+    "type": "open",
+    "summary": "Historic notes are incomplete if restricted to summaries; Claude should reconcile any missing full chat transcript details against repo facts without treating this handoff as stronger authority.",
+    "status": "handover",
+    "source_chat": "Sol retirement handoff notes"
+  },
+  {
+    "id": "OPN-026",
+    "file": "OPEN.md",
+    "date": "2026-10-09",
+    "type": "open",
+    "summary": "Truth-keeper archival needs dated source labels, explicit unknowns and replaced decisions. Exclude duplicated pre-Aug-12 items already in historical index.",
+    "status": "in progress",
+    "source_chat": "JOB-1046 truth keeper instructions"
+  },
+  {
+    "id": "BGT-001",
+    "file": "BUGS_AND_TESTS.md",
+    "date": "2026-08-13",
+    "type": "bug_or_test",
+    "summary": "Recovery candidate and Service Worker activation risk: premature SW acknowledgement and loose Candidate C snapshot fallback corrected through PR #40/#42; CI and deployed burn-in reported green, not a two-physical-device trial.",
+    "status": "fixed in v1.3.0-r1 (reported)",
+    "source_chat": "Career Mode Showdown — Dev Continuation (title sequence unavailable)"
+  },
+  {
+    "id": "BGT-002",
+    "file": "BUGS_AND_TESTS.md",
+    "date": "2026-08-14",
+    "type": "bug_or_test",
+    "summary": "v1.3.0-r1 resilience deployment reportedly passed 13/13 PR workflow families, Pages, stability and burn-in. Device coverage should not be inflated beyond the recorded runs.",
+    "status": "automated production proof, not physical two-device",
+    "source_chat": "Career Mode Showdown — Dev Continuation (title sequence unavailable)"
+  },
+  {
+    "id": "BGT-003",
+    "file": "BUGS_AND_TESTS.md",
+    "date": "2026-08-14",
+    "type": "bug_or_test",
+    "summary": "Save Library PR #53 shipped multiple saves, switching, targeted deletion, duplicate-name handling, focus/accessibility/offline/backup paths; recorded 70 Chromebook/mobile checkpoints and green contract workflows. Later online-only redesign changes visible priority.",
+    "status": "automated/browser proof, not physical two-device",
+    "source_chat": "Career Mode Showdown — Dev Continuation (title sequence unavailable)"
+  },
+  {
+    "id": "BGT-004",
+    "file": "BUGS_AND_TESTS.md",
+    "date": "2026-08-14",
+    "type": "bug_or_test",
+    "summary": "Analytics name-normalization could merge same-named managers across different saves; simple stable-profile-ID retrofit not safe without historical binding.",
+    "status": "unresolved identity mapping at the time",
+    "source_chat": "Career Mode Showdown — Dev Continuation (title sequence unavailable)"
+  },
+  {
+    "id": "BGT-005",
+    "file": "BUGS_AND_TESTS.md",
+    "date": "2026-08-20",
+    "type": "bug_or_test",
+    "summary": "Authenticated Chrome normal and Incognito on one physical Chromebook showed two different registered device IDs; wrong-slot redemption rejected without local-save mutation; second account reached 'Private managers are paired.' Not a two-physical-device test.",
+    "status": "production-proven v1.6.0 / 1.6.0-r1 (reported)",
+    "source_chat": "Stage 3 production proof / successor handoff (title unavailable)"
+  },
+  {
+    "id": "BGT-006",
+    "file": "BUGS_AND_TESTS.md",
+    "date": "2026-08-21",
+    "type": "bug_or_test",
+    "summary": "Stage 3 private capability pairing closeout recorded as RJR 69/100; Stage 4 Connected Rivalry shared revision/stale-recovery work remained next, so pairing alone was not gameplay sync proof.",
+    "status": "reported implementation checkpoint",
+    "source_chat": "Stage 3 to Stage 4 production handoff (title unavailable)"
+  },
+  {
+    "id": "BGT-007",
+    "file": "BUGS_AND_TESTS.md",
+    "date": "2026-08-24",
+    "type": "bug_or_test",
+    "summary": "Physical setup used Chromebook as one device and iPhone Safari as another. Pair test produced a P2 permission error. Pair ID reported as pair_a0710…e756fb (truncated); no verified fix release preserved.",
+    "status": "reported issue; specific release fix unknown",
+    "source_chat": "Two-device pairing acceptance (title unavailable)"
+  },
+  {
+    "id": "BGT-008",
+    "file": "BUGS_AND_TESTS.md",
+    "date": "2026-09-03",
+    "type": "bug_or_test",
+    "summary": "PR #191 described stale authority handling in the remote joining path and began 5G hardening; do not conflate code merge with physical acceptance.",
+    "status": "fix reported in PR #191; production proof not shown here",
+    "source_chat": "Stale authority fix discussion (title unavailable)"
+  },
+  {
+    "id": "BGT-009",
+    "file": "BUGS_AND_TESTS.md",
+    "date": "2026-09-05",
+    "type": "bug_or_test",
+    "summary": "Chromebook host on home Wi-Fi and iPhone peer on cellular: shared session reached ACTIVE rev1; iPhone offline-to-online recovered; CLOSED rev2 stayed closed rather than resurrecting. PR #197 corrected validator mismatch; ledger RJR100/100, with live publication pending at that checkpoint.",
+    "status": "real two-device/session proof reported in physical run",
+    "source_chat": "RJR100 physical acceptance (title unavailable)"
+  },
+  {
+    "id": "BGT-010",
+    "file": "BUGS_AND_TESTS.md",
+    "date": "2026-09-05",
+    "type": "bug_or_test",
+    "summary": "RJR100 demonstrated remote joining/session lifecycle and recovery, not full FIFA17 transfer, wheel, season, statistics or complete game journey. Do not call it finished playable-game proof.",
+    "status": "scope limitation",
+    "source_chat": "RJR100 physical acceptance (title unavailable)"
+  },
+  {
+    "id": "BGT-011",
+    "file": "BUGS_AND_TESTS.md",
+    "date": "2026-09-06",
+    "type": "bug_or_test",
+    "summary": "PR #196 physical acceptance validator and subsequent #210/#211/#214 handoff packaging described deployment v1.9.1 / 1.9.1-r3; exact complete-game journey result not preserved in this chat excerpt.",
+    "status": "partially reported production release",
+    "source_chat": "SSJR production acceptance (title unavailable)"
+  },
+  {
+    "id": "BGT-012",
+    "file": "BUGS_AND_TESTS.md",
+    "date": "2026-09-18",
+    "type": "bug_or_test",
+    "summary": "Owner observed multiple R32/R34/R36-era navigation problems; 'Continue' not responding on iPhone and Chromebook Chrome. Distinguish tap debounce fix from later asynchronous route overwrite.",
+    "status": "reported regression; fix release unknown",
+    "source_chat": "Online play regression discussion (title unavailable)"
+  },
+  {
+    "id": "BGT-013",
+    "file": "BUGS_AND_TESTS.md",
+    "date": "2026-09-18",
+    "type": "bug_or_test",
+    "summary": "Transfer window timer was not synchronized: one manager saw about 15 minutes earlier; later both countdowns reached zero without a workable start. No verified fix identified.",
+    "status": "reported regression; fix release unknown",
+    "source_chat": "Online play regression discussion (title unavailable)"
+  },
+  {
+    "id": "BGT-014",
+    "file": "BUGS_AND_TESTS.md",
+    "date": "2026-09-18",
+    "type": "bug_or_test",
+    "summary": "Transfer screen produced errors during online session; preserve error text/build for reproduction when available.",
+    "status": "reported regression; fix release unknown",
+    "source_chat": "Online play regression discussion (title unavailable)"
+  },
+  {
+    "id": "BGT-015",
+    "file": "BUGS_AND_TESTS.md",
+    "date": "2026-09-18",
+    "type": "bug_or_test",
+    "summary": "Login error occurred during paired-game attempts; actual provider error and resolved release not preserved.",
+    "status": "reported regression; fix release unknown",
+    "source_chat": "Online play regression discussion (title unavailable)"
+  },
+  {
+    "id": "BGT-016",
+    "file": "BUGS_AND_TESTS.md",
+    "date": "2026-09-18",
+    "type": "bug_or_test",
+    "summary": "Private session expiry around 30 minutes felt too short. Owner requested at least 1 hour, preferably 2+; no confirmed production setting documented in the chats available.",
+    "status": "reported usability defect; fix release unknown",
+    "source_chat": "Online play regression discussion (title unavailable)"
+  },
+  {
+    "id": "BGT-017",
+    "file": "BUGS_AND_TESTS.md",
+    "date": "2026-09-19",
+    "type": "bug_or_test",
+    "summary": "Owner asked for immediately playable safe deployment and instructions from current actual server/client UI. Request alone is not evidence that full journey was successfully played.",
+    "status": "acceptance still requested",
+    "source_chat": "Game Update Steps"
+  },
+  {
+    "id": "BGT-018",
+    "file": "BUGS_AND_TESTS.md",
+    "date": "2026-09-25",
+    "type": "bug_or_test",
+    "summary": "Source review found repeated-tap fix already merged; slow older route may overwrite newer user selection. Report on qa/reliability-review-2026-09-25 commit 1fe30fc, with 94 contracts and 73 operations passing; browser test unavailable because tar-fs missing. No real-device retest.",
+    "status": "PR #280 / r34 partial fix confirmed, additional P2 bug proposed",
+    "source_chat": "QA multi-click investigation (title unavailable)"
+  },
+  {
+    "id": "BGT-019",
+    "file": "BUGS_AND_TESTS.md",
+    "date": "2026-09-25",
+    "type": "bug_or_test",
+    "summary": "Stale r18 SHA in NEXT_TASK.md was a process defect; absent delayed-navigation regression was test gap. One source review proposed in-flight navigation serialization; do not mark fixed without new proof.",
+    "status": "P2/P3 findings, not confirmed production fixes",
+    "source_chat": "QA multi-click investigation (title unavailable)"
+  },
+  {
+    "id": "BGT-020",
+    "file": "BUGS_AND_TESTS.md",
+    "date": "2026-09-27",
+    "type": "bug_or_test",
+    "summary": "Nik followed review/publish steps on both devices, waited around 35 seconds without rollback, then found 'Commit Share Season' button missing on Daniel's 'Publish My Season Result' screen. Flow could not continue at that checkpoint.",
+    "status": "user physical two-screen observation; unresolved in excerpt",
+    "source_chat": "SSJR Test Instructions"
+  },
+  {
+    "id": "BGT-021",
+    "file": "BUGS_AND_TESTS.md",
+    "date": "2026-09-27",
+    "type": "bug_or_test",
+    "summary": "Instruction to prepare a fresh Shared Showdown shell on each device was challenged: host should create actual shared game, peer should join; fake offline test saves not required.",
+    "status": "instruction defect",
+    "source_chat": "SSJR Test Instructions"
+  },
+  {
+    "id": "BGT-022",
+    "file": "BUGS_AND_TESTS.md",
+    "date": "2026-10-04",
+    "type": "bug_or_test",
+    "summary": "Two-manager journey test on gameplay/recovery-v1 stuck with Local Reconciliation showing 'waiting'; regression attributed by inquiry to PR #358 ('Job 33: fewer taps'). Asked to inspect auto-refresh and skipped steps in productionSharedLocalReconciliation.js and sparkConnectedRivalry.js. Read-only investigation requested; no fix evidence in available conversation.",
+    "status": "reported regression; fix unknown",
+    "source_chat": "Local Reconciliation waiting bug (New chat)"
+  },
+  {
+    "id": "BGT-023",
+    "file": "BUGS_AND_TESTS.md",
+    "date": "2026-10-04",
+    "type": "bug_or_test",
+    "summary": "PR #359 made simultaneous Season Result loser return STALE instead of permission-denied, but multi-season journey sometimes still fails around season 3+. Possible stale season/document/read ordering was explicitly an investigation hypothesis, not proven root cause.",
+    "status": "reported intermittently failing; fix unknown",
+    "source_chat": "Simultaneous Season Result race (New chat)"
+  },
+  {
+    "id": "BGT-024",
+    "file": "BUGS_AND_TESTS.md",
+    "date": "2026-10-05",
+    "type": "bug_or_test",
+    "summary": "Validate POS20, Validate Gameplay Fast, Showdown Gate L1-L6, Gate Physio can report BARKING/STUCK; an interrupted or red check is neither proof of a product regression nor permission to edit protected gate files.",
+    "status": "automated-gate policy, not user gameplay test",
+    "source_chat": "Factory check policy (title unavailable)"
+  },
+  {
+    "id": "BGT-025",
+    "file": "BUGS_AND_TESTS.md",
+    "date": "2026-10-09",
+    "type": "bug_or_test",
+    "summary": "This is a reconstruction from available chat listings, personal-context excerpts and handoff snapshots. Not every full historic conversation or exact deployed SHA is present; missing fix proof stays 'unknown'.",
+    "status": "known source limitation",
+    "source_chat": "JOB-1046 truth keeper instructions"
+  },
+  {
+    "id": "LES-001",
+    "file": "LESSONS.md",
+    "date": "2026-08-13",
+    "type": "lesson",
+    "summary": "Independent Grok/AI critique can be useful for strict identity and transactions, but must be compared to current roadmap/source, not treated as an instruction to overwrite production architecture.",
+    "status": "lesson",
+    "source_chat": "Career Mode Showdown — Dev Continuation (title sequence unavailable)"
+  },
+  {
+    "id": "LES-002",
+    "file": "LESSONS.md",
+    "date": "2026-08-14",
+    "type": "lesson",
+    "summary": "A clean handoff includes precise branch, release, runtime SHA, CI evidence, known rejected PRs and next action. Chat-only continuity or vague 'done' messages caused earlier confusion.",
+    "status": "lesson",
+    "source_chat": "Career Mode Showdown — Dev Continuation (title sequence unavailable)"
+  },
+  {
+    "id": "LES-003",
+    "file": "LESSONS.md",
+    "date": "2026-08-14",
+    "type": "lesson",
+    "summary": "GitHub connector changes and documented exact-head CI can deliver small scoped changes in Chat without asking the owner to edit files or use Chromebook devtools.",
+    "status": "lesson",
+    "source_chat": "Career Mode Showdown — Dev Continuation (title sequence unavailable)"
+  },
+  {
+    "id": "LES-004",
+    "file": "LESSONS.md",
+    "date": "2026-08-14",
+    "type": "lesson",
+    "summary": "Green browser automation for PWA/save library and offline flows is valuable but must be labelled differently from live cross-account, cross-network or two-physical-device acceptance.",
+    "status": "lesson",
+    "source_chat": "Career Mode Showdown — Dev Continuation (title sequence unavailable)"
+  },
+  {
+    "id": "LES-005",
+    "file": "LESSONS.md",
+    "date": "2026-08-20",
+    "type": "lesson",
+    "summary": "Chrome normal and Incognito on the same Chromebook create different IndexedDB/device identities; this is valid for some account isolation checks, invalid for network/device diversity proof.",
+    "status": "lesson",
+    "source_chat": "Stage 3 production proof / successor handoff (title unavailable)"
+  },
+  {
+    "id": "LES-006",
+    "file": "LESSONS.md",
+    "date": "2026-08-21",
+    "type": "lesson",
+    "summary": "Headless post-merge App Check verification can hit CI-only 403 throttling while exact deployed runtime/provenance checks pass; distinguish provider throttling from permission-rule or gameplay faults. Do not weaken App Check.",
+    "status": "lesson",
+    "source_chat": "Stage 4 reconciliation handoff (title unavailable)"
+  },
+  {
+    "id": "LES-007",
+    "file": "LESSONS.md",
+    "date": "2026-08-24",
+    "type": "lesson",
+    "summary": "Use two genuinely separate devices (Chromebook/iPhone Safari) and preferably different networks to catch security and reconnect problems that single-tab CI misses.",
+    "status": "lesson",
+    "source_chat": "Two-device pairing acceptance (title unavailable)"
+  },
+  {
+    "id": "LES-008",
+    "file": "LESSONS.md",
+    "date": "2026-09-01",
+    "type": "lesson",
+    "summary": "Firebase Spark with billing OFF is a hard financial constraint. Prefer Firestore/Auth/App Check within provider free quotas, tests on local demo- emulator and provider-rule deployment only through approved exact-source workflow; never assume unlimited operations.",
+    "status": "zero-cost boundary",
+    "source_chat": "Firebase zero-billing workflow conversation (title unavailable)"
+  },
+  {
+    "id": "LES-009",
+    "file": "LESSONS.md",
+    "date": "2026-09-05",
+    "type": "lesson",
+    "summary": "Success criteria must distinguish private pairing capability, active remote session, offline recovery, closure and full game journey. A 100/100 infrastructure readiness ledger does not guarantee real gameplay is playable.",
+    "status": "lesson",
+    "source_chat": "RJR100 physical acceptance (title unavailable)"
+  },
+  {
+    "id": "LES-010",
+    "file": "LESSONS.md",
+    "date": "2026-09-08",
+    "type": "lesson",
+    "summary": "Retire stale progress/handoff labels when a newer governance system exists. As of October 2026 Team G job files/status, POS20 and lead authority outrank older relay conventions.",
+    "status": "lesson",
+    "source_chat": "Safe Transfer Specification"
+  },
+  {
+    "id": "LES-011",
+    "file": "LESSONS.md",
+    "date": "2026-09-09",
+    "type": "lesson",
+    "summary": "A proposal should yield a concrete file/openable prototype and an integration map, not repeated promises, chat-length analysis or imagery that invents nonexistent backend behavior.",
+    "status": "lesson",
+    "source_chat": "Showdown Visual artifacts conversation (title unavailable)"
+  },
+  {
+    "id": "LES-012",
+    "file": "LESSONS.md",
+    "date": "2026-09-11",
+    "type": "lesson",
+    "summary": "Parallel agents improve throughput only with strictly separated roles and explicit asset, branch, DOM contract and handoff boundaries. Role confusion frustrated the owner.",
+    "status": "lesson",
+    "source_chat": "Visual senior/junior coordination (chat title unavailable)"
+  },
+  {
+    "id": "LES-013",
+    "file": "LESSONS.md",
+    "date": "2026-09-19",
+    "type": "lesson",
+    "summary": "When the owner asks for a playable game now, reliability and short current-UI steps outrank extra polish, large rewrites and speculative feature work.",
+    "status": "lesson",
+    "source_chat": "Game Update Steps"
+  },
+  {
+    "id": "LES-014",
+    "file": "LESSONS.md",
+    "date": "2026-09-21",
+    "type": "lesson",
+    "summary": "Work/Chat sessions should provide downloadable review coaching when implementation is not authorized; visual branch review must not secretly mutate main. Report scope and what remains untested.",
+    "status": "lesson",
+    "source_chat": "Review guidance documents"
+  },
+  {
+    "id": "LES-015",
+    "file": "LESSONS.md",
+    "date": "2026-09-23",
+    "type": "lesson",
+    "summary": "Unbounded 'continue for 30–60 minutes' conversations lead to context/usage pressure and incomplete work; smaller persisted jobs plus factual status are safer than unsaved thinking.",
+    "status": "lesson",
+    "source_chat": "Ambiguity Reasoning Rule"
+  },
+  {
+    "id": "LES-016",
+    "file": "LESSONS.md",
+    "date": "2026-09-25",
+    "type": "lesson",
+    "summary": "A real QA report separates observed bug, likely race, explicit code evidence, risk level, suggested minimal fix and missing regression proof. A pre-existing tap fix can coexist with a later async-route bug.",
+    "status": "lesson",
+    "source_chat": "QA multi-click investigation (title unavailable)"
+  },
+  {
+    "id": "LES-017",
+    "file": "LESSONS.md",
+    "date": "2026-09-25",
+    "type": "lesson",
+    "summary": "Browser-test infrastructure may fail independently of application logic (example missing tar-fs dependency). Record skipped/unrun suites, never claim physical pass from contract tests.",
+    "status": "lesson",
+    "source_chat": "QA multi-click investigation (title unavailable)"
+  },
+  {
+    "id": "LES-018",
+    "file": "LESSONS.md",
+    "date": "2026-09-25",
+    "type": "lesson",
+    "summary": "Luna Max strengths: composition/visual direction; Sol chat strengths: product-truth, DOM and integration critique; senior/Claude line owns implementation. Limit review rounds and avoid autonomous merges.",
+    "status": "lesson",
+    "source_chat": "Showdown Visual relay protocol discussion (title unavailable)"
+  },
+  {
+    "id": "LES-019",
+    "file": "LESSONS.md",
+    "date": "2026-09-27",
+    "type": "lesson",
+    "summary": "Manual test instructions must mirror real host/join authority. Instructions themselves can be buggy; screenshots from user are stronger than a remembered implementation assumption.",
+    "status": "lesson",
+    "source_chat": "SSJR Test Instructions"
+  },
+  {
+    "id": "LES-020",
+    "file": "LESSONS.md",
+    "date": "2026-09-29",
+    "type": "lesson",
+    "summary": "ChatGPT chat is a good manually invoked coordinator for docs, bounded GitHub edits and analysis; it is not a continuously running autonomous worker without separately scheduled tasks.",
+    "status": "tool capability",
+    "source_chat": "ChatGPT plan and assistant coordination discussion (title unavailable)"
+  },
+  {
+    "id": "LES-021",
+    "file": "LESSONS.md",
+    "date": "2026-10-02",
+    "type": "lesson",
+    "summary": "Normal Chat lane: text/document/fixtures and GitHub connector commits. Work lane: local terminal, npm, Node and Firebase emulator when supported. Match the job lane instead of assuming chat can run full emulator.",
+    "status": "tool capability",
+    "source_chat": "Gameplay factory job process (title unavailable)"
+  },
+  {
+    "id": "LES-022",
+    "file": "LESSONS.md",
+    "date": "2026-10-04",
+    "type": "lesson",
+    "summary": "Compare GPT, Claude/Opus/Sonnet, Codex, Work and Luna on exact task evidence, integration accuracy, bug yield and cost rather than calling one universal 'best reviewer'. Codex comments require triage, not blind acceptance.",
+    "status": "research",
+    "source_chat": "Factory-wide reviewer Q&A (title unavailable)"
+  },
+  {
+    "id": "LES-023",
+    "file": "LESSONS.md",
+    "date": "2026-10-05",
+    "type": "lesson",
+    "summary": "Validate POS20, Gameplay Fast, Showdown Gate and Physio belong to the lead. Never poll, rerun or patch protected CI files during a factory worker task; lead checks red/missing CI.",
+    "status": "lesson",
+    "source_chat": "Factory gate and Physio policy (title unavailable)"
+  },
+  {
+    "id": "LES-024",
+    "file": "LESSONS.md",
+    "date": "2026-10-06",
+    "type": "lesson",
+    "summary": "Free Audius streaming/API or publicly reachable audio does not automatically grant redistribution or permanent hosting rights. Vet artist/license/source, keep music user-initiated and avoid paid services under Spark-only goals.",
+    "status": "zero-cost boundary",
+    "source_chat": "Persian Rap Soundtrack Research"
+  },
+  {
+    "id": "LES-025",
+    "file": "LESSONS.md",
+    "date": "2026-10-06",
+    "type": "lesson",
+    "summary": "The 1950–2026 historical construction-cost thought experiment should distinguish impossible era-capability combinations, adjusted wages, parallel team needs and actual delivered scope, not equate AI message count with senior-engineer years.",
+    "status": "research",
+    "source_chat": "Historical Website Cost Comparison"
+  },
+  {
+    "id": "LES-026",
+    "file": "LESSONS.md",
+    "date": "2026-10-07",
+    "type": "lesson",
+    "summary": "Static AI-generated likeness imagery is not live NVIDIA DLSS. Study reference fidelity, identity anchors, legal/ethical use, browser performance and perceptual metrics before marketing a method as neural-rendering-inspired.",
+    "status": "research",
+    "source_chat": "DLSS 5 Likeness Claim"
+  },
+  {
+    "id": "LES-027",
+    "file": "LESSONS.md",
+    "date": "2026-10-07",
+    "type": "lesson",
+    "summary": "POS20/POS10 reasoning-loop and 'AGI-inspired' descriptions need measurable error reduction and gate evidence; marketing-level analogies do not substitute for reproducible tests.",
+    "status": "research",
+    "source_chat": "POS20 / AGI-inspired study (title unavailable)"
+  },
+  {
+    "id": "LES-028",
+    "file": "LESSONS.md",
+    "date": "2026-10-07",
+    "type": "lesson",
+    "summary": "When account usage changes, export source-grounded knowledge to repository files so no single AI conversation becomes the only product authority; retain dates and contradictions explicitly.",
+    "status": "tool capability",
+    "source_chat": "Sol retirement handoff notes"
+  },
+  {
+    "id": "LES-029",
+    "file": "LESSONS.md",
+    "date": "2026-10-09",
+    "type": "lesson",
+    "summary": "GitHub connector supports branch creation and UTF-8 file commits to an isolated branch in this chat; leave main, protected checks and production data untouched.",
+    "status": "tool capability",
+    "source_chat": "JOB-1046 truth keeper instructions"
+  }
+]
