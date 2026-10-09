@@ -1127,13 +1127,13 @@
      "id": "1048",
      "title": "Rule Book: three missing rules, and the season review stops pointing at a missing button (Olympiad V1, V2)",
      "lane": "gpt-chat",
-     "state": "ready",
+     "state": "with the worker (GPT-6 Sol chat), step 3 of 5",
      "order": 21,
      "place": "ChatGPT project \"Career Mode Showdown\", new normal chat",
-     "note": "text only; ticket jobs/JOB-1048.md; lane moved off Codex (Nik 2026-10-09 22:09 UTC: more GPT-6 chat, Work mode cheaper models, Haiku)",
+     "note": "Nik ran it on GPT-6 Sol chat; the Luna trial moved to 1054; ticket jobs/JOB-1048.md",
      "team": "blue",
-     "model": "GPT-6 Luna (trial; if it fails, GPT-6 Sol)",
-     "effort": "Medium",
+     "model": "GPT-6 Sol (chat)",
+     "effort": "High",
      "prompt": "Job 1048. Read the ticket at https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/gameplay-v1/project-documents/gameplay-factory/jobs/JOB-1048.md and do exactly what it says in this one turn. Start from branch gameplay/bug-list-1, push the branch the ticket names, open the PR into gameplay/bug-list-1, and end with 'Job 1048 done, PR <link>.'"
     },
     {
@@ -1200,6 +1200,19 @@
      "title": "Restore on an empty device respects Keep current (Olympiad V5)",
      "order": 23,
      "state": "ready (runs alongside 1048)"
+    },
+    {
+     "id": "1054",
+     "title": "Worker scorecard: rows for jobs 1037-1044 (GPT-6 Luna trial)",
+     "lane": "gpt-chat",
+     "team": "blue",
+     "model": "GPT-6 Luna",
+     "effort": "Medium",
+     "state": "ready",
+     "order": 20,
+     "place": "ChatGPT project \"Career Mode Showdown\", new normal chat",
+     "prompt": "Job 1054. Read the ticket at https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/gameplay-v1/project-documents/gameplay-factory/jobs/JOB-1054.md and do exactly what it says in this one turn: one edit to one file on branch factory/gameplay-v1, no PR. End with the one line the ticket gives.",
+     "note": "exact, one-file job to test whether Luna follows a ticket precisely; ticket jobs/JOB-1054.md"
     }
    ]
   },
