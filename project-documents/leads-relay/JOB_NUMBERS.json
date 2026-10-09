@@ -1,6 +1,6 @@
 {
  "_how": "One shared job counter for Team G and Team V (Nik, 2026-10-05). Claim with tools/claim_number.py only. A number is used once, ever. CONTRACT.md section 10.",
- "next": 1047,
+ "next": 1048,
  "claims": [
   {
    "number": 1001,
@@ -278,6 +278,12 @@
    "team": "G",
    "title": "Truth keeper handover notes from Sol, gameplay project (account 1)",
    "claimed": "2026-10-09T16:10:15Z"
+  },
+  {
+   "number": 1047,
+   "team": "V",
+   "title": "Truth keeper handover notes from Sol, visual project (account 1)",
+   "claimed": "2026-10-09T16:10:18Z"
   }
  ]
 }
