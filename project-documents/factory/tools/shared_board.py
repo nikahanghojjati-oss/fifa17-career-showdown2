@@ -19,6 +19,8 @@ G_BOARD = f"{BLOB}/factory/gameplay-v1/project-documents/gameplay-factory/BOARD.
 FEED_URL = f"{BLOB}/leads/relay/project-documents/leads-relay/FEED.md"
 LIVE_SITE = "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/"
 # Board 1 is finished and frozen; its jobs had no PRs, so it stays as one line.
+QUEUED = ("**Queued next** (Nik, 8 Oct 11:18 p.m. Eastern), starting on their own once the current jobs and bug fixes are done: "
+          "1) [phone mockup plan](PLAN_PHONE_MOCKUPS.md), then 2) next-level desktop plan.")
 BOARD1 = "**Board 1 (visual package): 238 of 238 jobs done and checked**, shipped in version 2.0 on 5 Oct 2026."
 
 LANES = {  # same squares as Team G's board
@@ -149,7 +151,7 @@ def main():
         L += [""]
     if not running:
         L += ["No Team V job is running right now.", ""]
-    L += [BOARD1, "", '<img src="board-meter.svg" alt="Board 1 football meter, 100 %" width="560">', ""]
+    L += [QUEUED, "", BOARD1, "", '<img src="board-meter.svg" alt="Board 1 football meter, 100 %" width="560">', ""]
     if closed:
         L += ["**Recently finished:**", ""]
         for pr in closed:

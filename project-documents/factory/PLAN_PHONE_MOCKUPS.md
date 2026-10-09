@@ -1,5 +1,11 @@
 # Plan after Thursday 8 Oct: phone mockups, and a next-level desktop
 
+> **QUEUED (Nik, Thu 8 Oct 11:18 p.m. Eastern).** Both plans wait until the current jobs and bug fixes are finished, then run in this order:
+> 1. the phone mockup plan (below), then
+> 2. the next-level desktop plan (below).
+>
+> The factory thread starts plan 1 on its own as soon as the current fixes are done. Nik does not need to type a start phrase.
+
 Nik, Tue 6 Oct 1:09 a.m. Eastern: "phone is just so bad, but we can definitely fix it."
 
 ## Why
@@ -26,5 +32,5 @@ Push the live game toward the desktop mockups, tracked on the [mockup board](moc
 3. **Work toward the new mockups** with jobs the same way, and re-score the board against them.
 4. Repeat, one level at a time.
 
-## To restart
-Tell the factory thread "start the phone mockup plan" or "start the next-level desktop plan". Both can run side by side.
+## When they start
+Plan 1 starts on its own when the current jobs and bug fixes are done (today: HO-021 tablet and sideways-phone layouts, jobs 1035 and 1036, plus Team G's open bug fixes). Plan 2 follows plan 1. Nik can still start either early by telling the factory thread "start the phone mockup plan" or "start the next-level desktop plan".
