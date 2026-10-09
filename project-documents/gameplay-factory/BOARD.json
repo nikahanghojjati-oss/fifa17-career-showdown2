@@ -1140,7 +1140,7 @@
      "id": "1049",
      "title": "Club reveal stops spoiling the sealed club (Olympiad V3)",
      "lane": "gpt-chat",
-     "state": "worker done, lead checking (PR #444); Claude Haiku adds the test",
+     "state": "worker done, lead checking (PR #444): bug repro fails before and passes after; Claude Haiku added the test; CI running",
      "order": 22,
      "place": "nothing to type: the chat is finished",
      "note": "V5 moved to 1053 so each chat job fits one turn; ticket jobs/JOB-1049.md",
