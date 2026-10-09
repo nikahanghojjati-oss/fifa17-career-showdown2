@@ -1,10 +1,10 @@
 # Bug hunt board
 
-Updated Fri 9 Oct, 7:01 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Fri 9 Oct, 7:03 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r66** (main `8e1a583`, Fri 9 Oct 12:04 PM)
 
-🐕 **Barking: Showdown Gate on #444 has waited 4 min for a machine; POS20 on #444 has waited 4 min for a machine; POS20 on #446 has waited 4 min for a machine; POS20 has waited 4 min for a machine.** · POS20 #304 6/16
+🐕 **Barking: POS20 has waited 6 min for a machine; POS20 on #444 has waited 6 min for a machine; POS20 has waited 6 min for a machine.** · POS20 #304 6/16
 
 ## Jobs
 
@@ -18,27 +18,21 @@ Updated Fri 9 Oct, 7:01 PM Boston time. Bug hunting only, no new features until 
 `██████████` **100.0000 %** worker's part done  
 🔵 Team blue · **GPT-6 Sol** · High effort · worker done, lead checking
 
-**#3 · 1051** `G` Transfer ledger hash no longer reveals locked guesses (Olympiad V6)  
+**#3 · 1050** `G` Unfinished Signing Entry rows survive a refresh (Olympiad V4)  
+`██████████` **100.0000 %** worker's part done  
+🟡 Team yellow · **GPT Luna (Work mode); if it fails, Sol 6.1 Work mode** · High effort · worker done, lead checking
+
+**#4 · 1051** `G` Transfer ledger hash no longer reveals locked guesses (Olympiad V6)  
 `░░░░░░░░░░` **0.0000 %**  
 🟤 Team brown · **Claude Sonnet 5.5** · Medium effort · with the worker
 
-**#4 · 1052** `G` Transfer Rules reject option ids the game cannot read (Olympiad V7)  
+**#5 · 1052** `G` Transfer Rules reject option ids the game cannot read (Olympiad V7)  
 `░░░░░░░░░░` **0.0000 %**  
 🟤 Team brown · **Claude Sonnet 5.5** · Medium effort · with the worker
 
 ### 👉 Next for you, in this order
 
-**#1 · 1050** `G` Unfinished Signing Entry rows survive a refresh (Olympiad V4)  
-`░░░░░░░░░░` **0.0000 %**  
-🟡 Team yellow · **GPT Luna (Work mode); if it fails, Sol 6.1 Work mode** · High effort · ChatGPT project "Career Mode Showdown", new chat switched to Work mode
-
-Paste this:
-
-```text
-Job 1050. Read the ticket at https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/gameplay-v1/project-documents/gameplay-factory/jobs/JOB-1050.md and the worker handbook it links, then do the whole job in one run without stopping to ask. Start from branch gameplay/bug-list-1, run node and the checks the ticket names, push branch gameplay/job-1050-signing-draft, open the PR into gameplay/bug-list-1, and end with 'Job 1050 done, PR <link>.'
-```
-
-**#2 · 1045** `G` Showdown Gate: pin actions and tool installs (audit F4)  
+**#1 · 1045** `G` Showdown Gate: pin actions and tool installs (audit F4)  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · **Codex default coding model** · Medium effort · Codex cloud, this repo, branch gameplay/bug-list-1
 
