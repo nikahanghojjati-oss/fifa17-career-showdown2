@@ -36,9 +36,9 @@ test('POS10 remains the frozen executable safety kernel beneath POS20 successor 
     const text=read(file);
     assert.doesNotMatch(text,/^\s*name:\s*['"]?POS20\b/m,`${file} must not publish POS20-named checks`);
     assert.doesNotMatch(text,/pull_request_target/,`${file} must not use pull_request_target`);
-    // Read-only except one elevation: L1 may cancel the allowlisted helper workflows (scripts/gate-preempt.mjs).
-    assert.deepEqual((text.match(/^.*:\s*write\b.*$/gm)||[]).map(line=>line.trim()),['actions: write'],`${file} must stay read-only apart from L1 actions: write`);
-    assert.match(text,/\n  l1-core:\n(?: {4}.*\n)*? {4}permissions:\n {6}contents: read\n {6}actions: write\n/,`${file} may elevate only the l1-core job`);
+    // Fully read-only: pull-request code never runs with a write token (preemption lives in the trusted Physio workflow).
+    assert.deepEqual((text.match(/^.*:\s*write\b.*$/gm)||[]).map(line=>line.trim()),[],`${file} must stay read-only`);
+    assert.doesNotMatch(text,/actions:\s*write/,`${file} must not hold actions: write`);
     assert.match(text,/\n {2}contents: read\n {2}actions: read\n {2}pull-requests: read\n/,`${file} workflow-level token stays read-only`);
   }
 });
