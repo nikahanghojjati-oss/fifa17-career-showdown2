@@ -1,6 +1,6 @@
 # Bug hunt board
 
-Updated Fri 9 Oct, 5:29 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
+Updated Fri 9 Oct, 5:33 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r66** (main `8e1a583`, Fri 9 Oct 12:04 PM)
 
@@ -10,11 +10,10 @@ Updated Fri 9 Oct, 5:29 PM Boston time. Bug hunting only, no new features until 
 
 **Next for you, in this order**
 
-1. **1047** (V, Sol chat) Truth keeper handover notes (visual project): GPT chat (GPT account 1), visual project: type 'Job 1047' · Sol retirement handoff; type next until it says done
-2. **1044** (G, Codex) Showdown Gate: exit report and seal fail closed on bad evidence (audit F2, F3): Codex cloud, branch gameplay/bug-list-1: type 'Job 1044' · ticket jobs/JOB-1044.md; after 1042
-3. **1045** (G, Codex) Showdown Gate: pin actions and tool installs (audit F4): Codex cloud, branch gameplay/bug-list-1: type 'Job 1045' · ticket jobs/JOB-1045.md; lead sessions cannot read actions/* tags
+1. **1044** (G, Codex) Showdown Gate: exit report and seal fail closed on bad evidence (audit F2, F3): Codex cloud, branch gameplay/bug-list-1: type 'Job 1044' · ticket jobs/JOB-1044.md; after 1042
+2. **1045** (G, Codex) Showdown Gate: pin actions and tool installs (audit F4): Codex cloud, branch gameplay/bug-list-1: type 'Job 1045' · ticket jobs/JOB-1045.md; lead sessions cannot read actions/* tags
 
-**Done, in the next release:** 1001, 1003, 1004, 1005, 1009, 1010, 1011, 1014, 1015, 1020, 1021, 1022, 1023, 1024, 1025, 1026, 1027, 1028, 1037, 1038, 1039, 1040, 1041, 1042, 1043, 1046, Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8
+**Done, in the next release:** 1001, 1003, 1004, 1005, 1009, 1010, 1011, 1014, 1015, 1020, 1021, 1022, 1023, 1024, 1025, 1026, 1027, 1028, 1037, 1038, 1039, 1040, 1041, 1042, 1043, 1046, 1047, Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8
 
 ## Goals for Thursday
 

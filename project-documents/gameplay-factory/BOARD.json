@@ -1166,8 +1166,7 @@
      "id": "1047",
      "title": "Truth keeper handover notes (visual project)",
      "lane": "sol-chat",
-     "state": "ready",
-     "order": 0.5,
+     "state": "done (checked: 6 files, 121 items on handoff/truth-keeper)",
      "place": "GPT chat (GPT account 1), visual project: type 'Job 1047'",
      "prompt": "Job 1047. Read https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/gameplay-v1/project-documents/gameplay-factory/jobs/JOB-1047.md and do it.",
      "note": "Sol retirement handoff; type next until it says done"

@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-09 5:29 PM Boston time (EDT)",
+ "generated": "2026-10-09 5:33 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -284,7 +284,7 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "4c641b9",
+  "head": "4c641b99",
   "head_boston": "Fri 9 Oct 12:10 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": true,
@@ -313,9 +313,9 @@
  },
  "two": {
   "live": {
-   "sha": "8e1a583",
+   "sha": "8e1a5833",
    "revision": "1.9.1-r66",
-   "when": "2026-10-09T16:04:25Z",
+   "when": "2026-10-09T16:04:25+00:00",
    "subject": "Release r66: Season Results on phones, closed Final Winner on both phones (#440)",
    "fixes": [],
    "today": [
@@ -709,7 +709,7 @@
  ],
  "now": {
   "moving": 40,
-  "next": 5,
+  "next": 4,
   "nik": 2,
   "later": 5,
   "rows": {
@@ -1112,18 +1112,7 @@
    "V": {
     "moving": [],
     "nik": [],
-    "next": [
-     {
-      "id": "1047",
-      "title": "Truth keeper handover notes (visual project)",
-      "lane": "sol-chat",
-      "state": "ready",
-      "order": 0.5,
-      "place": "GPT chat (GPT account 1), visual project: type 'Job 1047'",
-      "prompt": "Job 1047. Read https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/gameplay-v1/project-documents/gameplay-factory/jobs/JOB-1047.md and do it.",
-      "note": "Sol retirement handoff; type next until it says done"
-     }
-    ],
+    "next": [],
     "later": [
      {
       "id": "V-F2",
