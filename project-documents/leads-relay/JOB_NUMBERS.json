@@ -1,6 +1,6 @@
 {
  "_how": "One shared job counter for Team G and Team V (Nik, 2026-10-05). Claim with tools/claim_number.py only. A number is used once, ever. CONTRACT.md section 10.",
- "next": 1055,
+ "next": 1056,
  "claims": [
   {
    "number": 1001,
@@ -326,6 +326,12 @@
    "team": "G",
    "title": "Worker scorecard: rows for jobs 1037-1044 (Luna trial)",
    "claimed": "2026-10-09T22:37:14Z"
+  },
+  {
+   "number": 1055,
+   "team": "G",
+   "title": "S1 Season Results points cap uses the real league size",
+   "claimed": "2026-10-09T23:17:43Z"
   }
  ]
 }
