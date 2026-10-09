@@ -1,6 +1,6 @@
 # 🎨 Team V board
 
-Updated Fri 9 Oct 5:31 PM EDT · Team V featured, Team G below · one shared data source (PR progress blocks + relay) · [Team G's board](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/BOARD.md)
+Updated Fri 9 Oct 7:54 PM EDT · Team V featured, Team G below · one shared data source (PR progress blocks + relay) · [Team G's board](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/BOARD.md)
 
 ## Team V: visual jobs
 
@@ -26,7 +26,6 @@ Updated Fri 9 Oct 5:31 PM EDT · Team V featured, Team G below · one shared dat
 * ✅ [V-1030 Select League: brush title wordmark like the mockup](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/416) · merged Tue 6 Oct 1:07 AM EDT
 * ✅ [V-1029 Season Results desktop: closer to the mockup](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/413) · merged Tue 6 Oct 12:46 AM EDT
 * ✅ [V-1016 Transfer War phone revamp: whole faces, action on the plate](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/398) · merged Mon 5 Oct 9:52 PM EDT
-* ✅ [V-1007 Transfer War phone: early-end button visible](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/394) · closed Mon 5 Oct 9:32 PM EDT
 
 <sub>Lanes: 🟦 Sol chat · 🟩 Sol Work mode · ⬜ Codex · 🟧 Opus · 🟪 Sonnet · 🟨 Haiku</sub>
 
@@ -50,7 +49,7 @@ Updated Fri 9 Oct 5:31 PM EDT · Team V featured, Team G below · one shared dat
 
 ### Team G: gameplay
 
-<sub>0 of 0 jobs done (0.00 %) · 1 open bugs · their update Fri 9 Oct 5:29 PM EDT · [full board](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/BOARD.md)</sub>
+<sub>0 of 0 jobs done (0.00 %) · 1 open bugs · their update Fri 9 Oct 7:50 PM EDT · [full board](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/BOARD.md)</sub>
 
 <sub>No Team G job is running right now.</sub>
 
