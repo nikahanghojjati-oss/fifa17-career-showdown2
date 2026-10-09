@@ -1,12 +1,12 @@
 # Board archive
 
-[Back to the board](BOARD.md) · generated 2026-10-09 12:02 AM Boston time (EDT). Detail and history behind the one board.
+[Back to the board](BOARD.md) · generated 2026-10-09 12:09 AM Boston time (EDT). Detail and history behind the one board.
 
 ## Old detailed board
 
 # Showdown board: G Factory and V Factory
 
-🌐 **Live: runtime 1.9.1-r63** (main `2b8b043`) · 🔄 **24 moving** · ⏭ 4 up next · 👤 8 waiting on Nik · 🗂 8 later · updated 2026-10-09 12:02 AM Boston time (EDT)
+🌐 **Live: runtime 1.9.1-r63** (main `2b8b043`) · 🔄 **24 moving** · ⏭ 5 up next · 👤 7 waiting on Nik · 🗂 8 later · updated 2026-10-09 12:09 AM Boston time (EDT)
 
 🩺 **All clear: every check has a machine.** · Gate #429: L1✓ L2✓ L3✓ L4✓ L5✗ L6✓ · seal FAIL (test) · POS20 #429 12/16
 
@@ -57,6 +57,7 @@ _Gameplay, online sync, every merge and every release (senior director)._ Worker
 
 | Job | What | Worker | State | Waits on |
 | --- | --- | --- | --- | --- |
+| 1038 | Final winner closes the Showdown so it counts in the career | ⬜ Codex | ready | - |
 | 1039 | Legacy stops reloading on every shared event and never spins forever | ⬜ Codex | ready | - |
 | 1037 | Career history: never-joined codes and an unknown current Showdown no longer break Legacy, Trophy Room, Stats | ⬜ Codex | ready | - |
 | G-F5 | QA packet adoptions: truth line, wrong-target guard on main PRs, PR title rule | 🟪 Sonnet | next | - |
@@ -66,7 +67,6 @@ _Gameplay, online sync, every merge and every release (senior director)._ Worker
 
 | Job | What | Worker | State | Waits on |
 | --- | --- | --- | --- | --- |
-| 1038 | Final winner closes the Showdown so it counts in the career | ⬜ Codex | waiting on Nik's card | - |
 | G-F1 | Nik and Daniel play 2.0 on their phones | 👤 Nik and Daniel | waiting on Nik | - |
 | G-F22 | BH-12 pairing product calls: RESTORE BACKUP first, CANCEL CODE with expiry, masked email before JOIN, revoke mine and join, clearer same-account message | 👤 Nik and Daniel | later: Nik decides after his two current calls | the lead asks Nik next |
 
@@ -195,7 +195,7 @@ Latest:
 ## Every bug report
 
 
-> Updated **Fri 9 Oct, 12:02 AM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
+> Updated **Fri 9 Oct, 12:09 AM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
 
 | 🔓 Open | 🔴 Top priority | 🔧 Fixing or waiting for release | ✅ Fixed and live |
 | :---: | :---: | :---: | :---: |

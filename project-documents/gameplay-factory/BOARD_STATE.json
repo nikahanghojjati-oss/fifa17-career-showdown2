@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-09 12:02 AM Boston time (EDT)",
+ "generated": "2026-10-09 12:09 AM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -703,8 +703,8 @@
  ],
  "now": {
   "moving": 24,
-  "next": 4,
-  "nik": 8,
+  "next": 5,
+  "nik": 7,
   "later": 8,
   "rows": {
    "G": {
@@ -837,15 +837,6 @@
     ],
     "nik": [
      {
-      "id": "1038",
-      "title": "Final winner closes the Showdown so it counts in the career",
-      "lane": "codex",
-      "state": "waiting on Nik's card",
-      "order": 5,
-      "place": "Codex cloud: type 'Job 1038' after the card",
-      "note": "ticket assumes Auto close"
-     },
-     {
       "id": "G-F1",
       "title": "Nik and Daniel play 2.0 on their phones",
       "lane": "nik",
@@ -923,6 +914,15 @@
      }
     ],
     "next": [
+     {
+      "id": "1038",
+      "title": "Final winner closes the Showdown so it counts in the career",
+      "lane": "codex",
+      "state": "ready",
+      "order": 5,
+      "place": "Codex cloud, branch gameplay/bug-list-1: type 'Job 1038' (see the lead's thread)",
+      "note": "Nik chose Auto close (04:09 UTC)"
+     },
      {
       "id": "1039",
       "title": "Legacy stops reloading on every shared event and never spins forever",
