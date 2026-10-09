@@ -2,7 +2,7 @@
 
 Updated Fri 9 Oct, 2:01 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
 
-🌐 **Live: 1.9.1-r64** (main `963a9791`, Fri 9 Oct 1:44 AM)
+🌐 **Live: 1.9.1-r64** (main `963a979`, Fri 9 Oct 1:44 AM)
 
 🩺 **All clear: every check has a machine.** · POS20 #304 6/16
 
