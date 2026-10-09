@@ -107,3 +107,7 @@
 @media (max-width:760px) {
   #ruleBook.v10RuleBook #ruleBookSections.ruleBookGrid { top: 110px; }
 }
+/* Studio Z: the old engineering panels (Offline App install, Connected Rivalry, pairing, account, Save Library) are
+   hidden by the identity module once it starts. In Daniel and Nik's 2026-10-08 test it started late and they showed;
+   Settings now never shows them, whatever the start order. Their controls stay in the DOM for the internal flows. */
+#settingsOverlay #settingsContent :is(#sparkConnectedAccountPanel, #sparkPrivatePairingPanel, #sparkConnectedRivalryPanel, #saveLibraryProductPanel, .settingsOfflinePanel):not([data-test-surface="internal-audit"]) { display:none !important; }

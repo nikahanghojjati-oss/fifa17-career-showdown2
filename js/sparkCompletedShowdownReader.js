@@ -26,7 +26,7 @@
   const PROGRESS_KEYS=Object.freeze(["schemaVersion","runtimeRevision","totalSeasons","acceptedThroughSeason","managerTotals","closedSessionRevision"]);
   const SETUP_LEDGER_KEYS=Object.freeze(["schemaVersion","objectType","rivalryId","revision","phase","coordinatorRole","operationIds","operationTypes","baseRevisions","actorRoles","totalSeasons","confirmedRoles","activeSessionId","updatedAt","updatedByDeviceId"]);
   const COMMIT_KEYS=Object.freeze(["schemaVersion","objectType","rivalryId","seasonNumber","runtimeRevision","phase","revision","resultsRevision","results","acknowledgedRoles","operationIds","operationHashes","baseRevisions","actorRoles","activeSessionId","updatedAt","updatedByDeviceId"]);
-  const STATUSES=Object.freeze(["completed","abandoned","not-closed","unavailable"]);
+  const STATUSES=Object.freeze(["completed","abandoned","not-closed","unavailable","never-started"]);
 
   function csrFail(code){const error=new Error(code);error.code=code;throw error;}
   function csrFreeze(value){if(value&&typeof value==="object"&&!Object.isFrozen(value)){Object.values(value).forEach(csrFreeze);Object.freeze(value);}return value;}
@@ -47,11 +47,26 @@
     catch(error){csrFail(error&&typeof error.code==="string"&&error.code?error.code:"COMPLETED_READ_FAILED");}
   }
 
-  async function csrVerifyRivalry(value,rivalryId,uid,cryptoImpl){
+  async function csrVerifyRivalry(value,rivalryId,cryptoImpl){
     if(!value||value.schemaVersion!==1||value.objectType!=="rivalry"||value.objectId!==rivalryId||!Number.isInteger(value.revision)||value.revision<0||value.lifecycleState!=="live"||!HASH.test(String(value.contentHash||""))||!csrPlain(value.data)||value.tombstone!==null)csrFail("COMPLETED_RIVALRY_INVALID");
     const expected=await csrDigest(JSON.stringify(csrEnvelopeCanonical({objectType:"rivalry",objectId:rivalryId,revision:value.revision,data:value.data})),cryptoImpl);
     if(expected!==value.contentHash)csrFail("COMPLETED_RIVALRY_INTEGRITY_FAILED");
-    const slots=value.data.managerSlots,authorized=value.data.authorizedAccountIds;
+  }
+  function csrNeverStarted(data,uid){
+    // Only the provider's intact creator/open-slot shape is a never-joined code.
+    // ACTIVE roots and any terminal witness still require the full two-manager binding.
+    if(!["pending-pair","closed"].includes(data.connectionState)||Object.hasOwn(data,"terminalClose")||Object.hasOwn(data,"terminalProgress"))return null;
+    const slots=data.managerSlots,authorized=data.authorizedAccountIds;
+    if(!Array.isArray(authorized)||authorized.length!==1)return null;
+    if(authorized[0]!==uid||data.createdByAccountId!==uid)csrFail("COMPLETED_NOT_A_MANAGER");
+    if(!Array.isArray(slots)||slots.length!==2)csrFail("COMPLETED_BINDING_INVALID");
+    const ordered=ROLES.map(role=>slots.find(slot=>slot&&slot.slotId===role));
+    const actor=ordered.find(slot=>slot?.accountId===uid),open=ordered.find(slot=>slot?.entitlementState==="open");
+    if(!actor||actor===open||actor.entitlementState!=="active"||!/^profile_[0-9a-f]{24}$/.test(String(actor.profileId||""))||!/^save_[0-9a-f]{24}$/.test(String(actor.saveId||""))||!open||open.accountId!==null||open.profileId!==null||open.saveId!==null)csrFail("COMPLETED_BINDING_INVALID");
+    return actor.slotId;
+  }
+  function csrVerifyManagers(data,uid){
+    const slots=data.managerSlots,authorized=data.authorizedAccountIds;
     if(!Array.isArray(authorized)||authorized.length!==2||new Set(authorized).size!==2||!authorized.includes(uid)||!Array.isArray(slots)||slots.length!==2)csrFail("COMPLETED_NOT_A_MANAGER");
     const ordered=ROLES.map(role=>slots.find(slot=>slot&&slot.slotId===role));
     if(ordered.some(slot=>!slot||slot.entitlementState!=="active"||typeof slot.accountId!=="string"||!authorized.includes(slot.accountId)||!/^profile_[0-9a-f]{24}$/.test(String(slot.profileId||""))||!/^save_[0-9a-f]{24}$/.test(String(slot.saveId||"")))||ordered[0].accountId===ordered[1].accountId||ordered[0].profileId===ordered[1].profileId)csrFail("COMPLETED_BINDING_INVALID");
@@ -137,8 +152,12 @@
       const uid=options.user&&typeof options.user.uid==="string"?options.user.uid.trim():"";if(!uid)csrFail("COMPLETED_AUTH_REQUIRED");
       rivalryId=String(options.rivalryId||"").trim().toLowerCase();if(!RIVALRY_ID.test(rivalryId)){rivalryId=null;csrFail("COMPLETED_RIVALRY_INVALID");}
       const value=await csrGet(sdk,db,["rivalries",rivalryId]);if(!value)csrFail("COMPLETED_RIVALRY_MISSING");
-      const rivalry=await csrVerifyRivalry(value,rivalryId,uid,cryptoImpl);managerRole=rivalry.managerRole;
+      await csrVerifyRivalry(value,rivalryId,cryptoImpl);
       const state=value.data.connectionState;
+      if(!["pending-pair","active","closed"].includes(state))csrFail("COMPLETED_RIVALRY_INVALID");
+      const neverStartedRole=csrNeverStarted(value.data,uid);
+      if(neverStartedRole)return csrState("never-started",{rivalryId,managerRole:neverStartedRole});
+      const rivalry=csrVerifyManagers(value.data,uid);managerRole=rivalry.managerRole;
       if(state==="pending-pair"||state==="active")return csrState("not-closed",{rivalryId,managerRole});
       if(state!=="closed")csrFail("COMPLETED_RIVALRY_INVALID");
       // Abandoned (closed without a Terminal Close witness): status only, nothing else is read or counted.

@@ -31,7 +31,7 @@ const readWith=(docs,opts={},uid=A)=>{const f=fakeSdk(docs,opts);return Reader.r
 (async()=>{
   // K1. API surface and safety flags
   assert.equal(typeof Reader.readCompletedShowdown,'function');
-  assert.deepEqual([...Reader.statuses],['completed','abandoned','not-closed','unavailable']);
+  assert.deepEqual([...Reader.statuses],['completed','abandoned','not-closed','unavailable','never-started']);
   for(const [k,v] of Object.entries({sessionRequired:false,deviceRequired:false,providerWriteRequired:false,listPermissionRequired:false,canonicalStorageMutation:false,billingRequired:false}))assert.equal(Reader[k],v,k);
   assert.equal(Object.isFrozen(Reader),true);
 
@@ -70,6 +70,17 @@ const readWith=(docs,opts={},uid=A)=>{const f=fakeSdk(docs,opts);return Reader.r
   {const {r}=await readWith({},{deny:new Set([path0])});assert.equal(r.status,'unavailable');assert.equal(r.code,'permission-denied');}
   {const docs={[path0]:rivalryDoc({...baseData('closed'),terminalClose:intent(),terminalProgress:progress()})};const {r,log}=await readWith(docs);assert.equal(r.code,'COMPLETED_SETUP_INVALID','missing setup ledger');assert.deepEqual(log,[path0,`${path0}/sharedSetup/authoritative`]);}
   {const docs={[path0]:rivalryDoc({...baseData('closed'),terminalClose:intent(),terminalProgress:progress()})};const {r}=await readWith(docs,{deny:new Set([`${path0}/sharedSetup/authoritative`])});assert.equal(r.code,'permission-denied','old Rules: honest unavailable');}
+
+  // JOB-1037: never-started is restricted to an intact creator/open invitation binding.
+  const never={...baseData('pending-pair'),authorizedAccountIds:[A],managerSlots:[slots[0],{...slots[1],accountId:null,profileId:null,saveId:null,entitlementState:'open'}]};
+  for(const connectionState of ['pending-pair','closed']){
+    const {r,log}=await readWith({[path0]:rivalryDoc({...never,connectionState})});assert.equal(r.status,'never-started');assert.equal(r.managerRole,'playerOne');assert.equal(r.projection,null);assert.deepEqual(log,[path0]);
+  }
+  for(const uid of [B,C]){const {r}=await readWith({[path0]:rivalryDoc(never)},{},uid);assert.equal(r.status,'unavailable');assert.equal(r.code,'COMPLETED_NOT_A_MANAGER');}
+  for(const extra of [{connectionState:'active'},{terminalClose:intent()},{terminalProgress:progress()},{createdByAccountId:B},{managerSlots:slots},{managerSlots:[slots[0],slots[0]]}]){
+    const {r,log}=await readWith({[path0]:rivalryDoc({...never,...extra})});assert.equal(r.status,'unavailable');assert.deepEqual(log,[path0]);
+  }
+  {const value=rivalryDoc(never);value.data.connectionState='closed';const {r}=await readWith({[path0]:value});assert.equal(r.code,'COMPLETED_RIVALRY_INTEGRITY_FAILED');}
 
   // K7. Rules text: get-only grant on exactly four seams, witness-keyed, no billing words
   const fragment=read('firestore.persistent-pair-production.fragment.rules');

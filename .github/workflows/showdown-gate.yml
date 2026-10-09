@@ -1,0 +1,628 @@
+# Showdown Gate (phase 1 shadow). Runs beside Validate POS20 and Validate Gameplay Fast and is NOT a
+# required check: it replaces nothing and changes no merge authority. Six lanes run in parallel; each lane
+# computes its own route with the unchanged POS20 router (no shared selector job), and the seal requires
+# every lane green on the exact head with every routed id executed. GATE_COVERAGE.json maps every command
+# of the 16 old gates to a step here, and tests/contracts/showdown-gate-coverage-contracts.cjs enforces it.
+name: Showdown Gate
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+  actions: read
+  pull-requests: read
+
+concurrency:
+  group: showdown-gate-${{ github.event_name == 'pull_request' && format('pr-{0}', github.event.pull_request.number) || format('push-{0}-{1}', github.ref_name, github.sha) }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' && github.run_attempt == 1 }}
+
+jobs:
+  l1-core:
+    name: L1 core
+    if: ${{ github.event_name != 'pull_request' || github.event.pull_request.draft == false }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    # Only L1 may elevate, and only to cancel the allowlisted helper workflows (scripts/gate-preempt.mjs).
+    permissions:
+      contents: read
+      actions: write
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 1
+      - name: Fetch exact diff base
+        shell: bash
+        env:
+          GATE_EVENT: ${{ github.event_name }}
+          GATE_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          GATE_BEFORE_SHA: ${{ github.event.before }}
+        run: |
+          set -euo pipefail
+          if [[ "$GATE_EVENT" == "pull_request" ]]; then base="$GATE_BASE_SHA"; else base="$GATE_BEFORE_SHA"; fi
+          if [[ -n "$base" && ! "$base" =~ ^0+$ ]]; then git fetch --no-tags --depth=1 origin "$base"; fi
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+      - name: Preempt low-priority helpers while checks wait for machines
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: node scripts/gate-preempt.mjs --repo "$GITHUB_REPOSITORY"
+      - name: 'TEST: Compute Showdown Gate route'
+        id: route
+        shell: bash
+        env:
+          GATE_EVENT: ${{ github.event_name }}
+          GATE_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          GATE_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+          GATE_BEFORE_SHA: ${{ github.event.before }}
+        run: node scripts/showdown-gate.mjs route --lane L1 --out "$RUNNER_TEMP/route.json" --github-output "$GITHUB_OUTPUT"
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Restore Firebase emulator and npx caches
+        uses: actions/cache@v5
+        with:
+          path: |
+            ~/.cache/firebase/emulators
+            ~/.npm/_npx
+          key: showdown-gate-L1-emulators-ubuntu-24.04-firebase-tools-15.27.0-15.28.1-v1
+      - name: Install locked dependencies
+        run: npm ci
+      - name: 'TEST: POS20 cognitive benchmark'
+        id: benchmark
+        run: npm run work:benchmark
+      - name: 'TEST: Operations audit'
+        id: operations
+        run: npm run test:ops
+      - name: 'TEST: Product contracts (every registered contract)'
+        id: contracts
+        run: npm run test:contracts
+      - name: 'TEST: Proof group INLINE'
+        id: proof_inline
+        if: steps.route.outputs.has_inline == 'true'
+        env:
+          POS20_SELECTED_PROOFS: ${{ steps.route.outputs.proofs_csv }}
+          POS20_PROOF_GROUP: INLINE
+        run: node scripts/pos10-proof-runner.mjs --proofs "$POS20_SELECTED_PROOFS" --group "$POS20_PROOF_GROUP"
+      - name: 'TEST: Proof group STATIC'
+        id: proof_static
+        if: steps.route.outputs.has_static == 'true'
+        env:
+          POS20_SELECTED_PROOFS: ${{ steps.route.outputs.proofs_csv }}
+          POS20_PROOF_GROUP: STATIC
+        run: node scripts/pos10-proof-runner.mjs --proofs "$POS20_SELECTED_PROOFS" --group "$POS20_PROOF_GROUP"
+      - name: 'TEST: Build the composed production Rules and assert zero billing'
+        id: rules
+        run: |
+          node scripts/build-production-firestore-rules.mjs
+          node scripts/build-production-firestore-rules-with-persistent-pair.mjs
+          node scripts/assert-firestore-zero-billing-boundary.mjs
+      - name: Record lane result
+        if: always()
+        shell: bash
+        env:
+          GATE_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+          GATE_RUN_ATTEMPT: ${{ github.run_attempt }}
+          GATE_JOB_STATUS: ${{ job.status }}
+          GATE_STEPS_JSON: ${{ toJSON(steps) }}
+        run: node scripts/showdown-gate.mjs finalize --lane L1 --route "$RUNNER_TEMP/route.json" --out "$RUNNER_TEMP/lane/lane.json"
+      - name: Upload lane record
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: showdown-gate-lane-L1
+          path: ${{ runner.temp }}/lane/lane.json
+          if-no-files-found: warn
+          overwrite: true
+          retention-days: 7
+
+  l2-browser-full:
+    name: L2 browser full
+    if: ${{ github.event_name != 'pull_request' || github.event.pull_request.draft == false }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 1
+      - name: Fetch exact diff base
+        shell: bash
+        env:
+          GATE_EVENT: ${{ github.event_name }}
+          GATE_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          GATE_BEFORE_SHA: ${{ github.event.before }}
+        run: |
+          set -euo pipefail
+          if [[ "$GATE_EVENT" == "pull_request" ]]; then base="$GATE_BASE_SHA"; else base="$GATE_BEFORE_SHA"; fi
+          if [[ -n "$base" && ! "$base" =~ ^0+$ ]]; then git fetch --no-tags --depth=1 origin "$base"; fi
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+      - name: 'TEST: Compute Showdown Gate route'
+        id: route
+        shell: bash
+        env:
+          GATE_EVENT: ${{ github.event_name }}
+          GATE_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          GATE_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+          GATE_BEFORE_SHA: ${{ github.event.before }}
+        run: node scripts/showdown-gate.mjs route --lane L2 --out "$RUNNER_TEMP/route.json" --github-output "$GITHUB_OUTPUT"
+      - uses: actions/setup-java@v5
+        if: steps.route.outputs.has_full == 'true'
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Install locked dependencies
+        if: steps.route.outputs.has_full == 'true'
+        run: npm ci
+      - name: 'TEST: Proof group FULL'
+        id: proof_full
+        if: steps.route.outputs.has_full == 'true'
+        env:
+          POS20_SELECTED_PROOFS: ${{ steps.route.outputs.proofs_csv }}
+          POS20_PROOF_GROUP: FULL
+        run: node scripts/pos10-proof-runner.mjs --proofs "$POS20_SELECTED_PROOFS" --group "$POS20_PROOF_GROUP"
+      - name: Record lane result
+        if: always()
+        shell: bash
+        env:
+          GATE_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+          GATE_RUN_ATTEMPT: ${{ github.run_attempt }}
+          GATE_JOB_STATUS: ${{ job.status }}
+          GATE_STEPS_JSON: ${{ toJSON(steps) }}
+        run: node scripts/showdown-gate.mjs finalize --lane L2 --route "$RUNNER_TEMP/route.json" --out "$RUNNER_TEMP/lane/lane.json"
+      - name: Upload lane record
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: showdown-gate-lane-L2
+          path: ${{ runner.temp }}/lane/lane.json
+          if-no-files-found: warn
+          overwrite: true
+          retention-days: 7
+
+  l3-storage-visual-gameplay:
+    name: L3 storage visual gameplay
+    if: ${{ github.event_name != 'pull_request' || github.event.pull_request.draft == false }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 1
+      - name: Fetch exact diff base
+        shell: bash
+        env:
+          GATE_EVENT: ${{ github.event_name }}
+          GATE_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          GATE_BEFORE_SHA: ${{ github.event.before }}
+        run: |
+          set -euo pipefail
+          if [[ "$GATE_EVENT" == "pull_request" ]]; then base="$GATE_BASE_SHA"; else base="$GATE_BEFORE_SHA"; fi
+          if [[ -n "$base" && ! "$base" =~ ^0+$ ]]; then git fetch --no-tags --depth=1 origin "$base"; fi
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+      - name: 'TEST: Compute Showdown Gate route'
+        id: route
+        shell: bash
+        env:
+          GATE_EVENT: ${{ github.event_name }}
+          GATE_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          GATE_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+          GATE_BEFORE_SHA: ${{ github.event.before }}
+        run: node scripts/showdown-gate.mjs route --lane L3 --out "$RUNNER_TEMP/route.json" --github-output "$GITHUB_OUTPUT"
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Restore Firebase emulator and npx caches
+        uses: actions/cache@v5
+        with:
+          path: |
+            ~/.cache/firebase/emulators
+            ~/.npm/_npx
+          key: showdown-gate-L3-emulators-ubuntu-24.04-firebase-tools-15.27.0-15.28.1-v1
+      - name: Install locked dependencies
+        run: npm ci
+      - name: 'TEST: Proof group STORAGE'
+        id: proof_storage
+        if: steps.route.outputs.has_storage == 'true'
+        env:
+          POS20_SELECTED_PROOFS: ${{ steps.route.outputs.proofs_csv }}
+          POS20_PROOF_GROUP: STORAGE
+        run: node scripts/pos10-proof-runner.mjs --proofs "$POS20_SELECTED_PROOFS" --group "$POS20_PROOF_GROUP"
+      - name: Stop the STORAGE proof static server before the next server group
+        if: steps.route.outputs.has_storage == 'true'
+        shell: bash
+        run: |
+          pkill -f 'node tests/support/static-server.cjs' || true
+          for attempt in 1 2 3 4 5; do pgrep -f 'node tests/support/static-server.cjs' >/dev/null || break; sleep 1; done
+      - name: 'TEST: Proof group VISUAL'
+        id: proof_visual
+        if: steps.route.outputs.has_visual == 'true'
+        env:
+          POS20_SELECTED_PROOFS: ${{ steps.route.outputs.proofs_csv }}
+          POS20_PROOF_GROUP: VISUAL
+        run: node scripts/pos10-proof-runner.mjs --proofs "$POS20_SELECTED_PROOFS" --group "$POS20_PROOF_GROUP"
+      - name: Install pinned Firebase emulator test dependencies
+        run: npm install --no-save --package-lock=false firebase@12.17.1 @firebase/rules-unit-testing@5.0.1 firebase-admin@14.2.0
+      - name: 'TEST: Build the composed production Rules'
+        id: gf_rules
+        run: |
+          node scripts/build-production-firestore-rules.mjs
+          node scripts/build-production-firestore-rules-with-persistent-pair.mjs
+          node scripts/assert-firestore-zero-billing-boundary.mjs
+      - name: 'TEST: Shared Setup provider matrix'
+        id: gf_setup
+        run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-cms-gameplay-fast-setup "node tests/firebase/shared-showdown-setup-production-provider-emulator.cjs"
+      - name: 'TEST: Transfer fresh-session recovery'
+        id: gf_transfer
+        run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-cms-gameplay-fast-transfer "node tests/firebase/shared-transfer-challenge-fresh-session-emulator.cjs"
+      - name: 'TEST: Gameplay lifecycle (1 and 3 seasons)'
+        id: gf_lifecycle
+        run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-cms-gameplay-fast-lifecycle "CMS_SHOWDOWN_LENGTH=1 node tests/firebase/shared-gameplay-provider-lifecycle-emulator.cjs && CMS_SHOWDOWN_LENGTH=3 node tests/firebase/shared-gameplay-provider-lifecycle-emulator.cjs"
+      - name: 'TEST: Terminal Close matrix'
+        id: gf_terminal
+        run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-cms-gameplay-fast-terminal "node tests/firebase/shared-terminal-close-production-provider-emulator.cjs"
+      - name: 'TEST: Persistent Nik and Daniel pair matrix'
+        id: gf_pair
+        run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-cms-gameplay-fast-pair "node tests/firebase/persistent-nik-daniel-pair-provider-emulator.cjs"
+      - name: 'TEST: Two-manager journey (3 and 10 seasons, session expires and is re-joined mid-game)'
+        id: gf_journey
+        run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-cms-gameplay-fast-journey "CMS_SHOWDOWN_LENGTH=3 node tests/firebase/two-manager-journey-emulator.cjs && CMS_SHOWDOWN_LENGTH=10 node tests/firebase/two-manager-journey-emulator.cjs"
+      - name: 'TEST: Career index matrix'
+        id: gf_career_index
+        run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-cms-gameplay-fast-career-index "node tests/firebase/career-index-emulator.cjs && CMS_CAREER_INDEX_ENFORCED=1 node tests/firebase/career-index-emulator.cjs"
+      - name: 'TEST: Completed-only read matrix'
+        id: gf_completed_read
+        run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-cms-gameplay-fast-completed-read "node tests/firebase/completed-showdown-read-emulator.cjs"
+      - name: 'TEST: Closed-Showdown adapter journey'
+        id: gf_closed_adapter
+        run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-cms-gameplay-fast-closed-adapter "node tests/firebase/closed-showdown-adapter-emulator.cjs"
+      - name: 'TEST: Completed transfer history matrix'
+        id: gf_completed_transfer
+        run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-cms-gameplay-fast-completed-transfer "node tests/firebase/completed-transfer-history-emulator.cjs"
+      - name: 'TEST: Season commit concurrent acknowledge'
+        id: gf_season_ack
+        run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-cms-gameplay-fast-season-ack "node tests/firebase/shared-season-commit-concurrent-acknowledge-emulator.cjs"
+      - name: Record lane result
+        if: always()
+        shell: bash
+        env:
+          GATE_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+          GATE_RUN_ATTEMPT: ${{ github.run_attempt }}
+          GATE_JOB_STATUS: ${{ job.status }}
+          GATE_STEPS_JSON: ${{ toJSON(steps) }}
+        run: node scripts/showdown-gate.mjs finalize --lane L3 --route "$RUNNER_TEMP/route.json" --out "$RUNNER_TEMP/lane/lane.json"
+      - name: Upload lane record
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: showdown-gate-lane-L3
+          path: ${{ runner.temp }}/lane/lane.json
+          if-no-files-found: warn
+          overwrite: true
+          retention-days: 7
+
+  l4-remote:
+    name: L4 remote
+    if: ${{ github.event_name != 'pull_request' || github.event.pull_request.draft == false }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 1
+      - name: Fetch exact diff base
+        shell: bash
+        env:
+          GATE_EVENT: ${{ github.event_name }}
+          GATE_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          GATE_BEFORE_SHA: ${{ github.event.before }}
+        run: |
+          set -euo pipefail
+          if [[ "$GATE_EVENT" == "pull_request" ]]; then base="$GATE_BASE_SHA"; else base="$GATE_BEFORE_SHA"; fi
+          if [[ -n "$base" && ! "$base" =~ ^0+$ ]]; then git fetch --no-tags --depth=1 origin "$base"; fi
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+      - name: 'TEST: Compute Showdown Gate route'
+        id: route
+        shell: bash
+        env:
+          GATE_EVENT: ${{ github.event_name }}
+          GATE_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          GATE_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+          GATE_BEFORE_SHA: ${{ github.event.before }}
+        run: node scripts/showdown-gate.mjs route --lane L4 --out "$RUNNER_TEMP/route.json" --github-output "$GITHUB_OUTPUT"
+      - uses: actions/setup-java@v5
+        if: steps.route.outputs.has_remote == 'true'
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Restore Firebase emulator and npx caches
+        uses: actions/cache@v5
+        if: steps.route.outputs.has_remote == 'true'
+        with:
+          path: |
+            ~/.cache/firebase/emulators
+            ~/.npm/_npx
+          key: showdown-gate-L4-emulators-ubuntu-24.04-firebase-tools-15.27.0-15.28.1-v1
+      - name: Install locked dependencies
+        if: steps.route.outputs.has_remote == 'true'
+        run: npm ci
+      - name: 'TEST: Proof group REMOTE'
+        id: proof_remote
+        if: steps.route.outputs.has_remote == 'true'
+        env:
+          POS20_SELECTED_PROOFS: ${{ steps.route.outputs.proofs_csv }}
+          POS20_PROOF_GROUP: REMOTE
+        run: node scripts/pos10-proof-runner.mjs --proofs "$POS20_SELECTED_PROOFS" --group "$POS20_PROOF_GROUP"
+      - name: Install pinned Firebase emulator test dependencies
+        if: steps.route.outputs.lifecycle_routed == 'true'
+        run: npm install --no-save --package-lock=false firebase@12.17.1 @firebase/rules-unit-testing@5.0.1 firebase-admin@14.2.0
+      - name: 'TEST: Build exact production Firestore Rules'
+        id: lifecycle_rules
+        if: steps.route.outputs.lifecycle_routed == 'true'
+        run: |
+          node scripts/build-production-firestore-rules.mjs
+          node scripts/build-production-firestore-rules-with-persistent-pair.mjs
+      - name: 'TEST: Prove all supported Showdown lengths'
+        id: lifecycle
+        if: steps.route.outputs.lifecycle_routed == 'true'
+        run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-career-mode-showdown-gameplay-lifecycle "CMS_SHOWDOWN_LENGTH=1 node tests/firebase/shared-gameplay-provider-lifecycle-emulator.cjs && CMS_SHOWDOWN_LENGTH=3 node tests/firebase/shared-gameplay-provider-lifecycle-emulator.cjs && CMS_SHOWDOWN_LENGTH=5 node tests/firebase/shared-gameplay-provider-lifecycle-emulator.cjs && CMS_SHOWDOWN_LENGTH=10 node tests/firebase/shared-gameplay-provider-lifecycle-emulator.cjs"
+      - name: Record lane result
+        if: always()
+        shell: bash
+        env:
+          GATE_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+          GATE_RUN_ATTEMPT: ${{ github.run_attempt }}
+          GATE_JOB_STATUS: ${{ job.status }}
+          GATE_STEPS_JSON: ${{ toJSON(steps) }}
+        run: node scripts/showdown-gate.mjs finalize --lane L4 --route "$RUNNER_TEMP/route.json" --out "$RUNNER_TEMP/lane/lane.json"
+      - name: Upload lane record
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: showdown-gate-lane-L4
+          path: ${{ runner.temp }}/lane/lane.json
+          if-no-files-found: warn
+          overwrite: true
+          retention-days: 7
+
+  l5-rules-regression:
+    name: L5 rules regression
+    if: ${{ github.event_name != 'pull_request' || github.event.pull_request.draft == false }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 1
+      - name: Fetch exact diff base
+        shell: bash
+        env:
+          GATE_EVENT: ${{ github.event_name }}
+          GATE_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          GATE_BEFORE_SHA: ${{ github.event.before }}
+        run: |
+          set -euo pipefail
+          if [[ "$GATE_EVENT" == "pull_request" ]]; then base="$GATE_BASE_SHA"; else base="$GATE_BEFORE_SHA"; fi
+          if [[ -n "$base" && ! "$base" =~ ^0+$ ]]; then git fetch --no-tags --depth=1 origin "$base"; fi
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+      - name: 'TEST: Compute Showdown Gate route'
+        id: route
+        shell: bash
+        env:
+          GATE_EVENT: ${{ github.event_name }}
+          GATE_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          GATE_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+          GATE_BEFORE_SHA: ${{ github.event.before }}
+        run: node scripts/showdown-gate.mjs route --lane L5 --out "$RUNNER_TEMP/route.json" --github-output "$GITHUB_OUTPUT"
+      - name: Fetch production main for the reviewed Rules delta
+        run: git fetch --no-tags --depth=1 origin +refs/heads/main:refs/remotes/origin/main
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Restore Firebase emulator and npx caches
+        uses: actions/cache@v5
+        with:
+          path: |
+            ~/.cache/firebase/emulators
+            ~/.npm/_npx
+          key: showdown-gate-L5-emulators-ubuntu-24.04-firebase-tools-15.27.0-15.28.1-v1
+      - name: Install locked dependencies
+        run: npm ci
+      - name: Install pinned Firebase emulator test dependencies
+        run: npm install --no-save --package-lock=false firebase@12.17.1 @firebase/rules-unit-testing@5.0.1 firebase-admin@14.2.0
+      - name: 'TEST: Composed production Rules regression matrix'
+        id: regression
+        run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-cms-gameplay-fast-composed "node tests/firebase/composed-production-rules-regression.cjs"
+      - name: Record lane result
+        if: always()
+        shell: bash
+        env:
+          GATE_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+          GATE_RUN_ATTEMPT: ${{ github.run_attempt }}
+          GATE_JOB_STATUS: ${{ job.status }}
+          GATE_STEPS_JSON: ${{ toJSON(steps) }}
+        run: node scripts/showdown-gate.mjs finalize --lane L5 --route "$RUNNER_TEMP/route.json" --out "$RUNNER_TEMP/lane/lane.json"
+      - name: Upload lane record
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: showdown-gate-lane-L5
+          path: ${{ runner.temp }}/lane/lane.json
+          if-no-files-found: warn
+          overwrite: true
+          retention-days: 7
+
+  l6-browser-journey:
+    name: L6 browser journey
+    if: ${{ github.event_name != 'pull_request' || github.event.pull_request.draft == false }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 1
+      - name: Fetch exact diff base
+        shell: bash
+        env:
+          GATE_EVENT: ${{ github.event_name }}
+          GATE_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          GATE_BEFORE_SHA: ${{ github.event.before }}
+        run: |
+          set -euo pipefail
+          if [[ "$GATE_EVENT" == "pull_request" ]]; then base="$GATE_BASE_SHA"; else base="$GATE_BEFORE_SHA"; fi
+          if [[ -n "$base" && ! "$base" =~ ^0+$ ]]; then git fetch --no-tags --depth=1 origin "$base"; fi
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+      - name: 'TEST: Compute Showdown Gate route'
+        id: route
+        shell: bash
+        env:
+          GATE_EVENT: ${{ github.event_name }}
+          GATE_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          GATE_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+          GATE_BEFORE_SHA: ${{ github.event.before }}
+        run: node scripts/showdown-gate.mjs route --lane L6 --out "$RUNNER_TEMP/route.json" --github-output "$GITHUB_OUTPUT"
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Restore Firebase emulator and npx caches
+        uses: actions/cache@v5
+        with:
+          path: |
+            ~/.cache/firebase/emulators
+            ~/.npm/_npx
+          key: showdown-gate-L6-emulators-ubuntu-24.04-firebase-tools-15.27.0-15.28.1-v1
+      - name: Install locked dependencies
+        run: npm ci
+      - name: Install pinned Firebase emulator test dependencies
+        run: npm install --no-save --package-lock=false firebase@12.17.0 @firebase/rules-unit-testing@5.0.1 firebase-admin@14.2.0
+      - name: 'TEST: Build the composed production Rules'
+        id: rules
+        run: |
+          node scripts/build-production-firestore-rules.mjs
+          node scripts/build-production-firestore-rules-with-persistent-pair.mjs
+          node scripts/assert-firestore-zero-billing-boundary.mjs
+      - name: 'TEST: Two-manager browser journey'
+        id: journey
+        env:
+          CMS_CHROMIUM_MULTI_CONTEXT: '1'
+          CMS_BROWSER_JOURNEY_ARTIFACTS: ${{ runner.temp }}/browser-journey
+        run: npx --yes firebase-tools@15.28.1 emulators:exec --config tests/browser/support/firebase.browser-journey.json --only auth,firestore --project demo-cms-browser-journey "CMS_SHOWDOWN_LENGTH=3 node tests/browser/two-manager-browser-journey.cjs"
+      - name: Upload journey screenshots
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: browser-journey-screens
+          path: ${{ runner.temp }}/browser-journey
+          if-no-files-found: ignore
+          retention-days: 7
+          overwrite: true
+      - name: Record lane result
+        if: always()
+        shell: bash
+        env:
+          GATE_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+          GATE_RUN_ATTEMPT: ${{ github.run_attempt }}
+          GATE_JOB_STATUS: ${{ job.status }}
+          GATE_STEPS_JSON: ${{ toJSON(steps) }}
+        run: node scripts/showdown-gate.mjs finalize --lane L6 --route "$RUNNER_TEMP/route.json" --out "$RUNNER_TEMP/lane/lane.json"
+      - name: Upload lane record
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: showdown-gate-lane-L6
+          path: ${{ runner.temp }}/lane/lane.json
+          if-no-files-found: warn
+          overwrite: true
+          retention-days: 7
+
+  seal:
+    name: seal
+    needs: [l1-core, l2-browser-full, l3-storage-visual-gameplay, l4-remote, l5-rules-regression, l6-browser-journey]
+    if: ${{ !cancelled() }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 1
+      - name: Fetch exact diff base
+        if: github.event_name != 'pull_request' || github.event.pull_request.draft == false
+        shell: bash
+        env:
+          GATE_EVENT: ${{ github.event_name }}
+          GATE_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          GATE_BEFORE_SHA: ${{ github.event.before }}
+        run: |
+          set -euo pipefail
+          if [[ "$GATE_EVENT" == "pull_request" ]]; then base="$GATE_BASE_SHA"; else base="$GATE_BEFORE_SHA"; fi
+          if [[ -n "$base" && ! "$base" =~ ^0+$ ]]; then git fetch --no-tags --depth=1 origin "$base"; fi
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+      - name: 'SEAL: Recompute the route independently of every lane'
+        if: github.event_name != 'pull_request' || github.event.pull_request.draft == false
+        continue-on-error: true
+        shell: bash
+        env:
+          GATE_EVENT: ${{ github.event_name }}
+          GATE_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          GATE_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+          GATE_BEFORE_SHA: ${{ github.event.before }}
+        run: node scripts/showdown-gate.mjs route --out "$RUNNER_TEMP/route.json"
+      - name: Download lane records
+        if: github.event_name != 'pull_request' || github.event.pull_request.draft == false
+        continue-on-error: true
+        uses: actions/download-artifact@v7
+        with:
+          pattern: showdown-gate-lane-*
+          path: ${{ runner.temp }}/lanes
+      - name: 'SEAL: Require every lane green on this exact head with every routed id run'
+        shell: bash
+        env:
+          GATE_EVENT: ${{ github.event_name }}
+          GATE_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+          GATE_DRAFT: ${{ github.event.pull_request.draft == true }}
+          GATE_PR_NUMBER: ${{ github.event.pull_request.number }}
+          GATE_RUN_ATTEMPT: ${{ github.run_attempt }}
+          GATE_NEEDS_JSON: ${{ toJSON(needs) }}
+          GITHUB_TOKEN: ${{ github.token }}
+        run: node scripts/showdown-gate.mjs seal --route "$RUNNER_TEMP/route.json" --lanes-dir "$RUNNER_TEMP/lanes" --out "$RUNNER_TEMP/gate-summary/gate-summary.json"
+      - name: Upload gate summary
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: showdown-gate-summary
+          path: ${{ runner.temp }}/gate-summary/gate-summary.json
+          if-no-files-found: error
+          overwrite: true
+          retention-days: 30

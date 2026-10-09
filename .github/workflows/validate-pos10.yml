@@ -2,6 +2,7 @@ name: Validate POS20
 
 on:
   pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
   push:
     branches: [main]
   workflow_dispatch:
@@ -16,6 +17,7 @@ concurrency:
 jobs:
   route:
     name: POS20 exact selector
+    if: github.event_name != 'pull_request' || github.event.pull_request.draft == false
     runs-on: ubuntu-latest
     timeout-minutes: 4
     outputs:
@@ -175,6 +177,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          if [[ '${{ github.event_name }}' == pull_request && '${{ github.event.pull_request.draft }}' == true ]]; then echo 'POS20 does not validate draft pull requests; mark the PR ready for review to run the exact-head seal.' >&2; exit 1; fi
           [[ '${{ needs.route.result }}' == success ]] || exit 1
           [[ '${{ needs.benchmark.result }}' == success ]] || exit 1
           check_lane() {

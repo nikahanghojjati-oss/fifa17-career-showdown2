@@ -59,6 +59,16 @@ function buildTransferOptionIndex(options){
                 if(key && !index.has(key)){ index.set(key, option); }
             });
     });
+    // Studio Z8: a name two options share (Primera División is Argentina's and Spain's; Serie A is Brazil's and Italy's)
+    // used to resolve silently to the first one. Such a name now resolves to nothing, so the player picks from the list.
+    const owners = new Map();
+    options.forEach(option => {
+        [option.label, ...(option.aliases || [])].forEach(value => {
+            const key = normalizeTransferOptionText(value);
+            if(key){ owners.set(key, (owners.get(key) || new Set()).add(option.id)); }
+        });
+    });
+    owners.forEach((ids, key) => { if(ids.size > 1){ index.delete(key); } });
     return index;
 }
 

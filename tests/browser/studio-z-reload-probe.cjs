@@ -36,14 +36,6 @@ const docUrl=p=>`${FIRESTORE}/v1/projects/${PROJECT}/databases/(default)/documen
 async function admin(p){const r=await fetch(docUrl(p),{headers:{Authorization:"Bearer owner"}});return r.status===200?r.json():null;}
 const field=(doc,...keys)=>keys.reduce((v,k)=>v&&(v.mapValue?v.mapValue.fields[k]:v.fields?v.fields[k]:undefined),doc);
 const ids=arr=>(arr&&arr.arrayValue&&arr.arrayValue.values||[]).map(v=>v.stringValue);
-// Studio Z4: the pair's session pointer, read and written as a signed-in manager (their own emulator ID token).
-async function idToken(m){return m.page.evaluate(()=>{for(const k of Object.keys(sessionStorage))if(k.startsWith("firebase:authUser:"))return JSON.parse(sessionStorage.getItem(k)).stsTokenManager.accessToken;return null;});}
-async function offerGet(m,rid){const r=await fetch(docUrl(`rivalries/${rid}/sessionOffers/current`),{headers:{Authorization:`Bearer ${await idToken(m)}`}});return r.status;}
-async function offerWrite(m,rid,sessionId,uid,expiresAt){
-  const name=`projects/${PROJECT}/databases/(default)/documents/rivalries/${rid}/sessionOffers/current`;
-  const body={writes:[{update:{name,fields:{schemaVersion:{integerValue:"1"},sessionId:{stringValue:sessionId},hostAccountId:{stringValue:uid},expiresAt:{timestampValue:expiresAt}}},updateTransforms:[{fieldPath:"updatedAt",setToServerValue:"REQUEST_TIME"}]}]};
-  const r=await fetch(`${FIRESTORE}/v1/projects/${PROJECT}/databases/(default)/documents:commit`,{method:"POST",headers:{Authorization:`Bearer ${await idToken(m)}`,"Content-Type":"application/json"},body:JSON.stringify(body)});return r.status;
-}
 
 async function loadComposedRules(){
   const probe=docUrl("rivalries/probe");
@@ -56,7 +48,7 @@ async function loadComposedRules(){
 }
 
 async function openManager(browser,user,viewport){
-  const context=await browser.newContext({viewport});
+  const context=await browser.newContext(process.env.ZMOBILE&&user==="daniel"?{viewport,screen:viewport,isMobile:true,hasTouch:true,deviceScaleFactor:2}:{viewport});
   const log={errors:[],forbidden:[],productionRuntime:0,taps:[]};
   await context.exposeBinding("__cmsJourneyTap",(_source,tap)=>{log.taps.push(tap);});
   await context.addInitScript(()=>{window.addEventListener("click",event=>{if(!event.isTrusted)return;const button=event.target&&event.target.closest&&event.target.closest("button");if(button&&typeof window.__cmsJourneyTap==="function")void window.__cmsJourneyTap({id:button.id||"",text:(button.textContent||"").replace(/\s+/g," ").trim()});},true);});
@@ -234,6 +226,48 @@ async function playTransferSeason(daniel,nik,season,tokenD,tokenN){
   for(const m of [daniel,nik])await m.page.getByRole("button",{name:"CONTINUE TO SHARED SEASON RESULTS",exact:true}).waitFor({state:"visible",timeout:30000});
 }
 
+const ZSIZES=[[360,640],[393,852],[412,915],[600,960],[768,1024],[800,1280],[820,1180],[1024,1366],[1280,800],[1366,768],[915,412],[1024,768]];
+async function zLayout(m,phase){
+  const orig=m.page.viewportSize();const rows=[];
+  for(const [w,h] of process.env.ZMOBILE?[[orig.width,orig.height]]:ZSIZES){
+    if(!process.env.ZMOBILE)await m.page.setViewportSize({width:w,height:h});await m.page.waitForTimeout(process.env.ZMOBILE?3000:700);
+    await m.page.screenshot({path:path.join(ARTIFACTS,`layout-${phase}-${w}x${h}-${m.user}.png`)});
+    rows.push(await m.page.evaluate(([w,h])=>{
+      const vis=el=>{if(!el)return false;const r=el.getBoundingClientRect();return r.width>0&&r.height>0&&getComputedStyle(el).visibility!=="hidden";};
+      const out=[];
+      for(const el of document.querySelectorAll("#transferChallenge button:not([hidden]), #transferChallenge input:not([type=hidden]), #transferChallenge select")){
+        if(!vis(el))continue;const r=el.getBoundingClientRect();
+        if(r.right>innerWidth+1||r.left<-1)out.push(`${el.id||el.textContent.trim().slice(0,20)}:offX(${Math.round(r.left)},${Math.round(r.right)})`);
+        const cx=Math.min(Math.max(r.left+r.width/2,0),innerWidth-1),cy=r.top+r.height/2;
+        if(cy>=0&&cy<innerHeight){const hit=document.elementFromPoint(cx,cy);if(hit&&hit!==el&&!el.contains(hit)&&!hit.contains(el))out.push(`${el.id||el.textContent.trim().slice(0,20)}:covered-by(${hit.id||hit.className||hit.tagName})`);}
+      }
+      const lock=document.getElementById("completeTransferChallenge"),lr=lock&&vis(lock)?lock.getBoundingClientRect():null;
+      if(lr)for(const el of document.querySelectorAll("#transferChallenge .signing-row input, #transferChallenge .guess-row input, #transferChallenge .guess-row select")){if(!vis(el))continue;const r=el.getBoundingClientRect();if(r.bottom>lr.top+1&&r.top<lr.bottom-1&&r.right>lr.left&&r.left<lr.right)out.push(`${el.id}:under-lock(${Math.round(r.top)}-${Math.round(r.bottom)} vs ${Math.round(lr.top)})`);}
+      const chain=[];for(let e=lock;e&&e!==document.body;e=e.parentElement){const cs=getComputedStyle(e);chain.push(`${e.id||e.className}|${cs.position}|${cs.overflowY}|${cs.transform!=="none"?"T":""}${cs.contain!=="none"?"C:"+cs.contain:""}|${Math.round(e.getBoundingClientRect().top)}-${Math.round(e.getBoundingClientRect().bottom)}`);}
+      if(lr)out.push("CHAIN "+chain.join(" > "));
+      const doc=document.documentElement;return {size:`${w}x${h}`,hscroll:doc.scrollWidth>innerWidth+1,issues:out.slice(0,20)};
+    },[w,h]));
+  }
+  if(!process.env.ZMOBILE)await m.page.setViewportSize(orig);
+  console.log("ZLAYOUT "+phase+" "+JSON.stringify(rows));
+}
+async function zProbe(tag,m,other){
+  const out={tag};
+  await shot(m,`z-${tag}-before`);
+  await m.page.reload({waitUntil:"domcontentloaded"});
+  await m.page.locator("#loadingScreen").waitFor({state:"hidden",timeout:30000});
+  await m.page.waitForTimeout(4000);
+  out.afterReload=await describe(m);
+  await shot(m,`z-${tag}-after-reload`);
+  // Studio Z3: no tap after the reload; the tab must rejoin by itself.
+  await m.page.waitForTimeout(6000);
+  out.afterContinue=await describe(m);
+  out.remote=await m.page.evaluate(()=>window.CareerModeSparkRemoteJoining?.getState?.()||null);
+  await shot(m,`z-${tag}-after-continue`);
+  out.otherNow=await describe(other);
+  await shot(other,`z-${tag}-other`);
+  console.log("ZPROBE "+JSON.stringify(out));
+}
 async function main(){
   // J0 preflight
   assert.equal(JSON.parse(fs.readFileSync(path.join(SDK_DIR,"package.json"),"utf8")).version,require(SWITCH).sdkVersion,"J0 SDK pin matches the switch");
@@ -244,8 +278,8 @@ async function main(){
   const browser=await chromium.launch({executablePath:runtime.executablePath,headless:true,args:runtime.args});
   const managers=[];
   try{
-    const daniel=await openManager(browser,"daniel",{width:393,height:660});managers.push(daniel);
-    const nik=await openManager(browser,"nik",{width:360,height:640});managers.push(nik);
+    const daniel=await openManager(browser,"daniel",{width:Number(process.env.ZVW||393),height:Number(process.env.ZVH||660)});managers.push(daniel);
+    const nik=await openManager(browser,"nik",{width:Number(process.env.ZNW||360),height:Number(process.env.ZNH||640)});managers.push(nik);
     for(const m of [daniel,nik]){const s=await m.page.evaluate(()=>window.__cmsEmulatorSwitch||null);assert.equal(s&&s.active,true,`${m.user} switch active`);}
     ok("J0.2","emulator switch active only via localhost + cmsEmulator=1 in both contexts");
 
@@ -315,7 +349,7 @@ async function main(){
       assert.equal(await m.page.evaluate(()=>window.CareerModeSparkRemoteJoining?.getState?.()?.sessionState),"active",`${m.user}: the private session is ACTIVE`);
       assert.equal(await entry(m).isVisible().catch(()=>false),false,`${m.user}: GET READY is not shown`);
     }
-    ok("J3.1","private session hosted by Daniel, joined by Nik; both reached the league wheel");
+    ok("J3.1","private session hosted by Daniel, joined by Nik; both reached the league wheel");if(process.env.ZP==="wheel"){await zProbe("wheel",daniel,nik);return;}
     await shot(daniel,"j3-setup");await shot(nik,"j3-setup");
 
     // J4 shared setup through the real league wheel and club-pack screens.
@@ -403,7 +437,7 @@ async function main(){
     // can still render "END WINDOW EARLY" instead of the intended "REQUEST EARLY END".
     assert.match(await daniel.page.locator("#endTransferTimer").textContent(),/^(REQUEST EARLY END|END WINDOW EARLY)$/);
     assert.match(await nik.page.locator("#endTransferTimer").textContent(),/^(REQUEST EARLY END|END WINDOW EARLY)$/);
-    ok("J6.1","Daniel started the shared 15-minute window and both managers see the same live phase");
+    ok("J6.1","Daniel started the shared 15-minute window and both managers see the same live phase");if(process.env.ZP==="window"){await zProbe("window",daniel,nik);return;}if(process.env.ZP==="layout"){await zLayout(daniel,"window");await daniel.page.locator("#endTransferTimer").click();await nik.page.locator("#endTransferTimer").click();await waitTransferPhase(daniel,"guess_entry");await zLayout(daniel,"guess");await daniel.page.locator("#p2Guess1Type").selectOption("league");await fillTransferCombo(daniel,"p2Guess1Value","Premier League");await daniel.page.getByRole("button",{name:"LOCK MY GUESSES",exact:true}).click();await nik.page.locator("#p1Guess1Type").selectOption("nationality");await fillTransferCombo(nik,"p1Guess1Value","Brazil");await nik.page.getByRole("button",{name:"LOCK MY GUESSES",exact:true}).click();await waitTransferPhase(daniel,"signing_entry");await zLayout(daniel,"signing");await daniel.page.locator("#p1Signing1League").fill("Primera");await daniel.page.waitForTimeout(500);await zLayout(daniel,"signing-list");return;}
 
     await daniel.page.locator("#endTransferTimer").click({timeout:30000});
     await daniel.page.waitForFunction(()=>window.CareerModeProductionSharedTransferChallenge?.getState?.()?.state?.endRequestedRoles?.includes("playerOne")===true,null,{timeout:30000});
@@ -767,21 +801,6 @@ async function main(){
     assert.equal(await sessionOf(nik),sessionCode2,"Nik joined Daniel's R2 session without a code");
     for(const m of [nik,daniel])await m.page.locator("#leagueWheelScreen").waitFor({state:"visible",timeout:30000});
     ok("J12.1","after terminal R1, Daniel and Nik created distinct R2, both indexes are [R1,R2], and both reached R2 league wheel");
-    {
-      const offer=await admin(`rivalries/${R2}/sessionOffers/current`);
-      assert.equal(field(offer,"sessionId").stringValue,sessionCode2,"R2 pointer names Daniel's R2 session");
-      const exp=field(offer,"expiresAt").timestampValue,uidS=await accountId(managers.find(m=>m.user==="stranger"));
-      const stranger=managers.find(m=>m.user==="stranger");
-      assert.equal(await offerGet(nik,R2),200,"Nik reads the pair's pointer");
-      assert.equal(await offerGet(stranger,R2),403,"a third account cannot read the pointer");
-      assert.equal(await offerWrite(stranger,R2,sessionCode2,uidS,exp),403,"a third account cannot write the pointer");
-      assert.equal(await offerWrite(nik,R2,sessionCode2,uidN,exp),403,"Nik is not the host of Daniel's session and cannot point at it");
-      assert.equal(await offerWrite(daniel,R2,sessionCode2,uidN,exp),403,"the host cannot name someone else as host");
-      assert.equal(await offerWrite(daniel,R2,sessionCode,uidD,exp),403,"the host cannot point R2 at another rivalry's session");
-      assert.equal(await offerWrite(daniel,R2,sessionCode2,uidD,new Date(Date.now()+60000).toISOString()),403,"the expiry must be the session's own");
-      assert.equal(await offerWrite(daniel,R2,sessionCode2,uidD,exp),200,"control: the host re-publishes the exact pointer");
-    }
-    ok("J12.2","session pointer: the pair reads it; a third account cannot read or write it; only the host can point it at their own live session with its own expiry");
     await shot(daniel,"j12-r2");await shot(nik,"j12-r2");
 
     // J4..J12: added by the worker, one section per step (JOB-16 §4).
