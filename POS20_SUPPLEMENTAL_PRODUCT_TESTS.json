@@ -1078,6 +1078,14 @@
       ]
     },
     {
+      "path": "tests/contracts/job-1053-keep-empty-contracts.cjs",
+      "patterns": [
+        "^js/restore\\.js$",
+        "^tests/contracts/job-1053-keep-empty-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
       "path": "tests/contracts/job-1051-transfer-ledger-privacy-contracts.cjs",
       "patterns": [
         "^js/sparkSharedTransferChallenge\\.js$",
