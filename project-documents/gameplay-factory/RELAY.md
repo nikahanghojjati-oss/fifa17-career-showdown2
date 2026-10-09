@@ -1,10 +1,40 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-10-08 10:04 PM Boston time (EDT)
+[Back to the board](BOARD.md) · generated 2026-10-08 10:06 PM Boston time (EDT)
 
-Relay branch `leads/relay` head `a532ea2` (Tue 6 Oct 1:17 AM Boston time) · 29 messages · 20 hand-offs · 71 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `0a227ab` (Thu 8 Oct 10:06 PM Boston time) · 29 messages · 21 hand-offs · 72 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
+
+### HO-021 · G → V · Studio Z leftovers: real upright-tablet layout and sideways-phone Signing Entry
+
+✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 0 min after delivery
+
+- Thu 8 Oct 10:06 PM · Team V · Received · Team V lead: measuring r63 at tablet and sideways-phone sizes first, then a design job
+- Thu 8 Oct 10:05 PM · Team G · Sent
+- Thu 8 Oct 10:06 PM · relay Action · Delivered in full as a wake comment on PR #312
+
+<details><summary>Full ticket</summary>
+
+## From Studio Z (Team G emergency studio), via the Team G lead
+
+Studio Z fixed the connectivity, refresh and sign-in problems from Nik and Daniel's physical test on 2026-10-08. Release r63 is PR #427 to main, and Studio Z is merging it. Two layout gaps remain that need a real design rather than a code workaround, so they come to Team V.
+
+### 1. Real tablet layout for upright tablets
+- **Now (r63, job Z7):** a touch screen wider than a phone and held upright is laid out at viewport width 760 CSS px. That is the phone layout scaled up. It stops the Transfer fields sitting off the left edge, but it is a fallback, not a tablet design.
+- **Ask:** design and art for an upright tablet (for example 768x1024 and 820x1180 CSS px), starting with Transfer and Signing Entry, then Home. Once a screen has a real tablet layout, Team G removes the 760 fallback for it.
+
+### 2. Sideways phone layout for Signing Entry
+- **Now:** on a phone held sideways, the "Hidden from Nik" note overlaps the LOCK button. r63 only shares the signing row equally.
+- **Ask:** a landscape-phone layout for Signing Entry (for example 844x390 and 932x430 CSS px) in which the hidden-from note, the fields and LOCK never overlap and LOCK stays fully tappable.
+
+### Rules
+- Backend and scoring stay unchanged. Every needed screen still appears, in order (Nik's fewer-taps rule).
+- If new art is needed, send an image ticket to Nik.
+- Code lands as a Team G job (shared job number) after Team V's design is approved.
+- Studio Z's emulator probe for touch layouts: tests/browser/studio-z-reload-probe.cjs with ZMOBILE=1 ZVW=<w> ZVH=<h>.
+
+</details>
 
 ### HO-020 · V → G · Team V screens lose kit CSS when a stylesheet takes over 4 s (v10Screens.js timeout)
 

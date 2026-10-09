@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-08 10:04 PM Boston time (EDT)",
+ "generated": "2026-10-08 10:06 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -284,8 +284,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "a532ea2",
-  "head_boston": "Tue 6 Oct 1:17 AM",
+  "head": "a5f5912",
+  "head_boston": "Thu 8 Oct 10:05 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": true,
   "open_for_g": [],
@@ -326,8 +326,8 @@
      "sha": "2e22269bdcfb5c720b28fc83dd689fea6d9fbd81",
      "updated": "2026-10-09T02:02:37Z",
      "gates": {
-      "passed": 5,
-      "running": 12,
+      "passed": 10,
+      "running": 7,
       "failed": 0,
       "cancelled": 0
      }
@@ -338,7 +338,7 @@
   "physio": {
    "state": "clear",
    "line": "All clear: every check has a machine.",
-   "gate": "Gate #427: L1… L2… L3… L4… L5… L6… · seal pending · POS20 #427 4/16",
+   "gate": "Gate #427: L1✓ L2… L3… L4… L5… L6… · seal pending · POS20 #427 9/16",
    "source": "physio"
   },
   "v_headline": "Board 1 (visual package): 238 of 238 jobs done and checked",
@@ -618,6 +618,19 @@
     "worker": "sonnet",
     "pickup_min": 0,
     "waiting_min": null
+   },
+   {
+    "id": "HO-021",
+    "from": "G",
+    "to": "V",
+    "title": "Studio Z leftovers: real upright-tablet layout and sideways-phone Signing Entry",
+    "stage": "RECEIVED",
+    "pct": 0.0,
+    "overdue": false,
+    "path": "project-documents/leads-relay/handoffs/HO-021_studio-z-leftovers-real-upright-tablet-l.md",
+    "worker": "",
+    "pickup_min": 0,
+    "waiting_min": null
    }
   ],
   "relay_ok": true
@@ -689,7 +702,7 @@
   "**r62 is live.** On the laptop, close every game tab in Chrome and reopen the game; if Settings still looks clipped, do it once more."
  ],
  "now": {
-  "moving": 23,
+  "moving": 24,
   "next": 3,
   "nik": 7,
   "later": 6,
@@ -991,8 +1004,8 @@
     "sha": "2e22269bdcfb5c720b28fc83dd689fea6d9fbd81",
     "updated": "2026-10-09T02:02:37Z",
     "gates": {
-     "passed": 5,
-     "running": 12,
+     "passed": 10,
+     "running": 7,
      "failed": 0,
      "cancelled": 0
     }
