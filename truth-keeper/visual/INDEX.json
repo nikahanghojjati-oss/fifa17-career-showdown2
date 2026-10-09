@@ -1,0 +1,1091 @@
+[
+  {
+    "id": "VIS-DEC-001",
+    "file": "DECISIONS.md",
+    "date": "2026-08-13",
+    "type": "decision",
+    "summary": "v1.3 held the proven local shell, exactly three canonical localStorage keys, and deferred cloud/profiles until stability; later phases implemented profiles and paired online play.",
+    "status": "replaced",
+    "source_chat": "Title unavailable (v1.3 recovery checkpoint)"
+  },
+  {
+    "id": "VIS-DEC-002",
+    "file": "DECISIONS.md",
+    "date": "2026-08-14",
+    "type": "decision",
+    "summary": "Treat current source/live main as authority over stale handoffs; source inspection, repeatable QA and clean chat-to-chat continuity outrank model reassurance.",
+    "status": "still valid",
+    "source_chat": "Title unavailable (handoff quality and continuity)"
+  },
+  {
+    "id": "VIS-DEC-003",
+    "file": "DECISIONS.md",
+    "date": "2026-08-14",
+    "type": "decision",
+    "summary": "Save Library and Profiles foundations proceeded without inventing historical profile identity; normalized same-name aggregation is not proof that two records are one person.",
+    "status": "still valid",
+    "source_chat": "Title unavailable (Save Library and identity)"
+  },
+  {
+    "id": "VIS-DEC-004",
+    "file": "DECISIONS.md",
+    "date": "2026-08-16",
+    "type": "decision",
+    "summary": "Exactly two managers in a private rivalry; no public profiles, global rankings, or community/discovery features.",
+    "status": "still valid",
+    "source_chat": "Title unavailable (private product boundary)"
+  },
+  {
+    "id": "VIS-DEC-005",
+    "file": "DECISIONS.md",
+    "date": "2026-08-16",
+    "type": "decision",
+    "summary": "One league per Showdown, distinct permanent clubs, 1/3/5/10 season choices; Champions League 5, league title 3, domestic cup 1, performance bonus capped at 1, awards bonus capped at 1, season maximum 11.",
+    "status": "still valid",
+    "source_chat": "Title unavailable (competition rules)"
+  },
+  {
+    "id": "VIS-DEC-006",
+    "file": "DECISIONS.md",
+    "date": "2026-08-16",
+    "type": "decision",
+    "summary": "Equal nonzero season scores are a draw; a 0–0 outcome uses league position, then league points as a tiebreaker, subject to newer verified code/contracts.",
+    "status": "still valid",
+    "source_chat": "Title unavailable (tie rules)"
+  },
+  {
+    "id": "VIS-DEC-007",
+    "file": "DECISIONS.md",
+    "date": "2026-08-24",
+    "type": "decision",
+    "summary": "Optional private cloud synchronization was specified around monotonic revisions, compare-and-swap, stale conflict responses, tombstones, idempotency and deny-by-default authorization; treat implementation status as separate from design.",
+    "status": "still valid",
+    "source_chat": "Title unavailable (cloud sync phases 1A–1D)"
+  },
+  {
+    "id": "VIS-DEC-008",
+    "file": "DECISIONS.md",
+    "date": "2026-08-25",
+    "type": "decision",
+    "summary": "Physical Chromebook Chrome and iPhone Safari tests are the required acceptance reality; automated success alone cannot prove paired-device completion.",
+    "status": "still valid",
+    "source_chat": "Title unavailable (two-device pilot)"
+  },
+  {
+    "id": "VIS-DEC-009",
+    "file": "DECISIONS.md",
+    "date": "2026-09-09",
+    "type": "decision",
+    "summary": "Produce actual visual deliverables and an asset registry with source/revision/integration information; a repeated outline is not a replacement for files.",
+    "status": "still valid",
+    "source_chat": "Title unavailable (visual master index)"
+  },
+  {
+    "id": "VIS-DEC-010",
+    "file": "DECISIONS.md",
+    "date": "2026-09-11",
+    "type": "decision",
+    "summary": "Showdown Visual work stays isolated from the senior gameplay implementation and carries explicit integration instructions; no silent main-branch integration.",
+    "status": "still valid",
+    "source_chat": "Title unavailable (senior and junior devices)"
+  },
+  {
+    "id": "VIS-DEC-011",
+    "file": "DECISIONS.md",
+    "date": "2026-09-13",
+    "type": "decision",
+    "summary": "Earlier one-device shared-browser product mode was superseded by an online-only, two-device Shared Showdown goal; retain recovery machinery behind the simpler interface.",
+    "status": "replaced",
+    "source_chat": "Title unavailable (one-device to online-only revision)"
+  },
+  {
+    "id": "VIS-DEC-012",
+    "file": "DECISIONS.md",
+    "date": "2026-09-13",
+    "type": "decision",
+    "summary": "Remembered Daniel/Nik identities, one-time pairing, simple Start/Join and Forget Device were requested; local Showdowns and unnecessary legacy control panels should not clutter the main journey.",
+    "status": "still valid",
+    "source_chat": "Title unavailable (online-only simplification)"
+  },
+  {
+    "id": "VIS-DEC-013",
+    "file": "DECISIONS.md",
+    "date": "2026-09-14",
+    "type": "decision",
+    "summary": "Shared Showdown is the primary visible path; preserve architecture, core functionality, privacy, data integrity and free-tier operating limits while simplifying surface UI.",
+    "status": "still valid",
+    "source_chat": "Title unavailable (Shared Showdown simplification)"
+  },
+  {
+    "id": "VIS-DEC-014",
+    "file": "DECISIONS.md",
+    "date": "2026-09-19",
+    "type": "decision",
+    "summary": "A connected Bundesliga showdown with Daniel as SC Freiburg and Nik as Hertha BSC should survive reconnect/recovery without asking participants to discard it.",
+    "status": "still valid",
+    "source_chat": "Title unavailable (paired flow expectations)"
+  },
+  {
+    "id": "VIS-DEC-015",
+    "file": "DECISIONS.md",
+    "date": "2026-09-20",
+    "type": "decision",
+    "summary": "Private session lifetime must exceed a complete 15-minute Transfer challenge and setup; owner later requested at least one hour, preferably two hours or more.",
+    "status": "still valid",
+    "source_chat": "Title unavailable (session-recovery preference)"
+  },
+  {
+    "id": "VIS-DEC-016",
+    "file": "DECISIONS.md",
+    "date": "2026-09-25",
+    "type": "decision",
+    "summary": "Visual project uses an isolated production/review workflow; Luna Max can propose/build within locked product rules, Sol checks truth and checkpoints, lead approves integration.",
+    "status": "still valid",
+    "source_chat": "Title unavailable (visual autonomy and relay V2)"
+  },
+  {
+    "id": "VIS-DEC-017",
+    "file": "DECISIONS.md",
+    "date": "2026-09-25",
+    "type": "decision",
+    "summary": "A separate QA/reviewer branch may inspect reliability, but fixes are reviewed by the main authority before merge or deployment.",
+    "status": "still valid",
+    "source_chat": "Title unavailable (QA workstream)"
+  },
+  {
+    "id": "VIS-DEC-018",
+    "file": "DECISIONS.md",
+    "date": "2026-09-26",
+    "type": "decision",
+    "summary": "Transfer War Room must feel like cinematic black/brass/gold tactical theatre, using smoked-glass plates with slim bright gold frames and soft spill; reject generic form/dashboard boxes there.",
+    "status": "still valid",
+    "source_chat": "Title unavailable (Transfer War art reset)"
+  },
+  {
+    "id": "VIS-DEC-019",
+    "file": "DECISIONS.md",
+    "date": "2026-09-26",
+    "type": "decision",
+    "summary": "Use purpose-made Daniel LEFT and Nik RIGHT Transfer poses; do not substitute Home/Club poses, mirror people or let generated assets overwrite recognizable identity.",
+    "status": "still valid",
+    "source_chat": "Title unavailable (Transfer poses)"
+  },
+  {
+    "id": "VIS-DEC-020",
+    "file": "DECISIONS.md",
+    "date": "2026-09-27",
+    "type": "decision",
+    "summary": "Use FIFA 17/The Journey for camera, stage, typography, lighting and tension research, not copyrighted EA imagery; keep two characters visually co-located and phone UI legible.",
+    "status": "still valid",
+    "source_chat": "Title unavailable (FIFA 17 / The Journey study)"
+  },
+  {
+    "id": "VIS-DEC-021",
+    "file": "DECISIONS.md",
+    "date": "2026-09-27",
+    "type": "decision",
+    "summary": "SV01 V10 rated approximately 7/10 was not an approved AAA finish; later V10.1 moved toward shared operations-room and decision-desk composition.",
+    "status": "replaced",
+    "source_chat": "Title unavailable (SV01 critique)"
+  },
+  {
+    "id": "VIS-DEC-022",
+    "file": "DECISIONS.md",
+    "date": "2026-10-01",
+    "type": "decision",
+    "summary": "Home should recover Legacy/History, Statistics, Trophy Room/Honours, Rule Book and Settings while preserving authoritative online Shared Showdown data; geometric/tile panels remain acceptable on Home.",
+    "status": "still valid",
+    "source_chat": "Title unavailable (Home recovery directive)"
+  },
+  {
+    "id": "VIS-DEC-023",
+    "file": "DECISIONS.md",
+    "date": "2026-10-01",
+    "type": "decision",
+    "summary": "Futuristic curved/smoked Transfer War panels are a special case, not a blanket ban on rectangular cards elsewhere; Club reveal should use Daniel/Nik black-and-gold packs and Draw→Pack1→Pack2→VS→Lock.",
+    "status": "still valid",
+    "source_chat": "Title unavailable (visual screen-specific rules)"
+  },
+  {
+    "id": "VIS-DEC-024",
+    "file": "DECISIONS.md",
+    "date": "2026-10-02",
+    "type": "decision",
+    "summary": "Visual factory works on factory/v1-wtt5ye separately from Team G gameplay factory; code/asset integration to main requires lead authority.",
+    "status": "still valid",
+    "source_chat": "Title unavailable (factory split)"
+  },
+  {
+    "id": "VIS-DEC-025",
+    "file": "DECISIONS.md",
+    "date": "2026-10-04",
+    "type": "decision",
+    "summary": "Factory jobs are one-number tasks with status-backed resumability and direct GitHub saves after every step; team-g lanes are not worker tasks.",
+    "status": "still valid",
+    "source_chat": "C2W-005 bundle; Factory bundle C2W-004"
+  },
+  {
+    "id": "VIS-DEC-026",
+    "file": "DECISIONS.md",
+    "date": "2026-10-04",
+    "type": "decision",
+    "summary": "Require independent QA/review across factory, product, POS20, visual boards and C2W handoffs; AI completion claims require repository and test evidence.",
+    "status": "still valid",
+    "source_chat": "Q&A of current factory (title not visible)"
+  },
+  {
+    "id": "VIS-DEC-027",
+    "file": "DECISIONS.md",
+    "date": "2026-10-05",
+    "type": "decision",
+    "summary": "Mockup Lab studies should measure source mockups against live screenshots and preserve 9-step study outputs; do not change gameplay code during the study.",
+    "status": "still valid",
+    "source_chat": "Mockup Study Setup"
+  },
+  {
+    "id": "VIS-DEC-028",
+    "file": "DECISIONS.md",
+    "date": "2026-10-05",
+    "type": "decision",
+    "summary": "Showdown Gate and Gate Physio are lead-owned infrastructure; workers neither trigger checks nor edit gate scripts; red/missing checks are not license to rewrite them.",
+    "status": "still valid",
+    "source_chat": "Job 1047 predecessor context (title unavailable)"
+  },
+  {
+    "id": "VIS-DEC-029",
+    "file": "DECISIONS.md",
+    "date": "2026-10-06",
+    "type": "decision",
+    "summary": "Isolated r-and-d/persian-soundtrack-lab is broader fun research, not only music; ideas must enter Team G intake after its bug-hunt board, with no direct main merges.",
+    "status": "still valid",
+    "source_chat": "Persian Rap Soundtrack Research"
+  },
+  {
+    "id": "VIS-DEC-030",
+    "file": "DECISIONS.md",
+    "date": "2026-10-06",
+    "type": "decision",
+    "summary": "Proposed soundtrack categories total approximately six or seven tabs with up to ten songs per tab; candidate set of about 60–70 tracks for listening, not an automatic site change.",
+    "status": "still valid",
+    "source_chat": "Persian Rap Soundtrack Research"
+  },
+  {
+    "id": "VIS-DEC-031",
+    "file": "DECISIONS.md",
+    "date": "2026-10-07",
+    "type": "decision",
+    "summary": "Owner locked RAC feat. Emerson Leif — Next To You, Zed Bazi — Tabestoon Kotah (business version noted), and Gdaal — Bahman as selected music candidates; verify rights/playability before integration.",
+    "status": "still valid",
+    "source_chat": "Persian Rap Soundtrack Research"
+  },
+  {
+    "id": "VIS-DEC-032",
+    "file": "DECISIONS.md",
+    "date": "2026-10-06",
+    "type": "decision",
+    "summary": "Historical time/cost and AI-vs-human development studies are separate speculative research exercises, not authorization to alter the game or factory.",
+    "status": "still valid",
+    "source_chat": "Historical Website Cost Comparison"
+  },
+  {
+    "id": "VIS-DEC-033",
+    "file": "DECISIONS.md",
+    "date": "2026-10-06",
+    "type": "decision",
+    "summary": "Owner sought DLSS5-inspired likeness research; no verified production DLSS5 implementation or justified 'powered by DLSS5' claim is established from the chat history.",
+    "status": "unsure",
+    "source_chat": "DLSS 5 Likeness Claim"
+  },
+  {
+    "id": "VIS-DEC-034",
+    "file": "DECISIONS.md",
+    "date": "2026-10-06",
+    "type": "decision",
+    "summary": "Claude becomes the keeper of project truth; historical ChatGPT context should be condensed with dates, source titles, rejected paths and explicit uncertainty instead of being relied upon as invisible memory.",
+    "status": "still valid",
+    "source_chat": "Sol retirement handoff notes"
+  },
+  {
+    "id": "VIS-REJ-001",
+    "file": "REJECTED.md",
+    "date": "2026-08-14",
+    "type": "rejection",
+    "summary": "Treating normalized matching profile names as a fully established cross-save historical identity was rejected: display names alone cannot prove one person's continuity.",
+    "status": "rejected",
+    "source_chat": "Title unavailable (local identity work)"
+  },
+  {
+    "id": "VIS-REJ-002",
+    "file": "REJECTED.md",
+    "date": "2026-08-14",
+    "type": "rejection",
+    "summary": "A profile-ID-only patch was not adopted as a historical linking cure: newly created Saves could generate new IDs and still fragment statistics.",
+    "status": "rejected",
+    "source_chat": "Title unavailable (identity linkage scope)"
+  },
+  {
+    "id": "VIS-REJ-003",
+    "file": "REJECTED.md",
+    "date": "2026-08-16",
+    "type": "rejection",
+    "summary": "Public leaderboards, discoverable profiles, an open rivalry community and global rankings were explicitly removed: the product is permanently private for Daniel and Nik.",
+    "status": "rejected",
+    "source_chat": "Title unavailable (private product boundary)"
+  },
+  {
+    "id": "VIS-REJ-004",
+    "file": "REJECTED.md",
+    "date": "2026-09-08",
+    "type": "rejection",
+    "summary": "Older handoff-proximity routing was retired when current index/POS10 routing took authority; later factory operating rules superseded obsolete relays again.",
+    "status": "rejected",
+    "source_chat": "Title unavailable (handoff protocol transition)"
+  },
+  {
+    "id": "VIS-REJ-005",
+    "file": "REJECTED.md",
+    "date": "2026-09-13",
+    "type": "rejection",
+    "summary": "One-device/local-Showdown presentation as the main user journey was dropped in favor of remembered private online Start/Join; core recovery/storage must remain underneath.",
+    "status": "replaced",
+    "source_chat": "Title unavailable (online-only simplification)"
+  },
+  {
+    "id": "VIS-REJ-006",
+    "file": "REJECTED.md",
+    "date": "2026-09-22",
+    "type": "rejection",
+    "summary": "Presenting unpublished Transfer War guesses/transfer hashes to the rival was unacceptable due to premature disclosure; privacy comes before UI convenience.",
+    "status": "rejected",
+    "source_chat": "Title unavailable (r44 defect inspection)"
+  },
+  {
+    "id": "VIS-REJ-007",
+    "file": "REJECTED.md",
+    "date": "2026-09-25",
+    "type": "rejection",
+    "summary": "An old handoff/relay revision was replaced by V2: the new visual workflow requires independent checkpoints, source and asset fingerprints.",
+    "status": "rejected",
+    "source_chat": "Title unavailable (visual relay V2)"
+  },
+  {
+    "id": "VIS-REJ-008",
+    "file": "REJECTED.md",
+    "date": "2026-09-26",
+    "type": "rejection",
+    "summary": "Flat 'Excel sheet' tactical layout was rejected with a reported visual score of zero: lacked cinematic FIFA 17 immersion and character integration.",
+    "status": "rejected",
+    "source_chat": "Title unavailable (SV01 visual reset)"
+  },
+  {
+    "id": "VIS-REJ-009",
+    "file": "REJECTED.md",
+    "date": "2026-09-26",
+    "type": "rejection",
+    "summary": "Home/Club poses or newly generated substitute characters were rejected for Transfer: they broke locked purpose-made likeness/composition.",
+    "status": "rejected",
+    "source_chat": "Title unavailable (Transfer art review)"
+  },
+  {
+    "id": "VIS-REJ-010",
+    "file": "REJECTED.md",
+    "date": "2026-09-26",
+    "type": "rejection",
+    "summary": "Generic rectangular dashboard boxes, a raw textarea, huge empty gaps and baked timers/state were rejected specifically for the Transfer War Room.",
+    "status": "rejected",
+    "source_chat": "Title unavailable (Transfer UI art review)"
+  },
+  {
+    "id": "VIS-REJ-011",
+    "file": "REJECTED.md",
+    "date": "2026-09-27",
+    "type": "rejection",
+    "summary": "Earlier 93/100 SV01 candidate and 7/10 V10 were not accepted as final; V10.1 decision-desk framing superseded their floating-board treatment.",
+    "status": "replaced",
+    "source_chat": "Title unavailable (SV01 V10.1 art direction)"
+  },
+  {
+    "id": "VIS-REJ-012",
+    "file": "REJECTED.md",
+    "date": "2026-10-01",
+    "type": "rejection",
+    "summary": "Applying the Transfer Room's 'no plain boxes' rule to every page was rejected: Home may use FIFA-style tiles, and ordinary supporting screens may use rectangular panels.",
+    "status": "rejected",
+    "source_chat": "Title unavailable (Home recovery directive)"
+  },
+  {
+    "id": "VIS-REJ-013",
+    "file": "REJECTED.md",
+    "date": "2026-10-01",
+    "type": "rejection",
+    "summary": "The earlier, simpler Club Assignment HTML experience was displaced by cinematic club packs, two-pack reveal, VS comparison and explicit lock.",
+    "status": "replaced",
+    "source_chat": "Title unavailable (Club assignment target)"
+  },
+  {
+    "id": "VIS-REJ-014",
+    "file": "REJECTED.md",
+    "date": "2026-10-04",
+    "type": "rejection",
+    "summary": "The deprecated Sol/model-relay route and prompts like 'it is in' are not part of the new Visual Factory; numbered jobs and status files are authoritative.",
+    "status": "rejected",
+    "source_chat": "C2W-005 bundle; Factory bundle C2W-004"
+  },
+  {
+    "id": "VIS-REJ-015",
+    "file": "REJECTED.md",
+    "date": "2026-10-04",
+    "type": "rejection",
+    "summary": "Workers modifying Gate Physio, POS20 checks, workflows, or skipping failed checks to get a green PR was explicitly prohibited; CI is lead-owned.",
+    "status": "rejected",
+    "source_chat": "Motion and sound pass (factory jobs)"
+  },
+  {
+    "id": "VIS-REJ-016",
+    "file": "REJECTED.md",
+    "date": "2026-10-05",
+    "type": "rejection",
+    "summary": "Guessing mockup geometry from verbal impressions, or changing game code during a report-only Mockup Lab study, was rejected in favor of measured notes with separate implementation approval.",
+    "status": "rejected",
+    "source_chat": "Mockup Study Setup"
+  },
+  {
+    "id": "VIS-REJ-017",
+    "file": "REJECTED.md",
+    "date": "2026-10-06",
+    "type": "rejection",
+    "summary": "Limiting the independent R&D lab to soundtrack research alone was explicitly corrected: historical, economics, advanced visual research and speculative technology studies also belong there.",
+    "status": "rejected",
+    "source_chat": "Persian Rap Soundtrack Research"
+  },
+  {
+    "id": "VIS-REJ-018",
+    "file": "REJECTED.md",
+    "date": "2026-10-06",
+    "type": "rejection",
+    "summary": "Calling the likeness pipeline a proven DLSS5 implementation solely from stylistic resemblance is unsupported; the user asked for research and verification, not an unverified technology claim.",
+    "status": "rejected",
+    "source_chat": "DLSS 5 Likeness Claim"
+  },
+  {
+    "id": "VIS-OPN-001",
+    "file": "OPEN.md",
+    "date": "2026-08-14",
+    "type": "open",
+    "summary": "Historical identity remains ambiguous when the same manager appears in different Saves; a bounded opt-in identity-linkage design was discussed but not authorized in that checkpoint.",
+    "status": "open",
+    "source_chat": "Title unavailable (historical identity audit)"
+  },
+  {
+    "id": "VIS-OPN-002",
+    "file": "OPEN.md",
+    "date": "2026-08-24",
+    "type": "open",
+    "summary": "Confirm the actual delivered status of two-device/offline-reconnect harness (phase 1E) and Emulator/rules/invites (phase 1F); specification is not implementation evidence.",
+    "status": "unverified",
+    "source_chat": "Title unavailable (private cloud phases)"
+  },
+  {
+    "id": "VIS-OPN-003",
+    "file": "OPEN.md",
+    "date": "2026-08-25",
+    "type": "open",
+    "summary": "Reconfirm two devices are on the same canonical rivalry after a stale Chromebook shell and differing pair fingerprints; earlier pairing proof was insufficient.",
+    "status": "unverified",
+    "source_chat": "Title unavailable (pairing physical test)"
+  },
+  {
+    "id": "VIS-OPN-004",
+    "file": "OPEN.md",
+    "date": "2026-09-19",
+    "type": "open",
+    "summary": "Career Start acknowledgements did nothing on either device after reconnect; r31 was reported as a fix, but physical success after update was not established.",
+    "status": "open",
+    "source_chat": "Title unavailable (Bundesliga reconnect test)"
+  },
+  {
+    "id": "VIS-OPN-005",
+    "file": "OPEN.md",
+    "date": "2026-09-20",
+    "type": "open",
+    "summary": "A Daniel/Nik Transfer Window timer mismatch and 'fresh private session required' regression remained for physical re-test after r36 session-lifetime changes.",
+    "status": "open",
+    "source_chat": "Title unavailable (r35/r36 transfer test)"
+  },
+  {
+    "id": "VIS-OPN-006",
+    "file": "OPEN.md",
+    "date": "2026-09-20",
+    "type": "open",
+    "summary": "Owner preference for at least 1 hour, ideally 2+ hours, may not have been met by r36's reported 30-minute lifetime; check deployed current values and expiry recovery.",
+    "status": "open",
+    "source_chat": "Title unavailable (session timeout owner feedback)"
+  },
+  {
+    "id": "VIS-OPN-007",
+    "file": "OPEN.md",
+    "date": "2026-09-20",
+    "type": "open",
+    "summary": "A Bundesliga 103–114 point validation range was flagged as impossible for the standard season schedule; confirm repair/tests and season-specific catalog contracts.",
+    "status": "open",
+    "source_chat": "Title unavailable (league points validation)"
+  },
+  {
+    "id": "VIS-OPN-008",
+    "file": "OPEN.md",
+    "date": "2026-09-22",
+    "type": "open",
+    "summary": "Recheck seven r44 findings including transfer hash confidentiality, Review disappearing after refresh, error visibility, rejected promise cleanup, future-season gate, provider mismatch and redundant reads.",
+    "status": "open",
+    "source_chat": "Title unavailable (r44 privacy and readiness findings)"
+  },
+  {
+    "id": "VIS-OPN-009",
+    "file": "OPEN.md",
+    "date": "2026-09-23",
+    "type": "open",
+    "summary": "START A SHOWDOWN failed with connection-service unavailable in physical testing; suspected missing CareerModeOnlinePlayerIdentity and syncPair dependency, but no verified repaired physical retry here.",
+    "status": "open",
+    "source_chat": "Title unavailable (START A SHOWDOWN availability)"
+  },
+  {
+    "id": "VIS-OPN-010",
+    "file": "OPEN.md",
+    "date": "2026-09-28",
+    "type": "open",
+    "summary": "Daniel's COMMIT SHARED SEASON button was missing after both manager publications; PR #305/r47 reportedly added a retry/error surface, but production was then r46 and no deployed proof was known.",
+    "status": "open",
+    "source_chat": "Title unavailable (SSJR publish test)"
+  },
+  {
+    "id": "VIS-OPN-011",
+    "file": "OPEN.md",
+    "date": "2026-10-01",
+    "type": "open",
+    "summary": "Restore History/Legacy, Statistics, Trophy Room, Rules and Settings without cluttering online-only Home; verify current code still serves the authoritative shared data.",
+    "status": "open",
+    "source_chat": "Title unavailable (Home recovery)"
+  },
+  {
+    "id": "VIS-OPN-012",
+    "file": "OPEN.md",
+    "date": "2026-10-01",
+    "type": "open",
+    "summary": "Final Home tile geometry, exact weight of hero zone and phone recomposition were still in refinement; target mockups are design inputs, not approved deployed output.",
+    "status": "open",
+    "source_chat": "Title unavailable (Home visual review)"
+  },
+  {
+    "id": "VIS-OPN-013",
+    "file": "OPEN.md",
+    "date": "2026-10-02",
+    "type": "open",
+    "summary": "Finish visual factory acceptance, screen-specific look checks and lead integration; image rights, phone clipping, DOM state overlays and fixtures require scrutiny.",
+    "status": "open",
+    "source_chat": "Title unavailable (Crest V1 HLC gate)"
+  },
+  {
+    "id": "VIS-OPN-014",
+    "file": "OPEN.md",
+    "date": "2026-10-04",
+    "type": "open",
+    "summary": "PR #359 changed loser behavior in simultaneous Season Result publishing to STALE, yet intermittent season 3+ two-manager failures were still reported; require exact read/write/document-id race inspection.",
+    "status": "open",
+    "source_chat": "New chat (PR #359 race review)"
+  },
+  {
+    "id": "VIS-OPN-015",
+    "file": "OPEN.md",
+    "date": "2026-10-04",
+    "type": "open",
+    "summary": "Local Reconciliation sometimes stayed on 'waiting' after PR #358 fewer-taps auto-refresh/step skipping; suspected sequencing issue was reported, fix not proven here.",
+    "status": "open",
+    "source_chat": "New chat (PR #358 reconciliation review)"
+  },
+  {
+    "id": "VIS-OPN-016",
+    "file": "OPEN.md",
+    "date": "2026-10-04",
+    "type": "open",
+    "summary": "Compare factory improvements and model roles after 5.2; assess independent reviews, blind acceptance, evidence quality, budget and coordination overhead.",
+    "status": "open",
+    "source_chat": "Q&A of current factory (title not visible)"
+  },
+  {
+    "id": "VIS-OPN-017",
+    "file": "OPEN.md",
+    "date": "2026-10-05",
+    "type": "open",
+    "summary": "Finish all screen-by-screen nine-step image-vs-live measurements on study/mockup-lab and validate INDEX coverage; do not assume unfinished studies were saved.",
+    "status": "open",
+    "source_chat": "Mockup Study Setup"
+  },
+  {
+    "id": "VIS-OPN-018",
+    "file": "OPEN.md",
+    "date": "2026-10-06",
+    "type": "open",
+    "summary": "Complete 60–70 track candidate-list listening pass across 6–7 genres/tabs; verify playable licensed/Audius-supported source, owner approval and Team G intake.",
+    "status": "open",
+    "source_chat": "Persian Rap Soundtrack Research"
+  },
+  {
+    "id": "VIS-OPN-019",
+    "file": "OPEN.md",
+    "date": "2026-10-06",
+    "type": "open",
+    "summary": "Broad R&D experiments (history, technology cost, advanced likeness, POS20/AGI comparisons) remain discussion topics, not implementation grants or a workstream on main.",
+    "status": "open",
+    "source_chat": "Persian Rap Soundtrack Research"
+  },
+  {
+    "id": "VIS-OPN-020",
+    "file": "OPEN.md",
+    "date": "2026-10-06",
+    "type": "open",
+    "summary": "Research real NVIDIA DLSS5 claims and techniques separately from any portrait/manager-likeness pipeline; design rights-safe visual experiments without claiming actual DLSS runtime integration.",
+    "status": "open",
+    "source_chat": "DLSS 5 Likeness Claim"
+  },
+  {
+    "id": "VIS-OPN-021",
+    "file": "OPEN.md",
+    "date": "2026-10-06",
+    "type": "open",
+    "summary": "Original account-transition truth-keeper request may have been left partial; confirm Claude receives committed docs and that factual gaps/uncertainties are clearly tagged.",
+    "status": "open",
+    "source_chat": "Sol retirement handoff notes"
+  },
+  {
+    "id": "VIS-OPN-022",
+    "file": "OPEN.md",
+    "date": "2026-10-09",
+    "type": "open",
+    "summary": "Use the latest factory statuses for all jobs when assessing remaining work; conversation titles/status claims are insufficient evidence that steps were saved or reviewed.",
+    "status": "open",
+    "source_chat": "Job status check"
+  },
+  {
+    "id": "VIS-BUG-001",
+    "file": "BUGS_AND_TESTS.md",
+    "date": "2026-08-25",
+    "type": "bug_or_test",
+    "summary": "Nik supplied iPhone Safari test evidence and Chromebook was available; production said v1.8.1 / 1.8.1-r3 while Chromebook showed cached v1.8.0 / 1.8.0-r1; missing COPY RIVALRY ID. Cause suspected cached shell; paired connection not demonstrated.",
+    "status": "physical test / unresolved",
+    "source_chat": "Title unavailable (iPhone and Chromebook pairing pilot)"
+  },
+  {
+    "id": "VIS-BUG-002",
+    "file": "BUGS_AND_TESTS.md",
+    "date": "2026-08-25",
+    "type": "bug_or_test",
+    "summary": "Stored Chromebook rivalry pointer differed from intended target rivalry fingerprint; do not interpret a UI that merely displays 'paired' as conclusive two-device authoritative pairing.",
+    "status": "physical test / unresolved",
+    "source_chat": "Title unavailable (pair fingerprint comparison)"
+  },
+  {
+    "id": "VIS-BUG-003",
+    "file": "BUGS_AND_TESTS.md",
+    "date": "2026-09-13",
+    "type": "bug_or_test",
+    "summary": "Nik compared iPhone Safari and Chromebook during pairing; PR #258 was said to fix mobile pairing refresh/focus. Connector/PR merge was reported, but follow-up physical completion was not documented in this record.",
+    "status": "physical test / fixed claim",
+    "source_chat": "Title unavailable (iPhone pairing refresh)"
+  },
+  {
+    "id": "VIS-BUG-004",
+    "file": "BUGS_AND_TESTS.md",
+    "date": "2026-09-18",
+    "type": "bug_or_test",
+    "summary": "Owner reported CONTINUE nonresponsive on iPhone Chrome/Safari and transfer-stage progression failing in R32/R34/R36 window; keep specific symptoms separate from automated green claims.",
+    "status": "reported / unresolved",
+    "source_chat": "Title unavailable (R32–R36 progression)"
+  },
+  {
+    "id": "VIS-BUG-005",
+    "file": "BUGS_AND_TESTS.md",
+    "date": "2026-09-19",
+    "type": "bug_or_test",
+    "summary": "Two devices reached Bundesliga; Daniel=SC Freiburg, Nik=Hertha BSC, one season. Reconnect reportedly succeeded, but Career Start acknowledgments had no effect on both devices. r31 attempted fix; no verified post-fix physical PASS.",
+    "status": "physical test / unresolved",
+    "source_chat": "Title unavailable (Bundesliga Career Start)"
+  },
+  {
+    "id": "VIS-BUG-006",
+    "file": "BUGS_AND_TESTS.md",
+    "date": "2026-09-19",
+    "type": "bug_or_test",
+    "summary": "iPhone displayed v1.9.1/r29 and still showed Created/0 seasons; updater/OFFLINE APP controls absent on both devices even though r31 was said to be current. Must verify deployed/version authority rather than overwrite live state.",
+    "status": "physical test / unresolved",
+    "source_chat": "Title unavailable (r31 update mismatch)"
+  },
+  {
+    "id": "VIS-BUG-007",
+    "file": "BUGS_AND_TESTS.md",
+    "date": "2026-09-19",
+    "type": "bug_or_test",
+    "summary": "Actual devices: Daniel Chromebook Chrome/home Wi-Fi and Nik iPhone Safari/cellular; r34 lifecycle automation passed but full end-to-end physical dual-publish journey had not been completed.",
+    "status": "physical test / unproven",
+    "source_chat": "Title unavailable (r34 two-manager journey)"
+  },
+  {
+    "id": "VIS-BUG-008",
+    "file": "BUGS_AND_TESTS.md",
+    "date": "2026-09-20",
+    "type": "bug_or_test",
+    "summary": "After CONTINUE CAREER, both devices saw SETUP PROVIDER UNAVAILABLE. r35 / PR #281 reportedly moved Shared Setup behind required league/club catalog initialization (commit prefix 1a112eb); physical retest still encountered transfer-stage problems.",
+    "status": "engineering fix / unverified physically",
+    "source_chat": "Title unavailable (r35 provider fix)"
+  },
+  {
+    "id": "VIS-BUG-009",
+    "file": "BUGS_AND_TESTS.md",
+    "date": "2026-09-20",
+    "type": "bug_or_test",
+    "summary": "Daniel saw Transfer Window 14:51 while Nik saw 15:00 and WAITING FOR THE COORDINATOR TO START; both saw FRESH PRIVATE SESSION REQUIRED / JOURNEY_RECONNECT_PROGRESSION_NOT_AUTHORITATIVE.",
+    "status": "physical test / unresolved",
+    "source_chat": "Title unavailable (r35 transfer timer mismatch)"
+  },
+  {
+    "id": "VIS-BUG-010",
+    "file": "BUGS_AND_TESTS.md",
+    "date": "2026-09-20",
+    "type": "bug_or_test",
+    "summary": "r36 (commit prefix 5aebb915) reportedly increased session lifetime to 30 minutes and added expired-session replacement/reconnect handling; no documented full physical acceptance, and owner later requested 1–2+ hours.",
+    "status": "engineering fix / unverified physically",
+    "source_chat": "Title unavailable (r36 session recovery)"
+  },
+  {
+    "id": "VIS-BUG-011",
+    "file": "BUGS_AND_TESTS.md",
+    "date": "2026-09-20",
+    "type": "bug_or_test",
+    "summary": "r43 was reported green in automated production checks (commit eac642709b576979067928ad4706748456b70063), but the assistant explicitly said literal two-device test was unproven.",
+    "status": "engineering proof / unverified physically",
+    "source_chat": "Title unavailable (r43 review)"
+  },
+  {
+    "id": "VIS-BUG-012",
+    "file": "BUGS_AND_TESTS.md",
+    "date": "2026-09-20",
+    "type": "bug_or_test",
+    "summary": "Bundesliga season entry accepted an impossible 103–114 points range; proposed season/team-count-derived maximum, not recorded as implemented in the inspection.",
+    "status": "validation finding / unresolved",
+    "source_chat": "Title unavailable (Bundesliga bounds review)"
+  },
+  {
+    "id": "VIS-BUG-013",
+    "file": "BUGS_AND_TESTS.md",
+    "date": "2026-09-22",
+    "type": "bug_or_test",
+    "summary": "Seven code-level r44 concerns were reported: Transfer hash disclosure, Review vanishing after refresh, publish-error suppression, unhandled finally rejection, future-season gate omission, provider/rules catalog mismatch, repeated immutable-history reads.",
+    "status": "inspection / unresolved",
+    "source_chat": "Title unavailable (r44 SSJR privacy audit)"
+  },
+  {
+    "id": "VIS-BUG-014",
+    "file": "BUGS_AND_TESTS.md",
+    "date": "2026-09-23",
+    "type": "bug_or_test",
+    "summary": "On device, START A SHOWDOWN failed with 'Unable to prepare Showdown. The current Showdown connection service is unavailable.' Inspector suspected missing global CareerModeOnlinePlayerIdentity/syncPair() before Firebase; no corrected physical proof recorded.",
+    "status": "physical test / unresolved",
+    "source_chat": "Title unavailable (SSJR START A SHOWDOWN)"
+  },
+  {
+    "id": "VIS-BUG-015",
+    "file": "BUGS_AND_TESTS.md",
+    "date": "2026-09-28",
+    "type": "bug_or_test",
+    "summary": "Daniel Chromebook and Nik iPhone Safari reached both publish steps; after about 35 seconds of stable Review, Daniel's COMMIT SHARED SEASON button never appeared. The full Shared Showdown still could not be counted completed.",
+    "status": "physical test / unresolved",
+    "source_chat": "Title unavailable (SSJR commit publish)"
+  },
+  {
+    "id": "VIS-BUG-016",
+    "file": "BUGS_AND_TESTS.md",
+    "date": "2026-09-28",
+    "type": "bug_or_test",
+    "summary": "PR #305/r47 added visible failure/retry for silent second-reader failure without extra publishing/mutation; at report time production was r46, so deployment and physical resolution were not established.",
+    "status": "proposed fix / not deployed then",
+    "source_chat": "Title unavailable (r47 second-reader retry)"
+  },
+  {
+    "id": "VIS-BUG-017",
+    "file": "BUGS_AND_TESTS.md",
+    "date": "2026-10-04",
+    "type": "bug_or_test",
+    "summary": "After PR #359 made losing concurrent Season Result publish return STALE instead of permission denied, intermittent multi-season 3+ two-manager journey failures remained. Exact stale document/season-number read-write race still requested for inspection.",
+    "status": "test failure / unresolved",
+    "source_chat": "New chat (PR #359 simultaneous Season Result review)"
+  },
+  {
+    "id": "VIS-BUG-018",
+    "file": "BUGS_AND_TESTS.md",
+    "date": "2026-10-04",
+    "type": "bug_or_test",
+    "summary": "Local Reconciliation waited indefinitely following PR #358 fewer taps; possible auto-refresh/step-skipping sequencing defect. Review was requested, but root cause/fix not verified in available chat.",
+    "status": "test failure / unresolved",
+    "source_chat": "New chat (PR #358 local reconciliation review)"
+  },
+  {
+    "id": "VIS-BUG-019",
+    "file": "BUGS_AND_TESTS.md",
+    "date": "2026-10-05",
+    "type": "bug_or_test",
+    "summary": "A read-only bug hunt was commissioned against gameplay/bug-list-1 in assigned areas; no patch or push authorized, and no specific findings from that job are visible in this retrieved conversation.",
+    "status": "report-only QA / unverified",
+    "source_chat": "New chat (gameplay/bug-list-1 QA hunt)"
+  },
+  {
+    "id": "VIS-BUG-020",
+    "file": "BUGS_AND_TESTS.md",
+    "date": "2026-09-25",
+    "type": "bug_or_test",
+    "summary": "Navigation reliability review noted delayed lazy-route completion could override a newer navigation; QA branch had reported 94 contract and 73 operations tests green, browser tests blocked by missing tar-fs. No hardware pass should be inferred.",
+    "status": "QA branch / physical proof absent",
+    "source_chat": "Title unavailable (r46 independent reliability review)"
+  },
+  {
+    "id": "VIS-BUG-021",
+    "file": "BUGS_AND_TESTS.md",
+    "date": "2026-10-09",
+    "type": "bug_or_test",
+    "summary": "For every release claim above: engineering pass, merged code, deployed r-number, and real two-device acceptance are distinct statuses; no newer evidence was read to reclassify these historical failures as fixed.",
+    "status": "verification caution",
+    "source_chat": "Job status check"
+  },
+  {
+    "id": "VIS-LES-001",
+    "file": "LESSONS.md",
+    "date": "2026-08-13",
+    "type": "lesson",
+    "summary": "Preserving known-good live shell, storage keys and rollback semantics made v1.3 safer; feature growth during recovery introduced avoidable acceptance ambiguity.",
+    "status": "lesson",
+    "source_chat": "Title unavailable (v1.3 recovery)"
+  },
+  {
+    "id": "VIS-LES-002",
+    "file": "LESSONS.md",
+    "date": "2026-08-14",
+    "type": "lesson",
+    "summary": "Source-of-truth handoffs need exact releases, SHAs, fail evidence, next steps and exclusions; broad claims that 'everything is finished' are inadequate without repeatable proof.",
+    "status": "lesson",
+    "source_chat": "Title unavailable (developer handoff)"
+  },
+  {
+    "id": "VIS-LES-003",
+    "file": "LESSONS.md",
+    "date": "2026-08-14",
+    "type": "lesson",
+    "summary": "Identity is a data semantics problem, not just a UI name problem; display-name unification and fresh profile IDs both have failure cases.",
+    "status": "lesson",
+    "source_chat": "Title unavailable (Save Library identity)"
+  },
+  {
+    "id": "VIS-LES-004",
+    "file": "LESSONS.md",
+    "date": "2026-08-25",
+    "type": "lesson",
+    "summary": "Chromebook/iPhone shell caches can differ even when production is current; display app runtime and pair fingerprint before diagnosing server-side pairing.",
+    "status": "lesson",
+    "source_chat": "Title unavailable (physical two-device pairing)"
+  },
+  {
+    "id": "VIS-LES-005",
+    "file": "LESSONS.md",
+    "date": "2026-09-08",
+    "type": "lesson",
+    "summary": "A single current-file locator with status and exact next work reduced stale relay/context loops; do not maintain competing handoff authorities.",
+    "status": "lesson",
+    "source_chat": "Title unavailable (handoff protocol transition)"
+  },
+  {
+    "id": "VIS-LES-006",
+    "file": "LESSONS.md",
+    "date": "2026-09-09",
+    "type": "lesson",
+    "summary": "Deliver actual artifacts and an indexed registry; visual-direction prose without files or integration notes failed the owner's acceptance expectations.",
+    "status": "lesson",
+    "source_chat": "Title unavailable (visual deliverables)"
+  },
+  {
+    "id": "VIS-LES-007",
+    "file": "LESSONS.md",
+    "date": "2026-09-11",
+    "type": "lesson",
+    "summary": "Using Chromebook for Showdown Visual and iPhone for senior product acceptance is workable only when branch responsibilities and handoffs remain explicit; those work roles are not necessarily the in-game manager identity.",
+    "status": "lesson",
+    "source_chat": "Title unavailable (dual-device project work)"
+  },
+  {
+    "id": "VIS-LES-008",
+    "file": "LESSONS.md",
+    "date": "2026-09-20",
+    "type": "lesson",
+    "summary": "A 15-minute transfer challenge plus setup can outlast private-session TTL; foreground/background timers, authentication freshness and reconnect authority must be tested together.",
+    "status": "lesson",
+    "source_chat": "Title unavailable (r35/r36 physical regression)"
+  },
+  {
+    "id": "VIS-LES-009",
+    "file": "LESSONS.md",
+    "date": "2026-09-20",
+    "type": "lesson",
+    "summary": "Green deterministic tests cannot substitute for real two-device end-to-end acceptance; always label 'automation green' separately from 'physical pass'.",
+    "status": "lesson",
+    "source_chat": "Title unavailable (r43 automated check)"
+  },
+  {
+    "id": "VIS-LES-010",
+    "file": "LESSONS.md",
+    "date": "2026-09-25",
+    "type": "lesson",
+    "summary": "Separate reviewer lane can catch process defects such as stale SHAs and test-coverage gaps that a code patch alone misses; send findings through lead-controlled integration.",
+    "status": "lesson",
+    "source_chat": "Title unavailable (independent reliability QA)"
+  },
+  {
+    "id": "VIS-LES-011",
+    "file": "LESSONS.md",
+    "date": "2026-09-25",
+    "type": "lesson",
+    "summary": "Dividing roles helps: lead defines product truth and acceptance, independent visual worker produces candidates, reviewer checks DOM/product/asset constraints and reproducible handoff.",
+    "status": "lesson",
+    "source_chat": "Title unavailable (visual relay V2)"
+  },
+  {
+    "id": "VIS-LES-012",
+    "file": "LESSONS.md",
+    "date": "2026-09-26",
+    "type": "lesson",
+    "summary": "A superficially tidy dashboard can be completely wrong for a cinematic game product; character staging, lighting, hierarchy and phone composition must be reviewed as a coherent scene.",
+    "status": "lesson",
+    "source_chat": "Title unavailable (SV01 reset)"
+  },
+  {
+    "id": "VIS-LES-013",
+    "file": "LESSONS.md",
+    "date": "2026-09-26",
+    "type": "lesson",
+    "summary": "One targeted edit per ticket with locked faces/hands and original pixels elsewhere is safer than repeatedly generating whole scenes; review crop, anatomy, logos, text and likeness after each revision.",
+    "status": "lesson",
+    "source_chat": "Title unavailable (image generation guidance)"
+  },
+  {
+    "id": "VIS-LES-014",
+    "file": "LESSONS.md",
+    "date": "2026-09-27",
+    "type": "lesson",
+    "summary": "The Journey research yielded shared-operations-room / decision-desk staging: contact light, eyelines and environmental continuity prevent a floating UI between portraits.",
+    "status": "lesson",
+    "source_chat": "Title unavailable (FIFA 17 presentation research)"
+  },
+  {
+    "id": "VIS-LES-015",
+    "file": "LESSONS.md",
+    "date": "2026-10-01",
+    "type": "lesson",
+    "summary": "Different screen types need different primitives: Transfer War uses bespoke cinematic plates, while Home may use geometric FIFA-style tiles and supporting screens conventional panels.",
+    "status": "lesson",
+    "source_chat": "Title unavailable (visual design scope)"
+  },
+  {
+    "id": "VIS-LES-016",
+    "file": "LESSONS.md",
+    "date": "2026-10-04",
+    "type": "lesson",
+    "summary": "Factory workers are more reliable with numbered bounded jobs, dependencies, one decision, step-wise commits, status file last and no mid-job asks to the owner.",
+    "status": "lesson",
+    "source_chat": "C2W-005 bundle; Factory bundle C2W-004"
+  },
+  {
+    "id": "VIS-LES-017",
+    "file": "LESSONS.md",
+    "date": "2026-10-04",
+    "type": "lesson",
+    "summary": "GitHub connector can read and commit text directly; write-guard refusals require stopping and resuming from latest saved status, not retrying via alternate writes.",
+    "status": "lesson",
+    "source_chat": "Motion and sound consistency pass"
+  },
+  {
+    "id": "VIS-LES-018",
+    "file": "LESSONS.md",
+    "date": "2026-10-04",
+    "type": "lesson",
+    "summary": "Claude/Opus lead, Sol reviewer/worker, Astra/other specialist roles and independent red-team passes can improve coverage, but orchestration overhead and source-backed evaluation matter more than headcount or model branding.",
+    "status": "lesson",
+    "source_chat": "Q&A of current factory (title not visible)"
+  },
+  {
+    "id": "VIS-LES-019",
+    "file": "LESSONS.md",
+    "date": "2026-10-05",
+    "type": "lesson",
+    "summary": "Python pixel measurements and source/live side-by-side review make screen critiques more actionable; on a report-only lane, collect metrics and do not silently change implementation.",
+    "status": "lesson",
+    "source_chat": "Mockup Study Setup"
+  },
+  {
+    "id": "VIS-LES-020",
+    "file": "LESSONS.md",
+    "date": "2026-10-05",
+    "type": "lesson",
+    "summary": "POS20 exact-head seal, Showdown Gate lanes and Physio are lead-owned; workers should not alter scripts, trigger runs, poll CI or treat normal BARKING as a reason to rewrite unrelated files.",
+    "status": "lesson",
+    "source_chat": "Title unavailable (factory watchdog rules)"
+  },
+  {
+    "id": "VIS-LES-021",
+    "file": "LESSONS.md",
+    "date": "2026-10-06",
+    "type": "lesson",
+    "summary": "An isolated R&D branch is a low-risk place to experiment with music, history and future tech; admission to product code still requires scheduled intake, rights vetting and owner approval.",
+    "status": "lesson",
+    "source_chat": "Persian Rap Soundtrack Research"
+  },
+  {
+    "id": "VIS-LES-022",
+    "file": "LESSONS.md",
+    "date": "2026-10-06",
+    "type": "lesson",
+    "summary": "Distinguish design inspiration and speculative research from using a specific vendor technology; unsupported implementation claims weaken research credibility.",
+    "status": "lesson",
+    "source_chat": "DLSS 5 Likeness Claim"
+  },
+  {
+    "id": "VIS-LES-023",
+    "file": "LESSONS.md",
+    "date": "2026-10-06",
+    "type": "lesson",
+    "summary": "Historical labor/cost estimates across countries and eras are exploratory models with wide uncertainty; they are not a measurement of actual repo engineering cost.",
+    "status": "lesson",
+    "source_chat": "Historical Website Cost Comparison"
+  },
+  {
+    "id": "VIS-LES-024",
+    "file": "LESSONS.md",
+    "date": "2026-10-06",
+    "type": "lesson",
+    "summary": "Owner requires Firebase Spark and billing OFF, and GitHub Pages/static hosting are the intended free operating envelope; actual quota and third-party music rights must be rechecked before stating zero-cost guarantees.",
+    "status": "free-tier fact / bounded",
+    "source_chat": "Persian Rap Soundtrack Research"
+  },
+  {
+    "id": "VIS-LES-025",
+    "file": "LESSONS.md",
+    "date": "2026-10-06",
+    "type": "lesson",
+    "summary": "ChatGPT Free availability, advanced model limits, Work mode entitlements and third-party credits can change; no evidence supports promising unlimited free research/agent execution.",
+    "status": "free-tier caveat",
+    "source_chat": "Sol retirement handoff notes"
+  },
+  {
+    "id": "VIS-LES-026",
+    "file": "LESSONS.md",
+    "date": "2026-10-09",
+    "type": "lesson",
+    "summary": "The repository job file and state are the source of completion truth; previous assistant messages and memory summaries alone do not certify a committed factory deliverable.",
+    "status": "lesson",
+    "source_chat": "Job status check"
+  }
+]
