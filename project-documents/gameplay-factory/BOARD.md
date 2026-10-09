@@ -4,7 +4,7 @@ Updated Fri 9 Oct, 6:55 PM Boston time. Bug hunting only, no new features until 
 
 🌐 **Live: 1.9.1-r66** (main `8e1a583`, Fri 9 Oct 12:04 PM)
 
-🩺 **All clear: every check has a machine.** · POS20 #304 6/16
+🐕 **Barking: Gameplay Fast has waited 1 min for a machine.** · POS20 #304 6/16
 
 ## Jobs
 
