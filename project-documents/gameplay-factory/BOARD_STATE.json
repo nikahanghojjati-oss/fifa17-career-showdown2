@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-08 8:11 PM Boston time (EDT)",
+ "generated": "2026-10-08 8:57 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -315,7 +315,7 @@
   "live": {
    "sha": "bc77a0b",
    "revision": "1.9.1-r62",
-   "when": "2026-10-06T01:18:19Z",
+   "when": "2026-10-06T01:18:19+00:00",
    "subject": "Showdown Gate shadow: 6-lane gate runs beside POS20, coverage-proven (#386)",
    "fixes": [],
    "today": []
@@ -674,13 +674,93 @@
   "**r62 is live.** On the laptop, close every game tab in Chrome and reopen the game; if Settings still looks clipped, do it once more."
  ],
  "now": {
-  "moving": 14,
+  "moving": 22,
   "next": 3,
   "nik": 7,
   "later": 6,
   "rows": {
    "G": {
     "moving": [
+     {
+      "id": "Z1",
+      "title": "Studio Z: sign-in starter race",
+      "lane": "opus",
+      "state": "building",
+      "studio": "Z",
+      "order": 1,
+      "place": "Studio Z thread (nothing for Nik to type)",
+      "note": "ships in r63 (branch studio-z/r63)"
+     },
+     {
+      "id": "Z2",
+      "title": "Studio Z: one-strike offline lock",
+      "lane": "opus",
+      "state": "building",
+      "studio": "Z",
+      "order": 2,
+      "place": "Studio Z thread (nothing for Nik to type)",
+      "note": "ships in r63 (branch studio-z/r63)"
+     },
+     {
+      "id": "Z3",
+      "title": "Studio Z: refresh resume",
+      "lane": "opus",
+      "state": "building",
+      "studio": "Z",
+      "order": 3,
+      "place": "Studio Z thread (nothing for Nik to type)",
+      "note": "ships in r63 (branch studio-z/r63)"
+     },
+     {
+      "id": "Z4",
+      "title": "Studio Z: automatic session handoff",
+      "lane": "opus",
+      "state": "building",
+      "studio": "Z",
+      "order": 4,
+      "place": "Studio Z thread (nothing for Nik to type)",
+      "note": "ships in r63 (branch studio-z/r63)"
+     },
+     {
+      "id": "Z5",
+      "title": "Studio Z: auto-apply updates",
+      "lane": "opus",
+      "state": "building",
+      "studio": "Z",
+      "order": 5,
+      "place": "Studio Z thread (nothing for Nik to type)",
+      "note": "ships in r63 (branch studio-z/r63)"
+     },
+     {
+      "id": "Z6",
+      "title": "Studio Z: stuck Google sign-in",
+      "lane": "opus",
+      "state": "building",
+      "studio": "Z",
+      "order": 6,
+      "place": "Studio Z thread (nothing for Nik to type)",
+      "note": "ships in r63 (branch studio-z/r63)"
+     },
+     {
+      "id": "Z7",
+      "title": "Studio Z: upright tablet layout",
+      "lane": "opus",
+      "state": "building",
+      "studio": "Z",
+      "order": 7,
+      "place": "Studio Z thread (nothing for Nik to type)",
+      "note": "ships in r63 (branch studio-z/r63)"
+     },
+     {
+      "id": "Z8",
+      "title": "Studio Z: typed league ambiguity",
+      "lane": "opus",
+      "state": "building",
+      "studio": "Z",
+      "order": 8,
+      "place": "Studio Z thread (nothing for Nik to type)",
+      "note": "ships in r63 (branch studio-z/r63)"
+     },
      {
       "id": "G-F17",
       "title": "Showdown Gate: replace POS20 with a faster check system built on Claude and GitHub, keeping every check (plan: /mnt/project-files/check-system/SHOWDOWN_GATE_PLAN.md)",

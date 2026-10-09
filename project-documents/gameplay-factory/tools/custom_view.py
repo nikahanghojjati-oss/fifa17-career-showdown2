@@ -113,7 +113,7 @@ for team in ("G", "V"):  # a job that waits for Nik to start it (type its number
             nik.append({"id": it["id"], "title": it["title"], "decision": f'{it["title"]}. {act[0].upper()}{act[1:]} to start it.', "place": m.group(1) if m else None})
 
 # ---------- the job queue (Nik, 2026-10-06 01:53 UTC): every numbered job, ongoing and upcoming, with what to type and where ----------
-JOB = re.compile(r"^(?:Job |V-)?(\d{4})$")
+JOB = re.compile(r"^(?:Job |V-)?(\d{4}|Z\d+)$")  # Z1, Z2 ...: Studio Z jobs
 LANE_PLACE = {"green": "the gameplay project (Work mode)", "sol-work": "the gameplay project (Work mode)", "blue": "the gameplay project (chat)", "sol-chat": "the gameplay project (chat)"}
 rowmap = {str(y["id"]): y for t in ("G", "V") for y in BJ["factories"][t]["future"]}
 # emergency studios inside the factory (Nik 2026-10-09: Studio Z). BOARD.json "studios": [{id, title, scope, state}]; a closed one
@@ -212,7 +212,8 @@ def q_add(it, team):
     q = dict(it, n=n, team=team, lane=lane)
     if row.get("studio") in STUDIO:  # an open studio's job (e.g. Studio Z) is named on every line and sorts above the other jobs
         q["studio"] = row["studio"]
-        q["title"] = f'Studio {row["studio"]} · ' + str(q.get("title", ""))
+        if not n.startswith(row["studio"]):
+            q["title"] = f'Studio {row["studio"]} · ' + str(q.get("title", ""))
     if re.match(r"(in release|verified|in r\d|merged)", st, re.I) or n in MERGED:
         Q["release"].append(q)
     elif status_done(n):
@@ -253,10 +254,14 @@ for x in nik:
     else:
         _nk.append(x)
 nik = _nk
+def nkey(n):
+    return (0, int(n)) if n.isdigit() else (1, int(re.sub(r"\D", "", n) or 0))
+
+
 # the bug factory sets `order` on BOARD.json rows (its priority for Nik); unordered jobs follow by number
 for v in Q.values():
-    v.sort(key=lambda q: (0 if q.get("studio") else 1, float((rowmap.get(str(q["id"])) or {}).get("order") or 9999), int(q["n"])))
-Q["release"].sort(key=lambda q: int(q["n"]))
+    v.sort(key=lambda q: (0 if q.get("studio") else 1, float((rowmap.get(str(q["id"])) or {}).get("order") or 9999), nkey(q["n"])))
+Q["release"].sort(key=lambda q: nkey(q["n"]))
 
 for m in BJ.get("next_move") or []:
     nik.insert(0, {"id": "", "title": "", "decision": m, "md": True})

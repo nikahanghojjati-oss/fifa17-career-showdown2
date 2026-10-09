@@ -665,6 +665,86 @@
    ],
    "future": [
     {
+     "id": "Z1",
+     "title": "Studio Z: sign-in starter race",
+     "lane": "opus",
+     "state": "building",
+     "studio": "Z",
+     "order": 1,
+     "place": "Studio Z thread (nothing for Nik to type)",
+     "note": "ships in r63 (branch studio-z/r63)"
+    },
+    {
+     "id": "Z2",
+     "title": "Studio Z: one-strike offline lock",
+     "lane": "opus",
+     "state": "building",
+     "studio": "Z",
+     "order": 2,
+     "place": "Studio Z thread (nothing for Nik to type)",
+     "note": "ships in r63 (branch studio-z/r63)"
+    },
+    {
+     "id": "Z3",
+     "title": "Studio Z: refresh resume",
+     "lane": "opus",
+     "state": "building",
+     "studio": "Z",
+     "order": 3,
+     "place": "Studio Z thread (nothing for Nik to type)",
+     "note": "ships in r63 (branch studio-z/r63)"
+    },
+    {
+     "id": "Z4",
+     "title": "Studio Z: automatic session handoff",
+     "lane": "opus",
+     "state": "building",
+     "studio": "Z",
+     "order": 4,
+     "place": "Studio Z thread (nothing for Nik to type)",
+     "note": "ships in r63 (branch studio-z/r63)"
+    },
+    {
+     "id": "Z5",
+     "title": "Studio Z: auto-apply updates",
+     "lane": "opus",
+     "state": "building",
+     "studio": "Z",
+     "order": 5,
+     "place": "Studio Z thread (nothing for Nik to type)",
+     "note": "ships in r63 (branch studio-z/r63)"
+    },
+    {
+     "id": "Z6",
+     "title": "Studio Z: stuck Google sign-in",
+     "lane": "opus",
+     "state": "building",
+     "studio": "Z",
+     "order": 6,
+     "place": "Studio Z thread (nothing for Nik to type)",
+     "note": "ships in r63 (branch studio-z/r63)"
+    },
+    {
+     "id": "Z7",
+     "title": "Studio Z: upright tablet layout",
+     "lane": "opus",
+     "state": "building",
+     "studio": "Z",
+     "order": 7,
+     "place": "Studio Z thread (nothing for Nik to type)",
+     "note": "ships in r63 (branch studio-z/r63)"
+    },
+    {
+     "id": "Z8",
+     "title": "Studio Z: typed league ambiguity",
+     "lane": "opus",
+     "state": "building",
+     "studio": "Z",
+     "order": 8,
+     "place": "Studio Z thread (nothing for Nik to type)",
+     "note": "ships in r63 (branch studio-z/r63)"
+    },
+    {
      "id": "G-F1",
      "title": "Nik and Daniel play 2.0 on their phones",
      "lane": "nik",

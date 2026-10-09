@@ -1,6 +1,6 @@
 # Bug hunt board
 
-Updated Thu 8 Oct, 8:11 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
+Updated Thu 8 Oct, 8:57 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r62** (main `bc77a0b`, Mon 5 Oct 9:18 PM)
 
@@ -8,10 +8,18 @@ Updated Thu 8 Oct, 8:11 PM Boston time. Bug hunting only, no new features until 
 
 ## Jobs
 
-🚨 **Studio Z first: emergency fixes from Nik and Daniel's live test** · connectivity, sign-in, continuing after a refresh, old-build modules coming back, Transfer layout · no jobs yet
+🚨 **Studio Z first: emergency fixes from Nik and Daniel's live test** · connectivity, sign-in, continuing after a refresh, old-build modules coming back, Transfer layout
 
 **Running now**
 
+- **Z1** Studio Z: sign-in starter race · building
+- **Z2** Studio Z: one-strike offline lock · building
+- **Z3** Studio Z: refresh resume · building
+- **Z4** Studio Z: automatic session handoff · building
+- **Z5** Studio Z: auto-apply updates · building
+- **Z6** Studio Z: stuck Google sign-in · building
+- **Z7** Studio Z: upright tablet layout · building
+- **Z8** Studio Z: typed league ambiguity · building
 - **1011** Plain-words sweep: jargon on game screens · worker done, lead checking
 - **1028** Statistics shows an abandoned-only career (hunt 1019 H5) · worker done, lead checking
 
