@@ -1088,7 +1088,7 @@
      "id": "1043",
      "title": "Showdown Gate: no write token for pull-request code (audit F1)",
      "lane": "sonnet",
-     "state": "building (Claude Sonnet)",
+     "state": "done (merged into bug-list-1, PR #438)",
      "order": 19,
      "place": "lead worker",
      "note": "ticket jobs/JOB-1043.md"
@@ -1105,11 +1105,11 @@
     {
      "id": "1045",
      "title": "Showdown Gate: pin actions and tool installs (audit F4)",
-     "lane": "sonnet",
-     "state": "waits on 1043",
+     "lane": "codex",
+     "state": "ready (after 1044)",
      "order": 21,
-     "place": "lead worker",
-     "note": "ticket jobs/JOB-1045.md"
+     "place": "Codex cloud, branch gameplay/bug-list-1: type 'Job 1045'",
+     "note": "ticket jobs/JOB-1045.md; lead sessions cannot read actions/* tags"
     }
    ]
   },
