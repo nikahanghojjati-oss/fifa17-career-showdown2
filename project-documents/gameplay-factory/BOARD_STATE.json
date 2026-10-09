@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-09 1:59 AM Boston time (EDT)",
+ "generated": "2026-10-09 2:01 AM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -284,7 +284,7 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "0a0ee64",
+  "head": "0a0ee647",
   "head_boston": "Fri 9 Oct 1:57 AM",
   "latest_id": "G2V-016",
   "feed_matches_latest": true,
@@ -313,9 +313,9 @@
  },
  "two": {
   "live": {
-   "sha": "963a979",
+   "sha": "963a9791",
    "revision": "1.9.1-r64",
-   "when": "2026-10-09T05:44:20Z",
+   "when": "2026-10-09T05:44:20+00:00",
    "subject": "Release r64: Forget device sign-back-in, phone LOCK MY SIGNINGS (#429)",
    "fixes": [],
    "today": [
@@ -332,8 +332,8 @@
    ]
   },
   "physio": {
-   "state": "barking",
-   "line": "Barking: POS20 on #312 has waited 1 min for a machine.",
+   "state": "clear",
+   "line": "All clear: every check has a machine.",
    "gate": "POS20 #304 6/16",
    "source": "physio"
   },
@@ -699,9 +699,9 @@
  ],
  "now": {
   "moving": 22,
-  "next": 3,
+  "next": 4,
   "nik": 7,
-  "later": 12,
+  "later": 11,
   "rows": {
    "G": {
     "moving": [
@@ -902,6 +902,15 @@
     ],
     "next": [
      {
+      "id": "1041",
+      "title": "Season Results on phone: ACKNOWLEDGE reachable, no inner scroll box, title clear, photos aligned",
+      "lane": "codex",
+      "state": "ready",
+      "order": 6,
+      "place": "Codex cloud, branch gameplay/bug-list-1: type 'Job 1041'",
+      "note": "same family as Studio Z's Signing Entry fix"
+     },
+     {
       "id": "G-F5",
       "title": "QA packet adoptions: truth line, wrong-target guard on main PRs, PR title rule",
       "lane": "sonnet",
@@ -926,15 +935,6 @@
      }
     ],
     "later": [
-     {
-      "id": "1041",
-      "title": "Season Results on phone: ACKNOWLEDGE reachable, no inner scroll box, title clear, photos aligned",
-      "lane": "codex",
-      "state": "waiting on r64",
-      "order": 6,
-      "place": "Codex cloud: type 'Job 1041' after r64",
-      "note": "same family as Studio Z's Signing Entry fix"
-     },
      {
       "id": "1038",
       "title": "Final winner closes the Showdown so it counts in the career",

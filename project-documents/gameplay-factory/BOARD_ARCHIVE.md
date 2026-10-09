@@ -1,14 +1,14 @@
 # Board archive
 
-[Back to the board](BOARD.md) · generated 2026-10-09 1:59 AM Boston time (EDT). Detail and history behind the one board.
+[Back to the board](BOARD.md) · generated 2026-10-09 2:01 AM Boston time (EDT). Detail and history behind the one board.
 
 ## Old detailed board
 
 # Showdown board: G Factory and V Factory
 
-🌐 **Live: runtime 1.9.1-r64** (main `963a979`) · 🔄 **22 moving** · ⏭ 3 up next · 👤 7 waiting on Nik · 🗂 12 later · updated 2026-10-09 1:59 AM Boston time (EDT)
+🌐 **Live: runtime 1.9.1-r64** (main `963a9791`) · 🔄 **22 moving** · ⏭ 4 up next · 👤 7 waiting on Nik · 🗂 11 later · updated 2026-10-09 2:01 AM Boston time (EDT)
 
-🐕 **Barking: POS20 on #312 has waited 1 min for a machine.** · POS20 #304 6/16
+🩺 **All clear: every check has a machine.** · POS20 #304 6/16
 
 ## Your next move
 
@@ -52,6 +52,7 @@ _Gameplay, online sync, every merge and every release (senior director)._ Worker
 
 | Job | What | Worker | State | Waits on |
 | --- | --- | --- | --- | --- |
+| 1041 | Season Results on phone: ACKNOWLEDGE reachable, no inner scroll box, title clear, photos aligned | ⬜ Codex | ready | - |
 | G-F5 | QA packet adoptions: truth line, wrong-target guard on main PRs, PR title rule | 🟪 Sonnet | next | - |
 | G-F11 | Old-design CSS collisions: scope old rulebook/settings/analytics/app CSS off Team V markup (about 70 shared class names) | 🟪 Sonnet | ready (Sonnet audit, then Opus fix) | - |
 | 1042 | Closed Final Winner shows the final season on both phones | ⬜ Codex | ready | - |
@@ -67,7 +68,6 @@ _Gameplay, online sync, every merge and every release (senior director)._ Worker
 
 | Job | What | Worker | State | Waits on |
 | --- | --- | --- | --- | --- |
-| 1041 | Season Results on phone: ACKNOWLEDGE reachable, no inner scroll box, title clear, photos aligned | ⬜ Codex | waiting on r64 | - |
 | 1038 | Final winner closes the Showdown so it counts in the career | 🟧 Team G lead | merged into bug-list-1 (PR #433) | - |
 | 1040 | Browser journey opens Legacy, Trophy Room and Stats after a finished online Showdown | 🟪 Sonnet | merged into bug-list-1 (PR #434) | - |
 | 1039 | Legacy stops reloading on every shared event and never spins forever | ⬜ Codex | merged into bug-list-1 (PR #431) | - |
@@ -194,7 +194,7 @@ Latest:
 ## Every bug report
 
 
-> Updated **Fri 9 Oct, 1:59 AM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
+> Updated **Fri 9 Oct, 2:01 AM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
 
 | 🔓 Open | 🔴 Top priority | 🔧 Fixing or waiting for release | ✅ Fixed and live |
 | :---: | :---: | :---: | :---: |
