@@ -1,12 +1,12 @@
 # Board archive
 
-[Back to the board](BOARD.md) · generated 2026-10-09 1:38 AM Boston time (EDT). Detail and history behind the one board.
+[Back to the board](BOARD.md) · generated 2026-10-09 1:41 AM Boston time (EDT). Detail and history behind the one board.
 
 ## Old detailed board
 
 # Showdown board: G Factory and V Factory
 
-🌐 **Live: runtime 1.9.1-r63** (main `368c5aa`) · 🔄 **23 moving** · ⏭ 2 up next · 👤 7 waiting on Nik · 🗂 12 later · updated 2026-10-09 1:38 AM Boston time (EDT)
+🌐 **Live: runtime 1.9.1-r63** (main `368c5aa`) · 🔄 **23 moving** · ⏭ 2 up next · 👤 7 waiting on Nik · 🗂 12 later · updated 2026-10-09 1:41 AM Boston time (EDT)
 
 🐕 **Barking: POS20 has waited 13 min for a machine; POS20 on #434 has waited 12 min for a machine; POS20 on #433 has waited 12 min for a machine; POS20 on #429 has waited 11 min for a machine; POS20 on #424 has waited 11 min for a machine; Showdown Gate on #424 has waited 11 min for a machine.** · Gate #429: L1… L2… L3… L4✓ L5✓ L6✓ · seal pending · POS20 #429 5/16
 
@@ -18,7 +18,7 @@
 
 | Release / fix | Checks on the latest commit | Updated |
 | --- | --- | --- |
-| [PR #429](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/429) Release r64: Forget device sign-back-in, phone LOCK MY SIGNINGS | ⏳ 13 passed, 4 running | 1:22 AM |
+| [PR #429](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/429) Release r64: Forget device sign-back-in, phone LOCK MY SIGNINGS | ⏳ 18 passed, 1 running | 1:22 AM |
 
 | Team | Job | What | Worker | Where it is | Details |
 | --- | --- | --- | --- | --- | --- |
@@ -197,7 +197,7 @@ Latest:
 ## Every bug report
 
 
-> Updated **Fri 9 Oct, 1:38 AM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
+> Updated **Fri 9 Oct, 1:41 AM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
 
 | 🔓 Open | 🔴 Top priority | 🔧 Fixing or waiting for release | ✅ Fixed and live |
 | :---: | :---: | :---: | :---: |
