@@ -7,7 +7,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
-import {githubClient,classifyRun} from './gate-watchdog.mjs';
+import {githubClient,classifyRun,PHYSIO_NAME} from './gate-watchdog.mjs';
 import {groupOf,LIFECYCLE_PROOF} from './showdown-gate.mjs';
 
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
@@ -24,7 +24,7 @@ export function compareHead({head,pos20,gameplayFast,gate}){
   const oldRan=[...new Set(old.flatMap(side=>side.ran||[]))];
   const missing=oldRan.filter(id=>!gateRan.has(id)).sort();
   // Infra failures on either side are excluded from agreement (they say nothing about the code).
-  const comparable=!['PENDING','ABSENT','INFRA'].includes(oldVerdict)&&!['PENDING','ABSENT','INFRA_RETRYING','INFRA_EXHAUSTED','DRAFT','SUPERSEDED'].includes(gateVerdict);
+  const comparable=['PASS','FAIL'].includes(oldVerdict)&&['PASS','FAIL','FAIL_TEST'].includes(gateVerdict);
   const gatePass=gateVerdict==='PASS';
   return {
     schema:'showdown-gate-compare/v1',head,
@@ -47,16 +47,28 @@ export function compareHead({head,pos20,gameplayFast,gate}){
 // one simulated infra failure re-run exactly once.
 export const EXIT_CRITERIA=Object.freeze({minHeads:10,minFullSeals:2,maxDisagreements:0,canaries:2});
 export function evaluateExitCriteria({comparisons=[],canaries=[],infraRuns=[]}){
-  const real=comparisons.filter(c=>c.comparable);
-  const disagreements=real.filter(c=>c.gate_pass_old_fail);
-  const canaryOk=canaries.filter(c=>c.gate?.verdict==='FAIL_TEST'&&Number(c.gate?.run_attempt)===1);
-  const infraOk=infraRuns.filter(r=>r.run_attempt===2&&r.watchdog_reruns===1);
+  const head=value=>typeof value==='string'&&/^[0-9a-f]{40}$/.test(value);
+  const profile=value=>typeof value==='string'&&value.trim().length>0;
+  const complete=c=>head(c?.head)&&['PASS','FAIL','INFRA'].includes(c.pos20?.verdict)&&profile(c.pos20?.profile)&&
+    ['PASS','FAIL','FAIL_TEST','INFRA_RETRYING','INFRA_EXHAUSTED','DRAFT','SUPERSEDED'].includes(c.gate?.verdict)&&profile(c.gate?.profile)&&
+    ['PASS','FAIL','INFRA'].includes(c.old_verdict)&&typeof c.comparable==='boolean'&&typeof c.same_route_profile==='boolean'&&
+    typeof c.gate_ran_superset==='boolean'&&typeof c.gate_pass_old_fail==='boolean';
+  const records=comparisons.filter(complete);
+  const real=records.filter(c=>c.comparable===true&&['PASS','FAIL'].includes(c.pos20.verdict)&&['PASS','FAIL'].includes(c.old_verdict)&&['PASS','FAIL','FAIL_TEST'].includes(c.gate.verdict));
+  const heads=[...new Set(real.map(c=>c.head))];
+  const disagreements=real.filter(c=>c.gate_pass_old_fail===true||c.gate.verdict==='PASS'&&(c.old_verdict!=='PASS'||c.pos20.verdict!=='PASS'));
+  const fullHeads=heads.filter(h=>real.filter(c=>c.head===h).every(c=>c.full_seal===true&&/FULL_SEAL$/.test(c.gate.profile)&&c.gate.verdict==='PASS'&&c.old_verdict==='PASS'&&c.pos20.verdict==='PASS'));
+  const canaryHeads=[...new Set(canaries.filter(c=>head(c?.head)).map(c=>c.head))];
+  const canaryOk=canaryHeads.filter(h=>canaries.filter(c=>c.head===h).every(c=>c.gate?.verdict==='FAIL_TEST'&&c.gate?.run_attempt===1));
+  const infraOk=infraRuns.filter(r=>r?.conclusion==='success'&&r.run_attempt===2&&r.watchdog_reruns===1);
   const criteria={
-    heads:{have:real.length,need:EXIT_CRITERIA.minHeads,ok:real.length>=EXIT_CRITERIA.minHeads},
-    full_seals:{have:real.filter(c=>c.full_seal).length,need:EXIT_CRITERIA.minFullSeals,ok:real.filter(c=>c.full_seal).length>=EXIT_CRITERIA.minFullSeals},
+    complete_comparisons:{incomplete_heads:comparisons.filter(c=>!complete(c)).map(c=>c?.head??null),ok:records.length===comparisons.length},
+    heads:{have:heads.length,need:EXIT_CRITERIA.minHeads,ok:heads.length>=EXIT_CRITERIA.minHeads},
+    same_route:{mismatched_heads:[...new Set(real.filter(c=>c.same_route_profile!==true||c.pos20.profile!==c.gate.profile).map(c=>c.head))],ok:real.every(c=>c.same_route_profile===true&&c.pos20.profile===c.gate.profile)},
+    full_seals:{have:fullHeads.length,need:EXIT_CRITERIA.minFullSeals,ok:fullHeads.length>=EXIT_CRITERIA.minFullSeals},
     disagreements:{have:disagreements.length,heads:disagreements.map(c=>c.head),ok:disagreements.length<=EXIT_CRITERIA.maxDisagreements},
     gate_ran_superset:{missing_heads:real.filter(c=>!c.gate_ran_superset).map(c=>c.head),ok:real.every(c=>c.gate_ran_superset)},
-    canaries:{have:canaryOk.length,need:EXIT_CRITERIA.canaries,ok:canaryOk.length>=EXIT_CRITERIA.canaries},
+    canaries:{have:canaryOk.length,need:EXIT_CRITERIA.canaries,ok:canaryOk.length>=EXIT_CRITERIA.canaries&&canaries.every(c=>head(c?.head)&&c.gate?.verdict==='FAIL_TEST'&&c.gate?.run_attempt===1)},
     infra_rerun_once:{have:infraOk.length,need:1,ok:infraOk.length>=1}
   };
   return {schema:'showdown-gate-exit/v1',ready:Object.values(criteria).every(c=>c.ok),criteria};
@@ -104,6 +116,44 @@ async function jobLog(repo,jobId){
   const response=await fetch(`${process.env.GITHUB_API_URL||'https://api.github.com'}/repos/${repo}/actions/jobs/${jobId}/logs`,{headers:{authorization:`Bearer ${token}`,'user-agent':'showdown-gate-compare'}});
   if(!response.ok)throw new Error(`job ${jobId} log -> ${response.status}`);
   return response.text();
+}
+
+// The watchdog records accepted re-runs as structured JSON in its job log. physio/v1's board view
+// groups by head and omits run ids, so it cannot attribute a specific recovery. Never infer attribution
+// from the recovered run's attempt number, and never read results from a pull-request workflow.
+export function parsePhysioResults(log){
+  const results=[];
+  for(const line of String(log||'').split('\n')){
+    const start=line.indexOf('{');if(start<0)continue;
+    try{const value=JSON.parse(line.slice(start));if(value?.schema==='showdown-gate-watchdog/v1')results.push(value);}catch{/* Non-result log lines are not evidence. */}
+  }
+  return results;
+}
+export async function readPhysioReruns(client,repo,run,{log=jobLog}={}){
+  const accepted=[];
+  try{
+    // Paginate until the target run's creation time; older Physio runs cannot have re-run it.
+    const created=Date.parse(run.created_at);if(!Number.isFinite(created))return null;
+    for(let page=1;;page++){
+      const runs=(await client.get(`repos/${repo}/actions/workflows/gate-watchdog.yml/runs?status=completed&per_page=100&page=${page}`))?.workflow_runs;
+      if(!Array.isArray(runs))return null;
+      for(const physio of runs){
+        if(Date.parse(physio.created_at)<created)continue;
+        if(physio.name!==PHYSIO_NAME||String(physio.path||'').replace(/@.*$/,'')!=='.github/workflows/gate-watchdog.yml'||physio.head_branch!=='main'||!['workflow_run','schedule','workflow_dispatch'].includes(physio.event))continue;
+        const jobs=(await client.get(`repos/${repo}/actions/runs/${physio.id}/jobs?filter=all&per_page=100`))?.jobs;
+        if(!Array.isArray(jobs))return null;
+        for(const job of jobs){
+          for(const result of parsePhysioResults(await log(repo,job.id))){
+            if(result.run_id===run.id&&result.head_sha===run.head_sha&&result.workflow==='Showdown Gate'&&result.classification==='INFRA'&&result.action==='rerun-failed-jobs'&&result.rerun_status===201&&result.run_attempt===1&&result.retries_used===0){
+              accepted.push({physio_run_id:physio.id,job_id:job.id,run_id:result.run_id,head_sha:result.head_sha,run_attempt:result.run_attempt});
+            }
+          }
+        }
+      }
+      if(runs.length<100||runs.every(p=>Date.parse(p.created_at)<created))break;
+    }
+  }catch{return null;}
+  return [...new Map(accepted.map(result=>[`${result.physio_run_id}:${result.job_id}`,result])).values()];
 }
 // Old-side verdicts that failed only for infra (no machine, lost runner) are reported as INFRA.
 async function oldInfra(client,repo,run,jobs,sealJobName){
@@ -164,7 +214,11 @@ async function main(argv){
   for(const sha of heads){const c=await compareLive(client,repo,sha,coverage);comparisons.push(c);console.log(JSON.stringify(c));}
   const canaries=[];for(const sha of canaryHeads)canaries.push(await compareLive(client,repo,sha,coverage));
   const infra=[];
-  for(const id of infraRuns){const run=await client.get(`repos/${repo}/actions/runs/${id}`);infra.push({run_id:Number(id),run_attempt:Number(run.run_attempt),watchdog_reruns:Math.max(0,Number(run.run_attempt)-1),conclusion:run.conclusion});}
+  for(const id of infraRuns){
+    const run=await client.get(`repos/${repo}/actions/runs/${id}`);
+    const attribution=run.name==='Showdown Gate'&&String(run.path||'').replace(/@.*$/,'')===GATE_PATH?await readPhysioReruns(client,repo,run):null;
+    infra.push({run_id:Number(id),run_attempt:Number(run.run_attempt),watchdog_reruns:attribution?.length??null,physio_reruns:attribution,conclusion:run.conclusion});
+  }
   console.log(JSON.stringify({...evaluateExitCriteria({comparisons,canaries,infraRuns:infra}),canaries:canaries.map(c=>({head:c.head,gate:c.gate})),infra_runs:infra}));
 }
 

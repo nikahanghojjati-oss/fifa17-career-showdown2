@@ -7,13 +7,14 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import {spawnSync} from 'node:child_process';
+import {createHash} from 'node:crypto';
 import {fileURLToPath} from 'node:url';
 import {classifyRun,githubClient,SEAL_JOB_NAME,MAX_ATTEMPTS} from './gate-watchdog.mjs';
 
 export const SCHEMA='showdown-gate/v1';
 export const LANE_SCHEMA='showdown-gate-lane/v1';
 export const ROUTER='scripts/pos20-impact-router.mjs';
-export const VERDICTS=Object.freeze(['PASS','FAIL_TEST','INFRA_RETRYING','INFRA_EXHAUSTED','DRAFT','SUPERSEDED']);
+export const VERDICTS=Object.freeze(['PASS','FAIL_TEST','INFRA_RETRYING','INFRA_EXHAUSTED','DRAFT','SUPERSEDED','HEAD_UNKNOWN']);
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 const readJson=file=>JSON.parse(fs.readFileSync(path.join(root,file),'utf8'));
 const graph=readJson('POS10_IMPACT_GRAPH.json');
@@ -107,34 +108,52 @@ export function routeFromEnv(env=process.env){
   return {event,files,route:computeRoute({files,forceFull:event==='push'})};
 }
 
-export function buildLaneRecord({lane,headSha,runAttempt,route,steps,jobStatus}){
+// Sort object keys recursively; array order remains part of the route's identity.
+export function routeDigest(route){
+  const canonical=value=>Array.isArray(value)?value.map(canonical):value&&typeof value==='object'?Object.fromEntries(Object.keys(value).sort().map(key=>[key,canonical(value[key])])):value;
+  return route?createHash('sha256').update(JSON.stringify(canonical(route))).digest('hex'):null;
+}
+const positiveInteger=value=>Number.isSafeInteger(value)&&value>0;
+const sha=value=>typeof value==='string'&&/^[0-9a-f]{40}$/.test(value);
+const validRoute=route=>route&&typeof route.profile==='string'&&route.profile.trim().length>0&&
+  ['tests','proofs'].every(key=>Array.isArray(route[key])&&route[key].every(id=>typeof id==='string'&&id.length>0))&&typeof route.operations==='boolean';
+export function baseFromEnv(env=process.env){
+  let payload={};
+  if(env.GITHUB_EVENT_PATH)payload=JSON.parse(fs.readFileSync(env.GITHUB_EVENT_PATH,'utf8'));
+  return env.GATE_EVENT==='pull_request'?(env.GATE_BASE_SHA||payload.pull_request?.base?.sha||null):(env.GATE_BEFORE_SHA||payload.before||null);
+}
+
+export function buildLaneRecord({lane,headSha,baseSha,runId,runAttempt,route,steps,jobStatus}){
   const selected=route?selectedFor(lane,route):[];
   const ran=route?ranFor(lane,route,steps):[];
-  return {schema:LANE_SCHEMA,lane,job:LANES[lane].job,head_sha:headSha,run_attempt:Number(runAttempt||1),route_profile:route?.profile??null,selected,ran,missing:selected.filter(id=>!ran.includes(id)),result:jobStatus||'unknown'};
+  return {schema:LANE_SCHEMA,lane,job:LANES[lane].job,head_sha:headSha,base_sha:baseSha??null,run_id:runId==null?null:Number(runId),run_attempt:runAttempt==null?null:Number(runAttempt),route_profile:route?.profile??null,route_digest:routeDigest(route),selected,ran,missing:selected.filter(id=>!ran.includes(id)),result:jobStatus||'unknown'};
 }
 
 // Pure seal evaluation. needs: {jobId:{result}}; lanes: {L1:laneRecord|null}; classification: classifyRun output or null.
-export function evaluateSeal({event,draft,headSha,prLiveHead=null,route,needs,lanes,classification=null,runAttempt=1,runId=null}){
+export function evaluateSeal({event,draft,headSha,baseSha=null,prLiveHead=null,route,needs,lanes,classification=null,runAttempt=null,runId=null}){
   const failures=[];
   const laneSummary={};
   for(const lane of LANE_IDS){
     const job=LANES[lane].job;
     laneSummary[lane]={job,result:needs?.[job]?.result??'missing',selected:lanes?.[lane]?.selected?.length??0,ran:lanes?.[lane]?.ran?.length??0};
   }
-  const ranIds=()=>[...new Set(LANE_IDS.flatMap(lane=>lanes?.[lane]?.ran||[]))].sort();
-  const summary=verdict=>({schema:SCHEMA,verdict,head_sha:headSha,event,run_id:runId,run_attempt:Number(runAttempt||1),retries_used:Math.max(0,Number(runAttempt||1)-1),route_profile:route?.profile??null,lanes:laneSummary,failures,ran_ids:ranIds()});
+  const ranIds=()=>[...new Set(LANE_IDS.flatMap(lane=>Array.isArray(lanes?.[lane]?.ran)?lanes[lane].ran:[]))].sort();
+  const summary=verdict=>({schema:SCHEMA,verdict,head_sha:headSha,base_sha:baseSha,event,run_id:runId,run_attempt:runAttempt,retries_used:positiveInteger(runAttempt)?runAttempt-1:null,route_profile:route?.profile??null,route_digest:routeDigest(route),lanes:laneSummary,failures,ran_ids:ranIds()});
   if(event==='pull_request'&&draft){failures.push('draft: Showdown Gate does not run on draft pull requests');return summary('DRAFT');}
-  if(event==='pull_request'&&prLiveHead&&prLiveHead!==headSha){failures.push(`superseded: PR head moved to ${prLiveHead}`);return summary('SUPERSEDED');}
-  if(!route){failures.push('seal could not recompute the route');return summary('FAIL_TEST');}
+  if(event==='pull_request'&&!sha(prLiveHead)){failures.push('live PR head could not be resolved; refusing to seal');return summary('HEAD_UNKNOWN');}
+  if(event==='pull_request'&&prLiveHead!==headSha){failures.push(`superseded: PR head moved to ${prLiveHead}`);return summary('SUPERSEDED');}
+  if(!['pull_request','push'].includes(event)||!sha(headSha)||!sha(baseSha)||!positiveInteger(runId)||!positiveInteger(runAttempt)){
+    failures.push('seal event, head, base, run id or attempt is missing or invalid');return summary('FAIL_TEST');
+  }
+  if(!validRoute(route)){failures.push('seal could not recompute a complete route');return summary('FAIL_TEST');}
   const red=LANE_IDS.filter(lane=>laneSummary[lane].result!=='success');
   if(red.length){
     for(const lane of red)failures.push(`${lane} (${LANES[lane].job}) ${laneSummary[lane].result}`);
     if(classification&&['INFRA','INFRA_EXHAUSTED'].includes(classification.classification)){
       failures.push(...classification.reasons);
-      return summary(classification.classification==='INFRA'&&Number(runAttempt||1)<MAX_ATTEMPTS?'INFRA_RETRYING':'INFRA_EXHAUSTED');
+      return summary(classification.classification==='INFRA'&&runAttempt<MAX_ATTEMPTS?'INFRA_RETRYING':'INFRA_EXHAUSTED');
     }
     if(classification)failures.push(...(classification.reasons||[]));
-    if(!classification&&red.every(lane=>laneSummary[lane].result==='cancelled'))return summary(Number(runAttempt||1)<MAX_ATTEMPTS?'INFRA_RETRYING':'INFRA_EXHAUSTED');
     return summary('FAIL_TEST');
   }
   const ranAll=new Set();
@@ -142,9 +161,16 @@ export function evaluateSeal({event,draft,headSha,prLiveHead=null,route,needs,la
     const record=lanes?.[lane];
     if(!record){failures.push(`${lane}: lane.json missing`);continue;}
     if(record.schema!==LANE_SCHEMA)failures.push(`${lane}: unexpected lane schema ${record.schema}`);
+    if(record.lane!==lane)failures.push(`${lane}: lane identity ${record.lane} != ${lane}`);
+    if(record.job!==LANES[lane].job)failures.push(`${lane}: job identity ${record.job} != ${LANES[lane].job}`);
     if(record.head_sha!==headSha)failures.push(`${lane}: lane ran on ${record.head_sha}, not ${headSha}`);
+    if(record.base_sha!==baseSha)failures.push(`${lane}: base ${record.base_sha} != ${baseSha}`);
+    if(record.run_id!==runId)failures.push(`${lane}: run id ${record.run_id} != ${runId}`);
+    if(!positiveInteger(record.run_attempt)||record.run_attempt>runAttempt)failures.push(`${lane}: invalid lane attempt ${record.run_attempt} for current attempt ${runAttempt}`);
     if(record.route_profile!==route.profile)failures.push(`${lane}: route profile ${record.route_profile} != ${route.profile}`);
+    if(record.route_digest!==routeDigest(route))failures.push(`${lane}: route digest does not match the seal route`);
     if(record.result!=='success')failures.push(`${lane}: lane.json result ${record.result}`);
+    if(!Array.isArray(record.selected)||!Array.isArray(record.ran)){failures.push(`${lane}: selected or ran ids are missing or invalid`);continue;}
     const expected=selectedFor(lane,route);
     const missingSelection=expected.filter(id=>!(record.selected||[]).includes(id));
     if(missingSelection.length)failures.push(`${lane}: lane selected fewer ids than the route requires: ${missingSelection.join(', ')}`);
@@ -194,7 +220,7 @@ async function cmdRoute(opts){
   const lane=opts.lane;
   if(lane&&!LANES[lane])throw new Error(`Unknown lane ${lane}`);
   const {event,files,route}=routeFromEnv();
-  const record={schema:'showdown-gate-route/v1',event,head_sha:process.env.GATE_HEAD_SHA,files,route};
+  const record={schema:'showdown-gate-route/v1',event,head_sha:process.env.GATE_HEAD_SHA,base_sha:baseFromEnv(),files,route};
   if(opts.out)fs.writeFileSync(opts.out,`${JSON.stringify(record,null,2)}\n`);
   const flags=laneFlags(route);
   writeOutputs(opts['github-output'],{profile:route.profile,proofs_csv:route.proofs.join(','),...flags});
@@ -209,7 +235,7 @@ async function cmdFinalize(opts){
   const lane=opts.lane;if(!LANES[lane])throw new Error(`Unknown lane ${lane}`);
   let steps={};
   try{steps=JSON.parse(process.env.GATE_STEPS_JSON||'{}');}catch{steps={};}
-  const record=buildLaneRecord({lane,headSha:process.env.GATE_HEAD_SHA,runAttempt:process.env.GATE_RUN_ATTEMPT,route:readRoute(opts.route),steps,jobStatus:process.env.GATE_JOB_STATUS});
+  const record=buildLaneRecord({lane,headSha:process.env.GATE_HEAD_SHA,baseSha:baseFromEnv(),runId:process.env.GITHUB_RUN_ID,runAttempt:process.env.GATE_RUN_ATTEMPT,route:readRoute(opts.route),steps,jobStatus:process.env.GATE_JOB_STATUS});
   const out=opts.out||'lane.json';
   fs.mkdirSync(path.dirname(path.resolve(out)),{recursive:true});
   fs.writeFileSync(out,`${JSON.stringify(record,null,2)}\n`);
@@ -217,7 +243,7 @@ async function cmdFinalize(opts){
 }
 async function cmdSeal(opts){
   const env=process.env;
-  const event=env.GATE_EVENT;const headSha=env.GATE_HEAD_SHA;const runAttempt=Number(env.GATE_RUN_ATTEMPT||1);const repo=env.GITHUB_REPOSITORY;
+  const event=env.GATE_EVENT;const headSha=env.GATE_HEAD_SHA;const runAttempt=Number(env.GATE_RUN_ATTEMPT);const repo=env.GITHUB_REPOSITORY;
   const draft=env.GATE_DRAFT==='true';
   let needs={};try{needs=JSON.parse(env.GATE_NEEDS_JSON||'{}');}catch{needs={};}
   const lanes={};
@@ -248,7 +274,7 @@ async function cmdSeal(opts){
       }catch(error){console.error(`job classification unavailable: ${error.message.split('\n')[0]}`);}
     }
   }
-  const summary=evaluateSeal({event,draft,headSha,prLiveHead,route,needs,lanes,classification,runAttempt,runId:env.GITHUB_RUN_ID?Number(env.GITHUB_RUN_ID):null});
+  const summary=evaluateSeal({event,draft,headSha,baseSha:baseFromEnv(env),prLiveHead,route,needs,lanes,classification,runAttempt,runId:env.GITHUB_RUN_ID?Number(env.GITHUB_RUN_ID):null});
   summary.generated_at=new Date().toISOString();
   const out=opts.out||'gate-summary.json';
   fs.mkdirSync(path.dirname(path.resolve(out)),{recursive:true});
