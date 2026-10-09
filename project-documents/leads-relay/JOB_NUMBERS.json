@@ -1,6 +1,6 @@
 {
  "_how": "One shared job counter for Team G and Team V (Nik, 2026-10-05). Claim with tools/claim_number.py only. A number is used once, ever. CONTRACT.md section 10.",
- "next": 1049,
+ "next": 1050,
  "claims": [
   {
    "number": 1001,
@@ -290,6 +290,12 @@
    "team": "G",
    "title": "Rule Book three missing rules and stale season review sentence (Olympiad V1, V2)",
    "claimed": "2026-10-09T22:02:03Z"
+  },
+  {
+   "number": 1049,
+   "team": "G",
+   "title": "Sealed club name spoiler at pack reveal and empty-device restore ignores Keep current (Olympiad V3, V5)",
+   "claimed": "2026-10-09T22:02:05Z"
   }
  ]
 }
