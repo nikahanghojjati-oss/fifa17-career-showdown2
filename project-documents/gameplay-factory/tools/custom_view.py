@@ -502,7 +502,7 @@ L = ["# Bug hunt board", "",
      "The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).", ""]
 if warn:
     L += ["> ⚠ **Not fully current:** " + " ".join(warn), ""]
-L += [f"🌐 **Live: {LV['revision']}** (main `{LV["sha"][:7]}`, {TF.bos(LV['when'])})" if LV else "🌐 Live version unknown this run", "",
+L += [f"🌐 **Live: {LV['revision']}** (main `{LV['sha'][:7]}`, {TF.bos(LV['when'])})" if LV else "🌐 Live version unknown this run", "",
       f"{TF.PHYSIO_ICON.get(ph.get('state'), '🩺')} **{ph.get('line', 'Physio: no report yet.')}**" + (f" · {ph['gate']}" if ph.get("gate") else ""), "",
       "## Jobs", ""]
 for z in STUDIO.values():
