@@ -231,7 +231,7 @@ def q_add(it, team):
     if re.match(r"(in release|verified|in r\d|merged|done \(merged)", st, re.I) or n in MERGED:
         Q["release"].append(q)
     elif re.match(r"held\b", st, re.I):  # held for Nik wins over every other signal, an open PR included (lead, 2026-10-09 22:26 UTC)
-        q["after"] = short_state(st)
+        q["after"] = st  # in full: it says what Nik is asked
         Q["wait"].append(q)
     elif status_blocked(n) and not re.match(r"with (the )?worker", st, re.I):  # a stopped worker is not "Next for you"; the lead's "with the worker" means it was unblocked
         q["after"] = q["state"] = status_blocked(n)

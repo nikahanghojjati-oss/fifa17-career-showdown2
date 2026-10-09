@@ -48,7 +48,7 @@ Job 1045 for this repo. First read the ticket: run `git fetch origin factory/gam
 
 **#1 · 1053** `G` Restore on an empty device respects Keep current (Olympiad V5)  
 `░░░░░░░░░░` **0.0000 %**  
-🔵 Team blue · **GPT-6 Sol** · High effort · waits: held: worker done
+🔵 Team blue · **GPT-6 Sol** · High effort · waits: held: worker done (PR #445), waiting on Nik's choice about Keep current on an empty device (it clashes with the job 1027 test); Claude Haiku prepares the tests
 
 **Done, in the next release:** 1001, 1003, 1004, 1005, 1009, 1010, 1011, 1014, 1015, 1020, 1021, 1022, 1023, 1024, 1025, 1026, 1027, 1028, 1037, 1038, 1039, 1040, 1041, 1042, 1043, 1044, 1046, 1047, 1048, 1054, Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8
 
