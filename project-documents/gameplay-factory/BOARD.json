@@ -1107,7 +1107,7 @@
      "title": "Showdown Gate: pin actions and tool installs (audit F4)",
      "lane": "codex",
      "state": "ready (after 1050)",
-     "order": 24,
+     "order": 25,
      "place": "Codex cloud, this repo, branch gameplay/bug-list-1",
      "note": "ticket jobs/JOB-1045.md; stays Codex: it must read GitHub Actions release tags, which chat and Claude lanes cannot",
      "team": "white",
@@ -1134,33 +1134,33 @@
      "team": "blue",
      "model": "GPT-6 Luna (trial; if it fails, GPT-6 Sol)",
      "effort": "Medium",
-     "prompt": "Job 1048. Read the ticket at https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/gameplay-v1/project-documents/gameplay-factory/jobs/JOB-1048.md and the worker handbook it links, then do the job exactly as written. Start from branch gameplay/bug-list-1, push branch gameplay/job-1048-fix, and open the PR into gameplay/bug-list-1. Reply 'Job 1048 done, PR <link>' at the end."
+     "prompt": "Job 1048. Read the ticket at https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/gameplay-v1/project-documents/gameplay-factory/jobs/JOB-1048.md and do exactly what it says in this one turn. Start from branch gameplay/bug-list-1, push the branch the ticket names, open the PR into gameplay/bug-list-1, and end with 'Job 1048 done, PR <link>.'"
     },
     {
      "id": "1049",
-     "title": "Club reveal stops spoiling the sealed club; empty-device restore respects Keep current (Olympiad V3, V5)",
+     "title": "Club reveal stops spoiling the sealed club (Olympiad V3)",
      "lane": "gpt-chat",
-     "state": "ready (after 1048)",
+     "state": "ready (runs alongside 1048)",
      "order": 22,
      "place": "ChatGPT project \"Career Mode Showdown\", new normal chat",
-     "note": "ticket jobs/JOB-1049.md; lane moved off Codex (Nik 2026-10-09 22:09 UTC: more GPT-6 chat, Work mode cheaper models, Haiku)",
+     "note": "V5 moved to 1053 so each chat job fits one turn; ticket jobs/JOB-1049.md",
      "team": "blue",
      "model": "GPT-6 Sol",
      "effort": "High",
-     "prompt": "Job 1049. Read the ticket at https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/gameplay-v1/project-documents/gameplay-factory/jobs/JOB-1049.md and the worker handbook it links, then do the job exactly as written. Start from branch gameplay/bug-list-1, push branch gameplay/job-1049-fix, and open the PR into gameplay/bug-list-1. Reply 'Job 1049 done, PR <link>' at the end."
+     "prompt": "Job 1049. Read the ticket at https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/gameplay-v1/project-documents/gameplay-factory/jobs/JOB-1049.md and do exactly what it says in this one turn. Start from branch gameplay/bug-list-1, push the branch the ticket names, open the PR into gameplay/bug-list-1, and end with 'Job 1049 done, PR <link>.'"
     },
     {
      "id": "1050",
      "title": "Unfinished Signing Entry rows survive a refresh (Olympiad V4)",
      "lane": "gpt-work",
-     "state": "ready (after 1049)",
-     "order": 23,
+     "state": "ready (after the blue jobs)",
+     "order": 24,
      "place": "ChatGPT project \"Career Mode Showdown\", new chat switched to Work mode",
      "note": "draft kept on the player's own device only; ticket jobs/JOB-1050.md; lane moved off Codex (Nik 2026-10-09 22:09 UTC: more GPT-6 chat, Work mode cheaper models, Haiku)",
      "team": "green",
      "model": "Sol 6.1 (Work mode)",
-     "effort": "Medium",
-     "prompt": "Job 1050. Read the ticket at https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/gameplay-v1/project-documents/gameplay-factory/jobs/JOB-1050.md and the worker handbook it links, then do the job exactly as written. Start from branch gameplay/bug-list-1, push branch gameplay/job-1050-fix, and open the PR into gameplay/bug-list-1. Reply 'Job 1050 done, PR <link>' at the end. Run every step without stopping to ask; run node and the named checks yourself."
+     "effort": "High",
+     "prompt": "Job 1050. Read the ticket at https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/gameplay-v1/project-documents/gameplay-factory/jobs/JOB-1050.md and the worker handbook it links, then do the whole job in one run without stopping to ask. Start from branch gameplay/bug-list-1, run node and the checks the ticket names, push branch gameplay/job-1050-signing-draft, open the PR into gameplay/bug-list-1, and end with 'Job 1050 done, PR <link>.'"
     },
     {
      "id": "1051",
@@ -1170,7 +1170,7 @@
      "order": 25,
      "place": "nothing to type: the lead runs it after your Rules answer",
      "note": "a safe fix needs a private salt field, which is a Rules change; ticket jobs/JOB-1051.md",
-     "team": "purple",
+     "team": "brown",
      "model": "Claude Sonnet 5.5",
      "effort": "Medium",
      "prompt": ""
@@ -1183,10 +1183,23 @@
      "order": 26,
      "place": "nothing to type: the lead runs it after your Rules answer",
      "note": "lowest priority, not reachable from the game; one Rules OK covers 1051 and 1052; ticket jobs/JOB-1052.md",
-     "team": "purple",
+     "team": "brown",
      "model": "Claude Sonnet 5.5",
      "effort": "Medium",
      "prompt": ""
+    },
+    {
+     "id": "1053",
+     "lane": "gpt-chat",
+     "note": "split out of 1049 to keep each chat job one turn; ticket jobs/JOB-1053.md",
+     "team": "blue",
+     "model": "GPT-6 Sol",
+     "effort": "High",
+     "place": "ChatGPT project \"Career Mode Showdown\", new normal chat",
+     "prompt": "Job 1053. Read the ticket at https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/gameplay-v1/project-documents/gameplay-factory/jobs/JOB-1053.md and do exactly what it says in this one turn. Start from branch gameplay/bug-list-1, push the branch the ticket names, open the PR into gameplay/bug-list-1, and end with 'Job 1053 done, PR <link>.'",
+     "title": "Restore on an empty device respects Keep current (Olympiad V5)",
+     "order": 23,
+     "state": "ready (runs alongside 1048)"
     }
    ]
   },
@@ -1440,12 +1453,14 @@
   }
  ],
  "team_colors": {
-  "_about": "Nik 2026-10-09 22:22 UTC: every job card shows its team color, model, effort, where to type and the exact prompt to paste.",
+  "_about": "Nik 2026-10-09 22:22 and 22:26 UTC: every job card shows its team color, model, effort, where to type and the exact prompt. Jobs are sized by the CC-007 one-turn rule (chat: <=5 reads, <=3 writes, ~200 lines, one decision).",
   "blue": "GPT chat (normal chat in a ChatGPT project)",
   "green": "GPT Work mode, Sol 6.1",
-  "yellow": "GPT Work mode, Luna (cheapest; trial first)",
+  "yellow": "GPT Work mode, Luna (cheapest)",
   "orange": "GPT Astra (expensive; only with Nik's OK)",
   "white": "Codex cloud",
-  "purple": "Claude (Haiku, Sonnet or Opus), run by the lead; nothing for Nik to type"
+  "purple": "Claude Opus, run by the lead",
+  "brown": "Claude Sonnet, run by the lead",
+  "black": "Claude Haiku, run by the lead (checks, tests, board)"
  }
 }
