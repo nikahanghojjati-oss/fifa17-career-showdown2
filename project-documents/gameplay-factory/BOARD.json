@@ -668,7 +668,7 @@
      "id": "1041",
      "title": "Season Results on phone: ACKNOWLEDGE reachable, no inner scroll box, title clear, photos aligned",
      "lane": "codex",
-     "state": "ready",
+     "state": "review (PR #437)",
      "order": 6,
      "place": "Codex cloud, branch gameplay/bug-list-1: type 'Job 1041'",
      "note": "same family as Studio Z's Signing Entry fix"
@@ -677,7 +677,7 @@
      "id": "1038",
      "title": "Final winner closes the Showdown so it counts in the career",
      "lane": "lead",
-     "state": "merged into bug-list-1 (PR #433)",
+     "state": "in r65 (live 2026-10-09)",
      "order": 5,
      "place": "nothing to type",
      "note": "Auto close, as Nik chose on his card"
@@ -686,7 +686,7 @@
      "id": "1040",
      "title": "Browser journey opens Legacy, Trophy Room and Stats after a finished online Showdown",
      "lane": "sonnet",
-     "state": "merged into bug-list-1 (PR #434)",
+     "state": "in r65 (live 2026-10-09)",
      "order": 4,
      "place": "nothing to type",
      "note": "test coverage that was missing"
@@ -695,7 +695,7 @@
      "id": "1039",
      "title": "Legacy stops reloading on every shared event and never spins forever",
      "lane": "codex",
-     "state": "merged into bug-list-1 (PR #431)",
+     "state": "in r65 (live 2026-10-09)",
      "order": 2,
      "place": "nothing to type",
      "note": "one file, js/rivalryLegacyV10.js"
@@ -704,7 +704,7 @@
      "id": "1037",
      "title": "Career history: never-joined codes and an unknown current Showdown no longer break Legacy, Trophy Room, Stats",
      "lane": "codex",
-     "state": "merged into bug-list-1 (PR #432)",
+     "state": "in r65 (live 2026-10-09)",
      "order": 1,
      "place": "nothing to type",
      "note": "root cause verified on the emulator; ticket jobs/JOB-1037.md"
@@ -815,9 +815,10 @@
      "id": "G-F17",
      "title": "Showdown Gate: replace POS20 with a faster check system built on Claude and GitHub, keeping every check (plan: /mnt/project-files/check-system/SHOWDOWN_GATE_PLAN.md)",
      "lane": "opus",
-     "state": "building shadow; then ~10-PR shadow (3-5 days), then archive POS20",
+     "state": "shadow: KEEP_SHADOW after the 9 Oct independent audit (71/100); fixes 1043, 1044, 1045 first",
      "waits_on": "exit bar: 10 real PRs agree (2 full seals), 2 canaries fail, 1 simulated outage recovers; POS20 stays the merge authority until then",
-     "details": "Nik 6:02 PM Boston time: gradual replacement; POS20 is archived to authority-history/pos20-archive/, not deleted"
+     "details": "Nik 6:02 PM Boston time: gradual replacement; POS20 is archived to authority-history/pos20-archive/, not deleted",
+     "note": "reports/SHOWDOWN_GATE_AUDIT_2026-10-09.md"
     },
     {
      "id": "G-F18",
@@ -874,7 +875,7 @@
      "group": "Bug list 1",
      "title": "1004 · G Rule Book: remove the useless 01-06 side number rail (desktop and phone)",
      "lane": "claude",
-     "state": "merged into bug-list-1 (4466b57)",
+     "state": "in r65 (live 2026-10-09)",
      "waits_on": "CI on PR #392, then the lead merges it into bug-list-1",
      "details": "js/rulesSettingsV10.js only: stop building #ruleBookIndex. Per-rule number badges stay.",
      "order": 4,
@@ -895,7 +896,7 @@
      "group": "Bug list 1",
      "title": "1009 · G Showdown Champion: dark oval over the losing manager",
      "lane": "blue",
-     "state": "merged into bug-list-1 (23bb974)",
+     "state": "in r65 (live 2026-10-09)",
      "waits_on": "Nik types it in the gameplay project (normal chat)",
      "details": "GPT blue, one file: delete the loser shade rule in final-winner.css.",
      "order": 3,
@@ -907,7 +908,7 @@
      "group": "Bug list 1",
      "title": "1010 · G 10-season sweep: scoring, history and final math",
      "lane": "green",
-     "state": "done (merged into bug-list-1)",
+     "state": "in r65 (live 2026-10-09)",
      "waits_on": "Nik types it in the gameplay project (Work mode)",
      "details": "GPT green, one run. Node check of 10-season scoring, ties and final winner; report only, no game code.",
      "place": "in the gameplay project (Work mode), new chat",
@@ -918,7 +919,7 @@
      "group": "Bug list 1",
      "title": "1011 · G Plain-words sweep: jargon on game screens",
      "lane": "lead",
-     "state": "merged into bug-list-1 (PR #424)",
+     "state": "in r65 (live 2026-10-09)",
      "waits_on": "Nik types it in the gameplay project (Work mode)",
      "details": "GPT green, one run. Replaces engineering words players see; leaves test-asserted strings to the lead.",
      "order": 11,
@@ -931,7 +932,7 @@
      "group": "Bug list 1",
      "title": "1014 · G No reconnect prompt after a finished Showdown",
      "lane": "blue",
-     "state": "merged into bug-list-1",
+     "state": "in r65 (live 2026-10-09)",
      "waits_on": "Nik types it in the gameplay project (Work mode)",
      "details": "GPT green, one run. HO-013: closed Showdown shows SHOWDOWN COMPLETE instead of RECONNECT SESSION. Lead runs the reconnect audit.",
      "order": 5,
@@ -942,7 +943,7 @@
      "group": "Bug list 1",
      "title": "1015 · G Connect Players screen: create code / join off Home",
      "lane": "green",
-     "state": "merged into bug-list-1 (e9615a7)",
+     "state": "in r65 (live 2026-10-09)",
      "waits_on": "GPT green round 3 (same chat, Work mode)",
      "details": "GPT green, one run. HO-014: pair panel moves from Home to its own CONNECT PLAYERS screen (Team V SJ design). Pairing logic unchanged; lead runs pairing audits.",
      "order": 1,
@@ -989,7 +990,7 @@
      "group": "Bug list 1",
      "title": "1020 · G Season Results patch: one column on phone, no overlap on desktop",
      "lane": "green",
-     "state": "merged into bug-list-1",
+     "state": "in r65 (live 2026-10-09)",
      "waits_on": "Nik types it in the gameplay project (Work mode)",
      "details": "GPT green, one run. Team V phone CSS (HO-015) + desktop window below the scoring card + reconciliation look. Team V 1012 checks the look.",
      "order": 2,
@@ -1001,7 +1002,7 @@
      "group": "Bug list 1",
      "title": "1021 · G Transfer War on phone: port Team V's revamp",
      "lane": "claude",
-     "state": "merged into bug-list-1 (2d71f79)",
+     "state": "in r65 (live 2026-10-09)",
      "waits_on": "Nik types it in the gameplay project (Work mode)",
      "details": "GPT green, one run. HO-016: Team V's checked phone CSS + 2 cut-outs into css/v10Transfer.css. Desktop unchanged.",
      "order": 6,
@@ -1013,7 +1014,7 @@
      "group": "Bug list 1",
      "title": "Connect Players: match Team V's start-join design (1015 follow-up)",
      "lane": "claude",
-     "state": "done (merged into bug-list-1)",
+     "state": "in r65 (live 2026-10-09)",
      "waits_on": "",
      "details": "Team V check on #397: desktop shows Nik twice; phone title, Back position and bottom nav; yellow primary buttons.",
      "archived": true
@@ -1023,7 +1024,7 @@
      "group": "Bug list 1",
      "title": "Session code replacement: double tap and lost join watcher",
      "lane": "claude",
-     "state": "done (merged into bug-list-1)",
+     "state": "in r65 (live 2026-10-09)",
      "waits_on": "",
      "details": "Hunt 1018 H1 (S1) and H2 (S2), js/sparkRemoteJoining.js",
      "archived": true
@@ -1033,7 +1034,7 @@
      "group": "Bug list 1",
      "title": "Reconnect keeps stale authority after sign-out, offline or expiry",
      "lane": "claude",
-     "state": "done (merged into bug-list-1)",
+     "state": "in r65 (live 2026-10-09)",
      "waits_on": "",
      "details": "Hunt 1018 H3, H4 and H5 (S2), js/productionSharedJourneyReconnect.js",
      "archived": true
@@ -1042,7 +1043,7 @@
      "id": "1025",
      "title": "Terminal close recovery and closed-frame trophies (hunt 1017 H1-H3)",
      "lane": "claude",
-     "state": "done (merged into bug-list-1)",
+     "state": "in r65 (live 2026-10-09)",
      "place": "Claude helper (nothing for Nik to type)",
      "note": "from hunt 1017",
      "archived": true
@@ -1051,7 +1052,7 @@
      "id": "1026",
      "title": "New shared season clears last season's result fields (hunt 1017 H4)",
      "lane": "claude",
-     "state": "done (merged into bug-list-1)",
+     "state": "in r65 (live 2026-10-09)",
      "place": "Claude helper (nothing for Nik to type)",
      "note": "from hunt 1017",
      "archived": true
@@ -1060,7 +1061,7 @@
      "id": "1028",
      "title": "Statistics shows an abandoned-only career (hunt 1019 H5)",
      "lane": "lead",
-     "state": "merged into bug-list-1 (PR #422)",
+     "state": "in r65 (live 2026-10-09)",
      "order": 3,
      "place": "nothing to type",
      "note": "also fixes Career Statistics 'unavailable' from Nik's 2026-10-09 test"
@@ -1069,7 +1070,7 @@
      "id": "1027",
      "title": "Restore keeps and checks the Save Library; career cache race (hunt 1019 H1, H2, H4)",
      "lane": "claude",
-     "state": "done (merged into bug-list-1)",
+     "state": "in r65 (live 2026-10-09)",
      "place": "Claude helper (nothing for Nik to type)",
      "note": "from hunt 1019; H3 is fixed by 1026",
      "archived": true
@@ -1082,6 +1083,33 @@
      "order": 7,
      "place": "Codex cloud, branch gameplay/bug-list-1: type 'Job 1042'",
      "note": "follow-up to 1038; ticket jobs/JOB-1042.md"
+    },
+    {
+     "id": "1043",
+     "title": "Showdown Gate: no write token for pull-request code (audit F1)",
+     "lane": "sonnet",
+     "state": "building (Claude Sonnet)",
+     "order": 19,
+     "place": "lead worker",
+     "note": "ticket jobs/JOB-1043.md"
+    },
+    {
+     "id": "1044",
+     "title": "Showdown Gate: exit report and seal fail closed on bad evidence (audit F2, F3)",
+     "lane": "codex",
+     "state": "ready",
+     "order": 20,
+     "place": "Codex cloud, branch gameplay/bug-list-1: type 'Job 1044'",
+     "note": "ticket jobs/JOB-1044.md; after 1042"
+    },
+    {
+     "id": "1045",
+     "title": "Showdown Gate: pin actions and tool installs (audit F4)",
+     "lane": "sonnet",
+     "state": "waits on 1043",
+     "order": 21,
+     "place": "lead worker",
+     "note": "ticket jobs/JOB-1045.md"
     }
    ]
   },
