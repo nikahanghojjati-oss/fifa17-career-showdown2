@@ -6,7 +6,7 @@
 
 # Showdown board: G Factory and V Factory
 
-🌐 **Live: runtime 1.9.1-r66** (main `8e1a5833`) · 🔄 **40 moving** · ⏭ 4 up next · 👤 2 waiting on Nik · 🗂 5 later · updated 2026-10-09 12:47 PM Boston time (EDT)
+🌐 **Live: runtime 1.9.1-r66** (main `8e1a583`) · 🔄 **40 moving** · ⏭ 4 up next · 👤 2 waiting on Nik · 🗂 5 later · updated 2026-10-09 12:47 PM Boston time (EDT)
 
 🩺 **All clear: every check has a machine.** · POS20 #304 6/16
 
