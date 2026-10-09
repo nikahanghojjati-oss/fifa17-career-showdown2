@@ -460,7 +460,7 @@ def render(first, compact=False, tight=False):
         H.append(team_html(t, t == first, cut, compact))
     H.append("<h2>Live now</h2>")
     if LV:
-        H.append(f'<div class="card">🌐 <b>{e(LV["revision"])}</b> <span class="m">main <code>{e(LV["sha"])}</code> · {e(TF.bos(LV["when"]))}</span><br>{e(LV["subject"][:90])}'
+        H.append(f'<div class="card">🌐 <b>{e(LV["revision"])}</b> <span class="m">main <code>{e(LV["sha"][:7])}</code> · {e(TF.bos(LV["when"]))}</span><br>{e(LV["subject"][:90])}'
                  + "".join(f'<br>✅ <span class="m">{e(TF.bos(x["merged"], "%-I:%M %p"))}</span> #{x["pr"]} {e(x["title"][:cut])}' for x in (LV.get("today") or [])[:2 if compact else 4]) + "</div>")
     TK = TWO.get("tickets") or []
     open_tk = [x for x in TK if x["stage"] != "DONE"]
@@ -502,7 +502,7 @@ L = ["# Bug hunt board", "",
      "The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).", ""]
 if warn:
     L += ["> ⚠ **Not fully current:** " + " ".join(warn), ""]
-L += [f"🌐 **Live: {LV['revision']}** (main `{LV['sha']}`, {TF.bos(LV['when'])})" if LV else "🌐 Live version unknown this run", "",
+L += [f"🌐 **Live: {LV['revision']}** (main `{LV["sha"][:7]}`, {TF.bos(LV['when'])})" if LV else "🌐 Live version unknown this run", "",
       f"{TF.PHYSIO_ICON.get(ph.get('state'), '🩺')} **{ph.get('line', 'Physio: no report yet.')}**" + (f" · {ph['gate']}" if ph.get("gate") else ""), "",
       "## Jobs", ""]
 for z in STUDIO.values():
