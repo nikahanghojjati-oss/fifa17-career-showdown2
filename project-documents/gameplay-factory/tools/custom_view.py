@@ -403,7 +403,7 @@ def job_html(q, i, kind):
     if kind == "run" and prog == "not started":  # already with a worker or the lead: its state says where it is
         prog = ""
     meta = [f"Worker: {worker}"] + ([st] if st and kind != "next" else []) + ([prog] if prog and kind != "wait" else []) + ([fin] if fin and kind == "run" else [])
-    if kind == "wait":
+    if kind == "wait" and (q.get("after") or "") != st:
         meta.append("waits: " + (q.get("after") or "something else"))
     pct = q["progress"][0]["pct"] if q.get("progress") else (100.0 if kind == "run" and re.search(r"worker done", st or "", re.I) else 0.0)
     m0 = re.search(r"step (\d+) of (\d+)", st or "")
