@@ -135,4 +135,16 @@ check("Z10","Forget device never locks the account out, and a device revoked els
   })());
 });
 
-Promise.all(pendingAsync).then(()=>console.log(`PASS Studio Z contracts: ${n} checks (startup retry, offline recheck, refresh rejoin, session pointer, auto update, sign-in watchdog, tablet layout, shared league names, old Settings panels, Forget device sign-back-in).`));
+check("Z11","LOCK MY SIGNINGS stays inside the phone scroll box and the sideways note stops overlapping row 03",()=>{
+  const tcss=read("css/v10Transfer.css");
+  const block=tcss.match(/\.stage\[data-phase="SIGNING_ENTRY"\] \.world \{([^}]*)\}/);
+  assert.ok(block,"JOB-1031 phone signing world rule");
+  assert.match(block[1],/overflow-y: auto/,"signing form still scrolls inside the world");
+  assert.match(block[1],/height: 100dvh;/,"the world keeps the full viewport height, so the fixed LOCK button is never outside its scroll box (iOS Safari clips it there)");
+  assert.doesNotMatch(block[1],/height: calc\(100dvh - /,"the world must not end above the fixed LOCK button (Z11)");
+  assert.doesNotMatch(block[1],/padding-bottom/,"bottom padding comes from plate.css (footer + action + gaps)");
+  assert.match(read("visual-assets/v10_1/tr2/slice-02-plate/plate.css"),/\.world \{ padding-bottom: calc\(var\(--phone-footer\) \+ var\(--phone-action-h\) \+ \(var\(--phone-action-gap\) \* 2\)\); \}/,"world reserves room for footer + LOCK button");
+  assert.match(tcss,/@media \(orientation: landscape\) and \(max-height: 520px\) \{\s*#transferChallenge \.tw-host \.phase-signing \.action-row \.privacy-note \{ display: none; \}/,"sideways phone: the privacy note no longer overlaps row 03 and the LOCK button");
+});
+
+Promise.all(pendingAsync).then(()=>console.log(`PASS Studio Z contracts: ${n} checks (startup retry, offline recheck, refresh rejoin, session pointer, auto update, sign-in watchdog, tablet layout, shared league names, old Settings panels, Forget device sign-back-in, phone LOCK button).`));
