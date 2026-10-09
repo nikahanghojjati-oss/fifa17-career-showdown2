@@ -1,26 +1,26 @@
 # Bug hunt board
 
-Updated Fri 9 Oct, 6:42 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
+Updated Fri 9 Oct, 6:43 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r66** (main `8e1a583`, Fri 9 Oct 12:04 PM)
 
-🐕 **Barking: Gameplay Fast on #443 has waited 2 min for a machine.** · POS20 #304 6/16
+🐕 **Barking: POS20 has waited 1 min for a machine.** · POS20 #304 6/16
 
 ## Jobs
 
 **Running now**
 
 - **1048** (G) Rule Book: three missing rules, and the season review stops pointing at a missing button (Olympiad V1, V2) · worker done, lead checking · Sol chat · not started
+- **1049** (G) Club reveal stops spoiling the sealed club (Olympiad V3) · worker done, lead checking · Sol chat · not started
 - **1051** (G) Transfer ledger hash no longer reveals locked guesses (Olympiad V6) · with the worker · Sonnet · not started
 - **1052** (G) Transfer Rules reject option ids the game cannot read (Olympiad V7) · with the worker · Sonnet · not started
 
 **Next for you, in this order**
 
 1. **1054** (G, Sol chat) Worker scorecard: rows for jobs 1037-1044: type **1054** ChatGPT project "Career Mode Showdown", new normal chat · exact one-file text job; ticket jobs/JOB-1054.md
-2. **1049** (G, Sol chat) Club reveal stops spoiling the sealed club (Olympiad V3): type **1049** ChatGPT project "Career Mode Showdown", new normal chat · V5 moved to 1053 so each chat job fits one turn; ticket jobs/JOB-1049.md
-3. **1053** (G, Sol chat) Restore on an empty device respects Keep current (Olympiad V5): type **1053** ChatGPT project "Career Mode Showdown", new normal chat · split out of 1049 to keep each chat job one turn; ticket jobs/JOB-1053.md
-4. **1050** (G, Sol Work mode) Unfinished Signing Entry rows survive a refresh (Olympiad V4): type **1050** ChatGPT project "Career Mode Showdown", new chat switched to Work mode · must run code (node checks), so Work mode; Luna is the cheapest Work mode model, first Luna run; ticket jobs/JOB-1050.md
-5. **1045** (G, Codex) Showdown Gate: pin actions and tool installs (audit F4): type **1045** Codex cloud, this repo, branch gameplay/bug-list-1 · ticket jobs/JOB-1045.md; stays Codex: it must read GitHub Actions release tags, which chat and Claude lanes cannot
+2. **1053** (G, Sol chat) Restore on an empty device respects Keep current (Olympiad V5): type **1053** ChatGPT project "Career Mode Showdown", new normal chat · split out of 1049 to keep each chat job one turn; ticket jobs/JOB-1053.md
+3. **1050** (G, Sol Work mode) Unfinished Signing Entry rows survive a refresh (Olympiad V4): type **1050** ChatGPT project "Career Mode Showdown", new chat switched to Work mode · must run code (node checks), so Work mode; Luna is the cheapest Work mode model, first Luna run; ticket jobs/JOB-1050.md
+4. **1045** (G, Codex) Showdown Gate: pin actions and tool installs (audit F4): type **1045** Codex cloud, this repo, branch gameplay/bug-list-1 · ticket jobs/JOB-1045.md; stays Codex: it must read GitHub Actions release tags, which chat and Claude lanes cannot
 
 **Done, in the next release:** 1001, 1003, 1004, 1005, 1009, 1010, 1011, 1014, 1015, 1020, 1021, 1022, 1023, 1024, 1025, 1026, 1027, 1028, 1037, 1038, 1039, 1040, 1041, 1042, 1043, 1044, 1046, 1047, Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8
 
