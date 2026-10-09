@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-08 10:22 PM Boston time (EDT)",
+ "generated": "2026-10-08 10:29 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -323,12 +323,12 @@
      "title": "Release r63: Studio Z fixes from the physical test, plus the waiting factory jobs",
      "draft": false,
      "branch": "studio-z/r63",
-     "sha": "58a82b3d259ac753b80c0a6793f5bf42f6c1d20d",
-     "updated": "2026-10-09T02:14:10Z",
+     "sha": "c735cc6b4732a8c7c64d716ff5c45ae930b9c416",
+     "updated": "2026-10-09T02:29:11Z",
      "gates": {
-      "passed": 15,
-      "running": 0,
-      "failed": 4,
+      "passed": 0,
+      "running": 7,
+      "failed": 0,
       "cancelled": 0
      }
     }
@@ -1001,12 +1001,12 @@
     "title": "Release r63: Studio Z fixes from the physical test, plus the waiting factory jobs",
     "draft": false,
     "branch": "studio-z/r63",
-    "sha": "58a82b3d259ac753b80c0a6793f5bf42f6c1d20d",
-    "updated": "2026-10-09T02:14:10Z",
+    "sha": "c735cc6b4732a8c7c64d716ff5c45ae930b9c416",
+    "updated": "2026-10-09T02:29:11Z",
     "gates": {
-     "passed": 15,
-     "running": 0,
-     "failed": 4,
+     "passed": 0,
+     "running": 7,
+     "failed": 0,
      "cancelled": 0
     }
    }
