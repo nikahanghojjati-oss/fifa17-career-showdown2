@@ -25,7 +25,7 @@ plus Team V hand-offs HO-011 and HO-018 to HO-020.
 - **Z6 Sign-in cannot hang.** A Google sign-in that is closed, blocked or stuck returns to SIGN IN WITH GOOGLE after
   20 seconds with a plain message.
 - **Z7 Transfer on tablets.** Upright tablets used the wide desktop layout, which pushed the Transfer fields off the left
-  edge. Touch screens held upright now use the phone layout on every screen. On a phone held sideways, the player-name
+  edge. Touch screens held upright now use the phone layout on every screen. On a phone held sideways
   or a foldable, the player-name field in Signing Entry is no longer squeezed to nothing (LOCK MY SIGNINGS failed
   with "Complete signing 1 with player name").
 - **Old Settings panels are gone for good.** The Offline App install panel and the old Connected Rivalry, pairing and
