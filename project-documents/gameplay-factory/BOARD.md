@@ -1,10 +1,10 @@
 # Bug hunt board
 
-Updated Fri 9 Oct, 7:17 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Fri 9 Oct, 7:19 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r66** (main `8e1a583`, Fri 9 Oct 12:04 PM)
 
-🐕 **Barking: POS20 has waited 13 min for a machine; Showdown Gate on #445 has waited 1 min for a machine.** · POS20 #304 6/16
+🐕 **Barking: POS20 on #445 has waited 3 min for a machine.** · POS20 #304 6/16
 
 ## Jobs
 
@@ -29,6 +29,38 @@ Updated Fri 9 Oct, 7:17 PM Boston time. Bug hunting only, no new features until 
 **#5 · 1052** `G` Transfer Rules reject option ids the game cannot read (Olympiad V7)  
 `░░░░░░░░░░` **0.0000 %**  
 🟤 Team brown · **Claude Sonnet 5.5** · Medium effort · with the worker
+
+### 👉 Next for you, in this order
+
+**#1 · 1055** `G` Season Results points cap uses the real league size (Sol lead S1)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · **GPT-6 Sol** · High effort · ChatGPT project "Career Mode Showdown", new normal chat
+
+Paste this:
+
+```text
+Job 1055. Read the ticket at https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/gameplay-v1/project-documents/gameplay-factory/jobs/JOB-1055.md and do exactly what it says in this one turn. Start from branch gameplay/bug-list-1, push the branch the ticket names, open the PR into gameplay/bug-list-1, and end with 'Job 1055 done, PR <link>.'
+```
+
+**#2 · 1056** `G` Recheck Sol leads S2 and S5 by reading the code  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · **GPT-6 Sol** · High effort · ChatGPT project "Career Mode Showdown", new normal chat
+
+Paste this:
+
+```text
+Job 1056. Read the ticket at https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/gameplay-v1/project-documents/gameplay-factory/jobs/JOB-1056.md and do exactly what it says in this one turn. Write only the one report file on branch qa/sol-leads-recheck, and end with 'Job 1056 done, report on qa/sol-leads-recheck.'
+```
+
+**#3 · 1057** `G` Recheck Sol leads S3 and S4 by reading the code  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · **GPT-6 Sol** · High effort · ChatGPT project "Career Mode Showdown", new normal chat
+
+Paste this:
+
+```text
+Job 1057. Read the ticket at https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/gameplay-v1/project-documents/gameplay-factory/jobs/JOB-1057.md and do exactly what it says in this one turn. Write only the one report file on branch qa/sol-leads-recheck, and end with 'Job 1057 done, report on qa/sol-leads-recheck.'
+```
 
 **Done, in the next release:** 1001, 1003, 1004, 1005, 1009, 1010, 1011, 1014, 1015, 1020, 1021, 1022, 1023, 1024, 1025, 1026, 1027, 1028, 1037, 1038, 1039, 1040, 1041, 1042, 1043, 1044, 1046, 1047, 1048, 1049, 1054, Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8
 
