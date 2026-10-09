@@ -1,25 +1,18 @@
 # Bug hunt board
 
-Updated Fri 9 Oct, 9:05 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
+Updated Fri 9 Oct, 9:07 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
 
-🌐 **Live: 1.9.1-r65** (main `e49add9`, Fri 9 Oct 2:48 AM)
+🌐 **Live: 1.9.1-r65** (main `e49add99`, Fri 9 Oct 2:48 AM)
 
 🩺 **All clear: every check has a machine.** · POS20 #304 6/16
 
 ## Jobs
 
-**Running now**
-
-- **1043** Showdown Gate: no write token for pull-request code (audit F1) · building
-
 **Next for you, in this order**
 
 1. **1042** Closed Final Winner shows the final season on both phones: Codex cloud, branch gameplay/bug-list-1: type 'Job 1042' · follow-up to 1038; ticket jobs/JOB-1042.md
 2. **1044** Showdown Gate: exit report and seal fail closed on bad evidence (audit F2, F3): Codex cloud, branch gameplay/bug-list-1: type 'Job 1044' · ticket jobs/JOB-1044.md; after 1042
-
-**Waiting on something else**
-
-- **1045** Showdown Gate: pin actions and tool installs (audit F4) · waits on 1043
+3. **1045** Showdown Gate: pin actions and tool installs (audit F4): Codex cloud, branch gameplay/bug-list-1: type 'Job 1045' · ticket jobs/JOB-1045.md; lead sessions cannot read actions/* tags
 
 **Done, in the next release:** 1001, 1003, 1004, 1005, 1009, 1010, 1011, 1014, 1015, 1020, 1021, 1022, 1023, 1024, 1025, 1026, 1027, 1028, 1037, 1038, 1039, 1040, 1041, Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8
 
