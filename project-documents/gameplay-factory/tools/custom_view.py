@@ -392,7 +392,23 @@ def job_prog(q):
     return worker, "not started", ""
 
 
+TEAM = {"Sol chat": "Team blue · GPT chat", "Sol Work mode": "Team green · GPT Work mode", "Codex": "Team white · Codex",
+        "Opus": "Team orange · Claude Opus", "Sonnet": "Team purple · Claude Sonnet", "Haiku": "Team yellow · Claude Haiku"}  # Nik 2026-10-09 22:22 UTC
+MODEL_HEX = (("astra", "#f43f5e"), ("luna", "#e879f9"), ("6.1", "#2dd4bf"), ("sol", "#67e8f9"), ("opus", "#f97316"), ("sonnet", "#8b5cf6"), ("haiku", "#facc15"), ("codex", "#ffffff"))
+
+
+def model_chip(q):
+    """The exact model and effort from the job's BOARD.json row ("model", "effort"); each GPT model has its own colour (Astra red: the expensive one)."""
+    r = rowmap.get(str(q["id"])) or {}
+    mdl, eff = (r.get("model") or "").strip(), (r.get("effort") or "").strip()
+    if not mdl:
+        return '<span class="m">model not set</span>'
+    col = next((c for k, c in MODEL_HEX if k in mdl.lower()), "#9ca3af")
+    return f'<b style="color:{col}">● {e(mdl)}' + (f" · {e(eff)} effort" if eff else "") + "</b>"
+
+
 LASTNOTE = []
+TIGHT = [False]
 GPTLANE = {"gpt-chat": "chat", "sol-chat": "chat", "chat": "chat", "blue": "chat", "gpt-work": "work", "sol-work": "work", "work": "work", "green": "work"}
 LASTPLACE = [None]  # 'Type this in X' shows once for jobs in a row that go to the same place
 
@@ -401,7 +417,7 @@ def job_html(q, i, kind):
     worker, prog, fin = job_prog(q)
     st = run_state(q) if kind == "run" else short_state(q.get("state", ""))
     head = f'{sq(q["lane"])} <b>#{i} · {e(q["n"])}</b> <span class="tm">{e(q.get("team", "G"))}</span> {e(q["title"])}'
-    if kind == "run" and prog == "not started":  # already with a worker or the lead: its state says where it is
+    if prog == "not started":  # the 0 % bar already says it  # already with a worker or the lead: its state says where it is
         prog = ""
     meta = [f"Worker: {worker}"] + ([st] if st and kind != "next" else []) + ([prog] if prog and kind != "wait" else []) + ([fin] if fin and kind == "run" else [])
     if kind == "wait" and (q.get("after") or "") != st:
@@ -414,7 +430,7 @@ def job_html(q, i, kind):
     meta = [x for x in meta if not x.startswith("Worker: ") and not x.endswith("% done") and " % done (" not in x]
     out = (head + f'<br><b class="br"><i class="q{QI.get(worker, 9)}" style="width:{max(pct, 2):.0f}%"></i></b><span class="pc">{pct:.4f} %</span>'
            + ("<span class='m'> worker's part done</span>" if kind == "run" and not q.get("progress") and pct == 100 else "")
-           + f'<br><b class="q{QI.get(worker, 9)}">{e(worker)}</b> <span class="m">' + e(" · ".join(meta)) + "</span>")
+           + f'<br><b class="q{QI.get(worker, 9)}">{e(TEAM.get(worker, worker))}</b> ' + model_chip(q) + ' <span class="m">' + e(" · ".join(meta)) + "</span>")
     if kind == "run" and q.get("lane") in ("sol-chat", "blue", "chat", "sol-work", "green") and not status_done(q["n"]):
         out += '<br><span class="m">To keep it going, type this in the same chat:</span><code class="cp">next</code>'  # GPT jobs end each reply with NEXT
     if kind == "next":
@@ -432,11 +448,15 @@ def job_html(q, i, kind):
         else:
             lead = {"chat": "New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:",
                     "work": "New chat inside the ChatGPT project Career Mode Showdown, switch to Work mode (cheaper model), type:"}.get(GPTLANE.get(q.get("lane", ""))) or f"Type this in {place}:"  # wording from the lead, 2026-10-09 22:20 UTC
+            r0 = rowmap.get(str(q["id"])) or {}
+            if GPTLANE.get(q.get("lane", "")) and r0.get("model"):  # name the exact model and effort to pick
+                pick = r0["model"] + (f', {r0["effort"]} effort' if r0.get("effort") else "")
+                lead = lead.replace("switch to Work mode (cheaper model)", f"switch to Work mode, pick {pick}").replace("(Stay in Chat)", f"(Stay in Chat), pick {pick}")
             if GPTLANE.get(q.get("lane", "")) and re.search(r"account 2|second account", pl, re.I):
                 lead = lead.replace("New chat", "On GPT account 2, new chat")
             out += (f'<br><span class="m">{e(lead)}</span>' if lead != LASTPLACE[0] or GPTLANE.get(q.get("lane", "")) else "") + f'<code class="cp">{e(prompt)}</code>'
             LASTPLACE[0] = lead
-        out += f'<span class="m">{e(note)}</span>' if note else ""
+        out += f'<span class="m">{e(note)}</span>' if note and not TIGHT[0] else ""
     return out
 
 
@@ -482,6 +502,7 @@ def stages():
 
 
 def render(first, compact=False, tight=False):
+    TIGHT[0] = tight
     cut = 40 if compact else 70
     n_run, n_next, n_nik = len(Q["run"]), len(Q["next"]), len([x for x in nik if not x.get("md")])
     H = ["<style>.cv{--h:'Arial Narrow',Impact,sans-serif;font:14px/1.45 'Segoe UI',system-ui,sans-serif;max-width:720px;color:#fbfcfc;background:#20272d;border-radius:14px;padding:0 0 14px;overflow:hidden}"
