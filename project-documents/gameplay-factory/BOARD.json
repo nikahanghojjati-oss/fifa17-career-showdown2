@@ -1097,7 +1097,7 @@
      "id": "1044",
      "title": "Showdown Gate: exit report and seal fail closed on bad evidence (audit F2, F3)",
      "lane": "codex",
-     "state": "ready",
+     "state": "worker done, lead checking (PR #441)",
      "order": 20,
      "place": "Codex cloud, branch gameplay/bug-list-1: type 'Job 1044'",
      "note": "ticket jobs/JOB-1044.md; after 1042"

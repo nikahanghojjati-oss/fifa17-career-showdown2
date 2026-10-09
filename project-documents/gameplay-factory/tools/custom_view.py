@@ -437,13 +437,10 @@ def render(first, compact=False, tight=False):
         nz = sum(1 for v in ("run", "next", "wait") for q in Q[v] if q.get("studio") == z["id"])
         J.append(f'<span class="k">🚨 Studio {e(z["id"])} first: {e(z.get("title", ""))}</span>' + (f' <span class="m">{e(z.get("scope", ""))}</span>' if z.get("scope") and not compact else "") + ("" if nz else f' <span class="m">· {zd} done, none open</span>' if (zd := sum(1 for q in Q["release"] if q.get("studio") == z["id"])) else ' <span class="m">· no jobs yet</span>'))
     # every open job, in the factory's order, numbered across the three lists (Nik, 2026-10-09)
-    i = 0
     for kind, label in (("run", "Running now"), ("next", "Next for you, in this order"), ("wait", "Waiting on something else")):
         if Q[kind]:
             J.append(f'<span class="k">{label}</span>')
-            for q in Q[kind]:
-                i += 1
-                J.append(job_html(q, i, kind))
+            J += [job_html(q, i, kind) for i, q in enumerate(Q[kind], 1)]  # #1 is the first job of each list
     if Q["release"]:
         J.append('<span class="k">Done, in the next release</span> ' + (", ".join(e(q["n"]) for q in Q["release"]) if not tight else f'{len(Q["release"])} jobs ({e(Q["release"][0]["n"])} to {e(Q["release"][-1]["n"])})'))
     H.append('<div class="card move">' + ("<br>".join(J) or "No numbered job is open.") + "</div>")

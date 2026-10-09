@@ -1,12 +1,12 @@
 # Board archive
 
-[Back to the board](BOARD.md) · generated 2026-10-09 5:33 PM Boston time (EDT). Detail and history behind the one board.
+[Back to the board](BOARD.md) · generated 2026-10-09 5:53 PM Boston time (EDT). Detail and history behind the one board.
 
 ## Old detailed board
 
 # Showdown board: G Factory and V Factory
 
-🌐 **Live: runtime 1.9.1-r66** (main `8e1a583`) · 🔄 **40 moving** · ⏭ 4 up next · 👤 2 waiting on Nik · 🗂 5 later · updated 2026-10-09 5:33 PM Boston time (EDT)
+🌐 **Live: runtime 1.9.1-r66** (main `8e1a5833`) · 🔄 **41 moving** · ⏭ 3 up next · 👤 2 waiting on Nik · 🗂 5 later · updated 2026-10-09 5:53 PM Boston time (EDT)
 
 🩺 **All clear: every check has a machine.** · POS20 #304 6/16
 
@@ -48,6 +48,7 @@
 | G | 1026 | New shared season clears last season's result fields (hunt 1017 H4) | 🟧 Claude helper | in r65 (live 2026-10-09) | - |
 | G | 1028 | Statistics shows an abandoned-only career (hunt 1019 H5) | 🟧 Team G lead | in r65 (live 2026-10-09) | - |
 | G | 1027 | Restore keeps and checks the Save Library; career cache race (hunt 1019 H1, H2, H4) | 🟧 Claude helper | in r65 (live 2026-10-09) | - |
+| G | 1044 | Showdown Gate: exit report and seal fail closed on bad evidence (audit F2, F3) | ⬜ Codex | worker done, lead checking (PR #441) | - |
 
 | Hand-off | From → To | What | Progress |
 | --- | --- | --- | --- |
@@ -72,7 +73,6 @@ _Gameplay, online sync, every merge and every release (senior director)._ Worker
 | --- | --- | --- | --- | --- |
 | G-F5 | QA packet adoptions: truth line, wrong-target guard on main PRs, PR title rule | 🟪 Sonnet | next | - |
 | G-F11 | Old-design CSS collisions: scope old rulebook/settings/analytics/app CSS off Team V markup (about 70 shared class names) | 🟪 Sonnet | ready (Sonnet audit, then Opus fix) | - |
-| 1044 | Showdown Gate: exit report and seal fail closed on bad evidence (audit F2, F3) | ⬜ Codex | ready | - |
 | 1045 | Showdown Gate: pin actions and tool installs (audit F4) | ⬜ Codex | ready (after 1044) | - |
 
 **👤 Waiting on Nik**
@@ -194,7 +194,7 @@ Latest:
 ## Every bug report
 
 
-> Updated **Fri 9 Oct, 5:33 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
+> Updated **Fri 9 Oct, 5:53 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
 
 | 🔓 Open | 🔴 Top priority | 🔧 Fixing or waiting for release | ✅ Fixed and live |
 | :---: | :---: | :---: | :---: |
