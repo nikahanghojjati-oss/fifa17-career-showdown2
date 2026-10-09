@@ -1,14 +1,14 @@
 # Board archive
 
-[Back to the board](BOARD.md) · generated 2026-10-09 6:10 PM Boston time (EDT). Detail and history behind the one board.
+[Back to the board](BOARD.md) · generated 2026-10-09 6:11 PM Boston time (EDT). Detail and history behind the one board.
 
 ## Old detailed board
 
 # Showdown board: G Factory and V Factory
 
-🌐 **Live: runtime 1.9.1-r66** (main `8e1a583`) · 🔄 **41 moving** · ⏭ 6 up next · 👤 3 waiting on Nik · 🗂 5 later · updated 2026-10-09 6:10 PM Boston time (EDT)
+🌐 **Live: runtime 1.9.1-r66** (main `8e1a583`) · 🔄 **41 moving** · ⏭ 6 up next · 👤 3 waiting on Nik · 🗂 5 later · updated 2026-10-09 6:11 PM Boston time (EDT)
 
-🩺 **All clear: every check has a machine.** · POS20 #304 6/16
+🐕 **Barking: POS20 on #442 has waited 3 min for a machine.** · POS20 #304 6/16
 
 ## Your next move
 
@@ -74,9 +74,9 @@ _Gameplay, online sync, every merge and every release (senior director)._ Worker
 | G-F5 | QA packet adoptions: truth line, wrong-target guard on main PRs, PR title rule | 🟪 Sonnet | next | - |
 | G-F11 | Old-design CSS collisions: scope old rulebook/settings/analytics/app CSS off Team V markup (about 70 shared class names) | 🟪 Sonnet | ready (Sonnet audit, then Opus fix) | - |
 | 1045 | Showdown Gate: pin actions and tool installs (audit F4) | ⬜ Codex | ready (after 1050) | - |
-| 1048 | Rule Book: three missing rules, and the season review stops pointing at a missing button (Olympiad V1, V2) | ⬛ gpt-chat | ready | - |
-| 1049 | Club reveal stops spoiling the sealed club; empty-device restore respects Keep current (Olympiad V3, V5) | ⬛ gpt-chat | ready (after 1048) | - |
-| 1050 | Unfinished Signing Entry rows survive a refresh (Olympiad V4) | ⬛ gpt-work | ready (after 1049) | - |
+| 1048 | Rule Book: three missing rules, and the season review stops pointing at a missing button (Olympiad V1, V2) | 🟦 Sol chat | ready | - |
+| 1049 | Club reveal stops spoiling the sealed club; empty-device restore respects Keep current (Olympiad V3, V5) | 🟦 Sol chat | ready (after 1048) | - |
+| 1050 | Unfinished Signing Entry rows survive a refresh (Olympiad V4) | 🟩 Sol Work mode | ready (after 1049) | - |
 
 **👤 Waiting on Nik**
 
@@ -199,7 +199,7 @@ Latest:
 ## Every bug report
 
 
-> Updated **Fri 9 Oct, 6:10 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
+> Updated **Fri 9 Oct, 6:11 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
 
 | 🔓 Open | 🔴 Top priority | 🔧 Fixing or waiting for release | ✅ Fixed and live |
 | :---: | :---: | :---: | :---: |
