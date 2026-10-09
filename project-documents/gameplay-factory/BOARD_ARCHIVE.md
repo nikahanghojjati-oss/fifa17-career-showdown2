@@ -1,14 +1,14 @@
 # Board archive
 
-[Back to the board](BOARD.md) · generated 2026-10-09 6:47 PM Boston time (EDT). Detail and history behind the one board.
+[Back to the board](BOARD.md) · generated 2026-10-09 6:49 PM Boston time (EDT). Detail and history behind the one board.
 
 ## Old detailed board
 
 # Showdown board: G Factory and V Factory
 
-🌐 **Live: runtime 1.9.1-r66** (main `8e1a583`) · 🔄 **42 moving** · ⏭ 5 up next · 👤 2 waiting on Nik · 🗂 7 later · updated 2026-10-09 6:47 PM Boston time (EDT)
+🌐 **Live: runtime 1.9.1-r66** (main `8e1a5833`) · 🔄 **42 moving** · ⏭ 5 up next · 👤 2 waiting on Nik · 🗂 7 later · updated 2026-10-09 6:49 PM Boston time (EDT)
 
-🐕 **Barking: Gameplay Fast on #444 has waited 5 min for a machine; POS20 on #444 has waited 4 min for a machine.** · POS20 #304 6/16
+🐕 **Barking: POS20 on #445 has waited 2 min for a machine.** · POS20 #304 6/16
 
 ## Your next move
 
@@ -49,7 +49,7 @@
 | G | 1028 | Statistics shows an abandoned-only career (hunt 1019 H5) | 🟧 Team G lead | in r65 (live 2026-10-09) | - |
 | G | 1027 | Restore keeps and checks the Save Library; career cache race (hunt 1019 H1, H2, H4) | 🟧 Claude helper | in r65 (live 2026-10-09) | - |
 | G | 1048 | Rule Book: three missing rules, and the season review stops pointing at a missing button (Olympiad V1, V2) | 🟦 Sol chat | worker done, lead checking (PR #443): the lead registered the test the worker was blocked on | - |
-| G | 1049 | Club reveal stops spoiling the sealed club (Olympiad V3) | 🟦 Sol chat | worker done, lead checking (PR #444); Claude Haiku adds the test | - |
+| G | 1049 | Club reveal stops spoiling the sealed club (Olympiad V3) | 🟦 Sol chat | worker done, lead checking (PR #444): bug repro fails before and passes after; Claude Haiku added the test; CI running | - |
 
 | Hand-off | From → To | What | Progress |
 | --- | --- | --- | --- |
@@ -201,7 +201,7 @@ Latest:
 ## Every bug report
 
 
-> Updated **Fri 9 Oct, 6:47 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
+> Updated **Fri 9 Oct, 6:49 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
 
 | 🔓 Open | 🔴 Top priority | 🔧 Fixing or waiting for release | ✅ Fixed and live |
 | :---: | :---: | :---: | :---: |
