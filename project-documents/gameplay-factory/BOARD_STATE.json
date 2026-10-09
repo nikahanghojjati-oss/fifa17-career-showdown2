@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-09 6:53 PM Boston time (EDT)",
+ "generated": "2026-10-09 6:54 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -284,7 +284,7 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "720670e1",
+  "head": "720670e",
   "head_boston": "Fri 9 Oct 6:37 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": true,
@@ -313,9 +313,9 @@
  },
  "two": {
   "live": {
-   "sha": "8e1a5833",
+   "sha": "8e1a583",
    "revision": "1.9.1-r66",
-   "when": "2026-10-09T16:04:25+00:00",
+   "when": "2026-10-09T16:04:25Z",
    "subject": "Release r66: Season Results on phones, closed Final Winner on both phones (#440)",
    "fixes": [],
    "today": [
@@ -342,8 +342,8 @@
    ]
   },
   "physio": {
-   "state": "barking",
-   "line": "Barking: Showdown Gate on #444 has waited 4 min for a machine; POS20 on #444 has waited 4 min for a machine; POS20 has waited 3 min for a machine.",
+   "state": "clear",
+   "line": "All clear: every check has a machine.",
    "gate": "POS20 #304 6/16",
    "source": "physio"
   },
@@ -708,10 +708,10 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 42,
-  "next": 4,
+  "moving": 40,
+  "next": 3,
   "nik": 3,
-  "later": 7,
+  "later": 8,
   "rows": {
    "G": {
     "moving": [
@@ -830,14 +830,6 @@
       "order": 18,
       "place": "Studio Z thread (nothing for Nik to type)",
       "note": "ships in r63 (PR #427, studio-z/r63 into main)"
-     },
-     {
-      "id": "G-F18",
-      "title": "Old-design screen audit: Legacy, Career Statistics and Trophy Room still open in the old shell; drive every live screen in a browser against Team V's design and route all of them to the new design",
-      "lane": "opus",
-      "state": "in progress (thread \"Old-design screen audit\", Nik asked at 5:16 PM Boston time)",
-      "waits_on": "a green PR to the lead",
-      "details": "overlaps G-F11 (old CSS collisions)"
      },
      {
       "id": "1001",
@@ -1021,19 +1013,6 @@
       "archived": true
      },
      {
-      "id": "1048",
-      "title": "Rule Book: three missing rules, and the season review stops pointing at a missing button (Olympiad V1, V2)",
-      "lane": "gpt-chat",
-      "state": "worker done, lead checking (PR #443): the lead registered the test the worker was blocked on",
-      "order": 21,
-      "place": "nothing to type: the chat is finished",
-      "note": "Nik ran it on GPT-6 Sol chat; the Luna trial moved to 1054; ticket jobs/JOB-1048.md",
-      "team": "blue",
-      "model": "GPT-6 Sol (chat)",
-      "effort": "High",
-      "prompt": ""
-     },
-     {
       "id": "1049",
       "title": "Club reveal stops spoiling the sealed club (Olympiad V3)",
       "lane": "gpt-chat",
@@ -1052,9 +1031,9 @@
       "id": "G-F1",
       "title": "Nik and Daniel play 2.0 on their phones",
       "lane": "nik",
-      "state": "waiting on Nik",
+      "state": "optional",
       "waits_on": "",
-      "decision": "Play a game of the live version with Daniel on two phones and send what goes wrong to the bug factory thread."
+      "decision": "Nothing to do until you and Daniel next play the live game on two phones; then send what goes wrong to the bug factory thread."
      },
      {
       "id": "G-F22",
@@ -1079,13 +1058,6 @@
      }
     ],
     "next": [
-     {
-      "id": "G-F5",
-      "title": "QA packet adoptions: truth line, wrong-target guard on main PRs, PR title rule",
-      "lane": "sonnet",
-      "state": "next",
-      "waits_on": ""
-     },
      {
       "id": "G-F11",
       "title": "Old-design CSS collisions: scope old rulebook/settings/analytics/app CSS off Team V markup (about 70 shared class names)",
@@ -1122,6 +1094,13 @@
     ],
     "later": [
      {
+      "id": "G-F5",
+      "title": "QA packet adoptions: truth line, wrong-target guard on main PRs, PR title rule",
+      "lane": "sonnet",
+      "state": "queued after the bug jobs",
+      "waits_on": ""
+     },
+     {
       "id": "G-F17",
       "title": "Showdown Gate: replace POS20 with a faster check system built on Claude and GitHub, keeping every check (plan: /mnt/project-files/check-system/SHOWDOWN_GATE_PLAN.md)",
       "lane": "opus",
@@ -1131,18 +1110,19 @@
       "note": "reports/SHOWDOWN_GATE_AUDIT_2026-10-09.md"
      },
      {
-      "id": "G-F4",
-      "title": "GPT Q&A team: scripted paths and code-vs-rulebook reads",
-      "lane": "sol-chat",
-      "state": "queued",
-      "waits_on": "G-F1"
+      "id": "G-F18",
+      "title": "Old-design screen audit: Legacy, Career Statistics and Trophy Room still open in the old shell; drive every live screen in a browser against Team V's design and route all of them to the new design",
+      "lane": "opus",
+      "state": "queued for stage 2 (visual fixes); the history screens now load online (r65), the old-design shell is what remains",
+      "waits_on": "stage 2",
+      "details": "overlaps G-F11 (old CSS collisions)"
      },
      {
       "id": "G-F7",
       "title": "Ten-season smoothness run on live 2.0 (emulator, 10 seasons with a mid-game expiry)",
       "lane": "sonnet",
-      "state": "queued",
-      "waits_on": "G-F1"
+      "state": "queued after the Olympiad bug jobs (stage 1)",
+      "waits_on": ""
      },
      {
       "id": "1005",

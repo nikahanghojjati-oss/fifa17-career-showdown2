@@ -1,28 +1,24 @@
 # Bug hunt board
 
-Updated Fri 9 Oct, 6:53 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Fri 9 Oct, 6:54 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r66** (main `8e1a583`, Fri 9 Oct 12:04 PM)
 
-🐕 **Barking: Showdown Gate on #444 has waited 4 min for a machine; POS20 on #444 has waited 4 min for a machine; POS20 has waited 3 min for a machine.** · POS20 #304 6/16
+🩺 **All clear: every check has a machine.** · POS20 #304 6/16
 
 ## Jobs
 
 ### ▶️ Running now
 
-**#1 · 1048** `G` Rule Book: three missing rules, and the season review stops pointing at a missing button (Olympiad V1, V2)  
-`██████████` **100.0000 %** worker's part done  
-🔵 Team blue · **GPT-6 Sol (chat)** · High effort · worker done, lead checking
-
-**#2 · 1049** `G` Club reveal stops spoiling the sealed club (Olympiad V3)  
+**#1 · 1049** `G` Club reveal stops spoiling the sealed club (Olympiad V3)  
 `██████████` **100.0000 %** worker's part done  
 🔵 Team blue · **GPT-6 Sol** · High effort · worker done, lead checking
 
-**#3 · 1051** `G` Transfer ledger hash no longer reveals locked guesses (Olympiad V6)  
+**#2 · 1051** `G` Transfer ledger hash no longer reveals locked guesses (Olympiad V6)  
 `░░░░░░░░░░` **0.0000 %**  
 🟤 Team brown · **Claude Sonnet 5.5** · Medium effort · with the worker
 
-**#4 · 1052** `G` Transfer Rules reject option ids the game cannot read (Olympiad V7)  
+**#3 · 1052** `G` Transfer Rules reject option ids the game cannot read (Olympiad V7)  
 `░░░░░░░░░░` **0.0000 %**  
 🟤 Team brown · **Claude Sonnet 5.5** · Medium effort · with the worker
 
@@ -54,13 +50,13 @@ Job 1045 for this repo. First read the ticket: run `git fetch origin factory/gam
 `░░░░░░░░░░` **0.0000 %**  
 🔵 Team blue · **GPT-6 Sol** · High effort · waits: held: worker done
 
-**Done, in the next release:** 1001, 1003, 1004, 1005, 1009, 1010, 1011, 1014, 1015, 1020, 1021, 1022, 1023, 1024, 1025, 1026, 1027, 1028, 1037, 1038, 1039, 1040, 1041, 1042, 1043, 1044, 1046, 1047, 1054, Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8
+**Done, in the next release:** 1001, 1003, 1004, 1005, 1009, 1010, 1011, 1014, 1015, 1020, 1021, 1022, 1023, 1024, 1025, 1026, 1027, 1028, 1037, 1038, 1039, 1040, 1041, 1042, 1043, 1044, 1046, 1047, 1048, 1054, Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8
 
 ## Goals, in this order
 
 **1. Finish the remaining bugs** `now`  
-`████████░░` **80.3030 %**  
-Numbered jobs: 37 done, 1 other open · Olympiad recheck: 16 of 23 settled, 7 still to fix · Sol's old leads: 5 open (1 confirmed, the rest to recheck on live)
+`████████░░` **83.5821 %**  
+Numbered jobs: 38 done, 1 other open · Olympiad recheck: 18 of 23 settled, 5 still to fix · Sol's old leads: 5 open (1 confirmed, the rest to recheck on live)
 
 **2. Visual fixes** `after stage 1`  
 `█████░░░░░` **52.3810 %**  
@@ -80,25 +76,19 @@ Not started
 
 ## Other asks
 
-- **G-F1** Play a game of the live version with Daniel on two phones and send what goes wrong to the bug factory thread.
+- Nothing else needs you right now.
 
 ## Other Team G work
-
-**Fixing now**
-
-| Lane | Item | What | State |
-| --- | --- | --- | --- |
-| 🟧 Opus | **G-F18** | Old-design screen audit: Legacy, Career Statistics and Trophy Room still open in the old shell; drive every live screen in a browser against Team V's design and route all of them to the new design | in progress |
 
 **Up next**
 
 | Lane | Item | What | State |
 | --- | --- | --- | --- |
-| 🟪 Sonnet | **G-F5** | QA packet adoptions: truth line, wrong-target guard on main PRs, PR title rule | next |
 | 🟪 Sonnet | **G-F11** | Old-design CSS collisions: scope old rulebook/settings/analytics/app CSS off Team V markup (about 70 shared class names) | ready |
+| 🟪 Sonnet | **G-F5** | QA packet adoptions: truth line, wrong-target guard on main PRs, PR title rule | queued after the bug jobs |
 | 🟧 Opus | **G-F17** | Showdown Gate: replace POS20 with a faster check system built on Claude and GitHub, keeping every check (plan: /mnt/project-files/check-system/SHOWDOWN_GATE_PLAN.md) | shadow: KEEP_SHADOW after the 9 Oct independent audit · after exit bar: 10 real PRs agree (2 full seals), 2 canaries fail, 1 simulated outage recovers; POS20 stays the merge authority until then |
-| 🟦 Sol chat | **G-F4** | GPT Q&A team: scripted paths and code-vs-rulebook reads | queued · after G-F1 |
-| 🟪 Sonnet | **G-F7** | Ten-season smoothness run on live 2.0 (emulator, 10 seasons with a mid-game expiry) | queued · after G-F1 |
+| 🟧 Opus | **G-F18** | Old-design screen audit: Legacy, Career Statistics and Trophy Room still open in the old shell; drive every live screen in a browser against Team V's design and route all of them to the new design | queued for stage 2 · after stage 2 |
+| 🟪 Sonnet | **G-F7** | Ten-season smoothness run on live 2.0 (emulator, 10 seasons with a mid-game expiry) | queued after the Olympiad bug jobs |
 
 
 ## Other Team V work
