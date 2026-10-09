@@ -1,10 +1,10 @@
 # Bug hunt board
 
-Updated Fri 9 Oct, 7:22 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Fri 9 Oct, 7:23 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r66** (main `8e1a583`, Fri 9 Oct 12:04 PM)
 
-🩺 **All clear: every check has a machine.** · POS20 #304 6/16
+🐕 **Barking: Gameplay Fast on #448 has waited 1 min for a machine.** · POS20 #304 6/16
 
 ## Jobs
 
@@ -18,19 +18,15 @@ Updated Fri 9 Oct, 7:22 PM Boston time. Bug hunting only, no new features until 
 `██████████` **100.0000 %** worker's part done  
 🟡 Team yellow · **GPT Luna (Work mode); if it fails, Sol 6.1 Work mode** · High effort · worker done, lead checking
 
-**#3 · 1045** `G` Showdown Gate: pin actions and tool installs (audit F4)  
-`██████████` **100.0000 %** worker's part done  
-⚪ Team white · **Codex default coding model** · Medium effort · worker done, lead checking
-
-**#4 · 1051** `G` Transfer ledger hash no longer reveals locked guesses (Olympiad V6)  
+**#3 · 1051** `G` Transfer ledger hash no longer reveals locked guesses (Olympiad V6)  
 `░░░░░░░░░░` **0.0000 %**  
 🟤 Team brown · **Claude Sonnet 5.5** · Medium effort · with the worker
 
-**#5 · 1052** `G` Transfer Rules reject option ids the game cannot read (Olympiad V7)  
+**#4 · 1052** `G` Transfer Rules reject option ids the game cannot read (Olympiad V7)  
 `░░░░░░░░░░` **0.0000 %**  
 🟤 Team brown · **Claude Sonnet 5.5** · Medium effort · with the worker
 
-**#6 · 1055** `G` Season Results points cap uses the real league size (Sol lead S1)  
+**#5 · 1055** `G` Season Results points cap uses the real league size (Sol lead S1)  
 `██████████` **100.0000 %** worker's part done  
 🔵 Team blue · **GPT-6 Sol** · High effort · worker done, lead checking
 
@@ -56,13 +52,13 @@ Paste this:
 Job 1057. Read the ticket at https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/gameplay-v1/project-documents/gameplay-factory/jobs/JOB-1057.md and do exactly what it says in this one turn. Write only the one report file on branch qa/sol-leads-recheck, and end with 'Job 1057 done, report on qa/sol-leads-recheck.'
 ```
 
-**Done, in the next release:** 1001, 1003, 1004, 1005, 1009, 1010, 1011, 1014, 1015, 1020, 1021, 1022, 1023, 1024, 1025, 1026, 1027, 1028, 1037, 1038, 1039, 1040, 1041, 1042, 1043, 1044, 1046, 1047, 1048, 1049, 1054, Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8
+**Done, in the next release:** 1001, 1003, 1004, 1005, 1009, 1010, 1011, 1014, 1015, 1020, 1021, 1022, 1023, 1024, 1025, 1026, 1027, 1028, 1037, 1038, 1039, 1040, 1041, 1042, 1043, 1044, 1045, 1046, 1047, 1048, 1049, 1054, Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8
 
 ## Goals, in this order
 
 **1. Finish the remaining bugs** `now`  
-`█████████░` **85.2941 %**  
-Numbered jobs: 39 done, 1 other open · Olympiad recheck: 19 of 23 settled, 4 still to fix · Sol's old leads: 5 open (1 confirmed, the rest to recheck on live)
+`█████████░` **86.7647 %**  
+Numbered jobs: 40 done, 0 other open · Olympiad recheck: 19 of 23 settled, 4 still to fix · Sol's old leads: 5 open (1 confirmed, the rest to recheck on live)
 
 **2. Visual fixes** `after stage 1`  
 `█████░░░░░` **52.3810 %**  
