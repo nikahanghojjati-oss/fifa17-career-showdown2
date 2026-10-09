@@ -4,7 +4,7 @@ Updated Fri 9 Oct, 6:51 PM Boston time. Bug hunting only, no new features until 
 
 🌐 **Live: 1.9.1-r66** (main `8e1a583`, Fri 9 Oct 12:04 PM)
 
-🐕 **Barking: POS20 has waited 7 min for a machine; POS20 has waited 3 min for a machine; POS20 on #445 has waited 2 min for a machine; Showdown Gate on #444 has waited 1 min for a machine.** · POS20 #304 6/16
+🐕 **Barking: Showdown Gate on #444 has waited 2 min for a machine; POS20 on #444 has waited 2 min for a machine; POS20 has waited 1 min for a machine.** · POS20 #304 6/16
 
 ## Jobs
 

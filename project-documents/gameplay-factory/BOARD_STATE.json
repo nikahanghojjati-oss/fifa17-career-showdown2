@@ -284,7 +284,7 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "720670e",
+  "head": "720670e1",
   "head_boston": "Fri 9 Oct 6:37 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": true,
@@ -313,9 +313,9 @@
  },
  "two": {
   "live": {
-   "sha": "8e1a583",
+   "sha": "8e1a5833",
    "revision": "1.9.1-r66",
-   "when": "2026-10-09T16:04:25Z",
+   "when": "2026-10-09T16:04:25+00:00",
    "subject": "Release r66: Season Results on phones, closed Final Winner on both phones (#440)",
    "fixes": [],
    "today": [
@@ -343,7 +343,7 @@
   },
   "physio": {
    "state": "barking",
-   "line": "Barking: POS20 has waited 7 min for a machine; POS20 has waited 3 min for a machine; POS20 on #445 has waited 2 min for a machine; Showdown Gate on #444 has waited 1 min for a machine.",
+   "line": "Barking: Showdown Gate on #444 has waited 2 min for a machine; POS20 on #444 has waited 2 min for a machine; POS20 has waited 1 min for a machine.",
    "gate": "POS20 #304 6/16",
    "source": "physio"
   },
