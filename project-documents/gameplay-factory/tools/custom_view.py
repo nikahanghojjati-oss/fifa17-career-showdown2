@@ -217,6 +217,9 @@ def q_add(it, team):
             q["title"] = f'Studio {row["studio"]} · ' + str(q.get("title", ""))
     if re.match(r"(in release|verified|in r\d|merged|done \(merged)", st, re.I) or n in MERGED:
         Q["release"].append(q)
+    elif re.match(r"held\b", st, re.I):  # held for Nik wins over every other signal, an open PR included (lead, 2026-10-09 22:26 UTC)
+        q["after"] = short_state(st)
+        Q["wait"].append(q)
     elif status_done(n):
         q["state"] = "worker done, lead checking"
         Q["run"].append(q)
