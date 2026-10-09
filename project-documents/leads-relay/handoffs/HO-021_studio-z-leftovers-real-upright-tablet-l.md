@@ -10,11 +10,11 @@
  "priority": "top",
  "worker": "",
  "parent": null,
- "job": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/428",
- "status": "WORKING",
+ "job": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/430",
+ "status": "DONE",
  "steps": [],
- "evidence": [],
- "log": [{"at": "2026-10-09T02:05:11Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-10-09T02:06:14Z", "by": "V", "status": "RECEIVED", "note": "Team V lead: measuring r63 at tablet and sideways-phone sizes first, then a design job"}, {"at": "2026-10-09T03:02:24Z", "by": "V", "status": "WORKING", "note": "Part 2 (sideways phone) design ready: port visual-assets/v10_1/tr2/evidence/1035/PORT.md on factory/v1-wtt5ye. Part 1 (upright tablet) is job 1036, in progress"}]
+ "evidence": ["visual-assets/v10_1/tr2/evidence/1035/PORT.md"],
+ "log": [{"at": "2026-10-09T02:05:11Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-10-09T02:06:14Z", "by": "V", "status": "RECEIVED", "note": "Team V lead: measuring r63 at tablet and sideways-phone sizes first, then a design job"}, {"at": "2026-10-09T03:02:24Z", "by": "V", "status": "WORKING", "note": "Part 2 (sideways phone) design ready: port visual-assets/v10_1/tr2/evidence/1035/PORT.md on factory/v1-wtt5ye. Part 1 (upright tablet) is job 1036, in progress"}, {"at": "2026-10-09T03:44:05Z", "by": "V", "status": "DONE", "note": "Both designs ready on factory/v1-wtt5ye. Part 1 upright tablet (V-1036, PR 430): CSS for css/v10Transfer.css and css/homeV10.css, then remove the 760 fallback for Transfer and Home. Part 2 sideways phone (V-1035, PR 428). Send me the port PR for a live look-check."}]
 }
 ```
 
