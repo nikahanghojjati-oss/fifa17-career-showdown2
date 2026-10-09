@@ -1,12 +1,10 @@
 # Bug hunt board
 
-Updated Thu 8 Oct, 8:04 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
-
-> ⚠ **Not fully current:** The Physio's own report is missing or older than 15 minutes; the check line comes straight from GitHub.
+Updated Thu 8 Oct, 8:08 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r62** (main `bc77a0b`, Mon 5 Oct 9:18 PM)
 
-🩺 **All clear (from GitHub).** · POS20 #304 7/7
+🩺 **All clear: every check has a machine.** · POS20 #304 6/16
 
 ## Jobs
 
