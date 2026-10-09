@@ -345,12 +345,6 @@ def render(first, compact=False):
     if nik:
         H.append("<h2>Other asks</h2>")
         H.append('<div class="card">' + "<br>".join((md(x["decision"]) if x.get("md") else f'<b>{e(x["id"])}</b> {e(x["decision"])}') for x in nik) + "</div>")
-    GF = ETA.gaffer()
-    if GF and not GF.get("stale"):
-        H.append(f'<div class="card">{GF["emoji"]} <b>Gaffer: {GF["pct"]} % of 5-hour usage</b> <span class="m">{e(GF.get("mood", ""))} · updated {e(GF.get("updated_boston", ""))}</span>' + (f'<br><span class="m">{e(str(GF.get("last_decision", ""))[:110])}</span>' if not compact else "") + "</div>")
-    elif GF:
-        _a = GF.get("age_min")
-        H.append(f'<div class="card m">Gaffer: no report for {f"{round(_a / 60)} h" if isinstance(_a, (int, float)) and _a >= 90 else f"{_a or chr(63)} min"}.</div>')
     H.append(f'<div class="card">{TF.PHYSIO_ICON.get(ph.get("state"), "🩺")} <b>{e(ph.get("line", "Physio: no report yet."))}</b>' + (f'<br><span class="m">{e(ph["gate"])}</span>' if ph.get("gate") else "") + "</div>")
     if warn:
         H.append('<div class="card warn">⚠ <b>Not fully current:</b> ' + " ".join(e(w) for w in warn) + "</div>")
