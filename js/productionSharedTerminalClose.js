@@ -17,9 +17,12 @@
   function ptcScheduleAutomaticClose(context){
     if(!installed||typeof root.setTimeout!=="function")return;
     const key=ptcAutomaticKey(context);if(automaticAttempts.has(key))return;
-    const request=context.request,generation=stateGeneration;
-    root.setTimeout(()=>{
+    const request=context.request,generation=stateGeneration;let polls=0;
+    const attempt=()=>{
       if(!ptcStillCurrent(request,generation)||busy||closePromise||ptcCurrentState()?.phase!=="READY"||automaticAttempts.has(key)||!ptcRemoteActive(context,ptcCurrentState().intent.sessionId))return;
+      // Close forgets the session, which clears Shared History, so the close waits (bounded) for the converged history the
+      // Final Winner shows as the final season and trophies. Without the history module it closes at once.
+      if(!ptcHistoryConverged(request.rivalryId)&&polls<HISTORY_WAIT_POLLS){polls++;root.setTimeout(attempt,HISTORY_POLL_MS);return;}
       automaticAttempts.set(key,{failed:false});
       ptcPublish(request,{...ptcCurrentState(),automaticSaving:true,automaticCloseFailed:false});
       void ptcClose(key).then(result=>{
@@ -27,7 +30,12 @@
         automaticAttempts.set(key,{failed:true});
         if(ptcStillCurrent(request,generation)&&ptcCurrentState()?.phase!=="CLOSED")ptcPublish(request,{...ptcCurrentState(),automaticSaving:false,automaticCloseFailed:true});
       });
-    },0);
+    };
+    root.setTimeout(attempt,0);
+  }
+  const HISTORY_POLL_MS=250,HISTORY_WAIT_POLLS=60;
+  function ptcHistoryConverged(rivalryId){
+    try{const api=root.CareerModeProductionSharedHistoryConvergence;if(typeof api?.getState!=="function")return true;const h=api.getState();return h?.authoritative===true&&h.phase==="HISTORY_CONVERGED"&&h.rivalryId===rivalryId;}catch(_){return true;}
   }
   // H1017-2: bumped whenever the held state is dropped, so an awaited retry can tell its context was cleared under it.
   let stateGeneration=0;

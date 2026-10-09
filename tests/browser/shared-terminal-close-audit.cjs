@@ -93,6 +93,19 @@ function makeContext({role,store,provider=makeProvider(store)}){
   staleAuto.context.CareerModeProductionSharedTerminalClose.install();await staleAuto.context.CareerModeProductionSharedTerminalClose.refresh();
   staleAuto.context.currentShowdown=null;await settle(staleAuto);assert.equal(staleAutoStore.closeCalls.length,0,"a queued automatic close cannot outlive its Showdown");
 
-  console.log("PASS JOB-1038 automatic close: exactly once, restored session, manual retry, lost acknowledgement and stale-context cancellation.");
+  // JOB-1038: the automatic close waits (bounded) for converged Shared History, which the closed Final Winner keeps.
+  function stepContext(options){const c=makeContext(options),timers=[];c.context.setTimeout=fn=>{timers.push(fn);return timers.length;};return {...c,timers};}
+  async function step(c,rounds){for(let i=0;i<rounds;i++){const due=c.timers.splice(0);for(const fn of due)fn();await new Promise(resolve=>setImmediate(resolve));}}
+  const waitStore=makeStore(),waiting=stepContext({role:"playerOne",store:waitStore});let history=null;
+  waiting.context.CareerModeProductionSharedHistoryConvergence={getState:()=>history};
+  waiting.context.CareerModeProductionSharedTerminalClose.install();await waiting.context.CareerModeProductionSharedTerminalClose.refresh();await step(waiting,10);
+  assert.equal(waitStore.closeCalls.length,0,"the automatic close waits while Shared History has not converged");
+  history={authoritative:true,phase:"HISTORY_CONVERGED",rivalryId};await step(waiting,10);
+  assert.equal(waitStore.closeCalls.length,1,"converged history releases the automatic close");assert.equal(waiting.context.CareerModeProductionSharedTerminalClose.getState().phase,"CLOSED");
+  const capStore=makeStore(),capped=stepContext({role:"playerOne",store:capStore});capped.context.CareerModeProductionSharedHistoryConvergence={getState:()=>null};
+  capped.context.CareerModeProductionSharedTerminalClose.install();await capped.context.CareerModeProductionSharedTerminalClose.refresh();await step(capped,80);
+  assert.equal(capStore.closeCalls.length,1,"history that never converges delays the close only for a bounded time");
+
+  console.log("PASS JOB-1038 automatic close: exactly once, restored session, manual retry, lost acknowledgement, stale-context cancellation and a bounded wait for Shared History.");
   console.log("PASS r18 Terminal Close two-context runtime audit: both managers derive one exact witness, atomic close converges through terminal reads, lost acknowledgement recovers without replacement mutation, inactive-session close is blocked, stale cross-rivalry reads are discarded, and no browser storage authority is touched.");
 })().catch(error=>{console.error(error);process.exitCode=1;});
