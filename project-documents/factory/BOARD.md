@@ -1,6 +1,6 @@
 # 🎨 Team V board
 
-Updated Thu 8 Oct 11:03 PM EDT · Team V featured, Team G below · one shared data source (PR progress blocks + relay) · [Team G's board](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/BOARD.md)
+Updated Thu 8 Oct 11:04 PM EDT · Team V featured, Team G below · one shared data source (PR progress blocks + relay) · [Team G's board](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/BOARD.md)
 
 ## Team V: visual jobs
 
@@ -50,7 +50,7 @@ Updated Thu 8 Oct 11:03 PM EDT · Team V featured, Team G below · one shared da
 
 ### Team G: gameplay
 
-<sub>0 of 0 jobs done (0.00 %) · 1 open bugs · their update Thu 8 Oct 11:02 PM EDT · [full board](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/BOARD.md)</sub>
+<sub>0 of 0 jobs done (0.00 %) · 1 open bugs · their update Thu 8 Oct 11:03 PM EDT · [full board](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/BOARD.md)</sub>
 
 <sub>No Team G job is running right now.</sub>
 
