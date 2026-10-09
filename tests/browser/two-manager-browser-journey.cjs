@@ -681,7 +681,7 @@ async function main(){
     await daniel.page.locator("#sharedTerminalCloseAction").click({timeout:30000});
     for(const m of [daniel,nik]){
       await m.page.waitForFunction(()=>document.getElementById("sharedTerminalCloseHeading")?.textContent==="SHARED SHOWDOWN CLOSED",null,{timeout:60000});
-      assert.match((await m.page.locator("#sharedTerminalCloseStatus").textContent()).trim(),/TERMINAL · NO NEW SESSION · NO NEW SEASON/);
+      assert.match((await m.page.locator("#sharedTerminalCloseStatus").textContent()).trim(),/CLOSED · NO NEW SESSION · NO NEW SEASON/);
     }
     const closedR1=await admin(`rivalries/${R1}`);
     assert.ok(closedR1,"closed R1 rivalry root exists");
