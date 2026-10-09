@@ -1,12 +1,12 @@
 # Board archive
 
-[Back to the board](BOARD.md) · generated 2026-10-08 11:45 PM Boston time (EDT). Detail and history behind the one board.
+[Back to the board](BOARD.md) · generated 2026-10-08 11:55 PM Boston time (EDT). Detail and history behind the one board.
 
 ## Old detailed board
 
 # Showdown board: G Factory and V Factory
 
-🌐 **Live: runtime 1.9.1-r63** (main `2b8b043`) · 🔄 **23 moving** · ⏭ 3 up next · 👤 7 waiting on Nik · 🗂 6 later · updated 2026-10-08 11:45 PM Boston time (EDT)
+🌐 **Live: runtime 1.9.1-r63** (main `2b8b043`) · 🔄 **23 moving** · ⏭ 3 up next · 👤 7 waiting on Nik · 🗂 6 later · updated 2026-10-08 11:55 PM Boston time (EDT)
 
 🩺 **All clear: every check has a machine.** · Gate #429: L1✓ L2✓ L3✓ L4✓ L5✗ L6✓ · seal FAIL (test) · POS20 #429 12/16
 
@@ -192,7 +192,7 @@ Latest:
 ## Every bug report
 
 
-> Updated **Thu 8 Oct, 11:45 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
+> Updated **Thu 8 Oct, 11:55 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
 
 | 🔓 Open | 🔴 Top priority | 🔧 Fixing or waiting for release | ✅ Fixed and live |
 | :---: | :---: | :---: | :---: |
