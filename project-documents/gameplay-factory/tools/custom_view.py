@@ -400,8 +400,8 @@ TEAM = {"Sol chat": "Team blue · GPT chat", "Sol Work mode": "Team green · GPT
 MODEL_HEX = (("astra", "#f43f5e"), ("luna", "#e879f9"), ("6.1", "#2dd4bf"), ("sol", "#67e8f9"), ("opus", "#f97316"), ("sonnet", "#8b5cf6"), ("haiku", "#facc15"), ("codex", "#ffffff"))
 
 
-BADGE = {"blue": ("🔵", "#7dd3fc"), "green": ("🟢", "#22c55e"), "yellow": ("🟡", "#facc15"), "orange": ("🟠", "#f97316"), "white": ("⚪", "#ffffff"), "purple": ("🟣", "#a78bfa")}
-LANE_COLOUR = {"Sol chat": "blue", "Sol Work mode": "green", "Codex": "white", "Opus": "purple", "Sonnet": "purple", "Haiku": "purple"}
+BADGE = {"blue": ("🔵", "#7dd3fc"), "green": ("🟢", "#22c55e"), "yellow": ("🟡", "#facc15"), "orange": ("🟠", "#f97316"), "white": ("⚪", "#ffffff"), "purple": ("🟣", "#a78bfa"), "brown": ("🟤", "#b45309"), "black": ("⚫", "#d1d5db")}  # Claude: purple Opus, brown Sonnet, black Haiku (lead, 2026-10-09 22:32 UTC)
+LANE_COLOUR = {"Sol chat": "blue", "Sol Work mode": "green", "Codex": "white", "Opus": "purple", "Sonnet": "brown", "Haiku": "black"}
 
 
 def team_badge(q, worker):

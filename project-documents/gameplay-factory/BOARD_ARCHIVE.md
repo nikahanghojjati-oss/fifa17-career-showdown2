@@ -1,12 +1,12 @@
 # Board archive
 
-[Back to the board](BOARD.md) · generated 2026-10-09 6:31 PM Boston time (EDT). Detail and history behind the one board.
+[Back to the board](BOARD.md) · generated 2026-10-09 6:32 PM Boston time (EDT). Detail and history behind the one board.
 
 ## Old detailed board
 
 # Showdown board: G Factory and V Factory
 
-🌐 **Live: runtime 1.9.1-r66** (main `8e1a583`) · 🔄 **41 moving** · ⏭ 7 up next · 👤 3 waiting on Nik · 🗂 6 later · updated 2026-10-09 6:31 PM Boston time (EDT)
+🌐 **Live: runtime 1.9.1-r66** (main `8e1a5833`) · 🔄 **41 moving** · ⏭ 7 up next · 👤 2 waiting on Nik · 🗂 7 later · updated 2026-10-09 6:32 PM Boston time (EDT)
 
 🩺 **All clear: every check has a machine.** · POS20 #304 6/16
 
@@ -16,11 +16,11 @@
 
 ## 🔄 Moving now
 
-**🟦 1048 · Rule Book: three missing rules, and the season review stops pointing at a missing button (Olympiad V1, V2)** · 0 % (0 of 4 steps) · Sol chat
+**🟦 1048 · Rule Book: three missing rules, and the season review stops pointing at a missing button (Olympiad V1, V2)** · 20 % (1 of 5 steps) · Sol chat
 
-⚽▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️ 🥅  
-> **Now:** step 1 of 4  
-> **Left:** step 1 → step 2 → step 3 → step 4
+🟦🟦🟦🟦⚽▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️ 🥅  
+> **Now:** step 2 of 5  
+> **Left:** step 2 → step 3 → step 4 → step 5
 
 | Team | Job | What | Worker | Where it is | Details |
 | --- | --- | --- | --- | --- | --- |
@@ -90,7 +90,6 @@ _Gameplay, online sync, every merge and every release (senior director)._ Worker
 | --- | --- | --- | --- | --- |
 | G-F1 | Nik and Daniel play 2.0 on their phones | 👤 Nik and Daniel | waiting on Nik | - |
 | G-F22 | BH-12 pairing product calls: RESTORE BACKUP first, CANCEL CODE with expiry, masked email before JOIN, revoke mine and join, clearer same-account message | 👤 Nik and Daniel | later: Nik decides after his two current calls | the lead asks Nik next |
-| 1052 | Transfer Rules reject option ids the game cannot read (Olympiad V7) | 🟪 Sonnet | held: needs Nik's OK for a Rules change | - |
 
 **🗂 Later**
 
@@ -99,7 +98,8 @@ _Gameplay, online sync, every merge and every release (senior director)._ Worker
 | G-F17 | Showdown Gate: replace POS20 with a faster check system built on Claude and GitHub, keeping every check (plan: /mnt/project-files/check-system/SHOWDOWN_GATE_PLAN.md) — Nik 6:02 PM Boston time: gradual replacement; POS20 is archived to authority-history/pos20-archive/, not deleted | 🟧 Opus | shadow: KEEP_SHADOW after the 9 Oct independent audit (71/100); fixes 1043, 1044, 1045 first | exit bar: 10 real PRs agree (2 full seals), 2 canaries fail, 1 simulated outage recovers; POS20 stays the merge authority until then |
 | G-F4 | GPT Q&A team: scripted paths and code-vs-rulebook reads | 🟦 Sol chat | queued | G-F1 |
 | G-F7 | Ten-season smoothness run on live 2.0 (emulator, 10 seasons with a mid-game expiry) | 🟪 Sonnet | queued | G-F1 |
-| 1051 | Transfer ledger hash no longer reveals locked guesses (Olympiad V6) | 🟪 Sonnet | held: needs the same Rules OK as 1052 (PR #442 open, not mergeable as is) | - |
+| 1051 | Transfer ledger hash no longer reveals locked guesses (Olympiad V6) | 🟪 Sonnet | with the worker (Claude Sonnet): one PR #442 for 1051 and 1052, Rules OK from Nik 2026-10-09 22:31 UTC | - |
+| 1052 | Transfer Rules reject option ids the game cannot read (Olympiad V7) | 🟪 Sonnet | with the worker (Claude Sonnet): one PR #442 for 1051 and 1052, Rules OK from Nik 2026-10-09 22:31 UTC | - |
 
 ### 🐞 Bug list 1
 
@@ -206,7 +206,7 @@ Latest:
 ## Every bug report
 
 
-> Updated **Fri 9 Oct, 6:31 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
+> Updated **Fri 9 Oct, 6:32 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
 
 | 🔓 Open | 🔴 Top priority | 🔧 Fixing or waiting for release | ✅ Fixed and live |
 | :---: | :---: | :---: | :---: |
@@ -228,11 +228,11 @@ Latest:
 
 ### 🟦 Sol chat · 1 job
 
-**Job 1048 · Rule Book: three missing rules, and the season review stops pointing at a missing button (Olympiad V1, V2) · 0.0000 %** · 0 of 4 steps · updated Fri 9 Oct, 6:30 PM  
-⚽▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️ 🥅  
+**Job 1048 · Rule Book: three missing rules, and the season review stops pointing at a missing button (Olympiad V1, V2) · 20.0000 %** · 1 of 5 steps · updated Fri 9 Oct, 6:30 PM  
+🟦🟦🟦🟦⚽▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️ 🥅  
 🏁 **Likely finish:** not enough data  
-> **Now:** step 1 of 4  
-> **Left:** step 1 → step 2 → step 3 → step 4
+> **Now:** step 2 of 5  
+> **Left:** step 2 → step 3 → step 4 → step 5
 
 <details>
 <summary><b>✅ Closed: 14</b> (11 live in the game) · click to open</summary>
