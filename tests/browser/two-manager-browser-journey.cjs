@@ -20,6 +20,7 @@ const SWITCH=path.join(ROOT,"tests/browser/support/emulator-runtime-switch.js");
 const SDK_DIR=path.join(ROOT,"node_modules/firebase");
 const ARTIFACTS=process.env.CMS_BROWSER_JOURNEY_ARTIFACTS||path.join(os.tmpdir(),"cms-browser-journey");
 const LENGTH=Number(process.env.CMS_SHOWDOWN_LENGTH||3);
+const FINAL_NO_CLOSE_TAP=process.env.CMS_FINAL_NO_CLOSE_TAP==="1";
 const FORBIDDEN_HOSTS=/(^|\.)(firestore|identitytoolkit|securetoken|firebaseinstallations|firebaseappcheck|content-firebaseappcheck)\.googleapis\.com$/;
 let checks=0;
 const ok=(id,label)=>{checks+=1;console.log(`ok ${checks} ${id} ${label}`);};
@@ -63,6 +64,13 @@ async function openManager(browser,user,viewport){
   await context.route(/^https:\/\/www\.gstatic\.com\/firebasejs\/[\d.]+\/(firebase-[a-z-]+\.js)$/,route=>{
     const name=route.request().url().match(/(firebase-[a-z-]+\.js)$/)[1];
     return route.fulfill({path:path.join(SDK_DIR,name),contentType:"text/javascript; charset=utf-8"});
+  });
+  // JOB-1038: the existing CLOSE path now proves a manual retry after an automatic save failure.
+  // Inject at the provider boundary before bootstrap binds it; the no-tap path uses the real provider.
+  if(!FINAL_NO_CLOSE_TAP)await context.route("**/js/sparkTerminalClose.js*",async route=>{
+    const source=fs.readFileSync(path.join(ROOT,"js/sparkTerminalClose.js"),"utf8");
+    await route.fulfill({contentType:"text/javascript",body:source+`
+;(()=>{const provider=window.CareerModeSparkTerminalClose;let failed=false;window.CareerModeSparkTerminalClose=Object.freeze({...provider,close:async options=>{if(!failed){failed=true;return {ok:false,code:"TEST_AUTOMATIC_SAVE_FAILED",message:"Test automatic save failed before any write."};}return provider.close(options);}});})();`});
   });
   await context.addInitScript({path:SWITCH});
   const page=await context.newPage();
@@ -622,6 +630,21 @@ async function main(){
     }
 
     // J10 final reconciliation and Terminal Close through the real UI.
+    if(FINAL_NO_CLOSE_TAP){
+      for(const m of [daniel,nik]){
+        await m.page.locator("#finalWinnerScreen").waitFor({state:"visible",timeout:60000});
+        await m.page.waitForFunction(()=>window.CareerModeProductionSharedTerminalClose?.getState?.()?.phase==="CLOSED"&&window.FINAL_WINNER_FIXTURES?.frames?.LIVE?.state==="completed",null,{timeout:60000});
+        const frame=await m.page.evaluate(()=>window.FINAL_WINNER_FIXTURES?.frames?.LIVE);
+        assert.equal(frame.state,"completed",`${m.user}: the final winner remains visible after automatic close`);
+        assert.equal(frame.winner,"nik");
+        assert.deepEqual(frame.totals,{daniel:10,nik:15});
+        assert.equal(frame.status,"ready",`${m.user}: the closed Final Winner keeps the verified history (trophies and final season)`);
+        assert.equal(frame.lastSeason.season,3);
+        assert.equal(await m.page.locator("#sharedTerminalCloseAction").isVisible(),false,"successful auto-close needs no CLOSE retry");
+        assert.equal(m.log.taps.some(t=>t.id==="sharedTerminalCloseAction"||t.id==="sharedTerminalCloseRetry"),false,`${m.user}: no terminal close tap`);
+      }
+      ok("J10.1-auto","both pages keep the final winner and close without a CLOSE tap");
+    }else{
     // Owner decision 2026-10-05 (BH-8): once the last season is committed each phone checks on its own poll and shows the
     // final winner and CLOSE by itself. Nobody taps PREVIEW LOCAL RECONCILIATION here; Apply stays a separate explicit tap.
     for(const m of [daniel,nik])await m.page.evaluate(()=>{window.__bh8PreviewTaps=0;document.addEventListener("click",event=>{if(event.target?.closest?.("#sharedLocalReconciliationPreview"))window.__bh8PreviewTaps+=1;},true);});
@@ -679,6 +702,7 @@ async function main(){
     ok("J10.1","both pages reconcile the three-season final as Daniel 10, Nik 15, Nik wins by 5");
 
     await daniel.page.locator("#sharedTerminalCloseAction").click({timeout:30000});
+    }
     for(const m of [daniel,nik]){
       await m.page.waitForFunction(()=>document.getElementById("sharedTerminalCloseHeading")?.textContent==="SHARED SHOWDOWN CLOSED",null,{timeout:60000});
       assert.match((await m.page.locator("#sharedTerminalCloseStatus").textContent()).trim(),/TERMINAL · NO NEW SESSION · NO NEW SEASON/);
