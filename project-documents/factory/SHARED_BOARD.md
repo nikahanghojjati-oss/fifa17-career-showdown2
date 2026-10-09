@@ -2,7 +2,7 @@
 
 Both teams share one data source: the progress block in each job's PR plus the `leads/relay` feed. Each team draws its own board from it and features its own work.
 
-* **Team V board** (Team V first and big, Team G small below): https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/v1-wtt5ye/project-documents/factory/BOARD.md . Built by `tools/shared_board.py` through `.github/workflows/factory-board.yml`, which polls every 3 minutes while a job runs on either team. Never edit `BOARD.md` by hand.
+* **Team V board** (Team V first and big, Team G small below): https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/v1-wtt5ye/project-documents/factory/BOARD.md . Built by `tools/shared_board.py` through `.github/workflows/factory-board.yml`, which runs for free on GitHub (no Claude) whenever a `V-` PR is opened, edited, closed or merged, and whenever anything lands on `factory/v1-wtt5ye`. Never edit `BOARD.md` by hand.
 * **Team G board** (the mirror image): https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/BOARD.md
 
 1. **One PR per Team V job, titled `V-NNN <short title>`.** The `V-` prefix puts it in the V Factory section.
