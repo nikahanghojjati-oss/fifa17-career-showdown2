@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-09 7:49 PM Boston time (EDT)",
+ "generated": "2026-10-09 7:50 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -343,7 +343,7 @@
   },
   "physio": {
    "state": "barking",
-   "line": "Barking: POS20 has waited 6 min for a machine; Showdown Gate on #448 has waited 2 min for a machine; POS20 on #448 has waited 2 min for a machine; POS20 on #312 has waited 1 min for a machine.",
+   "line": "Barking: POS20 on #448 has waited 4 min for a machine; POS20 on #312 has waited 3 min for a machine; POS20 has waited 2 min for a machine.",
    "gate": "POS20 #304 6/16",
    "source": "physio"
   },
