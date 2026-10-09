@@ -1,6 +1,6 @@
 # Bug hunt board
 
-Updated Fri 9 Oct, 2:01 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
+Updated Fri 9 Oct, 2:07 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r64** (main `963a979`, Fri 9 Oct 1:44 AM)
 
@@ -8,16 +8,12 @@ Updated Fri 9 Oct, 2:01 AM Boston time. Bug hunting only, no new features until 
 
 ## Jobs
 
-**Running now**
-
-- **1011** Plain-words sweep: jargon on game screens · worker done, lead checking
-
 **Next for you, in this order**
 
 1. **1041** Season Results on phone: ACKNOWLEDGE reachable, no inner scroll box, title clear, photos aligned: Codex cloud, branch gameplay/bug-list-1: type 'Job 1041' · same family as Studio Z's Signing Entry fix
 2. **1042** Closed Final Winner shows the final season on both phones: Codex cloud, branch gameplay/bug-list-1: type 'Job 1042' · follow-up to 1038; ticket jobs/JOB-1042.md
 
-**Done, in the next release:** 1001, 1003, 1004, 1005, 1009, 1014, 1015, 1020, 1021, 1028, 1037, 1038, 1039, 1040, Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8
+**Done, in the next release:** 1001, 1003, 1004, 1005, 1009, 1011, 1014, 1015, 1020, 1021, 1028, 1037, 1038, 1039, 1040, Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8
 
 ## Goals for Thursday
 
