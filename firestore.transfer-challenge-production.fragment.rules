@@ -2,7 +2,22 @@
     function ssjrTransferValidOperationId(value) { return value is string && value.matches('^transfer_op_[0-9a-f]{32}$'); }
     function ssjrTransferValidHash(value) { return value is string && value.matches('^sha256:[0-9a-f]{64}$'); }
     function ssjrTransferValidRole(value) { return value == 'playerOne' || value == 'playerTwo'; }
-    function ssjrTransferValidOptionId(value) { return value is string && value.size() >= 2 && value.size() <= 80 && value.matches('^[a-z0-9]+(-[a-z0-9]+)*$'); }
+    // JOB-1052: exactly the repository FIFA 17 catalog the game's reader accepts. One anchored alternation per catalog (and one over both), so each
+    // id costs one regex match, not a list membership scan: the max-size 3-guess/3-signing transaction stays inside the evaluation budget.
+    // The build script fills the placeholders from data/transferOptions.js; they are never hand-edited. A non-string value makes matches() error, which denies.
+    function ssjrTransferValidOptionId(value) { return value.matches('__SSJR_TRANSFER_OPTION_ID_PATTERN__'); }
+    function ssjrTransferCatalogLeagueId(value) { return value.matches('__SSJR_TRANSFER_LEAGUE_ID_PATTERN__'); }
+    function ssjrTransferCatalogNationalityId(value) { return value.matches('__SSJR_TRANSFER_NATIONALITY_ID_PATTERN__'); }
+    // JOB-1052: a signing name the reader accepts: 1 to 80 characters and unchanged by JavaScript String.trim() (no leading or trailing
+    // white space or line terminator: TAB..CR, space, U+00A0, U+1680, U+2000..U+200A, U+2028, U+2029, U+202F, U+205F, U+3000, U+FEFF).
+    function ssjrTransferValidSigningName(value) {
+      return value is string
+        && value.size() >= 1
+        && value.size() <= 80
+        && value.matches('^[^\\t-\\r \\x{00A0}\\x{1680}\\x{2000}-\\x{200A}\\x{2028}\\x{2029}\\x{202F}\\x{205F}\\x{3000}\\x{FEFF}]([\\s\\S]*[^\\t-\\r \\x{00A0}\\x{1680}\\x{2000}-\\x{200A}\\x{2028}\\x{2029}\\x{202F}\\x{205F}\\x{3000}\\x{FEFF}])?$');
+    }
+    // JOB-1051: a lock salt is null (not set yet) or exactly 64 lowercase hex characters.
+    function ssjrTransferValidSalt(value) { return value == null || (value is string && value.matches('^[0-9a-f]{64}$')); }
     function ssjrTransferSeasonMatches(transferId, seasonNumber) {
       return seasonNumber is int
         && seasonNumber >= 1
@@ -207,7 +222,9 @@
         && value.slot >= 1
         && value.slot <= 3
         && (value.type == 'league' || value.type == 'nationality')
-        && ssjrTransferValidOptionId(value.valueId);
+        && ssjrTransferValidOptionId(value.valueId)
+        && ((value.type == 'league' && ssjrTransferCatalogLeagueId(value.valueId))
+          || (value.type == 'nationality' && ssjrTransferCatalogNationalityId(value.valueId)));
     }
     function ssjrTransferSigningRowValid(value) {
       return value is map
@@ -215,11 +232,11 @@
         && value.slot is int
         && value.slot >= 1
         && value.slot <= 3
-        && value.name is string
-        && value.name.size() >= 1
-        && value.name.size() <= 80
+        && ssjrTransferValidSigningName(value.name)
         && ssjrTransferValidOptionId(value.leagueId)
-        && ssjrTransferValidOptionId(value.nationalityId);
+        && ssjrTransferCatalogLeagueId(value.leagueId)
+        && ssjrTransferValidOptionId(value.nationalityId)
+        && ssjrTransferCatalogNationalityId(value.nationalityId);
     }
     function ssjrTransferGuessesValid(value) {
       return value is list
@@ -235,11 +252,14 @@
         && (value.size() < 2 || (ssjrTransferSigningRowValid(value[1]) && value[1].slot != value[0].slot))
         && (value.size() < 3 || (ssjrTransferSigningRowValid(value[2]) && value[2].slot != value[0].slot && value[2].slot != value[1].slot));
     }
+    // JOB-1051: a role document written by r66 has no salt keys; a salted one has both (each null or 64 lowercase hex). Never only one.
     function ssjrTransferPrivateExactKeys(root) {
       return root.keys().hasOnly([
         'schemaVersion','objectType','rivalryId','seasonNumber','managerRole','guesses','signings',
-        'guessLockedAt','signingLockedAt','activeSessionId','updatedAt','updatedByDeviceId'
-      ]);
+        'guessLockedAt','signingLockedAt','activeSessionId','updatedAt','updatedByDeviceId',
+        'guessSalt','signingSalt'
+      ])
+        && (root.keys().hasAll(['guessSalt','signingSalt']) || !root.keys().hasAny(['guessSalt','signingSalt']));
     }
     function ssjrTransferPrivateBase(root, rivalryId, transferId, managerRole) {
       return ssjrTransferPrivateExactKeys(root)
@@ -266,6 +286,8 @@
       return ssjrTransferPrivateBase(after, rivalryId, transferId, managerRole)
         && after.signings == null
         && after.signingLockedAt == null
+        && ssjrTransferValidSalt(after.get('guessSalt', null))
+        && after.get('signingSalt', null) == null
         && after.guessLockedAt == request.time
         && public.operationTypes[i] == 'lock-guesses'
         && public.actorRoles[i] == managerRole
@@ -289,6 +311,9 @@
         && managerRole == ssjrActorRole(rivalryId)
         && after.guesses == before.guesses
         && after.guessLockedAt == before.guessLockedAt
+        && after.get('guessSalt', null) == before.get('guessSalt', null)
+        && before.get('signingSalt', null) == null
+        && ssjrTransferValidSalt(after.get('signingSalt', null))
         && before.signings == null
         && before.signingLockedAt == null
         && ssjrTransferSigningsValid(after.signings)

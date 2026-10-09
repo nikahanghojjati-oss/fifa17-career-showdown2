@@ -25,6 +25,51 @@ assert.match(generatedRules,/ssjrTransferValidOptionId\(value\.leagueId\)/,'Sign
 assert.match(generatedRules,/ssjrTransferValidOptionId\(value\.nationalityId\)/,'Signing nationality IDs must remain structurally validated in Firestore Rules.');
 assert.equal(generatedRules.includes('function ssjrTransferValidLeagueId(value)'),false,'Large exact league membership lists must stay out of Firestore Rules to preserve the max-size transaction budget.');
 assert.equal(generatedRules.includes('function ssjrTransferValidNationalityId(value)'),false,'Large exact nationality membership lists must stay out of Firestore Rules to preserve the max-size transaction budget.');
+// JOB-1052: the generated Rules accept exactly the catalog ids and signing names the provider and reader accept. Each catalog is ONE anchored
+// regex alternation (one match per id), generated from data/transferOptions.js: never a per-id membership function or list.
+{
+  const ruleString=name=>{const m=generatedRules.match(new RegExp(`function ${name}\\(value\\) \\{ return value\\.matches\\('([^']*)'\\); \\}`));assert.ok(m,`generated Rules must define ${name} as a single matches() call`);return m[1];};
+  const leaguePattern=ruleString('ssjrTransferCatalogLeagueId'),nationalityPattern=ruleString('ssjrTransferCatalogNationalityId'),optionPattern=ruleString('ssjrTransferValidOptionId');
+  assert.equal(leaguePattern,`^(${canonicalLeagueIds.join('|')})$`,'league pattern is exactly the catalog, in catalog order');
+  assert.equal(nationalityPattern,`^(${canonicalNationalityIds.join('|')})$`,'nationality pattern is exactly the catalog, in catalog order');
+  assert.equal(optionPattern,`^(${[...canonicalLeagueIds,...canonicalNationalityIds.filter(id=>!canonicalLeagueIds.includes(id))].join('|')})$`,'option pattern is exactly the union of both catalogs');
+  assert.doesNotMatch(generatedRules,/__SSJR_[A-Z_]+__/,'no unfilled catalog placeholder reaches the generated Rules');
+  const leagueRe=new RegExp(leaguePattern),nationalityRe=new RegExp(nationalityPattern),optionRe=new RegExp(optionPattern);
+  const leagueSet=new Set(canonicalLeagueIds),nationalitySet=new Set(canonicalNationalityIds);
+  const everyId=[...canonicalLeagueIds,...canonicalNationalityIds];
+  const near=id=>[id,`${id}x`,`${id}-`,`-${id}`,id.toUpperCase(),` ${id}`,`${id} `,`${id}\n`,id.slice(0,-1),id.slice(1),id.replace(/-/g,""),`${id}-${id}`];
+  for(const candidate of new Set([...everyId.flatMap(near),'','a','atlantis','atlantis-league'])){
+    assert.equal(leagueRe.test(candidate),leagueSet.has(candidate),`league pattern on ${JSON.stringify(candidate)}`);
+    assert.equal(nationalityRe.test(candidate),nationalitySet.has(candidate),`nationality pattern on ${JSON.stringify(candidate)}`);
+    assert.equal(optionRe.test(candidate),leagueSet.has(candidate)||nationalitySet.has(candidate),`option pattern on ${JSON.stringify(candidate)}`);
+  }
+  assert.ok(everyId.length===200&&leaguePattern.length+nationalityPattern.length<4000,'the two catalog patterns stay a few kilobytes');
+  assert.match(generatedRules,/\(value\.type == 'league' && ssjrTransferCatalogLeagueId\(value\.valueId\)\)\s*\|\| \(value\.type == 'nationality' && ssjrTransferCatalogNationalityId\(value\.valueId\)\)/,'a guess id must belong to the catalog of its own kind');
+  assert.match(generatedRules,/ssjrTransferCatalogLeagueId\(value\.leagueId\)/);assert.match(generatedRules,/ssjrTransferCatalogNationalityId\(value\.nationalityId\)/);
+  // The signing name rule is the reader's rule: 1..80 characters and unchanged by JavaScript String.trim().
+  const nameFn=generatedRules.match(/function ssjrTransferValidSigningName\(value\) \{([\s\S]*?)\n    \}/);assert.ok(nameFn,'ssjrTransferValidSigningName must exist');
+  assert.match(nameFn[1],/value\.size\(\) >= 1/);assert.match(nameFn[1],/value\.size\(\) <= 80/);
+  const namePattern=nameFn[1].match(/value\.matches\('((?:[^'\\]|\\.)*)'\)/)[1].replace(/\\\\/g,'\\').replace(/\\x\{([0-9A-Fa-f]{4})\}/g,'\\u$1');
+  const nameRe=new RegExp(namePattern);
+  const trimmedOk=name=>name.length>=1&&name.length<=80&&name===name.trim();
+  const wsChars=[];for(let cp=0;cp<=0xffff;cp+=1){const ch=String.fromCharCode(cp);if(ch.trim()==='')wsChars.push(ch);}
+  assert.ok(wsChars.length>=25);
+  for(const name of ['Player A','a','é','a b','a\nb','a\tb','x​','\u0085x','᠎x','⁠x','a'.repeat(80),'a'.repeat(81),'',...wsChars.flatMap(ch=>[`${ch}a`,`a${ch}`,`a${ch}b`,ch])]){
+    assert.equal(name.length<=80&&nameRe.test(name),trimmedOk(name),`signing name rule on ${JSON.stringify(name)}`);
+  }
+}
+// JOB-1051: the private role document may carry exactly guessSalt and signingSalt (both or neither), each null or 64 lowercase hex, immutable once set.
+{
+  assert.match(generatedRules,/function ssjrTransferValidSalt\(value\) \{ return value == null \|\| \(value is string && value\.matches\('\^\[0-9a-f\]\{64\}\$'\)\); \}/);
+  const keysFn=generatedRules.match(/function ssjrTransferPrivateExactKeys\(root\) \{([\s\S]*?)\n    \}/)[1];
+  assert.match(keysFn,/'guessSalt','signingSalt'\s*\]\)/,'salt keys are listed in the exact key set');
+  assert.match(keysFn,/root\.keys\(\)\.hasAll\(\['guessSalt','signingSalt'\]\) \|\| !root\.keys\(\)\.hasAny\(\['guessSalt','signingSalt'\]\)/,'both salt keys or neither');
+  const create=generatedRules.match(/function ssjrTransferPrivateCreateValid[\s\S]*?\n    \}/)[0],update=generatedRules.match(/function ssjrTransferPrivateUpdateValid[\s\S]*?\n    \}/)[0];
+  assert.match(create,/ssjrTransferValidSalt\(after\.get\('guessSalt', null\)\)/);assert.match(create,/after\.get\('signingSalt', null\) == null/,'no signing salt at the guess lock');
+  assert.match(update,/after\.get\('guessSalt', null\) == before\.get\('guessSalt', null\)/,'the guess salt is immutable');
+  assert.match(update,/before\.get\('signingSalt', null\) == null/);assert.match(update,/ssjrTransferValidSalt\(after\.get\('signingSalt', null\)\)/);
+  assert.match(generatedRules,/function ssjrTransferPrivateReadable\(rivalryId, transferId, managerRole\)[\s\S]*?managerRole == ssjrActorRole\(rivalryId\) \|\| public\.phase == 'COMPLETED'/,'a role document (and so its salts) stays unreadable by the rival before COMPLETED');
+}
 for(const required of [
   '// SSJR_TRANSFER_CHALLENGE_FUNCTIONS_BEGIN',
   '// SSJR_TRANSFER_CHALLENGE_MATCH_BEGIN',

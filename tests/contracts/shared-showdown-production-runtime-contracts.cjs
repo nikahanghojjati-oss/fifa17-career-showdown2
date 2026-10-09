@@ -51,10 +51,17 @@ function loadTransferCatalog(){
   return {leagueIds,nationalityIds};
 }
 function transferRulesFunctions(functions){
-  // Exact FIFA 17 option membership is enforced by sparkSharedTransferChallenge.js.
-  // Firestore keeps bounded slug-shape validation so max 3-guess/3-signing writes
-  // stay inside the Rules evaluation budget.
-  return functions;
+  // JOB-1052: exact FIFA 17 option membership is enforced by sparkSharedTransferChallenge.js AND by the generated Rules, as ONE anchored
+  // regex alternation per catalog (never per-id membership functions or lists), so max 3-guess/3-signing writes stay inside the Rules
+  // evaluation budget. The three patterns are re-derived here, independently of the build script, from data/transferOptions.js.
+  const {leagueIds,nationalityIds}=transferCatalog;
+  const union=[...leagueIds,...nationalityIds.filter(id=>!leagueIds.includes(id))];
+  let out=functions;
+  for(const [placeholder,ids] of [['__SSJR_TRANSFER_OPTION_ID_PATTERN__',union],['__SSJR_TRANSFER_LEAGUE_ID_PATTERN__',leagueIds],['__SSJR_TRANSFER_NATIONALITY_ID_PATTERN__',nationalityIds]]){
+    assert.equal(out.split(placeholder).length,2,`fragment must hold exactly one ${placeholder}`);
+    out=out.replace(placeholder,()=>`^(${ids.join('|')})$`);
+  }
+  return out;
 }
 const transferCatalog=loadTransferCatalog();
 const functionMarker='// SSJR_SHARED_SETUP_FUNCTIONS_BEGIN',functionEnd='// SSJR_SHARED_SETUP_FUNCTIONS_END',matchMarker='// SSJR_SHARED_SETUP_MATCH_BEGIN',matchEnd='// SSJR_SHARED_SETUP_MATCH_END';
