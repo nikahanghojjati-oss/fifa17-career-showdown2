@@ -1,0 +1,21 @@
+# REJECTED · Career Mode Showdown truth keeper
+
+Scope: post-2026-08-12 project-chat memories and visible conversation excerpts. Historical pre-2026-08-12 owner decisions already indexed in CAREER_MODE_SHOWDOWN_HISTORICAL_OWNER_DECISION_INDEX_2026-08-12.md are deliberately omitted. 'Title unavailable' means the exact original chat title was not retained; do not treat notes as stronger than current product source.
+
+- 2026-08-13 | replaced | Chat: Career Mode Showdown — Dev Continuation (title sequence unavailable) | Grok's older Profiles/Save Library/cloud-roadmap suggestions were not authority for the then-current v1.3 resilience task; source audit and existing implementation came first.
+- 2026-08-14 | dropped | Chat: Career Mode Showdown — Dev Continuation (title sequence unavailable) | PR #37 was treated as untrusted/not to merge in the v1.3 release sequence rather than accepted because it existed.
+- 2026-08-14 | deferred | Chat: Career Mode Showdown — Dev Continuation (title sequence unavailable) | Quick name-normalization/profile-ID fix for cross-Save Analytics rejected as unsafe: distinct people can share names, and new saves create new profile identities.
+- 2026-08-16 | dropped | Chat: Career Mode Showdown — Dev Continuation (title sequence unavailable) | Public global rankings, community discovery and general social network removed permanently; the target is a private two-person rivalry.
+- 2026-08-20 | rejected claim | Chat: Stage 3 proof / successor handoff (title unavailable) | Normal Chrome and Incognito identities on one Chromebook cannot be called two-physical-device proof, although cross-account pairing worked.
+- 2026-09-08 | replaced | Chat: Safe Transfer Specification | Ad hoc 'handoff proximity' as progress/authority was retired for POS10 and subsequently factory status/job files.
+- 2026-09-09 | dropped | Chat: Showdown Visual artifacts conversation (title unavailable) | Assurances and prolonged planning without actual files were rejected; owner asked for artifacts and playable/provable progress.
+- 2026-09-11 | dropped | Chat: Visual senior/junior coordination (chat title unavailable) | Automatic junior/visual-to-main implementation rejected; visual track must remain isolated and senior/owner review before integration.
+- 2026-09-14 | replaced | Chat: Online-only Shared Showdown revamp (title unavailable) | Older one-device/offline-only primary UX was superseded by private online-only Shared Showdown, while local resilience rules continue where necessary.
+- 2026-09-19 | dropped | Chat: Game Update Steps | Expanding into ambitious features instead of fixing blocking gameplay was explicitly deprioritized in favor of a reliably playable game.
+- 2026-09-21 | deferred | Chat: Review guidance documents | Immediate implementation of outside visual dossier on main rejected for this task; requested coaching/review file for visual branch first.
+- 2026-09-25 | dropped | Chat: Showdown Visual relay protocol discussion (title unavailable) | Static screenshot alone is not a sufficient freeze artifact for interactive Transfer Guess Entry review; use a browser-openable proposal with state/actions and product contract.
+- 2026-09-27 | rejected claim | Chat: SSJR Test Instructions | The instruction to create a separate fresh Shared Showdown shell on both devices sounded like fake offline save setup and contradicted host-driven shared creation; owner challenged it.
+- 2026-10-04 | rejected claim | Chat: Simultaneous Season Result race (New chat) | A PR #359 STALE-vs-permission-denied fix should not be treated as exhaustive proof for later-season concurrency; season 3+ still warranted read/write race inspection.
+- 2026-10-06 | dropped | Chat: Persian Rap Soundtrack Research | Soundtrack research does not mean automatically shipping copyrighted tracks or directly modifying main; isolated music lab plus Team G approval is required.
+- 2026-10-07 | rejected claim | Chat: DLSS 5 Likeness Claim | Claims that existing face-generation pipeline actually uses DLSS5 were rejected as technically unsubstantiated; reference-photo prompts and iterative review are not NVIDIA runtime technology.
+- 2026-10-09 | replaced | Chat: JOB-1046 truth keeper instructions | ChatGPT as sole project-truth keeper is superseded by Claude lead; ChatGPT remains a bounded helper and handover contributor.
