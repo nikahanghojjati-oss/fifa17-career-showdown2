@@ -1086,6 +1086,14 @@
       ]
     },
     {
+      "path": "tests/contracts/job-1050-signing-draft-contracts.cjs",
+      "patterns": [
+        "^js/productionSharedTransferChallenge\\.js$",
+        "^tests/contracts/job-1050-signing-draft-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
       "path": "tests/contracts/showdown-gate-coverage-contracts.cjs",
       "patterns": [
         "^\\.github/workflows/",
