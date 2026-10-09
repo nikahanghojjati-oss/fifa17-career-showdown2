@@ -1,6 +1,6 @@
 # Bug hunt board
 
-Updated Fri 9 Oct, 6:23 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
+Updated Fri 9 Oct, 6:24 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r66** (main `8e1a583`, Fri 9 Oct 12:04 PM)
 
@@ -8,17 +8,17 @@ Updated Fri 9 Oct, 6:23 PM Boston time. Bug hunting only, no new features until 
 
 ## Jobs
 
+**Running now**
+
+- **1051** (G) Transfer ledger hash no longer reveals locked guesses (Olympiad V6) · held: needs the same Rules OK as 1052 · Sonnet · not started
+- **1052** (G) Transfer Rules reject option ids the game cannot read (Olympiad V7) · running · Sonnet · not started
+
 **Next for you, in this order**
 
-1. **1048** (G, Sol chat) Rule Book: three missing rules, and the season review stops pointing at a missing button (Olympiad V1, V2): in the gameplay project (normal chat, GPT-6), new chat: type '1048' · text only; ticket jobs/JOB-1048.md; lane moved off Codex (Nik 2026-10-09 22:09 UTC: more GPT-6 chat, Work mode cheaper models, Haiku)
-2. **1049** (G, Sol chat) Club reveal stops spoiling the sealed club; empty-device restore respects Keep current (Olympiad V3, V5): in the gameplay project (normal chat, GPT-6), new chat: type '1049' · ticket jobs/JOB-1049.md; lane moved off Codex (Nik 2026-10-09 22:09 UTC: more GPT-6 chat, Work mode cheaper models, Haiku)
-3. **1050** (G, Sol Work mode) Unfinished Signing Entry rows survive a refresh (Olympiad V4): in the gameplay project (Work mode, cheaper model), new chat: type '1050' · draft kept on the player's own device only; ticket jobs/JOB-1050.md; lane moved off Codex (Nik 2026-10-09 22:09 UTC: more GPT-6 chat, Work mode cheaper models, Haiku)
-4. **1045** (G, Codex) Showdown Gate: pin actions and tool installs (audit F4): Codex cloud, branch gameplay/bug-list-1: type 'Job 1045' · ticket jobs/JOB-1045.md; stays Codex: it must read GitHub Actions release tags, which chat and Claude lanes cannot
-
-**Waiting on something else**
-
-- **1051** Transfer ledger hash no longer reveals locked guesses (Olympiad V6) · held: needs the same Rules OK as 1052
-- **1052** Transfer Rules reject option ids the game cannot read (Olympiad V7) · held: needs Nik's OK for a Rules change
+1. **1048** (G, Sol chat) Rule Book: three missing rules, and the season review stops pointing at a missing button (Olympiad V1, V2): type **1048** ChatGPT project "Career Mode Showdown", new normal chat · text only; ticket jobs/JOB-1048.md; lane moved off Codex (Nik 2026-10-09 22:09 UTC: more GPT-6 chat, Work mode cheaper models, Haiku)
+2. **1049** (G, Sol chat) Club reveal stops spoiling the sealed club; empty-device restore respects Keep current (Olympiad V3, V5): type **1049** ChatGPT project "Career Mode Showdown", new normal chat · ticket jobs/JOB-1049.md; lane moved off Codex (Nik 2026-10-09 22:09 UTC: more GPT-6 chat, Work mode cheaper models, Haiku)
+3. **1050** (G, Sol Work mode) Unfinished Signing Entry rows survive a refresh (Olympiad V4): type **1050** ChatGPT project "Career Mode Showdown", new chat switched to Work mode · draft kept on the player's own device only; ticket jobs/JOB-1050.md; lane moved off Codex (Nik 2026-10-09 22:09 UTC: more GPT-6 chat, Work mode cheaper models, Haiku)
+4. **1045** (G, Codex) Showdown Gate: pin actions and tool installs (audit F4): type **1045** Codex cloud, this repo, branch gameplay/bug-list-1 · ticket jobs/JOB-1045.md; stays Codex: it must read GitHub Actions release tags, which chat and Claude lanes cannot
 
 **Done, in the next release:** 1001, 1003, 1004, 1005, 1009, 1010, 1011, 1014, 1015, 1020, 1021, 1022, 1023, 1024, 1025, 1026, 1027, 1028, 1037, 1038, 1039, 1040, 1041, 1042, 1043, 1044, 1046, 1047, Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8
 
