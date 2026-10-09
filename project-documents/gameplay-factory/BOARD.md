@@ -1,14 +1,12 @@
 # Bug hunt board
 
-Updated Thu 8 Oct, 10:44 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
+Updated Thu 8 Oct, 10:48 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r63** (main `2b8b043`, Thu 8 Oct 10:40 PM)
 
-🩺 **All clear: every check has a machine.** · Gate #427: L1✓ L2… L3… L4✓ L5✓ L6✓ · seal pending · POS20 #427 10/16
+🩺 **All clear: every check has a machine.** · POS20 #304 6/16
 
 ## Jobs
-
-🚨 **Studio Z first: emergency fixes from Nik and Daniel's live test** · connectivity, sign-in, continuing after a refresh, old-build modules coming back, Transfer layout · 8 done, none open
 
 **Running now**
 
