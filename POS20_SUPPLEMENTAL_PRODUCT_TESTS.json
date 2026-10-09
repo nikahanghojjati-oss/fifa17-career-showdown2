@@ -1051,6 +1051,43 @@
         "^tests/contracts/job-1005-final-season-cell-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/showdown-gate-coverage-contracts.cjs",
+      "patterns": [
+        "^\\.github/workflows/",
+        "^GATE_COVERAGE\\.json$",
+        "^scripts/showdown-gate\\.mjs$",
+        "^scripts/gate-watchdog\\.mjs$",
+        "^scripts/pos20-impact-router\\.mjs$",
+        "^scripts/pos10-proof-runner\\.mjs$",
+        "^POS10_IMPACT_GRAPH\\.json$",
+        "^CURRENT_PRODUCT_TEST_MANIFEST\\.json$",
+        "^package\\.json$",
+        "^tests/support/gha-workflow-parse\\.cjs$",
+        "^tests/contracts/showdown-gate-coverage-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/showdown-gate-watchdog-contracts.cjs",
+      "patterns": [
+        "^\\.github/workflows/showdown-gate\\.yml$",
+        "^\\.github/workflows/gate-watchdog\\.yml$",
+        "^\\.github/workflows/factory-board-tick\\.yml$",
+        "^scripts/gate-watchdog\\.mjs$",
+        "^scripts/showdown-gate\\.mjs$",
+        "^scripts/gate-yield\\.mjs$",
+        "^scripts/gate-preempt\\.mjs$",
+        "^scripts/physio-status\\.mjs$",
+        "^scripts/gate-compare\\.mjs$",
+        "^scripts/pos20-impact-router\\.mjs$",
+        "^POS10_IMPACT_GRAPH\\.json$",
+        "^tests/fixtures/showdown-gate/",
+        "^tests/support/gha-workflow-parse\\.cjs$",
+        "^tests/contracts/showdown-gate-watchdog-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
