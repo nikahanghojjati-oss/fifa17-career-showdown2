@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-09 6:55 PM Boston time (EDT)",
+ "generated": "2026-10-09 6:56 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -284,7 +284,7 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "720670e",
+  "head": "720670e1",
   "head_boston": "Fri 9 Oct 6:37 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": true,
@@ -313,9 +313,9 @@
  },
  "two": {
   "live": {
-   "sha": "8e1a583",
+   "sha": "8e1a5833",
    "revision": "1.9.1-r66",
-   "when": "2026-10-09T16:04:25Z",
+   "when": "2026-10-09T16:04:25+00:00",
    "subject": "Release r66: Season Results on phones, closed Final Winner on both phones (#440)",
    "fixes": [],
    "today": [
@@ -708,9 +708,9 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 40,
+  "moving": 41,
   "next": 3,
-  "nik": 3,
+  "nik": 2,
   "later": 8,
   "rows": {
    "G": {
@@ -1016,7 +1016,7 @@
       "id": "1049",
       "title": "Club reveal stops spoiling the sealed club (Olympiad V3)",
       "lane": "gpt-chat",
-      "state": "worker done, lead checking (PR #444): bug repro fails before and passes after; Claude Haiku added the test; CI running",
+      "state": "worker done, lead checking (PR #444): repro and test proven, merged bug-list-1 in, CI running",
       "order": 22,
       "place": "nothing to type: the chat is finished",
       "note": "V5 moved to 1053 so each chat job fits one turn; ticket jobs/JOB-1049.md",
@@ -1024,6 +1024,19 @@
       "model": "GPT-6 Sol",
       "effort": "High",
       "prompt": ""
+     },
+     {
+      "id": "1053",
+      "lane": "gpt-chat",
+      "note": "split out of 1049 to keep each chat job one turn; ticket jobs/JOB-1053.md",
+      "team": "blue",
+      "model": "GPT-6 Sol",
+      "effort": "High",
+      "place": "ChatGPT project \"Career Mode Showdown\", new normal chat",
+      "prompt": "",
+      "title": "Restore on an empty device respects Keep current (Olympiad V5)",
+      "order": 23,
+      "state": "worker done, lead checking (PR #445): Nik chose \"Keep means keep\" 2026-10-09 22:55 UTC; Claude Haiku adds the tests"
      }
     ],
     "nik": [
@@ -1042,19 +1055,6 @@
       "state": "later: Nik decides after his two current calls",
       "waits_on": "the lead asks Nik next",
       "decision": "Five pairing choices. The lead brings them to you on one card; nothing to do until then."
-     },
-     {
-      "id": "1053",
-      "lane": "gpt-chat",
-      "note": "split out of 1049 to keep each chat job one turn; ticket jobs/JOB-1053.md",
-      "team": "blue",
-      "model": "GPT-6 Sol",
-      "effort": "High",
-      "place": "ChatGPT project \"Career Mode Showdown\", new normal chat",
-      "prompt": "",
-      "title": "Restore on an empty device respects Keep current (Olympiad V5)",
-      "order": 23,
-      "state": "held: worker done (PR #445), waiting on Nik's choice about Keep current on an empty device (it clashes with the job 1027 test); Claude Haiku prepares the tests"
      }
     ],
     "next": [
