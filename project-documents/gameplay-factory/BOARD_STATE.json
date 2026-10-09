@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-08 10:03 PM Boston time (EDT)",
+ "generated": "2026-10-08 10:04 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -315,7 +315,7 @@
   "live": {
    "sha": "bc77a0b",
    "revision": "1.9.1-r62",
-   "when": "2026-10-06T01:18:19+00:00",
+   "when": "2026-10-06T01:18:19Z",
    "subject": "Showdown Gate shadow: 6-lane gate runs beside POS20, coverage-proven (#386)",
    "fixes": [
     {
@@ -326,8 +326,8 @@
      "sha": "2e22269bdcfb5c720b28fc83dd689fea6d9fbd81",
      "updated": "2026-10-09T02:02:37Z",
      "gates": {
-      "passed": 4,
-      "running": 13,
+      "passed": 5,
+      "running": 12,
       "failed": 0,
       "cancelled": 0
      }
@@ -338,7 +338,7 @@
   "physio": {
    "state": "clear",
    "line": "All clear: every check has a machine.",
-   "gate": "POS20 #304 6/16",
+   "gate": "Gate #427: L1… L2… L3… L4… L5… L6… · seal pending · POS20 #427 4/16",
    "source": "physio"
   },
   "v_headline": "Board 1 (visual package): 238 of 238 jobs done and checked",
@@ -991,8 +991,8 @@
     "sha": "2e22269bdcfb5c720b28fc83dd689fea6d9fbd81",
     "updated": "2026-10-09T02:02:37Z",
     "gates": {
-     "passed": 4,
-     "running": 13,
+     "passed": 5,
+     "running": 12,
      "failed": 0,
      "cancelled": 0
     }
