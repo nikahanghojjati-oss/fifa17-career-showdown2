@@ -1073,6 +1073,15 @@
      "place": "Claude helper (nothing for Nik to type)",
      "note": "from hunt 1019; H3 is fixed by 1026",
      "archived": true
+    },
+    {
+     "id": "1042",
+     "title": "Closed Final Winner shows the final season on both phones",
+     "lane": "codex",
+     "state": "ready",
+     "order": 7,
+     "place": "Codex cloud, branch gameplay/bug-list-1: type 'Job 1042'",
+     "note": "follow-up to 1038; ticket jobs/JOB-1042.md"
     }
    ]
   },
