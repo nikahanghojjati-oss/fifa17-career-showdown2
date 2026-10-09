@@ -11,20 +11,20 @@ Updated Fri 9 Oct, 7:36 PM Boston time. Bug hunting only, no new features until 
 ### ▶️ Running now
 
 **#1 · 1050** `G` Unfinished Signing Entry rows survive a refresh (Olympiad V4)  
-`██████████` **100.0000 %** worker's part done  
-🟡 Team yellow · **GPT Luna (Work mode); if it fails, Sol 6.1 Work mode** · High effort · worker done, lead checking
+`███████░░░` **70.0000 %**  
+🟡 Team yellow · **GPT Luna (Work mode); if it fails, Sol 6.1 Work mode** · High effort · worker done, PR #446 open, CI running
 
 **#2 · 1051** `G` Transfer ledger hash no longer reveals locked guesses (Olympiad V6)  
-`░░░░░░░░░░` **0.0000 %**  
-🟤 Team brown · **Claude Sonnet 5.5** · Medium effort · with the worker
+`███████░░░` **70.0000 %**  
+🟤 Team brown · **Claude Sonnet 5.5** · Medium effort · worker done, PR #442 open, CI running
 
 **#3 · 1052** `G` Transfer Rules reject option ids the game cannot read (Olympiad V7)  
 `░░░░░░░░░░` **0.0000 %**  
 🟤 Team brown · **Claude Sonnet 5.5** · Medium effort · with the worker
 
 **#4 · 1055** `G` Season Results points cap uses the real league size (Sol lead S1)  
-`██████████` **100.0000 %** worker's part done  
-🔵 Team blue · **GPT-6 Sol** · High effort · worker done, lead checking
+`████████░░` **80.0000 %**  
+🔵 Team blue · **GPT-6 Sol** · High effort · worker done, PR #448 open, CI green, waiting for the lead
 
 ### 👉 Next for you, in this order
 

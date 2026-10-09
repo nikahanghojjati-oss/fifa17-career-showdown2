@@ -148,20 +148,55 @@ def _merged_jobs():
 MERGED = _merged_jobs()
 
 
+def _ci_stage(gh, repo, sha):
+    """What GitHub's checks say about a PR head: running, failed, green or not started (never guessed)."""
+    try:
+        runs = (gh(f"repos/{repo}/commits/{sha}/check-runs?per_page=100") or {}).get("check_runs") or []
+    except Exception:
+        return "CI unknown"
+    if not runs:
+        return "CI not started"
+    if any(r.get("status") != "completed" for r in runs):
+        return "CI running"
+    bad = [r for r in runs if r.get("conclusion") not in ("success", "neutral", "skipped")]
+    return f"CI failed ({len(bad)} check{'s' if len(bad) > 1 else ''})" if bad else "CI green"
+
+
 def _open_job_prs():
-    """job -> open PR number: a worker's "JOB-NNNN ..." PR moves the job to Running by itself (Nik, 2026-10-09 23:29 UTC: no more reporting "Job N done")."""
+    """job -> (open PR number, CI stage): each stage shows only once GitHub proves it (Nik, 2026-10-09 23:30 UTC: accurate, never finished early)."""
     import subprocess
     repo = os.environ.get("GITHUB_REPOSITORY", "nikahanghojjati-oss/fifa17-career-showdown2")
+    gh = lambda path: json.loads(subprocess.run(["gh", "api", path], capture_output=True, text=True, timeout=30).stdout or "null")
     try:
-        r = subprocess.run(["gh", "api", f"repos/{repo}/pulls?state=open&per_page=60"], capture_output=True, text=True, timeout=30)
-        prs = json.loads(r.stdout) if r.returncode == 0 else []
+        prs = gh(f"repos/{repo}/pulls?state=open&per_page=60") or []
     except Exception:
         prs = []
     out = {}
     for pr in prs if isinstance(prs, list) else []:
         for m in re.finditer(r"\bJOB-?(\d{4})\b", pr.get("title") or "", re.I):
-            out.setdefault(m.group(1), pr["number"])
+            if m.group(1) not in out:
+                out[m.group(1)] = (pr["number"], "draft" if pr.get("draft") else _ci_stage(gh, repo, pr["head"]["sha"]))
     return out
+
+
+def pr_state(n, st):
+    """The card's state from GitHub: worker done with its PR open, then CI running / failed / green, then lead checking."""
+    num, ci = OPEN_PR[n]
+    if ci == "draft":
+        return f"worker working, draft PR #{num}"
+    if ci == "CI green" and re.match(r"(with (the )?lead|verifying|lead checking|(in )?review)", st, re.I):
+        return f"PR #{num} open, CI green, lead checking"
+    if ci == "CI green":
+        return f"worker done, PR #{num} open, CI green, waiting for the lead"
+    return f"worker done, PR #{num} open, {ci}"
+
+
+def stage_pct(st):
+    """Bar for a running job without step data: only GitHub-proven stages fill it, and nothing open reads 100 %."""
+    for pat, v in (("lead checking", 90), ("CI green", 80), ("CI running|CI not started|CI unknown", 70), ("CI failed", 60), ("draft PR", 40), ("worker says done", 50)):
+        if re.search(pat, st or "", re.I):
+            return float(v)
+    return 0.0
 
 
 OPEN_PR = _open_job_prs()
@@ -268,11 +303,11 @@ def q_add(it, team):
     elif status_blocked(n) and not re.match(r"with (the )?worker", st, re.I):  # a stopped worker is not "Next for you"; the lead's "with the worker" means it was unblocked
         q["after"] = q["state"] = status_blocked(n)
         Q["wait"].append(q)
-    elif status_done(n):
-        q["state"] = "worker done, lead checking"
+    elif n in OPEN_PR and re.match(r"(ready|next|queued|with (the )?(worker|lead)|worker done|verifying|(in )?review|lead checking)\b", st, re.I):  # the worker's open PR: its stage comes from GitHub, nothing for Nik
+        q["state"] = pr_state(n, st)
         Q["run"].append(q)
-    elif n in OPEN_PR and re.match(r"(ready|next|queued)\b", st, re.I):  # the worker opened its PR: the lead checks it next, nothing for Nik
-        q["state"] = f"worker done, PR #{OPEN_PR[n]} open, lead checking"
+    elif status_done(n):
+        q["state"] = "worker says done, no PR yet"
         Q["run"].append(q)
     elif status_step(n) and re.match(r"(ready|next|queued)\b", st, re.I):
         q["state"] = status_step(n)
@@ -542,7 +577,7 @@ def job_html(q, i, kind):
     meta = [f"Worker: {worker}"] + ([st] if st and kind != "next" else []) + ([prog] if prog and kind != "wait" else []) + ([fin] if fin and kind == "run" else [])
     if kind == "wait" and (q.get("after") or "") != st:
         meta.append("waits: " + (q.get("after") or "something else"))
-    pct = q["progress"][0]["pct"] if q.get("progress") else (100.0 if kind == "run" and re.search(r"worker done", st or "", re.I) else 0.0)
+    pct = q["progress"][0]["pct"] if q.get("progress") else (stage_pct(st) if kind == "run" else 0.0)
     m0 = re.search(r"step (\d+) of (\d+)", (st or "") + " " + str((rowmap.get(str(q["id"])) or {}).get("state") or q.get("state") or ""))
     if m0 and not q.get("progress"):
         pct = 100.0 * (int(m0.group(1)) - 1) / int(m0.group(2))
