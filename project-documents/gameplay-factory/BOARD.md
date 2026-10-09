@@ -1,6 +1,6 @@
 # Bug hunt board
 
-Updated Thu 8 Oct, 11:55 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
+Updated Thu 8 Oct, 11:58 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r63** (main `2b8b043`, Thu 8 Oct 10:40 PM)
 
@@ -10,8 +10,19 @@ Updated Thu 8 Oct, 11:55 PM Boston time. Bug hunting only, no new features until
 
 **Running now**
 
-- **1011** Plain-words sweep: jargon on game screens · worker done, lead checking
 - **1028** Statistics shows an abandoned-only career (hunt 1019 H5) · worker done, lead checking
+- **1011** Plain-words sweep: jargon on game screens · worker done, lead checking
+
+**Next for you, in this order**
+
+1. **1037** Career history: never-joined codes and an unknown current Showdown no longer break Legacy, Trophy Room, Stats: Codex cloud, branch gameplay/bug-list-1: type 'Job 1037' (see the lead's thread) · root cause verified on the emulator; ticket jobs/JOB-1037.md
+2. **1039** Legacy stops reloading on every shared event and never spins forever: Codex cloud (second GPT account), branch gameplay/bug-list-1: type 'Job 1039' · one file, js/rivalryLegacyV10.js
+
+**Waiting on something else**
+
+- **1040** Browser journey opens Legacy, Trophy Room and Stats after a finished online Showdown · running
+- **1038** Final winner closes the Showdown so it counts in the career · waiting on Nik's card
+- **1041** Season Results on phone: ACKNOWLEDGE reachable, no inner scroll box, title clear, photos aligned · waiting on r64
 
 **Done, in the next release:** 1001, 1003, 1004, 1005, 1009, 1014, 1015, 1020, 1021, Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8
 

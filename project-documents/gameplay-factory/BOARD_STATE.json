@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-08 11:55 PM Boston time (EDT)",
+ "generated": "2026-10-08 11:58 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -284,8 +284,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "9b15d5f",
-  "head_boston": "Thu 8 Oct 11:44 PM",
+  "head": "e85e19c",
+  "head_boston": "Thu 8 Oct 11:55 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": true,
   "open_for_g": [],
@@ -708,20 +708,29 @@
   "**r62 is live.** On the laptop, close every game tab in Chrome and reopen the game; if Settings still looks clipped, do it once more."
  ],
  "now": {
-  "moving": 23,
-  "next": 3,
-  "nik": 7,
-  "later": 6,
+  "moving": 24,
+  "next": 4,
+  "nik": 8,
+  "later": 8,
   "rows": {
    "G": {
     "moving": [
+     {
+      "id": "1040",
+      "title": "Browser journey opens Legacy, Trophy Room and Stats after a finished online Showdown",
+      "lane": "claude",
+      "state": "running",
+      "order": 4,
+      "place": "Claude Sonnet helper (nothing to type)",
+      "note": "test coverage that was missing"
+     },
      {
       "id": "Z1",
       "title": "Studio Z: sign-in starter race",
       "lane": "opus",
       "state": "in r63 (live 2026-10-09)",
       "studio": "Z",
-      "order": 1,
+      "order": 11,
       "place": "Studio Z thread (nothing for Nik to type)",
       "note": "ships in r63 (PR #427, studio-z/r63 into main)"
      },
@@ -731,7 +740,7 @@
       "lane": "opus",
       "state": "in r63 (live 2026-10-09)",
       "studio": "Z",
-      "order": 2,
+      "order": 12,
       "place": "Studio Z thread (nothing for Nik to type)",
       "note": "ships in r63 (PR #427, studio-z/r63 into main)"
      },
@@ -741,7 +750,7 @@
       "lane": "opus",
       "state": "in r63 (live 2026-10-09)",
       "studio": "Z",
-      "order": 3,
+      "order": 13,
       "place": "Studio Z thread (nothing for Nik to type)",
       "note": "ships in r63 (PR #427, studio-z/r63 into main)"
      },
@@ -751,7 +760,7 @@
       "lane": "opus",
       "state": "in r63 (live 2026-10-09)",
       "studio": "Z",
-      "order": 4,
+      "order": 14,
       "place": "Studio Z thread (nothing for Nik to type)",
       "note": "ships in r63 (PR #427, studio-z/r63 into main)"
      },
@@ -761,7 +770,7 @@
       "lane": "opus",
       "state": "in r63 (live 2026-10-09)",
       "studio": "Z",
-      "order": 5,
+      "order": 15,
       "place": "Studio Z thread (nothing for Nik to type)",
       "note": "ships in r63 (PR #427, studio-z/r63 into main)"
      },
@@ -771,7 +780,7 @@
       "lane": "opus",
       "state": "in r63 (live 2026-10-09)",
       "studio": "Z",
-      "order": 6,
+      "order": 16,
       "place": "Studio Z thread (nothing for Nik to type)",
       "note": "ships in r63 (PR #427, studio-z/r63 into main)"
      },
@@ -781,7 +790,7 @@
       "lane": "opus",
       "state": "in r63 (live 2026-10-09)",
       "studio": "Z",
-      "order": 7,
+      "order": 17,
       "place": "Studio Z thread (nothing for Nik to type)",
       "note": "ships in r63 (PR #427, studio-z/r63 into main)"
      },
@@ -791,7 +800,7 @@
       "lane": "opus",
       "state": "in r63 (live 2026-10-09)",
       "studio": "Z",
-      "order": 8,
+      "order": 18,
       "place": "Studio Z thread (nothing for Nik to type)",
       "note": "ships in r63 (PR #427, studio-z/r63 into main)"
      },
@@ -834,6 +843,15 @@
     ],
     "nik": [
      {
+      "id": "1038",
+      "title": "Final winner closes the Showdown so it counts in the career",
+      "lane": "codex",
+      "state": "waiting on Nik's card",
+      "order": 5,
+      "place": "Codex cloud: type 'Job 1038' after the card",
+      "note": "ticket assumes Auto close"
+     },
+     {
       "id": "G-F1",
       "title": "Nik and Daniel play 2.0 on their phones",
       "lane": "nik",
@@ -869,7 +887,7 @@
       "state": "ready",
       "waits_on": "Nik types it in the gameplay project (Work mode)",
       "details": "GPT green, one run. Replaces engineering words players see; leaves test-asserted strings to the lead.",
-      "order": 1,
+      "order": 11,
       "place": "in the gameplay project (normal chat), new chat",
       "after": "1014, 1015 and 1020 merge",
       "note": "1014, 1015 and 1020 are merged"
@@ -912,6 +930,24 @@
     ],
     "next": [
      {
+      "id": "1039",
+      "title": "Legacy stops reloading on every shared event and never spins forever",
+      "lane": "codex",
+      "state": "ready",
+      "order": 2,
+      "place": "Codex cloud (second GPT account), branch gameplay/bug-list-1: type 'Job 1039'",
+      "note": "one file, js/rivalryLegacyV10.js"
+     },
+     {
+      "id": "1037",
+      "title": "Career history: never-joined codes and an unknown current Showdown no longer break Legacy, Trophy Room, Stats",
+      "lane": "codex",
+      "state": "ready",
+      "order": 1,
+      "place": "Codex cloud, branch gameplay/bug-list-1: type 'Job 1037' (see the lead's thread)",
+      "note": "root cause verified on the emulator; ticket jobs/JOB-1037.md"
+     },
+     {
       "id": "G-F5",
       "title": "QA packet adoptions: truth line, wrong-target guard on main PRs, PR title rule",
       "lane": "sonnet",
@@ -924,18 +960,18 @@
       "lane": "sonnet",
       "state": "ready (Sonnet audit, then Opus fix)",
       "waits_on": ""
-     },
-     {
-      "id": "1028",
-      "title": "Statistics shows an abandoned-only career (hunt 1019 H5)",
-      "lane": "blue",
-      "state": "ready",
-      "order": 2,
-      "place": "GPT chat (normal mode), gameplay project: type 1028",
-      "note": "one-file fix, exact change in the ticket"
      }
     ],
     "later": [
+     {
+      "id": "1041",
+      "title": "Season Results on phone: ACKNOWLEDGE reachable, no inner scroll box, title clear, photos aligned",
+      "lane": "codex",
+      "state": "waiting on r64",
+      "order": 6,
+      "place": "Codex cloud: type 'Job 1041' after r64",
+      "note": "same family as Studio Z's Signing Entry fix"
+     },
      {
       "id": "G-F4",
       "title": "GPT Q&A team: scripted paths and code-vs-rulebook reads",
@@ -969,7 +1005,7 @@
       "state": "ready",
       "waits_on": "after Team V designs the combined screen (HO-011)",
       "details": "Nik picked No tap, combined: one screen shows the last season's score and the Final Winner. Team V designs it (HO-011), then a GPT green job builds it and restores the strict final-season check.",
-      "order": 3
+      "order": 13
      },
      {
       "id": "1015",
@@ -983,6 +1019,15 @@
       "place": "in the gameplay project (Work mode), same chat",
       "note": "round 3",
       "archived": true
+     },
+     {
+      "id": "1028",
+      "title": "Statistics shows an abandoned-only career (hunt 1019 H5)",
+      "lane": "lead",
+      "state": "PR #422, lead verifies and merges",
+      "order": 3,
+      "place": "nothing to type",
+      "note": "also fixes Career Statistics 'unavailable' from Nik's 2026-10-09 test"
      }
     ]
    },
