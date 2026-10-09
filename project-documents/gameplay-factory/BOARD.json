@@ -677,16 +677,16 @@
      "id": "1038",
      "title": "Final winner closes the Showdown so it counts in the career",
      "lane": "lead",
-     "state": "PR #433, lead verifies and merges",
+     "state": "merged into bug-list-1 (PR #433)",
      "order": 5,
-     "place": "nothing to type (Nik finished it in Codex)",
+     "place": "nothing to type",
      "note": "Auto close, as Nik chose on his card"
     },
     {
      "id": "1040",
      "title": "Browser journey opens Legacy, Trophy Room and Stats after a finished online Showdown",
      "lane": "sonnet",
-     "state": "PR #434, lead merges after 1038",
+     "state": "merged into bug-list-1 (PR #434)",
      "order": 4,
      "place": "nothing to type",
      "note": "test coverage that was missing"
@@ -918,7 +918,7 @@
      "group": "Bug list 1",
      "title": "1011 · G Plain-words sweep: jargon on game screens",
      "lane": "lead",
-     "state": "PR #424, lead verifies and merges",
+     "state": "PR #424, lead verifies and merges (tests updated to the new words)",
      "waits_on": "Nik types it in the gameplay project (Work mode)",
      "details": "GPT green, one run. Replaces engineering words players see; leaves test-asserted strings to the lead.",
      "order": 11,
@@ -1060,7 +1060,7 @@
      "id": "1028",
      "title": "Statistics shows an abandoned-only career (hunt 1019 H5)",
      "lane": "lead",
-     "state": "PR #422, lead verifies and merges",
+     "state": "merged into bug-list-1 (PR #422)",
      "order": 3,
      "place": "nothing to type",
      "note": "also fixes Career Statistics 'unavailable' from Nik's 2026-10-09 test"
