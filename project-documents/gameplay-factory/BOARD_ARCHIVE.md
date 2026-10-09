@@ -1,12 +1,12 @@
 # Board archive
 
-[Back to the board](BOARD.md) · generated 2026-10-09 2:07 AM Boston time (EDT). Detail and history behind the one board.
+[Back to the board](BOARD.md) · generated 2026-10-09 2:08 AM Boston time (EDT). Detail and history behind the one board.
 
 ## Old detailed board
 
 # Showdown board: G Factory and V Factory
 
-🌐 **Live: runtime 1.9.1-r64** (main `963a979`) · 🔄 **22 moving** · ⏭ 4 up next · 👤 7 waiting on Nik · 🗂 11 later · updated 2026-10-09 2:07 AM Boston time (EDT)
+🌐 **Live: runtime 1.9.1-r64** (main `963a979`) · 🔄 **22 moving** · ⏭ 4 up next · 👤 7 waiting on Nik · 🗂 11 later · updated 2026-10-09 2:08 AM Boston time (EDT)
 
 🩺 **All clear: every check has a machine.** · POS20 #304 6/16
 
@@ -83,7 +83,7 @@ _Gameplay, online sync, every merge and every release (senior director)._ Worker
 | Job | What | Worker | State | Waits on |
 | --- | --- | --- | --- | --- |
 | 1009 | 1009 · G Showdown Champion: dark oval over the losing manager — GPT blue, one file: delete the loser shade rule in final-winner.css. | 🟦 Sol chat | merged into bug-list-1 (23bb974) | Nik types it in the gameplay project (normal chat) |
-| 1011 | 1011 · G Plain-words sweep: jargon on game screens — GPT green, one run. Replaces engineering words players see; leaves test-asserted strings to the lead. | 🟧 Team G lead | PR #424, lead verifies and merges (tests updated to the new words) | Nik types it in the gameplay project (Work mode) |
+| 1011 | 1011 · G Plain-words sweep: jargon on game screens — GPT green, one run. Replaces engineering words players see; leaves test-asserted strings to the lead. | 🟧 Team G lead | merged into bug-list-1 (PR #424) | Nik types it in the gameplay project (Work mode) |
 | 1014 | 1014 · G No reconnect prompt after a finished Showdown — GPT green, one run. HO-013: closed Showdown shows SHOWDOWN COMPLETE instead of RECONNECT SESSION. Lead runs the reconnect audit. | 🟦 Sol chat | merged into bug-list-1 | Nik types it in the gameplay project (Work mode) |
 | 1020 | 1020 · G Season Results patch: one column on phone, no overlap on desktop — GPT green, one run. Team V phone CSS (HO-015) + desktop window below the scoring card + reconciliation look. Team V 1012 checks the look. | 🟩 Sol Work mode | merged into bug-list-1 | Nik types it in the gameplay project (Work mode) |
 | 1021 | 1021 · G Transfer War on phone: port Team V's revamp — GPT green, one run. HO-016: Team V's checked phone CSS + 2 cut-outs into css/v10Transfer.css. Desktop unchanged. | ⬛ claude | merged into bug-list-1 (2d71f79) | Nik types it in the gameplay project (Work mode) |
@@ -194,7 +194,7 @@ Latest:
 ## Every bug report
 
 
-> Updated **Fri 9 Oct, 2:07 AM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
+> Updated **Fri 9 Oct, 2:08 AM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
 
 | 🔓 Open | 🔴 Top priority | 🔧 Fixing or waiting for release | ✅ Fixed and live |
 | :---: | :---: | :---: | :---: |
