@@ -157,7 +157,7 @@ async function t4ClearReconnect(){
   await nik.api.refresh();
   assert.equal(nik.api.getState().phase,"FRESH_SESSION_REQUIRED");
   assert.equal(nik.status.hidden,false,"T4 the banner is visible");
-  assert.match(nik.status.text,/FRESH PRIVATE SESSION REQUIRED/,"T4 the banner keeps its headline");
+  assert.match(nik.status.text,/NEW CONNECTION NEEDED/,"T4 the banner keeps its headline");
   assert.match(nik.status.text,/4 hours/,"T4 the banner says why (sessions last up to 4 hours)");
   assert.match(nik.status.text,/paste the new code from Daniel and tap JOIN PRIVATE SESSION/,"T4 Nik is told to paste Daniel's code and join");
   assert.doesNotMatch(nik.status.text,/exact ACTIVE|active authority/,"T4 no engineering jargon in the banner");

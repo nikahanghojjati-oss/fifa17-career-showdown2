@@ -89,7 +89,7 @@ async function renderContracts(){
   // C. The commit action stays enabled and a tap still commits.
   assert.equal(h.action().disabled,false,"a clash must never disable COMMIT & ACKNOWLEDGE SHARED SEASON");assert.notEqual(h.action().attributes["aria-disabled"],"true");
   await h.tap();assert.equal(h.calls.commit,1,"a tap on a clashing season must still reach commitSeason");
-  assert.match(h.status(),/THE SHARED RESULT SNAPSHOT IS COMMITTED/,"after commit the normal acknowledge state shows");
+  assert.match(h.status(),/THE SHARED SEASON RESULT IS LOCKED/,"after commit the normal acknowledge state shows");
   assert.equal(h.action().textContent,"ACKNOWLEDGE SHARED SEASON");assert.equal(h.action().disabled,false,"acknowledge stays enabled");
   assert.ok(!/CHECK RESULTS/.test(h.status()),"the warning is only for the pre-commit decision");
   assert.equal(h.calls.acknowledge,1,"the coordinator's one tap also records his acknowledgement (R7)");
