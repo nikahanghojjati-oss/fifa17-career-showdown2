@@ -1,12 +1,12 @@
 # Board archive
 
-[Back to the board](BOARD.md) · generated 2026-10-09 9:22 AM Boston time (EDT). Detail and history behind the one board.
+[Back to the board](BOARD.md) · generated 2026-10-09 9:25 AM Boston time (EDT). Detail and history behind the one board.
 
 ## Old detailed board
 
 # Showdown board: G Factory and V Factory
 
-🌐 **Live: runtime 1.9.1-r65** (main `e49add9`) · 🔄 **41 moving** · ⏭ 4 up next · 👤 2 waiting on Nik · 🗂 5 later · updated 2026-10-09 9:22 AM Boston time (EDT)
+🌐 **Live: runtime 1.9.1-r65** (main `e49add9`) · 🔄 **41 moving** · ⏭ 4 up next · 👤 2 waiting on Nik · 🗂 5 later · updated 2026-10-09 9:25 AM Boston time (EDT)
 
 🩺 **All clear: every check has a machine.** · Gate #440: L1… L2… L3… L4… L5… L6… · seal pending · POS20 #440 5/16
 
@@ -18,7 +18,7 @@
 
 | Release / fix | Checks on the latest commit | Updated |
 | --- | --- | --- |
-| [PR #440](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/440) Release r66: Season Results on phones, closed Final Winner on both phones | ⏳ 10 passed, 7 running | 9:18 AM |
+| [PR #440](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/440) Release r66: Season Results on phones, closed Final Winner on both phones | ⏳ 15 passed, 2 running | 9:18 AM |
 
 | Team | Job | What | Worker | Where it is | Details |
 | --- | --- | --- | --- | --- | --- |
@@ -196,7 +196,7 @@ Latest:
 ## Every bug report
 
 
-> Updated **Fri 9 Oct, 9:22 AM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
+> Updated **Fri 9 Oct, 9:25 AM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
 
 | 🔓 Open | 🔴 Top priority | 🔧 Fixing or waiting for release | ✅ Fixed and live |
 | :---: | :---: | :---: | :---: |

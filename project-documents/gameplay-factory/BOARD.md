@@ -1,6 +1,6 @@
 # Bug hunt board
 
-Updated Fri 9 Oct, 9:22 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
+Updated Fri 9 Oct, 9:25 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r65** (main `e49add9`, Fri 9 Oct 2:48 AM)
 
@@ -32,7 +32,7 @@ Updated Fri 9 Oct, 9:22 AM Boston time. Bug hunting only, no new features until 
 
 | Lane | Item | What | State |
 | --- | --- | --- | --- |
-| 🟧 Team G lead | [PR #440](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/440) | Release r66: Season Results on phones, closed Final Winner on both phones | ⏳ 10 passed, 7 running |
+| 🟧 Team G lead | [PR #440](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/440) | Release r66: Season Results on phones, closed Final Winner on both phones | ⏳ 15 passed, 2 running |
 | 🟧 Opus | **G-F18** | Old-design screen audit: Legacy, Career Statistics and Trophy Room still open in the old shell; drive every live screen in a browser against Team V's design and route all of them to the new design | in progress |
 
 **Up next**
