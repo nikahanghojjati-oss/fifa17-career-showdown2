@@ -1,12 +1,12 @@
 # Board archive
 
-[Back to the board](BOARD.md) · generated 2026-10-09 6:33 PM Boston time (EDT). Detail and history behind the one board.
+[Back to the board](BOARD.md) · generated 2026-10-09 6:35 PM Boston time (EDT). Detail and history behind the one board.
 
 ## Old detailed board
 
 # Showdown board: G Factory and V Factory
 
-🌐 **Live: runtime 1.9.1-r66** (main `8e1a583`) · 🔄 **41 moving** · ⏭ 7 up next · 👤 2 waiting on Nik · 🗂 7 later · updated 2026-10-09 6:33 PM Boston time (EDT)
+🌐 **Live: runtime 1.9.1-r66** (main `8e1a583`) · 🔄 **41 moving** · ⏭ 7 up next · 👤 2 waiting on Nik · 🗂 7 later · updated 2026-10-09 6:35 PM Boston time (EDT)
 
 🩺 **All clear: every check has a machine.** · POS20 #304 6/16
 
@@ -16,11 +16,11 @@
 
 ## 🔄 Moving now
 
-**🟦 1048 · Rule Book: three missing rules, and the season review stops pointing at a missing button (Olympiad V1, V2)** · 20 % (1 of 5 steps) · Sol chat
+**🟦 1048 · Rule Book: three missing rules, and the season review stops pointing at a missing button (Olympiad V1, V2)** · 40 % (2 of 5 steps) · Sol chat
 
-🟦🟦🟦🟦⚽▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️ 🥅  
-> **Now:** step 2 of 5  
-> **Left:** step 2 → step 3 → step 4 → step 5
+🟦🟦🟦🟦🟦🟦🟦🟦⚽▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️ 🥅  
+> **Now:** step 3 of 5  
+> **Left:** step 3 → step 4 → step 5
 
 | Team | Job | What | Worker | Where it is | Details |
 | --- | --- | --- | --- | --- | --- |
@@ -206,7 +206,7 @@ Latest:
 ## Every bug report
 
 
-> Updated **Fri 9 Oct, 6:33 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
+> Updated **Fri 9 Oct, 6:35 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
 
 | 🔓 Open | 🔴 Top priority | 🔧 Fixing or waiting for release | ✅ Fixed and live |
 | :---: | :---: | :---: | :---: |
@@ -228,11 +228,11 @@ Latest:
 
 ### 🟦 Sol chat · 1 job
 
-**Job 1048 · Rule Book: three missing rules, and the season review stops pointing at a missing button (Olympiad V1, V2) · 20.0000 %** · 1 of 5 steps · updated Fri 9 Oct, 6:30 PM  
-🟦🟦🟦🟦⚽▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️ 🥅  
+**Job 1048 · Rule Book: three missing rules, and the season review stops pointing at a missing button (Olympiad V1, V2) · 40.0000 %** · 2 of 5 steps · updated Fri 9 Oct, 6:30 PM  
+🟦🟦🟦🟦🟦🟦🟦🟦⚽▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️ 🥅  
 🏁 **Likely finish:** not enough data  
-> **Now:** step 2 of 5  
-> **Left:** step 2 → step 3 → step 4 → step 5
+> **Now:** step 3 of 5  
+> **Left:** step 3 → step 4 → step 5
 
 <details>
 <summary><b>✅ Closed: 14</b> (11 live in the game) · click to open</summary>
