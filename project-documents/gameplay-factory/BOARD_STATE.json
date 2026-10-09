@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-09 7:43 PM Boston time (EDT)",
+ "generated": "2026-10-09 7:47 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -284,8 +284,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "b1ab0a6",
-  "head_boston": "Fri 9 Oct 7:17 PM",
+  "head": "772a4c8b",
+  "head_boston": "Fri 9 Oct 7:47 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": true,
   "open_for_g": [],
@@ -313,9 +313,9 @@
  },
  "two": {
   "live": {
-   "sha": "8e1a583",
+   "sha": "8e1a5833",
    "revision": "1.9.1-r66",
-   "when": "2026-10-09T16:04:25Z",
+   "when": "2026-10-09T16:04:25+00:00",
    "subject": "Release r66: Season Results on phones, closed Final Winner on both phones (#440)",
    "fixes": [],
    "today": [
@@ -708,8 +708,8 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 41,
-  "next": 4,
+  "moving": 42,
+  "next": 1,
   "nik": 2,
   "later": 6,
   "rows": {
@@ -1037,6 +1037,19 @@
       "model": "Claude Sonnet 5.5",
       "effort": "Medium",
       "prompt": ""
+     },
+     {
+      "id": "1055",
+      "lane": "gpt-chat",
+      "note": "S1 confirmed; ticket jobs/JOB-1055.md",
+      "team": "blue",
+      "model": "GPT-6 Sol",
+      "effort": "High",
+      "place": "ChatGPT project \"Career Mode Showdown\", new normal chat",
+      "prompt": "",
+      "title": "Season Results points cap uses the real league size (Sol lead S1)",
+      "order": 27,
+      "state": "worker done, lead checking (PR #448): lead registered the test (fails before, passes after); CI running"
      }
     ],
     "nik": [
@@ -1064,45 +1077,6 @@
       "lane": "sonnet",
       "state": "ready (Sonnet audit, then Opus fix)",
       "waits_on": ""
-     },
-     {
-      "id": "1055",
-      "lane": "gpt-chat",
-      "note": "S1 confirmed; ticket jobs/JOB-1055.md",
-      "team": "blue",
-      "model": "GPT-6 Sol",
-      "effort": "High",
-      "place": "ChatGPT project \"Career Mode Showdown\", new normal chat",
-      "prompt": "Job 1055. Read the ticket at https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/gameplay-v1/project-documents/gameplay-factory/jobs/JOB-1055.md and do exactly what it says in this one turn. Start from branch gameplay/bug-list-1, push the branch the ticket names, open the PR into gameplay/bug-list-1, and end with 'Job 1055 done, PR <link>.'",
-      "title": "Season Results points cap uses the real league size (Sol lead S1)",
-      "order": 27,
-      "state": "ready"
-     },
-     {
-      "id": "1056",
-      "lane": "gpt-chat",
-      "note": "ticket jobs/JOB-1056.md",
-      "team": "blue",
-      "model": "GPT-6 Sol",
-      "effort": "High",
-      "place": "ChatGPT project \"Career Mode Showdown\", new normal chat",
-      "prompt": "Job 1056. Read the ticket at https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/gameplay-v1/project-documents/gameplay-factory/jobs/JOB-1056.md and do exactly what it says in this one turn. Write only the one report file on branch qa/sol-leads-recheck, and end with 'Job 1056 done, report on qa/sol-leads-recheck.'",
-      "title": "Recheck Sol leads S2 and S5 by reading the code",
-      "order": 28,
-      "state": "ready"
-     },
-     {
-      "id": "1057",
-      "lane": "gpt-chat",
-      "note": "ticket jobs/JOB-1057.md",
-      "team": "blue",
-      "model": "GPT-6 Sol",
-      "effort": "High",
-      "place": "ChatGPT project \"Career Mode Showdown\", new normal chat",
-      "prompt": "Job 1057. Read the ticket at https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/gameplay-v1/project-documents/gameplay-factory/jobs/JOB-1057.md and do exactly what it says in this one turn. Write only the one report file on branch qa/sol-leads-recheck, and end with 'Job 1057 done, report on qa/sol-leads-recheck.'",
-      "title": "Recheck Sol leads S3 and S4 by reading the code",
-      "order": 29,
-      "state": "ready"
      }
     ],
     "later": [

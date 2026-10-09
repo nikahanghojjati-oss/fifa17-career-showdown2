@@ -679,7 +679,10 @@ def stages():
     oj = SG.get("olympiad_jobs") or {}
     oly_left = [v for v in oly_valid if str(oj.get(v, "")) not in done_n]
     leads = SG.get("sol_leads") or []
-    leads_left = [x for x in leads if x.get("state") != "not real" and str(x.get("job", "")) not in done_n]
+    def fix_job(x):  # a recheck job (e.g. 1056, 1057) settles nothing; only a fix job's merge or a "not real" verdict does (lead, 2026-10-09 23:47 UTC)
+        j = str(x.get("fix_job") or x.get("job") or "")
+        return "" if re.match(r"recheck\b", str((rowmap.get(j) or {}).get("title") or ""), re.I) and not x.get("fix_job") else j
+    leads_left = [x for x in leads if not re.match(r"not real\b", str(x.get("state") or ""), re.I) and not (fix_job(x) and fix_job(x) in done_n)]
     mapped = {str(v) for v in oj.values()} | {str(x.get("job")) for x in leads if x.get("job")}
     n_open -= len([q for k in ("run", "next", "wait") for q in Q[k] if str(q["n"]) in mapped])  # counted once, as its Olympiad bug or Sol lead
     s_done = n_done + (oly_all - len(oly_left)) + (len(leads) - len(leads_left))
@@ -690,7 +693,7 @@ def stages():
         ("Finish the remaining bugs", 100.0 * s_done / s_all if s_all else 0.0,
          [f"Numbered jobs: {n_done} done, {n_open} other open",
           f"Olympiad recheck: {oly_all - len(oly_left)} of {oly_all} settled, {len(oly_left)} still to fix" if oly_all else "Olympiad recheck: no report found",
-          f"Sol's old leads: {len(leads_left)} open ({len([x for x in leads_left if x.get('state') == 'confirmed'])} confirmed, the rest to recheck on live)"]),
+          f"Sol's old leads: {len(leads_left)} open (" + ", ".join(f"{sum(1 for x in leads_left if re.match(k, str(x.get('state') or ''), re.I))} {w}" for k, w in (("confirmed|real", "real"), ("unsure", "unsure"))) + ")"]),
         ("Visual fixes", 100.0 * tk_done / len(TK) if TK else 0.0, [f"Team V hand-offs: {tk_done} of {len(TK)} done"]),
         ("Match current desktop screens to the mockup", 100.0 * GL["V"].get("studied", 0) / (GL["V"].get("screens") or 1),
          [f"Mockup Lab: {GL['V'].get('studied', 0)} of {GL['V'].get('screens', 0)} screens studied, {GL['V'].get('diffs', 0)} differences to fix"]),  # Nik 2026-10-09 22:05: after visual fixes, before phone mockups

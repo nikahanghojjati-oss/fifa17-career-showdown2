@@ -1,6 +1,6 @@
 # Bug hunt board
 
-Updated Fri 9 Oct, 7:43 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Fri 9 Oct, 7:47 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r66** (main `8e1a583`, Fri 9 Oct 12:04 PM)
 
@@ -19,18 +19,10 @@ Updated Fri 9 Oct, 7:43 PM Boston time. Bug hunting only, no new features until 
 🟤 Team brown · **Claude Sonnet 5.5** · Medium effort · worker done, PR #442 open, CI running
 
 **#3 · 1055** `G` Season Results points cap uses the real league size (Sol lead S1)  
-`████████░░` **80.0000 %**  
-🔵 Team blue · **GPT-6 Sol** · High effort · worker done, PR #448 open, CI green, waiting for the lead
+`███████░░░` **70.0000 %**  
+🔵 Team blue · **GPT-6 Sol** · High effort · worker done, PR #448 open, CI running
 
-**#4 · 1056** `G` Recheck Sol leads S2 and S5 by reading the code  
-`████████░░` **80.0000 %**  
-🔵 Team blue · **GPT-6 Sol** · High effort · worker done, report saved on qa/sol-leads-recheck, waiting for the lead
-
-**#5 · 1057** `G` Recheck Sol leads S3 and S4 by reading the code  
-`████████░░` **80.0000 %**  
-🔵 Team blue · **GPT-6 Sol** · High effort · worker done, report saved on qa/sol-leads-recheck, waiting for the lead
-
-**Done, waiting for the next release:** 1044, 1045, 1048, 1049, 1050, 1053
+**Done, waiting for the next release:** 1044, 1045, 1048, 1049, 1050, 1053, 1056, 1057
 
 **Done and live:** r66: 1041, 1042, 1043 · r65: 1011, 1028, 1037, 1038, 1039, 1040 · r63: 1001, 1003, 1004, 1005, 1009, 1010, 1014, 1015, 1020, 1021, 1022, 1023, 1024, 1025, 1026, 1027, Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8
 
@@ -39,8 +31,8 @@ Updated Fri 9 Oct, 7:43 PM Boston time. Bug hunting only, no new features until 
 ## Goals, in this order
 
 **1. Finish the remaining bugs** `now`  
-`█████████░` **90.0000 %**  
-Numbered jobs: 42 done, 0 other open · Olympiad recheck: 21 of 23 settled, 2 still to fix · Sol's old leads: 5 open (1 confirmed, the rest to recheck on live)
+`█████████░` **90.2778 %**  
+Numbered jobs: 44 done, 0 other open · Olympiad recheck: 21 of 23 settled, 2 still to fix · Sol's old leads: 5 open (2 real, 3 unsure)
 
 **2. Visual fixes** `after stage 1`  
 `█████░░░░░` **52.3810 %**  
