@@ -1140,14 +1140,14 @@
      "id": "1049",
      "title": "Club reveal stops spoiling the sealed club (Olympiad V3)",
      "lane": "gpt-chat",
-     "state": "ready (runs alongside 1048)",
+     "state": "worker done, lead checking (PR #444); Claude Haiku adds the test",
      "order": 22,
-     "place": "ChatGPT project \"Career Mode Showdown\", new normal chat",
+     "place": "nothing to type: the chat is finished",
      "note": "V5 moved to 1053 so each chat job fits one turn; ticket jobs/JOB-1049.md",
      "team": "blue",
      "model": "GPT-6 Sol",
      "effort": "High",
-     "prompt": "Job 1049. Read the ticket at https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/gameplay-v1/project-documents/gameplay-factory/jobs/JOB-1049.md and do exactly what it says in this one turn. Start from branch gameplay/bug-list-1, push the branch the ticket names, open the PR into gameplay/bug-list-1, and end with 'Job 1049 done, PR <link>.'"
+     "prompt": ""
     },
     {
      "id": "1050",
