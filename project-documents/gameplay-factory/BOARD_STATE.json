@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-09 1:30 AM Boston time (EDT)",
+ "generated": "2026-10-09 1:34 AM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -326,8 +326,8 @@
      "sha": "6bf38984d10f354208b39ef119ca2c3ae912ac15",
      "updated": "2026-10-09T05:22:12Z",
      "gates": {
-      "passed": 5,
-      "running": 12,
+      "passed": 8,
+      "running": 9,
       "failed": 0,
       "cancelled": 0
      }
@@ -343,8 +343,8 @@
   },
   "physio": {
    "state": "barking",
-   "line": "Barking: POS20 has waited 8 min for a machine; Gameplay Fast on #434 has waited 7 min for a machine; Showdown Gate on #434 has waited 7 min for a machine; POS20 on #434 has waited 7 min for a machine; POS20 on #433 has waited 7 min for a machine; Showdown Gate on #429 has waited 6 min for a machine; POS20 on #429 has waited 6 min for a machine; Gameplay Fast on #424 has waited 5 min for a machine; POS20 on #424 has waited 5 min for a machine; Showdown Gate on #424 has waited 5 min for a machine.",
-   "gate": "Gate #429: L1· L2· L3· L4· L5… L6✓ · seal pending · POS20 #429 2/16",
+   "line": "Barking: POS20 has waited 13 min for a machine; POS20 on #434 has waited 12 min for a machine; POS20 on #433 has waited 12 min for a machine; POS20 on #429 has waited 11 min for a machine; POS20 on #424 has waited 11 min for a machine; Showdown Gate on #424 has waited 11 min for a machine.",
+   "gate": "Gate #429: L1… L2… L3… L4✓ L5✓ L6✓ · seal pending · POS20 #429 5/16",
    "source": "physio"
   },
   "v_headline": "Queued next",
@@ -1055,8 +1055,8 @@
     "sha": "6bf38984d10f354208b39ef119ca2c3ae912ac15",
     "updated": "2026-10-09T05:22:12Z",
     "gates": {
-     "passed": 5,
-     "running": 12,
+     "passed": 8,
+     "running": 9,
      "failed": 0,
      "cancelled": 0
     }
