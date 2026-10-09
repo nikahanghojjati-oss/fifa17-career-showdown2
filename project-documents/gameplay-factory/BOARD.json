@@ -1208,10 +1208,10 @@
      "team": "blue",
      "model": "GPT-6 Sol chat",
      "effort": "Medium",
-     "state": "ready",
+     "state": "done (8 rows match the ticket exactly, commit e15786e)",
      "order": 20,
      "place": "ChatGPT project \"Career Mode Showdown\", new normal chat",
-     "prompt": "Job 1054. Read the ticket at https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/gameplay-v1/project-documents/gameplay-factory/jobs/JOB-1054.md and do exactly what it says in this one turn: one edit to one file on branch factory/gameplay-v1, no PR. End with the one line the ticket gives.",
+     "prompt": "",
      "note": "exact one-file text job; ticket jobs/JOB-1054.md"
     }
    ]
