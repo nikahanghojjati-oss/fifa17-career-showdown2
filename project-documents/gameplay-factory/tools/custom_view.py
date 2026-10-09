@@ -393,6 +393,7 @@ def job_prog(q):
 
 
 LASTNOTE = []
+GPTLANE = {"gpt-chat": "chat", "sol-chat": "chat", "chat": "chat", "blue": "chat", "gpt-work": "work", "sol-work": "work", "work": "work", "green": "work"}
 LASTPLACE = [None]  # 'Type this in X' shows once for jobs in a row that go to the same place
 
 
@@ -429,8 +430,12 @@ def job_html(q, i, kind):
         if re.search(r"nothing for (nik|you)", pl, re.I):
             out += '<br><span class="m">Nothing for you to type: the lead starts it.</span>'
         else:
-            out += (f'<br><span class="m">Type this in {e(place)}:</span>' if place != LASTPLACE[0] else "") + f'<code class="cp">{e(prompt)}</code>'
-            LASTPLACE[0] = place
+            lead = {"chat": "New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:",
+                    "work": "New chat inside the ChatGPT project Career Mode Showdown, switch to Work mode (cheaper model), type:"}.get(GPTLANE.get(q.get("lane", ""))) or f"Type this in {place}:"  # wording from the lead, 2026-10-09 22:20 UTC
+            if GPTLANE.get(q.get("lane", "")) and re.search(r"account 2|second account", pl, re.I):
+                lead = lead.replace("New chat", "On GPT account 2, new chat")
+            out += (f'<br><span class="m">{e(lead)}</span>' if lead != LASTPLACE[0] or GPTLANE.get(q.get("lane", "")) else "") + f'<code class="cp">{e(prompt)}</code>'
+            LASTPLACE[0] = lead
         out += f'<span class="m">{e(note)}</span>' if note else ""
     return out
 
