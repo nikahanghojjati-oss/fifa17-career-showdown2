@@ -1,15 +1,16 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-10-08 10:47 PM Boston time (EDT)
+[Back to the board](BOARD.md) · generated 2026-10-08 11:02 PM Boston time (EDT)
 
-Relay branch `leads/relay` head `a26b8ba` (Thu 8 Oct 10:10 PM Boston time) · 29 messages · 21 hand-offs · 73 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `29e27c6` (Thu 8 Oct 11:02 PM Boston time) · 29 messages · 21 hand-offs · 73 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
 ### HO-021 · G → V · Studio Z leftovers: real upright-tablet layout and sideways-phone Signing Entry
 
-✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 0 min after delivery
+✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done · picked up 0 min after delivery
 
+- Thu 8 Oct 11:02 PM · Team V · In progress · Part 2 (sideways phone) design ready: port visual-assets/v10_1/tr2/evidence/1035/PORT.md on factory/v1-wtt5ye. Part 1 (upright tablet) is job 1036, in progress
 - Thu 8 Oct 10:06 PM · Team V · Received · Team V lead: measuring r63 at tablet and sideways-phone sizes first, then a design job
 - Thu 8 Oct 10:05 PM · Team G · Sent
 - Thu 8 Oct 10:06 PM · relay Action · Delivered in full as a wake comment on PR #312

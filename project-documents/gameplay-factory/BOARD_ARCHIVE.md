@@ -1,12 +1,12 @@
 # Board archive
 
-[Back to the board](BOARD.md) · generated 2026-10-08 10:47 PM Boston time (EDT). Detail and history behind the one board.
+[Back to the board](BOARD.md) · generated 2026-10-08 11:02 PM Boston time (EDT). Detail and history behind the one board.
 
 ## Old detailed board
 
 # Showdown board: G Factory and V Factory
 
-🌐 **Live: runtime 1.9.1-r63** (main `2b8b043`) · 🔄 **23 moving** · ⏭ 3 up next · 👤 7 waiting on Nik · 🗂 6 later · updated 2026-10-08 10:47 PM Boston time (EDT)
+🌐 **Live: runtime 1.9.1-r63** (main `2b8b043`) · 🔄 **23 moving** · ⏭ 3 up next · 👤 7 waiting on Nik · 🗂 6 later · updated 2026-10-08 11:02 PM Boston time (EDT)
 
 🩺 **All clear: every check has a machine.** · POS20 #304 6/16
 
@@ -43,7 +43,7 @@
 | [HO-018](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/handoffs/HO-018_season-results-desktop-port-team-v-s-moc.md) | V → G | Season Results desktop: port Team V's mockup-match CSS (1029 · V) | ✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done |
 | [HO-019](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/handoffs/HO-019_select-league-port-team-v-s-brush-title-.md) | V → G | Select League: port Team V's brush title wordmark (1030 · V) | ✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done |
 | [HO-020](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/handoffs/HO-020_team-v-screens-lose-kit-css-when-a-style.md) | V → G | Team V screens lose kit CSS when a stylesheet takes over 4 s (v10Screens.js timeout) | ✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done |
-| [HO-021](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/handoffs/HO-021_studio-z-leftovers-real-upright-tablet-l.md) | G → V | Studio Z leftovers: real upright-tablet layout and sideways-phone Signing Entry | ✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done |
+| [HO-021](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/handoffs/HO-021_studio-z-leftovers-real-upright-tablet-l.md) | G → V | Studio Z leftovers: real upright-tablet layout and sideways-phone Signing Entry | ✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done |
 
 ## 🟢 G Factory
 
@@ -188,7 +188,7 @@ Latest:
 ## Every bug report
 
 
-> Updated **Thu 8 Oct, 10:47 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
+> Updated **Thu 8 Oct, 11:02 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
 
 | 🔓 Open | 🔴 Top priority | 🔧 Fixing or waiting for release | ✅ Fixed and live |
 | :---: | :---: | :---: | :---: |
