@@ -1,10 +1,10 @@
 # Bug hunt board
 
-Updated Fri 9 Oct, 12:31 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
+Updated Fri 9 Oct, 12:33 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r63** (main `2b8b043`, Thu 8 Oct 10:40 PM)
 
-🐕 **Barking: POS20 on #433 has waited 10 min for a machine; Gameplay Fast has waited 6 min for a machine; Showdown Gate on #424 has waited 6 min for a machine; POS20 on #424 has waited 6 min for a machine; POS20 on #422 has waited 6 min for a machine.** · Gate #429: L1✓ L2✓ L3✓ L4✓ L5✗ L6✓ · seal FAIL (test) · POS20 #429 12/16
+🐕 **Barking: Showdown Gate on #434 has waited 2 min for a machine; POS20 on #434 has waited 2 min for a machine.** · Gate #429: L1✓ L2✓ L3✓ L4✓ L5✗ L6✓ · seal FAIL (test) · POS20 #429 12/16
 
 ## Jobs
 
