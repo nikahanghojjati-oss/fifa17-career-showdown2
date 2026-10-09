@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-09 6:05 PM Boston time (EDT)",
+ "generated": "2026-10-09 6:07 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -284,7 +284,7 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "5430506d",
+  "head": "5430506",
   "head_boston": "Fri 9 Oct 6:02 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": true,
@@ -313,9 +313,9 @@
  },
  "two": {
   "live": {
-   "sha": "8e1a5833",
+   "sha": "8e1a583",
    "revision": "1.9.1-r66",
-   "when": "2026-10-09T16:04:25+00:00",
+   "when": "2026-10-09T16:04:25Z",
    "subject": "Release r66: Season Results on phones, closed Final Winner on both phones (#440)",
    "fixes": [],
    "today": [
@@ -709,9 +709,9 @@
  ],
  "now": {
   "moving": 41,
-  "next": 7,
+  "next": 6,
   "nik": 3,
-  "later": 5,
+  "later": 6,
   "rows": {
    "G": {
     "moving": [
@@ -1107,15 +1107,6 @@
       "order": 23,
       "place": "Codex cloud, branch gameplay/bug-list-1: type 'Job 1050'",
       "note": "draft kept on the player's own device only; ticket jobs/JOB-1050.md"
-     },
-     {
-      "id": "1051",
-      "title": "Transfer ledger hash no longer reveals locked guesses (Olympiad V6)",
-      "lane": "sonnet",
-      "state": "ready",
-      "order": 25,
-      "place": "lead worker (nothing for Nik to type)",
-      "note": "not a GPT job (safety filter); ticket jobs/JOB-1051.md"
      }
     ],
     "later": [

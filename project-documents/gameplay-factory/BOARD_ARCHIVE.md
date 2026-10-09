@@ -1,12 +1,12 @@
 # Board archive
 
-[Back to the board](BOARD.md) · generated 2026-10-09 6:05 PM Boston time (EDT). Detail and history behind the one board.
+[Back to the board](BOARD.md) · generated 2026-10-09 6:07 PM Boston time (EDT). Detail and history behind the one board.
 
 ## Old detailed board
 
 # Showdown board: G Factory and V Factory
 
-🌐 **Live: runtime 1.9.1-r66** (main `8e1a583`) · 🔄 **41 moving** · ⏭ 7 up next · 👤 3 waiting on Nik · 🗂 5 later · updated 2026-10-09 6:05 PM Boston time (EDT)
+🌐 **Live: runtime 1.9.1-r66** (main `8e1a583`) · 🔄 **41 moving** · ⏭ 6 up next · 👤 3 waiting on Nik · 🗂 6 later · updated 2026-10-09 6:07 PM Boston time (EDT)
 
 🩺 **All clear: every check has a machine.** · POS20 #304 6/16
 
@@ -77,7 +77,6 @@ _Gameplay, online sync, every merge and every release (senior director)._ Worker
 | 1048 | Rule Book: three missing rules, and the season review stops pointing at a missing button (Olympiad V1, V2) | ⬜ Codex | ready | - |
 | 1049 | Club reveal stops spoiling the sealed club; empty-device restore respects Keep current (Olympiad V3, V5) | ⬜ Codex | ready (after 1048) | - |
 | 1050 | Unfinished Signing Entry rows survive a refresh (Olympiad V4) | ⬜ Codex | ready (after 1049) | - |
-| 1051 | Transfer ledger hash no longer reveals locked guesses (Olympiad V6) | 🟪 Sonnet | ready | - |
 
 **👤 Waiting on Nik**
 
@@ -200,7 +199,7 @@ Latest:
 ## Every bug report
 
 
-> Updated **Fri 9 Oct, 6:05 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
+> Updated **Fri 9 Oct, 6:07 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
 
 | 🔓 Open | 🔴 Top priority | 🔧 Fixing or waiting for release | ✅ Fixed and live |
 | :---: | :---: | :---: | :---: |
