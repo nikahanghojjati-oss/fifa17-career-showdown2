@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-09 2:27 AM Boston time (EDT)",
+ "generated": "2026-10-09 2:51 AM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -313,27 +313,17 @@
  },
  "two": {
   "live": {
-   "sha": "963a979",
-   "revision": "1.9.1-r64",
-   "when": "2026-10-09T05:44:20Z",
-   "subject": "Release r64: Forget device sign-back-in, phone LOCK MY SIGNINGS (#429)",
-   "fixes": [
+   "sha": "e49add9",
+   "revision": "1.9.1-r65",
+   "when": "2026-10-09T06:48:52Z",
+   "subject": "Release r65: career history fixes, auto close, plain words (#436)",
+   "fixes": [],
+   "today": [
     {
      "pr": 436,
      "title": "Release r65: career history fixes, auto close, plain words",
-     "draft": false,
-     "branch": "release/r65",
-     "sha": "7791f65bf4c0d2861d253eef0d82708e6b693872",
-     "updated": "2026-10-09T06:12:35Z",
-     "gates": {
-      "passed": 19,
-      "running": 0,
-      "failed": 0,
-      "cancelled": 0
-     }
-    }
-   ],
-   "today": [
+     "merged": "2026-10-09T06:48:52Z"
+    },
     {
      "pr": 429,
      "title": "Release r64: Forget device sign-back-in, phone LOCK MY SIGNINGS",
@@ -713,7 +703,7 @@
   "**r62 is live.** On the laptop, close every game tab in Chrome and reopen the game; if Settings still looks clipped, do it once more."
  ],
  "now": {
-  "moving": 23,
+  "moving": 22,
   "next": 4,
   "nik": 7,
   "later": 11,
@@ -1060,22 +1050,7 @@
     ]
    }
   },
-  "fixes": [
-   {
-    "pr": 436,
-    "title": "Release r65: career history fixes, auto close, plain words",
-    "draft": false,
-    "branch": "release/r65",
-    "sha": "7791f65bf4c0d2861d253eef0d82708e6b693872",
-    "updated": "2026-10-09T06:12:35Z",
-    "gates": {
-     "passed": 19,
-     "running": 0,
-     "failed": 0,
-     "cancelled": 0
-    }
-   }
-  ]
+  "fixes": []
  },
  "jobs": [
   {
