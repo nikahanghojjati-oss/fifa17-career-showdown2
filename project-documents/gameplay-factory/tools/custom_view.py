@@ -22,7 +22,7 @@ BLOB = f"{REPO}/blob/factory/gameplay-v1/project-documents/gameplay-factory/"
 PR = f"{REPO}/pull/"
 QI = {l: i for i, l in enumerate(HEX)}
 e = html.escape
-LIMIT = 7000  # the coordinator's Custom view tab
+LIMIT = 12000  # the coordinator's Custom view tab (took 9 KB whole on 2026-10-09 22:26 UTC; was 7000)
 RAW = "https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/gameplay-v1/project-documents/gameplay-factory/"
 
 st = json.load(open(os.path.join(F, "BOARD_STATE.json")))
