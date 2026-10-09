@@ -214,7 +214,7 @@ def q_add(it, team):
         q["studio"] = row["studio"]
         if not n.startswith(row["studio"]):
             q["title"] = f'Studio {row["studio"]} · ' + str(q.get("title", ""))
-    if re.match(r"(in release|verified|in r\d|merged)", st, re.I) or n in MERGED:
+    if re.match(r"(in release|verified|in r\d|merged|done \(merged)", st, re.I) or n in MERGED:
         Q["release"].append(q)
     elif status_done(n):
         q["state"] = "worker done, lead checking"
@@ -254,6 +254,14 @@ for x in nik:
     else:
         _nk.append(x)
 nik = _nk
+# rows the lead marks "done (...)" leave BOARD_STATE's open buckets; list them under Done too
+_inq = {str(q["n"]) for v in Q.values() for q in v}
+for _id, _r in rowmap.items():
+    _m = JOB.match(_id)
+    if _m and _m.group(1) not in _inq and not _r.get("archived") and re.match(r"(done|live)\b", str(_r.get("state") or ""), re.I):
+        Q["release"].append({"id": _id, "n": _m.group(1), "title": _r.get("title", ""), "lane": _r.get("lane", ""), "team": "G", "studio": _r.get("studio")})
+
+
 def nkey(n):
     return (0, int(n)) if n.isdigit() else (1, int(re.sub(r"\D", "", n) or 0))
 
