@@ -233,7 +233,7 @@ def q_add(it, team):
     elif re.match(r"held\b", st, re.I):  # held for Nik wins over every other signal, an open PR included (lead, 2026-10-09 22:26 UTC)
         q["after"] = short_state(st)
         Q["wait"].append(q)
-    elif status_blocked(n):  # a stopped worker is not "Next for you"
+    elif status_blocked(n) and not re.match(r"with (the )?worker", st, re.I):  # a stopped worker is not "Next for you"; the lead's "with the worker" means it was unblocked
         q["after"] = q["state"] = status_blocked(n)
         Q["wait"].append(q)
     elif status_done(n):

@@ -10,6 +10,7 @@ Updated Fri 9 Oct, 6:39 PM Boston time. Bug hunting only, no new features until 
 
 **Running now**
 
+- **1048** (G) Rule Book: three missing rules, and the season review stops pointing at a missing button (Olympiad V1, V2) · with the worker · Sol chat · not started
 - **1051** (G) Transfer ledger hash no longer reveals locked guesses (Olympiad V6) · with the worker · Sonnet · not started
 - **1052** (G) Transfer Rules reject option ids the game cannot read (Olympiad V7) · with the worker · Sonnet · not started
 
@@ -20,10 +21,6 @@ Updated Fri 9 Oct, 6:39 PM Boston time. Bug hunting only, no new features until 
 3. **1053** (G, Sol chat) Restore on an empty device respects Keep current (Olympiad V5): type **1053** ChatGPT project "Career Mode Showdown", new normal chat · split out of 1049 to keep each chat job one turn; ticket jobs/JOB-1053.md
 4. **1050** (G, Sol Work mode) Unfinished Signing Entry rows survive a refresh (Olympiad V4): type **1050** ChatGPT project "Career Mode Showdown", new chat switched to Work mode · draft kept on the player's own device only; ticket jobs/JOB-1050.md; lane moved off Codex (Nik 2026-10-09 22:09 UTC: more GPT-6 chat, Work mode cheaper models, Haiku)
 5. **1045** (G, Codex) Showdown Gate: pin actions and tool installs (audit F4): type **1045** Codex cloud, this repo, branch gameplay/bug-list-1 · ticket jobs/JOB-1045.md; stays Codex: it must read GitHub Actions release tags, which chat and Claude lanes cannot
-
-**Waiting on something else**
-
-- **1048** Rule Book: three missing rules, and the season review stops pointing at a missing button (Olympiad V1, V2) · blocked at step 4 of 5: the worker asked the lead a question
 
 **Done, in the next release:** 1001, 1003, 1004, 1005, 1009, 1010, 1011, 1014, 1015, 1020, 1021, 1022, 1023, 1024, 1025, 1026, 1027, 1028, 1037, 1038, 1039, 1040, 1041, 1042, 1043, 1044, 1046, 1047, Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8
 
