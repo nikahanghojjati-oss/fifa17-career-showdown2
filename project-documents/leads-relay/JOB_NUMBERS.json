@@ -1,6 +1,6 @@
 {
  "_how": "One shared job counter for Team G and Team V (Nik, 2026-10-05). Claim with tools/claim_number.py only. A number is used once, ever. CONTRACT.md section 10.",
- "next": 1040,
+ "next": 1041,
  "claims": [
   {
    "number": 1001,
@@ -236,6 +236,12 @@
    "team": "G",
    "title": "Legacy stops reloading on every shared event and never spins forever",
    "claimed": "2026-10-09T03:55:40Z"
+  },
+  {
+   "number": 1040,
+   "team": "G",
+   "title": "Browser journey opens Legacy, Trophy Room and Stats after a finished online Showdown",
+   "claimed": "2026-10-09T03:55:42Z"
   }
  ]
 }
