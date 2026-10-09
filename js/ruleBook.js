@@ -38,7 +38,8 @@ function createRuleBookScreen(){
             "Daniel is Player One. Nik is Player Two.",
             "Both managers compete in the same selected league.",
             "The assigned clubs remain fixed for the entire Showdown, across every season.",
-            "A Showdown may contain 1, 3, 5, or 10 seasons."
+            "A Showdown may contain 1, 3, 5, or 10 seasons.",
+            "The manager with the most Showdown points across all seasons wins; equal totals are a draw."
         ]),
         createRuleSection("02", "MATCH PLAY", [
             "Career Mode matches are simulated.",
@@ -49,6 +50,7 @@ function createRuleBookScreen(){
         createRuleSection("03", "TRANSFER CHALLENGE", [
             "Each manager may sign a maximum of three players per season.",
             "The transfer window challenge lasts 15 minutes.",
+            "Both managers may agree to end the transfer window early; one manager cannot end it alone.",
             "The opponent receives three guesses.",
             "Each guess must be either a league or a nationality.",
             "If a signing matches a correct guess, that signing must be released before the season begins."
@@ -58,6 +60,7 @@ function createRuleBookScreen(){
             "If both managers finish a season with the same Showdown points, use the approved fallback.",
             "The manager with the better league finishing position wins the season.",
             "If both managers finish in the same league position, the manager with more league points wins.",
+            "If both managers also have the same league points, the season is a draw.",
             "No goal-difference, goals-scored, or head-to-head tiebreak is used."
         ]),
         createRuleSection("06", "CONNECTION & RECOVERY", [
