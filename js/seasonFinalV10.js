@@ -149,7 +149,15 @@
     if(typeof valid==="function"&&!valid.v10Standings){const wrapped=function(id){return id==="standings"||valid.apply(this,arguments);};wrapped.v10Standings=true;wrapped.original=valid;root.isRouteStateValid=wrapped;}
     root.CareerModeV10Screens.setNavRoute("standings",async app=>{let host=root.document.getElementById("standings");if(!host){host=root.document.createElement("section");host.id="standings";host.className="screen hidden";host.setAttribute("aria-label","Standings");root.document.querySelector("#app main").appendChild(host);}return app.navigateTo("standings");});
   }
-  function seasonSource(){const s=sfSnapshot();return {final:finalFrame(s.finalReconciliation,s.terminalClose,s.history)};}
+  // JOB-1038: Terminal Close forgets the session, which clears the live history view. The last converged view of the same
+  // rivalry is kept so the closed Final Winner still shows the final season and trophies; finalFrame re-verifies it.
+  let retainedHistory=null;
+  function sfRetainHistory(history){if(history?.authoritative===true&&history.phase==="HISTORY_CONVERGED"&&history.projection)retainedHistory=history;return history;}
+  function seasonSource(){
+    const s=sfSnapshot(),live=sfRetainHistory(s.history),closed=s.terminalClose?.phase==="CLOSED"?s.terminalClose:null;
+    const history=live||(closed&&retainedHistory?.rivalryId===closed.rivalryId?retainedHistory:null);
+    return {final:finalFrame(s.finalReconciliation,s.terminalClose,history)};
+  }
   // The pair module notifies only its own subscribers (no window event), so Standings follows pairing
   // and closure through it. It may load after this file, so each screen change retries once until bound.
   let pairBound=false;
@@ -178,6 +186,7 @@
     // so the skin mounts in the same tick the screen opens instead of after the form is already being filled in.
     if(typeof loader.show==="function")Promise.resolve(loader.show("seasonEntry")).catch(fail);
     for(const e of ["career-mode-shared-final-reconciliation-state-change","career-mode-shared-terminal-close-state-change","career-mode-shared-history-convergence-state-change","career-mode-shared-multi-season-state-change","career-mode-online-identity-change","career-mode-active-save-changed","career-mode-showdown-state-change","career-mode-online-career-model-change"])root.addEventListener?.(e,wake);
+    root.addEventListener?.("career-mode-shared-history-convergence-state-change",()=>sfRetainHistory(state("CareerModeProductionSharedHistoryConvergence")));
     root.document.addEventListener("career-mode-screen-shown",()=>{signature="";followPair();wake();});
     followPair();
     wake();return true;

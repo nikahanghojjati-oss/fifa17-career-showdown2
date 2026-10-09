@@ -638,6 +638,7 @@ async function main(){
         assert.equal(frame.state,"completed",`${m.user}: the final winner remains visible after automatic close`);
         assert.equal(frame.winner,"nik");
         assert.deepEqual(frame.totals,{daniel:10,nik:15});
+        assert.equal(frame.status,"ready",`${m.user}: the closed Final Winner keeps the verified history (trophies and final season)`);
         assert.equal(frame.lastSeason.season,3);
         assert.equal(await m.page.locator("#sharedTerminalCloseAction").isVisible(),false,"successful auto-close needs no CLOSE retry");
         assert.equal(m.log.taps.some(t=>t.id==="sharedTerminalCloseAction"||t.id==="sharedTerminalCloseRetry"),false,`${m.user}: no terminal close tap`);
