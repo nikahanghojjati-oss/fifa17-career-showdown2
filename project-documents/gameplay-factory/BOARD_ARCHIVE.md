@@ -1,12 +1,12 @@
 # Board archive
 
-[Back to the board](BOARD.md) · generated 2026-10-09 6:08 PM Boston time (EDT). Detail and history behind the one board.
+[Back to the board](BOARD.md) · generated 2026-10-09 6:09 PM Boston time (EDT). Detail and history behind the one board.
 
 ## Old detailed board
 
 # Showdown board: G Factory and V Factory
 
-🌐 **Live: runtime 1.9.1-r66** (main `8e1a583`) · 🔄 **41 moving** · ⏭ 6 up next · 👤 3 waiting on Nik · 🗂 6 later · updated 2026-10-09 6:08 PM Boston time (EDT)
+🌐 **Live: runtime 1.9.1-r66** (main `8e1a5833`) · 🔄 **41 moving** · ⏭ 6 up next · 👤 3 waiting on Nik · 🗂 5 later · updated 2026-10-09 6:09 PM Boston time (EDT)
 
 🩺 **All clear: every check has a machine.** · POS20 #304 6/16
 
@@ -48,7 +48,7 @@
 | G | 1026 | New shared season clears last season's result fields (hunt 1017 H4) | 🟧 Claude helper | in r65 (live 2026-10-09) | - |
 | G | 1028 | Statistics shows an abandoned-only career (hunt 1019 H5) | 🟧 Team G lead | in r65 (live 2026-10-09) | - |
 | G | 1027 | Restore keeps and checks the Save Library; career cache race (hunt 1019 H1, H2, H4) | 🟧 Claude helper | in r65 (live 2026-10-09) | - |
-| G | 1044 | Showdown Gate: exit report and seal fail closed on bad evidence (audit F2, F3) | ⬜ Codex | worker done, lead checking (PR #441) | - |
+| G | 1051 | Transfer ledger hash no longer reveals locked guesses (Olympiad V6) | 🟪 Sonnet | worker done, lead checking (PR #442) | - |
 
 | Hand-off | From → To | What | Progress |
 | --- | --- | --- | --- |
@@ -93,7 +93,6 @@ _Gameplay, online sync, every merge and every release (senior director)._ Worker
 | G-F17 | Showdown Gate: replace POS20 with a faster check system built on Claude and GitHub, keeping every check (plan: /mnt/project-files/check-system/SHOWDOWN_GATE_PLAN.md) — Nik 6:02 PM Boston time: gradual replacement; POS20 is archived to authority-history/pos20-archive/, not deleted | 🟧 Opus | shadow: KEEP_SHADOW after the 9 Oct independent audit (71/100); fixes 1043, 1044, 1045 first | exit bar: 10 real PRs agree (2 full seals), 2 canaries fail, 1 simulated outage recovers; POS20 stays the merge authority until then |
 | G-F4 | GPT Q&A team: scripted paths and code-vs-rulebook reads | 🟦 Sol chat | queued | G-F1 |
 | G-F7 | Ten-season smoothness run on live 2.0 (emulator, 10 seasons with a mid-game expiry) | 🟪 Sonnet | queued | G-F1 |
-| 1051 | Transfer ledger hash no longer reveals locked guesses (Olympiad V6) | 🟪 Sonnet | with the worker (Sonnet) | - |
 
 ### 🐞 Bug list 1
 
@@ -129,7 +128,7 @@ Latest:
 **Shipped to the live game today (4):** [#440](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/440) Release r66: Season Results on phones, closed Final Winner… · [#436](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/436) Release r65: career history fixes, auto close, plain words · [#429](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/429) Release r64: Forget device sign-back-in, phone LOCK MY SIGN… · [#435](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/435) Re-pin the composed Rules check to production main r63
 
 <details>
-<summary>Done jobs (8 future-list rows, 1 Team V jobs, 11 hand-offs, 33 factory jobs)</summary>
+<summary>Done jobs (9 future-list rows, 1 Team V jobs, 11 hand-offs, 33 factory jobs)</summary>
 
 - G 1041: Season Results on phone: ACKNOWLEDGE reachable, no inner scroll box, title clear, photos aligned (done (merged into bug-list-1, PR #437))
 - G 1017: 1017 · G Gameplay hunt 1: shared season flow across devices (done (4 bugs found, PR #407))
@@ -137,6 +136,7 @@ Latest:
 - G 1019: 1019 · G Gameplay hunt 3: entries, saves and career numbers (done (5 bugs found, PR #409))
 - G 1042: Closed Final Winner shows the final season on both phones (done (merged into bug-list-1, PR #439))
 - G 1043: Showdown Gate: no write token for pull-request code (audit F1) (done (merged into bug-list-1, PR #438))
+- G 1044: Showdown Gate: exit report and seal fail closed on bad evidence (audit F2, F3) (done (merged into bug-list-1, PR #441))
 - G 1046: Truth keeper handover notes (gameplay project) (done (checked: 6 files, 132 items on handoff/truth-keeper))
 - V 1047: Truth keeper handover notes (visual project) (done (checked: 6 files, 121 items on handoff/truth-keeper))
 - V V-247: Phone Home tile icons like GOAL_HOME ([PR #381](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/381))
@@ -199,7 +199,7 @@ Latest:
 ## Every bug report
 
 
-> Updated **Fri 9 Oct, 6:08 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
+> Updated **Fri 9 Oct, 6:09 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
 
 | 🔓 Open | 🔴 Top priority | 🔧 Fixing or waiting for release | ✅ Fixed and live |
 | :---: | :---: | :---: | :---: |

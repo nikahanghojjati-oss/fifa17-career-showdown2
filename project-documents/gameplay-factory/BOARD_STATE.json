@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-09 6:08 PM Boston time (EDT)",
+ "generated": "2026-10-09 6:09 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -284,7 +284,7 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "5430506",
+  "head": "5430506d",
   "head_boston": "Fri 9 Oct 6:02 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": true,
@@ -313,9 +313,9 @@
  },
  "two": {
   "live": {
-   "sha": "8e1a583",
+   "sha": "8e1a5833",
    "revision": "1.9.1-r66",
-   "when": "2026-10-09T16:04:25Z",
+   "when": "2026-10-09T16:04:25+00:00",
    "subject": "Release r66: Season Results on phones, closed Final Winner on both phones (#440)",
    "fixes": [],
    "today": [
@@ -711,7 +711,7 @@
   "moving": 41,
   "next": 6,
   "nik": 3,
-  "later": 6,
+  "later": 5,
   "rows": {
    "G": {
     "moving": [
@@ -1021,13 +1021,13 @@
       "archived": true
      },
      {
-      "id": "1044",
-      "title": "Showdown Gate: exit report and seal fail closed on bad evidence (audit F2, F3)",
-      "lane": "codex",
-      "state": "worker done, lead checking (PR #441)",
-      "order": 20,
-      "place": "Codex cloud, branch gameplay/bug-list-1: type 'Job 1044'",
-      "note": "ticket jobs/JOB-1044.md; after 1042"
+      "id": "1051",
+      "title": "Transfer ledger hash no longer reveals locked guesses (Olympiad V6)",
+      "lane": "sonnet",
+      "state": "worker done, lead checking (PR #442)",
+      "order": 25,
+      "place": "lead worker (nothing for Nik to type)",
+      "note": "not a GPT job (safety filter); ticket jobs/JOB-1051.md"
      }
     ],
     "nik": [
@@ -1142,15 +1142,6 @@
       "waits_on": "after Team V designs the combined screen (HO-011)",
       "details": "Nik picked No tap, combined: one screen shows the last season's score and the Final Winner. Team V designs it (HO-011), then a GPT green job builds it and restores the strict final-season check.",
       "order": 13
-     },
-     {
-      "id": "1051",
-      "title": "Transfer ledger hash no longer reveals locked guesses (Olympiad V6)",
-      "lane": "sonnet",
-      "state": "with the worker (Sonnet)",
-      "order": 25,
-      "place": "lead worker (nothing for Nik to type)",
-      "note": "not a GPT job (safety filter); ticket jobs/JOB-1051.md"
      }
     ]
    },
