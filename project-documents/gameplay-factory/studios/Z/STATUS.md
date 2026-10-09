@@ -17,3 +17,10 @@ main merge by the Team G lead, then the Pages, Rules and deployed-site checks.
 Proof (local, 2026-10-09): contracts 144/144, ops 73/73, two-player emulator journey 38/38 (J9.1 refresh rejoin,
 J9.4 reopened tab, J12.2 pointer permissions), refresh probes mid-setup and mid-transfer, layout probes on emulated
 touch devices 360x640 to 1024x1366 and 915x412. No physical acceptance claimed.
+
+## Archived 2026-10-09
+
+r63 is live: PR #427 merged as main 2b8b043f; Deploy GitHub Pages and Deploy Firebase Firestore Rules both succeeded
+for that commit. Z1-Z8 are done. Studio Z is archived (never deleted). Follow-ups go through the Team G factory:
+the garbled Z7 line in RELEASE_V1.9.1_R63.md, and the Team V ticket for tablet art and the sideways-phone Signing Entry
+note overlapping LOCK. Physical acceptance is still Nik and Daniel's next test; no SSJR credit is claimed.

@@ -1265,8 +1265,9 @@
    "id": "Z",
    "title": "emergency fixes from Nik and Daniel's live test",
    "scope": "connectivity, sign-in, continuing after a refresh, old-build modules coming back, Transfer layout",
-   "state": "open",
+   "state": "archived",
    "opened": "2026-10-09T00:07Z",
+   "archived": "2026-10-09T03:00Z",
    "thread": "Studio Z emergency fixes"
   }
  ]
