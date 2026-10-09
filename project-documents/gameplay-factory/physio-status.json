@@ -1,22 +1,22 @@
 {
   "schema": "physio/v1",
-  "at": "2026-10-09T05:22:15.145Z",
+  "at": "2026-10-09T05:22:27.297Z",
   "state": "BARKING",
   "checks": [
     {
       "workflow": "Validate POS20",
       "head_sha": "3f26132b693a8d5e62f45a7902a6b5b9760f8c04",
       "pr": null,
-      "queued_minutes": 9,
+      "queued_minutes": 9.2,
       "action": "none",
       "attempt": 0,
       "max_attempts": 2
     },
     {
-      "workflow": "Showdown Gate",
-      "head_sha": "368c5aaadc5d9272a8509a91e9ead6cfbd6bb2a5",
+      "workflow": "Validate POS20",
+      "head_sha": "196254e30b5cc3a08717dcd28adc5d7d570b6d1b",
       "pr": null,
-      "queued_minutes": 1.7,
+      "queued_minutes": 4.1,
       "action": "none",
       "attempt": 0,
       "max_attempts": 2
@@ -25,7 +25,7 @@
       "workflow": "Validate POS20",
       "head_sha": "368c5aaadc5d9272a8509a91e9ead6cfbd6bb2a5",
       "pr": null,
-      "queued_minutes": 1.7,
+      "queued_minutes": 1.9,
       "action": "none",
       "attempt": 0,
       "max_attempts": 2
@@ -34,14 +34,53 @@
       "workflow": "Validate Gameplay Fast",
       "head_sha": "8c6d3925eb9668cbe3c61b3a283dd607a14c713d",
       "pr": null,
-      "queued_minutes": 1.2,
+      "queued_minutes": 1.4,
+      "action": "none",
+      "attempt": 0,
+      "max_attempts": 2
+    },
+    {
+      "workflow": "Showdown Gate",
+      "head_sha": "952c14b67ebf6ac3bc97ab85472b90c0a2d8434f",
+      "pr": 433,
+      "queued_minutes": 1.1,
       "action": "none",
       "attempt": 0,
       "max_attempts": 2
     }
   ],
   "helpers_paused": [],
-  "gate": null,
+  "gate": {
+    "pr": 429,
+    "head_sha": "6bf38984d10f354208b39ef119ca2c3ae912ac15",
+    "lanes": [
+      {
+        "name": "L1 core",
+        "state": "queued"
+      },
+      {
+        "name": "L2 browser full",
+        "state": "queued"
+      },
+      {
+        "name": "L3 storage visual gameplay",
+        "state": "queued"
+      },
+      {
+        "name": "L4 remote",
+        "state": "queued"
+      },
+      {
+        "name": "L5 rules regression",
+        "state": "queued"
+      },
+      {
+        "name": "L6 browser journey",
+        "state": "queued"
+      }
+    ],
+    "seal": "PENDING"
+  },
   "pos20": {
     "pr": 429,
     "passed": 0,
