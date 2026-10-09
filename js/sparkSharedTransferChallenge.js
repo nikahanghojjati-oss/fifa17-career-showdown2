@@ -146,8 +146,16 @@
       return await options.firebaseSdk.runTransaction(options.firestore,async transaction=>{
         const ctx=await stspContext(options,transaction),current=ctx.state,revision=current?current.revision:0;let normalizedPayload={};
         if(type==="lock-guesses")normalizedPayload={guesses:stspNormalizeGuesses(payload.guesses,ctx.catalog)};else if(type==="lock-signings")normalizedPayload={signings:stspNormalizeSignings(payload.signings,ctx.catalog)};
-        const operationHash=await stspHash({actorRole:ctx.role,type,operationId,baseRevision,...normalizedPayload},cryptoImpl);
-        if(current){const index=current.operationIds.indexOf(operationId);if(index>=0){if(current.operationTypes[index]!==type||current.operationHashes[index]!==operationHash||current.baseRevisions[index]!==baseRevision||current.actorRoles[index]!==ctx.role)stspFail("TRANSFER_IDEMPOTENCY_CONFLICT");return stspFreeze({ok:true,status:"accepted",replayed:true,revision:current.revision,state:stspClone(current),managerRole:ctx.role,seasonNumber:ctx.seasonNumber,needsRefresh:current.phase==="COMPLETED"});}}
+        const privateType=type==="lock-guesses"||type==="lock-signings",privateKey=type==="lock-guesses"?"guesses":"signings";
+        // The public ledger hash covers public inputs only. A hash of the private payload would let the rival brute-force the small guess space.
+        const operationHash=await stspHash({actorRole:ctx.role,type,operationId,baseRevision},cryptoImpl);
+        if(current){const index=current.operationIds.indexOf(operationId);if(index>=0){
+          let hashMatches=current.operationHashes[index]===operationHash;
+          // r66 ledgers stored a payload-bound hash; accept it for replays (the replaying client holds its own payload) without ever writing that shape again.
+          if(!hashMatches&&privateType)hashMatches=current.operationHashes[index]===await stspHash({actorRole:ctx.role,type,operationId,baseRevision,...normalizedPayload},cryptoImpl);
+          // Payload conflicts are detected against the actor's own private document, which the rival cannot read before completion.
+          const payloadMatches=!privateType||(!!ctx.own&&ctx.own[privateKey]!==null&&stspCanonical(ctx.own[privateKey])===stspCanonical(normalizedPayload[privateKey]));
+          if(current.operationTypes[index]!==type||!hashMatches||!payloadMatches||current.baseRevisions[index]!==baseRevision||current.actorRoles[index]!==ctx.role)stspFail("TRANSFER_IDEMPOTENCY_CONFLICT");return stspFreeze({ok:true,status:"accepted",replayed:true,revision:current.revision,state:stspClone(current),managerRole:ctx.role,seasonNumber:ctx.seasonNumber,needsRefresh:current.phase==="COMPLETED"});}}
         if(baseRevision!==revision)stspFail("TRANSFER_STALE_BASE_REVISION");if(!current&&type!=="start-window")stspFail("TRANSFER_NOT_STARTED");if(current&&type==="start-window")stspFail("TRANSFER_ALREADY_STARTED");if(current&&current.phase==="COMPLETED")stspFail("TRANSFER_ALREADY_COMPLETED");
         let next=current?stspClone(current):{seasonNumber:ctx.seasonNumber,coordinatorRole:ctx.setup.coordinatorRole,phase:"WINDOW_OPEN",revision:0,startedAtEpochMs:ctx.now,endedAtEpochMs:null,endRequestedRoles:[],guessLockedRoles:[],signingLockedRoles:[],operationIds:[],operationTypes:[],operationHashes:[],baseRevisions:[],actorRoles:[]};
         let own=ctx.own?stspClone(ctx.own):{guesses:null,signings:null,guessLockedAtEpochMs:null,signingLockedAtEpochMs:null};let writePrivate=false;
