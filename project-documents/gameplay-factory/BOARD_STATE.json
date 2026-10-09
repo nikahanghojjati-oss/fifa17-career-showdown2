@@ -315,7 +315,7 @@
   "live": {
    "sha": "bc77a0b",
    "revision": "1.9.1-r62",
-   "when": "2026-10-06T01:18:19Z",
+   "when": "2026-10-06T01:18:19+00:00",
    "subject": "Showdown Gate shadow: 6-lane gate runs beside POS20, coverage-proven (#386)",
    "fixes": [
     {
@@ -326,8 +326,8 @@
      "sha": "2e22269bdcfb5c720b28fc83dd689fea6d9fbd81",
      "updated": "2026-10-09T02:02:37Z",
      "gates": {
-      "passed": 2,
-      "running": 15,
+      "passed": 4,
+      "running": 13,
       "failed": 0,
       "cancelled": 0
      }
@@ -700,81 +700,81 @@
       "id": "Z1",
       "title": "Studio Z: sign-in starter race",
       "lane": "opus",
-      "state": "building",
+      "state": "worker done, in r63 PR #427, CI running",
       "studio": "Z",
       "order": 1,
       "place": "Studio Z thread (nothing for Nik to type)",
-      "note": "ships in r63 (branch studio-z/r63)"
+      "note": "ships in r63 (PR #427, studio-z/r63 into main)"
      },
      {
       "id": "Z2",
       "title": "Studio Z: one-strike offline lock",
       "lane": "opus",
-      "state": "building",
+      "state": "worker done, in r63 PR #427, CI running",
       "studio": "Z",
       "order": 2,
       "place": "Studio Z thread (nothing for Nik to type)",
-      "note": "ships in r63 (branch studio-z/r63)"
+      "note": "ships in r63 (PR #427, studio-z/r63 into main)"
      },
      {
       "id": "Z3",
       "title": "Studio Z: refresh resume",
       "lane": "opus",
-      "state": "building",
+      "state": "worker done, in r63 PR #427, CI running",
       "studio": "Z",
       "order": 3,
       "place": "Studio Z thread (nothing for Nik to type)",
-      "note": "ships in r63 (branch studio-z/r63)"
+      "note": "ships in r63 (PR #427, studio-z/r63 into main)"
      },
      {
       "id": "Z4",
       "title": "Studio Z: automatic session handoff",
       "lane": "opus",
-      "state": "building",
+      "state": "worker done, in r63 PR #427, CI running",
       "studio": "Z",
       "order": 4,
       "place": "Studio Z thread (nothing for Nik to type)",
-      "note": "ships in r63 (branch studio-z/r63)"
+      "note": "ships in r63 (PR #427, studio-z/r63 into main)"
      },
      {
       "id": "Z5",
       "title": "Studio Z: auto-apply updates",
       "lane": "opus",
-      "state": "building",
+      "state": "worker done, in r63 PR #427, CI running",
       "studio": "Z",
       "order": 5,
       "place": "Studio Z thread (nothing for Nik to type)",
-      "note": "ships in r63 (branch studio-z/r63)"
+      "note": "ships in r63 (PR #427, studio-z/r63 into main)"
      },
      {
       "id": "Z6",
       "title": "Studio Z: stuck Google sign-in",
       "lane": "opus",
-      "state": "building",
+      "state": "worker done, in r63 PR #427, CI running",
       "studio": "Z",
       "order": 6,
       "place": "Studio Z thread (nothing for Nik to type)",
-      "note": "ships in r63 (branch studio-z/r63)"
+      "note": "ships in r63 (PR #427, studio-z/r63 into main)"
      },
      {
       "id": "Z7",
       "title": "Studio Z: upright tablet layout",
       "lane": "opus",
-      "state": "building",
+      "state": "worker done, in r63 PR #427, CI running",
       "studio": "Z",
       "order": 7,
       "place": "Studio Z thread (nothing for Nik to type)",
-      "note": "ships in r63 (branch studio-z/r63)"
+      "note": "ships in r63 (PR #427, studio-z/r63 into main)"
      },
      {
       "id": "Z8",
       "title": "Studio Z: typed league ambiguity",
       "lane": "opus",
-      "state": "building",
+      "state": "worker done, in r63 PR #427, CI running",
       "studio": "Z",
       "order": 8,
       "place": "Studio Z thread (nothing for Nik to type)",
-      "note": "ships in r63 (branch studio-z/r63)"
+      "note": "ships in r63 (PR #427, studio-z/r63 into main)"
      },
      {
       "id": "G-F17",
@@ -991,8 +991,8 @@
     "sha": "2e22269bdcfb5c720b28fc83dd689fea6d9fbd81",
     "updated": "2026-10-09T02:02:37Z",
     "gates": {
-     "passed": 2,
-     "running": 15,
+     "passed": 4,
+     "running": 13,
      "failed": 0,
      "cancelled": 0
     }
