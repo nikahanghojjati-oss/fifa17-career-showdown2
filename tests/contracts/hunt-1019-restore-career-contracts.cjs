@@ -68,13 +68,26 @@ test("H1019-1 keep-current preview and apply agree and the populated Save Librar
 test("H1019-1 a truly clean destination still plans a full clean restore",async()=>{
   const a=runtime(),backup=await library(a.c,4);
   const analysis=await envelope(a.c,{saveLibrary:backup,activeShowdown:backup.saves[0].showdown,legacyShowdowns:[],preferences:null});
-  a.c.choices={active:"keep-current",legacy:"keep-current",preferences:"keep-current",saveLibrary:"keep-current"};
+  a.c.choices={active:"use-backup",legacy:"keep-current",preferences:"keep-current",saveLibrary:"use-backup"};
   a.c.reviewed=a.c.captureCareerModeRawSaveLibraryMigrationSnapshot().raw;
   const applied=await vm.runInContext("applyCareerModeRestore(file,choices,{expectedRaw:reviewed})",a.c);
   assert.equal(analysis.ok,true);
   assert.equal(applied.ok,true);
   assert.equal(applied.plan.summary.saveLibrary,"full-restore-clean");
   assert.equal(JSON.parse(a.values.get(LIBRARY_KEY)).activeSaveId,backup.activeSaveId);
+});
+
+test("H1019-1b keep-current on a clean destination keeps it empty (JOB-1053)",async()=>{
+  const a=runtime(),backup=await library(a.c,8);
+  const analysis=await envelope(a.c,{saveLibrary:backup,activeShowdown:backup.saves[0].showdown,legacyShowdowns:[],preferences:null});
+  a.c.choices={active:"keep-current",legacy:"keep-current",preferences:"keep-current",saveLibrary:"keep-current"};
+  a.c.reviewed=a.c.captureCareerModeRawSaveLibraryMigrationSnapshot().raw;
+  const before=a.values.get(LIBRARY_KEY)??null;
+  const applied=await vm.runInContext("applyCareerModeRestore(file,choices,{expectedRaw:reviewed})",a.c);
+  assert.equal(analysis.ok,true);
+  assert.equal(applied.ok,true);
+  assert.equal(applied.plan.summary.saveLibrary,"keep-current","keep-current must not become a clean full restore");
+  assert.equal(a.values.get(LIBRARY_KEY)??null,before,"the empty Save Library stays unchanged (null or absent)");
 });
 
 test("H1019-2 a library the foundation rejects is blocked in analysis and before any write",async()=>{
