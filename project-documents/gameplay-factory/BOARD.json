@@ -918,7 +918,7 @@
      "group": "Bug list 1",
      "title": "1011 · G Plain-words sweep: jargon on game screens",
      "lane": "lead",
-     "state": "PR #424, lead verifies and merges (tests updated to the new words)",
+     "state": "merged into bug-list-1 (PR #424)",
      "waits_on": "Nik types it in the gameplay project (Work mode)",
      "details": "GPT green, one run. Replaces engineering words players see; leaves test-asserted strings to the lead.",
      "order": 11,
