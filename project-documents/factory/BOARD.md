@@ -1,6 +1,6 @@
 # 🎨 Team V board
 
-Updated Thu 8 Oct 11:04 PM EDT · Team V featured, Team G below · one shared data source (PR progress blocks + relay) · [Team G's board](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/BOARD.md)
+Updated Thu 8 Oct 11:19 PM EDT · Team V featured, Team G below · one shared data source (PR progress blocks + relay) · [Team G's board](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/BOARD.md)
 
 ## Team V: visual jobs
 
@@ -10,6 +10,8 @@ Updated Thu 8 Oct 11:04 PM EDT · Team V featured, Team G below · one shared da
 
 > **Going on now:** Done; handed to Team G as HO-006  
 > **Next step:** nothing left
+
+**Queued next** (Nik, 8 Oct 11:18 p.m. Eastern), starting on their own once the current jobs and bug fixes are done: 1) [phone mockup plan](PLAN_PHONE_MOCKUPS.md), then 2) next-level desktop plan.
 
 **Board 1 (visual package): 238 of 238 jobs done and checked**, shipped in version 2.0 on 5 Oct 2026.
 
