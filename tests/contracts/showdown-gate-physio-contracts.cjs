@@ -12,6 +12,13 @@ const {readWorkflow}=require('../support/gha-workflow-parse.cjs');
 const root=path.resolve(__dirname,'../..');
 const fixture=name=>JSON.parse(fs.readFileSync(path.join(root,'tests/fixtures/showdown-gate',name),'utf8'));
 const clone=value=>JSON.parse(JSON.stringify(value));
+function assertPinnedUses(node,where){
+  if(!node||typeof node!=='object')return;
+  for(const [key,value] of Object.entries(node)){
+    if(key==='uses')assert.match(value,/@[0-9a-f]{40}$/i,`${where}.uses must use a full commit SHA`);
+    else assertPinnedUses(value,`${where}.${key}`);
+  }
+}
 let checks=0;const ok=label=>{checks++;void label;};
 
 (async()=>{
@@ -154,6 +161,7 @@ let checks=0;const ok=label=>{checks++;void label;};
 
   // 5. Workflow shape of the watchdog: least privilege, Showdown Gate only.
   const wd=readWorkflow(root,'.github/workflows/gate-watchdog.yml');
+  assertPinnedUses(wd,'.github/workflows/gate-watchdog.yml');ok('watchdog actions use full commit SHAs');
   assert.equal(wd.name,'Showdown Gate Physio');assert.equal(wd.jobs.watchdog.name,'Showdown Gate Physio');
   assert.deepEqual(wd.permissions,{actions:'write',contents:'write','pull-requests':'read'},'the Physio holds exactly actions: write, contents: write and read-only pull-requests');
   for(const job of Object.values(wd.jobs))assert.ok(!('permissions' in job));
@@ -163,7 +171,7 @@ let checks=0;const ok=label=>{checks++;void label;};
   assert.ok(!wdSteps.some(st=>/git (?:push|commit)/.test(st.run||'')),'the status is written through the contents API only');
   const statusStep=wdSteps.find(st=>st.name==='Write Physio status');
   assert.equal(statusStep.if,'always()');assert.match(statusStep.run,/^node scripts\/physio-status\.mjs --repo "\$GITHUB_REPOSITORY" --results "\$RUNNER_TEMP\/physio\/results\.json" --preempt "\$RUNNER_TEMP\/physio\/preempt\.json" --out "\$RUNNER_TEMP\/physio\/physio-status\.json" --publish$/);
-  const upload=wdSteps.find(st=>st.uses==='actions/upload-artifact@v7');
+  const upload=wdSteps.find(st=>st.uses==='actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9');
   assert.equal(upload.if,'always()');assert.equal(upload.with.name,'physio-status');assert.equal(upload.with.path,'${{ runner.temp }}/physio/physio-status.json');
   assert.deepEqual(wd.on.workflow_run,{workflows:['Showdown Gate','Validate POS20','Validate Gameplay Fast'],types:['completed']});
   const sweepSteps=wd.jobs.watchdog.steps.map(st=>st.run||'');

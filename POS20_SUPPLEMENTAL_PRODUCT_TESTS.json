@@ -1070,6 +1070,22 @@
       ]
     },
     {
+      "path": "tests/contracts/job-1049-sealed-club-summary-contracts.cjs",
+      "patterns": [
+        "^js/productionSharedShowdownPresentation\\.js$",
+        "^tests/contracts/job-1049-sealed-club-summary-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/job-1053-keep-empty-contracts.cjs",
+      "patterns": [
+        "^js/restore\\.js$",
+        "^tests/contracts/job-1053-keep-empty-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
       "path": "tests/contracts/job-1050-signing-draft-contracts.cjs",
       "patterns": [
         "^js/productionSharedTransferChallenge\\.js$",
