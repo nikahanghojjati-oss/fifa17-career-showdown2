@@ -64,6 +64,13 @@
 #transferChallenge .tw-host .signing-row.signingRow:not(.is-readonly) {
   grid-template-columns: calc(var(--k) * 16px) minmax(0, 1.22fr) minmax(100px, 1.1fr) minmax(100px, 0.92fr);
 }
+/* Studio Z7: a phone held sideways shows the small desktop panel, where the two 100px selectors left the player name
+   no width at all. On short screens the three fields share the row equally. */
+@media (max-height: 500px) and (orientation: landscape) {
+  #transferChallenge .tw-host .signing-row.signingRow:not(.is-readonly) {
+    grid-template-columns: calc(var(--k) * 16px) repeat(3, minmax(0, 1fr));
+  }
+}
 @media (max-width: 760px) and (orientation: portrait) {
   :where(.guessRow, .signingRow) > span.guess-num { font-size: 13px; }
   #transferChallenge .tw-host .signing-row.signingRow:not(.is-readonly) {

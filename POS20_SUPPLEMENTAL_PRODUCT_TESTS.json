@@ -1088,6 +1088,22 @@
         "^tests/contracts/showdown-gate-watchdog-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/studio-z-contracts.cjs",
+      "patterns": [
+        "^js/showdown\\.js$",
+        "^js/offlineApp\\.js$",
+        "^js/onlinePlayerIdentity\\.js$",
+        "^js/sparkRemoteJoining\\.js$",
+        "^js/productionSharedJourneyEntry\\.js$",
+        "^firestore\\.spark\\.rules$",
+        "^firestore\\.stage5c\\.rules$",
+        "^css/v10Transfer\\.css$",
+        "^data/transferOptions\\.js$",
+        "^tests/contracts/studio-z-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }

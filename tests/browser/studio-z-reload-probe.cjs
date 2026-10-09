@@ -48,7 +48,7 @@ async function loadComposedRules(){
 }
 
 async function openManager(browser,user,viewport){
-  const context=await browser.newContext({viewport});
+  const context=await browser.newContext(process.env.ZMOBILE&&user==="daniel"?{viewport,screen:viewport,isMobile:true,hasTouch:true,deviceScaleFactor:2}:{viewport});
   const log={errors:[],forbidden:[],productionRuntime:0,taps:[]};
   await context.exposeBinding("__cmsJourneyTap",(_source,tap)=>{log.taps.push(tap);});
   await context.addInitScript(()=>{window.addEventListener("click",event=>{if(!event.isTrusted)return;const button=event.target&&event.target.closest&&event.target.closest("button");if(button&&typeof window.__cmsJourneyTap==="function")void window.__cmsJourneyTap({id:button.id||"",text:(button.textContent||"").replace(/\s+/g," ").trim()});},true);});
@@ -226,10 +226,11 @@ async function playTransferSeason(daniel,nik,season,tokenD,tokenN){
   for(const m of [daniel,nik])await m.page.getByRole("button",{name:"CONTINUE TO SHARED SEASON RESULTS",exact:true}).waitFor({state:"visible",timeout:30000});
 }
 
+const ZSIZES=[[360,640],[393,852],[412,915],[600,960],[768,1024],[800,1280],[820,1180],[1024,1366],[1280,800],[1366,768],[915,412],[1024,768]];
 async function zLayout(m,phase){
   const orig=m.page.viewportSize();const rows=[];
-  for(const [w,h] of ZSIZES){
-    await m.page.setViewportSize({width:w,height:h});await m.page.waitForTimeout(700);
+  for(const [w,h] of process.env.ZMOBILE?[[orig.width,orig.height]]:ZSIZES){
+    if(!process.env.ZMOBILE)await m.page.setViewportSize({width:w,height:h});await m.page.waitForTimeout(process.env.ZMOBILE?3000:700);
     await m.page.screenshot({path:path.join(ARTIFACTS,`layout-${phase}-${w}x${h}-${m.user}.png`)});
     rows.push(await m.page.evaluate(([w,h])=>{
       const vis=el=>{if(!el)return false;const r=el.getBoundingClientRect();return r.width>0&&r.height>0&&getComputedStyle(el).visibility!=="hidden";};
@@ -240,10 +241,14 @@ async function zLayout(m,phase){
         const cx=Math.min(Math.max(r.left+r.width/2,0),innerWidth-1),cy=r.top+r.height/2;
         if(cy>=0&&cy<innerHeight){const hit=document.elementFromPoint(cx,cy);if(hit&&hit!==el&&!el.contains(hit)&&!hit.contains(el))out.push(`${el.id||el.textContent.trim().slice(0,20)}:covered-by(${hit.id||hit.className||hit.tagName})`);}
       }
-      const doc=document.documentElement;return {size:`${w}x${h}`,hscroll:doc.scrollWidth>innerWidth+1,issues:out.slice(0,12)};
+      const lock=document.getElementById("completeTransferChallenge"),lr=lock&&vis(lock)?lock.getBoundingClientRect():null;
+      if(lr)for(const el of document.querySelectorAll("#transferChallenge .signing-row input, #transferChallenge .guess-row input, #transferChallenge .guess-row select")){if(!vis(el))continue;const r=el.getBoundingClientRect();if(r.bottom>lr.top+1&&r.top<lr.bottom-1&&r.right>lr.left&&r.left<lr.right)out.push(`${el.id}:under-lock(${Math.round(r.top)}-${Math.round(r.bottom)} vs ${Math.round(lr.top)})`);}
+      const chain=[];for(let e=lock;e&&e!==document.body;e=e.parentElement){const cs=getComputedStyle(e);chain.push(`${e.id||e.className}|${cs.position}|${cs.overflowY}|${cs.transform!=="none"?"T":""}${cs.contain!=="none"?"C:"+cs.contain:""}|${Math.round(e.getBoundingClientRect().top)}-${Math.round(e.getBoundingClientRect().bottom)}`);}
+      if(lr)out.push("CHAIN "+chain.join(" > "));
+      const doc=document.documentElement;return {size:`${w}x${h}`,hscroll:doc.scrollWidth>innerWidth+1,issues:out.slice(0,20)};
     },[w,h]));
   }
-  await m.page.setViewportSize(orig);
+  if(!process.env.ZMOBILE)await m.page.setViewportSize(orig);
   console.log("ZLAYOUT "+phase+" "+JSON.stringify(rows));
 }
 async function zProbe(tag,m,other){

@@ -36,6 +36,14 @@ const docUrl=p=>`${FIRESTORE}/v1/projects/${PROJECT}/databases/(default)/documen
 async function admin(p){const r=await fetch(docUrl(p),{headers:{Authorization:"Bearer owner"}});return r.status===200?r.json():null;}
 const field=(doc,...keys)=>keys.reduce((v,k)=>v&&(v.mapValue?v.mapValue.fields[k]:v.fields?v.fields[k]:undefined),doc);
 const ids=arr=>(arr&&arr.arrayValue&&arr.arrayValue.values||[]).map(v=>v.stringValue);
+// Studio Z4: the pair's session pointer, read and written as a signed-in manager (their own emulator ID token).
+async function idToken(m){return m.page.evaluate(()=>{for(const k of Object.keys(sessionStorage))if(k.startsWith("firebase:authUser:"))return JSON.parse(sessionStorage.getItem(k)).stsTokenManager.accessToken;return null;});}
+async function offerGet(m,rid){const r=await fetch(docUrl(`rivalries/${rid}/sessionOffers/current`),{headers:{Authorization:`Bearer ${await idToken(m)}`}});return r.status;}
+async function offerWrite(m,rid,sessionId,uid,expiresAt){
+  const name=`projects/${PROJECT}/databases/(default)/documents/rivalries/${rid}/sessionOffers/current`;
+  const body={writes:[{update:{name,fields:{schemaVersion:{integerValue:"1"},sessionId:{stringValue:sessionId},hostAccountId:{stringValue:uid},expiresAt:{timestampValue:expiresAt}}},updateTransforms:[{fieldPath:"updatedAt",setToServerValue:"REQUEST_TIME"}]}]};
+  const r=await fetch(`${FIRESTORE}/v1/projects/${PROJECT}/databases/(default)/documents:commit`,{method:"POST",headers:{Authorization:`Bearer ${await idToken(m)}`,"Content-Type":"application/json"},body:JSON.stringify(body)});return r.status;
+}
 
 async function loadComposedRules(){
   const probe=docUrl("rivalries/probe");
@@ -759,6 +767,21 @@ async function main(){
     assert.equal(await sessionOf(nik),sessionCode2,"Nik joined Daniel's R2 session without a code");
     for(const m of [nik,daniel])await m.page.locator("#leagueWheelScreen").waitFor({state:"visible",timeout:30000});
     ok("J12.1","after terminal R1, Daniel and Nik created distinct R2, both indexes are [R1,R2], and both reached R2 league wheel");
+    {
+      const offer=await admin(`rivalries/${R2}/sessionOffers/current`);
+      assert.equal(field(offer,"sessionId").stringValue,sessionCode2,"R2 pointer names Daniel's R2 session");
+      const exp=field(offer,"expiresAt").timestampValue,uidS=await accountId(managers.find(m=>m.user==="stranger"));
+      const stranger=managers.find(m=>m.user==="stranger");
+      assert.equal(await offerGet(nik,R2),200,"Nik reads the pair's pointer");
+      assert.equal(await offerGet(stranger,R2),403,"a third account cannot read the pointer");
+      assert.equal(await offerWrite(stranger,R2,sessionCode2,uidS,exp),403,"a third account cannot write the pointer");
+      assert.equal(await offerWrite(nik,R2,sessionCode2,uidN,exp),403,"Nik is not the host of Daniel's session and cannot point at it");
+      assert.equal(await offerWrite(daniel,R2,sessionCode2,uidN,exp),403,"the host cannot name someone else as host");
+      assert.equal(await offerWrite(daniel,R2,sessionCode,uidD,exp),403,"the host cannot point R2 at another rivalry's session");
+      assert.equal(await offerWrite(daniel,R2,sessionCode2,uidD,new Date(Date.now()+60000).toISOString()),403,"the expiry must be the session's own");
+      assert.equal(await offerWrite(daniel,R2,sessionCode2,uidD,exp),200,"control: the host re-publishes the exact pointer");
+    }
+    ok("J12.2","session pointer: the pair reads it; a third account cannot read or write it; only the host can point it at their own live session with its own expiry");
     await shot(daniel,"j12-r2");await shot(nik,"j12-r2");
 
     // J4..J12: added by the worker, one section per step (JOB-16 §4).
