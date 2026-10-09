@@ -117,10 +117,13 @@ const positiveInteger=value=>Number.isSafeInteger(value)&&value>0;
 const sha=value=>typeof value==='string'&&/^[0-9a-f]{40}$/.test(value);
 const validRoute=route=>route&&typeof route.profile==='string'&&route.profile.trim().length>0&&
   ['tests','proofs'].every(key=>Array.isArray(route[key])&&route[key].every(id=>typeof id==='string'&&id.length>0))&&typeof route.operations==='boolean';
+// The finalize steps set no GATE_EVENT, so fall back to the runner's own GITHUB_EVENT_NAME: lanes and the
+// seal must bind the same base (pull_request.base.sha, never the previous PR head in payload.before).
 export function baseFromEnv(env=process.env){
   let payload={};
   if(env.GITHUB_EVENT_PATH)payload=JSON.parse(fs.readFileSync(env.GITHUB_EVENT_PATH,'utf8'));
-  return env.GATE_EVENT==='pull_request'?(env.GATE_BASE_SHA||payload.pull_request?.base?.sha||null):(env.GATE_BEFORE_SHA||payload.before||null);
+  const event=env.GATE_EVENT||env.GITHUB_EVENT_NAME||null;
+  return event==='pull_request'?(env.GATE_BASE_SHA||payload.pull_request?.base?.sha||null):(env.GATE_BEFORE_SHA||payload.before||null);
 }
 
 export function buildLaneRecord({lane,headSha,baseSha,runId,runAttempt,route,steps,jobStatus}){

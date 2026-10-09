@@ -114,6 +114,32 @@ let checks=0;const ok=label=>{checks++;void label;};
     assert.equal(S.baseFromEnv({GATE_EVENT:'push',GITHUB_EVENT_PATH:eventFile}),base);
   }finally{fs.rmSync(temp,{recursive:true,force:true});}
   ok('CLI evidence binding and unavailable PR lookup');
+  // The workflow's finalize steps set no GATE_EVENT: a synchronize payload's `before` is the previous PR
+  // head and an opened payload has none, so the lanes must still bind pull_request.base.sha like the seal.
+  const realTemp=fs.mkdtempSync(path.join(os.tmpdir(),'gate-finalize-env-contract-'));
+  try{
+    const previousHead='c'.repeat(40);
+    for(const payload of [{action:'synchronize',before:previousHead,pull_request:{base:{sha:base},head:{sha:head}}},{action:'opened',pull_request:{base:{sha:base},head:{sha:head}}}]){
+      const eventFile=path.join(realTemp,`${payload.action}.json`);fs.writeFileSync(eventFile,JSON.stringify(payload));
+      const finalizeBase=S.baseFromEnv({GITHUB_EVENT_NAME:'pull_request',GITHUB_EVENT_PATH:eventFile});
+      const sealBase=S.baseFromEnv({GITHUB_EVENT_NAME:'pull_request',GATE_EVENT:'pull_request',GITHUB_EVENT_PATH:eventFile});
+      assert.equal(finalizeBase,base,`${payload.action}: finalize binds the PR base, not payload.before`);
+      assert.equal(finalizeBase,sealBase,`${payload.action}: lane and seal bases agree`);
+      const runLanes=Object.fromEntries(S.LANE_IDS.map(lane=>[lane,S.buildLaneRecord({lane,headSha:head,baseSha:finalizeBase,runId,runAttempt:1,route,steps:fullSteps(lane),jobStatus:'success'})]));
+      assert.equal(S.evaluateSeal({event:'pull_request',draft:false,headSha:head,baseSha:sealBase,prLiveHead:head,route,needs:needs('success'),lanes:runLanes,runId,runAttempt:1}).verdict,'PASS',`${payload.action}: a clean PR run seals`);
+    }
+    const pushFile=path.join(realTemp,'push.json');fs.writeFileSync(pushFile,JSON.stringify({before:previousHead,after:head}));
+    assert.equal(S.baseFromEnv({GITHUB_EVENT_NAME:'push',GITHUB_EVENT_PATH:pushFile}),previousHead);
+    const finalizeSteps=Object.values(readWorkflow(root,'.github/workflows/showdown-gate.yml').jobs).flatMap(job=>job.steps||[]).filter(step=>/showdown-gate\.mjs finalize/.test(String(step.run||'')));
+    assert.equal(finalizeSteps.length,S.LANE_IDS.length,'every lane records its result');
+    for(const step of finalizeSteps){
+      const env=step.env||{};
+      assert.ok(!('GITHUB_EVENT_NAME' in env),'finalize keeps the runner-provided GITHUB_EVENT_NAME');
+      assert.ok(!('GATE_EVENT' in env)||/github\.event_name/.test(String(env.GATE_EVENT)),'a finalize GATE_EVENT can only be the run event');
+      assert.ok(!('GATE_BEFORE_SHA' in env)||'GATE_EVENT' in env,'finalize cannot bind payload.before without knowing the event');
+    }
+  }finally{fs.rmSync(realTemp,{recursive:true,force:true});}
+  ok('finalize binds the PR base under the workflow env');
   // Lane selection never narrows the route.
   for(const files of [['README.md'],['css/app.css'],['js/stage4ConnectedRivalry.js'],[]]){
     const r=(await import(path.join(root,'scripts/pos20-impact-router.mjs'))).routeFiles(files);
