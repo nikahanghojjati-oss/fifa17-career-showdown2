@@ -60,7 +60,8 @@
   const APP={legacy:"legacy",rivalryStatistics:"statistics"};
   const DIR={legacy:"legacy",rivalryStatistics:"rivalry-statistics"};
   const BOOT={legacy:"ShowdownLegacyBoot",rivalryStatistics:"ShowdownRivalryStatisticsBoot"};
-  const sources={},getters={},resources={},originalMarkup={},tokens={};
+  const sources={},sourceKeys={},getters={},resources={},originalMarkup={},reloads={};
+  const LOAD_TIMEOUT=15000,RELOAD_INTERVAL=2000;
   const LOADING=rlFreeze({status:"loading"}),UNAVAILABLE=rlFreeze({status:"unavailable"});
   let registration=null,installed=false;
   const screens=()=>root.CareerModeV10Screens;
@@ -87,7 +88,7 @@
     const model=getters[screen]?.();
     if(model!=null)return model;
     // Signed in or not, Team V draws the screen; only Legacy's data tools page keeps the app's own markup.
-    return screen==="legacy"&&root.careerModeLegacyDataTools===true?null:(sources[screen]??UNAVAILABLE);
+    return screen==="legacy"&&root.careerModeLegacyDataTools===true?null:(sourceKeys[screen]===context()?sources[screen]??UNAVAILABLE:UNAVAILABLE);
   }
   function clean(screen){
     if(screen==="legacy"){root.LEGACY_BOOT?.cleanup?.();root.LegacyFixture?.stageController?.destroy?.();}
@@ -105,6 +106,10 @@
     if(screen==="legacy")root.LEGACY_BOOT={fixtures:data,platemap:resources[screen].map};
     else root.RIVALRY_BOOT={fixtures:data,platemap:resources[screen].map};
     root[BOOT[screen]]();
+    if(screen==="legacy"&&frame.status==="unavailable"){
+      const banner=host.querySelector("#legacyStateBanner"),retry=banner&&root.document.createElement?.("button");
+      if(retry){retry.type="button";retry.className="sd-btn sd-btn--secondary";retry.textContent="TRY AGAIN";retry.style.gridColumn="1 / -1";retry.style.justifySelf="center";retry.addEventListener("click",()=>{void refresh(screen).catch(report);});banner.appendChild(retry);}
+    }
     const title=host.querySelector(screen==="legacy"?"#legacyHeading":"#statisticsScreenTitle");
     if(title){title.tabIndex=-1;title.setAttribute("data-route-focus-target","true");host.setAttribute("aria-labelledby",title.id);}
     if(screen==="rivalryStatistics"){
@@ -129,7 +134,18 @@
           frame:()=>source(screen),mount:(model,host)=>draw(screen,model,host),unmount:host=>undraw(screen,host)
         });
       }
-      if(!installed){installed=true;for(const event of ["career-mode-online-identity-change","career-mode-connected-account-state-change","career-mode-shared-history-convergence-state-change","career-mode-shared-terminal-close-state-change"]){root.addEventListener?.(event,()=>{for(const screen of Object.keys(APP))if(screens().isMounted(APP[screen]))void refresh(screen).catch(report);});}}
+      if(!installed){
+        installed=true;
+        const events={"career-mode-online-identity-change":"CareerModeOnlinePlayerIdentity","career-mode-connected-account-state-change":"CareerModeSparkConnectedAccount","career-mode-shared-history-convergence-state-change":"CareerModeProductionSharedHistoryConvergence","career-mode-shared-terminal-close-state-change":"CareerModeProductionSharedTerminalClose"};
+        for(const [event,provider] of Object.entries(events)){
+          const signature=value=>JSON.stringify([context(),value?.phase??null,value?.status??null]);
+          let last=signature(state(provider));
+          root.addEventListener?.(event,change=>{
+            const next=signature(change?.detail??state(provider));if(next===last)return;last=next;
+            for(const screen of Object.keys(APP))if(screens().isMounted(APP[screen]))void refresh(screen,true).catch(report);
+          });
+        }
+      }
       return api;
     })().catch(error=>{registration=null;throw error;});
     return registration;
@@ -139,7 +155,7 @@
   // before; the last result is kept in memory for the current account, manager and pair only.
   // careerLoadSequence orders overlapping loads: only the newest started load may publish the shared cache.
   let careerCache=null,careerLoadSequence=0;
-  async function rlLoadCareerModel(){
+  async function rlLoadCareerModel(canPublish=()=>true){
     const key=context(),sequence=++careerLoadSequence;
     await modelDependencies();
     const active=root.CareerModeSharedActiveShowdownAdapter.buildActiveShowdownViews(rlSnapshot());
@@ -157,25 +173,56 @@
         model=result.model??UNAVAILABLE;
       }
     }
-    if(context()===key&&sequence===careerLoadSequence){careerCache={key,model};if(typeof root.CustomEvent==="function")root.dispatchEvent?.(new root.CustomEvent("career-mode-online-career-model-change"));}
+    if(canPublish()&&context()===key&&sequence===careerLoadSequence){careerCache={key,model};if(typeof root.CustomEvent==="function")root.dispatchEvent?.(new root.CustomEvent("career-mode-online-career-model-change"));}
     return model;
   }
   const rlCachedCareerModel=()=>careerCache&&careerCache.key===context()?careerCache.model:null;
-  async function refresh(screen){
-    const key=context(),token=(tokens[screen]??0)+1;tokens[screen]=token;
+  function refresh(screen,event=false){
+    const key=context(),reload=reloads[screen]??(reloads[screen]={flight:null,timer:null,dirty:false,lastStarted:-Infinity});
     const supplied=getters[screen]?.();
     if(supplied!=null){screens().invalidate(APP[screen]);return screens().show(APP[screen]);}
-    sources[screen]=LOADING;await screens().show(APP[screen]);
-    try{
-      let model;
-      if(screen==="rivalryStatistics"){
-        await modelDependencies();
-        const active=root.CareerModeSharedActiveShowdownAdapter.buildActiveShowdownViews(rlSnapshot());
-        model={...active.rivalry,lifecycle:active.classification};
-      }else model=await rlLoadCareerModel();
-      if(tokens[screen]!==token||context()!==key)return false;
-      sources[screen]=model;return screens().show(APP[screen]);
-    }catch(error){if(tokens[screen]!==token||context()!==key)return false;sources[screen]=UNAVAILABLE;await screens().show(APP[screen]);report(error);return false;}
+    // Never retain another account's frame while its old request finishes.
+    if(sourceKeys[screen]!==key){
+      sourceKeys[screen]=key;sources[screen]=LOADING;
+      if(reload.flight||event&&Date.now()-reload.lastStarted<RELOAD_INTERVAL)void screens().show(APP[screen]).catch(report);
+    }
+    if(reload.flight){if(event||reload.flight.key!==key)reload.dirty=true;return reload.flight.promise;}
+    const delay=RELOAD_INTERVAL-(Date.now()-reload.lastStarted);
+    if(event&&delay>0){reload.dirty=true;scheduleReload(screen,reload,delay);return Promise.resolve(false);}
+    if(reload.timer!==null){root.clearTimeout(reload.timer);reload.timer=null;}
+    reload.dirty=false;reload.lastStarted=Date.now();
+    const flight={key,alive:true,promise:null};reload.flight=flight;
+    flight.promise=(async()=>{
+      let timeout;
+      try{
+        // Only first entry shows LOADING. Reloads leave the last ready/partial/error frame visible.
+        await screens().show(APP[screen]);
+        const deadline=new Promise((_,reject)=>{timeout=root.setTimeout(()=>{flight.alive=false;reject(new Error("RIVALRY_LEGACY_LOAD_TIMEOUT"));},LOAD_TIMEOUT);});
+        const loading=(async()=>{
+          if(screen==="rivalryStatistics"){
+            await modelDependencies();
+            const active=root.CareerModeSharedActiveShowdownAdapter.buildActiveShowdownViews(rlSnapshot());
+            return {...active.rivalry,lifecycle:active.classification};
+          }
+          return rlLoadCareerModel(()=>flight.alive);
+        })();
+        const model=await Promise.race([loading,deadline]);
+        if(context()!==key)return false;
+        sources[screen]=model;return await screens().show(APP[screen]);
+      }catch(error){if(context()!==key)return false;sources[screen]=UNAVAILABLE;await screens().show(APP[screen]);report(error);return false;}
+      finally{
+        flight.alive=false;root.clearTimeout(timeout);reload.flight=null;
+        if(reload.dirty)scheduleReload(screen,reload,Math.max(0,RELOAD_INTERVAL-(Date.now()-reload.lastStarted)));
+      }
+    })();
+    return flight.promise;
+  }
+  function scheduleReload(screen,reload,delay){
+    if(reload.timer!==null)return;
+    reload.timer=root.setTimeout(()=>{
+      reload.timer=null;const dirty=reload.dirty;reload.dirty=false;
+      if(dirty&&screens().isMounted(APP[screen]))void refresh(screen,true).catch(report);
+    },delay);
   }
   function wrap(screen){
     const name=screen==="legacy"?"renderLegacy":"renderRivalryStatistics",original=root[name];
