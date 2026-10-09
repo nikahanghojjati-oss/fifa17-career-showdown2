@@ -14,31 +14,31 @@
       "id": "S1",
       "lead": "League points cap is 114 everywhere though the Bundesliga maximum is 102",
       "state": "confirmed",
-      "job": ""
+      "job": "1055"
     },
     {
       "id": "S2",
       "lead": "Season 3+ simultaneous results",
       "state": "to recheck",
-      "job": ""
+      "job": "1056"
     },
     {
       "id": "S3",
       "lead": "Local Reconciliation stuck waiting",
       "state": "to recheck",
-      "job": ""
+      "job": "1057"
     },
     {
       "id": "S4",
       "lead": "Transfer timers mismatched across devices",
       "state": "to recheck",
-      "job": ""
+      "job": "1057"
     },
     {
       "id": "S5",
       "lead": "A slow screen overwrites a newer tap",
       "state": "to recheck",
-      "job": ""
+      "job": "1056"
     }
   ]
 }

@@ -1213,6 +1213,45 @@
      "place": "ChatGPT project \"Career Mode Showdown\", new normal chat",
      "prompt": "",
      "note": "exact one-file text job; ticket jobs/JOB-1054.md"
+    },
+    {
+     "id": "1055",
+     "lane": "gpt-chat",
+     "note": "S1 confirmed; ticket jobs/JOB-1055.md",
+     "team": "blue",
+     "model": "GPT-6 Sol",
+     "effort": "High",
+     "place": "ChatGPT project \"Career Mode Showdown\", new normal chat",
+     "prompt": "Job 1055. Read the ticket at https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/gameplay-v1/project-documents/gameplay-factory/jobs/JOB-1055.md and do exactly what it says in this one turn. Start from branch gameplay/bug-list-1, push the branch the ticket names, open the PR into gameplay/bug-list-1, and end with 'Job 1055 done, PR <link>.'",
+     "title": "Season Results points cap uses the real league size (Sol lead S1)",
+     "order": 27,
+     "state": "ready"
+    },
+    {
+     "id": "1056",
+     "lane": "gpt-chat",
+     "note": "ticket jobs/JOB-1056.md",
+     "team": "blue",
+     "model": "GPT-6 Sol",
+     "effort": "High",
+     "place": "ChatGPT project \"Career Mode Showdown\", new normal chat",
+     "prompt": "Job 1056. Read the ticket at https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/gameplay-v1/project-documents/gameplay-factory/jobs/JOB-1056.md and do exactly what it says in this one turn. Write only the one report file on branch qa/sol-leads-recheck, and end with 'Job 1056 done, report on qa/sol-leads-recheck.'",
+     "title": "Recheck Sol leads S2 and S5 by reading the code",
+     "order": 28,
+     "state": "ready"
+    },
+    {
+     "id": "1057",
+     "lane": "gpt-chat",
+     "note": "ticket jobs/JOB-1057.md",
+     "team": "blue",
+     "model": "GPT-6 Sol",
+     "effort": "High",
+     "place": "ChatGPT project \"Career Mode Showdown\", new normal chat",
+     "prompt": "Job 1057. Read the ticket at https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/gameplay-v1/project-documents/gameplay-factory/jobs/JOB-1057.md and do exactly what it says in this one turn. Write only the one report file on branch qa/sol-leads-recheck, and end with 'Job 1057 done, report on qa/sol-leads-recheck.'",
+     "title": "Recheck Sol leads S3 and S4 by reading the code",
+     "order": 29,
+     "state": "ready"
     }
    ]
   },
