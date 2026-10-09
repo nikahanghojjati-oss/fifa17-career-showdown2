@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-08 10:09 PM Boston time (EDT)",
+ "generated": "2026-10-08 10:12 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -284,8 +284,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "0a227ab",
-  "head_boston": "Thu 8 Oct 10:06 PM",
+  "head": "a26b8ba",
+  "head_boston": "Thu 8 Oct 10:10 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": true,
   "open_for_g": [],
@@ -326,8 +326,8 @@
      "sha": "2e22269bdcfb5c720b28fc83dd689fea6d9fbd81",
      "updated": "2026-10-09T02:02:37Z",
      "gates": {
-      "passed": 18,
-      "running": 1,
+      "passed": 19,
+      "running": 0,
       "failed": 0,
       "cancelled": 0
      }
@@ -338,7 +338,7 @@
   "physio": {
    "state": "clear",
    "line": "All clear: every check has a machine.",
-   "gate": "Gate #427: L1✓ L2… L3… L4… L5✓ L6✓ · seal pending · POS20 #427 10/16",
+   "gate": "Gate #427: L1✓ L2✓ L3✓ L4✓ L5✓ L6✓ · seal PASS · POS20 #427 12/16",
    "source": "physio"
   },
   "v_headline": "Board 1 (visual package): 238 of 238 jobs done and checked",
@@ -1004,8 +1004,8 @@
     "sha": "2e22269bdcfb5c720b28fc83dd689fea6d9fbd81",
     "updated": "2026-10-09T02:02:37Z",
     "gates": {
-     "passed": 18,
-     "running": 1,
+     "passed": 19,
+     "running": 0,
      "failed": 0,
      "cancelled": 0
     }
