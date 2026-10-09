@@ -1,6 +1,6 @@
 {
  "_how": "One shared job counter for Team G and Team V (Nik, 2026-10-05). Claim with tools/claim_number.py only. A number is used once, ever. CONTRACT.md section 10.",
- "next": 1053,
+ "next": 1054,
  "claims": [
   {
    "number": 1001,
@@ -314,6 +314,12 @@
    "team": "G",
    "title": "Transfer Rules accept option ids the reader rejects (Olympiad V7)",
    "claimed": "2026-10-09T22:02:12Z"
+  },
+  {
+   "number": 1053,
+   "team": "G",
+   "title": "Restore on an empty device respects Keep current (Olympiad V5)",
+   "claimed": "2026-10-09T22:30:18Z"
   }
  ]
 }
