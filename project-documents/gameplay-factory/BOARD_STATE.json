@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-09 9:17 AM Boston time (EDT)",
+ "generated": "2026-10-09 9:18 AM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -317,7 +317,22 @@
    "revision": "1.9.1-r65",
    "when": "2026-10-09T06:48:52Z",
    "subject": "Release r65: career history fixes, auto close, plain words (#436)",
-   "fixes": [],
+   "fixes": [
+    {
+     "pr": 440,
+     "title": "Release r66: Season Results on phones, closed Final Winner on both phones",
+     "draft": false,
+     "branch": "release/r66",
+     "sha": "30a05b5237db0f03a1c025772ce6f2d681249542",
+     "updated": "2026-10-09T13:18:07Z",
+     "gates": {
+      "passed": 0,
+      "running": 7,
+      "failed": 0,
+      "cancelled": 0
+     }
+    }
+   ],
    "today": [
     {
      "pr": 436,
@@ -703,7 +718,7 @@
   "**r62 is live.** On the laptop, close every game tab in Chrome and reopen the game; if Settings still looks clipped, do it once more."
  ],
  "now": {
-  "moving": 40,
+  "moving": 41,
   "next": 4,
   "nik": 2,
   "later": 5,
@@ -1119,7 +1134,22 @@
     ]
    }
   },
-  "fixes": []
+  "fixes": [
+   {
+    "pr": 440,
+    "title": "Release r66: Season Results on phones, closed Final Winner on both phones",
+    "draft": false,
+    "branch": "release/r66",
+    "sha": "30a05b5237db0f03a1c025772ce6f2d681249542",
+    "updated": "2026-10-09T13:18:07Z",
+    "gates": {
+     "passed": 0,
+     "running": 7,
+     "failed": 0,
+     "cancelled": 0
+    }
+   }
+  ]
  },
  "jobs": [
   {
