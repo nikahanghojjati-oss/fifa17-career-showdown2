@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-09 12:24 AM Boston time (EDT)",
+ "generated": "2026-10-09 12:31 AM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -336,8 +336,8 @@
    "today": []
   },
   "physio": {
-   "state": "clear",
-   "line": "All clear: every check has a machine.",
+   "state": "barking",
+   "line": "Barking: POS20 on #433 has waited 10 min for a machine; Gameplay Fast has waited 6 min for a machine; Showdown Gate on #424 has waited 6 min for a machine; POS20 on #424 has waited 6 min for a machine; POS20 on #422 has waited 6 min for a machine.",
    "gate": "Gate #429: L1✓ L2✓ L3✓ L4✓ L5✗ L6✓ · seal FAIL (test) · POS20 #429 12/16",
    "source": "physio"
   },

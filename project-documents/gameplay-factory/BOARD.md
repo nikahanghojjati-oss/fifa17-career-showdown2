@@ -1,10 +1,10 @@
 # Bug hunt board
 
-Updated Fri 9 Oct, 12:24 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
+Updated Fri 9 Oct, 12:31 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r63** (main `2b8b043`, Thu 8 Oct 10:40 PM)
 
-🩺 **All clear: every check has a machine.** · Gate #429: L1✓ L2✓ L3✓ L4✓ L5✗ L6✓ · seal FAIL (test) · POS20 #429 12/16
+🐕 **Barking: POS20 on #433 has waited 10 min for a machine; Gameplay Fast has waited 6 min for a machine; Showdown Gate on #424 has waited 6 min for a machine; POS20 on #424 has waited 6 min for a machine; POS20 on #422 has waited 6 min for a machine.** · Gate #429: L1✓ L2✓ L3✓ L4✓ L5✗ L6✓ · seal FAIL (test) · POS20 #429 12/16
 
 ## Jobs
 
@@ -16,14 +16,13 @@ Updated Fri 9 Oct, 12:24 AM Boston time. Bug hunting only, no new features until
 
 **Next for you, in this order**
 
-1. **1037** Career history: never-joined codes and an unknown current Showdown no longer break Legacy, Trophy Room, Stats: Codex cloud, branch gameplay/bug-list-1: type 'Job 1037' (see the lead's thread) · root cause verified on the emulator; ticket jobs/JOB-1037.md
-2. **1038** Final winner closes the Showdown so it counts in the career: Codex cloud, branch gameplay/bug-list-1: type 'Job 1038' (see the lead's thread) · Nik chose Auto close (04:09 UTC)
+1. **1038** Final winner closes the Showdown so it counts in the career: Codex cloud, branch gameplay/bug-list-1: type 'Job 1038' (see the lead's thread) · Nik chose Auto close (04:09 UTC)
 
 **Waiting on something else**
 
 - **1041** Season Results on phone: ACKNOWLEDGE reachable, no inner scroll box, title clear, photos aligned · waiting on r64
 
-**Done, in the next release:** 1001, 1003, 1004, 1005, 1009, 1014, 1015, 1020, 1021, 1039, Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8
+**Done, in the next release:** 1001, 1003, 1004, 1005, 1009, 1014, 1015, 1020, 1021, 1037, 1039, Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8
 
 ## Goals for Thursday
 
