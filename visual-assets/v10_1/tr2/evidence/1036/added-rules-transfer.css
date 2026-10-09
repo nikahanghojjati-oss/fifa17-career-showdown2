@@ -145,6 +145,11 @@
   #transferChallenge .tw-host .rail { gap: 16px; }
   #transferChallenge .tw-host .rail li { font-size: 14px; }
   #transferChallenge .tw-host .rail li:not(.active) .label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+  /* hover and keyboard focus keep the phone colours (the app's own button hover turns every .menuButton dark grey, which made LOCK look disabled) */
+  #transferChallenge .tw-host .btn-lock.sd-btn--primary:is(:hover, :focus-visible):not(:disabled) { background: var(--sd-gold-500); filter: none; transform: none; }
+  #transferChallenge .tw-host .btn-end.sd-btn--secondary:is(:hover, :focus-visible):not(:disabled),
+  #transferChallenge .tw-host .btn-continue.sd-btn--secondary:is(:hover, :focus-visible):not(:disabled) { background: rgba(8,9,12,.88); filter: none; transform: none; }
   /* wider than 900 px the app's top bar (52 px) is shown over the screen */
   @media (min-width: 901px) {
     #transferChallenge .tw-host { --tb-top: calc(max(8px, env(safe-area-inset-top)) + 60px); }

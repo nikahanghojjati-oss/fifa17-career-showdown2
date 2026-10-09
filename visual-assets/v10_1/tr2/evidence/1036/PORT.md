@@ -16,8 +16,8 @@ Do not touch `visual-assets/v10_1/tr2/slice-02-plate/plate.css` or `plate.js` (b
 
 - The plate and home scripts only switch to their phone composition at max-width 760, so an upright tablet gets their desktop DOM. The blocks re-flow that same DOM (same ids, same text, same handlers) as a column, like the phone does, at tablet scale.
 - The phone hero pictures (`ENV_TRANSFER_PHONE_V1`, `OVL_TRANSFER_DANIEL_PHONE_V2`, `OVL_TRANSFER_NIK_PHONE_V2`; `ENV_HOME_PHONE_V1`, `OVL_HOME_DANIEL_PHONE_V2`, `OVL_HOME_NIK_PHONE_V2`) are set as CSS background images on the existing `<picture>` boxes, because their `<source media>` only matches phones. The `<img>` inside is hidden. Relative `url(../visual-assets/...)` resolves from `css/`, the folder both files are loaded from. No new image was generated.
-- Transfer: figures are 30% of the screen height (limit 35%), Daniel LEFT and Nik RIGHT. Status band, then Daniel's own glass first (fields 52 to 64 px tall, 18 px text), Nik's sealed strip, LOCK / REQUEST EARLY END / CONTINUE fixed right under them (56 px), HOME and REFRESH last (48 px). The glass grows with the spare height, so there is no dead band at 768x1024, 820x1180, 834x1194 or 1024x1366.
-- Home: managers on top with the CM17 lockup, Continue as the dominant full-width gold tile, two rows of three tiles with the art in the right half, centred vertically and fully inside (square box `min(100% - 24px, 46cqw)`, trophy and player keep their 2:3 ratio), one soundtrack strip (vinyl, title, PLAY, MUTE, TRACKS), then the shared bottom bar. The track sheet opens in three columns. The identity chips are 44 px tall.
+- Transfer: figures are 30% of the screen height (limit 35%), Daniel LEFT and Nik RIGHT. Status band, then Daniel's own glass first (fields 52 to 64 px tall, 18 px text), Nik's sealed strip, LOCK / REQUEST EARLY END / CONTINUE fixed right under them (56 px), HOME and REFRESH last (48 px). LOCK MY GUESSES / LOCK MY SIGNINGS are solid gold in the empty-field state, exactly like the phone (the app's `.menuButton:hover` turned them dark grey, so the block pins gold on hover and focus; REQUEST EARLY END and CONTINUE keep the phone's dark glass with gold text the same way). The glass grows with the spare height, so there is no dead band at 768x1024, 820x1180, 834x1194 or 1024x1366.
+- Home: managers on top with the CM17 lockup, Continue as the dominant full-width gold tile, two rows of three tiles with the art in the right half, centred vertically and fully inside (square box `min(100% - 24px, 46cqw)`, trophy and player keep their 2:3 ratio), one soundtrack strip (vinyl, title, PLAY, MUTE, TRACKS), then the shared bottom bar. The CM17 wordmark, kicker and tagline sit on the lower edge of the hero, just above CONTINUE, below both pointing hands and both faces (hero is 40% of the screen height). The track sheet opens in three columns. The two identity chips are 44 px tall; they use the shared shell's `html[data-v10-screen="mainMenu"]` selector, because `css/v10Shell.css` out-ranks a plain `#app #topHeader` rule.
 - Home art uses `aspect-ratio` and not `object-fit`, because `tests/contracts/v10-home-contracts.cjs` (check 11) forbids the word `object-fit` anywhere in `css/homeV10.css`.
 - Above 900 px wide the app shows its 52 px top bar and no bottom bar: the Home block sets `--tb-nav-t: 52px` and `--tb-nav-b: 28px`, the Transfer block moves the figures down by 60 px.
 
@@ -199,6 +199,11 @@ No new art is needed. The phone hero pictures scale up to 820 px and 1024 px wid
   #transferChallenge .tw-host .rail { gap: 16px; }
   #transferChallenge .tw-host .rail li { font-size: 14px; }
   #transferChallenge .tw-host .rail li:not(.active) .label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+  /* hover and keyboard focus keep the phone colours (the app's own button hover turns every .menuButton dark grey, which made LOCK look disabled) */
+  #transferChallenge .tw-host .btn-lock.sd-btn--primary:is(:hover, :focus-visible):not(:disabled) { background: var(--sd-gold-500); filter: none; transform: none; }
+  #transferChallenge .tw-host .btn-end.sd-btn--secondary:is(:hover, :focus-visible):not(:disabled),
+  #transferChallenge .tw-host .btn-continue.sd-btn--secondary:is(:hover, :focus-visible):not(:disabled) { background: rgba(8,9,12,.88); filter: none; transform: none; }
   /* wider than 900 px the app's top bar (52 px) is shown over the screen */
   @media (min-width: 901px) {
     #transferChallenge .tw-host { --tb-top: calc(max(8px, env(safe-area-inset-top)) + 60px); }
@@ -217,7 +222,7 @@ No new art is needed. The phone hero pictures scale up to 820 px and 1024 px wid
   /* @@ = #mainMenu.v10Home (added by tools/build_home.py). */
 
   /* frame: hero, hub, nav reserve (the phone's three zones at tablet scale) */
-  #mainMenu.v10Home { --tb-nav-b: calc(56px + env(safe-area-inset-bottom)); --tb-nav-t: 0px; --tb-hero: 37dvh; --tb-pad: clamp(16px, 3vw, 28px); --tb-gap: 10px; --hdr: 0px; --gutter: var(--tb-pad); display: grid; grid-template-rows: calc(var(--tb-hero) + var(--tb-nav-t)) minmax(0, 1fr) var(--tb-nav-b); height: auto; min-height: 100dvh; overflow: hidden; }
+  #mainMenu.v10Home { --tb-nav-b: calc(56px + env(safe-area-inset-bottom)); --tb-nav-t: 0px; --tb-hero: 40dvh; --tb-pad: clamp(16px, 3vw, 28px); --tb-gap: 10px; --hdr: 0px; --gutter: var(--tb-pad); display: grid; grid-template-rows: calc(var(--tb-hero) + var(--tb-nav-t)) minmax(0, 1fr) var(--tb-nav-b); height: auto; min-height: 100dvh; overflow: hidden; }
   #mainMenu.v10Home .plateView { grid-row: 1; position: relative; z-index: 1; inset: auto; min-width: 0; min-height: 0; overflow: hidden; background-color: #060709; background-image: none; border-bottom: 1px solid rgba(201,155,69,.55); }
   #mainMenu.v10Home .phoneHeroBackground { position: absolute; inset: 0; display: block; overflow: hidden; background: url("../visual-assets/v10_1/home/assets/ENV_HOME_PHONE_V1.webp") 50% 38% / cover no-repeat; }
   #mainMenu.v10Home .phoneHeroBackground img,
@@ -239,16 +244,15 @@ No new art is needed. The phone hero pictures scale up to 820 px and 1024 px wid
   #mainMenu.v10Home #app > footer { display: block !important; position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; border: 0; }
   #mainMenu.v10Home > .nav-reserve { grid-row: 3; position: relative; inset: auto; left: auto; right: auto; bottom: auto; width: 100%; height: auto; min-height: var(--tb-nav-b); background: #060709; border-top: 1px solid rgba(201,155,69,.24); }
   #mainMenu.v10Home > .fifaMenuShell { grid-row: 2; position: relative; z-index: 4; display: block; height: 100%; min-height: 0; box-sizing: border-box; padding: var(--tb-gap) var(--tb-pad); overflow: hidden; background: linear-gradient(180deg, rgba(6,7,9,.97), #060709 24%); }
-  #mainMenu.v10Home .homeLockup { display: flex !important; position: fixed; z-index: 8; top: calc(var(--tb-hero) + var(--tb-nav-t) - 21dvh); left: 50%; width: min(42vw, 330px); transform: translateX(-50%); align-items: center; gap: 4px; pointer-events: none; }
+  #mainMenu.v10Home .homeLockup { display: flex !important; position: fixed; z-index: 8; top: auto; bottom: calc(100dvh - var(--tb-hero) - var(--tb-nav-t) + 10px); left: 50%; width: min(36vw, 290px); transform: translateX(-50%); align-items: center; gap: 4px; pointer-events: none; }
   #mainMenu.v10Home .homeLockup::before,
   #mainMenu.v10Home .homeLockup::after { display: none; }
   #mainMenu.v10Home .lockupKicker { align-self: center; max-width: 100%; padding: 0; font-size: 13px; letter-spacing: .27em; text-align: center; }
   #mainMenu.v10Home .lockupLegacy { align-self: center; max-width: 100%; font-size: 12px; letter-spacing: .19em; text-align: center; }
   #mainMenu.v10Home .lockupWordmarkWrap { width: 100%; margin: 0; }
 
-  /* status chips top-left over the hero, like the phone */
-  #app #topHeader { left: clamp(16px, 3vw, 28px); right: auto; top: calc(max(12px, env(safe-area-inset-top)) + 0px); gap: 8px; }
-  #app #topHeader #onlinePlayerIdentityBadge, #app #topHeader #seasonIndicator { min-height: 44px; padding: 6px 14px !important; font-size: 14px !important; }
+  /* the two status chips (the shared shell puts them top-left up to 900 px) get 44 px tap height */
+  html[data-v10-screen="mainMenu"]:not([data-v10-setup]) #app #topHeader #onlinePlayerIdentityBadge, html[data-v10-screen="mainMenu"]:not([data-v10-setup]) #app #topHeader #seasonIndicator { min-height: 44px; padding: 6px 14px !important; font-size: 14px !important; }
 
   /* hub grid: Continue (dominant, full width), two rows of three, the soundtrack strip */
   #mainMenu.v10Home .fifaMenuGrid { position: static; display: grid; width: 100%; height: 100%; min-height: 0; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: minmax(120px, 1.3fr) repeat(2, minmax(104px, 1fr)) 72px; gap: var(--tb-gap); }
@@ -310,7 +314,6 @@ No new art is needed. The phone hero pictures scale up to 820 px and 1024 px wid
   /* wider than 900 px the app shows its top bar and no bottom bar */
   @media (min-width: 901px) {
     #mainMenu.v10Home { --tb-nav-b: 28px; --tb-nav-t: 52px; }
-    #app #topHeader { top: calc(52px + 12px); }
   }
 }
 ```
