@@ -1,12 +1,12 @@
 # Board archive
 
-[Back to the board](BOARD.md) · generated 2026-10-09 6:37 PM Boston time (EDT). Detail and history behind the one board.
+[Back to the board](BOARD.md) · generated 2026-10-09 6:38 PM Boston time (EDT). Detail and history behind the one board.
 
 ## Old detailed board
 
 # Showdown board: G Factory and V Factory
 
-🌐 **Live: runtime 1.9.1-r66** (main `8e1a583`) · 🔄 **40 moving** · ⏭ 7 up next · 👤 2 waiting on Nik · 🗂 7 later · updated 2026-10-09 6:37 PM Boston time (EDT)
+🌐 **Live: runtime 1.9.1-r66** (main `8e1a583`) · 🔄 **40 moving** · ⏭ 7 up next · 👤 2 waiting on Nik · 🗂 8 later · updated 2026-10-09 6:38 PM Boston time (EDT)
 
 🩺 **All clear: every check has a machine.** · POS20 #304 6/16
 
@@ -73,10 +73,10 @@ _Gameplay, online sync, every merge and every release (senior director)._ Worker
 | G-F5 | QA packet adoptions: truth line, wrong-target guard on main PRs, PR title rule | 🟪 Sonnet | next | - |
 | G-F11 | Old-design CSS collisions: scope old rulebook/settings/analytics/app CSS off Team V markup (about 70 shared class names) | 🟪 Sonnet | ready (Sonnet audit, then Opus fix) | - |
 | 1045 | Showdown Gate: pin actions and tool installs (audit F4) | ⬜ Codex | ready (after 1050) | - |
-| 1048 | Rule Book: three missing rules, and the season review stops pointing at a missing button (Olympiad V1, V2) | 🟦 Sol chat | ready | - |
 | 1049 | Club reveal stops spoiling the sealed club (Olympiad V3) | 🟦 Sol chat | ready (runs alongside 1048) | - |
 | 1050 | Unfinished Signing Entry rows survive a refresh (Olympiad V4) | 🟩 Sol Work mode | ready (after the blue jobs) | - |
 | 1053 | Restore on an empty device respects Keep current (Olympiad V5) | 🟦 Sol chat | ready (runs alongside 1048) | - |
+| 1054 | Worker scorecard: rows for jobs 1037-1044 (GPT-6 Luna trial) | 🟦 Sol chat | ready | - |
 
 **👤 Waiting on Nik**
 
@@ -92,6 +92,7 @@ _Gameplay, online sync, every merge and every release (senior director)._ Worker
 | G-F17 | Showdown Gate: replace POS20 with a faster check system built on Claude and GitHub, keeping every check (plan: /mnt/project-files/check-system/SHOWDOWN_GATE_PLAN.md) — Nik 6:02 PM Boston time: gradual replacement; POS20 is archived to authority-history/pos20-archive/, not deleted | 🟧 Opus | shadow: KEEP_SHADOW after the 9 Oct independent audit (71/100); fixes 1043, 1044, 1045 first | exit bar: 10 real PRs agree (2 full seals), 2 canaries fail, 1 simulated outage recovers; POS20 stays the merge authority until then |
 | G-F4 | GPT Q&A team: scripted paths and code-vs-rulebook reads | 🟦 Sol chat | queued | G-F1 |
 | G-F7 | Ten-season smoothness run on live 2.0 (emulator, 10 seasons with a mid-game expiry) | 🟪 Sonnet | queued | G-F1 |
+| 1048 | Rule Book: three missing rules, and the season review stops pointing at a missing button (Olympiad V1, V2) | 🟦 Sol chat | with the worker (GPT-6 Sol chat), step 3 of 5 | - |
 | 1051 | Transfer ledger hash no longer reveals locked guesses (Olympiad V6) | 🟪 Sonnet | with the worker (Claude Sonnet): one PR #442 for 1051 and 1052, Rules OK from Nik 2026-10-09 22:31 UTC | - |
 | 1052 | Transfer Rules reject option ids the game cannot read (Olympiad V7) | 🟪 Sonnet | with the worker (Claude Sonnet): one PR #442 for 1051 and 1052, Rules OK from Nik 2026-10-09 22:31 UTC | - |
 
@@ -200,7 +201,7 @@ Latest:
 ## Every bug report
 
 
-> Updated **Fri 9 Oct, 6:37 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
+> Updated **Fri 9 Oct, 6:38 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
 
 | 🔓 Open | 🔴 Top priority | 🔧 Fixing or waiting for release | ✅ Fixed and live |
 | :---: | :---: | :---: | :---: |

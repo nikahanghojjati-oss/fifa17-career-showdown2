@@ -1,6 +1,6 @@
 # Bug hunt board
 
-Updated Fri 9 Oct, 6:37 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
+Updated Fri 9 Oct, 6:38 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r66** (main `8e1a583`, Fri 9 Oct 12:04 PM)
 
@@ -10,12 +10,13 @@ Updated Fri 9 Oct, 6:37 PM Boston time. Bug hunting only, no new features until 
 
 **Running now**
 
+- **1048** (G) Rule Book: three missing rules, and the season review stops pointing at a missing button (Olympiad V1, V2) · with the worker · Sol chat · not started
 - **1051** (G) Transfer ledger hash no longer reveals locked guesses (Olympiad V6) · with the worker · Sonnet · not started
 - **1052** (G) Transfer Rules reject option ids the game cannot read (Olympiad V7) · with the worker · Sonnet · not started
 
 **Next for you, in this order**
 
-1. **1048** (G, Sol chat) Rule Book: three missing rules, and the season review stops pointing at a missing button (Olympiad V1, V2): type **1048** ChatGPT project "Career Mode Showdown", new normal chat · text only; ticket jobs/JOB-1048.md; lane moved off Codex (Nik 2026-10-09 22:09 UTC: more GPT-6 chat, Work mode cheaper models, Haiku)
+1. **1054** (G, Sol chat) Worker scorecard: rows for jobs 1037-1044 (GPT-6 Luna trial): type **1054** ChatGPT project "Career Mode Showdown", new normal chat · exact, one-file job to test whether Luna follows a ticket precisely; ticket jobs/JOB-1054.md
 2. **1049** (G, Sol chat) Club reveal stops spoiling the sealed club (Olympiad V3): type **1049** ChatGPT project "Career Mode Showdown", new normal chat · V5 moved to 1053 so each chat job fits one turn; ticket jobs/JOB-1049.md
 3. **1053** (G, Sol chat) Restore on an empty device respects Keep current (Olympiad V5): type **1053** ChatGPT project "Career Mode Showdown", new normal chat · split out of 1049 to keep each chat job one turn; ticket jobs/JOB-1053.md
 4. **1050** (G, Sol Work mode) Unfinished Signing Entry rows survive a refresh (Olympiad V4): type **1050** ChatGPT project "Career Mode Showdown", new chat switched to Work mode · draft kept on the player's own device only; ticket jobs/JOB-1050.md; lane moved off Codex (Nik 2026-10-09 22:09 UTC: more GPT-6 chat, Work mode cheaper models, Haiku)
@@ -25,7 +26,7 @@ Updated Fri 9 Oct, 6:37 PM Boston time. Bug hunting only, no new features until 
 
 ## Goals, in this order
 
-1. **Finish the remaining bugs** (now) · 80.0000 % · Numbered jobs: 36 done, 1 other open · Olympiad recheck: 16 of 23 settled, 7 still to fix · Sol's old leads: 5 open (1 confirmed, the rest to recheck on live)
+1. **Finish the remaining bugs** (now) · 78.7879 % · Numbered jobs: 36 done, 2 other open · Olympiad recheck: 16 of 23 settled, 7 still to fix · Sol's old leads: 5 open (1 confirmed, the rest to recheck on live)
 2. **Visual fixes** (later) · 52.3810 % · Team V hand-offs: 11 of 21 done
 3. **Match current desktop screens to the mockup** (later) · 6.2500 % · Mockup Lab: 1 of 16 screens studied, 7 differences to fix
 4. **Visual mockups for phone** (later) · 0.0000 % · Not started
