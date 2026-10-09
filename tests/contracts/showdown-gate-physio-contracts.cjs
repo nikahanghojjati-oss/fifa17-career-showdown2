@@ -55,10 +55,10 @@ let checks=0;const ok=label=>{checks++;void label;};
   assert.equal(pos20Rerun.classification,'INFRA');assert.deepEqual(posts,[`repos/o/r/actions/runs/${recorded.run.id}/rerun-failed-jobs`]);
   assert.equal(pos20Rerun.pr,77,'the PR is the one whose head is exactly this head');
   // The Physio reports the re-run in the step summary.
-  assert.deepEqual(pos20Rerun.physio,['Physio: re-ran POS20 exact selector (GitHub gave it no machine), attempt 2 of 2']);
+  assert.deepEqual(pos20Rerun.physio,['Physio: re-ran POS20 exact selector (POS20 exact selector: cancelled before any test step started (runner not acquired / lost)), attempt 2 of 2']);
   assert.equal(W.PHYSIO_NAME,'Showdown Gate Physio');
   const firstAttempt=clone(recordedLive);firstAttempt.run.run_attempt=1;
-  assert.deepEqual(W.physioLines(W.classifyRun({...firstAttempt,liveHeadSha:firstAttempt.run.head_sha})),['Physio: re-ran POS20 exact selector (GitHub gave it no machine), attempt 1 of 2']);
+  assert.deepEqual(W.physioLines(W.classifyRun({...firstAttempt,liveHeadSha:firstAttempt.run.head_sha})),['Physio: re-ran POS20 exact selector (POS20 exact selector: cancelled before any test step started (runner not acquired / lost)), attempt 1 of 2']);
   // A dry run or a refused re-run claims nothing.
   posts.length=0;
   assert.deepEqual((await W.handleRun(fakeClient(firstAttempt),'o/r',firstAttempt.run.id,{dryRun:true})).physio,[]);assert.deepEqual(posts,[]);
