@@ -52,7 +52,11 @@ Paste this:
 Job 1057. Read the ticket at https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/gameplay-v1/project-documents/gameplay-factory/jobs/JOB-1057.md and do exactly what it says in this one turn. Write only the one report file on branch qa/sol-leads-recheck, and end with 'Job 1057 done, report on qa/sol-leads-recheck.'
 ```
 
-**Done, in the next release:** 1001, 1003, 1004, 1005, 1009, 1010, 1011, 1014, 1015, 1020, 1021, 1022, 1023, 1024, 1025, 1026, 1027, 1028, 1037, 1038, 1039, 1040, 1041, 1042, 1043, 1044, 1045, 1046, 1047, 1048, 1049, 1054, Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8
+**Done, waiting for the next release:** 1044, 1045, 1048, 1049
+
+**Done and live:** r66: 1041, 1042, 1043 · r65: 1011, 1028, 1037, 1038, 1039, 1040 · r63: 1001, 1003, 1004, 1005, 1009, 1010, 1014, 1015, 1020, 1021, 1022, 1023, 1024, 1025, 1026, 1027, Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8
+
+**Done, no game code** (factory or handoff documents): 1046, 1047, 1054
 
 ## Goals, in this order
 

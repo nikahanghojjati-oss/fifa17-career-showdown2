@@ -1,0 +1,43 @@
+{
+ "_about": "Which release took each finished job to main (Nik, 2026-10-09 23:24 UTC: Done is split into Live and Waiting for the next release). A job is live in rNN when its merge commit is an ancestor of the head of the Release rNN PR into main. custom_view.py fills in new jobs itself; seeded by hand-checked git ancestry on 2026-10-09.",
+ "no_game_code": [
+  "1046",
+  "1047",
+  "1054"
+ ],
+ "jobs": {
+  "1001": "r63",
+  "1003": "r63",
+  "1004": "r63",
+  "1005": "r63",
+  "1009": "r63",
+  "1010": "r63",
+  "1011": "r65",
+  "1014": "r63",
+  "1015": "r63",
+  "1020": "r63",
+  "1021": "r63",
+  "1022": "r63",
+  "1023": "r63",
+  "1024": "r63",
+  "1025": "r63",
+  "1026": "r63",
+  "1027": "r63",
+  "1028": "r65",
+  "1037": "r65",
+  "1038": "r65",
+  "1039": "r65",
+  "1040": "r65",
+  "1041": "r66",
+  "1042": "r66",
+  "1043": "r66",
+  "Z1": "r63",
+  "Z2": "r63",
+  "Z3": "r63",
+  "Z4": "r63",
+  "Z5": "r63",
+  "Z6": "r63",
+  "Z7": "r63",
+  "Z8": "r63"
+ }
+}

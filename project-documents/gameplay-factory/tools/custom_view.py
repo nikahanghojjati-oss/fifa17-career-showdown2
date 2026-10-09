@@ -341,6 +341,52 @@ for v in Q.values():
     v.sort(key=lambda q: (0 if q.get("studio") else 1, float((rowmap.get(str(q["id"])) or {}).get("order") or 9999), nkey(q["n"])))
 Q["release"].sort(key=lambda q: nkey(q["n"]))
 
+
+def _released():
+    """job -> "rNN" for finished jobs already on main (RELEASED.json, plus a GitHub check for jobs not known yet)."""
+    import subprocess
+    p = os.path.join(F, "RELEASED.json")
+    try:
+        R = json.load(open(p))
+    except Exception:
+        R = {"jobs": {}, "no_game_code": []}
+    known, ngc = R.setdefault("jobs", {}), set(R.get("no_game_code") or [])
+    todo = [q["n"] for q in Q["release"] if q["n"] not in known and q["n"] not in ngc]
+    for q in Q["release"]:  # a row that says "in rNN" is already live
+        m = re.search(r"\bin (r\d+)\b", str((rowmap.get(str(q["id"])) or {}).get("state") or ""))
+        if m and q["n"] not in known:
+            known[q["n"]] = m.group(1)
+    todo = [n for n in todo if n not in known and n in MERGED]
+    if todo:
+        repo = os.environ.get("GITHUB_REPOSITORY", "nikahanghojjati-oss/fifa17-career-showdown2")
+        gh = lambda path: json.loads(subprocess.run(["gh", "api", path], capture_output=True, text=True, timeout=30).stdout or "null")
+        try:
+            rel = sorted([(x["merged_at"], re.match(r"Release (r\d+)", x["title"]).group(1), x["head"]["sha"]) for x in gh(f"repos/{repo}/pulls?state=closed&base=main&per_page=40") or []
+                          if x.get("merged_at") and re.match(r"Release r\d+", x.get("title") or "")])
+            for n in todo:
+                sha = (gh(f"repos/{repo}/pulls/{MERGED[n]}") or {}).get("merge_commit_sha")
+                for _, rv, head in rel:
+                    if sha and (gh(f"repos/{repo}/compare/{sha}...{head}") or {}).get("status") in ("ahead", "identical"):
+                        known[n] = rv
+                        break
+        except Exception:
+            pass
+        json.dump(R, open(p, "w"), indent=1)
+    return known, ngc
+
+
+LIVE_IN, NO_CODE = _released()
+LIVE_Q = [q for q in Q["release"] if q["n"] in LIVE_IN]
+NOCODE_Q = [q for q in Q["release"] if q["n"] in NO_CODE and q["n"] not in LIVE_IN]
+WAIT_REL_Q = [q for q in Q["release"] if q["n"] not in LIVE_IN and q["n"] not in NO_CODE]
+
+
+def live_groups():
+    g = {}
+    for q in LIVE_Q:
+        g.setdefault(LIVE_IN[q["n"]], []).append(q["n"])
+    return sorted(g.items(), key=lambda kv: int(kv[0][1:]), reverse=True)
+
 for m in BJ.get("next_move") or []:
     nik.insert(0, {"id": "", "title": "", "decision": m, "md": True})
 
@@ -580,8 +626,12 @@ def render(first, compact=False, tight=False):
             LASTPLACE[0] = None
             LASTNOTE[:] = []
             J += [job_html(q, i, kind) for i, q in enumerate(Q[kind], 1)]  # #1 is the first job of each list
-    if Q["release"]:
-        J.append('<span class="k">Done, in the next release</span> ' + (", ".join(e(q["n"]) for q in Q["release"]) if not tight else f'{len(Q["release"])} jobs ({e(Q["release"][0]["n"])} to {e(Q["release"][-1]["n"])})'))
+    if WAIT_REL_Q:  # Nik, 2026-10-09 23:24 UTC: finished but not on main yet, apart from what is already live
+        J.append('<span class="k">Done, waiting for the next release</span> ' + ", ".join(e(q["n"]) for q in WAIT_REL_Q))
+    if LIVE_Q:
+        J.append('<span class="k">Done and live</span> ' + (" · ".join(f"{rv}: " + ", ".join(ns) for rv, ns in live_groups()) if not tight else " · ".join(f"{rv}: {len(ns)} jobs" for rv, ns in live_groups())))
+    if NOCODE_Q:
+        J.append('<span class="k">Done, no game code</span> ' + ", ".join(e(q["n"]) for q in NOCODE_Q))
     H.append('<div class="card move">' + ("<br>".join(J) or "No numbered job is open.") + "</div>")
     order = ("G", "V") if first == "G" else ("V", "G")
     H.append("<h2>Goals, in this order</h2>")
@@ -676,8 +726,12 @@ for _k, _label in (("run", "▶️ Running now"), ("next", "👉 Next for you, i
         L += [f"### {_label}", ""]
         for _i, _q in enumerate(Q[_k], 1):
             L += job_md(_q, _i, _k)
-if Q["release"]:
-    L += ["**Done, in the next release:** " + ", ".join(q["n"] for q in Q["release"]), ""]
+if WAIT_REL_Q:
+    L += ["**Done, waiting for the next release:** " + ", ".join(q["n"] for q in WAIT_REL_Q), ""]
+if LIVE_Q:
+    L += ["**Done and live:** " + " · ".join(f"{rv}: " + ", ".join(ns) for rv, ns in live_groups()), ""]
+if NOCODE_Q:
+    L += ["**Done, no game code** (factory or handoff documents): " + ", ".join(q["n"] for q in NOCODE_Q), ""]
 _SG, _cur = stages()
 L += ["## Goals, in this order", ""]
 for _i, (_n, _p, _ls) in enumerate(_SG):
