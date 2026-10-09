@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-09 7:42 PM Boston time (EDT)",
+ "generated": "2026-10-09 7:43 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -708,7 +708,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 42,
+  "moving": 41,
   "next": 4,
   "nik": 2,
   "later": 6,
@@ -1011,19 +1011,6 @@
       "place": "Claude helper (nothing for Nik to type)",
       "note": "from hunt 1019; H3 is fixed by 1026",
       "archived": true
-     },
-     {
-      "id": "1050",
-      "title": "Unfinished Signing Entry rows survive a refresh (Olympiad V4)",
-      "lane": "gpt-work",
-      "state": "worker done, lead checking (PR #446): repro proven, test added, updated with bug-list-1; CI running",
-      "order": 24,
-      "place": "ChatGPT project \"Career Mode Showdown\", new chat switched to Work mode",
-      "note": "must run code (node checks), so Work mode; Luna is the cheapest Work mode model, first Luna run; ticket jobs/JOB-1050.md",
-      "team": "yellow",
-      "model": "GPT Luna (Work mode); if it fails, Sol 6.1 Work mode",
-      "effort": "High",
-      "prompt": ""
      },
      {
       "id": "1051",
