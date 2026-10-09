@@ -1,7 +1,7 @@
 function getApplicationAssetRevision(){
-    const meta = document.querySelector('meta[name="app-asset-revision"]');
-    const revision = meta && meta.content ? meta.content.trim() : "";
-    return revision || "1.1.4-r1";
+const meta = document.querySelector('meta[name="app-asset-revision"]');
+const revision = meta && meta.content ? meta.content.trim() : "";
+return revision || "1.1.4-r1";
 }
 
 const OPTIONAL_ASSET_REVISION = getApplicationAssetRevision();
@@ -17,558 +17,558 @@ let gameplayRuntimeInitialized = false;
 let requiredFootballVisualPromise = null;
 
 function optionalAssetUrl(path){
-    return `${path}?v=${OPTIONAL_ASSET_REVISION}`;
+return `${path}?v=${OPTIONAL_ASSET_REVISION}`;
 }
 
 function loadRuntimeStyle(key, path){
-    if(runtimeStylePromises.has(key)){
-        return runtimeStylePromises.get(key);
-    }
+if(runtimeStylePromises.has(key)){
+return runtimeStylePromises.get(key);
+}
 
-    const existing = document.querySelector(`link[data-optional-style="${key}"]`);
-    if(existing && existing.sheet){
-        return Promise.resolve(existing);
-    }
+const existing = document.querySelector(`link[data-optional-style="${key}"]`);
+if(existing && existing.sheet){
+return Promise.resolve(existing);
+}
 
-    const promise = new Promise((resolve, reject) => {
-        const link = existing || document.createElement("link");
-        let settled = false;
+const promise = new Promise((resolve, reject) => {
+const link = existing || document.createElement("link");
+let settled = false;
 
-        if(!existing){
-            link.rel = "stylesheet";
-            link.href = optionalAssetUrl(path);
-            link.dataset.optionalStyle = key;
-        }
+if(!existing){
+link.rel = "stylesheet";
+link.href = optionalAssetUrl(path);
+link.dataset.optionalStyle = key;
+}
 
-        const cleanup = () => {
-            link.removeEventListener("load", handleLoad);
-            link.removeEventListener("error", handleError);
-            window.clearTimeout(timeoutId);
-        };
+const cleanup = () => {
+link.removeEventListener("load", handleLoad);
+link.removeEventListener("error", handleError);
+window.clearTimeout(timeoutId);
+};
 
-        const handleLoad = () => {
-            if(settled){ return; }
-            settled = true;
-            cleanup();
-            resolve(link);
-        };
+const handleLoad = () => {
+if(settled){ return; }
+settled = true;
+cleanup();
+resolve(link);
+};
 
-        const handleError = () => {
-            if(settled){ return; }
-            settled = true;
-            cleanup();
-            link.remove();
-            runtimeStylePromises.delete(key);
-            reject(new Error(`Unable to load ${path}.`));
-        };
+const handleError = () => {
+if(settled){ return; }
+settled = true;
+cleanup();
+link.remove();
+runtimeStylePromises.delete(key);
+reject(new Error(`Unable to load ${path}.`));
+};
 
-        const timeoutId = window.setTimeout(() => {
-            if(settled){ return; }
-            settled = true;
-            link.removeEventListener("load", handleLoad);
-            link.removeEventListener("error", handleError);
-            link.remove();
-            runtimeStylePromises.delete(key);
-            reject(new Error(`${path} timed out while loading.`));
-        }, OPTIONAL_LOAD_TIMEOUT_MS);
+const timeoutId = window.setTimeout(() => {
+if(settled){ return; }
+settled = true;
+link.removeEventListener("load", handleLoad);
+link.removeEventListener("error", handleError);
+link.remove();
+runtimeStylePromises.delete(key);
+reject(new Error(`${path} timed out while loading.`));
+}, OPTIONAL_LOAD_TIMEOUT_MS);
 
-        link.addEventListener("load", handleLoad, { once: true });
-        link.addEventListener("error", handleError, { once: true });
+link.addEventListener("load", handleLoad, { once: true });
+link.addEventListener("error", handleError, { once: true });
 
-        if(!existing){
-            const appStyles = document.getElementById("appStyles");
-            if(appStyles && appStyles.parentNode === document.head){
-                document.head.insertBefore(link, appStyles);
-            }else{
-                document.head.appendChild(link);
-            }
-        }
-    });
+if(!existing){
+const appStyles = document.getElementById("appStyles");
+if(appStyles && appStyles.parentNode === document.head){
+document.head.insertBefore(link, appStyles);
+}else{
+document.head.appendChild(link);
+}
+}
+});
 
-    runtimeStylePromises.set(key, promise);
-    return promise;
+runtimeStylePromises.set(key, promise);
+return promise;
 }
 
 function loadRuntimeScript(key, path, readinessCheck){
-    if(typeof readinessCheck === "function" && readinessCheck()){
-        return Promise.resolve(true);
-    }
+if(typeof readinessCheck === "function" && readinessCheck()){
+return Promise.resolve(true);
+}
 
-    if(runtimeScriptPromises.has(key)){
-        return runtimeScriptPromises.get(key);
-    }
+if(runtimeScriptPromises.has(key)){
+return runtimeScriptPromises.get(key);
+}
 
-    const promise = new Promise((resolve, reject) => {
-        const script = document.createElement("script");
-        let settled = false;
-        script.src = optionalAssetUrl(path);
-        script.async = false;
-        script.dataset.runtimeScript = key;
+const promise = new Promise((resolve, reject) => {
+const script = document.createElement("script");
+let settled = false;
+script.src = optionalAssetUrl(path);
+script.async = false;
+script.dataset.runtimeScript = key;
 
-        const cleanup = () => {
-            script.removeEventListener("load", handleLoad);
-            script.removeEventListener("error", handleError);
-            window.clearTimeout(timeoutId);
-        };
+const cleanup = () => {
+script.removeEventListener("load", handleLoad);
+script.removeEventListener("error", handleError);
+window.clearTimeout(timeoutId);
+};
 
-        const failRetryable = message => {
-            if(settled){ return; }
-            settled = true;
-            cleanup();
-            script.remove();
-            runtimeScriptPromises.delete(key);
-            reject(new Error(message));
-        };
+const failRetryable = message => {
+if(settled){ return; }
+settled = true;
+cleanup();
+script.remove();
+runtimeScriptPromises.delete(key);
+reject(new Error(message));
+};
 
-        const failExecuted = message => {
-            if(settled){ return; }
-            settled = true;
-            cleanup();
-            reject(new Error(message));
-        };
+const failExecuted = message => {
+if(settled){ return; }
+settled = true;
+cleanup();
+reject(new Error(message));
+};
 
-        const handleLoad = () => {
-            if(settled){ return; }
-            if(typeof readinessCheck === "function" && !readinessCheck()){
-                failExecuted(`${path} loaded but did not expose its expected API. Refresh before retrying this module.`);
-                return;
-            }
-            settled = true;
-            cleanup();
-            resolve(true);
-        };
+const handleLoad = () => {
+if(settled){ return; }
+if(typeof readinessCheck === "function" && !readinessCheck()){
+failExecuted(`${path} loaded but did not expose its expected API. Refresh before retrying this module.`);
+return;
+}
+settled = true;
+cleanup();
+resolve(true);
+};
 
-        const handleError = () => failRetryable(`Unable to load ${path}.`);
-        const timeoutId = window.setTimeout(
-            () => failRetryable(`${path} timed out while loading.`),
-            OPTIONAL_LOAD_TIMEOUT_MS
-        );
+const handleError = () => failRetryable(`Unable to load ${path}.`);
+const timeoutId = window.setTimeout(
+() => failRetryable(`${path} timed out while loading.`),
+OPTIONAL_LOAD_TIMEOUT_MS
+);
 
-        script.addEventListener("load", handleLoad, { once: true });
-        script.addEventListener("error", handleError, { once: true });
-        document.head.appendChild(script);
-    });
+script.addEventListener("load", handleLoad, { once: true });
+script.addEventListener("error", handleError, { once: true });
+document.head.appendChild(script);
+});
 
-    runtimeScriptPromises.set(key, promise);
-    return promise;
+runtimeScriptPromises.set(key, promise);
+return promise;
 }
 
 function initializeGameplayRuntime(){
-    if(gameplayRuntimeInitialized){ return; }
+if(gameplayRuntimeInitialized){ return; }
 
-    const initializers = [
-        ["initializeShowdownUI", window.initializeShowdownUI],
-        ["initializeLeagueWheel", window.initializeLeagueWheel],
-        ["initializeClubAssignment", window.initializeClubAssignment],
-        ["initializeTransferChallenge", window.initializeTransferChallenge],
-        ["initializeSeasonEngine", window.initializeSeasonEngine]
-    ];
+const initializers = [
+["initializeShowdownUI", window.initializeShowdownUI],
+["initializeLeagueWheel", window.initializeLeagueWheel],
+["initializeClubAssignment", window.initializeClubAssignment],
+["initializeTransferChallenge", window.initializeTransferChallenge],
+["initializeSeasonEngine", window.initializeSeasonEngine]
+];
 
-    initializers.forEach(([name, initializer]) => {
-        if(typeof initializer !== "function"){
-            throw new Error(`Gameplay initializer is unavailable: ${name}`);
-        }
-        initializer();
-    });
+initializers.forEach(([name, initializer]) => {
+if(typeof initializer !== "function"){
+throw new Error(`Gameplay initializer is unavailable: ${name}`);
+}
+initializer();
+});
 
-    gameplayRuntimeInitialized = true;
+gameplayRuntimeInitialized = true;
 }
 
 async function loadGameplayRuntimeFiles(){
-    await loadRuntimeScript(
-        "league-data",
-        "data/leagues.js",
-        () => typeof leagues !== "undefined" && Array.isArray(leagues)
-    );
-    await loadRuntimeScript(
-        "club-data",
-        "data/clubs.js",
-        () => typeof window.getClubsForLeague === "function" && typeof window.getRandomClubPair === "function"
-    );
-    await loadRuntimeScript(
-        "data-engine",
-        "js/dataEngine.js",
-        () => typeof window.getRandomLeague === "function"
-    );
-    await loadRuntimeScript(
-        "visual-identity",
-        "js/visualIdentity.js",
-        () => typeof window.applyClubIdentity === "function" && typeof window.refreshClubVisualIdentity === "function"
-    );
-    await ensureRequiredFootballVisualExperience();
-    await loadRuntimeScript(
-        "showdown-ui",
-        "js/showdownUI.js",
-        () => typeof window.initializeShowdownUI === "function" && typeof window.updateShowdownUI === "function"
-    );
-    await loadRuntimeScript(
-        "league-wheel",
-        "js/leagueWheel.js",
-        () => typeof window.initializeLeagueWheel === "function" && typeof window.spinLeagueWheel === "function"
-    );
-    await loadRuntimeScript(
-        "club-assignment",
-        "js/clubAssignment.js",
-        () => typeof window.initializeClubAssignment === "function" && typeof window.prepareClubAssignment === "function"
-    );
+await loadRuntimeScript(
+"league-data",
+"data/leagues.js",
+() => typeof leagues !== "undefined" && Array.isArray(leagues)
+);
+await loadRuntimeScript(
+"club-data",
+"data/clubs.js",
+() => typeof window.getClubsForLeague === "function" && typeof window.getRandomClubPair === "function"
+);
+await loadRuntimeScript(
+"data-engine",
+"js/dataEngine.js",
+() => typeof window.getRandomLeague === "function"
+);
+await loadRuntimeScript(
+"visual-identity",
+"js/visualIdentity.js",
+() => typeof window.applyClubIdentity === "function" && typeof window.refreshClubVisualIdentity === "function"
+);
+await ensureRequiredFootballVisualExperience();
+await loadRuntimeScript(
+"showdown-ui",
+"js/showdownUI.js",
+() => typeof window.initializeShowdownUI === "function" && typeof window.updateShowdownUI === "function"
+);
+await loadRuntimeScript(
+"league-wheel",
+"js/leagueWheel.js",
+() => typeof window.initializeLeagueWheel === "function" && typeof window.spinLeagueWheel === "function"
+);
+await loadRuntimeScript(
+"club-assignment",
+"js/clubAssignment.js",
+() => typeof window.initializeClubAssignment === "function" && typeof window.prepareClubAssignment === "function"
+);
 
-    const transferStylePromise = loadRuntimeStyle("transfer-ui", "css/transfer.css");
-    await loadRuntimeScript(
-        "transfer-options",
-        "data/transferOptions.js",
-        () => Array.isArray(window.FIFA17_TRANSFER_LEAGUES)
-            && window.FIFA17_TRANSFER_LEAGUES.length === 36
-            && Array.isArray(window.FIFA17_TRANSFER_NATIONALITIES)
-            && window.FIFA17_TRANSFER_NATIONALITIES.length === 164
-    );
-    await loadRuntimeScript(
-        "transfer-selector",
-        "js/transferSelector.js",
-        () => typeof window.enhanceTransferSelector === "function"
-            && typeof window.getTransferSelectorCanonicalValue === "function"
-    );
-    await transferStylePromise;
-    await loadRuntimeScript(
-        "transfer-challenge",
-        "js/transferChallenge.js",
-        () => typeof window.initializeTransferChallenge === "function"
-            && typeof window.openTransferChallenge === "function"
-            && typeof window.normalizeTransferChallengePhase === "function"
-    );
+const transferStylePromise = loadRuntimeStyle("transfer-ui", "css/transfer.css");
+await loadRuntimeScript(
+"transfer-options",
+"data/transferOptions.js",
+() => Array.isArray(window.FIFA17_TRANSFER_LEAGUES)
+&& window.FIFA17_TRANSFER_LEAGUES.length === 36
+&& Array.isArray(window.FIFA17_TRANSFER_NATIONALITIES)
+&& window.FIFA17_TRANSFER_NATIONALITIES.length === 164
+);
+await loadRuntimeScript(
+"transfer-selector",
+"js/transferSelector.js",
+() => typeof window.enhanceTransferSelector === "function"
+&& typeof window.getTransferSelectorCanonicalValue === "function"
+);
+await transferStylePromise;
+await loadRuntimeScript(
+"transfer-challenge",
+"js/transferChallenge.js",
+() => typeof window.initializeTransferChallenge === "function"
+&& typeof window.openTransferChallenge === "function"
+&& typeof window.normalizeTransferChallengePhase === "function"
+);
 
-    const seasonStylePromise = loadRuntimeStyle("season-review-ui", "css/season.css");
-    await loadRuntimeScript(
-        "season-engine",
-        "js/seasonEngine.js",
-        () => typeof window.initializeSeasonEngine === "function"
-            && typeof window.openSeasonEntry === "function"
-            && typeof window.confirmCurrentSeason === "function"
-            && typeof window.getSeasonReviewIntegrity === "function"
-    );
-    await seasonStylePromise;
+const seasonStylePromise = loadRuntimeStyle("season-review-ui", "css/season.css");
+await loadRuntimeScript(
+"season-engine",
+"js/seasonEngine.js",
+() => typeof window.initializeSeasonEngine === "function"
+&& typeof window.openSeasonEntry === "function"
+&& typeof window.confirmCurrentSeason === "function"
+&& typeof window.getSeasonReviewIntegrity === "function"
+);
+await seasonStylePromise;
 }
 
 function ensureGameplayModules(){
-    if(gameplayRuntimeState === "ready"){
-        return Promise.resolve(true);
-    }
-    if(gameplayRuntimePromise){
-        return gameplayRuntimePromise;
-    }
+if(gameplayRuntimeState === "ready"){
+return Promise.resolve(true);
+}
+if(gameplayRuntimePromise){
+return gameplayRuntimePromise;
+}
 
-    gameplayRuntimeState = "loading";
-    gameplayRuntimePromise = (async () => {
-        try{
-            await loadGameplayRuntimeFiles();
-            initializeGameplayRuntime();
-            gameplayRuntimeState = "ready";
-            return true;
-        }catch(error){
-            gameplayRuntimeState = "error";
-            throw error;
-        }finally{
-            gameplayRuntimePromise = null;
-        }
-    })();
+gameplayRuntimeState = "loading";
+gameplayRuntimePromise = (async () => {
+try{
+await loadGameplayRuntimeFiles();
+initializeGameplayRuntime();
+gameplayRuntimeState = "ready";
+return true;
+}catch(error){
+gameplayRuntimeState = "error";
+throw error;
+}finally{
+gameplayRuntimePromise = null;
+}
+})();
 
-    return gameplayRuntimePromise;
+return gameplayRuntimePromise;
 }
 
 function getGameplayModuleState(){
-    return gameplayRuntimeState;
+return gameplayRuntimeState;
 }
 
 async function ensureDiagnosticsModule(){
-    await loadRuntimeScript(
-        "diagnostics",
-        "js/diagnostics.js",
-        () => typeof window.runApplicationDiagnostics === "function"
-    );
+await loadRuntimeScript(
+"diagnostics",
+"js/diagnostics.js",
+() => typeof window.runApplicationDiagnostics === "function"
+);
 }
 
 function ensureMenuFeedbackModule(){
-    return loadRuntimeScript(
-        "menu-feedback",
-        "js/menuFeedback.js",
-        () => typeof window.playMenuFeedbackCue === "function"
-            && typeof window.getMenuFeedbackDiagnostics === "function"
-    );
+return loadRuntimeScript(
+"menu-feedback",
+"js/menuFeedback.js",
+() => typeof window.playMenuFeedbackCue === "function"
+&& typeof window.getMenuFeedbackDiagnostics === "function"
+);
 }
 
 async function ensureFootballVisualModule(){
-    const stylePromise=loadRuntimeStyle("football-visual-ui","css/footballVisuals.css").then(()=>loadRuntimeStyle("football-visual-v113-ui","css/footballVisuals-v113.css"));
-    await loadRuntimeScript("football-visual-data","data/footballVisuals.js",() => Boolean(window.FOOTBALL_VISUALS && window.FOOTBALL_VISUAL_SCREEN_PLAN));
-    await loadRuntimeScript(
-        "football-visual-ui","js/footballVisuals.js",
-        ()=>["initializeFootballVisuals","prepareFootballVisualScreen","preloadFootballVisualAssets"].every(name=>typeof window[name]==="function")
-    );
-    await stylePromise;
-    await window.initializeFootballVisuals();
-    return true;
+const stylePromise=loadRuntimeStyle("football-visual-ui","css/footballVisuals.css").then(()=>loadRuntimeStyle("football-visual-v113-ui","css/footballVisuals-v113.css"));
+await loadRuntimeScript("football-visual-data","data/footballVisuals.js",() => Boolean(window.FOOTBALL_VISUALS && window.FOOTBALL_VISUAL_SCREEN_PLAN));
+await loadRuntimeScript(
+"football-visual-ui","js/footballVisuals.js",
+()=>["initializeFootballVisuals","prepareFootballVisualScreen","preloadFootballVisualAssets"].every(name=>typeof window[name]==="function")
+);
+await stylePromise;
+await window.initializeFootballVisuals();
+return true;
 }
 
 function ensureRequiredFootballVisualExperience(){
-    if(requiredFootballVisualPromise){ return requiredFootballVisualPromise; }
-    requiredFootballVisualPromise = ensureFootballVisualModule().catch(error => {
-        requiredFootballVisualPromise = null;
-        throw error;
-    });
-    return requiredFootballVisualPromise;
+if(requiredFootballVisualPromise){ return requiredFootballVisualPromise; }
+requiredFootballVisualPromise = ensureFootballVisualModule().catch(error => {
+requiredFootballVisualPromise = null;
+throw error;
+});
+return requiredFootballVisualPromise;
 }
 
 async function ensureAnalyticsEngine(){
-    await loadRuntimeScript(
-        "analytics-engine",
-        "js/analytics.js",
-        () => typeof window.buildRivalryAnalytics === "function" && typeof window.buildCareerAnalytics === "function"
-    );
+await loadRuntimeScript(
+"analytics-engine",
+"js/analytics.js",
+() => typeof window.buildRivalryAnalytics === "function" && typeof window.buildCareerAnalytics === "function"
+);
 }
 
 async function ensureStatisticsScript(){
-    await ensureAnalyticsEngine();
-    await loadRuntimeScript(
-        "statistics-ui",
-        "js/statistics.js",
-        () => typeof window.openRivalryStatistics === "function"
-            && typeof window.openCareerStatistics === "function"
-            && typeof window.createAnalyticsStat === "function"
-    );
+await ensureAnalyticsEngine();
+await loadRuntimeScript(
+"statistics-ui",
+"js/statistics.js",
+() => typeof window.openRivalryStatistics === "function"
+&& typeof window.openCareerStatistics === "function"
+&& typeof window.createAnalyticsStat === "function"
+);
 }
 
 async function ensureStatisticsModule(){
-    const stylePromise = loadRuntimeStyle("analytics-ui", "css/analytics.css");
-    const visualPromise = ensureRequiredFootballVisualExperience();
-    await ensureStatisticsScript();
-    await Promise.all([stylePromise, visualPromise]);
+const stylePromise = loadRuntimeStyle("analytics-ui", "css/analytics.css");
+const visualPromise = ensureRequiredFootballVisualExperience();
+await ensureStatisticsScript();
+await Promise.all([stylePromise, visualPromise]);
 }
 
 async function ensureTrophyRoomModule(){
-    const stylePromise = loadRuntimeStyle("analytics-ui", "css/analytics.css");
-    const visualPromise = ensureRequiredFootballVisualExperience();
-    await ensureStatisticsScript();
-    await loadRuntimeScript(
-        "trophy-room-ui",
-        "js/trophyRoom.js",
-        () => typeof window.openTrophyRoom === "function"
-    );
-    await Promise.all([stylePromise, visualPromise]);
+const stylePromise = loadRuntimeStyle("analytics-ui", "css/analytics.css");
+const visualPromise = ensureRequiredFootballVisualExperience();
+await ensureStatisticsScript();
+await loadRuntimeScript(
+"trophy-room-ui",
+"js/trophyRoom.js",
+() => typeof window.openTrophyRoom === "function"
+);
+await Promise.all([stylePromise, visualPromise]);
 }
 
 async function ensureLegacyModule(){
-    const stylePromise = loadRuntimeStyle("legacy-ui", "css/legacy.css");
-    const restoreStylePromise = loadRuntimeStyle("restore-ui", "css/restore.css");
-    await ensureCandidateC();
-    await loadRuntimeScript(
-        "restore-ui",
-        "js/restoreUI.js",
-        () => typeof window.initializeCareerModeRestoreUI === "function" && typeof window.mountCareerModeRestorePanel === "function"
-    );
-    await loadRuntimeScript(
-        "legacy-ui",
-        "js/legacy.js",
-        () => typeof window.renderLegacy === "function"
-    );
-    await Promise.all([stylePromise, restoreStylePromise]);
-    window.initializeCareerModeRestoreUI();
+const stylePromise = loadRuntimeStyle("legacy-ui", "css/legacy.css");
+const restoreStylePromise = loadRuntimeStyle("restore-ui", "css/restore.css");
+await ensureCandidateC();
+await loadRuntimeScript(
+"restore-ui",
+"js/restoreUI.js",
+() => typeof window.initializeCareerModeRestoreUI === "function" && typeof window.mountCareerModeRestorePanel === "function"
+);
+await loadRuntimeScript(
+"legacy-ui",
+"js/legacy.js",
+() => typeof window.renderLegacy === "function"
+);
+await Promise.all([stylePromise, restoreStylePromise]);
+window.initializeCareerModeRestoreUI();
 }
 
 async function ensureCandidateC(){
-    await loadRuntimeScript(
-        "backup-engine",
-        "js/backup.js",
-        () => typeof window.createCareerModeBackupEnvelope === "function"
-            && typeof window.verifyCareerModeBackupEnvelopeChecksum === "function"
-    );
-    await loadRuntimeScript(
-        "import-analysis",
-        "js/importAnalysis.js",
-        () => typeof window.validateCareerModeImportShowdownRecord === "function"
-    );
-    await loadRuntimeScript("restore-transaction","js/storageTransaction.js",()=>typeof window.runCareerModeRawStorageTransaction==="function");
-    await loadRuntimeScript(
-        "restore-engine",
-        "js/restore.js",
-        () => typeof window.prepareCareerModeRemoteReconciliationIntent === "function"
-            && typeof window.applyCareerModeRemoteReconciliation === "function"
-    );
-    return true;
+await loadRuntimeScript(
+"backup-engine",
+"js/backup.js",
+() => typeof window.createCareerModeBackupEnvelope === "function"
+&& typeof window.verifyCareerModeBackupEnvelopeChecksum === "function"
+);
+await loadRuntimeScript(
+"import-analysis",
+"js/importAnalysis.js",
+() => typeof window.validateCareerModeImportShowdownRecord === "function"
+);
+await loadRuntimeScript("restore-transaction","js/storageTransaction.js",()=>typeof window.runCareerModeRawStorageTransaction==="function");
+await loadRuntimeScript(
+"restore-engine",
+"js/restore.js",
+() => typeof window.prepareCareerModeRemoteReconciliationIntent === "function"
+&& typeof window.applyCareerModeRemoteReconciliation === "function"
+);
+return true;
 }
 
 async function ensureRuleBookModule(){
-    const stylePromise = loadRuntimeStyle("rule-book-ui", "css/rulebook.css");
-    await loadRuntimeScript(
-        "rule-book-ui",
-        "js/ruleBook.js",
-        () => typeof window.openRuleBook === "function"
-    );
-    await stylePromise;
+const stylePromise = loadRuntimeStyle("rule-book-ui", "css/rulebook.css");
+await loadRuntimeScript(
+"rule-book-ui",
+"js/ruleBook.js",
+() => typeof window.openRuleBook === "function"
+);
+await stylePromise;
 }
 
 async function ensureSettingsModule(){
-    const stylePromise = loadRuntimeStyle("settings-ui", "css/settings.css");
-    await loadRuntimeScript(
-        "settings-ui",
-        "js/settings.js",
-        () => typeof window.initializeSettings === "function" && typeof window.openSettings === "function"
-    );
-    await stylePromise;
-    window.initializeSettings();
+const stylePromise = loadRuntimeStyle("settings-ui", "css/settings.css");
+await loadRuntimeScript(
+"settings-ui",
+"js/settings.js",
+() => typeof window.initializeSettings === "function" && typeof window.openSettings === "function"
+);
+await stylePromise;
+window.initializeSettings();
 }
 
 function getOptionalModuleButton(name){
-    if(name === "careerStatistics"){ return document.getElementById("careerStatisticsButton"); }
-    if(name === "statistics"){ return document.getElementById("rivalryStatisticsButton"); }
-    if(name === "trophyRoom"){
-        return document.getElementById("careerStatisticsTrophyButton");
-    }
-    if(name === "legacy"){ return document.getElementById("legacyButton"); }
-    if(name === "ruleBook"){ return document.getElementById("ruleBookButton"); }
-    if(name === "settings"){ return document.getElementById("settingsButton"); }
-    return null;
+if(name === "careerStatistics"){ return document.getElementById("careerStatisticsButton"); }
+if(name === "statistics"){ return document.getElementById("rivalryStatisticsButton"); }
+if(name === "trophyRoom"){
+return document.getElementById("careerStatisticsTrophyButton");
+}
+if(name === "legacy"){ return document.getElementById("legacyButton"); }
+if(name === "ruleBook"){ return document.getElementById("ruleBookButton"); }
+if(name === "settings"){ return document.getElementById("settingsButton"); }
+return null;
 }
 
 function setOptionalModuleBusy(name, busy){
-    const button = getOptionalModuleButton(name);
-    if(!button){ return; }
-    button.setAttribute("aria-busy", busy ? "true" : "false");
-    button.classList.toggle("isBusy", busy);
+const button = getOptionalModuleButton(name);
+if(!button){ return; }
+button.setAttribute("aria-busy", busy ? "true" : "false");
+button.classList.toggle("isBusy", busy);
 }
 
 async function ensureOptionalModule(name){
-    if(optionalModuleStates.get(name) === "ready"){ return true; }
+if(optionalModuleStates.get(name) === "ready"){ return true; }
 
-    optionalModuleStates.set(name, "loading");
-    try{
-        if(name === "careerStatistics" || name === "statistics"){
-            await ensureStatisticsModule();
-        }else if(name === "trophyRoom"){
-            await ensureTrophyRoomModule();
-        }else if(name === "legacy"){
-            await ensureLegacyModule();
-        }else if(name === "ruleBook"){
-            await ensureRuleBookModule();
-        }else if(name === "settings"){
-            await ensureSettingsModule();
-        }else{
-            throw new Error(`Unknown optional module: ${name}`);
-        }
-        optionalModuleStates.set(name, "ready");
-        return true;
-    }catch(error){
-        optionalModuleStates.set(name, "error");
-        throw error;
-    }
+optionalModuleStates.set(name, "loading");
+try{
+if(name === "careerStatistics" || name === "statistics"){
+await ensureStatisticsModule();
+}else if(name === "trophyRoom"){
+await ensureTrophyRoomModule();
+}else if(name === "legacy"){
+await ensureLegacyModule();
+}else if(name === "ruleBook"){
+await ensureRuleBookModule();
+}else if(name === "settings"){
+await ensureSettingsModule();
+}else{
+throw new Error(`Unknown optional module: ${name}`);
+}
+optionalModuleStates.set(name, "ready");
+return true;
+}catch(error){
+optionalModuleStates.set(name, "error");
+throw error;
+}
 }
 
 function isOptionalOpenContextCurrent(originScreen, originRevision, requestId){
-    const currentScreen = typeof window.getActiveScreenName === "function"
-        ? window.getActiveScreenName()
-        : originScreen;
-    const currentRevision = typeof window.getNavigationRevision === "function"
-        ? window.getNavigationRevision()
-        : originRevision;
+const currentScreen = typeof window.getActiveScreenName === "function"
+? window.getActiveScreenName()
+: originScreen;
+const currentRevision = typeof window.getNavigationRevision === "function"
+? window.getNavigationRevision()
+: originRevision;
 
-    return requestId === optionalOpenRequestId
-        && currentScreen === originScreen
-        && currentRevision === originRevision;
+return requestId === optionalOpenRequestId
+&& currentScreen === originScreen
+&& currentRevision === originRevision;
 }
 
 async function openOptionalModule(name){
-    const requestId = ++optionalOpenRequestId;
-    const originScreen = typeof window.getActiveScreenName === "function"
-        ? window.getActiveScreenName()
-        : null;
-    const originRevision = typeof window.getNavigationRevision === "function"
-        ? window.getNavigationRevision()
-        : 0;
+const requestId = ++optionalOpenRequestId;
+const originScreen = typeof window.getActiveScreenName === "function"
+? window.getActiveScreenName()
+: null;
+const originRevision = typeof window.getNavigationRevision === "function"
+? window.getNavigationRevision()
+: 0;
 
-    setOptionalModuleBusy(name, true);
-    try{
-        await ensureOptionalModule(name);
-        if(!isOptionalOpenContextCurrent(originScreen, originRevision, requestId)){ return false; }
+setOptionalModuleBusy(name, true);
+try{
+await ensureOptionalModule(name);
+if(!isOptionalOpenContextCurrent(originScreen, originRevision, requestId)){ return false; }
 
-        if(name === "careerStatistics"){
-            window.openCareerStatistics();
-        }else if(name === "statistics"){
-            if(!currentShowdown){
-                if(typeof window.showAppNotice === "function"){
-                    window.showAppNotice("No active showdown is available for Rivalry Statistics.", "error");
-                }
-                return false;
-            }
-            window.openRivalryStatistics();
-        }else if(name === "trophyRoom"){
-            window.openTrophyRoom();
-        }else if(name === "legacy"){
-            const opened = showScreen("legacy");
-            if(opened && typeof window.mountCareerModeRestorePanel === "function"){
-                window.mountCareerModeRestorePanel();
-            }
-            return opened;
-        }else if(name === "ruleBook"){
-            window.openRuleBook();
-        }else if(name === "settings"){
-            window.openSettings();
-        }
-        return true;
-    }catch(error){
-        if(typeof window.reportApplicationError === "function"){
-            window.reportApplicationError(`Unable to open ${name}`, error);
-        }else{ console.error(error); }
-        return false;
-    }finally{
-        setOptionalModuleBusy(name, false);
-    }
+if(name === "careerStatistics"){
+window.openCareerStatistics();
+}else if(name === "statistics"){
+if(!currentShowdown){
+if(typeof window.showAppNotice === "function"){
+window.showAppNotice("No active showdown is available for Rivalry Statistics.", "error");
+}
+return false;
+}
+window.openRivalryStatistics();
+}else if(name === "trophyRoom"){
+window.openTrophyRoom();
+}else if(name === "legacy"){
+const opened = showScreen("legacy");
+if(opened && typeof window.mountCareerModeRestorePanel === "function"){
+window.mountCareerModeRestorePanel();
+}
+return opened;
+}else if(name === "ruleBook"){
+window.openRuleBook();
+}else if(name === "settings"){
+window.openSettings();
+}
+return true;
+}catch(error){
+if(typeof window.reportApplicationError === "function"){
+window.reportApplicationError(`Unable to open ${name}`, error);
+}else{ console.error(error); }
+return false;
+}finally{
+setOptionalModuleBusy(name, false);
+}
 }
 
 function ensureStatisticsDashboardButtonShell(){
-    if(document.getElementById("rivalryStatisticsButton")){ return; }
-    const actions = document.querySelector("#dashboard .dashboardActions");
-    if(!actions){ return; }
+if(document.getElementById("rivalryStatisticsButton")){ return; }
+const actions = document.querySelector("#dashboard .dashboardActions");
+if(!actions){ return; }
 
-    const button = document.createElement("button");
-    button.type = "button";
-    button.id = "rivalryStatisticsButton";
-    button.className = "menuButton";
-    button.textContent = "RIVALRY STATISTICS";
+const button = document.createElement("button");
+button.type = "button";
+button.id = "rivalryStatisticsButton";
+button.className = "menuButton";
+button.textContent = "RIVALRY STATISTICS";
 
-    const deleteButton = document.getElementById("deleteActiveShowdown");
-    if(deleteButton){ actions.insertBefore(button, deleteButton); }
-    else { actions.appendChild(button); }
+const deleteButton = document.getElementById("deleteActiveShowdown");
+if(deleteButton){ actions.insertBefore(button, deleteButton); }
+else { actions.appendChild(button); }
 }
 
 function bindOptionalModuleButton(button, moduleName, marker){
-    if(!button || button.dataset[marker] === "true"){ return; }
-    button.dataset[marker] = "true";
-    button.addEventListener("click", () => openOptionalModule(moduleName));
+if(!button || button.dataset[marker] === "true"){ return; }
+button.dataset[marker] = "true";
+button.addEventListener("click", () => openOptionalModule(moduleName));
 }
 
 function initializeOptionalModules(){
-    if(optionalModulesInitialized){ return; }
+if(optionalModulesInitialized){ return; }
 
-    ensureStatisticsDashboardButtonShell();
-    bindOptionalModuleButton(document.getElementById("careerStatisticsButton"), "careerStatistics", "careerStatisticsBound");
-    bindOptionalModuleButton(document.getElementById("rivalryStatisticsButton"), "statistics", "statisticsLazyBound");
-    bindOptionalModuleButton(document.getElementById("ruleBookButton"), "ruleBook", "ruleBookBound");
-    bindOptionalModuleButton(document.getElementById("settingsButton"), "settings", "settingsBound");
+ensureStatisticsDashboardButtonShell();
+bindOptionalModuleButton(document.getElementById("careerStatisticsButton"), "careerStatistics", "careerStatisticsBound");
+bindOptionalModuleButton(document.getElementById("rivalryStatisticsButton"), "statistics", "statisticsLazyBound");
+bindOptionalModuleButton(document.getElementById("ruleBookButton"), "ruleBook", "ruleBookBound");
+bindOptionalModuleButton(document.getElementById("settingsButton"), "settings", "settingsBound");
 
-    ensureRequiredFootballVisualExperience().catch(error => {
-    if(typeof window.reportApplicationError === "function"){
-        window.reportApplicationError("Required football presentation could not be prepared", error);
-    }else{ console.error("Required football presentation could not be prepared", error); }
+ensureRequiredFootballVisualExperience().catch(error => {
+if(typeof window.reportApplicationError === "function"){
+window.reportApplicationError("Required football presentation could not be prepared", error);
+}else{ console.error("Required football presentation could not be prepared", error); }
 });
-    optionalModulesInitialized = true;
+optionalModulesInitialized = true;
 }
 
 function getOptionalModuleState(){
-    return {
-        careerStatistics: optionalModuleStates.get("careerStatistics") || "idle",
-        statistics: optionalModuleStates.get("statistics") || "idle",
-        trophyRoom: optionalModuleStates.get("trophyRoom") || "idle",
-        legacy: optionalModuleStates.get("legacy") || "idle",
-        ruleBook: optionalModuleStates.get("ruleBook") || "idle",
-        settings: optionalModuleStates.get("settings") || "idle"
-    };
+return {
+careerStatistics: optionalModuleStates.get("careerStatistics") || "idle",
+statistics: optionalModuleStates.get("statistics") || "idle",
+trophyRoom: optionalModuleStates.get("trophyRoom") || "idle",
+legacy: optionalModuleStates.get("legacy") || "idle",
+ruleBook: optionalModuleStates.get("ruleBook") || "idle",
+settings: optionalModuleStates.get("settings") || "idle"
+};
 }
 
 window.initializeOptionalModules = initializeOptionalModules;

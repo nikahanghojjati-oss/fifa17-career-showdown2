@@ -23,11 +23,11 @@
   });
   const ROLES=Object.freeze(["playerOne","playerTwo"]);
   const LAYOUTS=Object.freeze({window:"WINDOW_OPEN",guess_entry:"GUESS_ENTRY",signing_entry:"SIGNING_ENTRY",completed:"COMPLETED"});
-  // Team V's approved copy (fixtures.json "strings" at 5e05a1f) for the labels Team V draws itself. Production keeps
+  // Team V's approved copy (fixtures.json "strings" at 5e05a1f, f1Action as factory/v1-wtt5ye 273115c) for the labels Team V draws itself. Production keeps
   // every text it renders (status, buttons, timer, lock summary, errors): those elements are the production ones.
   const STRINGS=Object.freeze({
     title:"SEASON {season} · TRANSFER CHALLENGE",back:"HOME",refresh:"REFRESH",rail:Object.freeze(["Window","Guesses","Signings","Verdicts"]),railAriaLabel:"Transfer Challenge progress",
-    f1Intro:"Ends early only if you both agree.",f1RulesLine:"15 MIN · 3 SIGNINGS · 3 GUESSES",f1Action:"END EARLY",f1ActionRequested:"EARLY END REQUESTED ✓",
+    f1Intro:"Ends early only if you both agree.",f1RulesLine:"15 MIN · 3 SIGNINGS · 3 GUESSES",f1Action:"REQUEST EARLY END",f1ActionRequested:"EARLY END REQUESTED ✓",
     ruleNote:"Guess a league or nationality. A matching signing must be released.",
     guessHeading:"Guess {RIVAL}'s signings",privacyNote:"Hidden from {RIVAL} until you both lock.",
     selectPlaceholder:"Guess type",selectLeague:"League",selectNationality:"Nationality",valuePlaceholder:"Pick a type first",primary:"LOCK GUESSES",
@@ -266,7 +266,7 @@
   function tfHostMarkup(){
     const media="(max-width: 760px) and (orientation: portrait)",a=ASSET_BASE+"assets/";
     const pic=(cls,file,enter,size)=>`<picture class="${cls}"${enter?` data-sd-enter="${enter}"`:""}><source media="${media}" srcset="${a}${file}" type="image/webp"><img alt=""${size||""} decoding="async"></picture>`;
-    return `<div class="phone-hero-art" aria-hidden="true" data-sd-enter="scene">${pic("phone-hero-bg","ENV_TRANSFER_PHONE_V1.webp","",' width="1179" height="2096"')}${pic("phone-hero phone-hero-daniel","OVL_TRANSFER_DANIEL_PHONE_V1.webp","character-left")}${pic("phone-hero phone-hero-nik","OVL_TRANSFER_NIK_PHONE_V1.webp","character-right")}</div><div class="stage" data-phone-contract="cinematic" role="region" aria-label="Transfer Challenge"></div>`;
+    return `<div class="phone-hero-art" aria-hidden="true" data-sd-enter="scene">${pic("phone-hero-bg","ENV_TRANSFER_PHONE_V1.webp","",' width="1179" height="2096"')}${pic("phone-hero phone-hero-daniel","OVL_TRANSFER_DANIEL_PHONE_V2.webp","character-left")}${pic("phone-hero phone-hero-nik","OVL_TRANSFER_NIK_PHONE_V2.webp","character-right")}</div><div class="stage" data-phone-contract="cinematic" role="region" aria-label="Transfer Challenge"></div>`;
   }
   function tfTeardown(section){
     tfRestore();

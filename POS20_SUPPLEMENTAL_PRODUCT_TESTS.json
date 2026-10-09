@@ -984,6 +984,75 @@
       ]
     },
     {
+      "path": "tests/contracts/hunt-1018-session-replacement-contracts.cjs",
+      "patterns": [
+        "^js/sparkRemoteJoining\\.js$",
+        "^js/sparkPrivateSession\\.js$",
+        "^js/sparkStandardAuthPrivateSession\\.js$",
+        "^tests/contracts/hunt-1018-session-replacement-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/hunt-1018-reconnect-authority-contracts.cjs",
+      "patterns": [
+        "^js/productionSharedJourneyReconnect\\.js$",
+        "^js/sharedJourneyReconnect\\.js$",
+        "^js/sharedMultiSeasonProgression\\.js$",
+        "^tests/contracts/hunt-1018-reconnect-authority-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/hunt-1019-restore-career-contracts.cjs",
+      "patterns": [
+        "^js/restore\\.js$",
+        "^js/importAnalysis\\.js$",
+        "^js/rivalryLegacyV10\\.js$",
+        "^js/saveLibraryFoundation\\.js$",
+        "^js/saveLibraryRuntime\\.js$",
+        "^js/storageTransaction\\.js$",
+        "^tests/contracts/hunt-1019-restore-career-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/hunt-1017-terminal-close-recovery-contracts.cjs",
+      "patterns": [
+        "^js/productionSharedTerminalClose\\.js$",
+        "^js/sharedTerminalClose\\.js$",
+        "^js/seasonFinalV10\\.js$",
+        "^js/sharedHistoryConvergence\\.js$",
+        "^tests/contracts/hunt-1017-terminal-close-recovery-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/hunt-1017-season-fields-reset-contracts.cjs",
+      "patterns": [
+        "^js/productionSharedSeasonResults\\.js$",
+        "^tests/contracts/hunt-1017-season-fields-reset-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/ho-020-style-loader-timeout-contracts.cjs",
+      "patterns": [
+        "^js/v10Screens\\.js$",
+        "^tests/contracts/ho-020-style-loader-timeout-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/job-1005-final-season-cell-contracts.cjs",
+      "patterns": [
+        "^js/seasonFinalV10\\.js$",
+        "^visual-assets/v10_1/final-winner/(app-shell\\.html|app-strings\\.json|final-winner\\.(js|css))$",
+        "^tests/contracts/job-1005-final-season-cell-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
       "path": "tests/contracts/showdown-gate-coverage-contracts.cjs",
       "patterns": [
         "^\\.github/workflows/",
@@ -1017,6 +1086,22 @@
         "^tests/fixtures/showdown-gate/",
         "^tests/support/gha-workflow-parse\\.cjs$",
         "^tests/contracts/showdown-gate-watchdog-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/studio-z-contracts.cjs",
+      "patterns": [
+        "^js/showdown\\.js$",
+        "^js/offlineApp\\.js$",
+        "^js/onlinePlayerIdentity\\.js$",
+        "^js/sparkRemoteJoining\\.js$",
+        "^js/productionSharedJourneyEntry\\.js$",
+        "^firestore\\.spark\\.rules$",
+        "^firestore\\.stage5c\\.rules$",
+        "^css/v10Transfer\\.css$",
+        "^data/transferOptions\\.js$",
+        "^tests/contracts/studio-z-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
     }

@@ -35,3 +35,13 @@
   #statistics[data-rivalry-legacy-v10] .rv-label { font-size:12px; }
   #statistics[data-rivalry-legacy-v10] .rv-manager strong { font-size:17px; }
 }
+
+/* JOB-1032: keep the accessible heading text in the DOM but never paint it (the shared rule is not loaded on these screens). */
+#statistics[data-rivalry-legacy-v10] .sd-visually-hidden, #legacy[data-rivalry-legacy-v10] .sd-visually-hidden { position:absolute !important; width:1px; height:1px; margin:-1px; padding:0; overflow:hidden; clip:rect(0 0 0 0); clip-path:inset(50%); white-space:nowrap; border:0; }
+
+/* JOB-1032 phones: css/legacy.css gives #legacy width:96vw (480px and below) and main keeps its 11px top / side padding, which left a
+   page-colour strip down the right edge and across the top. Fill the viewport edge to edge with the screen's own background. */
+@media(max-width:900px) {
+  main:has(> #legacy[data-rivalry-legacy-v10]) { padding-top:0; padding-left:0; padding-right:0; background:#07080a; }
+  #legacy[data-rivalry-legacy-v10] { width:100%; max-width:none; }
+}

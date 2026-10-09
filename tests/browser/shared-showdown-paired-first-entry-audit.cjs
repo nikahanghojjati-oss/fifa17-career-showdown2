@@ -76,6 +76,8 @@ const SAVE_KEY="careerModeShowdown.saveLibrary";
     await page.evaluate(()=>{window.CareerModeOnlinePlayerIdentity?.getState?.();document.getElementById("startShowdown").textContent="";});
     await page.waitForFunction(()=>document.getElementById("startShowdown")?.textContent==="START A SHOWDOWN",null,{timeout:4000});
     await page.locator("#newShowdown").click();
+    await page.locator("#connectPlayersScreen").waitFor({state:"visible",timeout:5000});
+    await page.locator("#connectPlayersSetup").click();
     await page.locator("#createShowdown").waitFor({state:"visible",timeout:5000});
     assert.equal(await page.locator("#managerOne").inputValue(),"Daniel");
     assert.equal(await page.locator("#managerTwo").inputValue(),"Nik");
@@ -118,7 +120,7 @@ const SAVE_KEY="careerModeShowdown.saveLibrary";
       window.CareerModeSparkConnectedAccount={initialize:async()=>true,getState:()=>({connected:true,accountId})};
       window.CareerModeSparkPrivatePairing={initialize:async()=>true,getState:()=>({registered:true,deviceId})};
       window.CareerModeSparkConnectedRivalry={initialize:async()=>true,getState:()=>({attached:true,rivalryId,accountId,deviceId,binding:{managerRole:"playerTwo"}})};
-      window.CareerModePersistentNikDanielPair={initialize:async()=>{window.__pairControlsOpenCount+=1;return {status:"paired"};},render:()=>{let panel=document.getElementById("persistentNikDanielPairPanel");if(!panel){panel=document.createElement("section");panel.id="persistentNikDanielPairPanel";panel.textContent="CAREER READY";document.body.appendChild(panel);}return panel;}};
+      window.CareerModePersistentNikDanielPair={initialize:async()=>{window.__pairControlsOpenCount+=1;return {status:"paired"};},render:()=>{let panel=document.getElementById("persistentNikDanielPairPanel");if(!panel){panel=document.createElement("section");panel.id="persistentNikDanielPairPanel";panel.textContent="CAREER READY";document.getElementById("connectPlayersPairSlot").appendChild(panel);}return panel;}};
       window.CareerModeOnlinePlayerIdentity={...window.CareerModeOnlinePlayerIdentity,syncPair:async()=>window.CareerModePersistentNikDanielPair.initialize({force:true})};
       window.CareerModeSparkRemoteJoining={
         getState:()=>state,
@@ -135,7 +137,8 @@ const SAVE_KEY="careerModeShowdown.saveLibrary";
     const connection=page.locator("#productionSharedJourneyEntryOverlay button",{hasText:"REVIEW CONNECTION"});
     await connection.waitFor({state:"visible",timeout:5000});await connection.click();
     await page.waitForFunction(()=>window.__pairControlsOpenCount===1,null,{timeout:3000});
-    await page.locator("#persistentNikDanielPairPanel").waitFor({state:"visible",timeout:3000});
+    await page.locator("#connectPlayersScreen #persistentNikDanielPairPanel").waitFor({state:"visible",timeout:3000});
+    assert.equal(await page.locator("#mainMenu #persistentNikDanielPairPanel").count(),0,"Home must never contain the pair panel.");
     // Job 33 (R5b): a connected pair without an ACTIVE session goes straight to Remote Joining (no GET READY CONTINUE tap).
     await page.evaluate(()=>window.CareerModeProductionSharedJourneyEntry.openPanel());
     await page.waitForFunction(()=>window.__peerRemoteOpenCount===1,null,{timeout:3000});

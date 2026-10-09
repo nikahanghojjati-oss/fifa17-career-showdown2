@@ -255,3 +255,9 @@ html[data-v10-tools] #legacy .compactButton.dangerButton:hover:not(:disabled) { 
 html[data-v10-tools] #legacy :is(strong, h5) { color: #ece6d6; }
 html[data-v10-tools] #legacy .legacyImportVerdict.ready strong { color: #6fbf7f; }
 html[data-v10-tools] #legacy .legacyImportVerdict.blocked strong { color: #f0a49e; }
+
+/* JOB-1031: Career Statistics on short phones. The two rows of headline tiles shared a 56px band, too short for the
+   "Together" caption under the number. The band is taller and the hub starts 12px higher, so the table keeps its size. */
+@media (max-width: 760px) and (orientation: portrait) and (max-height: 600px) {
+  #careerStatistics.careerScreenV10 .phoneHub { top: calc(42% - 12px); grid-template-rows: 68px 44px minmax(0,1fr); }
+}

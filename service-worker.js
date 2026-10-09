@@ -1,5 +1,5 @@
-const RUNTIME_REVISION = "1.9.1-r62";
-const PREVIOUS_RUNTIME_REVISION = "1.9.1-r61";
+const RUNTIME_REVISION = "1.9.1-r63";
+const PREVIOUS_RUNTIME_REVISION = "1.9.1-r62";
 const CACHE_PREFIX = "career-mode-showdown-shell-";
 const MODE_CACHE_PREFIX = "career-mode-showdown-runtime-mode-";
 const CACHE_NAME = `${CACHE_PREFIX}${RUNTIME_REVISION}`;
@@ -217,6 +217,8 @@ const SHELL_PATHS = Object.freeze([
     "visual-assets/v10_1/shared/navbar/navbar.js",
     "js/v10Setup.js",
     "css/v10Setup.css",
+    "js/connectPlayersScreenV10.js",
+    "css/connectPlayersV10.css",
     "js/transferScreenV10.js",
     "css/v10Transfer.css",
     "visual-assets/v10_1/tr2/slice-02-plate/plate.css",

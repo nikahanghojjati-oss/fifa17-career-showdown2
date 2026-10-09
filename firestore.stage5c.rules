@@ -849,6 +849,34 @@ service cloud.firestore {
     }
     // STAGE5C_CANDIDATE_SESSION_FUNCTIONS_END
 
+    // Studio Z4: one shared pointer to the pair's current session, so the rival's phone joins without a typed code.
+    // Only the two accounts of the live paired rivalry read it; only a session's own host may point it at that open or
+    // active session, with the session's own expiry and a server write time. It is never listed or deleted.
+    function validSessionOfferWrite(rivalryId, offerId) {
+      let offer = request.resource.data;
+      return offerId == "current"
+        && activeActor()
+        && activePairedRivalry(rivalryId)
+        && currentlyEntitled(rivalryId)
+        && offer.keys().hasOnly(["schemaVersion", "sessionId", "hostAccountId", "expiresAt", "updatedAt"])
+        && offer.keys().hasAll(["schemaVersion", "sessionId", "hostAccountId", "expiresAt", "updatedAt"])
+        && offer.schemaVersion == 1
+        && validSessionId(offer.sessionId)
+        && offer.hostAccountId == request.auth.uid
+        && offer.updatedAt == request.time
+        && offer.expiresAt is timestamp
+        && offer.expiresAt > request.time
+        && validSessionOfferTarget(rivalryId, offer);
+    }
+
+    function validSessionOfferTarget(rivalryId, offer) {
+      let session = get(/databases/$(database)/documents/rivalries/$(rivalryId)/sessions/$(offer.sessionId)).data.data;
+      return session.rivalryId == rivalryId
+        && session.hostAccountId == request.auth.uid
+        && (session.state == "open" || session.state == "active")
+        && session.expiresAt == offer.expiresAt;
+    }
+
     function capabilityCanReadPendingRivalry(rivalryId) {
       let invite = get(/databases/$(database)/documents/rivalries/$(rivalryId)/invites/$(rivalryId));
       return activeActor()
@@ -942,6 +970,12 @@ service cloud.firestore {
         allow list, delete: if false;
       }
       // STAGE5C_CANDIDATE_SESSION_MATCH_END
+
+      match /sessionOffers/{offerId} {
+        allow get: if offerId == "current" && activeActor() && activePairedRivalry(rivalryId) && currentlyEntitled(rivalryId);
+        allow create, update: if validSessionOfferWrite(rivalryId, offerId);
+        allow list, delete: if false;
+      }
     }
 
     match /{document=**} {

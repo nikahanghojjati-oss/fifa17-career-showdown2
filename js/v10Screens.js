@@ -128,11 +128,11 @@
     const entry={link,ready:null,settled:false};
     entry.ready=new Promise(resolve=>{
       let timer=null;
-      // A sheet that arrives after the timeout settled it is synced again: Chromium applies a late sheet even when its
-      // link was disabled while it loaded.
-      const done=()=>{if(timer!==null)root.clearTimeout(timer);timer=null;entry.settled=true;vsSyncStyles();resolve(true);};
-      link.addEventListener("load",done,{once:true});link.addEventListener("error",done,{once:true});
-      timer=root.setTimeout(done,STYLE_TIMEOUT_MS);
+      // The timeout releases the screen, but a link whose sheet is still null is still loading: it stays unsettled (left
+      // alone) until it really loads or errors. Listeners stay on: a re-enabled link Chromium fetches again settles the same way.
+      const done=real=>{if(timer!==null)root.clearTimeout(timer);timer=null;if(real||link.sheet!==null)entry.settled=true;vsSyncStyles();if(resolve)resolve(true);resolve=null;};
+      link.addEventListener("load",()=>done(true));link.addEventListener("error",()=>done(true));
+      timer=root.setTimeout(()=>done(false),STYLE_TIMEOUT_MS);
     });
     styles.set(file,entry);
     doc.head.appendChild(link);
@@ -174,11 +174,13 @@
     // html[data-v10-screen] names the Team V screen on show, so css/v10Shell.css can restyle the app's own header around it.
     const doc=vsDoc(),html=doc&&doc.documentElement,screen=liveIds.find(id=>registry.get(id).overlay!==true)||null;
     if(html&&html.dataset&&(html.dataset.v10Screen||null)!==screen){if(screen)html.dataset.v10Screen=screen;else delete html.dataset.v10Screen;}
-    for(const [file,{link,settled}] of styles){
-      if(!settled)continue;
+    for(const [file,entry] of styles){
+      const link=entry.link;
+      if(!entry.settled)continue;
       let on=ALWAYS_ON.includes(file);
       if(!on&&live.length)on=KIT.styles.some(kit=>BASE+kit===file)||live.some(def=>def.css.some(css=>BASE+css===file));
-      if(link.disabled!==!on)link.disabled=!on;
+      // Chromium drops a disabled link's sheet and fetches it again when it is enabled: it is loading again until it settles.
+      if(link.disabled!==!on){link.disabled=!on;if(on&&link.sheet===null)entry.settled=false;}
       if(link.sheet&&link.sheet.disabled!==!on)link.sheet.disabled=!on;
     }
   }

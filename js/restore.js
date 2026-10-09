@@ -240,6 +240,33 @@
       options:{order:SAVE_LIBRARY_RESTORE_ORDER.slice(),guardRequestedBeforeEachWrite:true}
     };
   }
+  async function getSaveLibraryValidationAuthority(){
+    const ready=()=>{const foundation=window.CareerModeSaveLibraryFoundation;return foundation&&typeof foundation.validateSaveLibrary==="function"?foundation:null;};
+    if(ready())return ready();
+    if(typeof window.loadRuntimeScript==="function"){
+      try{await window.loadRuntimeScript("save-library-foundation","js/saveLibraryFoundation.js",()=>Boolean(window.CareerModeSaveLibraryFoundation));}catch(_error){return null;}
+    }
+    return ready();
+  }
+  // The complete candidate registry must pass the same foundation validation the runtime applies at
+  // activation, before any canonical byte is written. Byte checksums alone do not prove usable data.
+  async function validateSaveLibraryCandidate(candidateRaw,currentRaw){
+    if(!own(candidateRaw,"saveLibrary")||candidateRaw.saveLibrary===null||candidateRaw.saveLibrary===currentRaw.saveLibrary)return {ok:true};
+    const foundation=await getSaveLibraryValidationAuthority();
+    if(!foundation)return {ok:false,status:"save-library-runtime-unavailable",errors:["Save Library restore compatibility is unavailable. Nothing was written."]};
+    let library;
+    try{library=JSON.parse(candidateRaw.saveLibrary);}catch(_error){return {ok:false,status:"analysis-blocked",errors:["Save Library: Save Library must be a plain object."]};}
+    const errors=foundation.validateSaveLibrary(library);
+    return errors.length?{ok:false,status:"analysis-blocked",errors:errors.map(message=>`Save Library: ${message}`)}:{ok:true};
+  }
+  // Exact rollback of a verified commit whose Save Library runtime could not be activated: restore the
+  // reviewed snapshot bytes for every key the commit changed, guarded on the committed bytes.
+  function rollbackCommittedRestore(transaction,candidateRaw,previousRaw){
+    const keys=Array.isArray(transaction.affectedKeys)?transaction.affectedKeys:[];
+    const rollbackRaw={},committedRaw={};
+    for(const name of keys){rollbackRaw[name]=previousRaw[name];committedRaw[name]=candidateRaw[name];}
+    return window.applyCareerModeRawStorageTransaction(rollbackRaw,committedRaw,{order:SAVE_LIBRARY_RESTORE_ORDER.slice().reverse(),guardRequestedBeforeEachWrite:true});
+  }
   async function applyCareerModeRestore(file,choices={},reviewContext={}){
     if(restoreInFlight)return {ok:false,status:"busy",errors:["A restore transaction is already in progress."]};
     const confirmedFile=file;
@@ -280,7 +307,9 @@
           errors:[`Current browser data changed after review: ${reviewedChanges.join(", ")}. Review the refreshed state before applying.`]
         };
       }
-      const plan=createCareerModeRestorePlan(analysis,currentRaw,confirmedChoices);
+      // Plan from the same complete snapshot the reviewed preview used, so a keep-current Save Library
+      // choice can never be reinterpreted as a clean destination at apply time.
+      const plan=createCareerModeRestorePlan(analysis,completeRaw,confirmedChoices);
       if(!plan.ok)return {ok:false,status:plan.status,analysis,plan,currentRaw:completeRaw,errors:plan.errors,warnings:plan.warnings};
       if(typeof window.applyCareerModeRawStorageTransaction!=="function")return {ok:false,status:"transaction-unavailable",analysis,plan,currentRaw:completeRaw,errors:["Storage transaction authority is unavailable."]};
 
@@ -307,6 +336,8 @@
           expectedRaw=prepared.expectedRaw;
           transactionOptions=prepared.options;
         }
+        const candidateCheck=await validateSaveLibraryCandidate(candidateRaw,completeRaw);
+        if(!candidateCheck.ok)return {ok:false,status:candidateCheck.status,analysis,plan,currentRaw:completeRaw,errors:candidateCheck.errors,warnings:plan.warnings};
         if(window.CareerModeSaveLibraryRuntime&&typeof window.CareerModeSaveLibraryRuntime.invalidateAuthority==="function")window.CareerModeSaveLibraryRuntime.invalidateAuthority();
       }
 
@@ -328,12 +359,28 @@
         try{await window.CareerModeSaveLibraryRuntime.activate();}
         catch(error){runtimeReactivationError=error&&error.message?error.message:String(error);}
       }
+      if(runtimeReactivationError!==null){
+        // A committed library the runtime cannot activate is not a successful restore.
+        const rollback=rollbackCommittedRestore(transaction,candidateRaw,expectedRaw);
+        const rolledBack=Boolean(rollback&&rollback.ok);
+        if(rolledBack&&expectedRaw.saveLibrary!==null&&expectedRaw.activeShowdown===null){
+          try{await window.CareerModeSaveLibraryRuntime.activate();}catch(_error){/* previous bytes are restored; activation retries on next Continue */}
+        }
+        return {
+          ok:false,
+          status:rolledBack?"rolled-back":"rollback-failed-critical",
+          analysis,plan,currentRaw:completeRaw,transaction:rolledBack?transaction:rollback,commitTransaction:transaction,rollbackTransaction:rollback,
+          runtimeActivationError:runtimeReactivationError,
+          errors:["Restore did not commit successfully."],
+          warnings:plan.warnings
+        };
+      }
       return {
         ok:Boolean(transaction&&transaction.ok),
         status:transaction&&transaction.ok?"success":(transaction&&transaction.status)||"transaction-failed",
         analysis,plan,currentRaw:completeRaw,transaction,
         errors:transaction&&transaction.ok?[]:[transaction&&transaction.status==="write-failed-clean"?"Restore could not start writing. Canonical browser data was left unchanged.":"Restore did not commit successfully."],
-        warnings:runtimeReactivationError?[...plan.warnings,`Restore committed, but Save Library runtime reactivation requires a reload: ${runtimeReactivationError}`]:plan.warnings
+        warnings:plan.warnings
       };
     }catch(error){
       return {ok:false,status:"restore-error",errors:[error&&error.message?error.message:String(error)]};
