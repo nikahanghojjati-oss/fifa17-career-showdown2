@@ -170,8 +170,13 @@ async function commitSeasonViaUi(daniel,nik,p1,p2,winner,{finalSeason=false,seas
   assert.equal(await daniel.page.locator("#sharedCanonicalScoringPanel").isVisible().catch(()=>false),false,"scoring still waits for Nik's own acknowledgement");
   await nik.page.waitForFunction(()=>document.getElementById("sharedSeasonCommitAction")?.textContent==="ACKNOWLEDGE SHARED SEASON",null,{timeout:45000});
   await nik.page.locator("#sharedSeasonCommitAction").click({timeout:30000});
+  // JOB-1038 no-tap mode: on the final season the automatic close can finish before this page is checked; the closed
+  // Showdown then no longer shows the live commit and scoring panels, so only the Final Winner checks below apply.
+  const autoClosedFinal=FINAL_NO_CLOSE_TAP&&finalSeason;
   for(const m of [daniel,nik]){
-    await m.page.waitForFunction(()=>document.getElementById("sharedSeasonCommitAction")?.textContent==="SEASON COMMIT ACKNOWLEDGED ✓",null,{timeout:45000});
+    await m.page.waitForFunction(allowClosed=>document.getElementById("sharedSeasonCommitAction")?.textContent==="SEASON COMMIT ACKNOWLEDGED ✓"||(allowClosed&&window.CareerModeProductionSharedTerminalClose?.getState?.()?.phase==="CLOSED"),autoClosedFinal,{timeout:45000});
+    const closedAlready=autoClosedFinal&&await m.page.evaluate(()=>window.CareerModeProductionSharedTerminalClose?.getState?.()?.phase==="CLOSED");
+    if(!closedAlready){
     try{
       await m.page.waitForFunction(()=>window.CareerModeProductionSharedCanonicalScoring?.getState?.()?.phase==="SCORING_RECONCILED",null,{timeout:60000});
     }catch(error){
@@ -187,11 +192,12 @@ async function commitSeasonViaUi(daniel,nik,p1,p2,winner,{finalSeason=false,seas
     }
     const scoringView=await m.page.evaluate(()=>{const v=window.CareerModeProductionSharedCanonicalScoring?.getState?.();return v?{authoritative:v.authoritative,p1:v.scoring?.playerOne?.total,p2:v.scoring?.playerTwo?.total,winner:v.winner}:null;});
     assert.deepEqual(scoringView,{authoritative:true,p1,p2,winner:winner==="draw"?"draw":winner==="Daniel"?"playerOne":"playerTwo"},`${m.user} canonical scoring state`);
+    }
     if(finalSeason){
       // BH-8: after the last commit the Final Winner screen can take over before this check runs, so on the final season either
       // the rendered scoring panel or the Final Winner screen is accepted; the panel text below is still asserted either way.
       await m.page.waitForFunction(()=>{const shown=id=>{const el=document.getElementById(id);return Boolean(el&&el.getClientRects().length&&getComputedStyle(el).visibility!=="hidden");};return shown("sharedCanonicalScoringPanel")||shown("finalWinnerScreen");},null,{timeout:45000});
-      assert.equal(await m.page.locator("#sharedCanonicalScoringPanel").evaluate(el=>el.classList.contains("hidden")),false,`${m.user} scoring panel was rendered for the final season`);
+      if(!closedAlready)assert.equal(await m.page.locator("#sharedCanonicalScoringPanel").evaluate(el=>el.classList.contains("hidden")),false,`${m.user} scoring panel was rendered for the final season`);
       // JOB-1005: the Final Winner screen itself shows the final season's number and score (no extra tap).
       assert.ok(Number.isInteger(seasonNumber),"the final season number is passed to commitSeasonViaUi");
       await m.page.waitForFunction(({n,s1,s2})=>{const t=id=>document.getElementById(id)?.textContent?.trim();return t("panelLastSeasonLabel")===`FINAL SEASON ${n}`&&t("panelLastSeasonDaniel")===String(s1)&&t("panelLastSeasonNik")===String(s2);},{n:seasonNumber,s1:p1,s2:p2},{timeout:60000});
@@ -199,8 +205,8 @@ async function commitSeasonViaUi(daniel,nik,p1,p2,winner,{finalSeason=false,seas
     }else{
       await m.page.locator("#sharedCanonicalScoringPanel").waitFor({state:"visible",timeout:5000});
     }
-    assert.equal((await m.page.locator("#sharedCanonicalScoringTotals").textContent()).trim(),`Daniel: ${p1} · Nik: ${p2}`);
-    assert.equal((await m.page.locator("#sharedCanonicalScoringWinner").textContent()).trim(),winner==="draw"?"Season result: Draw":`Season winner: ${winner}`);
+    if(!closedAlready)assert.equal((await m.page.locator("#sharedCanonicalScoringTotals").textContent()).trim(),`Daniel: ${p1} · Nik: ${p2}`);
+    if(!closedAlready)assert.equal((await m.page.locator("#sharedCanonicalScoringWinner").textContent()).trim(),winner==="draw"?"Season result: Draw":`Season winner: ${winner}`);
     // On the final season the J10 Final Reconciliation step below waits for authoritative Shared History instead.
     if(!finalSeason)await m.page.locator("#sharedHistoryConvergencePanel").waitFor({state:"visible",timeout:45000});
   }
