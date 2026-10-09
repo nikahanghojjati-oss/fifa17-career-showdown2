@@ -397,6 +397,19 @@ TEAM = {"Sol chat": "Team blue · GPT chat", "Sol Work mode": "Team green · GPT
 MODEL_HEX = (("astra", "#f43f5e"), ("luna", "#e879f9"), ("6.1", "#2dd4bf"), ("sol", "#67e8f9"), ("opus", "#f97316"), ("sonnet", "#8b5cf6"), ("haiku", "#facc15"), ("codex", "#ffffff"))
 
 
+BADGE = {"blue": ("🔵", "#7dd3fc"), "green": ("🟢", "#22c55e"), "yellow": ("🟡", "#facc15"), "orange": ("🟠", "#f97316"), "white": ("⚪", "#ffffff"), "purple": ("🟣", "#a78bfa")}
+LANE_COLOUR = {"Sol chat": "blue", "Sol Work mode": "green", "Codex": "white", "Opus": "purple", "Sonnet": "purple", "Haiku": "purple"}
+
+
+def team_badge(q, worker):
+    """The lead's team colour for the job (BOARD.json row "team": blue chat, green Work mode Sol, yellow Work mode Luna, orange Astra, white Codex, purple Claude)."""
+    c = ((rowmap.get(str(q["id"])) or {}).get("team") or "").lower()
+    c = c if c in BADGE else LANE_COLOUR.get(worker, "")
+    if not c:
+        return f"<b>{e(worker)}</b>"
+    return f'<b style="color:{BADGE[c][1]}">{BADGE[c][0]} Team {c}</b>'
+
+
 def model_chip(q):
     """The exact model and effort from the job's BOARD.json row ("model", "effort"); each GPT model has its own colour (Astra red: the expensive one)."""
     r = rowmap.get(str(q["id"])) or {}
@@ -404,7 +417,9 @@ def model_chip(q):
     if not mdl:
         return '<span class="m">model not set</span>'
     col = next((c for k, c in MODEL_HEX if k in mdl.lower()), "#9ca3af")
-    return f'<b style="color:{col}">● {e(mdl)}' + (f" · {e(eff)} effort" if eff else "") + "</b>"
+    where = (r.get("place") or "").strip()
+    return (f'<b style="color:{col}">● {e(mdl)}' + (f" · {e(eff)} effort" if eff else "") + "</b>"
+            + (f' <span class="m">· {e(where)}</span>' if where and q.get("_kind") == "next" else ""))
 
 
 LASTNOTE = []
@@ -414,6 +429,7 @@ LASTPLACE = [None]  # 'Type this in X' shows once for jobs in a row that go to t
 
 
 def job_html(q, i, kind):
+    q["_kind"] = kind
     worker, prog, fin = job_prog(q)
     st = run_state(q) if kind == "run" else short_state(q.get("state", ""))
     head = f'{sq(q["lane"])} <b>#{i} · {e(q["n"])}</b> <span class="tm">{e(q.get("team", "G"))}</span> {e(q["title"])}'
@@ -430,7 +446,7 @@ def job_html(q, i, kind):
     meta = [x for x in meta if not x.startswith("Worker: ") and not x.endswith("% done") and " % done (" not in x]
     out = (head + f'<br><b class="br"><i class="q{QI.get(worker, 9)}" style="width:{max(pct, 2):.0f}%"></i></b><span class="pc">{pct:.4f} %</span>'
            + ("<span class='m'> worker's part done</span>" if kind == "run" and not q.get("progress") and pct == 100 else "")
-           + f'<br><b class="q{QI.get(worker, 9)}">{e(TEAM.get(worker, worker))}</b> ' + model_chip(q) + ' <span class="m">' + e(" · ".join(meta)) + "</span>")
+           + "<br>" + team_badge(q, worker) + " " + model_chip(q) + ' <span class="m">' + e(" · ".join(meta)) + "</span>")
     if kind == "run" and q.get("lane") in ("sol-chat", "blue", "chat", "sol-work", "green") and not status_done(q["n"]):
         out += '<br><span class="m">To keep it going, type this in the same chat:</span><code class="cp">next</code>'  # GPT jobs end each reply with NEXT
     if kind == "next":
@@ -443,7 +459,10 @@ def job_html(q, i, kind):
         LASTNOTE[:] = note.split("; ")
         note = "; ".join(parts)
         place = re.sub(r"^in\s+", "", place)
-        if re.search(r"nothing for (nik|you)", pl, re.I):
+        r1 = rowmap.get(str(q["id"])) or {}
+        if "prompt" in r1 and r1.get("model"):  # the lead's full row: Model · Effort · Where is on the line above, the prompt goes in verbatim
+            out += ('<br><span class="m">Paste this:</span><code class="cp">' + e(r1["prompt"]) + "</code>") if (r1.get("prompt") or "").strip() else '<br><span class="m">Nothing for you to type: the lead runs it.</span>'
+        elif re.search(r"nothing for (nik|you)", pl, re.I):
             out += '<br><span class="m">Nothing for you to type: the lead starts it.</span>'
         else:
             lead = {"chat": "New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:",
