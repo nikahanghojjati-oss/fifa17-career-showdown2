@@ -1,14 +1,14 @@
 # Board archive
 
-[Back to the board](BOARD.md) · generated 2026-10-09 6:44 PM Boston time (EDT). Detail and history behind the one board.
+[Back to the board](BOARD.md) · generated 2026-10-09 6:46 PM Boston time (EDT). Detail and history behind the one board.
 
 ## Old detailed board
 
 # Showdown board: G Factory and V Factory
 
-🌐 **Live: runtime 1.9.1-r66** (main `8e1a5833`) · 🔄 **41 moving** · ⏭ 7 up next · 👤 2 waiting on Nik · 🗂 7 later · updated 2026-10-09 6:44 PM Boston time (EDT)
+🌐 **Live: runtime 1.9.1-r66** (main `8e1a5833`) · 🔄 **42 moving** · ⏭ 5 up next · 👤 2 waiting on Nik · 🗂 7 later · updated 2026-10-09 6:46 PM Boston time (EDT)
 
-🐕 **Barking: POS20 has waited 1 min for a machine.** · POS20 #304 6/16
+🐕 **Barking: Gameplay Fast on #444 has waited 4 min for a machine; POS20 on #444 has waited 4 min for a machine; POS20 has waited 3 min for a machine.** · POS20 #304 6/16
 
 ## Your next move
 
@@ -49,6 +49,7 @@
 | G | 1028 | Statistics shows an abandoned-only career (hunt 1019 H5) | 🟧 Team G lead | in r65 (live 2026-10-09) | - |
 | G | 1027 | Restore keeps and checks the Save Library; career cache race (hunt 1019 H1, H2, H4) | 🟧 Claude helper | in r65 (live 2026-10-09) | - |
 | G | 1048 | Rule Book: three missing rules, and the season review stops pointing at a missing button (Olympiad V1, V2) | 🟦 Sol chat | worker done, lead checking (PR #443): the lead registered the test the worker was blocked on | - |
+| G | 1049 | Club reveal stops spoiling the sealed club (Olympiad V3) | 🟦 Sol chat | worker done, lead checking (PR #444); Claude Haiku adds the test | - |
 
 | Hand-off | From → To | What | Progress |
 | --- | --- | --- | --- |
@@ -74,10 +75,8 @@ _Gameplay, online sync, every merge and every release (senior director)._ Worker
 | G-F5 | QA packet adoptions: truth line, wrong-target guard on main PRs, PR title rule | 🟪 Sonnet | next | - |
 | G-F11 | Old-design CSS collisions: scope old rulebook/settings/analytics/app CSS off Team V markup (about 70 shared class names) | 🟪 Sonnet | ready (Sonnet audit, then Opus fix) | - |
 | 1045 | Showdown Gate: pin actions and tool installs (audit F4) | ⬜ Codex | ready (after 1050) | - |
-| 1049 | Club reveal stops spoiling the sealed club (Olympiad V3) | 🟦 Sol chat | ready (runs alongside 1048) | - |
 | 1050 | Unfinished Signing Entry rows survive a refresh (Olympiad V4) | 🟩 Sol Work mode | ready (after the blue jobs) | - |
 | 1053 | Restore on an empty device respects Keep current (Olympiad V5) | 🟦 Sol chat | ready (runs alongside 1048) | - |
-| 1054 | Worker scorecard: rows for jobs 1037-1044 | 🟦 Sol chat | ready | - |
 
 **👤 Waiting on Nik**
 
@@ -130,7 +129,7 @@ Latest:
 **Shipped to the live game today (4):** [#440](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/440) Release r66: Season Results on phones, closed Final Winner… · [#436](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/436) Release r65: career history fixes, auto close, plain words · [#429](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/429) Release r64: Forget device sign-back-in, phone LOCK MY SIGN… · [#435](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/435) Re-pin the composed Rules check to production main r63
 
 <details>
-<summary>Done jobs (9 future-list rows, 1 Team V jobs, 11 hand-offs, 33 factory jobs)</summary>
+<summary>Done jobs (10 future-list rows, 1 Team V jobs, 11 hand-offs, 33 factory jobs)</summary>
 
 - G 1041: Season Results on phone: ACKNOWLEDGE reachable, no inner scroll box, title clear, photos aligned (done (merged into bug-list-1, PR #437))
 - G 1017: 1017 · G Gameplay hunt 1: shared season flow across devices (done (4 bugs found, PR #407))
@@ -140,6 +139,7 @@ Latest:
 - G 1043: Showdown Gate: no write token for pull-request code (audit F1) (done (merged into bug-list-1, PR #438))
 - G 1044: Showdown Gate: exit report and seal fail closed on bad evidence (audit F2, F3) (done (merged into bug-list-1, PR #441))
 - G 1046: Truth keeper handover notes (gameplay project) (done (checked: 6 files, 132 items on handoff/truth-keeper))
+- G 1054: Worker scorecard: rows for jobs 1037-1044 (done (8 rows match the ticket exactly, commit e15786e))
 - V 1047: Truth keeper handover notes (visual project) (done (checked: 6 files, 121 items on handoff/truth-keeper))
 - V V-247: Phone Home tile icons like GOAL_HOME ([PR #381](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/381))
 - HO-001 (G → V): Use hand-off tickets for passing work (relay v1.1)
@@ -201,7 +201,7 @@ Latest:
 ## Every bug report
 
 
-> Updated **Fri 9 Oct, 6:44 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
+> Updated **Fri 9 Oct, 6:46 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
 
 | 🔓 Open | 🔴 Top priority | 🔧 Fixing or waiting for release | ✅ Fixed and live |
 | :---: | :---: | :---: | :---: |

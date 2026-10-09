@@ -1,10 +1,10 @@
 # Bug hunt board
 
-Updated Fri 9 Oct, 6:44 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
+Updated Fri 9 Oct, 6:46 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r66** (main `8e1a583`, Fri 9 Oct 12:04 PM)
 
-🐕 **Barking: POS20 has waited 1 min for a machine.** · POS20 #304 6/16
+🐕 **Barking: Gameplay Fast on #444 has waited 4 min for a machine; POS20 on #444 has waited 4 min for a machine; POS20 has waited 3 min for a machine.** · POS20 #304 6/16
 
 ## Jobs
 
@@ -17,16 +17,15 @@ Updated Fri 9 Oct, 6:44 PM Boston time. Bug hunting only, no new features until 
 
 **Next for you, in this order**
 
-1. **1054** (G, Sol chat) Worker scorecard: rows for jobs 1037-1044: type **1054** ChatGPT project "Career Mode Showdown", new normal chat · exact one-file text job; ticket jobs/JOB-1054.md
-2. **1053** (G, Sol chat) Restore on an empty device respects Keep current (Olympiad V5): type **1053** ChatGPT project "Career Mode Showdown", new normal chat · split out of 1049 to keep each chat job one turn; ticket jobs/JOB-1053.md
-3. **1050** (G, Sol Work mode) Unfinished Signing Entry rows survive a refresh (Olympiad V4): type **1050** ChatGPT project "Career Mode Showdown", new chat switched to Work mode · must run code (node checks), so Work mode; Luna is the cheapest Work mode model, first Luna run; ticket jobs/JOB-1050.md
-4. **1045** (G, Codex) Showdown Gate: pin actions and tool installs (audit F4): type **1045** Codex cloud, this repo, branch gameplay/bug-list-1 · ticket jobs/JOB-1045.md; stays Codex: it must read GitHub Actions release tags, which chat and Claude lanes cannot
+1. **1053** (G, Sol chat) Restore on an empty device respects Keep current (Olympiad V5): type **1053** ChatGPT project "Career Mode Showdown", new normal chat · split out of 1049 to keep each chat job one turn; ticket jobs/JOB-1053.md
+2. **1050** (G, Sol Work mode) Unfinished Signing Entry rows survive a refresh (Olympiad V4): type **1050** ChatGPT project "Career Mode Showdown", new chat switched to Work mode · must run code (node checks), so Work mode; Luna is the cheapest Work mode model, first Luna run; ticket jobs/JOB-1050.md
+3. **1045** (G, Codex) Showdown Gate: pin actions and tool installs (audit F4): type **1045** Codex cloud, this repo, branch gameplay/bug-list-1 · ticket jobs/JOB-1045.md; stays Codex: it must read GitHub Actions release tags, which chat and Claude lanes cannot
 
-**Done, in the next release:** 1001, 1003, 1004, 1005, 1009, 1010, 1011, 1014, 1015, 1020, 1021, 1022, 1023, 1024, 1025, 1026, 1027, 1028, 1037, 1038, 1039, 1040, 1041, 1042, 1043, 1044, 1046, 1047, Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8
+**Done, in the next release:** 1001, 1003, 1004, 1005, 1009, 1010, 1011, 1014, 1015, 1020, 1021, 1022, 1023, 1024, 1025, 1026, 1027, 1028, 1037, 1038, 1039, 1040, 1041, 1042, 1043, 1044, 1046, 1047, 1054, Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8
 
 ## Goals, in this order
 
-1. **Finish the remaining bugs** (now) · 78.7879 % · Numbered jobs: 36 done, 2 other open · Olympiad recheck: 16 of 23 settled, 7 still to fix · Sol's old leads: 5 open (1 confirmed, the rest to recheck on live)
+1. **Finish the remaining bugs** (now) · 80.3030 % · Numbered jobs: 37 done, 1 other open · Olympiad recheck: 16 of 23 settled, 7 still to fix · Sol's old leads: 5 open (1 confirmed, the rest to recheck on live)
 2. **Visual fixes** (later) · 52.3810 % · Team V hand-offs: 11 of 21 done
 3. **Match current desktop screens to the mockup** (later) · 6.2500 % · Mockup Lab: 1 of 16 screens studied, 7 differences to fix
 4. **Visual mockups for phone** (later) · 0.0000 % · Not started
