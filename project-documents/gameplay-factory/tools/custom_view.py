@@ -193,6 +193,19 @@ def run_state(q):
     return st or "running"
 
 
+def status_blocked(n):
+    """status/JOB-NNNN.md "State: BLOCKED": the worker stopped on a question; the card waits on the lead and keeps its step."""
+    try:
+        t = open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "status", f"JOB-{n}.md")).read()
+    except OSError:
+        return ""
+    m = re.search(r"^State:\s*(.+)$", t, re.M)
+    if not (m and re.match(r"BLOCKED\b", m.group(1).strip(), re.I)):
+        return ""
+    k = re.search(r"^Step:\s*(\d+)\s*of\s*(\d+)", t, re.M)
+    return f"blocked at step {k.group(1)} of {k.group(2)}: the worker asked the lead a question" if k else "blocked: the worker asked the lead a question"
+
+
 def status_done(n):
     # status/JOB-NNNN.md "State: DONE": the worker finished and the lead hasn't verified yet; still running, not "Next for you"
     try:
@@ -219,6 +232,9 @@ def q_add(it, team):
         Q["release"].append(q)
     elif re.match(r"held\b", st, re.I):  # held for Nik wins over every other signal, an open PR included (lead, 2026-10-09 22:26 UTC)
         q["after"] = short_state(st)
+        Q["wait"].append(q)
+    elif status_blocked(n):  # a stopped worker is not "Next for you"
+        q["after"] = q["state"] = status_blocked(n)
         Q["wait"].append(q)
     elif status_done(n):
         q["state"] = "worker done, lead checking"
