@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-08 10:07 PM Boston time (EDT)",
+ "generated": "2026-10-08 10:09 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -326,8 +326,8 @@
      "sha": "2e22269bdcfb5c720b28fc83dd689fea6d9fbd81",
      "updated": "2026-10-09T02:02:37Z",
      "gates": {
-      "passed": 10,
-      "running": 7,
+      "passed": 18,
+      "running": 1,
       "failed": 0,
       "cancelled": 0
      }
@@ -338,7 +338,7 @@
   "physio": {
    "state": "clear",
    "line": "All clear: every check has a machine.",
-   "gate": "Gate #427: L1✓ L2… L3… L4… L5… L6… · seal pending · POS20 #427 9/16",
+   "gate": "Gate #427: L1✓ L2… L3… L4… L5✓ L6✓ · seal pending · POS20 #427 10/16",
    "source": "physio"
   },
   "v_headline": "Board 1 (visual package): 238 of 238 jobs done and checked",
@@ -1004,8 +1004,8 @@
     "sha": "2e22269bdcfb5c720b28fc83dd689fea6d9fbd81",
     "updated": "2026-10-09T02:02:37Z",
     "gates": {
-     "passed": 10,
-     "running": 7,
+     "passed": 18,
+     "running": 1,
      "failed": 0,
      "cancelled": 0
     }
