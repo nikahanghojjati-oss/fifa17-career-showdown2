@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-09 7:15 PM Boston time (EDT)",
+ "generated": "2026-10-09 7:16 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -284,7 +284,7 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "720670e",
+  "head": "720670e1",
   "head_boston": "Fri 9 Oct 6:37 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": true,
@@ -313,9 +313,9 @@
  },
  "two": {
   "live": {
-   "sha": "8e1a583",
+   "sha": "8e1a5833",
    "revision": "1.9.1-r66",
-   "when": "2026-10-09T16:04:25Z",
+   "when": "2026-10-09T16:04:25+00:00",
    "subject": "Release r66: Season Results on phones, closed Final Winner on both phones (#440)",
    "fixes": [],
    "today": [
@@ -709,7 +709,7 @@
  ],
  "now": {
   "moving": 42,
-  "next": 2,
+  "next": 1,
   "nik": 2,
   "later": 8,
   "rows": {
@@ -1013,16 +1013,16 @@
       "archived": true
      },
      {
-      "id": "1049",
-      "title": "Club reveal stops spoiling the sealed club (Olympiad V3)",
-      "lane": "gpt-chat",
-      "state": "worker done, lead checking (PR #444): repro and test proven, merged bug-list-1 in, CI running",
-      "order": 22,
-      "place": "nothing to type: the chat is finished",
-      "note": "V5 moved to 1053 so each chat job fits one turn; ticket jobs/JOB-1049.md",
-      "team": "blue",
-      "model": "GPT-6 Sol",
-      "effort": "High",
+      "id": "1045",
+      "title": "Showdown Gate: pin actions and tool installs (audit F4)",
+      "lane": "codex",
+      "state": "worker done, lead checking (PR #447): all 37 action pins match the upstream tags; CI running",
+      "order": 25,
+      "place": "Codex cloud, this repo, branch gameplay/bug-list-1",
+      "note": "ticket jobs/JOB-1045.md; stays Codex: it must read GitHub Actions release tags, which chat and Claude lanes cannot",
+      "team": "white",
+      "model": "Codex default coding model",
+      "effort": "Medium",
       "prompt": ""
      },
      {
@@ -1077,19 +1077,6 @@
       "lane": "sonnet",
       "state": "ready (Sonnet audit, then Opus fix)",
       "waits_on": ""
-     },
-     {
-      "id": "1045",
-      "title": "Showdown Gate: pin actions and tool installs (audit F4)",
-      "lane": "codex",
-      "state": "ready (next for Nik)",
-      "order": 25,
-      "place": "Codex cloud, this repo, branch gameplay/bug-list-1",
-      "note": "ticket jobs/JOB-1045.md; stays Codex: it must read GitHub Actions release tags, which chat and Claude lanes cannot",
-      "team": "white",
-      "model": "Codex default coding model",
-      "effort": "Medium",
-      "prompt": "Job 1045 for this repo. First read the ticket: run `git fetch origin factory/gameplay-v1` then `git show FETCH_HEAD:project-documents/gameplay-factory/jobs/JOB-1045.md` (or open https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/gameplay-v1/project-documents/gameplay-factory/jobs/JOB-1045.md). Do exactly what it says. Ignore copies of job files on any other branch. Create your branch from origin/gameplay/bug-list-1 and open the PR into gameplay/bug-list-1. Never push to main."
      }
     ],
     "later": [
