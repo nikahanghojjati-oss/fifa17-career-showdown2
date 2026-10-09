@@ -10,11 +10,11 @@
  "priority": "top",
  "worker": "",
  "parent": null,
- "job": null,
- "status": "RECEIVED",
+ "job": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/428",
+ "status": "WORKING",
  "steps": [],
  "evidence": [],
- "log": [{"at": "2026-10-09T02:05:11Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-10-09T02:06:14Z", "by": "V", "status": "RECEIVED", "note": "Team V lead: measuring r63 at tablet and sideways-phone sizes first, then a design job"}]
+ "log": [{"at": "2026-10-09T02:05:11Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-10-09T02:06:14Z", "by": "V", "status": "RECEIVED", "note": "Team V lead: measuring r63 at tablet and sideways-phone sizes first, then a design job"}, {"at": "2026-10-09T03:02:24Z", "by": "V", "status": "WORKING", "note": "Part 2 (sideways phone) design ready: port visual-assets/v10_1/tr2/evidence/1035/PORT.md on factory/v1-wtt5ye. Part 1 (upright tablet) is job 1036, in progress"}]
 }
 ```
 
