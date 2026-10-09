@@ -13,31 +13,31 @@
     {
       "id": "S1",
       "lead": "League points cap is 114 everywhere though the Bundesliga maximum is 102",
-      "state": "confirmed",
+      "state": "confirmed (defensive fix; the only literal 114 left is a loose upper bound in terminal close)",
       "job": "1055"
     },
     {
       "id": "S2",
       "lead": "Season 3+ simultaneous results",
-      "state": "to recheck",
+      "state": "unsure: no lost-result bug in the code; needs a two-phone season 3+ test",
       "job": "1056"
     },
     {
       "id": "S3",
       "lead": "Local Reconciliation stuck waiting",
-      "state": "to recheck",
+      "state": "unsure: one real gap (the auto check waits for local Multi Season to be terminal before it can refresh it); needs a two-phone test",
       "job": "1057"
     },
     {
       "id": "S4",
       "lead": "Transfer timers mismatched across devices",
-      "state": "to recheck",
+      "state": "real but small: each phone anchors the server clock after the token round trip, so countdowns can differ by about a second",
       "job": "1057"
     },
     {
       "id": "S5",
       "lead": "A slow screen overwrites a newer tap",
-      "state": "to recheck",
+      "state": "unsure: the screen guards the season but not a newer tap; needs a slow-network test",
       "job": "1056"
     }
   ]
