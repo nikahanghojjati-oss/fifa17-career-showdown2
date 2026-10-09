@@ -1,22 +1,9 @@
 {
  "team": "G",
- "updated": "2026-10-09T18:35-04:00",
+ "updated": "2026-10-09T18:37-04:00",
  "open_bugs": 1,
  "next_move": [
   "**r62 is live.** On the laptop, close every game tab in Chrome and reopen the game; if Settings still looks clipped, do it once more."
  ],
- "running": [
-  {
-   "job": 1048,
-   "title": "Rule Book: three missing rules, and the season review stops pointing at a missing button (Olympiad V1, V2)",
-   "worker": "Sol chat",
-   "done": 2,
-   "total": 5,
-   "pct": 40.0,
-   "eta": "not enough data",
-   "current": "step 3 of 5",
-   "pr": null,
-   "updated": "2026-10-09T22:30:00Z"
-  }
- ]
+ "running": []
 }
