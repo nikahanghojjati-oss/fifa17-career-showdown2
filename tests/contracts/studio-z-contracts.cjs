@@ -54,6 +54,10 @@ check("Z5","a waiting update applies by itself only on a safe Home screen",()=>{
   assert.match(src,/activateWaitingUpdate\(\{quiet:true\}\)/);
 });
 
+check("Z9","Settings never shows the old engineering panels, even if the identity module starts late or not at all",()=>{
+  assert.match(read("css/rulesSettingsV10.css"),/#settingsOverlay #settingsContent :is\(#sparkConnectedAccountPanel, #sparkPrivatePairingPanel, #sparkConnectedRivalryPanel, #saveLibraryProductPanel, \.settingsOfflinePanel\) \{ display:none !important; \}/);
+});
+
 check("Z6","a stuck or cancelled Google sign-in returns to SIGN IN WITH GOOGLE",()=>{
   const src=read("js/onlinePlayerIdentity.js");
   assert.match(src,/SIGN_IN_WAIT_MS=20000/);
@@ -73,7 +77,7 @@ check("Z7","upright touch tablets use the phone layout; sideways phones keep a u
   assert.equal(make({w:1280,h:800,coarse:true,portrait:false}),"width=device-width, initial-scale=1.0","sideways tablet");
   assert.equal(make({w:393,h:852,coarse:true,portrait:true}),"width=device-width, initial-scale=1.0","phone");
   assert.equal(make({w:1366,h:768,coarse:false,portrait:false}),"width=device-width, initial-scale=1.0","Chromebook");
-  assert.match(read("css/v10Transfer.css"),/@media \(max-height: 500px\) and \(orientation: landscape\) \{\s*#transferChallenge \.tw-host \.signing-row\.signingRow:not\(\.is-readonly\) \{\s*grid-template-columns: calc\(var\(--k\) \* 16px\) repeat\(3, minmax\(0, 1fr\)\);/);
+  assert.match(read("css/v10Transfer.css"),/grid-template-columns: calc\(var\(--k\) \* 16px\) minmax\(30%, 1\.22fr\) minmax\(min\(100px, 30%\), 1\.1fr\) minmax\(min\(100px, 30%\), 0\.92fr\);/);
 });
 
 check("Z8","a league name two countries share waits for an explicit choice",()=>{
@@ -88,4 +92,4 @@ check("Z8","a league name two countries share waits for an explicit choice",()=>
   assert.equal(ctx.resolve("league","Premier League").id,"england-premier-league");
 });
 
-console.log(`PASS Studio Z contracts: ${n} checks (startup retry, offline recheck, refresh rejoin, session pointer, auto update, sign-in watchdog, tablet layout, shared league names).`);
+console.log(`PASS Studio Z contracts: ${n} checks (startup retry, offline recheck, refresh rejoin, session pointer, auto update, sign-in watchdog, tablet layout, shared league names, old Settings panels).`);

@@ -6,10 +6,11 @@ const ROOT=path.resolve(__dirname,"../..");const APP_PORT=Number(process.env.CMS
 const OUT=process.env.ZOUT||"/tmp/claude-0/sz/startup";fs.mkdirSync(OUT,{recursive:true});
 const SWITCH=path.join(ROOT,"tests/browser/support/emulator-runtime-switch.js"),SDK_DIR=path.join(ROOT,"node_modules/firebase");
 const url=user=>`http://127.0.0.1:${APP_PORT}/?cmsEmulator=1&cmsEmulatorUser=${user}&cmsAuthPort=9199&cmsFirestorePort=8181`;
-async function ctx(browser,viewport,{delayLoader=0,failProbe=false}={}){
+async function ctx(browser,viewport,{delayLoader=0,failProbe=false,blockIdentity=false}={}){
   const context=await browser.newContext({viewport,serviceWorkers:"allow"});
   await context.route(/^https:\/\/www\.gstatic\.com\/firebasejs\/[\d.]+\/(firebase-[a-z-]+\.js)$/,r=>r.fulfill({path:path.join(SDK_DIR,r.request().url().match(/(firebase-[a-z-]+\.js)$/)[1]),contentType:"text/javascript"}));
   if(delayLoader)await context.route(/js\/optionalModules\.js/,async r=>{await new Promise(x=>setTimeout(x,delayLoader));await r.continue();});
+  if(blockIdentity)await context.route(/js\/onlinePlayerIdentity\.js/,r=>r.abort());
   if(failProbe)await context.route(/network-probe=/,r=>r.abort());
   await context.addInitScript({path:SWITCH});
   const page=await context.newPage();const errors=[];page.on("pageerror",e=>errors.push(e.message));
@@ -23,6 +24,7 @@ async function openSettings(page,name){await page.locator("#settingsButton").cli
   const rt=await resolveChromiumRuntime();const browser=await chromium.launch({executablePath:rt.executablePath,headless:true,args:rt.args});
   const result={};
   try{
+    if(process.env.ZBLOCK){const m=await ctx(browser,{width:1920,height:910},{blockIdentity:true});await m.page.goto(url("daniel"),{waitUntil:"domcontentloaded"});await m.page.locator("#loadingScreen").waitFor({state:"hidden",timeout:30000});await m.page.waitForTimeout(9000);result.blocked={settingsPanels:await openSettings(m.page,"blocked-identity-settings.png")};await m.context.close();console.log(JSON.stringify(result));return;}
     for(const [label,vp] of [["chromebook",{width:1920,height:910}],["phone",{width:393,height:660}]]){
       for(const delay of [0,1500]){
         console.error("ctx",label,delay);const m=await ctx(browser,vp,{delayLoader:delay});console.error("ctx ok");

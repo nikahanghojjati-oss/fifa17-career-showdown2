@@ -26,7 +26,10 @@ plus Team V hand-offs HO-011 and HO-018 to HO-020.
   20 seconds with a plain message.
 - **Z7 Transfer on tablets.** Upright tablets used the wide desktop layout, which pushed the Transfer fields off the left
   edge. Touch screens held upright now use the phone layout on every screen. On a phone held sideways, the player-name
-  field in Signing Entry is no longer squeezed to nothing.
+  or a foldable, the player-name field in Signing Entry is no longer squeezed to nothing (LOCK MY SIGNINGS failed
+  with "Complete signing 1 with player name").
+- **Old Settings panels are gone for good.** The Offline App install panel and the old Connected Rivalry, pairing and
+  Save Library panels showed in Settings when sign-in started late. Settings now never shows them.
 - **Z8 League names two countries share.** Typing "Primera División" or "Serie A" used to pick Argentina or Brazil
   silently. Those names now wait for the player to choose the country from the list.
 - The runtime revision moves to r63, so browsers on r62 receive the changed shell files.
