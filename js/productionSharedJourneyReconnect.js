@@ -93,7 +93,7 @@
     if(value.phase==="FRESH_SESSION_REQUIRED"&&pjrShowdownClosed())return "SHOWDOWN COMPLETE · Open the Final Winner or History from Home.";
     if(value.phase==="OFFLINE_HOLD")return "OFFLINE · Reconnect before continuing this shared Showdown.";
     if(value.phase==="RECOVERY_PENDING")return "RECONNECTING · Finish reconnecting both players before continuing.";
-    if(value.phase==="FRESH_SESSION_REQUIRED"&&!value.sessionId)return `NOT CONNECTED ON THIS PHONE · No session here (a reload clears it).${pjrNotConnectedStep(value.managerRole)}`;
+    if(value.phase==="FRESH_SESSION_REQUIRED"&&!value.sessionId)return `NOT CONNECTED ON THIS PHONE · A reload ends the session. ${pjrNotConnectedStep(value.managerRole)}`;
     if(value.phase==="FRESH_SESSION_REQUIRED")return `NEW CONNECTION NEEDED · ${value.resumable?"Your Showdown is saved; the connection ended":"The connection ended"} (sessions last up to 4 hours). ${pjrReconnectStep(value.managerRole)}`;
     if(value.phase==="TERMINAL_RECOVERED")return `SHARED JOURNEY RECOVERED · ALL ${value.totalSeasons} SEASONS STAY COMPLETE · Reconnecting cannot add another season.`;
     if(value.phase==="ACTIVE_RECOVERED")return `SHARED JOURNEY RECOVERED · SEASON ${value.activeSeason} OF ${value.totalSeasons} · League, clubs and accepted history resumed without reset or redraw.`;
