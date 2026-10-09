@@ -43,7 +43,7 @@ async function check(name,fn){try{await fn();cases+=1;}catch(error){error.messag
 (async()=>{
 await check("C1 API surface",()=>{
   assert.equal(typeof Adapter.buildClosedCareerInput,"function");assert.equal(typeof Adapter.describeClosedCareer,"function");
-  assert.deepEqual([...Adapter.readStatuses],["completed","abandoned","not-closed","unavailable"]);
+  assert.deepEqual([...Adapter.readStatuses],["completed","abandoned","not-closed","unavailable","never-started"]);
   for(const k of ["sessionRequired","providerWriteRequired","listPermissionRequired","canonicalStorageMutation","billingRequired"])assert.equal(Adapter[k],false,k);
   assert.equal(Adapter.contractVersion,1);assert.ok(Object.isFrozen(Adapter));
 });
@@ -114,7 +114,7 @@ await check("C6 index and current states",()=>{
   for(const bad of [null,{},{status:"ready",rivalryIds:"x"},{status:"ready",rivalryIds:[id("1"),id("1")]},{status:"ready",rivalryIds:["pair_1"]}])assert.equal(model({index:bad,reads:{},current:noCurrent()}).status,"unavailable",JSON.stringify(bad));
   const e=model({index:index([]),reads:{},current:noCurrent()});assert.equal(e.status,"empty");assert.equal(e.interimLabel,null);
   const loadingCurrent=Active.careerInput({pair:null});assert.equal(loadingCurrent.indexStatus,"loading");
-  assert.equal(model({index:index([s1().rivalryId]),reads:readsOf([completedRead(s1())]),current:loadingCurrent}).status,"loading","waits for the live Showdown");
+  assert.equal(model({index:index([s1().rivalryId]),reads:readsOf([completedRead(s1())]),current:loadingCurrent}).status,"ready","closed history stays readable while the live Showdown loads");
 });
 
 await check("C7 the live Showdown joins career history from the JOB-05 adapter",()=>{
@@ -307,6 +307,30 @@ await check("L5 paging: the real career index client walks sealed pages, then th
   assert.deepEqual(log.slice(2),ids.map(x=>"rivalries/"+x),"one exact root get per indexed Showdown, in career order");
   assert.equal(v.status,"partial");assert.deepEqual(v.model.coverage,{readable:0,indexed:501},"missing Showdowns are unavailable, never a shorter career");
   assert.equal(v.entries[0].code,"COMPLETED_RIVALRY_MISSING");
+});
+
+await check("J1037.1 never-started codes never enter coverage, rows, points or trophies",()=>{
+  const p=s1(),code=id("7"),o={index:index([code,p.rivalryId]),reads:readsOf([statusRead("never-started",code),completedRead(p)]),current:noCurrent()};
+  const input=Adapter.buildClosedCareerInput(o),m=model(o);
+  assert.deepEqual(input.showdowns.map(entry=>entry.rivalryId),[p.rivalryId]);assert.equal(m.status,"ready");assert.deepEqual(m.coverage,{readable:1,indexed:1});
+  assert.deepEqual(m,model({index:index([p.rivalryId]),reads:readsOf([completedRead(p)]),current:noCurrent()}));
+});
+await check("J1037.2 loading and unavailable current states affect only their own open root",()=>{
+  const p=s1(),currentId=id("8"),staleId=id("9"),reads=readsOf([completedRead(p),statusRead("not-closed",staleId),statusRead("not-closed",currentId)]);
+  for(const status of ["paired","unavailable"]){
+    const current=Active.careerInput({pair:F.pair(currentId,{status})}),o={index:index([p.rivalryId,staleId,currentId]),reads,current};
+    assert.equal(current.currentRivalryId,currentId);const input=Adapter.buildClosedCareerInput(o),m=model(o);
+    assert.equal(input.showdowns[0].classification,"completed");assert.equal(input.showdowns[1].classification,"pending");
+    assert.equal(input.showdowns[2].classification,status==="paired"?"pending":"unavailable");
+    assert.equal(m.status,status==="paired"?"ready":"partial");assert.equal(m.managers.daniel.showdowns.completed,1);assert.equal(m.managers.daniel.careerPoints,6);
+    assert.equal(m.history.showdowns.some(row=>row.rivalryId===staleId),false);
+  }
+});
+await check("J1037.3 a missing current id with several open roots cannot poison all of history",()=>{
+  const p=s1(),a=id("8"),b=id("9"),reads=readsOf([completedRead(p),statusRead("not-closed",a),statusRead("not-closed",b)]);
+  for(const current of [null,Active.careerInput({})]){
+    const m=model({index:index([p.rivalryId,a,b]),reads,current});assert.equal(m.status,"ready");assert.deepEqual(m.coverage,{readable:1,indexed:1});assert.equal(m.history.showdowns[0].status,"completed");
+  }
 });
 
 console.log("PASS closed-Showdown adapter contracts ("+cases+"/"+cases+" cases): completed and abandoned Showdowns from the session-free reader, witness totals, live-Showdown merge, stale pending exclusion, no backfill, unavailable never empty, two managers, pure frozen adapter, paged cached loader.");

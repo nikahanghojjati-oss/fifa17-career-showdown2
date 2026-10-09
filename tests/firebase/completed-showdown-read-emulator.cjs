@@ -22,6 +22,11 @@ const Multi=require("../../js/sparkSharedMultiSeasonProgression.js");
 const Final=require("../../js/sharedFinalReconciliation.js");
 const Terminal=require("../../js/sharedTerminalClose.js");
 const TerminalProvider=require("../../js/sparkTerminalClose.js");
+const Pairing=require("../../js/sparkPrivatePairing.js");
+const PersistentPair=require("../../js/persistentNikDanielPair.js");
+const Active=require("../../js/sharedActiveShowdownAdapter.js");
+const Adapter=require("../../js/sharedClosedShowdownAdapter.js");
+const Analytics=require("../../js/sharedCareerAnalytics.js");
 const Sessions=require("../../js/sparkPrivateSession.js");
 // Loaded only for section P, so sections I0-F report on the Rules before the client exists (tests-first).
 const loadReader=()=>require("../../js/sparkCompletedShowdownReader.js");
@@ -30,6 +35,7 @@ const PROJECT_ID="demo-cms-completed-read";
 const RULES=fs.readFileSync("firestore.spark.generated.rules","utf8");
 const A="acct_daniel",B="acct_nik",C="acct_stranger",D="acct_inactive";
 const X=`pair_${"a".repeat(64)}`,Y=`pair_${"b".repeat(64)}`,Z=`pair_${"c".repeat(64)}`;
+const W=`pair_${"d".repeat(64)}`;
 const SX=`session_${"a".repeat(64)}`,SY=`session_${"b".repeat(64)}`,SZ=`session_${"c".repeat(64)}`;
 const DA=`device_${"a".repeat(32)}`,DB=`device_${"b".repeat(32)}`,DC=`device_${"c".repeat(32)}`,DD=`device_${"d".repeat(32)}`;
 const PA=`profile_${"1".repeat(24)}`,PB=`profile_${"2".repeat(24)}`,PD=`profile_${"5".repeat(24)}`;
@@ -225,6 +231,42 @@ async function run(env){
   await check("P6","active Z: not-closed, exactly one read",async()=>{const counter={reads:0};const z=await read(dbA,A,Z,counter);assert.equal(z.status,"not-closed");assert.equal(counter.reads,1);});
   await check("P7","stranger: unavailable with the Firestore denial code, never empty",async()=>{const s=await read(dbC,C,X);assert.equal(s.status,"unavailable");assert.equal(s.code,"permission-denied");assert.equal(s.projection,null);});
   await check("P8","forged winner witness: unavailable before any child read",async()=>{const counter={reads:0};const f=await read(dbA,A,forgedId(2),counter);assert.equal(f.status,"unavailable");assert.equal(f.code,"COMPLETED_TERMINAL_WITNESS_INVALID");assert.equal(counter.reads,1);});
+  // JOB-1037: use real code creation and abandonment, then prove isolation from X's terminal history.
+  const career=(reads,current)=>Analytics.buildCareerModel(Adapter.buildClosedCareerInput({index:{status:"ready",rivalryIds:Object.keys(reads)},reads,current}));
+  await check("Q1","never-joined provider code is excluded from a ready Daniel career",async()=>{
+    const now=Date.now(),identity={schemaVersion:1,installationId:`installation_${"a".repeat(32)}`,deviceId:DA,createdAtEpochMs:now-180000};
+    const created=await Pairing.createPairing({user:{uid:A},firestore:dbA,firebaseSdk:sdk(),identity,binding:{saveId:SA,profileId:PA,managerRole:"playerOne",displayLabel:"Daniel"},capability:W,nowEpochMs:now,cryptoImpl:crypto.webcrypto,durableWitness:PersistentPair.createDurableCreationWitness({services:{firestoreSdk:sdk(),firestore:dbA},accountId:A,deviceId:DA},"playerOne",PersistentPair.managerByRole.playerOne)});
+    assert.equal(created.ok,true,JSON.stringify(created));
+    const counter={reads:0},w=await read(dbA,A,W,counter);assert.equal(w.status,"never-started");assert.equal(w.managerRole,"playerOne");assert.equal(w.projection,null);assert.equal(w.final,null);assert.equal(counter.reads,1);
+    const m=career({[X]:danielX,[W]:w},Active.careerInput({pair:{initialized:true,status:"waiting",connectionState:"pending-pair",rivalryId:W}}));
+    assert.equal(m.status,"ready");assert.deepEqual(m.coverage,{readable:1,indexed:1});assert.deepEqual(m.history.showdowns.map(row=>row.rivalryId),[X]);assert.equal(m.managers.daniel.careerPoints,5);
+  });
+  await check("Q2","abandoned never-joined code remains excluded without any child reads",async()=>{
+    await abandonAsDaniel(dbA,W);const counter={reads:0},w=await read(dbA,A,W,counter);assert.equal(w.status,"never-started");assert.equal(counter.reads,1);
+    const m=career({[X]:danielX,[W]:w},Active.careerInput({pair:{initialized:true,status:"unpaired"}}));assert.equal(m.status,"ready");assert.deepEqual(m.coverage,{readable:1,indexed:1});assert.equal(m.managers.daniel.showdowns.completed,1);
+  });
+  await check("Q3","Terminal-Closed X counts while current Z is loading",async()=>{
+    const current=Active.careerInput({pair:{initialized:true,status:"paired",connectionState:"active",rivalryId:Z}});assert.equal(current.indexStatus,"loading");
+    const m=career({[X]:danielX,[Z]:await read(dbA,A,Z)},current);assert.equal(m.status,"ready");assert.deepEqual(m.coverage,{readable:1,indexed:1});assert.equal(m.history.showdowns[0].status,"completed");assert.equal(m.managers.daniel.showdowns.completed,1);assert.equal(m.managers.daniel.careerPoints,5);
+  });
+  await check("Q4","Terminal-Closed X counts while only current Z is unavailable",async()=>{
+    const current=Active.careerInput({pair:{initialized:true,status:"unavailable",rivalryId:Z}});assert.equal(current.indexStatus,"unavailable");
+    const m=career({[X]:danielX,[Z]:await read(dbA,A,Z)},current);assert.equal(m.status,"partial");assert.deepEqual(m.coverage,{readable:1,indexed:2});assert.deepEqual(m.history.showdowns.map(row=>row.status),["completed","unavailable"]);assert.equal(m.managers.daniel.careerPoints,5);
+  });
+  await check("Q5","Nik and a stranger cannot read a never-joined code",async()=>{
+    for(const [db,uid] of [[dbB,B],[dbC,C]]){const w=await read(db,uid,W);assert.equal(w.status,"unavailable");assert.equal(w.code,"permission-denied");}
+  });
+  await check("Q6","one-manager ACTIVE or terminal-witness roots are unavailable, never silently excluded",async()=>{
+    await env.withSecurityRulesDisabled(async context=>{
+      const db=context.firestore(),root=(await getDoc(doc(db,"rivalries",W))).data();
+      for(const [n,extra] of [[11,{connectionState:"active"}],[12,{terminalClose:danielX.terminalWitness}]]){const id=forgedId(n);await setDoc(doc(db,"rivalries",id),await envelope("rivalry",id,root.revision,{...root.data,...extra}));}
+    });
+    for(const n of [11,12]){const f=await read(dbA,A,forgedId(n));assert.equal(f.status,"unavailable");assert.equal(f.code,"COMPLETED_NOT_A_MANAGER");}
+  });
+  await check("Q7","forged occupied invitation slot cannot masquerade as never-started",async()=>{
+    const id=forgedId(13);await env.withSecurityRulesDisabled(async context=>{const db=context.firestore(),root=(await getDoc(doc(db,"rivalries",W))).data();await setDoc(doc(db,"rivalries",id),await envelope("rivalry",id,root.revision,{...root.data,managerSlots:slots()}));});
+    const f=await read(dbA,A,id);assert.equal(f.status,"unavailable");assert.equal(f.code,"COMPLETED_BINDING_INVALID");
+  });
   await check("P9","witness totals that disagree with the rebuilt seasons: unavailable",async()=>{
     await env.withSecurityRulesDisabled(async context=>{const db=context.firestore(),real=(await getDoc(doc(db,"rivalries",X))).data();const data={...real.data,terminalClose:{...real.data.terminalClose,managerTotals:{playerOne:6,playerTwo:0}},terminalProgress:{...real.data.terminalProgress,managerTotals:{playerOne:6,playerTwo:0}}};await setDoc(doc(db,"rivalries",X),{...real,data,contentHash:await digest({objectType:"rivalry",objectId:X,revision:real.revision,data})});});
     await assertSucceeds(getDoc(doc(dbA,"rivalries",X,"seasonCommits","season_1")));
@@ -236,4 +278,4 @@ async function run(env){
   });
 }
 
-(async()=>{const env=await initializeTestEnvironment({projectId:PROJECT_ID,firestore:{rules:RULES}});try{await env.clearFirestore();await run(env);assert.equal(checks,56);process.stdout.write(`PASS completed-only read emulator: ${checks} numbered checks (I0, A completed reads, B denials, C closed writes, D abandoned, E forged witnesses, F active regressions, P session-free reader).\n`);}finally{await env.cleanup();}})().catch(error=>{console.error(error.stack||error);process.exit(1);});
+(async()=>{const env=await initializeTestEnvironment({projectId:PROJECT_ID,firestore:{rules:RULES}});try{await env.clearFirestore();await run(env);assert.equal(checks,63);process.stdout.write(`PASS completed-only read emulator: ${checks} numbered checks (I0, A completed reads, B denials, C closed writes, D abandoned, E forged witnesses, F active regressions, P session-free reader, Q never-joined codes and current-row isolation).\n`);}finally{await env.cleanup();}})().catch(error=>{console.error(error.stack||error);process.exit(1);});
