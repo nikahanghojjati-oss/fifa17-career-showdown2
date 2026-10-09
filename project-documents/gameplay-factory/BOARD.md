@@ -1,6 +1,6 @@
 # Bug hunt board
 
-Updated Fri 9 Oct, 12:34 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
+Updated Fri 9 Oct, 12:37 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r66** (main `8e1a583`, Fri 9 Oct 12:04 PM)
 
@@ -10,7 +10,7 @@ Updated Fri 9 Oct, 12:34 PM Boston time. Bug hunting only, no new features until
 
 **Running now**
 
-- **1046** (G) Truth keeper handover notes (gameplay project) · step 3 of 6 · Sol chat · 33.3333 % done · finish: no estimate yet (this worker has no finished jobs to learn from)
+- **1046** (G) Truth keeper handover notes (gameplay project) · worker done, lead checking · Sol chat · not started
 
 **Next for you, in this order**
 

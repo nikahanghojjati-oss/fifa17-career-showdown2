@@ -1,22 +1,9 @@
 {
  "team": "G",
- "updated": "2026-10-09T12:34-04:00",
+ "updated": "2026-10-09T12:37-04:00",
  "open_bugs": 1,
  "next_move": [
   "**r62 is live.** On the laptop, close every game tab in Chrome and reopen the game; if Settings still looks clipped, do it once more."
  ],
- "running": [
-  {
-   "job": 1046,
-   "title": "Truth keeper handover notes",
-   "worker": "worker not set",
-   "done": 2,
-   "total": 6,
-   "pct": 33.3333,
-   "eta": "not enough data",
-   "current": "step 3 of 6",
-   "pr": null,
-   "updated": "2026-10-09T16:35:00Z"
-  }
- ]
+ "running": []
 }
