@@ -1,14 +1,14 @@
 # Board archive
 
-[Back to the board](BOARD.md) · generated 2026-10-09 6:41 PM Boston time (EDT). Detail and history behind the one board.
+[Back to the board](BOARD.md) · generated 2026-10-09 6:42 PM Boston time (EDT). Detail and history behind the one board.
 
 ## Old detailed board
 
 # Showdown board: G Factory and V Factory
 
-🌐 **Live: runtime 1.9.1-r66** (main `8e1a5833`) · 🔄 **41 moving** · ⏭ 7 up next · 👤 2 waiting on Nik · 🗂 7 later · updated 2026-10-09 6:41 PM Boston time (EDT)
+🌐 **Live: runtime 1.9.1-r66** (main `8e1a583`) · 🔄 **41 moving** · ⏭ 7 up next · 👤 2 waiting on Nik · 🗂 7 later · updated 2026-10-09 6:42 PM Boston time (EDT)
 
-🩺 **All clear: every check has a machine.** · POS20 #304 6/16
+🐕 **Barking: Gameplay Fast on #443 has waited 2 min for a machine.** · POS20 #304 6/16
 
 ## Your next move
 
@@ -77,7 +77,7 @@ _Gameplay, online sync, every merge and every release (senior director)._ Worker
 | 1049 | Club reveal stops spoiling the sealed club (Olympiad V3) | 🟦 Sol chat | ready (runs alongside 1048) | - |
 | 1050 | Unfinished Signing Entry rows survive a refresh (Olympiad V4) | 🟩 Sol Work mode | ready (after the blue jobs) | - |
 | 1053 | Restore on an empty device respects Keep current (Olympiad V5) | 🟦 Sol chat | ready (runs alongside 1048) | - |
-| 1054 | Worker scorecard: rows for jobs 1037-1044 (GPT-6 Luna trial) | 🟦 Sol chat | ready | - |
+| 1054 | Worker scorecard: rows for jobs 1037-1044 | 🟦 Sol chat | ready | - |
 
 **👤 Waiting on Nik**
 
@@ -201,7 +201,7 @@ Latest:
 ## Every bug report
 
 
-> Updated **Fri 9 Oct, 6:41 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
+> Updated **Fri 9 Oct, 6:42 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
 
 | 🔓 Open | 🔴 Top priority | 🔧 Fixing or waiting for release | ✅ Fixed and live |
 | :---: | :---: | :---: | :---: |
