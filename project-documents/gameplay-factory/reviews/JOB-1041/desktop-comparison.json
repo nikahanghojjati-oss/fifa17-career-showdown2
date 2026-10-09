@@ -1,0 +1,1472 @@
+{
+  "baseCommit": "cbc2a47d75ee270e20320eceddbf73239737c04f",
+  "method": "Same live Season Commit browser fixture and Chromium; intercept app.css with the base version for before, then load the changed CSS for after. All measured geometry, scrolling dimensions and computed styles match exactly.",
+  "before": [
+    {
+      "width": 1280,
+      "height": 620,
+      "metrics": {
+        "html": {
+          "x": 0,
+          "y": 0,
+          "w": 1280,
+          "h": 620,
+          "scroll": 620,
+          "client": 620,
+          "overflow": "hidden",
+          "position": "static",
+          "display": "block"
+        },
+        "body": {
+          "x": 0,
+          "y": 0,
+          "w": 1280,
+          "h": 620,
+          "scroll": 620,
+          "client": 620,
+          "overflow": "hidden",
+          "position": "static",
+          "display": "block"
+        },
+        "#app": {
+          "x": 0,
+          "y": 0,
+          "w": 1280,
+          "h": 620,
+          "scroll": 620,
+          "client": 620,
+          "overflow": "visible",
+          "position": "static",
+          "display": "flex"
+        },
+        "main": {
+          "x": 0,
+          "y": 52,
+          "w": 1280,
+          "h": 568,
+          "scroll": 568,
+          "client": 568,
+          "overflow": "auto",
+          "position": "static",
+          "display": "block"
+        },
+        "#seasonEntry": {
+          "x": 0,
+          "y": 0,
+          "w": 1280,
+          "h": 620,
+          "scroll": 620,
+          "client": 620,
+          "overflow": "hidden",
+          "position": "fixed",
+          "display": "block"
+        },
+        ".v10SeasonStage": {
+          "x": 0,
+          "y": 0,
+          "w": 1280,
+          "h": 620,
+          "scroll": 620,
+          "client": 620,
+          "overflow": "hidden",
+          "position": "absolute",
+          "display": "block",
+          "mode": "desktop"
+        },
+        ".sd-stage__layer--ui": {
+          "x": 0,
+          "y": 0,
+          "w": 1280,
+          "h": 620,
+          "scroll": 620,
+          "client": 620,
+          "overflow": "visible",
+          "position": "absolute",
+          "display": "block"
+        },
+        ".season-layout": {
+          "x": 0,
+          "y": 0,
+          "w": 1280,
+          "h": 620,
+          "scroll": 620,
+          "client": 620,
+          "overflow": "visible",
+          "position": "absolute",
+          "display": "block"
+        },
+        "#seasonReviewPanel": {
+          "x": 354.9375,
+          "y": 176.078125,
+          "w": 569.203125,
+          "h": 379.328125,
+          "scroll": 377,
+          "client": 377,
+          "overflow": "auto",
+          "position": "absolute",
+          "display": "block"
+        },
+        ".seasonReviewActions": {
+          "x": 369.9375,
+          "y": 401.328125,
+          "w": 539.203125,
+          "h": 58,
+          "scroll": 58,
+          "client": 58,
+          "overflow": "visible",
+          "position": "sticky",
+          "display": "flex"
+        },
+        "#sharedSeasonCommitAction": {
+          "x": 469.53125,
+          "y": 407.328125,
+          "w": 340,
+          "h": 44,
+          "scroll": 42,
+          "client": 42,
+          "overflow": "visible",
+          "position": "static",
+          "display": "block"
+        },
+        ".season-phone-title": {
+          "x": 0,
+          "y": 0,
+          "w": 0,
+          "h": 0,
+          "scroll": 0,
+          "client": 0,
+          "overflow": "hidden",
+          "position": "relative",
+          "display": "none"
+        },
+        ".season-phone-toolbar": {
+          "x": 0,
+          "y": 0,
+          "w": 0,
+          "h": 0,
+          "scroll": 0,
+          "client": 0,
+          "overflow": "visible",
+          "position": "static",
+          "display": "none"
+        },
+        ".season-title-block": {
+          "x": 0,
+          "y": 0,
+          "w": 1280,
+          "h": 620,
+          "scroll": 620,
+          "client": 620,
+          "overflow": "visible",
+          "position": "absolute",
+          "display": "block"
+        },
+        ".season-phone-hero--daniel": {
+          "x": 0,
+          "y": 0,
+          "w": 0,
+          "h": 0,
+          "scroll": 0,
+          "client": 0,
+          "overflow": "clip",
+          "position": "static",
+          "display": "none"
+        },
+        ".season-phone-hero--nik": {
+          "x": 0,
+          "y": 0,
+          "w": 0,
+          "h": 0,
+          "scroll": 0,
+          "client": 0,
+          "overflow": "clip",
+          "position": "static",
+          "display": "none"
+        }
+      }
+    },
+    {
+      "width": 1366,
+      "height": 500,
+      "metrics": {
+        "html": {
+          "x": 0,
+          "y": 0,
+          "w": 1366,
+          "h": 500,
+          "scroll": 500,
+          "client": 500,
+          "overflow": "hidden",
+          "position": "static",
+          "display": "block"
+        },
+        "body": {
+          "x": 0,
+          "y": 0,
+          "w": 1366,
+          "h": 500,
+          "scroll": 500,
+          "client": 500,
+          "overflow": "hidden",
+          "position": "static",
+          "display": "block"
+        },
+        "#app": {
+          "x": 0,
+          "y": 0,
+          "w": 1366,
+          "h": 500,
+          "scroll": 500,
+          "client": 500,
+          "overflow": "visible",
+          "position": "static",
+          "display": "flex"
+        },
+        "main": {
+          "x": 0,
+          "y": 52,
+          "w": 1366,
+          "h": 448,
+          "scroll": 448,
+          "client": 448,
+          "overflow": "auto",
+          "position": "static",
+          "display": "block"
+        },
+        "#seasonEntry": {
+          "x": 0,
+          "y": 0,
+          "w": 1366,
+          "h": 500,
+          "scroll": 500,
+          "client": 500,
+          "overflow": "hidden",
+          "position": "fixed",
+          "display": "block"
+        },
+        ".v10SeasonStage": {
+          "x": 0,
+          "y": 0,
+          "w": 1366,
+          "h": 500,
+          "scroll": 504,
+          "client": 500,
+          "overflow": "hidden",
+          "position": "absolute",
+          "display": "block",
+          "mode": "desktop"
+        },
+        ".sd-stage__layer--ui": {
+          "x": 0,
+          "y": 0,
+          "w": 1366,
+          "h": 500,
+          "scroll": 504,
+          "client": 500,
+          "overflow": "visible",
+          "position": "absolute",
+          "display": "block"
+        },
+        ".season-layout": {
+          "x": 0,
+          "y": 0,
+          "w": 1366,
+          "h": 500,
+          "scroll": 504,
+          "client": 500,
+          "overflow": "visible",
+          "position": "absolute",
+          "display": "block"
+        },
+        "#seasonReviewPanel": {
+          "x": 378.78125,
+          "y": 142,
+          "w": 607.453125,
+          "h": 303,
+          "scroll": 301,
+          "client": 301,
+          "overflow": "auto",
+          "position": "absolute",
+          "display": "block"
+        },
+        ".seasonReviewActions": {
+          "x": 393.78125,
+          "y": 367.265625,
+          "w": 577.453125,
+          "h": 58,
+          "scroll": 58,
+          "client": 58,
+          "overflow": "visible",
+          "position": "sticky",
+          "display": "flex"
+        },
+        "#sharedSeasonCommitAction": {
+          "x": 512.5,
+          "y": 373.265625,
+          "w": 340,
+          "h": 44,
+          "scroll": 42,
+          "client": 42,
+          "overflow": "visible",
+          "position": "static",
+          "display": "block"
+        },
+        ".season-phone-title": {
+          "x": 0,
+          "y": 0,
+          "w": 0,
+          "h": 0,
+          "scroll": 0,
+          "client": 0,
+          "overflow": "hidden",
+          "position": "relative",
+          "display": "none"
+        },
+        ".season-phone-toolbar": {
+          "x": 0,
+          "y": 0,
+          "w": 0,
+          "h": 0,
+          "scroll": 0,
+          "client": 0,
+          "overflow": "visible",
+          "position": "static",
+          "display": "none"
+        },
+        ".season-title-block": {
+          "x": 0,
+          "y": 0,
+          "w": 1366,
+          "h": 500,
+          "scroll": 500,
+          "client": 500,
+          "overflow": "visible",
+          "position": "absolute",
+          "display": "block"
+        },
+        ".season-phone-hero--daniel": {
+          "x": 0,
+          "y": 0,
+          "w": 0,
+          "h": 0,
+          "scroll": 0,
+          "client": 0,
+          "overflow": "clip",
+          "position": "static",
+          "display": "none"
+        },
+        ".season-phone-hero--nik": {
+          "x": 0,
+          "y": 0,
+          "w": 0,
+          "h": 0,
+          "scroll": 0,
+          "client": 0,
+          "overflow": "clip",
+          "position": "static",
+          "display": "none"
+        }
+      }
+    },
+    {
+      "width": 1440,
+      "height": 900,
+      "metrics": {
+        "html": {
+          "x": 0,
+          "y": 0,
+          "w": 1440,
+          "h": 900,
+          "scroll": 900,
+          "client": 900,
+          "overflow": "hidden",
+          "position": "static",
+          "display": "block"
+        },
+        "body": {
+          "x": 0,
+          "y": 0,
+          "w": 1440,
+          "h": 900,
+          "scroll": 900,
+          "client": 900,
+          "overflow": "hidden",
+          "position": "static",
+          "display": "block"
+        },
+        "#app": {
+          "x": 0,
+          "y": 0,
+          "w": 1440,
+          "h": 900,
+          "scroll": 900,
+          "client": 900,
+          "overflow": "visible",
+          "position": "static",
+          "display": "flex"
+        },
+        "main": {
+          "x": 0,
+          "y": 52,
+          "w": 1440,
+          "h": 848,
+          "scroll": 848,
+          "client": 848,
+          "overflow": "auto",
+          "position": "static",
+          "display": "block"
+        },
+        "#seasonEntry": {
+          "x": 0,
+          "y": 0,
+          "w": 1440,
+          "h": 900,
+          "scroll": 900,
+          "client": 900,
+          "overflow": "hidden",
+          "position": "fixed",
+          "display": "block"
+        },
+        ".v10SeasonStage": {
+          "x": 0,
+          "y": 0,
+          "w": 1440,
+          "h": 900,
+          "scroll": 900,
+          "client": 900,
+          "overflow": "hidden",
+          "position": "absolute",
+          "display": "block",
+          "mode": "desktop"
+        },
+        ".sd-stage__layer--ui": {
+          "x": 0,
+          "y": 45,
+          "w": 1440,
+          "h": 810,
+          "scroll": 810,
+          "client": 810,
+          "overflow": "visible",
+          "position": "absolute",
+          "display": "block"
+        },
+        ".season-layout": {
+          "x": 0,
+          "y": 45,
+          "w": 1440,
+          "h": 810,
+          "scroll": 810,
+          "client": 810,
+          "overflow": "visible",
+          "position": "absolute",
+          "display": "block"
+        },
+        "#seasonReviewPanel": {
+          "x": 399.296875,
+          "y": 297.71875,
+          "w": 640.359375,
+          "h": 471.484375,
+          "scroll": 469,
+          "client": 469,
+          "overflow": "auto",
+          "position": "absolute",
+          "display": "block"
+        },
+        ".seasonReviewActions": {
+          "x": 414.296875,
+          "y": 524.71875,
+          "w": 610.359375,
+          "h": 58,
+          "scroll": 58,
+          "client": 58,
+          "overflow": "visible",
+          "position": "sticky",
+          "display": "flex"
+        },
+        "#sharedSeasonCommitAction": {
+          "x": 549.46875,
+          "y": 530.71875,
+          "w": 340,
+          "h": 44,
+          "scroll": 42,
+          "client": 42,
+          "overflow": "visible",
+          "position": "static",
+          "display": "block"
+        },
+        ".season-phone-title": {
+          "x": 0,
+          "y": 0,
+          "w": 0,
+          "h": 0,
+          "scroll": 0,
+          "client": 0,
+          "overflow": "hidden",
+          "position": "relative",
+          "display": "none"
+        },
+        ".season-phone-toolbar": {
+          "x": 0,
+          "y": 0,
+          "w": 0,
+          "h": 0,
+          "scroll": 0,
+          "client": 0,
+          "overflow": "visible",
+          "position": "static",
+          "display": "none"
+        },
+        ".season-title-block": {
+          "x": 0,
+          "y": 45,
+          "w": 1440,
+          "h": 810,
+          "scroll": 810,
+          "client": 810,
+          "overflow": "visible",
+          "position": "absolute",
+          "display": "block"
+        },
+        ".season-phone-hero--daniel": {
+          "x": 0,
+          "y": 0,
+          "w": 0,
+          "h": 0,
+          "scroll": 0,
+          "client": 0,
+          "overflow": "clip",
+          "position": "static",
+          "display": "none"
+        },
+        ".season-phone-hero--nik": {
+          "x": 0,
+          "y": 0,
+          "w": 0,
+          "h": 0,
+          "scroll": 0,
+          "client": 0,
+          "overflow": "clip",
+          "position": "static",
+          "display": "none"
+        }
+      }
+    },
+    {
+      "width": 1920,
+      "height": 1080,
+      "metrics": {
+        "html": {
+          "x": 0,
+          "y": 0,
+          "w": 1920,
+          "h": 1080,
+          "scroll": 1080,
+          "client": 1080,
+          "overflow": "hidden",
+          "position": "static",
+          "display": "block"
+        },
+        "body": {
+          "x": 0,
+          "y": 0,
+          "w": 1920,
+          "h": 1080,
+          "scroll": 1080,
+          "client": 1080,
+          "overflow": "hidden",
+          "position": "static",
+          "display": "block"
+        },
+        "#app": {
+          "x": 0,
+          "y": 0,
+          "w": 1920,
+          "h": 1080,
+          "scroll": 1080,
+          "client": 1080,
+          "overflow": "visible",
+          "position": "static",
+          "display": "flex"
+        },
+        "main": {
+          "x": 0,
+          "y": 52,
+          "w": 1920,
+          "h": 1028,
+          "scroll": 1028,
+          "client": 1028,
+          "overflow": "auto",
+          "position": "static",
+          "display": "block"
+        },
+        "#seasonEntry": {
+          "x": 0,
+          "y": 0,
+          "w": 1920,
+          "h": 1080,
+          "scroll": 1080,
+          "client": 1080,
+          "overflow": "hidden",
+          "position": "fixed",
+          "display": "block"
+        },
+        ".v10SeasonStage": {
+          "x": 0,
+          "y": 0,
+          "w": 1920,
+          "h": 1080,
+          "scroll": 1080,
+          "client": 1080,
+          "overflow": "hidden",
+          "position": "absolute",
+          "display": "block",
+          "mode": "desktop"
+        },
+        ".sd-stage__layer--ui": {
+          "x": 0,
+          "y": 0,
+          "w": 1920,
+          "h": 1080,
+          "scroll": 1080,
+          "client": 1080,
+          "overflow": "visible",
+          "position": "absolute",
+          "display": "block"
+        },
+        ".season-layout": {
+          "x": 0,
+          "y": 0,
+          "w": 1920,
+          "h": 1080,
+          "scroll": 1080,
+          "client": 1080,
+          "overflow": "visible",
+          "position": "absolute",
+          "display": "block"
+        },
+        "#seasonReviewPanel": {
+          "x": 262.453125,
+          "y": 568.71875,
+          "w": 1395.0625,
+          "h": 408.890625,
+          "scroll": 407,
+          "client": 407,
+          "overflow": "auto",
+          "position": "absolute",
+          "display": "block"
+        },
+        ".seasonReviewActions": {
+          "x": 394,
+          "y": 876.359375,
+          "w": 650,
+          "h": 62,
+          "scroll": 62,
+          "client": 62,
+          "overflow": "visible",
+          "position": "static",
+          "display": "flex"
+        },
+        "#sharedSeasonCommitAction": {
+          "x": 549,
+          "y": 882.359375,
+          "w": 340,
+          "h": 56,
+          "scroll": 54,
+          "client": 54,
+          "overflow": "visible",
+          "position": "static",
+          "display": "block"
+        },
+        ".season-phone-title": {
+          "x": 0,
+          "y": 0,
+          "w": 0,
+          "h": 0,
+          "scroll": 0,
+          "client": 0,
+          "overflow": "hidden",
+          "position": "relative",
+          "display": "none"
+        },
+        ".season-phone-toolbar": {
+          "x": 0,
+          "y": 0,
+          "w": 0,
+          "h": 0,
+          "scroll": 0,
+          "client": 0,
+          "overflow": "visible",
+          "position": "static",
+          "display": "none"
+        },
+        ".season-title-block": {
+          "x": 0,
+          "y": 0,
+          "w": 1920,
+          "h": 1080,
+          "scroll": 1080,
+          "client": 1080,
+          "overflow": "visible",
+          "position": "absolute",
+          "display": "block"
+        },
+        ".season-phone-hero--daniel": {
+          "x": 0,
+          "y": 0,
+          "w": 0,
+          "h": 0,
+          "scroll": 0,
+          "client": 0,
+          "overflow": "clip",
+          "position": "static",
+          "display": "none"
+        },
+        ".season-phone-hero--nik": {
+          "x": 0,
+          "y": 0,
+          "w": 0,
+          "h": 0,
+          "scroll": 0,
+          "client": 0,
+          "overflow": "clip",
+          "position": "static",
+          "display": "none"
+        }
+      }
+    }
+  ],
+  "after": [
+    {
+      "width": 1280,
+      "height": 620,
+      "metrics": {
+        "html": {
+          "x": 0,
+          "y": 0,
+          "w": 1280,
+          "h": 620,
+          "scroll": 620,
+          "client": 620,
+          "overflow": "hidden",
+          "position": "static",
+          "display": "block"
+        },
+        "body": {
+          "x": 0,
+          "y": 0,
+          "w": 1280,
+          "h": 620,
+          "scroll": 620,
+          "client": 620,
+          "overflow": "hidden",
+          "position": "static",
+          "display": "block"
+        },
+        "#app": {
+          "x": 0,
+          "y": 0,
+          "w": 1280,
+          "h": 620,
+          "scroll": 620,
+          "client": 620,
+          "overflow": "visible",
+          "position": "static",
+          "display": "flex"
+        },
+        "main": {
+          "x": 0,
+          "y": 52,
+          "w": 1280,
+          "h": 568,
+          "scroll": 568,
+          "client": 568,
+          "overflow": "auto",
+          "position": "static",
+          "display": "block"
+        },
+        "#seasonEntry": {
+          "x": 0,
+          "y": 0,
+          "w": 1280,
+          "h": 620,
+          "scroll": 620,
+          "client": 620,
+          "overflow": "hidden",
+          "position": "fixed",
+          "display": "block"
+        },
+        ".v10SeasonStage": {
+          "x": 0,
+          "y": 0,
+          "w": 1280,
+          "h": 620,
+          "scroll": 620,
+          "client": 620,
+          "overflow": "hidden",
+          "position": "absolute",
+          "display": "block",
+          "mode": "desktop"
+        },
+        ".sd-stage__layer--ui": {
+          "x": 0,
+          "y": 0,
+          "w": 1280,
+          "h": 620,
+          "scroll": 620,
+          "client": 620,
+          "overflow": "visible",
+          "position": "absolute",
+          "display": "block"
+        },
+        ".season-layout": {
+          "x": 0,
+          "y": 0,
+          "w": 1280,
+          "h": 620,
+          "scroll": 620,
+          "client": 620,
+          "overflow": "visible",
+          "position": "absolute",
+          "display": "block"
+        },
+        "#seasonReviewPanel": {
+          "x": 354.9375,
+          "y": 176.078125,
+          "w": 569.203125,
+          "h": 379.328125,
+          "scroll": 377,
+          "client": 377,
+          "overflow": "auto",
+          "position": "absolute",
+          "display": "block"
+        },
+        ".seasonReviewActions": {
+          "x": 369.9375,
+          "y": 401.328125,
+          "w": 539.203125,
+          "h": 58,
+          "scroll": 58,
+          "client": 58,
+          "overflow": "visible",
+          "position": "sticky",
+          "display": "flex"
+        },
+        "#sharedSeasonCommitAction": {
+          "x": 469.53125,
+          "y": 407.328125,
+          "w": 340,
+          "h": 44,
+          "scroll": 42,
+          "client": 42,
+          "overflow": "visible",
+          "position": "static",
+          "display": "block"
+        },
+        ".season-phone-title": {
+          "x": 0,
+          "y": 0,
+          "w": 0,
+          "h": 0,
+          "scroll": 0,
+          "client": 0,
+          "overflow": "hidden",
+          "position": "relative",
+          "display": "none"
+        },
+        ".season-phone-toolbar": {
+          "x": 0,
+          "y": 0,
+          "w": 0,
+          "h": 0,
+          "scroll": 0,
+          "client": 0,
+          "overflow": "visible",
+          "position": "static",
+          "display": "none"
+        },
+        ".season-title-block": {
+          "x": 0,
+          "y": 0,
+          "w": 1280,
+          "h": 620,
+          "scroll": 620,
+          "client": 620,
+          "overflow": "visible",
+          "position": "absolute",
+          "display": "block"
+        },
+        ".season-phone-hero--daniel": {
+          "x": 0,
+          "y": 0,
+          "w": 0,
+          "h": 0,
+          "scroll": 0,
+          "client": 0,
+          "overflow": "clip",
+          "position": "static",
+          "display": "none"
+        },
+        ".season-phone-hero--nik": {
+          "x": 0,
+          "y": 0,
+          "w": 0,
+          "h": 0,
+          "scroll": 0,
+          "client": 0,
+          "overflow": "clip",
+          "position": "static",
+          "display": "none"
+        }
+      }
+    },
+    {
+      "width": 1366,
+      "height": 500,
+      "metrics": {
+        "html": {
+          "x": 0,
+          "y": 0,
+          "w": 1366,
+          "h": 500,
+          "scroll": 500,
+          "client": 500,
+          "overflow": "hidden",
+          "position": "static",
+          "display": "block"
+        },
+        "body": {
+          "x": 0,
+          "y": 0,
+          "w": 1366,
+          "h": 500,
+          "scroll": 500,
+          "client": 500,
+          "overflow": "hidden",
+          "position": "static",
+          "display": "block"
+        },
+        "#app": {
+          "x": 0,
+          "y": 0,
+          "w": 1366,
+          "h": 500,
+          "scroll": 500,
+          "client": 500,
+          "overflow": "visible",
+          "position": "static",
+          "display": "flex"
+        },
+        "main": {
+          "x": 0,
+          "y": 52,
+          "w": 1366,
+          "h": 448,
+          "scroll": 448,
+          "client": 448,
+          "overflow": "auto",
+          "position": "static",
+          "display": "block"
+        },
+        "#seasonEntry": {
+          "x": 0,
+          "y": 0,
+          "w": 1366,
+          "h": 500,
+          "scroll": 500,
+          "client": 500,
+          "overflow": "hidden",
+          "position": "fixed",
+          "display": "block"
+        },
+        ".v10SeasonStage": {
+          "x": 0,
+          "y": 0,
+          "w": 1366,
+          "h": 500,
+          "scroll": 504,
+          "client": 500,
+          "overflow": "hidden",
+          "position": "absolute",
+          "display": "block",
+          "mode": "desktop"
+        },
+        ".sd-stage__layer--ui": {
+          "x": 0,
+          "y": 0,
+          "w": 1366,
+          "h": 500,
+          "scroll": 504,
+          "client": 500,
+          "overflow": "visible",
+          "position": "absolute",
+          "display": "block"
+        },
+        ".season-layout": {
+          "x": 0,
+          "y": 0,
+          "w": 1366,
+          "h": 500,
+          "scroll": 504,
+          "client": 500,
+          "overflow": "visible",
+          "position": "absolute",
+          "display": "block"
+        },
+        "#seasonReviewPanel": {
+          "x": 378.78125,
+          "y": 142,
+          "w": 607.453125,
+          "h": 303,
+          "scroll": 301,
+          "client": 301,
+          "overflow": "auto",
+          "position": "absolute",
+          "display": "block"
+        },
+        ".seasonReviewActions": {
+          "x": 393.78125,
+          "y": 367.265625,
+          "w": 577.453125,
+          "h": 58,
+          "scroll": 58,
+          "client": 58,
+          "overflow": "visible",
+          "position": "sticky",
+          "display": "flex"
+        },
+        "#sharedSeasonCommitAction": {
+          "x": 512.5,
+          "y": 373.265625,
+          "w": 340,
+          "h": 44,
+          "scroll": 42,
+          "client": 42,
+          "overflow": "visible",
+          "position": "static",
+          "display": "block"
+        },
+        ".season-phone-title": {
+          "x": 0,
+          "y": 0,
+          "w": 0,
+          "h": 0,
+          "scroll": 0,
+          "client": 0,
+          "overflow": "hidden",
+          "position": "relative",
+          "display": "none"
+        },
+        ".season-phone-toolbar": {
+          "x": 0,
+          "y": 0,
+          "w": 0,
+          "h": 0,
+          "scroll": 0,
+          "client": 0,
+          "overflow": "visible",
+          "position": "static",
+          "display": "none"
+        },
+        ".season-title-block": {
+          "x": 0,
+          "y": 0,
+          "w": 1366,
+          "h": 500,
+          "scroll": 500,
+          "client": 500,
+          "overflow": "visible",
+          "position": "absolute",
+          "display": "block"
+        },
+        ".season-phone-hero--daniel": {
+          "x": 0,
+          "y": 0,
+          "w": 0,
+          "h": 0,
+          "scroll": 0,
+          "client": 0,
+          "overflow": "clip",
+          "position": "static",
+          "display": "none"
+        },
+        ".season-phone-hero--nik": {
+          "x": 0,
+          "y": 0,
+          "w": 0,
+          "h": 0,
+          "scroll": 0,
+          "client": 0,
+          "overflow": "clip",
+          "position": "static",
+          "display": "none"
+        }
+      }
+    },
+    {
+      "width": 1440,
+      "height": 900,
+      "metrics": {
+        "html": {
+          "x": 0,
+          "y": 0,
+          "w": 1440,
+          "h": 900,
+          "scroll": 900,
+          "client": 900,
+          "overflow": "hidden",
+          "position": "static",
+          "display": "block"
+        },
+        "body": {
+          "x": 0,
+          "y": 0,
+          "w": 1440,
+          "h": 900,
+          "scroll": 900,
+          "client": 900,
+          "overflow": "hidden",
+          "position": "static",
+          "display": "block"
+        },
+        "#app": {
+          "x": 0,
+          "y": 0,
+          "w": 1440,
+          "h": 900,
+          "scroll": 900,
+          "client": 900,
+          "overflow": "visible",
+          "position": "static",
+          "display": "flex"
+        },
+        "main": {
+          "x": 0,
+          "y": 52,
+          "w": 1440,
+          "h": 848,
+          "scroll": 848,
+          "client": 848,
+          "overflow": "auto",
+          "position": "static",
+          "display": "block"
+        },
+        "#seasonEntry": {
+          "x": 0,
+          "y": 0,
+          "w": 1440,
+          "h": 900,
+          "scroll": 900,
+          "client": 900,
+          "overflow": "hidden",
+          "position": "fixed",
+          "display": "block"
+        },
+        ".v10SeasonStage": {
+          "x": 0,
+          "y": 0,
+          "w": 1440,
+          "h": 900,
+          "scroll": 900,
+          "client": 900,
+          "overflow": "hidden",
+          "position": "absolute",
+          "display": "block",
+          "mode": "desktop"
+        },
+        ".sd-stage__layer--ui": {
+          "x": 0,
+          "y": 45,
+          "w": 1440,
+          "h": 810,
+          "scroll": 810,
+          "client": 810,
+          "overflow": "visible",
+          "position": "absolute",
+          "display": "block"
+        },
+        ".season-layout": {
+          "x": 0,
+          "y": 45,
+          "w": 1440,
+          "h": 810,
+          "scroll": 810,
+          "client": 810,
+          "overflow": "visible",
+          "position": "absolute",
+          "display": "block"
+        },
+        "#seasonReviewPanel": {
+          "x": 399.296875,
+          "y": 297.71875,
+          "w": 640.359375,
+          "h": 471.484375,
+          "scroll": 469,
+          "client": 469,
+          "overflow": "auto",
+          "position": "absolute",
+          "display": "block"
+        },
+        ".seasonReviewActions": {
+          "x": 414.296875,
+          "y": 524.71875,
+          "w": 610.359375,
+          "h": 58,
+          "scroll": 58,
+          "client": 58,
+          "overflow": "visible",
+          "position": "sticky",
+          "display": "flex"
+        },
+        "#sharedSeasonCommitAction": {
+          "x": 549.46875,
+          "y": 530.71875,
+          "w": 340,
+          "h": 44,
+          "scroll": 42,
+          "client": 42,
+          "overflow": "visible",
+          "position": "static",
+          "display": "block"
+        },
+        ".season-phone-title": {
+          "x": 0,
+          "y": 0,
+          "w": 0,
+          "h": 0,
+          "scroll": 0,
+          "client": 0,
+          "overflow": "hidden",
+          "position": "relative",
+          "display": "none"
+        },
+        ".season-phone-toolbar": {
+          "x": 0,
+          "y": 0,
+          "w": 0,
+          "h": 0,
+          "scroll": 0,
+          "client": 0,
+          "overflow": "visible",
+          "position": "static",
+          "display": "none"
+        },
+        ".season-title-block": {
+          "x": 0,
+          "y": 45,
+          "w": 1440,
+          "h": 810,
+          "scroll": 810,
+          "client": 810,
+          "overflow": "visible",
+          "position": "absolute",
+          "display": "block"
+        },
+        ".season-phone-hero--daniel": {
+          "x": 0,
+          "y": 0,
+          "w": 0,
+          "h": 0,
+          "scroll": 0,
+          "client": 0,
+          "overflow": "clip",
+          "position": "static",
+          "display": "none"
+        },
+        ".season-phone-hero--nik": {
+          "x": 0,
+          "y": 0,
+          "w": 0,
+          "h": 0,
+          "scroll": 0,
+          "client": 0,
+          "overflow": "clip",
+          "position": "static",
+          "display": "none"
+        }
+      }
+    },
+    {
+      "width": 1920,
+      "height": 1080,
+      "metrics": {
+        "html": {
+          "x": 0,
+          "y": 0,
+          "w": 1920,
+          "h": 1080,
+          "scroll": 1080,
+          "client": 1080,
+          "overflow": "hidden",
+          "position": "static",
+          "display": "block"
+        },
+        "body": {
+          "x": 0,
+          "y": 0,
+          "w": 1920,
+          "h": 1080,
+          "scroll": 1080,
+          "client": 1080,
+          "overflow": "hidden",
+          "position": "static",
+          "display": "block"
+        },
+        "#app": {
+          "x": 0,
+          "y": 0,
+          "w": 1920,
+          "h": 1080,
+          "scroll": 1080,
+          "client": 1080,
+          "overflow": "visible",
+          "position": "static",
+          "display": "flex"
+        },
+        "main": {
+          "x": 0,
+          "y": 52,
+          "w": 1920,
+          "h": 1028,
+          "scroll": 1028,
+          "client": 1028,
+          "overflow": "auto",
+          "position": "static",
+          "display": "block"
+        },
+        "#seasonEntry": {
+          "x": 0,
+          "y": 0,
+          "w": 1920,
+          "h": 1080,
+          "scroll": 1080,
+          "client": 1080,
+          "overflow": "hidden",
+          "position": "fixed",
+          "display": "block"
+        },
+        ".v10SeasonStage": {
+          "x": 0,
+          "y": 0,
+          "w": 1920,
+          "h": 1080,
+          "scroll": 1080,
+          "client": 1080,
+          "overflow": "hidden",
+          "position": "absolute",
+          "display": "block",
+          "mode": "desktop"
+        },
+        ".sd-stage__layer--ui": {
+          "x": 0,
+          "y": 0,
+          "w": 1920,
+          "h": 1080,
+          "scroll": 1080,
+          "client": 1080,
+          "overflow": "visible",
+          "position": "absolute",
+          "display": "block"
+        },
+        ".season-layout": {
+          "x": 0,
+          "y": 0,
+          "w": 1920,
+          "h": 1080,
+          "scroll": 1080,
+          "client": 1080,
+          "overflow": "visible",
+          "position": "absolute",
+          "display": "block"
+        },
+        "#seasonReviewPanel": {
+          "x": 262.453125,
+          "y": 568.71875,
+          "w": 1395.0625,
+          "h": 408.890625,
+          "scroll": 407,
+          "client": 407,
+          "overflow": "auto",
+          "position": "absolute",
+          "display": "block"
+        },
+        ".seasonReviewActions": {
+          "x": 394,
+          "y": 876.359375,
+          "w": 650,
+          "h": 62,
+          "scroll": 62,
+          "client": 62,
+          "overflow": "visible",
+          "position": "static",
+          "display": "flex"
+        },
+        "#sharedSeasonCommitAction": {
+          "x": 549,
+          "y": 882.359375,
+          "w": 340,
+          "h": 56,
+          "scroll": 54,
+          "client": 54,
+          "overflow": "visible",
+          "position": "static",
+          "display": "block"
+        },
+        ".season-phone-title": {
+          "x": 0,
+          "y": 0,
+          "w": 0,
+          "h": 0,
+          "scroll": 0,
+          "client": 0,
+          "overflow": "hidden",
+          "position": "relative",
+          "display": "none"
+        },
+        ".season-phone-toolbar": {
+          "x": 0,
+          "y": 0,
+          "w": 0,
+          "h": 0,
+          "scroll": 0,
+          "client": 0,
+          "overflow": "visible",
+          "position": "static",
+          "display": "none"
+        },
+        ".season-title-block": {
+          "x": 0,
+          "y": 0,
+          "w": 1920,
+          "h": 1080,
+          "scroll": 1080,
+          "client": 1080,
+          "overflow": "visible",
+          "position": "absolute",
+          "display": "block"
+        },
+        ".season-phone-hero--daniel": {
+          "x": 0,
+          "y": 0,
+          "w": 0,
+          "h": 0,
+          "scroll": 0,
+          "client": 0,
+          "overflow": "clip",
+          "position": "static",
+          "display": "none"
+        },
+        ".season-phone-hero--nik": {
+          "x": 0,
+          "y": 0,
+          "w": 0,
+          "h": 0,
+          "scroll": 0,
+          "client": 0,
+          "overflow": "clip",
+          "position": "static",
+          "display": "none"
+        }
+      }
+    }
+  ]
+}
