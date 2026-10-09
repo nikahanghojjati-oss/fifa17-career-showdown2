@@ -174,15 +174,14 @@ let checks=0;const ok=()=>{checks++;};
   assert.equal(gate.concurrency['cancel-in-progress'],"${{ github.event_name == 'pull_request' && github.run_attempt == 1 }}",'main push is never cancelled');
   assert.match(gate.concurrency.group,/format\('push-\{0\}-\{1\}', github\.ref_name, github\.sha\)/,'each main push has its own concurrency group');
   assert.deepEqual(gate.permissions,{contents:'read',actions:'read','pull-requests':'read'},'Showdown Gate is read-only');
-  // One elevation only: L1 cancels the allowlisted helper workflows while checks wait (gate-preempt).
+  // Pull-request code never holds a write token: no job elevates, none preempts or cancels runs (that is the
+  // trusted Physio's job), and no checkout leaves the token in .git/config.
   for(const [id,job] of Object.entries(gate.jobs)){
-    if(id==='l1-core')assert.deepEqual(job.permissions,{contents:'read',actions:'write'},'L1 may only add actions: write');
-    else assert.ok(!('permissions' in job),`${id} must inherit the read-only token`);
+    assert.ok(!('permissions' in job),`${id} must inherit the read-only token`);
+    assert.ok(!job.steps.some(step=>/gate-preempt|actions\/runs\/[^\s]*\/cancel/.test(step.run||'')),`${id} must not preempt or cancel runs`);
+    for(const step of job.steps.filter(step=>/^actions\/checkout@/.test(step.uses||'')))assert.strictEqual(step.with?.['persist-credentials'],false,`${id} checkout must set persist-credentials: false`);
   }
-  const preempt=gate.jobs['l1-core'].steps.filter(step=>/gate-preempt/.test(step.run||''));
-  assert.equal(preempt.length,1);assert.equal(preempt[0].run,'node scripts/gate-preempt.mjs --repo "$GITHUB_REPOSITORY"');
-  assert.ok(gate.jobs['l1-core'].steps.indexOf(preempt[0])<gate.jobs['l1-core'].steps.findIndex(step=>step.id==='route'),'preempt runs at the start of the run');
-  for(const [id,job] of Object.entries(gate.jobs))if(id!=='l1-core')assert.ok(!job.steps.some(step=>/gate-preempt|actions\/runs\/[^\s]*\/cancel/.test(step.run||'')),`${id} must not cancel runs`);
+  assert.doesNotMatch(read(GATE),/:\s*write\b|gate-preempt/,'Showdown Gate holds no write permission and never runs gate-preempt');
   assert.doesNotMatch(read(GATE),/pull_request_target|secrets\./);
   ok();
 
