@@ -392,6 +392,9 @@ def job_prog(q):
     return worker, "not started", ""
 
 
+LASTPLACE = [None]  # 'Type this in X' shows once for jobs in a row that go to the same place
+
+
 def job_html(q, i, kind):
     worker, prog, fin = job_prog(q)
     st = run_state(q) if kind == "run" else short_state(q.get("state", ""))
@@ -407,7 +410,7 @@ def job_html(q, i, kind):
         pct = 100.0 * (int(m0.group(1)) - 1) / int(m0.group(2))
     col = HEX.get(worker, "#6b7280")  # Nik, 2026-10-09 21:57: bring back the bar, the % and the worker's colour on every card
     meta = [x for x in meta if not x.startswith("Worker: ") and not x.endswith("% done") and " % done (" not in x]
-    out = (head + f'<br><span class="br"><span style="width:{max(pct, 2):.1f}%;background:{col}"></span></span><span class="pc">{pct:.4f} %</span>'
+    out = (head + f'<br><b class="br"><i class="q{QI.get(worker, 9)}" style="width:{max(pct, 2):.0f}%"></i></b><span class="pc">{pct:.4f} %</span>'
            + ("<span class='m'> worker's part done</span>" if kind == "run" and not q.get("progress") and pct == 100 else "")
            + f'<br><b class="q{QI.get(worker, 9)}">{e(worker)}</b> <span class="m">' + e(" · ".join(meta)) + "</span>")
     if kind == "run" and q.get("lane") in ("sol-chat", "blue", "chat", "sol-work", "green") and not status_done(q["n"]):
@@ -417,7 +420,13 @@ def job_html(q, i, kind):
         m = re.search(r"type\s+['‘\"]?([^'’\"]+?)['’\"]?\s*(?:\(|$|·|;)", pl + " ", re.I) if re.search(r"\btype\b", pl, re.I) else None
         prompt = (rowmap.get(str(q["id"])) or {}).get("prompt") or (m.group(1).strip() if m else q.get("type") or f"Job {q['n']}")
         place = re.sub(r":?\s*type\b.*$", "", pl, flags=re.I).strip(" ,:") or "(place not given)"
-        out += f'<br><span class="m">Type this in {e(place)}:</span><code class="cp">{e(prompt)}</code>' + (f'<span class="m">{e(q["note"])}</span>' if q.get("note") else "")
+        note = re.sub(r";?\s*ticket jobs/JOB-\d+\.md;?\s*", "; ", q.get("note") or "").strip("; ")
+        if re.search(r"nothing for (nik|you)", pl, re.I):
+            out += '<br><span class="m">Nothing for you to type: the lead starts it.</span>'
+        else:
+            out += (f'<br><span class="m">Type this in {e(place)}:</span>' if place != LASTPLACE[0] else "") + f'<code class="cp">{e(prompt)}</code>'
+            LASTPLACE[0] = place
+        out += f'<span class="m">{e(note)}</span>' if note else ""
     return out
 
 
@@ -441,16 +450,20 @@ def stages():
     oly_left = [v for v in oly_valid if str(oj.get(v, "")) not in done_n]
     leads = SG.get("sol_leads") or []
     leads_left = [x for x in leads if x.get("state") != "not real" and str(x.get("job", "")) not in done_n]
+    mapped = {str(v) for v in oj.values()} | {str(x.get("job")) for x in leads if x.get("job")}
+    n_open -= len([q for k in ("run", "next", "wait") for q in Q[k] if str(q["n"]) in mapped])  # counted once, as its Olympiad bug or Sol lead
     s_done = n_done + (oly_all - len(oly_left)) + (len(leads) - len(leads_left))
     s_all = n_done + n_open + oly_all + len(leads)
     TK = TWO.get("tickets") or []
     tk_done = len([x for x in TK if x["stage"] == "DONE"])
     st = [
         ("Finish the remaining bugs", 100.0 * s_done / s_all if s_all else 0.0,
-         [f"Numbered jobs: {n_done} done, {n_open} open",
+         [f"Numbered jobs: {n_done} done, {n_open} other open",
           f"Olympiad recheck: {oly_all - len(oly_left)} of {oly_all} settled, {len(oly_left)} still to fix" if oly_all else "Olympiad recheck: no report found",
           f"Sol's old leads: {len(leads_left)} open ({len([x for x in leads_left if x.get('state') == 'confirmed'])} confirmed, the rest to recheck on live)"]),
         ("Visual fixes", 100.0 * tk_done / len(TK) if TK else 0.0, [f"Team V hand-offs: {tk_done} of {len(TK)} done"]),
+        ("Match current desktop screens to the mockup", 100.0 * GL["V"].get("studied", 0) / (GL["V"].get("screens") or 1),
+         [f"Mockup Lab: {GL['V'].get('studied', 0)} of {GL['V'].get('screens', 0)} screens studied, {GL['V'].get('diffs', 0)} differences to fix"]),  # Nik 2026-10-09 22:05: after visual fixes, before phone mockups
         ("Visual mockups for phone", 0.0, ["Not started"]),
         ("Improved desktop versions", 0.0, ["Not started"]),
     ]
@@ -471,11 +484,11 @@ def render(first, compact=False, tight=False):
          ".cv .m{color:#8ea2ac;font-size:12px}.cv .k{font:italic 800 12px var(--h);letter-spacing:.08em;text-transform:uppercase;color:#f0d900}"
          ".cv a{color:#fbfcfc;text-decoration:underline}.cv code{background:#20272d;padding:0 4px;border-radius:3px}.cv .foot{margin:10px 14px 0}.cv i{font-style:normal}"
          ".cv .cp{display:block;user-select:all;-webkit-user-select:all;background:#111820;border:1px dashed #f0d900;border-radius:6px;padding:4px 8px;margin:2px 0 4px;font:13px monospace;white-space:pre-wrap}"
-         ".cv .br{display:inline-block;vertical-align:middle;width:50%;height:12px;border-radius:6px;background:#12191f;border:1px solid #43515b;overflow:hidden}.cv .br span{display:block;height:100%;border-radius:6px}.cv .pc{font:italic 800 16px var(--h);color:#f0d900;margin-left:8px}.cv .tm{font-size:11px;border:1px solid #8ea2ac;border-radius:4px;padding:0 3px;color:#dce5e8}"
+         ".cv .br{display:inline-block;vertical-align:middle;width:50%;height:12px;border-radius:6px;background:#12191f;border:1px solid #43515b;overflow:hidden}.cv .br i{display:block;height:100%;border-radius:6px;background:currentColor}.cv .pc{font:italic 800 16px var(--h);color:#f0d900;margin-left:8px}.cv .tm{font-size:11px;border:1px solid #8ea2ac;border-radius:4px;padding:0 3px;color:#dce5e8}"
          + "".join(f".cv .q{i}{{color:{h}}}" for i, h in enumerate(HEX.values())) + ".cv .q9{color:#9ca3af}</style>",
          '<div class="cv">',
-         f'<div class="ban"><b>Bug hunt board · Team {first} lead</b><span>Updated {now:%a %-d %b, %-I:%M %p} Boston time · same board as Team {"V" if first == "G" else "G"}\'s · <a href="{BLOB}BOARD.md">on GitHub</a> · <a href="{BLOB}RELAY.md">relay</a></span></div>',
-         f'<div class="tiles"><div class="tile"><b>{e((LV or {}).get("revision", "?").split("-")[-1])}</b><span>Live</span></div><div class="tile"><b>{n_run}</b><span>Jobs running</span></div><div class="tile"><b>{n_next}</b><span>Jobs to start</span></div><div class="tile"><b>{n_nik}</b><span>Other asks</span></div></div>']
+         f'<div class="ban"><b>Bug hunt board · Team {first} lead</b><span>Updated {now:%a %-d %b, %-I:%M %p} Boston time · same board as Team {"V" if first == "G" else "G"}\'s · <a href="{BLOB}BOARD.md">on GitHub</a>' + ("" if tight else f' · <a href="{BLOB}RELAY.md">relay</a>') + '</span></div>',
+         f'<div class="tiles"><div class="tile"><b>{e((LV or {}).get("revision", "?").split("-")[-1])}</b><span>Live</span></div><div class="tile"><b>{n_run}</b><span>Jobs running</span></div><div class="tile"><b>{n_next}</b><span>Jobs to start</span></div><div class="tile"><b>{n_nik}</b><span>Other asks</span></div></div>' if not tight else f'<div class="m foot">Live: {e((LV or {}).get("revision", "?").split("-")[-1])}</div>']
     H.append("<h2>Jobs</h2>")
     J = []
     for z in STUDIO.values():
@@ -485,6 +498,7 @@ def render(first, compact=False, tight=False):
     for kind, label in (("run", "Running now"), ("next", "Next for you, in this order"), ("wait", "Waiting on something else")):
         if Q[kind]:
             J.append(f'<span class="k">{label}</span>')
+            LASTPLACE[0] = None
             J += [job_html(q, i, kind) for i, q in enumerate(Q[kind], 1)]  # #1 is the first job of each list
     if Q["release"]:
         J.append('<span class="k">Done, in the next release</span> ' + (", ".join(e(q["n"]) for q in Q["release"]) if not tight else f'{len(Q["release"])} jobs ({e(Q["release"][0]["n"])} to {e(Q["release"][-1]["n"])})'))
@@ -495,12 +509,16 @@ def render(first, compact=False, tight=False):
     gl = []
     for i, (name, pct, lines) in enumerate(SG):
         tag = "now" if i == cur else ("done" if pct >= 100 else "after stage " + str(i))
-        gl.append(f'<b>{i + 1}. {e(name)}</b> <span class="tm">{tag}</span><br><span class="br"><span style="width:{max(pct, 2):.1f}%;background:{"#f0d900" if i == cur else "#6b7280"}"></span></span><span class="pc">{pct:.4f} %</span>'
+        gl.append(f'<b>{i + 1}. {e(name)}</b> <span class="tm">{tag}</span><br><b class="br"><i class="q{8 if i == cur else 9}" style="width:{max(pct, 2):.0f}%"></i></b><span class="pc">{pct:.4f} %</span>'
                   + ("<br><span class='m'>" + e(" · ".join(lines)) + "</span>" if (i == cur or not tight) else ""))
     H.append('<div class="card">' + "<br>".join(gl) + "</div>")
     if nik:
         H.append("<h2>Other asks</h2>")
         H.append('<div class="card">' + "<br>".join((md(x["decision"]) if x.get("md") else f'<b>{e(x["id"])}</b> {e(x["decision"])}') for x in nik) + "</div>")
+    if tight:  # the Custom view is full: the jobs and goals come first, the rest is on GitHub
+        H.append(f'<div class="m foot">Physio, other work, live release and relay: <a href="{BLOB}BOARD.md">on GitHub</a></div></div>')
+        H[0] = re.sub(r"\.cv \.tiles?( \w+)?\{[^}]*\}", "", H[0])  # no tiles in this view
+        return "\n".join(H) + "\n"
     H.append(f'<div class="card">{TF.PHYSIO_ICON.get(ph.get("state"), "🩺")} <b>{e(ph.get("line", "Physio: no report yet."))}</b>' + (f'<br><span class="m">{e(ph["gate"])}</span>' if ph.get("gate") else "") + "</div>")
     if warn:
         H.append('<div class="card warn">⚠ <b>Not fully current:</b> ' + " ".join(e(w) for w in warn) + "</div>")

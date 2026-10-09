@@ -1150,7 +1150,7 @@
      "id": "1051",
      "title": "Transfer ledger hash no longer reveals locked guesses (Olympiad V6)",
      "lane": "sonnet",
-     "state": "ready",
+     "state": "with the worker (Sonnet)",
      "order": 25,
      "place": "lead worker (nothing for Nik to type)",
      "note": "not a GPT job (safety filter); ticket jobs/JOB-1051.md"

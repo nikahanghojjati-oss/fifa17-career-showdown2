@@ -11,6 +11,7 @@ Updated Fri 9 Oct, 6:05 PM Boston time. Bug hunting only, no new features until 
 **Running now**
 
 - **1044** (G) Showdown Gate: exit report and seal fail closed on bad evidence (audit F2, F3) · worker done, lead checking · Codex · not started
+- **1051** (G) Transfer ledger hash no longer reveals locked guesses (Olympiad V6) · with the worker · Sonnet · not started
 
 **Next for you, in this order**
 
@@ -30,8 +31,9 @@ Updated Fri 9 Oct, 6:05 PM Boston time. Bug hunting only, no new features until 
 
 1. **Finish the remaining bugs** (now) · 72.8571 % · Numbered jobs: 35 done, 7 open · Olympiad recheck: 16 of 23 settled, 7 still to fix · Sol's old leads: 5 open (1 confirmed, the rest to recheck on live)
 2. **Visual fixes** (later) · 52.3810 % · Team V hand-offs: 11 of 21 done
-3. **Visual mockups for phone** (later) · 0.0000 % · Not started
-4. **Improved desktop versions** (later) · 0.0000 % · Not started
+3. **Match current desktop screens to the mockup** (later) · 6.2500 % · Mockup Lab: 1 of 16 screens studied, 7 differences to fix
+4. **Visual mockups for phone** (later) · 0.0000 % · Not started
+5. **Improved desktop versions** (later) · 0.0000 % · Not started
 
 ## Other asks
 
