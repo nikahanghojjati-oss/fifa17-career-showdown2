@@ -53,5 +53,46 @@ function makeContext({role,store,provider=makeProvider(store)}){
 
   const raceStore=makeStore();let releaseRead;const raceProvider=makeProvider(raceStore);raceProvider.read=()=>new Promise(resolve=>{releaseRead=()=>resolve({ok:true,status:"open",rivalryId,rivalryState:"active",terminal:false});});const race=makeContext({role:"playerOne",store:raceStore,provider:raceProvider});const stale=race.context.CareerModeProductionSharedTerminalClose.refresh();await new Promise(resolve=>setImmediate(resolve));assert.equal(typeof releaseRead,"function");race.context.currentShowdown={...race.context.currentShowdown,sharedJourney:{mode:"shared",rivalryId:`pair_${"f".repeat(64)}`}};releaseRead();assert.equal(await stale,null);assert.equal(race.context.CareerModeProductionSharedTerminalClose.getState(),null,"a late read from the previous rivalry must never publish into a changed local Showdown context");
 
+  // JOB-1038: exercise installed automatic scheduling with real promise boundaries and a controlled timer queue.
+  function automaticContext(options){const c=makeContext(options),timers=[];c.context.setTimeout=fn=>{timers.push(fn);return timers.length;};return {...c,timers};}
+  async function settle(c){for(let i=0;i<20;i++){while(c.timers.length)c.timers.shift()();await new Promise(resolve=>setImmediate(resolve));}}
+  const autoStore=makeStore(),auto=automaticContext({role:"playerOne",store:autoStore});
+  auto.context.CareerModeProductionSharedTerminalClose.install();await auto.context.CareerModeProductionSharedTerminalClose.refresh();await settle(auto);
+  assert.equal(auto.context.CareerModeProductionSharedTerminalClose.getState().phase,"CLOSED","READY closes automatically");
+  assert.equal(autoStore.closeCalls.length,1);await auto.context.CareerModeProductionSharedTerminalClose.refresh();await settle(auto);assert.equal(autoStore.closeCalls.length,1,"repeated wakes cannot close twice");
+
+  const dualStore=makeStore(),dualLeft=automaticContext({role:"playerOne",store:dualStore}),dualRight=automaticContext({role:"playerTwo",store:dualStore});
+  dualLeft.context.CareerModeProductionSharedTerminalClose.install();dualRight.context.CareerModeProductionSharedTerminalClose.install();
+  await Promise.all([dualLeft.context.CareerModeProductionSharedTerminalClose.refresh(),dualRight.context.CareerModeProductionSharedTerminalClose.refresh()]);
+  await Promise.all([settle(dualLeft),settle(dualRight)]);
+  assert.equal(dualLeft.context.CareerModeProductionSharedTerminalClose.getState().phase,"CLOSED");assert.equal(dualRight.context.CareerModeProductionSharedTerminalClose.getState().phase,"CLOSED","both installed devices converge without a close tap");
+  for(const id of [device1,device2])assert.ok(dualStore.closeCalls.filter(c=>c.deviceId===id).length<=1,"each device starts at most one automatic close");
+  const reloaded=automaticContext({role:"playerOne",store:dualStore});reloaded.context.CareerModeProductionSharedTerminalClose.install();await reloaded.context.CareerModeProductionSharedTerminalClose.refresh();await settle(reloaded);
+  assert.equal(reloaded.context.CareerModeProductionSharedTerminalClose.getState().phase,"CLOSED","reload reads the durable closed state");assert.ok(dualStore.closeCalls.length<=2,"reload creates no replacement mutation");
+
+  const restoreStore=makeStore(),restore=automaticContext({role:"playerTwo",store:restoreStore}),active=restore.getRemote();
+  restore.setRemote({...active,sessionState:"closed"});restore.context.CareerModeProductionSharedTerminalClose.install();
+  await restore.context.CareerModeProductionSharedTerminalClose.refresh();await settle(restore);assert.equal(restoreStore.closeCalls.length,0);
+  restore.setRemote(active);await restore.context.CareerModeProductionSharedTerminalClose.refresh();await settle(restore);
+  assert.equal(restore.context.CareerModeProductionSharedTerminalClose.getState().phase,"CLOSED","BLOCKED closes as soon as exact private authority returns");assert.equal(restoreStore.closeCalls.length,1,"the peer keeps its existing close entitlement");
+
+  const failStore=makeStore(),realProvider=makeProvider(failStore);let attempts=0;
+  const failed=automaticContext({role:"playerOne",store:failStore,provider:{...realProvider,async close(options){attempts++;if(attempts===1)return {ok:false,code:"test-save-failed"};return realProvider.close(options);}}});
+  failed.context.CareerModeProductionSharedTerminalClose.install();await failed.context.CareerModeProductionSharedTerminalClose.refresh();await settle(failed);
+  assert.equal(failed.context.CareerModeProductionSharedTerminalClose.getState().automaticCloseFailed,true);
+  await failed.context.CareerModeProductionSharedTerminalClose.refresh();await settle(failed);assert.equal(attempts,1,"a failed automatic attempt never loops on a poll");
+  assert.equal((await failed.context.CareerModeProductionSharedTerminalClose.close()).ok,true,"manual CLOSE retries a failed automatic save");
+
+  const lostAutoStore=makeStore();lostAutoStore.lostAckOnce=true;
+  const lostAuto=automaticContext({role:"playerOne",store:lostAutoStore});lostAuto.context.CareerModeProductionSharedTerminalClose.install();
+  await lostAuto.context.CareerModeProductionSharedTerminalClose.refresh();await settle(lostAuto);
+  assert.equal(lostAuto.context.CareerModeProductionSharedTerminalClose.getState().phase,"RECOVERY_PENDING");
+  assert.equal((await lostAuto.context.CareerModeProductionSharedTerminalClose.retry()).ok,true);assert.equal(lostAutoStore.closeCalls.length,1,"automatic lost-ack retry reads the same durable witness");
+
+  const staleAutoStore=makeStore(),staleAuto=automaticContext({role:"playerOne",store:staleAutoStore});
+  staleAuto.context.CareerModeProductionSharedTerminalClose.install();await staleAuto.context.CareerModeProductionSharedTerminalClose.refresh();
+  staleAuto.context.currentShowdown=null;await settle(staleAuto);assert.equal(staleAutoStore.closeCalls.length,0,"a queued automatic close cannot outlive its Showdown");
+
+  console.log("PASS JOB-1038 automatic close: exactly once, restored session, manual retry, lost acknowledgement and stale-context cancellation.");
   console.log("PASS r18 Terminal Close two-context runtime audit: both managers derive one exact witness, atomic close converges through terminal reads, lost acknowledgement recovers without replacement mutation, inactive-session close is blocked, stale cross-rivalry reads are discarded, and no browser storage authority is touched.");
 })().catch(error=>{console.error(error);process.exitCode=1;});
