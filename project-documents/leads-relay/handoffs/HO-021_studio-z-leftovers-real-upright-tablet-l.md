@@ -11,10 +11,10 @@
  "worker": "",
  "parent": null,
  "job": null,
- "status": "SENT",
+ "status": "RECEIVED",
  "steps": [],
  "evidence": [],
- "log": [{"at": "2026-10-09T02:05:11Z", "by": "G", "status": "SENT", "note": ""}]
+ "log": [{"at": "2026-10-09T02:05:11Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-10-09T02:06:14Z", "by": "V", "status": "RECEIVED", "note": "Team V lead: measuring r63 at tablet and sideways-phone sizes first, then a design job"}]
 }
 ```
 
