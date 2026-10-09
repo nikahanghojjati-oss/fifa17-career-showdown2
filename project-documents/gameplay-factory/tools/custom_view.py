@@ -416,7 +416,8 @@ def model_chip(q):
     mdl, eff = (r.get("model") or "").strip(), (r.get("effort") or "").strip()
     if not mdl:
         return '<span class="m">model not set</span>'
-    col = next((c for k, c in MODEL_HEX if k in mdl.lower()), "#9ca3af")
+    tc = (r.get("team") or "").lower()
+    col = BADGE[tc][1] if tc in BADGE else next((c for k, c in MODEL_HEX if k in mdl.lower()), "#9ca3af")  # the lead's legend wins (2026-10-09 22:24 UTC)
     where = (r.get("place") or "").strip()
     return (f'<b style="color:{col}">● {e(mdl)}' + (f" · {e(eff)} effort" if eff else "") + "</b>"
             + (f' <span class="m">· {e(where)}</span>' if where and q.get("_kind") == "next" else ""))
