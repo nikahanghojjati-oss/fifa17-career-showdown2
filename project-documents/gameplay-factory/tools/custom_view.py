@@ -421,6 +421,43 @@ def job_html(q, i, kind):
     return out
 
 
+def stages():
+    """The four-stage plan (Nik, 2026-10-09 22:00 UTC): bugs, then visual fixes, then phone mockups, then desktop. Every number is counted from live data."""
+    import glob
+    try:
+        SG = json.load(open(os.path.join(F, "STAGES.json")))
+    except Exception:
+        SG = {}
+    done_n = {str(q["n"]) for q in Q["release"]}
+    n_done, n_open = len(Q["release"]), len(Q["run"]) + len(Q["next"]) + len(Q["wait"])
+    rep = sorted(glob.glob(os.path.join(F, "reports", "OLYMPIAD_RECHECK_*.md")))
+    oly_all, oly_valid = 0, []
+    if rep:
+        t = open(rep[-1]).read()
+        m = re.search(r"\|\s*\*\*Total\*\*\s*\|\s*\*\*\d+\*\*\s*\|\s*\*\*(\d+)\*\*", t)
+        oly_all = int(m.group(1)) if m else 0
+        oly_valid = re.findall(r"^\|\s*(V\d+)\s*\|", t, re.M)
+    oj = SG.get("olympiad_jobs") or {}
+    oly_left = [v for v in oly_valid if str(oj.get(v, "")) not in done_n]
+    leads = SG.get("sol_leads") or []
+    leads_left = [x for x in leads if x.get("state") != "not real" and str(x.get("job", "")) not in done_n]
+    s_done = n_done + (oly_all - len(oly_left)) + (len(leads) - len(leads_left))
+    s_all = n_done + n_open + oly_all + len(leads)
+    TK = TWO.get("tickets") or []
+    tk_done = len([x for x in TK if x["stage"] == "DONE"])
+    st = [
+        ("Finish the remaining bugs", 100.0 * s_done / s_all if s_all else 0.0,
+         [f"Numbered jobs: {n_done} done, {n_open} open",
+          f"Olympiad recheck: {oly_all - len(oly_left)} of {oly_all} settled, {len(oly_left)} still to fix" if oly_all else "Olympiad recheck: no report found",
+          f"Sol's old leads: {len(leads_left)} open ({len([x for x in leads_left if x.get('state') == 'confirmed'])} confirmed, the rest to recheck on live)"]),
+        ("Visual fixes", 100.0 * tk_done / len(TK) if TK else 0.0, [f"Team V hand-offs: {tk_done} of {len(TK)} done"]),
+        ("Visual mockups for phone", 0.0, ["Not started"]),
+        ("Improved desktop versions", 0.0, ["Not started"]),
+    ]
+    cur = next((i for i, x in enumerate(st) if x[1] < 100), len(st) - 1) if s_done < s_all else 1
+    return st, cur
+
+
 def render(first, compact=False, tight=False):
     cut = 40 if compact else 70
     n_run, n_next, n_nik = len(Q["run"]), len(Q["next"]), len([x for x in nik if not x.get("md")])
@@ -453,8 +490,14 @@ def render(first, compact=False, tight=False):
         J.append('<span class="k">Done, in the next release</span> ' + (", ".join(e(q["n"]) for q in Q["release"]) if not tight else f'{len(Q["release"])} jobs ({e(Q["release"][0]["n"])} to {e(Q["release"][-1]["n"])})'))
     H.append('<div class="card move">' + ("<br>".join(J) or "No numbered job is open.") + "</div>")
     order = ("G", "V") if first == "G" else ("V", "G")
-    H.append("<h2>Goals for Thursday</h2>")
-    H.append('<div class="card">' + "<br>".join(("🐞 " if t == "G" else "🎨 ") + (f"<b>{e(GOAL[t])}</b>" if t == first else e(GOAL[t])) for t in order) + "</div>")
+    H.append("<h2>Goals, in this order</h2>")
+    SG, cur = stages()
+    gl = []
+    for i, (name, pct, lines) in enumerate(SG):
+        tag = "now" if i == cur else ("done" if pct >= 100 else "after stage " + str(i))
+        gl.append(f'<b>{i + 1}. {e(name)}</b> <span class="tm">{tag}</span><br><span class="br"><span style="width:{max(pct, 2):.1f}%;background:{"#f0d900" if i == cur else "#6b7280"}"></span></span><span class="pc">{pct:.4f} %</span>'
+                  + ("<br><span class='m'>" + e(" · ".join(lines)) + "</span>" if (i == cur or not tight) else ""))
+    H.append('<div class="card">' + "<br>".join(gl) + "</div>")
     if nik:
         H.append("<h2>Other asks</h2>")
         H.append('<div class="card">' + "<br>".join((md(x["decision"]) if x.get("md") else f'<b>{e(x["id"])}</b> {e(x["decision"])}') for x in nik) + "</div>")
@@ -520,7 +563,8 @@ if Q["wait"]:
     L += ["**Waiting on something else**", ""] + [f"- **{q['n']}** {q['title']} · {q.get('after', '')}" for q in Q["wait"]] + [""]
 if Q["release"]:
     L += ["**Done, in the next release:** " + ", ".join(q["n"] for q in Q["release"]), ""]
-L += ["## Goals for Thursday", "", f"- 🐞 {GOAL['G']}", f"- 🎨 {GOAL['V']}", ""]
+_SG, _cur = stages()
+L += ["## Goals, in this order", ""] + [f"{i + 1}. **{n}** ({'now' if i == _cur else 'later'}) · {p:.4f} % · " + " · ".join(ls) for i, (n, p, ls) in enumerate(_SG)] + [""]
 L += ["## Other asks", ""]
 L += [f"- {x['decision']}" if x.get("md") else f"- **{x['id']}** {x['decision']}" for x in nik] or ["- Nothing else needs you right now."]
 for t in ("G", "V"):

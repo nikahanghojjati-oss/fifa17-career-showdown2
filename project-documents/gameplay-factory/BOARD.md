@@ -1,6 +1,6 @@
 # Bug hunt board
 
-Updated Fri 9 Oct, 6:00 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
+Updated Fri 9 Oct, 6:02 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r66** (main `8e1a583`, Fri 9 Oct 12:04 PM)
 
@@ -18,10 +18,12 @@ Updated Fri 9 Oct, 6:00 PM Boston time. Bug hunting only, no new features until 
 
 **Done, in the next release:** 1001, 1003, 1004, 1005, 1009, 1010, 1011, 1014, 1015, 1020, 1021, 1022, 1023, 1024, 1025, 1026, 1027, 1028, 1037, 1038, 1039, 1040, 1041, 1042, 1043, 1046, 1047, Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8
 
-## Goals for Thursday
+## Goals, in this order
 
-- 🐞 Bug-free game: 30.8709 % · 11 of 11 areas studied · open S1 12, S2 19 · fixed 0 of 38 findings · weakest: area 03 and 07
-- 🎨 Mockup match: 1 of 16 screens studied · 7 differences from the mockups to fix
+1. **Finish the remaining bugs** (now) · 78.4615 % · Numbered jobs: 35 done, 2 open · Olympiad recheck: 16 of 23 settled, 7 still to fix · Sol's old leads: 5 open (1 confirmed, the rest to recheck on live)
+2. **Visual fixes** (later) · 52.3810 % · Team V hand-offs: 11 of 21 done
+3. **Visual mockups for phone** (later) · 0.0000 % · Not started
+4. **Improved desktop versions** (later) · 0.0000 % · Not started
 
 ## Other asks
 
