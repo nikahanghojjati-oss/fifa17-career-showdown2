@@ -1,6 +1,6 @@
 {
  "_how": "One shared job counter for Team G and Team V (Nik, 2026-10-05). Claim with tools/claim_number.py only. A number is used once, ever. CONTRACT.md section 10.",
- "next": 1042,
+ "next": 1043,
  "claims": [
   {
    "number": 1001,
@@ -248,6 +248,12 @@
    "team": "G",
    "title": "Season Results on phone: ACKNOWLEDGE visible, no inner scroll box, title clear of tabs, photos aligned",
    "claimed": "2026-10-09T03:55:45Z"
+  },
+  {
+   "number": 1042,
+   "team": "G",
+   "title": "Closed Final Winner shows the final season on both phones after the rival's phone closed it",
+   "claimed": "2026-10-09T05:57:37Z"
   }
  ]
 }
