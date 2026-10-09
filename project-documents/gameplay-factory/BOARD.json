@@ -1153,7 +1153,7 @@
      "id": "1050",
      "title": "Unfinished Signing Entry rows survive a refresh (Olympiad V4)",
      "lane": "gpt-work",
-     "state": "worker done, lead checking (PR #446): repro proven, test added, updated with bug-list-1; CI running",
+     "state": "done (merged into bug-list-1, PR #446)",
      "order": 24,
      "place": "ChatGPT project \"Career Mode Showdown\", new chat switched to Work mode",
      "note": "must run code (node checks), so Work mode; Luna is the cheapest Work mode model, first Luna run; ticket jobs/JOB-1050.md",
