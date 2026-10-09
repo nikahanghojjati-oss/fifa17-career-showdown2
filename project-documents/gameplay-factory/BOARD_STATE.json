@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-08 11:03 PM Boston time (EDT)",
+ "generated": "2026-10-08 11:22 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -317,7 +317,22 @@
    "revision": "1.9.1-r63",
    "when": "2026-10-08T22:40:16-04:00",
    "subject": "Release r63: Studio Z fixes from the physical test, plus the waiting factory jobs (#427)",
-   "fixes": [],
+   "fixes": [
+    {
+     "pr": 429,
+     "title": "Release r64: Forget device sign-back-in, phone LOCK MY SIGNINGS",
+     "draft": false,
+     "branch": "studio-z/r64",
+     "sha": "ab444ba83d0f4c302dc9a073df9ffd367e610f97",
+     "updated": "2026-10-09T03:22:02Z",
+     "gates": {
+      "passed": 0,
+      "running": 7,
+      "failed": 0,
+      "cancelled": 0
+     }
+    }
+   ],
    "today": [
     {
      "pr": 427,
@@ -332,7 +347,7 @@
    "gate": "POS20 #304 6/16",
    "source": "physio"
   },
-  "v_headline": "Board 1 (visual package): 238 of 238 jobs done and checked",
+  "v_headline": "Queued next",
   "v_jobs": [
    {
     "job": "V-247",
@@ -693,7 +708,7 @@
   "**r62 is live.** On the laptop, close every game tab in Chrome and reopen the game; if Settings still looks clipped, do it once more."
  ],
  "now": {
-  "moving": 23,
+  "moving": 24,
   "next": 3,
   "nik": 7,
   "later": 6,
@@ -986,7 +1001,22 @@
     ]
    }
   },
-  "fixes": []
+  "fixes": [
+   {
+    "pr": 429,
+    "title": "Release r64: Forget device sign-back-in, phone LOCK MY SIGNINGS",
+    "draft": false,
+    "branch": "studio-z/r64",
+    "sha": "ab444ba83d0f4c302dc9a073df9ffd367e610f97",
+    "updated": "2026-10-09T03:22:02Z",
+    "gates": {
+     "passed": 0,
+     "running": 7,
+     "failed": 0,
+     "cancelled": 0
+    }
+   }
+  ]
  },
  "jobs": [
   {
