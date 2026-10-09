@@ -94,4 +94,45 @@ check("Z8","a league name two countries share waits for an explicit choice",()=>
   assert.equal(ctx.resolve("league","Premier League").id,"england-premier-league");
 });
 
-console.log(`PASS Studio Z contracts: ${n} checks (startup retry, offline recheck, refresh rejoin, session pointer, auto update, sign-in watchdog, tablet layout, shared league names, old Settings panels).`);
+
+const pendingAsync=[];
+check("Z10","Forget device never locks the account out: a revoked local identity is replaced and the same account signs in again",()=>{
+  const identity=read("js/onlinePlayerIdentity.js"),pairing=read("js/sparkPrivatePairing.js");
+  assert.match(identity,/clearPrivateDeviceIdentity\(\);\}catch\(_\)\{cleanupFailed=true;\}try\{root\.CareerModeSparkPrivatePairing\?\.resetDeviceIdentityCache\?\.\(\)/,"Forget clears the pairing cache after the local delete");
+  assert.match(pairing,/function resetDeviceIdentityCache\(\)\{pairingIdentity=null;/);
+  assert.match(pairing,/result\.code==="PRIVATE_DEVICE_REVOKED"&&!healed/,"a revoked own identity is replaced once");
+  // Behaviour: run the real pairing module against an in-memory IndexedDB and Firestore.
+  const idb=new Map(),docs=new Map();
+  const req=fn=>{const r={};Promise.resolve().then(()=>{r.result=fn();r.onsuccess&&r.onsuccess();});return r;};
+  const db={objectStoreNames:{contains:()=>true},close(){},transaction(){const tx={objectStore:()=>({get:k=>req(()=>idb.get(k)),add:(v,k)=>{idb.set(k,v);},delete:k=>{idb.delete(k);}})};setTimeout(()=>tx.oncomplete&&tx.oncomplete(),5);return tx;}};
+  const indexedDB={open:()=>{const r={result:db};setTimeout(()=>r.onsuccess&&r.onsuccess(),0);return r;}};
+  const sdk={Timestamp:{fromMillis:ms=>({toMillis:()=>ms})},doc:(_f,...p)=>p.join("/"),runTransaction:async(_f,fn)=>fn({get:async ref=>({exists:()=>docs.has(ref),data:()=>docs.get(ref)}),set:(ref,v)=>docs.set(ref,v)})};
+  const listeners=new Set();let acct={connected:true,accountId:"uid1"};
+  const ctx={TextEncoder,Date,Promise,indexedDB,crypto:require("node:crypto").webcrypto,setTimeout,clearTimeout,CareerModeSparkConnectedAccount:{getState:()=>acct,subscribe:fn=>{listeners.add(fn);return()=>listeners.delete(fn);}},CareerModeProductionFirebaseRuntime:{ensureAccountServices:async()=>({ok:true,firestore:{},firestoreSdk:sdk,auth:{currentUser:{uid:"uid1"}}})}};
+  ctx.globalThis=ctx;
+  const mod={exports:{}};ctx.module=mod;vm.runInNewContext(pairing,ctx);
+  const api=mod.exports;
+  pendingAsync.push((async()=>{
+    await api.initialize();
+    const first=api.getState();assert.equal(first.registered,true,"first sign-in registers: "+JSON.stringify(first));
+    // Forget: server doc revoked, local record deleted, module cache reset, signed out.
+    const id1=[...idb.values()][0];
+    const key=`accounts/uid1/devices/${id1.deviceId}`;
+    docs.set(key,{...docs.get(key),data:{...docs.get(key).data,state:"revoked"}});
+    idb.clear();api.resetDeviceIdentityCache();acct={connected:false,accountId:null};listeners.forEach(f=>f(acct));
+    acct={connected:true,accountId:"uid1"};
+    await api.initialize();
+    assert.equal(api.getState().registered,true,"the same account signs in again after Forget");
+    assert.notEqual(api.getState().deviceId,id1.deviceId,"a fresh device id is used");
+    assert.equal(docs.get(key).data.state,"revoked","the revoked server record is untouched");
+    // Self-heal: even if the local delete was skipped, a stored revoked identity is replaced.
+    const id2=api.getState().deviceId,key2=`accounts/uid1/devices/${id2}`;
+    docs.set(key2,{...docs.get(key2),data:{...docs.get(key2).data,state:"revoked"}});
+    acct={connected:false,accountId:null};listeners.forEach(f=>f(acct));acct={connected:true,accountId:"uid1"};
+    await api.initialize();
+    assert.equal(api.getState().registered,true,"a stale revoked identity self-heals");
+    assert.notEqual(api.getState().deviceId,id2);
+  })());
+});
+
+Promise.all(pendingAsync).then(()=>console.log(`PASS Studio Z contracts: ${n} checks (startup retry, offline recheck, refresh rejoin, session pointer, auto update, sign-in watchdog, tablet layout, shared league names, old Settings panels, Forget device sign-back-in).`));

@@ -113,6 +113,23 @@
     }finally{if(database&&typeof database.close==="function")database.close();}
   }
 
+  // Studio Z10: Forget device revokes the server record, so this browser must stop using that identity. Dropping the local
+  // record and the module cache lets the next sign-in register a fresh device (the revoked server document is untouched).
+  function resetDeviceIdentityCache(){pairingIdentity=null;pairingServices=null;}
+  async function discardLocalDeviceIdentity(indexedDBImpl){
+    resetDeviceIdentityCache();
+    let database;
+    try{
+      database=await openIdentityDatabase(indexedDBImpl||root.indexedDB);
+      await new Promise((resolve,reject)=>{
+        const transaction=database.transaction(IDENTITY_STORE_NAME,"readwrite");
+        transaction.objectStore(IDENTITY_STORE_NAME).delete(IDENTITY_PRIMARY_KEY);
+        transaction.oncomplete=()=>resolve();
+        transaction.onerror=transaction.onabort=()=>reject(errorWithCode("PRIVATE_DEVICE_IDENTITY_UNAVAILABLE","Private device identity could not be replaced."));
+      });
+    }finally{if(database&&typeof database.close==="function")database.close();}
+  }
+
   function canonicalize(value){
     if(value===null||value===undefined)return value===undefined?null:value;
     if(value&&typeof value.toMillis==="function")return {$timestamp:value.toMillis()};
@@ -420,13 +437,16 @@ async function revokePairing(options={}){
     return {accountState,services,user:services.auth.currentUser,identity:pairingIdentity};
   }
 
-  async function registerCurrentDevice(){
+  async function registerCurrentDevice(healed=false){
     const preservePairingStateAtStart=["creating-pair","joining-pair","pair-open","paired"].includes(pairingState.status);
     if(!preservePairingStateAtStart)setState({status:"registering",busy:true,message:"Registering this browser privately…"});
     try{
       const context=await resolveConnectedContext();
       const result=await registerDevice({user:context.user,firestore:context.services.firestore,firebaseSdk:context.services.firestoreSdk,identity:context.identity,cryptoImpl:root.crypto});
-      if(!result.ok)throw errorWithCode(result.code,result.message);
+      if(!result.ok){
+        if(result.code==="PRIVATE_DEVICE_REVOKED"&&!healed){await discardLocalDeviceIdentity(root.indexedDB);return registerCurrentDevice(true);}
+        throw errorWithCode(result.code,result.message);
+      }
       const preservePairingState=preservePairingStateAtStart||["creating-pair","joining-pair","pair-open","paired"].includes(pairingState.status);
       if(preservePairingState)return setState({initialized:true,connected:true,registered:true,accountId:context.accountState.accountId,deviceId:context.identity.deviceId});
       return setState({status:"ready",initialized:true,busy:false,connected:true,registered:true,accountId:context.accountState.accountId,deviceId:context.identity.deviceId,message:"This browser is privately registered. Pairing only links the two manager identities; gameplay synchronization is still locked."});
@@ -601,6 +621,7 @@ async function revokePairing(options={}){
     generateDeviceIdentity,
     validDeviceIdentity,
     getOrCreateDeviceIdentity,
+    resetDeviceIdentityCache,
     normalizeLocalBinding,
     bindingKey,
     pairingJoinErrorMessage,
