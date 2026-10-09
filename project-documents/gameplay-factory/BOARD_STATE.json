@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-09 1:58 AM Boston time (EDT)",
+ "generated": "2026-10-09 1:59 AM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -284,7 +284,7 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "0a0ee647",
+  "head": "0a0ee64",
   "head_boston": "Fri 9 Oct 1:57 AM",
   "latest_id": "G2V-016",
   "feed_matches_latest": true,
@@ -313,9 +313,9 @@
  },
  "two": {
   "live": {
-   "sha": "963a9791",
+   "sha": "963a979",
    "revision": "1.9.1-r64",
-   "when": "2026-10-09T05:44:20+00:00",
+   "when": "2026-10-09T05:44:20Z",
    "subject": "Release r64: Forget device sign-back-in, phone LOCK MY SIGNINGS (#429)",
    "fixes": [],
    "today": [
@@ -333,7 +333,7 @@
   },
   "physio": {
    "state": "barking",
-   "line": "Barking: POS20 has waited 7 min for a machine; POS20 has waited 6 min for a machine; POS20 has waited 4 min for a machine.",
+   "line": "Barking: POS20 on #312 has waited 1 min for a machine.",
    "gate": "POS20 #304 6/16",
    "source": "physio"
   },
