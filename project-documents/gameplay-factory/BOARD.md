@@ -1,10 +1,10 @@
 # Bug hunt board
 
-Updated Fri 9 Oct, 9:29 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
+Updated Fri 9 Oct, 9:35 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r65** (main `e49add9`, Fri 9 Oct 2:48 AM)
 
-🩺 **All clear: every check has a machine.** · Gate #440: L1… L2… L3… L4… L5… L6… · seal pending · POS20 #440 5/16
+🩺 **All clear: every check has a machine.** · Gate #440: L1✓ L2✓ L3✓ L4✓ L5✓ L6✓ · seal PASS · POS20 #440 12/16
 
 ## Jobs
 
