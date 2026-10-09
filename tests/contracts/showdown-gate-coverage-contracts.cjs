@@ -17,6 +17,23 @@ const HEAD_REF='${{ github.event.pull_request.head.sha || github.sha }}';
 const GATE='.github/workflows/showdown-gate.yml';
 const POS20='.github/workflows/validate-pos10.yml';
 const FAST='.github/workflows/validate-gameplay-fast.yml';
+// Verified upstream tag commits: preserve the old action/version while pinning its implementation.
+const ACTION_PINS={
+  'actions/checkout@v5':'actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09',
+  'actions/setup-node@v5':'actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444',
+  'actions/setup-java@v5':'actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961',
+  'actions/cache@v5':'actions/cache@caa296126883cff596d87d8935842f9db880ef25',
+  'actions/upload-artifact@v7':'actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9',
+  'actions/download-artifact@v7':'actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131',
+};
+const pinnedAction=ref=>{assert.ok(Object.hasOwn(ACTION_PINS,ref),`unverified old action: ${ref}`);return ACTION_PINS[ref];};
+function assertPinnedUses(node,where){
+  if(!node||typeof node!=='object')return;
+  for(const [key,value] of Object.entries(node)){
+    if(key==='uses')assert.match(value,/@[0-9a-f]{40}$/i,`${where}.uses must use a full commit SHA`);
+    else assertPinnedUses(value,`${where}.${key}`);
+  }
+}
 const groups=[...new Set(Object.values(graph.proofBundleGroups))].sort();
 let checks=0;const ok=()=>{checks++;};
 
@@ -25,6 +42,7 @@ let checks=0;const ok=()=>{checks++;};
   assert.equal(coverage.gateWorkflow,GATE);
   assert.deepEqual(coverage.oldWorkflows,[POS20,FAST]);
   const gate=readWorkflow(root,GATE);
+  assertPinnedUses(gate,GATE);ok();
   const old=Object.fromEntries(coverage.oldWorkflows.map(file=>[file,readWorkflow(root,file)]));
   const gateJob=id=>{const job=gate.jobs[id];assert.ok(job,`Showdown Gate job missing: ${id}`);return job;};
   const gateStep=(jobId,label)=>{const found=gateJob(jobId).steps.filter(step=>step.label===label);assert.equal(found.length,1,`Showdown Gate ${jobId} must have exactly one step "${label}" (found ${found.length})`);return found[0];};
@@ -68,10 +86,10 @@ let checks=0;const ok=()=>{checks++;};
     const targets=mapping.targets.map(t=>gateStep(t.job,t.step));
     const where=`${mapping.workflow} ${mapping.job} "${mapping.step}"`;
     if(mapping.mode==='checkout'){
-      for(const step of targets){assert.equal(step.uses,before.uses,`${where}: same checkout action`);assert.equal(step.with?.ref,HEAD_REF,`${where}: Showdown Gate must check out the exact head`);}
+      for(const step of targets){assert.equal(step.uses,pinnedAction(before.uses),`${where}: same checkout action`);assert.equal(step.with?.ref,HEAD_REF,`${where}: Showdown Gate must check out the exact head`);}
     }else if(mapping.mode==='setup'){
       for(const step of targets){
-        assert.equal(step.uses,before.uses,`${where}: same action`);
+        assert.equal(step.uses,pinnedAction(before.uses),`${where}: same action`);
         for(const [k,v] of Object.entries(before.with||{}))if(k!=='cache')assert.equal(step.with?.[k],v,`${where}: with.${k} must be identical`);
       }
     }else if(mapping.mode==='exact'){
@@ -111,9 +129,9 @@ let checks=0;const ok=()=>{checks++;};
       assert.match(before.run,/Required POS20 lane did not pass/);
       for(const step of targets)assert.match(step.run,/^node scripts\/showdown-gate\.mjs seal\b/);
     }else if(mapping.mode==='cache'){
-      for(const step of targets){assert.match(String(step.uses),/^actions\/cache@v\d+$/);assert.ok(String(step.with?.path).split('\n').includes('~/.cache/firebase/emulators'),`${where}: must cache the Firebase emulators`);}
+      for(const step of targets){assert.equal(step.uses,pinnedAction('actions/cache@v5'));assert.ok(String(step.with?.path).split('\n').includes('~/.cache/firebase/emulators'),`${where}: must cache the Firebase emulators`);}
     }else if(mapping.mode==='artifact'){
-      for(const step of targets){assert.equal(step.uses,before.uses);assert.equal(step.if,before.if);for(const [k,v] of Object.entries(before.with||{}))assert.equal(step.with?.[k],v,`${where}: with.${k}`);}
+      for(const step of targets){assert.equal(step.uses,pinnedAction(before.uses));assert.equal(step.if,before.if);for(const [k,v] of Object.entries(before.with||{}))assert.equal(step.with?.[k],v,`${where}: with.${k}`);}
     }else assert.fail(`unhandled mode ${mapping.mode}`);
     ok();
   }

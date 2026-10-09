@@ -180,31 +180,31 @@
       "targets": [
         {
           "job": "l1-core",
-          "step": "uses:actions/checkout@v5"
+          "step": "uses:actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09"
         },
         {
           "job": "l2-browser-full",
-          "step": "uses:actions/checkout@v5"
+          "step": "uses:actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09"
         },
         {
           "job": "l3-storage-visual-gameplay",
-          "step": "uses:actions/checkout@v5"
+          "step": "uses:actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09"
         },
         {
           "job": "l4-remote",
-          "step": "uses:actions/checkout@v5"
+          "step": "uses:actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09"
         },
         {
           "job": "l5-rules-regression",
-          "step": "uses:actions/checkout@v5"
+          "step": "uses:actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09"
         },
         {
           "job": "l6-browser-journey",
-          "step": "uses:actions/checkout@v5"
+          "step": "uses:actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09"
         },
         {
           "job": "seal",
-          "step": "uses:actions/checkout@v5"
+          "step": "uses:actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09"
         }
       ],
       "ids": [],
@@ -322,7 +322,7 @@
       "targets": [
         {
           "job": "l1-core",
-          "step": "uses:actions/checkout@v5"
+          "step": "uses:actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09"
         }
       ],
       "ids": []
@@ -335,7 +335,7 @@
       "targets": [
         {
           "job": "l1-core",
-          "step": "uses:actions/setup-node@v5"
+          "step": "uses:actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444"
         }
       ],
       "ids": []
@@ -363,7 +363,7 @@
       "targets": [
         {
           "job": "l1-core",
-          "step": "uses:actions/checkout@v5"
+          "step": "uses:actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09"
         }
       ],
       "ids": []
@@ -376,7 +376,7 @@
       "targets": [
         {
           "job": "l1-core",
-          "step": "uses:actions/setup-node@v5"
+          "step": "uses:actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444"
         }
       ],
       "ids": []
@@ -406,7 +406,7 @@
       "targets": [
         {
           "job": "l1-core",
-          "step": "uses:actions/checkout@v5"
+          "step": "uses:actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09"
         }
       ],
       "ids": []
@@ -419,7 +419,7 @@
       "targets": [
         {
           "job": "l1-core",
-          "step": "uses:actions/setup-node@v5"
+          "step": "uses:actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444"
         }
       ],
       "ids": []
@@ -462,7 +462,7 @@
       "targets": [
         {
           "job": "l4-remote",
-          "step": "uses:actions/checkout@v5"
+          "step": "uses:actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09"
         }
       ],
       "ids": []
@@ -475,7 +475,7 @@
       "targets": [
         {
           "job": "l4-remote",
-          "step": "uses:actions/setup-node@v5"
+          "step": "uses:actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444"
         }
       ],
       "ids": []
@@ -488,7 +488,7 @@
       "targets": [
         {
           "job": "l4-remote",
-          "step": "uses:actions/setup-java@v5"
+          "step": "uses:actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961"
         }
       ],
       "ids": []
@@ -558,19 +558,19 @@
       "targets": [
         {
           "job": "l1-core",
-          "step": "uses:actions/checkout@v5"
+          "step": "uses:actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09"
         },
         {
           "job": "l2-browser-full",
-          "step": "uses:actions/checkout@v5"
+          "step": "uses:actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09"
         },
         {
           "job": "l3-storage-visual-gameplay",
-          "step": "uses:actions/checkout@v5"
+          "step": "uses:actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09"
         },
         {
           "job": "l4-remote",
-          "step": "uses:actions/checkout@v5"
+          "step": "uses:actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09"
         }
       ],
       "ids": []
@@ -583,19 +583,19 @@
       "targets": [
         {
           "job": "l1-core",
-          "step": "uses:actions/setup-node@v5"
+          "step": "uses:actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444"
         },
         {
           "job": "l2-browser-full",
-          "step": "uses:actions/setup-node@v5"
+          "step": "uses:actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444"
         },
         {
           "job": "l3-storage-visual-gameplay",
-          "step": "uses:actions/setup-node@v5"
+          "step": "uses:actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444"
         },
         {
           "job": "l4-remote",
-          "step": "uses:actions/setup-node@v5"
+          "step": "uses:actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444"
         }
       ],
       "ids": []
@@ -608,19 +608,19 @@
       "targets": [
         {
           "job": "l1-core",
-          "step": "uses:actions/setup-java@v5"
+          "step": "uses:actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961"
         },
         {
           "job": "l2-browser-full",
-          "step": "uses:actions/setup-java@v5"
+          "step": "uses:actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961"
         },
         {
           "job": "l3-storage-visual-gameplay",
-          "step": "uses:actions/setup-java@v5"
+          "step": "uses:actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961"
         },
         {
           "job": "l4-remote",
-          "step": "uses:actions/setup-java@v5"
+          "step": "uses:actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961"
         }
       ],
       "ids": []
@@ -707,7 +707,7 @@
       "targets": [
         {
           "job": "l1-core",
-          "step": "uses:actions/checkout@v5"
+          "step": "uses:actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09"
         }
       ],
       "ids": []
@@ -720,7 +720,7 @@
       "targets": [
         {
           "job": "l1-core",
-          "step": "uses:actions/setup-node@v5"
+          "step": "uses:actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444"
         }
       ],
       "ids": []
@@ -776,7 +776,7 @@
       "targets": [
         {
           "job": "l3-storage-visual-gameplay",
-          "step": "uses:actions/checkout@v5"
+          "step": "uses:actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09"
         }
       ],
       "ids": []
@@ -789,7 +789,7 @@
       "targets": [
         {
           "job": "l3-storage-visual-gameplay",
-          "step": "uses:actions/setup-node@v5"
+          "step": "uses:actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444"
         }
       ],
       "ids": []
@@ -802,7 +802,7 @@
       "targets": [
         {
           "job": "l3-storage-visual-gameplay",
-          "step": "uses:actions/setup-java@v5"
+          "step": "uses:actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961"
         }
       ],
       "ids": []
@@ -1021,7 +1021,7 @@
       "targets": [
         {
           "job": "l6-browser-journey",
-          "step": "uses:actions/checkout@v5"
+          "step": "uses:actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09"
         }
       ],
       "ids": []
@@ -1034,7 +1034,7 @@
       "targets": [
         {
           "job": "l6-browser-journey",
-          "step": "uses:actions/setup-node@v5"
+          "step": "uses:actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444"
         }
       ],
       "ids": []
@@ -1047,7 +1047,7 @@
       "targets": [
         {
           "job": "l6-browser-journey",
-          "step": "uses:actions/setup-java@v5"
+          "step": "uses:actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961"
         }
       ],
       "ids": []
@@ -1129,7 +1129,7 @@
       "targets": [
         {
           "job": "l5-rules-regression",
-          "step": "uses:actions/checkout@v5"
+          "step": "uses:actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09"
         }
       ],
       "ids": []
@@ -1155,7 +1155,7 @@
       "targets": [
         {
           "job": "l5-rules-regression",
-          "step": "uses:actions/setup-node@v5"
+          "step": "uses:actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444"
         }
       ],
       "ids": []
@@ -1168,7 +1168,7 @@
       "targets": [
         {
           "job": "l5-rules-regression",
-          "step": "uses:actions/setup-java@v5"
+          "step": "uses:actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961"
         }
       ],
       "ids": []

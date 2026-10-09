@@ -18,6 +18,8 @@
   let witnessedClubDigest=null;
   let revealingClubDigest=null;
   let clubRevealComplete=false;
+  let revealedSummaryClubs=0;
+  const confirmationClubBaselines=new WeakMap();
   // Job 33: R3 the league reveal moves on to the club packs by itself after the 4.1 s wheel; R4a the first confirmer
   // opens Career Start by itself once the rival confirms. Both are navigation only (no provider write).
   const LEAGUE_AUTO_FORWARD_MS=4200;
@@ -50,7 +52,7 @@
   function ssjpLater(fn,ms){const id=root.setTimeout(()=>{timers=timers.filter(item=>item!==id);fn();},ms);timers.push(id);return id;}
   function ssjpContextKey(next=state){const shell=ssjpShell();return `${String(next?.rivalryId||"").trim()}|${String(shell?.id||shell?.saveId||"").trim()}`;}
   function ssjpResetWitnesses(){
-    ssjpClearTimers();ssjpClearLeagueForwardWaiter();witnessedLeagueId=null;witnessedClubDigest=null;revealingClubDigest=null;clubRevealComplete=false;preparedSeasonCommitPromise=null;autoCareerStartKey="";
+    ssjpClearTimers();ssjpClearLeagueForwardWaiter();witnessedLeagueId=null;witnessedClubDigest=null;revealingClubDigest=null;clubRevealComplete=false;revealedSummaryClubs=0;preparedSeasonCommitPromise=null;autoCareerStartKey="";
     const league=root.document&&root.document.getElementById("leagueWheelScreen"),club=root.document&&root.document.getElementById("clubWheelScreen");
     if(league)delete league.dataset.sharedLeagueWitnessed;
     if(club){delete club.dataset.sharedClubPacksWitnessed;delete club.dataset.sharedPackDigest;}
@@ -127,14 +129,39 @@
     const key=`${presentationContextKey}|${setup.revision}`;if(autoCareerStartKey===key)return false;autoCareerStartKey=key;
     void ssjpOpenCareerStart().catch(()=>{});return true;
   }
-  function ssjpResetPackCards(){if(typeof root.resetClubRevealCards==="function")root.resetClubRevealCards();else for(const [cardId,nameId,stateId] of [["clubCardOne","clubNameOne","clubCardStateOne"],["clubCardTwo","clubNameTwo","clubCardStateTwo"]]){const card=root.document.getElementById(cardId),name=root.document.getElementById(nameId),stateNode=root.document.getElementById(stateId);if(card)card.classList.remove("is-revealed");ssjpText(name,"?");ssjpText(stateNode,"SEALED");}}
-  function ssjpRevealCard(which,name){const card=root.document.getElementById(which===1?"clubCardOne":"clubCardTwo"),nameNode=root.document.getElementById(which===1?"clubNameOne":"clubNameTwo"),stateNode=root.document.getElementById(which===1?"clubCardStateOne":"clubCardStateTwo");if(typeof root.applyClubRevealCard==="function")root.applyClubRevealCard(card,nameNode,stateNode,name);else{ssjpText(nameNode,name);ssjpText(stateNode,"REVEALED");if(card)card.classList.add("is-revealed");if(typeof root.applyClubIdentity==="function")root.applyClubIdentity(nameNode,name);}}
+  function ssjpResetPackCards(){revealedSummaryClubs=0;if(typeof root.resetClubRevealCards==="function")root.resetClubRevealCards();else for(const [cardId,nameId,stateId] of [["clubCardOne","clubNameOne","clubCardStateOne"],["clubCardTwo","clubNameTwo","clubCardStateTwo"]]){const card=root.document.getElementById(cardId),name=root.document.getElementById(nameId),stateNode=root.document.getElementById(stateId);if(card)card.classList.remove("is-revealed");ssjpText(name,"?");ssjpText(stateNode,"SEALED");}}
+  function ssjpConfirmationClubNode(which){return root.document.getElementById(which===1?"clubConfirmationClubOne":"clubConfirmationClubTwo");}
+  function ssjpSaveConfirmationBaseline(node){if(node&&!confirmationClubBaselines.has(node))confirmationClubBaselines.set(node,Array.from(node.attributes,attr=>[attr.name,attr.value]));}
+  function ssjpSealConfirmationClub(node){
+    if(!node)return;ssjpSaveConfirmationBaseline(node);
+    const original=new Map(confirmationClubBaselines.get(node));
+    for(const attr of Array.from(node.attributes))if(!original.has(attr.name))node.removeAttribute(attr.name);
+    for(const [name,value] of original)if(node.getAttribute(name)!==value)node.setAttribute(name,value);
+    ssjpText(node,"?");
+  }
+  function ssjpSetConfirmationClub(which,name){
+    const node=ssjpConfirmationClubNode(which);if(!node)return;
+    ssjpSaveConfirmationBaseline(node);ssjpText(node,name);
+    if(typeof root.applyClubIdentity==="function")root.applyClubIdentity(node,name);
+  }
+  function ssjpRevealCard(which,name){const card=root.document.getElementById(which===1?"clubCardOne":"clubCardTwo"),nameNode=root.document.getElementById(which===1?"clubNameOne":"clubNameTwo"),stateNode=root.document.getElementById(which===1?"clubCardStateOne":"clubCardStateTwo");if(typeof root.applyClubRevealCard==="function")root.applyClubRevealCard(card,nameNode,stateNode,name);else{ssjpText(nameNode,name);ssjpText(stateNode,"REVEALED");if(card)card.classList.add("is-revealed");if(typeof root.applyClubIdentity==="function")root.applyClubIdentity(nameNode,name);}revealedSummaryClubs|=which===1?1:2;ssjpSetConfirmationClub(which,name);}
   function ssjpEnsureSeasonPanel(){
     const screen=root.document&&root.document.getElementById("clubWheelScreen");if(!screen)return null;let panel=root.document.getElementById(SEASON_PANEL_ID);if(panel)return panel;
     panel=root.document.createElement("section");panel.id=SEASON_PANEL_ID;panel.className="clubRivalryConfirmation sharedShowdownSeasonPanel";const eyebrow=root.document.createElement("span");eyebrow.className="screenEyebrow";eyebrow.textContent="SHARED SHOWDOWN · FINAL SETUP";const heading=root.document.createElement("h3");heading.textContent="CHOOSE SEASON LENGTH";const copy=root.document.createElement("p");copy.className="stateNote";copy.dataset.sharedSeasonCopy="true";const choices=root.document.createElement("div");choices.className="sharedSeasonChoices";
     for(const seasons of LENGTHS){const button=root.document.createElement("button");button.type="button";button.className="compactButton";button.dataset.sharedSeason=String(seasons);button.textContent=`${seasons} SEASON${seasons===1?"":"S"}`;button.addEventListener("click",event=>{event.preventDefault();event.stopPropagation();void ssjpChooseSeason(seasons);});choices.append(button);}panel.append(eyebrow,heading,copy,choices);const confirmation=root.document.getElementById("clubRivalryConfirmation");if(confirmation)confirmation.insertAdjacentElement("afterend",panel);else screen.append(panel);return panel;
   }
-  function ssjpFillConfirmation(setup){const m=ssjpManagers(),league=ssjpLeagueRecord(setup.leagueId),confirmation=root.document.getElementById("clubRivalryConfirmation");if(confirmation)confirmation.classList.remove("hidden");ssjpText(root.document.getElementById("clubConfirmationShowdown"),(ssjpShell()&&ssjpShell().name)||"SHARED SHOWDOWN");ssjpText(root.document.getElementById("clubConfirmationMeta"),`${league&&league.name||setup.leagueId}${setup.totalSeasons?` · ${setup.totalSeasons} season${setup.totalSeasons===1?"":"s"}`:""} · SHARED`);ssjpText(root.document.getElementById("clubConfirmationManagerOne"),m.playerOne||"PLAYER ONE");ssjpText(root.document.getElementById("clubConfirmationManagerTwo"),m.playerTwo||"PLAYER TWO");ssjpText(root.document.getElementById("clubConfirmationClubOne"),setup.clubs&&setup.clubs.playerOne||"?");ssjpText(root.document.getElementById("clubConfirmationClubTwo"),setup.clubs&&setup.clubs.playerTwo||"?");if(typeof root.applyClubIdentity==="function"&&setup.clubs){root.applyClubIdentity(root.document.getElementById("clubConfirmationClubOne"),setup.clubs.playerOne);root.applyClubIdentity(root.document.getElementById("clubConfirmationClubTwo"),setup.clubs.playerTwo);}}
+  function ssjpFillConfirmation(setup){
+    const m=ssjpManagers(),league=ssjpLeagueRecord(setup.leagueId),confirmation=root.document.getElementById("clubRivalryConfirmation");
+    if(confirmation)confirmation.classList.remove("hidden");
+    ssjpText(root.document.getElementById("clubConfirmationShowdown"),(ssjpShell()&&ssjpShell().name)||"SHARED SHOWDOWN");
+    ssjpText(root.document.getElementById("clubConfirmationMeta"),`${league&&league.name||setup.leagueId}${setup.totalSeasons?` · ${setup.totalSeasons} season${setup.totalSeasons===1?"":"s"}`:""} · SHARED`);
+    ssjpText(root.document.getElementById("clubConfirmationManagerOne"),m.playerOne||"PLAYER ONE");
+    ssjpText(root.document.getElementById("clubConfirmationManagerTwo"),m.playerTwo||"PLAYER TWO");
+    for(const [which,role,bit] of [[1,"playerOne",1],[2,"playerTwo",2]]){
+      if((revealedSummaryClubs&bit)&&setup.clubs?.[role])ssjpSetConfirmationClub(which,setup.clubs[role]);
+      else ssjpSealConfirmationClub(ssjpConfirmationClubNode(which));
+    }
+  }
   function ssjpCompletePackWitness(setup){const digest=ssjpClubDigest(setup);revealingClubDigest=null;witnessedClubDigest=digest;clubRevealComplete=true;const screen=root.document&&root.document.getElementById("clubWheelScreen");if(screen)screen.dataset.sharedClubPacksWitnessed=digest||"true";ssjpFillConfirmation(setup);void ssjpRenderClub();}
   function ssjpAnimatePacks(setup){
     if(!setup||!setup.clubs)return;const screen=root.document.getElementById("clubWheelScreen");if(!screen)return;const digest=ssjpClubDigest(setup);

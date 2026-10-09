@@ -44,7 +44,7 @@ function ensureSeasonReviewUI(){
 
     const intro = document.createElement("p");
     intro.className = "seasonReviewIntro";
-    intro.textContent = "Verify both managers' results and the calculated scores. Nothing becomes permanent until Confirm & Save Season is pressed.";
+    intro.textContent = "Review both managers and their results alongside the calculated scores.";
 
     const result = document.createElement("p");
     result.id = "seasonReviewResult";
