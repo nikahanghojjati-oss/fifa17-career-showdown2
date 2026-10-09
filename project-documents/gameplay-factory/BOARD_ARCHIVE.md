@@ -1,12 +1,12 @@
 # Board archive
 
-[Back to the board](BOARD.md) · generated 2026-10-08 10:39 PM Boston time (EDT). Detail and history behind the one board.
+[Back to the board](BOARD.md) · generated 2026-10-08 10:42 PM Boston time (EDT). Detail and history behind the one board.
 
 ## Old detailed board
 
 # Showdown board: G Factory and V Factory
 
-🌐 **Live: runtime 1.9.1-r62** (main `bc77a0b`) · 🔄 **24 moving** · ⏭ 3 up next · 👤 7 waiting on Nik · 🗂 6 later · updated 2026-10-08 10:39 PM Boston time (EDT)
+🌐 **Live: runtime 1.9.1-r63** (main `2b8b043`) · 🔄 **23 moving** · ⏭ 3 up next · 👤 7 waiting on Nik · 🗂 6 later · updated 2026-10-08 10:42 PM Boston time (EDT)
 
 🩺 **All clear: every check has a machine.** · Gate #427: L1✓ L2… L3… L4✓ L5✓ L6✓ · seal pending · POS20 #427 10/16
 
@@ -15,10 +15,6 @@
 1. **r62 is live.** On the laptop, close every game tab in Chrome and reopen the game; if Settings still looks clipped, do it once more.
 
 ## 🔄 Moving now
-
-| Release / fix | Checks on the latest commit | Updated |
-| --- | --- | --- |
-| [PR #427](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/427) Release r63: Studio Z fixes from the physical test, plus the waiting factory jobs | 🟢 19 passed | 10:29 PM |
 
 | Team | Job | What | Worker | Where it is | Details |
 | --- | --- | --- | --- | --- | --- |
@@ -118,6 +114,8 @@ Latest:
 
 ## ✅ Finished
 
+**Shipped to the live game today (1):** [#427](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/427) Release r63: Studio Z fixes from the physical test, plus th…
+
 <details>
 <summary>Done jobs (10 future-list rows, 1 Team V jobs, 10 hand-offs, 33 factory jobs)</summary>
 
@@ -190,7 +188,7 @@ Latest:
 ## Every bug report
 
 
-> Updated **Thu 8 Oct, 10:39 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
+> Updated **Thu 8 Oct, 10:42 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
 
 | 🔓 Open | 🔴 Top priority | 🔧 Fixing or waiting for release | ✅ Fixed and live |
 | :---: | :---: | :---: | :---: |

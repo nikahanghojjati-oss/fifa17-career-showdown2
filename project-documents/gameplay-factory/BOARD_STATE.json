@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-08 10:39 PM Boston time (EDT)",
+ "generated": "2026-10-08 10:42 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -313,27 +313,18 @@
  },
  "two": {
   "live": {
-   "sha": "bc77a0b",
-   "revision": "1.9.1-r62",
-   "when": "2026-10-06T01:18:19Z",
-   "subject": "Showdown Gate shadow: 6-lane gate runs beside POS20, coverage-proven (#386)",
-   "fixes": [
+   "sha": "2b8b043",
+   "revision": "1.9.1-r63",
+   "when": "2026-10-08T22:40:16-04:00",
+   "subject": "Release r63: Studio Z fixes from the physical test, plus the waiting factory jobs (#427)",
+   "fixes": [],
+   "today": [
     {
      "pr": 427,
      "title": "Release r63: Studio Z fixes from the physical test, plus the waiting factory jobs",
-     "draft": false,
-     "branch": "studio-z/r63",
-     "sha": "c735cc6b4732a8c7c64d716ff5c45ae930b9c416",
-     "updated": "2026-10-09T02:29:11Z",
-     "gates": {
-      "passed": 19,
-      "running": 0,
-      "failed": 0,
-      "cancelled": 0
-     }
+     "merged": "2026-10-09T02:40:16Z"
     }
-   ],
-   "today": []
+   ]
   },
   "physio": {
    "state": "clear",
@@ -702,7 +693,7 @@
   "**r62 is live.** On the laptop, close every game tab in Chrome and reopen the game; if Settings still looks clipped, do it once more."
  ],
  "now": {
-  "moving": 24,
+  "moving": 23,
   "next": 3,
   "nik": 7,
   "later": 6,
@@ -995,22 +986,7 @@
     ]
    }
   },
-  "fixes": [
-   {
-    "pr": 427,
-    "title": "Release r63: Studio Z fixes from the physical test, plus the waiting factory jobs",
-    "draft": false,
-    "branch": "studio-z/r63",
-    "sha": "c735cc6b4732a8c7c64d716ff5c45ae930b9c416",
-    "updated": "2026-10-09T02:29:11Z",
-    "gates": {
-     "passed": 19,
-     "running": 0,
-     "failed": 0,
-     "cancelled": 0
-    }
-   }
-  ]
+  "fixes": []
  },
  "jobs": [
   {

@@ -1,8 +1,8 @@
 # Bug hunt board
 
-Updated Thu 8 Oct, 10:39 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
+Updated Thu 8 Oct, 10:42 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
 
-🌐 **Live: 1.9.1-r62** (main `bc77a0b`, Mon 5 Oct 9:18 PM)
+🌐 **Live: 1.9.1-r63** (main `2b8b043`, Thu 8 Oct 10:40 PM)
 
 🩺 **All clear: every check has a machine.** · Gate #427: L1✓ L2… L3… L4✓ L5✓ L6✓ · seal pending · POS20 #427 10/16
 
@@ -42,7 +42,6 @@ Updated Thu 8 Oct, 10:39 PM Boston time. Bug hunting only, no new features until
 
 | Lane | Item | What | State |
 | --- | --- | --- | --- |
-| 🟧 Team G lead | [PR #427](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/427) | Release r63: Studio Z fixes from the physical test, plus the waiting factory jobs | 🟢 19 passed |
 | 🟧 Opus | **G-F17** | Showdown Gate: replace POS20 with a faster check system built on Claude and GitHub, keeping every check (plan: /mnt/project-files/check-system/SHOWDOWN_GATE_PLAN.md) | building shadow |
 | 🟧 Opus | **G-F18** | Old-design screen audit: Legacy, Career Statistics and Trophy Room still open in the old shell; drive every live screen in a browser against Team V's design and route all of them to the new design | in progress |
 
@@ -63,4 +62,8 @@ Updated Thu 8 Oct, 10:39 PM Boston time. Bug hunting only, no new features until
 | Lane | Item | What | State |
 | --- | --- | --- | --- |
 | 🟧 Opus | **V-F2** | Design changes from Nik and Daniel's 2.0 play-through (only real design changes; bugs stay with G) | queued · after G-F1 |
+
+## Shipped today
+
+- 10:40 PM · #427 Release r63: Studio Z fixes from the physical test, plus the waiting factory jobs
 
