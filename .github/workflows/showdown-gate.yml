@@ -3,6 +3,8 @@
 # computes its own route with the unchanged POS20 router (no shared selector job), and the seal requires
 # every lane green on the exact head with every routed id executed. GATE_COVERAGE.json maps every command
 # of the 16 old gates to a step here, and tests/contracts/showdown-gate-coverage-contracts.cjs enforces it.
+# Every job is read-only and every checkout sets persist-credentials: false; helper preemption runs only in
+# the trusted default-branch Physio workflow (gate-watchdog.yml).
 name: Showdown Gate
 
 on:
@@ -26,15 +28,12 @@ jobs:
     if: ${{ github.event_name != 'pull_request' || github.event.pull_request.draft == false }}
     runs-on: ubuntu-24.04
     timeout-minutes: 25
-    # Only L1 may elevate, and only to cancel the allowlisted helper workflows (scripts/gate-preempt.mjs).
-    permissions:
-      contents: read
-      actions: write
     steps:
       - uses: actions/checkout@v5
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
           fetch-depth: 1
+          persist-credentials: false
       - name: Fetch exact diff base
         shell: bash
         env:
@@ -49,10 +48,6 @@ jobs:
         with:
           node-version: 24
           cache: npm
-      - name: Preempt low-priority helpers while checks wait for machines
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-        run: node scripts/gate-preempt.mjs --repo "$GITHUB_REPOSITORY"
       - name: 'TEST: Compute Showdown Gate route'
         id: route
         shell: bash
@@ -133,6 +128,7 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
           fetch-depth: 1
+          persist-credentials: false
       - name: Fetch exact diff base
         shell: bash
         env:
@@ -200,6 +196,7 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
           fetch-depth: 1
+          persist-credentials: false
       - name: Fetch exact diff base
         shell: bash
         env:
@@ -326,6 +323,7 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
           fetch-depth: 1
+          persist-credentials: false
       - name: Fetch exact diff base
         shell: bash
         env:
@@ -414,6 +412,7 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
           fetch-depth: 1
+          persist-credentials: false
       - name: Fetch exact diff base
         shell: bash
         env:
@@ -486,6 +485,7 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
           fetch-depth: 1
+          persist-credentials: false
       - name: Fetch exact diff base
         shell: bash
         env:
@@ -575,6 +575,7 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
           fetch-depth: 1
+          persist-credentials: false
       - name: Fetch exact diff base
         if: github.event_name != 'pull_request' || github.event.pull_request.draft == false
         shell: bash

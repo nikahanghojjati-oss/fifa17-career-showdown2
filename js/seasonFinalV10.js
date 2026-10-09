@@ -153,9 +153,29 @@
   // rivalry is kept so the closed Final Winner still shows the final season and trophies; finalFrame re-verifies it.
   let retainedHistory=null;
   function sfRetainHistory(history){if(history?.authoritative===true&&history.phase==="HISTORY_CONVERGED"&&history.projection)retainedHistory=history;return history;}
+  // JOB-1042: the rival can close before this phone's live history converges. Reuse the session-free,
+  // completed-only reader once per closed rivalry; the partial Final Winner stays visible during the read.
+  const closedHistoryReads=new Map();
+  const sfConverged=(history,rivalryId)=>history?.authoritative===true&&history.phase==="HISTORY_CONVERGED"&&history.rivalryId===rivalryId&&history.projection;
+  function sfClosedHistory(rivalryId){
+    if(!closedHistoryReads.has(rivalryId)){
+      const entry={history:null,promise:null};closedHistoryReads.set(rivalryId,entry);
+      entry.promise=Promise.resolve().then(async()=>{
+        if(!root.CareerModeSparkCompletedShowdownReader)await root.loadRuntimeScript("career-completed-reader","js/sparkCompletedShowdownReader.js",()=>Boolean(root.CareerModeSparkCompletedShowdownReader));
+        const runtime=root.CareerModeProductionFirebaseRuntime,account=state("CareerModeSparkConnectedAccount");
+        if(!account?.connected||!runtime)return;
+        const services=await runtime.ensureAccountServices(),user=services?.auth?.currentUser;
+        if(!services?.ok||!user||user.uid!==account.accountId)return;
+        const sdk=services.firestoreSdk?.getDoc?services.firestoreSdk:await import(runtime.firebaseFirestoreModule);
+        const result=await root.CareerModeSparkCompletedShowdownReader.readCompletedShowdown({firestore:services.firestore,firebaseSdk:{...services.firestoreSdk,getDoc:sdk.getDoc},user,rivalryId});
+        if(result?.status==="completed"&&result.rivalryId===rivalryId&&result.projection)entry.history={authoritative:true,phase:"HISTORY_CONVERGED",rivalryId,projection:result.projection};
+      }).catch(()=>{}).then(()=>wake());
+    }
+    return closedHistoryReads.get(rivalryId).history;
+  }
   function seasonSource(){
     const s=sfSnapshot(),live=sfRetainHistory(s.history),closed=s.terminalClose?.phase==="CLOSED"?s.terminalClose:null;
-    const history=live||(closed&&retainedHistory?.rivalryId===closed.rivalryId?retainedHistory:null);
+    const history=closed?.terminal===true?(sfConverged(live,closed.rivalryId)?live:sfConverged(retainedHistory,closed.rivalryId)?retainedHistory:sfClosedHistory(closed.rivalryId)):live;
     return {final:finalFrame(s.finalReconciliation,s.terminalClose,history)};
   }
   // The pair module notifies only its own subscribers (no window event), so Standings follows pairing

@@ -78,14 +78,14 @@ async function retryStopsOnContextChange(){
 
 const fact={leaguePosition:2,leaguePoints:90,leagueGoals:80,domesticCup:true,championsLeague:false,topScorer:false,topAssist:false};
 const operation=(prefix,n)=>prefix+n.toString(16).padStart(32,"0");
-async function completedShowdown(totalSeasons){
+async function completedShowdown(totalSeasons,firstResult=fact){
   const setup={phase:"SHOWDOWN_CONFIRMED",revision:6,coordinatorRole:"playerOne",totalSeasons,confirmedRoles:["playerOne","playerTwo"],leagueId:"premier_league",clubs:{playerOne:"A",playerTwo:"B"}};
   const careerStart={phase:"CAREER_START_READY",revision:2,acknowledgedRoles:["playerOne","playerTwo"]};
   const results=await resultsModule.createProtocol({teamCount:20,cryptoImpl:crypto}),commit=await commitModule.createProtocol({teamCount:20,cryptoImpl:crypto}),scoring=await scoringModule.createProtocol({teamCount:20,cryptoImpl:crypto});
   const seasons=[];
   for(let n=1;n<=totalSeasons;n+=1){
     const options={setup,careerStart,transferChallenge:{phase:"COMPLETED",revision:6,seasonNumber:n},seasonNumber:n};
-    const mine=n%2?fact:{...fact,leaguePosition:1,championsLeague:true};
+    const mine=n%2?firstResult:{...fact,leaguePosition:1,championsLeague:true};
     const first=await results.apply({...options,actorRole:"playerOne",command:{type:"publish-result",operationId:operation("season_result_op_",n*2),baseRevision:0,result:mine}});
     const second=await results.apply({...options,state:first.state,actorRole:"playerTwo",command:{type:"publish-result",operationId:operation("season_result_op_",n*2+1),baseRevision:1,result:fact}});
     const c={setup,seasonResults:second.state,seasonNumber:n};
@@ -128,9 +128,69 @@ async function closedFrameKeepsTrophies(){
   assert.match(read("js/sharedTerminalClose.js"),/const INTENT_KEYS=Object\.freeze\(\["schemaVersion","runtimeRevision","phase","rivalryId","sessionId","totalSeasons","completedSeason","managerTotals","winner",/,"terminal witness schema unchanged");
 }
 
+// JOB-1042: exercise the registered production frame source, including its async reader and redraw.
+async function closedReaderFrameSource(f,readImpl,{history=null,lazy=false}={}){
+  const defs={},timers=[],snapshots={history,terminal:f.terminal};let reads=0,wakes=0,loads=0;
+  const user={uid:"daniel"},firestore={},firebaseSdk={doc(){},getDoc(){}};
+  const reader={async readCompletedShowdown(options){reads++;assert.equal(options.rivalryId,PAIR);assert.equal(options.user,user);assert.equal(options.firestore,firestore);assert.equal(options.firebaseSdk.getDoc,firebaseSdk.getDoc);return readImpl();}};
+  const env={console,setTimeout:fn=>timers.push(fn),addEventListener(){},document:{addEventListener(){}},getActiveScreenName:()=>"seasonEntry",
+    CareerModeProductionSharedTerminalClose:{getState:()=>snapshots.terminal},CareerModeProductionSharedHistoryConvergence:{getState:()=>snapshots.history},
+    CareerModeSharedHistoryConvergence:historyModule,CareerModeSparkConnectedAccount:{getState:()=>({connected:true,accountId:user.uid})},
+    CareerModeProductionFirebaseRuntime:{ensureAccountServices:async()=>({ok:true,auth:{currentUser:user},firestore,firestoreSdk:firebaseSdk})},
+    CareerModeV10Screens:{install(){return this;},register(id,def){defs[id]=def;},setNavRoute(){},invalidate(){wakes++;},show:async()=>true},
+    loadRuntimeScript:async(key,file,ready)=>{loads++;assert.equal(key,"career-completed-reader");assert.equal(file,"js/sparkCompletedShowdownReader.js");env.CareerModeSparkCompletedShowdownReader=reader;assert.equal(ready(),true);}
+  };
+  if(!lazy)env.CareerModeSparkCompletedShowdownReader=reader;
+  vm.runInNewContext(read("js/seasonFinalV10.js"),env);await env.CareerModeSeasonFinalV10.install();
+  const flush=()=>{while(timers.length)timers.shift()();};
+  flush();
+  return {snapshots,frame:()=>defs.seasonEntry.frame().final,flush,counts:()=>({reads,wakes,loads})};
+}
+async function closedReaderRecoversFinalSeason(){
+  const f=await completedShowdown(1),completed=projection=>({status:"completed",rivalryId:PAIR,projection});
+  let release;const pending=new Promise(resolve=>{release=resolve;});
+  const source=await closedReaderFrameSource(f,()=>pending,{lazy:true,history:{phase:"HISTORY_LOADING"}});
+  assert.equal(source.frame().status,"partial","the winner stays visible while the completed read is pending");
+  for(let i=0;i<5;i++)source.frame();
+  await new Promise(resolve=>setImmediate(resolve));assert.equal(source.counts().reads,1,"overlapping renders share one read");
+  const wakesBefore=source.counts().wakes;release(completed(f.projection));await new Promise(resolve=>setImmediate(resolve));source.flush();
+  const recovered=source.frame();assert.equal(recovered.status,"ready");assert.equal(recovered.state,"completed");
+  assert.equal(JSON.stringify(recovered.lastSeason),JSON.stringify(apiFrame(f).lastSeason));
+  assert.equal(JSON.stringify(recovered.trophies),JSON.stringify(apiFrame(f).trophies));
+  assert.ok(source.counts().wakes>wakesBefore,"completed read wakes the screen");
+  for(let i=0;i<5;i++)source.frame();assert.equal(source.counts().reads,1);assert.equal(source.counts().loads,1);
+  // These projections are independently valid; binding them to this witness must still fail.
+  const otherRivalry={...f.projection,rivalryId:"pair_"+"2".repeat(64)};
+  assert.equal(historyModule.verifyProjection(otherRivalry),otherRivalry);
+  const otherTotals=(await completedShowdown(1,{...fact,leaguePosition:1,championsLeague:true})).projection;
+  assert.equal(historyModule.verifyProjection(otherTotals),otherTotals);
+  assert.notEqual(otherTotals.managerRecords.playerOne.totalPoints,f.projection.managerRecords.playerOne.totalPoints);
+  const tampered=JSON.parse(JSON.stringify(f.projection));tampered.managerRecords.playerOne.totalTrophies+=1;
+  for(const [label,readImpl] of [
+    ["other rivalry",()=>completed(otherRivalry)],["other totals",()=>completed(otherTotals)],["tampered",()=>completed(tampered)],
+    ["other reader rivalry",()=>({...completed(f.projection),rivalryId:otherRivalry.rivalryId})],
+    ["unavailable",()=>({status:"unavailable"})],["not closed",()=>({status:"not-closed",rivalryId:PAIR,projection:f.projection})],
+    ["rejected",()=>Promise.reject(new Error("offline"))]
+  ]){
+    const invalid=await closedReaderFrameSource(f,readImpl);await new Promise(resolve=>setImmediate(resolve));invalid.flush();
+    const frame=invalid.frame();assert.equal(frame.status,"partial",label);assert.equal(frame.state,"completed",label);
+    assert.equal(frame.lastSeason,undefined,label);assert.equal(frame.trophies,undefined,label);
+    invalid.frame();invalid.flush();assert.equal(invalid.counts().reads,1,`${label}: no repeated read`);
+  }
+  const live=await closedReaderFrameSource(f,()=>{throw Error("live history must avoid the read");},{history:f.history});
+  assert.equal(live.frame().status,"ready");await new Promise(resolve=>setImmediate(resolve));assert.equal(live.counts().reads,0);
+  live.snapshots.history={phase:"HISTORY_LOADING"};assert.equal(live.frame().status,"ready","a partial live view does not hide retained history");
+  await new Promise(resolve=>setImmediate(resolve));assert.equal(live.counts().reads,0);
+  source.snapshots.terminal={...f.terminal,rivalryId:otherRivalry.rivalryId,terminalWitness:{...f.terminal.terminalWitness,rivalryId:otherRivalry.rivalryId}};
+  assert.equal(source.frame().status,"partial","the cached history never crosses rivalries");
+  console.log("PASS JOB-1042 closed Final Winner reader contracts: ready final season/trophies, one cached read and redraw, verified rivalry/totals binding, partial failures and retained-history priority.");
+}
+function apiFrame(f){return require(path.join(root,"js/seasonFinalV10.js")).finalFrame(null,f.terminal,f.history);}
+
 (async()=>{
   await recoveryHeldAcrossRefresh();
   await retryStopsOnContextChange();
   await closedFrameKeepsTrophies();
+  await closedReaderRecoversFinalSeason();
   console.log("PASS hunt 1017 terminal close recovery contracts: refresh keeps the held witness until a matching closed read, retry stops before close/cleanup when the context changes, closed Final Winner keeps verified trophies (1/3/10 seasons) and rejects tampered history.");
 })().catch(error=>{console.error(error);process.exit(1);});
