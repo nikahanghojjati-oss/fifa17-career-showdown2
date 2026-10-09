@@ -94,4 +94,57 @@ check("Z8","a league name two countries share waits for an explicit choice",()=>
   assert.equal(ctx.resolve("league","Premier League").id,"england-premier-league");
 });
 
-console.log(`PASS Studio Z contracts: ${n} checks (startup retry, offline recheck, refresh rejoin, session pointer, auto update, sign-in watchdog, tablet layout, shared league names, old Settings panels).`);
+
+const pendingAsync=[];
+check("Z10","Forget device never locks the account out, and a device revoked elsewhere stays revoked",()=>{
+  const identity=read("js/onlinePlayerIdentity.js"),pairing=read("js/sparkPrivatePairing.js");
+  assert.match(identity,/clearPrivateDeviceIdentity\(\);\}catch\(_\)\{cleanupFailed=true;\}try\{root\.CareerModeSparkPrivatePairing\?\.resetDeviceIdentityCache\?\.\(\)/,"Forget clears the pairing cache after the local delete");
+  assert.match(pairing,/function resetDeviceIdentityCache\(\)\{pairingIdentity=null;/);
+  assert.doesNotMatch(pairing,/discardLocalDeviceIdentity|healed/,"no automatic re-registration of a revoked device");
+  // Behaviour: run the real pairing module against an in-memory IndexedDB and Firestore.
+  const idb=new Map(),docs=new Map();
+  const req=fn=>{const r={};Promise.resolve().then(()=>{r.result=fn();r.onsuccess&&r.onsuccess();});return r;};
+  const db={objectStoreNames:{contains:()=>true},close(){},transaction(){const tx={objectStore:()=>({get:k=>req(()=>idb.get(k)),add:(v,k)=>{idb.set(k,v);},delete:k=>{idb.delete(k);}})};setTimeout(()=>tx.oncomplete&&tx.oncomplete(),5);return tx;}};
+  const indexedDB={open:()=>{const r={result:db};setTimeout(()=>r.onsuccess&&r.onsuccess(),0);return r;}};
+  const sdk={Timestamp:{fromMillis:ms=>({toMillis:()=>ms})},doc:(_f,...p)=>p.join("/"),runTransaction:async(_f,fn)=>fn({get:async ref=>({exists:()=>docs.has(ref),data:()=>docs.get(ref)}),set:(ref,v)=>docs.set(ref,v)})};
+  const listeners=new Set();let acct={connected:true,accountId:"uid1"};
+  const ctx={TextEncoder,Date,Promise,indexedDB,crypto:require("node:crypto").webcrypto,setTimeout,clearTimeout,CareerModeSparkConnectedAccount:{getState:()=>acct,subscribe:fn=>{listeners.add(fn);return()=>listeners.delete(fn);}},CareerModeProductionFirebaseRuntime:{ensureAccountServices:async()=>({ok:true,firestore:{},firestoreSdk:sdk,auth:{currentUser:{uid:"uid1"}}})}};
+  ctx.globalThis=ctx;
+  const mod={exports:{}};ctx.module=mod;vm.runInNewContext(pairing,ctx);
+  const api=mod.exports;
+  pendingAsync.push((async()=>{
+    await api.initialize();
+    const first=api.getState();assert.equal(first.registered,true,"first sign-in registers: "+JSON.stringify(first));
+    // Forget: server doc revoked, local record deleted, module cache reset, signed out.
+    const id1=[...idb.values()][0];
+    const key=`accounts/uid1/devices/${id1.deviceId}`;
+    docs.set(key,{...docs.get(key),data:{...docs.get(key).data,state:"revoked"}});
+    idb.clear();api.resetDeviceIdentityCache();acct={connected:false,accountId:null};listeners.forEach(f=>f(acct));
+    acct={connected:true,accountId:"uid1"};
+    await api.initialize();
+    assert.equal(api.getState().registered,true,"the same account signs in again after Forget");
+    assert.notEqual(api.getState().deviceId,id1.deviceId,"a fresh device id is used");
+    assert.equal(docs.get(key).data.state,"revoked","the revoked server record is untouched");
+    // A device revoked without Forget on this browser keeps its stored identity and stays revoked.
+    const id2=api.getState().deviceId,key2=`accounts/uid1/devices/${id2}`;
+    docs.set(key2,{...docs.get(key2),data:{...docs.get(key2).data,state:"revoked"}});
+    acct={connected:false,accountId:null};listeners.forEach(f=>f(acct));acct={connected:true,accountId:"uid1"};
+    await api.initialize();
+    assert.equal(api.getState().registered,false,"a device revoked elsewhere is not silently re-registered");
+    assert.equal(api.getState().status,"revoked");
+  })());
+});
+
+check("Z11","LOCK MY SIGNINGS stays inside the phone scroll box and the sideways note stops overlapping row 03",()=>{
+  const tcss=read("css/v10Transfer.css");
+  const block=tcss.match(/\.stage\[data-phase="SIGNING_ENTRY"\] \.world \{([^}]*)\}/);
+  assert.ok(block,"JOB-1031 phone signing world rule");
+  assert.match(block[1],/overflow-y: auto/,"signing form still scrolls inside the world");
+  assert.match(block[1],/height: 100dvh;/,"the world keeps the full viewport height, so the fixed LOCK button is never outside its scroll box (iOS Safari clips it there)");
+  assert.doesNotMatch(block[1],/height: calc\(100dvh - /,"the world must not end above the fixed LOCK button (Z11)");
+  assert.doesNotMatch(block[1],/padding-bottom/,"bottom padding comes from plate.css (footer + action + gaps)");
+  assert.match(read("visual-assets/v10_1/tr2/slice-02-plate/plate.css"),/\.world \{ padding-bottom: calc\(var\(--phone-footer\) \+ var\(--phone-action-h\) \+ \(var\(--phone-action-gap\) \* 2\)\); \}/,"world reserves room for footer + LOCK button");
+  assert.match(tcss,/@media \(orientation: landscape\) and \(max-height: 520px\) \{\s*#transferChallenge \.tw-host \.phase-signing \.action-row \.privacy-note \{ display: none; \}/,"sideways phone: the privacy note no longer overlaps row 03 and the LOCK button");
+});
+
+Promise.all(pendingAsync).then(()=>console.log(`PASS Studio Z contracts: ${n} checks (startup retry, offline recheck, refresh rejoin, session pointer, auto update, sign-in watchdog, tablet layout, shared league names, old Settings panels, Forget device sign-back-in, phone LOCK button).`));
