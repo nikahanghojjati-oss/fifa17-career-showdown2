@@ -1,8 +1,15 @@
 # 🎨 Team V board
 
-Updated Thu 8 Oct 11:19 PM EDT · Team V featured, Team G below · one shared data source (PR progress blocks + relay) · [Team G's board](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/BOARD.md)
+Updated Thu 8 Oct 11:43 PM EDT · Team V featured, Team G below · one shared data source (PR progress blocks + relay) · [Team G's board](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/BOARD.md)
 
 ## Team V: visual jobs
+
+### 🟪 [V-1036 · Upright tablet: Transfer War and Home](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/430)
+
+🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪 **100.00 %** · 4 of 4 steps · Sonnet · Team V lead · updated Fri 9 Oct 12:40 AM EDT
+
+> **Going on now:** Lead check PASS after one fix round; port handed to Team G  
+> **Next step:** nothing left
 
 ### 🟧 [V-247 · Phone Home tile icons like GOAL_HOME](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/381)
 
@@ -52,7 +59,7 @@ Updated Thu 8 Oct 11:19 PM EDT · Team V featured, Team G below · one shared da
 
 ### Team G: gameplay
 
-<sub>0 of 0 jobs done (0.00 %) · 1 open bugs · their update Thu 8 Oct 11:03 PM EDT · [full board](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/BOARD.md)</sub>
+<sub>0 of 0 jobs done (0.00 %) · 1 open bugs · their update Thu 8 Oct 11:32 PM EDT · [full board](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/BOARD.md)</sub>
 
 <sub>No Team G job is running right now.</sub>
 
