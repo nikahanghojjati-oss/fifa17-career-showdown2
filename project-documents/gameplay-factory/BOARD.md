@@ -1,16 +1,12 @@
 # Bug hunt board
 
-Updated Fri 9 Oct, 6:11 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
+Updated Fri 9 Oct, 6:12 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r66** (main `8e1a583`, Fri 9 Oct 12:04 PM)
 
-🐕 **Barking: POS20 on #442 has waited 3 min for a machine.** · POS20 #304 6/16
+🩺 **All clear: every check has a machine.** · POS20 #304 6/16
 
 ## Jobs
-
-**Running now**
-
-- **1051** (G) Transfer ledger hash no longer reveals locked guesses (Olympiad V6) · worker done, lead checking · Sonnet · not started
 
 **Next for you, in this order**
 
@@ -21,6 +17,7 @@ Updated Fri 9 Oct, 6:11 PM Boston time. Bug hunting only, no new features until 
 
 **Waiting on something else**
 
+- **1051** Transfer ledger hash no longer reveals locked guesses (Olympiad V6) · held: needs the same Rules OK as 1052
 - **1052** Transfer Rules reject option ids the game cannot read (Olympiad V7) · held: needs Nik's OK for a Rules change
 
 **Done, in the next release:** 1001, 1003, 1004, 1005, 1009, 1010, 1011, 1014, 1015, 1020, 1021, 1022, 1023, 1024, 1025, 1026, 1027, 1028, 1037, 1038, 1039, 1040, 1041, 1042, 1043, 1044, 1046, 1047, Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8

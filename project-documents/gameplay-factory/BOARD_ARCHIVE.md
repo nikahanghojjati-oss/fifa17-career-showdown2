@@ -1,14 +1,14 @@
 # Board archive
 
-[Back to the board](BOARD.md) · generated 2026-10-09 6:11 PM Boston time (EDT). Detail and history behind the one board.
+[Back to the board](BOARD.md) · generated 2026-10-09 6:12 PM Boston time (EDT). Detail and history behind the one board.
 
 ## Old detailed board
 
 # Showdown board: G Factory and V Factory
 
-🌐 **Live: runtime 1.9.1-r66** (main `8e1a583`) · 🔄 **41 moving** · ⏭ 6 up next · 👤 3 waiting on Nik · 🗂 5 later · updated 2026-10-09 6:11 PM Boston time (EDT)
+🌐 **Live: runtime 1.9.1-r66** (main `8e1a5833`) · 🔄 **40 moving** · ⏭ 6 up next · 👤 3 waiting on Nik · 🗂 6 later · updated 2026-10-09 6:12 PM Boston time (EDT)
 
-🐕 **Barking: POS20 on #442 has waited 3 min for a machine.** · POS20 #304 6/16
+🩺 **All clear: every check has a machine.** · POS20 #304 6/16
 
 ## Your next move
 
@@ -48,7 +48,6 @@
 | G | 1026 | New shared season clears last season's result fields (hunt 1017 H4) | 🟧 Claude helper | in r65 (live 2026-10-09) | - |
 | G | 1028 | Statistics shows an abandoned-only career (hunt 1019 H5) | 🟧 Team G lead | in r65 (live 2026-10-09) | - |
 | G | 1027 | Restore keeps and checks the Save Library; career cache race (hunt 1019 H1, H2, H4) | 🟧 Claude helper | in r65 (live 2026-10-09) | - |
-| G | 1051 | Transfer ledger hash no longer reveals locked guesses (Olympiad V6) | 🟪 Sonnet | worker done, lead checking (PR #442) | - |
 
 | Hand-off | From → To | What | Progress |
 | --- | --- | --- | --- |
@@ -93,6 +92,7 @@ _Gameplay, online sync, every merge and every release (senior director)._ Worker
 | G-F17 | Showdown Gate: replace POS20 with a faster check system built on Claude and GitHub, keeping every check (plan: /mnt/project-files/check-system/SHOWDOWN_GATE_PLAN.md) — Nik 6:02 PM Boston time: gradual replacement; POS20 is archived to authority-history/pos20-archive/, not deleted | 🟧 Opus | shadow: KEEP_SHADOW after the 9 Oct independent audit (71/100); fixes 1043, 1044, 1045 first | exit bar: 10 real PRs agree (2 full seals), 2 canaries fail, 1 simulated outage recovers; POS20 stays the merge authority until then |
 | G-F4 | GPT Q&A team: scripted paths and code-vs-rulebook reads | 🟦 Sol chat | queued | G-F1 |
 | G-F7 | Ten-season smoothness run on live 2.0 (emulator, 10 seasons with a mid-game expiry) | 🟪 Sonnet | queued | G-F1 |
+| 1051 | Transfer ledger hash no longer reveals locked guesses (Olympiad V6) | 🟪 Sonnet | held: needs the same Rules OK as 1052 (PR #442 open, not mergeable as is) | - |
 
 ### 🐞 Bug list 1
 
@@ -199,7 +199,7 @@ Latest:
 ## Every bug report
 
 
-> Updated **Fri 9 Oct, 6:11 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
+> Updated **Fri 9 Oct, 6:12 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
 
 | 🔓 Open | 🔴 Top priority | 🔧 Fixing or waiting for release | ✅ Fixed and live |
 | :---: | :---: | :---: | :---: |
