@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-09 1:41 AM Boston time (EDT)",
+ "generated": "2026-10-09 1:46 AM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -284,7 +284,7 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "e85e19c",
+  "head": "e85e19cd",
   "head_boston": "Thu 8 Oct 11:55 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": true,
@@ -313,27 +313,17 @@
  },
  "two": {
   "live": {
-   "sha": "368c5aa",
-   "revision": "1.9.1-r63",
-   "when": "2026-10-09T05:20:30Z",
-   "subject": "Re-pin the composed Rules check to production main r63 (#435)",
-   "fixes": [
+   "sha": "963a9791",
+   "revision": "1.9.1-r64",
+   "when": "2026-10-09T05:44:20+00:00",
+   "subject": "Release r64: Forget device sign-back-in, phone LOCK MY SIGNINGS (#429)",
+   "fixes": [],
+   "today": [
     {
      "pr": 429,
      "title": "Release r64: Forget device sign-back-in, phone LOCK MY SIGNINGS",
-     "draft": false,
-     "branch": "studio-z/r64",
-     "sha": "6bf38984d10f354208b39ef119ca2c3ae912ac15",
-     "updated": "2026-10-09T05:22:12Z",
-     "gates": {
-      "passed": 18,
-      "running": 1,
-      "failed": 0,
-      "cancelled": 0
-     }
-    }
-   ],
-   "today": [
+     "merged": "2026-10-09T05:44:21Z"
+    },
     {
      "pr": 435,
      "title": "Re-pin the composed Rules check to production main r63",
@@ -343,8 +333,8 @@
   },
   "physio": {
    "state": "barking",
-   "line": "Barking: POS20 has waited 13 min for a machine; POS20 on #434 has waited 12 min for a machine; POS20 on #433 has waited 12 min for a machine; POS20 on #429 has waited 11 min for a machine; POS20 on #424 has waited 11 min for a machine; Showdown Gate on #424 has waited 11 min for a machine.",
-   "gate": "Gate #429: L1… L2… L3… L4✓ L5✓ L6✓ · seal pending · POS20 #429 5/16",
+   "line": "Barking: POS20 on #424 has waited 22 min for a machine; POS20 has waited 1 min for a machine; Gameplay Fast has waited 1 min for a machine.",
+   "gate": "POS20 #304 6/16",
    "source": "physio"
   },
   "v_headline": "Queued next",
@@ -708,7 +698,7 @@
   "**r62 is live.** On the laptop, close every game tab in Chrome and reopen the game; if Settings still looks clipped, do it once more."
  ],
  "now": {
-  "moving": 23,
+  "moving": 22,
   "next": 2,
   "nik": 7,
   "later": 12,
@@ -866,7 +856,7 @@
       "group": "Bug list 1",
       "title": "1011 · G Plain-words sweep: jargon on game screens",
       "lane": "lead",
-      "state": "PR #424, lead verifies and merges",
+      "state": "PR #424, lead verifies and merges (tests updated to the new words)",
       "waits_on": "Nik types it in the gameplay project (Work mode)",
       "details": "GPT green, one run. Replaces engineering words players see; leaves test-asserted strings to the lead.",
       "order": 11,
@@ -940,16 +930,16 @@
       "id": "1038",
       "title": "Final winner closes the Showdown so it counts in the career",
       "lane": "lead",
-      "state": "PR #433, lead verifies and merges",
+      "state": "merged into bug-list-1 (PR #433)",
       "order": 5,
-      "place": "nothing to type (Nik finished it in Codex)",
+      "place": "nothing to type",
       "note": "Auto close, as Nik chose on his card"
      },
      {
       "id": "1040",
       "title": "Browser journey opens Legacy, Trophy Room and Stats after a finished online Showdown",
       "lane": "sonnet",
-      "state": "PR #434, lead merges after 1038",
+      "state": "merged into bug-list-1 (PR #434)",
       "order": 4,
       "place": "nothing to type",
       "note": "test coverage that was missing"
@@ -1024,7 +1014,7 @@
       "id": "1028",
       "title": "Statistics shows an abandoned-only career (hunt 1019 H5)",
       "lane": "lead",
-      "state": "PR #422, lead verifies and merges",
+      "state": "merged into bug-list-1 (PR #422)",
       "order": 3,
       "place": "nothing to type",
       "note": "also fixes Career Statistics 'unavailable' from Nik's 2026-10-09 test"
@@ -1046,22 +1036,7 @@
     ]
    }
   },
-  "fixes": [
-   {
-    "pr": 429,
-    "title": "Release r64: Forget device sign-back-in, phone LOCK MY SIGNINGS",
-    "draft": false,
-    "branch": "studio-z/r64",
-    "sha": "6bf38984d10f354208b39ef119ca2c3ae912ac15",
-    "updated": "2026-10-09T05:22:12Z",
-    "gates": {
-     "passed": 18,
-     "running": 1,
-     "failed": 0,
-     "cancelled": 0
-    }
-   }
-  ]
+  "fixes": []
  },
  "jobs": [
   {

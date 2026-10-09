@@ -1,24 +1,22 @@
 # Bug hunt board
 
-Updated Fri 9 Oct, 1:41 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
+Updated Fri 9 Oct, 1:46 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
 
-🌐 **Live: 1.9.1-r63** (main `368c5aa`, Fri 9 Oct 1:20 AM)
+🌐 **Live: 1.9.1-r64** (main `963a9791`, Fri 9 Oct 1:44 AM)
 
-🐕 **Barking: POS20 has waited 13 min for a machine; POS20 on #434 has waited 12 min for a machine; POS20 on #433 has waited 12 min for a machine; POS20 on #429 has waited 11 min for a machine; POS20 on #424 has waited 11 min for a machine; Showdown Gate on #424 has waited 11 min for a machine.** · Gate #429: L1… L2… L3… L4✓ L5✓ L6✓ · seal pending · POS20 #429 5/16
+🐕 **Barking: POS20 on #424 has waited 22 min for a machine; POS20 has waited 1 min for a machine; Gameplay Fast has waited 1 min for a machine.** · POS20 #304 6/16
 
 ## Jobs
 
 **Running now**
 
-- **1040** Browser journey opens Legacy, Trophy Room and Stats after a finished online Showdown · PR #434, lead merges after 1038
-- **1038** Final winner closes the Showdown so it counts in the career · PR #433, lead verifies and merges
 - **1011** Plain-words sweep: jargon on game screens · worker done, lead checking
 
 **Waiting on something else**
 
 - **1041** Season Results on phone: ACKNOWLEDGE reachable, no inner scroll box, title clear, photos aligned · waiting on r64
 
-**Done, in the next release:** 1001, 1003, 1004, 1005, 1009, 1014, 1015, 1020, 1021, 1028, 1037, 1039, Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8
+**Done, in the next release:** 1001, 1003, 1004, 1005, 1009, 1014, 1015, 1020, 1021, 1028, 1037, 1038, 1039, 1040, Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8
 
 ## Goals for Thursday
 
@@ -37,7 +35,6 @@ Updated Fri 9 Oct, 1:41 AM Boston time. Bug hunting only, no new features until 
 
 | Lane | Item | What | State |
 | --- | --- | --- | --- |
-| 🟧 Team G lead | [PR #429](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/429) | Release r64: Forget device sign-back-in, phone LOCK MY SIGNINGS | ⏳ 18 passed, 1 running |
 | 🟧 Opus | **G-F17** | Showdown Gate: replace POS20 with a faster check system built on Claude and GitHub, keeping every check (plan: /mnt/project-files/check-system/SHOWDOWN_GATE_PLAN.md) | building shadow |
 | 🟧 Opus | **G-F18** | Old-design screen audit: Legacy, Career Statistics and Trophy Room still open in the old shell; drive every live screen in a browser against Team V's design and route all of them to the new design | in progress |
 
@@ -61,5 +58,6 @@ Updated Fri 9 Oct, 1:41 AM Boston time. Bug hunting only, no new features until 
 
 ## Shipped today
 
+- 1:44 AM · #429 Release r64: Forget device sign-back-in, phone LOCK MY SIGNINGS
 - 1:20 AM · #435 Re-pin the composed Rules check to production main r63
 

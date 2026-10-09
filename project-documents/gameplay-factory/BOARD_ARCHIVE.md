@@ -1,24 +1,20 @@
 # Board archive
 
-[Back to the board](BOARD.md) · generated 2026-10-09 1:41 AM Boston time (EDT). Detail and history behind the one board.
+[Back to the board](BOARD.md) · generated 2026-10-09 1:46 AM Boston time (EDT). Detail and history behind the one board.
 
 ## Old detailed board
 
 # Showdown board: G Factory and V Factory
 
-🌐 **Live: runtime 1.9.1-r63** (main `368c5aa`) · 🔄 **23 moving** · ⏭ 2 up next · 👤 7 waiting on Nik · 🗂 12 later · updated 2026-10-09 1:41 AM Boston time (EDT)
+🌐 **Live: runtime 1.9.1-r64** (main `963a9791`) · 🔄 **22 moving** · ⏭ 2 up next · 👤 7 waiting on Nik · 🗂 12 later · updated 2026-10-09 1:46 AM Boston time (EDT)
 
-🐕 **Barking: POS20 has waited 13 min for a machine; POS20 on #434 has waited 12 min for a machine; POS20 on #433 has waited 12 min for a machine; POS20 on #429 has waited 11 min for a machine; POS20 on #424 has waited 11 min for a machine; Showdown Gate on #424 has waited 11 min for a machine.** · Gate #429: L1… L2… L3… L4✓ L5✓ L6✓ · seal pending · POS20 #429 5/16
+🐕 **Barking: POS20 on #424 has waited 22 min for a machine; POS20 has waited 1 min for a machine; Gameplay Fast has waited 1 min for a machine.** · POS20 #304 6/16
 
 ## Your next move
 
 1. **r62 is live.** On the laptop, close every game tab in Chrome and reopen the game; if Settings still looks clipped, do it once more.
 
 ## 🔄 Moving now
-
-| Release / fix | Checks on the latest commit | Updated |
-| --- | --- | --- |
-| [PR #429](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/429) Release r64: Forget device sign-back-in, phone LOCK MY SIGNINGS | ⏳ 18 passed, 1 running | 1:22 AM |
 
 | Team | Job | What | Worker | Where it is | Details |
 | --- | --- | --- | --- | --- | --- |
@@ -71,13 +67,13 @@ _Gameplay, online sync, every merge and every release (senior director)._ Worker
 | Job | What | Worker | State | Waits on |
 | --- | --- | --- | --- | --- |
 | 1041 | Season Results on phone: ACKNOWLEDGE reachable, no inner scroll box, title clear, photos aligned | ⬜ Codex | waiting on r64 | - |
-| 1038 | Final winner closes the Showdown so it counts in the career | 🟧 Team G lead | PR #433, lead verifies and merges | - |
-| 1040 | Browser journey opens Legacy, Trophy Room and Stats after a finished online Showdown | 🟪 Sonnet | PR #434, lead merges after 1038 | - |
+| 1038 | Final winner closes the Showdown so it counts in the career | 🟧 Team G lead | merged into bug-list-1 (PR #433) | - |
+| 1040 | Browser journey opens Legacy, Trophy Room and Stats after a finished online Showdown | 🟪 Sonnet | merged into bug-list-1 (PR #434) | - |
 | 1039 | Legacy stops reloading on every shared event and never spins forever | ⬜ Codex | merged into bug-list-1 (PR #431) | - |
 | 1037 | Career history: never-joined codes and an unknown current Showdown no longer break Legacy, Trophy Room, Stats | ⬜ Codex | merged into bug-list-1 (PR #432) | - |
 | G-F4 | GPT Q&A team: scripted paths and code-vs-rulebook reads | 🟦 Sol chat | queued | G-F1 |
 | G-F7 | Ten-season smoothness run on live 2.0 (emulator, 10 seasons with a mid-game expiry) | 🟪 Sonnet | queued | G-F1 |
-| 1028 | Statistics shows an abandoned-only career (hunt 1019 H5) | 🟧 Team G lead | PR #422, lead verifies and merges | - |
+| 1028 | Statistics shows an abandoned-only career (hunt 1019 H5) | 🟧 Team G lead | merged into bug-list-1 (PR #422) | - |
 
 ### 🐞 Bug list 1
 
@@ -86,7 +82,7 @@ _Gameplay, online sync, every merge and every release (senior director)._ Worker
 | Job | What | Worker | State | Waits on |
 | --- | --- | --- | --- | --- |
 | 1009 | 1009 · G Showdown Champion: dark oval over the losing manager — GPT blue, one file: delete the loser shade rule in final-winner.css. | 🟦 Sol chat | merged into bug-list-1 (23bb974) | Nik types it in the gameplay project (normal chat) |
-| 1011 | 1011 · G Plain-words sweep: jargon on game screens — GPT green, one run. Replaces engineering words players see; leaves test-asserted strings to the lead. | 🟧 Team G lead | PR #424, lead verifies and merges | Nik types it in the gameplay project (Work mode) |
+| 1011 | 1011 · G Plain-words sweep: jargon on game screens — GPT green, one run. Replaces engineering words players see; leaves test-asserted strings to the lead. | 🟧 Team G lead | PR #424, lead verifies and merges (tests updated to the new words) | Nik types it in the gameplay project (Work mode) |
 | 1014 | 1014 · G No reconnect prompt after a finished Showdown — GPT green, one run. HO-013: closed Showdown shows SHOWDOWN COMPLETE instead of RECONNECT SESSION. Lead runs the reconnect audit. | 🟦 Sol chat | merged into bug-list-1 | Nik types it in the gameplay project (Work mode) |
 | 1020 | 1020 · G Season Results patch: one column on phone, no overlap on desktop — GPT green, one run. Team V phone CSS (HO-015) + desktop window below the scoring card + reconciliation look. Team V 1012 checks the look. | 🟩 Sol Work mode | merged into bug-list-1 | Nik types it in the gameplay project (Work mode) |
 | 1021 | 1021 · G Transfer War on phone: port Team V's revamp — GPT green, one run. HO-016: Team V's checked phone CSS + 2 cut-outs into css/v10Transfer.css. Desktop unchanged. | ⬛ claude | merged into bug-list-1 (2d71f79) | Nik types it in the gameplay project (Work mode) |
@@ -122,7 +118,7 @@ Latest:
 
 ## ✅ Finished
 
-**Shipped to the live game today (1):** [#435](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/435) Re-pin the composed Rules check to production main r63
+**Shipped to the live game today (2):** [#429](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/429) Release r64: Forget device sign-back-in, phone LOCK MY SIGN… · [#435](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/435) Re-pin the composed Rules check to production main r63
 
 <details>
 <summary>Done jobs (10 future-list rows, 1 Team V jobs, 11 hand-offs, 33 factory jobs)</summary>
@@ -197,7 +193,7 @@ Latest:
 ## Every bug report
 
 
-> Updated **Fri 9 Oct, 1:41 AM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
+> Updated **Fri 9 Oct, 1:46 AM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
 
 | 🔓 Open | 🔴 Top priority | 🔧 Fixing or waiting for release | ✅ Fixed and live |
 | :---: | :---: | :---: | :---: |
