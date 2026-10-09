@@ -1,10 +1,10 @@
 # Bug hunt board
 
-Updated Fri 9 Oct, 6:51 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Fri 9 Oct, 6:53 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r66** (main `8e1a583`, Fri 9 Oct 12:04 PM)
 
-🐕 **Barking: Showdown Gate on #444 has waited 2 min for a machine; POS20 on #444 has waited 2 min for a machine; POS20 has waited 1 min for a machine.** · POS20 #304 6/16
+🐕 **Barking: Showdown Gate on #444 has waited 4 min for a machine; POS20 on #444 has waited 4 min for a machine; POS20 has waited 3 min for a machine.** · POS20 #304 6/16
 
 ## Jobs
 
@@ -28,17 +28,7 @@ Updated Fri 9 Oct, 6:51 PM Boston time. Bug hunting only, no new features until 
 
 ### 👉 Next for you, in this order
 
-**#1 · 1053** `G` Restore on an empty device respects Keep current (Olympiad V5)  
-`░░░░░░░░░░` **0.0000 %**  
-🔵 Team blue · **GPT-6 Sol** · High effort · ChatGPT project "Career Mode Showdown", new normal chat
-
-Paste this:
-
-```text
-Job 1053. Read the ticket at https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/gameplay-v1/project-documents/gameplay-factory/jobs/JOB-1053.md and do exactly what it says in this one turn. Start from branch gameplay/bug-list-1, push the branch the ticket names, open the PR into gameplay/bug-list-1, and end with 'Job 1053 done, PR <link>.'
-```
-
-**#2 · 1050** `G` Unfinished Signing Entry rows survive a refresh (Olympiad V4)  
+**#1 · 1050** `G` Unfinished Signing Entry rows survive a refresh (Olympiad V4)  
 `░░░░░░░░░░` **0.0000 %**  
 🟡 Team yellow · **GPT Luna (Work mode); if it fails, Sol 6.1 Work mode** · High effort · ChatGPT project "Career Mode Showdown", new chat switched to Work mode
 
@@ -48,7 +38,7 @@ Paste this:
 Job 1050. Read the ticket at https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/gameplay-v1/project-documents/gameplay-factory/jobs/JOB-1050.md and the worker handbook it links, then do the whole job in one run without stopping to ask. Start from branch gameplay/bug-list-1, run node and the checks the ticket names, push branch gameplay/job-1050-signing-draft, open the PR into gameplay/bug-list-1, and end with 'Job 1050 done, PR <link>.'
 ```
 
-**#3 · 1045** `G` Showdown Gate: pin actions and tool installs (audit F4)  
+**#2 · 1045** `G` Showdown Gate: pin actions and tool installs (audit F4)  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · **Codex default coding model** · Medium effort · Codex cloud, this repo, branch gameplay/bug-list-1
 
@@ -57,6 +47,12 @@ Paste this:
 ```text
 Job 1045 for this repo. First read the ticket: run `git fetch origin factory/gameplay-v1` then `git show FETCH_HEAD:project-documents/gameplay-factory/jobs/JOB-1045.md` (or open https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/gameplay-v1/project-documents/gameplay-factory/jobs/JOB-1045.md). Do exactly what it says. Ignore copies of job files on any other branch. Create your branch from origin/gameplay/bug-list-1 and open the PR into gameplay/bug-list-1. Never push to main.
 ```
+
+### ⏸ Waiting on something else
+
+**#1 · 1053** `G` Restore on an empty device respects Keep current (Olympiad V5)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · **GPT-6 Sol** · High effort · waits: held: worker done
 
 **Done, in the next release:** 1001, 1003, 1004, 1005, 1009, 1010, 1011, 1014, 1015, 1020, 1021, 1022, 1023, 1024, 1025, 1026, 1027, 1028, 1037, 1038, 1039, 1040, 1041, 1042, 1043, 1044, 1046, 1047, 1054, Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8
 

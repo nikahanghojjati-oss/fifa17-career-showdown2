@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-09 6:51 PM Boston time (EDT)",
+ "generated": "2026-10-09 6:53 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -284,7 +284,7 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "720670e1",
+  "head": "720670e",
   "head_boston": "Fri 9 Oct 6:37 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": true,
@@ -313,9 +313,9 @@
  },
  "two": {
   "live": {
-   "sha": "8e1a5833",
+   "sha": "8e1a583",
    "revision": "1.9.1-r66",
-   "when": "2026-10-09T16:04:25+00:00",
+   "when": "2026-10-09T16:04:25Z",
    "subject": "Release r66: Season Results on phones, closed Final Winner on both phones (#440)",
    "fixes": [],
    "today": [
@@ -343,7 +343,7 @@
   },
   "physio": {
    "state": "barking",
-   "line": "Barking: Showdown Gate on #444 has waited 2 min for a machine; POS20 on #444 has waited 2 min for a machine; POS20 has waited 1 min for a machine.",
+   "line": "Barking: Showdown Gate on #444 has waited 4 min for a machine; POS20 on #444 has waited 4 min for a machine; POS20 has waited 3 min for a machine.",
    "gate": "POS20 #304 6/16",
    "source": "physio"
   },
@@ -709,8 +709,8 @@
  ],
  "now": {
   "moving": 42,
-  "next": 5,
-  "nik": 2,
+  "next": 4,
+  "nik": 3,
   "later": 7,
   "rows": {
    "G": {
@@ -1063,6 +1063,19 @@
       "state": "later: Nik decides after his two current calls",
       "waits_on": "the lead asks Nik next",
       "decision": "Five pairing choices. The lead brings them to you on one card; nothing to do until then."
+     },
+     {
+      "id": "1053",
+      "lane": "gpt-chat",
+      "note": "split out of 1049 to keep each chat job one turn; ticket jobs/JOB-1053.md",
+      "team": "blue",
+      "model": "GPT-6 Sol",
+      "effort": "High",
+      "place": "ChatGPT project \"Career Mode Showdown\", new normal chat",
+      "prompt": "",
+      "title": "Restore on an empty device respects Keep current (Olympiad V5)",
+      "order": 23,
+      "state": "held: worker done (PR #445), waiting on Nik's choice about Keep current on an empty device (it clashes with the job 1027 test); Claude Haiku prepares the tests"
      }
     ],
     "next": [
@@ -1105,19 +1118,6 @@
       "model": "GPT Luna (Work mode); if it fails, Sol 6.1 Work mode",
       "effort": "High",
       "prompt": "Job 1050. Read the ticket at https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/gameplay-v1/project-documents/gameplay-factory/jobs/JOB-1050.md and the worker handbook it links, then do the whole job in one run without stopping to ask. Start from branch gameplay/bug-list-1, run node and the checks the ticket names, push branch gameplay/job-1050-signing-draft, open the PR into gameplay/bug-list-1, and end with 'Job 1050 done, PR <link>.'"
-     },
-     {
-      "id": "1053",
-      "lane": "gpt-chat",
-      "note": "split out of 1049 to keep each chat job one turn; ticket jobs/JOB-1053.md",
-      "team": "blue",
-      "model": "GPT-6 Sol",
-      "effort": "High",
-      "place": "ChatGPT project \"Career Mode Showdown\", new normal chat",
-      "prompt": "Job 1053. Read the ticket at https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/gameplay-v1/project-documents/gameplay-factory/jobs/JOB-1053.md and do exactly what it says in this one turn. Start from branch gameplay/bug-list-1, push the branch the ticket names, open the PR into gameplay/bug-list-1, and end with 'Job 1053 done, PR <link>.'",
-      "title": "Restore on an empty device respects Keep current (Olympiad V5)",
-      "order": 23,
-      "state": "ready (runs alongside 1048)"
      }
     ],
     "later": [
