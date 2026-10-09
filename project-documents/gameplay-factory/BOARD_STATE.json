@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-09 7:54 PM Boston time (EDT)",
+ "generated": "2026-10-09 7:57 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -284,7 +284,7 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "772a4c8",
+  "head": "772a4c8b",
   "head_boston": "Fri 9 Oct 7:47 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": true,
@@ -313,9 +313,9 @@
  },
  "two": {
   "live": {
-   "sha": "8e1a583",
+   "sha": "8e1a5833",
    "revision": "1.9.1-r66",
-   "when": "2026-10-09T16:04:25Z",
+   "when": "2026-10-09T16:04:25+00:00",
    "subject": "Release r66: Season Results on phones, closed Final Winner on both phones (#440)",
    "fixes": [],
    "today": [
@@ -343,7 +343,7 @@
   },
   "physio": {
    "state": "barking",
-   "line": "Barking: POS20 has waited 2 min for a machine.",
+   "line": "Barking: POS20 on #448 has waited 10 min for a machine; POS20 on #449 has waited 1 min for a machine; Gameplay Fast on #449 has waited 1 min for a machine; POS20 has waited 1 min for a machine.",
    "gate": "POS20 #304 6/16",
    "source": "physio"
   },
@@ -708,8 +708,8 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 42,
-  "next": 2,
+  "moving": 43,
+  "next": 1,
   "nik": 2,
   "later": 6,
   "rows": {
@@ -1050,6 +1050,19 @@
       "title": "Season Results points cap uses the real league size (Sol lead S1)",
       "order": 27,
       "state": "worker done, lead checking (PR #448): lead registered the test (fails before, passes after); CI running"
+     },
+     {
+      "id": "1058",
+      "lane": "gpt-chat",
+      "note": "Sol lead S4 (real, small); ticket jobs/JOB-1058.md",
+      "team": "blue",
+      "model": "GPT-6 Sol",
+      "effort": "High",
+      "place": "ChatGPT project \"Career Mode Showdown\", new normal chat",
+      "prompt": "",
+      "title": "Transfer countdown agrees across both phones (Sol lead S4)",
+      "order": 30,
+      "state": "worker done, lead checking (PR #449): lead registered the test (fails before, passes after); CI running"
      }
     ],
     "nik": [
@@ -1077,19 +1090,6 @@
       "lane": "sonnet",
       "state": "ready (Sonnet audit, then Opus fix)",
       "waits_on": ""
-     },
-     {
-      "id": "1058",
-      "lane": "gpt-chat",
-      "note": "Sol lead S4 (real, small); ticket jobs/JOB-1058.md",
-      "team": "blue",
-      "model": "GPT-6 Sol",
-      "effort": "High",
-      "place": "ChatGPT project \"Career Mode Showdown\", new normal chat",
-      "prompt": "Job 1058. Read the ticket at https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/gameplay-v1/project-documents/gameplay-factory/jobs/JOB-1058.md and do exactly what it says in this one turn. Start from branch gameplay/bug-list-1, push the branch the ticket names and open the PR into gameplay/bug-list-1.",
-      "title": "Transfer countdown agrees across both phones (Sol lead S4)",
-      "order": 30,
-      "state": "ready"
      }
     ],
     "later": [

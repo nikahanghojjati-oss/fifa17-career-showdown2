@@ -1,32 +1,28 @@
 # Bug hunt board
 
-Updated Fri 9 Oct, 7:54 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Fri 9 Oct, 7:57 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r66** (main `8e1a583`, Fri 9 Oct 12:04 PM)
 
-🐕 **Barking: POS20 has waited 2 min for a machine.** · POS20 #304 6/16
+🐕 **Barking: POS20 on #448 has waited 10 min for a machine; POS20 on #449 has waited 1 min for a machine; Gameplay Fast on #449 has waited 1 min for a machine; POS20 has waited 1 min for a machine.** · POS20 #304 6/16
 
 ## Jobs
 
 ### ▶️ Running now
 
-**#1 · 1051** `G` Transfer ledger hash no longer reveals locked guesses (Olympiad V6)  
+**#1 · 1052** `G` Transfer Rules reject option ids the game cannot read (Olympiad V7)  
+`█████████░` **90.0000 %**  
+🟤 Team brown · **Claude Sonnet 5.5** · Medium effort · worker done, lead checking
+
+**#2 · 1055** `G` Season Results points cap uses the real league size (Sol lead S1)  
 `████████░░` **80.0000 %**  
-🟤 Team brown · **Claude Sonnet 5.5** · Medium effort · worker done, PR #442 open, CI green, waiting for the lead
+🔵 Team blue · **GPT-6 Sol** · High effort · worker done, PR #448 open, CI green, waiting for the lead
 
-**#2 · 1052** `G` Transfer Rules reject option ids the game cannot read (Olympiad V7)  
-`████████░░` **80.0000 %**  
-🟤 Team brown · **Claude Sonnet 5.5** · Medium effort · worker done, PR #442 open, CI green, waiting for the lead
-
-**#3 · 1055** `G` Season Results points cap uses the real league size (Sol lead S1)  
-`███████░░░` **70.0000 %**  
-🔵 Team blue · **GPT-6 Sol** · High effort · worker done, PR #448 open, CI running
-
-**#4 · 1058** `G` Transfer countdown agrees across both phones (Sol lead S4)  
+**#3 · 1058** `G` Transfer countdown agrees across both phones (Sol lead S4)  
 `███████░░░` **70.0000 %**  
 🔵 Team blue · **GPT-6 Sol** · High effort · worker done, PR #449 open, CI running
 
-**Done, waiting for the next release:** 1044, 1045, 1048, 1049, 1050, 1053, 1056, 1057
+**Done, waiting for the next release:** 1044, 1045, 1048, 1049, 1050, 1051, 1053, 1056, 1057
 
 **Done and live:** r66: 1041, 1042, 1043 · r65: 1011, 1028, 1037, 1038, 1039, 1040 · r63: 1001, 1003, 1004, 1005, 1009, 1010, 1014, 1015, 1020, 1021, 1022, 1023, 1024, 1025, 1026, 1027, Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8
 
@@ -35,8 +31,8 @@ Updated Fri 9 Oct, 7:54 PM Boston time. Bug hunting only, no new features until 
 ## Goals, in this order
 
 **1. Finish the remaining bugs** `now`  
-`█████████░` **90.2778 %**  
-Numbered jobs: 44 done, 0 other open · Olympiad recheck: 21 of 23 settled, 2 still to fix · Sol's old leads: 5 open (2 real, 3 unsure)
+`█████████░` **91.7808 %**  
+Numbered jobs: 45 done, 0 other open · Olympiad recheck: 22 of 23 settled, 1 still to fix · Sol's old leads: 5 open (2 real, 3 unsure)
 
 **2. Visual fixes** `after stage 1`  
 `█████░░░░░` **52.3810 %**  
