@@ -113,6 +113,9 @@
     }finally{if(database&&typeof database.close==="function")database.close();}
   }
 
+  // Studio Z10: Forget device revokes the server record and deletes the local record, so the cached identity must go too.
+  // The next sign-in then registers a fresh device; the revoked server document is untouched.
+  function resetDeviceIdentityCache(){pairingIdentity=null;pairingServices=null;}
   function canonicalize(value){
     if(value===null||value===undefined)return value===undefined?null:value;
     if(value&&typeof value.toMillis==="function")return {$timestamp:value.toMillis()};
@@ -601,6 +604,7 @@ async function revokePairing(options={}){
     generateDeviceIdentity,
     validDeviceIdentity,
     getOrCreateDeviceIdentity,
+    resetDeviceIdentityCache,
     normalizeLocalBinding,
     bindingKey,
     pairingJoinErrorMessage,
