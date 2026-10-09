@@ -107,7 +107,7 @@
     }
     if(view.committed){
       if(view.ownAcknowledged){psscText(ui.status,"YOU ACKNOWLEDGED THIS SHARED SEASON · WAITING FOR YOUR RIVAL");psscText(ui.action,"ACKNOWLEDGED ✓ · WAITING FOR RIVAL");psscDisable(ui.action,true);}
-      else{psscText(ui.status,"THE SHARED RESULT SNAPSHOT IS COMMITTED · BOTH MANAGERS MUST ACKNOWLEDGE BEFORE SCORING CAN BEGIN");psscText(ui.action,"ACKNOWLEDGE SHARED SEASON");psscDisable(ui.action,busy);}
+      else{psscText(ui.status,"THE SHARED SEASON RESULT IS LOCKED · BOTH MANAGERS MUST CONFIRM BEFORE SCORING CAN BEGIN");psscText(ui.action,"ACKNOWLEDGE SHARED SEASON");psscDisable(ui.action,busy);}
       return true;
     }
     if(role===coordinator){psscText(ui.status,`BOTH RESULTS ARE READY · AS COORDINATOR, COMMIT THE IMMUTABLE SHARED SEASON SNAPSHOT${psscClashWarning("You")}`);psscText(ui.action,"COMMIT & ACKNOWLEDGE SHARED SEASON");psscDisable(ui.action,busy);}

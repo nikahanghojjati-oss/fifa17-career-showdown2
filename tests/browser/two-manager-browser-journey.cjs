@@ -751,7 +751,7 @@ async function main(){
         }));
         throw new Error(`J10_FINAL_RECONCILIATION_NOT_VISIBLE ${JSON.stringify(diag)}`,{cause:error});
       }
-      assert.equal((await m.page.locator("#sharedFinalReconciliationHeading").textContent()).trim(),"SHOWDOWN FINAL RECONCILED");
+      assert.equal((await m.page.locator("#sharedFinalReconciliationHeading").textContent()).trim(),"SHOWDOWN FINAL RESULT");
       assert.equal((await m.page.locator("#sharedFinalReconciliationWinner").textContent()).trim(),`Daniel ${FINAL_EXPECTED.daniel} · Nik ${FINAL_EXPECTED.nik} · ${FINAL_EXPECTED.winnerName} WINS`);
       await m.page.locator("#sharedTerminalCloseAction").waitFor({state:"visible",timeout:60000});
       assert.equal((await m.page.locator("#sharedTerminalCloseAction").textContent()).trim(),"CLOSE SHARED SHOWDOWN");
@@ -778,7 +778,7 @@ async function main(){
     }
     for(const m of [daniel,nik]){
       await m.page.waitForFunction(()=>document.getElementById("sharedTerminalCloseHeading")?.textContent==="SHARED SHOWDOWN CLOSED",null,{timeout:60000});
-      assert.match((await m.page.locator("#sharedTerminalCloseStatus").textContent()).trim(),/TERMINAL · NO NEW SESSION · NO NEW SEASON/);
+      assert.match((await m.page.locator("#sharedTerminalCloseStatus").textContent()).trim(),/CLOSED · NO NEW SESSION · NO NEW SEASON/);
     }
     const closedR1=await admin(`rivalries/${R1}`);
     assert.ok(closedR1,"closed R1 rivalry root exists");

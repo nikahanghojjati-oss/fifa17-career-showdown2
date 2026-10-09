@@ -123,15 +123,15 @@
     await rivalry.initialize();const rivalryState=rivalry.getState();
     if(!rivalryState||rivalryState.attached!==true||!rivalryState.rivalryId||!rivalryState.binding)fail("SHARED_SETUP_RIVALRY_REQUIRED","Attach the exact paired Connected Rivalry before Shared Setup.");
     const remoteState=remote&&typeof remote.getState==="function"?remote.getState():null;
-    if(!remoteState||remoteState.sessionState!=="active"||!remoteState.sessionId||remoteState.pendingAction)fail("SHARED_SETUP_ACTIVE_SESSION_REQUIRED","An exact ACTIVE private session is required before league or club selection.");
-    if(Number.isFinite(remoteState.expiresAtEpochMs)&&Date.now()>=remoteState.expiresAtEpochMs)fail("SHARED_SETUP_ACTIVE_SESSION_REQUIRED","The private session has expired. Open a fresh ACTIVE session for this rivalry to resume Shared Setup.");
-    if(remoteState.rivalryId!==rivalryState.rivalryId||remoteState.accountId!==accountState.accountId||remoteState.deviceId!==pairingState.deviceId)fail("SHARED_SETUP_AUTHORITY_MISMATCH","The ACTIVE private session no longer matches the exact account, browser and Connected Rivalry authority.");
+    if(!remoteState||remoteState.sessionState!=="active"||!remoteState.sessionId||remoteState.pendingAction)fail("SHARED_SETUP_ACTIVE_SESSION_REQUIRED","Both players must be connected before league or club selection.");
+    if(Number.isFinite(remoteState.expiresAtEpochMs)&&Date.now()>=remoteState.expiresAtEpochMs)fail("SHARED_SETUP_ACTIVE_SESSION_REQUIRED","The connection ended. Reconnect both players to resume the shared setup.");
+    if(remoteState.rivalryId!==rivalryState.rivalryId||remoteState.accountId!==accountState.accountId||remoteState.deviceId!==pairingState.deviceId)fail("SHARED_SETUP_AUTHORITY_MISMATCH","This connection no longer matches this Showdown on this device. Reconnect both players.");
     if(rivalryState.accountId&&rivalryState.accountId!==accountState.accountId)fail("SHARED_SETUP_AUTHORITY_MISMATCH");
     if(rivalryState.deviceId&&rivalryState.deviceId!==pairingState.deviceId)fail("SHARED_SETUP_AUTHORITY_MISMATCH");
     const managerRole=rivalryState.binding.managerRole;
     if(managerRole!=="playerOne"&&managerRole!=="playerTwo")fail("SHARED_SETUP_BINDING_INVALID","The attached rivalry does not expose a valid manager role.");
     const remoteRole=remoteState.role;
-    if(remoteRole!=="host"&&remoteRole!=="peer")fail("SHARED_SETUP_SESSION_ROLE_INVALID","The ACTIVE private session does not expose a valid host or peer role.");
+    if(remoteRole!=="host"&&remoteRole!=="peer")fail("SHARED_SETUP_SESSION_ROLE_INVALID","This connection could not identify the host and joining player.");
     const services=await runtime.ensureAccountServices();
     if(!services||services.ok!==true||!services.auth||!services.firestore||!services.firestoreSdk)fail("SHARED_SETUP_PROVIDER_UNAVAILABLE","Private Firebase services are unavailable.");
     const user=services.auth.currentUser;
@@ -170,7 +170,7 @@
     const run=Promise.resolve().then(()=>refreshNow(generation)).finally(()=>{if(refreshInFlight===run)refreshInFlight=null;});refreshInFlight=run;return run;
   }
   async function refreshNow(generation=setupGeneration){
-    const before=storageSnapshot();setState({status:"reading",busy:true,message:"Reading the authoritative Shared Setup for this exact ACTIVE session…"});
+    const before=storageSnapshot();setState({status:"reading",busy:true,message:"Checking the shared setup for this Showdown…"});
     let readReached=false;
     try{
       const context=await resolveContext();readReached=true;const result=await context.adapter.read(providerOptions(context));assertStorageUnchanged(before);
@@ -178,7 +178,7 @@
       if(!result||result.ok!==true)fail(result&&result.code||"SHARED_SETUP_READ_FAILED");
       const message=result.status==="empty"
         ? context.remoteRole==="host"?"The paired managers have reached an empty Shared Setup. Open it once for both managers.":"The paired managers have reached an empty Shared Setup. Waiting for the session host to open it."
-        : "Authoritative Shared Setup resumed without reset or redraw.";
+        : "Shared setup restored without a reset or redraw.";
       heldReadFailure=false;return accept(result,context,message);
     }catch(error){
       try{assertStorageUnchanged(before);}catch(storageError){error=storageError;}
@@ -213,14 +213,14 @@
     return false;
   }
   async function mutateNow(type,extra={}){
-    const before=storageSnapshot();setState({status:`writing-${type}`,busy:true,message:"Submitting one authoritative Shared Setup transition…"});
+    const before=storageSnapshot();setState({status:`writing-${type}`,busy:true,message:"Saving this shared setup step…"});
     try{
       const context=await resolveContext();
       if(type==="open"&&context.remoteRole!=="host")fail("SHARED_SETUP_HOST_REQUIRED","Only the ACTIVE session host may open an empty Shared Setup.");
       for(let attempt=0;;attempt+=1){
         const current=await context.adapter.read(providerOptions(context));
         if(!current||current.ok!==true)fail(current&&current.code||"SHARED_SETUP_READ_FAILED");
-        if(attempt>0&&stepAlreadyShown(type,current,context.managerRole,extra)){assertStorageUnchanged(before);return accept(current,context,"Both managers can now read the same authoritative Shared Setup state.");}
+        if(attempt>0&&stepAlreadyShown(type,current,context.managerRole,extra)){assertStorageUnchanged(before);return accept(current,context,"Both managers now have the same shared setup.");}
         const operationId=randomOperationId(),baseRevision=current.revision||0;
         const providerRequest={...providerOptions(context),type,operationId,baseRevision,...extra};
         let result;
@@ -229,7 +229,7 @@
         assertStorageUnchanged(before);
         if(result&&result.ok!==true&&attempt===0&&RACE_CODES.includes(result.code))continue;
         if(!result||result.ok!==true)fail(result&&result.code||"SHARED_SETUP_MUTATION_FAILED");
-        return accept(result,context,result.replayed?"The original Shared Setup operation was recovered without a duplicate draw.":"Both managers can now read the same authoritative Shared Setup state.");
+        return accept(result,context,result.replayed?"The original Shared Setup operation was recovered without a duplicate draw.":"Both managers now have the same shared setup.");
       }
     }catch(error){
       try{assertStorageUnchanged(before);}catch(storageError){error=storageError;}
@@ -242,12 +242,12 @@
   function action(label,handler,disabled=false){const button=create("button","compactButton",label);button.type="button";button.disabled=disabled;button.addEventListener("click",handler);return button;}
   function renderSetup(body){
     const setup=state.setup;
-    const summary=create("section","remoteJoiningCurrent");summary.append(create("span","remoteJoiningEyebrow","AUTHORITATIVE SHARED SETUP"));
+    const summary=create("section","remoteJoiningCurrent");summary.append(create("span","remoteJoiningEyebrow","SHARED SETUP"));
     if(!setup){
-      summary.append(create("strong","remoteJoiningState","EMPTY · REV 0"),create("p","remoteJoiningMeta","Pairing and the exact ACTIVE session are proven. No league or club has been drawn yet."));
+      summary.append(create("strong","remoteJoiningState","EMPTY · REV 0"),create("p","remoteJoiningMeta","Both players are connected. No league or club has been drawn yet."));
       const actions=create("div","remoteJoiningActions");
       if(state.ready&&state.remoteRole==="host")actions.append(action("OPEN SHARED SETUP",()=>void mutate("open"),state.busy));
-      else if(state.ready)summary.append(create("p","remoteJoiningMeta","Waiting for the ACTIVE session host to open this authoritative setup. No local draw is available."));
+      else if(state.ready)summary.append(create("p","remoteJoiningMeta","Waiting for the host to open the shared setup."));
       actions.append(action("REFRESH",()=>void refresh(),state.busy));summary.append(actions);body.append(summary);return;
     }
     summary.append(create("strong","remoteJoiningState",`${setup.phase} · REV ${setup.revision}`));
@@ -263,7 +263,7 @@
     for(const [label,value] of rows){const row=create("div","settingsInfoRow");row.append(create("span","",label),create("strong","",value));facts.append(row);}summary.append(facts);
     const actions=create("div","remoteJoiningActions");
     const coordinator=state.managerRole===setup.coordinatorRole;
-    if(setup.phase==="SHARED_SETUP_OPEN"&&coordinator)actions.append(action("DRAW AUTHORITATIVE LEAGUE",()=>void mutate("commit-league"),state.busy));
+    if(setup.phase==="SHARED_SETUP_OPEN"&&coordinator)actions.append(action("DRAW SHARED LEAGUE",()=>void mutate("commit-league"),state.busy));
     if(setup.phase==="LEAGUE_WHEEL_COMMITTED"&&coordinator)actions.append(action("DRAW DISTINCT CLUBS",()=>void mutate("commit-clubs"),state.busy));
     if(setup.phase==="CLUB_ASSIGNMENTS_COMMITTED"&&coordinator){
       for(const seasons of LENGTHS)actions.append(action(`${seasons} SEASON${seasons===1?"":"S"}`,()=>void mutate("commit-length",{totalSeasons:seasons}),state.busy));
@@ -274,7 +274,7 @@
   function render(){
     if(!root.document)return null;const overlay=root.document.getElementById(PANEL_ID);if(!overlay)return null;
     const body=overlay.querySelector(".remoteJoiningBody");if(!body)return overlay;body.replaceChildren();
-    body.append(create("span","remoteJoiningEyebrow","PAIRED FIRST · ACTIVE SESSION ONLY"),create("h2","","SHARED SHOWDOWN SETUP"),create("p","","One authoritative league, two distinct permanent clubs from that league, and one 1 / 3 / 5 / 10 season length. A fresh ACTIVE session for the same rivalry resumes this state and never redraws it."));
+    body.append(create("span","remoteJoiningEyebrow","BOTH PLAYERS CONNECTED"),create("h2","","SHARED SHOWDOWN SETUP"),create("p","","One shared league, two different permanent clubs from that league, and a 1 / 3 / 5 / 10 season length. Reconnecting resumes the same setup without a redraw."));
     if(state.ready)renderSetup(body);else{
       const locked=create("section","remoteJoiningCurrent");locked.append(create("strong","remoteJoiningState","LOCKED"),create("p","remoteJoiningMeta",state.message));locked.append(action("CHECK ACTIVE SESSION",()=>void refresh(),state.busy));body.append(locked);
     }

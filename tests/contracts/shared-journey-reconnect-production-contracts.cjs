@@ -127,7 +127,7 @@ async function renderFreshReconnect(terminalState){
   assert.equal(closed.message,"SHOWDOWN COMPLETE · Open the Final Winner or History from Home.");
   assert.equal(closed.hasReconnect,false,"A terminal CLOSED Showdown must not offer RECONNECT SESSION.");
   const open=await renderFreshReconnect({phase:"READY",terminal:false});
-  assert.match(open.message,/^FRESH PRIVATE SESSION REQUIRED ·/,"A non-closed Showdown must keep the existing reconnect line.");
+  assert.match(open.message,/^NEW CONNECTION NEEDED ·/,"A non-closed Showdown must keep the existing reconnect line.");
   assert.equal(open.hasReconnect,true,"A non-closed FRESH_SESSION_REQUIRED Showdown must keep RECONNECT SESSION.");
 
   console.log('PASS Journey Reconnect production contract: strict finite ACTIVE session authority, normal ACTIVE-gameplay dormancy, authoritative pre-confirmation setup deferral, ordered r12→r13→r14 bootstrap, read-only durable recovery, visible dual-manager status, terminal-closed completion messaging, a direct fresh-session recovery action, and permanent Spark zero-billing boundary.');

@@ -502,7 +502,7 @@ async function r1ReconnectBanner(){
   }
   const expired=reconnectHarness("playerTwo",activeRemote(S1,{expiresAtEpochMs:Date.now()-1000}));
   await expired.api.refresh();
-  assert.match(expired.status.text,/FRESH PRIVATE SESSION REQUIRED · The private session has ended \(sessions last up to 4 hours\)/,"R1 a truly expired session keeps its wording");
+  assert.match(expired.status.text,/NEW CONNECTION NEEDED · The connection ended \(sessions last up to 4 hours\)/,"R1 a truly expired session keeps its wording");
   console.log("ok R1 the reloaded phone is told it is not connected and how both phones reconnect");
 }
 

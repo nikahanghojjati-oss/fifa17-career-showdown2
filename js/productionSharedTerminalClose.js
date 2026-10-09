@@ -127,16 +127,16 @@
     const visible=Boolean(current&&["READY","RECOVERY_PENDING","CLOSED","BLOCKED"].includes(current.phase));ptcHidden(ui.panel,!visible);if(!visible)return false;
     const witness=current.terminalWitness||current.intent||current.finalReconciliation||null;
     if(current.phase==="CLOSED"){
-      ptcText(ui.heading,"SHARED SHOWDOWN CLOSED");ptcText(ui.summary,ptcWinnerText(witness));ptcText(ui.status,"TERMINAL · NO NEW SESSION · NO NEW SEASON · FINAL RESULTS REMAIN READ-ONLY");ptcHidden(ui.close,true);ptcHidden(ui.retry,true);ui.panel.dataset.terminal="true";return true;
+      ptcText(ui.heading,"SHARED SHOWDOWN CLOSED");ptcText(ui.summary,ptcWinnerText(witness));ptcText(ui.status,"CLOSED · NO NEW SESSION · NO NEW SEASON · FINAL RESULTS STAY READ-ONLY");ptcHidden(ui.close,true);ptcHidden(ui.retry,true);ui.panel.dataset.terminal="true";return true;
     }
     ui.panel.dataset.terminal="false";
     if(current.phase==="RECOVERY_PENDING"){
-      ptcText(ui.heading,"TERMINAL CLOSE OUTCOME PENDING");ptcText(ui.summary,ptcWinnerText(witness));ptcText(ui.status,current.automaticSaving?"Saving this Showdown to your career…":current.message||"Provider acknowledgement was not received. Retry uses the exact same terminal witness and session capability.");ptcHidden(ui.close,!current.automaticCloseFailed);ui.close.disabled=busy;ptcText(ui.close,"CLOSE SHARED SHOWDOWN");ptcHidden(ui.retry,false);ui.retry.disabled=busy;ptcText(ui.retry,"RETRY SAME TERMINAL CLOSE");return true;
+      ptcText(ui.heading,"SHOWDOWN CLOSE STILL PENDING");ptcText(ui.summary,ptcWinnerText(witness));ptcText(ui.status,current.automaticSaving?"Saving this Showdown to your career…":current.message||"The close may have finished online. Retry checks the same close request.");ptcHidden(ui.close,!current.automaticCloseFailed);ui.close.disabled=busy;ptcText(ui.close,"CLOSE SHARED SHOWDOWN");ptcHidden(ui.retry,false);ui.retry.disabled=busy;ptcText(ui.retry,"RETRY SAME TERMINAL CLOSE");return true;
     }
     if(current.phase==="BLOCKED"){
-      ptcText(ui.heading,"TERMINAL CLOSE READY WHEN PRIVATE AUTHORITY RETURNS");ptcText(ui.summary,ptcWinnerText(witness));ptcText(ui.status,current.message||"Final results are preserved. Open or join one fresh exact private session for this rivalry, then refresh Terminal Close.");ptcHidden(ui.close,true);ptcHidden(ui.retry,true);return true;
+      ptcText(ui.heading,"SHOWDOWN CAN CLOSE WHEN BOTH PLAYERS RECONNECT");ptcText(ui.summary,ptcWinnerText(witness));ptcText(ui.status,current.message||"Final results are safe. Reconnect both players to this Showdown, then refresh.");ptcHidden(ui.close,true);ptcHidden(ui.retry,true);return true;
     }
-    ptcText(ui.heading,"FINAL RESULT READY FOR TERMINAL CLOSE");ptcText(ui.summary,ptcWinnerText(witness));ptcText(ui.status,current.automaticCloseFailed?"This Showdown could not be saved. Tap CLOSE SHARED SHOWDOWN to try again.":"Saving this Showdown to your career…");ptcHidden(ui.close,!current.automaticCloseFailed);ui.close.disabled=busy;ptcText(ui.close,"CLOSE SHARED SHOWDOWN");ptcHidden(ui.retry,true);return true;
+    ptcText(ui.heading,"FINAL RESULT READY TO CLOSE");ptcText(ui.summary,ptcWinnerText(witness));ptcText(ui.status,current.automaticCloseFailed?"This Showdown could not be saved. Tap CLOSE SHARED SHOWDOWN to try again.":"Saving this Showdown to your career…");ptcHidden(ui.close,!current.automaticCloseFailed);ui.close.disabled=busy;ptcText(ui.close,"CLOSE SHARED SHOWDOWN");ptcHidden(ui.retry,true);return true;
   }
   function ptcPublish(request,next){
     if(!request||!next){stateGeneration+=1;state=null;stateContextKey="";ptcRender();return null;}

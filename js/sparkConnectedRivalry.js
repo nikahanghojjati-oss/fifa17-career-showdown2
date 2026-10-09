@@ -936,7 +936,7 @@
 
   async function crHandleRefresh(binding){
     if(!crState.rivalryId)return;
-    crSetState({status:"refreshing",busy:true,message:"Reading authoritative shared gameplay state…"});
+    crSetState({status:"refreshing",busy:true,message:"Reading shared gameplay…"});
     try{
       const context=await crResolveContext();
       const result=await crReadSharedState({
@@ -962,8 +962,8 @@
         message:result.tombstoned
           ?"This Connected Rivalry is tombstoned. Normal publishing is locked; local saves remain available."
           :result.exists
-            ?`Authoritative shared state refreshed at revision ${result.revision}. No local save was overwritten.`
-            :"No authoritative shared state exists yet. The first publish will create revision 0."
+            ?`Shared game updated. Your local save was not changed.`
+            :"No shared game is online yet. Your first publish will create it."
       });
     }catch(error){
       crSetState({status:"refresh-error",busy:false,message:`${error&&error.message?error.message:"Shared state could not be refreshed."} Local saves remain available.`});
@@ -972,7 +972,7 @@
 
   async function crHandlePublish(binding){
     if(!crState.rivalryId||crState.observedTombstone)return;
-    crSetState({status:"publishing",busy:true,message:"Publishing this local Showdown projection with deterministic revision and replay protection…"});
+    crSetState({status:"publishing",busy:true,message:"Publishing this Showdown online…"});
     try{
       const context=await crResolveContext();
       const result=await crPublishSharedState({
@@ -1000,8 +1000,8 @@
         observedTombstone:false,
         ...crClearReconciliationPreview(),
         message:result.replayed
-          ?`The accepted mutation was replayed safely at revision ${result.revision}; no duplicate revision was created.`
-          :`Shared gameplay projection published at revision ${result.revision}. Local Save Library remains unchanged.`
+          ?`Your previous publish was confirmed. No duplicate was created.`
+          :`Shared game published. Your local Save Library is unchanged.`
       });
     }catch(error){
       crSetState({status:error&&error.code==="STALE_BASE_REVISION"?"conflict":"publish-error",busy:false,message:`${error&&error.message?error.message:"Shared gameplay state could not be published."} Local saves were not changed.`});
@@ -1010,7 +1010,7 @@
 
   async function crHandleReconciliationPreview(binding){
     if(!crState.rivalryId||!crState.observedEnvelope)return;
-    crSetState({status:"reconciliation-previewing",busy:true,...crClearReconciliationPreview(),message:"Building a non-mutating preview for this exact remote revision and local Save target…"});
+    crSetState({status:"reconciliation-previewing",busy:true,...crClearReconciliationPreview(),message:"Building a read-only preview for this shared result and local Save…"});
     try{
       if(typeof root.ensureCareerModeCandidateCAuthority!=="function")throw crError("CONNECTED_RIVALRY_CANDIDATE_C_UNAVAILABLE","Candidate C recovery authority cannot be loaded.");
       await root.ensureCareerModeCandidateCAuthority();
@@ -1046,7 +1046,7 @@
       crSetState({status:"reconciliation-target-changed",busy:false,...crClearReconciliationPreview(),message:"The selected local target changed after preview. Review the exact remote revision and local Save again."});
       return;
     }
-    crSetState({status:"reconciliation-applying",busy:true,message:"Candidate C is verifying the remote base, completing a canonical backup and guarding the exact local commit…"});
+    crSetState({status:"reconciliation-applying",busy:true,message:"Checking the shared result, backing up your local Save, and preparing Apply…"});
     try{
       const context=await crResolveContext();
       if(typeof root.applyCareerModeRemoteReconciliation!=="function")throw crError("CONNECTED_RIVALRY_CANDIDATE_C_UNAVAILABLE","Candidate C reconciliation Apply authority is unavailable.");
@@ -1077,7 +1077,7 @@
         localCommitRevision:result.remoteRevision,
         localCommitContentHash:result.remoteContentHash,
         localCommitSaveId:result.localSaveId,
-        message:`Local commit complete: remote revision ${result.remoteRevision} was applied to ${crShort(result.localSaveId)} only after a verified backup and exact Candidate C transaction.`
+        message:`Apply complete: the shared result was applied to ${crShort(result.localSaveId)} after a verified backup.`
       });
     }catch(error){
       crSetState({status:"reconciliation-apply-error",busy:false,...crClearReconciliationPreview(),message:`${error&&error.message?error.message:"Remote gameplay was not committed locally."} Review current remote and local state before trying again.`});
@@ -1102,7 +1102,7 @@
     heading.append(
       crCreate("span","settingsPanelEyebrow","CONNECTED RIVALRY"),
       crCreate("h3","","OBSERVE REMOTE · COMMIT LOCAL EXPLICITLY"),
-      crCreate("p","","Refresh and preview are read-only. Local gameplay changes only after exact confirmation, a verified backup and Candidate C Apply. Private Remote Joining is available from Showdown Home after this rivalry and registered-device requirements are satisfied.")
+      crCreate("p","","Refresh and preview do not change your local game. Your local Save changes only after confirmation, a verified backup, and Apply. Private joining is available from Showdown Home once both players are connected.")
     );
     const info=crCreate("div","settingsInfoGrid");
     const revisionLabel=crState.observedTombstone
@@ -1126,7 +1126,7 @@
       ["REMOTE OBSERVED",revisionLabel],
       ["LOCAL TARGET",targetLabel],
       ["LOCAL COMMIT",localCommitLabel],
-      ["CONFLICT MODEL","Immutable base revision · no silent rebase"],
+      ["CONFLICT MODEL","Publishes only from the version you reviewed"],
       ["REMOTE JOINING","Available from Showdown Home · exact private session"],
       ["BILLING","Firebase Spark · no billing"]
     ]){

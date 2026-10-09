@@ -204,7 +204,7 @@ function assertActive(result,label,{sessionChanged}={}){
       assert.equal(result.state.acceptedSeasons,totalSeasons);
       assert.equal(result.state.activeSeason,null);
       assert.equal(result.state.activeAuthorization,true);
-      assert.match(result.statusText,/ALL 3 SEASONS REMAIN TERMINAL/);
+      assert.match(result.statusText,/ALL 3 SEASONS STAY COMPLETE/);
     }
     const terminalDurable=hostState.state.durableKey;
     await Promise.all([loseSession(host),loseSession(peer)]);

@@ -155,7 +155,7 @@ const rawSeed={
     await panel.getByRole("button",{name:/ATTACH CONNECTED RIVALRY/}).click();
     await assert.doesNotReject(()=>panel.getByText(/attached privately/i).waitFor({state:"visible",timeout:15000}));
     await panel.getByRole("button",{name:"REFRESH SHARED STATE"}).click();
-    await panel.getByText(/Authoritative shared state refreshed at revision 1/i).waitFor({state:"visible",timeout:15000});
+    await panel.getByText(/Shared game updated\. Your local save was not changed\./i).waitFor({state:"visible",timeout:15000});
     assert.match(await panel.locator(".settingsInfoRow").filter({hasText:"REMOTE OBSERVED"}).innerText(),/Revision 1/);
     assert.match(await panel.locator(".settingsInfoRow").filter({hasText:"LOCAL COMMIT"}).innerText(),/Not applied this session/);
 
@@ -186,7 +186,7 @@ const rawSeed={
     await applyButton.click();
     const download=await downloadPromise;
     assert.match(download.suggestedFilename(),/^career-mode-showdown-backup-/);
-    await panel.getByText(/Local commit complete: remote revision 1/i).waitFor({state:"visible",timeout:20000});
+    await panel.getByText(/Apply complete: the shared result was applied to /i).waitFor({state:"visible",timeout:20000});
     assert.match(await panel.locator(".settingsInfoRow").filter({hasText:"REMOTE OBSERVED"}).innerText(),/Revision 1/);
     assert.match(await panel.locator(".settingsInfoRow").filter({hasText:"LOCAL COMMIT"}).innerText(),/Revision 1/);
     await panel.screenshot({path:path.join(resultsDir,`stage4-remote-local-committed-${runLabel}.png`)});

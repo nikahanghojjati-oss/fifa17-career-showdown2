@@ -9,7 +9,7 @@ assert.match(source,/remoteRole!=="host"&&remoteRole!=="peer"/,"Production Share
 assert.match(source,/remoteRole:context\.remoteRole/,"Accepted Shared Setup state must retain the exact ACTIVE session role.");
 assert.match(source,/type==="open"&&context\.remoteRole!=="host"/,"Peer modified-client open attempts must fail before the provider adapter mutation.");
 assert.match(source,/state\.ready&&state\.remoteRole==="host"[\s\S]+OPEN SHARED SETUP/,"Only the ACTIVE session host may receive the empty-state open action.");
-assert.match(source,/Waiting for the ACTIVE session host to open this authoritative setup/,"Peer UI must present a wait\/refresh state rather than a rejected host action.");
+assert.match(source,/Waiting for the host to open the shared setup\./,"Peer UI must present a wait\/refresh state rather than a rejected host action.");
 assert.match(source,/return "1\.9\.1-r3"/,"Production Shared Setup dependency fallback must stay on the active whole-shell runtime.");
 assert.doesNotMatch(source,/if\(state\.ready\)actions\.append\(action\("OPEN SHARED SETUP"/,"Empty Shared Setup UI must not expose open to every ready manager.");
 process.stdout.write("PASS Shared Setup host\/peer UI authority: only the exact ACTIVE session host can open an empty setup, peers fail closed before adapter mutation and receive wait\/refresh copy, with r3 dependency identity preserved.\n");

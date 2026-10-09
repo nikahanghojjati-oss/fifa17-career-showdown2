@@ -387,7 +387,7 @@
             );
             grid.appendChild(card);
         }
-        if(!profiles.length)grid.appendChild(saveLibraryUIElement("p","saveLibraryEmptyCopy","No Local Profiles exist yet. Starting a Showdown creates two stable manager identities before its first authoritative save."));
+        if(!profiles.length)grid.appendChild(saveLibraryUIElement("p","saveLibraryEmptyCopy","No Local Profiles exist yet. Starting a Showdown creates two stable manager identities before its first save."));
         section.append(heading,note,grid);
         return section;
     }
@@ -654,7 +654,7 @@
         const state=saveLibraryUIElement("div","saveLibraryEmptyState");
         state.append(
             saveLibraryUIElement("strong","","YOUR SAVE LIBRARY IS EMPTY"),
-            saveLibraryUIElement("p","","Start a new rivalry. Two stable Local Profiles and one stable Save identity are created before the Showdown receives its first authoritative write.")
+            saveLibraryUIElement("p","","Start a new rivalry. Two stable Local Profiles and one stable Save identity are created before the Showdown is saved for the first time.")
         );
         const action=saveLibraryUIElement("button","menuButton","CREATE FIRST SHOWDOWN");
         action.type="button";

@@ -46,11 +46,11 @@
   function pfrRender(){
     const ui=pfrEnsureUi();if(!ui)return false;const current=pfrCurrentView(),active=Boolean(current&&current.phase==="FINAL_SEASON_RECONCILED"&&current.finalSeasonReconciled===true);
     pfrHidden(ui.panel,!active);if(!active)return false;
-    pfrText(ui.heading,"SHOWDOWN FINAL RECONCILED");
+    pfrText(ui.heading,"SHOWDOWN FINAL RESULT");
     pfrText(ui.summary,`${current.acceptedSeasons} OF ${current.totalSeasons} SEASONS ACCEPTED · NO ADDITIONAL SEASON`);
     const winner=current.winner==="draw"?"DRAW":`${pfrManagerName(current.winner)} WINS`;
     pfrText(ui.winner,`${pfrManagerName("playerOne")} ${current.managerTotals.playerOne} · ${pfrManagerName("playerTwo")} ${current.managerTotals.playerTwo} · ${winner}`);
-    pfrText(ui.close,"FINAL RESULTS ARE READ-ONLY · TERMINAL CLOSE REMAINS A SEPARATE STEP");
+    pfrText(ui.close,"FINAL RESULTS ARE LOCKED · CLOSE THE SHOWDOWN WHEN READY");
     return true;
   }
   function pfrDiscard(request,generation){if(request&&viewContextKey===request.key&&viewGeneration===generation){view=null;viewContextKey="";viewGeneration=-1;}pfrRender();return null;}
