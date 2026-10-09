@@ -1196,10 +1196,10 @@
      "model": "GPT-6 Sol",
      "effort": "High",
      "place": "ChatGPT project \"Career Mode Showdown\", new normal chat",
-     "prompt": "Job 1053. Read the ticket at https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/gameplay-v1/project-documents/gameplay-factory/jobs/JOB-1053.md and do exactly what it says in this one turn. Start from branch gameplay/bug-list-1, push the branch the ticket names, open the PR into gameplay/bug-list-1, and end with 'Job 1053 done, PR <link>.'",
+     "prompt": "",
      "title": "Restore on an empty device respects Keep current (Olympiad V5)",
      "order": 23,
-     "state": "ready (runs alongside 1048)"
+     "state": "held: worker done (PR #445), waiting on Nik's choice about Keep current on an empty device (it clashes with the job 1027 test); Claude Haiku prepares the tests"
     },
     {
      "id": "1054",
