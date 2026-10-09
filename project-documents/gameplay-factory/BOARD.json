@@ -793,15 +793,15 @@
      "id": "G-F1",
      "title": "Nik and Daniel play 2.0 on their phones",
      "lane": "nik",
-     "state": "waiting on Nik",
+     "state": "optional",
      "waits_on": "",
-     "decision": "Play a game of the live version with Daniel on two phones and send what goes wrong to the bug factory thread."
+     "decision": "Nothing to do until you and Daniel next play the live game on two phones; then send what goes wrong to the bug factory thread."
     },
     {
      "id": "G-F5",
      "title": "QA packet adoptions: truth line, wrong-target guard on main PRs, PR title rule",
      "lane": "sonnet",
-     "state": "next",
+     "state": "queued after the bug jobs",
      "waits_on": ""
     },
     {
@@ -824,23 +824,23 @@
      "id": "G-F18",
      "title": "Old-design screen audit: Legacy, Career Statistics and Trophy Room still open in the old shell; drive every live screen in a browser against Team V's design and route all of them to the new design",
      "lane": "opus",
-     "state": "in progress (thread \"Old-design screen audit\", Nik asked at 5:16 PM Boston time)",
-     "waits_on": "a green PR to the lead",
+     "state": "queued for stage 2 (visual fixes); the history screens now load online (r65), the old-design shell is what remains",
+     "waits_on": "stage 2",
      "details": "overlaps G-F11 (old CSS collisions)"
     },
     {
      "id": "G-F4",
      "title": "GPT Q&A team: scripted paths and code-vs-rulebook reads",
      "lane": "sol-chat",
-     "state": "queued",
-     "waits_on": "G-F1"
+     "state": "done: replaced by the GPT bug Olympiad and its 9 Oct recheck",
+     "waits_on": ""
     },
     {
      "id": "G-F7",
      "title": "Ten-season smoothness run on live 2.0 (emulator, 10 seasons with a mid-game expiry)",
      "lane": "sonnet",
-     "state": "queued",
-     "waits_on": "G-F1"
+     "state": "queued after the Olympiad bug jobs (stage 1)",
+     "waits_on": ""
     },
     {
      "id": "G-F22",
@@ -1127,7 +1127,7 @@
      "id": "1048",
      "title": "Rule Book: three missing rules, and the season review stops pointing at a missing button (Olympiad V1, V2)",
      "lane": "gpt-chat",
-     "state": "worker done, lead checking (PR #443): the lead registered the test the worker was blocked on",
+     "state": "done (merged into bug-list-1, PR #443)",
      "order": 21,
      "place": "nothing to type: the chat is finished",
      "note": "Nik ran it on GPT-6 Sol chat; the Luna trial moved to 1054; ticket jobs/JOB-1048.md",
