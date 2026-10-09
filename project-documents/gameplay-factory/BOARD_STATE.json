@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-09 1:20 AM Boston time (EDT)",
+ "generated": "2026-10-09 1:30 AM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -313,46 +313,38 @@
  },
  "two": {
   "live": {
-   "sha": "2b8b043",
+   "sha": "368c5aa",
    "revision": "1.9.1-r63",
-   "when": "2026-10-08T22:40:16-04:00",
-   "subject": "Release r63: Studio Z fixes from the physical test, plus the waiting factory jobs (#427)",
+   "when": "2026-10-09T05:20:30Z",
+   "subject": "Re-pin the composed Rules check to production main r63 (#435)",
    "fixes": [
-    {
-     "pr": 435,
-     "title": "Re-pin the composed Rules check to production main r63",
-     "draft": false,
-     "branch": "ci/repin-rules-delta-r63",
-     "sha": "4c48cee9fb3fe62afa6322db2cd4a502576469f5",
-     "updated": "2026-10-09T05:07:42Z",
-     "gates": {
-      "passed": 19,
-      "running": 0,
-      "failed": 0,
-      "cancelled": 0
-     }
-    },
     {
      "pr": 429,
      "title": "Release r64: Forget device sign-back-in, phone LOCK MY SIGNINGS",
      "draft": false,
      "branch": "studio-z/r64",
-     "sha": "ab444ba83d0f4c302dc9a073df9ffd367e610f97",
-     "updated": "2026-10-09T03:26:52Z",
+     "sha": "6bf38984d10f354208b39ef119ca2c3ae912ac15",
+     "updated": "2026-10-09T05:22:12Z",
      "gates": {
-      "passed": 17,
-      "running": 0,
-      "failed": 2,
+      "passed": 5,
+      "running": 12,
+      "failed": 0,
       "cancelled": 0
      }
     }
    ],
-   "today": []
+   "today": [
+    {
+     "pr": 435,
+     "title": "Re-pin the composed Rules check to production main r63",
+     "merged": "2026-10-09T05:20:30Z"
+    }
+   ]
   },
   "physio": {
-   "state": "clear",
-   "line": "All clear: every check has a machine.",
-   "gate": "Gate #435: L1✓ L2✓ L3✓ L4✓ L5✓ L6✓ · seal PASS · POS20 #435 12/16",
+   "state": "barking",
+   "line": "Barking: POS20 has waited 8 min for a machine; Gameplay Fast on #434 has waited 7 min for a machine; Showdown Gate on #434 has waited 7 min for a machine; POS20 on #434 has waited 7 min for a machine; POS20 on #433 has waited 7 min for a machine; Showdown Gate on #429 has waited 6 min for a machine; POS20 on #429 has waited 6 min for a machine; Gameplay Fast on #424 has waited 5 min for a machine; POS20 on #424 has waited 5 min for a machine; Showdown Gate on #424 has waited 5 min for a machine.",
+   "gate": "Gate #429: L1· L2· L3· L4· L5… L6✓ · seal pending · POS20 #429 2/16",
    "source": "physio"
   },
   "v_headline": "Queued next",
@@ -716,7 +708,7 @@
   "**r62 is live.** On the laptop, close every game tab in Chrome and reopen the game; if Settings still looks clipped, do it once more."
  ],
  "now": {
-  "moving": 24,
+  "moving": 23,
   "next": 2,
   "nik": 7,
   "later": 12,
@@ -1056,30 +1048,16 @@
   },
   "fixes": [
    {
-    "pr": 435,
-    "title": "Re-pin the composed Rules check to production main r63",
-    "draft": false,
-    "branch": "ci/repin-rules-delta-r63",
-    "sha": "4c48cee9fb3fe62afa6322db2cd4a502576469f5",
-    "updated": "2026-10-09T05:07:42Z",
-    "gates": {
-     "passed": 19,
-     "running": 0,
-     "failed": 0,
-     "cancelled": 0
-    }
-   },
-   {
     "pr": 429,
     "title": "Release r64: Forget device sign-back-in, phone LOCK MY SIGNINGS",
     "draft": false,
     "branch": "studio-z/r64",
-    "sha": "ab444ba83d0f4c302dc9a073df9ffd367e610f97",
-    "updated": "2026-10-09T03:26:52Z",
+    "sha": "6bf38984d10f354208b39ef119ca2c3ae912ac15",
+    "updated": "2026-10-09T05:22:12Z",
     "gates": {
-     "passed": 17,
-     "running": 0,
-     "failed": 2,
+     "passed": 5,
+     "running": 12,
+     "failed": 0,
      "cancelled": 0
     }
    }

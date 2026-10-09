@@ -1,14 +1,14 @@
 # Board archive
 
-[Back to the board](BOARD.md) · generated 2026-10-09 1:20 AM Boston time (EDT). Detail and history behind the one board.
+[Back to the board](BOARD.md) · generated 2026-10-09 1:30 AM Boston time (EDT). Detail and history behind the one board.
 
 ## Old detailed board
 
 # Showdown board: G Factory and V Factory
 
-🌐 **Live: runtime 1.9.1-r63** (main `2b8b043`) · 🔄 **24 moving** · ⏭ 2 up next · 👤 7 waiting on Nik · 🗂 12 later · updated 2026-10-09 1:20 AM Boston time (EDT)
+🌐 **Live: runtime 1.9.1-r63** (main `368c5aa`) · 🔄 **23 moving** · ⏭ 2 up next · 👤 7 waiting on Nik · 🗂 12 later · updated 2026-10-09 1:30 AM Boston time (EDT)
 
-🩺 **All clear: every check has a machine.** · Gate #435: L1✓ L2✓ L3✓ L4✓ L5✓ L6✓ · seal PASS · POS20 #435 12/16
+🐕 **Barking: POS20 has waited 8 min for a machine; Gameplay Fast on #434 has waited 7 min for a machine; Showdown Gate on #434 has waited 7 min for a machine; POS20 on #434 has waited 7 min for a machine; POS20 on #433 has waited 7 min for a machine; Showdown Gate on #429 has waited 6 min for a machine; POS20 on #429 has waited 6 min for a machine; Gameplay Fast on #424 has waited 5 min for a machine; POS20 on #424 has waited 5 min for a machine; Showdown Gate on #424 has waited 5 min for a machine.** · Gate #429: L1· L2· L3· L4· L5… L6✓ · seal pending · POS20 #429 2/16
 
 ## Your next move
 
@@ -18,8 +18,7 @@
 
 | Release / fix | Checks on the latest commit | Updated |
 | --- | --- | --- |
-| [PR #435](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/435) Re-pin the composed Rules check to production main r63 | 🟢 19 passed | 1:07 AM |
-| [PR #429](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/429) Release r64: Forget device sign-back-in, phone LOCK MY SIGNINGS | 🔴 17 passed, 2 failed | 11:26 PM |
+| [PR #429](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/429) Release r64: Forget device sign-back-in, phone LOCK MY SIGNINGS | ⏳ 5 passed, 12 running | 1:22 AM |
 
 | Team | Job | What | Worker | Where it is | Details |
 | --- | --- | --- | --- | --- | --- |
@@ -123,6 +122,8 @@ Latest:
 
 ## ✅ Finished
 
+**Shipped to the live game today (1):** [#435](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/435) Re-pin the composed Rules check to production main r63
+
 <details>
 <summary>Done jobs (10 future-list rows, 1 Team V jobs, 11 hand-offs, 33 factory jobs)</summary>
 
@@ -196,7 +197,7 @@ Latest:
 ## Every bug report
 
 
-> Updated **Fri 9 Oct, 1:20 AM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
+> Updated **Fri 9 Oct, 1:30 AM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
 
 | 🔓 Open | 🔴 Top priority | 🔧 Fixing or waiting for release | ✅ Fixed and live |
 | :---: | :---: | :---: | :---: |
