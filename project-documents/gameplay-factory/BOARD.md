@@ -1,8 +1,8 @@
 # Bug hunt board
 
-Updated Fri 9 Oct, 11:37 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
+Updated Fri 9 Oct, 12:07 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
 
-🌐 **Live: 1.9.1-r65** (main `e49add9`, Fri 9 Oct 2:48 AM)
+🌐 **Live: 1.9.1-r66** (main `8e1a583`, Fri 9 Oct 12:04 PM)
 
 🩺 **All clear: every check has a machine.** · Gate #440: L1✓ L2✓ L3✓ L4✓ L5✓ L6✓ · seal PASS · POS20 #440 12/16
 
@@ -32,7 +32,6 @@ Updated Fri 9 Oct, 11:37 AM Boston time. Bug hunting only, no new features until
 
 | Lane | Item | What | State |
 | --- | --- | --- | --- |
-| 🟧 Team G lead | [PR #440](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/440) | Release r66: Season Results on phones, closed Final Winner on both phones | 🟢 19 passed |
 | 🟧 Opus | **G-F18** | Old-design screen audit: Legacy, Career Statistics and Trophy Room still open in the old shell; drive every live screen in a browser against Team V's design and route all of them to the new design | in progress |
 
 **Up next**
@@ -56,6 +55,7 @@ Updated Fri 9 Oct, 11:37 AM Boston time. Bug hunting only, no new features until
 
 ## Shipped today
 
+- 12:04 PM · #440 Release r66: Season Results on phones, closed Final Winner on both phones
 - 2:48 AM · #436 Release r65: career history fixes, auto close, plain words
 - 1:44 AM · #429 Release r64: Forget device sign-back-in, phone LOCK MY SIGNINGS
 - 1:20 AM · #435 Re-pin the composed Rules check to production main r63
