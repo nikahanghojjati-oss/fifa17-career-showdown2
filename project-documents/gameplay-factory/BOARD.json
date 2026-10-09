@@ -815,7 +815,7 @@
      "id": "G-F17",
      "title": "Showdown Gate: replace POS20 with a faster check system built on Claude and GitHub, keeping every check (plan: /mnt/project-files/check-system/SHOWDOWN_GATE_PLAN.md)",
      "lane": "opus",
-     "state": "shadow: KEEP_SHADOW after the 9 Oct independent audit (71/100); fixes 1043, 1044, 1045 first",
+     "state": "shadow: KEEP_SHADOW after the 9 Oct independent audit (71/100); fixes 1043, 1044 and 1045 merged; the owner card waits for a fresh exit report",
      "waits_on": "exit bar: 10 real PRs agree (2 full seals), 2 canaries fail, 1 simulated outage recovers; POS20 stays the merge authority until then",
      "details": "Nik 6:02 PM Boston time: gradual replacement; POS20 is archived to authority-history/pos20-archive/, not deleted",
      "note": "reports/SHOWDOWN_GATE_AUDIT_2026-10-09.md"
@@ -1106,7 +1106,7 @@
      "id": "1045",
      "title": "Showdown Gate: pin actions and tool installs (audit F4)",
      "lane": "codex",
-     "state": "worker done, lead checking (PR #447): all 37 action pins match the upstream tags; CI running",
+     "state": "done (merged into bug-list-1, PR #447)",
      "order": 25,
      "place": "Codex cloud, this repo, branch gameplay/bug-list-1",
      "note": "ticket jobs/JOB-1045.md; stays Codex: it must read GitHub Actions release tags, which chat and Claude lanes cannot",
