@@ -1127,14 +1127,14 @@
      "id": "1048",
      "title": "Rule Book: three missing rules, and the season review stops pointing at a missing button (Olympiad V1, V2)",
      "lane": "gpt-chat",
-     "state": "with the worker (GPT-6 Sol chat), step 3 of 5",
+     "state": "worker done, lead checking (PR #443): the lead registered the test the worker was blocked on",
      "order": 21,
-     "place": "ChatGPT project \"Career Mode Showdown\", new normal chat",
+     "place": "nothing to type: the chat is finished",
      "note": "Nik ran it on GPT-6 Sol chat; the Luna trial moved to 1054; ticket jobs/JOB-1048.md",
      "team": "blue",
      "model": "GPT-6 Sol (chat)",
      "effort": "High",
-     "prompt": "Job 1048. Read the ticket at https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/gameplay-v1/project-documents/gameplay-factory/jobs/JOB-1048.md and do exactly what it says in this one turn. Start from branch gameplay/bug-list-1, push the branch the ticket names, open the PR into gameplay/bug-list-1, and end with 'Job 1048 done, PR <link>.'"
+     "prompt": ""
     },
     {
      "id": "1049",
