@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-09 12:40 AM Boston time (EDT)",
+ "generated": "2026-10-09 1:10 AM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -318,6 +318,20 @@
    "when": "2026-10-08T22:40:16-04:00",
    "subject": "Release r63: Studio Z fixes from the physical test, plus the waiting factory jobs (#427)",
    "fixes": [
+    {
+     "pr": 435,
+     "title": "Re-pin the composed Rules check to production main r63",
+     "draft": false,
+     "branch": "ci/repin-rules-delta-r63",
+     "sha": "4c48cee9fb3fe62afa6322db2cd4a502576469f5",
+     "updated": "2026-10-09T05:07:42Z",
+     "gates": {
+      "passed": 7,
+      "running": 10,
+      "failed": 0,
+      "cancelled": 0
+     }
+    },
     {
      "pr": 429,
      "title": "Release r64: Forget device sign-back-in, phone LOCK MY SIGNINGS",
@@ -702,7 +716,7 @@
   "**r62 is live.** On the laptop, close every game tab in Chrome and reopen the game; if Settings still looks clipped, do it once more."
  ],
  "now": {
-  "moving": 23,
+  "moving": 24,
   "next": 2,
   "nik": 7,
   "later": 12,
@@ -1041,6 +1055,20 @@
    }
   },
   "fixes": [
+   {
+    "pr": 435,
+    "title": "Re-pin the composed Rules check to production main r63",
+    "draft": false,
+    "branch": "ci/repin-rules-delta-r63",
+    "sha": "4c48cee9fb3fe62afa6322db2cd4a502576469f5",
+    "updated": "2026-10-09T05:07:42Z",
+    "gates": {
+     "passed": 7,
+     "running": 10,
+     "failed": 0,
+     "cancelled": 0
+    }
+   },
    {
     "pr": 429,
     "title": "Release r64: Forget device sign-back-in, phone LOCK MY SIGNINGS",
