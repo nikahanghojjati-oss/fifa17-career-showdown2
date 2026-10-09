@@ -1,6 +1,6 @@
 {
  "_how": "One shared job counter for Team G and Team V (Nik, 2026-10-05). Claim with tools/claim_number.py only. A number is used once, ever. CONTRACT.md section 10.",
- "next": 1043,
+ "next": 1044,
  "claims": [
   {
    "number": 1001,
@@ -254,6 +254,12 @@
    "team": "G",
    "title": "Closed Final Winner shows the final season on both phones after the rival's phone closed it",
    "claimed": "2026-10-09T05:57:37Z"
+  },
+  {
+   "number": 1043,
+   "team": "G",
+   "title": "Showdown Gate: no write token for pull-request code (audit F1)",
+   "claimed": "2026-10-09T12:49:59Z"
   }
  ]
 }
