@@ -1,6 +1,6 @@
 # Bug hunt board
 
-Updated Thu 8 Oct, 11:59 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
+Updated Fri 9 Oct, 12:02 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r63** (main `2b8b043`, Thu 8 Oct 10:40 PM)
 
@@ -64,8 +64,4 @@ Updated Thu 8 Oct, 11:59 PM Boston time. Bug hunting only, no new features until
 | Lane | Item | What | State |
 | --- | --- | --- | --- |
 | 🟧 Opus | **V-F2** | Design changes from Nik and Daniel's 2.0 play-through (only real design changes; bugs stay with G) | queued · after G-F1 |
-
-## Shipped today
-
-- 10:40 PM · #427 Release r63: Studio Z fixes from the physical test, plus the waiting factory jobs
 

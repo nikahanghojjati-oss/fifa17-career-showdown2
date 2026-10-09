@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-08 11:59 PM Boston time (EDT)",
+ "generated": "2026-10-09 12:02 AM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -333,13 +333,7 @@
      }
     }
    ],
-   "today": [
-    {
-     "pr": 427,
-     "title": "Release r63: Studio Z fixes from the physical test, plus the waiting factory jobs",
-     "merged": "2026-10-09T02:40:16Z"
-    }
-   ]
+   "today": []
   },
   "physio": {
    "state": "clear",
