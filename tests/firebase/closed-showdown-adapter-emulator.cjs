@@ -38,6 +38,7 @@ const PROJECT_ID=process.env.GCLOUD_PROJECT||"demo-cms-closed-adapter";
 const RULES=fs.readFileSync("firestore.spark.generated.rules","utf8");
 const A="acct_game_a",B="acct_game_b",C="acct_game_c";
 const R1=`pair_${"1".repeat(64)}`,R2=`pair_${"2".repeat(64)}`,R3=`pair_${"3".repeat(64)}`;
+const R4=`pair_${"4".repeat(64)}`;
 const S1=`session_${"b".repeat(64)}`,S2=`session_${"c".repeat(64)}`,S3=`session_${"d".repeat(64)}`;
 const DA=`device_${"a".repeat(32)}`,DB=`device_${"b".repeat(32)}`,DC=`device_${"c".repeat(32)}`;
 const PA=`profile_${"1".repeat(24)}`,PB=`profile_${"2".repeat(24)}`;
@@ -237,10 +238,51 @@ async function main(env){
   await ok("D2","an unknown live state never hides the live Showdown: it is unavailable and the career is partial",async()=>{
     const {value}=await load(env,A,null);assert.equal(value.status,"partial");assert.deepEqual(classes(value),["completed","abandoned","unavailable"]);assert.equal(value.entries[2].code,"CLOSED_CURRENT_UNKNOWN");
   });
+  await ok("E3","loading current Showdown leaves closed history completed, with only the current entry pending",async()=>{
+    for(const uid of [A,B]){
+      const current=await liveCareerInput(env,uid);assert.equal(current.indexStatus,"loading");assert.equal(current.currentRivalryId,R3);
+      Loader.clearClosedShowdownCache();const {value}=await load(env,uid,current);
+      assert.equal(value.status,"ready");assert.deepEqual(classes(value),["completed","abandoned","pending"]);assert.deepEqual(rows(value),["completed","abandoned"]);
+      assert.deepEqual(value.model.coverage,{readable:2,indexed:2});assert.equal(value.model.managers.daniel.showdowns.completed,1);assert.equal(value.model.managers.daniel.careerPoints,11);
+    }
+  });
+  await ok("E4","unavailable current Showdown preserves completed counts and affects only its own row",async()=>{
+    const current=Active.careerInput({pair:{initialized:true,status:"unavailable",rivalryId:R3}});assert.equal(current.indexStatus,"unavailable");assert.equal(current.currentRivalryId,R3);
+    Loader.clearClosedShowdownCache();const {value}=await load(env,A,current);
+    assert.equal(value.status,"partial");assert.deepEqual(classes(value),["completed","abandoned","unavailable"]);assert.deepEqual(value.model.coverage,{readable:2,indexed:3});
+    assert.equal(value.model.history.showdowns[0].status,"completed");assert.equal(value.model.managers.daniel.showdowns.completed,1);assert.equal(value.model.managers.daniel.careerPoints,11);
+  });
+  // Release the active pairing after all original cases so the new code can be created through the provider.
+  globalThis.CareerModeProductionFirebaseRuntime={ensureAccountServices:async()=>({ok:true,auth:{currentUser:{uid:A}},firestore:three.dbA,firestoreSdk:sdk()})};
+  const abandonedThree=await PersistentPair.abandonCurrentShowdown({expectedRivalryId:R3,expectedSaveId:SA,cryptoImpl:crypto.webcrypto});assert.equal(abandonedThree.ok,true,JSON.stringify(abandonedThree));
+  // JOB-1037: a provider-created code never joined by Nik is not a career Showdown.
+  await ok("E1","Daniel creates a code that Nik never joins: ready career, code excluded",async()=>{
+    const now=Date.now(),db=env.authenticatedContext(A).firestore();
+    const created=await Pairing.createPairing({user:{uid:A},firestore:db,firebaseSdk:sdk(),identity:pairingIdentity(DA,"a",now),binding:bindingFor("playerOne"),capability:R4,nowEpochMs:now,cryptoImpl:crypto.webcrypto,durableWitness:PersistentPair.createDurableCreationWitness({services:{firestoreSdk:sdk(),firestore:db},accountId:A,deviceId:DA},"playerOne",PersistentPair.managerByRole.playerOne)});
+    assert.equal(created.ok,true,JSON.stringify(created));
+    const index=await PersistentPair.readCareerIndex({firestore:db,firebaseSdk:firestoreSdk,accountId:A});assert.deepEqual(index.rivalryIds,[R1,R2,R3,R4]);
+    const read=await Reader.readCompletedShowdown({firestore:db,firebaseSdk:firestoreSdk,user:{uid:A},rivalryId:R4,cryptoImpl:crypto.webcrypto});assert.equal(read.status,"never-started");
+    Loader.clearClosedShowdownCache();
+    const {value}=await load(env,A,await liveCareerInput(env,A));
+    assert.equal(value.status,"ready");assert.deepEqual(value.model.coverage,{readable:3,indexed:3});assert.deepEqual(classes(value),["completed","abandoned","abandoned"]);assert.deepEqual(rows(value),["completed","abandoned","abandoned"]);
+    assert.equal(value.model.managers.daniel.careerPoints,11);assert.equal(value.model.managers.nik.careerPoints,4);
+  });
+  await ok("E2","abandoning the never-joined code still leaves a ready, unpoisoned career",async()=>{
+    const db=env.authenticatedContext(A).firestore();
+    globalThis.CareerModeProductionFirebaseRuntime={ensureAccountServices:async()=>({ok:true,auth:{currentUser:{uid:A}},firestore:db,firestoreSdk:sdk()})};
+    globalThis.CareerModeSparkConnectedAccount={initialize:async()=>{},getState:()=>({connected:true,accountId:A})};
+    globalThis.CareerModeSparkPrivatePairing={initialize:async()=>{},getState:()=>({registered:true,deviceId:DA})};
+    globalThis.CareerModeOnlinePlayerIdentity={getState:()=>({managerId:"daniel"})};
+    const abandoned=await PersistentPair.abandonCurrentShowdown({expectedRivalryId:R4,expectedSaveId:SA,cryptoImpl:crypto.webcrypto});assert.equal(abandoned.ok,true,JSON.stringify(abandoned));
+    Loader.clearClosedShowdownCache();
+    const {value}=await load(env,A,await liveCareerInput(env,A));
+    assert.equal(value.status,"ready");assert.deepEqual(value.model.coverage,{readable:3,indexed:3});assert.deepEqual(classes(value),["completed","abandoned","abandoned"]);
+    assert.equal(value.entries.find(entry=>entry.rivalryId===R4).classification,"never-started");
+  });
 }
 
 (async()=>{
   const env=await initializeTestEnvironment({projectId:PROJECT_ID,firestore:{rules:RULES}});
-  try{await env.clearFirestore();await main(env);process.stdout.write(`PASS closed-Showdown adapter emulator: ${checks} numbered checks (I0, A Terminal Close, B abandon rebuild, C three-Showdown career for both managers with cache, D stranger and unknown live state).\n`);}
+  try{await env.clearFirestore();await main(env);assert.equal(checks,16);process.stdout.write(`PASS closed-Showdown adapter emulator: ${checks} numbered checks (I0, A Terminal Close, B abandon rebuild, C three-Showdown career for both managers with cache, D stranger and unknown live state, E never-joined codes and current-row isolation).\n`);}
   finally{await env.cleanup();}
 })().catch(error=>{console.error(error.stack||error);process.exit(1);});
