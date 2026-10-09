@@ -1,12 +1,12 @@
 # Board archive
 
-[Back to the board](BOARD.md) · generated 2026-10-09 2:21 AM Boston time (EDT). Detail and history behind the one board.
+[Back to the board](BOARD.md) · generated 2026-10-09 2:24 AM Boston time (EDT). Detail and history behind the one board.
 
 ## Old detailed board
 
 # Showdown board: G Factory and V Factory
 
-🌐 **Live: runtime 1.9.1-r64** (main `963a979`) · 🔄 **23 moving** · ⏭ 4 up next · 👤 7 waiting on Nik · 🗂 11 later · updated 2026-10-09 2:21 AM Boston time (EDT)
+🌐 **Live: runtime 1.9.1-r64** (main `963a979`) · 🔄 **23 moving** · ⏭ 4 up next · 👤 7 waiting on Nik · 🗂 11 later · updated 2026-10-09 2:24 AM Boston time (EDT)
 
 🩺 **All clear: every check has a machine.** · POS20 #304 6/16
 
@@ -18,7 +18,7 @@
 
 | Release / fix | Checks on the latest commit | Updated |
 | --- | --- | --- |
-| [PR #436](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/436) Release r65: career history fixes, auto close, plain words | ⏳ 17 passed, 1 running | 2:12 AM |
+| [PR #436](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/436) Release r65: career history fixes, auto close, plain words | 🟢 19 passed | 2:12 AM |
 
 | Team | Job | What | Worker | Where it is | Details |
 | --- | --- | --- | --- | --- | --- |
@@ -198,7 +198,7 @@ Latest:
 ## Every bug report
 
 
-> Updated **Fri 9 Oct, 2:21 AM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
+> Updated **Fri 9 Oct, 2:24 AM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
 
 | 🔓 Open | 🔴 Top priority | 🔧 Fixing or waiting for release | ✅ Fixed and live |
 | :---: | :---: | :---: | :---: |
