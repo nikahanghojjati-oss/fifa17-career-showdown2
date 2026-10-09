@@ -53,13 +53,18 @@ function loadTransferCatalog(){
 }
 function rulesList(ids){return `[${ids.map(id=>`'${id}'`).join(',')}]`;}
 function injectTransferCatalog(functions){
-  // Keep the repository FIFA 17 catalog as the client/provider authority, but do not
-  // expand 200 exact option-membership checks into Firestore Rules. The max-size
-  // 3-guess/3-signing transaction can exceed Rules evaluation budgets when those
-  // large lists are repeated. Firestore still validates bounded slug-shaped IDs;
-  // sparkSharedTransferChallenge.js rejects any ID outside the exact repository catalog.
-  loadTransferCatalog();
-  return functions;
+  // JOB-1052: the repository FIFA 17 catalog is the single authority for the game's reader and for these Rules. Each catalog becomes ONE anchored
+  // regex alternation, so every option id costs one match (not a list scan): the 200 ids are not expanded into per-id membership checks, which is
+  // what exceeded the max-size 3-guess/3-signing evaluation budget before. The patterns are generated here and never hand-edited.
+  const {leagueIds,nationalityIds}=loadTransferCatalog();
+  const pattern=ids=>`^(${ids.join('|')})$`;
+  let out=functions;
+  for(const [placeholder,ids] of [['__SSJR_TRANSFER_OPTION_ID_PATTERN__',[...leagueIds,...nationalityIds.filter(id=>!leagueIds.includes(id))]],['__SSJR_TRANSFER_LEAGUE_ID_PATTERN__',leagueIds],['__SSJR_TRANSFER_NATIONALITY_ID_PATTERN__',nationalityIds]]){
+    if(out.split(placeholder).length!==2)throw new Error(`Expected exactly one ${placeholder} placeholder in the Transfer Challenge Rules fragment.`);
+    out=out.replace(placeholder,()=>pattern(ids));
+  }
+  if(/__SSJR_[A-Z_]+__/.test(out))throw new Error('Transfer Challenge Rules fragment still holds an unfilled catalog placeholder.');
+  return out;
 }
 
 const sharedFunctionMarker='// SSJR_SHARED_SETUP_FUNCTIONS_BEGIN';

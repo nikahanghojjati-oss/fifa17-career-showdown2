@@ -149,6 +149,59 @@ function structuredCloneWithTs(value){if(value&&typeof value.toMillis==='functio
   await tamper('unlocked signings',d=>{d[`${T(1)}/roles/playerTwo`].signings=null;},'TRANSFER_HISTORY_SEASON_INVALID');
   await tamper('setup length differs from witness',d=>{d[`${P0}/sharedSetup/authoritative`].totalSeasons=5;},'TRANSFER_HISTORY_SETUP_INVALID');
 
+  // K8b. JOB-1051 salted commitments: a role document written by the new provider carries guessSalt and signingSalt, and the public
+  // hash of each lock is sha256(canonical({actorRole,type,operationId,baseRevision,...payload,salt})). r66 documents (no salt keys,
+  // unsalted payload hash) keep reading. Each shape must be proven only by its own hash; nothing else is read.
+  const sortedCanonical=value=>{if(Array.isArray(value))return `[${value.map(sortedCanonical).join(',')}]`;if(value&&typeof value==='object')return `{${Object.keys(value).sort().map(k=>`${JSON.stringify(k)}:${sortedCanonical(value[k])}`).join(',')}}`;return JSON.stringify(value);};
+  const commitment=(role,type,publicDoc,index,payload,salt)=>'sha256:'+crypto.createHash('sha256').update(sortedCanonical({actorRole:role,type,operationId:publicDoc.operationIds[index],baseRevision:publicDoc.baseRevisions[index],...payload,...(salt?{salt}:{})})).digest('hex');
+  const lockIndex=(publicDoc,type,role)=>publicDoc.operationTypes.findIndex((t,i)=>t===type&&publicDoc.actorRoles[i]===role);
+  const saltFor=(season,role,kind)=>crypto.createHash('sha256').update(`${season}:${role}:${kind}`).digest('hex');
+  // mode: 'salted' (both salts), 'mixed' (r66 guess lock, salted signings lock) or 'r66' (no salt keys, as stored by the old provider)
+  const saltedDocs=(total,mode)=>{
+    const docs=cloneDocs(completedDocs(total));
+    for(let k=1;k<=total;k+=1){
+      const pub=docs[T(k)];
+      for(const role of ['playerOne','playerTwo']){
+        const doc=docs[`${T(k)}/roles/${role}`];
+        const gSalt=mode==='salted'?saltFor(k,role,'guess'):null,sSalt=mode==='r66'?null:saltFor(k,role,'signing');
+        const gi=lockIndex(pub,'lock-guesses',role),si=lockIndex(pub,'lock-signings',role);
+        pub.operationHashes[gi]=commitment(role,'lock-guesses',pub,gi,{guesses:doc.guesses},gSalt);
+        pub.operationHashes[si]=commitment(role,'lock-signings',pub,si,{signings:doc.signings},sSalt);
+        if(mode!=='r66'){doc.guessSalt=gSalt;doc.signingSalt=sSalt;}
+      }
+    }
+    return docs;
+  };
+  const plain=await readWith(completedDocs(3));assert.equal(plain.r.status,'completed');
+  for(const mode of ['salted','mixed','r66']){
+    const {r}=await readWith(saltedDocs(3,mode));
+    assert.equal(r.status,'completed',`${mode}: ${JSON.stringify(r)}`);assert.deepEqual(clone(r.transfers),clone(plain.r.transfers),`${mode} history equals the unsalted history`);
+  }
+  assert.equal(Object.keys(saltedDocs(1,'salted')[`${T(1)}/roles/playerOne`]).length,14);assert.equal(Object.keys(saltedDocs(1,'r66')[`${T(1)}/roles/playerOne`]).length,12);
+  const saltTamper=async(label,mode,mutate,code)=>{const docs=saltedDocs(3,mode);mutate(docs);const {r}=await readWith(docs);assert.equal(r.status,'unavailable',label);assert.equal(r.code,code,label);assert.deepEqual(r.transfers,{status:'unavailable',seasons:null},label);};
+  const MISMATCH='TRANSFER_HISTORY_PROVENANCE_MISMATCH',INVALID='TRANSFER_HISTORY_SEASON_INVALID';
+  await saltTamper('salted: rival guess edited after lock','salted',d=>{d[`${T(1)}/roles/playerTwo`].guesses[0].valueId='italy-serie-a';},MISMATCH);
+  await saltTamper('salted: signing renamed after lock','salted',d=>{d[`${T(2)}/roles/playerOne`].signings[0].name='Someone else';},MISMATCH);
+  await saltTamper('salted: guess salt replaced','salted',d=>{d[`${T(1)}/roles/playerOne`].guessSalt='0'.repeat(64);},MISMATCH);
+  await saltTamper('salted: signing salt replaced','salted',d=>{d[`${T(3)}/roles/playerTwo`].signingSalt='f'.repeat(64);},MISMATCH);
+  await saltTamper('salted: guess salt swapped with the rival\'s','salted',d=>{const a=d[`${T(1)}/roles/playerOne`],b=d[`${T(1)}/roles/playerTwo`];[a.guessSalt,b.guessSalt]=[b.guessSalt,a.guessSalt];},MISMATCH);
+  await saltTamper('salted: salts nulled to downgrade to the unsalted hash','salted',d=>{const doc=d[`${T(1)}/roles/playerOne`];doc.guessSalt=null;doc.signingSalt=null;},MISMATCH);
+  await saltTamper('salted: salt keys removed to downgrade to the unsalted hash','salted',d=>{const doc=d[`${T(1)}/roles/playerOne`];delete doc.guessSalt;delete doc.signingSalt;},MISMATCH);
+  await saltTamper('r66: a salt added to a role the ledger never salted','r66',d=>{const doc=d[`${T(1)}/roles/playerOne`];doc.guessSalt=saltFor(1,'playerOne','guess');doc.signingSalt=null;},MISMATCH);
+  await saltTamper('r66: guess edited after lock still fails','r66',d=>{d[`${T(1)}/roles/playerTwo`].guesses[0].valueId='italy-serie-a';},MISMATCH);
+  await saltTamper('mixed: signing renamed after lock','mixed',d=>{d[`${T(2)}/roles/playerTwo`].signings[0].name='Someone else';},MISMATCH);
+  for(const [label,mutate] of [
+    ['uppercase salt',doc=>{doc.guessSalt=doc.guessSalt.toUpperCase();}],
+    ['63-character salt',doc=>{doc.guessSalt=doc.guessSalt.slice(1);}],
+    ['65-character salt',doc=>{doc.signingSalt+='0';}],
+    ['non-hex salt',doc=>{doc.guessSalt='z'+doc.guessSalt.slice(1);}],
+    ['numeric salt',doc=>{doc.signingSalt=1;}],
+    ['empty salt',doc=>{doc.guessSalt='';}],
+    ['only guessSalt present',doc=>{delete doc.signingSalt;}],
+    ['only signingSalt present',doc=>{delete doc.guessSalt;}],
+    ['unknown extra key beside the salts',doc=>{doc.note='x';}]
+  ])await saltTamper(`shape: ${label}`,'salted',d=>mutate(d[`${T(1)}/roles/playerOne`]),INVALID);
+
   // K9. Rules text: phase-gated role grant, witness-keyed, no write inspection, no billing words
   const fragment=read('firestore.persistent-pair-production.fragment.rules');
   const grant=fragment.slice(fragment.indexOf('function cmsCompletedTransferRoleReadable'),fragment.indexOf('// CMS_PERSISTENT_PAIR_FUNCTIONS_END'));
