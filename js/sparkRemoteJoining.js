@@ -29,7 +29,7 @@
   let srjReplaceAction=null;
   const srjScriptPromises=new Map();
   const srjListeners=new Set();
-  let srjState=srjFreeze({status:"idle",open:false,busy:false,sessionId:null,rivalryId:null,accountId:null,deviceId:null,role:null,sessionState:null,revision:null,expiresAtEpochMs:null,pendingAction:null,capabilityCopyAllowed:false,message:"Remote Joining is private and action-only. No session request has been sent."});
+  let srjState=srjFreeze({status:"idle",open:false,busy:false,sessionId:null,rivalryId:null,accountId:null,deviceId:null,role:null,sessionState:null,revision:null,expiresAtEpochMs:null,pendingAction:null,capabilityCopyAllowed:false,auto:null,message:"Remote Joining is private and action-only. No session request has been sent."});
 
   function srjFreeze(value){
     if(!value||typeof value!=="object"||Object.isFrozen(value))return value;
@@ -133,7 +133,7 @@
     return srjSessionBlocksStart()?{ok:false,code:"REMOTE_JOINING_SESSION_ALREADY_HELD",message:"The current private session could not be ended."}:{ok:true};
   }
   function srjAcceptResult(result,context,role,message){
-    return srjSetState({status:"ready",busy:false,sessionId:result.sessionId,rivalryId:context.rivalryId,accountId:context.accountId,deviceId:context.deviceId,role,sessionState:result.state,revision:result.revision,expiresAtEpochMs:result.expiresAtEpochMs,pendingAction:null,capabilityCopyAllowed:true,message});
+    return srjSetState({status:"ready",busy:false,sessionId:result.sessionId,rivalryId:context.rivalryId,accountId:context.accountId,deviceId:context.deviceId,role,sessionState:result.state,revision:result.revision,expiresAtEpochMs:result.expiresAtEpochMs,pendingAction:null,capabilityCopyAllowed:true,auto:result.state==="open"?srjState.auto:null,message});
   }
   function srjPendingContextMatches(context){
     return !!context&&context.rivalryId===srjState.rivalryId&&context.accountId===srjState.accountId&&context.deviceId===srjState.deviceId;
@@ -315,12 +315,108 @@
   }
   function srjForgetSession(){
     if(srjState.pendingAction||srjState.sessionState==="unresolved")return {ok:false,code:"REMOTE_JOINING_RECOVERY_PENDING",message:"Resolve the pending provider outcome before forgetting this page-memory capability."};
-    return srjSetState({status:"idle",busy:false,sessionId:null,rivalryId:null,accountId:null,deviceId:null,role:null,sessionState:null,revision:null,expiresAtEpochMs:null,pendingAction:null,capabilityCopyAllowed:false,message:"Private session code forgotten from page memory. No provider state was changed."});
+    return srjSetState({status:"idle",busy:false,auto:null,sessionId:null,rivalryId:null,accountId:null,deviceId:null,role:null,sessionState:null,revision:null,expiresAtEpochMs:null,pendingAction:null,capabilityCopyAllowed:false,message:"Private session code forgotten from page memory. No provider state was changed."});
   }
   async function srjCopySessionCode(){
     if(!srjState.sessionId||srjState.capabilityCopyAllowed!==true||srjState.pendingAction)return false;
     try{if(root.navigator&&root.navigator.clipboard&&typeof root.navigator.clipboard.writeText==="function"){await root.navigator.clipboard.writeText(srjState.sessionId);return true;}}catch(_error){}
     return false;
+  }
+  // Studio Z3: the exact session lives in page memory only, so a refresh (Transfer, setup, anywhere) used to drop this
+  // phone on Home and CONTINUE CAREER opened the code screen while the other phone was still in the game. A refreshed or
+  // reopened tab now re-attaches through the pair's session pointer below; the session itself is still never stored.
+  // Studio Z4: every new game day Daniel had to host and send Nik a long session code to paste. The two paired accounts now
+  // share one pointer, rivalries/{rivalryId}/sessionOffers/current, which only they can read (Rules) and only the session's
+  // host can point at their own open or active session. Daniel's phone hosts and publishes it; Nik's phone reads it and
+  // joins; either phone re-attaches to it after a closed tab. The manual code controls stay behind USE A SESSION CODE.
+  const SRJ_OFFER_POLL_MS=3000,SRJ_OFFER_POLL_LIMIT_MS=10*60*1000,SRJ_OFFER_MIN_LIFE_MS=60*1000;
+  let srjAutoPromise=null,srjOfferTimer=null;
+  function srjOfferRef(context){return context.services.firestoreSdk.doc(context.services.firestore,"rivalries",context.rivalryId,"sessionOffers","current");}
+  async function srjReadOffer(context){
+    try{
+      const sdk=context.services.firestoreSdk;
+      const data=await sdk.runTransaction(context.services.firestore,async transaction=>{const snapshot=await transaction.get(srjOfferRef(context));return snapshot&&snapshot.exists()?snapshot.data():null;});
+      if(!data||data.schemaVersion!==1||typeof data.sessionId!=="string"||typeof data.hostAccountId!=="string"||!data.expiresAt||typeof data.expiresAt.toMillis!=="function")return null;
+      return Object.freeze({sessionId:data.sessionId,hostAccountId:data.hostAccountId,expiresAtEpochMs:data.expiresAt.toMillis()});
+    }catch(_error){return null;}
+  }
+  async function srjWriteOffer(context){
+    if(!srjState.sessionId||srjState.role!=="host"||!["open","active"].includes(srjState.sessionState)||!Number.isFinite(srjState.expiresAtEpochMs))return false;
+    try{
+      const sdk=context.services.firestoreSdk,value={schemaVersion:1,sessionId:srjState.sessionId,hostAccountId:context.accountId,expiresAt:sdk.Timestamp.fromMillis(srjState.expiresAtEpochMs),updatedAt:sdk.serverTimestamp()};
+      await sdk.runTransaction(context.services.firestore,async transaction=>{transaction.set(srjOfferRef(context),value);});
+      return true;
+    }catch(_error){return false;}
+  }
+  function srjHostsByDefault(){const identity=root.CareerModeOnlinePlayerIdentity&&typeof root.CareerModeOnlinePlayerIdentity.getState==="function"?root.CareerModeOnlinePlayerIdentity.getState():null;return Boolean(identity&&identity.managerId==="daniel");}
+  function srjRivalName(){return srjHostsByDefault()?"NIK":"DANIEL";}
+  async function srjAdopt(context,sessionId,role,joinOpen){
+    let result;
+    try{result=await context.protocol.readSession(srjOperationOptions(context,sessionId));}catch(_error){return null;}
+    if(!result||result.ok!==true||result.expiredByClock||!Number.isFinite(result.expiresAtEpochMs)||result.expiresAtEpochMs<=Date.now())return null;
+    if(result.state==="active"){srjAcceptResult(result,context,role,"Connected to your Showdown again.");return {ok:true,kind:"resumed"};}
+    if(result.state!=="open")return null;
+    if(role==="host"){srjAcceptResult(result,context,"host",`Waiting for ${srjRivalName()==="NIK"?"Nik":"Daniel"} to open the game.`);srjSetState({auto:"waiting"});srjWatchForJoin(sessionId);return {ok:true,kind:"hosting"};}
+    if(!joinOpen)return null;
+    const joined=await srjStartJoin(sessionId);
+    return joined&&joined.ok===true?{ok:true,kind:"joined"}:null;
+  }
+  function srjStopOfferWait(){if(srjOfferTimer!==null&&typeof root.clearTimeout==="function")root.clearTimeout(srjOfferTimer);srjOfferTimer=null;}
+  function srjWaitForOffer(startedAt=Date.now()){
+    srjStopOfferWait();
+    if(typeof root.setTimeout!=="function")return;
+    srjOfferTimer=root.setTimeout(async()=>{
+      srjOfferTimer=null;
+      if(srjHasNonterminalSession()||srjState.auto!=="waiting"||Date.now()-startedAt>SRJ_OFFER_POLL_LIMIT_MS)return;
+      if(!srjState.busy&&(!root.document||root.document.visibilityState!=="hidden")){
+        try{
+          const context=await srjResolveContext(),offer=await srjReadOffer(context);
+          if(offer&&offer.hostAccountId!==context.accountId&&offer.expiresAtEpochMs>Date.now()+SRJ_OFFER_MIN_LIFE_MS&&srjState.auto==="waiting"&&!srjHasNonterminalSession()){
+            const adopted=await srjAdopt(context,offer.sessionId,"peer",true);
+            if(adopted){srjSetState({auto:null});return;}
+          }
+        }catch(_error){}
+      }
+      srjWaitForOffer(startedAt);
+    },SRJ_OFFER_POLL_MS);
+  }
+  async function srjAutoConnectOnce(){
+    if(srjState.busy||srjState.pendingAction||srjReplaceAction)return {ok:false,code:"REMOTE_JOINING_BUSY",message:"A private-session operation is already in progress."};
+    let context;
+    try{context=await srjResolveContext();}catch(error){srjSetState({auto:null});return {ok:false,code:error&&error.code||"REMOTE_JOINING_CONTEXT_UNAVAILABLE",message:error&&error.message||"Player connection is unavailable."};}
+    if(srjHasNonterminalSession()&&srjPendingContextMatches(context)){if(srjState.sessionState==="active")srjSetState({auto:null});return {ok:true,kind:"held"};}
+    srjSetState({auto:"connecting",message:"Connecting to your Showdown…"});
+    const offer=await srjReadOffer(context);
+    if(offer&&offer.expiresAtEpochMs>Date.now()+SRJ_OFFER_MIN_LIFE_MS){
+      const mine=offer.hostAccountId===context.accountId;
+      const adopted=await srjAdopt(context,offer.sessionId,mine?"host":"peer",!mine);
+      if(adopted){if(adopted.kind!=="hosting")srjSetState({auto:null});return adopted;}
+    }
+    if(srjHostsByDefault()){
+      const hosted=await srjStartHost();
+      if(hosted&&hosted.ok===true&&srjState.role==="host"&&srjState.sessionId){
+        const published=await srjWriteOffer(context);
+        srjSetState(published?{auto:"waiting",message:"Waiting for Nik to open the game."}:{auto:null,message:"Send Nik this session code to connect."});
+        return {ok:true,kind:published?"hosted":"hosted-manual"};
+      }
+      srjSetState({auto:null});
+      return hosted||{ok:false,code:"REMOTE_JOINING_HOST_FAILED",message:"Private session could not be opened."};
+    }
+    srjSetState({auto:"waiting",message:"Waiting for Daniel to open the game."});
+    srjWaitForOffer();
+    return {ok:true,kind:"waiting"};
+  }
+  function srjAutoConnect(){if(srjAutoPromise)return srjAutoPromise;if(!srjHasNonterminalSession()&&!srjState.busy&&!srjState.pendingAction)srjSetState({auto:"connecting",message:"Connecting to your Showdown…"});srjAutoPromise=srjAutoConnectOnce().catch(error=>{srjSetState({auto:null});return {ok:false,code:error&&error.code||"REMOTE_JOINING_AUTO_FAILED",message:error&&error.message||"Player connection failed."};}).finally(()=>{srjAutoPromise=null;});return srjAutoPromise;}
+  function srjUseManualCode(){srjStopOfferWait();return srjSetState({auto:null});}
+  function srjRenderAuto(body){
+    const waiting=srjState.auto==="waiting";
+    const intro=srjCreate("div","remoteJoiningIntro");
+    intro.append(srjCreate("span","remoteJoiningEyebrow","CAREER MODE SHOWDOWN"),srjCreate("h2","",waiting?`WAITING FOR ${srjRivalName()}`:"CONNECTING"),srjCreate("p","",waiting?`Your game is ready. It continues by itself as soon as ${srjRivalName()==="NIK"?"Nik":"Daniel"} opens Career Mode Showdown and taps CONTINUE CAREER.`:"Connecting Daniel and Nik to the same game. This takes a moment."));
+    body.appendChild(intro);
+    const actions=srjCreate("div","remoteJoiningActions");
+    const manual=srjCreate("button","compactButton","USE A SESSION CODE");manual.type="button";manual.disabled=srjState.busy;manual.addEventListener("click",srjUseManualCode);actions.appendChild(manual);
+    body.appendChild(actions);
+    const note=srjCreate("p","remoteJoiningStatus",srjState.message);note.setAttribute("role","status");note.setAttribute("aria-live","polite");body.appendChild(note);
   }
   function srjCreate(tag,className,text){const element=root.document.createElement(tag);if(className)element.className=className;if(text!==undefined&&text!==null)element.textContent=String(text);return element;}
   function srjShort(value){return typeof value!=="string"||!value?"—":value.length<=20?value:`${value.slice(0,12)}…${value.slice(-6)}`;}
@@ -331,6 +427,7 @@
     const body=overlay.querySelector(".remoteJoiningBody");
     if(!body)return overlay;
     body.replaceChildren();
+    if(srjState.auto){srjRenderAuto(body);return overlay;}
     const intro=srjCreate("div","remoteJoiningIntro");
     intro.append(srjCreate("span","remoteJoiningEyebrow","PRIVATE CONNECTION"),srjCreate("h2","","REMOTE JOINING"),srjCreate("p","","This connection is only for Daniel and Nik. If the network drops, retry the same code instead of creating another one."));
     body.appendChild(intro);
@@ -408,6 +505,8 @@
     sameCapabilityReconnect:true,
     unresolvedCapabilityCopyBlocked:true,
     onlineRetryBounded:true,
+    autoConnect:srjAutoConnect,
+    useManualCode:srjUseManualCode,
     hostSession:srjHostSession,
     joinSession:srjJoinSession,
     retryPendingOperation:srjRetryPendingOperation,

@@ -198,9 +198,20 @@ function sendWorkerMessage(worker,type,payload={}){
     });
 }
 
+// Studio Z2: one slow or failed probe used to mark the game offline for the rest of the visit (nothing probed again
+// until the browser fired "online", which never happens when the device never lost its connection), so the identity gate
+// stayed on CONNECTION REQUIRED and TRY AGAIN re-read the same stale flag. Only the browser's own offline signal is final
+// at once; a failed probe counts as offline only after a second failure in a row, and while offline the probe repeats.
+const PROBE_RETRY_MS=3000,OFFLINE_RECHECK_MS=15000;
+let probeFailures=0,probeRetryTimer=null;
+function scheduleConnectivityProbe(delay){
+    if(probeRetryTimer)clearTimeout(probeRetryTimer);
+    probeRetryTimer=setTimeout(()=>{probeRetryTimer=null;if(document.visibilityState==="hidden"){scheduleConnectivityProbe(delay);return;}void verifyNetworkConnectivity();},delay);
+}
 async function verifyNetworkConnectivity(){
     const generation=++connectivityProbeGeneration;
     if(navigator.onLine===false){
+        probeFailures=0;
         setConnectivityState("offline",true);
         return false;
     }
@@ -210,17 +221,22 @@ async function verifyNetworkConnectivity(){
         renderConnectivity();
         return false;
     }
+    let online=false;
     try{
         const response=await sendWorkerMessage(worker,"CMS_PROBE_NETWORK");
-        const online=response?.type==="CMS_NETWORK_STATUS"&&response.online===true;
-        if(generation===connectivityProbeGeneration){
-            setConnectivityState(online?"online":"offline",true);
-        }
-        return online;
-    }catch(error){
-        if(generation===connectivityProbeGeneration){ setConnectivityState("offline",true); }
-        return false;
+        online=response?.type==="CMS_NETWORK_STATUS"&&response.online===true;
+    }catch(error){ online=false; }
+    if(generation!==connectivityProbeGeneration)return online;
+    if(online){
+        probeFailures=0;
+        if(probeRetryTimer){clearTimeout(probeRetryTimer);probeRetryTimer=null;}
+        setConnectivityState("online",true);
+        return true;
     }
+    probeFailures+=1;
+    if(probeFailures>=2)setConnectivityState("offline",true);
+    scheduleConnectivityProbe(probeFailures>=2?OFFLINE_RECHECK_MS:PROBE_RETRY_MS);
+    return false;
 }
 
 async function verifyOfflineReadiness(worker=offlineRegistration?.active||navigator.serviceWorker?.controller){
@@ -250,7 +266,28 @@ async function verifyOfflineReadiness(worker=offlineRegistration?.active||naviga
     return offlineReady;
 }
 
-function markUpdateReady(){ dispatchOfflineState(); }
+// Studio Z5: a downloaded update used to wait for an UPDATE tap in Settings, so phones and tablets kept running an old
+// build (old Settings panels, old screens) for days. A ready update now applies by itself on Home, between games, once
+// nothing is busy and no sign-in or connection step is open. One try per page; a refused activation keeps the old build.
+const AUTO_UPDATE_DELAY_MS=1200;
+let autoUpdateTried=false,autoUpdateTimer=null;
+function autoUpdateSafe(){
+    if(getActiveApplicationScreen()!=="mainMenu"||!getUpdateBoundaryStatus().safe)return false;
+    if(document.getElementById("onlinePlayerIdentityOverlay"))return false;
+    return ![...document.querySelectorAll('[id$="Overlay"]')].some(o=>!o.classList.contains("hidden")&&!o.hidden&&getComputedStyle(o).display!=="none");
+}
+function scheduleAutoApplyUpdate(){
+    if(autoUpdateTried||autoUpdateTimer||!offlineRegistration?.waiting||!navigator.serviceWorker?.controller)return;
+    autoUpdateTimer=setTimeout(async()=>{
+        autoUpdateTimer=null;
+        if(autoUpdateTried||!offlineRegistration?.waiting)return;
+        if(document.visibilityState==="hidden"||!autoUpdateSafe()){setTimeout(scheduleAutoApplyUpdate,15000);return;}
+        autoUpdateTried=true;
+        window.showAppNotice?.("Updating Career Mode Showdown to the latest version…","info",6000);
+        await activateWaitingUpdate({quiet:true});
+    },AUTO_UPDATE_DELAY_MS);
+}
+function markUpdateReady(){ dispatchOfflineState(); scheduleAutoApplyUpdate(); }
 
 async function requestOfflineAppInstall(){
     installedStandalone=isStandaloneDisplay();
@@ -579,6 +616,7 @@ function initializeOfflineApplication(){
     });
 }
 
+window.recheckOfflineConnectivity=verifyNetworkConnectivity;
 window.getOfflineAppDiagnostics=()=>({
     revision:OFFLINE_APP_REVISION,
     supported:isServiceWorkerSupported(),

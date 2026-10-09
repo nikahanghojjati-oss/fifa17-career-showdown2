@@ -1,6 +1,14 @@
 {
   "strings": {
     "previewLabel": "Preview data",
+    "lastSeason": {
+      "label": "FINAL SEASON {season}",
+      "result": {
+        "daniel": "DANIEL TAKES THE SEASON",
+        "nik": "NIK TAKES THE SEASON",
+        "draw": "SEASON DRAWN"
+      }
+    },
     "interimLabel": "Current Showdown only. Career history is not yet available.",
     "statusTokens": [
       "loading",

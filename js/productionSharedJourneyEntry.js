@@ -207,12 +207,21 @@
     };
     remoteUnsubscribe=remote.subscribe(onState);if(typeof remote.getState==="function")onState(remote.getState());return true;
   }
+  // Studio Z3: a one-bit "this tab is in a game" flag (never the session itself). After a refresh the identity module sees
+  // it and taps CONTINUE CAREER for the player, which re-attaches through the pair's session pointer.
+  const LIVE_GAME_KEY="careerModeShowdown.liveGame.v1";let liveGameWatch=null;
+  function markLiveGame(remote){
+    if(liveGameWatch||!remote||typeof remote.subscribe!=="function")return;
+    const apply=next=>{try{if(!root.sessionStorage||!next)return;if(["open","active"].includes(next.sessionState))root.sessionStorage.setItem(LIVE_GAME_KEY,"1");else if(["closed","revoked","expired"].includes(next.sessionState))root.sessionStorage.removeItem(LIVE_GAME_KEY);}catch(_error){}};
+    liveGameWatch=remote.subscribe(apply);apply(typeof remote.getState==="function"?remote.getState():null);
+  }
   async function openRemote(){
     closePanel();
     try{
       await Promise.all([loadStyle(),loadScript("rj","js/sparkRemoteJoining.js",()=>root.CareerModeSparkRemoteJoining)]);
       const remote=root.CareerModeSparkRemoteJoining;if(!remote||typeof remote.openPanel!=="function")throw new Error("Player connection is unavailable.");
-      await remote.openPanel();armRemoteReturn(remote);
+      // Studio Z3/Z4: connect by itself (this tab's session after a refresh, else the pair's shared session); no typed code.
+      const auto=typeof remote.autoConnect==="function"?remote.autoConnect():null;await remote.openPanel();armRemoteReturn(remote);markLiveGame(remote);if(auto)void auto;
     }catch(error){disarmRemoteReturn();report("Unable to connect the players",error);}
   }
   async function confirmedSetupSnapshot(){

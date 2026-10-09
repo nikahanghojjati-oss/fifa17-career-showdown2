@@ -135,7 +135,9 @@
       if(classification==="completed"&&!p)showdowns.push({rivalryId:rid,classification:"unavailable",projection:null,final:null});
       else showdowns.push({rivalryId:rid,classification,projection:COUNTED.includes(classification)?p:null,final:["completion-pending","completed"].includes(classification)?finalFor(p):null});
     }
-    return {indexStatus,showdowns,currentShowdownOnly:true};
+    // Keep the current identity even when its projection has not loaded, so career
+    // history can isolate that uncertainty from other indexed Showdowns.
+    return {indexStatus,showdowns,currentShowdownOnly:true,...(indexStatus!=="ready"&&rid?{currentRivalryId:rid}:{})};
   }
   function fallback(){return {s:{},pair:null,rid:null,viewer:null,multi:null,p:null,witness:null,classification:"unavailable",zero:false};}
   function asdContext(s){try{return inspect(s);}catch(_error){return fallback();}}

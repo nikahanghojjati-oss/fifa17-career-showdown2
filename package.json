@@ -5,6 +5,7 @@
   "description": "Repository-owned stability and browser validation for Career Mode Showdown.",
   "scripts": {
     "check": "npm run test:contracts",
+    "gate:local": "node scripts/gate-local.mjs",
     "work:plan": "node scripts/pos20-cognitive-controller.mjs",
     "work:benchmark": "node scripts/pos20-benchmark.mjs",
     "work:route": "node scripts/pos20-impact-router.mjs",
