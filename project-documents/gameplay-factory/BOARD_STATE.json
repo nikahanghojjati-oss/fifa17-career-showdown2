@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-09 8:52 AM Boston time (EDT)",
+ "generated": "2026-10-09 8:54 AM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -313,9 +313,9 @@
  },
  "two": {
   "live": {
-   "sha": "e49add99",
+   "sha": "e49add9",
    "revision": "1.9.1-r65",
-   "when": "2026-10-09T06:48:52+00:00",
+   "when": "2026-10-09T06:48:52Z",
    "subject": "Release r65: career history fixes, auto close, plain words (#436)",
    "fixes": [],
    "today": [
