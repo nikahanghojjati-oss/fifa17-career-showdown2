@@ -22,27 +22,13 @@ Updated Fri 9 Oct, 7:40 PM Boston time. Bug hunting only, no new features until 
 `████████░░` **80.0000 %**  
 🔵 Team blue · **GPT-6 Sol** · High effort · worker done, PR #448 open, CI green, waiting for the lead
 
-### 👉 Next for you, in this order
+**#5 · 1056** `G` Recheck Sol leads S2 and S5 by reading the code  
+`████████░░` **80.0000 %**  
+🔵 Team blue · **GPT-6 Sol** · High effort · worker done, report saved on qa/sol-leads-recheck, waiting for the lead
 
-**#1 · 1056** `G` Recheck Sol leads S2 and S5 by reading the code  
-`░░░░░░░░░░` **0.0000 %**  
-🔵 Team blue · **GPT-6 Sol** · High effort · ChatGPT project "Career Mode Showdown", new normal chat
-
-Paste this:
-
-```text
-Job 1056. Read the ticket at https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/gameplay-v1/project-documents/gameplay-factory/jobs/JOB-1056.md and do exactly what it says in this one turn. Write only the one report file on branch qa/sol-leads-recheck, and end with 'Job 1056 done, report on qa/sol-leads-recheck.'
-```
-
-**#2 · 1057** `G` Recheck Sol leads S3 and S4 by reading the code  
-`░░░░░░░░░░` **0.0000 %**  
-🔵 Team blue · **GPT-6 Sol** · High effort · ChatGPT project "Career Mode Showdown", new normal chat
-
-Paste this:
-
-```text
-Job 1057. Read the ticket at https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/gameplay-v1/project-documents/gameplay-factory/jobs/JOB-1057.md and do exactly what it says in this one turn. Write only the one report file on branch qa/sol-leads-recheck, and end with 'Job 1057 done, report on qa/sol-leads-recheck.'
-```
+**#6 · 1057** `G` Recheck Sol leads S3 and S4 by reading the code  
+`████████░░` **80.0000 %**  
+🔵 Team blue · **GPT-6 Sol** · High effort · worker done, report saved on qa/sol-leads-recheck, waiting for the lead
 
 **Done, waiting for the next release:** 1044, 1045, 1048, 1049, 1050, 1053
 

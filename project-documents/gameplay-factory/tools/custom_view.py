@@ -179,6 +179,36 @@ def _open_job_prs():
     return out
 
 
+_REPORT = {}
+
+
+def report_saved(n):
+    """A no-PR job (e.g. a recheck report): its ticket's "## Done" names a branch and a file; the file existing there on GitHub is the proof the worker finished."""
+    if n in _REPORT:
+        return _REPORT[n]
+    import subprocess
+    _REPORT[n] = ""
+    try:
+        t = open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "jobs", f"JOB-{n}.md")).read()
+    except OSError:
+        return ""
+    d = re.search(r"^## Done\s*$(.*?)(?=^## |\Z)", t, re.M | re.S)
+    if not d or not re.search(r"no PR", d.group(1), re.I):
+        return ""
+    b = re.search(r"branch `([^`]+)`", d.group(1))
+    f = re.search(r"`(project-documents/[^`]+\.md)`", d.group(1))
+    if not (b and f):
+        return ""
+    repo = os.environ.get("GITHUB_REPOSITORY", "nikahanghojjati-oss/fifa17-career-showdown2")
+    try:
+        r = subprocess.run(["gh", "api", f"repos/{repo}/contents/{f.group(1)}?ref={b.group(1)}", "--jq", ".sha"], capture_output=True, text=True, timeout=30)
+    except Exception:
+        return ""
+    if r.returncode == 0 and r.stdout.strip():
+        _REPORT[n] = f"worker done, report saved on {b.group(1)}, waiting for the lead"
+    return _REPORT[n]
+
+
 def pr_state(n, st):
     """The card's state from GitHub: worker done with its PR open, then CI running / failed / green, then lead checking."""
     num, ci = OPEN_PR[n]
@@ -193,7 +223,7 @@ def pr_state(n, st):
 
 def stage_pct(st):
     """Bar for a running job without step data: only GitHub-proven stages fill it, and nothing open reads 100 %."""
-    for pat, v in (("lead checking", 90), ("CI green", 80), ("CI running|CI not started|CI unknown", 70), ("CI failed", 60), ("draft PR", 40), ("worker says done", 50)):
+    for pat, v in (("lead checking", 90), ("CI green|report saved", 80), ("CI running|CI not started|CI unknown", 70), ("CI failed", 60), ("draft PR", 40), ("worker says done", 50)):
         if re.search(pat, st or "", re.I):
             return float(v)
     return 0.0
@@ -305,6 +335,9 @@ def q_add(it, team):
         Q["wait"].append(q)
     elif n in OPEN_PR and re.match(r"(ready|next|queued|with (the )?(worker|lead)|worker done|verifying|(in )?review|lead checking)\b", st, re.I):  # the worker's open PR: its stage comes from GitHub, nothing for Nik
         q["state"] = pr_state(n, st)
+        Q["run"].append(q)
+    elif re.match(r"(ready|next|queued|with (the )?worker)\b", st, re.I) and report_saved(n):  # a no-PR job's report file is on GitHub
+        q["state"] = report_saved(n)
         Q["run"].append(q)
     elif status_done(n):
         q["state"] = "worker says done, no PR yet"
