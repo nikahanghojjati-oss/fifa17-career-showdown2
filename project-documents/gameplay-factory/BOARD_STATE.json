@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-09 7:47 PM Boston time (EDT)",
+ "generated": "2026-10-09 7:48 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -709,7 +709,7 @@
  ],
  "now": {
   "moving": 42,
-  "next": 1,
+  "next": 2,
   "nik": 2,
   "later": 6,
   "rows": {
@@ -1077,6 +1077,19 @@
       "lane": "sonnet",
       "state": "ready (Sonnet audit, then Opus fix)",
       "waits_on": ""
+     },
+     {
+      "id": "1058",
+      "lane": "gpt-chat",
+      "note": "Sol lead S4 (real, small); ticket jobs/JOB-1058.md",
+      "team": "blue",
+      "model": "GPT-6 Sol",
+      "effort": "High",
+      "place": "ChatGPT project \"Career Mode Showdown\", new normal chat",
+      "prompt": "Job 1058. Read the ticket at https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/gameplay-v1/project-documents/gameplay-factory/jobs/JOB-1058.md and do exactly what it says in this one turn. Start from branch gameplay/bug-list-1, push the branch the ticket names and open the PR into gameplay/bug-list-1.",
+      "title": "Transfer countdown agrees across both phones (Sol lead S4)",
+      "order": 30,
+      "state": "ready"
      }
     ],
     "later": [

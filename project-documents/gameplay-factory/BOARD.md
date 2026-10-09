@@ -1,6 +1,6 @@
 # Bug hunt board
 
-Updated Fri 9 Oct, 7:47 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Fri 9 Oct, 7:48 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r66** (main `8e1a583`, Fri 9 Oct 12:04 PM)
 
@@ -21,6 +21,18 @@ Updated Fri 9 Oct, 7:47 PM Boston time. Bug hunting only, no new features until 
 **#3 · 1055** `G` Season Results points cap uses the real league size (Sol lead S1)  
 `███████░░░` **70.0000 %**  
 🔵 Team blue · **GPT-6 Sol** · High effort · worker done, PR #448 open, CI running
+
+### 👉 Next for you, in this order
+
+**#1 · 1058** `G` Transfer countdown agrees across both phones (Sol lead S4)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · **GPT-6 Sol** · High effort · ChatGPT project "Career Mode Showdown", new normal chat
+
+Paste this:
+
+```text
+Job 1058. Read the ticket at https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/gameplay-v1/project-documents/gameplay-factory/jobs/JOB-1058.md and do exactly what it says in this one turn. Start from branch gameplay/bug-list-1, push the branch the ticket names and open the PR into gameplay/bug-list-1.
+```
 
 **Done, waiting for the next release:** 1044, 1045, 1048, 1049, 1050, 1053, 1056, 1057
 
