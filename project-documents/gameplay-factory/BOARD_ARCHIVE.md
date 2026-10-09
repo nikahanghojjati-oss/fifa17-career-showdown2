@@ -1,4 +1,4 @@
-# Board archive
+# Board history
 
 [Back to the board](BOARD.md) · generated 2026-10-09 6:49 PM Boston time (EDT). Detail and history behind the one board.
 
@@ -201,7 +201,7 @@ Latest:
 ## Every bug report
 
 
-> Updated **Fri 9 Oct, 6:49 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
+> Updated **Fri 9 Oct, 6:51 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
 
 | 🔓 Open | 🔴 Top priority | 🔧 Fixing or waiting for release | ✅ Fixed and live |
 | :---: | :---: | :---: | :---: |
@@ -209,18 +209,12 @@ Latest:
 
 **Lanes:** 🟦 Sol chat · 🟩 Sol Work mode · ⬜ Codex · 🟧 Opus · 🟪 Sonnet · 🟨 Haiku
 
-## 🔧 Open bugs
+### 🔧 Open bugs
 
 | Bug | What happened | Where | Type | Lane | Status | Progress / note |
 | :-- | :-- | :-- | :-- | :-- | :-- | :-- |
 | **BH-12** | Pairing product calls: RESTORE BACKUP as the main button instead of DELETE, a CANCEL CODE button with visible expiry, show the masked linked email and confirm before JOIN, "revoke mine and join" when both phones host, a clearer same-account message | Pairing | 🎮 gameplay | — | 🆕 NEW | waiting on Nik later; the lead asks once his two current cards are answered |
 
-## ⚽ Jobs running now
-
-<sub>Percent = finished steps weighted by typical step time; finish times are estimates ([how](ETA_STUDY.md)).</sub>
-
-> [!NOTE]
-> No job is reporting progress right now. A job shows here once its PR description carries a progress block.
 
 <details>
 <summary><b>✅ Closed: 14</b> (11 live in the game) · click to open</summary>

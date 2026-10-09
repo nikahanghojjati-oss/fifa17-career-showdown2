@@ -795,7 +795,7 @@
      "lane": "nik",
      "state": "waiting on Nik",
      "waits_on": "",
-     "decision": "Play a game of the live version (r62) with Daniel on two phones and send what goes wrong to the bug factory thread."
+     "decision": "Play a game of the live version with Daniel on two phones and send what goes wrong to the bug factory thread."
     },
     {
      "id": "G-F5",
@@ -1269,9 +1269,7 @@
    ]
   }
  },
- "next_move": [
-  "**r62 is live.** On the laptop, close every game tab in Chrome and reopen the game; if Settings still looks clipped, do it once more."
- ],
+ "next_move": [],
  "archive": [
   {
    "id": "G-F10",

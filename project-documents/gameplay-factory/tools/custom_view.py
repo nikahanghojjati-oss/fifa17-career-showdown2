@@ -273,7 +273,7 @@ for x in nik:
             q_add({"id": x["id"], "title": x["title"], "state": "", "lane": ""}, "G")
     else:
         _nk.append(x)
-nik = _nk
+nik = [x for x in _nk if not re.search(r"nothing to do until", str(x.get("decision", "")), re.I)]  # an ask with nothing to do yet is not an ask (Nik, 2026-10-09 22:49 UTC)
 # Every job ticket counts (Nik, 2026-10-09): a jobs/JOB-NNNN.md written by any thread shows up even before a BOARD.json row exists.
 def ticket_rows():
     out = []
@@ -467,6 +467,12 @@ def job_html(q, i, kind):
     out = (head + f'<br><b class="br"><i class="q{QI.get(worker, 9)}" style="width:{max(pct, 2):.0f}%"></i></b><span class="pc">{pct:.4f} %</span>'
            + ("<span class='m'> worker's part done</span>" if kind == "run" and not q.get("progress") and pct == 100 else "")
            + "<br>" + team_badge(q, worker) + " " + model_chip(q) + ' <span class="m">' + e(" · ".join(meta)) + "</span>")
+    r2 = rowmap.get(str(q["id"])) or {}
+    tc = (r2.get("team") or "").lower()
+    tc = tc if tc in BADGE else LANE_COLOUR.get(worker, "")
+    q["_card"] = {"pct": pct, "badge": f"{BADGE[tc][0]} Team {tc}" if tc else worker, "model": r2.get("model") or "", "effort": r2.get("effort") or "",
+                  "where": r2.get("place") or "", "meta": " · ".join(meta), "worker_done": kind == "run" and not q.get("progress") and pct == 100}
+    q.pop("_copy", None)
     if kind == "run" and q.get("lane") in ("sol-chat", "blue", "chat", "sol-work", "green") and not status_done(q["n"]):
         out += '<br><span class="m">To keep it going, type this in the same chat:</span><code class="cp">next</code>'  # GPT jobs end each reply with NEXT
     if kind == "next":
@@ -482,8 +488,10 @@ def job_html(q, i, kind):
         r1 = rowmap.get(str(q["id"])) or {}
         if "prompt" in r1 and r1.get("model"):  # the lead's full row: Model · Effort · Where is on the line above, the prompt goes in verbatim
             out += ('<br><span class="m">Paste this:</span><code class="cp">' + e(r1["prompt"]) + "</code>") if (r1.get("prompt") or "").strip() else '<br><span class="m">Nothing for you to type: the lead runs it.</span>'
+            q["_copy"] = ("Paste this:", r1["prompt"]) if (r1.get("prompt") or "").strip() else ("Nothing for you to type: the lead runs it.", "")
         elif re.search(r"nothing for (nik|you)", pl, re.I):
             out += '<br><span class="m">Nothing for you to type: the lead starts it.</span>'
+            q["_copy"] = ("Nothing for you to type: the lead starts it.", "")
         else:
             lead = {"chat": "New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:",
                     "work": "New chat inside the ChatGPT project Career Mode Showdown, switch to Work mode (cheaper model), type:"}.get(GPTLANE.get(q.get("lane", ""))) or f"Type this in {place}:"  # wording from the lead, 2026-10-09 22:20 UTC
@@ -495,6 +503,7 @@ def job_html(q, i, kind):
                 lead = lead.replace("New chat", "On GPT account 2, new chat")
             out += (f'<br><span class="m">{e(lead)}</span>' if lead != LASTPLACE[0] or GPTLANE.get(q.get("lane", "")) else "") + f'<code class="cp">{e(prompt)}</code>'
             LASTPLACE[0] = lead
+            q["_copy"] = (lead, prompt)
         out += f'<span class="m">{e(note)}</span>' if note and not TIGHT[0] else ""
     return out
 
@@ -636,7 +645,7 @@ def item_md(it):
 
 L = ["# Bug hunt board", "",
      f"Updated {now:%a %-d %b, %-I:%M %p} Boston time. Bug hunting only, no new features until further notice. "
-     "The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).", ""]
+     "The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).", ""]
 if warn:
     L += ["> ⚠ **Not fully current:** " + " ".join(warn), ""]
 L += [f"🌐 **Live: {LV['revision']}** (main `{LV['sha'][:7]}`, {TF.bos(LV['when'])})" if LV else "🌐 Live version unknown this run", "",
@@ -644,16 +653,35 @@ L += [f"🌐 **Live: {LV['revision']}** (main `{LV['sha'][:7]}`, {TF.bos(LV['whe
       "## Jobs", ""]
 for z in STUDIO.values():
     L += [f"🚨 **Studio {z['id']} first: {z.get('title', '')}**" + (f" · {z['scope']}" if z.get("scope") else "") + ("" if any(q.get("studio") == z["id"] for v in ("run", "next", "wait") for q in Q[v]) else f" · {zd} done, none open" if (zd := sum(1 for q in Q["release"] if q.get("studio") == z["id"])) else " · no jobs yet"), ""]
-if Q["run"]:
-    L += ["**Running now**", ""] + [f"- **{q['n']}** ({q.get('team', 'G')}) {q['title']} · {run_state(q)} · " + " · ".join(x for x in job_prog(q) if x) for q in Q["run"]] + [""]
-if Q["next"]:
-    L += ["**Next for you, in this order**", ""] + [f"{i}. **{q['n']}** ({q.get('team', 'G')}, {job_prog(q)[0]}) {q['title']}: " + (q['where'] if re.search(r"\btype\b", q['where'] or "", re.I) else f"type **{q['type']}** {q['where'] or '(place not given)'}") + (f" · {q['note']}" if q.get("note") else "") for i, q in enumerate(Q["next"], 1)] + [""]
-if Q["wait"]:
-    L += ["**Waiting on something else**", ""] + [f"- **{q['n']}** {q['title']} · {q.get('after', '')}" for q in Q["wait"]] + [""]
+def bar_md(pct):
+    k = round(pct / 10)
+    return "`" + "█" * k + "░" * (10 - k) + f"` **{pct:.4f} %**"
+
+
+def job_md(q, i, kind):
+    """The same job card as the Custom view, in GitHub markdown (Nik, 2026-10-09 22:49 UTC): team colour, model, effort, bar, copy box."""
+    c = q.get("_card") or {}
+    out = [f"**#{i} · {q['n']}** `{q.get('team', 'G')}` {q['title']}  ",
+           bar_md(c.get("pct", 0.0)) + (" worker's part done" if c.get("worker_done") else "") + "  ",
+           f"{c.get('badge', '')} · " + (f"**{c['model']}**" + (f" · {c['effort']} effort" if c.get("effort") else "") if c.get("model") else "model not set")
+           + (f" · {c['where']}" if c.get("where") and kind == "next" else "") + (f" · {c['meta']}" if c.get("meta") else "")]
+    if kind == "next" and q.get("_copy"):
+        lead, text = q["_copy"]
+        out += ["", lead] + (["", "```text", text, "```"] if text else [])
+    return out + [""]
+
+
+for _k, _label in (("run", "▶️ Running now"), ("next", "👉 Next for you, in this order"), ("wait", "⏸ Waiting on something else")):
+    if Q[_k]:
+        L += [f"### {_label}", ""]
+        for _i, _q in enumerate(Q[_k], 1):
+            L += job_md(_q, _i, _k)
 if Q["release"]:
     L += ["**Done, in the next release:** " + ", ".join(q["n"] for q in Q["release"]), ""]
 _SG, _cur = stages()
-L += ["## Goals, in this order", ""] + [f"{i + 1}. **{n}** ({'now' if i == _cur else 'later'}) · {p:.4f} % · " + " · ".join(ls) for i, (n, p, ls) in enumerate(_SG)] + [""]
+L += ["## Goals, in this order", ""]
+for _i, (_n, _p, _ls) in enumerate(_SG):
+    L += [f"**{_i + 1}. {_n}** " + ("`now`" if _i == _cur else ("`done`" if _p >= 100 else f"`after stage {_i}`")) + "  ", bar_md(_p) + "  ", " · ".join(_ls), ""]
 L += ["## Other asks", ""]
 L += [f"- {x['decision']}" if x.get("md") else f"- **{x['id']}** {x['decision']}" for x in nik] or ["- Nothing else needs you right now."]
 for t in ("G", "V"):

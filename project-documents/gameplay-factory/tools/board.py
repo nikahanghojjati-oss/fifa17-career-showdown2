@@ -299,7 +299,8 @@ L += [f"- The first factory plan: {done} of {len(jobs)} jobs finished ([every jo
 _DETAIL = L  # the old detailed board lives in the archive now; BOARD.md is the one board (custom_view.py)
 
 # ---- Archive: every job, full table
-A = ["# Board archive", "", f"[Back to the board](BOARD.md) · generated {boston_now()}. Detail and history behind the one board.", "", "## Old detailed board", ""] + [re.sub(r"\(BOARD_ARCHIVE.md\)", "(#all-jobs)", x) for x in _DETAIL] + ["", "## All jobs", "",
+A = ["# Board history", "", f"[Back to the Bug hunt board](BOARD.md) · generated {boston_now()}. History only: every job of the first factory plan and every bug report. "
+     "What is open now is on the [Bug hunt board](BOARD.md); the old detailed board that used to sit here was retired on 2026-10-09 because it repeated stale moves (Nik, 22:49 UTC).", "", "## All jobs", "",
      "| # | G id | Job | Phase | Type | Lane | Depends on | Codex | Progress | State |", "| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |"]
 for j in jobs:
     n = j["number"]

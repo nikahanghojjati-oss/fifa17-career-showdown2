@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-09 6:49 PM Boston time (EDT)",
+ "generated": "2026-10-09 6:51 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -705,7 +705,7 @@
   }
  ],
  "next_move": [
-  "**r62 is live.** On the laptop, close every game tab in Chrome and reopen the game; if Settings still looks clipped, do it once more."
+  "**Nothing for you to do right now.**"
  ],
  "now": {
   "moving": 42,
@@ -1054,7 +1054,7 @@
       "lane": "nik",
       "state": "waiting on Nik",
       "waits_on": "",
-      "decision": "Play a game of the live version (r62) with Daniel on two phones and send what goes wrong to the bug factory thread."
+      "decision": "Play a game of the live version with Daniel on two phones and send what goes wrong to the bug factory thread."
      },
      {
       "id": "G-F22",

@@ -1,3 +1,4 @@
+import re
 #!/usr/bin/env python3
 """Rebuild BUG_BOARD.md (Team G bug hunting factory board) from BUGS.json, BOARD.json (earlier bug hunt) and progress/.
 Run from the repo root: python3 project-documents/gameplay-factory/tools/bug_board.py
@@ -86,5 +87,8 @@ L += ["<details>", f"<summary><b>✅ Closed: {len(closed)}</b> ({live} live in t
       "---", "",
       "<sub>Bug list: `BUGS.json` (kept by the Bug reports thread). Progress: the ```` ```progress ```` block in each job's PR description. "
       "Statuses: " + " · ".join(f"{i} {s}" for s, i in ICON.items()) + ". Made by `tools/bug_board.py`.</sub>"]
-open(os.path.join(F, "BOARD_ARCHIVE.md"), "a").write("\n## Every bug report\n\n" + "\n".join(L[1:]) + "\n")  # the bug board folded into the one board (2026-10-06)
+_t = "\n".join(L[1:])
+_t = re.sub(r"\n## ⚽ Jobs running now\n.*?(?=\n<details>)", "\n", _t, flags=re.S)  # running jobs live on the Bug hunt board, not in the history (2026-10-09)
+_t = re.sub(r"^## ", "### ", _t, flags=re.M)
+open(os.path.join(F, "BOARD_ARCHIVE.md"), "a").write("\n## Every bug report\n\n" + _t + "\n")  # the bug board folded into the one board (2026-10-06)
 print("open", len(opn), "closed", len(closed))
