@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-09 9:08 AM Boston time (EDT)",
+ "generated": "2026-10-09 9:09 AM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -704,9 +704,9 @@
  ],
  "now": {
   "moving": 40,
-  "next": 5,
+  "next": 4,
   "nik": 2,
-  "later": 6,
+  "later": 7,
   "rows": {
    "G": {
     "moving": [
@@ -1050,15 +1050,6 @@
       "waits_on": ""
      },
      {
-      "id": "1042",
-      "title": "Closed Final Winner shows the final season on both phones",
-      "lane": "codex",
-      "state": "ready",
-      "order": 7,
-      "place": "Codex cloud, branch gameplay/bug-list-1: type 'Job 1042'",
-      "note": "follow-up to 1038; ticket jobs/JOB-1042.md"
-     },
-     {
       "id": "1044",
       "title": "Showdown Gate: exit report and seal fail closed on bad evidence (audit F2, F3)",
       "lane": "codex",
@@ -1119,6 +1110,15 @@
       "waits_on": "after Team V designs the combined screen (HO-011)",
       "details": "Nik picked No tap, combined: one screen shows the last season's score and the Final Winner. Team V designs it (HO-011), then a GPT green job builds it and restores the strict final-season check.",
       "order": 13
+     },
+     {
+      "id": "1042",
+      "title": "Closed Final Winner shows the final season on both phones",
+      "lane": "codex",
+      "state": "review (PR #439)",
+      "order": 7,
+      "place": "Codex cloud, branch gameplay/bug-list-1: type 'Job 1042'",
+      "note": "follow-up to 1038; ticket jobs/JOB-1042.md"
      }
     ]
    },

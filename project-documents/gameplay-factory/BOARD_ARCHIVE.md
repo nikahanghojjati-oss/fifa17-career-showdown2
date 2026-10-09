@@ -1,12 +1,12 @@
 # Board archive
 
-[Back to the board](BOARD.md) · generated 2026-10-09 9:08 AM Boston time (EDT). Detail and history behind the one board.
+[Back to the board](BOARD.md) · generated 2026-10-09 9:09 AM Boston time (EDT). Detail and history behind the one board.
 
 ## Old detailed board
 
 # Showdown board: G Factory and V Factory
 
-🌐 **Live: runtime 1.9.1-r65** (main `e49add9`) · 🔄 **40 moving** · ⏭ 5 up next · 👤 2 waiting on Nik · 🗂 6 later · updated 2026-10-09 9:07 AM Boston time (EDT)
+🌐 **Live: runtime 1.9.1-r65** (main `e49add9`) · 🔄 **40 moving** · ⏭ 4 up next · 👤 2 waiting on Nik · 🗂 7 later · updated 2026-10-09 9:09 AM Boston time (EDT)
 
 🩺 **All clear: every check has a machine.** · POS20 #304 6/16
 
@@ -72,7 +72,6 @@ _Gameplay, online sync, every merge and every release (senior director)._ Worker
 | --- | --- | --- | --- | --- |
 | G-F5 | QA packet adoptions: truth line, wrong-target guard on main PRs, PR title rule | 🟪 Sonnet | next | - |
 | G-F11 | Old-design CSS collisions: scope old rulebook/settings/analytics/app CSS off Team V markup (about 70 shared class names) | 🟪 Sonnet | ready (Sonnet audit, then Opus fix) | - |
-| 1042 | Closed Final Winner shows the final season on both phones | ⬜ Codex | ready | - |
 | 1044 | Showdown Gate: exit report and seal fail closed on bad evidence (audit F2, F3) | ⬜ Codex | ready | - |
 | 1045 | Showdown Gate: pin actions and tool installs (audit F4) | ⬜ Codex | ready (after 1044) | - |
 
@@ -91,6 +90,7 @@ _Gameplay, online sync, every merge and every release (senior director)._ Worker
 | G-F17 | Showdown Gate: replace POS20 with a faster check system built on Claude and GitHub, keeping every check (plan: /mnt/project-files/check-system/SHOWDOWN_GATE_PLAN.md) — Nik 6:02 PM Boston time: gradual replacement; POS20 is archived to authority-history/pos20-archive/, not deleted | 🟧 Opus | shadow: KEEP_SHADOW after the 9 Oct independent audit (71/100); fixes 1043, 1044, 1045 first | exit bar: 10 real PRs agree (2 full seals), 2 canaries fail, 1 simulated outage recovers; POS20 stays the merge authority until then |
 | G-F4 | GPT Q&A team: scripted paths and code-vs-rulebook reads | 🟦 Sol chat | queued | G-F1 |
 | G-F7 | Ten-season smoothness run on live 2.0 (emulator, 10 seasons with a mid-game expiry) | 🟪 Sonnet | queued | G-F1 |
+| 1042 | Closed Final Winner shows the final season on both phones | ⬜ Codex | review (PR #439) | - |
 
 ### 🐞 Bug list 1
 
@@ -192,7 +192,7 @@ Latest:
 ## Every bug report
 
 
-> Updated **Fri 9 Oct, 9:08 AM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
+> Updated **Fri 9 Oct, 9:09 AM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
 
 | 🔓 Open | 🔴 Top priority | 🔧 Fixing or waiting for release | ✅ Fixed and live |
 | :---: | :---: | :---: | :---: |
