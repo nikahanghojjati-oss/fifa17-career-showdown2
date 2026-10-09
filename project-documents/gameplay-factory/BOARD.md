@@ -1,22 +1,19 @@
 # Bug hunt board
 
-Updated Fri 9 Oct, 12:33 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
+Updated Fri 9 Oct, 12:35 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r63** (main `2b8b043`, Thu 8 Oct 10:40 PM)
 
-🐕 **Barking: Showdown Gate on #434 has waited 2 min for a machine; POS20 on #434 has waited 2 min for a machine.** · Gate #429: L1✓ L2✓ L3✓ L4✓ L5✗ L6✓ · seal FAIL (test) · POS20 #429 12/16
+🩺 **All clear: every check has a machine.** · Gate #429: L1✓ L2✓ L3✓ L4✓ L5✗ L6✓ · seal FAIL (test) · POS20 #429 12/16
 
 ## Jobs
 
 **Running now**
 
 - **1028** Statistics shows an abandoned-only career (hunt 1019 H5) · worker done, lead checking
-- **1040** Browser journey opens Legacy, Trophy Room and Stats after a finished online Showdown · running
+- **1040** Browser journey opens Legacy, Trophy Room and Stats after a finished online Showdown · PR #434, lead merges after 1038
+- **1038** Final winner closes the Showdown so it counts in the career · PR #433, lead verifies and merges
 - **1011** Plain-words sweep: jargon on game screens · worker done, lead checking
-
-**Next for you, in this order**
-
-1. **1038** Final winner closes the Showdown so it counts in the career: Codex cloud, branch gameplay/bug-list-1: type 'Job 1038' (see the lead's thread) · Nik chose Auto close (04:09 UTC)
 
 **Waiting on something else**
 
