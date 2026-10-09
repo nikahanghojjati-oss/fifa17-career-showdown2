@@ -5,7 +5,9 @@ name: Team V board (shared data, Team V featured)
 # Free and hands-off (Nik, 9 Oct: no Claude needed): it runs on GitHub's own events, so the board moves as soon as
 #   * a job owner opens, edits (the progress block), or closes/merges a PR into this branch, or
 #   * anything lands on this branch (job files, status files, the builder, this file).
-# pull_request_target runs this file from factory/v1-wtt5ye, never the PR's code, so a worker's PR cannot change it.
+# It uses pull_request, not pull_request_target: GitHub now always takes a pull_request_target workflow from the
+# default branch (main), so on this branch that trigger never fired. pull_request takes the file from the PR's merge
+# with this branch; the job still checks out factory/v1-wtt5ye and runs its builder, never the PR's code.
 # (The old version re-dispatched itself every 25 minutes; its loop guard skipped those dispatches, so it only ever
 #  moved on pushes. Event triggers replace that chain.)
 # Stop switch: commit an empty project-documents/factory/BOARD_PAUSED file.
@@ -18,7 +20,7 @@ on:
       - project-documents/factory/tools/shared_board.py
       - project-documents/factory/jobs/**
       - project-documents/factory/status/**
-  pull_request_target:
+  pull_request:
     branches: [factory/v1-wtt5ye]
     types: [opened, edited, reopened, closed, synchronize]
   workflow_dispatch:
@@ -38,7 +40,7 @@ jobs:
     if: >-
       github.event_name == 'workflow_dispatch' ||
       (github.event_name == 'push' && github.actor != 'github-actions[bot]') ||
-      (github.event_name == 'pull_request_target' && startsWith(github.event.pull_request.title, 'V-'))
+      (github.event_name == 'pull_request' && startsWith(github.event.pull_request.title, 'V-'))
     runs-on: ubuntu-latest
     timeout-minutes: 5
     env:
