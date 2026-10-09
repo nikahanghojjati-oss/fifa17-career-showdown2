@@ -1,6 +1,6 @@
 # Bug hunt board
 
-Updated Fri 9 Oct, 6:10 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
+Updated Fri 9 Oct, 6:11 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r66** (main `8e1a583`, Fri 9 Oct 12:04 PM)
 
@@ -14,9 +14,9 @@ Updated Fri 9 Oct, 6:10 PM Boston time. Bug hunting only, no new features until 
 
 **Next for you, in this order**
 
-1. **1048** (G, gpt-chat) Rule Book: three missing rules, and the season review stops pointing at a missing button (Olympiad V1, V2): in the gameplay project (normal chat, GPT-6), new chat: type '1048' · text only; ticket jobs/JOB-1048.md; lane moved off Codex (Nik 2026-10-09 22:09 UTC: more GPT-6 chat, Work mode cheaper models, Haiku)
-2. **1049** (G, gpt-chat) Club reveal stops spoiling the sealed club; empty-device restore respects Keep current (Olympiad V3, V5): in the gameplay project (normal chat, GPT-6), new chat: type '1049' · ticket jobs/JOB-1049.md; lane moved off Codex (Nik 2026-10-09 22:09 UTC: more GPT-6 chat, Work mode cheaper models, Haiku)
-3. **1050** (G, gpt-work) Unfinished Signing Entry rows survive a refresh (Olympiad V4): in the gameplay project (Work mode, cheaper model), new chat: type '1050' · draft kept on the player's own device only; ticket jobs/JOB-1050.md; lane moved off Codex (Nik 2026-10-09 22:09 UTC: more GPT-6 chat, Work mode cheaper models, Haiku)
+1. **1048** (G, Sol chat) Rule Book: three missing rules, and the season review stops pointing at a missing button (Olympiad V1, V2): in the gameplay project (normal chat, GPT-6), new chat: type '1048' · text only; ticket jobs/JOB-1048.md; lane moved off Codex (Nik 2026-10-09 22:09 UTC: more GPT-6 chat, Work mode cheaper models, Haiku)
+2. **1049** (G, Sol chat) Club reveal stops spoiling the sealed club; empty-device restore respects Keep current (Olympiad V3, V5): in the gameplay project (normal chat, GPT-6), new chat: type '1049' · ticket jobs/JOB-1049.md; lane moved off Codex (Nik 2026-10-09 22:09 UTC: more GPT-6 chat, Work mode cheaper models, Haiku)
+3. **1050** (G, Sol Work mode) Unfinished Signing Entry rows survive a refresh (Olympiad V4): in the gameplay project (Work mode, cheaper model), new chat: type '1050' · draft kept on the player's own device only; ticket jobs/JOB-1050.md; lane moved off Codex (Nik 2026-10-09 22:09 UTC: more GPT-6 chat, Work mode cheaper models, Haiku)
 4. **1045** (G, Codex) Showdown Gate: pin actions and tool installs (audit F4): Codex cloud, branch gameplay/bug-list-1: type 'Job 1045' · ticket jobs/JOB-1045.md; stays Codex: it must read GitHub Actions release tags, which chat and Claude lanes cannot
 
 **Waiting on something else**
