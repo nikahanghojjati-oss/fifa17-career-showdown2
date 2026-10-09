@@ -1,12 +1,12 @@
 # Board archive
 
-[Back to the board](BOARD.md) · generated 2026-10-09 12:11 PM Boston time (EDT). Detail and history behind the one board.
+[Back to the board](BOARD.md) · generated 2026-10-09 12:24 PM Boston time (EDT). Detail and history behind the one board.
 
 ## Old detailed board
 
 # Showdown board: G Factory and V Factory
 
-🌐 **Live: runtime 1.9.1-r66** (main `8e1a583`) · 🔄 **40 moving** · ⏭ 4 up next · 👤 2 waiting on Nik · 🗂 5 later · updated 2026-10-09 12:11 PM Boston time (EDT)
+🌐 **Live: runtime 1.9.1-r66** (main `8e1a5833`) · 🔄 **40 moving** · ⏭ 4 up next · 👤 2 waiting on Nik · 🗂 5 later · updated 2026-10-09 12:24 PM Boston time (EDT)
 
 🩺 **All clear: every check has a machine.** · POS20 #304 6/16
 
@@ -33,21 +33,21 @@
 | G | G-F18 | Old-design screen audit: Legacy, Career Statistics and Trophy Room still open in the old shell; drive every live screen in a browser against Team V's design and route all of them to the new design | 🟧 Opus | in progress (thread "Old-design screen audit", Nik asked at 5:16 PM Boston time) | overlaps G-F11 (old CSS collisions) |
 | G | 1001 | 🐞 Bug list 1: 1001 · G Home desktop tile icons: bigger, inside the tile, never on the text | 🟦 Sol chat | in release (merged into gameplay/bug-list-1, 215e34a) | Bug list 1 items L1-01..06. CSS only in css/homeV10.css desktop blocks. Job file jobs/JOB-1001.md. Lead checks screenshots at 1920/1440/1280/1100/1000 wide. |
 | G | 1003 | 🐞 Bug list 1: 1003 · G Transfer War: main's copy of Team V's early-end string matches (HO-010) | 🟦 Sol chat | in release (merged into gameplay/bug-list-1) | Low priority, no live impact. js/transferScreenV10.js lines 26 and 30. Job file jobs/JOB-1003.md. |
-| G | 1004 | 🐞 Bug list 1: 1004 · G Rule Book: remove the useless 01-06 side number rail (desktop and phone) | ⬛ claude | in r65 (live 2026-10-09) | js/rulesSettingsV10.js only: stop building #ruleBookIndex. Per-rule number badges stay. |
+| G | 1004 | 🐞 Bug list 1: 1004 · G Rule Book: remove the useless 01-06 side number rail (desktop and phone) | 🟧 Claude helper | in r65 (live 2026-10-09) | js/rulesSettingsV10.js only: stop building #ruleBookIndex. Per-rule number badges stay. |
 | G | 1009 | 🐞 Bug list 1: 1009 · G Showdown Champion: dark oval over the losing manager | 🟦 Sol chat | in r65 (live 2026-10-09) | GPT blue, one file: delete the loser shade rule in final-winner.css. |
 | G | 1010 | 🐞 Bug list 1: 1010 · G 10-season sweep: scoring, history and final math | 🟩 Sol Work mode | in r65 (live 2026-10-09) | GPT green, one run. Node check of 10-season scoring, ties and final winner; report only, no game code. |
 | G | 1011 | 🐞 Bug list 1: 1011 · G Plain-words sweep: jargon on game screens | 🟧 Team G lead | in r65 (live 2026-10-09) | GPT green, one run. Replaces engineering words players see; leaves test-asserted strings to the lead. |
 | G | 1014 | 🐞 Bug list 1: 1014 · G No reconnect prompt after a finished Showdown | 🟦 Sol chat | in r65 (live 2026-10-09) | GPT green, one run. HO-013: closed Showdown shows SHOWDOWN COMPLETE instead of RECONNECT SESSION. Lead runs the reconnect audit. |
 | G | 1015 | 🐞 Bug list 1: 1015 · G Connect Players screen: create code / join off Home | 🟩 Sol Work mode | in r65 (live 2026-10-09) | GPT green, one run. HO-014: pair panel moves from Home to its own CONNECT PLAYERS screen (Team V SJ design). Pairing logic unchanged; lead runs pairing audits. |
 | G | 1020 | 🐞 Bug list 1: 1020 · G Season Results patch: one column on phone, no overlap on desktop | 🟩 Sol Work mode | in r65 (live 2026-10-09) | GPT green, one run. Team V phone CSS (HO-015) + desktop window below the scoring card + reconciliation look. Team V 1012 checks the look. |
-| G | 1021 | 🐞 Bug list 1: 1021 · G Transfer War on phone: port Team V's revamp | ⬛ claude | in r65 (live 2026-10-09) | GPT green, one run. HO-016: Team V's checked phone CSS + 2 cut-outs into css/v10Transfer.css. Desktop unchanged. |
-| G | 1022 | 🐞 Bug list 1: Connect Players: match Team V's start-join design (1015 follow-up) | ⬛ claude | in r65 (live 2026-10-09) | Team V check on #397: desktop shows Nik twice; phone title, Back position and bottom nav; yellow primary buttons. |
-| G | 1023 | 🐞 Bug list 1: Session code replacement: double tap and lost join watcher | ⬛ claude | in r65 (live 2026-10-09) | Hunt 1018 H1 (S1) and H2 (S2), js/sparkRemoteJoining.js |
-| G | 1024 | 🐞 Bug list 1: Reconnect keeps stale authority after sign-out, offline or expiry | ⬛ claude | in r65 (live 2026-10-09) | Hunt 1018 H3, H4 and H5 (S2), js/productionSharedJourneyReconnect.js |
-| G | 1025 | Terminal close recovery and closed-frame trophies (hunt 1017 H1-H3) | ⬛ claude | in r65 (live 2026-10-09) | - |
-| G | 1026 | New shared season clears last season's result fields (hunt 1017 H4) | ⬛ claude | in r65 (live 2026-10-09) | - |
+| G | 1021 | 🐞 Bug list 1: 1021 · G Transfer War on phone: port Team V's revamp | 🟧 Claude helper | in r65 (live 2026-10-09) | GPT green, one run. HO-016: Team V's checked phone CSS + 2 cut-outs into css/v10Transfer.css. Desktop unchanged. |
+| G | 1022 | 🐞 Bug list 1: Connect Players: match Team V's start-join design (1015 follow-up) | 🟧 Claude helper | in r65 (live 2026-10-09) | Team V check on #397: desktop shows Nik twice; phone title, Back position and bottom nav; yellow primary buttons. |
+| G | 1023 | 🐞 Bug list 1: Session code replacement: double tap and lost join watcher | 🟧 Claude helper | in r65 (live 2026-10-09) | Hunt 1018 H1 (S1) and H2 (S2), js/sparkRemoteJoining.js |
+| G | 1024 | 🐞 Bug list 1: Reconnect keeps stale authority after sign-out, offline or expiry | 🟧 Claude helper | in r65 (live 2026-10-09) | Hunt 1018 H3, H4 and H5 (S2), js/productionSharedJourneyReconnect.js |
+| G | 1025 | Terminal close recovery and closed-frame trophies (hunt 1017 H1-H3) | 🟧 Claude helper | in r65 (live 2026-10-09) | - |
+| G | 1026 | New shared season clears last season's result fields (hunt 1017 H4) | 🟧 Claude helper | in r65 (live 2026-10-09) | - |
 | G | 1028 | Statistics shows an abandoned-only career (hunt 1019 H5) | 🟧 Team G lead | in r65 (live 2026-10-09) | - |
-| G | 1027 | Restore keeps and checks the Save Library; career cache race (hunt 1019 H1, H2, H4) | ⬛ claude | in r65 (live 2026-10-09) | - |
+| G | 1027 | Restore keeps and checks the Save Library; career cache race (hunt 1019 H1, H2, H4) | 🟧 Claude helper | in r65 (live 2026-10-09) | - |
 
 | Hand-off | From → To | What | Progress |
 | --- | --- | --- | --- |
@@ -192,7 +192,7 @@ Latest:
 ## Every bug report
 
 
-> Updated **Fri 9 Oct, 12:11 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
+> Updated **Fri 9 Oct, 12:24 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
 
 | 🔓 Open | 🔴 Top priority | 🔧 Fixing or waiting for release | ✅ Fixed and live |
 | :---: | :---: | :---: | :---: |

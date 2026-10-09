@@ -254,6 +254,51 @@ for x in nik:
     else:
         _nk.append(x)
 nik = _nk
+# Every job ticket counts (Nik, 2026-10-09): a jobs/JOB-NNNN.md written by any thread shows up even before a BOARD.json row exists.
+def ticket_rows():
+    out = []
+    jd = os.path.join(F, "jobs")
+    for fn in sorted(os.listdir(jd)) if os.path.isdir(jd) else []:
+        m = re.match(r"JOB-(\d{4})\.md$", fn)
+        if not m or int(m.group(1)) < 1001 or m.group(1) in rowmap:
+            continue
+        n = m.group(1)
+        t = open(os.path.join(jd, fn)).read()
+        h = re.search(r"^#\s*JOB-\d+\s*·\s*(.+)$", t, re.M)
+        tl = [x for x in t.splitlines() if x.startswith("|")]
+        cell = tl[2].split("|")[1].strip() if len(tl) > 2 else ""  # first column of the ticket's lane table
+        try:
+            stt = open(os.path.join(F, "status", f"JOB-{n}.md")).read()
+        except OSError:
+            stt = ""
+        st = (re.search(r"^State:\s*(.+)$", stt, re.M) or [None, "READY"])[1].strip()
+        if re.match(r"(MERGED|VERIFIED|LIVE|CLOSED|ARCHIVED)", st, re.I) or n in MERGED:
+            continue
+        title = h.group(1).strip() if h else f"Job {n}"
+        c = cell.lower()
+        lane = next((k for k in ("codex", "opus", "sonnet", "haiku") if k in c), None) or ("sol-work" if "work mode" in c else "sol-chat" if "chat" in c else "")
+        team = "V" if re.search(r"\bvisual\b|· V\b", title + " " + cell, re.I) else "G"
+        where = re.sub(r"\s*\(.*$", "", cell) or lane_name(lane)
+        acct = re.search(r"GPT account \d", cell)
+        proj = re.search(r"the (gameplay|visual) project", cell)
+        place = ("GPT chat" if lane == "sol-chat" else "GPT Work mode" if lane == "sol-work" else "Codex cloud" if lane == "codex" else where) \
+            + (f" ({acct.group(0)})" if acct else "") + (f", {proj.group(1)} project" if proj else "") + f": type 'Job {n}'"
+        row = {"id": n, "title": title, "lane": lane, "state": {"READY": "ready", "DONE": "worker done"}.get(st.upper(), st.lower()), "place": place, "team": team, "ticket_only": True}
+        rowmap[n] = row
+        out.append(row)
+    return out
+
+
+for _r in ticket_rows():
+    _have = [q for v in Q.values() for q in v if str(q["n"]) == _r["id"]]
+    for q in _have:  # already listed from its status file: fill in what the ticket knows
+        q["lane"] = q.get("lane") or _r["lane"]
+        q["team"] = _r["team"]
+        q["title"] = _r["title"]
+    if not _have:
+        q_add({"id": _r["id"], "title": _r["title"], "state": _r["state"], "lane": _r["lane"]}, _r["team"])
+
+
 # rows the lead marks "done (...)" leave BOARD_STATE's open buckets; list them under Done too
 _inq = {str(q["n"]) for v in Q.values() for q in v}
 for _id, _r in rowmap.items():
@@ -328,7 +373,39 @@ def team_html(team, emph, cut, compact=False):
     return "".join(out) + "<br>".join(lines) + "</div>"
 
 
-def render(first, compact=False):
+def job_prog(q):
+    """(worker, progress text, finish text) for a job card (Nik, 2026-10-09: every job shows its worker, progress and finish estimate)."""
+    worker = lane_name(q.get("lane", "")) or "worker not set"
+    if q.get("progress"):
+        d, r = q["progress"]
+        st = r.get("steps") or []
+        prog = f"{d['pct']:.4f} % done" + ("" if re.match(r"step \d", run_state(q)) or not st else f" ({sum(1 for x in st if x.get('done'))} of {len(st)} steps)")
+        eta = d.get("eta")
+        fin = f"finish ~{eta}" if eta and eta != "not enough data" else "finish: no estimate yet (this worker has no finished jobs to learn from)"
+        return worker, prog, fin
+    return worker, "not started", ""
+
+
+def job_html(q, i, kind):
+    worker, prog, fin = job_prog(q)
+    st = run_state(q) if kind == "run" else short_state(q.get("state", ""))
+    head = f'{sq(q["lane"])} <b>#{i} · {e(q["n"])}</b> <span class="tm">{e(q.get("team", "G"))}</span> {e(q["title"])}'
+    meta = [f"Worker: {worker}"] + ([st] if st and kind != "next" else []) + ([prog] if kind != "wait" else []) + ([fin] if fin and kind == "run" else [])
+    if kind == "wait":
+        meta.append("waits: " + (q.get("after") or "something else"))
+    out = head + '<br><span class="m">' + e(" · ".join(meta)) + "</span>"
+    if kind == "run" and q.get("lane") in ("sol-chat", "blue", "chat", "sol-work", "green") and not status_done(q["n"]):
+        out += '<br><span class="m">To keep it going, type this in the same chat:</span><code class="cp">next</code>'  # GPT jobs end each reply with NEXT
+    if kind == "next":
+        pl = q.get("where") or ""
+        m = re.search(r"type\s+['‘\"]?([^'’\"]+?)['’\"]?\s*(?:\(|$|·|;)", pl + " ", re.I) if re.search(r"\btype\b", pl, re.I) else None
+        prompt = m.group(1).strip() if m else q.get("type") or f"Job {q['n']}"
+        place = re.sub(r":?\s*type\b.*$", "", pl, flags=re.I).strip(" ,:") or "(place not given)"
+        out += f'<br><span class="m">Type this in {e(place)}:</span><code class="cp">{e(prompt)}</code>' + (f'<span class="m">{e(q["note"])}</span>' if q.get("note") else "")
+    return out
+
+
+def render(first, compact=False, tight=False):
     cut = 40 if compact else 70
     n_run, n_next, n_nik = len(Q["run"]), len(Q["next"]), len([x for x in nik if not x.get("md")])
     H = ["<style>.cv{--h:'Arial Narrow',Impact,sans-serif;font:14px/1.45 'Segoe UI',system-ui,sans-serif;max-width:720px;color:#fbfcfc;background:#20272d;border-radius:14px;padding:0 0 14px;overflow:hidden}"
@@ -340,6 +417,8 @@ def render(first, compact=False):
          ".cv .card{background:#2c353c;border:1px solid #43515b;border-radius:10px;padding:8px 10px;margin:6px 10px}.cv .move{background:#3a3a1c;border-color:#f0d900}.cv .warn{background:#3d2216;border-color:#f97316}"
          ".cv .m{color:#8ea2ac;font-size:12px}.cv .k{font:italic 800 12px var(--h);letter-spacing:.08em;text-transform:uppercase;color:#f0d900}"
          ".cv a{color:#fbfcfc;text-decoration:underline}.cv code{background:#20272d;padding:0 4px;border-radius:3px}.cv .foot{margin:10px 14px 0}.cv i{font-style:normal}"
+         ".cv .cp{display:block;user-select:all;-webkit-user-select:all;background:#111820;border:1px dashed #f0d900;border-radius:6px;padding:4px 8px;margin:2px 0 4px;font:13px monospace;white-space:pre-wrap}"
+         ".cv .tm{font-size:11px;border:1px solid #8ea2ac;border-radius:4px;padding:0 3px;color:#dce5e8}"
          + "".join(f".cv .q{i}{{color:{h}}}" for i, h in enumerate(HEX.values())) + ".cv .q9{color:#9ca3af}</style>",
          '<div class="cv">',
          f'<div class="ban"><b>Bug hunt board · Team {first} lead</b><span>Updated {now:%a %-d %b, %-I:%M %p} Boston time · same board as Team {"V" if first == "G" else "G"}\'s · <a href="{BLOB}BOARD.md">on GitHub</a> · <a href="{BLOB}RELAY.md">relay</a></span></div>',
@@ -349,17 +428,16 @@ def render(first, compact=False):
     for z in STUDIO.values():
         nz = sum(1 for v in ("run", "next", "wait") for q in Q[v] if q.get("studio") == z["id"])
         J.append(f'<span class="k">🚨 Studio {e(z["id"])} first: {e(z.get("title", ""))}</span>' + (f' <span class="m">{e(z.get("scope", ""))}</span>' if z.get("scope") and not compact else "") + ("" if nz else f' <span class="m">· {zd} done, none open</span>' if (zd := sum(1 for q in Q["release"] if q.get("studio") == z["id"])) else ' <span class="m">· no jobs yet</span>'))
-    if Q["run"]:
-        J.append('<span class="k">Running now</span>')
-        J += [item_html(dict(q, id=q["n"], state=run_state(q)), cut) for q in Q["run"]]
-    if Q["next"]:
-        J.append('<span class="k">Next for you, in this order</span>')
-        J += [f'{sq(q["lane"])} <b>{e(q["n"])}</b> {e(q["title"][:cut])}<br>&nbsp;&nbsp;&nbsp;→ ' + (e(q["where"]) if re.search(r"\btype\b", q["where"] or "", re.I) else f'type <b>{e(q["type"])}</b> {e(q["where"] or "(place not given)")}') + '' + (f' <span class="m">· {e(q["note"])}</span>' if q.get("note") else "") for q in Q["next"]]
-    if Q["wait"]:
-        J.append('<span class="k">Waiting on something else</span>')
-        J += [f'{sq(q["lane"])} <b>{e(q["n"])}</b> {e(q["title"][:cut])} <span class="m">{e(q.get("after", "")[:56])}</span>' for q in Q["wait"]]
+    # every open job, in the factory's order, numbered across the three lists (Nik, 2026-10-09)
+    i = 0
+    for kind, label in (("run", "Running now"), ("next", "Next for you, in this order"), ("wait", "Waiting on something else")):
+        if Q[kind]:
+            J.append(f'<span class="k">{label}</span>')
+            for q in Q[kind]:
+                i += 1
+                J.append(job_html(q, i, kind))
     if Q["release"]:
-        J.append('<span class="k">Done, in the next release</span> ' + ", ".join(e(q["n"]) for q in Q["release"]))
+        J.append('<span class="k">Done, in the next release</span> ' + (", ".join(e(q["n"]) for q in Q["release"]) if not tight else f'{len(Q["release"])} jobs ({e(Q["release"][0]["n"])} to {e(Q["release"][-1]["n"])})'))
     H.append('<div class="card move">' + ("<br>".join(J) or "No numbered job is open.") + "</div>")
     order = ("G", "V") if first == "G" else ("V", "G")
     H.append("<h2>Goals for Thursday</h2>")
@@ -386,9 +464,11 @@ def render(first, compact=False):
 
 
 for team, fn in (("G", "CUSTOM_VIEW.html"), ("V", "CUSTOM_VIEW_V.html")):
-    out = render(team)
+    out = render(team)  # the jobs card is never cut; the sections below it shrink to fit the Custom view
     if len(out.encode()) > LIMIT:
         out = render(team, compact=True)
+    if len(out.encode()) > LIMIT:
+        out = render(team, compact=True, tight=True)
     open(os.path.join(F, fn), "w").write(out)
     print(fn, "bytes", len(out.encode()))
 
@@ -420,9 +500,9 @@ L += [f"🌐 **Live: {LV['revision']}** (main `{LV['sha']}`, {TF.bos(LV['when'])
 for z in STUDIO.values():
     L += [f"🚨 **Studio {z['id']} first: {z.get('title', '')}**" + (f" · {z['scope']}" if z.get("scope") else "") + ("" if any(q.get("studio") == z["id"] for v in ("run", "next", "wait") for q in Q[v]) else f" · {zd} done, none open" if (zd := sum(1 for q in Q["release"] if q.get("studio") == z["id"])) else " · no jobs yet"), ""]
 if Q["run"]:
-    L += ["**Running now**", ""] + [f"- **{q['n']}** {q['title']} · {short_state(q.get('state', '')) or 'running'}" + (f" · {q['progress'][0]['pct']:.4f} %" if q.get("progress") else f" · {q['pct']:.0f} %" if q.get("pct") is not None else "") for q in Q["run"]] + [""]
+    L += ["**Running now**", ""] + [f"- **{q['n']}** ({q.get('team', 'G')}) {q['title']} · {run_state(q)} · " + " · ".join(x for x in job_prog(q) if x) for q in Q["run"]] + [""]
 if Q["next"]:
-    L += ["**Next for you, in this order**", ""] + [f"{i}. **{q['n']}** {q['title']}: " + (q['where'] if re.search(r"\btype\b", q['where'] or "", re.I) else f"type **{q['type']}** {q['where'] or '(place not given)'}") + (f" · {q['note']}" if q.get("note") else "") for i, q in enumerate(Q["next"], 1)] + [""]
+    L += ["**Next for you, in this order**", ""] + [f"{i}. **{q['n']}** ({q.get('team', 'G')}, {job_prog(q)[0]}) {q['title']}: " + (q['where'] if re.search(r"\btype\b", q['where'] or "", re.I) else f"type **{q['type']}** {q['where'] or '(place not given)'}") + (f" · {q['note']}" if q.get("note") else "") for i, q in enumerate(Q["next"], 1)] + [""]
 if Q["wait"]:
     L += ["**Waiting on something else**", ""] + [f"- **{q['n']}** {q['title']} · {q.get('after', '')}" for q in Q["wait"]] + [""]
 if Q["release"]:
