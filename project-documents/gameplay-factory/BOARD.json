@@ -1156,9 +1156,9 @@
      "state": "ready (after the blue jobs)",
      "order": 24,
      "place": "ChatGPT project \"Career Mode Showdown\", new chat switched to Work mode",
-     "note": "draft kept on the player's own device only; ticket jobs/JOB-1050.md; lane moved off Codex (Nik 2026-10-09 22:09 UTC: more GPT-6 chat, Work mode cheaper models, Haiku)",
-     "team": "green",
-     "model": "Sol 6.1 (Work mode)",
+     "note": "must run code (node checks), so Work mode; Luna is the cheapest Work mode model, first Luna run; ticket jobs/JOB-1050.md",
+     "team": "yellow",
+     "model": "GPT Luna (Work mode); if it fails, Sol 6.1 Work mode",
      "effort": "High",
      "prompt": "Job 1050. Read the ticket at https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/gameplay-v1/project-documents/gameplay-factory/jobs/JOB-1050.md and the worker handbook it links, then do the whole job in one run without stopping to ask. Start from branch gameplay/bug-list-1, run node and the checks the ticket names, push branch gameplay/job-1050-signing-draft, open the PR into gameplay/bug-list-1, and end with 'Job 1050 done, PR <link>.'"
     },
@@ -1203,16 +1203,16 @@
     },
     {
      "id": "1054",
-     "title": "Worker scorecard: rows for jobs 1037-1044 (GPT-6 Luna trial)",
+     "title": "Worker scorecard: rows for jobs 1037-1044",
      "lane": "gpt-chat",
      "team": "blue",
-     "model": "GPT-6 Luna",
+     "model": "GPT-6 Sol chat",
      "effort": "Medium",
      "state": "ready",
      "order": 20,
      "place": "ChatGPT project \"Career Mode Showdown\", new normal chat",
      "prompt": "Job 1054. Read the ticket at https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/gameplay-v1/project-documents/gameplay-factory/jobs/JOB-1054.md and do exactly what it says in this one turn: one edit to one file on branch factory/gameplay-v1, no PR. End with the one line the ticket gives.",
-     "note": "exact, one-file job to test whether Luna follows a ticket precisely; ticket jobs/JOB-1054.md"
+     "note": "exact one-file text job; ticket jobs/JOB-1054.md"
     }
    ]
   },
@@ -1466,11 +1466,11 @@
   }
  ],
  "team_colors": {
-  "_about": "Nik 2026-10-09 22:22 and 22:26 UTC: every job card shows its team color, model, effort, where to type and the exact prompt. Jobs are sized by the CC-007 one-turn rule (chat: <=5 reads, <=3 writes, ~200 lines, one decision).",
-  "blue": "GPT chat (normal chat in a ChatGPT project)",
-  "green": "GPT Work mode, Sol 6.1",
-  "yellow": "GPT Work mode, Luna (cheapest)",
-  "orange": "GPT Astra (expensive; only with Nik's OK)",
+  "_about": "Nik 2026-10-09 22:22 and 22:26 UTC: every job card shows its team color, model, effort, where to type and the exact prompt. Jobs are sized by the CC-007 one-turn rule (chat: <=5 reads, <=3 writes, ~200 lines, one decision). Nik 22:41 UTC: chat is GPT-6 Sol only; Luna, Sol 6.1 and Astra are Work mode and use his allowance, so Work mode needs a reason chat can't meet.",
+  "blue": "GPT-6 Sol chat (normal chat in a ChatGPT project; nearly unlimited, use first)",
+  "green": "GPT Work mode, Sol 6.1 (metered)",
+  "yellow": "GPT Work mode, Luna (cheapest Work mode, still metered; only when a job must run code)",
+  "orange": "GPT Work mode, Astra (expensive; only with Nik's OK)",
   "white": "Codex cloud",
   "purple": "Claude Opus, run by the lead",
   "brown": "Claude Sonnet, run by the lead",
