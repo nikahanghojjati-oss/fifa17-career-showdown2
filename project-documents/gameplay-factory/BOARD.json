@@ -676,37 +676,37 @@
     {
      "id": "1038",
      "title": "Final winner closes the Showdown so it counts in the career",
-     "lane": "codex",
-     "state": "ready",
+     "lane": "lead",
+     "state": "PR #433, lead verifies and merges",
      "order": 5,
-     "place": "Codex cloud, branch gameplay/bug-list-1: type 'Job 1038' (see the lead's thread)",
-     "note": "Nik chose Auto close (04:09 UTC)"
+     "place": "nothing to type (Nik finished it in Codex)",
+     "note": "Auto close, as Nik chose on his card"
     },
     {
      "id": "1040",
      "title": "Browser journey opens Legacy, Trophy Room and Stats after a finished online Showdown",
-     "lane": "claude",
-     "state": "running",
+     "lane": "sonnet",
+     "state": "PR #434, lead merges after 1038",
      "order": 4,
-     "place": "Claude Sonnet helper (nothing to type)",
+     "place": "nothing to type",
      "note": "test coverage that was missing"
     },
     {
      "id": "1039",
      "title": "Legacy stops reloading on every shared event and never spins forever",
      "lane": "codex",
-     "state": "ready",
+     "state": "merged into bug-list-1 (PR #431)",
      "order": 2,
-     "place": "Codex cloud (second GPT account), branch gameplay/bug-list-1: type 'Job 1039'",
+     "place": "nothing to type",
      "note": "one file, js/rivalryLegacyV10.js"
     },
     {
      "id": "1037",
      "title": "Career history: never-joined codes and an unknown current Showdown no longer break Legacy, Trophy Room, Stats",
      "lane": "codex",
-     "state": "ready",
+     "state": "merged into bug-list-1 (PR #432)",
      "order": 1,
-     "place": "Codex cloud, branch gameplay/bug-list-1: type 'Job 1037' (see the lead's thread)",
+     "place": "nothing to type",
      "note": "root cause verified on the emulator; ticket jobs/JOB-1037.md"
     },
     {
@@ -917,12 +917,12 @@
      "id": "1011",
      "group": "Bug list 1",
      "title": "1011 · G Plain-words sweep: jargon on game screens",
-     "lane": "blue",
-     "state": "ready",
+     "lane": "lead",
+     "state": "PR #424, lead verifies and merges",
      "waits_on": "Nik types it in the gameplay project (Work mode)",
      "details": "GPT green, one run. Replaces engineering words players see; leaves test-asserted strings to the lead.",
      "order": 11,
-     "place": "in the gameplay project (normal chat), new chat",
+     "place": "nothing to type",
      "after": "1014, 1015 and 1020 merge",
      "note": "1014, 1015 and 1020 are merged"
     },
