@@ -340,7 +340,7 @@ def render(first, compact=False):
     J = []
     for z in STUDIO.values():
         nz = sum(1 for v in ("run", "next", "wait") for q in Q[v] if q.get("studio") == z["id"])
-        J.append(f'<span class="k">🚨 Studio {e(z["id"])} first: {e(z.get("title", ""))}</span>' + (f' <span class="m">{e(z.get("scope", ""))}</span>' if z.get("scope") and not compact else "") + ("" if nz else ' <span class="m">· no jobs yet</span>'))
+        J.append(f'<span class="k">🚨 Studio {e(z["id"])} first: {e(z.get("title", ""))}</span>' + (f' <span class="m">{e(z.get("scope", ""))}</span>' if z.get("scope") and not compact else "") + ("" if nz else f' <span class="m">· {zd} done, none open</span>' if (zd := sum(1 for q in Q["release"] if q.get("studio") == z["id"])) else ' <span class="m">· no jobs yet</span>'))
     if Q["run"]:
         J.append('<span class="k">Running now</span>')
         J += [item_html(dict(q, id=q["n"], state=run_state(q)), cut) for q in Q["run"]]
@@ -410,7 +410,7 @@ L += [f"🌐 **Live: {LV['revision']}** (main `{LV['sha']}`, {TF.bos(LV['when'])
       f"{TF.PHYSIO_ICON.get(ph.get('state'), '🩺')} **{ph.get('line', 'Physio: no report yet.')}**" + (f" · {ph['gate']}" if ph.get("gate") else ""), "",
       "## Jobs", ""]
 for z in STUDIO.values():
-    L += [f"🚨 **Studio {z['id']} first: {z.get('title', '')}**" + (f" · {z['scope']}" if z.get("scope") else "") + ("" if any(q.get("studio") == z["id"] for v in ("run", "next", "wait") for q in Q[v]) else " · no jobs yet"), ""]
+    L += [f"🚨 **Studio {z['id']} first: {z.get('title', '')}**" + (f" · {z['scope']}" if z.get("scope") else "") + ("" if any(q.get("studio") == z["id"] for v in ("run", "next", "wait") for q in Q[v]) else f" · {zd} done, none open" if (zd := sum(1 for q in Q["release"] if q.get("studio") == z["id"])) else " · no jobs yet"), ""]
 if Q["run"]:
     L += ["**Running now**", ""] + [f"- **{q['n']}** {q['title']} · {short_state(q.get('state', '')) or 'running'}" + (f" · {q['progress'][0]['pct']:.4f} %" if q.get("progress") else f" · {q['pct']:.0f} %" if q.get("pct") is not None else "") for q in Q["run"]] + [""]
 if Q["next"]:

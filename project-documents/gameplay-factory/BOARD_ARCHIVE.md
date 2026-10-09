@@ -1,12 +1,12 @@
 # Board archive
 
-[Back to the board](BOARD.md) · generated 2026-10-08 10:42 PM Boston time (EDT). Detail and history behind the one board.
+[Back to the board](BOARD.md) · generated 2026-10-08 10:43 PM Boston time (EDT). Detail and history behind the one board.
 
 ## Old detailed board
 
 # Showdown board: G Factory and V Factory
 
-🌐 **Live: runtime 1.9.1-r63** (main `2b8b043`) · 🔄 **23 moving** · ⏭ 3 up next · 👤 7 waiting on Nik · 🗂 6 later · updated 2026-10-08 10:42 PM Boston time (EDT)
+🌐 **Live: runtime 1.9.1-r63** (main `2b8b043`) · 🔄 **23 moving** · ⏭ 3 up next · 👤 7 waiting on Nik · 🗂 6 later · updated 2026-10-08 10:43 PM Boston time (EDT)
 
 🩺 **All clear: every check has a machine.** · Gate #427: L1✓ L2… L3… L4✓ L5✓ L6✓ · seal pending · POS20 #427 10/16
 
@@ -18,14 +18,14 @@
 
 | Team | Job | What | Worker | Where it is | Details |
 | --- | --- | --- | --- | --- | --- |
-| G | Z1 | Studio Z: sign-in starter race | 🟧 Opus | worker done, in r63 PR #427, CI running | - |
-| G | Z2 | Studio Z: one-strike offline lock | 🟧 Opus | worker done, in r63 PR #427, CI running | - |
-| G | Z3 | Studio Z: refresh resume | 🟧 Opus | worker done, in r63 PR #427, CI running | - |
-| G | Z4 | Studio Z: automatic session handoff | 🟧 Opus | worker done, in r63 PR #427, CI running | - |
-| G | Z5 | Studio Z: auto-apply updates | 🟧 Opus | worker done, in r63 PR #427, CI running | - |
-| G | Z6 | Studio Z: stuck Google sign-in | 🟧 Opus | worker done, in r63 PR #427, CI running | - |
-| G | Z7 | Studio Z: upright tablet layout | 🟧 Opus | worker done, in r63 PR #427, CI running | - |
-| G | Z8 | Studio Z: typed league ambiguity | 🟧 Opus | worker done, in r63 PR #427, CI running | - |
+| G | Z1 | Studio Z: sign-in starter race | 🟧 Opus | in r63 (live 2026-10-09) | - |
+| G | Z2 | Studio Z: one-strike offline lock | 🟧 Opus | in r63 (live 2026-10-09) | - |
+| G | Z3 | Studio Z: refresh resume | 🟧 Opus | in r63 (live 2026-10-09) | - |
+| G | Z4 | Studio Z: automatic session handoff | 🟧 Opus | in r63 (live 2026-10-09) | - |
+| G | Z5 | Studio Z: auto-apply updates | 🟧 Opus | in r63 (live 2026-10-09) | - |
+| G | Z6 | Studio Z: stuck Google sign-in | 🟧 Opus | in r63 (live 2026-10-09) | - |
+| G | Z7 | Studio Z: upright tablet layout | 🟧 Opus | in r63 (live 2026-10-09) | - |
+| G | Z8 | Studio Z: typed league ambiguity | 🟧 Opus | in r63 (live 2026-10-09) | - |
 | G | G-F17 | Showdown Gate: replace POS20 with a faster check system built on Claude and GitHub, keeping every check (plan: /mnt/project-files/check-system/SHOWDOWN_GATE_PLAN.md) | 🟧 Opus | building shadow; then ~10-PR shadow (3-5 days), then archive POS20 | Nik 6:02 PM Boston time: gradual replacement; POS20 is archived to authority-history/pos20-archive/, not deleted |
 | G | G-F18 | Old-design screen audit: Legacy, Career Statistics and Trophy Room still open in the old shell; drive every live screen in a browser against Team V's design and route all of them to the new design | 🟧 Opus | in progress (thread "Old-design screen audit", Nik asked at 5:16 PM Boston time) | overlaps G-F11 (old CSS collisions) |
 | G | 1001 | 🐞 Bug list 1: 1001 · G Home desktop tile icons: bigger, inside the tile, never on the text | 🟦 Sol chat | in release (merged into gameplay/bug-list-1, 215e34a) | Bug list 1 items L1-01..06. CSS only in css/homeV10.css desktop blocks. Job file jobs/JOB-1001.md. Lead checks screenshots at 1920/1440/1280/1100/1000 wide. |
@@ -188,7 +188,7 @@ Latest:
 ## Every bug report
 
 
-> Updated **Thu 8 Oct, 10:42 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
+> Updated **Thu 8 Oct, 10:43 PM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
 
 | 🔓 Open | 🔴 Top priority | 🔧 Fixing or waiting for release | ✅ Fixed and live |
 | :---: | :---: | :---: | :---: |

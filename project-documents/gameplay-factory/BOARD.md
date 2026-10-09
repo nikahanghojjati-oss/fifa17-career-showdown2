@@ -1,6 +1,6 @@
 # Bug hunt board
 
-Updated Thu 8 Oct, 10:42 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
+Updated Thu 8 Oct, 10:43 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r63** (main `2b8b043`, Thu 8 Oct 10:40 PM)
 
@@ -8,22 +8,14 @@ Updated Thu 8 Oct, 10:42 PM Boston time. Bug hunting only, no new features until
 
 ## Jobs
 
-🚨 **Studio Z first: emergency fixes from Nik and Daniel's live test** · connectivity, sign-in, continuing after a refresh, old-build modules coming back, Transfer layout
+🚨 **Studio Z first: emergency fixes from Nik and Daniel's live test** · connectivity, sign-in, continuing after a refresh, old-build modules coming back, Transfer layout · 8 done, none open
 
 **Running now**
 
-- **Z1** Studio Z: sign-in starter race · worker done, in r63 PR #427, CI running
-- **Z2** Studio Z: one-strike offline lock · worker done, in r63 PR #427, CI running
-- **Z3** Studio Z: refresh resume · worker done, in r63 PR #427, CI running
-- **Z4** Studio Z: automatic session handoff · worker done, in r63 PR #427, CI running
-- **Z5** Studio Z: auto-apply updates · worker done, in r63 PR #427, CI running
-- **Z6** Studio Z: stuck Google sign-in · worker done, in r63 PR #427, CI running
-- **Z7** Studio Z: upright tablet layout · worker done, in r63 PR #427, CI running
-- **Z8** Studio Z: typed league ambiguity · worker done, in r63 PR #427, CI running
 - **1011** Plain-words sweep: jargon on game screens · worker done, lead checking
 - **1028** Statistics shows an abandoned-only career (hunt 1019 H5) · worker done, lead checking
 
-**Done, in the next release:** 1001, 1003, 1004, 1005, 1009, 1014, 1015, 1020, 1021
+**Done, in the next release:** 1001, 1003, 1004, 1005, 1009, 1014, 1015, 1020, 1021, Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8
 
 ## Goals for Thursday
 
