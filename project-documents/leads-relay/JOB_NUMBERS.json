@@ -1,6 +1,6 @@
 {
  "_how": "One shared job counter for Team G and Team V (Nik, 2026-10-05). Claim with tools/claim_number.py only. A number is used once, ever. CONTRACT.md section 10.",
- "next": 1041,
+ "next": 1042,
  "claims": [
   {
    "number": 1001,
@@ -242,6 +242,12 @@
    "team": "G",
    "title": "Browser journey opens Legacy, Trophy Room and Stats after a finished online Showdown",
    "claimed": "2026-10-09T03:55:42Z"
+  },
+  {
+   "number": 1041,
+   "team": "G",
+   "title": "Season Results on phone: ACKNOWLEDGE visible, no inner scroll box, title clear of tabs, photos aligned",
+   "claimed": "2026-10-09T03:55:45Z"
   }
  ]
 }
