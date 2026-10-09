@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-09 9:09 AM Boston time (EDT)",
+ "generated": "2026-10-09 9:10 AM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -284,7 +284,7 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "64d7192",
+  "head": "64d7192b",
   "head_boston": "Fri 9 Oct 8:50 AM",
   "latest_id": "G2V-016",
   "feed_matches_latest": true,
@@ -313,9 +313,9 @@
  },
  "two": {
   "live": {
-   "sha": "e49add9",
+   "sha": "e49add99",
    "revision": "1.9.1-r65",
-   "when": "2026-10-09T06:48:52Z",
+   "when": "2026-10-09T06:48:52+00:00",
    "subject": "Release r65: career history fixes, auto close, plain words (#436)",
    "fixes": [],
    "today": [
