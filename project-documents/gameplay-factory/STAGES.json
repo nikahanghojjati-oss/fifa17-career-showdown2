@@ -1,11 +1,44 @@
 {
   "_about": "The project's stage plan (Nik, 2026-10-09 22:00 UTC): 1) finish the remaining bugs, 2) visual fixes, 3) visual mockups for phone, 4) improved desktop versions. custom_view.py draws the Goals card from this file plus live data (numbered jobs, reports/OLYMPIAD_RECHECK_*.md, the relay). When an Olympiad bug or a Sol lead becomes a job, put the job number in its 'job'; it counts as settled once that job is done. Set a Sol lead's 'state' to 'not real' when the live recheck disproves it.",
-  "olympiad_jobs": {},
+  "olympiad_jobs": {
+    "V1": "1048",
+    "V2": "1048",
+    "V3": "1049",
+    "V4": "1050",
+    "V5": "1049",
+    "V6": "1051",
+    "V7": "1052"
+  },
   "sol_leads": [
-    {"id": "S1", "lead": "League points cap is 114 everywhere though the Bundesliga maximum is 102", "state": "confirmed", "job": ""},
-    {"id": "S2", "lead": "Season 3+ simultaneous results", "state": "to recheck", "job": ""},
-    {"id": "S3", "lead": "Local Reconciliation stuck waiting", "state": "to recheck", "job": ""},
-    {"id": "S4", "lead": "Transfer timers mismatched across devices", "state": "to recheck", "job": ""},
-    {"id": "S5", "lead": "A slow screen overwrites a newer tap", "state": "to recheck", "job": ""}
+    {
+      "id": "S1",
+      "lead": "League points cap is 114 everywhere though the Bundesliga maximum is 102",
+      "state": "confirmed",
+      "job": ""
+    },
+    {
+      "id": "S2",
+      "lead": "Season 3+ simultaneous results",
+      "state": "to recheck",
+      "job": ""
+    },
+    {
+      "id": "S3",
+      "lead": "Local Reconciliation stuck waiting",
+      "state": "to recheck",
+      "job": ""
+    },
+    {
+      "id": "S4",
+      "lead": "Transfer timers mismatched across devices",
+      "state": "to recheck",
+      "job": ""
+    },
+    {
+      "id": "S5",
+      "lead": "A slow screen overwrites a newer tap",
+      "state": "to recheck",
+      "job": ""
+    }
   ]
 }
