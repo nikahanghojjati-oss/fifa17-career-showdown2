@@ -1,6 +1,6 @@
 {
  "_how": "One shared job counter for Team G and Team V (Nik, 2026-10-05). Claim with tools/claim_number.py only. A number is used once, ever. CONTRACT.md section 10.",
- "next": 1052,
+ "next": 1053,
  "claims": [
   {
    "number": 1001,
@@ -308,6 +308,12 @@
    "team": "G",
    "title": "Transfer challenge ledger hash reveals locked guesses (Olympiad V6)",
    "claimed": "2026-10-09T22:02:10Z"
+  },
+  {
+   "number": 1052,
+   "team": "G",
+   "title": "Transfer Rules accept option ids the reader rejects (Olympiad V7)",
+   "claimed": "2026-10-09T22:02:12Z"
   }
  ]
 }
