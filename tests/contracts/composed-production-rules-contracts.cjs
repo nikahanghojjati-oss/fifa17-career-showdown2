@@ -81,7 +81,9 @@ function staticChecks(getCandidate){
           if(!m)continue;
           const methods=m[1].split(',').map(x=>x.trim());
           if(methods.some(x=>['list','delete','read','write'].includes(x)))assert.ok(/:\s*if false;\s*$/.test(line),`delta adds a list/delete grant: ${line}`);
-          if(methods.some(x=>['create','update'].includes(x)))assert.ok(hunk.owner.split('+').includes('G-7'),`only the reviewed G-7 career index block may add write rules: ${line}`);
+          // Studio Z4 (Nik approved 2026-10-09 01:29 UTC): exactly one more write line, the host-only session pointer.
+          const z4Pointer=hunk.owner==='Z4'&&line.trim()==='allow create, update: if validSessionOfferWrite(rivalryId, offerId);';
+          if(methods.some(x=>['create','update'].includes(x)))assert.ok(hunk.owner.split('+').includes('G-7')||z4Pointer,`only the reviewed G-7 career index block may add write rules: ${line}`);
         }
       }
       return `${delta.hunks.length} hunks, -${delta.hunks.reduce((a,x)=>a+x.removed.length,0)} +${delta.hunks.reduce((a,x)=>a+x.added.length,0)} lines vs main ${delta.productionMain.commit.slice(0,7)}`;
