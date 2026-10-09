@@ -1,6 +1,6 @@
 # Bug hunt board
 
-Updated Fri 9 Oct, 7:36 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Fri 9 Oct, 7:37 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r66** (main `8e1a583`, Fri 9 Oct 12:04 PM)
 
@@ -19,8 +19,8 @@ Updated Fri 9 Oct, 7:36 PM Boston time. Bug hunting only, no new features until 
 🟤 Team brown · **Claude Sonnet 5.5** · Medium effort · worker done, PR #442 open, CI running
 
 **#3 · 1052** `G` Transfer Rules reject option ids the game cannot read (Olympiad V7)  
-`░░░░░░░░░░` **0.0000 %**  
-🟤 Team brown · **Claude Sonnet 5.5** · Medium effort · with the worker
+`███████░░░` **70.0000 %**  
+🟤 Team brown · **Claude Sonnet 5.5** · Medium effort · worker done, PR #442 open, CI running
 
 **#4 · 1055** `G` Season Results points cap uses the real league size (Sol lead S1)  
 `████████░░` **80.0000 %**  
