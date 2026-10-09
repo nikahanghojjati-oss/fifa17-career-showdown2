@@ -219,7 +219,7 @@ def q_add(it, team):
     elif status_done(n):
         q["state"] = "worker done, lead checking"
         Q["run"].append(q)
-    elif re.match(r"(with (the )?(worker|lead)|worker done|verifying|building|running|in progress|in review|checks|ci )", st, re.I) or re.match(r"nothing to type", str(row.get("place") or ""), re.I):
+    elif re.match(r"(with (the )?(worker|lead)|worker done|verifying|building|running|in progress|(in )?review|checks|ci )", st, re.I) or re.match(r"nothing to type", str(row.get("place") or ""), re.I):
         # the row's state says someone already has it (e.g. "with the lead"), so a stale "Nik types it" waits_on must not list it under Next for you
         Q["run"].append(q)
     elif (it.get("progress") or it.get("pct") is not None) and not re.search(r"waiting (for|on) Nik to type", st + " " + str(it.get("state", "")), re.I):
