@@ -1,12 +1,12 @@
 # Board archive
 
-[Back to the board](BOARD.md) · generated 2026-10-09 8:03 AM Boston time (EDT). Detail and history behind the one board.
+[Back to the board](BOARD.md) · generated 2026-10-09 8:52 AM Boston time (EDT). Detail and history behind the one board.
 
 ## Old detailed board
 
 # Showdown board: G Factory and V Factory
 
-🌐 **Live: runtime 1.9.1-r65** (main `e49add9`) · 🔄 **22 moving** · ⏭ 4 up next · 👤 7 waiting on Nik · 🗂 11 later · updated 2026-10-09 8:03 AM Boston time (EDT)
+🌐 **Live: runtime 1.9.1-r65** (main `e49add9`) · 🔄 **41 moving** · ⏭ 4 up next · 👤 2 waiting on Nik · 🗂 7 later · updated 2026-10-09 8:52 AM Boston time (EDT)
 
 🩺 **All clear: every check has a machine.** · POS20 #304 6/16
 
@@ -18,6 +18,10 @@
 
 | Team | Job | What | Worker | Where it is | Details |
 | --- | --- | --- | --- | --- | --- |
+| G | 1038 | Final winner closes the Showdown so it counts in the career | 🟧 Team G lead | in r65 (live 2026-10-09) | - |
+| G | 1040 | Browser journey opens Legacy, Trophy Room and Stats after a finished online Showdown | 🟪 Sonnet | in r65 (live 2026-10-09) | - |
+| G | 1039 | Legacy stops reloading on every shared event and never spins forever | ⬜ Codex | in r65 (live 2026-10-09) | - |
+| G | 1037 | Career history: never-joined codes and an unknown current Showdown no longer break Legacy, Trophy Room, Stats | ⬜ Codex | in r65 (live 2026-10-09) | - |
 | G | Z1 | Studio Z: sign-in starter race | 🟧 Opus | in r63 (live 2026-10-09) | - |
 | G | Z2 | Studio Z: one-strike offline lock | 🟧 Opus | in r63 (live 2026-10-09) | - |
 | G | Z3 | Studio Z: refresh resume | 🟧 Opus | in r63 (live 2026-10-09) | - |
@@ -26,10 +30,25 @@
 | G | Z6 | Studio Z: stuck Google sign-in | 🟧 Opus | in r63 (live 2026-10-09) | - |
 | G | Z7 | Studio Z: upright tablet layout | 🟧 Opus | in r63 (live 2026-10-09) | - |
 | G | Z8 | Studio Z: typed league ambiguity | 🟧 Opus | in r63 (live 2026-10-09) | - |
-| G | G-F17 | Showdown Gate: replace POS20 with a faster check system built on Claude and GitHub, keeping every check (plan: /mnt/project-files/check-system/SHOWDOWN_GATE_PLAN.md) | 🟧 Opus | building shadow; then ~10-PR shadow (3-5 days), then archive POS20 | Nik 6:02 PM Boston time: gradual replacement; POS20 is archived to authority-history/pos20-archive/, not deleted |
 | G | G-F18 | Old-design screen audit: Legacy, Career Statistics and Trophy Room still open in the old shell; drive every live screen in a browser against Team V's design and route all of them to the new design | 🟧 Opus | in progress (thread "Old-design screen audit", Nik asked at 5:16 PM Boston time) | overlaps G-F11 (old CSS collisions) |
 | G | 1001 | 🐞 Bug list 1: 1001 · G Home desktop tile icons: bigger, inside the tile, never on the text | 🟦 Sol chat | in release (merged into gameplay/bug-list-1, 215e34a) | Bug list 1 items L1-01..06. CSS only in css/homeV10.css desktop blocks. Job file jobs/JOB-1001.md. Lead checks screenshots at 1920/1440/1280/1100/1000 wide. |
 | G | 1003 | 🐞 Bug list 1: 1003 · G Transfer War: main's copy of Team V's early-end string matches (HO-010) | 🟦 Sol chat | in release (merged into gameplay/bug-list-1) | Low priority, no live impact. js/transferScreenV10.js lines 26 and 30. Job file jobs/JOB-1003.md. |
+| G | 1004 | 🐞 Bug list 1: 1004 · G Rule Book: remove the useless 01-06 side number rail (desktop and phone) | ⬛ claude | in r65 (live 2026-10-09) | js/rulesSettingsV10.js only: stop building #ruleBookIndex. Per-rule number badges stay. |
+| G | 1009 | 🐞 Bug list 1: 1009 · G Showdown Champion: dark oval over the losing manager | 🟦 Sol chat | in r65 (live 2026-10-09) | GPT blue, one file: delete the loser shade rule in final-winner.css. |
+| G | 1010 | 🐞 Bug list 1: 1010 · G 10-season sweep: scoring, history and final math | 🟩 Sol Work mode | in r65 (live 2026-10-09) | GPT green, one run. Node check of 10-season scoring, ties and final winner; report only, no game code. |
+| G | 1011 | 🐞 Bug list 1: 1011 · G Plain-words sweep: jargon on game screens | 🟧 Team G lead | in r65 (live 2026-10-09) | GPT green, one run. Replaces engineering words players see; leaves test-asserted strings to the lead. |
+| G | 1014 | 🐞 Bug list 1: 1014 · G No reconnect prompt after a finished Showdown | 🟦 Sol chat | in r65 (live 2026-10-09) | GPT green, one run. HO-013: closed Showdown shows SHOWDOWN COMPLETE instead of RECONNECT SESSION. Lead runs the reconnect audit. |
+| G | 1015 | 🐞 Bug list 1: 1015 · G Connect Players screen: create code / join off Home | 🟩 Sol Work mode | in r65 (live 2026-10-09) | GPT green, one run. HO-014: pair panel moves from Home to its own CONNECT PLAYERS screen (Team V SJ design). Pairing logic unchanged; lead runs pairing audits. |
+| G | 1020 | 🐞 Bug list 1: 1020 · G Season Results patch: one column on phone, no overlap on desktop | 🟩 Sol Work mode | in r65 (live 2026-10-09) | GPT green, one run. Team V phone CSS (HO-015) + desktop window below the scoring card + reconciliation look. Team V 1012 checks the look. |
+| G | 1021 | 🐞 Bug list 1: 1021 · G Transfer War on phone: port Team V's revamp | ⬛ claude | in r65 (live 2026-10-09) | GPT green, one run. HO-016: Team V's checked phone CSS + 2 cut-outs into css/v10Transfer.css. Desktop unchanged. |
+| G | 1022 | 🐞 Bug list 1: Connect Players: match Team V's start-join design (1015 follow-up) | ⬛ claude | in r65 (live 2026-10-09) | Team V check on #397: desktop shows Nik twice; phone title, Back position and bottom nav; yellow primary buttons. |
+| G | 1023 | 🐞 Bug list 1: Session code replacement: double tap and lost join watcher | ⬛ claude | in r65 (live 2026-10-09) | Hunt 1018 H1 (S1) and H2 (S2), js/sparkRemoteJoining.js |
+| G | 1024 | 🐞 Bug list 1: Reconnect keeps stale authority after sign-out, offline or expiry | ⬛ claude | in r65 (live 2026-10-09) | Hunt 1018 H3, H4 and H5 (S2), js/productionSharedJourneyReconnect.js |
+| G | 1025 | Terminal close recovery and closed-frame trophies (hunt 1017 H1-H3) | ⬛ claude | in r65 (live 2026-10-09) | - |
+| G | 1026 | New shared season clears last season's result fields (hunt 1017 H4) | ⬛ claude | in r65 (live 2026-10-09) | - |
+| G | 1028 | Statistics shows an abandoned-only career (hunt 1019 H5) | 🟧 Team G lead | in r65 (live 2026-10-09) | - |
+| G | 1027 | Restore keeps and checks the Save Library; career cache race (hunt 1019 H1, H2, H4) | ⬛ claude | in r65 (live 2026-10-09) | - |
+| G | 1043 | Showdown Gate: no write token for pull-request code (audit F1) | 🟪 Sonnet | building (Claude Sonnet) | - |
 
 | Hand-off | From → To | What | Progress |
 | --- | --- | --- | --- |
@@ -52,10 +71,10 @@ _Gameplay, online sync, every merge and every release (senior director)._ Worker
 
 | Job | What | Worker | State | Waits on |
 | --- | --- | --- | --- | --- |
-| 1041 | Season Results on phone: ACKNOWLEDGE reachable, no inner scroll box, title clear, photos aligned | ⬜ Codex | ready | - |
 | G-F5 | QA packet adoptions: truth line, wrong-target guard on main PRs, PR title rule | 🟪 Sonnet | next | - |
 | G-F11 | Old-design CSS collisions: scope old rulebook/settings/analytics/app CSS off Team V markup (about 70 shared class names) | 🟪 Sonnet | ready (Sonnet audit, then Opus fix) | - |
 | 1042 | Closed Final Winner shows the final season on both phones | ⬜ Codex | ready | - |
+| 1044 | Showdown Gate: exit report and seal fail closed on bad evidence (audit F2, F3) | ⬜ Codex | ready | - |
 
 **👤 Waiting on Nik**
 
@@ -68,33 +87,19 @@ _Gameplay, online sync, every merge and every release (senior director)._ Worker
 
 | Job | What | Worker | State | Waits on |
 | --- | --- | --- | --- | --- |
-| 1038 | Final winner closes the Showdown so it counts in the career | 🟧 Team G lead | merged into bug-list-1 (PR #433) | - |
-| 1040 | Browser journey opens Legacy, Trophy Room and Stats after a finished online Showdown | 🟪 Sonnet | merged into bug-list-1 (PR #434) | - |
-| 1039 | Legacy stops reloading on every shared event and never spins forever | ⬜ Codex | merged into bug-list-1 (PR #431) | - |
-| 1037 | Career history: never-joined codes and an unknown current Showdown no longer break Legacy, Trophy Room, Stats | ⬜ Codex | merged into bug-list-1 (PR #432) | - |
+| 1041 | Season Results on phone: ACKNOWLEDGE reachable, no inner scroll box, title clear, photos aligned | ⬜ Codex | review (PR #437) | - |
+| G-F17 | Showdown Gate: replace POS20 with a faster check system built on Claude and GitHub, keeping every check (plan: /mnt/project-files/check-system/SHOWDOWN_GATE_PLAN.md) — Nik 6:02 PM Boston time: gradual replacement; POS20 is archived to authority-history/pos20-archive/, not deleted | 🟧 Opus | shadow: KEEP_SHADOW after the 9 Oct independent audit (71/100); fixes 1043, 1044, 1045 first | exit bar: 10 real PRs agree (2 full seals), 2 canaries fail, 1 simulated outage recovers; POS20 stays the merge authority until then |
 | G-F4 | GPT Q&A team: scripted paths and code-vs-rulebook reads | 🟦 Sol chat | queued | G-F1 |
 | G-F7 | Ten-season smoothness run on live 2.0 (emulator, 10 seasons with a mid-game expiry) | 🟪 Sonnet | queued | G-F1 |
-| 1028 | Statistics shows an abandoned-only career (hunt 1019 H5) | 🟧 Team G lead | merged into bug-list-1 (PR #422) | - |
+| 1045 | Showdown Gate: pin actions and tool installs (audit F4) | 🟪 Sonnet | waits on 1043 | - |
 
 ### 🐞 Bug list 1
-
-**👤 Waiting on Nik**
-
-| Job | What | Worker | State | Waits on |
-| --- | --- | --- | --- | --- |
-| 1009 | 1009 · G Showdown Champion: dark oval over the losing manager — GPT blue, one file: delete the loser shade rule in final-winner.css. | 🟦 Sol chat | merged into bug-list-1 (23bb974) | Nik types it in the gameplay project (normal chat) |
-| 1011 | 1011 · G Plain-words sweep: jargon on game screens — GPT green, one run. Replaces engineering words players see; leaves test-asserted strings to the lead. | 🟧 Team G lead | merged into bug-list-1 (PR #424) | Nik types it in the gameplay project (Work mode) |
-| 1014 | 1014 · G No reconnect prompt after a finished Showdown — GPT green, one run. HO-013: closed Showdown shows SHOWDOWN COMPLETE instead of RECONNECT SESSION. Lead runs the reconnect audit. | 🟦 Sol chat | merged into bug-list-1 | Nik types it in the gameplay project (Work mode) |
-| 1020 | 1020 · G Season Results patch: one column on phone, no overlap on desktop — GPT green, one run. Team V phone CSS (HO-015) + desktop window below the scoring card + reconciliation look. Team V 1012 checks the look. | 🟩 Sol Work mode | merged into bug-list-1 | Nik types it in the gameplay project (Work mode) |
-| 1021 | 1021 · G Transfer War on phone: port Team V's revamp — GPT green, one run. HO-016: Team V's checked phone CSS + 2 cut-outs into css/v10Transfer.css. Desktop unchanged. | ⬛ claude | merged into bug-list-1 (2d71f79) | Nik types it in the gameplay project (Work mode) |
 
 **🗂 Later**
 
 | Job | What | Worker | State | Waits on |
 | --- | --- | --- | --- | --- |
-| 1004 | 1004 · G Rule Book: remove the useless 01-06 side number rail (desktop and phone) — js/rulesSettingsV10.js only: stop building #ruleBookIndex. Per-rule number badges stay. | ⬛ claude | merged into bug-list-1 (4466b57) | CI on PR #392, then the lead merges it into bug-list-1 |
 | 1005 | 1005 · G Last season's score is skipped before the Final Winner — Nik picked No tap, combined: one screen shows the last season's score and the Final Winner. Team V designs it (HO-011), then a GPT green job builds it and restores the strict final-season check. | 🟩 Sol Work mode | ready | after Team V designs the combined screen (HO-011) |
-| 1015 | 1015 · G Connect Players screen: create code / join off Home — GPT green, one run. HO-014: pair panel moves from Home to its own CONNECT PLAYERS screen (Team V SJ design). Pairing logic unchanged; lead runs pairing audits. | 🟩 Sol Work mode | merged into bug-list-1 (e9615a7) | GPT green round 3 (same chat, Work mode) |
 
 ## 🔵 V Factory
 
@@ -122,18 +127,11 @@ Latest:
 **Shipped to the live game today (3):** [#436](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/436) Release r65: career history fixes, auto close, plain words · [#429](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/429) Release r64: Forget device sign-back-in, phone LOCK MY SIGN… · [#435](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/435) Re-pin the composed Rules check to production main r63
 
 <details>
-<summary>Done jobs (10 future-list rows, 1 Team V jobs, 11 hand-offs, 33 factory jobs)</summary>
+<summary>Done jobs (3 future-list rows, 1 Team V jobs, 11 hand-offs, 33 factory jobs)</summary>
 
-- G 1010: 1010 · G 10-season sweep: scoring, history and final math (done (merged into bug-list-1))
 - G 1017: 1017 · G Gameplay hunt 1: shared season flow across devices (done (4 bugs found, PR #407))
 - G 1018: 1018 · G Gameplay hunt 2: sessions, pairing and reconnect (done: 5 confirmed findings (PR #404), fixes are 1023 and 1024)
 - G 1019: 1019 · G Gameplay hunt 3: entries, saves and career numbers (done (5 bugs found, PR #409))
-- G 1022: Connect Players: match Team V's start-join design (1015 follow-up) (done (merged into bug-list-1))
-- G 1023: Session code replacement: double tap and lost join watcher (done (merged into bug-list-1))
-- G 1024: Reconnect keeps stale authority after sign-out, offline or expiry (done (merged into bug-list-1))
-- G 1025: Terminal close recovery and closed-frame trophies (hunt 1017 H1-H3) (done (merged into bug-list-1))
-- G 1026: New shared season clears last season's result fields (hunt 1017 H4) (done (merged into bug-list-1))
-- G 1027: Restore keeps and checks the Save Library; career cache race (hunt 1019 H1, H2, H4) (done (merged into bug-list-1))
 - V V-247: Phone Home tile icons like GOAL_HOME ([PR #381](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/381))
 - HO-001 (G → V): Use hand-off tickets for passing work (relay v1.1)
 - HO-002 (G → V): Smooth stage atmosphere on idle screens (pointer stutter root cause)
@@ -194,7 +192,7 @@ Latest:
 ## Every bug report
 
 
-> Updated **Fri 9 Oct, 8:03 AM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
+> Updated **Fri 9 Oct, 8:52 AM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
 
 | 🔓 Open | 🔴 Top priority | 🔧 Fixing or waiting for release | ✅ Fixed and live |
 | :---: | :---: | :---: | :---: |

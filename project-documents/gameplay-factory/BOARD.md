@@ -1,6 +1,6 @@
 # Bug hunt board
 
-Updated Fri 9 Oct, 8:03 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
+Updated Fri 9 Oct, 8:52 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views show this same board. Older detail: [archive](BOARD_ARCHIVE.md) · [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r65** (main `e49add9`, Fri 9 Oct 2:48 AM)
 
@@ -8,12 +8,20 @@ Updated Fri 9 Oct, 8:03 AM Boston time. Bug hunting only, no new features until 
 
 ## Jobs
 
+**Running now**
+
+- **1043** Showdown Gate: no write token for pull-request code (audit F1) · building
+
 **Next for you, in this order**
 
-1. **1041** Season Results on phone: ACKNOWLEDGE reachable, no inner scroll box, title clear, photos aligned: Codex cloud, branch gameplay/bug-list-1: type 'Job 1041' · same family as Studio Z's Signing Entry fix
-2. **1042** Closed Final Winner shows the final season on both phones: Codex cloud, branch gameplay/bug-list-1: type 'Job 1042' · follow-up to 1038; ticket jobs/JOB-1042.md
+1. **1042** Closed Final Winner shows the final season on both phones: Codex cloud, branch gameplay/bug-list-1: type 'Job 1042' · follow-up to 1038; ticket jobs/JOB-1042.md
+2. **1044** Showdown Gate: exit report and seal fail closed on bad evidence (audit F2, F3): Codex cloud, branch gameplay/bug-list-1: type 'Job 1044' · ticket jobs/JOB-1044.md; after 1042
 
-**Done, in the next release:** 1001, 1003, 1004, 1005, 1009, 1011, 1014, 1015, 1020, 1021, 1028, 1037, 1038, 1039, 1040, Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8
+**Waiting on something else**
+
+- **1045** Showdown Gate: pin actions and tool installs (audit F4) · waits on 1043
+
+**Done, in the next release:** 1001, 1003, 1004, 1005, 1009, 1010, 1011, 1014, 1015, 1020, 1021, 1022, 1023, 1024, 1025, 1026, 1027, 1028, 1037, 1038, 1039, 1040, 1041, Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8
 
 ## Goals for Thursday
 
@@ -32,7 +40,6 @@ Updated Fri 9 Oct, 8:03 AM Boston time. Bug hunting only, no new features until 
 
 | Lane | Item | What | State |
 | --- | --- | --- | --- |
-| 🟧 Opus | **G-F17** | Showdown Gate: replace POS20 with a faster check system built on Claude and GitHub, keeping every check (plan: /mnt/project-files/check-system/SHOWDOWN_GATE_PLAN.md) | building shadow |
 | 🟧 Opus | **G-F18** | Old-design screen audit: Legacy, Career Statistics and Trophy Room still open in the old shell; drive every live screen in a browser against Team V's design and route all of them to the new design | in progress |
 
 **Up next**
@@ -41,6 +48,7 @@ Updated Fri 9 Oct, 8:03 AM Boston time. Bug hunting only, no new features until 
 | --- | --- | --- | --- |
 | 🟪 Sonnet | **G-F5** | QA packet adoptions: truth line, wrong-target guard on main PRs, PR title rule | next |
 | 🟪 Sonnet | **G-F11** | Old-design CSS collisions: scope old rulebook/settings/analytics/app CSS off Team V markup (about 70 shared class names) | ready |
+| 🟧 Opus | **G-F17** | Showdown Gate: replace POS20 with a faster check system built on Claude and GitHub, keeping every check (plan: /mnt/project-files/check-system/SHOWDOWN_GATE_PLAN.md) | shadow: KEEP_SHADOW after the 9 Oct independent audit · after exit bar: 10 real PRs agree (2 full seals), 2 canaries fail, 1 simulated outage recovers; POS20 stays the merge authority until then |
 | 🟦 Sol chat | **G-F4** | GPT Q&A team: scripted paths and code-vs-rulebook reads | queued · after G-F1 |
 | 🟪 Sonnet | **G-F7** | Ten-season smoothness run on live 2.0 (emulator, 10 seasons with a mid-game expiry) | queued · after G-F1 |
 
