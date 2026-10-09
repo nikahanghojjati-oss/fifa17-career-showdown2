@@ -11,25 +11,25 @@ function check(id, label, fn) {
 }
 
 check("D1", "draft keys are scoped to rivalry, season, and manager role", () => {
-  assert.match(source, /cms\\.signingDraft\\.v1:\\$\\{request\\.rivalryId\\}:\\$\\{request\\.seasonNumber\\}:\\$\\{role\\}/);
+  assert.ok(source.includes("cms.signingDraft.v1:" + "${request.rivalryId}:${request.seasonNumber}:${role}"));
 });
 check("D2", "the same context restores locally saved rows only during unlocked Signing Entry", () => {
-  assert.match(source, /function pstcRestoreSigningDraft\\(role,own\\)/);
-  assert.match(source, /actualPhase===\"SIGNING_ENTRY\"&&!isReplay&&!state\\?\\.signingLockedRoles\\?\\.includes\\(role\\)\\)pstcRestoreSigningDraft\\(role,own\\)/);
-  assert.match(source, /draft\\.rivalryId!==request\\.rivalryId\\|\\|Number\\(draft\\.seasonNumber\\)!==request\\.seasonNumber\\|\\|draft\\.role!==role/);
+  assert.ok(source.includes("function pstcRestoreSigningDraft(role,own)"));
+  assert.ok(source.includes('actualPhase==="SIGNING_ENTRY"&&!isReplay&&!state?.signingLockedRoles?.includes(role))pstcRestoreSigningDraft(role,own)'));
+  assert.ok(source.includes("draft.rivalryId!==request.rivalryId||Number(draft.seasonNumber)!==request.seasonNumber||draft.role!==role"));
 });
 check("D3", "locking signings clears the manager's draft and locked shared rows cannot restore it", () => {
-  assert.match(source, /method===\"lockSignings\"\\)pstcClearSigningDraft\\(view\\.managerRole\\)/);
-  assert.match(source, /state\\.signingLockedRoles\\?\\.includes\\(role\\)\\|\\|shared\\.length/);
+  assert.ok(source.includes('method==="lockSignings")pstcClearSigningDraft(view.managerRole)'));
+  assert.ok(source.includes("state.signingLockedRoles?.includes(role)||shared.length"));
 });
 check("D4", "typing saves only this manager's signing fields on this device", () => {
-  assert.match(source, /function pstcSaveSigningDraft\\(role\\)/);
-  assert.match(source, /view\\.managerRole!==role/);
-  assert.match(source, /const prefix=pstcRolePrefix\\(role\\),rows=\\[\\]/);
-  assert.match(source, /root\\.localStorage\\.setItem\\(key,JSON\\.stringify/);
+  assert.ok(source.includes("function pstcSaveSigningDraft(role)"));
+  assert.ok(source.includes("view.managerRole!==role"));
+  assert.ok(source.includes("const prefix=pstcRolePrefix(role),rows=[]"));
+  assert.ok(source.includes("root.localStorage.setItem(key,JSON.stringify"));
   assert.equal(source.includes("sessionStorage"), false);
 });
 check("D5", "a rivalry, season, or role context change removes the previous local draft", () => {
-  assert.match(source, /signingDraftKey&&draftKey&&signingDraftKey!==draftKey\\)pstcRemoveSigningDraft\\(signingDraftKey\\)/);
+  assert.ok(source.includes("signingDraftKey&&draftKey&&signingDraftKey!==draftKey)pstcRemoveSigningDraft(signingDraftKey)"));
 });
 console.log(`PASS JOB-1050 signing draft contracts: ${checks} checks.`);
