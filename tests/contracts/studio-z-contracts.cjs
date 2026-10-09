@@ -96,11 +96,11 @@ check("Z8","a league name two countries share waits for an explicit choice",()=>
 
 
 const pendingAsync=[];
-check("Z10","Forget device never locks the account out: a revoked local identity is replaced and the same account signs in again",()=>{
+check("Z10","Forget device never locks the account out, and a device revoked elsewhere stays revoked",()=>{
   const identity=read("js/onlinePlayerIdentity.js"),pairing=read("js/sparkPrivatePairing.js");
   assert.match(identity,/clearPrivateDeviceIdentity\(\);\}catch\(_\)\{cleanupFailed=true;\}try\{root\.CareerModeSparkPrivatePairing\?\.resetDeviceIdentityCache\?\.\(\)/,"Forget clears the pairing cache after the local delete");
   assert.match(pairing,/function resetDeviceIdentityCache\(\)\{pairingIdentity=null;/);
-  assert.match(pairing,/result\.code==="PRIVATE_DEVICE_REVOKED"&&!healed/,"a revoked own identity is replaced once");
+  assert.doesNotMatch(pairing,/discardLocalDeviceIdentity|healed/,"no automatic re-registration of a revoked device");
   // Behaviour: run the real pairing module against an in-memory IndexedDB and Firestore.
   const idb=new Map(),docs=new Map();
   const req=fn=>{const r={};Promise.resolve().then(()=>{r.result=fn();r.onsuccess&&r.onsuccess();});return r;};
@@ -125,13 +125,13 @@ check("Z10","Forget device never locks the account out: a revoked local identity
     assert.equal(api.getState().registered,true,"the same account signs in again after Forget");
     assert.notEqual(api.getState().deviceId,id1.deviceId,"a fresh device id is used");
     assert.equal(docs.get(key).data.state,"revoked","the revoked server record is untouched");
-    // Self-heal: even if the local delete was skipped, a stored revoked identity is replaced.
+    // A device revoked without Forget on this browser keeps its stored identity and stays revoked.
     const id2=api.getState().deviceId,key2=`accounts/uid1/devices/${id2}`;
     docs.set(key2,{...docs.get(key2),data:{...docs.get(key2).data,state:"revoked"}});
     acct={connected:false,accountId:null};listeners.forEach(f=>f(acct));acct={connected:true,accountId:"uid1"};
     await api.initialize();
-    assert.equal(api.getState().registered,true,"a stale revoked identity self-heals");
-    assert.notEqual(api.getState().deviceId,id2);
+    assert.equal(api.getState().registered,false,"a device revoked elsewhere is not silently re-registered");
+    assert.equal(api.getState().status,"revoked");
   })());
 });
 
