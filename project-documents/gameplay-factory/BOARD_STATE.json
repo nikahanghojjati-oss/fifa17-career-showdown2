@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-09 7:23 PM Boston time (EDT)",
+ "generated": "2026-10-09 7:24 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -708,7 +708,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 42,
+  "moving": 41,
   "next": 4,
   "nik": 2,
   "later": 8,
@@ -1013,19 +1013,6 @@
       "archived": true
      },
      {
-      "id": "1045",
-      "title": "Showdown Gate: pin actions and tool installs (audit F4)",
-      "lane": "codex",
-      "state": "worker done, lead checking (PR #447): all 37 action pins match the upstream tags; CI running",
-      "order": 25,
-      "place": "Codex cloud, this repo, branch gameplay/bug-list-1",
-      "note": "ticket jobs/JOB-1045.md; stays Codex: it must read GitHub Actions release tags, which chat and Claude lanes cannot",
-      "team": "white",
-      "model": "Codex default coding model",
-      "effort": "Medium",
-      "prompt": ""
-     },
-     {
       "id": "1050",
       "title": "Unfinished Signing Entry rows survive a refresh (Olympiad V4)",
       "lane": "gpt-work",
@@ -1130,7 +1117,7 @@
       "id": "G-F17",
       "title": "Showdown Gate: replace POS20 with a faster check system built on Claude and GitHub, keeping every check (plan: /mnt/project-files/check-system/SHOWDOWN_GATE_PLAN.md)",
       "lane": "opus",
-      "state": "shadow: KEEP_SHADOW after the 9 Oct independent audit (71/100); fixes 1043, 1044, 1045 first",
+      "state": "shadow: KEEP_SHADOW after the 9 Oct independent audit (71/100); fixes 1043, 1044 and 1045 merged; the owner card waits for a fresh exit report",
       "waits_on": "exit bar: 10 real PRs agree (2 full seals), 2 canaries fail, 1 simulated outage recovers; POS20 stays the merge authority until then",
       "details": "Nik 6:02 PM Boston time: gradual replacement; POS20 is archived to authority-history/pos20-archive/, not deleted",
       "note": "reports/SHOWDOWN_GATE_AUDIT_2026-10-09.md"
