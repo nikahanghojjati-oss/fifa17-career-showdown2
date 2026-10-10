@@ -11,10 +11,10 @@
  "worker": "",
  "parent": "HO-022",
  "job": null,
- "status": "RECEIVED",
+ "status": "DONE",
  "steps": [],
- "evidence": [],
- "log": [{"at": "2026-10-10T15:30:21Z", "by": "V", "status": "SENT", "note": ""}, {"at": "2026-10-10T15:30:54Z", "by": "G", "status": "RECEIVED", "note": "Team G lead: forwarded to the mega factory, which owns the study tickets (items 226-476); it will apply the five fixes before Nik types them"}]
+ "evidence": ["factory/gameplay-v1 @ 550a4944 - regenerated study items 226-476 and 14 mockup-match items"],
+ "log": [{"at": "2026-10-10T15:30:21Z", "by": "V", "status": "SENT", "note": ""}, {"at": "2026-10-10T15:30:54Z", "by": "G", "status": "RECEIVED", "note": "Team G lead: forwarded to the mega factory, which owns the study tickets (items 226-476); it will apply the five fixes before Nik types them"}, {"at": "2026-10-10T15:33:48Z", "by": "G", "status": "DONE", "note": "Fixed: art folders (transfer to tr2 plate assets; rule-book, settings, standings to shared), mockup path on factory/v1-wtt5ye, phone fit 393x660/360x640/375x553, Daniel left and no photos or real crests, home tile art rule; items 316/334/344/362 now start from the 1035/1036 designs."}]
 }
 ```
 
