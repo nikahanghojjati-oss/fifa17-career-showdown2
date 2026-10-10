@@ -1,12 +1,11 @@
 {
-"updated": "2026-10-10T16:28:27Z",
+"updated": "2026-10-10T16:32:13Z",
 "total": 518,
 "next_free": 35,
 "highest_taken": 34,
 "counts": {
 "on_train": 17,
-"draft": 16,
-"started": 1,
+"draft": 17,
 "waiting": 484
 },
 "stages": {
@@ -22,8 +21,7 @@
 "name": "Gameplay audits",
 "total": 112,
 "states": {
-"draft": 16,
-"started": 1,
+"draft": 17,
 "waiting": 95
 }
 },
@@ -76,7 +74,6 @@
 "draft_code_prs": 0,
 "area_locks": {},
 "ready": [
-34,
 35,
 36,
 37,
@@ -87,10 +84,10 @@
 42,
 43,
 44,
-45
+45,
+46
 ],
 "ready_sol": [
-34,
 35,
 36,
 37,
@@ -101,7 +98,8 @@
 42,
 43,
 44,
-45
+45,
+46
 ],
 "ready_codex": []
 },
@@ -383,6 +381,13 @@
 "job": 1483,
 "from": "waiting",
 "to": "started"
+},
+{
+"at": "2026-10-10T16:32:13Z",
+"item": 34,
+"job": 1483,
+"from": "started",
+"to": "draft"
 }
 ],
 "items": {
@@ -899,12 +904,19 @@
 "title": "Audit js/productionSharedTransferChallenge.js for gameplay bugs (first half)",
 "mode": "audit",
 "group": null,
-"state": "started",
+"pr": 478,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/478",
+"base": "qa/mega-audits",
 "branch": "qa/job-1483-transfer-race-audit",
-"branch_sha": "fe1eef9adb5f6e57b1577872b554c506a5907689",
-"no_pr_reason": "",
+"ci": "draft",
+"ci_sha": "8346e07c8cf06d1ff803d0083eb7dbccf565515c",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-10T16:29:10Z",
 "first_seen": "2026-10-10T16:28:27Z",
-"since": "2026-10-10T16:28:27Z"
+"since": "2026-10-10T16:32:13Z"
 },
 "35": {
 "job": 1410,

@@ -1,6 +1,6 @@
-# Mega factory tracker · updated 2026-10-10T16:28:27Z
+# Mega factory tracker · updated 2026-10-10T16:32:13Z
 
-**Type now:** 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45
+**Type now:** 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46
 **Next free number:** 35 · **highest taken:** 34 of 518
 **Code PRs open:** 0 of 8 · area locks: none
 **Rate:** 2 claimed in 10 min · 7 in 1 h · 0 merged in 1 h
@@ -10,8 +10,7 @@
 State | count
 --- | ---
 🚂 done, on the train branch, no PR yet | 17
-📝 worker done, draft PR open | 16
-🟦 started, no PR yet | 1
+📝 worker done, draft PR open | 17
 ⬜ waiting | 484
 
 Stage | total | merged/live | in flight | waiting
@@ -57,10 +56,11 @@ Stage | total | merged/live | in flight | waiting
 - 🚂 **31** · Job 1294 · Legacy: fix the 390x844 view · done, on the train branch, no PR yet
 - 📝 **32** · Job 1482 · Audit js/transferChallenge.js for gameplay bugs (second half) · worker done, draft PR open · [PR #474](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/474)
 - 🚂 **33** · Job 1323 · Trophy Room: fix the 390x844 view · done, on the train branch, no PR yet
-- 🟦 **34** · Job 1483 · Audit js/productionSharedTransferChallenge.js for gameplay bugs (first half) · started, no PR yet
+- 📝 **34** · Job 1483 · Audit js/productionSharedTransferChallenge.js for gameplay bugs (first half) · worker done, draft PR open · [PR #478](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/478)
 
 ## Latest changes
 
+- 2026-10-10T16:32:13Z · 34 (Job 1483): started → draft
 - 2026-10-10T16:28:27Z · 34 (Job 1483): waiting → started
 - 2026-10-10T16:28:27Z · 33 (Job 1323): waiting → on_train
 - 2026-10-10T15:36:28Z · 32 (Job 1482): waiting → draft
@@ -80,4 +80,3 @@ Stage | total | merged/live | in flight | waiting
 - 2026-10-10T15:17:12Z · 21 (Job 1091): waiting → on_train
 - 2026-10-10T15:16:00Z · 20 (Job 1476): waiting → draft
 - 2026-10-10T15:16:00Z · 18 (Job 1475): started → draft
-- 2026-10-10T15:12:12Z · 18 (Job 1475): waiting → started

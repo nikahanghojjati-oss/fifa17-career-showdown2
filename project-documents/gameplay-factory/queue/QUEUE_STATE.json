@@ -1,7 +1,6 @@
 {
  "sequence": {
   "ready": [
-   34,
    35,
    36,
    37,
@@ -12,10 +11,10 @@
    42,
    43,
    44,
-   45
+   45,
+   46
   ],
   "ready_sol": [
-   34,
    35,
    36,
    37,
@@ -26,14 +25,15 @@
    42,
    43,
    44,
-   45
+   45,
+   46
   ],
   "ready_codex": [],
   "held_until_picture": 101,
   "open_code_prs": 0,
   "open_train_prs": 0,
-  "next_free": 34,
-  "highest_taken": 33,
+  "next_free": 35,
+  "highest_taken": 34,
   "total": 518,
   "states": {
    "1": "on_train",
@@ -69,7 +69,7 @@
    "31": "on_train",
    "32": "pr_open",
    "33": "on_train",
-   "34": "waiting",
+   "34": "pr_open",
    "35": "waiting",
    "36": "waiting",
    "37": "waiting",
@@ -556,11 +556,11 @@
    "518": "waiting"
   }
  },
- "updated": "2026-10-10T16:28:27Z",
+ "updated": "2026-10-10T16:32:13Z",
  "counts": {
   "on_train": 17,
-  "waiting": 485,
-  "pr_open": 16
+  "waiting": 484,
+  "pr_open": 17
  },
  "stages": {
   "2": {
@@ -585,7 +585,7 @@
   },
   "1": {
    "total": 112,
-   "taken": 16,
+   "taken": 17,
    "merged": 0
   }
  },
@@ -4246,11 +4246,11 @@
    "branch": "qa/job-1482-transfer-challenge-second-half-audit"
   },
   "1483": {
-   "state": "waiting",
-   "pr": null,
-   "draft": false,
-   "pr_url": null,
-   "branch": null
+   "state": "pr_open",
+   "pr": 478,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/478",
+   "branch": "qa/job-1483-transfer-race-audit"
   },
   "1484": {
    "state": "waiting",
