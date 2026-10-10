@@ -24,7 +24,8 @@
    "TRANSFER",
    "LEAGUE",
    "CLUB",
-   "STATISTICS"
+   "STATISTICS",
+   "RIVALRY"
   ],
   "NEXT": []
  },
@@ -32,6 +33,7 @@
   "PHONE_CONNECT_PLAYERS": "Build from the real game text; the picture has a stray double space in \"create your\" (Team V).",
   "PHONE_LEAGUE": "Build the league wheel from the picture, not from live (the picture fixes three live flaws): 1) league marks and names sit fully inside their slices (the live rim hides their tops); 2) all five marks are one flat gold set (crown, bull, round plate, shield, numeral 1), black on the lit Premier League slice; 3) the centre hub is a gold football, not a second crown (live css/v10Setup.css 'crown hub'), and the top pointer has no crown. Keep the LEAGUE MARKS V2 shapes from js/visualIdentity.js. All other words come from the live screen.",
   "PHONE_CLUB": "1) Calm lighting: dark quiet stadium background; gold glow only on the title, VS, the LOCK step and the confirm button; the lower half is a clean near-black panel. 2) At 393x660 the live screen cuts the grey sentence above the button ('...Confirmation starts the'); make the full live sentence fit on two lines with no scroll, as the picture shows. 3) Live club badges stay as they are.",
-  "PHONE_STATISTICS": "The picture is 930x1536, about 1.7% wider than 393:660, so read sizes by proportion, not pixels. Every word and number matches live."
+  "PHONE_STATISTICS": "The picture is 930x1536, about 1.7% wider than 393:660, so read sizes by proportion, not pixels. Every word and number matches live.",
+  "PHONE_RIVALRY": "CLUB_A/CLUB_B in the picture are test data. The picture marks STANDINGS as the active bottom tab; keep the live nav state (STATS active)."
  }
 }
