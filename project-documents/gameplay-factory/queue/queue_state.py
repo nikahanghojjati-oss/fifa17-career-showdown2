@@ -83,8 +83,21 @@ def main():
             seq[k] = st
             if nxt_free is None and st == "waiting":
                 nxt_free = int(k)
+        ready, open_code, locked = [], 0, set()
+        for k in sorted(o, key=int):
+            t = q["tickets"][str(o[k]["job"])]
+            if t["mode"] == "code" and state[str(o[k]["job"])]["state"] == "pr_open":
+                open_code += 1; locked.add(t["group"])
+        seen = set(locked)
+        for k in sorted(o, key=int):
+            j = str(o[k]["job"]); t = q["tickets"][j]
+            if state[j]["state"] != "waiting": continue
+            if t["mode"] == "code":
+                if t["group"] in seen or open_code >= 8: continue
+                seen.add(t["group"])
+            ready.append(int(k))
         highest_taken = max([int(k) for k, v in seq.items() if v != "waiting"] or [0])
-        seq = {"next_free": nxt_free, "highest_taken": highest_taken, "total": len(o), "states": seq}
+        seq = {"ready": ready[:12], "open_code_prs": open_code, "next_free": nxt_free, "highest_taken": highest_taken, "total": len(o), "states": seq}
     out = {"sequence": seq, "updated": now, "counts": counts, "stages": stages, "slots": slots, "tickets": state}
     od = pathlib.Path(a.out_dir)
     (od / "QUEUE_STATE.json").write_text(json.dumps(out, indent=1) + "\n")

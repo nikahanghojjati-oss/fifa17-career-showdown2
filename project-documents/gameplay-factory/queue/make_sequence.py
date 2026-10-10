@@ -13,31 +13,42 @@ RAW = f"https://raw.githubusercontent.com/{REPO}/factory/gameplay-v1/project-doc
 def main():
     q = json.loads((Q / "QUEUE.json").read_text())
     tk = q["tickets"]
+    # code stream: groups take turns, strict job order inside a group; free stream: audits first, then studies
+    code, free_a, free_s = {}, [], {}
+    for job, t in sorted(tk.items(), key=lambda x: int(x[0])):
+        j = int(job)
+        if t["mode"] == "code": code.setdefault(t["group"], []).append(j)
+        elif t["mode"] == "audit": free_a.append(j)
+        else: free_s.setdefault((t["stage"], t["screen"]), []).append(j)
+    code_stream = [j for grp in itertools.zip_longest(*code.values()) for j in grp if j]
+    study_stream = []
+    for st in (4, 5):
+        bs = [v for (k, _), v in sorted(free_s.items(), key=lambda kv: kv[0]) if k == st]
+        study_stream += [j for grp in itertools.zip_longest(*bs) for j in grp if j]
+    free_stream = free_a + study_stream
     order = []
-    for stage in (1, 2, 3, 4, 5):
-        buckets = {}
-        for job, t in tk.items():
-            if t["stage"] != stage: continue
-            key = t["screen"]
-            if t["mode"] == "audit":
-                key = t["title"].split("js/")[1].split(".js")[0]
-            buckets.setdefault(key, []).append(int(job))
-        for b in buckets.values(): b.sort()
-        if stage == 1:  # spread 50 modules in file order
-            ks = list(buckets)
-            order += [j for k in ks for j in buckets[k]]
-            continue
-        order += [j for grp in itertools.zip_longest(*buckets.values()) for j in grp if j]
+    ci, fi = 0, 0
+    while ci < len(code_stream) or fi < len(free_stream):
+        if ci < len(code_stream): order.append(code_stream[ci]); ci += 1
+        if fi < len(free_stream): order.append(free_stream[fi]); fi += 1
+    prev_in_group = {}
+    for g, js in code.items():
+        for k, j in enumerate(js): prev_in_group[j] = js[k - 1] if k else None
     items = Q / "items"; items.mkdir(exist_ok=True)
     seq = {}
     for i, job in enumerate(order, 1):
         t = tk[str(job)]
         body = (GF / "jobs" / f"JOB-{job}.md").read_text()
         head = (f"<!-- queue item {i:04d} = job {job}; branch prefix {t['prefix']} -->\n"
-                f"**Queue item {i} · Job {job}.** First check (GitHub connector) that no branch starting with `{t['prefix']}` exists. "
-                f"If one does, reply exactly `Number {i} is already done. Try {i+1}.` and stop. Otherwise do the job below, exactly.\n\n")
+                f"**Queue item {i} · Job {job}.** Before anything else (GitHub connector): if a branch starting with `{t['prefix']}` already exists, reply exactly `Number {i} is already done. Try {i+1}.` and stop.\n")
+        if t["mode"] == "code":
+            pj = prev_in_group.get(job)
+            pre = f"- Earlier job of this lock group `{t['group']}` is Job {pj} (branch prefix `{tk[str(pj)]['prefix']}`): if no branch with that prefix exists yet, reply exactly `Number {i} must wait for an earlier number in group {t['group']}. Type the next number.` and stop.\n" if pj else ""
+            head += (f"**Guards (code job):**\n{pre}"
+                     f"- List the open pull requests into `gameplay/bug-list-1` whose title starts with `JOB-`. If one has `[{t['group']}]` in its title, reply exactly `Number {i} must wait: group {t['group']} already has a pull request open. Type the next number.` and stop. If eight or more are open, reply exactly `Eight code pull requests are waiting for review. Type a number from the board's ready list, or wait.` and stop.\n")
+        head += "Otherwise do the job below, exactly.\n\n"
         (items / f"{i:04d}.md").write_text(head + body)
-        seq[str(i)] = {"job": job, "prefix": t["prefix"], "stage": t["stage"], "title": t["title"], "mode": t["mode"], "screen": t["screen"]}
+        seq[str(i)] = {"group": t.get("group"), "job": job, "prefix": t["prefix"], "stage": t["stage"], "title": t["title"], "mode": t["mode"], "screen": t["screen"]}
     (Q / "ORDER.json").write_text(json.dumps({"_about": "Queue number -> job. Strict order, stages 1 to 5. Never renumber a published number.", "total": len(order), "items": seq}, indent=1, ensure_ascii=False) + "\n")
     instr = f"""You are a worker in the Career Mode Showdown factory. Repository: {REPO} (public). Factory branch: factory/gameplay-v1.
 

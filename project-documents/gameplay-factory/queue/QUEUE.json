@@ -686,7 +686,8 @@
    "screen": "home",
    "mode": "code",
    "prefix": "gameplay/job-1061-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "home"
   },
   "1062": {
    "title": "Home: fix the 390x844 view",
@@ -694,7 +695,8 @@
    "screen": "home",
    "mode": "code",
    "prefix": "gameplay/job-1062-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "home"
   },
   "1063": {
    "title": "Home: fix the 430x932 view",
@@ -702,7 +704,8 @@
    "screen": "home",
    "mode": "code",
    "prefix": "gameplay/job-1063-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "home"
   },
   "1064": {
    "title": "Home: fix the 844x390 view",
@@ -710,7 +713,8 @@
    "screen": "home",
    "mode": "code",
    "prefix": "gameplay/job-1064-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "home"
   },
   "1065": {
    "title": "Home: fix the 932x430 view",
@@ -718,7 +722,8 @@
    "screen": "home",
    "mode": "code",
    "prefix": "gameplay/job-1065-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "home"
   },
   "1066": {
    "title": "Home: fix the 768x1024 view",
@@ -726,7 +731,8 @@
    "screen": "home",
    "mode": "code",
    "prefix": "gameplay/job-1066-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "home"
   },
   "1067": {
    "title": "Home: fix the 1280x650 view",
@@ -734,7 +740,8 @@
    "screen": "home",
    "mode": "code",
    "prefix": "gameplay/job-1067-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "home"
   },
   "1068": {
    "title": "Home: fix the 1366x768 view",
@@ -742,7 +749,8 @@
    "screen": "home",
    "mode": "code",
    "prefix": "gameplay/job-1068-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "home"
   },
   "1069": {
    "title": "Home: fix the 1920x1080 view",
@@ -750,7 +758,8 @@
    "screen": "home",
    "mode": "code",
    "prefix": "gameplay/job-1069-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "home"
   },
   "1070": {
    "title": "Home: fix the 2560x1080 view",
@@ -758,7 +767,8 @@
    "screen": "home",
    "mode": "code",
    "prefix": "gameplay/job-1070-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "home"
   },
   "1071": {
    "title": "Home: match the desktop mockup",
@@ -766,7 +776,8 @@
    "screen": "home",
    "mode": "code",
    "prefix": "gameplay/job-1071-",
-   "kind": "s3"
+   "kind": "s3",
+   "group": "home"
   },
   "1072": {
    "title": "Home: long names",
@@ -774,7 +785,8 @@
    "screen": "home",
    "mode": "code",
    "prefix": "gameplay/job-1072-",
-   "kind": "a-long-names"
+   "kind": "a-long-names",
+   "group": "home"
   },
   "1073": {
    "title": "Home: tap targets",
@@ -782,7 +794,8 @@
    "screen": "home",
    "mode": "code",
    "prefix": "gameplay/job-1073-",
-   "kind": "a-tap-targets"
+   "kind": "a-tap-targets",
+   "group": "home"
   },
   "1074": {
    "title": "Home: keyboard focus and reduced motion",
@@ -790,7 +803,8 @@
    "screen": "home",
    "mode": "code",
    "prefix": "gameplay/job-1074-",
-   "kind": "a-focus-motion"
+   "kind": "a-focus-motion",
+   "group": "home"
   },
   "1075": {
    "title": "Home: text contrast",
@@ -798,7 +812,8 @@
    "screen": "home",
    "mode": "code",
    "prefix": "gameplay/job-1075-",
-   "kind": "a-contrast"
+   "kind": "a-contrast",
+   "group": "home"
   },
   "1076": {
    "title": "Home: picture descriptions and labels",
@@ -806,7 +821,8 @@
    "screen": "home",
    "mode": "code",
    "prefix": "gameplay/job-1076-",
-   "kind": "a-alt-text"
+   "kind": "a-alt-text",
+   "group": "home"
   },
   "1077": {
    "title": "Home: loading state",
@@ -814,7 +830,8 @@
    "screen": "home",
    "mode": "code",
    "prefix": "gameplay/job-1077-",
-   "kind": "a-loading-state"
+   "kind": "a-loading-state",
+   "group": "home"
   },
   "1078": {
    "title": "Home: empty state",
@@ -822,7 +839,8 @@
    "screen": "home",
    "mode": "code",
    "prefix": "gameplay/job-1078-",
-   "kind": "a-empty-state"
+   "kind": "a-empty-state",
+   "group": "home"
   },
   "1079": {
    "title": "Home: error and retry state",
@@ -830,7 +848,8 @@
    "screen": "home",
    "mode": "code",
    "prefix": "gameplay/job-1079-",
-   "kind": "a-error-state"
+   "kind": "a-error-state",
+   "group": "home"
   },
   "1080": {
    "title": "Home: hover-only effects",
@@ -838,7 +857,8 @@
    "screen": "home",
    "mode": "code",
    "prefix": "gameplay/job-1080-",
-   "kind": "a-touch-hover"
+   "kind": "a-touch-hover",
+   "group": "home"
   },
   "1081": {
    "title": "Home: phone mockup, version A (faithful)",
@@ -846,7 +866,8 @@
    "screen": "home",
    "mode": "study",
    "prefix": "study/job-1081-",
-   "kind": "st-phone-a"
+   "kind": "st-phone-a",
+   "group": null
   },
   "1082": {
    "title": "Home: phone mockup, version B (bold hierarchy)",
@@ -854,7 +875,8 @@
    "screen": "home",
    "mode": "study",
    "prefix": "study/job-1082-",
-   "kind": "st-phone-b"
+   "kind": "st-phone-b",
+   "group": null
   },
   "1083": {
    "title": "Home: phone mockup, version C (compact)",
@@ -862,7 +884,8 @@
    "screen": "home",
    "mode": "study",
    "prefix": "study/job-1083-",
-   "kind": "st-phone-c"
+   "kind": "st-phone-c",
+   "group": null
   },
   "1084": {
    "title": "Home: sideways phone study",
@@ -870,7 +893,8 @@
    "screen": "home",
    "mode": "study",
    "prefix": "study/job-1084-",
-   "kind": "st-sideways"
+   "kind": "st-sideways",
+   "group": null
   },
   "1085": {
    "title": "Home: upright tablet study",
@@ -878,7 +902,8 @@
    "screen": "home",
    "mode": "study",
    "prefix": "study/job-1085-",
-   "kind": "st-tablet"
+   "kind": "st-tablet",
+   "group": null
   },
   "1086": {
    "title": "Home: improved desktop, version A (polish)",
@@ -886,7 +911,8 @@
    "screen": "home",
    "mode": "study",
    "prefix": "study/job-1086-",
-   "kind": "st-desktop-a"
+   "kind": "st-desktop-a",
+   "group": null
   },
   "1087": {
    "title": "Home: improved desktop, version B (focus)",
@@ -894,7 +920,8 @@
    "screen": "home",
    "mode": "study",
    "prefix": "study/job-1087-",
-   "kind": "st-desktop-b"
+   "kind": "st-desktop-b",
+   "group": null
   },
   "1088": {
    "title": "Home: improved desktop, version C (wide)",
@@ -902,7 +929,8 @@
    "screen": "home",
    "mode": "study",
    "prefix": "study/job-1088-",
-   "kind": "st-desktop-c"
+   "kind": "st-desktop-c",
+   "group": null
   },
   "1089": {
    "title": "Home: states sheet",
@@ -910,7 +938,8 @@
    "screen": "home",
    "mode": "study",
    "prefix": "study/job-1089-",
-   "kind": "st-states"
+   "kind": "st-states",
+   "group": null
   },
   "1090": {
    "title": "Connect Players (start and join): fix the 360x640 view",
@@ -918,7 +947,8 @@
    "screen": "start-join",
    "mode": "code",
    "prefix": "gameplay/job-1090-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "start-join"
   },
   "1091": {
    "title": "Connect Players (start and join): fix the 390x844 view",
@@ -926,7 +956,8 @@
    "screen": "start-join",
    "mode": "code",
    "prefix": "gameplay/job-1091-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "start-join"
   },
   "1092": {
    "title": "Connect Players (start and join): fix the 430x932 view",
@@ -934,7 +965,8 @@
    "screen": "start-join",
    "mode": "code",
    "prefix": "gameplay/job-1092-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "start-join"
   },
   "1093": {
    "title": "Connect Players (start and join): fix the 844x390 view",
@@ -942,7 +974,8 @@
    "screen": "start-join",
    "mode": "code",
    "prefix": "gameplay/job-1093-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "start-join"
   },
   "1094": {
    "title": "Connect Players (start and join): fix the 932x430 view",
@@ -950,7 +983,8 @@
    "screen": "start-join",
    "mode": "code",
    "prefix": "gameplay/job-1094-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "start-join"
   },
   "1095": {
    "title": "Connect Players (start and join): fix the 768x1024 view",
@@ -958,7 +992,8 @@
    "screen": "start-join",
    "mode": "code",
    "prefix": "gameplay/job-1095-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "start-join"
   },
   "1096": {
    "title": "Connect Players (start and join): fix the 1280x650 view",
@@ -966,7 +1001,8 @@
    "screen": "start-join",
    "mode": "code",
    "prefix": "gameplay/job-1096-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "start-join"
   },
   "1097": {
    "title": "Connect Players (start and join): fix the 1366x768 view",
@@ -974,7 +1010,8 @@
    "screen": "start-join",
    "mode": "code",
    "prefix": "gameplay/job-1097-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "start-join"
   },
   "1098": {
    "title": "Connect Players (start and join): fix the 1920x1080 view",
@@ -982,7 +1019,8 @@
    "screen": "start-join",
    "mode": "code",
    "prefix": "gameplay/job-1098-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "start-join"
   },
   "1099": {
    "title": "Connect Players (start and join): fix the 2560x1080 view",
@@ -990,7 +1028,8 @@
    "screen": "start-join",
    "mode": "code",
    "prefix": "gameplay/job-1099-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "start-join"
   },
   "1100": {
    "title": "Connect Players (start and join): match the desktop mockup",
@@ -998,7 +1037,8 @@
    "screen": "start-join",
    "mode": "code",
    "prefix": "gameplay/job-1100-",
-   "kind": "s3"
+   "kind": "s3",
+   "group": "start-join"
   },
   "1101": {
    "title": "Connect Players (start and join): long names",
@@ -1006,7 +1046,8 @@
    "screen": "start-join",
    "mode": "code",
    "prefix": "gameplay/job-1101-",
-   "kind": "a-long-names"
+   "kind": "a-long-names",
+   "group": "start-join"
   },
   "1102": {
    "title": "Connect Players (start and join): tap targets",
@@ -1014,7 +1055,8 @@
    "screen": "start-join",
    "mode": "code",
    "prefix": "gameplay/job-1102-",
-   "kind": "a-tap-targets"
+   "kind": "a-tap-targets",
+   "group": "start-join"
   },
   "1103": {
    "title": "Connect Players (start and join): keyboard focus and reduced motion",
@@ -1022,7 +1064,8 @@
    "screen": "start-join",
    "mode": "code",
    "prefix": "gameplay/job-1103-",
-   "kind": "a-focus-motion"
+   "kind": "a-focus-motion",
+   "group": "start-join"
   },
   "1104": {
    "title": "Connect Players (start and join): text contrast",
@@ -1030,7 +1073,8 @@
    "screen": "start-join",
    "mode": "code",
    "prefix": "gameplay/job-1104-",
-   "kind": "a-contrast"
+   "kind": "a-contrast",
+   "group": "start-join"
   },
   "1105": {
    "title": "Connect Players (start and join): picture descriptions and labels",
@@ -1038,7 +1082,8 @@
    "screen": "start-join",
    "mode": "code",
    "prefix": "gameplay/job-1105-",
-   "kind": "a-alt-text"
+   "kind": "a-alt-text",
+   "group": "start-join"
   },
   "1106": {
    "title": "Connect Players (start and join): loading state",
@@ -1046,7 +1091,8 @@
    "screen": "start-join",
    "mode": "code",
    "prefix": "gameplay/job-1106-",
-   "kind": "a-loading-state"
+   "kind": "a-loading-state",
+   "group": "start-join"
   },
   "1107": {
    "title": "Connect Players (start and join): empty state",
@@ -1054,7 +1100,8 @@
    "screen": "start-join",
    "mode": "code",
    "prefix": "gameplay/job-1107-",
-   "kind": "a-empty-state"
+   "kind": "a-empty-state",
+   "group": "start-join"
   },
   "1108": {
    "title": "Connect Players (start and join): error and retry state",
@@ -1062,7 +1109,8 @@
    "screen": "start-join",
    "mode": "code",
    "prefix": "gameplay/job-1108-",
-   "kind": "a-error-state"
+   "kind": "a-error-state",
+   "group": "start-join"
   },
   "1109": {
    "title": "Connect Players (start and join): hover-only effects",
@@ -1070,7 +1118,8 @@
    "screen": "start-join",
    "mode": "code",
    "prefix": "gameplay/job-1109-",
-   "kind": "a-touch-hover"
+   "kind": "a-touch-hover",
+   "group": "start-join"
   },
   "1110": {
    "title": "Connect Players (start and join): phone mockup, version A (faithful)",
@@ -1078,7 +1127,8 @@
    "screen": "start-join",
    "mode": "study",
    "prefix": "study/job-1110-",
-   "kind": "st-phone-a"
+   "kind": "st-phone-a",
+   "group": null
   },
   "1111": {
    "title": "Connect Players (start and join): phone mockup, version B (bold hierarchy)",
@@ -1086,7 +1136,8 @@
    "screen": "start-join",
    "mode": "study",
    "prefix": "study/job-1111-",
-   "kind": "st-phone-b"
+   "kind": "st-phone-b",
+   "group": null
   },
   "1112": {
    "title": "Connect Players (start and join): phone mockup, version C (compact)",
@@ -1094,7 +1145,8 @@
    "screen": "start-join",
    "mode": "study",
    "prefix": "study/job-1112-",
-   "kind": "st-phone-c"
+   "kind": "st-phone-c",
+   "group": null
   },
   "1113": {
    "title": "Connect Players (start and join): sideways phone study",
@@ -1102,7 +1154,8 @@
    "screen": "start-join",
    "mode": "study",
    "prefix": "study/job-1113-",
-   "kind": "st-sideways"
+   "kind": "st-sideways",
+   "group": null
   },
   "1114": {
    "title": "Connect Players (start and join): upright tablet study",
@@ -1110,7 +1163,8 @@
    "screen": "start-join",
    "mode": "study",
    "prefix": "study/job-1114-",
-   "kind": "st-tablet"
+   "kind": "st-tablet",
+   "group": null
   },
   "1115": {
    "title": "Connect Players (start and join): improved desktop, version A (polish)",
@@ -1118,7 +1172,8 @@
    "screen": "start-join",
    "mode": "study",
    "prefix": "study/job-1115-",
-   "kind": "st-desktop-a"
+   "kind": "st-desktop-a",
+   "group": null
   },
   "1116": {
    "title": "Connect Players (start and join): improved desktop, version B (focus)",
@@ -1126,7 +1181,8 @@
    "screen": "start-join",
    "mode": "study",
    "prefix": "study/job-1116-",
-   "kind": "st-desktop-b"
+   "kind": "st-desktop-b",
+   "group": null
   },
   "1117": {
    "title": "Connect Players (start and join): improved desktop, version C (wide)",
@@ -1134,7 +1190,8 @@
    "screen": "start-join",
    "mode": "study",
    "prefix": "study/job-1117-",
-   "kind": "st-desktop-c"
+   "kind": "st-desktop-c",
+   "group": null
   },
   "1118": {
    "title": "Connect Players (start and join): states sheet",
@@ -1142,7 +1199,8 @@
    "screen": "start-join",
    "mode": "study",
    "prefix": "study/job-1118-",
-   "kind": "st-states"
+   "kind": "st-states",
+   "group": null
   },
   "1119": {
    "title": "Select League: fix the 360x640 view",
@@ -1150,7 +1208,8 @@
    "screen": "league",
    "mode": "code",
    "prefix": "gameplay/job-1119-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "league"
   },
   "1120": {
    "title": "Select League: fix the 390x844 view",
@@ -1158,7 +1217,8 @@
    "screen": "league",
    "mode": "code",
    "prefix": "gameplay/job-1120-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "league"
   },
   "1121": {
    "title": "Select League: fix the 430x932 view",
@@ -1166,7 +1226,8 @@
    "screen": "league",
    "mode": "code",
    "prefix": "gameplay/job-1121-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "league"
   },
   "1122": {
    "title": "Select League: fix the 844x390 view",
@@ -1174,7 +1235,8 @@
    "screen": "league",
    "mode": "code",
    "prefix": "gameplay/job-1122-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "league"
   },
   "1123": {
    "title": "Select League: fix the 932x430 view",
@@ -1182,7 +1244,8 @@
    "screen": "league",
    "mode": "code",
    "prefix": "gameplay/job-1123-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "league"
   },
   "1124": {
    "title": "Select League: fix the 768x1024 view",
@@ -1190,7 +1253,8 @@
    "screen": "league",
    "mode": "code",
    "prefix": "gameplay/job-1124-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "league"
   },
   "1125": {
    "title": "Select League: fix the 1280x650 view",
@@ -1198,7 +1262,8 @@
    "screen": "league",
    "mode": "code",
    "prefix": "gameplay/job-1125-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "league"
   },
   "1126": {
    "title": "Select League: fix the 1366x768 view",
@@ -1206,7 +1271,8 @@
    "screen": "league",
    "mode": "code",
    "prefix": "gameplay/job-1126-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "league"
   },
   "1127": {
    "title": "Select League: fix the 1920x1080 view",
@@ -1214,7 +1280,8 @@
    "screen": "league",
    "mode": "code",
    "prefix": "gameplay/job-1127-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "league"
   },
   "1128": {
    "title": "Select League: fix the 2560x1080 view",
@@ -1222,7 +1289,8 @@
    "screen": "league",
    "mode": "code",
    "prefix": "gameplay/job-1128-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "league"
   },
   "1129": {
    "title": "Select League: match the desktop mockup",
@@ -1230,7 +1298,8 @@
    "screen": "league",
    "mode": "code",
    "prefix": "gameplay/job-1129-",
-   "kind": "s3"
+   "kind": "s3",
+   "group": "league"
   },
   "1130": {
    "title": "Select League: long names",
@@ -1238,7 +1307,8 @@
    "screen": "league",
    "mode": "code",
    "prefix": "gameplay/job-1130-",
-   "kind": "a-long-names"
+   "kind": "a-long-names",
+   "group": "league"
   },
   "1131": {
    "title": "Select League: tap targets",
@@ -1246,7 +1316,8 @@
    "screen": "league",
    "mode": "code",
    "prefix": "gameplay/job-1131-",
-   "kind": "a-tap-targets"
+   "kind": "a-tap-targets",
+   "group": "league"
   },
   "1132": {
    "title": "Select League: keyboard focus and reduced motion",
@@ -1254,7 +1325,8 @@
    "screen": "league",
    "mode": "code",
    "prefix": "gameplay/job-1132-",
-   "kind": "a-focus-motion"
+   "kind": "a-focus-motion",
+   "group": "league"
   },
   "1133": {
    "title": "Select League: text contrast",
@@ -1262,7 +1334,8 @@
    "screen": "league",
    "mode": "code",
    "prefix": "gameplay/job-1133-",
-   "kind": "a-contrast"
+   "kind": "a-contrast",
+   "group": "league"
   },
   "1134": {
    "title": "Select League: picture descriptions and labels",
@@ -1270,7 +1343,8 @@
    "screen": "league",
    "mode": "code",
    "prefix": "gameplay/job-1134-",
-   "kind": "a-alt-text"
+   "kind": "a-alt-text",
+   "group": "league"
   },
   "1135": {
    "title": "Select League: loading state",
@@ -1278,7 +1352,8 @@
    "screen": "league",
    "mode": "code",
    "prefix": "gameplay/job-1135-",
-   "kind": "a-loading-state"
+   "kind": "a-loading-state",
+   "group": "league"
   },
   "1136": {
    "title": "Select League: empty state",
@@ -1286,7 +1361,8 @@
    "screen": "league",
    "mode": "code",
    "prefix": "gameplay/job-1136-",
-   "kind": "a-empty-state"
+   "kind": "a-empty-state",
+   "group": "league"
   },
   "1137": {
    "title": "Select League: error and retry state",
@@ -1294,7 +1370,8 @@
    "screen": "league",
    "mode": "code",
    "prefix": "gameplay/job-1137-",
-   "kind": "a-error-state"
+   "kind": "a-error-state",
+   "group": "league"
   },
   "1138": {
    "title": "Select League: hover-only effects",
@@ -1302,7 +1379,8 @@
    "screen": "league",
    "mode": "code",
    "prefix": "gameplay/job-1138-",
-   "kind": "a-touch-hover"
+   "kind": "a-touch-hover",
+   "group": "league"
   },
   "1139": {
    "title": "Select League: phone mockup, version A (faithful)",
@@ -1310,7 +1388,8 @@
    "screen": "league",
    "mode": "study",
    "prefix": "study/job-1139-",
-   "kind": "st-phone-a"
+   "kind": "st-phone-a",
+   "group": null
   },
   "1140": {
    "title": "Select League: phone mockup, version B (bold hierarchy)",
@@ -1318,7 +1397,8 @@
    "screen": "league",
    "mode": "study",
    "prefix": "study/job-1140-",
-   "kind": "st-phone-b"
+   "kind": "st-phone-b",
+   "group": null
   },
   "1141": {
    "title": "Select League: phone mockup, version C (compact)",
@@ -1326,7 +1406,8 @@
    "screen": "league",
    "mode": "study",
    "prefix": "study/job-1141-",
-   "kind": "st-phone-c"
+   "kind": "st-phone-c",
+   "group": null
   },
   "1142": {
    "title": "Select League: sideways phone study",
@@ -1334,7 +1415,8 @@
    "screen": "league",
    "mode": "study",
    "prefix": "study/job-1142-",
-   "kind": "st-sideways"
+   "kind": "st-sideways",
+   "group": null
   },
   "1143": {
    "title": "Select League: upright tablet study",
@@ -1342,7 +1424,8 @@
    "screen": "league",
    "mode": "study",
    "prefix": "study/job-1143-",
-   "kind": "st-tablet"
+   "kind": "st-tablet",
+   "group": null
   },
   "1144": {
    "title": "Select League: improved desktop, version A (polish)",
@@ -1350,7 +1433,8 @@
    "screen": "league",
    "mode": "study",
    "prefix": "study/job-1144-",
-   "kind": "st-desktop-a"
+   "kind": "st-desktop-a",
+   "group": null
   },
   "1145": {
    "title": "Select League: improved desktop, version B (focus)",
@@ -1358,7 +1442,8 @@
    "screen": "league",
    "mode": "study",
    "prefix": "study/job-1145-",
-   "kind": "st-desktop-b"
+   "kind": "st-desktop-b",
+   "group": null
   },
   "1146": {
    "title": "Select League: improved desktop, version C (wide)",
@@ -1366,7 +1451,8 @@
    "screen": "league",
    "mode": "study",
    "prefix": "study/job-1146-",
-   "kind": "st-desktop-c"
+   "kind": "st-desktop-c",
+   "group": null
   },
   "1147": {
    "title": "Select League: states sheet",
@@ -1374,7 +1460,8 @@
    "screen": "league",
    "mode": "study",
    "prefix": "study/job-1147-",
-   "kind": "st-states"
+   "kind": "st-states",
+   "group": null
   },
   "1148": {
    "title": "Club packs: fix the 360x640 view",
@@ -1382,7 +1469,8 @@
    "screen": "club",
    "mode": "code",
    "prefix": "gameplay/job-1148-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "club"
   },
   "1149": {
    "title": "Club packs: fix the 390x844 view",
@@ -1390,7 +1478,8 @@
    "screen": "club",
    "mode": "code",
    "prefix": "gameplay/job-1149-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "club"
   },
   "1150": {
    "title": "Club packs: fix the 430x932 view",
@@ -1398,7 +1487,8 @@
    "screen": "club",
    "mode": "code",
    "prefix": "gameplay/job-1150-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "club"
   },
   "1151": {
    "title": "Club packs: fix the 844x390 view",
@@ -1406,7 +1496,8 @@
    "screen": "club",
    "mode": "code",
    "prefix": "gameplay/job-1151-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "club"
   },
   "1152": {
    "title": "Club packs: fix the 932x430 view",
@@ -1414,7 +1505,8 @@
    "screen": "club",
    "mode": "code",
    "prefix": "gameplay/job-1152-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "club"
   },
   "1153": {
    "title": "Club packs: fix the 768x1024 view",
@@ -1422,7 +1514,8 @@
    "screen": "club",
    "mode": "code",
    "prefix": "gameplay/job-1153-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "club"
   },
   "1154": {
    "title": "Club packs: fix the 1280x650 view",
@@ -1430,7 +1523,8 @@
    "screen": "club",
    "mode": "code",
    "prefix": "gameplay/job-1154-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "club"
   },
   "1155": {
    "title": "Club packs: fix the 1366x768 view",
@@ -1438,7 +1532,8 @@
    "screen": "club",
    "mode": "code",
    "prefix": "gameplay/job-1155-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "club"
   },
   "1156": {
    "title": "Club packs: fix the 1920x1080 view",
@@ -1446,7 +1541,8 @@
    "screen": "club",
    "mode": "code",
    "prefix": "gameplay/job-1156-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "club"
   },
   "1157": {
    "title": "Club packs: fix the 2560x1080 view",
@@ -1454,7 +1550,8 @@
    "screen": "club",
    "mode": "code",
    "prefix": "gameplay/job-1157-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "club"
   },
   "1158": {
    "title": "Club packs: match the desktop mockup",
@@ -1462,7 +1559,8 @@
    "screen": "club",
    "mode": "code",
    "prefix": "gameplay/job-1158-",
-   "kind": "s3"
+   "kind": "s3",
+   "group": "club"
   },
   "1159": {
    "title": "Club packs: long names",
@@ -1470,7 +1568,8 @@
    "screen": "club",
    "mode": "code",
    "prefix": "gameplay/job-1159-",
-   "kind": "a-long-names"
+   "kind": "a-long-names",
+   "group": "club"
   },
   "1160": {
    "title": "Club packs: tap targets",
@@ -1478,7 +1577,8 @@
    "screen": "club",
    "mode": "code",
    "prefix": "gameplay/job-1160-",
-   "kind": "a-tap-targets"
+   "kind": "a-tap-targets",
+   "group": "club"
   },
   "1161": {
    "title": "Club packs: keyboard focus and reduced motion",
@@ -1486,7 +1586,8 @@
    "screen": "club",
    "mode": "code",
    "prefix": "gameplay/job-1161-",
-   "kind": "a-focus-motion"
+   "kind": "a-focus-motion",
+   "group": "club"
   },
   "1162": {
    "title": "Club packs: text contrast",
@@ -1494,7 +1595,8 @@
    "screen": "club",
    "mode": "code",
    "prefix": "gameplay/job-1162-",
-   "kind": "a-contrast"
+   "kind": "a-contrast",
+   "group": "club"
   },
   "1163": {
    "title": "Club packs: picture descriptions and labels",
@@ -1502,7 +1604,8 @@
    "screen": "club",
    "mode": "code",
    "prefix": "gameplay/job-1163-",
-   "kind": "a-alt-text"
+   "kind": "a-alt-text",
+   "group": "club"
   },
   "1164": {
    "title": "Club packs: loading state",
@@ -1510,7 +1613,8 @@
    "screen": "club",
    "mode": "code",
    "prefix": "gameplay/job-1164-",
-   "kind": "a-loading-state"
+   "kind": "a-loading-state",
+   "group": "club"
   },
   "1165": {
    "title": "Club packs: empty state",
@@ -1518,7 +1622,8 @@
    "screen": "club",
    "mode": "code",
    "prefix": "gameplay/job-1165-",
-   "kind": "a-empty-state"
+   "kind": "a-empty-state",
+   "group": "club"
   },
   "1166": {
    "title": "Club packs: error and retry state",
@@ -1526,7 +1631,8 @@
    "screen": "club",
    "mode": "code",
    "prefix": "gameplay/job-1166-",
-   "kind": "a-error-state"
+   "kind": "a-error-state",
+   "group": "club"
   },
   "1167": {
    "title": "Club packs: hover-only effects",
@@ -1534,7 +1640,8 @@
    "screen": "club",
    "mode": "code",
    "prefix": "gameplay/job-1167-",
-   "kind": "a-touch-hover"
+   "kind": "a-touch-hover",
+   "group": "club"
   },
   "1168": {
    "title": "Club packs: phone mockup, version A (faithful)",
@@ -1542,7 +1649,8 @@
    "screen": "club",
    "mode": "study",
    "prefix": "study/job-1168-",
-   "kind": "st-phone-a"
+   "kind": "st-phone-a",
+   "group": null
   },
   "1169": {
    "title": "Club packs: phone mockup, version B (bold hierarchy)",
@@ -1550,7 +1658,8 @@
    "screen": "club",
    "mode": "study",
    "prefix": "study/job-1169-",
-   "kind": "st-phone-b"
+   "kind": "st-phone-b",
+   "group": null
   },
   "1170": {
    "title": "Club packs: phone mockup, version C (compact)",
@@ -1558,7 +1667,8 @@
    "screen": "club",
    "mode": "study",
    "prefix": "study/job-1170-",
-   "kind": "st-phone-c"
+   "kind": "st-phone-c",
+   "group": null
   },
   "1171": {
    "title": "Club packs: sideways phone study",
@@ -1566,7 +1676,8 @@
    "screen": "club",
    "mode": "study",
    "prefix": "study/job-1171-",
-   "kind": "st-sideways"
+   "kind": "st-sideways",
+   "group": null
   },
   "1172": {
    "title": "Club packs: upright tablet study",
@@ -1574,7 +1685,8 @@
    "screen": "club",
    "mode": "study",
    "prefix": "study/job-1172-",
-   "kind": "st-tablet"
+   "kind": "st-tablet",
+   "group": null
   },
   "1173": {
    "title": "Club packs: improved desktop, version A (polish)",
@@ -1582,7 +1694,8 @@
    "screen": "club",
    "mode": "study",
    "prefix": "study/job-1173-",
-   "kind": "st-desktop-a"
+   "kind": "st-desktop-a",
+   "group": null
   },
   "1174": {
    "title": "Club packs: improved desktop, version B (focus)",
@@ -1590,7 +1703,8 @@
    "screen": "club",
    "mode": "study",
    "prefix": "study/job-1174-",
-   "kind": "st-desktop-b"
+   "kind": "st-desktop-b",
+   "group": null
   },
   "1175": {
    "title": "Club packs: improved desktop, version C (wide)",
@@ -1598,7 +1712,8 @@
    "screen": "club",
    "mode": "study",
    "prefix": "study/job-1175-",
-   "kind": "st-desktop-c"
+   "kind": "st-desktop-c",
+   "group": null
   },
   "1176": {
    "title": "Club packs: states sheet",
@@ -1606,7 +1721,8 @@
    "screen": "club",
    "mode": "study",
    "prefix": "study/job-1176-",
-   "kind": "st-states"
+   "kind": "st-states",
+   "group": null
   },
   "1177": {
    "title": "Transfer challenge and Signing Entry: fix the 360x640 view",
@@ -1614,7 +1730,8 @@
    "screen": "transfer",
    "mode": "code",
    "prefix": "gameplay/job-1177-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "transfer"
   },
   "1178": {
    "title": "Transfer challenge and Signing Entry: fix the 390x844 view",
@@ -1622,7 +1739,8 @@
    "screen": "transfer",
    "mode": "code",
    "prefix": "gameplay/job-1178-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "transfer"
   },
   "1179": {
    "title": "Transfer challenge and Signing Entry: fix the 430x932 view",
@@ -1630,7 +1748,8 @@
    "screen": "transfer",
    "mode": "code",
    "prefix": "gameplay/job-1179-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "transfer"
   },
   "1180": {
    "title": "Transfer challenge and Signing Entry: fix the 844x390 view",
@@ -1638,7 +1757,8 @@
    "screen": "transfer",
    "mode": "code",
    "prefix": "gameplay/job-1180-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "transfer"
   },
   "1181": {
    "title": "Transfer challenge and Signing Entry: fix the 932x430 view",
@@ -1646,7 +1766,8 @@
    "screen": "transfer",
    "mode": "code",
    "prefix": "gameplay/job-1181-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "transfer"
   },
   "1182": {
    "title": "Transfer challenge and Signing Entry: fix the 768x1024 view",
@@ -1654,7 +1775,8 @@
    "screen": "transfer",
    "mode": "code",
    "prefix": "gameplay/job-1182-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "transfer"
   },
   "1183": {
    "title": "Transfer challenge and Signing Entry: fix the 1280x650 view",
@@ -1662,7 +1784,8 @@
    "screen": "transfer",
    "mode": "code",
    "prefix": "gameplay/job-1183-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "transfer"
   },
   "1184": {
    "title": "Transfer challenge and Signing Entry: fix the 1366x768 view",
@@ -1670,7 +1793,8 @@
    "screen": "transfer",
    "mode": "code",
    "prefix": "gameplay/job-1184-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "transfer"
   },
   "1185": {
    "title": "Transfer challenge and Signing Entry: fix the 1920x1080 view",
@@ -1678,7 +1802,8 @@
    "screen": "transfer",
    "mode": "code",
    "prefix": "gameplay/job-1185-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "transfer"
   },
   "1186": {
    "title": "Transfer challenge and Signing Entry: fix the 2560x1080 view",
@@ -1686,7 +1811,8 @@
    "screen": "transfer",
    "mode": "code",
    "prefix": "gameplay/job-1186-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "transfer"
   },
   "1187": {
    "title": "Transfer challenge and Signing Entry: match the desktop mockup",
@@ -1694,7 +1820,8 @@
    "screen": "transfer",
    "mode": "code",
    "prefix": "gameplay/job-1187-",
-   "kind": "s3"
+   "kind": "s3",
+   "group": "transfer"
   },
   "1188": {
    "title": "Transfer challenge and Signing Entry: long names",
@@ -1702,7 +1829,8 @@
    "screen": "transfer",
    "mode": "code",
    "prefix": "gameplay/job-1188-",
-   "kind": "a-long-names"
+   "kind": "a-long-names",
+   "group": "transfer"
   },
   "1189": {
    "title": "Transfer challenge and Signing Entry: tap targets",
@@ -1710,7 +1838,8 @@
    "screen": "transfer",
    "mode": "code",
    "prefix": "gameplay/job-1189-",
-   "kind": "a-tap-targets"
+   "kind": "a-tap-targets",
+   "group": "transfer"
   },
   "1190": {
    "title": "Transfer challenge and Signing Entry: keyboard focus and reduced motion",
@@ -1718,7 +1847,8 @@
    "screen": "transfer",
    "mode": "code",
    "prefix": "gameplay/job-1190-",
-   "kind": "a-focus-motion"
+   "kind": "a-focus-motion",
+   "group": "transfer"
   },
   "1191": {
    "title": "Transfer challenge and Signing Entry: text contrast",
@@ -1726,7 +1856,8 @@
    "screen": "transfer",
    "mode": "code",
    "prefix": "gameplay/job-1191-",
-   "kind": "a-contrast"
+   "kind": "a-contrast",
+   "group": "transfer"
   },
   "1192": {
    "title": "Transfer challenge and Signing Entry: picture descriptions and labels",
@@ -1734,7 +1865,8 @@
    "screen": "transfer",
    "mode": "code",
    "prefix": "gameplay/job-1192-",
-   "kind": "a-alt-text"
+   "kind": "a-alt-text",
+   "group": "transfer"
   },
   "1193": {
    "title": "Transfer challenge and Signing Entry: loading state",
@@ -1742,7 +1874,8 @@
    "screen": "transfer",
    "mode": "code",
    "prefix": "gameplay/job-1193-",
-   "kind": "a-loading-state"
+   "kind": "a-loading-state",
+   "group": "transfer"
   },
   "1194": {
    "title": "Transfer challenge and Signing Entry: empty state",
@@ -1750,7 +1883,8 @@
    "screen": "transfer",
    "mode": "code",
    "prefix": "gameplay/job-1194-",
-   "kind": "a-empty-state"
+   "kind": "a-empty-state",
+   "group": "transfer"
   },
   "1195": {
    "title": "Transfer challenge and Signing Entry: error and retry state",
@@ -1758,7 +1892,8 @@
    "screen": "transfer",
    "mode": "code",
    "prefix": "gameplay/job-1195-",
-   "kind": "a-error-state"
+   "kind": "a-error-state",
+   "group": "transfer"
   },
   "1196": {
    "title": "Transfer challenge and Signing Entry: hover-only effects",
@@ -1766,7 +1901,8 @@
    "screen": "transfer",
    "mode": "code",
    "prefix": "gameplay/job-1196-",
-   "kind": "a-touch-hover"
+   "kind": "a-touch-hover",
+   "group": "transfer"
   },
   "1197": {
    "title": "Transfer challenge and Signing Entry: phone mockup, version A (faithful)",
@@ -1774,7 +1910,8 @@
    "screen": "transfer",
    "mode": "study",
    "prefix": "study/job-1197-",
-   "kind": "st-phone-a"
+   "kind": "st-phone-a",
+   "group": null
   },
   "1198": {
    "title": "Transfer challenge and Signing Entry: phone mockup, version B (bold hierarchy)",
@@ -1782,7 +1919,8 @@
    "screen": "transfer",
    "mode": "study",
    "prefix": "study/job-1198-",
-   "kind": "st-phone-b"
+   "kind": "st-phone-b",
+   "group": null
   },
   "1199": {
    "title": "Transfer challenge and Signing Entry: phone mockup, version C (compact)",
@@ -1790,7 +1928,8 @@
    "screen": "transfer",
    "mode": "study",
    "prefix": "study/job-1199-",
-   "kind": "st-phone-c"
+   "kind": "st-phone-c",
+   "group": null
   },
   "1200": {
    "title": "Transfer challenge and Signing Entry: sideways phone study",
@@ -1798,7 +1937,8 @@
    "screen": "transfer",
    "mode": "study",
    "prefix": "study/job-1200-",
-   "kind": "st-sideways"
+   "kind": "st-sideways",
+   "group": null
   },
   "1201": {
    "title": "Transfer challenge and Signing Entry: upright tablet study",
@@ -1806,7 +1946,8 @@
    "screen": "transfer",
    "mode": "study",
    "prefix": "study/job-1201-",
-   "kind": "st-tablet"
+   "kind": "st-tablet",
+   "group": null
   },
   "1202": {
    "title": "Transfer challenge and Signing Entry: improved desktop, version A (polish)",
@@ -1814,7 +1955,8 @@
    "screen": "transfer",
    "mode": "study",
    "prefix": "study/job-1202-",
-   "kind": "st-desktop-a"
+   "kind": "st-desktop-a",
+   "group": null
   },
   "1203": {
    "title": "Transfer challenge and Signing Entry: improved desktop, version B (focus)",
@@ -1822,7 +1964,8 @@
    "screen": "transfer",
    "mode": "study",
    "prefix": "study/job-1203-",
-   "kind": "st-desktop-b"
+   "kind": "st-desktop-b",
+   "group": null
   },
   "1204": {
    "title": "Transfer challenge and Signing Entry: improved desktop, version C (wide)",
@@ -1830,7 +1973,8 @@
    "screen": "transfer",
    "mode": "study",
    "prefix": "study/job-1204-",
-   "kind": "st-desktop-c"
+   "kind": "st-desktop-c",
+   "group": null
   },
   "1205": {
    "title": "Transfer challenge and Signing Entry: states sheet",
@@ -1838,7 +1982,8 @@
    "screen": "transfer",
    "mode": "study",
    "prefix": "study/job-1205-",
-   "kind": "st-states"
+   "kind": "st-states",
+   "group": null
   },
   "1206": {
    "title": "Season Results: fix the 360x640 view",
@@ -1846,7 +1991,8 @@
    "screen": "season-results",
    "mode": "code",
    "prefix": "gameplay/job-1206-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "season-final"
   },
   "1207": {
    "title": "Season Results: fix the 390x844 view",
@@ -1854,7 +2000,8 @@
    "screen": "season-results",
    "mode": "code",
    "prefix": "gameplay/job-1207-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "season-final"
   },
   "1208": {
    "title": "Season Results: fix the 430x932 view",
@@ -1862,7 +2009,8 @@
    "screen": "season-results",
    "mode": "code",
    "prefix": "gameplay/job-1208-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "season-final"
   },
   "1209": {
    "title": "Season Results: fix the 844x390 view",
@@ -1870,7 +2018,8 @@
    "screen": "season-results",
    "mode": "code",
    "prefix": "gameplay/job-1209-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "season-final"
   },
   "1210": {
    "title": "Season Results: fix the 932x430 view",
@@ -1878,7 +2027,8 @@
    "screen": "season-results",
    "mode": "code",
    "prefix": "gameplay/job-1210-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "season-final"
   },
   "1211": {
    "title": "Season Results: fix the 768x1024 view",
@@ -1886,7 +2036,8 @@
    "screen": "season-results",
    "mode": "code",
    "prefix": "gameplay/job-1211-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "season-final"
   },
   "1212": {
    "title": "Season Results: fix the 1280x650 view",
@@ -1894,7 +2045,8 @@
    "screen": "season-results",
    "mode": "code",
    "prefix": "gameplay/job-1212-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "season-final"
   },
   "1213": {
    "title": "Season Results: fix the 1366x768 view",
@@ -1902,7 +2054,8 @@
    "screen": "season-results",
    "mode": "code",
    "prefix": "gameplay/job-1213-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "season-final"
   },
   "1214": {
    "title": "Season Results: fix the 1920x1080 view",
@@ -1910,7 +2063,8 @@
    "screen": "season-results",
    "mode": "code",
    "prefix": "gameplay/job-1214-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "season-final"
   },
   "1215": {
    "title": "Season Results: fix the 2560x1080 view",
@@ -1918,7 +2072,8 @@
    "screen": "season-results",
    "mode": "code",
    "prefix": "gameplay/job-1215-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "season-final"
   },
   "1216": {
    "title": "Season Results: match the desktop mockup",
@@ -1926,7 +2081,8 @@
    "screen": "season-results",
    "mode": "code",
    "prefix": "gameplay/job-1216-",
-   "kind": "s3"
+   "kind": "s3",
+   "group": "season-final"
   },
   "1217": {
    "title": "Season Results: long names",
@@ -1934,7 +2090,8 @@
    "screen": "season-results",
    "mode": "code",
    "prefix": "gameplay/job-1217-",
-   "kind": "a-long-names"
+   "kind": "a-long-names",
+   "group": "season-final"
   },
   "1218": {
    "title": "Season Results: tap targets",
@@ -1942,7 +2099,8 @@
    "screen": "season-results",
    "mode": "code",
    "prefix": "gameplay/job-1218-",
-   "kind": "a-tap-targets"
+   "kind": "a-tap-targets",
+   "group": "season-final"
   },
   "1219": {
    "title": "Season Results: keyboard focus and reduced motion",
@@ -1950,7 +2108,8 @@
    "screen": "season-results",
    "mode": "code",
    "prefix": "gameplay/job-1219-",
-   "kind": "a-focus-motion"
+   "kind": "a-focus-motion",
+   "group": "season-final"
   },
   "1220": {
    "title": "Season Results: text contrast",
@@ -1958,7 +2117,8 @@
    "screen": "season-results",
    "mode": "code",
    "prefix": "gameplay/job-1220-",
-   "kind": "a-contrast"
+   "kind": "a-contrast",
+   "group": "season-final"
   },
   "1221": {
    "title": "Season Results: picture descriptions and labels",
@@ -1966,7 +2126,8 @@
    "screen": "season-results",
    "mode": "code",
    "prefix": "gameplay/job-1221-",
-   "kind": "a-alt-text"
+   "kind": "a-alt-text",
+   "group": "season-final"
   },
   "1222": {
    "title": "Season Results: loading state",
@@ -1974,7 +2135,8 @@
    "screen": "season-results",
    "mode": "code",
    "prefix": "gameplay/job-1222-",
-   "kind": "a-loading-state"
+   "kind": "a-loading-state",
+   "group": "season-final"
   },
   "1223": {
    "title": "Season Results: empty state",
@@ -1982,7 +2144,8 @@
    "screen": "season-results",
    "mode": "code",
    "prefix": "gameplay/job-1223-",
-   "kind": "a-empty-state"
+   "kind": "a-empty-state",
+   "group": "season-final"
   },
   "1224": {
    "title": "Season Results: error and retry state",
@@ -1990,7 +2153,8 @@
    "screen": "season-results",
    "mode": "code",
    "prefix": "gameplay/job-1224-",
-   "kind": "a-error-state"
+   "kind": "a-error-state",
+   "group": "season-final"
   },
   "1225": {
    "title": "Season Results: hover-only effects",
@@ -1998,7 +2162,8 @@
    "screen": "season-results",
    "mode": "code",
    "prefix": "gameplay/job-1225-",
-   "kind": "a-touch-hover"
+   "kind": "a-touch-hover",
+   "group": "season-final"
   },
   "1226": {
    "title": "Season Results: phone mockup, version A (faithful)",
@@ -2006,7 +2171,8 @@
    "screen": "season-results",
    "mode": "study",
    "prefix": "study/job-1226-",
-   "kind": "st-phone-a"
+   "kind": "st-phone-a",
+   "group": null
   },
   "1227": {
    "title": "Season Results: phone mockup, version B (bold hierarchy)",
@@ -2014,7 +2180,8 @@
    "screen": "season-results",
    "mode": "study",
    "prefix": "study/job-1227-",
-   "kind": "st-phone-b"
+   "kind": "st-phone-b",
+   "group": null
   },
   "1228": {
    "title": "Season Results: phone mockup, version C (compact)",
@@ -2022,7 +2189,8 @@
    "screen": "season-results",
    "mode": "study",
    "prefix": "study/job-1228-",
-   "kind": "st-phone-c"
+   "kind": "st-phone-c",
+   "group": null
   },
   "1229": {
    "title": "Season Results: sideways phone study",
@@ -2030,7 +2198,8 @@
    "screen": "season-results",
    "mode": "study",
    "prefix": "study/job-1229-",
-   "kind": "st-sideways"
+   "kind": "st-sideways",
+   "group": null
   },
   "1230": {
    "title": "Season Results: upright tablet study",
@@ -2038,7 +2207,8 @@
    "screen": "season-results",
    "mode": "study",
    "prefix": "study/job-1230-",
-   "kind": "st-tablet"
+   "kind": "st-tablet",
+   "group": null
   },
   "1231": {
    "title": "Season Results: improved desktop, version A (polish)",
@@ -2046,7 +2216,8 @@
    "screen": "season-results",
    "mode": "study",
    "prefix": "study/job-1231-",
-   "kind": "st-desktop-a"
+   "kind": "st-desktop-a",
+   "group": null
   },
   "1232": {
    "title": "Season Results: improved desktop, version B (focus)",
@@ -2054,7 +2225,8 @@
    "screen": "season-results",
    "mode": "study",
    "prefix": "study/job-1232-",
-   "kind": "st-desktop-b"
+   "kind": "st-desktop-b",
+   "group": null
   },
   "1233": {
    "title": "Season Results: improved desktop, version C (wide)",
@@ -2062,7 +2234,8 @@
    "screen": "season-results",
    "mode": "study",
    "prefix": "study/job-1233-",
-   "kind": "st-desktop-c"
+   "kind": "st-desktop-c",
+   "group": null
   },
   "1234": {
    "title": "Season Results: states sheet",
@@ -2070,7 +2243,8 @@
    "screen": "season-results",
    "mode": "study",
    "prefix": "study/job-1234-",
-   "kind": "st-states"
+   "kind": "st-states",
+   "group": null
   },
   "1235": {
    "title": "Standings: fix the 360x640 view",
@@ -2078,7 +2252,8 @@
    "screen": "standings",
    "mode": "code",
    "prefix": "gameplay/job-1235-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "standings"
   },
   "1236": {
    "title": "Standings: fix the 390x844 view",
@@ -2086,7 +2261,8 @@
    "screen": "standings",
    "mode": "code",
    "prefix": "gameplay/job-1236-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "standings"
   },
   "1237": {
    "title": "Standings: fix the 430x932 view",
@@ -2094,7 +2270,8 @@
    "screen": "standings",
    "mode": "code",
    "prefix": "gameplay/job-1237-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "standings"
   },
   "1238": {
    "title": "Standings: fix the 844x390 view",
@@ -2102,7 +2279,8 @@
    "screen": "standings",
    "mode": "code",
    "prefix": "gameplay/job-1238-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "standings"
   },
   "1239": {
    "title": "Standings: fix the 932x430 view",
@@ -2110,7 +2288,8 @@
    "screen": "standings",
    "mode": "code",
    "prefix": "gameplay/job-1239-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "standings"
   },
   "1240": {
    "title": "Standings: fix the 768x1024 view",
@@ -2118,7 +2297,8 @@
    "screen": "standings",
    "mode": "code",
    "prefix": "gameplay/job-1240-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "standings"
   },
   "1241": {
    "title": "Standings: fix the 1280x650 view",
@@ -2126,7 +2306,8 @@
    "screen": "standings",
    "mode": "code",
    "prefix": "gameplay/job-1241-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "standings"
   },
   "1242": {
    "title": "Standings: fix the 1366x768 view",
@@ -2134,7 +2315,8 @@
    "screen": "standings",
    "mode": "code",
    "prefix": "gameplay/job-1242-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "standings"
   },
   "1243": {
    "title": "Standings: fix the 1920x1080 view",
@@ -2142,7 +2324,8 @@
    "screen": "standings",
    "mode": "code",
    "prefix": "gameplay/job-1243-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "standings"
   },
   "1244": {
    "title": "Standings: fix the 2560x1080 view",
@@ -2150,7 +2333,8 @@
    "screen": "standings",
    "mode": "code",
    "prefix": "gameplay/job-1244-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "standings"
   },
   "1245": {
    "title": "Standings: match the desktop mockup",
@@ -2158,7 +2342,8 @@
    "screen": "standings",
    "mode": "code",
    "prefix": "gameplay/job-1245-",
-   "kind": "s3"
+   "kind": "s3",
+   "group": "standings"
   },
   "1246": {
    "title": "Standings: long names",
@@ -2166,7 +2351,8 @@
    "screen": "standings",
    "mode": "code",
    "prefix": "gameplay/job-1246-",
-   "kind": "a-long-names"
+   "kind": "a-long-names",
+   "group": "standings"
   },
   "1247": {
    "title": "Standings: tap targets",
@@ -2174,7 +2360,8 @@
    "screen": "standings",
    "mode": "code",
    "prefix": "gameplay/job-1247-",
-   "kind": "a-tap-targets"
+   "kind": "a-tap-targets",
+   "group": "standings"
   },
   "1248": {
    "title": "Standings: keyboard focus and reduced motion",
@@ -2182,7 +2369,8 @@
    "screen": "standings",
    "mode": "code",
    "prefix": "gameplay/job-1248-",
-   "kind": "a-focus-motion"
+   "kind": "a-focus-motion",
+   "group": "standings"
   },
   "1249": {
    "title": "Standings: text contrast",
@@ -2190,7 +2378,8 @@
    "screen": "standings",
    "mode": "code",
    "prefix": "gameplay/job-1249-",
-   "kind": "a-contrast"
+   "kind": "a-contrast",
+   "group": "standings"
   },
   "1250": {
    "title": "Standings: picture descriptions and labels",
@@ -2198,7 +2387,8 @@
    "screen": "standings",
    "mode": "code",
    "prefix": "gameplay/job-1250-",
-   "kind": "a-alt-text"
+   "kind": "a-alt-text",
+   "group": "standings"
   },
   "1251": {
    "title": "Standings: loading state",
@@ -2206,7 +2396,8 @@
    "screen": "standings",
    "mode": "code",
    "prefix": "gameplay/job-1251-",
-   "kind": "a-loading-state"
+   "kind": "a-loading-state",
+   "group": "standings"
   },
   "1252": {
    "title": "Standings: empty state",
@@ -2214,7 +2405,8 @@
    "screen": "standings",
    "mode": "code",
    "prefix": "gameplay/job-1252-",
-   "kind": "a-empty-state"
+   "kind": "a-empty-state",
+   "group": "standings"
   },
   "1253": {
    "title": "Standings: error and retry state",
@@ -2222,7 +2414,8 @@
    "screen": "standings",
    "mode": "code",
    "prefix": "gameplay/job-1253-",
-   "kind": "a-error-state"
+   "kind": "a-error-state",
+   "group": "standings"
   },
   "1254": {
    "title": "Standings: hover-only effects",
@@ -2230,7 +2423,8 @@
    "screen": "standings",
    "mode": "code",
    "prefix": "gameplay/job-1254-",
-   "kind": "a-touch-hover"
+   "kind": "a-touch-hover",
+   "group": "standings"
   },
   "1255": {
    "title": "Standings: phone mockup, version A (faithful)",
@@ -2238,7 +2432,8 @@
    "screen": "standings",
    "mode": "study",
    "prefix": "study/job-1255-",
-   "kind": "st-phone-a"
+   "kind": "st-phone-a",
+   "group": null
   },
   "1256": {
    "title": "Standings: phone mockup, version B (bold hierarchy)",
@@ -2246,7 +2441,8 @@
    "screen": "standings",
    "mode": "study",
    "prefix": "study/job-1256-",
-   "kind": "st-phone-b"
+   "kind": "st-phone-b",
+   "group": null
   },
   "1257": {
    "title": "Standings: phone mockup, version C (compact)",
@@ -2254,7 +2450,8 @@
    "screen": "standings",
    "mode": "study",
    "prefix": "study/job-1257-",
-   "kind": "st-phone-c"
+   "kind": "st-phone-c",
+   "group": null
   },
   "1258": {
    "title": "Standings: sideways phone study",
@@ -2262,7 +2459,8 @@
    "screen": "standings",
    "mode": "study",
    "prefix": "study/job-1258-",
-   "kind": "st-sideways"
+   "kind": "st-sideways",
+   "group": null
   },
   "1259": {
    "title": "Standings: upright tablet study",
@@ -2270,7 +2468,8 @@
    "screen": "standings",
    "mode": "study",
    "prefix": "study/job-1259-",
-   "kind": "st-tablet"
+   "kind": "st-tablet",
+   "group": null
   },
   "1260": {
    "title": "Standings: improved desktop, version A (polish)",
@@ -2278,7 +2477,8 @@
    "screen": "standings",
    "mode": "study",
    "prefix": "study/job-1260-",
-   "kind": "st-desktop-a"
+   "kind": "st-desktop-a",
+   "group": null
   },
   "1261": {
    "title": "Standings: improved desktop, version B (focus)",
@@ -2286,7 +2486,8 @@
    "screen": "standings",
    "mode": "study",
    "prefix": "study/job-1261-",
-   "kind": "st-desktop-b"
+   "kind": "st-desktop-b",
+   "group": null
   },
   "1262": {
    "title": "Standings: improved desktop, version C (wide)",
@@ -2294,7 +2495,8 @@
    "screen": "standings",
    "mode": "study",
    "prefix": "study/job-1262-",
-   "kind": "st-desktop-c"
+   "kind": "st-desktop-c",
+   "group": null
   },
   "1263": {
    "title": "Standings: states sheet",
@@ -2302,7 +2504,8 @@
    "screen": "standings",
    "mode": "study",
    "prefix": "study/job-1263-",
-   "kind": "st-states"
+   "kind": "st-states",
+   "group": null
   },
   "1264": {
    "title": "Final Winner (Showdown Champion): fix the 360x640 view",
@@ -2310,7 +2513,8 @@
    "screen": "final-winner",
    "mode": "code",
    "prefix": "gameplay/job-1264-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "season-final"
   },
   "1265": {
    "title": "Final Winner (Showdown Champion): fix the 390x844 view",
@@ -2318,7 +2522,8 @@
    "screen": "final-winner",
    "mode": "code",
    "prefix": "gameplay/job-1265-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "season-final"
   },
   "1266": {
    "title": "Final Winner (Showdown Champion): fix the 430x932 view",
@@ -2326,7 +2531,8 @@
    "screen": "final-winner",
    "mode": "code",
    "prefix": "gameplay/job-1266-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "season-final"
   },
   "1267": {
    "title": "Final Winner (Showdown Champion): fix the 844x390 view",
@@ -2334,7 +2540,8 @@
    "screen": "final-winner",
    "mode": "code",
    "prefix": "gameplay/job-1267-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "season-final"
   },
   "1268": {
    "title": "Final Winner (Showdown Champion): fix the 932x430 view",
@@ -2342,7 +2549,8 @@
    "screen": "final-winner",
    "mode": "code",
    "prefix": "gameplay/job-1268-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "season-final"
   },
   "1269": {
    "title": "Final Winner (Showdown Champion): fix the 768x1024 view",
@@ -2350,7 +2558,8 @@
    "screen": "final-winner",
    "mode": "code",
    "prefix": "gameplay/job-1269-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "season-final"
   },
   "1270": {
    "title": "Final Winner (Showdown Champion): fix the 1280x650 view",
@@ -2358,7 +2567,8 @@
    "screen": "final-winner",
    "mode": "code",
    "prefix": "gameplay/job-1270-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "season-final"
   },
   "1271": {
    "title": "Final Winner (Showdown Champion): fix the 1366x768 view",
@@ -2366,7 +2576,8 @@
    "screen": "final-winner",
    "mode": "code",
    "prefix": "gameplay/job-1271-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "season-final"
   },
   "1272": {
    "title": "Final Winner (Showdown Champion): fix the 1920x1080 view",
@@ -2374,7 +2585,8 @@
    "screen": "final-winner",
    "mode": "code",
    "prefix": "gameplay/job-1272-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "season-final"
   },
   "1273": {
    "title": "Final Winner (Showdown Champion): fix the 2560x1080 view",
@@ -2382,7 +2594,8 @@
    "screen": "final-winner",
    "mode": "code",
    "prefix": "gameplay/job-1273-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "season-final"
   },
   "1274": {
    "title": "Final Winner (Showdown Champion): match the desktop mockup",
@@ -2390,7 +2603,8 @@
    "screen": "final-winner",
    "mode": "code",
    "prefix": "gameplay/job-1274-",
-   "kind": "s3"
+   "kind": "s3",
+   "group": "season-final"
   },
   "1275": {
    "title": "Final Winner (Showdown Champion): long names",
@@ -2398,7 +2612,8 @@
    "screen": "final-winner",
    "mode": "code",
    "prefix": "gameplay/job-1275-",
-   "kind": "a-long-names"
+   "kind": "a-long-names",
+   "group": "season-final"
   },
   "1276": {
    "title": "Final Winner (Showdown Champion): tap targets",
@@ -2406,7 +2621,8 @@
    "screen": "final-winner",
    "mode": "code",
    "prefix": "gameplay/job-1276-",
-   "kind": "a-tap-targets"
+   "kind": "a-tap-targets",
+   "group": "season-final"
   },
   "1277": {
    "title": "Final Winner (Showdown Champion): keyboard focus and reduced motion",
@@ -2414,7 +2630,8 @@
    "screen": "final-winner",
    "mode": "code",
    "prefix": "gameplay/job-1277-",
-   "kind": "a-focus-motion"
+   "kind": "a-focus-motion",
+   "group": "season-final"
   },
   "1278": {
    "title": "Final Winner (Showdown Champion): text contrast",
@@ -2422,7 +2639,8 @@
    "screen": "final-winner",
    "mode": "code",
    "prefix": "gameplay/job-1278-",
-   "kind": "a-contrast"
+   "kind": "a-contrast",
+   "group": "season-final"
   },
   "1279": {
    "title": "Final Winner (Showdown Champion): picture descriptions and labels",
@@ -2430,7 +2648,8 @@
    "screen": "final-winner",
    "mode": "code",
    "prefix": "gameplay/job-1279-",
-   "kind": "a-alt-text"
+   "kind": "a-alt-text",
+   "group": "season-final"
   },
   "1280": {
    "title": "Final Winner (Showdown Champion): loading state",
@@ -2438,7 +2657,8 @@
    "screen": "final-winner",
    "mode": "code",
    "prefix": "gameplay/job-1280-",
-   "kind": "a-loading-state"
+   "kind": "a-loading-state",
+   "group": "season-final"
   },
   "1281": {
    "title": "Final Winner (Showdown Champion): empty state",
@@ -2446,7 +2666,8 @@
    "screen": "final-winner",
    "mode": "code",
    "prefix": "gameplay/job-1281-",
-   "kind": "a-empty-state"
+   "kind": "a-empty-state",
+   "group": "season-final"
   },
   "1282": {
    "title": "Final Winner (Showdown Champion): error and retry state",
@@ -2454,7 +2675,8 @@
    "screen": "final-winner",
    "mode": "code",
    "prefix": "gameplay/job-1282-",
-   "kind": "a-error-state"
+   "kind": "a-error-state",
+   "group": "season-final"
   },
   "1283": {
    "title": "Final Winner (Showdown Champion): hover-only effects",
@@ -2462,7 +2684,8 @@
    "screen": "final-winner",
    "mode": "code",
    "prefix": "gameplay/job-1283-",
-   "kind": "a-touch-hover"
+   "kind": "a-touch-hover",
+   "group": "season-final"
   },
   "1284": {
    "title": "Final Winner (Showdown Champion): phone mockup, version A (faithful)",
@@ -2470,7 +2693,8 @@
    "screen": "final-winner",
    "mode": "study",
    "prefix": "study/job-1284-",
-   "kind": "st-phone-a"
+   "kind": "st-phone-a",
+   "group": null
   },
   "1285": {
    "title": "Final Winner (Showdown Champion): phone mockup, version B (bold hierarchy)",
@@ -2478,7 +2702,8 @@
    "screen": "final-winner",
    "mode": "study",
    "prefix": "study/job-1285-",
-   "kind": "st-phone-b"
+   "kind": "st-phone-b",
+   "group": null
   },
   "1286": {
    "title": "Final Winner (Showdown Champion): phone mockup, version C (compact)",
@@ -2486,7 +2711,8 @@
    "screen": "final-winner",
    "mode": "study",
    "prefix": "study/job-1286-",
-   "kind": "st-phone-c"
+   "kind": "st-phone-c",
+   "group": null
   },
   "1287": {
    "title": "Final Winner (Showdown Champion): sideways phone study",
@@ -2494,7 +2720,8 @@
    "screen": "final-winner",
    "mode": "study",
    "prefix": "study/job-1287-",
-   "kind": "st-sideways"
+   "kind": "st-sideways",
+   "group": null
   },
   "1288": {
    "title": "Final Winner (Showdown Champion): upright tablet study",
@@ -2502,7 +2729,8 @@
    "screen": "final-winner",
    "mode": "study",
    "prefix": "study/job-1288-",
-   "kind": "st-tablet"
+   "kind": "st-tablet",
+   "group": null
   },
   "1289": {
    "title": "Final Winner (Showdown Champion): improved desktop, version A (polish)",
@@ -2510,7 +2738,8 @@
    "screen": "final-winner",
    "mode": "study",
    "prefix": "study/job-1289-",
-   "kind": "st-desktop-a"
+   "kind": "st-desktop-a",
+   "group": null
   },
   "1290": {
    "title": "Final Winner (Showdown Champion): improved desktop, version B (focus)",
@@ -2518,7 +2747,8 @@
    "screen": "final-winner",
    "mode": "study",
    "prefix": "study/job-1290-",
-   "kind": "st-desktop-b"
+   "kind": "st-desktop-b",
+   "group": null
   },
   "1291": {
    "title": "Final Winner (Showdown Champion): improved desktop, version C (wide)",
@@ -2526,7 +2756,8 @@
    "screen": "final-winner",
    "mode": "study",
    "prefix": "study/job-1291-",
-   "kind": "st-desktop-c"
+   "kind": "st-desktop-c",
+   "group": null
   },
   "1292": {
    "title": "Final Winner (Showdown Champion): states sheet",
@@ -2534,7 +2765,8 @@
    "screen": "final-winner",
    "mode": "study",
    "prefix": "study/job-1292-",
-   "kind": "st-states"
+   "kind": "st-states",
+   "group": null
   },
   "1293": {
    "title": "Legacy: fix the 360x640 view",
@@ -2542,7 +2774,8 @@
    "screen": "legacy",
    "mode": "code",
    "prefix": "gameplay/job-1293-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "rivalry-legacy"
   },
   "1294": {
    "title": "Legacy: fix the 390x844 view",
@@ -2550,7 +2783,8 @@
    "screen": "legacy",
    "mode": "code",
    "prefix": "gameplay/job-1294-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "rivalry-legacy"
   },
   "1295": {
    "title": "Legacy: fix the 430x932 view",
@@ -2558,7 +2792,8 @@
    "screen": "legacy",
    "mode": "code",
    "prefix": "gameplay/job-1295-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "rivalry-legacy"
   },
   "1296": {
    "title": "Legacy: fix the 844x390 view",
@@ -2566,7 +2801,8 @@
    "screen": "legacy",
    "mode": "code",
    "prefix": "gameplay/job-1296-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "rivalry-legacy"
   },
   "1297": {
    "title": "Legacy: fix the 932x430 view",
@@ -2574,7 +2810,8 @@
    "screen": "legacy",
    "mode": "code",
    "prefix": "gameplay/job-1297-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "rivalry-legacy"
   },
   "1298": {
    "title": "Legacy: fix the 768x1024 view",
@@ -2582,7 +2819,8 @@
    "screen": "legacy",
    "mode": "code",
    "prefix": "gameplay/job-1298-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "rivalry-legacy"
   },
   "1299": {
    "title": "Legacy: fix the 1280x650 view",
@@ -2590,7 +2828,8 @@
    "screen": "legacy",
    "mode": "code",
    "prefix": "gameplay/job-1299-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "rivalry-legacy"
   },
   "1300": {
    "title": "Legacy: fix the 1366x768 view",
@@ -2598,7 +2837,8 @@
    "screen": "legacy",
    "mode": "code",
    "prefix": "gameplay/job-1300-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "rivalry-legacy"
   },
   "1301": {
    "title": "Legacy: fix the 1920x1080 view",
@@ -2606,7 +2846,8 @@
    "screen": "legacy",
    "mode": "code",
    "prefix": "gameplay/job-1301-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "rivalry-legacy"
   },
   "1302": {
    "title": "Legacy: fix the 2560x1080 view",
@@ -2614,7 +2855,8 @@
    "screen": "legacy",
    "mode": "code",
    "prefix": "gameplay/job-1302-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "rivalry-legacy"
   },
   "1303": {
    "title": "Legacy: match the desktop mockup",
@@ -2622,7 +2864,8 @@
    "screen": "legacy",
    "mode": "code",
    "prefix": "gameplay/job-1303-",
-   "kind": "s3"
+   "kind": "s3",
+   "group": "rivalry-legacy"
   },
   "1304": {
    "title": "Legacy: long names",
@@ -2630,7 +2873,8 @@
    "screen": "legacy",
    "mode": "code",
    "prefix": "gameplay/job-1304-",
-   "kind": "a-long-names"
+   "kind": "a-long-names",
+   "group": "rivalry-legacy"
   },
   "1305": {
    "title": "Legacy: tap targets",
@@ -2638,7 +2882,8 @@
    "screen": "legacy",
    "mode": "code",
    "prefix": "gameplay/job-1305-",
-   "kind": "a-tap-targets"
+   "kind": "a-tap-targets",
+   "group": "rivalry-legacy"
   },
   "1306": {
    "title": "Legacy: keyboard focus and reduced motion",
@@ -2646,7 +2891,8 @@
    "screen": "legacy",
    "mode": "code",
    "prefix": "gameplay/job-1306-",
-   "kind": "a-focus-motion"
+   "kind": "a-focus-motion",
+   "group": "rivalry-legacy"
   },
   "1307": {
    "title": "Legacy: text contrast",
@@ -2654,7 +2900,8 @@
    "screen": "legacy",
    "mode": "code",
    "prefix": "gameplay/job-1307-",
-   "kind": "a-contrast"
+   "kind": "a-contrast",
+   "group": "rivalry-legacy"
   },
   "1308": {
    "title": "Legacy: picture descriptions and labels",
@@ -2662,7 +2909,8 @@
    "screen": "legacy",
    "mode": "code",
    "prefix": "gameplay/job-1308-",
-   "kind": "a-alt-text"
+   "kind": "a-alt-text",
+   "group": "rivalry-legacy"
   },
   "1309": {
    "title": "Legacy: loading state",
@@ -2670,7 +2918,8 @@
    "screen": "legacy",
    "mode": "code",
    "prefix": "gameplay/job-1309-",
-   "kind": "a-loading-state"
+   "kind": "a-loading-state",
+   "group": "rivalry-legacy"
   },
   "1310": {
    "title": "Legacy: empty state",
@@ -2678,7 +2927,8 @@
    "screen": "legacy",
    "mode": "code",
    "prefix": "gameplay/job-1310-",
-   "kind": "a-empty-state"
+   "kind": "a-empty-state",
+   "group": "rivalry-legacy"
   },
   "1311": {
    "title": "Legacy: error and retry state",
@@ -2686,7 +2936,8 @@
    "screen": "legacy",
    "mode": "code",
    "prefix": "gameplay/job-1311-",
-   "kind": "a-error-state"
+   "kind": "a-error-state",
+   "group": "rivalry-legacy"
   },
   "1312": {
    "title": "Legacy: hover-only effects",
@@ -2694,7 +2945,8 @@
    "screen": "legacy",
    "mode": "code",
    "prefix": "gameplay/job-1312-",
-   "kind": "a-touch-hover"
+   "kind": "a-touch-hover",
+   "group": "rivalry-legacy"
   },
   "1313": {
    "title": "Legacy: phone mockup, version A (faithful)",
@@ -2702,7 +2954,8 @@
    "screen": "legacy",
    "mode": "study",
    "prefix": "study/job-1313-",
-   "kind": "st-phone-a"
+   "kind": "st-phone-a",
+   "group": null
   },
   "1314": {
    "title": "Legacy: phone mockup, version B (bold hierarchy)",
@@ -2710,7 +2963,8 @@
    "screen": "legacy",
    "mode": "study",
    "prefix": "study/job-1314-",
-   "kind": "st-phone-b"
+   "kind": "st-phone-b",
+   "group": null
   },
   "1315": {
    "title": "Legacy: phone mockup, version C (compact)",
@@ -2718,7 +2972,8 @@
    "screen": "legacy",
    "mode": "study",
    "prefix": "study/job-1315-",
-   "kind": "st-phone-c"
+   "kind": "st-phone-c",
+   "group": null
   },
   "1316": {
    "title": "Legacy: sideways phone study",
@@ -2726,7 +2981,8 @@
    "screen": "legacy",
    "mode": "study",
    "prefix": "study/job-1316-",
-   "kind": "st-sideways"
+   "kind": "st-sideways",
+   "group": null
   },
   "1317": {
    "title": "Legacy: upright tablet study",
@@ -2734,7 +2990,8 @@
    "screen": "legacy",
    "mode": "study",
    "prefix": "study/job-1317-",
-   "kind": "st-tablet"
+   "kind": "st-tablet",
+   "group": null
   },
   "1318": {
    "title": "Legacy: improved desktop, version A (polish)",
@@ -2742,7 +2999,8 @@
    "screen": "legacy",
    "mode": "study",
    "prefix": "study/job-1318-",
-   "kind": "st-desktop-a"
+   "kind": "st-desktop-a",
+   "group": null
   },
   "1319": {
    "title": "Legacy: improved desktop, version B (focus)",
@@ -2750,7 +3008,8 @@
    "screen": "legacy",
    "mode": "study",
    "prefix": "study/job-1319-",
-   "kind": "st-desktop-b"
+   "kind": "st-desktop-b",
+   "group": null
   },
   "1320": {
    "title": "Legacy: improved desktop, version C (wide)",
@@ -2758,7 +3017,8 @@
    "screen": "legacy",
    "mode": "study",
    "prefix": "study/job-1320-",
-   "kind": "st-desktop-c"
+   "kind": "st-desktop-c",
+   "group": null
   },
   "1321": {
    "title": "Legacy: states sheet",
@@ -2766,7 +3026,8 @@
    "screen": "legacy",
    "mode": "study",
    "prefix": "study/job-1321-",
-   "kind": "st-states"
+   "kind": "st-states",
+   "group": null
   },
   "1322": {
    "title": "Trophy Room: fix the 360x640 view",
@@ -2774,7 +3035,8 @@
    "screen": "trophy-room",
    "mode": "code",
    "prefix": "gameplay/job-1322-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "trophy-room"
   },
   "1323": {
    "title": "Trophy Room: fix the 390x844 view",
@@ -2782,7 +3044,8 @@
    "screen": "trophy-room",
    "mode": "code",
    "prefix": "gameplay/job-1323-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "trophy-room"
   },
   "1324": {
    "title": "Trophy Room: fix the 430x932 view",
@@ -2790,7 +3053,8 @@
    "screen": "trophy-room",
    "mode": "code",
    "prefix": "gameplay/job-1324-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "trophy-room"
   },
   "1325": {
    "title": "Trophy Room: fix the 844x390 view",
@@ -2798,7 +3062,8 @@
    "screen": "trophy-room",
    "mode": "code",
    "prefix": "gameplay/job-1325-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "trophy-room"
   },
   "1326": {
    "title": "Trophy Room: fix the 932x430 view",
@@ -2806,7 +3071,8 @@
    "screen": "trophy-room",
    "mode": "code",
    "prefix": "gameplay/job-1326-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "trophy-room"
   },
   "1327": {
    "title": "Trophy Room: fix the 768x1024 view",
@@ -2814,7 +3080,8 @@
    "screen": "trophy-room",
    "mode": "code",
    "prefix": "gameplay/job-1327-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "trophy-room"
   },
   "1328": {
    "title": "Trophy Room: fix the 1280x650 view",
@@ -2822,7 +3089,8 @@
    "screen": "trophy-room",
    "mode": "code",
    "prefix": "gameplay/job-1328-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "trophy-room"
   },
   "1329": {
    "title": "Trophy Room: fix the 1366x768 view",
@@ -2830,7 +3098,8 @@
    "screen": "trophy-room",
    "mode": "code",
    "prefix": "gameplay/job-1329-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "trophy-room"
   },
   "1330": {
    "title": "Trophy Room: fix the 1920x1080 view",
@@ -2838,7 +3107,8 @@
    "screen": "trophy-room",
    "mode": "code",
    "prefix": "gameplay/job-1330-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "trophy-room"
   },
   "1331": {
    "title": "Trophy Room: fix the 2560x1080 view",
@@ -2846,7 +3116,8 @@
    "screen": "trophy-room",
    "mode": "code",
    "prefix": "gameplay/job-1331-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "trophy-room"
   },
   "1332": {
    "title": "Trophy Room: match the desktop mockup",
@@ -2854,7 +3125,8 @@
    "screen": "trophy-room",
    "mode": "code",
    "prefix": "gameplay/job-1332-",
-   "kind": "s3"
+   "kind": "s3",
+   "group": "trophy-room"
   },
   "1333": {
    "title": "Trophy Room: long names",
@@ -2862,7 +3134,8 @@
    "screen": "trophy-room",
    "mode": "code",
    "prefix": "gameplay/job-1333-",
-   "kind": "a-long-names"
+   "kind": "a-long-names",
+   "group": "trophy-room"
   },
   "1334": {
    "title": "Trophy Room: tap targets",
@@ -2870,7 +3143,8 @@
    "screen": "trophy-room",
    "mode": "code",
    "prefix": "gameplay/job-1334-",
-   "kind": "a-tap-targets"
+   "kind": "a-tap-targets",
+   "group": "trophy-room"
   },
   "1335": {
    "title": "Trophy Room: keyboard focus and reduced motion",
@@ -2878,7 +3152,8 @@
    "screen": "trophy-room",
    "mode": "code",
    "prefix": "gameplay/job-1335-",
-   "kind": "a-focus-motion"
+   "kind": "a-focus-motion",
+   "group": "trophy-room"
   },
   "1336": {
    "title": "Trophy Room: text contrast",
@@ -2886,7 +3161,8 @@
    "screen": "trophy-room",
    "mode": "code",
    "prefix": "gameplay/job-1336-",
-   "kind": "a-contrast"
+   "kind": "a-contrast",
+   "group": "trophy-room"
   },
   "1337": {
    "title": "Trophy Room: picture descriptions and labels",
@@ -2894,7 +3170,8 @@
    "screen": "trophy-room",
    "mode": "code",
    "prefix": "gameplay/job-1337-",
-   "kind": "a-alt-text"
+   "kind": "a-alt-text",
+   "group": "trophy-room"
   },
   "1338": {
    "title": "Trophy Room: loading state",
@@ -2902,7 +3179,8 @@
    "screen": "trophy-room",
    "mode": "code",
    "prefix": "gameplay/job-1338-",
-   "kind": "a-loading-state"
+   "kind": "a-loading-state",
+   "group": "trophy-room"
   },
   "1339": {
    "title": "Trophy Room: empty state",
@@ -2910,7 +3188,8 @@
    "screen": "trophy-room",
    "mode": "code",
    "prefix": "gameplay/job-1339-",
-   "kind": "a-empty-state"
+   "kind": "a-empty-state",
+   "group": "trophy-room"
   },
   "1340": {
    "title": "Trophy Room: error and retry state",
@@ -2918,7 +3197,8 @@
    "screen": "trophy-room",
    "mode": "code",
    "prefix": "gameplay/job-1340-",
-   "kind": "a-error-state"
+   "kind": "a-error-state",
+   "group": "trophy-room"
   },
   "1341": {
    "title": "Trophy Room: hover-only effects",
@@ -2926,7 +3206,8 @@
    "screen": "trophy-room",
    "mode": "code",
    "prefix": "gameplay/job-1341-",
-   "kind": "a-touch-hover"
+   "kind": "a-touch-hover",
+   "group": "trophy-room"
   },
   "1342": {
    "title": "Trophy Room: phone mockup, version A (faithful)",
@@ -2934,7 +3215,8 @@
    "screen": "trophy-room",
    "mode": "study",
    "prefix": "study/job-1342-",
-   "kind": "st-phone-a"
+   "kind": "st-phone-a",
+   "group": null
   },
   "1343": {
    "title": "Trophy Room: phone mockup, version B (bold hierarchy)",
@@ -2942,7 +3224,8 @@
    "screen": "trophy-room",
    "mode": "study",
    "prefix": "study/job-1343-",
-   "kind": "st-phone-b"
+   "kind": "st-phone-b",
+   "group": null
   },
   "1344": {
    "title": "Trophy Room: phone mockup, version C (compact)",
@@ -2950,7 +3233,8 @@
    "screen": "trophy-room",
    "mode": "study",
    "prefix": "study/job-1344-",
-   "kind": "st-phone-c"
+   "kind": "st-phone-c",
+   "group": null
   },
   "1345": {
    "title": "Trophy Room: sideways phone study",
@@ -2958,7 +3242,8 @@
    "screen": "trophy-room",
    "mode": "study",
    "prefix": "study/job-1345-",
-   "kind": "st-sideways"
+   "kind": "st-sideways",
+   "group": null
   },
   "1346": {
    "title": "Trophy Room: upright tablet study",
@@ -2966,7 +3251,8 @@
    "screen": "trophy-room",
    "mode": "study",
    "prefix": "study/job-1346-",
-   "kind": "st-tablet"
+   "kind": "st-tablet",
+   "group": null
   },
   "1347": {
    "title": "Trophy Room: improved desktop, version A (polish)",
@@ -2974,7 +3260,8 @@
    "screen": "trophy-room",
    "mode": "study",
    "prefix": "study/job-1347-",
-   "kind": "st-desktop-a"
+   "kind": "st-desktop-a",
+   "group": null
   },
   "1348": {
    "title": "Trophy Room: improved desktop, version B (focus)",
@@ -2982,7 +3269,8 @@
    "screen": "trophy-room",
    "mode": "study",
    "prefix": "study/job-1348-",
-   "kind": "st-desktop-b"
+   "kind": "st-desktop-b",
+   "group": null
   },
   "1349": {
    "title": "Trophy Room: improved desktop, version C (wide)",
@@ -2990,7 +3278,8 @@
    "screen": "trophy-room",
    "mode": "study",
    "prefix": "study/job-1349-",
-   "kind": "st-desktop-c"
+   "kind": "st-desktop-c",
+   "group": null
   },
   "1350": {
    "title": "Trophy Room: states sheet",
@@ -2998,7 +3287,8 @@
    "screen": "trophy-room",
    "mode": "study",
    "prefix": "study/job-1350-",
-   "kind": "st-states"
+   "kind": "st-states",
+   "group": null
   },
   "1351": {
    "title": "Rivalry Statistics: fix the 360x640 view",
@@ -3006,7 +3296,8 @@
    "screen": "rivalry-statistics",
    "mode": "code",
    "prefix": "gameplay/job-1351-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "rivalry-legacy"
   },
   "1352": {
    "title": "Rivalry Statistics: fix the 390x844 view",
@@ -3014,7 +3305,8 @@
    "screen": "rivalry-statistics",
    "mode": "code",
    "prefix": "gameplay/job-1352-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "rivalry-legacy"
   },
   "1353": {
    "title": "Rivalry Statistics: fix the 430x932 view",
@@ -3022,7 +3314,8 @@
    "screen": "rivalry-statistics",
    "mode": "code",
    "prefix": "gameplay/job-1353-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "rivalry-legacy"
   },
   "1354": {
    "title": "Rivalry Statistics: fix the 844x390 view",
@@ -3030,7 +3323,8 @@
    "screen": "rivalry-statistics",
    "mode": "code",
    "prefix": "gameplay/job-1354-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "rivalry-legacy"
   },
   "1355": {
    "title": "Rivalry Statistics: fix the 932x430 view",
@@ -3038,7 +3332,8 @@
    "screen": "rivalry-statistics",
    "mode": "code",
    "prefix": "gameplay/job-1355-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "rivalry-legacy"
   },
   "1356": {
    "title": "Rivalry Statistics: fix the 768x1024 view",
@@ -3046,7 +3341,8 @@
    "screen": "rivalry-statistics",
    "mode": "code",
    "prefix": "gameplay/job-1356-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "rivalry-legacy"
   },
   "1357": {
    "title": "Rivalry Statistics: fix the 1280x650 view",
@@ -3054,7 +3350,8 @@
    "screen": "rivalry-statistics",
    "mode": "code",
    "prefix": "gameplay/job-1357-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "rivalry-legacy"
   },
   "1358": {
    "title": "Rivalry Statistics: fix the 1366x768 view",
@@ -3062,7 +3359,8 @@
    "screen": "rivalry-statistics",
    "mode": "code",
    "prefix": "gameplay/job-1358-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "rivalry-legacy"
   },
   "1359": {
    "title": "Rivalry Statistics: fix the 1920x1080 view",
@@ -3070,7 +3368,8 @@
    "screen": "rivalry-statistics",
    "mode": "code",
    "prefix": "gameplay/job-1359-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "rivalry-legacy"
   },
   "1360": {
    "title": "Rivalry Statistics: fix the 2560x1080 view",
@@ -3078,7 +3377,8 @@
    "screen": "rivalry-statistics",
    "mode": "code",
    "prefix": "gameplay/job-1360-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "rivalry-legacy"
   },
   "1361": {
    "title": "Rivalry Statistics: match the desktop mockup",
@@ -3086,7 +3386,8 @@
    "screen": "rivalry-statistics",
    "mode": "code",
    "prefix": "gameplay/job-1361-",
-   "kind": "s3"
+   "kind": "s3",
+   "group": "rivalry-legacy"
   },
   "1362": {
    "title": "Rivalry Statistics: long names",
@@ -3094,7 +3395,8 @@
    "screen": "rivalry-statistics",
    "mode": "code",
    "prefix": "gameplay/job-1362-",
-   "kind": "a-long-names"
+   "kind": "a-long-names",
+   "group": "rivalry-legacy"
   },
   "1363": {
    "title": "Rivalry Statistics: tap targets",
@@ -3102,7 +3404,8 @@
    "screen": "rivalry-statistics",
    "mode": "code",
    "prefix": "gameplay/job-1363-",
-   "kind": "a-tap-targets"
+   "kind": "a-tap-targets",
+   "group": "rivalry-legacy"
   },
   "1364": {
    "title": "Rivalry Statistics: keyboard focus and reduced motion",
@@ -3110,7 +3413,8 @@
    "screen": "rivalry-statistics",
    "mode": "code",
    "prefix": "gameplay/job-1364-",
-   "kind": "a-focus-motion"
+   "kind": "a-focus-motion",
+   "group": "rivalry-legacy"
   },
   "1365": {
    "title": "Rivalry Statistics: text contrast",
@@ -3118,7 +3422,8 @@
    "screen": "rivalry-statistics",
    "mode": "code",
    "prefix": "gameplay/job-1365-",
-   "kind": "a-contrast"
+   "kind": "a-contrast",
+   "group": "rivalry-legacy"
   },
   "1366": {
    "title": "Rivalry Statistics: picture descriptions and labels",
@@ -3126,7 +3431,8 @@
    "screen": "rivalry-statistics",
    "mode": "code",
    "prefix": "gameplay/job-1366-",
-   "kind": "a-alt-text"
+   "kind": "a-alt-text",
+   "group": "rivalry-legacy"
   },
   "1367": {
    "title": "Rivalry Statistics: loading state",
@@ -3134,7 +3440,8 @@
    "screen": "rivalry-statistics",
    "mode": "code",
    "prefix": "gameplay/job-1367-",
-   "kind": "a-loading-state"
+   "kind": "a-loading-state",
+   "group": "rivalry-legacy"
   },
   "1368": {
    "title": "Rivalry Statistics: empty state",
@@ -3142,7 +3449,8 @@
    "screen": "rivalry-statistics",
    "mode": "code",
    "prefix": "gameplay/job-1368-",
-   "kind": "a-empty-state"
+   "kind": "a-empty-state",
+   "group": "rivalry-legacy"
   },
   "1369": {
    "title": "Rivalry Statistics: error and retry state",
@@ -3150,7 +3458,8 @@
    "screen": "rivalry-statistics",
    "mode": "code",
    "prefix": "gameplay/job-1369-",
-   "kind": "a-error-state"
+   "kind": "a-error-state",
+   "group": "rivalry-legacy"
   },
   "1370": {
    "title": "Rivalry Statistics: hover-only effects",
@@ -3158,7 +3467,8 @@
    "screen": "rivalry-statistics",
    "mode": "code",
    "prefix": "gameplay/job-1370-",
-   "kind": "a-touch-hover"
+   "kind": "a-touch-hover",
+   "group": "rivalry-legacy"
   },
   "1371": {
    "title": "Rivalry Statistics: phone mockup, version A (faithful)",
@@ -3166,7 +3476,8 @@
    "screen": "rivalry-statistics",
    "mode": "study",
    "prefix": "study/job-1371-",
-   "kind": "st-phone-a"
+   "kind": "st-phone-a",
+   "group": null
   },
   "1372": {
    "title": "Rivalry Statistics: phone mockup, version B (bold hierarchy)",
@@ -3174,7 +3485,8 @@
    "screen": "rivalry-statistics",
    "mode": "study",
    "prefix": "study/job-1372-",
-   "kind": "st-phone-b"
+   "kind": "st-phone-b",
+   "group": null
   },
   "1373": {
    "title": "Rivalry Statistics: phone mockup, version C (compact)",
@@ -3182,7 +3494,8 @@
    "screen": "rivalry-statistics",
    "mode": "study",
    "prefix": "study/job-1373-",
-   "kind": "st-phone-c"
+   "kind": "st-phone-c",
+   "group": null
   },
   "1374": {
    "title": "Rivalry Statistics: sideways phone study",
@@ -3190,7 +3503,8 @@
    "screen": "rivalry-statistics",
    "mode": "study",
    "prefix": "study/job-1374-",
-   "kind": "st-sideways"
+   "kind": "st-sideways",
+   "group": null
   },
   "1375": {
    "title": "Rivalry Statistics: upright tablet study",
@@ -3198,7 +3512,8 @@
    "screen": "rivalry-statistics",
    "mode": "study",
    "prefix": "study/job-1375-",
-   "kind": "st-tablet"
+   "kind": "st-tablet",
+   "group": null
   },
   "1376": {
    "title": "Rivalry Statistics: improved desktop, version A (polish)",
@@ -3206,7 +3521,8 @@
    "screen": "rivalry-statistics",
    "mode": "study",
    "prefix": "study/job-1376-",
-   "kind": "st-desktop-a"
+   "kind": "st-desktop-a",
+   "group": null
   },
   "1377": {
    "title": "Rivalry Statistics: improved desktop, version B (focus)",
@@ -3214,7 +3530,8 @@
    "screen": "rivalry-statistics",
    "mode": "study",
    "prefix": "study/job-1377-",
-   "kind": "st-desktop-b"
+   "kind": "st-desktop-b",
+   "group": null
   },
   "1378": {
    "title": "Rivalry Statistics: improved desktop, version C (wide)",
@@ -3222,7 +3539,8 @@
    "screen": "rivalry-statistics",
    "mode": "study",
    "prefix": "study/job-1378-",
-   "kind": "st-desktop-c"
+   "kind": "st-desktop-c",
+   "group": null
   },
   "1379": {
    "title": "Rivalry Statistics: states sheet",
@@ -3230,7 +3548,8 @@
    "screen": "rivalry-statistics",
    "mode": "study",
    "prefix": "study/job-1379-",
-   "kind": "st-states"
+   "kind": "st-states",
+   "group": null
   },
   "1380": {
    "title": "Career Statistics: fix the 360x640 view",
@@ -3238,7 +3557,8 @@
    "screen": "career-statistics",
    "mode": "code",
    "prefix": "gameplay/job-1380-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "career-statistics"
   },
   "1381": {
    "title": "Career Statistics: fix the 390x844 view",
@@ -3246,7 +3566,8 @@
    "screen": "career-statistics",
    "mode": "code",
    "prefix": "gameplay/job-1381-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "career-statistics"
   },
   "1382": {
    "title": "Career Statistics: fix the 430x932 view",
@@ -3254,7 +3575,8 @@
    "screen": "career-statistics",
    "mode": "code",
    "prefix": "gameplay/job-1382-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "career-statistics"
   },
   "1383": {
    "title": "Career Statistics: fix the 844x390 view",
@@ -3262,7 +3584,8 @@
    "screen": "career-statistics",
    "mode": "code",
    "prefix": "gameplay/job-1383-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "career-statistics"
   },
   "1384": {
    "title": "Career Statistics: fix the 932x430 view",
@@ -3270,7 +3593,8 @@
    "screen": "career-statistics",
    "mode": "code",
    "prefix": "gameplay/job-1384-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "career-statistics"
   },
   "1385": {
    "title": "Career Statistics: fix the 768x1024 view",
@@ -3278,7 +3602,8 @@
    "screen": "career-statistics",
    "mode": "code",
    "prefix": "gameplay/job-1385-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "career-statistics"
   },
   "1386": {
    "title": "Career Statistics: fix the 1280x650 view",
@@ -3286,7 +3611,8 @@
    "screen": "career-statistics",
    "mode": "code",
    "prefix": "gameplay/job-1386-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "career-statistics"
   },
   "1387": {
    "title": "Career Statistics: fix the 1366x768 view",
@@ -3294,7 +3620,8 @@
    "screen": "career-statistics",
    "mode": "code",
    "prefix": "gameplay/job-1387-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "career-statistics"
   },
   "1388": {
    "title": "Career Statistics: fix the 1920x1080 view",
@@ -3302,7 +3629,8 @@
    "screen": "career-statistics",
    "mode": "code",
    "prefix": "gameplay/job-1388-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "career-statistics"
   },
   "1389": {
    "title": "Career Statistics: fix the 2560x1080 view",
@@ -3310,7 +3638,8 @@
    "screen": "career-statistics",
    "mode": "code",
    "prefix": "gameplay/job-1389-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "career-statistics"
   },
   "1390": {
    "title": "Career Statistics: match the desktop mockup",
@@ -3318,7 +3647,8 @@
    "screen": "career-statistics",
    "mode": "code",
    "prefix": "gameplay/job-1390-",
-   "kind": "s3"
+   "kind": "s3",
+   "group": "career-statistics"
   },
   "1391": {
    "title": "Career Statistics: long names",
@@ -3326,7 +3656,8 @@
    "screen": "career-statistics",
    "mode": "code",
    "prefix": "gameplay/job-1391-",
-   "kind": "a-long-names"
+   "kind": "a-long-names",
+   "group": "career-statistics"
   },
   "1392": {
    "title": "Career Statistics: tap targets",
@@ -3334,7 +3665,8 @@
    "screen": "career-statistics",
    "mode": "code",
    "prefix": "gameplay/job-1392-",
-   "kind": "a-tap-targets"
+   "kind": "a-tap-targets",
+   "group": "career-statistics"
   },
   "1393": {
    "title": "Career Statistics: keyboard focus and reduced motion",
@@ -3342,7 +3674,8 @@
    "screen": "career-statistics",
    "mode": "code",
    "prefix": "gameplay/job-1393-",
-   "kind": "a-focus-motion"
+   "kind": "a-focus-motion",
+   "group": "career-statistics"
   },
   "1394": {
    "title": "Career Statistics: text contrast",
@@ -3350,7 +3683,8 @@
    "screen": "career-statistics",
    "mode": "code",
    "prefix": "gameplay/job-1394-",
-   "kind": "a-contrast"
+   "kind": "a-contrast",
+   "group": "career-statistics"
   },
   "1395": {
    "title": "Career Statistics: picture descriptions and labels",
@@ -3358,7 +3692,8 @@
    "screen": "career-statistics",
    "mode": "code",
    "prefix": "gameplay/job-1395-",
-   "kind": "a-alt-text"
+   "kind": "a-alt-text",
+   "group": "career-statistics"
   },
   "1396": {
    "title": "Career Statistics: loading state",
@@ -3366,7 +3701,8 @@
    "screen": "career-statistics",
    "mode": "code",
    "prefix": "gameplay/job-1396-",
-   "kind": "a-loading-state"
+   "kind": "a-loading-state",
+   "group": "career-statistics"
   },
   "1397": {
    "title": "Career Statistics: empty state",
@@ -3374,7 +3710,8 @@
    "screen": "career-statistics",
    "mode": "code",
    "prefix": "gameplay/job-1397-",
-   "kind": "a-empty-state"
+   "kind": "a-empty-state",
+   "group": "career-statistics"
   },
   "1398": {
    "title": "Career Statistics: error and retry state",
@@ -3382,7 +3719,8 @@
    "screen": "career-statistics",
    "mode": "code",
    "prefix": "gameplay/job-1398-",
-   "kind": "a-error-state"
+   "kind": "a-error-state",
+   "group": "career-statistics"
   },
   "1399": {
    "title": "Career Statistics: hover-only effects",
@@ -3390,7 +3728,8 @@
    "screen": "career-statistics",
    "mode": "code",
    "prefix": "gameplay/job-1399-",
-   "kind": "a-touch-hover"
+   "kind": "a-touch-hover",
+   "group": "career-statistics"
   },
   "1400": {
    "title": "Career Statistics: phone mockup, version A (faithful)",
@@ -3398,7 +3737,8 @@
    "screen": "career-statistics",
    "mode": "study",
    "prefix": "study/job-1400-",
-   "kind": "st-phone-a"
+   "kind": "st-phone-a",
+   "group": null
   },
   "1401": {
    "title": "Career Statistics: phone mockup, version B (bold hierarchy)",
@@ -3406,7 +3746,8 @@
    "screen": "career-statistics",
    "mode": "study",
    "prefix": "study/job-1401-",
-   "kind": "st-phone-b"
+   "kind": "st-phone-b",
+   "group": null
   },
   "1402": {
    "title": "Career Statistics: phone mockup, version C (compact)",
@@ -3414,7 +3755,8 @@
    "screen": "career-statistics",
    "mode": "study",
    "prefix": "study/job-1402-",
-   "kind": "st-phone-c"
+   "kind": "st-phone-c",
+   "group": null
   },
   "1403": {
    "title": "Career Statistics: sideways phone study",
@@ -3422,7 +3764,8 @@
    "screen": "career-statistics",
    "mode": "study",
    "prefix": "study/job-1403-",
-   "kind": "st-sideways"
+   "kind": "st-sideways",
+   "group": null
   },
   "1404": {
    "title": "Career Statistics: upright tablet study",
@@ -3430,7 +3773,8 @@
    "screen": "career-statistics",
    "mode": "study",
    "prefix": "study/job-1404-",
-   "kind": "st-tablet"
+   "kind": "st-tablet",
+   "group": null
   },
   "1405": {
    "title": "Career Statistics: improved desktop, version A (polish)",
@@ -3438,7 +3782,8 @@
    "screen": "career-statistics",
    "mode": "study",
    "prefix": "study/job-1405-",
-   "kind": "st-desktop-a"
+   "kind": "st-desktop-a",
+   "group": null
   },
   "1406": {
    "title": "Career Statistics: improved desktop, version B (focus)",
@@ -3446,7 +3791,8 @@
    "screen": "career-statistics",
    "mode": "study",
    "prefix": "study/job-1406-",
-   "kind": "st-desktop-b"
+   "kind": "st-desktop-b",
+   "group": null
   },
   "1407": {
    "title": "Career Statistics: improved desktop, version C (wide)",
@@ -3454,7 +3800,8 @@
    "screen": "career-statistics",
    "mode": "study",
    "prefix": "study/job-1407-",
-   "kind": "st-desktop-c"
+   "kind": "st-desktop-c",
+   "group": null
   },
   "1408": {
    "title": "Career Statistics: states sheet",
@@ -3462,7 +3809,8 @@
    "screen": "career-statistics",
    "mode": "study",
    "prefix": "study/job-1408-",
-   "kind": "st-states"
+   "kind": "st-states",
+   "group": null
   },
   "1409": {
    "title": "Rule Book: fix the 360x640 view",
@@ -3470,7 +3818,8 @@
    "screen": "rule-book",
    "mode": "code",
    "prefix": "gameplay/job-1409-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "rules-settings"
   },
   "1410": {
    "title": "Rule Book: fix the 390x844 view",
@@ -3478,7 +3827,8 @@
    "screen": "rule-book",
    "mode": "code",
    "prefix": "gameplay/job-1410-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "rules-settings"
   },
   "1411": {
    "title": "Rule Book: fix the 430x932 view",
@@ -3486,7 +3836,8 @@
    "screen": "rule-book",
    "mode": "code",
    "prefix": "gameplay/job-1411-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "rules-settings"
   },
   "1412": {
    "title": "Rule Book: fix the 844x390 view",
@@ -3494,7 +3845,8 @@
    "screen": "rule-book",
    "mode": "code",
    "prefix": "gameplay/job-1412-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "rules-settings"
   },
   "1413": {
    "title": "Rule Book: fix the 932x430 view",
@@ -3502,7 +3854,8 @@
    "screen": "rule-book",
    "mode": "code",
    "prefix": "gameplay/job-1413-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "rules-settings"
   },
   "1414": {
    "title": "Rule Book: fix the 768x1024 view",
@@ -3510,7 +3863,8 @@
    "screen": "rule-book",
    "mode": "code",
    "prefix": "gameplay/job-1414-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "rules-settings"
   },
   "1415": {
    "title": "Rule Book: fix the 1280x650 view",
@@ -3518,7 +3872,8 @@
    "screen": "rule-book",
    "mode": "code",
    "prefix": "gameplay/job-1415-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "rules-settings"
   },
   "1416": {
    "title": "Rule Book: fix the 1366x768 view",
@@ -3526,7 +3881,8 @@
    "screen": "rule-book",
    "mode": "code",
    "prefix": "gameplay/job-1416-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "rules-settings"
   },
   "1417": {
    "title": "Rule Book: fix the 1920x1080 view",
@@ -3534,7 +3890,8 @@
    "screen": "rule-book",
    "mode": "code",
    "prefix": "gameplay/job-1417-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "rules-settings"
   },
   "1418": {
    "title": "Rule Book: fix the 2560x1080 view",
@@ -3542,7 +3899,8 @@
    "screen": "rule-book",
    "mode": "code",
    "prefix": "gameplay/job-1418-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "rules-settings"
   },
   "1419": {
    "title": "Rule Book: match the desktop mockup",
@@ -3550,7 +3908,8 @@
    "screen": "rule-book",
    "mode": "code",
    "prefix": "gameplay/job-1419-",
-   "kind": "s3"
+   "kind": "s3",
+   "group": "rules-settings"
   },
   "1420": {
    "title": "Rule Book: long names",
@@ -3558,7 +3917,8 @@
    "screen": "rule-book",
    "mode": "code",
    "prefix": "gameplay/job-1420-",
-   "kind": "a-long-names"
+   "kind": "a-long-names",
+   "group": "rules-settings"
   },
   "1421": {
    "title": "Rule Book: tap targets",
@@ -3566,7 +3926,8 @@
    "screen": "rule-book",
    "mode": "code",
    "prefix": "gameplay/job-1421-",
-   "kind": "a-tap-targets"
+   "kind": "a-tap-targets",
+   "group": "rules-settings"
   },
   "1422": {
    "title": "Rule Book: keyboard focus and reduced motion",
@@ -3574,7 +3935,8 @@
    "screen": "rule-book",
    "mode": "code",
    "prefix": "gameplay/job-1422-",
-   "kind": "a-focus-motion"
+   "kind": "a-focus-motion",
+   "group": "rules-settings"
   },
   "1423": {
    "title": "Rule Book: text contrast",
@@ -3582,7 +3944,8 @@
    "screen": "rule-book",
    "mode": "code",
    "prefix": "gameplay/job-1423-",
-   "kind": "a-contrast"
+   "kind": "a-contrast",
+   "group": "rules-settings"
   },
   "1424": {
    "title": "Rule Book: picture descriptions and labels",
@@ -3590,7 +3953,8 @@
    "screen": "rule-book",
    "mode": "code",
    "prefix": "gameplay/job-1424-",
-   "kind": "a-alt-text"
+   "kind": "a-alt-text",
+   "group": "rules-settings"
   },
   "1425": {
    "title": "Rule Book: loading state",
@@ -3598,7 +3962,8 @@
    "screen": "rule-book",
    "mode": "code",
    "prefix": "gameplay/job-1425-",
-   "kind": "a-loading-state"
+   "kind": "a-loading-state",
+   "group": "rules-settings"
   },
   "1426": {
    "title": "Rule Book: empty state",
@@ -3606,7 +3971,8 @@
    "screen": "rule-book",
    "mode": "code",
    "prefix": "gameplay/job-1426-",
-   "kind": "a-empty-state"
+   "kind": "a-empty-state",
+   "group": "rules-settings"
   },
   "1427": {
    "title": "Rule Book: error and retry state",
@@ -3614,7 +3980,8 @@
    "screen": "rule-book",
    "mode": "code",
    "prefix": "gameplay/job-1427-",
-   "kind": "a-error-state"
+   "kind": "a-error-state",
+   "group": "rules-settings"
   },
   "1428": {
    "title": "Rule Book: hover-only effects",
@@ -3622,7 +3989,8 @@
    "screen": "rule-book",
    "mode": "code",
    "prefix": "gameplay/job-1428-",
-   "kind": "a-touch-hover"
+   "kind": "a-touch-hover",
+   "group": "rules-settings"
   },
   "1429": {
    "title": "Rule Book: phone mockup, version A (faithful)",
@@ -3630,7 +3998,8 @@
    "screen": "rule-book",
    "mode": "study",
    "prefix": "study/job-1429-",
-   "kind": "st-phone-a"
+   "kind": "st-phone-a",
+   "group": null
   },
   "1430": {
    "title": "Rule Book: phone mockup, version B (bold hierarchy)",
@@ -3638,7 +4007,8 @@
    "screen": "rule-book",
    "mode": "study",
    "prefix": "study/job-1430-",
-   "kind": "st-phone-b"
+   "kind": "st-phone-b",
+   "group": null
   },
   "1431": {
    "title": "Rule Book: phone mockup, version C (compact)",
@@ -3646,7 +4016,8 @@
    "screen": "rule-book",
    "mode": "study",
    "prefix": "study/job-1431-",
-   "kind": "st-phone-c"
+   "kind": "st-phone-c",
+   "group": null
   },
   "1432": {
    "title": "Rule Book: sideways phone study",
@@ -3654,7 +4025,8 @@
    "screen": "rule-book",
    "mode": "study",
    "prefix": "study/job-1432-",
-   "kind": "st-sideways"
+   "kind": "st-sideways",
+   "group": null
   },
   "1433": {
    "title": "Rule Book: upright tablet study",
@@ -3662,7 +4034,8 @@
    "screen": "rule-book",
    "mode": "study",
    "prefix": "study/job-1433-",
-   "kind": "st-tablet"
+   "kind": "st-tablet",
+   "group": null
   },
   "1434": {
    "title": "Rule Book: improved desktop, version A (polish)",
@@ -3670,7 +4043,8 @@
    "screen": "rule-book",
    "mode": "study",
    "prefix": "study/job-1434-",
-   "kind": "st-desktop-a"
+   "kind": "st-desktop-a",
+   "group": null
   },
   "1435": {
    "title": "Rule Book: improved desktop, version B (focus)",
@@ -3678,7 +4052,8 @@
    "screen": "rule-book",
    "mode": "study",
    "prefix": "study/job-1435-",
-   "kind": "st-desktop-b"
+   "kind": "st-desktop-b",
+   "group": null
   },
   "1436": {
    "title": "Rule Book: improved desktop, version C (wide)",
@@ -3686,7 +4061,8 @@
    "screen": "rule-book",
    "mode": "study",
    "prefix": "study/job-1436-",
-   "kind": "st-desktop-c"
+   "kind": "st-desktop-c",
+   "group": null
   },
   "1437": {
    "title": "Rule Book: states sheet",
@@ -3694,7 +4070,8 @@
    "screen": "rule-book",
    "mode": "study",
    "prefix": "study/job-1437-",
-   "kind": "st-states"
+   "kind": "st-states",
+   "group": null
   },
   "1438": {
    "title": "Settings: fix the 360x640 view",
@@ -3702,7 +4079,8 @@
    "screen": "settings",
    "mode": "code",
    "prefix": "gameplay/job-1438-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "rules-settings"
   },
   "1439": {
    "title": "Settings: fix the 390x844 view",
@@ -3710,7 +4088,8 @@
    "screen": "settings",
    "mode": "code",
    "prefix": "gameplay/job-1439-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "rules-settings"
   },
   "1440": {
    "title": "Settings: fix the 430x932 view",
@@ -3718,7 +4097,8 @@
    "screen": "settings",
    "mode": "code",
    "prefix": "gameplay/job-1440-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "rules-settings"
   },
   "1441": {
    "title": "Settings: fix the 844x390 view",
@@ -3726,7 +4106,8 @@
    "screen": "settings",
    "mode": "code",
    "prefix": "gameplay/job-1441-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "rules-settings"
   },
   "1442": {
    "title": "Settings: fix the 932x430 view",
@@ -3734,7 +4115,8 @@
    "screen": "settings",
    "mode": "code",
    "prefix": "gameplay/job-1442-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "rules-settings"
   },
   "1443": {
    "title": "Settings: fix the 768x1024 view",
@@ -3742,7 +4124,8 @@
    "screen": "settings",
    "mode": "code",
    "prefix": "gameplay/job-1443-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "rules-settings"
   },
   "1444": {
    "title": "Settings: fix the 1280x650 view",
@@ -3750,7 +4133,8 @@
    "screen": "settings",
    "mode": "code",
    "prefix": "gameplay/job-1444-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "rules-settings"
   },
   "1445": {
    "title": "Settings: fix the 1366x768 view",
@@ -3758,7 +4142,8 @@
    "screen": "settings",
    "mode": "code",
    "prefix": "gameplay/job-1445-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "rules-settings"
   },
   "1446": {
    "title": "Settings: fix the 1920x1080 view",
@@ -3766,7 +4151,8 @@
    "screen": "settings",
    "mode": "code",
    "prefix": "gameplay/job-1446-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "rules-settings"
   },
   "1447": {
    "title": "Settings: fix the 2560x1080 view",
@@ -3774,7 +4160,8 @@
    "screen": "settings",
    "mode": "code",
    "prefix": "gameplay/job-1447-",
-   "kind": "vp"
+   "kind": "vp",
+   "group": "rules-settings"
   },
   "1448": {
    "title": "Settings: match the desktop mockup",
@@ -3782,7 +4169,8 @@
    "screen": "settings",
    "mode": "code",
    "prefix": "gameplay/job-1448-",
-   "kind": "s3"
+   "kind": "s3",
+   "group": "rules-settings"
   },
   "1449": {
    "title": "Settings: long names",
@@ -3790,7 +4178,8 @@
    "screen": "settings",
    "mode": "code",
    "prefix": "gameplay/job-1449-",
-   "kind": "a-long-names"
+   "kind": "a-long-names",
+   "group": "rules-settings"
   },
   "1450": {
    "title": "Settings: tap targets",
@@ -3798,7 +4187,8 @@
    "screen": "settings",
    "mode": "code",
    "prefix": "gameplay/job-1450-",
-   "kind": "a-tap-targets"
+   "kind": "a-tap-targets",
+   "group": "rules-settings"
   },
   "1451": {
    "title": "Settings: keyboard focus and reduced motion",
@@ -3806,7 +4196,8 @@
    "screen": "settings",
    "mode": "code",
    "prefix": "gameplay/job-1451-",
-   "kind": "a-focus-motion"
+   "kind": "a-focus-motion",
+   "group": "rules-settings"
   },
   "1452": {
    "title": "Settings: text contrast",
@@ -3814,7 +4205,8 @@
    "screen": "settings",
    "mode": "code",
    "prefix": "gameplay/job-1452-",
-   "kind": "a-contrast"
+   "kind": "a-contrast",
+   "group": "rules-settings"
   },
   "1453": {
    "title": "Settings: picture descriptions and labels",
@@ -3822,7 +4214,8 @@
    "screen": "settings",
    "mode": "code",
    "prefix": "gameplay/job-1453-",
-   "kind": "a-alt-text"
+   "kind": "a-alt-text",
+   "group": "rules-settings"
   },
   "1454": {
    "title": "Settings: loading state",
@@ -3830,7 +4223,8 @@
    "screen": "settings",
    "mode": "code",
    "prefix": "gameplay/job-1454-",
-   "kind": "a-loading-state"
+   "kind": "a-loading-state",
+   "group": "rules-settings"
   },
   "1455": {
    "title": "Settings: empty state",
@@ -3838,7 +4232,8 @@
    "screen": "settings",
    "mode": "code",
    "prefix": "gameplay/job-1455-",
-   "kind": "a-empty-state"
+   "kind": "a-empty-state",
+   "group": "rules-settings"
   },
   "1456": {
    "title": "Settings: error and retry state",
@@ -3846,7 +4241,8 @@
    "screen": "settings",
    "mode": "code",
    "prefix": "gameplay/job-1456-",
-   "kind": "a-error-state"
+   "kind": "a-error-state",
+   "group": "rules-settings"
   },
   "1457": {
    "title": "Settings: hover-only effects",
@@ -3854,7 +4250,8 @@
    "screen": "settings",
    "mode": "code",
    "prefix": "gameplay/job-1457-",
-   "kind": "a-touch-hover"
+   "kind": "a-touch-hover",
+   "group": "rules-settings"
   },
   "1458": {
    "title": "Settings: phone mockup, version A (faithful)",
@@ -3862,7 +4259,8 @@
    "screen": "settings",
    "mode": "study",
    "prefix": "study/job-1458-",
-   "kind": "st-phone-a"
+   "kind": "st-phone-a",
+   "group": null
   },
   "1459": {
    "title": "Settings: phone mockup, version B (bold hierarchy)",
@@ -3870,7 +4268,8 @@
    "screen": "settings",
    "mode": "study",
    "prefix": "study/job-1459-",
-   "kind": "st-phone-b"
+   "kind": "st-phone-b",
+   "group": null
   },
   "1460": {
    "title": "Settings: phone mockup, version C (compact)",
@@ -3878,7 +4277,8 @@
    "screen": "settings",
    "mode": "study",
    "prefix": "study/job-1460-",
-   "kind": "st-phone-c"
+   "kind": "st-phone-c",
+   "group": null
   },
   "1461": {
    "title": "Settings: sideways phone study",
@@ -3886,7 +4286,8 @@
    "screen": "settings",
    "mode": "study",
    "prefix": "study/job-1461-",
-   "kind": "st-sideways"
+   "kind": "st-sideways",
+   "group": null
   },
   "1462": {
    "title": "Settings: upright tablet study",
@@ -3894,7 +4295,8 @@
    "screen": "settings",
    "mode": "study",
    "prefix": "study/job-1462-",
-   "kind": "st-tablet"
+   "kind": "st-tablet",
+   "group": null
   },
   "1463": {
    "title": "Settings: improved desktop, version A (polish)",
@@ -3902,7 +4304,8 @@
    "screen": "settings",
    "mode": "study",
    "prefix": "study/job-1463-",
-   "kind": "st-desktop-a"
+   "kind": "st-desktop-a",
+   "group": null
   },
   "1464": {
    "title": "Settings: improved desktop, version B (focus)",
@@ -3910,7 +4313,8 @@
    "screen": "settings",
    "mode": "study",
    "prefix": "study/job-1464-",
-   "kind": "st-desktop-b"
+   "kind": "st-desktop-b",
+   "group": null
   },
   "1465": {
    "title": "Settings: improved desktop, version C (wide)",
@@ -3918,7 +4322,8 @@
    "screen": "settings",
    "mode": "study",
    "prefix": "study/job-1465-",
-   "kind": "st-desktop-c"
+   "kind": "st-desktop-c",
+   "group": null
   },
   "1466": {
    "title": "Settings: states sheet",
@@ -3926,103 +4331,116 @@
    "screen": "settings",
    "mode": "study",
    "prefix": "study/job-1466-",
-   "kind": "st-states"
+   "kind": "st-states",
+   "group": null
   },
   "1467": {
-   "title": "Tap targets of at least 44 px on every Team V screen",
-   "stage": 2,
+   "title": "Audit all screens: tap targets of at least 44 px on every team v screen",
+   "stage": 1,
    "screen": "shared",
-   "mode": "code",
-   "prefix": "gameplay/job-1467-",
-   "kind": "x-tap-targets"
+   "mode": "audit",
+   "prefix": "qa/job-1467-",
+   "kind": "x-tap-targets",
+   "group": null
   },
   "1468": {
-   "title": "Long manager and club names never break a layout",
-   "stage": 2,
+   "title": "Audit all screens: long manager and club names never break a layout",
+   "stage": 1,
    "screen": "shared",
-   "mode": "code",
-   "prefix": "gameplay/job-1468-",
-   "kind": "x-long-names"
+   "mode": "audit",
+   "prefix": "qa/job-1468-",
+   "kind": "x-long-names",
+   "group": null
   },
   "1469": {
-   "title": "Phone notch and bottom bar safe areas",
-   "stage": 2,
+   "title": "Audit all screens: phone notch and bottom bar safe areas",
+   "stage": 1,
    "screen": "shared",
-   "mode": "code",
-   "prefix": "gameplay/job-1469-",
-   "kind": "x-safe-area"
+   "mode": "audit",
+   "prefix": "qa/job-1469-",
+   "kind": "x-safe-area",
+   "group": null
   },
   "1470": {
-   "title": "Phone held sideways: nothing hidden or overlapping",
-   "stage": 2,
+   "title": "Audit all screens: phone held sideways: nothing hidden or overlapping",
+   "stage": 1,
    "screen": "shared",
-   "mode": "code",
-   "prefix": "gameplay/job-1470-",
-   "kind": "x-short-landscape"
+   "mode": "audit",
+   "prefix": "qa/job-1470-",
+   "kind": "x-short-landscape",
+   "group": null
   },
   "1471": {
-   "title": "Keyboard focus rings and reduced motion",
-   "stage": 2,
+   "title": "Audit all screens: keyboard focus rings and reduced motion",
+   "stage": 1,
    "screen": "shared",
-   "mode": "code",
-   "prefix": "gameplay/job-1471-",
-   "kind": "x-focus-motion"
+   "mode": "audit",
+   "prefix": "qa/job-1471-",
+   "kind": "x-focus-motion",
+   "group": null
   },
   "1472": {
-   "title": "Empty, loading and waiting messages read the same everywhere",
-   "stage": 2,
+   "title": "Audit all screens: empty, loading and waiting messages read the same everywhere",
+   "stage": 1,
    "screen": "shared",
-   "mode": "code",
-   "prefix": "gameplay/job-1472-",
-   "kind": "x-empty-states"
+   "mode": "audit",
+   "prefix": "qa/job-1472-",
+   "kind": "x-empty-states",
+   "group": null
   },
   "1473": {
-   "title": "Text contrast on plates and badges",
-   "stage": 2,
+   "title": "Audit all screens: text contrast on plates and badges",
+   "stage": 1,
    "screen": "shared",
-   "mode": "code",
-   "prefix": "gameplay/job-1473-",
-   "kind": "x-contrast"
+   "mode": "audit",
+   "prefix": "qa/job-1473-",
+   "kind": "x-contrast",
+   "group": null
   },
   "1474": {
-   "title": "Fonts: fallback while loading, no jumps",
-   "stage": 2,
+   "title": "Audit all screens: fonts: fallback while loading, no jumps",
+   "stage": 1,
    "screen": "shared",
-   "mode": "code",
-   "prefix": "gameplay/job-1474-",
-   "kind": "x-fonts"
+   "mode": "audit",
+   "prefix": "qa/job-1474-",
+   "kind": "x-fonts",
+   "group": null
   },
   "1475": {
-   "title": "Picture descriptions and screen reader labels",
-   "stage": 2,
+   "title": "Audit all screens: picture descriptions and screen reader labels",
+   "stage": 1,
    "screen": "shared",
-   "mode": "code",
-   "prefix": "gameplay/job-1475-",
-   "kind": "x-alt-text"
+   "mode": "audit",
+   "prefix": "qa/job-1475-",
+   "kind": "x-alt-text",
+   "group": null
   },
   "1476": {
-   "title": "Stacking order: dialogs above screens, toasts above dialogs",
-   "stage": 2,
+   "title": "Audit all screens: stacking order: dialogs above screens, toasts above dialogs",
+   "stage": 1,
    "screen": "shared",
-   "mode": "code",
-   "prefix": "gameplay/job-1476-",
-   "kind": "x-layers"
+   "mode": "audit",
+   "prefix": "qa/job-1476-",
+   "kind": "x-layers",
+   "group": null
   },
   "1477": {
-   "title": "Hard-coded colours that should use the design tokens",
-   "stage": 2,
+   "title": "Audit all screens: hard-coded colours that should use the design tokens",
+   "stage": 1,
    "screen": "shared",
-   "mode": "code",
-   "prefix": "gameplay/job-1477-",
-   "kind": "x-tokens"
+   "mode": "audit",
+   "prefix": "qa/job-1477-",
+   "kind": "x-tokens",
+   "group": null
   },
   "1478": {
-   "title": "Hover-only effects must also work by touch",
-   "stage": 2,
+   "title": "Audit all screens: hover-only effects must also work by touch",
+   "stage": 1,
    "screen": "shared",
-   "mode": "code",
-   "prefix": "gameplay/job-1478-",
-   "kind": "x-touch-hover"
+   "mode": "audit",
+   "prefix": "qa/job-1478-",
+   "kind": "x-touch-hover",
+   "group": null
   },
   "1479": {
    "title": "Audit js/seasonEngine.js for gameplay bugs (first half)",
@@ -4030,7 +4448,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1479-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1480": {
    "title": "Audit js/seasonEngine.js for gameplay bugs (second half)",
@@ -4038,7 +4457,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1480-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1481": {
    "title": "Audit js/transferChallenge.js for gameplay bugs (first half)",
@@ -4046,7 +4466,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1481-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1482": {
    "title": "Audit js/transferChallenge.js for gameplay bugs (second half)",
@@ -4054,7 +4475,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1482-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1483": {
    "title": "Audit js/productionSharedTransferChallenge.js for gameplay bugs (first half)",
@@ -4062,7 +4484,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1483-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1484": {
    "title": "Audit js/productionSharedTransferChallenge.js for gameplay bugs (second half)",
@@ -4070,7 +4493,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1484-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1485": {
    "title": "Audit js/sparkSharedTransferChallenge.js for gameplay bugs (first half)",
@@ -4078,7 +4502,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1485-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1486": {
    "title": "Audit js/sparkSharedTransferChallenge.js for gameplay bugs (second half)",
@@ -4086,7 +4511,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1486-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1487": {
    "title": "Audit js/sharedTransferChallenge.js for gameplay bugs (first half)",
@@ -4094,7 +4520,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1487-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1488": {
    "title": "Audit js/sharedTransferChallenge.js for gameplay bugs (second half)",
@@ -4102,7 +4529,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1488-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1489": {
    "title": "Audit js/restore.js for gameplay bugs (first half)",
@@ -4110,7 +4538,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1489-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1490": {
    "title": "Audit js/restore.js for gameplay bugs (second half)",
@@ -4118,7 +4547,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1490-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1491": {
    "title": "Audit js/importAnalysis.js for gameplay bugs (first half)",
@@ -4126,7 +4556,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1491-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1492": {
    "title": "Audit js/importAnalysis.js for gameplay bugs (second half)",
@@ -4134,7 +4565,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1492-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1493": {
    "title": "Audit js/persistentNikDanielPair.js for gameplay bugs (first half)",
@@ -4142,7 +4574,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1493-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1494": {
    "title": "Audit js/persistentNikDanielPair.js for gameplay bugs (second half)",
@@ -4150,7 +4583,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1494-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1495": {
    "title": "Audit js/sparkConnectedRivalry.js for gameplay bugs (first half)",
@@ -4158,7 +4592,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1495-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1496": {
    "title": "Audit js/sparkConnectedRivalry.js for gameplay bugs (second half)",
@@ -4166,7 +4601,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1496-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1497": {
    "title": "Audit js/visualIdentity.js for gameplay bugs (first half)",
@@ -4174,7 +4610,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1497-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1498": {
    "title": "Audit js/visualIdentity.js for gameplay bugs (second half)",
@@ -4182,7 +4619,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1498-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1499": {
    "title": "Audit js/saveLibraryRuntime.js for gameplay bugs (first half)",
@@ -4190,7 +4628,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1499-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1500": {
    "title": "Audit js/saveLibraryRuntime.js for gameplay bugs (second half)",
@@ -4198,7 +4637,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1500-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1501": {
    "title": "Audit js/saveLibraryUI.js for gameplay bugs (first half)",
@@ -4206,7 +4646,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1501-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1502": {
    "title": "Audit js/saveLibraryUI.js for gameplay bugs (second half)",
@@ -4214,7 +4655,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1502-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1503": {
    "title": "Audit js/productionSharedShowdownPresentation.js for gameplay bugs (first half)",
@@ -4222,7 +4664,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1503-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1504": {
    "title": "Audit js/productionSharedShowdownPresentation.js for gameplay bugs (second half)",
@@ -4230,7 +4673,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1504-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1505": {
    "title": "Audit js/productionSharedTerminalClose.js for gameplay bugs (first half)",
@@ -4238,7 +4682,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1505-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1506": {
    "title": "Audit js/productionSharedTerminalClose.js for gameplay bugs (second half)",
@@ -4246,7 +4691,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1506-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1507": {
    "title": "Audit js/sparkSharedSeasonResults.js for gameplay bugs (first half)",
@@ -4254,7 +4700,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1507-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1508": {
    "title": "Audit js/sparkSharedSeasonResults.js for gameplay bugs (second half)",
@@ -4262,7 +4709,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1508-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1509": {
    "title": "Audit js/productionSharedSeasonResults.js for gameplay bugs (first half)",
@@ -4270,7 +4718,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1509-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1510": {
    "title": "Audit js/productionSharedSeasonResults.js for gameplay bugs (second half)",
@@ -4278,7 +4727,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1510-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1511": {
    "title": "Audit js/productionSharedSeasonCommit.js for gameplay bugs (first half)",
@@ -4286,7 +4736,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1511-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1512": {
    "title": "Audit js/productionSharedSeasonCommit.js for gameplay bugs (second half)",
@@ -4294,7 +4745,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1512-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1513": {
    "title": "Audit js/sparkSharedSeasonCommit.js for gameplay bugs (first half)",
@@ -4302,7 +4754,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1513-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1514": {
    "title": "Audit js/sparkSharedSeasonCommit.js for gameplay bugs (second half)",
@@ -4310,7 +4763,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1514-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1515": {
    "title": "Audit js/productionSharedJourneyEntry.js for gameplay bugs (first half)",
@@ -4318,7 +4772,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1515-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1516": {
    "title": "Audit js/productionSharedJourneyEntry.js for gameplay bugs (second half)",
@@ -4326,7 +4781,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1516-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1517": {
    "title": "Audit js/productionSharedJourneyReconnect.js for gameplay bugs (first half)",
@@ -4334,7 +4790,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1517-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1518": {
    "title": "Audit js/productionSharedJourneyReconnect.js for gameplay bugs (second half)",
@@ -4342,7 +4799,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1518-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1519": {
    "title": "Audit js/productionSharedMultiSeasonProgression.js for gameplay bugs (first half)",
@@ -4350,7 +4808,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1519-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1520": {
    "title": "Audit js/productionSharedMultiSeasonProgression.js for gameplay bugs (second half)",
@@ -4358,7 +4817,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1520-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1521": {
    "title": "Audit js/productionSharedCareerStart.js for gameplay bugs (first half)",
@@ -4366,7 +4826,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1521-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1522": {
    "title": "Audit js/productionSharedCareerStart.js for gameplay bugs (second half)",
@@ -4374,7 +4835,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1522-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1523": {
    "title": "Audit js/productionSharedShowdownSetup.js for gameplay bugs (first half)",
@@ -4382,7 +4844,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1523-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1524": {
    "title": "Audit js/productionSharedShowdownSetup.js for gameplay bugs (second half)",
@@ -4390,7 +4853,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1524-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1525": {
    "title": "Audit js/sparkSharedShowdownSetup.js for gameplay bugs (first half)",
@@ -4398,7 +4862,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1525-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1526": {
    "title": "Audit js/sparkSharedShowdownSetup.js for gameplay bugs (second half)",
@@ -4406,7 +4871,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1526-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1527": {
    "title": "Audit js/sharedShowdownSetup.js for gameplay bugs (first half)",
@@ -4414,7 +4880,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1527-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1528": {
    "title": "Audit js/sharedShowdownSetup.js for gameplay bugs (second half)",
@@ -4422,7 +4889,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1528-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1529": {
    "title": "Audit js/sparkTerminalClose.js for gameplay bugs (first half)",
@@ -4430,7 +4898,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1529-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1530": {
    "title": "Audit js/sparkTerminalClose.js for gameplay bugs (second half)",
@@ -4438,7 +4907,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1530-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1531": {
    "title": "Audit js/productionSharedCanonicalScoring.js for gameplay bugs (first half)",
@@ -4446,7 +4916,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1531-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1532": {
    "title": "Audit js/productionSharedCanonicalScoring.js for gameplay bugs (second half)",
@@ -4454,7 +4925,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1532-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1533": {
    "title": "Audit js/productionSharedHistoryConvergence.js for gameplay bugs (first half)",
@@ -4462,7 +4934,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1533-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1534": {
    "title": "Audit js/productionSharedHistoryConvergence.js for gameplay bugs (second half)",
@@ -4470,7 +4943,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1534-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1535": {
    "title": "Audit js/sharedHistoryConvergence.js for gameplay bugs (first half)",
@@ -4478,7 +4952,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1535-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1536": {
    "title": "Audit js/sharedHistoryConvergence.js for gameplay bugs (second half)",
@@ -4486,7 +4961,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1536-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1537": {
    "title": "Audit js/sharedJourneyReconnect.js for gameplay bugs (first half)",
@@ -4494,7 +4970,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1537-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1538": {
    "title": "Audit js/sharedJourneyReconnect.js for gameplay bugs (second half)",
@@ -4502,7 +4979,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1538-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1539": {
    "title": "Audit js/sharedActiveShowdownAdapter.js for gameplay bugs (first half)",
@@ -4510,7 +4988,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1539-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1540": {
    "title": "Audit js/sharedActiveShowdownAdapter.js for gameplay bugs (second half)",
@@ -4518,7 +4997,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1540-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1541": {
    "title": "Audit js/statistics.js for gameplay bugs (first half)",
@@ -4526,7 +5006,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1541-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1542": {
    "title": "Audit js/statistics.js for gameplay bugs (second half)",
@@ -4534,7 +5015,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1542-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1543": {
    "title": "Audit js/legacy.js for gameplay bugs (first half)",
@@ -4542,7 +5024,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1543-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1544": {
    "title": "Audit js/legacy.js for gameplay bugs (second half)",
@@ -4550,7 +5033,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1544-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1545": {
    "title": "Audit js/analytics.js for gameplay bugs (first half)",
@@ -4558,7 +5042,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1545-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1546": {
    "title": "Audit js/analytics.js for gameplay bugs (second half)",
@@ -4566,7 +5051,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1546-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1547": {
    "title": "Audit js/settings.js for gameplay bugs (first half)",
@@ -4574,7 +5060,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1547-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1548": {
    "title": "Audit js/settings.js for gameplay bugs (second half)",
@@ -4582,7 +5069,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1548-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1549": {
    "title": "Audit js/screens.js for gameplay bugs (first half)",
@@ -4590,7 +5078,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1549-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1550": {
    "title": "Audit js/screens.js for gameplay bugs (second half)",
@@ -4598,7 +5087,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1550-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1551": {
    "title": "Audit js/menuExperience.js for gameplay bugs (first half)",
@@ -4606,7 +5096,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1551-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1552": {
    "title": "Audit js/menuExperience.js for gameplay bugs (second half)",
@@ -4614,7 +5105,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1552-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1553": {
    "title": "Audit js/clubAssignment.js for gameplay bugs (first half)",
@@ -4622,7 +5114,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1553-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1554": {
    "title": "Audit js/clubAssignment.js for gameplay bugs (second half)",
@@ -4630,7 +5123,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1554-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1555": {
    "title": "Audit js/storage.js for gameplay bugs (first half)",
@@ -4638,7 +5132,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1555-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1556": {
    "title": "Audit js/storage.js for gameplay bugs (second half)",
@@ -4646,7 +5141,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1556-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1557": {
    "title": "Audit js/diagnostics.js for gameplay bugs (first half)",
@@ -4654,7 +5150,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1557-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1558": {
    "title": "Audit js/diagnostics.js for gameplay bugs (second half)",
@@ -4662,7 +5159,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1558-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1559": {
    "title": "Audit js/offlineApp.js for gameplay bugs (first half)",
@@ -4670,7 +5168,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1559-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1560": {
    "title": "Audit js/offlineApp.js for gameplay bugs (second half)",
@@ -4678,7 +5177,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1560-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1561": {
    "title": "Audit js/sparkCompletedShowdownReader.js for gameplay bugs (first half)",
@@ -4686,7 +5186,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1561-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1562": {
    "title": "Audit js/sparkCompletedShowdownReader.js for gameplay bugs (second half)",
@@ -4694,7 +5195,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1562-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1563": {
    "title": "Audit js/sparkCompletedTransferHistoryReader.js for gameplay bugs (first half)",
@@ -4702,7 +5204,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1563-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1564": {
    "title": "Audit js/sparkCompletedTransferHistoryReader.js for gameplay bugs (second half)",
@@ -4710,7 +5213,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1564-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1565": {
    "title": "Audit js/careerScreensV10.js for gameplay bugs (first half)",
@@ -4718,7 +5222,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1565-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1566": {
    "title": "Audit js/careerScreensV10.js for gameplay bugs (second half)",
@@ -4726,7 +5231,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1566-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1567": {
    "title": "Audit js/rivalryLegacyV10.js for gameplay bugs (first half)",
@@ -4734,7 +5240,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1567-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1568": {
    "title": "Audit js/rivalryLegacyV10.js for gameplay bugs (second half)",
@@ -4742,7 +5249,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1568-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1569": {
    "title": "Audit js/transferScreenV10.js for gameplay bugs (first half)",
@@ -4750,7 +5258,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1569-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1570": {
    "title": "Audit js/transferScreenV10.js for gameplay bugs (second half)",
@@ -4758,7 +5267,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1570-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1571": {
    "title": "Audit js/clubScreenV10.js for gameplay bugs (first half)",
@@ -4766,7 +5276,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1571-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1572": {
    "title": "Audit js/clubScreenV10.js for gameplay bugs (second half)",
@@ -4774,7 +5285,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1572-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1573": {
    "title": "Audit js/seasonFinalV10.js for gameplay bugs (first half)",
@@ -4782,7 +5294,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1573-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1574": {
    "title": "Audit js/seasonFinalV10.js for gameplay bugs (second half)",
@@ -4790,7 +5303,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1574-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1575": {
    "title": "Audit js/homeScreensV10.js for gameplay bugs (first half)",
@@ -4798,7 +5312,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1575-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1576": {
    "title": "Audit js/homeScreensV10.js for gameplay bugs (second half)",
@@ -4806,7 +5321,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1576-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1577": {
    "title": "Audit js/v10Screens.js for gameplay bugs (first half)",
@@ -4814,7 +5330,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1577-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   },
   "1578": {
    "title": "Audit js/v10Screens.js for gameplay bugs (second half)",
@@ -4822,7 +5339,8 @@
    "screen": "gameplay",
    "mode": "audit",
    "prefix": "qa/job-1578-",
-   "kind": "audit"
+   "kind": "audit",
+   "group": null
   }
  },
  "base_branches": {

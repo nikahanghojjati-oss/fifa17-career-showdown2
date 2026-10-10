@@ -1,5 +1,20 @@
 {
  "sequence": {
+  "ready": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12
+  ],
+  "open_code_prs": 0,
   "next_free": 1,
   "highest_taken": 0,
   "total": 518,
@@ -524,13 +539,13 @@
    "518": "waiting"
   }
  },
- "updated": "2026-10-10T01:57:31Z",
+ "updated": "2026-10-10T01:59:30Z",
  "counts": {
   "waiting": 518
  },
  "stages": {
   "2": {
-   "total": 278,
+   "total": 266,
    "taken": 0,
    "merged": 0
   },
@@ -550,7 +565,7 @@
    "merged": 0
   },
   "1": {
-   "total": 100,
+   "total": 112,
    "taken": 0,
    "merged": 0
   }

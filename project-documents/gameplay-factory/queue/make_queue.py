@@ -86,9 +86,9 @@ RULES = """## Rules for every queue job (read first)
 - **Start:** branch `{base}`. Create the branch `{branch}-<slug>` from it and open the PR **into `{base}`**. Never push to `main`, `gameplay/bug-list-1`, `gameplay/recovery-v1` or `study/mega-queue` directly. Never merge.
 - **Scope:** change only the files this ticket names. If it truly needs another file, change it and say why in the PR body.
 - **Never** edit `index.html`, `service-worker.js`, scoring, the release version or anything under `.github/`. Never delete, skip or loosen a test. Game rules and every screen's order of taps stay exactly as they are (Nik: fewer taps, but never skip, hide or reorder a needed screen).
-- **Checks:** you cannot run a browser here, and that is expected. Re-read your edit once. The lead's checker runs the tests and takes screenshots before merging.
+- **Checks:** you cannot run a browser here, and that is expected. Re-read your edit once. The Team G lead runs the tests and checks the screen before merging, and merges only on green CI.
 - **If you cannot finish** (a file is missing, a limit is reached): push the branch `{branch}-blocked` with one small file `project-documents/gameplay-factory/status/JOB-{n}.md` saying what stopped you. That frees the slot for the next job.
-- **PR title:** `JOB-{n} <ticket title>`. **PR body:** a "Before:" paragraph, an "After:" paragraph, a short "How" paragraph, then the lines you changed.
+- **PR title:** `JOB-{n} {tag}<ticket title>`. **PR body:** a "Before:" paragraph, an "After:" paragraph, a short "How" paragraph, then the lines you changed.
 - **Done:** reply with one line: `Job {n} done, PR <link>.` Do not ask to continue.
 """
 
@@ -128,7 +128,7 @@ Match the current desktop **{title}** screen to its desktop mockup.
 - DEFAULT: if you cannot find the mockup, do not guess. Push only the status file `status/JOB-{n}.md` saying `NEEDS MOCKUP` and naming the places you looked. The lead will route a mockup request.
 """
     return (f"# JOB-{n} · {title}: {kind_title} (stage {stage})\n\n{lane(BASE)}\n\n{body}\n"
-            f"## Read (only these)\n{reads_md(files)}\n\n{SIZE}\n{RULES.format(base=BASE, branch=f'gameplay/job-{n}', n=n)}")
+            f"## Read (only these)\n{reads_md(files)}\n\n{SIZE}\n{RULES.format(base=BASE, branch=f'gameplay/job-{n}', n=n, tag='')}")
 
 def ticket_study(n, key, sid, title, files, kind_title, stage):
     if key == "s4":
@@ -144,7 +144,7 @@ An **improved desktop version** of the **{title}** screen as a self-contained HT
 - Keep the same elements, game rules, text and order of taps. Improve only presentation: hierarchy, spacing, readability, a clearer main action, better use of the plate artwork. Use the existing artwork under `visual-assets/v10_1/{sid}/assets/` (relative links such as `../../../../visual-assets/v10_1/{sid}/assets/<file>`).
 - Files (3 at most): `project-documents/gameplay-factory/studies/{sid}/desktop-v2-{n}.html`, `.../desktop-v2-{n}-notes.md` (at most 15 lines: what improved and why), and `project-documents/gameplay-factory/studies/{sid}/README.md` only if it does not exist yet.
 """
-    rules = RULES.format(base=STUDY_BASE, branch=f'study/job-{n}', n=n)
+    rules = RULES.format(base=STUDY_BASE, branch=f'study/job-{n}', n=n, tag='')
     return (f"# JOB-{n} · {title}: {kind_title} (stage {stage})\n\n{lane(STUDY_BASE)}\n\n"
             f"This is a **study**: it adds new files only and changes no game code. Team V's lead decides which studies become real screens. If you can, use GPT-6's picture and design features to look at the mockups.\n\n"
             f"{what}\n## Read (only these)\n{reads_md(files)}\n- the mockup picture of this screen in the ChatGPT project files, if present\n\n{SIZE}\n{rules}"
@@ -153,7 +153,7 @@ An **improved desktop version** of the **{title}** screen as a self-contained HT
 def ticket_cross(n, title, text, files):
     return (f"# JOB-{n} · {title} (stage 2)\n\n{lane(BASE)}\n\n## What to fix\n{text}\n"
             f"- DEFAULT: if you find nothing wrong, change nothing and push only the status file `status/JOB-{n}.md` saying `no change needed`.\n\n"
-            f"## Read (only these)\n{reads_md(files)}\n\n{SIZE}\n{RULES.format(base=BASE, branch=f'gameplay/job-{n}', n=n)}")
+            f"## Read (only these)\n{reads_md(files)}\n\n{SIZE}\n{RULES.format(base=BASE, branch=f'gameplay/job-{n}', n=n, tag='')}")
 
 def standing_line(slot):
     return (f"Career Mode Showdown factory, slot {slot}. With the GitHub connector, read "
@@ -190,6 +190,11 @@ You are a **reviewer** in the Career Mode Showdown gameplay factory, slot **{slo
 4. Post ONE comment on the PR that starts with `Sol review`, containing: verdict (`OK`, `OK with notes`, or `Needs changes`); whether it stayed inside the ticket's files and rules (yes/no, name any file outside); anything that changes a player-visible text, an order of taps, or game logic (must be none); up to 5 short bullets of concrete problems with file and line. Do not push, approve, merge or close anything.
 5. Last line to Nik: `Reviewed PR <link>: <verdict>.` Do not ask to continue.
 """
+
+GROUPS = {"home": "home", "start-join": "start-join", "league": "league", "club": "club", "transfer": "transfer",
+          "season-results": "season-final", "final-winner": "season-final", "standings": "standings",
+          "legacy": "rivalry-legacy", "rivalry-statistics": "rivalry-legacy", "trophy-room": "trophy-room",
+          "career-statistics": "career-statistics", "rule-book": "rules-settings", "settings": "rules-settings"}
 
 VIEWPORTS = ["360x640 (small phone, upright)", "390x844 (iPhone, upright)", "430x932 (large iPhone, upright)",
              "844x390 (iPhone, sideways)", "932x430 (large iPhone, sideways)", "768x1024 (tablet, upright)",
@@ -229,9 +234,9 @@ AUDIT_MODULES = [
  "careerScreensV10", "rivalryLegacyV10", "transferScreenV10", "clubScreenV10", "seasonFinalV10", "homeScreensV10", "v10Screens",
 ]
 
-def generic(n, title, stage, base, body, files, branch_kind="gameplay"):
+def generic(n, title, stage, base, body, files, branch_kind="gameplay", tag="", done=""):
     return (f"# JOB-{n} · {title} (stage {stage})\n\n{lane(base)}\n\n{body}\n"
-            f"## Read (only these)\n{reads_md(files)}\n\n{SIZE}\n{RULES.format(base=base, branch=f'{branch_kind}/job-{n}', n=n)}")
+            f"## Read (only these)\n{reads_md(files)}\n\n{SIZE}\n{done}{RULES.format(base=base, branch=f'{branch_kind}/job-{n}', n=n, tag=tag)}")
 
 def main():
     ap = argparse.ArgumentParser()
@@ -247,20 +252,20 @@ def main():
     for sid, title, files, slot in SCREENS:
         pre = f"visual-assets/v10_1/{sid}/assets/"
         for vp in VIEWPORTS:
-            add(slot, key="vp", screen=sid, stage=2, mode="code", title=f"{title}: fix the {vp.split(' ')[0]} view",
+            add(slot, key="vp", screen=sid, stage=2, mode="code", stitle=title, title=f"{title}: fix the {vp.split(' ')[0]} view",
                 files=files, text=f"## What to fix\nCheck only the **{vp}** view of the **{title}** screen and fix what is wrong in the CSS: no content cut off, no horizontal scroll, no text over text, no button off screen, one page scroll (no nested scroll box), tap targets at least 44 px on touch sizes. Use media queries that apply only to this size range so other sizes do not change.\n")
-        add(slot, key="s3", screen=sid, stage=3, mode="code", title=f"{title}: match the desktop mockup", files=files,
+        add(slot, key="s3", screen=sid, stage=3, mode="code", stitle=title, title=f"{title}: match the desktop mockup", files=files,
             text=f"## What to fix\nMatch the current desktop **{title}** screen to its desktop mockup.\n- Find the mockup of this screen in this ChatGPT project's files (also try the pictures in `{pre}` named `ENV_*_PLATE_V1_*`). List at most 8 differences in spacing, sizes, alignment, text style, colours or order of elements between the mockup and the code and fix the clear ones in the CSS (tiny markup class changes only when a class is missing). Never change text a player reads, an order of taps, or game logic.\n- Save the list as `project-documents/gameplay-factory/queue/results/{sid}-s3.md` (fixed / not fixed with reason).\n- DEFAULT: if you cannot find the mockup, do not guess. Push only `status/JOB-N.md` saying `NEEDS MOCKUP` and where you looked.\n")
         for key, ktitle, text in ASPECTS:
-            add(slot, key="a-" + key, screen=sid, stage=2, mode="code", title=f"{title}: {ktitle}", files=files,
+            add(slot, key="a-" + key, screen=sid, stage=2, mode="code", stitle=title, title=f"{title}: {ktitle}", files=files,
                 text=f"## What to fix\nFor the **{title}** screen only: {text}\nCSS only unless the instruction says otherwise.\n")
         for key, ktitle, text in STUDY_VARIANTS:
             st = 4 if key.startswith(("phone", "sideways", "tablet")) else 5
             add(slot, key="st-" + key, screen=sid, stage=st, mode="study", title=f"{title}: {ktitle}", files=files,
                 text=f"## What to make\n{text}\n- Self-contained HTML with inline CSS and no JavaScript. Use the existing artwork under `{pre}` (relative links such as `../../../../{pre}<file>`) and the screen's desktop mockup in this ChatGPT project's files. If you can, use GPT-6's picture and design features to look at the mockups.\n- Keep every element, all text and the same order of taps as the real screen. Presentation only.\n- Files (3 at most): `project-documents/gameplay-factory/studies/{sid}/<kind>-<job>.html`, `.../<kind>-<job>-notes.md` (at most 15 lines: what you chose and why), and `.../studies/{sid}/README.md` only if it does not exist (one line).\n")
     for i, (key, title, text, files) in enumerate(CROSS):
-        add(["B5", "B6", "B7", "B8", "B9"][i % 5], key="x-" + key, screen="shared", stage=2, mode="code", title=title, files=files,
-            text=f"## What to fix\n{text}\n")
+        add(["B5", "B6", "B7", "B8", "B9"][i % 5], key="x-" + key, screen="shared", stage=1, mode="audit", title="Audit all screens: " + title.lower(), files=files,
+            text=f"## What to do\nRead-only check across the Team V screens. {text}\n- Do NOT edit any game file. Write at most 8 findings in `project-documents/gameplay-factory/queue/audits/x-{key}.md`: screen, file and line, what is wrong, the smallest CSS or markup change. The Team G lead bundles real findings into one fix job.\n- DEFAULT: if you find nothing, write `no findings` and what you checked.\n")
     for i, m in enumerate(AUDIT_MODULES):
         slot = ["B5", "B6", "B7", "B8", "B9"][(i + 2) % 5]
         add(slot, key="audit", screen="gameplay", stage=1, mode="audit", title=f"Audit js/{m}.js for gameplay bugs (first half)",
@@ -284,7 +289,13 @@ def main():
         else:
             body = t["text"].replace("status/JOB-N.md", f"status/JOB-{j}.md")
             if "DEFAULT" not in body: body += nochange(j)
-            md = generic(j, t["title"], t["stage"], BASE, body, t["files"])
+            grp = GROUPS[t["screen"]]; t["group"] = grp
+            fl = ", ".join(f"`{f}`" for f in t["files"])
+            body += f"\n**Lock group:** `{grp}`. Only one open code pull request per lock group is allowed at a time, so touch only these files: {fl}.\n"
+            vp = t["title"].split("fix the ")[1].split(" ")[0] if "fix the " in t["title"] else "1920x1080"
+            done = (f"## Done check (the Team G lead runs this)\n- `node scripts/pos10-syntax.mjs` and `npm run -s test:contracts` pass in CI (Showdown Gate green).\n"
+                    f"- The **{t['stitle'] if 'stitle' in t else t['screen']}** screen looks right at **{vp}** and is unchanged at 1920x1080 and 390x844 (except where this job says otherwise).\n\n")
+            md = generic(j, t["title"], t["stage"], BASE, body, t["files"], tag=f"[{grp}] ", done=done)
         (out_jobs / f"JOB-{j}.md").write_text(md)
     for s in SLOTS:
         if s in REVIEW_SLOTS:
@@ -297,7 +308,7 @@ def main():
                       "standing_line": standing_line(s), "file": f"queue/slots/{s}.md",
                       "jobs": [t["job"] for t in slots[s]]} for s in SLOTS},
         "tickets": {str(t["job"]): {"title": t["title"], "stage": t["stage"], "screen": t["screen"],
-                                    "mode": t["mode"], "prefix": t["prefix"], "kind": t["key"]} for t in tickets},
+                                    "mode": t["mode"], "prefix": t["prefix"], "kind": t["key"], "group": t.get("group")} for t in tickets},
         "base_branches": {"code": BASE, "study": STUDY_BASE, "audit": AUDIT_BASE},
     }
     (GF / "queue" / "QUEUE.json").write_text(json.dumps(q, indent=1, ensure_ascii=False) + "\n")

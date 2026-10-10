@@ -12,3 +12,8 @@
 - Per screen (14 screens, 29 jobs each, in one slot): 10 single-size layout fixes, match-the-mockup, 9 aspect fixes (long names, tap targets, focus/motion, contrast, alt text, loading/empty/error states, hover) = code PRs into `gameplay/bug-list-1`; then 9 studies (3 phone, sideways, tablet, 3 desktop, states sheet) = new HTML only into `study/mega-queue`.
 - B5-B9: 12 shared CSS checks plus 100 reading audits of gameplay modules (first and second half of 50 modules), findings only into `qa/mega-audits`; the lead turns real findings into fix jobs.
 - Refill: add families in make_queue.py, claim new numbers on leads/relay, regenerate with the new --first for the new tickets only (do not renumber published ones).
+
+## Review-pace rules (Team G lead, 2026-10-10)
+- Code items (into `gameplay/bug-list-1`) have a **lock group** (screen, or shared files: season-final, rivalry-legacy, rules-settings): one open code PR per group, strict job order inside a group, at most 8 open code PRs overall. The item file carries these guards, so a chat refuses politely; `QUEUE_STATE.json` `sequence.ready` lists the numbers that pass them.
+- Audits (findings files into `qa/mega-audits`) and studies (new HTML into `study/mega-queue`) are never locked. The sequence alternates one code item with one free item so there is always a number to type.
+- PR titles carry the group, e.g. `JOB-1061 [home] Home: fix the 360x640 view`. Every code ticket names its Done check.
