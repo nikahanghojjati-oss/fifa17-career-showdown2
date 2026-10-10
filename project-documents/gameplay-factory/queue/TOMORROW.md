@@ -40,4 +40,10 @@ One system: you only ever type a number. Numbers 1 to 1000 are queue items, numb
 224
 ```
 
-Studies (phone and desktop mockups) are on hold until Team V approves each screen's picture, so no study numbers are listed here yet; the board's Type now list will add them when they are released. The board's Type now list keeps the next numbers; [RUN_REPORT.md](RUN_REPORT.md) is what Claude reads when you are back.
+Home phone studies, released (Team V approved the Home phone picture):
+
+```text
+232 260 288 316 344
+```
+
+Studies (phone and desktop mockups) are on hold until Team V approves each screen's picture, so only the released ones are listed here (Home phone so far); the board's Type now list will add them when they are released. The board's Type now list keeps the next numbers; [RUN_REPORT.md](RUN_REPORT.md) is what Claude reads when you are back.
