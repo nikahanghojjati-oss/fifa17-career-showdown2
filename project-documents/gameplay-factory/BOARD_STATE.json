@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-10 10:12 AM Boston time (EDT)",
+ "generated": "2026-10-10 10:18 AM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -284,8 +284,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "8ffda38",
-  "head_boston": "Fri 9 Oct 10:38 PM",
+  "head": "78fe342",
+  "head_boston": "Sat 10 Oct 10:17 AM",
   "latest_id": "G2V-016",
   "feed_matches_latest": true,
   "open_for_g": [],
@@ -616,6 +616,19 @@
     "worker": "",
     "pickup_min": 0,
     "waiting_min": null
+   },
+   {
+    "id": "HO-022",
+    "from": "G",
+    "to": "V",
+    "title": "Mega factory studies: how Team V adopts them (queue/V_ADOPTION.md) and the NEEDS TEAM V rule",
+    "stage": "DELIVERED",
+    "pct": 0.0,
+    "overdue": false,
+    "path": "project-documents/leads-relay/handoffs/HO-022_mega-factory-studies-how-team-v-adopts-t.md",
+    "worker": "",
+    "pickup_min": null,
+    "waiting_min": 0
    }
   ],
   "relay_ok": true
@@ -687,7 +700,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 39,
+  "moving": 40,
   "next": 8,
   "nik": 2,
   "later": 8,
