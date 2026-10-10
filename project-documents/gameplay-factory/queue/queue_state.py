@@ -137,6 +137,26 @@ def main():
     for k in sorted(stages): L.append(f"{k} | {stages[k]['total']} | {stages[k]['taken']} | {stages[k]['merged']}")
     L += ["", f"Type now (Sol chat): {seq.get('ready_sol')}", f"Type now (Codex): {seq.get('ready_codex')}"]
     (od / "QUEUE.md").write_text("\n".join(L) + "\n")
+    # RUN_REPORT.md: the one file Nik points Claude at when back (generated, free)
+    R = [f"# Mega factory run report · {now}", "",
+         f"Taken {sum(v['state'] != 'waiting' for v in state.values())} of {len(state)} jobs. By state: " + ", ".join(f"{k} {v}" for k, v in sorted(counts.items())), "",
+         "## By stage", "Stage | name | total | picked up | merged", "--- | --- | --- | --- | ---"]
+    names = {"1": "audits", "2": "screen fixes", "3": "mockup match", "4": "phone studies", "5": "desktop studies"}
+    for k in sorted(stages): R.append(f"{k} | {names.get(k, '')} | {stages[k]['total']} | {stages[k]['taken']} | {stages[k]['merged']}")
+    R += ["", "## Code trains (5 fixes per pull request)", "Train | jobs done | PR | state", "--- | --- | --- | ---"]
+    for br, tr in trains.items():
+        pr = train_pr[br]
+        if train_done[br] or pr:
+            R.append(f"{br} | {len(train_done[br]) or len(tr['jobs'])} of {len(tr['jobs'])} | " + (f"[#{pr['number']}]({pr['html_url']})" if pr else "-") + f" | {pstate(pr) if pr else 'on train, no PR yet'}")
+    o_items = json.loads(order.read_text())["items"] if order.exists() else {}
+    R += ["", "## Finished study and audit jobs", "Number | job | title | state | link", "--- | --- | --- | --- | ---"]
+    for k in sorted(o_items, key=int):
+        j = str(o_items[k]["job"]); t = tk[j]; v = state[j]
+        if t["mode"] != "code" and v["state"] != "waiting":
+            R.append(f"{k} | {j} | {t['title']} | {v['state']} | " + (f"[PR #{v['pr']}]({v['pr_url']})" if v["pr"] else (v["branch"] or "")))
+    stuck = [(k, o_items[k]["job"]) for k in sorted(o_items, key=int) if state[str(o_items[k]["job"])]["state"] in ("blocked", "branch_only")]
+    R += ["", "## Needs a look (blocked, no change needed, needs Team V or mockup)", *(f"- number {k}, job {j}: {state[str(j)]['state']} ({state[str(j)]['branch']})" for k, j in stuck), ""]
+    (od / "RUN_REPORT.md").write_text("\n".join(R) + "\n")
     print(json.dumps(counts))
 
 if __name__ == "__main__":
