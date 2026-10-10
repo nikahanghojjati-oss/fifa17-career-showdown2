@@ -1,60 +1,59 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 374" width="100%" role="img" aria-label="Team V board · Haiku V">
-<style>.t{font:12px 'Segoe UI',system-ui,Arial,sans-serif;fill:#fbfcfc}.m{font:11px 'Segoe UI',system-ui,Arial,sans-serif;fill:#fbfcfc}.mu{font:12px 'Segoe UI',system-ui,Arial,sans-serif;fill:#8ea2ac}.h{font:700 11px 'Segoe UI',system-ui,Arial,sans-serif;fill:#42b9da;letter-spacing:1.5px}.k{font:800 12px 'Segoe UI',system-ui,Arial,sans-serif;fill:#f0d900}.big{font:800 18px 'Segoe UI',system-ui,Arial,sans-serif;fill:#f0d900;letter-spacing:1px}.n{font:800 22px 'Segoe UI',system-ui,Arial,sans-serif;fill:#f0d900}.c{font:10px 'Segoe UI',system-ui,Arial,sans-serif;fill:#8ea2ac;letter-spacing:1px}.g{font:800 9px 'Segoe UI',system-ui,Arial,sans-serif;letter-spacing:1px}.r{fill:#12191f;stroke:#43515b;stroke-width:.5}</style>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 374" width="100%" role="img" aria-label="Team V board · Haiku V" font-family="&#x27;Segoe UI&#x27;,system-ui,Arial,sans-serif">
 <defs><linearGradient id="g"><stop offset="0" stop-color="#2c7399"/><stop offset="1" stop-color="#f0d900"/></linearGradient></defs>
 <rect width="640" height="374" rx="14" fill="#20272d"/>
 <rect width="640" height="6" rx="3" fill="url(#g)"/>
-<text x="18" y="34" class="big">TEAM V BOARD · HAIKU V</text>
+<text x="18" y="34" font-size="18" font-weight="800" fill="#f0d900" letter-spacing="1">TEAM V BOARD · HAIKU V</text>
 <rect x="18" y="48" width="145" height="58" rx="10" fill="#2c353c" stroke="#43515b"/>
 <rect x="18" y="48" width="145" height="3" rx="1.5" fill="#f0d900"/>
-<text x="90.5" y="82" class="n" text-anchor="middle">r67</text>
-<text x="90.5" y="99" class="c" text-anchor="middle">LIVE</text>
+<text x="90.5" y="82" font-size="22" font-weight="800" fill="#f0d900" text-anchor="middle">r67</text>
+<text x="90.5" y="99" font-size="10" fill="#8ea2ac" letter-spacing="1" text-anchor="middle">LIVE</text>
 <rect x="171" y="48" width="145" height="58" rx="10" fill="#2c353c" stroke="#43515b"/>
 <rect x="171" y="48" width="145" height="3" rx="1.5" fill="#f0d900"/>
-<text x="243.5" y="82" class="n" text-anchor="middle">0</text>
-<text x="243.5" y="99" class="c" text-anchor="middle">JOBS RUNNING</text>
+<text x="243.5" y="82" font-size="22" font-weight="800" fill="#f0d900" text-anchor="middle">0</text>
+<text x="243.5" y="99" font-size="10" fill="#8ea2ac" letter-spacing="1" text-anchor="middle">JOBS RUNNING</text>
 <rect x="324" y="48" width="145" height="58" rx="10" fill="#2c353c" stroke="#43515b"/>
 <rect x="324" y="48" width="145" height="3" rx="1.5" fill="#f0d900"/>
-<text x="396.5" y="82" class="n" text-anchor="middle">7</text>
-<text x="396.5" y="99" class="c" text-anchor="middle">JOBS TO START</text>
+<text x="396.5" y="82" font-size="22" font-weight="800" fill="#f0d900" text-anchor="middle">7</text>
+<text x="396.5" y="99" font-size="10" fill="#8ea2ac" letter-spacing="1" text-anchor="middle">JOBS TO START</text>
 <rect x="477" y="48" width="145" height="58" rx="10" fill="#2c353c" stroke="#43515b"/>
 <rect x="477" y="48" width="145" height="3" rx="1.5" fill="#f0d900"/>
-<text x="549.5" y="82" class="n" text-anchor="middle">0</text>
-<text x="549.5" y="99" class="c" text-anchor="middle">OTHER ASKS</text>
-<text x="18" y="128" class="h">GOALS, IN ORDER</text>
-<text x="18" y="162" class="t">1. Finish the remaining bugs</text>
-<text x="18" y="174" class="g" fill="#f0d900">NOW</text>
-<rect x="210" y="153" width="368" height="10" rx="5" class="r"/>
+<text x="549.5" y="82" font-size="22" font-weight="800" fill="#f0d900" text-anchor="middle">0</text>
+<text x="549.5" y="99" font-size="10" fill="#8ea2ac" letter-spacing="1" text-anchor="middle">OTHER ASKS</text>
+<text x="18" y="128" font-size="11" font-weight="700" fill="#42b9da" letter-spacing="1.5">GOALS, IN ORDER</text>
+<text x="18" y="162" font-size="12" fill="#fbfcfc">1. Finish the remaining bugs</text>
+<text x="18" y="174" font-size="9" font-weight="800" letter-spacing="1" fill="#f0d900">NOW</text>
+<rect x="210" y="153" width="368" height="10" rx="5" fill="#12191f" stroke="#43515b" stroke-width=".5"/>
 <rect x="210" y="153" width="329" height="10" rx="5" fill="#f0d900"/>
-<text x="622" y="162" class="k" text-anchor="end">89.4%</text>
-<text x="18" y="186" class="t">2. Visual fixes</text>
-<rect x="210" y="177" width="368" height="10" rx="5" class="r"/>
+<text x="622" y="162" font-size="12" font-weight="800" fill="#f0d900" text-anchor="end">89.4%</text>
+<text x="18" y="186" font-size="12" fill="#fbfcfc">2. Visual fixes</text>
+<rect x="210" y="177" width="368" height="10" rx="5" fill="#12191f" stroke="#43515b" stroke-width=".5"/>
 <rect x="210" y="177" width="184" height="10" rx="5" fill="#42b9da"/>
-<text x="622" y="186" class="k" text-anchor="end">50%</text>
-<text x="18" y="210" class="t">3. Match current desktop screens to the mockup</text>
-<rect x="210" y="201" width="368" height="10" rx="5" class="r"/>
+<text x="622" y="186" font-size="12" font-weight="800" fill="#f0d900" text-anchor="end">50%</text>
+<text x="18" y="210" font-size="12" fill="#fbfcfc">3. Match current desktop screens to the mockup</text>
+<rect x="210" y="201" width="368" height="10" rx="5" fill="#12191f" stroke="#43515b" stroke-width=".5"/>
 <rect x="210" y="201" width="23" height="10" rx="5" fill="#42b9da"/>
-<text x="622" y="210" class="k" text-anchor="end">6.2%</text>
-<text x="18" y="234" class="t">4. Visual mockups for phone</text>
-<rect x="210" y="225" width="368" height="10" rx="5" class="r"/>
-<text x="622" y="234" class="k" text-anchor="end">0%</text>
-<text x="18" y="258" class="t">5. Improved desktop versions</text>
-<rect x="210" y="249" width="368" height="10" rx="5" class="r"/>
-<text x="622" y="258" class="k" text-anchor="end">0%</text>
-<text x="18" y="280" class="h">HAND-OFFS · 22</text>
+<text x="622" y="210" font-size="12" font-weight="800" fill="#f0d900" text-anchor="end">6.2%</text>
+<text x="18" y="234" font-size="12" fill="#fbfcfc">4. Visual mockups for phone</text>
+<rect x="210" y="225" width="368" height="10" rx="5" fill="#12191f" stroke="#43515b" stroke-width=".5"/>
+<text x="622" y="234" font-size="12" font-weight="800" fill="#f0d900" text-anchor="end">0%</text>
+<text x="18" y="258" font-size="12" fill="#fbfcfc">5. Improved desktop versions</text>
+<rect x="210" y="249" width="368" height="10" rx="5" fill="#12191f" stroke="#43515b" stroke-width=".5"/>
+<text x="622" y="258" font-size="12" font-weight="800" fill="#f0d900" text-anchor="end">0%</text>
+<text x="18" y="280" font-size="11" font-weight="700" fill="#42b9da" letter-spacing="1.5">HAND-OFFS · 22</text>
 <rect x="18" y="292" width="274.5" height="14" fill="#42b9da"/>
 <rect x="292.5" y="292" width="27.5" height="14" fill="#f0d900"/>
 <rect x="320" y="292" width="302" height="14" fill="#43b581"/>
 <rect x="18" y="292" width="604" height="14" rx="7" fill="none" stroke="#43515b" stroke-width=".5"/>
 <rect x="18" y="311" width="10" height="10" rx="2" fill="#8ea2ac"/>
-<text x="33" y="320" class="m">Sent 0</text>
+<text x="33" y="320" font-size="11" fill="#fbfcfc">Sent 0</text>
 <rect x="89" y="311" width="10" height="10" rx="2" fill="#2c7399"/>
-<text x="104" y="320" class="m">Delivered 0</text>
+<text x="104" y="320" font-size="11" fill="#fbfcfc">Delivered 0</text>
 <rect x="195" y="311" width="10" height="10" rx="2" fill="#42b9da"/>
-<text x="210" y="320" class="m">Received 10</text>
+<text x="210" y="320" font-size="11" fill="#fbfcfc">Received 10</text>
 <rect x="301" y="311" width="10" height="10" rx="2" fill="#f0d900"/>
-<text x="316" y="320" class="m">Working 1</text>
+<text x="316" y="320" font-size="11" fill="#fbfcfc">Working 1</text>
 <rect x="393" y="311" width="10" height="10" rx="2" fill="#43b581"/>
-<text x="408" y="320" class="m">Done 11</text>
-<text x="18" y="338" class="h">TEAM V JOBS MOVING</text>
-<text x="18" y="358" class="mu">Nothing moving for Team V right now.</text>
+<text x="408" y="320" font-size="11" fill="#fbfcfc">Done 11</text>
+<text x="18" y="338" font-size="11" font-weight="700" fill="#42b9da" letter-spacing="1.5">TEAM V JOBS MOVING</text>
+<text x="18" y="358" font-size="12" fill="#8ea2ac">Nothing moving for Team V right now.</text>
 </svg>

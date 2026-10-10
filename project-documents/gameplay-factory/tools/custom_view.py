@@ -1058,11 +1058,21 @@ def render(first, compact=False, tight=False):
 
 
 open(os.path.join(F, "CUSTOM_VIEW_V.svg"), "w").write(v_svg())  # GitHub shows this committed SVG inline in RELAY.md
+def _v_plain_css(s):
+    """The Custom view tab strips overflow, position, opacity and var() in CSS (Nik's Custom view, 2026-10-10), so the Team V page
+    writes those values out. Team G's page keeps the shared CSS."""
+    s = s.replace("--h:'Arial Narrow',Impact,sans-serif;", "")
+    s = s.replace("var(--h)", "'Arial Narrow',Impact,sans-serif")
+    s = s.replace("overflow-wrap:anywhere", "word-break:break-all").replace("overflow:hidden", "")
+    return s
+
+
 def v_page():
     """Team V's view (Nik 2026-10-10: visual, cheap): the banner, the inline SVG board and a link. The text job list
     stays on GitHub, so the tab stays under LIMIT even when the queue grows."""
     out = render("V", tight=True)
     head = out[:out.index("<h2>Jobs</h2>")] if "<h2>Jobs</h2>" in out else out
+    head = _v_plain_css(head)
     return head + f'<div style="margin:6px 10px">{v_svg()}</div><div class="m foot">Full job list: <a href="{BLOB}BOARD.md">on GitHub</a></div></div>\n'
 
 
