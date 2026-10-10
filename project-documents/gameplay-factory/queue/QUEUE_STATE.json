@@ -1,7 +1,6 @@
 {
  "sequence": {
   "ready": [
-   1,
    2,
    3,
    4,
@@ -12,10 +11,10 @@
    9,
    10,
    11,
-   12
+   12,
+   13
   ],
   "ready_sol": [
-   1,
    2,
    3,
    4,
@@ -26,16 +25,17 @@
    9,
    10,
    11,
-   12
+   12,
+   13
   ],
   "ready_codex": [],
   "open_code_prs": 0,
   "open_train_prs": 0,
-  "next_free": 1,
-  "highest_taken": 0,
+  "next_free": 2,
+  "highest_taken": 1,
   "total": 518,
   "states": {
-   "1": "waiting",
+   "1": "on_train",
    "2": "waiting",
    "3": "waiting",
    "4": "waiting",
@@ -555,14 +555,15 @@
    "518": "waiting"
   }
  },
- "updated": "2026-10-10T14:38:25Z",
+ "updated": "2026-10-10T14:42:03Z",
  "counts": {
-  "waiting": 518
+  "on_train": 1,
+  "waiting": 517
  },
  "stages": {
   "2": {
    "total": 266,
-   "taken": 0,
+   "taken": 1,
    "merged": 0
   },
   "3": {
@@ -596,7 +597,9 @@
     1064,
     1065
    ],
-   "done": [],
+   "done": [
+    "1061"
+   ],
    "pr": null,
    "state": null
   },
@@ -1263,7 +1266,7 @@
  },
  "tickets": {
   "1061": {
-   "state": "waiting",
+   "state": "on_train",
    "pr": null,
    "draft": false,
    "pr_url": null,

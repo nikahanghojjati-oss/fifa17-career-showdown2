@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Sat 10 Oct, 10:38 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Sat 10 Oct, 10:42 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r67** (main `f42dac2`, Fri 9 Oct 9:34 PM)
 
@@ -18,15 +18,15 @@ Updated Sat 10 Oct, 10:38 AM Boston time. Bug hunting only, no new features unti
 
 **#1 · 1579** `G` Season Results: a slow load must not pull you back after you moved on (Sol S5)  
 `████████░░` **80.0000 %**  
-🔵 Team blue · **GPT-6 Sol** · High effort · worker done, PR #455 open, CI green, waiting for the lead · CI 7 of 7 passed · last move 2 min ago
+🔵 Team blue · **GPT-6 Sol** · High effort · worker done, PR #455 open, CI green, waiting for the lead · CI 7 of 7 passed · last move 6 min ago
 
 **#2 · 1580** `G` Showdown Gate: run the L5 lane only when its inputs changed  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · **Codex default coding model** · High effort · worker working, draft PR #457 · CI 6 of 7 passed · last move 0 min ago
+⚪ Team white · **Codex default coding model** · High effort · worker working, draft PR #457 · CI 6 of 7 passed · last move 4 min ago
 
 **#3 · 1587** `G` Season Results: a passing Transfer Challenge read hiccup must not fail the publish (Sol S2)  
 `████████░░` **80.0000 %**  
-🔵 Team blue · **GPT-6 Sol** · High effort · worker done, PR #456 open, CI green, waiting for the lead · CI 7 of 7 passed · last move 1 min ago
+🔵 Team blue · **GPT-6 Sol** · High effort · worker done, PR #456 open, CI green, waiting for the lead · CI 7 of 7 passed · last move 4 min ago
 
 ### 👉 Next for you, in this order
 
@@ -143,17 +143,17 @@ One numbered queue: type a bare number in any GPT chat. Live from GitHub (queue/
 Type now, in any GPT chat:
 
 ```text
-1 2 3 4 5 6 7 8 9 10 11 12
+2 3 4 5 6 7 8 9 10 11 12 13
 ```
 
 Open code PRs: 0/8.
 
-0 taken of 518.
+1 taken of 518.
 
 | Stage | Items | Merged | Picked up |
 | --- | --- | --- | --- |
 | audits | 112 | 0/112 | 0/112 |
-| screen fixes | 266 | 0/266 | 0/266 |
+| screen fixes | 266 | 0/266 | 1/266 |
 | mockup match | 14 | 0/14 | 0/14 |
 | phone studies | 70 | 0/70 | 0/70 |
 | desktop studies | 56 | 0/56 | 0/56 |
@@ -162,16 +162,16 @@ Open code PRs: 0/8.
 
 | # | Job | State | Title |
 | --- | --- | --- | --- |
-| — | — | nothing taken yet | — |
+| 1 | 1061 | on_train | Home: fix the 360x640 view |
 
 ## Mega tracker (live, free)
 
-Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/index.html) · summary: [mega/MEGA_TRACKER.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/MEGA_TRACKER.md) · rebuilt by the poller each round, updated 2026-10-10T14:38:25Z.
+Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/index.html) · summary: [mega/MEGA_TRACKER.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/MEGA_TRACKER.md) · rebuilt by the poller each round, updated 2026-10-10T14:42:03Z.
 
 | Stage | Done (merged or live) | In progress | Waiting |
 | --- | --- | --- | --- |
 | Gameplay audits | 0 of 112 | 0 | 112 |
-| Screen fixes | 0 of 266 | 0 | 266 |
+| Screen fixes | 0 of 266 | 1 | 265 |
 | Match desktop to mockups | 0 of 14 | 0 | 14 |
 | Phone mockup studies | 0 of 70 | 0 | 70 |
 | Improved desktop studies | 0 of 56 | 0 | 56 |

@@ -1,17 +1,19 @@
 {
-"updated": "2026-10-10T14:38:25Z",
+"updated": "2026-10-10T14:42:03Z",
 "total": 518,
-"next_free": 1,
-"highest_taken": 0,
+"next_free": 2,
+"highest_taken": 1,
 "counts": {
-"waiting": 518
+"on_train": 1,
+"waiting": 517
 },
 "stages": {
 "2": {
 "name": "Screen fixes",
 "total": 266,
 "states": {
-"waiting": 266
+"on_train": 1,
+"waiting": 265
 }
 },
 "1": {
@@ -48,11 +50,12 @@
 "cap": 8,
 "open_code_prs": 0,
 "open_train_prs": [],
-"on_train_no_pr": [],
+"on_train_no_pr": [
+1
+],
 "draft_code_prs": 0,
 "area_locks": {},
 "ready": [
-1,
 2,
 3,
 4,
@@ -63,10 +66,10 @@
 9,
 10,
 11,
-12
+12,
+13
 ],
 "ready_sol": [
-1,
 2,
 3,
 4,
@@ -77,16 +80,25 @@
 9,
 10,
 11,
-12
+12,
+13
 ],
 "ready_codex": []
 },
 "rate": {
-"claimed_last_hour": 0,
-"claimed_last_10min": 0,
+"claimed_last_hour": 1,
+"claimed_last_10min": 1,
 "merged_last_hour": 0
 },
-"events": [],
+"events": [
+{
+"at": "2026-10-10T14:42:03Z",
+"item": 1,
+"job": 1061,
+"from": "waiting",
+"to": "on_train"
+}
+],
 "items": {
 "1": {
 "job": 1061,
@@ -94,8 +106,10 @@
 "title": "Home: fix the 360x640 view",
 "mode": "code",
 "group": "home",
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"state": "on_train",
+"branch": "gameplay/train-home-1",
+"first_seen": "2026-10-10T14:42:03Z",
+"since": "2026-10-10T14:42:03Z"
 },
 "2": {
 "job": 1467,
