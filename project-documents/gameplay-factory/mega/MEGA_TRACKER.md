@@ -1,23 +1,23 @@
-# Mega factory tracker · updated 2026-10-10T15:17:12Z
+# Mega factory tracker · updated 2026-10-10T15:21:00Z
 
-**Type now:** 19, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33
-**Next free number:** 19 · **highest taken:** 22 of 518
+**Type now:** 19, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35
+**Next free number:** 19 · **highest taken:** 24 of 518
 **Code PRs open:** 0 of 8 · area locks: none
-**Rate:** 10 claimed in 10 min · 21 in 1 h · 0 merged in 1 h
+**Rate:** 11 claimed in 10 min · 23 in 1 h · 0 merged in 1 h
 
 **Finished (merged or live): 0 of 518**
 
 State | count
 --- | ---
-🚂 done, on the train branch, no PR yet | 10
-📝 worker done, draft PR open | 10
+🚂 done, on the train branch, no PR yet | 11
+📝 worker done, draft PR open | 11
 🟦 started, no PR yet | 1
-⬜ waiting | 497
+⬜ waiting | 495
 
 Stage | total | merged/live | in flight | waiting
 --- | --- | --- | --- | ---
-1 Gameplay audits | 112 | 0 | 11 | 101
-2 Screen fixes | 266 | 0 | 10 | 256
+1 Gameplay audits | 112 | 0 | 12 | 100
+2 Screen fixes | 266 | 0 | 11 | 255
 3 Match desktop to mockups | 14 | 0 | 0 | 14
 4 Phone mockup studies | 70 | 0 | 0 | 70
 5 Improved desktop studies | 56 | 0 | 0 | 56
@@ -44,10 +44,15 @@ Stage | total | merged/live | in flight | waiting
 - 📝 **18** · Job 1475 · Audit all screens: picture descriptions and screen reader labels · worker done, draft PR open · [PR #468](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/468)
 - 📝 **20** · Job 1476 · Audit all screens: stacking order: dialogs above screens, toasts above dialogs · worker done, draft PR open · [PR #467](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/467)
 - 🚂 **21** · Job 1091 · Connect Players (start and join): fix the 390x844 view · done, on the train branch, no PR yet
-- 🟦 **22** · Job 1477 · Audit all screens: hard-coded colours that should use the design tokens · started, no PR yet
+- 📝 **22** · Job 1477 · Audit all screens: hard-coded colours that should use the design tokens · worker done, draft PR open · [PR #470](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/470)
+- 🚂 **23** · Job 1120 · Select League: fix the 390x844 view · done, on the train branch, no PR yet
+- 🟦 **24** · Job 1478 · Audit all screens: hover-only effects must also work by touch · started, no PR yet
 
 ## Latest changes
 
+- 2026-10-10T15:21:00Z · 24 (Job 1478): waiting → started
+- 2026-10-10T15:21:00Z · 23 (Job 1120): waiting → on_train
+- 2026-10-10T15:21:00Z · 22 (Job 1477): started → draft
 - 2026-10-10T15:17:12Z · 22 (Job 1477): waiting → started
 - 2026-10-10T15:17:12Z · 21 (Job 1091): waiting → on_train
 - 2026-10-10T15:16:00Z · 20 (Job 1476): waiting → draft
@@ -65,6 +70,3 @@ Stage | total | merged/live | in flight | waiting
 - 2026-10-10T15:04:39Z · 9 (Job 1177): waiting → on_train
 - 2026-10-10T15:04:39Z · 7 (Job 1148): waiting → on_train
 - 2026-10-10T15:01:03Z · 8 (Job 1470): waiting → draft
-- 2026-10-10T15:01:03Z · 6 (Job 1469): started → draft
-- 2026-10-10T15:01:03Z · 5 (Job 1119): waiting → on_train
-- 2026-10-10T14:57:25Z · 6 (Job 1469): waiting → started

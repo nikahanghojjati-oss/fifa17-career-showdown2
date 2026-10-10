@@ -2,8 +2,6 @@
  "sequence": {
   "ready": [
    19,
-   23,
-   24,
    25,
    26,
    27,
@@ -12,12 +10,12 @@
    30,
    31,
    32,
-   33
+   33,
+   34,
+   35
   ],
   "ready_sol": [
    19,
-   23,
-   24,
    25,
    26,
    27,
@@ -26,13 +24,15 @@
    30,
    31,
    32,
-   33
+   33,
+   34,
+   35
   ],
   "ready_codex": [],
   "open_code_prs": 0,
   "open_train_prs": 0,
   "next_free": 19,
-  "highest_taken": 22,
+  "highest_taken": 24,
   "total": 518,
   "states": {
    "1": "on_train",
@@ -56,9 +56,9 @@
    "19": "waiting",
    "20": "pr_open",
    "21": "on_train",
-   "22": "branch_only",
-   "23": "waiting",
-   "24": "waiting",
+   "22": "pr_open",
+   "23": "on_train",
+   "24": "branch_only",
    "25": "waiting",
    "26": "waiting",
    "27": "waiting",
@@ -555,17 +555,17 @@
    "518": "waiting"
   }
  },
- "updated": "2026-10-10T15:17:12Z",
+ "updated": "2026-10-10T15:21:00Z",
  "counts": {
-  "on_train": 10,
-  "waiting": 497,
-  "pr_open": 10,
+  "on_train": 11,
+  "waiting": 495,
+  "pr_open": 11,
   "branch_only": 1
  },
  "stages": {
   "2": {
    "total": 266,
-   "taken": 10,
+   "taken": 11,
    "merged": 0
   },
   "3": {
@@ -585,7 +585,7 @@
   },
   "1": {
    "total": 112,
-   "taken": 11,
+   "taken": 12,
    "merged": 0
   }
  },
@@ -701,7 +701,8 @@
     1123
    ],
    "done": [
-    "1119"
+    "1119",
+    "1120"
    ],
    "pr": null,
    "state": null
@@ -1698,7 +1699,7 @@
    "branch": "gameplay/train-league-1"
   },
   "1120": {
-   "state": "waiting",
+   "state": "on_train",
    "pr": null,
    "draft": false,
    "pr_url": null,
@@ -4197,18 +4198,18 @@
    "branch": "qa/job-1476-z-layer-audit"
   },
   "1477": {
+   "state": "pr_open",
+   "pr": 470,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/470",
+   "branch": "qa/job-1477-audit-design-token-colours"
+  },
+  "1478": {
    "state": "branch_only",
    "pr": null,
    "draft": false,
    "pr_url": null,
-   "branch": "qa/job-1477-audit-design-token-colours"
-  },
-  "1478": {
-   "state": "waiting",
-   "pr": null,
-   "draft": false,
-   "pr_url": null,
-   "branch": null
+   "branch": "qa/job-1478-touch-hover-audit"
   },
   "1479": {
    "state": "waiting",

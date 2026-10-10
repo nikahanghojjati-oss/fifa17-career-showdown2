@@ -1,12 +1,12 @@
 {
-"updated": "2026-10-10T15:17:12Z",
+"updated": "2026-10-10T15:21:00Z",
 "total": 518,
 "next_free": 19,
-"highest_taken": 22,
+"highest_taken": 24,
 "counts": {
-"on_train": 10,
-"draft": 10,
-"waiting": 497,
+"on_train": 11,
+"draft": 11,
+"waiting": 495,
 "started": 1
 },
 "stages": {
@@ -14,17 +14,17 @@
 "name": "Screen fixes",
 "total": 266,
 "states": {
-"on_train": 10,
-"waiting": 256
+"on_train": 11,
+"waiting": 255
 }
 },
 "1": {
 "name": "Gameplay audits",
 "total": 112,
 "states": {
-"draft": 10,
+"draft": 11,
 "started": 1,
-"waiting": 101
+"waiting": 100
 }
 },
 "3": {
@@ -64,14 +64,13 @@
 13,
 15,
 17,
-21
+21,
+23
 ],
 "draft_code_prs": 0,
 "area_locks": {},
 "ready": [
 19,
-23,
-24,
 25,
 26,
 27,
@@ -80,12 +79,12 @@
 30,
 31,
 32,
-33
+33,
+34,
+35
 ],
 "ready_sol": [
 19,
-23,
-24,
 25,
 26,
 27,
@@ -94,13 +93,15 @@
 30,
 31,
 32,
-33
+33,
+34,
+35
 ],
 "ready_codex": []
 },
 "rate": {
-"claimed_last_hour": 21,
-"claimed_last_10min": 10,
+"claimed_last_hour": 23,
+"claimed_last_10min": 11,
 "merged_last_hour": 0
 },
 "events": [
@@ -269,6 +270,27 @@
 "at": "2026-10-10T15:17:12Z",
 "item": 22,
 "job": 1477,
+"from": "waiting",
+"to": "started"
+},
+{
+"at": "2026-10-10T15:21:00Z",
+"item": 22,
+"job": 1477,
+"from": "started",
+"to": "draft"
+},
+{
+"at": "2026-10-10T15:21:00Z",
+"item": 23,
+"job": 1120,
+"from": "waiting",
+"to": "on_train"
+},
+{
+"at": "2026-10-10T15:21:00Z",
+"item": 24,
+"job": 1478,
 "from": "waiting",
 "to": "started"
 }
@@ -599,12 +621,19 @@
 "title": "Audit all screens: hard-coded colours that should use the design tokens",
 "mode": "audit",
 "group": null,
-"state": "started",
+"pr": 470,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/470",
+"base": "qa/mega-audits",
 "branch": "qa/job-1477-audit-design-token-colours",
-"branch_sha": "fe1eef9adb5f6e57b1577872b554c506a5907689",
-"no_pr_reason": "",
+"ci": "draft",
+"ci_sha": "0f854355fc1640d5c9c7bf553a788efe0d124bec",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-10T15:17:50Z",
 "first_seen": "2026-10-10T15:17:12Z",
-"since": "2026-10-10T15:17:12Z"
+"since": "2026-10-10T15:21:00Z"
 },
 "23": {
 "job": 1120,
@@ -612,8 +641,10 @@
 "title": "Select League: fix the 390x844 view",
 "mode": "code",
 "group": "league",
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"state": "on_train",
+"branch": "gameplay/train-league-1",
+"first_seen": "2026-10-10T15:21:00Z",
+"since": "2026-10-10T15:21:00Z"
 },
 "24": {
 "job": 1478,
@@ -621,8 +652,12 @@
 "title": "Audit all screens: hover-only effects must also work by touch",
 "mode": "audit",
 "group": null,
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"state": "started",
+"branch": "qa/job-1478-touch-hover-audit",
+"branch_sha": "fe1eef9adb5f6e57b1577872b554c506a5907689",
+"no_pr_reason": "",
+"first_seen": "2026-10-10T15:21:00Z",
+"since": "2026-10-10T15:21:00Z"
 },
 "25": {
 "job": 1149,
