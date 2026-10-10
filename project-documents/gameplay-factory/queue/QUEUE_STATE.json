@@ -2,7 +2,6 @@
  "sequence": {
   "ready": [
    5,
-   6,
    7,
    8,
    9,
@@ -12,11 +11,11 @@
    13,
    14,
    15,
-   16
+   16,
+   17
   ],
   "ready_sol": [
    5,
-   6,
    7,
    8,
    9,
@@ -26,13 +25,14 @@
    13,
    14,
    15,
-   16
+   16,
+   17
   ],
   "ready_codex": [],
   "open_code_prs": 0,
   "open_train_prs": 0,
   "next_free": 5,
-  "highest_taken": 4,
+  "highest_taken": 6,
   "total": 518,
   "states": {
    "1": "on_train",
@@ -40,7 +40,7 @@
    "3": "on_train",
    "4": "pr_open",
    "5": "waiting",
-   "6": "waiting",
+   "6": "branch_only",
    "7": "waiting",
    "8": "waiting",
    "9": "waiting",
@@ -555,11 +555,12 @@
    "518": "waiting"
   }
  },
- "updated": "2026-10-10T14:53:51Z",
+ "updated": "2026-10-10T14:57:25Z",
  "counts": {
   "on_train": 2,
-  "waiting": 514,
-  "pr_open": 2
+  "waiting": 513,
+  "pr_open": 2,
+  "branch_only": 1
  },
  "stages": {
   "2": {
@@ -584,7 +585,7 @@
   },
   "1": {
    "total": 112,
-   "taken": 2,
+   "taken": 3,
    "merged": 0
   }
  },
@@ -1679,35 +1680,35 @@
    "pr": null,
    "draft": false,
    "pr_url": null,
-   "branch": null
+   "branch": "gameplay/train-league-1"
   },
   "1120": {
    "state": "waiting",
    "pr": null,
    "draft": false,
    "pr_url": null,
-   "branch": null
+   "branch": "gameplay/train-league-1"
   },
   "1121": {
    "state": "waiting",
    "pr": null,
    "draft": false,
    "pr_url": null,
-   "branch": null
+   "branch": "gameplay/train-league-1"
   },
   "1122": {
    "state": "waiting",
    "pr": null,
    "draft": false,
    "pr_url": null,
-   "branch": null
+   "branch": "gameplay/train-league-1"
   },
   "1123": {
    "state": "waiting",
    "pr": null,
    "draft": false,
    "pr_url": null,
-   "branch": null
+   "branch": "gameplay/train-league-1"
   },
   "1124": {
    "state": "waiting",
@@ -1882,35 +1883,35 @@
    "pr": null,
    "draft": false,
    "pr_url": null,
-   "branch": null
+   "branch": "gameplay/train-club-1"
   },
   "1149": {
    "state": "waiting",
    "pr": null,
    "draft": false,
    "pr_url": null,
-   "branch": null
+   "branch": "gameplay/train-club-1"
   },
   "1150": {
    "state": "waiting",
    "pr": null,
    "draft": false,
    "pr_url": null,
-   "branch": null
+   "branch": "gameplay/train-club-1"
   },
   "1151": {
    "state": "waiting",
    "pr": null,
    "draft": false,
    "pr_url": null,
-   "branch": null
+   "branch": "gameplay/train-club-1"
   },
   "1152": {
    "state": "waiting",
    "pr": null,
    "draft": false,
    "pr_url": null,
-   "branch": null
+   "branch": "gameplay/train-club-1"
   },
   "1153": {
    "state": "waiting",
@@ -4125,11 +4126,11 @@
    "branch": "qa/job-1468-long-names-audit"
   },
   "1469": {
-   "state": "waiting",
+   "state": "branch_only",
    "pr": null,
    "draft": false,
    "pr_url": null,
-   "branch": null
+   "branch": "qa/job-1469-safe-area-audit"
   },
   "1470": {
    "state": "waiting",

@@ -1,12 +1,13 @@
 {
-"updated": "2026-10-10T14:53:51Z",
+"updated": "2026-10-10T14:57:25Z",
 "total": 518,
 "next_free": 5,
-"highest_taken": 4,
+"highest_taken": 6,
 "counts": {
 "on_train": 2,
 "draft": 2,
-"waiting": 514
+"waiting": 513,
+"started": 1
 },
 "stages": {
 "2": {
@@ -22,7 +23,8 @@
 "total": 112,
 "states": {
 "draft": 2,
-"waiting": 110
+"started": 1,
+"waiting": 109
 }
 },
 "3": {
@@ -60,7 +62,6 @@
 "area_locks": {},
 "ready": [
 5,
-6,
 7,
 8,
 9,
@@ -70,11 +71,11 @@
 13,
 14,
 15,
-16
+16,
+17
 ],
 "ready_sol": [
 5,
-6,
 7,
 8,
 9,
@@ -84,12 +85,13 @@
 13,
 14,
 15,
-16
+16,
+17
 ],
 "ready_codex": []
 },
 "rate": {
-"claimed_last_hour": 4,
+"claimed_last_hour": 5,
 "claimed_last_10min": 3,
 "merged_last_hour": 0
 },
@@ -121,6 +123,13 @@
 "job": 1468,
 "from": "waiting",
 "to": "draft"
+},
+{
+"at": "2026-10-10T14:57:25Z",
+"item": 6,
+"job": 1469,
+"from": "waiting",
+"to": "started"
 }
 ],
 "items": {
@@ -201,8 +210,12 @@
 "title": "Audit all screens: phone notch and bottom bar safe areas",
 "mode": "audit",
 "group": null,
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"state": "started",
+"branch": "qa/job-1469-safe-area-audit",
+"branch_sha": "c8b1f8a7ad463c701ffde174c23c614d43ec4982",
+"no_pr_reason": "",
+"first_seen": "2026-10-10T14:57:25Z",
+"since": "2026-10-10T14:57:25Z"
 },
 "7": {
 "job": 1148,
