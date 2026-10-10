@@ -12,7 +12,7 @@ import argparse, json, pathlib, subprocess, datetime, re
 
 HERE = pathlib.Path(__file__).resolve().parent
 
-def gh(path, pages=5):
+def gh(path, pages=15):
     out = []
     for pg in range(1, pages + 1):
         r = subprocess.run(["gh", "api", f"{path}&page={pg}"], capture_output=True, text=True)

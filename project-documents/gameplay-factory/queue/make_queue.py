@@ -13,6 +13,7 @@ REPO = "nikahanghojjati-oss/fifa17-career-showdown2"
 RAW = f"https://raw.githubusercontent.com/{REPO}/factory/gameplay-v1/project-documents/gameplay-factory"
 BASE = "gameplay/bug-list-1"
 STUDY_BASE = "study/mega-queue"
+AUDIT_BASE = "qa/mega-audits"
 
 SCREENS = [
  ("home", "Home", ["css/homeV10.css", "js/homeScreensV10.js", "visual-assets/v10_1/home/home.css"], "A1"),
@@ -78,7 +79,7 @@ CROSS = [
   ["css/v10Shell.css", "css/homeV10.css", "visual-assets/v10_1/trophy-room/trophy-room.css", "visual-assets/v10_1/standings/standings.css"]),
 ]
 CROSS_SLOTS = {"B5": CROSS[0:3], "B6": CROSS[3:6], "B7": CROSS[6:9], "B8": CROSS[9:12]}
-REVIEW_SLOTS = ["B9", "B10"]
+REVIEW_SLOTS = ["B10"]
 SLOTS = [f"A{i}" for i in range(1, 11)] + [f"B{i}" for i in range(1, 11)]
 
 RULES = """## Rules for every queue job (read first)
@@ -190,6 +191,48 @@ You are a **reviewer** in the Career Mode Showdown gameplay factory, slot **{slo
 5. Last line to Nik: `Reviewed PR <link>: <verdict>.` Do not ask to continue.
 """
 
+VIEWPORTS = ["360x640 (small phone, upright)", "390x844 (iPhone, upright)", "430x932 (large iPhone, upright)",
+             "844x390 (iPhone, sideways)", "932x430 (large iPhone, sideways)", "768x1024 (tablet, upright)",
+             "1280x650 (small laptop)", "1366x768 (Chromebook)", "1920x1080 (desktop)", "2560x1080 (ultrawide)"]
+ASPECTS = [  # key, title, instruction
+ ("long-names", "long names", "Put the longest realistic texts into this screen in your head (22 letter club name, 14 letter manager name, 3 digit scores, 7 seasons) and make sure nothing overlaps, overflows or pushes a button away. Use ellipsis, wrapping or smaller text where a name sits in a fixed box."),
+ ("tap-targets", "tap targets", "Every button, tab and link must be at least 44 by 44 CSS px on touch screens (pointer: coarse or max-width 760px), with at least 8 px between neighbours. Fix the ones that are smaller. Desktop with a mouse must not change."),
+ ("focus-motion", "keyboard focus and reduced motion", "Every control needs a visible focus ring from the keyboard (:focus-visible), and animations must stop or shorten under prefers-reduced-motion. A mouse or finger user sees no change."),
+ ("contrast", "text contrast", "Find text and background pairs below 4.5 to 1 (3 to 1 for text of 24 px or larger). Fix the worst five by changing the text colour only, never the artwork. List the pairs in the results file."),
+ ("alt-text", "picture descriptions and labels", "Every meaningful image needs a short alt text, every decorative one alt=\"\" or aria-hidden, every icon-only button an aria-label. Change only attributes, never visible text or layout."),
+ ("loading-state", "loading state", "Look at what the screen shows while its data loads. It must show something calm and readable (no empty frame, no half-drawn layout, no jump when data arrives). Fix with CSS, and with markup classes only if needed. Do not change any text."),
+ ("empty-state", "empty state", "Look at what the screen shows when there is no data yet (a brand new career, no trophies, no seasons). It must look finished, not broken: centred message, correct spacing, no empty boxes with borders. Do not change any text."),
+ ("error-state", "error and retry state", "Look at what the screen shows when something fails to load. The message and its retry button must be fully visible and tappable at phone and desktop sizes, not hidden behind other layers. Do not change any text or logic."),
+ ("touch-hover", "hover-only effects", "Find anything that is shown or usable only on :hover. Make each also work by touch: apply the style on :focus-visible and :active, or show it always when pointer: coarse."),
+]
+STUDY_VARIANTS = [
+ ("phone-a", "phone mockup, version A (faithful)", "A phone mockup of the screen, version A: stay close to the desktop mockup's look, only re-flow it for a 390x844 upright phone."),
+ ("phone-b", "phone mockup, version B (bold hierarchy)", "A phone mockup of the screen, version B: make the single most important thing on the screen unmissable (bigger, higher), and group the rest into clear blocks, for a 390x844 upright phone."),
+ ("phone-c", "phone mockup, version C (compact)", "A phone mockup of the screen, version C: the most compact layout that still shows every element without a nested scroll, for a small 360x640 upright phone."),
+ ("sideways", "sideways phone study", "A sideways phone design of the screen for 844x390: every element reachable with one page scroll, main action always reachable, nothing overlapping."),
+ ("tablet", "upright tablet study", "An upright tablet design of the screen for 768x1024 and 820x1180: a real tablet layout, not a scaled phone."),
+ ("desktop-a", "improved desktop, version A (polish)", "An improved desktop version, version A: the same layout as today with better spacing, type scale and alignment, for 1920x1080."),
+ ("desktop-b", "improved desktop, version B (focus)", "An improved desktop version, version B: stronger focus on the main action and the key numbers, calmer secondary information, for 1920x1080."),
+ ("desktop-c", "improved desktop, version C (wide)", "An improved desktop version, version C: make better use of a wide 1920x1080 and an ultrawide 2560x1080 screen, with the 1366x768 Chromebook size noted."),
+ ("states", "states sheet", "One HTML sheet showing the screen in its states side by side at 1440x900: loading, empty, normal, long names, and error with retry. Same elements and text as the real screen."),
+]
+AUDIT_MODULES = [
+ "seasonEngine", "transferChallenge", "productionSharedTransferChallenge", "sparkSharedTransferChallenge", "sharedTransferChallenge",
+ "restore", "importAnalysis", "persistentNikDanielPair", "sparkConnectedRivalry", "visualIdentity", "saveLibraryRuntime",
+ "saveLibraryUI", "productionSharedShowdownPresentation", "productionSharedTerminalClose", "sparkSharedSeasonResults",
+ "productionSharedSeasonResults", "productionSharedSeasonCommit", "sparkSharedSeasonCommit", "productionSharedJourneyEntry",
+ "productionSharedJourneyReconnect", "productionSharedMultiSeasonProgression", "productionSharedCareerStart",
+ "productionSharedShowdownSetup", "sparkSharedShowdownSetup", "sharedShowdownSetup", "sparkTerminalClose",
+ "productionSharedCanonicalScoring", "productionSharedHistoryConvergence", "sharedHistoryConvergence", "sharedJourneyReconnect",
+ "sharedActiveShowdownAdapter", "statistics", "legacy", "analytics", "settings", "screens", "menuExperience", "clubAssignment",
+ "storage", "diagnostics", "offlineApp", "sparkCompletedShowdownReader", "sparkCompletedTransferHistoryReader",
+ "careerScreensV10", "rivalryLegacyV10", "transferScreenV10", "clubScreenV10", "seasonFinalV10", "homeScreensV10", "v10Screens",
+]
+
+def generic(n, title, stage, base, body, files, branch_kind="gameplay"):
+    return (f"# JOB-{n} · {title} (stage {stage})\n\n{lane(base)}\n\n{body}\n"
+            f"## Read (only these)\n{reads_md(files)}\n\n{SIZE}\n{RULES.format(base=base, branch=f'{branch_kind}/job-{n}', n=n)}")
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--first", type=int, required=True)
@@ -200,41 +243,62 @@ def main():
         nonlocal n
         t["job"] = n; n += 1
         tickets.append(t); slots[slot].append(t)
+    nochange = lambda j: f"- DEFAULT: if you find nothing wrong after reading the files, change nothing and push only the status file `status/JOB-{j}.md` saying `no change needed` with the three most likely risks you checked.\n"
     for sid, title, files, slot in SCREENS:
-        for key, stage, mode, ktitle in KINDS:
-            add(slot, key=key, screen=sid, stage=stage, mode=mode, title=f"{title}: {ktitle}",
-                files=files, ktitle=ktitle, stitle=title)
-    for slot, items in CROSS_SLOTS.items():
-        for key, title, text, files in items:
-            add(slot, key="x-" + key, screen="shared", stage=2, mode="code", title=title, files=files, text=text)
+        pre = f"visual-assets/v10_1/{sid}/assets/"
+        for vp in VIEWPORTS:
+            add(slot, key="vp", screen=sid, stage=2, mode="code", title=f"{title}: fix the {vp.split(' ')[0]} view",
+                files=files, text=f"## What to fix\nCheck only the **{vp}** view of the **{title}** screen and fix what is wrong in the CSS: no content cut off, no horizontal scroll, no text over text, no button off screen, one page scroll (no nested scroll box), tap targets at least 44 px on touch sizes. Use media queries that apply only to this size range so other sizes do not change.\n")
+        add(slot, key="s3", screen=sid, stage=3, mode="code", title=f"{title}: match the desktop mockup", files=files,
+            text=f"## What to fix\nMatch the current desktop **{title}** screen to its desktop mockup.\n- Find the mockup of this screen in this ChatGPT project's files (also try the pictures in `{pre}` named `ENV_*_PLATE_V1_*`). List at most 8 differences in spacing, sizes, alignment, text style, colours or order of elements between the mockup and the code and fix the clear ones in the CSS (tiny markup class changes only when a class is missing). Never change text a player reads, an order of taps, or game logic.\n- Save the list as `project-documents/gameplay-factory/queue/results/{sid}-s3.md` (fixed / not fixed with reason).\n- DEFAULT: if you cannot find the mockup, do not guess. Push only `status/JOB-N.md` saying `NEEDS MOCKUP` and where you looked.\n")
+        for key, ktitle, text in ASPECTS:
+            add(slot, key="a-" + key, screen=sid, stage=2, mode="code", title=f"{title}: {ktitle}", files=files,
+                text=f"## What to fix\nFor the **{title}** screen only: {text}\nCSS only unless the instruction says otherwise.\n")
+        for key, ktitle, text in STUDY_VARIANTS:
+            st = 4 if key.startswith(("phone", "sideways", "tablet")) else 5
+            add(slot, key="st-" + key, screen=sid, stage=st, mode="study", title=f"{title}: {ktitle}", files=files,
+                text=f"## What to make\n{text}\n- Self-contained HTML with inline CSS and no JavaScript. Use the existing artwork under `{pre}` (relative links such as `../../../../{pre}<file>`) and the screen's desktop mockup in this ChatGPT project's files. If you can, use GPT-6's picture and design features to look at the mockups.\n- Keep every element, all text and the same order of taps as the real screen. Presentation only.\n- Files (3 at most): `project-documents/gameplay-factory/studies/{sid}/<kind>-<job>.html`, `.../<kind>-<job>-notes.md` (at most 15 lines: what you chose and why), and `.../studies/{sid}/README.md` only if it does not exist (one line).\n")
+    for i, (key, title, text, files) in enumerate(CROSS):
+        add(["B5", "B6", "B7", "B8", "B9"][i % 5], key="x-" + key, screen="shared", stage=2, mode="code", title=title, files=files,
+            text=f"## What to fix\n{text}\n")
+    for i, m in enumerate(AUDIT_MODULES):
+        slot = ["B5", "B6", "B7", "B8", "B9"][(i + 2) % 5]
+        add(slot, key="audit", screen="gameplay", stage=1, mode="audit", title=f"Audit js/{m}.js for gameplay bugs (first half)",
+            files=[f"js/{m}.js"], module=m, half=1,
+            text=f"## What to do\nRead the **first half** of `js/{m}.js` carefully (lines 1 to the middle) and look for real bugs a player could hit: wrong scores or counts, a state that can get stuck, a button that does nothing, a wrong screen after a refresh or reconnect, a value that is off by one, a double tap that does something twice. Skip style and speculation.\n- Write at most 3 findings in `project-documents/gameplay-factory/queue/audits/{m}-1.md`. Each finding: file and line, what the player sees, why the code does it (quote 1 to 3 lines), and the smallest change. Mark each `SURE` or `PROBABLE`.\n- DEFAULT: if you find nothing real, write `no findings` and the three riskiest places you checked. Do not edit any game file in this job.\n")
+        add(slot, key="audit", screen="gameplay", stage=1, mode="audit", title=f"Audit js/{m}.js for gameplay bugs (second half)",
+            files=[f"js/{m}.js"], module=m, half=2,
+            text=f"## What to do\nRead the **second half** of `js/{m}.js` carefully (from the middle to the end) and look for real bugs a player could hit: wrong scores or counts, a state that can get stuck, a button that does nothing, a wrong screen after a refresh or reconnect, a value that is off by one, a double tap that does something twice. Skip style and speculation.\n- Write at most 3 findings in `project-documents/gameplay-factory/queue/audits/{m}-2.md`. Each finding: file and line, what the player sees, why the code does it (quote 1 to 3 lines), and the smallest change. Mark each `SURE` or `PROBABLE`.\n- DEFAULT: if you find nothing real, write `no findings` and the three riskiest places you checked. Do not edit any game file in this job.\n")
     out_jobs = GF / "jobs"; out_slots = GF / "queue" / "slots"
     out_slots.mkdir(parents=True, exist_ok=True)
-    (GF / "queue" / "results").mkdir(parents=True, exist_ok=True)
+    for d in ("results", "audits"): (GF / "queue" / d).mkdir(parents=True, exist_ok=True)
     for t in tickets:
         j = t["job"]
-        t["prefix"] = f"study/job-{j}-" if t["mode"] == "study" else f"gameplay/job-{j}-"
-        if t["key"].startswith("x-"):
-            md = ticket_cross(j, t["title"], t["text"], t["files"])
-        elif t["mode"] == "study":
-            md = ticket_study(j, t["key"], t["screen"], t["stitle"], t["files"], t["ktitle"], t["stage"])
+        t["prefix"] = f"study/job-{j}-" if t["mode"] == "study" else (f"qa/job-{j}-" if t["mode"] == "audit" else f"gameplay/job-{j}-")
+        if t["mode"] == "study":
+            body = (f"This is a **study**: new files only, no game code. Team V's lead decides which studies become real screens.\n\n" + t["text"].replace("<job>", str(j)).replace("<kind>", t["key"][3:]))
+            md = generic(j, t["title"], t["stage"], STUDY_BASE, body, t["files"], "study")
+        elif t["mode"] == "audit":
+            body = "This is a **reading audit**: you only write a findings file. The Team G lead turns real findings into fix jobs.\n\n" + t["text"]
+            md = generic(j, t["title"], t["stage"], AUDIT_BASE, body, t["files"], "qa")
         else:
-            md = ticket_code(j, t["key"], t["screen"], t["stitle"], t["files"], t["ktitle"], t["stage"])
+            body = t["text"].replace("status/JOB-N.md", f"status/JOB-{j}.md")
+            if "DEFAULT" not in body: body += nochange(j)
+            md = generic(j, t["title"], t["stage"], BASE, body, t["files"])
         (out_jobs / f"JOB-{j}.md").write_text(md)
     for s in SLOTS:
         if s in REVIEW_SLOTS:
-            (out_slots / f"{s}.md").write_text(REVIEW.format(slot=s, repo=REPO, pick="oldest" if s == "B9" else "newest"))
+            (out_slots / f"{s}.md").write_text(REVIEW.format(slot=s, repo=REPO, pick="oldest"))
         else:
             (out_slots / f"{s}.md").write_text(slot_file(s, slots[s]))
     q = {
         "_about": "Mega factory queue (Nik 2026-10-10): 2 GPT accounts (A, B) x 10 chat slots. A slot is a standing ChatGPT chat; its slot file lists its jobs in order and the chat picks the first job whose branch does not exist yet. queue_state.py derives live state from GitHub branches and PRs; never hand-write state.",
-        "slots": {s: {"kind": "reviewer" if s in REVIEW_SLOTS else "worker",
-                      "account": s[0],
-                      "standing_line": standing_line(s),
-                      "file": f"queue/slots/{s}.md",
+        "slots": {s: {"kind": "reviewer" if s in REVIEW_SLOTS else "worker", "account": s[0],
+                      "standing_line": standing_line(s), "file": f"queue/slots/{s}.md",
                       "jobs": [t["job"] for t in slots[s]]} for s in SLOTS},
         "tickets": {str(t["job"]): {"title": t["title"], "stage": t["stage"], "screen": t["screen"],
                                     "mode": t["mode"], "prefix": t["prefix"], "kind": t["key"]} for t in tickets},
-        "base_branches": {"code": BASE, "study": STUDY_BASE},
+        "base_branches": {"code": BASE, "study": STUDY_BASE, "audit": AUDIT_BASE},
     }
     (GF / "queue" / "QUEUE.json").write_text(json.dumps(q, indent=1, ensure_ascii=False) + "\n")
     print(f"{len(tickets)} tickets, first {a.first}, last {n-1}")
