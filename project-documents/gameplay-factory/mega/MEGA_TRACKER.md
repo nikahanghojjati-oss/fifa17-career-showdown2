@@ -1,4 +1,4 @@
-# Mega factory tracker · updated 2026-10-10T22:17:56Z
+# Mega factory tracker · updated 2026-10-10T22:29:46Z
 
 **Type now:** 45, 47, 51, 53, 55, 57, 59, 61, 226, 228, 232, 234
 **Next free number:** 45 · **highest taken:** 395 of 518
