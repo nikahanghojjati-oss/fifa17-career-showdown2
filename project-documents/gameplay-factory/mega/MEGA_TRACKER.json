@@ -1,20 +1,21 @@
 {
-"updated": "2026-10-10T16:24:38Z",
+"updated": "2026-10-10T16:28:27Z",
 "total": 518,
-"next_free": 33,
-"highest_taken": 32,
+"next_free": 35,
+"highest_taken": 34,
 "counts": {
-"on_train": 16,
+"on_train": 17,
 "draft": 16,
-"waiting": 486
+"started": 1,
+"waiting": 484
 },
 "stages": {
 "2": {
 "name": "Screen fixes",
 "total": 266,
 "states": {
-"on_train": 16,
-"waiting": 250
+"on_train": 17,
+"waiting": 249
 }
 },
 "1": {
@@ -22,7 +23,8 @@
 "total": 112,
 "states": {
 "draft": 16,
-"waiting": 96
+"started": 1,
+"waiting": 95
 }
 },
 "3": {
@@ -68,12 +70,12 @@
 25,
 27,
 29,
-31
+31,
+33
 ],
 "draft_code_prs": 0,
 "area_locks": {},
 "ready": [
-33,
 34,
 35,
 36,
@@ -84,10 +86,10 @@
 41,
 42,
 43,
-44
+44,
+45
 ],
 "ready_sol": [
-33,
 34,
 35,
 36,
@@ -98,13 +100,14 @@
 41,
 42,
 43,
-44
+44,
+45
 ],
 "ready_codex": []
 },
 "rate": {
-"claimed_last_hour": 9,
-"claimed_last_10min": 0,
+"claimed_last_hour": 7,
+"claimed_last_10min": 2,
 "merged_last_hour": 0
 },
 "events": [
@@ -366,6 +369,20 @@
 "job": 1482,
 "from": "waiting",
 "to": "draft"
+},
+{
+"at": "2026-10-10T16:28:27Z",
+"item": 33,
+"job": 1323,
+"from": "waiting",
+"to": "on_train"
+},
+{
+"at": "2026-10-10T16:28:27Z",
+"item": 34,
+"job": 1483,
+"from": "waiting",
+"to": "started"
 }
 ],
 "items": {
@@ -871,8 +888,10 @@
 "title": "Trophy Room: fix the 390x844 view",
 "mode": "code",
 "group": "career-screens",
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"state": "on_train",
+"branch": "gameplay/train-career-screens-1",
+"first_seen": "2026-10-10T16:28:27Z",
+"since": "2026-10-10T16:28:27Z"
 },
 "34": {
 "job": 1483,
@@ -880,8 +899,12 @@
 "title": "Audit js/productionSharedTransferChallenge.js for gameplay bugs (first half)",
 "mode": "audit",
 "group": null,
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"state": "started",
+"branch": "qa/job-1483-transfer-race-audit",
+"branch_sha": "fe1eef9adb5f6e57b1577872b554c506a5907689",
+"no_pr_reason": "",
+"first_seen": "2026-10-10T16:28:27Z",
+"since": "2026-10-10T16:28:27Z"
 },
 "35": {
 "job": 1410,
