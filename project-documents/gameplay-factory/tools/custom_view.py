@@ -771,45 +771,51 @@ def v_svg():
 
 
 def mega():
-    """The mega factory queue (queue/QUEUE.json, live state from queue/QUEUE_STATE.json, written by the poller). None when there is no queue yet."""
+    """The mega queue: one numbered sequence (Nik types a bare number N in any GPT chat). Built from queue/ORDER.json, QUEUE.json and the live QUEUE_STATE.json written by the poller. None when there is no queue yet."""
     try:
-        QJ = json.load(open(os.path.join(F, "queue", "QUEUE.json")))
-        QS = json.load(open(os.path.join(F, "queue", "QUEUE_STATE.json")))
+        Q_ = os.path.join(F, "queue")
+        ORD = json.load(open(os.path.join(Q_, "ORDER.json")))["items"]
+        QS = json.load(open(os.path.join(Q_, "QUEUE_STATE.json")))
     except Exception:
         return None
+    seq, tk = QS.get("sequence") or {}, QS.get("tickets") or {}
     WORD = {"waiting": "waiting", "current": "next up", "pr_open": "PR open", "merged": "merged", "closed": "closed", "blocked": "blocked", "branch_only": "branch only"}
+    names = {"1": "audits", "2": "screen fixes", "3": "mockup match", "4": "phone studies", "5": "desktop studies"}
     rows = []
-    for sid, sl in QJ.get("slots", {}).items():
-        ss = (QS.get("slots") or {}).get(sid, {})
-        nj = ss.get("next_job")
-        tk = (QS.get("tickets") or {}).get(str(nj), {}) if nj else {}
-        rows.append({"id": sid, "kind": sl.get("kind"), "next": nj, "taken": ss.get("taken", 0), "total": ss.get("total", 0),
-                     "state": WORD.get(tk.get("state"), tk.get("state") or "done"), "line": sl.get("standing_line", ""),
-                     "title": ((QJ.get("tickets") or {}).get(str(nj)) or {}).get("title", "")})
-    return {"rows": rows, "stages": QS.get("stages") or {}, "updated": QS.get("updated", "")}
+    for n, it in ORD.items():
+        t = tk.get(str(it.get("job")), {})
+        rows.append({"n": int(n), "job": it.get("job"), "stage": str(it.get("stage")), "title": it.get("title", ""),
+                     "state": WORD.get(t.get("state"), t.get("state") or "waiting"), "raw": t.get("state") or "waiting", "pr_url": t.get("pr_url")})
+    rows.sort(key=lambda r: r["n"])
+    stages = {}
+    for r in rows:
+        st = stages.setdefault(r["stage"], {"name": names.get(r["stage"], "stage " + r["stage"]), "lo": r["n"], "hi": r["n"], "taken": 0, "merged": 0, "total": 0})
+        st["hi"] = r["n"]
+        st["total"] += 1
+        st["taken"] += r["raw"] != "waiting"
+        st["merged"] += r["raw"] == "merged"
+    taken = [r for r in rows if r["raw"] != "waiting"]
+    return {"next": seq.get("next_free"), "highest": seq.get("highest_taken", 0), "total": seq.get("total", len(rows)),
+            "stages": stages, "recent": taken[-20:][::-1]}
 
 
 def mega_tab(M):
-    """Custom view: one small tile per slot (the paste boxes are on GitHub, to keep the tab under its limit)."""
-    tiles = []
-    for r in M["rows"]:
-        if r["kind"] == "reviewer":
-            tiles.append(f'<span class="mt">{e(r["id"])} review</span>')
-        else:
-            tiles.append(f'<span class="mt">{e(r["id"])} #{e(str(r["next"] or "—"))} {r["taken"]}/{r["total"]} {e(r["state"])}</span>')
-    st = " · ".join(f'stage {k}: {v.get("merged", 0)}/{v.get("total", 0)} merged' for k, v in sorted(M["stages"].items()))
-    return ('<div class="card"><b>Mega factory</b> <span class="m">' + e(st) + '</span><br>' + " ".join(tiles) + "</div>")
+    """Custom view: stage strip, a tap-to-copy box with the next free number, and a tile for each recent taken number."""
+    st = " · ".join(f'{v["name"]} {v["lo"]}-{v["hi"]}: {v["merged"]}/{v["total"]} merged' for _, v in sorted(M["stages"].items()))
+    tiles = "".join(f'<span class="mt">#{r["n"]} {e(r["state"])}</span>' for r in M["recent"]) or '<span class="m">No number taken yet.</span>'
+    return ('<div class="card"><b>Mega factory</b> <span class="m">' + e(st) + '</span>'
+            f'<br><span class="m">Next free number, type it in any GPT chat:</span><code class="cp">{M["next"]}</code>'
+            f'<span class="m">{M["highest"]} taken of {M["total"]}</span><br>' + tiles + "</div>")
 
 
 def mega_md(M):
-    L = ["## Mega factory", "", "Live from GitHub (queue/QUEUE_STATE.json). Each slot's paste line is in its box.", "", "| Slot | Next job | Picked up | State |", "| --- | --- | --- | --- |"]
-    for r in M["rows"]:
-        L.append(f"| {r['id']} | {('#' + str(r['next']) + ' ' + r['title']) if r['next'] else '—'} | {r['taken']}/{r['total']} | {r['state']} |")
-    L += ["", "**Stages**", ""] + [f"- stage {k}: {v.get('taken', 0)} picked up, {v.get('merged', 0)} merged of {v.get('total', 0)}" for k, v in sorted(M["stages"].items())] + [""]
-    for r in M["rows"]:
-        if r["line"]:
-            L += [f"<details><summary>Slot {r['id']} paste line</summary>", "", "```text", r["line"], "```", "", "</details>", ""]
-    return L
+    L = ["## Mega factory", "", "One numbered queue: type a bare number in any GPT chat. Live from GitHub (queue/QUEUE_STATE.json).", "",
+         "Next free number:", "", "```text", str(M["next"]), "```", "",
+         f"{M['highest']} taken of {M['total']}.", "", "| Stage | Numbers | Merged | Picked up |", "| --- | --- | --- | --- |"]
+    L += [f"| {v['name']} | {v['lo']}-{v['hi']} | {v['merged']}/{v['total']} | {v['taken']}/{v['total']} |" for _, v in sorted(M["stages"].items())]
+    L += ["", "**Last taken numbers**", "", "| # | Job | State | Title |", "| --- | --- | --- | --- |"]
+    L += [f"| {r['n']} | {r['job']} | {r['state']} | {r['title']} |" for r in M["recent"]] or ["| — | — | nothing taken yet | — |"]
+    return L + [""]
 
 
 def dash_svg(SG, cur):

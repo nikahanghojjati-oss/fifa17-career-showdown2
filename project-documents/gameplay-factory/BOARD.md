@@ -42,198 +42,29 @@ Not started
 
 ## Mega factory
 
-Live from GitHub (queue/QUEUE_STATE.json). Each slot's paste line is in its box.
+One numbered queue: type a bare number in any GPT chat. Live from GitHub (queue/QUEUE_STATE.json).
 
-| Slot | Next job | Picked up | State |
+Next free number:
+
+```text
+1
+```
+
+0 taken of 518.
+
+| Stage | Numbers | Merged | Picked up |
 | --- | --- | --- | --- |
-| A1 | #1061 Home: fix the 360x640 view | 0/29 | waiting |
-| A2 | #1090 Connect Players (start and join): fix the 360x640 view | 0/29 | waiting |
-| A3 | #1119 Select League: fix the 360x640 view | 0/29 | waiting |
-| A4 | #1148 Club packs: fix the 360x640 view | 0/29 | waiting |
-| A5 | #1177 Transfer challenge and Signing Entry: fix the 360x640 view | 0/29 | waiting |
-| A6 | #1206 Season Results: fix the 360x640 view | 0/29 | waiting |
-| A7 | #1235 Standings: fix the 360x640 view | 0/29 | waiting |
-| A8 | #1264 Final Winner (Showdown Champion): fix the 360x640 view | 0/29 | waiting |
-| A9 | #1293 Legacy: fix the 360x640 view | 0/29 | waiting |
-| A10 | #1322 Trophy Room: fix the 360x640 view | 0/29 | waiting |
-| B1 | #1351 Rivalry Statistics: fix the 360x640 view | 0/29 | waiting |
-| B2 | #1380 Career Statistics: fix the 360x640 view | 0/29 | waiting |
-| B3 | #1409 Rule Book: fix the 360x640 view | 0/29 | waiting |
-| B4 | #1438 Settings: fix the 360x640 view | 0/29 | waiting |
-| B5 | #1467 Tap targets of at least 44 px on every Team V screen | 0/23 | waiting |
-| B6 | #1468 Long manager and club names never break a layout | 0/23 | waiting |
-| B7 | #1469 Phone notch and bottom bar safe areas | 0/22 | waiting |
-| B8 | #1470 Phone held sideways: nothing hidden or overlapping | 0/22 | waiting |
-| B9 | #1471 Keyboard focus rings and reduced motion | 0/22 | waiting |
-| B10 | — | 0/0 | done |
+| audits | 1-100 | 0/100 | 0/100 |
+| screen fixes | 101-378 | 0/278 | 0/278 |
+| mockup match | 379-392 | 0/14 | 0/14 |
+| phone studies | 393-462 | 0/70 | 0/70 |
+| desktop studies | 463-518 | 0/56 | 0/56 |
 
-**Stages**
+**Last taken numbers**
 
-- stage 1: 0 picked up, 0 merged of 100
-- stage 2: 0 picked up, 0 merged of 278
-- stage 3: 0 picked up, 0 merged of 14
-- stage 4: 0 picked up, 0 merged of 70
-- stage 5: 0 picked up, 0 merged of 56
-
-<details><summary>Slot A1 paste line</summary>
-
-```text
-Career Mode Showdown factory, slot A1. With the GitHub connector, read project-documents/gameplay-factory/queue/slots/A1.md on branch factory/gameplay-v1 of nikahanghojjati-oss/fifa17-career-showdown2 (or open https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/gameplay-v1/project-documents/gameplay-factory/queue/slots/A1.md) and do exactly what it says. When I type next, read it again and do the next job on its list.
-```
-
-</details>
-
-<details><summary>Slot A2 paste line</summary>
-
-```text
-Career Mode Showdown factory, slot A2. With the GitHub connector, read project-documents/gameplay-factory/queue/slots/A2.md on branch factory/gameplay-v1 of nikahanghojjati-oss/fifa17-career-showdown2 (or open https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/gameplay-v1/project-documents/gameplay-factory/queue/slots/A2.md) and do exactly what it says. When I type next, read it again and do the next job on its list.
-```
-
-</details>
-
-<details><summary>Slot A3 paste line</summary>
-
-```text
-Career Mode Showdown factory, slot A3. With the GitHub connector, read project-documents/gameplay-factory/queue/slots/A3.md on branch factory/gameplay-v1 of nikahanghojjati-oss/fifa17-career-showdown2 (or open https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/gameplay-v1/project-documents/gameplay-factory/queue/slots/A3.md) and do exactly what it says. When I type next, read it again and do the next job on its list.
-```
-
-</details>
-
-<details><summary>Slot A4 paste line</summary>
-
-```text
-Career Mode Showdown factory, slot A4. With the GitHub connector, read project-documents/gameplay-factory/queue/slots/A4.md on branch factory/gameplay-v1 of nikahanghojjati-oss/fifa17-career-showdown2 (or open https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/gameplay-v1/project-documents/gameplay-factory/queue/slots/A4.md) and do exactly what it says. When I type next, read it again and do the next job on its list.
-```
-
-</details>
-
-<details><summary>Slot A5 paste line</summary>
-
-```text
-Career Mode Showdown factory, slot A5. With the GitHub connector, read project-documents/gameplay-factory/queue/slots/A5.md on branch factory/gameplay-v1 of nikahanghojjati-oss/fifa17-career-showdown2 (or open https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/gameplay-v1/project-documents/gameplay-factory/queue/slots/A5.md) and do exactly what it says. When I type next, read it again and do the next job on its list.
-```
-
-</details>
-
-<details><summary>Slot A6 paste line</summary>
-
-```text
-Career Mode Showdown factory, slot A6. With the GitHub connector, read project-documents/gameplay-factory/queue/slots/A6.md on branch factory/gameplay-v1 of nikahanghojjati-oss/fifa17-career-showdown2 (or open https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/gameplay-v1/project-documents/gameplay-factory/queue/slots/A6.md) and do exactly what it says. When I type next, read it again and do the next job on its list.
-```
-
-</details>
-
-<details><summary>Slot A7 paste line</summary>
-
-```text
-Career Mode Showdown factory, slot A7. With the GitHub connector, read project-documents/gameplay-factory/queue/slots/A7.md on branch factory/gameplay-v1 of nikahanghojjati-oss/fifa17-career-showdown2 (or open https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/gameplay-v1/project-documents/gameplay-factory/queue/slots/A7.md) and do exactly what it says. When I type next, read it again and do the next job on its list.
-```
-
-</details>
-
-<details><summary>Slot A8 paste line</summary>
-
-```text
-Career Mode Showdown factory, slot A8. With the GitHub connector, read project-documents/gameplay-factory/queue/slots/A8.md on branch factory/gameplay-v1 of nikahanghojjati-oss/fifa17-career-showdown2 (or open https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/gameplay-v1/project-documents/gameplay-factory/queue/slots/A8.md) and do exactly what it says. When I type next, read it again and do the next job on its list.
-```
-
-</details>
-
-<details><summary>Slot A9 paste line</summary>
-
-```text
-Career Mode Showdown factory, slot A9. With the GitHub connector, read project-documents/gameplay-factory/queue/slots/A9.md on branch factory/gameplay-v1 of nikahanghojjati-oss/fifa17-career-showdown2 (or open https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/gameplay-v1/project-documents/gameplay-factory/queue/slots/A9.md) and do exactly what it says. When I type next, read it again and do the next job on its list.
-```
-
-</details>
-
-<details><summary>Slot A10 paste line</summary>
-
-```text
-Career Mode Showdown factory, slot A10. With the GitHub connector, read project-documents/gameplay-factory/queue/slots/A10.md on branch factory/gameplay-v1 of nikahanghojjati-oss/fifa17-career-showdown2 (or open https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/gameplay-v1/project-documents/gameplay-factory/queue/slots/A10.md) and do exactly what it says. When I type next, read it again and do the next job on its list.
-```
-
-</details>
-
-<details><summary>Slot B1 paste line</summary>
-
-```text
-Career Mode Showdown factory, slot B1. With the GitHub connector, read project-documents/gameplay-factory/queue/slots/B1.md on branch factory/gameplay-v1 of nikahanghojjati-oss/fifa17-career-showdown2 (or open https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/gameplay-v1/project-documents/gameplay-factory/queue/slots/B1.md) and do exactly what it says. When I type next, read it again and do the next job on its list.
-```
-
-</details>
-
-<details><summary>Slot B2 paste line</summary>
-
-```text
-Career Mode Showdown factory, slot B2. With the GitHub connector, read project-documents/gameplay-factory/queue/slots/B2.md on branch factory/gameplay-v1 of nikahanghojjati-oss/fifa17-career-showdown2 (or open https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/gameplay-v1/project-documents/gameplay-factory/queue/slots/B2.md) and do exactly what it says. When I type next, read it again and do the next job on its list.
-```
-
-</details>
-
-<details><summary>Slot B3 paste line</summary>
-
-```text
-Career Mode Showdown factory, slot B3. With the GitHub connector, read project-documents/gameplay-factory/queue/slots/B3.md on branch factory/gameplay-v1 of nikahanghojjati-oss/fifa17-career-showdown2 (or open https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/gameplay-v1/project-documents/gameplay-factory/queue/slots/B3.md) and do exactly what it says. When I type next, read it again and do the next job on its list.
-```
-
-</details>
-
-<details><summary>Slot B4 paste line</summary>
-
-```text
-Career Mode Showdown factory, slot B4. With the GitHub connector, read project-documents/gameplay-factory/queue/slots/B4.md on branch factory/gameplay-v1 of nikahanghojjati-oss/fifa17-career-showdown2 (or open https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/gameplay-v1/project-documents/gameplay-factory/queue/slots/B4.md) and do exactly what it says. When I type next, read it again and do the next job on its list.
-```
-
-</details>
-
-<details><summary>Slot B5 paste line</summary>
-
-```text
-Career Mode Showdown factory, slot B5. With the GitHub connector, read project-documents/gameplay-factory/queue/slots/B5.md on branch factory/gameplay-v1 of nikahanghojjati-oss/fifa17-career-showdown2 (or open https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/gameplay-v1/project-documents/gameplay-factory/queue/slots/B5.md) and do exactly what it says. When I type next, read it again and do the next job on its list.
-```
-
-</details>
-
-<details><summary>Slot B6 paste line</summary>
-
-```text
-Career Mode Showdown factory, slot B6. With the GitHub connector, read project-documents/gameplay-factory/queue/slots/B6.md on branch factory/gameplay-v1 of nikahanghojjati-oss/fifa17-career-showdown2 (or open https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/gameplay-v1/project-documents/gameplay-factory/queue/slots/B6.md) and do exactly what it says. When I type next, read it again and do the next job on its list.
-```
-
-</details>
-
-<details><summary>Slot B7 paste line</summary>
-
-```text
-Career Mode Showdown factory, slot B7. With the GitHub connector, read project-documents/gameplay-factory/queue/slots/B7.md on branch factory/gameplay-v1 of nikahanghojjati-oss/fifa17-career-showdown2 (or open https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/gameplay-v1/project-documents/gameplay-factory/queue/slots/B7.md) and do exactly what it says. When I type next, read it again and do the next job on its list.
-```
-
-</details>
-
-<details><summary>Slot B8 paste line</summary>
-
-```text
-Career Mode Showdown factory, slot B8. With the GitHub connector, read project-documents/gameplay-factory/queue/slots/B8.md on branch factory/gameplay-v1 of nikahanghojjati-oss/fifa17-career-showdown2 (or open https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/gameplay-v1/project-documents/gameplay-factory/queue/slots/B8.md) and do exactly what it says. When I type next, read it again and do the next job on its list.
-```
-
-</details>
-
-<details><summary>Slot B9 paste line</summary>
-
-```text
-Career Mode Showdown factory, slot B9. With the GitHub connector, read project-documents/gameplay-factory/queue/slots/B9.md on branch factory/gameplay-v1 of nikahanghojjati-oss/fifa17-career-showdown2 (or open https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/gameplay-v1/project-documents/gameplay-factory/queue/slots/B9.md) and do exactly what it says. When I type next, read it again and do the next job on its list.
-```
-
-</details>
-
-<details><summary>Slot B10 paste line</summary>
-
-```text
-Career Mode Showdown factory, slot B10. With the GitHub connector, read project-documents/gameplay-factory/queue/slots/B10.md on branch factory/gameplay-v1 of nikahanghojjati-oss/fifa17-career-showdown2 (or open https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/gameplay-v1/project-documents/gameplay-factory/queue/slots/B10.md) and do exactly what it says. When I type next, read it again and do the next job on its list.
-```
-
-</details>
+| # | Job | State | Title |
+| --- | --- | --- | --- |
+| — | — | nothing taken yet | — |
 
 ## Other asks
 
