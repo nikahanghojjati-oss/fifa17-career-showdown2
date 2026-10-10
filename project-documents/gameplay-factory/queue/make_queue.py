@@ -281,6 +281,25 @@ def main():
     ap.add_argument("--first", type=int, required=True)
     a = ap.parse_args()
     n = a.first
+    ART = {"transfer": "visual-assets/v10_1/tr2/slice-02-plate/assets/",
+           "rule-book": "visual-assets/v10_1/shared/", "settings": "visual-assets/v10_1/shared/",
+           "standings": "visual-assets/v10_1/shared/"}
+    MOCK = {"home": "GOAL_HOME.jpg", "league": "GOAL_LEAGUE.jpg", "club": "GOAL_CLUB.jpg",
+            "transfer": "GOAL_TRANSFER_PLATE_G.png", "career-statistics": "MOCKUP_CAREER_STATISTICS.png",
+            "legacy": "MOCKUP_LEGACY_V2.png", "rivalry-statistics": "MOCKUP_RIVALRY_STATISTICS.png",
+            "season-results": "MOCKUP_SEASON_RESULTS.jpg", "start-join": "MOCKUP_START_JOIN.png",
+            "trophy-room": "MOCKUP_TROPHY_ROOM.png"}
+    MOCK_DIR = "project-documents/factory/mockups/"
+    # studies Team V already designed (HO-021): start from that design, do not redo it
+    DECIDED = {("home", "sideways"): "1035", ("transfer", "sideways"): "1035", ("home", "tablet"): "1036", ("transfer", "tablet"): "1036"}
+    DECIDED_EVID = {("home", "sideways"): "visual-assets/v10_1/tr2/evidence/1035/", ("transfer", "sideways"): "visual-assets/v10_1/tr2/evidence/1035/",
+                    ("home", "tablet"): "visual-assets/v10_1/home/evidence/1036/", ("transfer", "tablet"): "visual-assets/v10_1/tr2/evidence/1036/"}
+    def mock_line(sid):
+        if sid in MOCK:
+            return f"the screen's desktop mockup: `{MOCK_DIR}{MOCK[sid]}` on branch `factory/v1-wtt5ye` (reference only; look at the picture, never copy real club crests, league logos or trophies from it)"
+        return "this screen has no mockup: use the live screen (its CSS and the Read files) as the reference"
+    STUDY_RULES = ("- **Phone fit rule (phone studies):** the design must fit with no scroll at 393x660 and at 360x640, with the main button visible at 375x553. The bottom tab bar (HOME, CAREER, STANDINGS, STATS, RULES) shows at 900px wide or less, on hub screens only.\n"
+                   "- **Product rules:** Daniel is always on the LEFT and Nik on the RIGHT, never mirrored. No player photos (the only exception is the Reus photo on Loading). No real club crests, league logos or trophies: use our own art only. On Home tiles the big art fills the right side of the tile, centred and fully inside, never small or clipped in a corner.\n")
     tickets, slots = [], {s: [] for s in SLOTS}
     def add(slot, **t):
         nonlocal n
@@ -288,19 +307,23 @@ def main():
         tickets.append(t); slots[slot].append(t)
     nochange = lambda j: f"- DEFAULT: if you find nothing wrong after reading the files, change nothing and push only the status file `status/JOB-{j}.md` saying `no change needed` with the three most likely risks you checked.\n"
     for sid, title, files, slot in SCREENS:
-        pre = f"visual-assets/v10_1/{sid}/assets/"
+        pre = ART.get(sid, f"visual-assets/v10_1/{sid}/assets/")
         for vp in VIEWPORTS:
             add(slot, key="vp", screen=sid, stage=2, mode="code", stitle=title, title=f"{title}: fix the {vp.split(' ')[0]} view",
                 files=files, text=f"## What to fix\nCheck only the **{vp}** view of the **{title}** screen and fix what is wrong in the CSS: no content cut off, no horizontal scroll, no text over text, no button off screen, one page scroll (no nested scroll box), tap targets at least 44 px on touch sizes. Use media queries that apply only to this size range so other sizes do not change.\n")
         add(slot, key="s3", screen=sid, stage=3, mode="code", stitle=title, title=f"{title}: match the desktop mockup", files=files,
-            text=f"## What to fix\nMatch the current desktop **{title}** screen to its desktop mockup.\n- Find the mockup of this screen: in this repo look at the pictures in `{pre}` named `ENV_*_PLATE_V1_*`, and in the ChatGPT project's files if you can reach them. List at most 8 differences in spacing, sizes, alignment, text style, colours or order of elements between the mockup and the code and fix the clear ones in the CSS (tiny markup class changes only when a class is missing). Never change text a player reads, an order of taps, or game logic.\n- Save the list as `project-documents/gameplay-factory/queue/results/{sid}-s3.md` (fixed / not fixed with reason).\n- DEFAULT: if you cannot find the mockup, do not guess. Push only `status/JOB-N.md` saying `NEEDS MOCKUP` and where you looked.\n")
+            text=f"## What to fix\nMatch the current desktop **{title}** screen to its desktop mockup.\n- Find the mockup of this screen: {mock_line(sid)}; the artwork is under `{pre}`. List at most 8 differences in spacing, sizes, alignment, text style, colours or order of elements between the mockup and the code and fix the clear ones in the CSS (tiny markup class changes only when a class is missing). Never change text a player reads, an order of taps, or game logic.\n- Save the list as `project-documents/gameplay-factory/queue/results/{sid}-s3.md` (fixed / not fixed with reason).\n- DEFAULT: if you cannot find the mockup, do not guess. Push only `status/JOB-N.md` saying `NEEDS MOCKUP` and where you looked.\n")
         for key, ktitle, text in ASPECTS:
             add(slot, key="a-" + key, screen=sid, stage=2, mode="code", stitle=title, title=f"{title}: {ktitle}", files=files,
                 text=f"## What to fix\nFor the **{title}** screen only: {text}\nCSS only unless the instruction says otherwise.\n")
         for key, ktitle, text in STUDY_VARIANTS:
             st = 4 if key.startswith(("phone", "sideways", "tablet")) else 5
+            dec = DECIDED.get((sid, key))
+            extra = ""
+            if dec:
+                extra = f"- **Already decided:** Team V designed and checked this view in job {dec} (HO-021). Do not redo it. Look at its evidence in `{DECIDED_EVID[(sid, key)]}` on branch `factory/v1-wtt5ye` and make only a small variant of that design, or if you find nothing worth changing write `no change` in the notes file.\n"
             add(slot, key="st-" + key, screen=sid, stage=st, mode="study", title=f"{title}: {ktitle}", files=files,
-                text=f"## What to make\n{text}\n- Self-contained HTML with inline CSS and no JavaScript. Use the existing artwork under `{pre}` (relative links such as `../../../../{pre}<file>`) and the screen's desktop mockup in this ChatGPT project's files. If you can, use GPT-6's picture and design features to look at the mockups.\n- Keep every element, all text and the same order of taps as the real screen. Presentation only.\n- Files (3 at most): `project-documents/gameplay-factory/studies/{sid}/<kind>-<job>.html`, `.../<kind>-<job>-notes.md` (at most 15 lines: what you chose and why), and `.../studies/{sid}/README.md` only if it does not exist (one line).\n")
+                text=f"## What to make\n{text}\n- Self-contained HTML with inline CSS and no JavaScript. Use the existing artwork under `{pre}` (relative links such as `../../../../{pre}<file>`) and {mock_line(sid)}. If you can, use GPT-6's picture and design features to look at the mockups.\n- Keep every element, all text and the same order of taps as the real screen. Presentation only.\n{STUDY_RULES}{extra}- Files (3 at most): `project-documents/gameplay-factory/studies/{sid}/<kind>-<job>.html`, `.../<kind>-<job>-notes.md` (at most 15 lines: what you chose and why), and `.../studies/{sid}/README.md` only if it does not exist (one line).\n")
     for i, (key, title, text, files) in enumerate(CROSS):
         add(["B5", "B6", "B7", "B8", "B9"][i % 5], key="x-" + key, screen="shared", stage=1, mode="audit", title="Audit all screens: " + title.lower(), files=files,
             text=f"## What to do\nRead-only check across the Team V screens. {text}\n- Do NOT edit any game file. Write at most 8 findings in `project-documents/gameplay-factory/queue/audits/x-{key}.md`: screen, file and line, what is wrong, the smallest CSS or markup change. The Team G lead bundles real findings into one fix job.\n- DEFAULT: if you find nothing, write `no findings` and what you checked.\n")

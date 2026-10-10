@@ -1,7 +1,6 @@
 {
  "sequence": {
   "ready": [
-   28,
    29,
    30,
    31,
@@ -12,10 +11,10 @@
    36,
    37,
    38,
-   39
+   39,
+   40
   ],
   "ready_sol": [
-   28,
    29,
    30,
    31,
@@ -26,13 +25,14 @@
    36,
    37,
    38,
-   39
+   39,
+   40
   ],
   "ready_codex": [],
   "open_code_prs": 0,
   "open_train_prs": 0,
-  "next_free": 28,
-  "highest_taken": 27,
+  "next_free": 29,
+  "highest_taken": 28,
   "total": 518,
   "states": {
    "1": "on_train",
@@ -62,7 +62,7 @@
    "25": "on_train",
    "26": "pr_open",
    "27": "on_train",
-   "28": "waiting",
+   "28": "branch_only",
    "29": "waiting",
    "30": "waiting",
    "31": "waiting",
@@ -555,11 +555,12 @@
    "518": "waiting"
   }
  },
- "updated": "2026-10-10T15:28:40Z",
+ "updated": "2026-10-10T15:32:39Z",
  "counts": {
   "on_train": 14,
-  "waiting": 491,
-  "pr_open": 13
+  "waiting": 490,
+  "pr_open": 13,
+  "branch_only": 1
  },
  "stages": {
   "2": {
@@ -584,7 +585,7 @@
   },
   "1": {
    "total": 112,
-   "taken": 13,
+   "taken": 14,
    "merged": 0
   }
  },
@@ -4221,11 +4222,11 @@
    "branch": "qa/job-1479-season-engine-first-half-audit"
   },
   "1480": {
-   "state": "waiting",
+   "state": "branch_only",
    "pr": null,
    "draft": false,
    "pr_url": null,
-   "branch": null
+   "branch": "qa/job-1480-seasonengine-second-half-audit"
   },
   "1481": {
    "state": "waiting",
