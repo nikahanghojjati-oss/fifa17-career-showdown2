@@ -14,7 +14,7 @@
 <text x="243.5" y="99" class="c" text-anchor="middle">JOBS RUNNING</text>
 <rect x="324" y="48" width="145" height="58" rx="10" fill="#2c353c" stroke="#43515b"/>
 <rect x="324" y="48" width="145" height="3" rx="1.5" fill="#f0d900"/>
-<text x="396.5" y="82" class="n" text-anchor="middle">6</text>
+<text x="396.5" y="82" class="n" text-anchor="middle">7</text>
 <text x="396.5" y="99" class="c" text-anchor="middle">JOBS TO START</text>
 <rect x="477" y="48" width="145" height="58" rx="10" fill="#2c353c" stroke="#43515b"/>
 <rect x="477" y="48" width="145" height="3" rx="1.5" fill="#f0d900"/>
@@ -24,8 +24,8 @@
 <text x="18" y="162" class="t">1. Finish the remaining bugs</text>
 <text x="18" y="174" class="g" fill="#f0d900">NOW</text>
 <rect x="210" y="153" width="368" height="10" rx="5" class="r"/>
-<rect x="210" y="153" width="320.9" height="10" rx="5" fill="#f0d900"/>
-<text x="622" y="162" class="k" text-anchor="end">87.2%</text>
+<rect x="210" y="153" width="329" height="10" rx="5" fill="#f0d900"/>
+<text x="622" y="162" class="k" text-anchor="end">89.4%</text>
 <text x="18" y="186" class="t">2. Visual fixes</text>
 <rect x="210" y="177" width="368" height="10" rx="5" class="r"/>
 <rect x="210" y="177" width="192.8" height="10" rx="5" fill="#42b9da"/>
