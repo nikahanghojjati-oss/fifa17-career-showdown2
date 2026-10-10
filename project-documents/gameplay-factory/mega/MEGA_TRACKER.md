@@ -1,23 +1,22 @@
-# Mega factory tracker · updated 2026-10-10T16:52:14Z
+# Mega factory tracker · updated 2026-10-10T16:55:55Z
 
-**Type now:** 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49
-**Next free number:** 39 · **highest taken:** 38 of 518
+**Type now:** 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51
+**Next free number:** 40 · **highest taken:** 39 of 518
 **Code PRs open:** 0 of 8 · area locks: none
-**Rate:** 4 claimed in 10 min · 6 in 1 h · 0 merged in 1 h
+**Rate:** 4 claimed in 10 min · 7 in 1 h · 0 merged in 1 h
 
 **Finished (merged or live): 0 of 518**
 
 State | count
 --- | ---
-🚂 done, on the train branch, no PR yet | 19
-📝 worker done, draft PR open | 18
-🟦 started, no PR yet | 1
-⬜ waiting | 480
+🚂 done, on the train branch, no PR yet | 20
+📝 worker done, draft PR open | 19
+⬜ waiting | 479
 
 Stage | total | merged/live | in flight | waiting
 --- | --- | --- | --- | ---
 1 Gameplay audits | 112 | 0 | 19 | 93
-2 Screen fixes | 266 | 0 | 19 | 247
+2 Screen fixes | 266 | 0 | 20 | 246
 3 Match desktop to mockups | 14 | 0 | 0 | 14
 4 Phone mockup studies | 70 | 0 | 0 | 70
 5 Improved desktop studies | 56 | 0 | 0 | 56
@@ -61,10 +60,13 @@ Stage | total | merged/live | in flight | waiting
 - 🚂 **35** · Job 1410 · Rule Book: fix the 390x844 view · done, on the train branch, no PR yet
 - 📝 **36** · Job 1484 · Audit js/productionSharedTransferChallenge.js for gameplay bugs (second half) · worker done, draft PR open · [PR #479](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/479)
 - 🚂 **37** · Job 1063 · Home: fix the 430x932 view · done, on the train branch, no PR yet
-- 🟦 **38** · Job 1485 · Audit js/sparkSharedTransferChallenge.js for gameplay bugs (first half) · started, no PR yet
+- 📝 **38** · Job 1485 · Audit js/sparkSharedTransferChallenge.js for gameplay bugs (first half) · worker done, draft PR open · [PR #480](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/480)
+- 🚂 **39** · Job 1092 · Connect Players (start and join): fix the 430x932 view · done, on the train branch, no PR yet
 
 ## Latest changes
 
+- 2026-10-10T16:55:55Z · 39 (Job 1092): waiting → on_train
+- 2026-10-10T16:55:55Z · 38 (Job 1485): started → draft
 - 2026-10-10T16:52:14Z · 38 (Job 1485): waiting → started
 - 2026-10-10T16:52:14Z · 37 (Job 1063): waiting → on_train
 - 2026-10-10T16:52:14Z · 36 (Job 1484): waiting → draft
@@ -83,5 +85,3 @@ Stage | total | merged/live | in flight | waiting
 - 2026-10-10T15:24:50Z · 24 (Job 1478): started → draft
 - 2026-10-10T15:24:50Z · 19 (Job 1062): waiting → on_train
 - 2026-10-10T15:21:00Z · 24 (Job 1478): waiting → started
-- 2026-10-10T15:21:00Z · 23 (Job 1120): waiting → on_train
-- 2026-10-10T15:21:00Z · 22 (Job 1477): started → draft

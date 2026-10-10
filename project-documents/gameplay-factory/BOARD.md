@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Sat 10 Oct, 12:52 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Sat 10 Oct, 12:55 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r67** (main `f42dac2`, Fri 9 Oct 9:34 PM)
 
@@ -18,19 +18,19 @@ Updated Sat 10 Oct, 12:52 PM Boston time. Bug hunting only, no new features unti
 
 **#1 · 1580** `G` Showdown Gate: run the L5 lane only when its inputs changed  
 `██████░░░░` **60.0000 %**  
-⚪ Team white · **Codex default coding model** · High effort · worker done, PR #457 open, CI failed · CI 13 of 14 passed · last move 97 min ago
+⚪ Team white · **Codex default coding model** · High effort · worker done, PR #457 open, CI failed · CI 13 of 14 passed · last move 101 min ago
 
 **#2 · 1584** `G` Measure the transfer screens at ten window sizes (report only)  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · **Codex default coding model** · Medium effort · worker working, draft PR #469 · CI 6 of 7 passed · last move 96 min ago
+⚪ Team white · **Codex default coding model** · Medium effort · worker working, draft PR #469 · CI 6 of 7 passed · last move 100 min ago
 
 **#3 · 1585** `G` Measure the season-final screens at ten window sizes (report only)  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · **Codex default coding model** · Medium effort · worker working, draft PR #476 · CI 6 of 7 passed · last move 68 min ago
+⚪ Team white · **Codex default coding model** · Medium effort · worker working, draft PR #476 · CI 6 of 7 passed · last move 72 min ago
 
 **#4 · 1586** `G` Measure the club screens at ten window sizes (report only)  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · **Codex default coding model** · Medium effort · worker working, draft PR #477 · CI 6 of 7 passed · last move 31 min ago
+⚪ Team white · **Codex default coding model** · Medium effort · worker working, draft PR #477 · CI 6 of 7 passed · last move 35 min ago
 
 ### ⏸ Waiting on something else
 
@@ -97,17 +97,17 @@ One numbered queue: type a bare number in any GPT chat. Live from GitHub (queue/
 Type now, in any GPT chat:
 
 ```text
-38 39 40 41 42 43 44 45 46 47 48 49
+40 41 42 43 44 45 46 47 48 49 50 51
 ```
 
 Open code PRs: 0/8.
 
-37 taken of 518.
+39 taken of 518.
 
 | Stage | Items | Merged | Picked up |
 | --- | --- | --- | --- |
-| audits | 112 | 0/112 | 18/112 |
-| screen fixes | 266 | 0/266 | 19/266 |
+| audits | 112 | 0/112 | 19/112 |
+| screen fixes | 266 | 0/266 | 20/266 |
 | mockup match | 14 | 0/14 | 0/14 |
 | phone studies | 70 | 0/70 | 0/70 |
 | desktop studies | 56 | 0/56 | 0/56 |
@@ -116,6 +116,8 @@ Open code PRs: 0/8.
 
 | # | Job | State | Title |
 | --- | --- | --- | --- |
+| 39 | 1092 | on_train | Connect Players (start and join): fix the 430x932 view |
+| 38 | 1485 | PR open | Audit js/sparkSharedTransferChallenge.js for gameplay bugs (first half) |
 | 37 | 1063 | on_train | Home: fix the 430x932 view |
 | 36 | 1484 | PR open | Audit js/productionSharedTransferChallenge.js for gameplay bugs (second half) |
 | 35 | 1410 | on_train | Rule Book: fix the 390x844 view |
@@ -134,17 +136,15 @@ Open code PRs: 0/8.
 | 22 | 1477 | PR open | Audit all screens: hard-coded colours that should use the design tokens |
 | 21 | 1091 | on_train | Connect Players (start and join): fix the 390x844 view |
 | 20 | 1476 | PR open | Audit all screens: stacking order: dialogs above screens, toasts above dialogs |
-| 19 | 1062 | on_train | Home: fix the 390x844 view |
-| 18 | 1475 | PR open | Audit all screens: picture descriptions and screen reader labels |
 
 ## Mega tracker (live, free)
 
-Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/index.html) · summary: [mega/MEGA_TRACKER.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/MEGA_TRACKER.md) · rebuilt by the poller each round, updated 2026-10-10T16:52:14Z.
+Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/index.html) · summary: [mega/MEGA_TRACKER.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/MEGA_TRACKER.md) · rebuilt by the poller each round, updated 2026-10-10T16:55:55Z.
 
 | Stage | Done (merged or live) | In progress | Waiting |
 | --- | --- | --- | --- |
 | Gameplay audits | 0 of 112 | 19 | 93 |
-| Screen fixes | 0 of 266 | 19 | 247 |
+| Screen fixes | 0 of 266 | 20 | 246 |
 | Match desktop to mockups | 0 of 14 | 0 | 14 |
 | Phone mockup studies | 0 of 70 | 0 | 70 |
 | Improved desktop studies | 0 of 56 | 0 | 56 |

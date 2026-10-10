@@ -1,29 +1,27 @@
 {
-"updated": "2026-10-10T16:52:14Z",
+"updated": "2026-10-10T16:55:55Z",
 "total": 518,
-"next_free": 39,
-"highest_taken": 38,
+"next_free": 40,
+"highest_taken": 39,
 "counts": {
-"on_train": 19,
-"draft": 18,
-"started": 1,
-"waiting": 480
+"on_train": 20,
+"draft": 19,
+"waiting": 479
 },
 "stages": {
 "2": {
 "name": "Screen fixes",
 "total": 266,
 "states": {
-"on_train": 19,
-"waiting": 247
+"on_train": 20,
+"waiting": 246
 }
 },
 "1": {
 "name": "Gameplay audits",
 "total": 112,
 "states": {
-"draft": 18,
-"started": 1,
+"draft": 19,
 "waiting": 93
 }
 },
@@ -73,13 +71,12 @@
 31,
 33,
 35,
-37
+37,
+39
 ],
 "draft_code_prs": 0,
 "area_locks": {},
 "ready": [
-38,
-39,
 40,
 41,
 42,
@@ -89,11 +86,11 @@
 46,
 47,
 48,
-49
+49,
+50,
+51
 ],
 "ready_sol": [
-38,
-39,
 40,
 41,
 42,
@@ -103,12 +100,14 @@
 46,
 47,
 48,
-49
+49,
+50,
+51
 ],
 "ready_codex": []
 },
 "rate": {
-"claimed_last_hour": 6,
+"claimed_last_hour": 7,
 "claimed_last_10min": 4,
 "merged_last_hour": 0
 },
@@ -420,6 +419,20 @@
 "job": 1485,
 "from": "waiting",
 "to": "started"
+},
+{
+"at": "2026-10-10T16:55:55Z",
+"item": 38,
+"job": 1485,
+"from": "started",
+"to": "draft"
+},
+{
+"at": "2026-10-10T16:55:55Z",
+"item": 39,
+"job": 1092,
+"from": "waiting",
+"to": "on_train"
 }
 ],
 "items": {
@@ -998,12 +1011,19 @@
 "title": "Audit js/sparkSharedTransferChallenge.js for gameplay bugs (first half)",
 "mode": "audit",
 "group": null,
-"state": "started",
+"pr": 480,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/480",
+"base": "qa/mega-audits",
 "branch": "qa/job-1485-transfer-challenge-first-half",
-"branch_sha": "fe1eef9adb5f6e57b1577872b554c506a5907689",
-"no_pr_reason": "",
+"ci": "draft",
+"ci_sha": "fb5bac1f8f4105128e401e9663c76580d43141fb",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-10T16:54:04Z",
 "first_seen": "2026-10-10T16:52:14Z",
-"since": "2026-10-10T16:52:14Z"
+"since": "2026-10-10T16:55:55Z"
 },
 "39": {
 "job": 1092,
@@ -1011,8 +1031,10 @@
 "title": "Connect Players (start and join): fix the 430x932 view",
 "mode": "code",
 "group": "start-join",
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"state": "on_train",
+"branch": "gameplay/train-start-join-1",
+"first_seen": "2026-10-10T16:55:55Z",
+"since": "2026-10-10T16:55:55Z"
 },
 "40": {
 "job": 1486,
