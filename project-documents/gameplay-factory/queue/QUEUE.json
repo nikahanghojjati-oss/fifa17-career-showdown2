@@ -1,0 +1,907 @@
+{
+ "_about": "Mega factory queue (Nik 2026-10-10): 2 GPT accounts (A, B) x 10 chat slots. A slot is a standing ChatGPT chat; its slot file lists its jobs in order and the chat picks the first job whose branch does not exist yet. queue_state.py derives live state from GitHub branches and PRs; never hand-write state.",
+ "slots": {
+  "A1": {
+   "kind": "worker",
+   "account": "A",
+   "standing_line": "Career Mode Showdown factory, slot A1. With the GitHub connector, read project-documents/gameplay-factory/queue/slots/A1.md on branch factory/gameplay-v1 of nikahanghojjati-oss/fifa17-career-showdown2 (or open https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/gameplay-v1/project-documents/gameplay-factory/queue/slots/A1.md) and do exactly what it says. When I type next, read it again and do the next job on its list.",
+   "file": "queue/slots/A1.md",
+   "jobs": [
+    1061,
+    1062,
+    1063,
+    1064,
+    1065
+   ]
+  },
+  "A2": {
+   "kind": "worker",
+   "account": "A",
+   "standing_line": "Career Mode Showdown factory, slot A2. With the GitHub connector, read project-documents/gameplay-factory/queue/slots/A2.md on branch factory/gameplay-v1 of nikahanghojjati-oss/fifa17-career-showdown2 (or open https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/gameplay-v1/project-documents/gameplay-factory/queue/slots/A2.md) and do exactly what it says. When I type next, read it again and do the next job on its list.",
+   "file": "queue/slots/A2.md",
+   "jobs": [
+    1066,
+    1067,
+    1068,
+    1069,
+    1070
+   ]
+  },
+  "A3": {
+   "kind": "worker",
+   "account": "A",
+   "standing_line": "Career Mode Showdown factory, slot A3. With the GitHub connector, read project-documents/gameplay-factory/queue/slots/A3.md on branch factory/gameplay-v1 of nikahanghojjati-oss/fifa17-career-showdown2 (or open https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/gameplay-v1/project-documents/gameplay-factory/queue/slots/A3.md) and do exactly what it says. When I type next, read it again and do the next job on its list.",
+   "file": "queue/slots/A3.md",
+   "jobs": [
+    1071,
+    1072,
+    1073,
+    1074,
+    1075
+   ]
+  },
+  "A4": {
+   "kind": "worker",
+   "account": "A",
+   "standing_line": "Career Mode Showdown factory, slot A4. With the GitHub connector, read project-documents/gameplay-factory/queue/slots/A4.md on branch factory/gameplay-v1 of nikahanghojjati-oss/fifa17-career-showdown2 (or open https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/gameplay-v1/project-documents/gameplay-factory/queue/slots/A4.md) and do exactly what it says. When I type next, read it again and do the next job on its list.",
+   "file": "queue/slots/A4.md",
+   "jobs": [
+    1076,
+    1077,
+    1078,
+    1079,
+    1080
+   ]
+  },
+  "A5": {
+   "kind": "worker",
+   "account": "A",
+   "standing_line": "Career Mode Showdown factory, slot A5. With the GitHub connector, read project-documents/gameplay-factory/queue/slots/A5.md on branch factory/gameplay-v1 of nikahanghojjati-oss/fifa17-career-showdown2 (or open https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/gameplay-v1/project-documents/gameplay-factory/queue/slots/A5.md) and do exactly what it says. When I type next, read it again and do the next job on its list.",
+   "file": "queue/slots/A5.md",
+   "jobs": [
+    1081,
+    1082,
+    1083,
+    1084,
+    1085
+   ]
+  },
+  "A6": {
+   "kind": "worker",
+   "account": "A",
+   "standing_line": "Career Mode Showdown factory, slot A6. With the GitHub connector, read project-documents/gameplay-factory/queue/slots/A6.md on branch factory/gameplay-v1 of nikahanghojjati-oss/fifa17-career-showdown2 (or open https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/gameplay-v1/project-documents/gameplay-factory/queue/slots/A6.md) and do exactly what it says. When I type next, read it again and do the next job on its list.",
+   "file": "queue/slots/A6.md",
+   "jobs": [
+    1086,
+    1087,
+    1088,
+    1089,
+    1090
+   ]
+  },
+  "A7": {
+   "kind": "worker",
+   "account": "A",
+   "standing_line": "Career Mode Showdown factory, slot A7. With the GitHub connector, read project-documents/gameplay-factory/queue/slots/A7.md on branch factory/gameplay-v1 of nikahanghojjati-oss/fifa17-career-showdown2 (or open https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/gameplay-v1/project-documents/gameplay-factory/queue/slots/A7.md) and do exactly what it says. When I type next, read it again and do the next job on its list.",
+   "file": "queue/slots/A7.md",
+   "jobs": [
+    1091,
+    1092,
+    1093,
+    1094,
+    1095
+   ]
+  },
+  "A8": {
+   "kind": "worker",
+   "account": "A",
+   "standing_line": "Career Mode Showdown factory, slot A8. With the GitHub connector, read project-documents/gameplay-factory/queue/slots/A8.md on branch factory/gameplay-v1 of nikahanghojjati-oss/fifa17-career-showdown2 (or open https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/gameplay-v1/project-documents/gameplay-factory/queue/slots/A8.md) and do exactly what it says. When I type next, read it again and do the next job on its list.",
+   "file": "queue/slots/A8.md",
+   "jobs": [
+    1096,
+    1097,
+    1098,
+    1099,
+    1100
+   ]
+  },
+  "A9": {
+   "kind": "worker",
+   "account": "A",
+   "standing_line": "Career Mode Showdown factory, slot A9. With the GitHub connector, read project-documents/gameplay-factory/queue/slots/A9.md on branch factory/gameplay-v1 of nikahanghojjati-oss/fifa17-career-showdown2 (or open https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/gameplay-v1/project-documents/gameplay-factory/queue/slots/A9.md) and do exactly what it says. When I type next, read it again and do the next job on its list.",
+   "file": "queue/slots/A9.md",
+   "jobs": [
+    1101,
+    1102,
+    1103,
+    1104,
+    1105
+   ]
+  },
+  "A10": {
+   "kind": "worker",
+   "account": "A",
+   "standing_line": "Career Mode Showdown factory, slot A10. With the GitHub connector, read project-documents/gameplay-factory/queue/slots/A10.md on branch factory/gameplay-v1 of nikahanghojjati-oss/fifa17-career-showdown2 (or open https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/gameplay-v1/project-documents/gameplay-factory/queue/slots/A10.md) and do exactly what it says. When I type next, read it again and do the next job on its list.",
+   "file": "queue/slots/A10.md",
+   "jobs": [
+    1106,
+    1107,
+    1108,
+    1109,
+    1110
+   ]
+  },
+  "B1": {
+   "kind": "worker",
+   "account": "B",
+   "standing_line": "Career Mode Showdown factory, slot B1. With the GitHub connector, read project-documents/gameplay-factory/queue/slots/B1.md on branch factory/gameplay-v1 of nikahanghojjati-oss/fifa17-career-showdown2 (or open https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/gameplay-v1/project-documents/gameplay-factory/queue/slots/B1.md) and do exactly what it says. When I type next, read it again and do the next job on its list.",
+   "file": "queue/slots/B1.md",
+   "jobs": [
+    1111,
+    1112,
+    1113,
+    1114,
+    1115
+   ]
+  },
+  "B2": {
+   "kind": "worker",
+   "account": "B",
+   "standing_line": "Career Mode Showdown factory, slot B2. With the GitHub connector, read project-documents/gameplay-factory/queue/slots/B2.md on branch factory/gameplay-v1 of nikahanghojjati-oss/fifa17-career-showdown2 (or open https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/gameplay-v1/project-documents/gameplay-factory/queue/slots/B2.md) and do exactly what it says. When I type next, read it again and do the next job on its list.",
+   "file": "queue/slots/B2.md",
+   "jobs": [
+    1116,
+    1117,
+    1118,
+    1119,
+    1120
+   ]
+  },
+  "B3": {
+   "kind": "worker",
+   "account": "B",
+   "standing_line": "Career Mode Showdown factory, slot B3. With the GitHub connector, read project-documents/gameplay-factory/queue/slots/B3.md on branch factory/gameplay-v1 of nikahanghojjati-oss/fifa17-career-showdown2 (or open https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/gameplay-v1/project-documents/gameplay-factory/queue/slots/B3.md) and do exactly what it says. When I type next, read it again and do the next job on its list.",
+   "file": "queue/slots/B3.md",
+   "jobs": [
+    1121,
+    1122,
+    1123,
+    1124,
+    1125
+   ]
+  },
+  "B4": {
+   "kind": "worker",
+   "account": "B",
+   "standing_line": "Career Mode Showdown factory, slot B4. With the GitHub connector, read project-documents/gameplay-factory/queue/slots/B4.md on branch factory/gameplay-v1 of nikahanghojjati-oss/fifa17-career-showdown2 (or open https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/gameplay-v1/project-documents/gameplay-factory/queue/slots/B4.md) and do exactly what it says. When I type next, read it again and do the next job on its list.",
+   "file": "queue/slots/B4.md",
+   "jobs": [
+    1126,
+    1127,
+    1128,
+    1129,
+    1130
+   ]
+  },
+  "B5": {
+   "kind": "worker",
+   "account": "B",
+   "standing_line": "Career Mode Showdown factory, slot B5. With the GitHub connector, read project-documents/gameplay-factory/queue/slots/B5.md on branch factory/gameplay-v1 of nikahanghojjati-oss/fifa17-career-showdown2 (or open https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/gameplay-v1/project-documents/gameplay-factory/queue/slots/B5.md) and do exactly what it says. When I type next, read it again and do the next job on its list.",
+   "file": "queue/slots/B5.md",
+   "jobs": [
+    1131,
+    1132,
+    1133
+   ]
+  },
+  "B6": {
+   "kind": "worker",
+   "account": "B",
+   "standing_line": "Career Mode Showdown factory, slot B6. With the GitHub connector, read project-documents/gameplay-factory/queue/slots/B6.md on branch factory/gameplay-v1 of nikahanghojjati-oss/fifa17-career-showdown2 (or open https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/gameplay-v1/project-documents/gameplay-factory/queue/slots/B6.md) and do exactly what it says. When I type next, read it again and do the next job on its list.",
+   "file": "queue/slots/B6.md",
+   "jobs": [
+    1134,
+    1135,
+    1136
+   ]
+  },
+  "B7": {
+   "kind": "worker",
+   "account": "B",
+   "standing_line": "Career Mode Showdown factory, slot B7. With the GitHub connector, read project-documents/gameplay-factory/queue/slots/B7.md on branch factory/gameplay-v1 of nikahanghojjati-oss/fifa17-career-showdown2 (or open https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/gameplay-v1/project-documents/gameplay-factory/queue/slots/B7.md) and do exactly what it says. When I type next, read it again and do the next job on its list.",
+   "file": "queue/slots/B7.md",
+   "jobs": [
+    1137,
+    1138,
+    1139
+   ]
+  },
+  "B8": {
+   "kind": "worker",
+   "account": "B",
+   "standing_line": "Career Mode Showdown factory, slot B8. With the GitHub connector, read project-documents/gameplay-factory/queue/slots/B8.md on branch factory/gameplay-v1 of nikahanghojjati-oss/fifa17-career-showdown2 (or open https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/gameplay-v1/project-documents/gameplay-factory/queue/slots/B8.md) and do exactly what it says. When I type next, read it again and do the next job on its list.",
+   "file": "queue/slots/B8.md",
+   "jobs": [
+    1140,
+    1141,
+    1142
+   ]
+  },
+  "B9": {
+   "kind": "reviewer",
+   "account": "B",
+   "standing_line": "Career Mode Showdown factory, slot B9. With the GitHub connector, read project-documents/gameplay-factory/queue/slots/B9.md on branch factory/gameplay-v1 of nikahanghojjati-oss/fifa17-career-showdown2 (or open https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/gameplay-v1/project-documents/gameplay-factory/queue/slots/B9.md) and do exactly what it says. When I type next, read it again and do the next job on its list.",
+   "file": "queue/slots/B9.md",
+   "jobs": []
+  },
+  "B10": {
+   "kind": "reviewer",
+   "account": "B",
+   "standing_line": "Career Mode Showdown factory, slot B10. With the GitHub connector, read project-documents/gameplay-factory/queue/slots/B10.md on branch factory/gameplay-v1 of nikahanghojjati-oss/fifa17-career-showdown2 (or open https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/gameplay-v1/project-documents/gameplay-factory/queue/slots/B10.md) and do exactly what it says. When I type next, read it again and do the next job on its list.",
+   "file": "queue/slots/B10.md",
+   "jobs": []
+  }
+ },
+ "tickets": {
+  "1061": {
+   "title": "Home: phone layout fixes (upright and sideways)",
+   "stage": 2,
+   "screen": "home",
+   "mode": "code",
+   "prefix": "gameplay/job-1061-",
+   "kind": "s2a"
+  },
+  "1062": {
+   "title": "Home: small desktop and laptop layout fixes",
+   "stage": 2,
+   "screen": "home",
+   "mode": "code",
+   "prefix": "gameplay/job-1062-",
+   "kind": "s2b"
+  },
+  "1063": {
+   "title": "Home: match the desktop screen to its desktop mockup",
+   "stage": 3,
+   "screen": "home",
+   "mode": "code",
+   "prefix": "gameplay/job-1063-",
+   "kind": "s3"
+  },
+  "1064": {
+   "title": "Home: phone mockup (HTML and CSS study)",
+   "stage": 4,
+   "screen": "home",
+   "mode": "study",
+   "prefix": "study/job-1064-",
+   "kind": "s4"
+  },
+  "1065": {
+   "title": "Home: improved desktop version (HTML and CSS study)",
+   "stage": 5,
+   "screen": "home",
+   "mode": "study",
+   "prefix": "study/job-1065-",
+   "kind": "s5"
+  },
+  "1066": {
+   "title": "Connect Players (start and join): phone layout fixes (upright and sideways)",
+   "stage": 2,
+   "screen": "start-join",
+   "mode": "code",
+   "prefix": "gameplay/job-1066-",
+   "kind": "s2a"
+  },
+  "1067": {
+   "title": "Connect Players (start and join): small desktop and laptop layout fixes",
+   "stage": 2,
+   "screen": "start-join",
+   "mode": "code",
+   "prefix": "gameplay/job-1067-",
+   "kind": "s2b"
+  },
+  "1068": {
+   "title": "Connect Players (start and join): match the desktop screen to its desktop mockup",
+   "stage": 3,
+   "screen": "start-join",
+   "mode": "code",
+   "prefix": "gameplay/job-1068-",
+   "kind": "s3"
+  },
+  "1069": {
+   "title": "Connect Players (start and join): phone mockup (HTML and CSS study)",
+   "stage": 4,
+   "screen": "start-join",
+   "mode": "study",
+   "prefix": "study/job-1069-",
+   "kind": "s4"
+  },
+  "1070": {
+   "title": "Connect Players (start and join): improved desktop version (HTML and CSS study)",
+   "stage": 5,
+   "screen": "start-join",
+   "mode": "study",
+   "prefix": "study/job-1070-",
+   "kind": "s5"
+  },
+  "1071": {
+   "title": "Select League: phone layout fixes (upright and sideways)",
+   "stage": 2,
+   "screen": "league",
+   "mode": "code",
+   "prefix": "gameplay/job-1071-",
+   "kind": "s2a"
+  },
+  "1072": {
+   "title": "Select League: small desktop and laptop layout fixes",
+   "stage": 2,
+   "screen": "league",
+   "mode": "code",
+   "prefix": "gameplay/job-1072-",
+   "kind": "s2b"
+  },
+  "1073": {
+   "title": "Select League: match the desktop screen to its desktop mockup",
+   "stage": 3,
+   "screen": "league",
+   "mode": "code",
+   "prefix": "gameplay/job-1073-",
+   "kind": "s3"
+  },
+  "1074": {
+   "title": "Select League: phone mockup (HTML and CSS study)",
+   "stage": 4,
+   "screen": "league",
+   "mode": "study",
+   "prefix": "study/job-1074-",
+   "kind": "s4"
+  },
+  "1075": {
+   "title": "Select League: improved desktop version (HTML and CSS study)",
+   "stage": 5,
+   "screen": "league",
+   "mode": "study",
+   "prefix": "study/job-1075-",
+   "kind": "s5"
+  },
+  "1076": {
+   "title": "Club packs: phone layout fixes (upright and sideways)",
+   "stage": 2,
+   "screen": "club",
+   "mode": "code",
+   "prefix": "gameplay/job-1076-",
+   "kind": "s2a"
+  },
+  "1077": {
+   "title": "Club packs: small desktop and laptop layout fixes",
+   "stage": 2,
+   "screen": "club",
+   "mode": "code",
+   "prefix": "gameplay/job-1077-",
+   "kind": "s2b"
+  },
+  "1078": {
+   "title": "Club packs: match the desktop screen to its desktop mockup",
+   "stage": 3,
+   "screen": "club",
+   "mode": "code",
+   "prefix": "gameplay/job-1078-",
+   "kind": "s3"
+  },
+  "1079": {
+   "title": "Club packs: phone mockup (HTML and CSS study)",
+   "stage": 4,
+   "screen": "club",
+   "mode": "study",
+   "prefix": "study/job-1079-",
+   "kind": "s4"
+  },
+  "1080": {
+   "title": "Club packs: improved desktop version (HTML and CSS study)",
+   "stage": 5,
+   "screen": "club",
+   "mode": "study",
+   "prefix": "study/job-1080-",
+   "kind": "s5"
+  },
+  "1081": {
+   "title": "Transfer challenge and Signing Entry: phone layout fixes (upright and sideways)",
+   "stage": 2,
+   "screen": "transfer",
+   "mode": "code",
+   "prefix": "gameplay/job-1081-",
+   "kind": "s2a"
+  },
+  "1082": {
+   "title": "Transfer challenge and Signing Entry: small desktop and laptop layout fixes",
+   "stage": 2,
+   "screen": "transfer",
+   "mode": "code",
+   "prefix": "gameplay/job-1082-",
+   "kind": "s2b"
+  },
+  "1083": {
+   "title": "Transfer challenge and Signing Entry: match the desktop screen to its desktop mockup",
+   "stage": 3,
+   "screen": "transfer",
+   "mode": "code",
+   "prefix": "gameplay/job-1083-",
+   "kind": "s3"
+  },
+  "1084": {
+   "title": "Transfer challenge and Signing Entry: phone mockup (HTML and CSS study)",
+   "stage": 4,
+   "screen": "transfer",
+   "mode": "study",
+   "prefix": "study/job-1084-",
+   "kind": "s4"
+  },
+  "1085": {
+   "title": "Transfer challenge and Signing Entry: improved desktop version (HTML and CSS study)",
+   "stage": 5,
+   "screen": "transfer",
+   "mode": "study",
+   "prefix": "study/job-1085-",
+   "kind": "s5"
+  },
+  "1086": {
+   "title": "Season Results: phone layout fixes (upright and sideways)",
+   "stage": 2,
+   "screen": "season-results",
+   "mode": "code",
+   "prefix": "gameplay/job-1086-",
+   "kind": "s2a"
+  },
+  "1087": {
+   "title": "Season Results: small desktop and laptop layout fixes",
+   "stage": 2,
+   "screen": "season-results",
+   "mode": "code",
+   "prefix": "gameplay/job-1087-",
+   "kind": "s2b"
+  },
+  "1088": {
+   "title": "Season Results: match the desktop screen to its desktop mockup",
+   "stage": 3,
+   "screen": "season-results",
+   "mode": "code",
+   "prefix": "gameplay/job-1088-",
+   "kind": "s3"
+  },
+  "1089": {
+   "title": "Season Results: phone mockup (HTML and CSS study)",
+   "stage": 4,
+   "screen": "season-results",
+   "mode": "study",
+   "prefix": "study/job-1089-",
+   "kind": "s4"
+  },
+  "1090": {
+   "title": "Season Results: improved desktop version (HTML and CSS study)",
+   "stage": 5,
+   "screen": "season-results",
+   "mode": "study",
+   "prefix": "study/job-1090-",
+   "kind": "s5"
+  },
+  "1091": {
+   "title": "Standings: phone layout fixes (upright and sideways)",
+   "stage": 2,
+   "screen": "standings",
+   "mode": "code",
+   "prefix": "gameplay/job-1091-",
+   "kind": "s2a"
+  },
+  "1092": {
+   "title": "Standings: small desktop and laptop layout fixes",
+   "stage": 2,
+   "screen": "standings",
+   "mode": "code",
+   "prefix": "gameplay/job-1092-",
+   "kind": "s2b"
+  },
+  "1093": {
+   "title": "Standings: match the desktop screen to its desktop mockup",
+   "stage": 3,
+   "screen": "standings",
+   "mode": "code",
+   "prefix": "gameplay/job-1093-",
+   "kind": "s3"
+  },
+  "1094": {
+   "title": "Standings: phone mockup (HTML and CSS study)",
+   "stage": 4,
+   "screen": "standings",
+   "mode": "study",
+   "prefix": "study/job-1094-",
+   "kind": "s4"
+  },
+  "1095": {
+   "title": "Standings: improved desktop version (HTML and CSS study)",
+   "stage": 5,
+   "screen": "standings",
+   "mode": "study",
+   "prefix": "study/job-1095-",
+   "kind": "s5"
+  },
+  "1096": {
+   "title": "Final Winner (Showdown Champion): phone layout fixes (upright and sideways)",
+   "stage": 2,
+   "screen": "final-winner",
+   "mode": "code",
+   "prefix": "gameplay/job-1096-",
+   "kind": "s2a"
+  },
+  "1097": {
+   "title": "Final Winner (Showdown Champion): small desktop and laptop layout fixes",
+   "stage": 2,
+   "screen": "final-winner",
+   "mode": "code",
+   "prefix": "gameplay/job-1097-",
+   "kind": "s2b"
+  },
+  "1098": {
+   "title": "Final Winner (Showdown Champion): match the desktop screen to its desktop mockup",
+   "stage": 3,
+   "screen": "final-winner",
+   "mode": "code",
+   "prefix": "gameplay/job-1098-",
+   "kind": "s3"
+  },
+  "1099": {
+   "title": "Final Winner (Showdown Champion): phone mockup (HTML and CSS study)",
+   "stage": 4,
+   "screen": "final-winner",
+   "mode": "study",
+   "prefix": "study/job-1099-",
+   "kind": "s4"
+  },
+  "1100": {
+   "title": "Final Winner (Showdown Champion): improved desktop version (HTML and CSS study)",
+   "stage": 5,
+   "screen": "final-winner",
+   "mode": "study",
+   "prefix": "study/job-1100-",
+   "kind": "s5"
+  },
+  "1101": {
+   "title": "Legacy: phone layout fixes (upright and sideways)",
+   "stage": 2,
+   "screen": "legacy",
+   "mode": "code",
+   "prefix": "gameplay/job-1101-",
+   "kind": "s2a"
+  },
+  "1102": {
+   "title": "Legacy: small desktop and laptop layout fixes",
+   "stage": 2,
+   "screen": "legacy",
+   "mode": "code",
+   "prefix": "gameplay/job-1102-",
+   "kind": "s2b"
+  },
+  "1103": {
+   "title": "Legacy: match the desktop screen to its desktop mockup",
+   "stage": 3,
+   "screen": "legacy",
+   "mode": "code",
+   "prefix": "gameplay/job-1103-",
+   "kind": "s3"
+  },
+  "1104": {
+   "title": "Legacy: phone mockup (HTML and CSS study)",
+   "stage": 4,
+   "screen": "legacy",
+   "mode": "study",
+   "prefix": "study/job-1104-",
+   "kind": "s4"
+  },
+  "1105": {
+   "title": "Legacy: improved desktop version (HTML and CSS study)",
+   "stage": 5,
+   "screen": "legacy",
+   "mode": "study",
+   "prefix": "study/job-1105-",
+   "kind": "s5"
+  },
+  "1106": {
+   "title": "Trophy Room: phone layout fixes (upright and sideways)",
+   "stage": 2,
+   "screen": "trophy-room",
+   "mode": "code",
+   "prefix": "gameplay/job-1106-",
+   "kind": "s2a"
+  },
+  "1107": {
+   "title": "Trophy Room: small desktop and laptop layout fixes",
+   "stage": 2,
+   "screen": "trophy-room",
+   "mode": "code",
+   "prefix": "gameplay/job-1107-",
+   "kind": "s2b"
+  },
+  "1108": {
+   "title": "Trophy Room: match the desktop screen to its desktop mockup",
+   "stage": 3,
+   "screen": "trophy-room",
+   "mode": "code",
+   "prefix": "gameplay/job-1108-",
+   "kind": "s3"
+  },
+  "1109": {
+   "title": "Trophy Room: phone mockup (HTML and CSS study)",
+   "stage": 4,
+   "screen": "trophy-room",
+   "mode": "study",
+   "prefix": "study/job-1109-",
+   "kind": "s4"
+  },
+  "1110": {
+   "title": "Trophy Room: improved desktop version (HTML and CSS study)",
+   "stage": 5,
+   "screen": "trophy-room",
+   "mode": "study",
+   "prefix": "study/job-1110-",
+   "kind": "s5"
+  },
+  "1111": {
+   "title": "Rivalry Statistics: phone layout fixes (upright and sideways)",
+   "stage": 2,
+   "screen": "rivalry-statistics",
+   "mode": "code",
+   "prefix": "gameplay/job-1111-",
+   "kind": "s2a"
+  },
+  "1112": {
+   "title": "Rivalry Statistics: small desktop and laptop layout fixes",
+   "stage": 2,
+   "screen": "rivalry-statistics",
+   "mode": "code",
+   "prefix": "gameplay/job-1112-",
+   "kind": "s2b"
+  },
+  "1113": {
+   "title": "Rivalry Statistics: match the desktop screen to its desktop mockup",
+   "stage": 3,
+   "screen": "rivalry-statistics",
+   "mode": "code",
+   "prefix": "gameplay/job-1113-",
+   "kind": "s3"
+  },
+  "1114": {
+   "title": "Rivalry Statistics: phone mockup (HTML and CSS study)",
+   "stage": 4,
+   "screen": "rivalry-statistics",
+   "mode": "study",
+   "prefix": "study/job-1114-",
+   "kind": "s4"
+  },
+  "1115": {
+   "title": "Rivalry Statistics: improved desktop version (HTML and CSS study)",
+   "stage": 5,
+   "screen": "rivalry-statistics",
+   "mode": "study",
+   "prefix": "study/job-1115-",
+   "kind": "s5"
+  },
+  "1116": {
+   "title": "Career Statistics: phone layout fixes (upright and sideways)",
+   "stage": 2,
+   "screen": "career-statistics",
+   "mode": "code",
+   "prefix": "gameplay/job-1116-",
+   "kind": "s2a"
+  },
+  "1117": {
+   "title": "Career Statistics: small desktop and laptop layout fixes",
+   "stage": 2,
+   "screen": "career-statistics",
+   "mode": "code",
+   "prefix": "gameplay/job-1117-",
+   "kind": "s2b"
+  },
+  "1118": {
+   "title": "Career Statistics: match the desktop screen to its desktop mockup",
+   "stage": 3,
+   "screen": "career-statistics",
+   "mode": "code",
+   "prefix": "gameplay/job-1118-",
+   "kind": "s3"
+  },
+  "1119": {
+   "title": "Career Statistics: phone mockup (HTML and CSS study)",
+   "stage": 4,
+   "screen": "career-statistics",
+   "mode": "study",
+   "prefix": "study/job-1119-",
+   "kind": "s4"
+  },
+  "1120": {
+   "title": "Career Statistics: improved desktop version (HTML and CSS study)",
+   "stage": 5,
+   "screen": "career-statistics",
+   "mode": "study",
+   "prefix": "study/job-1120-",
+   "kind": "s5"
+  },
+  "1121": {
+   "title": "Rule Book: phone layout fixes (upright and sideways)",
+   "stage": 2,
+   "screen": "rule-book",
+   "mode": "code",
+   "prefix": "gameplay/job-1121-",
+   "kind": "s2a"
+  },
+  "1122": {
+   "title": "Rule Book: small desktop and laptop layout fixes",
+   "stage": 2,
+   "screen": "rule-book",
+   "mode": "code",
+   "prefix": "gameplay/job-1122-",
+   "kind": "s2b"
+  },
+  "1123": {
+   "title": "Rule Book: match the desktop screen to its desktop mockup",
+   "stage": 3,
+   "screen": "rule-book",
+   "mode": "code",
+   "prefix": "gameplay/job-1123-",
+   "kind": "s3"
+  },
+  "1124": {
+   "title": "Rule Book: phone mockup (HTML and CSS study)",
+   "stage": 4,
+   "screen": "rule-book",
+   "mode": "study",
+   "prefix": "study/job-1124-",
+   "kind": "s4"
+  },
+  "1125": {
+   "title": "Rule Book: improved desktop version (HTML and CSS study)",
+   "stage": 5,
+   "screen": "rule-book",
+   "mode": "study",
+   "prefix": "study/job-1125-",
+   "kind": "s5"
+  },
+  "1126": {
+   "title": "Settings: phone layout fixes (upright and sideways)",
+   "stage": 2,
+   "screen": "settings",
+   "mode": "code",
+   "prefix": "gameplay/job-1126-",
+   "kind": "s2a"
+  },
+  "1127": {
+   "title": "Settings: small desktop and laptop layout fixes",
+   "stage": 2,
+   "screen": "settings",
+   "mode": "code",
+   "prefix": "gameplay/job-1127-",
+   "kind": "s2b"
+  },
+  "1128": {
+   "title": "Settings: match the desktop screen to its desktop mockup",
+   "stage": 3,
+   "screen": "settings",
+   "mode": "code",
+   "prefix": "gameplay/job-1128-",
+   "kind": "s3"
+  },
+  "1129": {
+   "title": "Settings: phone mockup (HTML and CSS study)",
+   "stage": 4,
+   "screen": "settings",
+   "mode": "study",
+   "prefix": "study/job-1129-",
+   "kind": "s4"
+  },
+  "1130": {
+   "title": "Settings: improved desktop version (HTML and CSS study)",
+   "stage": 5,
+   "screen": "settings",
+   "mode": "study",
+   "prefix": "study/job-1130-",
+   "kind": "s5"
+  },
+  "1131": {
+   "title": "Tap targets of at least 44 px on every Team V screen",
+   "stage": 2,
+   "screen": "shared",
+   "mode": "code",
+   "prefix": "gameplay/job-1131-",
+   "kind": "x-tap-targets"
+  },
+  "1132": {
+   "title": "Long manager and club names never break a layout",
+   "stage": 2,
+   "screen": "shared",
+   "mode": "code",
+   "prefix": "gameplay/job-1132-",
+   "kind": "x-long-names"
+  },
+  "1133": {
+   "title": "Phone notch and bottom bar safe areas",
+   "stage": 2,
+   "screen": "shared",
+   "mode": "code",
+   "prefix": "gameplay/job-1133-",
+   "kind": "x-safe-area"
+  },
+  "1134": {
+   "title": "Phone held sideways: nothing hidden or overlapping",
+   "stage": 2,
+   "screen": "shared",
+   "mode": "code",
+   "prefix": "gameplay/job-1134-",
+   "kind": "x-short-landscape"
+  },
+  "1135": {
+   "title": "Keyboard focus rings and reduced motion",
+   "stage": 2,
+   "screen": "shared",
+   "mode": "code",
+   "prefix": "gameplay/job-1135-",
+   "kind": "x-focus-motion"
+  },
+  "1136": {
+   "title": "Empty, loading and waiting messages read the same everywhere",
+   "stage": 2,
+   "screen": "shared",
+   "mode": "code",
+   "prefix": "gameplay/job-1136-",
+   "kind": "x-empty-states"
+  },
+  "1137": {
+   "title": "Text contrast on plates and badges",
+   "stage": 2,
+   "screen": "shared",
+   "mode": "code",
+   "prefix": "gameplay/job-1137-",
+   "kind": "x-contrast"
+  },
+  "1138": {
+   "title": "Fonts: fallback while loading, no jumps",
+   "stage": 2,
+   "screen": "shared",
+   "mode": "code",
+   "prefix": "gameplay/job-1138-",
+   "kind": "x-fonts"
+  },
+  "1139": {
+   "title": "Picture descriptions and screen reader labels",
+   "stage": 2,
+   "screen": "shared",
+   "mode": "code",
+   "prefix": "gameplay/job-1139-",
+   "kind": "x-alt-text"
+  },
+  "1140": {
+   "title": "Stacking order: dialogs above screens, toasts above dialogs",
+   "stage": 2,
+   "screen": "shared",
+   "mode": "code",
+   "prefix": "gameplay/job-1140-",
+   "kind": "x-layers"
+  },
+  "1141": {
+   "title": "Hard-coded colours that should use the design tokens",
+   "stage": 2,
+   "screen": "shared",
+   "mode": "code",
+   "prefix": "gameplay/job-1141-",
+   "kind": "x-tokens"
+  },
+  "1142": {
+   "title": "Hover-only effects must also work by touch",
+   "stage": 2,
+   "screen": "shared",
+   "mode": "code",
+   "prefix": "gameplay/job-1142-",
+   "kind": "x-touch-hover"
+  }
+ },
+ "base_branches": {
+  "code": "gameplay/bug-list-1",
+  "study": "study/mega-queue"
+ }
+}

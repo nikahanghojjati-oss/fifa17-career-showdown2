@@ -1,0 +1,646 @@
+{
+ "updated": "2026-10-10T01:53:29Z",
+ "counts": {
+  "waiting": 82
+ },
+ "stages": {
+  "2": {
+   "total": 40,
+   "taken": 0,
+   "merged": 0
+  },
+  "3": {
+   "total": 14,
+   "taken": 0,
+   "merged": 0
+  },
+  "4": {
+   "total": 14,
+   "taken": 0,
+   "merged": 0
+  },
+  "5": {
+   "total": 14,
+   "taken": 0,
+   "merged": 0
+  }
+ },
+ "slots": {
+  "A1": {
+   "kind": "worker",
+   "next_job": "1061",
+   "taken": 0,
+   "total": 5
+  },
+  "A2": {
+   "kind": "worker",
+   "next_job": "1066",
+   "taken": 0,
+   "total": 5
+  },
+  "A3": {
+   "kind": "worker",
+   "next_job": "1071",
+   "taken": 0,
+   "total": 5
+  },
+  "A4": {
+   "kind": "worker",
+   "next_job": "1076",
+   "taken": 0,
+   "total": 5
+  },
+  "A5": {
+   "kind": "worker",
+   "next_job": "1081",
+   "taken": 0,
+   "total": 5
+  },
+  "A6": {
+   "kind": "worker",
+   "next_job": "1086",
+   "taken": 0,
+   "total": 5
+  },
+  "A7": {
+   "kind": "worker",
+   "next_job": "1091",
+   "taken": 0,
+   "total": 5
+  },
+  "A8": {
+   "kind": "worker",
+   "next_job": "1096",
+   "taken": 0,
+   "total": 5
+  },
+  "A9": {
+   "kind": "worker",
+   "next_job": "1101",
+   "taken": 0,
+   "total": 5
+  },
+  "A10": {
+   "kind": "worker",
+   "next_job": "1106",
+   "taken": 0,
+   "total": 5
+  },
+  "B1": {
+   "kind": "worker",
+   "next_job": "1111",
+   "taken": 0,
+   "total": 5
+  },
+  "B2": {
+   "kind": "worker",
+   "next_job": "1116",
+   "taken": 0,
+   "total": 5
+  },
+  "B3": {
+   "kind": "worker",
+   "next_job": "1121",
+   "taken": 0,
+   "total": 5
+  },
+  "B4": {
+   "kind": "worker",
+   "next_job": "1126",
+   "taken": 0,
+   "total": 5
+  },
+  "B5": {
+   "kind": "worker",
+   "next_job": "1131",
+   "taken": 0,
+   "total": 3
+  },
+  "B6": {
+   "kind": "worker",
+   "next_job": "1134",
+   "taken": 0,
+   "total": 3
+  },
+  "B7": {
+   "kind": "worker",
+   "next_job": "1137",
+   "taken": 0,
+   "total": 3
+  },
+  "B8": {
+   "kind": "worker",
+   "next_job": "1140",
+   "taken": 0,
+   "total": 3
+  },
+  "B9": {
+   "kind": "reviewer",
+   "next_job": null,
+   "taken": 0,
+   "total": 0,
+   "reviews_waiting": 0
+  },
+  "B10": {
+   "kind": "reviewer",
+   "next_job": null,
+   "taken": 0,
+   "total": 0,
+   "reviews_waiting": 0
+  }
+ },
+ "tickets": {
+  "1061": {
+   "state": "waiting",
+   "pr": null,
+   "pr_url": null,
+   "branch": null
+  },
+  "1062": {
+   "state": "waiting",
+   "pr": null,
+   "pr_url": null,
+   "branch": null
+  },
+  "1063": {
+   "state": "waiting",
+   "pr": null,
+   "pr_url": null,
+   "branch": null
+  },
+  "1064": {
+   "state": "waiting",
+   "pr": null,
+   "pr_url": null,
+   "branch": null
+  },
+  "1065": {
+   "state": "waiting",
+   "pr": null,
+   "pr_url": null,
+   "branch": null
+  },
+  "1066": {
+   "state": "waiting",
+   "pr": null,
+   "pr_url": null,
+   "branch": null
+  },
+  "1067": {
+   "state": "waiting",
+   "pr": null,
+   "pr_url": null,
+   "branch": null
+  },
+  "1068": {
+   "state": "waiting",
+   "pr": null,
+   "pr_url": null,
+   "branch": null
+  },
+  "1069": {
+   "state": "waiting",
+   "pr": null,
+   "pr_url": null,
+   "branch": null
+  },
+  "1070": {
+   "state": "waiting",
+   "pr": null,
+   "pr_url": null,
+   "branch": null
+  },
+  "1071": {
+   "state": "waiting",
+   "pr": null,
+   "pr_url": null,
+   "branch": null
+  },
+  "1072": {
+   "state": "waiting",
+   "pr": null,
+   "pr_url": null,
+   "branch": null
+  },
+  "1073": {
+   "state": "waiting",
+   "pr": null,
+   "pr_url": null,
+   "branch": null
+  },
+  "1074": {
+   "state": "waiting",
+   "pr": null,
+   "pr_url": null,
+   "branch": null
+  },
+  "1075": {
+   "state": "waiting",
+   "pr": null,
+   "pr_url": null,
+   "branch": null
+  },
+  "1076": {
+   "state": "waiting",
+   "pr": null,
+   "pr_url": null,
+   "branch": null
+  },
+  "1077": {
+   "state": "waiting",
+   "pr": null,
+   "pr_url": null,
+   "branch": null
+  },
+  "1078": {
+   "state": "waiting",
+   "pr": null,
+   "pr_url": null,
+   "branch": null
+  },
+  "1079": {
+   "state": "waiting",
+   "pr": null,
+   "pr_url": null,
+   "branch": null
+  },
+  "1080": {
+   "state": "waiting",
+   "pr": null,
+   "pr_url": null,
+   "branch": null
+  },
+  "1081": {
+   "state": "waiting",
+   "pr": null,
+   "pr_url": null,
+   "branch": null
+  },
+  "1082": {
+   "state": "waiting",
+   "pr": null,
+   "pr_url": null,
+   "branch": null
+  },
+  "1083": {
+   "state": "waiting",
+   "pr": null,
+   "pr_url": null,
+   "branch": null
+  },
+  "1084": {
+   "state": "waiting",
+   "pr": null,
+   "pr_url": null,
+   "branch": null
+  },
+  "1085": {
+   "state": "waiting",
+   "pr": null,
+   "pr_url": null,
+   "branch": null
+  },
+  "1086": {
+   "state": "waiting",
+   "pr": null,
+   "pr_url": null,
+   "branch": null
+  },
+  "1087": {
+   "state": "waiting",
+   "pr": null,
+   "pr_url": null,
+   "branch": null
+  },
+  "1088": {
+   "state": "waiting",
+   "pr": null,
+   "pr_url": null,
+   "branch": null
+  },
+  "1089": {
+   "state": "waiting",
+   "pr": null,
+   "pr_url": null,
+   "branch": null
+  },
+  "1090": {
+   "state": "waiting",
+   "pr": null,
+   "pr_url": null,
+   "branch": null
+  },
+  "1091": {
+   "state": "waiting",
+   "pr": null,
+   "pr_url": null,
+   "branch": null
+  },
+  "1092": {
+   "state": "waiting",
+   "pr": null,
+   "pr_url": null,
+   "branch": null
+  },
+  "1093": {
+   "state": "waiting",
+   "pr": null,
+   "pr_url": null,
+   "branch": null
+  },
+  "1094": {
+   "state": "waiting",
+   "pr": null,
+   "pr_url": null,
+   "branch": null
+  },
+  "1095": {
+   "state": "waiting",
+   "pr": null,
+   "pr_url": null,
+   "branch": null
+  },
+  "1096": {
+   "state": "waiting",
+   "pr": null,
+   "pr_url": null,
+   "branch": null
+  },
+  "1097": {
+   "state": "waiting",
+   "pr": null,
+   "pr_url": null,
+   "branch": null
+  },
+  "1098": {
+   "state": "waiting",
+   "pr": null,
+   "pr_url": null,
+   "branch": null
+  },
+  "1099": {
+   "state": "waiting",
+   "pr": null,
+   "pr_url": null,
+   "branch": null
+  },
+  "1100": {
+   "state": "waiting",
+   "pr": null,
+   "pr_url": null,
+   "branch": null
+  },
+  "1101": {
+   "state": "waiting",
+   "pr": null,
+   "pr_url": null,
+   "branch": null
+  },
+  "1102": {
+   "state": "waiting",
+   "pr": null,
+   "pr_url": null,
+   "branch": null
+  },
+  "1103": {
+   "state": "waiting",
+   "pr": null,
+   "pr_url": null,
+   "branch": null
+  },
+  "1104": {
+   "state": "waiting",
+   "pr": null,
+   "pr_url": null,
+   "branch": null
+  },
+  "1105": {
+   "state": "waiting",
+   "pr": null,
+   "pr_url": null,
+   "branch": null
+  },
+  "1106": {
+   "state": "waiting",
+   "pr": null,
+   "pr_url": null,
+   "branch": null
+  },
+  "1107": {
+   "state": "waiting",
+   "pr": null,
+   "pr_url": null,
+   "branch": null
+  },
+  "1108": {
+   "state": "waiting",
+   "pr": null,
+   "pr_url": null,
+   "branch": null
+  },
+  "1109": {
+   "state": "waiting",
+   "pr": null,
+   "pr_url": null,
+   "branch": null
+  },
+  "1110": {
+   "state": "waiting",
+   "pr": null,
+   "pr_url": null,
+   "branch": null
+  },
+  "1111": {
+   "state": "waiting",
+   "pr": null,
+   "pr_url": null,
+   "branch": null
+  },
+  "1112": {
+   "state": "waiting",
+   "pr": null,
+   "pr_url": null,
+   "branch": null
+  },
+  "1113": {
+   "state": "waiting",
+   "pr": null,
+   "pr_url": null,
+   "branch": null
+  },
+  "1114": {
+   "state": "waiting",
+   "pr": null,
+   "pr_url": null,
+   "branch": null
+  },
+  "1115": {
+   "state": "waiting",
+   "pr": null,
+   "pr_url": null,
+   "branch": null
+  },
+  "1116": {
+   "state": "waiting",
+   "pr": null,
+   "pr_url": null,
+   "branch": null
+  },
+  "1117": {
+   "state": "waiting",
+   "pr": null,
+   "pr_url": null,
+   "branch": null
+  },
+  "1118": {
+   "state": "waiting",
+   "pr": null,
+   "pr_url": null,
+   "branch": null
+  },
+  "1119": {
+   "state": "waiting",
+   "pr": null,
+   "pr_url": null,
+   "branch": null
+  },
+  "1120": {
+   "state": "waiting",
+   "pr": null,
+   "pr_url": null,
+   "branch": null
+  },
+  "1121": {
+   "state": "waiting",
+   "pr": null,
+   "pr_url": null,
+   "branch": null
+  },
+  "1122": {
+   "state": "waiting",
+   "pr": null,
+   "pr_url": null,
+   "branch": null
+  },
+  "1123": {
+   "state": "waiting",
+   "pr": null,
+   "pr_url": null,
+   "branch": null
+  },
+  "1124": {
+   "state": "waiting",
+   "pr": null,
+   "pr_url": null,
+   "branch": null
+  },
+  "1125": {
+   "state": "waiting",
+   "pr": null,
+   "pr_url": null,
+   "branch": null
+  },
+  "1126": {
+   "state": "waiting",
+   "pr": null,
+   "pr_url": null,
+   "branch": null
+  },
+  "1127": {
+   "state": "waiting",
+   "pr": null,
+   "pr_url": null,
+   "branch": null
+  },
+  "1128": {
+   "state": "waiting",
+   "pr": null,
+   "pr_url": null,
+   "branch": null
+  },
+  "1129": {
+   "state": "waiting",
+   "pr": null,
+   "pr_url": null,
+   "branch": null
+  },
+  "1130": {
+   "state": "waiting",
+   "pr": null,
+   "pr_url": null,
+   "branch": null
+  },
+  "1131": {
+   "state": "waiting",
+   "pr": null,
+   "pr_url": null,
+   "branch": null
+  },
+  "1132": {
+   "state": "waiting",
+   "pr": null,
+   "pr_url": null,
+   "branch": null
+  },
+  "1133": {
+   "state": "waiting",
+   "pr": null,
+   "pr_url": null,
+   "branch": null
+  },
+  "1134": {
+   "state": "waiting",
+   "pr": null,
+   "pr_url": null,
+   "branch": null
+  },
+  "1135": {
+   "state": "waiting",
+   "pr": null,
+   "pr_url": null,
+   "branch": null
+  },
+  "1136": {
+   "state": "waiting",
+   "pr": null,
+   "pr_url": null,
+   "branch": null
+  },
+  "1137": {
+   "state": "waiting",
+   "pr": null,
+   "pr_url": null,
+   "branch": null
+  },
+  "1138": {
+   "state": "waiting",
+   "pr": null,
+   "pr_url": null,
+   "branch": null
+  },
+  "1139": {
+   "state": "waiting",
+   "pr": null,
+   "pr_url": null,
+   "branch": null
+  },
+  "1140": {
+   "state": "waiting",
+   "pr": null,
+   "pr_url": null,
+   "branch": null
+  },
+  "1141": {
+   "state": "waiting",
+   "pr": null,
+   "pr_url": null,
+   "branch": null
+  },
+  "1142": {
+   "state": "waiting",
+   "pr": null,
+   "pr_url": null,
+   "branch": null
+  }
+ }
+}
