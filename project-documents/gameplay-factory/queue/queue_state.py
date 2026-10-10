@@ -52,7 +52,7 @@ def main():
             st = "branch_only"
         else:
             st = "waiting"
-        state[num] = {"state": st, "pr": pr["number"] if pr else None, "pr_url": pr["html_url"] if pr else None,
+        state[num] = {"state": st, "pr": pr["number"] if pr else None, "draft": bool(pr and pr.get("draft")), "pr_url": pr["html_url"] if pr else None,
                       "branch": bs[0] if bs else None}
     slots = {}
     for s, sl in q["slots"].items():
@@ -87,7 +87,8 @@ def main():
         for k in sorted(o, key=int):
             t = q["tickets"][str(o[k]["job"])]
             if t["mode"] == "code" and state[str(o[k]["job"])]["state"] == "pr_open":
-                open_code += 1; locked.add(t["group"])
+                locked.add(t["group"])
+                if not state[str(o[k]["job"])]["draft"]: open_code += 1  # cap counts ready (non-draft) code PRs
         seen = set(locked)
         for k in sorted(o, key=int):
             j = str(o[k]["job"]); t = q["tickets"][j]

@@ -251,7 +251,8 @@ AUDIT_MODULES = [
 ]
 
 def generic(n, title, stage, base, body, files, branch_kind="gameplay", tag="", done=""):
-    extra = "- **Open the pull request as a DRAFT** (this job adds new files only, so it needs no full CI run; the lead reads drafts without waiting for checks).\n" if base != BASE else ""
+    extra = ("- **Open the pull request as a DRAFT** (this job adds new files only, so it needs no full CI run; the lead reads drafts without waiting for checks).\n" if base != BASE
+             else "- **Open the pull request as a DRAFT.** The Team G lead marks at most eight ready for review, so each head is checked once. Never mark it ready yourself.\n")
     return (f"# JOB-{n} · {title} (stage {stage})\n\n{lane(base)}\n\n{body}\n"
             f"## Read (only these)\n{reads_md(files)}\n\n{SIZE}\n{done}{RULES.format(base=base, branch=f'{branch_kind}/job-{n}', n=n, tag=tag)}{extra}")
 
