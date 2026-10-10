@@ -671,7 +671,10 @@ def job_html(q, i, kind):
         place = re.sub(r"^in\s+", "", place)
         r1 = rowmap.get(str(q["id"])) or {}
         if "prompt" in r1 and r1.get("model"):  # the lead's full row: Model · Effort · Where is on the line above, the prompt goes in verbatim
-            out += ('<br><span class="m">Paste this:</span><code class="cp">' + e(r1["prompt"]) + "</code>") if (r1.get("prompt") or "").strip() else '<br><span class="m">Nothing for you to type: the lead runs it.</span>'
+            if r1.get("team") == "white" and (r1.get("prompt") or "").strip():  # Codex boxes are 420 bytes each: the Custom view links to BOARD.md, which has them in copy-ready code blocks
+                out += f'<br><span class="m">Full Codex box: <a href="{BLOB}BOARD.md">BOARD.md</a>, copy from its code block.</span>'
+            else:
+                out += ('<br><span class="m">Paste this:</span><code class="cp">' + e(r1["prompt"]) + "</code>") if (r1.get("prompt") or "").strip() else '<br><span class="m">Nothing for you to type: the lead runs it.</span>'
             q["_copy"] = ("Paste this:", r1["prompt"]) if (r1.get("prompt") or "").strip() else ("Nothing for you to type: the lead runs it.", "")
         elif re.search(r"nothing for (nik|you)", pl, re.I):
             out += '<br><span class="m">Nothing for you to type: the lead starts it.</span>'

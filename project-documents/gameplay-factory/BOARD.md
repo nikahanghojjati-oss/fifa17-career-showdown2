@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Sat 10 Oct, 10:31 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Sat 10 Oct, 10:33 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r67** (main `f42dac2`, Fri 9 Oct 9:34 PM)
 
@@ -17,12 +17,12 @@ Updated Sat 10 Oct, 10:31 AM Boston time. Bug hunting only, no new features unti
 ### ▶️ Running now
 
 **#1 · 1579** `G` Season Results: a slow load must not pull you back after you moved on (Sol S5)  
-`███████░░░` **71.6667 %**  
-🔵 Team blue · **GPT-6 Sol** · High effort · worker done, PR #455 open, CI running · CI 1 of 6 passed · last move 2 min ago
+`████████░░` **78.3333 %**  
+🔵 Team blue · **GPT-6 Sol** · High effort · worker done, PR #455 open, CI running · CI 5 of 6 passed · last move 1 min ago
 
 **#2 · 1587** `G` Season Results: a passing Transfer Challenge read hiccup must not fail the publish (Sol S2)  
-`███████░░░` **71.6667 %**  
-🔵 Team blue · **GPT-6 Sol** · High effort · worker done, PR #456 open, CI running · CI 1 of 6 passed · last move 1 min ago
+`███████░░░` **73.3333 %**  
+🔵 Team blue · **GPT-6 Sol** · High effort · worker done, PR #456 open, CI running · CI 2 of 6 passed · last move 0 min ago
 
 ### 👉 Next for you, in this order
 
