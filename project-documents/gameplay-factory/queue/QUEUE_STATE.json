@@ -1,38 +1,38 @@
 {
  "sequence": {
   "ready": [
-   13,
-   14,
-   15,
-   16,
-   17,
    18,
    19,
    20,
    21,
    22,
    23,
-   24
+   24,
+   25,
+   26,
+   27,
+   28,
+   29
   ],
   "ready_sol": [
-   13,
-   14,
-   15,
-   16,
-   17,
    18,
    19,
    20,
    21,
    22,
    23,
-   24
+   24,
+   25,
+   26,
+   27,
+   28,
+   29
   ],
   "ready_codex": [],
   "open_code_prs": 0,
   "open_train_prs": 0,
-  "next_free": 13,
-  "highest_taken": 12,
+  "next_free": 18,
+  "highest_taken": 17,
   "total": 518,
   "states": {
    "1": "on_train",
@@ -47,11 +47,11 @@
    "10": "pr_open",
    "11": "on_train",
    "12": "pr_open",
-   "13": "waiting",
-   "14": "waiting",
-   "15": "waiting",
-   "16": "waiting",
-   "17": "waiting",
+   "13": "on_train",
+   "14": "pr_open",
+   "15": "on_train",
+   "16": "pr_open",
+   "17": "on_train",
    "18": "waiting",
    "19": "waiting",
    "20": "waiting",
@@ -555,16 +555,16 @@
    "518": "waiting"
   }
  },
- "updated": "2026-10-10T15:08:24Z",
+ "updated": "2026-10-10T15:12:12Z",
  "counts": {
-  "on_train": 6,
-  "waiting": 506,
-  "pr_open": 6
+  "on_train": 9,
+  "waiting": 501,
+  "pr_open": 8
  },
  "stages": {
   "2": {
    "total": 266,
-   "taken": 6,
+   "taken": 9,
    "merged": 0
   },
   "3": {
@@ -584,7 +584,7 @@
   },
   "1": {
    "total": 112,
-   "taken": 6,
+   "taken": 8,
    "merged": 0
   }
  },
@@ -994,7 +994,9 @@
     1296,
     1297
    ],
-   "done": [],
+   "done": [
+    "1293"
+   ],
    "pr": null,
    "state": null
   },
@@ -1042,7 +1044,9 @@
     1325,
     1326
    ],
-   "done": [],
+   "done": [
+    "1322"
+   ],
    "pr": null,
    "state": null
   },
@@ -1186,7 +1190,9 @@
     1412,
     1413
    ],
-   "done": [],
+   "done": [
+    "1409"
+   ],
    "pr": null,
    "state": null
   },
@@ -2901,39 +2907,39 @@
    "branch": null
   },
   "1293": {
-   "state": "waiting",
+   "state": "on_train",
    "pr": null,
    "draft": false,
    "pr_url": null,
-   "branch": null
+   "branch": "gameplay/train-rivalry-legacy-1"
   },
   "1294": {
    "state": "waiting",
    "pr": null,
    "draft": false,
    "pr_url": null,
-   "branch": null
+   "branch": "gameplay/train-rivalry-legacy-1"
   },
   "1295": {
    "state": "waiting",
    "pr": null,
    "draft": false,
    "pr_url": null,
-   "branch": null
+   "branch": "gameplay/train-rivalry-legacy-1"
   },
   "1296": {
    "state": "waiting",
    "pr": null,
    "draft": false,
    "pr_url": null,
-   "branch": null
+   "branch": "gameplay/train-rivalry-legacy-1"
   },
   "1297": {
    "state": "waiting",
    "pr": null,
    "draft": false,
    "pr_url": null,
-   "branch": null
+   "branch": "gameplay/train-rivalry-legacy-1"
   },
   "1298": {
    "state": "waiting",
@@ -3104,39 +3110,39 @@
    "branch": null
   },
   "1322": {
-   "state": "waiting",
+   "state": "on_train",
    "pr": null,
    "draft": false,
    "pr_url": null,
-   "branch": null
+   "branch": "gameplay/train-career-screens-1"
   },
   "1323": {
    "state": "waiting",
    "pr": null,
    "draft": false,
    "pr_url": null,
-   "branch": null
+   "branch": "gameplay/train-career-screens-1"
   },
   "1324": {
    "state": "waiting",
    "pr": null,
    "draft": false,
    "pr_url": null,
-   "branch": null
+   "branch": "gameplay/train-career-screens-1"
   },
   "1325": {
    "state": "waiting",
    "pr": null,
    "draft": false,
    "pr_url": null,
-   "branch": null
+   "branch": "gameplay/train-career-screens-1"
   },
   "1326": {
    "state": "waiting",
    "pr": null,
    "draft": false,
    "pr_url": null,
-   "branch": null
+   "branch": "gameplay/train-career-screens-1"
   },
   "1327": {
    "state": "waiting",
@@ -3713,39 +3719,39 @@
    "branch": null
   },
   "1409": {
-   "state": "waiting",
+   "state": "on_train",
    "pr": null,
    "draft": false,
    "pr_url": null,
-   "branch": null
+   "branch": "gameplay/train-rules-settings-1"
   },
   "1410": {
    "state": "waiting",
    "pr": null,
    "draft": false,
    "pr_url": null,
-   "branch": null
+   "branch": "gameplay/train-rules-settings-1"
   },
   "1411": {
    "state": "waiting",
    "pr": null,
    "draft": false,
    "pr_url": null,
-   "branch": null
+   "branch": "gameplay/train-rules-settings-1"
   },
   "1412": {
    "state": "waiting",
    "pr": null,
    "draft": false,
    "pr_url": null,
-   "branch": null
+   "branch": "gameplay/train-rules-settings-1"
   },
   "1413": {
    "state": "waiting",
    "pr": null,
    "draft": false,
    "pr_url": null,
-   "branch": null
+   "branch": "gameplay/train-rules-settings-1"
   },
   "1414": {
    "state": "waiting",
@@ -4161,18 +4167,18 @@
    "branch": "qa/job-1472-empty-states"
   },
   "1473": {
-   "state": "waiting",
-   "pr": null,
-   "draft": false,
-   "pr_url": null,
-   "branch": null
+   "state": "pr_open",
+   "pr": 465,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/465",
+   "branch": "qa/job-1473-contrast-audit"
   },
   "1474": {
-   "state": "waiting",
-   "pr": null,
-   "draft": false,
-   "pr_url": null,
-   "branch": null
+   "state": "pr_open",
+   "pr": 466,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/466",
+   "branch": "qa/job-1474-font-fallback-audit"
   },
   "1475": {
    "state": "waiting",

@@ -1,12 +1,12 @@
-# Mega factory run report · 2026-10-10T15:08:24Z
+# Mega factory run report · 2026-10-10T15:12:12Z
 
-Taken 12 of 518 jobs. By state: on_train 6, pr_open 6, waiting 506
+Taken 17 of 518 jobs. By state: on_train 9, pr_open 8, waiting 501
 
 ## By stage
 Stage | name | total | picked up | merged
 --- | --- | --- | --- | ---
-1 | audits | 112 | 6 | 0
-2 | screen fixes | 266 | 6 | 0
+1 | audits | 112 | 8 | 0
+2 | screen fixes | 266 | 9 | 0
 3 | mockup match | 14 | 0 | 0
 4 | phone studies | 70 | 0 | 0
 5 | desktop studies | 56 | 0 | 0
@@ -20,6 +20,9 @@ gameplay/train-league-1 | 1 of 5 | - | on train, no PR yet
 gameplay/train-club-1 | 1 of 5 | - | on train, no PR yet
 gameplay/train-transfer-1 | 1 of 5 | - | on train, no PR yet
 gameplay/train-season-final-1 | 1 of 5 | - | on train, no PR yet
+gameplay/train-rivalry-legacy-1 | 1 of 5 | - | on train, no PR yet
+gameplay/train-career-screens-1 | 1 of 5 | - | on train, no PR yet
+gameplay/train-rules-settings-1 | 1 of 5 | - | on train, no PR yet
 
 ## Finished study and audit jobs
 Number | job | title | state | link
@@ -30,6 +33,8 @@ Number | job | title | state | link
 8 | 1470 | Audit all screens: phone held sideways: nothing hidden or overlapping | pr_open | [PR #462](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/462)
 10 | 1471 | Audit all screens: keyboard focus rings and reduced motion | pr_open | [PR #463](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/463)
 12 | 1472 | Audit all screens: empty, loading and waiting messages read the same everywhere | pr_open | [PR #464](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/464)
+14 | 1473 | Audit all screens: text contrast on plates and badges | pr_open | [PR #465](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/465)
+16 | 1474 | Audit all screens: fonts: fallback while loading, no jumps | pr_open | [PR #466](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/466)
 
 ## Needs a look (blocked, no change needed, needs Team V or mockup)
 
