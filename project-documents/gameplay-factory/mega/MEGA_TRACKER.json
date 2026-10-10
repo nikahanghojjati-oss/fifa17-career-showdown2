@@ -1,0 +1,4738 @@
+{
+"updated": "2026-10-10T02:01:44Z",
+"total": 518,
+"next_free": 1,
+"highest_taken": 0,
+"counts": {
+"waiting": 518
+},
+"stages": {
+"2": {
+"name": "Screen fixes",
+"total": 266,
+"states": {
+"waiting": 266
+}
+},
+"1": {
+"name": "Gameplay audits",
+"total": 112,
+"states": {
+"waiting": 112
+}
+},
+"3": {
+"name": "Match desktop to mockups",
+"total": 14,
+"states": {
+"waiting": 14
+}
+},
+"4": {
+"name": "Phone mockup studies",
+"total": 70,
+"states": {
+"waiting": 70
+}
+},
+"5": {
+"name": "Improved desktop studies",
+"total": 56,
+"states": {
+"waiting": 56
+}
+}
+},
+"stale_started": [],
+"gates": {
+"cap": 8,
+"open_code_prs": 0,
+"open_code_items": [],
+"code_started_no_pr": [],
+"area_locks": {},
+"ready": [
+1,
+2,
+3,
+4,
+5,
+6,
+7,
+8,
+9,
+10,
+11,
+12
+]
+},
+"rate": {
+"claimed_last_hour": 0,
+"claimed_last_10min": 0,
+"merged_last_hour": 0
+},
+"events": [],
+"items": {
+"1": {
+"job": 1061,
+"stage": 2,
+"title": "Home: fix the 360x640 view",
+"mode": "code",
+"group": "home",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"2": {
+"job": 1467,
+"stage": 1,
+"title": "Audit all screens: tap targets of at least 44 px on every team v screen",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"3": {
+"job": 1090,
+"stage": 2,
+"title": "Connect Players (start and join): fix the 360x640 view",
+"mode": "code",
+"group": "start-join",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"4": {
+"job": 1468,
+"stage": 1,
+"title": "Audit all screens: long manager and club names never break a layout",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"5": {
+"job": 1119,
+"stage": 2,
+"title": "Select League: fix the 360x640 view",
+"mode": "code",
+"group": "league",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"6": {
+"job": 1469,
+"stage": 1,
+"title": "Audit all screens: phone notch and bottom bar safe areas",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"7": {
+"job": 1148,
+"stage": 2,
+"title": "Club packs: fix the 360x640 view",
+"mode": "code",
+"group": "club",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"8": {
+"job": 1470,
+"stage": 1,
+"title": "Audit all screens: phone held sideways: nothing hidden or overlapping",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"9": {
+"job": 1177,
+"stage": 2,
+"title": "Transfer challenge and Signing Entry: fix the 360x640 view",
+"mode": "code",
+"group": "transfer",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"10": {
+"job": 1471,
+"stage": 1,
+"title": "Audit all screens: keyboard focus rings and reduced motion",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"11": {
+"job": 1206,
+"stage": 2,
+"title": "Season Results: fix the 360x640 view",
+"mode": "code",
+"group": "season-final",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"12": {
+"job": 1472,
+"stage": 1,
+"title": "Audit all screens: empty, loading and waiting messages read the same everywhere",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"13": {
+"job": 1235,
+"stage": 2,
+"title": "Standings: fix the 360x640 view",
+"mode": "code",
+"group": "standings",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"14": {
+"job": 1473,
+"stage": 1,
+"title": "Audit all screens: text contrast on plates and badges",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"15": {
+"job": 1293,
+"stage": 2,
+"title": "Legacy: fix the 360x640 view",
+"mode": "code",
+"group": "rivalry-legacy",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"16": {
+"job": 1474,
+"stage": 1,
+"title": "Audit all screens: fonts: fallback while loading, no jumps",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"17": {
+"job": 1322,
+"stage": 2,
+"title": "Trophy Room: fix the 360x640 view",
+"mode": "code",
+"group": "trophy-room",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"18": {
+"job": 1475,
+"stage": 1,
+"title": "Audit all screens: picture descriptions and screen reader labels",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"19": {
+"job": 1380,
+"stage": 2,
+"title": "Career Statistics: fix the 360x640 view",
+"mode": "code",
+"group": "career-statistics",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"20": {
+"job": 1476,
+"stage": 1,
+"title": "Audit all screens: stacking order: dialogs above screens, toasts above dialogs",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"21": {
+"job": 1409,
+"stage": 2,
+"title": "Rule Book: fix the 360x640 view",
+"mode": "code",
+"group": "rules-settings",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"22": {
+"job": 1477,
+"stage": 1,
+"title": "Audit all screens: hard-coded colours that should use the design tokens",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"23": {
+"job": 1062,
+"stage": 2,
+"title": "Home: fix the 390x844 view",
+"mode": "code",
+"group": "home",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"24": {
+"job": 1478,
+"stage": 1,
+"title": "Audit all screens: hover-only effects must also work by touch",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"25": {
+"job": 1091,
+"stage": 2,
+"title": "Connect Players (start and join): fix the 390x844 view",
+"mode": "code",
+"group": "start-join",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"26": {
+"job": 1479,
+"stage": 1,
+"title": "Audit js/seasonEngine.js for gameplay bugs (first half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"27": {
+"job": 1120,
+"stage": 2,
+"title": "Select League: fix the 390x844 view",
+"mode": "code",
+"group": "league",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"28": {
+"job": 1480,
+"stage": 1,
+"title": "Audit js/seasonEngine.js for gameplay bugs (second half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"29": {
+"job": 1149,
+"stage": 2,
+"title": "Club packs: fix the 390x844 view",
+"mode": "code",
+"group": "club",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"30": {
+"job": 1481,
+"stage": 1,
+"title": "Audit js/transferChallenge.js for gameplay bugs (first half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"31": {
+"job": 1178,
+"stage": 2,
+"title": "Transfer challenge and Signing Entry: fix the 390x844 view",
+"mode": "code",
+"group": "transfer",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"32": {
+"job": 1482,
+"stage": 1,
+"title": "Audit js/transferChallenge.js for gameplay bugs (second half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"33": {
+"job": 1207,
+"stage": 2,
+"title": "Season Results: fix the 390x844 view",
+"mode": "code",
+"group": "season-final",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"34": {
+"job": 1483,
+"stage": 1,
+"title": "Audit js/productionSharedTransferChallenge.js for gameplay bugs (first half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"35": {
+"job": 1236,
+"stage": 2,
+"title": "Standings: fix the 390x844 view",
+"mode": "code",
+"group": "standings",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"36": {
+"job": 1484,
+"stage": 1,
+"title": "Audit js/productionSharedTransferChallenge.js for gameplay bugs (second half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"37": {
+"job": 1294,
+"stage": 2,
+"title": "Legacy: fix the 390x844 view",
+"mode": "code",
+"group": "rivalry-legacy",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"38": {
+"job": 1485,
+"stage": 1,
+"title": "Audit js/sparkSharedTransferChallenge.js for gameplay bugs (first half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"39": {
+"job": 1323,
+"stage": 2,
+"title": "Trophy Room: fix the 390x844 view",
+"mode": "code",
+"group": "trophy-room",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"40": {
+"job": 1486,
+"stage": 1,
+"title": "Audit js/sparkSharedTransferChallenge.js for gameplay bugs (second half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"41": {
+"job": 1381,
+"stage": 2,
+"title": "Career Statistics: fix the 390x844 view",
+"mode": "code",
+"group": "career-statistics",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"42": {
+"job": 1487,
+"stage": 1,
+"title": "Audit js/sharedTransferChallenge.js for gameplay bugs (first half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"43": {
+"job": 1410,
+"stage": 2,
+"title": "Rule Book: fix the 390x844 view",
+"mode": "code",
+"group": "rules-settings",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"44": {
+"job": 1488,
+"stage": 1,
+"title": "Audit js/sharedTransferChallenge.js for gameplay bugs (second half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"45": {
+"job": 1063,
+"stage": 2,
+"title": "Home: fix the 430x932 view",
+"mode": "code",
+"group": "home",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"46": {
+"job": 1489,
+"stage": 1,
+"title": "Audit js/restore.js for gameplay bugs (first half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"47": {
+"job": 1092,
+"stage": 2,
+"title": "Connect Players (start and join): fix the 430x932 view",
+"mode": "code",
+"group": "start-join",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"48": {
+"job": 1490,
+"stage": 1,
+"title": "Audit js/restore.js for gameplay bugs (second half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"49": {
+"job": 1121,
+"stage": 2,
+"title": "Select League: fix the 430x932 view",
+"mode": "code",
+"group": "league",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"50": {
+"job": 1491,
+"stage": 1,
+"title": "Audit js/importAnalysis.js for gameplay bugs (first half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"51": {
+"job": 1150,
+"stage": 2,
+"title": "Club packs: fix the 430x932 view",
+"mode": "code",
+"group": "club",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"52": {
+"job": 1492,
+"stage": 1,
+"title": "Audit js/importAnalysis.js for gameplay bugs (second half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"53": {
+"job": 1179,
+"stage": 2,
+"title": "Transfer challenge and Signing Entry: fix the 430x932 view",
+"mode": "code",
+"group": "transfer",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"54": {
+"job": 1493,
+"stage": 1,
+"title": "Audit js/persistentNikDanielPair.js for gameplay bugs (first half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"55": {
+"job": 1208,
+"stage": 2,
+"title": "Season Results: fix the 430x932 view",
+"mode": "code",
+"group": "season-final",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"56": {
+"job": 1494,
+"stage": 1,
+"title": "Audit js/persistentNikDanielPair.js for gameplay bugs (second half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"57": {
+"job": 1237,
+"stage": 2,
+"title": "Standings: fix the 430x932 view",
+"mode": "code",
+"group": "standings",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"58": {
+"job": 1495,
+"stage": 1,
+"title": "Audit js/sparkConnectedRivalry.js for gameplay bugs (first half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"59": {
+"job": 1295,
+"stage": 2,
+"title": "Legacy: fix the 430x932 view",
+"mode": "code",
+"group": "rivalry-legacy",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"60": {
+"job": 1496,
+"stage": 1,
+"title": "Audit js/sparkConnectedRivalry.js for gameplay bugs (second half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"61": {
+"job": 1324,
+"stage": 2,
+"title": "Trophy Room: fix the 430x932 view",
+"mode": "code",
+"group": "trophy-room",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"62": {
+"job": 1497,
+"stage": 1,
+"title": "Audit js/visualIdentity.js for gameplay bugs (first half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"63": {
+"job": 1382,
+"stage": 2,
+"title": "Career Statistics: fix the 430x932 view",
+"mode": "code",
+"group": "career-statistics",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"64": {
+"job": 1498,
+"stage": 1,
+"title": "Audit js/visualIdentity.js for gameplay bugs (second half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"65": {
+"job": 1411,
+"stage": 2,
+"title": "Rule Book: fix the 430x932 view",
+"mode": "code",
+"group": "rules-settings",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"66": {
+"job": 1499,
+"stage": 1,
+"title": "Audit js/saveLibraryRuntime.js for gameplay bugs (first half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"67": {
+"job": 1064,
+"stage": 2,
+"title": "Home: fix the 844x390 view",
+"mode": "code",
+"group": "home",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"68": {
+"job": 1500,
+"stage": 1,
+"title": "Audit js/saveLibraryRuntime.js for gameplay bugs (second half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"69": {
+"job": 1093,
+"stage": 2,
+"title": "Connect Players (start and join): fix the 844x390 view",
+"mode": "code",
+"group": "start-join",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"70": {
+"job": 1501,
+"stage": 1,
+"title": "Audit js/saveLibraryUI.js for gameplay bugs (first half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"71": {
+"job": 1122,
+"stage": 2,
+"title": "Select League: fix the 844x390 view",
+"mode": "code",
+"group": "league",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"72": {
+"job": 1502,
+"stage": 1,
+"title": "Audit js/saveLibraryUI.js for gameplay bugs (second half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"73": {
+"job": 1151,
+"stage": 2,
+"title": "Club packs: fix the 844x390 view",
+"mode": "code",
+"group": "club",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"74": {
+"job": 1503,
+"stage": 1,
+"title": "Audit js/productionSharedShowdownPresentation.js for gameplay bugs (first half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"75": {
+"job": 1180,
+"stage": 2,
+"title": "Transfer challenge and Signing Entry: fix the 844x390 view",
+"mode": "code",
+"group": "transfer",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"76": {
+"job": 1504,
+"stage": 1,
+"title": "Audit js/productionSharedShowdownPresentation.js for gameplay bugs (second half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"77": {
+"job": 1209,
+"stage": 2,
+"title": "Season Results: fix the 844x390 view",
+"mode": "code",
+"group": "season-final",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"78": {
+"job": 1505,
+"stage": 1,
+"title": "Audit js/productionSharedTerminalClose.js for gameplay bugs (first half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"79": {
+"job": 1238,
+"stage": 2,
+"title": "Standings: fix the 844x390 view",
+"mode": "code",
+"group": "standings",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"80": {
+"job": 1506,
+"stage": 1,
+"title": "Audit js/productionSharedTerminalClose.js for gameplay bugs (second half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"81": {
+"job": 1296,
+"stage": 2,
+"title": "Legacy: fix the 844x390 view",
+"mode": "code",
+"group": "rivalry-legacy",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"82": {
+"job": 1507,
+"stage": 1,
+"title": "Audit js/sparkSharedSeasonResults.js for gameplay bugs (first half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"83": {
+"job": 1325,
+"stage": 2,
+"title": "Trophy Room: fix the 844x390 view",
+"mode": "code",
+"group": "trophy-room",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"84": {
+"job": 1508,
+"stage": 1,
+"title": "Audit js/sparkSharedSeasonResults.js for gameplay bugs (second half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"85": {
+"job": 1383,
+"stage": 2,
+"title": "Career Statistics: fix the 844x390 view",
+"mode": "code",
+"group": "career-statistics",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"86": {
+"job": 1509,
+"stage": 1,
+"title": "Audit js/productionSharedSeasonResults.js for gameplay bugs (first half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"87": {
+"job": 1412,
+"stage": 2,
+"title": "Rule Book: fix the 844x390 view",
+"mode": "code",
+"group": "rules-settings",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"88": {
+"job": 1510,
+"stage": 1,
+"title": "Audit js/productionSharedSeasonResults.js for gameplay bugs (second half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"89": {
+"job": 1065,
+"stage": 2,
+"title": "Home: fix the 932x430 view",
+"mode": "code",
+"group": "home",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"90": {
+"job": 1511,
+"stage": 1,
+"title": "Audit js/productionSharedSeasonCommit.js for gameplay bugs (first half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"91": {
+"job": 1094,
+"stage": 2,
+"title": "Connect Players (start and join): fix the 932x430 view",
+"mode": "code",
+"group": "start-join",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"92": {
+"job": 1512,
+"stage": 1,
+"title": "Audit js/productionSharedSeasonCommit.js for gameplay bugs (second half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"93": {
+"job": 1123,
+"stage": 2,
+"title": "Select League: fix the 932x430 view",
+"mode": "code",
+"group": "league",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"94": {
+"job": 1513,
+"stage": 1,
+"title": "Audit js/sparkSharedSeasonCommit.js for gameplay bugs (first half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"95": {
+"job": 1152,
+"stage": 2,
+"title": "Club packs: fix the 932x430 view",
+"mode": "code",
+"group": "club",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"96": {
+"job": 1514,
+"stage": 1,
+"title": "Audit js/sparkSharedSeasonCommit.js for gameplay bugs (second half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"97": {
+"job": 1181,
+"stage": 2,
+"title": "Transfer challenge and Signing Entry: fix the 932x430 view",
+"mode": "code",
+"group": "transfer",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"98": {
+"job": 1515,
+"stage": 1,
+"title": "Audit js/productionSharedJourneyEntry.js for gameplay bugs (first half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"99": {
+"job": 1210,
+"stage": 2,
+"title": "Season Results: fix the 932x430 view",
+"mode": "code",
+"group": "season-final",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"100": {
+"job": 1516,
+"stage": 1,
+"title": "Audit js/productionSharedJourneyEntry.js for gameplay bugs (second half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"101": {
+"job": 1239,
+"stage": 2,
+"title": "Standings: fix the 932x430 view",
+"mode": "code",
+"group": "standings",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"102": {
+"job": 1517,
+"stage": 1,
+"title": "Audit js/productionSharedJourneyReconnect.js for gameplay bugs (first half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"103": {
+"job": 1297,
+"stage": 2,
+"title": "Legacy: fix the 932x430 view",
+"mode": "code",
+"group": "rivalry-legacy",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"104": {
+"job": 1518,
+"stage": 1,
+"title": "Audit js/productionSharedJourneyReconnect.js for gameplay bugs (second half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"105": {
+"job": 1326,
+"stage": 2,
+"title": "Trophy Room: fix the 932x430 view",
+"mode": "code",
+"group": "trophy-room",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"106": {
+"job": 1519,
+"stage": 1,
+"title": "Audit js/productionSharedMultiSeasonProgression.js for gameplay bugs (first half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"107": {
+"job": 1384,
+"stage": 2,
+"title": "Career Statistics: fix the 932x430 view",
+"mode": "code",
+"group": "career-statistics",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"108": {
+"job": 1520,
+"stage": 1,
+"title": "Audit js/productionSharedMultiSeasonProgression.js for gameplay bugs (second half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"109": {
+"job": 1413,
+"stage": 2,
+"title": "Rule Book: fix the 932x430 view",
+"mode": "code",
+"group": "rules-settings",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"110": {
+"job": 1521,
+"stage": 1,
+"title": "Audit js/productionSharedCareerStart.js for gameplay bugs (first half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"111": {
+"job": 1066,
+"stage": 2,
+"title": "Home: fix the 768x1024 view",
+"mode": "code",
+"group": "home",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"112": {
+"job": 1522,
+"stage": 1,
+"title": "Audit js/productionSharedCareerStart.js for gameplay bugs (second half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"113": {
+"job": 1095,
+"stage": 2,
+"title": "Connect Players (start and join): fix the 768x1024 view",
+"mode": "code",
+"group": "start-join",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"114": {
+"job": 1523,
+"stage": 1,
+"title": "Audit js/productionSharedShowdownSetup.js for gameplay bugs (first half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"115": {
+"job": 1124,
+"stage": 2,
+"title": "Select League: fix the 768x1024 view",
+"mode": "code",
+"group": "league",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"116": {
+"job": 1524,
+"stage": 1,
+"title": "Audit js/productionSharedShowdownSetup.js for gameplay bugs (second half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"117": {
+"job": 1153,
+"stage": 2,
+"title": "Club packs: fix the 768x1024 view",
+"mode": "code",
+"group": "club",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"118": {
+"job": 1525,
+"stage": 1,
+"title": "Audit js/sparkSharedShowdownSetup.js for gameplay bugs (first half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"119": {
+"job": 1182,
+"stage": 2,
+"title": "Transfer challenge and Signing Entry: fix the 768x1024 view",
+"mode": "code",
+"group": "transfer",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"120": {
+"job": 1526,
+"stage": 1,
+"title": "Audit js/sparkSharedShowdownSetup.js for gameplay bugs (second half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"121": {
+"job": 1211,
+"stage": 2,
+"title": "Season Results: fix the 768x1024 view",
+"mode": "code",
+"group": "season-final",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"122": {
+"job": 1527,
+"stage": 1,
+"title": "Audit js/sharedShowdownSetup.js for gameplay bugs (first half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"123": {
+"job": 1240,
+"stage": 2,
+"title": "Standings: fix the 768x1024 view",
+"mode": "code",
+"group": "standings",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"124": {
+"job": 1528,
+"stage": 1,
+"title": "Audit js/sharedShowdownSetup.js for gameplay bugs (second half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"125": {
+"job": 1298,
+"stage": 2,
+"title": "Legacy: fix the 768x1024 view",
+"mode": "code",
+"group": "rivalry-legacy",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"126": {
+"job": 1529,
+"stage": 1,
+"title": "Audit js/sparkTerminalClose.js for gameplay bugs (first half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"127": {
+"job": 1327,
+"stage": 2,
+"title": "Trophy Room: fix the 768x1024 view",
+"mode": "code",
+"group": "trophy-room",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"128": {
+"job": 1530,
+"stage": 1,
+"title": "Audit js/sparkTerminalClose.js for gameplay bugs (second half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"129": {
+"job": 1385,
+"stage": 2,
+"title": "Career Statistics: fix the 768x1024 view",
+"mode": "code",
+"group": "career-statistics",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"130": {
+"job": 1531,
+"stage": 1,
+"title": "Audit js/productionSharedCanonicalScoring.js for gameplay bugs (first half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"131": {
+"job": 1414,
+"stage": 2,
+"title": "Rule Book: fix the 768x1024 view",
+"mode": "code",
+"group": "rules-settings",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"132": {
+"job": 1532,
+"stage": 1,
+"title": "Audit js/productionSharedCanonicalScoring.js for gameplay bugs (second half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"133": {
+"job": 1067,
+"stage": 2,
+"title": "Home: fix the 1280x650 view",
+"mode": "code",
+"group": "home",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"134": {
+"job": 1533,
+"stage": 1,
+"title": "Audit js/productionSharedHistoryConvergence.js for gameplay bugs (first half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"135": {
+"job": 1096,
+"stage": 2,
+"title": "Connect Players (start and join): fix the 1280x650 view",
+"mode": "code",
+"group": "start-join",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"136": {
+"job": 1534,
+"stage": 1,
+"title": "Audit js/productionSharedHistoryConvergence.js for gameplay bugs (second half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"137": {
+"job": 1125,
+"stage": 2,
+"title": "Select League: fix the 1280x650 view",
+"mode": "code",
+"group": "league",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"138": {
+"job": 1535,
+"stage": 1,
+"title": "Audit js/sharedHistoryConvergence.js for gameplay bugs (first half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"139": {
+"job": 1154,
+"stage": 2,
+"title": "Club packs: fix the 1280x650 view",
+"mode": "code",
+"group": "club",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"140": {
+"job": 1536,
+"stage": 1,
+"title": "Audit js/sharedHistoryConvergence.js for gameplay bugs (second half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"141": {
+"job": 1183,
+"stage": 2,
+"title": "Transfer challenge and Signing Entry: fix the 1280x650 view",
+"mode": "code",
+"group": "transfer",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"142": {
+"job": 1537,
+"stage": 1,
+"title": "Audit js/sharedJourneyReconnect.js for gameplay bugs (first half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"143": {
+"job": 1212,
+"stage": 2,
+"title": "Season Results: fix the 1280x650 view",
+"mode": "code",
+"group": "season-final",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"144": {
+"job": 1538,
+"stage": 1,
+"title": "Audit js/sharedJourneyReconnect.js for gameplay bugs (second half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"145": {
+"job": 1241,
+"stage": 2,
+"title": "Standings: fix the 1280x650 view",
+"mode": "code",
+"group": "standings",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"146": {
+"job": 1539,
+"stage": 1,
+"title": "Audit js/sharedActiveShowdownAdapter.js for gameplay bugs (first half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"147": {
+"job": 1299,
+"stage": 2,
+"title": "Legacy: fix the 1280x650 view",
+"mode": "code",
+"group": "rivalry-legacy",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"148": {
+"job": 1540,
+"stage": 1,
+"title": "Audit js/sharedActiveShowdownAdapter.js for gameplay bugs (second half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"149": {
+"job": 1328,
+"stage": 2,
+"title": "Trophy Room: fix the 1280x650 view",
+"mode": "code",
+"group": "trophy-room",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"150": {
+"job": 1541,
+"stage": 1,
+"title": "Audit js/statistics.js for gameplay bugs (first half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"151": {
+"job": 1386,
+"stage": 2,
+"title": "Career Statistics: fix the 1280x650 view",
+"mode": "code",
+"group": "career-statistics",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"152": {
+"job": 1542,
+"stage": 1,
+"title": "Audit js/statistics.js for gameplay bugs (second half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"153": {
+"job": 1415,
+"stage": 2,
+"title": "Rule Book: fix the 1280x650 view",
+"mode": "code",
+"group": "rules-settings",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"154": {
+"job": 1543,
+"stage": 1,
+"title": "Audit js/legacy.js for gameplay bugs (first half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"155": {
+"job": 1068,
+"stage": 2,
+"title": "Home: fix the 1366x768 view",
+"mode": "code",
+"group": "home",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"156": {
+"job": 1544,
+"stage": 1,
+"title": "Audit js/legacy.js for gameplay bugs (second half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"157": {
+"job": 1097,
+"stage": 2,
+"title": "Connect Players (start and join): fix the 1366x768 view",
+"mode": "code",
+"group": "start-join",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"158": {
+"job": 1545,
+"stage": 1,
+"title": "Audit js/analytics.js for gameplay bugs (first half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"159": {
+"job": 1126,
+"stage": 2,
+"title": "Select League: fix the 1366x768 view",
+"mode": "code",
+"group": "league",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"160": {
+"job": 1546,
+"stage": 1,
+"title": "Audit js/analytics.js for gameplay bugs (second half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"161": {
+"job": 1155,
+"stage": 2,
+"title": "Club packs: fix the 1366x768 view",
+"mode": "code",
+"group": "club",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"162": {
+"job": 1547,
+"stage": 1,
+"title": "Audit js/settings.js for gameplay bugs (first half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"163": {
+"job": 1184,
+"stage": 2,
+"title": "Transfer challenge and Signing Entry: fix the 1366x768 view",
+"mode": "code",
+"group": "transfer",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"164": {
+"job": 1548,
+"stage": 1,
+"title": "Audit js/settings.js for gameplay bugs (second half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"165": {
+"job": 1213,
+"stage": 2,
+"title": "Season Results: fix the 1366x768 view",
+"mode": "code",
+"group": "season-final",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"166": {
+"job": 1549,
+"stage": 1,
+"title": "Audit js/screens.js for gameplay bugs (first half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"167": {
+"job": 1242,
+"stage": 2,
+"title": "Standings: fix the 1366x768 view",
+"mode": "code",
+"group": "standings",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"168": {
+"job": 1550,
+"stage": 1,
+"title": "Audit js/screens.js for gameplay bugs (second half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"169": {
+"job": 1300,
+"stage": 2,
+"title": "Legacy: fix the 1366x768 view",
+"mode": "code",
+"group": "rivalry-legacy",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"170": {
+"job": 1551,
+"stage": 1,
+"title": "Audit js/menuExperience.js for gameplay bugs (first half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"171": {
+"job": 1329,
+"stage": 2,
+"title": "Trophy Room: fix the 1366x768 view",
+"mode": "code",
+"group": "trophy-room",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"172": {
+"job": 1552,
+"stage": 1,
+"title": "Audit js/menuExperience.js for gameplay bugs (second half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"173": {
+"job": 1387,
+"stage": 2,
+"title": "Career Statistics: fix the 1366x768 view",
+"mode": "code",
+"group": "career-statistics",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"174": {
+"job": 1553,
+"stage": 1,
+"title": "Audit js/clubAssignment.js for gameplay bugs (first half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"175": {
+"job": 1416,
+"stage": 2,
+"title": "Rule Book: fix the 1366x768 view",
+"mode": "code",
+"group": "rules-settings",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"176": {
+"job": 1554,
+"stage": 1,
+"title": "Audit js/clubAssignment.js for gameplay bugs (second half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"177": {
+"job": 1069,
+"stage": 2,
+"title": "Home: fix the 1920x1080 view",
+"mode": "code",
+"group": "home",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"178": {
+"job": 1555,
+"stage": 1,
+"title": "Audit js/storage.js for gameplay bugs (first half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"179": {
+"job": 1098,
+"stage": 2,
+"title": "Connect Players (start and join): fix the 1920x1080 view",
+"mode": "code",
+"group": "start-join",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"180": {
+"job": 1556,
+"stage": 1,
+"title": "Audit js/storage.js for gameplay bugs (second half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"181": {
+"job": 1127,
+"stage": 2,
+"title": "Select League: fix the 1920x1080 view",
+"mode": "code",
+"group": "league",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"182": {
+"job": 1557,
+"stage": 1,
+"title": "Audit js/diagnostics.js for gameplay bugs (first half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"183": {
+"job": 1156,
+"stage": 2,
+"title": "Club packs: fix the 1920x1080 view",
+"mode": "code",
+"group": "club",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"184": {
+"job": 1558,
+"stage": 1,
+"title": "Audit js/diagnostics.js for gameplay bugs (second half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"185": {
+"job": 1185,
+"stage": 2,
+"title": "Transfer challenge and Signing Entry: fix the 1920x1080 view",
+"mode": "code",
+"group": "transfer",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"186": {
+"job": 1559,
+"stage": 1,
+"title": "Audit js/offlineApp.js for gameplay bugs (first half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"187": {
+"job": 1214,
+"stage": 2,
+"title": "Season Results: fix the 1920x1080 view",
+"mode": "code",
+"group": "season-final",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"188": {
+"job": 1560,
+"stage": 1,
+"title": "Audit js/offlineApp.js for gameplay bugs (second half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"189": {
+"job": 1243,
+"stage": 2,
+"title": "Standings: fix the 1920x1080 view",
+"mode": "code",
+"group": "standings",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"190": {
+"job": 1561,
+"stage": 1,
+"title": "Audit js/sparkCompletedShowdownReader.js for gameplay bugs (first half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"191": {
+"job": 1301,
+"stage": 2,
+"title": "Legacy: fix the 1920x1080 view",
+"mode": "code",
+"group": "rivalry-legacy",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"192": {
+"job": 1562,
+"stage": 1,
+"title": "Audit js/sparkCompletedShowdownReader.js for gameplay bugs (second half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"193": {
+"job": 1330,
+"stage": 2,
+"title": "Trophy Room: fix the 1920x1080 view",
+"mode": "code",
+"group": "trophy-room",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"194": {
+"job": 1563,
+"stage": 1,
+"title": "Audit js/sparkCompletedTransferHistoryReader.js for gameplay bugs (first half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"195": {
+"job": 1388,
+"stage": 2,
+"title": "Career Statistics: fix the 1920x1080 view",
+"mode": "code",
+"group": "career-statistics",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"196": {
+"job": 1564,
+"stage": 1,
+"title": "Audit js/sparkCompletedTransferHistoryReader.js for gameplay bugs (second half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"197": {
+"job": 1417,
+"stage": 2,
+"title": "Rule Book: fix the 1920x1080 view",
+"mode": "code",
+"group": "rules-settings",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"198": {
+"job": 1565,
+"stage": 1,
+"title": "Audit js/careerScreensV10.js for gameplay bugs (first half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"199": {
+"job": 1070,
+"stage": 2,
+"title": "Home: fix the 2560x1080 view",
+"mode": "code",
+"group": "home",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"200": {
+"job": 1566,
+"stage": 1,
+"title": "Audit js/careerScreensV10.js for gameplay bugs (second half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"201": {
+"job": 1099,
+"stage": 2,
+"title": "Connect Players (start and join): fix the 2560x1080 view",
+"mode": "code",
+"group": "start-join",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"202": {
+"job": 1567,
+"stage": 1,
+"title": "Audit js/rivalryLegacyV10.js for gameplay bugs (first half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"203": {
+"job": 1128,
+"stage": 2,
+"title": "Select League: fix the 2560x1080 view",
+"mode": "code",
+"group": "league",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"204": {
+"job": 1568,
+"stage": 1,
+"title": "Audit js/rivalryLegacyV10.js for gameplay bugs (second half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"205": {
+"job": 1157,
+"stage": 2,
+"title": "Club packs: fix the 2560x1080 view",
+"mode": "code",
+"group": "club",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"206": {
+"job": 1569,
+"stage": 1,
+"title": "Audit js/transferScreenV10.js for gameplay bugs (first half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"207": {
+"job": 1186,
+"stage": 2,
+"title": "Transfer challenge and Signing Entry: fix the 2560x1080 view",
+"mode": "code",
+"group": "transfer",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"208": {
+"job": 1570,
+"stage": 1,
+"title": "Audit js/transferScreenV10.js for gameplay bugs (second half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"209": {
+"job": 1215,
+"stage": 2,
+"title": "Season Results: fix the 2560x1080 view",
+"mode": "code",
+"group": "season-final",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"210": {
+"job": 1571,
+"stage": 1,
+"title": "Audit js/clubScreenV10.js for gameplay bugs (first half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"211": {
+"job": 1244,
+"stage": 2,
+"title": "Standings: fix the 2560x1080 view",
+"mode": "code",
+"group": "standings",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"212": {
+"job": 1572,
+"stage": 1,
+"title": "Audit js/clubScreenV10.js for gameplay bugs (second half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"213": {
+"job": 1302,
+"stage": 2,
+"title": "Legacy: fix the 2560x1080 view",
+"mode": "code",
+"group": "rivalry-legacy",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"214": {
+"job": 1573,
+"stage": 1,
+"title": "Audit js/seasonFinalV10.js for gameplay bugs (first half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"215": {
+"job": 1331,
+"stage": 2,
+"title": "Trophy Room: fix the 2560x1080 view",
+"mode": "code",
+"group": "trophy-room",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"216": {
+"job": 1574,
+"stage": 1,
+"title": "Audit js/seasonFinalV10.js for gameplay bugs (second half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"217": {
+"job": 1389,
+"stage": 2,
+"title": "Career Statistics: fix the 2560x1080 view",
+"mode": "code",
+"group": "career-statistics",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"218": {
+"job": 1575,
+"stage": 1,
+"title": "Audit js/homeScreensV10.js for gameplay bugs (first half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"219": {
+"job": 1418,
+"stage": 2,
+"title": "Rule Book: fix the 2560x1080 view",
+"mode": "code",
+"group": "rules-settings",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"220": {
+"job": 1576,
+"stage": 1,
+"title": "Audit js/homeScreensV10.js for gameplay bugs (second half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"221": {
+"job": 1071,
+"stage": 3,
+"title": "Home: match the desktop mockup",
+"mode": "code",
+"group": "home",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"222": {
+"job": 1577,
+"stage": 1,
+"title": "Audit js/v10Screens.js for gameplay bugs (first half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"223": {
+"job": 1100,
+"stage": 3,
+"title": "Connect Players (start and join): match the desktop mockup",
+"mode": "code",
+"group": "start-join",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"224": {
+"job": 1578,
+"stage": 1,
+"title": "Audit js/v10Screens.js for gameplay bugs (second half)",
+"mode": "audit",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"225": {
+"job": 1129,
+"stage": 3,
+"title": "Select League: match the desktop mockup",
+"mode": "code",
+"group": "league",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"226": {
+"job": 1400,
+"stage": 4,
+"title": "Career Statistics: phone mockup, version A (faithful)",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"227": {
+"job": 1158,
+"stage": 3,
+"title": "Club packs: match the desktop mockup",
+"mode": "code",
+"group": "club",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"228": {
+"job": 1168,
+"stage": 4,
+"title": "Club packs: phone mockup, version A (faithful)",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"229": {
+"job": 1187,
+"stage": 3,
+"title": "Transfer challenge and Signing Entry: match the desktop mockup",
+"mode": "code",
+"group": "transfer",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"230": {
+"job": 1284,
+"stage": 4,
+"title": "Final Winner (Showdown Champion): phone mockup, version A (faithful)",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"231": {
+"job": 1216,
+"stage": 3,
+"title": "Season Results: match the desktop mockup",
+"mode": "code",
+"group": "season-final",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"232": {
+"job": 1081,
+"stage": 4,
+"title": "Home: phone mockup, version A (faithful)",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"233": {
+"job": 1245,
+"stage": 3,
+"title": "Standings: match the desktop mockup",
+"mode": "code",
+"group": "standings",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"234": {
+"job": 1139,
+"stage": 4,
+"title": "Select League: phone mockup, version A (faithful)",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"235": {
+"job": 1303,
+"stage": 3,
+"title": "Legacy: match the desktop mockup",
+"mode": "code",
+"group": "rivalry-legacy",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"236": {
+"job": 1313,
+"stage": 4,
+"title": "Legacy: phone mockup, version A (faithful)",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"237": {
+"job": 1332,
+"stage": 3,
+"title": "Trophy Room: match the desktop mockup",
+"mode": "code",
+"group": "trophy-room",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"238": {
+"job": 1371,
+"stage": 4,
+"title": "Rivalry Statistics: phone mockup, version A (faithful)",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"239": {
+"job": 1390,
+"stage": 3,
+"title": "Career Statistics: match the desktop mockup",
+"mode": "code",
+"group": "career-statistics",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"240": {
+"job": 1429,
+"stage": 4,
+"title": "Rule Book: phone mockup, version A (faithful)",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"241": {
+"job": 1419,
+"stage": 3,
+"title": "Rule Book: match the desktop mockup",
+"mode": "code",
+"group": "rules-settings",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"242": {
+"job": 1226,
+"stage": 4,
+"title": "Season Results: phone mockup, version A (faithful)",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"243": {
+"job": 1072,
+"stage": 2,
+"title": "Home: long names",
+"mode": "code",
+"group": "home",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"244": {
+"job": 1458,
+"stage": 4,
+"title": "Settings: phone mockup, version A (faithful)",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"245": {
+"job": 1101,
+"stage": 2,
+"title": "Connect Players (start and join): long names",
+"mode": "code",
+"group": "start-join",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"246": {
+"job": 1255,
+"stage": 4,
+"title": "Standings: phone mockup, version A (faithful)",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"247": {
+"job": 1130,
+"stage": 2,
+"title": "Select League: long names",
+"mode": "code",
+"group": "league",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"248": {
+"job": 1110,
+"stage": 4,
+"title": "Connect Players (start and join): phone mockup, version A (faithful)",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"249": {
+"job": 1159,
+"stage": 2,
+"title": "Club packs: long names",
+"mode": "code",
+"group": "club",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"250": {
+"job": 1197,
+"stage": 4,
+"title": "Transfer challenge and Signing Entry: phone mockup, version A (faithful)",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"251": {
+"job": 1188,
+"stage": 2,
+"title": "Transfer challenge and Signing Entry: long names",
+"mode": "code",
+"group": "transfer",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"252": {
+"job": 1342,
+"stage": 4,
+"title": "Trophy Room: phone mockup, version A (faithful)",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"253": {
+"job": 1217,
+"stage": 2,
+"title": "Season Results: long names",
+"mode": "code",
+"group": "season-final",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"254": {
+"job": 1401,
+"stage": 4,
+"title": "Career Statistics: phone mockup, version B (bold hierarchy)",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"255": {
+"job": 1246,
+"stage": 2,
+"title": "Standings: long names",
+"mode": "code",
+"group": "standings",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"256": {
+"job": 1169,
+"stage": 4,
+"title": "Club packs: phone mockup, version B (bold hierarchy)",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"257": {
+"job": 1304,
+"stage": 2,
+"title": "Legacy: long names",
+"mode": "code",
+"group": "rivalry-legacy",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"258": {
+"job": 1285,
+"stage": 4,
+"title": "Final Winner (Showdown Champion): phone mockup, version B (bold hierarchy)",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"259": {
+"job": 1333,
+"stage": 2,
+"title": "Trophy Room: long names",
+"mode": "code",
+"group": "trophy-room",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"260": {
+"job": 1082,
+"stage": 4,
+"title": "Home: phone mockup, version B (bold hierarchy)",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"261": {
+"job": 1391,
+"stage": 2,
+"title": "Career Statistics: long names",
+"mode": "code",
+"group": "career-statistics",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"262": {
+"job": 1140,
+"stage": 4,
+"title": "Select League: phone mockup, version B (bold hierarchy)",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"263": {
+"job": 1420,
+"stage": 2,
+"title": "Rule Book: long names",
+"mode": "code",
+"group": "rules-settings",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"264": {
+"job": 1314,
+"stage": 4,
+"title": "Legacy: phone mockup, version B (bold hierarchy)",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"265": {
+"job": 1073,
+"stage": 2,
+"title": "Home: tap targets",
+"mode": "code",
+"group": "home",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"266": {
+"job": 1372,
+"stage": 4,
+"title": "Rivalry Statistics: phone mockup, version B (bold hierarchy)",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"267": {
+"job": 1102,
+"stage": 2,
+"title": "Connect Players (start and join): tap targets",
+"mode": "code",
+"group": "start-join",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"268": {
+"job": 1430,
+"stage": 4,
+"title": "Rule Book: phone mockup, version B (bold hierarchy)",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"269": {
+"job": 1131,
+"stage": 2,
+"title": "Select League: tap targets",
+"mode": "code",
+"group": "league",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"270": {
+"job": 1227,
+"stage": 4,
+"title": "Season Results: phone mockup, version B (bold hierarchy)",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"271": {
+"job": 1160,
+"stage": 2,
+"title": "Club packs: tap targets",
+"mode": "code",
+"group": "club",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"272": {
+"job": 1459,
+"stage": 4,
+"title": "Settings: phone mockup, version B (bold hierarchy)",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"273": {
+"job": 1189,
+"stage": 2,
+"title": "Transfer challenge and Signing Entry: tap targets",
+"mode": "code",
+"group": "transfer",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"274": {
+"job": 1256,
+"stage": 4,
+"title": "Standings: phone mockup, version B (bold hierarchy)",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"275": {
+"job": 1218,
+"stage": 2,
+"title": "Season Results: tap targets",
+"mode": "code",
+"group": "season-final",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"276": {
+"job": 1111,
+"stage": 4,
+"title": "Connect Players (start and join): phone mockup, version B (bold hierarchy)",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"277": {
+"job": 1247,
+"stage": 2,
+"title": "Standings: tap targets",
+"mode": "code",
+"group": "standings",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"278": {
+"job": 1198,
+"stage": 4,
+"title": "Transfer challenge and Signing Entry: phone mockup, version B (bold hierarchy)",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"279": {
+"job": 1305,
+"stage": 2,
+"title": "Legacy: tap targets",
+"mode": "code",
+"group": "rivalry-legacy",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"280": {
+"job": 1343,
+"stage": 4,
+"title": "Trophy Room: phone mockup, version B (bold hierarchy)",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"281": {
+"job": 1334,
+"stage": 2,
+"title": "Trophy Room: tap targets",
+"mode": "code",
+"group": "trophy-room",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"282": {
+"job": 1402,
+"stage": 4,
+"title": "Career Statistics: phone mockup, version C (compact)",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"283": {
+"job": 1392,
+"stage": 2,
+"title": "Career Statistics: tap targets",
+"mode": "code",
+"group": "career-statistics",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"284": {
+"job": 1170,
+"stage": 4,
+"title": "Club packs: phone mockup, version C (compact)",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"285": {
+"job": 1421,
+"stage": 2,
+"title": "Rule Book: tap targets",
+"mode": "code",
+"group": "rules-settings",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"286": {
+"job": 1286,
+"stage": 4,
+"title": "Final Winner (Showdown Champion): phone mockup, version C (compact)",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"287": {
+"job": 1074,
+"stage": 2,
+"title": "Home: keyboard focus and reduced motion",
+"mode": "code",
+"group": "home",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"288": {
+"job": 1083,
+"stage": 4,
+"title": "Home: phone mockup, version C (compact)",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"289": {
+"job": 1103,
+"stage": 2,
+"title": "Connect Players (start and join): keyboard focus and reduced motion",
+"mode": "code",
+"group": "start-join",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"290": {
+"job": 1141,
+"stage": 4,
+"title": "Select League: phone mockup, version C (compact)",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"291": {
+"job": 1132,
+"stage": 2,
+"title": "Select League: keyboard focus and reduced motion",
+"mode": "code",
+"group": "league",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"292": {
+"job": 1315,
+"stage": 4,
+"title": "Legacy: phone mockup, version C (compact)",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"293": {
+"job": 1161,
+"stage": 2,
+"title": "Club packs: keyboard focus and reduced motion",
+"mode": "code",
+"group": "club",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"294": {
+"job": 1373,
+"stage": 4,
+"title": "Rivalry Statistics: phone mockup, version C (compact)",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"295": {
+"job": 1190,
+"stage": 2,
+"title": "Transfer challenge and Signing Entry: keyboard focus and reduced motion",
+"mode": "code",
+"group": "transfer",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"296": {
+"job": 1431,
+"stage": 4,
+"title": "Rule Book: phone mockup, version C (compact)",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"297": {
+"job": 1219,
+"stage": 2,
+"title": "Season Results: keyboard focus and reduced motion",
+"mode": "code",
+"group": "season-final",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"298": {
+"job": 1228,
+"stage": 4,
+"title": "Season Results: phone mockup, version C (compact)",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"299": {
+"job": 1248,
+"stage": 2,
+"title": "Standings: keyboard focus and reduced motion",
+"mode": "code",
+"group": "standings",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"300": {
+"job": 1460,
+"stage": 4,
+"title": "Settings: phone mockup, version C (compact)",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"301": {
+"job": 1306,
+"stage": 2,
+"title": "Legacy: keyboard focus and reduced motion",
+"mode": "code",
+"group": "rivalry-legacy",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"302": {
+"job": 1257,
+"stage": 4,
+"title": "Standings: phone mockup, version C (compact)",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"303": {
+"job": 1335,
+"stage": 2,
+"title": "Trophy Room: keyboard focus and reduced motion",
+"mode": "code",
+"group": "trophy-room",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"304": {
+"job": 1112,
+"stage": 4,
+"title": "Connect Players (start and join): phone mockup, version C (compact)",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"305": {
+"job": 1393,
+"stage": 2,
+"title": "Career Statistics: keyboard focus and reduced motion",
+"mode": "code",
+"group": "career-statistics",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"306": {
+"job": 1199,
+"stage": 4,
+"title": "Transfer challenge and Signing Entry: phone mockup, version C (compact)",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"307": {
+"job": 1422,
+"stage": 2,
+"title": "Rule Book: keyboard focus and reduced motion",
+"mode": "code",
+"group": "rules-settings",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"308": {
+"job": 1344,
+"stage": 4,
+"title": "Trophy Room: phone mockup, version C (compact)",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"309": {
+"job": 1075,
+"stage": 2,
+"title": "Home: text contrast",
+"mode": "code",
+"group": "home",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"310": {
+"job": 1403,
+"stage": 4,
+"title": "Career Statistics: sideways phone study",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"311": {
+"job": 1104,
+"stage": 2,
+"title": "Connect Players (start and join): text contrast",
+"mode": "code",
+"group": "start-join",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"312": {
+"job": 1171,
+"stage": 4,
+"title": "Club packs: sideways phone study",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"313": {
+"job": 1133,
+"stage": 2,
+"title": "Select League: text contrast",
+"mode": "code",
+"group": "league",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"314": {
+"job": 1287,
+"stage": 4,
+"title": "Final Winner (Showdown Champion): sideways phone study",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"315": {
+"job": 1162,
+"stage": 2,
+"title": "Club packs: text contrast",
+"mode": "code",
+"group": "club",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"316": {
+"job": 1084,
+"stage": 4,
+"title": "Home: sideways phone study",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"317": {
+"job": 1191,
+"stage": 2,
+"title": "Transfer challenge and Signing Entry: text contrast",
+"mode": "code",
+"group": "transfer",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"318": {
+"job": 1142,
+"stage": 4,
+"title": "Select League: sideways phone study",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"319": {
+"job": 1220,
+"stage": 2,
+"title": "Season Results: text contrast",
+"mode": "code",
+"group": "season-final",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"320": {
+"job": 1316,
+"stage": 4,
+"title": "Legacy: sideways phone study",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"321": {
+"job": 1249,
+"stage": 2,
+"title": "Standings: text contrast",
+"mode": "code",
+"group": "standings",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"322": {
+"job": 1374,
+"stage": 4,
+"title": "Rivalry Statistics: sideways phone study",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"323": {
+"job": 1307,
+"stage": 2,
+"title": "Legacy: text contrast",
+"mode": "code",
+"group": "rivalry-legacy",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"324": {
+"job": 1432,
+"stage": 4,
+"title": "Rule Book: sideways phone study",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"325": {
+"job": 1336,
+"stage": 2,
+"title": "Trophy Room: text contrast",
+"mode": "code",
+"group": "trophy-room",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"326": {
+"job": 1229,
+"stage": 4,
+"title": "Season Results: sideways phone study",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"327": {
+"job": 1394,
+"stage": 2,
+"title": "Career Statistics: text contrast",
+"mode": "code",
+"group": "career-statistics",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"328": {
+"job": 1461,
+"stage": 4,
+"title": "Settings: sideways phone study",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"329": {
+"job": 1423,
+"stage": 2,
+"title": "Rule Book: text contrast",
+"mode": "code",
+"group": "rules-settings",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"330": {
+"job": 1258,
+"stage": 4,
+"title": "Standings: sideways phone study",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"331": {
+"job": 1076,
+"stage": 2,
+"title": "Home: picture descriptions and labels",
+"mode": "code",
+"group": "home",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"332": {
+"job": 1113,
+"stage": 4,
+"title": "Connect Players (start and join): sideways phone study",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"333": {
+"job": 1105,
+"stage": 2,
+"title": "Connect Players (start and join): picture descriptions and labels",
+"mode": "code",
+"group": "start-join",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"334": {
+"job": 1200,
+"stage": 4,
+"title": "Transfer challenge and Signing Entry: sideways phone study",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"335": {
+"job": 1134,
+"stage": 2,
+"title": "Select League: picture descriptions and labels",
+"mode": "code",
+"group": "league",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"336": {
+"job": 1345,
+"stage": 4,
+"title": "Trophy Room: sideways phone study",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"337": {
+"job": 1163,
+"stage": 2,
+"title": "Club packs: picture descriptions and labels",
+"mode": "code",
+"group": "club",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"338": {
+"job": 1404,
+"stage": 4,
+"title": "Career Statistics: upright tablet study",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"339": {
+"job": 1192,
+"stage": 2,
+"title": "Transfer challenge and Signing Entry: picture descriptions and labels",
+"mode": "code",
+"group": "transfer",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"340": {
+"job": 1172,
+"stage": 4,
+"title": "Club packs: upright tablet study",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"341": {
+"job": 1221,
+"stage": 2,
+"title": "Season Results: picture descriptions and labels",
+"mode": "code",
+"group": "season-final",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"342": {
+"job": 1288,
+"stage": 4,
+"title": "Final Winner (Showdown Champion): upright tablet study",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"343": {
+"job": 1250,
+"stage": 2,
+"title": "Standings: picture descriptions and labels",
+"mode": "code",
+"group": "standings",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"344": {
+"job": 1085,
+"stage": 4,
+"title": "Home: upright tablet study",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"345": {
+"job": 1308,
+"stage": 2,
+"title": "Legacy: picture descriptions and labels",
+"mode": "code",
+"group": "rivalry-legacy",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"346": {
+"job": 1143,
+"stage": 4,
+"title": "Select League: upright tablet study",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"347": {
+"job": 1337,
+"stage": 2,
+"title": "Trophy Room: picture descriptions and labels",
+"mode": "code",
+"group": "trophy-room",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"348": {
+"job": 1317,
+"stage": 4,
+"title": "Legacy: upright tablet study",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"349": {
+"job": 1395,
+"stage": 2,
+"title": "Career Statistics: picture descriptions and labels",
+"mode": "code",
+"group": "career-statistics",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"350": {
+"job": 1375,
+"stage": 4,
+"title": "Rivalry Statistics: upright tablet study",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"351": {
+"job": 1424,
+"stage": 2,
+"title": "Rule Book: picture descriptions and labels",
+"mode": "code",
+"group": "rules-settings",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"352": {
+"job": 1433,
+"stage": 4,
+"title": "Rule Book: upright tablet study",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"353": {
+"job": 1077,
+"stage": 2,
+"title": "Home: loading state",
+"mode": "code",
+"group": "home",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"354": {
+"job": 1230,
+"stage": 4,
+"title": "Season Results: upright tablet study",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"355": {
+"job": 1106,
+"stage": 2,
+"title": "Connect Players (start and join): loading state",
+"mode": "code",
+"group": "start-join",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"356": {
+"job": 1462,
+"stage": 4,
+"title": "Settings: upright tablet study",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"357": {
+"job": 1135,
+"stage": 2,
+"title": "Select League: loading state",
+"mode": "code",
+"group": "league",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"358": {
+"job": 1259,
+"stage": 4,
+"title": "Standings: upright tablet study",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"359": {
+"job": 1164,
+"stage": 2,
+"title": "Club packs: loading state",
+"mode": "code",
+"group": "club",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"360": {
+"job": 1114,
+"stage": 4,
+"title": "Connect Players (start and join): upright tablet study",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"361": {
+"job": 1193,
+"stage": 2,
+"title": "Transfer challenge and Signing Entry: loading state",
+"mode": "code",
+"group": "transfer",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"362": {
+"job": 1201,
+"stage": 4,
+"title": "Transfer challenge and Signing Entry: upright tablet study",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"363": {
+"job": 1222,
+"stage": 2,
+"title": "Season Results: loading state",
+"mode": "code",
+"group": "season-final",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"364": {
+"job": 1346,
+"stage": 4,
+"title": "Trophy Room: upright tablet study",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"365": {
+"job": 1251,
+"stage": 2,
+"title": "Standings: loading state",
+"mode": "code",
+"group": "standings",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"366": {
+"job": 1405,
+"stage": 5,
+"title": "Career Statistics: improved desktop, version A (polish)",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"367": {
+"job": 1309,
+"stage": 2,
+"title": "Legacy: loading state",
+"mode": "code",
+"group": "rivalry-legacy",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"368": {
+"job": 1173,
+"stage": 5,
+"title": "Club packs: improved desktop, version A (polish)",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"369": {
+"job": 1338,
+"stage": 2,
+"title": "Trophy Room: loading state",
+"mode": "code",
+"group": "trophy-room",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"370": {
+"job": 1289,
+"stage": 5,
+"title": "Final Winner (Showdown Champion): improved desktop, version A (polish)",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"371": {
+"job": 1396,
+"stage": 2,
+"title": "Career Statistics: loading state",
+"mode": "code",
+"group": "career-statistics",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"372": {
+"job": 1086,
+"stage": 5,
+"title": "Home: improved desktop, version A (polish)",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"373": {
+"job": 1425,
+"stage": 2,
+"title": "Rule Book: loading state",
+"mode": "code",
+"group": "rules-settings",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"374": {
+"job": 1144,
+"stage": 5,
+"title": "Select League: improved desktop, version A (polish)",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"375": {
+"job": 1078,
+"stage": 2,
+"title": "Home: empty state",
+"mode": "code",
+"group": "home",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"376": {
+"job": 1318,
+"stage": 5,
+"title": "Legacy: improved desktop, version A (polish)",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"377": {
+"job": 1107,
+"stage": 2,
+"title": "Connect Players (start and join): empty state",
+"mode": "code",
+"group": "start-join",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"378": {
+"job": 1376,
+"stage": 5,
+"title": "Rivalry Statistics: improved desktop, version A (polish)",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"379": {
+"job": 1136,
+"stage": 2,
+"title": "Select League: empty state",
+"mode": "code",
+"group": "league",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"380": {
+"job": 1434,
+"stage": 5,
+"title": "Rule Book: improved desktop, version A (polish)",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"381": {
+"job": 1165,
+"stage": 2,
+"title": "Club packs: empty state",
+"mode": "code",
+"group": "club",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"382": {
+"job": 1231,
+"stage": 5,
+"title": "Season Results: improved desktop, version A (polish)",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"383": {
+"job": 1194,
+"stage": 2,
+"title": "Transfer challenge and Signing Entry: empty state",
+"mode": "code",
+"group": "transfer",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"384": {
+"job": 1463,
+"stage": 5,
+"title": "Settings: improved desktop, version A (polish)",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"385": {
+"job": 1223,
+"stage": 2,
+"title": "Season Results: empty state",
+"mode": "code",
+"group": "season-final",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"386": {
+"job": 1260,
+"stage": 5,
+"title": "Standings: improved desktop, version A (polish)",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"387": {
+"job": 1252,
+"stage": 2,
+"title": "Standings: empty state",
+"mode": "code",
+"group": "standings",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"388": {
+"job": 1115,
+"stage": 5,
+"title": "Connect Players (start and join): improved desktop, version A (polish)",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"389": {
+"job": 1310,
+"stage": 2,
+"title": "Legacy: empty state",
+"mode": "code",
+"group": "rivalry-legacy",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"390": {
+"job": 1202,
+"stage": 5,
+"title": "Transfer challenge and Signing Entry: improved desktop, version A (polish)",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"391": {
+"job": 1339,
+"stage": 2,
+"title": "Trophy Room: empty state",
+"mode": "code",
+"group": "trophy-room",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"392": {
+"job": 1347,
+"stage": 5,
+"title": "Trophy Room: improved desktop, version A (polish)",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"393": {
+"job": 1397,
+"stage": 2,
+"title": "Career Statistics: empty state",
+"mode": "code",
+"group": "career-statistics",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"394": {
+"job": 1406,
+"stage": 5,
+"title": "Career Statistics: improved desktop, version B (focus)",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"395": {
+"job": 1426,
+"stage": 2,
+"title": "Rule Book: empty state",
+"mode": "code",
+"group": "rules-settings",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"396": {
+"job": 1174,
+"stage": 5,
+"title": "Club packs: improved desktop, version B (focus)",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"397": {
+"job": 1079,
+"stage": 2,
+"title": "Home: error and retry state",
+"mode": "code",
+"group": "home",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"398": {
+"job": 1290,
+"stage": 5,
+"title": "Final Winner (Showdown Champion): improved desktop, version B (focus)",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"399": {
+"job": 1108,
+"stage": 2,
+"title": "Connect Players (start and join): error and retry state",
+"mode": "code",
+"group": "start-join",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"400": {
+"job": 1087,
+"stage": 5,
+"title": "Home: improved desktop, version B (focus)",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"401": {
+"job": 1137,
+"stage": 2,
+"title": "Select League: error and retry state",
+"mode": "code",
+"group": "league",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"402": {
+"job": 1145,
+"stage": 5,
+"title": "Select League: improved desktop, version B (focus)",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"403": {
+"job": 1166,
+"stage": 2,
+"title": "Club packs: error and retry state",
+"mode": "code",
+"group": "club",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"404": {
+"job": 1319,
+"stage": 5,
+"title": "Legacy: improved desktop, version B (focus)",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"405": {
+"job": 1195,
+"stage": 2,
+"title": "Transfer challenge and Signing Entry: error and retry state",
+"mode": "code",
+"group": "transfer",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"406": {
+"job": 1377,
+"stage": 5,
+"title": "Rivalry Statistics: improved desktop, version B (focus)",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"407": {
+"job": 1224,
+"stage": 2,
+"title": "Season Results: error and retry state",
+"mode": "code",
+"group": "season-final",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"408": {
+"job": 1435,
+"stage": 5,
+"title": "Rule Book: improved desktop, version B (focus)",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"409": {
+"job": 1253,
+"stage": 2,
+"title": "Standings: error and retry state",
+"mode": "code",
+"group": "standings",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"410": {
+"job": 1232,
+"stage": 5,
+"title": "Season Results: improved desktop, version B (focus)",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"411": {
+"job": 1311,
+"stage": 2,
+"title": "Legacy: error and retry state",
+"mode": "code",
+"group": "rivalry-legacy",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"412": {
+"job": 1464,
+"stage": 5,
+"title": "Settings: improved desktop, version B (focus)",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"413": {
+"job": 1340,
+"stage": 2,
+"title": "Trophy Room: error and retry state",
+"mode": "code",
+"group": "trophy-room",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"414": {
+"job": 1261,
+"stage": 5,
+"title": "Standings: improved desktop, version B (focus)",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"415": {
+"job": 1398,
+"stage": 2,
+"title": "Career Statistics: error and retry state",
+"mode": "code",
+"group": "career-statistics",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"416": {
+"job": 1116,
+"stage": 5,
+"title": "Connect Players (start and join): improved desktop, version B (focus)",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"417": {
+"job": 1427,
+"stage": 2,
+"title": "Rule Book: error and retry state",
+"mode": "code",
+"group": "rules-settings",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"418": {
+"job": 1203,
+"stage": 5,
+"title": "Transfer challenge and Signing Entry: improved desktop, version B (focus)",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"419": {
+"job": 1080,
+"stage": 2,
+"title": "Home: hover-only effects",
+"mode": "code",
+"group": "home",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"420": {
+"job": 1348,
+"stage": 5,
+"title": "Trophy Room: improved desktop, version B (focus)",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"421": {
+"job": 1109,
+"stage": 2,
+"title": "Connect Players (start and join): hover-only effects",
+"mode": "code",
+"group": "start-join",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"422": {
+"job": 1407,
+"stage": 5,
+"title": "Career Statistics: improved desktop, version C (wide)",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"423": {
+"job": 1138,
+"stage": 2,
+"title": "Select League: hover-only effects",
+"mode": "code",
+"group": "league",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"424": {
+"job": 1175,
+"stage": 5,
+"title": "Club packs: improved desktop, version C (wide)",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"425": {
+"job": 1167,
+"stage": 2,
+"title": "Club packs: hover-only effects",
+"mode": "code",
+"group": "club",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"426": {
+"job": 1291,
+"stage": 5,
+"title": "Final Winner (Showdown Champion): improved desktop, version C (wide)",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"427": {
+"job": 1196,
+"stage": 2,
+"title": "Transfer challenge and Signing Entry: hover-only effects",
+"mode": "code",
+"group": "transfer",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"428": {
+"job": 1088,
+"stage": 5,
+"title": "Home: improved desktop, version C (wide)",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"429": {
+"job": 1225,
+"stage": 2,
+"title": "Season Results: hover-only effects",
+"mode": "code",
+"group": "season-final",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"430": {
+"job": 1146,
+"stage": 5,
+"title": "Select League: improved desktop, version C (wide)",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"431": {
+"job": 1254,
+"stage": 2,
+"title": "Standings: hover-only effects",
+"mode": "code",
+"group": "standings",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"432": {
+"job": 1320,
+"stage": 5,
+"title": "Legacy: improved desktop, version C (wide)",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"433": {
+"job": 1312,
+"stage": 2,
+"title": "Legacy: hover-only effects",
+"mode": "code",
+"group": "rivalry-legacy",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"434": {
+"job": 1378,
+"stage": 5,
+"title": "Rivalry Statistics: improved desktop, version C (wide)",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"435": {
+"job": 1341,
+"stage": 2,
+"title": "Trophy Room: hover-only effects",
+"mode": "code",
+"group": "trophy-room",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"436": {
+"job": 1436,
+"stage": 5,
+"title": "Rule Book: improved desktop, version C (wide)",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"437": {
+"job": 1399,
+"stage": 2,
+"title": "Career Statistics: hover-only effects",
+"mode": "code",
+"group": "career-statistics",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"438": {
+"job": 1233,
+"stage": 5,
+"title": "Season Results: improved desktop, version C (wide)",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"439": {
+"job": 1428,
+"stage": 2,
+"title": "Rule Book: hover-only effects",
+"mode": "code",
+"group": "rules-settings",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"440": {
+"job": 1465,
+"stage": 5,
+"title": "Settings: improved desktop, version C (wide)",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"441": {
+"job": 1264,
+"stage": 2,
+"title": "Final Winner (Showdown Champion): fix the 360x640 view",
+"mode": "code",
+"group": "season-final",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"442": {
+"job": 1262,
+"stage": 5,
+"title": "Standings: improved desktop, version C (wide)",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"443": {
+"job": 1351,
+"stage": 2,
+"title": "Rivalry Statistics: fix the 360x640 view",
+"mode": "code",
+"group": "rivalry-legacy",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"444": {
+"job": 1117,
+"stage": 5,
+"title": "Connect Players (start and join): improved desktop, version C (wide)",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"445": {
+"job": 1438,
+"stage": 2,
+"title": "Settings: fix the 360x640 view",
+"mode": "code",
+"group": "rules-settings",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"446": {
+"job": 1204,
+"stage": 5,
+"title": "Transfer challenge and Signing Entry: improved desktop, version C (wide)",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"447": {
+"job": 1265,
+"stage": 2,
+"title": "Final Winner (Showdown Champion): fix the 390x844 view",
+"mode": "code",
+"group": "season-final",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"448": {
+"job": 1349,
+"stage": 5,
+"title": "Trophy Room: improved desktop, version C (wide)",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"449": {
+"job": 1352,
+"stage": 2,
+"title": "Rivalry Statistics: fix the 390x844 view",
+"mode": "code",
+"group": "rivalry-legacy",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"450": {
+"job": 1408,
+"stage": 5,
+"title": "Career Statistics: states sheet",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"451": {
+"job": 1439,
+"stage": 2,
+"title": "Settings: fix the 390x844 view",
+"mode": "code",
+"group": "rules-settings",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"452": {
+"job": 1176,
+"stage": 5,
+"title": "Club packs: states sheet",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"453": {
+"job": 1266,
+"stage": 2,
+"title": "Final Winner (Showdown Champion): fix the 430x932 view",
+"mode": "code",
+"group": "season-final",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"454": {
+"job": 1292,
+"stage": 5,
+"title": "Final Winner (Showdown Champion): states sheet",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"455": {
+"job": 1353,
+"stage": 2,
+"title": "Rivalry Statistics: fix the 430x932 view",
+"mode": "code",
+"group": "rivalry-legacy",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"456": {
+"job": 1089,
+"stage": 5,
+"title": "Home: states sheet",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"457": {
+"job": 1440,
+"stage": 2,
+"title": "Settings: fix the 430x932 view",
+"mode": "code",
+"group": "rules-settings",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"458": {
+"job": 1147,
+"stage": 5,
+"title": "Select League: states sheet",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"459": {
+"job": 1267,
+"stage": 2,
+"title": "Final Winner (Showdown Champion): fix the 844x390 view",
+"mode": "code",
+"group": "season-final",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"460": {
+"job": 1321,
+"stage": 5,
+"title": "Legacy: states sheet",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"461": {
+"job": 1354,
+"stage": 2,
+"title": "Rivalry Statistics: fix the 844x390 view",
+"mode": "code",
+"group": "rivalry-legacy",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"462": {
+"job": 1379,
+"stage": 5,
+"title": "Rivalry Statistics: states sheet",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"463": {
+"job": 1441,
+"stage": 2,
+"title": "Settings: fix the 844x390 view",
+"mode": "code",
+"group": "rules-settings",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"464": {
+"job": 1437,
+"stage": 5,
+"title": "Rule Book: states sheet",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"465": {
+"job": 1268,
+"stage": 2,
+"title": "Final Winner (Showdown Champion): fix the 932x430 view",
+"mode": "code",
+"group": "season-final",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"466": {
+"job": 1234,
+"stage": 5,
+"title": "Season Results: states sheet",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"467": {
+"job": 1355,
+"stage": 2,
+"title": "Rivalry Statistics: fix the 932x430 view",
+"mode": "code",
+"group": "rivalry-legacy",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"468": {
+"job": 1466,
+"stage": 5,
+"title": "Settings: states sheet",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"469": {
+"job": 1442,
+"stage": 2,
+"title": "Settings: fix the 932x430 view",
+"mode": "code",
+"group": "rules-settings",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"470": {
+"job": 1263,
+"stage": 5,
+"title": "Standings: states sheet",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"471": {
+"job": 1269,
+"stage": 2,
+"title": "Final Winner (Showdown Champion): fix the 768x1024 view",
+"mode": "code",
+"group": "season-final",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"472": {
+"job": 1118,
+"stage": 5,
+"title": "Connect Players (start and join): states sheet",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"473": {
+"job": 1356,
+"stage": 2,
+"title": "Rivalry Statistics: fix the 768x1024 view",
+"mode": "code",
+"group": "rivalry-legacy",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"474": {
+"job": 1205,
+"stage": 5,
+"title": "Transfer challenge and Signing Entry: states sheet",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"475": {
+"job": 1443,
+"stage": 2,
+"title": "Settings: fix the 768x1024 view",
+"mode": "code",
+"group": "rules-settings",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"476": {
+"job": 1350,
+"stage": 5,
+"title": "Trophy Room: states sheet",
+"mode": "study",
+"group": null,
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"477": {
+"job": 1270,
+"stage": 2,
+"title": "Final Winner (Showdown Champion): fix the 1280x650 view",
+"mode": "code",
+"group": "season-final",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"478": {
+"job": 1357,
+"stage": 2,
+"title": "Rivalry Statistics: fix the 1280x650 view",
+"mode": "code",
+"group": "rivalry-legacy",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"479": {
+"job": 1444,
+"stage": 2,
+"title": "Settings: fix the 1280x650 view",
+"mode": "code",
+"group": "rules-settings",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"480": {
+"job": 1271,
+"stage": 2,
+"title": "Final Winner (Showdown Champion): fix the 1366x768 view",
+"mode": "code",
+"group": "season-final",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"481": {
+"job": 1358,
+"stage": 2,
+"title": "Rivalry Statistics: fix the 1366x768 view",
+"mode": "code",
+"group": "rivalry-legacy",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"482": {
+"job": 1445,
+"stage": 2,
+"title": "Settings: fix the 1366x768 view",
+"mode": "code",
+"group": "rules-settings",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"483": {
+"job": 1272,
+"stage": 2,
+"title": "Final Winner (Showdown Champion): fix the 1920x1080 view",
+"mode": "code",
+"group": "season-final",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"484": {
+"job": 1359,
+"stage": 2,
+"title": "Rivalry Statistics: fix the 1920x1080 view",
+"mode": "code",
+"group": "rivalry-legacy",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"485": {
+"job": 1446,
+"stage": 2,
+"title": "Settings: fix the 1920x1080 view",
+"mode": "code",
+"group": "rules-settings",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"486": {
+"job": 1273,
+"stage": 2,
+"title": "Final Winner (Showdown Champion): fix the 2560x1080 view",
+"mode": "code",
+"group": "season-final",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"487": {
+"job": 1360,
+"stage": 2,
+"title": "Rivalry Statistics: fix the 2560x1080 view",
+"mode": "code",
+"group": "rivalry-legacy",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"488": {
+"job": 1447,
+"stage": 2,
+"title": "Settings: fix the 2560x1080 view",
+"mode": "code",
+"group": "rules-settings",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"489": {
+"job": 1274,
+"stage": 3,
+"title": "Final Winner (Showdown Champion): match the desktop mockup",
+"mode": "code",
+"group": "season-final",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"490": {
+"job": 1361,
+"stage": 3,
+"title": "Rivalry Statistics: match the desktop mockup",
+"mode": "code",
+"group": "rivalry-legacy",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"491": {
+"job": 1448,
+"stage": 3,
+"title": "Settings: match the desktop mockup",
+"mode": "code",
+"group": "rules-settings",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"492": {
+"job": 1275,
+"stage": 2,
+"title": "Final Winner (Showdown Champion): long names",
+"mode": "code",
+"group": "season-final",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"493": {
+"job": 1362,
+"stage": 2,
+"title": "Rivalry Statistics: long names",
+"mode": "code",
+"group": "rivalry-legacy",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"494": {
+"job": 1449,
+"stage": 2,
+"title": "Settings: long names",
+"mode": "code",
+"group": "rules-settings",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"495": {
+"job": 1276,
+"stage": 2,
+"title": "Final Winner (Showdown Champion): tap targets",
+"mode": "code",
+"group": "season-final",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"496": {
+"job": 1363,
+"stage": 2,
+"title": "Rivalry Statistics: tap targets",
+"mode": "code",
+"group": "rivalry-legacy",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"497": {
+"job": 1450,
+"stage": 2,
+"title": "Settings: tap targets",
+"mode": "code",
+"group": "rules-settings",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"498": {
+"job": 1277,
+"stage": 2,
+"title": "Final Winner (Showdown Champion): keyboard focus and reduced motion",
+"mode": "code",
+"group": "season-final",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"499": {
+"job": 1364,
+"stage": 2,
+"title": "Rivalry Statistics: keyboard focus and reduced motion",
+"mode": "code",
+"group": "rivalry-legacy",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"500": {
+"job": 1451,
+"stage": 2,
+"title": "Settings: keyboard focus and reduced motion",
+"mode": "code",
+"group": "rules-settings",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"501": {
+"job": 1278,
+"stage": 2,
+"title": "Final Winner (Showdown Champion): text contrast",
+"mode": "code",
+"group": "season-final",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"502": {
+"job": 1365,
+"stage": 2,
+"title": "Rivalry Statistics: text contrast",
+"mode": "code",
+"group": "rivalry-legacy",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"503": {
+"job": 1452,
+"stage": 2,
+"title": "Settings: text contrast",
+"mode": "code",
+"group": "rules-settings",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"504": {
+"job": 1279,
+"stage": 2,
+"title": "Final Winner (Showdown Champion): picture descriptions and labels",
+"mode": "code",
+"group": "season-final",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"505": {
+"job": 1366,
+"stage": 2,
+"title": "Rivalry Statistics: picture descriptions and labels",
+"mode": "code",
+"group": "rivalry-legacy",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"506": {
+"job": 1453,
+"stage": 2,
+"title": "Settings: picture descriptions and labels",
+"mode": "code",
+"group": "rules-settings",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"507": {
+"job": 1280,
+"stage": 2,
+"title": "Final Winner (Showdown Champion): loading state",
+"mode": "code",
+"group": "season-final",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"508": {
+"job": 1367,
+"stage": 2,
+"title": "Rivalry Statistics: loading state",
+"mode": "code",
+"group": "rivalry-legacy",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"509": {
+"job": 1454,
+"stage": 2,
+"title": "Settings: loading state",
+"mode": "code",
+"group": "rules-settings",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"510": {
+"job": 1281,
+"stage": 2,
+"title": "Final Winner (Showdown Champion): empty state",
+"mode": "code",
+"group": "season-final",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"511": {
+"job": 1368,
+"stage": 2,
+"title": "Rivalry Statistics: empty state",
+"mode": "code",
+"group": "rivalry-legacy",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"512": {
+"job": 1455,
+"stage": 2,
+"title": "Settings: empty state",
+"mode": "code",
+"group": "rules-settings",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"513": {
+"job": 1282,
+"stage": 2,
+"title": "Final Winner (Showdown Champion): error and retry state",
+"mode": "code",
+"group": "season-final",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"514": {
+"job": 1369,
+"stage": 2,
+"title": "Rivalry Statistics: error and retry state",
+"mode": "code",
+"group": "rivalry-legacy",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"515": {
+"job": 1456,
+"stage": 2,
+"title": "Settings: error and retry state",
+"mode": "code",
+"group": "rules-settings",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"516": {
+"job": 1283,
+"stage": 2,
+"title": "Final Winner (Showdown Champion): hover-only effects",
+"mode": "code",
+"group": "season-final",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"517": {
+"job": 1370,
+"stage": 2,
+"title": "Rivalry Statistics: hover-only effects",
+"mode": "code",
+"group": "rivalry-legacy",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+},
+"518": {
+"job": 1457,
+"stage": 2,
+"title": "Settings: hover-only effects",
+"mode": "code",
+"group": "rules-settings",
+"state": "waiting",
+"since": "2026-10-10T02:01:44Z"
+}
+}
+}

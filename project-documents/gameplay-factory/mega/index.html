@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mega factory tracker</title>
+<style>
+:root{--bg:#f4f6f9;--card:#fff;--ink:#14213d;--mut:#5b6b82;--line:#dde3ec;
+--waiting:#c4ccd8;--started:#3b82f6;--ci_running:#f5a524;--ci_failed:#e5484d;--ready:#14b8a6;--reviewed:#8b5cf6;--merged:#22a559;--live:#0f7a3d;--blocked:#f97316;--closed:#6b7280}
+@media (prefers-color-scheme:dark){:root{--bg:#0b1220;--card:#131c2e;--ink:#e8eef9;--mut:#8fa1bd;--line:#26334d;--waiting:#344159}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.4 -apple-system,system-ui,Segoe UI,Roboto,sans-serif;padding:12px 16px 40px;max-width:1100px;margin:auto}
+h1{font-size:20px;margin:6px 0 2px}
+h2{font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--mut);margin:0 0 8px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin:12px 0}
+.top{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.dot{display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--merged);margin-right:6px}
+.dot.stale{background:var(--ci_failed)}
+.age{color:var(--mut);font-size:13px}
+.banner{background:var(--ci_failed);color:#fff;border-radius:10px;padding:10px 12px;margin:10px 0;display:none}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font-size:26px;font-weight:700;min-width:64px;text-align:center;padding:10px 14px;border-radius:12px;background:var(--ready);color:#fff;border:0;cursor:pointer}
+.chip.copied{background:var(--merged)}
+.big{font-size:34px;font-weight:800}
+.row{display:flex;gap:16px;flex-wrap:wrap}
+.row>div{flex:1;min-width:140px}
+.lbl{color:var(--mut);font-size:12px}
+.bar{display:flex;height:26px;border-radius:8px;overflow:hidden;background:var(--waiting)}
+.bar span{display:block;height:100%}
+.bar.thin{height:12px}
+.leg{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:10px;font-size:13px}
+.leg b{font-variant-numeric:tabular-nums}
+.sw{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+.leg label{cursor:pointer;opacity:.95}
+.leg label.off{opacity:.35}
+.stage{margin:10px 0}
+.stage .h{display:flex;justify-content:space-between;font-size:14px;margin-bottom:4px;gap:8px}
+.stage .h span:last-child{color:var(--mut);font-size:12px;text-align:right}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(15px,1fr));gap:3px}
+.grid i{aspect-ratio:1;border-radius:3px;display:block;cursor:pointer;position:relative}
+.grid i.next{outline:2px solid var(--ink);outline-offset:1px;z-index:1}
+.grid i.dim{opacity:.12}
+.item{display:flex;gap:8px;align-items:baseline;padding:7px 0;border-top:1px solid var(--line);font-size:14px}
+.item:first-child{border-top:0}
+.item .n{font-weight:700;min-width:38px}
+.item .t{flex:1}
+.item small{color:var(--mut)}
+a{color:inherit}
+.pill{font-size:11px;padding:2px 7px;border-radius:99px;color:#fff;white-space:nowrap}
+#det{position:fixed;left:0;right:0;bottom:0;background:var(--card);border-top:2px solid var(--line);padding:12px 16px;display:none;box-shadow:0 -6px 20px rgba(0,0,0,.2);z-index:9}
+.mut{color:var(--mut)}
+.none{color:var(--mut);font-size:14px}
+</style>
+</head>
+<body>
+<div class="top"><h1>Mega factory tracker</h1><div class="age"><span class="dot" id="dot"></span><span id="age">loading…</span></div></div>
+<div class="banner" id="ban"></div>
+
+<div class="card"><h2>Type one of these now</h2><div class="chips" id="ready"></div>
+<div class="lbl" style="margin-top:8px">Tap a number to copy it. Next free number: <b id="nextfree">-</b>. A number not on this list has to wait.</div></div>
+
+<div class="card"><div class="row">
+<div><div class="lbl">Finished (merged or live)</div><div class="big" id="fin">-</div></div>
+<div><div class="lbl">In flight</div><div class="big" id="fly">-</div></div>
+<div><div class="lbl">Claimed last hour</div><div class="big" id="r1">-</div><div class="lbl" id="r10"></div></div>
+<div><div class="lbl">Merged last hour</div><div class="big" id="rm">-</div></div>
+</div></div>
+
+<div class="card"><h2>All <span id="tot">518</span> numbers</h2><div class="bar" id="all"></div><div class="leg" id="leg"></div></div>
+
+<div class="card"><h2>Gates</h2>
+<div class="stage"><div class="h"><span>Code PRs open</span><span id="capn"></span></div><div class="bar thin" id="cap"></div></div>
+<div class="lbl" id="locks"></div></div>
+
+<div class="card"><h2>By stage</h2><div id="stages"></div></div>
+
+<div class="card"><h2>Needs attention</h2><div id="attn"></div></div>
+
+<div class="card"><h2>Every number <span class="mut" style="text-transform:none;letter-spacing:0">(tap a square; tap a legend colour to filter)</span></h2><div class="grid" id="grid"></div></div>
+
+<div class="card"><h2>In flight</h2><div id="fl"></div></div>
+
+<div class="card"><h2>Latest changes</h2><div id="ev"></div></div>
+
+<div id="det"></div>
+
+<script>
+const REPO="nikahanghojjati-oss/fifa17-career-showdown2",BR="factory/gameplay-v1",PATH="project-documents/gameplay-factory/mega/MEGA_TRACKER.json";
+const ST=["live","merged","reviewed","ready","ci_running","ci_failed","blocked","started","closed","waiting"];
+const LB={waiting:"Waiting",started:"Started, no PR yet",ci_running:"PR open, checks running",ci_failed:"PR open, checks FAILED",ready:"PR open, checks green",reviewed:"Reviewed, waiting for lead",merged:"Merged",live:"Live in a release",blocked:"Blocked",closed:"Closed"};
+const $=id=>document.getElementById(id);
+const esc=s=>String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const col=s=>`var(--${s})`;
+let D=null,hidden=new Set(),etag=null,lastOk=0;
+function ago(t){const s=Math.max(0,(Date.now()-new Date(t))/1000);if(s<90)return Math.round(s)+" s ago";if(s<5400)return Math.round(s/60)+" min ago";return (s/3600).toFixed(1)+" h ago"}
+async function load(){
+  try{
+    const h={Accept:"application/vnd.github.raw"};if(etag)h["If-None-Match"]=etag;
+    let r=await fetch(`https://api.github.com/repos/${REPO}/contents/${PATH}?ref=${BR}`,{headers:h,cache:"no-store"});
+    if(r.status==304){lastOk=Date.now();paint(true);return}
+    if(!r.ok)throw 0;
+    etag=r.headers.get("ETag");D=await r.json();
+  }catch(e){
+    try{const r=await fetch(`https://raw.githubusercontent.com/${REPO}/${BR}/${PATH}?t=${Math.floor(Date.now()/60000)}`);if(!r.ok)throw 0;D=await r.json();etag=null}catch(e2){paint(true,true);return}
+  }
+  lastOk=Date.now();paint();
+}
+function paint(only,fail){
+  if(!D){$("age").textContent=fail?"cannot reach GitHub":"loading…";return}
+  const age=(Date.now()-new Date(D.updated))/1000;
+  const old=age>1500,off=fail||Date.now()-lastOk>180000;
+  $("dot").className="dot"+(old||off?" stale":"");
+  $("age").textContent="data "+ago(D.updated)+(off?" · connection lost":"");
+  const b=$("ban");
+  if(old||off){b.style.display="block";b.textContent=off?"Cannot reach GitHub right now; showing the last data. Numbers may be behind.":"The GitHub updater has not written new data for "+Math.round(age/60)+" min. Numbers may be behind."}else b.style.display="none";
+  if(only&&!fail&&D._painted===D.updated)return;
+  D._painted=D.updated;
+  const c=D.counts,n=D.total,g=D.gates,fin=(c.merged||0)+(c.live||0);
+  const fly=(c.started||0)+(c.ci_running||0)+(c.ci_failed||0)+(c.ready||0)+(c.reviewed||0)+(c.blocked||0);
+  $("tot").textContent=n;$("fin").textContent=fin+" / "+n;$("fly").textContent=fly;
+  $("r1").textContent=D.rate.claimed_last_hour;$("r10").textContent=D.rate.claimed_last_10min+" in the last 10 min";$("rm").textContent=D.rate.merged_last_hour;
+  $("nextfree").textContent=D.next_free==null?"none":D.next_free;
+  $("ready").innerHTML=g.ready.length?g.ready.map(x=>`<button class="chip" data-n="${x}">${x}</button>`).join(""):'<span class="none">Nothing free right now. Wait for a pull request to merge.</span>';
+  document.querySelectorAll(".chip").forEach(b=>b.onclick=()=>{try{navigator.clipboard.writeText(b.dataset.n)}catch(e){}b.classList.add("copied");setTimeout(()=>b.classList.remove("copied"),900)});
+  $("all").innerHTML=ST.slice(0,-1).concat("waiting").map(s=>c[s]?`<span style="width:${c[s]/n*100}%;background:${col(s)}" title="${LB[s]}: ${c[s]}"></span>`:"").join("");
+  $("leg").innerHTML=ST.map(s=>`<label data-s="${s}" class="${hidden.has(s)?"off":""}"><span class="sw" style="background:${col(s)}"></span>${LB[s]} <b>${c[s]||0}</b></label>`).join("");
+  document.querySelectorAll("#leg label").forEach(l=>l.onclick=()=>{const s=l.dataset.s;hidden.has(s)?hidden.delete(s):hidden.add(s);D._painted=0;paint()});
+  $("capn").textContent=g.open_code_prs+" of "+g.cap;
+  $("cap").innerHTML=`<span style="width:${g.open_code_prs/g.cap*100}%;background:${col(g.open_code_prs>=g.cap?"ci_failed":"started")}"></span>`;
+  const lk=Object.entries(g.area_locks);
+  $("locks").innerHTML="Screen areas locked by an open code PR: "+(lk.length?lk.map(([a,k])=>`<b>${esc(a)}</b> (number ${k})`).join(", "):"none")+(g.code_started_no_pr.length?`<br>Code numbers started with no PR yet: ${g.code_started_no_pr.join(", ")}`:"");
+  $("stages").innerHTML=Object.keys(D.stages).sort().map(k=>{const s=D.stages[k],v=s.states,f=(v.merged||0)+(v.live||0);
+    return `<div class="stage"><div class="h"><span><b>Stage ${k}</b> ${esc(s.name)}</span><span>${f} merged of ${s.total} · ${s.total-f-(v.waiting||0)-(v.closed||0)} in flight · ${v.waiting||0} waiting</span></div><div class="bar thin">${ST.slice(0,-1).concat("waiting").map(x=>v[x]?`<span style="width:${v[x]/s.total*100}%;background:${col(x)}" title="${LB[x]}: ${v[x]}"></span>`:"").join("")}</div></div>`}).join("");
+  const items=Object.entries(D.items).sort((a,b)=>a[0]-b[0]);
+  const link=(k,v)=>v.pr?` <a href="${v.pr_url}" target="_blank" rel="noopener">PR #${v.pr}</a>`:"";
+  const row=(k,v,extra)=>`<div class="item"><span class="n">${k}</span><span class="t">${esc(v.title)} <small>Job ${v.job}${link(k,v)}</small>${extra||""}</span><span class="pill" style="background:${col(v.state)}">${LB[v.state]}</span></div>`;
+  const bad=items.filter(([k,v])=>v.state==="ci_failed"||v.state==="blocked");
+  const stale=D.stale_started.map(String);
+  const att=bad.map(([k,v])=>row(k,v)).concat(items.filter(([k])=>stale.includes(k)).map(([k,v])=>row(k,v,` <small>(claimed ${ago(v.since)}, still no PR)</small>`)));
+  $("attn").innerHTML=att.length?att.join(""):'<span class="none">Nothing failed, blocked or stuck.</span>';
+  $("grid").innerHTML=items.map(([k,v])=>`<i data-k="${k}" class="${+k===D.next_free?"next":""}${hidden.has(v.state)?" dim":""}" style="background:${col(v.state)}" title="${k}"></i>`).join("");
+  document.querySelectorAll(".grid i").forEach(i=>i.onclick=()=>{const k=i.dataset.k,v=D.items[k],d=$("det");
+    d.style.display="block";d.innerHTML=`<b>Number ${k}</b> · Job ${v.job} · stage ${v.stage} · ${v.mode||""}${v.group?" · "+esc(v.group):""}<br>${esc(v.title)}<br><span class="pill" style="background:${col(v.state)}">${LB[v.state]}</span> <span class="mut">${v.since?"since "+ago(v.since):""}${v.ci?" · checks "+v.ci+(v.ci_total?" ("+v.ci_total+")":""):""}${v.live_in?" · "+esc(v.live_in):""}</span>${link(k,v)}${v.branch?`<br><small class="mut">${esc(v.branch)}</small>`:""}<br><a href="#" onclick="document.getElementById('det').style.display='none';return false">close</a>`});
+  const fl=items.filter(([k,v])=>["started","ci_running","ci_failed","ready","reviewed","blocked"].includes(v.state));
+  $("fl").innerHTML=fl.length?fl.slice(0,40).map(([k,v])=>row(k,v)).join("")+(fl.length>40?`<div class="none" style="padding-top:8px">+ ${fl.length-40} more (see the grid above)</div>`:""):'<span class="none">Nothing in flight.</span>';
+  $("ev").innerHTML=D.events.length?D.events.slice(-25).reverse().map(e=>`<div class="item"><span class="n">${e.item}</span><span class="t">${esc((D.items[e.item]||{}).title||"")} <small>Job ${e.job} · ${ago(e.at)}</small></span><span class="pill" style="background:${col(e.to)}">${LB[e.to]}</span></div>`).join(""):'<span class="none">No changes recorded yet.</span>';
+}
+load();setInterval(load,30000);setInterval(()=>paint(true),15000);
+</script>
+</body>
+</html>
