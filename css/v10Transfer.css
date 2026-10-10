@@ -166,3 +166,47 @@
   #transferChallenge .tw-host .phase-signing .action-row .privacy-note { display: none; }
   #transferChallenge .tw-host .phase-signing .action-row { justify-content: flex-end; }
 }
+
+/* JOB-1177: 360x640 signing entry. The overlay, not its signing panel, owns the phone's single
+   vertical scroll. A scrollable .world clips the fixed lock action on short iOS viewports;
+   allowing the form to grow also keeps the third row reachable above the action/footer. */
+@media (min-width: 320px) and (max-width: 375px) and (max-height: 680px) and (orientation: portrait) {
+  #transferChallenge.tw-on > .tw-host {
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior-y: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+  #transferChallenge .tw-host .stage[data-phase="SIGNING_ENTRY"] {
+    height: auto;
+    min-height: 100svh;
+    min-height: 100dvh;
+    overflow: visible;
+  }
+  #transferChallenge .tw-host .stage[data-phase="SIGNING_ENTRY"] .world {
+    height: auto;
+    min-height: 100svh;
+    min-height: 100dvh;
+    max-height: none;
+    overflow: visible;
+    overscroll-behavior: auto;
+    -webkit-overflow-scrolling: auto;
+  }
+  /* The production selector's 100px column floors eat the whole 360px card.
+     Let each field shrink inside its grid track without overprinting its neighbour. */
+  #transferChallenge .tw-host .signing-row.signingRow:not(.is-readonly) {
+    grid-template-columns: 16px minmax(0, 1.22fr) minmax(0, 1.1fr) minmax(0, .92fr);
+  }
+  #transferChallenge .tw-host :is(.signingRow, .guessRow) > :is(input, select, .transferCombobox) {
+    width: 100%;
+    min-width: 0;
+    min-height: 44px;
+    box-sizing: border-box;
+  }
+  #transferChallenge .tw-host :is(.signingRow, .guessRow) :is(input, select, button, [role="combobox"]) {
+    min-width: 0;
+    min-height: 44px;
+    box-sizing: border-box;
+  }
+  #transferChallenge .tw-host :is(.btn-end, .btn-lock, .btn-continue) { min-height: 44px; }
+}
