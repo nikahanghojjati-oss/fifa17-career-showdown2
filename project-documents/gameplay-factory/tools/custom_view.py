@@ -721,7 +721,7 @@ def render(first, compact=False, tight=False):
          ".cv .br{display:inline-block;vertical-align:middle;width:50%;height:12px;border-radius:6px;background:#12191f;border:1px solid #43515b;overflow:hidden}.cv .br i{display:block;height:100%;border-radius:6px;background:currentColor}.cv .pc{font:italic 800 16px var(--h);color:#f0d900;margin-left:8px}.cv .tm{font-size:11px;border:1px solid #8ea2ac;border-radius:4px;padding:0 3px;color:#dce5e8}"
          + "".join(f".cv .q{i}{{color:{h}}}" for i, h in enumerate(HEX.values())) + ".cv .q9{color:#9ca3af}</style>",
          '<div class="cv">',
-         f'<div class="ban"><b>Bug hunt board · Team {first} lead</b><span>Updated {now:%a %-d %b, %-I:%M %p} Boston time · same board as Team {"V" if first == "G" else "G"}\'s · <a href="{BLOB}BOARD.md">on GitHub</a>' + ("" if tight else f' · <a href="{BLOB}RELAY.md">relay</a>') + '</span></div>',
+         f'<div class="ban"><b>Bug hunt board · {"Haiku G" if first == "G" else f"Team {first} lead"}</b><span>Updated {now:%a %-d %b, %-I:%M %p} Boston time · same board as Team {"V" if first == "G" else "G"}\'s · <a href="{BLOB}BOARD.md">on GitHub</a>' + ("" if tight else f' · <a href="{BLOB}RELAY.md">relay</a>') + '</span></div>',
          f'<div class="tiles"><div class="tile"><b>{e((LV or {}).get("revision", "?").split("-")[-1])}</b><span>Live</span></div><div class="tile"><b>{n_run}</b><span>Jobs running</span></div><div class="tile"><b>{n_next}</b><span>Jobs to start</span></div><div class="tile"><b>{n_nik}</b><span>Other asks</span></div></div>' if not tight else f'<div class="m foot">Live: {e((LV or {}).get("revision", "?").split("-")[-1])}</div>']
     H.append("<h2>Jobs</h2>")
     J = []
@@ -802,7 +802,7 @@ def item_md(it):
     return s.replace("\n", " ") + " |"
 
 
-L = ["# Bug hunt board", "",
+L = ["# Bug hunt board · Haiku G", "",
      f"Updated {now:%a %-d %b, %-I:%M %p} Boston time. Bug hunting only, no new features until further notice. "
      "The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).", ""]
 if warn:
