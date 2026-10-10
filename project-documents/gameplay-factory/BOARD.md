@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Sat 10 Oct, 3:33 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Sat 10 Oct, 3:36 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r68** (main `234a2fe`, Sat 10 Oct 1:20 PM)
 
@@ -103,7 +103,7 @@ Claude takes a job when:
 | **G-F18** Old-design screen audit: Legacy, Career Statistics and Trophy Room still open in the old shell; drive every live screen  | 🟣 | Claude Opus | queued for stage 2 (visual fixes); the history screens now load online (r65), the old-design shell is what remains | cross-screen audit with emulator screenshots |
 | **G-F5** QA packet adoptions: truth line, wrong-target guard on main PRs, PR title rule | 🟤 | Claude Sonnet | queued after the bug jobs | Gate and main-PR guard work |
 | **G-F17** Showdown Gate: replace POS20 with a faster check system built on Claude and GitHub, keeping every check (plan: /mnt/proj | 🟣 | Claude Opus | shadow: KEEP_SHADOW after the 9 Oct independent audit (71/100); fixes 1043, 1044 and 1045 merged; the owner card waits for a fresh exit report | Gate design (lead only) |
-| **G-F24** Team V sheet loader: toggle link.sheet.disabled instead of link.disabled so Chromium stops refetching Team V sheets on e | 🟤 | Claude Sonnet | ready after PR #485 merges | browser-visible loader timing plus three contracts; needs a browser repro |
+| **G-F24** Team V sheet loader: toggle link.sheet.disabled instead of link.disabled so Chromium stops refetching Team V sheets on e | 🟤 | Claude Sonnet | ready (PR #485 merged into gameplay/bug-list-1, 111b6a3) | browser-visible loader timing plus three contracts; needs a browser repro |
 
 ## Mega factory
 
@@ -183,7 +183,7 @@ Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-caree
 | Lane | Item | What | State |
 | --- | --- | --- | --- |
 | 🟪 Sonnet | **G-F11** | Old-design CSS collisions: scope old rulebook/settings/analytics/app CSS off Team V markup (about 70 shared class names); then archive old-design CSS no Team V screen needs into archive/old-design/ (C-2 from the old-design flash fix, after the GPT-B audit; archive, don't delete) | ready |
-| 🟪 Sonnet | **G-F24** | Team V sheet loader: toggle link.sheet.disabled instead of link.disabled so Chromium stops refetching Team V sheets on each screen change (labels blank ~100 ms returning Home); update contracts F3, F3b and HO-020 with it (C-1) | ready after PR #485 merges |
+| 🟪 Sonnet | **G-F24** | Team V sheet loader: toggle link.sheet.disabled instead of link.disabled so Chromium stops refetching Team V sheets on each screen change (labels blank ~100 ms returning Home); update contracts F3, F3b and HO-020 with it (C-1) | ready |
 | 🟪 Sonnet | **G-F5** | QA packet adoptions: truth line, wrong-target guard on main PRs, PR title rule | queued after the bug jobs |
 | 🟧 Opus | **G-F17** | Showdown Gate: replace POS20 with a faster check system built on Claude and GitHub, keeping every check (plan: /mnt/project-files/check-system/SHOWDOWN_GATE_PLAN.md) | shadow: KEEP_SHADOW after the 9 Oct independent audit · after exit bar: 10 real PRs agree (2 full seals), 2 canaries fail, 1 simulated outage recovers; POS20 stays the merge authority until then |
 | 🟧 Opus | **G-F18** | Old-design screen audit: Legacy, Career Statistics and Trophy Room still open in the old shell; drive every live screen in a browser against Team V's design and route all of them to the new design | queued for stage 2 · after stage 2 |

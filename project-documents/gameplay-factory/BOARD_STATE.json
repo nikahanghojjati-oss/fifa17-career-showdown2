@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-10 3:32 PM Boston time (EDT)",
+ "generated": "2026-10-10 3:36 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -1072,8 +1072,8 @@
       "id": "G-F24",
       "title": "Team V sheet loader: toggle link.sheet.disabled instead of link.disabled so Chromium stops refetching Team V sheets on each screen change (labels blank ~100 ms returning Home); update contracts F3, F3b and HO-020 with it (C-1)",
       "lane": "sonnet",
-      "state": "ready after PR #485 merges",
-      "waits_on": "PR #485 (old-design flash fix)",
+      "state": "ready (PR #485 merged into gameplay/bug-list-1, 111b6a3)",
+      "waits_on": "",
       "team": "brown",
       "route": "claude",
       "claude_reason": "browser-visible loader timing plus three contracts; needs a browser repro",
@@ -1101,7 +1101,7 @@
       "team": "white",
       "model": "Codex default coding model",
       "effort": "Medium",
-      "state": "ready for Codex (passes on PR #485's fix)",
+      "state": "ready for Codex (the fix it guards, PR #485, is merged)",
       "order": 42,
       "place": "Codex cloud, this repo",
       "note": "ticket jobs/JOB-1589.md (old-design flash GPT-A)",
