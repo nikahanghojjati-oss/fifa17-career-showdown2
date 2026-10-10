@@ -1,10 +1,10 @@
 # Bug hunt board
 
-Updated Fri 9 Oct, 8:00 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Fri 9 Oct, 8:07 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r66** (main `8e1a583`, Fri 9 Oct 12:04 PM)
 
-🐕 **Barking: POS20 on #448 has waited 10 min for a machine; POS20 on #449 has waited 1 min for a machine; Gameplay Fast on #449 has waited 1 min for a machine; POS20 has waited 1 min for a machine.** · POS20 #304 6/16
+🐕 **Barking: POS20 on #448 has waited 5 min for a machine.** · POS20 #304 6/16
 
 ## Jobs
 
@@ -15,8 +15,8 @@ Updated Fri 9 Oct, 8:00 PM Boston time. Bug hunting only, no new features until 
 🔵 Team blue · **GPT-6 Sol** · High effort · worker done, PR #448 open, CI running
 
 **#2 · 1058** `G` Transfer countdown agrees across both phones (Sol lead S4)  
-`███████░░░` **70.0000 %**  
-🔵 Team blue · **GPT-6 Sol** · High effort · worker done, PR #449 open, CI running
+`████████░░` **80.0000 %**  
+🔵 Team blue · **GPT-6 Sol** · High effort · worker done, PR #449 open, CI green, waiting for the lead
 
 **Done, waiting for the next release:** 1044, 1045, 1048, 1049, 1050, 1051, 1052, 1053
 
