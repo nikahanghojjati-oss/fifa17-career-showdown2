@@ -1,5 +1,5 @@
 {
-"updated": "2026-10-10T02:11:49Z",
+"updated": "2026-10-10T02:22:18Z",
 "total": 518,
 "next_free": 1,
 "highest_taken": 0,
@@ -47,8 +47,8 @@
 "gates": {
 "cap": 8,
 "open_code_prs": 0,
-"open_code_items": [],
-"code_started_no_pr": [],
+"open_train_prs": [],
+"on_train_no_pr": [],
 "draft_code_prs": 0,
 "area_locks": {},
 "ready": [
@@ -66,30 +66,20 @@
 12
 ],
 "ready_sol": [
-2,
-4,
-6,
-8,
-10,
-12,
-14,
-16,
-18,
-20,
-22,
-24
-],
-"ready_codex": [
 1,
+2,
 3,
+4,
 5,
+6,
 7,
+8,
 9,
+10,
 11,
-13,
-15,
-17
-]
+12
+],
+"ready_codex": []
 },
 "rate": {
 "claimed_last_hour": 0,
