@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Sat 10 Oct, 10:22 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Sat 10 Oct, 10:26 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r67** (main `f42dac2`, Fri 9 Oct 9:34 PM)
 
@@ -14,19 +14,15 @@ Updated Sat 10 Oct, 10:22 AM Boston time. Bug hunting only, no new features unti
 
 ## Jobs
 
-### 👉 Next for you, in this order
+### ▶️ Running now
 
 **#1 · 1579** `G` Season Results: a slow load must not pull you back after you moved on (Sol S5)  
-`░░░░░░░░░░` **0.0000 %**  
-🔵 Team blue · **GPT-6 Sol** · High effort · ChatGPT project "Career Mode Showdown", normal chat
+`███████░░░` **70.0000 %**  
+🔵 Team blue · **GPT-6 Sol** · High effort · worker done, PR #455 open, CI running · CI 0 of 6 passed · last move 0 min ago
 
-Paste this:
+### 👉 Next for you, in this order
 
-```text
-1579
-```
-
-**#2 · 1580** `G` Showdown Gate: run the L5 lane only when its inputs changed  
+**#1 · 1580** `G` Showdown Gate: run the L5 lane only when its inputs changed  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · **Codex default coding model** · High effort · Codex cloud, this repo
 
@@ -36,7 +32,7 @@ Paste this:
 1580
 ```
 
-**#3 · 1583** `G` Measure the home screens at ten window sizes (report only)  
+**#2 · 1583** `G` Measure the home screens at ten window sizes (report only)  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · **Codex default coding model** · Medium effort · Codex cloud, this repo
 
@@ -46,7 +42,7 @@ Paste this:
 1583
 ```
 
-**#4 · 1584** `G` Measure the transfer screens at ten window sizes (report only)  
+**#3 · 1584** `G` Measure the transfer screens at ten window sizes (report only)  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · **Codex default coding model** · Medium effort · Codex cloud, this repo
 
@@ -56,7 +52,7 @@ Paste this:
 1584
 ```
 
-**#5 · 1585** `G` Measure the season-final screens at ten window sizes (report only)  
+**#4 · 1585** `G` Measure the season-final screens at ten window sizes (report only)  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · **Codex default coding model** · Medium effort · Codex cloud, this repo
 
@@ -66,7 +62,7 @@ Paste this:
 1585
 ```
 
-**#6 · 1586** `G` Measure the club screens at ten window sizes (report only)  
+**#5 · 1586** `G` Measure the club screens at ten window sizes (report only)  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · **Codex default coding model** · Medium effort · Codex cloud, this repo
 
@@ -76,7 +72,7 @@ Paste this:
 1586
 ```
 
-**#7 · 1587** `G` Season Results: a passing Transfer Challenge read hiccup must not fail the publish (Sol S2)  
+**#6 · 1587** `G` Season Results: a passing Transfer Challenge read hiccup must not fail the publish (Sol S2)  
 `░░░░░░░░░░` **0.0000 %**  
 🔵 Team blue · **GPT-6 Sol** · High effort · ChatGPT project "Career Mode Showdown", normal chat
 
