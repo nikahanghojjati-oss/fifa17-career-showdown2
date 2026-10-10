@@ -45,3 +45,134 @@
   main:has(> #legacy[data-rivalry-legacy-v10]) { padding-top:0; padding-left:0; padding-right:0; background:#07080a; }
   #legacy[data-rivalry-legacy-v10] { width:100%; max-width:none; }
 }
+
+/* JOB-1293: the 360x640 Legacy viewport is too short for the frozen phone
+   carousel's clipped archive. Make the document the ONLY scrolling surface;
+   preserve the existing carousel and stage at 390x844 and larger sizes. */
+@media (min-width:340px) and (max-width:374px) and (min-height:600px) and (max-height:700px) and (orientation:portrait) {
+  html:has(#legacy[data-rivalry-legacy-v10]:not([hidden])),
+  body:has(#legacy[data-rivalry-legacy-v10]:not([hidden])) {
+    height:auto;
+    min-height:100%;
+    overflow-x:hidden;
+    overflow-y:auto;
+  }
+  #legacy[data-rivalry-legacy-v10] {
+    height:auto;
+    min-height:100dvh;
+    overflow:visible;
+  }
+  #legacy[data-rivalry-legacy-v10] #stage-root,
+  #legacy[data-rivalry-legacy-v10] .legacyV10Screen {
+    height:auto;
+    min-height:100dvh;
+    overflow:visible;
+  }
+  #legacy[data-rivalry-legacy-v10] .legacyV10Screen {
+    box-sizing:border-box;
+    padding-bottom:calc(76px + env(safe-area-inset-bottom, 0px));
+  }
+  #legacy[data-rivalry-legacy-v10] .sd-stage__layer--ui {
+    overflow:visible;
+  }
+
+  /* Keep the original portrait art registered to the first 310px even when
+     the archive below grows to accommodate the full list of cards. */
+  #legacy[data-rivalry-legacy-v10] .legacyTitleBlock,
+  #legacy[data-rivalry-legacy-v10] .legacyPhoneFaceBand,
+  #legacy[data-rivalry-legacy-v10] .legacyPhonePlate,
+  #legacy[data-rivalry-legacy-v10] .legacyPhoneGrade,
+  #legacy[data-rivalry-legacy-v10] .sd-stage__layer--plate,
+  #legacy[data-rivalry-legacy-v10] .sd-stage__layer--atmosphere,
+  #legacy[data-rivalry-legacy-v10] .sd-stage__layer--cutout,
+  #legacy[data-rivalry-legacy-v10] .sd-stage__layer--light {
+    height:310px;
+  }
+  #legacy[data-rivalry-legacy-v10] .legacyPhonePlate,
+  #legacy[data-rivalry-legacy-v10] .legacyPhoneGrade { bottom:auto; }
+  #legacy[data-rivalry-legacy-v10] .legacyPhoneHero--daniel { top:8px; height:300px; }
+  #legacy[data-rivalry-legacy-v10] .legacyPhoneHero--nik { top:10px; height:292px; }
+
+  #legacy[data-rivalry-legacy-v10] .legacyArchivePanel {
+    position:relative;
+    top:auto;
+    bottom:auto;
+    left:auto;
+    right:auto;
+    width:auto;
+    height:auto;
+    max-width:none;
+    margin:310px 8px 0;
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+    overflow:visible;
+  }
+  #legacy[data-rivalry-legacy-v10] .legacySidePanel {
+    order:0;
+    flex:0 0 44px;
+    min-height:44px;
+  }
+  #legacy[data-rivalry-legacy-v10] .legacyStateBanner[data-compact="true"] {
+    order:1;
+    position:relative;
+    inset:auto;
+  }
+  #legacy[data-rivalry-legacy-v10] .legacyCardGrid {
+    order:2;
+    position:static;
+    display:grid;
+    grid-template-columns:minmax(0, 1fr);
+    grid-auto-flow:row;
+    grid-auto-columns:auto;
+    grid-template-rows:none;
+    width:100%;
+    gap:8px;
+    padding:6px;
+    overflow:visible;
+    scroll-snap-type:none;
+    touch-action:pan-y;
+  }
+  #legacy[data-rivalry-legacy-v10] .legacyCardGrid > .legacyCard {
+    width:100%;
+    height:auto;
+    min-height:116px;
+    flex:none;
+  }
+  #legacy[data-rivalry-legacy-v10] .legacyPager {
+    order:3;
+    flex:0 0 auto;
+    height:auto;
+    min-height:44px;
+    overflow:visible;
+  }
+  #legacy[data-rivalry-legacy-v10] .legacyPageDots {
+    max-height:none;
+    overflow:visible;
+  }
+  #legacy[data-rivalry-legacy-v10] .legacyPrimaryAction {
+    position:relative;
+    inset:auto;
+    display:block;
+    width:calc(100% - 16px);
+    min-height:48px;
+    height:auto;
+    margin:12px 8px 0;
+    transform:none;
+    white-space:normal;
+  }
+  #legacy[data-rivalry-legacy-v10] .legacySeasonHistory {
+    position:relative;
+    inset:auto;
+    width:auto;
+    max-height:none;
+    overflow:visible;
+    margin:12px 8px 0;
+    transform:none;
+  }
+  #legacy[data-rivalry-legacy-v10] .legacyHistoryRow { overflow-wrap:anywhere; }
+  #legacy[data-rivalry-legacy-v10] .legacyBackV10 {
+    min-height:44px;
+    min-width:64px;
+  }
+}
