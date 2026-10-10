@@ -45,3 +45,25 @@
   main:has(> #legacy[data-rivalry-legacy-v10]) { padding-top:0; padding-left:0; padding-right:0; background:#07080a; }
   #legacy[data-rivalry-legacy-v10] { width:100%; max-width:none; }
 }
+
+/* JOB-1304: long names (22 letter club, 14 letter manager, 3 digit scores, 7 seasons) must wrap or clip inside their
+   boxes at every size instead of pushing neighbours or buttons. Only overflow behaviour changes; normal text is untouched. */
+#legacy[data-rivalry-legacy-v10] :is(.legacyManagerName, .legacyCardTitle, .legacyCardState, .legacyCardFooter) {
+  min-width:0;
+  overflow-wrap:anywhere;
+}
+#legacy[data-rivalry-legacy-v10] .legacyClubName { min-width:0; }
+#legacy[data-rivalry-legacy-v10] .legacyHistoryRow > * {
+  min-width:0;
+  overflow-wrap:anywhere;
+}
+
+/* JOB-1305: touch screens (coarse pointer or phone width) get 44x44 targets with 8px between neighbours.
+   Mouse desktops are unchanged. */
+@media (pointer:coarse), (max-width:760px) {
+  #legacy[data-rivalry-legacy-v10] :is(.legacyPager button, .legacySidePanel button, .legacyTopNav button, .legacySettings, .legacyBackV10, .legacySeasonHistory button) {
+    min-width:44px;
+    min-height:44px;
+  }
+  #legacy[data-rivalry-legacy-v10] .legacyPager { gap:8px; }
+}
