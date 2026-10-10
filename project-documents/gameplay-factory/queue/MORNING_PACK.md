@@ -8,6 +8,12 @@ Paste this line into a new Sol chat (Job 1579, Season Results newer-tap fix, con
 Job 1579: read project-documents/gameplay-factory/jobs/JOB-1579.md on branch factory/gameplay-v1 with the GitHub connector and do exactly what it says.
 ```
 
+## A0b. Then this one (Sol chat, the season-2 publish stall fix, Job 1587)
+```
+Job 1587: read project-documents/gameplay-factory/jobs/JOB-1587.md on branch factory/gameplay-v1 with the GitHub connector and do exactly what it says.
+```
+With 1579 and 1587 done, stage 1 has no open leads.
+
 ## A. GPT-6 Sol chat: 150 numbers, type each one alone in a new chat
 All 150 can run at the same time, from either account, without waiting for any merge: the first fix of each of the 9 screen areas, plus audits (bug hunts in the game code) and mockup studies (phone, sideways, tablet, improved desktop, states sheets). Each number once.
 
