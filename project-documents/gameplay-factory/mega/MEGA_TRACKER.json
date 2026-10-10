@@ -1,12 +1,12 @@
 {
-"updated": "2026-10-10T21:11:53Z",
+"updated": "2026-10-10T21:17:16Z",
 "total": 518,
 "next_free": 45,
 "highest_taken": 395,
 "counts": {
 "on_train": 20,
-"draft": 136,
-"waiting": 362
+"draft": 137,
+"waiting": 361
 },
 "stages": {
 "2": {
@@ -22,8 +22,7 @@
 "name": "Gameplay audits",
 "total": 112,
 "states": {
-"draft": 111,
-"waiting": 1
+"draft": 112
 }
 },
 "3": {
@@ -95,10 +94,10 @@
 57,
 59,
 61,
-84,
 226,
 228,
-232
+232,
+234
 ],
 "ready_sol": [
 45,
@@ -109,16 +108,16 @@
 57,
 59,
 61,
-84,
 226,
 228,
-232
+232,
+234
 ],
 "ready_codex": []
 },
 "rate": {
-"claimed_last_hour": 40,
-"claimed_last_10min": 27,
+"claimed_last_hour": 41,
+"claimed_last_10min": 28,
 "merged_last_hour": 0
 },
 "events": [
@@ -1288,6 +1287,13 @@
 "at": "2026-10-10T21:11:53Z",
 "item": 82,
 "job": 1507,
+"from": "waiting",
+"to": "draft"
+},
+{
+"at": "2026-10-10T21:17:16Z",
+"item": 84,
+"job": 1508,
 "from": "waiting",
 "to": "draft"
 }
@@ -2581,8 +2587,19 @@
 "title": "Audit js/sparkSharedSeasonResults.js for gameplay bugs (second half)",
 "mode": "audit",
 "group": null,
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"pr": 583,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/583",
+"base": "qa/mega-audits",
+"branch": "qa/job-1508-sparksharedseasonresults-2-audit",
+"ci": "draft",
+"ci_sha": "ab3fea03d4b46bde7bc66eecd563da2d7d170372",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-10T21:12:06Z",
+"first_seen": "2026-10-10T21:12:06Z",
+"since": "2026-10-10T21:17:16Z"
 },
 "85": {
 "job": 1297,
