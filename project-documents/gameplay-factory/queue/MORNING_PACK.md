@@ -2,6 +2,12 @@
 
 Everything below is ready now. The board's Type now list stays the live source; this pack just gives you a big first batch.
 
+## A0. Do this one first (Sol chat, a real bug fix from the lead)
+Paste this line into a new Sol chat (Job 1579, Season Results newer-tap fix, confirmed on the emulator):
+```
+Job 1579: read project-documents/gameplay-factory/jobs/JOB-1579.md on branch factory/gameplay-v1 with the GitHub connector and do exactly what it says.
+```
+
 ## A. GPT-6 Sol chat: 45 numbers, type each one alone in a new chat
 All 45 can run at the same time without colliding (audits, studies of different screens, and the first fix of each of the 9 screen groups). Account 1 and account 2 can take any of them, once each.
 
@@ -48,3 +54,5 @@ Run this repo task. Do `git fetch origin factory/gameplay-v1`, read `git show FE
 ```
 Run this repo task. Do `git fetch origin factory/gameplay-v1`, read `git show FETCH_HEAD:project-documents/gameplay-factory/jobs/JOB-1586.md`, and do exactly what it says. Open the pull request as a draft; if you cannot choose its base branch that is fine, the Team G lead retargets it to gameplay/bug-list-1.
 ```
+
+### C8 · coming: the season-2 publish stall fix (the lead will add its job number here once the cause is captured)
