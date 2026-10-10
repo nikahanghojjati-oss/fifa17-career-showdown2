@@ -294,6 +294,12 @@ def main():
     DECIDED = {("home", "sideways"): "1035", ("transfer", "sideways"): "1035", ("home", "tablet"): "1036", ("transfer", "tablet"): "1036"}
     DECIDED_EVID = {("home", "sideways"): "visual-assets/v10_1/tr2/evidence/1035/", ("transfer", "sideways"): "visual-assets/v10_1/tr2/evidence/1035/",
                     ("home", "tablet"): "visual-assets/v10_1/home/evidence/1036/", ("transfer", "tablet"): "visual-assets/v10_1/tr2/evidence/1036/"}
+    PIC = json.loads((pathlib.Path(__file__).resolve().parent / "PICTURES.json").read_text())["keys"]
+    def target(sid, st):
+        k = PIC.get(sid)
+        if not k: return ""
+        f = f"{'PHONE' if st == 4 else 'NEXT'}_{k}.png"
+        return f"- **Work toward Nik's approved picture** `project-documents/factory/mockups/{f}` (fetch it from branch `factory/v1-wtt5ye`). Match its layout, hierarchy and look, using the existing art files.\n"
     def mock_line(sid):
         if sid in MOCK:
             return f"the screen's desktop mockup: `{MOCK_DIR}{MOCK[sid]}` on branch `factory/v1-wtt5ye` (reference only; look at the picture, never copy real club crests, league logos or trophies from it)"
@@ -323,7 +329,7 @@ def main():
             if dec:
                 extra = f"- **Already decided:** Team V designed and checked this view in job {dec} (HO-021). Do not redo it. Look at its evidence in `{DECIDED_EVID[(sid, key)]}` on branch `factory/v1-wtt5ye` and make only a small variant of that design, or if you find nothing worth changing write `no change` in the notes file.\n"
             add(slot, key="st-" + key, screen=sid, stage=st, mode="study", title=f"{title}: {ktitle}", files=files,
-                text=f"## What to make\n{text}\n- Self-contained HTML with inline CSS and no JavaScript. Use the existing artwork under `{pre}` (relative links such as `../../../../{pre}<file>`) and {mock_line(sid)}. If you can, use GPT-6's picture and design features to look at the mockups.\n- Keep every element, all text and the same order of taps as the real screen. Presentation only.\n{STUDY_RULES}{extra}- Files (3 at most): `project-documents/gameplay-factory/studies/{sid}/<kind>-<job>.html`, `.../<kind>-<job>-notes.md` (at most 15 lines: what you chose and why), and `.../studies/{sid}/README.md` only if it does not exist (one line).\n")
+                text=f"## What to make\n{text}\n- Self-contained HTML with inline CSS and no JavaScript. Use the existing artwork under `{pre}` (relative links such as `../../../../{pre}<file>`) and {mock_line(sid)}. If you can, use GPT-6's picture and design features to look at the mockups.\n- Keep every element, all text and the same order of taps as the real screen. Presentation only.\n{STUDY_RULES}{target(sid, st)}{extra}- Files (3 at most): `project-documents/gameplay-factory/studies/{sid}/<kind>-<job>.html`, `.../<kind>-<job>-notes.md` (at most 15 lines: what you chose and why), and `.../studies/{sid}/README.md` only if it does not exist (one line).\n")
     for i, (key, title, text, files) in enumerate(CROSS):
         add(["B5", "B6", "B7", "B8", "B9"][i % 5], key="x-" + key, screen="shared", stage=1, mode="audit", title="Audit all screens: " + title.lower(), files=files,
             text=f"## What to do\nRead-only check across the Team V screens. {text}\n- Do NOT edit any game file. Write at most 8 findings in `project-documents/gameplay-factory/queue/audits/x-{key}.md`: screen, file and line, what is wrong, the smallest CSS or markup change. The Team G lead bundles real findings into one fix job.\n- DEFAULT: if you find nothing, write `no findings` and what you checked.\n")

@@ -37,11 +37,7 @@ One system: you only ever type a number. Numbers 1 to 1000 are queue items, numb
 ```
 
 ```text
-224 226 228 230 232 234 236 238 240 242 244 246 248 250 252 254 256 258 260 262
+224
 ```
 
-```text
-264 266 268 270 272 274 276 278 280 282
-```
-
-The board's Type now list keeps the next numbers; [RUN_REPORT.md](RUN_REPORT.md) is what Claude reads when you are back.
+Studies (phone and desktop mockups) are on hold until Team V approves each screen's picture, so no study numbers are listed here yet; the board's Type now list will add them when they are released. The board's Type now list keeps the next numbers; [RUN_REPORT.md](RUN_REPORT.md) is what Claude reads when you are back.

@@ -1,0 +1,5 @@
+{
+ "_about": "Team V (HO-024): each study works toward Nik's approved picture PHONE_<KEY>.png (stage 4) or NEXT_<KEY>.png (stage 5) in project-documents/factory/mockups/ on factory/v1-wtt5ye. A study item is held (not typeable, off the board's Type now list) until its picture key is listed under approved. Add a key here only when Team V sends 'PHONE_<KEY> approved' (or NEXT_) on the relay.",
+ "keys": {"home": "HOME", "start-join": "CONNECT_PLAYERS", "season-results": "SEASON_RESULTS", "transfer": "TRANSFER", "league": "LEAGUE", "club": "CLUB", "career-statistics": "STATISTICS", "rivalry-statistics": "RIVALRY", "legacy": "LEGACY", "trophy-room": "TROPHY_ROOM", "final-winner": "FINAL_WINNER", "settings": "SETTINGS", "rule-book": "RULE_BOOK", "standings": "STANDINGS"},
+ "approved": {"PHONE": [], "NEXT": []}
+}

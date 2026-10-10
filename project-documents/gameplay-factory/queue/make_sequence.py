@@ -10,6 +10,8 @@ GF = Q.parent
 REPO = "nikahanghojjati-oss/fifa17-career-showdown2"
 RAW = f"https://raw.githubusercontent.com/{REPO}/factory/gameplay-v1/project-documents/gameplay-factory/queue"
 
+PIC = json.loads((pathlib.Path(__file__).resolve().parent / "PICTURES.json").read_text())["keys"]
+
 def main():
     q = json.loads((Q / "QUEUE.json").read_text())
     tk = q["tickets"]
@@ -50,6 +52,9 @@ def main():
         else:
             head = (f"<!-- queue item {i:04d} = job {job}; branch prefix {t['prefix']} -->\n"
                     f"**Queue item {i} · Job {job}.** Before anything else (GitHub connector): if a branch starting with `{t['prefix']}` already exists, reply exactly `Number {i} is already done. Try {i+1}.` and stop.\n")
+        if t["mode"] == "study" and t["screen"] in PIC:
+            pk = f"{'PHONE' if t['stage'] == 4 else 'NEXT'}_{PIC[t['screen']]}"
+            head += (f"**Hold check:** open `project-documents/gameplay-factory/queue/PICTURES.json` on branch factory/gameplay-v1. If `{pk[pk.index('_')+1:]}` is not in the `approved` list named `{pk.split('_')[0]}`, reply exactly `Number {i} is on hold until Team V approves its picture. Try {i+1}.` and stop.\n")
         head += "Otherwise do the job below, exactly.\n\n"
         (items / f"{i:04d}.md").write_text(head + body)
         seq[str(i)] = {"group": t.get("group"), "job": job, "prefix": t["prefix"], "stage": t["stage"], "title": t["title"], "mode": t["mode"], "screen": t["screen"]}

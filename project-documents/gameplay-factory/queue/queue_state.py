@@ -102,10 +102,16 @@ def main():
             if pr and pr["state"] == "open":
                 locked.add(tr["group"])
                 if not pr.get("draft"): ready_open += 1
+        pics = json.loads((HERE / "PICTURES.json").read_text()) if (HERE / "PICTURES.json").exists() else {"keys": {}, "approved": {}}
+        def held(t):
+            if t["mode"] != "study" or t["screen"] not in pics["keys"]: return False
+            return pics["keys"][t["screen"]] not in pics["approved"].get("PHONE" if t["stage"] == 4 else "NEXT", [])
+        held_items = [int(k) for k in o if held(tk[str(o[k]["job"])])]
         ready, seen_group = [], set(locked)
         for k in sorted(o, key=int):
             j = str(o[k]["job"]); t = tk[j]
             if state[j]["state"] != "waiting": continue
+            if held(t): continue
             if t["mode"] == "code":
                 g = t["train"]["group"]
                 if g in seen_group or ready_open >= 8: continue
@@ -116,6 +122,7 @@ def main():
         seq = {"ready": ready[:12],
                "ready_sol": ready[:12],  # every item runs in a GPT-6 Sol chat (Codex web cannot pick branches)
                "ready_codex": [],
+               "held_until_picture": len(held_items),
                "open_code_prs": ready_open, "open_train_prs": len(locked),
                "next_free": ready[0] if ready else None, "highest_taken": max(taken or [0]), "total": len(o),
                "states": {k: state[str(v["job"])]["state"] for k, v in o.items()}}
