@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Sat 10 Oct, 10:36 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Sat 10 Oct, 10:38 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r67** (main `f42dac2`, Fri 9 Oct 9:34 PM)
 
@@ -18,27 +18,19 @@ Updated Sat 10 Oct, 10:36 AM Boston time. Bug hunting only, no new features unti
 
 **#1 · 1579** `G` Season Results: a slow load must not pull you back after you moved on (Sol S5)  
 `████████░░` **80.0000 %**  
-🔵 Team blue · **GPT-6 Sol** · High effort · worker done, PR #455 open, CI green, waiting for the lead · CI 7 of 7 passed · last move 0 min ago
+🔵 Team blue · **GPT-6 Sol** · High effort · worker done, PR #455 open, CI green, waiting for the lead · CI 7 of 7 passed · last move 2 min ago
 
-**#2 · 1587** `G` Season Results: a passing Transfer Challenge read hiccup must not fail the publish (Sol S2)  
-`████████░░` **78.3333 %**  
-🔵 Team blue · **GPT-6 Sol** · High effort · worker done, PR #456 open, CI running · CI 5 of 6 passed · last move 0 min ago
+**#2 · 1580** `G` Showdown Gate: run the L5 lane only when its inputs changed  
+`████░░░░░░` **40.0000 %**  
+⚪ Team white · **Codex default coding model** · High effort · worker working, draft PR #457 · CI 6 of 7 passed · last move 0 min ago
+
+**#3 · 1587** `G` Season Results: a passing Transfer Challenge read hiccup must not fail the publish (Sol S2)  
+`████████░░` **80.0000 %**  
+🔵 Team blue · **GPT-6 Sol** · High effort · worker done, PR #456 open, CI green, waiting for the lead · CI 7 of 7 passed · last move 1 min ago
 
 ### 👉 Next for you, in this order
 
-**#1 · 1580** `G` Showdown Gate: run the L5 lane only when its inputs changed  
-`░░░░░░░░░░` **0.0000 %**  
-⚪ Team white · **Codex default coding model** · High effort · Codex cloud, this repo
-
-Paste this:
-
-```text
-Career Mode Showdown, job 1580. First run: git fetch origin factory/gameplay-v1
-Then read: git show FETCH_HEAD:project-documents/gameplay-factory/jobs/JOB-1580.md
-Do exactly what that file says. If the file does not exist, stop and tell me. Never push to main and never merge. Open any pull request as a draft; if you cannot choose the base branch, write RETARGET TO gameplay/bug-list-1 on the first line of the PR body.
-```
-
-**#2 · 1583** `G` Measure the home screens at ten window sizes (report only)  
+**#1 · 1583** `G` Measure the home screens at ten window sizes (report only)  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · **Codex default coding model** · Medium effort · Codex cloud, this repo
 
@@ -50,7 +42,7 @@ Then read: git show FETCH_HEAD:project-documents/gameplay-factory/jobs/JOB-1583.
 Do exactly what that file says. If the file does not exist, stop and tell me. Never push to main and never merge. Open any pull request as a draft; if you cannot choose the base branch, write RETARGET TO gameplay/bug-list-1 on the first line of the PR body.
 ```
 
-**#3 · 1584** `G` Measure the transfer screens at ten window sizes (report only)  
+**#2 · 1584** `G` Measure the transfer screens at ten window sizes (report only)  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · **Codex default coding model** · Medium effort · Codex cloud, this repo
 
@@ -62,7 +54,7 @@ Then read: git show FETCH_HEAD:project-documents/gameplay-factory/jobs/JOB-1584.
 Do exactly what that file says. If the file does not exist, stop and tell me. Never push to main and never merge. Open any pull request as a draft; if you cannot choose the base branch, write RETARGET TO gameplay/bug-list-1 on the first line of the PR body.
 ```
 
-**#4 · 1585** `G` Measure the season-final screens at ten window sizes (report only)  
+**#3 · 1585** `G` Measure the season-final screens at ten window sizes (report only)  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · **Codex default coding model** · Medium effort · Codex cloud, this repo
 
@@ -74,7 +66,7 @@ Then read: git show FETCH_HEAD:project-documents/gameplay-factory/jobs/JOB-1585.
 Do exactly what that file says. If the file does not exist, stop and tell me. Never push to main and never merge. Open any pull request as a draft; if you cannot choose the base branch, write RETARGET TO gameplay/bug-list-1 on the first line of the PR body.
 ```
 
-**#5 · 1586** `G` Measure the club screens at ten window sizes (report only)  
+**#4 · 1586** `G` Measure the club screens at ten window sizes (report only)  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · **Codex default coding model** · Medium effort · Codex cloud, this repo
 
@@ -174,7 +166,7 @@ Open code PRs: 0/8.
 
 ## Mega tracker (live, free)
 
-Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/index.html) · summary: [mega/MEGA_TRACKER.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/MEGA_TRACKER.md) · rebuilt by the poller each round, updated 2026-10-10T14:22:49Z.
+Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/index.html) · summary: [mega/MEGA_TRACKER.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/MEGA_TRACKER.md) · rebuilt by the poller each round, updated 2026-10-10T14:38:25Z.
 
 | Stage | Done (merged or live) | In progress | Waiting |
 | --- | --- | --- | --- |
