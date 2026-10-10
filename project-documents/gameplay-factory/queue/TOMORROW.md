@@ -26,6 +26,10 @@ Run this repo task. Do `git fetch origin factory/gameplay-v1`, read `git show FE
 ```text
 Job 1579: read project-documents/gameplay-factory/jobs/JOB-1579.md on branch factory/gameplay-v1 with the GitHub connector and do exactly what it says.
 ```
+**Step 3b · ChatGPT (Career Mode Showdown project) · paste into a new chat (season-2 publish stall fix)**
+```text
+Job 1587: read project-documents/gameplay-factory/jobs/JOB-1587.md on branch factory/gameplay-v1 with the GitHub connector and do exactly what it says.
+```
 **Step 4 · ChatGPT · one new chat per number, these 20 numbers in this order**
 ```text
 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 20 22
