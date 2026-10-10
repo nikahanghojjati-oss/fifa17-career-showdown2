@@ -277,6 +277,19 @@ let checks=0;const ok=label=>{checks++;void label;};
   assert.equal(C.isSupersededHead({head,gateRun:cancelled,pos20Run:{conclusion:"success"},prHeadSha:newer}),false,'a POS20 verdict is never superseded');
   assert.equal(C.isSupersededHead({head,gateRun:cancelled,pos20Run:null,prHeadSha:newer}),false,'a missing POS20 run is not superseded');
   ok('superseded heads need both runs cancelled and a newer live PR head');
+  // The live lookup finds the PR by head branch, because a superseded run's pull_requests list is empty.
+  const cancelledRun=(path,id)=>({id,path,head_sha:head,head_branch:'gameplay/job-x',head_repository:{full_name:'o/r'},conclusion:'cancelled',created_at:'2026-10-09T10:00:00Z',pull_requests:[]});
+  const liveClient=(pulls,repoName='o/r')=>({get:async endpoint=>{
+    if(endpoint.startsWith('repos/o/r/actions/runs?head_sha='))return {workflow_runs:[cancelledRun(C.GATE_PATH,1),cancelledRun(C.POS20_PATH,2)].map(r=>({...r,head_repository:{full_name:repoName}}))};
+    if(endpoint.startsWith('repos/o/r/pulls?state=all&head=o%3Agameplay%2Fjob-x'))return pulls;
+    throw new Error(`not superseded, so the comparison reads: ${endpoint}`);
+  }});
+  const sup=await C.compareLive(liveClient([{number:7,created_at:'2026-10-09T09:00:00Z',head:{sha:newer}}]),'o/r',head,{mappings:[],oldJobNames:{}});
+  assert.deepEqual(sup,{schema:'showdown-gate-compare/v1',head,superseded:true,pr:7,pr_head:newer});
+  await assert.rejects(C.compareLive(liveClient([{number:7,created_at:'2026-10-09T09:00:00Z',head:{sha:head}}]),'o/r',head,{mappings:[],oldJobNames:{}}),/not superseded/,'a cancelled live head is still compared');
+  await assert.rejects(C.compareLive(liveClient([]),'o/r',head,{mappings:[],oldJobNames:{}}),/not superseded/,'no PR found is still compared');
+  await assert.rejects(C.compareLive(liveClient([{number:7,head:{sha:newer}}],'fork/r'),'o/r',head,{mappings:[],oldJobNames:{}}),/not superseded/,'a fork branch is never looked up');
+  ok('the live comparison marks superseded heads from the PR found by branch');
 
   // The real --summary CLI reads Physio results, not run_attempt - 1, including when log access fails.
   let servedRecord=resultRecord;let logsAvailable=true;let prStatus=500;let prHead=null;
