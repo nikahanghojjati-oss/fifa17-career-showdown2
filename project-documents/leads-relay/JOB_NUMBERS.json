@@ -1,6 +1,6 @@
 {
  "_how": "One shared job counter for Team G and Team V (Nik, 2026-10-05). Claim with tools/claim_number.py only. A number is used once, ever. CONTRACT.md section 10.",
- "next": 1059,
+ "next": 1060,
  "claims": [
   {
    "number": 1001,
@@ -350,6 +350,12 @@
    "team": "G",
    "title": "S4 transfer countdown agrees across phones",
    "claimed": "2026-10-09T23:47:36Z"
+  },
+  {
+   "number": 1059,
+   "team": "G",
+   "title": "Gate exit report: leave superseded heads out and bound the Physio lookup",
+   "claimed": "2026-10-10T00:58:02Z"
   }
  ]
 }
