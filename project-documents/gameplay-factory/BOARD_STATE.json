@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-09 9:42 PM Boston time (EDT)",
+ "generated": "2026-10-09 9:43 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -284,7 +284,7 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "0c43ad1a",
+  "head": "0c43ad1",
   "head_boston": "Fri 9 Oct 9:23 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": true,
@@ -313,7 +313,7 @@
  },
  "two": {
   "live": {
-   "sha": "f42dac26",
+   "sha": "f42dac2",
    "revision": "1.9.1-r67",
    "when": "2026-10-09T21:34:57-04:00",
    "subject": "Release r67: Olympiad fixes and private transfer locks (1.9.1-r67) (#450)",
