@@ -1,12 +1,12 @@
 {
-"updated": "2026-10-10T14:49:19Z",
+"updated": "2026-10-10T14:53:51Z",
 "total": 518,
-"next_free": 4,
-"highest_taken": 3,
+"next_free": 5,
+"highest_taken": 4,
 "counts": {
 "on_train": 2,
-"draft": 1,
-"waiting": 515
+"draft": 2,
+"waiting": 514
 },
 "stages": {
 "2": {
@@ -21,8 +21,8 @@
 "name": "Gameplay audits",
 "total": 112,
 "states": {
-"draft": 1,
-"waiting": 111
+"draft": 2,
+"waiting": 110
 }
 },
 "3": {
@@ -59,7 +59,6 @@
 "draft_code_prs": 0,
 "area_locks": {},
 "ready": [
-4,
 5,
 6,
 7,
@@ -70,10 +69,10 @@
 12,
 13,
 14,
-15
+15,
+16
 ],
 "ready_sol": [
-4,
 5,
 6,
 7,
@@ -84,12 +83,13 @@
 12,
 13,
 14,
-15
+15,
+16
 ],
 "ready_codex": []
 },
 "rate": {
-"claimed_last_hour": 3,
+"claimed_last_hour": 4,
 "claimed_last_10min": 3,
 "merged_last_hour": 0
 },
@@ -114,6 +114,13 @@
 "job": 1090,
 "from": "waiting",
 "to": "on_train"
+},
+{
+"at": "2026-10-10T14:53:51Z",
+"item": 4,
+"job": 1468,
+"from": "waiting",
+"to": "draft"
 }
 ],
 "items": {
@@ -165,8 +172,19 @@
 "title": "Audit all screens: long manager and club names never break a layout",
 "mode": "audit",
 "group": null,
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"pr": 459,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/459",
+"base": "qa/mega-audits",
+"branch": "qa/job-1468-long-names-audit",
+"ci": "draft",
+"ci_sha": "b19115479468ae112b6bc11f594b36d8164aca40",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-10T14:53:24Z",
+"first_seen": "2026-10-10T14:53:24Z",
+"since": "2026-10-10T14:53:51Z"
 },
 "5": {
 "job": 1119,

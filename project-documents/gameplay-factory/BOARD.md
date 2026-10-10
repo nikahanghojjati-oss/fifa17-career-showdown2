@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Sat 10 Oct, 10:50 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Sat 10 Oct, 10:53 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r67** (main `f42dac2`, Fri 9 Oct 9:34 PM)
 
@@ -18,31 +18,23 @@ Updated Sat 10 Oct, 10:50 AM Boston time. Bug hunting only, no new features unti
 
 **#1 · 1579** `G` Season Results: a slow load must not pull you back after you moved on (Sol S5)  
 `████████░░` **80.0000 %**  
-🔵 Team blue · **GPT-6 Sol** · High effort · worker done, PR #455 open, CI green, waiting for the lead · CI 7 of 7 passed · last move 14 min ago
+🔵 Team blue · **GPT-6 Sol** · High effort · worker done, PR #455 open, CI green, waiting for the lead · CI 7 of 7 passed · last move 18 min ago
 
 **#2 · 1580** `G` Showdown Gate: run the L5 lane only when its inputs changed  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · **Codex default coding model** · High effort · worker working, draft PR #457 · CI 6 of 7 passed · last move 12 min ago
+⚪ Team white · **Codex default coding model** · High effort · worker working, draft PR #457 · CI 6 of 7 passed · last move 15 min ago
 
-**#3 · 1587** `G` Season Results: a passing Transfer Challenge read hiccup must not fail the publish (Sol S2)  
+**#3 · 1583** `G` Measure the home screens at ten window sizes (report only)  
+`████░░░░░░` **40.0000 %**  
+⚪ Team white · **Codex default coding model** · Medium effort · worker working, draft PR #460 · CI 1 of 2 passed · last move 0 min ago
+
+**#4 · 1587** `G` Season Results: a passing Transfer Challenge read hiccup must not fail the publish (Sol S2)  
 `████████░░` **80.0000 %**  
-🔵 Team blue · **GPT-6 Sol** · High effort · worker done, PR #456 open, CI green, waiting for the lead · CI 7 of 7 passed · last move 13 min ago
+🔵 Team blue · **GPT-6 Sol** · High effort · worker done, PR #456 open, CI green, waiting for the lead · CI 7 of 7 passed · last move 16 min ago
 
 ### 👉 Next for you, in this order
 
-**#1 · 1583** `G` Measure the home screens at ten window sizes (report only)  
-`░░░░░░░░░░` **0.0000 %**  
-⚪ Team white · **Codex default coding model** · Medium effort · Codex cloud, this repo
-
-Paste this:
-
-```text
-Career Mode Showdown, job 1583. First run: git fetch origin factory/gameplay-v1
-Then read: git show FETCH_HEAD:project-documents/gameplay-factory/jobs/JOB-1583.md
-Do exactly what that file says. If the file does not exist, stop and tell me. Never push to main and never merge. Open any pull request as a draft; if you cannot choose the base branch, write RETARGET TO gameplay/bug-list-1 on the first line of the PR body.
-```
-
-**#2 · 1584** `G` Measure the transfer screens at ten window sizes (report only)  
+**#1 · 1584** `G` Measure the transfer screens at ten window sizes (report only)  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · **Codex default coding model** · Medium effort · Codex cloud, this repo
 
@@ -54,7 +46,7 @@ Then read: git show FETCH_HEAD:project-documents/gameplay-factory/jobs/JOB-1584.
 Do exactly what that file says. If the file does not exist, stop and tell me. Never push to main and never merge. Open any pull request as a draft; if you cannot choose the base branch, write RETARGET TO gameplay/bug-list-1 on the first line of the PR body.
 ```
 
-**#3 · 1585** `G` Measure the season-final screens at ten window sizes (report only)  
+**#2 · 1585** `G` Measure the season-final screens at ten window sizes (report only)  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · **Codex default coding model** · Medium effort · Codex cloud, this repo
 
@@ -66,7 +58,7 @@ Then read: git show FETCH_HEAD:project-documents/gameplay-factory/jobs/JOB-1585.
 Do exactly what that file says. If the file does not exist, stop and tell me. Never push to main and never merge. Open any pull request as a draft; if you cannot choose the base branch, write RETARGET TO gameplay/bug-list-1 on the first line of the PR body.
 ```
 
-**#4 · 1586** `G` Measure the club screens at ten window sizes (report only)  
+**#3 · 1586** `G` Measure the club screens at ten window sizes (report only)  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · **Codex default coding model** · Medium effort · Codex cloud, this repo
 
@@ -143,16 +135,16 @@ One numbered queue: type a bare number in any GPT chat. Live from GitHub (queue/
 Type now, in any GPT chat:
 
 ```text
-4 5 6 7 8 9 10 11 12 13 14 15
+5 6 7 8 9 10 11 12 13 14 15 16
 ```
 
 Open code PRs: 0/8.
 
-3 taken of 518.
+4 taken of 518.
 
 | Stage | Items | Merged | Picked up |
 | --- | --- | --- | --- |
-| audits | 112 | 0/112 | 1/112 |
+| audits | 112 | 0/112 | 2/112 |
 | screen fixes | 266 | 0/266 | 2/266 |
 | mockup match | 14 | 0/14 | 0/14 |
 | phone studies | 70 | 0/70 | 0/70 |
@@ -162,17 +154,18 @@ Open code PRs: 0/8.
 
 | # | Job | State | Title |
 | --- | --- | --- | --- |
+| 4 | 1468 | PR open | Audit all screens: long manager and club names never break a layout |
 | 3 | 1090 | on_train | Connect Players (start and join): fix the 360x640 view |
 | 2 | 1467 | PR open | Audit all screens: tap targets of at least 44 px on every team v screen |
 | 1 | 1061 | on_train | Home: fix the 360x640 view |
 
 ## Mega tracker (live, free)
 
-Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/index.html) · summary: [mega/MEGA_TRACKER.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/MEGA_TRACKER.md) · rebuilt by the poller each round, updated 2026-10-10T14:49:19Z.
+Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/index.html) · summary: [mega/MEGA_TRACKER.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/MEGA_TRACKER.md) · rebuilt by the poller each round, updated 2026-10-10T14:53:51Z.
 
 | Stage | Done (merged or live) | In progress | Waiting |
 | --- | --- | --- | --- |
-| Gameplay audits | 0 of 112 | 1 | 111 |
+| Gameplay audits | 0 of 112 | 2 | 110 |
 | Screen fixes | 0 of 266 | 2 | 264 |
 | Match desktop to mockups | 0 of 14 | 0 | 14 |
 | Phone mockup studies | 0 of 70 | 0 | 70 |

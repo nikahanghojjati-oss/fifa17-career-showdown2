@@ -1,7 +1,6 @@
 {
  "sequence": {
   "ready": [
-   4,
    5,
    6,
    7,
@@ -12,10 +11,10 @@
    12,
    13,
    14,
-   15
+   15,
+   16
   ],
   "ready_sol": [
-   4,
    5,
    6,
    7,
@@ -26,19 +25,20 @@
    12,
    13,
    14,
-   15
+   15,
+   16
   ],
   "ready_codex": [],
   "open_code_prs": 0,
   "open_train_prs": 0,
-  "next_free": 4,
-  "highest_taken": 3,
+  "next_free": 5,
+  "highest_taken": 4,
   "total": 518,
   "states": {
    "1": "on_train",
    "2": "pr_open",
    "3": "on_train",
-   "4": "waiting",
+   "4": "pr_open",
    "5": "waiting",
    "6": "waiting",
    "7": "waiting",
@@ -555,11 +555,11 @@
    "518": "waiting"
   }
  },
- "updated": "2026-10-10T14:50:18Z",
+ "updated": "2026-10-10T14:53:51Z",
  "counts": {
   "on_train": 2,
-  "waiting": 515,
-  "pr_open": 1
+  "waiting": 514,
+  "pr_open": 2
  },
  "stages": {
   "2": {
@@ -584,7 +584,7 @@
   },
   "1": {
    "total": 112,
-   "taken": 1,
+   "taken": 2,
    "merged": 0
   }
  },
@@ -4118,11 +4118,11 @@
    "branch": "qa/job-1467-tap-targets"
   },
   "1468": {
-   "state": "waiting",
-   "pr": null,
-   "draft": false,
-   "pr_url": null,
-   "branch": null
+   "state": "pr_open",
+   "pr": 459,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/459",
+   "branch": "qa/job-1468-long-names-audit"
   },
   "1469": {
    "state": "waiting",
