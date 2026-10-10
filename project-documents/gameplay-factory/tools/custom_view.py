@@ -9,7 +9,7 @@ Writes, from the same data:
 Reads BOARD_STATE.json (run board.py first), progress/ (run collect_progress.py first), BOARD.json and BUGS.json.
 Anything that keeps a fact from being current is shown on the board itself as a ⚠ line.
 Run from the repo root: python3 project-documents/gameplay-factory/tools/custom_view.py"""
-import json, os, re, sys, datetime, html
+import json, os, re, sys, datetime, html, subprocess
 from zoneinfo import ZoneInfo
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import eta as ETA
@@ -707,12 +707,33 @@ def stages():
 _WOW = {}
 
 
+def v_live(pr):
+    """Live detail for a running Team V job's PR: CI checks passed of total, and when the PR last moved (free REST calls)."""
+    if not pr:
+        return ""
+    repo = "nikahanghojjati-oss/fifa17-career-showdown2"
+    gh = lambda path: json.loads(subprocess.run(["gh", "api", path], capture_output=True, text=True, timeout=30).stdout or "null")
+    try:
+        p = gh(f"repos/{repo}/pulls/{pr}") or {}
+        runs = (gh(f"repos/{repo}/commits/{p['head']['sha']}/check-runs?per_page=100") or {}).get("check_runs") or []
+    except Exception:
+        return "CI unknown"
+    ok = sum(1 for r in runs if r.get("conclusion") in ("success", "neutral", "skipped"))
+    stamps = [r.get("completed_at") or r.get("started_at") or "" for r in runs] + [p.get("updated_at") or ""]
+    last = max(stamps) if stamps else ""
+    mins = int((datetime.datetime.now(datetime.timezone.utc) - datetime.datetime.fromisoformat(last.replace("Z", "+00:00"))).total_seconds() // 60) if last else None
+    ago = "" if mins is None else (f"{mins} min ago" if mins < 120 else f"{mins // 60} h ago")
+    return f"CI {ok} of {len(runs)} passed · last move {ago}" if runs else f"no checks yet · last move {ago}"
+
+
 def v_svg():
     """Team V's visual board as one inline SVG (tools/wow_svg.py). Built once per run from the same lists as the text view."""
     if not _WOW:
         import wow_svg
         SG_, cur_ = stages()
-        jobs_ = [(x["id"], re.sub(r"^\d+ · [GV] ", "", x["title"]), (x["progress"][0]["pct"] if x.get("progress") else None)) for x in items["V"]["fix"]]
+        prs_ = {str(j["job"]): j.get("pr") for j in TWO.get("v_jobs") or []}
+        jobs_ = [(x["id"], re.sub(r"^\d+ · [GV] ", "", x["title"]), (x["progress"][0]["pct"] if x.get("progress") else x.get("pct")), v_live(prs_.get(str(x["id"]))))
+                 for x in items["V"]["fix"]]
         tiles_ = [((LV or {}).get("revision", "?").split("-")[-1], "Live"), (len(Q["run"]), "Jobs running"), (len(Q["next"]), "Jobs to start"),
                   (len([x for x in nik if not x.get("md")]), "Other asks")]
         _WOW["svg"] = wow_svg.dashboard(SG_, cur_, TWO.get("tickets") or [], jobs_, tiles_, title="Team V board · Haiku V")

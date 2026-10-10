@@ -31,7 +31,7 @@ def _bar(x, y, w, fill, rx=5, h=10):
 
 def dashboard(stages, cur, tickets, jobs, tiles, title="Team V board", width=640):
     """stages: [(name, pct, lines)] from custom_view.stages(); tickets: hand-off dicts with "stage";
-    jobs: [(id, title, pct or None)]; tiles: [(value, label)]. Returns the SVG as a string."""
+    jobs: [(id, title, pct or None, live_detail)]; tiles: [(value, label)]. Returns the SVG as a string."""
     W = width
     H = [f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} @H@" width="100%" role="img" aria-label="{html.escape(title)}">',
          f"<style>{STYLE}</style>",
@@ -95,9 +95,12 @@ def dashboard(stages, cur, tickets, jobs, tiles, title="Team V board", width=640
     if not jobs:
         y += 20
         H.append(_t(18, y, "Nothing moving for Team V right now.", "mu"))
-    for jid, jt, jp in jobs[:4]:
+    for jid, jt, jp, live in jobs[:4]:
         y += 22
         H.append(_t(18, y, f"{jid} · {str(jt)[:44]}"))
+        if live:  # live detail: CI lanes passed and when the PR last moved
+            H.append(f'<text x="18" y="{_n(y + 13)}" style="font:10px {FONT};fill:{MUTED}">{html.escape(live)}</text>')
+            y += 12
         jx, jw = 348, W - 18 - 348 - 46
         H.append(f'<rect x="{jx}" y="{_n(y - 9)}" width="{jw}" height="10" rx="5" class="r"/>')
         if jp is not None:
