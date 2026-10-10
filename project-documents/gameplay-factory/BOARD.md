@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Sat 10 Oct, 11:06 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Sat 10 Oct, 11:08 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r67** (main `f42dac2`, Fri 9 Oct 9:34 PM)
 
@@ -17,8 +17,8 @@ Updated Sat 10 Oct, 11:06 AM Boston time. Bug hunting only, no new features unti
 ### ▶️ Running now
 
 **#1 · 1580** `G` Showdown Gate: run the L5 lane only when its inputs changed  
-`███████░░░` **74.6154 %**  
-⚪ Team white · **Codex default coding model** · High effort · worker done, PR #457 open, CI running · CI 6 of 13 passed · last move 1 min ago
+`████████░░` **75.3846 %**  
+⚪ Team white · **Codex default coding model** · High effort · worker done, PR #457 open, CI running · CI 7 of 13 passed · last move 1 min ago
 
 ### 👉 Next for you, in this order
 
@@ -123,17 +123,17 @@ One numbered queue: type a bare number in any GPT chat. Live from GitHub (queue/
 Type now, in any GPT chat:
 
 ```text
-11 12 13 14 15 16 17 18 19 20 21 22
+13 14 15 16 17 18 19 20 21 22 23 24
 ```
 
 Open code PRs: 0/8.
 
-10 taken of 518.
+12 taken of 518.
 
 | Stage | Items | Merged | Picked up |
 | --- | --- | --- | --- |
-| audits | 112 | 0/112 | 5/112 |
-| screen fixes | 266 | 0/266 | 5/266 |
+| audits | 112 | 0/112 | 6/112 |
+| screen fixes | 266 | 0/266 | 6/266 |
 | mockup match | 14 | 0/14 | 0/14 |
 | phone studies | 70 | 0/70 | 0/70 |
 | desktop studies | 56 | 0/56 | 0/56 |
@@ -142,6 +142,8 @@ Open code PRs: 0/8.
 
 | # | Job | State | Title |
 | --- | --- | --- | --- |
+| 12 | 1472 | PR open | Audit all screens: empty, loading and waiting messages read the same everywhere |
+| 11 | 1206 | on_train | Season Results: fix the 360x640 view |
 | 10 | 1471 | PR open | Audit all screens: keyboard focus rings and reduced motion |
 | 9 | 1177 | on_train | Transfer challenge and Signing Entry: fix the 360x640 view |
 | 8 | 1470 | PR open | Audit all screens: phone held sideways: nothing hidden or overlapping |
@@ -155,12 +157,12 @@ Open code PRs: 0/8.
 
 ## Mega tracker (live, free)
 
-Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/index.html) · summary: [mega/MEGA_TRACKER.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/MEGA_TRACKER.md) · rebuilt by the poller each round, updated 2026-10-10T15:04:39Z.
+Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/index.html) · summary: [mega/MEGA_TRACKER.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/MEGA_TRACKER.md) · rebuilt by the poller each round, updated 2026-10-10T15:08:24Z.
 
 | Stage | Done (merged or live) | In progress | Waiting |
 | --- | --- | --- | --- |
 | Gameplay audits | 0 of 112 | 6 | 106 |
-| Screen fixes | 0 of 266 | 5 | 261 |
+| Screen fixes | 0 of 266 | 6 | 260 |
 | Match desktop to mockups | 0 of 14 | 0 | 14 |
 | Phone mockup studies | 0 of 70 | 0 | 70 |
 | Improved desktop studies | 0 of 56 | 0 | 56 |

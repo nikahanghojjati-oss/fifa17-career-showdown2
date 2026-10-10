@@ -1,8 +1,6 @@
 {
  "sequence": {
   "ready": [
-   11,
-   12,
    13,
    14,
    15,
@@ -12,11 +10,11 @@
    19,
    20,
    21,
-   22
+   22,
+   23,
+   24
   ],
   "ready_sol": [
-   11,
-   12,
    13,
    14,
    15,
@@ -26,13 +24,15 @@
    19,
    20,
    21,
-   22
+   22,
+   23,
+   24
   ],
   "ready_codex": [],
   "open_code_prs": 0,
   "open_train_prs": 0,
-  "next_free": 11,
-  "highest_taken": 10,
+  "next_free": 13,
+  "highest_taken": 12,
   "total": 518,
   "states": {
    "1": "on_train",
@@ -45,8 +45,8 @@
    "8": "pr_open",
    "9": "on_train",
    "10": "pr_open",
-   "11": "waiting",
-   "12": "waiting",
+   "11": "on_train",
+   "12": "pr_open",
    "13": "waiting",
    "14": "waiting",
    "15": "waiting",
@@ -555,16 +555,16 @@
    "518": "waiting"
   }
  },
- "updated": "2026-10-10T15:04:39Z",
+ "updated": "2026-10-10T15:08:24Z",
  "counts": {
-  "on_train": 5,
-  "waiting": 508,
-  "pr_open": 5
+  "on_train": 6,
+  "waiting": 506,
+  "pr_open": 6
  },
  "stages": {
   "2": {
    "total": 266,
-   "taken": 5,
+   "taken": 6,
    "merged": 0
   },
   "3": {
@@ -584,7 +584,7 @@
   },
   "1": {
    "total": 112,
-   "taken": 5,
+   "taken": 6,
    "merged": 0
   }
  },
@@ -848,7 +848,9 @@
     1209,
     1210
    ],
-   "done": [],
+   "done": [
+    "1206"
+   ],
    "pr": null,
    "state": null
   },
@@ -2290,7 +2292,7 @@
    "branch": null
   },
   "1206": {
-   "state": "waiting",
+   "state": "on_train",
    "pr": null,
    "draft": false,
    "pr_url": null,
@@ -4152,11 +4154,11 @@
    "branch": "qa/job-1471-focus-motion-audit"
   },
   "1472": {
-   "state": "waiting",
-   "pr": null,
-   "draft": false,
-   "pr_url": null,
-   "branch": null
+   "state": "pr_open",
+   "pr": 464,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/464",
+   "branch": "qa/job-1472-empty-states"
   },
   "1473": {
    "state": "waiting",
