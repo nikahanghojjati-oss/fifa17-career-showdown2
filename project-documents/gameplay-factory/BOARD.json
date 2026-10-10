@@ -1336,7 +1336,8 @@
      "order": 34,
      "place": "Codex cloud, this repo",
      "note": "ticket jobs/JOB-1580.md",
-     "prompt": "1580"
+     "prompt": "Career Mode Showdown, job 1580. First run: git fetch origin factory/gameplay-v1\nThen read: git show FETCH_HEAD:project-documents/gameplay-factory/jobs/JOB-1580.md\nDo exactly what that file says. If the file does not exist, stop and tell me. Never push to main and never merge. Open any pull request as a draft; if you cannot choose the base branch, write RETARGET TO gameplay/bug-list-1 on the first line of the PR body.",
+     "prompt_source": "queue/CODEX_PROMPTS.md"
     },
     {
      "id": "1581",
@@ -1349,7 +1350,8 @@
      "order": 35,
      "place": "Codex cloud, this repo",
      "note": "ticket jobs/JOB-1581.md",
-     "prompt": "1581"
+     "prompt": "Career Mode Showdown, job 1581. First run: git fetch origin factory/gameplay-v1\nThen read: git show FETCH_HEAD:project-documents/gameplay-factory/jobs/JOB-1581.md\nDo exactly what that file says. If the file does not exist, stop and tell me. Never push to main and never merge. Open any pull request as a draft; if you cannot choose the base branch, write RETARGET TO gameplay/bug-list-1 on the first line of the PR body.",
+     "prompt_source": "queue/CODEX_PROMPTS.md"
     },
     {
      "id": "1582",
@@ -1362,7 +1364,8 @@
      "order": 36,
      "place": "Codex cloud, this repo",
      "note": "ticket jobs/JOB-1582.md",
-     "prompt": "1582"
+     "prompt": "Career Mode Showdown, job 1582. First run: git fetch origin factory/gameplay-v1\nThen read: git show FETCH_HEAD:project-documents/gameplay-factory/jobs/JOB-1582.md\nDo exactly what that file says. If the file does not exist, stop and tell me. Never push to main and never merge. Open any pull request as a draft; if you cannot choose the base branch, write RETARGET TO gameplay/bug-list-1 on the first line of the PR body.",
+     "prompt_source": "queue/CODEX_PROMPTS.md"
     },
     {
      "id": "1583",
@@ -1375,7 +1378,8 @@
      "order": 37,
      "place": "Codex cloud, this repo",
      "note": "ticket jobs/JOB-1583.md (mega factory C4-C7)",
-     "prompt": "1583"
+     "prompt": "Career Mode Showdown, job 1583. First run: git fetch origin factory/gameplay-v1\nThen read: git show FETCH_HEAD:project-documents/gameplay-factory/jobs/JOB-1583.md\nDo exactly what that file says. If the file does not exist, stop and tell me. Never push to main and never merge. Open any pull request as a draft; if you cannot choose the base branch, write RETARGET TO gameplay/bug-list-1 on the first line of the PR body.",
+     "prompt_source": "queue/CODEX_PROMPTS.md"
     },
     {
      "id": "1584",
@@ -1388,7 +1392,8 @@
      "order": 38,
      "place": "Codex cloud, this repo",
      "note": "ticket jobs/JOB-1584.md (mega factory C4-C7)",
-     "prompt": "1584"
+     "prompt": "Career Mode Showdown, job 1584. First run: git fetch origin factory/gameplay-v1\nThen read: git show FETCH_HEAD:project-documents/gameplay-factory/jobs/JOB-1584.md\nDo exactly what that file says. If the file does not exist, stop and tell me. Never push to main and never merge. Open any pull request as a draft; if you cannot choose the base branch, write RETARGET TO gameplay/bug-list-1 on the first line of the PR body.",
+     "prompt_source": "queue/CODEX_PROMPTS.md"
     },
     {
      "id": "1585",
@@ -1401,7 +1406,8 @@
      "order": 39,
      "place": "Codex cloud, this repo",
      "note": "ticket jobs/JOB-1585.md (mega factory C4-C7)",
-     "prompt": "1585"
+     "prompt": "Career Mode Showdown, job 1585. First run: git fetch origin factory/gameplay-v1\nThen read: git show FETCH_HEAD:project-documents/gameplay-factory/jobs/JOB-1585.md\nDo exactly what that file says. If the file does not exist, stop and tell me. Never push to main and never merge. Open any pull request as a draft; if you cannot choose the base branch, write RETARGET TO gameplay/bug-list-1 on the first line of the PR body.",
+     "prompt_source": "queue/CODEX_PROMPTS.md"
     },
     {
      "id": "1586",
@@ -1414,7 +1420,8 @@
      "order": 40,
      "place": "Codex cloud, this repo",
      "note": "ticket jobs/JOB-1586.md (mega factory C4-C7)",
-     "prompt": "1586"
+     "prompt": "Career Mode Showdown, job 1586. First run: git fetch origin factory/gameplay-v1\nThen read: git show FETCH_HEAD:project-documents/gameplay-factory/jobs/JOB-1586.md\nDo exactly what that file says. If the file does not exist, stop and tell me. Never push to main and never merge. Open any pull request as a draft; if you cannot choose the base branch, write RETARGET TO gameplay/bug-list-1 on the first line of the PR body.",
+     "prompt_source": "queue/CODEX_PROMPTS.md"
     },
     {
      "id": "1587",
