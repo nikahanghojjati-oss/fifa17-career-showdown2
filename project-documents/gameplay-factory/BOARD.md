@@ -1,6 +1,6 @@
 # Bug hunt board
 
-Updated Fri 9 Oct, 9:27 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Fri 9 Oct, 9:34 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r66** (main `8e1a583`, Fri 9 Oct 12:04 PM)
 
@@ -11,8 +11,8 @@ Updated Fri 9 Oct, 9:27 PM Boston time. Bug hunting only, no new features until 
 ### ▶️ Running now
 
 **#1 · 1060** `G` The Showdown Gate becomes the PR check set (POS20 and Fast archived)  
-`███████░░░` **70.0000 %**  
-🟣 Team purple · **Claude Opus 5.5** · Medium effort · worker done, PR #453 open, CI running
+`█████████░` **90.0000 %**  
+🟣 Team purple · **Claude Opus 5.5** · Medium effort · PR #453 open, CI green, lead checking
 
 **Done, waiting for the next release:** 1044, 1045, 1048, 1049, 1050, 1051, 1052, 1053, 1055, 1058, 1059
 
