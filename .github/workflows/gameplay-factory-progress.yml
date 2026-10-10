@@ -63,10 +63,10 @@ jobs:
             git fetch -q origin factory/gameplay-v1
             git reset -q --hard origin/factory/gameplay-v1
             FOUND=$(python3 $B/tools/collect_progress.py)
-            python3 $B/tools/board.py; python3 $B/tools/bug_board.py >/dev/null; python3 $B/tools/relay_page.py >/dev/null; python3 $B/queue/queue_state.py >/dev/null || true; python3 $B/tools/mega_tracker.py >/dev/null || true; python3 $B/tools/custom_view.py >/dev/null
+            python3 $B/tools/board.py; python3 $B/tools/bug_board.py >/dev/null; python3 $B/tools/relay_page.py >/dev/null; python3 $B/queue/queue_state.py >/dev/null || true; python3 $B/tools/mega_tracker.py >/dev/null || true; python3 $B/tools/mega_custom_view.py >/dev/null || true; python3 $B/tools/custom_view.py >/dev/null
             AGE=$(( $(date +%s) - $(git log -1 --format=%ct -- $B/CUSTOM_VIEW.html 2>/dev/null || echo 0) ))
-            if git diff -U0 -- $B/BOARD.md $B/BUG_BOARD.md $B/RELAY.md $B/CUSTOM_VIEW.html $B/queue/QUEUE.md $B/queue/QUEUE_STATE.json | grep '^[-+][^-+]' | grep -Ev '· generated 20|Updated [A-Z][a-z]{2} |"updated": "20' | grep -q . || ! git diff --quiet -- $B/mega/MEGA_TRACKER.json || ! git ls-files --error-unmatch $B/RELAY.md >/dev/null 2>&1 || [ "$AGE" -gt 3600 ]; then
-              git add $B/mega/MEGA_TRACKER.json $B/mega/MEGA_TRACKER.md $B/BOARD.md $B/BOARD_ARCHIVE.md $B/BOARD_STATE.json $B/BUG_BOARD.md $B/CUSTOM_VIEW.html $B/CUSTOM_VIEW_V.html $B/CUSTOM_VIEW_V.svg $B/TEAM_G_PROGRESS.json $B/RELAY.md $B/GOALS.json $B/RELEASED.json $B/queue/QUEUE.md $B/queue/QUEUE_STATE.json
+            if git diff -U0 -- $B/BOARD.md $B/BUG_BOARD.md $B/RELAY.md $B/CUSTOM_VIEW.html $B/queue/QUEUE.md $B/queue/QUEUE_STATE.json | grep '^[-+][^-+]' | grep -Ev '· generated 20|Updated [A-Z][a-z]{2} |"updated": "20' | grep -q . || ! git diff --quiet -- $B/mega/MEGA_TRACKER.json $B/mega/CUSTOM_VIEW_MEGA.html || ! git ls-files --error-unmatch $B/RELAY.md >/dev/null 2>&1 || [ "$AGE" -gt 3600 ]; then
+              git add $B/mega/MEGA_TRACKER.json $B/mega/MEGA_TRACKER.md $B/mega/CUSTOM_VIEW_MEGA.html $B/BOARD.md $B/BOARD_ARCHIVE.md $B/BOARD_STATE.json $B/BUG_BOARD.md $B/CUSTOM_VIEW.html $B/CUSTOM_VIEW_V.html $B/CUSTOM_VIEW_V.svg $B/TEAM_G_PROGRESS.json $B/RELAY.md $B/GOALS.json $B/RELEASED.json $B/queue/QUEUE.md $B/queue/QUEUE_STATE.json
               git commit -qm "Gameplay factory: progress bars update [skip ci]"
               git push -q origin HEAD:factory/gameplay-v1 || echo "push raced; next round retries"
             fi
