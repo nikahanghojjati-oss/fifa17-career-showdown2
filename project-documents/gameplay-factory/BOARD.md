@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Sat 10 Oct, 10:49 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Sat 10 Oct, 10:50 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r67** (main `f42dac2`, Fri 9 Oct 9:34 PM)
 
@@ -18,15 +18,15 @@ Updated Sat 10 Oct, 10:49 AM Boston time. Bug hunting only, no new features unti
 
 **#1 · 1579** `G` Season Results: a slow load must not pull you back after you moved on (Sol S5)  
 `████████░░` **80.0000 %**  
-🔵 Team blue · **GPT-6 Sol** · High effort · worker done, PR #455 open, CI green, waiting for the lead · CI 7 of 7 passed · last move 13 min ago
+🔵 Team blue · **GPT-6 Sol** · High effort · worker done, PR #455 open, CI green, waiting for the lead · CI 7 of 7 passed · last move 14 min ago
 
 **#2 · 1580** `G` Showdown Gate: run the L5 lane only when its inputs changed  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · **Codex default coding model** · High effort · worker working, draft PR #457 · CI 6 of 7 passed · last move 11 min ago
+⚪ Team white · **Codex default coding model** · High effort · worker working, draft PR #457 · CI 6 of 7 passed · last move 12 min ago
 
 **#3 · 1587** `G` Season Results: a passing Transfer Challenge read hiccup must not fail the publish (Sol S2)  
 `████████░░` **80.0000 %**  
-🔵 Team blue · **GPT-6 Sol** · High effort · worker done, PR #456 open, CI green, waiting for the lead · CI 7 of 7 passed · last move 12 min ago
+🔵 Team blue · **GPT-6 Sol** · High effort · worker done, PR #456 open, CI green, waiting for the lead · CI 7 of 7 passed · last move 13 min ago
 
 ### 👉 Next for you, in this order
 
