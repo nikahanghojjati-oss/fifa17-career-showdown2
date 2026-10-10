@@ -1,22 +1,23 @@
-# Mega factory tracker · updated 2026-10-10T15:01:03Z
+# Mega factory tracker · updated 2026-10-10T15:04:39Z
 
-**Type now:** 7, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19
-**Next free number:** 7 · **highest taken:** 8 of 518
+**Type now:** 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22
+**Next free number:** 11 · **highest taken:** 12 of 518
 **Code PRs open:** 0 of 8 · area locks: none
-**Rate:** 4 claimed in 10 min · 7 in 1 h · 0 merged in 1 h
+**Rate:** 7 claimed in 10 min · 11 in 1 h · 0 merged in 1 h
 
 **Finished (merged or live): 0 of 518**
 
 State | count
 --- | ---
-🚂 done, on the train branch, no PR yet | 3
-📝 worker done, draft PR open | 4
-⬜ waiting | 511
+🚂 done, on the train branch, no PR yet | 5
+📝 worker done, draft PR open | 5
+🟦 started, no PR yet | 1
+⬜ waiting | 507
 
 Stage | total | merged/live | in flight | waiting
 --- | --- | --- | --- | ---
-1 Gameplay audits | 112 | 0 | 4 | 108
-2 Screen fixes | 266 | 0 | 3 | 263
+1 Gameplay audits | 112 | 0 | 6 | 106
+2 Screen fixes | 266 | 0 | 5 | 261
 3 Match desktop to mockups | 14 | 0 | 0 | 14
 4 Phone mockup studies | 70 | 0 | 0 | 70
 5 Improved desktop studies | 56 | 0 | 0 | 56
@@ -29,10 +30,18 @@ Stage | total | merged/live | in flight | waiting
 - 📝 **4** · Job 1468 · Audit all screens: long manager and club names never break a layout · worker done, draft PR open · [PR #459](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/459)
 - 🚂 **5** · Job 1119 · Select League: fix the 360x640 view · done, on the train branch, no PR yet
 - 📝 **6** · Job 1469 · Audit all screens: phone notch and bottom bar safe areas · worker done, draft PR open · [PR #461](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/461)
+- 🚂 **7** · Job 1148 · Club packs: fix the 360x640 view · done, on the train branch, no PR yet
 - 📝 **8** · Job 1470 · Audit all screens: phone held sideways: nothing hidden or overlapping · worker done, draft PR open · [PR #462](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/462)
+- 🚂 **9** · Job 1177 · Transfer challenge and Signing Entry: fix the 360x640 view · done, on the train branch, no PR yet
+- 📝 **10** · Job 1471 · Audit all screens: keyboard focus rings and reduced motion · worker done, draft PR open · [PR #463](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/463)
+- 🟦 **12** · Job 1472 · Audit all screens: empty, loading and waiting messages read the same everywhere · started, no PR yet
 
 ## Latest changes
 
+- 2026-10-10T15:04:39Z · 12 (Job 1472): waiting → started
+- 2026-10-10T15:04:39Z · 10 (Job 1471): waiting → draft
+- 2026-10-10T15:04:39Z · 9 (Job 1177): waiting → on_train
+- 2026-10-10T15:04:39Z · 7 (Job 1148): waiting → on_train
 - 2026-10-10T15:01:03Z · 8 (Job 1470): waiting → draft
 - 2026-10-10T15:01:03Z · 6 (Job 1469): started → draft
 - 2026-10-10T15:01:03Z · 5 (Job 1119): waiting → on_train

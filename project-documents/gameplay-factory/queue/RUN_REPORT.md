@@ -1,12 +1,12 @@
-# Mega factory run report · 2026-10-10T15:01:03Z
+# Mega factory run report · 2026-10-10T15:04:39Z
 
-Taken 7 of 518 jobs. By state: on_train 3, pr_open 4, waiting 511
+Taken 10 of 518 jobs. By state: on_train 5, pr_open 5, waiting 508
 
 ## By stage
 Stage | name | total | picked up | merged
 --- | --- | --- | --- | ---
-1 | audits | 112 | 4 | 0
-2 | screen fixes | 266 | 3 | 0
+1 | audits | 112 | 5 | 0
+2 | screen fixes | 266 | 5 | 0
 3 | mockup match | 14 | 0 | 0
 4 | phone studies | 70 | 0 | 0
 5 | desktop studies | 56 | 0 | 0
@@ -17,6 +17,8 @@ Train | jobs done | PR | state
 gameplay/train-home-1 | 1 of 5 | - | on train, no PR yet
 gameplay/train-start-join-1 | 1 of 5 | - | on train, no PR yet
 gameplay/train-league-1 | 1 of 5 | - | on train, no PR yet
+gameplay/train-club-1 | 1 of 5 | - | on train, no PR yet
+gameplay/train-transfer-1 | 1 of 5 | - | on train, no PR yet
 
 ## Finished study and audit jobs
 Number | job | title | state | link
@@ -25,6 +27,7 @@ Number | job | title | state | link
 4 | 1468 | Audit all screens: long manager and club names never break a layout | pr_open | [PR #459](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/459)
 6 | 1469 | Audit all screens: phone notch and bottom bar safe areas | pr_open | [PR #461](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/461)
 8 | 1470 | Audit all screens: phone held sideways: nothing hidden or overlapping | pr_open | [PR #462](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/462)
+10 | 1471 | Audit all screens: keyboard focus rings and reduced motion | pr_open | [PR #463](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/463)
 
 ## Needs a look (blocked, no change needed, needs Team V or mockup)
 

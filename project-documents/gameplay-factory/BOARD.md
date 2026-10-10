@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Sat 10 Oct, 11:01 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Sat 10 Oct, 11:04 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r67** (main `f42dac2`, Fri 9 Oct 9:34 PM)
 
@@ -16,21 +16,13 @@ Updated Sat 10 Oct, 11:01 AM Boston time. Bug hunting only, no new features unti
 
 ### ▶️ Running now
 
-**#1 · 1579** `G` Season Results: a slow load must not pull you back after you moved on (Sol S5)  
-`████████░░` **80.0000 %**  
-🔵 Team blue · **GPT-6 Sol** · High effort · worker done, PR #455 open, CI green, waiting for the lead · CI 7 of 7 passed · last move 25 min ago
-
-**#2 · 1580** `G` Showdown Gate: run the L5 lane only when its inputs changed  
+**#1 · 1580** `G` Showdown Gate: run the L5 lane only when its inputs changed  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · **Codex default coding model** · High effort · worker working, draft PR #457 · CI 6 of 7 passed · last move 23 min ago
+⚪ Team white · **Codex default coding model** · High effort · worker working, draft PR #457 · CI 6 of 7 passed · last move 26 min ago
 
-**#3 · 1583** `G` Measure the home screens at ten window sizes (report only)  
+**#2 · 1583** `G` Measure the home screens at ten window sizes (report only)  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · **Codex default coding model** · Medium effort · worker working, draft PR #460 · CI 6 of 7 passed · last move 7 min ago
-
-**#4 · 1587** `G` Season Results: a passing Transfer Challenge read hiccup must not fail the publish (Sol S2)  
-`████████░░` **80.0000 %**  
-🔵 Team blue · **GPT-6 Sol** · High effort · worker done, PR #456 open, CI green, waiting for the lead · CI 7 of 7 passed · last move 23 min ago
+⚪ Team white · **Codex default coding model** · Medium effort · worker working, draft PR #460 · CI 6 of 7 passed · last move 10 min ago
 
 ### 👉 Next for you, in this order
 
@@ -80,7 +72,7 @@ Do exactly what that file says. If the file does not exist, stop and tell me. Ne
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · **Codex default coding model** · Medium effort · later: after 1581 merges
 
-**Done, waiting for the next release:** 1059, 1060
+**Done, waiting for the next release:** 1059, 1060, 1579, 1587
 
 **Done and live:** r67: 1044, 1045, 1048, 1049, 1050, 1051, 1052, 1053, 1055, 1058 · r66: 1041, 1042, 1043 · r65: 1011, 1028, 1037, 1038, 1039, 1040 · r63: 1001, 1003, 1004, 1005, 1009, 1010, 1014, 1015, 1020, 1021, 1022, 1023, 1024, 1025, 1026, 1027, Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8
 
@@ -89,8 +81,8 @@ Do exactly what that file says. If the file does not exist, stop and tell me. Ne
 ## Goals, in this order
 
 **1. Finish the remaining bugs** `now`  
-`█████████░` **89.4118 %**  
-Numbered jobs: 50 done, 7 other open · Olympiad recheck: 23 of 23 settled, 0 still to fix · Sol's old leads: 2 open (2 real, 0 unsure)
+`█████████░` **91.9540 %**  
+Numbered jobs: 52 done, 7 other open · Olympiad recheck: 23 of 23 settled, 0 still to fix · Sol's old leads: 0 open (0 real, 0 unsure)
 
 **2. Visual fixes** `after stage 1`  
 `█████░░░░░` **50.0000 %**  
@@ -135,17 +127,17 @@ One numbered queue: type a bare number in any GPT chat. Live from GitHub (queue/
 Type now, in any GPT chat:
 
 ```text
-7 9 10 11 12 13 14 15 16 17 18 19
+11 12 13 14 15 16 17 18 19 20 21 22
 ```
 
 Open code PRs: 0/8.
 
-8 taken of 518.
+10 taken of 518.
 
 | Stage | Items | Merged | Picked up |
 | --- | --- | --- | --- |
-| audits | 112 | 0/112 | 4/112 |
-| screen fixes | 266 | 0/266 | 3/266 |
+| audits | 112 | 0/112 | 5/112 |
+| screen fixes | 266 | 0/266 | 5/266 |
 | mockup match | 14 | 0/14 | 0/14 |
 | phone studies | 70 | 0/70 | 0/70 |
 | desktop studies | 56 | 0/56 | 0/56 |
@@ -154,7 +146,10 @@ Open code PRs: 0/8.
 
 | # | Job | State | Title |
 | --- | --- | --- | --- |
+| 10 | 1471 | PR open | Audit all screens: keyboard focus rings and reduced motion |
+| 9 | 1177 | on_train | Transfer challenge and Signing Entry: fix the 360x640 view |
 | 8 | 1470 | PR open | Audit all screens: phone held sideways: nothing hidden or overlapping |
+| 7 | 1148 | on_train | Club packs: fix the 360x640 view |
 | 6 | 1469 | PR open | Audit all screens: phone notch and bottom bar safe areas |
 | 5 | 1119 | on_train | Select League: fix the 360x640 view |
 | 4 | 1468 | PR open | Audit all screens: long manager and club names never break a layout |
@@ -164,12 +159,12 @@ Open code PRs: 0/8.
 
 ## Mega tracker (live, free)
 
-Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/index.html) · summary: [mega/MEGA_TRACKER.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/MEGA_TRACKER.md) · rebuilt by the poller each round, updated 2026-10-10T15:01:03Z.
+Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/index.html) · summary: [mega/MEGA_TRACKER.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/MEGA_TRACKER.md) · rebuilt by the poller each round, updated 2026-10-10T15:04:39Z.
 
 | Stage | Done (merged or live) | In progress | Waiting |
 | --- | --- | --- | --- |
-| Gameplay audits | 0 of 112 | 4 | 108 |
-| Screen fixes | 0 of 266 | 3 | 263 |
+| Gameplay audits | 0 of 112 | 6 | 106 |
+| Screen fixes | 0 of 266 | 5 | 261 |
 | Match desktop to mockups | 0 of 14 | 0 | 14 |
 | Phone mockup studies | 0 of 70 | 0 | 70 |
 | Improved desktop studies | 0 of 56 | 0 | 56 |
