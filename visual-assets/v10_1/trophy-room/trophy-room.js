@@ -1,0 +1,276 @@
+/* Trophy Room desktop visual build · JOB-057 */
+(function () {
+  "use strict";
+
+  const TROPHIES = [
+    { key: "showdown", category: "SHOWDOWN", asset: "../shared/trophies/TRO_SHOWDOWN_CHAMPION_V1_512.webp", value: f => f.showdowns },
+    { key: "leagueTitles", category: "LEAGUE TITLES", asset: "../shared/trophies/TRO_LEAGUE_TITLE_V1_512.webp", value: f => f.managers && ({daniel:f.managers.daniel.leagueTitles, nik:f.managers.nik.leagueTitles}) },
+    { key: "domesticCups", category: "DOMESTIC CUPS", asset: "../shared/trophies/TRO_DOMESTIC_CUP_V1_512.webp", value: f => f.managers && ({daniel:f.managers.daniel.domesticCups, nik:f.managers.nik.domesticCups}) },
+    { key: "championsLeague", category: "CHAMPIONS LEAGUE", asset: "../shared/trophies/TRO_CONTINENTAL_V1_512.webp", value: f => f.managers && ({daniel:f.managers.daniel.championsLeagues, nik:f.managers.nik.championsLeagues}) }
+  ];
+
+  const state = { fixtures:null, frame:null, frameKey:"TR1", map:null, activeCategory:"ALL", stage:null, spotlightLit:false, heroSettled:false, heroGlintPlayed:false, shelfRevealed:false, countsRevealed:false, shimmeredTrophies:new Set(), tabTransitioning:false };
+  const qs = new URLSearchParams(location.search);
+  state.frameKey = qs.get("frame") || "TR1";
+
+  const TR_MOTION = Object.freeze({
+    spotlightAnticipationMs:250,
+    spotlightOnMs:180,
+    spotlightEase:"cubic-bezier(.16,1,.3,1)",
+    trophyRiseDelayMs:250,
+    trophyRiseMs:420,
+    trophyRiseEase:"cubic-bezier(.16,1,.3,1)",
+    trophyGlintDelayMs:410,
+    trophyGlintMs:360,
+    cardFlipDelayMs:560,
+    cardFlipMs:320,
+    cardStaggerMs:60,
+    cardFlipEase:"cubic-bezier(.16,1,.3,1)",
+    countUpDelayMs:760,
+    countUpMs:300,
+    winningShimmerDelayMs:760,
+    winningShimmerMs:420,
+    tabFadeOutMs:100,
+    tabFadeInMs:120,
+    tabSlidePx:12,
+    tabEase:"cubic-bezier(.22,1,.36,1)"
+  });
+
+  const esc = value => String(value == null ? "" : value).replace(/[&<>\"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+  function collectStrings(value, out) {
+    if (typeof value === "string") out.push(value);
+    else if (Array.isArray(value)) value.forEach(v => collectStrings(v, out));
+    else if (value && typeof value === "object") Object.values(value).forEach(v => collectStrings(v, out));
+    return out;
+  }
+
+  function trophyCounts(trophy, frame) {
+    if (trophy.key === "showdown") {
+      return frame.showdowns ? { daniel:frame.showdowns.daniel.wins, nik:frame.showdowns.nik.wins } : null;
+    }
+    return trophy.value(frame) || null;
+  }
+
+  function picture(asset, alt, cls) {
+    return `<picture class="${cls || ""}"><source type="image/webp" srcset="${asset}"><img src="${asset}" alt="${esc(alt)}" decoding="async"></picture>`;
+  }
+
+  function managerMarkers() {
+    return `<span class="managerRegistration managerRegistration--daniel" data-manager="daniel"></span><span class="managerRegistration managerRegistration--nik" data-manager="nik"></span>`;
+  }
+
+  function titleBlock(strings) {
+    return `<header class="trophyTitleBlock" data-sd-enter="title"><p class="sd-eyebrow trophyEyebrow">CAREER MODE SHOWDOWN 17</p><h2 id="trophyRoomScreenTitle" class="visually-hidden" tabindex="-1" data-route-focus-target="true">${esc(strings.heading)}</h2><img class="trophyBrushTitle" src="assets/TITLE_TR_V1.webp" alt="" aria-hidden="true"><p class="sd-tagline trophyTagline">TWO MANAGERS. ONE LEGACY.</p></header>`;
+  }
+
+  function ranking(frame) {
+    if (!frame.managers || !frame.standings) return "";
+    const rows = ["daniel","nik"].map(manager => {
+      const s = frame.standings.find(x => x.manager === manager);
+      const m = frame.managers[manager];
+      if (!s || !m) return "";
+      return `<div class="careerRank careerRank--${manager}" data-rank-manager="${manager}"><strong>${esc(s.rank)}</strong><span>${esc(m.displayName)}</span><b>${m.careerPoints}</b><small>CAREER POINTS · ${m.seasonWins} SEASON WINS</small></div>`;
+    }).join("");
+    return `<div class="careerRanks" data-sd-enter="panel" aria-label="Career standings">${rows}</div>`;
+  }
+
+  function hero(strings, frame) {
+    const active = TROPHIES[0];
+    const dim = frame.status === "loading" || frame.status === "unavailable";
+    return `<div class="heroCeremony ${dim ? "is-muted" : ""}" data-sd-enter="panel" aria-hidden="${dim ? "true" : "false"}"><div class="heroSpotlight"></div>${picture(active.asset, strings.trophyTypes.showdown, "heroTrophyPicture")}<div class="heroReflection"></div><div class="heroPlinth"><span>${esc(strings.trophyTypes.showdown.toUpperCase())}</span><small>CAREER MODE SHOWDOWN</small></div></div>`;
+  }
+
+  function tabs(strings, frame) {
+    const disabled = frame.status === "loading" || frame.status === "unavailable";
+    return `<div class="trophyTabs" role="tablist" aria-label="Trophy category">${strings.categories.map(category => `<button type="button" class="trophyTab ${state.activeCategory === category ? "is-active" : ""}" role="tab" aria-selected="${state.activeCategory === category}" data-category="${esc(category)}" ${disabled ? "disabled" : ""}>${esc(category)}</button>`).join("")}</div>`;
+  }
+
+  function trophyCard(trophy, strings, frame) {
+    const counts = trophyCounts(trophy, frame);
+    const empty = counts && counts.daniel === 0 && counts.nik === 0;
+    const dName = frame.managers?.daniel?.displayName || "Daniel";
+    const nName = frame.managers?.nik?.displayName || "Nik";
+    const leftCount = counts ? Number(counts.daniel) || 0 : null;
+    const rightCount = counts ? Number(counts.nik) || 0 : null;
+    const left = leftCount == null ? "—" : (leftCount === 0 ? "—" : String(state.countsRevealed ? leftCount : 0));
+    const right = rightCount == null ? "—" : (rightCount === 0 ? "—" : String(state.countsRevealed ? rightCount : 0));
+    const leftAttr = leftCount > 0 ? ` class="has-count" data-count-value="${leftCount}"` : "";
+    const rightAttr = rightCount > 0 ? ` class="has-count" data-count-value="${rightCount}"` : "";
+    const hasWin = (leftCount || 0) > 0 || (rightCount || 0) > 0;
+    const shimmerClass = hasWin ? "sd-glint" : "";
+    const shimmerAttr = hasWin ? ` data-winning-card="true"` : "";
+    return `<article class="trophyCard ${empty ? "is-unwon" : ""} ${state.shelfRevealed ? "tr-card-revealed" : ""} ${shimmerClass}" data-trophy="${trophy.key}"${shimmerAttr}><div class="trophyCardGlow"></div>${picture(trophy.asset, strings.trophyTypes[trophy.key], "trophyCardPicture")}<h3>${esc(strings.trophyTypes[trophy.key])}</h3><div class="managerCounts"><div data-side="daniel"><span>${esc(dName)}</span><strong${leftAttr}>${esc(left)}</strong></div><div data-side="nik"><span>${esc(nName)}</span><strong${rightAttr}>${esc(right)}</strong></div></div>${empty ? `<p class="notWonYet">${esc(strings.notWonYet)}</p>` : ""}</article>`;
+  }
+
+  function recordRibbon(strings, frame) {
+    if (!Array.isArray(frame.records) || !frame.records.length) return "";
+    const heading = frame.status === "partial" ? strings.stateCopy.partialRecordsHeading.text : strings.recordsReadyHeading;
+    return `<div class="recordRibbon" data-sd-enter="panel" aria-label="${esc(heading)}"><span class="recordRibbonHeading">${esc(heading)}</span>${frame.records.map(record => {
+      const manager = record.manager === "shared" ? "Shared" : (frame.managers?.[record.manager]?.displayName || record.manager);
+      return `<div class="recordItem"><small>${esc(record.label)}</small><strong>${esc(record.value)}</strong><span>${esc(manager)}</span></div>`;
+    }).join("")}</div>`;
+  }
+
+  function statePanel(strings, frame) {
+    if (frame.status === "loading") return `<div class="statePanel statePanel--loading" data-sd-enter="panel"><i class="stateGlyph" aria-hidden="true"></i><strong>${esc(strings.stateCopy.loading.text)}</strong></div>`;
+    if (frame.status === "unavailable") return `<div class="statePanel statePanel--unavailable" data-sd-enter="panel"><i class="stateGlyph" aria-hidden="true">!</i><strong>${esc(strings.stateCopy.unavailable.text)}</strong></div>`;
+    if (frame.status === "partial") return `<div class="stateNotice" data-sd-enter="panel"><span class="stateNoticeIcon" aria-hidden="true">!</span><span>${esc(frame.stateMessage || strings.stateCopy.partial.text.replace("{READABLE}", frame.coverage.readable).replace("{INDEXED}", frame.coverage.indexed))}</span><b>${frame.coverage.readable} of ${frame.coverage.indexed} Showdowns readable</b></div>`;
+    return "";
+  }
+
+  function shelf(strings, frame) {
+    const noData = frame.status === "loading" || frame.status === "unavailable";
+    const chosen = state.activeCategory === "ALL" ? TROPHIES : TROPHIES.filter(t => t.category === state.activeCategory);
+    return `<section class="trophyShelf ${chosen.length === 1 ? "is-filtered" : ""}" data-sd-enter="panel" aria-label="${esc(strings.managerCabinetsHeading)}">${tabs(strings, frame)}<div class="shelfGlass"><div class="shelfTopEdge"></div>${statePanel(strings, frame)}${noData ? "" : `<div class="trophyGrid">${chosen.map(t => trophyCard(t, strings, frame)).join("")}</div>${recordRibbon(strings, frame)}`}</div></section>`;
+  }
+
+  function back(strings) {
+    return `<button id="trophyRoomBack" type="button" class="backButton trophyBack" data-primary-action data-sd-enter="button">${esc(strings.back)}</button>`;
+  }
+
+  function playSpotlightSnap(root) {
+    const hero = root.querySelector(".heroCeremony");
+    if (!hero || state.spotlightLit) return;
+    hero.style.setProperty("--tr-spotlight-on-ms", `${TR_MOTION.spotlightOnMs}ms`);
+    hero.style.setProperty("--tr-spotlight-ease", TR_MOTION.spotlightEase);
+    hero.classList.add("tr-spotlight-anticipating");
+    window.setTimeout(() => {
+      state.spotlightLit = true;
+      hero.classList.remove("tr-spotlight-anticipating");
+      hero.classList.add("tr-spotlight-lit");
+    }, TR_MOTION.spotlightAnticipationMs);
+  }
+
+  function playHeroTrophyMoment(root) {
+    const hero = root.querySelector(".heroCeremony");
+    if (!hero || state.heroSettled) return;
+    hero.style.setProperty("--tr-trophy-rise-ms", `${TR_MOTION.trophyRiseMs}ms`);
+    hero.style.setProperty("--tr-trophy-rise-ease", TR_MOTION.trophyRiseEase);
+    hero.style.setProperty("--tr-trophy-glint-ms", `${TR_MOTION.trophyGlintMs}ms`);
+    window.setTimeout(() => hero.classList.add("tr-trophy-rising"), TR_MOTION.trophyRiseDelayMs);
+    window.setTimeout(() => {
+      if (!state.heroGlintPlayed) hero.classList.add("tr-trophy-glint");
+    }, TR_MOTION.trophyGlintDelayMs);
+    window.setTimeout(() => {
+      state.heroGlintPlayed = true;
+      hero.classList.remove("tr-trophy-glint");
+    }, TR_MOTION.trophyGlintDelayMs + TR_MOTION.trophyGlintMs);
+    window.setTimeout(() => {
+      state.heroSettled = true;
+      hero.classList.remove("tr-trophy-rising");
+      hero.classList.add("tr-trophy-settled");
+    }, TR_MOTION.trophyRiseDelayMs + TR_MOTION.trophyRiseMs);
+  }
+
+  function playShelfCardFlip(root) {
+    if (state.shelfRevealed) return;
+    const cards = [...root.querySelectorAll(".trophyCard")];
+    if (!cards.length) return;
+    cards.forEach((card, index) => {
+      card.style.setProperty("--tr-card-flip-ms", `${TR_MOTION.cardFlipMs}ms`);
+      card.style.setProperty("--tr-card-flip-ease", TR_MOTION.cardFlipEase);
+      card.style.setProperty("--tr-card-delay", `${TR_MOTION.cardFlipDelayMs + index * TR_MOTION.cardStaggerMs}ms`);
+    });
+    requestAnimationFrame(() => cards.forEach(card => card.classList.add("tr-card-revealed")));
+    state.shelfRevealed = true;
+  }
+
+  function playCountUps(root) {
+    if (state.countsRevealed || typeof window.sdCountUp !== "function") return;
+    const counts = [...root.querySelectorAll(".managerCounts strong[data-count-value]")];
+    if (!counts.length) return;
+    state.countsRevealed = true;
+    window.setTimeout(() => {
+      counts.forEach(el => window.sdCountUp(el, Number(el.dataset.countValue), TR_MOTION.countUpMs));
+    }, TR_MOTION.countUpDelayMs);
+  }
+
+  function playWinningCardShimmer(root) {
+    const cards = [...root.querySelectorAll('.trophyCard[data-winning-card="true"]')]
+      .filter(card => !state.shimmeredTrophies.has(card.dataset.trophy));
+    if (!cards.length) return;
+    window.setTimeout(() => {
+      cards.forEach(card => {
+        state.shimmeredTrophies.add(card.dataset.trophy);
+        card.classList.add("sd-is-glinting");
+        window.setTimeout(() => card.classList.remove("sd-is-glinting"), TR_MOTION.winningShimmerMs);
+      });
+    }, TR_MOTION.winningShimmerDelayMs);
+  }
+
+  function render() {
+    const frame = state.frame;
+    const strings = state.fixtures.strings;
+    const content = document.getElementById("trophyRoomContent");
+    const preview = frame.previewLabel || strings.previewLabel;
+    const fixtureMirror = [...new Set(collectStrings(strings, []).concat(collectStrings(frame, [])))].join(" · ");
+    content.innerHTML = `${managerMarkers()}<div class="topbarReserve" aria-hidden="true"></div><div class="previewPill">${esc(preview)}</div>${titleBlock(strings)}${ranking(frame)}${hero(strings, frame)}${shelf(strings, frame)}${back(strings)}<div class="fixtureContract" hidden>${esc(fixtureMirror)}</div><div class="phoneNavReserve" aria-hidden="true"></div>`;
+    content.dataset.state = frame.status;
+    content.dataset.frame = state.frameKey;
+    content.dataset.category = state.activeCategory;
+
+    content.querySelectorAll(".trophyTab").forEach(btn => btn.addEventListener("click", () => {
+      const category = btn.dataset.category;
+      if (state.tabTransitioning || category === state.activeCategory) return;
+      const outgoing = content.querySelector(".trophyGrid");
+      state.tabTransitioning = true;
+      if (outgoing) {
+        outgoing.style.setProperty("--tr-tab-out-ms", `${TR_MOTION.tabFadeOutMs}ms`);
+        outgoing.style.setProperty("--tr-tab-in-ms", `${TR_MOTION.tabFadeInMs}ms`);
+        outgoing.style.setProperty("--tr-tab-ease", TR_MOTION.tabEase);
+        outgoing.classList.add("tr-tab-leave");
+      }
+      window.setTimeout(() => {
+        state.activeCategory = category;
+        render();
+        const incoming = document.querySelector("#trophyRoomContent .trophyGrid");
+        if (incoming) {
+          incoming.style.setProperty("--tr-tab-out-ms", `${TR_MOTION.tabFadeOutMs}ms`);
+          incoming.style.setProperty("--tr-tab-in-ms", `${TR_MOTION.tabFadeInMs}ms`);
+          incoming.style.setProperty("--tr-tab-ease", TR_MOTION.tabEase);
+          incoming.classList.add("tr-tab-enter");
+          requestAnimationFrame(() => requestAnimationFrame(() => incoming.classList.remove("tr-tab-enter")));
+        }
+        const activeTab = [...document.querySelectorAll("#trophyRoomContent .trophyTab")].find(tab => tab.dataset.category === category);
+        if (activeTab) activeTab.focus();
+        window.setTimeout(() => { state.tabTransitioning = false; }, TR_MOTION.tabFadeInMs);
+      }, outgoing ? TR_MOTION.tabFadeOutMs : 0);
+    }));
+    const backButton = document.getElementById("trophyRoomBack");
+    backButton.addEventListener("click", () => document.dispatchEvent(new CustomEvent("trophy-room:intent", { detail:{ route:"back" } })));
+  }
+
+  async function boot() {
+    const [fixturesRes, mapRes] = await Promise.all([fetch("fixtures.json", {cache:"no-store"}), fetch("assets/platemap.json", {cache:"no-store"})]);
+    if (!fixturesRes.ok || !mapRes.ok) throw new Error("Trophy Room fixture or plate map failed to load");
+    state.fixtures = await fixturesRes.json();
+    state.map = await mapRes.json();
+    state.frame = state.fixtures.frames[state.frameKey] || state.fixtures.frames.TR1;
+    state.activeCategory = state.frame.activeCategory || "ALL";
+    state.stage = window.ShowdownStage.mount(document.querySelector(".trophyRoomScene"), {
+      plate:{ width:1672, height:941, src1x:"../trophy-room/assets/ENV_TR_PLATE_V1_1X.webp", src2x:"../trophy-room/assets/ENV_TR_PLATE_V1_2X.webp" },
+      focal:{ x:state.map.focal[0], y:state.map.focal[1] },
+      platemap:state.map,
+      dustCount:22,
+      phoneBandRatio:.45
+    });
+    render();
+    const root = document.getElementById("trophyRoom");
+    if (typeof window.sdEnter === "function") window.sdEnter(root);
+    playSpotlightSnap(root);
+    playHeroTrophyMoment(root);
+    playShelfCardFlip(root);
+    playCountUps(root);
+    playWinningCardShimmer(root);
+    document.documentElement.dataset.trophyReady = "1";
+    window.__trophyRoomReady = true;
+    window.__trophyRoomFrame = state.frame;
+  }
+
+  boot().catch(err => {
+    console.error(err);
+    const content = document.getElementById("trophyRoomContent");
+    if (content) content.innerHTML = `<div class="fatalState">Career history is unavailable right now.</div>`;
+  });
+})();

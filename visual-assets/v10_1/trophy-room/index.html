@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en" data-nav="hub">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="color-scheme" content="dark">
+  <title>Trophy Room · Career Mode Showdown</title>
+  <link rel="stylesheet" href="../shared/showdown-tokens.css">
+  <link rel="stylesheet" href="../shared/showdown-type.css">
+  <link rel="stylesheet" href="../shared/showdown-ui.css">
+  <link rel="stylesheet" href="../shared/stage.css">
+  <link rel="stylesheet" href="../shared/motion.css">
+  <link rel="stylesheet" href="../shared/navbar/navbar.css">
+  <link rel="stylesheet" href="trophy-room.css">
+</head>
+<body>
+  <main id="stage-root" class="trophyRoomStage" data-stage data-primary="trophyRoomBack">
+    <section id="trophyRoom" class="screen analyticsScreen" aria-labelledby="trophyRoomScreenTitle">
+      <div class="sd-stage trophyRoomScene" data-sd-enter="scene" data-plate-width="1672" data-plate-height="941">
+        <div class="sd-stage__layer sd-stage__layer--plate"><div class="sd-stage__registered"><div class="sd-stage__plate"></div></div></div>
+        <div class="sd-stage__layer sd-stage__layer--atmosphere"></div>
+        <div class="sd-stage__layer sd-stage__layer--ui">
+          <div class="trophyPhoneArt" aria-hidden="true">
+            <picture class="trophyPhoneBackdrop">
+              <source type="image/webp" srcset="assets/ENV_TR_PHONE_V1.webp">
+              <img src="assets/ENV_TR_PHONE_V1.webp" alt="" width="1179" height="2096" decoding="async" fetchpriority="high">
+            </picture>
+            <picture class="trophyPhoneHero trophyPhoneHero--daniel" data-sd-enter="character-left">
+              <source type="image/webp" srcset="assets/OVL_TR_DANIEL_PHONE_V1.webp">
+              <img src="assets/OVL_TR_DANIEL_PHONE_V1.webp" alt="" decoding="async">
+            </picture>
+            <picture class="trophyPhoneHero trophyPhoneHero--nik" data-sd-enter="character-right">
+              <source type="image/webp" srcset="assets/OVL_TR_NIK_PHONE_V1.webp">
+              <img src="assets/OVL_TR_NIK_PHONE_V1.webp" alt="" decoding="async">
+            </picture>
+            <div class="trophyPhoneArtShade"></div>
+          </div>
+          <input id="trophyPhoneMoreToggle" class="phoneMoreToggle visually-hidden" type="checkbox" aria-label="Toggle career details" aria-controls="trophyRoomContent">
+          <div id="trophyRoomContent" class="trophyRoomContent sd-stage__ui-content" aria-live="polite"></div>
+          <aside id="trophyPhoneSheet" class="sd-sheet trophyPhoneSheet" aria-labelledby="trophyPhoneSheetTitle">
+            <strong id="trophyPhoneSheetTitle" class="trophyPhoneSheetTitle">CAREER DETAILS</strong>
+            <span class="trophyPhoneSheetHint">Ranks and career records</span>
+            <span class="trophyPhoneSheetClose" aria-hidden="true">CLOSE</span>
+          </aside>
+          <label class="trophyPhoneMoreButton" for="trophyPhoneMoreToggle" aria-hidden="true"><span class="trophyPhoneMoreOpen">MORE</span><span class="trophyPhoneMoreClose">CLOSE</span></label>
+          <div class="nav-reserve trophyPhoneNavReserve" aria-hidden="true"></div>
+        </div>
+        <div class="sd-stage__layer sd-stage__layer--cutout"><div class="sd-stage__registered"></div></div>
+        <div class="sd-stage__layer sd-stage__layer--light"><div class="sd-stage__registered"></div></div>
+      </div>
+    </section>
+  </main>
+  <script src="../shared/stage.js"></script>
+  <script src="../shared/motion.js"></script>
+  <script src="../shared/navbar/navbar.js"></script>
+  <script>SDNav.mount({nav:{active:"career",locked:false,reason:null},routes:{home:"../home/index.html",career:"../start-join/index.html",standings:"../standings/index.html",stats:"../career-statistics/index.html",rules:"../rule-book/index.html",settings:"../settings/index.html"}});</script>
+  <script src="trophy-room.js"></script>
+</body>
+</html>

@@ -1,0 +1,1129 @@
+{
+  "factoryExpectedNAs": [
+    "H1",
+    "H5",
+    "FIXTURE_STRINGS"
+  ],
+  "views": [
+    {
+      "label": "1366x768",
+      "viewport": [
+        1366,
+        768
+      ],
+      "noScroll": true,
+      "credit": {
+        "text": "Marco Reus photo: Tim Reckmann · CC BY 2.0 · Cropped for display",
+        "font": 12,
+        "rect": {
+          "left": 24,
+          "top": 734.40625,
+          "right": 361,
+          "bottom": 750,
+          "width": 337,
+          "height": 15.59375
+        },
+        "inside": true
+      },
+      "links": [
+        "https://www.flickr.com/photos/foto_db/16204330530/",
+        "https://creativecommons.org/licenses/by/2.0/"
+      ],
+      "image": {
+        "natural": [
+          900,
+          1520
+        ],
+        "objectFit": "cover",
+        "objectPosition": "45% 10%"
+      },
+      "identity": {
+        "rect": {
+          "left": 737.625,
+          "top": 228.6699981689453,
+          "right": 1270.359375,
+          "bottom": 506.0449981689453,
+          "width": 532.734375,
+          "height": 277.375
+        },
+        "inside": true
+      },
+      "status": {
+        "rect": {
+          "left": 737.625,
+          "top": 628.40625,
+          "right": 1270.359375,
+          "bottom": 660,
+          "width": 532.734375,
+          "height": 31.59375
+        },
+        "inside": true
+      },
+      "stackGap": 122.36125183105469,
+      "controls": 0,
+      "resources": [
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/showdown-tokens.css",
+          "encodedBodySize": 4438,
+          "transferSize": 4738
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/showdown-type.css",
+          "encodedBodySize": 3718,
+          "transferSize": 4018
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/stage.css",
+          "encodedBodySize": 6072,
+          "transferSize": 6372
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/loading/loading.css",
+          "encodedBodySize": 6823,
+          "transferSize": 7123
+        },
+        {
+          "name": "http://127.0.0.1:8765/assets/marco-reus-2015-cc-by.webp",
+          "encodedBodySize": 89008,
+          "transferSize": 89308
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/loading/assets/LOGO_CM17_WORDMARK_LOADING_V1.webp",
+          "encodedBodySize": 102780,
+          "transferSize": 103080
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/loading/loading.js",
+          "encodedBodySize": 1416,
+          "transferSize": 1716
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/fonts/barlow-condensed-latin-600-normal.woff2",
+          "encodedBodySize": 22308,
+          "transferSize": 22608
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/fonts/kaushan-script-latin-400-normal.woff2",
+          "encodedBodySize": 34748,
+          "transferSize": 35048
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/fonts/barlow-condensed-latin-700-normal.woff2",
+          "encodedBodySize": 22444,
+          "transferSize": 22744
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/fonts/barlow-latin-400-normal.woff2",
+          "encodedBodySize": 22196,
+          "transferSize": 22496
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/loading/fixtures.json",
+          "encodedBodySize": 8844,
+          "transferSize": 9144
+        }
+      ],
+      "keyboard": [
+        "https://www.flickr.com/photos/foto_db/16204330530/",
+        "https://creativecommons.org/licenses/by/2.0/"
+      ],
+      "consoleErrors": []
+    },
+    {
+      "label": "1440x900",
+      "viewport": [
+        1440,
+        900
+      ],
+      "noScroll": true,
+      "credit": {
+        "text": "Marco Reus photo: Tim Reckmann · CC BY 2.0 · Cropped for display",
+        "font": 12,
+        "rect": {
+          "left": 24,
+          "top": 866.40625,
+          "right": 361,
+          "bottom": 882,
+          "width": 337,
+          "height": 15.59375
+        },
+        "inside": true
+      },
+      "links": [
+        "https://www.flickr.com/photos/foto_db/16204330530/",
+        "https://creativecommons.org/licenses/by/2.0/"
+      ],
+      "image": {
+        "natural": [
+          900,
+          1520
+        ],
+        "objectFit": "cover",
+        "objectPosition": "45% 10%"
+      },
+      "identity": {
+        "rect": {
+          "left": 777.59375,
+          "top": 287.88873291015625,
+          "right": 1339.1875,
+          "bottom": 577.3731079101562,
+          "width": 561.59375,
+          "height": 289.484375
+        },
+        "inside": true
+      },
+      "status": {
+        "rect": {
+          "left": 777.59375,
+          "top": 760.40625,
+          "right": 1339.1875,
+          "bottom": 792,
+          "width": 561.59375,
+          "height": 31.59375
+        },
+        "inside": true
+      },
+      "stackGap": 183.03314208984375,
+      "controls": 0,
+      "resources": [
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/showdown-tokens.css",
+          "encodedBodySize": 4438,
+          "transferSize": 4738
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/showdown-type.css",
+          "encodedBodySize": 3718,
+          "transferSize": 4018
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/stage.css",
+          "encodedBodySize": 6072,
+          "transferSize": 6372
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/loading/loading.css",
+          "encodedBodySize": 6823,
+          "transferSize": 7123
+        },
+        {
+          "name": "http://127.0.0.1:8765/assets/marco-reus-2015-cc-by.webp",
+          "encodedBodySize": 89008,
+          "transferSize": 89308
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/loading/assets/LOGO_CM17_WORDMARK_LOADING_V1.webp",
+          "encodedBodySize": 102780,
+          "transferSize": 103080
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/loading/loading.js",
+          "encodedBodySize": 1416,
+          "transferSize": 1716
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/loading/fixtures.json",
+          "encodedBodySize": 8844,
+          "transferSize": 9144
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/fonts/barlow-condensed-latin-600-normal.woff2",
+          "encodedBodySize": 22308,
+          "transferSize": 22608
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/fonts/kaushan-script-latin-400-normal.woff2",
+          "encodedBodySize": 34748,
+          "transferSize": 35048
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/fonts/barlow-condensed-latin-700-normal.woff2",
+          "encodedBodySize": 22444,
+          "transferSize": 22744
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/fonts/barlow-latin-400-normal.woff2",
+          "encodedBodySize": 22196,
+          "transferSize": 22496
+        }
+      ],
+      "keyboard": [
+        "https://www.flickr.com/photos/foto_db/16204330530/",
+        "https://creativecommons.org/licenses/by/2.0/"
+      ],
+      "consoleErrors": []
+    },
+    {
+      "label": "1920x1080",
+      "viewport": [
+        1920,
+        1080
+      ],
+      "noScroll": true,
+      "credit": {
+        "text": "Marco Reus photo: Tim Reckmann · CC BY 2.0 · Cropped for display",
+        "font": 12,
+        "rect": {
+          "left": 24,
+          "top": 1046.40625,
+          "right": 361,
+          "bottom": 1062,
+          "width": 337,
+          "height": 15.59375
+        },
+        "inside": true
+      },
+      "links": [
+        "https://www.flickr.com/photos/foto_db/16204330530/",
+        "https://creativecommons.org/licenses/by/2.0/"
+      ],
+      "image": {
+        "natural": [
+          900,
+          1520
+        ],
+        "objectFit": "cover",
+        "objectPosition": "45% 10%"
+      },
+      "identity": {
+        "rect": {
+          "left": 1036.796875,
+          "top": 376.5150146484375,
+          "right": 1646.796875,
+          "bottom": 668.4525146484375,
+          "width": 610,
+          "height": 291.9375
+        },
+        "inside": true
+      },
+      "status": {
+        "rect": {
+          "left": 1036.796875,
+          "top": 940.40625,
+          "right": 1646.796875,
+          "bottom": 972,
+          "width": 610,
+          "height": 31.59375
+        },
+        "inside": true
+      },
+      "stackGap": 271.9537353515625,
+      "controls": 0,
+      "resources": [
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/showdown-tokens.css",
+          "encodedBodySize": 4438,
+          "transferSize": 4738
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/showdown-type.css",
+          "encodedBodySize": 3718,
+          "transferSize": 4018
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/stage.css",
+          "encodedBodySize": 6072,
+          "transferSize": 6372
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/loading/loading.css",
+          "encodedBodySize": 6823,
+          "transferSize": 7123
+        },
+        {
+          "name": "http://127.0.0.1:8765/assets/marco-reus-2015-cc-by.webp",
+          "encodedBodySize": 89008,
+          "transferSize": 89308
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/loading/assets/LOGO_CM17_WORDMARK_LOADING_V1.webp",
+          "encodedBodySize": 102780,
+          "transferSize": 103080
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/loading/loading.js",
+          "encodedBodySize": 1416,
+          "transferSize": 1716
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/fonts/barlow-condensed-latin-600-normal.woff2",
+          "encodedBodySize": 22308,
+          "transferSize": 22608
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/fonts/kaushan-script-latin-400-normal.woff2",
+          "encodedBodySize": 34748,
+          "transferSize": 35048
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/fonts/barlow-condensed-latin-700-normal.woff2",
+          "encodedBodySize": 22444,
+          "transferSize": 22744
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/fonts/barlow-latin-400-normal.woff2",
+          "encodedBodySize": 22196,
+          "transferSize": 22496
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/loading/fixtures.json",
+          "encodedBodySize": 8844,
+          "transferSize": 9144
+        }
+      ],
+      "keyboard": [
+        "https://www.flickr.com/photos/foto_db/16204330530/",
+        "https://creativecommons.org/licenses/by/2.0/"
+      ],
+      "consoleErrors": []
+    },
+    {
+      "label": "1366x640",
+      "viewport": [
+        1366,
+        640
+      ],
+      "noScroll": true,
+      "credit": {
+        "text": "Marco Reus photo: Tim Reckmann · CC BY 2.0 · Cropped for display",
+        "font": 12,
+        "rect": {
+          "left": 24,
+          "top": 606.40625,
+          "right": 361,
+          "bottom": 622,
+          "width": 337,
+          "height": 15.59375
+        },
+        "inside": true
+      },
+      "links": [
+        "https://www.flickr.com/photos/foto_db/16204330530/",
+        "https://creativecommons.org/licenses/by/2.0/"
+      ],
+      "image": {
+        "natural": [
+          900,
+          1520
+        ],
+        "objectFit": "cover",
+        "objectPosition": "45% 10%"
+      },
+      "identity": {
+        "rect": {
+          "left": 737.625,
+          "top": 164.6699981689453,
+          "right": 1270.359375,
+          "bottom": 442.0449981689453,
+          "width": 532.734375,
+          "height": 277.375
+        },
+        "inside": true
+      },
+      "status": {
+        "rect": {
+          "left": 737.625,
+          "top": 500.40625,
+          "right": 1270.359375,
+          "bottom": 532,
+          "width": 532.734375,
+          "height": 31.59375
+        },
+        "inside": true
+      },
+      "stackGap": 58.36125183105469,
+      "controls": 0,
+      "resources": [
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/showdown-tokens.css",
+          "encodedBodySize": 4438,
+          "transferSize": 4738
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/showdown-type.css",
+          "encodedBodySize": 3718,
+          "transferSize": 4018
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/stage.css",
+          "encodedBodySize": 6072,
+          "transferSize": 6372
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/loading/loading.css",
+          "encodedBodySize": 6823,
+          "transferSize": 7123
+        },
+        {
+          "name": "http://127.0.0.1:8765/assets/marco-reus-2015-cc-by.webp",
+          "encodedBodySize": 89008,
+          "transferSize": 89308
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/loading/assets/LOGO_CM17_WORDMARK_LOADING_V1.webp",
+          "encodedBodySize": 102780,
+          "transferSize": 103080
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/loading/loading.js",
+          "encodedBodySize": 1416,
+          "transferSize": 1716
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/fonts/barlow-condensed-latin-600-normal.woff2",
+          "encodedBodySize": 22308,
+          "transferSize": 22608
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/fonts/kaushan-script-latin-400-normal.woff2",
+          "encodedBodySize": 34748,
+          "transferSize": 35048
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/fonts/barlow-latin-400-normal.woff2",
+          "encodedBodySize": 22196,
+          "transferSize": 22496
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/fonts/barlow-condensed-latin-700-normal.woff2",
+          "encodedBodySize": 22444,
+          "transferSize": 22744
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/loading/fixtures.json",
+          "encodedBodySize": 8844,
+          "transferSize": 9144
+        }
+      ],
+      "keyboard": [
+        "https://www.flickr.com/photos/foto_db/16204330530/",
+        "https://creativecommons.org/licenses/by/2.0/"
+      ],
+      "consoleErrors": []
+    },
+    {
+      "label": "393x660@3x",
+      "viewport": [
+        393,
+        660
+      ],
+      "noScroll": true,
+      "credit": {
+        "text": "Marco Reus photo: Tim Reckmann · CC BY 2.0 · Cropped for display",
+        "font": 12,
+        "rect": {
+          "left": 24,
+          "top": 625.40625,
+          "right": 369,
+          "bottom": 641,
+          "width": 345,
+          "height": 15.59375
+        },
+        "inside": true
+      },
+      "links": [
+        "https://www.flickr.com/photos/foto_db/16204330530/",
+        "https://creativecommons.org/licenses/by/2.0/"
+      ],
+      "image": {
+        "natural": [
+          900,
+          1520
+        ],
+        "objectFit": "cover",
+        "objectPosition": "50% 0%"
+      },
+      "identity": {
+        "rect": {
+          "left": 24,
+          "top": 286.640625,
+          "right": 369,
+          "bottom": 470,
+          "width": 345,
+          "height": 183.359375
+        },
+        "inside": true
+      },
+      "status": {
+        "rect": {
+          "left": 24,
+          "top": 518.609375,
+          "right": 369,
+          "bottom": 546,
+          "width": 345,
+          "height": 27.390625
+        },
+        "inside": true
+      },
+      "stackGap": 48.609375,
+      "controls": 0,
+      "resources": [
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/showdown-tokens.css",
+          "encodedBodySize": 4438,
+          "transferSize": 4738
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/stage.css",
+          "encodedBodySize": 6072,
+          "transferSize": 6372
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/showdown-type.css",
+          "encodedBodySize": 3718,
+          "transferSize": 4018
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/loading/loading.css",
+          "encodedBodySize": 6823,
+          "transferSize": 7123
+        },
+        {
+          "name": "http://127.0.0.1:8765/assets/marco-reus-2015-cc-by.webp",
+          "encodedBodySize": 89008,
+          "transferSize": 89308
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/loading/assets/LOGO_CM17_WORDMARK_LOADING_V1.webp",
+          "encodedBodySize": 102780,
+          "transferSize": 103080
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/loading/loading.js",
+          "encodedBodySize": 1416,
+          "transferSize": 1716
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/loading/fixtures.json",
+          "encodedBodySize": 8844,
+          "transferSize": 9144
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/fonts/kaushan-script-latin-400-normal.woff2",
+          "encodedBodySize": 34748,
+          "transferSize": 35048
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/fonts/barlow-condensed-latin-600-normal.woff2",
+          "encodedBodySize": 22308,
+          "transferSize": 22608
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/fonts/barlow-condensed-latin-700-normal.woff2",
+          "encodedBodySize": 22444,
+          "transferSize": 22744
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/fonts/barlow-latin-400-normal.woff2",
+          "encodedBodySize": 22196,
+          "transferSize": 22496
+        }
+      ],
+      "keyboard": [
+        "https://www.flickr.com/photos/foto_db/16204330530/",
+        "https://creativecommons.org/licenses/by/2.0/"
+      ],
+      "consoleErrors": []
+    },
+    {
+      "label": "360x640",
+      "viewport": [
+        360,
+        640
+      ],
+      "noScroll": true,
+      "credit": {
+        "text": "Marco Reus photo: Tim Reckmann · CC BY 2.0 · Cropped for display",
+        "font": 12,
+        "rect": {
+          "left": 24,
+          "top": 594.8125,
+          "right": 336,
+          "bottom": 626,
+          "width": 312,
+          "height": 31.1875
+        },
+        "inside": true
+      },
+      "links": [
+        "https://www.flickr.com/photos/foto_db/16204330530/",
+        "https://creativecommons.org/licenses/by/2.0/"
+      ],
+      "image": {
+        "natural": [
+          900,
+          1520
+        ],
+        "objectFit": "cover",
+        "objectPosition": "50% 0%"
+      },
+      "identity": {
+        "rect": {
+          "left": 24,
+          "top": 292.09375,
+          "right": 336,
+          "bottom": 466,
+          "width": 312,
+          "height": 173.90625
+        },
+        "inside": true
+      },
+      "status": {
+        "rect": {
+          "left": 24,
+          "top": 509.609375,
+          "right": 336,
+          "bottom": 537,
+          "width": 312,
+          "height": 27.390625
+        },
+        "inside": true
+      },
+      "stackGap": 43.609375,
+      "controls": 0,
+      "resources": [
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/showdown-tokens.css",
+          "encodedBodySize": 4438,
+          "transferSize": 4738
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/showdown-type.css",
+          "encodedBodySize": 3718,
+          "transferSize": 4018
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/stage.css",
+          "encodedBodySize": 6072,
+          "transferSize": 6372
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/loading/loading.css",
+          "encodedBodySize": 6823,
+          "transferSize": 7123
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/loading/assets/LOGO_CM17_WORDMARK_LOADING_V1.webp",
+          "encodedBodySize": 102780,
+          "transferSize": 103080
+        },
+        {
+          "name": "http://127.0.0.1:8765/assets/marco-reus-2015-cc-by.webp",
+          "encodedBodySize": 89008,
+          "transferSize": 89308
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/loading/loading.js",
+          "encodedBodySize": 1416,
+          "transferSize": 1716
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/loading/fixtures.json",
+          "encodedBodySize": 8844,
+          "transferSize": 9144
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/fonts/barlow-condensed-latin-600-normal.woff2",
+          "encodedBodySize": 22308,
+          "transferSize": 22608
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/fonts/kaushan-script-latin-400-normal.woff2",
+          "encodedBodySize": 34748,
+          "transferSize": 35048
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/fonts/barlow-condensed-latin-700-normal.woff2",
+          "encodedBodySize": 22444,
+          "transferSize": 22744
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/fonts/barlow-latin-400-normal.woff2",
+          "encodedBodySize": 22196,
+          "transferSize": 22496
+        }
+      ],
+      "keyboard": [
+        "https://www.flickr.com/photos/foto_db/16204330530/",
+        "https://creativecommons.org/licenses/by/2.0/"
+      ],
+      "consoleErrors": []
+    },
+    {
+      "label": "375x553",
+      "viewport": [
+        375,
+        553
+      ],
+      "noScroll": true,
+      "credit": {
+        "text": "Marco Reus photo: Tim Reckmann · CC BY 2.0 · Cropped for display",
+        "font": 12,
+        "rect": {
+          "left": 24,
+          "top": 507.8125,
+          "right": 351,
+          "bottom": 539,
+          "width": 327,
+          "height": 31.1875
+        },
+        "inside": true
+      },
+      "links": [
+        "https://www.flickr.com/photos/foto_db/16204330530/",
+        "https://creativecommons.org/licenses/by/2.0/"
+      ],
+      "image": {
+        "natural": [
+          900,
+          1520
+        ],
+        "objectFit": "cover",
+        "objectPosition": "50% 0%"
+      },
+      "identity": {
+        "rect": {
+          "left": 24,
+          "top": 199.640625,
+          "right": 351,
+          "bottom": 379,
+          "width": 327,
+          "height": 179.359375
+        },
+        "inside": true
+      },
+      "status": {
+        "rect": {
+          "left": 24,
+          "top": 422.609375,
+          "right": 351,
+          "bottom": 450,
+          "width": 327,
+          "height": 27.390625
+        },
+        "inside": true
+      },
+      "stackGap": 43.609375,
+      "controls": 0,
+      "resources": [
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/showdown-tokens.css",
+          "encodedBodySize": 4438,
+          "transferSize": 4738
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/showdown-type.css",
+          "encodedBodySize": 3718,
+          "transferSize": 4018
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/stage.css",
+          "encodedBodySize": 6072,
+          "transferSize": 6372
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/loading/loading.css",
+          "encodedBodySize": 6823,
+          "transferSize": 7123
+        },
+        {
+          "name": "http://127.0.0.1:8765/assets/marco-reus-2015-cc-by.webp",
+          "encodedBodySize": 89008,
+          "transferSize": 89308
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/loading/assets/LOGO_CM17_WORDMARK_LOADING_V1.webp",
+          "encodedBodySize": 102780,
+          "transferSize": 103080
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/loading/loading.js",
+          "encodedBodySize": 1416,
+          "transferSize": 1716
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/fonts/barlow-condensed-latin-600-normal.woff2",
+          "encodedBodySize": 22308,
+          "transferSize": 22608
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/fonts/kaushan-script-latin-400-normal.woff2",
+          "encodedBodySize": 34748,
+          "transferSize": 35048
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/fonts/barlow-condensed-latin-700-normal.woff2",
+          "encodedBodySize": 22444,
+          "transferSize": 22744
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/fonts/barlow-latin-400-normal.woff2",
+          "encodedBodySize": 22196,
+          "transferSize": 22496
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/loading/fixtures.json",
+          "encodedBodySize": 8844,
+          "transferSize": 9144
+        }
+      ],
+      "keyboard": [
+        "https://www.flickr.com/photos/foto_db/16204330530/",
+        "https://creativecommons.org/licenses/by/2.0/"
+      ],
+      "consoleErrors": []
+    },
+    {
+      "label": "390x844",
+      "viewport": [
+        390,
+        844
+      ],
+      "noScroll": true,
+      "credit": {
+        "text": "Marco Reus photo: Tim Reckmann · CC BY 2.0 · Cropped for display",
+        "font": 12,
+        "rect": {
+          "left": 24,
+          "top": 809.40625,
+          "right": 366,
+          "bottom": 825,
+          "width": 342,
+          "height": 15.59375
+        },
+        "inside": true
+      },
+      "links": [
+        "https://www.flickr.com/photos/foto_db/16204330530/",
+        "https://creativecommons.org/licenses/by/2.0/"
+      ],
+      "image": {
+        "natural": [
+          900,
+          1520
+        ],
+        "objectFit": "cover",
+        "objectPosition": "50% 0%"
+      },
+      "identity": {
+        "rect": {
+          "left": 24,
+          "top": 470.640625,
+          "right": 366,
+          "bottom": 654,
+          "width": 342,
+          "height": 183.359375
+        },
+        "inside": true
+      },
+      "status": {
+        "rect": {
+          "left": 24,
+          "top": 702.609375,
+          "right": 366,
+          "bottom": 730,
+          "width": 342,
+          "height": 27.390625
+        },
+        "inside": true
+      },
+      "stackGap": 48.609375,
+      "controls": 0,
+      "resources": [
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/showdown-tokens.css",
+          "encodedBodySize": 4438,
+          "transferSize": 4738
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/showdown-type.css",
+          "encodedBodySize": 3718,
+          "transferSize": 4018
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/stage.css",
+          "encodedBodySize": 6072,
+          "transferSize": 6372
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/loading/loading.css",
+          "encodedBodySize": 6823,
+          "transferSize": 7123
+        },
+        {
+          "name": "http://127.0.0.1:8765/assets/marco-reus-2015-cc-by.webp",
+          "encodedBodySize": 89008,
+          "transferSize": 89308
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/loading/assets/LOGO_CM17_WORDMARK_LOADING_V1.webp",
+          "encodedBodySize": 102780,
+          "transferSize": 103080
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/loading/loading.js",
+          "encodedBodySize": 1416,
+          "transferSize": 1716
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/fonts/barlow-condensed-latin-600-normal.woff2",
+          "encodedBodySize": 22308,
+          "transferSize": 22608
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/fonts/kaushan-script-latin-400-normal.woff2",
+          "encodedBodySize": 34748,
+          "transferSize": 35048
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/fonts/barlow-latin-400-normal.woff2",
+          "encodedBodySize": 22196,
+          "transferSize": 22496
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/fonts/barlow-condensed-latin-700-normal.woff2",
+          "encodedBodySize": 22444,
+          "transferSize": 22744
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/loading/fixtures.json",
+          "encodedBodySize": 8844,
+          "transferSize": 9144
+        }
+      ],
+      "keyboard": [
+        "https://www.flickr.com/photos/foto_db/16204330530/",
+        "https://creativecommons.org/licenses/by/2.0/"
+      ],
+      "consoleErrors": []
+    },
+    {
+      "label": "430x932",
+      "viewport": [
+        430,
+        932
+      ],
+      "noScroll": true,
+      "credit": {
+        "text": "Marco Reus photo: Tim Reckmann · CC BY 2.0 · Cropped for display",
+        "font": 12,
+        "rect": {
+          "left": 24,
+          "top": 897.40625,
+          "right": 406,
+          "bottom": 913,
+          "width": 382,
+          "height": 15.59375
+        },
+        "inside": true
+      },
+      "links": [
+        "https://www.flickr.com/photos/foto_db/16204330530/",
+        "https://creativecommons.org/licenses/by/2.0/"
+      ],
+      "image": {
+        "natural": [
+          900,
+          1520
+        ],
+        "objectFit": "cover",
+        "objectPosition": "50% 0%"
+      },
+      "identity": {
+        "rect": {
+          "left": 24,
+          "top": 558.640625,
+          "right": 406,
+          "bottom": 742,
+          "width": 382,
+          "height": 183.359375
+        },
+        "inside": true
+      },
+      "status": {
+        "rect": {
+          "left": 24,
+          "top": 790.609375,
+          "right": 406,
+          "bottom": 818,
+          "width": 382,
+          "height": 27.390625
+        },
+        "inside": true
+      },
+      "stackGap": 48.609375,
+      "controls": 0,
+      "resources": [
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/showdown-tokens.css",
+          "encodedBodySize": 4438,
+          "transferSize": 4738
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/showdown-type.css",
+          "encodedBodySize": 3718,
+          "transferSize": 4018
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/stage.css",
+          "encodedBodySize": 6072,
+          "transferSize": 6372
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/loading/loading.css",
+          "encodedBodySize": 6823,
+          "transferSize": 7123
+        },
+        {
+          "name": "http://127.0.0.1:8765/assets/marco-reus-2015-cc-by.webp",
+          "encodedBodySize": 89008,
+          "transferSize": 89308
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/loading/assets/LOGO_CM17_WORDMARK_LOADING_V1.webp",
+          "encodedBodySize": 102780,
+          "transferSize": 103080
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/loading/loading.js",
+          "encodedBodySize": 1416,
+          "transferSize": 1716
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/loading/fixtures.json",
+          "encodedBodySize": 8844,
+          "transferSize": 9144
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/fonts/barlow-condensed-latin-600-normal.woff2",
+          "encodedBodySize": 22308,
+          "transferSize": 22608
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/fonts/kaushan-script-latin-400-normal.woff2",
+          "encodedBodySize": 34748,
+          "transferSize": 35048
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/fonts/barlow-latin-400-normal.woff2",
+          "encodedBodySize": 22196,
+          "transferSize": 22496
+        },
+        {
+          "name": "http://127.0.0.1:8765/visual-assets/v10_1/shared/fonts/barlow-condensed-latin-700-normal.woff2",
+          "encodedBodySize": 22444,
+          "transferSize": 22744
+        }
+      ],
+      "keyboard": [
+        "https://www.flickr.com/photos/foto_db/16204330530/",
+        "https://creativecommons.org/licenses/by/2.0/"
+      ],
+      "consoleErrors": []
+    }
+  ],
+  "pageWeight": {
+    "resourceBytes": 324795,
+    "limitBytes": 460800
+  }
+}

@@ -1,0 +1,844 @@
+{
+ "base": "origin/main bc77a0b9",
+ "audit_tool": "origin/audit/layout-auditor 28e7371b",
+ "total_findings": 6,
+ "screens": [
+  {
+   "screen": "home-empty",
+   "mockup": "GOAL_HOME.jpg",
+   "desktop_shot": "/tmp/claude-0/mockboard/run/screenshots/home-empty__1920x1080.png",
+   "phone_shot": "/tmp/claude-0/mockboard/run/screenshots/home-empty__393x660.png",
+   "reached": {
+    "ok": true,
+    "note": null
+   },
+   "plate_platemap_used": true,
+   "plate_dir": "home",
+   "scores": {
+    "build": {
+     "ssim": 0.521,
+     "ssim_coarse": 0.516,
+     "dE_mean": 12.7,
+     "boxes": {
+      "face_daniel": 0.985,
+      "face_nik": 0.952,
+      "hand_daniel": 0.964,
+      "hand_nik": 0.984
+     }
+    },
+    "plate": {
+     "ssim": 0.581,
+     "ssim_coarse": 0.488,
+     "dE_mean": 11.5,
+     "boxes": {
+      "face_daniel": 0.992,
+      "face_nik": 0.992,
+      "hand_daniel": 0.994,
+      "hand_nik": 0.992
+     }
+    },
+    "gate": {
+     "faces_ge_0.90": true,
+     "other_boxes_ge_0.75": true,
+     "ssim": true,
+     "dE": true,
+     "PASS": true
+    }
+   },
+   "diff_dir": "/tmp/claude-0/mockboard/diff/home-empty/",
+   "audit_findings": {
+    "phone_393x660": 0,
+    "desktop_1920x1080": 0
+   }
+  },
+  {
+   "screen": "league-wheel-locked",
+   "mockup": "GOAL_LEAGUE.jpg",
+   "desktop_shot": "/tmp/claude-0/mockboard/run/screenshots/league-wheel-locked__1920x1080.png",
+   "phone_shot": "/tmp/claude-0/mockboard/run/screenshots/league-wheel-locked__393x660.png",
+   "reached": {
+    "ok": true,
+    "note": "Select League with GET READY / Connect Players modal over it (gate pending)"
+   },
+   "plate_platemap_used": true,
+   "plate_dir": "league",
+   "scores": {
+    "build": {
+     "ssim": 0.337,
+     "ssim_coarse": 0.176,
+     "dE_mean": 17.7,
+     "boxes": {
+      "face_daniel": 0.274,
+      "face_nik": 0.259,
+      "hand_daniel": 0.126,
+      "hand_nik": 0.288
+     }
+    },
+    "plate": {
+     "ssim": 0.764,
+     "ssim_coarse": 0.704,
+     "dE_mean": 7.6,
+     "boxes": {
+      "face_daniel": 0.997,
+      "face_nik": 0.996,
+      "hand_daniel": 0.982,
+      "hand_nik": 0.996
+     }
+    },
+    "gate": {
+     "faces_ge_0.90": false,
+     "other_boxes_ge_0.75": false,
+     "ssim": false,
+     "dE": false,
+     "PASS": false
+    }
+   },
+   "diff_dir": "/tmp/claude-0/mockboard/diff/league-wheel-locked/",
+   "audit_findings": {
+    "phone_393x660": 0,
+    "desktop_1920x1080": 0
+   }
+  },
+  {
+   "screen": "league-wheel-selected",
+   "mockup": "GOAL_LEAGUE.jpg",
+   "desktop_shot": "/tmp/claude-0/mockboard/run/screenshots/league-wheel-selected__1920x1080.png",
+   "phone_shot": "/tmp/claude-0/mockboard/run/screenshots/league-wheel-selected__393x660.png",
+   "reached": {
+    "ok": true,
+    "note": "Select League after gate released"
+   },
+   "plate_platemap_used": true,
+   "plate_dir": "league",
+   "scores": {
+    "build": {
+     "ssim": 0.66,
+     "ssim_coarse": 0.585,
+     "dE_mean": 10.7,
+     "boxes": {
+      "face_daniel": 0.974,
+      "face_nik": 0.972,
+      "hand_daniel": 0.872,
+      "hand_nik": 0.987
+     }
+    },
+    "plate": {
+     "ssim": 0.764,
+     "ssim_coarse": 0.704,
+     "dE_mean": 7.6,
+     "boxes": {
+      "face_daniel": 0.997,
+      "face_nik": 0.996,
+      "hand_daniel": 0.982,
+      "hand_nik": 0.996
+     }
+    },
+    "gate": {
+     "faces_ge_0.90": true,
+     "other_boxes_ge_0.75": true,
+     "ssim": true,
+     "dE": true,
+     "PASS": true
+    }
+   },
+   "diff_dir": "/tmp/claude-0/mockboard/diff/league-wheel-selected/",
+   "audit_findings": {
+    "phone_393x660": 0,
+    "desktop_1920x1080": 0
+   }
+  },
+  {
+   "screen": "club-wheel",
+   "mockup": "GOAL_CLUB.jpg",
+   "desktop_shot": "/tmp/claude-0/mockboard/run/screenshots/club-wheel__1920x1080.png",
+   "phone_shot": "/tmp/claude-0/mockboard/run/screenshots/club-wheel__393x660.png",
+   "reached": {
+    "ok": true,
+    "note": "Club Assignment, before reveal"
+   },
+   "plate_platemap_used": true,
+   "plate_dir": "club",
+   "scores": {
+    "build": {
+     "ssim": 0.681,
+     "ssim_coarse": 0.661,
+     "dE_mean": 8.0,
+     "boxes": {
+      "face_daniel": 0.977,
+      "face_nik": 0.956,
+      "pack_daniel": 0.993,
+      "pack_nik": 0.992
+     }
+    },
+    "plate": {
+     "ssim": 0.716,
+     "ssim_coarse": 0.658,
+     "dE_mean": 8.8,
+     "boxes": {
+      "face_daniel": 0.997,
+      "face_nik": 0.985,
+      "pack_daniel": 0.996,
+      "pack_nik": 0.996
+     }
+    },
+    "gate": {
+     "faces_ge_0.90": true,
+     "other_boxes_ge_0.75": true,
+     "ssim": true,
+     "dE": true,
+     "PASS": true
+    }
+   },
+   "diff_dir": "/tmp/claude-0/mockboard/diff/club-wheel/",
+   "audit_findings": {
+    "phone_393x660": 2,
+    "desktop_1920x1080": 1
+   }
+  },
+  {
+   "screen": "club-wheel-revealed",
+   "mockup": "GOAL_CLUB.jpg",
+   "desktop_shot": "/tmp/claude-0/mockboard/run/screenshots/club-wheel-revealed__1920x1080.png",
+   "phone_shot": "/tmp/claude-0/mockboard/run/screenshots/club-wheel-revealed__393x660.png",
+   "reached": {
+    "ok": true,
+    "note": "Club Assignment after pack reveal"
+   },
+   "plate_platemap_used": true,
+   "plate_dir": "club",
+   "scores": {
+    "build": {
+     "ssim": 0.569,
+     "ssim_coarse": 0.499,
+     "dE_mean": 11.2,
+     "boxes": {
+      "face_daniel": 0.977,
+      "face_nik": 0.956,
+      "pack_daniel": 0.199,
+      "pack_nik": 0.193
+     }
+    },
+    "plate": {
+     "ssim": 0.716,
+     "ssim_coarse": 0.658,
+     "dE_mean": 8.8,
+     "boxes": {
+      "face_daniel": 0.997,
+      "face_nik": 0.985,
+      "pack_daniel": 0.996,
+      "pack_nik": 0.996
+     }
+    },
+    "gate": {
+     "faces_ge_0.90": true,
+     "other_boxes_ge_0.75": false,
+     "ssim": true,
+     "dE": true,
+     "PASS": false
+    }
+   },
+   "diff_dir": "/tmp/claude-0/mockboard/diff/club-wheel-revealed/",
+   "audit_findings": {
+    "phone_393x660": 2,
+    "desktop_1920x1080": 1
+   }
+  },
+  {
+   "screen": "transfer-war",
+   "mockup": "GOAL_TRANSFER_PLATE_G.png",
+   "desktop_shot": "/tmp/claude-0/mockboard/run/screenshots/transfer-war__1920x1080.png",
+   "phone_shot": "/tmp/claude-0/mockboard/run/screenshots/transfer-war__393x660.png",
+   "reached": {
+    "ok": true,
+    "note": "reached; renders unstyled light-theme form (no Plate G art)"
+   },
+   "plate_platemap_used": false,
+   "plate_dir": null,
+   "scores": {
+    "build": {
+     "ssim": 0.097,
+     "ssim_coarse": 0.029,
+     "dE_mean": 53.4,
+     "boxes": {}
+    },
+    "gate": {
+     "faces_ge_0.90": true,
+     "other_boxes_ge_0.75": true,
+     "ssim": false,
+     "dE": false,
+     "PASS": false
+    }
+   },
+   "diff_dir": "/tmp/claude-0/mockboard/diff/transfer-war/",
+   "audit_findings": {
+    "phone_393x660": 0,
+    "desktop_1920x1080": 0
+   }
+  },
+  {
+   "screen": "trophy-room",
+   "mockup": "MOCKUP_TROPHY_ROOM.png",
+   "desktop_shot": "/tmp/claude-0/mockboard/run/screenshots/trophy-room__1920x1080.png",
+   "phone_shot": "/tmp/claude-0/mockboard/run/screenshots/trophy-room__393x660.png",
+   "reached": {
+    "ok": true,
+    "note": "reached, but renders an unstyled empty page (title + BACK only, light grey-blue background) at fixture state"
+   },
+   "plate_platemap_used": true,
+   "plate_dir": "trophy-room",
+   "scores": {
+    "build": {
+     "ssim": 0.107,
+     "ssim_coarse": 0.027,
+     "dE_mean": 51.4,
+     "boxes": {
+      "face_daniel": 0.114,
+      "face_nik": 0.159,
+      "hand_daniel": 0.197,
+      "hand_nik": 0.141
+     }
+    },
+    "plate": {
+     "ssim": 0.527,
+     "ssim_coarse": 0.521,
+     "dE_mean": 13.5,
+     "boxes": {
+      "face_daniel": 0.996,
+      "face_nik": 0.996,
+      "hand_daniel": 0.996,
+      "hand_nik": 0.989
+     }
+    },
+    "gate": {
+     "faces_ge_0.90": false,
+     "other_boxes_ge_0.75": false,
+     "ssim": false,
+     "dE": false,
+     "PASS": false
+    }
+   },
+   "diff_dir": "/tmp/claude-0/mockboard/diff/trophy-room/",
+   "audit_findings": {
+    "phone_393x660": 0,
+    "desktop_1920x1080": 0
+   }
+  },
+  {
+   "screen": "trophy-room-with-showdown",
+   "mockup": "MOCKUP_TROPHY_ROOM.png",
+   "desktop_shot": "/tmp/claude-0/mockboard/run/screenshots/trophy-room-with-showdown__1920x1080.png",
+   "phone_shot": "/tmp/claude-0/mockboard/run/screenshots/trophy-room-with-showdown__393x660.png",
+   "reached": {
+    "ok": true,
+    "note": "same unstyled empty page with an active showdown"
+   },
+   "plate_platemap_used": true,
+   "plate_dir": "trophy-room",
+   "scores": {
+    "build": {
+     "ssim": 0.107,
+     "ssim_coarse": 0.026,
+     "dE_mean": 51.4,
+     "boxes": {
+      "face_daniel": 0.114,
+      "face_nik": 0.159,
+      "hand_daniel": 0.197,
+      "hand_nik": 0.141
+     }
+    },
+    "plate": {
+     "ssim": 0.527,
+     "ssim_coarse": 0.521,
+     "dE_mean": 13.5,
+     "boxes": {
+      "face_daniel": 0.996,
+      "face_nik": 0.996,
+      "hand_daniel": 0.996,
+      "hand_nik": 0.989
+     }
+    },
+    "gate": {
+     "faces_ge_0.90": false,
+     "other_boxes_ge_0.75": false,
+     "ssim": false,
+     "dE": false,
+     "PASS": false
+    }
+   },
+   "diff_dir": "/tmp/claude-0/mockboard/diff/trophy-room-with-showdown/",
+   "audit_findings": {
+    "phone_393x660": 0,
+    "desktop_1920x1080": 0
+   }
+  },
+  {
+   "screen": "statistics-career",
+   "mockup": "MOCKUP_CAREER_STATISTICS.png",
+   "desktop_shot": "/tmp/claude-0/mockboard/run/screenshots/statistics-career__1920x1080.png",
+   "phone_shot": "/tmp/claude-0/mockboard/run/screenshots/statistics-career__393x660.png",
+   "reached": {
+    "ok": true,
+    "note": null
+   },
+   "plate_platemap_used": true,
+   "plate_dir": "career-statistics",
+   "scores": {
+    "build": {
+     "ssim": 0.464,
+     "ssim_coarse": 0.393,
+     "dE_mean": 12.7,
+     "boxes": {
+      "face_daniel": 0.876,
+      "face_nik": 0.852,
+      "hand_daniel": 0.791,
+      "hand_nik": 0.888
+     }
+    },
+    "plate": {
+     "ssim": 0.454,
+     "ssim_coarse": 0.408,
+     "dE_mean": 14.9,
+     "boxes": {
+      "face_daniel": 0.949,
+      "face_nik": 0.954,
+      "hand_daniel": 0.843,
+      "hand_nik": 0.953
+     }
+    },
+    "gate": {
+     "faces_ge_0.90": false,
+     "other_boxes_ge_0.75": true,
+     "ssim": true,
+     "dE": true,
+     "PASS": false
+    }
+   },
+   "diff_dir": "/tmp/claude-0/mockboard/diff/statistics-career/",
+   "audit_findings": {
+    "phone_393x660": 0,
+    "desktop_1920x1080": 0
+   }
+  },
+  {
+   "screen": "statistics-rivalry",
+   "mockup": "MOCKUP_RIVALRY_STATISTICS.png",
+   "desktop_shot": "/tmp/claude-0/mockboard/run/screenshots/statistics-rivalry__1920x1080.png",
+   "phone_shot": "/tmp/claude-0/mockboard/run/screenshots/statistics-rivalry__393x660.png",
+   "reached": {
+    "ok": true,
+    "note": null
+   },
+   "plate_platemap_used": true,
+   "plate_dir": "rivalry-statistics",
+   "scores": {
+    "build": {
+     "ssim": 0.602,
+     "ssim_coarse": 0.556,
+     "dE_mean": 7.9,
+     "boxes": {
+      "face_daniel": 0.985,
+      "face_nik": 0.986,
+      "hand_daniel": 0.98,
+      "hand_nik": 0.797
+     }
+    },
+    "plate": {
+     "ssim": 0.493,
+     "ssim_coarse": 0.413,
+     "dE_mean": 12.7,
+     "boxes": {
+      "face_daniel": 0.995,
+      "face_nik": 0.995,
+      "hand_daniel": 0.994,
+      "hand_nik": 0.775
+     }
+    },
+    "gate": {
+     "faces_ge_0.90": true,
+     "other_boxes_ge_0.75": true,
+     "ssim": true,
+     "dE": true,
+     "PASS": true
+    }
+   },
+   "diff_dir": "/tmp/claude-0/mockboard/diff/statistics-rivalry/",
+   "audit_findings": {
+    "phone_393x660": 0,
+    "desktop_1920x1080": 0
+   }
+  },
+  {
+   "screen": "legacy-history",
+   "mockup": "MOCKUP_LEGACY_V2.png",
+   "desktop_shot": "/tmp/claude-0/mockboard/run/screenshots/legacy-history__1920x1080.png",
+   "phone_shot": "/tmp/claude-0/mockboard/run/screenshots/legacy-history__393x660.png",
+   "reached": {
+    "ok": true,
+    "note": "reached; shows \"Your Showdown history could not be loaded\" error panel under fixture state"
+   },
+   "plate_platemap_used": true,
+   "plate_dir": "legacy",
+   "scores": {
+    "build": {
+     "ssim": 0.487,
+     "ssim_coarse": 0.426,
+     "dE_mean": 10.0,
+     "boxes": {
+      "face_daniel": 0.985,
+      "face_nik": 0.984,
+      "hand_daniel": 0.941,
+      "hand_nik": 0.898
+     }
+    },
+    "plate": {
+     "ssim": 0.43,
+     "ssim_coarse": 0.328,
+     "dE_mean": 13.3,
+     "boxes": {
+      "face_daniel": 0.996,
+      "face_nik": 0.994,
+      "hand_daniel": 0.955,
+      "hand_nik": 0.904
+     }
+    },
+    "gate": {
+     "faces_ge_0.90": true,
+     "other_boxes_ge_0.75": true,
+     "ssim": true,
+     "dE": true,
+     "PASS": true
+    }
+   },
+   "diff_dir": "/tmp/claude-0/mockboard/diff/legacy-history/",
+   "audit_findings": {
+    "phone_393x660": 0,
+    "desktop_1920x1080": 0
+   }
+  },
+  {
+   "screen": "season-results-entry",
+   "mockup": "MOCKUP_SEASON_RESULTS.jpg",
+   "desktop_shot": "/tmp/claude-0/mockboard/run/screenshots/season-results-entry__1920x1080.png",
+   "phone_shot": "/tmp/claude-0/mockboard/run/screenshots/season-results-entry__393x660.png",
+   "reached": {
+    "ok": true,
+    "note": "reached"
+   },
+   "plate_platemap_used": true,
+   "plate_dir": "season-results",
+   "scores": {
+    "build": {
+     "ssim": 0.23,
+     "ssim_coarse": 0.294,
+     "dE_mean": 15.9,
+     "boxes": {
+      "face_daniel": 0.157,
+      "face_nik": 0.223,
+      "hand_daniel": 0.075,
+      "hand_nik": 0.191
+     }
+    },
+    "plate": {
+     "ssim": 0.505,
+     "ssim_coarse": 0.443,
+     "dE_mean": 12.7,
+     "boxes": {
+      "face_daniel": 0.995,
+      "face_nik": 0.992,
+      "hand_daniel": 0.949,
+      "hand_nik": 0.894
+     }
+    },
+    "gate": {
+     "faces_ge_0.90": false,
+     "other_boxes_ge_0.75": false,
+     "ssim": false,
+     "dE": true,
+     "PASS": false
+    }
+   },
+   "diff_dir": "/tmp/claude-0/mockboard/diff/season-results-entry/",
+   "audit_findings": {
+    "phone_393x660": 0,
+    "desktop_1920x1080": 0
+   }
+  },
+  {
+   "screen": "season-results-review",
+   "mockup": "MOCKUP_SEASON_RESULTS.jpg",
+   "desktop_shot": "/tmp/claude-0/mockboard/run/screenshots/season-results-review__1920x1080.png",
+   "phone_shot": "/tmp/claude-0/mockboard/run/screenshots/season-results-review__393x660.png",
+   "reached": {
+    "ok": true,
+    "note": "screenshot byte-identical to season-results-entry (review state not visually distinct in the audit capture)"
+   },
+   "plate_platemap_used": true,
+   "plate_dir": "season-results",
+   "scores": {
+    "build": {
+     "ssim": 0.23,
+     "ssim_coarse": 0.294,
+     "dE_mean": 15.9,
+     "boxes": {
+      "face_daniel": 0.157,
+      "face_nik": 0.223,
+      "hand_daniel": 0.075,
+      "hand_nik": 0.191
+     }
+    },
+    "plate": {
+     "ssim": 0.505,
+     "ssim_coarse": 0.443,
+     "dE_mean": 12.7,
+     "boxes": {
+      "face_daniel": 0.995,
+      "face_nik": 0.992,
+      "hand_daniel": 0.949,
+      "hand_nik": 0.894
+     }
+    },
+    "gate": {
+     "faces_ge_0.90": false,
+     "other_boxes_ge_0.75": false,
+     "ssim": false,
+     "dE": true,
+     "PASS": false
+    }
+   },
+   "diff_dir": "/tmp/claude-0/mockboard/diff/season-results-review/",
+   "audit_findings": {
+    "phone_393x660": 0,
+    "desktop_1920x1080": 0
+   }
+  },
+  {
+   "screen": "start-join (Connect Players)",
+   "mockup": "MOCKUP_START_JOIN.png",
+   "desktop_shot": null,
+   "phone_shot": null,
+   "reached": {
+    "ok": false,
+    "note": "Not reachable without sign-in: the real Connect Players pair panel (persistentNikDanielPair.js, #mainMenu) is stubbed by the audit fixtures (render:null); clicking CONNECT PLAYERS on the GET READY overlay only shows toast \"Unable to open player connection setup\". Informational score below is league-wheel-locked (GET READY overlay) vs the mockup and is NOT a like-for-like comparison."
+   },
+   "plate_platemap_used": true,
+   "plate_dir": "start-join",
+   "informational_scores_vs_get_ready_overlay": {
+    "build": {
+     "ssim": 0.286,
+     "ssim_coarse": 0.096,
+     "dE_mean": 15.2,
+     "boxes": {
+      "face_daniel": 0.141,
+      "face_nik": 0.144,
+      "hand_daniel": 0.184,
+      "hand_nik": 0.364
+     }
+    },
+    "plate": {
+     "ssim": 0.553,
+     "ssim_coarse": 0.523,
+     "dE_mean": 11.7,
+     "boxes": {
+      "face_daniel": 0.98,
+      "face_nik": 0.966,
+      "hand_daniel": 0.988,
+      "hand_nik": 0.988
+     }
+    },
+    "gate": {
+     "faces_ge_0.90": false,
+     "other_boxes_ge_0.75": false,
+     "ssim": false,
+     "dE": true,
+     "PASS": false
+    }
+   },
+   "informational_shot": "/tmp/claude-0/mockboard/run/screenshots/league-wheel-locked__1920x1080.png",
+   "diff_dir": "/tmp/claude-0/mockboard/diff/start-join-closest-get-ready/",
+   "audit_findings": null
+  }
+ ],
+ "audit_screens_without_mockup": [
+  {
+   "screen": "create-showdown",
+   "phone_shot": "/tmp/claude-0/mockboard/run/screenshots/create-showdown__393x660.png",
+   "desktop_shot": "/tmp/claude-0/mockboard/run/screenshots/create-showdown__1920x1080.png",
+   "findings": {
+    "phone": 0,
+    "desktop": 0
+   }
+  },
+  {
+   "screen": "dashboard",
+   "phone_shot": "/tmp/claude-0/mockboard/run/screenshots/dashboard__393x660.png",
+   "desktop_shot": "/tmp/claude-0/mockboard/run/screenshots/dashboard__1920x1080.png",
+   "findings": {
+    "phone": 0,
+    "desktop": 0
+   }
+  },
+  {
+   "screen": "rule-book",
+   "phone_shot": "/tmp/claude-0/mockboard/run/screenshots/rule-book__393x660.png",
+   "desktop_shot": "/tmp/claude-0/mockboard/run/screenshots/rule-book__1920x1080.png",
+   "findings": {
+    "phone": 0,
+    "desktop": 0
+   }
+  },
+  {
+   "screen": "season-summary-final-winner",
+   "phone_shot": "/tmp/claude-0/mockboard/run/screenshots/season-summary-final-winner__393x660.png",
+   "desktop_shot": "/tmp/claude-0/mockboard/run/screenshots/season-summary-final-winner__1920x1080.png",
+   "findings": {
+    "phone": 0,
+    "desktop": 0
+   }
+  },
+  {
+   "screen": "settings",
+   "phone_shot": "/tmp/claude-0/mockboard/run/screenshots/settings__393x660.png",
+   "desktop_shot": "/tmp/claude-0/mockboard/run/screenshots/settings__1920x1080.png",
+   "findings": {
+    "phone": 0,
+    "desktop": 0
+   }
+  },
+  {
+   "screen": "settings-panel-career-mode-showdown",
+   "phone_shot": "/tmp/claude-0/mockboard/run/screenshots/settings-panel-career-mode-showdown__393x660.png",
+   "desktop_shot": "/tmp/claude-0/mockboard/run/screenshots/settings-panel-career-mode-showdown__1920x1080.png",
+   "findings": {
+    "phone": 0,
+    "desktop": 0
+   }
+  },
+  {
+   "screen": "settings-panel-daniel-nik",
+   "phone_shot": "/tmp/claude-0/mockboard/run/screenshots/settings-panel-daniel-nik__393x660.png",
+   "desktop_shot": "/tmp/claude-0/mockboard/run/screenshots/settings-panel-daniel-nik__1920x1080.png",
+   "findings": {
+    "phone": 0,
+    "desktop": 0
+   }
+  },
+  {
+   "screen": "settings-panel-motion-feedback",
+   "phone_shot": "/tmp/claude-0/mockboard/run/screenshots/settings-panel-motion-feedback__393x660.png",
+   "desktop_shot": "/tmp/claude-0/mockboard/run/screenshots/settings-panel-motion-feedback__1920x1080.png",
+   "findings": {
+    "phone": 0,
+    "desktop": 0
+   }
+  },
+  {
+   "screen": "settings-panel-showdown-data",
+   "phone_shot": "/tmp/claude-0/mockboard/run/screenshots/settings-panel-showdown-data__393x660.png",
+   "desktop_shot": "/tmp/claude-0/mockboard/run/screenshots/settings-panel-showdown-data__1920x1080.png",
+   "findings": {
+    "phone": 0,
+    "desktop": 0
+   }
+  }
+ ],
+ "audit_unreached": {
+  "393x660": [],
+  "1920x1080": []
+ },
+ "audit_findings_all": [
+  {
+   "screen": "club-wheel",
+   "size": "393x660",
+   "rule": "text-clipped",
+   "severity": "minor",
+   "selector": "#clubNameOne",
+   "rect": {
+    "x": 161.9,
+    "y": 448.5,
+    "w": 211.1,
+    "h": 18
+   },
+   "detail": "scrollHeight 20 > clientHeight 18",
+   "text": "?",
+   "screenshot": "screenshots/club-wheel__393x660.png"
+  },
+  {
+   "screen": "club-wheel",
+   "size": "393x660",
+   "rule": "text-clipped",
+   "severity": "minor",
+   "selector": "#clubNameTwo",
+   "rect": {
+    "x": 163.6,
+    "y": 502.5,
+    "w": 209.4,
+    "h": 18
+   },
+   "detail": "scrollHeight 20 > clientHeight 18",
+   "text": "?",
+   "screenshot": "screenshots/club-wheel__393x660.png"
+  },
+  {
+   "screen": "club-wheel-revealed",
+   "size": "393x660",
+   "rule": "text-clipped",
+   "severity": "minor",
+   "selector": "#clubNameOne",
+   "rect": {
+    "x": 161.9,
+    "y": 448.5,
+    "w": 211.1,
+    "h": 18
+   },
+   "detail": "scrollHeight 20 > clientHeight 18",
+   "text": "Nancy",
+   "screenshot": "screenshots/club-wheel-revealed__393x660.png"
+  },
+  {
+   "screen": "club-wheel-revealed",
+   "size": "393x660",
+   "rule": "text-clipped",
+   "severity": "minor",
+   "selector": "#clubNameTwo",
+   "rect": {
+    "x": 163.6,
+    "y": 502.5,
+    "w": 209.4,
+    "h": 18
+   },
+   "detail": "scrollHeight 20 > clientHeight 18",
+   "text": "Dijon",
+   "screenshot": "screenshots/club-wheel-revealed__393x660.png"
+  },
+  {
+   "screen": "club-wheel",
+   "size": "1920x1080",
+   "rule": "text-clipped",
+   "selector": "#clubWheelScreenScreenTitle > span.clubTitleFallback",
+   "rect": {
+    "x": 538,
+    "y": 126.8,
+    "w": 795,
+    "h": 108
+   },
+   "detail": "text cut by overflow-hidden #clubWheelScreenScreenTitle: 0px horizontal, 5.7px vertical hidden",
+   "text": "CLUB ASSIGNMENT",
+   "screenshot": "screenshots/club-wheel__1920x1080.png"
+  },
+  {
+   "screen": "club-wheel-revealed",
+   "size": "1920x1080",
+   "rule": "text-clipped",
+   "selector": "#clubWheelScreenScreenTitle > span.clubTitleFallback",
+   "rect": {
+    "x": 538,
+    "y": 126.8,
+    "w": 795,
+    "h": 108
+   },
+   "detail": "text cut by overflow-hidden #clubWheelScreenScreenTitle: 0px horizontal, 5.7px vertical hidden",
+   "text": "CLUB ASSIGNMENT",
+   "screenshot": "screenshots/club-wheel-revealed__1920x1080.png"
+  }
+ ]
+}

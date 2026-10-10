@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Legacy · Career Mode Showdown</title>
+<link rel="stylesheet" href="../shared/showdown-tokens.css">
+<link rel="stylesheet" href="../shared/showdown-type.css">
+<link rel="stylesheet" href="../shared/showdown-ui.css">
+<link rel="stylesheet" href="../shared/stage.css">
+<link rel="stylesheet" href="../shared/motion.css">
+<link rel="stylesheet" href="legacy.css">
+</head>
+<body>
+<div id="stage-root" class="sd-stage" data-screen="legacy" data-plate-width="1672" data-plate-height="941">
+  <div class="sd-stage__layer sd-stage__layer--plate" data-sd-enter="scene" aria-hidden="true">
+    <div class="sd-stage__registered"><div class="sd-stage__plate"></div></div>
+    <picture class="legacyPhonePlate">
+      <source media="(max-width: 900px)" srcset="assets/ENV_LG_PHONE_V1.webp" type="image/webp">
+      <img src="assets/ENV_LG_PHONE_V1.webp" alt="" width="1179" height="2096" decoding="async" fetchpriority="high">
+    </picture>
+  </div>
+  <div class="sd-stage__layer sd-stage__layer--atmosphere" aria-hidden="true">
+    <span class="legacyPhoneGrade"></span>
+  </div>
+  <div class="sd-stage__layer sd-stage__layer--ui">
+    <main id="legacy" class="screen" aria-labelledby="legacyHeading">
+      <header class="legacyTopbar sd-label" aria-label="Primary">
+        <div id="legacyBrand" class="legacyBrand sd-label"></div>
+        <nav id="legacyTopNav" class="legacyTopNav sd-label" aria-label="Showdown navigation"></nav>
+        <button id="legacySettings" class="legacySettings" type="button" data-route="settings" aria-label="Settings">⚙</button>
+        <div id="legacySlogan" class="legacySlogan" aria-hidden="true"></div>
+      </header>
+
+      <div class="legacyPhoneFaceBand" aria-hidden="true"></div>
+
+      <section class="legacyTitleBlock" aria-label="Legacy screen title">
+        <p id="fixtureEyebrow" class="legacyEyebrow sd-eyebrow"></p>
+        <h1 id="legacyHeading" class="legacyWordmarkWrap sd-title sd-title--wordmark">
+          <span id="legacyHeadingText" class="sd-visually-hidden">LEGACY</span>
+          <picture class="legacyWordmarkPicture sd-glint" data-sd-enter="title">
+            <source srcset="assets/TITLE_LG_V1.webp" type="image/webp">
+            <img class="legacyWordmark" src="assets/TITLE_LG_V1.webp" alt="" aria-hidden="true" width="1028" height="280" decoding="async">
+          </picture>
+        </h1>
+        <p id="fixtureTagline" class="legacyTagline sd-tagline"></p>
+      </section>
+
+      <p id="fixtureFrameLabel" class="sd-visually-hidden" aria-live="polite"></p>
+      <section class="fixtureDebug" hidden aria-hidden="true">
+        <div id="fixtureStrings"></div>
+        <div id="fixtureValues"></div>
+      </section>
+
+      <section class="legacyArchivePanel sd-panel" data-sd-enter="panel" style="--i:0" aria-label="Legacy archive" data-phone-layout="tabs-swipe">
+        <div id="legacyPreviewTag" class="sd-preview-tag legacyPreviewTag" hidden></div>
+        <div id="legacyStateBanner" class="legacyStateBanner sd-panel" hidden aria-live="polite"></div>
+        <aside id="legacySideMenu" data-sd-enter="panel" style="--i:1" class="legacySidePanel sd-panel sd-label" aria-label="Legacy destinations"></aside>
+        <div id="legacyCardGrid" class="legacyCardGrid sd-label" aria-label="Showdown archive cards"></div>
+        <div id="legacyPager" data-sd-enter="panel" style="--i:2" class="legacyPager sd-label" aria-label="Legacy pages"></div>
+      </section>
+
+      <button id="viewSeasonHistory" class="legacyPrimaryAction sd-btn sd-btn--primary" type="button" data-action="viewSeasonHistory" aria-controls="legacySeasonHistory" aria-expanded="false"></button>
+      <section id="legacySeasonHistory" class="legacySeasonHistory sd-panel sd-sheet" aria-live="polite" hidden></section>
+      <div class="nav-reserve" aria-hidden="true"></div>
+    </main>
+  </div>
+  <div class="sd-stage__layer sd-stage__layer--cutout" aria-hidden="true">
+    <picture class="legacyPhoneHero legacyPhoneHero--daniel" data-sd-enter="character-left">
+      <source media="(max-width: 900px)" srcset="assets/OVL_LG_DANIEL_PHONE_V1.webp" type="image/webp">
+      <img src="assets/OVL_LG_DANIEL_PHONE_V1.webp" alt="" width="1179" height="2096" decoding="async" fetchpriority="high">
+    </picture>
+    <picture class="legacyPhoneHero legacyPhoneHero--nik" data-sd-enter="character-right">
+      <source media="(max-width: 900px)" srcset="assets/OVL_LG_NIK_PHONE_V1.webp" type="image/webp">
+      <img src="assets/OVL_LG_NIK_PHONE_V1.webp" alt="" width="1179" height="2096" decoding="async" fetchpriority="high">
+    </picture>
+    <div class="sd-stage__registered">
+      <span class="sd-stage__cutout managerPlateMarker" data-manager="daniel" role="presentation"></span>
+      <span class="sd-stage__cutout managerPlateMarker" data-manager="nik" role="presentation"></span>
+      <span class="sd-stage__cutout legacyDepthCutout legacyDepthCutout--daniel" data-sd-enter="character-left"
+        data-src1x="assets/OVL_LG_DANIEL_FOREGROUND_V1_1X.webp"
+        data-src2x="assets/OVL_LG_DANIEL_FOREGROUND_V1_2X.webp"></span>
+      <span class="sd-stage__cutout legacyDepthCutout legacyDepthCutout--nik" data-sd-enter="character-right"
+        data-src1x="assets/OVL_LG_NIK_FOREGROUND_V1_1X.webp"
+        data-src2x="assets/OVL_LG_NIK_FOREGROUND_V1_2X.webp"></span>
+    </div>
+  </div>
+  <div class="sd-stage__layer sd-stage__layer--light" aria-hidden="true">
+    <div class="sd-stage__registered">
+      <span class="sd-stage__rim legacyDepthRim legacyDepthRim--daniel" data-sd-enter="character-left"
+        data-src1x="assets/OVL_LG_DANIEL_FOREGROUND_V1_RIM_1X.webp"
+        data-src2x="assets/OVL_LG_DANIEL_FOREGROUND_V1_RIM_2X.webp"></span>
+      <span class="sd-stage__rim legacyDepthRim legacyDepthRim--nik" data-sd-enter="character-right"
+        data-src1x="assets/OVL_LG_NIK_FOREGROUND_V1_RIM_1X.webp"
+        data-src2x="assets/OVL_LG_NIK_FOREGROUND_V1_RIM_2X.webp"></span>
+    </div>
+  </div>
+</div>
+<script src="../shared/stage.js"></script>
+<script src="../shared/motion.js"></script>
+<script src="legacy.js"></script>
+</body>
+</html>
+

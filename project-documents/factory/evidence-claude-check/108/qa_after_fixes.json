@@ -1,0 +1,1865 @@
+{
+ "home": {
+  "1366x768": {
+   "scroll": [
+    1366,
+    768
+   ],
+   "vw": 1366,
+   "vh": 768,
+   "ctrls": 16,
+   "small": 3,
+   "prim": {
+    "in": true,
+    "txt": "HOME\nCAREER\nSTANDINGS\nSTATS\nRU"
+   },
+   "inputMin": 13.3333,
+   "imgs": [
+    "LOGO_CM17_WORDMARK_V1.webp",
+    "TILE_CONTINUE_V1.webp",
+    "TILE_TACTICS_V1.webp",
+    "TILE_HISTORY_V1.webp",
+    "TILE_STATISTICS_V1.webp",
+    "TRO_LEAGUE_TITLE_V1_512.webp",
+    "TILE_RULEBOOK_V1.webp",
+    "TILE_SETTINGS_V1.webp"
+   ],
+   "focus": "6/6",
+   "kb": 953,
+   "errs": []
+  },
+  "1920x1080": {
+   "scroll": [
+    1920,
+    1080
+   ],
+   "vw": 1920,
+   "vh": 1080,
+   "ctrls": 16,
+   "small": 3,
+   "prim": {
+    "in": true,
+    "txt": "HOME\nCAREER\nSTANDINGS\nSTATS\nRU"
+   },
+   "inputMin": 13.3333,
+   "imgs": [
+    "LOGO_CM17_WORDMARK_V1.webp",
+    "TILE_CONTINUE_V1.webp",
+    "TILE_TACTICS_V1.webp",
+    "TILE_HISTORY_V1.webp",
+    "TILE_STATISTICS_V1.webp",
+    "TRO_LEAGUE_TITLE_V1_512.webp",
+    "TILE_RULEBOOK_V1.webp",
+    "TILE_SETTINGS_V1.webp"
+   ],
+   "focus": null,
+   "kb": 953,
+   "errs": []
+  },
+  "393x660": {
+   "scroll": [
+    393,
+    660
+   ],
+   "vw": 393,
+   "vh": 660,
+   "ctrls": 16,
+   "small": 0,
+   "prim": {
+    "in": true,
+    "txt": "HOME\nCAREER\nSTANDINGS\nSTATS\nRU"
+   },
+   "inputMin": 13.3333,
+   "imgs": [
+    "ENV_HOME_PHONE_V1.webp",
+    "OVL_HOME_DANIEL_PHONE_V1.webp",
+    "OVL_HOME_NIK_PHONE_V1.webp",
+    "LOGO_CM17_WORDMARK_V1.webp",
+    "TILE_CONTINUE_V1.webp",
+    "TILE_TACTICS_V1.webp",
+    "TILE_HISTORY_V1.webp",
+    "TILE_STATISTICS_V1.webp",
+    "TRO_LEAGUE_TITLE_V1_512.webp",
+    "TILE_RULEBOOK_V1.webp",
+    "TILE_SETTINGS_V1.webp"
+   ],
+   "focus": null,
+   "kb": 1087,
+   "errs": []
+  },
+  "360x640": {
+   "scroll": [
+    360,
+    640
+   ],
+   "vw": 360,
+   "vh": 640,
+   "ctrls": 16,
+   "small": 0,
+   "prim": {
+    "in": true,
+    "txt": "HOME\nCAREER\nSTANDINGS\nSTATS\nRU"
+   },
+   "inputMin": 13.3333,
+   "imgs": [
+    "ENV_HOME_PHONE_V1.webp",
+    "OVL_HOME_DANIEL_PHONE_V1.webp",
+    "OVL_HOME_NIK_PHONE_V1.webp",
+    "LOGO_CM17_WORDMARK_V1.webp",
+    "TILE_CONTINUE_V1.webp",
+    "TILE_TACTICS_V1.webp",
+    "TILE_HISTORY_V1.webp",
+    "TILE_STATISTICS_V1.webp",
+    "TRO_LEAGUE_TITLE_V1_512.webp",
+    "TILE_RULEBOOK_V1.webp",
+    "TILE_SETTINGS_V1.webp"
+   ],
+   "focus": null,
+   "kb": 1087,
+   "errs": []
+  },
+  "375x553": {
+   "scroll": [
+    375,
+    553
+   ],
+   "vw": 375,
+   "vh": 553,
+   "ctrls": 15,
+   "small": 0,
+   "prim": {
+    "in": true,
+    "txt": "HOME\nCAREER\nSTANDINGS\nSTATS\nRU"
+   },
+   "inputMin": 13.3333,
+   "imgs": [
+    "ENV_HOME_PHONE_V1.webp",
+    "OVL_HOME_DANIEL_PHONE_V1.webp",
+    "OVL_HOME_NIK_PHONE_V1.webp",
+    "LOGO_CM17_WORDMARK_V1.webp",
+    "TILE_CONTINUE_V1.webp",
+    "TILE_TACTICS_V1.webp",
+    "TILE_HISTORY_V1.webp",
+    "TILE_STATISTICS_V1.webp",
+    "TRO_LEAGUE_TITLE_V1_512.webp",
+    "TILE_RULEBOOK_V1.webp",
+    "TILE_SETTINGS_V1.webp"
+   ],
+   "focus": null,
+   "kb": 1087,
+   "errs": []
+  },
+  "rm": {
+   "longAnims": 0,
+   "infinite": 0
+  }
+ },
+ "league": {
+  "1366x768": {
+   "scroll": [
+    1366,
+    768
+   ],
+   "vw": 1366,
+   "vh": 768,
+   "ctrls": 9,
+   "small": 1,
+   "prim": {
+    "in": true,
+    "txt": "CM 17\n    CAREER MODESHOWDOWN "
+   },
+   "inputMin": null,
+   "imgs": [
+    "ENV_LEAGUE_PHONE_V1.webp",
+    "OVL_LEAGUE_DANIEL_PHONE_V1.webp",
+    "OVL_LEAGUE_NIK_PHONE_V1.webp",
+    "WHEEL_RIM_V1.webp",
+    "OVL_DANIEL_FINGER_V1_1X.png"
+   ],
+   "focus": "5/5",
+   "kb": 879,
+   "errs": []
+  },
+  "1920x1080": {
+   "scroll": [
+    1920,
+    1080
+   ],
+   "vw": 1920,
+   "vh": 1080,
+   "ctrls": 9,
+   "small": 1,
+   "prim": {
+    "in": true,
+    "txt": "CM 17\n    CAREER MODESHOWDOWN "
+   },
+   "inputMin": null,
+   "imgs": [
+    "ENV_LEAGUE_PHONE_V1.webp",
+    "OVL_LEAGUE_DANIEL_PHONE_V1.webp",
+    "OVL_LEAGUE_NIK_PHONE_V1.webp",
+    "WHEEL_RIM_V1.webp",
+    "OVL_DANIEL_FINGER_V1_1X.png"
+   ],
+   "focus": null,
+   "kb": 879,
+   "errs": []
+  },
+  "393x660": {
+   "scroll": [
+    393,
+    660
+   ],
+   "vw": 393,
+   "vh": 660,
+   "ctrls": 2,
+   "small": 0,
+   "prim": {
+    "in": true,
+    "txt": "CM 17\n    CAREER MODESHOWDOWN "
+   },
+   "inputMin": null,
+   "imgs": [
+    "ENV_LEAGUE_PHONE_V1.webp",
+    "OVL_LEAGUE_DANIEL_PHONE_V1.webp",
+    "OVL_LEAGUE_NIK_PHONE_V1.webp",
+    "WHEEL_RIM_V1.webp",
+    "OVL_DANIEL_FINGER_V1_1X.png"
+   ],
+   "focus": null,
+   "kb": 879,
+   "errs": []
+  },
+  "360x640": {
+   "scroll": [
+    360,
+    640
+   ],
+   "vw": 360,
+   "vh": 640,
+   "ctrls": 2,
+   "small": 0,
+   "prim": {
+    "in": true,
+    "txt": "CM 17\n    CAREER MODESHOWDOWN "
+   },
+   "inputMin": null,
+   "imgs": [
+    "ENV_LEAGUE_PHONE_V1.webp",
+    "OVL_LEAGUE_DANIEL_PHONE_V1.webp",
+    "OVL_LEAGUE_NIK_PHONE_V1.webp",
+    "WHEEL_RIM_V1.webp",
+    "OVL_DANIEL_FINGER_V1_1X.png"
+   ],
+   "focus": null,
+   "kb": 879,
+   "errs": []
+  },
+  "375x553": {
+   "scroll": [
+    375,
+    553
+   ],
+   "vw": 375,
+   "vh": 553,
+   "ctrls": 2,
+   "small": 0,
+   "prim": {
+    "in": true,
+    "txt": "CM 17\n    CAREER MODESHOWDOWN "
+   },
+   "inputMin": null,
+   "imgs": [
+    "ENV_LEAGUE_PHONE_V1.webp",
+    "OVL_LEAGUE_DANIEL_PHONE_V1.webp",
+    "OVL_LEAGUE_NIK_PHONE_V1.webp",
+    "WHEEL_RIM_V1.webp",
+    "OVL_DANIEL_FINGER_V1_1X.png"
+   ],
+   "focus": null,
+   "kb": 879,
+   "errs": []
+  },
+  "rm": {
+   "longAnims": 0,
+   "infinite": 0
+  }
+ },
+ "club": {
+  "1366x768": {
+   "scroll": [
+    1366,
+    768
+   ],
+   "vw": 1366,
+   "vh": 768,
+   "ctrls": 9,
+   "small": 1,
+   "prim": null,
+   "inputMin": null,
+   "imgs": [
+    "ENV_CLUB_PHONE_V1.webp",
+    "OVL_CLUB_DANIEL_PHONE_V1.webp",
+    "OVL_CLUB_NIK_PHONE_V1.webp"
+   ],
+   "focus": "5/5",
+   "kb": 1094,
+   "errs": []
+  },
+  "1920x1080": {
+   "scroll": [
+    1920,
+    1080
+   ],
+   "vw": 1920,
+   "vh": 1080,
+   "ctrls": 9,
+   "small": 1,
+   "prim": null,
+   "inputMin": null,
+   "imgs": [
+    "ENV_CLUB_PHONE_V1.webp",
+    "OVL_CLUB_DANIEL_PHONE_V1.webp",
+    "OVL_CLUB_NIK_PHONE_V1.webp"
+   ],
+   "focus": null,
+   "kb": 1094,
+   "errs": []
+  },
+  "393x660": {
+   "scroll": [
+    393,
+    660
+   ],
+   "vw": 393,
+   "vh": 660,
+   "ctrls": 2,
+   "small": 0,
+   "prim": null,
+   "inputMin": null,
+   "imgs": [
+    "ENV_CLUB_PHONE_V1.webp",
+    "OVL_CLUB_DANIEL_PHONE_V1.webp",
+    "OVL_CLUB_NIK_PHONE_V1.webp"
+   ],
+   "focus": null,
+   "kb": 637,
+   "errs": []
+  },
+  "360x640": {
+   "scroll": [
+    360,
+    640
+   ],
+   "vw": 360,
+   "vh": 640,
+   "ctrls": 2,
+   "small": 0,
+   "prim": null,
+   "inputMin": null,
+   "imgs": [
+    "ENV_CLUB_PHONE_V1.webp",
+    "OVL_CLUB_DANIEL_PHONE_V1.webp",
+    "OVL_CLUB_NIK_PHONE_V1.webp"
+   ],
+   "focus": null,
+   "kb": 637,
+   "errs": []
+  },
+  "375x553": {
+   "scroll": [
+    375,
+    553
+   ],
+   "vw": 375,
+   "vh": 553,
+   "ctrls": 2,
+   "small": 0,
+   "prim": null,
+   "inputMin": null,
+   "imgs": [
+    "ENV_CLUB_PHONE_V1.webp",
+    "OVL_CLUB_DANIEL_PHONE_V1.webp",
+    "OVL_CLUB_NIK_PHONE_V1.webp"
+   ],
+   "focus": null,
+   "kb": 637,
+   "errs": []
+  },
+  "rm": {
+   "longAnims": 0,
+   "infinite": 0
+  }
+ },
+ "tr2/slice-02-plate": {
+  "1366x768": {
+   "scroll": [
+    1366,
+    768
+   ],
+   "vw": 1366,
+   "vh": 768,
+   "ctrls": 9,
+   "small": 3,
+   "prim": null,
+   "inputMin": null,
+   "imgs": [
+    "ENV_TRANSFER_PHONE_V1.webp",
+    "OVL_TRANSFER_DANIEL_PHONE_V1.webp",
+    "OVL_TRANSFER_NIK_PHONE_V1.webp",
+    "TITLE_TRANSFER_V1.webp",
+    "ENV_TR2_PLATE_G_LOCKED_V1_1672.avif",
+    "OVL_NIK_FINGERTIP_V1_1672.png"
+   ],
+   "focus": "6/6",
+   "kb": 897,
+   "errs": []
+  },
+  "1920x1080": {
+   "scroll": [
+    1920,
+    1080
+   ],
+   "vw": 1920,
+   "vh": 1080,
+   "ctrls": 9,
+   "small": 2,
+   "prim": null,
+   "inputMin": null,
+   "imgs": [
+    "ENV_TRANSFER_PHONE_V1.webp",
+    "OVL_TRANSFER_DANIEL_PHONE_V1.webp",
+    "OVL_TRANSFER_NIK_PHONE_V1.webp",
+    "TITLE_TRANSFER_V1.webp",
+    "ENV_TR2_PLATE_G_LOCKED_V1_3344.avif",
+    "OVL_NIK_FINGERTIP_V1_1672.png"
+   ],
+   "focus": null,
+   "kb": 1182,
+   "errs": []
+  },
+  "393x660": {
+   "scroll": [
+    393,
+    660
+   ],
+   "vw": 393,
+   "vh": 660,
+   "ctrls": 3,
+   "small": 0,
+   "prim": null,
+   "inputMin": null,
+   "imgs": [
+    "ENV_TRANSFER_PHONE_V1.webp",
+    "OVL_TRANSFER_DANIEL_PHONE_V1.webp",
+    "OVL_TRANSFER_NIK_PHONE_V1.webp",
+    "TITLE_TRANSFER_V1.webp",
+    "ENV_TR2_PLATE_G_LOCKED_V1_1672.avif",
+    "OVL_NIK_FINGERTIP_V1_1672.png"
+   ],
+   "focus": null,
+   "kb": 1085,
+   "errs": []
+  },
+  "360x640": {
+   "scroll": [
+    360,
+    640
+   ],
+   "vw": 360,
+   "vh": 640,
+   "ctrls": 3,
+   "small": 0,
+   "prim": null,
+   "inputMin": null,
+   "imgs": [
+    "ENV_TRANSFER_PHONE_V1.webp",
+    "OVL_TRANSFER_DANIEL_PHONE_V1.webp",
+    "OVL_TRANSFER_NIK_PHONE_V1.webp",
+    "TITLE_TRANSFER_V1.webp",
+    "ENV_TR2_PLATE_G_LOCKED_V1_1672.avif",
+    "OVL_NIK_FINGERTIP_V1_1672.png"
+   ],
+   "focus": null,
+   "kb": 1085,
+   "errs": []
+  },
+  "375x553": {
+   "scroll": [
+    375,
+    553
+   ],
+   "vw": 375,
+   "vh": 553,
+   "ctrls": 3,
+   "small": 0,
+   "prim": null,
+   "inputMin": null,
+   "imgs": [
+    "ENV_TRANSFER_PHONE_V1.webp",
+    "OVL_TRANSFER_DANIEL_PHONE_V1.webp",
+    "OVL_TRANSFER_NIK_PHONE_V1.webp",
+    "TITLE_TRANSFER_V1.webp",
+    "ENV_TR2_PLATE_G_LOCKED_V1_1672.avif",
+    "OVL_NIK_FINGERTIP_V1_1672.png"
+   ],
+   "focus": null,
+   "kb": 1085,
+   "errs": []
+  },
+  "rm": {
+   "longAnims": 0,
+   "infinite": 0
+  }
+ },
+ "loading": {
+  "1366x768": {
+   "scroll": [
+    1366,
+    768
+   ],
+   "vw": 1366,
+   "vh": 768,
+   "ctrls": 2,
+   "small": 2,
+   "prim": null,
+   "inputMin": null,
+   "imgs": [
+    "marco-reus-2015-cc-by.webp",
+    "LOGO_CM17_WORDMARK_LOADING_V1.webp"
+   ],
+   "focus": "4/4",
+   "kb": 320,
+   "errs": []
+  },
+  "1920x1080": {
+   "scroll": [
+    1920,
+    1080
+   ],
+   "vw": 1920,
+   "vh": 1080,
+   "ctrls": 2,
+   "small": 2,
+   "prim": null,
+   "inputMin": null,
+   "imgs": [
+    "marco-reus-2015-cc-by.webp",
+    "LOGO_CM17_WORDMARK_LOADING_V1.webp"
+   ],
+   "focus": null,
+   "kb": 320,
+   "errs": []
+  },
+  "393x660": {
+   "scroll": [
+    393,
+    660
+   ],
+   "vw": 393,
+   "vh": 660,
+   "ctrls": 2,
+   "small": 0,
+   "prim": null,
+   "inputMin": null,
+   "imgs": [
+    "marco-reus-2015-cc-by.webp",
+    "LOGO_CM17_WORDMARK_LOADING_V1.webp"
+   ],
+   "focus": null,
+   "kb": 320,
+   "errs": []
+  },
+  "360x640": {
+   "scroll": [
+    360,
+    640
+   ],
+   "vw": 360,
+   "vh": 640,
+   "ctrls": 2,
+   "small": 0,
+   "prim": null,
+   "inputMin": null,
+   "imgs": [
+    "marco-reus-2015-cc-by.webp",
+    "LOGO_CM17_WORDMARK_LOADING_V1.webp"
+   ],
+   "focus": null,
+   "kb": 320,
+   "errs": []
+  },
+  "375x553": {
+   "scroll": [
+    375,
+    553
+   ],
+   "vw": 375,
+   "vh": 553,
+   "ctrls": 2,
+   "small": 0,
+   "prim": null,
+   "inputMin": null,
+   "imgs": [
+    "marco-reus-2015-cc-by.webp",
+    "LOGO_CM17_WORDMARK_LOADING_V1.webp"
+   ],
+   "focus": null,
+   "kb": 320,
+   "errs": []
+  },
+  "rm": {
+   "longAnims": 0,
+   "infinite": 0
+  }
+ },
+ "trophy-room": {
+  "1366x768": {
+   "scroll": [
+    1366,
+    768
+   ],
+   "vw": 1366,
+   "vh": 768,
+   "ctrls": 12,
+   "small": 5,
+   "prim": {
+    "in": true,
+    "txt": "Preview dataCAREER MODE SHOWDO"
+   },
+   "inputMin": null,
+   "imgs": [
+    "ENV_TR_PHONE_V1.webp",
+    "OVL_TR_DANIEL_PHONE_V1.webp",
+    "OVL_TR_NIK_PHONE_V1.webp",
+    "TITLE_TR_V1.webp",
+    "TRO_SHOWDOWN_CHAMPION_V1_512.webp",
+    "TRO_LEAGUE_TITLE_V1_512.webp",
+    "TRO_DOMESTIC_CUP_V1_512.webp",
+    "TRO_CONTINENTAL_V1_512.webp"
+   ],
+   "focus": "6/6",
+   "kb": 1118,
+   "errs": []
+  },
+  "1920x1080": {
+   "scroll": [
+    1920,
+    1080
+   ],
+   "vw": 1920,
+   "vh": 1080,
+   "ctrls": 12,
+   "small": 5,
+   "prim": {
+    "in": true,
+    "txt": "Preview dataCAREER MODE SHOWDO"
+   },
+   "inputMin": null,
+   "imgs": [
+    "ENV_TR_PHONE_V1.webp",
+    "OVL_TR_DANIEL_PHONE_V1.webp",
+    "OVL_TR_NIK_PHONE_V1.webp",
+    "TITLE_TR_V1.webp",
+    "TRO_SHOWDOWN_CHAMPION_V1_512.webp",
+    "TRO_LEAGUE_TITLE_V1_512.webp",
+    "TRO_DOMESTIC_CUP_V1_512.webp",
+    "TRO_CONTINENTAL_V1_512.webp"
+   ],
+   "focus": null,
+   "kb": 1118,
+   "errs": []
+  },
+  "393x660": {
+   "scroll": [
+    393,
+    660
+   ],
+   "vw": 393,
+   "vh": 660,
+   "ctrls": 13,
+   "small": 0,
+   "prim": {
+    "in": true,
+    "txt": "Preview dataCAREER MODE SHOWDO"
+   },
+   "inputMin": 13.3333,
+   "imgs": [
+    "ENV_TR_PHONE_V1.webp",
+    "OVL_TR_DANIEL_PHONE_V1.webp",
+    "OVL_TR_NIK_PHONE_V1.webp",
+    "TITLE_TR_V1.webp",
+    "TRO_SHOWDOWN_CHAMPION_V1_512.webp",
+    "TRO_LEAGUE_TITLE_V1_512.webp",
+    "TRO_DOMESTIC_CUP_V1_512.webp",
+    "TRO_CONTINENTAL_V1_512.webp"
+   ],
+   "focus": null,
+   "kb": 806,
+   "errs": []
+  },
+  "360x640": {
+   "scroll": [
+    360,
+    640
+   ],
+   "vw": 360,
+   "vh": 640,
+   "ctrls": 13,
+   "small": 0,
+   "prim": {
+    "in": true,
+    "txt": "Preview dataCAREER MODE SHOWDO"
+   },
+   "inputMin": 13.3333,
+   "imgs": [
+    "ENV_TR_PHONE_V1.webp",
+    "OVL_TR_DANIEL_PHONE_V1.webp",
+    "OVL_TR_NIK_PHONE_V1.webp",
+    "TITLE_TR_V1.webp",
+    "TRO_SHOWDOWN_CHAMPION_V1_512.webp",
+    "TRO_LEAGUE_TITLE_V1_512.webp",
+    "TRO_DOMESTIC_CUP_V1_512.webp",
+    "TRO_CONTINENTAL_V1_512.webp"
+   ],
+   "focus": null,
+   "kb": 806,
+   "errs": []
+  },
+  "375x553": {
+   "scroll": [
+    375,
+    553
+   ],
+   "vw": 375,
+   "vh": 553,
+   "ctrls": 13,
+   "small": 0,
+   "prim": {
+    "in": true,
+    "txt": "Preview dataCAREER MODE SHOWDO"
+   },
+   "inputMin": 13.3333,
+   "imgs": [
+    "ENV_TR_PHONE_V1.webp",
+    "OVL_TR_DANIEL_PHONE_V1.webp",
+    "OVL_TR_NIK_PHONE_V1.webp",
+    "TITLE_TR_V1.webp",
+    "TRO_SHOWDOWN_CHAMPION_V1_512.webp",
+    "TRO_LEAGUE_TITLE_V1_512.webp",
+    "TRO_DOMESTIC_CUP_V1_512.webp",
+    "TRO_CONTINENTAL_V1_512.webp"
+   ],
+   "focus": null,
+   "kb": 806,
+   "errs": []
+  },
+  "rm": {
+   "longAnims": 0,
+   "infinite": 0
+  }
+ },
+ "career-statistics": {
+  "1366x768": {
+   "scroll": [
+    1366,
+    768
+   ],
+   "vw": 1366,
+   "vh": 768,
+   "ctrls": 9,
+   "small": 0,
+   "prim": {
+    "in": true,
+    "txt": "CAREER MODE SHOWDOWN 17\n      "
+   },
+   "inputMin": null,
+   "imgs": [
+    "TITLE_CS_V1.webp",
+    "TRO_SHOWDOWN_CHAMPION_V1_512.webp"
+   ],
+   "focus": "6/6",
+   "kb": 657,
+   "errs": []
+  },
+  "1920x1080": {
+   "scroll": [
+    1920,
+    1080
+   ],
+   "vw": 1920,
+   "vh": 1080,
+   "ctrls": 9,
+   "small": 0,
+   "prim": {
+    "in": true,
+    "txt": "CAREER MODE SHOWDOWN 17\n      "
+   },
+   "inputMin": null,
+   "imgs": [
+    "TITLE_CS_V1.webp",
+    "TRO_SHOWDOWN_CHAMPION_V1_512.webp"
+   ],
+   "focus": null,
+   "kb": 657,
+   "errs": []
+  },
+  "393x660": {
+   "scroll": [
+    393,
+    660
+   ],
+   "vw": 393,
+   "vh": 660,
+   "ctrls": 12,
+   "small": 3,
+   "prim": {
+    "in": true,
+    "txt": "CAREER MODE SHOWDOWN 17\n      "
+   },
+   "inputMin": 16,
+   "imgs": [
+    "ENV_CS_PHONE_V1.webp",
+    "OVL_CS_DANIEL_PHONE_V1.webp",
+    "OVL_CS_NIK_PHONE_V1.webp",
+    "TITLE_CS_V1.webp",
+    "TRO_SHOWDOWN_CHAMPION_V1_512.webp"
+   ],
+   "focus": null,
+   "kb": 610,
+   "errs": []
+  },
+  "360x640": {
+   "scroll": [
+    360,
+    640
+   ],
+   "vw": 360,
+   "vh": 640,
+   "ctrls": 12,
+   "small": 3,
+   "prim": {
+    "in": true,
+    "txt": "CAREER MODE SHOWDOWN 17\n      "
+   },
+   "inputMin": 16,
+   "imgs": [
+    "ENV_CS_PHONE_V1.webp",
+    "OVL_CS_DANIEL_PHONE_V1.webp",
+    "OVL_CS_NIK_PHONE_V1.webp",
+    "TITLE_CS_V1.webp",
+    "TRO_SHOWDOWN_CHAMPION_V1_512.webp"
+   ],
+   "focus": null,
+   "kb": 610,
+   "errs": []
+  },
+  "375x553": {
+   "scroll": [
+    375,
+    553
+   ],
+   "vw": 375,
+   "vh": 553,
+   "ctrls": 12,
+   "small": 3,
+   "prim": {
+    "in": true,
+    "txt": "CAREER MODE SHOWDOWN 17\n      "
+   },
+   "inputMin": 16,
+   "imgs": [
+    "ENV_CS_PHONE_V1.webp",
+    "OVL_CS_DANIEL_PHONE_V1.webp",
+    "OVL_CS_NIK_PHONE_V1.webp",
+    "TITLE_CS_V1.webp",
+    "TRO_SHOWDOWN_CHAMPION_V1_512.webp"
+   ],
+   "focus": null,
+   "kb": 610,
+   "errs": []
+  },
+  "rm": {
+   "longAnims": 0,
+   "infinite": 0
+  }
+ },
+ "rivalry-statistics": {
+  "1366x768": {
+   "scroll": [
+    1366,
+    768
+   ],
+   "vw": 1366,
+   "vh": 768,
+   "ctrls": 7,
+   "small": 0,
+   "prim": {
+    "in": true,
+    "txt": "CAREER MODE SHOWDOWN 17\n      "
+   },
+   "inputMin": null,
+   "imgs": [
+    "TITLE_RV_V1.webp",
+    "TRO_SHOWDOWN_CHAMPION_V1_512.webp",
+    "TRO_LEAGUE_TITLE_V1_512.webp",
+    "TRO_DOMESTIC_CUP_V1_512.webp",
+    "TRO_CONTINENTAL_V1_512.webp"
+   ],
+   "focus": "6/6",
+   "kb": 974,
+   "errs": []
+  },
+  "1920x1080": {
+   "scroll": [
+    1920,
+    1080
+   ],
+   "vw": 1920,
+   "vh": 1080,
+   "ctrls": 7,
+   "small": 0,
+   "prim": {
+    "in": true,
+    "txt": "CAREER MODE SHOWDOWN 17\n      "
+   },
+   "inputMin": null,
+   "imgs": [
+    "TITLE_RV_V1.webp",
+    "TRO_SHOWDOWN_CHAMPION_V1_512.webp",
+    "TRO_LEAGUE_TITLE_V1_512.webp",
+    "TRO_DOMESTIC_CUP_V1_512.webp",
+    "TRO_CONTINENTAL_V1_512.webp"
+   ],
+   "focus": null,
+   "kb": 974,
+   "errs": []
+  },
+  "393x660": {
+   "scroll": [
+    393,
+    660
+   ],
+   "vw": 393,
+   "vh": 660,
+   "ctrls": 11,
+   "small": 0,
+   "prim": {
+    "in": true,
+    "txt": "CAREER MODE SHOWDOWN 17\n      "
+   },
+   "inputMin": null,
+   "imgs": [
+    "ENV_RV_PHONE_V1.webp",
+    "OVL_RV_DANIEL_PHONE_V1.webp",
+    "OVL_RV_NIK_PHONE_V1.webp",
+    "TITLE_RV_V1_PHONE.webp",
+    "TRO_SHOWDOWN_CHAMPION_V1_512.webp",
+    "TRO_LEAGUE_TITLE_V1_512.webp",
+    "TRO_DOMESTIC_CUP_V1_512.webp",
+    "TRO_CONTINENTAL_V1_512.webp"
+   ],
+   "focus": null,
+   "kb": 752,
+   "errs": []
+  },
+  "360x640": {
+   "scroll": [
+    360,
+    640
+   ],
+   "vw": 360,
+   "vh": 640,
+   "ctrls": 11,
+   "small": 0,
+   "prim": {
+    "in": true,
+    "txt": "CAREER MODE SHOWDOWN 17\n      "
+   },
+   "inputMin": null,
+   "imgs": [
+    "ENV_RV_PHONE_V1.webp",
+    "OVL_RV_DANIEL_PHONE_V1.webp",
+    "OVL_RV_NIK_PHONE_V1.webp",
+    "TITLE_RV_V1_PHONE.webp",
+    "TRO_SHOWDOWN_CHAMPION_V1_512.webp",
+    "TRO_LEAGUE_TITLE_V1_512.webp",
+    "TRO_DOMESTIC_CUP_V1_512.webp",
+    "TRO_CONTINENTAL_V1_512.webp"
+   ],
+   "focus": null,
+   "kb": 752,
+   "errs": []
+  },
+  "375x553": {
+   "scroll": [
+    375,
+    553
+   ],
+   "vw": 375,
+   "vh": 553,
+   "ctrls": 11,
+   "small": 0,
+   "prim": {
+    "in": true,
+    "txt": "CAREER MODE SHOWDOWN 17\n      "
+   },
+   "inputMin": null,
+   "imgs": [
+    "ENV_RV_PHONE_V1.webp",
+    "OVL_RV_DANIEL_PHONE_V1.webp",
+    "OVL_RV_NIK_PHONE_V1.webp",
+    "TITLE_RV_V1_PHONE.webp",
+    "TRO_SHOWDOWN_CHAMPION_V1_512.webp",
+    "TRO_LEAGUE_TITLE_V1_512.webp",
+    "TRO_DOMESTIC_CUP_V1_512.webp",
+    "TRO_CONTINENTAL_V1_512.webp"
+   ],
+   "focus": null,
+   "kb": 752,
+   "errs": []
+  },
+  "rm": {
+   "longAnims": 0,
+   "infinite": 0
+  }
+ },
+ "legacy": {
+  "1366x768": {
+   "scroll": [
+    1366,
+    768
+   ],
+   "vw": 1366,
+   "vh": 768,
+   "ctrls": 16,
+   "small": 2,
+   "prim": {
+    "in": true,
+    "txt": "VIEW SEASON HISTORY"
+   },
+   "inputMin": null,
+   "imgs": [
+    "ENV_LG_PHONE_V1.webp",
+    "TITLE_LG_V1.webp",
+    "OVL_LG_DANIEL_PHONE_V1.webp",
+    "OVL_LG_NIK_PHONE_V1.webp"
+   ],
+   "focus": "6/6",
+   "kb": 1078,
+   "errs": []
+  },
+  "1920x1080": {
+   "scroll": [
+    1920,
+    1080
+   ],
+   "vw": 1920,
+   "vh": 1080,
+   "ctrls": 16,
+   "small": 2,
+   "prim": {
+    "in": true,
+    "txt": "VIEW SEASON HISTORY"
+   },
+   "inputMin": null,
+   "imgs": [
+    "ENV_LG_PHONE_V1.webp",
+    "TITLE_LG_V1.webp",
+    "OVL_LG_DANIEL_PHONE_V1.webp",
+    "OVL_LG_NIK_PHONE_V1.webp"
+   ],
+   "focus": null,
+   "kb": 1078,
+   "errs": []
+  },
+  "393x660": {
+   "scroll": [
+    393,
+    660
+   ],
+   "vw": 393,
+   "vh": 660,
+   "ctrls": 20,
+   "small": 0,
+   "prim": {
+    "in": true,
+    "txt": "VIEW SEASON HISTORY"
+   },
+   "inputMin": null,
+   "imgs": [
+    "ENV_LG_PHONE_V1.webp",
+    "TITLE_LG_V1.webp",
+    "OVL_LG_DANIEL_PHONE_V1.webp",
+    "OVL_LG_NIK_PHONE_V1.webp"
+   ],
+   "focus": null,
+   "kb": 814,
+   "errs": []
+  },
+  "360x640": {
+   "scroll": [
+    360,
+    640
+   ],
+   "vw": 360,
+   "vh": 640,
+   "ctrls": 20,
+   "small": 0,
+   "prim": {
+    "in": true,
+    "txt": "VIEW SEASON HISTORY"
+   },
+   "inputMin": null,
+   "imgs": [
+    "ENV_LG_PHONE_V1.webp",
+    "TITLE_LG_V1.webp",
+    "OVL_LG_DANIEL_PHONE_V1.webp",
+    "OVL_LG_NIK_PHONE_V1.webp"
+   ],
+   "focus": null,
+   "kb": 814,
+   "errs": []
+  },
+  "375x553": {
+   "scroll": [
+    375,
+    553
+   ],
+   "vw": 375,
+   "vh": 553,
+   "ctrls": 20,
+   "small": 0,
+   "prim": {
+    "in": true,
+    "txt": "VIEW SEASON HISTORY"
+   },
+   "inputMin": null,
+   "imgs": [
+    "ENV_LG_PHONE_V1.webp",
+    "TITLE_LG_V1.webp",
+    "OVL_LG_DANIEL_PHONE_V1.webp",
+    "OVL_LG_NIK_PHONE_V1.webp"
+   ],
+   "focus": null,
+   "kb": 814,
+   "errs": []
+  },
+  "rm": {
+   "longAnims": 0,
+   "infinite": 0
+  }
+ },
+ "season-results": {
+  "1366x768": {
+   "scroll": [
+    1366,
+    768
+   ],
+   "vw": 1366,
+   "vh": 768,
+   "ctrls": 15,
+   "small": 7,
+   "prim": {
+    "in": true,
+    "txt": "REVIEW MY SEASON RESULT"
+   },
+   "inputMin": 13.3333,
+   "imgs": [
+    "TITLE_SR_V1.webp",
+    "TRO_SHOWDOWN_CHAMPION_V1_512.webp",
+    "OVL_SR_DANIEL_HAND_V1_1X.webp",
+    "OVL_SR_NIK_HAND_V1_1X.webp"
+   ],
+   "focus": "6/6",
+   "kb": 883,
+   "errs": []
+  },
+  "1920x1080": {
+   "scroll": [
+    1920,
+    1080
+   ],
+   "vw": 1920,
+   "vh": 1080,
+   "ctrls": 15,
+   "small": 7,
+   "prim": {
+    "in": true,
+    "txt": "REVIEW MY SEASON RESULT"
+   },
+   "inputMin": 13.3333,
+   "imgs": [
+    "TITLE_SR_V1.webp",
+    "TRO_SHOWDOWN_CHAMPION_V1_512.webp",
+    "OVL_SR_DANIEL_HAND_V1_1X.webp",
+    "OVL_SR_NIK_HAND_V1_1X.webp"
+   ],
+   "focus": null,
+   "kb": 883,
+   "errs": []
+  },
+  "393x660": {
+   "scroll": [
+    393,
+    660
+   ],
+   "vw": 393,
+   "vh": 660,
+   "ctrls": 12,
+   "small": 3,
+   "prim": {
+    "in": true,
+    "txt": "REVIEW MY SEASON RESULT"
+   },
+   "inputMin": 13.3333,
+   "imgs": [
+    "ENV_SR_PHONE_V1.webp",
+    "TITLE_SR_V1.webp",
+    "OVL_SR_DANIEL_PHONE_V1.webp",
+    "OVL_SR_NIK_PHONE_V1.webp",
+    "TITLE_SR_PHONE_V1.webp"
+   ],
+   "focus": null,
+   "kb": 794,
+   "errs": []
+  },
+  "360x640": {
+   "scroll": [
+    360,
+    640
+   ],
+   "vw": 360,
+   "vh": 640,
+   "ctrls": 12,
+   "small": 3,
+   "prim": {
+    "in": true,
+    "txt": "REVIEW MY SEASON RESULT"
+   },
+   "inputMin": 13.3333,
+   "imgs": [
+    "ENV_SR_PHONE_V1.webp",
+    "TITLE_SR_V1.webp",
+    "OVL_SR_DANIEL_PHONE_V1.webp",
+    "OVL_SR_NIK_PHONE_V1.webp",
+    "TITLE_SR_PHONE_V1.webp"
+   ],
+   "focus": null,
+   "kb": 794,
+   "errs": []
+  },
+  "375x553": {
+   "scroll": [
+    375,
+    553
+   ],
+   "vw": 375,
+   "vh": 553,
+   "ctrls": 12,
+   "small": 3,
+   "prim": {
+    "in": true,
+    "txt": "REVIEW MY SEASON RESULT"
+   },
+   "inputMin": 13.3333,
+   "imgs": [
+    "ENV_SR_PHONE_V1.webp",
+    "TITLE_SR_V1.webp",
+    "OVL_SR_DANIEL_PHONE_V1.webp",
+    "OVL_SR_NIK_PHONE_V1.webp",
+    "TITLE_SR_PHONE_V1.webp"
+   ],
+   "focus": null,
+   "kb": 794,
+   "errs": []
+  },
+  "rm": {
+   "longAnims": 0,
+   "infinite": 0
+  }
+ },
+ "final-winner": {
+  "1366x768": {
+   "scroll": [
+    1366,
+    768
+   ],
+   "vw": 1366,
+   "vh": 768,
+   "ctrls": 6,
+   "small": 0,
+   "prim": null,
+   "inputMin": null,
+   "imgs": [
+    "ENV_TR_PHONE_V1.webp",
+    "OVL_TR_DANIEL_PHONE_V1.webp",
+    "OVL_TR_NIK_PHONE_V1.webp",
+    "TITLE_FINAL_WINNER_V1.webp",
+    "TRO_SHOWDOWN_CHAMPION_V1_512.webp",
+    "TRO_CONTINENTAL_V1_512.webp",
+    "TRO_LEAGUE_TITLE_V1_512.webp",
+    "TRO_DOMESTIC_CUP_V1_512.webp",
+    "OVL_FW_DANIEL_NEAR_ARM_V1_1X.webp",
+    "OVL_FW_NIK_NEAR_ARM_V1_1X.webp"
+   ],
+   "focus": "6/6",
+   "kb": 1143,
+   "errs": []
+  },
+  "1920x1080": {
+   "scroll": [
+    1920,
+    1080
+   ],
+   "vw": 1920,
+   "vh": 1080,
+   "ctrls": 6,
+   "small": 0,
+   "prim": null,
+   "inputMin": null,
+   "imgs": [
+    "ENV_TR_PHONE_V1.webp",
+    "OVL_TR_DANIEL_PHONE_V1.webp",
+    "OVL_TR_NIK_PHONE_V1.webp",
+    "TITLE_FINAL_WINNER_V1.webp",
+    "TRO_SHOWDOWN_CHAMPION_V1_512.webp",
+    "TRO_CONTINENTAL_V1_512.webp",
+    "TRO_LEAGUE_TITLE_V1_512.webp",
+    "TRO_DOMESTIC_CUP_V1_512.webp",
+    "OVL_FW_DANIEL_NEAR_ARM_V1_1X.webp",
+    "OVL_FW_NIK_NEAR_ARM_V1_1X.webp"
+   ],
+   "focus": null,
+   "kb": 1143,
+   "errs": []
+  },
+  "393x660": {
+   "scroll": [
+    393,
+    660
+   ],
+   "vw": 393,
+   "vh": 660,
+   "ctrls": 9,
+   "small": 3,
+   "prim": null,
+   "inputMin": 13.3333,
+   "imgs": [
+    "ENV_TR_PHONE_V1.webp",
+    "OVL_TR_DANIEL_PHONE_V1.webp",
+    "OVL_TR_NIK_PHONE_V1.webp",
+    "TITLE_FINAL_WINNER_V1.webp",
+    "TRO_SHOWDOWN_CHAMPION_V1_512.webp",
+    "TRO_CONTINENTAL_V1_512.webp",
+    "TRO_LEAGUE_TITLE_V1_512.webp",
+    "TRO_DOMESTIC_CUP_V1_512.webp",
+    "OVL_FW_DANIEL_NEAR_ARM_V1_1X.webp",
+    "OVL_FW_NIK_NEAR_ARM_V1_1X.webp"
+   ],
+   "focus": null,
+   "kb": 823,
+   "errs": []
+  },
+  "360x640": {
+   "scroll": [
+    360,
+    640
+   ],
+   "vw": 360,
+   "vh": 640,
+   "ctrls": 9,
+   "small": 3,
+   "prim": null,
+   "inputMin": 13.3333,
+   "imgs": [
+    "ENV_TR_PHONE_V1.webp",
+    "OVL_TR_DANIEL_PHONE_V1.webp",
+    "OVL_TR_NIK_PHONE_V1.webp",
+    "TITLE_FINAL_WINNER_V1.webp",
+    "TRO_SHOWDOWN_CHAMPION_V1_512.webp",
+    "TRO_CONTINENTAL_V1_512.webp",
+    "TRO_LEAGUE_TITLE_V1_512.webp",
+    "TRO_DOMESTIC_CUP_V1_512.webp",
+    "OVL_FW_DANIEL_NEAR_ARM_V1_1X.webp",
+    "OVL_FW_NIK_NEAR_ARM_V1_1X.webp"
+   ],
+   "focus": null,
+   "kb": 823,
+   "errs": []
+  },
+  "375x553": {
+   "scroll": [
+    375,
+    553
+   ],
+   "vw": 375,
+   "vh": 553,
+   "ctrls": 9,
+   "small": 3,
+   "prim": null,
+   "inputMin": 13.3333,
+   "imgs": [
+    "ENV_TR_PHONE_V1.webp",
+    "OVL_TR_DANIEL_PHONE_V1.webp",
+    "OVL_TR_NIK_PHONE_V1.webp",
+    "TITLE_FINAL_WINNER_V1.webp",
+    "TRO_SHOWDOWN_CHAMPION_V1_512.webp",
+    "TRO_CONTINENTAL_V1_512.webp",
+    "TRO_LEAGUE_TITLE_V1_512.webp",
+    "TRO_DOMESTIC_CUP_V1_512.webp",
+    "OVL_FW_DANIEL_NEAR_ARM_V1_1X.webp",
+    "OVL_FW_NIK_NEAR_ARM_V1_1X.webp"
+   ],
+   "focus": null,
+   "kb": 823,
+   "errs": []
+  },
+  "rm": {
+   "longAnims": 0,
+   "infinite": 0
+  }
+ },
+ "start-join": {
+  "1366x768": {
+   "scroll": [
+    1366,
+    768
+   ],
+   "vw": 1366,
+   "vh": 768,
+   "ctrls": 10,
+   "small": 1,
+   "prim": {
+    "in": true,
+    "txt": "START A SHOWDOWN"
+   },
+   "inputMin": 19,
+   "imgs": [
+    "OVL_SJ_DANIEL_HAND_V1_1X.webp"
+   ],
+   "focus": "6/6",
+   "kb": 545,
+   "errs": []
+  },
+  "1920x1080": {
+   "scroll": [
+    1920,
+    1080
+   ],
+   "vw": 1920,
+   "vh": 1080,
+   "ctrls": 10,
+   "small": 1,
+   "prim": {
+    "in": true,
+    "txt": "START A SHOWDOWN"
+   },
+   "inputMin": 19,
+   "imgs": [
+    "OVL_SJ_DANIEL_HAND_V1_1X.webp"
+   ],
+   "focus": null,
+   "kb": 545,
+   "errs": []
+  },
+  "393x660": {
+   "scroll": [
+    393,
+    660
+   ],
+   "vw": 393,
+   "vh": 660,
+   "ctrls": 11,
+   "small": 0,
+   "prim": {
+    "in": true,
+    "txt": "START A SHOWDOWN"
+   },
+   "inputMin": null,
+   "imgs": [
+    "ENV_SJ_PHONE_V1.webp",
+    "OVL_SJ_DANIEL_PHONE_V1.webp",
+    "OVL_SJ_NIK_PHONE_V1.webp",
+    "OVL_SJ_DANIEL_HAND_V1_1X.webp"
+   ],
+   "focus": null,
+   "kb": 523,
+   "errs": []
+  },
+  "360x640": {
+   "scroll": [
+    360,
+    640
+   ],
+   "vw": 360,
+   "vh": 640,
+   "ctrls": 11,
+   "small": 0,
+   "prim": {
+    "in": true,
+    "txt": "START A SHOWDOWN"
+   },
+   "inputMin": null,
+   "imgs": [
+    "ENV_SJ_PHONE_V1.webp",
+    "OVL_SJ_DANIEL_PHONE_V1.webp",
+    "OVL_SJ_NIK_PHONE_V1.webp",
+    "OVL_SJ_DANIEL_HAND_V1_1X.webp"
+   ],
+   "focus": null,
+   "kb": 523,
+   "errs": []
+  },
+  "375x553": {
+   "scroll": [
+    375,
+    553
+   ],
+   "vw": 375,
+   "vh": 553,
+   "ctrls": 11,
+   "small": 0,
+   "prim": {
+    "in": true,
+    "txt": "START A SHOWDOWN"
+   },
+   "inputMin": null,
+   "imgs": [
+    "ENV_SJ_PHONE_V1.webp",
+    "OVL_SJ_DANIEL_PHONE_V1.webp",
+    "OVL_SJ_NIK_PHONE_V1.webp",
+    "OVL_SJ_DANIEL_HAND_V1_1X.webp"
+   ],
+   "focus": null,
+   "kb": 523,
+   "errs": []
+  },
+  "rm": {
+   "longAnims": 0,
+   "infinite": 0
+  }
+ },
+ "standings": {
+  "1366x768": {
+   "scroll": [
+    1366,
+    768
+   ],
+   "vw": 1366,
+   "vh": 768,
+   "ctrls": 8,
+   "small": 2,
+   "prim": null,
+   "inputMin": null,
+   "imgs": [
+    "TITLE_STANDINGS_V1.webp"
+   ],
+   "focus": "6/6",
+   "kb": 628,
+   "errs": []
+  },
+  "1920x1080": {
+   "scroll": [
+    1920,
+    1080
+   ],
+   "vw": 1920,
+   "vh": 1080,
+   "ctrls": 8,
+   "small": 2,
+   "prim": null,
+   "inputMin": null,
+   "imgs": [
+    "TITLE_STANDINGS_V1.webp"
+   ],
+   "focus": null,
+   "kb": 628,
+   "errs": []
+  },
+  "393x660": {
+   "scroll": [
+    393,
+    660
+   ],
+   "vw": 393,
+   "vh": 660,
+   "ctrls": 8,
+   "small": 0,
+   "prim": null,
+   "inputMin": null,
+   "imgs": [
+    "ENV_RV_PHONE_V1.webp",
+    "OVL_RV_DANIEL_PHONE_V1.webp",
+    "OVL_RV_NIK_PHONE_V1.webp",
+    "TITLE_STANDINGS_V1.webp"
+   ],
+   "focus": null,
+   "kb": 615,
+   "errs": []
+  },
+  "360x640": {
+   "scroll": [
+    360,
+    640
+   ],
+   "vw": 360,
+   "vh": 640,
+   "ctrls": 8,
+   "small": 0,
+   "prim": null,
+   "inputMin": null,
+   "imgs": [
+    "ENV_RV_PHONE_V1.webp",
+    "OVL_RV_DANIEL_PHONE_V1.webp",
+    "OVL_RV_NIK_PHONE_V1.webp",
+    "TITLE_STANDINGS_V1.webp"
+   ],
+   "focus": null,
+   "kb": 615,
+   "errs": []
+  },
+  "375x553": {
+   "scroll": [
+    375,
+    553
+   ],
+   "vw": 375,
+   "vh": 553,
+   "ctrls": 8,
+   "small": 0,
+   "prim": null,
+   "inputMin": null,
+   "imgs": [
+    "ENV_RV_PHONE_V1.webp",
+    "OVL_RV_DANIEL_PHONE_V1.webp",
+    "OVL_RV_NIK_PHONE_V1.webp",
+    "TITLE_STANDINGS_V1.webp"
+   ],
+   "focus": null,
+   "kb": 615,
+   "errs": []
+  },
+  "rm": {
+   "longAnims": 0,
+   "infinite": 0
+  }
+ },
+ "rule-book": {
+  "1366x768": {
+   "scroll": [
+    1366,
+    768
+   ],
+   "vw": 1366,
+   "vh": 768,
+   "ctrls": 7,
+   "small": 0,
+   "prim": null,
+   "inputMin": null,
+   "imgs": [
+    "ENV_SYS_PLATE_V1_1X.webp",
+    "TITLE_RULE_BOOK_V1.webp"
+   ],
+   "focus": "6/6",
+   "kb": 604,
+   "errs": []
+  },
+  "1920x1080": {
+   "scroll": [
+    1920,
+    1080
+   ],
+   "vw": 1920,
+   "vh": 1080,
+   "ctrls": 7,
+   "small": 0,
+   "prim": null,
+   "inputMin": null,
+   "imgs": [
+    "ENV_SYS_PLATE_V1_1X.webp",
+    "TITLE_RULE_BOOK_V1.webp"
+   ],
+   "focus": null,
+   "kb": 604,
+   "errs": []
+  },
+  "393x660": {
+   "scroll": [
+    393,
+    660
+   ],
+   "vw": 393,
+   "vh": 660,
+   "ctrls": 7,
+   "small": 0,
+   "prim": null,
+   "inputMin": null,
+   "imgs": [
+    "ENV_SYS_PHONE_V1.webp",
+    "TITLE_RULE_BOOK_V1.webp"
+   ],
+   "focus": null,
+   "kb": 739,
+   "errs": []
+  },
+  "360x640": {
+   "scroll": [
+    360,
+    640
+   ],
+   "vw": 360,
+   "vh": 640,
+   "ctrls": 7,
+   "small": 0,
+   "prim": null,
+   "inputMin": null,
+   "imgs": [
+    "ENV_SYS_PHONE_V1.webp",
+    "TITLE_RULE_BOOK_V1.webp"
+   ],
+   "focus": null,
+   "kb": 739,
+   "errs": []
+  },
+  "375x553": {
+   "scroll": [
+    375,
+    553
+   ],
+   "vw": 375,
+   "vh": 553,
+   "ctrls": 7,
+   "small": 0,
+   "prim": null,
+   "inputMin": null,
+   "imgs": [
+    "ENV_SYS_PHONE_V1.webp",
+    "TITLE_RULE_BOOK_V1.webp"
+   ],
+   "focus": null,
+   "kb": 739,
+   "errs": []
+  },
+  "rm": {
+   "longAnims": 0,
+   "infinite": 0
+  }
+ },
+ "settings": {
+  "1366x768": {
+   "scroll": [
+    1366,
+    768
+   ],
+   "vw": 1366,
+   "vh": 768,
+   "ctrls": 10,
+   "small": 2,
+   "prim": {
+    "in": true,
+    "txt": "DONE"
+   },
+   "inputMin": null,
+   "imgs": [
+    "ENV_SYS_PHONE_V1.webp",
+    "TITLE_SETTINGS_V1.webp"
+   ],
+   "focus": "6/6",
+   "kb": 766,
+   "errs": []
+  },
+  "1920x1080": {
+   "scroll": [
+    1920,
+    1080
+   ],
+   "vw": 1920,
+   "vh": 1080,
+   "ctrls": 10,
+   "small": 2,
+   "prim": {
+    "in": true,
+    "txt": "DONE"
+   },
+   "inputMin": null,
+   "imgs": [
+    "ENV_SYS_PHONE_V1.webp",
+    "TITLE_SETTINGS_V1.webp"
+   ],
+   "focus": null,
+   "kb": 766,
+   "errs": []
+  },
+  "393x660": {
+   "scroll": [
+    393,
+    660
+   ],
+   "vw": 393,
+   "vh": 660,
+   "ctrls": 10,
+   "small": 0,
+   "prim": {
+    "in": true,
+    "txt": "DONE"
+   },
+   "inputMin": null,
+   "imgs": [
+    "ENV_SYS_PHONE_V1.webp",
+    "TITLE_SETTINGS_V1.webp"
+   ],
+   "focus": null,
+   "kb": 439,
+   "errs": []
+  },
+  "360x640": {
+   "scroll": [
+    360,
+    640
+   ],
+   "vw": 360,
+   "vh": 640,
+   "ctrls": 10,
+   "small": 0,
+   "prim": {
+    "in": true,
+    "txt": "DONE"
+   },
+   "inputMin": null,
+   "imgs": [
+    "ENV_SYS_PHONE_V1.webp",
+    "TITLE_SETTINGS_V1.webp"
+   ],
+   "focus": null,
+   "kb": 439,
+   "errs": []
+  },
+  "375x553": {
+   "scroll": [
+    375,
+    553
+   ],
+   "vw": 375,
+   "vh": 553,
+   "ctrls": 10,
+   "small": 0,
+   "prim": {
+    "in": true,
+    "txt": "DONE"
+   },
+   "inputMin": null,
+   "imgs": [
+    "ENV_SYS_PHONE_V1.webp",
+    "TITLE_SETTINGS_V1.webp"
+   ],
+   "focus": null,
+   "kb": 439,
+   "errs": []
+  },
+  "rm": {
+   "longAnims": 0,
+   "infinite": 0
+  }
+ }
+}
