@@ -30,7 +30,10 @@ jobs:
         run: |
           node scripts/gate-compare.mjs --repo "$GITHUB_REPOSITORY" --summary --limit 40 \
             --canary-heads b381233f04619eba1a85dc93de827de6d7ae32b0,101714f03b8a48cc817ec1d1454ea167a3217def \
-            --infra-runs 37398574147 > "$RUNNER_TEMP/exit.jsonl"
+            --infra-runs 37398574147 > "$RUNNER_TEMP/exit.jsonl" 2> "$RUNNER_TEMP/exit.err" || {
+            echo "::error title=report stderr::$(tail -c 3000 "$RUNNER_TEMP/exit.err" | tr '\n' ' ')"
+            curl -sS -H "authorization: Bearer $GITHUB_TOKEN" https://api.github.com/rate_limit | node -e 'let s="";process.stdin.on("data",d=>s+=d).on("end",()=>{const r=JSON.parse(s).resources.core;console.log(`::error title=rate limit::remaining ${r.remaining} of ${r.limit}, resets ${new Date(r.reset*1000).toISOString()}`);})'
+            exit 1; }
           node -e '
           const fs=require("fs");const lines=fs.readFileSync(process.argv[1],"utf8").trim().split("\n").map(l=>JSON.parse(l));
           const esc=s=>String(s).replace(/%/g,"%25").replace(/\r/g,"%0D").replace(/\n/g,"%0A");
