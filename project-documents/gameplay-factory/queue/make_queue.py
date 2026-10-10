@@ -294,12 +294,15 @@ def main():
     DECIDED = {("home", "sideways"): "1035", ("transfer", "sideways"): "1035", ("home", "tablet"): "1036", ("transfer", "tablet"): "1036"}
     DECIDED_EVID = {("home", "sideways"): "visual-assets/v10_1/tr2/evidence/1035/", ("transfer", "sideways"): "visual-assets/v10_1/tr2/evidence/1035/",
                     ("home", "tablet"): "visual-assets/v10_1/home/evidence/1036/", ("transfer", "tablet"): "visual-assets/v10_1/tr2/evidence/1036/"}
-    PIC = json.loads((pathlib.Path(__file__).resolve().parent / "PICTURES.json").read_text())["keys"]
+    _pj = json.loads((pathlib.Path(__file__).resolve().parent / "PICTURES.json").read_text())
+    PIC, NOTES = _pj["keys"], _pj.get("notes", {})
     def target(sid, st):
         k = PIC.get(sid)
         if not k: return ""
         f = f"{'PHONE' if st == 4 else 'NEXT'}_{k}.png"
-        return f"- **Work toward Nik's approved picture** `project-documents/factory/mockups/{f}` (fetch it from branch `factory/v1-wtt5ye`). Match its layout, hierarchy and look, using the existing art files.\n"
+        note = NOTES.get(f[:-4], "")
+        note = f" Team V note: {note}" if note else ""
+        return f"- **Work toward Nik's approved picture** `project-documents/factory/mockups/{f}` (fetch it from branch `factory/v1-wtt5ye`). Match its layout, hierarchy and look, using the existing art files. Always use the real game text of the live screen, never wording copied from the picture.{note}\n"
     def mock_line(sid):
         if sid in MOCK:
             return f"the screen's desktop mockup: `{MOCK_DIR}{MOCK[sid]}` on branch `factory/v1-wtt5ye` (reference only; look at the picture, never copy real club crests, league logos or trophies from it)"
