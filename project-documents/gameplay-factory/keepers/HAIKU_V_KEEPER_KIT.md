@@ -12,9 +12,13 @@ Written 2026-10-10 by the Team G thread "Haiku V board keeper" so a new Team V p
 - `tools/custom_view.py`: one renderer for both views. Change only the V functions.
 - `tools/relay_page.py`: writes RELAY.md (embeds the SVG).
 - `CUSTOM_VIEW.html`, `BOARD.md`: Team G's files. Not ours.
+- `RELAY.md`: written by `relay_page.py` from the relay branch. Shared; Team G's relay session may change the relay text, but not the V embed line.
 
-## Overlap to fix (open)
-- "Claude" (Team G board session) commits "Board: re-render" that also rewrites `CUSTOM_VIEW_V.html`. Ask Team G to stop writing that file; it is ours.
+## Render split (done 2026-10-10 14:13 UTC, Nik's yes)
+- `custom_view.py` with no flag writes only `CUSTOM_VIEW.html` (Team G).
+- `custom_view.py --v` writes only `CUSTOM_VIEW_V.html` and `CUSTOM_VIEW_V.svg` (Team V). The poller runs both (gameplay-factory-progress.yml).
+- Team G must not write, overwrite or hand-edit any V file. Team G's board sessions run the plain command only.
+- Shared facts (job moves, relay state) travel through leads/relay and the factory SHA, never through each other's files.
 
 ## Relay link to Team G
 - Relay branch: `leads/relay` (tracker PR #312). Team G's relay session is listed in `project-documents/leads-relay/INBOX.json` under "G".
@@ -23,7 +27,7 @@ Written 2026-10-10 by the Team G thread "Haiku V board keeper" so a new Team V p
 ## Routine
 - The free poller (`gameplay-factory-progress.yml`, bot commits) re-renders all V files every few minutes. Do not hand-write numbers.
 - Watch for real moves: V job moves or relay state changes, not clock-only commits.
-- On a real move, the Team V project's own tab updates only when Nik types "update the job board" in that project chat or taps Refresh there. Nothing can refresh it automatically.
+- On a real move, the new keeper tells the Team V project's coordinator the factory SHA (never Team G's session) so it can publish the Team V tab. The Team V project's own tab updates only when Nik types "update the job board" in that project chat or taps Refresh there. Nothing can refresh it automatically.
 
 ## First step for the new thread
 1. Read this kit, then `CUSTOM_VIEW_V.html` and RELAY.md on factory/gameplay-v1.
