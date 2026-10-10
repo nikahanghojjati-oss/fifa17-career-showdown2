@@ -1,12 +1,12 @@
-# Mega factory run report · 2026-10-10T19:45:41Z
+# Mega factory run report · 2026-10-10T19:48:24Z
 
-Taken 42 of 518 jobs. By state: on_train 21, pr_open 21, waiting 476
+Taken 48 of 518 jobs. By state: on_train 22, pr_open 26, waiting 470
 
 ## By stage
 Stage | name | total | picked up | merged
 --- | --- | --- | --- | ---
-1 | audits | 112 | 21 | 0
-2 | screen fixes | 266 | 21 | 0
+1 | audits | 112 | 26 | 0
+2 | screen fixes | 266 | 22 | 0
 3 | mockup match | 14 | 0 | 0
 4 | phone studies | 70 | 0 | 0
 5 | desktop studies | 56 | 0 | 0
@@ -17,7 +17,7 @@ Train | jobs done | PR | state
 gameplay/train-home-1 | 3 of 5 | - | on train, no PR yet
 gameplay/train-start-join-1 | 3 of 5 | - | on train, no PR yet
 gameplay/train-league-1 | 3 of 5 | - | on train, no PR yet
-gameplay/train-club-1 | 2 of 5 | - | on train, no PR yet
+gameplay/train-club-1 | 3 of 5 | - | on train, no PR yet
 gameplay/train-transfer-1 | 2 of 5 | - | on train, no PR yet
 gameplay/train-season-final-1 | 2 of 5 | - | on train, no PR yet
 gameplay/train-rivalry-legacy-1 | 2 of 5 | - | on train, no PR yet
@@ -48,6 +48,11 @@ Number | job | title | state | link
 38 | 1485 | Audit js/sparkSharedTransferChallenge.js for gameplay bugs (first half) | pr_open | [PR #480](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/480)
 40 | 1486 | Audit js/sparkSharedTransferChallenge.js for gameplay bugs (second half) | pr_open | [PR #481](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/481)
 42 | 1487 | Audit js/sharedTransferChallenge.js for gameplay bugs (first half) | pr_open | [PR #483](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/483)
+126 | 1529 | Audit js/sparkTerminalClose.js for gameplay bugs (first half) | pr_open | [PR #487](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/487)
+128 | 1530 | Audit js/sparkTerminalClose.js for gameplay bugs (second half) | pr_open | [PR #488](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/488)
+130 | 1531 | Audit js/productionSharedCanonicalScoring.js for gameplay bugs (first half) | pr_open | [PR #489](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/489)
+132 | 1532 | Audit js/productionSharedCanonicalScoring.js for gameplay bugs (second half) | pr_open | [PR #490](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/490)
+176 | 1554 | Audit js/clubAssignment.js for gameplay bugs (second half) | pr_open | [PR #491](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/491)
 
 ## Needs a look (blocked, no change needed, needs Team V or mockup)
 

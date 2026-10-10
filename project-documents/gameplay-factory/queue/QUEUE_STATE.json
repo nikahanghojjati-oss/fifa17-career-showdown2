@@ -1,7 +1,6 @@
 {
  "sequence": {
   "ready": [
-   43,
    44,
    45,
    46,
@@ -12,10 +11,10 @@
    52,
    53,
    54,
-   55
+   55,
+   56
   ],
   "ready_sol": [
-   43,
    44,
    45,
    46,
@@ -26,14 +25,15 @@
    52,
    53,
    54,
-   55
+   55,
+   56
   ],
   "ready_codex": [],
   "held_until_picture": 86,
   "open_code_prs": 0,
   "open_train_prs": 0,
-  "next_free": 43,
-  "highest_taken": 42,
+  "next_free": 44,
+  "highest_taken": 176,
   "total": 518,
   "states": {
    "1": "on_train",
@@ -78,7 +78,7 @@
    "40": "pr_open",
    "41": "on_train",
    "42": "pr_open",
-   "43": "waiting",
+   "43": "on_train",
    "44": "waiting",
    "45": "waiting",
    "46": "waiting",
@@ -161,13 +161,13 @@
    "123": "waiting",
    "124": "waiting",
    "125": "waiting",
-   "126": "waiting",
+   "126": "pr_open",
    "127": "waiting",
-   "128": "waiting",
+   "128": "pr_open",
    "129": "waiting",
-   "130": "waiting",
+   "130": "pr_open",
    "131": "waiting",
-   "132": "waiting",
+   "132": "pr_open",
    "133": "waiting",
    "134": "waiting",
    "135": "waiting",
@@ -211,7 +211,7 @@
    "173": "waiting",
    "174": "waiting",
    "175": "waiting",
-   "176": "waiting",
+   "176": "pr_open",
    "177": "waiting",
    "178": "waiting",
    "179": "waiting",
@@ -556,16 +556,16 @@
    "518": "waiting"
   }
  },
- "updated": "2026-10-10T19:45:41Z",
+ "updated": "2026-10-10T19:48:24Z",
  "counts": {
-  "on_train": 21,
-  "waiting": 476,
-  "pr_open": 21
+  "on_train": 22,
+  "waiting": 470,
+  "pr_open": 26
  },
  "stages": {
   "2": {
    "total": 266,
-   "taken": 21,
+   "taken": 22,
    "merged": 0
   },
   "3": {
@@ -585,7 +585,7 @@
   },
   "1": {
    "total": 112,
-   "taken": 21,
+   "taken": 26,
    "merged": 0
   }
  },
@@ -757,7 +757,8 @@
    ],
    "done": [
     "1148",
-    "1149"
+    "1149",
+    "1150"
    ],
    "pr": null,
    "state": null
@@ -1919,7 +1920,7 @@
    "branch": "gameplay/train-club-1"
   },
   "1150": {
-   "state": "waiting",
+   "state": "on_train",
    "pr": null,
    "draft": false,
    "pr_url": null,
@@ -4572,32 +4573,32 @@
    "branch": null
   },
   "1529": {
-   "state": "waiting",
-   "pr": null,
-   "draft": false,
-   "pr_url": null,
-   "branch": null
+   "state": "pr_open",
+   "pr": 487,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/487",
+   "branch": "qa/job-1529-spark-terminal-close-1"
   },
   "1530": {
-   "state": "waiting",
-   "pr": null,
-   "draft": false,
-   "pr_url": null,
-   "branch": null
+   "state": "pr_open",
+   "pr": 488,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/488",
+   "branch": "qa/job-1530-spark-terminal-close-2"
   },
   "1531": {
-   "state": "waiting",
-   "pr": null,
-   "draft": false,
-   "pr_url": null,
-   "branch": null
+   "state": "pr_open",
+   "pr": 489,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/489",
+   "branch": "qa/job-1531-production-canonical-scoring-1"
   },
   "1532": {
-   "state": "waiting",
-   "pr": null,
-   "draft": false,
-   "pr_url": null,
-   "branch": null
+   "state": "pr_open",
+   "pr": 490,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/490",
+   "branch": "qa/job-1532-production-canonical-scoring-2"
   },
   "1533": {
    "state": "waiting",
@@ -4747,11 +4748,11 @@
    "branch": null
   },
   "1554": {
-   "state": "waiting",
-   "pr": null,
-   "draft": false,
-   "pr_url": null,
-   "branch": null
+   "state": "pr_open",
+   "pr": 491,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/491",
+   "branch": "qa/job-1554-clubassignment-2"
   },
   "1555": {
    "state": "waiting",
