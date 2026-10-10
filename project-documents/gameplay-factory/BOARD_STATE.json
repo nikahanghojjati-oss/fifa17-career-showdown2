@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-10 9:58 AM Boston time (EDT)",
+ "generated": "2026-10-10 10:00 AM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -1016,7 +1016,11 @@
       "title": "Old-design CSS collisions: scope old rulebook/settings/analytics/app CSS off Team V markup (about 70 shared class names)",
       "lane": "sonnet",
       "state": "ready (Sonnet audit, then Opus fix)",
-      "waits_on": ""
+      "waits_on": "",
+      "team": "brown",
+      "route": "claude",
+      "claude_reason": "cross-screen CSS collisions across old and new screens",
+      "place": "Team G lead thread (Claude runs it; nothing to type)"
      },
      {
       "id": "1579",
@@ -1116,7 +1120,11 @@
       "title": "QA packet adoptions: truth line, wrong-target guard on main PRs, PR title rule",
       "lane": "sonnet",
       "state": "queued after the bug jobs",
-      "waits_on": ""
+      "waits_on": "",
+      "team": "brown",
+      "route": "claude",
+      "claude_reason": "Gate and main-PR guard work",
+      "place": "Team G lead thread (Claude runs it; nothing to type)"
      },
      {
       "id": "G-F17",
@@ -1125,7 +1133,11 @@
       "state": "shadow: KEEP_SHADOW after the 9 Oct independent audit (71/100); fixes 1043, 1044 and 1045 merged; the owner card waits for a fresh exit report",
       "waits_on": "exit bar: 10 real PRs agree (2 full seals), 2 canaries fail, 1 simulated outage recovers; POS20 stays the merge authority until then",
       "details": "Nik 6:02 PM Boston time: gradual replacement; POS20 is archived to authority-history/pos20-archive/, not deleted",
-      "note": "reports/SHOWDOWN_GATE_AUDIT_2026-10-09.md"
+      "note": "reports/SHOWDOWN_GATE_AUDIT_2026-10-09.md",
+      "team": "purple",
+      "route": "claude",
+      "claude_reason": "Gate design (lead only)",
+      "place": "Team G lead thread (Claude runs it; nothing to type)"
      },
      {
       "id": "G-F18",
@@ -1133,14 +1145,22 @@
       "lane": "opus",
       "state": "queued for stage 2 (visual fixes); the history screens now load online (r65), the old-design shell is what remains",
       "waits_on": "stage 2",
-      "details": "overlaps G-F11 (old CSS collisions)"
+      "details": "overlaps G-F11 (old CSS collisions)",
+      "team": "purple",
+      "route": "claude",
+      "claude_reason": "cross-screen audit with emulator screenshots",
+      "place": "Team G lead thread (Claude runs it; nothing to type)"
      },
      {
       "id": "G-F7",
       "title": "Ten-season smoothness run on live 2.0 (emulator, 10 seasons with a mid-game expiry)",
       "lane": "sonnet",
       "state": "queued after the Olympiad bug jobs (stage 1)",
-      "waits_on": ""
+      "waits_on": "",
+      "team": "brown",
+      "route": "claude",
+      "claude_reason": "needs the emulator: a 10-season run",
+      "place": "Team G lead thread (Claude runs it; nothing to type)"
      },
      {
       "id": "1005",
