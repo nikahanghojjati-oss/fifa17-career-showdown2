@@ -4,7 +4,7 @@
 
 ![Jobs live per release](history-chart.svg)
 
-Updated Fri 9 Oct, 10:32 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Fri 9 Oct, 10:33 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r67** (main `f42dac2`, Fri 9 Oct 9:34 PM)
 
@@ -36,42 +36,42 @@ Job 1580: git fetch origin factory/gameplay-v1, then read git show FETCH_HEAD:pr
 
 **#3 · 1583** `G` Measure the home screens at ten window sizes (report only)  
 `░░░░░░░░░░` **0.0000 %**  
-⚪ Team white · model not set · Codex cloud: type 'Job 1583'
+⚪ Team white · **Codex default coding model** · Medium effort · Codex cloud, this repo
 
-Type this in Codex cloud:
+Paste this:
 
 ```text
-Job 1583
+Job 1583: git fetch origin factory/gameplay-v1, then read git show FETCH_HEAD:project-documents/gameplay-factory/jobs/JOB-1583.md and do exactly what it says.
 ```
 
 **#4 · 1584** `G` Measure the transfer screens at ten window sizes (report only)  
 `░░░░░░░░░░` **0.0000 %**  
-⚪ Team white · model not set · Codex cloud: type 'Job 1584'
+⚪ Team white · **Codex default coding model** · Medium effort · Codex cloud, this repo
 
-Type this in Codex cloud:
+Paste this:
 
 ```text
-Job 1584
+Job 1584: git fetch origin factory/gameplay-v1, then read git show FETCH_HEAD:project-documents/gameplay-factory/jobs/JOB-1584.md and do exactly what it says.
 ```
 
 **#5 · 1585** `G` Measure the season-final screens at ten window sizes (report only)  
 `░░░░░░░░░░` **0.0000 %**  
-⚪ Team white · model not set · Codex cloud: type 'Job 1585'
+⚪ Team white · **Codex default coding model** · Medium effort · Codex cloud, this repo
 
-Type this in Codex cloud:
+Paste this:
 
 ```text
-Job 1585
+Job 1585: git fetch origin factory/gameplay-v1, then read git show FETCH_HEAD:project-documents/gameplay-factory/jobs/JOB-1585.md and do exactly what it says.
 ```
 
 **#6 · 1586** `G` Measure the club screens at ten window sizes (report only)  
 `░░░░░░░░░░` **0.0000 %**  
-⚪ Team white · model not set · Codex cloud: type 'Job 1586'
+⚪ Team white · **Codex default coding model** · Medium effort · Codex cloud, this repo
 
-Type this in Codex cloud:
+Paste this:
 
 ```text
-Job 1586
+Job 1586: git fetch origin factory/gameplay-v1, then read git show FETCH_HEAD:project-documents/gameplay-factory/jobs/JOB-1586.md and do exactly what it says.
 ```
 
 ### ⏸ Waiting on something else
