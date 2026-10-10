@@ -1,23 +1,22 @@
-# Mega factory tracker · updated 2026-10-10T15:21:00Z
+# Mega factory tracker · updated 2026-10-10T15:24:50Z
 
-**Type now:** 19, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35
-**Next free number:** 19 · **highest taken:** 24 of 518
+**Type now:** 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39
+**Next free number:** 28 · **highest taken:** 27 of 518
 **Code PRs open:** 0 of 8 · area locks: none
-**Rate:** 11 claimed in 10 min · 23 in 1 h · 0 merged in 1 h
+**Rate:** 9 claimed in 10 min · 27 in 1 h · 0 merged in 1 h
 
 **Finished (merged or live): 0 of 518**
 
 State | count
 --- | ---
-🚂 done, on the train branch, no PR yet | 11
-📝 worker done, draft PR open | 11
-🟦 started, no PR yet | 1
-⬜ waiting | 495
+🚂 done, on the train branch, no PR yet | 14
+📝 worker done, draft PR open | 13
+⬜ waiting | 491
 
 Stage | total | merged/live | in flight | waiting
 --- | --- | --- | --- | ---
-1 Gameplay audits | 112 | 0 | 12 | 100
-2 Screen fixes | 266 | 0 | 11 | 255
+1 Gameplay audits | 112 | 0 | 13 | 99
+2 Screen fixes | 266 | 0 | 14 | 252
 3 Match desktop to mockups | 14 | 0 | 0 | 14
 4 Phone mockup studies | 70 | 0 | 0 | 70
 5 Improved desktop studies | 56 | 0 | 0 | 56
@@ -42,14 +41,23 @@ Stage | total | merged/live | in flight | waiting
 - 📝 **16** · Job 1474 · Audit all screens: fonts: fallback while loading, no jumps · worker done, draft PR open · [PR #466](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/466)
 - 🚂 **17** · Job 1409 · Rule Book: fix the 360x640 view · done, on the train branch, no PR yet
 - 📝 **18** · Job 1475 · Audit all screens: picture descriptions and screen reader labels · worker done, draft PR open · [PR #468](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/468)
+- 🚂 **19** · Job 1062 · Home: fix the 390x844 view · done, on the train branch, no PR yet
 - 📝 **20** · Job 1476 · Audit all screens: stacking order: dialogs above screens, toasts above dialogs · worker done, draft PR open · [PR #467](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/467)
 - 🚂 **21** · Job 1091 · Connect Players (start and join): fix the 390x844 view · done, on the train branch, no PR yet
 - 📝 **22** · Job 1477 · Audit all screens: hard-coded colours that should use the design tokens · worker done, draft PR open · [PR #470](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/470)
 - 🚂 **23** · Job 1120 · Select League: fix the 390x844 view · done, on the train branch, no PR yet
-- 🟦 **24** · Job 1478 · Audit all screens: hover-only effects must also work by touch · started, no PR yet
+- 📝 **24** · Job 1478 · Audit all screens: hover-only effects must also work by touch · worker done, draft PR open · [PR #471](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/471)
+- 🚂 **25** · Job 1149 · Club packs: fix the 390x844 view · done, on the train branch, no PR yet
+- 📝 **26** · Job 1479 · Audit js/seasonEngine.js for gameplay bugs (first half) · worker done, draft PR open · [PR #472](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/472)
+- 🚂 **27** · Job 1178 · Transfer challenge and Signing Entry: fix the 390x844 view · done, on the train branch, no PR yet
 
 ## Latest changes
 
+- 2026-10-10T15:24:50Z · 27 (Job 1178): waiting → on_train
+- 2026-10-10T15:24:50Z · 26 (Job 1479): waiting → draft
+- 2026-10-10T15:24:50Z · 25 (Job 1149): waiting → on_train
+- 2026-10-10T15:24:50Z · 24 (Job 1478): started → draft
+- 2026-10-10T15:24:50Z · 19 (Job 1062): waiting → on_train
 - 2026-10-10T15:21:00Z · 24 (Job 1478): waiting → started
 - 2026-10-10T15:21:00Z · 23 (Job 1120): waiting → on_train
 - 2026-10-10T15:21:00Z · 22 (Job 1477): started → draft
@@ -65,8 +73,3 @@ Stage | total | merged/live | in flight | waiting
 - 2026-10-10T15:12:12Z · 13 (Job 1293): waiting → on_train
 - 2026-10-10T15:08:24Z · 12 (Job 1472): started → draft
 - 2026-10-10T15:08:24Z · 11 (Job 1206): waiting → on_train
-- 2026-10-10T15:04:39Z · 12 (Job 1472): waiting → started
-- 2026-10-10T15:04:39Z · 10 (Job 1471): waiting → draft
-- 2026-10-10T15:04:39Z · 9 (Job 1177): waiting → on_train
-- 2026-10-10T15:04:39Z · 7 (Job 1148): waiting → on_train
-- 2026-10-10T15:01:03Z · 8 (Job 1470): waiting → draft

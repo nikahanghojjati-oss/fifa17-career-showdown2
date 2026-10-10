@@ -1,30 +1,28 @@
 {
-"updated": "2026-10-10T15:21:00Z",
+"updated": "2026-10-10T15:24:50Z",
 "total": 518,
-"next_free": 19,
-"highest_taken": 24,
+"next_free": 28,
+"highest_taken": 27,
 "counts": {
-"on_train": 11,
-"draft": 11,
-"waiting": 495,
-"started": 1
+"on_train": 14,
+"draft": 13,
+"waiting": 491
 },
 "stages": {
 "2": {
 "name": "Screen fixes",
 "total": 266,
 "states": {
-"on_train": 11,
-"waiting": 255
+"on_train": 14,
+"waiting": 252
 }
 },
 "1": {
 "name": "Gameplay audits",
 "total": 112,
 "states": {
-"draft": 11,
-"started": 1,
-"waiting": 100
+"draft": 13,
+"waiting": 99
 }
 },
 "3": {
@@ -64,16 +62,15 @@
 13,
 15,
 17,
+19,
 21,
-23
+23,
+25,
+27
 ],
 "draft_code_prs": 0,
 "area_locks": {},
 "ready": [
-19,
-25,
-26,
-27,
 28,
 29,
 30,
@@ -81,13 +78,13 @@
 32,
 33,
 34,
-35
+35,
+36,
+37,
+38,
+39
 ],
 "ready_sol": [
-19,
-25,
-26,
-27,
 28,
 29,
 30,
@@ -95,13 +92,17 @@
 32,
 33,
 34,
-35
+35,
+36,
+37,
+38,
+39
 ],
 "ready_codex": []
 },
 "rate": {
-"claimed_last_hour": 23,
-"claimed_last_10min": 11,
+"claimed_last_hour": 27,
+"claimed_last_10min": 9,
 "merged_last_hour": 0
 },
 "events": [
@@ -293,6 +294,41 @@
 "job": 1478,
 "from": "waiting",
 "to": "started"
+},
+{
+"at": "2026-10-10T15:24:50Z",
+"item": 19,
+"job": 1062,
+"from": "waiting",
+"to": "on_train"
+},
+{
+"at": "2026-10-10T15:24:50Z",
+"item": 24,
+"job": 1478,
+"from": "started",
+"to": "draft"
+},
+{
+"at": "2026-10-10T15:24:50Z",
+"item": 25,
+"job": 1149,
+"from": "waiting",
+"to": "on_train"
+},
+{
+"at": "2026-10-10T15:24:50Z",
+"item": 26,
+"job": 1479,
+"from": "waiting",
+"to": "draft"
+},
+{
+"at": "2026-10-10T15:24:50Z",
+"item": 27,
+"job": 1178,
+"from": "waiting",
+"to": "on_train"
 }
 ],
 "items": {
@@ -581,8 +617,10 @@
 "title": "Home: fix the 390x844 view",
 "mode": "code",
 "group": "home",
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"state": "on_train",
+"branch": "gameplay/train-home-1",
+"first_seen": "2026-10-10T15:24:50Z",
+"since": "2026-10-10T15:24:50Z"
 },
 "20": {
 "job": 1476,
@@ -652,12 +690,19 @@
 "title": "Audit all screens: hover-only effects must also work by touch",
 "mode": "audit",
 "group": null,
-"state": "started",
+"pr": 471,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/471",
+"base": "qa/mega-audits",
 "branch": "qa/job-1478-touch-hover-audit",
-"branch_sha": "fe1eef9adb5f6e57b1577872b554c506a5907689",
-"no_pr_reason": "",
+"ci": "draft",
+"ci_sha": "631b4dfafd6bfd085e2171924155fc7da2748127",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-10T15:21:27Z",
 "first_seen": "2026-10-10T15:21:00Z",
-"since": "2026-10-10T15:21:00Z"
+"since": "2026-10-10T15:24:50Z"
 },
 "25": {
 "job": 1149,
@@ -665,8 +710,10 @@
 "title": "Club packs: fix the 390x844 view",
 "mode": "code",
 "group": "club",
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"state": "on_train",
+"branch": "gameplay/train-club-1",
+"first_seen": "2026-10-10T15:24:50Z",
+"since": "2026-10-10T15:24:50Z"
 },
 "26": {
 "job": 1479,
@@ -674,8 +721,19 @@
 "title": "Audit js/seasonEngine.js for gameplay bugs (first half)",
 "mode": "audit",
 "group": null,
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"pr": 472,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/472",
+"base": "qa/mega-audits",
+"branch": "qa/job-1479-season-engine-first-half-audit",
+"ci": "draft",
+"ci_sha": "65d43a6718e970158ddf0ecebbdcaa5781c76983",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-10T15:21:55Z",
+"first_seen": "2026-10-10T15:21:55Z",
+"since": "2026-10-10T15:24:50Z"
 },
 "27": {
 "job": 1178,
@@ -683,8 +741,10 @@
 "title": "Transfer challenge and Signing Entry: fix the 390x844 view",
 "mode": "code",
 "group": "transfer",
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"state": "on_train",
+"branch": "gameplay/train-transfer-1",
+"first_seen": "2026-10-10T15:24:50Z",
+"since": "2026-10-10T15:24:50Z"
 },
 "28": {
 "job": 1480,

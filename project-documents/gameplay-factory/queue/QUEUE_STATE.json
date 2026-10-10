@@ -1,10 +1,6 @@
 {
  "sequence": {
   "ready": [
-   19,
-   25,
-   26,
-   27,
    28,
    29,
    30,
@@ -12,13 +8,13 @@
    32,
    33,
    34,
-   35
+   35,
+   36,
+   37,
+   38,
+   39
   ],
   "ready_sol": [
-   19,
-   25,
-   26,
-   27,
    28,
    29,
    30,
@@ -26,13 +22,17 @@
    32,
    33,
    34,
-   35
+   35,
+   36,
+   37,
+   38,
+   39
   ],
   "ready_codex": [],
   "open_code_prs": 0,
   "open_train_prs": 0,
-  "next_free": 19,
-  "highest_taken": 24,
+  "next_free": 28,
+  "highest_taken": 27,
   "total": 518,
   "states": {
    "1": "on_train",
@@ -53,15 +53,15 @@
    "16": "pr_open",
    "17": "on_train",
    "18": "pr_open",
-   "19": "waiting",
+   "19": "on_train",
    "20": "pr_open",
    "21": "on_train",
    "22": "pr_open",
    "23": "on_train",
-   "24": "branch_only",
-   "25": "waiting",
-   "26": "waiting",
-   "27": "waiting",
+   "24": "pr_open",
+   "25": "on_train",
+   "26": "pr_open",
+   "27": "on_train",
    "28": "waiting",
    "29": "waiting",
    "30": "waiting",
@@ -555,17 +555,16 @@
    "518": "waiting"
   }
  },
- "updated": "2026-10-10T15:21:00Z",
+ "updated": "2026-10-10T15:24:50Z",
  "counts": {
-  "on_train": 11,
-  "waiting": 495,
-  "pr_open": 11,
-  "branch_only": 1
+  "on_train": 14,
+  "waiting": 491,
+  "pr_open": 13
  },
  "stages": {
   "2": {
    "total": 266,
-   "taken": 11,
+   "taken": 14,
    "merged": 0
   },
   "3": {
@@ -585,7 +584,7 @@
   },
   "1": {
    "total": 112,
-   "taken": 12,
+   "taken": 13,
    "merged": 0
   }
  },
@@ -600,7 +599,8 @@
     1065
    ],
    "done": [
-    "1061"
+    "1061",
+    "1062"
    ],
    "pr": null,
    "state": null
@@ -752,7 +752,8 @@
     1152
    ],
    "done": [
-    "1148"
+    "1148",
+    "1149"
    ],
    "pr": null,
    "state": null
@@ -802,7 +803,8 @@
     1181
    ],
    "done": [
-    "1177"
+    "1177",
+    "1178"
    ],
    "pr": null,
    "state": null
@@ -1293,7 +1295,7 @@
    "branch": "gameplay/train-home-1"
   },
   "1062": {
-   "state": "waiting",
+   "state": "on_train",
    "pr": null,
    "draft": false,
    "pr_url": null,
@@ -1902,7 +1904,7 @@
    "branch": "gameplay/train-club-1"
   },
   "1149": {
-   "state": "waiting",
+   "state": "on_train",
    "pr": null,
    "draft": false,
    "pr_url": null,
@@ -2105,7 +2107,7 @@
    "branch": "gameplay/train-transfer-1"
   },
   "1178": {
-   "state": "waiting",
+   "state": "on_train",
    "pr": null,
    "draft": false,
    "pr_url": null,
@@ -4205,18 +4207,18 @@
    "branch": "qa/job-1477-audit-design-token-colours"
   },
   "1478": {
-   "state": "branch_only",
-   "pr": null,
-   "draft": false,
-   "pr_url": null,
+   "state": "pr_open",
+   "pr": 471,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/471",
    "branch": "qa/job-1478-touch-hover-audit"
   },
   "1479": {
-   "state": "waiting",
-   "pr": null,
-   "draft": false,
-   "pr_url": null,
-   "branch": null
+   "state": "pr_open",
+   "pr": 472,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/472",
+   "branch": "qa/job-1479-season-engine-first-half-audit"
   },
   "1480": {
    "state": "waiting",
