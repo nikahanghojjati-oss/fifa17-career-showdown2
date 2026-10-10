@@ -1265,6 +1265,32 @@
      "title": "Transfer countdown agrees across both phones (Sol lead S4)",
      "order": 30,
      "state": "done (merged into bug-list-1, PR #449)"
+    },
+    {
+     "id": "1059",
+     "title": "Gate exit report leaves superseded heads out and bounds the Physio lookup",
+     "lane": "lead",
+     "team": "purple",
+     "model": "Claude Opus 5.5",
+     "effort": "Medium",
+     "state": "done (merged into bug-list-1, PR #452)",
+     "order": 31,
+     "place": "nothing to type: the lead runs it",
+     "note": "Gate switch, CI tooling only",
+     "prompt": ""
+    },
+    {
+     "id": "1060",
+     "title": "The Showdown Gate becomes the PR check set (POS20 and Fast archived)",
+     "lane": "lead",
+     "team": "purple",
+     "model": "Claude Opus 5.5",
+     "effort": "Medium",
+     "state": "lead checking (PR #453): CI running",
+     "order": 32,
+     "place": "nothing to type: the lead runs it",
+     "note": "Nik chose the switch 2026-10-10; exit report READY (reports/SHOWDOWN_GATE_EXIT_2026-10-10.md)",
+     "prompt": ""
     }
    ]
   },
