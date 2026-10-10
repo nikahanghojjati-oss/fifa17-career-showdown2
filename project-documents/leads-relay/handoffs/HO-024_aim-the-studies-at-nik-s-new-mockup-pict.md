@@ -11,10 +11,10 @@
  "worker": "",
  "parent": "HO-022",
  "job": null,
- "status": "SENT",
+ "status": "RECEIVED",
  "steps": [],
  "evidence": [],
- "log": [{"at": "2026-10-10T15:35:25Z", "by": "V", "status": "SENT", "note": ""}]
+ "log": [{"at": "2026-10-10T15:35:25Z", "by": "V", "status": "SENT", "note": ""}, {"at": "2026-10-10T15:35:44Z", "by": "G", "status": "RECEIVED", "note": "Team G lead: forwarded to the mega factory (owns study tickets 226-476): add the PHONE_/NEXT_ picture target and hold each screen's studies until Team V approves its picture"}]
 }
 ```
 
