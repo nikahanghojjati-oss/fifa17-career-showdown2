@@ -40,16 +40,25 @@ One system: you only ever type a number. Numbers 1 to 1000 are queue items, numb
 224
 ```
 
-Home phone studies, released (Team V approved the Home phone picture):
+<!-- released:start -->
+Home phone studies:
 
 ```text
 232 260 288 316 344
 ```
 
-Connect Players phone studies, released:
+Connect Players phone studies:
 
 ```text
 248 276 304 332 360
 ```
 
-Studies (phone and desktop mockups) are on hold until Team V approves each screen's picture, so only the released ones are listed here (Home and Connect Players phone so far); the board's Type now list will add them when they are released. The board's Type now list keeps the next numbers; [RUN_REPORT.md](RUN_REPORT.md) is what Claude reads when you are back.
+Season Results phone studies:
+
+```text
+242 270 298 326 354
+```
+
+<!-- released:end -->
+
+Studies (phone and desktop mockups) are on hold until Team V approves each screen's picture, so only the released ones are listed here (see the lists above); the board's Type now list will add them when they are released. The board's Type now list keeps the next numbers; [RUN_REPORT.md](RUN_REPORT.md) is what Claude reads when you are back.
