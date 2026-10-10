@@ -1,0 +1,3547 @@
+{
+ "_how": "One shared job counter for Team G and Team V (Nik, 2026-10-05). Claim with tools/claim_number.py only. A number is used once, ever. CONTRACT.md section 10.",
+ "next": 1591,
+ "claims": [
+  {
+   "number": 1001,
+   "team": "G",
+   "title": "Home desktop tile icons: bigger, inside the tile, never on the text",
+   "claimed": "2026-10-05T23:30:00Z",
+   "note": "was Team G job 101"
+  },
+  {
+   "number": 1002,
+   "team": "V",
+   "title": "Transfer War window strings match production wording",
+   "claimed": "2026-10-05T23:44:06Z"
+  },
+  {
+   "number": 1003,
+   "team": "G",
+   "title": "Transfer War: main's copy of Team V's early-end string matches (HO-010)",
+   "claimed": "2026-10-06T00:04:45Z"
+  },
+  {
+   "number": 1004,
+   "team": "G",
+   "title": "Rule Book: remove the useless 01-06 side number rail (desktop and phone)",
+   "claimed": "2026-10-06T00:06:09Z"
+  },
+  {
+   "number": 1005,
+   "team": "G",
+   "title": "Last season's score is skipped before the Final Winner",
+   "claimed": "2026-10-06T00:29:16Z"
+  },
+  {
+   "number": 1006,
+   "team": "V",
+   "title": "Final Winner: last season's score block (design for 1005 · G, HO-011)",
+   "claimed": "2026-10-06T00:34:11Z"
+  },
+  {
+   "number": 1007,
+   "team": "V",
+   "title": "Transfer War phone: early-end button visible (plate clip-path)",
+   "claimed": "2026-10-06T00:39:43Z"
+  },
+  {
+   "number": 1008,
+   "team": "V",
+   "title": "Transfer War phone: re-cut Daniel (face cut by outline) and 14%/84% spacing",
+   "claimed": "2026-10-06T00:41:39Z"
+  },
+  {
+   "number": 1009,
+   "team": "G",
+   "title": "Showdown Champion: dark blurred oval over the losing manager",
+   "claimed": "2026-10-06T01:16:41Z"
+  },
+  {
+   "number": 1010,
+   "team": "G",
+   "title": "10-season sweep: scoring, history and final math",
+   "claimed": "2026-10-06T01:18:19Z"
+  },
+  {
+   "number": 1011,
+   "team": "G",
+   "title": "Plain-words sweep: jargon on game screens",
+   "claimed": "2026-10-06T01:18:22Z"
+  },
+  {
+   "number": 1012,
+   "team": "V",
+   "title": "Season Results phone: one clean column (cards full width, one scroll, one status line)",
+   "claimed": "2026-10-06T01:29:12Z"
+  },
+  {
+   "number": 1013,
+   "team": "V",
+   "title": "Pairing screen: create and join code on its own screen, off Home",
+   "claimed": "2026-10-06T01:29:15Z"
+  },
+  {
+   "number": 1014,
+   "team": "G",
+   "title": "No reconnect prompt after a finished Showdown (HO-013)",
+   "claimed": "2026-10-06T01:30:40Z"
+  },
+  {
+   "number": 1015,
+   "team": "G",
+   "title": "Connect Players screen: create code / join off Home (HO-014)",
+   "claimed": "2026-10-06T01:32:15Z"
+  },
+  {
+   "number": 1016,
+   "team": "V",
+   "title": "Transfer War phone revamp: both faces whole, no overlap, action on the plate (folds in 1007, 1008)",
+   "claimed": "2026-10-06T01:32:20Z"
+  },
+  {
+   "number": 1017,
+   "team": "G",
+   "title": "Gameplay hunt 1: shared season flow across devices",
+   "claimed": "2026-10-06T01:33:24Z"
+  },
+  {
+   "number": 1018,
+   "team": "G",
+   "title": "Gameplay hunt 2: sessions, pairing and reconnect",
+   "claimed": "2026-10-06T01:33:26Z"
+  },
+  {
+   "number": 1019,
+   "team": "G",
+   "title": "Gameplay hunt 3: entries, saves and career numbers",
+   "claimed": "2026-10-06T01:33:27Z"
+  },
+  {
+   "number": 1020,
+   "team": "G",
+   "title": "Season Results patch: one column on phone, no overlap on desktop (HO-015)",
+   "claimed": "2026-10-06T01:38:16Z"
+  },
+  {
+   "number": 1021,
+   "team": "G",
+   "title": "Transfer War phone revamp port (HO-016)",
+   "claimed": "2026-10-06T01:54:26Z"
+  },
+  {
+   "number": 1022,
+   "team": "G",
+   "title": "Connect Players: match Team V's SJ design (1015 follow-up)",
+   "claimed": "2026-10-06T02:39:17Z"
+  },
+  {
+   "number": 1023,
+   "team": "G",
+   "title": "Session code replacement: double tap and lost join watcher (hunt 1018 H1, H2)",
+   "claimed": "2026-10-06T02:48:41Z"
+  },
+  {
+   "number": 1024,
+   "team": "G",
+   "title": "Reconnect keeps stale authority after sign-out, offline or expiry (hunt 1018 H3-H5)",
+   "claimed": "2026-10-06T02:48:43Z"
+  },
+  {
+   "number": 1025,
+   "team": "G",
+   "title": "Hunt 1017 fixes: terminal close recovery + closed-frame trophies (H1017-1..3)",
+   "claimed": "2026-10-06T03:04:20Z"
+  },
+  {
+   "number": 1026,
+   "team": "G",
+   "title": "Hunt 1017 fix: new shared season clears last season's result fields (H1017-4)",
+   "claimed": "2026-10-06T03:04:22Z"
+  },
+  {
+   "number": 1027,
+   "team": "G",
+   "title": "Hunt 1019 fixes: restore keeps/validates Save Library + career cache race (H1019-1,2,4)",
+   "claimed": "2026-10-06T03:06:45Z"
+  },
+  {
+   "number": 1028,
+   "team": "G",
+   "title": "Hunt 1019 fix: Statistics shows an abandoned-only career instead of unavailable (H1019-5)",
+   "claimed": "2026-10-06T03:06:47Z"
+  },
+  {
+   "number": 1029,
+   "team": "V",
+   "title": "Season Results desktop: closer to the mockup",
+   "claimed": "2026-10-06T04:11:51Z"
+  },
+  {
+   "number": 1030,
+   "team": "V",
+   "title": "Select League brush title wordmark",
+   "claimed": "2026-10-06T04:47:39Z"
+  },
+  {
+   "number": 1031,
+   "team": "G",
+   "title": "Cleanup A: Transfer War signing on phones (footer over Nik card) + Career Statistics tile clip",
+   "claimed": "2026-10-06T04:50:48Z"
+  },
+  {
+   "number": 1032,
+   "team": "G",
+   "title": "Cleanup B: Rivalry Statistics ghost title + title overlap; Legacy grey edge strip",
+   "claimed": "2026-10-06T04:50:50Z"
+  },
+  {
+   "number": 1033,
+   "team": "G",
+   "title": "Cleanup C: Standings and Trophy Room desktop overlaps",
+   "claimed": "2026-10-06T04:50:52Z"
+  },
+  {
+   "number": 1034,
+   "team": "G",
+   "title": "HO-020: v10 style loader keeps a slow kit stylesheet (Final Winner ghost title)",
+   "claimed": "2026-10-06T05:17:05Z"
+  },
+  {
+   "number": 1035,
+   "team": "V",
+   "title": "Signing Entry sideways phone layout (HO-021 part 2)",
+   "claimed": "2026-10-09T02:10:40Z"
+  },
+  {
+   "number": 1036,
+   "team": "V",
+   "title": "Upright tablet layout: Transfer and Signing Entry, then Home (HO-021 part 1)",
+   "claimed": "2026-10-09T02:10:42Z"
+  },
+  {
+   "number": 1037,
+   "team": "G",
+   "title": "Career history: never-joined codes and an unknown current Showdown no longer break Legacy, Trophy Room, Stats",
+   "claimed": "2026-10-09T03:55:36Z"
+  },
+  {
+   "number": 1038,
+   "team": "G",
+   "title": "Final winner closes the Showdown so it counts in the career (Nik's card)",
+   "claimed": "2026-10-09T03:55:38Z"
+  },
+  {
+   "number": 1039,
+   "team": "G",
+   "title": "Legacy stops reloading on every shared event and never spins forever",
+   "claimed": "2026-10-09T03:55:40Z"
+  },
+  {
+   "number": 1040,
+   "team": "G",
+   "title": "Browser journey opens Legacy, Trophy Room and Stats after a finished online Showdown",
+   "claimed": "2026-10-09T03:55:42Z"
+  },
+  {
+   "number": 1041,
+   "team": "G",
+   "title": "Season Results on phone: ACKNOWLEDGE visible, no inner scroll box, title clear of tabs, photos aligned",
+   "claimed": "2026-10-09T03:55:45Z"
+  },
+  {
+   "number": 1042,
+   "team": "G",
+   "title": "Closed Final Winner shows the final season on both phones after the rival's phone closed it",
+   "claimed": "2026-10-09T05:57:37Z"
+  },
+  {
+   "number": 1043,
+   "team": "G",
+   "title": "Showdown Gate: no write token for pull-request code (audit F1)",
+   "claimed": "2026-10-09T12:49:59Z"
+  },
+  {
+   "number": 1044,
+   "team": "G",
+   "title": "Showdown Gate: exit evaluator and seal checks fail closed on bad evidence (audit F2, F3)",
+   "claimed": "2026-10-09T12:50:12Z"
+  },
+  {
+   "number": 1045,
+   "team": "G",
+   "title": "Showdown Gate: pin actions and tool installs (audit F4)",
+   "claimed": "2026-10-09T12:50:15Z"
+  },
+  {
+   "number": 1046,
+   "team": "G",
+   "title": "Truth keeper handover notes from Sol, gameplay project (account 1)",
+   "claimed": "2026-10-09T16:10:15Z"
+  },
+  {
+   "number": 1047,
+   "team": "V",
+   "title": "Truth keeper handover notes from Sol, visual project (account 1)",
+   "claimed": "2026-10-09T16:10:18Z"
+  },
+  {
+   "number": 1048,
+   "team": "G",
+   "title": "Rule Book three missing rules and stale season review sentence (Olympiad V1, V2)",
+   "claimed": "2026-10-09T22:02:03Z"
+  },
+  {
+   "number": 1049,
+   "team": "G",
+   "title": "Sealed club name spoiler at pack reveal and empty-device restore ignores Keep current (Olympiad V3, V5)",
+   "claimed": "2026-10-09T22:02:05Z"
+  },
+  {
+   "number": 1050,
+   "team": "G",
+   "title": "Signing Entry draft rows survive a refresh (Olympiad V4)",
+   "claimed": "2026-10-09T22:02:08Z"
+  },
+  {
+   "number": 1051,
+   "team": "G",
+   "title": "Transfer challenge ledger hash reveals locked guesses (Olympiad V6)",
+   "claimed": "2026-10-09T22:02:10Z"
+  },
+  {
+   "number": 1052,
+   "team": "G",
+   "title": "Transfer Rules accept option ids the reader rejects (Olympiad V7)",
+   "claimed": "2026-10-09T22:02:12Z"
+  },
+  {
+   "number": 1053,
+   "team": "G",
+   "title": "Restore on an empty device respects Keep current (Olympiad V5)",
+   "claimed": "2026-10-09T22:30:18Z"
+  },
+  {
+   "number": 1054,
+   "team": "G",
+   "title": "Worker scorecard: rows for jobs 1037-1044 (Luna trial)",
+   "claimed": "2026-10-09T22:37:14Z"
+  },
+  {
+   "number": 1055,
+   "team": "G",
+   "title": "S1 Season Results points cap uses the real league size",
+   "claimed": "2026-10-09T23:17:43Z"
+  },
+  {
+   "number": 1056,
+   "team": "G",
+   "title": "S2 and S5 recheck: simultaneous season results and slow screen overwrite",
+   "claimed": "2026-10-09T23:17:45Z"
+  },
+  {
+   "number": 1057,
+   "team": "G",
+   "title": "S3 and S4 recheck: Local Reconciliation waiting and transfer timers",
+   "claimed": "2026-10-09T23:17:47Z"
+  },
+  {
+   "number": 1058,
+   "team": "G",
+   "title": "S4 transfer countdown agrees across phones",
+   "claimed": "2026-10-09T23:47:36Z"
+  },
+  {
+   "number": 1059,
+   "team": "G",
+   "title": "Gate exit report: leave superseded heads out and bound the Physio lookup",
+   "claimed": "2026-10-10T00:58:02Z"
+  },
+  {
+   "number": 1060,
+   "team": "G",
+   "title": "Switch PR checks to the Showdown Gate; archive Validate POS20 and Gameplay Fast",
+   "claimed": "2026-10-10T01:23:59Z"
+  },
+  {
+   "number": 1061,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:52:49Z"
+  },
+  {
+   "number": 1062,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:52:49Z"
+  },
+  {
+   "number": 1063,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:52:49Z"
+  },
+  {
+   "number": 1064,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:52:49Z"
+  },
+  {
+   "number": 1065,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:52:49Z"
+  },
+  {
+   "number": 1066,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:52:49Z"
+  },
+  {
+   "number": 1067,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:52:49Z"
+  },
+  {
+   "number": 1068,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:52:49Z"
+  },
+  {
+   "number": 1069,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:52:49Z"
+  },
+  {
+   "number": 1070,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:52:49Z"
+  },
+  {
+   "number": 1071,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:52:49Z"
+  },
+  {
+   "number": 1072,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:52:49Z"
+  },
+  {
+   "number": 1073,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:52:49Z"
+  },
+  {
+   "number": 1074,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:52:49Z"
+  },
+  {
+   "number": 1075,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:52:49Z"
+  },
+  {
+   "number": 1076,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:52:49Z"
+  },
+  {
+   "number": 1077,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:52:49Z"
+  },
+  {
+   "number": 1078,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:52:49Z"
+  },
+  {
+   "number": 1079,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:52:49Z"
+  },
+  {
+   "number": 1080,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:52:49Z"
+  },
+  {
+   "number": 1081,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:52:49Z"
+  },
+  {
+   "number": 1082,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:52:49Z"
+  },
+  {
+   "number": 1083,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:52:49Z"
+  },
+  {
+   "number": 1084,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:52:49Z"
+  },
+  {
+   "number": 1085,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:52:49Z"
+  },
+  {
+   "number": 1086,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:52:49Z"
+  },
+  {
+   "number": 1087,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:52:49Z"
+  },
+  {
+   "number": 1088,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:52:49Z"
+  },
+  {
+   "number": 1089,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:52:49Z"
+  },
+  {
+   "number": 1090,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:52:49Z"
+  },
+  {
+   "number": 1091,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:52:49Z"
+  },
+  {
+   "number": 1092,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:52:49Z"
+  },
+  {
+   "number": 1093,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:52:49Z"
+  },
+  {
+   "number": 1094,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:52:49Z"
+  },
+  {
+   "number": 1095,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:52:49Z"
+  },
+  {
+   "number": 1096,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:52:49Z"
+  },
+  {
+   "number": 1097,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:52:49Z"
+  },
+  {
+   "number": 1098,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:52:49Z"
+  },
+  {
+   "number": 1099,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:52:49Z"
+  },
+  {
+   "number": 1100,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:52:49Z"
+  },
+  {
+   "number": 1101,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:52:49Z"
+  },
+  {
+   "number": 1102,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:52:49Z"
+  },
+  {
+   "number": 1103,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:52:49Z"
+  },
+  {
+   "number": 1104,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:52:49Z"
+  },
+  {
+   "number": 1105,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:52:49Z"
+  },
+  {
+   "number": 1106,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:52:49Z"
+  },
+  {
+   "number": 1107,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:52:49Z"
+  },
+  {
+   "number": 1108,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:52:49Z"
+  },
+  {
+   "number": 1109,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:52:49Z"
+  },
+  {
+   "number": 1110,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:52:49Z"
+  },
+  {
+   "number": 1111,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:52:49Z"
+  },
+  {
+   "number": 1112,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:52:49Z"
+  },
+  {
+   "number": 1113,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:52:49Z"
+  },
+  {
+   "number": 1114,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:52:49Z"
+  },
+  {
+   "number": 1115,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:52:49Z"
+  },
+  {
+   "number": 1116,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:52:49Z"
+  },
+  {
+   "number": 1117,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:52:49Z"
+  },
+  {
+   "number": 1118,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:52:49Z"
+  },
+  {
+   "number": 1119,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:52:49Z"
+  },
+  {
+   "number": 1120,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:52:49Z"
+  },
+  {
+   "number": 1121,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:52:49Z"
+  },
+  {
+   "number": 1122,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:52:49Z"
+  },
+  {
+   "number": 1123,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:52:49Z"
+  },
+  {
+   "number": 1124,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:52:49Z"
+  },
+  {
+   "number": 1125,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:52:49Z"
+  },
+  {
+   "number": 1126,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:52:49Z"
+  },
+  {
+   "number": 1127,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:52:49Z"
+  },
+  {
+   "number": 1128,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:52:49Z"
+  },
+  {
+   "number": 1129,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:52:49Z"
+  },
+  {
+   "number": 1130,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:52:49Z"
+  },
+  {
+   "number": 1131,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:52:49Z"
+  },
+  {
+   "number": 1132,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:52:49Z"
+  },
+  {
+   "number": 1133,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:52:49Z"
+  },
+  {
+   "number": 1134,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:52:49Z"
+  },
+  {
+   "number": 1135,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:52:49Z"
+  },
+  {
+   "number": 1136,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:52:49Z"
+  },
+  {
+   "number": 1137,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:52:49Z"
+  },
+  {
+   "number": 1138,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:52:49Z"
+  },
+  {
+   "number": 1139,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:52:49Z"
+  },
+  {
+   "number": 1140,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:52:49Z"
+  },
+  {
+   "number": 1141,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:52:49Z"
+  },
+  {
+   "number": 1142,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:52:49Z"
+  },
+  {
+   "number": 1143,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1144,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1145,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1146,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1147,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1148,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1149,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1150,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1151,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1152,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1153,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1154,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1155,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1156,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1157,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1158,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1159,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1160,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1161,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1162,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1163,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1164,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1165,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1166,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1167,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1168,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1169,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1170,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1171,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1172,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1173,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1174,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1175,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1176,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1177,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1178,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1179,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1180,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1181,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1182,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1183,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1184,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1185,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1186,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1187,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1188,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1189,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1190,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1191,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1192,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1193,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1194,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1195,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1196,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1197,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1198,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1199,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1200,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1201,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1202,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1203,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1204,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1205,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1206,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1207,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1208,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1209,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1210,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1211,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1212,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1213,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1214,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1215,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1216,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1217,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1218,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1219,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1220,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1221,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1222,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1223,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1224,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1225,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1226,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1227,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1228,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1229,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1230,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1231,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1232,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1233,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1234,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1235,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1236,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1237,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1238,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1239,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1240,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1241,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1242,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1243,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1244,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1245,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1246,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1247,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1248,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1249,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1250,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1251,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1252,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1253,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1254,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1255,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1256,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1257,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1258,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1259,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1260,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1261,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1262,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1263,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1264,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1265,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1266,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1267,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1268,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1269,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1270,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1271,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1272,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1273,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1274,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1275,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1276,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1277,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1278,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1279,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1280,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1281,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1282,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1283,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1284,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1285,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1286,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1287,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1288,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1289,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1290,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1291,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1292,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1293,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1294,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1295,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1296,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1297,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1298,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1299,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1300,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1301,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1302,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1303,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1304,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1305,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1306,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1307,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1308,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1309,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1310,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1311,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1312,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1313,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1314,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1315,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1316,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1317,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1318,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1319,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1320,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1321,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1322,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1323,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1324,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1325,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1326,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1327,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1328,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1329,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1330,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1331,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1332,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1333,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1334,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1335,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1336,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1337,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1338,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1339,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1340,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1341,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1342,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1343,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1344,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1345,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1346,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1347,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1348,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1349,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1350,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1351,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1352,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1353,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1354,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1355,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1356,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1357,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1358,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1359,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1360,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1361,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1362,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1363,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1364,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1365,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1366,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1367,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1368,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1369,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1370,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1371,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1372,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1373,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1374,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1375,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1376,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1377,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1378,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1379,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1380,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1381,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1382,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1383,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1384,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1385,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1386,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1387,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1388,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1389,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1390,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1391,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1392,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1393,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1394,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1395,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1396,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1397,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1398,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1399,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1400,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1401,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1402,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1403,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1404,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1405,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1406,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1407,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1408,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1409,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1410,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1411,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1412,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1413,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1414,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1415,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1416,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1417,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1418,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1419,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1420,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1421,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1422,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1423,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1424,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1425,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1426,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1427,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1428,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1429,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1430,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1431,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1432,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1433,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1434,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1435,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1436,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1437,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1438,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1439,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1440,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1441,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1442,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1443,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1444,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1445,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1446,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1447,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1448,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1449,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1450,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1451,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1452,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1453,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1454,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1455,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1456,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1457,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1458,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1459,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1460,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1461,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1462,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1463,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1464,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1465,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1466,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1467,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1468,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1469,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1470,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1471,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1472,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1473,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1474,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1475,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1476,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1477,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1478,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1479,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1480,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1481,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1482,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1483,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1484,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1485,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1486,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1487,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1488,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1489,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1490,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1491,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1492,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1493,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1494,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1495,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1496,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1497,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1498,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1499,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1500,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1501,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1502,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1503,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1504,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1505,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1506,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1507,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1508,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1509,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1510,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1511,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1512,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1513,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1514,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1515,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1516,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1517,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1518,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1519,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1520,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1521,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1522,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1523,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1524,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1525,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1526,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1527,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1528,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1529,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1530,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1531,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1532,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1533,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1534,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1535,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1536,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1537,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1538,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1539,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1540,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1541,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1542,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1543,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1544,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1545,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1546,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1547,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1548,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1549,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1550,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1551,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1552,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1553,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1554,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1555,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1556,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1557,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1558,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1559,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1560,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1561,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1562,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1563,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1564,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1565,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1566,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1567,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1568,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1569,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1570,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1571,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1572,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1573,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1574,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1575,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1576,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1577,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1578,
+   "team": "G",
+   "title": "Mega factory queue ticket (GPT chat slots)",
+   "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1579,
+   "team": "G",
+   "title": "Season Results: a slow load must not pull you back after you moved on (Sol S5)",
+   "claimed": "2026-10-10T02:19:30Z"
+  },
+  {
+   "number": 1580,
+   "team": "G",
+   "title": "Showdown Gate: run the Rules lane only when its inputs changed",
+   "claimed": "2026-10-10T02:19:32Z"
+  },
+  {
+   "number": 1581,
+   "team": "G",
+   "title": "Showdown Gate: split the slowest lane and cache downloads",
+   "claimed": "2026-10-10T02:19:34Z"
+  },
+  {
+   "number": 1582,
+   "team": "G",
+   "title": "Showdown Gate: screen shots of changed screens as a run artifact",
+   "claimed": "2026-10-10T02:19:37Z"
+  },
+  {
+   "number": 1583,
+   "team": "G",
+   "title": "Codex measuring job (mega factory morning pack)",
+   "claimed": "2026-10-10T02:23:14Z"
+  },
+  {
+   "number": 1584,
+   "team": "G",
+   "title": "Codex measuring job (mega factory morning pack)",
+   "claimed": "2026-10-10T02:23:14Z"
+  },
+  {
+   "number": 1585,
+   "team": "G",
+   "title": "Codex measuring job (mega factory morning pack)",
+   "claimed": "2026-10-10T02:23:14Z"
+  },
+  {
+   "number": 1586,
+   "team": "G",
+   "title": "Codex measuring job (mega factory morning pack)",
+   "claimed": "2026-10-10T02:23:14Z"
+  },
+  {
+   "number": 1587,
+   "team": "G",
+   "title": "Season Results: a passing Transfer Challenge read hiccup must not fail the publish (Sol S2)",
+   "claimed": "2026-10-10T02:38:42Z"
+  },
+  {
+   "number": 1588,
+   "team": "V",
+   "title": "Phone mockup picture tickets (12 screens, Nik makes pictures in GPT)",
+   "claimed": "2026-10-10T15:34:59Z"
+  },
+  {
+   "number": 1589,
+   "team": "G",
+   "title": "Old-design flash: browser regression guard (tests only)",
+   "claimed": "2026-10-10T17:40:22Z"
+  },
+  {
+   "number": 1590,
+   "team": "G",
+   "title": "Old-design flash: audit of screens with no Team V look (read only)",
+   "claimed": "2026-10-10T17:40:24Z"
+  }
+ ]
+}
