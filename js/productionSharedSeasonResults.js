@@ -63,7 +63,7 @@
     await pssrEnsureDependencies();
     if(!(light===true&&pssrSetupState()?.ready===true&&pssrTransferComplete(request))){
       await setupApi.refresh();if(!pssrContextMatches(request))pssrFail("SEASON_RESULTS_CONTEXT_STALE");
-      await transferApi.refresh();if(!pssrContextMatches(request))pssrFail("SEASON_RESULTS_CONTEXT_STALE");
+      try{await transferApi.refresh();}catch(error){if(!(pssrContextMatches(request)&&pssrTransferComplete(request)))throw error;}if(!pssrContextMatches(request))pssrFail("SEASON_RESULTS_CONTEXT_STALE");
     }
     if(!pssrTransferComplete(request))pssrFail("SEASON_RESULTS_TRANSFER_NOT_COMPLETE","Finish the shared Transfer Challenge before publishing Season Results.");
     const setup=pssrSetupState();
