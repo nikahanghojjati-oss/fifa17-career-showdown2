@@ -1395,6 +1395,19 @@
      "place": "Codex cloud, this repo",
      "note": "ticket jobs/JOB-1586.md (mega factory C4-C7)",
      "prompt": "Job 1586: git fetch origin factory/gameplay-v1, then read git show FETCH_HEAD:project-documents/gameplay-factory/jobs/JOB-1586.md and do exactly what it says."
+    },
+    {
+     "id": "1587",
+     "title": "Season Results: a passing Transfer Challenge read hiccup must not fail the publish (Sol S2)",
+     "lane": "chat",
+     "team": "blue",
+     "model": "GPT-6 Sol",
+     "effort": "High",
+     "state": "next: ready for Sol chat",
+     "order": 41,
+     "place": "ChatGPT project \"Career Mode Showdown\", normal chat",
+     "note": "ticket jobs/JOB-1587.md",
+     "prompt": "Job 1587: read project-documents/gameplay-factory/jobs/JOB-1587.md on branch factory/gameplay-v1 with the GitHub connector and do exactly what it says."
     }
    ]
   },
