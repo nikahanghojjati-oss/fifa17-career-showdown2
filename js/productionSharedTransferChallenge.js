@@ -60,14 +60,15 @@
     const monotonicNow=pstcMonotonicNow();
     if(pstcClockReady(request)&&Number.isFinite(clockRefreshPerformanceMs)&&monotonicNow-clockRefreshPerformanceMs<CLOCK_REFRESH_MS)return true;
     if(!user||typeof user.getIdTokenResult!=="function")pstcFail("TRANSFER_CLOCK_UNAVAILABLE","Connected account server time is unavailable.");
+    const requestPerformanceMs=pstcMonotonicNow();
     const token=await user.getIdTokenResult(true);
     if(!pstcRequestMatches(request))return false;
     const issuedAtEpochMs=Date.parse(String(token?.issuedAtTime||""));
     if(!Number.isFinite(issuedAtEpochMs)||issuedAtEpochMs<=0)pstcFail("TRANSFER_CLOCK_UNAVAILABLE","The connected account did not provide a valid server time anchor.");
     const receiptPerformanceMs=pstcMonotonicNow();
     clockContextKey=request.key;
-    clockServerEpochMs=issuedAtEpochMs;
-    clockPerformanceMs=receiptPerformanceMs;
+    clockServerEpochMs=issuedAtEpochMs+(issuedAtEpochMs%1000===0?500:0);
+    clockPerformanceMs=(requestPerformanceMs+receiptPerformanceMs)/2;
     clockRefreshPerformanceMs=receiptPerformanceMs;
     return true;
   }
