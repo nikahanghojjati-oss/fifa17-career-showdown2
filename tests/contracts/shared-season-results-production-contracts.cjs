@@ -28,6 +28,7 @@ assert.match(adapter,/sharedShowdownCatalog\.js/);
 assert.ok(adapter.indexOf('js/sharedShowdownCatalog.js')<adapter.indexOf('js/sparkSharedSeasonResults.js'),'Season Results must load the authoritative catalog before provider factory initialization');
 assert.match(adapter,/provider\.publishResult/);
 assert.match(adapter,/provider\.read/);
+assert.match(adapter,/try\{await transferApi\.refresh\(\);\}catch\(error\)\{if\(!\(pssrContextMatches\(request\)&&pssrTransferComplete\(request\)\)\)throw error;\}if\(!pssrContextMatches\(request\)\)pssrFail\("SEASON_RESULTS_CONTEXT_STALE"\)/,'a failed Transfer Challenge refresh may be ignored only for a matching completed season; other failures must be rethrown and the context rechecked');
 assert.match(adapter,/pssrFingerprint\(currentResult\)!==draft\.fingerprint/,'reviewed payload must be revalidated immediately before publication');
 assert.match(adapter,/draft&&draft\.contextKey===contextKey[\s\S]*pssrRenderReview\(draft\.result\)/,'ordinary provider refresh must preserve an unpublished local Review draft');
 assert.doesNotMatch(adapter,/current\.finally\(/,'refresh cleanup must not create an ignored rejecting finally child promise');
