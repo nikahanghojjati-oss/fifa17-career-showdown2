@@ -22,7 +22,7 @@ BLOB = f"{REPO}/blob/factory/gameplay-v1/project-documents/gameplay-factory/"
 PR = f"{REPO}/pull/"
 QI = {l: i for i, l in enumerate(HEX)}
 e = html.escape
-LIMIT = 9500  # the coordinator's Custom view tab (took 9 KB whole, so stay near that on 2026-10-09 22:26 UTC; was 7000)
+LIMIT = 9800  # the coordinator's Custom view tab (took 9 KB whole, so stay near that on 2026-10-09 22:26 UTC; was 7000)
 RAW = "https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/gameplay-v1/project-documents/gameplay-factory/"
 
 st = json.load(open(os.path.join(F, "BOARD_STATE.json")))
@@ -704,6 +704,21 @@ def stages():
     return st, cur
 
 
+_WOW = {}
+
+
+def v_svg():
+    """Team V's visual board as one inline SVG (tools/wow_svg.py). Built once per run from the same lists as the text view."""
+    if not _WOW:
+        import wow_svg
+        SG_, cur_ = stages()
+        jobs_ = [(x["id"], re.sub(r"^\d+ · [GV] ", "", x["title"]), (x["progress"][0]["pct"] if x.get("progress") else None)) for x in items["V"]["fix"]]
+        tiles_ = [((LV or {}).get("revision", "?").split("-")[-1], "Live"), (len(Q["run"]), "Jobs running"), (len(Q["next"]), "Jobs to start"),
+                  (len([x for x in nik if not x.get("md")]), "Other asks")]
+        _WOW["svg"] = wow_svg.dashboard(SG_, cur_, TWO.get("tickets") or [], jobs_, tiles_, title="Team V board · Haiku V")
+    return _WOW["svg"]
+
+
 def render(first, compact=False, tight=False):
     TIGHT[0] = tight
     cut = 40 if compact else 70
@@ -723,6 +738,8 @@ def render(first, compact=False, tight=False):
          '<div class="cv">',
          f'<div class="ban"><b>Bug hunt board · {"Haiku G" if first == "G" else "Haiku V"}</b><span>Updated {now:%a %-d %b, %-I:%M %p} Boston time · same board as Team {"V" if first == "G" else "G"}\'s · <a href="{BLOB}BOARD.md">on GitHub</a>' + ("" if tight else f' · <a href="{BLOB}RELAY.md">relay</a>') + '</span></div>',
          f'<div class="tiles"><div class="tile"><b>{e((LV or {}).get("revision", "?").split("-")[-1])}</b><span>Live</span></div><div class="tile"><b>{n_run}</b><span>Jobs running</span></div><div class="tile"><b>{n_next}</b><span>Jobs to start</span></div><div class="tile"><b>{n_nik}</b><span>Other asks</span></div></div>' if not tight else f'<div class="m foot">Live: {e((LV or {}).get("revision", "?").split("-")[-1])}</div>']
+    if first == "V" and not tight:  # Nik 2026-10-10: the visual board, one inline SVG
+        H.append(f'<div style="margin:6px 10px">{v_svg()}</div>')
     H.append("<h2>Jobs</h2>")
     J = []
     for z in STUDIO.values():
@@ -743,14 +760,15 @@ def render(first, compact=False, tight=False):
         J.append('<span class="k">Done, no game code</span> ' + ", ".join(e(q["n"]) for q in NOCODE_Q))
     H.append('<div class="card move">' + ("<br>".join(J) or "No numbered job is open.") + "</div>")
     order = ("G", "V") if first == "G" else ("V", "G")
-    H.append("<h2>Goals, in this order</h2>")
-    SG, cur = stages()
-    gl = []
-    for i, (name, pct, lines) in enumerate(SG):
-        tag = "now" if i == cur else ("done" if pct >= 100 else "after stage " + str(i))
-        gl.append(f'<b>{i + 1}. {e(name)}</b> <span class="tm">{tag}</span><br><b class="br"><i class="q{8 if i == cur else 9}" style="width:{max(pct, 2):.0f}%"></i></b><span class="pc">{pct:.4f} %</span>'
-                  + ("<br><span class='m'>" + e(" · ".join(lines)) + "</span>" if (i == cur or not tight) else ""))
-    H.append('<div class="card">' + "<br>".join(gl) + "</div>")
+    if not (first == "V" and not tight):  # Team V's inline SVG already draws the goal bars (Nik 2026-10-10)
+        H.append("<h2>Goals, in this order</h2>")
+        SG, cur = stages()
+        gl = []
+        for i, (name, pct, lines) in enumerate(SG):
+            tag = "now" if i == cur else ("done" if pct >= 100 else "after stage " + str(i))
+            gl.append(f'<b>{i + 1}. {e(name)}</b> <span class="tm">{tag}</span><br><b class="br"><i class="q{8 if i == cur else 9}" style="width:{max(pct, 2):.0f}%"></i></b><span class="pc">{pct:.4f} %</span>'
+                      + ("<br><span class='m'>" + e(" · ".join(lines)) + "</span>" if (i == cur or not tight) else ""))
+        H.append('<div class="card">' + "<br>".join(gl) + "</div>")
     if nik:
         H.append("<h2>Other asks</h2>")
         H.append('<div class="card">' + "<br>".join((md(x["decision"]) if x.get("md") else f'<b>{e(x["id"])}</b> {e(x["decision"])}') for x in nik) + "</div>")
@@ -776,6 +794,7 @@ def render(first, compact=False, tight=False):
     return "\n".join(H) + "\n"
 
 
+open(os.path.join(F, "CUSTOM_VIEW_V.svg"), "w").write(v_svg())  # GitHub shows this committed SVG inline in RELAY.md
 for team, fn in (("G", "CUSTOM_VIEW.html"), ("V", "CUSTOM_VIEW_V.html")):
     out = render(team)  # the jobs card is never cut; the sections below it shrink to fit the Custom view
     if len(out.encode()) > LIMIT:

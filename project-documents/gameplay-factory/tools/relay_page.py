@@ -10,6 +10,7 @@ import two_factories as TF
 st = json.load(open(os.path.join(TF.F, "BOARD_STATE.json")))
 R = TF.relay()
 L = ["# 📡 Team G ↔ Team V relay: every message", "", f"[Back to the board](BOARD.md) · generated {st['generated']}", ""]
+L += ["![Team V board](CUSTOM_VIEW_V.svg)", ""]  # Nik 2026-10-10: the visual board, committed SVG (tools/wow_svg.py)
 if not R:
     L += ["Could not read the relay branch this run. Nothing below is current."]
 else:
