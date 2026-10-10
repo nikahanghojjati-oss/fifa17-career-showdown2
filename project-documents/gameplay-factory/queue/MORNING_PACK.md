@@ -1,5 +1,7 @@
 # Morning pack for Saturday 11 Oct (Nik)
 
+> **Superseded by [TOMORROW.md](TOMORROW.md): one system, bare numbers only.** The long Codex lines below still work as a fallback. Setup: INSTRUCTIONS.md (ChatGPT) and CODEX_SETUP.md (Codex).
+
 Everything below is ready now. The board's Type now list stays the live source; this pack just gives you a big first batch.
 
 ## A0. Do this one first (Sol chat, a real bug fix from the lead)
