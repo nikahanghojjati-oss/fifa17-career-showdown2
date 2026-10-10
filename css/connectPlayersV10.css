@@ -75,3 +75,23 @@
  .connectPlayersWorkspace{height:max(180px,calc(100svh - var(--cp-top) - var(--cp-bottom) - 270px));}
  .connectPlayersRole p{display:none;}#persistentNikDanielPairPanel>p{font-size:11px;}
 }
+
+/* JOB-1090: compact portrait phones use one screen scroll, never a clipped or nested panel. */
+@media (max-width:375px) and (max-height:680px){
+ #connectPlayersScreen{
+  justify-content:flex-start;
+  padding-top:clamp(158px,29svh,194px);
+  overflow-x:hidden;
+  overflow-y:auto;
+  overscroll-behavior-y:contain;
+  -webkit-overflow-scrolling:touch;
+ }
+ .connectPlayersHeader{flex:0 0 auto;}
+ .connectPlayersKicker,.connectPlayersTagline{display:block;}
+ .connectPlayersWorkspace{width:100%;height:auto;flex:0 0 auto;overflow:visible;}
+ .connectPlayersRole p{display:block;}
+ #connectPlayersPairSlot{flex:0 0 auto;overflow:visible;overscroll-behavior:auto;}
+ #persistentNikDanielPairPanel,#persistentNikDanielPairPanel>div{min-width:0;}
+ #connectPlayersScreen .menuButton{min-width:0;max-width:100%;white-space:normal;overflow-wrap:anywhere;}
+ .connectPlayersTabs span{white-space:normal;overflow-wrap:anywhere;text-align:center;}
+}
