@@ -29,7 +29,7 @@
    47
   ],
   "ready_codex": [],
-  "held_until_picture": 101,
+  "held_until_picture": 96,
   "open_code_prs": 0,
   "open_train_prs": 0,
   "next_free": 36,
@@ -556,7 +556,7 @@
    "518": "waiting"
   }
  },
- "updated": "2026-10-10T16:44:48Z",
+ "updated": "2026-10-10T16:49:06Z",
  "counts": {
   "on_train": 18,
   "waiting": 483,
