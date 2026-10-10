@@ -12,7 +12,7 @@ Read: `js/sparkSharedSeasonResults.js` lines 1 to 102 (the first half of 204 lin
     ...const members=...,expires=ssrpTimestampMillis(value.data.expiresAt);
     if(...||!Number.isFinite(expires))ssrpFail("SEASON_RESULTS_ACTIVE_SESSION_REQUIRED");
   ```
-  The function takes `now` (line 60), and reads `expires` (line 62), but never compares them. Only `Number.isFinite(expires)` is checked. The fix is one comparison, and the sibling check in `productionSharedShowdownPresentation`-style code (`Date.now()<expiry`) shows the intent.
+  The function takes `now` (line 60), and reads `expires` (line 62), but never compares them. Only `Number.isFinite(expires)` is checked. The fix is one comparison. The same file family already does it elsewhere: `js/productionSharedTerminalClose.js` line 187 uses `Date.now()<expiry`, which shows the intent.
 - **Smallest change:** add `||!(expires>now)` to the condition on line 63, so an expired session fails with `SEASON_RESULTS_ACTIVE_SESSION_REQUIRED`.
 - **Confidence limit:** PROBABLE. The server rules or the transaction may already reject an expired session. This job did not read the Firestore rules or the transaction, so it did not confirm that.
 
