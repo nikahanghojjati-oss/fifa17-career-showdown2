@@ -112,10 +112,11 @@
    Settings now never shows them, whatever the start order. Their controls stay in the DOM for the internal flows. */
 #settingsOverlay #settingsContent :is(#sparkConnectedAccountPanel, #sparkPrivatePairingPanel, #sparkConnectedRivalryPanel, #saveLibraryProductPanel, .settingsOfflinePanel):not([data-test-surface="internal-audit"]) { display:none !important; }
 
-/* JOB-1409: 360x640 Rule Book uses one page-length scroll, not a clipped stage
-   with a second scroll area around its rule cards. Limit to compact portrait
-   handsets; the 390x844 phone and all desktop compositions remain unchanged. */
-@media (min-width:350px) and (max-width:375px) and (max-height:680px) and (orientation:portrait) {
+/* JOB-1409 / JOB-1410: Preserve the 360x640 single-page Rule Book and extend
+   its unclipped, one-scroll-column layout to the 390x844 portrait handset range.
+   Other phone geometries and desktop layouts retain their existing styles. */
+@media (min-width:350px) and (max-width:375px) and (max-height:680px) and (orientation:portrait),
+       (min-width:376px) and (max-width:405px) and (min-height:650px) and (max-height:900px) and (orientation:portrait) {
   #ruleBook.v10RuleBook {
     height:100dvh;
     overflow-x:hidden;
