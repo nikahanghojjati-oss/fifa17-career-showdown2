@@ -19,7 +19,8 @@
  "approved": {
   "PHONE": [
    "HOME",
-   "CONNECT_PLAYERS"
+   "CONNECT_PLAYERS",
+   "SEASON_RESULTS"
   ],
   "NEXT": []
  },
