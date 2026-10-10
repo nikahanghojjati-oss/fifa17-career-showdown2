@@ -40,6 +40,7 @@
    17
   ],
   "open_code_prs": 0,
+  "open_train_prs": 0,
   "next_free": 1,
   "highest_taken": 0,
   "total": 518,
@@ -564,7 +565,7 @@
    "518": "waiting"
   }
  },
- "updated": "2026-10-10T02:11:49Z",
+ "updated": "2026-10-10T02:14:02Z",
  "counts": {
   "waiting": 518
  },
@@ -595,127 +596,679 @@
    "merged": 0
   }
  },
- "slots": {
-  "A1": {
-   "kind": "worker",
-   "next_job": "1061",
-   "taken": 0,
-   "total": 29
+ "slots": {},
+ "trains": {
+  "gameplay/train-home-1": {
+   "jobs": [
+    1061,
+    1062,
+    1063,
+    1064,
+    1065
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
   },
-  "A2": {
-   "kind": "worker",
-   "next_job": "1090",
-   "taken": 0,
-   "total": 29
+  "gameplay/train-home-2": {
+   "jobs": [
+    1066,
+    1067,
+    1068,
+    1069,
+    1070
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
   },
-  "A3": {
-   "kind": "worker",
-   "next_job": "1119",
-   "taken": 0,
-   "total": 29
+  "gameplay/train-home-3": {
+   "jobs": [
+    1071,
+    1072,
+    1073,
+    1074,
+    1075
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
   },
-  "A4": {
-   "kind": "worker",
-   "next_job": "1148",
-   "taken": 0,
-   "total": 29
+  "gameplay/train-home-4": {
+   "jobs": [
+    1076,
+    1077,
+    1078,
+    1079,
+    1080
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
   },
-  "A5": {
-   "kind": "worker",
-   "next_job": "1177",
-   "taken": 0,
-   "total": 29
+  "gameplay/train-start-join-1": {
+   "jobs": [
+    1090,
+    1091,
+    1092,
+    1093,
+    1094
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
   },
-  "A6": {
-   "kind": "worker",
-   "next_job": "1206",
-   "taken": 0,
-   "total": 29
+  "gameplay/train-start-join-2": {
+   "jobs": [
+    1095,
+    1096,
+    1097,
+    1098,
+    1099
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
   },
-  "A7": {
-   "kind": "worker",
-   "next_job": "1235",
-   "taken": 0,
-   "total": 29
+  "gameplay/train-start-join-3": {
+   "jobs": [
+    1100,
+    1101,
+    1102,
+    1103,
+    1104
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
   },
-  "A8": {
-   "kind": "worker",
-   "next_job": "1264",
-   "taken": 0,
-   "total": 29
+  "gameplay/train-start-join-4": {
+   "jobs": [
+    1105,
+    1106,
+    1107,
+    1108,
+    1109
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
   },
-  "A9": {
-   "kind": "worker",
-   "next_job": "1293",
-   "taken": 0,
-   "total": 29
+  "gameplay/train-league-1": {
+   "jobs": [
+    1119,
+    1120,
+    1121,
+    1122,
+    1123
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
   },
-  "A10": {
-   "kind": "worker",
-   "next_job": "1322",
-   "taken": 0,
-   "total": 29
+  "gameplay/train-league-2": {
+   "jobs": [
+    1124,
+    1125,
+    1126,
+    1127,
+    1128
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
   },
-  "B1": {
-   "kind": "worker",
-   "next_job": "1351",
-   "taken": 0,
-   "total": 29
+  "gameplay/train-league-3": {
+   "jobs": [
+    1129,
+    1130,
+    1131,
+    1132,
+    1133
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
   },
-  "B2": {
-   "kind": "worker",
-   "next_job": "1380",
-   "taken": 0,
-   "total": 29
+  "gameplay/train-league-4": {
+   "jobs": [
+    1134,
+    1135,
+    1136,
+    1137,
+    1138
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
   },
-  "B3": {
-   "kind": "worker",
-   "next_job": "1409",
-   "taken": 0,
-   "total": 29
+  "gameplay/train-club-1": {
+   "jobs": [
+    1148,
+    1149,
+    1150,
+    1151,
+    1152
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
   },
-  "B4": {
-   "kind": "worker",
-   "next_job": "1438",
-   "taken": 0,
-   "total": 29
+  "gameplay/train-club-2": {
+   "jobs": [
+    1153,
+    1154,
+    1155,
+    1156,
+    1157
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
   },
-  "B5": {
-   "kind": "worker",
-   "next_job": "1467",
-   "taken": 0,
-   "total": 23
+  "gameplay/train-club-3": {
+   "jobs": [
+    1158,
+    1159,
+    1160,
+    1161,
+    1162
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
   },
-  "B6": {
-   "kind": "worker",
-   "next_job": "1468",
-   "taken": 0,
-   "total": 23
+  "gameplay/train-club-4": {
+   "jobs": [
+    1163,
+    1164,
+    1165,
+    1166,
+    1167
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
   },
-  "B7": {
-   "kind": "worker",
-   "next_job": "1469",
-   "taken": 0,
-   "total": 22
+  "gameplay/train-transfer-1": {
+   "jobs": [
+    1177,
+    1178,
+    1179,
+    1180,
+    1181
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
   },
-  "B8": {
-   "kind": "worker",
-   "next_job": "1470",
-   "taken": 0,
-   "total": 22
+  "gameplay/train-transfer-2": {
+   "jobs": [
+    1182,
+    1183,
+    1184,
+    1185,
+    1186
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
   },
-  "B9": {
-   "kind": "worker",
-   "next_job": "1471",
-   "taken": 0,
-   "total": 22
+  "gameplay/train-transfer-3": {
+   "jobs": [
+    1187,
+    1188,
+    1189,
+    1190,
+    1191
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
   },
-  "B10": {
-   "kind": "reviewer",
-   "next_job": null,
-   "taken": 0,
-   "total": 0,
-   "reviews_waiting": 0
+  "gameplay/train-transfer-4": {
+   "jobs": [
+    1192,
+    1193,
+    1194,
+    1195,
+    1196
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-season-final-1": {
+   "jobs": [
+    1206,
+    1207,
+    1208,
+    1209,
+    1210
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-season-final-2": {
+   "jobs": [
+    1211,
+    1212,
+    1213,
+    1214,
+    1215
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-season-final-3": {
+   "jobs": [
+    1216,
+    1217,
+    1218,
+    1219,
+    1220
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-season-final-4": {
+   "jobs": [
+    1221,
+    1222,
+    1223,
+    1224,
+    1225
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-season-final-5": {
+   "jobs": [
+    1235,
+    1236,
+    1237,
+    1238,
+    1239
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-season-final-6": {
+   "jobs": [
+    1240,
+    1241,
+    1242,
+    1243,
+    1244
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-season-final-7": {
+   "jobs": [
+    1245,
+    1246,
+    1247,
+    1248,
+    1249
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-season-final-8": {
+   "jobs": [
+    1250,
+    1251,
+    1252,
+    1253,
+    1254
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-season-final-9": {
+   "jobs": [
+    1264,
+    1265,
+    1266,
+    1267,
+    1268
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-season-final-10": {
+   "jobs": [
+    1269,
+    1270,
+    1271,
+    1272,
+    1273
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-season-final-11": {
+   "jobs": [
+    1274,
+    1275,
+    1276,
+    1277,
+    1278
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-season-final-12": {
+   "jobs": [
+    1279,
+    1280,
+    1281,
+    1282,
+    1283
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-rivalry-legacy-1": {
+   "jobs": [
+    1293,
+    1294,
+    1295,
+    1296,
+    1297
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-rivalry-legacy-2": {
+   "jobs": [
+    1298,
+    1299,
+    1300,
+    1301,
+    1302
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-rivalry-legacy-3": {
+   "jobs": [
+    1303,
+    1304,
+    1305,
+    1306,
+    1307
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-rivalry-legacy-4": {
+   "jobs": [
+    1308,
+    1309,
+    1310,
+    1311,
+    1312
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-career-screens-1": {
+   "jobs": [
+    1322,
+    1323,
+    1324,
+    1325,
+    1326
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-career-screens-2": {
+   "jobs": [
+    1327,
+    1328,
+    1329,
+    1330,
+    1331
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-career-screens-3": {
+   "jobs": [
+    1332,
+    1333,
+    1334,
+    1335,
+    1336
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-career-screens-4": {
+   "jobs": [
+    1337,
+    1338,
+    1339,
+    1340,
+    1341
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-rivalry-legacy-5": {
+   "jobs": [
+    1351,
+    1352,
+    1353,
+    1354,
+    1355
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-rivalry-legacy-6": {
+   "jobs": [
+    1356,
+    1357,
+    1358,
+    1359,
+    1360
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-rivalry-legacy-7": {
+   "jobs": [
+    1361,
+    1362,
+    1363,
+    1364,
+    1365
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-rivalry-legacy-8": {
+   "jobs": [
+    1366,
+    1367,
+    1368,
+    1369,
+    1370
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-career-screens-5": {
+   "jobs": [
+    1380,
+    1381,
+    1382,
+    1383,
+    1384
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-career-screens-6": {
+   "jobs": [
+    1385,
+    1386,
+    1387,
+    1388,
+    1389
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-career-screens-7": {
+   "jobs": [
+    1390,
+    1391,
+    1392,
+    1393,
+    1394
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-career-screens-8": {
+   "jobs": [
+    1395,
+    1396,
+    1397,
+    1398,
+    1399
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-rules-settings-1": {
+   "jobs": [
+    1409,
+    1410,
+    1411,
+    1412,
+    1413
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-rules-settings-2": {
+   "jobs": [
+    1414,
+    1415,
+    1416,
+    1417,
+    1418
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-rules-settings-3": {
+   "jobs": [
+    1419,
+    1420,
+    1421,
+    1422,
+    1423
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-rules-settings-4": {
+   "jobs": [
+    1424,
+    1425,
+    1426,
+    1427,
+    1428
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-rules-settings-5": {
+   "jobs": [
+    1438,
+    1439,
+    1440,
+    1441,
+    1442
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-rules-settings-6": {
+   "jobs": [
+    1443,
+    1444,
+    1445,
+    1446,
+    1447
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-rules-settings-7": {
+   "jobs": [
+    1448,
+    1449,
+    1450,
+    1451,
+    1452
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-rules-settings-8": {
+   "jobs": [
+    1453,
+    1454,
+    1455,
+    1456,
+    1457
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
   }
  },
  "tickets": {

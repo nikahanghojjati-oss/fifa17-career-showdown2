@@ -92,6 +92,21 @@ RULES = """## Rules for every queue job (read first)
 - **Done:** reply with one line: `Job {n} done, PR <link>.` Do not ask to continue.
 """
 
+RULES_CODE = """## Rules for every queue job (read first)
+- **Train branch:** code jobs of one lock group are stacked in order on a shared train branch, so one check and one review cover several fixes. This job is item **{pos} of {m}** of train **`{train}`**. Do `git fetch origin {train}` first. If the branch does not exist and you are item 1, create it from `{base}` and push it. Commit this job onto it (never onto `{base}`, `main`, `gameplay/recovery-v1` or any other train). Never merge, never force-push.
+- **Scope:** change only the editable files named above. If it truly needs another file, change it and say why in the commit message.
+- **Never** edit `index.html`, `service-worker.js`, the release version or anything under `.github/`. Tests may only be added, never edited, deleted, skipped or loosened to make them pass. No player-visible text changes unless this ticket says so. Scoring, game rules and every screen's order of taps stay exactly as they are. Never use sessionStorage. Never touch anything under `visual-assets/v10_1/` (Team V's frozen design files), `tests/fixtures/`, and do not edit anything in `scripts/` (running it is fine).
+- **Checks:** run `node scripts/pos10-syntax.mjs` and `npm run -s test:contracts` and keep the last lines. Re-read your edit once.
+- **Always commit the status file:** `project-documents/gameplay-factory/status/JOB-{n}.md` with one line: `done` plus a sentence on what changed, or `no change needed` plus the three risks you checked, or `NEEDS TEAM V` plus what and why. That file is how the factory knows this job is finished. Commit message: `JOB-{n} [{group}] <ticket title>`. Push the train branch.
+{pr}- **If you cannot finish** (a file is missing, a limit is reached): commit only the status file with `blocked` and the reason, and push. That frees the group's next job.
+"""
+RULES_CODE_PR_LAST = """- **Open the train's pull request as a DRAFT:** you are the last item of this train. Open one draft PR from `{train}` into `{base}` titled `{titles} [{group}] train {k}`, with a body listing the {m} jobs ({jobs}), a "Before:" paragraph, an "After:" paragraph, the test lines, and which jobs were `no change needed`. Never mark it ready yourself; the Team G lead marks at most eight ready.
+- **Done:** reply with one line: `Job {n} done, train PR <link>.` Do not ask to continue.
+"""
+RULES_CODE_PR_MID = """- **Do not open a pull request:** later items of this train still have to be committed. 
+- **Done:** reply with one line: `Job {n} committed on {train} ({pos} of {m}).` Do not ask to continue.
+"""
+
 SIZE = """## Size of this job (one chat turn)
 Read at most 5 files besides this ticket, write at most 3 files (about 200 changed lines), make one decision (the DEFAULT covers the rest), save as you go and end with one line.
 """
@@ -250,11 +265,19 @@ AUDIT_MODULES = [
  "careerScreensV10", "rivalryLegacyV10", "transferScreenV10", "clubScreenV10", "seasonFinalV10", "homeScreensV10", "v10Screens",
 ]
 
-def generic(n, title, stage, base, body, files, branch_kind="gameplay", tag="", done=""):
+def rules_text(base, branch_kind, n, tag, tr):
+    if not tr:
+        return RULES.format(base=base, branch=f'{branch_kind}/job-{n}', n=n, tag=tag)
+    pr = (RULES_CODE_PR_LAST if tr["last"] else RULES_CODE_PR_MID).format(
+        n=n, train=tr["branch"], base=base, group=tr["group"], k=tr["k"], m=tr["m"], pos=tr["pos"],
+        titles=" ".join(f"JOB-{j}" for j in tr["jobs"]), jobs=", ".join(str(j) for j in tr["jobs"]))
+    return RULES_CODE.format(base=base, n=n, train=tr["branch"], pos=tr["pos"], m=tr["m"], group=tr["group"], pr=pr)
+
+def generic(n, title, stage, base, body, files, branch_kind="gameplay", tag="", done="", tr=None):
     extra = ("- **Open the pull request as a DRAFT** (this job adds new files only, so it needs no full CI run; the lead reads drafts without waiting for checks).\n" if base != BASE
              else "- **Open the pull request as a DRAFT.** The Team G lead marks at most eight ready for review, so each head is checked once. Never mark it ready yourself.\n")
     return (f"# JOB-{n} · {title} (stage {stage})\n\n{lane(base)}\n\n{body}\n"
-            f"## Read (only these)\n{reads_md(files)}\n\n{SIZE}\n{done}{RULES.format(base=base, branch=f'{branch_kind}/job-{n}', n=n, tag=tag)}{extra}")
+            f"## Read (only these)\n{reads_md(files)}\n\n{SIZE}\n{done}{rules_text(base, branch_kind, n, tag, tr)}{extra if not tr else ''}")
 
 def main():
     ap = argparse.ArgumentParser()
@@ -295,9 +318,20 @@ def main():
     out_jobs = GF / "jobs"; out_slots = GF / "queue" / "slots"
     out_slots.mkdir(parents=True, exist_ok=True)
     for d in ("results", "audits"): (GF / "queue" / d).mkdir(parents=True, exist_ok=True)
+    TRAIN = 5
+    chains = {}
+    for t in tickets:
+        if t["mode"] == "code":
+            chains.setdefault(GROUPS[t["screen"]], []).append(t)
+    for g, ch in chains.items():
+        for i, t in enumerate(ch):
+            k, pos = i // TRAIN + 1, i % TRAIN + 1
+            members = ch[(k - 1) * TRAIN: k * TRAIN]
+            t["train"] = {"branch": f"gameplay/train-{g}-{k}", "group": g, "k": k, "pos": pos, "m": len(members),
+                          "last": pos == len(members), "jobs": [x["job"] for x in members], "prev": ch[i - 1]["job"] if i else None}
     for t in tickets:
         j = t["job"]
-        t["prefix"] = f"study/job-{j}-" if t["mode"] == "study" else (f"qa/job-{j}-" if t["mode"] == "audit" else f"gameplay/job-{j}-")
+        t["prefix"] = f"study/job-{j}-" if t["mode"] == "study" else (f"qa/job-{j}-" if t["mode"] == "audit" else t["train"]["branch"])
         if t["mode"] == "study":
             body = (f"This is a **study**: new files only, no game code. Team V's lead decides which studies become real screens.\n\n" + t["text"].replace("<job>", str(j)).replace("<kind>", t["key"][3:]))
             md = generic(j, t["title"], t["stage"], STUDY_BASE, body, t["files"], "study")
@@ -311,11 +345,11 @@ def main():
             fl = ", ".join(f"`{f}`" for f in EDIT[t["screen"]])
             body += (f"\n**Editable files (the adapter layer, and the only ones you may change):** {fl}.\n"
                      f"**Frozen, read only:** everything under `visual-assets/v10_1/` is Team V's design source. If the fix would need a change there, do not make it: push only `status/JOB-{j}.md` saying `NEEDS TEAM V` with what and why.\n"
-                     f"**Lock group:** `{grp}` (one open code pull request per group at a time).\n")
+                     f"**Lock group:** `{grp}` (one open train pull request per group at a time).\n")
             vp = t["title"].split("fix the ")[1].split(" ")[0] if "fix the " in t["title"] else "1920x1080"
             done = (f"## Done check (the Team G lead runs this)\n- `node scripts/pos10-syntax.mjs` and `npm run -s test:contracts` pass in CI (Showdown Gate green).\n"
                     f"- The **{t['stitle'] if 'stitle' in t else t['screen']}** screen looks right at **{vp}** and is unchanged at 1920x1080 and 390x844 (except where this job says otherwise).\n\n")
-            md = generic(j, t["title"], t["stage"], BASE, body, t["files"], tag=f"[{grp}] ", done=done)
+            md = generic(j, t["title"], t["stage"], BASE, body, t["files"], tag=f"[{grp}] ", done=done, tr=t["train"])
             t["edit"] = EDIT[t["screen"]]
         (out_jobs / f"JOB-{j}.md").write_text(md)
     for s in SLOTS:
@@ -329,7 +363,7 @@ def main():
                       "standing_line": standing_line(s), "file": f"queue/slots/{s}.md",
                       "jobs": [t["job"] for t in slots[s]]} for s in SLOTS},
         "tickets": {str(t["job"]): {"title": t["title"], "stage": t["stage"], "screen": t["screen"],
-                                    "mode": t["mode"], "prefix": t["prefix"], "kind": t["key"], "group": t.get("group")} for t in tickets},
+                                    "mode": t["mode"], "prefix": t["prefix"], "kind": t["key"], "group": t.get("group"), "train": t.get("train")} for t in tickets},
         "base_branches": {"code": BASE, "study": STUDY_BASE, "audit": AUDIT_BASE},
     }
     (GF / "queue" / "QUEUE.json").write_text(json.dumps(q, indent=1, ensure_ascii=False) + "\n")

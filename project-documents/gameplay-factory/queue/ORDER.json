@@ -5,7 +5,7 @@
   "1": {
    "group": "home",
    "job": 1061,
-   "prefix": "gameplay/job-1061-",
+   "prefix": "gameplay/train-home-1",
    "stage": 2,
    "title": "Home: fix the 360x640 view",
    "mode": "code",
@@ -23,7 +23,7 @@
   "3": {
    "group": "start-join",
    "job": 1090,
-   "prefix": "gameplay/job-1090-",
+   "prefix": "gameplay/train-start-join-1",
    "stage": 2,
    "title": "Connect Players (start and join): fix the 360x640 view",
    "mode": "code",
@@ -41,7 +41,7 @@
   "5": {
    "group": "league",
    "job": 1119,
-   "prefix": "gameplay/job-1119-",
+   "prefix": "gameplay/train-league-1",
    "stage": 2,
    "title": "Select League: fix the 360x640 view",
    "mode": "code",
@@ -59,7 +59,7 @@
   "7": {
    "group": "club",
    "job": 1148,
-   "prefix": "gameplay/job-1148-",
+   "prefix": "gameplay/train-club-1",
    "stage": 2,
    "title": "Club packs: fix the 360x640 view",
    "mode": "code",
@@ -77,7 +77,7 @@
   "9": {
    "group": "transfer",
    "job": 1177,
-   "prefix": "gameplay/job-1177-",
+   "prefix": "gameplay/train-transfer-1",
    "stage": 2,
    "title": "Transfer challenge and Signing Entry: fix the 360x640 view",
    "mode": "code",
@@ -95,7 +95,7 @@
   "11": {
    "group": "season-final",
    "job": 1206,
-   "prefix": "gameplay/job-1206-",
+   "prefix": "gameplay/train-season-final-1",
    "stage": 2,
    "title": "Season Results: fix the 360x640 view",
    "mode": "code",
@@ -113,7 +113,7 @@
   "13": {
    "group": "rivalry-legacy",
    "job": 1293,
-   "prefix": "gameplay/job-1293-",
+   "prefix": "gameplay/train-rivalry-legacy-1",
    "stage": 2,
    "title": "Legacy: fix the 360x640 view",
    "mode": "code",
@@ -131,7 +131,7 @@
   "15": {
    "group": "career-screens",
    "job": 1322,
-   "prefix": "gameplay/job-1322-",
+   "prefix": "gameplay/train-career-screens-1",
    "stage": 2,
    "title": "Trophy Room: fix the 360x640 view",
    "mode": "code",
@@ -149,7 +149,7 @@
   "17": {
    "group": "rules-settings",
    "job": 1409,
-   "prefix": "gameplay/job-1409-",
+   "prefix": "gameplay/train-rules-settings-1",
    "stage": 2,
    "title": "Rule Book: fix the 360x640 view",
    "mode": "code",
@@ -167,7 +167,7 @@
   "19": {
    "group": "home",
    "job": 1062,
-   "prefix": "gameplay/job-1062-",
+   "prefix": "gameplay/train-home-1",
    "stage": 2,
    "title": "Home: fix the 390x844 view",
    "mode": "code",
@@ -185,7 +185,7 @@
   "21": {
    "group": "start-join",
    "job": 1091,
-   "prefix": "gameplay/job-1091-",
+   "prefix": "gameplay/train-start-join-1",
    "stage": 2,
    "title": "Connect Players (start and join): fix the 390x844 view",
    "mode": "code",
@@ -203,7 +203,7 @@
   "23": {
    "group": "league",
    "job": 1120,
-   "prefix": "gameplay/job-1120-",
+   "prefix": "gameplay/train-league-1",
    "stage": 2,
    "title": "Select League: fix the 390x844 view",
    "mode": "code",
@@ -221,7 +221,7 @@
   "25": {
    "group": "club",
    "job": 1149,
-   "prefix": "gameplay/job-1149-",
+   "prefix": "gameplay/train-club-1",
    "stage": 2,
    "title": "Club packs: fix the 390x844 view",
    "mode": "code",
@@ -239,7 +239,7 @@
   "27": {
    "group": "transfer",
    "job": 1178,
-   "prefix": "gameplay/job-1178-",
+   "prefix": "gameplay/train-transfer-1",
    "stage": 2,
    "title": "Transfer challenge and Signing Entry: fix the 390x844 view",
    "mode": "code",
@@ -257,7 +257,7 @@
   "29": {
    "group": "season-final",
    "job": 1207,
-   "prefix": "gameplay/job-1207-",
+   "prefix": "gameplay/train-season-final-1",
    "stage": 2,
    "title": "Season Results: fix the 390x844 view",
    "mode": "code",
@@ -275,7 +275,7 @@
   "31": {
    "group": "rivalry-legacy",
    "job": 1294,
-   "prefix": "gameplay/job-1294-",
+   "prefix": "gameplay/train-rivalry-legacy-1",
    "stage": 2,
    "title": "Legacy: fix the 390x844 view",
    "mode": "code",
@@ -293,7 +293,7 @@
   "33": {
    "group": "career-screens",
    "job": 1323,
-   "prefix": "gameplay/job-1323-",
+   "prefix": "gameplay/train-career-screens-1",
    "stage": 2,
    "title": "Trophy Room: fix the 390x844 view",
    "mode": "code",
@@ -311,7 +311,7 @@
   "35": {
    "group": "rules-settings",
    "job": 1410,
-   "prefix": "gameplay/job-1410-",
+   "prefix": "gameplay/train-rules-settings-1",
    "stage": 2,
    "title": "Rule Book: fix the 390x844 view",
    "mode": "code",
@@ -329,7 +329,7 @@
   "37": {
    "group": "home",
    "job": 1063,
-   "prefix": "gameplay/job-1063-",
+   "prefix": "gameplay/train-home-1",
    "stage": 2,
    "title": "Home: fix the 430x932 view",
    "mode": "code",
@@ -347,7 +347,7 @@
   "39": {
    "group": "start-join",
    "job": 1092,
-   "prefix": "gameplay/job-1092-",
+   "prefix": "gameplay/train-start-join-1",
    "stage": 2,
    "title": "Connect Players (start and join): fix the 430x932 view",
    "mode": "code",
@@ -365,7 +365,7 @@
   "41": {
    "group": "league",
    "job": 1121,
-   "prefix": "gameplay/job-1121-",
+   "prefix": "gameplay/train-league-1",
    "stage": 2,
    "title": "Select League: fix the 430x932 view",
    "mode": "code",
@@ -383,7 +383,7 @@
   "43": {
    "group": "club",
    "job": 1150,
-   "prefix": "gameplay/job-1150-",
+   "prefix": "gameplay/train-club-1",
    "stage": 2,
    "title": "Club packs: fix the 430x932 view",
    "mode": "code",
@@ -401,7 +401,7 @@
   "45": {
    "group": "transfer",
    "job": 1179,
-   "prefix": "gameplay/job-1179-",
+   "prefix": "gameplay/train-transfer-1",
    "stage": 2,
    "title": "Transfer challenge and Signing Entry: fix the 430x932 view",
    "mode": "code",
@@ -419,7 +419,7 @@
   "47": {
    "group": "season-final",
    "job": 1208,
-   "prefix": "gameplay/job-1208-",
+   "prefix": "gameplay/train-season-final-1",
    "stage": 2,
    "title": "Season Results: fix the 430x932 view",
    "mode": "code",
@@ -437,7 +437,7 @@
   "49": {
    "group": "rivalry-legacy",
    "job": 1295,
-   "prefix": "gameplay/job-1295-",
+   "prefix": "gameplay/train-rivalry-legacy-1",
    "stage": 2,
    "title": "Legacy: fix the 430x932 view",
    "mode": "code",
@@ -455,7 +455,7 @@
   "51": {
    "group": "career-screens",
    "job": 1324,
-   "prefix": "gameplay/job-1324-",
+   "prefix": "gameplay/train-career-screens-1",
    "stage": 2,
    "title": "Trophy Room: fix the 430x932 view",
    "mode": "code",
@@ -473,7 +473,7 @@
   "53": {
    "group": "rules-settings",
    "job": 1411,
-   "prefix": "gameplay/job-1411-",
+   "prefix": "gameplay/train-rules-settings-1",
    "stage": 2,
    "title": "Rule Book: fix the 430x932 view",
    "mode": "code",
@@ -491,7 +491,7 @@
   "55": {
    "group": "home",
    "job": 1064,
-   "prefix": "gameplay/job-1064-",
+   "prefix": "gameplay/train-home-1",
    "stage": 2,
    "title": "Home: fix the 844x390 view",
    "mode": "code",
@@ -509,7 +509,7 @@
   "57": {
    "group": "start-join",
    "job": 1093,
-   "prefix": "gameplay/job-1093-",
+   "prefix": "gameplay/train-start-join-1",
    "stage": 2,
    "title": "Connect Players (start and join): fix the 844x390 view",
    "mode": "code",
@@ -527,7 +527,7 @@
   "59": {
    "group": "league",
    "job": 1122,
-   "prefix": "gameplay/job-1122-",
+   "prefix": "gameplay/train-league-1",
    "stage": 2,
    "title": "Select League: fix the 844x390 view",
    "mode": "code",
@@ -545,7 +545,7 @@
   "61": {
    "group": "club",
    "job": 1151,
-   "prefix": "gameplay/job-1151-",
+   "prefix": "gameplay/train-club-1",
    "stage": 2,
    "title": "Club packs: fix the 844x390 view",
    "mode": "code",
@@ -563,7 +563,7 @@
   "63": {
    "group": "transfer",
    "job": 1180,
-   "prefix": "gameplay/job-1180-",
+   "prefix": "gameplay/train-transfer-1",
    "stage": 2,
    "title": "Transfer challenge and Signing Entry: fix the 844x390 view",
    "mode": "code",
@@ -581,7 +581,7 @@
   "65": {
    "group": "season-final",
    "job": 1209,
-   "prefix": "gameplay/job-1209-",
+   "prefix": "gameplay/train-season-final-1",
    "stage": 2,
    "title": "Season Results: fix the 844x390 view",
    "mode": "code",
@@ -599,7 +599,7 @@
   "67": {
    "group": "rivalry-legacy",
    "job": 1296,
-   "prefix": "gameplay/job-1296-",
+   "prefix": "gameplay/train-rivalry-legacy-1",
    "stage": 2,
    "title": "Legacy: fix the 844x390 view",
    "mode": "code",
@@ -617,7 +617,7 @@
   "69": {
    "group": "career-screens",
    "job": 1325,
-   "prefix": "gameplay/job-1325-",
+   "prefix": "gameplay/train-career-screens-1",
    "stage": 2,
    "title": "Trophy Room: fix the 844x390 view",
    "mode": "code",
@@ -635,7 +635,7 @@
   "71": {
    "group": "rules-settings",
    "job": 1412,
-   "prefix": "gameplay/job-1412-",
+   "prefix": "gameplay/train-rules-settings-1",
    "stage": 2,
    "title": "Rule Book: fix the 844x390 view",
    "mode": "code",
@@ -653,7 +653,7 @@
   "73": {
    "group": "home",
    "job": 1065,
-   "prefix": "gameplay/job-1065-",
+   "prefix": "gameplay/train-home-1",
    "stage": 2,
    "title": "Home: fix the 932x430 view",
    "mode": "code",
@@ -671,7 +671,7 @@
   "75": {
    "group": "start-join",
    "job": 1094,
-   "prefix": "gameplay/job-1094-",
+   "prefix": "gameplay/train-start-join-1",
    "stage": 2,
    "title": "Connect Players (start and join): fix the 932x430 view",
    "mode": "code",
@@ -689,7 +689,7 @@
   "77": {
    "group": "league",
    "job": 1123,
-   "prefix": "gameplay/job-1123-",
+   "prefix": "gameplay/train-league-1",
    "stage": 2,
    "title": "Select League: fix the 932x430 view",
    "mode": "code",
@@ -707,7 +707,7 @@
   "79": {
    "group": "club",
    "job": 1152,
-   "prefix": "gameplay/job-1152-",
+   "prefix": "gameplay/train-club-1",
    "stage": 2,
    "title": "Club packs: fix the 932x430 view",
    "mode": "code",
@@ -725,7 +725,7 @@
   "81": {
    "group": "transfer",
    "job": 1181,
-   "prefix": "gameplay/job-1181-",
+   "prefix": "gameplay/train-transfer-1",
    "stage": 2,
    "title": "Transfer challenge and Signing Entry: fix the 932x430 view",
    "mode": "code",
@@ -743,7 +743,7 @@
   "83": {
    "group": "season-final",
    "job": 1210,
-   "prefix": "gameplay/job-1210-",
+   "prefix": "gameplay/train-season-final-1",
    "stage": 2,
    "title": "Season Results: fix the 932x430 view",
    "mode": "code",
@@ -761,7 +761,7 @@
   "85": {
    "group": "rivalry-legacy",
    "job": 1297,
-   "prefix": "gameplay/job-1297-",
+   "prefix": "gameplay/train-rivalry-legacy-1",
    "stage": 2,
    "title": "Legacy: fix the 932x430 view",
    "mode": "code",
@@ -779,7 +779,7 @@
   "87": {
    "group": "career-screens",
    "job": 1326,
-   "prefix": "gameplay/job-1326-",
+   "prefix": "gameplay/train-career-screens-1",
    "stage": 2,
    "title": "Trophy Room: fix the 932x430 view",
    "mode": "code",
@@ -797,7 +797,7 @@
   "89": {
    "group": "rules-settings",
    "job": 1413,
-   "prefix": "gameplay/job-1413-",
+   "prefix": "gameplay/train-rules-settings-1",
    "stage": 2,
    "title": "Rule Book: fix the 932x430 view",
    "mode": "code",
@@ -815,7 +815,7 @@
   "91": {
    "group": "home",
    "job": 1066,
-   "prefix": "gameplay/job-1066-",
+   "prefix": "gameplay/train-home-2",
    "stage": 2,
    "title": "Home: fix the 768x1024 view",
    "mode": "code",
@@ -833,7 +833,7 @@
   "93": {
    "group": "start-join",
    "job": 1095,
-   "prefix": "gameplay/job-1095-",
+   "prefix": "gameplay/train-start-join-2",
    "stage": 2,
    "title": "Connect Players (start and join): fix the 768x1024 view",
    "mode": "code",
@@ -851,7 +851,7 @@
   "95": {
    "group": "league",
    "job": 1124,
-   "prefix": "gameplay/job-1124-",
+   "prefix": "gameplay/train-league-2",
    "stage": 2,
    "title": "Select League: fix the 768x1024 view",
    "mode": "code",
@@ -869,7 +869,7 @@
   "97": {
    "group": "club",
    "job": 1153,
-   "prefix": "gameplay/job-1153-",
+   "prefix": "gameplay/train-club-2",
    "stage": 2,
    "title": "Club packs: fix the 768x1024 view",
    "mode": "code",
@@ -887,7 +887,7 @@
   "99": {
    "group": "transfer",
    "job": 1182,
-   "prefix": "gameplay/job-1182-",
+   "prefix": "gameplay/train-transfer-2",
    "stage": 2,
    "title": "Transfer challenge and Signing Entry: fix the 768x1024 view",
    "mode": "code",
@@ -905,7 +905,7 @@
   "101": {
    "group": "season-final",
    "job": 1211,
-   "prefix": "gameplay/job-1211-",
+   "prefix": "gameplay/train-season-final-2",
    "stage": 2,
    "title": "Season Results: fix the 768x1024 view",
    "mode": "code",
@@ -923,7 +923,7 @@
   "103": {
    "group": "rivalry-legacy",
    "job": 1298,
-   "prefix": "gameplay/job-1298-",
+   "prefix": "gameplay/train-rivalry-legacy-2",
    "stage": 2,
    "title": "Legacy: fix the 768x1024 view",
    "mode": "code",
@@ -941,7 +941,7 @@
   "105": {
    "group": "career-screens",
    "job": 1327,
-   "prefix": "gameplay/job-1327-",
+   "prefix": "gameplay/train-career-screens-2",
    "stage": 2,
    "title": "Trophy Room: fix the 768x1024 view",
    "mode": "code",
@@ -959,7 +959,7 @@
   "107": {
    "group": "rules-settings",
    "job": 1414,
-   "prefix": "gameplay/job-1414-",
+   "prefix": "gameplay/train-rules-settings-2",
    "stage": 2,
    "title": "Rule Book: fix the 768x1024 view",
    "mode": "code",
@@ -977,7 +977,7 @@
   "109": {
    "group": "home",
    "job": 1067,
-   "prefix": "gameplay/job-1067-",
+   "prefix": "gameplay/train-home-2",
    "stage": 2,
    "title": "Home: fix the 1280x650 view",
    "mode": "code",
@@ -995,7 +995,7 @@
   "111": {
    "group": "start-join",
    "job": 1096,
-   "prefix": "gameplay/job-1096-",
+   "prefix": "gameplay/train-start-join-2",
    "stage": 2,
    "title": "Connect Players (start and join): fix the 1280x650 view",
    "mode": "code",
@@ -1013,7 +1013,7 @@
   "113": {
    "group": "league",
    "job": 1125,
-   "prefix": "gameplay/job-1125-",
+   "prefix": "gameplay/train-league-2",
    "stage": 2,
    "title": "Select League: fix the 1280x650 view",
    "mode": "code",
@@ -1031,7 +1031,7 @@
   "115": {
    "group": "club",
    "job": 1154,
-   "prefix": "gameplay/job-1154-",
+   "prefix": "gameplay/train-club-2",
    "stage": 2,
    "title": "Club packs: fix the 1280x650 view",
    "mode": "code",
@@ -1049,7 +1049,7 @@
   "117": {
    "group": "transfer",
    "job": 1183,
-   "prefix": "gameplay/job-1183-",
+   "prefix": "gameplay/train-transfer-2",
    "stage": 2,
    "title": "Transfer challenge and Signing Entry: fix the 1280x650 view",
    "mode": "code",
@@ -1067,7 +1067,7 @@
   "119": {
    "group": "season-final",
    "job": 1212,
-   "prefix": "gameplay/job-1212-",
+   "prefix": "gameplay/train-season-final-2",
    "stage": 2,
    "title": "Season Results: fix the 1280x650 view",
    "mode": "code",
@@ -1085,7 +1085,7 @@
   "121": {
    "group": "rivalry-legacy",
    "job": 1299,
-   "prefix": "gameplay/job-1299-",
+   "prefix": "gameplay/train-rivalry-legacy-2",
    "stage": 2,
    "title": "Legacy: fix the 1280x650 view",
    "mode": "code",
@@ -1103,7 +1103,7 @@
   "123": {
    "group": "career-screens",
    "job": 1328,
-   "prefix": "gameplay/job-1328-",
+   "prefix": "gameplay/train-career-screens-2",
    "stage": 2,
    "title": "Trophy Room: fix the 1280x650 view",
    "mode": "code",
@@ -1121,7 +1121,7 @@
   "125": {
    "group": "rules-settings",
    "job": 1415,
-   "prefix": "gameplay/job-1415-",
+   "prefix": "gameplay/train-rules-settings-2",
    "stage": 2,
    "title": "Rule Book: fix the 1280x650 view",
    "mode": "code",
@@ -1139,7 +1139,7 @@
   "127": {
    "group": "home",
    "job": 1068,
-   "prefix": "gameplay/job-1068-",
+   "prefix": "gameplay/train-home-2",
    "stage": 2,
    "title": "Home: fix the 1366x768 view",
    "mode": "code",
@@ -1157,7 +1157,7 @@
   "129": {
    "group": "start-join",
    "job": 1097,
-   "prefix": "gameplay/job-1097-",
+   "prefix": "gameplay/train-start-join-2",
    "stage": 2,
    "title": "Connect Players (start and join): fix the 1366x768 view",
    "mode": "code",
@@ -1175,7 +1175,7 @@
   "131": {
    "group": "league",
    "job": 1126,
-   "prefix": "gameplay/job-1126-",
+   "prefix": "gameplay/train-league-2",
    "stage": 2,
    "title": "Select League: fix the 1366x768 view",
    "mode": "code",
@@ -1193,7 +1193,7 @@
   "133": {
    "group": "club",
    "job": 1155,
-   "prefix": "gameplay/job-1155-",
+   "prefix": "gameplay/train-club-2",
    "stage": 2,
    "title": "Club packs: fix the 1366x768 view",
    "mode": "code",
@@ -1211,7 +1211,7 @@
   "135": {
    "group": "transfer",
    "job": 1184,
-   "prefix": "gameplay/job-1184-",
+   "prefix": "gameplay/train-transfer-2",
    "stage": 2,
    "title": "Transfer challenge and Signing Entry: fix the 1366x768 view",
    "mode": "code",
@@ -1229,7 +1229,7 @@
   "137": {
    "group": "season-final",
    "job": 1213,
-   "prefix": "gameplay/job-1213-",
+   "prefix": "gameplay/train-season-final-2",
    "stage": 2,
    "title": "Season Results: fix the 1366x768 view",
    "mode": "code",
@@ -1247,7 +1247,7 @@
   "139": {
    "group": "rivalry-legacy",
    "job": 1300,
-   "prefix": "gameplay/job-1300-",
+   "prefix": "gameplay/train-rivalry-legacy-2",
    "stage": 2,
    "title": "Legacy: fix the 1366x768 view",
    "mode": "code",
@@ -1265,7 +1265,7 @@
   "141": {
    "group": "career-screens",
    "job": 1329,
-   "prefix": "gameplay/job-1329-",
+   "prefix": "gameplay/train-career-screens-2",
    "stage": 2,
    "title": "Trophy Room: fix the 1366x768 view",
    "mode": "code",
@@ -1283,7 +1283,7 @@
   "143": {
    "group": "rules-settings",
    "job": 1416,
-   "prefix": "gameplay/job-1416-",
+   "prefix": "gameplay/train-rules-settings-2",
    "stage": 2,
    "title": "Rule Book: fix the 1366x768 view",
    "mode": "code",
@@ -1301,7 +1301,7 @@
   "145": {
    "group": "home",
    "job": 1069,
-   "prefix": "gameplay/job-1069-",
+   "prefix": "gameplay/train-home-2",
    "stage": 2,
    "title": "Home: fix the 1920x1080 view",
    "mode": "code",
@@ -1319,7 +1319,7 @@
   "147": {
    "group": "start-join",
    "job": 1098,
-   "prefix": "gameplay/job-1098-",
+   "prefix": "gameplay/train-start-join-2",
    "stage": 2,
    "title": "Connect Players (start and join): fix the 1920x1080 view",
    "mode": "code",
@@ -1337,7 +1337,7 @@
   "149": {
    "group": "league",
    "job": 1127,
-   "prefix": "gameplay/job-1127-",
+   "prefix": "gameplay/train-league-2",
    "stage": 2,
    "title": "Select League: fix the 1920x1080 view",
    "mode": "code",
@@ -1355,7 +1355,7 @@
   "151": {
    "group": "club",
    "job": 1156,
-   "prefix": "gameplay/job-1156-",
+   "prefix": "gameplay/train-club-2",
    "stage": 2,
    "title": "Club packs: fix the 1920x1080 view",
    "mode": "code",
@@ -1373,7 +1373,7 @@
   "153": {
    "group": "transfer",
    "job": 1185,
-   "prefix": "gameplay/job-1185-",
+   "prefix": "gameplay/train-transfer-2",
    "stage": 2,
    "title": "Transfer challenge and Signing Entry: fix the 1920x1080 view",
    "mode": "code",
@@ -1391,7 +1391,7 @@
   "155": {
    "group": "season-final",
    "job": 1214,
-   "prefix": "gameplay/job-1214-",
+   "prefix": "gameplay/train-season-final-2",
    "stage": 2,
    "title": "Season Results: fix the 1920x1080 view",
    "mode": "code",
@@ -1409,7 +1409,7 @@
   "157": {
    "group": "rivalry-legacy",
    "job": 1301,
-   "prefix": "gameplay/job-1301-",
+   "prefix": "gameplay/train-rivalry-legacy-2",
    "stage": 2,
    "title": "Legacy: fix the 1920x1080 view",
    "mode": "code",
@@ -1427,7 +1427,7 @@
   "159": {
    "group": "career-screens",
    "job": 1330,
-   "prefix": "gameplay/job-1330-",
+   "prefix": "gameplay/train-career-screens-2",
    "stage": 2,
    "title": "Trophy Room: fix the 1920x1080 view",
    "mode": "code",
@@ -1445,7 +1445,7 @@
   "161": {
    "group": "rules-settings",
    "job": 1417,
-   "prefix": "gameplay/job-1417-",
+   "prefix": "gameplay/train-rules-settings-2",
    "stage": 2,
    "title": "Rule Book: fix the 1920x1080 view",
    "mode": "code",
@@ -1463,7 +1463,7 @@
   "163": {
    "group": "home",
    "job": 1070,
-   "prefix": "gameplay/job-1070-",
+   "prefix": "gameplay/train-home-2",
    "stage": 2,
    "title": "Home: fix the 2560x1080 view",
    "mode": "code",
@@ -1481,7 +1481,7 @@
   "165": {
    "group": "start-join",
    "job": 1099,
-   "prefix": "gameplay/job-1099-",
+   "prefix": "gameplay/train-start-join-2",
    "stage": 2,
    "title": "Connect Players (start and join): fix the 2560x1080 view",
    "mode": "code",
@@ -1499,7 +1499,7 @@
   "167": {
    "group": "league",
    "job": 1128,
-   "prefix": "gameplay/job-1128-",
+   "prefix": "gameplay/train-league-2",
    "stage": 2,
    "title": "Select League: fix the 2560x1080 view",
    "mode": "code",
@@ -1517,7 +1517,7 @@
   "169": {
    "group": "club",
    "job": 1157,
-   "prefix": "gameplay/job-1157-",
+   "prefix": "gameplay/train-club-2",
    "stage": 2,
    "title": "Club packs: fix the 2560x1080 view",
    "mode": "code",
@@ -1535,7 +1535,7 @@
   "171": {
    "group": "transfer",
    "job": 1186,
-   "prefix": "gameplay/job-1186-",
+   "prefix": "gameplay/train-transfer-2",
    "stage": 2,
    "title": "Transfer challenge and Signing Entry: fix the 2560x1080 view",
    "mode": "code",
@@ -1553,7 +1553,7 @@
   "173": {
    "group": "season-final",
    "job": 1215,
-   "prefix": "gameplay/job-1215-",
+   "prefix": "gameplay/train-season-final-2",
    "stage": 2,
    "title": "Season Results: fix the 2560x1080 view",
    "mode": "code",
@@ -1571,7 +1571,7 @@
   "175": {
    "group": "rivalry-legacy",
    "job": 1302,
-   "prefix": "gameplay/job-1302-",
+   "prefix": "gameplay/train-rivalry-legacy-2",
    "stage": 2,
    "title": "Legacy: fix the 2560x1080 view",
    "mode": "code",
@@ -1589,7 +1589,7 @@
   "177": {
    "group": "career-screens",
    "job": 1331,
-   "prefix": "gameplay/job-1331-",
+   "prefix": "gameplay/train-career-screens-2",
    "stage": 2,
    "title": "Trophy Room: fix the 2560x1080 view",
    "mode": "code",
@@ -1607,7 +1607,7 @@
   "179": {
    "group": "rules-settings",
    "job": 1418,
-   "prefix": "gameplay/job-1418-",
+   "prefix": "gameplay/train-rules-settings-2",
    "stage": 2,
    "title": "Rule Book: fix the 2560x1080 view",
    "mode": "code",
@@ -1625,7 +1625,7 @@
   "181": {
    "group": "home",
    "job": 1071,
-   "prefix": "gameplay/job-1071-",
+   "prefix": "gameplay/train-home-3",
    "stage": 3,
    "title": "Home: match the desktop mockup",
    "mode": "code",
@@ -1643,7 +1643,7 @@
   "183": {
    "group": "start-join",
    "job": 1100,
-   "prefix": "gameplay/job-1100-",
+   "prefix": "gameplay/train-start-join-3",
    "stage": 3,
    "title": "Connect Players (start and join): match the desktop mockup",
    "mode": "code",
@@ -1661,7 +1661,7 @@
   "185": {
    "group": "league",
    "job": 1129,
-   "prefix": "gameplay/job-1129-",
+   "prefix": "gameplay/train-league-3",
    "stage": 3,
    "title": "Select League: match the desktop mockup",
    "mode": "code",
@@ -1679,7 +1679,7 @@
   "187": {
    "group": "club",
    "job": 1158,
-   "prefix": "gameplay/job-1158-",
+   "prefix": "gameplay/train-club-3",
    "stage": 3,
    "title": "Club packs: match the desktop mockup",
    "mode": "code",
@@ -1697,7 +1697,7 @@
   "189": {
    "group": "transfer",
    "job": 1187,
-   "prefix": "gameplay/job-1187-",
+   "prefix": "gameplay/train-transfer-3",
    "stage": 3,
    "title": "Transfer challenge and Signing Entry: match the desktop mockup",
    "mode": "code",
@@ -1715,7 +1715,7 @@
   "191": {
    "group": "season-final",
    "job": 1216,
-   "prefix": "gameplay/job-1216-",
+   "prefix": "gameplay/train-season-final-3",
    "stage": 3,
    "title": "Season Results: match the desktop mockup",
    "mode": "code",
@@ -1733,7 +1733,7 @@
   "193": {
    "group": "rivalry-legacy",
    "job": 1303,
-   "prefix": "gameplay/job-1303-",
+   "prefix": "gameplay/train-rivalry-legacy-3",
    "stage": 3,
    "title": "Legacy: match the desktop mockup",
    "mode": "code",
@@ -1751,7 +1751,7 @@
   "195": {
    "group": "career-screens",
    "job": 1332,
-   "prefix": "gameplay/job-1332-",
+   "prefix": "gameplay/train-career-screens-3",
    "stage": 3,
    "title": "Trophy Room: match the desktop mockup",
    "mode": "code",
@@ -1769,7 +1769,7 @@
   "197": {
    "group": "rules-settings",
    "job": 1419,
-   "prefix": "gameplay/job-1419-",
+   "prefix": "gameplay/train-rules-settings-3",
    "stage": 3,
    "title": "Rule Book: match the desktop mockup",
    "mode": "code",
@@ -1787,7 +1787,7 @@
   "199": {
    "group": "home",
    "job": 1072,
-   "prefix": "gameplay/job-1072-",
+   "prefix": "gameplay/train-home-3",
    "stage": 2,
    "title": "Home: long names",
    "mode": "code",
@@ -1805,7 +1805,7 @@
   "201": {
    "group": "start-join",
    "job": 1101,
-   "prefix": "gameplay/job-1101-",
+   "prefix": "gameplay/train-start-join-3",
    "stage": 2,
    "title": "Connect Players (start and join): long names",
    "mode": "code",
@@ -1823,7 +1823,7 @@
   "203": {
    "group": "league",
    "job": 1130,
-   "prefix": "gameplay/job-1130-",
+   "prefix": "gameplay/train-league-3",
    "stage": 2,
    "title": "Select League: long names",
    "mode": "code",
@@ -1841,7 +1841,7 @@
   "205": {
    "group": "club",
    "job": 1159,
-   "prefix": "gameplay/job-1159-",
+   "prefix": "gameplay/train-club-3",
    "stage": 2,
    "title": "Club packs: long names",
    "mode": "code",
@@ -1859,7 +1859,7 @@
   "207": {
    "group": "transfer",
    "job": 1188,
-   "prefix": "gameplay/job-1188-",
+   "prefix": "gameplay/train-transfer-3",
    "stage": 2,
    "title": "Transfer challenge and Signing Entry: long names",
    "mode": "code",
@@ -1877,7 +1877,7 @@
   "209": {
    "group": "season-final",
    "job": 1217,
-   "prefix": "gameplay/job-1217-",
+   "prefix": "gameplay/train-season-final-3",
    "stage": 2,
    "title": "Season Results: long names",
    "mode": "code",
@@ -1895,7 +1895,7 @@
   "211": {
    "group": "rivalry-legacy",
    "job": 1304,
-   "prefix": "gameplay/job-1304-",
+   "prefix": "gameplay/train-rivalry-legacy-3",
    "stage": 2,
    "title": "Legacy: long names",
    "mode": "code",
@@ -1913,7 +1913,7 @@
   "213": {
    "group": "career-screens",
    "job": 1333,
-   "prefix": "gameplay/job-1333-",
+   "prefix": "gameplay/train-career-screens-3",
    "stage": 2,
    "title": "Trophy Room: long names",
    "mode": "code",
@@ -1931,7 +1931,7 @@
   "215": {
    "group": "rules-settings",
    "job": 1420,
-   "prefix": "gameplay/job-1420-",
+   "prefix": "gameplay/train-rules-settings-3",
    "stage": 2,
    "title": "Rule Book: long names",
    "mode": "code",
@@ -1949,7 +1949,7 @@
   "217": {
    "group": "home",
    "job": 1073,
-   "prefix": "gameplay/job-1073-",
+   "prefix": "gameplay/train-home-3",
    "stage": 2,
    "title": "Home: tap targets",
    "mode": "code",
@@ -1967,7 +1967,7 @@
   "219": {
    "group": "start-join",
    "job": 1102,
-   "prefix": "gameplay/job-1102-",
+   "prefix": "gameplay/train-start-join-3",
    "stage": 2,
    "title": "Connect Players (start and join): tap targets",
    "mode": "code",
@@ -1985,7 +1985,7 @@
   "221": {
    "group": "league",
    "job": 1131,
-   "prefix": "gameplay/job-1131-",
+   "prefix": "gameplay/train-league-3",
    "stage": 2,
    "title": "Select League: tap targets",
    "mode": "code",
@@ -2003,7 +2003,7 @@
   "223": {
    "group": "club",
    "job": 1160,
-   "prefix": "gameplay/job-1160-",
+   "prefix": "gameplay/train-club-3",
    "stage": 2,
    "title": "Club packs: tap targets",
    "mode": "code",
@@ -2021,7 +2021,7 @@
   "225": {
    "group": "transfer",
    "job": 1189,
-   "prefix": "gameplay/job-1189-",
+   "prefix": "gameplay/train-transfer-3",
    "stage": 2,
    "title": "Transfer challenge and Signing Entry: tap targets",
    "mode": "code",
@@ -2039,7 +2039,7 @@
   "227": {
    "group": "season-final",
    "job": 1218,
-   "prefix": "gameplay/job-1218-",
+   "prefix": "gameplay/train-season-final-3",
    "stage": 2,
    "title": "Season Results: tap targets",
    "mode": "code",
@@ -2057,7 +2057,7 @@
   "229": {
    "group": "rivalry-legacy",
    "job": 1305,
-   "prefix": "gameplay/job-1305-",
+   "prefix": "gameplay/train-rivalry-legacy-3",
    "stage": 2,
    "title": "Legacy: tap targets",
    "mode": "code",
@@ -2075,7 +2075,7 @@
   "231": {
    "group": "career-screens",
    "job": 1334,
-   "prefix": "gameplay/job-1334-",
+   "prefix": "gameplay/train-career-screens-3",
    "stage": 2,
    "title": "Trophy Room: tap targets",
    "mode": "code",
@@ -2093,7 +2093,7 @@
   "233": {
    "group": "rules-settings",
    "job": 1421,
-   "prefix": "gameplay/job-1421-",
+   "prefix": "gameplay/train-rules-settings-3",
    "stage": 2,
    "title": "Rule Book: tap targets",
    "mode": "code",
@@ -2111,7 +2111,7 @@
   "235": {
    "group": "home",
    "job": 1074,
-   "prefix": "gameplay/job-1074-",
+   "prefix": "gameplay/train-home-3",
    "stage": 2,
    "title": "Home: keyboard focus and reduced motion",
    "mode": "code",
@@ -2129,7 +2129,7 @@
   "237": {
    "group": "start-join",
    "job": 1103,
-   "prefix": "gameplay/job-1103-",
+   "prefix": "gameplay/train-start-join-3",
    "stage": 2,
    "title": "Connect Players (start and join): keyboard focus and reduced motion",
    "mode": "code",
@@ -2147,7 +2147,7 @@
   "239": {
    "group": "league",
    "job": 1132,
-   "prefix": "gameplay/job-1132-",
+   "prefix": "gameplay/train-league-3",
    "stage": 2,
    "title": "Select League: keyboard focus and reduced motion",
    "mode": "code",
@@ -2165,7 +2165,7 @@
   "241": {
    "group": "club",
    "job": 1161,
-   "prefix": "gameplay/job-1161-",
+   "prefix": "gameplay/train-club-3",
    "stage": 2,
    "title": "Club packs: keyboard focus and reduced motion",
    "mode": "code",
@@ -2183,7 +2183,7 @@
   "243": {
    "group": "transfer",
    "job": 1190,
-   "prefix": "gameplay/job-1190-",
+   "prefix": "gameplay/train-transfer-3",
    "stage": 2,
    "title": "Transfer challenge and Signing Entry: keyboard focus and reduced motion",
    "mode": "code",
@@ -2201,7 +2201,7 @@
   "245": {
    "group": "season-final",
    "job": 1219,
-   "prefix": "gameplay/job-1219-",
+   "prefix": "gameplay/train-season-final-3",
    "stage": 2,
    "title": "Season Results: keyboard focus and reduced motion",
    "mode": "code",
@@ -2219,7 +2219,7 @@
   "247": {
    "group": "rivalry-legacy",
    "job": 1306,
-   "prefix": "gameplay/job-1306-",
+   "prefix": "gameplay/train-rivalry-legacy-3",
    "stage": 2,
    "title": "Legacy: keyboard focus and reduced motion",
    "mode": "code",
@@ -2237,7 +2237,7 @@
   "249": {
    "group": "career-screens",
    "job": 1335,
-   "prefix": "gameplay/job-1335-",
+   "prefix": "gameplay/train-career-screens-3",
    "stage": 2,
    "title": "Trophy Room: keyboard focus and reduced motion",
    "mode": "code",
@@ -2255,7 +2255,7 @@
   "251": {
    "group": "rules-settings",
    "job": 1422,
-   "prefix": "gameplay/job-1422-",
+   "prefix": "gameplay/train-rules-settings-3",
    "stage": 2,
    "title": "Rule Book: keyboard focus and reduced motion",
    "mode": "code",
@@ -2273,7 +2273,7 @@
   "253": {
    "group": "home",
    "job": 1075,
-   "prefix": "gameplay/job-1075-",
+   "prefix": "gameplay/train-home-3",
    "stage": 2,
    "title": "Home: text contrast",
    "mode": "code",
@@ -2291,7 +2291,7 @@
   "255": {
    "group": "start-join",
    "job": 1104,
-   "prefix": "gameplay/job-1104-",
+   "prefix": "gameplay/train-start-join-3",
    "stage": 2,
    "title": "Connect Players (start and join): text contrast",
    "mode": "code",
@@ -2309,7 +2309,7 @@
   "257": {
    "group": "league",
    "job": 1133,
-   "prefix": "gameplay/job-1133-",
+   "prefix": "gameplay/train-league-3",
    "stage": 2,
    "title": "Select League: text contrast",
    "mode": "code",
@@ -2327,7 +2327,7 @@
   "259": {
    "group": "club",
    "job": 1162,
-   "prefix": "gameplay/job-1162-",
+   "prefix": "gameplay/train-club-3",
    "stage": 2,
    "title": "Club packs: text contrast",
    "mode": "code",
@@ -2345,7 +2345,7 @@
   "261": {
    "group": "transfer",
    "job": 1191,
-   "prefix": "gameplay/job-1191-",
+   "prefix": "gameplay/train-transfer-3",
    "stage": 2,
    "title": "Transfer challenge and Signing Entry: text contrast",
    "mode": "code",
@@ -2363,7 +2363,7 @@
   "263": {
    "group": "season-final",
    "job": 1220,
-   "prefix": "gameplay/job-1220-",
+   "prefix": "gameplay/train-season-final-3",
    "stage": 2,
    "title": "Season Results: text contrast",
    "mode": "code",
@@ -2381,7 +2381,7 @@
   "265": {
    "group": "rivalry-legacy",
    "job": 1307,
-   "prefix": "gameplay/job-1307-",
+   "prefix": "gameplay/train-rivalry-legacy-3",
    "stage": 2,
    "title": "Legacy: text contrast",
    "mode": "code",
@@ -2399,7 +2399,7 @@
   "267": {
    "group": "career-screens",
    "job": 1336,
-   "prefix": "gameplay/job-1336-",
+   "prefix": "gameplay/train-career-screens-3",
    "stage": 2,
    "title": "Trophy Room: text contrast",
    "mode": "code",
@@ -2417,7 +2417,7 @@
   "269": {
    "group": "rules-settings",
    "job": 1423,
-   "prefix": "gameplay/job-1423-",
+   "prefix": "gameplay/train-rules-settings-3",
    "stage": 2,
    "title": "Rule Book: text contrast",
    "mode": "code",
@@ -2435,7 +2435,7 @@
   "271": {
    "group": "home",
    "job": 1076,
-   "prefix": "gameplay/job-1076-",
+   "prefix": "gameplay/train-home-4",
    "stage": 2,
    "title": "Home: picture descriptions and labels",
    "mode": "code",
@@ -2453,7 +2453,7 @@
   "273": {
    "group": "start-join",
    "job": 1105,
-   "prefix": "gameplay/job-1105-",
+   "prefix": "gameplay/train-start-join-4",
    "stage": 2,
    "title": "Connect Players (start and join): picture descriptions and labels",
    "mode": "code",
@@ -2471,7 +2471,7 @@
   "275": {
    "group": "league",
    "job": 1134,
-   "prefix": "gameplay/job-1134-",
+   "prefix": "gameplay/train-league-4",
    "stage": 2,
    "title": "Select League: picture descriptions and labels",
    "mode": "code",
@@ -2489,7 +2489,7 @@
   "277": {
    "group": "club",
    "job": 1163,
-   "prefix": "gameplay/job-1163-",
+   "prefix": "gameplay/train-club-4",
    "stage": 2,
    "title": "Club packs: picture descriptions and labels",
    "mode": "code",
@@ -2507,7 +2507,7 @@
   "279": {
    "group": "transfer",
    "job": 1192,
-   "prefix": "gameplay/job-1192-",
+   "prefix": "gameplay/train-transfer-4",
    "stage": 2,
    "title": "Transfer challenge and Signing Entry: picture descriptions and labels",
    "mode": "code",
@@ -2525,7 +2525,7 @@
   "281": {
    "group": "season-final",
    "job": 1221,
-   "prefix": "gameplay/job-1221-",
+   "prefix": "gameplay/train-season-final-4",
    "stage": 2,
    "title": "Season Results: picture descriptions and labels",
    "mode": "code",
@@ -2543,7 +2543,7 @@
   "283": {
    "group": "rivalry-legacy",
    "job": 1308,
-   "prefix": "gameplay/job-1308-",
+   "prefix": "gameplay/train-rivalry-legacy-4",
    "stage": 2,
    "title": "Legacy: picture descriptions and labels",
    "mode": "code",
@@ -2561,7 +2561,7 @@
   "285": {
    "group": "career-screens",
    "job": 1337,
-   "prefix": "gameplay/job-1337-",
+   "prefix": "gameplay/train-career-screens-4",
    "stage": 2,
    "title": "Trophy Room: picture descriptions and labels",
    "mode": "code",
@@ -2579,7 +2579,7 @@
   "287": {
    "group": "rules-settings",
    "job": 1424,
-   "prefix": "gameplay/job-1424-",
+   "prefix": "gameplay/train-rules-settings-4",
    "stage": 2,
    "title": "Rule Book: picture descriptions and labels",
    "mode": "code",
@@ -2597,7 +2597,7 @@
   "289": {
    "group": "home",
    "job": 1077,
-   "prefix": "gameplay/job-1077-",
+   "prefix": "gameplay/train-home-4",
    "stage": 2,
    "title": "Home: loading state",
    "mode": "code",
@@ -2615,7 +2615,7 @@
   "291": {
    "group": "start-join",
    "job": 1106,
-   "prefix": "gameplay/job-1106-",
+   "prefix": "gameplay/train-start-join-4",
    "stage": 2,
    "title": "Connect Players (start and join): loading state",
    "mode": "code",
@@ -2633,7 +2633,7 @@
   "293": {
    "group": "league",
    "job": 1135,
-   "prefix": "gameplay/job-1135-",
+   "prefix": "gameplay/train-league-4",
    "stage": 2,
    "title": "Select League: loading state",
    "mode": "code",
@@ -2651,7 +2651,7 @@
   "295": {
    "group": "club",
    "job": 1164,
-   "prefix": "gameplay/job-1164-",
+   "prefix": "gameplay/train-club-4",
    "stage": 2,
    "title": "Club packs: loading state",
    "mode": "code",
@@ -2669,7 +2669,7 @@
   "297": {
    "group": "transfer",
    "job": 1193,
-   "prefix": "gameplay/job-1193-",
+   "prefix": "gameplay/train-transfer-4",
    "stage": 2,
    "title": "Transfer challenge and Signing Entry: loading state",
    "mode": "code",
@@ -2687,7 +2687,7 @@
   "299": {
    "group": "season-final",
    "job": 1222,
-   "prefix": "gameplay/job-1222-",
+   "prefix": "gameplay/train-season-final-4",
    "stage": 2,
    "title": "Season Results: loading state",
    "mode": "code",
@@ -2705,7 +2705,7 @@
   "301": {
    "group": "rivalry-legacy",
    "job": 1309,
-   "prefix": "gameplay/job-1309-",
+   "prefix": "gameplay/train-rivalry-legacy-4",
    "stage": 2,
    "title": "Legacy: loading state",
    "mode": "code",
@@ -2723,7 +2723,7 @@
   "303": {
    "group": "career-screens",
    "job": 1338,
-   "prefix": "gameplay/job-1338-",
+   "prefix": "gameplay/train-career-screens-4",
    "stage": 2,
    "title": "Trophy Room: loading state",
    "mode": "code",
@@ -2741,7 +2741,7 @@
   "305": {
    "group": "rules-settings",
    "job": 1425,
-   "prefix": "gameplay/job-1425-",
+   "prefix": "gameplay/train-rules-settings-4",
    "stage": 2,
    "title": "Rule Book: loading state",
    "mode": "code",
@@ -2759,7 +2759,7 @@
   "307": {
    "group": "home",
    "job": 1078,
-   "prefix": "gameplay/job-1078-",
+   "prefix": "gameplay/train-home-4",
    "stage": 2,
    "title": "Home: empty state",
    "mode": "code",
@@ -2777,7 +2777,7 @@
   "309": {
    "group": "start-join",
    "job": 1107,
-   "prefix": "gameplay/job-1107-",
+   "prefix": "gameplay/train-start-join-4",
    "stage": 2,
    "title": "Connect Players (start and join): empty state",
    "mode": "code",
@@ -2795,7 +2795,7 @@
   "311": {
    "group": "league",
    "job": 1136,
-   "prefix": "gameplay/job-1136-",
+   "prefix": "gameplay/train-league-4",
    "stage": 2,
    "title": "Select League: empty state",
    "mode": "code",
@@ -2813,7 +2813,7 @@
   "313": {
    "group": "club",
    "job": 1165,
-   "prefix": "gameplay/job-1165-",
+   "prefix": "gameplay/train-club-4",
    "stage": 2,
    "title": "Club packs: empty state",
    "mode": "code",
@@ -2831,7 +2831,7 @@
   "315": {
    "group": "transfer",
    "job": 1194,
-   "prefix": "gameplay/job-1194-",
+   "prefix": "gameplay/train-transfer-4",
    "stage": 2,
    "title": "Transfer challenge and Signing Entry: empty state",
    "mode": "code",
@@ -2849,7 +2849,7 @@
   "317": {
    "group": "season-final",
    "job": 1223,
-   "prefix": "gameplay/job-1223-",
+   "prefix": "gameplay/train-season-final-4",
    "stage": 2,
    "title": "Season Results: empty state",
    "mode": "code",
@@ -2867,7 +2867,7 @@
   "319": {
    "group": "rivalry-legacy",
    "job": 1310,
-   "prefix": "gameplay/job-1310-",
+   "prefix": "gameplay/train-rivalry-legacy-4",
    "stage": 2,
    "title": "Legacy: empty state",
    "mode": "code",
@@ -2885,7 +2885,7 @@
   "321": {
    "group": "career-screens",
    "job": 1339,
-   "prefix": "gameplay/job-1339-",
+   "prefix": "gameplay/train-career-screens-4",
    "stage": 2,
    "title": "Trophy Room: empty state",
    "mode": "code",
@@ -2903,7 +2903,7 @@
   "323": {
    "group": "rules-settings",
    "job": 1426,
-   "prefix": "gameplay/job-1426-",
+   "prefix": "gameplay/train-rules-settings-4",
    "stage": 2,
    "title": "Rule Book: empty state",
    "mode": "code",
@@ -2921,7 +2921,7 @@
   "325": {
    "group": "home",
    "job": 1079,
-   "prefix": "gameplay/job-1079-",
+   "prefix": "gameplay/train-home-4",
    "stage": 2,
    "title": "Home: error and retry state",
    "mode": "code",
@@ -2939,7 +2939,7 @@
   "327": {
    "group": "start-join",
    "job": 1108,
-   "prefix": "gameplay/job-1108-",
+   "prefix": "gameplay/train-start-join-4",
    "stage": 2,
    "title": "Connect Players (start and join): error and retry state",
    "mode": "code",
@@ -2957,7 +2957,7 @@
   "329": {
    "group": "league",
    "job": 1137,
-   "prefix": "gameplay/job-1137-",
+   "prefix": "gameplay/train-league-4",
    "stage": 2,
    "title": "Select League: error and retry state",
    "mode": "code",
@@ -2975,7 +2975,7 @@
   "331": {
    "group": "club",
    "job": 1166,
-   "prefix": "gameplay/job-1166-",
+   "prefix": "gameplay/train-club-4",
    "stage": 2,
    "title": "Club packs: error and retry state",
    "mode": "code",
@@ -2993,7 +2993,7 @@
   "333": {
    "group": "transfer",
    "job": 1195,
-   "prefix": "gameplay/job-1195-",
+   "prefix": "gameplay/train-transfer-4",
    "stage": 2,
    "title": "Transfer challenge and Signing Entry: error and retry state",
    "mode": "code",
@@ -3011,7 +3011,7 @@
   "335": {
    "group": "season-final",
    "job": 1224,
-   "prefix": "gameplay/job-1224-",
+   "prefix": "gameplay/train-season-final-4",
    "stage": 2,
    "title": "Season Results: error and retry state",
    "mode": "code",
@@ -3029,7 +3029,7 @@
   "337": {
    "group": "rivalry-legacy",
    "job": 1311,
-   "prefix": "gameplay/job-1311-",
+   "prefix": "gameplay/train-rivalry-legacy-4",
    "stage": 2,
    "title": "Legacy: error and retry state",
    "mode": "code",
@@ -3047,7 +3047,7 @@
   "339": {
    "group": "career-screens",
    "job": 1340,
-   "prefix": "gameplay/job-1340-",
+   "prefix": "gameplay/train-career-screens-4",
    "stage": 2,
    "title": "Trophy Room: error and retry state",
    "mode": "code",
@@ -3065,7 +3065,7 @@
   "341": {
    "group": "rules-settings",
    "job": 1427,
-   "prefix": "gameplay/job-1427-",
+   "prefix": "gameplay/train-rules-settings-4",
    "stage": 2,
    "title": "Rule Book: error and retry state",
    "mode": "code",
@@ -3083,7 +3083,7 @@
   "343": {
    "group": "home",
    "job": 1080,
-   "prefix": "gameplay/job-1080-",
+   "prefix": "gameplay/train-home-4",
    "stage": 2,
    "title": "Home: hover-only effects",
    "mode": "code",
@@ -3101,7 +3101,7 @@
   "345": {
    "group": "start-join",
    "job": 1109,
-   "prefix": "gameplay/job-1109-",
+   "prefix": "gameplay/train-start-join-4",
    "stage": 2,
    "title": "Connect Players (start and join): hover-only effects",
    "mode": "code",
@@ -3119,7 +3119,7 @@
   "347": {
    "group": "league",
    "job": 1138,
-   "prefix": "gameplay/job-1138-",
+   "prefix": "gameplay/train-league-4",
    "stage": 2,
    "title": "Select League: hover-only effects",
    "mode": "code",
@@ -3137,7 +3137,7 @@
   "349": {
    "group": "club",
    "job": 1167,
-   "prefix": "gameplay/job-1167-",
+   "prefix": "gameplay/train-club-4",
    "stage": 2,
    "title": "Club packs: hover-only effects",
    "mode": "code",
@@ -3155,7 +3155,7 @@
   "351": {
    "group": "transfer",
    "job": 1196,
-   "prefix": "gameplay/job-1196-",
+   "prefix": "gameplay/train-transfer-4",
    "stage": 2,
    "title": "Transfer challenge and Signing Entry: hover-only effects",
    "mode": "code",
@@ -3173,7 +3173,7 @@
   "353": {
    "group": "season-final",
    "job": 1225,
-   "prefix": "gameplay/job-1225-",
+   "prefix": "gameplay/train-season-final-4",
    "stage": 2,
    "title": "Season Results: hover-only effects",
    "mode": "code",
@@ -3191,7 +3191,7 @@
   "355": {
    "group": "rivalry-legacy",
    "job": 1312,
-   "prefix": "gameplay/job-1312-",
+   "prefix": "gameplay/train-rivalry-legacy-4",
    "stage": 2,
    "title": "Legacy: hover-only effects",
    "mode": "code",
@@ -3209,7 +3209,7 @@
   "357": {
    "group": "career-screens",
    "job": 1341,
-   "prefix": "gameplay/job-1341-",
+   "prefix": "gameplay/train-career-screens-4",
    "stage": 2,
    "title": "Trophy Room: hover-only effects",
    "mode": "code",
@@ -3227,7 +3227,7 @@
   "359": {
    "group": "rules-settings",
    "job": 1428,
-   "prefix": "gameplay/job-1428-",
+   "prefix": "gameplay/train-rules-settings-4",
    "stage": 2,
    "title": "Rule Book: hover-only effects",
    "mode": "code",
@@ -3245,7 +3245,7 @@
   "361": {
    "group": "season-final",
    "job": 1235,
-   "prefix": "gameplay/job-1235-",
+   "prefix": "gameplay/train-season-final-5",
    "stage": 2,
    "title": "Standings: fix the 360x640 view",
    "mode": "code",
@@ -3263,7 +3263,7 @@
   "363": {
    "group": "rivalry-legacy",
    "job": 1351,
-   "prefix": "gameplay/job-1351-",
+   "prefix": "gameplay/train-rivalry-legacy-5",
    "stage": 2,
    "title": "Rivalry Statistics: fix the 360x640 view",
    "mode": "code",
@@ -3281,7 +3281,7 @@
   "365": {
    "group": "career-screens",
    "job": 1380,
-   "prefix": "gameplay/job-1380-",
+   "prefix": "gameplay/train-career-screens-5",
    "stage": 2,
    "title": "Career Statistics: fix the 360x640 view",
    "mode": "code",
@@ -3299,7 +3299,7 @@
   "367": {
    "group": "rules-settings",
    "job": 1438,
-   "prefix": "gameplay/job-1438-",
+   "prefix": "gameplay/train-rules-settings-5",
    "stage": 2,
    "title": "Settings: fix the 360x640 view",
    "mode": "code",
@@ -3317,7 +3317,7 @@
   "369": {
    "group": "season-final",
    "job": 1236,
-   "prefix": "gameplay/job-1236-",
+   "prefix": "gameplay/train-season-final-5",
    "stage": 2,
    "title": "Standings: fix the 390x844 view",
    "mode": "code",
@@ -3335,7 +3335,7 @@
   "371": {
    "group": "rivalry-legacy",
    "job": 1352,
-   "prefix": "gameplay/job-1352-",
+   "prefix": "gameplay/train-rivalry-legacy-5",
    "stage": 2,
    "title": "Rivalry Statistics: fix the 390x844 view",
    "mode": "code",
@@ -3353,7 +3353,7 @@
   "373": {
    "group": "career-screens",
    "job": 1381,
-   "prefix": "gameplay/job-1381-",
+   "prefix": "gameplay/train-career-screens-5",
    "stage": 2,
    "title": "Career Statistics: fix the 390x844 view",
    "mode": "code",
@@ -3371,7 +3371,7 @@
   "375": {
    "group": "rules-settings",
    "job": 1439,
-   "prefix": "gameplay/job-1439-",
+   "prefix": "gameplay/train-rules-settings-5",
    "stage": 2,
    "title": "Settings: fix the 390x844 view",
    "mode": "code",
@@ -3389,7 +3389,7 @@
   "377": {
    "group": "season-final",
    "job": 1237,
-   "prefix": "gameplay/job-1237-",
+   "prefix": "gameplay/train-season-final-5",
    "stage": 2,
    "title": "Standings: fix the 430x932 view",
    "mode": "code",
@@ -3407,7 +3407,7 @@
   "379": {
    "group": "rivalry-legacy",
    "job": 1353,
-   "prefix": "gameplay/job-1353-",
+   "prefix": "gameplay/train-rivalry-legacy-5",
    "stage": 2,
    "title": "Rivalry Statistics: fix the 430x932 view",
    "mode": "code",
@@ -3425,7 +3425,7 @@
   "381": {
    "group": "career-screens",
    "job": 1382,
-   "prefix": "gameplay/job-1382-",
+   "prefix": "gameplay/train-career-screens-5",
    "stage": 2,
    "title": "Career Statistics: fix the 430x932 view",
    "mode": "code",
@@ -3443,7 +3443,7 @@
   "383": {
    "group": "rules-settings",
    "job": 1440,
-   "prefix": "gameplay/job-1440-",
+   "prefix": "gameplay/train-rules-settings-5",
    "stage": 2,
    "title": "Settings: fix the 430x932 view",
    "mode": "code",
@@ -3461,7 +3461,7 @@
   "385": {
    "group": "season-final",
    "job": 1238,
-   "prefix": "gameplay/job-1238-",
+   "prefix": "gameplay/train-season-final-5",
    "stage": 2,
    "title": "Standings: fix the 844x390 view",
    "mode": "code",
@@ -3479,7 +3479,7 @@
   "387": {
    "group": "rivalry-legacy",
    "job": 1354,
-   "prefix": "gameplay/job-1354-",
+   "prefix": "gameplay/train-rivalry-legacy-5",
    "stage": 2,
    "title": "Rivalry Statistics: fix the 844x390 view",
    "mode": "code",
@@ -3497,7 +3497,7 @@
   "389": {
    "group": "career-screens",
    "job": 1383,
-   "prefix": "gameplay/job-1383-",
+   "prefix": "gameplay/train-career-screens-5",
    "stage": 2,
    "title": "Career Statistics: fix the 844x390 view",
    "mode": "code",
@@ -3515,7 +3515,7 @@
   "391": {
    "group": "rules-settings",
    "job": 1441,
-   "prefix": "gameplay/job-1441-",
+   "prefix": "gameplay/train-rules-settings-5",
    "stage": 2,
    "title": "Settings: fix the 844x390 view",
    "mode": "code",
@@ -3533,7 +3533,7 @@
   "393": {
    "group": "season-final",
    "job": 1239,
-   "prefix": "gameplay/job-1239-",
+   "prefix": "gameplay/train-season-final-5",
    "stage": 2,
    "title": "Standings: fix the 932x430 view",
    "mode": "code",
@@ -3551,7 +3551,7 @@
   "395": {
    "group": "rivalry-legacy",
    "job": 1355,
-   "prefix": "gameplay/job-1355-",
+   "prefix": "gameplay/train-rivalry-legacy-5",
    "stage": 2,
    "title": "Rivalry Statistics: fix the 932x430 view",
    "mode": "code",
@@ -3569,7 +3569,7 @@
   "397": {
    "group": "career-screens",
    "job": 1384,
-   "prefix": "gameplay/job-1384-",
+   "prefix": "gameplay/train-career-screens-5",
    "stage": 2,
    "title": "Career Statistics: fix the 932x430 view",
    "mode": "code",
@@ -3587,7 +3587,7 @@
   "399": {
    "group": "rules-settings",
    "job": 1442,
-   "prefix": "gameplay/job-1442-",
+   "prefix": "gameplay/train-rules-settings-5",
    "stage": 2,
    "title": "Settings: fix the 932x430 view",
    "mode": "code",
@@ -3605,7 +3605,7 @@
   "401": {
    "group": "season-final",
    "job": 1240,
-   "prefix": "gameplay/job-1240-",
+   "prefix": "gameplay/train-season-final-6",
    "stage": 2,
    "title": "Standings: fix the 768x1024 view",
    "mode": "code",
@@ -3623,7 +3623,7 @@
   "403": {
    "group": "rivalry-legacy",
    "job": 1356,
-   "prefix": "gameplay/job-1356-",
+   "prefix": "gameplay/train-rivalry-legacy-6",
    "stage": 2,
    "title": "Rivalry Statistics: fix the 768x1024 view",
    "mode": "code",
@@ -3641,7 +3641,7 @@
   "405": {
    "group": "career-screens",
    "job": 1385,
-   "prefix": "gameplay/job-1385-",
+   "prefix": "gameplay/train-career-screens-6",
    "stage": 2,
    "title": "Career Statistics: fix the 768x1024 view",
    "mode": "code",
@@ -3659,7 +3659,7 @@
   "407": {
    "group": "rules-settings",
    "job": 1443,
-   "prefix": "gameplay/job-1443-",
+   "prefix": "gameplay/train-rules-settings-6",
    "stage": 2,
    "title": "Settings: fix the 768x1024 view",
    "mode": "code",
@@ -3677,7 +3677,7 @@
   "409": {
    "group": "season-final",
    "job": 1241,
-   "prefix": "gameplay/job-1241-",
+   "prefix": "gameplay/train-season-final-6",
    "stage": 2,
    "title": "Standings: fix the 1280x650 view",
    "mode": "code",
@@ -3695,7 +3695,7 @@
   "411": {
    "group": "rivalry-legacy",
    "job": 1357,
-   "prefix": "gameplay/job-1357-",
+   "prefix": "gameplay/train-rivalry-legacy-6",
    "stage": 2,
    "title": "Rivalry Statistics: fix the 1280x650 view",
    "mode": "code",
@@ -3713,7 +3713,7 @@
   "413": {
    "group": "career-screens",
    "job": 1386,
-   "prefix": "gameplay/job-1386-",
+   "prefix": "gameplay/train-career-screens-6",
    "stage": 2,
    "title": "Career Statistics: fix the 1280x650 view",
    "mode": "code",
@@ -3731,7 +3731,7 @@
   "415": {
    "group": "rules-settings",
    "job": 1444,
-   "prefix": "gameplay/job-1444-",
+   "prefix": "gameplay/train-rules-settings-6",
    "stage": 2,
    "title": "Settings: fix the 1280x650 view",
    "mode": "code",
@@ -3749,7 +3749,7 @@
   "417": {
    "group": "season-final",
    "job": 1242,
-   "prefix": "gameplay/job-1242-",
+   "prefix": "gameplay/train-season-final-6",
    "stage": 2,
    "title": "Standings: fix the 1366x768 view",
    "mode": "code",
@@ -3767,7 +3767,7 @@
   "419": {
    "group": "rivalry-legacy",
    "job": 1358,
-   "prefix": "gameplay/job-1358-",
+   "prefix": "gameplay/train-rivalry-legacy-6",
    "stage": 2,
    "title": "Rivalry Statistics: fix the 1366x768 view",
    "mode": "code",
@@ -3785,7 +3785,7 @@
   "421": {
    "group": "career-screens",
    "job": 1387,
-   "prefix": "gameplay/job-1387-",
+   "prefix": "gameplay/train-career-screens-6",
    "stage": 2,
    "title": "Career Statistics: fix the 1366x768 view",
    "mode": "code",
@@ -3803,7 +3803,7 @@
   "423": {
    "group": "rules-settings",
    "job": 1445,
-   "prefix": "gameplay/job-1445-",
+   "prefix": "gameplay/train-rules-settings-6",
    "stage": 2,
    "title": "Settings: fix the 1366x768 view",
    "mode": "code",
@@ -3821,7 +3821,7 @@
   "425": {
    "group": "season-final",
    "job": 1243,
-   "prefix": "gameplay/job-1243-",
+   "prefix": "gameplay/train-season-final-6",
    "stage": 2,
    "title": "Standings: fix the 1920x1080 view",
    "mode": "code",
@@ -3839,7 +3839,7 @@
   "427": {
    "group": "rivalry-legacy",
    "job": 1359,
-   "prefix": "gameplay/job-1359-",
+   "prefix": "gameplay/train-rivalry-legacy-6",
    "stage": 2,
    "title": "Rivalry Statistics: fix the 1920x1080 view",
    "mode": "code",
@@ -3857,7 +3857,7 @@
   "429": {
    "group": "career-screens",
    "job": 1388,
-   "prefix": "gameplay/job-1388-",
+   "prefix": "gameplay/train-career-screens-6",
    "stage": 2,
    "title": "Career Statistics: fix the 1920x1080 view",
    "mode": "code",
@@ -3875,7 +3875,7 @@
   "431": {
    "group": "rules-settings",
    "job": 1446,
-   "prefix": "gameplay/job-1446-",
+   "prefix": "gameplay/train-rules-settings-6",
    "stage": 2,
    "title": "Settings: fix the 1920x1080 view",
    "mode": "code",
@@ -3893,7 +3893,7 @@
   "433": {
    "group": "season-final",
    "job": 1244,
-   "prefix": "gameplay/job-1244-",
+   "prefix": "gameplay/train-season-final-6",
    "stage": 2,
    "title": "Standings: fix the 2560x1080 view",
    "mode": "code",
@@ -3911,7 +3911,7 @@
   "435": {
    "group": "rivalry-legacy",
    "job": 1360,
-   "prefix": "gameplay/job-1360-",
+   "prefix": "gameplay/train-rivalry-legacy-6",
    "stage": 2,
    "title": "Rivalry Statistics: fix the 2560x1080 view",
    "mode": "code",
@@ -3929,7 +3929,7 @@
   "437": {
    "group": "career-screens",
    "job": 1389,
-   "prefix": "gameplay/job-1389-",
+   "prefix": "gameplay/train-career-screens-6",
    "stage": 2,
    "title": "Career Statistics: fix the 2560x1080 view",
    "mode": "code",
@@ -3947,7 +3947,7 @@
   "439": {
    "group": "rules-settings",
    "job": 1447,
-   "prefix": "gameplay/job-1447-",
+   "prefix": "gameplay/train-rules-settings-6",
    "stage": 2,
    "title": "Settings: fix the 2560x1080 view",
    "mode": "code",
@@ -3965,7 +3965,7 @@
   "441": {
    "group": "season-final",
    "job": 1245,
-   "prefix": "gameplay/job-1245-",
+   "prefix": "gameplay/train-season-final-7",
    "stage": 3,
    "title": "Standings: match the desktop mockup",
    "mode": "code",
@@ -3983,7 +3983,7 @@
   "443": {
    "group": "rivalry-legacy",
    "job": 1361,
-   "prefix": "gameplay/job-1361-",
+   "prefix": "gameplay/train-rivalry-legacy-7",
    "stage": 3,
    "title": "Rivalry Statistics: match the desktop mockup",
    "mode": "code",
@@ -4001,7 +4001,7 @@
   "445": {
    "group": "career-screens",
    "job": 1390,
-   "prefix": "gameplay/job-1390-",
+   "prefix": "gameplay/train-career-screens-7",
    "stage": 3,
    "title": "Career Statistics: match the desktop mockup",
    "mode": "code",
@@ -4019,7 +4019,7 @@
   "447": {
    "group": "rules-settings",
    "job": 1448,
-   "prefix": "gameplay/job-1448-",
+   "prefix": "gameplay/train-rules-settings-7",
    "stage": 3,
    "title": "Settings: match the desktop mockup",
    "mode": "code",
@@ -4037,7 +4037,7 @@
   "449": {
    "group": "season-final",
    "job": 1246,
-   "prefix": "gameplay/job-1246-",
+   "prefix": "gameplay/train-season-final-7",
    "stage": 2,
    "title": "Standings: long names",
    "mode": "code",
@@ -4055,7 +4055,7 @@
   "451": {
    "group": "rivalry-legacy",
    "job": 1362,
-   "prefix": "gameplay/job-1362-",
+   "prefix": "gameplay/train-rivalry-legacy-7",
    "stage": 2,
    "title": "Rivalry Statistics: long names",
    "mode": "code",
@@ -4073,7 +4073,7 @@
   "453": {
    "group": "career-screens",
    "job": 1391,
-   "prefix": "gameplay/job-1391-",
+   "prefix": "gameplay/train-career-screens-7",
    "stage": 2,
    "title": "Career Statistics: long names",
    "mode": "code",
@@ -4091,7 +4091,7 @@
   "455": {
    "group": "rules-settings",
    "job": 1449,
-   "prefix": "gameplay/job-1449-",
+   "prefix": "gameplay/train-rules-settings-7",
    "stage": 2,
    "title": "Settings: long names",
    "mode": "code",
@@ -4109,7 +4109,7 @@
   "457": {
    "group": "season-final",
    "job": 1247,
-   "prefix": "gameplay/job-1247-",
+   "prefix": "gameplay/train-season-final-7",
    "stage": 2,
    "title": "Standings: tap targets",
    "mode": "code",
@@ -4127,7 +4127,7 @@
   "459": {
    "group": "rivalry-legacy",
    "job": 1363,
-   "prefix": "gameplay/job-1363-",
+   "prefix": "gameplay/train-rivalry-legacy-7",
    "stage": 2,
    "title": "Rivalry Statistics: tap targets",
    "mode": "code",
@@ -4145,7 +4145,7 @@
   "461": {
    "group": "career-screens",
    "job": 1392,
-   "prefix": "gameplay/job-1392-",
+   "prefix": "gameplay/train-career-screens-7",
    "stage": 2,
    "title": "Career Statistics: tap targets",
    "mode": "code",
@@ -4163,7 +4163,7 @@
   "463": {
    "group": "rules-settings",
    "job": 1450,
-   "prefix": "gameplay/job-1450-",
+   "prefix": "gameplay/train-rules-settings-7",
    "stage": 2,
    "title": "Settings: tap targets",
    "mode": "code",
@@ -4181,7 +4181,7 @@
   "465": {
    "group": "season-final",
    "job": 1248,
-   "prefix": "gameplay/job-1248-",
+   "prefix": "gameplay/train-season-final-7",
    "stage": 2,
    "title": "Standings: keyboard focus and reduced motion",
    "mode": "code",
@@ -4199,7 +4199,7 @@
   "467": {
    "group": "rivalry-legacy",
    "job": 1364,
-   "prefix": "gameplay/job-1364-",
+   "prefix": "gameplay/train-rivalry-legacy-7",
    "stage": 2,
    "title": "Rivalry Statistics: keyboard focus and reduced motion",
    "mode": "code",
@@ -4217,7 +4217,7 @@
   "469": {
    "group": "career-screens",
    "job": 1393,
-   "prefix": "gameplay/job-1393-",
+   "prefix": "gameplay/train-career-screens-7",
    "stage": 2,
    "title": "Career Statistics: keyboard focus and reduced motion",
    "mode": "code",
@@ -4235,7 +4235,7 @@
   "471": {
    "group": "rules-settings",
    "job": 1451,
-   "prefix": "gameplay/job-1451-",
+   "prefix": "gameplay/train-rules-settings-7",
    "stage": 2,
    "title": "Settings: keyboard focus and reduced motion",
    "mode": "code",
@@ -4253,7 +4253,7 @@
   "473": {
    "group": "season-final",
    "job": 1249,
-   "prefix": "gameplay/job-1249-",
+   "prefix": "gameplay/train-season-final-7",
    "stage": 2,
    "title": "Standings: text contrast",
    "mode": "code",
@@ -4271,7 +4271,7 @@
   "475": {
    "group": "rivalry-legacy",
    "job": 1365,
-   "prefix": "gameplay/job-1365-",
+   "prefix": "gameplay/train-rivalry-legacy-7",
    "stage": 2,
    "title": "Rivalry Statistics: text contrast",
    "mode": "code",
@@ -4289,7 +4289,7 @@
   "477": {
    "group": "career-screens",
    "job": 1394,
-   "prefix": "gameplay/job-1394-",
+   "prefix": "gameplay/train-career-screens-7",
    "stage": 2,
    "title": "Career Statistics: text contrast",
    "mode": "code",
@@ -4298,7 +4298,7 @@
   "478": {
    "group": "rules-settings",
    "job": 1452,
-   "prefix": "gameplay/job-1452-",
+   "prefix": "gameplay/train-rules-settings-7",
    "stage": 2,
    "title": "Settings: text contrast",
    "mode": "code",
@@ -4307,7 +4307,7 @@
   "479": {
    "group": "season-final",
    "job": 1250,
-   "prefix": "gameplay/job-1250-",
+   "prefix": "gameplay/train-season-final-8",
    "stage": 2,
    "title": "Standings: picture descriptions and labels",
    "mode": "code",
@@ -4316,7 +4316,7 @@
   "480": {
    "group": "rivalry-legacy",
    "job": 1366,
-   "prefix": "gameplay/job-1366-",
+   "prefix": "gameplay/train-rivalry-legacy-8",
    "stage": 2,
    "title": "Rivalry Statistics: picture descriptions and labels",
    "mode": "code",
@@ -4325,7 +4325,7 @@
   "481": {
    "group": "career-screens",
    "job": 1395,
-   "prefix": "gameplay/job-1395-",
+   "prefix": "gameplay/train-career-screens-8",
    "stage": 2,
    "title": "Career Statistics: picture descriptions and labels",
    "mode": "code",
@@ -4334,7 +4334,7 @@
   "482": {
    "group": "rules-settings",
    "job": 1453,
-   "prefix": "gameplay/job-1453-",
+   "prefix": "gameplay/train-rules-settings-8",
    "stage": 2,
    "title": "Settings: picture descriptions and labels",
    "mode": "code",
@@ -4343,7 +4343,7 @@
   "483": {
    "group": "season-final",
    "job": 1251,
-   "prefix": "gameplay/job-1251-",
+   "prefix": "gameplay/train-season-final-8",
    "stage": 2,
    "title": "Standings: loading state",
    "mode": "code",
@@ -4352,7 +4352,7 @@
   "484": {
    "group": "rivalry-legacy",
    "job": 1367,
-   "prefix": "gameplay/job-1367-",
+   "prefix": "gameplay/train-rivalry-legacy-8",
    "stage": 2,
    "title": "Rivalry Statistics: loading state",
    "mode": "code",
@@ -4361,7 +4361,7 @@
   "485": {
    "group": "career-screens",
    "job": 1396,
-   "prefix": "gameplay/job-1396-",
+   "prefix": "gameplay/train-career-screens-8",
    "stage": 2,
    "title": "Career Statistics: loading state",
    "mode": "code",
@@ -4370,7 +4370,7 @@
   "486": {
    "group": "rules-settings",
    "job": 1454,
-   "prefix": "gameplay/job-1454-",
+   "prefix": "gameplay/train-rules-settings-8",
    "stage": 2,
    "title": "Settings: loading state",
    "mode": "code",
@@ -4379,7 +4379,7 @@
   "487": {
    "group": "season-final",
    "job": 1252,
-   "prefix": "gameplay/job-1252-",
+   "prefix": "gameplay/train-season-final-8",
    "stage": 2,
    "title": "Standings: empty state",
    "mode": "code",
@@ -4388,7 +4388,7 @@
   "488": {
    "group": "rivalry-legacy",
    "job": 1368,
-   "prefix": "gameplay/job-1368-",
+   "prefix": "gameplay/train-rivalry-legacy-8",
    "stage": 2,
    "title": "Rivalry Statistics: empty state",
    "mode": "code",
@@ -4397,7 +4397,7 @@
   "489": {
    "group": "career-screens",
    "job": 1397,
-   "prefix": "gameplay/job-1397-",
+   "prefix": "gameplay/train-career-screens-8",
    "stage": 2,
    "title": "Career Statistics: empty state",
    "mode": "code",
@@ -4406,7 +4406,7 @@
   "490": {
    "group": "rules-settings",
    "job": 1455,
-   "prefix": "gameplay/job-1455-",
+   "prefix": "gameplay/train-rules-settings-8",
    "stage": 2,
    "title": "Settings: empty state",
    "mode": "code",
@@ -4415,7 +4415,7 @@
   "491": {
    "group": "season-final",
    "job": 1253,
-   "prefix": "gameplay/job-1253-",
+   "prefix": "gameplay/train-season-final-8",
    "stage": 2,
    "title": "Standings: error and retry state",
    "mode": "code",
@@ -4424,7 +4424,7 @@
   "492": {
    "group": "rivalry-legacy",
    "job": 1369,
-   "prefix": "gameplay/job-1369-",
+   "prefix": "gameplay/train-rivalry-legacy-8",
    "stage": 2,
    "title": "Rivalry Statistics: error and retry state",
    "mode": "code",
@@ -4433,7 +4433,7 @@
   "493": {
    "group": "career-screens",
    "job": 1398,
-   "prefix": "gameplay/job-1398-",
+   "prefix": "gameplay/train-career-screens-8",
    "stage": 2,
    "title": "Career Statistics: error and retry state",
    "mode": "code",
@@ -4442,7 +4442,7 @@
   "494": {
    "group": "rules-settings",
    "job": 1456,
-   "prefix": "gameplay/job-1456-",
+   "prefix": "gameplay/train-rules-settings-8",
    "stage": 2,
    "title": "Settings: error and retry state",
    "mode": "code",
@@ -4451,7 +4451,7 @@
   "495": {
    "group": "season-final",
    "job": 1254,
-   "prefix": "gameplay/job-1254-",
+   "prefix": "gameplay/train-season-final-8",
    "stage": 2,
    "title": "Standings: hover-only effects",
    "mode": "code",
@@ -4460,7 +4460,7 @@
   "496": {
    "group": "rivalry-legacy",
    "job": 1370,
-   "prefix": "gameplay/job-1370-",
+   "prefix": "gameplay/train-rivalry-legacy-8",
    "stage": 2,
    "title": "Rivalry Statistics: hover-only effects",
    "mode": "code",
@@ -4469,7 +4469,7 @@
   "497": {
    "group": "career-screens",
    "job": 1399,
-   "prefix": "gameplay/job-1399-",
+   "prefix": "gameplay/train-career-screens-8",
    "stage": 2,
    "title": "Career Statistics: hover-only effects",
    "mode": "code",
@@ -4478,7 +4478,7 @@
   "498": {
    "group": "rules-settings",
    "job": 1457,
-   "prefix": "gameplay/job-1457-",
+   "prefix": "gameplay/train-rules-settings-8",
    "stage": 2,
    "title": "Settings: hover-only effects",
    "mode": "code",
@@ -4487,7 +4487,7 @@
   "499": {
    "group": "season-final",
    "job": 1264,
-   "prefix": "gameplay/job-1264-",
+   "prefix": "gameplay/train-season-final-9",
    "stage": 2,
    "title": "Final Winner (Showdown Champion): fix the 360x640 view",
    "mode": "code",
@@ -4496,7 +4496,7 @@
   "500": {
    "group": "season-final",
    "job": 1265,
-   "prefix": "gameplay/job-1265-",
+   "prefix": "gameplay/train-season-final-9",
    "stage": 2,
    "title": "Final Winner (Showdown Champion): fix the 390x844 view",
    "mode": "code",
@@ -4505,7 +4505,7 @@
   "501": {
    "group": "season-final",
    "job": 1266,
-   "prefix": "gameplay/job-1266-",
+   "prefix": "gameplay/train-season-final-9",
    "stage": 2,
    "title": "Final Winner (Showdown Champion): fix the 430x932 view",
    "mode": "code",
@@ -4514,7 +4514,7 @@
   "502": {
    "group": "season-final",
    "job": 1267,
-   "prefix": "gameplay/job-1267-",
+   "prefix": "gameplay/train-season-final-9",
    "stage": 2,
    "title": "Final Winner (Showdown Champion): fix the 844x390 view",
    "mode": "code",
@@ -4523,7 +4523,7 @@
   "503": {
    "group": "season-final",
    "job": 1268,
-   "prefix": "gameplay/job-1268-",
+   "prefix": "gameplay/train-season-final-9",
    "stage": 2,
    "title": "Final Winner (Showdown Champion): fix the 932x430 view",
    "mode": "code",
@@ -4532,7 +4532,7 @@
   "504": {
    "group": "season-final",
    "job": 1269,
-   "prefix": "gameplay/job-1269-",
+   "prefix": "gameplay/train-season-final-10",
    "stage": 2,
    "title": "Final Winner (Showdown Champion): fix the 768x1024 view",
    "mode": "code",
@@ -4541,7 +4541,7 @@
   "505": {
    "group": "season-final",
    "job": 1270,
-   "prefix": "gameplay/job-1270-",
+   "prefix": "gameplay/train-season-final-10",
    "stage": 2,
    "title": "Final Winner (Showdown Champion): fix the 1280x650 view",
    "mode": "code",
@@ -4550,7 +4550,7 @@
   "506": {
    "group": "season-final",
    "job": 1271,
-   "prefix": "gameplay/job-1271-",
+   "prefix": "gameplay/train-season-final-10",
    "stage": 2,
    "title": "Final Winner (Showdown Champion): fix the 1366x768 view",
    "mode": "code",
@@ -4559,7 +4559,7 @@
   "507": {
    "group": "season-final",
    "job": 1272,
-   "prefix": "gameplay/job-1272-",
+   "prefix": "gameplay/train-season-final-10",
    "stage": 2,
    "title": "Final Winner (Showdown Champion): fix the 1920x1080 view",
    "mode": "code",
@@ -4568,7 +4568,7 @@
   "508": {
    "group": "season-final",
    "job": 1273,
-   "prefix": "gameplay/job-1273-",
+   "prefix": "gameplay/train-season-final-10",
    "stage": 2,
    "title": "Final Winner (Showdown Champion): fix the 2560x1080 view",
    "mode": "code",
@@ -4577,7 +4577,7 @@
   "509": {
    "group": "season-final",
    "job": 1274,
-   "prefix": "gameplay/job-1274-",
+   "prefix": "gameplay/train-season-final-11",
    "stage": 3,
    "title": "Final Winner (Showdown Champion): match the desktop mockup",
    "mode": "code",
@@ -4586,7 +4586,7 @@
   "510": {
    "group": "season-final",
    "job": 1275,
-   "prefix": "gameplay/job-1275-",
+   "prefix": "gameplay/train-season-final-11",
    "stage": 2,
    "title": "Final Winner (Showdown Champion): long names",
    "mode": "code",
@@ -4595,7 +4595,7 @@
   "511": {
    "group": "season-final",
    "job": 1276,
-   "prefix": "gameplay/job-1276-",
+   "prefix": "gameplay/train-season-final-11",
    "stage": 2,
    "title": "Final Winner (Showdown Champion): tap targets",
    "mode": "code",
@@ -4604,7 +4604,7 @@
   "512": {
    "group": "season-final",
    "job": 1277,
-   "prefix": "gameplay/job-1277-",
+   "prefix": "gameplay/train-season-final-11",
    "stage": 2,
    "title": "Final Winner (Showdown Champion): keyboard focus and reduced motion",
    "mode": "code",
@@ -4613,7 +4613,7 @@
   "513": {
    "group": "season-final",
    "job": 1278,
-   "prefix": "gameplay/job-1278-",
+   "prefix": "gameplay/train-season-final-11",
    "stage": 2,
    "title": "Final Winner (Showdown Champion): text contrast",
    "mode": "code",
@@ -4622,7 +4622,7 @@
   "514": {
    "group": "season-final",
    "job": 1279,
-   "prefix": "gameplay/job-1279-",
+   "prefix": "gameplay/train-season-final-12",
    "stage": 2,
    "title": "Final Winner (Showdown Champion): picture descriptions and labels",
    "mode": "code",
@@ -4631,7 +4631,7 @@
   "515": {
    "group": "season-final",
    "job": 1280,
-   "prefix": "gameplay/job-1280-",
+   "prefix": "gameplay/train-season-final-12",
    "stage": 2,
    "title": "Final Winner (Showdown Champion): loading state",
    "mode": "code",
@@ -4640,7 +4640,7 @@
   "516": {
    "group": "season-final",
    "job": 1281,
-   "prefix": "gameplay/job-1281-",
+   "prefix": "gameplay/train-season-final-12",
    "stage": 2,
    "title": "Final Winner (Showdown Champion): empty state",
    "mode": "code",
@@ -4649,7 +4649,7 @@
   "517": {
    "group": "season-final",
    "job": 1282,
-   "prefix": "gameplay/job-1282-",
+   "prefix": "gameplay/train-season-final-12",
    "stage": 2,
    "title": "Final Winner (Showdown Champion): error and retry state",
    "mode": "code",
@@ -4658,7 +4658,7 @@
   "518": {
    "group": "season-final",
    "job": 1283,
-   "prefix": "gameplay/job-1283-",
+   "prefix": "gameplay/train-season-final-12",
    "stage": 2,
    "title": "Final Winner (Showdown Champion): hover-only effects",
    "mode": "code",

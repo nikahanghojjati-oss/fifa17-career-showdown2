@@ -1,24 +1,35 @@
 #!/usr/bin/env python3
-"""Derives live mega-factory queue state from GitHub (branches and PRs). No Claude usage, no hand-written numbers.
+"""Derives live mega-factory queue state from GitHub (branches, PRs, train branches). No Claude usage.
 
   GH_TOKEN=... python3 queue_state.py [--repo owner/name] [--out-dir DIR]
 
-Writes QUEUE_STATE.json and QUEUE.md next to QUEUE.json. A ticket is
-  waiting   no branch with its prefix yet
-  current   it is the first waiting ticket of its slot (what the slot's chat will pick next)
-  pr_open / merged / closed / blocked / branch_only  from the PR titled "JOB-NNNN ..." or the branch name.
+Writes QUEUE_STATE.json and QUEUE.md. Job states:
+  waiting     nothing on GitHub yet
+  on_train    code job: its status file is committed on its train branch, no train PR yet
+  branch_only study/audit: branch exists, no PR (e.g. "no change needed")
+  blocked     study/audit branch ending -blocked
+  pr_open / merged / closed   from the PR (code jobs: the train PR; study/audit: the job PR "JOB-N ...")
+Code jobs travel in trains of 5 per lock group (branch gameplay/train-<group>-<k>), one draft PR per train.
+sequence.ready_sol / ready_codex list the numbers typable now; rule: a group's first waiting item is ready when its
+previous train is merged or closed (no open train PR for the group); at most 8 READY (non-draft) open train PRs.
 """
 import argparse, json, pathlib, subprocess, datetime, re
 
 HERE = pathlib.Path(__file__).resolve().parent
+BASE = "gameplay/bug-list-1"
 
-def gh(path, pages=15):
+def api(path):
+    r = subprocess.run(["gh", "api", path], capture_output=True, text=True)
+    if r.returncode:
+        return None
+    return json.loads(r.stdout or "null")
+
+def paged(path, pages=15):
     out = []
     for pg in range(1, pages + 1):
-        r = subprocess.run(["gh", "api", f"{path}&page={pg}"], capture_output=True, text=True)
-        if r.returncode:
-            raise SystemExit("gh failed: " + r.stderr[:300])
-        chunk = json.loads(r.stdout or "[]")
+        chunk = api(f"{path}&page={pg}")
+        if chunk is None:
+            raise SystemExit("gh failed: " + path)
         out.extend(chunk)
         if len(chunk) < 100:
             break
@@ -30,86 +41,101 @@ def main():
     ap.add_argument("--out-dir", default=str(HERE))
     a = ap.parse_args()
     q = json.loads((HERE / "QUEUE.json").read_text())
-    branches = [b["name"] for b in gh(f"repos/{a.repo}/branches?per_page=100")]
-    prs = gh(f"repos/{a.repo}/pulls?state=all&per_page=100&sort=updated&direction=desc")
-    by_job = {}
+    tk = q["tickets"]
+    branches = [b["name"] for b in paged(f"repos/{a.repo}/branches?per_page=100")]
+    prs = paged(f"repos/{a.repo}/pulls?state=all&per_page=100&sort=updated&direction=desc")
+    by_job, by_head = {}, {}
     for p in prs:
         m = re.match(r"\s*JOB-(\d{4})\b", p["title"])
         if m:
             cur = by_job.get(m.group(1))
-            if not cur or p["updated_at"] > cur["updated_at"]:
-                by_job[m.group(1)] = p
+            if not cur or p["updated_at"] > cur["updated_at"]: by_job[m.group(1)] = p
+        h = p["head"]["ref"]
+        if h not in by_head or p["updated_at"] > by_head[h]["updated_at"]: by_head[h] = p
+    def pstate(p):
+        return "merged" if p.get("merged_at") else ("pr_open" if p["state"] == "open" else "closed")
+    trains = {}
+    for t in tk.values():
+        if t["mode"] == "code": trains[t["train"]["branch"]] = t["train"]
+    train_done, train_pr = {}, {}
+    for br in trains:
+        pr = by_head.get(br)
+        train_pr[br] = pr
+        done = set()
+        if br in branches:
+            cmp_ = api(f"repos/{a.repo}/compare/{BASE}...{br}")
+            for f in (cmp_ or {}).get("files", []):
+                m = re.search(r"status/JOB-(\d{4})\.md$", f["filename"])
+                if m: done.add(m.group(1))
+        train_done[br] = done
     state = {}
-    for num, t in q["tickets"].items():
-        pre = t["prefix"]
-        bs = [b for b in branches if b.startswith(pre)]
-        pr = by_job.get(num)
-        if pr:
-            st = "merged" if pr.get("merged_at") else ("pr_open" if pr["state"] == "open" else "closed")
-        elif any(b.endswith("-blocked") for b in bs):
-            st = "blocked"
-        elif bs:
-            st = "branch_only"
+    for num, t in tk.items():
+        if t["mode"] == "code":
+            br = t["train"]["branch"]; pr = train_pr[br]
+            if pr:
+                st = pstate(pr)
+            elif num in train_done[br]:
+                st = "on_train"
+            else:
+                st = "waiting"
+            state[num] = {"state": st, "pr": pr["number"] if pr else None, "draft": bool(pr and pr.get("draft")),
+                          "pr_url": pr["html_url"] if pr else None, "branch": br if br in branches else None}
         else:
-            st = "waiting"
-        state[num] = {"state": st, "pr": pr["number"] if pr else None, "draft": bool(pr and pr.get("draft")), "pr_url": pr["html_url"] if pr else None,
-                      "branch": bs[0] if bs else None}
+            pre = t["prefix"]
+            bs = [b for b in branches if b.startswith(pre)]
+            pr = by_job.get(num)
+            if pr: st = pstate(pr)
+            elif any(b.endswith("-blocked") for b in bs): st = "blocked"
+            elif bs: st = "branch_only"
+            else: st = "waiting"
+            state[num] = {"state": st, "pr": pr["number"] if pr else None, "draft": bool(pr and pr.get("draft")),
+                          "pr_url": pr["html_url"] if pr else None, "branch": bs[0] if bs else None}
     slots = {}
-    for s, sl in q["slots"].items():
-        jobs = [str(j) for j in sl["jobs"]]
-        nxt = next((j for j in jobs if state[j]["state"] == "waiting"), None)
-        done = sum(1 for j in jobs if state[j]["state"] != "waiting")
-        slots[s] = {"kind": sl["kind"], "next_job": nxt, "taken": done, "total": len(jobs)}
-    if q["slots"]:
-        rev = {s: sl for s, sl in slots.items() if sl["kind"] == "reviewer"}
-        open_prs = [n for n, v in state.items() if v["state"] == "pr_open"]
-        for s in rev: slots[s]["reviews_waiting"] = len(open_prs)
-    now = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
-    counts = {}
-    for v in state.values(): counts[v["state"]] = counts.get(v["state"], 0) + 1
-    stages = {}
-    for num, t in q["tickets"].items():
-        st = stages.setdefault(str(t["stage"]), {"total": 0, "taken": 0, "merged": 0})
-        st["total"] += 1
-        if state[num]["state"] != "waiting": st["taken"] += 1
-        if state[num]["state"] == "merged": st["merged"] += 1
+    # sequence
     seq = {}
     order = HERE / "ORDER.json"
     if order.exists():
         o = json.loads(order.read_text())["items"]
-        nxt_free = None
+        locked, ready_open = set(), 0
+        for br, tr in trains.items():
+            pr = train_pr[br]
+            if pr and pr["state"] == "open":
+                locked.add(tr["group"])
+                if not pr.get("draft"): ready_open += 1
+        ready, seen_group = [], set(locked)
         for k in sorted(o, key=int):
-            st = state[str(o[k]["job"])]["state"]
-            seq[k] = st
-            if nxt_free is None and st == "waiting":
-                nxt_free = int(k)
-        ready, open_code, locked = [], 0, set()
-        for k in sorted(o, key=int):
-            t = q["tickets"][str(o[k]["job"])]
-            if t["mode"] == "code" and state[str(o[k]["job"])]["state"] == "pr_open":
-                locked.add(t["group"])
-                if not state[str(o[k]["job"])]["draft"]: open_code += 1  # cap counts ready (non-draft) code PRs
-        seen = set(locked)
-        for k in sorted(o, key=int):
-            j = str(o[k]["job"]); t = q["tickets"][j]
+            j = str(o[k]["job"]); t = tk[j]
             if state[j]["state"] != "waiting": continue
             if t["mode"] == "code":
-                if t["group"] in seen or open_code >= 8: continue
-                seen.add(t["group"])
+                g = t["train"]["group"]
+                if g in seen_group or ready_open >= 8: continue
+                seen_group.add(g)
             ready.append(int(k))
-        highest_taken = max([int(k) for k, v in seq.items() if v != "waiting"] or [0])
+        mode = lambda r: tk[str(o[str(r)]["job"])]["mode"]
+        taken = [int(k) for k, v in o.items() if state[str(v["job"])]["state"] != "waiting"]
         seq = {"ready": ready[:12],
-                "ready_sol": [r for r in ready if q["tickets"][str(o[str(r)]["job"])]["mode"] != "code"][:12],
-                "ready_codex": [r for r in ready if q["tickets"][str(o[str(r)]["job"])]["mode"] == "code"][:12], "open_code_prs": open_code, "next_free": nxt_free, "highest_taken": highest_taken, "total": len(o), "states": seq}
-    out = {"sequence": seq, "updated": now, "counts": counts, "stages": stages, "slots": slots, "tickets": state}
+               "ready_sol": [r for r in ready if mode(r) != "code"][:12],
+               "ready_codex": [r for r in ready if mode(r) == "code"][:12],
+               "open_code_prs": ready_open, "open_train_prs": len(locked),
+               "next_free": ready[0] if ready else None, "highest_taken": max(taken or [0]), "total": len(o),
+               "states": {k: state[str(v["job"])]["state"] for k, v in o.items()}}
+    now = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    counts, stages = {}, {}
+    for num, v in state.items():
+        counts[v["state"]] = counts.get(v["state"], 0) + 1
+        st = stages.setdefault(str(tk[num]["stage"]), {"total": 0, "taken": 0, "merged": 0})
+        st["total"] += 1
+        if v["state"] != "waiting": st["taken"] += 1
+        if v["state"] == "merged": st["merged"] += 1
+    out = {"sequence": seq, "updated": now, "counts": counts, "stages": stages, "slots": slots,
+           "trains": {br: {"jobs": tr["jobs"], "done": sorted(train_done[br]), "pr": (train_pr[br] or {}).get("number"),
+                           "state": pstate(train_pr[br]) if train_pr[br] else None} for br, tr in trains.items()},
+           "tickets": state}
     od = pathlib.Path(a.out_dir)
     (od / "QUEUE_STATE.json").write_text(json.dumps(out, indent=1) + "\n")
-    L = [f"# Mega factory queue · updated {now}", "",
-         "Stage | tickets | picked up | merged", "--- | --- | --- | ---"]
+    L = [f"# Mega factory queue · updated {now}", "", "Stage | tickets | picked up | merged", "--- | --- | --- | ---"]
     for k in sorted(stages): L.append(f"{k} | {stages[k]['total']} | {stages[k]['taken']} | {stages[k]['merged']}")
-    L += ["", "Slot | next job | picked up", "--- | --- | ---"]
-    for s, v in slots.items():
-        L.append(f"{s} | {v['next_job'] or ('reviewer' if v['kind']=='reviewer' else 'empty')} | {v['taken']}/{v['total']}")
+    L += ["", f"Type now (Sol chat): {seq.get('ready_sol')}", f"Type now (Codex): {seq.get('ready_codex')}"]
     (od / "QUEUE.md").write_text("\n".join(L) + "\n")
     print(json.dumps(counts))
 

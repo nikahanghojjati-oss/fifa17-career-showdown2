@@ -17,3 +17,6 @@
 - Code items (into `gameplay/bug-list-1`) have a **lock group** (screen, or shared files: season-final, rivalry-legacy, rules-settings): one open code PR per group, strict job order inside a group, at most 8 open code PRs overall. The item file carries these guards, so a chat refuses politely; `QUEUE_STATE.json` `sequence.ready` lists the numbers that pass them.
 - Audits (findings files into `qa/mega-audits`) and studies (new HTML into `study/mega-queue`) are never locked. The sequence alternates one code item with one free item so there is always a number to type.
 - PR titles carry the group, e.g. `JOB-1061 [home] Home: fix the 360x640 view`. Every code ticket names its Done check.
+
+## Trains (Team G lead, 2026-10-10)
+Code items commit onto `gameplay/train-<group>-<k>` (5 per train); status files `status/JOB-N.md` on the train mark items finished; the 5th item opens one draft train PR titled `JOB-a JOB-b ... [group] train k`. `queue_state.py` reads trains via the compare API and PRs by head branch. Study/audit items keep one branch and one draft PR each.

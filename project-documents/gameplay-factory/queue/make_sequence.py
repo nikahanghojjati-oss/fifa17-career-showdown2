@@ -39,13 +39,17 @@ def main():
     for i, job in enumerate(order, 1):
         t = tk[str(job)]
         body = (GF / "jobs" / f"JOB-{job}.md").read_text()
-        head = (f"<!-- queue item {i:04d} = job {job}; branch prefix {t['prefix']} -->\n"
-                f"**Queue item {i} · Job {job}.** Before anything else (GitHub connector, or `git ls-remote --heads origin` if you are Codex): if a branch starting with `{t['prefix']}` already exists, reply exactly `Number {i} is already done. Try {i+1}.` and stop.\n")
         if t["mode"] == "code":
-            pj = prev_in_group.get(job)
-            pre = f"- Earlier job of this lock group `{t['group']}` is Job {pj} (branch prefix `{tk[str(pj)]['prefix']}`): if no branch with that prefix exists yet, reply exactly `Number {i} must wait for an earlier number in group {t['group']}. Type the next number.` and stop.\n" if pj else ""
-            head += (f"**Guard (code job):**\n{pre}"
-                     f"- Nik starts code numbers from the board's ready list, which already honours the lock group `{t['group']}` and the cap of eight open code pull requests.\n")
+            tr = t["train"]; st = f"project-documents/gameplay-factory/status/JOB-{job}.md"
+            head = (f"<!-- queue item {i:04d} = job {job}; train {tr['branch']} item {tr['pos']} of {tr['m']} -->\n"
+                    f"**Queue item {i} · Job {job} · train `{tr['branch']}` item {tr['pos']} of {tr['m']}.** Before anything else, `git fetch origin {tr['branch']}` (it may not exist yet, that is fine for item 1).\n"
+                    f"- If `{st}` already exists on `origin/{tr['branch']}`, reply exactly `Number {i} is already done. Try {i+1}.` and stop.\n")
+            if tr["prev"] and tr["pos"] > 1:
+                head += f"- If `project-documents/gameplay-factory/status/JOB-{tr['prev']}.md` does not exist on `origin/{tr['branch']}`, the earlier item of this train is not finished: reply exactly `Number {i} must wait for the earlier number of train {tr['branch']}. Type the next number.` and stop.\n"
+            head += f"- Nik starts code numbers from the board's Codex list, which already honours the lock group `{t['group']}` (one open train PR at a time) and the cap of eight ready PRs.\n"
+        else:
+            head = (f"<!-- queue item {i:04d} = job {job}; branch prefix {t['prefix']} -->\n"
+                    f"**Queue item {i} · Job {job}.** Before anything else (GitHub connector, or `git ls-remote --heads origin` if you are Codex): if a branch starting with `{t['prefix']}` already exists, reply exactly `Number {i} is already done. Try {i+1}.` and stop.\n")
         head += "Otherwise do the job below, exactly.\n\n"
         (items / f"{i:04d}.md").write_text(head + body)
         seq[str(i)] = {"group": t.get("group"), "job": job, "prefix": t["prefix"], "stage": t["stage"], "title": t["title"], "mode": t["mode"], "screen": t["screen"]}
