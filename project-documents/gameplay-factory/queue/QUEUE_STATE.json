@@ -1,9 +1,7 @@
 {
  "sequence": {
   "ready": [
-   5,
    7,
-   8,
    9,
    10,
    11,
@@ -12,12 +10,12 @@
    14,
    15,
    16,
-   17
+   17,
+   18,
+   19
   ],
   "ready_sol": [
-   5,
    7,
-   8,
    9,
    10,
    11,
@@ -26,23 +24,25 @@
    14,
    15,
    16,
-   17
+   17,
+   18,
+   19
   ],
   "ready_codex": [],
   "open_code_prs": 0,
   "open_train_prs": 0,
-  "next_free": 5,
-  "highest_taken": 6,
+  "next_free": 7,
+  "highest_taken": 8,
   "total": 518,
   "states": {
    "1": "on_train",
    "2": "pr_open",
    "3": "on_train",
    "4": "pr_open",
-   "5": "waiting",
-   "6": "branch_only",
+   "5": "on_train",
+   "6": "pr_open",
    "7": "waiting",
-   "8": "waiting",
+   "8": "pr_open",
    "9": "waiting",
    "10": "waiting",
    "11": "waiting",
@@ -555,17 +555,16 @@
    "518": "waiting"
   }
  },
- "updated": "2026-10-10T14:57:25Z",
+ "updated": "2026-10-10T15:01:03Z",
  "counts": {
-  "on_train": 2,
-  "waiting": 513,
-  "pr_open": 2,
-  "branch_only": 1
+  "on_train": 3,
+  "waiting": 511,
+  "pr_open": 4
  },
  "stages": {
   "2": {
    "total": 266,
-   "taken": 2,
+   "taken": 3,
    "merged": 0
   },
   "3": {
@@ -585,7 +584,7 @@
   },
   "1": {
    "total": 112,
-   "taken": 3,
+   "taken": 4,
    "merged": 0
   }
  },
@@ -699,7 +698,9 @@
     1122,
     1123
    ],
-   "done": [],
+   "done": [
+    "1119"
+   ],
    "pr": null,
    "state": null
   },
@@ -1676,7 +1677,7 @@
    "branch": null
   },
   "1119": {
-   "state": "waiting",
+   "state": "on_train",
    "pr": null,
    "draft": false,
    "pr_url": null,
@@ -2086,35 +2087,35 @@
    "pr": null,
    "draft": false,
    "pr_url": null,
-   "branch": null
+   "branch": "gameplay/train-transfer-1"
   },
   "1178": {
    "state": "waiting",
    "pr": null,
    "draft": false,
    "pr_url": null,
-   "branch": null
+   "branch": "gameplay/train-transfer-1"
   },
   "1179": {
    "state": "waiting",
    "pr": null,
    "draft": false,
    "pr_url": null,
-   "branch": null
+   "branch": "gameplay/train-transfer-1"
   },
   "1180": {
    "state": "waiting",
    "pr": null,
    "draft": false,
    "pr_url": null,
-   "branch": null
+   "branch": "gameplay/train-transfer-1"
   },
   "1181": {
    "state": "waiting",
    "pr": null,
    "draft": false,
    "pr_url": null,
-   "branch": null
+   "branch": "gameplay/train-transfer-1"
   },
   "1182": {
    "state": "waiting",
@@ -4126,18 +4127,18 @@
    "branch": "qa/job-1468-long-names-audit"
   },
   "1469": {
-   "state": "branch_only",
-   "pr": null,
-   "draft": false,
-   "pr_url": null,
+   "state": "pr_open",
+   "pr": 461,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/461",
    "branch": "qa/job-1469-safe-area-audit"
   },
   "1470": {
-   "state": "waiting",
-   "pr": null,
-   "draft": false,
-   "pr_url": null,
-   "branch": null
+   "state": "pr_open",
+   "pr": 462,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/462",
+   "branch": "qa/job-1470-short-landscape-css-audit"
   },
   "1471": {
    "state": "waiting",

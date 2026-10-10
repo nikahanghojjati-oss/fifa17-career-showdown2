@@ -1,30 +1,28 @@
 {
-"updated": "2026-10-10T14:57:25Z",
+"updated": "2026-10-10T15:01:03Z",
 "total": 518,
-"next_free": 5,
-"highest_taken": 6,
+"next_free": 7,
+"highest_taken": 8,
 "counts": {
-"on_train": 2,
-"draft": 2,
-"waiting": 513,
-"started": 1
+"on_train": 3,
+"draft": 4,
+"waiting": 511
 },
 "stages": {
 "2": {
 "name": "Screen fixes",
 "total": 266,
 "states": {
-"on_train": 2,
-"waiting": 264
+"on_train": 3,
+"waiting": 263
 }
 },
 "1": {
 "name": "Gameplay audits",
 "total": 112,
 "states": {
-"draft": 2,
-"started": 1,
-"waiting": 109
+"draft": 4,
+"waiting": 108
 }
 },
 "3": {
@@ -56,14 +54,13 @@
 "open_train_prs": [],
 "on_train_no_pr": [
 1,
-3
+3,
+5
 ],
 "draft_code_prs": 0,
 "area_locks": {},
 "ready": [
-5,
 7,
-8,
 9,
 10,
 11,
@@ -72,12 +69,12 @@
 14,
 15,
 16,
-17
+17,
+18,
+19
 ],
 "ready_sol": [
-5,
 7,
-8,
 9,
 10,
 11,
@@ -86,13 +83,15 @@
 14,
 15,
 16,
-17
+17,
+18,
+19
 ],
 "ready_codex": []
 },
 "rate": {
-"claimed_last_hour": 5,
-"claimed_last_10min": 3,
+"claimed_last_hour": 7,
+"claimed_last_10min": 4,
 "merged_last_hour": 0
 },
 "events": [
@@ -130,6 +129,27 @@
 "job": 1469,
 "from": "waiting",
 "to": "started"
+},
+{
+"at": "2026-10-10T15:01:03Z",
+"item": 5,
+"job": 1119,
+"from": "waiting",
+"to": "on_train"
+},
+{
+"at": "2026-10-10T15:01:03Z",
+"item": 6,
+"job": 1469,
+"from": "started",
+"to": "draft"
+},
+{
+"at": "2026-10-10T15:01:03Z",
+"item": 8,
+"job": 1470,
+"from": "waiting",
+"to": "draft"
 }
 ],
 "items": {
@@ -201,8 +221,10 @@
 "title": "Select League: fix the 360x640 view",
 "mode": "code",
 "group": "league",
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"state": "on_train",
+"branch": "gameplay/train-league-1",
+"first_seen": "2026-10-10T15:01:03Z",
+"since": "2026-10-10T15:01:03Z"
 },
 "6": {
 "job": 1469,
@@ -210,12 +232,19 @@
 "title": "Audit all screens: phone notch and bottom bar safe areas",
 "mode": "audit",
 "group": null,
-"state": "started",
+"pr": 461,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/461",
+"base": "qa/mega-audits",
 "branch": "qa/job-1469-safe-area-audit",
-"branch_sha": "c8b1f8a7ad463c701ffde174c23c614d43ec4982",
-"no_pr_reason": "",
+"ci": "draft",
+"ci_sha": "c8b1f8a7ad463c701ffde174c23c614d43ec4982",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-10T14:57:38Z",
 "first_seen": "2026-10-10T14:57:25Z",
-"since": "2026-10-10T14:57:25Z"
+"since": "2026-10-10T15:01:03Z"
 },
 "7": {
 "job": 1148,
@@ -232,8 +261,19 @@
 "title": "Audit all screens: phone held sideways: nothing hidden or overlapping",
 "mode": "audit",
 "group": null,
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"pr": 462,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/462",
+"base": "qa/mega-audits",
+"branch": "qa/job-1470-short-landscape-css-audit",
+"ci": "draft",
+"ci_sha": "7bb821a116cf0e4b5991504e37039d5f29a4142b",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-10T15:00:43Z",
+"first_seen": "2026-10-10T15:00:43Z",
+"since": "2026-10-10T15:01:03Z"
 },
 "9": {
 "job": 1177,
