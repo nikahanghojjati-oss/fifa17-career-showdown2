@@ -4,13 +4,835 @@
 
 ![Jobs live per release](history-chart.svg)
 
-Updated Fri 9 Oct, 9:53 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Fri 9 Oct, 9:54 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r67** (main `f42dac2`, Fri 9 Oct 9:34 PM)
 
 🩺 **All clear: every check has a machine.** · POS20 #304 6/16
 
 ## Jobs
+
+### 👉 Next for you, in this order
+
+**#1 · 1061** `G` Home: phone layout fixes (upright and sideways) (stage 2)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · model not set · GPT chat: type 'Job 1061'
+
+New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
+
+```text
+Job 1061
+```
+
+**#2 · 1062** `G` Home: small desktop and laptop layout fixes (stage 2)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · model not set · GPT chat: type 'Job 1062'
+
+New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
+
+```text
+Job 1062
+```
+
+**#3 · 1063** `G` Home: match the desktop screen to its desktop mockup (stage 3)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · model not set · GPT chat: type 'Job 1063'
+
+New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
+
+```text
+Job 1063
+```
+
+**#4 · 1064** `G` Home: phone mockup (HTML and CSS study) (stage 4)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · model not set · GPT chat: type 'Job 1064'
+
+New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
+
+```text
+Job 1064
+```
+
+**#5 · 1065** `G` Home: improved desktop version (HTML and CSS study) (stage 5)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · model not set · GPT chat: type 'Job 1065'
+
+New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
+
+```text
+Job 1065
+```
+
+**#6 · 1066** `G` Connect Players (start and join): phone layout fixes (upright and sideways) (stage 2)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · model not set · GPT chat: type 'Job 1066'
+
+New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
+
+```text
+Job 1066
+```
+
+**#7 · 1067** `G` Connect Players (start and join): small desktop and laptop layout fixes (stage 2)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · model not set · GPT chat: type 'Job 1067'
+
+New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
+
+```text
+Job 1067
+```
+
+**#8 · 1068** `G` Connect Players (start and join): match the desktop screen to its desktop mockup (stage 3)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · model not set · GPT chat: type 'Job 1068'
+
+New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
+
+```text
+Job 1068
+```
+
+**#9 · 1069** `G` Connect Players (start and join): phone mockup (HTML and CSS study) (stage 4)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · model not set · GPT chat: type 'Job 1069'
+
+New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
+
+```text
+Job 1069
+```
+
+**#10 · 1070** `G` Connect Players (start and join): improved desktop version (HTML and CSS study) (stage 5)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · model not set · GPT chat: type 'Job 1070'
+
+New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
+
+```text
+Job 1070
+```
+
+**#11 · 1071** `G` Select League: phone layout fixes (upright and sideways) (stage 2)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · model not set · GPT chat: type 'Job 1071'
+
+New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
+
+```text
+Job 1071
+```
+
+**#12 · 1072** `G` Select League: small desktop and laptop layout fixes (stage 2)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · model not set · GPT chat: type 'Job 1072'
+
+New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
+
+```text
+Job 1072
+```
+
+**#13 · 1073** `G` Select League: match the desktop screen to its desktop mockup (stage 3)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · model not set · GPT chat: type 'Job 1073'
+
+New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
+
+```text
+Job 1073
+```
+
+**#14 · 1074** `G` Select League: phone mockup (HTML and CSS study) (stage 4)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · model not set · GPT chat: type 'Job 1074'
+
+New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
+
+```text
+Job 1074
+```
+
+**#15 · 1075** `G` Select League: improved desktop version (HTML and CSS study) (stage 5)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · model not set · GPT chat: type 'Job 1075'
+
+New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
+
+```text
+Job 1075
+```
+
+**#16 · 1076** `G` Club packs: phone layout fixes (upright and sideways) (stage 2)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · model not set · GPT chat: type 'Job 1076'
+
+New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
+
+```text
+Job 1076
+```
+
+**#17 · 1077** `G` Club packs: small desktop and laptop layout fixes (stage 2)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · model not set · GPT chat: type 'Job 1077'
+
+New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
+
+```text
+Job 1077
+```
+
+**#18 · 1078** `G` Club packs: match the desktop screen to its desktop mockup (stage 3)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · model not set · GPT chat: type 'Job 1078'
+
+New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
+
+```text
+Job 1078
+```
+
+**#19 · 1079** `G` Club packs: phone mockup (HTML and CSS study) (stage 4)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · model not set · GPT chat: type 'Job 1079'
+
+New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
+
+```text
+Job 1079
+```
+
+**#20 · 1080** `G` Club packs: improved desktop version (HTML and CSS study) (stage 5)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · model not set · GPT chat: type 'Job 1080'
+
+New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
+
+```text
+Job 1080
+```
+
+**#21 · 1081** `G` Transfer challenge and Signing Entry: phone layout fixes (upright and sideways) (stage 2)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · model not set · GPT chat: type 'Job 1081'
+
+New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
+
+```text
+Job 1081
+```
+
+**#22 · 1082** `G` Transfer challenge and Signing Entry: small desktop and laptop layout fixes (stage 2)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · model not set · GPT chat: type 'Job 1082'
+
+New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
+
+```text
+Job 1082
+```
+
+**#23 · 1083** `G` Transfer challenge and Signing Entry: match the desktop screen to its desktop mockup (stage 3)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · model not set · GPT chat: type 'Job 1083'
+
+New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
+
+```text
+Job 1083
+```
+
+**#24 · 1084** `G` Transfer challenge and Signing Entry: phone mockup (HTML and CSS study) (stage 4)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · model not set · GPT chat: type 'Job 1084'
+
+New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
+
+```text
+Job 1084
+```
+
+**#25 · 1085** `G` Transfer challenge and Signing Entry: improved desktop version (HTML and CSS study) (stage 5)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · model not set · GPT chat: type 'Job 1085'
+
+New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
+
+```text
+Job 1085
+```
+
+**#26 · 1086** `G` Season Results: phone layout fixes (upright and sideways) (stage 2)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · model not set · GPT chat: type 'Job 1086'
+
+New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
+
+```text
+Job 1086
+```
+
+**#27 · 1087** `G` Season Results: small desktop and laptop layout fixes (stage 2)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · model not set · GPT chat: type 'Job 1087'
+
+New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
+
+```text
+Job 1087
+```
+
+**#28 · 1088** `G` Season Results: match the desktop screen to its desktop mockup (stage 3)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · model not set · GPT chat: type 'Job 1088'
+
+New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
+
+```text
+Job 1088
+```
+
+**#29 · 1089** `G` Season Results: phone mockup (HTML and CSS study) (stage 4)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · model not set · GPT chat: type 'Job 1089'
+
+New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
+
+```text
+Job 1089
+```
+
+**#30 · 1090** `G` Season Results: improved desktop version (HTML and CSS study) (stage 5)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · model not set · GPT chat: type 'Job 1090'
+
+New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
+
+```text
+Job 1090
+```
+
+**#31 · 1091** `G` Standings: phone layout fixes (upright and sideways) (stage 2)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · model not set · GPT chat: type 'Job 1091'
+
+New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
+
+```text
+Job 1091
+```
+
+**#32 · 1092** `G` Standings: small desktop and laptop layout fixes (stage 2)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · model not set · GPT chat: type 'Job 1092'
+
+New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
+
+```text
+Job 1092
+```
+
+**#33 · 1093** `G` Standings: match the desktop screen to its desktop mockup (stage 3)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · model not set · GPT chat: type 'Job 1093'
+
+New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
+
+```text
+Job 1093
+```
+
+**#34 · 1094** `G` Standings: phone mockup (HTML and CSS study) (stage 4)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · model not set · GPT chat: type 'Job 1094'
+
+New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
+
+```text
+Job 1094
+```
+
+**#35 · 1095** `G` Standings: improved desktop version (HTML and CSS study) (stage 5)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · model not set · GPT chat: type 'Job 1095'
+
+New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
+
+```text
+Job 1095
+```
+
+**#36 · 1096** `G` Final Winner (Showdown Champion): phone layout fixes (upright and sideways) (stage 2)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · model not set · GPT chat: type 'Job 1096'
+
+New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
+
+```text
+Job 1096
+```
+
+**#37 · 1097** `G` Final Winner (Showdown Champion): small desktop and laptop layout fixes (stage 2)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · model not set · GPT chat: type 'Job 1097'
+
+New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
+
+```text
+Job 1097
+```
+
+**#38 · 1098** `G` Final Winner (Showdown Champion): match the desktop screen to its desktop mockup (stage 3)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · model not set · GPT chat: type 'Job 1098'
+
+New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
+
+```text
+Job 1098
+```
+
+**#39 · 1099** `G` Final Winner (Showdown Champion): phone mockup (HTML and CSS study) (stage 4)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · model not set · GPT chat: type 'Job 1099'
+
+New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
+
+```text
+Job 1099
+```
+
+**#40 · 1100** `G` Final Winner (Showdown Champion): improved desktop version (HTML and CSS study) (stage 5)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · model not set · GPT chat: type 'Job 1100'
+
+New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
+
+```text
+Job 1100
+```
+
+**#41 · 1101** `G` Legacy: phone layout fixes (upright and sideways) (stage 2)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · model not set · GPT chat: type 'Job 1101'
+
+New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
+
+```text
+Job 1101
+```
+
+**#42 · 1102** `G` Legacy: small desktop and laptop layout fixes (stage 2)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · model not set · GPT chat: type 'Job 1102'
+
+New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
+
+```text
+Job 1102
+```
+
+**#43 · 1103** `G` Legacy: match the desktop screen to its desktop mockup (stage 3)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · model not set · GPT chat: type 'Job 1103'
+
+New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
+
+```text
+Job 1103
+```
+
+**#44 · 1104** `G` Legacy: phone mockup (HTML and CSS study) (stage 4)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · model not set · GPT chat: type 'Job 1104'
+
+New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
+
+```text
+Job 1104
+```
+
+**#45 · 1105** `G` Legacy: improved desktop version (HTML and CSS study) (stage 5)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · model not set · GPT chat: type 'Job 1105'
+
+New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
+
+```text
+Job 1105
+```
+
+**#46 · 1106** `G` Trophy Room: phone layout fixes (upright and sideways) (stage 2)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · model not set · GPT chat: type 'Job 1106'
+
+New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
+
+```text
+Job 1106
+```
+
+**#47 · 1107** `G` Trophy Room: small desktop and laptop layout fixes (stage 2)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · model not set · GPT chat: type 'Job 1107'
+
+New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
+
+```text
+Job 1107
+```
+
+**#48 · 1108** `G` Trophy Room: match the desktop screen to its desktop mockup (stage 3)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · model not set · GPT chat: type 'Job 1108'
+
+New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
+
+```text
+Job 1108
+```
+
+**#49 · 1109** `G` Trophy Room: phone mockup (HTML and CSS study) (stage 4)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · model not set · GPT chat: type 'Job 1109'
+
+New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
+
+```text
+Job 1109
+```
+
+**#50 · 1110** `G` Trophy Room: improved desktop version (HTML and CSS study) (stage 5)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · model not set · GPT chat: type 'Job 1110'
+
+New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
+
+```text
+Job 1110
+```
+
+**#51 · 1111** `G` Rivalry Statistics: phone layout fixes (upright and sideways) (stage 2)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · model not set · GPT chat: type 'Job 1111'
+
+New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
+
+```text
+Job 1111
+```
+
+**#52 · 1112** `G` Rivalry Statistics: small desktop and laptop layout fixes (stage 2)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · model not set · GPT chat: type 'Job 1112'
+
+New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
+
+```text
+Job 1112
+```
+
+**#53 · 1113** `G` Rivalry Statistics: match the desktop screen to its desktop mockup (stage 3)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · model not set · GPT chat: type 'Job 1113'
+
+New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
+
+```text
+Job 1113
+```
+
+**#54 · 1114** `G` Rivalry Statistics: phone mockup (HTML and CSS study) (stage 4)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · model not set · GPT chat: type 'Job 1114'
+
+New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
+
+```text
+Job 1114
+```
+
+**#55 · 1115** `G` Rivalry Statistics: improved desktop version (HTML and CSS study) (stage 5)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · model not set · GPT chat: type 'Job 1115'
+
+New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
+
+```text
+Job 1115
+```
+
+**#56 · 1116** `G` Career Statistics: phone layout fixes (upright and sideways) (stage 2)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · model not set · GPT chat: type 'Job 1116'
+
+New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
+
+```text
+Job 1116
+```
+
+**#57 · 1117** `G` Career Statistics: small desktop and laptop layout fixes (stage 2)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · model not set · GPT chat: type 'Job 1117'
+
+New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
+
+```text
+Job 1117
+```
+
+**#58 · 1118** `G` Career Statistics: match the desktop screen to its desktop mockup (stage 3)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · model not set · GPT chat: type 'Job 1118'
+
+New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
+
+```text
+Job 1118
+```
+
+**#59 · 1119** `G` Career Statistics: phone mockup (HTML and CSS study) (stage 4)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · model not set · GPT chat: type 'Job 1119'
+
+New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
+
+```text
+Job 1119
+```
+
+**#60 · 1120** `G` Career Statistics: improved desktop version (HTML and CSS study) (stage 5)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · model not set · GPT chat: type 'Job 1120'
+
+New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
+
+```text
+Job 1120
+```
+
+**#61 · 1121** `G` Rule Book: phone layout fixes (upright and sideways) (stage 2)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · model not set · GPT chat: type 'Job 1121'
+
+New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
+
+```text
+Job 1121
+```
+
+**#62 · 1122** `G` Rule Book: small desktop and laptop layout fixes (stage 2)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · model not set · GPT chat: type 'Job 1122'
+
+New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
+
+```text
+Job 1122
+```
+
+**#63 · 1123** `G` Rule Book: match the desktop screen to its desktop mockup (stage 3)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · model not set · GPT chat: type 'Job 1123'
+
+New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
+
+```text
+Job 1123
+```
+
+**#64 · 1124** `G` Rule Book: phone mockup (HTML and CSS study) (stage 4)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · model not set · GPT chat: type 'Job 1124'
+
+New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
+
+```text
+Job 1124
+```
+
+**#65 · 1125** `G` Rule Book: improved desktop version (HTML and CSS study) (stage 5)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · model not set · GPT chat: type 'Job 1125'
+
+New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
+
+```text
+Job 1125
+```
+
+**#66 · 1126** `G` Settings: phone layout fixes (upright and sideways) (stage 2)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · model not set · GPT chat: type 'Job 1126'
+
+New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
+
+```text
+Job 1126
+```
+
+**#67 · 1127** `G` Settings: small desktop and laptop layout fixes (stage 2)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · model not set · GPT chat: type 'Job 1127'
+
+New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
+
+```text
+Job 1127
+```
+
+**#68 · 1128** `G` Settings: match the desktop screen to its desktop mockup (stage 3)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · model not set · GPT chat: type 'Job 1128'
+
+New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
+
+```text
+Job 1128
+```
+
+**#69 · 1129** `G` Settings: phone mockup (HTML and CSS study) (stage 4)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · model not set · GPT chat: type 'Job 1129'
+
+New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
+
+```text
+Job 1129
+```
+
+**#70 · 1130** `G` Settings: improved desktop version (HTML and CSS study) (stage 5)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · model not set · GPT chat: type 'Job 1130'
+
+New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
+
+```text
+Job 1130
+```
+
+**#71 · 1131** `G` Tap targets of at least 44 px on every Team V screen (stage 2)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · model not set · GPT chat: type 'Job 1131'
+
+New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
+
+```text
+Job 1131
+```
+
+**#72 · 1132** `G` Long manager and club names never break a layout (stage 2)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · model not set · GPT chat: type 'Job 1132'
+
+New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
+
+```text
+Job 1132
+```
+
+**#73 · 1133** `G` Phone notch and bottom bar safe areas (stage 2)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · model not set · GPT chat: type 'Job 1133'
+
+New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
+
+```text
+Job 1133
+```
+
+**#74 · 1134** `G` Phone held sideways: nothing hidden or overlapping (stage 2)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · model not set · GPT chat: type 'Job 1134'
+
+New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
+
+```text
+Job 1134
+```
+
+**#75 · 1135** `G` Keyboard focus rings and reduced motion (stage 2)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · model not set · GPT chat: type 'Job 1135'
+
+New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
+
+```text
+Job 1135
+```
+
+**#76 · 1136** `G` Empty, loading and waiting messages read the same everywhere (stage 2)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · model not set · GPT chat: type 'Job 1136'
+
+New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
+
+```text
+Job 1136
+```
+
+**#77 · 1137** `G` Text contrast on plates and badges (stage 2)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · model not set · GPT chat: type 'Job 1137'
+
+New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
+
+```text
+Job 1137
+```
+
+**#78 · 1138** `G` Fonts: fallback while loading, no jumps (stage 2)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · model not set · GPT chat: type 'Job 1138'
+
+New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
+
+```text
+Job 1138
+```
+
+**#79 · 1139** `G` Picture descriptions and screen reader labels (stage 2)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · model not set · GPT chat: type 'Job 1139'
+
+New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
+
+```text
+Job 1139
+```
+
+**#80 · 1140** `G` Stacking order: dialogs above screens, toasts above dialogs (stage 2)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · model not set · GPT chat: type 'Job 1140'
+
+New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
+
+```text
+Job 1140
+```
+
+**#81 · 1141** `G` Hard-coded colours that should use the design tokens (stage 2)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · model not set · GPT chat: type 'Job 1141'
+
+New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
+
+```text
+Job 1141
+```
+
+**#82 · 1142** `G` Hover-only effects must also work by touch (stage 2)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · model not set · GPT chat: type 'Job 1142'
+
+New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
+
+```text
+Job 1142
+```
 
 **Done, waiting for the next release:** 1059, 1060
 
@@ -21,8 +843,8 @@ Updated Fri 9 Oct, 9:53 PM Boston time. Bug hunting only, no new features until 
 ## Goals, in this order
 
 **1. Finish the remaining bugs** `now`  
-`██████████` **96.1538 %**  
-Numbered jobs: 50 done, 0 other open · Olympiad recheck: 23 of 23 settled, 0 still to fix · Sol's old leads: 3 open (0 real, 3 unsure)
+`█████░░░░░` **46.8750 %**  
+Numbered jobs: 50 done, 82 other open · Olympiad recheck: 23 of 23 settled, 0 still to fix · Sol's old leads: 3 open (0 real, 3 unsure)
 
 **2. Visual fixes** `after stage 1`  
 `█████░░░░░` **52.3810 %**  
