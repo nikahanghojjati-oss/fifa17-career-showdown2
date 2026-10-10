@@ -139,9 +139,9 @@ def _merged_jobs():
         prs = []
     out = {}
     for pr in prs if isinstance(prs, list) else []:
-        m = re.match(r"\s*JOB-?(\d{4})\b", pr.get("title") or "")
-        if m and pr.get("merged_at") and str((pr.get("base") or {}).get("ref", "")).startswith("gameplay/"):
-            out.setdefault(m.group(1), pr["number"])
+        if pr.get("merged_at") and str((pr.get("base") or {}).get("ref", "")).startswith("gameplay/") and re.match(r"\s*JOB-?\d{4}\b", pr.get("title") or ""):
+            for m in re.finditer(r"\bJOB-?(\d{4})\b", pr.get("title") or ""):  # one PR can carry two jobs ("JOB-1051 + JOB-1052")
+                out.setdefault(m.group(1), pr["number"])
     return out
 
 
