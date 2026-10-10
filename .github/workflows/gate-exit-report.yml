@@ -1,0 +1,41 @@
+# One-off Showdown Gate exit report for the Gate switch (Nik, 2026-10-10). Runs only on pushes to this
+# branch, read-only, and prints the result as annotations so it can be read without job-log access.
+name: Gate exit report
+
+on:
+  push:
+    branches: [ci/gate-exit-report]
+
+permissions:
+  contents: read
+  actions: read
+  pull-requests: read
+  checks: read
+
+jobs:
+  report:
+    name: Gate exit report
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+      - name: Exit criteria
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          node scripts/gate-compare.mjs --repo "$GITHUB_REPOSITORY" --summary --limit 40 \
+            --canary-heads b381233f04619eba1a85dc93de827de6d7ae32b0,101714f03b8a48cc817ec1d1454ea167a3217def \
+            --infra-runs 37398574147 > "$RUNNER_TEMP/exit.jsonl"
+          node -e '
+          const fs=require("fs");const lines=fs.readFileSync(process.argv[1],"utf8").trim().split("\n").map(l=>JSON.parse(l));
+          const esc=s=>String(s).replace(/%/g,"%25").replace(/\r/g,"%0D").replace(/\n/g,"%0A");
+          const final=lines.pop();
+          const heads=lines.map(c=>[c.head.slice(0,9),c.old_verdict,c.pos20.verdict,c.gate.verdict,c.full_seal?"full":"part",c.same_route_profile?"same":"DIFF",c.gate_ran_superset?"super":"MISSING:"+c.missing_in_gate.join("+"),c.gate_pass_old_fail?"DISAGREE":"ok"].join(" "));
+          for(let i=0;i<heads.length;i+=20)console.log("::notice title=heads "+i+"::"+esc(heads.slice(i,i+20).join("\n")));
+          console.log("::notice title=exit::"+esc(JSON.stringify(final)));
+          ' "$RUNNER_TEMP/exit.jsonl"
