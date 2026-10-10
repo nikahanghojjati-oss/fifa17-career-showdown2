@@ -4,7 +4,7 @@
 
 ![Jobs live per release](history-chart.svg)
 
-Updated Fri 9 Oct, 10:37 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Fri 9 Oct, 10:40 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r67** (main `f42dac2`, Fri 9 Oct 9:34 PM)
 
@@ -74,6 +74,16 @@ Paste this:
 Job 1586: git fetch origin factory/gameplay-v1, then read git show FETCH_HEAD:project-documents/gameplay-factory/jobs/JOB-1586.md and do exactly what it says.
 ```
 
+**#7 · 1587** `G` Season Results: a passing Transfer Challenge read hiccup must not fail the publish (Sol S2)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · **GPT-6 Sol** · High effort · ChatGPT project "Career Mode Showdown", normal chat
+
+Paste this:
+
+```text
+Job 1587: read project-documents/gameplay-factory/jobs/JOB-1587.md on branch factory/gameplay-v1 with the GitHub connector and do exactly what it says.
+```
+
 ### ⏸ Waiting on something else
 
 **#1 · 1581** `G` Showdown Gate: split the slowest lane and cache downloads  
@@ -93,8 +103,8 @@ Job 1586: git fetch origin factory/gameplay-v1, then read git show FETCH_HEAD:pr
 ## Goals, in this order
 
 **1. Finish the remaining bugs** `now`  
-`█████████░` **87.2093 %**  
-Numbered jobs: 50 done, 8 other open · Olympiad recheck: 23 of 23 settled, 0 still to fix · Sol's old leads: 3 open (0 real, 3 unsure)
+`█████████░` **89.4118 %**  
+Numbered jobs: 50 done, 7 other open · Olympiad recheck: 23 of 23 settled, 0 still to fix · Sol's old leads: 2 open (2 real, 0 unsure)
 
 **2. Visual fixes** `after stage 1`  
 `█████░░░░░` **52.3810 %**  
