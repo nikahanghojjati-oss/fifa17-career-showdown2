@@ -332,3 +332,159 @@
     min-height:44px;
   }
 }
+
+/* JOB-1295: the 430x932 portrait Legacy archive must grow with its cards,
+   history, and controls. Keep one vertical document scroll instead of the
+   clipped stage, sideways card rail, and inner history sheet. Do not change
+   the earlier train fixes or other phone/desktop breakpoints. */
+@media (min-width:415px) and (max-width:440px) and (min-height:901px) and (max-height:960px) and (orientation:portrait) {
+  html:has(#legacy[data-rivalry-legacy-v10]:not([hidden])) {
+    height:auto;
+    min-height:100%;
+    overflow-x:hidden;
+    overflow-y:auto;
+  }
+  body:has(#legacy[data-rivalry-legacy-v10]:not([hidden])) {
+    height:auto;
+    min-height:100%;
+    overflow:visible;
+  }
+  #legacy[data-rivalry-legacy-v10],
+  #legacy[data-rivalry-legacy-v10] #stage-root,
+  #legacy[data-rivalry-legacy-v10] .legacyV10Screen {
+    height:auto;
+    min-height:100dvh;
+    overflow:visible;
+  }
+  #legacy[data-rivalry-legacy-v10] .legacyV10Screen {
+    box-sizing:border-box;
+    padding-bottom:calc(76px + env(safe-area-inset-bottom, 0px));
+  }
+  #legacy[data-rivalry-legacy-v10] .sd-stage__layer--ui { overflow:visible; }
+
+  /* A fixed hero band keeps faces and title in their original registration;
+     growing the archive must not stretch the background or shift the title. */
+  #legacy[data-rivalry-legacy-v10] .legacyTitleBlock,
+  #legacy[data-rivalry-legacy-v10] .legacyPhoneFaceBand,
+  #legacy[data-rivalry-legacy-v10] .legacyPhonePlate,
+  #legacy[data-rivalry-legacy-v10] .legacyPhoneGrade,
+  #legacy[data-rivalry-legacy-v10] .sd-stage__layer--plate,
+  #legacy[data-rivalry-legacy-v10] .sd-stage__layer--atmosphere,
+  #legacy[data-rivalry-legacy-v10] .sd-stage__layer--cutout,
+  #legacy[data-rivalry-legacy-v10] .sd-stage__layer--light {
+    height:440px;
+  }
+  #legacy[data-rivalry-legacy-v10] .legacyPhonePlate,
+  #legacy[data-rivalry-legacy-v10] .legacyPhoneGrade { bottom:auto; }
+  #legacy[data-rivalry-legacy-v10] .legacyPhoneHero--daniel { top:10px; height:428px; }
+  #legacy[data-rivalry-legacy-v10] .legacyPhoneHero--nik { top:12px; height:418px; }
+
+  #legacy[data-rivalry-legacy-v10] .legacyArchivePanel {
+    position:relative;
+    inset:auto;
+    display:flex;
+    flex-direction:column;
+    width:auto;
+    height:auto;
+    max-width:none;
+    margin:440px 12px 0;
+    gap:8px;
+    overflow:visible;
+  }
+  #legacy[data-rivalry-legacy-v10] .legacySidePanel {
+    order:0;
+    flex:0 0 44px;
+    min-height:44px;
+  }
+  #legacy[data-rivalry-legacy-v10] .legacyStateBanner,
+  #legacy[data-rivalry-legacy-v10] .legacyStateBanner[data-compact="true"] {
+    order:1;
+    position:relative;
+    inset:auto;
+    width:auto;
+    min-height:58px;
+    padding:10px;
+  }
+  #legacy[data-rivalry-legacy-v10] .legacyCardGrid {
+    order:2;
+    position:static;
+    display:flex;
+    flex-direction:column;
+    flex:0 0 auto;
+    width:100%;
+    min-height:0;
+    gap:10px;
+    padding:8px;
+    overflow:visible;
+    scroll-snap-type:none;
+    touch-action:pan-y;
+  }
+  #legacy[data-rivalry-legacy-v10] .legacyCardGrid > .legacyCard {
+    flex:0 0 auto;
+    width:100%;
+    height:auto;
+    min-height:128px;
+    padding:12px 10px;
+    scroll-snap-align:none;
+  }
+  #legacy[data-rivalry-legacy-v10] .legacyClubName {
+    max-width:110px;
+    overflow:visible;
+    text-overflow:clip;
+    white-space:normal;
+    overflow-wrap:anywhere;
+  }
+  #legacy[data-rivalry-legacy-v10] .legacyManagerName,
+  #legacy[data-rivalry-legacy-v10] .legacyCardFooter,
+  #legacy[data-rivalry-legacy-v10] .legacyCardState {
+    overflow-wrap:anywhere;
+  }
+  #legacy[data-rivalry-legacy-v10] .legacyPager {
+    order:3;
+    flex:0 0 auto;
+    height:auto;
+    min-height:44px;
+    overflow:visible;
+  }
+  #legacy[data-rivalry-legacy-v10] .legacyPageDots {
+    max-height:none;
+    overflow:visible;
+  }
+  #legacy[data-rivalry-legacy-v10] #stage-root:is(
+    [data-frame-state="empty"],
+    [data-frame-state="loading"],
+    [data-frame-state="unavailable"]
+  ) :is(.legacyCardGrid, .legacyPager) { display:none; }
+
+  #legacy[data-rivalry-legacy-v10] .legacyPrimaryAction {
+    position:relative;
+    inset:auto;
+    display:block;
+    width:calc(100% - 24px);
+    min-height:48px;
+    height:auto;
+    margin:12px 12px 0;
+    padding:10px;
+    transform:none;
+    white-space:normal;
+  }
+  #legacy[data-rivalry-legacy-v10] .legacySeasonHistory {
+    position:relative;
+    inset:auto;
+    width:auto;
+    max-height:none;
+    overflow:visible;
+    margin:12px 12px 0;
+    transform:none;
+    border-radius:12px;
+  }
+  #legacy[data-rivalry-legacy-v10] .legacyHistoryRow {
+    grid-template-columns:50px minmax(0, 1fr) auto minmax(0, 1fr);
+    gap:6px;
+    overflow-wrap:anywhere;
+  }
+  #legacy[data-rivalry-legacy-v10] .legacyBackV10 {
+    min-width:64px;
+    min-height:44px;
+  }
+}
