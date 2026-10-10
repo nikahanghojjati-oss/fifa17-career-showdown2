@@ -1,10 +1,10 @@
 # Tomorrow: the checklist (Nik)
 
-One system: you only ever type a number. Numbers 1 to 999 are queue items, numbers 1000 and up are job files; both work in any ChatGPT project (gameplay or visual, both accounts) and in Codex.
+One system: you only ever type a number. Numbers 1 to 1000 are queue items, numbers 1001 and up are job files; both work in any ChatGPT project (gameplay or visual, both accounts) and in Codex.
 
 ## One-time setup (5 minutes)
 1. **ChatGPT, each account, each project** (Career Mode Showdown gameplay, and the visual project): Instructions > replace the text with the box in [INSTRUCTIONS.md](INSTRUCTIONS.md).
-2. **Codex:** paste the script from [CODEX_SETUP.md](CODEX_SETUP.md) into the environment's Setup script, once.
+2. **Codex:** paste the Custom instructions block from [CODEX_SETUP.md](CODEX_SETUP.md) into Codex Settings, once.
 
 ## Then type these (a new chat or task for each number)
 

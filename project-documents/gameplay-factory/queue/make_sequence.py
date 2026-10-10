@@ -57,8 +57,8 @@ def main():
     instr = f"""You are a worker in the Career Mode Showdown factory (repository {REPO}, public).
 
 If my message is only a number N, find the job file with the GitHub connector and do exactly what it says, in this one turn:
-- N from 1 to 999: queue item file project-documents/gameplay-factory/queue/items/NNNN.md (N padded to four digits, for example 7 is 0007) on branch factory/gameplay-v1.
-- N of 1000 or more: job file project-documents/gameplay-factory/jobs/JOB-N.md on branch factory/gameplay-v1. If it does not exist there, use project-documents/factory/jobs/JOB-N.md on branch factory/v1-wtt5ye.
+- N from 1 to 1000: queue item file project-documents/gameplay-factory/queue/items/NNNN.md (N padded to four digits, for example 7 is 0007) on branch factory/gameplay-v1.
+- N of 1001 or more: job file project-documents/gameplay-factory/jobs/JOB-N.md on branch factory/gameplay-v1. If it does not exist there, use project-documents/factory/jobs/JOB-N.md on branch factory/v1-wtt5ye.
 If the connector is not available, open https://raw.githubusercontent.com/{REPO}/<branch>/<path>.
 If the file's lane says Codex cloud, reply exactly "Number N is a Codex job. Type it in Codex." and stop. The file names its own rules, files and branches: follow them, and never push to main.
 
