@@ -176,7 +176,26 @@ def _open_job_prs():
         for m in re.finditer(r"\bJOB-?(\d{4})\b", pr.get("title") or "", re.I):
             if m.group(1) not in out:
                 out[m.group(1)] = (pr["number"], "draft" if pr.get("draft") else _ci_stage(gh, repo, pr["head"]["sha"]))
+                LIVE_PR[m.group(1)] = _pr_live(gh, repo, pr)
     return out
+
+
+LIVE_PR = {}
+
+
+def _pr_live(gh, repo, pr):
+    """Live detail for a running job's PR (Haiku G, 2026-10-10): checks passed of total and when the PR last moved. Free REST reads, no Claude usage."""
+    try:
+        runs = (gh(f"repos/{repo}/commits/{pr['head']['sha']}/check-runs?per_page=100") or {}).get("check_runs") or []
+    except Exception:
+        runs = []
+    ok = sum(1 for r in runs if r.get("conclusion") in ("success", "neutral", "skipped"))
+    stamps = [r.get("completed_at") or r.get("started_at") or "" for r in runs] + [pr.get("updated_at") or ""]
+    last = max(stamps) if stamps else ""
+    mins = None
+    if last:
+        mins = int((datetime.datetime.now(datetime.timezone.utc) - datetime.datetime.fromisoformat(last.replace("Z", "+00:00"))).total_seconds() // 60)
+    return {"ok": ok, "total": len(runs), "ago": "" if mins is None else (f"{mins} min ago" if mins < 120 else f"{mins // 60} h ago")}
 
 
 _REPORT = {}
@@ -614,6 +633,11 @@ def job_html(q, i, kind):
     m0 = re.search(r"step (\d+) of (\d+)", (st or "") + " " + str((rowmap.get(str(q["id"])) or {}).get("state") or q.get("state") or ""))
     if m0 and not q.get("progress"):
         pct = 100.0 * (int(m0.group(1)) - 1) / int(m0.group(2))
+    if kind == "run" and q["n"] in LIVE_PR and LIVE_PR[q["n"]]["total"]:  # Haiku G 2026-10-10: each look shows movement
+        lv = LIVE_PR[q["n"]]
+        meta.append(f"CI {lv['ok']} of {lv['total']} passed" + (f" · last move {lv['ago']}" if lv["ago"] else ""))
+        if re.search(r"CI running|CI not started|CI unknown", st or "", re.I):
+            pct = 70.0 + 10.0 * lv["ok"] / lv["total"]  # finer bar inside the CI stage
     col = HEX.get(worker, "#6b7280")  # Nik, 2026-10-09 21:57: bring back the bar, the % and the worker's colour on every card
     meta = [x for x in meta if not x.startswith("Worker: ") and not x.endswith("% done") and " % done (" not in x]
     out = (head + f'<br><b class="br"><i class="q{QI.get(worker, 9)}" style="width:{max(pct, 2):.0f}%"></i></b><span class="pc">{pct:.4f} %</span>'
