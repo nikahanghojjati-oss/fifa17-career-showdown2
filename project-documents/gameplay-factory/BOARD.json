@@ -1286,7 +1286,7 @@
      "team": "purple",
      "model": "Claude Opus 5.5",
      "effort": "Medium",
-     "state": "lead checking (PR #453): CI running",
+     "state": "done (merged into bug-list-1, PR #453); reaches main with r68",
      "order": 32,
      "place": "nothing to type: the lead runs it",
      "note": "Nik chose the switch 2026-10-10; exit report READY (reports/SHOWDOWN_GATE_EXIT_2026-10-10.md)",
