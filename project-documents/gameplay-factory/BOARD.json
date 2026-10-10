@@ -1291,6 +1291,58 @@
      "place": "nothing to type: the lead runs it",
      "note": "Nik chose the switch 2026-10-10; exit report READY (reports/SHOWDOWN_GATE_EXIT_2026-10-10.md)",
      "prompt": ""
+    },
+    {
+     "id": "1579",
+     "title": "Season Results: a slow load must not pull you back after you moved on (Sol S5)",
+     "lane": "chat",
+     "team": "blue",
+     "model": "GPT-6 Sol",
+     "effort": "High",
+     "state": "next: ready for Sol chat",
+     "order": 33,
+     "place": "ChatGPT project \"Career Mode Showdown\", normal chat",
+     "note": "ticket jobs/JOB-1579.md",
+     "prompt": "Job 1579: read project-documents/gameplay-factory/jobs/JOB-1579.md on branch factory/gameplay-v1 with the GitHub connector and do exactly what it says."
+    },
+    {
+     "id": "1580",
+     "title": "Showdown Gate: run the L5 lane only when its inputs changed",
+     "lane": "codex",
+     "team": "white",
+     "model": "Codex default coding model",
+     "effort": "High",
+     "state": "next: ready for Codex",
+     "order": 34,
+     "place": "Codex cloud, this repo",
+     "note": "ticket jobs/JOB-1580.md",
+     "prompt": "Job 1580: git fetch origin factory/gameplay-v1, then read git show FETCH_HEAD:project-documents/gameplay-factory/jobs/JOB-1580.md and do exactly what it says."
+    },
+    {
+     "id": "1581",
+     "title": "Showdown Gate: split the slowest lane and cache downloads",
+     "lane": "codex",
+     "team": "white",
+     "model": "Codex default coding model",
+     "effort": "High",
+     "state": "later: after 1580 merges",
+     "order": 35,
+     "place": "Codex cloud, this repo",
+     "note": "ticket jobs/JOB-1581.md",
+     "prompt": "Job 1581: git fetch origin factory/gameplay-v1, then read git show FETCH_HEAD:project-documents/gameplay-factory/jobs/JOB-1581.md and do exactly what it says."
+    },
+    {
+     "id": "1582",
+     "title": "Showdown Gate: screen shots of changed screens as a run artifact",
+     "lane": "codex",
+     "team": "white",
+     "model": "Codex default coding model",
+     "effort": "Medium",
+     "state": "later: after 1581 merges",
+     "order": 36,
+     "place": "Codex cloud, this repo",
+     "note": "ticket jobs/JOB-1582.md",
+     "prompt": "Job 1582: git fetch origin factory/gameplay-v1, then read git show FETCH_HEAD:project-documents/gameplay-factory/jobs/JOB-1582.md and do exactly what it says."
     }
    ]
   },
