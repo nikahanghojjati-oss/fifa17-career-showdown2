@@ -1,11 +1,12 @@
 {
-"updated": "2026-10-10T14:42:03Z",
+"updated": "2026-10-10T14:45:40Z",
 "total": 518,
-"next_free": 2,
-"highest_taken": 1,
+"next_free": 3,
+"highest_taken": 2,
 "counts": {
 "on_train": 1,
-"waiting": 517
+"draft": 1,
+"waiting": 516
 },
 "stages": {
 "2": {
@@ -20,7 +21,8 @@
 "name": "Gameplay audits",
 "total": 112,
 "states": {
-"waiting": 112
+"draft": 1,
+"waiting": 111
 }
 },
 "3": {
@@ -56,7 +58,6 @@
 "draft_code_prs": 0,
 "area_locks": {},
 "ready": [
-2,
 3,
 4,
 5,
@@ -67,10 +68,10 @@
 10,
 11,
 12,
-13
+13,
+14
 ],
 "ready_sol": [
-2,
 3,
 4,
 5,
@@ -81,13 +82,14 @@
 10,
 11,
 12,
-13
+13,
+14
 ],
 "ready_codex": []
 },
 "rate": {
-"claimed_last_hour": 1,
-"claimed_last_10min": 1,
+"claimed_last_hour": 2,
+"claimed_last_10min": 2,
 "merged_last_hour": 0
 },
 "events": [
@@ -97,6 +99,13 @@
 "job": 1061,
 "from": "waiting",
 "to": "on_train"
+},
+{
+"at": "2026-10-10T14:45:40Z",
+"item": 2,
+"job": 1467,
+"from": "waiting",
+"to": "draft"
 }
 ],
 "items": {
@@ -117,8 +126,19 @@
 "title": "Audit all screens: tap targets of at least 44 px on every team v screen",
 "mode": "audit",
 "group": null,
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"pr": 458,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/458",
+"base": "qa/mega-audits",
+"branch": "qa/job-1467-tap-targets",
+"ci": "draft",
+"ci_sha": "b29169dcda700618352dff8cf1beee9d47779f7b",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-10T14:44:55Z",
+"first_seen": "2026-10-10T14:44:55Z",
+"since": "2026-10-10T14:45:40Z"
 },
 "3": {
 "job": 1090,

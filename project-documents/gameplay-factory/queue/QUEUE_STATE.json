@@ -1,7 +1,6 @@
 {
  "sequence": {
   "ready": [
-   2,
    3,
    4,
    5,
@@ -12,10 +11,10 @@
    10,
    11,
    12,
-   13
+   13,
+   14
   ],
   "ready_sol": [
-   2,
    3,
    4,
    5,
@@ -26,17 +25,18 @@
    10,
    11,
    12,
-   13
+   13,
+   14
   ],
   "ready_codex": [],
   "open_code_prs": 0,
   "open_train_prs": 0,
-  "next_free": 2,
-  "highest_taken": 1,
+  "next_free": 3,
+  "highest_taken": 2,
   "total": 518,
   "states": {
    "1": "on_train",
-   "2": "waiting",
+   "2": "pr_open",
    "3": "waiting",
    "4": "waiting",
    "5": "waiting",
@@ -555,10 +555,11 @@
    "518": "waiting"
   }
  },
- "updated": "2026-10-10T14:42:03Z",
+ "updated": "2026-10-10T14:45:40Z",
  "counts": {
   "on_train": 1,
-  "waiting": 517
+  "waiting": 516,
+  "pr_open": 1
  },
  "stages": {
   "2": {
@@ -583,7 +584,7 @@
   },
   "1": {
    "total": 112,
-   "taken": 0,
+   "taken": 1,
    "merged": 0
   }
  },
@@ -4108,11 +4109,11 @@
    "branch": null
   },
   "1467": {
-   "state": "waiting",
-   "pr": null,
-   "draft": false,
-   "pr_url": null,
-   "branch": null
+   "state": "pr_open",
+   "pr": 458,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/458",
+   "branch": "qa/job-1467-tap-targets"
   },
   "1468": {
    "state": "waiting",
