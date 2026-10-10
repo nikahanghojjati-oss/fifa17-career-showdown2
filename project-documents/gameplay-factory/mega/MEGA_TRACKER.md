@@ -1,6 +1,7 @@
-# Mega factory tracker · updated 2026-10-10T02:01:44Z
+# Mega factory tracker · updated 2026-10-10T02:11:49Z
 
-**Type now:** 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12
+**Type now, Sol chat (audits and studies):** 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24
+**Type now, Codex (code fixes):** 1, 3, 5, 7, 9, 11, 13, 15, 17
 **Next free number:** 1 · **highest taken:** 0 of 518
 **Code PRs open:** 0 of 8 · area locks: none
 **Rate:** 0 claimed in 10 min · 0 in 1 h · 0 merged in 1 h
