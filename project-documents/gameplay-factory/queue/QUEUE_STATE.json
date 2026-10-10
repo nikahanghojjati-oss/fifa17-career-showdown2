@@ -1,7 +1,6 @@
 {
  "sequence": {
   "ready": [
-   33,
    34,
    35,
    36,
@@ -12,10 +11,10 @@
    41,
    42,
    43,
-   44
+   44,
+   45
   ],
   "ready_sol": [
-   33,
    34,
    35,
    36,
@@ -26,14 +25,15 @@
    41,
    42,
    43,
-   44
+   44,
+   45
   ],
   "ready_codex": [],
-  "held_until_picture": 106,
+  "held_until_picture": 101,
   "open_code_prs": 0,
   "open_train_prs": 0,
-  "next_free": 33,
-  "highest_taken": 32,
+  "next_free": 34,
+  "highest_taken": 33,
   "total": 518,
   "states": {
    "1": "on_train",
@@ -68,7 +68,7 @@
    "30": "pr_open",
    "31": "on_train",
    "32": "pr_open",
-   "33": "waiting",
+   "33": "on_train",
    "34": "waiting",
    "35": "waiting",
    "36": "waiting",
@@ -556,16 +556,16 @@
    "518": "waiting"
   }
  },
- "updated": "2026-10-10T16:24:38Z",
+ "updated": "2026-10-10T16:26:05Z",
  "counts": {
-  "on_train": 16,
-  "waiting": 486,
+  "on_train": 17,
+  "waiting": 485,
   "pr_open": 16
  },
  "stages": {
   "2": {
    "total": 266,
-   "taken": 16,
+   "taken": 17,
    "merged": 0
   },
   "3": {
@@ -1053,7 +1053,8 @@
     1326
    ],
    "done": [
-    "1322"
+    "1322",
+    "1323"
    ],
    "pr": null,
    "state": null
@@ -3125,7 +3126,7 @@
    "branch": "gameplay/train-career-screens-1"
   },
   "1323": {
-   "state": "waiting",
+   "state": "on_train",
    "pr": null,
    "draft": false,
    "pr_url": null,
