@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-09 9:34 PM Boston time (EDT)",
+ "generated": "2026-10-09 9:37 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -313,27 +313,17 @@
  },
  "two": {
   "live": {
-   "sha": "8e1a583",
-   "revision": "1.9.1-r66",
-   "when": "2026-10-09T16:04:25Z",
-   "subject": "Release r66: Season Results on phones, closed Final Winner on both phones (#440)",
-   "fixes": [
+   "sha": "f42dac2",
+   "revision": "1.9.1-r67",
+   "when": "2026-10-09T21:34:57-04:00",
+   "subject": "Release r67: Olympiad fixes and private transfer locks (1.9.1-r67) (#450)",
+   "fixes": [],
+   "today": [
     {
      "pr": 450,
      "title": "Release r67: Olympiad fixes and private transfer locks",
-     "draft": false,
-     "branch": "release/r67",
-     "sha": "b4920f7bac20175c698095b45ad8fdc20aef5dac",
-     "updated": "2026-10-10T00:41:26Z",
-     "gates": {
-      "passed": 19,
-      "running": 0,
-      "failed": 0,
-      "cancelled": 0
-     }
-    }
-   ],
-   "today": [
+     "merged": "2026-10-10T01:34:57Z"
+    },
     {
      "pr": 440,
      "title": "Release r66: Season Results on phones, closed Final Winner on both phones",
@@ -723,7 +713,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 41,
+  "moving": 39,
   "next": 1,
   "nik": 2,
   "later": 6,
@@ -1026,19 +1016,6 @@
       "place": "Claude helper (nothing for Nik to type)",
       "note": "from hunt 1019; H3 is fixed by 1026",
       "archived": true
-     },
-     {
-      "id": "1060",
-      "title": "The Showdown Gate becomes the PR check set (POS20 and Fast archived)",
-      "lane": "lead",
-      "team": "purple",
-      "model": "Claude Opus 5.5",
-      "effort": "Medium",
-      "state": "lead checking (PR #453): CI running",
-      "order": 32,
-      "place": "nothing to type: the lead runs it",
-      "note": "Nik chose the switch 2026-10-10; exit report READY (reports/SHOWDOWN_GATE_EXIT_2026-10-10.md)",
-      "prompt": ""
      }
     ],
     "nik": [
@@ -1127,22 +1104,7 @@
     ]
    }
   },
-  "fixes": [
-   {
-    "pr": 450,
-    "title": "Release r67: Olympiad fixes and private transfer locks",
-    "draft": false,
-    "branch": "release/r67",
-    "sha": "b4920f7bac20175c698095b45ad8fdc20aef5dac",
-    "updated": "2026-10-10T00:41:26Z",
-    "gates": {
-     "passed": 19,
-     "running": 0,
-     "failed": 0,
-     "cancelled": 0
-    }
-   }
-  ]
+  "fixes": []
  },
  "jobs": [
   {

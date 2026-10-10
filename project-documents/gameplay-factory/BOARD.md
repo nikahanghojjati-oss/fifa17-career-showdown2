@@ -1,30 +1,24 @@
 # Bug hunt board
 
-Updated Fri 9 Oct, 9:34 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Fri 9 Oct, 9:37 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
-🌐 **Live: 1.9.1-r66** (main `8e1a583`, Fri 9 Oct 12:04 PM)
+🌐 **Live: 1.9.1-r67** (main `f42dac2`, Fri 9 Oct 9:34 PM)
 
 🩺 **All clear: every check has a machine.** · Gate #450: L1✓ L2✓ L3✓ L4✓ L5✓ L6✓ · seal PASS · POS20 #450 12/16
 
 ## Jobs
 
-### ▶️ Running now
+**Done, waiting for the next release:** 1052, 1059, 1060
 
-**#1 · 1060** `G` The Showdown Gate becomes the PR check set (POS20 and Fast archived)  
-`█████████░` **90.0000 %**  
-🟣 Team purple · **Claude Opus 5.5** · Medium effort · PR #453 open, CI green, lead checking
-
-**Done, waiting for the next release:** 1044, 1045, 1048, 1049, 1050, 1051, 1052, 1053, 1055, 1058, 1059
-
-**Done and live:** r66: 1041, 1042, 1043 · r65: 1011, 1028, 1037, 1038, 1039, 1040 · r63: 1001, 1003, 1004, 1005, 1009, 1010, 1014, 1015, 1020, 1021, 1022, 1023, 1024, 1025, 1026, 1027, Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8
+**Done and live:** r67: 1044, 1045, 1048, 1049, 1050, 1051, 1053, 1055, 1058 · r66: 1041, 1042, 1043 · r65: 1011, 1028, 1037, 1038, 1039, 1040 · r63: 1001, 1003, 1004, 1005, 1009, 1010, 1014, 1015, 1020, 1021, 1022, 1023, 1024, 1025, 1026, 1027, Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8
 
 **Done, no game code** (factory or handoff documents): 1046, 1047, 1054, 1056, 1057
 
 ## Goals, in this order
 
 **1. Finish the remaining bugs** `now`  
-`█████████░` **94.8718 %**  
-Numbered jobs: 49 done, 1 other open · Olympiad recheck: 23 of 23 settled, 0 still to fix · Sol's old leads: 3 open (0 real, 3 unsure)
+`██████████` **96.1538 %**  
+Numbered jobs: 50 done, 0 other open · Olympiad recheck: 23 of 23 settled, 0 still to fix · Sol's old leads: 3 open (0 real, 3 unsure)
 
 **2. Visual fixes** `after stage 1`  
 `█████░░░░░` **52.3810 %**  
@@ -48,12 +42,6 @@ Not started
 
 ## Other Team G work
 
-**Fixing now**
-
-| Lane | Item | What | State |
-| --- | --- | --- | --- |
-| 🟧 Team G lead | [PR #450](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/450) | Release r67: Olympiad fixes and private transfer locks | 🟢 19 passed |
-
 **Up next**
 
 | Lane | Item | What | State |
@@ -75,6 +63,7 @@ Not started
 
 ## Shipped today
 
+- 9:34 PM · #450 Release r67: Olympiad fixes and private transfer locks
 - 12:04 PM · #440 Release r66: Season Results on phones, closed Final Winner on both phones
 - 2:48 AM · #436 Release r65: career history fixes, auto close, plain words
 - 1:44 AM · #429 Release r64: Forget device sign-back-in, phone LOCK MY SIGNINGS
