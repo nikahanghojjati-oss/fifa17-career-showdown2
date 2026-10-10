@@ -795,19 +795,32 @@ def mega():
         st["merged"] += r["raw"] == "merged"
     taken = [r for r in rows if r["raw"] != "waiting"]
     return {"next": seq.get("next_free"), "ready": seq.get("ready") or [], "ready_sol": seq.get("ready_sol") or [], "ready_codex": seq.get("ready_codex") or [], "open_prs": seq.get("open_code_prs", 0),
-            "highest": seq.get("highest_taken", 0), "total": seq.get("total", len(rows)), "stages": stages, "recent": taken[-20:][::-1]}
+            "highest": seq.get("highest_taken", 0), "total": seq.get("total", len(rows)), "stages": stages, "recent": taken[-20:][::-1], "trains": _trains(QS.get("trains") or {})}
+
+
+def _trains(T):
+    """Code trains of 5 (Haiku G, 2026-10-10): active ones first, then the next ones in order. Each row: name, done of jobs, PR or state."""
+    rows = []
+    for i, (br, t) in enumerate(T.items()):
+        done, jobs = len(t.get("done") or []), len(t.get("jobs") or [])
+        rows.append({"i": i, "name": br.split("/")[-1].replace("train-", ""), "done": done, "jobs": jobs,
+                     "state": t.get("state") or ("PR #" + str(t["pr"]) if t.get("pr") else "not started"), "active": bool(done or t.get("pr"))})
+    rows.sort(key=lambda r: (not r["active"], r["i"]))
+    return {"all": len(rows), "started": sum(r["active"] for r in rows), "rows": rows[:4]}
 
 
 def mega_tab(M):
     """Custom view: stage strip, a tap-to-copy box with the next free number, and a tile for each recent taken number."""
     st = " · ".join(f'{v["name"]}: {v["merged"]}/{v["total"]} merged' for _, v in sorted(M["stages"].items()))
     tiles = "".join(f'<span class="mt">#{r["n"]} {e(r["state"])}</span>' for r in M["recent"]) or '<span class="m">No number taken yet.</span>'
+    tr = M.get("trains") or {"all": 0, "started": 0, "rows": []}
+    trt = "".join(f'<span class="mt">{e(r["name"])} {r["done"]} of {r["jobs"]} · {e(r["state"])}</span>' for r in tr["rows"])
     sol, cod = M.get("ready_sol") or [], M.get("ready_codex") or []
     return ('<div class="card"><b>Mega factory</b> <span class="m">' + e(st) + '</span>'
             f'<br><span class="m">Sol chat now:</span> <code class="cp">{e(str(sol[0])) if sol else ""}</code>'
             f'<span class="m">{e(" ".join(str(n) for n in sol) or "nothing ready")}</span>'
             f'<br><span class="m">Codex now:</span> <span class="m">{e(" ".join(str(n) for n in cod) or "nothing ready")}</span>'
-            f'<br><span class="m">open code PRs {M["open_prs"]}/8 · {M["highest"]} taken of {M["total"]}</span><br>' + tiles + "</div>")
+            f'<br><span class="m">open code PRs {M["open_prs"]}/8 · {M["highest"]} taken of {M["total"]} · trains {tr["started"]} of {tr["all"]} started</span><br>' + trt + "<br>" + tiles + "</div>")
 
 
 def mega_md(M):
