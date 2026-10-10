@@ -15,7 +15,7 @@
  "steps": [],
  "evidence": [],
  "log": [{"at": "2026-10-10T14:17:12Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-10-10T14:18:17Z", "by": "V", "status": "RECEIVED", "note": "Team V will judge mega factory phone/desktop studies (items 226-476) and log adopted/not adopted in queue/V_ADOPTION.md; NEEDS TEAM V items come as normal hand-offs."}],
- "parts": ["HO-023"]
+ "parts": ["HO-023", "HO-024"]
 }
 ```
 
