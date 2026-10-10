@@ -400,13 +400,19 @@ for x in nik:
         _nk.append(x)
 nik = [x for x in _nk if not re.search(r"nothing to do until", str(x.get("decision", "")), re.I)]  # an ask with nothing to do yet is not an ask (Nik, 2026-10-09 22:49 UTC)
 # Every job ticket counts (Nik, 2026-10-09): a jobs/JOB-NNNN.md written by any thread shows up even before a BOARD.json row exists.
+try:
+    QUEUE_TICKETS = set(json.load(open(os.path.join(F, "queue", "QUEUE.json"))).get("tickets") or {})
+except Exception:
+    QUEUE_TICKETS = set()
+
+
 def ticket_rows():
     out = []
     jd = os.path.join(F, "jobs")
     for fn in sorted(os.listdir(jd)) if os.path.isdir(jd) else []:
         m = re.match(r"JOB-(\d{4})\.md$", fn)
-        if not m or int(m.group(1)) < 1001 or m.group(1) in rowmap:
-            continue
+        if not m or int(m.group(1)) < 1001 or m.group(1) in rowmap or m.group(1) in QUEUE_TICKETS:
+            continue  # queue tickets (1061+) live in the Mega factory card, not in the Jobs list
         n = m.group(1)
         t = open(os.path.join(jd, fn)).read()
         h = re.search(r"^#\s*JOB-\d+\s*·\s*(.+)$", t, re.M)
@@ -764,6 +770,48 @@ def v_svg():
     return _WOW["svg"]
 
 
+def mega():
+    """The mega factory queue (queue/QUEUE.json, live state from queue/QUEUE_STATE.json, written by the poller). None when there is no queue yet."""
+    try:
+        QJ = json.load(open(os.path.join(F, "queue", "QUEUE.json")))
+        QS = json.load(open(os.path.join(F, "queue", "QUEUE_STATE.json")))
+    except Exception:
+        return None
+    WORD = {"waiting": "waiting", "current": "next up", "pr_open": "PR open", "merged": "merged", "closed": "closed", "blocked": "blocked", "branch_only": "branch only"}
+    rows = []
+    for sid, sl in QJ.get("slots", {}).items():
+        ss = (QS.get("slots") or {}).get(sid, {})
+        nj = ss.get("next_job")
+        tk = (QS.get("tickets") or {}).get(str(nj), {}) if nj else {}
+        rows.append({"id": sid, "kind": sl.get("kind"), "next": nj, "taken": ss.get("taken", 0), "total": ss.get("total", 0),
+                     "state": WORD.get(tk.get("state"), tk.get("state") or "done"), "line": sl.get("standing_line", ""),
+                     "title": ((QJ.get("tickets") or {}).get(str(nj)) or {}).get("title", "")})
+    return {"rows": rows, "stages": QS.get("stages") or {}, "updated": QS.get("updated", "")}
+
+
+def mega_tab(M):
+    """Custom view: one small tile per slot (the paste boxes are on GitHub, to keep the tab under its limit)."""
+    tiles = []
+    for r in M["rows"]:
+        if r["kind"] == "reviewer":
+            tiles.append(f'<span class="mt">{e(r["id"])} review</span>')
+        else:
+            tiles.append(f'<span class="mt">{e(r["id"])} #{e(str(r["next"] or "—"))} {r["taken"]}/{r["total"]} {e(r["state"])}</span>')
+    st = " · ".join(f'stage {k}: {v.get("merged", 0)}/{v.get("total", 0)} merged' for k, v in sorted(M["stages"].items()))
+    return ('<div class="card"><b>Mega factory</b> <span class="m">' + e(st) + '</span><br>' + " ".join(tiles) + "</div>")
+
+
+def mega_md(M):
+    L = ["## Mega factory", "", "Live from GitHub (queue/QUEUE_STATE.json). Each slot's paste line is in its box.", "", "| Slot | Next job | Picked up | State |", "| --- | --- | --- | --- |"]
+    for r in M["rows"]:
+        L.append(f"| {r['id']} | {('#' + str(r['next']) + ' ' + r['title']) if r['next'] else '—'} | {r['taken']}/{r['total']} | {r['state']} |")
+    L += ["", "**Stages**", ""] + [f"- stage {k}: {v.get('taken', 0)} picked up, {v.get('merged', 0)} merged of {v.get('total', 0)}" for k, v in sorted(M["stages"].items())] + [""]
+    for r in M["rows"]:
+        if r["line"]:
+            L += [f"<details><summary>Slot {r['id']} paste line</summary>", "", "```text", r["line"], "```", "", "</details>", ""]
+    return L
+
+
 def dash_svg(SG, cur):
     """Static SVG dashboard (Haiku G, 2026-10-10): stage ring plus job bars. No scripts or CSS, so it renders in the Custom view and on GitHub."""
     pct = max(0.0, min(100.0, float(SG[cur][1]))) if SG else 0.0
@@ -898,6 +946,8 @@ def render(first, compact=False, tight=False):
                  + "".join(f'<br>✅ <span class="m">{e(TF.bos(x["merged"], "%-I:%M %p"))}</span> #{x["pr"]} {e(x["title"][:cut])}' for x in (LV.get("today") or [])[:2 if compact else 4]) + "</div>")
     TK = TWO.get("tickets") or []
     open_tk = [x for x in TK if x["stage"] != "DONE"]
+    if first == "G" and not tight and mega():
+        H.append(mega_tab(mega()))
     H.append("<h2>Relay</h2>")
     H.append('<div class="card">' + ("✅ working" if TWO.get("relay_ok") else "⚠ unreadable") + f' <span class="m">{len(open_tk)} open hand-offs, {len(TK) - len(open_tk)} done</span>'
              + "".join(f'<br><b>{e(x["id"])}</b> {e(x.get("from") or "?")}→{e(x.get("to") or "?")} {e(x["title"][:cut])} <span class="m">{e(TF.STAGE_WORD.get(x["stage"], x["stage"]))}</span>' for x in open_tk[::-1][:3]) + "</div>")
@@ -975,6 +1025,8 @@ _SG, _cur = stages()
 L += ["## Goals, in this order", ""]
 for _i, (_n, _p, _ls) in enumerate(_SG):
     L += [f"**{_i + 1}. {_n}** " + ("`now`" if _i == _cur else ("`done`" if _p >= 100 else f"`after stage {_i}`")) + "  ", bar_md(_p) + "  ", " · ".join(_ls), ""]
+if mega():
+    L += mega_md(mega())
 L += ["## Other asks", ""]
 L += [f"- {x['decision']}" if x.get("md") else f"- **{x['id']}** {x['decision']}" for x in nik] or ["- Nothing else needs you right now."]
 for t in ("G", "V"):
