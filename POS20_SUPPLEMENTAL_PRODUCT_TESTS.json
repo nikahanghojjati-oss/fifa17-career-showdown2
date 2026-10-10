@@ -1094,6 +1094,24 @@
       ]
     },
     {
+      "path": "tests/contracts/job-1051-transfer-ledger-privacy-contracts.cjs",
+      "patterns": [
+        "^js/sparkSharedTransferChallenge\\.js$",
+        "^js/sparkCompletedTransferHistoryReader\\.js$",
+        "^firestore\\.transfer-challenge-production\\.fragment\\.rules$",
+        "^tests/contracts/job-1051-transfer-ledger-privacy-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/job-1055-league-size-cap-contracts.cjs",
+      "patterns": [
+        "^js/productionSharedSeasonResults\\.js$",
+        "^tests/contracts/job-1055-league-size-cap-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
       "path": "tests/contracts/job-1058-transfer-clock-contracts.cjs",
       "patterns": [
         "^js/productionSharedTransferChallenge\\.js$",
