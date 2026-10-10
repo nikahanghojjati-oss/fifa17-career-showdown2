@@ -1,20 +1,20 @@
 {
-"updated": "2026-10-10T14:45:40Z",
+"updated": "2026-10-10T14:49:19Z",
 "total": 518,
-"next_free": 3,
-"highest_taken": 2,
+"next_free": 4,
+"highest_taken": 3,
 "counts": {
-"on_train": 1,
+"on_train": 2,
 "draft": 1,
-"waiting": 516
+"waiting": 515
 },
 "stages": {
 "2": {
 "name": "Screen fixes",
 "total": 266,
 "states": {
-"on_train": 1,
-"waiting": 265
+"on_train": 2,
+"waiting": 264
 }
 },
 "1": {
@@ -53,12 +53,12 @@
 "open_code_prs": 0,
 "open_train_prs": [],
 "on_train_no_pr": [
-1
+1,
+3
 ],
 "draft_code_prs": 0,
 "area_locks": {},
 "ready": [
-3,
 4,
 5,
 6,
@@ -69,10 +69,10 @@
 11,
 12,
 13,
-14
+14,
+15
 ],
 "ready_sol": [
-3,
 4,
 5,
 6,
@@ -83,13 +83,14 @@
 11,
 12,
 13,
-14
+14,
+15
 ],
 "ready_codex": []
 },
 "rate": {
-"claimed_last_hour": 2,
-"claimed_last_10min": 2,
+"claimed_last_hour": 3,
+"claimed_last_10min": 3,
 "merged_last_hour": 0
 },
 "events": [
@@ -106,6 +107,13 @@
 "job": 1467,
 "from": "waiting",
 "to": "draft"
+},
+{
+"at": "2026-10-10T14:49:19Z",
+"item": 3,
+"job": 1090,
+"from": "waiting",
+"to": "on_train"
 }
 ],
 "items": {
@@ -146,8 +154,10 @@
 "title": "Connect Players (start and join): fix the 360x640 view",
 "mode": "code",
 "group": "start-join",
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"state": "on_train",
+"branch": "gameplay/train-start-join-1",
+"first_seen": "2026-10-10T14:49:19Z",
+"since": "2026-10-10T14:49:19Z"
 },
 "4": {
 "job": 1468,
