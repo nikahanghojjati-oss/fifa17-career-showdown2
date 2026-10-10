@@ -1,10 +1,10 @@
 # Bug hunt board
 
-Updated Fri 9 Oct, 8:49 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Fri 9 Oct, 8:53 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r66** (main `8e1a583`, Fri 9 Oct 12:04 PM)
 
-🩺 **All clear: every check has a machine.** · POS20 #304 6/16
+🩺 **All clear: every check has a machine.** · Gate #450: L1✓ L2✓ L3✓ L4✓ L5✓ L6✓ · seal PASS · POS20 #450 12/16
 
 ## Jobs
 
@@ -46,7 +46,7 @@ Not started
 
 | Lane | Item | What | State |
 | --- | --- | --- | --- |
-| 🟧 Team G lead | [PR #450](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/450) | Release r67: Olympiad fixes and private transfer locks | ⏳ 17 passed, 1 running |
+| 🟧 Team G lead | [PR #450](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/450) | Release r67: Olympiad fixes and private transfer locks | 🟢 19 passed |
 
 **Up next**
 

@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-09 8:49 PM Boston time (EDT)",
+ "generated": "2026-10-09 8:53 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -326,8 +326,8 @@
      "sha": "b4920f7bac20175c698095b45ad8fdc20aef5dac",
      "updated": "2026-10-10T00:41:26Z",
      "gates": {
-      "passed": 17,
-      "running": 1,
+      "passed": 19,
+      "running": 0,
       "failed": 0,
       "cancelled": 0
      }
@@ -359,7 +359,7 @@
   "physio": {
    "state": "clear",
    "line": "All clear: every check has a machine.",
-   "gate": "POS20 #304 6/16",
+   "gate": "Gate #450: L1✓ L2✓ L3✓ L4✓ L5✓ L6✓ · seal PASS · POS20 #450 12/16",
    "source": "physio"
   },
   "v_headline": "Queued next",
@@ -1123,8 +1123,8 @@
     "sha": "b4920f7bac20175c698095b45ad8fdc20aef5dac",
     "updated": "2026-10-10T00:41:26Z",
     "gates": {
-     "passed": 17,
-     "running": 1,
+     "passed": 19,
+     "running": 0,
      "failed": 0,
      "cancelled": 0
     }
