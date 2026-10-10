@@ -1,28 +1,28 @@
 {
-"updated": "2026-10-10T17:03:21Z",
+"updated": "2026-10-10T17:16:08Z",
 "total": 518,
-"next_free": 40,
-"highest_taken": 39,
+"next_free": 42,
+"highest_taken": 41,
 "counts": {
-"on_train": 20,
-"draft": 19,
-"waiting": 479
+"on_train": 21,
+"draft": 20,
+"waiting": 477
 },
 "stages": {
 "2": {
 "name": "Screen fixes",
 "total": 266,
 "states": {
-"on_train": 20,
-"waiting": 246
+"on_train": 21,
+"waiting": 245
 }
 },
 "1": {
 "name": "Gameplay audits",
 "total": 112,
 "states": {
-"draft": 19,
-"waiting": 93
+"draft": 20,
+"waiting": 92
 }
 },
 "3": {
@@ -72,13 +72,12 @@
 33,
 35,
 37,
-39
+39,
+41
 ],
 "draft_code_prs": 0,
 "area_locks": {},
 "ready": [
-40,
-41,
 42,
 43,
 44,
@@ -88,11 +87,11 @@
 48,
 49,
 50,
-51
+51,
+52,
+53
 ],
 "ready_sol": [
-40,
-41,
 42,
 43,
 44,
@@ -102,13 +101,15 @@
 48,
 49,
 50,
-51
+51,
+52,
+53
 ],
 "ready_codex": []
 },
 "rate": {
-"claimed_last_hour": 7,
-"claimed_last_10min": 1,
+"claimed_last_hour": 9,
+"claimed_last_10min": 2,
 "merged_last_hour": 0
 },
 "events": [
@@ -431,6 +432,20 @@
 "at": "2026-10-10T16:55:55Z",
 "item": 39,
 "job": 1092,
+"from": "waiting",
+"to": "on_train"
+},
+{
+"at": "2026-10-10T17:16:08Z",
+"item": 40,
+"job": 1486,
+"from": "waiting",
+"to": "draft"
+},
+{
+"at": "2026-10-10T17:16:08Z",
+"item": 41,
+"job": 1121,
 "from": "waiting",
 "to": "on_train"
 }
@@ -1042,8 +1057,19 @@
 "title": "Audit js/sparkSharedTransferChallenge.js for gameplay bugs (second half)",
 "mode": "audit",
 "group": null,
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"pr": 481,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/481",
+"base": "qa/mega-audits",
+"branch": "qa/job-1486-transfer-challenge-2",
+"ci": "draft",
+"ci_sha": "112eb5302f7a91e0226866a9d968ed6c434c768a",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-10T17:05:05Z",
+"first_seen": "2026-10-10T17:05:05Z",
+"since": "2026-10-10T17:16:08Z"
 },
 "41": {
 "job": 1121,
@@ -1051,8 +1077,10 @@
 "title": "Select League: fix the 430x932 view",
 "mode": "code",
 "group": "league",
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"state": "on_train",
+"branch": "gameplay/train-league-1",
+"first_seen": "2026-10-10T17:16:08Z",
+"since": "2026-10-10T17:16:08Z"
 },
 "42": {
 "job": 1487,

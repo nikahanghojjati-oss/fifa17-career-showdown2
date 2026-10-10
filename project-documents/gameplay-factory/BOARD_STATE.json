@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-10 1:08 PM Boston time (EDT)",
+ "generated": "2026-10-10 1:15 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -317,13 +317,28 @@
    "revision": "1.9.1-r67",
    "when": "2026-10-09T21:34:57-04:00",
    "subject": "Release r67: Olympiad fixes and private transfer locks (1.9.1-r67) (#450)",
-   "fixes": [],
+   "fixes": [
+    {
+     "pr": 482,
+     "title": "Release r68: Season Results fixes",
+     "draft": false,
+     "branch": "release/r68",
+     "sha": "74ce745610cf23128c205b6d576d03b50ca05c64",
+     "updated": "2026-10-10T17:10:25Z",
+     "gates": {
+      "passed": 2,
+      "running": 4,
+      "failed": 0,
+      "cancelled": 0
+     }
+    }
+   ],
    "today": []
   },
   "physio": {
    "state": "clear",
    "line": "All clear: every check has a machine.",
-   "gate": "POS20 #304 6/16",
+   "gate": "Gate #482: L1✓ L2… L3… L4… L5… L6… · seal pending · POS20 #482 0/16",
    "source": "physio"
   },
   "v_headline": "Queued next",
@@ -726,7 +741,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 40,
+  "moving": 41,
   "next": 2,
   "nik": 2,
   "later": 7,
@@ -1165,7 +1180,22 @@
     ]
    }
   },
-  "fixes": []
+  "fixes": [
+   {
+    "pr": 482,
+    "title": "Release r68: Season Results fixes",
+    "draft": false,
+    "branch": "release/r68",
+    "sha": "74ce745610cf23128c205b6d576d03b50ca05c64",
+    "updated": "2026-10-10T17:10:25Z",
+    "gates": {
+     "passed": 2,
+     "running": 4,
+     "failed": 0,
+     "cancelled": 0
+    }
+   }
+  ]
  },
  "jobs": [
   {

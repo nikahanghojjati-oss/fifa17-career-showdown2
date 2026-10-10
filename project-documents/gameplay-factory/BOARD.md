@@ -6,11 +6,11 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Sat 10 Oct, 1:08 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Sat 10 Oct, 1:16 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r67** (main `f42dac2`, Fri 9 Oct 9:34 PM)
 
-🩺 **All clear: every check has a machine.** · POS20 #304 6/16
+🩺 **All clear: every check has a machine.** · Gate #482: L1✓ L2… L3… L4… L5… L6… · seal pending · POS20 #482 0/16
 
 ## Jobs
 
@@ -89,17 +89,17 @@ One numbered queue: type a bare number in any GPT chat. Live from GitHub (queue/
 Type now, in any GPT chat:
 
 ```text
-41 42 43 44 45 46 47 48 49 50 51 52
+42 43 44 45 46 47 48 49 50 51 52 53
 ```
 
 Open code PRs: 0/8.
 
-40 taken of 518.
+41 taken of 518.
 
 | Stage | Items | Merged | Picked up |
 | --- | --- | --- | --- |
 | audits | 112 | 0/112 | 20/112 |
-| screen fixes | 266 | 0/266 | 20/266 |
+| screen fixes | 266 | 0/266 | 21/266 |
 | mockup match | 14 | 0/14 | 0/14 |
 | phone studies | 70 | 0/70 | 0/70 |
 | desktop studies | 56 | 0/56 | 0/56 |
@@ -108,6 +108,7 @@ Open code PRs: 0/8.
 
 | # | Job | State | Title |
 | --- | --- | --- | --- |
+| 41 | 1121 | on_train | Select League: fix the 430x932 view |
 | 40 | 1486 | PR open | Audit js/sparkSharedTransferChallenge.js for gameplay bugs (second half) |
 | 39 | 1092 | on_train | Connect Players (start and join): fix the 430x932 view |
 | 38 | 1485 | PR open | Audit js/sparkSharedTransferChallenge.js for gameplay bugs (first half) |
@@ -127,16 +128,15 @@ Open code PRs: 0/8.
 | 24 | 1478 | PR open | Audit all screens: hover-only effects must also work by touch |
 | 23 | 1120 | on_train | Select League: fix the 390x844 view |
 | 22 | 1477 | PR open | Audit all screens: hard-coded colours that should use the design tokens |
-| 21 | 1091 | on_train | Connect Players (start and join): fix the 390x844 view |
 
 ## Mega tracker (live, free)
 
-Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/index.html) · summary: [mega/MEGA_TRACKER.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/MEGA_TRACKER.md) · rebuilt by the poller each round, updated 2026-10-10T17:03:21Z.
+Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/index.html) · summary: [mega/MEGA_TRACKER.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/MEGA_TRACKER.md) · rebuilt by the poller each round, updated 2026-10-10T17:16:08Z.
 
 | Stage | Done (merged or live) | In progress | Waiting |
 | --- | --- | --- | --- |
-| Gameplay audits | 0 of 112 | 19 | 93 |
-| Screen fixes | 0 of 266 | 20 | 246 |
+| Gameplay audits | 0 of 112 | 20 | 92 |
+| Screen fixes | 0 of 266 | 21 | 245 |
 | Match desktop to mockups | 0 of 14 | 0 | 14 |
 | Phone mockup studies | 0 of 70 | 0 | 70 |
 | Improved desktop studies | 0 of 56 | 0 | 56 |
@@ -154,6 +154,12 @@ Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-caree
 - Nothing else needs you right now.
 
 ## Other Team G work
+
+**Fixing now**
+
+| Lane | Item | What | State |
+| --- | --- | --- | --- |
+| 🟧 Team G lead | [PR #482](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/482) | Release r68: Season Results fixes | ⏳ 2 passed, 4 running |
 
 **Up next**
 
