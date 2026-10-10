@@ -1,7 +1,6 @@
 {
  "sequence": {
   "ready": [
-   42,
    43,
    44,
    45,
@@ -12,10 +11,10 @@
    50,
    51,
    52,
-   53
+   53,
+   54
   ],
   "ready_sol": [
-   42,
    43,
    44,
    45,
@@ -26,14 +25,15 @@
    50,
    51,
    52,
-   53
+   53,
+   54
   ],
   "ready_codex": [],
   "held_until_picture": 86,
   "open_code_prs": 0,
   "open_train_prs": 0,
-  "next_free": 42,
-  "highest_taken": 41,
+  "next_free": 43,
+  "highest_taken": 42,
   "total": 518,
   "states": {
    "1": "on_train",
@@ -77,7 +77,7 @@
    "39": "on_train",
    "40": "pr_open",
    "41": "on_train",
-   "42": "waiting",
+   "42": "pr_open",
    "43": "waiting",
    "44": "waiting",
    "45": "waiting",
@@ -556,11 +556,11 @@
    "518": "waiting"
   }
  },
- "updated": "2026-10-10T17:31:32Z",
+ "updated": "2026-10-10T17:35:07Z",
  "counts": {
   "on_train": 21,
-  "waiting": 477,
-  "pr_open": 20
+  "waiting": 476,
+  "pr_open": 21
  },
  "stages": {
   "2": {
@@ -585,7 +585,7 @@
   },
   "1": {
    "total": 112,
-   "taken": 20,
+   "taken": 21,
    "merged": 0
   }
  },
@@ -4278,11 +4278,11 @@
    "branch": "qa/job-1486-transfer-challenge-2"
   },
   "1487": {
-   "state": "waiting",
-   "pr": null,
-   "draft": false,
-   "pr_url": null,
-   "branch": null
+   "state": "pr_open",
+   "pr": 483,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/483",
+   "branch": "qa/job-1487-signing-name-audit"
   },
   "1488": {
    "state": "waiting",
