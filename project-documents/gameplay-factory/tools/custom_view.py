@@ -23,6 +23,7 @@ PR = f"{REPO}/pull/"
 QI = {l: i for i, l in enumerate(HEX)}
 e = html.escape
 LIMIT = 9800  # the coordinator's Custom view tab (took 9 KB whole, so stay near that on 2026-10-09 22:26 UTC; was 7000)
+V_ONLY = "--v" in sys.argv  # Team V keeper run (Haiku V kit, 2026-10-10): writes only CUSTOM_VIEW_V.html and CUSTOM_VIEW_V.svg
 RAW = "https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/gameplay-v1/project-documents/gameplay-factory/"
 
 st = json.load(open(os.path.join(F, "BOARD_STATE.json")))
@@ -502,7 +503,8 @@ def _released():
                         break
         except Exception:
             pass
-        json.dump(R, open(p, "w"), indent=1)
+        if not V_ONLY:  # the Team V run never writes RELEASED.json (the Team G run saves it)
+            json.dump(R, open(p, "w"), indent=1)
     return known, ngc
 
 
@@ -1065,6 +1067,8 @@ def v_page():
 
 
 for team, fn in (("G", "CUSTOM_VIEW.html"), ("V", "CUSTOM_VIEW_V.html")):
+    if V_ONLY and team == "G":
+        continue
     out = v_page() if team == "V" else render(team)  # the jobs card is never cut; the sections below it shrink to fit the Custom view
     if len(out.encode()) > LIMIT:
         out = render(team, compact=True)
@@ -1072,6 +1076,8 @@ for team, fn in (("G", "CUSTOM_VIEW.html"), ("V", "CUSTOM_VIEW_V.html")):
         out = render(team, compact=True, tight=True)
     open(os.path.join(F, fn), "w").write(out)
     print(fn, "bytes", len(out.encode()))
+if V_ONLY:
+    sys.exit(0)  # the Team V run stops here: BOARD.md, BUG_BOARD.md, charts and TEAM_G_PROGRESS.json are Team G's writes
 
 
 # ---------- BOARD.md: the same board on GitHub ----------
