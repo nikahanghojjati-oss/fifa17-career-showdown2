@@ -1,0 +1,96 @@
+name: Gameplay factory progress poller
+
+# Keeps the "Running now" bars on BOARD.md, BUG_BOARD.md and CUSTOM_VIEW.html (the Custom view tab, copied as is) fresh with zero Claude usage. Job owners keep a progress block in their PR description (no push, no CI);
+# this reads it from the progress block in every open PR description (tools/collect_progress.py) every 3 minutes, rebuilds the board, and re-dispatches itself.
+# Since 2026-10-05 it never stops: main, open live-fix PRs, Team V's V- PRs and the relay change without any push to this branch, so the
+# board went stale for 8 hours when the chain stopped. It commits when a fact changed, plus a heartbeat at least once an hour so the
+# "Updated" time on the Custom view stays honest. Public repo: Actions minutes are free; it costs no Claude usage.
+# It keeps chaining itself for good: GitHub has never fired a `schedule` trigger in this repo (zero schedule runs, checked 2026-10-06),
+# so main's factory-board-tick.yml and the Physio's 10-minute sweep are inert. Each round also wakes the Physio when its report is stale.
+on:
+  push:
+    branches: [factory/gameplay-v1]
+    paths:
+      - .github/workflows/gameplay-factory-progress.yml
+      - project-documents/gameplay-factory/tools/collect_progress.py
+      - project-documents/gameplay-factory/tools/two_factories.py
+      - project-documents/gameplay-factory/tools/relay_page.py
+      - project-documents/gameplay-factory/tools/mega_tracker.py
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: write
+  pull-requests: read
+  checks: read
+  issues: read
+
+concurrency:
+  group: gameplay-factory-progress
+  cancel-in-progress: false
+
+jobs:
+  poll:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: factory/gameplay-v1
+          fetch-depth: 50
+      - name: Poll, rebuild, commit when a bar moved
+        run: |
+          # Starvation watch, once a minute, a few API calls: a Validate POS20 / Validate Gameplay Fast / Showdown Gate
+          # run or job waiting over 90 s for a machine. Then this poller yields its own machine to the checks: it queues
+          # its next run (behind the waiting checks) and exits. Tracker branches (factory/*, leads/relay) never count: their
+          # draft PRs skip POS20 without a machine. The Physio itself reacts to every finished check within seconds.
+          starved() {
+            local CHECKS='^(Validate POS20|Validate Gameplay Fast|Showdown Gate)$' n=0 id
+            n=$(gh api "repos/$GITHUB_REPOSITORY/actions/runs?status=queued&per_page=50" --jq "[.workflow_runs[]|select(.name|test(\"$CHECKS\"))|select(.head_branch|test(\"^(factory/|leads/relay$)\")|not)|select(now-(.created_at|fromdateiso8601)>90)]|length" 2>/dev/null || echo 0)
+            for id in $(gh api "repos/$GITHUB_REPOSITORY/actions/runs?status=in_progress&per_page=50" --jq ".workflow_runs[]|select(.name|test(\"$CHECKS\"))|select(.head_branch|test(\"^(factory/|leads/relay$)\")|not)|.id" 2>/dev/null); do
+              n=$(( n + $(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$id/jobs?per_page=50" --jq '[.jobs[]|select(.status=="queued" and (now-(.created_at|fromdateiso8601))>90)]|length' 2>/dev/null || echo 0) ))
+            done
+            [ "${n:-0}" -gt 0 ]
+          }
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          B=project-documents/gameplay-factory
+          FOUND=0
+          PHYSIO_KICK=0
+          for round in $(seq 1 8); do
+            git fetch -q origin factory/gameplay-v1
+            git reset -q --hard origin/factory/gameplay-v1
+            FOUND=$(python3 $B/tools/collect_progress.py)
+            python3 $B/tools/board.py; python3 $B/tools/bug_board.py >/dev/null; python3 $B/tools/relay_page.py >/dev/null; python3 $B/queue/queue_state.py >/dev/null || true; python3 $B/tools/mega_tracker.py >/dev/null || true; python3 $B/tools/mega_custom_view.py >/dev/null || true; python3 $B/tools/custom_view.py >/dev/null
+            AGE=$(( $(date +%s) - $(git log -1 --format=%ct -- $B/CUSTOM_VIEW.html 2>/dev/null || echo 0) ))
+            if git diff -U0 -- $B/BOARD.md $B/BUG_BOARD.md $B/RELAY.md $B/CUSTOM_VIEW.html $B/queue/QUEUE.md $B/queue/QUEUE_STATE.json $B/queue/RUN_REPORT.md | grep '^[-+][^-+]' | grep -Ev '· generated 20|Updated [A-Z][a-z]{2} |"updated": "20' | grep -q . || ! git diff --quiet -- $B/mega/MEGA_TRACKER.json $B/mega/CUSTOM_VIEW_MEGA.html || ! git ls-files --error-unmatch $B/RELAY.md >/dev/null 2>&1 || [ "$AGE" -gt 3600 ]; then
+              git add $B/mega/MEGA_TRACKER.json $B/mega/MEGA_TRACKER.md $B/mega/CUSTOM_VIEW_MEGA.html $B/BOARD.md $B/BOARD_ARCHIVE.md $B/BOARD_STATE.json $B/BUG_BOARD.md $B/CUSTOM_VIEW.html $B/CUSTOM_VIEW_V.html $B/CUSTOM_VIEW_V.svg $B/TEAM_G_PROGRESS.json $B/RELAY.md $B/GOALS.json $B/RELEASED.json $B/queue/QUEUE.md $B/queue/QUEUE_STATE.json $B/queue/RUN_REPORT.md
+              git commit -qm "Gameplay factory: progress bars update [skip ci]"
+              git push -q origin HEAD:factory/gameplay-v1 || echo "push raced; next round retries"
+            fi
+            # The Physio's own */10 cron never fires here, so wake its sweep when physio-status.json is over 10 minutes old
+            # (at most once per 10 minutes from this chain). A failed dispatch never stops the board.
+            PAT=$(python3 -c "import json,sys,datetime;print(int(datetime.datetime.fromisoformat(json.load(open(sys.argv[1]))['at'].replace('Z','+00:00')).timestamp()))" $B/physio-status.json 2>/dev/null || echo 0)
+            NOW=$(date +%s)
+            if [ $(( NOW - PAT )) -gt 600 ] && [ $(( NOW - PHYSIO_KICK )) -gt 600 ]; then
+              gh workflow run gate-watchdog.yml --ref main && PHYSIO_KICK=$NOW || echo "physio dispatch failed; next round retries"
+            fi
+            [ "$round" = "8" ] && break
+            for minute in 1 2 3; do
+              sleep 60
+              if starved; then
+                echo "A check is waiting for a machine: yielding this poller's machine and queueing the next round behind it."
+                gh workflow run gameplay-factory-progress.yml --ref factory/gameplay-v1
+                exit 0
+              fi
+            done
+          done
+          # No handover to factory-board-tick.yml: its schedule never fires in this repo, so the chain continues.
+          gh workflow run gameplay-factory-progress.yml --ref factory/gameplay-v1
+      # The Physio may cancel this poller to free a machine for a waiting check (scripts/gate-preempt.mjs). A cancelled
+      # run would end the chain for good (schedules never fire here), so it queues its successor first.
+      - name: Resume the chain after a cancel
+        if: cancelled()
+        run: gh workflow run gameplay-factory-progress.yml --ref factory/gameplay-v1

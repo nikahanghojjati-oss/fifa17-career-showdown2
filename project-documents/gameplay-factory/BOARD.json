@@ -1,0 +1,1764 @@
+{
+ "branch": "factory/gameplay-v1",
+ "integration_branch": "gameplay/recovery-v1",
+ "updated": "2026-10-04",
+ "capacity": {
+  "chat": 2,
+  "work": 1
+ },
+ "jobs": [
+  {
+   "number": 0,
+   "key": "G-0",
+   "title": "Factory smoke test (chat lane)",
+   "lane": "chat",
+   "depends_on": [],
+   "steps": 6,
+   "code_branch": "gameplay/job-00-smoke",
+   "codex_review": false,
+   "written": true,
+   "waits_on": null,
+   "phase": "0 Setup",
+   "type": "test",
+   "plain": "Checks what a normal ChatGPT chat can do (save files, open PRs, screenshots)."
+  },
+  {
+   "number": 90,
+   "key": "G-0W",
+   "title": "Factory smoke test (Work lane)",
+   "lane": "work",
+   "depends_on": [],
+   "steps": 6,
+   "code_branch": "gameplay/job-90-smoke-work",
+   "codex_review": false,
+   "written": true,
+   "waits_on": null,
+   "phase": "0 Setup",
+   "type": "test",
+   "plain": "Checks what Sol Work mode can do (terminal, npm, Firebase emulator)."
+  },
+  {
+   "number": 1,
+   "key": "G-1",
+   "title": "Fast regression CI on every gameplay push",
+   "lane": "work",
+   "depends_on": [],
+   "steps": 6,
+   "code_branch": "gameplay/job-01-fast-ci",
+   "codex_review": false,
+   "written": true,
+   "waits_on": null,
+   "phase": "0 Setup",
+   "type": "build",
+   "plain": "GitHub runs every gameplay test automatically on each worker save."
+  },
+  {
+   "number": 2,
+   "key": "G-2",
+   "title": "Two-manager journey on the emulator (provider level)",
+   "lane": "chat",
+   "depends_on": [
+    1
+   ],
+   "steps": 8,
+   "code_branch": "gameplay/job-02-two-manager-journey",
+   "codex_review": false,
+   "written": true,
+   "waits_on": null,
+   "phase": "1 Safety net",
+   "type": "test",
+   "plain": "Daniel and Nik play a whole Showdown against the real Rules in a test database, with a stranger and privacy checks."
+  },
+  {
+   "number": 17,
+   "key": "G-2c",
+   "title": "Simultaneous result taps: loser gets stale, not denied",
+   "lane": "chat",
+   "depends_on": [
+    2
+   ],
+   "steps": 5,
+   "code_branch": "gameplay/job-17-results-race",
+   "codex_review": false,
+   "written": true,
+   "waits_on": null,
+   "phase": "1 Safety net",
+   "type": "fix",
+   "plain": "When you both submit a result at once, the slower tap is told to refresh instead of getting an error."
+  },
+  {
+   "number": 16,
+   "key": "G-2b",
+   "title": "Two-manager browser journey (localhost-only emulator switch)",
+   "lane": "chat",
+   "depends_on": [
+    2,
+    7,
+    17
+   ],
+   "steps": 9,
+   "code_branch": "gameplay/job-16-browser-journey",
+   "codex_review": false,
+   "written": true,
+   "waits_on": null,
+   "phase": "1 Safety net",
+   "type": "test",
+   "plain": "The same journey through the real app screens in a browser, test database only."
+  },
+  {
+   "number": 12,
+   "key": "G-12",
+   "title": "Composed production Rules regression",
+   "lane": "work",
+   "depends_on": [
+    7,
+    8,
+    10
+   ],
+   "steps": 8,
+   "code_branch": "gameplay/job-12-composed-rules-regression",
+   "codex_review": true,
+   "written": true,
+   "waits_on": null,
+   "phase": "1 Safety net",
+   "type": "test",
+   "plain": "Re-proves the full production Rules after the new career-data Rules land."
+  },
+  {
+   "number": 3,
+   "key": "G-3",
+   "title": "Pure shared career model + tests",
+   "lane": "work",
+   "depends_on": [],
+   "steps": 7,
+   "code_branch": "gameplay/job-03-career-model",
+   "codex_review": false,
+   "written": true,
+   "waits_on": null,
+   "phase": "2 Career model",
+   "type": "build",
+   "plain": "One pure function that turns Showdown data into the career numbers every screen shows."
+  },
+  {
+   "number": 5,
+   "key": "G-5",
+   "title": "Active Showdown adapter (Rivalry, Continue, tiebreak, final state)",
+   "lane": "work",
+   "depends_on": [
+    3
+   ],
+   "steps": 7,
+   "code_branch": "gameplay/job-05-active-adapter",
+   "codex_review": false,
+   "written": true,
+   "waits_on": null,
+   "phase": "2 Career model",
+   "type": "build",
+   "plain": "Live Showdown (Rivalry, Continue, tiebreak, final result) feeds the career model."
+  },
+  {
+   "number": 4,
+   "key": "G-4",
+   "title": "Renderer seams: screens take a model, never the local path",
+   "lane": "work",
+   "depends_on": [
+    3
+   ],
+   "steps": 7,
+   "code_branch": "gameplay/job-04-renderer-seams",
+   "codex_review": false,
+   "written": true,
+   "waits_on": null,
+   "phase": "2 Career model",
+   "type": "build",
+   "plain": "Screens read from that career model instead of from one phone's local data."
+  },
+  {
+   "number": 6,
+   "key": "G-6",
+   "title": "Start/Join view model + nav.locked",
+   "lane": "chat",
+   "depends_on": [],
+   "steps": 7,
+   "code_branch": "gameplay/job-06-start-join-model",
+   "codex_review": false,
+   "written": true,
+   "waits_on": null,
+   "phase": "2 Career model",
+   "type": "build",
+   "plain": "Start/Join screen and top-bar locking driven by one view model."
+  },
+  {
+   "number": 11,
+   "key": "G-11",
+   "title": "Contract fixtures generated from the real model",
+   "lane": "work",
+   "depends_on": [
+    3,
+    5
+   ],
+   "steps": 8,
+   "code_branch": "gameplay/job-11-contract-fixtures",
+   "codex_review": false,
+   "written": true,
+   "waits_on": null,
+   "phase": "2 Career model",
+   "type": "test",
+   "plain": "Example data for Team V generated from the real model, so visuals and gameplay agree."
+  },
+  {
+   "number": 7,
+   "key": "G-7",
+   "title": "Career index Rules + client + emulator proofs",
+   "lane": "work",
+   "depends_on": [
+    1,
+    2
+   ],
+   "steps": 9,
+   "code_branch": "gameplay/job-07-career-index",
+   "codex_review": true,
+   "written": true,
+   "waits_on": null,
+   "phase": "3 Career history",
+   "type": "rules",
+   "plain": "A shared list of every Showdown the two of you played, protected by Rules."
+  },
+  {
+   "number": 8,
+   "key": "G-8",
+   "title": "Completed-only read grant + session-free reader",
+   "lane": "work",
+   "depends_on": [
+    7
+   ],
+   "steps": 8,
+   "code_branch": "gameplay/job-08-completed-read",
+   "codex_review": true,
+   "written": true,
+   "waits_on": null,
+   "phase": "3 Career history",
+   "type": "rules",
+   "plain": "Finished Showdowns stay readable for both managers after they close."
+  },
+  {
+   "number": 9,
+   "key": "G-9",
+   "title": "Closed-Showdown adapter into the career model",
+   "lane": "work",
+   "depends_on": [
+    3,
+    8
+   ],
+   "steps": 7,
+   "code_branch": "gameplay/job-09-closed-adapter",
+   "codex_review": false,
+   "written": true,
+   "waits_on": null,
+   "phase": "3 Career history",
+   "type": "build",
+   "plain": "Finished Showdowns flow into career totals and the Trophy Room."
+  },
+  {
+   "number": 10,
+   "key": "G-10",
+   "title": "Transfer history, completed only",
+   "lane": "work",
+   "depends_on": [
+    8
+   ],
+   "steps": 8,
+   "code_branch": "gameplay/job-10-transfer-history",
+   "codex_review": true,
+   "written": true,
+   "waits_on": null,
+   "phase": "3 Career history",
+   "type": "rules",
+   "plain": "Transfer history visible only once a challenge is completed."
+  },
+  {
+   "number": 13,
+   "key": "G-13",
+   "title": "Part 1: Trophy Room and Career Statistics on the real career model",
+   "lane": "work",
+   "depends_on": [
+    4,
+    5,
+    6,
+    9
+   ],
+   "steps": 7,
+   "code_branch": "gameplay/job-13-career-screens",
+   "codex_review": false,
+   "written": true,
+   "waits_on": "",
+   "phase": "MERGED",
+   "type": "build",
+   "plain": "Part 1 merged into recovery (PR #347, 86111ca): Trophy Room and Career Statistics show Team V's screens on the real career model. Legacy and Rivalry Statistics stay hidden for part 2. Not live until Nik approves Team V's full package."
+  },
+  {
+   "number": 14,
+   "key": "G-14",
+   "title": "Acceptance: directive §12 and Sol's 8 proofs on the emulator",
+   "lane": "work",
+   "depends_on": [
+    13
+   ],
+   "steps": null,
+   "code_branch": null,
+   "codex_review": false,
+   "written": false,
+   "waits_on": null,
+   "phase": "SKIPPED",
+   "type": "test",
+   "plain": "Final acceptance run of every promised behaviour in the test database. Superseded 2026-10-05: SSJR is retired and version 2.0 is live; the real proof is Nik and Daniel playing 2.0 (G-F1)."
+  },
+  {
+   "number": 15,
+   "key": "G-15",
+   "title": "One real two-device run with Nik",
+   "lane": "nik",
+   "depends_on": [
+    14
+   ],
+   "steps": null,
+   "code_branch": null,
+   "codex_review": false,
+   "written": false,
+   "waits_on": null,
+   "phase": "SKIPPED",
+   "type": "nik",
+   "plain": "One real game on two phones with Daniel, to sign it off. Superseded 2026-10-05: SSJR is retired and version 2.0 is live; the real proof is Nik and Daniel playing 2.0 (G-F1)."
+  },
+  {
+   "number": 18,
+   "key": "G-2d",
+   "title": "Nik's pair code survives the pair-panel re-render",
+   "lane": "chat",
+   "depends_on": [],
+   "steps": 5,
+   "code_branch": "gameplay/job-18-pair-code-race",
+   "codex_review": false,
+   "written": true,
+   "waits_on": null,
+   "phase": "1 Safety net",
+   "type": "build",
+   "plain": "When Nik pastes Daniel's code quickly, the app keeps it instead of wiping it and wrongly calling it invalid."
+  },
+  {
+   "number": 19,
+   "key": "G-2e",
+   "title": "Resume a Shared Showdown after reload; closed Showdowns stay on Home",
+   "lane": "lead",
+   "depends_on": [],
+   "steps": 3,
+   "code_branch": "gameplay/job-19-reload-resume",
+   "codex_review": false,
+   "written": true,
+   "waits_on": null,
+   "phase": "1 Safety net",
+   "type": "fix",
+   "plain": "After a reload both players land on Home, rejoin a fresh session and pick up on the right season, instead of starting over at season 1."
+  },
+  {
+   "number": 20,
+   "key": "G-2f",
+   "title": "A late season acknowledgement retries instead of failing",
+   "lane": "lead",
+   "depends_on": [],
+   "steps": 3,
+   "code_branch": "gameplay/job-20-season-ack-race",
+   "codex_review": false,
+   "written": true,
+   "waits_on": null,
+   "phase": "1 Safety net",
+   "type": "fix",
+   "plain": "When both players press acknowledge at the same moment, the second one is retried instead of showing a permission error."
+  },
+  {
+   "number": 21,
+   "key": "G-2g",
+   "title": "Same-moment taps retry quietly (bug hunt 1)",
+   "lane": "lead",
+   "depends_on": [],
+   "steps": 3,
+   "code_branch": "gameplay/job-21-tap-races",
+   "codex_review": false,
+   "written": true,
+   "waits_on": null,
+   "phase": "1 Safety net",
+   "type": "fix",
+   "plain": "When both players tap START, a lock button, early end or Setup confirm at the same moment, or the transfer timer hits 0:00 on both phones, the slower phone retries once instead of showing an error."
+  },
+  {
+   "number": 24,
+   "key": "G-13a",
+   "title": "Part 2a: foundation (loader, top bar, shared kit, caching)",
+   "lane": "lead",
+   "depends_on": [
+    13
+   ],
+   "steps": 7,
+   "code_branch": "gameplay/job-24-v10-foundation",
+   "codex_review": true,
+   "written": true,
+   "waits_on": "",
+   "phase": "IN PROGRESS",
+   "type": "build",
+   "plain": "Start first: one shared way to load Team V's screens, the top bar, and lighter caching. Built in the lead thread by a helper (Nik, 2026-10-04: no cloud sessions)."
+  },
+  {
+   "number": 25,
+   "key": "G-13b",
+   "title": "Part 2b: Home, music (Audius) and Loading",
+   "lane": "codex",
+   "depends_on": [
+    24
+   ],
+   "steps": 7,
+   "code_branch": "",
+   "codex_review": true,
+   "written": true,
+   "waits_on": "",
+   "phase": "READY",
+   "type": "build",
+   "plain": "Home in Team V's style with Nik's Audius playlist playing across screens; Loading keeps the Reus credit. Codex builds (Nik pastes the box); starts from job 24's branch; the lead checks each screen in a browser and merges."
+  },
+  {
+   "number": 26,
+   "key": "G-13c",
+   "title": "Part 2c: Start/Join, League wheel and Club packs",
+   "lane": "lead",
+   "depends_on": [
+    24
+   ],
+   "steps": 7,
+   "code_branch": "gameplay/job-26-v10-setup",
+   "codex_review": true,
+   "written": true,
+   "waits_on": "",
+   "phase": "READY",
+   "type": "build",
+   "plain": "Setup screens skinned without touching pairing, session or draw logic. Lead helper (Opus); starts from job 24's branch; the lead checks each screen in a browser and merges."
+  },
+  {
+   "number": 27,
+   "key": "G-13d",
+   "title": "Part 2d: Transfer War",
+   "lane": "lead",
+   "depends_on": [
+    24
+   ],
+   "steps": 7,
+   "code_branch": "gameplay/job-27-v10-transfer",
+   "codex_review": true,
+   "written": true,
+   "waits_on": "",
+   "phase": "READY",
+   "type": "build",
+   "plain": "Transfer window skinned; private inputs stay private; lock confirm and quiet retries kept. Lead helper (Opus); starts from job 24's branch; the lead checks each screen in a browser and merges."
+  },
+  {
+   "number": 28,
+   "key": "G-13e",
+   "title": "Part 2e: Rivalry Statistics and Legacy (History)",
+   "lane": "work",
+   "depends_on": [
+    24
+   ],
+   "steps": 7,
+   "code_branch": "gameplay/job-28-v10-history",
+   "codex_review": true,
+   "written": true,
+   "waits_on": "",
+   "phase": "READY",
+   "type": "build",
+   "plain": "Same pattern as job 13 on the real career model; un-hides the last two Statistics buttons. Sol 6.1 Work mode, High; starts from job 24's branch; the lead checks each screen in a browser and merges."
+  },
+  {
+   "number": 29,
+   "key": "G-13f",
+   "title": "Part 2f: Season Results, Final Winner and Standings",
+   "lane": "work",
+   "depends_on": [
+    24
+   ],
+   "steps": 7,
+   "code_branch": "gameplay/job-29-v10-results",
+   "codex_review": true,
+   "written": true,
+   "waits_on": "",
+   "phase": "READY",
+   "type": "build",
+   "plain": "Results and commit skinned (clash warning kept); winner reveal uses the reconciliation exactly. Sol Work mode; starts from job 24's branch; the lead checks each screen in a browser and merges."
+  },
+  {
+   "number": 30,
+   "key": "G-13g",
+   "title": "Part 2g: Rule Book and Settings",
+   "lane": "work",
+   "depends_on": [
+    24
+   ],
+   "steps": 7,
+   "code_branch": "gameplay/job-30-v10-rules-settings",
+   "codex_review": true,
+   "written": true,
+   "waits_on": "",
+   "phase": "READY",
+   "type": "build",
+   "plain": "Rules copy unchanged, Settings controls kept, credits added. Sol 6.1 Work mode, High; starts from job 24's branch; the lead checks each screen in a browser and merges."
+  },
+  {
+   "number": 31,
+   "key": "G-2h",
+   "title": "Ten-season games: session expiry, long-game limits, 10-season emulator run",
+   "lane": "lead",
+   "depends_on": [],
+   "steps": 1,
+   "code_branch": "gameplay/job-31-ten-seasons",
+   "codex_review": false,
+   "written": true,
+   "waits_on": "",
+   "phase": "MERGED",
+   "type": "build",
+   "plain": "A 10-season game now survives the 4-hour private session ending mid-game: one banner, one RECONNECT SESSION tap, Daniel hosts, Nik joins, both pages return by themselves. CI now plays 3 and 10 seasons with a mid-game expiry. PR #350, merged into recovery fb0dd02. Still open: the 72-character code exchange (needs a Rules change) and a misleading transfer message after expiry."
+  },
+  {
+   "number": 32,
+   "key": "G-2i",
+   "title": "Fewer taps: audit the flow for steps we can safely drop",
+   "lane": "lead",
+   "depends_on": [],
+   "steps": 1,
+   "code_branch": "",
+   "codex_review": false,
+   "written": true,
+   "waits_on": "",
+   "phase": "DONE",
+   "type": "audit",
+   "plain": "Audit done: /mnt/project-files/gameplay/TAP_AUDIT_2026-10-04.md. 8 reductions; R1-R6 and R8 being built in job 33; R7 (commit + acknowledge in one tap) waits on Nik."
+  },
+  {
+   "number": 33,
+   "key": "G-2j",
+   "title": "Fewer taps: auto-refresh while waiting, skip hops, drop duplicate banners",
+   "lane": "lead",
+   "depends_on": [
+    32
+   ],
+   "steps": 1,
+   "code_branch": "gameplay/job-33-fewer-taps",
+   "codex_review": false,
+   "written": true,
+   "waits_on": "",
+   "phase": "IN PROGRESS",
+   "type": "build",
+   "plain": "About 13 fewer taps for Daniel and 6 for Nik over 3 seasons, plus no refresh taps. Every lock, publish, commit, acknowledge and close stays a manual tap. Lead helper (Opus)."
+  }
+ ],
+ "bug_hunt": [
+  {
+   "id": "BH-1",
+   "title": "Both managers tap at the same second and the slower one sees an error",
+   "plain": "Hits Career Start, the Transfer Challenge locks and timer, and Setup confirm. Nothing is corrupted, but the loser must tap again.",
+   "likelihood": "likely",
+   "status": "DONE",
+   "owner": "lead",
+   "note": "job 21, PR #344; live since r53 (2026-10-04)"
+  },
+  {
+   "id": "BH-2",
+   "title": "A tied season is decided by league position",
+   "plain": "Code and old notes disagree on equal non-zero scores.",
+   "likelihood": "likely",
+   "status": "DONE",
+   "owner": "lead",
+   "note": "Nik chose league position; docs fixed in PR #343 (merged)"
+  },
+  {
+   "id": "BH-3",
+   "title": "Nobody cross-checks the two managers' season results",
+   "plain": "Both can publish position 1 or both tick Champions League. Nik chose (2026-10-04) to warn, not block: the commit screen now shows a CHECK RESULTS line on a clash and committing stays allowed (PR #346, merged into recovery dc78ed7). Live since r53.",
+   "likelihood": "medium",
+   "status": "DONE",
+   "owner": "lead",
+   "note": "PR #346; live since r53 (2026-10-04)"
+  },
+  {
+   "id": "BH-4",
+   "title": "Lock buttons have no confirm",
+   "plain": "One stray tap on LOCK MY GUESSES or LOCK MY SIGNINGS locks an empty list for the season; the helpful error text is hidden behind a code. Lock buttons now ask \"Lock N of 3?\" when a form is partly filled (PR #345, merged into recovery 6974408). Live since r53.",
+   "likelihood": "medium-low",
+   "status": "DONE",
+   "owner": "lead",
+   "note": "PR #345 adds the \"Lock N of 3?\" confirm; live since r53 (2026-10-04)"
+  },
+  {
+   "id": "BH-5",
+   "title": "The 4-hour private session ends long games",
+   "plain": "A 5 or 10 season game outlives one session, so both managers must open a fresh one. Needs one retest mid-season. Now job 31 (ten-season games).",
+   "likelihood": "low",
+   "status": "DONE",
+   "owner": "lead",
+   "note": "job 31, PR #350 (fb0dd02): one-tap reconnect after expiry; live since 2.0 (r54)"
+  }
+ ],
+ "bug_hunt_extras": [
+  "DONE in job 21: 'scoring remains locked' text now says SEASON COMMITTED · SCORE BELOW",
+  "NOT A BUG: Daniel/Nik fallbacks match the fixed roles (Daniel = Player One, Nik = Player Two)",
+  "FIXING as BUG-1 (Sonnet, bugfix/bug-batch-1), ships in r62"
+ ],
+ "release": {
+  "name": "Version 2.0",
+  "jobs": [
+   24,
+   25,
+   26,
+   27,
+   28,
+   29,
+   30,
+   33
+  ],
+  "after": [
+   "Fix the two-manager journey test on recovery",
+   "Merge the last jobs",
+   "Nik plays it once with Daniel",
+   "Nik's go, then main goes live"
+  ],
+  "done": true
+ },
+ "factories": {
+  "G": {
+   "name": "G Factory",
+   "role": "Gameplay, online sync, every merge and every release (senior director)",
+   "workers": [
+    {
+     "lane": "opus",
+     "does": "Lead: decides, merges, ships; risky fixes"
+    },
+    {
+     "lane": "sonnet",
+     "does": "Bug hunts, audits, repros, board tools"
+    },
+    {
+     "lane": "haiku",
+     "does": "Copy and refresh chores"
+    },
+    {
+     "lane": "sol-chat",
+     "does": "Triage, repro steps, PR review (no Claude usage)"
+    },
+    {
+     "lane": "sol-work",
+     "does": "Terminal and npm jobs, one bug at a time"
+    },
+    {
+     "lane": "codex",
+     "does": "Auto-review on every PR (out of usage since 5 Oct)"
+    },
+    {
+     "lane": "nik",
+     "does": "Real phones with Daniel: the only physical proof"
+    }
+   ],
+   "future": [
+    {
+     "id": "1041",
+     "title": "Season Results on phone: ACKNOWLEDGE reachable, no inner scroll box, title clear, photos aligned",
+     "lane": "codex",
+     "state": "done (merged into bug-list-1, PR #437)",
+     "order": 6,
+     "place": "Codex cloud, branch gameplay/bug-list-1: type 'Job 1041'",
+     "note": "same family as Studio Z's Signing Entry fix"
+    },
+    {
+     "id": "1038",
+     "title": "Final winner closes the Showdown so it counts in the career",
+     "lane": "lead",
+     "state": "in r65 (live 2026-10-09)",
+     "order": 5,
+     "place": "nothing to type",
+     "note": "Auto close, as Nik chose on his card"
+    },
+    {
+     "id": "1040",
+     "title": "Browser journey opens Legacy, Trophy Room and Stats after a finished online Showdown",
+     "lane": "sonnet",
+     "state": "in r65 (live 2026-10-09)",
+     "order": 4,
+     "place": "nothing to type",
+     "note": "test coverage that was missing"
+    },
+    {
+     "id": "1039",
+     "title": "Legacy stops reloading on every shared event and never spins forever",
+     "lane": "codex",
+     "state": "in r65 (live 2026-10-09)",
+     "order": 2,
+     "place": "nothing to type",
+     "note": "one file, js/rivalryLegacyV10.js"
+    },
+    {
+     "id": "1037",
+     "title": "Career history: never-joined codes and an unknown current Showdown no longer break Legacy, Trophy Room, Stats",
+     "lane": "codex",
+     "state": "in r65 (live 2026-10-09)",
+     "order": 1,
+     "place": "nothing to type",
+     "note": "root cause verified on the emulator; ticket jobs/JOB-1037.md"
+    },
+    {
+     "id": "Z1",
+     "title": "Studio Z: sign-in starter race",
+     "lane": "opus",
+     "state": "in r63 (live 2026-10-09)",
+     "studio": "Z",
+     "order": 11,
+     "place": "Studio Z thread (nothing for Nik to type)",
+     "note": "ships in r63 (PR #427, studio-z/r63 into main)"
+    },
+    {
+     "id": "Z2",
+     "title": "Studio Z: one-strike offline lock",
+     "lane": "opus",
+     "state": "in r63 (live 2026-10-09)",
+     "studio": "Z",
+     "order": 12,
+     "place": "Studio Z thread (nothing for Nik to type)",
+     "note": "ships in r63 (PR #427, studio-z/r63 into main)"
+    },
+    {
+     "id": "Z3",
+     "title": "Studio Z: refresh resume",
+     "lane": "opus",
+     "state": "in r63 (live 2026-10-09)",
+     "studio": "Z",
+     "order": 13,
+     "place": "Studio Z thread (nothing for Nik to type)",
+     "note": "ships in r63 (PR #427, studio-z/r63 into main)"
+    },
+    {
+     "id": "Z4",
+     "title": "Studio Z: automatic session handoff",
+     "lane": "opus",
+     "state": "in r63 (live 2026-10-09)",
+     "studio": "Z",
+     "order": 14,
+     "place": "Studio Z thread (nothing for Nik to type)",
+     "note": "ships in r63 (PR #427, studio-z/r63 into main)"
+    },
+    {
+     "id": "Z5",
+     "title": "Studio Z: auto-apply updates",
+     "lane": "opus",
+     "state": "in r63 (live 2026-10-09)",
+     "studio": "Z",
+     "order": 15,
+     "place": "Studio Z thread (nothing for Nik to type)",
+     "note": "ships in r63 (PR #427, studio-z/r63 into main)"
+    },
+    {
+     "id": "Z6",
+     "title": "Studio Z: stuck Google sign-in",
+     "lane": "opus",
+     "state": "in r63 (live 2026-10-09)",
+     "studio": "Z",
+     "order": 16,
+     "place": "Studio Z thread (nothing for Nik to type)",
+     "note": "ships in r63 (PR #427, studio-z/r63 into main)"
+    },
+    {
+     "id": "Z7",
+     "title": "Studio Z: upright tablet layout",
+     "lane": "opus",
+     "state": "in r63 (live 2026-10-09)",
+     "studio": "Z",
+     "order": 17,
+     "place": "Studio Z thread (nothing for Nik to type)",
+     "note": "ships in r63 (PR #427, studio-z/r63 into main)"
+    },
+    {
+     "id": "Z8",
+     "title": "Studio Z: typed league ambiguity",
+     "lane": "opus",
+     "state": "in r63 (live 2026-10-09)",
+     "studio": "Z",
+     "order": 18,
+     "place": "Studio Z thread (nothing for Nik to type)",
+     "note": "ships in r63 (PR #427, studio-z/r63 into main)"
+    },
+    {
+     "id": "G-F1",
+     "title": "Nik and Daniel play 2.0 on their phones",
+     "lane": "nik",
+     "state": "optional",
+     "waits_on": "",
+     "decision": "Nothing to do until you and Daniel next play the live game on two phones; then send what goes wrong to the bug factory thread."
+    },
+    {
+     "id": "G-F5",
+     "title": "QA packet adoptions: truth line, wrong-target guard on main PRs, PR title rule",
+     "lane": "sonnet",
+     "state": "queued after the bug jobs",
+     "waits_on": "",
+     "team": "brown",
+     "route": "claude",
+     "claude_reason": "Gate and main-PR guard work",
+     "place": "Team G lead thread (Claude runs it; nothing to type)"
+    },
+    {
+     "id": "G-F11",
+     "title": "Old-design CSS collisions: scope old rulebook/settings/analytics/app CSS off Team V markup (about 70 shared class names); then archive old-design CSS no Team V screen needs into archive/old-design/ (C-2 from the old-design flash fix, after the GPT-B audit; archive, don't delete)",
+     "lane": "sonnet",
+     "state": "ready (Sonnet audit, then Opus fix)",
+     "waits_on": "",
+     "team": "brown",
+     "route": "claude",
+     "claude_reason": "cross-screen CSS collisions across old and new screens",
+     "place": "Team G lead thread (Claude runs it; nothing to type)",
+     "notes": "C-2 source: /mnt/project-files/gameplay/old-design-flash/JOBS.md. Opus does the archive step; touches the service-worker shell list and contracts."
+    },
+    {
+     "id": "G-F24",
+     "title": "Team V sheet loader: toggle link.sheet.disabled instead of link.disabled so Chromium stops refetching Team V sheets on each screen change (labels blank ~100 ms returning Home); update contracts F3, F3b and HO-020 with it (C-1)",
+     "lane": "sonnet",
+     "state": "ready (PR #485 merged into gameplay/bug-list-1, 111b6a3)",
+     "waits_on": "",
+     "team": "brown",
+     "route": "claude",
+     "claude_reason": "browser-visible loader timing plus three contracts; needs a browser repro",
+     "place": "Team G lead thread (Claude runs it; nothing to type)",
+     "notes": "Source: /mnt/project-files/gameplay/old-design-flash/JOBS.md"
+    },
+    {
+     "id": "G-F17",
+     "title": "Showdown Gate: replace POS20 with a faster check system built on Claude and GitHub, keeping every check (plan: /mnt/project-files/check-system/SHOWDOWN_GATE_PLAN.md)",
+     "lane": "opus",
+     "state": "shadow: KEEP_SHADOW after the 9 Oct independent audit (71/100); fixes 1043, 1044 and 1045 merged; the owner card waits for a fresh exit report",
+     "waits_on": "exit bar: 10 real PRs agree (2 full seals), 2 canaries fail, 1 simulated outage recovers; POS20 stays the merge authority until then",
+     "details": "Nik 6:02 PM Boston time: gradual replacement; POS20 is archived to authority-history/pos20-archive/, not deleted",
+     "note": "reports/SHOWDOWN_GATE_AUDIT_2026-10-09.md",
+     "team": "purple",
+     "route": "claude",
+     "claude_reason": "Gate design (lead only)",
+     "place": "Team G lead thread (Claude runs it; nothing to type)"
+    },
+    {
+     "id": "G-F18",
+     "title": "Old-design screen audit: Legacy, Career Statistics and Trophy Room still open in the old shell; drive every live screen in a browser against Team V's design and route all of them to the new design",
+     "lane": "opus",
+     "state": "queued for stage 2 (visual fixes); the history screens now load online (r65), the old-design shell is what remains",
+     "waits_on": "stage 2",
+     "details": "overlaps G-F11 (old CSS collisions)",
+     "team": "purple",
+     "route": "claude",
+     "claude_reason": "cross-screen audit with emulator screenshots",
+     "place": "Team G lead thread (Claude runs it; nothing to type)"
+    },
+    {
+     "id": "G-F4",
+     "title": "GPT Q&A team: scripted paths and code-vs-rulebook reads",
+     "lane": "sol-chat",
+     "state": "done: replaced by the GPT bug Olympiad and its 9 Oct recheck",
+     "waits_on": ""
+    },
+    {
+     "id": "G-F7",
+     "title": "Ten-season smoothness run on live 2.0 (emulator, 10 seasons with a mid-game expiry)",
+     "lane": "sonnet",
+     "state": "queued after the Olympiad bug jobs (stage 1)",
+     "waits_on": "",
+     "team": "brown",
+     "route": "claude",
+     "claude_reason": "needs the emulator: a 10-season run",
+     "place": "Team G lead thread (Claude runs it; nothing to type)"
+    },
+    {
+     "id": "G-F22",
+     "title": "BH-12 pairing product calls: RESTORE BACKUP first, CANCEL CODE with expiry, masked email before JOIN, revoke mine and join, clearer same-account message",
+     "lane": "nik",
+     "state": "later: Nik decides after his two current calls",
+     "waits_on": "the lead asks Nik next",
+     "decision": "Five pairing choices. The lead brings them to you on one card; nothing to do until then."
+    },
+    {
+     "id": "1001",
+     "group": "Bug list 1",
+     "title": "1001 · G Home desktop tile icons: bigger, inside the tile, never on the text",
+     "lane": "blue",
+     "state": "in release (merged into gameplay/bug-list-1, 215e34a)",
+     "waits_on": "rides the next release to main",
+     "details": "Bug list 1 items L1-01..06. CSS only in css/homeV10.css desktop blocks. Job file jobs/JOB-1001.md. Lead checks screenshots at 1920/1440/1280/1100/1000 wide.",
+     "archived": true
+    },
+    {
+     "id": "1003",
+     "group": "Bug list 1",
+     "title": "1003 · G Transfer War: main's copy of Team V's early-end string matches (HO-010)",
+     "lane": "blue",
+     "state": "in release (merged into gameplay/bug-list-1)",
+     "waits_on": "rides the next release to main",
+     "details": "Low priority, no live impact. js/transferScreenV10.js lines 26 and 30. Job file jobs/JOB-1003.md.",
+     "archived": true
+    },
+    {
+     "id": "1004",
+     "group": "Bug list 1",
+     "title": "1004 · G Rule Book: remove the useless 01-06 side number rail (desktop and phone)",
+     "lane": "claude",
+     "state": "in r63 (live 2026-10-09)",
+     "waits_on": "CI on PR #392, then the lead merges it into bug-list-1",
+     "details": "js/rulesSettingsV10.js only: stop building #ruleBookIndex. Per-rule number badges stay.",
+     "order": 4,
+     "archived": true
+    },
+    {
+     "id": "1005",
+     "group": "Bug list 1",
+     "title": "1005 · G Last season's score is skipped before the Final Winner",
+     "lane": "green",
+     "state": "ready",
+     "waits_on": "after Team V designs the combined screen (HO-011)",
+     "details": "Nik picked No tap, combined: one screen shows the last season's score and the Final Winner. Team V designs it (HO-011), then a GPT green job builds it and restores the strict final-season check.",
+     "order": 13
+    },
+    {
+     "id": "1009",
+     "group": "Bug list 1",
+     "title": "1009 · G Showdown Champion: dark oval over the losing manager",
+     "lane": "blue",
+     "state": "in r63 (live 2026-10-09)",
+     "waits_on": "Nik types it in the gameplay project (normal chat)",
+     "details": "GPT blue, one file: delete the loser shade rule in final-winner.css.",
+     "order": 3,
+     "place": "in the gameplay project (normal chat), new chat",
+     "archived": true
+    },
+    {
+     "id": "1010",
+     "group": "Bug list 1",
+     "title": "1010 · G 10-season sweep: scoring, history and final math",
+     "lane": "green",
+     "state": "in r63 (live 2026-10-09)",
+     "waits_on": "Nik types it in the gameplay project (Work mode)",
+     "details": "GPT green, one run. Node check of 10-season scoring, ties and final winner; report only, no game code.",
+     "place": "in the gameplay project (Work mode), new chat",
+     "archived": true
+    },
+    {
+     "id": "1011",
+     "group": "Bug list 1",
+     "title": "1011 · G Plain-words sweep: jargon on game screens",
+     "lane": "lead",
+     "state": "in r65 (live 2026-10-09)",
+     "waits_on": "Nik types it in the gameplay project (Work mode)",
+     "details": "GPT green, one run. Replaces engineering words players see; leaves test-asserted strings to the lead.",
+     "order": 11,
+     "place": "nothing to type",
+     "after": "1014, 1015 and 1020 merge",
+     "note": "1014, 1015 and 1020 are merged"
+    },
+    {
+     "id": "1014",
+     "group": "Bug list 1",
+     "title": "1014 · G No reconnect prompt after a finished Showdown",
+     "lane": "blue",
+     "state": "in r63 (live 2026-10-09)",
+     "waits_on": "Nik types it in the gameplay project (Work mode)",
+     "details": "GPT green, one run. HO-013: closed Showdown shows SHOWDOWN COMPLETE instead of RECONNECT SESSION. Lead runs the reconnect audit.",
+     "order": 5,
+     "archived": true
+    },
+    {
+     "id": "1015",
+     "group": "Bug list 1",
+     "title": "1015 · G Connect Players screen: create code / join off Home",
+     "lane": "green",
+     "state": "in r63 (live 2026-10-09)",
+     "waits_on": "GPT green round 3 (same chat, Work mode)",
+     "details": "GPT green, one run. HO-014: pair panel moves from Home to its own CONNECT PLAYERS screen (Team V SJ design). Pairing logic unchanged; lead runs pairing audits.",
+     "order": 1,
+     "place": "in the gameplay project (Work mode), same chat",
+     "note": "round 3",
+     "archived": true
+    },
+    {
+     "id": "1017",
+     "group": "Bug list 1",
+     "title": "1017 · G Gameplay hunt 1: shared season flow across devices",
+     "lane": "green",
+     "state": "done (4 bugs found, PR #407)",
+     "waits_on": "Nik types it in the Q&A team project",
+     "details": "GPT Q&A team, Astra Work (Sol Work if out). Report only (sweeps/hunt-1017.md); the lead turns findings into fix jobs.",
+     "place": "in the Q&A team project (Astra Work mode), new chat",
+     "archived": true
+    },
+    {
+     "id": "1018",
+     "group": "Bug list 1",
+     "title": "1018 · G Gameplay hunt 2: sessions, pairing and reconnect",
+     "lane": "green",
+     "state": "done: 5 confirmed findings (PR #404), fixes are 1023 and 1024",
+     "waits_on": "Nik types it in the Q&A team project",
+     "details": "GPT Q&A team, Sol Work. Report only (sweeps/hunt-1018.md); the lead turns findings into fix jobs.",
+     "order": 8,
+     "place": "in the Q&A team project (Work mode), new chat",
+     "archived": true
+    },
+    {
+     "id": "1019",
+     "group": "Bug list 1",
+     "title": "1019 · G Gameplay hunt 3: entries, saves and career numbers",
+     "lane": "green",
+     "state": "done (5 bugs found, PR #409)",
+     "waits_on": "Nik types it in the Q&A team project",
+     "details": "GPT Q&A team, Sol Work. Report only (sweeps/hunt-1019.md); the lead turns findings into fix jobs.",
+     "place": "in the Q&A team project (Work mode), new chat",
+     "archived": true
+    },
+    {
+     "id": "1020",
+     "group": "Bug list 1",
+     "title": "1020 · G Season Results patch: one column on phone, no overlap on desktop",
+     "lane": "green",
+     "state": "in r63 (live 2026-10-09)",
+     "waits_on": "Nik types it in the gameplay project (Work mode)",
+     "details": "GPT green, one run. Team V phone CSS (HO-015) + desktop window below the scoring card + reconciliation look. Team V 1012 checks the look.",
+     "order": 2,
+     "place": "in the gameplay project (Work mode), new chat",
+     "archived": true
+    },
+    {
+     "id": "1021",
+     "group": "Bug list 1",
+     "title": "1021 · G Transfer War on phone: port Team V's revamp",
+     "lane": "claude",
+     "state": "in r63 (live 2026-10-09)",
+     "waits_on": "Nik types it in the gameplay project (Work mode)",
+     "details": "GPT green, one run. HO-016: Team V's checked phone CSS + 2 cut-outs into css/v10Transfer.css. Desktop unchanged.",
+     "order": 6,
+     "place": "nothing to type: the lead does it in a Claude thread",
+     "archived": true
+    },
+    {
+     "id": "1022",
+     "group": "Bug list 1",
+     "title": "Connect Players: match Team V's start-join design (1015 follow-up)",
+     "lane": "claude",
+     "state": "in r63 (live 2026-10-09)",
+     "waits_on": "",
+     "details": "Team V check on #397: desktop shows Nik twice; phone title, Back position and bottom nav; yellow primary buttons.",
+     "archived": true
+    },
+    {
+     "id": "1023",
+     "group": "Bug list 1",
+     "title": "Session code replacement: double tap and lost join watcher",
+     "lane": "claude",
+     "state": "in r63 (live 2026-10-09)",
+     "waits_on": "",
+     "details": "Hunt 1018 H1 (S1) and H2 (S2), js/sparkRemoteJoining.js",
+     "archived": true
+    },
+    {
+     "id": "1024",
+     "group": "Bug list 1",
+     "title": "Reconnect keeps stale authority after sign-out, offline or expiry",
+     "lane": "claude",
+     "state": "in r63 (live 2026-10-09)",
+     "waits_on": "",
+     "details": "Hunt 1018 H3, H4 and H5 (S2), js/productionSharedJourneyReconnect.js",
+     "archived": true
+    },
+    {
+     "id": "1025",
+     "title": "Terminal close recovery and closed-frame trophies (hunt 1017 H1-H3)",
+     "lane": "claude",
+     "state": "in r63 (live 2026-10-09)",
+     "place": "Claude helper (nothing for Nik to type)",
+     "note": "from hunt 1017",
+     "archived": true
+    },
+    {
+     "id": "1026",
+     "title": "New shared season clears last season's result fields (hunt 1017 H4)",
+     "lane": "claude",
+     "state": "in r63 (live 2026-10-09)",
+     "place": "Claude helper (nothing for Nik to type)",
+     "note": "from hunt 1017",
+     "archived": true
+    },
+    {
+     "id": "1028",
+     "title": "Statistics shows an abandoned-only career (hunt 1019 H5)",
+     "lane": "lead",
+     "state": "in r65 (live 2026-10-09)",
+     "order": 3,
+     "place": "nothing to type",
+     "note": "also fixes Career Statistics 'unavailable' from Nik's 2026-10-09 test"
+    },
+    {
+     "id": "1027",
+     "title": "Restore keeps and checks the Save Library; career cache race (hunt 1019 H1, H2, H4)",
+     "lane": "claude",
+     "state": "in r63 (live 2026-10-09)",
+     "place": "Claude helper (nothing for Nik to type)",
+     "note": "from hunt 1019; H3 is fixed by 1026",
+     "archived": true
+    },
+    {
+     "id": "1042",
+     "title": "Closed Final Winner shows the final season on both phones",
+     "lane": "codex",
+     "state": "done (merged into bug-list-1, PR #439)",
+     "order": 7,
+     "place": "Codex cloud, branch gameplay/bug-list-1: type 'Job 1042'",
+     "note": "follow-up to 1038; ticket jobs/JOB-1042.md"
+    },
+    {
+     "id": "1043",
+     "title": "Showdown Gate: no write token for pull-request code (audit F1)",
+     "lane": "sonnet",
+     "state": "done (merged into bug-list-1, PR #438)",
+     "order": 19,
+     "place": "lead worker",
+     "note": "ticket jobs/JOB-1043.md"
+    },
+    {
+     "id": "1044",
+     "title": "Showdown Gate: exit report and seal fail closed on bad evidence (audit F2, F3)",
+     "lane": "codex",
+     "state": "done (merged into bug-list-1, PR #441)",
+     "order": 20,
+     "place": "Codex cloud, branch gameplay/bug-list-1: type 'Job 1044'",
+     "note": "ticket jobs/JOB-1044.md; after 1042"
+    },
+    {
+     "id": "1045",
+     "title": "Showdown Gate: pin actions and tool installs (audit F4)",
+     "lane": "codex",
+     "state": "done (merged into bug-list-1, PR #447)",
+     "order": 25,
+     "place": "Codex cloud, this repo, branch gameplay/bug-list-1",
+     "note": "ticket jobs/JOB-1045.md; stays Codex: it must read GitHub Actions release tags, which chat and Claude lanes cannot",
+     "team": "white",
+     "model": "Codex default coding model",
+     "effort": "Medium",
+     "prompt": ""
+    },
+    {
+     "id": "1046",
+     "title": "Truth keeper handover notes (gameplay project)",
+     "lane": "sol-chat",
+     "state": "done (checked: 6 files, 132 items on handoff/truth-keeper)",
+     "place": "GPT chat (GPT account 1), gameplay project: type 'Job 1046'",
+     "note": "Sol retirement handoff"
+    },
+    {
+     "id": "1048",
+     "title": "Rule Book: three missing rules, and the season review stops pointing at a missing button (Olympiad V1, V2)",
+     "lane": "gpt-chat",
+     "state": "done (merged into bug-list-1, PR #443)",
+     "order": 21,
+     "place": "nothing to type: the chat is finished",
+     "note": "Nik ran it on GPT-6 Sol chat; the Luna trial moved to 1054; ticket jobs/JOB-1048.md",
+     "team": "blue",
+     "model": "GPT-6 Sol (chat)",
+     "effort": "High",
+     "prompt": ""
+    },
+    {
+     "id": "1049",
+     "title": "Club reveal stops spoiling the sealed club (Olympiad V3)",
+     "lane": "gpt-chat",
+     "state": "done (merged into bug-list-1, PR #444)",
+     "order": 22,
+     "place": "nothing to type: the chat is finished",
+     "note": "V5 moved to 1053 so each chat job fits one turn; ticket jobs/JOB-1049.md",
+     "team": "blue",
+     "model": "GPT-6 Sol",
+     "effort": "High",
+     "prompt": ""
+    },
+    {
+     "id": "1050",
+     "title": "Unfinished Signing Entry rows survive a refresh (Olympiad V4)",
+     "lane": "gpt-work",
+     "state": "done (merged into bug-list-1, PR #446)",
+     "order": 24,
+     "place": "ChatGPT project \"Career Mode Showdown\", new chat switched to Work mode",
+     "note": "must run code (node checks), so Work mode; Luna is the cheapest Work mode model, first Luna run; ticket jobs/JOB-1050.md",
+     "team": "yellow",
+     "model": "GPT Luna (Work mode); if it fails, Sol 6.1 Work mode",
+     "effort": "High",
+     "prompt": ""
+    },
+    {
+     "id": "1051",
+     "title": "Transfer ledger hash no longer reveals locked guesses (Olympiad V6)",
+     "lane": "sonnet",
+     "state": "done (merged into bug-list-1, PR #442)",
+     "order": 25,
+     "place": "nothing to type: the lead runs it",
+     "note": "a safe fix needs a private salt field, which is a Rules change; ticket jobs/JOB-1051.md",
+     "team": "brown",
+     "model": "Claude Sonnet 5.5",
+     "effort": "Medium",
+     "prompt": ""
+    },
+    {
+     "id": "1052",
+     "title": "Transfer Rules reject option ids the game cannot read (Olympiad V7)",
+     "lane": "sonnet",
+     "state": "done (merged into bug-list-1, PR #442)",
+     "order": 26,
+     "place": "nothing to type: the lead runs it",
+     "note": "lowest priority, not reachable from the game; one Rules OK covers 1051 and 1052; ticket jobs/JOB-1052.md",
+     "team": "brown",
+     "model": "Claude Sonnet 5.5",
+     "effort": "Medium",
+     "prompt": ""
+    },
+    {
+     "id": "1053",
+     "lane": "gpt-chat",
+     "note": "split out of 1049 to keep each chat job one turn; ticket jobs/JOB-1053.md",
+     "team": "blue",
+     "model": "GPT-6 Sol",
+     "effort": "High",
+     "place": "ChatGPT project \"Career Mode Showdown\", new normal chat",
+     "prompt": "",
+     "title": "Restore on an empty device respects Keep current (Olympiad V5)",
+     "order": 23,
+     "state": "done (merged into bug-list-1, PR #445)"
+    },
+    {
+     "id": "1054",
+     "title": "Worker scorecard: rows for jobs 1037-1044",
+     "lane": "gpt-chat",
+     "team": "blue",
+     "model": "GPT-6 Sol chat",
+     "effort": "Medium",
+     "state": "done (8 rows match the ticket exactly, commit e15786e)",
+     "order": 20,
+     "place": "ChatGPT project \"Career Mode Showdown\", new normal chat",
+     "prompt": "",
+     "note": "exact one-file text job; ticket jobs/JOB-1054.md"
+    },
+    {
+     "id": "1055",
+     "lane": "gpt-chat",
+     "note": "S1 confirmed; ticket jobs/JOB-1055.md",
+     "team": "blue",
+     "model": "GPT-6 Sol",
+     "effort": "High",
+     "place": "nothing to type: merged",
+     "prompt": "",
+     "title": "Season Results points cap uses the real league size (Sol lead S1)",
+     "order": 27,
+     "state": "done (merged into bug-list-1, PR #448)"
+    },
+    {
+     "id": "1056",
+     "lane": "gpt-chat",
+     "note": "ticket jobs/JOB-1056.md",
+     "team": "blue",
+     "model": "GPT-6 Sol",
+     "effort": "High",
+     "place": "ChatGPT project \"Career Mode Showdown\", new normal chat",
+     "prompt": "",
+     "title": "Recheck Sol leads S2 and S5 by reading the code",
+     "order": 28,
+     "state": "done (report on qa/sol-leads-recheck, checked by the lead)"
+    },
+    {
+     "id": "1057",
+     "lane": "gpt-chat",
+     "note": "ticket jobs/JOB-1057.md",
+     "team": "blue",
+     "model": "GPT-6 Sol",
+     "effort": "High",
+     "place": "ChatGPT project \"Career Mode Showdown\", new normal chat",
+     "prompt": "",
+     "title": "Recheck Sol leads S3 and S4 by reading the code",
+     "order": 29,
+     "state": "done (report on qa/sol-leads-recheck, checked by the lead)"
+    },
+    {
+     "id": "1058",
+     "lane": "gpt-chat",
+     "note": "Sol lead S4 (real, small); ticket jobs/JOB-1058.md",
+     "team": "blue",
+     "model": "GPT-6 Sol",
+     "effort": "High",
+     "place": "nothing to type: merged",
+     "prompt": "",
+     "title": "Transfer countdown agrees across both phones (Sol lead S4)",
+     "order": 30,
+     "state": "done (merged into bug-list-1, PR #449)"
+    },
+    {
+     "id": "1059",
+     "title": "Gate exit report leaves superseded heads out and bounds the Physio lookup",
+     "lane": "lead",
+     "team": "purple",
+     "model": "Claude Opus 5.5",
+     "effort": "Medium",
+     "state": "done (merged into bug-list-1, PR #452)",
+     "order": 31,
+     "place": "nothing to type: the lead runs it",
+     "note": "Gate switch, CI tooling only",
+     "prompt": ""
+    },
+    {
+     "id": "1060",
+     "title": "The Showdown Gate becomes the PR check set (POS20 and Fast archived)",
+     "lane": "lead",
+     "team": "purple",
+     "model": "Claude Opus 5.5",
+     "effort": "Medium",
+     "state": "done (merged into bug-list-1, PR #453); reaches main with r68",
+     "order": 32,
+     "place": "nothing to type: the lead runs it",
+     "note": "Nik chose the switch 2026-10-10; exit report READY (reports/SHOWDOWN_GATE_EXIT_2026-10-10.md)",
+     "prompt": ""
+    },
+    {
+     "id": "1579",
+     "title": "Season Results: a slow load must not pull you back after you moved on (Sol S5)",
+     "lane": "chat",
+     "team": "blue",
+     "model": "GPT-6 Sol",
+     "effort": "High",
+     "state": "done: merged into gameplay/bug-list-1 (PR #455, 2ee0530), waiting for r68",
+     "order": 33,
+     "place": "ChatGPT project \"Career Mode Showdown\", normal chat",
+     "note": "ticket jobs/JOB-1579.md",
+     "prompt": "1579"
+    },
+    {
+     "id": "1580",
+     "title": "Showdown Gate: run the L5 lane only when its inputs changed",
+     "lane": "codex",
+     "team": "white",
+     "model": "Codex default coding model",
+     "effort": "High",
+     "state": "done: merged into gameplay/bug-list-1 (PR #457, 3dd9ae7); CI only, no game change",
+     "order": 34,
+     "place": "Codex cloud, this repo",
+     "note": "ticket jobs/JOB-1580.md",
+     "prompt": "Career Mode Showdown, job 1580. First run: git fetch origin factory/gameplay-v1\nThen read: git show FETCH_HEAD:project-documents/gameplay-factory/jobs/JOB-1580.md\nDo exactly what that file says. If the file does not exist, stop and tell me. Never push to main and never merge. Open any pull request as a draft; if you cannot choose the base branch, write RETARGET TO gameplay/bug-list-1 on the first line of the PR body.",
+     "prompt_source": "queue/CODEX_PROMPTS.md"
+    },
+    {
+     "id": "1581",
+     "title": "Showdown Gate: split the slowest lane and cache downloads",
+     "lane": "codex",
+     "team": "white",
+     "model": "Codex default coding model",
+     "effort": "High",
+     "state": "next: ready for Codex (1580 merged)",
+     "order": 35,
+     "place": "Codex cloud, this repo",
+     "note": "ticket jobs/JOB-1581.md",
+     "prompt": "Career Mode Showdown, job 1581. First run: git fetch origin factory/gameplay-v1\nThen read: git show FETCH_HEAD:project-documents/gameplay-factory/jobs/JOB-1581.md\nDo exactly what that file says. If the file does not exist, stop and tell me. Never push to main and never merge. Open any pull request as a draft; if you cannot choose the base branch, write RETARGET TO gameplay/bug-list-1 on the first line of the PR body.",
+     "prompt_source": "queue/CODEX_PROMPTS.md"
+    },
+    {
+     "id": "1582",
+     "title": "Showdown Gate: screen shots of changed screens as a run artifact",
+     "lane": "codex",
+     "team": "white",
+     "model": "Codex default coding model",
+     "effort": "Medium",
+     "state": "later: after 1581 merges",
+     "order": 36,
+     "place": "Codex cloud, this repo",
+     "note": "ticket jobs/JOB-1582.md",
+     "prompt": "Career Mode Showdown, job 1582. First run: git fetch origin factory/gameplay-v1\nThen read: git show FETCH_HEAD:project-documents/gameplay-factory/jobs/JOB-1582.md\nDo exactly what that file says. If the file does not exist, stop and tell me. Never push to main and never merge. Open any pull request as a draft; if you cannot choose the base branch, write RETARGET TO gameplay/bug-list-1 on the first line of the PR body.",
+     "prompt_source": "queue/CODEX_PROMPTS.md"
+    },
+    {
+     "id": "1583",
+     "title": "Measure the home screens at ten window sizes (report only)",
+     "lane": "codex",
+     "team": "white",
+     "model": "Codex default coding model",
+     "effort": "Medium",
+     "state": "done: report queue/results/measure-home.md (draft PR #460 stays a draft)",
+     "order": 37,
+     "place": "Codex cloud, this repo",
+     "note": "ticket jobs/JOB-1583.md (mega factory C4-C7)",
+     "prompt": "Career Mode Showdown, job 1583. First run: git fetch origin factory/gameplay-v1\nThen read: git show FETCH_HEAD:project-documents/gameplay-factory/jobs/JOB-1583.md\nDo exactly what that file says. If the file does not exist, stop and tell me. Never push to main and never merge. Open any pull request as a draft; if you cannot choose the base branch, write RETARGET TO gameplay/bug-list-1 on the first line of the PR body.",
+     "prompt_source": "queue/CODEX_PROMPTS.md"
+    },
+    {
+     "id": "1584",
+     "title": "Measure the transfer screens at ten window sizes (report only)",
+     "lane": "codex",
+     "team": "white",
+     "model": "Codex default coding model",
+     "effort": "Medium",
+     "state": "done: report queue/results/measure-transfer.md (draft PR #469 stays a draft)",
+     "order": 38,
+     "place": "Codex cloud, this repo",
+     "note": "ticket jobs/JOB-1584.md (mega factory C4-C7)",
+     "prompt": "Career Mode Showdown, job 1584. First run: git fetch origin factory/gameplay-v1\nThen read: git show FETCH_HEAD:project-documents/gameplay-factory/jobs/JOB-1584.md\nDo exactly what that file says. If the file does not exist, stop and tell me. Never push to main and never merge. Open any pull request as a draft; if you cannot choose the base branch, write RETARGET TO gameplay/bug-list-1 on the first line of the PR body.",
+     "prompt_source": "queue/CODEX_PROMPTS.md"
+    },
+    {
+     "id": "1585",
+     "title": "Measure the season-final screens at ten window sizes (report only)",
+     "lane": "codex",
+     "team": "white",
+     "model": "Codex default coding model",
+     "effort": "Medium",
+     "state": "done: report queue/results/measure-season-final.md (draft PR #476 stays a draft)",
+     "order": 39,
+     "place": "Codex cloud, this repo",
+     "note": "ticket jobs/JOB-1585.md (mega factory C4-C7)",
+     "prompt": "Career Mode Showdown, job 1585. First run: git fetch origin factory/gameplay-v1\nThen read: git show FETCH_HEAD:project-documents/gameplay-factory/jobs/JOB-1585.md\nDo exactly what that file says. If the file does not exist, stop and tell me. Never push to main and never merge. Open any pull request as a draft; if you cannot choose the base branch, write RETARGET TO gameplay/bug-list-1 on the first line of the PR body.",
+     "prompt_source": "queue/CODEX_PROMPTS.md"
+    },
+    {
+     "id": "1586",
+     "title": "Measure the club screens at ten window sizes (report only)",
+     "lane": "codex",
+     "team": "white",
+     "model": "Codex default coding model",
+     "effort": "Medium",
+     "state": "done: report queue/results/measure-club.md (draft PR #477 stays a draft)",
+     "order": 40,
+     "place": "Codex cloud, this repo",
+     "note": "ticket jobs/JOB-1586.md (mega factory C4-C7)",
+     "prompt": "Career Mode Showdown, job 1586. First run: git fetch origin factory/gameplay-v1\nThen read: git show FETCH_HEAD:project-documents/gameplay-factory/jobs/JOB-1586.md\nDo exactly what that file says. If the file does not exist, stop and tell me. Never push to main and never merge. Open any pull request as a draft; if you cannot choose the base branch, write RETARGET TO gameplay/bug-list-1 on the first line of the PR body.",
+     "prompt_source": "queue/CODEX_PROMPTS.md"
+    },
+    {
+     "id": "1589",
+     "title": "Browser test that catches the old-design flash on screen changes (tests only)",
+     "lane": "codex",
+     "team": "white",
+     "model": "Codex default coding model",
+     "effort": "Medium",
+     "state": "ready for Codex (the fix it guards, PR #485, is merged)",
+     "order": 42,
+     "place": "Codex cloud, this repo",
+     "note": "ticket jobs/JOB-1589.md (old-design flash GPT-A)",
+     "prompt": "Career Mode Showdown, job 1589. First run: git fetch origin factory/gameplay-v1\nThen read: git show FETCH_HEAD:project-documents/gameplay-factory/jobs/JOB-1589.md\nDo exactly what that file says. If the file does not exist, stop and tell me. Never push to main and never merge. Open any pull request as a draft; if you cannot choose the base branch, write RETARGET TO gameplay/bug-list-1 on the first line of the PR body.",
+     "prompt_source": "queue/CODEX_PROMPTS.md"
+    },
+    {
+     "id": "1590",
+     "title": "Audit: which screens have no Team V look yet (read only)",
+     "lane": "chat",
+     "team": "blue",
+     "model": "GPT-6 Sol",
+     "effort": "High",
+     "state": "ready for ChatGPT",
+     "order": 43,
+     "place": "ChatGPT project \"Career Mode Showdown\", normal chat",
+     "note": "ticket jobs/JOB-1590.md (old-design flash GPT-B); report PR into qa/mega-audits; feeds G-F11's archive step",
+     "prompt": "1590"
+    },
+    {
+     "id": "1587",
+     "title": "Season Results: a passing Transfer Challenge read hiccup must not fail the publish (Sol S2)",
+     "lane": "chat",
+     "team": "blue",
+     "model": "GPT-6 Sol",
+     "effort": "High",
+     "state": "done: merged into gameplay/bug-list-1 (PR #456, fae4d9c), waiting for r68",
+     "order": 41,
+     "place": "ChatGPT project \"Career Mode Showdown\", normal chat",
+     "note": "ticket jobs/JOB-1587.md",
+     "prompt": "1587"
+    }
+   ]
+  },
+  "V": {
+   "name": "V Factory",
+   "role": "Visuals and presentation: design changes, art, screen skins (assistant director)",
+   "workers": [
+    {
+     "lane": "opus",
+     "does": "Visual lead: taste, final polish, checks"
+    },
+    {
+     "lane": "sonnet",
+     "does": "HTML/CSS builds from a clear spec"
+    },
+    {
+     "lane": "sol-chat",
+     "does": "Truth sheets, text and checks (no Claude usage)"
+    },
+    {
+     "lane": "sol-work",
+     "does": "Work-mode builds"
+    },
+    {
+     "lane": "astra",
+     "does": "Rare senior review"
+    },
+    {
+     "lane": "images",
+     "does": "ChatGPT image tickets (art, plates)"
+    },
+    {
+     "lane": "codex",
+     "does": "Package review"
+    }
+   ],
+   "future": [
+    {
+     "id": "V-F2",
+     "title": "Design changes from Nik and Daniel's 2.0 play-through (only real design changes; bugs stay with G)",
+     "lane": "opus",
+     "state": "queued",
+     "waits_on": "G-F1"
+    },
+    {
+     "id": "1047",
+     "title": "Truth keeper handover notes (visual project)",
+     "lane": "sol-chat",
+     "state": "done (checked: 6 files, 121 items on handoff/truth-keeper)",
+     "place": "GPT chat (GPT account 1), visual project: type 'Job 1047'",
+     "prompt": "Job 1047. Read https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/gameplay-v1/project-documents/gameplay-factory/jobs/JOB-1047.md and do it.",
+     "note": "Sol retirement handoff; type next until it says done"
+    }
+   ]
+  }
+ },
+ "next_move": [],
+ "archive": [
+  {
+   "id": "G-F10",
+   "title": "Club Assignment: wire Team V's approved design (hands, seams, new layout) into the live screen",
+   "lane": "opus",
+   "state": "done (live in r57, PR #371)",
+   "waits_on": "",
+   "archived": "2026-10-06: done",
+   "team": "G"
+  },
+  {
+   "id": "G-F6",
+   "title": "Transfer screen race (was the flaky v10-transfer test): a slow load raised a red error toast over REFRESH on phones, and the desktop window button sat below the screen",
+   "lane": "opus",
+   "state": "done: live in r62 (8:35 PM Boston time, e7b556cd)",
+   "waits_on": "",
+   "details": "0 failures in 66 runs, was about 1 in 7",
+   "archived": "2026-10-06: done",
+   "team": "G"
+  },
+  {
+   "id": "G-F6b",
+   "title": "Same ResizeObserver fix on the Club screen; the harmless browser \"ResizeObserver loop\" warning never shows players an error toast",
+   "lane": "sonnet",
+   "state": "done: live in r62 (8:35 PM Boston time, e7b556cd)",
+   "waits_on": "",
+   "archived": "2026-10-06: done",
+   "team": "G"
+  },
+  {
+   "id": "G-F12",
+   "title": "G-36: no old player photos on any screen, and all 7 Home tiles",
+   "lane": "opus",
+   "state": "done (live in r60, d8e6c44)",
+   "waits_on": "",
+   "archived": "2026-10-06: done",
+   "team": "G"
+  },
+  {
+   "id": "G-F13",
+   "title": "Home soundtrack: 11 Audius tracks, Nasty first, Shelter remix and High And Low cover",
+   "lane": "opus",
+   "state": "done (live in r60, d8e6c44)",
+   "waits_on": "",
+   "archived": "2026-10-06: done",
+   "team": "G"
+  },
+  {
+   "id": "G-F14",
+   "title": "r61: phone track list stops below the logo and scrolls, and Next To You plays first",
+   "lane": "opus",
+   "state": "done: live in r61 (5:37 PM Boston time)",
+   "waits_on": "",
+   "details": "",
+   "archived": "2026-10-06: done",
+   "team": "G"
+  },
+  {
+   "id": "G-F15",
+   "title": "Landscape phone Home layout (844x390): title sits on the wordmark, soundtrack card covers the right tiles (already in r59)",
+   "lane": "opus",
+   "state": "done: live in r62 (8:35 PM Boston time, e7b556cd)",
+   "waits_on": "",
+   "details": "before/after screenshots in /mnt/project-files/gameplay/r62/",
+   "archived": "2026-10-06: done",
+   "team": "G"
+  },
+  {
+   "id": "G-F16",
+   "title": "Phone Home nit from Team V (HO-006): second line of START A SHOWDOWN touches the clipboard icon at 393px",
+   "lane": "opus",
+   "state": "done: live in r62 (8:35 PM Boston time, e7b556cd)",
+   "waits_on": "",
+   "details": "before/after screenshots in /mnt/project-files/gameplay/r62/",
+   "archived": "2026-10-06: done",
+   "team": "G"
+  },
+  {
+   "id": "G-F3",
+   "title": "Bug-hunting factory: one report thread, Sonnet hunts, Opus fixes, small batch releases",
+   "lane": "sonnet",
+   "state": "queued",
+   "waits_on": "G-F1 and Nik's OK",
+   "archived": "2026-10-06: how the factory already works now; nothing left to do",
+   "team": "G"
+  },
+  {
+   "id": "G-F8",
+   "title": "Commit and acknowledge a season in one tap (tap audit R7)",
+   "lane": "opus",
+   "state": "needs Nik's call",
+   "waits_on": "Nik",
+   "archived": "2026-10-06: new feature; no new features until further notice (Nik, 2026-10-06)",
+   "team": "G"
+  },
+  {
+   "id": "G-F9",
+   "title": "72-character pairing code exchange (needs a Rules change)",
+   "lane": "opus",
+   "state": "needs Nik's call",
+   "waits_on": "Nik's typed words",
+   "archived": "2026-10-06: new feature; no new features until further notice (Nik, 2026-10-06)",
+   "team": "G"
+  },
+  {
+   "id": "G-F2",
+   "title": "Live 2.0 fixes from Nik's review: r55 and r56 shipped today (list in Live now)",
+   "lane": "opus",
+   "state": "done for r56",
+   "waits_on": "",
+   "archived": "2026-10-06: done",
+   "team": "G"
+  },
+  {
+   "id": "G-F19",
+   "title": "BH-8: show the final winner and Close on both phones automatically, with no PREVIEW tap (Nik chose this at 5:56 PM Boston time); applying to the local save stays a tap",
+   "lane": "opus",
+   "state": "done: live in r62 (8:35 PM Boston time, e7b556cd)",
+   "waits_on": "",
+   "details": "journey 36/36 twice",
+   "archived": "2026-10-06: done",
+   "team": "G"
+  },
+  {
+   "id": "G-F20",
+   "title": "BH-7 transient hardening: Setup read, Terminal Close retry, simultaneous CLOSE re-read, stale transfer status line",
+   "lane": "opus",
+   "state": "done: live in r62 (8:35 PM Boston time, e7b556cd)",
+   "waits_on": "",
+   "details": "two-manager journey 36/36",
+   "archived": "2026-10-06: done",
+   "team": "G"
+  },
+  {
+   "id": "G-F21",
+   "title": "BH-11 pairing and reconnect fixes from the pairing audit (7 findings, one high: a reload mid-game strands the reconnect)",
+   "lane": "opus",
+   "state": "done: live in r62 (8:35 PM Boston time, e7b556cd)",
+   "waits_on": "",
+   "archived": "2026-10-06: done",
+   "team": "G"
+  },
+  {
+   "id": "G-F23",
+   "title": "Desktop Settings cards clipped; Update button hidden (Nik's Chrome stuck on r54)",
+   "lane": "opus",
+   "state": "done: live in r62 (8:35 PM Boston time, e7b556cd)",
+   "waits_on": "",
+   "details": "branch bugfix/settings-desktop-update 1d264f7e; after r62 Nik presses Update once on the laptop",
+   "archived": "2026-10-06: done",
+   "team": "G"
+  },
+  {
+   "id": "BUG-1",
+   "title": "Raw error codes in the Setup settle text; neutral Manager 1/2 fallbacks; 80-character transfer names",
+   "lane": "sonnet",
+   "state": "done: live in r62 (8:35 PM Boston time, e7b556cd)",
+   "waits_on": "",
+   "details": "bugfix/bug-batch-1 9e012fd",
+   "archived": "2026-10-06: done",
+   "team": "G"
+  },
+  {
+   "id": "V-F1",
+   "title": "Team V jobs on this board: V- PR titles with a progress block; old board retired",
+   "lane": "opus",
+   "state": "done (V2G-017)",
+   "waits_on": "",
+   "archived": "2026-10-06: done",
+   "team": "V"
+  },
+  {
+   "id": "V-F3",
+   "title": "Visual check of live 2.0 against the approved package 5e05a1f",
+   "lane": "sonnet",
+   "state": "done (sent as HO-004)",
+   "waits_on": "Team V's call",
+   "archived": "2026-10-06: done",
+   "team": "V"
+  }
+ ],
+ "notes": {},
+ "studios": [
+  {
+   "id": "Z",
+   "title": "emergency fixes from Nik and Daniel's live test",
+   "scope": "connectivity, sign-in, continuing after a refresh, old-build modules coming back, Transfer layout",
+   "state": "archived",
+   "opened": "2026-10-09T00:07Z",
+   "archived": "2026-10-09T03:00Z",
+   "thread": "Studio Z emergency fixes"
+  }
+ ],
+ "team_colors": {
+  "_about": "Nik 2026-10-09 22:22 and 22:26 UTC: every job card shows its team color, model, effort, where to type and the exact prompt. Jobs are sized by the CC-007 one-turn rule (chat: <=5 reads, <=3 writes, ~200 lines, one decision). Nik 22:41 UTC: chat is GPT-6 Sol only; Luna, Sol 6.1 and Astra are Work mode and use his allowance, so Work mode needs a reason chat can't meet.",
+  "blue": "GPT-6 Sol chat (normal chat in a ChatGPT project; nearly unlimited, use first)",
+  "green": "GPT Work mode, Sol 6.1 (metered)",
+  "yellow": "GPT Work mode, Luna (cheapest Work mode, still metered; only when a job must run code)",
+  "orange": "GPT Work mode, Astra (expensive; only with Nik's OK)",
+  "white": "Codex cloud",
+  "purple": "Claude Opus, run by the lead",
+  "brown": "Claude Sonnet, run by the lead",
+  "black": "Claude Haiku, run by the lead (checks, tests, board)"
+ },
+ "claude_lane": {
+  "_about": "Nik 2026-10-10 13:56 UTC (cmsg_01Ff3pP27ri7Tiri5zxvNHhKVW8LFHC135dtxsQ56ADvYg): GPT chat and Codex stay the default, but jobs GPT can't do well go to the Team G lead and factory and are done by a Claude model. Nik never types these; the lead runs them.",
+  "route_here_when": [
+   "Rules, sign-in or Firebase work that the ChatGPT safety filter blocks (Codex can still take Rules code when it needs no live run)",
+   "Work that needs the emulator, a browser run, the two-phone journey or a live check of the deployed game",
+   "Cross-screen or multi-file logic bigger than one GPT turn (more than about 5 reads, 3 writes or 200 lines, or more than one decision)",
+   "A job GPT failed twice (wrong fix, stalled chat or red Gate) after it was split once",
+   "Release, merge, deploy and Gate-seal work (lead only)"
+  ],
+  "models": {
+   "purple": "Claude Opus: fixes that need judgment, cross-screen logic, releases",
+   "brown": "Claude Sonnet: audits, repros, emulator and journey runs",
+   "black": "Claude Haiku: boards, checks and copy chores"
+  },
+  "how_jobs_arrive": "The mega factory or the lead marks a job NEEDS CLAUDE with the reason; the lead moves it to this lane with a purple, brown or black team colour and runs it. Nothing for Nik to type.",
+  "open": [
+   "G-F7",
+   "G-F11",
+   "G-F18",
+   "G-F5",
+   "G-F17",
+   "G-F24"
+  ],
+  "queue_rule": "queue/CLAUDE_LANE.md (mega factory): which queue items move here and how; moved items are marked 'claude lane' in queue/ORDER.json and get a 1001+ job number from the lead"
+ }
+}

@@ -1,0 +1,4950 @@
+{
+ "sequence": {
+  "ready": [
+   44,
+   45,
+   46,
+   47,
+   48,
+   50,
+   51,
+   52,
+   53,
+   54,
+   55,
+   56
+  ],
+  "ready_sol": [
+   44,
+   45,
+   46,
+   47,
+   48,
+   50,
+   51,
+   52,
+   53,
+   54,
+   55,
+   56
+  ],
+  "ready_codex": [],
+  "held_until_picture": 86,
+  "open_code_prs": 0,
+  "open_train_prs": 1,
+  "next_free": 44,
+  "highest_taken": 395,
+  "total": 518,
+  "states": {
+   "1": "on_train",
+   "2": "pr_open",
+   "3": "on_train",
+   "4": "pr_open",
+   "5": "on_train",
+   "6": "pr_open",
+   "7": "on_train",
+   "8": "pr_open",
+   "9": "on_train",
+   "10": "pr_open",
+   "11": "on_train",
+   "12": "pr_open",
+   "13": "pr_open",
+   "14": "pr_open",
+   "15": "on_train",
+   "16": "pr_open",
+   "17": "on_train",
+   "18": "pr_open",
+   "19": "on_train",
+   "20": "pr_open",
+   "21": "on_train",
+   "22": "pr_open",
+   "23": "on_train",
+   "24": "pr_open",
+   "25": "on_train",
+   "26": "pr_open",
+   "27": "on_train",
+   "28": "pr_open",
+   "29": "on_train",
+   "30": "pr_open",
+   "31": "pr_open",
+   "32": "pr_open",
+   "33": "on_train",
+   "34": "pr_open",
+   "35": "on_train",
+   "36": "pr_open",
+   "37": "on_train",
+   "38": "pr_open",
+   "39": "on_train",
+   "40": "pr_open",
+   "41": "on_train",
+   "42": "pr_open",
+   "43": "on_train",
+   "44": "waiting",
+   "45": "waiting",
+   "46": "waiting",
+   "47": "waiting",
+   "48": "waiting",
+   "49": "pr_open",
+   "50": "waiting",
+   "51": "waiting",
+   "52": "waiting",
+   "53": "waiting",
+   "54": "waiting",
+   "55": "waiting",
+   "56": "waiting",
+   "57": "waiting",
+   "58": "waiting",
+   "59": "waiting",
+   "60": "waiting",
+   "61": "waiting",
+   "62": "waiting",
+   "63": "waiting",
+   "64": "waiting",
+   "65": "waiting",
+   "66": "waiting",
+   "67": "pr_open",
+   "68": "waiting",
+   "69": "waiting",
+   "70": "waiting",
+   "71": "waiting",
+   "72": "waiting",
+   "73": "waiting",
+   "74": "waiting",
+   "75": "waiting",
+   "76": "waiting",
+   "77": "waiting",
+   "78": "waiting",
+   "79": "waiting",
+   "80": "waiting",
+   "81": "waiting",
+   "82": "waiting",
+   "83": "waiting",
+   "84": "waiting",
+   "85": "pr_open",
+   "86": "waiting",
+   "87": "waiting",
+   "88": "waiting",
+   "89": "waiting",
+   "90": "waiting",
+   "91": "waiting",
+   "92": "waiting",
+   "93": "waiting",
+   "94": "waiting",
+   "95": "waiting",
+   "96": "waiting",
+   "97": "waiting",
+   "98": "waiting",
+   "99": "waiting",
+   "100": "waiting",
+   "101": "waiting",
+   "102": "waiting",
+   "103": "pr_open",
+   "104": "waiting",
+   "105": "waiting",
+   "106": "waiting",
+   "107": "waiting",
+   "108": "waiting",
+   "109": "waiting",
+   "110": "waiting",
+   "111": "waiting",
+   "112": "waiting",
+   "113": "waiting",
+   "114": "waiting",
+   "115": "waiting",
+   "116": "waiting",
+   "117": "waiting",
+   "118": "waiting",
+   "119": "waiting",
+   "120": "waiting",
+   "121": "pr_open",
+   "122": "waiting",
+   "123": "waiting",
+   "124": "waiting",
+   "125": "waiting",
+   "126": "pr_open",
+   "127": "waiting",
+   "128": "pr_open",
+   "129": "waiting",
+   "130": "pr_open",
+   "131": "waiting",
+   "132": "pr_open",
+   "133": "waiting",
+   "134": "pr_open",
+   "135": "waiting",
+   "136": "pr_open",
+   "137": "waiting",
+   "138": "pr_open",
+   "139": "pr_open",
+   "140": "pr_open",
+   "141": "waiting",
+   "142": "pr_open",
+   "143": "waiting",
+   "144": "pr_open",
+   "145": "waiting",
+   "146": "pr_open",
+   "147": "waiting",
+   "148": "pr_open",
+   "149": "waiting",
+   "150": "pr_open",
+   "151": "waiting",
+   "152": "pr_open",
+   "153": "waiting",
+   "154": "pr_open",
+   "155": "waiting",
+   "156": "pr_open",
+   "157": "pr_open",
+   "158": "pr_open",
+   "159": "waiting",
+   "160": "pr_open",
+   "161": "waiting",
+   "162": "pr_open",
+   "163": "waiting",
+   "164": "pr_open",
+   "165": "waiting",
+   "166": "pr_open",
+   "167": "waiting",
+   "168": "pr_open",
+   "169": "waiting",
+   "170": "pr_open",
+   "171": "waiting",
+   "172": "pr_open",
+   "173": "waiting",
+   "174": "pr_open",
+   "175": "pr_open",
+   "176": "pr_open",
+   "177": "waiting",
+   "178": "pr_open",
+   "179": "waiting",
+   "180": "pr_open",
+   "181": "waiting",
+   "182": "pr_open",
+   "183": "waiting",
+   "184": "pr_open",
+   "185": "waiting",
+   "186": "pr_open",
+   "187": "waiting",
+   "188": "pr_open",
+   "189": "waiting",
+   "190": "pr_open",
+   "191": "waiting",
+   "192": "pr_open",
+   "193": "pr_open",
+   "194": "pr_open",
+   "195": "waiting",
+   "196": "pr_open",
+   "197": "waiting",
+   "198": "pr_open",
+   "199": "waiting",
+   "200": "pr_open",
+   "201": "waiting",
+   "202": "pr_open",
+   "203": "waiting",
+   "204": "pr_open",
+   "205": "waiting",
+   "206": "pr_open",
+   "207": "waiting",
+   "208": "pr_open",
+   "209": "waiting",
+   "210": "pr_open",
+   "211": "pr_open",
+   "212": "pr_open",
+   "213": "waiting",
+   "214": "pr_open",
+   "215": "waiting",
+   "216": "pr_open",
+   "217": "waiting",
+   "218": "pr_open",
+   "219": "waiting",
+   "220": "pr_open",
+   "221": "waiting",
+   "222": "pr_open",
+   "223": "waiting",
+   "224": "pr_open",
+   "225": "waiting",
+   "226": "waiting",
+   "227": "waiting",
+   "228": "waiting",
+   "229": "pr_open",
+   "230": "waiting",
+   "231": "waiting",
+   "232": "waiting",
+   "233": "waiting",
+   "234": "waiting",
+   "235": "waiting",
+   "236": "waiting",
+   "237": "waiting",
+   "238": "waiting",
+   "239": "waiting",
+   "240": "waiting",
+   "241": "waiting",
+   "242": "waiting",
+   "243": "waiting",
+   "244": "waiting",
+   "245": "waiting",
+   "246": "waiting",
+   "247": "pr_open",
+   "248": "waiting",
+   "249": "waiting",
+   "250": "waiting",
+   "251": "waiting",
+   "252": "waiting",
+   "253": "waiting",
+   "254": "waiting",
+   "255": "waiting",
+   "256": "waiting",
+   "257": "waiting",
+   "258": "waiting",
+   "259": "waiting",
+   "260": "waiting",
+   "261": "waiting",
+   "262": "waiting",
+   "263": "waiting",
+   "264": "waiting",
+   "265": "pr_open",
+   "266": "waiting",
+   "267": "waiting",
+   "268": "waiting",
+   "269": "waiting",
+   "270": "waiting",
+   "271": "waiting",
+   "272": "waiting",
+   "273": "waiting",
+   "274": "waiting",
+   "275": "waiting",
+   "276": "waiting",
+   "277": "waiting",
+   "278": "waiting",
+   "279": "waiting",
+   "280": "waiting",
+   "281": "waiting",
+   "282": "waiting",
+   "283": "pr_open",
+   "284": "waiting",
+   "285": "waiting",
+   "286": "waiting",
+   "287": "waiting",
+   "288": "waiting",
+   "289": "waiting",
+   "290": "waiting",
+   "291": "waiting",
+   "292": "waiting",
+   "293": "waiting",
+   "294": "waiting",
+   "295": "waiting",
+   "296": "waiting",
+   "297": "waiting",
+   "298": "waiting",
+   "299": "waiting",
+   "300": "waiting",
+   "301": "pr_open",
+   "302": "waiting",
+   "303": "waiting",
+   "304": "waiting",
+   "305": "waiting",
+   "306": "waiting",
+   "307": "waiting",
+   "308": "waiting",
+   "309": "waiting",
+   "310": "waiting",
+   "311": "waiting",
+   "312": "waiting",
+   "313": "waiting",
+   "314": "waiting",
+   "315": "waiting",
+   "316": "waiting",
+   "317": "waiting",
+   "318": "waiting",
+   "319": "pr_open",
+   "320": "waiting",
+   "321": "waiting",
+   "322": "waiting",
+   "323": "waiting",
+   "324": "waiting",
+   "325": "waiting",
+   "326": "waiting",
+   "327": "waiting",
+   "328": "waiting",
+   "329": "waiting",
+   "330": "waiting",
+   "331": "waiting",
+   "332": "waiting",
+   "333": "waiting",
+   "334": "waiting",
+   "335": "waiting",
+   "336": "waiting",
+   "337": "pr_open",
+   "338": "waiting",
+   "339": "waiting",
+   "340": "waiting",
+   "341": "waiting",
+   "342": "waiting",
+   "343": "waiting",
+   "344": "waiting",
+   "345": "waiting",
+   "346": "waiting",
+   "347": "waiting",
+   "348": "waiting",
+   "349": "waiting",
+   "350": "waiting",
+   "351": "waiting",
+   "352": "waiting",
+   "353": "waiting",
+   "354": "waiting",
+   "355": "pr_open",
+   "356": "waiting",
+   "357": "waiting",
+   "358": "waiting",
+   "359": "waiting",
+   "360": "waiting",
+   "361": "waiting",
+   "362": "waiting",
+   "363": "pr_open",
+   "364": "waiting",
+   "365": "waiting",
+   "366": "waiting",
+   "367": "waiting",
+   "368": "waiting",
+   "369": "waiting",
+   "370": "waiting",
+   "371": "pr_open",
+   "372": "waiting",
+   "373": "waiting",
+   "374": "waiting",
+   "375": "waiting",
+   "376": "waiting",
+   "377": "waiting",
+   "378": "waiting",
+   "379": "pr_open",
+   "380": "waiting",
+   "381": "waiting",
+   "382": "waiting",
+   "383": "waiting",
+   "384": "waiting",
+   "385": "waiting",
+   "386": "waiting",
+   "387": "pr_open",
+   "388": "waiting",
+   "389": "waiting",
+   "390": "waiting",
+   "391": "waiting",
+   "392": "waiting",
+   "393": "waiting",
+   "394": "waiting",
+   "395": "pr_open",
+   "396": "waiting",
+   "397": "waiting",
+   "398": "waiting",
+   "399": "waiting",
+   "400": "waiting",
+   "401": "waiting",
+   "402": "waiting",
+   "403": "waiting",
+   "404": "waiting",
+   "405": "waiting",
+   "406": "waiting",
+   "407": "waiting",
+   "408": "waiting",
+   "409": "waiting",
+   "410": "waiting",
+   "411": "waiting",
+   "412": "waiting",
+   "413": "waiting",
+   "414": "waiting",
+   "415": "waiting",
+   "416": "waiting",
+   "417": "waiting",
+   "418": "waiting",
+   "419": "waiting",
+   "420": "waiting",
+   "421": "waiting",
+   "422": "waiting",
+   "423": "waiting",
+   "424": "waiting",
+   "425": "waiting",
+   "426": "waiting",
+   "427": "waiting",
+   "428": "waiting",
+   "429": "waiting",
+   "430": "waiting",
+   "431": "waiting",
+   "432": "waiting",
+   "433": "waiting",
+   "434": "waiting",
+   "435": "waiting",
+   "436": "waiting",
+   "437": "waiting",
+   "438": "waiting",
+   "439": "waiting",
+   "440": "waiting",
+   "441": "waiting",
+   "442": "waiting",
+   "443": "waiting",
+   "444": "waiting",
+   "445": "waiting",
+   "446": "waiting",
+   "447": "waiting",
+   "448": "waiting",
+   "449": "waiting",
+   "450": "waiting",
+   "451": "waiting",
+   "452": "waiting",
+   "453": "waiting",
+   "454": "waiting",
+   "455": "waiting",
+   "456": "waiting",
+   "457": "waiting",
+   "458": "waiting",
+   "459": "waiting",
+   "460": "waiting",
+   "461": "waiting",
+   "462": "waiting",
+   "463": "waiting",
+   "464": "waiting",
+   "465": "waiting",
+   "466": "waiting",
+   "467": "waiting",
+   "468": "waiting",
+   "469": "waiting",
+   "470": "waiting",
+   "471": "waiting",
+   "472": "waiting",
+   "473": "waiting",
+   "474": "waiting",
+   "475": "waiting",
+   "476": "waiting",
+   "477": "waiting",
+   "478": "waiting",
+   "479": "waiting",
+   "480": "waiting",
+   "481": "waiting",
+   "482": "waiting",
+   "483": "waiting",
+   "484": "waiting",
+   "485": "waiting",
+   "486": "waiting",
+   "487": "waiting",
+   "488": "waiting",
+   "489": "waiting",
+   "490": "waiting",
+   "491": "waiting",
+   "492": "waiting",
+   "493": "waiting",
+   "494": "waiting",
+   "495": "waiting",
+   "496": "waiting",
+   "497": "waiting",
+   "498": "waiting",
+   "499": "waiting",
+   "500": "waiting",
+   "501": "waiting",
+   "502": "waiting",
+   "503": "waiting",
+   "504": "waiting",
+   "505": "waiting",
+   "506": "waiting",
+   "507": "waiting",
+   "508": "waiting",
+   "509": "waiting",
+   "510": "waiting",
+   "511": "waiting",
+   "512": "waiting",
+   "513": "waiting",
+   "514": "waiting",
+   "515": "waiting",
+   "516": "waiting",
+   "517": "waiting",
+   "518": "waiting"
+  }
+ },
+ "updated": "2026-10-10T20:35:19Z",
+ "counts": {
+  "on_train": 20,
+  "waiting": 402,
+  "pr_open": 96
+ },
+ "stages": {
+  "2": {
+   "total": 266,
+   "taken": 44,
+   "merged": 0
+  },
+  "3": {
+   "total": 14,
+   "taken": 1,
+   "merged": 0
+  },
+  "4": {
+   "total": 70,
+   "taken": 0,
+   "merged": 0
+  },
+  "5": {
+   "total": 56,
+   "taken": 0,
+   "merged": 0
+  },
+  "1": {
+   "total": 112,
+   "taken": 71,
+   "merged": 0
+  }
+ },
+ "slots": {},
+ "trains": {
+  "gameplay/train-home-1": {
+   "jobs": [
+    1061,
+    1062,
+    1063,
+    1064,
+    1065
+   ],
+   "done": [
+    "1061",
+    "1062",
+    "1063"
+   ],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-home-2": {
+   "jobs": [
+    1066,
+    1067,
+    1068,
+    1069,
+    1070
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-home-3": {
+   "jobs": [
+    1071,
+    1072,
+    1073,
+    1074,
+    1075
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-home-4": {
+   "jobs": [
+    1076,
+    1077,
+    1078,
+    1079,
+    1080
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-start-join-1": {
+   "jobs": [
+    1090,
+    1091,
+    1092,
+    1093,
+    1094
+   ],
+   "done": [
+    "1090",
+    "1091",
+    "1092"
+   ],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-start-join-2": {
+   "jobs": [
+    1095,
+    1096,
+    1097,
+    1098,
+    1099
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-start-join-3": {
+   "jobs": [
+    1100,
+    1101,
+    1102,
+    1103,
+    1104
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-start-join-4": {
+   "jobs": [
+    1105,
+    1106,
+    1107,
+    1108,
+    1109
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-league-1": {
+   "jobs": [
+    1119,
+    1120,
+    1121,
+    1122,
+    1123
+   ],
+   "done": [
+    "1119",
+    "1120",
+    "1121"
+   ],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-league-2": {
+   "jobs": [
+    1124,
+    1125,
+    1126,
+    1127,
+    1128
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-league-3": {
+   "jobs": [
+    1129,
+    1130,
+    1131,
+    1132,
+    1133
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-league-4": {
+   "jobs": [
+    1134,
+    1135,
+    1136,
+    1137,
+    1138
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-club-1": {
+   "jobs": [
+    1148,
+    1149,
+    1150,
+    1151,
+    1152
+   ],
+   "done": [
+    "1148",
+    "1149",
+    "1150"
+   ],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-club-2": {
+   "jobs": [
+    1153,
+    1154,
+    1155,
+    1156,
+    1157
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-club-3": {
+   "jobs": [
+    1158,
+    1159,
+    1160,
+    1161,
+    1162
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-club-4": {
+   "jobs": [
+    1163,
+    1164,
+    1165,
+    1166,
+    1167
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-transfer-1": {
+   "jobs": [
+    1177,
+    1178,
+    1179,
+    1180,
+    1181
+   ],
+   "done": [
+    "1177",
+    "1178"
+   ],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-transfer-2": {
+   "jobs": [
+    1182,
+    1183,
+    1184,
+    1185,
+    1186
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-transfer-3": {
+   "jobs": [
+    1187,
+    1188,
+    1189,
+    1190,
+    1191
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-transfer-4": {
+   "jobs": [
+    1192,
+    1193,
+    1194,
+    1195,
+    1196
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-season-final-1": {
+   "jobs": [
+    1206,
+    1207,
+    1208,
+    1209,
+    1210
+   ],
+   "done": [
+    "1206",
+    "1207"
+   ],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-season-final-2": {
+   "jobs": [
+    1211,
+    1212,
+    1213,
+    1214,
+    1215
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-season-final-3": {
+   "jobs": [
+    1216,
+    1217,
+    1218,
+    1219,
+    1220
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-season-final-4": {
+   "jobs": [
+    1221,
+    1222,
+    1223,
+    1224,
+    1225
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-season-final-5": {
+   "jobs": [
+    1235,
+    1236,
+    1237,
+    1238,
+    1239
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-season-final-6": {
+   "jobs": [
+    1240,
+    1241,
+    1242,
+    1243,
+    1244
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-season-final-7": {
+   "jobs": [
+    1245,
+    1246,
+    1247,
+    1248,
+    1249
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-season-final-8": {
+   "jobs": [
+    1250,
+    1251,
+    1252,
+    1253,
+    1254
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-season-final-9": {
+   "jobs": [
+    1264,
+    1265,
+    1266,
+    1267,
+    1268
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-season-final-10": {
+   "jobs": [
+    1269,
+    1270,
+    1271,
+    1272,
+    1273
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-season-final-11": {
+   "jobs": [
+    1274,
+    1275,
+    1276,
+    1277,
+    1278
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-season-final-12": {
+   "jobs": [
+    1279,
+    1280,
+    1281,
+    1282,
+    1283
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-rivalry-legacy-1": {
+   "jobs": [
+    1293,
+    1294,
+    1295,
+    1296,
+    1297
+   ],
+   "done": [
+    "1293",
+    "1294",
+    "1295",
+    "1296",
+    "1297"
+   ],
+   "pr": 509,
+   "state": "pr_open"
+  },
+  "gameplay/train-rivalry-legacy-2": {
+   "jobs": [
+    1298,
+    1299,
+    1300,
+    1301,
+    1302
+   ],
+   "done": [
+    "1298",
+    "1299",
+    "1300",
+    "1301",
+    "1302"
+   ],
+   "pr": 521,
+   "state": "pr_open"
+  },
+  "gameplay/train-rivalry-legacy-3": {
+   "jobs": [
+    1303,
+    1304,
+    1305,
+    1306,
+    1307
+   ],
+   "done": [
+    "1303",
+    "1304",
+    "1305",
+    "1306",
+    "1307"
+   ],
+   "pr": 536,
+   "state": "pr_open"
+  },
+  "gameplay/train-rivalry-legacy-4": {
+   "jobs": [
+    1308,
+    1309,
+    1310,
+    1311,
+    1312
+   ],
+   "done": [
+    "1308",
+    "1309",
+    "1310",
+    "1311",
+    "1312"
+   ],
+   "pr": 539,
+   "state": "pr_open"
+  },
+  "gameplay/train-career-screens-1": {
+   "jobs": [
+    1322,
+    1323,
+    1324,
+    1325,
+    1326
+   ],
+   "done": [
+    "1322",
+    "1323"
+   ],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-career-screens-2": {
+   "jobs": [
+    1327,
+    1328,
+    1329,
+    1330,
+    1331
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-career-screens-3": {
+   "jobs": [
+    1332,
+    1333,
+    1334,
+    1335,
+    1336
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-career-screens-4": {
+   "jobs": [
+    1337,
+    1338,
+    1339,
+    1340,
+    1341
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-rivalry-legacy-5": {
+   "jobs": [
+    1351,
+    1352,
+    1353,
+    1354,
+    1355
+   ],
+   "done": [
+    "1351",
+    "1352"
+   ],
+   "pr": 542,
+   "state": "pr_open"
+  },
+  "gameplay/train-rivalry-legacy-6": {
+   "jobs": [
+    1356,
+    1357,
+    1358,
+    1359,
+    1360
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-rivalry-legacy-7": {
+   "jobs": [
+    1361,
+    1362,
+    1363,
+    1364,
+    1365
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-rivalry-legacy-8": {
+   "jobs": [
+    1366,
+    1367,
+    1368,
+    1369,
+    1370
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-career-screens-5": {
+   "jobs": [
+    1380,
+    1381,
+    1382,
+    1383,
+    1384
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-career-screens-6": {
+   "jobs": [
+    1385,
+    1386,
+    1387,
+    1388,
+    1389
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-career-screens-7": {
+   "jobs": [
+    1390,
+    1391,
+    1392,
+    1393,
+    1394
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-career-screens-8": {
+   "jobs": [
+    1395,
+    1396,
+    1397,
+    1398,
+    1399
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-rules-settings-1": {
+   "jobs": [
+    1409,
+    1410,
+    1411,
+    1412,
+    1413
+   ],
+   "done": [
+    "1409",
+    "1410"
+   ],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-rules-settings-2": {
+   "jobs": [
+    1414,
+    1415,
+    1416,
+    1417,
+    1418
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-rules-settings-3": {
+   "jobs": [
+    1419,
+    1420,
+    1421,
+    1422,
+    1423
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-rules-settings-4": {
+   "jobs": [
+    1424,
+    1425,
+    1426,
+    1427,
+    1428
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-rules-settings-5": {
+   "jobs": [
+    1438,
+    1439,
+    1440,
+    1441,
+    1442
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-rules-settings-6": {
+   "jobs": [
+    1443,
+    1444,
+    1445,
+    1446,
+    1447
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-rules-settings-7": {
+   "jobs": [
+    1448,
+    1449,
+    1450,
+    1451,
+    1452
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  },
+  "gameplay/train-rules-settings-8": {
+   "jobs": [
+    1453,
+    1454,
+    1455,
+    1456,
+    1457
+   ],
+   "done": [],
+   "pr": null,
+   "state": null
+  }
+ },
+ "tickets": {
+  "1061": {
+   "state": "on_train",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": "gameplay/train-home-1"
+  },
+  "1062": {
+   "state": "on_train",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": "gameplay/train-home-1"
+  },
+  "1063": {
+   "state": "on_train",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": "gameplay/train-home-1"
+  },
+  "1064": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": "gameplay/train-home-1"
+  },
+  "1065": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": "gameplay/train-home-1"
+  },
+  "1066": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1067": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1068": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1069": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1070": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1071": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1072": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1073": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1074": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1075": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1076": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1077": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1078": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1079": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1080": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1081": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1082": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1083": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1084": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1085": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1086": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1087": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1088": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1089": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1090": {
+   "state": "on_train",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": "gameplay/train-start-join-1"
+  },
+  "1091": {
+   "state": "on_train",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": "gameplay/train-start-join-1"
+  },
+  "1092": {
+   "state": "on_train",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": "gameplay/train-start-join-1"
+  },
+  "1093": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": "gameplay/train-start-join-1"
+  },
+  "1094": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": "gameplay/train-start-join-1"
+  },
+  "1095": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1096": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1097": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1098": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1099": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1100": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1101": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1102": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1103": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1104": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1105": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1106": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1107": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1108": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1109": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1110": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1111": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1112": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1113": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1114": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1115": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1116": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1117": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1118": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1119": {
+   "state": "on_train",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": "gameplay/train-league-1"
+  },
+  "1120": {
+   "state": "on_train",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": "gameplay/train-league-1"
+  },
+  "1121": {
+   "state": "on_train",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": "gameplay/train-league-1"
+  },
+  "1122": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": "gameplay/train-league-1"
+  },
+  "1123": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": "gameplay/train-league-1"
+  },
+  "1124": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1125": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1126": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1127": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1128": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1129": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1130": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1131": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1132": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1133": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1134": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1135": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1136": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1137": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1138": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1139": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1140": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1141": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1142": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1143": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1144": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1145": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1146": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1147": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1148": {
+   "state": "on_train",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": "gameplay/train-club-1"
+  },
+  "1149": {
+   "state": "on_train",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": "gameplay/train-club-1"
+  },
+  "1150": {
+   "state": "on_train",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": "gameplay/train-club-1"
+  },
+  "1151": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": "gameplay/train-club-1"
+  },
+  "1152": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": "gameplay/train-club-1"
+  },
+  "1153": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1154": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1155": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1156": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1157": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1158": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1159": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1160": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1161": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1162": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1163": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1164": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1165": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1166": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1167": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1168": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1169": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1170": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1171": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1172": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1173": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1174": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1175": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1176": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1177": {
+   "state": "on_train",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": "gameplay/train-transfer-1"
+  },
+  "1178": {
+   "state": "on_train",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": "gameplay/train-transfer-1"
+  },
+  "1179": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": "gameplay/train-transfer-1"
+  },
+  "1180": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": "gameplay/train-transfer-1"
+  },
+  "1181": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": "gameplay/train-transfer-1"
+  },
+  "1182": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1183": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1184": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1185": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1186": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1187": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1188": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1189": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1190": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1191": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1192": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1193": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1194": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1195": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1196": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1197": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1198": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1199": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1200": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1201": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1202": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1203": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1204": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1205": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1206": {
+   "state": "on_train",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": "gameplay/train-season-final-1"
+  },
+  "1207": {
+   "state": "on_train",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": "gameplay/train-season-final-1"
+  },
+  "1208": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": "gameplay/train-season-final-1"
+  },
+  "1209": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": "gameplay/train-season-final-1"
+  },
+  "1210": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": "gameplay/train-season-final-1"
+  },
+  "1211": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1212": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1213": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1214": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1215": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1216": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1217": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1218": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1219": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1220": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1221": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1222": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1223": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1224": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1225": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1226": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1227": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1228": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1229": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1230": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1231": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1232": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1233": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1234": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1235": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1236": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1237": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1238": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1239": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1240": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1241": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1242": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1243": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1244": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1245": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1246": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1247": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1248": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1249": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1250": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1251": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1252": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1253": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1254": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1255": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1256": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1257": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1258": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1259": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1260": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1261": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1262": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1263": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1264": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1265": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1266": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1267": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1268": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1269": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1270": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1271": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1272": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1273": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1274": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1275": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1276": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1277": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1278": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1279": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1280": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1281": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1282": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1283": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1284": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1285": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1286": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1287": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1288": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1289": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1290": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1291": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1292": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1293": {
+   "state": "pr_open",
+   "pr": 509,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/509",
+   "branch": "gameplay/train-rivalry-legacy-1"
+  },
+  "1294": {
+   "state": "pr_open",
+   "pr": 509,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/509",
+   "branch": "gameplay/train-rivalry-legacy-1"
+  },
+  "1295": {
+   "state": "pr_open",
+   "pr": 509,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/509",
+   "branch": "gameplay/train-rivalry-legacy-1"
+  },
+  "1296": {
+   "state": "pr_open",
+   "pr": 509,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/509",
+   "branch": "gameplay/train-rivalry-legacy-1"
+  },
+  "1297": {
+   "state": "pr_open",
+   "pr": 509,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/509",
+   "branch": "gameplay/train-rivalry-legacy-1"
+  },
+  "1298": {
+   "state": "pr_open",
+   "pr": 521,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/521",
+   "branch": "gameplay/train-rivalry-legacy-2"
+  },
+  "1299": {
+   "state": "pr_open",
+   "pr": 521,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/521",
+   "branch": "gameplay/train-rivalry-legacy-2"
+  },
+  "1300": {
+   "state": "pr_open",
+   "pr": 521,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/521",
+   "branch": "gameplay/train-rivalry-legacy-2"
+  },
+  "1301": {
+   "state": "pr_open",
+   "pr": 521,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/521",
+   "branch": "gameplay/train-rivalry-legacy-2"
+  },
+  "1302": {
+   "state": "pr_open",
+   "pr": 521,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/521",
+   "branch": "gameplay/train-rivalry-legacy-2"
+  },
+  "1303": {
+   "state": "pr_open",
+   "pr": 536,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/536",
+   "branch": "gameplay/train-rivalry-legacy-3"
+  },
+  "1304": {
+   "state": "pr_open",
+   "pr": 536,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/536",
+   "branch": "gameplay/train-rivalry-legacy-3"
+  },
+  "1305": {
+   "state": "pr_open",
+   "pr": 536,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/536",
+   "branch": "gameplay/train-rivalry-legacy-3"
+  },
+  "1306": {
+   "state": "pr_open",
+   "pr": 536,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/536",
+   "branch": "gameplay/train-rivalry-legacy-3"
+  },
+  "1307": {
+   "state": "pr_open",
+   "pr": 536,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/536",
+   "branch": "gameplay/train-rivalry-legacy-3"
+  },
+  "1308": {
+   "state": "pr_open",
+   "pr": 539,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/539",
+   "branch": "gameplay/train-rivalry-legacy-4"
+  },
+  "1309": {
+   "state": "pr_open",
+   "pr": 539,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/539",
+   "branch": "gameplay/train-rivalry-legacy-4"
+  },
+  "1310": {
+   "state": "pr_open",
+   "pr": 539,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/539",
+   "branch": "gameplay/train-rivalry-legacy-4"
+  },
+  "1311": {
+   "state": "pr_open",
+   "pr": 539,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/539",
+   "branch": "gameplay/train-rivalry-legacy-4"
+  },
+  "1312": {
+   "state": "pr_open",
+   "pr": 539,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/539",
+   "branch": "gameplay/train-rivalry-legacy-4"
+  },
+  "1313": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1314": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1315": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1316": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1317": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1318": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1319": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1320": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1321": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1322": {
+   "state": "on_train",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": "gameplay/train-career-screens-1"
+  },
+  "1323": {
+   "state": "on_train",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": "gameplay/train-career-screens-1"
+  },
+  "1324": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": "gameplay/train-career-screens-1"
+  },
+  "1325": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": "gameplay/train-career-screens-1"
+  },
+  "1326": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": "gameplay/train-career-screens-1"
+  },
+  "1327": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1328": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1329": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1330": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1331": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1332": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1333": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1334": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1335": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1336": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1337": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1338": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1339": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1340": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1341": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1342": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1343": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1344": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1345": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1346": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1347": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1348": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1349": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1350": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1351": {
+   "state": "pr_open",
+   "pr": 542,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/542",
+   "branch": "gameplay/train-rivalry-legacy-5"
+  },
+  "1352": {
+   "state": "pr_open",
+   "pr": 542,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/542",
+   "branch": "gameplay/train-rivalry-legacy-5"
+  },
+  "1353": {
+   "state": "pr_open",
+   "pr": 542,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/542",
+   "branch": "gameplay/train-rivalry-legacy-5"
+  },
+  "1354": {
+   "state": "pr_open",
+   "pr": 542,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/542",
+   "branch": "gameplay/train-rivalry-legacy-5"
+  },
+  "1355": {
+   "state": "pr_open",
+   "pr": 542,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/542",
+   "branch": "gameplay/train-rivalry-legacy-5"
+  },
+  "1356": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1357": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1358": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1359": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1360": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1361": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1362": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1363": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1364": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1365": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1366": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1367": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1368": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1369": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1370": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1371": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1372": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1373": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1374": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1375": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1376": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1377": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1378": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1379": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1380": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1381": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1382": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1383": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1384": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1385": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1386": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1387": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1388": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1389": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1390": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1391": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1392": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1393": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1394": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1395": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1396": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1397": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1398": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1399": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1400": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1401": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1402": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1403": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1404": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1405": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1406": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1407": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1408": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1409": {
+   "state": "on_train",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": "gameplay/train-rules-settings-1"
+  },
+  "1410": {
+   "state": "on_train",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": "gameplay/train-rules-settings-1"
+  },
+  "1411": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": "gameplay/train-rules-settings-1"
+  },
+  "1412": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": "gameplay/train-rules-settings-1"
+  },
+  "1413": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": "gameplay/train-rules-settings-1"
+  },
+  "1414": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1415": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1416": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1417": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1418": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1419": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1420": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1421": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1422": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1423": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1424": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1425": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1426": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1427": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1428": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1429": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1430": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1431": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1432": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1433": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1434": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1435": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1436": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1437": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1438": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1439": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1440": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1441": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1442": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1443": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1444": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1445": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1446": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1447": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1448": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1449": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1450": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1451": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1452": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1453": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1454": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1455": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1456": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1457": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1458": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1459": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1460": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1461": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1462": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1463": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1464": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1465": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1466": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1467": {
+   "state": "pr_open",
+   "pr": 458,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/458",
+   "branch": "qa/job-1467-tap-targets"
+  },
+  "1468": {
+   "state": "pr_open",
+   "pr": 459,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/459",
+   "branch": "qa/job-1468-long-names-audit"
+  },
+  "1469": {
+   "state": "pr_open",
+   "pr": 461,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/461",
+   "branch": "qa/job-1469-safe-area-audit"
+  },
+  "1470": {
+   "state": "pr_open",
+   "pr": 462,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/462",
+   "branch": "qa/job-1470-short-landscape-css-audit"
+  },
+  "1471": {
+   "state": "pr_open",
+   "pr": 463,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/463",
+   "branch": "qa/job-1471-focus-motion-audit"
+  },
+  "1472": {
+   "state": "pr_open",
+   "pr": 464,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/464",
+   "branch": "qa/job-1472-empty-states"
+  },
+  "1473": {
+   "state": "pr_open",
+   "pr": 465,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/465",
+   "branch": "qa/job-1473-contrast-audit"
+  },
+  "1474": {
+   "state": "pr_open",
+   "pr": 466,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/466",
+   "branch": "qa/job-1474-font-fallback-audit"
+  },
+  "1475": {
+   "state": "pr_open",
+   "pr": 468,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/468",
+   "branch": "qa/job-1475-alt-text-audit"
+  },
+  "1476": {
+   "state": "pr_open",
+   "pr": 467,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/467",
+   "branch": "qa/job-1476-z-layer-audit"
+  },
+  "1477": {
+   "state": "pr_open",
+   "pr": 470,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/470",
+   "branch": "qa/job-1477-audit-design-token-colours"
+  },
+  "1478": {
+   "state": "pr_open",
+   "pr": 471,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/471",
+   "branch": "qa/job-1478-touch-hover-audit"
+  },
+  "1479": {
+   "state": "pr_open",
+   "pr": 472,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/472",
+   "branch": "qa/job-1479-season-engine-first-half-audit"
+  },
+  "1480": {
+   "state": "pr_open",
+   "pr": 473,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/473",
+   "branch": "qa/job-1480-seasonengine-second-half-audit"
+  },
+  "1481": {
+   "state": "pr_open",
+   "pr": 475,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/475",
+   "branch": "qa/job-1481-transfer-challenge-first-half"
+  },
+  "1482": {
+   "state": "pr_open",
+   "pr": 474,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/474",
+   "branch": "qa/job-1482-transfer-challenge-second-half-audit"
+  },
+  "1483": {
+   "state": "pr_open",
+   "pr": 478,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/478",
+   "branch": "qa/job-1483-transfer-race-audit"
+  },
+  "1484": {
+   "state": "pr_open",
+   "pr": 479,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/479",
+   "branch": "qa/job-1484-guess-refresh-audit"
+  },
+  "1485": {
+   "state": "pr_open",
+   "pr": 480,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/480",
+   "branch": "qa/job-1485-transfer-challenge-first-half"
+  },
+  "1486": {
+   "state": "pr_open",
+   "pr": 481,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/481",
+   "branch": "qa/job-1486-transfer-challenge-2"
+  },
+  "1487": {
+   "state": "pr_open",
+   "pr": 483,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/483",
+   "branch": "qa/job-1487-signing-name-audit"
+  },
+  "1488": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1489": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1490": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1491": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1492": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1493": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1494": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1495": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1496": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1497": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1498": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1499": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1500": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1501": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1502": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1503": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1504": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1505": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1506": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1507": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1508": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1509": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1510": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1511": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1512": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1513": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1514": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1515": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1516": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1517": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1518": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1519": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1520": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1521": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1522": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1523": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1524": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1525": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1526": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1527": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1528": {
+   "state": "waiting",
+   "pr": null,
+   "draft": false,
+   "pr_url": null,
+   "branch": null
+  },
+  "1529": {
+   "state": "pr_open",
+   "pr": 487,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/487",
+   "branch": "qa/job-1529-spark-terminal-close-1"
+  },
+  "1530": {
+   "state": "pr_open",
+   "pr": 488,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/488",
+   "branch": "qa/job-1530-spark-terminal-close-2"
+  },
+  "1531": {
+   "state": "pr_open",
+   "pr": 489,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/489",
+   "branch": "qa/job-1531-production-canonical-scoring-1"
+  },
+  "1532": {
+   "state": "pr_open",
+   "pr": 490,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/490",
+   "branch": "qa/job-1532-production-canonical-scoring-2"
+  },
+  "1533": {
+   "state": "pr_open",
+   "pr": 493,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/493",
+   "branch": "qa/job-1533-production-history-convergence-1"
+  },
+  "1534": {
+   "state": "pr_open",
+   "pr": 494,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/494",
+   "branch": "qa/job-1534-production-history-convergence-2"
+  },
+  "1535": {
+   "state": "pr_open",
+   "pr": 496,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/496",
+   "branch": "qa/job-1535-shared-history-convergence-1"
+  },
+  "1536": {
+   "state": "pr_open",
+   "pr": 497,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/497",
+   "branch": "qa/job-1536-shared-history-convergence-2"
+  },
+  "1537": {
+   "state": "pr_open",
+   "pr": 500,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/500",
+   "branch": "qa/job-1537-shared-journey-reconnect-1"
+  },
+  "1538": {
+   "state": "pr_open",
+   "pr": 501,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/501",
+   "branch": "qa/job-1538-shared-journey-reconnect-2"
+  },
+  "1539": {
+   "state": "pr_open",
+   "pr": 504,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/504",
+   "branch": "qa/job-1539-shared-active-showdown-adapter-1"
+  },
+  "1540": {
+   "state": "pr_open",
+   "pr": 505,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/505",
+   "branch": "qa/job-1540-shared-active-showdown-adapter-2"
+  },
+  "1541": {
+   "state": "pr_open",
+   "pr": 510,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/510",
+   "branch": "qa/job-1541-statistics-1"
+  },
+  "1542": {
+   "state": "pr_open",
+   "pr": 511,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/511",
+   "branch": "qa/job-1542-statistics-2"
+  },
+  "1543": {
+   "state": "pr_open",
+   "pr": 514,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/514",
+   "branch": "qa/job-1543-legacy-1"
+  },
+  "1544": {
+   "state": "pr_open",
+   "pr": 515,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/515",
+   "branch": "qa/job-1544-legacy-2"
+  },
+  "1545": {
+   "state": "pr_open",
+   "pr": 518,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/518",
+   "branch": "qa/job-1545-analytics-1"
+  },
+  "1546": {
+   "state": "pr_open",
+   "pr": 519,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/519",
+   "branch": "qa/job-1546-analytics-2"
+  },
+  "1547": {
+   "state": "pr_open",
+   "pr": 522,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/522",
+   "branch": "qa/job-1547-settings-1"
+  },
+  "1548": {
+   "state": "pr_open",
+   "pr": 523,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/523",
+   "branch": "qa/job-1548-settings-2"
+  },
+  "1549": {
+   "state": "pr_open",
+   "pr": 525,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/525",
+   "branch": "qa/job-1549-screens-1"
+  },
+  "1550": {
+   "state": "pr_open",
+   "pr": 526,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/526",
+   "branch": "qa/job-1550-screens-2"
+  },
+  "1551": {
+   "state": "pr_open",
+   "pr": 529,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/529",
+   "branch": "qa/job-1551-menu-experience-1"
+  },
+  "1552": {
+   "state": "pr_open",
+   "pr": 530,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/530",
+   "branch": "qa/job-1552-menu-experience-2"
+  },
+  "1553": {
+   "state": "pr_open",
+   "pr": 533,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/533",
+   "branch": "qa/job-1553-club-assignment-1"
+  },
+  "1554": {
+   "state": "pr_open",
+   "pr": 491,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/491",
+   "branch": "qa/job-1554-clubassignment-2"
+  },
+  "1555": {
+   "state": "pr_open",
+   "pr": 492,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/492",
+   "branch": "qa/job-1555-storage-1"
+  },
+  "1556": {
+   "state": "pr_open",
+   "pr": 495,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/495",
+   "branch": "qa/job-1556-storage-2"
+  },
+  "1557": {
+   "state": "pr_open",
+   "pr": 498,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/498",
+   "branch": "qa/job-1557-diagnostics-1"
+  },
+  "1558": {
+   "state": "pr_open",
+   "pr": 499,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/499",
+   "branch": "qa/job-1558-diagnostics-2"
+  },
+  "1559": {
+   "state": "pr_open",
+   "pr": 502,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/502",
+   "branch": "qa/job-1559-offlineapp-1"
+  },
+  "1560": {
+   "state": "pr_open",
+   "pr": 503,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/503",
+   "branch": "qa/job-1560-offlineapp-2"
+  },
+  "1561": {
+   "state": "pr_open",
+   "pr": 507,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/507",
+   "branch": "qa/job-1561-sparkcompleted-1"
+  },
+  "1562": {
+   "state": "pr_open",
+   "pr": 508,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/508",
+   "branch": "qa/job-1562-sparkcompleted-2"
+  },
+  "1563": {
+   "state": "pr_open",
+   "pr": 512,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/512",
+   "branch": "qa/job-1563-transferhistory-1"
+  },
+  "1564": {
+   "state": "pr_open",
+   "pr": 513,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/513",
+   "branch": "qa/job-1564-transferhistory-2"
+  },
+  "1565": {
+   "state": "pr_open",
+   "pr": 516,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/516",
+   "branch": "qa/job-1565-careerscreens-1"
+  },
+  "1566": {
+   "state": "pr_open",
+   "pr": 517,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/517",
+   "branch": "qa/job-1566-careerscreens-2"
+  },
+  "1567": {
+   "state": "pr_open",
+   "pr": 520,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/520",
+   "branch": "qa/job-1567-rivalrylegacy-1"
+  },
+  "1568": {
+   "state": "pr_open",
+   "pr": 524,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/524",
+   "branch": "qa/job-1568-rivalrylegacy-2"
+  },
+  "1569": {
+   "state": "pr_open",
+   "pr": 527,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/527",
+   "branch": "qa/job-1569-transferscreen-1"
+  },
+  "1570": {
+   "state": "pr_open",
+   "pr": 528,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/528",
+   "branch": "qa/job-1570-transferscreen-2"
+  },
+  "1571": {
+   "state": "pr_open",
+   "pr": 531,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/531",
+   "branch": "qa/job-1571-clubscreen-1"
+  },
+  "1572": {
+   "state": "pr_open",
+   "pr": 532,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/532",
+   "branch": "qa/job-1572-clubscreen-2"
+  },
+  "1573": {
+   "state": "pr_open",
+   "pr": 534,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/534",
+   "branch": "qa/job-1573-seasonfinal-1"
+  },
+  "1574": {
+   "state": "pr_open",
+   "pr": 535,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/535",
+   "branch": "qa/job-1574-seasonfinal-2"
+  },
+  "1575": {
+   "state": "pr_open",
+   "pr": 537,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/537",
+   "branch": "qa/job-1575-homescreens-1"
+  },
+  "1576": {
+   "state": "pr_open",
+   "pr": 538,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/538",
+   "branch": "qa/job-1576-homescreens-2"
+  },
+  "1577": {
+   "state": "pr_open",
+   "pr": 540,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/540",
+   "branch": "qa/job-1577-v10screens-1"
+  },
+  "1578": {
+   "state": "pr_open",
+   "pr": 541,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/541",
+   "branch": "qa/job-1578-v10screens-2"
+  }
+ }
+}
