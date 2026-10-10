@@ -1,8 +1,6 @@
 {
  "sequence": {
   "ready": [
-   36,
-   37,
    38,
    39,
    40,
@@ -12,11 +10,11 @@
    44,
    45,
    46,
-   47
+   47,
+   48,
+   49
   ],
   "ready_sol": [
-   36,
-   37,
    38,
    39,
    40,
@@ -26,14 +24,16 @@
    44,
    45,
    46,
-   47
+   47,
+   48,
+   49
   ],
   "ready_codex": [],
   "held_until_picture": 96,
   "open_code_prs": 0,
   "open_train_prs": 0,
-  "next_free": 36,
-  "highest_taken": 35,
+  "next_free": 38,
+  "highest_taken": 37,
   "total": 518,
   "states": {
    "1": "on_train",
@@ -71,8 +71,8 @@
    "33": "on_train",
    "34": "pr_open",
    "35": "on_train",
-   "36": "waiting",
-   "37": "waiting",
+   "36": "pr_open",
+   "37": "on_train",
    "38": "waiting",
    "39": "waiting",
    "40": "waiting",
@@ -556,16 +556,16 @@
    "518": "waiting"
   }
  },
- "updated": "2026-10-10T16:49:06Z",
+ "updated": "2026-10-10T16:52:14Z",
  "counts": {
-  "on_train": 18,
-  "waiting": 483,
-  "pr_open": 17
+  "on_train": 19,
+  "waiting": 481,
+  "pr_open": 18
  },
  "stages": {
   "2": {
    "total": 266,
-   "taken": 18,
+   "taken": 19,
    "merged": 0
   },
   "3": {
@@ -585,7 +585,7 @@
   },
   "1": {
    "total": 112,
-   "taken": 17,
+   "taken": 18,
    "merged": 0
   }
  },
@@ -601,7 +601,8 @@
    ],
    "done": [
     "1061",
-    "1062"
+    "1062",
+    "1063"
    ],
    "pr": null,
    "state": null
@@ -1307,7 +1308,7 @@
    "branch": "gameplay/train-home-1"
   },
   "1063": {
-   "state": "waiting",
+   "state": "on_train",
    "pr": null,
    "draft": false,
    "pr_url": null,
@@ -4254,11 +4255,11 @@
    "branch": "qa/job-1483-transfer-race-audit"
   },
   "1484": {
-   "state": "waiting",
-   "pr": null,
-   "draft": false,
-   "pr_url": null,
-   "branch": null
+   "state": "pr_open",
+   "pr": 479,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/479",
+   "branch": "qa/job-1484-guess-refresh-audit"
   },
   "1485": {
    "state": "waiting",

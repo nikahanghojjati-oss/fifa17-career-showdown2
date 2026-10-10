@@ -1,28 +1,30 @@
 {
-"updated": "2026-10-10T16:44:48Z",
+"updated": "2026-10-10T16:52:14Z",
 "total": 518,
-"next_free": 36,
-"highest_taken": 35,
+"next_free": 39,
+"highest_taken": 38,
 "counts": {
-"on_train": 18,
-"draft": 17,
-"waiting": 483
+"on_train": 19,
+"draft": 18,
+"started": 1,
+"waiting": 480
 },
 "stages": {
 "2": {
 "name": "Screen fixes",
 "total": 266,
 "states": {
-"on_train": 18,
-"waiting": 248
+"on_train": 19,
+"waiting": 247
 }
 },
 "1": {
 "name": "Gameplay audits",
 "total": 112,
 "states": {
-"draft": 17,
-"waiting": 95
+"draft": 18,
+"started": 1,
+"waiting": 93
 }
 },
 "3": {
@@ -70,13 +72,12 @@
 29,
 31,
 33,
-35
+35,
+37
 ],
 "draft_code_prs": 0,
 "area_locks": {},
 "ready": [
-36,
-37,
 38,
 39,
 40,
@@ -86,11 +87,11 @@
 44,
 45,
 46,
-47
+47,
+48,
+49
 ],
 "ready_sol": [
-36,
-37,
 38,
 39,
 40,
@@ -100,13 +101,15 @@
 44,
 45,
 46,
-47
+47,
+48,
+49
 ],
 "ready_codex": []
 },
 "rate": {
-"claimed_last_hour": 3,
-"claimed_last_10min": 1,
+"claimed_last_hour": 6,
+"claimed_last_10min": 4,
 "merged_last_hour": 0
 },
 "events": [
@@ -396,6 +399,27 @@
 "job": 1410,
 "from": "waiting",
 "to": "on_train"
+},
+{
+"at": "2026-10-10T16:52:14Z",
+"item": 36,
+"job": 1484,
+"from": "waiting",
+"to": "draft"
+},
+{
+"at": "2026-10-10T16:52:14Z",
+"item": 37,
+"job": 1063,
+"from": "waiting",
+"to": "on_train"
+},
+{
+"at": "2026-10-10T16:52:14Z",
+"item": 38,
+"job": 1485,
+"from": "waiting",
+"to": "started"
 }
 ],
 "items": {
@@ -943,8 +967,19 @@
 "title": "Audit js/productionSharedTransferChallenge.js for gameplay bugs (second half)",
 "mode": "audit",
 "group": null,
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"pr": 479,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/479",
+"base": "qa/mega-audits",
+"branch": "qa/job-1484-guess-refresh-audit",
+"ci": "draft",
+"ci_sha": "156d38fa73acf7218a6d9971b71fc2384f4c2bd8",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-10T16:51:30Z",
+"first_seen": "2026-10-10T16:51:30Z",
+"since": "2026-10-10T16:52:14Z"
 },
 "37": {
 "job": 1063,
@@ -952,8 +987,10 @@
 "title": "Home: fix the 430x932 view",
 "mode": "code",
 "group": "home",
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"state": "on_train",
+"branch": "gameplay/train-home-1",
+"first_seen": "2026-10-10T16:52:14Z",
+"since": "2026-10-10T16:52:14Z"
 },
 "38": {
 "job": 1485,
@@ -961,8 +998,12 @@
 "title": "Audit js/sparkSharedTransferChallenge.js for gameplay bugs (first half)",
 "mode": "audit",
 "group": null,
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"state": "started",
+"branch": "qa/job-1485-transfer-challenge-first-half",
+"branch_sha": "fe1eef9adb5f6e57b1577872b554c506a5907689",
+"no_pr_reason": "",
+"first_seen": "2026-10-10T16:52:14Z",
+"since": "2026-10-10T16:52:14Z"
 },
 "39": {
 "job": 1092,

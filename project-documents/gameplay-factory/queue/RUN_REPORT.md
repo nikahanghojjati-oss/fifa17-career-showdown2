@@ -1,12 +1,12 @@
-# Mega factory run report · 2026-10-10T16:49:06Z
+# Mega factory run report · 2026-10-10T16:52:14Z
 
-Taken 35 of 518 jobs. By state: on_train 18, pr_open 17, waiting 483
+Taken 37 of 518 jobs. By state: on_train 19, pr_open 18, waiting 481
 
 ## By stage
 Stage | name | total | picked up | merged
 --- | --- | --- | --- | ---
-1 | audits | 112 | 17 | 0
-2 | screen fixes | 266 | 18 | 0
+1 | audits | 112 | 18 | 0
+2 | screen fixes | 266 | 19 | 0
 3 | mockup match | 14 | 0 | 0
 4 | phone studies | 70 | 0 | 0
 5 | desktop studies | 56 | 0 | 0
@@ -14,7 +14,7 @@ Stage | name | total | picked up | merged
 ## Code trains (5 fixes per pull request)
 Train | jobs done | PR | state
 --- | --- | --- | ---
-gameplay/train-home-1 | 2 of 5 | - | on train, no PR yet
+gameplay/train-home-1 | 3 of 5 | - | on train, no PR yet
 gameplay/train-start-join-1 | 2 of 5 | - | on train, no PR yet
 gameplay/train-league-1 | 2 of 5 | - | on train, no PR yet
 gameplay/train-club-1 | 2 of 5 | - | on train, no PR yet
@@ -44,6 +44,7 @@ Number | job | title | state | link
 30 | 1481 | Audit js/transferChallenge.js for gameplay bugs (first half) | pr_open | [PR #475](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/475)
 32 | 1482 | Audit js/transferChallenge.js for gameplay bugs (second half) | pr_open | [PR #474](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/474)
 34 | 1483 | Audit js/productionSharedTransferChallenge.js for gameplay bugs (first half) | pr_open | [PR #478](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/478)
+36 | 1484 | Audit js/productionSharedTransferChallenge.js for gameplay bugs (second half) | pr_open | [PR #479](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/479)
 
 ## Needs a look (blocked, no change needed, needs Team V or mockup)
 

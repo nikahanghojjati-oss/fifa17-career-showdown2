@@ -1,22 +1,23 @@
-# Mega factory tracker · updated 2026-10-10T16:44:48Z
+# Mega factory tracker · updated 2026-10-10T16:52:14Z
 
-**Type now:** 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47
-**Next free number:** 36 · **highest taken:** 35 of 518
+**Type now:** 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49
+**Next free number:** 39 · **highest taken:** 38 of 518
 **Code PRs open:** 0 of 8 · area locks: none
-**Rate:** 1 claimed in 10 min · 3 in 1 h · 0 merged in 1 h
+**Rate:** 4 claimed in 10 min · 6 in 1 h · 0 merged in 1 h
 
 **Finished (merged or live): 0 of 518**
 
 State | count
 --- | ---
-🚂 done, on the train branch, no PR yet | 18
-📝 worker done, draft PR open | 17
-⬜ waiting | 483
+🚂 done, on the train branch, no PR yet | 19
+📝 worker done, draft PR open | 18
+🟦 started, no PR yet | 1
+⬜ waiting | 480
 
 Stage | total | merged/live | in flight | waiting
 --- | --- | --- | --- | ---
-1 Gameplay audits | 112 | 0 | 17 | 95
-2 Screen fixes | 266 | 0 | 18 | 248
+1 Gameplay audits | 112 | 0 | 19 | 93
+2 Screen fixes | 266 | 0 | 19 | 247
 3 Match desktop to mockups | 14 | 0 | 0 | 14
 4 Phone mockup studies | 70 | 0 | 0 | 70
 5 Improved desktop studies | 56 | 0 | 0 | 56
@@ -58,9 +59,15 @@ Stage | total | merged/live | in flight | waiting
 - 🚂 **33** · Job 1323 · Trophy Room: fix the 390x844 view · done, on the train branch, no PR yet
 - 📝 **34** · Job 1483 · Audit js/productionSharedTransferChallenge.js for gameplay bugs (first half) · worker done, draft PR open · [PR #478](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/478)
 - 🚂 **35** · Job 1410 · Rule Book: fix the 390x844 view · done, on the train branch, no PR yet
+- 📝 **36** · Job 1484 · Audit js/productionSharedTransferChallenge.js for gameplay bugs (second half) · worker done, draft PR open · [PR #479](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/479)
+- 🚂 **37** · Job 1063 · Home: fix the 430x932 view · done, on the train branch, no PR yet
+- 🟦 **38** · Job 1485 · Audit js/sparkSharedTransferChallenge.js for gameplay bugs (first half) · started, no PR yet
 
 ## Latest changes
 
+- 2026-10-10T16:52:14Z · 38 (Job 1485): waiting → started
+- 2026-10-10T16:52:14Z · 37 (Job 1063): waiting → on_train
+- 2026-10-10T16:52:14Z · 36 (Job 1484): waiting → draft
 - 2026-10-10T16:44:48Z · 35 (Job 1410): waiting → on_train
 - 2026-10-10T16:32:13Z · 34 (Job 1483): started → draft
 - 2026-10-10T16:28:27Z · 34 (Job 1483): waiting → started
@@ -78,6 +85,3 @@ Stage | total | merged/live | in flight | waiting
 - 2026-10-10T15:21:00Z · 24 (Job 1478): waiting → started
 - 2026-10-10T15:21:00Z · 23 (Job 1120): waiting → on_train
 - 2026-10-10T15:21:00Z · 22 (Job 1477): started → draft
-- 2026-10-10T15:17:12Z · 22 (Job 1477): waiting → started
-- 2026-10-10T15:17:12Z · 21 (Job 1091): waiting → on_train
-- 2026-10-10T15:16:00Z · 20 (Job 1476): waiting → draft
