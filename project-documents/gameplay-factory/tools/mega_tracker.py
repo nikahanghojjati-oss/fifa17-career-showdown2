@@ -89,8 +89,7 @@ def write_md(d, path):
     c, g, r = d["counts"], d["gates"], d["rate"]
     done = c.get("merged", 0) + c.get("live", 0) + c.get("no_pr", 0)
     L = [f"# Mega factory tracker · updated {d['updated']}", "",
-         f"**Type now, Sol chat (audits and studies):** {', '.join(str(n) for n in g.get('ready_sol', [])) or 'none free'}",
-         f"**Type now, Codex (code fixes):** {', '.join(str(n) for n in g.get('ready_codex', [])) or 'none free'}",
+         f"**Type now:** {', '.join(str(n) for n in (g.get('ready_sol') or []) + (g.get('ready_codex') or []) or g['ready']) or 'none free (wait for a PR to merge)'}",
          f"**Next free number:** {d['next_free']} · **highest taken:** {d['highest_taken']} of {d['total']}",
          f"**Code PRs open:** {g['open_code_prs']} of {g['cap']} · area locks: {', '.join(g['area_locks']) or 'none'}",
          f"**Rate:** {r['claimed_last_10min']} claimed in 10 min · {r['claimed_last_hour']} in 1 h · {r['merged_last_hour']} merged in 1 h",

@@ -34,7 +34,7 @@ def build(d):
          ' Boston · <a href="' + PAGE + '">live tracker</a> · <a href="' + MD + '">GitHub view</a></span></div>']
     o.append('<div class="tiles">' + "".join(f'<div class="tile"><b>{k}</b><span>{v}</span></div>' for k, v in
              [(f"{fin}/{n}", "finished"), (fly, "in flight"), (r["claimed_last_hour"], "claimed /h"), (r["merged_last_hour"], "merged /h")]) + '</div>')
-    o.append('<h2>Type one of these now</h2><div class="card"><div class="m">Sol chat</div>' + (" ".join(f'<span class="cp">{x}</span>' for x in g.get("ready_sol", [])) or "none free") + '<div class="m">Codex (code)</div>' + (" ".join(f'<span class="cp">{x}</span>' for x in g.get("ready_codex", [])) or "none free: wait for a PR to merge") +
+    o.append('<h2>Type one of these now</h2><div class="card">' + (" ".join(f'<span class="cp">{x}</span>' for x in (g.get("ready_sol") or []) + (g.get("ready_codex") or []) or g["ready"]) or "none free: wait for a PR to merge") +
              f'<div class="m">Next free number {d["next_free"]}. Tap, hold and copy a number. Any other number has to wait.</div></div>')
     o.append('<h2>All numbers</h2><div class="card">' + bar(c, n) + '<div class="m">' + " · ".join(
         f'<span class="sw" style="background:{COL[s]}"></span>{LAB[s]} {c[s]}' for s in ORDER if c.get(s)) + "</div></div>")
