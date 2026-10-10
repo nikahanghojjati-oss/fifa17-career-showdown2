@@ -822,6 +822,30 @@ def mega_tab(M):
             f'<br><span class="m">open code PRs {M["open_prs"]}/8 · {M["highest"]} taken of {M["total"]} · trains {tr["started"]} of {tr["all"]} started</span><br>' + trt + "<br>" + tiles + "</div>")
 
 
+def tracker_md():
+    """GitHub section for the mega tracker (Sonnet's mega/MEGA_TRACKER.json, written by the poller): counts per stage, open train PRs with their state, the latest finished numbers, and the live page. Free, no Claude usage."""
+    try:
+        T = json.load(open(os.path.join(F, "mega", "MEGA_TRACKER.json")))
+    except Exception:
+        return []
+    L = ["## Mega tracker (live, free)", "", f"Live page: [mega/index.html]({BLOB}mega/index.html) · summary: [mega/MEGA_TRACKER.md]({BLOB}mega/MEGA_TRACKER.md) · rebuilt by the poller each round, updated {T.get('updated', '?')}.", "",
+         "| Stage | Done (merged or live) | In progress | Waiting |", "| --- | --- | --- | --- |"]
+    DONE = ("merged", "live", "done")
+    for k, v in sorted((T.get("stages") or {}).items(), key=lambda kv: int(kv[0])):
+        st = v.get("states") or {}
+        done = sum(st.get(x, 0) for x in DONE)
+        wait = st.get("waiting", 0)
+        L.append(f"| {v.get('name', k)} | {done} of {v.get('total', 0)} | {v.get('total', 0) - done - wait} | {wait} |")
+    trains = (T.get("gates") or {}).get("open_train_prs") or []
+    L += ["", "**Open train PRs**", ""]
+    L += [f"- {(x if isinstance(x, str) else json.dumps(x, ensure_ascii=False))}" for x in trains] or ["- none open right now"]
+    items = T.get("items") or {}
+    fin = sorted((v for v in items.values() if v.get("state") in DONE), key=lambda v: v.get("job", 0), reverse=True)[:20]
+    L += ["", "**Latest finished numbers (up to 20)**", ""]
+    L += [f"- #{v.get('job')} · {v.get('title', '')} · {v.get('state')}" for v in fin] or ["- none finished yet"]
+    return L + [""]
+
+
 def mega_md(M):
     L = ["## Mega factory", "", "One numbered queue: type a bare number in any GPT chat. Live from GitHub (queue/QUEUE_STATE.json).", "",
          "Type now, in any GPT chat:", "", "```text", " ".join(str(n) for n in M["ready_sol"]) or "nothing ready", "```", "",
@@ -918,7 +942,7 @@ def render(first, compact=False, tight=False):
          f'<div class="tiles"><div class="tile"><b>{e((LV or {}).get("revision", "?").split("-")[-1])}</b><span>Live</span></div><div class="tile"><b>{n_run}</b><span>Jobs running</span></div><div class="tile"><b>{n_next}</b><span>Jobs to start</span></div><div class="tile"><b>{n_nik}</b><span>Other asks</span></div></div>' if not tight else f'<div class="m foot">Live: {e((LV or {}).get("revision", "?").split("-")[-1])}</div>']
     if first == "V" and not tight:  # Nik 2026-10-10: the visual board, one inline SVG
         H.append(f'<div style="margin:6px 10px">{v_svg()}</div>')
-    if first == "G" and not tight and mega():  # Nik 2026-10-10: the mega factory first, old sections dropped
+    if first == "G" and mega():  # Nik 2026-10-10: the mega factory first, always (even in the tight layout)
         H.append(mega_tab(mega()))
     if first == "G" and not tight:  # Haiku G: stage ring and job bar
         H.append('<div style="padding:8px 10px 0">' + dash_tab(*stages()) + "</div>")
@@ -1056,7 +1080,7 @@ L += ["## Goals, in this order", ""]
 for _i, (_n, _p, _ls) in enumerate(_SG):
     L += [f"**{_i + 1}. {_n}** " + ("`now`" if _i == _cur else ("`done`" if _p >= 100 else f"`after stage {_i}`")) + "  ", bar_md(_p) + "  ", " · ".join(_ls), ""]
 if mega():
-    L += mega_md(mega())
+    L += mega_md(mega()) + tracker_md()
 L += ["## Other asks", ""]
 L += [f"- {x['decision']}" if x.get("md") else f"- **{x['id']}** {x['decision']}" for x in nik] or ["- Nothing else needs you right now."]
 for t in ("G", "V"):
