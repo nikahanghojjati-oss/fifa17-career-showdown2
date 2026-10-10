@@ -144,7 +144,8 @@ def main():
             n = pr["number"]
             it.update(pr=n, pr_url=pr["html_url"], base=pr["base"]["ref"], branch=pr["head"]["ref"])
             if pr.get("merged_at"):
-                it["state"] = "live" if pr["base"]["ref"] == "main" else "merged"
+                # code jobs merge into gameplay/bug-list-1 first; they are live once RELEASED.json names their release
+                it["state"] = "live" if (pr["base"]["ref"] == "main" or job in released) else "merged"
                 if it["state"] == "live":
                     it["live_in"] = released.get(job, "next release")
                 it["merged_at"] = pr["merged_at"]
