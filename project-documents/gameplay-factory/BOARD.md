@@ -1,6 +1,6 @@
 # Bug hunt board
 
-Updated Fri 9 Oct, 8:10 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Fri 9 Oct, 8:14 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r66** (main `8e1a583`, Fri 9 Oct 12:04 PM)
 
@@ -11,8 +11,8 @@ Updated Fri 9 Oct, 8:10 PM Boston time. Bug hunting only, no new features until 
 ### ▶️ Running now
 
 **#1 · 1055** `G` Season Results points cap uses the real league size (Sol lead S1)  
-`███████░░░` **70.0000 %**  
-🔵 Team blue · **GPT-6 Sol** · High effort · worker done, PR #448 open, CI running
+`██████░░░░` **60.0000 %**  
+🔵 Team blue · **GPT-6 Sol** · High effort · worker done, PR #448 open, CI failed
 
 **#2 · 1058** `G` Transfer countdown agrees across both phones (Sol lead S4)  
 `████████░░` **80.0000 %**  
