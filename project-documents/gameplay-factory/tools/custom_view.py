@@ -794,7 +794,7 @@ def mega():
         st["taken"] += r["raw"] != "waiting"
         st["merged"] += r["raw"] == "merged"
     taken = [r for r in rows if r["raw"] != "waiting"]
-    return {"next": seq.get("next_free"), "ready": seq.get("ready") or [], "open_prs": seq.get("open_code_prs", 0),
+    return {"next": seq.get("next_free"), "ready": seq.get("ready") or [], "ready_sol": seq.get("ready_sol") or [], "ready_codex": seq.get("ready_codex") or [], "open_prs": seq.get("open_code_prs", 0),
             "highest": seq.get("highest_taken", 0), "total": seq.get("total", len(rows)), "stages": stages, "recent": taken[-20:][::-1]}
 
 
@@ -802,16 +802,18 @@ def mega_tab(M):
     """Custom view: stage strip, a tap-to-copy box with the next free number, and a tile for each recent taken number."""
     st = " · ".join(f'{v["name"]}: {v["merged"]}/{v["total"]} merged' for _, v in sorted(M["stages"].items()))
     tiles = "".join(f'<span class="mt">#{r["n"]} {e(r["state"])}</span>' for r in M["recent"]) or '<span class="m">No number taken yet.</span>'
-    ready = M.get("ready") or []
-    typ = " ".join(str(n) for n in ready) or "nothing ready"
+    sol, cod = M.get("ready_sol") or [], M.get("ready_codex") or []
     return ('<div class="card"><b>Mega factory</b> <span class="m">' + e(st) + '</span>'
-            f'<br><span class="m">Type now, any GPT chat:</span> <code class="cp">{e(str(ready[0])) if ready else ""}</code>'
-            f'<span class="m">Ready: {e(typ)} · open code PRs {M["open_prs"]}/8 · {M["highest"]} taken of {M["total"]}</span><br>' + tiles + "</div>")
+            f'<br><span class="m">Sol chat now:</span> <code class="cp">{e(str(sol[0])) if sol else ""}</code>'
+            f'<span class="m">{e(" ".join(str(n) for n in sol) or "nothing ready")}</span>'
+            f'<br><span class="m">Codex now:</span> <span class="m">{e(" ".join(str(n) for n in cod) or "nothing ready")}</span>'
+            f'<br><span class="m">open code PRs {M["open_prs"]}/8 · {M["highest"]} taken of {M["total"]}</span><br>' + tiles + "</div>")
 
 
 def mega_md(M):
     L = ["## Mega factory", "", "One numbered queue: type a bare number in any GPT chat. Live from GitHub (queue/QUEUE_STATE.json).", "",
-         "Type now:", "", "```text", " ".join(str(n) for n in M["ready"]) or "nothing ready", "```", "",
+         "Sol chat now (audits and studies):", "", "```text", " ".join(str(n) for n in M["ready_sol"]) or "nothing ready", "```", "",
+         "Codex now (code items):", "", "```text", " ".join(str(n) for n in M["ready_codex"]) or "nothing ready", "```", "",
          f"Open code PRs: {M['open_prs']}/8.", "",
          f"{M['highest']} taken of {M['total']}.", "", "| Stage | Items | Merged | Picked up |", "| --- | --- | --- | --- |"]
     L += [f"| {v['name']} | {v['total']} | {v['merged']}/{v['total']} | {v['taken']}/{v['total']} |" for _, v in sorted(M["stages"].items())]
