@@ -740,6 +740,57 @@ def v_svg():
     return _WOW["svg"]
 
 
+def dash_svg(SG, cur):
+    """Static SVG dashboard (Haiku G, 2026-10-10): stage ring plus job bars. No scripts or CSS, so it renders in the Custom view and on GitHub."""
+    pct = max(0.0, min(100.0, float(SG[cur][1]))) if SG else 0.0
+    C = 2 * 3.14159265 * 56
+    bars = [(f"Live {rv}", len(ns), "#22c55e") for rv, ns in live_groups()]
+    bars += [("Running", len(Q["run"]), "#f0d900"), ("Up next", len(Q["next"]), "#42b9da"),
+             ("Waiting", len(Q["wait"]), "#8ea2ac"), ("Awaiting release", len(WAIT_REL_Q), "#a78bfa"),
+             ("Asks for Nik", len([x for x in nik if not x.get("md")]), "#f97316")]
+    mx = max([v for _, v, _ in bars] + [1])
+    H = 46 + 26 * len(bars) + 10
+    cy = H // 2
+    o = [f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 {H}" width="100%">',
+         f'<rect width="680" height="{H}" rx="14" fill="#20272d"/>',
+         f'<g font-family="Arial,sans-serif" font-size="12" fill="#dce5e8"><text x="20" y="26" fill="#f0d900" font-size="15" font-weight="800">PROGRESS · TEAM G</text>',
+         f'<circle cx="100" cy="{cy}" r="56" fill="none" stroke="#12191f" stroke-width="16"/>',
+         f'<circle cx="100" cy="{cy}" r="56" fill="none" stroke="#f0d900" stroke-width="16" stroke-dasharray="{C * pct / 100:.1f} {C:.1f}" transform="rotate(-90 100 {cy})"/>',
+         f'<text x="100" y="{cy + 6}" text-anchor="middle" fill="#fbfcfc" font-size="19" font-weight="800">{pct:.0f}%</text>',
+         f'<text x="100" y="{cy + 24}" text-anchor="middle" font-size="10">{e(SG[cur][0][:24]) if SG else ""}</text></g>']
+    for i, (label, v, col) in enumerate(bars):
+        y = 46 + i * 26
+        w = round(330 * v / mx)
+        o.append(f'<text x="200" y="{y + 13}" font-family="Arial,sans-serif" font-size="12" fill="#dce5e8">{e(label)}</text>'
+                 f'<rect x="300" y="{y + 3}" width="330" height="13" rx="6" fill="#12191f"/>'
+                 f'<rect x="300" y="{y + 3}" width="{w}" height="13" rx="6" fill="{col}"/>'
+                 f'<text x="{300 + max(w, 0) + 6}" y="{y + 14}" font-family="Arial,sans-serif" font-size="12" font-weight="700" fill="#fbfcfc">{v}</text>')
+    o.append("</svg>")
+    return "".join(o)
+
+
+def dash_tab(SG, cur):
+    """The small version for the Custom view (under 1.5 KB): the stage ring and one stacked bar of job counts."""
+    pct = max(0.0, min(100.0, float(SG[cur][1]))) if SG else 0.0
+    segs = [(len(ns), "#22c55e") for _, ns in live_groups()] + [(len(Q["run"]), "#f0d900"), (len(Q["next"]), "#42b9da"),
+            (len(Q["wait"]), "#8ea2ac"), (len(WAIT_REL_Q), "#a78bfa"), (len([x for x in nik if not x.get("md")]), "#f97316")]
+    tot = max(1, sum(v for v, _ in segs))
+    C = 2 * 3.14159265 * 40
+    x, o = 0.0, []
+    for v, col in segs:
+        if v:
+            w = 600 * v / tot
+            o.append(f'<rect x="{x:.0f}" y="54" width="{w:.0f}" height="14" fill="{col}"/>')
+            x += w
+    return ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 84" width="100%">'
+            '<rect width="640" height="84" rx="12" fill="#2c353c"/>'
+            f'<circle cx="60" cy="42" r="40" fill="none" stroke="#12191f" stroke-width="12"/>'
+            f'<circle cx="60" cy="42" r="40" fill="none" stroke="#f0d900" stroke-width="12" stroke-dasharray="{C * pct / 100:.1f} {C:.1f}" transform="rotate(-90 60 42)"/>'
+            f'<text x="60" y="48" text-anchor="middle" fill="#fbfcfc" font-family="Arial,sans-serif" font-size="16" font-weight="800">{pct:.0f}%</text>'
+            f'<text x="120" y="30" fill="#8ea2ac" font-family="Arial,sans-serif" font-size="12">{e(SG[cur][0][:40]) if SG else ""}</text>'
+            + "".join(o) + '</svg>')
+
+
 def render(first, compact=False, tight=False):
     TIGHT[0] = tight
     cut = 40 if compact else 70
@@ -761,6 +812,8 @@ def render(first, compact=False, tight=False):
          f'<div class="tiles"><div class="tile"><b>{e((LV or {}).get("revision", "?").split("-")[-1])}</b><span>Live</span></div><div class="tile"><b>{n_run}</b><span>Jobs running</span></div><div class="tile"><b>{n_next}</b><span>Jobs to start</span></div><div class="tile"><b>{n_nik}</b><span>Other asks</span></div></div>' if not tight else f'<div class="m foot">Live: {e((LV or {}).get("revision", "?").split("-")[-1])}</div>']
     if first == "V" and not tight:  # Nik 2026-10-10: the visual board, one inline SVG
         H.append(f'<div style="margin:6px 10px">{v_svg()}</div>')
+    if first == "G" and not tight:  # Haiku G: stage ring and job bar
+        H.append('<div style="padding:8px 10px 0">' + dash_tab(*stages()) + "</div>")
     H.append("<h2>Jobs</h2>")
     J = []
     for z in STUDIO.values():
@@ -897,6 +950,9 @@ for t in ("G", "V"):
         L += ["Nothing open for this team.", ""]
 if LV and LV.get("today"):
     L += ["## Shipped today", ""] + [f"- {TF.bos(x['merged'], '%-I:%M %p')} · #{x['pr']} {x['title']}" for x in LV["today"]] + [""]
+_svg = dash_svg(*stages())
+open(os.path.join(F, "board-chart.svg"), "w").write(_svg)
+L[2:2] = ["![Team G progress](board-chart.svg)", ""]
 open(os.path.join(F, "BOARD.md"), "w").write("\n".join(L) + "\n")
 open(os.path.join(F, "BUG_BOARD.md"), "w").write("# Bug board\n\nFolded into the one board on 2026-10-06: see [BOARD.md](BOARD.md). Every bug report, fixed or not, is listed in [the archive](BOARD_ARCHIVE.md).\n")
 
