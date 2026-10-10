@@ -1,9 +1,9 @@
-# Mega factory tracker · updated 2026-10-10T20:06:14Z
+# Mega factory tracker · updated 2026-10-10T20:10:11Z
 
 **Type now:** 44, 45, 46, 47, 48, 50, 51, 52, 53, 54, 55, 56
 **Next free number:** 44 · **highest taken:** 395 of 518
 **Code PRs open:** 0 of 8 · area locks: rivalry-legacy
-**Rate:** 20 claimed in 10 min · 74 in 1 h · 0 merged in 1 h
+**Rate:** 0 claimed in 10 min · 74 in 1 h · 0 merged in 1 h
 
 **Finished (merged or live): 0 of 518**
 
