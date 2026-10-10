@@ -18,3 +18,4 @@ Nik's mockups and goal images. They show the look to reach. Some contain real cl
 | File | Screen | Approved | Notes |
 | --- | --- | --- | --- |
 | PHONE_HOME.png | Home | Sat 10 Oct 11:55 a.m. Eastern | Ticket 1588 1 of 12, first try. Black guide bars cropped (916x1536, same 393:660 shape). Faces match the live art, Daniel left, Nik right; every word kept. New: big tile art, framed tiles, music card with album square (the small headphones figure is decoration, not a player). sha256 32d52557be31d413… |
+| PHONE_CONNECT_PLAYERS.png | Connect Players | Sat 10 Oct 12:00 p.m. Eastern | Ticket 1588 2 of 12, first try. Faces match the live art; all words kept (the picture shows a double space in "create  your": build from the real text). Lower half is empty, as on the live screen. sha256 2c9f5f243e9fa94c… |
