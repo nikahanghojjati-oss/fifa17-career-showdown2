@@ -328,3 +328,25 @@
     bottom: calc(var(--phone-nav) + 10px + var(--full-sheet-height) - 48px);
   }
 }
+
+/* JOB-1062: 390x844 upright Home only. The 11-track, six-row picker must
+   fit above the navigation without its own scroll area; keep its CLOSE
+   action in the reserved header band. Do not change Team V's source. */
+@media (min-width: 376px) and (max-width: 410px) and (min-height: 820px) and (max-height: 860px) and (orientation: portrait) {
+  /* The identity chip is an action, unlike the adjacent season indicator. */
+  #app #topHeader #onlinePlayerIdentityBadge { min-height: 44px; }
+
+  /* Six 44px rows + five 4px gaps + 54px padding/borders = 338px at 390x844. */
+  #mainMenu.v10Home .menuMusicTile { --track-sheet-h: calc(54px + var(--track-rows, 2) * 48px); }
+  #mainMenu.v10Home .phoneSheetToggle:checked ~ .menuMediaSelector {
+    grid-auto-rows: 44px;
+    gap: 4px;
+    padding: 44px 10px 8px;
+    max-height: none;
+    overflow-y: visible;
+    overscroll-behavior: auto;
+  }
+  #mainMenu.v10Home .phoneSheetToggle:checked ~ .phoneTrackSheetClose {
+    bottom: calc(var(--phone-nav) + 10px + var(--track-sheet-h) - 48px);
+  }
+}
