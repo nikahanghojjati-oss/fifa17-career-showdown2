@@ -56,7 +56,7 @@ a{color:inherit}
 <div class="top"><h1>Mega factory tracker</h1><div class="age"><span class="dot" id="dot"></span><span id="age">loading…</span></div></div>
 <div class="banner" id="ban"></div>
 
-<div class="card"><h2>Type one of these now</h2><div class="chips" id="ready"></div>
+<div class="card"><h2>Type one of these now</h2><div class="lbl">Sol chat (audits and studies)</div><div class="chips" id="ready"></div><div class="lbl" style="margin-top:10px">Codex (code fixes)</div><div class="chips" id="readyc"></div>
 <div class="lbl" style="margin-top:8px">Tap a number to copy it. Next free number: <b id="nextfree">-</b>. A number not on this list has to wait.</div></div>
 
 <div class="card"><div class="row">
@@ -120,7 +120,8 @@ function paint(only,fail){
   $("tot").textContent=n;$("fin").textContent=fin+" / "+n;$("fly").textContent=fly;
   $("r1").textContent=D.rate.claimed_last_hour;$("r10").textContent=D.rate.claimed_last_10min+" in the last 10 min";$("rm").textContent=D.rate.merged_last_hour;
   $("nextfree").textContent=D.next_free==null?"none":D.next_free;
-  $("ready").innerHTML=g.ready.length?g.ready.map(x=>`<button class="chip" data-n="${x}">${x}</button>`).join(""):'<span class="none">Nothing free right now. Wait for a pull request to merge.</span>';
+  const chips=a=>a&&a.length?a.map(x=>`<button class="chip" data-n="${x}">${x}</button>`).join(""):'<span class="none">None free right now. Wait for a pull request to merge.</span>';
+  $("ready").innerHTML=chips(g.ready_sol||g.ready);$("readyc").innerHTML=chips(g.ready_codex||[]);
   document.querySelectorAll(".chip").forEach(b=>b.onclick=()=>{try{navigator.clipboard.writeText(b.dataset.n)}catch(e){}b.classList.add("copied");setTimeout(()=>b.classList.remove("copied"),900)});
   $("all").innerHTML=ST.slice(0,-1).concat("waiting").map(s=>c[s]?`<span style="width:${c[s]/n*100}%;background:${col(s)}" title="${LB[s]}: ${c[s]}"></span>`:"").join("");
   $("leg").innerHTML=ST.map(s=>`<label data-s="${s}" class="${hidden.has(s)?"off":""}"><span class="sw" style="background:${col(s)}"></span>${LB[s]} <b>${c[s]||0}</b></label>`).join("");

@@ -71,7 +71,8 @@ def write_md(d, path):
     c, g, r = d["counts"], d["gates"], d["rate"]
     done = c.get("merged", 0) + c.get("live", 0)
     L = [f"# Mega factory tracker · updated {d['updated']}", "",
-         f"**Type now:** {', '.join(str(n) for n in g['ready']) or 'nothing free (wait for a PR to merge)'}",
+         f"**Type now, Sol chat (audits and studies):** {', '.join(str(n) for n in g.get('ready_sol', [])) or 'none free'}",
+         f"**Type now, Codex (code fixes):** {', '.join(str(n) for n in g.get('ready_codex', [])) or 'none free'}",
          f"**Next free number:** {d['next_free']} · **highest taken:** {d['highest_taken']} of {d['total']}",
          f"**Code PRs open:** {g['open_code_prs']} of {g['cap']} · area locks: {', '.join(g['area_locks']) or 'none'}",
          f"**Rate:** {r['claimed_last_10min']} claimed in 10 min · {r['claimed_last_hour']} in 1 h · {r['merged_last_hour']} merged in 1 h",
@@ -233,11 +234,17 @@ def main():
         ready.append(int(k))
     qs = GF / "queue" / "QUEUE_STATE.json"  # the queue owner's list wins, so this page never disagrees with the chats
     if qs.exists():
-        try: ready = json.loads(qs.read_text())["sequence"]["ready"]
+        try:
+            sq = json.loads(qs.read_text())["sequence"]
+            ready = sq["ready"]
+            ready_sol = sq.get("ready_sol", [r for r in ready if items[str(r)]["mode"] != "code"])
+            ready_codex = sq.get("ready_codex", [r for r in ready if items[str(r)]["mode"] == "code"])
         except Exception: pass
+    ready_sol = locals().get("ready_sol", [r for r in ready if items[str(r)]["mode"] != "code"])[:12]
+    ready_codex = locals().get("ready_codex", [r for r in ready if items[str(r)]["mode"] == "code"])[:12]
     gates = {"cap": CAP, "open_code_prs": len(open_code), "open_code_items": open_code,
              "code_started_no_pr": started_code, "draft_code_prs": len(open_all) - len(open_code), "area_locks": {g: n for g, n in locked.items() if g},
-             "ready": ready[:12]}
+             "ready": ready[:12], "ready_sol": ready_sol, "ready_codex": ready_codex}
     # stale: claimed over 45 minutes ago and still no PR
     stale = [int(k) for k, v in items.items() if v["state"] == "started"
              and (datetime.datetime.now(datetime.timezone.utc) - datetime.datetime.fromisoformat(v["since"].replace("Z", "+00:00"))).total_seconds() > 2700]
