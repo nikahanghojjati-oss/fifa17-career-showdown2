@@ -819,8 +819,8 @@ def dash_tab(SG, cur):
         ly = 92 + (i // 4) * 16
         lg.append(f'<rect x="{lx}" y="{ly - 9}" width="10" height="10" rx="2" fill="{col}"/><text x="{lx + 15}" y="{ly}" font-family="Arial,sans-serif" font-size="11" fill="#dce5e8">{e(label)}: {v}</text>')
     ring = arc_d(60, 40, 34, pct)
-    return ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 124" width="100%">'
-            '<rect width="640" height="124" rx="12" fill="#2c353c"/>'
+    return ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 136" width="100%">'
+            '<rect width="640" height="136" rx="12" fill="#2c353c"/>'
             '<circle cx="60" cy="40" r="34" fill="none" stroke="#12191f" stroke-width="10"/>'
             + (f'<path d="{ring}" fill="none" stroke="#f0d900" stroke-width="10" stroke-linecap="round"/>' if ring else "")
             + f'<text x="60" y="46" text-anchor="middle" fill="#fbfcfc" font-family="Arial,sans-serif" font-size="15" font-weight="800">{pct:.0f}%</text>'
