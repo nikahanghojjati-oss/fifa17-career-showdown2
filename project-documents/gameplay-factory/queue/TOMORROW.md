@@ -77,6 +77,12 @@ Club phone studies:
 228 256 284 312 340
 ```
 
+Statistics phone studies:
+
+```text
+226 254 282 310 338
+```
+
 <!-- released:end -->
 
 Studies (phone and desktop mockups) are on hold until Team V approves each screen's picture, so only the released ones are listed here (see the lists above); the board's Type now list will add them when they are released. The board's Type now list keeps the next numbers; [RUN_REPORT.md](RUN_REPORT.md) is what Claude reads when you are back.
