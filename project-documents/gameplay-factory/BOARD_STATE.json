@@ -349,7 +349,7 @@
   "physio": {
    "state": "clear",
    "line": "All clear: every check has a machine.",
-   "gate": "Gate #450: L1✓ L2✓ L3✓ L4✓ L5✓ L6✓ · seal PASS · POS20 #450 12/16",
+   "gate": "POS20 #304 6/16",
    "source": "physio"
   },
   "v_headline": "Queued next",
