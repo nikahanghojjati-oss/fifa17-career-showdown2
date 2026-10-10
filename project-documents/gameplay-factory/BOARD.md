@@ -54,13 +54,13 @@ Open code PRs: 0/8.
 
 0 taken of 518.
 
-| Stage | Numbers | Merged | Picked up |
+| Stage | Items | Merged | Picked up |
 | --- | --- | --- | --- |
-| audits | 2-224 | 0/112 | 0/112 |
-| screen fixes | 1-518 | 0/266 | 0/266 |
-| mockup match | 221-491 | 0/14 | 0/14 |
-| phone studies | 226-364 | 0/70 | 0/70 |
-| desktop studies | 366-476 | 0/56 | 0/56 |
+| audits | 112 | 0/112 | 0/112 |
+| screen fixes | 266 | 0/266 | 0/266 |
+| mockup match | 14 | 0/14 | 0/14 |
+| phone studies | 70 | 0/70 | 0/70 |
+| desktop studies | 56 | 0/56 | 0/56 |
 
 **Last taken numbers**
 
