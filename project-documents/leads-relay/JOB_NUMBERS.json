@@ -1,6 +1,6 @@
 {
  "_how": "One shared job counter for Team G and Team V (Nik, 2026-10-05). Claim with tools/claim_number.py only. A number is used once, ever. CONTRACT.md section 10.",
- "next": 1583,
+ "next": 1587,
  "claims": [
   {
    "number": 1001,
@@ -3494,6 +3494,30 @@
    "team": "G",
    "title": "Showdown Gate: screen shots of changed screens as a run artifact",
    "claimed": "2026-10-10T02:19:37Z"
+  },
+  {
+   "number": 1583,
+   "team": "G",
+   "title": "Codex measuring job (mega factory morning pack)",
+   "claimed": "2026-10-10T02:23:14Z"
+  },
+  {
+   "number": 1584,
+   "team": "G",
+   "title": "Codex measuring job (mega factory morning pack)",
+   "claimed": "2026-10-10T02:23:14Z"
+  },
+  {
+   "number": 1585,
+   "team": "G",
+   "title": "Codex measuring job (mega factory morning pack)",
+   "claimed": "2026-10-10T02:23:14Z"
+  },
+  {
+   "number": 1586,
+   "team": "G",
+   "title": "Codex measuring job (mega factory morning pack)",
+   "claimed": "2026-10-10T02:23:14Z"
   }
  ]
 }
