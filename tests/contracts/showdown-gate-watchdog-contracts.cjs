@@ -21,6 +21,8 @@ let checks=0;const ok=label=>{checks++;void label;};
   const S=await import(path.join(root,'scripts/showdown-gate.mjs'));
   const Y=await import(path.join(root,'scripts/gate-yield.mjs'));
   const C=await import(path.join(root,'scripts/gate-compare.mjs'));
+  // Keep L5 routing contracts in the registered watchdog census without changing the POS20 registry.
+  await require('./showdown-gate-l5-inputs-contracts.cjs')();
 
   const head='c'.repeat(40);
   const base='b'.repeat(40);const runId=100;
