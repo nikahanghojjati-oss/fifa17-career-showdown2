@@ -817,16 +817,14 @@ def mega_tab(M):
     trt = "".join(f'<span class="mt">{e(r["name"])} {r["done"]} of {r["jobs"]} · {e(r["state"])}</span>' for r in tr["rows"])
     sol, cod = M.get("ready_sol") or [], M.get("ready_codex") or []
     return ('<div class="card"><b>Mega factory</b> <span class="m">' + e(st) + '</span>'
-            f'<br><span class="m">Sol chat now:</span> <code class="cp">{e(str(sol[0])) if sol else ""}</code>'
+            f'<br><span class="m">Type now, in any GPT chat:</span> <code class="cp">{e(str(sol[0])) if sol else ""}</code>'
             f'<span class="m">{e(" ".join(str(n) for n in sol) or "nothing ready")}</span>'
-            f'<br><span class="m">Codex now:</span> <span class="m">{e(" ".join(str(n) for n in cod) or "nothing ready")}</span>'
             f'<br><span class="m">open code PRs {M["open_prs"]}/8 · {M["highest"]} taken of {M["total"]} · trains {tr["started"]} of {tr["all"]} started</span><br>' + trt + "<br>" + tiles + "</div>")
 
 
 def mega_md(M):
     L = ["## Mega factory", "", "One numbered queue: type a bare number in any GPT chat. Live from GitHub (queue/QUEUE_STATE.json).", "",
-         "Sol chat now (audits and studies):", "", "```text", " ".join(str(n) for n in M["ready_sol"]) or "nothing ready", "```", "",
-         "Codex now (code items):", "", "```text", " ".join(str(n) for n in M["ready_codex"]) or "nothing ready", "```", "",
+         "Type now, in any GPT chat:", "", "```text", " ".join(str(n) for n in M["ready_sol"]) or "nothing ready", "```", "",
          f"Open code PRs: {M['open_prs']}/8.", "",
          f"{M['highest']} taken of {M['total']}.", "", "| Stage | Items | Merged | Picked up |", "| --- | --- | --- | --- |"]
     L += [f"| {v['name']} | {v['total']} | {v['merged']}/{v['total']} | {v['taken']}/{v['total']} |" for _, v in sorted(M["stages"].items())]

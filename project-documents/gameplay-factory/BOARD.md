@@ -4,7 +4,7 @@
 
 ![Jobs live per release](history-chart.svg)
 
-Updated Fri 9 Oct, 10:15 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Fri 9 Oct, 10:17 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r67** (main `f42dac2`, Fri 9 Oct 9:34 PM)
 
@@ -44,16 +44,10 @@ Not started
 
 One numbered queue: type a bare number in any GPT chat. Live from GitHub (queue/QUEUE_STATE.json).
 
-Sol chat now (audits and studies):
+Type now, in any GPT chat:
 
 ```text
-2 4 6 8 10 12 14 16 18 20 22 24
-```
-
-Codex now (code items):
-
-```text
-1 3 5 7 9 11 13 15 17
+1 2 3 4 5 6 7 8 9 10 11 12
 ```
 
 Open code PRs: 0/8.
