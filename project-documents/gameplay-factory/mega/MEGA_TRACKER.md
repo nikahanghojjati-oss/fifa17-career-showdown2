@@ -1,9 +1,9 @@
-# Mega factory tracker · updated 2026-10-10T17:53:40Z
+# Mega factory tracker · updated 2026-10-10T17:57:12Z
 
 **Type now:** 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54
 **Next free number:** 43 · **highest taken:** 42 of 518
 **Code PRs open:** 0 of 8 · area locks: none
-**Rate:** 0 claimed in 10 min · 4 in 1 h · 0 merged in 1 h
+**Rate:** 0 claimed in 10 min · 3 in 1 h · 0 merged in 1 h
 
 **Finished (merged or live): 0 of 518**
 
