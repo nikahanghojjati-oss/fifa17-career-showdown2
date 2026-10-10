@@ -1,0 +1,33 @@
+diff --git a/css/homeV10.css b/css/homeV10.css
+index b5e743d3..af892e4a 100644
+--- a/css/homeV10.css
++++ b/css/homeV10.css
+@@ -133,7 +133,6 @@
+   #mainMenu.v10Home .fifaMenuGrid > [data-test-surface="internal-audit"] { grid-row: 4; }
+   /* New / Join takes a full row here, so it keeps the larger label. */
+   #mainMenu.v10Home #newShowdown .menuTileLabel { font-size: 19px; }
+-  #mainMenu.v10Home #newShowdown .tileArt { width: 62px; height: 62px; right: 0; bottom: -8px; }
+   #mainMenu.v10Home .menuMusicTile { overflow: visible; }
+   #mainMenu.v10Home #persistentNikDanielPairPanel { left: 10px; right: 10px; width: auto; top: calc(max(10px, env(safe-area-inset-top)) + 44px); max-height: calc(100vh - 220px); }
+   #app #topHeader { left: 10px; right: auto; top: max(10px, env(safe-area-inset-top)); gap: 6px; }
+diff --git a/visual-assets/v10_1/home/home.css b/visual-assets/v10_1/home/home.css
+index de1dc33b..3c6c7f4a 100644
+--- a/visual-assets/v10_1/home/home.css
++++ b/visual-assets/v10_1/home/home.css
+@@ -1167,3 +1167,16 @@ html[data-reduced-motion="true"] .phoneHeroCutout::after,
+     #menuMusicMute { display: inline-flex; align-items: center; justify-content: center; }
+   }
+ }
++
++/* V-247 · Nik's phone review (05 Oct): the tile icons sat tiny and clipped in the bottom-right corner. As in
++   GOAL_HOME, each icon is now large, fully inside its tile, vertically centred on the right side. `translate` is
++   used (not `transform`) so the desktop hover tilt on .tileArt still works. */
++@media (max-width: 760px) and (orientation: portrait) {
++  .menuTileNew .tileArt, .menuTileLegacy .tileArt, .menuTileTrophy .tileArt,
++  .menuTileTrophyRoom .tileArt, .menuTileRules .tileArt, .menuTileSettings .tileArt,
++  #trophyRoomButton .tileArt {
++    top: 50%; bottom: auto; right: 14px; width: auto; height: 92%; aspect-ratio: 1 / 1;
++    translate: 0 -50%; opacity: 1; object-position: center;
++  }
++  .menuTileRules, .menuTileSettings { padding-right: 70px; }
++}
