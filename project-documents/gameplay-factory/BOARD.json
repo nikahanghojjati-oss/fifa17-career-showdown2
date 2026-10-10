@@ -1343,6 +1343,58 @@
      "place": "Codex cloud, this repo",
      "note": "ticket jobs/JOB-1582.md",
      "prompt": "Job 1582: git fetch origin factory/gameplay-v1, then read git show FETCH_HEAD:project-documents/gameplay-factory/jobs/JOB-1582.md and do exactly what it says."
+    },
+    {
+     "id": "1583",
+     "title": "Measure the home screens at ten window sizes (report only)",
+     "lane": "codex",
+     "team": "white",
+     "model": "Codex default coding model",
+     "effort": "Medium",
+     "state": "next: ready for Codex (report only)",
+     "order": 37,
+     "place": "Codex cloud, this repo",
+     "note": "ticket jobs/JOB-1583.md (mega factory C4-C7)",
+     "prompt": "Job 1583: git fetch origin factory/gameplay-v1, then read git show FETCH_HEAD:project-documents/gameplay-factory/jobs/JOB-1583.md and do exactly what it says."
+    },
+    {
+     "id": "1584",
+     "title": "Measure the transfer screens at ten window sizes (report only)",
+     "lane": "codex",
+     "team": "white",
+     "model": "Codex default coding model",
+     "effort": "Medium",
+     "state": "next: ready for Codex (report only)",
+     "order": 38,
+     "place": "Codex cloud, this repo",
+     "note": "ticket jobs/JOB-1584.md (mega factory C4-C7)",
+     "prompt": "Job 1584: git fetch origin factory/gameplay-v1, then read git show FETCH_HEAD:project-documents/gameplay-factory/jobs/JOB-1584.md and do exactly what it says."
+    },
+    {
+     "id": "1585",
+     "title": "Measure the season-final screens at ten window sizes (report only)",
+     "lane": "codex",
+     "team": "white",
+     "model": "Codex default coding model",
+     "effort": "Medium",
+     "state": "next: ready for Codex (report only)",
+     "order": 39,
+     "place": "Codex cloud, this repo",
+     "note": "ticket jobs/JOB-1585.md (mega factory C4-C7)",
+     "prompt": "Job 1585: git fetch origin factory/gameplay-v1, then read git show FETCH_HEAD:project-documents/gameplay-factory/jobs/JOB-1585.md and do exactly what it says."
+    },
+    {
+     "id": "1586",
+     "title": "Measure the club screens at ten window sizes (report only)",
+     "lane": "codex",
+     "team": "white",
+     "model": "Codex default coding model",
+     "effort": "Medium",
+     "state": "next: ready for Codex (report only)",
+     "order": 40,
+     "place": "Codex cloud, this repo",
+     "note": "ticket jobs/JOB-1586.md (mega factory C4-C7)",
+     "prompt": "Job 1586: git fetch origin factory/gameplay-v1, then read git show FETCH_HEAD:project-documents/gameplay-factory/jobs/JOB-1586.md and do exactly what it says."
     }
    ]
   },
