@@ -713,6 +713,57 @@ html[data-v10-setup] main { scrollbar-color: var(--v26-gold-deep) rgba(255, 255,
   #leagueWheelScreen.v26Skin #spinLeague { min-height: 54px; }
 }
 
+/* JOB-1121: large upright iPhone (430x932). The default 360px hero band adds
+   ~99px of empty wheel lead-in here; keep the result and actions in one page
+   flow without changing the 390x844 or desktop layouts. */
+@media (min-width: 420px) and (max-width: 440px) and (min-height: 910px) and (max-height: 960px) and (orientation: portrait) {
+  #leagueWheelScreen.v26Skin {
+    --v26-band: clamp(260px, 32svh, 300px);
+    --v26-wheel: clamp(260px, min(68vw, 35svh), 300px);
+    box-sizing: border-box;
+    min-width: 0;
+    max-width: 100%;
+  }
+  #leagueWheelScreen.v26Skin .wheelContainer {
+    box-sizing: border-box;
+    width: min(100%, 94vw);
+    min-width: 0;
+    max-width: 100%;
+    margin-top: clamp(16px, 2.8svh, 26px);
+    padding: 0 6px 12px;
+    max-height: none;
+    overflow: visible;
+  }
+  #leagueWheelScreen.v26Skin .wheelContainer > * { min-width: 0; max-width: 100%; }
+  #leagueWheelScreen.v26Skin #selectedLeague {
+    gap: 8px;
+    padding-inline: 4px;
+    letter-spacing: .12em;
+    overflow-wrap: anywhere;
+  }
+  #leagueWheelScreen.v26Skin[data-v26-league] #selectedLeague { letter-spacing: .1em; }
+  #leagueWheelScreen.v26Skin #selectedLeague::before,
+  #leagueWheelScreen.v26Skin #selectedLeague::after { flex: 0 1 30px; }
+  #leagueWheelScreen.v26Skin #leagueWheel { margin-bottom: 6px; }
+  #leagueWheelScreen.v26Skin .wheelContainer > .stateNote {
+    box-sizing: border-box;
+    width: 100%;
+    margin: 5px auto;
+    padding: 8px 12px;
+    overflow-wrap: anywhere;
+  }
+  #leagueWheelScreen.v26Skin .wheelContainer .menuButton,
+  #leagueWheelScreen.v26Skin .wheelContainer .backButton {
+    box-sizing: border-box;
+    min-height: 48px;
+    padding: 10px 12px;
+    line-height: 1.2;
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+  #leagueWheelScreen.v26Skin #spinLeague { min-height: 54px; }
+}
+
 /* Reduced motion: only the skin's own motion stops; the app's own reduced-motion rules (photos, wheel, packs) stay in charge. */
 html:is([data-motion-reduced="true"], [data-reduced-motion="true"]) :is(#createShowdown, #leagueWheelScreen, #clubWheelScreen).v26Skin :is(.v26Art, .v26Flash, .v26Burst, .clubRevealCard),
 html:is([data-motion-reduced="true"], [data-reduced-motion="true"]) #leagueWheelScreen.v26Skin .wheelItem.v26-payoff::before { animation: none !important; }
