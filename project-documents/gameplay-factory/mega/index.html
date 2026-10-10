@@ -6,7 +6,7 @@
 <title>Mega factory tracker</title>
 <style>
 :root{--bg:#f4f6f9;--card:#fff;--ink:#14213d;--mut:#5b6b82;--line:#dde3ec;
---waiting:#c4ccd8;--started:#3b82f6;--ci_running:#f5a524;--draft:#94a3b8;--queued:#eab308;--ci_failed:#e5484d;--ready:#14b8a6;--reviewed:#8b5cf6;--merged:#22a559;--no_pr:#5eead4;--live:#0f7a3d;--blocked:#f97316;--closed:#6b7280}
+--waiting:#c4ccd8;--started:#3b82f6;--ci_running:#f5a524;--draft:#94a3b8;--on_train:#38bdf8;--queued:#eab308;--ci_failed:#e5484d;--ready:#14b8a6;--reviewed:#8b5cf6;--merged:#22a559;--no_pr:#5eead4;--live:#0f7a3d;--blocked:#f97316;--closed:#6b7280}
 @media (prefers-color-scheme:dark){:root{--bg:#0b1220;--card:#131c2e;--ink:#e8eef9;--mut:#8fa1bd;--line:#26334d;--waiting:#344159}}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.4 -apple-system,system-ui,Segoe UI,Roboto,sans-serif;padding:12px 16px 40px;max-width:1100px;margin:auto}
@@ -69,7 +69,7 @@ a{color:inherit}
 <div class="card"><h2>All <span id="tot">518</span> numbers</h2><div class="bar" id="all"></div><div class="leg" id="leg"></div></div>
 
 <div class="card"><h2>Gates</h2>
-<div class="stage"><div class="h"><span>Code PRs marked ready (not drafts)</span><span id="capn"></span></div><div class="bar thin" id="cap"></div></div>
+<div class="stage"><div class="h"><span>Train PRs marked ready (5 code jobs each, not drafts)</span><span id="capn"></span></div><div class="bar thin" id="cap"></div></div>
 <div class="lbl" id="locks"></div></div>
 
 <div class="card"><h2>By stage</h2><div id="stages"></div></div>
@@ -86,8 +86,8 @@ a{color:inherit}
 
 <script>
 const REPO="nikahanghojjati-oss/fifa17-career-showdown2",BR="factory/gameplay-v1",PATH="project-documents/gameplay-factory/mega/MEGA_TRACKER.json";
-const ST=["live","merged","no_pr","reviewed","ready","queued","ci_running","draft","ci_failed","blocked","started","closed","waiting"];
-const LB={waiting:"Waiting",started:"Started, no PR yet",ci_running:"PR open, checks running",draft:"Worker done, draft PR open",queued:"Ready for checks",ci_failed:"PR open, checks FAILED",ready:"PR open, checks green",reviewed:"Reviewed, waiting for lead",merged:"Merged",no_pr:"Done, no PR (no change / needs Team V)",live:"Live in a release",blocked:"Blocked",closed:"Closed"};
+const ST=["live","merged","no_pr","on_train","reviewed","ready","queued","ci_running","draft","ci_failed","blocked","started","closed","waiting"];
+const LB={waiting:"Waiting",started:"Started, no PR yet",ci_running:"PR open, checks running",draft:"Worker done, draft PR open",queued:"Ready for checks",ci_failed:"PR open, checks FAILED",ready:"PR open, checks green",reviewed:"Reviewed, waiting for lead",merged:"Merged",no_pr:"Done, no PR (no change / needs Team V)",on_train:"Done, on the train branch",live:"Live in a release",blocked:"Blocked",closed:"Closed"};
 const $=id=>document.getElementById(id);
 const esc=s=>String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const col=s=>`var(--${s})`;
@@ -115,7 +115,7 @@ function paint(only,fail){
   if(only&&!fail&&D._painted===D.updated)return;
   D._painted=D.updated;
   const c=D.counts,n=D.total,g=D.gates,fin=(c.merged||0)+(c.live||0)+(c.no_pr||0);
-  const fly=(c.started||0)+(c.draft||0)+(c.queued||0)+(c.ci_running||0)+(c.ci_failed||0)+(c.ready||0)+(c.reviewed||0)+(c.blocked||0);
+  const fly=(c.started||0)+(c.on_train||0)+(c.draft||0)+(c.queued||0)+(c.ci_running||0)+(c.ci_failed||0)+(c.ready||0)+(c.reviewed||0)+(c.blocked||0);
   $("tot").textContent=n;$("fin").textContent=fin+" / "+n;$("fly").textContent=fly;
   $("r1").textContent=D.rate.claimed_last_hour;$("r10").textContent=D.rate.claimed_last_10min+" in the last 10 min";$("rm").textContent=D.rate.merged_last_hour;
   $("nextfree").textContent=D.next_free==null?"none":D.next_free;
@@ -128,7 +128,7 @@ function paint(only,fail){
   $("capn").textContent=g.open_code_prs+" of "+g.cap;
   $("cap").innerHTML=`<span style="width:${g.open_code_prs/g.cap*100}%;background:${col(g.open_code_prs>=g.cap?"ci_failed":"started")}"></span>`;
   const lk=Object.entries(g.area_locks);
-  $("locks").innerHTML="Screen areas locked by an open code PR: "+(lk.length?lk.map(([a,k])=>`<b>${esc(a)}</b> (number ${k})`).join(", "):"none")+(g.code_started_no_pr.length?`<br>Code numbers started with no PR yet: ${g.code_started_no_pr.join(", ")}`:"");
+  $("locks").innerHTML="Screen areas locked by an open code PR: "+(lk.length?lk.map(([a,k])=>`<b>${esc(a)}</b> (number ${k})`).join(", "):"none")+(g.on_train_no_pr&&g.on_train_no_pr.length?`<br>Code jobs done on a train, PR not open yet: ${g.on_train_no_pr.join(", ")}`:"");
   $("stages").innerHTML=Object.keys(D.stages).sort().map(k=>{const s=D.stages[k],v=s.states,f=(v.merged||0)+(v.live||0)+(v.no_pr||0);
     return `<div class="stage"><div class="h"><span><b>Stage ${k}</b> ${esc(s.name)}</span><span>${f} merged of ${s.total} · ${s.total-f-(v.waiting||0)-(v.closed||0)} in flight · ${v.waiting||0} waiting</span></div><div class="bar thin">${ST.slice(0,-1).concat("waiting").map(x=>v[x]?`<span style="width:${v[x]/s.total*100}%;background:${col(x)}" title="${LB[x]}: ${v[x]}"></span>`:"").join("")}</div></div>`}).join("");
   const items=Object.entries(D.items).sort((a,b)=>a[0]-b[0]);
@@ -141,7 +141,7 @@ function paint(only,fail){
   $("grid").innerHTML=items.map(([k,v])=>`<i data-k="${k}" class="${+k===D.next_free?"next":""}${hidden.has(v.state)?" dim":""}" style="background:${col(v.state)}" title="${k}"></i>`).join("");
   document.querySelectorAll(".grid i").forEach(i=>i.onclick=()=>{const k=i.dataset.k,v=D.items[k],d=$("det");
     d.style.display="block";d.innerHTML=`<b>Number ${k}</b> · Job ${v.job} · stage ${v.stage} · ${v.mode||""}${v.group?" · "+esc(v.group):""}<br>${esc(v.title)}<br><span class="pill" style="background:${col(v.state)}">${LB[v.state]}</span> <span class="mut">${v.since?"since "+ago(v.since):""}${v.ci?" · checks "+v.ci+(v.ci_total?" ("+v.ci_total+")":""):""}${v.live_in?" · "+esc(v.live_in):""}</span>${link(k,v)}${v.branch?`<br><small class="mut">${esc(v.branch)}</small>`:""}<br><a href="#" onclick="document.getElementById('det').style.display='none';return false">close</a>`});
-  const fl=items.filter(([k,v])=>["started","draft","queued","ci_running","ci_failed","ready","reviewed","blocked"].includes(v.state));
+  const fl=items.filter(([k,v])=>["started","on_train","draft","queued","ci_running","ci_failed","ready","reviewed","blocked"].includes(v.state));
   $("fl").innerHTML=fl.length?fl.slice(0,40).map(([k,v])=>row(k,v)).join("")+(fl.length>40?`<div class="none" style="padding-top:8px">+ ${fl.length-40} more (see the grid above)</div>`:""):'<span class="none">Nothing in flight.</span>';
   $("ev").innerHTML=D.events.length?D.events.slice(-25).reverse().map(e=>`<div class="item"><span class="n">${e.item}</span><span class="t">${esc((D.items[e.item]||{}).title||"")} <small>Job ${e.job} · ${ago(e.at)}</small></span><span class="pill" style="background:${col(e.to)}">${LB[e.to]}</span></div>`).join(""):'<span class="none">No changes recorded yet.</span>';
 }

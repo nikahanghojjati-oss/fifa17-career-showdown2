@@ -6,6 +6,7 @@
 Reads queue/ORDER.json (item number -> job) and derives each item's exact stage from GitHub only:
   waiting      no branch qa/job-NNNN-* and no PR
   no_pr        branch whose status/JOB-N.md says "no change needed", "needs mockup" or "needs Team V" (finished, no PR)
+  on_train     code job finished on its train branch (status file there), the train PR is not open yet
   started      branch exists (a chat claimed the number), no PR yet
   blocked      branch qa/job-NNNN-blocked (the worker could not finish)
   draft        PR open as a draft (worker done; the Gate skips drafts)
@@ -75,13 +76,13 @@ def ci_for(repo, sha):
     return "green", len(runs), 0
 
 BAR = 24
-ICON = {"no_pr": "🏁", "draft": "📝", "queued": "⏳", "waiting": "⬜", "started": "🟦", "ci_running": "🟨", "ci_failed": "🟥", "ready": "🟩", "reviewed": "🟪",
+ICON = {"on_train": "🚂", "no_pr": "🏁", "draft": "📝", "queued": "⏳", "waiting": "⬜", "started": "🟦", "ci_running": "🟨", "ci_failed": "🟥", "ready": "🟩", "reviewed": "🟪",
         "merged": "✅", "live": "🚀", "blocked": "🟧", "closed": "⚫"}
-LABEL = {"no_pr": "done, no PR (no change / needs Team V)", "draft": "worker done, draft PR open", "queued": "ready for checks, not started", "waiting": "waiting", "started": "started, no PR yet", "ci_running": "PR open, checks running",
+LABEL = {"on_train": "done, on the train branch, no PR yet", "no_pr": "done, no PR (no change / needs Team V)", "draft": "worker done, draft PR open", "queued": "ready for checks, not started", "waiting": "waiting", "started": "started, no PR yet", "ci_running": "PR open, checks running",
          "ci_failed": "PR open, checks FAILED", "ready": "PR open, checks green, waiting for review",
          "reviewed": "reviewed by Sol, waiting for the lead", "merged": "merged to staging branch",
          "live": "live in a release", "blocked": "blocked", "closed": "closed without merge"}
-ORDER = ["live", "merged", "no_pr", "reviewed", "ready", "queued", "ci_running", "draft", "ci_failed", "blocked", "started", "closed", "waiting"]
+ORDER = ["live", "merged", "no_pr", "on_train", "reviewed", "ready", "queued", "ci_running", "draft", "ci_failed", "blocked", "started", "closed", "waiting"]
 
 def write_md(d, path):
     """GitHub-rendered fallback of the tracker page (always works, first party)."""
@@ -110,7 +111,7 @@ def write_md(d, path):
     L += ["", "## In flight", ""]
     for k in sorted(d["items"], key=int):
         v = d["items"][k]
-        if v["state"] in ("started", "draft", "queued", "ci_running", "ci_failed", "ready", "reviewed", "blocked"):
+        if v["state"] in ("started", "on_train", "draft", "queued", "ci_running", "ci_failed", "ready", "reviewed", "blocked"):
             L.append(f"- {ICON[v['state']]} **{k}** · Job {v['job']} · {v['title']} · {LABEL[v['state']]}" + (f" · [PR #{v['pr']}]({v['pr_url']})" if v.get("pr") else ""))
     L += ["", "## Latest changes", ""]
     for e in reversed(d["events"][-20:]):
@@ -145,6 +146,17 @@ def main():
             cur = by_job.get(m.group(1))
             if not cur or p["updated_at"] > cur["updated_at"]:
                 by_job[m.group(1)] = p
+    by_head = {}
+    for p in prs:
+        h = p["head"]["ref"]
+        if h not in by_head or p["updated_at"] > by_head[h]["updated_at"]:
+            by_head[h] = p
+    qs_tickets = {}
+    qsp = GF / "queue" / "QUEUE_STATE.json"
+    if qsp.exists():
+        try: qs_tickets = json.loads(qsp.read_text()).get("tickets", {})
+        except Exception: pass
+    ci_cache = {}
     # Sol review comments, last 3 days, one call set
     since = (datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(days=3)).strftime("%Y-%m-%dT%H:%M:%SZ")
     reviewed_prs = set()
@@ -158,7 +170,8 @@ def main():
         job = str(o["job"])
         pre = o["prefix"]
         bs = [b for b in branches if b.startswith(pre)]
-        pr = by_job.get(job)
+        # code jobs travel in trains of 5: the train PR (head = train branch) carries all five jobs
+        pr = by_head.get(pre) if o.get("mode") == "code" else by_job.get(job)
         old = prev_items.get(k, {})
         it = {"job": o["job"], "stage": o["stage"], "title": o["title"], "mode": o.get("mode"), "group": o.get("group")}
         if pr:
@@ -179,7 +192,9 @@ def main():
                 elif old.get("ci_sha") == sha and old.get("ci") in ("green", "failed", "none") and old.get("state") != "ci_running":
                     ci, total, extra = old["ci"], old.get("ci_total", 0), old.get("ci_extra", 0)
                 else:
-                    ci, total, extra = ci_for(a.repo, sha)
+                    if sha not in ci_cache:
+                        ci_cache[sha] = ci_for(a.repo, sha)
+                    ci, total, extra = ci_cache[sha]
                 it.update(ci=ci, ci_sha=sha, ci_total=total, ci_extra=extra)
                 it["draft"] = bool(pr.get("draft"))
                 if it["draft"]:
@@ -201,6 +216,11 @@ def main():
                 else:
                     it["state"] = "ready"
             it["pr_opened_at"] = pr["created_at"]
+        elif o.get("mode") == "code":
+            if qs_tickets.get(job, {}).get("state") == "on_train":
+                it.update(state="on_train", branch=pre)
+            else:
+                it["state"] = "waiting"
         elif any(b.endswith("-blocked") for b in bs):
             it.update(state="blocked", branch=[b for b in bs if b.endswith("-blocked")][0])
         elif bs:
@@ -238,23 +258,18 @@ def main():
         return sum(1 for e in events if e["to"] in ("merged", "live") and e["at"] >= cut)
     next_free = next((int(k) for k in sorted(items, key=int) if items[k]["state"] == "waiting"), None)
     highest = max([int(k) for k, v in items.items() if v["state"] != "waiting"] or [0])
-    # Gates, same rule as queue/queue_state.py: at most 8 open code PRs, one open code PR per screen area (group)
+    # Gates: a train PR (5 code jobs) is "ready" when not a draft; at most 8 ready train PRs; one open train PR per group
     CAP = 8
-    # cap counts code PRs marked ready (not draft); the area lock counts every open code PR
-    open_all = [int(k) for k, v in items.items() if v["mode"] == "code" and v["state"] in ("draft", "queued", "ci_running", "ci_failed", "ready", "reviewed")]
-    started_code = [int(k) for k, v in items.items() if v["mode"] == "code" and v["state"] == "started"]
-    open_code = [k for k in open_all if not items[str(k)].get("draft")]
-    locked = {items[str(k)]["group"]: k for k in open_all}
-    seen, ready = set(locked), []
-    for k in sorted(items, key=int):
-        v = items[k]
-        if v["state"] != "waiting":
-            continue
-        if v["mode"] == "code":
-            if v["group"] in seen or len(open_code) >= CAP:
-                continue
-            seen.add(v["group"])
-        ready.append(int(k))
+    train_states = ("draft", "queued", "ci_running", "ci_failed", "ready", "reviewed")
+    trains_open = {}
+    for k, v in items.items():
+        if v["mode"] == "code" and v["state"] in train_states:
+            trains_open[v["pr"]] = {"group": v["group"], "draft": bool(v.get("draft")), "branch": v.get("branch")}
+    open_code = [n for n, t in trains_open.items() if not t["draft"]]
+    open_all = list(trains_open)
+    locked = {t["group"]: n for n, t in trains_open.items()}
+    started_code = [int(k) for k, v in items.items() if v["mode"] == "code" and v["state"] == "on_train"]
+    ready = [int(k) for k, v in items.items() if v["state"] == "waiting"][:12]
     qs = GF / "queue" / "QUEUE_STATE.json"  # the queue owner's list wins, so this page never disagrees with the chats
     if qs.exists():
         try:
@@ -265,8 +280,8 @@ def main():
         except Exception: pass
     ready_sol = locals().get("ready_sol", [r for r in ready if items[str(r)]["mode"] != "code"])[:12]
     ready_codex = locals().get("ready_codex", [r for r in ready if items[str(r)]["mode"] == "code"])[:12]
-    gates = {"cap": CAP, "open_code_prs": len(open_code), "open_code_items": open_code,
-             "code_started_no_pr": started_code, "draft_code_prs": len(open_all) - len(open_code), "area_locks": {g: n for g, n in locked.items() if g},
+    gates = {"cap": CAP, "open_code_prs": len(open_code), "open_train_prs": open_all,
+             "on_train_no_pr": started_code, "draft_code_prs": len(open_all) - len(open_code), "area_locks": {g: n for g, n in locked.items() if g},
              "ready": ready[:12], "ready_sol": ready_sol, "ready_codex": ready_codex}
     # stale: claimed over 45 minutes ago and still no PR
     stale = [int(k) for k, v in items.items() if v["state"] == "started"
