@@ -2,8 +2,6 @@
  "sequence": {
   "ready": [
    19,
-   21,
-   22,
    23,
    24,
    25,
@@ -12,12 +10,12 @@
    28,
    29,
    30,
-   31
+   31,
+   32,
+   33
   ],
   "ready_sol": [
    19,
-   21,
-   22,
    23,
    24,
    25,
@@ -26,13 +24,15 @@
    28,
    29,
    30,
-   31
+   31,
+   32,
+   33
   ],
   "ready_codex": [],
   "open_code_prs": 0,
   "open_train_prs": 0,
   "next_free": 19,
-  "highest_taken": 20,
+  "highest_taken": 22,
   "total": 518,
   "states": {
    "1": "on_train",
@@ -55,8 +55,8 @@
    "18": "pr_open",
    "19": "waiting",
    "20": "pr_open",
-   "21": "waiting",
-   "22": "waiting",
+   "21": "on_train",
+   "22": "branch_only",
    "23": "waiting",
    "24": "waiting",
    "25": "waiting",
@@ -555,16 +555,17 @@
    "518": "waiting"
   }
  },
- "updated": "2026-10-10T15:16:00Z",
+ "updated": "2026-10-10T15:17:12Z",
  "counts": {
-  "on_train": 9,
-  "waiting": 499,
-  "pr_open": 10
+  "on_train": 10,
+  "waiting": 497,
+  "pr_open": 10,
+  "branch_only": 1
  },
  "stages": {
   "2": {
    "total": 266,
-   "taken": 9,
+   "taken": 10,
    "merged": 0
   },
   "3": {
@@ -584,7 +585,7 @@
   },
   "1": {
    "total": 112,
-   "taken": 10,
+   "taken": 11,
    "merged": 0
   }
  },
@@ -649,7 +650,8 @@
     1094
    ],
    "done": [
-    "1090"
+    "1090",
+    "1091"
    ],
    "pr": null,
    "state": null
@@ -1493,7 +1495,7 @@
    "branch": "gameplay/train-start-join-1"
   },
   "1091": {
-   "state": "waiting",
+   "state": "on_train",
    "pr": null,
    "draft": false,
    "pr_url": null,
@@ -4195,11 +4197,11 @@
    "branch": "qa/job-1476-z-layer-audit"
   },
   "1477": {
-   "state": "waiting",
+   "state": "branch_only",
    "pr": null,
    "draft": false,
    "pr_url": null,
-   "branch": null
+   "branch": "qa/job-1477-audit-design-token-colours"
   },
   "1478": {
    "state": "waiting",

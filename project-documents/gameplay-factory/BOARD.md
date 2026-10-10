@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Sat 10 Oct, 11:16 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Sat 10 Oct, 11:17 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r67** (main `f42dac2`, Fri 9 Oct 9:34 PM)
 
@@ -18,11 +18,11 @@ Updated Sat 10 Oct, 11:16 AM Boston time. Bug hunting only, no new features unti
 
 **#1 · 1580** `G` Showdown Gate: run the L5 lane only when its inputs changed  
 `██████░░░░` **60.0000 %**  
-⚪ Team white · **Codex default coding model** · High effort · worker done, PR #457 open, CI failed · CI 13 of 14 passed · last move 1 min ago
+⚪ Team white · **Codex default coding model** · High effort · worker done, PR #457 open, CI failed · CI 13 of 14 passed · last move 2 min ago
 
 **#2 · 1584** `G` Measure the transfer screens at ten window sizes (report only)  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · **Codex default coding model** · Medium effort · worker working, draft PR #469 · CI 6 of 7 passed · last move 0 min ago
+⚪ Team white · **Codex default coding model** · Medium effort · worker working, draft PR #469 · CI 6 of 7 passed · last move 1 min ago
 
 ### 👉 Next for you, in this order
 
@@ -115,17 +115,17 @@ One numbered queue: type a bare number in any GPT chat. Live from GitHub (queue/
 Type now, in any GPT chat:
 
 ```text
-19 21 22 23 24 25 26 27 28 29 30 31
+19 23 24 25 26 27 28 29 30 31 32 33
 ```
 
 Open code PRs: 0/8.
 
-20 taken of 518.
+22 taken of 518.
 
 | Stage | Items | Merged | Picked up |
 | --- | --- | --- | --- |
-| audits | 112 | 0/112 | 10/112 |
-| screen fixes | 266 | 0/266 | 9/266 |
+| audits | 112 | 0/112 | 11/112 |
+| screen fixes | 266 | 0/266 | 10/266 |
 | mockup match | 14 | 0/14 | 0/14 |
 | phone studies | 70 | 0/70 | 0/70 |
 | desktop studies | 56 | 0/56 | 0/56 |
@@ -134,6 +134,8 @@ Open code PRs: 0/8.
 
 | # | Job | State | Title |
 | --- | --- | --- | --- |
+| 22 | 1477 | branch only | Audit all screens: hard-coded colours that should use the design tokens |
+| 21 | 1091 | on_train | Connect Players (start and join): fix the 390x844 view |
 | 20 | 1476 | PR open | Audit all screens: stacking order: dialogs above screens, toasts above dialogs |
 | 18 | 1475 | PR open | Audit all screens: picture descriptions and screen reader labels |
 | 17 | 1409 | on_train | Rule Book: fix the 360x640 view |
@@ -152,16 +154,15 @@ Open code PRs: 0/8.
 | 4 | 1468 | PR open | Audit all screens: long manager and club names never break a layout |
 | 3 | 1090 | on_train | Connect Players (start and join): fix the 360x640 view |
 | 2 | 1467 | PR open | Audit all screens: tap targets of at least 44 px on every team v screen |
-| 1 | 1061 | on_train | Home: fix the 360x640 view |
 
 ## Mega tracker (live, free)
 
-Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/index.html) · summary: [mega/MEGA_TRACKER.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/MEGA_TRACKER.md) · rebuilt by the poller each round, updated 2026-10-10T15:16:00Z.
+Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/index.html) · summary: [mega/MEGA_TRACKER.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/MEGA_TRACKER.md) · rebuilt by the poller each round, updated 2026-10-10T15:17:12Z.
 
 | Stage | Done (merged or live) | In progress | Waiting |
 | --- | --- | --- | --- |
-| Gameplay audits | 0 of 112 | 10 | 102 |
-| Screen fixes | 0 of 266 | 9 | 257 |
+| Gameplay audits | 0 of 112 | 11 | 101 |
+| Screen fixes | 0 of 266 | 10 | 256 |
 | Match desktop to mockups | 0 of 14 | 0 | 14 |
 | Phone mockup studies | 0 of 70 | 0 | 70 |
 | Improved desktop studies | 0 of 56 | 0 | 56 |

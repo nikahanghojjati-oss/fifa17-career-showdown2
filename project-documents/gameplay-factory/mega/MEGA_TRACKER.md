@@ -1,22 +1,23 @@
-# Mega factory tracker · updated 2026-10-10T15:16:00Z
+# Mega factory tracker · updated 2026-10-10T15:17:12Z
 
-**Type now:** 19, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31
-**Next free number:** 19 · **highest taken:** 20 of 518
+**Type now:** 19, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33
+**Next free number:** 19 · **highest taken:** 22 of 518
 **Code PRs open:** 0 of 8 · area locks: none
-**Rate:** 8 claimed in 10 min · 19 in 1 h · 0 merged in 1 h
+**Rate:** 10 claimed in 10 min · 21 in 1 h · 0 merged in 1 h
 
 **Finished (merged or live): 0 of 518**
 
 State | count
 --- | ---
-🚂 done, on the train branch, no PR yet | 9
+🚂 done, on the train branch, no PR yet | 10
 📝 worker done, draft PR open | 10
-⬜ waiting | 499
+🟦 started, no PR yet | 1
+⬜ waiting | 497
 
 Stage | total | merged/live | in flight | waiting
 --- | --- | --- | --- | ---
-1 Gameplay audits | 112 | 0 | 10 | 102
-2 Screen fixes | 266 | 0 | 9 | 257
+1 Gameplay audits | 112 | 0 | 11 | 101
+2 Screen fixes | 266 | 0 | 10 | 256
 3 Match desktop to mockups | 14 | 0 | 0 | 14
 4 Phone mockup studies | 70 | 0 | 0 | 70
 5 Improved desktop studies | 56 | 0 | 0 | 56
@@ -42,9 +43,13 @@ Stage | total | merged/live | in flight | waiting
 - 🚂 **17** · Job 1409 · Rule Book: fix the 360x640 view · done, on the train branch, no PR yet
 - 📝 **18** · Job 1475 · Audit all screens: picture descriptions and screen reader labels · worker done, draft PR open · [PR #468](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/468)
 - 📝 **20** · Job 1476 · Audit all screens: stacking order: dialogs above screens, toasts above dialogs · worker done, draft PR open · [PR #467](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/467)
+- 🚂 **21** · Job 1091 · Connect Players (start and join): fix the 390x844 view · done, on the train branch, no PR yet
+- 🟦 **22** · Job 1477 · Audit all screens: hard-coded colours that should use the design tokens · started, no PR yet
 
 ## Latest changes
 
+- 2026-10-10T15:17:12Z · 22 (Job 1477): waiting → started
+- 2026-10-10T15:17:12Z · 21 (Job 1091): waiting → on_train
 - 2026-10-10T15:16:00Z · 20 (Job 1476): waiting → draft
 - 2026-10-10T15:16:00Z · 18 (Job 1475): started → draft
 - 2026-10-10T15:12:12Z · 18 (Job 1475): waiting → started
@@ -63,5 +68,3 @@ Stage | total | merged/live | in flight | waiting
 - 2026-10-10T15:01:03Z · 6 (Job 1469): started → draft
 - 2026-10-10T15:01:03Z · 5 (Job 1119): waiting → on_train
 - 2026-10-10T14:57:25Z · 6 (Job 1469): waiting → started
-- 2026-10-10T14:53:51Z · 4 (Job 1468): waiting → draft
-- 2026-10-10T14:49:19Z · 3 (Job 1090): waiting → on_train

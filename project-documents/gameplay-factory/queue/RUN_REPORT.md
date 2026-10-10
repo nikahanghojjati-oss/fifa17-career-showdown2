@@ -1,12 +1,12 @@
-# Mega factory run report · 2026-10-10T15:16:00Z
+# Mega factory run report · 2026-10-10T15:17:12Z
 
-Taken 19 of 518 jobs. By state: on_train 9, pr_open 10, waiting 499
+Taken 21 of 518 jobs. By state: branch_only 1, on_train 10, pr_open 10, waiting 497
 
 ## By stage
 Stage | name | total | picked up | merged
 --- | --- | --- | --- | ---
-1 | audits | 112 | 10 | 0
-2 | screen fixes | 266 | 9 | 0
+1 | audits | 112 | 11 | 0
+2 | screen fixes | 266 | 10 | 0
 3 | mockup match | 14 | 0 | 0
 4 | phone studies | 70 | 0 | 0
 5 | desktop studies | 56 | 0 | 0
@@ -15,7 +15,7 @@ Stage | name | total | picked up | merged
 Train | jobs done | PR | state
 --- | --- | --- | ---
 gameplay/train-home-1 | 1 of 5 | - | on train, no PR yet
-gameplay/train-start-join-1 | 1 of 5 | - | on train, no PR yet
+gameplay/train-start-join-1 | 2 of 5 | - | on train, no PR yet
 gameplay/train-league-1 | 1 of 5 | - | on train, no PR yet
 gameplay/train-club-1 | 1 of 5 | - | on train, no PR yet
 gameplay/train-transfer-1 | 1 of 5 | - | on train, no PR yet
@@ -37,6 +37,8 @@ Number | job | title | state | link
 16 | 1474 | Audit all screens: fonts: fallback while loading, no jumps | pr_open | [PR #466](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/466)
 18 | 1475 | Audit all screens: picture descriptions and screen reader labels | pr_open | [PR #468](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/468)
 20 | 1476 | Audit all screens: stacking order: dialogs above screens, toasts above dialogs | pr_open | [PR #467](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/467)
+22 | 1477 | Audit all screens: hard-coded colours that should use the design tokens | branch_only | qa/job-1477-audit-design-token-colours
 
 ## Needs a look (blocked, no change needed, needs Team V or mockup)
+- number 22, job 1477: branch_only (qa/job-1477-audit-design-token-colours)
 
