@@ -1,17 +1,18 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-10-10 10:18 AM Boston time (EDT)
+[Back to the board](BOARD.md) · generated 2026-10-10 10:20 AM Boston time (EDT)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `78fe342` (Sat 10 Oct 10:17 AM Boston time) · 29 messages · 22 hand-offs · 76 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `d3271e9` (Sat 10 Oct 10:18 AM Boston time) · 29 messages · 22 hand-offs · 77 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
 ### HO-022 · G → V · Mega factory studies: how Team V adopts them (queue/V_ADOPTION.md) and the NEEDS TEAM V rule
 
-✅ Sent → ✅ **Delivered** → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 0 min after delivery
 
+- Sat 10 Oct 10:18 AM · Team V · Received · Team V will judge mega factory phone/desktop studies (items 226-476) and log adopted/not adopted in queue/V_ADOPTION.md; NEEDS TEAM V items come as normal hand-offs.
 - Sat 10 Oct 10:17 AM · Team G · Sent
 - Sat 10 Oct 10:17 AM · relay Action · Delivered in full as a wake comment on PR #312
 
