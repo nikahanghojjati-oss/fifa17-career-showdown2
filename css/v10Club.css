@@ -235,3 +235,61 @@ html[data-v10-screen="clubWheelScreen"] #app > main { position: static; inset: a
     overflow-wrap: anywhere;
   }
 }
+
+/* JOB-1149: 390x844 Club packs use the document's scroll, not Team V's fixed phone canvas.
+   Keep the hero, reveal progress and pack rows at their accepted coordinates. Once the
+   confirmation or shared season choice is visible, stack the notes in normal flow and
+   reserve the full-size action row below them. Other viewports are untouched. */
+@media (min-width: 376px) and (max-width: 410px) and (min-height: 800px) and (max-height: 865px) and (orientation: portrait) {
+  html[data-v10-screen="clubWheelScreen"] {
+    height: auto;
+    min-height: 100%;
+    overflow-x: clip;
+    overflow-y: auto;
+  }
+  html[data-v10-screen="clubWheelScreen"] body,
+  html[data-v10-screen="clubWheelScreen"] #app {
+    height: auto;
+    min-height: 100dvh;
+    overflow: visible;
+  }
+  html[data-v10-screen="clubWheelScreen"] #app > main {
+    min-height: 100dvh;
+    overflow: visible;
+  }
+  #clubWheelScreen.cl-on {
+    position: relative;
+    inset: auto;
+    box-sizing: border-box;
+    width: 100%;
+    height: auto;
+    min-height: 100dvh;
+    overflow: visible;
+    padding: calc(var(--phone-hero-h) + 180px) 0 calc(var(--phone-safe) + 72px);
+  }
+  #clubWheelScreen.cl-on .clubRivalryConfirmation {
+    position: relative;
+    top: auto !important;
+    bottom: auto !important;
+    left: auto !important;
+    right: auto !important;
+    width: auto !important;
+    height: auto !important;
+    max-width: calc(100% - 24px);
+    box-sizing: border-box;
+    margin: 0 12px;
+    overflow-wrap: anywhere;
+  }
+  #clubWheelScreen.cl-on #sharedShowdownSeasonChoice {
+    position: relative;
+    top: auto;
+    bottom: auto;
+    left: auto;
+    right: auto;
+    width: auto;
+    max-width: calc(100% - 24px);
+    margin: 12px 12px 0;
+    padding: 8px 10px;
+    overflow-wrap: anywhere;
+  }
+}
