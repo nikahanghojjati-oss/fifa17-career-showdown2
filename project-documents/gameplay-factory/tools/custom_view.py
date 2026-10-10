@@ -809,6 +809,51 @@ def _trains(T):
     return {"all": len(rows), "started": sum(r["active"] for r in rows), "rows": rows[:4]}
 
 
+def claude_lane_rows():
+    """Claude lane (Nik 2026-10-10 13:56 UTC): the open rows listed in BOARD.json claude_lane.open, found anywhere in BOARD.json. Nik never types these; the Team G lead runs them."""
+    try:
+        B = json.load(open(os.path.join(F, "BOARD.json")))
+    except Exception:
+        return {}, []
+    CL = B.get("claude_lane") or {}
+    want = CL.get("open") or []
+    found = {}
+    def walk(x):
+        if isinstance(x, dict):
+            if x.get("id") in want and x.get("route") == "claude":
+                found.setdefault(x["id"], x)
+            for v in x.values():
+                walk(v)
+        elif isinstance(x, list):
+            for v in x:
+                walk(v)
+    walk(B)
+    return CL, [found[i] for i in want if i in found]
+
+
+def _lane_model(CL, team):
+    return (CL.get("models", {}).get(team) or "").split(":")[0] or team
+
+
+def claude_lane_card(CL, rows, tight=False):
+    """Custom view: the open Claude rows, nothing to type. Tight layout keeps one line per row."""
+    out = ['<div class="card"><b>Claude lane (nothing to type)</b> <span class="m">Nik never types these; the Team G lead runs them with Claude.</span>']
+    for r in rows:
+        b = BADGE.get(r.get("team"), ("", ""))[0]
+        out.append(f'<br><span class="m">{b} <b>{e(r["id"])}</b> {e(r["title"][:110])} · {e(_lane_model(CL, r.get("team")))}</span>')
+        if not tight:
+            out.append(f'<br><span class="m">{e(r.get("state", ""))} · {e(r.get("claude_reason", ""))}</span>')
+    return "".join(out) + "</div>"
+
+
+def claude_lane_md(CL, rows):
+    cell = lambda x: str(x).replace("|", "/")
+    L = ["## Claude lane (nothing to type)", "", cell(CL.get("how_jobs_arrive", "")), "", "Claude takes a job when:", ""]
+    L += [f"- {x}" for x in CL.get("route_here_when", [])] + ["", "| Job | Team | Model | State | Why Claude |", "| --- | --- | --- | --- | --- |"]
+    L += [f"| **{cell(r['id'])}** {cell(r['title'][:120])} | {BADGE.get(r.get('team'), ('', ''))[0]} | {cell(_lane_model(CL, r.get('team')))} | {cell(r.get('state', ''))} | {cell(r.get('claude_reason', ''))} |" for r in rows]
+    return L + [""]
+
+
 def mega_tab(M):
     """Custom view: stage strip, a tap-to-copy box with the next free number, and a tile for each recent taken number."""
     st = " · ".join(f'{v["name"]}: {v["merged"]}/{v["total"]} merged' for _, v in sorted(M["stages"].items()))
@@ -946,6 +991,10 @@ def render(first, compact=False, tight=False):
         H.append(f'<div class="card move"><b>How to type</b><br>Type just the number. GPT jobs in a new ChatGPT chat, Codex jobs in a new Codex task. One-time setup: <a href="{BLOB}queue/INSTRUCTIONS.md">INSTRUCTIONS.md</a> and <a href="{BLOB}queue/CODEX_SETUP.md">CODEX_SETUP.md</a>. Tomorrow\'s order: <a href="{BLOB}queue/TOMORROW.md">TOMORROW.md</a>.</div>')
     if first == "G" and mega():  # Nik 2026-10-10: the mega factory first, always (even in the tight layout)
         H.append(mega_tab(mega()))
+    if first == "G":  # Nik 2026-10-10 13:56 UTC: the Claude lane, nothing to type
+        _CL, _CLR = claude_lane_rows()
+        if _CLR:
+            H.append(claude_lane_card(_CL, _CLR, tight))
     if first == "G" and not tight:  # Haiku G: stage ring and job bar
         H.append('<div style="padding:8px 10px 0">' + dash_tab(*stages()) + "</div>")
     H.append("<h2>Jobs</h2>")
@@ -1084,6 +1133,9 @@ _SG, _cur = stages()
 L += ["## Goals, in this order", ""]
 for _i, (_n, _p, _ls) in enumerate(_SG):
     L += [f"**{_i + 1}. {_n}** " + ("`now`" if _i == _cur else ("`done`" if _p >= 100 else f"`after stage {_i}`")) + "  ", bar_md(_p) + "  ", " · ".join(_ls), ""]
+_CL, _CLR = claude_lane_rows()
+if _CLR:
+    L += claude_lane_md(_CL, _CLR)
 if mega():
     L += mega_md(mega()) + tracker_md()
 L += ["## Other asks", ""]
