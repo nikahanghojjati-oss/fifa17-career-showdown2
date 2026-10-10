@@ -29,7 +29,7 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 25
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
           fetch-depth: 1
@@ -44,7 +44,7 @@ jobs:
           set -euo pipefail
           if [[ "$GATE_EVENT" == "pull_request" ]]; then base="$GATE_BASE_SHA"; else base="$GATE_BEFORE_SHA"; fi
           if [[ -n "$base" && ! "$base" =~ ^0+$ ]]; then git fetch --no-tags --depth=1 origin "$base"; fi
-      - uses: actions/setup-node@v5
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
         with:
           node-version: 24
           cache: npm
@@ -57,12 +57,12 @@ jobs:
           GATE_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
           GATE_BEFORE_SHA: ${{ github.event.before }}
         run: node scripts/showdown-gate.mjs route --lane L1 --out "$RUNNER_TEMP/route.json" --github-output "$GITHUB_OUTPUT"
-      - uses: actions/setup-java@v5
+      - uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5
         with:
           distribution: temurin
           java-version: '21'
       - name: Restore Firebase emulator and npx caches
-        uses: actions/cache@v5
+        uses: actions/cache@caa296126883cff596d87d8935842f9db880ef25 # v5
         with:
           path: |
             ~/.cache/firebase/emulators
@@ -110,7 +110,7 @@ jobs:
         run: node scripts/showdown-gate.mjs finalize --lane L1 --route "$RUNNER_TEMP/route.json" --out "$RUNNER_TEMP/lane/lane.json"
       - name: Upload lane record
         if: always()
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
           name: showdown-gate-lane-L1
           path: ${{ runner.temp }}/lane/lane.json
@@ -124,7 +124,7 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 40
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
           fetch-depth: 1
@@ -139,7 +139,7 @@ jobs:
           set -euo pipefail
           if [[ "$GATE_EVENT" == "pull_request" ]]; then base="$GATE_BASE_SHA"; else base="$GATE_BEFORE_SHA"; fi
           if [[ -n "$base" && ! "$base" =~ ^0+$ ]]; then git fetch --no-tags --depth=1 origin "$base"; fi
-      - uses: actions/setup-node@v5
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
         with:
           node-version: 24
           cache: npm
@@ -152,7 +152,7 @@ jobs:
           GATE_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
           GATE_BEFORE_SHA: ${{ github.event.before }}
         run: node scripts/showdown-gate.mjs route --lane L2 --out "$RUNNER_TEMP/route.json" --github-output "$GITHUB_OUTPUT"
-      - uses: actions/setup-java@v5
+      - uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5
         if: steps.route.outputs.has_full == 'true'
         with:
           distribution: temurin
@@ -178,7 +178,7 @@ jobs:
         run: node scripts/showdown-gate.mjs finalize --lane L2 --route "$RUNNER_TEMP/route.json" --out "$RUNNER_TEMP/lane/lane.json"
       - name: Upload lane record
         if: always()
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
           name: showdown-gate-lane-L2
           path: ${{ runner.temp }}/lane/lane.json
@@ -192,7 +192,7 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 55
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
           fetch-depth: 1
@@ -207,7 +207,7 @@ jobs:
           set -euo pipefail
           if [[ "$GATE_EVENT" == "pull_request" ]]; then base="$GATE_BASE_SHA"; else base="$GATE_BEFORE_SHA"; fi
           if [[ -n "$base" && ! "$base" =~ ^0+$ ]]; then git fetch --no-tags --depth=1 origin "$base"; fi
-      - uses: actions/setup-node@v5
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
         with:
           node-version: 24
           cache: npm
@@ -220,12 +220,12 @@ jobs:
           GATE_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
           GATE_BEFORE_SHA: ${{ github.event.before }}
         run: node scripts/showdown-gate.mjs route --lane L3 --out "$RUNNER_TEMP/route.json" --github-output "$GITHUB_OUTPUT"
-      - uses: actions/setup-java@v5
+      - uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5
         with:
           distribution: temurin
           java-version: '21'
       - name: Restore Firebase emulator and npx caches
-        uses: actions/cache@v5
+        uses: actions/cache@caa296126883cff596d87d8935842f9db880ef25 # v5
         with:
           path: |
             ~/.cache/firebase/emulators
@@ -305,7 +305,7 @@ jobs:
         run: node scripts/showdown-gate.mjs finalize --lane L3 --route "$RUNNER_TEMP/route.json" --out "$RUNNER_TEMP/lane/lane.json"
       - name: Upload lane record
         if: always()
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
           name: showdown-gate-lane-L3
           path: ${{ runner.temp }}/lane/lane.json
@@ -319,7 +319,7 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 55
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
           fetch-depth: 1
@@ -334,7 +334,7 @@ jobs:
           set -euo pipefail
           if [[ "$GATE_EVENT" == "pull_request" ]]; then base="$GATE_BASE_SHA"; else base="$GATE_BEFORE_SHA"; fi
           if [[ -n "$base" && ! "$base" =~ ^0+$ ]]; then git fetch --no-tags --depth=1 origin "$base"; fi
-      - uses: actions/setup-node@v5
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
         with:
           node-version: 24
           cache: npm
@@ -347,13 +347,13 @@ jobs:
           GATE_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
           GATE_BEFORE_SHA: ${{ github.event.before }}
         run: node scripts/showdown-gate.mjs route --lane L4 --out "$RUNNER_TEMP/route.json" --github-output "$GITHUB_OUTPUT"
-      - uses: actions/setup-java@v5
+      - uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5
         if: steps.route.outputs.has_remote == 'true'
         with:
           distribution: temurin
           java-version: '21'
       - name: Restore Firebase emulator and npx caches
-        uses: actions/cache@v5
+        uses: actions/cache@caa296126883cff596d87d8935842f9db880ef25 # v5
         if: steps.route.outputs.has_remote == 'true'
         with:
           path: |
@@ -394,7 +394,7 @@ jobs:
         run: node scripts/showdown-gate.mjs finalize --lane L4 --route "$RUNNER_TEMP/route.json" --out "$RUNNER_TEMP/lane/lane.json"
       - name: Upload lane record
         if: always()
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
           name: showdown-gate-lane-L4
           path: ${{ runner.temp }}/lane/lane.json
@@ -408,7 +408,7 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 35
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
           fetch-depth: 1
@@ -423,7 +423,7 @@ jobs:
           set -euo pipefail
           if [[ "$GATE_EVENT" == "pull_request" ]]; then base="$GATE_BASE_SHA"; else base="$GATE_BEFORE_SHA"; fi
           if [[ -n "$base" && ! "$base" =~ ^0+$ ]]; then git fetch --no-tags --depth=1 origin "$base"; fi
-      - uses: actions/setup-node@v5
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
         with:
           node-version: 24
           cache: npm
@@ -438,12 +438,12 @@ jobs:
         run: node scripts/showdown-gate.mjs route --lane L5 --out "$RUNNER_TEMP/route.json" --github-output "$GITHUB_OUTPUT"
       - name: Fetch production main for the reviewed Rules delta
         run: git fetch --no-tags --depth=1 origin +refs/heads/main:refs/remotes/origin/main
-      - uses: actions/setup-java@v5
+      - uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5
         with:
           distribution: temurin
           java-version: '21'
       - name: Restore Firebase emulator and npx caches
-        uses: actions/cache@v5
+        uses: actions/cache@caa296126883cff596d87d8935842f9db880ef25 # v5
         with:
           path: |
             ~/.cache/firebase/emulators
@@ -467,7 +467,7 @@ jobs:
         run: node scripts/showdown-gate.mjs finalize --lane L5 --route "$RUNNER_TEMP/route.json" --out "$RUNNER_TEMP/lane/lane.json"
       - name: Upload lane record
         if: always()
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
           name: showdown-gate-lane-L5
           path: ${{ runner.temp }}/lane/lane.json
@@ -481,7 +481,7 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 30
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
           fetch-depth: 1
@@ -496,7 +496,7 @@ jobs:
           set -euo pipefail
           if [[ "$GATE_EVENT" == "pull_request" ]]; then base="$GATE_BASE_SHA"; else base="$GATE_BEFORE_SHA"; fi
           if [[ -n "$base" && ! "$base" =~ ^0+$ ]]; then git fetch --no-tags --depth=1 origin "$base"; fi
-      - uses: actions/setup-node@v5
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
         with:
           node-version: 24
           cache: npm
@@ -509,12 +509,12 @@ jobs:
           GATE_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
           GATE_BEFORE_SHA: ${{ github.event.before }}
         run: node scripts/showdown-gate.mjs route --lane L6 --out "$RUNNER_TEMP/route.json" --github-output "$GITHUB_OUTPUT"
-      - uses: actions/setup-java@v5
+      - uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5
         with:
           distribution: temurin
           java-version: '21'
       - name: Restore Firebase emulator and npx caches
-        uses: actions/cache@v5
+        uses: actions/cache@caa296126883cff596d87d8935842f9db880ef25 # v5
         with:
           path: |
             ~/.cache/firebase/emulators
@@ -538,7 +538,7 @@ jobs:
         run: npx --yes firebase-tools@15.28.1 emulators:exec --config tests/browser/support/firebase.browser-journey.json --only auth,firestore --project demo-cms-browser-journey "CMS_SHOWDOWN_LENGTH=3 node tests/browser/two-manager-browser-journey.cjs"
       - name: Upload journey screenshots
         if: always()
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
           name: browser-journey-screens
           path: ${{ runner.temp }}/browser-journey
@@ -556,7 +556,7 @@ jobs:
         run: node scripts/showdown-gate.mjs finalize --lane L6 --route "$RUNNER_TEMP/route.json" --out "$RUNNER_TEMP/lane/lane.json"
       - name: Upload lane record
         if: always()
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
           name: showdown-gate-lane-L6
           path: ${{ runner.temp }}/lane/lane.json
@@ -571,7 +571,7 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 8
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
           fetch-depth: 1
@@ -587,7 +587,7 @@ jobs:
           set -euo pipefail
           if [[ "$GATE_EVENT" == "pull_request" ]]; then base="$GATE_BASE_SHA"; else base="$GATE_BEFORE_SHA"; fi
           if [[ -n "$base" && ! "$base" =~ ^0+$ ]]; then git fetch --no-tags --depth=1 origin "$base"; fi
-      - uses: actions/setup-node@v5
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
         with:
           node-version: 24
       - name: 'SEAL: Recompute the route independently of every lane'
@@ -603,7 +603,7 @@ jobs:
       - name: Download lane records
         if: github.event_name != 'pull_request' || github.event.pull_request.draft == false
         continue-on-error: true
-        uses: actions/download-artifact@v7
+        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7
         with:
           pattern: showdown-gate-lane-*
           path: ${{ runner.temp }}/lanes
@@ -620,7 +620,7 @@ jobs:
         run: node scripts/showdown-gate.mjs seal --route "$RUNNER_TEMP/route.json" --lanes-dir "$RUNNER_TEMP/lanes" --out "$RUNNER_TEMP/gate-summary/gate-summary.json"
       - name: Upload gate summary
         if: always()
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
           name: showdown-gate-summary
           path: ${{ runner.temp }}/gate-summary/gate-summary.json

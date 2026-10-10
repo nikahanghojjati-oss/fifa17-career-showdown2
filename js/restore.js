@@ -156,7 +156,7 @@
     };
 
     // Full-library path (formatVersion 2): explicit clean restore or existing-data replace-all under Candidate C
-    if(hasBackupLibrary&&(saveLibraryChoice==="use-backup"||destinationIsClean)){
+    if(hasBackupLibrary&&saveLibraryChoice==="use-backup"){
       if(destinationIsClean){
         summary.saveLibrary="full-restore-clean";
       }else{
@@ -175,7 +175,7 @@
     }
 
     // Classic active / preferences / legacy path (still required for v1 compatibility and mixed choices)
-    if(!(hasBackupLibrary&&(saveLibraryChoice==="use-backup"||destinationIsClean))){
+    if(!(hasBackupLibrary&&saveLibraryChoice==="use-backup")){
       if(activeChoice==="use-backup"){
         if(parseRaw(currentRaw.activeShowdown,"active").state==="corrupt")warnings.push("Unreadable current active Showdown bytes will be replaced only because backup active state was explicitly selected.");
         candidateRaw.activeShowdown=payload.activeShowdown===null?null:JSON.stringify(payload.activeShowdown);

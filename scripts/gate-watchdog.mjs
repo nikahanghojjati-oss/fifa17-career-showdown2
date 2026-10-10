@@ -105,12 +105,13 @@ export function isGateRun(run){
 export const isWatchedRun=run=>Boolean(profileFor(run));
 
 // User-facing name: the Physio. One line per re-run job, e.g.
-//   Physio: re-ran L3 storage visual gameplay (GitHub gave it no machine), attempt 1 of 2
+//   Physio: re-ran L3 storage visual gameplay (runner lost during L3 / TEST: ...), attempt 1 of 2
 export const PHYSIO_NAME='Showdown Gate Physio';
 export function physioLines(result){
   if(!result||result.classification!=='INFRA'||!String(result.action||'').startsWith('rerun-failed-jobs'))return [];
   const attempt=Number(result.retries_used||0)+1;
-  return (result.failing_jobs||[]).map(job=>`Physio: re-ran ${job} (GitHub gave it no machine), attempt ${attempt} of ${MAX_AUTOMATIC_RERUNS}`);
+  const cause=(result.reasons||[]).join('; ')||'infrastructure failure; cause unavailable';
+  return (result.failing_jobs||[]).map(job=>`Physio: re-ran ${job} (${cause}), attempt ${attempt} of ${MAX_AUTOMATIC_RERUNS}`);
 }
 
 export function githubClient({token=process.env.GITHUB_TOKEN||process.env.GH_TOKEN,api=process.env.GITHUB_API_URL||'https://api.github.com'}={}){
