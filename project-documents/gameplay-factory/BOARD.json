@@ -802,14 +802,22 @@
      "title": "QA packet adoptions: truth line, wrong-target guard on main PRs, PR title rule",
      "lane": "sonnet",
      "state": "queued after the bug jobs",
-     "waits_on": ""
+     "waits_on": "",
+     "team": "brown",
+     "route": "claude",
+     "claude_reason": "Gate and main-PR guard work",
+     "place": "Team G lead thread (Claude runs it; nothing to type)"
     },
     {
      "id": "G-F11",
      "title": "Old-design CSS collisions: scope old rulebook/settings/analytics/app CSS off Team V markup (about 70 shared class names)",
      "lane": "sonnet",
      "state": "ready (Sonnet audit, then Opus fix)",
-     "waits_on": ""
+     "waits_on": "",
+     "team": "brown",
+     "route": "claude",
+     "claude_reason": "cross-screen CSS collisions across old and new screens",
+     "place": "Team G lead thread (Claude runs it; nothing to type)"
     },
     {
      "id": "G-F17",
@@ -818,7 +826,11 @@
      "state": "shadow: KEEP_SHADOW after the 9 Oct independent audit (71/100); fixes 1043, 1044 and 1045 merged; the owner card waits for a fresh exit report",
      "waits_on": "exit bar: 10 real PRs agree (2 full seals), 2 canaries fail, 1 simulated outage recovers; POS20 stays the merge authority until then",
      "details": "Nik 6:02 PM Boston time: gradual replacement; POS20 is archived to authority-history/pos20-archive/, not deleted",
-     "note": "reports/SHOWDOWN_GATE_AUDIT_2026-10-09.md"
+     "note": "reports/SHOWDOWN_GATE_AUDIT_2026-10-09.md",
+     "team": "purple",
+     "route": "claude",
+     "claude_reason": "Gate design (lead only)",
+     "place": "Team G lead thread (Claude runs it; nothing to type)"
     },
     {
      "id": "G-F18",
@@ -826,7 +838,11 @@
      "lane": "opus",
      "state": "queued for stage 2 (visual fixes); the history screens now load online (r65), the old-design shell is what remains",
      "waits_on": "stage 2",
-     "details": "overlaps G-F11 (old CSS collisions)"
+     "details": "overlaps G-F11 (old CSS collisions)",
+     "team": "purple",
+     "route": "claude",
+     "claude_reason": "cross-screen audit with emulator screenshots",
+     "place": "Team G lead thread (Claude runs it; nothing to type)"
     },
     {
      "id": "G-F4",
@@ -840,7 +856,11 @@
      "title": "Ten-season smoothness run on live 2.0 (emulator, 10 seasons with a mid-game expiry)",
      "lane": "sonnet",
      "state": "queued after the Olympiad bug jobs (stage 1)",
-     "waits_on": ""
+     "waits_on": "",
+     "team": "brown",
+     "route": "claude",
+     "claude_reason": "needs the emulator: a 10-season run",
+     "place": "Team G lead thread (Claude runs it; nothing to type)"
     },
     {
      "id": "G-F22",
@@ -1668,5 +1688,28 @@
   "purple": "Claude Opus, run by the lead",
   "brown": "Claude Sonnet, run by the lead",
   "black": "Claude Haiku, run by the lead (checks, tests, board)"
+ },
+ "claude_lane": {
+  "_about": "Nik 2026-10-10 13:56 UTC (cmsg_01Ff3pP27ri7Tiri5zxvNHhKVW8LFHC135dtxsQ56ADvYg): GPT chat and Codex stay the default, but jobs GPT can't do well go to the Team G lead and factory and are done by a Claude model. Nik never types these; the lead runs them.",
+  "route_here_when": [
+   "Rules, sign-in or Firebase work that the ChatGPT safety filter blocks (Codex can still take Rules code when it needs no live run)",
+   "Work that needs the emulator, a browser run, the two-phone journey or a live check of the deployed game",
+   "Cross-screen or multi-file logic bigger than one GPT turn (more than about 5 reads, 3 writes or 200 lines, or more than one decision)",
+   "A job GPT failed twice (wrong fix, stalled chat or red Gate) after it was split once",
+   "Release, merge, deploy and Gate-seal work (lead only)"
+  ],
+  "models": {
+   "purple": "Claude Opus: fixes that need judgment, cross-screen logic, releases",
+   "brown": "Claude Sonnet: audits, repros, emulator and journey runs",
+   "black": "Claude Haiku: boards, checks and copy chores"
+  },
+  "how_jobs_arrive": "The mega factory or the lead marks a job NEEDS CLAUDE with the reason; the lead moves it to this lane with a purple, brown or black team colour and runs it. Nothing for Nik to type.",
+  "open": [
+   "G-F7",
+   "G-F11",
+   "G-F18",
+   "G-F5",
+   "G-F17"
+  ]
  }
 }
