@@ -4,7 +4,7 @@
 
 ![Jobs live per release](history-chart.svg)
 
-Updated Fri 9 Oct, 9:58 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Fri 9 Oct, 10:00 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r67** (main `f42dac2`, Fri 9 Oct 9:34 PM)
 
@@ -54,11 +54,11 @@ Next free number:
 
 | Stage | Numbers | Merged | Picked up |
 | --- | --- | --- | --- |
-| audits | 1-100 | 0/100 | 0/100 |
-| screen fixes | 101-378 | 0/278 | 0/278 |
-| mockup match | 379-392 | 0/14 | 0/14 |
-| phone studies | 393-462 | 0/70 | 0/70 |
-| desktop studies | 463-518 | 0/56 | 0/56 |
+| audits | 2-224 | 0/112 | 0/112 |
+| screen fixes | 1-518 | 0/266 | 0/266 |
+| mockup match | 221-491 | 0/14 | 0/14 |
+| phone studies | 226-364 | 0/70 | 0/70 |
+| desktop studies | 366-476 | 0/56 | 0/56 |
 
 **Last taken numbers**
 
