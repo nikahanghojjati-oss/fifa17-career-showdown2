@@ -11,7 +11,7 @@ Typing is cheap; **merging code is not**. Every code PR runs the 13-minute Showd
 | **Sol chat, account 1 and 2** (nearly unlimited) | Audits (1 to 112), studies (126), and the `review` chat | The bulk: about 70 numbers a day across both accounts |
 | **Codex, account 1 and 2** | Code items from the board's "Type now" list (it can run `npm run -s test:contracts` itself, so its PRs are more likely green) | About 10 to 15 a day per account, matching the merge pace. Work mode: none |
 
-Codex line to type (task on the repo, one per code number N): `git fetch origin factory/gameplay-v1`, read `git show FETCH_HEAD:project-documents/gameplay-factory/queue/items/NNNN.md` (N padded to 4 digits), do exactly what it says, run `node scripts/pos10-syntax.mjs` and `npm run -s test:contracts`, open the PR it names.
+Codex line to type (a Codex cloud task on the repo, one per code number N; the lane is Codex only for code, Sol chat for audits and studies): `git fetch origin factory/gameplay-v1`, read `git show FETCH_HEAD:project-documents/gameplay-factory/queue/items/NNNN.md` (N padded to 4 digits), do exactly what it says, run `node scripts/pos10-syntax.mjs` and `npm run -s test:contracts`, open the PR it names.
 
 ## Day by day (3 bursts a day of about 40 minutes; nothing needed while you sleep or work)
 | When | Sol chat numbers | Codex code numbers | Cumulative taken | Goal |

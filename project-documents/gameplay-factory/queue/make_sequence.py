@@ -40,19 +40,19 @@ def main():
         t = tk[str(job)]
         body = (GF / "jobs" / f"JOB-{job}.md").read_text()
         head = (f"<!-- queue item {i:04d} = job {job}; branch prefix {t['prefix']} -->\n"
-                f"**Queue item {i} · Job {job}.** Before anything else (GitHub connector): if a branch starting with `{t['prefix']}` already exists, reply exactly `Number {i} is already done. Try {i+1}.` and stop.\n")
+                f"**Queue item {i} · Job {job}.** Before anything else (GitHub connector, or `git ls-remote --heads origin` if you are Codex): if a branch starting with `{t['prefix']}` already exists, reply exactly `Number {i} is already done. Try {i+1}.` and stop.\n")
         if t["mode"] == "code":
             pj = prev_in_group.get(job)
             pre = f"- Earlier job of this lock group `{t['group']}` is Job {pj} (branch prefix `{tk[str(pj)]['prefix']}`): if no branch with that prefix exists yet, reply exactly `Number {i} must wait for an earlier number in group {t['group']}. Type the next number.` and stop.\n" if pj else ""
-            head += (f"**Guards (code job):**\n{pre}"
-                     f"- List the open pull requests into `gameplay/bug-list-1` whose title starts with `JOB-`. If one has `[{t['group']}]` in its title, reply exactly `Number {i} must wait: group {t['group']} already has a pull request open. Type the next number.` and stop. If eight or more are open, reply exactly `Eight code pull requests are waiting for review. Type a number from the board's ready list, or wait.` and stop.\n")
+            head += (f"**Guard (code job):**\n{pre}"
+                     f"- Nik starts code numbers from the board's ready list, which already honours the lock group `{t['group']}` and the cap of eight open code pull requests.\n")
         head += "Otherwise do the job below, exactly.\n\n"
         (items / f"{i:04d}.md").write_text(head + body)
         seq[str(i)] = {"group": t.get("group"), "job": job, "prefix": t["prefix"], "stage": t["stage"], "title": t["title"], "mode": t["mode"], "screen": t["screen"]}
     (Q / "ORDER.json").write_text(json.dumps({"_about": "Queue number -> job. Strict order, stages 1 to 5. Never renumber a published number.", "total": len(order), "items": seq}, indent=1, ensure_ascii=False) + "\n")
     instr = f"""You are a worker in the Career Mode Showdown factory. Repository: {REPO} (public). Factory branch: factory/gameplay-v1.
 
-If my message is only a number N, open the file queue item N with the GitHub connector: project-documents/gameplay-factory/queue/items/NNNN.md (N padded to four digits, for example 7 is 0007) on branch factory/gameplay-v1. If the connector is not available, open {RAW}/items/NNNN.md. The file is a complete job: do exactly what it says, in this one turn, whether this is a normal chat or Work mode. Your first line is "Item N · Job NNNN · <title>" and your last line is the one line the job asks for. Just before that last line, use your visual features to show me one small picture of what you did and found: for a screen job a before/after sketch or annotated layout of the screen, for an audit a short table or diagram of the findings, for a study the mockup itself (or a rendering of it). Keep it quick; if a picture would risk a limit or an error, show a small table instead. Never ask me to continue and never do two numbers in one turn.
+If my message is only a number N, open the file queue item N with the GitHub connector: project-documents/gameplay-factory/queue/items/NNNN.md (N padded to four digits, for example 7 is 0007) on branch factory/gameplay-v1. If the connector is not available, open {RAW}/items/NNNN.md. If the file's lane says Codex cloud and you are a normal ChatGPT chat, reply exactly \"Number N is a Codex job. Paste it into Codex.\" and stop. Otherwise the file is a complete job: do exactly what it says, in this one turn, whether this is a normal chat or Work mode. Your first line is "Item N · Job NNNN · <title>" and your last line is the one line the job asks for. Just before that last line, use your visual features to show me one small picture of what you did and found: for a screen job a before/after sketch or annotated layout of the screen, for an audit a short table or diagram of the findings, for a study the mockup itself (or a rendering of it). Keep it quick; if a picture would risk a limit or an error, show a small table instead. Never ask me to continue and never do two numbers in one turn.
 
 If my message is the word review, open {RAW}/REVIEW.md and do that.
 

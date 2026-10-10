@@ -97,7 +97,9 @@ def main():
                 seen.add(t["group"])
             ready.append(int(k))
         highest_taken = max([int(k) for k, v in seq.items() if v != "waiting"] or [0])
-        seq = {"ready": ready[:12], "open_code_prs": open_code, "next_free": nxt_free, "highest_taken": highest_taken, "total": len(o), "states": seq}
+        seq = {"ready": ready[:12],
+                "ready_sol": [r for r in ready if q["tickets"][str(o[str(r)]["job"])]["mode"] != "code"][:12],
+                "ready_codex": [r for r in ready if q["tickets"][str(o[str(r)]["job"])]["mode"] == "code"][:12], "open_code_prs": open_code, "next_free": nxt_free, "highest_taken": highest_taken, "total": len(o), "states": seq}
     out = {"sequence": seq, "updated": now, "counts": counts, "stages": stages, "slots": slots, "tickets": state}
     od = pathlib.Path(a.out_dir)
     (od / "QUEUE_STATE.json").write_text(json.dumps(out, indent=1) + "\n")

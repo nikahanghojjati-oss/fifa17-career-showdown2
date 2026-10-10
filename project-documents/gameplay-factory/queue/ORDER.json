@@ -111,13 +111,13 @@
    "screen": "shared"
   },
   "13": {
-   "group": "standings",
-   "job": 1235,
-   "prefix": "gameplay/job-1235-",
+   "group": "rivalry-legacy",
+   "job": 1293,
+   "prefix": "gameplay/job-1293-",
    "stage": 2,
-   "title": "Standings: fix the 360x640 view",
+   "title": "Legacy: fix the 360x640 view",
    "mode": "code",
-   "screen": "standings"
+   "screen": "legacy"
   },
   "14": {
    "group": null,
@@ -129,13 +129,13 @@
    "screen": "shared"
   },
   "15": {
-   "group": "rivalry-legacy",
-   "job": 1293,
-   "prefix": "gameplay/job-1293-",
+   "group": "career-screens",
+   "job": 1322,
+   "prefix": "gameplay/job-1322-",
    "stage": 2,
-   "title": "Legacy: fix the 360x640 view",
+   "title": "Trophy Room: fix the 360x640 view",
    "mode": "code",
-   "screen": "legacy"
+   "screen": "trophy-room"
   },
   "16": {
    "group": null,
@@ -147,13 +147,13 @@
    "screen": "shared"
   },
   "17": {
-   "group": "trophy-room",
-   "job": 1322,
-   "prefix": "gameplay/job-1322-",
+   "group": "rules-settings",
+   "job": 1409,
+   "prefix": "gameplay/job-1409-",
    "stage": 2,
-   "title": "Trophy Room: fix the 360x640 view",
+   "title": "Rule Book: fix the 360x640 view",
    "mode": "code",
-   "screen": "trophy-room"
+   "screen": "rule-book"
   },
   "18": {
    "group": null,
@@ -165,13 +165,13 @@
    "screen": "shared"
   },
   "19": {
-   "group": "career-statistics",
-   "job": 1380,
-   "prefix": "gameplay/job-1380-",
+   "group": "home",
+   "job": 1062,
+   "prefix": "gameplay/job-1062-",
    "stage": 2,
-   "title": "Career Statistics: fix the 360x640 view",
+   "title": "Home: fix the 390x844 view",
    "mode": "code",
-   "screen": "career-statistics"
+   "screen": "home"
   },
   "20": {
    "group": null,
@@ -183,13 +183,13 @@
    "screen": "shared"
   },
   "21": {
-   "group": "rules-settings",
-   "job": 1409,
-   "prefix": "gameplay/job-1409-",
+   "group": "start-join",
+   "job": 1091,
+   "prefix": "gameplay/job-1091-",
    "stage": 2,
-   "title": "Rule Book: fix the 360x640 view",
+   "title": "Connect Players (start and join): fix the 390x844 view",
    "mode": "code",
-   "screen": "rule-book"
+   "screen": "start-join"
   },
   "22": {
    "group": null,
@@ -201,13 +201,13 @@
    "screen": "shared"
   },
   "23": {
-   "group": "home",
-   "job": 1062,
-   "prefix": "gameplay/job-1062-",
+   "group": "league",
+   "job": 1120,
+   "prefix": "gameplay/job-1120-",
    "stage": 2,
-   "title": "Home: fix the 390x844 view",
+   "title": "Select League: fix the 390x844 view",
    "mode": "code",
-   "screen": "home"
+   "screen": "league"
   },
   "24": {
    "group": null,
@@ -219,13 +219,13 @@
    "screen": "shared"
   },
   "25": {
-   "group": "start-join",
-   "job": 1091,
-   "prefix": "gameplay/job-1091-",
+   "group": "club",
+   "job": 1149,
+   "prefix": "gameplay/job-1149-",
    "stage": 2,
-   "title": "Connect Players (start and join): fix the 390x844 view",
+   "title": "Club packs: fix the 390x844 view",
    "mode": "code",
-   "screen": "start-join"
+   "screen": "club"
   },
   "26": {
    "group": null,
@@ -237,13 +237,13 @@
    "screen": "gameplay"
   },
   "27": {
-   "group": "league",
-   "job": 1120,
-   "prefix": "gameplay/job-1120-",
+   "group": "transfer",
+   "job": 1178,
+   "prefix": "gameplay/job-1178-",
    "stage": 2,
-   "title": "Select League: fix the 390x844 view",
+   "title": "Transfer challenge and Signing Entry: fix the 390x844 view",
    "mode": "code",
-   "screen": "league"
+   "screen": "transfer"
   },
   "28": {
    "group": null,
@@ -255,13 +255,13 @@
    "screen": "gameplay"
   },
   "29": {
-   "group": "club",
-   "job": 1149,
-   "prefix": "gameplay/job-1149-",
+   "group": "season-final",
+   "job": 1207,
+   "prefix": "gameplay/job-1207-",
    "stage": 2,
-   "title": "Club packs: fix the 390x844 view",
+   "title": "Season Results: fix the 390x844 view",
    "mode": "code",
-   "screen": "club"
+   "screen": "season-results"
   },
   "30": {
    "group": null,
@@ -273,13 +273,13 @@
    "screen": "gameplay"
   },
   "31": {
-   "group": "transfer",
-   "job": 1178,
-   "prefix": "gameplay/job-1178-",
+   "group": "rivalry-legacy",
+   "job": 1294,
+   "prefix": "gameplay/job-1294-",
    "stage": 2,
-   "title": "Transfer challenge and Signing Entry: fix the 390x844 view",
+   "title": "Legacy: fix the 390x844 view",
    "mode": "code",
-   "screen": "transfer"
+   "screen": "legacy"
   },
   "32": {
    "group": null,
@@ -291,13 +291,13 @@
    "screen": "gameplay"
   },
   "33": {
-   "group": "season-final",
-   "job": 1207,
-   "prefix": "gameplay/job-1207-",
+   "group": "career-screens",
+   "job": 1323,
+   "prefix": "gameplay/job-1323-",
    "stage": 2,
-   "title": "Season Results: fix the 390x844 view",
+   "title": "Trophy Room: fix the 390x844 view",
    "mode": "code",
-   "screen": "season-results"
+   "screen": "trophy-room"
   },
   "34": {
    "group": null,
@@ -309,13 +309,13 @@
    "screen": "gameplay"
   },
   "35": {
-   "group": "standings",
-   "job": 1236,
-   "prefix": "gameplay/job-1236-",
+   "group": "rules-settings",
+   "job": 1410,
+   "prefix": "gameplay/job-1410-",
    "stage": 2,
-   "title": "Standings: fix the 390x844 view",
+   "title": "Rule Book: fix the 390x844 view",
    "mode": "code",
-   "screen": "standings"
+   "screen": "rule-book"
   },
   "36": {
    "group": null,
@@ -327,13 +327,13 @@
    "screen": "gameplay"
   },
   "37": {
-   "group": "rivalry-legacy",
-   "job": 1294,
-   "prefix": "gameplay/job-1294-",
+   "group": "home",
+   "job": 1063,
+   "prefix": "gameplay/job-1063-",
    "stage": 2,
-   "title": "Legacy: fix the 390x844 view",
+   "title": "Home: fix the 430x932 view",
    "mode": "code",
-   "screen": "legacy"
+   "screen": "home"
   },
   "38": {
    "group": null,
@@ -345,13 +345,13 @@
    "screen": "gameplay"
   },
   "39": {
-   "group": "trophy-room",
-   "job": 1323,
-   "prefix": "gameplay/job-1323-",
+   "group": "start-join",
+   "job": 1092,
+   "prefix": "gameplay/job-1092-",
    "stage": 2,
-   "title": "Trophy Room: fix the 390x844 view",
+   "title": "Connect Players (start and join): fix the 430x932 view",
    "mode": "code",
-   "screen": "trophy-room"
+   "screen": "start-join"
   },
   "40": {
    "group": null,
@@ -363,13 +363,13 @@
    "screen": "gameplay"
   },
   "41": {
-   "group": "career-statistics",
-   "job": 1381,
-   "prefix": "gameplay/job-1381-",
+   "group": "league",
+   "job": 1121,
+   "prefix": "gameplay/job-1121-",
    "stage": 2,
-   "title": "Career Statistics: fix the 390x844 view",
+   "title": "Select League: fix the 430x932 view",
    "mode": "code",
-   "screen": "career-statistics"
+   "screen": "league"
   },
   "42": {
    "group": null,
@@ -381,13 +381,13 @@
    "screen": "gameplay"
   },
   "43": {
-   "group": "rules-settings",
-   "job": 1410,
-   "prefix": "gameplay/job-1410-",
+   "group": "club",
+   "job": 1150,
+   "prefix": "gameplay/job-1150-",
    "stage": 2,
-   "title": "Rule Book: fix the 390x844 view",
+   "title": "Club packs: fix the 430x932 view",
    "mode": "code",
-   "screen": "rule-book"
+   "screen": "club"
   },
   "44": {
    "group": null,
@@ -399,13 +399,13 @@
    "screen": "gameplay"
   },
   "45": {
-   "group": "home",
-   "job": 1063,
-   "prefix": "gameplay/job-1063-",
+   "group": "transfer",
+   "job": 1179,
+   "prefix": "gameplay/job-1179-",
    "stage": 2,
-   "title": "Home: fix the 430x932 view",
+   "title": "Transfer challenge and Signing Entry: fix the 430x932 view",
    "mode": "code",
-   "screen": "home"
+   "screen": "transfer"
   },
   "46": {
    "group": null,
@@ -417,13 +417,13 @@
    "screen": "gameplay"
   },
   "47": {
-   "group": "start-join",
-   "job": 1092,
-   "prefix": "gameplay/job-1092-",
+   "group": "season-final",
+   "job": 1208,
+   "prefix": "gameplay/job-1208-",
    "stage": 2,
-   "title": "Connect Players (start and join): fix the 430x932 view",
+   "title": "Season Results: fix the 430x932 view",
    "mode": "code",
-   "screen": "start-join"
+   "screen": "season-results"
   },
   "48": {
    "group": null,
@@ -435,13 +435,13 @@
    "screen": "gameplay"
   },
   "49": {
-   "group": "league",
-   "job": 1121,
-   "prefix": "gameplay/job-1121-",
+   "group": "rivalry-legacy",
+   "job": 1295,
+   "prefix": "gameplay/job-1295-",
    "stage": 2,
-   "title": "Select League: fix the 430x932 view",
+   "title": "Legacy: fix the 430x932 view",
    "mode": "code",
-   "screen": "league"
+   "screen": "legacy"
   },
   "50": {
    "group": null,
@@ -453,13 +453,13 @@
    "screen": "gameplay"
   },
   "51": {
-   "group": "club",
-   "job": 1150,
-   "prefix": "gameplay/job-1150-",
+   "group": "career-screens",
+   "job": 1324,
+   "prefix": "gameplay/job-1324-",
    "stage": 2,
-   "title": "Club packs: fix the 430x932 view",
+   "title": "Trophy Room: fix the 430x932 view",
    "mode": "code",
-   "screen": "club"
+   "screen": "trophy-room"
   },
   "52": {
    "group": null,
@@ -471,13 +471,13 @@
    "screen": "gameplay"
   },
   "53": {
-   "group": "transfer",
-   "job": 1179,
-   "prefix": "gameplay/job-1179-",
+   "group": "rules-settings",
+   "job": 1411,
+   "prefix": "gameplay/job-1411-",
    "stage": 2,
-   "title": "Transfer challenge and Signing Entry: fix the 430x932 view",
+   "title": "Rule Book: fix the 430x932 view",
    "mode": "code",
-   "screen": "transfer"
+   "screen": "rule-book"
   },
   "54": {
    "group": null,
@@ -489,13 +489,13 @@
    "screen": "gameplay"
   },
   "55": {
-   "group": "season-final",
-   "job": 1208,
-   "prefix": "gameplay/job-1208-",
+   "group": "home",
+   "job": 1064,
+   "prefix": "gameplay/job-1064-",
    "stage": 2,
-   "title": "Season Results: fix the 430x932 view",
+   "title": "Home: fix the 844x390 view",
    "mode": "code",
-   "screen": "season-results"
+   "screen": "home"
   },
   "56": {
    "group": null,
@@ -507,13 +507,13 @@
    "screen": "gameplay"
   },
   "57": {
-   "group": "standings",
-   "job": 1237,
-   "prefix": "gameplay/job-1237-",
+   "group": "start-join",
+   "job": 1093,
+   "prefix": "gameplay/job-1093-",
    "stage": 2,
-   "title": "Standings: fix the 430x932 view",
+   "title": "Connect Players (start and join): fix the 844x390 view",
    "mode": "code",
-   "screen": "standings"
+   "screen": "start-join"
   },
   "58": {
    "group": null,
@@ -525,13 +525,13 @@
    "screen": "gameplay"
   },
   "59": {
-   "group": "rivalry-legacy",
-   "job": 1295,
-   "prefix": "gameplay/job-1295-",
+   "group": "league",
+   "job": 1122,
+   "prefix": "gameplay/job-1122-",
    "stage": 2,
-   "title": "Legacy: fix the 430x932 view",
+   "title": "Select League: fix the 844x390 view",
    "mode": "code",
-   "screen": "legacy"
+   "screen": "league"
   },
   "60": {
    "group": null,
@@ -543,13 +543,13 @@
    "screen": "gameplay"
   },
   "61": {
-   "group": "trophy-room",
-   "job": 1324,
-   "prefix": "gameplay/job-1324-",
+   "group": "club",
+   "job": 1151,
+   "prefix": "gameplay/job-1151-",
    "stage": 2,
-   "title": "Trophy Room: fix the 430x932 view",
+   "title": "Club packs: fix the 844x390 view",
    "mode": "code",
-   "screen": "trophy-room"
+   "screen": "club"
   },
   "62": {
    "group": null,
@@ -561,13 +561,13 @@
    "screen": "gameplay"
   },
   "63": {
-   "group": "career-statistics",
-   "job": 1382,
-   "prefix": "gameplay/job-1382-",
+   "group": "transfer",
+   "job": 1180,
+   "prefix": "gameplay/job-1180-",
    "stage": 2,
-   "title": "Career Statistics: fix the 430x932 view",
+   "title": "Transfer challenge and Signing Entry: fix the 844x390 view",
    "mode": "code",
-   "screen": "career-statistics"
+   "screen": "transfer"
   },
   "64": {
    "group": null,
@@ -579,13 +579,13 @@
    "screen": "gameplay"
   },
   "65": {
-   "group": "rules-settings",
-   "job": 1411,
-   "prefix": "gameplay/job-1411-",
+   "group": "season-final",
+   "job": 1209,
+   "prefix": "gameplay/job-1209-",
    "stage": 2,
-   "title": "Rule Book: fix the 430x932 view",
+   "title": "Season Results: fix the 844x390 view",
    "mode": "code",
-   "screen": "rule-book"
+   "screen": "season-results"
   },
   "66": {
    "group": null,
@@ -597,13 +597,13 @@
    "screen": "gameplay"
   },
   "67": {
-   "group": "home",
-   "job": 1064,
-   "prefix": "gameplay/job-1064-",
+   "group": "rivalry-legacy",
+   "job": 1296,
+   "prefix": "gameplay/job-1296-",
    "stage": 2,
-   "title": "Home: fix the 844x390 view",
+   "title": "Legacy: fix the 844x390 view",
    "mode": "code",
-   "screen": "home"
+   "screen": "legacy"
   },
   "68": {
    "group": null,
@@ -615,13 +615,13 @@
    "screen": "gameplay"
   },
   "69": {
-   "group": "start-join",
-   "job": 1093,
-   "prefix": "gameplay/job-1093-",
+   "group": "career-screens",
+   "job": 1325,
+   "prefix": "gameplay/job-1325-",
    "stage": 2,
-   "title": "Connect Players (start and join): fix the 844x390 view",
+   "title": "Trophy Room: fix the 844x390 view",
    "mode": "code",
-   "screen": "start-join"
+   "screen": "trophy-room"
   },
   "70": {
    "group": null,
@@ -633,13 +633,13 @@
    "screen": "gameplay"
   },
   "71": {
-   "group": "league",
-   "job": 1122,
-   "prefix": "gameplay/job-1122-",
+   "group": "rules-settings",
+   "job": 1412,
+   "prefix": "gameplay/job-1412-",
    "stage": 2,
-   "title": "Select League: fix the 844x390 view",
+   "title": "Rule Book: fix the 844x390 view",
    "mode": "code",
-   "screen": "league"
+   "screen": "rule-book"
   },
   "72": {
    "group": null,
@@ -651,13 +651,13 @@
    "screen": "gameplay"
   },
   "73": {
-   "group": "club",
-   "job": 1151,
-   "prefix": "gameplay/job-1151-",
+   "group": "home",
+   "job": 1065,
+   "prefix": "gameplay/job-1065-",
    "stage": 2,
-   "title": "Club packs: fix the 844x390 view",
+   "title": "Home: fix the 932x430 view",
    "mode": "code",
-   "screen": "club"
+   "screen": "home"
   },
   "74": {
    "group": null,
@@ -669,13 +669,13 @@
    "screen": "gameplay"
   },
   "75": {
-   "group": "transfer",
-   "job": 1180,
-   "prefix": "gameplay/job-1180-",
+   "group": "start-join",
+   "job": 1094,
+   "prefix": "gameplay/job-1094-",
    "stage": 2,
-   "title": "Transfer challenge and Signing Entry: fix the 844x390 view",
+   "title": "Connect Players (start and join): fix the 932x430 view",
    "mode": "code",
-   "screen": "transfer"
+   "screen": "start-join"
   },
   "76": {
    "group": null,
@@ -687,13 +687,13 @@
    "screen": "gameplay"
   },
   "77": {
-   "group": "season-final",
-   "job": 1209,
-   "prefix": "gameplay/job-1209-",
+   "group": "league",
+   "job": 1123,
+   "prefix": "gameplay/job-1123-",
    "stage": 2,
-   "title": "Season Results: fix the 844x390 view",
+   "title": "Select League: fix the 932x430 view",
    "mode": "code",
-   "screen": "season-results"
+   "screen": "league"
   },
   "78": {
    "group": null,
@@ -705,13 +705,13 @@
    "screen": "gameplay"
   },
   "79": {
-   "group": "standings",
-   "job": 1238,
-   "prefix": "gameplay/job-1238-",
+   "group": "club",
+   "job": 1152,
+   "prefix": "gameplay/job-1152-",
    "stage": 2,
-   "title": "Standings: fix the 844x390 view",
+   "title": "Club packs: fix the 932x430 view",
    "mode": "code",
-   "screen": "standings"
+   "screen": "club"
   },
   "80": {
    "group": null,
@@ -723,13 +723,13 @@
    "screen": "gameplay"
   },
   "81": {
-   "group": "rivalry-legacy",
-   "job": 1296,
-   "prefix": "gameplay/job-1296-",
+   "group": "transfer",
+   "job": 1181,
+   "prefix": "gameplay/job-1181-",
    "stage": 2,
-   "title": "Legacy: fix the 844x390 view",
+   "title": "Transfer challenge and Signing Entry: fix the 932x430 view",
    "mode": "code",
-   "screen": "legacy"
+   "screen": "transfer"
   },
   "82": {
    "group": null,
@@ -741,13 +741,13 @@
    "screen": "gameplay"
   },
   "83": {
-   "group": "trophy-room",
-   "job": 1325,
-   "prefix": "gameplay/job-1325-",
+   "group": "season-final",
+   "job": 1210,
+   "prefix": "gameplay/job-1210-",
    "stage": 2,
-   "title": "Trophy Room: fix the 844x390 view",
+   "title": "Season Results: fix the 932x430 view",
    "mode": "code",
-   "screen": "trophy-room"
+   "screen": "season-results"
   },
   "84": {
    "group": null,
@@ -759,13 +759,13 @@
    "screen": "gameplay"
   },
   "85": {
-   "group": "career-statistics",
-   "job": 1383,
-   "prefix": "gameplay/job-1383-",
+   "group": "rivalry-legacy",
+   "job": 1297,
+   "prefix": "gameplay/job-1297-",
    "stage": 2,
-   "title": "Career Statistics: fix the 844x390 view",
+   "title": "Legacy: fix the 932x430 view",
    "mode": "code",
-   "screen": "career-statistics"
+   "screen": "legacy"
   },
   "86": {
    "group": null,
@@ -777,13 +777,13 @@
    "screen": "gameplay"
   },
   "87": {
-   "group": "rules-settings",
-   "job": 1412,
-   "prefix": "gameplay/job-1412-",
+   "group": "career-screens",
+   "job": 1326,
+   "prefix": "gameplay/job-1326-",
    "stage": 2,
-   "title": "Rule Book: fix the 844x390 view",
+   "title": "Trophy Room: fix the 932x430 view",
    "mode": "code",
-   "screen": "rule-book"
+   "screen": "trophy-room"
   },
   "88": {
    "group": null,
@@ -795,13 +795,13 @@
    "screen": "gameplay"
   },
   "89": {
-   "group": "home",
-   "job": 1065,
-   "prefix": "gameplay/job-1065-",
+   "group": "rules-settings",
+   "job": 1413,
+   "prefix": "gameplay/job-1413-",
    "stage": 2,
-   "title": "Home: fix the 932x430 view",
+   "title": "Rule Book: fix the 932x430 view",
    "mode": "code",
-   "screen": "home"
+   "screen": "rule-book"
   },
   "90": {
    "group": null,
@@ -813,13 +813,13 @@
    "screen": "gameplay"
   },
   "91": {
-   "group": "start-join",
-   "job": 1094,
-   "prefix": "gameplay/job-1094-",
+   "group": "home",
+   "job": 1066,
+   "prefix": "gameplay/job-1066-",
    "stage": 2,
-   "title": "Connect Players (start and join): fix the 932x430 view",
+   "title": "Home: fix the 768x1024 view",
    "mode": "code",
-   "screen": "start-join"
+   "screen": "home"
   },
   "92": {
    "group": null,
@@ -831,13 +831,13 @@
    "screen": "gameplay"
   },
   "93": {
-   "group": "league",
-   "job": 1123,
-   "prefix": "gameplay/job-1123-",
+   "group": "start-join",
+   "job": 1095,
+   "prefix": "gameplay/job-1095-",
    "stage": 2,
-   "title": "Select League: fix the 932x430 view",
+   "title": "Connect Players (start and join): fix the 768x1024 view",
    "mode": "code",
-   "screen": "league"
+   "screen": "start-join"
   },
   "94": {
    "group": null,
@@ -849,13 +849,13 @@
    "screen": "gameplay"
   },
   "95": {
-   "group": "club",
-   "job": 1152,
-   "prefix": "gameplay/job-1152-",
+   "group": "league",
+   "job": 1124,
+   "prefix": "gameplay/job-1124-",
    "stage": 2,
-   "title": "Club packs: fix the 932x430 view",
+   "title": "Select League: fix the 768x1024 view",
    "mode": "code",
-   "screen": "club"
+   "screen": "league"
   },
   "96": {
    "group": null,
@@ -867,13 +867,13 @@
    "screen": "gameplay"
   },
   "97": {
-   "group": "transfer",
-   "job": 1181,
-   "prefix": "gameplay/job-1181-",
+   "group": "club",
+   "job": 1153,
+   "prefix": "gameplay/job-1153-",
    "stage": 2,
-   "title": "Transfer challenge and Signing Entry: fix the 932x430 view",
+   "title": "Club packs: fix the 768x1024 view",
    "mode": "code",
-   "screen": "transfer"
+   "screen": "club"
   },
   "98": {
    "group": null,
@@ -885,13 +885,13 @@
    "screen": "gameplay"
   },
   "99": {
-   "group": "season-final",
-   "job": 1210,
-   "prefix": "gameplay/job-1210-",
+   "group": "transfer",
+   "job": 1182,
+   "prefix": "gameplay/job-1182-",
    "stage": 2,
-   "title": "Season Results: fix the 932x430 view",
+   "title": "Transfer challenge and Signing Entry: fix the 768x1024 view",
    "mode": "code",
-   "screen": "season-results"
+   "screen": "transfer"
   },
   "100": {
    "group": null,
@@ -903,13 +903,13 @@
    "screen": "gameplay"
   },
   "101": {
-   "group": "standings",
-   "job": 1239,
-   "prefix": "gameplay/job-1239-",
+   "group": "season-final",
+   "job": 1211,
+   "prefix": "gameplay/job-1211-",
    "stage": 2,
-   "title": "Standings: fix the 932x430 view",
+   "title": "Season Results: fix the 768x1024 view",
    "mode": "code",
-   "screen": "standings"
+   "screen": "season-results"
   },
   "102": {
    "group": null,
@@ -922,10 +922,10 @@
   },
   "103": {
    "group": "rivalry-legacy",
-   "job": 1297,
-   "prefix": "gameplay/job-1297-",
+   "job": 1298,
+   "prefix": "gameplay/job-1298-",
    "stage": 2,
-   "title": "Legacy: fix the 932x430 view",
+   "title": "Legacy: fix the 768x1024 view",
    "mode": "code",
    "screen": "legacy"
   },
@@ -939,11 +939,11 @@
    "screen": "gameplay"
   },
   "105": {
-   "group": "trophy-room",
-   "job": 1326,
-   "prefix": "gameplay/job-1326-",
+   "group": "career-screens",
+   "job": 1327,
+   "prefix": "gameplay/job-1327-",
    "stage": 2,
-   "title": "Trophy Room: fix the 932x430 view",
+   "title": "Trophy Room: fix the 768x1024 view",
    "mode": "code",
    "screen": "trophy-room"
   },
@@ -957,13 +957,13 @@
    "screen": "gameplay"
   },
   "107": {
-   "group": "career-statistics",
-   "job": 1384,
-   "prefix": "gameplay/job-1384-",
+   "group": "rules-settings",
+   "job": 1414,
+   "prefix": "gameplay/job-1414-",
    "stage": 2,
-   "title": "Career Statistics: fix the 932x430 view",
+   "title": "Rule Book: fix the 768x1024 view",
    "mode": "code",
-   "screen": "career-statistics"
+   "screen": "rule-book"
   },
   "108": {
    "group": null,
@@ -975,13 +975,13 @@
    "screen": "gameplay"
   },
   "109": {
-   "group": "rules-settings",
-   "job": 1413,
-   "prefix": "gameplay/job-1413-",
+   "group": "home",
+   "job": 1067,
+   "prefix": "gameplay/job-1067-",
    "stage": 2,
-   "title": "Rule Book: fix the 932x430 view",
+   "title": "Home: fix the 1280x650 view",
    "mode": "code",
-   "screen": "rule-book"
+   "screen": "home"
   },
   "110": {
    "group": null,
@@ -993,13 +993,13 @@
    "screen": "gameplay"
   },
   "111": {
-   "group": "home",
-   "job": 1066,
-   "prefix": "gameplay/job-1066-",
+   "group": "start-join",
+   "job": 1096,
+   "prefix": "gameplay/job-1096-",
    "stage": 2,
-   "title": "Home: fix the 768x1024 view",
+   "title": "Connect Players (start and join): fix the 1280x650 view",
    "mode": "code",
-   "screen": "home"
+   "screen": "start-join"
   },
   "112": {
    "group": null,
@@ -1011,13 +1011,13 @@
    "screen": "gameplay"
   },
   "113": {
-   "group": "start-join",
-   "job": 1095,
-   "prefix": "gameplay/job-1095-",
+   "group": "league",
+   "job": 1125,
+   "prefix": "gameplay/job-1125-",
    "stage": 2,
-   "title": "Connect Players (start and join): fix the 768x1024 view",
+   "title": "Select League: fix the 1280x650 view",
    "mode": "code",
-   "screen": "start-join"
+   "screen": "league"
   },
   "114": {
    "group": null,
@@ -1029,13 +1029,13 @@
    "screen": "gameplay"
   },
   "115": {
-   "group": "league",
-   "job": 1124,
-   "prefix": "gameplay/job-1124-",
+   "group": "club",
+   "job": 1154,
+   "prefix": "gameplay/job-1154-",
    "stage": 2,
-   "title": "Select League: fix the 768x1024 view",
+   "title": "Club packs: fix the 1280x650 view",
    "mode": "code",
-   "screen": "league"
+   "screen": "club"
   },
   "116": {
    "group": null,
@@ -1047,13 +1047,13 @@
    "screen": "gameplay"
   },
   "117": {
-   "group": "club",
-   "job": 1153,
-   "prefix": "gameplay/job-1153-",
+   "group": "transfer",
+   "job": 1183,
+   "prefix": "gameplay/job-1183-",
    "stage": 2,
-   "title": "Club packs: fix the 768x1024 view",
+   "title": "Transfer challenge and Signing Entry: fix the 1280x650 view",
    "mode": "code",
-   "screen": "club"
+   "screen": "transfer"
   },
   "118": {
    "group": null,
@@ -1065,13 +1065,13 @@
    "screen": "gameplay"
   },
   "119": {
-   "group": "transfer",
-   "job": 1182,
-   "prefix": "gameplay/job-1182-",
+   "group": "season-final",
+   "job": 1212,
+   "prefix": "gameplay/job-1212-",
    "stage": 2,
-   "title": "Transfer challenge and Signing Entry: fix the 768x1024 view",
+   "title": "Season Results: fix the 1280x650 view",
    "mode": "code",
-   "screen": "transfer"
+   "screen": "season-results"
   },
   "120": {
    "group": null,
@@ -1083,13 +1083,13 @@
    "screen": "gameplay"
   },
   "121": {
-   "group": "season-final",
-   "job": 1211,
-   "prefix": "gameplay/job-1211-",
+   "group": "rivalry-legacy",
+   "job": 1299,
+   "prefix": "gameplay/job-1299-",
    "stage": 2,
-   "title": "Season Results: fix the 768x1024 view",
+   "title": "Legacy: fix the 1280x650 view",
    "mode": "code",
-   "screen": "season-results"
+   "screen": "legacy"
   },
   "122": {
    "group": null,
@@ -1101,13 +1101,13 @@
    "screen": "gameplay"
   },
   "123": {
-   "group": "standings",
-   "job": 1240,
-   "prefix": "gameplay/job-1240-",
+   "group": "career-screens",
+   "job": 1328,
+   "prefix": "gameplay/job-1328-",
    "stage": 2,
-   "title": "Standings: fix the 768x1024 view",
+   "title": "Trophy Room: fix the 1280x650 view",
    "mode": "code",
-   "screen": "standings"
+   "screen": "trophy-room"
   },
   "124": {
    "group": null,
@@ -1119,13 +1119,13 @@
    "screen": "gameplay"
   },
   "125": {
-   "group": "rivalry-legacy",
-   "job": 1298,
-   "prefix": "gameplay/job-1298-",
+   "group": "rules-settings",
+   "job": 1415,
+   "prefix": "gameplay/job-1415-",
    "stage": 2,
-   "title": "Legacy: fix the 768x1024 view",
+   "title": "Rule Book: fix the 1280x650 view",
    "mode": "code",
-   "screen": "legacy"
+   "screen": "rule-book"
   },
   "126": {
    "group": null,
@@ -1137,13 +1137,13 @@
    "screen": "gameplay"
   },
   "127": {
-   "group": "trophy-room",
-   "job": 1327,
-   "prefix": "gameplay/job-1327-",
+   "group": "home",
+   "job": 1068,
+   "prefix": "gameplay/job-1068-",
    "stage": 2,
-   "title": "Trophy Room: fix the 768x1024 view",
+   "title": "Home: fix the 1366x768 view",
    "mode": "code",
-   "screen": "trophy-room"
+   "screen": "home"
   },
   "128": {
    "group": null,
@@ -1155,13 +1155,13 @@
    "screen": "gameplay"
   },
   "129": {
-   "group": "career-statistics",
-   "job": 1385,
-   "prefix": "gameplay/job-1385-",
+   "group": "start-join",
+   "job": 1097,
+   "prefix": "gameplay/job-1097-",
    "stage": 2,
-   "title": "Career Statistics: fix the 768x1024 view",
+   "title": "Connect Players (start and join): fix the 1366x768 view",
    "mode": "code",
-   "screen": "career-statistics"
+   "screen": "start-join"
   },
   "130": {
    "group": null,
@@ -1173,13 +1173,13 @@
    "screen": "gameplay"
   },
   "131": {
-   "group": "rules-settings",
-   "job": 1414,
-   "prefix": "gameplay/job-1414-",
+   "group": "league",
+   "job": 1126,
+   "prefix": "gameplay/job-1126-",
    "stage": 2,
-   "title": "Rule Book: fix the 768x1024 view",
+   "title": "Select League: fix the 1366x768 view",
    "mode": "code",
-   "screen": "rule-book"
+   "screen": "league"
   },
   "132": {
    "group": null,
@@ -1191,13 +1191,13 @@
    "screen": "gameplay"
   },
   "133": {
-   "group": "home",
-   "job": 1067,
-   "prefix": "gameplay/job-1067-",
+   "group": "club",
+   "job": 1155,
+   "prefix": "gameplay/job-1155-",
    "stage": 2,
-   "title": "Home: fix the 1280x650 view",
+   "title": "Club packs: fix the 1366x768 view",
    "mode": "code",
-   "screen": "home"
+   "screen": "club"
   },
   "134": {
    "group": null,
@@ -1209,13 +1209,13 @@
    "screen": "gameplay"
   },
   "135": {
-   "group": "start-join",
-   "job": 1096,
-   "prefix": "gameplay/job-1096-",
+   "group": "transfer",
+   "job": 1184,
+   "prefix": "gameplay/job-1184-",
    "stage": 2,
-   "title": "Connect Players (start and join): fix the 1280x650 view",
+   "title": "Transfer challenge and Signing Entry: fix the 1366x768 view",
    "mode": "code",
-   "screen": "start-join"
+   "screen": "transfer"
   },
   "136": {
    "group": null,
@@ -1227,13 +1227,13 @@
    "screen": "gameplay"
   },
   "137": {
-   "group": "league",
-   "job": 1125,
-   "prefix": "gameplay/job-1125-",
+   "group": "season-final",
+   "job": 1213,
+   "prefix": "gameplay/job-1213-",
    "stage": 2,
-   "title": "Select League: fix the 1280x650 view",
+   "title": "Season Results: fix the 1366x768 view",
    "mode": "code",
-   "screen": "league"
+   "screen": "season-results"
   },
   "138": {
    "group": null,
@@ -1245,13 +1245,13 @@
    "screen": "gameplay"
   },
   "139": {
-   "group": "club",
-   "job": 1154,
-   "prefix": "gameplay/job-1154-",
+   "group": "rivalry-legacy",
+   "job": 1300,
+   "prefix": "gameplay/job-1300-",
    "stage": 2,
-   "title": "Club packs: fix the 1280x650 view",
+   "title": "Legacy: fix the 1366x768 view",
    "mode": "code",
-   "screen": "club"
+   "screen": "legacy"
   },
   "140": {
    "group": null,
@@ -1263,13 +1263,13 @@
    "screen": "gameplay"
   },
   "141": {
-   "group": "transfer",
-   "job": 1183,
-   "prefix": "gameplay/job-1183-",
+   "group": "career-screens",
+   "job": 1329,
+   "prefix": "gameplay/job-1329-",
    "stage": 2,
-   "title": "Transfer challenge and Signing Entry: fix the 1280x650 view",
+   "title": "Trophy Room: fix the 1366x768 view",
    "mode": "code",
-   "screen": "transfer"
+   "screen": "trophy-room"
   },
   "142": {
    "group": null,
@@ -1281,13 +1281,13 @@
    "screen": "gameplay"
   },
   "143": {
-   "group": "season-final",
-   "job": 1212,
-   "prefix": "gameplay/job-1212-",
+   "group": "rules-settings",
+   "job": 1416,
+   "prefix": "gameplay/job-1416-",
    "stage": 2,
-   "title": "Season Results: fix the 1280x650 view",
+   "title": "Rule Book: fix the 1366x768 view",
    "mode": "code",
-   "screen": "season-results"
+   "screen": "rule-book"
   },
   "144": {
    "group": null,
@@ -1299,13 +1299,13 @@
    "screen": "gameplay"
   },
   "145": {
-   "group": "standings",
-   "job": 1241,
-   "prefix": "gameplay/job-1241-",
+   "group": "home",
+   "job": 1069,
+   "prefix": "gameplay/job-1069-",
    "stage": 2,
-   "title": "Standings: fix the 1280x650 view",
+   "title": "Home: fix the 1920x1080 view",
    "mode": "code",
-   "screen": "standings"
+   "screen": "home"
   },
   "146": {
    "group": null,
@@ -1317,13 +1317,13 @@
    "screen": "gameplay"
   },
   "147": {
-   "group": "rivalry-legacy",
-   "job": 1299,
-   "prefix": "gameplay/job-1299-",
+   "group": "start-join",
+   "job": 1098,
+   "prefix": "gameplay/job-1098-",
    "stage": 2,
-   "title": "Legacy: fix the 1280x650 view",
+   "title": "Connect Players (start and join): fix the 1920x1080 view",
    "mode": "code",
-   "screen": "legacy"
+   "screen": "start-join"
   },
   "148": {
    "group": null,
@@ -1335,13 +1335,13 @@
    "screen": "gameplay"
   },
   "149": {
-   "group": "trophy-room",
-   "job": 1328,
-   "prefix": "gameplay/job-1328-",
+   "group": "league",
+   "job": 1127,
+   "prefix": "gameplay/job-1127-",
    "stage": 2,
-   "title": "Trophy Room: fix the 1280x650 view",
+   "title": "Select League: fix the 1920x1080 view",
    "mode": "code",
-   "screen": "trophy-room"
+   "screen": "league"
   },
   "150": {
    "group": null,
@@ -1353,13 +1353,13 @@
    "screen": "gameplay"
   },
   "151": {
-   "group": "career-statistics",
-   "job": 1386,
-   "prefix": "gameplay/job-1386-",
+   "group": "club",
+   "job": 1156,
+   "prefix": "gameplay/job-1156-",
    "stage": 2,
-   "title": "Career Statistics: fix the 1280x650 view",
+   "title": "Club packs: fix the 1920x1080 view",
    "mode": "code",
-   "screen": "career-statistics"
+   "screen": "club"
   },
   "152": {
    "group": null,
@@ -1371,13 +1371,13 @@
    "screen": "gameplay"
   },
   "153": {
-   "group": "rules-settings",
-   "job": 1415,
-   "prefix": "gameplay/job-1415-",
+   "group": "transfer",
+   "job": 1185,
+   "prefix": "gameplay/job-1185-",
    "stage": 2,
-   "title": "Rule Book: fix the 1280x650 view",
+   "title": "Transfer challenge and Signing Entry: fix the 1920x1080 view",
    "mode": "code",
-   "screen": "rule-book"
+   "screen": "transfer"
   },
   "154": {
    "group": null,
@@ -1389,13 +1389,13 @@
    "screen": "gameplay"
   },
   "155": {
-   "group": "home",
-   "job": 1068,
-   "prefix": "gameplay/job-1068-",
+   "group": "season-final",
+   "job": 1214,
+   "prefix": "gameplay/job-1214-",
    "stage": 2,
-   "title": "Home: fix the 1366x768 view",
+   "title": "Season Results: fix the 1920x1080 view",
    "mode": "code",
-   "screen": "home"
+   "screen": "season-results"
   },
   "156": {
    "group": null,
@@ -1407,13 +1407,13 @@
    "screen": "gameplay"
   },
   "157": {
-   "group": "start-join",
-   "job": 1097,
-   "prefix": "gameplay/job-1097-",
+   "group": "rivalry-legacy",
+   "job": 1301,
+   "prefix": "gameplay/job-1301-",
    "stage": 2,
-   "title": "Connect Players (start and join): fix the 1366x768 view",
+   "title": "Legacy: fix the 1920x1080 view",
    "mode": "code",
-   "screen": "start-join"
+   "screen": "legacy"
   },
   "158": {
    "group": null,
@@ -1425,13 +1425,13 @@
    "screen": "gameplay"
   },
   "159": {
-   "group": "league",
-   "job": 1126,
-   "prefix": "gameplay/job-1126-",
+   "group": "career-screens",
+   "job": 1330,
+   "prefix": "gameplay/job-1330-",
    "stage": 2,
-   "title": "Select League: fix the 1366x768 view",
+   "title": "Trophy Room: fix the 1920x1080 view",
    "mode": "code",
-   "screen": "league"
+   "screen": "trophy-room"
   },
   "160": {
    "group": null,
@@ -1443,13 +1443,13 @@
    "screen": "gameplay"
   },
   "161": {
-   "group": "club",
-   "job": 1155,
-   "prefix": "gameplay/job-1155-",
+   "group": "rules-settings",
+   "job": 1417,
+   "prefix": "gameplay/job-1417-",
    "stage": 2,
-   "title": "Club packs: fix the 1366x768 view",
+   "title": "Rule Book: fix the 1920x1080 view",
    "mode": "code",
-   "screen": "club"
+   "screen": "rule-book"
   },
   "162": {
    "group": null,
@@ -1461,13 +1461,13 @@
    "screen": "gameplay"
   },
   "163": {
-   "group": "transfer",
-   "job": 1184,
-   "prefix": "gameplay/job-1184-",
+   "group": "home",
+   "job": 1070,
+   "prefix": "gameplay/job-1070-",
    "stage": 2,
-   "title": "Transfer challenge and Signing Entry: fix the 1366x768 view",
+   "title": "Home: fix the 2560x1080 view",
    "mode": "code",
-   "screen": "transfer"
+   "screen": "home"
   },
   "164": {
    "group": null,
@@ -1479,13 +1479,13 @@
    "screen": "gameplay"
   },
   "165": {
-   "group": "season-final",
-   "job": 1213,
-   "prefix": "gameplay/job-1213-",
+   "group": "start-join",
+   "job": 1099,
+   "prefix": "gameplay/job-1099-",
    "stage": 2,
-   "title": "Season Results: fix the 1366x768 view",
+   "title": "Connect Players (start and join): fix the 2560x1080 view",
    "mode": "code",
-   "screen": "season-results"
+   "screen": "start-join"
   },
   "166": {
    "group": null,
@@ -1497,13 +1497,13 @@
    "screen": "gameplay"
   },
   "167": {
-   "group": "standings",
-   "job": 1242,
-   "prefix": "gameplay/job-1242-",
+   "group": "league",
+   "job": 1128,
+   "prefix": "gameplay/job-1128-",
    "stage": 2,
-   "title": "Standings: fix the 1366x768 view",
+   "title": "Select League: fix the 2560x1080 view",
    "mode": "code",
-   "screen": "standings"
+   "screen": "league"
   },
   "168": {
    "group": null,
@@ -1515,13 +1515,13 @@
    "screen": "gameplay"
   },
   "169": {
-   "group": "rivalry-legacy",
-   "job": 1300,
-   "prefix": "gameplay/job-1300-",
+   "group": "club",
+   "job": 1157,
+   "prefix": "gameplay/job-1157-",
    "stage": 2,
-   "title": "Legacy: fix the 1366x768 view",
+   "title": "Club packs: fix the 2560x1080 view",
    "mode": "code",
-   "screen": "legacy"
+   "screen": "club"
   },
   "170": {
    "group": null,
@@ -1533,13 +1533,13 @@
    "screen": "gameplay"
   },
   "171": {
-   "group": "trophy-room",
-   "job": 1329,
-   "prefix": "gameplay/job-1329-",
+   "group": "transfer",
+   "job": 1186,
+   "prefix": "gameplay/job-1186-",
    "stage": 2,
-   "title": "Trophy Room: fix the 1366x768 view",
+   "title": "Transfer challenge and Signing Entry: fix the 2560x1080 view",
    "mode": "code",
-   "screen": "trophy-room"
+   "screen": "transfer"
   },
   "172": {
    "group": null,
@@ -1551,13 +1551,13 @@
    "screen": "gameplay"
   },
   "173": {
-   "group": "career-statistics",
-   "job": 1387,
-   "prefix": "gameplay/job-1387-",
+   "group": "season-final",
+   "job": 1215,
+   "prefix": "gameplay/job-1215-",
    "stage": 2,
-   "title": "Career Statistics: fix the 1366x768 view",
+   "title": "Season Results: fix the 2560x1080 view",
    "mode": "code",
-   "screen": "career-statistics"
+   "screen": "season-results"
   },
   "174": {
    "group": null,
@@ -1569,13 +1569,13 @@
    "screen": "gameplay"
   },
   "175": {
-   "group": "rules-settings",
-   "job": 1416,
-   "prefix": "gameplay/job-1416-",
+   "group": "rivalry-legacy",
+   "job": 1302,
+   "prefix": "gameplay/job-1302-",
    "stage": 2,
-   "title": "Rule Book: fix the 1366x768 view",
+   "title": "Legacy: fix the 2560x1080 view",
    "mode": "code",
-   "screen": "rule-book"
+   "screen": "legacy"
   },
   "176": {
    "group": null,
@@ -1587,13 +1587,13 @@
    "screen": "gameplay"
   },
   "177": {
-   "group": "home",
-   "job": 1069,
-   "prefix": "gameplay/job-1069-",
+   "group": "career-screens",
+   "job": 1331,
+   "prefix": "gameplay/job-1331-",
    "stage": 2,
-   "title": "Home: fix the 1920x1080 view",
+   "title": "Trophy Room: fix the 2560x1080 view",
    "mode": "code",
-   "screen": "home"
+   "screen": "trophy-room"
   },
   "178": {
    "group": null,
@@ -1605,13 +1605,13 @@
    "screen": "gameplay"
   },
   "179": {
-   "group": "start-join",
-   "job": 1098,
-   "prefix": "gameplay/job-1098-",
+   "group": "rules-settings",
+   "job": 1418,
+   "prefix": "gameplay/job-1418-",
    "stage": 2,
-   "title": "Connect Players (start and join): fix the 1920x1080 view",
+   "title": "Rule Book: fix the 2560x1080 view",
    "mode": "code",
-   "screen": "start-join"
+   "screen": "rule-book"
   },
   "180": {
    "group": null,
@@ -1623,13 +1623,13 @@
    "screen": "gameplay"
   },
   "181": {
-   "group": "league",
-   "job": 1127,
-   "prefix": "gameplay/job-1127-",
-   "stage": 2,
-   "title": "Select League: fix the 1920x1080 view",
+   "group": "home",
+   "job": 1071,
+   "prefix": "gameplay/job-1071-",
+   "stage": 3,
+   "title": "Home: match the desktop mockup",
    "mode": "code",
-   "screen": "league"
+   "screen": "home"
   },
   "182": {
    "group": null,
@@ -1641,13 +1641,13 @@
    "screen": "gameplay"
   },
   "183": {
-   "group": "club",
-   "job": 1156,
-   "prefix": "gameplay/job-1156-",
-   "stage": 2,
-   "title": "Club packs: fix the 1920x1080 view",
+   "group": "start-join",
+   "job": 1100,
+   "prefix": "gameplay/job-1100-",
+   "stage": 3,
+   "title": "Connect Players (start and join): match the desktop mockup",
    "mode": "code",
-   "screen": "club"
+   "screen": "start-join"
   },
   "184": {
    "group": null,
@@ -1659,13 +1659,13 @@
    "screen": "gameplay"
   },
   "185": {
-   "group": "transfer",
-   "job": 1185,
-   "prefix": "gameplay/job-1185-",
-   "stage": 2,
-   "title": "Transfer challenge and Signing Entry: fix the 1920x1080 view",
+   "group": "league",
+   "job": 1129,
+   "prefix": "gameplay/job-1129-",
+   "stage": 3,
+   "title": "Select League: match the desktop mockup",
    "mode": "code",
-   "screen": "transfer"
+   "screen": "league"
   },
   "186": {
    "group": null,
@@ -1677,13 +1677,13 @@
    "screen": "gameplay"
   },
   "187": {
-   "group": "season-final",
-   "job": 1214,
-   "prefix": "gameplay/job-1214-",
-   "stage": 2,
-   "title": "Season Results: fix the 1920x1080 view",
+   "group": "club",
+   "job": 1158,
+   "prefix": "gameplay/job-1158-",
+   "stage": 3,
+   "title": "Club packs: match the desktop mockup",
    "mode": "code",
-   "screen": "season-results"
+   "screen": "club"
   },
   "188": {
    "group": null,
@@ -1695,13 +1695,13 @@
    "screen": "gameplay"
   },
   "189": {
-   "group": "standings",
-   "job": 1243,
-   "prefix": "gameplay/job-1243-",
-   "stage": 2,
-   "title": "Standings: fix the 1920x1080 view",
+   "group": "transfer",
+   "job": 1187,
+   "prefix": "gameplay/job-1187-",
+   "stage": 3,
+   "title": "Transfer challenge and Signing Entry: match the desktop mockup",
    "mode": "code",
-   "screen": "standings"
+   "screen": "transfer"
   },
   "190": {
    "group": null,
@@ -1713,13 +1713,13 @@
    "screen": "gameplay"
   },
   "191": {
-   "group": "rivalry-legacy",
-   "job": 1301,
-   "prefix": "gameplay/job-1301-",
-   "stage": 2,
-   "title": "Legacy: fix the 1920x1080 view",
+   "group": "season-final",
+   "job": 1216,
+   "prefix": "gameplay/job-1216-",
+   "stage": 3,
+   "title": "Season Results: match the desktop mockup",
    "mode": "code",
-   "screen": "legacy"
+   "screen": "season-results"
   },
   "192": {
    "group": null,
@@ -1731,13 +1731,13 @@
    "screen": "gameplay"
   },
   "193": {
-   "group": "trophy-room",
-   "job": 1330,
-   "prefix": "gameplay/job-1330-",
-   "stage": 2,
-   "title": "Trophy Room: fix the 1920x1080 view",
+   "group": "rivalry-legacy",
+   "job": 1303,
+   "prefix": "gameplay/job-1303-",
+   "stage": 3,
+   "title": "Legacy: match the desktop mockup",
    "mode": "code",
-   "screen": "trophy-room"
+   "screen": "legacy"
   },
   "194": {
    "group": null,
@@ -1749,13 +1749,13 @@
    "screen": "gameplay"
   },
   "195": {
-   "group": "career-statistics",
-   "job": 1388,
-   "prefix": "gameplay/job-1388-",
-   "stage": 2,
-   "title": "Career Statistics: fix the 1920x1080 view",
+   "group": "career-screens",
+   "job": 1332,
+   "prefix": "gameplay/job-1332-",
+   "stage": 3,
+   "title": "Trophy Room: match the desktop mockup",
    "mode": "code",
-   "screen": "career-statistics"
+   "screen": "trophy-room"
   },
   "196": {
    "group": null,
@@ -1768,10 +1768,10 @@
   },
   "197": {
    "group": "rules-settings",
-   "job": 1417,
-   "prefix": "gameplay/job-1417-",
-   "stage": 2,
-   "title": "Rule Book: fix the 1920x1080 view",
+   "job": 1419,
+   "prefix": "gameplay/job-1419-",
+   "stage": 3,
+   "title": "Rule Book: match the desktop mockup",
    "mode": "code",
    "screen": "rule-book"
   },
@@ -1786,10 +1786,10 @@
   },
   "199": {
    "group": "home",
-   "job": 1070,
-   "prefix": "gameplay/job-1070-",
+   "job": 1072,
+   "prefix": "gameplay/job-1072-",
    "stage": 2,
-   "title": "Home: fix the 2560x1080 view",
+   "title": "Home: long names",
    "mode": "code",
    "screen": "home"
   },
@@ -1804,10 +1804,10 @@
   },
   "201": {
    "group": "start-join",
-   "job": 1099,
-   "prefix": "gameplay/job-1099-",
+   "job": 1101,
+   "prefix": "gameplay/job-1101-",
    "stage": 2,
-   "title": "Connect Players (start and join): fix the 2560x1080 view",
+   "title": "Connect Players (start and join): long names",
    "mode": "code",
    "screen": "start-join"
   },
@@ -1822,10 +1822,10 @@
   },
   "203": {
    "group": "league",
-   "job": 1128,
-   "prefix": "gameplay/job-1128-",
+   "job": 1130,
+   "prefix": "gameplay/job-1130-",
    "stage": 2,
-   "title": "Select League: fix the 2560x1080 view",
+   "title": "Select League: long names",
    "mode": "code",
    "screen": "league"
   },
@@ -1840,10 +1840,10 @@
   },
   "205": {
    "group": "club",
-   "job": 1157,
-   "prefix": "gameplay/job-1157-",
+   "job": 1159,
+   "prefix": "gameplay/job-1159-",
    "stage": 2,
-   "title": "Club packs: fix the 2560x1080 view",
+   "title": "Club packs: long names",
    "mode": "code",
    "screen": "club"
   },
@@ -1858,10 +1858,10 @@
   },
   "207": {
    "group": "transfer",
-   "job": 1186,
-   "prefix": "gameplay/job-1186-",
+   "job": 1188,
+   "prefix": "gameplay/job-1188-",
    "stage": 2,
-   "title": "Transfer challenge and Signing Entry: fix the 2560x1080 view",
+   "title": "Transfer challenge and Signing Entry: long names",
    "mode": "code",
    "screen": "transfer"
   },
@@ -1876,10 +1876,10 @@
   },
   "209": {
    "group": "season-final",
-   "job": 1215,
-   "prefix": "gameplay/job-1215-",
+   "job": 1217,
+   "prefix": "gameplay/job-1217-",
    "stage": 2,
-   "title": "Season Results: fix the 2560x1080 view",
+   "title": "Season Results: long names",
    "mode": "code",
    "screen": "season-results"
   },
@@ -1893,13 +1893,13 @@
    "screen": "gameplay"
   },
   "211": {
-   "group": "standings",
-   "job": 1244,
-   "prefix": "gameplay/job-1244-",
+   "group": "rivalry-legacy",
+   "job": 1304,
+   "prefix": "gameplay/job-1304-",
    "stage": 2,
-   "title": "Standings: fix the 2560x1080 view",
+   "title": "Legacy: long names",
    "mode": "code",
-   "screen": "standings"
+   "screen": "legacy"
   },
   "212": {
    "group": null,
@@ -1911,13 +1911,13 @@
    "screen": "gameplay"
   },
   "213": {
-   "group": "rivalry-legacy",
-   "job": 1302,
-   "prefix": "gameplay/job-1302-",
+   "group": "career-screens",
+   "job": 1333,
+   "prefix": "gameplay/job-1333-",
    "stage": 2,
-   "title": "Legacy: fix the 2560x1080 view",
+   "title": "Trophy Room: long names",
    "mode": "code",
-   "screen": "legacy"
+   "screen": "trophy-room"
   },
   "214": {
    "group": null,
@@ -1929,13 +1929,13 @@
    "screen": "gameplay"
   },
   "215": {
-   "group": "trophy-room",
-   "job": 1331,
-   "prefix": "gameplay/job-1331-",
+   "group": "rules-settings",
+   "job": 1420,
+   "prefix": "gameplay/job-1420-",
    "stage": 2,
-   "title": "Trophy Room: fix the 2560x1080 view",
+   "title": "Rule Book: long names",
    "mode": "code",
-   "screen": "trophy-room"
+   "screen": "rule-book"
   },
   "216": {
    "group": null,
@@ -1947,13 +1947,13 @@
    "screen": "gameplay"
   },
   "217": {
-   "group": "career-statistics",
-   "job": 1389,
-   "prefix": "gameplay/job-1389-",
+   "group": "home",
+   "job": 1073,
+   "prefix": "gameplay/job-1073-",
    "stage": 2,
-   "title": "Career Statistics: fix the 2560x1080 view",
+   "title": "Home: tap targets",
    "mode": "code",
-   "screen": "career-statistics"
+   "screen": "home"
   },
   "218": {
    "group": null,
@@ -1965,13 +1965,13 @@
    "screen": "gameplay"
   },
   "219": {
-   "group": "rules-settings",
-   "job": 1418,
-   "prefix": "gameplay/job-1418-",
+   "group": "start-join",
+   "job": 1102,
+   "prefix": "gameplay/job-1102-",
    "stage": 2,
-   "title": "Rule Book: fix the 2560x1080 view",
+   "title": "Connect Players (start and join): tap targets",
    "mode": "code",
-   "screen": "rule-book"
+   "screen": "start-join"
   },
   "220": {
    "group": null,
@@ -1983,13 +1983,13 @@
    "screen": "gameplay"
   },
   "221": {
-   "group": "home",
-   "job": 1071,
-   "prefix": "gameplay/job-1071-",
-   "stage": 3,
-   "title": "Home: match the desktop mockup",
+   "group": "league",
+   "job": 1131,
+   "prefix": "gameplay/job-1131-",
+   "stage": 2,
+   "title": "Select League: tap targets",
    "mode": "code",
-   "screen": "home"
+   "screen": "league"
   },
   "222": {
    "group": null,
@@ -2001,13 +2001,13 @@
    "screen": "gameplay"
   },
   "223": {
-   "group": "start-join",
-   "job": 1100,
-   "prefix": "gameplay/job-1100-",
-   "stage": 3,
-   "title": "Connect Players (start and join): match the desktop mockup",
+   "group": "club",
+   "job": 1160,
+   "prefix": "gameplay/job-1160-",
+   "stage": 2,
+   "title": "Club packs: tap targets",
    "mode": "code",
-   "screen": "start-join"
+   "screen": "club"
   },
   "224": {
    "group": null,
@@ -2019,13 +2019,13 @@
    "screen": "gameplay"
   },
   "225": {
-   "group": "league",
-   "job": 1129,
-   "prefix": "gameplay/job-1129-",
-   "stage": 3,
-   "title": "Select League: match the desktop mockup",
+   "group": "transfer",
+   "job": 1189,
+   "prefix": "gameplay/job-1189-",
+   "stage": 2,
+   "title": "Transfer challenge and Signing Entry: tap targets",
    "mode": "code",
-   "screen": "league"
+   "screen": "transfer"
   },
   "226": {
    "group": null,
@@ -2037,13 +2037,13 @@
    "screen": "career-statistics"
   },
   "227": {
-   "group": "club",
-   "job": 1158,
-   "prefix": "gameplay/job-1158-",
-   "stage": 3,
-   "title": "Club packs: match the desktop mockup",
+   "group": "season-final",
+   "job": 1218,
+   "prefix": "gameplay/job-1218-",
+   "stage": 2,
+   "title": "Season Results: tap targets",
    "mode": "code",
-   "screen": "club"
+   "screen": "season-results"
   },
   "228": {
    "group": null,
@@ -2055,13 +2055,13 @@
    "screen": "club"
   },
   "229": {
-   "group": "transfer",
-   "job": 1187,
-   "prefix": "gameplay/job-1187-",
-   "stage": 3,
-   "title": "Transfer challenge and Signing Entry: match the desktop mockup",
+   "group": "rivalry-legacy",
+   "job": 1305,
+   "prefix": "gameplay/job-1305-",
+   "stage": 2,
+   "title": "Legacy: tap targets",
    "mode": "code",
-   "screen": "transfer"
+   "screen": "legacy"
   },
   "230": {
    "group": null,
@@ -2073,13 +2073,13 @@
    "screen": "final-winner"
   },
   "231": {
-   "group": "season-final",
-   "job": 1216,
-   "prefix": "gameplay/job-1216-",
-   "stage": 3,
-   "title": "Season Results: match the desktop mockup",
+   "group": "career-screens",
+   "job": 1334,
+   "prefix": "gameplay/job-1334-",
+   "stage": 2,
+   "title": "Trophy Room: tap targets",
    "mode": "code",
-   "screen": "season-results"
+   "screen": "trophy-room"
   },
   "232": {
    "group": null,
@@ -2091,13 +2091,13 @@
    "screen": "home"
   },
   "233": {
-   "group": "standings",
-   "job": 1245,
-   "prefix": "gameplay/job-1245-",
-   "stage": 3,
-   "title": "Standings: match the desktop mockup",
+   "group": "rules-settings",
+   "job": 1421,
+   "prefix": "gameplay/job-1421-",
+   "stage": 2,
+   "title": "Rule Book: tap targets",
    "mode": "code",
-   "screen": "standings"
+   "screen": "rule-book"
   },
   "234": {
    "group": null,
@@ -2109,13 +2109,13 @@
    "screen": "league"
   },
   "235": {
-   "group": "rivalry-legacy",
-   "job": 1303,
-   "prefix": "gameplay/job-1303-",
-   "stage": 3,
-   "title": "Legacy: match the desktop mockup",
+   "group": "home",
+   "job": 1074,
+   "prefix": "gameplay/job-1074-",
+   "stage": 2,
+   "title": "Home: keyboard focus and reduced motion",
    "mode": "code",
-   "screen": "legacy"
+   "screen": "home"
   },
   "236": {
    "group": null,
@@ -2127,13 +2127,13 @@
    "screen": "legacy"
   },
   "237": {
-   "group": "trophy-room",
-   "job": 1332,
-   "prefix": "gameplay/job-1332-",
-   "stage": 3,
-   "title": "Trophy Room: match the desktop mockup",
+   "group": "start-join",
+   "job": 1103,
+   "prefix": "gameplay/job-1103-",
+   "stage": 2,
+   "title": "Connect Players (start and join): keyboard focus and reduced motion",
    "mode": "code",
-   "screen": "trophy-room"
+   "screen": "start-join"
   },
   "238": {
    "group": null,
@@ -2145,13 +2145,13 @@
    "screen": "rivalry-statistics"
   },
   "239": {
-   "group": "career-statistics",
-   "job": 1390,
-   "prefix": "gameplay/job-1390-",
-   "stage": 3,
-   "title": "Career Statistics: match the desktop mockup",
+   "group": "league",
+   "job": 1132,
+   "prefix": "gameplay/job-1132-",
+   "stage": 2,
+   "title": "Select League: keyboard focus and reduced motion",
    "mode": "code",
-   "screen": "career-statistics"
+   "screen": "league"
   },
   "240": {
    "group": null,
@@ -2163,13 +2163,13 @@
    "screen": "rule-book"
   },
   "241": {
-   "group": "rules-settings",
-   "job": 1419,
-   "prefix": "gameplay/job-1419-",
-   "stage": 3,
-   "title": "Rule Book: match the desktop mockup",
+   "group": "club",
+   "job": 1161,
+   "prefix": "gameplay/job-1161-",
+   "stage": 2,
+   "title": "Club packs: keyboard focus and reduced motion",
    "mode": "code",
-   "screen": "rule-book"
+   "screen": "club"
   },
   "242": {
    "group": null,
@@ -2181,13 +2181,13 @@
    "screen": "season-results"
   },
   "243": {
-   "group": "home",
-   "job": 1072,
-   "prefix": "gameplay/job-1072-",
+   "group": "transfer",
+   "job": 1190,
+   "prefix": "gameplay/job-1190-",
    "stage": 2,
-   "title": "Home: long names",
+   "title": "Transfer challenge and Signing Entry: keyboard focus and reduced motion",
    "mode": "code",
-   "screen": "home"
+   "screen": "transfer"
   },
   "244": {
    "group": null,
@@ -2199,13 +2199,13 @@
    "screen": "settings"
   },
   "245": {
-   "group": "start-join",
-   "job": 1101,
-   "prefix": "gameplay/job-1101-",
+   "group": "season-final",
+   "job": 1219,
+   "prefix": "gameplay/job-1219-",
    "stage": 2,
-   "title": "Connect Players (start and join): long names",
+   "title": "Season Results: keyboard focus and reduced motion",
    "mode": "code",
-   "screen": "start-join"
+   "screen": "season-results"
   },
   "246": {
    "group": null,
@@ -2217,13 +2217,13 @@
    "screen": "standings"
   },
   "247": {
-   "group": "league",
-   "job": 1130,
-   "prefix": "gameplay/job-1130-",
+   "group": "rivalry-legacy",
+   "job": 1306,
+   "prefix": "gameplay/job-1306-",
    "stage": 2,
-   "title": "Select League: long names",
+   "title": "Legacy: keyboard focus and reduced motion",
    "mode": "code",
-   "screen": "league"
+   "screen": "legacy"
   },
   "248": {
    "group": null,
@@ -2235,13 +2235,13 @@
    "screen": "start-join"
   },
   "249": {
-   "group": "club",
-   "job": 1159,
-   "prefix": "gameplay/job-1159-",
+   "group": "career-screens",
+   "job": 1335,
+   "prefix": "gameplay/job-1335-",
    "stage": 2,
-   "title": "Club packs: long names",
+   "title": "Trophy Room: keyboard focus and reduced motion",
    "mode": "code",
-   "screen": "club"
+   "screen": "trophy-room"
   },
   "250": {
    "group": null,
@@ -2253,13 +2253,13 @@
    "screen": "transfer"
   },
   "251": {
-   "group": "transfer",
-   "job": 1188,
-   "prefix": "gameplay/job-1188-",
+   "group": "rules-settings",
+   "job": 1422,
+   "prefix": "gameplay/job-1422-",
    "stage": 2,
-   "title": "Transfer challenge and Signing Entry: long names",
+   "title": "Rule Book: keyboard focus and reduced motion",
    "mode": "code",
-   "screen": "transfer"
+   "screen": "rule-book"
   },
   "252": {
    "group": null,
@@ -2271,13 +2271,13 @@
    "screen": "trophy-room"
   },
   "253": {
-   "group": "season-final",
-   "job": 1217,
-   "prefix": "gameplay/job-1217-",
+   "group": "home",
+   "job": 1075,
+   "prefix": "gameplay/job-1075-",
    "stage": 2,
-   "title": "Season Results: long names",
+   "title": "Home: text contrast",
    "mode": "code",
-   "screen": "season-results"
+   "screen": "home"
   },
   "254": {
    "group": null,
@@ -2289,13 +2289,13 @@
    "screen": "career-statistics"
   },
   "255": {
-   "group": "standings",
-   "job": 1246,
-   "prefix": "gameplay/job-1246-",
+   "group": "start-join",
+   "job": 1104,
+   "prefix": "gameplay/job-1104-",
    "stage": 2,
-   "title": "Standings: long names",
+   "title": "Connect Players (start and join): text contrast",
    "mode": "code",
-   "screen": "standings"
+   "screen": "start-join"
   },
   "256": {
    "group": null,
@@ -2307,13 +2307,13 @@
    "screen": "club"
   },
   "257": {
-   "group": "rivalry-legacy",
-   "job": 1304,
-   "prefix": "gameplay/job-1304-",
+   "group": "league",
+   "job": 1133,
+   "prefix": "gameplay/job-1133-",
    "stage": 2,
-   "title": "Legacy: long names",
+   "title": "Select League: text contrast",
    "mode": "code",
-   "screen": "legacy"
+   "screen": "league"
   },
   "258": {
    "group": null,
@@ -2325,13 +2325,13 @@
    "screen": "final-winner"
   },
   "259": {
-   "group": "trophy-room",
-   "job": 1333,
-   "prefix": "gameplay/job-1333-",
+   "group": "club",
+   "job": 1162,
+   "prefix": "gameplay/job-1162-",
    "stage": 2,
-   "title": "Trophy Room: long names",
+   "title": "Club packs: text contrast",
    "mode": "code",
-   "screen": "trophy-room"
+   "screen": "club"
   },
   "260": {
    "group": null,
@@ -2343,13 +2343,13 @@
    "screen": "home"
   },
   "261": {
-   "group": "career-statistics",
-   "job": 1391,
-   "prefix": "gameplay/job-1391-",
+   "group": "transfer",
+   "job": 1191,
+   "prefix": "gameplay/job-1191-",
    "stage": 2,
-   "title": "Career Statistics: long names",
+   "title": "Transfer challenge and Signing Entry: text contrast",
    "mode": "code",
-   "screen": "career-statistics"
+   "screen": "transfer"
   },
   "262": {
    "group": null,
@@ -2361,13 +2361,13 @@
    "screen": "league"
   },
   "263": {
-   "group": "rules-settings",
-   "job": 1420,
-   "prefix": "gameplay/job-1420-",
+   "group": "season-final",
+   "job": 1220,
+   "prefix": "gameplay/job-1220-",
    "stage": 2,
-   "title": "Rule Book: long names",
+   "title": "Season Results: text contrast",
    "mode": "code",
-   "screen": "rule-book"
+   "screen": "season-results"
   },
   "264": {
    "group": null,
@@ -2379,13 +2379,13 @@
    "screen": "legacy"
   },
   "265": {
-   "group": "home",
-   "job": 1073,
-   "prefix": "gameplay/job-1073-",
+   "group": "rivalry-legacy",
+   "job": 1307,
+   "prefix": "gameplay/job-1307-",
    "stage": 2,
-   "title": "Home: tap targets",
+   "title": "Legacy: text contrast",
    "mode": "code",
-   "screen": "home"
+   "screen": "legacy"
   },
   "266": {
    "group": null,
@@ -2397,13 +2397,13 @@
    "screen": "rivalry-statistics"
   },
   "267": {
-   "group": "start-join",
-   "job": 1102,
-   "prefix": "gameplay/job-1102-",
+   "group": "career-screens",
+   "job": 1336,
+   "prefix": "gameplay/job-1336-",
    "stage": 2,
-   "title": "Connect Players (start and join): tap targets",
+   "title": "Trophy Room: text contrast",
    "mode": "code",
-   "screen": "start-join"
+   "screen": "trophy-room"
   },
   "268": {
    "group": null,
@@ -2415,13 +2415,13 @@
    "screen": "rule-book"
   },
   "269": {
-   "group": "league",
-   "job": 1131,
-   "prefix": "gameplay/job-1131-",
+   "group": "rules-settings",
+   "job": 1423,
+   "prefix": "gameplay/job-1423-",
    "stage": 2,
-   "title": "Select League: tap targets",
+   "title": "Rule Book: text contrast",
    "mode": "code",
-   "screen": "league"
+   "screen": "rule-book"
   },
   "270": {
    "group": null,
@@ -2433,13 +2433,13 @@
    "screen": "season-results"
   },
   "271": {
-   "group": "club",
-   "job": 1160,
-   "prefix": "gameplay/job-1160-",
+   "group": "home",
+   "job": 1076,
+   "prefix": "gameplay/job-1076-",
    "stage": 2,
-   "title": "Club packs: tap targets",
+   "title": "Home: picture descriptions and labels",
    "mode": "code",
-   "screen": "club"
+   "screen": "home"
   },
   "272": {
    "group": null,
@@ -2451,13 +2451,13 @@
    "screen": "settings"
   },
   "273": {
-   "group": "transfer",
-   "job": 1189,
-   "prefix": "gameplay/job-1189-",
+   "group": "start-join",
+   "job": 1105,
+   "prefix": "gameplay/job-1105-",
    "stage": 2,
-   "title": "Transfer challenge and Signing Entry: tap targets",
+   "title": "Connect Players (start and join): picture descriptions and labels",
    "mode": "code",
-   "screen": "transfer"
+   "screen": "start-join"
   },
   "274": {
    "group": null,
@@ -2469,13 +2469,13 @@
    "screen": "standings"
   },
   "275": {
-   "group": "season-final",
-   "job": 1218,
-   "prefix": "gameplay/job-1218-",
+   "group": "league",
+   "job": 1134,
+   "prefix": "gameplay/job-1134-",
    "stage": 2,
-   "title": "Season Results: tap targets",
+   "title": "Select League: picture descriptions and labels",
    "mode": "code",
-   "screen": "season-results"
+   "screen": "league"
   },
   "276": {
    "group": null,
@@ -2487,13 +2487,13 @@
    "screen": "start-join"
   },
   "277": {
-   "group": "standings",
-   "job": 1247,
-   "prefix": "gameplay/job-1247-",
+   "group": "club",
+   "job": 1163,
+   "prefix": "gameplay/job-1163-",
    "stage": 2,
-   "title": "Standings: tap targets",
+   "title": "Club packs: picture descriptions and labels",
    "mode": "code",
-   "screen": "standings"
+   "screen": "club"
   },
   "278": {
    "group": null,
@@ -2505,13 +2505,13 @@
    "screen": "transfer"
   },
   "279": {
-   "group": "rivalry-legacy",
-   "job": 1305,
-   "prefix": "gameplay/job-1305-",
+   "group": "transfer",
+   "job": 1192,
+   "prefix": "gameplay/job-1192-",
    "stage": 2,
-   "title": "Legacy: tap targets",
+   "title": "Transfer challenge and Signing Entry: picture descriptions and labels",
    "mode": "code",
-   "screen": "legacy"
+   "screen": "transfer"
   },
   "280": {
    "group": null,
@@ -2523,13 +2523,13 @@
    "screen": "trophy-room"
   },
   "281": {
-   "group": "trophy-room",
-   "job": 1334,
-   "prefix": "gameplay/job-1334-",
+   "group": "season-final",
+   "job": 1221,
+   "prefix": "gameplay/job-1221-",
    "stage": 2,
-   "title": "Trophy Room: tap targets",
+   "title": "Season Results: picture descriptions and labels",
    "mode": "code",
-   "screen": "trophy-room"
+   "screen": "season-results"
   },
   "282": {
    "group": null,
@@ -2541,13 +2541,13 @@
    "screen": "career-statistics"
   },
   "283": {
-   "group": "career-statistics",
-   "job": 1392,
-   "prefix": "gameplay/job-1392-",
+   "group": "rivalry-legacy",
+   "job": 1308,
+   "prefix": "gameplay/job-1308-",
    "stage": 2,
-   "title": "Career Statistics: tap targets",
+   "title": "Legacy: picture descriptions and labels",
    "mode": "code",
-   "screen": "career-statistics"
+   "screen": "legacy"
   },
   "284": {
    "group": null,
@@ -2559,13 +2559,13 @@
    "screen": "club"
   },
   "285": {
-   "group": "rules-settings",
-   "job": 1421,
-   "prefix": "gameplay/job-1421-",
+   "group": "career-screens",
+   "job": 1337,
+   "prefix": "gameplay/job-1337-",
    "stage": 2,
-   "title": "Rule Book: tap targets",
+   "title": "Trophy Room: picture descriptions and labels",
    "mode": "code",
-   "screen": "rule-book"
+   "screen": "trophy-room"
   },
   "286": {
    "group": null,
@@ -2577,13 +2577,13 @@
    "screen": "final-winner"
   },
   "287": {
-   "group": "home",
-   "job": 1074,
-   "prefix": "gameplay/job-1074-",
+   "group": "rules-settings",
+   "job": 1424,
+   "prefix": "gameplay/job-1424-",
    "stage": 2,
-   "title": "Home: keyboard focus and reduced motion",
+   "title": "Rule Book: picture descriptions and labels",
    "mode": "code",
-   "screen": "home"
+   "screen": "rule-book"
   },
   "288": {
    "group": null,
@@ -2595,13 +2595,13 @@
    "screen": "home"
   },
   "289": {
-   "group": "start-join",
-   "job": 1103,
-   "prefix": "gameplay/job-1103-",
+   "group": "home",
+   "job": 1077,
+   "prefix": "gameplay/job-1077-",
    "stage": 2,
-   "title": "Connect Players (start and join): keyboard focus and reduced motion",
+   "title": "Home: loading state",
    "mode": "code",
-   "screen": "start-join"
+   "screen": "home"
   },
   "290": {
    "group": null,
@@ -2613,13 +2613,13 @@
    "screen": "league"
   },
   "291": {
-   "group": "league",
-   "job": 1132,
-   "prefix": "gameplay/job-1132-",
+   "group": "start-join",
+   "job": 1106,
+   "prefix": "gameplay/job-1106-",
    "stage": 2,
-   "title": "Select League: keyboard focus and reduced motion",
+   "title": "Connect Players (start and join): loading state",
    "mode": "code",
-   "screen": "league"
+   "screen": "start-join"
   },
   "292": {
    "group": null,
@@ -2631,13 +2631,13 @@
    "screen": "legacy"
   },
   "293": {
-   "group": "club",
-   "job": 1161,
-   "prefix": "gameplay/job-1161-",
+   "group": "league",
+   "job": 1135,
+   "prefix": "gameplay/job-1135-",
    "stage": 2,
-   "title": "Club packs: keyboard focus and reduced motion",
+   "title": "Select League: loading state",
    "mode": "code",
-   "screen": "club"
+   "screen": "league"
   },
   "294": {
    "group": null,
@@ -2649,13 +2649,13 @@
    "screen": "rivalry-statistics"
   },
   "295": {
-   "group": "transfer",
-   "job": 1190,
-   "prefix": "gameplay/job-1190-",
+   "group": "club",
+   "job": 1164,
+   "prefix": "gameplay/job-1164-",
    "stage": 2,
-   "title": "Transfer challenge and Signing Entry: keyboard focus and reduced motion",
+   "title": "Club packs: loading state",
    "mode": "code",
-   "screen": "transfer"
+   "screen": "club"
   },
   "296": {
    "group": null,
@@ -2667,13 +2667,13 @@
    "screen": "rule-book"
   },
   "297": {
-   "group": "season-final",
-   "job": 1219,
-   "prefix": "gameplay/job-1219-",
+   "group": "transfer",
+   "job": 1193,
+   "prefix": "gameplay/job-1193-",
    "stage": 2,
-   "title": "Season Results: keyboard focus and reduced motion",
+   "title": "Transfer challenge and Signing Entry: loading state",
    "mode": "code",
-   "screen": "season-results"
+   "screen": "transfer"
   },
   "298": {
    "group": null,
@@ -2685,13 +2685,13 @@
    "screen": "season-results"
   },
   "299": {
-   "group": "standings",
-   "job": 1248,
-   "prefix": "gameplay/job-1248-",
+   "group": "season-final",
+   "job": 1222,
+   "prefix": "gameplay/job-1222-",
    "stage": 2,
-   "title": "Standings: keyboard focus and reduced motion",
+   "title": "Season Results: loading state",
    "mode": "code",
-   "screen": "standings"
+   "screen": "season-results"
   },
   "300": {
    "group": null,
@@ -2704,10 +2704,10 @@
   },
   "301": {
    "group": "rivalry-legacy",
-   "job": 1306,
-   "prefix": "gameplay/job-1306-",
+   "job": 1309,
+   "prefix": "gameplay/job-1309-",
    "stage": 2,
-   "title": "Legacy: keyboard focus and reduced motion",
+   "title": "Legacy: loading state",
    "mode": "code",
    "screen": "legacy"
   },
@@ -2721,11 +2721,11 @@
    "screen": "standings"
   },
   "303": {
-   "group": "trophy-room",
-   "job": 1335,
-   "prefix": "gameplay/job-1335-",
+   "group": "career-screens",
+   "job": 1338,
+   "prefix": "gameplay/job-1338-",
    "stage": 2,
-   "title": "Trophy Room: keyboard focus and reduced motion",
+   "title": "Trophy Room: loading state",
    "mode": "code",
    "screen": "trophy-room"
   },
@@ -2739,13 +2739,13 @@
    "screen": "start-join"
   },
   "305": {
-   "group": "career-statistics",
-   "job": 1393,
-   "prefix": "gameplay/job-1393-",
+   "group": "rules-settings",
+   "job": 1425,
+   "prefix": "gameplay/job-1425-",
    "stage": 2,
-   "title": "Career Statistics: keyboard focus and reduced motion",
+   "title": "Rule Book: loading state",
    "mode": "code",
-   "screen": "career-statistics"
+   "screen": "rule-book"
   },
   "306": {
    "group": null,
@@ -2757,13 +2757,13 @@
    "screen": "transfer"
   },
   "307": {
-   "group": "rules-settings",
-   "job": 1422,
-   "prefix": "gameplay/job-1422-",
+   "group": "home",
+   "job": 1078,
+   "prefix": "gameplay/job-1078-",
    "stage": 2,
-   "title": "Rule Book: keyboard focus and reduced motion",
+   "title": "Home: empty state",
    "mode": "code",
-   "screen": "rule-book"
+   "screen": "home"
   },
   "308": {
    "group": null,
@@ -2775,13 +2775,13 @@
    "screen": "trophy-room"
   },
   "309": {
-   "group": "home",
-   "job": 1075,
-   "prefix": "gameplay/job-1075-",
+   "group": "start-join",
+   "job": 1107,
+   "prefix": "gameplay/job-1107-",
    "stage": 2,
-   "title": "Home: text contrast",
+   "title": "Connect Players (start and join): empty state",
    "mode": "code",
-   "screen": "home"
+   "screen": "start-join"
   },
   "310": {
    "group": null,
@@ -2793,13 +2793,13 @@
    "screen": "career-statistics"
   },
   "311": {
-   "group": "start-join",
-   "job": 1104,
-   "prefix": "gameplay/job-1104-",
+   "group": "league",
+   "job": 1136,
+   "prefix": "gameplay/job-1136-",
    "stage": 2,
-   "title": "Connect Players (start and join): text contrast",
+   "title": "Select League: empty state",
    "mode": "code",
-   "screen": "start-join"
+   "screen": "league"
   },
   "312": {
    "group": null,
@@ -2811,13 +2811,13 @@
    "screen": "club"
   },
   "313": {
-   "group": "league",
-   "job": 1133,
-   "prefix": "gameplay/job-1133-",
+   "group": "club",
+   "job": 1165,
+   "prefix": "gameplay/job-1165-",
    "stage": 2,
-   "title": "Select League: text contrast",
+   "title": "Club packs: empty state",
    "mode": "code",
-   "screen": "league"
+   "screen": "club"
   },
   "314": {
    "group": null,
@@ -2829,13 +2829,13 @@
    "screen": "final-winner"
   },
   "315": {
-   "group": "club",
-   "job": 1162,
-   "prefix": "gameplay/job-1162-",
+   "group": "transfer",
+   "job": 1194,
+   "prefix": "gameplay/job-1194-",
    "stage": 2,
-   "title": "Club packs: text contrast",
+   "title": "Transfer challenge and Signing Entry: empty state",
    "mode": "code",
-   "screen": "club"
+   "screen": "transfer"
   },
   "316": {
    "group": null,
@@ -2847,13 +2847,13 @@
    "screen": "home"
   },
   "317": {
-   "group": "transfer",
-   "job": 1191,
-   "prefix": "gameplay/job-1191-",
+   "group": "season-final",
+   "job": 1223,
+   "prefix": "gameplay/job-1223-",
    "stage": 2,
-   "title": "Transfer challenge and Signing Entry: text contrast",
+   "title": "Season Results: empty state",
    "mode": "code",
-   "screen": "transfer"
+   "screen": "season-results"
   },
   "318": {
    "group": null,
@@ -2865,13 +2865,13 @@
    "screen": "league"
   },
   "319": {
-   "group": "season-final",
-   "job": 1220,
-   "prefix": "gameplay/job-1220-",
+   "group": "rivalry-legacy",
+   "job": 1310,
+   "prefix": "gameplay/job-1310-",
    "stage": 2,
-   "title": "Season Results: text contrast",
+   "title": "Legacy: empty state",
    "mode": "code",
-   "screen": "season-results"
+   "screen": "legacy"
   },
   "320": {
    "group": null,
@@ -2883,13 +2883,13 @@
    "screen": "legacy"
   },
   "321": {
-   "group": "standings",
-   "job": 1249,
-   "prefix": "gameplay/job-1249-",
+   "group": "career-screens",
+   "job": 1339,
+   "prefix": "gameplay/job-1339-",
    "stage": 2,
-   "title": "Standings: text contrast",
+   "title": "Trophy Room: empty state",
    "mode": "code",
-   "screen": "standings"
+   "screen": "trophy-room"
   },
   "322": {
    "group": null,
@@ -2901,13 +2901,13 @@
    "screen": "rivalry-statistics"
   },
   "323": {
-   "group": "rivalry-legacy",
-   "job": 1307,
-   "prefix": "gameplay/job-1307-",
+   "group": "rules-settings",
+   "job": 1426,
+   "prefix": "gameplay/job-1426-",
    "stage": 2,
-   "title": "Legacy: text contrast",
+   "title": "Rule Book: empty state",
    "mode": "code",
-   "screen": "legacy"
+   "screen": "rule-book"
   },
   "324": {
    "group": null,
@@ -2919,13 +2919,13 @@
    "screen": "rule-book"
   },
   "325": {
-   "group": "trophy-room",
-   "job": 1336,
-   "prefix": "gameplay/job-1336-",
+   "group": "home",
+   "job": 1079,
+   "prefix": "gameplay/job-1079-",
    "stage": 2,
-   "title": "Trophy Room: text contrast",
+   "title": "Home: error and retry state",
    "mode": "code",
-   "screen": "trophy-room"
+   "screen": "home"
   },
   "326": {
    "group": null,
@@ -2937,13 +2937,13 @@
    "screen": "season-results"
   },
   "327": {
-   "group": "career-statistics",
-   "job": 1394,
-   "prefix": "gameplay/job-1394-",
+   "group": "start-join",
+   "job": 1108,
+   "prefix": "gameplay/job-1108-",
    "stage": 2,
-   "title": "Career Statistics: text contrast",
+   "title": "Connect Players (start and join): error and retry state",
    "mode": "code",
-   "screen": "career-statistics"
+   "screen": "start-join"
   },
   "328": {
    "group": null,
@@ -2955,13 +2955,13 @@
    "screen": "settings"
   },
   "329": {
-   "group": "rules-settings",
-   "job": 1423,
-   "prefix": "gameplay/job-1423-",
+   "group": "league",
+   "job": 1137,
+   "prefix": "gameplay/job-1137-",
    "stage": 2,
-   "title": "Rule Book: text contrast",
+   "title": "Select League: error and retry state",
    "mode": "code",
-   "screen": "rule-book"
+   "screen": "league"
   },
   "330": {
    "group": null,
@@ -2973,13 +2973,13 @@
    "screen": "standings"
   },
   "331": {
-   "group": "home",
-   "job": 1076,
-   "prefix": "gameplay/job-1076-",
+   "group": "club",
+   "job": 1166,
+   "prefix": "gameplay/job-1166-",
    "stage": 2,
-   "title": "Home: picture descriptions and labels",
+   "title": "Club packs: error and retry state",
    "mode": "code",
-   "screen": "home"
+   "screen": "club"
   },
   "332": {
    "group": null,
@@ -2991,13 +2991,13 @@
    "screen": "start-join"
   },
   "333": {
-   "group": "start-join",
-   "job": 1105,
-   "prefix": "gameplay/job-1105-",
+   "group": "transfer",
+   "job": 1195,
+   "prefix": "gameplay/job-1195-",
    "stage": 2,
-   "title": "Connect Players (start and join): picture descriptions and labels",
+   "title": "Transfer challenge and Signing Entry: error and retry state",
    "mode": "code",
-   "screen": "start-join"
+   "screen": "transfer"
   },
   "334": {
    "group": null,
@@ -3009,13 +3009,13 @@
    "screen": "transfer"
   },
   "335": {
-   "group": "league",
-   "job": 1134,
-   "prefix": "gameplay/job-1134-",
+   "group": "season-final",
+   "job": 1224,
+   "prefix": "gameplay/job-1224-",
    "stage": 2,
-   "title": "Select League: picture descriptions and labels",
+   "title": "Season Results: error and retry state",
    "mode": "code",
-   "screen": "league"
+   "screen": "season-results"
   },
   "336": {
    "group": null,
@@ -3027,13 +3027,13 @@
    "screen": "trophy-room"
   },
   "337": {
-   "group": "club",
-   "job": 1163,
-   "prefix": "gameplay/job-1163-",
+   "group": "rivalry-legacy",
+   "job": 1311,
+   "prefix": "gameplay/job-1311-",
    "stage": 2,
-   "title": "Club packs: picture descriptions and labels",
+   "title": "Legacy: error and retry state",
    "mode": "code",
-   "screen": "club"
+   "screen": "legacy"
   },
   "338": {
    "group": null,
@@ -3045,13 +3045,13 @@
    "screen": "career-statistics"
   },
   "339": {
-   "group": "transfer",
-   "job": 1192,
-   "prefix": "gameplay/job-1192-",
+   "group": "career-screens",
+   "job": 1340,
+   "prefix": "gameplay/job-1340-",
    "stage": 2,
-   "title": "Transfer challenge and Signing Entry: picture descriptions and labels",
+   "title": "Trophy Room: error and retry state",
    "mode": "code",
-   "screen": "transfer"
+   "screen": "trophy-room"
   },
   "340": {
    "group": null,
@@ -3063,13 +3063,13 @@
    "screen": "club"
   },
   "341": {
-   "group": "season-final",
-   "job": 1221,
-   "prefix": "gameplay/job-1221-",
+   "group": "rules-settings",
+   "job": 1427,
+   "prefix": "gameplay/job-1427-",
    "stage": 2,
-   "title": "Season Results: picture descriptions and labels",
+   "title": "Rule Book: error and retry state",
    "mode": "code",
-   "screen": "season-results"
+   "screen": "rule-book"
   },
   "342": {
    "group": null,
@@ -3081,13 +3081,13 @@
    "screen": "final-winner"
   },
   "343": {
-   "group": "standings",
-   "job": 1250,
-   "prefix": "gameplay/job-1250-",
+   "group": "home",
+   "job": 1080,
+   "prefix": "gameplay/job-1080-",
    "stage": 2,
-   "title": "Standings: picture descriptions and labels",
+   "title": "Home: hover-only effects",
    "mode": "code",
-   "screen": "standings"
+   "screen": "home"
   },
   "344": {
    "group": null,
@@ -3099,13 +3099,13 @@
    "screen": "home"
   },
   "345": {
-   "group": "rivalry-legacy",
-   "job": 1308,
-   "prefix": "gameplay/job-1308-",
+   "group": "start-join",
+   "job": 1109,
+   "prefix": "gameplay/job-1109-",
    "stage": 2,
-   "title": "Legacy: picture descriptions and labels",
+   "title": "Connect Players (start and join): hover-only effects",
    "mode": "code",
-   "screen": "legacy"
+   "screen": "start-join"
   },
   "346": {
    "group": null,
@@ -3117,13 +3117,13 @@
    "screen": "league"
   },
   "347": {
-   "group": "trophy-room",
-   "job": 1337,
-   "prefix": "gameplay/job-1337-",
+   "group": "league",
+   "job": 1138,
+   "prefix": "gameplay/job-1138-",
    "stage": 2,
-   "title": "Trophy Room: picture descriptions and labels",
+   "title": "Select League: hover-only effects",
    "mode": "code",
-   "screen": "trophy-room"
+   "screen": "league"
   },
   "348": {
    "group": null,
@@ -3135,13 +3135,13 @@
    "screen": "legacy"
   },
   "349": {
-   "group": "career-statistics",
-   "job": 1395,
-   "prefix": "gameplay/job-1395-",
+   "group": "club",
+   "job": 1167,
+   "prefix": "gameplay/job-1167-",
    "stage": 2,
-   "title": "Career Statistics: picture descriptions and labels",
+   "title": "Club packs: hover-only effects",
    "mode": "code",
-   "screen": "career-statistics"
+   "screen": "club"
   },
   "350": {
    "group": null,
@@ -3153,13 +3153,13 @@
    "screen": "rivalry-statistics"
   },
   "351": {
-   "group": "rules-settings",
-   "job": 1424,
-   "prefix": "gameplay/job-1424-",
+   "group": "transfer",
+   "job": 1196,
+   "prefix": "gameplay/job-1196-",
    "stage": 2,
-   "title": "Rule Book: picture descriptions and labels",
+   "title": "Transfer challenge and Signing Entry: hover-only effects",
    "mode": "code",
-   "screen": "rule-book"
+   "screen": "transfer"
   },
   "352": {
    "group": null,
@@ -3171,13 +3171,13 @@
    "screen": "rule-book"
   },
   "353": {
-   "group": "home",
-   "job": 1077,
-   "prefix": "gameplay/job-1077-",
+   "group": "season-final",
+   "job": 1225,
+   "prefix": "gameplay/job-1225-",
    "stage": 2,
-   "title": "Home: loading state",
+   "title": "Season Results: hover-only effects",
    "mode": "code",
-   "screen": "home"
+   "screen": "season-results"
   },
   "354": {
    "group": null,
@@ -3189,13 +3189,13 @@
    "screen": "season-results"
   },
   "355": {
-   "group": "start-join",
-   "job": 1106,
-   "prefix": "gameplay/job-1106-",
+   "group": "rivalry-legacy",
+   "job": 1312,
+   "prefix": "gameplay/job-1312-",
    "stage": 2,
-   "title": "Connect Players (start and join): loading state",
+   "title": "Legacy: hover-only effects",
    "mode": "code",
-   "screen": "start-join"
+   "screen": "legacy"
   },
   "356": {
    "group": null,
@@ -3207,13 +3207,13 @@
    "screen": "settings"
   },
   "357": {
-   "group": "league",
-   "job": 1135,
-   "prefix": "gameplay/job-1135-",
+   "group": "career-screens",
+   "job": 1341,
+   "prefix": "gameplay/job-1341-",
    "stage": 2,
-   "title": "Select League: loading state",
+   "title": "Trophy Room: hover-only effects",
    "mode": "code",
-   "screen": "league"
+   "screen": "trophy-room"
   },
   "358": {
    "group": null,
@@ -3225,13 +3225,13 @@
    "screen": "standings"
   },
   "359": {
-   "group": "club",
-   "job": 1164,
-   "prefix": "gameplay/job-1164-",
+   "group": "rules-settings",
+   "job": 1428,
+   "prefix": "gameplay/job-1428-",
    "stage": 2,
-   "title": "Club packs: loading state",
+   "title": "Rule Book: hover-only effects",
    "mode": "code",
-   "screen": "club"
+   "screen": "rule-book"
   },
   "360": {
    "group": null,
@@ -3243,13 +3243,13 @@
    "screen": "start-join"
   },
   "361": {
-   "group": "transfer",
-   "job": 1193,
-   "prefix": "gameplay/job-1193-",
+   "group": "season-final",
+   "job": 1235,
+   "prefix": "gameplay/job-1235-",
    "stage": 2,
-   "title": "Transfer challenge and Signing Entry: loading state",
+   "title": "Standings: fix the 360x640 view",
    "mode": "code",
-   "screen": "transfer"
+   "screen": "standings"
   },
   "362": {
    "group": null,
@@ -3261,13 +3261,13 @@
    "screen": "transfer"
   },
   "363": {
-   "group": "season-final",
-   "job": 1222,
-   "prefix": "gameplay/job-1222-",
+   "group": "rivalry-legacy",
+   "job": 1351,
+   "prefix": "gameplay/job-1351-",
    "stage": 2,
-   "title": "Season Results: loading state",
+   "title": "Rivalry Statistics: fix the 360x640 view",
    "mode": "code",
-   "screen": "season-results"
+   "screen": "rivalry-statistics"
   },
   "364": {
    "group": null,
@@ -3279,13 +3279,13 @@
    "screen": "trophy-room"
   },
   "365": {
-   "group": "standings",
-   "job": 1251,
-   "prefix": "gameplay/job-1251-",
+   "group": "career-screens",
+   "job": 1380,
+   "prefix": "gameplay/job-1380-",
    "stage": 2,
-   "title": "Standings: loading state",
+   "title": "Career Statistics: fix the 360x640 view",
    "mode": "code",
-   "screen": "standings"
+   "screen": "career-statistics"
   },
   "366": {
    "group": null,
@@ -3297,13 +3297,13 @@
    "screen": "career-statistics"
   },
   "367": {
-   "group": "rivalry-legacy",
-   "job": 1309,
-   "prefix": "gameplay/job-1309-",
+   "group": "rules-settings",
+   "job": 1438,
+   "prefix": "gameplay/job-1438-",
    "stage": 2,
-   "title": "Legacy: loading state",
+   "title": "Settings: fix the 360x640 view",
    "mode": "code",
-   "screen": "legacy"
+   "screen": "settings"
   },
   "368": {
    "group": null,
@@ -3315,13 +3315,13 @@
    "screen": "club"
   },
   "369": {
-   "group": "trophy-room",
-   "job": 1338,
-   "prefix": "gameplay/job-1338-",
+   "group": "season-final",
+   "job": 1236,
+   "prefix": "gameplay/job-1236-",
    "stage": 2,
-   "title": "Trophy Room: loading state",
+   "title": "Standings: fix the 390x844 view",
    "mode": "code",
-   "screen": "trophy-room"
+   "screen": "standings"
   },
   "370": {
    "group": null,
@@ -3333,13 +3333,13 @@
    "screen": "final-winner"
   },
   "371": {
-   "group": "career-statistics",
-   "job": 1396,
-   "prefix": "gameplay/job-1396-",
+   "group": "rivalry-legacy",
+   "job": 1352,
+   "prefix": "gameplay/job-1352-",
    "stage": 2,
-   "title": "Career Statistics: loading state",
+   "title": "Rivalry Statistics: fix the 390x844 view",
    "mode": "code",
-   "screen": "career-statistics"
+   "screen": "rivalry-statistics"
   },
   "372": {
    "group": null,
@@ -3351,13 +3351,13 @@
    "screen": "home"
   },
   "373": {
-   "group": "rules-settings",
-   "job": 1425,
-   "prefix": "gameplay/job-1425-",
+   "group": "career-screens",
+   "job": 1381,
+   "prefix": "gameplay/job-1381-",
    "stage": 2,
-   "title": "Rule Book: loading state",
+   "title": "Career Statistics: fix the 390x844 view",
    "mode": "code",
-   "screen": "rule-book"
+   "screen": "career-statistics"
   },
   "374": {
    "group": null,
@@ -3369,13 +3369,13 @@
    "screen": "league"
   },
   "375": {
-   "group": "home",
-   "job": 1078,
-   "prefix": "gameplay/job-1078-",
+   "group": "rules-settings",
+   "job": 1439,
+   "prefix": "gameplay/job-1439-",
    "stage": 2,
-   "title": "Home: empty state",
+   "title": "Settings: fix the 390x844 view",
    "mode": "code",
-   "screen": "home"
+   "screen": "settings"
   },
   "376": {
    "group": null,
@@ -3387,13 +3387,13 @@
    "screen": "legacy"
   },
   "377": {
-   "group": "start-join",
-   "job": 1107,
-   "prefix": "gameplay/job-1107-",
+   "group": "season-final",
+   "job": 1237,
+   "prefix": "gameplay/job-1237-",
    "stage": 2,
-   "title": "Connect Players (start and join): empty state",
+   "title": "Standings: fix the 430x932 view",
    "mode": "code",
-   "screen": "start-join"
+   "screen": "standings"
   },
   "378": {
    "group": null,
@@ -3405,13 +3405,13 @@
    "screen": "rivalry-statistics"
   },
   "379": {
-   "group": "league",
-   "job": 1136,
-   "prefix": "gameplay/job-1136-",
+   "group": "rivalry-legacy",
+   "job": 1353,
+   "prefix": "gameplay/job-1353-",
    "stage": 2,
-   "title": "Select League: empty state",
+   "title": "Rivalry Statistics: fix the 430x932 view",
    "mode": "code",
-   "screen": "league"
+   "screen": "rivalry-statistics"
   },
   "380": {
    "group": null,
@@ -3423,13 +3423,13 @@
    "screen": "rule-book"
   },
   "381": {
-   "group": "club",
-   "job": 1165,
-   "prefix": "gameplay/job-1165-",
+   "group": "career-screens",
+   "job": 1382,
+   "prefix": "gameplay/job-1382-",
    "stage": 2,
-   "title": "Club packs: empty state",
+   "title": "Career Statistics: fix the 430x932 view",
    "mode": "code",
-   "screen": "club"
+   "screen": "career-statistics"
   },
   "382": {
    "group": null,
@@ -3441,13 +3441,13 @@
    "screen": "season-results"
   },
   "383": {
-   "group": "transfer",
-   "job": 1194,
-   "prefix": "gameplay/job-1194-",
+   "group": "rules-settings",
+   "job": 1440,
+   "prefix": "gameplay/job-1440-",
    "stage": 2,
-   "title": "Transfer challenge and Signing Entry: empty state",
+   "title": "Settings: fix the 430x932 view",
    "mode": "code",
-   "screen": "transfer"
+   "screen": "settings"
   },
   "384": {
    "group": null,
@@ -3460,12 +3460,12 @@
   },
   "385": {
    "group": "season-final",
-   "job": 1223,
-   "prefix": "gameplay/job-1223-",
+   "job": 1238,
+   "prefix": "gameplay/job-1238-",
    "stage": 2,
-   "title": "Season Results: empty state",
+   "title": "Standings: fix the 844x390 view",
    "mode": "code",
-   "screen": "season-results"
+   "screen": "standings"
   },
   "386": {
    "group": null,
@@ -3477,13 +3477,13 @@
    "screen": "standings"
   },
   "387": {
-   "group": "standings",
-   "job": 1252,
-   "prefix": "gameplay/job-1252-",
+   "group": "rivalry-legacy",
+   "job": 1354,
+   "prefix": "gameplay/job-1354-",
    "stage": 2,
-   "title": "Standings: empty state",
+   "title": "Rivalry Statistics: fix the 844x390 view",
    "mode": "code",
-   "screen": "standings"
+   "screen": "rivalry-statistics"
   },
   "388": {
    "group": null,
@@ -3495,13 +3495,13 @@
    "screen": "start-join"
   },
   "389": {
-   "group": "rivalry-legacy",
-   "job": 1310,
-   "prefix": "gameplay/job-1310-",
+   "group": "career-screens",
+   "job": 1383,
+   "prefix": "gameplay/job-1383-",
    "stage": 2,
-   "title": "Legacy: empty state",
+   "title": "Career Statistics: fix the 844x390 view",
    "mode": "code",
-   "screen": "legacy"
+   "screen": "career-statistics"
   },
   "390": {
    "group": null,
@@ -3513,13 +3513,13 @@
    "screen": "transfer"
   },
   "391": {
-   "group": "trophy-room",
-   "job": 1339,
-   "prefix": "gameplay/job-1339-",
+   "group": "rules-settings",
+   "job": 1441,
+   "prefix": "gameplay/job-1441-",
    "stage": 2,
-   "title": "Trophy Room: empty state",
+   "title": "Settings: fix the 844x390 view",
    "mode": "code",
-   "screen": "trophy-room"
+   "screen": "settings"
   },
   "392": {
    "group": null,
@@ -3531,13 +3531,13 @@
    "screen": "trophy-room"
   },
   "393": {
-   "group": "career-statistics",
-   "job": 1397,
-   "prefix": "gameplay/job-1397-",
+   "group": "season-final",
+   "job": 1239,
+   "prefix": "gameplay/job-1239-",
    "stage": 2,
-   "title": "Career Statistics: empty state",
+   "title": "Standings: fix the 932x430 view",
    "mode": "code",
-   "screen": "career-statistics"
+   "screen": "standings"
   },
   "394": {
    "group": null,
@@ -3549,13 +3549,13 @@
    "screen": "career-statistics"
   },
   "395": {
-   "group": "rules-settings",
-   "job": 1426,
-   "prefix": "gameplay/job-1426-",
+   "group": "rivalry-legacy",
+   "job": 1355,
+   "prefix": "gameplay/job-1355-",
    "stage": 2,
-   "title": "Rule Book: empty state",
+   "title": "Rivalry Statistics: fix the 932x430 view",
    "mode": "code",
-   "screen": "rule-book"
+   "screen": "rivalry-statistics"
   },
   "396": {
    "group": null,
@@ -3567,13 +3567,13 @@
    "screen": "club"
   },
   "397": {
-   "group": "home",
-   "job": 1079,
-   "prefix": "gameplay/job-1079-",
+   "group": "career-screens",
+   "job": 1384,
+   "prefix": "gameplay/job-1384-",
    "stage": 2,
-   "title": "Home: error and retry state",
+   "title": "Career Statistics: fix the 932x430 view",
    "mode": "code",
-   "screen": "home"
+   "screen": "career-statistics"
   },
   "398": {
    "group": null,
@@ -3585,13 +3585,13 @@
    "screen": "final-winner"
   },
   "399": {
-   "group": "start-join",
-   "job": 1108,
-   "prefix": "gameplay/job-1108-",
+   "group": "rules-settings",
+   "job": 1442,
+   "prefix": "gameplay/job-1442-",
    "stage": 2,
-   "title": "Connect Players (start and join): error and retry state",
+   "title": "Settings: fix the 932x430 view",
    "mode": "code",
-   "screen": "start-join"
+   "screen": "settings"
   },
   "400": {
    "group": null,
@@ -3603,13 +3603,13 @@
    "screen": "home"
   },
   "401": {
-   "group": "league",
-   "job": 1137,
-   "prefix": "gameplay/job-1137-",
+   "group": "season-final",
+   "job": 1240,
+   "prefix": "gameplay/job-1240-",
    "stage": 2,
-   "title": "Select League: error and retry state",
+   "title": "Standings: fix the 768x1024 view",
    "mode": "code",
-   "screen": "league"
+   "screen": "standings"
   },
   "402": {
    "group": null,
@@ -3621,13 +3621,13 @@
    "screen": "league"
   },
   "403": {
-   "group": "club",
-   "job": 1166,
-   "prefix": "gameplay/job-1166-",
+   "group": "rivalry-legacy",
+   "job": 1356,
+   "prefix": "gameplay/job-1356-",
    "stage": 2,
-   "title": "Club packs: error and retry state",
+   "title": "Rivalry Statistics: fix the 768x1024 view",
    "mode": "code",
-   "screen": "club"
+   "screen": "rivalry-statistics"
   },
   "404": {
    "group": null,
@@ -3639,13 +3639,13 @@
    "screen": "legacy"
   },
   "405": {
-   "group": "transfer",
-   "job": 1195,
-   "prefix": "gameplay/job-1195-",
+   "group": "career-screens",
+   "job": 1385,
+   "prefix": "gameplay/job-1385-",
    "stage": 2,
-   "title": "Transfer challenge and Signing Entry: error and retry state",
+   "title": "Career Statistics: fix the 768x1024 view",
    "mode": "code",
-   "screen": "transfer"
+   "screen": "career-statistics"
   },
   "406": {
    "group": null,
@@ -3657,13 +3657,13 @@
    "screen": "rivalry-statistics"
   },
   "407": {
-   "group": "season-final",
-   "job": 1224,
-   "prefix": "gameplay/job-1224-",
+   "group": "rules-settings",
+   "job": 1443,
+   "prefix": "gameplay/job-1443-",
    "stage": 2,
-   "title": "Season Results: error and retry state",
+   "title": "Settings: fix the 768x1024 view",
    "mode": "code",
-   "screen": "season-results"
+   "screen": "settings"
   },
   "408": {
    "group": null,
@@ -3675,11 +3675,11 @@
    "screen": "rule-book"
   },
   "409": {
-   "group": "standings",
-   "job": 1253,
-   "prefix": "gameplay/job-1253-",
+   "group": "season-final",
+   "job": 1241,
+   "prefix": "gameplay/job-1241-",
    "stage": 2,
-   "title": "Standings: error and retry state",
+   "title": "Standings: fix the 1280x650 view",
    "mode": "code",
    "screen": "standings"
   },
@@ -3694,12 +3694,12 @@
   },
   "411": {
    "group": "rivalry-legacy",
-   "job": 1311,
-   "prefix": "gameplay/job-1311-",
+   "job": 1357,
+   "prefix": "gameplay/job-1357-",
    "stage": 2,
-   "title": "Legacy: error and retry state",
+   "title": "Rivalry Statistics: fix the 1280x650 view",
    "mode": "code",
-   "screen": "legacy"
+   "screen": "rivalry-statistics"
   },
   "412": {
    "group": null,
@@ -3711,13 +3711,13 @@
    "screen": "settings"
   },
   "413": {
-   "group": "trophy-room",
-   "job": 1340,
-   "prefix": "gameplay/job-1340-",
+   "group": "career-screens",
+   "job": 1386,
+   "prefix": "gameplay/job-1386-",
    "stage": 2,
-   "title": "Trophy Room: error and retry state",
+   "title": "Career Statistics: fix the 1280x650 view",
    "mode": "code",
-   "screen": "trophy-room"
+   "screen": "career-statistics"
   },
   "414": {
    "group": null,
@@ -3729,13 +3729,13 @@
    "screen": "standings"
   },
   "415": {
-   "group": "career-statistics",
-   "job": 1398,
-   "prefix": "gameplay/job-1398-",
+   "group": "rules-settings",
+   "job": 1444,
+   "prefix": "gameplay/job-1444-",
    "stage": 2,
-   "title": "Career Statistics: error and retry state",
+   "title": "Settings: fix the 1280x650 view",
    "mode": "code",
-   "screen": "career-statistics"
+   "screen": "settings"
   },
   "416": {
    "group": null,
@@ -3747,13 +3747,13 @@
    "screen": "start-join"
   },
   "417": {
-   "group": "rules-settings",
-   "job": 1427,
-   "prefix": "gameplay/job-1427-",
+   "group": "season-final",
+   "job": 1242,
+   "prefix": "gameplay/job-1242-",
    "stage": 2,
-   "title": "Rule Book: error and retry state",
+   "title": "Standings: fix the 1366x768 view",
    "mode": "code",
-   "screen": "rule-book"
+   "screen": "standings"
   },
   "418": {
    "group": null,
@@ -3765,13 +3765,13 @@
    "screen": "transfer"
   },
   "419": {
-   "group": "home",
-   "job": 1080,
-   "prefix": "gameplay/job-1080-",
+   "group": "rivalry-legacy",
+   "job": 1358,
+   "prefix": "gameplay/job-1358-",
    "stage": 2,
-   "title": "Home: hover-only effects",
+   "title": "Rivalry Statistics: fix the 1366x768 view",
    "mode": "code",
-   "screen": "home"
+   "screen": "rivalry-statistics"
   },
   "420": {
    "group": null,
@@ -3783,13 +3783,13 @@
    "screen": "trophy-room"
   },
   "421": {
-   "group": "start-join",
-   "job": 1109,
-   "prefix": "gameplay/job-1109-",
+   "group": "career-screens",
+   "job": 1387,
+   "prefix": "gameplay/job-1387-",
    "stage": 2,
-   "title": "Connect Players (start and join): hover-only effects",
+   "title": "Career Statistics: fix the 1366x768 view",
    "mode": "code",
-   "screen": "start-join"
+   "screen": "career-statistics"
   },
   "422": {
    "group": null,
@@ -3801,13 +3801,13 @@
    "screen": "career-statistics"
   },
   "423": {
-   "group": "league",
-   "job": 1138,
-   "prefix": "gameplay/job-1138-",
+   "group": "rules-settings",
+   "job": 1445,
+   "prefix": "gameplay/job-1445-",
    "stage": 2,
-   "title": "Select League: hover-only effects",
+   "title": "Settings: fix the 1366x768 view",
    "mode": "code",
-   "screen": "league"
+   "screen": "settings"
   },
   "424": {
    "group": null,
@@ -3819,13 +3819,13 @@
    "screen": "club"
   },
   "425": {
-   "group": "club",
-   "job": 1167,
-   "prefix": "gameplay/job-1167-",
+   "group": "season-final",
+   "job": 1243,
+   "prefix": "gameplay/job-1243-",
    "stage": 2,
-   "title": "Club packs: hover-only effects",
+   "title": "Standings: fix the 1920x1080 view",
    "mode": "code",
-   "screen": "club"
+   "screen": "standings"
   },
   "426": {
    "group": null,
@@ -3837,13 +3837,13 @@
    "screen": "final-winner"
   },
   "427": {
-   "group": "transfer",
-   "job": 1196,
-   "prefix": "gameplay/job-1196-",
+   "group": "rivalry-legacy",
+   "job": 1359,
+   "prefix": "gameplay/job-1359-",
    "stage": 2,
-   "title": "Transfer challenge and Signing Entry: hover-only effects",
+   "title": "Rivalry Statistics: fix the 1920x1080 view",
    "mode": "code",
-   "screen": "transfer"
+   "screen": "rivalry-statistics"
   },
   "428": {
    "group": null,
@@ -3855,13 +3855,13 @@
    "screen": "home"
   },
   "429": {
-   "group": "season-final",
-   "job": 1225,
-   "prefix": "gameplay/job-1225-",
+   "group": "career-screens",
+   "job": 1388,
+   "prefix": "gameplay/job-1388-",
    "stage": 2,
-   "title": "Season Results: hover-only effects",
+   "title": "Career Statistics: fix the 1920x1080 view",
    "mode": "code",
-   "screen": "season-results"
+   "screen": "career-statistics"
   },
   "430": {
    "group": null,
@@ -3873,13 +3873,13 @@
    "screen": "league"
   },
   "431": {
-   "group": "standings",
-   "job": 1254,
-   "prefix": "gameplay/job-1254-",
+   "group": "rules-settings",
+   "job": 1446,
+   "prefix": "gameplay/job-1446-",
    "stage": 2,
-   "title": "Standings: hover-only effects",
+   "title": "Settings: fix the 1920x1080 view",
    "mode": "code",
-   "screen": "standings"
+   "screen": "settings"
   },
   "432": {
    "group": null,
@@ -3891,13 +3891,13 @@
    "screen": "legacy"
   },
   "433": {
-   "group": "rivalry-legacy",
-   "job": 1312,
-   "prefix": "gameplay/job-1312-",
+   "group": "season-final",
+   "job": 1244,
+   "prefix": "gameplay/job-1244-",
    "stage": 2,
-   "title": "Legacy: hover-only effects",
+   "title": "Standings: fix the 2560x1080 view",
    "mode": "code",
-   "screen": "legacy"
+   "screen": "standings"
   },
   "434": {
    "group": null,
@@ -3909,13 +3909,13 @@
    "screen": "rivalry-statistics"
   },
   "435": {
-   "group": "trophy-room",
-   "job": 1341,
-   "prefix": "gameplay/job-1341-",
+   "group": "rivalry-legacy",
+   "job": 1360,
+   "prefix": "gameplay/job-1360-",
    "stage": 2,
-   "title": "Trophy Room: hover-only effects",
+   "title": "Rivalry Statistics: fix the 2560x1080 view",
    "mode": "code",
-   "screen": "trophy-room"
+   "screen": "rivalry-statistics"
   },
   "436": {
    "group": null,
@@ -3927,11 +3927,11 @@
    "screen": "rule-book"
   },
   "437": {
-   "group": "career-statistics",
-   "job": 1399,
-   "prefix": "gameplay/job-1399-",
+   "group": "career-screens",
+   "job": 1389,
+   "prefix": "gameplay/job-1389-",
    "stage": 2,
-   "title": "Career Statistics: hover-only effects",
+   "title": "Career Statistics: fix the 2560x1080 view",
    "mode": "code",
    "screen": "career-statistics"
   },
@@ -3946,12 +3946,12 @@
   },
   "439": {
    "group": "rules-settings",
-   "job": 1428,
-   "prefix": "gameplay/job-1428-",
+   "job": 1447,
+   "prefix": "gameplay/job-1447-",
    "stage": 2,
-   "title": "Rule Book: hover-only effects",
+   "title": "Settings: fix the 2560x1080 view",
    "mode": "code",
-   "screen": "rule-book"
+   "screen": "settings"
   },
   "440": {
    "group": null,
@@ -3964,12 +3964,12 @@
   },
   "441": {
    "group": "season-final",
-   "job": 1264,
-   "prefix": "gameplay/job-1264-",
-   "stage": 2,
-   "title": "Final Winner (Showdown Champion): fix the 360x640 view",
+   "job": 1245,
+   "prefix": "gameplay/job-1245-",
+   "stage": 3,
+   "title": "Standings: match the desktop mockup",
    "mode": "code",
-   "screen": "final-winner"
+   "screen": "standings"
   },
   "442": {
    "group": null,
@@ -3982,10 +3982,10 @@
   },
   "443": {
    "group": "rivalry-legacy",
-   "job": 1351,
-   "prefix": "gameplay/job-1351-",
-   "stage": 2,
-   "title": "Rivalry Statistics: fix the 360x640 view",
+   "job": 1361,
+   "prefix": "gameplay/job-1361-",
+   "stage": 3,
+   "title": "Rivalry Statistics: match the desktop mockup",
    "mode": "code",
    "screen": "rivalry-statistics"
   },
@@ -3999,13 +3999,13 @@
    "screen": "start-join"
   },
   "445": {
-   "group": "rules-settings",
-   "job": 1438,
-   "prefix": "gameplay/job-1438-",
-   "stage": 2,
-   "title": "Settings: fix the 360x640 view",
+   "group": "career-screens",
+   "job": 1390,
+   "prefix": "gameplay/job-1390-",
+   "stage": 3,
+   "title": "Career Statistics: match the desktop mockup",
    "mode": "code",
-   "screen": "settings"
+   "screen": "career-statistics"
   },
   "446": {
    "group": null,
@@ -4017,13 +4017,13 @@
    "screen": "transfer"
   },
   "447": {
-   "group": "season-final",
-   "job": 1265,
-   "prefix": "gameplay/job-1265-",
-   "stage": 2,
-   "title": "Final Winner (Showdown Champion): fix the 390x844 view",
+   "group": "rules-settings",
+   "job": 1448,
+   "prefix": "gameplay/job-1448-",
+   "stage": 3,
+   "title": "Settings: match the desktop mockup",
    "mode": "code",
-   "screen": "final-winner"
+   "screen": "settings"
   },
   "448": {
    "group": null,
@@ -4035,13 +4035,13 @@
    "screen": "trophy-room"
   },
   "449": {
-   "group": "rivalry-legacy",
-   "job": 1352,
-   "prefix": "gameplay/job-1352-",
+   "group": "season-final",
+   "job": 1246,
+   "prefix": "gameplay/job-1246-",
    "stage": 2,
-   "title": "Rivalry Statistics: fix the 390x844 view",
+   "title": "Standings: long names",
    "mode": "code",
-   "screen": "rivalry-statistics"
+   "screen": "standings"
   },
   "450": {
    "group": null,
@@ -4053,13 +4053,13 @@
    "screen": "career-statistics"
   },
   "451": {
-   "group": "rules-settings",
-   "job": 1439,
-   "prefix": "gameplay/job-1439-",
+   "group": "rivalry-legacy",
+   "job": 1362,
+   "prefix": "gameplay/job-1362-",
    "stage": 2,
-   "title": "Settings: fix the 390x844 view",
+   "title": "Rivalry Statistics: long names",
    "mode": "code",
-   "screen": "settings"
+   "screen": "rivalry-statistics"
   },
   "452": {
    "group": null,
@@ -4071,13 +4071,13 @@
    "screen": "club"
   },
   "453": {
-   "group": "season-final",
-   "job": 1266,
-   "prefix": "gameplay/job-1266-",
+   "group": "career-screens",
+   "job": 1391,
+   "prefix": "gameplay/job-1391-",
    "stage": 2,
-   "title": "Final Winner (Showdown Champion): fix the 430x932 view",
+   "title": "Career Statistics: long names",
    "mode": "code",
-   "screen": "final-winner"
+   "screen": "career-statistics"
   },
   "454": {
    "group": null,
@@ -4089,13 +4089,13 @@
    "screen": "final-winner"
   },
   "455": {
-   "group": "rivalry-legacy",
-   "job": 1353,
-   "prefix": "gameplay/job-1353-",
+   "group": "rules-settings",
+   "job": 1449,
+   "prefix": "gameplay/job-1449-",
    "stage": 2,
-   "title": "Rivalry Statistics: fix the 430x932 view",
+   "title": "Settings: long names",
    "mode": "code",
-   "screen": "rivalry-statistics"
+   "screen": "settings"
   },
   "456": {
    "group": null,
@@ -4107,13 +4107,13 @@
    "screen": "home"
   },
   "457": {
-   "group": "rules-settings",
-   "job": 1440,
-   "prefix": "gameplay/job-1440-",
+   "group": "season-final",
+   "job": 1247,
+   "prefix": "gameplay/job-1247-",
    "stage": 2,
-   "title": "Settings: fix the 430x932 view",
+   "title": "Standings: tap targets",
    "mode": "code",
-   "screen": "settings"
+   "screen": "standings"
   },
   "458": {
    "group": null,
@@ -4125,13 +4125,13 @@
    "screen": "league"
   },
   "459": {
-   "group": "season-final",
-   "job": 1267,
-   "prefix": "gameplay/job-1267-",
+   "group": "rivalry-legacy",
+   "job": 1363,
+   "prefix": "gameplay/job-1363-",
    "stage": 2,
-   "title": "Final Winner (Showdown Champion): fix the 844x390 view",
+   "title": "Rivalry Statistics: tap targets",
    "mode": "code",
-   "screen": "final-winner"
+   "screen": "rivalry-statistics"
   },
   "460": {
    "group": null,
@@ -4143,13 +4143,13 @@
    "screen": "legacy"
   },
   "461": {
-   "group": "rivalry-legacy",
-   "job": 1354,
-   "prefix": "gameplay/job-1354-",
+   "group": "career-screens",
+   "job": 1392,
+   "prefix": "gameplay/job-1392-",
    "stage": 2,
-   "title": "Rivalry Statistics: fix the 844x390 view",
+   "title": "Career Statistics: tap targets",
    "mode": "code",
-   "screen": "rivalry-statistics"
+   "screen": "career-statistics"
   },
   "462": {
    "group": null,
@@ -4162,10 +4162,10 @@
   },
   "463": {
    "group": "rules-settings",
-   "job": 1441,
-   "prefix": "gameplay/job-1441-",
+   "job": 1450,
+   "prefix": "gameplay/job-1450-",
    "stage": 2,
-   "title": "Settings: fix the 844x390 view",
+   "title": "Settings: tap targets",
    "mode": "code",
    "screen": "settings"
   },
@@ -4180,12 +4180,12 @@
   },
   "465": {
    "group": "season-final",
-   "job": 1268,
-   "prefix": "gameplay/job-1268-",
+   "job": 1248,
+   "prefix": "gameplay/job-1248-",
    "stage": 2,
-   "title": "Final Winner (Showdown Champion): fix the 932x430 view",
+   "title": "Standings: keyboard focus and reduced motion",
    "mode": "code",
-   "screen": "final-winner"
+   "screen": "standings"
   },
   "466": {
    "group": null,
@@ -4198,10 +4198,10 @@
   },
   "467": {
    "group": "rivalry-legacy",
-   "job": 1355,
-   "prefix": "gameplay/job-1355-",
+   "job": 1364,
+   "prefix": "gameplay/job-1364-",
    "stage": 2,
-   "title": "Rivalry Statistics: fix the 932x430 view",
+   "title": "Rivalry Statistics: keyboard focus and reduced motion",
    "mode": "code",
    "screen": "rivalry-statistics"
   },
@@ -4215,13 +4215,13 @@
    "screen": "settings"
   },
   "469": {
-   "group": "rules-settings",
-   "job": 1442,
-   "prefix": "gameplay/job-1442-",
+   "group": "career-screens",
+   "job": 1393,
+   "prefix": "gameplay/job-1393-",
    "stage": 2,
-   "title": "Settings: fix the 932x430 view",
+   "title": "Career Statistics: keyboard focus and reduced motion",
    "mode": "code",
-   "screen": "settings"
+   "screen": "career-statistics"
   },
   "470": {
    "group": null,
@@ -4233,13 +4233,13 @@
    "screen": "standings"
   },
   "471": {
-   "group": "season-final",
-   "job": 1269,
-   "prefix": "gameplay/job-1269-",
+   "group": "rules-settings",
+   "job": 1451,
+   "prefix": "gameplay/job-1451-",
    "stage": 2,
-   "title": "Final Winner (Showdown Champion): fix the 768x1024 view",
+   "title": "Settings: keyboard focus and reduced motion",
    "mode": "code",
-   "screen": "final-winner"
+   "screen": "settings"
   },
   "472": {
    "group": null,
@@ -4251,13 +4251,13 @@
    "screen": "start-join"
   },
   "473": {
-   "group": "rivalry-legacy",
-   "job": 1356,
-   "prefix": "gameplay/job-1356-",
+   "group": "season-final",
+   "job": 1249,
+   "prefix": "gameplay/job-1249-",
    "stage": 2,
-   "title": "Rivalry Statistics: fix the 768x1024 view",
+   "title": "Standings: text contrast",
    "mode": "code",
-   "screen": "rivalry-statistics"
+   "screen": "standings"
   },
   "474": {
    "group": null,
@@ -4269,13 +4269,13 @@
    "screen": "transfer"
   },
   "475": {
-   "group": "rules-settings",
-   "job": 1443,
-   "prefix": "gameplay/job-1443-",
+   "group": "rivalry-legacy",
+   "job": 1365,
+   "prefix": "gameplay/job-1365-",
    "stage": 2,
-   "title": "Settings: fix the 768x1024 view",
+   "title": "Rivalry Statistics: text contrast",
    "mode": "code",
-   "screen": "settings"
+   "screen": "rivalry-statistics"
   },
   "476": {
    "group": null,
@@ -4287,240 +4287,15 @@
    "screen": "trophy-room"
   },
   "477": {
-   "group": "season-final",
-   "job": 1270,
-   "prefix": "gameplay/job-1270-",
+   "group": "career-screens",
+   "job": 1394,
+   "prefix": "gameplay/job-1394-",
    "stage": 2,
-   "title": "Final Winner (Showdown Champion): fix the 1280x650 view",
+   "title": "Career Statistics: text contrast",
    "mode": "code",
-   "screen": "final-winner"
+   "screen": "career-statistics"
   },
   "478": {
-   "group": "rivalry-legacy",
-   "job": 1357,
-   "prefix": "gameplay/job-1357-",
-   "stage": 2,
-   "title": "Rivalry Statistics: fix the 1280x650 view",
-   "mode": "code",
-   "screen": "rivalry-statistics"
-  },
-  "479": {
-   "group": "rules-settings",
-   "job": 1444,
-   "prefix": "gameplay/job-1444-",
-   "stage": 2,
-   "title": "Settings: fix the 1280x650 view",
-   "mode": "code",
-   "screen": "settings"
-  },
-  "480": {
-   "group": "season-final",
-   "job": 1271,
-   "prefix": "gameplay/job-1271-",
-   "stage": 2,
-   "title": "Final Winner (Showdown Champion): fix the 1366x768 view",
-   "mode": "code",
-   "screen": "final-winner"
-  },
-  "481": {
-   "group": "rivalry-legacy",
-   "job": 1358,
-   "prefix": "gameplay/job-1358-",
-   "stage": 2,
-   "title": "Rivalry Statistics: fix the 1366x768 view",
-   "mode": "code",
-   "screen": "rivalry-statistics"
-  },
-  "482": {
-   "group": "rules-settings",
-   "job": 1445,
-   "prefix": "gameplay/job-1445-",
-   "stage": 2,
-   "title": "Settings: fix the 1366x768 view",
-   "mode": "code",
-   "screen": "settings"
-  },
-  "483": {
-   "group": "season-final",
-   "job": 1272,
-   "prefix": "gameplay/job-1272-",
-   "stage": 2,
-   "title": "Final Winner (Showdown Champion): fix the 1920x1080 view",
-   "mode": "code",
-   "screen": "final-winner"
-  },
-  "484": {
-   "group": "rivalry-legacy",
-   "job": 1359,
-   "prefix": "gameplay/job-1359-",
-   "stage": 2,
-   "title": "Rivalry Statistics: fix the 1920x1080 view",
-   "mode": "code",
-   "screen": "rivalry-statistics"
-  },
-  "485": {
-   "group": "rules-settings",
-   "job": 1446,
-   "prefix": "gameplay/job-1446-",
-   "stage": 2,
-   "title": "Settings: fix the 1920x1080 view",
-   "mode": "code",
-   "screen": "settings"
-  },
-  "486": {
-   "group": "season-final",
-   "job": 1273,
-   "prefix": "gameplay/job-1273-",
-   "stage": 2,
-   "title": "Final Winner (Showdown Champion): fix the 2560x1080 view",
-   "mode": "code",
-   "screen": "final-winner"
-  },
-  "487": {
-   "group": "rivalry-legacy",
-   "job": 1360,
-   "prefix": "gameplay/job-1360-",
-   "stage": 2,
-   "title": "Rivalry Statistics: fix the 2560x1080 view",
-   "mode": "code",
-   "screen": "rivalry-statistics"
-  },
-  "488": {
-   "group": "rules-settings",
-   "job": 1447,
-   "prefix": "gameplay/job-1447-",
-   "stage": 2,
-   "title": "Settings: fix the 2560x1080 view",
-   "mode": "code",
-   "screen": "settings"
-  },
-  "489": {
-   "group": "season-final",
-   "job": 1274,
-   "prefix": "gameplay/job-1274-",
-   "stage": 3,
-   "title": "Final Winner (Showdown Champion): match the desktop mockup",
-   "mode": "code",
-   "screen": "final-winner"
-  },
-  "490": {
-   "group": "rivalry-legacy",
-   "job": 1361,
-   "prefix": "gameplay/job-1361-",
-   "stage": 3,
-   "title": "Rivalry Statistics: match the desktop mockup",
-   "mode": "code",
-   "screen": "rivalry-statistics"
-  },
-  "491": {
-   "group": "rules-settings",
-   "job": 1448,
-   "prefix": "gameplay/job-1448-",
-   "stage": 3,
-   "title": "Settings: match the desktop mockup",
-   "mode": "code",
-   "screen": "settings"
-  },
-  "492": {
-   "group": "season-final",
-   "job": 1275,
-   "prefix": "gameplay/job-1275-",
-   "stage": 2,
-   "title": "Final Winner (Showdown Champion): long names",
-   "mode": "code",
-   "screen": "final-winner"
-  },
-  "493": {
-   "group": "rivalry-legacy",
-   "job": 1362,
-   "prefix": "gameplay/job-1362-",
-   "stage": 2,
-   "title": "Rivalry Statistics: long names",
-   "mode": "code",
-   "screen": "rivalry-statistics"
-  },
-  "494": {
-   "group": "rules-settings",
-   "job": 1449,
-   "prefix": "gameplay/job-1449-",
-   "stage": 2,
-   "title": "Settings: long names",
-   "mode": "code",
-   "screen": "settings"
-  },
-  "495": {
-   "group": "season-final",
-   "job": 1276,
-   "prefix": "gameplay/job-1276-",
-   "stage": 2,
-   "title": "Final Winner (Showdown Champion): tap targets",
-   "mode": "code",
-   "screen": "final-winner"
-  },
-  "496": {
-   "group": "rivalry-legacy",
-   "job": 1363,
-   "prefix": "gameplay/job-1363-",
-   "stage": 2,
-   "title": "Rivalry Statistics: tap targets",
-   "mode": "code",
-   "screen": "rivalry-statistics"
-  },
-  "497": {
-   "group": "rules-settings",
-   "job": 1450,
-   "prefix": "gameplay/job-1450-",
-   "stage": 2,
-   "title": "Settings: tap targets",
-   "mode": "code",
-   "screen": "settings"
-  },
-  "498": {
-   "group": "season-final",
-   "job": 1277,
-   "prefix": "gameplay/job-1277-",
-   "stage": 2,
-   "title": "Final Winner (Showdown Champion): keyboard focus and reduced motion",
-   "mode": "code",
-   "screen": "final-winner"
-  },
-  "499": {
-   "group": "rivalry-legacy",
-   "job": 1364,
-   "prefix": "gameplay/job-1364-",
-   "stage": 2,
-   "title": "Rivalry Statistics: keyboard focus and reduced motion",
-   "mode": "code",
-   "screen": "rivalry-statistics"
-  },
-  "500": {
-   "group": "rules-settings",
-   "job": 1451,
-   "prefix": "gameplay/job-1451-",
-   "stage": 2,
-   "title": "Settings: keyboard focus and reduced motion",
-   "mode": "code",
-   "screen": "settings"
-  },
-  "501": {
-   "group": "season-final",
-   "job": 1278,
-   "prefix": "gameplay/job-1278-",
-   "stage": 2,
-   "title": "Final Winner (Showdown Champion): text contrast",
-   "mode": "code",
-   "screen": "final-winner"
-  },
-  "502": {
-   "group": "rivalry-legacy",
-   "job": 1365,
-   "prefix": "gameplay/job-1365-",
-   "stage": 2,
-   "title": "Rivalry Statistics: text contrast",
-   "mode": "code",
-   "screen": "rivalry-statistics"
-  },
-  "503": {
    "group": "rules-settings",
    "job": 1452,
    "prefix": "gameplay/job-1452-",
@@ -4529,16 +4304,16 @@
    "mode": "code",
    "screen": "settings"
   },
-  "504": {
+  "479": {
    "group": "season-final",
-   "job": 1279,
-   "prefix": "gameplay/job-1279-",
+   "job": 1250,
+   "prefix": "gameplay/job-1250-",
    "stage": 2,
-   "title": "Final Winner (Showdown Champion): picture descriptions and labels",
+   "title": "Standings: picture descriptions and labels",
    "mode": "code",
-   "screen": "final-winner"
+   "screen": "standings"
   },
-  "505": {
+  "480": {
    "group": "rivalry-legacy",
    "job": 1366,
    "prefix": "gameplay/job-1366-",
@@ -4547,7 +4322,16 @@
    "mode": "code",
    "screen": "rivalry-statistics"
   },
-  "506": {
+  "481": {
+   "group": "career-screens",
+   "job": 1395,
+   "prefix": "gameplay/job-1395-",
+   "stage": 2,
+   "title": "Career Statistics: picture descriptions and labels",
+   "mode": "code",
+   "screen": "career-statistics"
+  },
+  "482": {
    "group": "rules-settings",
    "job": 1453,
    "prefix": "gameplay/job-1453-",
@@ -4556,16 +4340,16 @@
    "mode": "code",
    "screen": "settings"
   },
-  "507": {
+  "483": {
    "group": "season-final",
-   "job": 1280,
-   "prefix": "gameplay/job-1280-",
+   "job": 1251,
+   "prefix": "gameplay/job-1251-",
    "stage": 2,
-   "title": "Final Winner (Showdown Champion): loading state",
+   "title": "Standings: loading state",
    "mode": "code",
-   "screen": "final-winner"
+   "screen": "standings"
   },
-  "508": {
+  "484": {
    "group": "rivalry-legacy",
    "job": 1367,
    "prefix": "gameplay/job-1367-",
@@ -4574,7 +4358,16 @@
    "mode": "code",
    "screen": "rivalry-statistics"
   },
-  "509": {
+  "485": {
+   "group": "career-screens",
+   "job": 1396,
+   "prefix": "gameplay/job-1396-",
+   "stage": 2,
+   "title": "Career Statistics: loading state",
+   "mode": "code",
+   "screen": "career-statistics"
+  },
+  "486": {
    "group": "rules-settings",
    "job": 1454,
    "prefix": "gameplay/job-1454-",
@@ -4583,16 +4376,16 @@
    "mode": "code",
    "screen": "settings"
   },
-  "510": {
+  "487": {
    "group": "season-final",
-   "job": 1281,
-   "prefix": "gameplay/job-1281-",
+   "job": 1252,
+   "prefix": "gameplay/job-1252-",
    "stage": 2,
-   "title": "Final Winner (Showdown Champion): empty state",
+   "title": "Standings: empty state",
    "mode": "code",
-   "screen": "final-winner"
+   "screen": "standings"
   },
-  "511": {
+  "488": {
    "group": "rivalry-legacy",
    "job": 1368,
    "prefix": "gameplay/job-1368-",
@@ -4601,7 +4394,16 @@
    "mode": "code",
    "screen": "rivalry-statistics"
   },
-  "512": {
+  "489": {
+   "group": "career-screens",
+   "job": 1397,
+   "prefix": "gameplay/job-1397-",
+   "stage": 2,
+   "title": "Career Statistics: empty state",
+   "mode": "code",
+   "screen": "career-statistics"
+  },
+  "490": {
    "group": "rules-settings",
    "job": 1455,
    "prefix": "gameplay/job-1455-",
@@ -4610,16 +4412,16 @@
    "mode": "code",
    "screen": "settings"
   },
-  "513": {
+  "491": {
    "group": "season-final",
-   "job": 1282,
-   "prefix": "gameplay/job-1282-",
+   "job": 1253,
+   "prefix": "gameplay/job-1253-",
    "stage": 2,
-   "title": "Final Winner (Showdown Champion): error and retry state",
+   "title": "Standings: error and retry state",
    "mode": "code",
-   "screen": "final-winner"
+   "screen": "standings"
   },
-  "514": {
+  "492": {
    "group": "rivalry-legacy",
    "job": 1369,
    "prefix": "gameplay/job-1369-",
@@ -4628,7 +4430,16 @@
    "mode": "code",
    "screen": "rivalry-statistics"
   },
-  "515": {
+  "493": {
+   "group": "career-screens",
+   "job": 1398,
+   "prefix": "gameplay/job-1398-",
+   "stage": 2,
+   "title": "Career Statistics: error and retry state",
+   "mode": "code",
+   "screen": "career-statistics"
+  },
+  "494": {
    "group": "rules-settings",
    "job": 1456,
    "prefix": "gameplay/job-1456-",
@@ -4637,16 +4448,16 @@
    "mode": "code",
    "screen": "settings"
   },
-  "516": {
+  "495": {
    "group": "season-final",
-   "job": 1283,
-   "prefix": "gameplay/job-1283-",
+   "job": 1254,
+   "prefix": "gameplay/job-1254-",
    "stage": 2,
-   "title": "Final Winner (Showdown Champion): hover-only effects",
+   "title": "Standings: hover-only effects",
    "mode": "code",
-   "screen": "final-winner"
+   "screen": "standings"
   },
-  "517": {
+  "496": {
    "group": "rivalry-legacy",
    "job": 1370,
    "prefix": "gameplay/job-1370-",
@@ -4655,7 +4466,16 @@
    "mode": "code",
    "screen": "rivalry-statistics"
   },
-  "518": {
+  "497": {
+   "group": "career-screens",
+   "job": 1399,
+   "prefix": "gameplay/job-1399-",
+   "stage": 2,
+   "title": "Career Statistics: hover-only effects",
+   "mode": "code",
+   "screen": "career-statistics"
+  },
+  "498": {
    "group": "rules-settings",
    "job": 1457,
    "prefix": "gameplay/job-1457-",
@@ -4663,6 +4483,186 @@
    "title": "Settings: hover-only effects",
    "mode": "code",
    "screen": "settings"
+  },
+  "499": {
+   "group": "season-final",
+   "job": 1264,
+   "prefix": "gameplay/job-1264-",
+   "stage": 2,
+   "title": "Final Winner (Showdown Champion): fix the 360x640 view",
+   "mode": "code",
+   "screen": "final-winner"
+  },
+  "500": {
+   "group": "season-final",
+   "job": 1265,
+   "prefix": "gameplay/job-1265-",
+   "stage": 2,
+   "title": "Final Winner (Showdown Champion): fix the 390x844 view",
+   "mode": "code",
+   "screen": "final-winner"
+  },
+  "501": {
+   "group": "season-final",
+   "job": 1266,
+   "prefix": "gameplay/job-1266-",
+   "stage": 2,
+   "title": "Final Winner (Showdown Champion): fix the 430x932 view",
+   "mode": "code",
+   "screen": "final-winner"
+  },
+  "502": {
+   "group": "season-final",
+   "job": 1267,
+   "prefix": "gameplay/job-1267-",
+   "stage": 2,
+   "title": "Final Winner (Showdown Champion): fix the 844x390 view",
+   "mode": "code",
+   "screen": "final-winner"
+  },
+  "503": {
+   "group": "season-final",
+   "job": 1268,
+   "prefix": "gameplay/job-1268-",
+   "stage": 2,
+   "title": "Final Winner (Showdown Champion): fix the 932x430 view",
+   "mode": "code",
+   "screen": "final-winner"
+  },
+  "504": {
+   "group": "season-final",
+   "job": 1269,
+   "prefix": "gameplay/job-1269-",
+   "stage": 2,
+   "title": "Final Winner (Showdown Champion): fix the 768x1024 view",
+   "mode": "code",
+   "screen": "final-winner"
+  },
+  "505": {
+   "group": "season-final",
+   "job": 1270,
+   "prefix": "gameplay/job-1270-",
+   "stage": 2,
+   "title": "Final Winner (Showdown Champion): fix the 1280x650 view",
+   "mode": "code",
+   "screen": "final-winner"
+  },
+  "506": {
+   "group": "season-final",
+   "job": 1271,
+   "prefix": "gameplay/job-1271-",
+   "stage": 2,
+   "title": "Final Winner (Showdown Champion): fix the 1366x768 view",
+   "mode": "code",
+   "screen": "final-winner"
+  },
+  "507": {
+   "group": "season-final",
+   "job": 1272,
+   "prefix": "gameplay/job-1272-",
+   "stage": 2,
+   "title": "Final Winner (Showdown Champion): fix the 1920x1080 view",
+   "mode": "code",
+   "screen": "final-winner"
+  },
+  "508": {
+   "group": "season-final",
+   "job": 1273,
+   "prefix": "gameplay/job-1273-",
+   "stage": 2,
+   "title": "Final Winner (Showdown Champion): fix the 2560x1080 view",
+   "mode": "code",
+   "screen": "final-winner"
+  },
+  "509": {
+   "group": "season-final",
+   "job": 1274,
+   "prefix": "gameplay/job-1274-",
+   "stage": 3,
+   "title": "Final Winner (Showdown Champion): match the desktop mockup",
+   "mode": "code",
+   "screen": "final-winner"
+  },
+  "510": {
+   "group": "season-final",
+   "job": 1275,
+   "prefix": "gameplay/job-1275-",
+   "stage": 2,
+   "title": "Final Winner (Showdown Champion): long names",
+   "mode": "code",
+   "screen": "final-winner"
+  },
+  "511": {
+   "group": "season-final",
+   "job": 1276,
+   "prefix": "gameplay/job-1276-",
+   "stage": 2,
+   "title": "Final Winner (Showdown Champion): tap targets",
+   "mode": "code",
+   "screen": "final-winner"
+  },
+  "512": {
+   "group": "season-final",
+   "job": 1277,
+   "prefix": "gameplay/job-1277-",
+   "stage": 2,
+   "title": "Final Winner (Showdown Champion): keyboard focus and reduced motion",
+   "mode": "code",
+   "screen": "final-winner"
+  },
+  "513": {
+   "group": "season-final",
+   "job": 1278,
+   "prefix": "gameplay/job-1278-",
+   "stage": 2,
+   "title": "Final Winner (Showdown Champion): text contrast",
+   "mode": "code",
+   "screen": "final-winner"
+  },
+  "514": {
+   "group": "season-final",
+   "job": 1279,
+   "prefix": "gameplay/job-1279-",
+   "stage": 2,
+   "title": "Final Winner (Showdown Champion): picture descriptions and labels",
+   "mode": "code",
+   "screen": "final-winner"
+  },
+  "515": {
+   "group": "season-final",
+   "job": 1280,
+   "prefix": "gameplay/job-1280-",
+   "stage": 2,
+   "title": "Final Winner (Showdown Champion): loading state",
+   "mode": "code",
+   "screen": "final-winner"
+  },
+  "516": {
+   "group": "season-final",
+   "job": 1281,
+   "prefix": "gameplay/job-1281-",
+   "stage": 2,
+   "title": "Final Winner (Showdown Champion): empty state",
+   "mode": "code",
+   "screen": "final-winner"
+  },
+  "517": {
+   "group": "season-final",
+   "job": 1282,
+   "prefix": "gameplay/job-1282-",
+   "stage": 2,
+   "title": "Final Winner (Showdown Champion): error and retry state",
+   "mode": "code",
+   "screen": "final-winner"
+  },
+  "518": {
+   "group": "season-final",
+   "job": 1283,
+   "prefix": "gameplay/job-1283-",
+   "stage": 2,
+   "title": "Final Winner (Showdown Champion): hover-only effects",
+   "mode": "code",
+   "screen": "final-winner"
   }
  }
 }

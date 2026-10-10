@@ -2253,7 +2253,7 @@
    "mode": "code",
    "prefix": "gameplay/job-1235-",
    "kind": "vp",
-   "group": "standings"
+   "group": "season-final"
   },
   "1236": {
    "title": "Standings: fix the 390x844 view",
@@ -2262,7 +2262,7 @@
    "mode": "code",
    "prefix": "gameplay/job-1236-",
    "kind": "vp",
-   "group": "standings"
+   "group": "season-final"
   },
   "1237": {
    "title": "Standings: fix the 430x932 view",
@@ -2271,7 +2271,7 @@
    "mode": "code",
    "prefix": "gameplay/job-1237-",
    "kind": "vp",
-   "group": "standings"
+   "group": "season-final"
   },
   "1238": {
    "title": "Standings: fix the 844x390 view",
@@ -2280,7 +2280,7 @@
    "mode": "code",
    "prefix": "gameplay/job-1238-",
    "kind": "vp",
-   "group": "standings"
+   "group": "season-final"
   },
   "1239": {
    "title": "Standings: fix the 932x430 view",
@@ -2289,7 +2289,7 @@
    "mode": "code",
    "prefix": "gameplay/job-1239-",
    "kind": "vp",
-   "group": "standings"
+   "group": "season-final"
   },
   "1240": {
    "title": "Standings: fix the 768x1024 view",
@@ -2298,7 +2298,7 @@
    "mode": "code",
    "prefix": "gameplay/job-1240-",
    "kind": "vp",
-   "group": "standings"
+   "group": "season-final"
   },
   "1241": {
    "title": "Standings: fix the 1280x650 view",
@@ -2307,7 +2307,7 @@
    "mode": "code",
    "prefix": "gameplay/job-1241-",
    "kind": "vp",
-   "group": "standings"
+   "group": "season-final"
   },
   "1242": {
    "title": "Standings: fix the 1366x768 view",
@@ -2316,7 +2316,7 @@
    "mode": "code",
    "prefix": "gameplay/job-1242-",
    "kind": "vp",
-   "group": "standings"
+   "group": "season-final"
   },
   "1243": {
    "title": "Standings: fix the 1920x1080 view",
@@ -2325,7 +2325,7 @@
    "mode": "code",
    "prefix": "gameplay/job-1243-",
    "kind": "vp",
-   "group": "standings"
+   "group": "season-final"
   },
   "1244": {
    "title": "Standings: fix the 2560x1080 view",
@@ -2334,7 +2334,7 @@
    "mode": "code",
    "prefix": "gameplay/job-1244-",
    "kind": "vp",
-   "group": "standings"
+   "group": "season-final"
   },
   "1245": {
    "title": "Standings: match the desktop mockup",
@@ -2343,7 +2343,7 @@
    "mode": "code",
    "prefix": "gameplay/job-1245-",
    "kind": "s3",
-   "group": "standings"
+   "group": "season-final"
   },
   "1246": {
    "title": "Standings: long names",
@@ -2352,7 +2352,7 @@
    "mode": "code",
    "prefix": "gameplay/job-1246-",
    "kind": "a-long-names",
-   "group": "standings"
+   "group": "season-final"
   },
   "1247": {
    "title": "Standings: tap targets",
@@ -2361,7 +2361,7 @@
    "mode": "code",
    "prefix": "gameplay/job-1247-",
    "kind": "a-tap-targets",
-   "group": "standings"
+   "group": "season-final"
   },
   "1248": {
    "title": "Standings: keyboard focus and reduced motion",
@@ -2370,7 +2370,7 @@
    "mode": "code",
    "prefix": "gameplay/job-1248-",
    "kind": "a-focus-motion",
-   "group": "standings"
+   "group": "season-final"
   },
   "1249": {
    "title": "Standings: text contrast",
@@ -2379,7 +2379,7 @@
    "mode": "code",
    "prefix": "gameplay/job-1249-",
    "kind": "a-contrast",
-   "group": "standings"
+   "group": "season-final"
   },
   "1250": {
    "title": "Standings: picture descriptions and labels",
@@ -2388,7 +2388,7 @@
    "mode": "code",
    "prefix": "gameplay/job-1250-",
    "kind": "a-alt-text",
-   "group": "standings"
+   "group": "season-final"
   },
   "1251": {
    "title": "Standings: loading state",
@@ -2397,7 +2397,7 @@
    "mode": "code",
    "prefix": "gameplay/job-1251-",
    "kind": "a-loading-state",
-   "group": "standings"
+   "group": "season-final"
   },
   "1252": {
    "title": "Standings: empty state",
@@ -2406,7 +2406,7 @@
    "mode": "code",
    "prefix": "gameplay/job-1252-",
    "kind": "a-empty-state",
-   "group": "standings"
+   "group": "season-final"
   },
   "1253": {
    "title": "Standings: error and retry state",
@@ -2415,7 +2415,7 @@
    "mode": "code",
    "prefix": "gameplay/job-1253-",
    "kind": "a-error-state",
-   "group": "standings"
+   "group": "season-final"
   },
   "1254": {
    "title": "Standings: hover-only effects",
@@ -2424,7 +2424,7 @@
    "mode": "code",
    "prefix": "gameplay/job-1254-",
    "kind": "a-touch-hover",
-   "group": "standings"
+   "group": "season-final"
   },
   "1255": {
    "title": "Standings: phone mockup, version A (faithful)",
@@ -3036,7 +3036,7 @@
    "mode": "code",
    "prefix": "gameplay/job-1322-",
    "kind": "vp",
-   "group": "trophy-room"
+   "group": "career-screens"
   },
   "1323": {
    "title": "Trophy Room: fix the 390x844 view",
@@ -3045,7 +3045,7 @@
    "mode": "code",
    "prefix": "gameplay/job-1323-",
    "kind": "vp",
-   "group": "trophy-room"
+   "group": "career-screens"
   },
   "1324": {
    "title": "Trophy Room: fix the 430x932 view",
@@ -3054,7 +3054,7 @@
    "mode": "code",
    "prefix": "gameplay/job-1324-",
    "kind": "vp",
-   "group": "trophy-room"
+   "group": "career-screens"
   },
   "1325": {
    "title": "Trophy Room: fix the 844x390 view",
@@ -3063,7 +3063,7 @@
    "mode": "code",
    "prefix": "gameplay/job-1325-",
    "kind": "vp",
-   "group": "trophy-room"
+   "group": "career-screens"
   },
   "1326": {
    "title": "Trophy Room: fix the 932x430 view",
@@ -3072,7 +3072,7 @@
    "mode": "code",
    "prefix": "gameplay/job-1326-",
    "kind": "vp",
-   "group": "trophy-room"
+   "group": "career-screens"
   },
   "1327": {
    "title": "Trophy Room: fix the 768x1024 view",
@@ -3081,7 +3081,7 @@
    "mode": "code",
    "prefix": "gameplay/job-1327-",
    "kind": "vp",
-   "group": "trophy-room"
+   "group": "career-screens"
   },
   "1328": {
    "title": "Trophy Room: fix the 1280x650 view",
@@ -3090,7 +3090,7 @@
    "mode": "code",
    "prefix": "gameplay/job-1328-",
    "kind": "vp",
-   "group": "trophy-room"
+   "group": "career-screens"
   },
   "1329": {
    "title": "Trophy Room: fix the 1366x768 view",
@@ -3099,7 +3099,7 @@
    "mode": "code",
    "prefix": "gameplay/job-1329-",
    "kind": "vp",
-   "group": "trophy-room"
+   "group": "career-screens"
   },
   "1330": {
    "title": "Trophy Room: fix the 1920x1080 view",
@@ -3108,7 +3108,7 @@
    "mode": "code",
    "prefix": "gameplay/job-1330-",
    "kind": "vp",
-   "group": "trophy-room"
+   "group": "career-screens"
   },
   "1331": {
    "title": "Trophy Room: fix the 2560x1080 view",
@@ -3117,7 +3117,7 @@
    "mode": "code",
    "prefix": "gameplay/job-1331-",
    "kind": "vp",
-   "group": "trophy-room"
+   "group": "career-screens"
   },
   "1332": {
    "title": "Trophy Room: match the desktop mockup",
@@ -3126,7 +3126,7 @@
    "mode": "code",
    "prefix": "gameplay/job-1332-",
    "kind": "s3",
-   "group": "trophy-room"
+   "group": "career-screens"
   },
   "1333": {
    "title": "Trophy Room: long names",
@@ -3135,7 +3135,7 @@
    "mode": "code",
    "prefix": "gameplay/job-1333-",
    "kind": "a-long-names",
-   "group": "trophy-room"
+   "group": "career-screens"
   },
   "1334": {
    "title": "Trophy Room: tap targets",
@@ -3144,7 +3144,7 @@
    "mode": "code",
    "prefix": "gameplay/job-1334-",
    "kind": "a-tap-targets",
-   "group": "trophy-room"
+   "group": "career-screens"
   },
   "1335": {
    "title": "Trophy Room: keyboard focus and reduced motion",
@@ -3153,7 +3153,7 @@
    "mode": "code",
    "prefix": "gameplay/job-1335-",
    "kind": "a-focus-motion",
-   "group": "trophy-room"
+   "group": "career-screens"
   },
   "1336": {
    "title": "Trophy Room: text contrast",
@@ -3162,7 +3162,7 @@
    "mode": "code",
    "prefix": "gameplay/job-1336-",
    "kind": "a-contrast",
-   "group": "trophy-room"
+   "group": "career-screens"
   },
   "1337": {
    "title": "Trophy Room: picture descriptions and labels",
@@ -3171,7 +3171,7 @@
    "mode": "code",
    "prefix": "gameplay/job-1337-",
    "kind": "a-alt-text",
-   "group": "trophy-room"
+   "group": "career-screens"
   },
   "1338": {
    "title": "Trophy Room: loading state",
@@ -3180,7 +3180,7 @@
    "mode": "code",
    "prefix": "gameplay/job-1338-",
    "kind": "a-loading-state",
-   "group": "trophy-room"
+   "group": "career-screens"
   },
   "1339": {
    "title": "Trophy Room: empty state",
@@ -3189,7 +3189,7 @@
    "mode": "code",
    "prefix": "gameplay/job-1339-",
    "kind": "a-empty-state",
-   "group": "trophy-room"
+   "group": "career-screens"
   },
   "1340": {
    "title": "Trophy Room: error and retry state",
@@ -3198,7 +3198,7 @@
    "mode": "code",
    "prefix": "gameplay/job-1340-",
    "kind": "a-error-state",
-   "group": "trophy-room"
+   "group": "career-screens"
   },
   "1341": {
    "title": "Trophy Room: hover-only effects",
@@ -3207,7 +3207,7 @@
    "mode": "code",
    "prefix": "gameplay/job-1341-",
    "kind": "a-touch-hover",
-   "group": "trophy-room"
+   "group": "career-screens"
   },
   "1342": {
    "title": "Trophy Room: phone mockup, version A (faithful)",
@@ -3558,7 +3558,7 @@
    "mode": "code",
    "prefix": "gameplay/job-1380-",
    "kind": "vp",
-   "group": "career-statistics"
+   "group": "career-screens"
   },
   "1381": {
    "title": "Career Statistics: fix the 390x844 view",
@@ -3567,7 +3567,7 @@
    "mode": "code",
    "prefix": "gameplay/job-1381-",
    "kind": "vp",
-   "group": "career-statistics"
+   "group": "career-screens"
   },
   "1382": {
    "title": "Career Statistics: fix the 430x932 view",
@@ -3576,7 +3576,7 @@
    "mode": "code",
    "prefix": "gameplay/job-1382-",
    "kind": "vp",
-   "group": "career-statistics"
+   "group": "career-screens"
   },
   "1383": {
    "title": "Career Statistics: fix the 844x390 view",
@@ -3585,7 +3585,7 @@
    "mode": "code",
    "prefix": "gameplay/job-1383-",
    "kind": "vp",
-   "group": "career-statistics"
+   "group": "career-screens"
   },
   "1384": {
    "title": "Career Statistics: fix the 932x430 view",
@@ -3594,7 +3594,7 @@
    "mode": "code",
    "prefix": "gameplay/job-1384-",
    "kind": "vp",
-   "group": "career-statistics"
+   "group": "career-screens"
   },
   "1385": {
    "title": "Career Statistics: fix the 768x1024 view",
@@ -3603,7 +3603,7 @@
    "mode": "code",
    "prefix": "gameplay/job-1385-",
    "kind": "vp",
-   "group": "career-statistics"
+   "group": "career-screens"
   },
   "1386": {
    "title": "Career Statistics: fix the 1280x650 view",
@@ -3612,7 +3612,7 @@
    "mode": "code",
    "prefix": "gameplay/job-1386-",
    "kind": "vp",
-   "group": "career-statistics"
+   "group": "career-screens"
   },
   "1387": {
    "title": "Career Statistics: fix the 1366x768 view",
@@ -3621,7 +3621,7 @@
    "mode": "code",
    "prefix": "gameplay/job-1387-",
    "kind": "vp",
-   "group": "career-statistics"
+   "group": "career-screens"
   },
   "1388": {
    "title": "Career Statistics: fix the 1920x1080 view",
@@ -3630,7 +3630,7 @@
    "mode": "code",
    "prefix": "gameplay/job-1388-",
    "kind": "vp",
-   "group": "career-statistics"
+   "group": "career-screens"
   },
   "1389": {
    "title": "Career Statistics: fix the 2560x1080 view",
@@ -3639,7 +3639,7 @@
    "mode": "code",
    "prefix": "gameplay/job-1389-",
    "kind": "vp",
-   "group": "career-statistics"
+   "group": "career-screens"
   },
   "1390": {
    "title": "Career Statistics: match the desktop mockup",
@@ -3648,7 +3648,7 @@
    "mode": "code",
    "prefix": "gameplay/job-1390-",
    "kind": "s3",
-   "group": "career-statistics"
+   "group": "career-screens"
   },
   "1391": {
    "title": "Career Statistics: long names",
@@ -3657,7 +3657,7 @@
    "mode": "code",
    "prefix": "gameplay/job-1391-",
    "kind": "a-long-names",
-   "group": "career-statistics"
+   "group": "career-screens"
   },
   "1392": {
    "title": "Career Statistics: tap targets",
@@ -3666,7 +3666,7 @@
    "mode": "code",
    "prefix": "gameplay/job-1392-",
    "kind": "a-tap-targets",
-   "group": "career-statistics"
+   "group": "career-screens"
   },
   "1393": {
    "title": "Career Statistics: keyboard focus and reduced motion",
@@ -3675,7 +3675,7 @@
    "mode": "code",
    "prefix": "gameplay/job-1393-",
    "kind": "a-focus-motion",
-   "group": "career-statistics"
+   "group": "career-screens"
   },
   "1394": {
    "title": "Career Statistics: text contrast",
@@ -3684,7 +3684,7 @@
    "mode": "code",
    "prefix": "gameplay/job-1394-",
    "kind": "a-contrast",
-   "group": "career-statistics"
+   "group": "career-screens"
   },
   "1395": {
    "title": "Career Statistics: picture descriptions and labels",
@@ -3693,7 +3693,7 @@
    "mode": "code",
    "prefix": "gameplay/job-1395-",
    "kind": "a-alt-text",
-   "group": "career-statistics"
+   "group": "career-screens"
   },
   "1396": {
    "title": "Career Statistics: loading state",
@@ -3702,7 +3702,7 @@
    "mode": "code",
    "prefix": "gameplay/job-1396-",
    "kind": "a-loading-state",
-   "group": "career-statistics"
+   "group": "career-screens"
   },
   "1397": {
    "title": "Career Statistics: empty state",
@@ -3711,7 +3711,7 @@
    "mode": "code",
    "prefix": "gameplay/job-1397-",
    "kind": "a-empty-state",
-   "group": "career-statistics"
+   "group": "career-screens"
   },
   "1398": {
    "title": "Career Statistics: error and retry state",
@@ -3720,7 +3720,7 @@
    "mode": "code",
    "prefix": "gameplay/job-1398-",
    "kind": "a-error-state",
-   "group": "career-statistics"
+   "group": "career-screens"
   },
   "1399": {
    "title": "Career Statistics: hover-only effects",
@@ -3729,7 +3729,7 @@
    "mode": "code",
    "prefix": "gameplay/job-1399-",
    "kind": "a-touch-hover",
-   "group": "career-statistics"
+   "group": "career-screens"
   },
   "1400": {
    "title": "Career Statistics: phone mockup, version A (faithful)",

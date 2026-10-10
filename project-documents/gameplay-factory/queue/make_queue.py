@@ -85,8 +85,8 @@ SLOTS = [f"A{i}" for i in range(1, 11)] + [f"B{i}" for i in range(1, 11)]
 RULES = """## Rules for every queue job (read first)
 - **Start:** branch `{base}`. Create the branch `{branch}-<slug>` from it and open the PR **into `{base}`**. Never push to `main`, `gameplay/bug-list-1`, `gameplay/recovery-v1` or `study/mega-queue` directly. Never merge.
 - **Scope:** change only the files this ticket names. If it truly needs another file, change it and say why in the PR body.
-- **Never** edit `index.html`, `service-worker.js`, scoring, the release version or anything under `.github/`. Never delete, skip or loosen a test. Game rules and every screen's order of taps stay exactly as they are (Nik: fewer taps, but never skip, hide or reorder a needed screen).
-- **Checks:** you cannot run a browser here, and that is expected. Re-read your edit once. The Team G lead runs the tests and checks the screen before merging, and merges only on green CI.
+- **Never** edit `index.html`, `service-worker.js`, the release version or anything under `.github/`. Tests may only be added, never edited, deleted, skipped or loosened to make them pass. No player-visible text changes unless this ticket says so. Scoring, game rules and every screen's order of taps stay exactly as they are. Never use sessionStorage. Never touch anything under `visual-assets/v10_1/` (Team V's frozen design files), `tests/fixtures/`, and do not edit anything in `scripts/` (running it is fine) (Nik: fewer taps, but never skip, hide or reorder a needed screen).
+- **Checks:** Re-read your edit once. Code jobs: run `node scripts/pos10-syntax.mjs` and `npm run -s test:contracts` and paste the last lines in the PR body (a browser is not needed). The Team G lead checks the screen and merges only on green CI after a `Sol review` comment.
 - **If you cannot finish** (a file is missing, a limit is reached): push the branch `{branch}-blocked` with one small file `project-documents/gameplay-factory/status/JOB-{n}.md` saying what stopped you. That frees the slot for the next job.
 - **PR title:** `JOB-{n} {tag}<ticket title>`. **PR body:** a "Before:" paragraph, an "After:" paragraph, a short "How" paragraph, then the lines you changed.
 - **Done:** reply with one line: `Job {n} done, PR <link>.` Do not ask to continue.
@@ -97,6 +97,9 @@ Read at most 5 files besides this ticket, write at most 3 files (about 200 chang
 """
 
 def lane(base):
+    if base == BASE:
+        return (f"| Lane | Depends on | Branch to start from | PR into |\n| --- | --- | --- | --- |\n"
+                f"| White team: Codex cloud on the repo (default model and effort; runs the tests itself) | none | `{base}` | `{base}` |")
     return (f"| Lane | Depends on | Branch to start from | PR into |\n| --- | --- | --- | --- |\n"
             f"| Blue team: GPT-6 Sol, High effort (ChatGPT project \"Career Mode Showdown\", normal chat) | none | `{base}` | `{base}` |")
 
@@ -192,9 +195,22 @@ You are a **reviewer** in the Career Mode Showdown gameplay factory, slot **{slo
 """
 
 GROUPS = {"home": "home", "start-join": "start-join", "league": "league", "club": "club", "transfer": "transfer",
-          "season-results": "season-final", "final-winner": "season-final", "standings": "standings",
-          "legacy": "rivalry-legacy", "rivalry-statistics": "rivalry-legacy", "trophy-room": "trophy-room",
-          "career-statistics": "career-statistics", "rule-book": "rules-settings", "settings": "rules-settings"}
+          "season-results": "season-final", "final-winner": "season-final", "standings": "season-final",
+          "legacy": "rivalry-legacy", "rivalry-statistics": "rivalry-legacy", "trophy-room": "career-screens",
+          "career-statistics": "career-screens", "rule-book": "rules-settings", "settings": "rules-settings"}
+
+EDIT = {  # adapter layer only; visual-assets/v10_1/** is Team V's frozen design source
+ "home": ["css/homeV10.css", "js/homeScreensV10.js"],
+ "start-join": ["css/connectPlayersV10.css", "js/connectPlayersScreenV10.js", "js/startJoinViewModel.js"],
+ "league": ["css/v10Setup.css", "js/leagueWheel.js", "js/v10Setup.js"],
+ "club": ["css/v10Club.css", "js/clubScreenV10.js"],
+ "transfer": ["css/v10Transfer.css", "js/transferScreenV10.js"],
+ "season-results": ["js/seasonFinalV10.js"], "final-winner": ["js/seasonFinalV10.js"], "standings": ["js/seasonFinalV10.js"],
+ "legacy": ["css/rivalryLegacyV10.css", "js/rivalryLegacyV10.js", "js/rivalryLegacyV10Markup.js"],
+ "rivalry-statistics": ["css/rivalryLegacyV10.css", "js/rivalryLegacyV10.js", "js/rivalryLegacyV10Markup.js"],
+ "trophy-room": ["js/careerScreensV10.js"], "career-statistics": ["js/careerScreensV10.js"],
+ "rule-book": ["css/rulesSettingsV10.css", "js/rulesSettingsV10.js"], "settings": ["css/rulesSettingsV10.css", "js/rulesSettingsV10.js"],
+}
 
 VIEWPORTS = ["360x640 (small phone, upright)", "390x844 (iPhone, upright)", "430x932 (large iPhone, upright)",
              "844x390 (iPhone, sideways)", "932x430 (large iPhone, sideways)", "768x1024 (tablet, upright)",
@@ -256,7 +272,7 @@ def main():
             add(slot, key="vp", screen=sid, stage=2, mode="code", stitle=title, title=f"{title}: fix the {vp.split(' ')[0]} view",
                 files=files, text=f"## What to fix\nCheck only the **{vp}** view of the **{title}** screen and fix what is wrong in the CSS: no content cut off, no horizontal scroll, no text over text, no button off screen, one page scroll (no nested scroll box), tap targets at least 44 px on touch sizes. Use media queries that apply only to this size range so other sizes do not change.\n")
         add(slot, key="s3", screen=sid, stage=3, mode="code", stitle=title, title=f"{title}: match the desktop mockup", files=files,
-            text=f"## What to fix\nMatch the current desktop **{title}** screen to its desktop mockup.\n- Find the mockup of this screen in this ChatGPT project's files (also try the pictures in `{pre}` named `ENV_*_PLATE_V1_*`). List at most 8 differences in spacing, sizes, alignment, text style, colours or order of elements between the mockup and the code and fix the clear ones in the CSS (tiny markup class changes only when a class is missing). Never change text a player reads, an order of taps, or game logic.\n- Save the list as `project-documents/gameplay-factory/queue/results/{sid}-s3.md` (fixed / not fixed with reason).\n- DEFAULT: if you cannot find the mockup, do not guess. Push only `status/JOB-N.md` saying `NEEDS MOCKUP` and where you looked.\n")
+            text=f"## What to fix\nMatch the current desktop **{title}** screen to its desktop mockup.\n- Find the mockup of this screen: in this repo look at the pictures in `{pre}` named `ENV_*_PLATE_V1_*`, and in the ChatGPT project's files if you can reach them. List at most 8 differences in spacing, sizes, alignment, text style, colours or order of elements between the mockup and the code and fix the clear ones in the CSS (tiny markup class changes only when a class is missing). Never change text a player reads, an order of taps, or game logic.\n- Save the list as `project-documents/gameplay-factory/queue/results/{sid}-s3.md` (fixed / not fixed with reason).\n- DEFAULT: if you cannot find the mockup, do not guess. Push only `status/JOB-N.md` saying `NEEDS MOCKUP` and where you looked.\n")
         for key, ktitle, text in ASPECTS:
             add(slot, key="a-" + key, screen=sid, stage=2, mode="code", stitle=title, title=f"{title}: {ktitle}", files=files,
                 text=f"## What to fix\nFor the **{title}** screen only: {text}\nCSS only unless the instruction says otherwise.\n")
@@ -291,12 +307,15 @@ def main():
             body = t["text"].replace("status/JOB-N.md", f"status/JOB-{j}.md")
             if "DEFAULT" not in body: body += nochange(j)
             grp = GROUPS[t["screen"]]; t["group"] = grp
-            fl = ", ".join(f"`{f}`" for f in t["files"])
-            body += f"\n**Lock group:** `{grp}`. Only one open code pull request per lock group is allowed at a time, so touch only these files: {fl}.\n"
+            fl = ", ".join(f"`{f}`" for f in EDIT[t["screen"]])
+            body += (f"\n**Editable files (the adapter layer, and the only ones you may change):** {fl}.\n"
+                     f"**Frozen, read only:** everything under `visual-assets/v10_1/` is Team V's design source. If the fix would need a change there, do not make it: push only `status/JOB-{j}.md` saying `NEEDS TEAM V` with what and why.\n"
+                     f"**Lock group:** `{grp}` (one open code pull request per group at a time).\n")
             vp = t["title"].split("fix the ")[1].split(" ")[0] if "fix the " in t["title"] else "1920x1080"
             done = (f"## Done check (the Team G lead runs this)\n- `node scripts/pos10-syntax.mjs` and `npm run -s test:contracts` pass in CI (Showdown Gate green).\n"
                     f"- The **{t['stitle'] if 'stitle' in t else t['screen']}** screen looks right at **{vp}** and is unchanged at 1920x1080 and 390x844 (except where this job says otherwise).\n\n")
             md = generic(j, t["title"], t["stage"], BASE, body, t["files"], tag=f"[{grp}] ", done=done)
+            t["edit"] = EDIT[t["screen"]]
         (out_jobs / f"JOB-{j}.md").write_text(md)
     for s in SLOTS:
         if s in REVIEW_SLOTS:
