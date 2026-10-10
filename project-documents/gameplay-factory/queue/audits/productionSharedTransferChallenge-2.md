@@ -4,7 +4,7 @@ Scope: `js/productionSharedTransferChallenge.js`, lines 165–329 on `qa/mega-au
 
 ## Finding 1 — PROBABLE: unlocked private guesses are wiped on refresh
 
-- **File / lines:** `js/productionSharedTransferChallenge.js:212,214,268,275–276,304–308` (refresh also calls the renderer at line 99).
+- **File / lines:** `js/productionSharedTransferChallenge.js:212,214,268,275–276,304–308` (refresh also calls the renderer at line 115).
 - **Player sees:** While choosing a league/nationality and its value on private Guess Entry, a partially entered guess can disappear without tapping Lock, particularly during normal 15-second polling, faster waiting polling, or manual refresh. The player must re-enter the selection; a guess may be omitted accidentally.
 - **Why:** `pstcRender()` repopulates the local controls from `view.ownInputs` on **every** authoritative refresh, even when this manager has not locked guesses. `pstcPopulateGuesses()` replaces the type with an empty string if no authoritative row exists and empties the value field if that slot has no row. Unlike signing entry (lines 219–232), guess entry has no draft restoration. Relevant source excerpts (2 lines):
   ```js
