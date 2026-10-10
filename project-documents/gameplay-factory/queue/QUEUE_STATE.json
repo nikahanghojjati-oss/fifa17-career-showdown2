@@ -2,31 +2,31 @@
  "sequence": {
   "ready": [
    45,
-   46,
    47,
-   48,
-   50,
    51,
-   52,
    53,
-   54,
    55,
    56,
-   57
+   57,
+   58,
+   59,
+   60,
+   61,
+   62
   ],
   "ready_sol": [
    45,
-   46,
    47,
-   48,
-   50,
    51,
-   52,
    53,
-   54,
    55,
    56,
-   57
+   57,
+   58,
+   59,
+   60,
+   61,
+   62
   ],
   "ready_codex": [],
   "held_until_picture": 86,
@@ -81,15 +81,15 @@
    "43": "on_train",
    "44": "pr_open",
    "45": "waiting",
-   "46": "waiting",
+   "46": "pr_open",
    "47": "waiting",
-   "48": "waiting",
+   "48": "pr_open",
    "49": "pr_open",
-   "50": "waiting",
+   "50": "pr_open",
    "51": "waiting",
-   "52": "waiting",
+   "52": "pr_open",
    "53": "waiting",
-   "54": "waiting",
+   "54": "pr_open",
    "55": "waiting",
    "56": "waiting",
    "57": "waiting",
@@ -123,17 +123,17 @@
    "85": "pr_open",
    "86": "pr_open",
    "87": "waiting",
-   "88": "waiting",
+   "88": "pr_open",
    "89": "waiting",
-   "90": "waiting",
+   "90": "pr_open",
    "91": "waiting",
-   "92": "waiting",
+   "92": "pr_open",
    "93": "waiting",
-   "94": "waiting",
+   "94": "pr_open",
    "95": "waiting",
-   "96": "waiting",
+   "96": "pr_open",
    "97": "waiting",
-   "98": "waiting",
+   "98": "pr_open",
    "99": "waiting",
    "100": "waiting",
    "101": "waiting",
@@ -556,11 +556,11 @@
    "518": "waiting"
   }
  },
- "updated": "2026-10-10T20:56:15Z",
+ "updated": "2026-10-10T21:00:08Z",
  "counts": {
   "on_train": 20,
-  "waiting": 400,
-  "pr_open": 98
+  "waiting": 389,
+  "pr_open": 109
  },
  "stages": {
   "2": {
@@ -585,7 +585,7 @@
   },
   "1": {
    "total": 112,
-   "taken": 73,
+   "taken": 84,
    "merged": 0
   }
  },
@@ -4317,39 +4317,39 @@
    "branch": "qa/job-1488-sharedtransferchallenge-2-audit"
   },
   "1489": {
-   "state": "waiting",
-   "pr": null,
-   "draft": false,
-   "pr_url": null,
-   "branch": null
+   "state": "pr_open",
+   "pr": 545,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/545",
+   "branch": "qa/job-1489-restore-1-audit"
   },
   "1490": {
-   "state": "waiting",
-   "pr": null,
-   "draft": false,
-   "pr_url": null,
-   "branch": null
+   "state": "pr_open",
+   "pr": 548,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/548",
+   "branch": "qa/job-1490-restore-2-audit"
   },
   "1491": {
-   "state": "waiting",
-   "pr": null,
-   "draft": false,
-   "pr_url": null,
-   "branch": null
+   "state": "pr_open",
+   "pr": 550,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/550",
+   "branch": "qa/job-1491-importanalysis-1-audit"
   },
   "1492": {
-   "state": "waiting",
-   "pr": null,
-   "draft": false,
-   "pr_url": null,
-   "branch": null
+   "state": "pr_open",
+   "pr": 552,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/552",
+   "branch": "qa/job-1492-importanalysis-2-audit"
   },
   "1493": {
-   "state": "waiting",
-   "pr": null,
-   "draft": false,
-   "pr_url": null,
-   "branch": null
+   "state": "pr_open",
+   "pr": 554,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/554",
+   "branch": "qa/job-1493-persistentnikdanielpair-1-audit"
   },
   "1494": {
    "state": "waiting",
@@ -4464,46 +4464,46 @@
    "branch": "qa/job-1509-production-season-results-1"
   },
   "1510": {
-   "state": "waiting",
-   "pr": null,
-   "draft": false,
-   "pr_url": null,
-   "branch": null
+   "state": "pr_open",
+   "pr": 546,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/546",
+   "branch": "qa/job-1510-production-season-results-2"
   },
   "1511": {
-   "state": "waiting",
-   "pr": null,
-   "draft": false,
-   "pr_url": null,
-   "branch": null
+   "state": "pr_open",
+   "pr": 547,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/547",
+   "branch": "qa/job-1511-production-season-commit-1"
   },
   "1512": {
-   "state": "waiting",
-   "pr": null,
-   "draft": false,
-   "pr_url": null,
-   "branch": null
+   "state": "pr_open",
+   "pr": 549,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/549",
+   "branch": "qa/job-1512-production-season-commit-2"
   },
   "1513": {
-   "state": "waiting",
-   "pr": null,
-   "draft": false,
-   "pr_url": null,
-   "branch": null
+   "state": "pr_open",
+   "pr": 551,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/551",
+   "branch": "qa/job-1513-spark-season-commit-1"
   },
   "1514": {
-   "state": "waiting",
-   "pr": null,
-   "draft": false,
-   "pr_url": null,
-   "branch": null
+   "state": "pr_open",
+   "pr": 553,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/553",
+   "branch": "qa/job-1514-spark-season-commit-2"
   },
   "1515": {
-   "state": "waiting",
-   "pr": null,
-   "draft": false,
-   "pr_url": null,
-   "branch": null
+   "state": "pr_open",
+   "pr": 555,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/555",
+   "branch": "qa/job-1515-production-journey-entry-1"
   },
   "1516": {
    "state": "waiting",
