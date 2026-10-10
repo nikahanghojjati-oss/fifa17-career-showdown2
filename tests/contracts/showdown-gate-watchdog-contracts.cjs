@@ -21,6 +21,8 @@ let checks=0;const ok=label=>{checks++;void label;};
   const S=await import(path.join(root,'scripts/showdown-gate.mjs'));
   const Y=await import(path.join(root,'scripts/gate-yield.mjs'));
   const C=await import(path.join(root,'scripts/gate-compare.mjs'));
+  // Keep L5 routing contracts in the registered watchdog census without changing the POS20 registry.
+  await require('./showdown-gate-l5-inputs-contracts.cjs')();
 
   const head='c'.repeat(40);
   const base='b'.repeat(40);const runId=100;
@@ -255,6 +257,41 @@ let checks=0;const ok=label=>{checks++;void label;};
   }};
   assert.deepEqual(await C.readPhysioReruns(pagedClient,'o/r',recovered,{log:logOf(resultRecord)}),attributed);assert.equal(page,2,'attribution beyond the first page is read');
   ok('Physio attribution is bound to accepted recorded results');
+  // JOB-1059: the lookup is bounded to the window in which the target could have been re-run, and skipped
+  // Physio jobs are never read, so a long Physio history cannot exhaust the token and null real evidence.
+  const lateRun={...physioRun,id:602,created_at:'2026-10-10T10:11:00Z'};
+  const neverRead=async()=>{throw new Error('a Physio run outside the window must not be read');};
+  assert.deepEqual(await C.readPhysioReruns(attributionClient([lateRun]),'o/r',recovered,{log:neverRead}),[],'no updated_at: runs after 24 h + slack are outside the window');
+  const finished={...recovered,updated_at:'2026-10-09T10:30:00Z'};
+  assert.deepEqual(await C.readPhysioReruns(attributionClient([{...physioRun,created_at:'2026-10-09T10:41:00Z'}]),'o/r',finished,{log:neverRead}),[],'runs after the last update + slack are outside the window');
+  assert.deepEqual(await C.readPhysioReruns(attributionClient(),'o/r',finished,{log:logOf(resultRecord)}),attributed,'the run that re-ran the target is inside the window');
+  const skippedClient={get:async endpoint=>endpoint.includes('/workflows/')?{workflow_runs:[physioRun]}:{jobs:[{id:701,conclusion:'skipped'}]}};
+  assert.deepEqual(await C.readPhysioReruns(skippedClient,'o/r',recovered,{log:async()=>{throw new Error('a skipped job has no result to read');}}),[],'skipped Physio jobs are not read');
+  assert.equal(await C.readPhysioReruns(attributionClient(),'o/r',finished,{log:async()=>{throw new Error('logs unavailable');}}),null,'unavailable logs inside the window still fail closed');
+  ok('Physio attribution reads only the re-run window');
+
+  // JOB-1059: a head whose Gate and POS20 runs were both cancelled by a newer push is superseded, not incomplete.
+  const cancelled={conclusion:'cancelled'};const newer='e'.repeat(40);
+  assert.equal(C.isSupersededHead({head,gateRun:cancelled,pos20Run:cancelled,prHeadSha:newer}),true);
+  assert.equal(C.isSupersededHead({head,gateRun:cancelled,pos20Run:cancelled,prHeadSha:head}),false,'the live head itself is never superseded');
+  assert.equal(C.isSupersededHead({head,gateRun:cancelled,pos20Run:cancelled,prHeadSha:null}),false,'unknown live head fails closed');
+  assert.equal(C.isSupersededHead({head,gateRun:{conclusion:'failure'},pos20Run:cancelled,prHeadSha:newer}),false,'a Gate that ran is never superseded');
+  assert.equal(C.isSupersededHead({head,gateRun:cancelled,pos20Run:{conclusion:"success"},prHeadSha:newer}),false,'a POS20 verdict is never superseded');
+  assert.equal(C.isSupersededHead({head,gateRun:cancelled,pos20Run:null,prHeadSha:newer}),false,'a missing POS20 run is not superseded');
+  ok('superseded heads need both runs cancelled and a newer live PR head');
+  // The live lookup finds the PR by head branch, because a superseded run's pull_requests list is empty.
+  const cancelledRun=(path,id)=>({id,path,head_sha:head,head_branch:'gameplay/job-x',head_repository:{full_name:'o/r'},conclusion:'cancelled',created_at:'2026-10-09T10:00:00Z',pull_requests:[]});
+  const liveClient=(pulls,repoName='o/r')=>({get:async endpoint=>{
+    if(endpoint.startsWith('repos/o/r/actions/runs?head_sha='))return {workflow_runs:[cancelledRun(C.GATE_PATH,1),cancelledRun(C.POS20_PATH,2)].map(r=>({...r,head_repository:{full_name:repoName}}))};
+    if(endpoint.startsWith('repos/o/r/pulls?state=all&head=o%3Agameplay%2Fjob-x'))return pulls;
+    throw new Error(`not superseded, so the comparison reads: ${endpoint}`);
+  }});
+  const sup=await C.compareLive(liveClient([{number:7,created_at:'2026-10-09T09:00:00Z',head:{sha:newer}}]),'o/r',head,{mappings:[],oldJobNames:{}});
+  assert.deepEqual(sup,{schema:'showdown-gate-compare/v1',head,superseded:true,pr:7,pr_head:newer});
+  await assert.rejects(C.compareLive(liveClient([{number:7,created_at:'2026-10-09T09:00:00Z',head:{sha:head}}]),'o/r',head,{mappings:[],oldJobNames:{}}),/not superseded/,'a cancelled live head is still compared');
+  await assert.rejects(C.compareLive(liveClient([]),'o/r',head,{mappings:[],oldJobNames:{}}),/not superseded/,'no PR found is still compared');
+  await assert.rejects(C.compareLive(liveClient([{number:7,head:{sha:newer}}],'fork/r'),'o/r',head,{mappings:[],oldJobNames:{}}),/not superseded/,'a fork branch is never looked up');
+  ok('the live comparison marks superseded heads from the PR found by branch');
 
   // The real --summary CLI reads Physio results, not run_attempt - 1, including when log access fails.
   let servedRecord=resultRecord;let logsAvailable=true;let prStatus=500;let prHead=null;

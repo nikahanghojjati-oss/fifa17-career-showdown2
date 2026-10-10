@@ -1,9 +1,8 @@
 name: Validate Gameplay Fast
 
+# Archived 2026-10-10 with Validate POS20: the Showdown Gate runs every step of this workflow on each PR.
+# Kept, never deleted; rollback is restoring the push trigger on 'gameplay/**' branches.
 on:
-  push:
-    branches:
-      - 'gameplay/**'
   workflow_dispatch:
 
 permissions:

@@ -1,10 +1,11 @@
-# Showdown Gate (phase 1 shadow). Runs beside Validate POS20 and Validate Gameplay Fast and is NOT a
-# required check: it replaces nothing and changes no merge authority. Six lanes run in parallel; each lane
-# computes its own route with the unchanged POS20 router (no shared selector job), and the seal requires
-# every lane green on the exact head with every routed id executed. GATE_COVERAGE.json maps every command
-# of the 16 old gates to a step here, and tests/contracts/showdown-gate-coverage-contracts.cjs enforces it.
-# Every job is read-only and every checkout sets persist-credentials: false; helper preemption runs only in
-# the trusted default-branch Physio workflow (gate-watchdog.yml).
+# Showdown Gate: the PR check set since 2026-10-10 (Nik chose the switch after a READY exit report). It
+# replaces Validate POS20 and Validate Gameplay Fast, which stay archived (manual dispatch only) for rollback.
+# Six lanes run in parallel; each lane computes its own route with the unchanged POS20 router (no shared
+# selector job), and the seal requires every lane green on the exact head with every routed id executed.
+# GATE_COVERAGE.json maps every command of the 16 old gates to a step here, and
+# tests/contracts/showdown-gate-coverage-contracts.cjs enforces it. Every job is read-only and every checkout
+# sets persist-credentials: false; helper preemption runs only in the trusted default-branch Physio workflow
+# (gate-watchdog.yml).
 name: Showdown Gate
 
 on:
@@ -433,28 +434,35 @@ jobs:
         env:
           GATE_EVENT: ${{ github.event_name }}
           GATE_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          GATE_BASE_REF: ${{ github.event.pull_request.base.ref }}
           GATE_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
           GATE_BEFORE_SHA: ${{ github.event.before }}
         run: node scripts/showdown-gate.mjs route --lane L5 --out "$RUNNER_TEMP/route.json" --github-output "$GITHUB_OUTPUT"
       - name: Fetch production main for the reviewed Rules delta
+        if: steps.route.outputs.l5_run == 'true'
         run: git fetch --no-tags --depth=1 origin +refs/heads/main:refs/remotes/origin/main
       - uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5
+        if: steps.route.outputs.l5_run == 'true'
         with:
           distribution: temurin
           java-version: '21'
       - name: Restore Firebase emulator and npx caches
         uses: actions/cache@caa296126883cff596d87d8935842f9db880ef25 # v5
+        if: steps.route.outputs.l5_run == 'true'
         with:
           path: |
             ~/.cache/firebase/emulators
             ~/.npm/_npx
           key: showdown-gate-L5-emulators-ubuntu-24.04-firebase-tools-15.27.0-15.28.1-v1
       - name: Install locked dependencies
+        if: steps.route.outputs.l5_run == 'true'
         run: npm ci
       - name: Install pinned Firebase emulator test dependencies
+        if: steps.route.outputs.l5_run == 'true'
         run: npm install --no-save --package-lock=false firebase@12.17.1 @firebase/rules-unit-testing@5.0.1 firebase-admin@14.2.0
       - name: 'TEST: Composed production Rules regression matrix'
         id: regression
+        if: steps.route.outputs.l5_run == 'true'
         run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-cms-gameplay-fast-composed "node tests/firebase/composed-production-rules-regression.cjs"
       - name: Record lane result
         if: always()
@@ -581,6 +589,7 @@ jobs:
         shell: bash
         env:
           GATE_EVENT: ${{ github.event_name }}
+          GATE_BASE_REF: ${{ github.event.pull_request.base.ref }}
           GATE_BASE_SHA: ${{ github.event.pull_request.base.sha }}
           GATE_BEFORE_SHA: ${{ github.event.before }}
         run: |
@@ -596,6 +605,7 @@ jobs:
         shell: bash
         env:
           GATE_EVENT: ${{ github.event_name }}
+          GATE_BASE_REF: ${{ github.event.pull_request.base.ref }}
           GATE_BASE_SHA: ${{ github.event.pull_request.base.sha }}
           GATE_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
           GATE_BEFORE_SHA: ${{ github.event.before }}
@@ -611,6 +621,7 @@ jobs:
         shell: bash
         env:
           GATE_EVENT: ${{ github.event_name }}
+          GATE_BASE_REF: ${{ github.event.pull_request.base.ref }}
           GATE_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
           GATE_DRAFT: ${{ github.event.pull_request.draft == true }}
           GATE_PR_NUMBER: ${{ github.event.pull_request.number }}

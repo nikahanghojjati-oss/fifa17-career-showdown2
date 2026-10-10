@@ -28,6 +28,7 @@ assert.match(adapter,/sharedShowdownCatalog\.js/);
 assert.ok(adapter.indexOf('js/sharedShowdownCatalog.js')<adapter.indexOf('js/sparkSharedSeasonResults.js'),'Season Results must load the authoritative catalog before provider factory initialization');
 assert.match(adapter,/provider\.publishResult/);
 assert.match(adapter,/provider\.read/);
+assert.match(adapter,/try\{await transferApi\.refresh\(\);\}catch\(error\)\{if\(!\(pssrContextMatches\(request\)&&pssrTransferComplete\(request\)\)\)throw error;\}if\(!pssrContextMatches\(request\)\)pssrFail\("SEASON_RESULTS_CONTEXT_STALE"\)/,'a failed Transfer Challenge refresh may be ignored only for a matching completed season; other failures must be rethrown and the context rechecked');
 assert.match(adapter,/pssrFingerprint\(currentResult\)!==draft\.fingerprint/,'reviewed payload must be revalidated immediately before publication');
 assert.match(adapter,/draft&&draft\.contextKey===contextKey[\s\S]*pssrRenderReview\(draft\.result\)/,'ordinary provider refresh must preserve an unpublished local Review draft');
 assert.doesNotMatch(adapter,/current\.finally\(/,'refresh cleanup must not create an ignored rejecting finally child promise');
@@ -82,3 +83,83 @@ assert.match(seasonEngine,/function confirmCurrentSeason\(\)[\s\S]*persistComple
 assert.match(transfer,/SHARED SEASON RESULTS COMING NEXT/,'r8 remains fail-closed when the r9 route is unavailable');
 
 console.log('PASS Shared Season Results production contracts: core navigation grants seasonEntry only from refreshed shared authority; the real Results route bootstraps the bounded post-results production chain; completed Shared Transfer Challenge routes from verdicts and Showdown Home into the existing Season Results shell; paired-first startup remains nonblocking; each manager reviews and immutably publishes only their own canonical payload; opponent data stays private until both publish; Results now hands off to Shared Season Commit instead of presenting stale r9 dead-end copy; local persistence/scoring authority remains unchanged; and the r8 fallback stays fail-closed.');
+
+
+// JOB-1579: a completed provider read may not override a later navigation choice.
+const vm=require('node:vm');
+async function verifySharedSeasonResultsNewerNavigationWins(){
+  function createDeferredOpen(){
+    let revision=1,releaseRead,notifyReadStarted;
+    const readStarted=new Promise(resolve=>{notifyReadStarted=resolve;});
+    const providerRead=new Promise(resolve=>{releaseRead=resolve;});
+    const navigations=[];
+    const setupState={
+      ready:true,
+      setup:{phase:'SHOWDOWN_CONFIRMED',revision:6},
+      managerRole:'playerOne',
+      rivalryId:'job-1579-rivalry',
+      sessionId:'job-1579-session',
+      deviceId:'job-1579-device'
+    };
+    const sandbox={
+      module:{exports:{}},
+      currentShowdown:{
+        id:'job-1579-save',
+        currentRound:1,
+        sharedJourney:{mode:'shared',rivalryId:'job-1579-rivalry'}
+      },
+      getNavigationRevision:()=>revision,
+      navigateTo:async screen=>{navigations.push(screen);return true;},
+      CareerModeProductionSharedShowdownSetup:{
+        refresh:async()=>{},getState:()=>setupState
+      },
+      CareerModeProductionSharedTransferChallenge:{
+        refresh:async()=>{},
+        getState:()=>({seasonNumber:1,state:{phase:'COMPLETED'}})
+      },
+      CareerModeSharedShowdownCatalog:{},
+      CareerModeSharedShowdownSetup:{},
+      CareerModeSharedSeasonResults:{},
+      CareerModeSparkSharedSeasonResults:{
+        read:()=>{notifyReadStarted();return providerRead;},
+        publishResult:async()=>({ok:true})
+      },
+      CareerModeProductionFirebaseRuntime:{
+        ensureAccountServices:async()=>({
+          ok:true,auth:{currentUser:{uid:'job-1579-player'}},
+          firestore:{},firestoreSdk:{}
+        })
+      }
+    };
+    vm.runInNewContext(adapter,sandbox,{filename:'productionSharedSeasonResults.js'});
+    return {
+      api:sandbox.module.exports,
+      readStarted,
+      moveAway:()=>{revision=2;},
+      completeRead:()=>releaseRead({
+        ok:true,managerRole:'playerOne',
+        seasonNumber:1,state:{phase:'RESULTS_ENTRY'}
+      }),
+      navigations
+    };
+  }
+
+  const moved=createDeferredOpen();
+  const movedOpen=moved.api.open();
+  await moved.readStarted;
+  moved.moveAway();
+  moved.completeRead();
+  assert.equal(await movedOpen,false,'newer navigation must cancel the old results open');
+  assert.deepEqual(moved.navigations,[],'late provider read must never navigate after a newer tap');
+
+  const unchanged=createDeferredOpen();
+  const unchangedOpen=unchanged.api.open();
+  await unchanged.readStarted;
+  unchanged.completeRead();
+  assert.equal(await unchangedOpen,true,'unchanged navigation revision permits opening results');
+  assert.deepEqual(unchanged.navigations,['seasonEntry'],'unchanged revision navigates to results exactly once');
+}
+verifySharedSeasonResultsNewerNavigationWins().then(
+  ()=>console.log('PASS JOB-1579 shared Season Results navigation revision regression: newer tap wins; unchanged revision opens seasonEntry once.'),
+  error=>{console.error(error);process.exitCode=1;}
+);

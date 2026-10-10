@@ -3,13 +3,13 @@
   "purpose": "Reviewed allowlist of every line by which the composed production Firestore Rules on gameplay/recovery-v1 differ from what production main deploys. The main gate must see exactly these changes and nothing else. Regenerate only with node tests/support/composed-production-rules.cjs --print-main-delta origin/main, then review every hunk.",
   "productionMain": {
     "ref": "main",
-    "commit": "8e1a58339c8fcd02e9d58acce2f0609e81623780",
-    "sha256": "0f2b8f894fb315bb523b5f8bbd6ffe04f65c8d07af8419efd4e0b7ce0ceb8ee6",
-    "gitBlobSha1": "649d339091a68ac902d525215ec8a27b86e6ee98",
-    "bytes": 134679
+    "commit": "f42dac26991e356c093e0fc100b8afa3003462d2",
+    "sha256": "6eaeefc63729a9e87c3ec776791bac0ec768f8d9998fa9244b07adc26a478832",
+    "gitBlobSha1": "81e515ee2982b968528f4ce3aa9e10158d52aad0",
+    "bytes": 141446
   },
   "candidate": {
-    "base": "main 8e1a583 (r66) plus JOB-1051 salted Transfer lock commitments and JOB-1052 exact Transfer catalog ids and signing names (owner-approved Rules change, PR #442)",
+    "base": "main f42dac2 (r67). JOB-1051 and JOB-1052 shipped in r67 and their Rules are deployed (Deploy Firebase Firestore Rules run 38020490656), so the candidate equals production main (re-pin planned in RELEASE_V1.9.1_R67.md under the owner-approved Rules change)",
     "sha256": "6eaeefc63729a9e87c3ec776791bac0ec768f8d9998fa9244b07adc26a478832",
     "gitBlobSha1": "81e515ee2982b968528f4ce3aa9e10158d52aad0",
     "bytes": 141446
@@ -25,124 +25,5 @@
     "JOB-1052",
     "JOB-1051+JOB-1052"
   ],
-  "hunks": [
-    {
-      "mainLine": 1233,
-      "candidateLine": 1233,
-      "removed": [
-        "    function ssjrTransferValidOptionId(value) { return value is string && value.size() >= 2 && value.size() <= 80 && value.matches('^[a-z0-9]+(-[a-z0-9]+)*$'); }"
-      ],
-      "added": [
-        "    // JOB-1052: exactly the repository FIFA 17 catalog the game's reader accepts. One anchored alternation per catalog (and one over both), so each",
-        "    // id costs one regex match, not a list membership scan: the max-size 3-guess/3-signing transaction stays inside the evaluation budget.",
-        "    // The build script fills the placeholders from data/transferOptions.js; they are never hand-edited. A non-string value makes matches() error, which denies.",
-        "    function ssjrTransferValidOptionId(value) { return value.matches('^(argentina-primera-division|australia-a-league|austria-bundesliga|belgium-pro-league|brazil-serie-a|chile-campeonato-nacional|colombia-liga-dimayor|denmark-superliga|england-premier-league|england-championship|england-league-one|england-league-two|france-ligue-1|france-ligue-2|germany-bundesliga|germany-2-bundesliga|netherlands-eredivisie|italy-serie-a|italy-serie-b|japan-j1-league|korea-k-league-classic|mexico-liga-mx|norway-tippeligaen|poland-ekstraklasa|portugal-liga-nos|ireland-airtricity-league|russia-premier-league|saudi-dawry-jameel|scotland-premiership|spain-primera-division|spain-segunda-a|sweden-allsvenskan|switzerland-super-league|turkey-super-lig|usa-major-league-soccer|rest-of-world|afghanistan|albania|algeria|angola|antigua-and-barbuda|argentina|armenia|aruba|australia|austria|azerbaijan|barbados|belarus|belgium|belize|benin|bermuda|bolivia|bosnia-herzegovina|brazil|bulgaria|burkina-faso|cameroon|canada|cape-verde|central-african-republic|chad|chile|china-pr|chinese-taipei|colombia|comoros|congo|costa-rica|croatia|cuba|curacao|cyprus|czech-republic|denmark|dominican-republic|dr-congo|ecuador|egypt|el-salvador|england|equatorial-guinea|eritrea|estonia|ethiopia|faroe-islands|fiji|finland|france|gabon|gambia|georgia|germany|ghana|gibraltar|greece|grenada|guam|guatemala|guinea|guinea-bissau|guyana|haiti|honduras|hungary|iceland|india|iran|iraq|israel|italy|ivory-coast|jamaica|japan|kazakhstan|kenya|korea-dpr|kosovo|kuwait|latvia|lebanon|lesotho|liberia|libya|liechtenstein|lithuania|luxembourg|madagascar|mali|malta|mauritania|mauritius|mexico|moldova|montenegro|montserrat|morocco|mozambique|namibia|netherlands|new-caledonia|new-zealand|niger|nigeria|fyr-macedonia|northern-ireland|norway|oman|pakistan|palestine|panama|papua-new-guinea|paraguay|peru|philippines|poland|portugal|puerto-rico|qatar|republic-of-ireland|korea-republic|romania|russia|san-marino|sao-tome-principe|saudi-arabia|scotland|senegal|serbia|sierra-leone|slovakia|slovenia|somalia|south-africa|spain|st-kitts-and-nevis|st-lucia|st-vincent-and-the-grenadines|suriname|sweden|switzerland|syria|tajikistan|tanzania|timor-leste|togo|trinidad-and-tobago|tunisia|turkey|uganda|ukraine|united-states|uruguay|uzbekistan|venezuela|vietnam|wales|zambia|zimbabwe)$'); }",
-        "    function ssjrTransferCatalogLeagueId(value) { return value.matches('^(argentina-primera-division|australia-a-league|austria-bundesliga|belgium-pro-league|brazil-serie-a|chile-campeonato-nacional|colombia-liga-dimayor|denmark-superliga|england-premier-league|england-championship|england-league-one|england-league-two|france-ligue-1|france-ligue-2|germany-bundesliga|germany-2-bundesliga|netherlands-eredivisie|italy-serie-a|italy-serie-b|japan-j1-league|korea-k-league-classic|mexico-liga-mx|norway-tippeligaen|poland-ekstraklasa|portugal-liga-nos|ireland-airtricity-league|russia-premier-league|saudi-dawry-jameel|scotland-premiership|spain-primera-division|spain-segunda-a|sweden-allsvenskan|switzerland-super-league|turkey-super-lig|usa-major-league-soccer|rest-of-world)$'); }",
-        "    function ssjrTransferCatalogNationalityId(value) { return value.matches('^(afghanistan|albania|algeria|angola|antigua-and-barbuda|argentina|armenia|aruba|australia|austria|azerbaijan|barbados|belarus|belgium|belize|benin|bermuda|bolivia|bosnia-herzegovina|brazil|bulgaria|burkina-faso|cameroon|canada|cape-verde|central-african-republic|chad|chile|china-pr|chinese-taipei|colombia|comoros|congo|costa-rica|croatia|cuba|curacao|cyprus|czech-republic|denmark|dominican-republic|dr-congo|ecuador|egypt|el-salvador|england|equatorial-guinea|eritrea|estonia|ethiopia|faroe-islands|fiji|finland|france|gabon|gambia|georgia|germany|ghana|gibraltar|greece|grenada|guam|guatemala|guinea|guinea-bissau|guyana|haiti|honduras|hungary|iceland|india|iran|iraq|israel|italy|ivory-coast|jamaica|japan|kazakhstan|kenya|korea-dpr|kosovo|kuwait|latvia|lebanon|lesotho|liberia|libya|liechtenstein|lithuania|luxembourg|madagascar|mali|malta|mauritania|mauritius|mexico|moldova|montenegro|montserrat|morocco|mozambique|namibia|netherlands|new-caledonia|new-zealand|niger|nigeria|fyr-macedonia|northern-ireland|norway|oman|pakistan|palestine|panama|papua-new-guinea|paraguay|peru|philippines|poland|portugal|puerto-rico|qatar|republic-of-ireland|korea-republic|romania|russia|san-marino|sao-tome-principe|saudi-arabia|scotland|senegal|serbia|sierra-leone|slovakia|slovenia|somalia|south-africa|spain|st-kitts-and-nevis|st-lucia|st-vincent-and-the-grenadines|suriname|sweden|switzerland|syria|tajikistan|tanzania|timor-leste|togo|trinidad-and-tobago|tunisia|turkey|uganda|ukraine|united-states|uruguay|uzbekistan|venezuela|vietnam|wales|zambia|zimbabwe)$'); }",
-        "    // JOB-1052: a signing name the reader accepts: 1 to 80 characters and unchanged by JavaScript String.trim() (no leading or trailing",
-        "    // white space or line terminator: TAB..CR, space, U+00A0, U+1680, U+2000..U+200A, U+2028, U+2029, U+202F, U+205F, U+3000, U+FEFF).",
-        "    function ssjrTransferValidSigningName(value) {",
-        "      return value is string",
-        "        && value.size() >= 1",
-        "        && value.size() <= 80",
-        "        && value.matches('^[^\\\\t-\\\\r \\\\x{00A0}\\\\x{1680}\\\\x{2000}-\\\\x{200A}\\\\x{2028}\\\\x{2029}\\\\x{202F}\\\\x{205F}\\\\x{3000}\\\\x{FEFF}]([\\\\s\\\\S]*[^\\\\t-\\\\r \\\\x{00A0}\\\\x{1680}\\\\x{2000}-\\\\x{200A}\\\\x{2028}\\\\x{2029}\\\\x{202F}\\\\x{205F}\\\\x{3000}\\\\x{FEFF}])?$');",
-        "    }",
-        "    // JOB-1051: a lock salt is null (not set yet) or exactly 64 lowercase hex characters.",
-        "    function ssjrTransferValidSalt(value) { return value == null || (value is string && value.matches('^[0-9a-f]{64}$')); }"
-      ],
-      "owner": "JOB-1052",
-      "why": "JOB-1051 and JOB-1052 helpers: the option-id check becomes the exact FIFA 17 catalog (generated from data/transferOptions.js), per-kind league and nationality catalog checks, the reader's signing-name rule (1 to 80 characters, unchanged by String.trim()), and the salt check (null or 64 lowercase hex)."
-    },
-    {
-      "mainLine": 1438,
-      "candidateLine": 1453,
-      "removed": [
-        "        && ssjrTransferValidOptionId(value.valueId);"
-      ],
-      "added": [
-        "        && ssjrTransferValidOptionId(value.valueId)",
-        "        && ((value.type == 'league' && ssjrTransferCatalogLeagueId(value.valueId))",
-        "          || (value.type == 'nationality' && ssjrTransferCatalogNationalityId(value.valueId)));"
-      ],
-      "owner": "JOB-1052",
-      "why": "JOB-1052 guess row: a guess id must belong to the catalog of its own kind (league or nationality), not just be slug-shaped."
-    },
-    {
-      "mainLine": 1446,
-      "candidateLine": 1463,
-      "removed": [
-        "        && value.name is string",
-        "        && value.name.size() >= 1",
-        "        && value.name.size() <= 80"
-      ],
-      "added": [
-        "        && ssjrTransferValidSigningName(value.name)"
-      ],
-      "owner": "JOB-1052",
-      "why": "JOB-1052 signing row: the name check becomes the reader's rule, replacing the three inline size checks with one function."
-    },
-    {
-      "mainLine": 1450,
-      "candidateLine": 1465,
-      "removed": [
-        "        && ssjrTransferValidOptionId(value.nationalityId);"
-      ],
-      "added": [
-        "        && ssjrTransferCatalogLeagueId(value.leagueId)",
-        "        && ssjrTransferValidOptionId(value.nationalityId)",
-        "        && ssjrTransferCatalogNationalityId(value.nationalityId);"
-      ],
-      "owner": "JOB-1051+JOB-1052",
-      "why": "JOB-1052 signing row: league and nationality ids must be catalog ids of their own kind."
-    },
-    {
-      "mainLine": 1466,
-      "candidateLine": 1483,
-      "removed": [],
-      "added": [
-        "    // JOB-1051: a role document written by r66 has no salt keys; a salted one has both (each null or 64 lowercase hex). Never only one."
-      ],
-      "owner": "JOB-1051",
-      "why": "JOB-1051 comment for the salted role-document key set."
-    },
-    {
-      "mainLine": 1469,
-      "candidateLine": 1487,
-      "removed": [
-        "        'guessLockedAt','signingLockedAt','activeSessionId','updatedAt','updatedByDeviceId'",
-        "      ]);"
-      ],
-      "added": [
-        "        'guessLockedAt','signingLockedAt','activeSessionId','updatedAt','updatedByDeviceId',",
-        "        'guessSalt','signingSalt'",
-        "      ])",
-        "        && (root.keys().hasAll(['guessSalt','signingSalt']) || !root.keys().hasAny(['guessSalt','signingSalt']));"
-      ],
-      "owner": "JOB-1051",
-      "why": "JOB-1051 exact role-document keys: the two salt keys are allowed, both together or neither (r66 documents have neither)."
-    },
-    {
-      "mainLine": 1497,
-      "candidateLine": 1517,
-      "removed": [],
-      "added": [
-        "        && ssjrTransferValidSalt(after.get('guessSalt', null))",
-        "        && after.get('signingSalt', null) == null"
-      ],
-      "owner": "JOB-1051",
-      "why": "JOB-1051 role create (the guess lock): guessSalt is null or 64 lowercase hex and signingSalt must still be null."
-    },
-    {
-      "mainLine": 1520,
-      "candidateLine": 1542,
-      "removed": [],
-      "added": [
-        "        && after.get('guessSalt', null) == before.get('guessSalt', null)",
-        "        && before.get('signingSalt', null) == null",
-        "        && ssjrTransferValidSalt(after.get('signingSalt', null))"
-      ],
-      "owner": "JOB-1051",
-      "why": "JOB-1051 role update (the signings lock): guessSalt is immutable, signingSalt must have been unset and is null or 64 lowercase hex."
-    }
-  ]
+  "hunks": []
 }
