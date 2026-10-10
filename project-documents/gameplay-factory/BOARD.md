@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Sat 10 Oct, 10:27 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Sat 10 Oct, 10:31 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r67** (main `f42dac2`, Fri 9 Oct 9:34 PM)
 
@@ -17,8 +17,12 @@ Updated Sat 10 Oct, 10:27 AM Boston time. Bug hunting only, no new features unti
 ### ▶️ Running now
 
 **#1 · 1579** `G` Season Results: a slow load must not pull you back after you moved on (Sol S5)  
-`███████░░░` **70.0000 %**  
-🔵 Team blue · **GPT-6 Sol** · High effort · worker done, PR #455 open, CI running · CI 0 of 6 passed · last move 1 min ago
+`███████░░░` **71.6667 %**  
+🔵 Team blue · **GPT-6 Sol** · High effort · worker done, PR #455 open, CI running · CI 1 of 6 passed · last move 2 min ago
+
+**#2 · 1587** `G` Season Results: a passing Transfer Challenge read hiccup must not fail the publish (Sol S2)  
+`███████░░░` **71.6667 %**  
+🔵 Team blue · **GPT-6 Sol** · High effort · worker done, PR #456 open, CI running · CI 1 of 6 passed · last move 1 min ago
 
 ### 👉 Next for you, in this order
 
@@ -29,7 +33,9 @@ Updated Sat 10 Oct, 10:27 AM Boston time. Bug hunting only, no new features unti
 Paste this:
 
 ```text
-1580
+Career Mode Showdown, job 1580. First run: git fetch origin factory/gameplay-v1
+Then read: git show FETCH_HEAD:project-documents/gameplay-factory/jobs/JOB-1580.md
+Do exactly what that file says. If the file does not exist, stop and tell me. Never push to main and never merge. Open any pull request as a draft; if you cannot choose the base branch, write RETARGET TO gameplay/bug-list-1 on the first line of the PR body.
 ```
 
 **#2 · 1583** `G` Measure the home screens at ten window sizes (report only)  
@@ -39,7 +45,9 @@ Paste this:
 Paste this:
 
 ```text
-1583
+Career Mode Showdown, job 1583. First run: git fetch origin factory/gameplay-v1
+Then read: git show FETCH_HEAD:project-documents/gameplay-factory/jobs/JOB-1583.md
+Do exactly what that file says. If the file does not exist, stop and tell me. Never push to main and never merge. Open any pull request as a draft; if you cannot choose the base branch, write RETARGET TO gameplay/bug-list-1 on the first line of the PR body.
 ```
 
 **#3 · 1584** `G` Measure the transfer screens at ten window sizes (report only)  
@@ -49,7 +57,9 @@ Paste this:
 Paste this:
 
 ```text
-1584
+Career Mode Showdown, job 1584. First run: git fetch origin factory/gameplay-v1
+Then read: git show FETCH_HEAD:project-documents/gameplay-factory/jobs/JOB-1584.md
+Do exactly what that file says. If the file does not exist, stop and tell me. Never push to main and never merge. Open any pull request as a draft; if you cannot choose the base branch, write RETARGET TO gameplay/bug-list-1 on the first line of the PR body.
 ```
 
 **#4 · 1585** `G` Measure the season-final screens at ten window sizes (report only)  
@@ -59,7 +69,9 @@ Paste this:
 Paste this:
 
 ```text
-1585
+Career Mode Showdown, job 1585. First run: git fetch origin factory/gameplay-v1
+Then read: git show FETCH_HEAD:project-documents/gameplay-factory/jobs/JOB-1585.md
+Do exactly what that file says. If the file does not exist, stop and tell me. Never push to main and never merge. Open any pull request as a draft; if you cannot choose the base branch, write RETARGET TO gameplay/bug-list-1 on the first line of the PR body.
 ```
 
 **#5 · 1586** `G` Measure the club screens at ten window sizes (report only)  
@@ -69,17 +81,9 @@ Paste this:
 Paste this:
 
 ```text
-1586
-```
-
-**#6 · 1587** `G` Season Results: a passing Transfer Challenge read hiccup must not fail the publish (Sol S2)  
-`░░░░░░░░░░` **0.0000 %**  
-🔵 Team blue · **GPT-6 Sol** · High effort · ChatGPT project "Career Mode Showdown", normal chat
-
-Paste this:
-
-```text
-1587
+Career Mode Showdown, job 1586. First run: git fetch origin factory/gameplay-v1
+Then read: git show FETCH_HEAD:project-documents/gameplay-factory/jobs/JOB-1586.md
+Do exactly what that file says. If the file does not exist, stop and tell me. Never push to main and never merge. Open any pull request as a draft; if you cannot choose the base branch, write RETARGET TO gameplay/bug-list-1 on the first line of the PR body.
 ```
 
 ### ⏸ Waiting on something else
