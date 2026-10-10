@@ -845,7 +845,7 @@ def claude_lane_card(CL, rows, tight=False):
     out = ['<div class="card"><b>Claude lane (nothing to type)</b> <span class="m">Nik never types these; the Team G lead runs them with Claude.</span>']
     for r in rows:
         b = BADGE.get(r.get("team"), ("", ""))[0]
-        out.append(f'<br><span class="m">{b} <b>{e(r["id"])}</b> {e(r["title"][:110])} · {e(_lane_model(CL, r.get("team")))}</span>')
+        out.append(f'<br><span class="m">{b} <b>{e(r["id"])}</b> {e(r["title"][:(60 if tight else 110)])} · {e(_lane_model(CL, r.get("team")))}</span>')
         if not tight:
             out.append(f'<br><span class="m">{e(r.get("state", ""))} · {e(r.get("claude_reason", ""))}</span>')
     return "".join(out) + "</div>"
@@ -1013,7 +1013,7 @@ def render(first, compact=False, tight=False):
             J.append(f'<span class="k">{label}</span>')
             LASTPLACE[0] = None
             LASTNOTE[:] = []
-            cap = 4 if (tight and first == "G") else len(Q[kind])  # the tight layout shows four cards; the rest are on GitHub
+            cap = 2 if (tight and first == "G") else len(Q[kind])  # the tight layout shows two cards per list; the rest are on GitHub (2026-10-10: cut to fit 8 KB)
             J += [job_html(q, i, kind) for i, q in enumerate(Q[kind][:cap], 1)]  # #1 is the first job of each list
             if cap < len(Q[kind]):
                 J.append(f'<span class="m">+{len(Q[kind]) - cap} more on <a href="{BLOB}BOARD.md">GitHub</a></span>')
