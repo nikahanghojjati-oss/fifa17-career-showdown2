@@ -5,6 +5,7 @@
 
 Reads queue/ORDER.json (item number -> job) and derives each item's exact stage from GitHub only:
   waiting      no branch qa/job-NNNN-* and no PR
+  no_pr        branch whose status/JOB-N.md says "no change needed", "needs mockup" or "needs Team V" (finished, no PR)
   started      branch exists (a chat claimed the number), no PR yet
   blocked      branch qa/job-NNNN-blocked (the worker could not finish)
   draft        PR open as a draft (worker done; the Gate skips drafts)
@@ -44,6 +45,22 @@ def gh(path, paginate=False, pages=12):
             break
     return out
 
+def gh_try(path):
+    r = subprocess.run(["gh", "api", path], capture_output=True, text=True)
+    return json.loads(r.stdout) if r.returncode == 0 and r.stdout.strip() else None
+
+def no_pr_status(repo, job, branch):
+    """Text of status/JOB-N.md on the branch when it says the job is finished without a PR, else None."""
+    d = gh_try(f"repos/{repo}/contents/project-documents/gameplay-factory/status/JOB-{job}.md?ref={branch}")
+    if not d or not d.get("content"):
+        return None
+    import base64
+    t = base64.b64decode(d["content"]).decode("utf8", "replace").lower()
+    for key, label in (("no change needed", "no change needed"), ("needs mockup", "needs a mockup"), ("needs team v", "needs Team V")):
+        if key in t:
+            return label
+    return None
+
 def ci_for(repo, sha):
     d = gh(f"repos/{repo}/commits/{sha}/check-runs?per_page=100")
     runs = d.get("check_runs", [])
@@ -58,18 +75,18 @@ def ci_for(repo, sha):
     return "green", len(runs), 0
 
 BAR = 24
-ICON = {"draft": "📝", "queued": "⏳", "waiting": "⬜", "started": "🟦", "ci_running": "🟨", "ci_failed": "🟥", "ready": "🟩", "reviewed": "🟪",
+ICON = {"no_pr": "🏁", "draft": "📝", "queued": "⏳", "waiting": "⬜", "started": "🟦", "ci_running": "🟨", "ci_failed": "🟥", "ready": "🟩", "reviewed": "🟪",
         "merged": "✅", "live": "🚀", "blocked": "🟧", "closed": "⚫"}
-LABEL = {"draft": "worker done, draft PR open", "queued": "ready for checks, not started", "waiting": "waiting", "started": "started, no PR yet", "ci_running": "PR open, checks running",
+LABEL = {"no_pr": "done, no PR (no change / needs Team V)", "draft": "worker done, draft PR open", "queued": "ready for checks, not started", "waiting": "waiting", "started": "started, no PR yet", "ci_running": "PR open, checks running",
          "ci_failed": "PR open, checks FAILED", "ready": "PR open, checks green, waiting for review",
          "reviewed": "reviewed by Sol, waiting for the lead", "merged": "merged to staging branch",
          "live": "live in a release", "blocked": "blocked", "closed": "closed without merge"}
-ORDER = ["live", "merged", "reviewed", "ready", "queued", "ci_running", "draft", "ci_failed", "blocked", "started", "closed", "waiting"]
+ORDER = ["live", "merged", "no_pr", "reviewed", "ready", "queued", "ci_running", "draft", "ci_failed", "blocked", "started", "closed", "waiting"]
 
 def write_md(d, path):
     """GitHub-rendered fallback of the tracker page (always works, first party)."""
     c, g, r = d["counts"], d["gates"], d["rate"]
-    done = c.get("merged", 0) + c.get("live", 0)
+    done = c.get("merged", 0) + c.get("live", 0) + c.get("no_pr", 0)
     L = [f"# Mega factory tracker · updated {d['updated']}", "",
          f"**Type now, Sol chat (audits and studies):** {', '.join(str(n) for n in g.get('ready_sol', [])) or 'none free'}",
          f"**Type now, Codex (code fixes):** {', '.join(str(n) for n in g.get('ready_codex', [])) or 'none free'}",
@@ -82,7 +99,7 @@ def write_md(d, path):
     L += ["", "Stage | total | merged/live | in flight | waiting", "--- | --- | --- | --- | ---"]
     for k in sorted(d["stages"]):
         st = d["stages"][k]; sv = st["states"]
-        fin = sv.get("merged", 0) + sv.get("live", 0); wt = sv.get("waiting", 0)
+        fin = sv.get("merged", 0) + sv.get("live", 0) + sv.get("no_pr", 0); wt = sv.get("waiting", 0)
         L.append(f"{k} {st['name']} | {st['total']} | {fin} | {st['total'] - fin - wt - sv.get('closed', 0)} | {wt}")
     bad = [(k, v) for k, v in d["items"].items() if v["state"] in ("ci_failed", "blocked")]
     if bad:
@@ -119,6 +136,7 @@ def main():
     for ns in ("qa", "gameplay", "study"):
         refs += gh(f"repos/{a.repo}/git/matching-refs/heads/{ns}/job-", paginate=True)
     branches = [r["ref"][len("refs/heads/"):] for r in refs]
+    shas = {r["ref"][len("refs/heads/"):]: r["object"]["sha"] for r in refs}
     prs = gh(f"repos/{a.repo}/pulls?state=all&per_page=100&sort=updated&direction=desc", paginate=True)
     by_job = {}
     for p in prs:
@@ -186,7 +204,12 @@ def main():
         elif any(b.endswith("-blocked") for b in bs):
             it.update(state="blocked", branch=[b for b in bs if b.endswith("-blocked")][0])
         elif bs:
-            it.update(state="started", branch=bs[0])
+            sha = shas.get(bs[0])
+            if old.get("branch") == bs[0] and old.get("branch_sha") == sha and "no_pr_reason" in old:
+                reason = old["no_pr_reason"]
+            else:
+                reason = no_pr_status(a.repo, o["job"], bs[0]) or ""
+            it.update(state="no_pr" if reason else "started", branch=bs[0], branch_sha=sha, no_pr_reason=reason)
         else:
             it["state"] = "waiting"
         if it["state"] != "waiting":

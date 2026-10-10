@@ -6,7 +6,7 @@
 <title>Mega factory tracker</title>
 <style>
 :root{--bg:#f4f6f9;--card:#fff;--ink:#14213d;--mut:#5b6b82;--line:#dde3ec;
---waiting:#c4ccd8;--started:#3b82f6;--ci_running:#f5a524;--draft:#94a3b8;--queued:#eab308;--ci_failed:#e5484d;--ready:#14b8a6;--reviewed:#8b5cf6;--merged:#22a559;--live:#0f7a3d;--blocked:#f97316;--closed:#6b7280}
+--waiting:#c4ccd8;--started:#3b82f6;--ci_running:#f5a524;--draft:#94a3b8;--queued:#eab308;--ci_failed:#e5484d;--ready:#14b8a6;--reviewed:#8b5cf6;--merged:#22a559;--no_pr:#5eead4;--live:#0f7a3d;--blocked:#f97316;--closed:#6b7280}
 @media (prefers-color-scheme:dark){:root{--bg:#0b1220;--card:#131c2e;--ink:#e8eef9;--mut:#8fa1bd;--line:#26334d;--waiting:#344159}}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.4 -apple-system,system-ui,Segoe UI,Roboto,sans-serif;padding:12px 16px 40px;max-width:1100px;margin:auto}
@@ -60,7 +60,7 @@ a{color:inherit}
 <div class="lbl" style="margin-top:8px">Tap a number to copy it. Next free number: <b id="nextfree">-</b>. A number not on this list has to wait.</div></div>
 
 <div class="card"><div class="row">
-<div><div class="lbl">Finished (merged or live)</div><div class="big" id="fin">-</div></div>
+<div><div class="lbl">Finished (merged, live or no PR needed)</div><div class="big" id="fin">-</div></div>
 <div><div class="lbl">In flight</div><div class="big" id="fly">-</div></div>
 <div><div class="lbl">Claimed last hour</div><div class="big" id="r1">-</div><div class="lbl" id="r10"></div></div>
 <div><div class="lbl">Merged last hour</div><div class="big" id="rm">-</div></div>
@@ -86,8 +86,8 @@ a{color:inherit}
 
 <script>
 const REPO="nikahanghojjati-oss/fifa17-career-showdown2",BR="factory/gameplay-v1",PATH="project-documents/gameplay-factory/mega/MEGA_TRACKER.json";
-const ST=["live","merged","reviewed","ready","queued","ci_running","draft","ci_failed","blocked","started","closed","waiting"];
-const LB={waiting:"Waiting",started:"Started, no PR yet",ci_running:"PR open, checks running",draft:"Worker done, draft PR open",queued:"Ready for checks",ci_failed:"PR open, checks FAILED",ready:"PR open, checks green",reviewed:"Reviewed, waiting for lead",merged:"Merged",live:"Live in a release",blocked:"Blocked",closed:"Closed"};
+const ST=["live","merged","no_pr","reviewed","ready","queued","ci_running","draft","ci_failed","blocked","started","closed","waiting"];
+const LB={waiting:"Waiting",started:"Started, no PR yet",ci_running:"PR open, checks running",draft:"Worker done, draft PR open",queued:"Ready for checks",ci_failed:"PR open, checks FAILED",ready:"PR open, checks green",reviewed:"Reviewed, waiting for lead",merged:"Merged",no_pr:"Done, no PR (no change / needs Team V)",live:"Live in a release",blocked:"Blocked",closed:"Closed"};
 const $=id=>document.getElementById(id);
 const esc=s=>String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const col=s=>`var(--${s})`;
@@ -115,7 +115,7 @@ function paint(only,fail){
   if(old||off){b.style.display="block";b.textContent=off?"Cannot reach GitHub right now; showing the last data. Numbers may be behind.":"The GitHub updater has not written new data for "+Math.round(age/60)+" min. Numbers may be behind."}else b.style.display="none";
   if(only&&!fail&&D._painted===D.updated)return;
   D._painted=D.updated;
-  const c=D.counts,n=D.total,g=D.gates,fin=(c.merged||0)+(c.live||0);
+  const c=D.counts,n=D.total,g=D.gates,fin=(c.merged||0)+(c.live||0)+(c.no_pr||0);
   const fly=(c.started||0)+(c.draft||0)+(c.queued||0)+(c.ci_running||0)+(c.ci_failed||0)+(c.ready||0)+(c.reviewed||0)+(c.blocked||0);
   $("tot").textContent=n;$("fin").textContent=fin+" / "+n;$("fly").textContent=fly;
   $("r1").textContent=D.rate.claimed_last_hour;$("r10").textContent=D.rate.claimed_last_10min+" in the last 10 min";$("rm").textContent=D.rate.merged_last_hour;
@@ -130,7 +130,7 @@ function paint(only,fail){
   $("cap").innerHTML=`<span style="width:${g.open_code_prs/g.cap*100}%;background:${col(g.open_code_prs>=g.cap?"ci_failed":"started")}"></span>`;
   const lk=Object.entries(g.area_locks);
   $("locks").innerHTML="Screen areas locked by an open code PR: "+(lk.length?lk.map(([a,k])=>`<b>${esc(a)}</b> (number ${k})`).join(", "):"none")+(g.code_started_no_pr.length?`<br>Code numbers started with no PR yet: ${g.code_started_no_pr.join(", ")}`:"");
-  $("stages").innerHTML=Object.keys(D.stages).sort().map(k=>{const s=D.stages[k],v=s.states,f=(v.merged||0)+(v.live||0);
+  $("stages").innerHTML=Object.keys(D.stages).sort().map(k=>{const s=D.stages[k],v=s.states,f=(v.merged||0)+(v.live||0)+(v.no_pr||0);
     return `<div class="stage"><div class="h"><span><b>Stage ${k}</b> ${esc(s.name)}</span><span>${f} merged of ${s.total} · ${s.total-f-(v.waiting||0)-(v.closed||0)} in flight · ${v.waiting||0} waiting</span></div><div class="bar thin">${ST.slice(0,-1).concat("waiting").map(x=>v[x]?`<span style="width:${v[x]/s.total*100}%;background:${col(x)}" title="${LB[x]}: ${v[x]}"></span>`:"").join("")}</div></div>`}).join("");
   const items=Object.entries(D.items).sort((a,b)=>a[0]-b[0]);
   const link=(k,v)=>v.pr?` <a href="${v.pr_url}" target="_blank" rel="noopener">PR #${v.pr}</a>`:"";
