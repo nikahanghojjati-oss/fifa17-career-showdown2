@@ -1,13 +1,12 @@
 {
-"updated": "2026-10-10T15:12:12Z",
+"updated": "2026-10-10T15:16:00Z",
 "total": 518,
 "next_free": 19,
-"highest_taken": 18,
+"highest_taken": 20,
 "counts": {
 "on_train": 9,
-"draft": 8,
-"started": 1,
-"waiting": 500
+"draft": 10,
+"waiting": 499
 },
 "stages": {
 "2": {
@@ -22,9 +21,8 @@
 "name": "Gameplay audits",
 "total": 112,
 "states": {
-"draft": 8,
-"started": 1,
-"waiting": 103
+"draft": 10,
+"waiting": 102
 }
 },
 "3": {
@@ -68,9 +66,7 @@
 "draft_code_prs": 0,
 "area_locks": {},
 "ready": [
-18,
 19,
-20,
 21,
 22,
 23,
@@ -79,12 +75,12 @@
 26,
 27,
 28,
-29
+29,
+30,
+31
 ],
 "ready_sol": [
-18,
 19,
-20,
 21,
 22,
 23,
@@ -93,13 +89,15 @@
 26,
 27,
 28,
-29
+29,
+30,
+31
 ],
 "ready_codex": []
 },
 "rate": {
-"claimed_last_hour": 18,
-"claimed_last_10min": 11,
+"claimed_last_hour": 19,
+"claimed_last_10min": 8,
 "merged_last_hour": 0
 },
 "events": [
@@ -242,6 +240,20 @@
 "job": 1475,
 "from": "waiting",
 "to": "started"
+},
+{
+"at": "2026-10-10T15:16:00Z",
+"item": 18,
+"job": 1475,
+"from": "started",
+"to": "draft"
+},
+{
+"at": "2026-10-10T15:16:00Z",
+"item": 20,
+"job": 1476,
+"from": "waiting",
+"to": "draft"
 }
 ],
 "items": {
@@ -510,12 +522,19 @@
 "title": "Audit all screens: picture descriptions and screen reader labels",
 "mode": "audit",
 "group": null,
-"state": "started",
+"pr": 468,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/468",
+"base": "qa/mega-audits",
 "branch": "qa/job-1475-alt-text-audit",
-"branch_sha": "fe1eef9adb5f6e57b1577872b554c506a5907689",
-"no_pr_reason": "",
+"ci": "draft",
+"ci_sha": "882071f738f9f1976732387d9dd43687c2d12a70",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-10T15:15:35Z",
 "first_seen": "2026-10-10T15:12:12Z",
-"since": "2026-10-10T15:12:12Z"
+"since": "2026-10-10T15:16:00Z"
 },
 "19": {
 "job": 1062,
@@ -532,8 +551,19 @@
 "title": "Audit all screens: stacking order: dialogs above screens, toasts above dialogs",
 "mode": "audit",
 "group": null,
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"pr": 467,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/467",
+"base": "qa/mega-audits",
+"branch": "qa/job-1476-z-layer-audit",
+"ci": "draft",
+"ci_sha": "37fc74d3429b6646dd53d3cad8c1489e286b07d3",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-10T15:15:13Z",
+"first_seen": "2026-10-10T15:15:13Z",
+"since": "2026-10-10T15:16:00Z"
 },
 "21": {
 "job": 1091,

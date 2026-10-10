@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Sat 10 Oct, 11:12 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Sat 10 Oct, 11:16 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r67** (main `f42dac2`, Fri 9 Oct 9:34 PM)
 
@@ -17,24 +17,16 @@ Updated Sat 10 Oct, 11:12 AM Boston time. Bug hunting only, no new features unti
 ### ▶️ Running now
 
 **#1 · 1580** `G` Showdown Gate: run the L5 lane only when its inputs changed  
-`████████░░` **78.4615 %**  
-⚪ Team white · **Codex default coding model** · High effort · worker done, PR #457 open, CI running · CI 11 of 13 passed · last move 0 min ago
+`██████░░░░` **60.0000 %**  
+⚪ Team white · **Codex default coding model** · High effort · worker done, PR #457 open, CI failed · CI 13 of 14 passed · last move 1 min ago
+
+**#2 · 1584** `G` Measure the transfer screens at ten window sizes (report only)  
+`████░░░░░░` **40.0000 %**  
+⚪ Team white · **Codex default coding model** · Medium effort · worker working, draft PR #469 · CI 6 of 7 passed · last move 0 min ago
 
 ### 👉 Next for you, in this order
 
-**#1 · 1584** `G` Measure the transfer screens at ten window sizes (report only)  
-`░░░░░░░░░░` **0.0000 %**  
-⚪ Team white · **Codex default coding model** · Medium effort · Codex cloud, this repo
-
-Paste this:
-
-```text
-Career Mode Showdown, job 1584. First run: git fetch origin factory/gameplay-v1
-Then read: git show FETCH_HEAD:project-documents/gameplay-factory/jobs/JOB-1584.md
-Do exactly what that file says. If the file does not exist, stop and tell me. Never push to main and never merge. Open any pull request as a draft; if you cannot choose the base branch, write RETARGET TO gameplay/bug-list-1 on the first line of the PR body.
-```
-
-**#2 · 1585** `G` Measure the season-final screens at ten window sizes (report only)  
+**#1 · 1585** `G` Measure the season-final screens at ten window sizes (report only)  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · **Codex default coding model** · Medium effort · Codex cloud, this repo
 
@@ -46,7 +38,7 @@ Then read: git show FETCH_HEAD:project-documents/gameplay-factory/jobs/JOB-1585.
 Do exactly what that file says. If the file does not exist, stop and tell me. Never push to main and never merge. Open any pull request as a draft; if you cannot choose the base branch, write RETARGET TO gameplay/bug-list-1 on the first line of the PR body.
 ```
 
-**#3 · 1586** `G` Measure the club screens at ten window sizes (report only)  
+**#2 · 1586** `G` Measure the club screens at ten window sizes (report only)  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · **Codex default coding model** · Medium effort · Codex cloud, this repo
 
@@ -123,16 +115,16 @@ One numbered queue: type a bare number in any GPT chat. Live from GitHub (queue/
 Type now, in any GPT chat:
 
 ```text
-18 19 20 21 22 23 24 25 26 27 28 29
+19 21 22 23 24 25 26 27 28 29 30 31
 ```
 
 Open code PRs: 0/8.
 
-17 taken of 518.
+20 taken of 518.
 
 | Stage | Items | Merged | Picked up |
 | --- | --- | --- | --- |
-| audits | 112 | 0/112 | 8/112 |
+| audits | 112 | 0/112 | 10/112 |
 | screen fixes | 266 | 0/266 | 9/266 |
 | mockup match | 14 | 0/14 | 0/14 |
 | phone studies | 70 | 0/70 | 0/70 |
@@ -142,6 +134,8 @@ Open code PRs: 0/8.
 
 | # | Job | State | Title |
 | --- | --- | --- | --- |
+| 20 | 1476 | PR open | Audit all screens: stacking order: dialogs above screens, toasts above dialogs |
+| 18 | 1475 | PR open | Audit all screens: picture descriptions and screen reader labels |
 | 17 | 1409 | on_train | Rule Book: fix the 360x640 view |
 | 16 | 1474 | PR open | Audit all screens: fonts: fallback while loading, no jumps |
 | 15 | 1322 | on_train | Trophy Room: fix the 360x640 view |
@@ -162,11 +156,11 @@ Open code PRs: 0/8.
 
 ## Mega tracker (live, free)
 
-Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/index.html) · summary: [mega/MEGA_TRACKER.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/MEGA_TRACKER.md) · rebuilt by the poller each round, updated 2026-10-10T15:12:12Z.
+Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/index.html) · summary: [mega/MEGA_TRACKER.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/MEGA_TRACKER.md) · rebuilt by the poller each round, updated 2026-10-10T15:16:00Z.
 
 | Stage | Done (merged or live) | In progress | Waiting |
 | --- | --- | --- | --- |
-| Gameplay audits | 0 of 112 | 9 | 103 |
+| Gameplay audits | 0 of 112 | 10 | 102 |
 | Screen fixes | 0 of 266 | 9 | 257 |
 | Match desktop to mockups | 0 of 14 | 0 | 14 |
 | Phone mockup studies | 0 of 70 | 0 | 70 |

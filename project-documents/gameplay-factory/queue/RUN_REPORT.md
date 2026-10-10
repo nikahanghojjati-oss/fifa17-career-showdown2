@@ -1,11 +1,11 @@
-# Mega factory run report · 2026-10-10T15:12:12Z
+# Mega factory run report · 2026-10-10T15:16:00Z
 
-Taken 17 of 518 jobs. By state: on_train 9, pr_open 8, waiting 501
+Taken 19 of 518 jobs. By state: on_train 9, pr_open 10, waiting 499
 
 ## By stage
 Stage | name | total | picked up | merged
 --- | --- | --- | --- | ---
-1 | audits | 112 | 8 | 0
+1 | audits | 112 | 10 | 0
 2 | screen fixes | 266 | 9 | 0
 3 | mockup match | 14 | 0 | 0
 4 | phone studies | 70 | 0 | 0
@@ -35,6 +35,8 @@ Number | job | title | state | link
 12 | 1472 | Audit all screens: empty, loading and waiting messages read the same everywhere | pr_open | [PR #464](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/464)
 14 | 1473 | Audit all screens: text contrast on plates and badges | pr_open | [PR #465](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/465)
 16 | 1474 | Audit all screens: fonts: fallback while loading, no jumps | pr_open | [PR #466](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/466)
+18 | 1475 | Audit all screens: picture descriptions and screen reader labels | pr_open | [PR #468](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/468)
+20 | 1476 | Audit all screens: stacking order: dialogs above screens, toasts above dialogs | pr_open | [PR #467](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/467)
 
 ## Needs a look (blocked, no change needed, needs Team V or mockup)
 
