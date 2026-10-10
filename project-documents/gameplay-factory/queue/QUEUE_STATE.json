@@ -1,10 +1,6 @@
 {
  "sequence": {
   "ready": [
-   29,
-   30,
-   31,
-   32,
    33,
    34,
    35,
@@ -12,13 +8,13 @@
    37,
    38,
    39,
-   40
+   40,
+   41,
+   42,
+   43,
+   44
   ],
   "ready_sol": [
-   29,
-   30,
-   31,
-   32,
    33,
    34,
    35,
@@ -26,13 +22,17 @@
    37,
    38,
    39,
-   40
+   40,
+   41,
+   42,
+   43,
+   44
   ],
   "ready_codex": [],
   "open_code_prs": 0,
   "open_train_prs": 0,
-  "next_free": 29,
-  "highest_taken": 28,
+  "next_free": 33,
+  "highest_taken": 32,
   "total": 518,
   "states": {
    "1": "on_train",
@@ -62,11 +62,11 @@
    "25": "on_train",
    "26": "pr_open",
    "27": "on_train",
-   "28": "branch_only",
-   "29": "waiting",
-   "30": "waiting",
-   "31": "waiting",
-   "32": "waiting",
+   "28": "pr_open",
+   "29": "on_train",
+   "30": "pr_open",
+   "31": "on_train",
+   "32": "pr_open",
    "33": "waiting",
    "34": "waiting",
    "35": "waiting",
@@ -555,17 +555,16 @@
    "518": "waiting"
   }
  },
- "updated": "2026-10-10T15:32:39Z",
+ "updated": "2026-10-10T15:36:28Z",
  "counts": {
-  "on_train": 14,
-  "waiting": 490,
-  "pr_open": 13,
-  "branch_only": 1
+  "on_train": 16,
+  "waiting": 486,
+  "pr_open": 16
  },
  "stages": {
   "2": {
    "total": 266,
-   "taken": 14,
+   "taken": 16,
    "merged": 0
   },
   "3": {
@@ -585,7 +584,7 @@
   },
   "1": {
    "total": 112,
-   "taken": 14,
+   "taken": 16,
    "merged": 0
   }
  },
@@ -855,7 +854,8 @@
     1210
    ],
    "done": [
-    "1206"
+    "1206",
+    "1207"
    ],
    "pr": null,
    "state": null
@@ -1001,7 +1001,8 @@
     1297
    ],
    "done": [
-    "1293"
+    "1293",
+    "1294"
    ],
    "pr": null,
    "state": null
@@ -2311,7 +2312,7 @@
    "branch": "gameplay/train-season-final-1"
   },
   "1207": {
-   "state": "waiting",
+   "state": "on_train",
    "pr": null,
    "draft": false,
    "pr_url": null,
@@ -2920,7 +2921,7 @@
    "branch": "gameplay/train-rivalry-legacy-1"
   },
   "1294": {
-   "state": "waiting",
+   "state": "on_train",
    "pr": null,
    "draft": false,
    "pr_url": null,
@@ -4222,25 +4223,25 @@
    "branch": "qa/job-1479-season-engine-first-half-audit"
   },
   "1480": {
-   "state": "branch_only",
-   "pr": null,
-   "draft": false,
-   "pr_url": null,
+   "state": "pr_open",
+   "pr": 473,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/473",
    "branch": "qa/job-1480-seasonengine-second-half-audit"
   },
   "1481": {
-   "state": "waiting",
-   "pr": null,
-   "draft": false,
-   "pr_url": null,
-   "branch": null
+   "state": "pr_open",
+   "pr": 475,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/475",
+   "branch": "qa/job-1481-transfer-challenge-first-half"
   },
   "1482": {
-   "state": "waiting",
-   "pr": null,
-   "draft": false,
-   "pr_url": null,
-   "branch": null
+   "state": "pr_open",
+   "pr": 474,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/474",
+   "branch": "qa/job-1482-transfer-challenge-second-half-audit"
   },
   "1483": {
    "state": "waiting",

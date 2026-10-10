@@ -39,9 +39,9 @@
 <text x="18" y="258" font-size="12" fill="#fbfcfc">5. Improved desktop versions</text>
 <rect x="210" y="249" width="368" height="10" rx="5" fill="#12191f" stroke="#43515b" stroke-width=".5"/>
 <text x="622" y="258" font-size="12" font-weight="800" fill="#f0d900" text-anchor="end">0%</text>
-<text x="18" y="280" font-size="11" font-weight="700" fill="#42b9da" letter-spacing="1.5">HAND-OFFS · 22</text>
-<rect x="18" y="292" width="274.5" height="14" fill="#42b9da"/>
-<rect x="292.5" y="292" width="27.5" height="14" fill="#f0d900"/>
+<text x="18" y="280" font-size="11" font-weight="700" fill="#42b9da" letter-spacing="1.5">HAND-OFFS · 24</text>
+<rect x="18" y="292" width="276.8" height="14" fill="#42b9da"/>
+<rect x="294.8" y="292" width="25.2" height="14" fill="#f0d900"/>
 <rect x="320" y="292" width="302" height="14" fill="#43b581"/>
 <rect x="18" y="292" width="604" height="14" rx="7" fill="none" stroke="#43515b" stroke-width=".5"/>
 <rect x="18" y="311" width="10" height="10" rx="2" fill="#8ea2ac"/>
@@ -49,11 +49,11 @@
 <rect x="89" y="311" width="10" height="10" rx="2" fill="#2c7399"/>
 <text x="104" y="320" font-size="11" fill="#fbfcfc">Delivered 0</text>
 <rect x="195" y="311" width="10" height="10" rx="2" fill="#42b9da"/>
-<text x="210" y="320" font-size="11" fill="#fbfcfc">Received 10</text>
+<text x="210" y="320" font-size="11" fill="#fbfcfc">Received 11</text>
 <rect x="301" y="311" width="10" height="10" rx="2" fill="#f0d900"/>
 <text x="316" y="320" font-size="11" fill="#fbfcfc">Working 1</text>
 <rect x="393" y="311" width="10" height="10" rx="2" fill="#43b581"/>
-<text x="408" y="320" font-size="11" fill="#fbfcfc">Done 11</text>
+<text x="408" y="320" font-size="11" fill="#fbfcfc">Done 12</text>
 <text x="18" y="338" font-size="11" font-weight="700" fill="#42b9da" letter-spacing="1.5">TEAM V JOBS MOVING</text>
 <text x="18" y="358" font-size="12" fill="#8ea2ac">Nothing moving for Team V right now.</text>
 </svg>

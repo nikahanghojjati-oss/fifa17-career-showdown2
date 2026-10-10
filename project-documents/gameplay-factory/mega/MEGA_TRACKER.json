@@ -1,28 +1,28 @@
 {
-"updated": "2026-10-10T15:28:40Z",
+"updated": "2026-10-10T15:36:28Z",
 "total": 518,
-"next_free": 28,
-"highest_taken": 27,
+"next_free": 33,
+"highest_taken": 32,
 "counts": {
-"on_train": 14,
-"draft": 13,
-"waiting": 491
+"on_train": 16,
+"draft": 16,
+"waiting": 486
 },
 "stages": {
 "2": {
 "name": "Screen fixes",
 "total": 266,
 "states": {
-"on_train": 14,
-"waiting": 252
+"on_train": 16,
+"waiting": 250
 }
 },
 "1": {
 "name": "Gameplay audits",
 "total": 112,
 "states": {
-"draft": 13,
-"waiting": 99
+"draft": 16,
+"waiting": 96
 }
 },
 "3": {
@@ -66,43 +66,45 @@
 21,
 23,
 25,
-27
+27,
+29,
+31
 ],
 "draft_code_prs": 0,
 "area_locks": {},
 "ready": [
-28,
-29,
-30,
-31,
-32,
 33,
 34,
 35,
 36,
 37,
 38,
-39
+39,
+40,
+41,
+42,
+43,
+44
 ],
 "ready_sol": [
-28,
-29,
-30,
-31,
-32,
 33,
 34,
 35,
 36,
 37,
 38,
-39
+39,
+40,
+41,
+42,
+43,
+44
 ],
 "ready_codex": []
 },
 "rate": {
-"claimed_last_hour": 27,
-"claimed_last_10min": 6,
+"claimed_last_hour": 32,
+"claimed_last_10min": 5,
 "merged_last_hour": 0
 },
 "events": [
@@ -329,6 +331,41 @@
 "job": 1178,
 "from": "waiting",
 "to": "on_train"
+},
+{
+"at": "2026-10-10T15:36:28Z",
+"item": 28,
+"job": 1480,
+"from": "waiting",
+"to": "draft"
+},
+{
+"at": "2026-10-10T15:36:28Z",
+"item": 29,
+"job": 1207,
+"from": "waiting",
+"to": "on_train"
+},
+{
+"at": "2026-10-10T15:36:28Z",
+"item": 30,
+"job": 1481,
+"from": "waiting",
+"to": "draft"
+},
+{
+"at": "2026-10-10T15:36:28Z",
+"item": 31,
+"job": 1294,
+"from": "waiting",
+"to": "on_train"
+},
+{
+"at": "2026-10-10T15:36:28Z",
+"item": 32,
+"job": 1482,
+"from": "waiting",
+"to": "draft"
 }
 ],
 "items": {
@@ -752,8 +789,19 @@
 "title": "Audit js/seasonEngine.js for gameplay bugs (second half)",
 "mode": "audit",
 "group": null,
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"pr": 473,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/473",
+"base": "qa/mega-audits",
+"branch": "qa/job-1480-seasonengine-second-half-audit",
+"ci": "draft",
+"ci_sha": "8100e8fa62ae65c5642cce9d5c4e8f560bf2c646",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-10T15:33:51Z",
+"first_seen": "2026-10-10T15:33:51Z",
+"since": "2026-10-10T15:36:28Z"
 },
 "29": {
 "job": 1207,
@@ -761,8 +809,10 @@
 "title": "Season Results: fix the 390x844 view",
 "mode": "code",
 "group": "season-final",
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"state": "on_train",
+"branch": "gameplay/train-season-final-1",
+"first_seen": "2026-10-10T15:36:28Z",
+"since": "2026-10-10T15:36:28Z"
 },
 "30": {
 "job": 1481,
@@ -770,8 +820,19 @@
 "title": "Audit js/transferChallenge.js for gameplay bugs (first half)",
 "mode": "audit",
 "group": null,
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"pr": 475,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/475",
+"base": "qa/mega-audits",
+"branch": "qa/job-1481-transfer-challenge-first-half",
+"ci": "draft",
+"ci_sha": "48f62ca78d4738934b4bda38da9bd3be84259b14",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-10T15:34:29Z",
+"first_seen": "2026-10-10T15:34:29Z",
+"since": "2026-10-10T15:36:28Z"
 },
 "31": {
 "job": 1294,
@@ -779,8 +840,10 @@
 "title": "Legacy: fix the 390x844 view",
 "mode": "code",
 "group": "rivalry-legacy",
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"state": "on_train",
+"branch": "gameplay/train-rivalry-legacy-1",
+"first_seen": "2026-10-10T15:36:28Z",
+"since": "2026-10-10T15:36:28Z"
 },
 "32": {
 "job": 1482,
@@ -788,8 +851,19 @@
 "title": "Audit js/transferChallenge.js for gameplay bugs (second half)",
 "mode": "audit",
 "group": null,
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"pr": 474,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/474",
+"base": "qa/mega-audits",
+"branch": "qa/job-1482-transfer-challenge-second-half-audit",
+"ci": "draft",
+"ci_sha": "3b6f7ce052c0bcd70d3e1c4391567a14c79f8e94",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-10T15:34:16Z",
+"first_seen": "2026-10-10T15:34:16Z",
+"since": "2026-10-10T15:36:28Z"
 },
 "33": {
 "job": 1323,

@@ -1,12 +1,42 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-10-10 11:34 AM Boston time (EDT)
+[Back to the board](BOARD.md) · generated 2026-10-10 11:36 AM Boston time (EDT)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `dbfd073` (Sat 10 Oct 11:33 AM Boston time) · 29 messages · 23 hand-offs · 80 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `ce9381a` (Sat 10 Oct 11:35 AM Boston time) · 29 messages · 24 hand-offs · 81 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
+
+### HO-024 · V → G · Aim the studies at Nik's new mockup pictures: hold phone/desktop studies until each PHONE_/NEXT_<SCREEN>.png is approved (job 1588)
+
+✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 0 min after delivery
+
+- Sat 10 Oct 11:35 AM · Team G · Received · Team G lead: forwarded to the mega factory (owns study tickets 226-476): add the PHONE_/NEXT_ picture target and hold each screen's studies until Team V approves its picture
+- Sat 10 Oct 11:35 AM · Team V · Sent
+- Sat 10 Oct 11:35 AM · relay Action · Delivered in full as a wake comment on PR #312
+
+<details><summary>Full ticket</summary>
+
+## From the Team V lead: aim the studies at Nik's new mockup pictures (job 1588)
+
+Nik decided (10 Oct 11:33 a.m. Eastern) that Team V writes **picture tickets**, one per screen, for him to run in ChatGPT image generation. Phone comes first, then improved desktop. These become the new targets. Nik wants the mega factory studies to work **toward these pictures**, not toward the old desktop mockups. This adds to HO-023; please apply both together.
+
+### Where the pictures will be
+Each approved picture lands at `project-documents/factory/mockups/PHONE_<SCREEN>.png` on `factory/v1-wtt5ye`. The improved desktop pictures come later as `NEXT_<SCREEN>.png` in the same folder. Team V checks every picture (likeness, layout, real product text) before it counts as approved.
+
+Screen keys, in the order Nik will make them: HOME, CONNECT_PLAYERS, SEASON_RESULTS, TRANSFER, LEAGUE, CLUB, STATISTICS, RIVALRY, LEGACY, TROPHY_ROOM, FINAL_WINNER, SETTINGS. Rule Book and Standings follow if Nik wants them.
+
+### What to change in the study tickets
+1. **Stage 4 phone studies** (versions A, B and C per screen): add the line "Work toward `project-documents/factory/mockups/PHONE_<SCREEN>.png` (fetch it from `factory/v1-wtt5ye`). Match its layout, hierarchy and look, using the existing art files."
+2. **Stage 5 improved-desktop studies**: same line with `NEXT_<SCREEN>.png`.
+3. **Hold** each screen's studies until its picture is approved, so Nik never types a study that has no target. Simplest: move items 226 to 476 behind the code items in ORDER.json, or mark them "waiting for mockup" so the queue skips them.
+4. **Release:** I'll send one short relay note per approved picture ("PHONE_HOME approved"). Only then do that screen's phone studies become typeable. The same goes for desktop later.
+
+### Picture status
+I'm writing the tickets now, starting with Home. The ticket set is job 1588 at `project-documents/factory/tickets/TICKET-1588_*` on `factory/v1-wtt5ye`. Reply on this ticket when the queue holds the studies and the tickets carry the target lines.
+
+</details>
 
 ### HO-023 · V → G · Five fixes to the 126 study tickets before Nik types them (missing art folders, mockup path, phone size, product rules, 4 already-decided studies)
 

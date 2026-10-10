@@ -1,12 +1,12 @@
-# Mega factory run report · 2026-10-10T15:32:39Z
+# Mega factory run report · 2026-10-10T15:36:28Z
 
-Taken 28 of 518 jobs. By state: branch_only 1, on_train 14, pr_open 13, waiting 490
+Taken 32 of 518 jobs. By state: on_train 16, pr_open 16, waiting 486
 
 ## By stage
 Stage | name | total | picked up | merged
 --- | --- | --- | --- | ---
-1 | audits | 112 | 14 | 0
-2 | screen fixes | 266 | 14 | 0
+1 | audits | 112 | 16 | 0
+2 | screen fixes | 266 | 16 | 0
 3 | mockup match | 14 | 0 | 0
 4 | phone studies | 70 | 0 | 0
 5 | desktop studies | 56 | 0 | 0
@@ -19,8 +19,8 @@ gameplay/train-start-join-1 | 2 of 5 | - | on train, no PR yet
 gameplay/train-league-1 | 2 of 5 | - | on train, no PR yet
 gameplay/train-club-1 | 2 of 5 | - | on train, no PR yet
 gameplay/train-transfer-1 | 2 of 5 | - | on train, no PR yet
-gameplay/train-season-final-1 | 1 of 5 | - | on train, no PR yet
-gameplay/train-rivalry-legacy-1 | 1 of 5 | - | on train, no PR yet
+gameplay/train-season-final-1 | 2 of 5 | - | on train, no PR yet
+gameplay/train-rivalry-legacy-1 | 2 of 5 | - | on train, no PR yet
 gameplay/train-career-screens-1 | 1 of 5 | - | on train, no PR yet
 gameplay/train-rules-settings-1 | 1 of 5 | - | on train, no PR yet
 
@@ -40,8 +40,9 @@ Number | job | title | state | link
 22 | 1477 | Audit all screens: hard-coded colours that should use the design tokens | pr_open | [PR #470](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/470)
 24 | 1478 | Audit all screens: hover-only effects must also work by touch | pr_open | [PR #471](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/471)
 26 | 1479 | Audit js/seasonEngine.js for gameplay bugs (first half) | pr_open | [PR #472](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/472)
-28 | 1480 | Audit js/seasonEngine.js for gameplay bugs (second half) | branch_only | qa/job-1480-seasonengine-second-half-audit
+28 | 1480 | Audit js/seasonEngine.js for gameplay bugs (second half) | pr_open | [PR #473](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/473)
+30 | 1481 | Audit js/transferChallenge.js for gameplay bugs (first half) | pr_open | [PR #475](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/475)
+32 | 1482 | Audit js/transferChallenge.js for gameplay bugs (second half) | pr_open | [PR #474](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/474)
 
 ## Needs a look (blocked, no change needed, needs Team V or mockup)
-- number 28, job 1480: branch_only (qa/job-1480-seasonengine-second-half-audit)
 
