@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-10 11:36 AM Boston time (EDT)",
+ "generated": "2026-10-10 11:39 AM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -284,8 +284,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "ce9381a",
-  "head_boston": "Sat 10 Oct 11:35 AM",
+  "head": "fd2a14b",
+  "head_boston": "Sat 10 Oct 11:37 AM",
   "latest_id": "G2V-016",
   "feed_matches_latest": true,
   "open_for_g": [],
@@ -648,8 +648,8 @@
     "from": "V",
     "to": "G",
     "title": "Aim the studies at Nik's new mockup pictures: hold phone/desktop studies until each PHONE_/NEXT_<SCREEN>.png is approved (job 1588)",
-    "stage": "RECEIVED",
-    "pct": 0.0,
+    "stage": "DONE",
+    "pct": 100.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-024_aim-the-studies-at-nik-s-new-mockup-pict.md",
     "worker": "",
@@ -726,7 +726,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 42,
+  "moving": 41,
   "next": 4,
   "nik": 2,
   "later": 8,

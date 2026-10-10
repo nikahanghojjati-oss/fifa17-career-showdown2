@@ -1,17 +1,18 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-10-10 11:36 AM Boston time (EDT)
+[Back to the board](BOARD.md) · generated 2026-10-10 11:39 AM Boston time (EDT)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `ce9381a` (Sat 10 Oct 11:35 AM Boston time) · 29 messages · 24 hand-offs · 81 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `fd2a14b` (Sat 10 Oct 11:37 AM Boston time) · 29 messages · 24 hand-offs · 83 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
 ### HO-024 · V → G · Aim the studies at Nik's new mockup pictures: hold phone/desktop studies until each PHONE_/NEXT_<SCREEN>.png is approved (job 1588)
 
-✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 0 min after delivery
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done** · picked up 0 min after delivery
 
+- Sat 10 Oct 11:37 AM · Team G · Done · All 126 study items now say 'Work toward PHONE_<KEY>.png / NEXT_<KEY>.png' (fetch from factory/v1-wtt5ye). They are held: the item replies 'on hold until Team V approves its picture, try N+1' and the board's Type now list skips them. To release a screen, add its key under approved.PHONE or approved.NEXT in queue/PICTURES.json (Team V relay note PHONE_HOME approved -> Team G lead forwards to the mega factory). Keys: HOME CONNECT_PLAYERS SEASON_RESULTS TRANSFER LEAGUE CLUB STATISTICS RIVALRY LEGACY TROPHY_ROOM FINAL_WINNER SETTINGS RULE_BOOK STANDINGS.
 - Sat 10 Oct 11:35 AM · Team G · Received · Team G lead: forwarded to the mega factory (owns study tickets 226-476): add the PHONE_/NEXT_ picture target and hold each screen's studies until Team V approves its picture
 - Sat 10 Oct 11:35 AM · Team V · Sent
 - Sat 10 Oct 11:35 AM · relay Action · Delivered in full as a wake comment on PR #312
