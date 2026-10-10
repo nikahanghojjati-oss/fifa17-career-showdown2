@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-10 1:39 PM Boston time (EDT)",
+ "generated": "2026-10-10 1:42 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -284,8 +284,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "fd2a14b",
-  "head_boston": "Sat 10 Oct 11:37 AM",
+  "head": "fe12403",
+  "head_boston": "Sat 10 Oct 1:40 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": true,
   "open_for_g": [],
@@ -733,7 +733,7 @@
  ],
  "now": {
   "moving": 40,
-  "next": 2,
+  "next": 5,
   "nik": 2,
   "later": 7,
   "rows": {
@@ -1058,14 +1058,27 @@
     "next": [
      {
       "id": "G-F11",
-      "title": "Old-design CSS collisions: scope old rulebook/settings/analytics/app CSS off Team V markup (about 70 shared class names)",
+      "title": "Old-design CSS collisions: scope old rulebook/settings/analytics/app CSS off Team V markup (about 70 shared class names); then archive old-design CSS no Team V screen needs into archive/old-design/ (C-2 from the old-design flash fix, after the GPT-B audit; archive, don't delete)",
       "lane": "sonnet",
       "state": "ready (Sonnet audit, then Opus fix)",
       "waits_on": "",
       "team": "brown",
       "route": "claude",
       "claude_reason": "cross-screen CSS collisions across old and new screens",
-      "place": "Team G lead thread (Claude runs it; nothing to type)"
+      "place": "Team G lead thread (Claude runs it; nothing to type)",
+      "notes": "C-2 source: /mnt/project-files/gameplay/old-design-flash/JOBS.md. Opus does the archive step; touches the service-worker shell list and contracts."
+     },
+     {
+      "id": "G-F24",
+      "title": "Team V sheet loader: toggle link.sheet.disabled instead of link.disabled so Chromium stops refetching Team V sheets on each screen change (labels blank ~100 ms returning Home); update contracts F3, F3b and HO-020 with it (C-1)",
+      "lane": "sonnet",
+      "state": "ready after PR #485 merges",
+      "waits_on": "PR #485 (old-design flash fix)",
+      "team": "brown",
+      "route": "claude",
+      "claude_reason": "browser-visible loader timing plus three contracts; needs a browser repro",
+      "place": "Team G lead thread (Claude runs it; nothing to type)",
+      "notes": "Source: /mnt/project-files/gameplay/old-design-flash/JOBS.md"
      },
      {
       "id": "1581",
@@ -1080,6 +1093,33 @@
       "note": "ticket jobs/JOB-1581.md",
       "prompt": "Career Mode Showdown, job 1581. First run: git fetch origin factory/gameplay-v1\nThen read: git show FETCH_HEAD:project-documents/gameplay-factory/jobs/JOB-1581.md\nDo exactly what that file says. If the file does not exist, stop and tell me. Never push to main and never merge. Open any pull request as a draft; if you cannot choose the base branch, write RETARGET TO gameplay/bug-list-1 on the first line of the PR body.",
       "prompt_source": "queue/CODEX_PROMPTS.md"
+     },
+     {
+      "id": "1589",
+      "title": "Browser test that catches the old-design flash on screen changes (tests only)",
+      "lane": "codex",
+      "team": "white",
+      "model": "Codex default coding model",
+      "effort": "Medium",
+      "state": "ready for Codex (passes on PR #485's fix)",
+      "order": 42,
+      "place": "Codex cloud, this repo",
+      "note": "ticket jobs/JOB-1589.md (old-design flash GPT-A)",
+      "prompt": "Career Mode Showdown, job 1589. First run: git fetch origin factory/gameplay-v1\nThen read: git show FETCH_HEAD:project-documents/gameplay-factory/jobs/JOB-1589.md\nDo exactly what that file says. If the file does not exist, stop and tell me. Never push to main and never merge. Open any pull request as a draft; if you cannot choose the base branch, write RETARGET TO gameplay/bug-list-1 on the first line of the PR body.",
+      "prompt_source": "queue/CODEX_PROMPTS.md"
+     },
+     {
+      "id": "1590",
+      "title": "Audit: which screens have no Team V look yet (read only)",
+      "lane": "chat",
+      "team": "blue",
+      "model": "GPT-6 Sol",
+      "effort": "High",
+      "state": "ready for ChatGPT",
+      "order": 43,
+      "place": "ChatGPT project \"Career Mode Showdown\", normal chat",
+      "note": "ticket jobs/JOB-1590.md (old-design flash GPT-B); report PR into qa/mega-audits; feeds G-F11's archive step",
+      "prompt": "1590"
      }
     ],
     "later": [
