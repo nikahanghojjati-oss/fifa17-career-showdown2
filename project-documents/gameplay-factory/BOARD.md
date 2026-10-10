@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Sat 10 Oct, 11:04 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Sat 10 Oct, 11:06 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r67** (main `f42dac2`, Fri 9 Oct 9:34 PM)
 
@@ -17,12 +17,8 @@ Updated Sat 10 Oct, 11:04 AM Boston time. Bug hunting only, no new features unti
 ### ▶️ Running now
 
 **#1 · 1580** `G` Showdown Gate: run the L5 lane only when its inputs changed  
-`████░░░░░░` **40.0000 %**  
-⚪ Team white · **Codex default coding model** · High effort · worker working, draft PR #457 · CI 6 of 7 passed · last move 26 min ago
-
-**#2 · 1583** `G` Measure the home screens at ten window sizes (report only)  
-`████░░░░░░` **40.0000 %**  
-⚪ Team white · **Codex default coding model** · Medium effort · worker working, draft PR #460 · CI 6 of 7 passed · last move 10 min ago
+`███████░░░` **74.6154 %**  
+⚪ Team white · **Codex default coding model** · High effort · worker done, PR #457 open, CI running · CI 6 of 13 passed · last move 1 min ago
 
 ### 👉 Next for you, in this order
 
@@ -72,7 +68,7 @@ Do exactly what that file says. If the file does not exist, stop and tell me. Ne
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · **Codex default coding model** · Medium effort · later: after 1581 merges
 
-**Done, waiting for the next release:** 1059, 1060, 1579, 1587
+**Done, waiting for the next release:** 1059, 1060, 1579, 1583, 1587
 
 **Done and live:** r67: 1044, 1045, 1048, 1049, 1050, 1051, 1052, 1053, 1055, 1058 · r66: 1041, 1042, 1043 · r65: 1011, 1028, 1037, 1038, 1039, 1040 · r63: 1001, 1003, 1004, 1005, 1009, 1010, 1014, 1015, 1020, 1021, 1022, 1023, 1024, 1025, 1026, 1027, Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8
 
@@ -81,8 +77,8 @@ Do exactly what that file says. If the file does not exist, stop and tell me. Ne
 ## Goals, in this order
 
 **1. Finish the remaining bugs** `now`  
-`█████████░` **91.9540 %**  
-Numbered jobs: 52 done, 7 other open · Olympiad recheck: 23 of 23 settled, 0 still to fix · Sol's old leads: 0 open (0 real, 0 unsure)
+`█████████░` **93.1034 %**  
+Numbered jobs: 53 done, 6 other open · Olympiad recheck: 23 of 23 settled, 0 still to fix · Sol's old leads: 0 open (0 real, 0 unsure)
 
 **2. Visual fixes** `after stage 1`  
 `█████░░░░░` **50.0000 %**  
