@@ -59,6 +59,12 @@ Season Results phone studies:
 242 270 298 326 354
 ```
 
+Transfer phone studies:
+
+```text
+250 278 306 334 362
+```
+
 <!-- released:end -->
 
 Studies (phone and desktop mockups) are on hold until Team V approves each screen's picture, so only the released ones are listed here (see the lists above); the board's Type now list will add them when they are released. The board's Type now list keeps the next numbers; [RUN_REPORT.md](RUN_REPORT.md) is what Claude reads when you are back.
