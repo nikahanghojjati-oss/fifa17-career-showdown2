@@ -126,8 +126,9 @@
     const parent=doc?.head||doc?.documentElement;if(!parent||typeof doc.createElement!=="function"||doc.getElementById?.("v10SeasonCardRule"))return;
     const style=doc.createElement("style");style.id="v10SeasonCardRule";
     style.textContent="@media(max-width:900px){#app #seasonEntry.seasonScreenV10>.v10SeasonStage :is(#daniel-entry-panel,#nik-entry-panel):not(.hidden){display:grid!important}}" + `
-/* JOB-1206: narrow upright 360x640 entry + review; main remains the only scroll owner. */
-@media (min-width:340px) and (max-width:370px) and (min-height:600px) and (max-height:680px) and (orientation:portrait) {
+/* JOB-1206/1207: narrow upright 360x640 and 390x844 entry + review; main remains the only scroll owner. */
+@media (min-width:340px) and (max-width:370px) and (min-height:600px) and (max-height:680px) and (orientation:portrait),
+       (min-width:380px) and (max-width:400px) and (min-height:810px) and (max-height:870px) and (orientation:portrait) {
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage .season-layout { min-width:0; box-sizing:border-box; }
  /* Side-by-side fields + two honours columns squeeze labels at 360px. Stack the sections. */
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage .seasonResultCard {
