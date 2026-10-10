@@ -4,7 +4,7 @@
 
 ![Jobs live per release](history-chart.svg)
 
-Updated Fri 9 Oct, 10:47 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Fri 9 Oct, 10:49 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r67** (main `f42dac2`, Fri 9 Oct 9:34 PM)
 
@@ -16,7 +16,7 @@ Updated Fri 9 Oct, 10:47 PM Boston time. Bug hunting only, no new features until
 
 **#1 · 1579** `G` Season Results: a slow load must not pull you back after you moved on (Sol S5)  
 `░░░░░░░░░░` **0.0000 %**  
-🔵 Team blue · **GPT-6 Sol** · High effort · ChatGPT project "Career Mode Showdown", normal chat
+🔵 Team blue · **GPT-6 Sol** · High effort · ChatGPT project "Career Mode Showdown", normal chat · paste the WHOLE line below, never just the number
 
 Paste this:
 
@@ -26,7 +26,7 @@ Job 1579: read project-documents/gameplay-factory/jobs/JOB-1579.md on branch fac
 
 **#2 · 1580** `G` Showdown Gate: run the L5 lane only when its inputs changed  
 `░░░░░░░░░░` **0.0000 %**  
-⚪ Team white · **Codex default coding model** · High effort · Codex cloud, this repo
+⚪ Team white · **Codex default coding model** · High effort · Codex cloud, this repo · paste the WHOLE line below, never just the number
 
 Paste this:
 
@@ -36,7 +36,7 @@ Job 1580: git fetch origin factory/gameplay-v1, then read git show FETCH_HEAD:pr
 
 **#3 · 1583** `G` Measure the home screens at ten window sizes (report only)  
 `░░░░░░░░░░` **0.0000 %**  
-⚪ Team white · **Codex default coding model** · Medium effort · Codex cloud, this repo
+⚪ Team white · **Codex default coding model** · Medium effort · Codex cloud, this repo · paste the WHOLE line below, never just the number
 
 Paste this:
 
@@ -46,7 +46,7 @@ Job 1583: git fetch origin factory/gameplay-v1, then read git show FETCH_HEAD:pr
 
 **#4 · 1584** `G` Measure the transfer screens at ten window sizes (report only)  
 `░░░░░░░░░░` **0.0000 %**  
-⚪ Team white · **Codex default coding model** · Medium effort · Codex cloud, this repo
+⚪ Team white · **Codex default coding model** · Medium effort · Codex cloud, this repo · paste the WHOLE line below, never just the number
 
 Paste this:
 
@@ -56,7 +56,7 @@ Job 1584: git fetch origin factory/gameplay-v1, then read git show FETCH_HEAD:pr
 
 **#5 · 1585** `G` Measure the season-final screens at ten window sizes (report only)  
 `░░░░░░░░░░` **0.0000 %**  
-⚪ Team white · **Codex default coding model** · Medium effort · Codex cloud, this repo
+⚪ Team white · **Codex default coding model** · Medium effort · Codex cloud, this repo · paste the WHOLE line below, never just the number
 
 Paste this:
 
@@ -66,7 +66,7 @@ Job 1585: git fetch origin factory/gameplay-v1, then read git show FETCH_HEAD:pr
 
 **#6 · 1586** `G` Measure the club screens at ten window sizes (report only)  
 `░░░░░░░░░░` **0.0000 %**  
-⚪ Team white · **Codex default coding model** · Medium effort · Codex cloud, this repo
+⚪ Team white · **Codex default coding model** · Medium effort · Codex cloud, this repo · paste the WHOLE line below, never just the number
 
 Paste this:
 
@@ -76,7 +76,7 @@ Job 1586: git fetch origin factory/gameplay-v1, then read git show FETCH_HEAD:pr
 
 **#7 · 1587** `G` Season Results: a passing Transfer Challenge read hiccup must not fail the publish (Sol S2)  
 `░░░░░░░░░░` **0.0000 %**  
-🔵 Team blue · **GPT-6 Sol** · High effort · ChatGPT project "Career Mode Showdown", normal chat
+🔵 Team blue · **GPT-6 Sol** · High effort · ChatGPT project "Career Mode Showdown", normal chat · paste the WHOLE line below, never just the number
 
 Paste this:
 
