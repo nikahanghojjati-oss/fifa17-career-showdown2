@@ -170,9 +170,12 @@
   function vsIsShown(id){const host=vsHost(id);return Boolean(host&&!host.classList.contains("hidden")&&(registry.get(id)?.overlay===true||vsActiveScreen()===id));}
   // Team V stylesheets style more than their own markup, so they are on only while a mounted Team V screen shows.
   function vsSyncStyles(){
-    const liveIds=[...mounted.keys()].filter(vsIsShown),live=liveIds.map(id=>registry.get(id));
+    // A shown screen that is still loading (expect()ed, not yet mounted) counts as live too: dropping its look for
+    // that gap showed the old header, background and footer, and disabled Team V's sheets (Chromium then refetches them).
+    // (Some screens expect() before their Team V file has registered them: they keep the attribute but add no sheets yet.)
+    const liveIds=[...new Set([...mounted.keys(),...pending.keys()])].filter(vsIsShown),live=liveIds.map(id=>registry.get(id)).filter(Boolean);
     // html[data-v10-screen] names the Team V screen on show, so css/v10Shell.css can restyle the app's own header around it.
-    const doc=vsDoc(),html=doc&&doc.documentElement,screen=liveIds.find(id=>registry.get(id).overlay!==true)||null;
+    const doc=vsDoc(),html=doc&&doc.documentElement,screen=liveIds.find(id=>registry.get(id)?.overlay!==true)||null;
     if(html&&html.dataset&&(html.dataset.v10Screen||null)!==screen){if(screen)html.dataset.v10Screen=screen;else delete html.dataset.v10Screen;}
     for(const [file,entry] of styles){
       const link=entry.link;
@@ -214,6 +217,7 @@
     if(!entry)return;
     pending.delete(id);root.clearTimeout(entry.timer);
     if(entry.host.dataset)delete entry.host.dataset.v10Pending;
+    vsSyncStyles();
   }
   function vsExpect(id){
     const host=vsHost(id);
@@ -221,6 +225,7 @@
     vsSettle(id);
     host.dataset.v10Pending="1";
     pending.set(id,{host,timer:root.setTimeout(()=>vsSettle(id),STYLE_TIMEOUT_MS)});
+    vsSyncStyles();
     return true;
   }
   // Draws a registered screen if the app is showing it. A null frame keeps the app's own screen.
@@ -305,10 +310,11 @@
     try{
       const screen=vsActiveScreen();lastScreen=screen;
       for(const id of [...mounted.keys()])if(!vsIsShown(id))vsUnmount(id);
-      vsSyncStyles();
-      vsPaintNav(screen);
       const def=screen?registry.get(screen):null;
-      if(def&&def.auto){vsExpect(screen);vsShow(screen).catch(error=>vsReport("Team V screen could not load",error));}
+      // expect() before the style sync, so the screen keeps Team V's look while it loads.
+      if(!(def&&def.auto&&vsExpect(screen)))vsSyncStyles();
+      vsPaintNav(screen);
+      if(def&&def.auto)vsShow(screen).catch(error=>vsReport("Team V screen could not load",error));
     }catch(error){vsReport("Team V screen could not update",error);}
   }
   function vsHookShowScreen(){

@@ -282,6 +282,29 @@ check("F3b a stylesheet toggled while loading is never dropped; it ends with the
   assert.deepEqual(root.errors,[]);
 });
 
+check("F3c a Team V screen that is still loading keeps Team V's page look: no old header, background or sheets in between",async()=>{
+  const root=await installed();
+  const V=root.CareerModeV10Screens,html=root.document.documentElement;
+  let release=null;
+  V.register("dashboard",{css:["test/dash.css"],frame:()=>({}),mount(){},unmount(){}});
+  V.register("transferChallenge",{css:["test/transfer.css"],prepare:()=>new Promise(resolve=>{release=resolve;}),frame:()=>({}),mount(){},unmount(){}});
+  V.register("seasonSummary",{frame:()=>null,mount(){}});
+  root.showScreen("dashboard");await flush();
+  assert.equal(html.dataset.v10Screen,"dashboard");
+  root.showScreen("transferChallenge");await flush();
+  assert.equal(V.isMounted("transferChallenge"),false,"still loading");
+  assert.equal(html.dataset.v10Screen,"transferChallenge","the loading screen keeps html[data-v10-screen] (css/v10Shell.css header, footer and page base)");
+  for(const file of KIT_STYLES)assert.equal(linkFor(root,file).disabled,false,`${file} stays on while the next Team V screen loads`);
+  release();await flush();
+  assert.equal(V.isMounted("transferChallenge"),true);
+  assert.equal(html.dataset.v10Screen,"transferChallenge");
+  root.showScreen("seasonSummary");await flush();
+  assert.equal(html.dataset.v10Screen,undefined,"a null frame (app's own screen) ends the Team V page look once settled");
+  root.showScreen("mainMenu");await flush();
+  assert.equal(html.dataset.v10Screen,undefined,"an unregistered screen has no Team V page look");
+  assert.deepEqual(root.errors,[]);
+});
+
 check("F4 one showScreen hook dispatches career-mode-screen-shown; the app's result is unchanged",async()=>{
   const root=makeApp();
   const original=root.showScreen;
