@@ -13,3 +13,8 @@ Nik's mockups and goal images. They show the look to reach. Some contain real cl
 | MOCKUP_START_JOIN.png | Start / Join | plain words, More menu for Revoke/Close/Forget |
 | GOAL_HOME.jpg, GOAL_LEAGUE.jpg, GOAL_CLUB.jpg | Home, League, Club | goals the built screens are polished toward (league logos blurred) |
 | GOAL_TRANSFER_PLATE_G.png | Transfer War | the locked Plate G key art |
+
+## Phone mockups (job 1588, Nik's GPT pictures from Claude's tickets)
+| File | Screen | Approved | Notes |
+| --- | --- | --- | --- |
+| PHONE_HOME.png | Home | Sat 10 Oct 11:55 a.m. Eastern | Ticket 1588 1 of 12, first try. Black guide bars cropped (916x1536, same 393:660 shape). Faces match the live art, Daniel left, Nik right; every word kept. New: big tile art, framed tiles, music card with album square (the small headphones figure is decoration, not a player). sha256 32d52557be31d413… |
