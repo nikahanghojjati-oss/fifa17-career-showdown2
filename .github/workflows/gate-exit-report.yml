@@ -38,7 +38,7 @@ jobs:
           const fs=require("fs");const lines=fs.readFileSync(process.argv[1],"utf8").trim().split("\n").map(l=>JSON.parse(l));
           const esc=s=>String(s).replace(/%/g,"%25").replace(/\r/g,"%0D").replace(/\n/g,"%0A");
           const final=lines.pop();
-          const heads=lines.map(c=>[c.head.slice(0,9),c.old_verdict,c.pos20.verdict,c.gate.verdict,c.full_seal?"full":"part",c.same_route_profile?"same":"DIFF",c.gate_ran_superset?"super":"MISSING:"+c.missing_in_gate.join("+"),c.gate_pass_old_fail?"DISAGREE":"ok"].join(" "));
+          const heads=lines.map(c=>c.superseded?[c.head.slice(0,9),"SUPERSEDED by",String(c.pr_head).slice(0,9),"PR",c.pr].join(" "):[c.head.slice(0,9),c.old_verdict,c.pos20.verdict,c.gate.verdict,c.full_seal?"full":"part",c.same_route_profile?"same":"DIFF",c.gate_ran_superset?"super":"MISSING:"+c.missing_in_gate.join("+"),c.gate_pass_old_fail?"DISAGREE":"ok"].join(" "));
           for(let i=0;i<heads.length;i+=20)console.log("::notice title=heads "+i+"::"+esc(heads.slice(i,i+20).join("\n")));
           console.log("::notice title=exit::"+esc(JSON.stringify(final)));
           ' "$RUNNER_TEMP/exit.jsonl"
