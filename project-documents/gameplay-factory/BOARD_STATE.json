@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-09 9:01 PM Boston time (EDT)",
+ "generated": "2026-10-09 9:25 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -284,8 +284,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "077820b",
-  "head_boston": "Fri 9 Oct 8:58 PM",
+  "head": "0c43ad1a",
+  "head_boston": "Fri 9 Oct 9:23 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": true,
   "open_for_g": [],
@@ -313,9 +313,9 @@
  },
  "two": {
   "live": {
-   "sha": "8e1a583",
+   "sha": "8e1a5833",
    "revision": "1.9.1-r66",
-   "when": "2026-10-09T16:04:25Z",
+   "when": "2026-10-09T16:04:25+00:00",
    "subject": "Release r66: Season Results on phones, closed Final Winner on both phones (#440)",
    "fixes": [
     {
@@ -723,7 +723,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 40,
+  "moving": 41,
   "next": 1,
   "nik": 2,
   "later": 6,
@@ -1026,6 +1026,19 @@
       "place": "Claude helper (nothing for Nik to type)",
       "note": "from hunt 1019; H3 is fixed by 1026",
       "archived": true
+     },
+     {
+      "id": "1060",
+      "title": "The Showdown Gate becomes the PR check set (POS20 and Fast archived)",
+      "lane": "lead",
+      "team": "purple",
+      "model": "Claude Opus 5.5",
+      "effort": "Medium",
+      "state": "lead checking (PR #453): CI running",
+      "order": 32,
+      "place": "nothing to type: the lead runs it",
+      "note": "Nik chose the switch 2026-10-10; exit report READY (reports/SHOWDOWN_GATE_EXIT_2026-10-10.md)",
+      "prompt": ""
      }
     ],
     "nik": [
