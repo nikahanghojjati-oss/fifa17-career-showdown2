@@ -905,6 +905,8 @@ def render(first, compact=False, tight=False):
          f'<div class="tiles"><div class="tile"><b>{e((LV or {}).get("revision", "?").split("-")[-1])}</b><span>Live</span></div><div class="tile"><b>{n_run}</b><span>Jobs running</span></div><div class="tile"><b>{n_next}</b><span>Jobs to start</span></div><div class="tile"><b>{n_nik}</b><span>Other asks</span></div></div>' if not tight else f'<div class="m foot">Live: {e((LV or {}).get("revision", "?").split("-")[-1])}</div>']
     if first == "V" and not tight:  # Nik 2026-10-10: the visual board, one inline SVG
         H.append(f'<div style="margin:6px 10px">{v_svg()}</div>')
+    if first == "G" and not tight and mega():  # Nik 2026-10-10: the mega factory first, old sections dropped
+        H.append(mega_tab(mega()))
     if first == "G" and not tight:  # Haiku G: stage ring and job bar
         H.append('<div style="padding:8px 10px 0">' + dash_tab(*stages()) + "</div>")
     H.append("<h2>Jobs</h2>")
@@ -919,11 +921,11 @@ def render(first, compact=False, tight=False):
             LASTPLACE[0] = None
             LASTNOTE[:] = []
             J += [job_html(q, i, kind) for i, q in enumerate(Q[kind], 1)]  # #1 is the first job of each list
-    if WAIT_REL_Q:  # Nik, 2026-10-09 23:24 UTC: finished but not on main yet, apart from what is already live
+    if first != "G" and WAIT_REL_Q:  # Nik, 2026-10-09 23:24 UTC: finished but not on main yet, apart from what is already live
         J.append('<span class="k">Done, waiting for the next release</span> ' + ", ".join(e(q["n"]) for q in WAIT_REL_Q))
-    if LIVE_Q:
+    if first != "G" and LIVE_Q:
         J.append('<span class="k">Done and live</span> ' + (" · ".join(f"{rv}: " + ", ".join(ns) for rv, ns in live_groups()) if not tight else " · ".join(f"{rv}: {len(ns)} jobs" for rv, ns in live_groups())))
-    if NOCODE_Q:
+    if first != "G" and NOCODE_Q:
         J.append('<span class="k">Done, no game code</span> ' + ", ".join(e(q["n"]) for q in NOCODE_Q))
     H.append('<div class="card move">' + ("<br>".join(J) or "No numbered job is open.") + "</div>")
     order = ("G", "V") if first == "G" else ("V", "G")
@@ -943,10 +945,11 @@ def render(first, compact=False, tight=False):
         H.append(f'<div class="m foot">Physio, other work, live release and relay: <a href="{BLOB}BOARD.md">on GitHub</a></div></div>')
         H[0] = re.sub(r"\.cv \.tiles?( \w+)?\{[^}]*\}", "", H[0])  # no tiles in this view
         return "\n".join(H) + "\n"
-    H.append(f'<div class="card">{TF.PHYSIO_ICON.get(ph.get("state"), "🩺")} <b>{e(ph.get("line", "Physio: no report yet."))}</b>' + (f'<br><span class="m">{e(ph["gate"])}</span>' if ph.get("gate") else "") + "</div>")
+    if first != "G":
+        H.append(f'<div class="card">{TF.PHYSIO_ICON.get(ph.get("state"), "🩺")} <b>{e(ph.get("line", "Physio: no report yet."))}</b>' + (f'<br><span class="m">{e(ph["gate"])}</span>' if ph.get("gate") else "") + "</div>")
     if warn:
         H.append('<div class="card warn">⚠ <b>Not fully current:</b> ' + " ".join(e(w) for w in warn) + "</div>")
-    for t in (first, "V" if first == "G" else "G"):
+    for t in () if first == "G" else (first, "G"):  # the Team G view drops the other-work lists (Nik, 2026-10-10: only the mega factory)
         H.append(team_html(t, t == first, cut, compact))
     H.append("<h2>Live now</h2>")
     if LV:
@@ -954,8 +957,6 @@ def render(first, compact=False, tight=False):
                  + "".join(f'<br>✅ <span class="m">{e(TF.bos(x["merged"], "%-I:%M %p"))}</span> #{x["pr"]} {e(x["title"][:cut])}' for x in (LV.get("today") or [])[:2 if compact else 4]) + "</div>")
     TK = TWO.get("tickets") or []
     open_tk = [x for x in TK if x["stage"] != "DONE"]
-    if first == "G" and not tight and mega():
-        H.append(mega_tab(mega()))
     H.append("<h2>Relay</h2>")
     H.append('<div class="card">' + ("✅ working" if TWO.get("relay_ok") else "⚠ unreadable") + f' <span class="m">{len(open_tk)} open hand-offs, {len(TK) - len(open_tk)} done</span>'
              + "".join(f'<br><b>{e(x["id"])}</b> {e(x.get("from") or "?")}→{e(x.get("to") or "?")} {e(x["title"][:cut])} <span class="m">{e(TF.STAGE_WORD.get(x["stage"], x["stage"]))}</span>' for x in open_tk[::-1][:3]) + "</div>")
