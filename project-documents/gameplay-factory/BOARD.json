@@ -833,6 +833,18 @@
      "notes": "Source: /mnt/project-files/gameplay/old-design-flash/JOBS.md"
     },
     {
+     "id": "G-F25",
+     "title": "Shared session expiry: the Spark providers clamp expiresAtEpochMs to now+1 (Math.max(epochMs+1, expiresAt)), so the protocol's expiry check can never fail. Decide whether this is a deliberate clock-skew guard (Rules check request.time) or a bug; fix across the providers or document it, with contracts (audit items 118, 78, 84, 94)",
+     "lane": "opus",
+     "state": "ready",
+     "waits_on": "",
+     "team": "purple",
+     "route": "claude",
+     "claude_reason": "sign-in/session area the ChatGPT filter blocks, and the same pattern in several providers (setup, season results and others)",
+     "place": "Team G lead thread (Claude runs it; nothing to type)",
+     "notes": "Evidence: audit PRs #571 (sparkSharedShowdownSetup.js:100), #580, #582, #551. Origin 0c12d1ca (r44). Client gate in productionSharedShowdownSetup.js already refuses expired sessions, so players see nothing today. Audit item 106 (#561, #562) is not a bug: pmspResumeFromAuthority (Job 19, called from productionSharedJourneyEntry.js:248) moves the cursor to the provider season after a reload; contract shared-journey-reload-resume covers it."
+    },
+    {
      "id": "G-F17",
      "title": "Showdown Gate: replace POS20 with a faster check system built on Claude and GitHub, keeping every check (plan: /mnt/project-files/check-system/SHOWDOWN_GATE_PLAN.md)",
      "lane": "opus",
@@ -1757,7 +1769,8 @@
    "G-F18",
    "G-F5",
    "G-F17",
-   "G-F24"
+   "G-F24",
+   "G-F25"
   ],
   "queue_rule": "queue/CLAUDE_LANE.md (mega factory): which queue items move here and how; moved items are marked 'claude lane' in queue/ORDER.json and get a 1001+ job number from the lead"
  }
