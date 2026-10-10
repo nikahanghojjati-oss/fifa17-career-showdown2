@@ -10,8 +10,8 @@ Nik (2026-10-10 13:56 UTC): the mega factory shifts work to GPT chat and Codex, 
 
 ## Pilot first (held-back candidates, not moved yet)
 These are the groups most likely to need judgment. The first train of each runs as normal; if it hits rule 1 or 2, the remaining items of that group move to the Claude lane.
-- transfer (queue items 9-351, 20 items): the transfer challenge and signing entry touch game state and the private transfer lock; the lead is already measuring it with Codex jobs 1583-1586.
-- season-final (queue items 11-518, 60 items, the biggest group): Season Results pulls the player back (Sol's S5 lead, job 1579), so part of this group is a logic bug, not styling.
+- transfer (every transfer item: 9, 27, 45 and so on up to 351; 20 items): the transfer challenge and signing entry touch game state and the private transfer lock; the lead is already measuring it with Codex jobs 1583-1586.
+- season-final (every season-final item: 11, 29, 47 and so on up to 518; 60 items, the biggest group): Season Results pulls the player back (Sol's S5 lead, job 1579), so part of this group is a logic bug, not styling.
 
 ## How the lead moves an item
-Tell the Team G lead thread / Haiku G keeper which item numbers; the generator writes `claude lane` in ORDER.json for them and the board's Type now list skips them. Nik is not asked to do anything and needs no new number. Anything the lead moves is reported in RUN_REPORT.md under "Claude lane".
+Tell the Team G lead thread / Haiku G keeper which item numbers; I mark them `claude lane` in ORDER.json (not automatic yet) and the board's Type now list skips them. Nik is not asked to do anything and needs no new number. Anything the lead moves is reported in RUN_REPORT.md under "Claude lane".
