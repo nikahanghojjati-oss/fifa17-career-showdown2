@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Sat 10 Oct, 12:24 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Sat 10 Oct, 12:26 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r67** (main `f42dac2`, Fri 9 Oct 9:34 PM)
 
@@ -18,19 +18,19 @@ Updated Sat 10 Oct, 12:24 PM Boston time. Bug hunting only, no new features unti
 
 **#1 · 1580** `G` Showdown Gate: run the L5 lane only when its inputs changed  
 `██████░░░░` **60.0000 %**  
-⚪ Team white · **Codex default coding model** · High effort · worker done, PR #457 open, CI failed · CI 13 of 14 passed · last move 70 min ago
+⚪ Team white · **Codex default coding model** · High effort · worker done, PR #457 open, CI failed · CI 13 of 14 passed · last move 72 min ago
 
 **#2 · 1584** `G` Measure the transfer screens at ten window sizes (report only)  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · **Codex default coding model** · Medium effort · worker working, draft PR #469 · CI 6 of 7 passed · last move 68 min ago
+⚪ Team white · **Codex default coding model** · Medium effort · worker working, draft PR #469 · CI 6 of 7 passed · last move 70 min ago
 
 **#3 · 1585** `G` Measure the season-final screens at ten window sizes (report only)  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · **Codex default coding model** · Medium effort · worker working, draft PR #476 · CI 6 of 7 passed · last move 40 min ago
+⚪ Team white · **Codex default coding model** · Medium effort · worker working, draft PR #476 · CI 6 of 7 passed · last move 43 min ago
 
 **#4 · 1586** `G` Measure the club screens at ten window sizes (report only)  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · **Codex default coding model** · Medium effort · worker working, draft PR #477 · CI 6 of 7 passed · last move 3 min ago
+⚪ Team white · **Codex default coding model** · Medium effort · worker working, draft PR #477 · CI 6 of 7 passed · last move 5 min ago
 
 ### ⏸ Waiting on something else
 
@@ -97,17 +97,17 @@ One numbered queue: type a bare number in any GPT chat. Live from GitHub (queue/
 Type now, in any GPT chat:
 
 ```text
-33 34 35 36 37 38 39 40 41 42 43 44
+34 35 36 37 38 39 40 41 42 43 44 45
 ```
 
 Open code PRs: 0/8.
 
-32 taken of 518.
+33 taken of 518.
 
 | Stage | Items | Merged | Picked up |
 | --- | --- | --- | --- |
 | audits | 112 | 0/112 | 16/112 |
-| screen fixes | 266 | 0/266 | 16/266 |
+| screen fixes | 266 | 0/266 | 17/266 |
 | mockup match | 14 | 0/14 | 0/14 |
 | phone studies | 70 | 0/70 | 0/70 |
 | desktop studies | 56 | 0/56 | 0/56 |
@@ -116,6 +116,7 @@ Open code PRs: 0/8.
 
 | # | Job | State | Title |
 | --- | --- | --- | --- |
+| 33 | 1323 | on_train | Trophy Room: fix the 390x844 view |
 | 32 | 1482 | PR open | Audit js/transferChallenge.js for gameplay bugs (second half) |
 | 31 | 1294 | on_train | Legacy: fix the 390x844 view |
 | 30 | 1481 | PR open | Audit js/transferChallenge.js for gameplay bugs (first half) |
@@ -135,7 +136,6 @@ Open code PRs: 0/8.
 | 16 | 1474 | PR open | Audit all screens: fonts: fallback while loading, no jumps |
 | 15 | 1322 | on_train | Trophy Room: fix the 360x640 view |
 | 14 | 1473 | PR open | Audit all screens: text contrast on plates and badges |
-| 13 | 1293 | on_train | Legacy: fix the 360x640 view |
 
 ## Mega tracker (live, free)
 
