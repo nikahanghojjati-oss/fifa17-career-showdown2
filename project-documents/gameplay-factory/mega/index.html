@@ -91,17 +91,16 @@ const LB={waiting:"Waiting",started:"Started, no PR yet",ci_running:"PR open, ch
 const $=id=>document.getElementById(id);
 const esc=s=>String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const col=s=>`var(--${s})`;
-let D=null,hidden=new Set(),etag=null,lastOk=0;
+let D=null,hidden=new Set(),lastOk=0;
 function ago(t){const s=Math.max(0,(Date.now()-new Date(t))/1000);if(s<90)return Math.round(s)+" s ago";if(s<5400)return Math.round(s/60)+" min ago";return (s/3600).toFixed(1)+" h ago"}
 async function load(){
   try{
-    const h={Accept:"application/vnd.github.raw"};if(etag)h["If-None-Match"]=etag;
-    let r=await fetch(`https://api.github.com/repos/${REPO}/contents/${PATH}?ref=${BR}`,{headers:h,cache:"no-store"});
-    if(r.status==304){lastOk=Date.now();paint(true);return}
+    // no-cache lets the browser revalidate with the ETag itself; a 304 does not use up GitHub's rate limit
+    const r=await fetch(`https://api.github.com/repos/${REPO}/contents/${PATH}?ref=${BR}`,{headers:{Accept:"application/vnd.github.raw"},cache:"no-cache"});
     if(!r.ok)throw 0;
-    etag=r.headers.get("ETag");D=await r.json();
+    D=await r.json();
   }catch(e){
-    try{const r=await fetch(`https://raw.githubusercontent.com/${REPO}/${BR}/${PATH}?t=${Math.floor(Date.now()/60000)}`);if(!r.ok)throw 0;D=await r.json();etag=null}catch(e2){paint(true,true);return}
+    try{const r=await fetch(`https://raw.githubusercontent.com/${REPO}/${BR}/${PATH}?t=${Math.floor(Date.now()/60000)}`);if(!r.ok)throw 0;D=await r.json()}catch(e2){paint(true,true);return}
   }
   lastOk=Date.now();paint();
 }
