@@ -943,7 +943,7 @@ def render(first, compact=False, tight=False):
     if first == "V" and not tight:  # Nik 2026-10-10: the visual board, one inline SVG
         H.append(f'<div style="margin:6px 10px">{v_svg()}</div>')
     if first == "G":  # Nik 2026-10-10: how to type, at the very top
-        H.append(f'<div class="card move"><b>How to type</b><br>Mega numbers 1-518: type just the number in a GPT chat. Factory jobs in the 1500s: paste the whole line from the card, never just the number. Codex: paste the whole box from <a href="{BLOB}queue/TOMORROW.md">TOMORROW.md</a>.</div>')
+        H.append(f'<div class="card move"><b>How to type</b><br>Type just the number. GPT jobs in a new ChatGPT chat, Codex jobs in a new Codex task. One-time setup: <a href="{BLOB}queue/INSTRUCTIONS.md">INSTRUCTIONS.md</a> and <a href="{BLOB}queue/CODEX_SETUP.md">CODEX_SETUP.md</a>. Tomorrow\'s order: <a href="{BLOB}queue/TOMORROW.md">TOMORROW.md</a>.</div>')
     if first == "G" and mega():  # Nik 2026-10-10: the mega factory first, always (even in the tight layout)
         H.append(mega_tab(mega()))
     if first == "G" and not tight:  # Haiku G: stage ring and job bar
@@ -1100,7 +1100,7 @@ if LV and LV.get("today"):
     L += ["## Shipped today", ""] + [f"- {TF.bos(x['merged'], '%-I:%M %p')} · #{x['pr']} {x['title']}" for x in LV["today"]] + [""]
 _svg = dash_svg(*stages())
 open(os.path.join(F, "board-chart.svg"), "w").write(_svg)
-L[2:2] = ["**How to type.** Mega numbers 1-518: type just the number in a GPT chat. Factory jobs in the 1500s: paste the whole line from the card, never just the number. Codex: paste the whole box from [TOMORROW.md](queue/TOMORROW.md).", "", "![Team G progress](board-chart.svg)", ""]
+L[2:2] = ["**How to type.** Type just the number. GPT jobs in a new ChatGPT chat, Codex jobs in a new Codex task. One-time setup: [INSTRUCTIONS.md](queue/INSTRUCTIONS.md) and [CODEX_SETUP.md](queue/CODEX_SETUP.md). Tomorrow's order: [TOMORROW.md](queue/TOMORROW.md).", "", "![Team G progress](board-chart.svg)", ""]
 # history: jobs live per release, a bar per release (Haiku G, 2026-10-10). Free: built from RELEASED.json.
 _rel = {}
 for _n, _rv in (json.load(open(os.path.join(F, "RELEASED.json"))).get("jobs") or {}).items():

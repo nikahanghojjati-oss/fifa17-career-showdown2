@@ -1,12 +1,12 @@
 # Bug hunt board · Haiku G
 
-**How to type.** Mega numbers 1-518: type just the number in a GPT chat. Factory jobs in the 1500s: paste the whole line from the card, never just the number. Codex: paste the whole box from [TOMORROW.md](queue/TOMORROW.md).
+**How to type.** Type just the number. GPT jobs in a new ChatGPT chat, Codex jobs in a new Codex task. One-time setup: [INSTRUCTIONS.md](queue/INSTRUCTIONS.md) and [CODEX_SETUP.md](queue/CODEX_SETUP.md). Tomorrow's order: [TOMORROW.md](queue/TOMORROW.md).
 
 ![Jobs live per release](history-chart.svg)
 
 ![Team G progress](board-chart.svg)
 
-Updated Fri 9 Oct, 10:54 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Fri 9 Oct, 10:56 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r67** (main `f42dac2`, Fri 9 Oct 9:34 PM)
 
