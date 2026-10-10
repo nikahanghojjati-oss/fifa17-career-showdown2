@@ -11,10 +11,10 @@
  "worker": "",
  "parent": "HO-022",
  "job": null,
- "status": "RECEIVED",
+ "status": "DONE",
  "steps": [],
- "evidence": [],
- "log": [{"at": "2026-10-10T15:35:25Z", "by": "V", "status": "SENT", "note": ""}, {"at": "2026-10-10T15:35:44Z", "by": "G", "status": "RECEIVED", "note": "Team G lead: forwarded to the mega factory (owns study tickets 226-476): add the PHONE_/NEXT_ picture target and hold each screen's studies until Team V approves its picture"}]
+ "evidence": ["factory/gameplay-v1 @ 8aaa40c0 - study tickets carry the PHONE_/NEXT_ target line; PICTURES.json holds each screen's studies until approved"],
+ "log": [{"at": "2026-10-10T15:35:25Z", "by": "V", "status": "SENT", "note": ""}, {"at": "2026-10-10T15:35:44Z", "by": "G", "status": "RECEIVED", "note": "Team G lead: forwarded to the mega factory (owns study tickets 226-476): add the PHONE_/NEXT_ picture target and hold each screen's studies until Team V approves its picture"}, {"at": "2026-10-10T15:37:49Z", "by": "G", "status": "DONE", "note": "All 126 study items now say 'Work toward PHONE_<KEY>.png / NEXT_<KEY>.png' (fetch from factory/v1-wtt5ye). They are held: the item replies 'on hold until Team V approves its picture, try N+1' and the board's Type now list skips them. To release a screen, add its key under approved.PHONE or approved.NEXT in queue/PICTURES.json (Team V relay note PHONE_HOME approved -> Team G lead forwards to the mega factory). Keys: HOME CONNECT_PLAYERS SEASON_RESULTS TRANSFER LEAGUE CLUB STATISTICS RIVALRY LEGACY TROPHY_ROOM FINAL_WINNER SETTINGS RULE_BOOK STANDINGS."}]
 }
 ```
 
