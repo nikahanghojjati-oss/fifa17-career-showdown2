@@ -1,12 +1,12 @@
 {
-"updated": "2026-10-10T20:48:29Z",
+"updated": "2026-10-10T20:56:15Z",
 "total": 518,
-"next_free": 44,
+"next_free": 45,
 "highest_taken": 395,
 "counts": {
 "on_train": 20,
-"draft": 96,
-"waiting": 402
+"draft": 98,
+"waiting": 400
 },
 "stages": {
 "2": {
@@ -22,8 +22,8 @@
 "name": "Gameplay audits",
 "total": 112,
 "states": {
-"draft": 71,
-"waiting": 41
+"draft": 73,
+"waiting": 39
 }
 },
 "3": {
@@ -87,7 +87,6 @@
 "rivalry-legacy": 542
 },
 "ready": [
-44,
 45,
 46,
 47,
@@ -98,10 +97,10 @@
 53,
 54,
 55,
-56
+56,
+57
 ],
 "ready_sol": [
-44,
 45,
 46,
 47,
@@ -112,13 +111,14 @@
 53,
 54,
 55,
-56
+56,
+57
 ],
 "ready_codex": []
 },
 "rate": {
-"claimed_last_hour": 68,
-"claimed_last_10min": 0,
+"claimed_last_hour": 22,
+"claimed_last_10min": 2,
 "merged_last_hour": 0
 },
 "events": [
@@ -1010,6 +1010,20 @@
 "job": 1355,
 "from": "waiting",
 "to": "draft"
+},
+{
+"at": "2026-10-10T20:56:15Z",
+"item": 44,
+"job": 1488,
+"from": "waiting",
+"to": "draft"
+},
+{
+"at": "2026-10-10T20:56:15Z",
+"item": 86,
+"job": 1509,
+"from": "waiting",
+"to": "draft"
 }
 ],
 "items": {
@@ -1699,8 +1713,19 @@
 "title": "Audit js/sharedTransferChallenge.js for gameplay bugs (second half)",
 "mode": "audit",
 "group": null,
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"pr": 543,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/543",
+"base": "qa/mega-audits",
+"branch": "qa/job-1488-sharedtransferchallenge-2-audit",
+"ci": "draft",
+"ci_sha": "0444b77aec17ed3613138b8a2317a4bd260d6c39",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-10T20:55:41Z",
+"first_seen": "2026-10-10T20:55:41Z",
+"since": "2026-10-10T20:56:15Z"
 },
 "45": {
 "job": 1179,
@@ -2110,8 +2135,19 @@
 "title": "Audit js/productionSharedSeasonResults.js for gameplay bugs (first half)",
 "mode": "audit",
 "group": null,
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"pr": 544,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/544",
+"base": "qa/mega-audits",
+"branch": "qa/job-1509-production-season-results-1",
+"ci": "draft",
+"ci_sha": "8b7954c145322f20a7d59bb5fcd67c48618d8c8a",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-10T20:55:57Z",
+"first_seen": "2026-10-10T20:55:57Z",
+"since": "2026-10-10T20:56:15Z"
 },
 "87": {
 "job": 1326,

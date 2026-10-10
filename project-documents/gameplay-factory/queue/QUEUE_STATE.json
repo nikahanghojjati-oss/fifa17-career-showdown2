@@ -1,7 +1,6 @@
 {
  "sequence": {
   "ready": [
-   44,
    45,
    46,
    47,
@@ -12,10 +11,10 @@
    53,
    54,
    55,
-   56
+   56,
+   57
   ],
   "ready_sol": [
-   44,
    45,
    46,
    47,
@@ -26,13 +25,14 @@
    53,
    54,
    55,
-   56
+   56,
+   57
   ],
   "ready_codex": [],
   "held_until_picture": 86,
   "open_code_prs": 0,
   "open_train_prs": 1,
-  "next_free": 44,
+  "next_free": 45,
   "highest_taken": 395,
   "total": 518,
   "states": {
@@ -79,7 +79,7 @@
    "41": "on_train",
    "42": "pr_open",
    "43": "on_train",
-   "44": "waiting",
+   "44": "pr_open",
    "45": "waiting",
    "46": "waiting",
    "47": "waiting",
@@ -121,7 +121,7 @@
    "83": "waiting",
    "84": "waiting",
    "85": "pr_open",
-   "86": "waiting",
+   "86": "pr_open",
    "87": "waiting",
    "88": "waiting",
    "89": "waiting",
@@ -556,11 +556,11 @@
    "518": "waiting"
   }
  },
- "updated": "2026-10-10T20:52:21Z",
+ "updated": "2026-10-10T20:56:15Z",
  "counts": {
   "on_train": 20,
-  "waiting": 402,
-  "pr_open": 96
+  "waiting": 400,
+  "pr_open": 98
  },
  "stages": {
   "2": {
@@ -585,7 +585,7 @@
   },
   "1": {
    "total": 112,
-   "taken": 71,
+   "taken": 73,
    "merged": 0
   }
  },
@@ -4310,11 +4310,11 @@
    "branch": "qa/job-1487-signing-name-audit"
   },
   "1488": {
-   "state": "waiting",
-   "pr": null,
-   "draft": false,
-   "pr_url": null,
-   "branch": null
+   "state": "pr_open",
+   "pr": 543,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/543",
+   "branch": "qa/job-1488-sharedtransferchallenge-2-audit"
   },
   "1489": {
    "state": "waiting",
@@ -4457,11 +4457,11 @@
    "branch": null
   },
   "1509": {
-   "state": "waiting",
-   "pr": null,
-   "draft": false,
-   "pr_url": null,
-   "branch": null
+   "state": "pr_open",
+   "pr": 544,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/544",
+   "branch": "qa/job-1509-production-season-results-1"
   },
   "1510": {
    "state": "waiting",
