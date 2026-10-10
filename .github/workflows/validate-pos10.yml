@@ -1,10 +1,11 @@
 name: Validate POS20
 
+# Archived 2026-10-10 (Nik chose the Showdown Gate switch; exit report READY, see
+# project-documents/gameplay-factory/reports/SHOWDOWN_GATE_EXIT_2026-10-10.md on factory/gameplay-v1).
+# The Showdown Gate runs every step of this workflow on each PR and main push. This file is kept, never
+# deleted; rollback is restoring the pull_request (types: opened, synchronize, reopened,
+# ready_for_review) and push (branches: main) triggers. Until then it runs only on manual dispatch.
 on:
-  pull_request:
-    types: [opened, synchronize, reopened, ready_for_review]
-  push:
-    branches: [main]
   workflow_dispatch:
 
 permissions:

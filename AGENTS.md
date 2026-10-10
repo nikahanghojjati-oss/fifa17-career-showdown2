@@ -10,7 +10,7 @@ Use the POS20 loop OBSERVE, MODEL, HYPOTHESIZE, PLAN, ACT, VERIFY, LEARN, RECOVE
 
 Handoff proximity and estimated focused sessions are retired as project-progress authority. Continuity is READY, STALE or BLOCKED and is represented with objective, selected action, exact blocker and next verification.
 
-POS20 may escalate proof but never reduce any deterministic test or heavy proof selected by the POS10 kernel. Candidate mutation freezes during pending validation. Merge requires one exact head, clean review state, the POS20 benchmark, the POS20 exact-head seal and expected-head protection.
+POS20 may escalate proof but never reduce any deterministic test or heavy proof selected by the POS10 kernel. Candidate mutation freezes during pending validation. Merge requires one exact head, clean review state, a passing Showdown Gate seal on that head (the Gate runs the POS20 benchmark, operations authority, routed census and proofs; Validate POS20 and Validate Gameplay Fast are archived behind manual dispatch since Nik's 2026-10-10 switch) and expected-head protection.
 
 Billing permanently OFF; Firebase Spark only; no Blaze, Cloud Billing linkage, Cloud Run or Cloud Functions. App Check enforcement OFF. Firestore memory-only. Google Auth popup-only browserSessionPersistence without extra scopes. Exactly two private managers; pairing plus exact ACTIVE before league/club authority. Candidate C alone owns destructive remote-to-local Apply with exact rollback. Preserve canonical storage and private scope.
 

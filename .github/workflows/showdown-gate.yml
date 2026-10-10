@@ -1,10 +1,11 @@
-# Showdown Gate (phase 1 shadow). Runs beside Validate POS20 and Validate Gameplay Fast and is NOT a
-# required check: it replaces nothing and changes no merge authority. Six lanes run in parallel; each lane
-# computes its own route with the unchanged POS20 router (no shared selector job), and the seal requires
-# every lane green on the exact head with every routed id executed. GATE_COVERAGE.json maps every command
-# of the 16 old gates to a step here, and tests/contracts/showdown-gate-coverage-contracts.cjs enforces it.
-# Every job is read-only and every checkout sets persist-credentials: false; helper preemption runs only in
-# the trusted default-branch Physio workflow (gate-watchdog.yml).
+# Showdown Gate: the PR check set since 2026-10-10 (Nik chose the switch after a READY exit report). It
+# replaces Validate POS20 and Validate Gameplay Fast, which stay archived (manual dispatch only) for rollback.
+# Six lanes run in parallel; each lane computes its own route with the unchanged POS20 router (no shared
+# selector job), and the seal requires every lane green on the exact head with every routed id executed.
+# GATE_COVERAGE.json maps every command of the 16 old gates to a step here, and
+# tests/contracts/showdown-gate-coverage-contracts.cjs enforces it. Every job is read-only and every checkout
+# sets persist-credentials: false; helper preemption runs only in the trusted default-branch Physio workflow
+# (gate-watchdog.yml).
 name: Showdown Gate
 
 on:
