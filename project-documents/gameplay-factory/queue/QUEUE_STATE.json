@@ -9,10 +9,10 @@
    57,
    59,
    61,
-   76,
-   78,
-   80,
-   82
+   84,
+   226,
+   228,
+   232
   ],
   "ready_sol": [
    45,
@@ -23,10 +23,10 @@
    57,
    59,
    61,
-   76,
-   78,
-   80,
-   82
+   84,
+   226,
+   228,
+   232
   ],
   "ready_codex": [],
   "held_until_picture": 86,
@@ -111,13 +111,13 @@
    "73": "waiting",
    "74": "pr_open",
    "75": "waiting",
-   "76": "waiting",
+   "76": "pr_open",
    "77": "waiting",
-   "78": "waiting",
+   "78": "pr_open",
    "79": "waiting",
-   "80": "waiting",
+   "80": "pr_open",
    "81": "waiting",
-   "82": "waiting",
+   "82": "pr_open",
    "83": "waiting",
    "84": "waiting",
    "85": "pr_open",
@@ -556,11 +556,11 @@
    "518": "waiting"
   }
  },
- "updated": "2026-10-10T21:07:57Z",
+ "updated": "2026-10-10T21:11:53Z",
  "counts": {
   "on_train": 20,
-  "waiting": 366,
-  "pr_open": 132
+  "waiting": 362,
+  "pr_open": 136
  },
  "stages": {
   "2": {
@@ -585,7 +585,7 @@
   },
   "1": {
    "total": 112,
-   "taken": 107,
+   "taken": 111,
    "merged": 0
   }
  },
@@ -4422,32 +4422,32 @@
    "branch": "qa/job-1503-productionsharedshowdownpresentation-1-audit"
   },
   "1504": {
-   "state": "waiting",
-   "pr": null,
-   "draft": false,
-   "pr_url": null,
-   "branch": null
+   "state": "pr_open",
+   "pr": 579,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/579",
+   "branch": "qa/job-1504-productionsharedshowdownpresentation-2-audit"
   },
   "1505": {
-   "state": "waiting",
-   "pr": null,
-   "draft": false,
-   "pr_url": null,
-   "branch": null
+   "state": "pr_open",
+   "pr": 580,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/580",
+   "branch": "qa/job-1505-productionsharedterminalclose-1-audit"
   },
   "1506": {
-   "state": "waiting",
-   "pr": null,
-   "draft": false,
-   "pr_url": null,
-   "branch": null
+   "state": "pr_open",
+   "pr": 581,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/581",
+   "branch": "qa/job-1506-productionsharedterminalclose-2-audit"
   },
   "1507": {
-   "state": "waiting",
-   "pr": null,
-   "draft": false,
-   "pr_url": null,
-   "branch": null
+   "state": "pr_open",
+   "pr": 582,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/582",
+   "branch": "qa/job-1507-sparksharedseasonresults-1-audit"
   },
   "1508": {
    "state": "waiting",

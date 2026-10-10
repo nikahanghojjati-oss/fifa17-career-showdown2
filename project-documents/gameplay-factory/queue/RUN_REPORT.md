@@ -1,11 +1,11 @@
-# Mega factory run report · 2026-10-10T21:07:57Z
+# Mega factory run report · 2026-10-10T21:11:53Z
 
-Taken 152 of 518 jobs. By state: on_train 20, pr_open 132, waiting 366
+Taken 156 of 518 jobs. By state: on_train 20, pr_open 136, waiting 362
 
 ## By stage
 Stage | name | total | picked up | merged
 --- | --- | --- | --- | ---
-1 | audits | 112 | 107 | 0
+1 | audits | 112 | 111 | 0
 2 | screen fixes | 266 | 44 | 0
 3 | mockup match | 14 | 1 | 0
 4 | phone studies | 70 | 0 | 0
@@ -68,6 +68,10 @@ Number | job | title | state | link
 70 | 1501 | Audit js/saveLibraryUI.js for gameplay bugs (first half) | pr_open | [PR #576](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/576)
 72 | 1502 | Audit js/saveLibraryUI.js for gameplay bugs (second half) | pr_open | [PR #577](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/577)
 74 | 1503 | Audit js/productionSharedShowdownPresentation.js for gameplay bugs (first half) | pr_open | [PR #578](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/578)
+76 | 1504 | Audit js/productionSharedShowdownPresentation.js for gameplay bugs (second half) | pr_open | [PR #579](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/579)
+78 | 1505 | Audit js/productionSharedTerminalClose.js for gameplay bugs (first half) | pr_open | [PR #580](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/580)
+80 | 1506 | Audit js/productionSharedTerminalClose.js for gameplay bugs (second half) | pr_open | [PR #581](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/581)
+82 | 1507 | Audit js/sparkSharedSeasonResults.js for gameplay bugs (first half) | pr_open | [PR #582](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/582)
 86 | 1509 | Audit js/productionSharedSeasonResults.js for gameplay bugs (first half) | pr_open | [PR #544](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/544)
 88 | 1510 | Audit js/productionSharedSeasonResults.js for gameplay bugs (second half) | pr_open | [PR #546](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/546)
 90 | 1511 | Audit js/productionSharedSeasonCommit.js for gameplay bugs (first half) | pr_open | [PR #547](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/547)
