@@ -1,5 +1,5 @@
 {
-"updated": "2026-10-10T16:17:06Z",
+"updated": "2026-10-10T16:24:38Z",
 "total": 518,
 "next_free": 33,
 "highest_taken": 32,
@@ -103,7 +103,7 @@
 "ready_codex": []
 },
 "rate": {
-"claimed_last_hour": 13,
+"claimed_last_hour": 9,
 "claimed_last_10min": 0,
 "merged_last_hour": 0
 },
