@@ -8,9 +8,9 @@ One system: you only ever type a number. Numbers 1 to 1000 are queue items, numb
 
 ## Then type these (a new chat or task for each number)
 
-**Codex, one task per number, in this order:** `1580`, then `1583`, `1584`, `1585`, `1586` (any time). `1581` only after 1580 is merged, `1582` only after 1581 is merged.
+**Codex, one task per number, in this order:** `1580`, then `1583`, `1584`, `1585`, `1586` (any time). `1589` (old-design flash test, any time), `1581` only after 1580 is merged, `1582` only after 1581 is merged.
 
-**ChatGPT, one new chat per number, in this order:** `1579`, `1587`, then:
+**ChatGPT, one new chat per number, in this order:** `1579`, `1587`, `1590`, then:
 
 ```text
 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 20 22
