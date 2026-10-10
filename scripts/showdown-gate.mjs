@@ -23,6 +23,28 @@ for(const [bundle,ids] of Object.entries(graph.proofBundles))for(const id of ids
 export const groupOf=id=>proofGroup.get(id)||null;
 export const LIFECYCLE_PROOF='SHARED_GAMEPLAY_PROVIDER_LIFECYCLE_EMULATOR';
 
+// Include the regression's deploy replay, provider modules, helpers and fixtures too. Broad families
+// deliberately cover new/transitive dependencies rather than silently inheriting an unrelated green run.
+export const L5_INPUTS=Object.freeze([
+  'firestore*.rules','firestore.*.fragment.rules','firebase*.json',
+  'scripts/*firestore*','scripts/*rules*','scripts/inject-persistent-pair-rules.mjs',
+  'tests/firebase/**','tests/rules/**','data/transferOptions.js','package.json','package-lock.json',
+  '.github/workflows/showdown-gate.yml','scripts/showdown-gate.mjs',
+  'scripts/**','tests/**','js/**','data/**','.github/workflows/**','*.json','*.js','index.html','RELEASE*.md'
+]);
+export function l5Affected(files){
+  // Missing/malformed evidence must never authorize a skip.
+  if(!Array.isArray(files)||files.some(file=>typeof file!=='string'||!file))return true;
+  return files.some(file=>L5_INPUTS.some(glob=>path.matchesGlob(file,glob)));
+}
+export function l5Decision({event,baseRef,files}){
+  if(event!=='pull_request')return {l5_run:true,l5_reason:'event is not pull_request'};
+  if(baseRef==='main')return {l5_run:true,l5_reason:'PR targets main'};
+  if(typeof baseRef!=='string'||!baseRef.trim())return {l5_run:true,l5_reason:'PR base ref is unknown'};
+  if(l5Affected(files))return {l5_run:true,l5_reason:'L5 inputs changed or changed-file evidence is invalid'};
+  return {l5_run:false,l5_reason:'non-main PR with no L5 input changes'};
+}
+
 // Exactly the list `node tests/support/run-selected-product-contracts.cjs --all` executes.
 export function registeredContracts(){
   const manifest=readJson('CURRENT_PRODUCT_TEST_MANIFEST.json');
@@ -52,8 +74,9 @@ export function laneFlags(route){
   return Object.fromEntries([...ALL_GROUPS.map(group=>[`has_${group.toLowerCase()}`,groups.has(group)]),['lifecycle_routed',(route.proofs||[]).includes(LIFECYCLE_PROOF)]]);
 }
 // What a lane is responsible for on this route.
-export function selectedFor(lane,route){
+export function selectedFor(lane,route,{l5Run=true}={}){
   const def=LANES[lane];if(!def)throw new Error(`Unknown lane ${lane}`);
+  if(lane==='L5'&&l5Run===false)return [];
   const ids=[...def.fixed,...routedProofs(route,def.groups)];
   if(lane==='L1'){ids.push(...(route.tests||[]));if(route.operations)ids.push('OPERATIONS');}
   if(lane==='L4'&&(route.proofs||[]).includes(LIFECYCLE_PROOF))ids.push('LIFECYCLE_COMPOSED_RULES_BUILD','LIFECYCLE_COMPOSED_1_3_5_10');
@@ -79,6 +102,8 @@ export function routedIds(route){
 }
 
 function git(args){
+  // A rename away from an input still changes that input. Keep both paths in the diff evidence.
+  if(args[0]==='diff')args=[...args,'--no-renames'];
   const result=spawnSync('git',args,{cwd:root,encoding:'utf8',maxBuffer:64*1024*1024});
   if(result.status!==0)throw new Error(`git ${args.join(' ')} failed: ${result.stderr||result.error?.message}`);
   return result.stdout;
@@ -125,15 +150,20 @@ export function baseFromEnv(env=process.env){
   const event=env.GATE_EVENT||env.GITHUB_EVENT_NAME||null;
   return event==='pull_request'?(env.GATE_BASE_SHA||payload.pull_request?.base?.sha||null):(env.GATE_BEFORE_SHA||payload.before||null);
 }
+export function baseRefFromEnv(env=process.env){
+  let payload={};
+  if(env.GITHUB_EVENT_PATH)payload=JSON.parse(fs.readFileSync(env.GITHUB_EVENT_PATH,'utf8'));
+  return env.GATE_BASE_REF||payload.pull_request?.base?.ref||null;
+}
 
-export function buildLaneRecord({lane,headSha,baseSha,runId,runAttempt,route,steps,jobStatus}){
-  const selected=route?selectedFor(lane,route):[];
+export function buildLaneRecord({lane,headSha,baseSha,runId,runAttempt,route,steps,jobStatus,l5Run=true,l5Reason=null,files=null}){
+  const selected=route?selectedFor(lane,route,{l5Run}):[];
   const ran=route?ranFor(lane,route,steps):[];
-  return {schema:LANE_SCHEMA,lane,job:LANES[lane].job,head_sha:headSha,base_sha:baseSha??null,run_id:runId==null?null:Number(runId),run_attempt:runAttempt==null?null:Number(runAttempt),route_profile:route?.profile??null,route_digest:routeDigest(route),selected,ran,missing:selected.filter(id=>!ran.includes(id)),result:jobStatus||'unknown'};
+  return {schema:LANE_SCHEMA,lane,job:LANES[lane].job,head_sha:headSha,base_sha:baseSha??null,run_id:runId==null?null:Number(runId),run_attempt:runAttempt==null?null:Number(runAttempt),route_profile:route?.profile??null,route_digest:routeDigest(route),selected,ran,missing:selected.filter(id=>!ran.includes(id)),result:jobStatus||'unknown',...(lane==='L5'?{l5_run:l5Run,l5_reason:l5Reason,files}: {})};
 }
 
 // Pure seal evaluation. needs: {jobId:{result}}; lanes: {L1:laneRecord|null}; classification: classifyRun output or null.
-export function evaluateSeal({event,draft,headSha,baseSha=null,prLiveHead=null,route,needs,lanes,classification=null,runAttempt=null,runId=null}){
+export function evaluateSeal({event,draft,headSha,baseSha=null,baseRef=null,files=null,prLiveHead=null,route,needs,lanes,classification=null,runAttempt=null,runId=null}){
   const failures=[];
   const laneSummary={};
   for(const lane of LANE_IDS){
@@ -174,7 +204,13 @@ export function evaluateSeal({event,draft,headSha,baseSha=null,prLiveHead=null,r
     if(record.route_digest!==routeDigest(route))failures.push(`${lane}: route digest does not match the seal route`);
     if(record.result!=='success')failures.push(`${lane}: lane.json result ${record.result}`);
     if(!Array.isArray(record.selected)||!Array.isArray(record.ran)){failures.push(`${lane}: selected or ran ids are missing or invalid`);continue;}
-    const expected=selectedFor(lane,route);
+    let l5Skip=false;
+    if(lane==='L5'&&!record.ran.includes('COMPOSED_RULES_REGRESSION')){
+      l5Skip=record.l5_run===false&&l5Decision({event,baseRef,files}).l5_run===false&&
+        Array.isArray(record.files)&&JSON.stringify(record.files)===JSON.stringify(files);
+      if(!l5Skip)failures.push('L5: regression did not pass and the independent input recompute did not verify the recorded skip');
+    }
+    const expected=selectedFor(lane,route,{l5Run:!l5Skip});
     const missingSelection=expected.filter(id=>!(record.selected||[]).includes(id));
     if(missingSelection.length)failures.push(`${lane}: lane selected fewer ids than the route requires: ${missingSelection.join(', ')}`);
     const notRun=expected.filter(id=>!(record.ran||[]).includes(id));
@@ -223,22 +259,24 @@ async function cmdRoute(opts){
   const lane=opts.lane;
   if(lane&&!LANES[lane])throw new Error(`Unknown lane ${lane}`);
   const {event,files,route}=routeFromEnv();
-  const record={schema:'showdown-gate-route/v1',event,head_sha:process.env.GATE_HEAD_SHA,base_sha:baseFromEnv(),files,route};
+  const l5=l5Decision({event,baseRef:baseRefFromEnv(),files});
+  const record={schema:'showdown-gate-route/v1',event,head_sha:process.env.GATE_HEAD_SHA,base_sha:baseFromEnv(),files,route,...l5};
   if(opts.out)fs.writeFileSync(opts.out,`${JSON.stringify(record,null,2)}\n`);
-  const flags=laneFlags(route);
+  const flags={...laneFlags(route),...(lane==='L5'?l5:{})};
   writeOutputs(opts['github-output'],{profile:route.profile,proofs_csv:route.proofs.join(','),...flags});
-  console.log(`Showdown Gate route ${route.profile}: ${route.testCount} tests, ${route.proofCount} proofs, groups ${JSON.stringify(route.proofGroups||[])}${lane?`; ${lane} selects ${selectedFor(lane,route).length} ids`:''}`);
+  console.log(`Showdown Gate route ${route.profile}: ${route.testCount} tests, ${route.proofCount} proofs, groups ${JSON.stringify(route.proofGroups||[])}${lane?`; ${lane} selects ${selectedFor(lane,route,{l5Run:l5.l5_run}).length} ids`:''}`);
   console.log(JSON.stringify({files,profile:route.profile,proofs:route.proofs,flags}));
 }
-function readRoute(file){
+function readRouteRecord(file){
   if(!file||!fs.existsSync(file))return null;
-  return JSON.parse(fs.readFileSync(file,'utf8')).route;
+  return JSON.parse(fs.readFileSync(file,'utf8'));
 }
 async function cmdFinalize(opts){
   const lane=opts.lane;if(!LANES[lane])throw new Error(`Unknown lane ${lane}`);
   let steps={};
   try{steps=JSON.parse(process.env.GATE_STEPS_JSON||'{}');}catch{steps={};}
-  const record=buildLaneRecord({lane,headSha:process.env.GATE_HEAD_SHA,baseSha:baseFromEnv(),runId:process.env.GITHUB_RUN_ID,runAttempt:process.env.GATE_RUN_ATTEMPT,route:readRoute(opts.route),steps,jobStatus:process.env.GATE_JOB_STATUS});
+  const routeRecord=readRouteRecord(opts.route);
+  const record=buildLaneRecord({lane,headSha:process.env.GATE_HEAD_SHA,baseSha:baseFromEnv(),runId:process.env.GITHUB_RUN_ID,runAttempt:process.env.GATE_RUN_ATTEMPT,route:routeRecord?.route,steps,jobStatus:process.env.GATE_JOB_STATUS,l5Run:routeRecord?.l5_run===false?false:true,l5Reason:routeRecord?.l5_reason,files:routeRecord?.files});
   const out=opts.out||'lane.json';
   fs.mkdirSync(path.dirname(path.resolve(out)),{recursive:true});
   fs.writeFileSync(out,`${JSON.stringify(record,null,2)}\n`);
@@ -259,8 +297,8 @@ async function cmdSeal(opts){
     try{Object.assign(lanes,await fetchLaneRecords(githubClient(),repo,env.GITHUB_RUN_ID,LANE_IDS.filter(lane=>!lanes[lane])));}
     catch(error){console.error(`lane artifacts unavailable through the API: ${error.message.split('\n')[0]}`);}
   }
-  let route=null;
-  try{route=readRoute(opts.route);}catch(error){console.error(`route unreadable: ${error.message}`);}
+  let route=null;let files=null;
+  try{const record=readRouteRecord(opts.route);route=record?.route;files=record?.files??null;}catch(error){console.error(`route unreadable: ${error.message}`);}
   let prLiveHead=null;let classification=null;
   const anyRed=LANE_IDS.some(lane=>needs?.[LANES[lane].job]?.result!=='success');
   if(!draft&&repo&&(env.GITHUB_TOKEN||env.GH_TOKEN)){
@@ -277,7 +315,7 @@ async function cmdSeal(opts){
       }catch(error){console.error(`job classification unavailable: ${error.message.split('\n')[0]}`);}
     }
   }
-  const summary=evaluateSeal({event,draft,headSha,baseSha:baseFromEnv(env),prLiveHead,route,needs,lanes,classification,runAttempt,runId:env.GITHUB_RUN_ID?Number(env.GITHUB_RUN_ID):null});
+  const summary=evaluateSeal({event,draft,headSha,baseSha:baseFromEnv(env),baseRef:baseRefFromEnv(env),files,prLiveHead,route,needs,lanes,classification,runAttempt,runId:env.GITHUB_RUN_ID?Number(env.GITHUB_RUN_ID):null});
   summary.generated_at=new Date().toISOString();
   const out=opts.out||'gate-summary.json';
   fs.mkdirSync(path.dirname(path.resolve(out)),{recursive:true});

@@ -172,7 +172,8 @@ let checks=0;const ok=()=>{checks++;};
     for(const step of job.steps){
       if(commandLines(step.run).filter(line=>!/^(?:pkill|pgrep|for) /.test(line)).some(line=>TEST_COMMAND.test(line)))assert.match(step.label,/^TEST: /,`${def.job} step running tests must be named TEST: (${step.label})`);
       if(/^TEST: /.test(step.label)&&step.id!=='route')assert.ok(def.steps[step.id],`${def.job} TEST step "${step.label}" must record its ids in scripts/showdown-gate.mjs LANES`);
-      if(/^TEST: /.test(step.label)&&step.if)assert.match(step.if,/^(?:steps\.route\.outputs\.(?:has_[a-z]+|lifecycle_routed) == 'true')(?: \|\| steps\.route\.outputs\.(?:has_[a-z]+|lifecycle_routed) == 'true')*$/,`${def.job} TEST step "${step.label}" may only be conditioned on the route`);
+      if(laneId==='L5'&&step.id==='regression')assert.equal(step.if,"steps.route.outputs.l5_run == 'true'",'L5 regression must use its independently verified input route');
+      else if(/^TEST: /.test(step.label)&&step.if)assert.match(step.if,/^(?:steps\.route\.outputs\.(?:has_[a-z]+|lifecycle_routed) == 'true')(?: \|\| steps\.route\.outputs\.(?:has_[a-z]+|lifecycle_routed) == 'true')*$/,`${def.job} TEST step "${step.label}" may only be conditioned on the route`);
       assert.ok(!('continue-on-error' in step),`${def.job} "${step.label}" must not continue on error`);
     }
     const route=job.steps.find(s=>s.id==='route');
