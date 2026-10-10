@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-09 8:40 PM Boston time (EDT)",
+ "generated": "2026-10-09 8:45 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -317,7 +317,22 @@
    "revision": "1.9.1-r66",
    "when": "2026-10-09T16:04:25Z",
    "subject": "Release r66: Season Results on phones, closed Final Winner on both phones (#440)",
-   "fixes": [],
+   "fixes": [
+    {
+     "pr": 450,
+     "title": "Release r67: Olympiad fixes and private transfer locks",
+     "draft": false,
+     "branch": "release/r67",
+     "sha": "b4920f7bac20175c698095b45ad8fdc20aef5dac",
+     "updated": "2026-10-10T00:41:26Z",
+     "gates": {
+      "passed": 10,
+      "running": 7,
+      "failed": 0,
+      "cancelled": 0
+     }
+    }
+   ],
    "today": [
     {
      "pr": 440,
@@ -708,7 +723,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 39,
+  "moving": 40,
   "next": 1,
   "nik": 2,
   "later": 6,
@@ -1099,7 +1114,22 @@
     ]
    }
   },
-  "fixes": []
+  "fixes": [
+   {
+    "pr": 450,
+    "title": "Release r67: Olympiad fixes and private transfer locks",
+    "draft": false,
+    "branch": "release/r67",
+    "sha": "b4920f7bac20175c698095b45ad8fdc20aef5dac",
+    "updated": "2026-10-10T00:41:26Z",
+    "gates": {
+     "passed": 10,
+     "running": 7,
+     "failed": 0,
+     "cancelled": 0
+    }
+   }
+  ]
  },
  "jobs": [
   {
