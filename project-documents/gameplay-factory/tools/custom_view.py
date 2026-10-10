@@ -9,7 +9,7 @@ Writes, from the same data:
 Reads BOARD_STATE.json (run board.py first), progress/ (run collect_progress.py first), BOARD.json and BUGS.json.
 Anything that keeps a fact from being current is shown on the board itself as a ⚠ line.
 Run from the repo root: python3 project-documents/gameplay-factory/tools/custom_view.py"""
-import json, os, re, sys, datetime, html, subprocess
+import json, math, os, re, sys, datetime, html, subprocess
 from zoneinfo import ZoneInfo
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import eta as ETA
@@ -779,7 +779,7 @@ def dash_svg(SG, cur):
          f'<rect width="680" height="{H}" rx="14" fill="#20272d"/>',
          f'<g font-family="Arial,sans-serif" font-size="12" fill="#dce5e8"><text x="20" y="26" fill="#f0d900" font-size="15" font-weight="800">PROGRESS · TEAM G</text>',
          f'<circle cx="100" cy="{cy}" r="56" fill="none" stroke="#12191f" stroke-width="16"/>',
-         f'<circle cx="100" cy="{cy}" r="56" fill="none" stroke="#f0d900" stroke-width="16" stroke-dasharray="{C * pct / 100:.1f} {C:.1f}" transform="rotate(-90 100 {cy})"/>',
+         f'<path d="{arc_d(100, cy, 56, pct)}" fill="none" stroke="#f0d900" stroke-width="16" stroke-linecap="round"/>',
          f'<text x="100" y="{cy + 6}" text-anchor="middle" fill="#fbfcfc" font-size="19" font-weight="800">{pct:.0f}%</text>',
          f'<text x="100" y="{cy + 24}" text-anchor="middle" font-size="10">{e(SG[cur][0][:24]) if SG else ""}</text></g>']
     for i, (label, v, col) in enumerate(bars):
@@ -793,26 +793,39 @@ def dash_svg(SG, cur):
     return "".join(o)
 
 
+def arc_d(cx, cy, r, pct):
+    """Progress arc as a path (no dasharray, no transform: the Custom view's sanitizer strips those)."""
+    if pct >= 99.95:
+        return f"M{cx},{cy - r}A{r},{r} 0 1 1 {cx - 0.01:.2f},{cy - r}"
+    t = 2 * 3.14159265 * pct / 100
+    x, y = cx + r * math.sin(t), cy - r * math.cos(t)
+    return f"M{cx},{cy - r}A{r},{r} 0 {1 if t > 3.14159265 else 0} 1 {x:.2f},{y:.2f}" if pct > 0.05 else ""
+
+
 def dash_tab(SG, cur):
-    """The small version for the Custom view (under 1.5 KB): the stage ring and one stacked bar of job counts."""
+    """The small version for the Custom view (under 2 KB): the stage ring, one stacked bar in distinct colours and a legend."""
     pct = max(0.0, min(100.0, float(SG[cur][1]))) if SG else 0.0
-    segs = [(len(ns), "#22c55e") for _, ns in live_groups()] + [(len(Q["run"]), "#f0d900"), (len(Q["next"]), "#42b9da"),
-            (len(Q["wait"]), "#8ea2ac"), (len(WAIT_REL_Q), "#a78bfa"), (len([x for x in nik if not x.get("md")]), "#f97316")]
-    tot = max(1, sum(v for v, _ in segs))
-    C = 2 * 3.14159265 * 40
-    x, o = 0.0, []
-    for v, col in segs:
+    segs = [(f"Live {rv}", len(ns), c) for (rv, ns), c in zip(live_groups(), ["#22c55e", "#14b8a6", "#38bdf8", "#818cf8", "#c084fc"])]
+    segs += [("Running", len(Q["run"]), "#f0d900"), ("Next", len(Q["next"]), "#fb923c"), ("Waiting", len(Q["wait"]), "#94a3b8"),
+             ("Awaiting release", len(WAIT_REL_Q), "#f472b6"), ("Asks for Nik", len([x for x in nik if not x.get("md")]), "#f87171")]
+    tot = max(1, sum(v for _, v, _ in segs))
+    o, x, lg = [], 20.0, []
+    for i, (label, v, col) in enumerate(segs):
         if v:
             w = 600 * v / tot
-            o.append(f'<rect x="{x:.0f}" y="54" width="{w:.0f}" height="14" fill="{col}"/>')
+            o.append(f'<rect x="{x:.0f}" y="60" width="{max(w, 2):.0f}" height="14" fill="{col}"/>')
             x += w
-    return ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 84" width="100%">'
-            '<rect width="640" height="84" rx="12" fill="#2c353c"/>'
-            f'<circle cx="60" cy="42" r="40" fill="none" stroke="#12191f" stroke-width="12"/>'
-            f'<circle cx="60" cy="42" r="40" fill="none" stroke="#f0d900" stroke-width="12" stroke-dasharray="{C * pct / 100:.1f} {C:.1f}" transform="rotate(-90 60 42)"/>'
-            f'<text x="60" y="48" text-anchor="middle" fill="#fbfcfc" font-family="Arial,sans-serif" font-size="16" font-weight="800">{pct:.0f}%</text>'
-            f'<text x="120" y="30" fill="#8ea2ac" font-family="Arial,sans-serif" font-size="12">{e(SG[cur][0][:40]) if SG else ""}</text>'
-            + "".join(o) + '</svg>')
+        lx = 20 + (i % 4) * 150
+        ly = 92 + (i // 4) * 16
+        lg.append(f'<rect x="{lx}" y="{ly - 9}" width="10" height="10" rx="2" fill="{col}"/><text x="{lx + 15}" y="{ly}" font-family="Arial,sans-serif" font-size="11" fill="#dce5e8">{e(label)}: {v}</text>')
+    ring = arc_d(60, 40, 34, pct)
+    return ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 124" width="100%">'
+            '<rect width="640" height="124" rx="12" fill="#2c353c"/>'
+            '<circle cx="60" cy="40" r="34" fill="none" stroke="#12191f" stroke-width="10"/>'
+            + (f'<path d="{ring}" fill="none" stroke="#f0d900" stroke-width="10" stroke-linecap="round"/>' if ring else "")
+            + f'<text x="60" y="46" text-anchor="middle" fill="#fbfcfc" font-family="Arial,sans-serif" font-size="15" font-weight="800">{pct:.0f}%</text>'
+            f'<text x="110" y="24" fill="#8ea2ac" font-family="Arial,sans-serif" font-size="12">{e(SG[cur][0][:44]) if SG else ""}</text>'
+            + "".join(o) + "".join(lg) + "</svg>")
 
 
 def render(first, compact=False, tight=False):
@@ -977,6 +990,26 @@ if LV and LV.get("today"):
 _svg = dash_svg(*stages())
 open(os.path.join(F, "board-chart.svg"), "w").write(_svg)
 L[2:2] = ["![Team G progress](board-chart.svg)", ""]
+# history: jobs live per release, a bar per release (Haiku G, 2026-10-10). Free: built from RELEASED.json.
+_rel = {}
+for _n, _rv in (json.load(open(os.path.join(F, "RELEASED.json"))).get("jobs") or {}).items():
+    _rel[_rv] = _rel.get(_rv, 0) + 1
+_rv_sorted = sorted(_rel.items(), key=lambda kv: int(kv[0][1:]))
+_mx = max([v for _, v in _rv_sorted] + [1])
+_hw, _hh = 680, 60 + 34 * len(_rv_sorted) + 24
+_h = [f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {_hw} {_hh}" width="100%">',
+      f'<rect width="{_hw}" height="{_hh}" rx="14" fill="#20272d"/>',
+      '<text x="20" y="28" font-family="Arial,sans-serif" font-size="15" font-weight="800" fill="#f0d900">JOBS LIVE PER RELEASE</text>']
+for _i, (_rv, _v) in enumerate(_rv_sorted):
+    _y = 50 + _i * 34
+    _w = round(440 * _v / _mx)
+    _h.append(f'<text x="20" y="{_y + 15}" font-family="Arial,sans-serif" font-size="13" fill="#dce5e8">{_rv}</text>'
+              f'<rect x="80" y="{_y + 4}" width="440" height="16" rx="8" fill="#12191f"/>'
+              f'<rect x="80" y="{_y + 4}" width="{_w}" height="16" rx="8" fill="#22c55e"/>'
+              f'<text x="{80 + _w + 8}" y="{_y + 17}" font-family="Arial,sans-serif" font-size="13" font-weight="700" fill="#fbfcfc">{_v}</text>')
+_h.append("</svg>")
+open(os.path.join(F, "history-chart.svg"), "w").write("".join(_h))
+L[4:4] = ["![Jobs live per release](history-chart.svg)", ""]
 open(os.path.join(F, "BOARD.md"), "w").write("\n".join(L) + "\n")
 open(os.path.join(F, "BUG_BOARD.md"), "w").write("# Bug board\n\nFolded into the one board on 2026-10-06: see [BOARD.md](BOARD.md). Every bug report, fixed or not, is listed in [the archive](BOARD_ARCHIVE.md).\n")
 
