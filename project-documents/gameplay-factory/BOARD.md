@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Sat 10 Oct, 11:32 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Sat 10 Oct, 11:33 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r67** (main `f42dac2`, Fri 9 Oct 9:34 PM)
 
@@ -18,11 +18,11 @@ Updated Sat 10 Oct, 11:32 AM Boston time. Bug hunting only, no new features unti
 
 **#1 · 1580** `G` Showdown Gate: run the L5 lane only when its inputs changed  
 `██████░░░░` **60.0000 %**  
-⚪ Team white · **Codex default coding model** · High effort · worker done, PR #457 open, CI failed · CI 13 of 14 passed · last move 17 min ago
+⚪ Team white · **Codex default coding model** · High effort · worker done, PR #457 open, CI failed · CI 13 of 14 passed · last move 19 min ago
 
 **#2 · 1584** `G` Measure the transfer screens at ten window sizes (report only)  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · **Codex default coding model** · Medium effort · worker working, draft PR #469 · CI 6 of 7 passed · last move 16 min ago
+⚪ Team white · **Codex default coding model** · Medium effort · worker working, draft PR #469 · CI 6 of 7 passed · last move 17 min ago
 
 ### 👉 Next for you, in this order
 
@@ -115,16 +115,16 @@ One numbered queue: type a bare number in any GPT chat. Live from GitHub (queue/
 Type now, in any GPT chat:
 
 ```text
-28 29 30 31 32 33 34 35 36 37 38 39
+29 30 31 32 33 34 35 36 37 38 39 40
 ```
 
 Open code PRs: 0/8.
 
-27 taken of 518.
+28 taken of 518.
 
 | Stage | Items | Merged | Picked up |
 | --- | --- | --- | --- |
-| audits | 112 | 0/112 | 13/112 |
+| audits | 112 | 0/112 | 14/112 |
 | screen fixes | 266 | 0/266 | 14/266 |
 | mockup match | 14 | 0/14 | 0/14 |
 | phone studies | 70 | 0/70 | 0/70 |
@@ -134,6 +134,7 @@ Open code PRs: 0/8.
 
 | # | Job | State | Title |
 | --- | --- | --- | --- |
+| 28 | 1480 | branch only | Audit js/seasonEngine.js for gameplay bugs (second half) |
 | 27 | 1178 | on_train | Transfer challenge and Signing Entry: fix the 390x844 view |
 | 26 | 1479 | PR open | Audit js/seasonEngine.js for gameplay bugs (first half) |
 | 25 | 1149 | on_train | Club packs: fix the 390x844 view |
@@ -153,7 +154,6 @@ Open code PRs: 0/8.
 | 11 | 1206 | on_train | Season Results: fix the 360x640 view |
 | 10 | 1471 | PR open | Audit all screens: keyboard focus rings and reduced motion |
 | 9 | 1177 | on_train | Transfer challenge and Signing Entry: fix the 360x640 view |
-| 8 | 1470 | PR open | Audit all screens: phone held sideways: nothing hidden or overlapping |
 
 ## Mega tracker (live, free)
 
