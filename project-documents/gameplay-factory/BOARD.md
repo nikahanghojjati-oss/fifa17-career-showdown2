@@ -44,11 +44,13 @@ Not started
 
 One numbered queue: type a bare number in any GPT chat. Live from GitHub (queue/QUEUE_STATE.json).
 
-Next free number:
+Type now:
 
 ```text
-1
+1 2 3 4 5 6 7 8 9 10 11 12
 ```
+
+Open code PRs: 0/8.
 
 0 taken of 518.
 

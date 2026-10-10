@@ -787,32 +787,34 @@ def mega():
         rows.append({"n": int(n), "job": it.get("job"), "stage": str(it.get("stage")), "title": it.get("title", ""),
                      "state": WORD.get(t.get("state"), t.get("state") or "waiting"), "raw": t.get("state") or "waiting", "pr_url": t.get("pr_url")})
     rows.sort(key=lambda r: r["n"])
+    # the item ranges are fixed by the plan (Sol, 2026-10-10): numbers 1-100 audits, 101-378 screen fixes, 379-392 mockup match, 393-462 phone studies, 463-518 desktop studies
+    bands = [("audits", 1, 100), ("screen fixes", 101, 378), ("mockup match", 379, 392), ("phone studies", 393, 462), ("desktop studies", 463, 518)]
     stages = {}
-    for r in rows:
-        st = stages.setdefault(r["stage"], {"name": names.get(r["stage"], "stage " + r["stage"]), "lo": r["n"], "hi": r["n"], "taken": 0, "merged": 0, "total": 0})
-        st["hi"] = r["n"]
-        st["total"] += 1
-        st["taken"] += r["raw"] != "waiting"
-        st["merged"] += r["raw"] == "merged"
+    for name, lo, hi in bands:
+        inb = [r for r in rows if lo <= r["n"] <= hi]
+        stages[name] = {"name": name, "lo": lo, "hi": hi, "total": len(inb), "taken": sum(r["raw"] != "waiting" for r in inb), "merged": sum(r["raw"] == "merged" for r in inb)}
     taken = [r for r in rows if r["raw"] != "waiting"]
-    return {"next": seq.get("next_free"), "highest": seq.get("highest_taken", 0), "total": seq.get("total", len(rows)),
-            "stages": stages, "recent": taken[-20:][::-1]}
+    return {"next": seq.get("next_free"), "ready": seq.get("ready") or [], "open_prs": seq.get("open_code_prs", 0),
+            "highest": seq.get("highest_taken", 0), "total": seq.get("total", len(rows)), "stages": stages, "recent": taken[-20:][::-1]}
 
 
 def mega_tab(M):
     """Custom view: stage strip, a tap-to-copy box with the next free number, and a tile for each recent taken number."""
-    st = " · ".join(f'{v["name"]} {v["lo"]}-{v["hi"]}: {v["merged"]}/{v["total"]} merged' for _, v in sorted(M["stages"].items()))
+    st = " · ".join(f'{v["name"]} {v["lo"]}-{v["hi"]}: {v["merged"]}/{v["total"]} merged' for v in M["stages"].values())
     tiles = "".join(f'<span class="mt">#{r["n"]} {e(r["state"])}</span>' for r in M["recent"]) or '<span class="m">No number taken yet.</span>'
+    ready = M.get("ready") or []
+    typ = " ".join(str(n) for n in ready) or "nothing ready"
     return ('<div class="card"><b>Mega factory</b> <span class="m">' + e(st) + '</span>'
-            f'<br><span class="m">Next free number, type it in any GPT chat:</span><code class="cp">{M["next"]}</code>'
-            f'<span class="m">{M["highest"]} taken of {M["total"]}</span><br>' + tiles + "</div>")
+            f'<br><span class="m">Type now, any GPT chat:</span> <code class="cp">{e(str(ready[0])) if ready else ""}</code>'
+            f'<span class="m">Ready: {e(typ)} · open code PRs {M["open_prs"]}/8 · {M["highest"]} taken of {M["total"]}</span><br>' + tiles + "</div>")
 
 
 def mega_md(M):
     L = ["## Mega factory", "", "One numbered queue: type a bare number in any GPT chat. Live from GitHub (queue/QUEUE_STATE.json).", "",
-         "Next free number:", "", "```text", str(M["next"]), "```", "",
+         "Type now:", "", "```text", " ".join(str(n) for n in M["ready"]) or "nothing ready", "```", "",
+         f"Open code PRs: {M['open_prs']}/8.", "",
          f"{M['highest']} taken of {M['total']}.", "", "| Stage | Numbers | Merged | Picked up |", "| --- | --- | --- | --- |"]
-    L += [f"| {v['name']} | {v['lo']}-{v['hi']} | {v['merged']}/{v['total']} | {v['taken']}/{v['total']} |" for _, v in sorted(M["stages"].items())]
+    L += [f"| {v['name']} | {v['lo']}-{v['hi']} | {v['merged']}/{v['total']} | {v['taken']}/{v['total']} |" for v in M["stages"].values()]
     L += ["", "**Last taken numbers**", "", "| # | Job | State | Title |", "| --- | --- | --- | --- |"]
     L += [f"| {r['n']} | {r['job']} | {r['state']} | {r['title']} |" for r in M["recent"]] or ["| — | — | nothing taken yet | — |"]
     return L + [""]
