@@ -282,6 +282,29 @@ check("F3b a stylesheet toggled while loading is never dropped; it ends with the
   assert.deepEqual(root.errors,[]);
 });
 
+check("F3c a Team V screen that is still loading keeps Team V's page look: no old header, background or sheets in between",async()=>{
+  const root=await installed();
+  const V=root.CareerModeV10Screens,html=root.document.documentElement;
+  let release=null;
+  V.register("dashboard",{css:["test/dash.css"],frame:()=>({}),mount(){},unmount(){}});
+  V.register("transferChallenge",{css:["test/transfer.css"],prepare:()=>new Promise(resolve=>{release=resolve;}),frame:()=>({}),mount(){},unmount(){}});
+  V.register("seasonSummary",{frame:()=>null,mount(){}});
+  root.showScreen("dashboard");await flush();
+  assert.equal(html.dataset.v10Screen,"dashboard");
+  root.showScreen("transferChallenge");await flush();
+  assert.equal(V.isMounted("transferChallenge"),false,"still loading");
+  assert.equal(html.dataset.v10Screen,"transferChallenge","the loading screen keeps html[data-v10-screen] (css/v10Shell.css header, footer and page base)");
+  for(const file of KIT_STYLES)assert.equal(linkFor(root,file).disabled,false,`${file} stays on while the next Team V screen loads`);
+  release();await flush();
+  assert.equal(V.isMounted("transferChallenge"),true);
+  assert.equal(html.dataset.v10Screen,"transferChallenge");
+  root.showScreen("seasonSummary");await flush();
+  assert.equal(html.dataset.v10Screen,undefined,"a null frame (app's own screen) ends the Team V page look once settled");
+  root.showScreen("mainMenu");await flush();
+  assert.equal(html.dataset.v10Screen,undefined,"an unregistered screen has no Team V page look");
+  assert.deepEqual(root.errors,[]);
+});
+
 check("F4 one showScreen hook dispatches career-mode-screen-shown; the app's result is unchanged",async()=>{
   const root=makeApp();
   const original=root.showScreen;
@@ -393,8 +416,8 @@ check("F8 the bar is hidden on Loading and appears only after start-up",async()=
 check("F9 images use a runtime cache keyed by RUNTIME_REVISION; the precache keeps only kit, fonts, CSS and JS",()=>{
   const sw=read("service-worker.js"),html=read("index.html");
   const revision=/const RUNTIME_REVISION = "([^"]+)";/.exec(sw)[1];
-  assert.equal(revision,"1.9.1-r68","RUNTIME_REVISION is the Season Results fixes release (1.9.1-r68)");
-  assert.equal(/const PREVIOUS_RUNTIME_REVISION = "([^"]+)";/.exec(sw)[1],"1.9.1-r67");
+  assert.equal(revision,"1.9.1-r69","RUNTIME_REVISION is the old-design flash fix release (1.9.1-r69)");
+  assert.equal(/const PREVIOUS_RUNTIME_REVISION = "([^"]+)";/.exec(sw)[1],"1.9.1-r68");
   assert.equal(/app-asset-revision"\s+content="([^"]+)/.exec(html)[1],revision);
   const shell=JSON.parse(/const SHELL_PATHS\s*=\s*Object\.freeze\((\[[\s\S]*?\])\);/.exec(sw)[1]);
   const v10=shell.filter(p=>p.startsWith("visual-assets/v10_1/"));
@@ -443,24 +466,24 @@ function swWorld(){
 
 check("F9b a rollback keeps its own Team V images (offline too); other old image caches are cleared",async()=>{
   const w=swWorld(),cur=w.diag.revision,prev=w.diag.previousRevision,IMG="career-mode-showdown-v10-images-";
-  assert.equal(cur,"1.9.1-r68");assert.equal(prev,"1.9.1-r67");
+  assert.equal(cur,"1.9.1-r69");assert.equal(prev,"1.9.1-r68");
   w.fill(cur);const prevShell=w.fill(prev);
   const art="visual-assets/v10_1/trophy-room/assets/ENV_TR_PHONE_V1.webp",only="visual-assets/v10_1/career-statistics/assets/ENV_CS_PLATE_V1_1X.webp";
   // An older revision precached the art in its shell; the retained shell still has it.
   const legacyKey=new URL(only,w.SCOPE);legacyKey.searchParams.set("v",prev);prevShell.set(legacyKey.href,new Response("prev-shell-art",{status:200}));
   const put=(revision,p,body)=>{if(!w.store.has(IMG+revision))w.store.set(IMG+revision,new Map());w.store.get(IMG+revision).set(w.SCOPE+p,new Response(body,{status:200}));};
-  put(cur,art,"r68-art");put(prev,art,"r67-art");put("1.9.1-r50",art,"r50-art");
+  put(cur,art,"r69-art");put(prev,art,"r68-art");put("1.9.1-r50",art,"r50-art");
   await w.dispatch("activate",{});
   const names=[...w.store.keys()];
   assert.ok(names.includes(IMG+cur),"current image cache kept");
   assert.ok(names.includes(IMG+prev),"recovery image cache kept with its retained shell");
   assert.ok(!names.includes(IMG+"1.9.1-r50"),"other old image caches cleared");
   w.net.set("/app/"+art,"network-art");w.net.set("/app/"+only,"network-art");
-  assert.deepEqual(await w.image(art),{status:200,body:"r68-art"},"current revision: its own image cache first");
+  assert.deepEqual(await w.image(art),{status:200,body:"r69-art"},"current revision: its own image cache first");
   let reply;await w.dispatch("message",{data:{type:"CMS_ROLLBACK_TO_PREVIOUS"},ports:[{postMessage:m=>{reply=m;}}]});
   assert.equal(reply&&reply.ok,true,"rollback accepted");assert.equal(reply.revision,prev);
   w.setOnline(false);
-  assert.deepEqual(await w.image(art),{status:200,body:"r67-art"},"offline rollback: the retained revision's art, not the newer one");
+  assert.deepEqual(await w.image(art),{status:200,body:"r68-art"},"offline rollback: the retained revision's art, not the newer one");
   assert.deepEqual(await w.image(only),{status:200,body:"prev-shell-art"},"offline rollback: art the retained shell precached");
   w.setOnline(true);
   const fresh="visual-assets/v10_1/trophy-room/assets/NEW_ONLY.webp";w.net.set("/app/"+fresh,"net-fresh");
@@ -628,7 +651,7 @@ check("F9c every shipped Team V image path names one generation (versioned name,
 });
 
 check("F10 index.html is unchanged and the startup line is not higher",()=>{
-  assert.equal(sha256("index.html"),"9ddea53d5a82b7903c09bfd0740211be999f22e0ae9f7ceacf23ca141b8a7b55","index.html byte-identical to the r68 release");
+  assert.equal(sha256("index.html"),"770401594b2e55238c10b0bd9f473e769bf5b231b9936854ea03f6f74c962343","index.html byte-identical to the r69 release");
   const html=read("index.html");
   for(const banned of ["v10Screens","navbar","visual-assets/v10_1","startJoinViewModel"])assert.ok(!html.includes(banned),banned);
   const refs=[...html.matchAll(/(?:src|href)="((?:js|css|data)\/[^"?#]+)(?:\?v=([^"#]+))?/g)].map(m=>m[1]);

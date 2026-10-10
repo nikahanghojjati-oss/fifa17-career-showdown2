@@ -15,6 +15,10 @@ html #app #topHeader { color: var(--f17-ink); font-family: var(--f17-ui); }
 /* While Team V's look for a screen is still loading, the app's own content in that screen stays invisible (js/v10Screens.js
    expect/settle; never longer than the loader's timeout). Opacity, not display or visibility, so layout and focus are kept. */
 [data-v10-pending] > * { opacity: 0 !important; transition: none !important; }
+/* Team V's dark page base under every Team V screen, including while its look is still loading: without it the app's
+   old light page colour (css/app.css html, body, #background) showed for a moment on every screen change. */
+html[data-v10-screen], html[data-v10-screen] body { background: #060709; }
+html[data-v10-screen] #background { background: #060709; }
 
 /* Home (HM1, css/homeV10.css): the app header stays Home's two chips and the footer keeps its dark band, exactly as in r56.
    js/v10Screens.js marks Home html[data-v10-screen="mainMenu"], so the HO-003 rules below leave it out. */
