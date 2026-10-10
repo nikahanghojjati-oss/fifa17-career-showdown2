@@ -1,13 +1,13 @@
-# Mega factory run report · 2026-10-10T19:48:24Z
+# Mega factory run report · 2026-10-10T19:54:19Z
 
-Taken 48 of 518 jobs. By state: on_train 22, pr_open 26, waiting 470
+Taken 95 of 518 jobs. By state: on_train 22, pr_open 73, waiting 423
 
 ## By stage
 Stage | name | total | picked up | merged
 --- | --- | --- | --- | ---
-1 | audits | 112 | 26 | 0
-2 | screen fixes | 266 | 22 | 0
-3 | mockup match | 14 | 0 | 0
+1 | audits | 112 | 63 | 0
+2 | screen fixes | 266 | 31 | 0
+3 | mockup match | 14 | 1 | 0
 4 | phone studies | 70 | 0 | 0
 5 | desktop studies | 56 | 0 | 0
 
@@ -20,7 +20,9 @@ gameplay/train-league-1 | 3 of 5 | - | on train, no PR yet
 gameplay/train-club-1 | 3 of 5 | - | on train, no PR yet
 gameplay/train-transfer-1 | 2 of 5 | - | on train, no PR yet
 gameplay/train-season-final-1 | 2 of 5 | - | on train, no PR yet
-gameplay/train-rivalry-legacy-1 | 2 of 5 | - | on train, no PR yet
+gameplay/train-rivalry-legacy-1 | 5 of 5 | [#509](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/509) | pr_open
+gameplay/train-rivalry-legacy-2 | 5 of 5 | [#521](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/521) | pr_open
+gameplay/train-rivalry-legacy-3 | 2 of 5 | - | on train, no PR yet
 gameplay/train-career-screens-1 | 2 of 5 | - | on train, no PR yet
 gameplay/train-rules-settings-1 | 2 of 5 | - | on train, no PR yet
 
@@ -52,7 +54,44 @@ Number | job | title | state | link
 128 | 1530 | Audit js/sparkTerminalClose.js for gameplay bugs (second half) | pr_open | [PR #488](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/488)
 130 | 1531 | Audit js/productionSharedCanonicalScoring.js for gameplay bugs (first half) | pr_open | [PR #489](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/489)
 132 | 1532 | Audit js/productionSharedCanonicalScoring.js for gameplay bugs (second half) | pr_open | [PR #490](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/490)
+134 | 1533 | Audit js/productionSharedHistoryConvergence.js for gameplay bugs (first half) | pr_open | [PR #493](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/493)
+136 | 1534 | Audit js/productionSharedHistoryConvergence.js for gameplay bugs (second half) | pr_open | [PR #494](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/494)
+138 | 1535 | Audit js/sharedHistoryConvergence.js for gameplay bugs (first half) | pr_open | [PR #496](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/496)
+140 | 1536 | Audit js/sharedHistoryConvergence.js for gameplay bugs (second half) | pr_open | [PR #497](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/497)
+142 | 1537 | Audit js/sharedJourneyReconnect.js for gameplay bugs (first half) | pr_open | [PR #500](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/500)
+144 | 1538 | Audit js/sharedJourneyReconnect.js for gameplay bugs (second half) | pr_open | [PR #501](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/501)
+146 | 1539 | Audit js/sharedActiveShowdownAdapter.js for gameplay bugs (first half) | pr_open | [PR #504](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/504)
+148 | 1540 | Audit js/sharedActiveShowdownAdapter.js for gameplay bugs (second half) | pr_open | [PR #505](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/505)
+150 | 1541 | Audit js/statistics.js for gameplay bugs (first half) | pr_open | [PR #510](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/510)
+152 | 1542 | Audit js/statistics.js for gameplay bugs (second half) | pr_open | [PR #511](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/511)
+154 | 1543 | Audit js/legacy.js for gameplay bugs (first half) | pr_open | [PR #514](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/514)
+156 | 1544 | Audit js/legacy.js for gameplay bugs (second half) | pr_open | [PR #515](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/515)
+158 | 1545 | Audit js/analytics.js for gameplay bugs (first half) | pr_open | [PR #518](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/518)
+160 | 1546 | Audit js/analytics.js for gameplay bugs (second half) | pr_open | [PR #519](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/519)
+162 | 1547 | Audit js/settings.js for gameplay bugs (first half) | pr_open | [PR #522](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/522)
+164 | 1548 | Audit js/settings.js for gameplay bugs (second half) | pr_open | [PR #523](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/523)
+166 | 1549 | Audit js/screens.js for gameplay bugs (first half) | pr_open | [PR #525](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/525)
+168 | 1550 | Audit js/screens.js for gameplay bugs (second half) | pr_open | [PR #526](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/526)
+170 | 1551 | Audit js/menuExperience.js for gameplay bugs (first half) | pr_open | [PR #529](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/529)
+172 | 1552 | Audit js/menuExperience.js for gameplay bugs (second half) | pr_open | [PR #530](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/530)
 176 | 1554 | Audit js/clubAssignment.js for gameplay bugs (second half) | pr_open | [PR #491](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/491)
+178 | 1555 | Audit js/storage.js for gameplay bugs (first half) | pr_open | [PR #492](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/492)
+180 | 1556 | Audit js/storage.js for gameplay bugs (second half) | pr_open | [PR #495](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/495)
+182 | 1557 | Audit js/diagnostics.js for gameplay bugs (first half) | pr_open | [PR #498](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/498)
+184 | 1558 | Audit js/diagnostics.js for gameplay bugs (second half) | pr_open | [PR #499](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/499)
+186 | 1559 | Audit js/offlineApp.js for gameplay bugs (first half) | pr_open | [PR #502](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/502)
+188 | 1560 | Audit js/offlineApp.js for gameplay bugs (second half) | pr_open | [PR #503](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/503)
+190 | 1561 | Audit js/sparkCompletedShowdownReader.js for gameplay bugs (first half) | pr_open | [PR #507](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/507)
+192 | 1562 | Audit js/sparkCompletedShowdownReader.js for gameplay bugs (second half) | pr_open | [PR #508](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/508)
+194 | 1563 | Audit js/sparkCompletedTransferHistoryReader.js for gameplay bugs (first half) | pr_open | [PR #512](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/512)
+196 | 1564 | Audit js/sparkCompletedTransferHistoryReader.js for gameplay bugs (second half) | pr_open | [PR #513](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/513)
+198 | 1565 | Audit js/careerScreensV10.js for gameplay bugs (first half) | pr_open | [PR #516](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/516)
+200 | 1566 | Audit js/careerScreensV10.js for gameplay bugs (second half) | pr_open | [PR #517](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/517)
+202 | 1567 | Audit js/rivalryLegacyV10.js for gameplay bugs (first half) | pr_open | [PR #520](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/520)
+204 | 1568 | Audit js/rivalryLegacyV10.js for gameplay bugs (second half) | pr_open | [PR #524](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/524)
+206 | 1569 | Audit js/transferScreenV10.js for gameplay bugs (first half) | pr_open | [PR #527](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/527)
+208 | 1570 | Audit js/transferScreenV10.js for gameplay bugs (second half) | pr_open | [PR #528](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/528)
+210 | 1571 | Audit js/clubScreenV10.js for gameplay bugs (first half) | pr_open | [PR #531](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/531)
 
 ## Needs a look (blocked, no change needed, needs Team V or mockup)
 
