@@ -1260,11 +1260,11 @@
      "team": "blue",
      "model": "GPT-6 Sol",
      "effort": "High",
-     "place": "ChatGPT project \"Career Mode Showdown\", new normal chat",
+     "place": "nothing to type: merged",
      "prompt": "",
      "title": "Transfer countdown agrees across both phones (Sol lead S4)",
      "order": 30,
-     "state": "worker done, lead checking (PR #449): brought up to date with bug-list-1 after 1055; CI running"
+     "state": "done (merged into bug-list-1, PR #449)"
     }
    ]
   },
