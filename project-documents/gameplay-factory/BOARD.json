@@ -1301,7 +1301,7 @@
      "effort": "High",
      "state": "next: ready for Sol chat",
      "order": 33,
-     "place": "ChatGPT project \"Career Mode Showdown\", normal chat",
+     "place": "ChatGPT project \"Career Mode Showdown\", normal chat · paste the WHOLE line below, never just the number",
      "note": "ticket jobs/JOB-1579.md",
      "prompt": "Job 1579: read project-documents/gameplay-factory/jobs/JOB-1579.md on branch factory/gameplay-v1 with the GitHub connector and do exactly what it says."
     },
@@ -1314,7 +1314,7 @@
      "effort": "High",
      "state": "next: ready for Codex",
      "order": 34,
-     "place": "Codex cloud, this repo",
+     "place": "Codex cloud, this repo · paste the WHOLE line below, never just the number",
      "note": "ticket jobs/JOB-1580.md",
      "prompt": "Job 1580: git fetch origin factory/gameplay-v1, then read git show FETCH_HEAD:project-documents/gameplay-factory/jobs/JOB-1580.md and do exactly what it says."
     },
@@ -1327,7 +1327,7 @@
      "effort": "High",
      "state": "later: after 1580 merges",
      "order": 35,
-     "place": "Codex cloud, this repo",
+     "place": "Codex cloud, this repo · paste the WHOLE line below, never just the number",
      "note": "ticket jobs/JOB-1581.md",
      "prompt": "Job 1581: git fetch origin factory/gameplay-v1, then read git show FETCH_HEAD:project-documents/gameplay-factory/jobs/JOB-1581.md and do exactly what it says."
     },
@@ -1340,7 +1340,7 @@
      "effort": "Medium",
      "state": "later: after 1581 merges",
      "order": 36,
-     "place": "Codex cloud, this repo",
+     "place": "Codex cloud, this repo · paste the WHOLE line below, never just the number",
      "note": "ticket jobs/JOB-1582.md",
      "prompt": "Job 1582: git fetch origin factory/gameplay-v1, then read git show FETCH_HEAD:project-documents/gameplay-factory/jobs/JOB-1582.md and do exactly what it says."
     },
@@ -1353,7 +1353,7 @@
      "effort": "Medium",
      "state": "next: ready for Codex (report only)",
      "order": 37,
-     "place": "Codex cloud, this repo",
+     "place": "Codex cloud, this repo · paste the WHOLE line below, never just the number",
      "note": "ticket jobs/JOB-1583.md (mega factory C4-C7)",
      "prompt": "Job 1583: git fetch origin factory/gameplay-v1, then read git show FETCH_HEAD:project-documents/gameplay-factory/jobs/JOB-1583.md and do exactly what it says."
     },
@@ -1366,7 +1366,7 @@
      "effort": "Medium",
      "state": "next: ready for Codex (report only)",
      "order": 38,
-     "place": "Codex cloud, this repo",
+     "place": "Codex cloud, this repo · paste the WHOLE line below, never just the number",
      "note": "ticket jobs/JOB-1584.md (mega factory C4-C7)",
      "prompt": "Job 1584: git fetch origin factory/gameplay-v1, then read git show FETCH_HEAD:project-documents/gameplay-factory/jobs/JOB-1584.md and do exactly what it says."
     },
@@ -1379,7 +1379,7 @@
      "effort": "Medium",
      "state": "next: ready for Codex (report only)",
      "order": 39,
-     "place": "Codex cloud, this repo",
+     "place": "Codex cloud, this repo · paste the WHOLE line below, never just the number",
      "note": "ticket jobs/JOB-1585.md (mega factory C4-C7)",
      "prompt": "Job 1585: git fetch origin factory/gameplay-v1, then read git show FETCH_HEAD:project-documents/gameplay-factory/jobs/JOB-1585.md and do exactly what it says."
     },
@@ -1392,7 +1392,7 @@
      "effort": "Medium",
      "state": "next: ready for Codex (report only)",
      "order": 40,
-     "place": "Codex cloud, this repo",
+     "place": "Codex cloud, this repo · paste the WHOLE line below, never just the number",
      "note": "ticket jobs/JOB-1586.md (mega factory C4-C7)",
      "prompt": "Job 1586: git fetch origin factory/gameplay-v1, then read git show FETCH_HEAD:project-documents/gameplay-factory/jobs/JOB-1586.md and do exactly what it says."
     },
@@ -1405,7 +1405,7 @@
      "effort": "High",
      "state": "next: ready for Sol chat",
      "order": 41,
-     "place": "ChatGPT project \"Career Mode Showdown\", normal chat",
+     "place": "ChatGPT project \"Career Mode Showdown\", normal chat · paste the WHOLE line below, never just the number",
      "note": "ticket jobs/JOB-1587.md",
      "prompt": "Job 1587: read project-documents/gameplay-factory/jobs/JOB-1587.md on branch factory/gameplay-v1 with the GitHub connector and do exactly what it says."
     }
