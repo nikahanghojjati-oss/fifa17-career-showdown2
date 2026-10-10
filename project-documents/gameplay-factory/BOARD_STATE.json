@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-10 4:59 PM Boston time (EDT)",
+ "generated": "2026-10-10 5:07 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -338,18 +338,7 @@
    "source": "physio"
   },
   "v_headline": "Queued next",
-  "v_jobs": [
-   {
-    "job": "V-247",
-    "title": "Phone Home tile icons like GOAL_HOME",
-    "worker": "Opus",
-    "lane": "opus",
-    "done": 4,
-    "total": 4,
-    "pr": 381,
-    "current": "Done; handed to Team G as HO-006"
-   }
-  ],
+  "v_jobs": [],
   "inbox": {
    "G": true,
    "V": true

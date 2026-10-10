@@ -1,12 +1,12 @@
 {
-"updated": "2026-10-10T21:00:08Z",
+"updated": "2026-10-10T21:07:57Z",
 "total": 518,
 "next_free": 45,
 "highest_taken": 395,
 "counts": {
 "on_train": 20,
-"draft": 109,
-"waiting": 389
+"draft": 132,
+"waiting": 366
 },
 "stages": {
 "2": {
@@ -22,8 +22,8 @@
 "name": "Gameplay audits",
 "total": 112,
 "states": {
-"draft": 84,
-"waiting": 28
+"draft": 107,
+"waiting": 5
 }
 },
 "3": {
@@ -92,13 +92,13 @@
 51,
 53,
 55,
-56,
 57,
-58,
 59,
-60,
 61,
-62
+76,
+78,
+80,
+82
 ],
 "ready_sol": [
 45,
@@ -106,19 +106,19 @@
 51,
 53,
 55,
-56,
 57,
-58,
 59,
-60,
 61,
-62
+76,
+78,
+80,
+82
 ],
 "ready_codex": []
 },
 "rate": {
-"claimed_last_hour": 13,
-"claimed_last_10min": 13,
+"claimed_last_hour": 36,
+"claimed_last_10min": 34,
 "merged_last_hour": 0
 },
 "events": [
@@ -1101,6 +1101,167 @@
 "job": 1515,
 "from": "waiting",
 "to": "draft"
+},
+{
+"at": "2026-10-10T21:07:57Z",
+"item": 56,
+"job": 1494,
+"from": "waiting",
+"to": "draft"
+},
+{
+"at": "2026-10-10T21:07:57Z",
+"item": 58,
+"job": 1495,
+"from": "waiting",
+"to": "draft"
+},
+{
+"at": "2026-10-10T21:07:57Z",
+"item": 60,
+"job": 1496,
+"from": "waiting",
+"to": "draft"
+},
+{
+"at": "2026-10-10T21:07:57Z",
+"item": 62,
+"job": 1497,
+"from": "waiting",
+"to": "draft"
+},
+{
+"at": "2026-10-10T21:07:57Z",
+"item": 64,
+"job": 1498,
+"from": "waiting",
+"to": "draft"
+},
+{
+"at": "2026-10-10T21:07:57Z",
+"item": 66,
+"job": 1499,
+"from": "waiting",
+"to": "draft"
+},
+{
+"at": "2026-10-10T21:07:57Z",
+"item": 68,
+"job": 1500,
+"from": "waiting",
+"to": "draft"
+},
+{
+"at": "2026-10-10T21:07:57Z",
+"item": 70,
+"job": 1501,
+"from": "waiting",
+"to": "draft"
+},
+{
+"at": "2026-10-10T21:07:57Z",
+"item": 72,
+"job": 1502,
+"from": "waiting",
+"to": "draft"
+},
+{
+"at": "2026-10-10T21:07:57Z",
+"item": 74,
+"job": 1503,
+"from": "waiting",
+"to": "draft"
+},
+{
+"at": "2026-10-10T21:07:57Z",
+"item": 100,
+"job": 1516,
+"from": "waiting",
+"to": "draft"
+},
+{
+"at": "2026-10-10T21:07:57Z",
+"item": 102,
+"job": 1517,
+"from": "waiting",
+"to": "draft"
+},
+{
+"at": "2026-10-10T21:07:57Z",
+"item": 104,
+"job": 1518,
+"from": "waiting",
+"to": "draft"
+},
+{
+"at": "2026-10-10T21:07:57Z",
+"item": 106,
+"job": 1519,
+"from": "waiting",
+"to": "draft"
+},
+{
+"at": "2026-10-10T21:07:57Z",
+"item": 108,
+"job": 1520,
+"from": "waiting",
+"to": "draft"
+},
+{
+"at": "2026-10-10T21:07:57Z",
+"item": 110,
+"job": 1521,
+"from": "waiting",
+"to": "draft"
+},
+{
+"at": "2026-10-10T21:07:57Z",
+"item": 112,
+"job": 1522,
+"from": "waiting",
+"to": "draft"
+},
+{
+"at": "2026-10-10T21:07:57Z",
+"item": 114,
+"job": 1523,
+"from": "waiting",
+"to": "draft"
+},
+{
+"at": "2026-10-10T21:07:57Z",
+"item": 116,
+"job": 1524,
+"from": "waiting",
+"to": "draft"
+},
+{
+"at": "2026-10-10T21:07:57Z",
+"item": 118,
+"job": 1525,
+"from": "waiting",
+"to": "draft"
+},
+{
+"at": "2026-10-10T21:07:57Z",
+"item": 120,
+"job": 1526,
+"from": "waiting",
+"to": "draft"
+},
+{
+"at": "2026-10-10T21:07:57Z",
+"item": 122,
+"job": 1527,
+"from": "waiting",
+"to": "draft"
+},
+{
+"at": "2026-10-10T21:07:57Z",
+"item": 124,
+"job": 1528,
+"from": "waiting",
+"to": "draft"
 }
 ],
 "items": {
@@ -1975,8 +2136,19 @@
 "title": "Audit js/persistentNikDanielPair.js for gameplay bugs (second half)",
 "mode": "audit",
 "group": null,
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"pr": 558,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/558",
+"base": "qa/mega-audits",
+"branch": "qa/job-1494-persistentnikdanielpair-2-audit",
+"ci": "draft",
+"ci_sha": "896ffde9b7818e937087dbc31612e309affea8c5",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-10T21:00:44Z",
+"first_seen": "2026-10-10T21:00:44Z",
+"since": "2026-10-10T21:07:57Z"
 },
 "57": {
 "job": 1093,
@@ -1993,8 +2165,19 @@
 "title": "Audit js/sparkConnectedRivalry.js for gameplay bugs (first half)",
 "mode": "audit",
 "group": null,
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"pr": 560,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/560",
+"base": "qa/mega-audits",
+"branch": "qa/job-1495-sparkconnectedrivalry-1-audit",
+"ci": "draft",
+"ci_sha": "841ab50fa81f4f2026e644bbae5b5356b6a20263",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-10T21:01:24Z",
+"first_seen": "2026-10-10T21:01:24Z",
+"since": "2026-10-10T21:07:57Z"
 },
 "59": {
 "job": 1122,
@@ -2011,8 +2194,19 @@
 "title": "Audit js/sparkConnectedRivalry.js for gameplay bugs (second half)",
 "mode": "audit",
 "group": null,
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"pr": 563,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/563",
+"base": "qa/mega-audits",
+"branch": "qa/job-1496-sparkconnectedrivalry-2-audit",
+"ci": "draft",
+"ci_sha": "cc5c96b5ef238b86f617ce342c16d8b6a4175ee8",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-10T21:02:14Z",
+"first_seen": "2026-10-10T21:02:14Z",
+"since": "2026-10-10T21:07:57Z"
 },
 "61": {
 "job": 1151,
@@ -2029,8 +2223,19 @@
 "title": "Audit js/visualIdentity.js for gameplay bugs (first half)",
 "mode": "audit",
 "group": null,
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"pr": 565,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/565",
+"base": "qa/mega-audits",
+"branch": "qa/job-1497-visualidentity-1-audit",
+"ci": "draft",
+"ci_sha": "f611327bf0784bc134255184b8db3c5bf27a9e6a",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-10T21:02:44Z",
+"first_seen": "2026-10-10T21:02:44Z",
+"since": "2026-10-10T21:07:57Z"
 },
 "63": {
 "job": 1180,
@@ -2047,8 +2252,19 @@
 "title": "Audit js/visualIdentity.js for gameplay bugs (second half)",
 "mode": "audit",
 "group": null,
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"pr": 568,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/568",
+"base": "qa/mega-audits",
+"branch": "qa/job-1498-visualidentity-2-audit",
+"ci": "draft",
+"ci_sha": "11d959f870bf15282b3f8ca62b38e1889abe467e",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-10T21:03:27Z",
+"first_seen": "2026-10-10T21:03:27Z",
+"since": "2026-10-10T21:07:57Z"
 },
 "65": {
 "job": 1209,
@@ -2065,8 +2281,19 @@
 "title": "Audit js/saveLibraryRuntime.js for gameplay bugs (first half)",
 "mode": "audit",
 "group": null,
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"pr": 570,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/570",
+"base": "qa/mega-audits",
+"branch": "qa/job-1499-savelibraryruntime-1-audit",
+"ci": "draft",
+"ci_sha": "7be185b93e49092ec348dcdd129eb0d03011759d",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-10T21:04:10Z",
+"first_seen": "2026-10-10T21:04:10Z",
+"since": "2026-10-10T21:07:57Z"
 },
 "67": {
 "job": 1296,
@@ -2094,8 +2321,19 @@
 "title": "Audit js/saveLibraryRuntime.js for gameplay bugs (second half)",
 "mode": "audit",
 "group": null,
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"pr": 573,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/573",
+"base": "qa/mega-audits",
+"branch": "qa/job-1500-savelibraryruntime-2-audit",
+"ci": "draft",
+"ci_sha": "6ce33a8c39b60574f8cad6bac4d360a2e21f0835",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-10T21:05:03Z",
+"first_seen": "2026-10-10T21:05:03Z",
+"since": "2026-10-10T21:07:57Z"
 },
 "69": {
 "job": 1325,
@@ -2112,8 +2350,19 @@
 "title": "Audit js/saveLibraryUI.js for gameplay bugs (first half)",
 "mode": "audit",
 "group": null,
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"pr": 576,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/576",
+"base": "qa/mega-audits",
+"branch": "qa/job-1501-savelibraryui-1-audit",
+"ci": "draft",
+"ci_sha": "083874dee27ac64115db276efe81885c9e004a76",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-10T21:05:45Z",
+"first_seen": "2026-10-10T21:05:45Z",
+"since": "2026-10-10T21:07:57Z"
 },
 "71": {
 "job": 1412,
@@ -2130,8 +2379,19 @@
 "title": "Audit js/saveLibraryUI.js for gameplay bugs (second half)",
 "mode": "audit",
 "group": null,
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"pr": 577,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/577",
+"base": "qa/mega-audits",
+"branch": "qa/job-1502-savelibraryui-2-audit",
+"ci": "draft",
+"ci_sha": "209c4617baaf6af7d5f325a75a736b50c5b98bca",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-10T21:06:27Z",
+"first_seen": "2026-10-10T21:06:27Z",
+"since": "2026-10-10T21:07:57Z"
 },
 "73": {
 "job": 1065,
@@ -2148,8 +2408,19 @@
 "title": "Audit js/productionSharedShowdownPresentation.js for gameplay bugs (first half)",
 "mode": "audit",
 "group": null,
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"pr": 578,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/578",
+"base": "qa/mega-audits",
+"branch": "qa/job-1503-productionsharedshowdownpresentation-1-audit",
+"ci": "draft",
+"ci_sha": "3a91401a45616d8676f2ec1c504ec7b310d6a401",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-10T21:07:28Z",
+"first_seen": "2026-10-10T21:07:28Z",
+"since": "2026-10-10T21:07:57Z"
 },
 "75": {
 "job": 1094,
@@ -2470,8 +2741,19 @@
 "title": "Audit js/productionSharedJourneyEntry.js for gameplay bugs (second half)",
 "mode": "audit",
 "group": null,
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"pr": 556,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/556",
+"base": "qa/mega-audits",
+"branch": "qa/job-1516-production-journey-entry-2",
+"ci": "draft",
+"ci_sha": "386b07a70042def4b4d0a26c069e88715dc81e2d",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-10T21:00:20Z",
+"first_seen": "2026-10-10T21:00:20Z",
+"since": "2026-10-10T21:07:57Z"
 },
 "101": {
 "job": 1211,
@@ -2488,8 +2770,19 @@
 "title": "Audit js/productionSharedJourneyReconnect.js for gameplay bugs (first half)",
 "mode": "audit",
 "group": null,
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"pr": 557,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/557",
+"base": "qa/mega-audits",
+"branch": "qa/job-1517-production-journey-reconnect-1",
+"ci": "draft",
+"ci_sha": "ac48ac9b243a7ac3d31d5670c7f249ab6bf6724e",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-10T21:00:38Z",
+"first_seen": "2026-10-10T21:00:38Z",
+"since": "2026-10-10T21:07:57Z"
 },
 "103": {
 "job": 1298,
@@ -2517,8 +2810,19 @@
 "title": "Audit js/productionSharedJourneyReconnect.js for gameplay bugs (second half)",
 "mode": "audit",
 "group": null,
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"pr": 559,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/559",
+"base": "qa/mega-audits",
+"branch": "qa/job-1518-production-journey-reconnect-2",
+"ci": "draft",
+"ci_sha": "dbe54e225d05143ed395a0e1f66eb0fd76d01773",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-10T21:01:06Z",
+"first_seen": "2026-10-10T21:01:06Z",
+"since": "2026-10-10T21:07:57Z"
 },
 "105": {
 "job": 1327,
@@ -2535,8 +2839,19 @@
 "title": "Audit js/productionSharedMultiSeasonProgression.js for gameplay bugs (first half)",
 "mode": "audit",
 "group": null,
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"pr": 561,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/561",
+"base": "qa/mega-audits",
+"branch": "qa/job-1519-production-multiseason-1",
+"ci": "draft",
+"ci_sha": "58510e439814dfc39477cf0014845bf5b9e54505",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-10T21:01:44Z",
+"first_seen": "2026-10-10T21:01:44Z",
+"since": "2026-10-10T21:07:57Z"
 },
 "107": {
 "job": 1414,
@@ -2553,8 +2868,19 @@
 "title": "Audit js/productionSharedMultiSeasonProgression.js for gameplay bugs (second half)",
 "mode": "audit",
 "group": null,
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"pr": 562,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/562",
+"base": "qa/mega-audits",
+"branch": "qa/job-1520-production-multiseason-2",
+"ci": "draft",
+"ci_sha": "3fff48be56da8ccfda88ca9e335eacb44442ee95",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-10T21:02:13Z",
+"first_seen": "2026-10-10T21:02:13Z",
+"since": "2026-10-10T21:07:57Z"
 },
 "109": {
 "job": 1067,
@@ -2571,8 +2897,19 @@
 "title": "Audit js/productionSharedCareerStart.js for gameplay bugs (first half)",
 "mode": "audit",
 "group": null,
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"pr": 564,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/564",
+"base": "qa/mega-audits",
+"branch": "qa/job-1521-production-career-start-1",
+"ci": "draft",
+"ci_sha": "45cfc38e4f3cbce697be36398bb41fd9fc0d902f",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-10T21:02:33Z",
+"first_seen": "2026-10-10T21:02:33Z",
+"since": "2026-10-10T21:07:57Z"
 },
 "111": {
 "job": 1096,
@@ -2589,8 +2926,19 @@
 "title": "Audit js/productionSharedCareerStart.js for gameplay bugs (second half)",
 "mode": "audit",
 "group": null,
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"pr": 566,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/566",
+"base": "qa/mega-audits",
+"branch": "qa/job-1522-production-career-start-2",
+"ci": "draft",
+"ci_sha": "eef47eba8998e5b335e574d2b403c5bdc7915ff3",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-10T21:03:00Z",
+"first_seen": "2026-10-10T21:03:00Z",
+"since": "2026-10-10T21:07:57Z"
 },
 "113": {
 "job": 1125,
@@ -2607,8 +2955,19 @@
 "title": "Audit js/productionSharedShowdownSetup.js for gameplay bugs (first half)",
 "mode": "audit",
 "group": null,
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"pr": 567,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/567",
+"base": "qa/mega-audits",
+"branch": "qa/job-1523-production-showdown-setup-1",
+"ci": "draft",
+"ci_sha": "2c9569972f8ba5a4a636e16878153401a531f0fc",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-10T21:03:20Z",
+"first_seen": "2026-10-10T21:03:20Z",
+"since": "2026-10-10T21:07:57Z"
 },
 "115": {
 "job": 1154,
@@ -2625,8 +2984,19 @@
 "title": "Audit js/productionSharedShowdownSetup.js for gameplay bugs (second half)",
 "mode": "audit",
 "group": null,
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"pr": 569,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/569",
+"base": "qa/mega-audits",
+"branch": "qa/job-1524-production-showdown-setup-2",
+"ci": "draft",
+"ci_sha": "a12014dbc815ee832cb091cdd46da3c96c635616",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-10T21:03:54Z",
+"first_seen": "2026-10-10T21:03:54Z",
+"since": "2026-10-10T21:07:57Z"
 },
 "117": {
 "job": 1183,
@@ -2643,8 +3013,19 @@
 "title": "Audit js/sparkSharedShowdownSetup.js for gameplay bugs (first half)",
 "mode": "audit",
 "group": null,
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"pr": 571,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/571",
+"base": "qa/mega-audits",
+"branch": "qa/job-1525-spark-showdown-setup-1",
+"ci": "draft",
+"ci_sha": "7d0341d11769a4d91cdd6b5a92a3422cbb0da05c",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-10T21:04:23Z",
+"first_seen": "2026-10-10T21:04:23Z",
+"since": "2026-10-10T21:07:57Z"
 },
 "119": {
 "job": 1212,
@@ -2661,8 +3042,19 @@
 "title": "Audit js/sparkSharedShowdownSetup.js for gameplay bugs (second half)",
 "mode": "audit",
 "group": null,
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"pr": 572,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/572",
+"base": "qa/mega-audits",
+"branch": "qa/job-1526-spark-showdown-setup-2",
+"ci": "draft",
+"ci_sha": "f074ab7ce8311725f85d2126d9c5b2ed4e6f4708",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-10T21:04:45Z",
+"first_seen": "2026-10-10T21:04:45Z",
+"since": "2026-10-10T21:07:57Z"
 },
 "121": {
 "job": 1299,
@@ -2690,8 +3082,19 @@
 "title": "Audit js/sharedShowdownSetup.js for gameplay bugs (first half)",
 "mode": "audit",
 "group": null,
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"pr": 574,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/574",
+"base": "qa/mega-audits",
+"branch": "qa/job-1527-shared-showdown-setup-1",
+"ci": "draft",
+"ci_sha": "311b3d95d6c8959a195b014809558bd91e3d142f",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-10T21:05:04Z",
+"first_seen": "2026-10-10T21:05:04Z",
+"since": "2026-10-10T21:07:57Z"
 },
 "123": {
 "job": 1328,
@@ -2708,8 +3111,19 @@
 "title": "Audit js/sharedShowdownSetup.js for gameplay bugs (second half)",
 "mode": "audit",
 "group": null,
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"pr": 575,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/575",
+"base": "qa/mega-audits",
+"branch": "qa/job-1528-shared-showdown-setup-2",
+"ci": "draft",
+"ci_sha": "e6b5e4464a7e2ca63897e0839c8c4693e60c1921",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-10T21:05:30Z",
+"first_seen": "2026-10-10T21:05:30Z",
+"since": "2026-10-10T21:07:57Z"
 },
 "125": {
 "job": 1415,
