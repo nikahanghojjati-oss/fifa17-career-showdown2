@@ -1,12 +1,12 @@
-# Mega factory run report · 2026-10-10T16:41:04Z
+# Mega factory run report · 2026-10-10T16:44:48Z
 
-Taken 34 of 518 jobs. By state: on_train 17, pr_open 17, waiting 484
+Taken 35 of 518 jobs. By state: on_train 18, pr_open 17, waiting 483
 
 ## By stage
 Stage | name | total | picked up | merged
 --- | --- | --- | --- | ---
 1 | audits | 112 | 17 | 0
-2 | screen fixes | 266 | 17 | 0
+2 | screen fixes | 266 | 18 | 0
 3 | mockup match | 14 | 0 | 0
 4 | phone studies | 70 | 0 | 0
 5 | desktop studies | 56 | 0 | 0
@@ -22,7 +22,7 @@ gameplay/train-transfer-1 | 2 of 5 | - | on train, no PR yet
 gameplay/train-season-final-1 | 2 of 5 | - | on train, no PR yet
 gameplay/train-rivalry-legacy-1 | 2 of 5 | - | on train, no PR yet
 gameplay/train-career-screens-1 | 2 of 5 | - | on train, no PR yet
-gameplay/train-rules-settings-1 | 1 of 5 | - | on train, no PR yet
+gameplay/train-rules-settings-1 | 2 of 5 | - | on train, no PR yet
 
 ## Finished study and audit jobs
 Number | job | title | state | link

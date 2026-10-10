@@ -1,20 +1,20 @@
 {
-"updated": "2026-10-10T16:39:51Z",
+"updated": "2026-10-10T16:44:48Z",
 "total": 518,
-"next_free": 35,
-"highest_taken": 34,
+"next_free": 36,
+"highest_taken": 35,
 "counts": {
-"on_train": 17,
+"on_train": 18,
 "draft": 17,
-"waiting": 484
+"waiting": 483
 },
 "stages": {
 "2": {
 "name": "Screen fixes",
 "total": 266,
 "states": {
-"on_train": 17,
-"waiting": 249
+"on_train": 18,
+"waiting": 248
 }
 },
 "1": {
@@ -69,12 +69,12 @@
 27,
 29,
 31,
-33
+33,
+35
 ],
 "draft_code_prs": 0,
 "area_locks": {},
 "ready": [
-35,
 36,
 37,
 38,
@@ -85,10 +85,10 @@
 43,
 44,
 45,
-46
+46,
+47
 ],
 "ready_sol": [
-35,
 36,
 37,
 38,
@@ -99,13 +99,14 @@
 43,
 44,
 45,
-46
+46,
+47
 ],
 "ready_codex": []
 },
 "rate": {
-"claimed_last_hour": 2,
-"claimed_last_10min": 0,
+"claimed_last_hour": 3,
+"claimed_last_10min": 1,
 "merged_last_hour": 0
 },
 "events": [
@@ -388,6 +389,13 @@
 "job": 1483,
 "from": "started",
 "to": "draft"
+},
+{
+"at": "2026-10-10T16:44:48Z",
+"item": 35,
+"job": 1410,
+"from": "waiting",
+"to": "on_train"
 }
 ],
 "items": {
@@ -924,8 +932,10 @@
 "title": "Rule Book: fix the 390x844 view",
 "mode": "code",
 "group": "rules-settings",
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"state": "on_train",
+"branch": "gameplay/train-rules-settings-1",
+"first_seen": "2026-10-10T16:44:48Z",
+"since": "2026-10-10T16:44:48Z"
 },
 "36": {
 "job": 1484,

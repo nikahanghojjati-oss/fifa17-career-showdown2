@@ -1,7 +1,6 @@
 {
  "sequence": {
   "ready": [
-   35,
    36,
    37,
    38,
@@ -12,10 +11,10 @@
    43,
    44,
    45,
-   46
+   46,
+   47
   ],
   "ready_sol": [
-   35,
    36,
    37,
    38,
@@ -26,14 +25,15 @@
    43,
    44,
    45,
-   46
+   46,
+   47
   ],
   "ready_codex": [],
   "held_until_picture": 101,
   "open_code_prs": 0,
   "open_train_prs": 0,
-  "next_free": 35,
-  "highest_taken": 34,
+  "next_free": 36,
+  "highest_taken": 35,
   "total": 518,
   "states": {
    "1": "on_train",
@@ -70,7 +70,7 @@
    "32": "pr_open",
    "33": "on_train",
    "34": "pr_open",
-   "35": "waiting",
+   "35": "on_train",
    "36": "waiting",
    "37": "waiting",
    "38": "waiting",
@@ -556,16 +556,16 @@
    "518": "waiting"
   }
  },
- "updated": "2026-10-10T16:41:04Z",
+ "updated": "2026-10-10T16:44:48Z",
  "counts": {
-  "on_train": 17,
-  "waiting": 484,
+  "on_train": 18,
+  "waiting": 483,
   "pr_open": 17
  },
  "stages": {
   "2": {
    "total": 266,
-   "taken": 17,
+   "taken": 18,
    "merged": 0
   },
   "3": {
@@ -1200,7 +1200,8 @@
     1413
    ],
    "done": [
-    "1409"
+    "1409",
+    "1410"
    ],
    "pr": null,
    "state": null
@@ -3735,7 +3736,7 @@
    "branch": "gameplay/train-rules-settings-1"
   },
   "1410": {
-   "state": "waiting",
+   "state": "on_train",
    "pr": null,
    "draft": false,
    "pr_url": null,
