@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Sat 10 Oct, 11:28 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Sat 10 Oct, 11:32 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r67** (main `f42dac2`, Fri 9 Oct 9:34 PM)
 
@@ -18,11 +18,11 @@ Updated Sat 10 Oct, 11:28 AM Boston time. Bug hunting only, no new features unti
 
 **#1 · 1580** `G` Showdown Gate: run the L5 lane only when its inputs changed  
 `██████░░░░` **60.0000 %**  
-⚪ Team white · **Codex default coding model** · High effort · worker done, PR #457 open, CI failed · CI 13 of 14 passed · last move 14 min ago
+⚪ Team white · **Codex default coding model** · High effort · worker done, PR #457 open, CI failed · CI 13 of 14 passed · last move 17 min ago
 
 **#2 · 1584** `G` Measure the transfer screens at ten window sizes (report only)  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · **Codex default coding model** · Medium effort · worker working, draft PR #469 · CI 6 of 7 passed · last move 12 min ago
+⚪ Team white · **Codex default coding model** · Medium effort · worker working, draft PR #469 · CI 6 of 7 passed · last move 16 min ago
 
 ### 👉 Next for you, in this order
 
@@ -73,8 +73,8 @@ Do exactly what that file says. If the file does not exist, stop and tell me. Ne
 Numbered jobs: 53 done, 6 other open · Olympiad recheck: 23 of 23 settled, 0 still to fix · Sol's old leads: 0 open (0 real, 0 unsure)
 
 **2. Visual fixes** `after stage 1`  
-`█████░░░░░` **50.0000 %**  
-Team V hand-offs: 11 of 22 done
+`█████░░░░░` **47.8261 %**  
+Team V hand-offs: 11 of 23 done
 
 **3. Match current desktop screens to the mockup** `after stage 2`  
 `█░░░░░░░░░` **6.2500 %**  
