@@ -55,6 +55,8 @@ def main():
         if t["mode"] == "study" and t["screen"] in PIC:
             pk = f"{'PHONE' if t['stage'] == 4 else 'NEXT'}_{PIC[t['screen']]}"
             head += (f"**Hold check:** open `project-documents/gameplay-factory/queue/PICTURES.json` on branch factory/gameplay-v1. If `{pk[pk.index('_')+1:]}` is not in the `approved` list named `{pk.split('_')[0]}`, reply exactly `Number {i} is on hold until Team V approves its picture. Try {i+1}.` and stop.\n")
+        if t["mode"] != "study":
+            head += f"**Claude-lane check:** open `project-documents/gameplay-factory/queue/CLAUDE_LANE.json` on branch factory/gameplay-v1. If {i} is in either list, reply exactly `Number {i} is in the Claude lane. Try {i+1}.` and stop.\n"
         head += "Otherwise do the job below, exactly.\n\n"
         (items / f"{i:04d}.md").write_text(head + body)
         seq[str(i)] = {"group": t.get("group"), "job": job, "prefix": t["prefix"], "stage": t["stage"], "title": t["title"], "mode": t["mode"], "screen": t["screen"]}

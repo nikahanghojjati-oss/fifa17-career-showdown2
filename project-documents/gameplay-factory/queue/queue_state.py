@@ -106,12 +106,17 @@ def main():
         def held(t):
             if t["mode"] != "study" or t["screen"] not in pics["keys"]: return False
             return pics["keys"][t["screen"]] not in pics["approved"].get("PHONE" if t["stage"] == 4 else "NEXT", [])
+        cl = json.loads((HERE / "CLAUDE_LANE.json").read_text()) if (HERE / "CLAUDE_LANE.json").exists() else {}
+        claude_items = set(cl.get("haiku", []) + cl.get("sonnet", []))
         held_items = [int(k) for k in o if held(tk[str(o[k]["job"])])]
         ready, seen_group = [], set(locked)
         for k in sorted(o, key=int):
             j = str(o[k]["job"]); t = tk[j]
             if state[j]["state"] != "waiting": continue
             if held(t): continue
+            if int(k) in claude_items:
+                if t["mode"] == "code": seen_group.add(t["train"]["group"])
+                continue
             if t["mode"] == "code":
                 g = t["train"]["group"]
                 if g in seen_group or ready_open >= 8: continue
