@@ -1,6 +1,6 @@
 {
   "schema": "physio/v1",
-  "at": "2026-10-10T19:47:41.608Z",
+  "at": "2026-10-10T19:49:56.513Z",
   "state": "ALL_CLEAR",
   "checks": [],
   "helpers_paused": [],
@@ -18,7 +18,7 @@
       },
       {
         "name": "L3 storage visual gameplay",
-        "state": "running"
+        "state": "pass"
       },
       {
         "name": "L4 remote",
@@ -33,7 +33,7 @@
         "state": "pass"
       }
     ],
-    "seal": "PENDING"
+    "seal": "PASS"
   },
   "pos20": {
     "pr": 486,
