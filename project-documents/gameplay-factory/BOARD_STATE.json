@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-09 11:58 PM Boston time (EDT)",
+ "generated": "2026-10-10 12:05 AM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -318,33 +318,7 @@
    "when": "2026-10-09T21:34:57-04:00",
    "subject": "Release r67: Olympiad fixes and private transfer locks (1.9.1-r67) (#450)",
    "fixes": [],
-   "today": [
-    {
-     "pr": 450,
-     "title": "Release r67: Olympiad fixes and private transfer locks",
-     "merged": "2026-10-10T01:34:57Z"
-    },
-    {
-     "pr": 440,
-     "title": "Release r66: Season Results on phones, closed Final Winner on both phones",
-     "merged": "2026-10-09T16:04:25Z"
-    },
-    {
-     "pr": 436,
-     "title": "Release r65: career history fixes, auto close, plain words",
-     "merged": "2026-10-09T06:48:52Z"
-    },
-    {
-     "pr": 429,
-     "title": "Release r64: Forget device sign-back-in, phone LOCK MY SIGNINGS",
-     "merged": "2026-10-09T05:44:21Z"
-    },
-    {
-     "pr": 435,
-     "title": "Re-pin the composed Rules check to production main r63",
-     "merged": "2026-10-09T05:20:30Z"
-    }
-   ]
+   "today": []
   },
   "physio": {
    "state": "clear",
