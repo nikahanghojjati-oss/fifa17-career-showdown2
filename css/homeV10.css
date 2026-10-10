@@ -300,3 +300,31 @@
   #mainMenu.v10Home .phoneSheetToggle:checked ~ .menuMediaSelector .menuMediaChoice { min-height: 0; overflow: hidden; }
   #mainMenu.v10Home .menuBottomStrip { z-index: 6; }
 }
+
+/* JOB-1061: only the 320-375px / 620-660px upright Home viewport.
+   At 360x640 the 49dvh hero leaves about 61px per secondary tile; that
+   places their labels and icons in the same vertical space. A shorter hero
+   gives both rows enough height without changing the 390x844 composition. */
+@media (min-width: 320px) and (max-width: 375px) and (min-height: 620px) and (max-height: 660px) and (orientation: portrait) {
+  #mainMenu.v10Home {
+    --phone-hero: 42dvh;
+    --phone-control: calc(58dvh - var(--phone-nav));
+  }
+
+  /* Keep the identity action at the 44px touch minimum. */
+  #app #topHeader #onlinePlayerIdentityBadge { min-height: 44px; }
+
+  /* Eleven tracks make six 46px rows. All rows fit on a 640px phone
+     as one overlay, so this picker must not create an inner scroll area. */
+  #mainMenu.v10Home .menuMusicTile {
+    --full-sheet-height: calc(56px + var(--track-rows, 2) * 54px);
+  }
+  #mainMenu.v10Home .phoneSheetToggle:checked ~ .menuMediaSelector {
+    max-height: none;
+    overflow: visible;
+    overscroll-behavior: auto;
+  }
+  #mainMenu.v10Home .phoneSheetToggle:checked ~ .phoneTrackSheetClose {
+    bottom: calc(var(--phone-nav) + 10px + var(--full-sheet-height) - 48px);
+  }
+}
