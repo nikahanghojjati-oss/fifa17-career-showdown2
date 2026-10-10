@@ -1,6 +1,6 @@
 # Bug hunt board
 
-Updated Fri 9 Oct, 8:25 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Fri 9 Oct, 8:37 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r66** (main `8e1a583`, Fri 9 Oct 12:04 PM)
 
@@ -8,13 +8,7 @@ Updated Fri 9 Oct, 8:25 PM Boston time. Bug hunting only, no new features until 
 
 ## Jobs
 
-### ▶️ Running now
-
-**#1 · 1058** `G` Transfer countdown agrees across both phones (Sol lead S4)  
-`███████░░░` **70.0000 %**  
-🔵 Team blue · **GPT-6 Sol** · High effort · worker done, PR #449 open, CI running
-
-**Done, waiting for the next release:** 1044, 1045, 1048, 1049, 1050, 1051, 1052, 1053, 1055
+**Done, waiting for the next release:** 1044, 1045, 1048, 1049, 1050, 1051, 1052, 1053, 1055, 1058
 
 **Done and live:** r66: 1041, 1042, 1043 · r65: 1011, 1028, 1037, 1038, 1039, 1040 · r63: 1001, 1003, 1004, 1005, 1009, 1010, 1014, 1015, 1020, 1021, 1022, 1023, 1024, 1025, 1026, 1027, Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8
 
@@ -23,8 +17,8 @@ Updated Fri 9 Oct, 8:25 PM Boston time. Bug hunting only, no new features until 
 ## Goals, in this order
 
 **1. Finish the remaining bugs** `now`  
-`█████████░` **94.6667 %**  
-Numbered jobs: 47 done, 0 other open · Olympiad recheck: 23 of 23 settled, 0 still to fix · Sol's old leads: 4 open (1 real, 3 unsure)
+`██████████` **96.0526 %**  
+Numbered jobs: 48 done, 0 other open · Olympiad recheck: 23 of 23 settled, 0 still to fix · Sol's old leads: 3 open (0 real, 3 unsure)
 
 **2. Visual fixes** `after stage 1`  
 `█████░░░░░` **52.3810 %**  
