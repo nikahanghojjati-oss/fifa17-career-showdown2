@@ -1,6 +1,6 @@
 {
  "_how": "One shared job counter for Team G and Team V (Nik, 2026-10-05). Claim with tools/claim_number.py only. A number is used once, ever. CONTRACT.md section 10.",
- "next": 1579,
+ "next": 1580,
  "claims": [
   {
    "number": 1001,
@@ -3470,6 +3470,12 @@
    "team": "G",
    "title": "Mega factory queue ticket (GPT chat slots)",
    "claimed": "2026-10-10T01:55:39Z"
+  },
+  {
+   "number": 1579,
+   "team": "G",
+   "title": "Season Results: a slow load must not pull you back after you moved on (Sol S5)",
+   "claimed": "2026-10-10T02:19:30Z"
   }
  ]
 }
