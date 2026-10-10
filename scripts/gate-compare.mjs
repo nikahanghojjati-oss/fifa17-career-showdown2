@@ -185,9 +185,17 @@ export async function compareLive(client,repo,head,coverage){
   const pos20Run=latest(POS20_PATH);
   const gateRunForHead=latest(GATE_PATH);
   if(gateRunForHead?.conclusion==='cancelled'&&pos20Run?.conclusion==='cancelled'){
-    const pr=gateRunForHead.pull_requests?.[0]?.number;
-    let prHeadSha=null;
-    if(Number.isInteger(pr)){try{prHeadSha=(await client.get(`repos/${repo}/pulls/${pr}`))?.head?.sha??null;}catch{prHeadSha=null;}}
+    // A run's pull_requests list only names PRs whose head is still this commit, so a superseded run's list
+    // is empty. Find the PR by its head branch instead (same repository only).
+    let pr=null,prHeadSha=null;
+    const owner=repo.split('/')[0],branch=gateRunForHead.head_branch;
+    if(typeof branch==='string'&&branch&&gateRunForHead.head_repository?.full_name===repo){
+      try{
+        const pulls=(await client.get(`repos/${repo}/pulls?state=all&head=${encodeURIComponent(`${owner}:${branch}`)}&per_page=10`))||[];
+        const latestPull=Array.isArray(pulls)?[...pulls].sort((a,b)=>Date.parse(b.created_at)-Date.parse(a.created_at))[0]:null;
+        pr=latestPull?.number??null;prHeadSha=latestPull?.head?.sha??null;
+      }catch{pr=null;prHeadSha=null;}
+    }
     if(isSupersededHead({head,gateRun:gateRunForHead,pos20Run,prHeadSha}))return {schema:'showdown-gate-compare/v1',head,superseded:true,pr,pr_head:prHeadSha};
   }
   const pos20Jobs=await jobsOf(pos20Run);
