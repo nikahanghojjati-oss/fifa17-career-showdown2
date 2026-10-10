@@ -58,3 +58,10 @@ Then read: git show FETCH_HEAD:project-documents/gameplay-factory/jobs/JOB-1582.
 Do exactly what that file says. If the file does not exist, stop and tell me. Never push to main and never merge. Open any pull request as a draft; if you cannot choose the base branch, write RETARGET TO gameplay/bug-list-1 on the first line of the PR body.
 ```
 
+## 1589 (old-design flash test; any time)
+
+```text
+Career Mode Showdown, job 1589. First run: git fetch origin factory/gameplay-v1
+Then read: git show FETCH_HEAD:project-documents/gameplay-factory/jobs/JOB-1589.md
+Do exactly what that file says. If the file does not exist, stop and tell me. Never push to main and never merge. Open any pull request as a draft; if you cannot choose the base branch, write RETARGET TO gameplay/bug-list-1 on the first line of the PR body.
+```
