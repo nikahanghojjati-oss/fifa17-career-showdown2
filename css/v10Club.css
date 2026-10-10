@@ -172,3 +172,66 @@ html[data-v10-screen="clubWheelScreen"] #app > main { position: static; inset: a
 @media (max-width: 760px) and (orientation: portrait) and (max-height: 600px) {
   #clubWheelScreen.cl-on #sharedShowdownSeasonChoice > .stateNote { display: none; }
 }
+
+/* JOB-1148: 360x640 packs need one document scroll, not a clipped fixed canvas.
+   Keep the hero, cards and initial action exactly in their phone slots. When
+   confirmation/season choices appear, let their natural height push the action
+   below them. Team V's plate stays frozen; only the app adapter is scoped. */
+@media (min-width: 340px) and (max-width: 375px) and (min-height: 610px) and (max-height: 680px) and (orientation: portrait) {
+  html[data-v10-screen="clubWheelScreen"] {
+    height: auto;
+    min-height: 100%;
+    overflow-x: clip;
+    overflow-y: auto;
+  }
+  html[data-v10-screen="clubWheelScreen"] body {
+    height: auto;
+    min-height: 100dvh;
+    overflow: visible;
+  }
+  html[data-v10-screen="clubWheelScreen"] #app {
+    height: auto;
+    min-height: 100dvh;
+    overflow: visible;
+  }
+  html[data-v10-screen="clubWheelScreen"] #app > main {
+    min-height: 100dvh;
+    overflow: visible;
+  }
+  #clubWheelScreen.cl-on {
+    position: relative;
+    inset: auto;
+    box-sizing: border-box;
+    width: 100%;
+    height: auto;
+    min-height: 100dvh;
+    overflow: visible;
+    /* Absolute hero/cards stay at their Team V coordinates. Only the notes flow. */
+    padding: calc(var(--phone-hero-h) + 180px) 0 calc(var(--phone-safe) + 68px);
+  }
+  #clubWheelScreen.cl-on .clubRivalryConfirmation {
+    position: relative;
+    top: auto !important;
+    bottom: auto !important;
+    left: auto !important;
+    right: auto !important;
+    width: auto !important;
+    height: auto !important;
+    max-width: calc(100% - 24px);
+    box-sizing: border-box;
+    margin: 0 12px;
+    overflow-wrap: anywhere;
+  }
+  #clubWheelScreen.cl-on #sharedShowdownSeasonChoice {
+    position: relative;
+    top: auto;
+    bottom: auto;
+    left: auto;
+    right: auto;
+    width: auto;
+    max-width: calc(100% - 24px);
+    margin: 12px 12px 0;
+    padding: 8px 10px;
+    overflow-wrap: anywhere;
+  }
+}
