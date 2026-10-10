@@ -210,3 +210,52 @@
   }
   #transferChallenge .tw-host :is(.btn-end, .btn-lock, .btn-continue) { min-height: 44px; }
 }
+
+/* JOB-1178: 390x844 upright Transfer Challenge / Signing Entry.
+   The standard phone signing world scrolls inside the fixed overlay, creating a
+   second scroll surface; its 100px selector floors also squeeze the player name.
+   Keep a single overlay scroll and allow each row to size within the phone card. */
+@media (min-width: 376px) and (max-width: 410px) and (min-height: 800px) and (max-height: 880px) and (orientation: portrait) {
+  #transferChallenge.tw-on > .tw-host {
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior-y: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+  #transferChallenge .tw-host .stage[data-phase="SIGNING_ENTRY"] {
+    height: auto;
+    min-height: 100svh;
+    min-height: 100dvh;
+    overflow: visible;
+  }
+  #transferChallenge .tw-host .stage[data-phase="SIGNING_ENTRY"] .world {
+    height: auto;
+    min-height: 100svh;
+    min-height: 100dvh;
+    max-height: none;
+    overflow: visible;
+    overscroll-behavior: auto;
+    -webkit-overflow-scrolling: auto;
+  }
+  #transferChallenge .tw-host .signing-row.signingRow:not(.is-readonly) {
+    grid-template-columns: 16px minmax(0, 1.22fr) minmax(0, 1.1fr) minmax(0, .92fr);
+  }
+  #transferChallenge .tw-host :is(.signingRow, .guessRow) > :is(input, select, .transferCombobox) {
+    width: 100%;
+    min-width: 0;
+    min-height: 44px;
+    box-sizing: border-box;
+  }
+  #transferChallenge .tw-host :is(.signingRow, .guessRow) :is(input, select, button, [role="combobox"]) {
+    min-width: 0;
+    min-height: 44px;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+  #transferChallenge .tw-host :is(.btn-end, .btn-lock, .btn-continue) {
+    min-width: 44px;
+    min-height: 44px;
+    max-width: calc(100vw - 24px);
+    box-sizing: border-box;
+  }
+}
