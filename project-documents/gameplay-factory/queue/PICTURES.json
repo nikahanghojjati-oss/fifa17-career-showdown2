@@ -21,11 +21,13 @@
    "HOME",
    "CONNECT_PLAYERS",
    "SEASON_RESULTS",
-   "TRANSFER"
+   "TRANSFER",
+   "LEAGUE"
   ],
   "NEXT": []
  },
  "notes": {
-  "PHONE_CONNECT_PLAYERS": "Build from the real game text; the picture has a stray double space in \"create your\" (Team V)."
+  "PHONE_CONNECT_PLAYERS": "Build from the real game text; the picture has a stray double space in \"create your\" (Team V).",
+  "PHONE_LEAGUE": "Build the league wheel from the picture, not from live (the picture fixes three live flaws): 1) league marks and names sit fully inside their slices (the live rim hides their tops); 2) all five marks are one flat gold set (crown, bull, round plate, shield, numeral 1), black on the lit Premier League slice; 3) the centre hub is a gold football, not a second crown (live css/v10Setup.css 'crown hub'), and the top pointer has no crown. Keep the LEAGUE MARKS V2 shapes from js/visualIdentity.js. All other words come from the live screen."
  }
 }
