@@ -4,11 +4,11 @@
 import json, pathlib, html, datetime
 GF = pathlib.Path(__file__).resolve().parent.parent
 LIMIT = 9000
-COL = {"live": "#0f9d58", "merged": "#34c76b", "reviewed": "#a78bfa", "ready": "#2dd4bf", "ci_running": "#f5a524",
+COL = {"live": "#0f9d58", "merged": "#34c76b", "reviewed": "#a78bfa", "ready": "#2dd4bf", "ci_running": "#f5a524", "draft": "#94a3b8", "queued": "#eab308",
        "ci_failed": "#ef4444", "blocked": "#f97316", "started": "#3b82f6", "closed": "#6b7280", "waiting": "#3b4a56"}
-LAB = {"live": "Live", "merged": "Merged", "reviewed": "Reviewed", "ready": "Checks green", "ci_running": "Checks running",
+LAB = {"live": "Live", "merged": "Merged", "reviewed": "Reviewed", "ready": "Checks green", "ci_running": "Checks running", "draft": "Draft PR open", "queued": "Ready for checks",
        "ci_failed": "Checks FAILED", "blocked": "Blocked", "started": "Started", "closed": "Closed", "waiting": "Waiting"}
-ORDER = ["live", "merged", "reviewed", "ready", "ci_running", "ci_failed", "blocked", "started", "closed", "waiting"]
+ORDER = ["live", "merged", "reviewed", "ready", "queued", "ci_running", "draft", "ci_failed", "blocked", "started", "closed", "waiting"]
 PAGE = "https://raw.githack.com/nikahanghojjati-oss/fifa17-career-showdown2/factory/gameplay-v1/project-documents/gameplay-factory/mega/index.html"
 MD = "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/MEGA_TRACKER.md"
 CSS = ("<style>.cv{font:14px/1.4 'Segoe UI',system-ui,sans-serif;max-width:720px;color:#fbfcfc;background:#20272d;border-radius:14px;padding:0 0 12px;overflow:hidden}"
@@ -28,7 +28,7 @@ def bar(states, total):
 def build(d):
     c, g, r, n = d["counts"], d["gates"], d["rate"], d["total"]
     fin = c.get("merged", 0) + c.get("live", 0)
-    fly = sum(c.get(s, 0) for s in ("started", "ci_running", "ci_failed", "ready", "reviewed", "blocked"))
+    fly = sum(c.get(s, 0) for s in ("started", "draft", "queued", "ci_running", "ci_failed", "ready", "reviewed", "blocked"))
     upd = datetime.datetime.fromisoformat(d["updated"].replace("Z", "+00:00")) - datetime.timedelta(hours=4)
     o = [CSS, '<div class="cv"><div class="ban"><b>Mega factory</b><span>Updated ' + upd.strftime("%-I:%M %p") +
          ' Boston · <a href="' + PAGE + '">live tracker</a> · <a href="' + MD + '">GitHub view</a></span></div>']
@@ -39,7 +39,7 @@ def build(d):
     o.append('<h2>All numbers</h2><div class="card">' + bar(c, n) + '<div class="m">' + " · ".join(
         f'<span class="sw" style="background:{COL[s]}"></span>{LAB[s]} {c[s]}' for s in ORDER if c.get(s)) + "</div></div>")
     lk = ", ".join(f"{html.escape(a)} #{k}" for a, k in g["area_locks"].items()) or "none"
-    o.append(f'<h2>Gates</h2><div class="card">Code PRs open <b>{g["open_code_prs"]}</b> of {g["cap"]}{bar({"started": g["open_code_prs"], "waiting": max(g["cap"] - g["open_code_prs"], 0)}, g["cap"])}<div class="m">Locked screen areas: {lk}</div></div>')
+    o.append(f'<h2>Gates</h2><div class="card">Code PRs marked ready <b>{g["open_code_prs"]}</b> of {g["cap"]} ({g.get("draft_code_prs", 0)} drafts){bar({"started": g["open_code_prs"], "waiting": max(g["cap"] - g["open_code_prs"], 0)}, g["cap"])}<div class="m">Locked screen areas: {lk}</div></div>')
     o.append("<h2>By stage</h2><div class=\"card\">")
     for k in sorted(d["stages"]):
         s = d["stages"][k]; v = s["states"]; f = v.get("merged", 0) + v.get("live", 0)
