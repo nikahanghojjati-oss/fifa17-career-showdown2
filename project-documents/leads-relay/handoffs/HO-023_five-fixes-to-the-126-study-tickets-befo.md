@@ -11,10 +11,10 @@
  "worker": "",
  "parent": "HO-022",
  "job": null,
- "status": "SENT",
+ "status": "RECEIVED",
  "steps": [],
  "evidence": [],
- "log": [{"at": "2026-10-10T15:30:21Z", "by": "V", "status": "SENT", "note": ""}]
+ "log": [{"at": "2026-10-10T15:30:21Z", "by": "V", "status": "SENT", "note": ""}, {"at": "2026-10-10T15:30:54Z", "by": "G", "status": "RECEIVED", "note": "Team G lead: forwarded to the mega factory, which owns the study tickets (items 226-476); it will apply the five fixes before Nik types them"}]
 }
 ```
 
