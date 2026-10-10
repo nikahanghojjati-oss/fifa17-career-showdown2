@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Sat 10 Oct, 1:06 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Sat 10 Oct, 1:08 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r67** (main `f42dac2`, Fri 9 Oct 9:34 PM)
 
@@ -14,35 +14,27 @@ Updated Sat 10 Oct, 1:06 PM Boston time. Bug hunting only, no new features until
 
 ## Jobs
 
-### ▶️ Running now
-
-**#1 · 1580** `G` Showdown Gate: run the L5 lane only when its inputs changed  
-`██████░░░░` **60.0000 %**  
-⚪ Team white · **Codex default coding model** · High effort · worker done, PR #457 open, CI failed · CI 13 of 14 passed · last move 112 min ago
-
-**#2 · 1584** `G` Measure the transfer screens at ten window sizes (report only)  
-`████░░░░░░` **40.0000 %**  
-⚪ Team white · **Codex default coding model** · Medium effort · worker working, draft PR #469 · CI 6 of 7 passed · last move 110 min ago
-
-**#3 · 1585** `G` Measure the season-final screens at ten window sizes (report only)  
-`████░░░░░░` **40.0000 %**  
-⚪ Team white · **Codex default coding model** · Medium effort · worker working, draft PR #476 · CI 6 of 7 passed · last move 82 min ago
-
-**#4 · 1586** `G` Measure the club screens at ten window sizes (report only)  
-`████░░░░░░` **40.0000 %**  
-⚪ Team white · **Codex default coding model** · Medium effort · worker working, draft PR #477 · CI 6 of 7 passed · last move 45 min ago
-
-### ⏸ Waiting on something else
+### 👉 Next for you, in this order
 
 **#1 · 1581** `G` Showdown Gate: split the slowest lane and cache downloads  
 `░░░░░░░░░░` **0.0000 %**  
-⚪ Team white · **Codex default coding model** · High effort · later: after 1580 merges
+⚪ Team white · **Codex default coding model** · High effort · Codex cloud, this repo
 
-**#2 · 1582** `G` Showdown Gate: screen shots of changed screens as a run artifact  
+Paste this:
+
+```text
+Career Mode Showdown, job 1581. First run: git fetch origin factory/gameplay-v1
+Then read: git show FETCH_HEAD:project-documents/gameplay-factory/jobs/JOB-1581.md
+Do exactly what that file says. If the file does not exist, stop and tell me. Never push to main and never merge. Open any pull request as a draft; if you cannot choose the base branch, write RETARGET TO gameplay/bug-list-1 on the first line of the PR body.
+```
+
+### ⏸ Waiting on something else
+
+**#1 · 1582** `G` Showdown Gate: screen shots of changed screens as a run artifact  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · **Codex default coding model** · Medium effort · later: after 1581 merges
 
-**Done, waiting for the next release:** 1059, 1060, 1579, 1583, 1587
+**Done, waiting for the next release:** 1059, 1060, 1579, 1580, 1583, 1584, 1585, 1586, 1587
 
 **Done and live:** r67: 1044, 1045, 1048, 1049, 1050, 1051, 1052, 1053, 1055, 1058 · r66: 1041, 1042, 1043 · r65: 1011, 1028, 1037, 1038, 1039, 1040 · r63: 1001, 1003, 1004, 1005, 1009, 1010, 1014, 1015, 1020, 1021, 1022, 1023, 1024, 1025, 1026, 1027, Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8
 
@@ -51,8 +43,8 @@ Updated Sat 10 Oct, 1:06 PM Boston time. Bug hunting only, no new features until
 ## Goals, in this order
 
 **1. Finish the remaining bugs** `now`  
-`█████████░` **93.1034 %**  
-Numbered jobs: 53 done, 6 other open · Olympiad recheck: 23 of 23 settled, 0 still to fix · Sol's old leads: 0 open (0 real, 0 unsure)
+`██████████` **97.7011 %**  
+Numbered jobs: 57 done, 2 other open · Olympiad recheck: 23 of 23 settled, 0 still to fix · Sol's old leads: 0 open (0 real, 0 unsure)
 
 **2. Visual fixes** `after stage 1`  
 `█████░░░░░` **54.1667 %**  
