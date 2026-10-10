@@ -1,9 +1,9 @@
-# Mega factory tracker · updated 2026-10-10T15:24:50Z
+# Mega factory tracker · updated 2026-10-10T15:28:40Z
 
 **Type now:** 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39
 **Next free number:** 28 · **highest taken:** 27 of 518
 **Code PRs open:** 0 of 8 · area locks: none
-**Rate:** 9 claimed in 10 min · 27 in 1 h · 0 merged in 1 h
+**Rate:** 6 claimed in 10 min · 27 in 1 h · 0 merged in 1 h
 
 **Finished (merged or live): 0 of 518**
 
