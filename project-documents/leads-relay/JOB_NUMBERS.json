@@ -1,6 +1,6 @@
 {
  "_how": "One shared job counter for Team G and Team V (Nik, 2026-10-05). Claim with tools/claim_number.py only. A number is used once, ever. CONTRACT.md section 10.",
- "next": 1581,
+ "next": 1582,
  "claims": [
   {
    "number": 1001,
@@ -3482,6 +3482,12 @@
    "team": "G",
    "title": "Showdown Gate: run the Rules lane only when its inputs changed",
    "claimed": "2026-10-10T02:19:32Z"
+  },
+  {
+   "number": 1581,
+   "team": "G",
+   "title": "Showdown Gate: split the slowest lane and cache downloads",
+   "claimed": "2026-10-10T02:19:34Z"
   }
  ]
 }
