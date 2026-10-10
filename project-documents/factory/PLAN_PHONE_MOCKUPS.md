@@ -5,6 +5,8 @@
 > 2. the next-level desktop plan (below).
 >
 > The factory thread starts plan 1 on its own as soon as the current fixes are done. Nik does not need to type a start phrase.
+>
+> **Changed (Nik, Sat 10 Oct 11:22 a.m. Eastern, "Use studies").** Nik's mega factory queue already holds 70 phone mockup studies and 56 improved-desktop studies (items 226 to 476, hand-off HO-022). Those studies replace the per-screen image tickets below: Team V judges each study as it arrives and logs adopted or not adopted in `queue/V_ADOPTION.md` on `factory/gameplay-v1`; Team G wires the adopted ones. Claude writes no separate mockup tickets for these plans.
 
 Nik, Tue 6 Oct 1:09 a.m. Eastern: "phone is just so bad, but we can definitely fix it."
 
