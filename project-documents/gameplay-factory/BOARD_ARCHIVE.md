@@ -1,6 +1,6 @@
 # Board history
 
-[Back to the Bug hunt board](BOARD.md) · generated 2026-10-10 6:10 AM Boston time (EDT). History only: every job of the first factory plan and every bug report. What is open now is on the [Bug hunt board](BOARD.md); the old detailed board that used to sit here was retired on 2026-10-09 because it repeated stale moves (Nik, 22:49 UTC).
+[Back to the Bug hunt board](BOARD.md) · generated 2026-10-10 6:14 AM Boston time (EDT). History only: every job of the first factory plan and every bug report. What is open now is on the [Bug hunt board](BOARD.md); the old detailed board that used to sit here was retired on 2026-10-09 because it repeated stale moves (Nik, 22:49 UTC).
 
 ## All jobs
 
@@ -43,7 +43,7 @@
 ## Every bug report
 
 
-> Updated **Sat 10 Oct, 6:10 AM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
+> Updated **Sat 10 Oct, 6:14 AM Boston time** · rebuilds itself on GitHub every 3 minutes while jobs run, no Claude usage · [Job board →](BOARD.md)
 
 | 🔓 Open | 🔴 Top priority | 🔧 Fixing or waiting for release | ✅ Fixed and live |
 | :---: | :---: | :---: | :---: |
