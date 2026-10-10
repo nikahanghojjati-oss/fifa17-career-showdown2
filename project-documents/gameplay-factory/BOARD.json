@@ -1221,11 +1221,11 @@
      "team": "blue",
      "model": "GPT-6 Sol",
      "effort": "High",
-     "place": "ChatGPT project \"Career Mode Showdown\", new normal chat",
+     "place": "nothing to type: merged",
      "prompt": "",
      "title": "Season Results points cap uses the real league size (Sol lead S1)",
      "order": 27,
-     "state": "worker done, lead checking (PR #448): lead registered the test (fails before, passes after); CI running"
+     "state": "done (merged into bug-list-1, PR #448)"
     },
     {
      "id": "1056",
@@ -1264,7 +1264,7 @@
      "prompt": "",
      "title": "Transfer countdown agrees across both phones (Sol lead S4)",
      "order": 30,
-     "state": "worker done, lead checking (PR #449): lead registered the test (fails before, passes after); CI running"
+     "state": "worker done, lead checking (PR #449): brought up to date with bug-list-1 after 1055; CI running"
     }
    ]
   },
