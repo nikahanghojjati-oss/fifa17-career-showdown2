@@ -1,29 +1,29 @@
 {
-"updated": "2026-10-10T19:54:19Z",
+"updated": "2026-10-10T19:58:17Z",
 "total": 518,
 "next_free": 44,
-"highest_taken": 212,
+"highest_taken": 395,
 "counts": {
-"on_train": 22,
-"draft": 74,
-"waiting": 422
+"on_train": 20,
+"draft": 96,
+"waiting": 402
 },
 "stages": {
 "2": {
 "name": "Screen fixes",
 "total": 266,
 "states": {
-"on_train": 21,
-"draft": 10,
-"waiting": 235
+"on_train": 20,
+"draft": 24,
+"waiting": 222
 }
 },
 "1": {
 "name": "Gameplay audits",
 "total": 112,
 "states": {
-"draft": 64,
-"waiting": 48
+"draft": 71,
+"waiting": 41
 }
 },
 "3": {
@@ -31,7 +31,7 @@
 "total": 14,
 "states": {
 "waiting": 13,
-"on_train": 1
+"draft": 1
 }
 },
 "4": {
@@ -55,7 +55,10 @@
 "open_code_prs": 0,
 "open_train_prs": [
 509,
-521
+521,
+536,
+539,
+542
 ],
 "on_train_no_pr": [
 1,
@@ -77,13 +80,11 @@
 37,
 39,
 41,
-43,
-193,
-211
+43
 ],
-"draft_code_prs": 2,
+"draft_code_prs": 5,
 "area_locks": {
-"rivalry-legacy": 521
+"rivalry-legacy": 542
 },
 "ready": [
 44,
@@ -116,8 +117,8 @@
 "ready_codex": []
 },
 "rate": {
-"claimed_last_hour": 54,
-"claimed_last_10min": 54,
+"claimed_last_hour": 74,
+"claimed_last_10min": 74,
 "merged_last_hour": 0
 },
 "events": [
@@ -853,6 +854,160 @@
 "at": "2026-10-10T19:54:19Z",
 "item": 212,
 "job": 1572,
+"from": "waiting",
+"to": "draft"
+},
+{
+"at": "2026-10-10T19:58:17Z",
+"item": 174,
+"job": 1553,
+"from": "waiting",
+"to": "draft"
+},
+{
+"at": "2026-10-10T19:58:17Z",
+"item": 193,
+"job": 1303,
+"from": "on_train",
+"to": "draft"
+},
+{
+"at": "2026-10-10T19:58:17Z",
+"item": 211,
+"job": 1304,
+"from": "on_train",
+"to": "draft"
+},
+{
+"at": "2026-10-10T19:58:17Z",
+"item": 214,
+"job": 1573,
+"from": "waiting",
+"to": "draft"
+},
+{
+"at": "2026-10-10T19:58:17Z",
+"item": 216,
+"job": 1574,
+"from": "waiting",
+"to": "draft"
+},
+{
+"at": "2026-10-10T19:58:17Z",
+"item": 218,
+"job": 1575,
+"from": "waiting",
+"to": "draft"
+},
+{
+"at": "2026-10-10T19:58:17Z",
+"item": 220,
+"job": 1576,
+"from": "waiting",
+"to": "draft"
+},
+{
+"at": "2026-10-10T19:58:17Z",
+"item": 222,
+"job": 1577,
+"from": "waiting",
+"to": "draft"
+},
+{
+"at": "2026-10-10T19:58:17Z",
+"item": 224,
+"job": 1578,
+"from": "waiting",
+"to": "draft"
+},
+{
+"at": "2026-10-10T19:58:17Z",
+"item": 229,
+"job": 1305,
+"from": "waiting",
+"to": "draft"
+},
+{
+"at": "2026-10-10T19:58:17Z",
+"item": 247,
+"job": 1306,
+"from": "waiting",
+"to": "draft"
+},
+{
+"at": "2026-10-10T19:58:17Z",
+"item": 265,
+"job": 1307,
+"from": "waiting",
+"to": "draft"
+},
+{
+"at": "2026-10-10T19:58:17Z",
+"item": 283,
+"job": 1308,
+"from": "waiting",
+"to": "draft"
+},
+{
+"at": "2026-10-10T19:58:17Z",
+"item": 301,
+"job": 1309,
+"from": "waiting",
+"to": "draft"
+},
+{
+"at": "2026-10-10T19:58:17Z",
+"item": 319,
+"job": 1310,
+"from": "waiting",
+"to": "draft"
+},
+{
+"at": "2026-10-10T19:58:17Z",
+"item": 337,
+"job": 1311,
+"from": "waiting",
+"to": "draft"
+},
+{
+"at": "2026-10-10T19:58:17Z",
+"item": 355,
+"job": 1312,
+"from": "waiting",
+"to": "draft"
+},
+{
+"at": "2026-10-10T19:58:17Z",
+"item": 363,
+"job": 1351,
+"from": "waiting",
+"to": "draft"
+},
+{
+"at": "2026-10-10T19:58:17Z",
+"item": 371,
+"job": 1352,
+"from": "waiting",
+"to": "draft"
+},
+{
+"at": "2026-10-10T19:58:17Z",
+"item": 379,
+"job": 1353,
+"from": "waiting",
+"to": "draft"
+},
+{
+"at": "2026-10-10T19:58:17Z",
+"item": 387,
+"job": 1354,
+"from": "waiting",
+"to": "draft"
+},
+{
+"at": "2026-10-10T19:58:17Z",
+"item": 395,
+"job": 1355,
 "from": "waiting",
 "to": "draft"
 }
@@ -3055,8 +3210,19 @@
 "title": "Audit js/clubAssignment.js for gameplay bugs (first half)",
 "mode": "audit",
 "group": null,
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"pr": 533,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/533",
+"base": "qa/mega-audits",
+"branch": "qa/job-1553-club-assignment-1",
+"ci": "draft",
+"ci_sha": "4871a503ff21d62d8c4d4f73ad6b3af4ff15fc8f",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-10T19:54:39Z",
+"first_seen": "2026-10-10T19:54:39Z",
+"since": "2026-10-10T19:58:17Z"
 },
 "175": {
 "job": 1302,
@@ -3336,10 +3502,19 @@
 "title": "Legacy: match the desktop mockup",
 "mode": "code",
 "group": "rivalry-legacy",
-"state": "on_train",
+"pr": 536,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/536",
+"base": "gameplay/bug-list-1",
 "branch": "gameplay/train-rivalry-legacy-3",
+"ci": "draft",
+"ci_sha": "c28ba0f52742658d7b30f9c3b7b880226f3f32f9",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-10T19:54:58Z",
 "first_seen": "2026-10-10T19:54:19Z",
-"since": "2026-10-10T19:54:19Z"
+"since": "2026-10-10T19:58:17Z"
 },
 "194": {
 "job": 1563,
@@ -3599,10 +3774,19 @@
 "title": "Legacy: long names",
 "mode": "code",
 "group": "rivalry-legacy",
-"state": "on_train",
+"pr": 536,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/536",
+"base": "gameplay/bug-list-1",
 "branch": "gameplay/train-rivalry-legacy-3",
+"ci": "draft",
+"ci_sha": "c28ba0f52742658d7b30f9c3b7b880226f3f32f9",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-10T19:54:58Z",
 "first_seen": "2026-10-10T19:54:19Z",
-"since": "2026-10-10T19:54:19Z"
+"since": "2026-10-10T19:58:17Z"
 },
 "212": {
 "job": 1572,
@@ -3639,8 +3823,19 @@
 "title": "Audit js/seasonFinalV10.js for gameplay bugs (first half)",
 "mode": "audit",
 "group": null,
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"pr": 534,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/534",
+"base": "qa/mega-audits",
+"branch": "qa/job-1573-seasonfinal-1",
+"ci": "draft",
+"ci_sha": "053603f684cfbf69c4a8442c730a85fddb78dea7",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-10T19:54:43Z",
+"first_seen": "2026-10-10T19:54:43Z",
+"since": "2026-10-10T19:58:17Z"
 },
 "215": {
 "job": 1420,
@@ -3657,8 +3852,19 @@
 "title": "Audit js/seasonFinalV10.js for gameplay bugs (second half)",
 "mode": "audit",
 "group": null,
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"pr": 535,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/535",
+"base": "qa/mega-audits",
+"branch": "qa/job-1574-seasonfinal-2",
+"ci": "draft",
+"ci_sha": "023060fc5b71d3054a80e13f4a6584cdbc62ff5d",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-10T19:54:47Z",
+"first_seen": "2026-10-10T19:54:47Z",
+"since": "2026-10-10T19:58:17Z"
 },
 "217": {
 "job": 1073,
@@ -3675,8 +3881,19 @@
 "title": "Audit js/homeScreensV10.js for gameplay bugs (first half)",
 "mode": "audit",
 "group": null,
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"pr": 537,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/537",
+"base": "qa/mega-audits",
+"branch": "qa/job-1575-homescreens-1",
+"ci": "draft",
+"ci_sha": "de84e82ea0c3b19d2a6db65ad4a48403efc33001",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-10T19:55:06Z",
+"first_seen": "2026-10-10T19:55:06Z",
+"since": "2026-10-10T19:58:17Z"
 },
 "219": {
 "job": 1102,
@@ -3693,8 +3910,19 @@
 "title": "Audit js/homeScreensV10.js for gameplay bugs (second half)",
 "mode": "audit",
 "group": null,
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"pr": 538,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/538",
+"base": "qa/mega-audits",
+"branch": "qa/job-1576-homescreens-2",
+"ci": "draft",
+"ci_sha": "2625e61d34ebe40d21d9b7a687949fab60bd5040",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-10T19:55:10Z",
+"first_seen": "2026-10-10T19:55:10Z",
+"since": "2026-10-10T19:58:17Z"
 },
 "221": {
 "job": 1131,
@@ -3711,8 +3939,19 @@
 "title": "Audit js/v10Screens.js for gameplay bugs (first half)",
 "mode": "audit",
 "group": null,
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"pr": 540,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/540",
+"base": "qa/mega-audits",
+"branch": "qa/job-1577-v10screens-1",
+"ci": "draft",
+"ci_sha": "46b3c24fa040848e787ee7092877a141b64fdb24",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-10T19:55:32Z",
+"first_seen": "2026-10-10T19:55:32Z",
+"since": "2026-10-10T19:58:17Z"
 },
 "223": {
 "job": 1160,
@@ -3729,8 +3968,19 @@
 "title": "Audit js/v10Screens.js for gameplay bugs (second half)",
 "mode": "audit",
 "group": null,
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"pr": 541,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/541",
+"base": "qa/mega-audits",
+"branch": "qa/job-1578-v10screens-2",
+"ci": "draft",
+"ci_sha": "a6a7667c5ec228341f074097c82a9f7bc6a85837",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-10T19:55:36Z",
+"first_seen": "2026-10-10T19:55:36Z",
+"since": "2026-10-10T19:58:17Z"
 },
 "225": {
 "job": 1189,
@@ -3774,8 +4024,19 @@
 "title": "Legacy: tap targets",
 "mode": "code",
 "group": "rivalry-legacy",
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"pr": 536,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/536",
+"base": "gameplay/bug-list-1",
+"branch": "gameplay/train-rivalry-legacy-3",
+"ci": "draft",
+"ci_sha": "c28ba0f52742658d7b30f9c3b7b880226f3f32f9",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-10T19:54:58Z",
+"first_seen": "2026-10-10T19:54:58Z",
+"since": "2026-10-10T19:58:17Z"
 },
 "230": {
 "job": 1284,
@@ -3936,8 +4197,19 @@
 "title": "Legacy: keyboard focus and reduced motion",
 "mode": "code",
 "group": "rivalry-legacy",
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"pr": 536,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/536",
+"base": "gameplay/bug-list-1",
+"branch": "gameplay/train-rivalry-legacy-3",
+"ci": "draft",
+"ci_sha": "c28ba0f52742658d7b30f9c3b7b880226f3f32f9",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-10T19:54:58Z",
+"first_seen": "2026-10-10T19:54:58Z",
+"since": "2026-10-10T19:58:17Z"
 },
 "248": {
 "job": 1110,
@@ -4098,8 +4370,19 @@
 "title": "Legacy: text contrast",
 "mode": "code",
 "group": "rivalry-legacy",
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"pr": 536,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/536",
+"base": "gameplay/bug-list-1",
+"branch": "gameplay/train-rivalry-legacy-3",
+"ci": "draft",
+"ci_sha": "c28ba0f52742658d7b30f9c3b7b880226f3f32f9",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-10T19:54:58Z",
+"first_seen": "2026-10-10T19:54:58Z",
+"since": "2026-10-10T19:58:17Z"
 },
 "266": {
 "job": 1372,
@@ -4260,8 +4543,19 @@
 "title": "Legacy: picture descriptions and labels",
 "mode": "code",
 "group": "rivalry-legacy",
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"pr": 539,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/539",
+"base": "gameplay/bug-list-1",
+"branch": "gameplay/train-rivalry-legacy-4",
+"ci": "draft",
+"ci_sha": "402cb5a6464241c11e9efd57a89409a6e43a8386",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-10T19:55:26Z",
+"first_seen": "2026-10-10T19:55:26Z",
+"since": "2026-10-10T19:58:17Z"
 },
 "284": {
 "job": 1170,
@@ -4422,8 +4716,19 @@
 "title": "Legacy: loading state",
 "mode": "code",
 "group": "rivalry-legacy",
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"pr": 539,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/539",
+"base": "gameplay/bug-list-1",
+"branch": "gameplay/train-rivalry-legacy-4",
+"ci": "draft",
+"ci_sha": "402cb5a6464241c11e9efd57a89409a6e43a8386",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-10T19:55:26Z",
+"first_seen": "2026-10-10T19:55:26Z",
+"since": "2026-10-10T19:58:17Z"
 },
 "302": {
 "job": 1257,
@@ -4584,8 +4889,19 @@
 "title": "Legacy: empty state",
 "mode": "code",
 "group": "rivalry-legacy",
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"pr": 539,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/539",
+"base": "gameplay/bug-list-1",
+"branch": "gameplay/train-rivalry-legacy-4",
+"ci": "draft",
+"ci_sha": "402cb5a6464241c11e9efd57a89409a6e43a8386",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-10T19:55:26Z",
+"first_seen": "2026-10-10T19:55:26Z",
+"since": "2026-10-10T19:58:17Z"
 },
 "320": {
 "job": 1316,
@@ -4746,8 +5062,19 @@
 "title": "Legacy: error and retry state",
 "mode": "code",
 "group": "rivalry-legacy",
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"pr": 539,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/539",
+"base": "gameplay/bug-list-1",
+"branch": "gameplay/train-rivalry-legacy-4",
+"ci": "draft",
+"ci_sha": "402cb5a6464241c11e9efd57a89409a6e43a8386",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-10T19:55:26Z",
+"first_seen": "2026-10-10T19:55:26Z",
+"since": "2026-10-10T19:58:17Z"
 },
 "338": {
 "job": 1404,
@@ -4908,8 +5235,19 @@
 "title": "Legacy: hover-only effects",
 "mode": "code",
 "group": "rivalry-legacy",
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"pr": 539,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/539",
+"base": "gameplay/bug-list-1",
+"branch": "gameplay/train-rivalry-legacy-4",
+"ci": "draft",
+"ci_sha": "402cb5a6464241c11e9efd57a89409a6e43a8386",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-10T19:55:26Z",
+"first_seen": "2026-10-10T19:55:26Z",
+"since": "2026-10-10T19:58:17Z"
 },
 "356": {
 "job": 1462,
@@ -4980,8 +5318,19 @@
 "title": "Rivalry Statistics: fix the 360x640 view",
 "mode": "code",
 "group": "rivalry-legacy",
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"pr": 542,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/542",
+"base": "gameplay/bug-list-1",
+"branch": "gameplay/train-rivalry-legacy-5",
+"ci": "draft",
+"ci_sha": "94a5196f5441598e50be263f31c8a17ca22a44ba",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-10T19:55:56Z",
+"first_seen": "2026-10-10T19:55:56Z",
+"since": "2026-10-10T19:58:17Z"
 },
 "364": {
 "job": 1346,
@@ -5052,8 +5401,19 @@
 "title": "Rivalry Statistics: fix the 390x844 view",
 "mode": "code",
 "group": "rivalry-legacy",
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"pr": 542,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/542",
+"base": "gameplay/bug-list-1",
+"branch": "gameplay/train-rivalry-legacy-5",
+"ci": "draft",
+"ci_sha": "94a5196f5441598e50be263f31c8a17ca22a44ba",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-10T19:55:56Z",
+"first_seen": "2026-10-10T19:55:56Z",
+"since": "2026-10-10T19:58:17Z"
 },
 "372": {
 "job": 1086,
@@ -5124,8 +5484,19 @@
 "title": "Rivalry Statistics: fix the 430x932 view",
 "mode": "code",
 "group": "rivalry-legacy",
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"pr": 542,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/542",
+"base": "gameplay/bug-list-1",
+"branch": "gameplay/train-rivalry-legacy-5",
+"ci": "draft",
+"ci_sha": "94a5196f5441598e50be263f31c8a17ca22a44ba",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-10T19:55:56Z",
+"first_seen": "2026-10-10T19:55:56Z",
+"since": "2026-10-10T19:58:17Z"
 },
 "380": {
 "job": 1434,
@@ -5196,8 +5567,19 @@
 "title": "Rivalry Statistics: fix the 844x390 view",
 "mode": "code",
 "group": "rivalry-legacy",
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"pr": 542,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/542",
+"base": "gameplay/bug-list-1",
+"branch": "gameplay/train-rivalry-legacy-5",
+"ci": "draft",
+"ci_sha": "94a5196f5441598e50be263f31c8a17ca22a44ba",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-10T19:55:56Z",
+"first_seen": "2026-10-10T19:55:56Z",
+"since": "2026-10-10T19:58:17Z"
 },
 "388": {
 "job": 1115,
@@ -5268,8 +5650,19 @@
 "title": "Rivalry Statistics: fix the 932x430 view",
 "mode": "code",
 "group": "rivalry-legacy",
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"pr": 542,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/542",
+"base": "gameplay/bug-list-1",
+"branch": "gameplay/train-rivalry-legacy-5",
+"ci": "draft",
+"ci_sha": "94a5196f5441598e50be263f31c8a17ca22a44ba",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-10T19:55:56Z",
+"first_seen": "2026-10-10T19:55:56Z",
+"since": "2026-10-10T19:58:17Z"
 },
 "396": {
 "job": 1174,

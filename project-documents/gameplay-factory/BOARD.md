@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Sat 10 Oct, 3:54 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Sat 10 Oct, 3:58 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r69** (main `f335734`, Sat 10 Oct 3:50 PM)
 
@@ -117,12 +117,12 @@ Type now, in any GPT chat:
 
 Open code PRs: 0/8.
 
-211 taken of 518.
+395 taken of 518.
 
 | Stage | Items | Merged | Picked up |
 | --- | --- | --- | --- |
-| audits | 112 | 0/112 | 63/112 |
-| screen fixes | 266 | 0/266 | 31/266 |
+| audits | 112 | 0/112 | 71/112 |
+| screen fixes | 266 | 0/266 | 44/266 |
 | mockup match | 14 | 0/14 | 1/14 |
 | phone studies | 70 | 0/70 | 0/70 |
 | desktop studies | 56 | 0/56 | 0/56 |
@@ -131,35 +131,35 @@ Open code PRs: 0/8.
 
 | # | Job | State | Title |
 | --- | --- | --- | --- |
-| 211 | 1304 | on_train | Legacy: long names |
-| 210 | 1571 | PR open | Audit js/clubScreenV10.js for gameplay bugs (first half) |
-| 208 | 1570 | PR open | Audit js/transferScreenV10.js for gameplay bugs (second half) |
-| 206 | 1569 | PR open | Audit js/transferScreenV10.js for gameplay bugs (first half) |
-| 204 | 1568 | PR open | Audit js/rivalryLegacyV10.js for gameplay bugs (second half) |
-| 202 | 1567 | PR open | Audit js/rivalryLegacyV10.js for gameplay bugs (first half) |
-| 200 | 1566 | PR open | Audit js/careerScreensV10.js for gameplay bugs (second half) |
-| 198 | 1565 | PR open | Audit js/careerScreensV10.js for gameplay bugs (first half) |
-| 196 | 1564 | PR open | Audit js/sparkCompletedTransferHistoryReader.js for gameplay bugs (second half) |
-| 194 | 1563 | PR open | Audit js/sparkCompletedTransferHistoryReader.js for gameplay bugs (first half) |
-| 193 | 1303 | on_train | Legacy: match the desktop mockup |
-| 192 | 1562 | PR open | Audit js/sparkCompletedShowdownReader.js for gameplay bugs (second half) |
-| 190 | 1561 | PR open | Audit js/sparkCompletedShowdownReader.js for gameplay bugs (first half) |
-| 188 | 1560 | PR open | Audit js/offlineApp.js for gameplay bugs (second half) |
-| 186 | 1559 | PR open | Audit js/offlineApp.js for gameplay bugs (first half) |
-| 184 | 1558 | PR open | Audit js/diagnostics.js for gameplay bugs (second half) |
-| 182 | 1557 | PR open | Audit js/diagnostics.js for gameplay bugs (first half) |
-| 180 | 1556 | PR open | Audit js/storage.js for gameplay bugs (second half) |
-| 178 | 1555 | PR open | Audit js/storage.js for gameplay bugs (first half) |
-| 176 | 1554 | PR open | Audit js/clubAssignment.js for gameplay bugs (second half) |
+| 395 | 1355 | PR open | Rivalry Statistics: fix the 932x430 view |
+| 387 | 1354 | PR open | Rivalry Statistics: fix the 844x390 view |
+| 379 | 1353 | PR open | Rivalry Statistics: fix the 430x932 view |
+| 371 | 1352 | PR open | Rivalry Statistics: fix the 390x844 view |
+| 363 | 1351 | PR open | Rivalry Statistics: fix the 360x640 view |
+| 355 | 1312 | PR open | Legacy: hover-only effects |
+| 337 | 1311 | PR open | Legacy: error and retry state |
+| 319 | 1310 | PR open | Legacy: empty state |
+| 301 | 1309 | PR open | Legacy: loading state |
+| 283 | 1308 | PR open | Legacy: picture descriptions and labels |
+| 265 | 1307 | PR open | Legacy: text contrast |
+| 247 | 1306 | PR open | Legacy: keyboard focus and reduced motion |
+| 229 | 1305 | PR open | Legacy: tap targets |
+| 224 | 1578 | PR open | Audit js/v10Screens.js for gameplay bugs (second half) |
+| 222 | 1577 | PR open | Audit js/v10Screens.js for gameplay bugs (first half) |
+| 220 | 1576 | PR open | Audit js/homeScreensV10.js for gameplay bugs (second half) |
+| 218 | 1575 | PR open | Audit js/homeScreensV10.js for gameplay bugs (first half) |
+| 216 | 1574 | PR open | Audit js/seasonFinalV10.js for gameplay bugs (second half) |
+| 214 | 1573 | PR open | Audit js/seasonFinalV10.js for gameplay bugs (first half) |
+| 212 | 1572 | PR open | Audit js/clubScreenV10.js for gameplay bugs (second half) |
 
 ## Mega tracker (live, free)
 
-Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/index.html) · summary: [mega/MEGA_TRACKER.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/MEGA_TRACKER.md) · rebuilt by the poller each round, updated 2026-10-10T19:54:19Z.
+Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/index.html) · summary: [mega/MEGA_TRACKER.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/MEGA_TRACKER.md) · rebuilt by the poller each round, updated 2026-10-10T19:58:17Z.
 
 | Stage | Done (merged or live) | In progress | Waiting |
 | --- | --- | --- | --- |
-| Gameplay audits | 0 of 112 | 64 | 48 |
-| Screen fixes | 0 of 266 | 31 | 235 |
+| Gameplay audits | 0 of 112 | 71 | 41 |
+| Screen fixes | 0 of 266 | 44 | 222 |
 | Match desktop to mockups | 0 of 14 | 1 | 13 |
 | Phone mockup studies | 0 of 70 | 0 | 70 |
 | Improved desktop studies | 0 of 56 | 0 | 56 |
@@ -168,6 +168,9 @@ Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-caree
 
 - 509
 - 521
+- 536
+- 539
+- 542
 
 **Latest finished numbers (up to 20)**
 

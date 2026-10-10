@@ -1,22 +1,22 @@
-# Mega factory tracker · updated 2026-10-10T19:54:19Z
+# Mega factory tracker · updated 2026-10-10T19:58:17Z
 
 **Type now:** 44, 45, 46, 47, 48, 50, 51, 52, 53, 54, 55, 56
-**Next free number:** 44 · **highest taken:** 212 of 518
+**Next free number:** 44 · **highest taken:** 395 of 518
 **Code PRs open:** 0 of 8 · area locks: rivalry-legacy
-**Rate:** 54 claimed in 10 min · 54 in 1 h · 0 merged in 1 h
+**Rate:** 74 claimed in 10 min · 74 in 1 h · 0 merged in 1 h
 
 **Finished (merged or live): 0 of 518**
 
 State | count
 --- | ---
-🚂 done, on the train branch, no PR yet | 22
-📝 worker done, draft PR open | 74
-⬜ waiting | 422
+🚂 done, on the train branch, no PR yet | 20
+📝 worker done, draft PR open | 96
+⬜ waiting | 402
 
 Stage | total | merged/live | in flight | waiting
 --- | --- | --- | --- | ---
-1 Gameplay audits | 112 | 0 | 64 | 48
-2 Screen fixes | 266 | 0 | 31 | 235
+1 Gameplay audits | 112 | 0 | 71 | 41
+2 Screen fixes | 266 | 0 | 44 | 222
 3 Match desktop to mockups | 14 | 0 | 1 | 13
 4 Phone mockup studies | 70 | 0 | 0 | 70
 5 Improved desktop studies | 56 | 0 | 0 | 56
@@ -97,6 +97,7 @@ Stage | total | merged/live | in flight | waiting
 - 📝 **168** · Job 1550 · Audit js/screens.js for gameplay bugs (second half) · worker done, draft PR open · [PR #526](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/526)
 - 📝 **170** · Job 1551 · Audit js/menuExperience.js for gameplay bugs (first half) · worker done, draft PR open · [PR #529](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/529)
 - 📝 **172** · Job 1552 · Audit js/menuExperience.js for gameplay bugs (second half) · worker done, draft PR open · [PR #530](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/530)
+- 📝 **174** · Job 1553 · Audit js/clubAssignment.js for gameplay bugs (first half) · worker done, draft PR open · [PR #533](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/533)
 - 📝 **175** · Job 1302 · Legacy: fix the 2560x1080 view · worker done, draft PR open · [PR #521](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/521)
 - 📝 **176** · Job 1554 · Audit js/clubAssignment.js for gameplay bugs (second half) · worker done, draft PR open · [PR #491](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/491)
 - 📝 **178** · Job 1555 · Audit js/storage.js for gameplay bugs (first half) · worker done, draft PR open · [PR #492](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/492)
@@ -107,7 +108,7 @@ Stage | total | merged/live | in flight | waiting
 - 📝 **188** · Job 1560 · Audit js/offlineApp.js for gameplay bugs (second half) · worker done, draft PR open · [PR #503](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/503)
 - 📝 **190** · Job 1561 · Audit js/sparkCompletedShowdownReader.js for gameplay bugs (first half) · worker done, draft PR open · [PR #507](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/507)
 - 📝 **192** · Job 1562 · Audit js/sparkCompletedShowdownReader.js for gameplay bugs (second half) · worker done, draft PR open · [PR #508](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/508)
-- 🚂 **193** · Job 1303 · Legacy: match the desktop mockup · done, on the train branch, no PR yet
+- 📝 **193** · Job 1303 · Legacy: match the desktop mockup · worker done, draft PR open · [PR #536](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/536)
 - 📝 **194** · Job 1563 · Audit js/sparkCompletedTransferHistoryReader.js for gameplay bugs (first half) · worker done, draft PR open · [PR #512](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/512)
 - 📝 **196** · Job 1564 · Audit js/sparkCompletedTransferHistoryReader.js for gameplay bugs (second half) · worker done, draft PR open · [PR #513](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/513)
 - 📝 **198** · Job 1565 · Audit js/careerScreensV10.js for gameplay bugs (first half) · worker done, draft PR open · [PR #516](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/516)
@@ -117,28 +118,47 @@ Stage | total | merged/live | in flight | waiting
 - 📝 **206** · Job 1569 · Audit js/transferScreenV10.js for gameplay bugs (first half) · worker done, draft PR open · [PR #527](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/527)
 - 📝 **208** · Job 1570 · Audit js/transferScreenV10.js for gameplay bugs (second half) · worker done, draft PR open · [PR #528](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/528)
 - 📝 **210** · Job 1571 · Audit js/clubScreenV10.js for gameplay bugs (first half) · worker done, draft PR open · [PR #531](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/531)
-- 🚂 **211** · Job 1304 · Legacy: long names · done, on the train branch, no PR yet
+- 📝 **211** · Job 1304 · Legacy: long names · worker done, draft PR open · [PR #536](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/536)
 - 📝 **212** · Job 1572 · Audit js/clubScreenV10.js for gameplay bugs (second half) · worker done, draft PR open · [PR #532](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/532)
+- 📝 **214** · Job 1573 · Audit js/seasonFinalV10.js for gameplay bugs (first half) · worker done, draft PR open · [PR #534](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/534)
+- 📝 **216** · Job 1574 · Audit js/seasonFinalV10.js for gameplay bugs (second half) · worker done, draft PR open · [PR #535](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/535)
+- 📝 **218** · Job 1575 · Audit js/homeScreensV10.js for gameplay bugs (first half) · worker done, draft PR open · [PR #537](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/537)
+- 📝 **220** · Job 1576 · Audit js/homeScreensV10.js for gameplay bugs (second half) · worker done, draft PR open · [PR #538](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/538)
+- 📝 **222** · Job 1577 · Audit js/v10Screens.js for gameplay bugs (first half) · worker done, draft PR open · [PR #540](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/540)
+- 📝 **224** · Job 1578 · Audit js/v10Screens.js for gameplay bugs (second half) · worker done, draft PR open · [PR #541](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/541)
+- 📝 **229** · Job 1305 · Legacy: tap targets · worker done, draft PR open · [PR #536](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/536)
+- 📝 **247** · Job 1306 · Legacy: keyboard focus and reduced motion · worker done, draft PR open · [PR #536](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/536)
+- 📝 **265** · Job 1307 · Legacy: text contrast · worker done, draft PR open · [PR #536](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/536)
+- 📝 **283** · Job 1308 · Legacy: picture descriptions and labels · worker done, draft PR open · [PR #539](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/539)
+- 📝 **301** · Job 1309 · Legacy: loading state · worker done, draft PR open · [PR #539](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/539)
+- 📝 **319** · Job 1310 · Legacy: empty state · worker done, draft PR open · [PR #539](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/539)
+- 📝 **337** · Job 1311 · Legacy: error and retry state · worker done, draft PR open · [PR #539](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/539)
+- 📝 **355** · Job 1312 · Legacy: hover-only effects · worker done, draft PR open · [PR #539](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/539)
+- 📝 **363** · Job 1351 · Rivalry Statistics: fix the 360x640 view · worker done, draft PR open · [PR #542](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/542)
+- 📝 **371** · Job 1352 · Rivalry Statistics: fix the 390x844 view · worker done, draft PR open · [PR #542](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/542)
+- 📝 **379** · Job 1353 · Rivalry Statistics: fix the 430x932 view · worker done, draft PR open · [PR #542](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/542)
+- 📝 **387** · Job 1354 · Rivalry Statistics: fix the 844x390 view · worker done, draft PR open · [PR #542](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/542)
+- 📝 **395** · Job 1355 · Rivalry Statistics: fix the 932x430 view · worker done, draft PR open · [PR #542](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/542)
 
 ## Latest changes
 
-- 2026-10-10T19:54:19Z · 212 (Job 1572): waiting → draft
-- 2026-10-10T19:54:19Z · 211 (Job 1304): waiting → on_train
-- 2026-10-10T19:54:19Z · 210 (Job 1571): waiting → draft
-- 2026-10-10T19:54:19Z · 208 (Job 1570): waiting → draft
-- 2026-10-10T19:54:19Z · 206 (Job 1569): waiting → draft
-- 2026-10-10T19:54:19Z · 204 (Job 1568): waiting → draft
-- 2026-10-10T19:54:19Z · 202 (Job 1567): waiting → draft
-- 2026-10-10T19:54:19Z · 200 (Job 1566): waiting → draft
-- 2026-10-10T19:54:19Z · 198 (Job 1565): waiting → draft
-- 2026-10-10T19:54:19Z · 196 (Job 1564): waiting → draft
-- 2026-10-10T19:54:19Z · 194 (Job 1563): waiting → draft
-- 2026-10-10T19:54:19Z · 193 (Job 1303): waiting → on_train
-- 2026-10-10T19:54:19Z · 192 (Job 1562): waiting → draft
-- 2026-10-10T19:54:19Z · 190 (Job 1561): waiting → draft
-- 2026-10-10T19:54:19Z · 188 (Job 1560): waiting → draft
-- 2026-10-10T19:54:19Z · 186 (Job 1559): waiting → draft
-- 2026-10-10T19:54:19Z · 184 (Job 1558): waiting → draft
-- 2026-10-10T19:54:19Z · 182 (Job 1557): waiting → draft
-- 2026-10-10T19:54:19Z · 180 (Job 1556): waiting → draft
-- 2026-10-10T19:54:19Z · 178 (Job 1555): waiting → draft
+- 2026-10-10T19:58:17Z · 395 (Job 1355): waiting → draft
+- 2026-10-10T19:58:17Z · 387 (Job 1354): waiting → draft
+- 2026-10-10T19:58:17Z · 379 (Job 1353): waiting → draft
+- 2026-10-10T19:58:17Z · 371 (Job 1352): waiting → draft
+- 2026-10-10T19:58:17Z · 363 (Job 1351): waiting → draft
+- 2026-10-10T19:58:17Z · 355 (Job 1312): waiting → draft
+- 2026-10-10T19:58:17Z · 337 (Job 1311): waiting → draft
+- 2026-10-10T19:58:17Z · 319 (Job 1310): waiting → draft
+- 2026-10-10T19:58:17Z · 301 (Job 1309): waiting → draft
+- 2026-10-10T19:58:17Z · 283 (Job 1308): waiting → draft
+- 2026-10-10T19:58:17Z · 265 (Job 1307): waiting → draft
+- 2026-10-10T19:58:17Z · 247 (Job 1306): waiting → draft
+- 2026-10-10T19:58:17Z · 229 (Job 1305): waiting → draft
+- 2026-10-10T19:58:17Z · 224 (Job 1578): waiting → draft
+- 2026-10-10T19:58:17Z · 222 (Job 1577): waiting → draft
+- 2026-10-10T19:58:17Z · 220 (Job 1576): waiting → draft
+- 2026-10-10T19:58:17Z · 218 (Job 1575): waiting → draft
+- 2026-10-10T19:58:17Z · 216 (Job 1574): waiting → draft
+- 2026-10-10T19:58:17Z · 214 (Job 1573): waiting → draft
+- 2026-10-10T19:58:17Z · 211 (Job 1304): on_train → draft
