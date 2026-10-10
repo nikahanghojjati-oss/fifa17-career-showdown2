@@ -1,11 +1,11 @@
-# Mega factory run report · 2026-10-10T17:03:21Z
+# Mega factory run report · 2026-10-10T17:05:50Z
 
-Taken 39 of 518 jobs. By state: on_train 20, pr_open 19, waiting 479
+Taken 40 of 518 jobs. By state: on_train 20, pr_open 20, waiting 478
 
 ## By stage
 Stage | name | total | picked up | merged
 --- | --- | --- | --- | ---
-1 | audits | 112 | 19 | 0
+1 | audits | 112 | 20 | 0
 2 | screen fixes | 266 | 20 | 0
 3 | mockup match | 14 | 0 | 0
 4 | phone studies | 70 | 0 | 0
@@ -46,6 +46,7 @@ Number | job | title | state | link
 34 | 1483 | Audit js/productionSharedTransferChallenge.js for gameplay bugs (first half) | pr_open | [PR #478](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/478)
 36 | 1484 | Audit js/productionSharedTransferChallenge.js for gameplay bugs (second half) | pr_open | [PR #479](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/479)
 38 | 1485 | Audit js/sparkSharedTransferChallenge.js for gameplay bugs (first half) | pr_open | [PR #480](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/480)
+40 | 1486 | Audit js/sparkSharedTransferChallenge.js for gameplay bugs (second half) | pr_open | [PR #481](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/481)
 
 ## Needs a look (blocked, no change needed, needs Team V or mockup)
 

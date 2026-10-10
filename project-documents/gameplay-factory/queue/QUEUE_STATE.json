@@ -1,7 +1,6 @@
 {
  "sequence": {
   "ready": [
-   40,
    41,
    42,
    43,
@@ -12,10 +11,10 @@
    48,
    49,
    50,
-   51
+   51,
+   52
   ],
   "ready_sol": [
-   40,
    41,
    42,
    43,
@@ -26,14 +25,15 @@
    48,
    49,
    50,
-   51
+   51,
+   52
   ],
   "ready_codex": [],
-  "held_until_picture": 91,
+  "held_until_picture": 86,
   "open_code_prs": 0,
   "open_train_prs": 0,
-  "next_free": 40,
-  "highest_taken": 39,
+  "next_free": 41,
+  "highest_taken": 40,
   "total": 518,
   "states": {
    "1": "on_train",
@@ -75,7 +75,7 @@
    "37": "on_train",
    "38": "pr_open",
    "39": "on_train",
-   "40": "waiting",
+   "40": "pr_open",
    "41": "waiting",
    "42": "waiting",
    "43": "waiting",
@@ -556,11 +556,11 @@
    "518": "waiting"
   }
  },
- "updated": "2026-10-10T17:03:21Z",
+ "updated": "2026-10-10T17:05:50Z",
  "counts": {
   "on_train": 20,
-  "waiting": 479,
-  "pr_open": 19
+  "waiting": 478,
+  "pr_open": 20
  },
  "stages": {
   "2": {
@@ -585,7 +585,7 @@
   },
   "1": {
    "total": 112,
-   "taken": 19,
+   "taken": 20,
    "merged": 0
   }
  },
@@ -4270,11 +4270,11 @@
    "branch": "qa/job-1485-transfer-challenge-first-half"
   },
   "1486": {
-   "state": "waiting",
-   "pr": null,
-   "draft": false,
-   "pr_url": null,
-   "branch": null
+   "state": "pr_open",
+   "pr": 481,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/481",
+   "branch": "qa/job-1486-transfer-challenge-2"
   },
   "1487": {
    "state": "waiting",
