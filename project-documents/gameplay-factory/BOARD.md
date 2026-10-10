@@ -4,13 +4,45 @@
 
 ![Jobs live per release](history-chart.svg)
 
-Updated Fri 9 Oct, 10:18 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Fri 9 Oct, 10:21 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r67** (main `f42dac2`, Fri 9 Oct 9:34 PM)
 
 🩺 **All clear: every check has a machine.** · POS20 #304 6/16
 
 ## Jobs
+
+### 👉 Next for you, in this order
+
+**#1 · 1579** `G` Season Results: a slow load must not pull you back after you moved on (Sol S5)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · **GPT-6 Sol** · High effort · ChatGPT project "Career Mode Showdown", normal chat
+
+Paste this:
+
+```text
+Job 1579: read project-documents/gameplay-factory/jobs/JOB-1579.md on branch factory/gameplay-v1 with the GitHub connector and do exactly what it says.
+```
+
+**#2 · 1580** `G` Showdown Gate: run the L5 lane only when its inputs changed  
+`░░░░░░░░░░` **0.0000 %**  
+⚪ Team white · **Codex default coding model** · High effort · Codex cloud, this repo
+
+Paste this:
+
+```text
+Job 1580: git fetch origin factory/gameplay-v1, then read git show FETCH_HEAD:project-documents/gameplay-factory/jobs/JOB-1580.md and do exactly what it says.
+```
+
+### ⏸ Waiting on something else
+
+**#1 · 1581** `G` Showdown Gate: split the slowest lane and cache downloads  
+`░░░░░░░░░░` **0.0000 %**  
+⚪ Team white · **Codex default coding model** · High effort · later: after 1580 merges
+
+**#2 · 1582** `G` Showdown Gate: screen shots of changed screens as a run artifact  
+`░░░░░░░░░░` **0.0000 %**  
+⚪ Team white · **Codex default coding model** · Medium effort · later: after 1581 merges
 
 **Done, waiting for the next release:** 1059, 1060
 
@@ -21,8 +53,8 @@ Updated Fri 9 Oct, 10:18 PM Boston time. Bug hunting only, no new features until
 ## Goals, in this order
 
 **1. Finish the remaining bugs** `now`  
-`██████████` **96.1538 %**  
-Numbered jobs: 50 done, 0 other open · Olympiad recheck: 23 of 23 settled, 0 still to fix · Sol's old leads: 3 open (0 real, 3 unsure)
+`█████████░` **91.4634 %**  
+Numbered jobs: 50 done, 4 other open · Olympiad recheck: 23 of 23 settled, 0 still to fix · Sol's old leads: 3 open (0 real, 3 unsure)
 
 **2. Visual fixes** `after stage 1`  
 `█████░░░░░` **52.3810 %**  

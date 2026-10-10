@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-09 10:18 PM Boston time (EDT)",
+ "generated": "2026-10-09 10:21 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -284,8 +284,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "68126ca",
-  "head_boston": "Fri 9 Oct 9:55 PM",
+  "head": "fbd97fa",
+  "head_boston": "Fri 9 Oct 10:19 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": true,
   "open_for_g": [],
@@ -714,9 +714,9 @@
  ],
  "now": {
   "moving": 39,
-  "next": 1,
+  "next": 3,
   "nik": 2,
-  "later": 6,
+  "later": 8,
   "rows": {
    "G": {
     "moving": [
@@ -1043,6 +1043,32 @@
       "lane": "sonnet",
       "state": "ready (Sonnet audit, then Opus fix)",
       "waits_on": ""
+     },
+     {
+      "id": "1579",
+      "title": "Season Results: a slow load must not pull you back after you moved on (Sol S5)",
+      "lane": "chat",
+      "team": "blue",
+      "model": "GPT-6 Sol",
+      "effort": "High",
+      "state": "next: ready for Sol chat",
+      "order": 33,
+      "place": "ChatGPT project \"Career Mode Showdown\", normal chat",
+      "note": "ticket jobs/JOB-1579.md",
+      "prompt": "Job 1579: read project-documents/gameplay-factory/jobs/JOB-1579.md on branch factory/gameplay-v1 with the GitHub connector and do exactly what it says."
+     },
+     {
+      "id": "1580",
+      "title": "Showdown Gate: run the L5 lane only when its inputs changed",
+      "lane": "codex",
+      "team": "white",
+      "model": "Codex default coding model",
+      "effort": "High",
+      "state": "next: ready for Codex",
+      "order": 34,
+      "place": "Codex cloud, this repo",
+      "note": "ticket jobs/JOB-1580.md",
+      "prompt": "Job 1580: git fetch origin factory/gameplay-v1, then read git show FETCH_HEAD:project-documents/gameplay-factory/jobs/JOB-1580.md and do exactly what it says."
      }
     ],
     "later": [
@@ -1086,6 +1112,32 @@
       "waits_on": "after Team V designs the combined screen (HO-011)",
       "details": "Nik picked No tap, combined: one screen shows the last season's score and the Final Winner. Team V designs it (HO-011), then a GPT green job builds it and restores the strict final-season check.",
       "order": 13
+     },
+     {
+      "id": "1581",
+      "title": "Showdown Gate: split the slowest lane and cache downloads",
+      "lane": "codex",
+      "team": "white",
+      "model": "Codex default coding model",
+      "effort": "High",
+      "state": "later: after 1580 merges",
+      "order": 35,
+      "place": "Codex cloud, this repo",
+      "note": "ticket jobs/JOB-1581.md",
+      "prompt": "Job 1581: git fetch origin factory/gameplay-v1, then read git show FETCH_HEAD:project-documents/gameplay-factory/jobs/JOB-1581.md and do exactly what it says."
+     },
+     {
+      "id": "1582",
+      "title": "Showdown Gate: screen shots of changed screens as a run artifact",
+      "lane": "codex",
+      "team": "white",
+      "model": "Codex default coding model",
+      "effort": "Medium",
+      "state": "later: after 1581 merges",
+      "order": 36,
+      "place": "Codex cloud, this repo",
+      "note": "ticket jobs/JOB-1582.md",
+      "prompt": "Job 1582: git fetch origin factory/gameplay-v1, then read git show FETCH_HEAD:project-documents/gameplay-factory/jobs/JOB-1582.md and do exactly what it says."
      }
     ]
    },
