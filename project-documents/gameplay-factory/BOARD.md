@@ -1,8 +1,10 @@
 # Bug hunt board · Haiku G
 
-![Team G progress](board-chart.svg)
+**How to type.** Mega numbers 1-518: type just the number in a GPT chat. Factory jobs in the 1500s: paste the whole line from the card, never just the number. Codex: paste the whole box from [TOMORROW.md](queue/TOMORROW.md).
 
 ![Jobs live per release](history-chart.svg)
+
+![Team G progress](board-chart.svg)
 
 Updated Fri 9 Oct, 10:49 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 

@@ -942,6 +942,8 @@ def render(first, compact=False, tight=False):
          f'<div class="tiles"><div class="tile"><b>{e((LV or {}).get("revision", "?").split("-")[-1])}</b><span>Live</span></div><div class="tile"><b>{n_run}</b><span>Jobs running</span></div><div class="tile"><b>{n_next}</b><span>Jobs to start</span></div><div class="tile"><b>{n_nik}</b><span>Other asks</span></div></div>' if not tight else f'<div class="m foot">Live: {e((LV or {}).get("revision", "?").split("-")[-1])}</div>']
     if first == "V" and not tight:  # Nik 2026-10-10: the visual board, one inline SVG
         H.append(f'<div style="margin:6px 10px">{v_svg()}</div>')
+    if first == "G":  # Nik 2026-10-10: how to type, at the very top
+        H.append(f'<div class="card move"><b>How to type</b><br>Mega numbers 1-518: type just the number in a GPT chat. Factory jobs in the 1500s: paste the whole line from the card, never just the number. Codex: paste the whole box from <a href="{BLOB}queue/TOMORROW.md">TOMORROW.md</a>.</div>')
     if first == "G" and mega():  # Nik 2026-10-10: the mega factory first, always (even in the tight layout)
         H.append(mega_tab(mega()))
     if first == "G" and not tight:  # Haiku G: stage ring and job bar
@@ -957,7 +959,10 @@ def render(first, compact=False, tight=False):
             J.append(f'<span class="k">{label}</span>')
             LASTPLACE[0] = None
             LASTNOTE[:] = []
-            J += [job_html(q, i, kind) for i, q in enumerate(Q[kind], 1)]  # #1 is the first job of each list
+            cap = 4 if (tight and first == "G") else len(Q[kind])  # the tight layout shows four cards; the rest are on GitHub
+            J += [job_html(q, i, kind) for i, q in enumerate(Q[kind][:cap], 1)]  # #1 is the first job of each list
+            if cap < len(Q[kind]):
+                J.append(f'<span class="m">+{len(Q[kind]) - cap} more on <a href="{BLOB}BOARD.md">GitHub</a></span>')
     if first != "G" and WAIT_REL_Q:  # Nik, 2026-10-09 23:24 UTC: finished but not on main yet, apart from what is already live
         J.append('<span class="k">Done, waiting for the next release</span> ' + ", ".join(e(q["n"]) for q in WAIT_REL_Q))
     if first != "G" and LIVE_Q:
@@ -1095,7 +1100,7 @@ if LV and LV.get("today"):
     L += ["## Shipped today", ""] + [f"- {TF.bos(x['merged'], '%-I:%M %p')} · #{x['pr']} {x['title']}" for x in LV["today"]] + [""]
 _svg = dash_svg(*stages())
 open(os.path.join(F, "board-chart.svg"), "w").write(_svg)
-L[2:2] = ["![Team G progress](board-chart.svg)", ""]
+L[2:2] = ["**How to type.** Mega numbers 1-518: type just the number in a GPT chat. Factory jobs in the 1500s: paste the whole line from the card, never just the number. Codex: paste the whole box from [TOMORROW.md](queue/TOMORROW.md).", "", "![Team G progress](board-chart.svg)", ""]
 # history: jobs live per release, a bar per release (Haiku G, 2026-10-10). Free: built from RELEASED.json.
 _rel = {}
 for _n, _rv in (json.load(open(os.path.join(F, "RELEASED.json"))).get("jobs") or {}).items():
