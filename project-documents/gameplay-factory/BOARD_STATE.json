@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-09 8:18 PM Boston time (EDT)",
+ "generated": "2026-10-09 8:25 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -284,7 +284,7 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "772a4c8",
+  "head": "772a4c8b",
   "head_boston": "Fri 9 Oct 7:47 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": true,
@@ -313,9 +313,9 @@
  },
  "two": {
   "live": {
-   "sha": "8e1a583",
+   "sha": "8e1a5833",
    "revision": "1.9.1-r66",
-   "when": "2026-10-09T16:04:25Z",
+   "when": "2026-10-09T16:04:25+00:00",
    "subject": "Release r66: Season Results on phones, closed Final Winner on both phones (#440)",
    "fixes": [],
    "today": [
@@ -708,7 +708,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 41,
+  "moving": 40,
   "next": 1,
   "nik": 2,
   "later": 6,
@@ -1013,19 +1013,6 @@
       "archived": true
      },
      {
-      "id": "1055",
-      "lane": "gpt-chat",
-      "note": "S1 confirmed; ticket jobs/JOB-1055.md",
-      "team": "blue",
-      "model": "GPT-6 Sol",
-      "effort": "High",
-      "place": "ChatGPT project \"Career Mode Showdown\", new normal chat",
-      "prompt": "",
-      "title": "Season Results points cap uses the real league size (Sol lead S1)",
-      "order": 27,
-      "state": "worker done, lead checking (PR #448): lead registered the test (fails before, passes after); CI running"
-     },
-     {
       "id": "1058",
       "lane": "gpt-chat",
       "note": "Sol lead S4 (real, small); ticket jobs/JOB-1058.md",
@@ -1036,7 +1023,7 @@
       "prompt": "",
       "title": "Transfer countdown agrees across both phones (Sol lead S4)",
       "order": 30,
-      "state": "worker done, lead checking (PR #449): lead registered the test (fails before, passes after); CI running"
+      "state": "worker done, lead checking (PR #449): brought up to date with bug-list-1 after 1055; CI running"
      }
     ],
     "nik": [
