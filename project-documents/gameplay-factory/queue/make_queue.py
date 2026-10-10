@@ -93,14 +93,14 @@ RULES = """## Rules for every queue job (read first)
 """
 
 RULES_CODE = """## Rules for every queue job (read first)
-- **Train branch:** code jobs of one lock group are stacked in order on a shared train branch, so one check and one review cover several fixes. This job is item **{pos} of {m}** of train **`{train}`**. Do `git fetch origin {train}` first. If the branch does not exist and you are item 1, create it from `{base}` and push it. Commit this job onto it (never onto `{base}`, `main`, `gameplay/recovery-v1` or any other train). Never merge, never force-push.
+- **Train branch:** code jobs of one lock group are stacked in order on a shared train branch, so one check and one review cover several fixes. This job is item **{pos} of {m}** of train **`{train}`**. Use the GitHub connector. If the branch `{train}` does not exist and you are item 1, create it from `{base}`. Commit this job's files onto it (never onto `{base}`, `main`, `gameplay/recovery-v1` or any other train). Never merge, never force-push.
 - **Scope:** change only the editable files named above. If it truly needs another file, change it and say why in the commit message.
 - **Never** edit `index.html`, `service-worker.js`, the release version or anything under `.github/`. Tests may only be added, never edited, deleted, skipped or loosened to make them pass. No player-visible text changes unless this ticket says so. Scoring, game rules and every screen's order of taps stay exactly as they are. Never use sessionStorage. Never touch anything under `visual-assets/v10_1/` (Team V's frozen design files), `tests/fixtures/`, and do not edit anything in `scripts/` (running it is fine).
-- **Checks:** run `node scripts/pos10-syntax.mjs` and `npm run -s test:contracts` and keep the last lines. Re-read your edit once.
-- **Always commit the status file:** `project-documents/gameplay-factory/status/JOB-{n}.md` with one line: `done` plus a sentence on what changed, or `no change needed` plus the three risks you checked, or `NEEDS TEAM V` plus what and why. That file is how the factory knows this job is finished. Commit message: `JOB-{n} [{group}] <ticket title>`. Push the train branch.
+- **Checks:** you cannot run tests here, and that is expected; the Showdown Gate runs them on the train's pull request. Re-read your edit once.
+- **Always commit the status file:** `project-documents/gameplay-factory/status/JOB-{n}.md` with one line: `done` plus a sentence on what changed, or `no change needed` plus the three risks you checked, or `NEEDS TEAM V` plus what and why. That file is how the factory knows this job is finished. Commit message: `JOB-{n} [{group}] <ticket title>`. The status file does not count toward the three files.
 {pr}- **If you cannot finish** (a file is missing, a limit is reached): commit only the status file with `blocked` and the reason, and push. That frees the group's next job.
 """
-RULES_CODE_PR_LAST = """- **Open the train's pull request as a DRAFT:** you are the last item of this train. Open one draft PR from `{train}` into `{base}` titled `{titles} [{group}] train {k}`, with a body listing the {m} jobs ({jobs}), a "Before:" paragraph, an "After:" paragraph, the test lines, and which jobs were `no change needed`. Never mark it ready yourself; the Team G lead marks at most eight ready.
+RULES_CODE_PR_LAST = """- **Open the train's pull request as a DRAFT:** you are the last item of this train. Open one draft PR from `{train}` into `{base}` titled `{titles} [{group}] train {k}`, with a body listing the {m} jobs ({jobs}), a "Before:" paragraph, an "After:" paragraph, and which jobs were `no change needed`. Never mark it ready yourself; the Team G lead marks at most eight ready.
 - **Done:** reply with one line: `Job {n} done, train PR <link>.` Do not ask to continue.
 """
 RULES_CODE_PR_MID = """- **Do not open a pull request:** later items of this train still have to be committed. 
@@ -108,13 +108,10 @@ RULES_CODE_PR_MID = """- **Do not open a pull request:** later items of this tra
 """
 
 SIZE = """## Size of this job (one chat turn)
-Read at most 5 files besides this ticket, write at most 3 files (about 200 changed lines), make one decision (the DEFAULT covers the rest), save as you go and end with one line.
+Read at most 5 files besides this ticket, write at most 3 edited files (about 200 changed lines; the status file does not count), make one decision (the DEFAULT covers the rest), save as you go and end with one line.
 """
 
 def lane(base):
-    if base == BASE:
-        return (f"| Lane | Depends on | Branch to start from | PR into |\n| --- | --- | --- | --- |\n"
-                f"| White team: Codex cloud on the repo (default model and effort; runs the tests itself) | none | `{base}` | `{base}` |")
     return (f"| Lane | Depends on | Branch to start from | PR into |\n| --- | --- | --- | --- |\n"
             f"| Blue team: GPT-6 Sol, High effort (ChatGPT project \"Career Mode Showdown\", normal chat) | none | `{base}` | `{base}` |")
 

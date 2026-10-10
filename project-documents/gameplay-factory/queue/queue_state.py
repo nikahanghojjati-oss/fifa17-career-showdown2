@@ -114,8 +114,8 @@ def main():
         mode = lambda r: tk[str(o[str(r)]["job"])]["mode"]
         taken = [int(k) for k, v in o.items() if state[str(v["job"])]["state"] != "waiting"]
         seq = {"ready": ready[:12],
-               "ready_sol": [r for r in ready if mode(r) != "code"][:12],
-               "ready_codex": [r for r in ready if mode(r) == "code"][:12],
+               "ready_sol": ready[:12],  # every item runs in a GPT-6 Sol chat (Codex web cannot pick branches)
+               "ready_codex": [],
                "open_code_prs": ready_open, "open_train_prs": len(locked),
                "next_free": ready[0] if ready else None, "highest_taken": max(taken or [0]), "total": len(o),
                "states": {k: state[str(v["job"])]["state"] for k, v in o.items()}}
