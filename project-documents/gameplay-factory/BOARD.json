@@ -810,14 +810,27 @@
     },
     {
      "id": "G-F11",
-     "title": "Old-design CSS collisions: scope old rulebook/settings/analytics/app CSS off Team V markup (about 70 shared class names)",
+     "title": "Old-design CSS collisions: scope old rulebook/settings/analytics/app CSS off Team V markup (about 70 shared class names); then archive old-design CSS no Team V screen needs into archive/old-design/ (C-2 from the old-design flash fix, after the GPT-B audit; archive, don't delete)",
      "lane": "sonnet",
      "state": "ready (Sonnet audit, then Opus fix)",
      "waits_on": "",
      "team": "brown",
      "route": "claude",
      "claude_reason": "cross-screen CSS collisions across old and new screens",
-     "place": "Team G lead thread (Claude runs it; nothing to type)"
+     "place": "Team G lead thread (Claude runs it; nothing to type)",
+     "notes": "C-2 source: /mnt/project-files/gameplay/old-design-flash/JOBS.md. Opus does the archive step; touches the service-worker shell list and contracts."
+    },
+    {
+     "id": "G-F24",
+     "title": "Team V sheet loader: toggle link.sheet.disabled instead of link.disabled so Chromium stops refetching Team V sheets on each screen change (labels blank ~100 ms returning Home); update contracts F3, F3b and HO-020 with it (C-1)",
+     "lane": "sonnet",
+     "state": "ready after PR #485 merges",
+     "waits_on": "PR #485 (old-design flash fix)",
+     "team": "brown",
+     "route": "claude",
+     "claude_reason": "browser-visible loader timing plus three contracts; needs a browser repro",
+     "place": "Team G lead thread (Claude runs it; nothing to type)",
+     "notes": "Source: /mnt/project-files/gameplay/old-design-flash/JOBS.md"
     },
     {
      "id": "G-F17",
@@ -1716,7 +1729,8 @@
    "G-F11",
    "G-F18",
    "G-F5",
-   "G-F17"
+   "G-F17",
+   "G-F24"
   ],
   "queue_rule": "queue/CLAUDE_LANE.md (mega factory): which queue items move here and how; moved items are marked 'claude lane' in queue/ORDER.json and get a 1001+ job number from the lead"
  }
