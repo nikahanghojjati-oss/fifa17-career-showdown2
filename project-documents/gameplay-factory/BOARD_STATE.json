@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-10 3:37 PM Boston time (EDT)",
+ "generated": "2026-10-10 3:40 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 29,
@@ -317,7 +317,22 @@
    "revision": "1.9.1-r68",
    "when": "2026-10-10T17:20:54Z",
    "subject": "Release r68: Season Results fixes (1.9.1-r68) (#482)",
-   "fixes": [],
+   "fixes": [
+    {
+     "pr": 486,
+     "title": "Release r69: old-design flash fix",
+     "draft": false,
+     "branch": "release/r69",
+     "sha": "ea929f1c1e95523ac34a3cf90a881edceb38fe9a",
+     "updated": "2026-10-10T19:39:50Z",
+     "gates": {
+      "passed": 0,
+      "running": 6,
+      "failed": 0,
+      "cancelled": 0
+     }
+    }
+   ],
    "today": [
     {
      "pr": 482,
@@ -732,7 +747,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 40,
+  "moving": 41,
   "next": 5,
   "nik": 2,
   "later": 7,
@@ -1211,7 +1226,22 @@
     ]
    }
   },
-  "fixes": []
+  "fixes": [
+   {
+    "pr": 486,
+    "title": "Release r69: old-design flash fix",
+    "draft": false,
+    "branch": "release/r69",
+    "sha": "ea929f1c1e95523ac34a3cf90a881edceb38fe9a",
+    "updated": "2026-10-10T19:39:50Z",
+    "gates": {
+     "passed": 0,
+     "running": 6,
+     "failed": 0,
+     "cancelled": 0
+    }
+   }
+  ]
  },
  "jobs": [
   {
