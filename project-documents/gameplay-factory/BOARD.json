@@ -1710,6 +1710,7 @@
    "G-F18",
    "G-F5",
    "G-F17"
-  ]
+  ],
+  "queue_rule": "queue/CLAUDE_LANE.md (mega factory): which queue items move here and how; moved items are marked 'claude lane' in queue/ORDER.json and get a 1001+ job number from the lead"
  }
 }
