@@ -129,20 +129,28 @@ export function parsePhysioResults(log){
   }
   return results;
 }
+export const PHYSIO_WINDOW_MS=24*60*60*1000;
+export const PHYSIO_SLACK_MS=10*60*1000;
 export async function readPhysioReruns(client,repo,run,{log=jobLog}={}){
   const accepted=[];
   try{
     // Paginate until the target run's creation time; older Physio runs cannot have re-run it.
     const created=Date.parse(run.created_at);if(!Number.isFinite(created))return null;
+    // A re-run is requested before the recovered attempt finishes, so only Physio runs created between the
+    // target's creation and its last update (plus slack) can hold it. Reading every newer Physio run's logs
+    // exhausted the token's hourly request budget and returned null for real evidence.
+    const updated=Date.parse(run.updated_at);
+    const until=(Number.isFinite(updated)?Math.max(updated,created):created+PHYSIO_WINDOW_MS)+PHYSIO_SLACK_MS;
     for(let page=1;;page++){
       const runs=(await client.get(`repos/${repo}/actions/workflows/gate-watchdog.yml/runs?status=completed&per_page=100&page=${page}`))?.workflow_runs;
       if(!Array.isArray(runs))return null;
       for(const physio of runs){
-        if(Date.parse(physio.created_at)<created)continue;
+        if(Date.parse(physio.created_at)<created||Date.parse(physio.created_at)>until)continue;
         if(physio.name!==PHYSIO_NAME||String(physio.path||'').replace(/@.*$/,'')!=='.github/workflows/gate-watchdog.yml'||physio.head_branch!=='main'||!['workflow_run','schedule','workflow_dispatch'].includes(physio.event))continue;
         const jobs=(await client.get(`repos/${repo}/actions/runs/${physio.id}/jobs?filter=all&per_page=100`))?.jobs;
         if(!Array.isArray(jobs))return null;
         for(const job of jobs){
+          if(job.conclusion==='skipped')continue; // A skipped job ran nothing, so it holds no result.
           for(const result of parsePhysioResults(await log(repo,job.id))){
             if(result.run_id===run.id&&result.head_sha===run.head_sha&&result.workflow==='Showdown Gate'&&result.classification==='INFRA'&&result.action==='rerun-failed-jobs'&&result.rerun_status===201&&result.run_attempt===1&&result.retries_used===0){
               accepted.push({physio_run_id:physio.id,job_id:job.id,run_id:result.run_id,head_sha:result.head_sha,run_attempt:result.run_attempt});
@@ -163,11 +171,26 @@ async function oldInfra(client,repo,run,jobs,sealJobName){
   const c=classifyRun({run:{...run,event:'push'},jobs:jobs||[],annotations,sealJobName});
   return ['INFRA','INFRA_EXHAUSTED'].includes(c.classification);
 }
+// A head is superseded when its Gate run and its POS20 run were both cancelled and the PR's live head is a
+// different commit (a newer push cancelled them). It carries no verdict, so the exit report lists it apart
+// instead of counting it as incomplete evidence. Any doubt (no PR, unknown live head) is not superseded.
+export function isSupersededHead({head,gateRun,pos20Run,prHeadSha}){
+  const sha=value=>typeof value==='string'&&/^[0-9a-f]{40}$/.test(value);
+  return sha(head)&&gateRun?.conclusion==='cancelled'&&pos20Run?.conclusion==='cancelled'&&sha(prHeadSha)&&prHeadSha!==head;
+}
 export async function compareLive(client,repo,head,coverage){
   const runs=(await client.get(`repos/${repo}/actions/runs?head_sha=${head}&per_page=100`))?.workflow_runs||[];
   const latest=p=>runs.filter(run=>String(run.path||'').replace(/@.*$/,'')===p).sort((a,b)=>Date.parse(b.created_at)-Date.parse(a.created_at))[0]||null;
   const jobsOf=async run=>run?((await client.get(`repos/${repo}/actions/runs/${run.id}/jobs?filter=latest&per_page=100`))?.jobs||[]):null;
-  const pos20Run=latest(POS20_PATH);const pos20Jobs=await jobsOf(pos20Run);
+  const pos20Run=latest(POS20_PATH);
+  const gateRunForHead=latest(GATE_PATH);
+  if(gateRunForHead?.conclusion==='cancelled'&&pos20Run?.conclusion==='cancelled'){
+    const pr=gateRunForHead.pull_requests?.[0]?.number;
+    let prHeadSha=null;
+    if(Number.isInteger(pr)){try{prHeadSha=(await client.get(`repos/${repo}/pulls/${pr}`))?.head?.sha??null;}catch{prHeadSha=null;}}
+    if(isSupersededHead({head,gateRun:gateRunForHead,pos20Run,prHeadSha}))return {schema:'showdown-gate-compare/v1',head,superseded:true,pr,pr_head:prHeadSha};
+  }
+  const pos20Jobs=await jobsOf(pos20Run);
   let selector={profile:null,tests:[],proofs:[]};
   const selectorJob=pos20Jobs?.find(job=>job.name==='POS20 exact selector'&&job.conclusion==='success');
   if(selectorJob)selector=parsePos20SelectorLog(await jobLog(repo,selectorJob.id));
@@ -211,7 +234,8 @@ async function main(argv){
   const gateRuns=(await client.get(`repos/${repo}/actions/workflows/showdown-gate.yml/runs?event=pull_request&per_page=100`))?.workflow_runs||[];
   const heads=[...new Set(gateRuns.map(run=>run.head_sha))].filter(sha=>!canaryHeads.includes(sha)).slice(0,limit);
   const comparisons=[];
-  for(const sha of heads){const c=await compareLive(client,repo,sha,coverage);comparisons.push(c);console.log(JSON.stringify(c));}
+  const superseded=[];
+  for(const sha of heads){const c=await compareLive(client,repo,sha,coverage);(c.superseded===true?superseded:comparisons).push(c);console.log(JSON.stringify(c));}
   const canaries=[];for(const sha of canaryHeads)canaries.push(await compareLive(client,repo,sha,coverage));
   const infra=[];
   for(const id of infraRuns){
@@ -219,7 +243,7 @@ async function main(argv){
     const attribution=run.name==='Showdown Gate'&&String(run.path||'').replace(/@.*$/,'')===GATE_PATH?await readPhysioReruns(client,repo,run):null;
     infra.push({run_id:Number(id),run_attempt:Number(run.run_attempt),watchdog_reruns:attribution?.length??null,physio_reruns:attribution,conclusion:run.conclusion});
   }
-  console.log(JSON.stringify({...evaluateExitCriteria({comparisons,canaries,infraRuns:infra}),canaries:canaries.map(c=>({head:c.head,gate:c.gate})),infra_runs:infra}));
+  console.log(JSON.stringify({...evaluateExitCriteria({comparisons,canaries,infraRuns:infra}),superseded_heads:superseded.map(c=>c.head),canaries:canaries.map(c=>({head:c.head,gate:c.gate})),infra_runs:infra}));
 }
 
 if(process.argv[1]&&path.resolve(process.argv[1])===fileURLToPath(import.meta.url)){
