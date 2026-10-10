@@ -1,6 +1,6 @@
 {
  "_how": "One shared job counter for Team G and Team V (Nik, 2026-10-05). Claim with tools/claim_number.py only. A number is used once, ever. CONTRACT.md section 10.",
- "next": 1587,
+ "next": 1588,
  "claims": [
   {
    "number": 1001,
@@ -3518,6 +3518,12 @@
    "team": "G",
    "title": "Codex measuring job (mega factory morning pack)",
    "claimed": "2026-10-10T02:23:14Z"
+  },
+  {
+   "number": 1587,
+   "team": "G",
+   "title": "Season Results: a passing Transfer Challenge read hiccup must not fail the publish (Sol S2)",
+   "claimed": "2026-10-10T02:38:42Z"
   }
  ]
 }
