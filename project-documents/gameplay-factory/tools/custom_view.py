@@ -978,8 +978,16 @@ def render(first, compact=False, tight=False):
 
 
 open(os.path.join(F, "CUSTOM_VIEW_V.svg"), "w").write(v_svg())  # GitHub shows this committed SVG inline in RELAY.md
+def v_page():
+    """Team V's view (Nik 2026-10-10: visual, cheap): the banner, the inline SVG board and a link. The text job list
+    stays on GitHub, so the tab stays under LIMIT even when the queue grows."""
+    out = render("V", tight=True)
+    head = out[:out.index("<h2>Jobs</h2>")] if "<h2>Jobs</h2>" in out else out
+    return head + f'<div style="margin:6px 10px">{v_svg()}</div><div class="m foot">Full job list: <a href="{BLOB}BOARD.md">on GitHub</a></div></div>\n'
+
+
 for team, fn in (("G", "CUSTOM_VIEW.html"), ("V", "CUSTOM_VIEW_V.html")):
-    out = render(team)  # the jobs card is never cut; the sections below it shrink to fit the Custom view
+    out = v_page() if team == "V" else render(team)  # the jobs card is never cut; the sections below it shrink to fit the Custom view
     if len(out.encode()) > LIMIT:
         out = render(team, compact=True)
     if len(out.encode()) > LIMIT:
