@@ -842,7 +842,7 @@ def _lane_model(CL, team):
 
 def claude_lane_card(CL, rows, tight=False):
     """Custom view: the open Claude rows, nothing to type. Tight layout keeps one line per row."""
-    out = ['<div class="card"><b>Claude lane (nothing to type)</b> <span class="m">Nik never types these; the Team G lead runs them with Claude.</span>']
+    out = ['<div class="card"><b>Claude lane (nothing to type)</b> <span class="m">Nik types nothing here.</span>']
     for r in rows:
         b = BADGE.get(r.get("team"), ("", ""))[0]
         out.append(f'<br><span class="m">{b} <b>{e(r["id"])}</b> {e(r["title"][:(60 if tight else 110)])} · {e(_lane_model(CL, r.get("team")))}</span>')
