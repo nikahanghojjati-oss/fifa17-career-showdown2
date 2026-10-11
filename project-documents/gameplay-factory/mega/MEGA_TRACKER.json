@@ -1,11 +1,11 @@
 {
-"updated": "2026-10-11T02:57:51Z",
+"updated": "2026-10-11T03:01:48Z",
 "total": 518,
 "next_free": 91,
 "highest_taken": 395,
 "counts": {
-"draft": 199,
-"waiting": 310,
+"draft": 202,
+"waiting": 307,
 "on_train": 4,
 "blocked": 5
 },
@@ -38,8 +38,8 @@
 "name": "Phone mockup studies",
 "total": 70,
 "states": {
-"draft": 22,
-"waiting": 43,
+"draft": 25,
+"waiting": 40,
 "blocked": 5
 }
 },
@@ -97,8 +97,6 @@
 298,
 312,
 326,
-334,
-338,
 340,
 354
 ],
@@ -111,16 +109,14 @@
 298,
 312,
 326,
-334,
-338,
 340,
 354
 ],
 "ready_codex": []
 },
 "rate": {
-"claimed_last_hour": 51,
-"claimed_last_10min": 24,
+"claimed_last_hour": 54,
+"claimed_last_10min": 27,
 "merged_last_hour": 0
 },
 "events": [
@@ -1829,6 +1825,27 @@
 "at": "2026-10-11T02:57:51Z",
 "item": 350,
 "job": 1375,
+"from": "waiting",
+"to": "draft"
+},
+{
+"at": "2026-10-11T03:01:48Z",
+"item": 334,
+"job": 1200,
+"from": "waiting",
+"to": "draft"
+},
+{
+"at": "2026-10-11T03:01:48Z",
+"item": 338,
+"job": 1404,
+"from": "waiting",
+"to": "draft"
+},
+{
+"at": "2026-10-11T03:01:48Z",
+"item": 362,
+"job": 1201,
 "from": "waiting",
 "to": "draft"
 }
@@ -6932,8 +6949,19 @@
 "title": "Transfer challenge and Signing Entry: sideways phone study",
 "mode": "study",
 "group": null,
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"pr": 615,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/615",
+"base": "study/mega-queue",
+"branch": "study/job-1200-sideways-no-change",
+"ci": "draft",
+"ci_sha": "44aa1dbcc5eb9887d44c67f86d696e242c8a8ac7",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-11T02:58:59Z",
+"first_seen": "2026-10-11T02:58:59Z",
+"since": "2026-10-11T03:01:48Z"
 },
 "335": {
 "job": 1224,
@@ -6979,8 +7007,19 @@
 "title": "Career Statistics: upright tablet study",
 "mode": "study",
 "group": null,
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"pr": 616,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/616",
+"base": "study/mega-queue",
+"branch": "study/job-1404-career-statistics-tablet",
+"ci": "draft",
+"ci_sha": "17402156a14ee32d0c79d9596cd1b0c773b23439",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-11T02:59:49Z",
+"first_seen": "2026-10-11T02:59:49Z",
+"since": "2026-10-11T03:01:48Z"
 },
 "339": {
 "job": 1340,
@@ -7241,8 +7280,19 @@
 "title": "Transfer challenge and Signing Entry: upright tablet study",
 "mode": "study",
 "group": null,
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"pr": 617,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/617",
+"base": "study/mega-queue",
+"branch": "study/job-1201-tablet-no-change",
+"ci": "draft",
+"ci_sha": "426c6a4825fa4964f797674aa4df485276dcf141",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-11T03:00:11Z",
+"first_seen": "2026-10-11T03:00:11Z",
+"since": "2026-10-11T03:01:48Z"
 },
 "363": {
 "job": 1351,

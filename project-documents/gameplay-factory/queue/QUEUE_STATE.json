@@ -9,8 +9,6 @@
    298,
    312,
    326,
-   334,
-   338,
    340,
    354
   ],
@@ -23,8 +21,6 @@
    298,
    312,
    326,
-   334,
-   338,
    340,
    354
   ],
@@ -345,7 +341,7 @@
    "307": "waiting",
    "308": "waiting",
    "309": "waiting",
-   "310": "branch_only",
+   "310": "pr_open",
    "311": "waiting",
    "312": "waiting",
    "313": "waiting",
@@ -369,11 +365,11 @@
    "331": "waiting",
    "332": "pr_open",
    "333": "waiting",
-   "334": "waiting",
+   "334": "pr_open",
    "335": "waiting",
    "336": "waiting",
    "337": "pr_open",
-   "338": "waiting",
+   "338": "pr_open",
    "339": "waiting",
    "340": "waiting",
    "341": "waiting",
@@ -397,7 +393,7 @@
    "359": "waiting",
    "360": "pr_open",
    "361": "waiting",
-   "362": "waiting",
+   "362": "pr_open",
    "363": "pr_open",
    "364": "waiting",
    "365": "waiting",
@@ -556,13 +552,12 @@
    "518": "waiting"
   }
  },
- "updated": "2026-10-11T02:57:51Z",
+ "updated": "2026-10-11T03:01:48Z",
  "counts": {
-  "pr_open": 198,
-  "waiting": 310,
+  "pr_open": 202,
+  "waiting": 307,
   "blocked": 5,
-  "on_train": 4,
-  "branch_only": 1
+  "on_train": 4
  },
  "stages": {
   "2": {
@@ -577,7 +572,7 @@
   },
   "4": {
    "total": 70,
-   "taken": 27,
+   "taken": 30,
    "merged": 0
   },
   "5": {
@@ -2322,18 +2317,18 @@
    "branch": "study/job-1199-transfer-phone-c"
   },
   "1200": {
-   "state": "waiting",
-   "pr": null,
-   "draft": false,
-   "pr_url": null,
-   "branch": null
+   "state": "pr_open",
+   "pr": 615,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/615",
+   "branch": "study/job-1200-sideways-no-change"
   },
   "1201": {
-   "state": "waiting",
-   "pr": null,
-   "draft": false,
-   "pr_url": null,
-   "branch": null
+   "state": "pr_open",
+   "pr": 617,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/617",
+   "branch": "study/job-1201-tablet-no-change"
   },
   "1202": {
    "state": "waiting",
@@ -3743,18 +3738,18 @@
    "branch": "study/job-1402-career-statistics-phone-c"
   },
   "1403": {
-   "state": "branch_only",
-   "pr": null,
-   "draft": false,
-   "pr_url": null,
+   "state": "pr_open",
+   "pr": 614,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/614",
    "branch": "study/job-1403-career-statistics-sideways"
   },
   "1404": {
-   "state": "waiting",
-   "pr": null,
-   "draft": false,
-   "pr_url": null,
-   "branch": null
+   "state": "pr_open",
+   "pr": 616,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/616",
+   "branch": "study/job-1404-career-statistics-tablet"
   },
   "1405": {
    "state": "waiting",
