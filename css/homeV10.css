@@ -456,3 +456,117 @@
     color: var(--gold); font: 700 12px/1 var(--cond); letter-spacing: .08em;
   }
 }
+/* JOB-1066: 768x1024 upright tablet Home. The desktop seven-across tile dock
+   crushes labels and artwork at this width. Keep the desktop hero, but use
+   two rows of fully tappable tiles beneath a separate soundtrack card.
+   Width AND height bounds keep desktop 1920x1080 and phone 390x844 intact. */
+@media (min-width: 761px) and (max-width: 800px) and (min-height: 980px) and (max-height: 1060px) and (orientation: portrait) {
+  #mainMenu.v10Home {
+    --gutter: 20px;
+    --tile-h: 252px;
+    --tile-top: calc(100dvh - var(--ftr) - 10px - var(--tile-h));
+    --col-w: 46vw;
+  }
+  #mainMenu.v10Home .homeLockup {
+    left: var(--gutter);
+    top: 12vh;
+    width: min(40vw, 300px);
+  }
+  #mainMenu.v10Home .lockupKicker,
+  #mainMenu.v10Home .lockupLegacy {
+    max-width: 100%;
+    white-space: normal;
+    font-size: 12px;
+    letter-spacing: .22em;
+  }
+  #mainMenu.v10Home .fifaMenuHeading {
+    left: var(--gutter);
+    width: 46vw;
+    max-width: 46vw;
+    bottom: calc(100% - var(--tile-top) + 12px);
+  }
+  #mainMenu.v10Home .fifaMenuHeadingMeta .sd-label {
+    font-size: clamp(28px, 4.2vw, 36px);
+  }
+  #mainMenu.v10Home .fifaMenuGrid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-rows: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+  #mainMenu.v10Home .fifaMenuGrid > .menuTile {
+    min-width: 0;
+    min-height: 44px;
+    overflow: hidden;
+    padding: 12px 10px;
+  }
+  #mainMenu.v10Home .fifaMenuGrid > #continueCareer {
+    grid-column: span 2;
+    padding: 12px 116px 12px 14px;
+  }
+  #mainMenu.v10Home .fifaMenuGrid > .menuTile:not(#continueCareer) .menuTileLabel {
+    font-size: 18px;
+    line-height: 1.06;
+  }
+  #mainMenu.v10Home #continueCareer .menuTileLabel {
+    font-size: 23px;
+    line-height: 1.04;
+  }
+  #mainMenu.v10Home #continueCareer .tileArt,
+  #mainMenu.v10Home #continueCareer:disabled .tileArt {
+    top: 4px;
+    right: 8px;
+    bottom: auto;
+    width: auto;
+    height: 118px;
+  }
+  /* Each icon stays beneath its label rather than spilling into another tile. */
+  #mainMenu.v10Home #newShowdown .tileArt,
+  #mainMenu.v10Home #legacyButton .tileArt,
+  #mainMenu.v10Home #careerStatisticsButton .tileArt,
+  #mainMenu.v10Home #homeTrophyRoomButton .tileArt,
+  #mainMenu.v10Home #ruleBookButton .tileArt,
+  #mainMenu.v10Home #settingsButton .tileArt {
+    top: 72px;
+    right: 6px;
+    bottom: 6px;
+    left: auto;
+    width: calc(100% - 18px);
+    height: calc(100% - 78px);
+    object-position: right bottom;
+  }
+  /* The card occupies the right-hand portion of the hero, not the tile dock. */
+  #mainMenu.v10Home .menuMusicTile,
+  #mainMenu.v10Home .menuMusicTile.side {
+    left: 51vw !important;
+    top: 56vh !important;
+    width: calc(49vw - var(--gutter)) !important;
+    height: 154px !important;
+    min-height: 0;
+    max-height: none;
+  }
+  #mainMenu.v10Home .menuMusicControl {
+    min-width: 44px;
+    min-height: 44px;
+    padding-inline: 8px;
+  }
+  #mainMenu.v10Home .phoneSheetToggle,
+  #mainMenu.v10Home .phoneTrackSheetOpen {
+    min-width: 64px;
+    height: 44px;
+  }
+  #mainMenu.v10Home .phoneSheetToggle:checked ~ .menuMediaSelector {
+    grid-auto-rows: 44px;
+    gap: 6px;
+    padding: 8px;
+    max-height: none;
+    overflow: visible;
+    overscroll-behavior: auto;
+  }
+  #mainMenu.v10Home .menuMediaChoice {
+    min-height: 44px;
+  }
+  #app #topHeader #onlinePlayerIdentityBadge {
+    min-height: 44px;
+  }
+}
