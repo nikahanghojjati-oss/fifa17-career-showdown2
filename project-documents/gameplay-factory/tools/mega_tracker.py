@@ -378,8 +378,8 @@ def run_round(a, ctx):
     for job, d in direct.items():
         add_unit(d["lane"], d["state"], d.get("pr"))
     for L in lanes.values():
-        t, sv = L["total"], L["states"]
-        L["picked_up"] = t - sv.get("waiting", 0)
+        tot, sv = L["total"], L["states"]
+        L["picked_up"] = tot - sv.get("waiting", 0)
         L["worker_done"] = sum(sv.get(x, 0) for x in WORKER_DONE + DONE_STATES)
         L["finished"] = sum(sv.get(x, 0) for x in DONE_STATES)
         L["pending_lead"] = sum(sv.get(x, 0) for x in LEAD_STATES)
