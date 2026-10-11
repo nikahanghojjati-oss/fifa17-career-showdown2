@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Home phone study B (bold hierarchy), JOB-1082</title>
+<style>
+@font-face { font-family: "Barlow Condensed"; font-weight: 600; font-display: swap; src: url(../../../../visual-assets/v10_1/shared/fonts/barlow-condensed-latin-600-normal.woff2) format("woff2"); }
+@font-face { font-family: "Barlow Condensed"; font-weight: 700; font-display: swap; src: url(../../../../visual-assets/v10_1/shared/fonts/barlow-condensed-latin-700-normal.woff2) format("woff2"); }
+@font-face { font-family: "Barlow"; font-weight: 400; font-display: swap; src: url(../../../../visual-assets/v10_1/shared/fonts/barlow-latin-400-normal.woff2) format("woff2"); }
+:root {
+  --gold: #F2C45B; --gold-deep: #C99B45; --gold-hi: #FFF1B8; --ink: #0B0D10;
+  --cream: #E9DFC8; --meta: #CFC6B4; --hair: rgba(201,155,69,.45);
+  --cond: "Barlow Condensed", "Arial Narrow", sans-serif;
+  --text: "Barlow", system-ui, sans-serif;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; background: #060709; color: var(--cream); }
+body { font-family: var(--text); overflow: hidden; }
+button { font: inherit; color: inherit; }
+
+/* Phone frame: 390x844 design, flexes down to 360x640 and 393x660 with no scroll. */
+.phone {
+  position: relative; width: min(100vw, 430px); height: 100dvh; margin: 0 auto;
+  display: flex; flex-direction: column; overflow: hidden;
+  background: #060709 url(../../../../visual-assets/v10_1/home/assets/ENV_HOME_PLATE_V1_1X.webp) center top / cover no-repeat;
+  padding: 0 14px 8px;
+}
+
+/* Hero: photos, brand and wordmark. Daniel LEFT, Nik RIGHT, never mirrored. */
+.hero { position: relative; flex: 0 0 clamp(112px, 18dvh, 150px); margin: 0 -14px; overflow: hidden; }
+.hero::before { content: ""; position: absolute; inset: 0; background: url(../../../../visual-assets/v10_1/home/assets/ENV_HOME_PHONE_V1.webp) center top / cover no-repeat; opacity: .9; }
+.hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(6,7,9,.7) 0, rgba(6,7,9,0) 34%, rgba(6,7,9,0) 52%, rgba(6,7,9,.92) 100%); }
+.cut { position: absolute; bottom: 0; height: 100%; width: auto; object-fit: contain; z-index: 1; pointer-events: none; }
+.cut.daniel { left: 0; }
+.cut.nik { right: 0; }
+.brandBar { position: absolute; z-index: 3; top: 8px; left: 14px; right: 14px; display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.brand { font: 700 13px/1 var(--cond); letter-spacing: .08em; color: var(--gold-hi); text-transform: uppercase; }
+.brand small { display: block; font: 600 9px/1.2 var(--cond); letter-spacing: .2em; color: var(--gold); }
+.season { font: 700 11px/1 var(--cond); letter-spacing: .08em; text-transform: uppercase; color: var(--cream); border: 1px solid var(--hair); background: rgba(10,12,15,.78); padding: 6px 8px; }
+.lockup { position: absolute; z-index: 2; left: 0; right: 0; bottom: 6px; text-align: center; }
+.kicker { margin: 0 0 2px; font: 600 9px/1 var(--cond); letter-spacing: .3em; color: var(--cream); text-transform: uppercase; }
+.wordmark { display: block; height: clamp(44px, 9dvh, 66px); width: auto; margin: 0 auto; }
+.tagline { margin: 3px 0 0; font: 600 8.5px/1 var(--cond); letter-spacing: .24em; color: var(--meta); text-transform: uppercase; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* Heading block */
+.heading { flex: 0 0 auto; padding: 8px 0 6px; }
+.eyebrow { margin: 0; font: 600 8.5px/1 var(--cond); letter-spacing: .2em; color: var(--gold); text-transform: uppercase; }
+.heading h2 { margin: 3px 0 0; font: 700 22px/1 var(--cond); letter-spacing: .02em; color: #fff; text-transform: uppercase; }
+.heading .metaLine { margin: 5px 0 0; font: 700 11px/1.1 var(--cond); letter-spacing: .08em; color: var(--gold-hi); text-transform: uppercase; }
+.heading .metaText { margin: 2px 0 0; font: 400 10.5px/1.3 var(--text); color: var(--meta); }
+
+/* Tile blocks. Continue is the hero of the screen: tallest, gold, highest. */
+.tiles { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; gap: 6px; }
+.menuTile {
+  position: relative; overflow: hidden; display: block; text-align: left; cursor: pointer;
+  background: linear-gradient(115deg, #15171B 0%, #0D0F12 60%, #1A1C20 100%);
+  border: 1px solid var(--hair); padding: 7px 10px; min-height: 0;
+  clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+}
+.menuTile .code { display: block; font: 600 8.5px/1 var(--cond); letter-spacing: .18em; color: var(--gold); text-transform: uppercase; }
+.menuTile .label { display: block; margin-top: 3px; font: 700 15px/1.05 var(--cond); letter-spacing: .02em; color: #fff; text-transform: uppercase; }
+.menuTile .meta { display: block; margin-top: 3px; font: 400 9.5px/1.25 var(--text); color: var(--meta); max-width: 62%; }
+.menuTile .art { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); height: 78%; width: auto; max-width: 42%; object-fit: contain; }
+.menuTile .chev { position: absolute; right: 8px; bottom: 6px; width: 8px; height: 12px; color: var(--gold); }
+
+.tilePrimary {
+  flex: 0 0 clamp(96px, 15dvh, 122px); padding: 10px 12px;
+  background: linear-gradient(100deg, #F2C45B 0%, #FFF1B8 55%, #C99B45 100%); border-color: var(--gold-hi);
+}
+.tilePrimary .code { color: #3B2C0C; font-size: 9.5px; }
+.tilePrimary .label { font-size: 30px; line-height: .98; color: var(--ink); }
+.tilePrimary .meta { color: #2A2008; font-size: 10.5px; max-width: 58%; }
+.tilePrimary .art { right: 6px; height: 118%; max-width: 46%; }
+
+.tileWide { flex: 0 0 auto; min-height: 52px; }
+.blockPair { flex: 1 1 auto; min-height: 0; display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 6px; }
+.blockPair .menuTile { min-height: 0; }
+.blockPair .menuTile .label { font-size: 14px; }
+.blockPair .menuTile .art { max-width: 40%; height: 70%; }
+
+/* Music block */
+.music { flex: 0 0 auto; display: grid; grid-template-columns: 1fr auto; gap: 6px 8px; align-items: center; border: 1px solid var(--hair); background: rgba(10,12,15,.9); padding: 6px 8px; }
+.music .mHead span { display: block; font: 600 8px/1 var(--cond); letter-spacing: .18em; color: var(--gold); text-transform: uppercase; }
+.music .mHead strong { display: block; margin-top: 2px; font: 700 13px/1.05 var(--cond); color: #fff; text-transform: uppercase; }
+.music .mHead .artist { margin: 1px 0 0; font: 400 9px/1.2 var(--text); color: var(--meta); }
+.music .source { font: 600 8px/1 var(--cond); letter-spacing: .14em; color: var(--foot, #9A8F7A); }
+.music .placeholder { grid-column: 1 / -1; margin: 0; font: 400 8.5px/1.25 var(--text); color: var(--meta); }
+.music .status { grid-column: 1 / -1; margin: 0; font: 600 8px/1.2 var(--cond); letter-spacing: .12em; color: var(--gold); text-transform: uppercase; }
+.music .controls { display: flex; gap: 6px; }
+.music .control { font: 700 10.5px/1 var(--cond); letter-spacing: .08em; text-transform: uppercase; padding: 7px 9px; border: 1px solid var(--hair); background: #0D0F12; color: var(--cream); }
+.music .control.play { background: var(--gold); color: var(--ink); border-color: var(--gold-hi); }
+.music .control:disabled { opacity: .5; }
+
+.strip { flex: 0 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 6px; font: 600 8px/1 var(--cond); letter-spacing: .12em; color: var(--meta); text-transform: uppercase; padding-top: 2px; }
+.strip b { color: var(--gold); font-weight: 700; }
+.strip strong { color: var(--gold-hi); }
+</style>
+</head>
+<body>
+<main class="phone">
+
+  <section class="hero">
+    <img class="cut daniel" src="../../../../visual-assets/v10_1/home/assets/OVL_HOME_DANIEL_PHONE_V2.webp" alt="" aria-hidden="true">
+    <img class="cut nik" src="../../../../visual-assets/v10_1/home/assets/OVL_HOME_NIK_PHONE_V2.webp" alt="" aria-hidden="true">
+    <div class="brandBar">
+      <div class="brand">CAREER MODE<small>SHOWDOWN // 17</small></div>
+      <div class="season" id="seasonIndicator">No Active Showdown</div>
+    </div>
+    <div class="lockup">
+      <p class="kicker" aria-hidden="true">THE RIVALRY STARTS HERE</p>
+      <div class="wordmarkWrap"><span class="sr-only">CAREER MODE SHOWDOWN 17</span><img class="wordmark" src="../../../../visual-assets/v10_1/home/assets/LOGO_CM17_WORDMARK_V1.webp" alt="" aria-hidden="true"></div>
+      <p class="tagline" aria-hidden="true">TWO MANAGERS · ONE LEGACY</p>
+    </div>
+  </section>
+
+  <header class="heading">
+    <p class="eyebrow">CAREER MODE // SHOWDOWN 17</p>
+    <h2>HOME</h2>
+    <p class="metaLine">RIVALRY HEADQUARTERS</p>
+    <p class="metaText">Build the rivalry, play every season, and carry each trophy into your Legacy.</p>
+  </header>
+
+  <nav class="tiles">
+    <!-- Block 1: play. Continue is the single most important action. -->
+    <button class="menuTile tilePrimary" id="continueCareer" type="button">
+      <span class="code">CAREER</span><span class="label">CONTINUE CAREER</span><span class="meta">Loading active showdown...</span>
+      <img class="art" src="../../../../visual-assets/v10_1/shared/art/home-tiles/TILE_CONTINUE_V1.webp" alt="" aria-hidden="true">
+    </button>
+    <button class="menuTile tileWide" id="newShowdown" type="button">
+      <span class="code">NEW</span><span class="label">START A SHOWDOWN</span><span class="meta">Begin a new rivalry</span>
+      <img class="art" src="../../../../visual-assets/v10_1/shared/art/home-tiles/TILE_TACTICS_V1.webp" alt="" aria-hidden="true">
+    </button>
+
+    <!-- Block 2: history and data (live order: Legacy, Statistics, Trophy Room). -->
+    <div class="blockPair">
+      <button class="menuTile" id="legacyButton" type="button">
+        <span class="code">HISTORY</span><span class="label">LEGACY</span><span class="meta">Completed rivalries and season history</span>
+        <img class="art" src="../../../../visual-assets/v10_1/shared/art/home-tiles/TILE_HISTORY_V1.webp" alt="" aria-hidden="true">
+      </button>
+      <button class="menuTile" id="careerStatisticsButton" type="button">
+        <span class="code">DATA</span><span class="label">STATISTICS</span><span class="meta">Career totals, manager comparison and honours</span>
+        <img class="art" src="../../../../visual-assets/v10_1/shared/art/home-tiles/TILE_STATISTICS_V1.webp" alt="" aria-hidden="true">
+      </button>
+      <button class="menuTile" id="homeTrophyRoomButton" type="button">
+        <span class="code">HONOURS</span><span class="label">TROPHY ROOM</span><span class="meta">Career trophies, standings and records</span>
+        <img class="art" src="../../../../visual-assets/v10_1/shared/trophies/TRO_LEAGUE_TITLE_V1_512.webp" alt="" aria-hidden="true">
+      </button>
+      <button class="menuTile" id="ruleBookButton" type="button">
+        <span class="code">RULES</span><span class="label">RULE BOOK</span><span class="meta">Scoring and competition rules</span>
+        <img class="art" src="../../../../visual-assets/v10_1/shared/art/home-tiles/TILE_RULEBOOK_V1.webp" alt="" aria-hidden="true">
+      </button>
+    </div>
+
+    <!-- Block 3: settings and the soundtrack. -->
+    <button class="menuTile tileWide" id="settingsButton" type="button">
+      <span class="code">SETTINGS</span><span class="label">SETTINGS</span><span class="meta">Account, device and preferences</span>
+      <img class="art" src="../../../../visual-assets/v10_1/shared/art/home-tiles/TILE_SETTINGS_V1.webp" alt="" aria-hidden="true">
+    </button>
+
+    <section class="music" aria-label="Menu media">
+      <div class="mHead">
+        <span>FIFA 17 SOUNDTRACK</span>
+        <strong>ARE WE READY? (WRECK)</strong>
+        <p class="artist">Two Door Cinema Club</p>
+      </div>
+      <div class="source">YOUTUBE</div>
+      <p class="placeholder">Selected FIFA 17 media stays unloaded until you press Play, keeping startup light.</p>
+      <p class="status" role="status">ARE WE READY? (WRECK) · LOADS ONLY WHEN YOU PRESS PLAY</p>
+      <div class="controls">
+        <button class="control play" id="menuMusicToggle" type="button">PLAY TRACK</button>
+        <button class="control" id="menuMusicMute" type="button" disabled>MUTE</button>
+      </div>
+    </section>
+  </nav>
+
+  <footer class="strip">
+    <span><b>01</b> TWO MANAGER CAREER COMPETITION</span>
+    <span><b>02</b> FIFA 17 ERA RULESET</span>
+    <strong>READY</strong>
+  </footer>
+
+</main>
+</body>
+</html>
