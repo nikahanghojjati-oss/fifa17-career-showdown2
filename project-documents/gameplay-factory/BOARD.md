@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Sun 11 Oct, 3:06 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Sun 11 Oct, 3:09 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r70** (main `c8810b8`, Sun 11 Oct 12:28 AM)
 
@@ -22,47 +22,47 @@ Updated Sun 11 Oct, 3:06 AM Boston time. Bug hunting only, no new features until
 
 **#2 · 1581** `G` Showdown Gate: split the slowest lane and cache downloads  
 `██████░░░░` **60.0000 %**  
-⚪ Team white · **Codex default coding model** · High effort · worker done, PR #618 open, CI failed · CI 7 of 8 passed · last move 21 min ago
+⚪ Team white · **Codex default coding model** · High effort · worker done, PR #618 open, CI failed · CI 7 of 8 passed · last move 25 min ago
 
 **#3 · 1592** `G` Wire Team V study 1110: Connect Players phone  
-`███████░░░` **71.6667 %**  
-🟢 Team green · **GPT Sol 6.1** · High effort · worker done, PR #667 open, CI running · CI 1 of 6 passed · last move 0 min ago
+`████████░░` **78.3333 %**  
+🟢 Team green · **GPT Sol 6.1** · High effort · worker done, PR #667 open, CI running · CI 5 of 6 passed · last move 0 min ago
 
 **#4 · 1593** `G` Wire Team V study 1372: Rivalry Statistics phone  
-`████░░░░░░` **40.0000 %**  
-🟢 Team green · **GPT Sol 6.1** · High effort · worker working, draft PR #668 · CI 6 of 7 passed · last move 95 min ago
+`████████░░` **76.6667 %**  
+🟢 Team green · **GPT Sol 6.1** · High effort · worker done, PR #668 open, CI running · CI 2 of 3 passed · last move 0 min ago
 
 **#5 · 1594** `G` Wire Team V study 1169: Club Assignment (redo train)  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · **GPT Sol 6.1** · High effort · worker working, draft PR #669 · CI 6 of 7 passed · last move 74 min ago
+🟢 Team green · **GPT Sol 6.1** · High effort · worker working, draft PR #669 · CI 6 of 7 passed · last move 2 min ago
 
 **#6 · 1595** `G` Wire Team V study 1171: Club Assignment (redo train)  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · **GPT Sol 6.1** · High effort · worker working, draft PR #669 · CI 6 of 7 passed · last move 74 min ago
+🟢 Team green · **GPT Sol 6.1** · High effort · worker working, draft PR #669 · CI 6 of 7 passed · last move 2 min ago
 
 **#7 · 1596** `G` Wire Team V study 1172: Club Assignment (redo train)  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · **GPT Sol 6.1** · High effort · worker working, draft PR #669 · CI 6 of 7 passed · last move 74 min ago
+🟢 Team green · **GPT Sol 6.1** · High effort · worker working, draft PR #669 · CI 6 of 7 passed · last move 2 min ago
 
 **#8 · 1600** `G` Wire Team V study 1374: Rivalry Statistics sideways  
-`████░░░░░░` **40.0000 %**  
-🟢 Team green · **GPT Sol 6.1** · High effort · worker working, draft PR #668 · CI 6 of 7 passed · last move 95 min ago
+`████████░░` **76.6667 %**  
+🟢 Team green · **GPT Sol 6.1** · High effort · worker done, PR #668 open, CI running · CI 2 of 3 passed · last move 0 min ago
 
 **#9 · 1601** `G` Wire Team V study 1375: Rivalry Statistics tablet  
-`████░░░░░░` **40.0000 %**  
-🟢 Team green · **GPT Sol 6.1** · High effort · worker working, draft PR #668 · CI 6 of 7 passed · last move 95 min ago
+`████████░░` **76.6667 %**  
+🟢 Team green · **GPT Sol 6.1** · High effort · worker done, PR #668 open, CI running · CI 2 of 3 passed · last move 0 min ago
 
 **#10 · 1606** `G` Fix (verify first) audit 88: failed refresh shown as publish failure (Season Results)  
 `██████░░░░` **60.0000 %**  
-🔵 Team blue · **GPT-6 Sol** · High effort · worker done, PR #662 open, CI failed · CI 13 of 14 passed · last move 19 min ago
+🔵 Team blue · **GPT-6 Sol** · High effort · worker done, PR #662 open, CI failed · CI 13 of 14 passed · last move 22 min ago
 
 **#11 · 1607** `G` Fix (verify first) audit 92: failed refresh shown as commit failure (Season Commit)  
 `██████░░░░` **60.0000 %**  
-🔵 Team blue · **GPT-6 Sol** · High effort · worker done, PR #663 open, CI failed · CI 13 of 14 passed · last move 17 min ago
+🔵 Team blue · **GPT-6 Sol** · High effort · worker done, PR #663 open, CI failed · CI 13 of 14 passed · last move 20 min ago
 
 **#12 · 1608** `G` Fix (verify first) audit 116: background read disables Shared Setup buttons  
 `██████░░░░` **60.0000 %**  
-🔵 Team blue · **GPT-6 Sol** · High effort · worker done, PR #665 open, CI failed · CI 13 of 14 passed · last move 17 min ago
+🔵 Team blue · **GPT-6 Sol** · High effort · worker done, PR #665 open, CI failed · CI 13 of 14 passed · last move 21 min ago
 
 ### 👉 Next for you, in this order
 
