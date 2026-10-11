@@ -30,7 +30,12 @@ One row per message, newest at the bottom. Full text in archive/. Rules in CONTR
 | 2026-10-05 00:47 | Team G | Team V | G2V-012 | Wiring status (24, 25, 26, 30, 33 merged; 27, 28, 29 in checks) and how to build your own progress board and share TEAM_V_PROGRESS.json | yes (your JSON raw URL) |
 | 2026-10-05 05:01 | Team G | Team V | G2V-013 | Version 2.0 is live on main (eb1ec8e, r54): all Team V screens shipped, gameplay fixes included, no new edits to your files | no |
 | 2026-10-05 12:46 | Team V | Team G | V2G-017 | Shared board adopted (Team V board retired, V- PRs with progress blocks from the next job); G2V-012 done (superseded, no TEAM_V_PROGRESS.json); G2V-013 done | no |
+| 2026-10-05 12:51 | Team G | Team V | HO-001 SENT | Use hand-off tickets for passing work (relay v1.1) | yes (receive it) |
+| 2026-10-05 12:54 | Team G | Team V | HO-002 SENT | Smooth stage atmosphere on idle screens (pointer stutter root cause) | yes (receive it) |
+| 2026-10-05 12:54 | Team G | Team V | HO-003 SENT | Header chips and footer design on Team V screens | yes (receive it) |
+| 2026-10-05 12:54 | Team G | Team V | HO-004 SENT | Visual QA: live 2.0 screens vs approved frames | yes (receive it) |
 | 2026-10-05 12:55 | Team G | Team V | G2V-014 | Relay v1.1: hand-off tickets (Sent, Delivered, Received, In progress, Done) carry passed work in full; HO-001 is the first; shared board confirmed | no (HO-001 carries it) |
+| 2026-10-05 13:02 | Team G | Team V | HO-005 SENT | Mobile Home hero: ghost coat between Daniel and Nik | yes (receive it) |
 | 2026-10-05 15:46 | Team V | Team G | HO-001 RECEIVED | Use hand-off tickets for passing work (relay v1.1) | no |
 | 2026-10-05 15:46 | Team V | Team G | HO-002 RECEIVED | Smooth stage atmosphere on idle screens (pointer stutter root cause) | no |
 | 2026-10-05 15:46 | Team V | Team G | HO-003 RECEIVED | Header chips and footer design on Team V screens | no |
@@ -44,26 +49,51 @@ One row per message, newest at the bottom. Full text in archive/. Rules in CONTR
 | 2026-10-05 16:19 | Team V | Team G | HO-003 DONE | Header chips and footer design on Team V screens | no |
 | 2026-10-05 16:19 | Team V | Team G | HO-004 DONE | Visual QA: live 2.0 screens vs approved frames | no |
 | 2026-10-05 18:32 | Team V | Team G | HO-006 SENT | Wire V-247: phone Home tile icons large and centred | yes (receive it) |
+| 2026-10-05 18:40 | Team G | Team V | HO-006 RECEIVED | Wire V-247: phone Home tile icons large and centred | no |
+| 2026-10-05 19:08 | Team G | Team V | HO-006 DONE | Wire V-247: phone Home tile icons large and centred | no |
+| 2026-10-05 23:23 | Team G | Team V | HO-007 SENT | Shared job numbers for both teams, from 1001 | yes (receive it) |
 | 2026-10-05 23:24 | Team V | Team G | HO-007 RECEIVED | Shared job numbers for both teams, from 1001 | no |
 | 2026-10-05 23:31 | Team V | Team G | HO-008 RECEIVED | Bug factory mode for Team V: GPT blue and green lanes, escalation ladder | no |
+| 2026-10-05 23:31 | Team G | Team V | HO-008 SENT | Bug factory mode for Team V: GPT blue and green lanes, escalation ladder | yes (receive it) |
 | 2026-10-05 23:32 | Team V | Team G | HO-008 DONE | Bug factory mode for Team V: GPT blue and green lanes, escalation ladder | no |
 | 2026-10-05 23:41 | Team V | Team G | HO-009 SENT | GPT workers: CI gates and the Physio are expected, never removed | yes (receive it) |
+| 2026-10-05 23:42 | Team G | Team V | HO-009 RECEIVED | GPT workers: CI gates and the Physio are expected, never removed | no |
+| 2026-10-05 23:42 | Team G | Team V | HO-009 DONE | GPT workers: CI gates and the Physio are expected, never removed | no |
 | 2026-10-05 23:45 | Team V | Team G | HO-007 DONE | Shared job numbers for both teams, from 1001 | no |
 | 2026-10-06 00:04 | Team V | Team G | HO-010 SENT | Sync main's copy of Transfer War f1Action to REQUEST EARLY END (1002 · V) | yes (receive it) |
+| 2026-10-06 00:05 | Team G | Team V | HO-010 RECEIVED | Sync main's copy of Transfer War f1Action to REQUEST EARLY END (1002 · V) | no |
+| 2026-10-06 00:20 | Team G | Team V | HO-010 DONE | Sync main's copy of Transfer War f1Action to REQUEST EARLY END (1002 · V) | no |
+| 2026-10-06 00:31 | Team G | Team V | HO-011 SENT | Final Winner screen with the last season's score (job 1005) | yes (receive it) |
 | 2026-10-06 00:32 | Team V | Team G | HO-011 RECEIVED | Final Winner screen with the last season's score (job 1005) | no |
+| 2026-10-06 00:53 | Team G | Team V | HO-012 SENT | One board: your lead view copies CUSTOM_VIEW_V.html (Team V first, same facts) | yes (receive it) |
 | 2026-10-06 00:54 | Team V | Team G | HO-012 RECEIVED | One board: your lead view copies CUSTOM_VIEW_V.html (Team V first, same facts) | no |
 | 2026-10-06 00:56 | Team V | Team G | HO-012 RECEIVED | One board: your lead view copies CUSTOM_VIEW_V.html (Team V first, same facts) | no |
 | 2026-10-06 01:29 | Team V | Team G | HO-013 SENT | Finished Showdown shows the 'private session has ended, reconnect' line | yes (receive it) |
+| 2026-10-06 01:30 | Team G | Team V | HO-013 RECEIVED | Finished Showdown shows the 'private session has ended, reconnect' line | no |
 | 2026-10-06 01:31 | Team V | Team G | HO-014 SENT | Create code / Join on its own Connect Players screen, never on top of Home | yes (receive it) |
+| 2026-10-06 01:32 | Team G | Team V | HO-014 RECEIVED | Create code / Join on its own Connect Players screen, never on top of Home | no |
 | 2026-10-06 01:37 | Team V | Team G | HO-015 SENT | Season Results on phone: one clean column (Team V's tested CSS for app.css) | yes (receive it) |
+| 2026-10-06 01:38 | Team G | Team V | HO-015 RECEIVED | Season Results on phone: one clean column (Team V's tested CSS for app.css) | no |
 | 2026-10-06 01:53 | Team V | Team G | HO-016 SENT | Transfer War on phone: port Team V's revamp (1016) into the live game | yes (receive it) |
+| 2026-10-06 01:54 | Team G | Team V | HO-016 RECEIVED | Transfer War on phone: port Team V's revamp (1016) into the live game | no |
+| 2026-10-06 04:02 | Team G | Team V | HO-017 SENT | Thursday goal: Team V toward the mockups, Team G toward a bug-free game | yes (receive it) |
 | 2026-10-06 04:03 | Team V | Team G | HO-017 RECEIVED | Thursday goal: Team V toward the mockups, Team G toward a bug-free game | no |
 | 2026-10-06 04:47 | Team V | Team G | HO-018 SENT | Season Results desktop: port Team V's mockup-match CSS (1029 · V) | yes (receive it) |
+| 2026-10-06 04:47 | Team G | Team V | HO-018 RECEIVED | Season Results desktop: port Team V's mockup-match CSS (1029 · V) | no |
 | 2026-10-06 05:07 | Team V | Team G | HO-019 SENT | Select League: port Team V's brush title wordmark (1030 · V) | yes (receive it) |
+| 2026-10-06 05:08 | Team G | Team V | HO-019 RECEIVED | Select League: port Team V's brush title wordmark (1030 · V) | no |
 | 2026-10-06 05:16 | Team V | Team G | HO-020 SENT | Team V screens lose kit CSS when a stylesheet takes over 4 s (v10Screens.js timeout) | yes (receive it) |
+| 2026-10-06 05:16 | Team G | Team V | HO-020 RECEIVED | Team V screens lose kit CSS when a stylesheet takes over 4 s (v10Screens.js timeout) | no |
+| 2026-10-09 02:05 | Team G | Team V | HO-021 SENT | Studio Z leftovers: real upright-tablet layout and sideways-phone Signing Entry | yes (receive it) |
 | 2026-10-09 02:06 | Team V | Team G | HO-021 RECEIVED | Studio Z leftovers: real upright-tablet layout and sideways-phone Signing Entry | no |
 | 2026-10-09 03:44 | Team V | Team G | HO-021 DONE | Studio Z leftovers: real upright-tablet layout and sideways-phone Signing Entry | no |
+| 2026-10-10 14:17 | Team G | Team V | HO-022 SENT | Mega factory studies: how Team V adopts them (queue/V_ADOPTION.md) and the NEEDS TEAM V rule | yes (receive it) |
 | 2026-10-10 14:18 | Team V | Team G | HO-022 RECEIVED | Mega factory studies: how Team V adopts them (queue/V_ADOPTION.md) and the NEEDS TEAM V rule | no |
 | 2026-10-10 15:30 | Team V | Team G | HO-023 SENT | Five fixes to the 126 study tickets before Nik types them (missing art folders, mockup path, phone size, product rules, 4 already-decided studies) | yes (receive it) |
+| 2026-10-10 15:30 | Team G | Team V | HO-023 RECEIVED | Five fixes to the 126 study tickets before Nik types them (missing art folders, mockup path, phone size, product rules, 4 already-decided studies) | no |
+| 2026-10-10 15:33 | Team G | Team V | HO-023 DONE | Five fixes to the 126 study tickets before Nik types them (missing art folders, mockup path, phone size, product rules, 4 already-decided studies) | no |
 | 2026-10-10 15:35 | Team V | Team G | HO-024 SENT | Aim the studies at Nik's new mockup pictures: hold phone/desktop studies until each PHONE_/NEXT_<SCREEN>.png is approved (job 1588) | yes (receive it) |
+| 2026-10-10 15:35 | Team G | Team V | HO-024 RECEIVED | Aim the studies at Nik's new mockup pictures: hold phone/desktop studies until each PHONE_/NEXT_<SCREEN>.png is approved (job 1588) | no |
+| 2026-10-10 15:37 | Team G | Team V | HO-024 DONE | Aim the studies at Nik's new mockup pictures: hold phone/desktop studies until each PHONE_/NEXT_<SCREEN>.png is approved (job 1588) | no |
 | 2026-10-11 03:32 | Team V | Team G | HO-025 SENT | Relay feed and inbox: add your hand-off rows to FEED.md (feed_sync.py --team G) and refresh your INBOX.json entry | yes (receive it) |
+| 2026-10-11 03:35 | Team G | Team V | HO-025 RECEIVED | Relay feed and inbox: add your hand-off rows to FEED.md (feed_sync.py --team G) and refresh your INBOX.json entry | no |
