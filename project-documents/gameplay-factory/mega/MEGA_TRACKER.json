@@ -1,5 +1,5 @@
 {
-"updated": "2026-10-11T05:03:44Z",
+"updated": "2026-10-11T05:06:44Z",
 "total": 518,
 "next_free": 95,
 "highest_taken": 395,
@@ -7,8 +7,8 @@
 "merged": 25,
 "draft": 166,
 "closed": 51,
-"on_train": 10,
-"waiting": 266
+"on_train": 11,
+"waiting": 265
 },
 "stages": {
 "2": {
@@ -17,8 +17,8 @@
 "states": {
 "merged": 25,
 "closed": 39,
-"on_train": 10,
-"waiting": 187,
+"on_train": 11,
+"waiting": 186,
 "draft": 5
 }
 },
@@ -67,6 +67,7 @@
 101,
 105,
 107,
+111,
 119,
 123,
 125,
@@ -81,7 +82,7 @@
 95,
 97,
 109,
-111,
+129,
 141,
 143,
 173,
@@ -91,7 +92,7 @@
 95,
 97,
 109,
-111,
+129,
 141,
 143,
 173,
@@ -102,7 +103,7 @@
 95,
 97,
 109,
-111,
+129,
 141,
 143,
 173,
@@ -130,18 +131,11 @@
 }
 },
 "rate": {
-"claimed_last_hour": 26,
-"claimed_last_10min": 2,
+"claimed_last_hour": 27,
+"claimed_last_10min": 3,
 "merged_last_hour": 15
 },
 "events": [
-{
-"at": "2026-10-10T19:54:19Z",
-"item": 178,
-"job": 1555,
-"from": "waiting",
-"to": "draft"
-},
 {
 "at": "2026-10-10T19:54:19Z",
 "item": 180,
@@ -2234,6 +2228,13 @@
 "job": 1066,
 "from": "waiting",
 "to": "on_train"
+},
+{
+"at": "2026-10-11T05:06:44Z",
+"item": 111,
+"job": 1096,
+"from": "waiting",
+"to": "on_train"
 }
 ],
 "items": {
@@ -4160,8 +4161,10 @@
 "title": "Connect Players (start and join): fix the 1280x650 view",
 "mode": "code",
 "group": "start-join",
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"state": "on_train",
+"branch": "gameplay/train-start-join-2",
+"first_seen": "2026-10-11T05:06:44Z",
+"since": "2026-10-11T05:06:44Z"
 },
 "112": {
 "job": 1522,
