@@ -155,6 +155,21 @@
   min-width:0; min-height:44px; white-space:normal; overflow-wrap:anywhere;
  }
 }
+/* JOB-1210: the 932x430 landscape range also matches desktop entry controls.
+   Keep the phone's single page scroll and restore 44px targets at this size only. */
+@media (min-width:910px) and (max-width:950px) and (min-height:410px) and (max-height:450px) and (orientation:landscape) {
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage .seasonResultCard>label,
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage .seasonResultCard .achievementChecks label {
+  min-height:44px;
+ }
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage .seasonResultCard>label input[type=number] {
+  min-height:44px; height:44px;
+ }
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage .seasonResultCard input[type=checkbox] {
+  width:44px; height:44px; min-width:44px; min-height:44px; flex-basis:44px;
+ }
+}
+
 `;
     parent.appendChild(style);
   }
