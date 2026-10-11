@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en" data-nav="hub">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Connect Players · Phone C · JOB-1112</title>
+<style>
+:root{color-scheme:dark;--gold:#f5ce55;--ink:#080909;--nav:62px;--edge:12px}
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:var(--ink);color:#fff3d1;font-family:"Arial Narrow","Liberation Sans Narrow",Arial,sans-serif}
+button,input{font:inherit}
+button{cursor:default}
+.screen{position:relative;isolation:isolate;height:100svh;overflow:hidden;background:linear-gradient(transparent 32%,#08090966 57%,#080909f5 90%),#080909 url('../../../../visual-assets/v10_1/start-join/assets/ENV_SJ_PHONE_V1.webp') center/cover no-repeat}
+.portraits{position:absolute;inset:0 0 41%;overflow:hidden;pointer-events:none}
+.portraits img{position:absolute;top:0;height:100%;width:auto;max-width:none;filter:drop-shadow(0 4px 7px #000a)}
+.portraits .daniel{left:-4%}.portraits .nik{left:49%}
+.portraits::after{content:"";position:absolute;inset:57% 0 0;background:linear-gradient(transparent,#080909dd)}
+.content{position:absolute;z-index:2;top:33%;left:var(--edge);right:var(--edge);bottom:calc(var(--nav) + 12px);display:flex;flex-direction:column;gap:10px}
+header{text-align:center;text-shadow:0 2px 4px #000}
+.kicker{margin:0 0 5px;font-size:9px;font-weight:700;letter-spacing:.28em}
+h1{margin:0 -5px 7px;font:italic 900 clamp(27px,8.6vw,37px)/1.12 Impact,"Arial Narrow",sans-serif;letter-spacing:-.03em;color:var(--gold);background:linear-gradient(#fff3bc,#f6cd54 55%,#b88120);background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 2px 1px #000) drop-shadow(0 0 7px #e3b63670)}
+.tagline{margin:0 auto;max-width:370px;font-size:10px;font-weight:700;line-height:1.35}
+.workspace{position:relative;display:flex;flex-direction:column;gap:10px;min-height:0}
+.selector{display:grid;grid-template-columns:1fr 1fr 1fr 48px;gap:0;min-height:44px;border:1px solid var(--gold);background:#080909ee;box-shadow:inset 0 0 0 3px #81622b44,0 0 12px #efc04722}
+.selector label{position:relative;min-width:0;display:flex;align-items:center;justify-content:center}
+.selector input{position:absolute;inset:0;opacity:0;width:100%;height:100%;margin:0;cursor:pointer}
+.selector span{display:flex;align-items:center;justify-content:center;width:100%;height:100%;padding:0 3px;font-size:11px;font-weight:800;white-space:nowrap}
+.selector input:checked+span{background:linear-gradient(120deg,#ad7917,#e0b837 52%,#9d6c15);color:#fff3cc;box-shadow:inset 0 -2px #ffe17b,0 0 8px #eab73366}
+.back{border:0;border-left:1px solid var(--gold);background:#080909cc;color:#fff3d1;font-size:11px;font-weight:800;padding:0}
+.panel{display:none;min-height:156px;padding:15px 12px;border:1px solid var(--gold);background:linear-gradient(90deg,#060808f5,#080909b8),url('../../../../visual-assets/v10_1/start-join/assets/ENV_SJ_PHONE_V1.webp') center 62%/cover;box-shadow:inset 0 0 0 3px #d1a73922,0 0 14px #e8b62e24}
+.workspace:has(#daniel-tab:checked) .daniel-panel,.workspace:has(#nik-tab:checked) .nik-panel{display:block}
+.panel h2{margin:0 0 8px;font-size:23px;font-weight:800;letter-spacing:-.03em}
+.panel p{margin:0 0 13px;font-size:13px;line-height:1.4;color:#d6d5cf;max-width:340px}
+.primary{min-height:48px;padding:9px 21px;border:2px solid #ffe786;outline:1px solid #b48a21;outline-offset:3px;background:linear-gradient(120deg,#f9db4b,#ffde16 50%,#e3ad15);box-shadow:0 2px 14px #e5b82f55;color:#171205;font-size:17px;font-weight:900;letter-spacing:.025em}
+button:focus-visible,input:focus-visible+span,a:focus-visible{outline:2px solid #fff6d1;outline-offset:-4px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.pair-slot{min-height:0}
+.hub-nav{position:absolute;z-index:3;bottom:0;left:0;right:0;height:calc(var(--nav) + env(safe-area-inset-bottom,0px));padding-bottom:env(safe-area-inset-bottom,0px);display:grid;grid-template-columns:repeat(5,1fr);border-top:1px solid var(--gold);border-bottom:1px solid #94712f;background:linear-gradient(#12120fee,#050605fa);box-shadow:0 -3px 13px #d0a23022}
+.hub-nav a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;color:#eadfc6;text-decoration:none;font-size:10px;font-weight:800;letter-spacing:.04em;border-right:1px solid #b1933e22}
+.hub-nav a[aria-current]{color:#ffda28;box-shadow:inset 0 3px #ffdb48;background:linear-gradient(#80651c25,transparent)}
+.hub-nav svg{width:20px;height:20px;fill:currentColor}
+html:not([data-nav="hub"]) .hub-nav{display:none}
+html:not([data-nav="hub"]){--nav:0px}
+@media(max-height:660px){.content{top:33%;gap:8px}.workspace{gap:8px}.panel{min-height:145px;padding:12px}.panel h2{font-size:21px}.panel p{margin-bottom:12px}.kicker{margin-bottom:3px}h1{margin-bottom:5px}}
+@media(max-height:580px){:root{--nav:56px}.content{top:30%;gap:7px}.portraits{bottom:43%}.panel{min-height:137px;padding:10px 12px}.panel h2{margin-bottom:6px}.panel p{font-size:12px;line-height:1.35;margin-bottom:11px}.kicker{font-size:8px}.tagline{font-size:9px}h1{font-size:29px}.primary{min-height:44px;font-size:16px}}
+@media(min-width:901px){:root{--nav:0px}.hub-nav{display:none}.screen{max-width:440px;margin:auto}.content{top:33%}}
+@media(max-width:375px){.selector span{font-size:10px}}
+/* Version C: compact spacing, with every initial-state word retained. */
+:root{--edge:10px;--nav:56px}
+.content{top:34%;gap:6px}
+.workspace{gap:6px}
+.kicker{font-size:8px;margin-bottom:3px}
+h1{font-size:30px;margin-bottom:4px}
+.tagline{font-size:10px;line-height:1.3}
+.panel{min-height:0;padding:10px}
+.panel h2{font-size:21px;margin-bottom:5px}
+.panel p{font-size:13px;line-height:1.3;margin-bottom:10px}
+.primary{min-height:44px;font-size:16px;padding:8px 17px;outline-offset:2px}
+@media(max-height:660px){.content{top:32%;gap:6px}.panel{min-height:0;padding:10px}.panel h2{font-size:21px}.panel p{margin-bottom:10px}}
+@media(max-height:580px){.content{top:28%;gap:6px}.tagline{font-size:9px}h1{font-size:29px}.panel p{font-size:12px}}
+</style>
+</head>
+<body>
+<!-- Static study of Daniel's initial, registered-device setup state. No pairing logic. -->
+<main class="screen" aria-labelledby="title">
+<div class="portraits" aria-hidden="true">
+<img class="daniel" src="../../../../visual-assets/v10_1/start-join/assets/OVL_SJ_DANIEL_PHONE_V1.webp" alt="">
+<img class="nik" src="../../../../visual-assets/v10_1/start-join/assets/OVL_SJ_NIK_PHONE_V1.webp" alt="">
+</div>
+<div class="content">
+<header>
+<p class="kicker">CAREER MODE SHOWDOWN // 17</p>
+<h1 id="title">CONNECT PLAYERS</h1>
+<p class="tagline">Daniel and Nik must both be connected before the career begins.</p>
+</header>
+<div class="workspace">
+<div class="selector" role="group" aria-label="Connection steps">
+<label><input type="radio" name="connection-tab" id="daniel-tab" checked><span>DANIEL · START</span></label>
+<label><input type="radio" name="connection-tab" id="nik-tab"><span>NIK · JOIN</span></label>
+<label><input type="radio" name="connection-tab" id="connection-tab"><span>CONNECTION</span></label>
+<button type="button" class="back">BACK</button>
+</div>
+<section class="panel daniel-panel" aria-label="Daniel starts">
+<span class="sr-only">PLAYER ONE</span>
+<h2>DANIEL · START</h2>
+<p>Choose seasons, create your code, and send it to Nik.</p>
+<button type="button" class="primary">CHOOSE SEASONS</button>
+</section>
+<section class="panel nik-panel" aria-label="Nik joins">
+<span class="sr-only">PLAYER TWO</span>
+<h2>NIK · JOIN</h2>
+<p>On Nik's device, paste Daniel's code to join the rivalry.</p>
+</section>
+<div class="pair-slot" aria-live="polite"></div>
+</div>
+</div>
+<nav class="hub-nav" aria-label="Main navigation">
+<a href="#" aria-current="page"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 11 12 2l10 9h-3v11h-5v-7h-4v7H5V11Z"/></svg><span>HOME</span></a>
+<a href="#"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 2h2v20H5Zm3 1h13l-4 5 4 5H8Z"/></svg><span>CAREER</span></a>
+<a href="#"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3h18v4H3Zm0 7h18v4H3Zm0 7h18v4H3Z"/></svg><span>STANDINGS</span></a>
+<a href="#"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 13h4v9H3Zm7-6h4v15h-4Zm7-5h4v20h-4Z"/></svg><span>STATS</span></a>
+<a href="#"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 2h9l5 5v15H5Zm9 1v5h4Z"/></svg><span>RULES</span></a>
+</nav>
+</main>
+</body>
+</html>
