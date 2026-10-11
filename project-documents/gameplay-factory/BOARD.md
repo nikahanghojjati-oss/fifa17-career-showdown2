@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Sun 11 Oct, 2:33 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Sun 11 Oct, 2:37 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r70** (main `c8810b8`, Sun 11 Oct 12:28 AM)
 
@@ -26,31 +26,31 @@ Updated Sun 11 Oct, 2:33 AM Boston time. Bug hunting only, no new features until
 
 **#3 · 1592** `G` Wire Team V study 1110: Connect Players phone  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · **GPT Sol 6.1** · High effort · worker working, draft PR #667 · CI 6 of 7 passed · last move 78 min ago
+🟢 Team green · **GPT Sol 6.1** · High effort · worker working, draft PR #667 · CI 6 of 7 passed · last move 82 min ago
 
 **#4 · 1593** `G` Wire Team V study 1372: Rivalry Statistics phone  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · **GPT Sol 6.1** · High effort · worker working, draft PR #668 · CI 6 of 7 passed · last move 62 min ago
+🟢 Team green · **GPT Sol 6.1** · High effort · worker working, draft PR #668 · CI 6 of 7 passed · last move 66 min ago
 
 **#5 · 1594** `G` Wire Team V study 1169: Club Assignment (redo train)  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · **GPT Sol 6.1** · High effort · worker working, draft PR #669 · CI 6 of 7 passed · last move 42 min ago
+🟢 Team green · **GPT Sol 6.1** · High effort · worker working, draft PR #669 · CI 6 of 7 passed · last move 46 min ago
 
 **#6 · 1595** `G` Wire Team V study 1171: Club Assignment (redo train)  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · **GPT Sol 6.1** · High effort · worker working, draft PR #669 · CI 6 of 7 passed · last move 42 min ago
+🟢 Team green · **GPT Sol 6.1** · High effort · worker working, draft PR #669 · CI 6 of 7 passed · last move 46 min ago
 
 **#7 · 1596** `G` Wire Team V study 1172: Club Assignment (redo train)  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · **GPT Sol 6.1** · High effort · worker working, draft PR #669 · CI 6 of 7 passed · last move 42 min ago
+🟢 Team green · **GPT Sol 6.1** · High effort · worker working, draft PR #669 · CI 6 of 7 passed · last move 46 min ago
 
 **#8 · 1600** `G` Wire Team V study 1374: Rivalry Statistics sideways  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · **GPT Sol 6.1** · High effort · worker working, draft PR #668 · CI 6 of 7 passed · last move 62 min ago
+🟢 Team green · **GPT Sol 6.1** · High effort · worker working, draft PR #668 · CI 6 of 7 passed · last move 66 min ago
 
 **#9 · 1601** `G` Wire Team V study 1375: Rivalry Statistics tablet  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · **GPT Sol 6.1** · High effort · worker working, draft PR #668 · CI 6 of 7 passed · last move 62 min ago
+🟢 Team green · **GPT Sol 6.1** · High effort · worker working, draft PR #668 · CI 6 of 7 passed · last move 66 min ago
 
 **#10 · 1606** `G` Fix (verify first) audit 88: failed refresh shown as publish failure (Season Results)  
 `████░░░░░░` **40.0000 %**  
@@ -63,38 +63,6 @@ Updated Sun 11 Oct, 2:33 AM Boston time. Bug hunting only, no new features until
 **#12 · 1608** `G` Fix (verify first) audit 116: background read disables Shared Setup buttons  
 `████░░░░░░` **40.0000 %**  
 🔵 Team blue · **GPT-6 Sol** · High effort · worker working, draft PR #665 · CI 6 of 7 passed · last move 2 h ago
-
-**#13 · 1622** `G` Study re-run (1139): Select League phone mockup, version A (faithful)  
-`████░░░░░░` **40.0000 %**  
-🟢 Team green · **GPT Sol 6.1** · High effort · worker working, draft PR #675 · CI 6 of 7 passed · last move 24 min ago
-
-**#14 · 1623** `G` Study re-run (1140): Select League phone mockup, version B (bold hierarchy)  
-`████░░░░░░` **40.0000 %**  
-🟢 Team green · **GPT Sol 6.1** · High effort · worker working, draft PR #676 · CI 6 of 7 passed · last move 24 min ago
-
-**#15 · 1624** `G` Study re-run (1141): Select League phone mockup, version C (compact)  
-`████░░░░░░` **40.0000 %**  
-🟢 Team green · **GPT Sol 6.1** · High effort · worker working, draft PR #677 · CI 6 of 7 passed · last move 23 min ago
-
-**#16 · 1625** `G` Study re-run (1142): Select League sideways phone study  
-`████░░░░░░` **40.0000 %**  
-🟢 Team green · **GPT Sol 6.1** · High effort · worker working, draft PR #678 · CI 6 of 7 passed · last move 23 min ago
-
-**#17 · 1626** `G` Study re-run (1143): Select League upright tablet study  
-`████░░░░░░` **40.0000 %**  
-🟢 Team green · **GPT Sol 6.1** · High effort · worker working, draft PR #679 · CI 6 of 7 passed · last move 23 min ago
-
-**#18 · 1627** `G` Study re-run (1082): Home phone mockup, version B (bold hierarchy)  
-`████░░░░░░` **40.0000 %**  
-🟢 Team green · **GPT Sol 6.1** · High effort · worker working, draft PR #672 · CI 6 of 7 passed · last move 29 min ago
-
-**#19 · 1628** `G` Study re-run (1083): Home phone mockup, version C (compact)  
-`████░░░░░░` **40.0000 %**  
-🟢 Team green · **GPT Sol 6.1** · High effort · worker working, draft PR #673 · CI 6 of 7 passed · last move 29 min ago
-
-**#20 · 1629** `G` Study re-run (1084): Home sideways phone study  
-`████░░░░░░` **40.0000 %**  
-🟢 Team green · **GPT Sol 6.1** · High effort · worker working, draft PR #674 · CI 6 of 7 passed · last move 29 min ago
 
 ### 👉 Next for you, in this order
 
@@ -270,7 +238,87 @@ Paste this:
 1621
 ```
 
-**#18 · 1630** `G` Wire Team V study 1622: Select League (phone)  
+**#18 · 1622** `G` Study re-run (1139): Select League phone mockup, version A (faithful)  
+`░░░░░░░░░░` **0.0000 %**  
+🟢 Team green · **GPT Sol 6.1** · High effort · ChatGPT Work mode (Sol 6.1), type one number at a time, in order
+
+Paste this:
+
+```text
+1622
+```
+
+**#19 · 1623** `G` Study re-run (1140): Select League phone mockup, version B (bold hierarchy)  
+`░░░░░░░░░░` **0.0000 %**  
+🟢 Team green · **GPT Sol 6.1** · High effort · ChatGPT Work mode (Sol 6.1), type one number at a time, in order
+
+Paste this:
+
+```text
+1623
+```
+
+**#20 · 1624** `G` Study re-run (1141): Select League phone mockup, version C (compact)  
+`░░░░░░░░░░` **0.0000 %**  
+🟢 Team green · **GPT Sol 6.1** · High effort · ChatGPT Work mode (Sol 6.1), type one number at a time, in order
+
+Paste this:
+
+```text
+1624
+```
+
+**#21 · 1625** `G` Study re-run (1142): Select League sideways phone study  
+`░░░░░░░░░░` **0.0000 %**  
+🟢 Team green · **GPT Sol 6.1** · High effort · ChatGPT Work mode (Sol 6.1), type one number at a time, in order
+
+Paste this:
+
+```text
+1625
+```
+
+**#22 · 1626** `G` Study re-run (1143): Select League upright tablet study  
+`░░░░░░░░░░` **0.0000 %**  
+🟢 Team green · **GPT Sol 6.1** · High effort · ChatGPT Work mode (Sol 6.1), type one number at a time, in order
+
+Paste this:
+
+```text
+1626
+```
+
+**#23 · 1627** `G` Study re-run (1082): Home phone mockup, version B (bold hierarchy)  
+`░░░░░░░░░░` **0.0000 %**  
+🟢 Team green · **GPT Sol 6.1** · High effort · ChatGPT Work mode (Sol 6.1), type one number at a time, in order
+
+Paste this:
+
+```text
+1627
+```
+
+**#24 · 1628** `G` Study re-run (1083): Home phone mockup, version C (compact)  
+`░░░░░░░░░░` **0.0000 %**  
+🟢 Team green · **GPT Sol 6.1** · High effort · ChatGPT Work mode (Sol 6.1), type one number at a time, in order
+
+Paste this:
+
+```text
+1628
+```
+
+**#25 · 1629** `G` Study re-run (1084): Home sideways phone study  
+`░░░░░░░░░░` **0.0000 %**  
+🟢 Team green · **GPT Sol 6.1** · High effort · ChatGPT Work mode (Sol 6.1), type one number at a time, in order
+
+Paste this:
+
+```text
+1629
+```
+
+**#26 · 1630** `G` Wire Team V study 1622: Select League (phone)  
 `░░░░░░░░░░` **0.0000 %**  
 🟢 Team green · **GPT Sol 6.1** · High effort · ChatGPT Work mode (Sol 6.1), type one number at a time, in order
 
@@ -280,7 +328,7 @@ Paste this:
 1630
 ```
 
-**#19 · 1631** `G` Wire Team V study 1625: Select League (sideways)  
+**#27 · 1631** `G` Wire Team V study 1625: Select League (sideways)  
 `░░░░░░░░░░` **0.0000 %**  
 🟢 Team green · **GPT Sol 6.1** · High effort · ChatGPT Work mode (Sol 6.1), type one number at a time, in order
 
@@ -290,7 +338,7 @@ Paste this:
 1631
 ```
 
-**#20 · 1632** `G` Wire Team V study 1626: Select League (tablet)  
+**#28 · 1632** `G` Wire Team V study 1626: Select League (tablet)  
 `░░░░░░░░░░` **0.0000 %**  
 🟢 Team green · **GPT Sol 6.1** · High effort · ChatGPT Work mode (Sol 6.1), type one number at a time, in order
 
@@ -300,7 +348,7 @@ Paste this:
 1632
 ```
 
-**#21 · 1633** `G` Wire Team V study 1627: Home (phone)  
+**#29 · 1633** `G` Wire Team V study 1627: Home (phone)  
 `░░░░░░░░░░` **0.0000 %**  
 🟢 Team green · **GPT Sol 6.1** · High effort · ChatGPT Work mode (Sol 6.1), type one number at a time, in order
 
@@ -310,7 +358,7 @@ Paste this:
 1633
 ```
 
-**#22 · 1634** `G` Wire Team V study 1629: Home (sideways)  
+**#30 · 1634** `G` Wire Team V study 1629: Home (sideways)  
 `░░░░░░░░░░` **0.0000 %**  
 🟢 Team green · **GPT Sol 6.1** · High effort · ChatGPT Work mode (Sol 6.1), type one number at a time, in order
 
@@ -320,13 +368,35 @@ Paste this:
 1634
 ```
 
+**#31 · 1591** `G` Home soundtrack: swap to Nik's Audius top 10  
+`░░░░░░░░░░` **0.0000 %**  
+🟣 Team purple · model not set · Claude lane: Opus Medium for the change, Sonnet for the live listen and browser check: type 'Job 1591'
+
+Type this in Claude lane: Opus Medium for the change, Sonnet for the live listen and browser check:
+
+```text
+Job 1591
+```
+
 ### ⏸ Waiting on something else
 
 **#1 · 1582** `G` Showdown Gate: screen shots of changed screens as a run artifact  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · **Codex default coding model** · Medium effort · later: after 1581 merges
 
-**Done, waiting for the next release:** 1583, 1584, 1585, 1586, 1597, 1598, 1599
+**#2 · 1597** `G` Wire Team V study 1226: Season Results  
+`░░░░░░░░░░` **0.0000 %**  
+🟣 Team purple · **Claude Opus** · High effort · Claude lane: Opus fixing #666 after two failed browser checks
+
+**#3 · 1598** `G` Wire Team V study 1229: Season Results  
+`░░░░░░░░░░` **0.0000 %**  
+🟣 Team purple · **Claude Opus** · High effort · Claude lane: Opus fixing #666 after two failed browser checks
+
+**#4 · 1599** `G` Wire Team V study 1230: Season Results  
+`░░░░░░░░░░` **0.0000 %**  
+🟣 Team purple · **Claude Opus** · High effort · Claude lane: Opus fixing #666 after two failed browser checks
+
+**Done, waiting for the next release:** 1583, 1584, 1585, 1586
 
 **Done and live:** r68: 1059, 1060, 1579, 1580, 1587 · r67: 1044, 1045, 1048, 1049, 1050, 1051, 1052, 1053, 1055, 1058 · r66: 1041, 1042, 1043 · r65: 1011, 1028, 1037, 1038, 1039, 1040 · r63: 1001, 1003, 1004, 1009, 1010, 1014, 1015, 1020, 1021, 1022, 1023, 1024, 1025, 1026, 1027, Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8
 
@@ -335,8 +405,8 @@ Paste this:
 ## Goals, in this order
 
 **1. Finish the remaining bugs** `now`  
-`███████░░░` **66.9231 %**  
-Numbered jobs: 59 done, 43 other open · Olympiad recheck: 23 of 23 settled, 0 still to fix · Sol's old leads: 0 open (0 real, 0 unsure)
+`██████░░░░` **64.1221 %**  
+Numbered jobs: 56 done, 47 other open · Olympiad recheck: 23 of 23 settled, 0 still to fix · Sol's old leads: 0 open (0 real, 0 unsure)
 
 **2. Visual fixes** `after stage 1`  
 `██████░░░░` **56.0000 %**  
@@ -392,10 +462,10 @@ Open code PRs: 0/8.
 
 | Stage | Items | Merged | Picked up |
 | --- | --- | --- | --- |
-| audits | 112 | 0/112 | 112/112 |
+| audits | 112 | 112/112 | 112/112 |
 | screen fixes | 266 | 25/266 | 90/266 |
 | mockup match | 14 | 0/14 | 1/14 |
-| phone studies | 70 | 0/70 | 60/70 |
+| phone studies | 70 | 23/70 | 60/70 |
 | desktop studies | 56 | 0/56 | 1/56 |
 
 **Last taken numbers**
@@ -408,31 +478,31 @@ Open code PRs: 0/8.
 | 379 | 1353 | closed | Rivalry Statistics: fix the 430x932 view |
 | 372 | 1086 | PR open | Home: improved desktop, version A (polish) |
 | 371 | 1352 | closed | Rivalry Statistics: fix the 390x844 view |
-| 364 | 1346 | PR open | Trophy Room: upright tablet study |
+| 364 | 1346 | merged | Trophy Room: upright tablet study |
 | 363 | 1351 | closed | Rivalry Statistics: fix the 360x640 view |
 | 362 | 1201 | closed | Transfer challenge and Signing Entry: upright tablet study |
-| 360 | 1114 | PR open | Connect Players (start and join): upright tablet study |
-| 356 | 1462 | PR open | Settings: upright tablet study |
+| 360 | 1114 | closed | Connect Players (start and join): upright tablet study |
+| 356 | 1462 | merged | Settings: upright tablet study |
 | 355 | 1312 | closed | Legacy: hover-only effects |
-| 354 | 1230 | PR open | Season Results: upright tablet study |
-| 350 | 1375 | PR open | Rivalry Statistics: upright tablet study |
-| 348 | 1317 | PR open | Legacy: upright tablet study |
-| 346 | 1143 | PR open | Select League: upright tablet study |
+| 354 | 1230 | merged | Season Results: upright tablet study |
+| 350 | 1375 | merged | Rivalry Statistics: upright tablet study |
+| 348 | 1317 | closed | Legacy: upright tablet study |
+| 346 | 1143 | closed | Select League: upright tablet study |
 | 344 | 1085 | closed | Home: upright tablet study |
-| 342 | 1288 | PR open | Final Winner (Showdown Champion): upright tablet study |
-| 340 | 1172 | PR open | Club packs: upright tablet study |
-| 338 | 1404 | PR open | Career Statistics: upright tablet study |
+| 342 | 1288 | merged | Final Winner (Showdown Champion): upright tablet study |
+| 340 | 1172 | merged | Club packs: upright tablet study |
+| 338 | 1404 | merged | Career Statistics: upright tablet study |
 
 ## Mega tracker (live, free)
 
-Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/index.html) · summary: [mega/MEGA_TRACKER.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/MEGA_TRACKER.md) · rebuilt by the poller each round, updated 2026-10-11T06:32:00Z.
+Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/index.html) · summary: [mega/MEGA_TRACKER.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/MEGA_TRACKER.md) · rebuilt by the poller each round, updated 2026-10-11T06:36:30Z.
 
 | Stage | Done (merged or live) | In progress | Waiting |
 | --- | --- | --- | --- |
-| Gameplay audits | 0 of 112 | 112 | 0 |
+| Gameplay audits | 112 of 112 | 0 | 0 |
 | Screen fixes | 25 of 266 | 65 | 176 |
 | Match desktop to mockups | 0 of 14 | 1 | 13 |
-| Phone mockup studies | 0 of 70 | 60 | 10 |
+| Phone mockup studies | 23 of 70 | 37 | 10 |
 | Improved desktop studies | 0 of 56 | 1 | 55 |
 
 **Open train PRs**
@@ -441,26 +511,26 @@ Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-caree
 
 **Latest finished numbers (up to 20)**
 
-- #1326 · Trophy Room: fix the 932x430 view · merged
-- #1325 · Trophy Room: fix the 844x390 view · merged
-- #1324 · Trophy Room: fix the 430x932 view · merged
-- #1323 · Trophy Room: fix the 390x844 view · merged
-- #1322 · Trophy Room: fix the 360x640 view · merged
-- #1210 · Season Results: fix the 932x430 view · merged
-- #1209 · Season Results: fix the 844x390 view · merged
-- #1208 · Season Results: fix the 430x932 view · merged
-- #1207 · Season Results: fix the 390x844 view · merged
-- #1206 · Season Results: fix the 360x640 view · merged
-- #1123 · Select League: fix the 932x430 view · merged
-- #1122 · Select League: fix the 844x390 view · merged
-- #1121 · Select League: fix the 430x932 view · merged
-- #1120 · Select League: fix the 390x844 view · merged
-- #1119 · Select League: fix the 360x640 view · merged
-- #1094 · Connect Players (start and join): fix the 932x430 view · merged
-- #1093 · Connect Players (start and join): fix the 844x390 view · merged
-- #1092 · Connect Players (start and join): fix the 430x932 view · merged
-- #1091 · Connect Players (start and join): fix the 390x844 view · merged
-- #1090 · Connect Players (start and join): fix the 360x640 view · merged
+- #1578 · Audit js/v10Screens.js for gameplay bugs (second half) · merged
+- #1577 · Audit js/v10Screens.js for gameplay bugs (first half) · merged
+- #1576 · Audit js/homeScreensV10.js for gameplay bugs (second half) · merged
+- #1575 · Audit js/homeScreensV10.js for gameplay bugs (first half) · merged
+- #1574 · Audit js/seasonFinalV10.js for gameplay bugs (second half) · merged
+- #1573 · Audit js/seasonFinalV10.js for gameplay bugs (first half) · merged
+- #1572 · Audit js/clubScreenV10.js for gameplay bugs (second half) · merged
+- #1571 · Audit js/clubScreenV10.js for gameplay bugs (first half) · merged
+- #1570 · Audit js/transferScreenV10.js for gameplay bugs (second half) · merged
+- #1569 · Audit js/transferScreenV10.js for gameplay bugs (first half) · merged
+- #1568 · Audit js/rivalryLegacyV10.js for gameplay bugs (second half) · merged
+- #1567 · Audit js/rivalryLegacyV10.js for gameplay bugs (first half) · merged
+- #1566 · Audit js/careerScreensV10.js for gameplay bugs (second half) · merged
+- #1565 · Audit js/careerScreensV10.js for gameplay bugs (first half) · merged
+- #1564 · Audit js/sparkCompletedTransferHistoryReader.js for gameplay bugs (second half) · merged
+- #1563 · Audit js/sparkCompletedTransferHistoryReader.js for gameplay bugs (first half) · merged
+- #1562 · Audit js/sparkCompletedShowdownReader.js for gameplay bugs (second half) · merged
+- #1561 · Audit js/sparkCompletedShowdownReader.js for gameplay bugs (first half) · merged
+- #1560 · Audit js/offlineApp.js for gameplay bugs (second half) · merged
+- #1559 · Audit js/offlineApp.js for gameplay bugs (first half) · merged
 
 ## Other asks
 
