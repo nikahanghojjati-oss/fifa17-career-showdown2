@@ -109,6 +109,12 @@ Rivalry phone studies:
 238 266 294 322 350
 ```
 
+Legacy phone studies:
+
+```text
+236 264 292 320 348
+```
+
 <!-- released:end -->
 
 Studies (phone and desktop mockups) are on hold until Team V approves each screen's picture, so only the released ones are listed here (see the lists above); the board's Type now list will add them when they are released. The board's Type now list keeps the next numbers; [RUN_REPORT.md](RUN_REPORT.md) is what Claude reads when you are back.
