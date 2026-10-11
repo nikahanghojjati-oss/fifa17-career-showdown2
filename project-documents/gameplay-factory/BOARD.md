@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Sat 10 Oct, 10:46 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Sat 10 Oct, 10:49 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r69** (main `f335734`, Sat 10 Oct 3:50 PM)
 
@@ -113,7 +113,7 @@ One numbered queue: type a bare number in any GPT chat. Live from GitHub (queue/
 Type now, in any GPT chat:
 
 ```text
-61 226 228 234 238 242 250 254 256 262 266 270
+226 228 242 250 254 256 266 270 278 282 284 294
 ```
 
 Open code PRs: 0/8.
@@ -123,9 +123,9 @@ Open code PRs: 0/8.
 | Stage | Items | Merged | Picked up |
 | --- | --- | --- | --- |
 | audits | 112 | 0/112 | 112/112 |
-| screen fixes | 266 | 0/266 | 66/266 |
+| screen fixes | 266 | 0/266 | 68/266 |
 | mockup match | 14 | 0/14 | 1/14 |
-| phone studies | 70 | 0/70 | 5/70 |
+| phone studies | 70 | 0/70 | 13/70 |
 | desktop studies | 56 | 0/56 | 0/56 |
 
 **Last taken numbers**
@@ -138,20 +138,20 @@ Open code PRs: 0/8.
 | 371 | 1352 | PR open | Rivalry Statistics: fix the 390x844 view |
 | 363 | 1351 | PR open | Rivalry Statistics: fix the 360x640 view |
 | 355 | 1312 | PR open | Legacy: hover-only effects |
+| 346 | 1143 | blocked | Select League: upright tablet study |
+| 344 | 1085 | PR open | Home: upright tablet study |
 | 337 | 1311 | PR open | Legacy: error and retry state |
 | 319 | 1310 | PR open | Legacy: empty state |
+| 318 | 1142 | blocked | Select League: sideways phone study |
 | 316 | 1084 | PR open | Home: sideways phone study |
 | 301 | 1309 | PR open | Legacy: loading state |
+| 290 | 1141 | blocked | Select League: phone mockup, version C (compact) |
 | 288 | 1083 | PR open | Home: phone mockup, version C (compact) |
 | 283 | 1308 | PR open | Legacy: picture descriptions and labels |
+| 276 | 1111 | branch only | Connect Players (start and join): phone mockup, version B (bold hierarchy) |
 | 265 | 1307 | PR open | Legacy: text contrast |
+| 262 | 1140 | blocked | Select League: phone mockup, version B (bold hierarchy) |
 | 260 | 1082 | PR open | Home: phone mockup, version B (bold hierarchy) |
-| 248 | 1110 | branch only | Connect Players (start and join): phone mockup, version A (faithful) |
-| 247 | 1306 | PR open | Legacy: keyboard focus and reduced motion |
-| 232 | 1081 | PR open | Home: phone mockup, version A (faithful) |
-| 229 | 1305 | PR open | Legacy: tap targets |
-| 224 | 1578 | PR open | Audit js/v10Screens.js for gameplay bugs (second half) |
-| 222 | 1577 | PR open | Audit js/v10Screens.js for gameplay bugs (first half) |
 
 ## Mega tracker (live, free)
 
