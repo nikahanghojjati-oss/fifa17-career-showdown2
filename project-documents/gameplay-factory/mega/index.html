@@ -80,6 +80,7 @@ a{color:inherit}
 <div><div><b id="rt">-</b> numbers free to type right now; this line is the next chat</div><div class="lbl">Each line is one chat: tap it to copy, then paste it in a new chat. <span id="held"></span></div></div></div>
 <div class="lbl" style="margin:8px 0;font-size:14px"><b id="bsz"></b> · <span id="bst"></span><br>ChatGPT chat: type up to <span id="bmx"></span> numbers in one message (for example the line below). Work mode and Codex stay one number per message. <a href="https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/queue/BATCHES.md">Full batch table</a></div><div class="cols"><div class="col"><h3>Account 1 · odd numbers</h3><div class="chips" id="odd"></div></div>
 <div class="col"><h3>Account 2 · even numbers</h3><div class="chips" id="even"></div></div></div>
+<div class="col" style="margin-top:10px"><h3>Work mode (Sol 6.1) · one number per message, not in batches</h3><div class="chips" id="wk"></div></div>
 <div class="lbl" style="margin-top:8px" id="nxtnote"></div></div>
 
 <div class="card"><h2>Where you come in</h2><div class="lbl" id="rule" style="font-size:15px;margin-bottom:8px;color:inherit"></div><div id="role"></div><div class="lbl" id="rolesrc" style="margin-top:6px"></div></div>
@@ -140,12 +141,12 @@ async function load(){
 function copyBtn(b){const n=b.dataset.n;try{navigator.clipboard.writeText(n)}catch(e){}b.classList.add("copied");setTimeout(()=>b.classList.remove("copied"),900)}
 function paint(only,fail){
   if(!D){$("age").textContent=fail?"cannot reach GitHub":"loading…";return}
-  const age=(Date.now()-new Date(D.updated))/1000;
+  const okT=typeof D.updated==="string"&&D.updated.length>8;const age=okT?(Date.now()-new Date(D.updated))/1000:1e9;
   const old=age>600,off=fail||Date.now()-lastOk>180000;
   $("dot").className="dot"+(old||off?" stale":"");
-  $("age").textContent="live · data "+ago(D.updated)+(off?" · connection lost":"");
+  $("age").textContent=(okT?"live · data "+ago(D.updated):"data time unknown")+(off?" · connection lost":"");
   const b=$("ban");
-  if(old||off){b.style.display="block";b.textContent=off?"Cannot reach GitHub right now; showing the last data. Numbers may be behind.":"The GitHub updater has not written new data for "+Math.round(age/60)+" min. Numbers may be behind."}else b.style.display="none";
+  if(old||off){b.style.display="block";b.textContent=off?"Cannot reach GitHub right now; showing the last data. Numbers may be behind.":(okT?"The GitHub updater has not written new data for "+Math.round(age/60)+" min. Numbers may be behind.":"The data has no valid time. The updater may be restarting; numbers may be behind.")}else b.style.display="none";
   if(only&&!fail&&D._painted===D.updated)return;
   D._painted=D.updated;
   const c=D.counts,n=D.total,g=D.gates,fin=(c.merged||0)+(c.live||0)+(c.no_pr||0);
@@ -175,8 +176,10 @@ function paint(only,fail){
   $("held").textContent=g.held_until_picture?`Held: ${parts.join("; ")}.`:"";}
   const none='<span class="none">None free right now.</span>';
   const bl=a=>{const z=[],k=B.size||3;for(let i=0;i<a.length;i+=k)z.push(a.slice(i,i+k));return z.map(g=>`<button class="chip batch" data-n="${g.join(" ")}">${g.join(" ")}</button>`).join("")||none};
-  $("odd").innerHTML=bl(all.filter(x=>x%2));
-  $("even").innerHTML=bl(all.filter(x=>x%2===0));
+  const wkset=new Set(g.ready_work||[]),chat=all.filter(x=>!wkset.has(x));
+  $("odd").innerHTML=bl(chat.filter(x=>x%2));
+  $("even").innerHTML=bl(chat.filter(x=>x%2===0));
+  $("wk").innerHTML=(g.ready_work||[]).map(chip).join("")||none;
   $("bmx").textContent=B.size||3;$("bsz").textContent=(B.size||3)+" numbers per chat";$("bst").textContent=(B.clean_streak||0)+" of "+(B.goal||10)+" clean batches in a row"+(B.size<B.max?" (then "+B.max+" per chat)":"");
   $("nxtnote").textContent=(g.ready_total>all.length?`Showing the first ${all.length} of ${g.ready_total}. `:"")+"A number leaves this list the minute its chat claims it. Numbers not listed have to wait.";
   document.querySelectorAll(".chip").forEach(b=>b.onclick=()=>copyBtn(b));

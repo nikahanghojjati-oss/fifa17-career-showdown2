@@ -458,7 +458,7 @@ def run_round(a, ctx):
     gates = {"cap": CAP, "open_code_prs": len(open_code), "open_train_prs": open_all,
              "on_train_no_pr": started_code, "draft_code_prs": len(open_all) - len(open_code), "area_locks": {g: n for g, n in locked.items() if g},
              "ready": ready[:12], "ready_sol": ready_sol, "ready_codex": ready_codex,
-             "ready_all": ready[:150], "ready_total": len(ready), "held_until_picture": held_n, "held_by_picture": held_by}
+             "ready_all": ready[:150], "ready_work": [k for k in ready if order[str(k)].get("mode") == "study" and order[str(k)].get("screen") in pics.get("keys", {})], "ready_total": len(ready), "held_until_picture": held_n, "held_by_picture": held_by}
     # stale: claimed over 45 minutes ago and still no PR
     stale = [int(k) for k, v in items.items() if v["state"] == "started"
              and (datetime.datetime.now(datetime.timezone.utc) - datetime.datetime.fromisoformat(v["since"].replace("Z", "+00:00"))).total_seconds() > 2700]
@@ -466,6 +466,8 @@ def run_round(a, ctx):
     hist = [h for h in prev.get("history", []) if isinstance(h.get("at"), str)]
     if not hist or (datetime.datetime.fromisoformat(t.replace("Z", "+00:00")) - datetime.datetime.fromisoformat(hist[-1]["at"].replace("Z", "+00:00"))).total_seconds() >= 3600:
         hist.append({"at": t, "lanes": {k: {"t": L["total"], "fin": L["finished"], "done": L["worker_done"], "redone": L["closed"], "fail": L["failing_now"]} for k, L in lanes.items() if L["total"]}})
+    if not isinstance(t, str):   # never write a bad clock
+        raise RuntimeError("timestamp clobbered")
     doc = {"updated": t, "total": len(items), "next_free": next_free, "highest_taken": highest,
            "counts": states, "stages": stages, "stale_started": stale, "gates": gates,
            "rate": {"claimed_last_hour": started_since(60), "claimed_last_10min": started_since(10),

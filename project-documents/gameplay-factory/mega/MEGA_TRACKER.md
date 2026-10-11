@@ -1,24 +1,24 @@
-# Mega factory tracker · updated 2026-10-11T07:37:27Z
+# Mega factory tracker · updated 2026-10-11T07:38:26Z
 
-**Type now (17 free):** 133, 145, 147, 149, 159, 173, 179, 189, 240, 268, 296, 324, 352, 400, 411, 428, 456
-**Next free number:** 133 · **highest taken:** 403 of 518
+**Type now (17 free):** 145, 147, 149, 151, 159, 173, 179, 189, 240, 268, 296, 324, 352, 400, 411, 428, 456
+**Next free number:** 145 · **highest taken:** 403 of 518
 **Code PRs open:** 0 of 8 · area locks: none
-**Rate:** 2 claimed in 10 min · 2 in 1 h · 0 merged in 1 h
+**Rate:** 3 claimed in 10 min · 3 in 1 h · 0 merged in 1 h
 
 **Finished (merged or live): 160 of 518**
 
 State | count
 --- | ---
 ✅ merged to staging branch | 160
-🚂 done, on the train branch, no PR yet | 23
+🚂 done, on the train branch, no PR yet | 24
 📝 worker done, draft PR open | 1
 ⚫ closed without merge | 82
-⬜ waiting | 252
+⬜ waiting | 251
 
 Stage | total | merged/live | in flight | waiting
 --- | --- | --- | --- | ---
 1 Gameplay audits | 112 | 112 | 0 | 0
-2 Screen fixes | 266 | 25 | 23 | 174
+2 Screen fixes | 266 | 25 | 24 | 173
 3 Match desktop to mockups | 14 | 0 | 0 | 13
 4 Phone mockup studies | 70 | 23 | 0 | 10
 5 Improved desktop studies | 56 | 0 | 1 | 55
@@ -42,6 +42,7 @@ Stage | total | merged/live | in flight | waiting
 - 🚂 **127** · Job 1068 · Home: fix the 1366x768 view · done, on the train branch, no PR yet
 - 🚂 **129** · Job 1097 · Connect Players (start and join): fix the 1366x768 view · done, on the train branch, no PR yet
 - 🚂 **131** · Job 1126 · Select League: fix the 1366x768 view · done, on the train branch, no PR yet
+- 🚂 **133** · Job 1155 · Club packs: fix the 1366x768 view · done, on the train branch, no PR yet
 - 🚂 **137** · Job 1213 · Season Results: fix the 1366x768 view · done, on the train branch, no PR yet
 - 🚂 **141** · Job 1329 · Trophy Room: fix the 1366x768 view · done, on the train branch, no PR yet
 - 🚂 **143** · Job 1416 · Rule Book: fix the 1366x768 view · done, on the train branch, no PR yet
@@ -52,6 +53,7 @@ Stage | total | merged/live | in flight | waiting
 
 ## Latest changes
 
+- 2026-10-11T07:38:26Z · 133 (Job 1155): waiting → on_train
 - 2026-10-11T07:37:27Z · 131 (Job 1126): waiting → on_train
 - 2026-10-11T07:35:57Z · 127 (Job 1068): waiting → on_train
 - 2026-10-11T07:30:57Z · 171 (Job 1186): draft → closed
@@ -71,4 +73,3 @@ Stage | total | merged/live | in flight | waiting
 - 2026-10-11T06:38:00Z · 232 (Job 1081): draft → closed
 - 2026-10-11T06:38:00Z · 226 (Job 1400): draft → closed
 - 2026-10-11T06:36:30Z · 364 (Job 1346): draft → merged
-- 2026-10-11T06:36:30Z · 356 (Job 1462): draft → merged

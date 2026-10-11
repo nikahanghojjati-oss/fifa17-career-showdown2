@@ -1,13 +1,13 @@
 {
-"updated": "2026-10-11T07:37:27Z",
+"updated": "2026-10-11T07:38:26Z",
 "total": 518,
-"next_free": 133,
+"next_free": 145,
 "highest_taken": 403,
 "counts": {
 "merged": 160,
 "closed": 82,
-"on_train": 23,
-"waiting": 252,
+"on_train": 24,
+"waiting": 251,
 "draft": 1
 },
 "stages": {
@@ -17,8 +17,8 @@
 "states": {
 "merged": 25,
 "closed": 44,
-"on_train": 23,
-"waiting": 174
+"on_train": 24,
+"waiting": 173
 }
 },
 "1": {
@@ -77,6 +77,7 @@
 127,
 129,
 131,
+133,
 137,
 141,
 143,
@@ -87,10 +88,10 @@
 "draft_code_prs": 0,
 "area_locks": {},
 "ready": [
-133,
 145,
 147,
 149,
+151,
 159,
 173,
 179,
@@ -101,10 +102,10 @@
 324
 ],
 "ready_sol": [
-133,
 145,
 147,
 149,
+151,
 159,
 173,
 179,
@@ -116,10 +117,10 @@
 ],
 "ready_codex": [],
 "ready_all": [
-133,
 145,
 147,
 149,
+151,
 159,
 173,
 179,
@@ -131,6 +132,16 @@
 352,
 400,
 411,
+428,
+456
+],
+"ready_work": [
+240,
+268,
+296,
+324,
+352,
+400,
 428,
 456
 ],
@@ -154,8 +165,8 @@
 }
 },
 "rate": {
-"claimed_last_hour": 2,
-"claimed_last_10min": 2,
+"claimed_last_hour": 3,
+"claimed_last_10min": 3,
 "merged_last_hour": 0
 },
 "lanes": {
@@ -165,18 +176,18 @@
 "states": {
 "merged": 25,
 "closed": 25,
-"on_train": 23,
-"waiting": 166
+"on_train": 24,
+"waiting": 165
 },
 "reviews": {
 "ok": 0,
 "ok_notes": 0,
 "needs_changes": 0
 },
-"picked_up": 73,
-"worker_done": 48,
+"picked_up": 74,
+"worker_done": 49,
 "finished": 25,
-"pending_lead": 23,
+"pending_lead": 24,
 "wait_v": 0,
 "audit_batch": 0,
 "trouble": 0,
@@ -416,13 +427,6 @@
 }
 ],
 "events": [
-{
-"at": "2026-10-11T03:54:22Z",
-"item": 137,
-"job": 1213,
-"from": "waiting",
-"to": "on_train"
-},
 {
 "at": "2026-10-11T03:54:22Z",
 "item": 228,
@@ -2515,6 +2519,13 @@
 "job": 1126,
 "from": "waiting",
 "to": "on_train"
+},
+{
+"at": "2026-10-11T07:38:26Z",
+"item": 133,
+"job": 1155,
+"from": "waiting",
+"to": "on_train"
 }
 ],
 "items": {
@@ -4527,8 +4538,10 @@
 "title": "Club packs: fix the 1366x768 view",
 "mode": "code",
 "group": "club",
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"state": "on_train",
+"branch": "gameplay/train-club-2",
+"first_seen": "2026-10-11T07:38:26Z",
+"since": "2026-10-11T07:38:26Z"
 },
 "134": {
 "job": 1533,
