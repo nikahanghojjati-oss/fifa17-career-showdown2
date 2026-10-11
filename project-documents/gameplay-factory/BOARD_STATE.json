@@ -1,8 +1,8 @@
 {
- "generated": "2026-10-10 11:30 PM Boston time (EDT)",
+ "generated": "2026-10-10 11:34 PM Boston time (EDT)",
  "relay": {
   "live": true,
-  "count": 29,
+  "count": 63,
   "rows": [
    {
     "time": "2026-10-02 00:29",
@@ -248,6 +248,60 @@
     "boston": "Mon 5 Oct 8:55 AM"
    },
    {
+    "time": "2026-10-05 15:46",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-001 RECEIVED",
+    "subject": "Use hand-off tickets for passing work (relay v1.1)",
+    "reply": "no",
+    "boston": "Mon 5 Oct 11:46 AM"
+   },
+   {
+    "time": "2026-10-05 15:46",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-002 RECEIVED",
+    "subject": "Smooth stage atmosphere on idle screens (pointer stutter root cause)",
+    "reply": "no",
+    "boston": "Mon 5 Oct 11:46 AM"
+   },
+   {
+    "time": "2026-10-05 15:46",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-003 RECEIVED",
+    "subject": "Header chips and footer design on Team V screens",
+    "reply": "no",
+    "boston": "Mon 5 Oct 11:46 AM"
+   },
+   {
+    "time": "2026-10-05 15:46",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-004 RECEIVED",
+    "subject": "Visual QA: live 2.0 screens vs approved frames",
+    "reply": "no",
+    "boston": "Mon 5 Oct 11:46 AM"
+   },
+   {
+    "time": "2026-10-05 15:46",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-005 RECEIVED",
+    "subject": "Mobile Home hero: ghost coat between Daniel and Nik",
+    "reply": "no",
+    "boston": "Mon 5 Oct 11:46 AM"
+   },
+   {
+    "time": "2026-10-05 15:47",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-001 DONE",
+    "subject": "Use hand-off tickets for passing work (relay v1.1)",
+    "reply": "no",
+    "boston": "Mon 5 Oct 11:47 AM"
+   },
+   {
     "time": "2026-10-05 15:52",
     "from": "Team G",
     "to": "Team V",
@@ -264,6 +318,258 @@
     "subject": "Correction: PR #312 comments do wake a subscribed thread (2 s); subscribe your relay thread to PR #312 and register it in INBOX.json",
     "reply": "yes (INBOX.json entry)",
     "boston": "Mon 5 Oct 11:53 AM"
+   },
+   {
+    "time": "2026-10-05 16:04",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-005 DONE",
+    "subject": "Mobile Home hero: ghost coat between Daniel and Nik",
+    "reply": "no",
+    "boston": "Mon 5 Oct 12:04 PM"
+   },
+   {
+    "time": "2026-10-05 16:13",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-002 DONE",
+    "subject": "Smooth stage atmosphere on idle screens (pointer stutter root cause)",
+    "reply": "no",
+    "boston": "Mon 5 Oct 12:13 PM"
+   },
+   {
+    "time": "2026-10-05 16:19",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-003 DONE",
+    "subject": "Header chips and footer design on Team V screens",
+    "reply": "no",
+    "boston": "Mon 5 Oct 12:19 PM"
+   },
+   {
+    "time": "2026-10-05 16:19",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-004 DONE",
+    "subject": "Visual QA: live 2.0 screens vs approved frames",
+    "reply": "no",
+    "boston": "Mon 5 Oct 12:19 PM"
+   },
+   {
+    "time": "2026-10-05 18:32",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-006 SENT",
+    "subject": "Wire V-247: phone Home tile icons large and centred",
+    "reply": "yes (receive it)",
+    "boston": "Mon 5 Oct 2:32 PM"
+   },
+   {
+    "time": "2026-10-05 23:24",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-007 RECEIVED",
+    "subject": "Shared job numbers for both teams, from 1001",
+    "reply": "no",
+    "boston": "Mon 5 Oct 7:24 PM"
+   },
+   {
+    "time": "2026-10-05 23:31",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-008 RECEIVED",
+    "subject": "Bug factory mode for Team V: GPT blue and green lanes, escalation ladder",
+    "reply": "no",
+    "boston": "Mon 5 Oct 7:31 PM"
+   },
+   {
+    "time": "2026-10-05 23:32",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-008 DONE",
+    "subject": "Bug factory mode for Team V: GPT blue and green lanes, escalation ladder",
+    "reply": "no",
+    "boston": "Mon 5 Oct 7:32 PM"
+   },
+   {
+    "time": "2026-10-05 23:41",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-009 SENT",
+    "subject": "GPT workers: CI gates and the Physio are expected, never removed",
+    "reply": "yes (receive it)",
+    "boston": "Mon 5 Oct 7:41 PM"
+   },
+   {
+    "time": "2026-10-05 23:45",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-007 DONE",
+    "subject": "Shared job numbers for both teams, from 1001",
+    "reply": "no",
+    "boston": "Mon 5 Oct 7:45 PM"
+   },
+   {
+    "time": "2026-10-06 00:04",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-010 SENT",
+    "subject": "Sync main's copy of Transfer War f1Action to REQUEST EARLY END (1002 · V)",
+    "reply": "yes (receive it)",
+    "boston": "Mon 5 Oct 8:04 PM"
+   },
+   {
+    "time": "2026-10-06 00:32",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-011 RECEIVED",
+    "subject": "Final Winner screen with the last season's score (job 1005)",
+    "reply": "no",
+    "boston": "Mon 5 Oct 8:32 PM"
+   },
+   {
+    "time": "2026-10-06 00:54",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-012 RECEIVED",
+    "subject": "One board: your lead view copies CUSTOM_VIEW_V.html (Team V first, same facts)",
+    "reply": "no",
+    "boston": "Mon 5 Oct 8:54 PM"
+   },
+   {
+    "time": "2026-10-06 00:56",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-012 RECEIVED",
+    "subject": "One board: your lead view copies CUSTOM_VIEW_V.html (Team V first, same facts)",
+    "reply": "no",
+    "boston": "Mon 5 Oct 8:56 PM"
+   },
+   {
+    "time": "2026-10-06 01:29",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-013 SENT",
+    "subject": "Finished Showdown shows the 'private session has ended, reconnect' line",
+    "reply": "yes (receive it)",
+    "boston": "Mon 5 Oct 9:29 PM"
+   },
+   {
+    "time": "2026-10-06 01:31",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-014 SENT",
+    "subject": "Create code / Join on its own Connect Players screen, never on top of Home",
+    "reply": "yes (receive it)",
+    "boston": "Mon 5 Oct 9:31 PM"
+   },
+   {
+    "time": "2026-10-06 01:37",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-015 SENT",
+    "subject": "Season Results on phone: one clean column (Team V's tested CSS for app.css)",
+    "reply": "yes (receive it)",
+    "boston": "Mon 5 Oct 9:37 PM"
+   },
+   {
+    "time": "2026-10-06 01:53",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-016 SENT",
+    "subject": "Transfer War on phone: port Team V's revamp (1016) into the live game",
+    "reply": "yes (receive it)",
+    "boston": "Mon 5 Oct 9:53 PM"
+   },
+   {
+    "time": "2026-10-06 04:03",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-017 RECEIVED",
+    "subject": "Thursday goal: Team V toward the mockups, Team G toward a bug-free game",
+    "reply": "no",
+    "boston": "Tue 6 Oct 12:03 AM"
+   },
+   {
+    "time": "2026-10-06 04:47",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-018 SENT",
+    "subject": "Season Results desktop: port Team V's mockup-match CSS (1029 · V)",
+    "reply": "yes (receive it)",
+    "boston": "Tue 6 Oct 12:47 AM"
+   },
+   {
+    "time": "2026-10-06 05:07",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-019 SENT",
+    "subject": "Select League: port Team V's brush title wordmark (1030 · V)",
+    "reply": "yes (receive it)",
+    "boston": "Tue 6 Oct 1:07 AM"
+   },
+   {
+    "time": "2026-10-06 05:16",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-020 SENT",
+    "subject": "Team V screens lose kit CSS when a stylesheet takes over 4 s (v10Screens.js timeout)",
+    "reply": "yes (receive it)",
+    "boston": "Tue 6 Oct 1:16 AM"
+   },
+   {
+    "time": "2026-10-09 02:06",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-021 RECEIVED",
+    "subject": "Studio Z leftovers: real upright-tablet layout and sideways-phone Signing Entry",
+    "reply": "no",
+    "boston": "Thu 8 Oct 10:06 PM"
+   },
+   {
+    "time": "2026-10-09 03:44",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-021 DONE",
+    "subject": "Studio Z leftovers: real upright-tablet layout and sideways-phone Signing Entry",
+    "reply": "no",
+    "boston": "Thu 8 Oct 11:44 PM"
+   },
+   {
+    "time": "2026-10-10 14:18",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-022 RECEIVED",
+    "subject": "Mega factory studies: how Team V adopts them (queue/V_ADOPTION.md) and the NEEDS TEAM V rule",
+    "reply": "no",
+    "boston": "Sat 10 Oct 10:18 AM"
+   },
+   {
+    "time": "2026-10-10 15:30",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-023 SENT",
+    "subject": "Five fixes to the 126 study tickets before Nik types them (missing art folders, mockup path, phone size, product rules, 4 already-decided studies)",
+    "reply": "yes (receive it)",
+    "boston": "Sat 10 Oct 11:30 AM"
+   },
+   {
+    "time": "2026-10-10 15:35",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-024 SENT",
+    "subject": "Aim the studies at Nik's new mockup pictures: hold phone/desktop studies until each PHONE_/NEXT_<SCREEN>.png is approved (job 1588)",
+    "reply": "yes (receive it)",
+    "boston": "Sat 10 Oct 11:35 AM"
+   },
+   {
+    "time": "2026-10-11 03:32",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-025 SENT",
+    "subject": "Relay feed and inbox: add your hand-off rows to FEED.md (feed_sync.py --team G) and refresh your INBOX.json entry",
+    "reply": "yes (receive it)",
+    "boston": "Sat 10 Oct 11:32 PM"
    }
   ],
   "g2v": {
@@ -284,10 +590,10 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "fe12403",
-  "head_boston": "Sat 10 Oct 1:40 PM",
+  "head": "2ae9d61",
+  "head_boston": "Sat 10 Oct 11:33 PM",
   "latest_id": "G2V-016",
-  "feed_matches_latest": true,
+  "feed_matches_latest": false,
   "open_for_g": [],
   "open_for_v": [
    {
@@ -655,6 +961,19 @@
     "worker": "",
     "pickup_min": 0,
     "waiting_min": null
+   },
+   {
+    "id": "HO-025",
+    "from": "V",
+    "to": "G",
+    "title": "Relay feed and inbox: add your hand-off rows to FEED.md (feed_sync.py --team G) and refresh your INBOX.json entry",
+    "stage": "DELIVERED",
+    "pct": 0.0,
+    "overdue": false,
+    "path": "project-documents/leads-relay/handoffs/HO-025_relay-feed-and-inbox-add-your-hand-off-r.md",
+    "worker": "haiku",
+    "pickup_min": null,
+    "waiting_min": 1
    }
   ],
   "relay_ok": true
@@ -726,7 +1045,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 40,
+  "moving": 41,
   "next": 6,
   "nik": 2,
   "later": 7,

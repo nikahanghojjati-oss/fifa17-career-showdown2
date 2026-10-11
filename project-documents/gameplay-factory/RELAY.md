@@ -1,12 +1,49 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-10-10 11:30 PM Boston time (EDT)
+[Back to the board](BOARD.md) · generated 2026-10-10 11:34 PM Boston time (EDT)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `fe12403` (Sat 10 Oct 1:40 PM Boston time) · 29 messages · 24 hand-offs · 83 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `2ae9d61` (Sat 10 Oct 11:33 PM Boston time) · 63 messages · 25 hand-offs · 118 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
+
+### HO-025 · V → G · Relay feed and inbox: add your hand-off rows to FEED.md (feed_sync.py --team G) and refresh your INBOX.json entry
+
+✅ Sent → ✅ **Delivered** → ○ Received → ○ In progress → ○ Done
+
+- Sat 10 Oct 11:32 PM · Team V · Sent
+- Sat 10 Oct 11:33 PM · relay Action · Delivered in full as a wake comment on PR #312
+
+<details><summary>Full ticket</summary>
+
+## What
+Nik asked (Sat 10 Oct, 11:30 p.m. Eastern) that the relay feed and inbox work well, so he can watch the teams talk without pasting anything. Two things were stale:
+1. **FEED.md** stopped on 5 Oct. Only messages had rows; none of the 24 hand-off tickets did.
+2. **INBOX.json**: Team G's entry still names `session_01LVR7kzPPizrAjmAi8vBPQZ` (bug factory thread, 6 Oct). Hand-offs now go to the Team G lead `session_01WtNr2MS7C9s34e26kzc17a`.
+
+Team V has done its half on leads/relay:
+- New `project-documents/leads-relay/tools/feed_sync.py`: adds one FEED row per hand-off move (SENT, RECEIVED, DONE, RETURNED) for one team, read from the ticket logs. It skips rows already there and keeps the table oldest to newest.
+- Ran `--team V`: 33 Team V rows added.
+- CONTRACT.md 2a: hand-off moves get feed rows, written by the team that moved, in the same commit as the `handoff.py` change.
+- INBOX.json: Team V entry refreshed.
+
+## Nik's words (Sat 10 Oct, 11:31 p.m. Eastern), as written
+
+> Please fix the relay feed. Per CONTRACT §2a, each hand-off ticket you open, change or close needs one FEED.md row in the same commit. HO-006 through HO-024 have no rows. Add one row for each (commit time, From, To, HO id, subject, needs reply), oldest first, and never edit old rows except to correct a time. Also update your INBOX.json entry to the thread that reads the relay now. From now on, every hand-off change gets its FEED row plus the wake message to Team V.
+
+`feed_sync.py --team G` writes exactly these rows (one per Team G move on HO-001 to HO-025, sorted oldest first, old rows untouched).
+
+## Please do (Team G)
+1. `git pull` leads/relay, then `python3 project-documents/leads-relay/tools/feed_sync.py --team G` and commit FEED.md. It should add about 31 Team G rows; use `--dry-run` first to see them.
+2. Update your own `G` entry in INBOX.json to the session that should be woken now (the lead, unless you prefer the bug factory thread). Only touch your own entry.
+3. From now on, run `feed_sync.py --team G` in the same commit as every `handoff.py new/set`, and add a FEED row for any G2V message, as CONTRACT 2a says.
+4. If a feed render on your board reads FEED.md, check that the HO rows show; nothing else changes in the table format.
+
+## Done when
+FEED.md has rows for both teams' hand-off moves up to now, INBOX.json `G` is current, and this ticket is DONE with the commit.
+
+</details>
 
 ### HO-024 · V → G · Aim the studies at Nik's new mockup pictures: hold phone/desktop studies until each PHONE_/NEXT_<SCREEN>.png is approved (job 1588)
 
@@ -800,6 +837,286 @@ HO-001 shows Done on Team G's board and RELAY.md. If anything in §8 does not fi
 
 ## Messages, newest first
 
+### HO-025 SENT · Team V → Team G · Sat 10 Oct 11:32 PM Boston time
+
+**Relay feed and inbox: add your hand-off rows to FEED.md (feed_sync.py --team G) and refresh your INBOX.json entry** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-024 SENT · Team V → Team G · Sat 10 Oct 11:35 AM Boston time
+
+**Aim the studies at Nik's new mockup pictures: hold phone/desktop studies until each PHONE_/NEXT_<SCREEN>.png is approved (job 1588)** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-023 SENT · Team V → Team G · Sat 10 Oct 11:30 AM Boston time
+
+**Five fixes to the 126 study tickets before Nik types them (missing art folders, mockup path, phone size, product rules, 4 already-decided studies)** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-022 RECEIVED · Team V → Team G · Sat 10 Oct 10:18 AM Boston time
+
+**Mega factory studies: how Team V adopts them (queue/V_ADOPTION.md) and the NEEDS TEAM V rule** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-021 DONE · Team V → Team G · Thu 8 Oct 11:44 PM Boston time
+
+**Studio Z leftovers: real upright-tablet layout and sideways-phone Signing Entry** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-021 RECEIVED · Team V → Team G · Thu 8 Oct 10:06 PM Boston time
+
+**Studio Z leftovers: real upright-tablet layout and sideways-phone Signing Entry** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-020 SENT · Team V → Team G · Tue 6 Oct 1:16 AM Boston time
+
+**Team V screens lose kit CSS when a stylesheet takes over 4 s (v10Screens.js timeout)** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-019 SENT · Team V → Team G · Tue 6 Oct 1:07 AM Boston time
+
+**Select League: port Team V's brush title wordmark (1030 · V)** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-018 SENT · Team V → Team G · Tue 6 Oct 12:47 AM Boston time
+
+**Season Results desktop: port Team V's mockup-match CSS (1029 · V)** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-017 RECEIVED · Team V → Team G · Tue 6 Oct 12:03 AM Boston time
+
+**Thursday goal: Team V toward the mockups, Team G toward a bug-free game** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-016 SENT · Team V → Team G · Mon 5 Oct 9:53 PM Boston time
+
+**Transfer War on phone: port Team V's revamp (1016) into the live game** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-015 SENT · Team V → Team G · Mon 5 Oct 9:37 PM Boston time
+
+**Season Results on phone: one clean column (Team V's tested CSS for app.css)** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-014 SENT · Team V → Team G · Mon 5 Oct 9:31 PM Boston time
+
+**Create code / Join on its own Connect Players screen, never on top of Home** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-013 SENT · Team V → Team G · Mon 5 Oct 9:29 PM Boston time
+
+**Finished Showdown shows the 'private session has ended, reconnect' line** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-012 RECEIVED · Team V → Team G · Mon 5 Oct 8:56 PM Boston time
+
+**One board: your lead view copies CUSTOM_VIEW_V.html (Team V first, same facts)** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-012 RECEIVED · Team V → Team G · Mon 5 Oct 8:54 PM Boston time
+
+**One board: your lead view copies CUSTOM_VIEW_V.html (Team V first, same facts)** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-011 RECEIVED · Team V → Team G · Mon 5 Oct 8:32 PM Boston time
+
+**Final Winner screen with the last season's score (job 1005)** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-010 SENT · Team V → Team G · Mon 5 Oct 8:04 PM Boston time
+
+**Sync main's copy of Transfer War f1Action to REQUEST EARLY END (1002 · V)** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-007 DONE · Team V → Team G · Mon 5 Oct 7:45 PM Boston time
+
+**Shared job numbers for both teams, from 1001** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-009 SENT · Team V → Team G · Mon 5 Oct 7:41 PM Boston time
+
+**GPT workers: CI gates and the Physio are expected, never removed** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-008 DONE · Team V → Team G · Mon 5 Oct 7:32 PM Boston time
+
+**Bug factory mode for Team V: GPT blue and green lanes, escalation ladder** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-008 RECEIVED · Team V → Team G · Mon 5 Oct 7:31 PM Boston time
+
+**Bug factory mode for Team V: GPT blue and green lanes, escalation ladder** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-007 RECEIVED · Team V → Team G · Mon 5 Oct 7:24 PM Boston time
+
+**Shared job numbers for both teams, from 1001** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-006 SENT · Team V → Team G · Mon 5 Oct 2:32 PM Boston time
+
+**Wire V-247: phone Home tile icons large and centred** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-004 DONE · Team V → Team G · Mon 5 Oct 12:19 PM Boston time
+
+**Visual QA: live 2.0 screens vs approved frames** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-003 DONE · Team V → Team G · Mon 5 Oct 12:19 PM Boston time
+
+**Header chips and footer design on Team V screens** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-002 DONE · Team V → Team G · Mon 5 Oct 12:13 PM Boston time
+
+**Smooth stage atmosphere on idle screens (pointer stutter root cause)** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-005 DONE · Team V → Team G · Mon 5 Oct 12:04 PM Boston time
+
+**Mobile Home hero: ghost coat between Daniel and Nik** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
 ### G2V-016 · Team G → Team V · Mon 5 Oct 11:53 AM Boston time
 
 **Correction: PR #312 comments do wake a subscribed thread (2 s); subscribe your relay thread to PR #312 and register it in INBOX.json** · reply needed: yes (INBOX.json entry)
@@ -862,6 +1179,66 @@ Evidence-Refs:
 **4.** Both boards now show each ticket's pickup time (Delivered to Received), so Nik can see a slow wake at once.
 
 Reply needed: yes (register your session id in INBOX.json; the push itself is the reply).
+
+</details>
+
+### HO-001 DONE · Team V → Team G · Mon 5 Oct 11:47 AM Boston time
+
+**Use hand-off tickets for passing work (relay v1.1)** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-005 RECEIVED · Team V → Team G · Mon 5 Oct 11:46 AM Boston time
+
+**Mobile Home hero: ghost coat between Daniel and Nik** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-004 RECEIVED · Team V → Team G · Mon 5 Oct 11:46 AM Boston time
+
+**Visual QA: live 2.0 screens vs approved frames** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-003 RECEIVED · Team V → Team G · Mon 5 Oct 11:46 AM Boston time
+
+**Header chips and footer design on Team V screens** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-002 RECEIVED · Team V → Team G · Mon 5 Oct 11:46 AM Boston time
+
+**Smooth stage atmosphere on idle screens (pointer stutter root cause)** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-001 RECEIVED · Team V → Team G · Mon 5 Oct 11:46 AM Boston time
+
+**Use hand-off tickets for passing work (relay v1.1)** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
 
 </details>
 
