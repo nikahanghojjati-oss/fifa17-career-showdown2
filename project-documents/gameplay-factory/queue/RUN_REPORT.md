@@ -1,6 +1,6 @@
-# Mega factory run report · 2026-10-11T03:11:09Z
+# Mega factory run report · 2026-10-11T03:15:09Z
 
-Taken 215 of 518 jobs. By state: blocked 5, branch_only 1, on_train 4, pr_open 205, waiting 303
+Taken 216 of 518 jobs. By state: blocked 5, on_train 4, pr_open 207, waiting 302
 
 ## By stage
 Stage | name | total | picked up | merged
@@ -8,7 +8,7 @@ Stage | name | total | picked up | merged
 1 | audits | 112 | 112 | 0
 2 | screen fixes | 266 | 68 | 0
 3 | mockup match | 14 | 1 | 0
-4 | phone studies | 70 | 34 | 0
+4 | phone studies | 70 | 35 | 0
 5 | desktop studies | 56 | 0 | 0
 
 ## Code trains (5 fixes per pull request)
@@ -170,13 +170,14 @@ Number | job | title | state | link
 316 | 1084 | Home: sideways phone study | pr_open | [PR #594](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/594)
 318 | 1142 | Select League: sideways phone study | blocked | study/job-1142-blocked
 322 | 1374 | Rivalry Statistics: sideways phone study | pr_open | [PR #609](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/609)
-326 | 1229 | Season Results: sideways phone study | branch_only | study/job-1229-season-results-sideways
+326 | 1229 | Season Results: sideways phone study | pr_open | [PR #622](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/622)
 332 | 1113 | Connect Players (start and join): sideways phone study | pr_open | [PR #603](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/603)
 334 | 1200 | Transfer challenge and Signing Entry: sideways phone study | pr_open | [PR #615](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/615)
 338 | 1404 | Career Statistics: upright tablet study | pr_open | [PR #616](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/616)
 344 | 1085 | Home: upright tablet study | pr_open | [PR #595](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/595)
 346 | 1143 | Select League: upright tablet study | blocked | study/job-1143-blocked
 350 | 1375 | Rivalry Statistics: upright tablet study | pr_open | [PR #612](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/612)
+354 | 1230 | Season Results: upright tablet study | pr_open | [PR #623](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/623)
 360 | 1114 | Connect Players (start and join): upright tablet study | pr_open | [PR #605](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/605)
 362 | 1201 | Transfer challenge and Signing Entry: upright tablet study | pr_open | [PR #617](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/617)
 
@@ -185,6 +186,5 @@ Number | job | title | state | link
 - number 262, job 1140: blocked (study/job-1140-blocked)
 - number 290, job 1141: blocked (study/job-1141-blocked)
 - number 318, job 1142: blocked (study/job-1142-blocked)
-- number 326, job 1229: branch_only (study/job-1229-season-results-sideways)
 - number 346, job 1143: blocked (study/job-1143-blocked)
 

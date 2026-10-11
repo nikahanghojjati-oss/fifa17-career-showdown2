@@ -1,14 +1,13 @@
 {
-"updated": "2026-10-11T03:11:09Z",
+"updated": "2026-10-11T03:15:09Z",
 "total": 518,
 "next_free": 91,
 "highest_taken": 395,
 "counts": {
-"draft": 205,
-"waiting": 303,
+"draft": 207,
+"waiting": 302,
 "on_train": 4,
-"blocked": 5,
-"started": 1
+"blocked": 5
 },
 "stages": {
 "2": {
@@ -39,10 +38,9 @@
 "name": "Phone mockup studies",
 "total": 70,
 "states": {
-"draft": 28,
-"waiting": 36,
-"blocked": 5,
-"started": 1
+"draft": 30,
+"waiting": 35,
+"blocked": 5
 }
 },
 "5": {
@@ -100,8 +98,7 @@
 312,
 320,
 340,
-348,
-354
+348
 ],
 "ready_sol": [
 228,
@@ -113,14 +110,13 @@
 312,
 320,
 340,
-348,
-354
+348
 ],
 "ready_codex": []
 },
 "rate": {
-"claimed_last_hour": 58,
-"claimed_last_10min": 7,
+"claimed_last_hour": 59,
+"claimed_last_10min": 5,
 "merged_last_hour": 0
 },
 "events": [
@@ -1887,6 +1883,20 @@
 "job": 1229,
 "from": "waiting",
 "to": "started"
+},
+{
+"at": "2026-10-11T03:15:09Z",
+"item": 326,
+"job": 1229,
+"from": "started",
+"to": "draft"
+},
+{
+"at": "2026-10-11T03:15:09Z",
+"item": 354,
+"job": 1230,
+"from": "waiting",
+"to": "draft"
 }
 ],
 "items": {
@@ -6938,12 +6948,19 @@
 "title": "Season Results: sideways phone study",
 "mode": "study",
 "group": null,
-"state": "started",
+"pr": 622,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/622",
+"base": "study/mega-queue",
 "branch": "study/job-1229-season-results-sideways",
-"branch_sha": "fe1eef9adb5f6e57b1577872b554c506a5907689",
-"no_pr_reason": "",
+"ci": "draft",
+"ci_sha": "805e54c425845abf463f1c0c7e5aa243e688616b",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-11T03:11:25Z",
 "first_seen": "2026-10-11T03:11:09Z",
-"since": "2026-10-11T03:11:09Z"
+"since": "2026-10-11T03:15:09Z"
 },
 "327": {
 "job": 1108,
@@ -7262,8 +7279,19 @@
 "title": "Season Results: upright tablet study",
 "mode": "study",
 "group": null,
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"pr": 623,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/623",
+"base": "study/mega-queue",
+"branch": "study/job-1230-season-results-tablet",
+"ci": "draft",
+"ci_sha": "5d83ba3c5fc59d72dd8b43ba40aadccced28bf1b",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-11T03:12:52Z",
+"first_seen": "2026-10-11T03:12:52Z",
+"since": "2026-10-11T03:15:09Z"
 },
 "355": {
 "job": 1312,

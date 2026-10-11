@@ -1,26 +1,25 @@
-# Mega factory tracker · updated 2026-10-11T03:11:09Z
+# Mega factory tracker · updated 2026-10-11T03:15:09Z
 
-**Type now:** 228, 236, 256, 264, 284, 292, 312, 320, 340, 348, 354
+**Type now:** 228, 236, 256, 264, 284, 292, 312, 320, 340, 348
 **Next free number:** 91 · **highest taken:** 395 of 518
 **Code PRs open:** 0 of 8 · area locks: home, start-join, league, club, transfer, season-final, rivalry-legacy, career-screens, rules-settings
-**Rate:** 7 claimed in 10 min · 58 in 1 h · 0 merged in 1 h
+**Rate:** 5 claimed in 10 min · 59 in 1 h · 0 merged in 1 h
 
 **Finished (merged or live): 0 of 518**
 
 State | count
 --- | ---
 🚂 done, on the train branch, no PR yet | 4
-📝 worker done, draft PR open | 205
+📝 worker done, draft PR open | 207
 🟧 blocked | 5
-🟦 started, no PR yet | 1
-⬜ waiting | 303
+⬜ waiting | 302
 
 Stage | total | merged/live | in flight | waiting
 --- | --- | --- | --- | ---
 1 Gameplay audits | 112 | 0 | 112 | 0
 2 Screen fixes | 266 | 0 | 68 | 198
 3 Match desktop to mockups | 14 | 0 | 1 | 13
-4 Phone mockup studies | 70 | 0 | 34 | 36
+4 Phone mockup studies | 70 | 0 | 35 | 35
 5 Improved desktop studies | 56 | 0 | 0 | 56
 
 ## Needs attention
@@ -232,7 +231,7 @@ Stage | total | merged/live | in flight | waiting
 - 🟧 **318** · Job 1142 · Select League: sideways phone study · blocked
 - 📝 **319** · Job 1310 · Legacy: empty state · worker done, draft PR open · [PR #539](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/539)
 - 📝 **322** · Job 1374 · Rivalry Statistics: sideways phone study · worker done, draft PR open · [PR #609](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/609)
-- 🟦 **326** · Job 1229 · Season Results: sideways phone study · started, no PR yet
+- 📝 **326** · Job 1229 · Season Results: sideways phone study · worker done, draft PR open · [PR #622](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/622)
 - 📝 **332** · Job 1113 · Connect Players (start and join): sideways phone study · worker done, draft PR open · [PR #603](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/603)
 - 📝 **334** · Job 1200 · Transfer challenge and Signing Entry: sideways phone study · worker done, draft PR open · [PR #615](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/615)
 - 📝 **337** · Job 1311 · Legacy: error and retry state · worker done, draft PR open · [PR #539](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/539)
@@ -240,6 +239,7 @@ Stage | total | merged/live | in flight | waiting
 - 📝 **344** · Job 1085 · Home: upright tablet study · worker done, draft PR open · [PR #595](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/595)
 - 🟧 **346** · Job 1143 · Select League: upright tablet study · blocked
 - 📝 **350** · Job 1375 · Rivalry Statistics: upright tablet study · worker done, draft PR open · [PR #612](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/612)
+- 📝 **354** · Job 1230 · Season Results: upright tablet study · worker done, draft PR open · [PR #623](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/623)
 - 📝 **355** · Job 1312 · Legacy: hover-only effects · worker done, draft PR open · [PR #539](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/539)
 - 📝 **360** · Job 1114 · Connect Players (start and join): upright tablet study · worker done, draft PR open · [PR #605](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/605)
 - 📝 **362** · Job 1201 · Transfer challenge and Signing Entry: upright tablet study · worker done, draft PR open · [PR #617](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/617)
@@ -251,6 +251,8 @@ Stage | total | merged/live | in flight | waiting
 
 ## Latest changes
 
+- 2026-10-11T03:15:09Z · 354 (Job 1230): waiting → draft
+- 2026-10-11T03:15:09Z · 326 (Job 1229): started → draft
 - 2026-10-11T03:11:09Z · 326 (Job 1229): waiting → started
 - 2026-10-11T03:11:09Z · 298 (Job 1228): waiting → draft
 - 2026-10-11T03:11:09Z · 270 (Job 1227): waiting → draft
@@ -269,5 +271,3 @@ Stage | total | merged/live | in flight | waiting
 - 2026-10-11T02:53:53Z · 360 (Job 1114): waiting → draft
 - 2026-10-11T02:53:53Z · 346 (Job 1143): waiting → blocked
 - 2026-10-11T02:53:53Z · 344 (Job 1085): waiting → draft
-- 2026-10-11T02:53:53Z · 332 (Job 1113): waiting → draft
-- 2026-10-11T02:53:53Z · 322 (Job 1374): waiting → started
