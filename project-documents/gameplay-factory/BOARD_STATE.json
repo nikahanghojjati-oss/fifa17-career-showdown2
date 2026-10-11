@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-11 12:10 AM Boston time (EDT)",
+ "generated": "2026-10-11 12:35 AM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 94,
@@ -869,8 +869,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "239b7e8",
-  "head_boston": "Sat 10 Oct 11:37 PM",
+  "head": "e4e763a",
+  "head_boston": "Sun 11 Oct 12:25 AM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -898,12 +898,18 @@
  },
  "two": {
   "live": {
-   "sha": "f335734",
-   "revision": "1.9.1-r69",
-   "when": "2026-10-10T19:50:03Z",
-   "subject": "Release r69: old-design flash fix (1.9.1-r69) (#486)",
+   "sha": "c8810b8",
+   "revision": "1.9.1-r70",
+   "when": "2026-10-11T04:28:26Z",
+   "subject": "Release r70: soundtrack top 10 and phone fixes (1.9.1-r70) (#639)",
    "fixes": [],
-   "today": []
+   "today": [
+    {
+     "pr": 639,
+     "title": "Release r70: soundtrack top 10 and phone fixes (1.9.1-r70)",
+     "merged": "2026-10-11T04:28:26Z"
+    }
+   ]
   },
   "physio": {
    "state": "clear",
