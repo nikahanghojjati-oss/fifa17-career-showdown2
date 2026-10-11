@@ -510,6 +510,104 @@
 }
 `;
 
+  const TROPHY_844_LANDSCAPE_CSS=String.raw`
+/* JOB-1325: short 844x390-class landscape phones get one vertical reading surface. */
+@media (min-width:761px) and (max-width:900px) and (min-height:350px) and (max-height:430px) and (orientation:landscape) {
+  #trophyRoom.careerScreenV10 {
+    height:100dvh; max-height:100dvh; overflow-x:hidden; overflow-y:auto;
+    overscroll-behavior-y:contain; -webkit-overflow-scrolling:touch;
+  }
+  #trophyRoom .trophyRoomScene {
+    position:relative; height:auto!important; min-height:100dvh!important;
+    overflow:visible!important;
+  }
+  #trophyRoom .sd-stage__layer--ui {
+    position:relative!important; inset:auto!important; height:auto!important;
+    min-height:100dvh!important; overflow:visible!important;
+  }
+  #trophyRoom .trophyRoomContent.sd-stage__ui-content {
+    display:flex; flex-direction:column; align-items:stretch;
+    box-sizing:border-box; height:auto!important; min-height:100dvh;
+    overflow:visible!important;
+    padding:64px max(16px,env(safe-area-inset-left)) calc(84px + env(safe-area-inset-bottom)) max(16px,env(safe-area-inset-right));
+    background:linear-gradient(180deg,rgba(2,3,4,.35),#050607 330px);
+  }
+  #trophyRoom .previewPill {position:relative; inset:auto; align-self:center; margin-bottom:8px}
+  #trophyRoom .trophyTitleBlock {
+    position:relative; inset:auto; width:min(100%,320px); height:auto;
+    align-self:center; margin-bottom:12px;
+  }
+  #trophyRoom .trophyBrushTitle {width:100%; height:auto; flex:none}
+  #trophyRoom .heroCeremony {
+    position:relative; inset:auto; width:220px; height:160px;
+    align-self:center; margin:0 0 16px; order:1;
+  }
+  #trophyRoom .heroPlinth {min-height:44px}
+  #trophyRoom .careerRanks {
+    position:relative; inset:auto; width:100%; height:auto; order:2;
+    display:grid; grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:12px; margin:0 0 16px;
+  }
+  #trophyRoom .careerRank {
+    position:relative; inset:auto; width:auto; min-width:0; height:auto;
+    padding:10px; text-align:center;
+  }
+  #trophyRoom .careerRank small {white-space:normal; overflow-wrap:anywhere; line-height:1.3}
+  #trophyRoom .trophyShelf {
+    position:relative; inset:auto; width:100%; height:auto; min-height:0; order:3;
+  }
+  #trophyRoom .trophyTabs {
+    position:relative; inset:auto; width:100%; height:auto;
+    display:grid; grid-template-columns:repeat(5,minmax(0,1fr));
+    gap:4px; margin-bottom:8px; overflow:visible;
+  }
+  #trophyRoom .trophyTab {
+    min-width:0; min-height:44px; height:auto; padding:8px;
+    white-space:normal; overflow-wrap:anywhere; line-height:1.2;
+  }
+  #trophyRoom .shelfGlass {
+    position:relative; inset:auto; clip-path:none; overflow:visible; padding:12px;
+  }
+  #trophyRoom .trophyGrid,
+  #trophyRoom .trophyShelf.is-filtered .trophyGrid {
+    position:relative; inset:auto; display:grid; overflow:visible;
+    grid-template-columns:repeat(4,minmax(0,1fr)); gap:10px;
+  }
+  #trophyRoom .trophyShelf.is-filtered .trophyGrid {
+    grid-template-columns:minmax(0,260px); justify-content:center;
+  }
+  #trophyRoom .trophyCard {height:auto; min-height:194px; overflow:visible; padding:8px}
+  #trophyRoom .trophyCardPicture {height:102px}
+  #trophyRoom .trophyCard h3 {
+    white-space:normal; overflow-wrap:anywhere; line-height:1.2;
+    min-height:26px; margin:4px 0 5px;
+  }
+  #trophyRoom .managerCounts span {overflow-wrap:anywhere}
+  #trophyRoom .notWonYet {position:relative; bottom:auto; margin:6px 0 0}
+  #trophyRoom .recordRibbon {
+    position:relative; inset:auto; height:auto; margin-top:12px;
+    grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px; overflow:visible;
+  }
+  #trophyRoom .recordRibbonHeading {grid-column:1/-1; min-height:36px; padding:8px}
+  #trophyRoom .recordItem {min-width:0; min-height:60px; padding:8px}
+  #trophyRoom .recordItem small {
+    white-space:normal; overflow:visible; text-overflow:clip;
+    overflow-wrap:anywhere; font-size:10px; line-height:1.3;
+  }
+  #trophyRoom .stateNotice {
+    position:relative; inset:auto; height:auto; min-height:44px;
+    padding:8px; margin-bottom:12px; flex-wrap:wrap;
+  }
+  #trophyRoom .statePanel {position:relative; inset:auto; min-height:160px; padding:16px}
+  #trophyRoom .fatalState {position:relative; inset:auto; padding:16px}
+  #trophyRoom .trophyBack {
+    position:fixed; left:calc(50% - 140px); right:auto;
+    bottom:calc(16px + env(safe-area-inset-bottom)); width:280px;
+    height:44px; min-height:44px; z-index:40;
+  }
+}
+`;
+
   function v10Markup(screen){
     const cs=BASE+"career-statistics/",tr=BASE+"trophy-room/";
     if(screen==="careerStatistics")return `<div id="stage-root" class="careerStage" data-primary="trophyRoomButton"><div class="scene sd-stage" id="careerScene" data-plate-width="1672" data-plate-height="941"><div class="sd-stage__layer sd-stage__layer--plate" aria-hidden="true"><div class="sd-stage__registered"><div class="sd-stage__plate"></div><span class="managerMarker managerDaniel" data-manager="daniel" role="presentation"></span><span class="managerMarker managerNik" data-manager="nik" role="presentation"></span></div></div><div class="sd-stage__layer sd-stage__layer--atmosphere" aria-hidden="true"></div><div class="phoneSceneArt" aria-hidden="true"><picture class="phoneBackground"><source media="(max-width: 760px) and (orientation: portrait)" srcset="${cs}assets/ENV_CS_PHONE_V1.webp"><img alt="" decoding="async"></picture><picture class="phoneHero phoneHeroDaniel"><source media="(max-width: 760px) and (orientation: portrait)" srcset="${cs}assets/OVL_CS_DANIEL_PHONE_V1.webp"><img alt="" decoding="async"></picture><picture class="phoneHero phoneHeroNik"><source media="(max-width: 760px) and (orientation: portrait)" srcset="${cs}assets/OVL_CS_NIK_PHONE_V1.webp"><img alt="" decoding="async"></picture><span class="phoneHeroContact phoneHeroContactDaniel"></span><span class="phoneHeroContact phoneHeroContactNik"></span></div><div class="sd-stage__layer sd-stage__layer--ui"><div class="stateBackdrop" aria-hidden="true"></div><div class="careerScreen" aria-labelledby="careerStatisticsScreenTitle"><section class="phoneFaceBand" aria-label="Career Statistics presentation"><header class="titleBlock"><p class="sd-eyebrow">CAREER MODE SHOWDOWN 17</p><h2 id="careerStatisticsScreenTitle" class="titleWordmark" data-sd-enter="title" tabindex="-1" data-route-focus-target="true"><span class="sd-visually-hidden">CAREER STATISTICS</span><img src="${cs}assets/TITLE_CS_V1.webp" alt="" aria-hidden="true" width="1216" height="126" decoding="async"></h2><p class="sd-tagline">TWO MANAGERS. ONE LEGACY.</p></header></section><div id="previewChip" class="previewChip" hidden></div><section class="phoneHub" aria-label="Career Statistics data"><section id="headlineTiles" class="headlineTiles" aria-label="Career headline totals"></section><input class="phoneTabControl" type="radio" name="careerPhoneTab" id="careerPhoneTable" aria-label="Career Table" aria-controls="careerTablePanel" checked><input class="phoneTabControl" type="radio" name="careerPhoneTab" id="careerPhoneCompare" aria-label="Manager Comparison" aria-controls="comparisonPanel"><input class="phoneTabControl" type="radio" name="careerPhoneTab" id="careerPhoneLeaders" aria-label="Career Leaders" aria-controls="leadersPanel"><div class="phoneTabs" aria-label="Career Statistics sections"><label for="careerPhoneTable">TABLE</label><label for="careerPhoneCompare">COMPARE</label><label for="careerPhoneLeaders">LEADERS</label></div><section id="careerStatisticsContent" class="contentGrid" aria-live="polite"><section id="careerTablePanel" data-sd-enter="panel" class="glassPanel careerTablePanel" aria-labelledby="careerTableHeading"></section><section id="comparisonPanel" data-sd-enter="panel" class="glassPanel comparisonPanel" aria-labelledby="comparisonHeading"></section><section id="leadersPanel" data-sd-enter="panel" class="glassPanel leadersPanel" aria-labelledby="leadersHeading"></section><section id="statePanel" class="glassPanel statePanel" hidden></section></section></section><nav class="actionRow" aria-label="Career Statistics actions" data-phone-primary="trophyRoomButton"><button id="careerStatisticsRivalryButton" class="actionButton secondary" type="button"><span class="buttonIcon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 19h3V9H4v10Zm6 0h3V5h-3v14Zm6 0h3V12h-3v7Z"/></svg></span><span class="actionLabel">CURRENT RIVALRY STATISTICS</span><span aria-hidden="true">›</span></button><button id="trophyRoomButton" data-sd-enter="button" class="actionButton primary" type="button"><img src="${BASE}shared/trophies/TRO_SHOWDOWN_CHAMPION_V1_512.webp" alt="" aria-hidden="true"><span class="actionLabel">OPEN TROPHY ROOM</span><span aria-hidden="true">›</span></button><button class="actionButton secondary backButton" type="button"><span class="buttonIcon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m3 11 9-8 9 8v10h-6v-6H9v6H3V11Z"/></svg></span><span class="actionLabel">BACK TO MAIN MENU</span><span aria-hidden="true">›</span></button></nav></div><div class="gridOverlay" aria-hidden="true"></div></div><div class="sd-stage__layer sd-stage__layer--cutout" aria-hidden="true"><div class="sd-stage__registered"><span class="contactShadow"></span><div class="sd-stage__cutout armCutout" data-src1x="${cs}assets/OVL_CS_DANIEL_CROSSED_ARMS_V1_1X.webp" data-src2x="${cs}assets/OVL_CS_DANIEL_CROSSED_ARMS_V1_2X.webp"></div></div></div><div class="sd-stage__layer sd-stage__layer--light" aria-hidden="true"><div class="sd-stage__registered"><span class="sd-stage__rim armRim" data-src1x="${cs}assets/OVL_CS_DANIEL_CROSSED_ARMS_V1_RIM_1X.webp" data-src2x="${cs}assets/OVL_CS_DANIEL_CROSSED_ARMS_V1_RIM_2X.webp"></span></div></div></div></div>`;
@@ -557,7 +655,7 @@
     host.innerHTML=v10Markup(screen);
     if(screen==="trophyRoom"){
       const smallPhoneStyle=doc.createElement("style");
-      smallPhoneStyle.textContent=TROPHY_SMALL_PHONE_CSS+TROPHY_390_PHONE_CSS+TROPHY_430_PHONE_CSS;
+      smallPhoneStyle.textContent=TROPHY_SMALL_PHONE_CSS+TROPHY_390_PHONE_CSS+TROPHY_430_PHONE_CSS+TROPHY_844_LANDSCAPE_CSS;
       host.appendChild(smallPhoneStyle);
     }
     v10Wire(screen,host);
