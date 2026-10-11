@@ -1,5 +1,5 @@
 {
-"updated": "2026-10-11T22:23:48Z",
+"updated": "2026-10-11T22:25:18Z",
 "total": 518,
 "next_free": 181,
 "highest_taken": 403,
@@ -257,9 +257,10 @@
 "states": {
 "live": 8,
 "merged": 1,
-"draft": 3,
+"ci_failed": 2,
 "closed": 4,
-"waiting": 3
+"waiting": 3,
+"draft": 1
 },
 "reviews": {
 "ok": 0,
@@ -269,14 +270,14 @@
 "picked_up": 16,
 "worker_done": 12,
 "finished": 9,
-"pending_lead": 3,
+"pending_lead": 1,
 "wait_v": 0,
 "audit_batch": 0,
-"trouble": 0,
+"trouble": 2,
 "closed": 4,
 "reviews_total": 0,
 "first_time_ok": 75,
-"failing_now": 0
+"failing_now": 2
 },
 "work": {
 "name": "ChatGPT Work mode",
