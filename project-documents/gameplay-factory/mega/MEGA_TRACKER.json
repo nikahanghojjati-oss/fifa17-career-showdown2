@@ -1,5 +1,5 @@
 {
-"updated": "2026-10-11T08:03:14Z",
+"updated": "2026-10-11T08:04:44Z",
 "total": 518,
 "next_free": 145,
 "highest_taken": 403,
@@ -135,10 +135,14 @@
 330,
 352,
 358,
+380,
 400,
+408,
 411,
 428,
-456
+436,
+456,
+464
 ],
 "ready_work": [
 240,
@@ -151,12 +155,16 @@
 330,
 352,
 358,
+380,
 400,
+408,
 428,
-456
+436,
+456,
+464
 ],
-"ready_total": 22,
-"held_until_picture": 52,
+"ready_total": 26,
+"held_until_picture": 48,
 "held_by_picture": {
 "desktop STATISTICS": 4,
 "desktop CLUB": 4,
@@ -164,7 +172,6 @@
 "desktop LEAGUE": 4,
 "desktop LEGACY": 4,
 "desktop RIVALRY": 4,
-"desktop RULE_BOOK": 4,
 "desktop SEASON_RESULTS": 4,
 "desktop SETTINGS": 4,
 "desktop STANDINGS": 4,
