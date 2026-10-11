@@ -4,12 +4,14 @@
  "clean_streak": 0,
  "goal": 10,
  "owner": "mega factory thread",
- "updated": "2026-10-11T06:58:00Z",
+ "updated": "2026-10-11T22:06:00Z",
  "note": "Nik decided 06:55 UTC: 3 numbers per chat; 5 once 10 batches in a row run clean.",
  "jobs_free": [
   1638,
   1640,
-  1641
+  1641,
+  1650,
+  1652
  ],
  "jobs_after_wiring": [
   1637,
@@ -19,7 +21,7 @@
   1644,
   1645
  ],
- "jobs_note": "Polish wave tickets (ChatGPT chat). The queue thread keeps these two lists; a job moves to jobs_free when its area's wiring train is merged or closed.",
+ "jobs_note": "Polish wave tickets (ChatGPT chat). The queue thread keeps these two lists; a job moves to jobs_free when its area's wiring train is merged or closed. 1650 (service worker audit) and 1652 (Settings motion choice) are ChatGPT chat jobs from the 1635 follow-ups.",
  "work_waiting": [
   {
    "job": 1646,
