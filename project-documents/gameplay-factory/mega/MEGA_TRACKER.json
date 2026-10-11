@@ -1,5 +1,5 @@
 {
-"updated": "2026-10-11T04:13:57Z",
+"updated": "2026-10-11T04:14:57Z",
 "total": 518,
 "next_free": 91,
 "highest_taken": 395,
@@ -7,9 +7,9 @@
 "merged": 25,
 "draft": 138,
 "closed": 51,
-"waiting": 290,
+"waiting": 286,
 "on_train": 8,
-"blocked": 6
+"blocked": 10
 },
 "stages": {
 "2": {
@@ -43,8 +43,8 @@
 "states": {
 "draft": 26,
 "closed": 11,
-"waiting": 27,
-"blocked": 6
+"waiting": 23,
+"blocked": 10
 }
 },
 "5": {
@@ -82,9 +82,9 @@
 143,
 173,
 230,
-244,
 252,
-258
+258,
+272
 ],
 "ready_sol": [
 91,
@@ -96,9 +96,9 @@
 143,
 173,
 230,
-244,
 252,
-258
+258,
+272
 ],
 "ready_codex": [],
 "ready_all": [
@@ -111,61 +111,29 @@
 143,
 173,
 230,
-244,
 252,
 258,
-264,
 272,
 280,
 300,
 308,
 314,
-320,
 328,
 336,
 342,
-348,
 356,
 364,
 403
 ],
-"ready_total": 26,
+"ready_total": 22,
 "held_until_picture": 66
 },
 "rate": {
-"claimed_last_hour": 13,
-"claimed_last_10min": 2,
+"claimed_last_hour": 17,
+"claimed_last_10min": 6,
 "merged_last_hour": 25
 },
 "events": [
-{
-"at": "2026-10-10T16:55:55Z",
-"item": 38,
-"job": 1485,
-"from": "started",
-"to": "draft"
-},
-{
-"at": "2026-10-10T16:55:55Z",
-"item": 39,
-"job": 1092,
-"from": "waiting",
-"to": "on_train"
-},
-{
-"at": "2026-10-10T17:16:08Z",
-"item": 40,
-"job": 1486,
-"from": "waiting",
-"to": "draft"
-},
-{
-"at": "2026-10-10T17:16:08Z",
-"item": 41,
-"job": 1121,
-"from": "waiting",
-"to": "on_train"
-},
 {
 "at": "2026-10-10T17:35:07Z",
 "item": 42,
@@ -2235,6 +2203,34 @@
 "at": "2026-10-11T04:13:57Z",
 "item": 236,
 "job": 1313,
+"from": "waiting",
+"to": "blocked"
+},
+{
+"at": "2026-10-11T04:14:57Z",
+"item": 244,
+"job": 1458,
+"from": "waiting",
+"to": "blocked"
+},
+{
+"at": "2026-10-11T04:14:57Z",
+"item": 264,
+"job": 1314,
+"from": "waiting",
+"to": "blocked"
+},
+{
+"at": "2026-10-11T04:14:57Z",
+"item": 320,
+"job": 1316,
+"from": "waiting",
+"to": "blocked"
+},
+{
+"at": "2026-10-11T04:14:57Z",
+"item": 348,
+"job": 1317,
 "from": "waiting",
 "to": "blocked"
 }
@@ -6078,8 +6074,10 @@
 "title": "Settings: phone mockup, version A (faithful)",
 "mode": "study",
 "group": null,
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"state": "blocked",
+"branch": "study/job-1458-blocked",
+"first_seen": "2026-10-11T04:14:57Z",
+"since": "2026-10-11T04:14:57Z"
 },
 "245": {
 "job": 1219,
@@ -6311,8 +6309,10 @@
 "title": "Legacy: phone mockup, version B (bold hierarchy)",
 "mode": "study",
 "group": null,
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"state": "blocked",
+"branch": "study/job-1314-blocked",
+"first_seen": "2026-10-11T04:14:57Z",
+"since": "2026-10-11T04:14:57Z"
 },
 "265": {
 "job": 1307,
@@ -6994,8 +6994,10 @@
 "title": "Legacy: sideways phone study",
 "mode": "study",
 "group": null,
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"state": "blocked",
+"branch": "study/job-1316-blocked",
+"first_seen": "2026-10-11T04:14:57Z",
+"since": "2026-10-11T04:14:57Z"
 },
 "321": {
 "job": 1339,
@@ -7321,8 +7323,10 @@
 "title": "Legacy: upright tablet study",
 "mode": "study",
 "group": null,
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"state": "blocked",
+"branch": "study/job-1317-blocked",
+"first_seen": "2026-10-11T04:14:57Z",
+"since": "2026-10-11T04:14:57Z"
 },
 "349": {
 "job": 1167,
