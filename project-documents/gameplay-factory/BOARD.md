@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Sun 11 Oct, 1:47 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Sun 11 Oct, 1:53 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r70** (main `c8810b8`, Sun 11 Oct 12:28 AM)
 
@@ -26,31 +26,43 @@ Updated Sun 11 Oct, 1:47 AM Boston time. Bug hunting only, no new features until
 
 **#3 · 1592** `G` Wire Team V study 1110: Connect Players phone  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · **GPT Sol 6.1** · High effort · worker working, draft PR #667 · CI 6 of 7 passed · last move 32 min ago
+🟢 Team green · **GPT Sol 6.1** · High effort · worker working, draft PR #667 · CI 6 of 7 passed · last move 38 min ago
 
 **#4 · 1593** `G` Wire Team V study 1372: Rivalry Statistics phone  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · **GPT Sol 6.1** · High effort · worker working, draft PR #668 · CI 6 of 7 passed · last move 16 min ago
+🟢 Team green · **GPT Sol 6.1** · High effort · worker working, draft PR #668 · CI 6 of 7 passed · last move 22 min ago
 
-**#5 · 1600** `G` Wire Team V study 1374: Rivalry Statistics sideways  
+**#5 · 1594** `G` Wire Team V study 1169: Club Assignment (redo train)  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · **GPT Sol 6.1** · High effort · worker working, draft PR #668 · CI 6 of 7 passed · last move 16 min ago
+🟢 Team green · **GPT Sol 6.1** · High effort · worker working, draft PR #669 · CI 6 of 7 passed · last move 1 min ago
 
-**#6 · 1601** `G` Wire Team V study 1375: Rivalry Statistics tablet  
+**#6 · 1595** `G` Wire Team V study 1171: Club Assignment (redo train)  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · **GPT Sol 6.1** · High effort · worker working, draft PR #668 · CI 6 of 7 passed · last move 16 min ago
+🟢 Team green · **GPT Sol 6.1** · High effort · worker working, draft PR #669 · CI 6 of 7 passed · last move 1 min ago
 
-**#7 · 1606** `G` Fix (verify first) audit 88: failed refresh shown as publish failure (Season Results)  
+**#7 · 1596** `G` Wire Team V study 1172: Club Assignment (redo train)  
 `████░░░░░░` **40.0000 %**  
-🔵 Team blue · **GPT-6 Sol** · High effort · worker working, draft PR #662 · CI 6 of 7 passed · last move 79 min ago
+🟢 Team green · **GPT Sol 6.1** · High effort · worker working, draft PR #669 · CI 6 of 7 passed · last move 1 min ago
 
-**#8 · 1607** `G` Fix (verify first) audit 92: failed refresh shown as commit failure (Season Commit)  
+**#8 · 1600** `G` Wire Team V study 1374: Rivalry Statistics sideways  
 `████░░░░░░` **40.0000 %**  
-🔵 Team blue · **GPT-6 Sol** · High effort · worker working, draft PR #663 · CI 6 of 7 passed · last move 78 min ago
+🟢 Team green · **GPT Sol 6.1** · High effort · worker working, draft PR #668 · CI 6 of 7 passed · last move 22 min ago
 
-**#9 · 1608** `G` Fix (verify first) audit 116: background read disables Shared Setup buttons  
+**#9 · 1601** `G` Wire Team V study 1375: Rivalry Statistics tablet  
 `████░░░░░░` **40.0000 %**  
-🔵 Team blue · **GPT-6 Sol** · High effort · worker working, draft PR #665 · CI 6 of 7 passed · last move 77 min ago
+🟢 Team green · **GPT Sol 6.1** · High effort · worker working, draft PR #668 · CI 6 of 7 passed · last move 22 min ago
+
+**#10 · 1606** `G` Fix (verify first) audit 88: failed refresh shown as publish failure (Season Results)  
+`████░░░░░░` **40.0000 %**  
+🔵 Team blue · **GPT-6 Sol** · High effort · worker working, draft PR #662 · CI 6 of 7 passed · last move 85 min ago
+
+**#11 · 1607** `G` Fix (verify first) audit 92: failed refresh shown as commit failure (Season Commit)  
+`████░░░░░░` **40.0000 %**  
+🔵 Team blue · **GPT-6 Sol** · High effort · worker working, draft PR #663 · CI 6 of 7 passed · last move 84 min ago
+
+**#12 · 1608** `G` Fix (verify first) audit 116: background read disables Shared Setup buttons  
+`████░░░░░░` **40.0000 %**  
+🔵 Team blue · **GPT-6 Sol** · High effort · worker working, draft PR #665 · CI 6 of 7 passed · last move 83 min ago
 
 ### 👉 Next for you, in this order
 
@@ -76,37 +88,7 @@ Paste this:
 1590
 ```
 
-**#3 · 1594** `G` Wire Team V study 1169: Club Assignment (redo train)  
-`░░░░░░░░░░` **0.0000 %**  
-🟢 Team green · **GPT Sol 6.1** · High effort · ChatGPT Work mode (Sol 6.1), type one number at a time, in order
-
-Paste this:
-
-```text
-1594
-```
-
-**#4 · 1595** `G` Wire Team V study 1171: Club Assignment (redo train)  
-`░░░░░░░░░░` **0.0000 %**  
-🟢 Team green · **GPT Sol 6.1** · High effort · ChatGPT Work mode (Sol 6.1), type one number at a time, in order
-
-Paste this:
-
-```text
-1595
-```
-
-**#5 · 1596** `G` Wire Team V study 1172: Club Assignment (redo train)  
-`░░░░░░░░░░` **0.0000 %**  
-🟢 Team green · **GPT Sol 6.1** · High effort · ChatGPT Work mode (Sol 6.1), type one number at a time, in order
-
-Paste this:
-
-```text
-1596
-```
-
-**#6 · 1602** `G` Wire Team V study 1402: Career Statistics  
+**#3 · 1602** `G` Wire Team V study 1402: Career Statistics  
 `░░░░░░░░░░` **0.0000 %**  
 🟢 Team green · **GPT Sol 6.1** · High effort · ChatGPT Work mode (Sol 6.1), type one number at a time, in order
 
@@ -116,7 +98,7 @@ Paste this:
 1602
 ```
 
-**#7 · 1603** `G` Wire Team V study 1403: Career Statistics  
+**#4 · 1603** `G` Wire Team V study 1403: Career Statistics  
 `░░░░░░░░░░` **0.0000 %**  
 🟢 Team green · **GPT Sol 6.1** · High effort · ChatGPT Work mode (Sol 6.1), type one number at a time, in order
 
@@ -126,7 +108,7 @@ Paste this:
 1603
 ```
 
-**#8 · 1604** `G` Wire Team V study 1404: Career Statistics  
+**#5 · 1604** `G` Wire Team V study 1404: Career Statistics  
 `░░░░░░░░░░` **0.0000 %**  
 🟢 Team green · **GPT Sol 6.1** · High effort · ChatGPT Work mode (Sol 6.1), type one number at a time, in order
 
@@ -136,7 +118,7 @@ Paste this:
 1604
 ```
 
-**#9 · 1605** `G` Trophy Room picked-tab: 1536 art, lazy, toward PHONE_TROPHY_ROOM_SINGLE  
+**#6 · 1605** `G` Trophy Room picked-tab: 1536 art, lazy, toward PHONE_TROPHY_ROOM_SINGLE  
 `░░░░░░░░░░` **0.0000 %**  
 🟢 Team green · **GPT Sol 6.1** · High effort · ChatGPT Work mode (Sol 6.1), type one number at a time, in order
 
@@ -146,7 +128,7 @@ Paste this:
 1605
 ```
 
-**#10 · 1609** `G` Transfer phone study D faithful to PHONE_TRANSFER  
+**#7 · 1609** `G` Transfer phone study D faithful to PHONE_TRANSFER  
 `░░░░░░░░░░` **0.0000 %**  
 🔵 Team blue · **GPT-6 Sol** · High effort · ChatGPT project "Career Mode Showdown", normal chat
 
@@ -156,7 +138,7 @@ Paste this:
 1609
 ```
 
-**#11 · 1612** `G` Wire Team V study 1284: Final Winner  
+**#8 · 1612** `G` Wire Team V study 1284: Final Winner  
 `░░░░░░░░░░` **0.0000 %**  
 🟢 Team green · **GPT Sol 6.1** · High effort · ChatGPT Work mode (Sol 6.1), type one number at a time, in order
 
@@ -166,7 +148,7 @@ Paste this:
 1612
 ```
 
-**#12 · 1613** `G` Wire Team V study 1287: Final Winner  
+**#9 · 1613** `G` Wire Team V study 1287: Final Winner  
 `░░░░░░░░░░` **0.0000 %**  
 🟢 Team green · **GPT Sol 6.1** · High effort · ChatGPT Work mode (Sol 6.1), type one number at a time, in order
 
@@ -176,7 +158,7 @@ Paste this:
 1613
 ```
 
-**#13 · 1614** `G` Wire Team V study 1288: Final Winner  
+**#10 · 1614** `G` Wire Team V study 1288: Final Winner  
 `░░░░░░░░░░` **0.0000 %**  
 🟢 Team green · **GPT Sol 6.1** · High effort · ChatGPT Work mode (Sol 6.1), type one number at a time, in order
 
@@ -186,7 +168,7 @@ Paste this:
 1614
 ```
 
-**#14 · 1615** `G` Wire Team V study 1313: Legacy  
+**#11 · 1615** `G` Wire Team V study 1313: Legacy  
 `░░░░░░░░░░` **0.0000 %**  
 🟢 Team green · **GPT Sol 6.1** · High effort · ChatGPT Work mode (Sol 6.1), type one number at a time, in order
 
@@ -196,7 +178,7 @@ Paste this:
 1615
 ```
 
-**#15 · 1616** `G` Wire Team V study 1316: Legacy  
+**#12 · 1616** `G` Wire Team V study 1316: Legacy  
 `░░░░░░░░░░` **0.0000 %**  
 🟢 Team green · **GPT Sol 6.1** · High effort · ChatGPT Work mode (Sol 6.1), type one number at a time, in order
 
@@ -206,7 +188,7 @@ Paste this:
 1616
 ```
 
-**#16 · 1617** `G` Wire Team V study 1342: Trophy Room  
+**#13 · 1617** `G` Wire Team V study 1342: Trophy Room  
 `░░░░░░░░░░` **0.0000 %**  
 🟢 Team green · **GPT Sol 6.1** · High effort · ChatGPT Work mode (Sol 6.1), type one number at a time, in order
 
@@ -216,7 +198,7 @@ Paste this:
 1617
 ```
 
-**#17 · 1618** `G` Wire Team V study 1346: Trophy Room  
+**#14 · 1618** `G` Wire Team V study 1346: Trophy Room  
 `░░░░░░░░░░` **0.0000 %**  
 🟢 Team green · **GPT Sol 6.1** · High effort · ChatGPT Work mode (Sol 6.1), type one number at a time, in order
 
@@ -226,7 +208,7 @@ Paste this:
 1618
 ```
 
-**#18 · 1619** `G` Wire Team V study 1460: Settings  
+**#15 · 1619** `G` Wire Team V study 1460: Settings  
 `░░░░░░░░░░` **0.0000 %**  
 🟢 Team green · **GPT Sol 6.1** · High effort · ChatGPT Work mode (Sol 6.1), type one number at a time, in order
 
@@ -236,7 +218,7 @@ Paste this:
 1619
 ```
 
-**#19 · 1620** `G` Wire Team V study 1461: Settings  
+**#16 · 1620** `G` Wire Team V study 1461: Settings  
 `░░░░░░░░░░` **0.0000 %**  
 🟢 Team green · **GPT Sol 6.1** · High effort · ChatGPT Work mode (Sol 6.1), type one number at a time, in order
 
@@ -246,7 +228,7 @@ Paste this:
 1620
 ```
 
-**#20 · 1621** `G` Wire Team V study 1462: Settings  
+**#17 · 1621** `G` Wire Team V study 1462: Settings  
 `░░░░░░░░░░` **0.0000 %**  
 🟢 Team green · **GPT Sol 6.1** · High effort · ChatGPT Work mode (Sol 6.1), type one number at a time, in order
 
@@ -361,7 +343,7 @@ Open code PRs: 0/8.
 
 ## Mega tracker (live, free)
 
-Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/index.html) · summary: [mega/MEGA_TRACKER.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/MEGA_TRACKER.md) · rebuilt by the poller each round, updated 2026-10-11T05:45:58Z.
+Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/index.html) · summary: [mega/MEGA_TRACKER.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/MEGA_TRACKER.md) · rebuilt by the poller each round, updated 2026-10-11T05:53:12Z.
 
 | Stage | Done (merged or live) | In progress | Waiting |
 | --- | --- | --- | --- |
