@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-11T07:25:00Z",
+ "updated": "2026-10-11T07:30:00Z",
  "from": "Team G lead",
  "you_come_in": [
   {
@@ -69,6 +69,12 @@
    "title": "Club phone, sideways and tablet wiring (Work mode)",
    "verdict": "fixed by lead",
    "why": "Old club.css transforms and offsets were still applied, so the title, VS and cards slid off screen and CONFIRM fell below the fold; tablets overflowed sideways. A Claude browser check fixed it in CSS and merged #669."
+  },
+  {
+   "job": "1593, 1600, 1601",
+   "title": "Rivalry phone, sideways and tablet wiring (Work mode)",
+   "verdict": "fixed by lead",
+   "why": "Sideways cards ran under the fixed hub bar, tablet rows fell out of the card and a base transform overlapped DANIEL on phones. A Claude browser check fixed it in CSS and merged #668."
   }
  ],
  "lessons": [
