@@ -615,6 +615,131 @@
   );
 
 
+  const TROPHY_1280_LAPTOP_CSS=String.raw\`
+/* JOB-1328: 1280x650-class small laptops get a single page scroller.
+   The frozen Team V desktop composition assumes a taller fixed stage, whose
+   31px tabs, 40px back action and clipped cabinet cannot hold the content. */
+@media (min-width:1200px) and (max-width:1365px) and (min-height:600px) and (max-height:700px) {
+  #trophyRoom.careerScreenV10 {
+    height:100dvh; max-height:100dvh;
+    overflow-x:hidden; overflow-y:auto;
+    overscroll-behavior-y:contain; -webkit-overflow-scrolling:touch;
+  }
+  #trophyRoom .trophyRoomScene {
+    position:relative; height:auto!important; min-height:100dvh!important;
+    overflow:visible!important;
+  }
+  #trophyRoom .sd-stage__layer--ui {
+    position:relative!important; inset:auto!important; height:auto!important;
+    min-height:100dvh!important; overflow:visible!important;
+  }
+  #trophyRoom .trophyRoomContent.sd-stage__ui-content {
+    position:relative; display:flex; flex-direction:column; align-items:stretch;
+    height:auto!important; min-height:100dvh!important;
+    overflow:visible!important; padding:56px 28px 28px;
+    background:linear-gradient(180deg,rgba(3,4,5,.45),#050607 580px);
+  }
+  #trophyRoom .trophyTitleBlock {
+    position:relative; inset:auto; width:min(100%,360px); height:auto;
+    align-self:center; margin:0 0 10px;
+  }
+  #trophyRoom .trophyBrushTitle {
+    width:100%; height:auto; max-height:72px; min-height:0;
+    flex:0 1 auto; object-fit:contain;
+  }
+  #trophyRoom .heroCeremony {
+    position:relative; inset:auto; order:1; align-self:center;
+    width:260px; height:180px; margin:0 0 18px;
+  }
+  #trophyRoom .heroPlinth {min-height:48px}
+  #trophyRoom .careerRanks {
+    position:relative; inset:auto; order:2; width:100%; height:auto;
+    display:grid; grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:16px; margin:0 0 24px;
+  }
+  #trophyRoom .careerRank {
+    position:relative; inset:auto!important; width:auto; min-width:0;
+    height:auto; min-height:86px; padding:10px 14px; text-align:center;
+  }
+  #trophyRoom .careerRank small {
+    white-space:normal; overflow-wrap:anywhere; line-height:1.25;
+  }
+  #trophyRoom .trophyShelf {
+    position:relative; inset:auto; order:3; width:100%;
+    height:auto; min-height:0; margin:0;
+  }
+  #trophyRoom .trophyTabs {
+    position:relative; inset:auto; display:grid; width:100%; height:auto;
+    grid-template-columns:repeat(5,minmax(0,1fr)); gap:6px;
+    margin:0 0 10px; overflow:visible;
+  }
+  #trophyRoom .trophyTab {
+    min-width:0; height:auto; min-height:44px; padding:8px 5px;
+    font-size:11px; line-height:1.2; white-space:normal; overflow-wrap:anywhere;
+  }
+  #trophyRoom .shelfGlass {
+    position:relative; inset:auto; min-height:0; padding:16px 14px;
+    clip-path:none; overflow:visible;
+  }
+  #trophyRoom .trophyGrid,
+  #trophyRoom .trophyShelf.is-filtered .trophyGrid {
+    position:relative; inset:auto; display:grid; overflow:visible;
+    grid-template-columns:repeat(4,minmax(0,1fr)); gap:12px; padding:0;
+  }
+  #trophyRoom .trophyShelf.is-filtered .trophyGrid {
+    grid-template-columns:minmax(0,270px); justify-content:center;
+  }
+  #trophyRoom .trophyCard {
+    width:auto; height:auto; min-height:216px;
+    padding:10px 8px; overflow:visible;
+  }
+  #trophyRoom .trophyCardPicture {height:108px}
+  #trophyRoom .trophyCard h3 {
+    min-height:30px; margin:4px 0 6px; line-height:1.2;
+    white-space:normal; overflow-wrap:anywhere;
+  }
+  #trophyRoom .managerCounts {gap:6px}
+  #trophyRoom .managerCounts > div {min-width:0}
+  #trophyRoom .managerCounts span {
+    white-space:normal; overflow-wrap:anywhere; line-height:1.25;
+  }
+  #trophyRoom .notWonYet {
+    position:relative; bottom:auto; margin:8px 0 0;
+    white-space:normal; overflow-wrap:anywhere; line-height:1.2;
+  }
+  #trophyRoom .recordRibbon {
+    position:relative; inset:auto; height:auto; margin-top:18px;
+    display:grid; grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:10px; padding:14px 0 0; overflow:visible;
+  }
+  #trophyRoom .recordRibbonHeading {
+    grid-column:1/-1; min-height:36px; padding:8px 10px;
+  }
+  #trophyRoom .recordItem {min-width:0; min-height:68px; padding:9px}
+  #trophyRoom .recordItem small {
+    white-space:normal; overflow:visible; text-overflow:clip;
+    overflow-wrap:anywhere; line-height:1.2;
+  }
+  #trophyRoom .recordItem span {overflow-wrap:anywhere; text-align:right}
+  #trophyRoom .stateNotice {
+    position:relative; inset:auto; height:auto; min-height:44px;
+    padding:10px; margin:0 0 12px; flex-wrap:wrap; gap:8px;
+    overflow-wrap:anywhere;
+  }
+  #trophyRoom .statePanel {
+    position:relative; inset:auto; min-height:160px; padding:16px;
+  }
+  #trophyRoom .fatalState {
+    position:relative; inset:auto; margin:12px 0; padding:16px;
+  }
+  #trophyRoom .trophyBack {
+    position:relative; inset:auto; order:4; align-self:center;
+    width:min(100%,280px); height:44px; min-height:44px;
+    margin:24px 0 0;
+  }
+}
+\`;
+
   const TROPHY_768_TABLET_CSS=String.raw`
 /* JOB-1327: upright 768x1024 tablet has one vertically scrolling surface.
    Do not change Team V's frozen visual assets or other viewport classes. */
@@ -788,7 +913,7 @@
     host.innerHTML=v10Markup(screen);
     if(screen==="trophyRoom"){
       const smallPhoneStyle=doc.createElement("style");
-      smallPhoneStyle.textContent=TROPHY_SMALL_PHONE_CSS+TROPHY_390_PHONE_CSS+TROPHY_430_PHONE_CSS+TROPHY_844_LANDSCAPE_CSS+TROPHY_932_LANDSCAPE_CSS+TROPHY_768_TABLET_CSS;
+      smallPhoneStyle.textContent=TROPHY_SMALL_PHONE_CSS+TROPHY_390_PHONE_CSS+TROPHY_430_PHONE_CSS+TROPHY_844_LANDSCAPE_CSS+TROPHY_932_LANDSCAPE_CSS+TROPHY_768_TABLET_CSS+TROPHY_1280_LAPTOP_CSS;
       host.appendChild(smallPhoneStyle);
     }
     v10Wire(screen,host);
