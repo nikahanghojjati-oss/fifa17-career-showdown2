@@ -164,3 +164,26 @@
  }
  .connectPlayersTabs span{min-height:44px;white-space:normal;overflow-wrap:anywhere;text-align:center;}
 }
+
+/* JOB-1093: 844x390 landscape, with one scroll for the complete pairing flow. */
+@media (min-width:820px) and (max-width:870px) and (min-height:370px) and (max-height:410px) and (orientation:landscape) {
+ #connectPlayersScreen {
+  justify-content:flex-start;
+  padding:56px 12px 16px;
+  overflow-x:hidden;
+  overflow-y:auto;
+  overscroll-behavior-y:contain;
+  -webkit-overflow-scrolling:touch;
+ }
+ #connectPlayersScreen .connectPlayersHeader { flex:0 0 auto;min-width:0; }
+ #connectPlayersScreen .connectPlayersKicker,
+ #connectPlayersScreen .connectPlayersTagline { display:block;white-space:normal;overflow-wrap:anywhere; }
+ #connectPlayersScreen .connectPlayersWorkspace { width:100%;min-width:0;height:auto;flex:0 0 auto;overflow:visible; }
+ #connectPlayersScreen .connectPlayersRole p { display:block; }
+ #connectPlayersScreen #connectPlayersPairSlot { flex:0 0 auto;overflow:visible;overscroll-behavior:auto; }
+ #connectPlayersScreen #persistentNikDanielPairPanel,
+ #connectPlayersScreen #persistentNikDanielPairPanel>div { min-width:0;max-width:100%;box-sizing:border-box; }
+ #connectPlayersScreen #persistentNikDanielPairCode { box-sizing:border-box; }
+ #connectPlayersScreen .menuButton { min-width:44px;max-width:100%;min-height:44px;white-space:normal;overflow-wrap:anywhere; }
+ #connectPlayersScreen .connectPlayersTabs span { min-height:44px;white-space:normal;overflow-wrap:anywhere;text-align:center; }
+}
