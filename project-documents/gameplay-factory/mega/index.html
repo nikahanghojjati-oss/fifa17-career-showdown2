@@ -80,7 +80,7 @@ a{color:inherit}
 <div><div><b id="rt">-</b> numbers free to type right now; this line is the next chat</div><div class="lbl">Each line is one chat: tap it to copy, then paste it in a new chat. <span id="held"></span></div></div></div>
 <div class="lbl" style="margin:8px 0;font-size:14px"><b id="bsz"></b> · <span id="bst"></span><br>ChatGPT chat: type up to <span id="bmx"></span> numbers in one message (for example the line below). Work mode and Codex stay one number per message. <a href="https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/queue/BATCHES.md">Full batch table</a></div><div class="cols"><div class="col"><h3>Account 1 · odd numbers</h3><div class="chips" id="odd"></div></div>
 <div class="col"><h3>Account 2 · even numbers</h3><div class="chips" id="even"></div></div></div>
-<div class="col" style="margin-top:10px"><h3>Work mode (Sol 6.1) · one number per message, not in batches</h3><div class="chips" id="wk"></div></div>
+<div class="col" style="margin-top:10px"><h3>Work mode (Sol 6.1) · one number per message, not in batches</h3><div class="chips" id="wk"></div><div class="lbl" id="wkw"></div></div>
 <div class="lbl" style="margin-top:8px" id="nxtnote"></div></div>
 
 <div class="card"><h2>Where you come in</h2><div class="lbl" id="rule" style="font-size:15px;margin-bottom:8px;color:inherit"></div><div id="role"></div><div class="lbl" id="rolesrc" style="margin-top:6px"></div></div>
@@ -179,7 +179,7 @@ function paint(only,fail){
   const wkset=new Set(g.ready_work||[]),chat=all.filter(x=>!wkset.has(x)).concat(B.jobs_free||[]);
   $("odd").innerHTML=bl(chat.filter(x=>x%2));
   $("even").innerHTML=bl(chat.filter(x=>x%2===0));
-  $("wk").innerHTML=(g.ready_work||[]).map(chip).join("")||none;
+  $("wkw").textContent=(B.work_waiting||[]).map(x=>"Not free yet: "+x.job+" ("+x.note+")").join("; ");$("wk").innerHTML=(g.ready_work||[]).map(chip).join("")||none;
   $("bmx").textContent=B.size||3;$("bsz").textContent=(B.size||3)+" numbers per chat";$("bst").textContent=(B.clean_streak||0)+" of "+(B.goal||10)+" clean batches in a row"+(B.size<B.max?" (then "+B.max+" per chat)":"");
   $("nxtnote").textContent=((B.jobs_after_wiring||[]).length?"Polish jobs after wiring (not free yet): "+B.jobs_after_wiring.join(", ")+". ":"")+(g.ready_total>all.length?`Showing the first ${all.length} of ${g.ready_total}. `:"")+"A number leaves this list the minute its chat claims it. Numbers not listed have to wait.";
   document.querySelectorAll(".chip").forEach(b=>b.onclick=()=>copyBtn(b));

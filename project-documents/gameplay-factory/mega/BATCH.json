@@ -19,5 +19,11 @@
   1644,
   1645
  ],
- "jobs_note": "Polish wave tickets (ChatGPT chat). The queue thread keeps these two lists; a job moves to jobs_free when its area's wiring train is merged or closed."
+ "jobs_note": "Polish wave tickets (ChatGPT chat). The queue thread keeps these two lists; a job moves to jobs_free when its area's wiring train is merged or closed.",
+ "work_waiting": [
+  {
+   "job": 1646,
+   "note": "after Home wiring 1633/1634 merge"
+  }
+ ]
 }
