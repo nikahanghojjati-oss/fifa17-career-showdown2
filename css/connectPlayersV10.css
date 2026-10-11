@@ -320,3 +320,53 @@
   overflow-wrap:anywhere;
  }
 }
+
+/* JOB-1097: Chromebook 1366x768 keeps the complete start/join workflow in one page scroll. */
+@media (min-width:1320px) and (max-width:1400px) and (min-height:720px) and (max-height:820px) and (orientation:landscape) {
+ #connectPlayersScreen {
+  overflow-x:hidden;
+  overflow-y:auto;
+  overscroll-behavior-y:contain;
+  -webkit-overflow-scrolling:touch;
+ }
+ #connectPlayersScreen .connectPlayersWorkspace {
+  position:relative;
+  left:auto;
+  top:auto;
+  width:min(760px,calc(100% - 48px));
+  min-width:0;
+  height:auto;
+  margin:210px auto 28px;
+  padding:54px 14px 14px;
+  overflow:visible;
+ }
+ #connectPlayersScreen .connectPlayersBack { top:8px;right:8px; }
+ #connectPlayersScreen .connectPlayersRole {
+  min-width:0;
+  overflow-wrap:anywhere;
+ }
+ #connectPlayersScreen #connectPlayersPairSlot {
+  flex:0 0 auto;
+  min-height:0;
+  overflow:visible;
+  overscroll-behavior:auto;
+ }
+ #connectPlayersScreen #persistentNikDanielPairPanel,
+ #connectPlayersScreen #persistentNikDanielPairPanel>div {
+  min-width:0;
+  max-width:100%;
+  box-sizing:border-box;
+ }
+ #connectPlayersScreen #persistentNikDanielPairPanel code,
+ #connectPlayersScreen #persistentNikDanielPairCode {
+  max-width:100%;
+  box-sizing:border-box;
+ }
+ #connectPlayersScreen .menuButton {
+  min-width:44px;
+  max-width:100%;
+  min-height:44px;
+  white-space:normal;
+  overflow-wrap:anywhere;
+ }
+}
