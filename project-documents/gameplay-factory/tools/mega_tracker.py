@@ -463,7 +463,7 @@ def run_round(a, ctx):
     stale = [int(k) for k, v in items.items() if v["state"] == "started"
              and (datetime.datetime.now(datetime.timezone.utc) - datetime.datetime.fromisoformat(v["since"].replace("Z", "+00:00"))).total_seconds() > 2700]
     # hourly history so the page can show whether each lane is improving
-    hist = list(prev.get("history", []))
+    hist = [h for h in prev.get("history", []) if isinstance(h.get("at"), str)]
     if not hist or (datetime.datetime.fromisoformat(t.replace("Z", "+00:00")) - datetime.datetime.fromisoformat(hist[-1]["at"].replace("Z", "+00:00"))).total_seconds() >= 3600:
         hist.append({"at": t, "lanes": {k: {"t": L["total"], "fin": L["finished"], "done": L["worker_done"], "redone": L["closed"], "fail": L["failing_now"]} for k, L in lanes.items() if L["total"]}})
     doc = {"updated": t, "total": len(items), "next_free": next_free, "highest_taken": highest,
@@ -475,7 +475,7 @@ def run_round(a, ctx):
     out.parent.mkdir(parents=True, exist_ok=True)
     # Heartbeat: when nothing but the clock moved, keep the old file until it is 3 minutes old (fewer commits)
     def core(d): return {k: v for k, v in d.items() if k != "updated"}
-    if prev and core(prev) == core(doc):
+    if prev and isinstance(prev.get("updated"), str) and core(prev) == core(doc):
         age = (datetime.datetime.now(datetime.timezone.utc) - datetime.datetime.fromisoformat(prev["updated"].replace("Z", "+00:00"))).total_seconds()
         if age < 180:
             print(json.dumps(states) + " (unchanged)")

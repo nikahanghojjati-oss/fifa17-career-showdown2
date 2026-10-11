@@ -1,14 +1,14 @@
 {
-"updated": 0,
+"updated": "2026-10-11T07:30:57Z",
 "total": 518,
 "next_free": 127,
 "highest_taken": 403,
 "counts": {
 "merged": 160,
-"closed": 77,
+"closed": 82,
 "on_train": 21,
-"draft": 6,
-"waiting": 254
+"waiting": 254,
+"draft": 1
 },
 "stages": {
 "2": {
@@ -16,9 +16,8 @@
 "total": 266,
 "states": {
 "merged": 25,
-"closed": 39,
+"closed": 44,
 "on_train": 21,
-"draft": 5,
 "waiting": 176
 }
 },
@@ -59,9 +58,7 @@
 "gates": {
 "cap": 8,
 "open_code_prs": 0,
-"open_train_prs": [
-661
-],
+"open_train_prs": [],
 "on_train_no_pr": [
 91,
 93,
@@ -85,10 +82,8 @@
 161,
 403
 ],
-"draft_code_prs": 1,
-"area_locks": {
-"transfer": 661
-},
+"draft_code_prs": 0,
+"area_locks": {},
 "ready": [
 127,
 131,
@@ -97,10 +92,11 @@
 159,
 173,
 179,
-400,
-411,
-428,
-456
+189,
+240,
+268,
+296,
+324
 ],
 "ready_sol": [
 127,
@@ -110,10 +106,11 @@
 159,
 173,
 179,
-400,
-411,
-428,
-456
+189,
+240,
+268,
+296,
+324
 ],
 "ready_codex": [],
 "ready_all": [
@@ -124,15 +121,20 @@
 159,
 173,
 179,
+189,
+240,
+268,
+296,
+324,
+352,
 400,
 411,
 428,
 456
 ],
-"ready_total": 11,
-"held_until_picture": 62,
+"ready_total": 17,
+"held_until_picture": 57,
 "held_by_picture": {
-"phone RULE_BOOK": 5,
 "phone STANDINGS": 5,
 "desktop STATISTICS": 4,
 "desktop CLUB": 4,
@@ -150,7 +152,7 @@
 }
 },
 "rate": {
-"claimed_last_hour": 1,
+"claimed_last_hour": 0,
 "claimed_last_10min": 0,
 "merged_last_hour": 135
 },
@@ -160,9 +162,8 @@
 "total": 239,
 "states": {
 "merged": 25,
-"closed": 20,
+"closed": 25,
 "on_train": 21,
-"draft": 5,
 "waiting": 168
 },
 "reviews": {
@@ -171,15 +172,15 @@
 "needs_changes": 0
 },
 "picked_up": 71,
-"worker_done": 51,
+"worker_done": 46,
 "finished": 25,
-"pending_lead": 26,
+"pending_lead": 21,
 "wait_v": 0,
 "audit_batch": 0,
 "trouble": 0,
-"closed": 20,
+"closed": 25,
 "reviews_total": 0,
-"first_time_ok": 72,
+"first_time_ok": 65,
 "failing_now": 0
 },
 "gpt2": {
@@ -187,7 +188,7 @@
 "total": 209,
 "states": {
 "merged": 85,
-"closed": 37,
+"no_pr": 37,
 "waiting": 86,
 "wait_v": 1
 },
@@ -197,25 +198,24 @@
 "needs_changes": 0
 },
 "picked_up": 123,
-"worker_done": 86,
-"finished": 85,
+"worker_done": 123,
+"finished": 122,
 "pending_lead": 0,
 "wait_v": 1,
 "audit_batch": 0,
 "trouble": 0,
-"closed": 37,
+"closed": 0,
 "reviews_total": 0,
-"first_time_ok": 70,
+"first_time_ok": 100,
 "failing_now": 0
 },
 "chat_jobs": {
 "name": "ChatGPT chat (job numbers 1000+)",
-"total": 36,
+"total": 45,
 "states": {
 "live": 12,
-"merged": 2,
-"waiting": 16,
-"draft": 6
+"merged": 8,
+"waiting": 25
 },
 "reviews": {
 "ok": 0,
@@ -224,8 +224,8 @@
 },
 "picked_up": 20,
 "worker_done": 20,
-"finished": 14,
-"pending_lead": 6,
+"finished": 20,
+"pending_lead": 0,
 "wait_v": 0,
 "audit_batch": 0,
 "trouble": 0,
@@ -239,8 +239,9 @@
 "total": 15,
 "states": {
 "live": 8,
-"draft": 5,
-"waiting": 2
+"merged": 1,
+"waiting": 2,
+"closed": 4
 },
 "reviews": {
 "ok": 0,
@@ -248,15 +249,15 @@
 "needs_changes": 0
 },
 "picked_up": 13,
-"worker_done": 13,
-"finished": 8,
-"pending_lead": 5,
+"worker_done": 9,
+"finished": 9,
+"pending_lead": 0,
 "wait_v": 0,
 "audit_batch": 0,
 "trouble": 0,
-"closed": 0,
+"closed": 4,
 "reviews_total": 0,
-"first_time_ok": 100,
+"first_time_ok": 69,
 "failing_now": 0
 },
 "work": {
@@ -287,11 +288,12 @@
 },
 "claude": {
 "name": "Claude (Haiku, Sonnet, Opus)",
-"total": 74,
+"total": 75,
 "states": {
 "closed": 20,
 "merged": 51,
-"live": 3
+"live": 3,
+"waiting": 1
 },
 "reviews": {
 "ok": 0,
@@ -332,22 +334,19 @@
 "failing_now": 0
 }
 },
+"ready_for_lead": [],
 "old_main_prs": 0,
 "codex_next": [
+{
+"job": 1582,
+"title": "Showdown Gate: screen shots of changed screens as a run artifact"
+},
 {
 "job": 1589,
 "title": "Old-design flash: browser regression guard (tests only)"
 }
 ],
-"codex_waiting_on_deps": [
-{
-"job": 1582,
-"title": "Showdown Gate: screen shots of changed screens as a run artifact",
-"deps": [
-"1581"
-]
-}
-],
+"codex_waiting_on_deps": [],
 "work_waiting": [
 1612,
 1613,
@@ -367,34 +366,34 @@
 ],
 "history": [
 {
-"at": 0,
+"at": "2026-10-11T07:30:57Z",
 "lanes": {
 "gpt1": {
 "t": 239,
 "fin": 25,
-"done": 51,
-"redone": 20,
+"done": 46,
+"redone": 25,
 "fail": 0
 },
 "gpt2": {
 "t": 209,
-"fin": 85,
-"done": 86,
-"redone": 37,
+"fin": 122,
+"done": 123,
+"redone": 0,
 "fail": 0
 },
 "chat_jobs": {
-"t": 36,
-"fin": 14,
+"t": 45,
+"fin": 20,
 "done": 20,
 "redone": 0,
 "fail": 0
 },
 "codex": {
 "t": 15,
-"fin": 8,
-"done": 13,
-"redone": 0,
+"fin": 9,
+"done": 9,
+"redone": 4,
 "fail": 0
 },
 "work": {
@@ -405,7 +404,7 @@
 "fail": 0
 },
 "claude": {
-"t": 74,
+"t": 75,
 "fin": 54,
 "done": 54,
 "redone": 20,
@@ -415,41 +414,6 @@
 }
 ],
 "events": [
-{
-"at": "2026-10-11T03:27:13Z",
-"item": 51,
-"job": 1324,
-"from": "draft",
-"to": "merged"
-},
-{
-"at": "2026-10-11T03:27:13Z",
-"item": 65,
-"job": 1209,
-"from": "draft",
-"to": "merged"
-},
-{
-"at": "2026-10-11T03:27:13Z",
-"item": 69,
-"job": 1325,
-"from": "draft",
-"to": "merged"
-},
-{
-"at": "2026-10-11T03:27:13Z",
-"item": 83,
-"job": 1210,
-"from": "draft",
-"to": "merged"
-},
-{
-"at": "2026-10-11T03:27:13Z",
-"item": 87,
-"job": 1326,
-"from": "draft",
-"to": "merged"
-},
 {
 "at": "2026-10-11T03:45:37Z",
 "item": 228,
@@ -2514,6 +2478,41 @@
 "job": 1114,
 "from": "draft",
 "to": "closed"
+},
+{
+"at": "2026-10-11T07:30:57Z",
+"item": 99,
+"job": 1182,
+"from": "draft",
+"to": "closed"
+},
+{
+"at": "2026-10-11T07:30:57Z",
+"item": 117,
+"job": 1183,
+"from": "draft",
+"to": "closed"
+},
+{
+"at": "2026-10-11T07:30:57Z",
+"item": 135,
+"job": 1184,
+"from": "draft",
+"to": "closed"
+},
+{
+"at": "2026-10-11T07:30:57Z",
+"item": 153,
+"job": 1185,
+"from": "draft",
+"to": "closed"
+},
+{
+"at": "2026-10-11T07:30:57Z",
+"item": 171,
+"job": 1186,
+"from": "draft",
+"to": "closed"
 }
 ],
 "items": {
@@ -4055,15 +4054,10 @@
 "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/661",
 "base": "gameplay/bug-list-1",
 "branch": "gameplay/train-transfer-2",
-"ci": "draft",
-"ci_sha": "6b91acd044bb1cb1b305860ccfb94e3bbe7c26f0",
-"ci_total": 0,
-"ci_extra": 0,
-"draft": true,
-"state": "draft",
+"state": "closed",
 "pr_opened_at": "2026-10-11T04:27:37Z",
 "first_seen": "2026-10-11T04:25:57Z",
-"since": "2026-10-11T04:27:57Z"
+"since": "2026-10-11T07:30:57Z"
 },
 "100": {
 "job": 1516,
@@ -4311,15 +4305,10 @@
 "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/661",
 "base": "gameplay/bug-list-1",
 "branch": "gameplay/train-transfer-2",
-"ci": "draft",
-"ci_sha": "6b91acd044bb1cb1b305860ccfb94e3bbe7c26f0",
-"ci_total": 0,
-"ci_extra": 0,
-"draft": true,
-"state": "draft",
+"state": "closed",
 "pr_opened_at": "2026-10-11T04:27:37Z",
 "first_seen": "2026-10-11T04:26:57Z",
-"since": "2026-10-11T04:27:57Z"
+"since": "2026-10-11T07:30:57Z"
 },
 "118": {
 "job": 1525,
@@ -4561,15 +4550,10 @@
 "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/661",
 "base": "gameplay/bug-list-1",
 "branch": "gameplay/train-transfer-2",
-"ci": "draft",
-"ci_sha": "6b91acd044bb1cb1b305860ccfb94e3bbe7c26f0",
-"ci_total": 0,
-"ci_extra": 0,
-"draft": true,
-"state": "draft",
+"state": "closed",
 "pr_opened_at": "2026-10-11T04:27:37Z",
 "first_seen": "2026-10-11T04:26:57Z",
-"since": "2026-10-11T04:27:57Z"
+"since": "2026-10-11T07:30:57Z"
 },
 "136": {
 "job": 1534,
@@ -4809,15 +4793,10 @@
 "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/661",
 "base": "gameplay/bug-list-1",
 "branch": "gameplay/train-transfer-2",
-"ci": "draft",
-"ci_sha": "6b91acd044bb1cb1b305860ccfb94e3bbe7c26f0",
-"ci_total": 0,
-"ci_extra": 0,
-"draft": true,
-"state": "draft",
+"state": "closed",
 "pr_opened_at": "2026-10-11T04:27:37Z",
 "first_seen": "2026-10-11T04:27:37Z",
-"since": "2026-10-11T04:27:57Z"
+"since": "2026-10-11T07:30:57Z"
 },
 "154": {
 "job": 1543,
@@ -5055,15 +5034,10 @@
 "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/661",
 "base": "gameplay/bug-list-1",
 "branch": "gameplay/train-transfer-2",
-"ci": "draft",
-"ci_sha": "6b91acd044bb1cb1b305860ccfb94e3bbe7c26f0",
-"ci_total": 0,
-"ci_extra": 0,
-"draft": true,
-"state": "draft",
+"state": "closed",
 "pr_opened_at": "2026-10-11T04:27:37Z",
 "first_seen": "2026-10-11T04:27:37Z",
-"since": "2026-10-11T04:27:57Z"
+"since": "2026-10-11T07:30:57Z"
 },
 "172": {
 "job": 1552,
