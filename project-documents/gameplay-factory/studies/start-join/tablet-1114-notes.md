@@ -1,0 +1,15 @@
+# JOB-1114 · Connect Players upright tablet
+- Decision: show the live Daniel and Nik role cards in separate columns on upright tablets.
+- Daniel stays left, Nik right; existing phone overlays remain unmirrored.
+- Shared header and tabs span both columns; the main action remains inside Daniel's setup card.
+- Highlight the selected role card without changing wording or the setup tap sequence.
+- Tablet layout uses 32px edges, 16px column gaps, 20px card padding and 15px instructions.
+- CHOOSE SEASONS is 52px tall on tablets; player labels come directly from live markup.
+- Preserve the approved picture's stadium, gold hierarchy and portrait pairing.
+- Phones retain the stacked role-tab layout and their compact fit rules.
+- CSS only; initial runtime pairing slot remains empty, with later session states outside this snapshot.
+- No JavaScript, player photos, licensed marks, game code or frozen artwork changes.
+- Re-read the full HTML; visually inspected the 768x1024 render.
+- Chromium: 768x1024 and 820x1180 pass overflow checks with distinct left/right role columns.
+- Also passed 390x844, 393x660, 360x640 and 375x553; artwork loads and tab text fits.
+- At 768x1024, button bottom is 757.45px, navigation top 948px; no full CI required.
