@@ -32,7 +32,9 @@
       "SETTINGS",
       "FINAL_WINNER"
     ],
-    "NEXT": []
+    "NEXT": [
+      "HOME"
+    ]
   },
   "notes": {
     "PHONE_CONNECT_PLAYERS": "Build from the real game text; the picture has a stray double space in \"create your\" (Team V).",
