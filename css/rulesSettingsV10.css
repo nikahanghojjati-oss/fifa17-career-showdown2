@@ -112,11 +112,12 @@
    Settings now never shows them, whatever the start order. Their controls stay in the DOM for the internal flows. */
 #settingsOverlay #settingsContent :is(#sparkConnectedAccountPanel, #sparkPrivatePairingPanel, #sparkConnectedRivalryPanel, #saveLibraryProductPanel, .settingsOfflinePanel):not([data-test-surface="internal-audit"]) { display:none !important; }
 
-/* JOB-1414 / JOB-1415 / JOB-1416: tablet, short laptop and 1366x768 Chromebook
+/* JOB-1414 / JOB-1415 / JOB-1416 / JOB-1417: tablet, short laptop, 1366x768 and 1920x1080
    use content-sized cards and one page scroll, not fixed rows or card scrollbars. */
 @media (min-width:740px) and (max-width:800px) and (min-height:980px) and (max-height:1080px) and (orientation:portrait),
        (min-width:1240px) and (max-width:1320px) and (min-height:620px) and (max-height:680px) and (orientation:landscape),
-       (min-width:1340px) and (max-width:1390px) and (min-height:740px) and (max-height:800px) and (orientation:landscape) {
+       (min-width:1340px) and (max-width:1390px) and (min-height:740px) and (max-height:800px) and (orientation:landscape),
+        (min-width:1880px) and (max-width:1960px) and (min-height:1040px) and (max-height:1120px) and (orientation:landscape) {
   #ruleBook.v10RuleBook {
     height:100dvh;
     overflow-x:hidden;
@@ -247,7 +248,8 @@
 /* JOB-1415 / JOB-1416: preserve two columns on laptop and 1366x768 Chromebook;
    grow each row to fit its rules and keep Back after the entire grid. */
 @media (min-width:1240px) and (max-width:1320px) and (min-height:620px) and (max-height:680px) and (orientation:landscape),
-       (min-width:1340px) and (max-width:1390px) and (min-height:740px) and (max-height:800px) and (orientation:landscape) {
+       (min-width:1340px) and (max-width:1390px) and (min-height:740px) and (max-height:800px) and (orientation:landscape),
+        (min-width:1880px) and (max-width:1960px) and (min-height:1040px) and (max-height:1120px) and (orientation:landscape) {
   #ruleBook.v10RuleBook #ruleBookSections.ruleBookGrid {
     display:grid;
     grid-template-columns:repeat(2,minmax(0,1fr));
@@ -255,4 +257,9 @@
     align-items:start;
     gap:12px 16px;
   }
+}
+
+/* JOB-1417: keep the 1920x1080 title clear of the 52px shared top-bar reserve. */
+@media (min-width:1880px) and (max-width:1960px) and (min-height:1040px) and (max-height:1120px) and (orientation:landscape) {
+  #ruleBook.v10RuleBook .ruleBookV10Content { padding-top:64px; }
 }
