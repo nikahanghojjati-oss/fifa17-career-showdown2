@@ -637,3 +637,72 @@
   #app #topHeader #onlinePlayerIdentityBadge { min-height: 44px; }
 }
 
+/* JOB-1068: 1366x768 Chromebook Home. Seven desktop tiles fit, but the
+   full-size Continue copy loses width to its player and the secondary icons
+   start inside wrapped labels. Keep the dock and soundtrack on one stage. */
+@media (min-width: 1351px) and (max-width: 1420px) and (min-height: 730px) and (max-height: 800px) and (orientation: landscape) {
+  #mainMenu.v10Home .fifaMenuGrid > #continueCareer {
+    flex: 2.1 1 0;
+    padding: 9px 126px 9px 14px;
+    gap: 3px;
+  }
+  #mainMenu.v10Home #continueCareer .menuTileLabel {
+    font-size: 22px;
+    line-height: 1.04;
+  }
+  #mainMenu.v10Home #continueCareer .menuTileMeta {
+    font-size: 12px;
+    line-height: 1.15;
+    overflow-wrap: break-word;
+  }
+  #mainMenu.v10Home #continueCareer .tileArt,
+  #mainMenu.v10Home #continueCareer:disabled .tileArt {
+    top: 4px;
+    right: 9px;
+    bottom: auto;
+    width: auto;
+    height: calc(var(--tile-h) - 8px);
+  }
+  #mainMenu.v10Home .fifaMenuGrid > .menuTile:not(#continueCareer) {
+    min-width: 0;
+    padding: 10px 8px 8px 10px;
+    justify-content: flex-start;
+    gap: 3px;
+    overflow: hidden;
+  }
+  #mainMenu.v10Home .fifaMenuGrid > .menuTile:not(#continueCareer) .menuTileCode {
+    font-size: 10px;
+    letter-spacing: .12em;
+  }
+  #mainMenu.v10Home .fifaMenuGrid > .menuTile:not(#continueCareer) .menuTileLabel {
+    font-size: 16px;
+    line-height: 1.08;
+  }
+  #mainMenu.v10Home #newShowdown .tileArt,
+  #mainMenu.v10Home #legacyButton .tileArt,
+  #mainMenu.v10Home #careerStatisticsButton .tileArt,
+  #mainMenu.v10Home #homeTrophyRoomButton .tileArt,
+  #mainMenu.v10Home #ruleBookButton .tileArt,
+  #mainMenu.v10Home #settingsButton .tileArt {
+    top: 72px;
+    left: 7px;
+    right: 7px;
+    bottom: 6px;
+    width: calc(100% - 14px);
+    height: calc(100% - 78px);
+    object-position: right bottom;
+  }
+  /* Three columns keep eleven choices in four 44px rows above the card,
+     rather than a six-row nested scroller under the identity chips. */
+  #mainMenu.v10Home .phoneSheetToggle:checked ~ .menuMediaSelector {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    max-height: none;
+    overflow: visible;
+    overscroll-behavior: auto;
+  }
+  #mainMenu.v10Home .menuMediaChoice { min-height: 44px; }
+  #mainMenu.v10Home .menuMusicControl { min-width: 44px; height: 44px; }
+  #mainMenu.v10Home .phoneSheetToggle,
+  #mainMenu.v10Home .phoneTrackSheetOpen { min-height: 44px; height: 44px; }
+  #app #topHeader #onlinePlayerIdentityBadge { min-height: 44px; }
+}
