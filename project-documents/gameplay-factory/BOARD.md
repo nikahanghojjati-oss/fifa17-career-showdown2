@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Sun 11 Oct, 3:51 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Sun 11 Oct, 4:10 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r70** (main `c8810b8`, Sun 11 Oct 12:28 AM)
 
@@ -19,6 +19,10 @@ Updated Sun 11 Oct, 3:51 AM Boston time. Bug hunting only, no new features until
 **#1 · 1005** `G` Last season's score is skipped before the Final Winner  
 `█████░░░░░` **50.0000 %**  
 🟢 Team green · model not set · worker says done, no PR yet
+
+**#2 · 1635** `G` Smooth screen transitions, and nothing from the old game ever flashes  
+`██████░░░░` **60.0000 %**  
+worker not set · model not set · worker done, PR #680 open, CI failed · CI 6 of 8 passed · last move 0 min ago
 
 ### 👉 Next for you, in this order
 
@@ -424,16 +428,6 @@ Type this in Claude lane: Opus Medium for the change, Sonnet for the live listen
 Job 1591
 ```
 
-**#41 · 1635** `G` Smooth screen transitions, and nothing from the old game ever flashes  
-`░░░░░░░░░░` **0.0000 %**  
-worker not set · model not set · Nik, in a claude.ai/code **cloud session** on repo `nikahanghojjati-oss/fifa17-career-showdown2`: type 'Job 1635'
-
-Type this in Nik, in a claude.ai/code **cloud session** on repo `nikahanghojjati-oss/fifa17-career-showdown2`:
-
-```text
-Job 1635
-```
-
 ### ⏸ Waiting on something else
 
 **#1 · 1582** `G` Showdown Gate: screen shots of changed screens as a run artifact  
@@ -509,7 +503,7 @@ One numbered queue: type a bare number in any GPT chat. Live from GitHub (queue/
 Type now, in any GPT chat:
 
 ```text
-145 147 149 151 159 173 179 189 240 268 296 324
+145 147 149 151 159 173 179 189 240 246 268 274
 ```
 
 Open code PRs: 0/8.
@@ -551,7 +545,7 @@ Open code PRs: 0/8.
 
 ## Mega tracker (live, free)
 
-Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/index.html) · summary: [mega/MEGA_TRACKER.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/MEGA_TRACKER.md) · rebuilt by the poller each round, updated 2026-10-11T07:49:27Z.
+Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/index.html) · summary: [mega/MEGA_TRACKER.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/MEGA_TRACKER.md) · rebuilt by the poller each round, updated 2026-10-11T08:09:14Z.
 
 | Stage | Done (merged or live) | In progress | Waiting |
 | --- | --- | --- | --- |
