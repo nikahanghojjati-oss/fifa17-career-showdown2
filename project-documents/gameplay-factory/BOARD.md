@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Sat 10 Oct, 10:42 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Sat 10 Oct, 10:46 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r69** (main `f335734`, Sat 10 Oct 3:50 PM)
 
@@ -113,7 +113,7 @@ One numbered queue: type a bare number in any GPT chat. Live from GitHub (queue/
 Type now, in any GPT chat:
 
 ```text
-57 59 61 73 226 228 232 234 238 242 248 250
+61 226 228 234 238 242 250 254 256 262 266 270
 ```
 
 Open code PRs: 0/8.
@@ -123,9 +123,9 @@ Open code PRs: 0/8.
 | Stage | Items | Merged | Picked up |
 | --- | --- | --- | --- |
 | audits | 112 | 0/112 | 112/112 |
-| screen fixes | 266 | 0/266 | 61/266 |
+| screen fixes | 266 | 0/266 | 66/266 |
 | mockup match | 14 | 0/14 | 1/14 |
-| phone studies | 70 | 0/70 | 0/70 |
+| phone studies | 70 | 0/70 | 5/70 |
 | desktop studies | 56 | 0/56 | 0/56 |
 
 **Last taken numbers**
@@ -140,33 +140,36 @@ Open code PRs: 0/8.
 | 355 | 1312 | PR open | Legacy: hover-only effects |
 | 337 | 1311 | PR open | Legacy: error and retry state |
 | 319 | 1310 | PR open | Legacy: empty state |
+| 316 | 1084 | PR open | Home: sideways phone study |
 | 301 | 1309 | PR open | Legacy: loading state |
+| 288 | 1083 | PR open | Home: phone mockup, version C (compact) |
 | 283 | 1308 | PR open | Legacy: picture descriptions and labels |
 | 265 | 1307 | PR open | Legacy: text contrast |
+| 260 | 1082 | PR open | Home: phone mockup, version B (bold hierarchy) |
+| 248 | 1110 | branch only | Connect Players (start and join): phone mockup, version A (faithful) |
 | 247 | 1306 | PR open | Legacy: keyboard focus and reduced motion |
+| 232 | 1081 | PR open | Home: phone mockup, version A (faithful) |
 | 229 | 1305 | PR open | Legacy: tap targets |
 | 224 | 1578 | PR open | Audit js/v10Screens.js for gameplay bugs (second half) |
 | 222 | 1577 | PR open | Audit js/v10Screens.js for gameplay bugs (first half) |
-| 220 | 1576 | PR open | Audit js/homeScreensV10.js for gameplay bugs (second half) |
-| 218 | 1575 | PR open | Audit js/homeScreensV10.js for gameplay bugs (first half) |
-| 216 | 1574 | PR open | Audit js/seasonFinalV10.js for gameplay bugs (second half) |
-| 214 | 1573 | PR open | Audit js/seasonFinalV10.js for gameplay bugs (first half) |
-| 212 | 1572 | PR open | Audit js/clubScreenV10.js for gameplay bugs (second half) |
 
 ## Mega tracker (live, free)
 
-Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/index.html) · summary: [mega/MEGA_TRACKER.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/MEGA_TRACKER.md) · rebuilt by the poller each round, updated 2026-10-11T02:42:07Z.
+Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/index.html) · summary: [mega/MEGA_TRACKER.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/MEGA_TRACKER.md) · rebuilt by the poller each round, updated 2026-10-11T02:46:00Z.
 
 | Stage | Done (merged or live) | In progress | Waiting |
 | --- | --- | --- | --- |
 | Gameplay audits | 0 of 112 | 112 | 0 |
-| Screen fixes | 0 of 266 | 61 | 205 |
+| Screen fixes | 0 of 266 | 66 | 200 |
 | Match desktop to mockups | 0 of 14 | 1 | 13 |
-| Phone mockup studies | 0 of 70 | 0 | 70 |
+| Phone mockup studies | 0 of 70 | 5 | 65 |
 | Improved desktop studies | 0 of 56 | 0 | 56 |
 
 **Open train PRs**
 
+- 588
+- 590
+- 593
 - 584
 - 585
 - 509

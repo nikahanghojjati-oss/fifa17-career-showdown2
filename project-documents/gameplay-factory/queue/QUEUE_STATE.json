@@ -1,46 +1,46 @@
 {
  "sequence": {
   "ready": [
-   57,
-   59,
    61,
-   73,
    226,
    228,
-   232,
    234,
    238,
    242,
-   248,
-   250
+   250,
+   254,
+   256,
+   262,
+   266,
+   270
   ],
   "ready_sol": [
-   57,
-   59,
    61,
-   73,
    226,
    228,
-   232,
    234,
    238,
    242,
-   248,
-   250
+   250,
+   254,
+   256,
+   262,
+   266,
+   270
   ],
   "ready_codex": [],
   "held_until_picture": 86,
   "open_code_prs": 0,
-  "open_train_prs": 5,
-  "next_free": 57,
+  "open_train_prs": 8,
+  "next_free": 61,
   "highest_taken": 395,
   "total": 518,
   "states": {
-   "1": "on_train",
+   "1": "pr_open",
    "2": "pr_open",
-   "3": "on_train",
+   "3": "pr_open",
    "4": "pr_open",
-   "5": "on_train",
+   "5": "pr_open",
    "6": "pr_open",
    "7": "on_train",
    "8": "pr_open",
@@ -54,11 +54,11 @@
    "16": "pr_open",
    "17": "pr_open",
    "18": "pr_open",
-   "19": "on_train",
+   "19": "pr_open",
    "20": "pr_open",
-   "21": "on_train",
+   "21": "pr_open",
    "22": "pr_open",
-   "23": "on_train",
+   "23": "pr_open",
    "24": "pr_open",
    "25": "on_train",
    "26": "pr_open",
@@ -72,11 +72,11 @@
    "34": "pr_open",
    "35": "pr_open",
    "36": "pr_open",
-   "37": "on_train",
+   "37": "pr_open",
    "38": "pr_open",
-   "39": "on_train",
+   "39": "pr_open",
    "40": "pr_open",
-   "41": "on_train",
+   "41": "pr_open",
    "42": "pr_open",
    "43": "on_train",
    "44": "pr_open",
@@ -90,11 +90,11 @@
    "52": "pr_open",
    "53": "pr_open",
    "54": "pr_open",
-   "55": "on_train",
+   "55": "pr_open",
    "56": "pr_open",
-   "57": "waiting",
+   "57": "pr_open",
    "58": "pr_open",
-   "59": "waiting",
+   "59": "pr_open",
    "60": "pr_open",
    "61": "waiting",
    "62": "pr_open",
@@ -108,11 +108,11 @@
    "70": "pr_open",
    "71": "pr_open",
    "72": "pr_open",
-   "73": "waiting",
+   "73": "pr_open",
    "74": "pr_open",
-   "75": "waiting",
+   "75": "pr_open",
    "76": "pr_open",
-   "77": "waiting",
+   "77": "pr_open",
    "78": "pr_open",
    "79": "waiting",
    "80": "pr_open",
@@ -267,7 +267,7 @@
    "229": "pr_open",
    "230": "waiting",
    "231": "waiting",
-   "232": "waiting",
+   "232": "pr_open",
    "233": "waiting",
    "234": "waiting",
    "235": "waiting",
@@ -283,7 +283,7 @@
    "245": "waiting",
    "246": "waiting",
    "247": "pr_open",
-   "248": "waiting",
+   "248": "branch_only",
    "249": "waiting",
    "250": "waiting",
    "251": "waiting",
@@ -295,7 +295,7 @@
    "257": "waiting",
    "258": "waiting",
    "259": "waiting",
-   "260": "waiting",
+   "260": "pr_open",
    "261": "waiting",
    "262": "waiting",
    "263": "waiting",
@@ -323,7 +323,7 @@
    "285": "waiting",
    "286": "waiting",
    "287": "waiting",
-   "288": "waiting",
+   "288": "pr_open",
    "289": "waiting",
    "290": "waiting",
    "291": "waiting",
@@ -351,7 +351,7 @@
    "313": "waiting",
    "314": "waiting",
    "315": "waiting",
-   "316": "waiting",
+   "316": "pr_open",
    "317": "waiting",
    "318": "waiting",
    "319": "pr_open",
@@ -556,16 +556,17 @@
    "518": "waiting"
   }
  },
- "updated": "2026-10-11T02:42:07Z",
+ "updated": "2026-10-11T02:46:00Z",
  "counts": {
-  "on_train": 17,
-  "waiting": 344,
-  "pr_open": 157
+  "pr_open": 176,
+  "waiting": 334,
+  "branch_only": 1,
+  "on_train": 7
  },
  "stages": {
   "2": {
    "total": 266,
-   "taken": 61,
+   "taken": 66,
    "merged": 0
   },
   "3": {
@@ -575,7 +576,7 @@
   },
   "4": {
    "total": 70,
-   "taken": 0,
+   "taken": 5,
    "merged": 0
   },
   "5": {
@@ -603,10 +604,11 @@
     "1061",
     "1062",
     "1063",
-    "1064"
+    "1064",
+    "1065"
    ],
-   "pr": null,
-   "state": null
+   "pr": 588,
+   "state": "pr_open"
   },
   "gameplay/train-home-2": {
    "jobs": [
@@ -655,10 +657,12 @@
    "done": [
     "1090",
     "1091",
-    "1092"
+    "1092",
+    "1093",
+    "1094"
    ],
-   "pr": null,
-   "state": null
+   "pr": 590,
+   "state": "pr_open"
   },
   "gameplay/train-start-join-2": {
    "jobs": [
@@ -707,10 +711,12 @@
    "done": [
     "1119",
     "1120",
-    "1121"
+    "1121",
+    "1122",
+    "1123"
    ],
-   "pr": null,
-   "state": null
+   "pr": 593,
+   "state": "pr_open"
   },
   "gameplay/train-league-2": {
    "jobs": [
@@ -1340,38 +1346,38 @@
  },
  "tickets": {
   "1061": {
-   "state": "on_train",
-   "pr": null,
-   "draft": false,
-   "pr_url": null,
+   "state": "pr_open",
+   "pr": 588,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/588",
    "branch": "gameplay/train-home-1"
   },
   "1062": {
-   "state": "on_train",
-   "pr": null,
-   "draft": false,
-   "pr_url": null,
+   "state": "pr_open",
+   "pr": 588,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/588",
    "branch": "gameplay/train-home-1"
   },
   "1063": {
-   "state": "on_train",
-   "pr": null,
-   "draft": false,
-   "pr_url": null,
+   "state": "pr_open",
+   "pr": 588,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/588",
    "branch": "gameplay/train-home-1"
   },
   "1064": {
-   "state": "on_train",
-   "pr": null,
-   "draft": false,
-   "pr_url": null,
+   "state": "pr_open",
+   "pr": 588,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/588",
    "branch": "gameplay/train-home-1"
   },
   "1065": {
-   "state": "waiting",
-   "pr": null,
-   "draft": false,
-   "pr_url": null,
+   "state": "pr_open",
+   "pr": 588,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/588",
    "branch": "gameplay/train-home-1"
   },
   "1066": {
@@ -1480,32 +1486,32 @@
    "branch": null
   },
   "1081": {
-   "state": "waiting",
-   "pr": null,
-   "draft": false,
-   "pr_url": null,
-   "branch": null
+   "state": "pr_open",
+   "pr": 589,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/589",
+   "branch": "study/job-1081-blocked"
   },
   "1082": {
-   "state": "waiting",
-   "pr": null,
-   "draft": false,
-   "pr_url": null,
-   "branch": null
+   "state": "pr_open",
+   "pr": 591,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/591",
+   "branch": "study/job-1082-blocked"
   },
   "1083": {
-   "state": "waiting",
-   "pr": null,
-   "draft": false,
-   "pr_url": null,
-   "branch": null
+   "state": "pr_open",
+   "pr": 592,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/592",
+   "branch": "study/job-1083-blocked"
   },
   "1084": {
-   "state": "waiting",
-   "pr": null,
-   "draft": false,
-   "pr_url": null,
-   "branch": null
+   "state": "pr_open",
+   "pr": 594,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/594",
+   "branch": "study/job-1084-blocked"
   },
   "1085": {
    "state": "waiting",
@@ -1543,38 +1549,38 @@
    "branch": null
   },
   "1090": {
-   "state": "on_train",
-   "pr": null,
-   "draft": false,
-   "pr_url": null,
+   "state": "pr_open",
+   "pr": 590,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/590",
    "branch": "gameplay/train-start-join-1"
   },
   "1091": {
-   "state": "on_train",
-   "pr": null,
-   "draft": false,
-   "pr_url": null,
+   "state": "pr_open",
+   "pr": 590,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/590",
    "branch": "gameplay/train-start-join-1"
   },
   "1092": {
-   "state": "on_train",
-   "pr": null,
-   "draft": false,
-   "pr_url": null,
+   "state": "pr_open",
+   "pr": 590,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/590",
    "branch": "gameplay/train-start-join-1"
   },
   "1093": {
-   "state": "waiting",
-   "pr": null,
-   "draft": false,
-   "pr_url": null,
+   "state": "pr_open",
+   "pr": 590,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/590",
    "branch": "gameplay/train-start-join-1"
   },
   "1094": {
-   "state": "waiting",
-   "pr": null,
-   "draft": false,
-   "pr_url": null,
+   "state": "pr_open",
+   "pr": 590,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/590",
    "branch": "gameplay/train-start-join-1"
   },
   "1095": {
@@ -1683,11 +1689,11 @@
    "branch": null
   },
   "1110": {
-   "state": "waiting",
+   "state": "branch_only",
    "pr": null,
    "draft": false,
    "pr_url": null,
-   "branch": null
+   "branch": "study/job-1110-connect-players-phone-a"
   },
   "1111": {
    "state": "waiting",
@@ -1746,38 +1752,38 @@
    "branch": null
   },
   "1119": {
-   "state": "on_train",
-   "pr": null,
-   "draft": false,
-   "pr_url": null,
+   "state": "pr_open",
+   "pr": 593,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/593",
    "branch": "gameplay/train-league-1"
   },
   "1120": {
-   "state": "on_train",
-   "pr": null,
-   "draft": false,
-   "pr_url": null,
+   "state": "pr_open",
+   "pr": 593,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/593",
    "branch": "gameplay/train-league-1"
   },
   "1121": {
-   "state": "on_train",
-   "pr": null,
-   "draft": false,
-   "pr_url": null,
+   "state": "pr_open",
+   "pr": 593,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/593",
    "branch": "gameplay/train-league-1"
   },
   "1122": {
-   "state": "waiting",
-   "pr": null,
-   "draft": false,
-   "pr_url": null,
+   "state": "pr_open",
+   "pr": 593,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/593",
    "branch": "gameplay/train-league-1"
   },
   "1123": {
-   "state": "waiting",
-   "pr": null,
-   "draft": false,
-   "pr_url": null,
+   "state": "pr_open",
+   "pr": 593,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/593",
    "branch": "gameplay/train-league-1"
   },
   "1124": {

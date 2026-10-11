@@ -1,22 +1,22 @@
-# Mega factory run report · 2026-10-11T02:42:07Z
+# Mega factory run report · 2026-10-11T02:46:00Z
 
-Taken 174 of 518 jobs. By state: on_train 17, pr_open 157, waiting 344
+Taken 184 of 518 jobs. By state: branch_only 1, on_train 7, pr_open 176, waiting 334
 
 ## By stage
 Stage | name | total | picked up | merged
 --- | --- | --- | --- | ---
 1 | audits | 112 | 112 | 0
-2 | screen fixes | 266 | 61 | 0
+2 | screen fixes | 266 | 66 | 0
 3 | mockup match | 14 | 1 | 0
-4 | phone studies | 70 | 0 | 0
+4 | phone studies | 70 | 5 | 0
 5 | desktop studies | 56 | 0 | 0
 
 ## Code trains (5 fixes per pull request)
 Train | jobs done | PR | state
 --- | --- | --- | ---
-gameplay/train-home-1 | 4 of 5 | - | on train, no PR yet
-gameplay/train-start-join-1 | 3 of 5 | - | on train, no PR yet
-gameplay/train-league-1 | 3 of 5 | - | on train, no PR yet
+gameplay/train-home-1 | 5 of 5 | [#588](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/588) | pr_open
+gameplay/train-start-join-1 | 5 of 5 | [#590](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/590) | pr_open
+gameplay/train-league-1 | 5 of 5 | [#593](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/593) | pr_open
 gameplay/train-club-1 | 3 of 5 | - | on train, no PR yet
 gameplay/train-transfer-1 | 5 of 5 | [#584](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/584) | pr_open
 gameplay/train-season-final-1 | 5 of 5 | [#585](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/585) | pr_open
@@ -145,6 +145,12 @@ Number | job | title | state | link
 220 | 1576 | Audit js/homeScreensV10.js for gameplay bugs (second half) | pr_open | [PR #538](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/538)
 222 | 1577 | Audit js/v10Screens.js for gameplay bugs (first half) | pr_open | [PR #540](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/540)
 224 | 1578 | Audit js/v10Screens.js for gameplay bugs (second half) | pr_open | [PR #541](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/541)
+232 | 1081 | Home: phone mockup, version A (faithful) | pr_open | [PR #589](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/589)
+248 | 1110 | Connect Players (start and join): phone mockup, version A (faithful) | branch_only | study/job-1110-connect-players-phone-a
+260 | 1082 | Home: phone mockup, version B (bold hierarchy) | pr_open | [PR #591](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/591)
+288 | 1083 | Home: phone mockup, version C (compact) | pr_open | [PR #592](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/592)
+316 | 1084 | Home: sideways phone study | pr_open | [PR #594](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/594)
 
 ## Needs a look (blocked, no change needed, needs Team V or mockup)
+- number 248, job 1110: branch_only (study/job-1110-connect-players-phone-a)
 
