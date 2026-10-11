@@ -7,7 +7,7 @@
 //    pos20:{pr, passed, total:16, state:"running|pass|fail"} | null}
 // gate and pos20 describe the newest open non-draft PR into main (most recently updated); both are null
 // when there is none. gate is null until a Showdown Gate run exists on that PR's head; pos20 is null once
-// Validate POS20 is archived. Lane names start "L1 ".."L6 ".
+// Validate POS20 is archived. Lane names use L1, L2, L3A, L3B, L4, L5 and L6.
 // It goes to the job summary, to the run artifact "physio-status" (physio-status.json), and, best effort,
 // to project-documents/gameplay-factory/physio-status.json on factory/gameplay-v1 (only when the content
 // changed or the last push is more than 10 minutes old; one read + one write attempt; a failure is logged
@@ -51,7 +51,7 @@ const minutes=ms=>Math.round(ms/6000)/10;
 export const prOf=run=>(run?.pull_requests||[]).find(pr=>pr?.head?.sha===run?.head_sha)?.number??null;
 
 // The newest open non-draft PR into main, shown next to the Physio on the bottom bar.
-export const GATE_LANES=Object.freeze(['L1 core','L2 browser full','L3 storage visual gameplay','L4 remote','L5 rules regression','L6 browser journey']);
+export const GATE_LANES=Object.freeze(['L1 core','L2 browser full','L3A storage gameplay','L3B visual','L4 remote','L5 rules regression','L6 browser journey']);
 export const GATE_SEALS=Object.freeze(['PASS','FAIL_TEST','INFRA_RETRYING','INFRA_EXHAUSTED','PENDING','DRAFT','SUPERSEDED']);
 export const LANE_STATES=Object.freeze(['pass','fail','running','queued','skipped']);
 // The 16 current gates: every Validate POS20 job (proof matrix expanded per group) and the four Validate

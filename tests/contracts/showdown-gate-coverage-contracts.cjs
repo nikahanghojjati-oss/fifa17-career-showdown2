@@ -159,7 +159,7 @@ let checks=0;const ok=()=>{checks++;};
 
   // 5. Lane structure, TEST: naming, step ids that record ran ids, runner pin, no POS20-named checks.
   const laneJobs=Object.values(gateLib.LANES).map(l=>l.job);
-  assert.deepEqual(Object.keys(gate.jobs),[...laneJobs,'seal'],'Showdown Gate has exactly six lanes and the seal');
+  assert.deepEqual(Object.keys(gate.jobs),[...laneJobs,'seal'],'Showdown Gate has exactly seven lanes and the seal');
   const TEST_COMMAND=/npm run (?:test:|work:benchmark)|node tests\/|emulators:exec|pos10-proof-runner|assert-firestore-zero-billing|build-production-firestore-rules|pos20-impact-router|showdown-gate\.mjs route/;
   for(const [laneId,def] of Object.entries(gateLib.LANES)){
     const job=gateJob(def.job);
@@ -204,5 +204,106 @@ let checks=0;const ok=()=>{checks++;};
   assert.doesNotMatch(read(GATE),/pull_request_target|secrets\./);
   ok();
 
+  // 6. Freeze the former L3 responsibility independently of the new lane definitions. The split must
+  // preserve its entire selection, including the gameplay gates that always ran on visual-only PRs.
+  const oldL3Fixed=['GF_RULES_BUILD_ZERO_BILLING','GF_SHARED_SETUP_PROVIDER','GF_TRANSFER_FRESH_SESSION','GF_LIFECYCLE_1_3','GF_TERMINAL_CLOSE','GF_PERSISTENT_PAIR','GF_TWO_MANAGER_JOURNEY_3_10','GF_CAREER_INDEX','GF_COMPLETED_READ','GF_CLOSED_ADAPTER','GF_COMPLETED_TRANSFER','GF_SEASON_ACK'];
+  const splitRoutes=[['full',gateLib.computeRoute({files:[],forceFull:true})],['visual-only',gateLib.computeRoute({files:['css/homeV10.css'],forceFull:false})]];
+  assert.deepEqual(splitRoutes[1][1].proofGroups,['VISUAL'],'the visual-only example must actually select only VISUAL proofs');
+  assert.deepEqual(gateLib.LANE_IDS,['L1','L2','L3A','L3B','L4','L5','L6']);
+  assert.deepEqual(gateLib.LANES.L3A.groups,['STORAGE']);
+  assert.deepEqual(gateLib.LANES.L3B.groups,['VISUAL']);
+  assert.deepEqual(gateLib.LANES.L3A.fixed,oldL3Fixed);
+  assert.deepEqual(gateLib.LANES.L3B.fixed,[]);
+  for(const [label,route] of splitRoutes){
+    const oldIds=[...new Set([...oldL3Fixed,...route.proofs.filter(id=>['STORAGE','VISUAL'].includes(gateLib.groupOf(id)))])].sort();
+    const a=gateLib.selectedFor('L3A',route),b=gateLib.selectedFor('L3B',route);
+    assert.deepEqual([...new Set([...a,...b])].sort(),oldIds,`${label}: L3A + L3B must equal the old L3 set`);
+    assert.deepEqual(a.filter(id=>b.includes(id)),[],`${label}: no proof id belongs to both split lanes`);
+    for(const lane of ['L3A','L3B']){
+      const steps=Object.fromEntries(Object.keys(gateLib.LANES[lane].steps).map(id=>[id,{outcome:'success'}]));
+      assert.deepEqual(gateLib.ranFor(lane,route,steps).sort(),gateLib.selectedFor(lane,route).sort(),`${label}: ${lane} steps execute exactly its selected ids`);
+    }
+    ok();
+  }
+
+  // 7. Cache both Playwright's download directory and the bundled Chromium runtime the audits use.
+  // Versioned exact keys prevent restoring another browser/tool version; keep cold-cache installs.
+  for(const lane of ['L2','L3A','L3B','L4','L6']){
+    const job=gateJob(gateLib.LANES[lane].job);
+    const cache=job.steps.find(step=>step.label==='Restore Playwright and Chromium browser caches');
+    assert.ok(cache,`${lane}: browser downloads must be cached`);
+    assert.equal(cache.uses,pinnedAction('actions/cache@v5'));
+    assert.deepEqual(String(cache.with.path).trim().split('\n'),['~/.cache/ms-playwright','/tmp/cms-chromium-runtime']);
+    assert.ok(cache.with.key.includes(`playwright-${pkg.devDependencies.playwright}`));
+    assert.ok(cache.with.key.includes(`chromium-${pkg.devDependencies['@sparticuz/chromium']}`));
+    assert.ok(job.steps.indexOf(cache)<job.steps.findIndex(step=>step.label==='Install locked dependencies'));
+    assert.ok(!cache.with['restore-keys'],'browser caches must not fall back to another version');
+    ok();
+  }
+  for(const lane of ['L1','L3A','L4','L5','L6']){
+    const job=gateJob(gateLib.LANES[lane].job);
+    const cache=job.steps.find(step=>step.label==='Restore Firebase emulator and npx caches');
+    assert.ok(cache,`${lane}: firebase-tools downloads must be cached`);
+    assert.equal(cache.uses,pinnedAction('actions/cache@v5'));
+    assert.ok(String(cache.with.path).trim().split('\n').includes('~/.npm/_npx'));
+    for(const version of ['15.27.0','15.28.1'])assert.ok(cache.with.key.includes(version),`${lane}: Firebase cache key includes pinned ${version}`);
+    assert.ok(job.steps.indexOf(cache)<job.steps.findIndex(step=>step.label==='Install locked dependencies'));
+    assert.ok(!cache.with['restore-keys'],'Firebase caches must not fall back to another version');
+    ok();
+  }
+
+  // 8. Sandbox canaries exercise route, finalize and seal CLI inputs, without touching proof sources.
+  // Each started proof failure must fail the seal, even if the lane/job success flags are forged.
+  fs.mkdirSync(path.join(root,'work'),{recursive:true});
+  const sandbox=fs.mkdtempSync(path.join(root,'work','job-1581-canary-'));
+  try{
+    const git=args=>{const result=spawnSync('git',args,{cwd:root,encoding:'utf8'});assert.equal(result.status,0,result.stderr);return result.stdout.trim();};
+    // An empty push diff still forces all proofs, and needs no parent history in a depth-1 CI checkout.
+    const head=git(['rev-parse','HEAD']);
+    const env={...process.env,GATE_EVENT:'push',GATE_HEAD_SHA:head,GATE_BEFORE_SHA:head,GATE_RUN_ATTEMPT:'1',GITHUB_RUN_ID:'1581',GATE_DRAFT:'false'};
+    for(const key of ['GITHUB_TOKEN','GH_TOKEN','GITHUB_REPOSITORY','GITHUB_EVENT_PATH','GITHUB_STEP_SUMMARY','GATE_BASE_SHA'])delete env[key];
+    const canaryRoute=gateLib.computeRoute({files:gateLib.changedFiles({event:'push',beforeSha:env.GATE_BEFORE_SHA,sha:env.GATE_HEAD_SHA}),forceFull:true});
+    const cli=args=>spawnSync(process.execPath,['scripts/showdown-gate.mjs',...args],{cwd:root,env,encoding:'utf8'});
+    const routeFile=path.join(sandbox,'route.json'),lanesDir=path.join(sandbox,'lanes'),summaryFile=path.join(sandbox,'summary.json');
+    for(const lane of ['L3A','L3B']){
+      const output=path.join(sandbox,`${lane}-outputs.txt`);
+      const routed=cli(['route','--lane',lane,'--out',routeFile,'--github-output',output]);
+      assert.equal(routed.status,0,routed.stderr);assert.match(readFile(output),/has_visual=true/);
+      assert.deepEqual(JSON.parse(readFile(routeFile)).route,canaryRoute,`${lane} computes its own full route`);
+    }
+    const needs=Object.fromEntries(Object.values(gateLib.LANES).map(def=>[def.job,{result:'success'}]));
+    const finalize=(lane,failedStep=null,jobStatus='success')=>{
+      env.GATE_JOB_STATUS=jobStatus;
+      env.GATE_STEPS_JSON=JSON.stringify(Object.fromEntries(Object.keys(gateLib.LANES[lane].steps).map(id=>[id,{outcome:id===failedStep?'failure':'success'}])));
+      const result=cli(['finalize','--lane',lane,'--route',routeFile,'--out',path.join(lanesDir,`showdown-gate-lane-${lane}`,'lane.json')]);
+      assert.equal(result.status,0,result.stderr);
+    };
+    const seal=()=>{env.GATE_NEEDS_JSON=JSON.stringify(needs);return cli(['seal','--route',routeFile,'--lanes-dir',lanesDir,'--out',summaryFile]);};
+    for(const lane of gateLib.LANE_IDS)finalize(lane);
+    const clean=seal();assert.equal(clean.status,0,clean.stderr);assert.equal(JSON.parse(readFile(summaryFile)).verdict,'PASS');
+    for(const [lane,step,proof] of [['L3A','gf_transfer','GF_TRANSFER_FRESH_SESSION'],['L3B','proof_visual','HOME_VISUAL']]){
+      finalize(lane,step,'failure');needs[gateLib.LANES[lane].job].result='failure';
+      const failed=seal();assert.equal(failed.status,1);assert.equal(JSON.parse(readFile(summaryFile)).verdict,'FAIL_TEST');assert.ok(failed.stderr.includes(lane));
+      // Retain the missing proof, but claim the job passed: independent proof coverage still vetoes it.
+      finalize(lane,step);needs[gateLib.LANES[lane].job].result='success';
+      const forged=seal();assert.equal(forged.status,1);
+      const summary=JSON.parse(readFile(summaryFile));assert.equal(summary.verdict,'FAIL_TEST');
+      assert.ok(summary.failures.some(failure=>failure.includes(`${lane}: selected but not run:`)&&failure.includes(proof)));
+      console.log(`PASS JOB-1581 canary ${lane}: ${proof} failure -> seal FAIL_TEST (exit 1); forged green with missing proof -> FAIL_TEST (exit 1).`);
+      finalize(lane);
+      ok();
+    }
+    const restored=seal();assert.equal(restored.status,0,restored.stderr);
+    for(const lane of ['L3A','L3B']){
+      const file=path.join(lanesDir,`showdown-gate-lane-${lane}`,'lane.json'),record=readFile(file);
+      fs.unlinkSync(file);
+      const absent=seal();assert.equal(absent.status,1);assert.ok(JSON.parse(readFile(summaryFile)).failures.includes(`${lane}: lane.json missing`));
+      fs.writeFileSync(file,record);
+    }
+    ok();
+  }finally{fs.rmSync(sandbox,{recursive:true,force:true});}
+
   console.log(`PASS Showdown Gate coverage: ${listedGates.length} gates, ${oldSteps.length} old steps mapped, ${coverage.mappings.length} mappings verified, every POS10 proof group runs once, route equals the POS20 router (${checks} checks).`);
 })().catch(error=>{console.error(error);process.exit(1);});
+
+function readFile(file){return fs.readFileSync(file,'utf8');}
