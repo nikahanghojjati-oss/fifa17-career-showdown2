@@ -272,7 +272,12 @@ html[data-v10-tools] #legacy .legacyImportVerdict.blocked strong { color: #f0a49
    cover, not the content, carries the fade: text never sits at partial opacity (the Gate's axe contrast scans sample a
    screen right after it appears), like the app's own transform-only route animation. Reduced motion (css/app.css
    html[data-motion-reduced] and prefers-reduced-motion) shortens the animation to .001ms, so the swap is instant there. */
-[data-v10-reveal]::after { content: ""; position: absolute; inset: 0; z-index: 30; pointer-events: none; background: #060709; animation: v10RevealCover 220ms ease-out both; }
+/* The app's own route rail (css/app.css .screen[data-route-state="entering"]::after: a 52x3 px bar, animation routeRailIn, 180 ms)
+   sits on the same pseudo-element and has the higher specificity, so a screen revealed within 180 ms of being shown (Rule Book,
+   Statistics, Trophy Room) showed its content under the little rail, then the cover snapped on at full opacity when the rail
+   ended: content for 2 to 4 frames, dark, then the fade. The attribute is repeated so the cover outranks the rail, and the rail's
+   box (width, height, transform) is reset so the cover is the full-screen layer from its first frame. */
+[data-v10-reveal][data-v10-reveal][data-v10-reveal]::after { content: ""; position: absolute; inset: 0; width: auto; height: auto; transform: none; z-index: 30; pointer-events: none; background: #060709; animation: v10RevealCover 220ms ease-out both; }
 @keyframes v10RevealCover { from { opacity: 1; } to { opacity: 0; } }
 
 /* JOB-1635: REDUCED motion (Settings > Motion, or the device preference under FOLLOW DEVICE) is an instant swap or a fade of
