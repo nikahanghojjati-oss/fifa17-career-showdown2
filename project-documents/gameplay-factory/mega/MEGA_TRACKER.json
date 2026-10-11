@@ -1,14 +1,14 @@
 {
-"updated": "2026-10-11T22:05:48Z",
+"updated": "2026-10-11T22:07:18Z",
 "total": 518,
-"next_free": 177,
+"next_free": 179,
 "highest_taken": 403,
 "counts": {
 "merged": 161,
 "closed": 82,
-"draft": 25,
-"on_train": 9,
-"waiting": 241
+"draft": 30,
+"on_train": 5,
+"waiting": 240
 },
 "stages": {
 "2": {
@@ -17,9 +17,9 @@
 "states": {
 "merged": 25,
 "closed": 44,
-"draft": 25,
-"on_train": 9,
-"waiting": 163
+"draft": 30,
+"on_train": 5,
+"waiting": 162
 }
 },
 "1": {
@@ -64,29 +64,26 @@
 682,
 683,
 684,
-685
+685,
+686
 ],
 "on_train_no_pr": [
-105,
 107,
-123,
 125,
-141,
 143,
-159,
 161,
 403
 ],
-"draft_code_prs": 5,
+"draft_code_prs": 6,
 "area_locks": {
 "home": 681,
 "start-join": 682,
 "league": 683,
 "club": 684,
-"season-final": 685
+"season-final": 685,
+"career-screens": 686
 },
 "ready": [
-177,
 179,
 189,
 240,
@@ -97,10 +94,10 @@
 302,
 324,
 330,
-352
+352,
+358
 ],
 "ready_sol": [
-177,
 179,
 189,
 240,
@@ -111,11 +108,11 @@
 302,
 324,
 330,
-352
+352,
+358
 ],
 "ready_codex": [],
 "ready_all": [
-177,
 179,
 189,
 240,
@@ -156,7 +153,7 @@
 456,
 464
 ],
-"ready_total": 21,
+"ready_total": 20,
 "held_until_picture": 48,
 "held_by_picture": {
 "desktop STATISTICS": 4,
@@ -174,8 +171,8 @@
 }
 },
 "rate": {
-"claimed_last_hour": 7,
-"claimed_last_10min": 1,
+"claimed_last_hour": 8,
+"claimed_last_10min": 2,
 "merged_last_hour": 0
 },
 "lanes": {
@@ -185,25 +182,25 @@
 "states": {
 "merged": 25,
 "closed": 25,
-"draft": 25,
-"on_train": 9,
-"waiting": 155
+"draft": 30,
+"on_train": 5,
+"waiting": 154
 },
 "reviews": {
 "ok": 0,
 "ok_notes": 0,
 "needs_changes": 0
 },
-"picked_up": 84,
-"worker_done": 59,
+"picked_up": 85,
+"worker_done": 60,
 "finished": 25,
-"pending_lead": 34,
+"pending_lead": 35,
 "wait_v": 0,
 "audit_batch": 0,
 "trouble": 0,
 "closed": 25,
 "reviews_total": 0,
-"first_time_ok": 70,
+"first_time_ok": 71,
 "failing_now": 0
 },
 "gpt2": {
@@ -361,7 +358,8 @@
 682,
 683,
 684,
-685
+685,
+686
 ],
 "old_main_prs": 0,
 "codex_next": [
@@ -1121,41 +1119,6 @@
 }
 ],
 "events": [
-{
-"at": "2026-10-11T04:03:15Z",
-"item": 193,
-"job": 1303,
-"from": "draft",
-"to": "closed"
-},
-{
-"at": "2026-10-11T04:03:15Z",
-"item": 211,
-"job": 1304,
-"from": "draft",
-"to": "closed"
-},
-{
-"at": "2026-10-11T04:03:15Z",
-"item": 229,
-"job": 1305,
-"from": "draft",
-"to": "closed"
-},
-{
-"at": "2026-10-11T04:03:15Z",
-"item": 247,
-"job": 1306,
-"from": "draft",
-"to": "closed"
-},
-{
-"at": "2026-10-11T04:03:15Z",
-"item": 265,
-"job": 1307,
-"from": "draft",
-"to": "closed"
-},
 {
 "at": "2026-10-11T04:03:15Z",
 "item": 283,
@@ -3220,6 +3183,41 @@
 "job": 1215,
 "from": "waiting",
 "to": "draft"
+},
+{
+"at": "2026-10-11T22:07:18Z",
+"item": 105,
+"job": 1327,
+"from": "on_train",
+"to": "draft"
+},
+{
+"at": "2026-10-11T22:07:18Z",
+"item": 123,
+"job": 1328,
+"from": "on_train",
+"to": "draft"
+},
+{
+"at": "2026-10-11T22:07:18Z",
+"item": 141,
+"job": 1329,
+"from": "on_train",
+"to": "draft"
+},
+{
+"at": "2026-10-11T22:07:18Z",
+"item": 159,
+"job": 1330,
+"from": "on_train",
+"to": "draft"
+},
+{
+"at": "2026-10-11T22:07:18Z",
+"item": 177,
+"job": 1331,
+"from": "waiting",
+"to": "draft"
 }
 ],
 "items": {
@@ -4891,10 +4889,19 @@
 "title": "Trophy Room: fix the 768x1024 view",
 "mode": "code",
 "group": "career-screens",
-"state": "on_train",
+"pr": 686,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/686",
+"base": "gameplay/bug-list-1",
 "branch": "gameplay/train-career-screens-2",
+"ci": "draft",
+"ci_sha": "e8ffdb2f05b45d6aef4c23fc4803fb51fc8f0508",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-11T22:06:52Z",
 "first_seen": "2026-10-11T03:54:22Z",
-"since": "2026-10-11T03:54:22Z"
+"since": "2026-10-11T22:07:18Z"
 },
 "106": {
 "job": 1519,
@@ -5187,10 +5194,19 @@
 "title": "Trophy Room: fix the 1280x650 view",
 "mode": "code",
 "group": "career-screens",
-"state": "on_train",
+"pr": 686,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/686",
+"base": "gameplay/bug-list-1",
 "branch": "gameplay/train-career-screens-2",
+"ci": "draft",
+"ci_sha": "e8ffdb2f05b45d6aef4c23fc4803fb51fc8f0508",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-11T22:06:52Z",
 "first_seen": "2026-10-11T04:03:15Z",
-"since": "2026-10-11T04:03:15Z"
+"since": "2026-10-11T22:07:18Z"
 },
 "124": {
 "job": 1528,
@@ -5483,10 +5499,19 @@
 "title": "Trophy Room: fix the 1366x768 view",
 "mode": "code",
 "group": "career-screens",
-"state": "on_train",
+"pr": 686,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/686",
+"base": "gameplay/bug-list-1",
 "branch": "gameplay/train-career-screens-2",
+"ci": "draft",
+"ci_sha": "e8ffdb2f05b45d6aef4c23fc4803fb51fc8f0508",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-11T22:06:52Z",
 "first_seen": "2026-10-11T05:09:44Z",
-"since": "2026-10-11T05:09:44Z"
+"since": "2026-10-11T22:07:18Z"
 },
 "142": {
 "job": 1537,
@@ -5779,10 +5804,19 @@
 "title": "Trophy Room: fix the 1920x1080 view",
 "mode": "code",
 "group": "career-screens",
-"state": "on_train",
+"pr": 686,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/686",
+"base": "gameplay/bug-list-1",
 "branch": "gameplay/train-career-screens-2",
+"ci": "draft",
+"ci_sha": "e8ffdb2f05b45d6aef4c23fc4803fb51fc8f0508",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-11T22:06:52Z",
 "first_seen": "2026-10-11T21:35:18Z",
-"since": "2026-10-11T21:35:18Z"
+"since": "2026-10-11T22:07:18Z"
 },
 "160": {
 "job": 1546,
@@ -6075,8 +6109,19 @@
 "title": "Trophy Room: fix the 2560x1080 view",
 "mode": "code",
 "group": "career-screens",
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"pr": 686,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/686",
+"base": "gameplay/bug-list-1",
+"branch": "gameplay/train-career-screens-2",
+"ci": "draft",
+"ci_sha": "e8ffdb2f05b45d6aef4c23fc4803fb51fc8f0508",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-11T22:06:52Z",
+"first_seen": "2026-10-11T22:06:52Z",
+"since": "2026-10-11T22:07:18Z"
 },
 "178": {
 "job": 1555,
