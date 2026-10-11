@@ -1,0 +1,11 @@
+# Season Results · Phone C · JOB-1228
+- Decision: compact the approved entry layout using 6px gaps and a fixed 224px entry card.
+- A 44px tab strip and 52px action row leave every field and action visible on small phones.
+- Fields retain 44px targets; the complete achievement labels wrap rather than truncate.
+- Approved scene/title/tabs/card/actions arrangement stays intact; Daniel left and Nik right.
+- Existing phone artwork is linked unchanged; a plain gold shield replaces reference club branding.
+- Text and placeholders come from index.html and the live app shell, never picture wording.
+- CSS-only tabs and scoring show presentation states; review/back remain visual controls.
+- No nested scrolling, game behavior, storage, or scoring changes; no hub navigation on entry.
+- Chromium passes at 390x844, 393x660, 360x640, and 375x553: no document/card overflow.
+- Artwork loads, actions stay visible, 44px inputs fit, and CSS tabs/scoring open/close pass.
