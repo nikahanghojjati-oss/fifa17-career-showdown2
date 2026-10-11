@@ -1,0 +1,12 @@
+# JOB-1170 · Club phone C
+- Decision: compress club rows to 53px while preserving labels, live badges and the full note.
+- Daniel stays left and Nik right; existing artwork is not mirrored or changed.
+- Live confirmation sample: Premier League, Watford/Everton, Daniel vs Nik, one season.
+- Copy comes from index.html and clubAssignment.js; badges are exact getClubCrestSvg output.
+- Five steps retain their live order; OPEN and BACK are kept in source, hidden in the live confirmation state.
+- Quiet stadium hero, clean near-black controls, gold emphasis on title, VS, LOCK and confirm.
+- No JavaScript, gameplay wiring, scoring or tap-flow changes; no hub tabs on the Club setup step.
+- Full permanent-clubs note stays visible on two lines, including at 393x660.
+- Chromium rendered 390x844, 393x660, 360x640 and 375x553: no page or nested scroll.
+- Confirm action ends 12px above the bottom at 360x640/393x660 and 10px at 375x553.
+- Re-read the edit and inspected the 360x640 render; artwork and fonts loaded successfully.
