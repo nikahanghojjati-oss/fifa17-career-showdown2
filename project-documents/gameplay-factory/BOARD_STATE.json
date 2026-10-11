@@ -1,8 +1,8 @@
 {
- "generated": "2026-10-10 11:36 PM Boston time (EDT)",
+ "generated": "2026-10-10 11:38 PM Boston time (EDT)",
  "relay": {
   "live": true,
-  "count": 93,
+  "count": 94,
   "rows": [
    {
     "time": "2026-10-02 00:29",
@@ -840,6 +840,15 @@
     "subject": "Relay feed and inbox: add your hand-off rows to FEED.md (feed_sync.py --team G) and refresh your INBOX.json entry",
     "reply": "no",
     "boston": "Sat 10 Oct 11:35 PM"
+   },
+   {
+    "time": "2026-10-11 03:37",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-025 DONE",
+    "subject": "Relay feed and inbox: add your hand-off rows to FEED.md (feed_sync.py --team G) and refresh your INBOX.json entry",
+    "reply": "no",
+    "boston": "Sat 10 Oct 11:37 PM"
    }
   ],
   "g2v": {
@@ -860,8 +869,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "a6b0d23",
-  "head_boston": "Sat 10 Oct 11:35 PM",
+  "head": "239b7e8",
+  "head_boston": "Sat 10 Oct 11:37 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -1237,8 +1246,8 @@
     "from": "V",
     "to": "G",
     "title": "Relay feed and inbox: add your hand-off rows to FEED.md (feed_sync.py --team G) and refresh your INBOX.json entry",
-    "stage": "RECEIVED",
-    "pct": 0.0,
+    "stage": "DONE",
+    "pct": 100.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-025_relay-feed-and-inbox-add-your-hand-off-r.md",
     "worker": "haiku",
@@ -1315,7 +1324,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 41,
+  "moving": 40,
   "next": 6,
   "nik": 2,
   "later": 7,

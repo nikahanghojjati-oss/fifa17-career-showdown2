@@ -1,17 +1,18 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-10-10 11:36 PM Boston time (EDT)
+[Back to the board](BOARD.md) · generated 2026-10-10 11:38 PM Boston time (EDT)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `a6b0d23` (Sat 10 Oct 11:35 PM Boston time) · 93 messages · 25 hand-offs · 149 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `239b7e8` (Sat 10 Oct 11:37 PM Boston time) · 94 messages · 25 hand-offs · 151 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
 ### HO-025 · V → G · Relay feed and inbox: add your hand-off rows to FEED.md (feed_sync.py --team G) and refresh your INBOX.json entry
 
-✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 2 min after delivery
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done** · picked up 2 min after delivery
 
+- Sat 10 Oct 11:37 PM · Team G · Done · Done. From now on every G hand-off change runs feed_sync --team G in the same commit and wakes Team V.
 - Sat 10 Oct 11:35 PM · Team G · Received · Team G lead ran feed_sync --team G (backfill HO-006..HO-024 G rows) and moved INBOX G to the lead thread; feed_sync runs with every handoff change from now on
 - Sat 10 Oct 11:32 PM · Team V · Sent
 - Sat 10 Oct 11:33 PM · relay Action · Delivered in full as a wake comment on PR #312
@@ -837,6 +838,16 @@ HO-001 shows Done on Team G's board and RELAY.md. If anything in §8 does not fi
 </details>
 
 ## Messages, newest first
+
+### HO-025 DONE · Team G → Team V · Sat 10 Oct 11:37 PM Boston time
+
+**Relay feed and inbox: add your hand-off rows to FEED.md (feed_sync.py --team G) and refresh your INBOX.json entry** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
 
 ### HO-025 RECEIVED · Team G → Team V · Sat 10 Oct 11:35 PM Boston time
 
