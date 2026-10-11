@@ -282,6 +282,120 @@
  }
 }
 
+/* JOB-1598: adopted 1229 sideways composition only (740x360 and 844x390).
+   Reuse the live form in document order. Review/errors expand in main's flow. */
+@media (min-width:700px) and (max-width:880px) and (min-height:340px) and (max-height:410px) and (orientation:landscape) {
+ #app main:has(#seasonEntry.seasonScreenV10:not(.hidden):not(.v10FinalMode)) {
+  overflow-y:auto; overflow-x:hidden;
+ }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) { min-width:0; padding:0; }
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage:not([hidden]) {
+  min-width:0; min-height:100%; height:auto; position:relative; box-sizing:border-box; overflow:visible;
+ }
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage .season-layout {
+  position:relative; box-sizing:border-box; width:100%; max-width:880px; margin:0 auto;
+  min-width:0; min-height:max(100svh,356px); height:auto; padding:10px;
+  display:grid; grid-template-columns:minmax(240px,.8fr) minmax(340px,1.2fr);
+  grid-template-rows:44px minmax(224px,1fr) auto 44px; gap:8px 14px;
+  overflow:visible; background:#090b0e;
+ }
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage .v10SeasonPhoneScene {
+  display:block; grid-column:1; grid-row:1/5; align-self:stretch;
+  position:relative; z-index:1; min-width:0; min-height:0; margin:0;
+  overflow:hidden; border-radius:5px; pointer-events:none;
+  background:#05070955 url("${assetUrl(BASE+"season-results/assets/ENV_SR_PHONE_V1.webp")}") center/cover;
+ }
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage .v10SeasonPhoneScene::before,
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage .v10SeasonPhoneScene::after {
+  content:""; position:absolute; pointer-events:none; background-repeat:no-repeat;
+ }
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage .v10SeasonPhoneScene::before {
+  inset:0; background-image:url("${assetUrl(BASE+"season-results/assets/OVL_SR_DANIEL_PHONE_V1.webp")}"),url("${assetUrl(BASE+"season-results/assets/OVL_SR_NIK_PHONE_V1.webp")}");
+  background-position:left bottom 24%,right bottom 24%; background-size:55% 70%,55% 70%;
+ }
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage .v10SeasonPhoneScene::after {
+  inset:73% 2% 4%; background:url("${assetUrl(BASE+"season-results/assets/TITLE_SR_PHONE_V1.webp")}") center/contain no-repeat;
+ }
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage img:is([src*="OVL_SR_DANIEL_PHONE_V1"],[src*="OVL_SR_NIK_PHONE_V1"],[src*="TITLE_SR_PHONE_V1"]) { visibility:hidden; }
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage .season-layout> :has(label[for="season-phone-tab-daniel"]) {
+  grid-column:2; grid-row:1; position:relative; z-index:2; min-width:0; min-height:44px; margin:0;
+  display:grid; grid-template-columns:1fr 1fr 1.1fr; border:1px solid #f2c45b;
+  border-radius:5px; background:#07090deb;
+ }
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage label:is([for="season-phone-tab-daniel"],[for="season-phone-tab-nik"]) {
+  box-sizing:border-box; min-width:0; min-height:44px; padding:3px;
+  display:flex; align-items:center; justify-content:center; flex-direction:column;
+  font-size:11px; line-height:1.2; letter-spacing:.6px; border:1px solid #ad8739;
+ }
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage .season-layout> :has(label[for="season-phone-tab-daniel"]) :is(button,label):not([for="season-phone-tab-daniel"]):not([for="season-phone-tab-nik"]) {
+  min-width:0; min-height:44px; white-space:normal; padding:3px; font-size:10px; line-height:1.2;
+ }
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage .seasonEntryGrid {
+  grid-column:2; grid-row:2; position:relative; z-index:2;
+  min-width:0; width:100%; margin:0; display:grid; grid-template-columns:minmax(0,1fr); gap:0;
+ }
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage .seasonResultCard {
+  box-sizing:border-box; min-width:0; width:100%; min-height:224px; margin:0; padding:9px;
+  grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);
+  grid-template-areas:"head head" "f1 checks" "f2 checks" "f3 checks";
+  grid-template-rows:auto repeat(3,minmax(44px,auto)); gap:6px 12px; overflow:visible;
+  border:1px solid #f2c45b; border-radius:5px;
+  background:linear-gradient(125deg,#080b0dfc 65%,#292211f5);
+  box-shadow:inset 0 0 0 3px #ad873922,0 6px 22px #0008;
+ }
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage .seasonManagerHeader {
+  grid-area:head; min-width:0; min-height:30px; margin:0; padding:0 0 6px;
+  border-bottom:1px solid #f2c45b; gap:8px; flex-wrap:wrap;
+ }
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage .seasonManagerHeader :is(h2,h3) { font-size:24px; margin:0; }
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage .seasonManagerHeader img { max-width:28px; max-height:28px; object-fit:contain; }
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage .seasonResultCard>label {
+  display:flex; justify-content:space-between; align-items:center; min-width:0; min-height:44px;
+  gap:6px; font-size:11px; line-height:1.2; letter-spacing:.5px;
+ }
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage .seasonResultCard>label input[type=number] {
+  box-sizing:border-box; width:62px; min-width:44px; height:44px; min-height:44px;
+  flex:0 0 62px; padding:6px; font-size:20px; border:1px solid #f2c45b; border-radius:4px;
+ }
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage .achievementChecks {
+  grid-area:checks; min-width:0; display:grid; grid-template-columns:repeat(2,minmax(0,1fr));
+  grid-template-rows:repeat(2,minmax(68px,auto)); gap:7px;
+  padding-left:9px; border-left:1px solid #ad873955;
+ }
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage .achievementChecks label {
+  min-width:0; min-height:68px; display:flex; flex-direction:column;
+  align-items:flex-start; justify-content:space-between; gap:3px; font-size:11px;
+  line-height:1.3; white-space:normal; overflow-wrap:anywhere;
+ }
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage .achievementChecks input[type=checkbox] {
+  width:44px; height:44px; min-width:44px; min-height:44px; margin:0; flex:0 0 44px;
+ }
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage .season-review-panel {
+  grid-column:2; grid-row:3; position:relative; z-index:2; min-width:0; margin:0; overflow:visible;
+ }
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage .season-review-panel .seasonReviewGrid {
+  min-width:0; grid-template-columns:minmax(0,1fr);
+ }
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage .season-review-panel .seasonSummaryCard {
+  min-width:0; overflow-wrap:anywhere;
+ }
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage .season-action-row {
+  grid-column:2; grid-row:4; position:relative; z-index:2; min-width:0; margin:0;
+  display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); align-items:center; gap:8px; background:#090b0e;
+ }
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage .season-action-row button {
+  box-sizing:border-box; min-width:0; min-height:44px; width:100%; margin:0; padding:6px;
+  white-space:normal; overflow-wrap:anywhere; font-size:10px; line-height:1.3;
+  border:1px solid #f2c45b; border-radius:4px;
+ }
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage .season-review-panel .seasonReviewActions button {
+  min-width:0; min-height:44px; white-space:normal; overflow-wrap:anywhere;
+ }
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage :is(input,button,label):focus-visible {
+  outline:2px solid white; outline-offset:2px;
+ }
+}
+
 `;
     parent.appendChild(style);
   }
