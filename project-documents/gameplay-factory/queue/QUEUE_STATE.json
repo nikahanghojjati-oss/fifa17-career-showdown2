@@ -9,10 +9,10 @@
    173,
    179,
    189,
-   400,
-   411,
-   428,
-   456
+   240,
+   268,
+   296,
+   324
   ],
   "ready_sol": [
    127,
@@ -23,13 +23,13 @@
    173,
    179,
    189,
-   400,
-   411,
-   428,
-   456
+   240,
+   268,
+   296,
+   324
   ],
   "ready_codex": [],
-  "held_until_picture": 62,
+  "held_until_picture": 57,
   "open_code_prs": 0,
   "open_train_prs": 0,
   "next_free": 127,
@@ -556,7 +556,7 @@
    "518": "waiting"
   }
  },
- "updated": "2026-10-11T07:17:00Z",
+ "updated": "2026-10-11T07:24:38Z",
  "counts": {
   "merged": 160,
   "on_train": 21,

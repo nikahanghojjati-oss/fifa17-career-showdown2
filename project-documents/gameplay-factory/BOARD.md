@@ -6,11 +6,11 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Sun 11 Oct, 3:20 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Sun 11 Oct, 3:24 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r70** (main `c8810b8`, Sun 11 Oct 12:28 AM)
 
-🐕 **Barking: POS20 on #311 has waited 2 min for a machine; POS20 on #313 has waited 2 min for a machine.** · POS20 #304 6/16
+🩺 **All clear: every check has a machine.** · POS20 #304 6/16
 
 ## Jobs
 
@@ -21,32 +21,20 @@ Updated Sun 11 Oct, 3:20 AM Boston time. Bug hunting only, no new features until
 🟢 Team green · model not set · worker says done, no PR yet
 
 **#2 · 1581** `G` Showdown Gate: split the slowest lane and cache downloads  
-`███████░░░` **72.8571 %**  
-⚪ Team white · **Codex default coding model** · High effort · worker done, PR #618 open, CI running · CI 2 of 7 passed · last move 1 min ago
+`████████░░` **80.0000 %**  
+⚪ Team white · **Codex default coding model** · High effort · worker done, PR #618 open, CI green, waiting for the lead · CI 8 of 8 passed · last move 0 min ago
 
 **#3 · 1593** `G` Wire Team V study 1372: Rivalry Statistics phone  
-`███████░░░` **71.6667 %**  
-🟢 Team green · **GPT Sol 6.1** · High effort · worker done, PR #668 open, CI running · CI 1 of 6 passed · last move 0 min ago
-
-**#4 · 1594** `G` Wire Team V study 1169: Club Assignment (redo train)  
 `████████░░` **78.3333 %**  
-🟢 Team green · **GPT Sol 6.1** · High effort · worker done, PR #669 open, CI running · CI 5 of 6 passed · last move 0 min ago
+🟢 Team green · **GPT Sol 6.1** · High effort · worker done, PR #668 open, CI running · CI 5 of 6 passed · last move 0 min ago
 
-**#5 · 1595** `G` Wire Team V study 1171: Club Assignment (redo train)  
+**#4 · 1600** `G` Wire Team V study 1374: Rivalry Statistics sideways  
 `████████░░` **78.3333 %**  
-🟢 Team green · **GPT Sol 6.1** · High effort · worker done, PR #669 open, CI running · CI 5 of 6 passed · last move 0 min ago
+🟢 Team green · **GPT Sol 6.1** · High effort · worker done, PR #668 open, CI running · CI 5 of 6 passed · last move 0 min ago
 
-**#6 · 1596** `G` Wire Team V study 1172: Club Assignment (redo train)  
+**#5 · 1601** `G` Wire Team V study 1375: Rivalry Statistics tablet  
 `████████░░` **78.3333 %**  
-🟢 Team green · **GPT Sol 6.1** · High effort · worker done, PR #669 open, CI running · CI 5 of 6 passed · last move 0 min ago
-
-**#7 · 1600** `G` Wire Team V study 1374: Rivalry Statistics sideways  
-`███████░░░` **71.6667 %**  
-🟢 Team green · **GPT Sol 6.1** · High effort · worker done, PR #668 open, CI running · CI 1 of 6 passed · last move 0 min ago
-
-**#8 · 1601** `G` Wire Team V study 1375: Rivalry Statistics tablet  
-`███████░░░` **71.6667 %**  
-🟢 Team green · **GPT Sol 6.1** · High effort · worker done, PR #668 open, CI running · CI 1 of 6 passed · last move 0 min ago
+🟢 Team green · **GPT Sol 6.1** · High effort · worker done, PR #668 open, CI running · CI 5 of 6 passed · last move 0 min ago
 
 ### 👉 Next for you, in this order
 
@@ -480,7 +468,7 @@ Job 1635
 `░░░░░░░░░░` **0.0000 %**  
 🟣 Team purple · **Claude Opus** · High effort · Claude lane: Opus fixing #666 after two failed browser checks
 
-**Done, waiting for the next release:** 1583, 1584, 1585, 1586, 1592, 1606, 1607, 1608
+**Done, waiting for the next release:** 1583, 1584, 1585, 1586, 1592, 1594, 1595, 1596, 1606, 1607, 1608
 
 **Done and live:** r68: 1059, 1060, 1579, 1580, 1587 · r67: 1044, 1045, 1048, 1049, 1050, 1051, 1052, 1053, 1055, 1058 · r66: 1041, 1042, 1043 · r65: 1011, 1028, 1037, 1038, 1039, 1040 · r63: 1001, 1003, 1004, 1009, 1010, 1014, 1015, 1020, 1021, 1022, 1023, 1024, 1025, 1026, 1027, Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8
 
@@ -489,8 +477,8 @@ Job 1635
 ## Goals, in this order
 
 **1. Finish the remaining bugs** `now`  
-`██████░░░░` **62.4113 %**  
-Numbered jobs: 60 done, 53 other open · Olympiad recheck: 23 of 23 settled, 0 still to fix · Sol's old leads: 0 open (0 real, 0 unsure)
+`██████░░░░` **64.5390 %**  
+Numbered jobs: 63 done, 50 other open · Olympiad recheck: 23 of 23 settled, 0 still to fix · Sol's old leads: 0 open (0 real, 0 unsure)
 
 **2. Visual fixes** `after stage 1`  
 `██████░░░░` **56.0000 %**  
@@ -537,7 +525,7 @@ One numbered queue: type a bare number in any GPT chat. Live from GitHub (queue/
 Type now, in any GPT chat:
 
 ```text
-127 131 133 147 159 173 179 189 400 411 428 456
+127 131 133 147 159 173 179 189 240 268 296 324
 ```
 
 Open code PRs: 0/8.
