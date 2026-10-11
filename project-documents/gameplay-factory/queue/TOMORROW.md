@@ -121,6 +121,12 @@ Trophy Room phone studies:
 252 280 308 336 364
 ```
 
+Settings phone studies:
+
+```text
+244 272 300 328 356
+```
+
 <!-- released:end -->
 
 Studies (phone and desktop mockups) are on hold until Team V approves each screen's picture, so only the released ones are listed here (see the lists above); the board's Type now list will add them when they are released. The board's Type now list keeps the next numbers; [RUN_REPORT.md](RUN_REPORT.md) is what Claude reads when you are back.

@@ -27,7 +27,9 @@
       "STATISTICS",
       "RIVALRY",
       "LEGACY",
-      "TROPHY_ROOM"
+      "TROPHY_ROOM",
+      "TROPHY_ROOM_SINGLE",
+      "SETTINGS"
     ],
     "NEXT": []
   },
@@ -38,6 +40,8 @@
     "PHONE_STATISTICS": "The picture is 930x1536, about 1.7% wider than 393:660, so read sizes by proportion, not pixels. Every word and number matches live.",
     "PHONE_RIVALRY": "CLUB_A/CLUB_B in the picture are test data. The picture marks STANDINGS as the active bottom tab; keep the live nav state (STATS active).",
     "PHONE_LEGACY": "Approved by Team V at 3cd03e3f: every word, number and both club badges match live.",
-    "PHONE_TROPHY_ROOM": "Approved by Team V at 5525d55d. All five tabs in a two-row framed tab bar and all four trophies in a 2x2 grid, no sideways scroll. Hold the picked-tab (single trophy large) wiring until PHONE_TROPHY_ROOM_SINGLE (ticket 1588 10B) and high-res trophy art (10C) land."
+    "PHONE_TROPHY_ROOM": "Approved by Team V at 5525d55d. All five tabs in a two-row framed tab bar and all four trophies in a 2x2 grid, no sideways scroll. Hold the picked-tab (single trophy large) wiring until PHONE_TROPHY_ROOM_SINGLE (ticket 1588 10B) and high-res trophy art (10C) land.",
+    "PHONE_TROPHY_ROOM_SINGLE": "Approved by Team V at 6c1c5cc0. Picked-tab view: one big display niche with the chosen trophy large plus a bigger name-and-counts band; all four category tabs use it. Hold wiring until the 10C high-res trophy art lands.",
+    "PHONE_SETTINGS": "Approved by Team V at 6c1c5cc0; every word matches live. Wiring note: the DANIEL & NIK and CAREER MODE SHOWDOWN panel headings use a plain sans in live; switch them to the game condensed font like the other labels."
   }
 }
