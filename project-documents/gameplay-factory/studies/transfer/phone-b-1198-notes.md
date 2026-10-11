@@ -1,0 +1,13 @@
+# JOB-1198 · Transfer phone B
+- Decision: make the next required action the strongest, highest control in each phase.
+- Bright gold action sits below the phase band; supporting form and rule blocks follow.
+- CSS visual ordering keeps input DOM order before lock actions; gameplay tap sequence is unchanged.
+- Full status strings and LOCK MY GUESSES come from the production renderer, not picture text.
+- Signing lock summary stays complete above the three player/league/nationality rows.
+- Daniel left and Nik right use existing unmirrored V2 phone artwork.
+- Approved picture supplies cinematic hierarchy, stacked panels and HOME/REFRESH HUD.
+- Four CSS radio previews cover live Window, Guesses, Signings and empty Verdicts.
+- Coming-next control remains disabled; all controls are presentation only.
+- No hub tab bar on this task screen; no JavaScript, remote fonts or changed game files.
+- Short viewports compress the hero first without hiding fields, summaries or actions.
+- Verified four phases at 390×844, 393×660, 360×640 and 375×553: no page scroll; actions/HUD visible; assets loaded.
