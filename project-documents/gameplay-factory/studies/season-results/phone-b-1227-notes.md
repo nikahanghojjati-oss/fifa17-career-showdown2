@@ -1,0 +1,12 @@
+# Season Results · Phone B · JOB-1227
+- Decision: give the result-entry card more height and larger numbers as the main task.
+- Larger Daniel heading, distinct stat/honour columns, and an opaque dark panel strengthen hierarchy.
+- The gold review action is wider and larger, followed by the unchanged back action.
+- Approved portrait/title/tabs/card/actions arrangement is preserved; Daniel left, Nik right.
+- Existing phone artwork is linked unchanged; a plain gold shield replaces reference club branding.
+- All text and numeric placeholders come from index.html and the live app shell.
+- CSS-only tabs and scoring sheet show presentation states; actions do not run game behavior.
+- No hub bottom bar appears on this season-entry screen; no gameplay, scoring, or storage changes.
+- Compact height rules retain the fields and actions at 375x553.
+- Chromium: no scroll, loaded artwork, visible actions, contained fields/labels at all four target sizes.
+- CSS scoring open/close and the sealed Nik tab pass; re-read HTML and notes before saving.
