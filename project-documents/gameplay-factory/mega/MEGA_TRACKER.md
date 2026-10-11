@@ -1,8 +1,8 @@
-# Mega factory tracker · updated 2026-10-11T22:22:18Z
+# Mega factory tracker · updated 2026-10-11T22:23:48Z
 
 **Type now (19 free):** 189, 240, 246, 268, 274, 296, 302, 324, 330, 352, 358, 380, 400, 408, 411, 428, 436, 456, 464
 **Next free number:** 181 · **highest taken:** 403 of 518
-**Code PRs open:** 0 of 8 · area locks: home, start-join, league, club, season-final, career-screens, rules-settings
+**Code PRs open:** 7 of 8 · area locks: home, start-join, league, club, season-final, career-screens, rules-settings
 **Rate:** 0 claimed in 10 min · 9 in 1 h · 0 merged in 1 h
 
 **Finished (merged or live): 161 of 518**
@@ -11,7 +11,7 @@ State | count
 --- | ---
 ✅ merged to staging branch | 161
 🚂 done, on the train branch, no PR yet | 1
-📝 worker done, draft PR open | 35
+🟥 PR open, checks FAILED | 35
 ⚫ closed without merge | 82
 ⬜ waiting | 239
 
@@ -23,64 +23,102 @@ Stage | total | merged/live | in flight | waiting
 4 Phone mockup studies | 70 | 23 | 0 | 10
 5 Improved desktop studies | 56 | 1 | 0 | 55
 
+## Needs attention
+
+- 🟥 **91** · Job 1066 · Home: fix the 768x1024 view · PR open, checks FAILED · [PR #681](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/681)
+- 🟥 **93** · Job 1095 · Connect Players (start and join): fix the 768x1024 view · PR open, checks FAILED · [PR #682](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/682)
+- 🟥 **95** · Job 1124 · Select League: fix the 768x1024 view · PR open, checks FAILED · [PR #683](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/683)
+- 🟥 **97** · Job 1153 · Club packs: fix the 768x1024 view · PR open, checks FAILED · [PR #684](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/684)
+- 🟥 **101** · Job 1211 · Season Results: fix the 768x1024 view · PR open, checks FAILED · [PR #685](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/685)
+- 🟥 **105** · Job 1327 · Trophy Room: fix the 768x1024 view · PR open, checks FAILED · [PR #686](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/686)
+- 🟥 **107** · Job 1414 · Rule Book: fix the 768x1024 view · PR open, checks FAILED · [PR #687](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/687)
+- 🟥 **109** · Job 1067 · Home: fix the 1280x650 view · PR open, checks FAILED · [PR #681](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/681)
+- 🟥 **111** · Job 1096 · Connect Players (start and join): fix the 1280x650 view · PR open, checks FAILED · [PR #682](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/682)
+- 🟥 **113** · Job 1125 · Select League: fix the 1280x650 view · PR open, checks FAILED · [PR #683](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/683)
+- 🟥 **115** · Job 1154 · Club packs: fix the 1280x650 view · PR open, checks FAILED · [PR #684](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/684)
+- 🟥 **119** · Job 1212 · Season Results: fix the 1280x650 view · PR open, checks FAILED · [PR #685](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/685)
+- 🟥 **123** · Job 1328 · Trophy Room: fix the 1280x650 view · PR open, checks FAILED · [PR #686](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/686)
+- 🟥 **125** · Job 1415 · Rule Book: fix the 1280x650 view · PR open, checks FAILED · [PR #687](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/687)
+- 🟥 **127** · Job 1068 · Home: fix the 1366x768 view · PR open, checks FAILED · [PR #681](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/681)
+- 🟥 **129** · Job 1097 · Connect Players (start and join): fix the 1366x768 view · PR open, checks FAILED · [PR #682](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/682)
+- 🟥 **131** · Job 1126 · Select League: fix the 1366x768 view · PR open, checks FAILED · [PR #683](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/683)
+- 🟥 **133** · Job 1155 · Club packs: fix the 1366x768 view · PR open, checks FAILED · [PR #684](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/684)
+- 🟥 **137** · Job 1213 · Season Results: fix the 1366x768 view · PR open, checks FAILED · [PR #685](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/685)
+- 🟥 **141** · Job 1329 · Trophy Room: fix the 1366x768 view · PR open, checks FAILED · [PR #686](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/686)
+- 🟥 **143** · Job 1416 · Rule Book: fix the 1366x768 view · PR open, checks FAILED · [PR #687](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/687)
+- 🟥 **145** · Job 1069 · Home: fix the 1920x1080 view · PR open, checks FAILED · [PR #681](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/681)
+- 🟥 **147** · Job 1098 · Connect Players (start and join): fix the 1920x1080 view · PR open, checks FAILED · [PR #682](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/682)
+- 🟥 **149** · Job 1127 · Select League: fix the 1920x1080 view · PR open, checks FAILED · [PR #683](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/683)
+- 🟥 **151** · Job 1156 · Club packs: fix the 1920x1080 view · PR open, checks FAILED · [PR #684](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/684)
+- 🟥 **155** · Job 1214 · Season Results: fix the 1920x1080 view · PR open, checks FAILED · [PR #685](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/685)
+- 🟥 **159** · Job 1330 · Trophy Room: fix the 1920x1080 view · PR open, checks FAILED · [PR #686](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/686)
+- 🟥 **161** · Job 1417 · Rule Book: fix the 1920x1080 view · PR open, checks FAILED · [PR #687](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/687)
+- 🟥 **163** · Job 1070 · Home: fix the 2560x1080 view · PR open, checks FAILED · [PR #681](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/681)
+- 🟥 **165** · Job 1099 · Connect Players (start and join): fix the 2560x1080 view · PR open, checks FAILED · [PR #682](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/682)
+- 🟥 **167** · Job 1128 · Select League: fix the 2560x1080 view · PR open, checks FAILED · [PR #683](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/683)
+- 🟥 **169** · Job 1157 · Club packs: fix the 2560x1080 view · PR open, checks FAILED · [PR #684](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/684)
+- 🟥 **173** · Job 1215 · Season Results: fix the 2560x1080 view · PR open, checks FAILED · [PR #685](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/685)
+- 🟥 **177** · Job 1331 · Trophy Room: fix the 2560x1080 view · PR open, checks FAILED · [PR #686](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/686)
+- 🟥 **179** · Job 1418 · Rule Book: fix the 2560x1080 view · PR open, checks FAILED · [PR #687](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/687)
+
 ## In flight
 
-- 📝 **91** · Job 1066 · Home: fix the 768x1024 view · worker done, draft PR open · [PR #681](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/681)
-- 📝 **93** · Job 1095 · Connect Players (start and join): fix the 768x1024 view · worker done, draft PR open · [PR #682](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/682)
-- 📝 **95** · Job 1124 · Select League: fix the 768x1024 view · worker done, draft PR open · [PR #683](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/683)
-- 📝 **97** · Job 1153 · Club packs: fix the 768x1024 view · worker done, draft PR open · [PR #684](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/684)
-- 📝 **101** · Job 1211 · Season Results: fix the 768x1024 view · worker done, draft PR open · [PR #685](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/685)
-- 📝 **105** · Job 1327 · Trophy Room: fix the 768x1024 view · worker done, draft PR open · [PR #686](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/686)
-- 📝 **107** · Job 1414 · Rule Book: fix the 768x1024 view · worker done, draft PR open · [PR #687](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/687)
-- 📝 **109** · Job 1067 · Home: fix the 1280x650 view · worker done, draft PR open · [PR #681](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/681)
-- 📝 **111** · Job 1096 · Connect Players (start and join): fix the 1280x650 view · worker done, draft PR open · [PR #682](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/682)
-- 📝 **113** · Job 1125 · Select League: fix the 1280x650 view · worker done, draft PR open · [PR #683](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/683)
-- 📝 **115** · Job 1154 · Club packs: fix the 1280x650 view · worker done, draft PR open · [PR #684](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/684)
-- 📝 **119** · Job 1212 · Season Results: fix the 1280x650 view · worker done, draft PR open · [PR #685](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/685)
-- 📝 **123** · Job 1328 · Trophy Room: fix the 1280x650 view · worker done, draft PR open · [PR #686](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/686)
-- 📝 **125** · Job 1415 · Rule Book: fix the 1280x650 view · worker done, draft PR open · [PR #687](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/687)
-- 📝 **127** · Job 1068 · Home: fix the 1366x768 view · worker done, draft PR open · [PR #681](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/681)
-- 📝 **129** · Job 1097 · Connect Players (start and join): fix the 1366x768 view · worker done, draft PR open · [PR #682](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/682)
-- 📝 **131** · Job 1126 · Select League: fix the 1366x768 view · worker done, draft PR open · [PR #683](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/683)
-- 📝 **133** · Job 1155 · Club packs: fix the 1366x768 view · worker done, draft PR open · [PR #684](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/684)
-- 📝 **137** · Job 1213 · Season Results: fix the 1366x768 view · worker done, draft PR open · [PR #685](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/685)
-- 📝 **141** · Job 1329 · Trophy Room: fix the 1366x768 view · worker done, draft PR open · [PR #686](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/686)
-- 📝 **143** · Job 1416 · Rule Book: fix the 1366x768 view · worker done, draft PR open · [PR #687](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/687)
-- 📝 **145** · Job 1069 · Home: fix the 1920x1080 view · worker done, draft PR open · [PR #681](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/681)
-- 📝 **147** · Job 1098 · Connect Players (start and join): fix the 1920x1080 view · worker done, draft PR open · [PR #682](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/682)
-- 📝 **149** · Job 1127 · Select League: fix the 1920x1080 view · worker done, draft PR open · [PR #683](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/683)
-- 📝 **151** · Job 1156 · Club packs: fix the 1920x1080 view · worker done, draft PR open · [PR #684](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/684)
-- 📝 **155** · Job 1214 · Season Results: fix the 1920x1080 view · worker done, draft PR open · [PR #685](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/685)
-- 📝 **159** · Job 1330 · Trophy Room: fix the 1920x1080 view · worker done, draft PR open · [PR #686](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/686)
-- 📝 **161** · Job 1417 · Rule Book: fix the 1920x1080 view · worker done, draft PR open · [PR #687](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/687)
-- 📝 **163** · Job 1070 · Home: fix the 2560x1080 view · worker done, draft PR open · [PR #681](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/681)
-- 📝 **165** · Job 1099 · Connect Players (start and join): fix the 2560x1080 view · worker done, draft PR open · [PR #682](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/682)
-- 📝 **167** · Job 1128 · Select League: fix the 2560x1080 view · worker done, draft PR open · [PR #683](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/683)
-- 📝 **169** · Job 1157 · Club packs: fix the 2560x1080 view · worker done, draft PR open · [PR #684](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/684)
-- 📝 **173** · Job 1215 · Season Results: fix the 2560x1080 view · worker done, draft PR open · [PR #685](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/685)
-- 📝 **177** · Job 1331 · Trophy Room: fix the 2560x1080 view · worker done, draft PR open · [PR #686](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/686)
-- 📝 **179** · Job 1418 · Rule Book: fix the 2560x1080 view · worker done, draft PR open · [PR #687](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/687)
+- 🟥 **91** · Job 1066 · Home: fix the 768x1024 view · PR open, checks FAILED · [PR #681](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/681)
+- 🟥 **93** · Job 1095 · Connect Players (start and join): fix the 768x1024 view · PR open, checks FAILED · [PR #682](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/682)
+- 🟥 **95** · Job 1124 · Select League: fix the 768x1024 view · PR open, checks FAILED · [PR #683](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/683)
+- 🟥 **97** · Job 1153 · Club packs: fix the 768x1024 view · PR open, checks FAILED · [PR #684](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/684)
+- 🟥 **101** · Job 1211 · Season Results: fix the 768x1024 view · PR open, checks FAILED · [PR #685](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/685)
+- 🟥 **105** · Job 1327 · Trophy Room: fix the 768x1024 view · PR open, checks FAILED · [PR #686](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/686)
+- 🟥 **107** · Job 1414 · Rule Book: fix the 768x1024 view · PR open, checks FAILED · [PR #687](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/687)
+- 🟥 **109** · Job 1067 · Home: fix the 1280x650 view · PR open, checks FAILED · [PR #681](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/681)
+- 🟥 **111** · Job 1096 · Connect Players (start and join): fix the 1280x650 view · PR open, checks FAILED · [PR #682](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/682)
+- 🟥 **113** · Job 1125 · Select League: fix the 1280x650 view · PR open, checks FAILED · [PR #683](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/683)
+- 🟥 **115** · Job 1154 · Club packs: fix the 1280x650 view · PR open, checks FAILED · [PR #684](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/684)
+- 🟥 **119** · Job 1212 · Season Results: fix the 1280x650 view · PR open, checks FAILED · [PR #685](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/685)
+- 🟥 **123** · Job 1328 · Trophy Room: fix the 1280x650 view · PR open, checks FAILED · [PR #686](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/686)
+- 🟥 **125** · Job 1415 · Rule Book: fix the 1280x650 view · PR open, checks FAILED · [PR #687](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/687)
+- 🟥 **127** · Job 1068 · Home: fix the 1366x768 view · PR open, checks FAILED · [PR #681](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/681)
+- 🟥 **129** · Job 1097 · Connect Players (start and join): fix the 1366x768 view · PR open, checks FAILED · [PR #682](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/682)
+- 🟥 **131** · Job 1126 · Select League: fix the 1366x768 view · PR open, checks FAILED · [PR #683](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/683)
+- 🟥 **133** · Job 1155 · Club packs: fix the 1366x768 view · PR open, checks FAILED · [PR #684](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/684)
+- 🟥 **137** · Job 1213 · Season Results: fix the 1366x768 view · PR open, checks FAILED · [PR #685](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/685)
+- 🟥 **141** · Job 1329 · Trophy Room: fix the 1366x768 view · PR open, checks FAILED · [PR #686](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/686)
+- 🟥 **143** · Job 1416 · Rule Book: fix the 1366x768 view · PR open, checks FAILED · [PR #687](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/687)
+- 🟥 **145** · Job 1069 · Home: fix the 1920x1080 view · PR open, checks FAILED · [PR #681](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/681)
+- 🟥 **147** · Job 1098 · Connect Players (start and join): fix the 1920x1080 view · PR open, checks FAILED · [PR #682](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/682)
+- 🟥 **149** · Job 1127 · Select League: fix the 1920x1080 view · PR open, checks FAILED · [PR #683](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/683)
+- 🟥 **151** · Job 1156 · Club packs: fix the 1920x1080 view · PR open, checks FAILED · [PR #684](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/684)
+- 🟥 **155** · Job 1214 · Season Results: fix the 1920x1080 view · PR open, checks FAILED · [PR #685](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/685)
+- 🟥 **159** · Job 1330 · Trophy Room: fix the 1920x1080 view · PR open, checks FAILED · [PR #686](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/686)
+- 🟥 **161** · Job 1417 · Rule Book: fix the 1920x1080 view · PR open, checks FAILED · [PR #687](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/687)
+- 🟥 **163** · Job 1070 · Home: fix the 2560x1080 view · PR open, checks FAILED · [PR #681](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/681)
+- 🟥 **165** · Job 1099 · Connect Players (start and join): fix the 2560x1080 view · PR open, checks FAILED · [PR #682](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/682)
+- 🟥 **167** · Job 1128 · Select League: fix the 2560x1080 view · PR open, checks FAILED · [PR #683](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/683)
+- 🟥 **169** · Job 1157 · Club packs: fix the 2560x1080 view · PR open, checks FAILED · [PR #684](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/684)
+- 🟥 **173** · Job 1215 · Season Results: fix the 2560x1080 view · PR open, checks FAILED · [PR #685](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/685)
+- 🟥 **177** · Job 1331 · Trophy Room: fix the 2560x1080 view · PR open, checks FAILED · [PR #686](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/686)
+- 🟥 **179** · Job 1418 · Rule Book: fix the 2560x1080 view · PR open, checks FAILED · [PR #687](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/687)
 - 🚂 **403** · Job 1356 · Rivalry Statistics: fix the 768x1024 view · done, on the train branch, no PR yet
 
 ## Latest changes
 
-- 2026-10-11T22:08:48Z · 179 (Job 1418): waiting → draft
-- 2026-10-11T22:08:48Z · 161 (Job 1417): on_train → draft
-- 2026-10-11T22:08:48Z · 143 (Job 1416): on_train → draft
-- 2026-10-11T22:08:48Z · 125 (Job 1415): on_train → draft
-- 2026-10-11T22:08:48Z · 107 (Job 1414): on_train → draft
-- 2026-10-11T22:07:18Z · 177 (Job 1331): waiting → draft
-- 2026-10-11T22:07:18Z · 159 (Job 1330): on_train → draft
-- 2026-10-11T22:07:18Z · 141 (Job 1329): on_train → draft
-- 2026-10-11T22:07:18Z · 123 (Job 1328): on_train → draft
-- 2026-10-11T22:07:18Z · 105 (Job 1327): on_train → draft
-- 2026-10-11T22:05:33Z · 173 (Job 1215): waiting → draft
-- 2026-10-11T22:05:33Z · 155 (Job 1214): on_train → draft
-- 2026-10-11T22:05:33Z · 137 (Job 1213): on_train → draft
-- 2026-10-11T22:05:33Z · 119 (Job 1212): on_train → draft
-- 2026-10-11T22:05:33Z · 101 (Job 1211): on_train → draft
-- 2026-10-11T21:43:03Z · 169 (Job 1157): waiting → draft
-- 2026-10-11T21:43:03Z · 151 (Job 1156): on_train → draft
-- 2026-10-11T21:43:03Z · 133 (Job 1155): on_train → draft
-- 2026-10-11T21:43:03Z · 115 (Job 1154): on_train → draft
-- 2026-10-11T21:43:03Z · 97 (Job 1153): on_train → draft
+- 2026-10-11T22:23:48Z · 179 (Job 1418): draft → ci_failed
+- 2026-10-11T22:23:48Z · 177 (Job 1331): draft → ci_failed
+- 2026-10-11T22:23:48Z · 173 (Job 1215): draft → ci_failed
+- 2026-10-11T22:23:48Z · 169 (Job 1157): draft → ci_failed
+- 2026-10-11T22:23:48Z · 167 (Job 1128): draft → ci_failed
+- 2026-10-11T22:23:48Z · 165 (Job 1099): draft → ci_failed
+- 2026-10-11T22:23:48Z · 163 (Job 1070): draft → ci_failed
+- 2026-10-11T22:23:48Z · 161 (Job 1417): draft → ci_failed
+- 2026-10-11T22:23:48Z · 159 (Job 1330): draft → ci_failed
+- 2026-10-11T22:23:48Z · 155 (Job 1214): draft → ci_failed
+- 2026-10-11T22:23:48Z · 151 (Job 1156): draft → ci_failed
+- 2026-10-11T22:23:48Z · 149 (Job 1127): draft → ci_failed
+- 2026-10-11T22:23:48Z · 147 (Job 1098): draft → ci_failed
+- 2026-10-11T22:23:48Z · 145 (Job 1069): draft → ci_failed
+- 2026-10-11T22:23:48Z · 143 (Job 1416): draft → ci_failed
+- 2026-10-11T22:23:48Z · 141 (Job 1329): draft → ci_failed
+- 2026-10-11T22:23:48Z · 137 (Job 1213): draft → ci_failed
+- 2026-10-11T22:23:48Z · 133 (Job 1155): draft → ci_failed
+- 2026-10-11T22:23:48Z · 131 (Job 1126): draft → ci_failed
+- 2026-10-11T22:23:48Z · 129 (Job 1097): draft → ci_failed

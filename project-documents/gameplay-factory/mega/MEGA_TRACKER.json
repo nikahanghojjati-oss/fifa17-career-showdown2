@@ -1,12 +1,12 @@
 {
-"updated": "2026-10-11T22:22:18Z",
+"updated": "2026-10-11T22:23:48Z",
 "total": 518,
 "next_free": 181,
 "highest_taken": 403,
 "counts": {
 "merged": 161,
 "closed": 82,
-"draft": 35,
+"ci_failed": 35,
 "waiting": 239,
 "on_train": 1
 },
@@ -17,7 +17,7 @@
 "states": {
 "merged": 25,
 "closed": 44,
-"draft": 35,
+"ci_failed": 35,
 "waiting": 161,
 "on_train": 1
 }
@@ -58,7 +58,7 @@
 "stale_started": [],
 "gates": {
 "cap": 8,
-"open_code_prs": 0,
+"open_code_prs": 7,
 "open_train_prs": [
 681,
 682,
@@ -71,7 +71,7 @@
 "on_train_no_pr": [
 403
 ],
-"draft_code_prs": 7,
+"draft_code_prs": 0,
 "area_locks": {
 "home": 681,
 "start-join": 682,
@@ -179,7 +179,7 @@
 "states": {
 "merged": 25,
 "closed": 25,
-"draft": 35,
+"ci_failed": 35,
 "waiting": 153,
 "on_train": 1
 },
@@ -191,14 +191,14 @@
 "picked_up": 86,
 "worker_done": 61,
 "finished": 25,
-"pending_lead": 36,
+"pending_lead": 1,
 "wait_v": 0,
 "audit_batch": 0,
-"trouble": 0,
+"trouble": 35,
 "closed": 25,
 "reviews_total": 0,
 "first_time_ok": 71,
-"failing_now": 0
+"failing_now": 35
 },
 "gpt2": {
 "name": "ChatGPT account 2 (even numbers)",
@@ -352,15 +352,7 @@
 "failing_now": 0
 }
 },
-"ready_for_lead": [
-681,
-682,
-683,
-684,
-685,
-686,
-687
-],
+"ready_for_lead": [],
 "old_main_prs": 0,
 "codex_next": [
 {
@@ -1107,251 +1099,6 @@
 }
 ],
 "events": [
-{
-"at": "2026-10-11T04:03:15Z",
-"item": 355,
-"job": 1312,
-"from": "draft",
-"to": "closed"
-},
-{
-"at": "2026-10-11T04:03:15Z",
-"item": 363,
-"job": 1351,
-"from": "draft",
-"to": "closed"
-},
-{
-"at": "2026-10-11T04:03:15Z",
-"item": 371,
-"job": 1352,
-"from": "draft",
-"to": "closed"
-},
-{
-"at": "2026-10-11T04:03:15Z",
-"item": 379,
-"job": 1353,
-"from": "draft",
-"to": "closed"
-},
-{
-"at": "2026-10-11T04:03:15Z",
-"item": 387,
-"job": 1354,
-"from": "draft",
-"to": "closed"
-},
-{
-"at": "2026-10-11T04:03:15Z",
-"item": 395,
-"job": 1355,
-"from": "draft",
-"to": "closed"
-},
-{
-"at": "2026-10-11T04:05:57Z",
-"item": 228,
-"job": 1168,
-"from": "draft",
-"to": "closed"
-},
-{
-"at": "2026-10-11T04:05:57Z",
-"item": 250,
-"job": 1197,
-"from": "draft",
-"to": "closed"
-},
-{
-"at": "2026-10-11T04:05:57Z",
-"item": 254,
-"job": 1401,
-"from": "draft",
-"to": "closed"
-},
-{
-"at": "2026-10-11T04:05:57Z",
-"item": 270,
-"job": 1227,
-"from": "draft",
-"to": "closed"
-},
-{
-"at": "2026-10-11T04:05:57Z",
-"item": 278,
-"job": 1198,
-"from": "draft",
-"to": "closed"
-},
-{
-"at": "2026-10-11T04:05:57Z",
-"item": 284,
-"job": 1170,
-"from": "draft",
-"to": "closed"
-},
-{
-"at": "2026-10-11T04:05:57Z",
-"item": 298,
-"job": 1228,
-"from": "draft",
-"to": "closed"
-},
-{
-"at": "2026-10-11T04:05:57Z",
-"item": 306,
-"job": 1199,
-"from": "draft",
-"to": "closed"
-},
-{
-"at": "2026-10-11T04:05:57Z",
-"item": 334,
-"job": 1200,
-"from": "draft",
-"to": "closed"
-},
-{
-"at": "2026-10-11T04:05:57Z",
-"item": 344,
-"job": 1085,
-"from": "draft",
-"to": "closed"
-},
-{
-"at": "2026-10-11T04:05:57Z",
-"item": 362,
-"job": 1201,
-"from": "draft",
-"to": "closed"
-},
-{
-"at": "2026-10-11T04:06:57Z",
-"item": 286,
-"job": 1286,
-"from": "waiting",
-"to": "started"
-},
-{
-"at": "2026-10-11T04:07:57Z",
-"item": 1,
-"job": 1061,
-"from": "draft",
-"to": "merged"
-},
-{
-"at": "2026-10-11T04:07:57Z",
-"item": 3,
-"job": 1090,
-"from": "draft",
-"to": "merged"
-},
-{
-"at": "2026-10-11T04:07:57Z",
-"item": 5,
-"job": 1119,
-"from": "draft",
-"to": "merged"
-},
-{
-"at": "2026-10-11T04:07:57Z",
-"item": 19,
-"job": 1062,
-"from": "draft",
-"to": "merged"
-},
-{
-"at": "2026-10-11T04:07:57Z",
-"item": 21,
-"job": 1091,
-"from": "draft",
-"to": "merged"
-},
-{
-"at": "2026-10-11T04:07:57Z",
-"item": 23,
-"job": 1120,
-"from": "draft",
-"to": "merged"
-},
-{
-"at": "2026-10-11T04:07:57Z",
-"item": 37,
-"job": 1063,
-"from": "draft",
-"to": "merged"
-},
-{
-"at": "2026-10-11T04:07:57Z",
-"item": 39,
-"job": 1092,
-"from": "draft",
-"to": "merged"
-},
-{
-"at": "2026-10-11T04:07:57Z",
-"item": 41,
-"job": 1121,
-"from": "draft",
-"to": "merged"
-},
-{
-"at": "2026-10-11T04:07:57Z",
-"item": 55,
-"job": 1064,
-"from": "draft",
-"to": "merged"
-},
-{
-"at": "2026-10-11T04:07:57Z",
-"item": 57,
-"job": 1093,
-"from": "draft",
-"to": "merged"
-},
-{
-"at": "2026-10-11T04:07:57Z",
-"item": 59,
-"job": 1122,
-"from": "draft",
-"to": "merged"
-},
-{
-"at": "2026-10-11T04:07:57Z",
-"item": 73,
-"job": 1065,
-"from": "draft",
-"to": "merged"
-},
-{
-"at": "2026-10-11T04:07:57Z",
-"item": 75,
-"job": 1094,
-"from": "draft",
-"to": "merged"
-},
-{
-"at": "2026-10-11T04:07:57Z",
-"item": 77,
-"job": 1123,
-"from": "draft",
-"to": "merged"
-},
-{
-"at": "2026-10-11T04:08:57Z",
-"item": 286,
-"job": 1286,
-"from": "started",
-"to": "draft"
-},
-{
-"at": "2026-10-11T04:13:57Z",
-"item": 236,
-"job": 1313,
-"from": "waiting",
-"to": "blocked"
-},
 {
 "at": "2026-10-11T04:14:57Z",
 "item": 244,
@@ -3206,6 +2953,251 @@
 "job": 1418,
 "from": "waiting",
 "to": "draft"
+},
+{
+"at": "2026-10-11T22:23:48Z",
+"item": 91,
+"job": 1066,
+"from": "draft",
+"to": "ci_failed"
+},
+{
+"at": "2026-10-11T22:23:48Z",
+"item": 93,
+"job": 1095,
+"from": "draft",
+"to": "ci_failed"
+},
+{
+"at": "2026-10-11T22:23:48Z",
+"item": 95,
+"job": 1124,
+"from": "draft",
+"to": "ci_failed"
+},
+{
+"at": "2026-10-11T22:23:48Z",
+"item": 97,
+"job": 1153,
+"from": "draft",
+"to": "ci_failed"
+},
+{
+"at": "2026-10-11T22:23:48Z",
+"item": 101,
+"job": 1211,
+"from": "draft",
+"to": "ci_failed"
+},
+{
+"at": "2026-10-11T22:23:48Z",
+"item": 105,
+"job": 1327,
+"from": "draft",
+"to": "ci_failed"
+},
+{
+"at": "2026-10-11T22:23:48Z",
+"item": 107,
+"job": 1414,
+"from": "draft",
+"to": "ci_failed"
+},
+{
+"at": "2026-10-11T22:23:48Z",
+"item": 109,
+"job": 1067,
+"from": "draft",
+"to": "ci_failed"
+},
+{
+"at": "2026-10-11T22:23:48Z",
+"item": 111,
+"job": 1096,
+"from": "draft",
+"to": "ci_failed"
+},
+{
+"at": "2026-10-11T22:23:48Z",
+"item": 113,
+"job": 1125,
+"from": "draft",
+"to": "ci_failed"
+},
+{
+"at": "2026-10-11T22:23:48Z",
+"item": 115,
+"job": 1154,
+"from": "draft",
+"to": "ci_failed"
+},
+{
+"at": "2026-10-11T22:23:48Z",
+"item": 119,
+"job": 1212,
+"from": "draft",
+"to": "ci_failed"
+},
+{
+"at": "2026-10-11T22:23:48Z",
+"item": 123,
+"job": 1328,
+"from": "draft",
+"to": "ci_failed"
+},
+{
+"at": "2026-10-11T22:23:48Z",
+"item": 125,
+"job": 1415,
+"from": "draft",
+"to": "ci_failed"
+},
+{
+"at": "2026-10-11T22:23:48Z",
+"item": 127,
+"job": 1068,
+"from": "draft",
+"to": "ci_failed"
+},
+{
+"at": "2026-10-11T22:23:48Z",
+"item": 129,
+"job": 1097,
+"from": "draft",
+"to": "ci_failed"
+},
+{
+"at": "2026-10-11T22:23:48Z",
+"item": 131,
+"job": 1126,
+"from": "draft",
+"to": "ci_failed"
+},
+{
+"at": "2026-10-11T22:23:48Z",
+"item": 133,
+"job": 1155,
+"from": "draft",
+"to": "ci_failed"
+},
+{
+"at": "2026-10-11T22:23:48Z",
+"item": 137,
+"job": 1213,
+"from": "draft",
+"to": "ci_failed"
+},
+{
+"at": "2026-10-11T22:23:48Z",
+"item": 141,
+"job": 1329,
+"from": "draft",
+"to": "ci_failed"
+},
+{
+"at": "2026-10-11T22:23:48Z",
+"item": 143,
+"job": 1416,
+"from": "draft",
+"to": "ci_failed"
+},
+{
+"at": "2026-10-11T22:23:48Z",
+"item": 145,
+"job": 1069,
+"from": "draft",
+"to": "ci_failed"
+},
+{
+"at": "2026-10-11T22:23:48Z",
+"item": 147,
+"job": 1098,
+"from": "draft",
+"to": "ci_failed"
+},
+{
+"at": "2026-10-11T22:23:48Z",
+"item": 149,
+"job": 1127,
+"from": "draft",
+"to": "ci_failed"
+},
+{
+"at": "2026-10-11T22:23:48Z",
+"item": 151,
+"job": 1156,
+"from": "draft",
+"to": "ci_failed"
+},
+{
+"at": "2026-10-11T22:23:48Z",
+"item": 155,
+"job": 1214,
+"from": "draft",
+"to": "ci_failed"
+},
+{
+"at": "2026-10-11T22:23:48Z",
+"item": 159,
+"job": 1330,
+"from": "draft",
+"to": "ci_failed"
+},
+{
+"at": "2026-10-11T22:23:48Z",
+"item": 161,
+"job": 1417,
+"from": "draft",
+"to": "ci_failed"
+},
+{
+"at": "2026-10-11T22:23:48Z",
+"item": 163,
+"job": 1070,
+"from": "draft",
+"to": "ci_failed"
+},
+{
+"at": "2026-10-11T22:23:48Z",
+"item": 165,
+"job": 1099,
+"from": "draft",
+"to": "ci_failed"
+},
+{
+"at": "2026-10-11T22:23:48Z",
+"item": 167,
+"job": 1128,
+"from": "draft",
+"to": "ci_failed"
+},
+{
+"at": "2026-10-11T22:23:48Z",
+"item": 169,
+"job": 1157,
+"from": "draft",
+"to": "ci_failed"
+},
+{
+"at": "2026-10-11T22:23:48Z",
+"item": 173,
+"job": 1215,
+"from": "draft",
+"to": "ci_failed"
+},
+{
+"at": "2026-10-11T22:23:48Z",
+"item": 177,
+"job": 1331,
+"from": "draft",
+"to": "ci_failed"
+},
+{
+"at": "2026-10-11T22:23:48Z",
+"item": 179,
+"job": 1418,
+"from": "draft",
+"to": "ci_failed"
 }
 ],
 "items": {
@@ -4639,15 +4631,15 @@
 "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/681",
 "base": "gameplay/bug-list-1",
 "branch": "gameplay/train-home-2",
-"ci": "draft",
+"ci": "failed",
 "ci_sha": "06dc18dbceaf88571224e44d7ad2186c0cb0df89",
-"ci_total": 0,
-"ci_extra": 0,
-"draft": true,
-"state": "draft",
+"ci_total": 15,
+"ci_extra": 1,
+"draft": false,
+"state": "ci_failed",
 "pr_opened_at": "2026-10-11T21:36:58Z",
 "first_seen": "2026-10-11T04:59:32Z",
-"since": "2026-10-11T21:38:18Z"
+"since": "2026-10-11T22:23:48Z"
 },
 "92": {
 "job": 1512,
@@ -4675,15 +4667,15 @@
 "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/682",
 "base": "gameplay/bug-list-1",
 "branch": "gameplay/train-start-join-2",
-"ci": "draft",
-"ci_sha": "5359ebdc66cbf49b167a0f8bd310a28e47c7774a",
-"ci_total": 0,
-"ci_extra": 0,
-"draft": true,
-"state": "draft",
+"ci": "failed",
+"ci_sha": "881de97b1980dbfcd54cd49468808e7925ad67e1",
+"ci_total": 15,
+"ci_extra": 1,
+"draft": false,
+"state": "ci_failed",
 "pr_opened_at": "2026-10-11T21:40:15Z",
 "first_seen": "2026-10-11T04:57:32Z",
-"since": "2026-10-11T21:41:18Z"
+"since": "2026-10-11T22:23:48Z"
 },
 "94": {
 "job": 1513,
@@ -4711,15 +4703,15 @@
 "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/683",
 "base": "gameplay/bug-list-1",
 "branch": "gameplay/train-league-2",
-"ci": "draft",
+"ci": "failed",
 "ci_sha": "cbe6e1d6fa81af02a81fdbbe8bacc3f93d50c781",
-"ci_total": 0,
-"ci_extra": 0,
-"draft": true,
-"state": "draft",
+"ci_total": 15,
+"ci_extra": 1,
+"draft": false,
+"state": "ci_failed",
 "pr_opened_at": "2026-10-11T21:41:27Z",
 "first_seen": "2026-10-11T05:07:44Z",
-"since": "2026-10-11T21:41:33Z"
+"since": "2026-10-11T22:23:48Z"
 },
 "96": {
 "job": 1514,
@@ -4747,15 +4739,15 @@
 "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/684",
 "base": "gameplay/bug-list-1",
 "branch": "gameplay/train-club-2",
-"ci": "draft",
-"ci_sha": "382e70639b28af8f8cac9cedeb1540b7aa824174",
-"ci_total": 0,
-"ci_extra": 0,
-"draft": true,
-"state": "draft",
+"ci": "failed",
+"ci_sha": "71c11b6a3724f87384c7dacb9388ccec01f19dd0",
+"ci_total": 15,
+"ci_extra": 1,
+"draft": false,
+"state": "ci_failed",
 "pr_opened_at": "2026-10-11T21:42:25Z",
 "first_seen": "2026-10-11T05:07:44Z",
-"since": "2026-10-11T21:43:03Z"
+"since": "2026-10-11T22:23:48Z"
 },
 "98": {
 "job": 1515,
@@ -4814,15 +4806,15 @@
 "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/685",
 "base": "gameplay/bug-list-1",
 "branch": "gameplay/train-season-final-2",
-"ci": "draft",
-"ci_sha": "e8864a6de39f047096c5f3473c522777296a22b3",
-"ci_total": 0,
-"ci_extra": 0,
-"draft": true,
-"state": "draft",
+"ci": "failed",
+"ci_sha": "a42e734be2c6cec9832f27ff28fb7415ecff19e2",
+"ci_total": 15,
+"ci_extra": 1,
+"draft": false,
+"state": "ci_failed",
 "pr_opened_at": "2026-10-11T22:05:16Z",
 "first_seen": "2026-10-11T02:38:16Z",
-"since": "2026-10-11T22:05:33Z"
+"since": "2026-10-11T22:23:48Z"
 },
 "102": {
 "job": 1517,
@@ -4881,15 +4873,15 @@
 "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/686",
 "base": "gameplay/bug-list-1",
 "branch": "gameplay/train-career-screens-2",
-"ci": "draft",
+"ci": "failed",
 "ci_sha": "e8ffdb2f05b45d6aef4c23fc4803fb51fc8f0508",
-"ci_total": 0,
-"ci_extra": 0,
-"draft": true,
-"state": "draft",
+"ci_total": 15,
+"ci_extra": 1,
+"draft": false,
+"state": "ci_failed",
 "pr_opened_at": "2026-10-11T22:06:52Z",
 "first_seen": "2026-10-11T03:54:22Z",
-"since": "2026-10-11T22:07:18Z"
+"since": "2026-10-11T22:23:48Z"
 },
 "106": {
 "job": 1519,
@@ -4917,15 +4909,15 @@
 "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/687",
 "base": "gameplay/bug-list-1",
 "branch": "gameplay/train-rules-settings-2",
-"ci": "draft",
+"ci": "failed",
 "ci_sha": "db2a45a34e0652ff7eb0c148bf9949a8cde483b2",
-"ci_total": 0,
-"ci_extra": 0,
-"draft": true,
-"state": "draft",
+"ci_total": 15,
+"ci_extra": 1,
+"draft": false,
+"state": "ci_failed",
 "pr_opened_at": "2026-10-11T22:08:06Z",
 "first_seen": "2026-10-11T02:42:07Z",
-"since": "2026-10-11T22:08:48Z"
+"since": "2026-10-11T22:23:48Z"
 },
 "108": {
 "job": 1520,
@@ -4953,15 +4945,15 @@
 "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/681",
 "base": "gameplay/bug-list-1",
 "branch": "gameplay/train-home-2",
-"ci": "draft",
+"ci": "failed",
 "ci_sha": "06dc18dbceaf88571224e44d7ad2186c0cb0df89",
-"ci_total": 0,
-"ci_extra": 0,
-"draft": true,
-"state": "draft",
+"ci_total": 15,
+"ci_extra": 1,
+"draft": false,
+"state": "ci_failed",
 "pr_opened_at": "2026-10-11T21:36:58Z",
 "first_seen": "2026-10-11T05:07:44Z",
-"since": "2026-10-11T21:38:18Z"
+"since": "2026-10-11T22:23:48Z"
 },
 "110": {
 "job": 1521,
@@ -4989,15 +4981,15 @@
 "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/682",
 "base": "gameplay/bug-list-1",
 "branch": "gameplay/train-start-join-2",
-"ci": "draft",
-"ci_sha": "5359ebdc66cbf49b167a0f8bd310a28e47c7774a",
-"ci_total": 0,
-"ci_extra": 0,
-"draft": true,
-"state": "draft",
+"ci": "failed",
+"ci_sha": "881de97b1980dbfcd54cd49468808e7925ad67e1",
+"ci_total": 15,
+"ci_extra": 1,
+"draft": false,
+"state": "ci_failed",
 "pr_opened_at": "2026-10-11T21:40:15Z",
 "first_seen": "2026-10-11T05:06:44Z",
-"since": "2026-10-11T21:41:18Z"
+"since": "2026-10-11T22:23:48Z"
 },
 "112": {
 "job": 1522,
@@ -5025,15 +5017,15 @@
 "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/683",
 "base": "gameplay/bug-list-1",
 "branch": "gameplay/train-league-2",
-"ci": "draft",
+"ci": "failed",
 "ci_sha": "cbe6e1d6fa81af02a81fdbbe8bacc3f93d50c781",
-"ci_total": 0,
-"ci_extra": 0,
-"draft": true,
-"state": "draft",
+"ci_total": 15,
+"ci_extra": 1,
+"draft": false,
+"state": "ci_failed",
 "pr_opened_at": "2026-10-11T21:41:27Z",
 "first_seen": "2026-10-11T05:11:44Z",
-"since": "2026-10-11T21:41:33Z"
+"since": "2026-10-11T22:23:48Z"
 },
 "114": {
 "job": 1523,
@@ -5061,15 +5053,15 @@
 "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/684",
 "base": "gameplay/bug-list-1",
 "branch": "gameplay/train-club-2",
-"ci": "draft",
-"ci_sha": "382e70639b28af8f8cac9cedeb1540b7aa824174",
-"ci_total": 0,
-"ci_extra": 0,
-"draft": true,
-"state": "draft",
+"ci": "failed",
+"ci_sha": "71c11b6a3724f87384c7dacb9388ccec01f19dd0",
+"ci_total": 15,
+"ci_extra": 1,
+"draft": false,
+"state": "ci_failed",
 "pr_opened_at": "2026-10-11T21:42:25Z",
 "first_seen": "2026-10-11T05:11:44Z",
-"since": "2026-10-11T21:43:03Z"
+"since": "2026-10-11T22:23:48Z"
 },
 "116": {
 "job": 1524,
@@ -5128,15 +5120,15 @@
 "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/685",
 "base": "gameplay/bug-list-1",
 "branch": "gameplay/train-season-final-2",
-"ci": "draft",
-"ci_sha": "e8864a6de39f047096c5f3473c522777296a22b3",
-"ci_total": 0,
-"ci_extra": 0,
-"draft": true,
-"state": "draft",
+"ci": "failed",
+"ci_sha": "a42e734be2c6cec9832f27ff28fb7415ecff19e2",
+"ci_total": 15,
+"ci_extra": 1,
+"draft": false,
+"state": "ci_failed",
 "pr_opened_at": "2026-10-11T22:05:16Z",
 "first_seen": "2026-10-11T02:42:07Z",
-"since": "2026-10-11T22:05:33Z"
+"since": "2026-10-11T22:23:48Z"
 },
 "120": {
 "job": 1526,
@@ -5195,15 +5187,15 @@
 "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/686",
 "base": "gameplay/bug-list-1",
 "branch": "gameplay/train-career-screens-2",
-"ci": "draft",
+"ci": "failed",
 "ci_sha": "e8ffdb2f05b45d6aef4c23fc4803fb51fc8f0508",
-"ci_total": 0,
-"ci_extra": 0,
-"draft": true,
-"state": "draft",
+"ci_total": 15,
+"ci_extra": 1,
+"draft": false,
+"state": "ci_failed",
 "pr_opened_at": "2026-10-11T22:06:52Z",
 "first_seen": "2026-10-11T04:03:15Z",
-"since": "2026-10-11T22:07:18Z"
+"since": "2026-10-11T22:23:48Z"
 },
 "124": {
 "job": 1528,
@@ -5231,15 +5223,15 @@
 "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/687",
 "base": "gameplay/bug-list-1",
 "branch": "gameplay/train-rules-settings-2",
-"ci": "draft",
+"ci": "failed",
 "ci_sha": "db2a45a34e0652ff7eb0c148bf9949a8cde483b2",
-"ci_total": 0,
-"ci_extra": 0,
-"draft": true,
-"state": "draft",
+"ci_total": 15,
+"ci_extra": 1,
+"draft": false,
+"state": "ci_failed",
 "pr_opened_at": "2026-10-11T22:08:06Z",
 "first_seen": "2026-10-11T02:42:07Z",
-"since": "2026-10-11T22:08:48Z"
+"since": "2026-10-11T22:23:48Z"
 },
 "126": {
 "job": 1529,
@@ -5267,15 +5259,15 @@
 "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/681",
 "base": "gameplay/bug-list-1",
 "branch": "gameplay/train-home-2",
-"ci": "draft",
+"ci": "failed",
 "ci_sha": "06dc18dbceaf88571224e44d7ad2186c0cb0df89",
-"ci_total": 0,
-"ci_extra": 0,
-"draft": true,
-"state": "draft",
+"ci_total": 15,
+"ci_extra": 1,
+"draft": false,
+"state": "ci_failed",
 "pr_opened_at": "2026-10-11T21:36:58Z",
 "first_seen": "2026-10-11T07:35:57Z",
-"since": "2026-10-11T21:38:18Z"
+"since": "2026-10-11T22:23:48Z"
 },
 "128": {
 "job": 1530,
@@ -5303,15 +5295,15 @@
 "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/682",
 "base": "gameplay/bug-list-1",
 "branch": "gameplay/train-start-join-2",
-"ci": "draft",
-"ci_sha": "5359ebdc66cbf49b167a0f8bd310a28e47c7774a",
-"ci_total": 0,
-"ci_extra": 0,
-"draft": true,
-"state": "draft",
+"ci": "failed",
+"ci_sha": "881de97b1980dbfcd54cd49468808e7925ad67e1",
+"ci_total": 15,
+"ci_extra": 1,
+"draft": false,
+"state": "ci_failed",
 "pr_opened_at": "2026-10-11T21:40:15Z",
 "first_seen": "2026-10-11T05:10:44Z",
-"since": "2026-10-11T21:41:18Z"
+"since": "2026-10-11T22:23:48Z"
 },
 "130": {
 "job": 1531,
@@ -5339,15 +5331,15 @@
 "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/683",
 "base": "gameplay/bug-list-1",
 "branch": "gameplay/train-league-2",
-"ci": "draft",
+"ci": "failed",
 "ci_sha": "cbe6e1d6fa81af02a81fdbbe8bacc3f93d50c781",
-"ci_total": 0,
-"ci_extra": 0,
-"draft": true,
-"state": "draft",
+"ci_total": 15,
+"ci_extra": 1,
+"draft": false,
+"state": "ci_failed",
 "pr_opened_at": "2026-10-11T21:41:27Z",
 "first_seen": "2026-10-11T07:37:27Z",
-"since": "2026-10-11T21:41:33Z"
+"since": "2026-10-11T22:23:48Z"
 },
 "132": {
 "job": 1532,
@@ -5375,15 +5367,15 @@
 "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/684",
 "base": "gameplay/bug-list-1",
 "branch": "gameplay/train-club-2",
-"ci": "draft",
-"ci_sha": "382e70639b28af8f8cac9cedeb1540b7aa824174",
-"ci_total": 0,
-"ci_extra": 0,
-"draft": true,
-"state": "draft",
+"ci": "failed",
+"ci_sha": "71c11b6a3724f87384c7dacb9388ccec01f19dd0",
+"ci_total": 15,
+"ci_extra": 1,
+"draft": false,
+"state": "ci_failed",
 "pr_opened_at": "2026-10-11T21:42:25Z",
 "first_seen": "2026-10-11T07:38:57Z",
-"since": "2026-10-11T21:43:03Z"
+"since": "2026-10-11T22:23:48Z"
 },
 "134": {
 "job": 1533,
@@ -5442,15 +5434,15 @@
 "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/685",
 "base": "gameplay/bug-list-1",
 "branch": "gameplay/train-season-final-2",
-"ci": "draft",
-"ci_sha": "e8864a6de39f047096c5f3473c522777296a22b3",
-"ci_total": 0,
-"ci_extra": 0,
-"draft": true,
-"state": "draft",
+"ci": "failed",
+"ci_sha": "a42e734be2c6cec9832f27ff28fb7415ecff19e2",
+"ci_total": 15,
+"ci_extra": 1,
+"draft": false,
+"state": "ci_failed",
 "pr_opened_at": "2026-10-11T22:05:16Z",
 "first_seen": "2026-10-11T03:54:22Z",
-"since": "2026-10-11T22:05:33Z"
+"since": "2026-10-11T22:23:48Z"
 },
 "138": {
 "job": 1535,
@@ -5509,15 +5501,15 @@
 "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/686",
 "base": "gameplay/bug-list-1",
 "branch": "gameplay/train-career-screens-2",
-"ci": "draft",
+"ci": "failed",
 "ci_sha": "e8ffdb2f05b45d6aef4c23fc4803fb51fc8f0508",
-"ci_total": 0,
-"ci_extra": 0,
-"draft": true,
-"state": "draft",
+"ci_total": 15,
+"ci_extra": 1,
+"draft": false,
+"state": "ci_failed",
 "pr_opened_at": "2026-10-11T22:06:52Z",
 "first_seen": "2026-10-11T05:09:44Z",
-"since": "2026-10-11T22:07:18Z"
+"since": "2026-10-11T22:23:48Z"
 },
 "142": {
 "job": 1537,
@@ -5545,15 +5537,15 @@
 "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/687",
 "base": "gameplay/bug-list-1",
 "branch": "gameplay/train-rules-settings-2",
-"ci": "draft",
+"ci": "failed",
 "ci_sha": "db2a45a34e0652ff7eb0c148bf9949a8cde483b2",
-"ci_total": 0,
-"ci_extra": 0,
-"draft": true,
-"state": "draft",
+"ci_total": 15,
+"ci_extra": 1,
+"draft": false,
+"state": "ci_failed",
 "pr_opened_at": "2026-10-11T22:08:06Z",
 "first_seen": "2026-10-11T05:08:44Z",
-"since": "2026-10-11T22:08:48Z"
+"since": "2026-10-11T22:23:48Z"
 },
 "144": {
 "job": 1538,
@@ -5581,15 +5573,15 @@
 "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/681",
 "base": "gameplay/bug-list-1",
 "branch": "gameplay/train-home-2",
-"ci": "draft",
+"ci": "failed",
 "ci_sha": "06dc18dbceaf88571224e44d7ad2186c0cb0df89",
-"ci_total": 0,
-"ci_extra": 0,
-"draft": true,
-"state": "draft",
+"ci_total": 15,
+"ci_extra": 1,
+"draft": false,
+"state": "ci_failed",
 "pr_opened_at": "2026-10-11T21:36:58Z",
 "first_seen": "2026-10-11T08:12:14Z",
-"since": "2026-10-11T21:38:18Z"
+"since": "2026-10-11T22:23:48Z"
 },
 "146": {
 "job": 1539,
@@ -5617,15 +5609,15 @@
 "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/682",
 "base": "gameplay/bug-list-1",
 "branch": "gameplay/train-start-join-2",
-"ci": "draft",
-"ci_sha": "5359ebdc66cbf49b167a0f8bd310a28e47c7774a",
-"ci_total": 0,
-"ci_extra": 0,
-"draft": true,
-"state": "draft",
+"ci": "failed",
+"ci_sha": "881de97b1980dbfcd54cd49468808e7925ad67e1",
+"ci_total": 15,
+"ci_extra": 1,
+"draft": false,
+"state": "ci_failed",
 "pr_opened_at": "2026-10-11T21:40:15Z",
 "first_seen": "2026-10-11T08:13:44Z",
-"since": "2026-10-11T21:41:18Z"
+"since": "2026-10-11T22:23:48Z"
 },
 "148": {
 "job": 1540,
@@ -5653,15 +5645,15 @@
 "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/683",
 "base": "gameplay/bug-list-1",
 "branch": "gameplay/train-league-2",
-"ci": "draft",
+"ci": "failed",
 "ci_sha": "cbe6e1d6fa81af02a81fdbbe8bacc3f93d50c781",
-"ci_total": 0,
-"ci_extra": 0,
-"draft": true,
-"state": "draft",
+"ci_total": 15,
+"ci_extra": 1,
+"draft": false,
+"state": "ci_failed",
 "pr_opened_at": "2026-10-11T21:41:27Z",
 "first_seen": "2026-10-11T08:15:14Z",
-"since": "2026-10-11T21:41:33Z"
+"since": "2026-10-11T22:23:48Z"
 },
 "150": {
 "job": 1541,
@@ -5689,15 +5681,15 @@
 "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/684",
 "base": "gameplay/bug-list-1",
 "branch": "gameplay/train-club-2",
-"ci": "draft",
-"ci_sha": "382e70639b28af8f8cac9cedeb1540b7aa824174",
-"ci_total": 0,
-"ci_extra": 0,
-"draft": true,
-"state": "draft",
+"ci": "failed",
+"ci_sha": "71c11b6a3724f87384c7dacb9388ccec01f19dd0",
+"ci_total": 15,
+"ci_extra": 1,
+"draft": false,
+"state": "ci_failed",
 "pr_opened_at": "2026-10-11T21:42:25Z",
 "first_seen": "2026-10-11T21:33:48Z",
-"since": "2026-10-11T21:43:03Z"
+"since": "2026-10-11T22:23:48Z"
 },
 "152": {
 "job": 1542,
@@ -5756,15 +5748,15 @@
 "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/685",
 "base": "gameplay/bug-list-1",
 "branch": "gameplay/train-season-final-2",
-"ci": "draft",
-"ci_sha": "e8864a6de39f047096c5f3473c522777296a22b3",
-"ci_total": 0,
-"ci_extra": 0,
-"draft": true,
-"state": "draft",
+"ci": "failed",
+"ci_sha": "a42e734be2c6cec9832f27ff28fb7415ecff19e2",
+"ci_total": 15,
+"ci_extra": 1,
+"draft": false,
+"state": "ci_failed",
 "pr_opened_at": "2026-10-11T22:05:16Z",
 "first_seen": "2026-10-11T04:03:15Z",
-"since": "2026-10-11T22:05:33Z"
+"since": "2026-10-11T22:23:48Z"
 },
 "156": {
 "job": 1544,
@@ -5823,15 +5815,15 @@
 "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/686",
 "base": "gameplay/bug-list-1",
 "branch": "gameplay/train-career-screens-2",
-"ci": "draft",
+"ci": "failed",
 "ci_sha": "e8ffdb2f05b45d6aef4c23fc4803fb51fc8f0508",
-"ci_total": 0,
-"ci_extra": 0,
-"draft": true,
-"state": "draft",
+"ci_total": 15,
+"ci_extra": 1,
+"draft": false,
+"state": "ci_failed",
 "pr_opened_at": "2026-10-11T22:06:52Z",
 "first_seen": "2026-10-11T21:35:18Z",
-"since": "2026-10-11T22:07:18Z"
+"since": "2026-10-11T22:23:48Z"
 },
 "160": {
 "job": 1546,
@@ -5859,15 +5851,15 @@
 "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/687",
 "base": "gameplay/bug-list-1",
 "branch": "gameplay/train-rules-settings-2",
-"ci": "draft",
+"ci": "failed",
 "ci_sha": "db2a45a34e0652ff7eb0c148bf9949a8cde483b2",
-"ci_total": 0,
-"ci_extra": 0,
-"draft": true,
-"state": "draft",
+"ci_total": 15,
+"ci_extra": 1,
+"draft": false,
+"state": "ci_failed",
 "pr_opened_at": "2026-10-11T22:08:06Z",
 "first_seen": "2026-10-11T05:12:44Z",
-"since": "2026-10-11T22:08:48Z"
+"since": "2026-10-11T22:23:48Z"
 },
 "162": {
 "job": 1547,
@@ -5895,15 +5887,15 @@
 "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/681",
 "base": "gameplay/bug-list-1",
 "branch": "gameplay/train-home-2",
-"ci": "draft",
+"ci": "failed",
 "ci_sha": "06dc18dbceaf88571224e44d7ad2186c0cb0df89",
-"ci_total": 0,
-"ci_extra": 0,
-"draft": true,
-"state": "draft",
+"ci_total": 15,
+"ci_extra": 1,
+"draft": false,
+"state": "ci_failed",
 "pr_opened_at": "2026-10-11T21:36:58Z",
 "first_seen": "2026-10-11T21:36:48Z",
-"since": "2026-10-11T21:38:18Z"
+"since": "2026-10-11T22:23:48Z"
 },
 "164": {
 "job": 1548,
@@ -5931,15 +5923,15 @@
 "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/682",
 "base": "gameplay/bug-list-1",
 "branch": "gameplay/train-start-join-2",
-"ci": "draft",
-"ci_sha": "5359ebdc66cbf49b167a0f8bd310a28e47c7774a",
-"ci_total": 0,
-"ci_extra": 0,
-"draft": true,
-"state": "draft",
+"ci": "failed",
+"ci_sha": "881de97b1980dbfcd54cd49468808e7925ad67e1",
+"ci_total": 15,
+"ci_extra": 1,
+"draft": false,
+"state": "ci_failed",
 "pr_opened_at": "2026-10-11T21:40:15Z",
 "first_seen": "2026-10-11T21:40:15Z",
-"since": "2026-10-11T21:41:18Z"
+"since": "2026-10-11T22:23:48Z"
 },
 "166": {
 "job": 1549,
@@ -5967,15 +5959,15 @@
 "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/683",
 "base": "gameplay/bug-list-1",
 "branch": "gameplay/train-league-2",
-"ci": "draft",
+"ci": "failed",
 "ci_sha": "cbe6e1d6fa81af02a81fdbbe8bacc3f93d50c781",
-"ci_total": 0,
-"ci_extra": 0,
-"draft": true,
-"state": "draft",
+"ci_total": 15,
+"ci_extra": 1,
+"draft": false,
+"state": "ci_failed",
 "pr_opened_at": "2026-10-11T21:41:27Z",
 "first_seen": "2026-10-11T21:41:27Z",
-"since": "2026-10-11T21:41:33Z"
+"since": "2026-10-11T22:23:48Z"
 },
 "168": {
 "job": 1550,
@@ -6003,15 +5995,15 @@
 "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/684",
 "base": "gameplay/bug-list-1",
 "branch": "gameplay/train-club-2",
-"ci": "draft",
-"ci_sha": "382e70639b28af8f8cac9cedeb1540b7aa824174",
-"ci_total": 0,
-"ci_extra": 0,
-"draft": true,
-"state": "draft",
+"ci": "failed",
+"ci_sha": "71c11b6a3724f87384c7dacb9388ccec01f19dd0",
+"ci_total": 15,
+"ci_extra": 1,
+"draft": false,
+"state": "ci_failed",
 "pr_opened_at": "2026-10-11T21:42:25Z",
 "first_seen": "2026-10-11T21:42:25Z",
-"since": "2026-10-11T21:43:03Z"
+"since": "2026-10-11T22:23:48Z"
 },
 "170": {
 "job": 1551,
@@ -6070,15 +6062,15 @@
 "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/685",
 "base": "gameplay/bug-list-1",
 "branch": "gameplay/train-season-final-2",
-"ci": "draft",
-"ci_sha": "e8864a6de39f047096c5f3473c522777296a22b3",
-"ci_total": 0,
-"ci_extra": 0,
-"draft": true,
-"state": "draft",
+"ci": "failed",
+"ci_sha": "a42e734be2c6cec9832f27ff28fb7415ecff19e2",
+"ci_total": 15,
+"ci_extra": 1,
+"draft": false,
+"state": "ci_failed",
 "pr_opened_at": "2026-10-11T22:05:16Z",
 "first_seen": "2026-10-11T22:05:16Z",
-"since": "2026-10-11T22:05:33Z"
+"since": "2026-10-11T22:23:48Z"
 },
 "174": {
 "job": 1553,
@@ -6137,15 +6129,15 @@
 "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/686",
 "base": "gameplay/bug-list-1",
 "branch": "gameplay/train-career-screens-2",
-"ci": "draft",
+"ci": "failed",
 "ci_sha": "e8ffdb2f05b45d6aef4c23fc4803fb51fc8f0508",
-"ci_total": 0,
-"ci_extra": 0,
-"draft": true,
-"state": "draft",
+"ci_total": 15,
+"ci_extra": 1,
+"draft": false,
+"state": "ci_failed",
 "pr_opened_at": "2026-10-11T22:06:52Z",
 "first_seen": "2026-10-11T22:06:52Z",
-"since": "2026-10-11T22:07:18Z"
+"since": "2026-10-11T22:23:48Z"
 },
 "178": {
 "job": 1555,
@@ -6173,15 +6165,15 @@
 "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/687",
 "base": "gameplay/bug-list-1",
 "branch": "gameplay/train-rules-settings-2",
-"ci": "draft",
+"ci": "failed",
 "ci_sha": "db2a45a34e0652ff7eb0c148bf9949a8cde483b2",
-"ci_total": 0,
-"ci_extra": 0,
-"draft": true,
-"state": "draft",
+"ci_total": 15,
+"ci_extra": 1,
+"draft": false,
+"state": "ci_failed",
 "pr_opened_at": "2026-10-11T22:08:06Z",
 "first_seen": "2026-10-11T22:08:06Z",
-"since": "2026-10-11T22:08:48Z"
+"since": "2026-10-11T22:23:48Z"
 },
 "180": {
 "job": 1556,
