@@ -1,0 +1,13 @@
+# JOB-1315 · Legacy phone C (compact)
+- Choice: one full-width selected archive card with in-place arrow paging, not a nested scrolling carousel.
+- Composition: original Legacy phone environment, Daniel foreground on left, Nik on right, original title artwork.
+- Navigation: LEGACY ARCHIVE → TROPHY ROOM → RECORDS, then selected card and pager; VIEW SEASON HISTORY stays below.
+- Hub navigation: HOME / CAREER / STANDINGS / STATS / RULES, with CAREER active on phone only.
+- Copy: labels from visual-assets/v10_1/legacy/strings.json and actions from legacy.js; not transcribed from mockup.
+- Showdown values in braces are dictionary or runtime placeholders, not invented scores, clubs, winners or archive counts.
+- Shield glyphs and league medallion are neutral original placeholders, never official crests or marks.
+- Static presentation only: buttons illustrate the original tap order and do not change state.
+- Responsive check: scene reserves the 56px phone tab bar; archive ends 56px above scene bottom, action is 42px tall.
+- At 375x553 the action occupies scene y=447–489, above the navigation beginning at y=497.
+- The approved PHONE_LEGACY image was located by SHA but its binary could not be rendered through the connector.
+- No live game code, frozen artwork, or production CSS is modified.
