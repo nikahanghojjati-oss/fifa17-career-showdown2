@@ -1,0 +1,11 @@
+# JOB-1371 · Phone A
+- Decision: preserve the desktop gold/black materials in the approved phone stack.
+- Existing phone portraits remain unmirrored: Daniel left, Nik right.
+- Existing stadium and title artwork are relative links; all CSS is inline, with no JavaScript.
+- CSS radios keep TOTALS, HEAD-TO-HEAD, SEASONS and TROPHIES in their live order.
+- Labels and interim copy come from the permitted live screen files; Club is the live fallback.
+- Values are illustrative static study data, not a connected save or a change to scoring.
+- Generic shields and the game's original trophy art replace licensed reference graphics.
+- STATS stays active; bottom navigation appears only at widths up to 900px.
+- Compact fixed lower stack reserves every comparison row, the main action and navigation.
+- Settings, back and navigation are presentation controls in this study.
