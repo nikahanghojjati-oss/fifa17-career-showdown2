@@ -1,5 +1,5 @@
 {
-"updated": "2026-10-11T07:55:27Z",
+"updated": "2026-10-11T07:56:57Z",
 "total": 518,
 "next_free": 145,
 "highest_taken": 403,
@@ -97,9 +97,9 @@
 179,
 189,
 240,
+246,
 268,
-296,
-324
+274
 ],
 "ready_sol": [
 145,
@@ -111,9 +111,9 @@
 179,
 189,
 240,
+246,
 268,
-296,
-324
+274
 ],
 "ready_codex": [],
 "ready_all": [
@@ -126,19 +126,23 @@
 179,
 189,
 240,
+246,
 268,
+274,
 296,
+302,
 324,
+330,
 352,
+358,
 400,
 411,
 428,
 456
 ],
-"ready_total": 17,
-"held_until_picture": 57,
+"ready_total": 22,
+"held_until_picture": 52,
 "held_by_picture": {
-"phone STANDINGS": 5,
 "desktop STATISTICS": 4,
 "desktop CLUB": 4,
 "desktop FINAL_WINNER": 4,
