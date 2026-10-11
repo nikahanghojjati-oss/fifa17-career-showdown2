@@ -1,5 +1,5 @@
 {
-"updated": "2026-10-11T04:29:57Z",
+"updated": "2026-10-11T04:31:18Z",
 "total": 518,
 "next_free": 91,
 "highest_taken": 395,
@@ -107,11 +107,29 @@
 403
 ],
 "ready_total": 8,
-"held_until_picture": 66
+"held_until_picture": 66,
+"held_by_picture": {
+"phone RULE_BOOK": 5,
+"phone STANDINGS": 5,
+"desktop STATISTICS": 4,
+"desktop CLUB": 4,
+"desktop FINAL_WINNER": 4,
+"desktop HOME": 4,
+"desktop LEAGUE": 4,
+"desktop LEGACY": 4,
+"desktop RIVALRY": 4,
+"desktop RULE_BOOK": 4,
+"desktop SEASON_RESULTS": 4,
+"desktop SETTINGS": 4,
+"desktop STANDINGS": 4,
+"desktop CONNECT_PLAYERS": 4,
+"desktop TRANSFER": 4,
+"desktop TROPHY_ROOM": 4
+}
 },
 "rate": {
 "claimed_last_hour": 34,
-"claimed_last_10min": 6,
+"claimed_last_10min": 5,
 "merged_last_hour": 15
 },
 "events": [
