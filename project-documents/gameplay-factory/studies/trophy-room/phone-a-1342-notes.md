@@ -1,0 +1,14 @@
+# JOB-1342 · Trophy Room phone A
+- Decision: keep the approved PHONE_TROPHY_ROOM two-row tabs and 2×2 cabinet.
+- Inspected both Team V reference pictures; their wording and results were not copied.
+- Text comes from careerScreensV10.js and the frozen trophy-room renderer.
+- Artwork uses existing Trophy Room environment, manager cutouts, title and shared original trophies.
+- Daniel stays left; Nik stays right.
+- Empty-career presentation: no wins, tied ranks, no records; no invented completed results.
+- ALL is the static default; category and BACK controls are presentation only, with no JavaScript.
+- MORE/CLOSE retains the live CSS checkbox interaction and career details.
+- Main navigation is visible through 900px; CAREER is active.
+- Short-height CSS retains all four cards, five tabs, BACK and MORE.
+- Runtime files and frozen visual assets are unchanged.
+- Re-read HTML; all asset paths resolve locally. CSS geometry fits 393×660, 360×640 and 375×553.
+- Browser rendering was unavailable: Chromium missing; installation download failed. Team V visual review required.
