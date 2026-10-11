@@ -409,3 +409,40 @@
     color: var(--gold); font: 700 12px/1 var(--cond); letter-spacing: .08em;
   }
 }
+
+/* JOB-1065: the 932x430 landscape Home range only. Keep touch controls
+   at 44px and fit all eleven soundtrack choices in one non-scrolling sheet. */
+@media (min-width: 910px) and (max-width: 960px) and (min-height: 415px) and (max-height: 450px) and (orientation: landscape) {
+  #mainMenu.v10Home { --land-strip-h: 50px; }
+  #app #topHeader #onlinePlayerIdentityBadge { min-height: 44px; }
+  #mainMenu.v10Home .menuMusicControl { min-width: 44px; height: 44px; }
+  #mainMenu.v10Home .phoneSheetToggle,
+  #mainMenu.v10Home .phoneTrackSheetOpen { height: 44px; }
+
+  /* Three 44px rows, two 6px gaps and 58px padding/borders = 202px.
+     A bottom-anchored sheet fits above the 28px footer at this height. */
+  #mainMenu.v10Home .phoneSheetToggle:checked ~ .menuMediaSelector {
+    position: fixed;
+    z-index: 52;
+    left: var(--gutter);
+    right: var(--gutter);
+    bottom: calc(var(--land-bot) + 10px);
+    grid-auto-rows: 44px;
+    padding: 48px 10px 8px;
+    max-height: none;
+    overflow: visible;
+    overscroll-behavior: auto;
+  }
+  #mainMenu.v10Home .phoneSheetToggle:checked ~ .menuMediaSelector .menuMediaChoice { min-height: 44px; }
+  #mainMenu.v10Home .phoneSheetToggle:checked ~ .phoneTrackSheetBackdrop {
+    position: fixed; z-index: 50; inset: 0; display: block;
+    cursor: pointer; background: rgba(0,0,0,.58);
+  }
+  #mainMenu.v10Home .phoneSheetToggle:checked ~ .phoneTrackSheetClose {
+    position: fixed; z-index: 53; right: calc(var(--gutter) + 10px);
+    bottom: calc(var(--land-bot) + 10px + 202px - 48px);
+    display: inline-flex; min-width: 44px; height: 44px;
+    align-items: center; justify-content: center; cursor: pointer;
+    color: var(--gold); font: 700 12px/1 var(--cond); letter-spacing: .08em;
+  }
+}
