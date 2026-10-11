@@ -1,0 +1,13 @@
+# JOB-1171 · Club sideways phone
+- Decision: landscape uses a 42% artwork column and a 58% control column.
+- Both managers remain together, Daniel left and Nik right; no image is mirrored or edited.
+- Existing Club artwork and exact live Watford/Everton SVG crests are reused.
+- Confirmation copy and visibility follow index.html and clubAssignment.js.
+- Landscape action is sticky within normal flow; its space is reserved so it cannot cover the note.
+- One document scroll surface; no nested scroll containers or hub tabs on this setup screen.
+- Portrait keeps the compact stacked layout with the full permanent-clubs sentence.
+- Chromium renders: 844x390, 667x375, 393x660, 360x640 and 375x553.
+- Every tested size fits without scroll, with note above action and all artwork loaded.
+- Main action ends 12px above the bottom in landscape and 10px at 375x553.
+- Re-read the edit and visually inspected 844x390; corrected the smaller-landscape sticky overlap.
+- Inline CSS only; no JavaScript, game wiring, scoring, rules or tap order changes.
