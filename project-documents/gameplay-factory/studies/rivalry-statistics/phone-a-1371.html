@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Rivalry Statistics · Phone A · JOB-1371</title>
+<style>
+:root{color-scheme:dark;--gold:#f3ce6a;--edge:#b89043;--muted:#d0c9bb;--black:#07090c}
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;background:var(--black)}
+body{font-family:"Arial Narrow","Liberation Sans Narrow",Arial,sans-serif;color:#f4eee0}
+button,label{font:inherit}button{cursor:pointer}button:focus-visible,label:focus-visible{outline:2px solid white;outline-offset:-4px}
+.phone{width:min(100%,480px);height:100svh;margin:auto;position:relative;display:flex;flex-direction:column;overflow:hidden;background:#07090c}
+.hero{position:relative;flex:1;min-height:0;overflow:hidden}
+.stadium{position:absolute;width:100%;height:100%;object-fit:cover;object-position:50% 32%;filter:brightness(.64)}
+.portrait{position:absolute;height:128%;width:auto;top:3%;object-fit:contain}
+.daniel{left:-2%}.nik{left:49%;top:0}
+.hero:after{content:"";position:absolute;inset:65% 0 0;background:linear-gradient(transparent,#07090c)}
+.settings{position:absolute;right:10px;top:8px;z-index:2;width:44px;height:44px;border:1px solid var(--edge);border-radius:50%;background:#0a0b0ee8;color:var(--gold)}
+.settings svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.8}
+.title{position:relative;margin:-6px 0 4px;text-align:center;flex:none}
+.crown{width:20px;height:13px;fill:var(--gold);display:block;margin:auto}
+.eyebrow{margin:4px 0 3px;font-size:8px;letter-spacing:.38em}
+.wordmark{display:block;width:88%;height:42px;object-fit:contain;margin:auto}
+.tagline{margin:2px 0 0;font-size:9px;letter-spacing:.32em}
+.interim{margin:4px 12px 0;font-size:10px;line-height:1.2;color:var(--muted)}
+.content{padding:0 10px 8px;flex:none;display:flex;flex-direction:column;gap:6px}
+.selector{position:absolute;width:1px;height:1px;opacity:0}
+.tabs{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--edge);background:linear-gradient(#17191b,#07080a);box-shadow:inset 0 0 0 2px #312b1b}
+.tabs label{display:grid;place-items:center;min-height:44px;font-size:11px;font-weight:700;border-right:1px solid #454033;cursor:pointer;text-align:center}
+.tabs label:last-child{border:0}
+#totals:checked~.tabs [for=totals],#head:checked~.tabs [for=head],#seasons:checked~.tabs [for=seasons],#trophies:checked~.tabs [for=trophies]{color:var(--gold);background:linear-gradient(#201c12,#12110d);box-shadow:inset 0 -3px var(--gold)}
+.selector:focus-visible~.tabs label{outline:1px solid #e8dbb5;outline-offset:-4px}
+.panel{height:208px;display:none;border:1px solid var(--edge);padding:7px 10px;background:linear-gradient(115deg,#17191bdd,#080b0ff2);box-shadow:inset 0 0 0 2px #322d20,0 2px 8px #0008}
+#totals:checked~.totals,#head:checked~.head,#seasons:checked~.seasons,#trophies:checked~.trophies{display:flex;flex-direction:column}
+.managers{display:grid;grid-template-columns:1fr 94px 1fr;align-items:center;height:37px;flex:none}
+.manager{display:flex;gap:6px;align-items:center;min-width:0}.manager.right{justify-content:flex-end;text-align:right}
+.shield{width:21px;height:27px;flex:none;fill:none;stroke:var(--gold);stroke-width:2}
+.manager strong{display:block;color:var(--gold);font-size:17px}.club{display:block;font-size:10px;text-transform:uppercase}
+.progress{text-align:center;font-size:8px;line-height:1.4;letter-spacing:.06em;color:var(--muted)}
+.rows{flex:1;display:grid;grid-template-rows:34px repeat(6,1fr);min-height:0}
+.row{display:grid;grid-template-columns:1fr 24px 1.7fr 1fr;align-items:center;border-top:1px solid #ffffff20;min-height:0}
+.value{font-size:17px;font-weight:700;text-align:center;font-variant-numeric:tabular-nums}
+.leader{color:var(--gold)}.icon{color:var(--gold);text-align:center;font-size:16px}
+.label{text-align:center;font-size:11px;color:var(--muted);white-space:nowrap}
+.row:first-child{background:linear-gradient(90deg,transparent,#dfb74a18,transparent)}
+.row:first-child .value{font-size:29px}.row:first-child .label{color:#f4eee0;font-size:10px;letter-spacing:.07em;text-transform:uppercase}
+.unavailable{font-size:11px;color:#e2d9c5}
+.panel h2{font-size:14px;color:var(--gold);margin:4px 0 10px;letter-spacing:.08em}
+.head-grid{display:grid;grid-template-columns:repeat(3,1fr);flex:1;align-items:center;text-align:center}
+.head-grid div+div{border-left:1px solid #ffffff26}.head-grid span{display:block;font-size:11px;color:var(--muted)}
+.head-grid strong{display:block;margin-top:12px;font-size:44px}
+table{border-collapse:collapse;width:100%;text-align:center;table-layout:fixed;font-size:12px}
+th,td{border:1px solid #ffffff24;padding:6px 1px}th{font-size:9px;color:var(--muted)}td:nth-child(2){color:var(--gold)}
+.trophy-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;align-items:center;flex:1;text-align:center}
+.trophy-grid img{width:100%;height:85px;object-fit:contain}.trophy-grid span{display:block;font-size:9px;line-height:1.15;min-height:23px}.trophy-grid b{font-size:10px;color:var(--gold)}
+.back{width:100%;height:44px;flex:none;border:1px solid #ffdf84;box-shadow:inset 0 0 0 2px #8d641e,0 0 10px #e3ae2422;background:linear-gradient(110deg,#b78321,#ffe79b 50%,#c18f2f);color:#100e08;font-size:15px;font-weight:800;letter-spacing:.07em}
+.nav{display:grid;grid-template-columns:repeat(5,1fr);height:calc(56px + env(safe-area-inset-bottom));padding-bottom:env(safe-area-inset-bottom);flex:none;border-top:1px solid var(--edge);background:linear-gradient(#17191c,#090b0e)}
+.nav button{color:#e4dccb;background:none;border:0;border-right:1px solid #ffffff0e;display:grid;place-content:center;gap:4px;font-size:10px;font-weight:700}
+.nav button[aria-current=page]{color:var(--gold);box-shadow:inset 0 3px var(--gold)}
+.nav svg{height:19px;width:21px;margin:auto;fill:none;stroke:currentColor;stroke-width:2;stroke-linejoin:round}
+@media(min-width:901px){.nav{display:none}}
+@media(max-height:600px){.wordmark{height:33px}.eyebrow{font-size:7px}.tagline{font-size:8px}.title{margin-top:-3px}.content{gap:4px;padding-bottom:6px}.hero .portrait{height:132%}}
+</style>
+</head>
+<body>
+<main class="phone" aria-label="Rivalry Statistics">
+<section class="hero" aria-label="Daniel and Nik">
+<img class="stadium" src="../../../../visual-assets/v10_1/rivalry-statistics/assets/ENV_RV_PHONE_V1.webp" alt="">
+<img class="portrait daniel" src="../../../../visual-assets/v10_1/rivalry-statistics/assets/OVL_RV_DANIEL_PHONE_V1.webp" alt="Daniel">
+<img class="portrait nik" src="../../../../visual-assets/v10_1/rivalry-statistics/assets/OVL_RV_NIK_PHONE_V1.webp" alt="Nik">
+<button class="settings" type="button" aria-label="Settings"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 3 6 0 1 3 3 1 2 5-2 5-3 1-1 3H9l-1-3-3-1-2-5 2-5 3-1Z"/><circle cx="12" cy="12" r="3"/></svg></button>
+</section>
+<header class="title">
+<svg class="crown" viewBox="0 0 24 16" aria-hidden="true"><path d="M2 14 0 3l7 5 5-8 5 8 7-5-2 11Z"/></svg>
+<p class="eyebrow">CAREER MODE SHOWDOWN 17</p>
+<h1 style="margin:0"><img class="wordmark" src="../../../../visual-assets/v10_1/rivalry-statistics/assets/TITLE_RV_V1_PHONE.webp" alt="Rivalry Statistics"></h1>
+<p class="tagline">TWO MANAGERS • ONE LEGACY</p>
+<p class="interim">Current Showdown only. Career history is not yet available.</p>
+</header>
+<!-- Static study data; CSS radios present the existing panels without JavaScript. -->
+<section class="content" aria-label="Rivalry comparison">
+<input class="selector" type="radio" name="view" id="totals" checked aria-label="Totals">
+<input class="selector" type="radio" name="view" id="head" aria-label="Head-to-head">
+<input class="selector" type="radio" name="view" id="seasons" aria-label="Seasons">
+<input class="selector" type="radio" name="view" id="trophies" aria-label="Trophies">
+<div class="tabs"><label for="totals">TOTALS</label><label for="head">HEAD-TO-HEAD</label><label for="seasons">SEASONS</label><label for="trophies">TROPHIES</label></div>
+<section class="panel totals" aria-label="Totals">
+<div class="managers">
+<div class="manager"><svg class="shield" viewBox="0 0 24 30" aria-hidden="true"><path d="M2 2h20v16c0 5-10 10-10 10S2 23 2 18Z"/></svg><div><strong>DANIEL</strong><span class="club">Club</span></div></div>
+<div class="progress">3 / 3 SEASONS COMPLETED</div>
+<div class="manager right"><div><strong>NIK</strong><span class="club">Club</span></div><svg class="shield" viewBox="0 0 24 30" aria-hidden="true"><path d="M2 2h20v16c0 5-10 10-10 10S2 23 2 18Z"/></svg></div>
+</div>
+<div class="rows">
+<div class="row"><span class="value leader">16</span><span class="icon" aria-hidden="true">◇</span><span class="label">Showdown Points</span><span class="value">8</span></div>
+<div class="row"><span class="value leader">2</span><span class="icon" aria-hidden="true">▦</span><span class="label">Season Wins</span><span class="value">1</span></div>
+<div class="row"><span class="value leader">5</span><span class="icon" aria-hidden="true">♛</span><span class="label">Total Trophies</span><span class="value">2</span></div>
+<div class="row"><span class="value">1</span><span class="icon" aria-hidden="true">✦</span><span class="label">Champions Leagues</span><span class="value">1</span></div>
+<div class="row"><span class="value leader">2</span><span class="icon" aria-hidden="true">⬡</span><span class="label">League Titles</span><span class="value">1</span></div>
+<div class="row"><span class="value leader">2</span><span class="icon" aria-hidden="true">♜</span><span class="label">Domestic Cups</span><span class="value">0</span></div>
+<div class="row"><span class="value unavailable">Unavailable</span><span class="icon" aria-hidden="true">⇄</span><span class="label">Transfer Signings</span><span class="value unavailable">Unavailable</span></div>
+</div>
+</section>
+<section class="panel head" aria-label="Head-to-head"><h2>HEAD-TO-HEAD</h2><div class="head-grid"><div><span>DANIEL WINS</span><strong class="leader">2</strong></div><div><span>NIK WINS</span><strong>1</strong></div><div><span>DRAWS</span><strong>0</strong></div></div></section>
+<section class="panel seasons" aria-label="Seasons"><h2>SEASONS</h2><table><thead><tr><th>SEASON</th><th>DANIEL</th><th>NIK</th><th>WINNER</th></tr></thead><tbody><tr><td>1</td><td>6</td><td>2</td><td>Daniel</td></tr><tr><td>2</td><td>7</td><td>2</td><td>Daniel</td></tr><tr><td>3</td><td>3</td><td>4</td><td>Nik</td></tr></tbody></table></section>
+<section class="panel trophies" aria-label="Trophies"><h2>TROPHIES</h2><div class="trophy-grid">
+<div><img src="../../../../visual-assets/v10_1/shared/trophies/TRO_SHOWDOWN_CHAMPION_V1_512.webp" alt=""><span>Showdown Champion</span><b>D 1 · N 0</b></div>
+<div><img src="../../../../visual-assets/v10_1/shared/trophies/TRO_LEAGUE_TITLE_V1_512.webp" alt=""><span>League Title</span><b>D 2 · N 1</b></div>
+<div><img src="../../../../visual-assets/v10_1/shared/trophies/TRO_DOMESTIC_CUP_V1_512.webp" alt=""><span>Domestic Cup</span><b>D 2 · N 0</b></div>
+<div><img src="../../../../visual-assets/v10_1/shared/trophies/TRO_CONTINENTAL_V1_512.webp" alt=""><span>Champions League</span><b>D 1 · N 1</b></div>
+</div></section>
+<button class="back" type="button">BACK TO SHOWDOWN HOME</button>
+</section>
+<nav class="nav" aria-label="Main navigation">
+<button type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m2 11 10-9 10 9M5 9v12h5v-7h4v7h5V9"/></svg>HOME</button>
+<button type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 2h10v7c0 7-10 7-10 0ZM7 4H3v4l5 4m9-8h4v4l-5 4M12 14v7M7 22h10"/></svg>CAREER</button>
+<button type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5h18M3 12h18M3 19h18"/></svg>STANDINGS</button>
+<button type="button" aria-current="page"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 21h19M5 18V9h3v9m3 0V3h3v15m3 0v-6h3v6"/></svg>STATS</button>
+<button type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 2h10l5 5v15H5ZM15 2v6h5M8 12h8M8 16h8"/></svg>RULES</button>
+</nav>
+</main>
+</body>
+</html>
