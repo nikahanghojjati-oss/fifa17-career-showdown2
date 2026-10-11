@@ -570,3 +570,70 @@
     min-height: 44px;
   }
 }
+/* JOB-1067: 1280x650 small-laptop Home. The 136px desktop dock leaves
+   too little room for Continue's copy next to its player; keep all seven
+   tiles readable and their artwork below (not over) the secondary labels.
+   The bounded width/height query leaves full desktop, tablet and phone alone. */
+@media (min-width: 1200px) and (max-width: 1350px) and (min-height: 620px) and (max-height: 690px) and (orientation: landscape) {
+  #mainMenu.v10Home .fifaMenuGrid > #continueCareer {
+    flex: 2.15 1 0;
+    padding: 9px 118px 9px 14px;
+    gap: 3px;
+  }
+  #mainMenu.v10Home #continueCareer .menuTileLabel {
+    font-size: 21px;
+    line-height: 1.04;
+  }
+  #mainMenu.v10Home #continueCareer .menuTileMeta {
+    font-size: 12px;
+    line-height: 1.15;
+    overflow-wrap: break-word;
+  }
+  #mainMenu.v10Home #continueCareer .tileArt,
+  #mainMenu.v10Home #continueCareer:disabled .tileArt {
+    top: 4px;
+    right: 7px;
+    bottom: auto;
+    width: auto;
+    height: calc(var(--tile-h) - 8px);
+  }
+  #mainMenu.v10Home .fifaMenuGrid > .menuTile:not(#continueCareer) {
+    min-width: 0;
+    padding: 10px 8px 8px 10px;
+    justify-content: flex-start;
+    gap: 3px;
+    overflow: hidden;
+  }
+  #mainMenu.v10Home .fifaMenuGrid > .menuTile:not(#continueCareer) .menuTileCode {
+    font-size: 10px;
+    letter-spacing: .12em;
+  }
+  #mainMenu.v10Home .fifaMenuGrid > .menuTile:not(#continueCareer) .menuTileLabel {
+    font-size: 16px;
+    line-height: 1.08;
+    overflow-wrap: normal;
+  }
+  #mainMenu.v10Home #newShowdown .tileArt,
+  #mainMenu.v10Home #legacyButton .tileArt,
+  #mainMenu.v10Home #careerStatisticsButton .tileArt,
+  #mainMenu.v10Home #homeTrophyRoomButton .tileArt,
+  #mainMenu.v10Home #ruleBookButton .tileArt,
+  #mainMenu.v10Home #settingsButton .tileArt {
+    top: 67px;
+    left: 7px;
+    right: 7px;
+    bottom: 6px;
+    width: calc(100% - 14px);
+    height: calc(100% - 73px);
+    object-position: right bottom;
+  }
+}
+@media (min-width: 1200px) and (max-width: 1350px) and (min-height: 620px) and (max-height: 690px) and (orientation: landscape) and (pointer: coarse) {
+  #mainMenu.v10Home .menuMusicControl {
+    min-width: 44px;
+    height: 44px;
+    padding-inline: 10px;
+  }
+  #app #topHeader #onlinePlayerIdentityBadge { min-height: 44px; }
+}
+
