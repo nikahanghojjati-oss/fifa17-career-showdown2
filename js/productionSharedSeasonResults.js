@@ -150,7 +150,7 @@
           const published=await provider.publishResult({...ctx.options,operationId:draft.operationId,baseRevision:draft.baseRevision,result:draft.result});
           if(published?.code==="SEASON_RESULTS_STALE_BASE_REVISION"&&attempt===0){current=pssrResultError(await provider.read(ctx.options),"Shared Season Results could not be refreshed before publishing.");if(!pssrContextMatches(request))return false;continue;}
           const result=pssrResultError(published,"Your shared Season Result could not be published.");if(!pssrContextMatches(request))return true;
-          view={...result,setup:ctx.setup.setup,rivalryId:ctx.setup.rivalryId};contextKey=request.key;draft=null;await pssrRefreshNow(request);return true;
+          view={...result,setup:ctx.setup.setup,rivalryId:ctx.setup.rivalryId};contextKey=request.key;draft=null;try{await pssrRefreshNow(request);}catch(_error){pssrRefresh().catch(()=>{});}return true;
         }
         return false;
       });
