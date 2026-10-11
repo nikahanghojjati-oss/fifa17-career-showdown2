@@ -1,14 +1,14 @@
 {
-"updated": "2026-10-11T05:11:44Z",
+"updated": "2026-10-11T05:12:44Z",
 "total": 518,
 "next_free": 127,
-"highest_taken": 395,
+"highest_taken": 403,
 "counts": {
 "merged": 25,
 "draft": 166,
 "closed": 51,
-"on_train": 19,
-"waiting": 257
+"on_train": 21,
+"waiting": 255
 },
 "stages": {
 "2": {
@@ -17,9 +17,9 @@
 "states": {
 "merged": 25,
 "closed": 39,
-"on_train": 19,
+"on_train": 21,
 "draft": 5,
-"waiting": 178
+"waiting": 176
 }
 },
 "1": {
@@ -80,7 +80,9 @@
 137,
 141,
 143,
-155
+155,
+161,
+403
 ],
 "draft_code_prs": 1,
 "area_locks": {
@@ -92,9 +94,9 @@
 133,
 147,
 159,
-161,
 173,
-403
+179,
+411
 ],
 "ready_sol": [
 127,
@@ -102,9 +104,9 @@
 133,
 147,
 159,
-161,
 173,
-403
+179,
+411
 ],
 "ready_codex": [],
 "ready_all": [
@@ -113,9 +115,9 @@
 133,
 147,
 159,
-161,
 173,
-403
+179,
+411
 ],
 "ready_total": 8,
 "held_until_picture": 66,
@@ -139,25 +141,11 @@
 }
 },
 "rate": {
-"claimed_last_hour": 34,
-"claimed_last_10min": 9,
+"claimed_last_hour": 36,
+"claimed_last_10min": 11,
 "merged_last_hour": 0
 },
 "events": [
-{
-"at": "2026-10-10T19:54:19Z",
-"item": 194,
-"job": 1563,
-"from": "waiting",
-"to": "draft"
-},
-{
-"at": "2026-10-10T19:54:19Z",
-"item": 196,
-"job": 1564,
-"from": "waiting",
-"to": "draft"
-},
 {
 "at": "2026-10-10T19:54:19Z",
 "item": 198,
@@ -2241,6 +2229,20 @@
 "at": "2026-10-11T05:11:44Z",
 "item": 115,
 "job": 1154,
+"from": "waiting",
+"to": "on_train"
+},
+{
+"at": "2026-10-11T05:12:44Z",
+"item": 161,
+"job": 1417,
+"from": "waiting",
+"to": "on_train"
+},
+{
+"at": "2026-10-11T05:12:44Z",
+"item": 403,
+"job": 1356,
 "from": "waiting",
 "to": "on_train"
 }
@@ -4973,8 +4975,10 @@
 "title": "Rule Book: fix the 1920x1080 view",
 "mode": "code",
 "group": "rules-settings",
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"state": "on_train",
+"branch": "gameplay/train-rules-settings-2",
+"first_seen": "2026-10-11T05:12:44Z",
+"since": "2026-10-11T05:12:44Z"
 },
 "162": {
 "job": 1547,
@@ -8215,8 +8219,10 @@
 "title": "Rivalry Statistics: fix the 768x1024 view",
 "mode": "code",
 "group": "rivalry-legacy",
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"state": "on_train",
+"branch": "gameplay/train-rivalry-legacy-6",
+"first_seen": "2026-10-11T05:12:44Z",
+"since": "2026-10-11T05:12:44Z"
 },
 "404": {
 "job": 1319,
