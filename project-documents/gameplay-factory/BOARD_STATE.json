@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-11 7:53 AM Boston time (EDT)",
+ "generated": "2026-10-11 8:04 AM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 94,
@@ -869,8 +869,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "669f251",
-  "head_boston": "Sun 11 Oct 2:46 AM",
+  "head": "71e72c3",
+  "head_boston": "Sun 11 Oct 7:59 AM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -1331,7 +1331,7 @@
  ],
  "now": {
   "moving": 43,
-  "next": 53,
+  "next": 54,
   "nik": 2,
   "later": 7,
   "rows": {
@@ -2377,6 +2377,19 @@
       "place": "ChatGPT chat (GPT-6 Sol, GitHub connector), type the number",
       "note": "ticket jobs/JOB-1645.md; area rules-settings, train rules-settings-p1, item 1 of 1; polish only (spacing, alignment, text fit, tap feedback); waits for the area's open wiring train to merge or close; Claude browser-checks and merges",
       "prompt": "1645"
+     },
+     {
+      "id": "1646",
+      "title": "Wire Team V study 1086: Home (desktop polish)",
+      "lane": "work",
+      "team": "green",
+      "model": "GPT Sol 6.1",
+      "effort": "High",
+      "state": "ready for Work mode",
+      "order": 94,
+      "place": "ChatGPT Work mode (Sol 6.1), type one number at a time, in order",
+      "note": "ticket jobs/JOB-1646.md; area home, train home-w2, item 3 of 3; picture job: Work mode can open the approved PNG (NEXT_HOME.png on factory/v1-wtt5ye), so it goes to Work mode, not GPT chat or Claude; Claude browser-checks and merges",
+      "prompt": "1646"
      }
     ],
     "later": [

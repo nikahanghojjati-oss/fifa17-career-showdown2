@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Sun 11 Oct, 7:53 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Sun 11 Oct, 8:04 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r70** (main `c8810b8`, Sun 11 Oct 12:28 AM)
 
@@ -418,7 +418,17 @@ Paste this:
 1645
 ```
 
-**#40 · 1591** `G` Home soundtrack: swap to Nik's Audius top 10  
+**#40 · 1646** `G` Wire Team V study 1086: Home (desktop polish)  
+`░░░░░░░░░░` **0.0000 %**  
+🟢 Team green · **GPT Sol 6.1** · High effort · ChatGPT Work mode (Sol 6.1), type one number at a time, in order
+
+Paste this:
+
+```text
+1646
+```
+
+**#41 · 1591** `G` Home soundtrack: swap to Nik's Audius top 10  
 `░░░░░░░░░░` **0.0000 %**  
 🟣 Team purple · model not set · Claude lane: Opus Medium for the change, Sonnet for the live listen and browser check: type 'Job 1591'
 
@@ -455,8 +465,8 @@ Job 1591
 ## Goals, in this order
 
 **1. Finish the remaining bugs** `now`  
-`███████░░░` **67.3759 %**  
-Numbered jobs: 67 done, 46 other open · Olympiad recheck: 23 of 23 settled, 0 still to fix · Sol's old leads: 0 open (0 real, 0 unsure)
+`███████░░░` **66.9014 %**  
+Numbered jobs: 67 done, 47 other open · Olympiad recheck: 23 of 23 settled, 0 still to fix · Sol's old leads: 0 open (0 real, 0 unsure)
 
 **2. Visual fixes** `after stage 1`  
 `██████░░░░` **56.0000 %**  
@@ -545,7 +555,7 @@ Open code PRs: 0/8.
 
 ## Mega tracker (live, free)
 
-Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/index.html) · summary: [mega/MEGA_TRACKER.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/MEGA_TRACKER.md) · rebuilt by the poller each round, updated 2026-10-11T11:51:56Z.
+Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/index.html) · summary: [mega/MEGA_TRACKER.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/MEGA_TRACKER.md) · rebuilt by the poller each round, updated 2026-10-11T12:04:14Z.
 
 | Stage | Done (merged or live) | In progress | Waiting |
 | --- | --- | --- | --- |
@@ -553,7 +563,7 @@ Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-caree
 | Screen fixes | 25 of 266 | 71 | 170 |
 | Match desktop to mockups | 0 of 14 | 1 | 13 |
 | Phone mockup studies | 23 of 70 | 37 | 10 |
-| Improved desktop studies | 0 of 56 | 1 | 55 |
+| Improved desktop studies | 1 of 56 | 0 | 55 |
 
 **Open train PRs**
 
