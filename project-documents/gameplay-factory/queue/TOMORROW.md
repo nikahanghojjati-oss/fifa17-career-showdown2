@@ -142,3 +142,7 @@ Home desktop studies:
 <!-- released:end -->
 
 Studies (phone and desktop mockups) are on hold until Team V approves each screen's picture, so only the released ones are listed here (see the lists above); the board's Type now list will add them when they are released. The board's Type now list keeps the next numbers; [RUN_REPORT.md](RUN_REPORT.md) is what Claude reads when you are back.
+
+
+## ChatGPT chat batches
+Type up to 3 numbers in one message (see BATCHES.md). Same screen area only when they are consecutive items of one train. Update the project box from INSTRUCTIONS.md first.

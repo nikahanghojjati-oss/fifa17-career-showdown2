@@ -7,10 +7,17 @@ Picture-free numbers only. Work mode (Sol 6.1) and Codex stay one number per mes
 
 Snapshot from QUEUE_STATE ready list (the tracker page shows the live ones):
 
-| Chat | Type |
-| --- | --- |
-| 1 | 127 131 133 |
-| 2 | 147 159 173 |
-| 3 | 179 189 1641 |
+| Chat | Account | Type |
+| --- | --- | --- |
+| 1 | odd | 127 131 133 |
+| 2 | even | 147 159 173 |
+| 3 | odd | 179 189 1641 |
 
 Polish wave numbers (1637-1645) join the batches only after their area's wiring train has merged.
+
+## Batch log (clean = no failed or blocked status)
+
+Batch size now: 3. Clean batches in a row: 0 of 10 (then 5 per batch). Any failed or blocked batch resets the count.
+
+| Batch | Result |
+| --- | --- |
