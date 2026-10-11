@@ -1,14 +1,14 @@
 {
-"updated": "2026-10-11T04:57:32Z",
+"updated": "2026-10-11T04:59:32Z",
 "total": 518,
-"next_free": 91,
+"next_free": 95,
 "highest_taken": 395,
 "counts": {
 "merged": 25,
 "draft": 166,
 "closed": 51,
-"waiting": 267,
-"on_train": 9
+"on_train": 10,
+"waiting": 266
 },
 "stages": {
 "2": {
@@ -17,8 +17,8 @@
 "states": {
 "merged": 25,
 "closed": 39,
-"waiting": 188,
-"on_train": 9,
+"on_train": 10,
+"waiting": 187,
 "draft": 5
 }
 },
@@ -62,6 +62,7 @@
 661
 ],
 "on_train_no_pr": [
+91,
 93,
 101,
 105,
@@ -77,9 +78,9 @@
 "transfer": 661
 },
 "ready": [
-91,
 95,
 97,
+109,
 111,
 141,
 143,
@@ -87,9 +88,9 @@
 403
 ],
 "ready_sol": [
-91,
 95,
 97,
+109,
 111,
 141,
 143,
@@ -98,9 +99,9 @@
 ],
 "ready_codex": [],
 "ready_all": [
-91,
 95,
 97,
+109,
 111,
 141,
 143,
@@ -129,18 +130,11 @@
 }
 },
 "rate": {
-"claimed_last_hour": 28,
-"claimed_last_10min": 1,
+"claimed_last_hour": 29,
+"claimed_last_10min": 2,
 "merged_last_hour": 15
 },
 "events": [
-{
-"at": "2026-10-10T19:54:19Z",
-"item": 175,
-"job": 1302,
-"from": "waiting",
-"to": "draft"
-},
 {
 "at": "2026-10-10T19:54:19Z",
 "item": 178,
@@ -2233,6 +2227,13 @@
 "job": 1095,
 "from": "waiting",
 "to": "on_train"
+},
+{
+"at": "2026-10-11T04:59:32Z",
+"item": 91,
+"job": 1066,
+"from": "waiting",
+"to": "on_train"
 }
 ],
 "items": {
@@ -3842,8 +3843,10 @@
 "title": "Home: fix the 768x1024 view",
 "mode": "code",
 "group": "home",
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"state": "on_train",
+"branch": "gameplay/train-home-2",
+"first_seen": "2026-10-11T04:59:32Z",
+"since": "2026-10-11T04:59:32Z"
 },
 "92": {
 "job": 1512,
