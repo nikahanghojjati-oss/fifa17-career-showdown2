@@ -1,9 +1,9 @@
-# Mega factory tracker · updated 2026-10-11T04:08:57Z
+# Mega factory tracker · updated 2026-10-11T04:11:57Z
 
 **Type now (27 free):** 91, 93, 95, 97, 99, 141, 143, 173, 230, 236, 244, 252, 258, 264, 272, 280, 300, 308, 314, 320, 328, 336, 342, 348, 356, 364, 403
 **Next free number:** 91 · **highest taken:** 395 of 518
 **Code PRs open:** 0 of 8 · area locks: none
-**Rate:** 4 claimed in 10 min · 15 in 1 h · 25 merged in 1 h
+**Rate:** 4 claimed in 10 min · 12 in 1 h · 25 merged in 1 h
 
 **Finished (merged or live): 25 of 518**
 
