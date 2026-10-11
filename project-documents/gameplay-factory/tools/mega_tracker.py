@@ -367,6 +367,7 @@ def run_round(a, ctx):
     lanes = {n: {"name": LANE_NAMES[n], "total": 0, "states": {}, "reviews": {"ok": 0, "ok_notes": 0, "needs_changes": 0}} for n in LANE_ORDER}
     def add_unit(lane, state, pr=None, mode=None):
         if state == "old_main": return
+        if state == "closed" and mode == "study": state = "no_pr"   # studies the lead did not adopt are finished, not failures
         if state in LEAD_STATES and mode == "study": state = "wait_v"
         elif state in LEAD_STATES and mode == "audit": state = "audit_batch"
         L = lanes[lane]; L["total"] += 1; L["states"][state] = L["states"].get(state, 0) + 1
