@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Sat 10 Oct, 11:45 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Sat 10 Oct, 11:50 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r69** (main `f335734`, Sat 10 Oct 3:50 PM)
 
@@ -18,7 +18,7 @@ Updated Sat 10 Oct, 11:45 PM Boston time. Bug hunting only, no new features unti
 
 **#1 · 1581** `G` Showdown Gate: split the slowest lane and cache downloads  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · **Codex default coding model** · High effort · worker working, draft PR #618 · CI 7 of 8 passed · last move 40 min ago
+⚪ Team white · **Codex default coding model** · High effort · worker working, draft PR #618 · CI 7 of 8 passed · last move 44 min ago
 
 ### 👉 Next for you, in this order
 
@@ -44,6 +44,16 @@ Paste this:
 1590
 ```
 
+**#3 · 1591** `G` Home soundtrack: swap to Nik's Audius top 10 (PARKED)  
+`░░░░░░░░░░` **0.0000 %**  
+🟣 Team purple · model not set · Claude lane: Opus Medium for the change, Sonnet for the live listen and browser check: type 'Job 1591'
+
+Type this in Claude lane: Opus Medium for the change, Sonnet for the live listen and browser check:
+
+```text
+Job 1591
+```
+
 ### ⏸ Waiting on something else
 
 **#1 · 1582** `G` Showdown Gate: screen shots of changed screens as a run artifact  
@@ -59,8 +69,8 @@ Paste this:
 ## Goals, in this order
 
 **1. Finish the remaining bugs** `now`  
-`██████████` **95.5056 %**  
-Numbered jobs: 57 done, 4 other open · Olympiad recheck: 23 of 23 settled, 0 still to fix · Sol's old leads: 0 open (0 real, 0 unsure)
+`█████████░` **94.4444 %**  
+Numbered jobs: 57 done, 5 other open · Olympiad recheck: 23 of 23 settled, 0 still to fix · Sol's old leads: 0 open (0 real, 0 unsure)
 
 **2. Visual fixes** `after stage 1`  
 `██████░░░░` **56.0000 %**  
