@@ -1,15 +1,15 @@
 {
-"updated": "2026-10-11T04:14:57Z",
+"updated": "2026-10-11T04:15:57Z",
 "total": 518,
 "next_free": 91,
 "highest_taken": 395,
 "counts": {
 "merged": 25,
-"draft": 138,
+"draft": 139,
 "closed": 51,
-"waiting": 286,
+"waiting": 281,
 "on_train": 8,
-"blocked": 10
+"blocked": 14
 },
 "stages": {
 "2": {
@@ -41,10 +41,10 @@
 "name": "Phone mockup studies",
 "total": 70,
 "states": {
-"draft": 26,
+"draft": 27,
 "closed": 11,
-"waiting": 23,
-"blocked": 10
+"blocked": 14,
+"waiting": 18
 }
 },
 "5": {
@@ -81,10 +81,10 @@
 141,
 143,
 173,
-230,
 252,
 258,
-272
+280,
+308
 ],
 "ready_sol": [
 91,
@@ -95,10 +95,10 @@
 141,
 143,
 173,
-230,
 252,
 258,
-272
+280,
+308
 ],
 "ready_codex": [],
 "ready_all": [
@@ -110,65 +110,25 @@
 141,
 143,
 173,
-230,
 252,
 258,
-272,
 280,
-300,
 308,
 314,
-328,
 336,
 342,
-356,
 364,
 403
 ],
-"ready_total": 22,
+"ready_total": 17,
 "held_until_picture": 66
 },
 "rate": {
-"claimed_last_hour": 17,
-"claimed_last_10min": 6,
+"claimed_last_hour": 21,
+"claimed_last_10min": 11,
 "merged_last_hour": 25
 },
 "events": [
-{
-"at": "2026-10-10T17:35:07Z",
-"item": 42,
-"job": 1487,
-"from": "waiting",
-"to": "draft"
-},
-{
-"at": "2026-10-10T19:48:24Z",
-"item": 43,
-"job": 1150,
-"from": "waiting",
-"to": "on_train"
-},
-{
-"at": "2026-10-10T19:48:24Z",
-"item": 126,
-"job": 1529,
-"from": "waiting",
-"to": "draft"
-},
-{
-"at": "2026-10-10T19:48:24Z",
-"item": 128,
-"job": 1530,
-"from": "waiting",
-"to": "draft"
-},
-{
-"at": "2026-10-10T19:48:24Z",
-"item": 130,
-"job": 1531,
-"from": "waiting",
-"to": "draft"
-},
 {
 "at": "2026-10-10T19:48:24Z",
 "item": 132,
@@ -2231,6 +2191,41 @@
 "at": "2026-10-11T04:14:57Z",
 "item": 348,
 "job": 1317,
+"from": "waiting",
+"to": "blocked"
+},
+{
+"at": "2026-10-11T04:15:57Z",
+"item": 230,
+"job": 1284,
+"from": "waiting",
+"to": "draft"
+},
+{
+"at": "2026-10-11T04:15:57Z",
+"item": 272,
+"job": 1459,
+"from": "waiting",
+"to": "blocked"
+},
+{
+"at": "2026-10-11T04:15:57Z",
+"item": 300,
+"job": 1460,
+"from": "waiting",
+"to": "blocked"
+},
+{
+"at": "2026-10-11T04:15:57Z",
+"item": 328,
+"job": 1461,
+"from": "waiting",
+"to": "blocked"
+},
+{
+"at": "2026-10-11T04:15:57Z",
+"item": 356,
+"job": 1462,
 "from": "waiting",
 "to": "blocked"
 }
@@ -5911,8 +5906,19 @@
 "title": "Final Winner (Showdown Champion): phone mockup, version A (faithful)",
 "mode": "study",
 "group": null,
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"pr": 634,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/634",
+"base": "study/mega-queue",
+"branch": "study/job-1284-phone-a",
+"ci": "draft",
+"ci_sha": "9ac178eded68cd107231911f1369a427fe02dc0d",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-11T04:15:58Z",
+"first_seen": "2026-10-11T04:15:58Z",
+"since": "2026-10-11T04:15:57Z"
 },
 "231": {
 "job": 1334,
@@ -6406,8 +6412,10 @@
 "title": "Settings: phone mockup, version B (bold hierarchy)",
 "mode": "study",
 "group": null,
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"state": "blocked",
+"branch": "study/job-1459-blocked",
+"first_seen": "2026-10-11T04:15:57Z",
+"since": "2026-10-11T04:15:57Z"
 },
 "273": {
 "job": 1105,
@@ -6750,8 +6758,10 @@
 "title": "Settings: phone mockup, version C (compact)",
 "mode": "study",
 "group": null,
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"state": "blocked",
+"branch": "study/job-1460-blocked",
+"first_seen": "2026-10-11T04:15:57Z",
+"since": "2026-10-11T04:15:57Z"
 },
 "301": {
 "job": 1309,
@@ -7090,8 +7100,10 @@
 "title": "Settings: sideways phone study",
 "mode": "study",
 "group": null,
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"state": "blocked",
+"branch": "study/job-1461-blocked",
+"first_seen": "2026-10-11T04:15:57Z",
+"since": "2026-10-11T04:15:57Z"
 },
 "329": {
 "job": 1137,
@@ -7425,8 +7437,10 @@
 "title": "Settings: upright tablet study",
 "mode": "study",
 "group": null,
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"state": "blocked",
+"branch": "study/job-1462-blocked",
+"first_seen": "2026-10-11T04:15:57Z",
+"since": "2026-10-11T04:15:57Z"
 },
 "357": {
 "job": 1341,
