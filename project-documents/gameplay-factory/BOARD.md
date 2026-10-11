@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Sun 11 Oct, 6:27 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Sun 11 Oct, 6:39 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r70** (main `c8810b8`, Sun 11 Oct 12:28 AM)
 
@@ -21,16 +21,20 @@ Updated Sun 11 Oct, 6:27 PM Boston time. Bug hunting only, no new features until
 🟢 Team green · model not set · worker says done, no PR yet
 
 **#2 · 1647** `G` Loading screen: wire the approved PHONE_LOADING and NEXT_LOADING pictures  
-`███████░░░` **74.6667 %**  
-⚪ Team white · model not set · worker done, PR #689 open, CI running · CI 7 of 15 passed · last move 3 min ago
+`████████░░` **77.3333 %**  
+⚪ Team white · model not set · worker done, PR #689 open, CI running · CI 11 of 15 passed · last move 1 min ago
 
 **#3 · 1648** `G` Old CSS: which old sheets and selectors are still live (report only)  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #690 · CI 7 of 8 passed · last move 8 min ago
+⚪ Team white · model not set · worker working, draft PR #690 · CI 7 of 8 passed · last move 19 min ago
 
-**#4 · 1652** `G` Settings › Motion: add a FULL MOTION choice  
+**#4 · 1651** `G` Flash guard: cover Season Results, Final Winner and Rivalry, and time tap feedback  
 `████░░░░░░` **40.0000 %**  
-🔵 Team blue · model not set · worker working, draft PR #691 · CI 7 of 8 passed · last move 6 min ago
+⚪ Team white · model not set · worker working, draft PR #692 · CI 7 of 8 passed · last move 4 min ago
+
+**#5 · 1652** `G` Settings › Motion: add a FULL MOTION choice  
+`████░░░░░░` **40.0000 %**  
+🔵 Team blue · model not set · worker working, draft PR #691 · CI 7 of 8 passed · last move 17 min ago
 
 ### 👉 Next for you, in this order
 
@@ -466,17 +470,7 @@ New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
 Job 1650
 ```
 
-**#44 · 1651** `G` Flash guard: cover Season Results, Final Winner and Rivalry, and time tap feedback  
-`░░░░░░░░░░` **0.0000 %**  
-⚪ Team white · model not set · Codex cloud: type 'Job 1651'
-
-Type this in Codex cloud:
-
-```text
-Job 1651
-```
-
-**#45 · 1653** `G` Reduced motion: stop the remaining Club script fades  
+**#44 · 1653** `G` Reduced motion: stop the remaining Club script fades  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · model not set · Codex cloud: type 'Job 1653'
 
