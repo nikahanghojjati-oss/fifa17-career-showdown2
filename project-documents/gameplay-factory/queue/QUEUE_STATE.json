@@ -1,11 +1,11 @@
 {
  "sequence": {
   "ready": [
-   145,
-   147,
-   149,
    151,
    159,
+   163,
+   165,
+   167,
    173,
    179,
    189,
@@ -15,11 +15,11 @@
    274
   ],
   "ready_sol": [
-   145,
-   147,
-   149,
    151,
    159,
+   163,
+   165,
+   167,
    173,
    179,
    189,
@@ -32,7 +32,7 @@
   "held_until_picture": 48,
   "open_code_prs": 0,
   "open_train_prs": 0,
-  "next_free": 145,
+  "next_free": 151,
   "highest_taken": 403,
   "total": 518,
   "states": {
@@ -180,11 +180,11 @@
    "142": "merged",
    "143": "on_train",
    "144": "merged",
-   "145": "waiting",
+   "145": "on_train",
    "146": "merged",
-   "147": "waiting",
+   "147": "on_train",
    "148": "merged",
-   "149": "waiting",
+   "149": "on_train",
    "150": "merged",
    "151": "waiting",
    "152": "merged",
@@ -556,18 +556,18 @@
    "518": "waiting"
   }
  },
- "updated": "2026-10-11T08:10:23Z",
+ "updated": "2026-10-11T08:43:42Z",
  "counts": {
   "merged": 160,
-  "on_train": 24,
-  "waiting": 251,
+  "on_train": 27,
+  "waiting": 248,
   "closed": 82,
   "pr_open": 1
  },
  "stages": {
   "2": {
    "total": 266,
-   "taken": 93,
+   "taken": 96,
    "merged": 25
   },
   "3": {
@@ -616,7 +616,8 @@
    "done": [
     "1066",
     "1067",
-    "1068"
+    "1068",
+    "1069"
    ],
    "pr": null,
    "state": null
@@ -668,7 +669,8 @@
    "done": [
     "1095",
     "1096",
-    "1097"
+    "1097",
+    "1098"
    ],
    "pr": null,
    "state": null
@@ -720,7 +722,8 @@
    "done": [
     "1124",
     "1125",
-    "1126"
+    "1126",
+    "1127"
    ],
    "pr": null,
    "state": null
@@ -1407,7 +1410,7 @@
    "branch": "gameplay/train-home-2"
   },
   "1069": {
-   "state": "waiting",
+   "state": "on_train",
    "pr": null,
    "draft": false,
    "pr_url": null,
@@ -1610,7 +1613,7 @@
    "branch": "gameplay/train-start-join-2"
   },
   "1098": {
-   "state": "waiting",
+   "state": "on_train",
    "pr": null,
    "draft": false,
    "pr_url": null,
@@ -1813,7 +1816,7 @@
    "branch": "gameplay/train-league-2"
   },
   "1127": {
-   "state": "waiting",
+   "state": "on_train",
    "pr": null,
    "draft": false,
    "pr_url": null,
