@@ -6,18 +6,18 @@
 <style>
 :root{color-scheme:dark;--gold:#f5c94e;--ink:#090a0c;--line:#b89238}
 *{box-sizing:border-box}body{margin:0;background:#050506;color:#eee5ce;font-family:"Arial Narrow",Arial,sans-serif}
-.phone{isolation:isolate;position:relative;margin:auto;width:min(100%,430px);height:100dvh;max-height:900px;display:grid;grid-template-rows:54px minmax(0,1fr) 84px 44px 112px 96px 56px;gap:6px;padding:6px 12px 0;overflow:hidden;background:#0b0b0b}
+.phone{isolation:isolate;position:relative;margin:auto;width:min(100%,430px);height:100dvh;max-height:900px;display:grid;grid-template-rows:54px minmax(0,1fr) 100px 44px 112px 96px 56px;gap:6px;padding:6px 12px 0;overflow:hidden;background:#0b0b0b}
 .phone:before{content:"";position:absolute;inset:0;z-index:-2;background:linear-gradient(0deg,#08090b 4%,transparent 85%),url('../../../../visual-assets/v10_1/career-statistics/assets/ENV_CS_PHONE_V1.webp') center/cover}
 header{text-align:center;z-index:2;display:grid;align-content:center;gap:6px}
 h1{margin:0}h1 img{display:block;width:100%;height:auto;max-height:36px;object-fit:contain}
 .tagline{margin:0;font-size:8px;letter-spacing:3px;font-weight:bold}
 .hero{position:relative;min-height:0;overflow:hidden;margin:0 -12px}
-.hero img{position:absolute;bottom:-22%;height:122%;width:60%;object-fit:contain;object-position:center bottom}
-.hero .daniel{left:-5%}.hero .nik{right:-5%}
+.hero img{position:absolute;top:0;height:190%;width:100%;object-fit:contain;object-position:center bottom}
+.hero .daniel{left:-28%}.hero .nik{right:-28%}
 .hero:after{content:"";position:absolute;inset:65% 0 0;background:linear-gradient(transparent,#0a0b0d)}
-.totals{display:grid;grid-template-columns:1fr 1fr;gap:5px}
+.totals{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:repeat(2,minmax(0,1fr));gap:5px}
 .tile,.panel,.secondary{border:1px solid var(--line);background:linear-gradient(135deg,#1e1b12dd,#08090bee 65%);box-shadow:inset 0 0 9px #c59a2115;border-radius:5px}
-.tile{display:grid;grid-template-columns:24px 1fr;gap:7px;align-items:center;padding:4px 7px;min-width:0}
+.tile{display:grid;grid-template-columns:24px 1fr;gap:7px;align-items:center;padding:3px 5px;min-width:0;min-height:0}
 .icon{color:var(--gold);font-size:25px;text-align:center;line-height:1}.icon svg{display:block;width:24px;height:24px;fill:currentColor}
 .tile h2{font-size:8px;letter-spacing:.2px;margin:0 0 2px;white-space:nowrap}
 .values{display:flex;align-items:baseline;gap:4px;color:var(--gold);font-size:21px;font-weight:bold;line-height:1}
@@ -45,8 +45,9 @@ button:focus-visible{outline:2px solid white;outline-offset:-4px}button:active{f
 .back{grid-column:2;grid-row:1}.rivalry{grid-column:1;grid-row:1}.arrow{font-size:21px;color:var(--gold);margin-left:auto}.primary .arrow{color:#171308}.action-icon{color:var(--gold);font-size:19px}.primary .action-icon{color:#171308}
 .bottom{display:grid;grid-template-columns:repeat(5,1fr);margin:0 -12px;background:linear-gradient(#181711,#09090b);border-top:1px solid var(--gold);padding-bottom:env(safe-area-inset-bottom)}
 .bottom a{color:#d9d0b8;text-decoration:none;font-size:8px;letter-spacing:.6px;font-weight:bold;display:grid;place-content:center;text-align:center;gap:4px;border-top:2px solid transparent}.bottom span{font-size:20px;line-height:1}.bottom .active{color:var(--gold);border-top-color:var(--gold)}
-@media(min-width:901px){.phone{grid-template-rows:54px minmax(0,1fr) 84px 44px 112px 96px}.bottom{display:none}}
-@media(max-height:600px){.phone{grid-template-rows:46px minmax(0,1fr) 80px 44px 112px 96px 50px;gap:4px;padding-top:4px}.tagline{font-size:7px;letter-spacing:2px}h1 img{max-height:30px}}
+@media(min-width:901px){.phone{grid-template-rows:54px minmax(0,1fr) 100px 44px 112px 96px}.bottom{display:none}}
+@media(max-height:600px){.phone{grid-template-rows:46px minmax(0,1fr) 100px 44px 112px 96px 50px;gap:4px;padding-top:4px}.tagline{font-size:7px;letter-spacing:2px}h1 img{max-height:30px}}
+.action-icon svg,.bottom svg{display:block;width:20px;height:20px;fill:currentColor}
 </style>
 <main class="phone" aria-label="Career Statistics phone study">
 <header><h1><img src="../../../../visual-assets/v10_1/career-statistics/assets/TITLE_CS_V1.webp" alt="CAREER STATISTICS"></h1><p class="tagline">TWO MANAGERS. ONE LEGACY.</p></header>
@@ -57,7 +58,7 @@ button:focus-visible{outline:2px solid white;outline-offset:-4px}button:active{f
 <section class="totals" aria-label="Career headline totals">
 <article class="tile"><span class="icon" aria-hidden="true">★</span><div><h2>COMPLETED SHOWDOWNS</h2><div class="values">1</div><small class="together">Together</small></div></article>
 <article class="tile"><span class="icon" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="25" fill="none" stroke="currentColor" stroke-width="5"/><path d="m32 17 10 7-4 12H26l-4-12zm-17 11 11 8-4 13-10-8zm34 0-11 8 4 13 10-8z"/></svg></span><div><h2>SEASONS PLAYED</h2><div class="values"><small>D</small>3<em>/</em><small>N</small>3</div></div></article>
-<article class="tile"><span class="icon" aria-hidden="true">▂▅▇</span><div><h2>CAREER POINTS</h2><div class="values"><small>D</small>15<em>/</em><small>N</small>5</div></div></article>
+<article class="tile"><span class="icon" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M3 28h6V18H3zm10 0h6V10h-6zm10 0h6V3h-6z"/></svg></span><div><h2>CAREER POINTS</h2><div class="values"><small>D</small>15<em>/</em><small>N</small>5</div></div></article>
 <article class="tile"><span class="icon" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M9 3h14v9c0 5-2 8-6 9v5h6v3H9v-3h6v-5c-4-1-6-4-6-9zm-2 2H2v6c0 5 3 8 7 8v-3c-3 0-4-2-4-5V8h2zm18 0v3h2v3c0 3-1 5-4 5v3c4 0 7-3 7-8V5z"/></svg></span><div><h2>TROPHIES WON</h2><div class="values"><small>D</small>4<em>/</em><small>N</small>2</div></div></article>
 </section>
 <input class="control" type="radio" name="section" id="table" aria-label="Career Table" checked>
@@ -82,10 +83,10 @@ button:focus-visible{outline:2px solid white;outline-offset:-4px}button:active{f
 </div></section>
 </div>
 <nav class="actions" aria-label="Career Statistics actions">
-<button class="secondary rivalry" type="button"><span class="action-icon" aria-hidden="true">▂▅▇</span>CURRENT RIVALRY STATISTICS<span class="arrow" aria-hidden="true">›</span></button>
+<button class="secondary rivalry" type="button"><span class="action-icon" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M3 28h6V18H3zm10 0h6V10h-6zm10 0h6V3h-6z"/></svg></span>CURRENT RIVALRY STATISTICS<span class="arrow" aria-hidden="true">›</span></button>
 <button class="primary" type="button"><span class="action-icon" aria-hidden="true">♜</span>OPEN TROPHY ROOM<span class="arrow" aria-hidden="true">›</span></button>
 <button class="secondary back" type="button"><span class="action-icon" aria-hidden="true">⌂</span>BACK TO MAIN MENU<span class="arrow" aria-hidden="true">›</span></button>
 </nav>
-<nav class="bottom" aria-label="Main navigation"><a href="#" aria-label="Home"><span aria-hidden="true">⌂</span>HOME</a><a href="#" aria-label="Career"><span aria-hidden="true">♜</span>CAREER</a><a href="#" aria-label="Standings"><span aria-hidden="true">☰</span>STANDINGS</a><a href="#" class="active" aria-current="page"><span aria-hidden="true">▂▅▇</span>STATS</a><a href="#" aria-label="Rules"><span aria-hidden="true">▤</span>RULES</a></nav>
+<nav class="bottom" aria-label="Main navigation"><a href="#" aria-label="Home"><span aria-hidden="true">⌂</span>HOME</a><a href="#" aria-label="Career"><span aria-hidden="true">♜</span>CAREER</a><a href="#" aria-label="Standings"><span aria-hidden="true">☰</span>STANDINGS</a><a href="#" class="active" aria-current="page"><span aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M3 28h6V18H3zm10 0h6V10h-6zm10 0h6V3h-6z"/></svg></span>STATS</a><a href="#" aria-label="Rules"><span aria-hidden="true">▤</span>RULES</a></nav>
 </main>
 </html>
