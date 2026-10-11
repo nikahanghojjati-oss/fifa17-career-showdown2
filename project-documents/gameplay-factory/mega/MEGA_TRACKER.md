@@ -1,9 +1,9 @@
-# Mega factory tracker · updated 2026-10-11T04:19:57Z
+# Mega factory tracker · updated 2026-10-11T04:20:57Z
 
-**Type now (10 free):** 91, 93, 95, 97, 99, 141, 143, 173, 364, 403
+**Type now (9 free):** 91, 93, 95, 97, 99, 141, 143, 173, 403
 **Next free number:** 91 · **highest taken:** 395 of 518
 **Code PRs open:** 0 of 8 · area locks: none
-**Rate:** 17 claimed in 10 min · 28 in 1 h · 25 merged in 1 h
+**Rate:** 18 claimed in 10 min · 29 in 1 h · 25 merged in 1 h
 
 **Finished (merged or live): 25 of 518**
 
@@ -11,17 +11,17 @@ State | count
 --- | ---
 ✅ merged to staging branch | 25
 🚂 done, on the train branch, no PR yet | 8
-📝 worker done, draft PR open | 146
+📝 worker done, draft PR open | 147
 🟧 blocked | 14
 ⚫ closed without merge | 51
-⬜ waiting | 274
+⬜ waiting | 273
 
 Stage | total | merged/live | in flight | waiting
 --- | --- | --- | --- | ---
 1 Gameplay audits | 112 | 0 | 112 | 0
 2 Screen fixes | 266 | 25 | 8 | 194
 3 Match desktop to mockups | 14 | 0 | 0 | 13
-4 Phone mockup studies | 70 | 0 | 48 | 11
+4 Phone mockup studies | 70 | 0 | 49 | 10
 5 Improved desktop studies | 56 | 0 | 0 | 56
 
 ## Needs attention
@@ -211,9 +211,11 @@ Stage | total | merged/live | in flight | waiting
 - 📝 **354** · Job 1230 · Season Results: upright tablet study · worker done, draft PR open · [PR #623](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/623)
 - 🟧 **356** · Job 1462 · Settings: upright tablet study · blocked
 - 📝 **360** · Job 1114 · Connect Players (start and join): upright tablet study · worker done, draft PR open · [PR #605](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/605)
+- 📝 **364** · Job 1346 · Trophy Room: upright tablet study · worker done, draft PR open · [PR #643](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/643)
 
 ## Latest changes
 
+- 2026-10-11T04:20:57Z · 364 (Job 1346): waiting → draft
 - 2026-10-11T04:19:57Z · 336 (Job 1345): waiting → draft
 - 2026-10-11T04:18:57Z · 342 (Job 1288): waiting → draft
 - 2026-10-11T04:18:57Z · 308 (Job 1344): waiting → draft
@@ -233,4 +235,3 @@ Stage | total | merged/live | in flight | waiting
 - 2026-10-11T04:13:57Z · 236 (Job 1313): waiting → blocked
 - 2026-10-11T04:08:57Z · 286 (Job 1286): started → draft
 - 2026-10-11T04:07:57Z · 77 (Job 1123): draft → merged
-- 2026-10-11T04:07:57Z · 75 (Job 1094): draft → merged

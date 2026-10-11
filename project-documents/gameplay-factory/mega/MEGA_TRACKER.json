@@ -1,13 +1,13 @@
 {
-"updated": "2026-10-11T04:19:57Z",
+"updated": "2026-10-11T04:20:57Z",
 "total": 518,
 "next_free": 91,
 "highest_taken": 395,
 "counts": {
 "merged": 25,
-"draft": 146,
+"draft": 147,
 "closed": 51,
-"waiting": 274,
+"waiting": 273,
 "on_train": 8,
 "blocked": 14
 },
@@ -41,10 +41,10 @@
 "name": "Phone mockup studies",
 "total": 70,
 "states": {
-"draft": 34,
+"draft": 35,
 "closed": 11,
 "blocked": 14,
-"waiting": 11
+"waiting": 10
 }
 },
 "5": {
@@ -81,7 +81,6 @@
 141,
 143,
 173,
-364,
 403
 ],
 "ready_sol": [
@@ -93,7 +92,6 @@
 141,
 143,
 173,
-364,
 403
 ],
 "ready_codex": [],
@@ -106,25 +104,17 @@
 141,
 143,
 173,
-364,
 403
 ],
-"ready_total": 10,
+"ready_total": 9,
 "held_until_picture": 66
 },
 "rate": {
-"claimed_last_hour": 28,
-"claimed_last_10min": 17,
+"claimed_last_hour": 29,
+"claimed_last_10min": 18,
 "merged_last_hour": 25
 },
 "events": [
-{
-"at": "2026-10-10T19:54:19Z",
-"item": 103,
-"job": 1298,
-"from": "waiting",
-"to": "draft"
-},
 {
 "at": "2026-10-10T19:54:19Z",
 "item": 121,
@@ -2215,6 +2205,13 @@
 "at": "2026-10-11T04:19:57Z",
 "item": 336,
 "job": 1345,
+"from": "waiting",
+"to": "draft"
+},
+{
+"at": "2026-10-11T04:20:57Z",
+"item": 364,
+"job": 1346,
 "from": "waiting",
 "to": "draft"
 }
@@ -7600,8 +7597,19 @@
 "title": "Trophy Room: upright tablet study",
 "mode": "study",
 "group": null,
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"pr": 643,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/643",
+"base": "study/mega-queue",
+"branch": "study/job-1346-trophy-room-tablet",
+"ci": "draft",
+"ci_sha": "84a8e890c922d8cabeff895f077552a50b2616e8",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-11T04:20:24Z",
+"first_seen": "2026-10-11T04:20:24Z",
+"since": "2026-10-11T04:20:57Z"
 },
 "365": {
 "job": 1380,
