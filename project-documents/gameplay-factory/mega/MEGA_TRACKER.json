@@ -1,15 +1,14 @@
 {
-"updated": "2026-10-11T04:23:57Z",
+"updated": "2026-10-11T04:24:57Z",
 "total": 518,
 "next_free": 91,
 "highest_taken": 395,
 "counts": {
 "merged": 25,
-"draft": 157,
+"draft": 161,
 "closed": 51,
 "waiting": 273,
-"on_train": 8,
-"blocked": 4
+"on_train": 8
 },
 "stages": {
 "2": {
@@ -41,10 +40,9 @@
 "name": "Phone mockup studies",
 "total": 70,
 "states": {
-"draft": 45,
+"draft": 49,
 "closed": 11,
-"waiting": 10,
-"blocked": 4
+"waiting": 10
 }
 },
 "5": {
@@ -111,38 +109,10 @@
 },
 "rate": {
 "claimed_last_hour": 29,
-"claimed_last_10min": 17,
+"claimed_last_10min": 13,
 "merged_last_hour": 25
 },
 "events": [
-{
-"at": "2026-10-10T19:54:19Z",
-"item": 150,
-"job": 1541,
-"from": "waiting",
-"to": "draft"
-},
-{
-"at": "2026-10-10T19:54:19Z",
-"item": 152,
-"job": 1542,
-"from": "waiting",
-"to": "draft"
-},
-{
-"at": "2026-10-10T19:54:19Z",
-"item": 154,
-"job": 1543,
-"from": "waiting",
-"to": "draft"
-},
-{
-"at": "2026-10-10T19:54:19Z",
-"item": 156,
-"job": 1544,
-"from": "waiting",
-"to": "draft"
-},
 {
 "at": "2026-10-10T19:54:19Z",
 "item": 157,
@@ -2212,6 +2182,34 @@
 "at": "2026-10-11T04:23:57Z",
 "item": 356,
 "job": 1462,
+"from": "blocked",
+"to": "draft"
+},
+{
+"at": "2026-10-11T04:24:57Z",
+"item": 262,
+"job": 1140,
+"from": "blocked",
+"to": "draft"
+},
+{
+"at": "2026-10-11T04:24:57Z",
+"item": 290,
+"job": 1141,
+"from": "blocked",
+"to": "draft"
+},
+{
+"at": "2026-10-11T04:24:57Z",
+"item": 318,
+"job": 1142,
+"from": "blocked",
+"to": "draft"
+},
+{
+"at": "2026-10-11T04:24:57Z",
+"item": 346,
+"job": 1143,
 "from": "blocked",
 "to": "draft"
 }
@@ -6330,10 +6328,19 @@
 "title": "Select League: phone mockup, version B (bold hierarchy)",
 "mode": "study",
 "group": null,
-"state": "blocked",
-"branch": "study/job-1140-blocked",
+"pr": 657,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/657",
+"base": "study/mega-queue",
+"branch": "study/job-1140-league-phone-b",
+"ci": "draft",
+"ci_sha": "197378fd775d190f2e9b901ce4aa000cdaeec174",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-11T04:24:07Z",
 "first_seen": "2026-10-11T02:53:53Z",
-"since": "2026-10-11T02:53:53Z"
+"since": "2026-10-11T04:24:57Z"
 },
 "263": {
 "job": 1220,
@@ -6702,10 +6709,19 @@
 "title": "Select League: phone mockup, version C (compact)",
 "mode": "study",
 "group": null,
-"state": "blocked",
-"branch": "study/job-1141-blocked",
+"pr": 658,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/658",
+"base": "study/mega-queue",
+"branch": "study/job-1141-league-phone-c",
+"ci": "draft",
+"ci_sha": "c5e5314e71ee12b637de1a71c47c582e8ae7afa9",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-11T04:24:21Z",
 "first_seen": "2026-10-11T02:53:53Z",
-"since": "2026-10-11T02:53:53Z"
+"since": "2026-10-11T04:24:57Z"
 },
 "291": {
 "job": 1106,
@@ -7073,10 +7089,19 @@
 "title": "Select League: sideways phone study",
 "mode": "study",
 "group": null,
-"state": "blocked",
-"branch": "study/job-1142-blocked",
+"pr": 659,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/659",
+"base": "study/mega-queue",
+"branch": "study/job-1142-league-sideways",
+"ci": "draft",
+"ci_sha": "a383e466cd37e8fd0825259d4e70ea2338ffe692",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-11T04:24:35Z",
 "first_seen": "2026-10-11T02:53:53Z",
-"since": "2026-10-11T02:53:53Z"
+"since": "2026-10-11T04:24:57Z"
 },
 "319": {
 "job": 1310,
@@ -7450,10 +7475,19 @@
 "title": "Select League: upright tablet study",
 "mode": "study",
 "group": null,
-"state": "blocked",
-"branch": "study/job-1143-blocked",
+"pr": 660,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/660",
+"base": "study/mega-queue",
+"branch": "study/job-1143-league-tablet",
+"ci": "draft",
+"ci_sha": "b8c97894ea26d85ed11235cfc25939390f4b8976",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-11T04:24:49Z",
 "first_seen": "2026-10-11T02:53:53Z",
-"since": "2026-10-11T02:53:53Z"
+"since": "2026-10-11T04:24:57Z"
 },
 "347": {
 "job": 1138,
