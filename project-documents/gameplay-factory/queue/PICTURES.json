@@ -26,7 +26,8 @@
       "CLUB",
       "STATISTICS",
       "RIVALRY",
-      "LEGACY"
+      "LEGACY",
+      "TROPHY_ROOM"
     ],
     "NEXT": []
   },
@@ -36,6 +37,7 @@
     "PHONE_CLUB": "1) Calm lighting: dark quiet stadium background; gold glow only on the title, VS, the LOCK step and the confirm button; the lower half is a clean near-black panel. 2) At 393x660 the live screen cuts the grey sentence above the button ('...Confirmation starts the'); make the full live sentence fit on two lines with no scroll, as the picture shows. 3) Live club badges stay as they are.",
     "PHONE_STATISTICS": "The picture is 930x1536, about 1.7% wider than 393:660, so read sizes by proportion, not pixels. Every word and number matches live.",
     "PHONE_RIVALRY": "CLUB_A/CLUB_B in the picture are test data. The picture marks STANDINGS as the active bottom tab; keep the live nav state (STATS active).",
-    "PHONE_LEGACY": "Approved by Team V at 3cd03e3f: every word, number and both club badges match live."
+    "PHONE_LEGACY": "Approved by Team V at 3cd03e3f: every word, number and both club badges match live.",
+    "PHONE_TROPHY_ROOM": "Approved by Team V at 5525d55d. All five tabs in a two-row framed tab bar and all four trophies in a 2x2 grid, no sideways scroll. Hold the picked-tab (single trophy large) wiring until PHONE_TROPHY_ROOM_SINGLE (ticket 1588 10B) and high-res trophy art (10C) land."
   }
 }
