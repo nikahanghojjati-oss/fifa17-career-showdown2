@@ -83,7 +83,7 @@ a{color:inherit}
 <div class="lbl" style="margin-top:8px" id="nxtnote"></div></div>
 
 <div class="card"><h2>Who does what</h2><div id="lanes"></div>
-<div class="lbl" style="margin-top:8px">Bars: green = merged or live, blue = worker finished and waiting for the lead, grey = not picked up yet. Real ChatGPT, Codex and Claude usage is not visible from GitHub, so these are job counts, not allowance.</div></div>
+<div class="lbl" style="margin-top:8px">Bars: green = merged or live, blue = worker finished, waiting for the lead or Team V, grey = not picked up yet. Real ChatGPT, Codex and Claude usage is not visible from GitHub, so these are job counts, not allowance.</div></div>
 <div class="card" id="cxcard"><h2>Type next in Codex <span class="mut" style="text-transform:none;letter-spacing:0" id="cxn"></span></h2><div class="chips" id="cx"></div><div class="lbl" id="cxw" style="margin-top:6px"></div></div>
 
 <div class="card"><div class="row">
@@ -154,7 +154,7 @@ function paint(only,fail){
   if(D.lanes){const who={gpt1:"You type in ChatGPT account 1",gpt2:"You type in ChatGPT account 2",chat_jobs:"You type in ChatGPT chat (job files)",codex:"You type in Codex",work:"You type in Work mode (currently off)",claude:"Claude does these; you type nothing",other:"Other"};
    $("lanes").innerHTML=Object.entries(D.lanes).filter(([k,L])=>L.total).map(([k,L])=>{const t=L.total,f=L.finished,w=L.worker_done-L.finished,pct=Math.round(100*f/t),q=[];
     if(L.trouble)q.push(L.trouble+" failing");if(L.closed)q.push(L.closed+" redone");if(L.reviews_total)q.push(L.reviews.ok+L.reviews.ok_notes+" of "+L.reviews_total+" reviews OK");
-    return `<div class="stage"><div class="h"><span><b>${L.name}</b><br><span class="mut">${who[k]}</span></span><span><b>${pct}%</b> finished (${f}/${t})</span></div><div class="bar thin"><span style="width:${100*f/t}%;background:#2e9e5b"></span><span style="width:${100*w/t}%;background:#3b82f6"></span></div><div class="lbl">${L.picked_up} picked up · ${w} waiting for the lead · ${t-L.picked_up} not started${q.length?" · "+q.join(" · "):""}</div></div>`}).join("");
+    return `<div class="stage"><div class="h"><span><b>${L.name}</b><br><span class="mut">${who[k]}</span></span><span><b>${pct}%</b> finished (${f}/${t})</span></div><div class="bar thin"><span style="width:${100*f/t}%;background:#2e9e5b"></span><span style="width:${100*w/t}%;background:#3b82f6"></span></div><div class="lbl">${L.picked_up} picked up · ${L.pending_lead} waiting for the lead${L.audit_batch?" · "+L.audit_batch+" audit reports being batch-merged":""}${L.wait_v?" · "+L.wait_v+" waiting on Team V":""} · ${t-L.picked_up} not started${q.length?" · "+q.join(" · "):""}</div></div>`}).join("");
    const cx=D.codex_next||[];$("cx").innerHTML=cx.map(x=>chip(x.job)).join("");$("cxn").textContent=cx.length?"("+cx.length+" free)":"(none free)";
    $("cxw").textContent=(D.codex_waiting_on_deps||[]).length?"Waiting for an earlier job: "+D.codex_waiting_on_deps.map(x=>x.job+" (after "+x.deps.join(", ")+")").join("; "):"";}
   // TYPE NEXT

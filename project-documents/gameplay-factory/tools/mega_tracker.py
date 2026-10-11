@@ -152,7 +152,8 @@ LANE_NAMES = {"gpt1": "ChatGPT account 1 (odd numbers)", "gpt2": "ChatGPT accoun
               "codex": "Codex", "work": "ChatGPT Work mode", "claude": "Claude (Haiku, Sonnet, Opus)", "other": "Other"}
 LANE_ORDER = ["gpt1", "gpt2", "chat_jobs", "codex", "work", "claude", "other"]
 DONE_STATES = ("merged", "live", "no_pr")
-WORKER_DONE = ("on_train", "draft", "queued", "ci_running", "ci_failed", "ready", "reviewed")
+LEAD_STATES = ("draft", "queued", "ready", "reviewed", "on_train")
+WORKER_DONE = ("wait_v", "audit_batch", "on_train", "draft", "queued", "ci_running", "ci_failed", "ready", "reviewed")
 
 def lane_of_text(t):
     t = t.lower()
@@ -356,18 +357,23 @@ def run_round(a, ctx):
             it["state"] = ("merged" if ss.startswith(("DONE", "MERGED")) else "started" if ss.startswith("IN PROGRESS") else
                            "blocked" if ss.startswith("BLOCKED") else "waiting")
         d["state"] = it["state"]; d["pr"] = it.get("pr"); d["pr_url"] = it.get("pr_url")
+        if it.get("base") == "main" and it["state"] not in ("merged", "live", "closed"):
+            d["state"] = "old_main"   # old PR straight into main, not factory work
     # lanes: how much of each is done, what is pending, quality so far
     claude_q = set(jload_claude())
     def lane_of_item(k):
         if int(k) in claude_q: return "claude"
         return "gpt1" if int(k) % 2 else "gpt2"
     lanes = {n: {"name": LANE_NAMES[n], "total": 0, "states": {}, "reviews": {"ok": 0, "ok_notes": 0, "needs_changes": 0}} for n in LANE_ORDER}
-    def add_unit(lane, state, pr=None):
+    def add_unit(lane, state, pr=None, mode=None):
+        if state == "old_main": return
+        if state in LEAD_STATES and mode == "study": state = "wait_v"
+        elif state in LEAD_STATES and mode == "audit": state = "audit_batch"
         L = lanes[lane]; L["total"] += 1; L["states"][state] = L["states"].get(state, 0) + 1
         v = ctx.verdicts.get(pr) if pr else None
         if v: L["reviews"][v] += 1
     for k, it in items.items():
-        add_unit(lane_of_item(k), it["state"], it.get("pr"))
+        add_unit(lane_of_item(k), it["state"], it.get("pr"), it.get("mode"))
     for job, d in direct.items():
         add_unit(d["lane"], d["state"], d.get("pr"))
     for L in lanes.values():
@@ -375,7 +381,8 @@ def run_round(a, ctx):
         L["picked_up"] = t - sv.get("waiting", 0)
         L["worker_done"] = sum(sv.get(x, 0) for x in WORKER_DONE + DONE_STATES)
         L["finished"] = sum(sv.get(x, 0) for x in DONE_STATES)
-        L["pending_lead"] = sum(sv.get(x, 0) for x in ("draft", "queued", "ready", "reviewed", "on_train"))
+        L["pending_lead"] = sum(sv.get(x, 0) for x in LEAD_STATES)
+        L["wait_v"] = sv.get("wait_v", 0); L["audit_batch"] = sv.get("audit_batch", 0)
         L["trouble"] = sv.get("ci_failed", 0) + sv.get("blocked", 0)
         L["closed"] = sv.get("closed", 0)
         L["reviews_total"] = sum(L["reviews"].values())
@@ -454,7 +461,7 @@ def run_round(a, ctx):
            "counts": states, "stages": stages, "stale_started": stale, "gates": gates,
            "rate": {"claimed_last_hour": started_since(60), "claimed_last_10min": started_since(10),
                     "merged_last_hour": merged_since(60)},
-           "lanes": lanes, "codex_next": codex_next, "codex_waiting_on_deps": codex_blocked, "work_waiting": work_waiting,
+           "lanes": lanes, "old_main_prs": sum(1 for d in direct.values() if d["state"] == "old_main"), "codex_next": codex_next, "codex_waiting_on_deps": codex_blocked, "work_waiting": work_waiting,
            "events": events, "items": items}
     out.parent.mkdir(parents=True, exist_ok=True)
     # Heartbeat: when nothing but the clock moved, keep the old file until it is 3 minutes old (fewer commits)
