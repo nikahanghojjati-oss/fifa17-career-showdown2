@@ -1,14 +1,14 @@
 {
-"updated": "2026-10-11T21:41:18Z",
+"updated": "2026-10-11T21:41:33Z",
 "total": 518,
-"next_free": 167,
+"next_free": 169,
 "highest_taken": 403,
 "counts": {
 "merged": 161,
 "closed": 82,
-"draft": 10,
-"on_train": 21,
-"waiting": 244
+"draft": 15,
+"on_train": 17,
+"waiting": 243
 },
 "stages": {
 "2": {
@@ -17,9 +17,9 @@
 "states": {
 "merged": 25,
 "closed": 44,
-"draft": 10,
-"on_train": 21,
-"waiting": 166
+"draft": 15,
+"on_train": 17,
+"waiting": 165
 }
 },
 "1": {
@@ -61,38 +61,35 @@
 "open_code_prs": 0,
 "open_train_prs": [
 681,
-682
+682,
+683
 ],
 "on_train_no_pr": [
-95,
 97,
 101,
 105,
 107,
-113,
 115,
 119,
 123,
 125,
-131,
 133,
 137,
 141,
 143,
-149,
 151,
 155,
 159,
 161,
 403
 ],
-"draft_code_prs": 2,
+"draft_code_prs": 3,
 "area_locks": {
 "home": 681,
-"start-join": 682
+"start-join": 682,
+"league": 683
 },
 "ready": [
-167,
 169,
 173,
 177,
@@ -103,10 +100,10 @@
 268,
 274,
 296,
-302
+302,
+324
 ],
 "ready_sol": [
-167,
 169,
 173,
 177,
@@ -117,11 +114,11 @@
 268,
 274,
 296,
-302
+302,
+324
 ],
 "ready_codex": [],
 "ready_all": [
-167,
 169,
 173,
 177,
@@ -165,7 +162,7 @@
 456,
 464
 ],
-"ready_total": 24,
+"ready_total": 23,
 "held_until_picture": 48,
 "held_by_picture": {
 "desktop STATISTICS": 4,
@@ -183,8 +180,8 @@
 }
 },
 "rate": {
-"claimed_last_hour": 4,
-"claimed_last_10min": 4,
+"claimed_last_hour": 5,
+"claimed_last_10min": 5,
 "merged_last_hour": 0
 },
 "lanes": {
@@ -194,25 +191,25 @@
 "states": {
 "merged": 25,
 "closed": 25,
-"draft": 10,
-"on_train": 21,
-"waiting": 158
+"draft": 15,
+"on_train": 17,
+"waiting": 157
 },
 "reviews": {
 "ok": 0,
 "ok_notes": 0,
 "needs_changes": 0
 },
-"picked_up": 81,
-"worker_done": 56,
+"picked_up": 82,
+"worker_done": 57,
 "finished": 25,
-"pending_lead": 31,
+"pending_lead": 32,
 "wait_v": 0,
 "audit_batch": 0,
 "trouble": 0,
 "closed": 25,
 "reviews_total": 0,
-"first_time_ok": 69,
+"first_time_ok": 70,
 "failing_now": 0
 },
 "gpt2": {
@@ -366,7 +363,8 @@
 },
 "ready_for_lead": [
 681,
-682
+682,
+683
 ],
 "old_main_prs": 0,
 "codex_next": [
@@ -1110,41 +1108,6 @@
 }
 ],
 "events": [
-{
-"at": "2026-10-11T04:03:15Z",
-"item": 61,
-"job": 1151,
-"from": "draft",
-"to": "closed"
-},
-{
-"at": "2026-10-11T04:03:15Z",
-"item": 63,
-"job": 1180,
-"from": "draft",
-"to": "closed"
-},
-{
-"at": "2026-10-11T04:03:15Z",
-"item": 67,
-"job": 1296,
-"from": "draft",
-"to": "closed"
-},
-{
-"at": "2026-10-11T04:03:15Z",
-"item": 71,
-"job": 1412,
-"from": "draft",
-"to": "closed"
-},
-{
-"at": "2026-10-11T04:03:15Z",
-"item": 79,
-"job": 1152,
-"from": "draft",
-"to": "closed"
-},
 {
 "at": "2026-10-11T04:03:15Z",
 "item": 81,
@@ -3209,6 +3172,41 @@
 "job": 1099,
 "from": "waiting",
 "to": "draft"
+},
+{
+"at": "2026-10-11T21:41:33Z",
+"item": 95,
+"job": 1124,
+"from": "on_train",
+"to": "draft"
+},
+{
+"at": "2026-10-11T21:41:33Z",
+"item": 113,
+"job": 1125,
+"from": "on_train",
+"to": "draft"
+},
+{
+"at": "2026-10-11T21:41:33Z",
+"item": 131,
+"job": 1126,
+"from": "on_train",
+"to": "draft"
+},
+{
+"at": "2026-10-11T21:41:33Z",
+"item": 149,
+"job": 1127,
+"from": "on_train",
+"to": "draft"
+},
+{
+"at": "2026-10-11T21:41:33Z",
+"item": 167,
+"job": 1128,
+"from": "waiting",
+"to": "draft"
 }
 ],
 "items": {
@@ -4710,10 +4708,19 @@
 "title": "Select League: fix the 768x1024 view",
 "mode": "code",
 "group": "league",
-"state": "on_train",
+"pr": 683,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/683",
+"base": "gameplay/bug-list-1",
 "branch": "gameplay/train-league-2",
+"ci": "draft",
+"ci_sha": "cbe6e1d6fa81af02a81fdbbe8bacc3f93d50c781",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-11T21:41:27Z",
 "first_seen": "2026-10-11T05:07:44Z",
-"since": "2026-10-11T05:07:44Z"
+"since": "2026-10-11T21:41:33Z"
 },
 "96": {
 "job": 1514,
@@ -4979,10 +4986,19 @@
 "title": "Select League: fix the 1280x650 view",
 "mode": "code",
 "group": "league",
-"state": "on_train",
+"pr": 683,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/683",
+"base": "gameplay/bug-list-1",
 "branch": "gameplay/train-league-2",
+"ci": "draft",
+"ci_sha": "cbe6e1d6fa81af02a81fdbbe8bacc3f93d50c781",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-11T21:41:27Z",
 "first_seen": "2026-10-11T05:11:44Z",
-"since": "2026-10-11T05:11:44Z"
+"since": "2026-10-11T21:41:33Z"
 },
 "114": {
 "job": 1523,
@@ -5248,10 +5264,19 @@
 "title": "Select League: fix the 1366x768 view",
 "mode": "code",
 "group": "league",
-"state": "on_train",
+"pr": 683,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/683",
+"base": "gameplay/bug-list-1",
 "branch": "gameplay/train-league-2",
+"ci": "draft",
+"ci_sha": "cbe6e1d6fa81af02a81fdbbe8bacc3f93d50c781",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-11T21:41:27Z",
 "first_seen": "2026-10-11T07:37:27Z",
-"since": "2026-10-11T07:37:27Z"
+"since": "2026-10-11T21:41:33Z"
 },
 "132": {
 "job": 1532,
@@ -5517,10 +5542,19 @@
 "title": "Select League: fix the 1920x1080 view",
 "mode": "code",
 "group": "league",
-"state": "on_train",
+"pr": 683,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/683",
+"base": "gameplay/bug-list-1",
 "branch": "gameplay/train-league-2",
+"ci": "draft",
+"ci_sha": "cbe6e1d6fa81af02a81fdbbe8bacc3f93d50c781",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-11T21:41:27Z",
 "first_seen": "2026-10-11T08:15:14Z",
-"since": "2026-10-11T08:15:14Z"
+"since": "2026-10-11T21:41:33Z"
 },
 "150": {
 "job": 1541,
@@ -5786,8 +5820,19 @@
 "title": "Select League: fix the 2560x1080 view",
 "mode": "code",
 "group": "league",
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"pr": 683,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/683",
+"base": "gameplay/bug-list-1",
+"branch": "gameplay/train-league-2",
+"ci": "draft",
+"ci_sha": "cbe6e1d6fa81af02a81fdbbe8bacc3f93d50c781",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-11T21:41:27Z",
+"first_seen": "2026-10-11T21:41:27Z",
+"since": "2026-10-11T21:41:33Z"
 },
 "168": {
 "job": 1550,
