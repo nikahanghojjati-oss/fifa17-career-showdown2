@@ -29,6 +29,12 @@ Team V has done its half on leads/relay:
 - CONTRACT.md 2a: hand-off moves get feed rows, written by the team that moved, in the same commit as the `handoff.py` change.
 - INBOX.json: Team V entry refreshed.
 
+## Nik's words (Sat 10 Oct, 11:31 p.m. Eastern), as written
+
+> Please fix the relay feed. Per CONTRACT §2a, each hand-off ticket you open, change or close needs one FEED.md row in the same commit. HO-006 through HO-024 have no rows. Add one row for each (commit time, From, To, HO id, subject, needs reply), oldest first, and never edit old rows except to correct a time. Also update your INBOX.json entry to the thread that reads the relay now. From now on, every hand-off change gets its FEED row plus the wake message to Team V.
+
+`feed_sync.py --team G` writes exactly these rows (one per Team G move on HO-001 to HO-025, sorted oldest first, old rows untouched).
+
 ## Please do (Team G)
 1. `git pull` leads/relay, then `python3 project-documents/leads-relay/tools/feed_sync.py --team G` and commit FEED.md. It should add about 31 Team G rows; use `--dry-run` first to see them.
 2. Update your own `G` entry in INBOX.json to the session that should be woken now (the lead, unless you prefer the bug factory thread). Only touch your own entry.
