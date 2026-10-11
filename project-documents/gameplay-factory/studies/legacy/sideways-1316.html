@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Legacy sideways study (JOB-1316)</title>
+<style>
+  :root {
+    --gold: #e9b93a;
+    --gold-hi: #ffd766;
+    --ink: #07080a;
+    --text: #f4f1ea;
+    --muted: #b9b3a4;
+  }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; margin: 0; background: var(--ink); }
+  body { font-family: "Barlow", system-ui, sans-serif; color: var(--text); overflow-x: hidden; }
+  button, a { font: inherit; color: inherit; }
+
+  /* 844x390 landscape. Every element sits in one scroll-free frame; the page may scroll once if a
+     short window needs it, and the main action stays reachable in either case. */
+  .screen {
+    position: relative;
+    min-height: 100vh;
+    min-height: 100dvh;
+    width: 100%;
+    display: grid;
+    grid-template-rows: 44px 1fr 56px;
+    background: #07080a url("../../../../visual-assets/v10_1/legacy/assets/ENV_LG_PLATE_V1_1X.webp") center / cover no-repeat;
+    overflow: hidden;
+  }
+  /* Desktop characters, kept in the outer thirds so they never sit under the content. */
+  .art {
+    position: absolute; inset: 0; pointer-events: none; z-index: 0;
+  }
+  .art img { position: absolute; bottom: 0; height: 100%; width: auto; max-width: 30%; object-fit: contain; }
+  .art .daniel { left: 0; }
+  .art .nik { right: 0; }
+  .shade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(7,8,10,.25), rgba(7,8,10,.55)); }
+
+  .topbar {
+    position: relative; z-index: 2;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 6px 12px 0;
+  }
+  .btn-back {
+    min-height: 36px; min-width: 64px; padding: 0 14px;
+    border: 1.5px solid var(--gold); background: rgba(7,8,10,.7); color: var(--gold-hi);
+    font-weight: 700; letter-spacing: .08em; font-size: 13px;
+    clip-path: polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px);
+  }
+  .title {
+    display: flex; align-items: center; gap: 12px;
+    margin: 0; font-size: 11px; letter-spacing: .24em; color: var(--gold-hi); font-weight: 600;
+  }
+  .btn-gear {
+    width: 36px; height: 36px; border-radius: 50%;
+    border: 1.5px solid var(--gold); background: #0b0c0f; color: var(--gold-hi); font-size: 16px; line-height: 1;
+  }
+
+  /* Body: side nav | archive card and pager | main action. */
+  .body {
+    position: relative; z-index: 2;
+    display: grid;
+    grid-template-columns: 170px 1fr 170px;
+    gap: 10px;
+    padding: 6px 12px;
+    min-height: 0;
+    align-items: center;
+  }
+  .nav { display: flex; flex-direction: column; gap: 6px; }
+  .nav button {
+    min-height: 44px; border: 1.5px solid #6d5719; background: rgba(12,13,17,.92);
+    font-size: 12px; font-weight: 700; letter-spacing: .05em; color: var(--muted); text-align: left; padding: 0 10px;
+  }
+  .nav button[aria-current="page"] { background: linear-gradient(180deg,#ffe079,#c99420); color: #15110a; border-color: var(--gold-hi); }
+
+  .centre { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+  .archive {
+    border: 1.5px solid #6d5719;
+    background: linear-gradient(180deg, rgba(20,21,26,.96), rgba(9,10,13,.96));
+    padding: 8px 10px;
+    text-align: center;
+  }
+  .card-title { margin: 0; font-size: 14px; font-weight: 600; }
+  .card-row { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 6px; margin-top: 4px; }
+  .who .name { display: block; font-size: 15px; font-weight: 700; }
+  .who .club { display: block; font-size: 11px; color: var(--muted); }
+  .crest { width: 30px; height: 30px; margin: 0 auto 2px; border: 1.5px solid var(--muted); border-radius: 50%; background: #1b1d24; }
+  .score { display: block; font-size: 26px; font-weight: 800; line-height: 1; }
+  .winner { display: block; margin-top: 3px; font-size: 12px; font-weight: 800; color: var(--gold-hi); }
+  .seasons { display: block; font-size: 11px; color: var(--muted); }
+  .pager { display: flex; justify-content: center; align-items: center; gap: 18px; height: 30px; }
+  .pager button { width: 40px; height: 30px; border: 0; background: transparent; font-size: 20px; color: var(--text); }
+  .dots { display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: var(--gold); }
+
+  .primary {
+    min-height: 56px;
+    border: 1.5px solid var(--gold-hi);
+    background: linear-gradient(180deg, #ffe38a 0%, #e0a92a 55%, #b57e1a 100%);
+    color: #15110a; font-size: 14px; font-weight: 800; letter-spacing: .04em;
+    clip-path: polygon(12px 0,calc(100% - 12px) 0,100% 50%,calc(100% - 12px) 100%,12px 100%,0 50%);
+  }
+
+  /* Bottom tab bar (hub screens, 900px wide or less). */
+  .tabbar {
+    position: relative; z-index: 2;
+    display: grid; grid-template-columns: repeat(5, 1fr);
+    background: #050608; border-top: 1px solid #3a2f12;
+  }
+  .tabbar a {
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+    text-decoration: none; font-size: 11px; letter-spacing: .06em; font-weight: 600; color: var(--text);
+  }
+  .tabbar a .ico { width: 14px; height: 12px; display: inline-block; background: currentColor; opacity: .9; border-radius: 2px; }
+  .tabbar a.on { color: var(--gold-hi); }
+</style>
+</head>
+<body>
+<main class="screen" aria-label="Legacy screen, sideways layout">
+  <div class="art" aria-hidden="true">
+    <img class="daniel" src="../../../../visual-assets/v10_1/legacy/assets/OVL_LG_DANIEL_FOREGROUND_V1_1X.webp" alt="">
+    <img class="nik" src="../../../../visual-assets/v10_1/legacy/assets/OVL_LG_NIK_FOREGROUND_V1_1X.webp" alt="">
+  </div>
+  <div class="shade" aria-hidden="true"></div>
+
+  <header class="topbar">
+    <button class="btn-back" type="button" aria-label="Back to main menu">BACK</button>
+    <p class="title">CAREER MODE SHOWDOWN 17 &middot; LEGACY</p>
+    <button class="btn-gear" type="button" aria-label="Settings">&#9881;</button>
+  </header>
+
+  <div class="body">
+    <nav class="nav" aria-label="Legacy destinations">
+      <button type="button" aria-current="page">LEGACY ARCHIVE</button>
+      <button type="button">TROPHY ROOM</button>
+      <button type="button">RECORDS</button>
+    </nav>
+
+    <div class="centre">
+      <section class="archive" aria-label="Legacy archive">
+        <p class="card-title">Showdown #1</p>
+        <div class="card-row">
+          <div class="who">
+            <div class="crest" aria-hidden="true"></div>
+            <span class="name">Daniel</span>
+            <span class="club">Club A</span>
+          </div>
+          <div>
+            <span class="score">15 &ndash; 5</span>
+            <span class="winner">&#9819; Daniel wins</span>
+            <span class="seasons">3 / 3 Seasons</span>
+          </div>
+          <div class="who">
+            <div class="crest" aria-hidden="true"></div>
+            <span class="name">Nik</span>
+            <span class="club">Club B</span>
+          </div>
+        </div>
+      </section>
+      <div class="pager" role="group" aria-label="Archive page 1 of 1">
+        <button type="button" aria-label="Previous archive item">&lsaquo;</button>
+        <span class="dots" aria-hidden="true"></span>
+        <button type="button" aria-label="Next archive item">&rsaquo;</button>
+      </div>
+    </div>
+
+    <button class="primary" type="button">VIEW SEASON HISTORY</button>
+  </div>
+
+  <nav class="tabbar" aria-label="Primary">
+    <a href="#"><span class="ico" aria-hidden="true"></span>HOME</a>
+    <a href="#" class="on" aria-current="page"><span class="ico" aria-hidden="true"></span>CAREER</a>
+    <a href="#"><span class="ico" aria-hidden="true"></span>STANDINGS</a>
+    <a href="#"><span class="ico" aria-hidden="true"></span>STATS</a>
+    <a href="#"><span class="ico" aria-hidden="true"></span>RULES</a>
+  </nav>
+</main>
+</body>
+</html>
