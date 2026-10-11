@@ -1,21 +1,21 @@
 {
-"updated": "2026-10-11T02:38:16Z",
+"updated": "2026-10-11T02:42:07Z",
 "total": 518,
-"next_free": 55,
+"next_free": 57,
 "highest_taken": 395,
 "counts": {
-"on_train": 13,
+"on_train": 17,
 "draft": 157,
-"waiting": 348
+"waiting": 344
 },
 "stages": {
 "2": {
 "name": "Screen fixes",
 "total": 266,
 "states": {
-"on_train": 13,
+"on_train": 17,
 "draft": 44,
-"waiting": 209
+"waiting": 205
 }
 },
 "1": {
@@ -76,7 +76,11 @@
 39,
 41,
 43,
-101
+55,
+101,
+107,
+119,
+125
 ],
 "draft_code_prs": 9,
 "area_locks": {
@@ -87,38 +91,38 @@
 "rules-settings": 587
 },
 "ready": [
-55,
 57,
 59,
 61,
-107,
+73,
 226,
 228,
 232,
 234,
 238,
 242,
-248
+248,
+250
 ],
 "ready_sol": [
-55,
 57,
 59,
 61,
-107,
+73,
 226,
 228,
 232,
 234,
 238,
 242,
-248
+248,
+250
 ],
 "ready_codex": []
 },
 "rate": {
-"claimed_last_hour": 13,
-"claimed_last_10min": 13,
+"claimed_last_hour": 17,
+"claimed_last_10min": 17,
 "merged_last_hour": 0
 },
 "events": [
@@ -1458,6 +1462,34 @@
 "job": 1211,
 "from": "waiting",
 "to": "on_train"
+},
+{
+"at": "2026-10-11T02:42:07Z",
+"item": 55,
+"job": 1064,
+"from": "waiting",
+"to": "on_train"
+},
+{
+"at": "2026-10-11T02:42:07Z",
+"item": 107,
+"job": 1414,
+"from": "waiting",
+"to": "on_train"
+},
+{
+"at": "2026-10-11T02:42:07Z",
+"item": 119,
+"job": 1212,
+"from": "waiting",
+"to": "on_train"
+},
+{
+"at": "2026-10-11T02:42:07Z",
+"item": 125,
+"job": 1415,
+"from": "waiting",
+"to": "on_train"
 }
 ],
 "items": {
@@ -2439,8 +2471,10 @@
 "title": "Home: fix the 844x390 view",
 "mode": "code",
 "group": "home",
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"state": "on_train",
+"branch": "gameplay/train-home-1",
+"first_seen": "2026-10-11T02:42:07Z",
+"since": "2026-10-11T02:42:07Z"
 },
 "56": {
 "job": 1494,
@@ -3316,8 +3350,10 @@
 "title": "Rule Book: fix the 768x1024 view",
 "mode": "code",
 "group": "rules-settings",
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"state": "on_train",
+"branch": "gameplay/train-rules-settings-2",
+"first_seen": "2026-10-11T02:42:07Z",
+"since": "2026-10-11T02:42:07Z"
 },
 "108": {
 "job": 1520,
@@ -3490,8 +3526,10 @@
 "title": "Season Results: fix the 1280x650 view",
 "mode": "code",
 "group": "season-final",
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"state": "on_train",
+"branch": "gameplay/train-season-final-2",
+"first_seen": "2026-10-11T02:42:07Z",
+"since": "2026-10-11T02:42:07Z"
 },
 "120": {
 "job": 1526,
@@ -3588,8 +3626,10 @@
 "title": "Rule Book: fix the 1280x650 view",
 "mode": "code",
 "group": "rules-settings",
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"state": "on_train",
+"branch": "gameplay/train-rules-settings-2",
+"first_seen": "2026-10-11T02:42:07Z",
+"since": "2026-10-11T02:42:07Z"
 },
 "126": {
 "job": 1529,
