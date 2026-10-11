@@ -151,6 +151,18 @@ Home desktop studies:
 372 400 428 456
 ```
 
+Connect Players desktop studies:
+
+```text
+388 416 444 472
+```
+
+Season Results desktop studies:
+
+```text
+382 410 438 466
+```
+
 Rule Book desktop studies:
 
 ```text
