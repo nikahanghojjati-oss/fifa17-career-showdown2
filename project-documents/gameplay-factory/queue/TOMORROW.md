@@ -139,6 +139,12 @@ Rule Book phone studies:
 240 268 296 324 352
 ```
 
+Standings phone studies:
+
+```text
+246 274 302 330 358
+```
+
 Home desktop studies:
 
 ```text
