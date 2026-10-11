@@ -74,6 +74,15 @@
     // Decorative phone composition only; the legacy form and its controls stay intact.
     const scene=doc.createElement("div");scene.className="v10SeasonPhoneScene";scene.setAttribute("aria-hidden","true");
     layout.prepend(scene);
+    // JOB-1599: sealed presentation copies existing tab words, never rival fields.
+    for(const manager of ["daniel","nik"]){
+      const tab=stage.querySelector('label[for="season-phone-tab-'+manager+'"]');
+      if(!tab)continue;
+      const sealed=doc.createElement("div");sealed.className="v10SeasonTabletSealed v10SeasonTabletSealed--"+manager;
+      sealed.setAttribute("aria-hidden","true");
+      sealed.textContent=[...tab.childNodes].map(node=>node.textContent.trim()).filter(Boolean).join("\n");
+      grid.appendChild(sealed);
+    }
     for(const node of original)if(node.parentNode===host)layout.appendChild(node);
     host.appendChild(stage);host.classList.add("seasonScreenV10");
     return stage;
@@ -394,6 +403,118 @@
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage :is(input,button,label):focus-visible {
   outline:2px solid white; outline-offset:2px;
  }
+}
+
+
+/* JOB-1599: adopted tablet 1230. Only upright 700-900px by 960-1240px.
+   Live controls/words and DOM tap order stay intact; provider-hidden fields stay hidden. */
+#app #seasonEntry .v10SeasonTabletSealed { display:none; }
+@media (min-width:700px) and (max-width:900px) and (min-height:960px) and (max-height:1240px) and (orientation:portrait) {
+ #app main:has(#seasonEntry.seasonScreenV10:not(.hidden):not(.v10FinalMode)) { overflow-y:auto; overflow-x:hidden; }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) { min-width:0; padding:0; overflow:visible; }
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage:not([hidden]) { box-sizing:border-box; min-width:0; min-height:100%; height:auto; position:relative; overflow:visible; }
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage .season-layout {
+  box-sizing:border-box; position:relative; min-width:0; width:100%;
+  max-width:1000px; min-height:100%; height:auto; margin:0 auto;
+  padding:0 18px max(18px,env(safe-area-inset-bottom)); display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); grid-template-rows:minmax(160px,1fr) 56px auto auto 64px;
+  gap:12px; overflow:visible; background:#090b0e;
+ }
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage .v10SeasonPhoneScene {
+  display:block; grid-column:1/-1; grid-row:1; position:relative;
+  min-width:0; height:clamp(160px,calc(100svh - 740px),440px); min-height:160px; margin:0 -18px;
+  overflow:hidden; pointer-events:none; background:#090b0e url("${assetUrl(BASE+"season-results/assets/ENV_SR_PHONE_V1.webp")}") center/cover;
+ }
+#app #seasonEntry.seasonScreenV10 .v10SeasonStage .v10SeasonPhoneScene::before { content:""; position:absolute; pointer-events:none; background-repeat:no-repeat; }
+#app #seasonEntry.seasonScreenV10 .v10SeasonStage .v10SeasonPhoneScene::after { content:""; position:absolute; pointer-events:none; background-repeat:no-repeat; }
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage .v10SeasonPhoneScene::before {
+  inset:0; background-image:url("${assetUrl(BASE+"season-results/assets/OVL_SR_DANIEL_PHONE_V1.webp")}"),url("${assetUrl(BASE+"season-results/assets/OVL_SR_NIK_PHONE_V1.webp")}"); background-position:left bottom 13%,right bottom 13%; background-size:49% 85%,49% 85%;
+ }
+#app #seasonEntry.seasonScreenV10 .v10SeasonStage .v10SeasonPhoneScene::after { inset:73% 5% 3%; background:url("${assetUrl(BASE+"season-results/assets/TITLE_SR_PHONE_V1.webp")}") center/contain no-repeat; }
+#app #seasonEntry.seasonScreenV10 .v10SeasonStage img:is([src*="OVL_SR_DANIEL_PHONE_V1"],[src*="OVL_SR_NIK_PHONE_V1"],[src*="TITLE_SR_PHONE_V1"]) { visibility:hidden; }
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage .season-layout> :has(label[for="season-phone-tab-daniel"]) {
+  grid-column:1/-1; grid-row:2; position:relative; min-width:0;
+  min-height:56px; margin:0; display:grid; grid-template-columns:1fr 1fr 1.1fr;
+  border:1px solid #f2c45b; border-radius:5px; background:#07090deb;
+ }
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage label:is([for="season-phone-tab-daniel"],[for="season-phone-tab-nik"]) {
+  box-sizing:border-box; min-width:0; min-height:56px; padding:4px;
+  display:flex; align-items:center; justify-content:center; flex-direction:column;
+  font-size:15px; line-height:1.2; letter-spacing:.6px; border:1px solid #ad8739;
+ }
+#app #seasonEntry.seasonScreenV10 .v10SeasonStage label:is([for="season-phone-tab-daniel"],[for="season-phone-tab-nik"]) small { font-size:11px; }
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage .season-layout> :has(label[for="season-phone-tab-daniel"]) :is(button,label):not([for="season-phone-tab-daniel"]):not([for="season-phone-tab-nik"]) {
+  box-sizing:border-box; min-width:0; min-height:56px; padding:4px;
+  font-size:14px; line-height:1.2; white-space:normal;
+ }
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage .seasonEntryGrid {
+  grid-column:1/-1; grid-row:3; min-width:0; width:100%;
+  margin:0; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px;
+  overflow:visible;
+ }
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage .seasonResultCard:not(.hidden) {
+  display:grid!important; box-sizing:border-box; position:relative; min-width:0;
+  width:100%; min-height:460px; height:auto; margin:0;
+  padding:16px; overflow:visible; grid-template-columns:minmax(0,1fr); grid-template-areas:"head" "f1" "f2" "f3" "checks";
+  grid-template-rows:auto repeat(3,minmax(52px,auto)) minmax(160px,auto); gap:10px; border:1px solid #f2c45b; border-radius:5px;
+  background:linear-gradient(125deg,#080b0dfc 65%,#292211f5); box-shadow:inset 0 0 0 3px #ad873922,0 6px 22px #0008;
+ }
+#app #seasonEntry.seasonScreenV10 .v10SeasonStage :is(#daniel-entry-panel,.v10SeasonTabletSealed--daniel) { grid-column:1; grid-row:1; }
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage .seasonEntryGrid:has(#daniel-entry-panel.hidden) .v10SeasonTabletSealed--daniel {
+  display:flex; box-sizing:border-box; min-width:0; min-height:460px;
+  padding:16px; align-items:center; justify-content:center; text-align:center;
+  white-space:pre-line; overflow-wrap:anywhere; font-size:32px; line-height:1.4;
+  color:#c9c2b0; border:1px solid #ad873955; border-radius:5px; background:#090b0ef2;
+ }
+#app #seasonEntry.seasonScreenV10 .v10SeasonStage:has(#season-phone-tab-daniel:checked) .v10SeasonTabletSealed--daniel { color:#f2c45b; border-color:#f2c45b; }
+#app #seasonEntry.seasonScreenV10 .v10SeasonStage :is(#nik-entry-panel,.v10SeasonTabletSealed--nik) { grid-column:2; grid-row:1; }
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage .seasonEntryGrid:has(#nik-entry-panel.hidden) .v10SeasonTabletSealed--nik {
+  display:flex; box-sizing:border-box; min-width:0; min-height:460px;
+  padding:16px; align-items:center; justify-content:center; text-align:center;
+  white-space:pre-line; overflow-wrap:anywhere; font-size:32px; line-height:1.4;
+  color:#c9c2b0; border:1px solid #ad873955; border-radius:5px; background:#090b0ef2;
+ }
+#app #seasonEntry.seasonScreenV10 .v10SeasonStage:has(#season-phone-tab-nik:checked) .v10SeasonTabletSealed--nik { color:#f2c45b; border-color:#f2c45b; }
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage .seasonManagerHeader {
+  grid-area:head; min-width:0; min-height:48px; margin:0 0 4px;
+  padding:0 0 10px; border-bottom:1px solid #f2c45b; gap:8px; flex-wrap:wrap;
+ }
+#app #seasonEntry.seasonScreenV10 .v10SeasonStage .seasonManagerHeader :is(h2,h3) { font-size:27px; margin:0; }
+#app #seasonEntry.seasonScreenV10 .v10SeasonStage .seasonManagerHeader img { max-width:30px; max-height:30px; object-fit:contain; }
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage .seasonResultCard>label {
+  display:flex; align-items:center; justify-content:space-between; min-width:0;
+  min-height:52px; gap:8px; font-size:13px; line-height:1.3;
+  letter-spacing:.5px; white-space:normal;
+ }
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage .seasonResultCard>label input[type=number] {
+  box-sizing:border-box; width:90px; min-width:44px; height:52px;
+  min-height:52px; flex:0 0 90px; padding:6px; font-size:24px;
+  border:1px solid #f2c45b; border-radius:4px;
+ }
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage .achievementChecks {
+  grid-area:checks; min-width:0; display:grid; grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:10px 14px; border-left:0; border-top:1px solid #ad873955; padding:12px 0 0;
+ }
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage .achievementChecks label {
+  min-width:0; min-height:74px; display:flex; flex-direction:column;
+  align-items:flex-start; justify-content:space-between; gap:4px; font-size:12px;
+  line-height:1.3; white-space:normal; overflow-wrap:anywhere;
+ }
+#app #seasonEntry.seasonScreenV10 .v10SeasonStage .achievementChecks input[type=checkbox] { width:44px; height:44px; min-width:44px; min-height:44px; margin:0; flex:0 0 44px; }
+#app #seasonEntry.seasonScreenV10 .v10SeasonStage .season-review-panel { grid-column:1/-1; grid-row:4; position:relative; min-width:0; margin:0; overflow:visible; }
+#app #seasonEntry.seasonScreenV10 .v10SeasonStage .season-review-panel .seasonReviewGrid { min-width:0; grid-template-columns:repeat(2,minmax(0,1fr)); }
+#app #seasonEntry.seasonScreenV10 .v10SeasonStage .season-review-panel .seasonSummaryCard { min-width:0; overflow-wrap:anywhere; }
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage .season-action-row {
+  grid-column:1/-1; grid-row:5; position:sticky; bottom:0;
+  z-index:3; min-width:0; margin:0; display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr)); align-items:center; gap:12px; background:#090b0e;
+ }
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage .season-action-row button {
+  box-sizing:border-box; min-width:0; min-height:56px; width:100%;
+  margin:0; padding:8px; white-space:normal; overflow-wrap:anywhere;
+  font-size:13px; line-height:1.3; border:1px solid #f2c45b; border-radius:4px;
+ }
+#app #seasonEntry.seasonScreenV10 .v10SeasonStage .season-review-panel .seasonReviewActions button { min-width:0; min-height:44px; white-space:normal; overflow-wrap:anywhere; }
+#app #seasonEntry.seasonScreenV10 .v10SeasonStage :is(input,button,label):focus-visible { outline:2px solid white; outline-offset:2px; }
 }
 
 `;
