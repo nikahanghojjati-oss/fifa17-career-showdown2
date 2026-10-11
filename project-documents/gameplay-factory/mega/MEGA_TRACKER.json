@@ -1,21 +1,21 @@
 {
-"updated": "2026-10-11T02:36:51Z",
+"updated": "2026-10-11T02:38:16Z",
 "total": 518,
 "next_free": 55,
 "highest_taken": 395,
 "counts": {
-"on_train": 18,
-"draft": 147,
-"waiting": 353
+"on_train": 13,
+"draft": 157,
+"waiting": 348
 },
 "stages": {
 "2": {
 "name": "Screen fixes",
 "total": 266,
 "states": {
-"on_train": 18,
-"draft": 34,
-"waiting": 214
+"on_train": 13,
+"draft": 44,
+"waiting": 209
 }
 },
 "1": {
@@ -56,6 +56,8 @@
 584,
 585,
 509,
+586,
+587,
 521,
 536,
 539,
@@ -66,60 +68,57 @@
 3,
 5,
 7,
-15,
-17,
 19,
 21,
 23,
 25,
-33,
-35,
 37,
 39,
 41,
 43,
-51,
-53
+101
 ],
-"draft_code_prs": 7,
+"draft_code_prs": 9,
 "area_locks": {
 "transfer": 584,
 "season-final": 585,
-"rivalry-legacy": 542
+"rivalry-legacy": 542,
+"career-screens": 586,
+"rules-settings": 587
 },
 "ready": [
 55,
 57,
 59,
 61,
-69,
-71,
+107,
 226,
 228,
 232,
 234,
 238,
-242
+242,
+248
 ],
 "ready_sol": [
 55,
 57,
 59,
 61,
-69,
-71,
+107,
 226,
 228,
 232,
 234,
 238,
-242
+242,
+248
 ],
 "ready_codex": []
 },
 "rate": {
-"claimed_last_hour": 8,
-"claimed_last_10min": 8,
+"claimed_last_hour": 13,
+"claimed_last_10min": 13,
 "merged_last_hour": 0
 },
 "events": [
@@ -1382,6 +1381,83 @@
 "job": 1210,
 "from": "waiting",
 "to": "draft"
+},
+{
+"at": "2026-10-11T02:38:16Z",
+"item": 15,
+"job": 1322,
+"from": "on_train",
+"to": "draft"
+},
+{
+"at": "2026-10-11T02:38:16Z",
+"item": 17,
+"job": 1409,
+"from": "on_train",
+"to": "draft"
+},
+{
+"at": "2026-10-11T02:38:16Z",
+"item": 33,
+"job": 1323,
+"from": "on_train",
+"to": "draft"
+},
+{
+"at": "2026-10-11T02:38:16Z",
+"item": 35,
+"job": 1410,
+"from": "on_train",
+"to": "draft"
+},
+{
+"at": "2026-10-11T02:38:16Z",
+"item": 51,
+"job": 1324,
+"from": "on_train",
+"to": "draft"
+},
+{
+"at": "2026-10-11T02:38:16Z",
+"item": 53,
+"job": 1411,
+"from": "on_train",
+"to": "draft"
+},
+{
+"at": "2026-10-11T02:38:16Z",
+"item": 69,
+"job": 1325,
+"from": "waiting",
+"to": "draft"
+},
+{
+"at": "2026-10-11T02:38:16Z",
+"item": 71,
+"job": 1412,
+"from": "waiting",
+"to": "draft"
+},
+{
+"at": "2026-10-11T02:38:16Z",
+"item": 87,
+"job": 1326,
+"from": "waiting",
+"to": "draft"
+},
+{
+"at": "2026-10-11T02:38:16Z",
+"item": 89,
+"job": 1413,
+"from": "waiting",
+"to": "draft"
+},
+{
+"at": "2026-10-11T02:38:16Z",
+"item": 101,
+"job": 1211,
+"from": "waiting",
+"to": "on_train"
 }
 ],
 "items": {
@@ -1635,10 +1711,19 @@
 "title": "Trophy Room: fix the 360x640 view",
 "mode": "code",
 "group": "career-screens",
-"state": "on_train",
+"pr": 586,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/586",
+"base": "gameplay/bug-list-1",
 "branch": "gameplay/train-career-screens-1",
+"ci": "draft",
+"ci_sha": "0d5bc11dfa2bc984ac59c47a393d5cb51415cd95",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-11T02:37:42Z",
 "first_seen": "2026-10-10T15:12:12Z",
-"since": "2026-10-10T15:12:12Z"
+"since": "2026-10-11T02:38:16Z"
 },
 "16": {
 "job": 1474,
@@ -1666,10 +1751,19 @@
 "title": "Rule Book: fix the 360x640 view",
 "mode": "code",
 "group": "rules-settings",
-"state": "on_train",
+"pr": 587,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/587",
+"base": "gameplay/bug-list-1",
 "branch": "gameplay/train-rules-settings-1",
+"ci": "draft",
+"ci_sha": "0a4d4583ae70a447e4ff5110a6cb889b80d5b8cb",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-11T02:38:18Z",
 "first_seen": "2026-10-10T15:12:12Z",
-"since": "2026-10-10T15:12:12Z"
+"since": "2026-10-11T02:38:16Z"
 },
 "18": {
 "job": 1475,
@@ -1941,10 +2035,19 @@
 "title": "Trophy Room: fix the 390x844 view",
 "mode": "code",
 "group": "career-screens",
-"state": "on_train",
+"pr": 586,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/586",
+"base": "gameplay/bug-list-1",
 "branch": "gameplay/train-career-screens-1",
+"ci": "draft",
+"ci_sha": "0d5bc11dfa2bc984ac59c47a393d5cb51415cd95",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-11T02:37:42Z",
 "first_seen": "2026-10-10T16:28:27Z",
-"since": "2026-10-10T16:28:27Z"
+"since": "2026-10-11T02:38:16Z"
 },
 "34": {
 "job": 1483,
@@ -1972,10 +2075,19 @@
 "title": "Rule Book: fix the 390x844 view",
 "mode": "code",
 "group": "rules-settings",
-"state": "on_train",
+"pr": 587,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/587",
+"base": "gameplay/bug-list-1",
 "branch": "gameplay/train-rules-settings-1",
+"ci": "draft",
+"ci_sha": "0a4d4583ae70a447e4ff5110a6cb889b80d5b8cb",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-11T02:38:18Z",
 "first_seen": "2026-10-10T16:44:48Z",
-"since": "2026-10-10T16:44:48Z"
+"since": "2026-10-11T02:38:16Z"
 },
 "36": {
 "job": 1484,
@@ -2247,10 +2359,19 @@
 "title": "Trophy Room: fix the 430x932 view",
 "mode": "code",
 "group": "career-screens",
-"state": "on_train",
+"pr": 586,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/586",
+"base": "gameplay/bug-list-1",
 "branch": "gameplay/train-career-screens-1",
+"ci": "draft",
+"ci_sha": "0d5bc11dfa2bc984ac59c47a393d5cb51415cd95",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-11T02:37:42Z",
 "first_seen": "2026-10-11T02:36:51Z",
-"since": "2026-10-11T02:36:51Z"
+"since": "2026-10-11T02:38:16Z"
 },
 "52": {
 "job": 1492,
@@ -2278,10 +2399,19 @@
 "title": "Rule Book: fix the 430x932 view",
 "mode": "code",
 "group": "rules-settings",
-"state": "on_train",
+"pr": 587,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/587",
+"base": "gameplay/bug-list-1",
 "branch": "gameplay/train-rules-settings-1",
+"ci": "draft",
+"ci_sha": "0a4d4583ae70a447e4ff5110a6cb889b80d5b8cb",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-11T02:38:18Z",
 "first_seen": "2026-10-11T02:36:51Z",
-"since": "2026-10-11T02:36:51Z"
+"since": "2026-10-11T02:38:16Z"
 },
 "54": {
 "job": 1493,
@@ -2545,8 +2675,19 @@
 "title": "Trophy Room: fix the 844x390 view",
 "mode": "code",
 "group": "career-screens",
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"pr": 586,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/586",
+"base": "gameplay/bug-list-1",
+"branch": "gameplay/train-career-screens-1",
+"ci": "draft",
+"ci_sha": "0d5bc11dfa2bc984ac59c47a393d5cb51415cd95",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-11T02:37:42Z",
+"first_seen": "2026-10-11T02:37:42Z",
+"since": "2026-10-11T02:38:16Z"
 },
 "70": {
 "job": 1501,
@@ -2574,8 +2715,19 @@
 "title": "Rule Book: fix the 844x390 view",
 "mode": "code",
 "group": "rules-settings",
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"pr": 587,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/587",
+"base": "gameplay/bug-list-1",
+"branch": "gameplay/train-rules-settings-1",
+"ci": "draft",
+"ci_sha": "0a4d4583ae70a447e4ff5110a6cb889b80d5b8cb",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-11T02:38:18Z",
+"first_seen": "2026-10-11T02:38:18Z",
+"since": "2026-10-11T02:38:16Z"
 },
 "72": {
 "job": 1502,
@@ -2839,8 +2991,19 @@
 "title": "Trophy Room: fix the 932x430 view",
 "mode": "code",
 "group": "career-screens",
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"pr": 586,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/586",
+"base": "gameplay/bug-list-1",
+"branch": "gameplay/train-career-screens-1",
+"ci": "draft",
+"ci_sha": "0d5bc11dfa2bc984ac59c47a393d5cb51415cd95",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-11T02:37:42Z",
+"first_seen": "2026-10-11T02:37:42Z",
+"since": "2026-10-11T02:38:16Z"
 },
 "88": {
 "job": 1510,
@@ -2868,8 +3031,19 @@
 "title": "Rule Book: fix the 932x430 view",
 "mode": "code",
 "group": "rules-settings",
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"pr": 587,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/587",
+"base": "gameplay/bug-list-1",
+"branch": "gameplay/train-rules-settings-1",
+"ci": "draft",
+"ci_sha": "0a4d4583ae70a447e4ff5110a6cb889b80d5b8cb",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-11T02:38:18Z",
+"first_seen": "2026-10-11T02:38:18Z",
+"since": "2026-10-11T02:38:16Z"
 },
 "90": {
 "job": 1511,
@@ -3042,8 +3216,10 @@
 "title": "Season Results: fix the 768x1024 view",
 "mode": "code",
 "group": "season-final",
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"state": "on_train",
+"branch": "gameplay/train-season-final-2",
+"first_seen": "2026-10-11T02:38:16Z",
+"since": "2026-10-11T02:38:16Z"
 },
 "102": {
 "job": 1517,
