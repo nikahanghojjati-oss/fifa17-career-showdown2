@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-11T06:50:00Z",
+ "updated": "2026-10-11T07:20:00Z",
  "from": "Team G lead",
  "you_come_in": [
   {
@@ -51,12 +51,25 @@
    "title": "Transfer train 2 (GPT chat)",
    "verdict": "good",
    "why": "Correctly found nothing to change and said so."
+  },
+  {
+   "job": "1606-1608",
+   "title": "Refresh-after-success must not look like a failure (Season Results, Season Commit, Shared Setup)",
+   "verdict": "good",
+   "why": "Small, focused fixes with tests; green Gate first time; merged #662, #663, #665."
+  },
+  {
+   "job": "1592",
+   "title": "Connect Players phone wiring (Work mode)",
+   "verdict": "fixed by lead",
+   "why": "The phone rule also caught tablets, the scene spilled sideways and Nik's JOIN button fell under the nav. A Claude browser check fixed it in CSS and merged #667."
   }
  ],
  "lessons": [
   "Work mode can see the pictures but can't render, so every layout PR still gets a browser check before merge.",
   "When hiding an old hero, also reset the space it reserved (rule d), or the screen scrolls.",
-  "Status notes and reports belong on factory/gameplay-v1, never on the game branch."
+  "Status notes and reports belong on factory/gameplay-v1, never on the game branch.",
+  "Phone-only wiring must cap the media query by height too (max-height ~700px), or portrait tablets that report width 760 pick up the phone layout."
  ],
  "rule": "You never need to tell the lead. When a job or train is finished, the lead checks it (tests plus a browser check for layouts) and merges it if it passes, usually within the hour. Only a release to the live game waits for you to type 'merge rNN'."
 }
