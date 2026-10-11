@@ -162,7 +162,7 @@
           // the same operationId (an own write that did land is bound, never written twice); bounded, then surfaced as before.
           if(PSSR_CONTENTION_CODES.includes(published?.code)&&contentionRetries<PSSR_CONTENTION_RETRY_MS.length){await pssrWait(PSSR_CONTENTION_RETRY_MS[contentionRetries]);contentionRetries+=1;if(!pssrContextMatches(request))return false;const fresh=await provider.read(ctx.options);if(!pssrContextMatches(request))return false;if(fresh?.ok===true)current=fresh;continue;}
           const result=pssrResultError(published,"Your shared Season Result could not be published.");if(!pssrContextMatches(request))return true;
-          view={...result,setup:ctx.setup.setup,rivalryId:ctx.setup.rivalryId};contextKey=request.key;draft=null;await pssrRefreshNow(request);return true;
+          view={...result,setup:ctx.setup.setup,rivalryId:ctx.setup.rivalryId};contextKey=request.key;draft=null;try{await pssrRefreshNow(request);}catch(_error){pssrRefresh().catch(()=>{});}return true;
         }
       });
     }catch(error){if(pssrContextMatches(request)){pssrSetError(error.message||error.code||"Shared Season Result publication failed.");pssrReport("Unable to publish Shared Season Result",error);}return false;}
