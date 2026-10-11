@@ -1,14 +1,14 @@
 {
-"updated": "2026-10-11T21:39:48Z",
+"updated": "2026-10-11T21:41:18Z",
 "total": 518,
-"next_free": 165,
+"next_free": 167,
 "highest_taken": 403,
 "counts": {
 "merged": 161,
 "closed": 82,
-"draft": 5,
-"on_train": 25,
-"waiting": 245
+"draft": 10,
+"on_train": 21,
+"waiting": 244
 },
 "stages": {
 "2": {
@@ -17,9 +17,9 @@
 "states": {
 "merged": 25,
 "closed": 44,
-"draft": 5,
-"on_train": 25,
-"waiting": 167
+"draft": 10,
+"on_train": 21,
+"waiting": 166
 }
 },
 "1": {
@@ -60,28 +60,25 @@
 "cap": 8,
 "open_code_prs": 0,
 "open_train_prs": [
-681
+681,
+682
 ],
 "on_train_no_pr": [
-93,
 95,
 97,
 101,
 105,
 107,
-111,
 113,
 115,
 119,
 123,
 125,
-129,
 131,
 133,
 137,
 141,
 143,
-147,
 149,
 151,
 155,
@@ -89,12 +86,12 @@
 161,
 403
 ],
-"draft_code_prs": 1,
+"draft_code_prs": 2,
 "area_locks": {
-"home": 681
+"home": 681,
+"start-join": 682
 },
 "ready": [
-165,
 167,
 169,
 173,
@@ -105,10 +102,10 @@
 246,
 268,
 274,
-296
+296,
+302
 ],
 "ready_sol": [
-165,
 167,
 169,
 173,
@@ -119,11 +116,11 @@
 246,
 268,
 274,
-296
+296,
+302
 ],
 "ready_codex": [],
 "ready_all": [
-165,
 167,
 169,
 173,
@@ -168,7 +165,7 @@
 456,
 464
 ],
-"ready_total": 25,
+"ready_total": 24,
 "held_until_picture": 48,
 "held_by_picture": {
 "desktop STATISTICS": 4,
@@ -186,8 +183,8 @@
 }
 },
 "rate": {
-"claimed_last_hour": 3,
-"claimed_last_10min": 3,
+"claimed_last_hour": 4,
+"claimed_last_10min": 4,
 "merged_last_hour": 0
 },
 "lanes": {
@@ -197,19 +194,19 @@
 "states": {
 "merged": 25,
 "closed": 25,
-"draft": 5,
-"on_train": 25,
-"waiting": 159
+"draft": 10,
+"on_train": 21,
+"waiting": 158
 },
 "reviews": {
 "ok": 0,
 "ok_notes": 0,
 "needs_changes": 0
 },
-"picked_up": 80,
-"worker_done": 55,
+"picked_up": 81,
+"worker_done": 56,
 "finished": 25,
-"pending_lead": 30,
+"pending_lead": 31,
 "wait_v": 0,
 "audit_batch": 0,
 "trouble": 0,
@@ -270,11 +267,11 @@
 },
 "codex": {
 "name": "Codex",
-"total": 15,
+"total": 16,
 "states": {
 "live": 8,
 "merged": 1,
-"waiting": 2,
+"waiting": 3,
 "closed": 4
 },
 "reviews": {
@@ -368,7 +365,8 @@
 }
 },
 "ready_for_lead": [
-681
+681,
+682
 ],
 "old_main_prs": 0,
 "codex_next": [
@@ -379,6 +377,10 @@
 {
 "job": 1589,
 "title": "Old-design flash: browser regression guard (tests only)"
+},
+{
+"job": 1647,
+"title": "Loading screen: wire the approved PHONE_LOADING and NEXT_LOADING pictures"
 }
 ],
 "codex_waiting_on_deps": [],
@@ -1108,41 +1110,6 @@
 }
 ],
 "events": [
-{
-"at": "2026-10-11T04:03:15Z",
-"item": 35,
-"job": 1410,
-"from": "draft",
-"to": "closed"
-},
-{
-"at": "2026-10-11T04:03:15Z",
-"item": 43,
-"job": 1150,
-"from": "draft",
-"to": "closed"
-},
-{
-"at": "2026-10-11T04:03:15Z",
-"item": 45,
-"job": 1179,
-"from": "draft",
-"to": "closed"
-},
-{
-"at": "2026-10-11T04:03:15Z",
-"item": 49,
-"job": 1295,
-"from": "draft",
-"to": "closed"
-},
-{
-"at": "2026-10-11T04:03:15Z",
-"item": 53,
-"job": 1411,
-"from": "draft",
-"to": "closed"
-},
 {
 "at": "2026-10-11T04:03:15Z",
 "item": 61,
@@ -3207,6 +3174,41 @@
 "job": 1070,
 "from": "on_train",
 "to": "draft"
+},
+{
+"at": "2026-10-11T21:41:18Z",
+"item": 93,
+"job": 1095,
+"from": "on_train",
+"to": "draft"
+},
+{
+"at": "2026-10-11T21:41:18Z",
+"item": 111,
+"job": 1096,
+"from": "on_train",
+"to": "draft"
+},
+{
+"at": "2026-10-11T21:41:18Z",
+"item": 129,
+"job": 1097,
+"from": "on_train",
+"to": "draft"
+},
+{
+"at": "2026-10-11T21:41:18Z",
+"item": 147,
+"job": 1098,
+"from": "on_train",
+"to": "draft"
+},
+{
+"at": "2026-10-11T21:41:18Z",
+"item": 165,
+"job": 1099,
+"from": "waiting",
+"to": "draft"
 }
 ],
 "items": {
@@ -4672,10 +4674,19 @@
 "title": "Connect Players (start and join): fix the 768x1024 view",
 "mode": "code",
 "group": "start-join",
-"state": "on_train",
+"pr": 682,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/682",
+"base": "gameplay/bug-list-1",
 "branch": "gameplay/train-start-join-2",
+"ci": "draft",
+"ci_sha": "5359ebdc66cbf49b167a0f8bd310a28e47c7774a",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-11T21:40:15Z",
 "first_seen": "2026-10-11T04:57:32Z",
-"since": "2026-10-11T04:57:32Z"
+"since": "2026-10-11T21:41:18Z"
 },
 "94": {
 "job": 1513,
@@ -4932,10 +4943,19 @@
 "title": "Connect Players (start and join): fix the 1280x650 view",
 "mode": "code",
 "group": "start-join",
-"state": "on_train",
+"pr": 682,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/682",
+"base": "gameplay/bug-list-1",
 "branch": "gameplay/train-start-join-2",
+"ci": "draft",
+"ci_sha": "5359ebdc66cbf49b167a0f8bd310a28e47c7774a",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-11T21:40:15Z",
 "first_seen": "2026-10-11T05:06:44Z",
-"since": "2026-10-11T05:06:44Z"
+"since": "2026-10-11T21:41:18Z"
 },
 "112": {
 "job": 1522,
@@ -5192,10 +5212,19 @@
 "title": "Connect Players (start and join): fix the 1366x768 view",
 "mode": "code",
 "group": "start-join",
-"state": "on_train",
+"pr": 682,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/682",
+"base": "gameplay/bug-list-1",
 "branch": "gameplay/train-start-join-2",
+"ci": "draft",
+"ci_sha": "5359ebdc66cbf49b167a0f8bd310a28e47c7774a",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-11T21:40:15Z",
 "first_seen": "2026-10-11T05:10:44Z",
-"since": "2026-10-11T05:10:44Z"
+"since": "2026-10-11T21:41:18Z"
 },
 "130": {
 "job": 1531,
@@ -5452,10 +5481,19 @@
 "title": "Connect Players (start and join): fix the 1920x1080 view",
 "mode": "code",
 "group": "start-join",
-"state": "on_train",
+"pr": 682,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/682",
+"base": "gameplay/bug-list-1",
 "branch": "gameplay/train-start-join-2",
+"ci": "draft",
+"ci_sha": "5359ebdc66cbf49b167a0f8bd310a28e47c7774a",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-11T21:40:15Z",
 "first_seen": "2026-10-11T08:13:44Z",
-"since": "2026-10-11T08:13:44Z"
+"since": "2026-10-11T21:41:18Z"
 },
 "148": {
 "job": 1540,
@@ -5712,8 +5750,19 @@
 "title": "Connect Players (start and join): fix the 2560x1080 view",
 "mode": "code",
 "group": "start-join",
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"pr": 682,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/682",
+"base": "gameplay/bug-list-1",
+"branch": "gameplay/train-start-join-2",
+"ci": "draft",
+"ci_sha": "5359ebdc66cbf49b167a0f8bd310a28e47c7774a",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-11T21:40:15Z",
+"first_seen": "2026-10-11T21:40:15Z",
+"since": "2026-10-11T21:41:18Z"
 },
 "166": {
 "job": 1549,
