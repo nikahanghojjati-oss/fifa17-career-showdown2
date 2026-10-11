@@ -318,3 +318,156 @@
     min-height:0; margin:0; padding:0;
   }
 }
+
+/* JOB-1601: adopted 1375, upright tablets only. Persistent totals on the left;
+   TOTALS pairs with head-to-head; other tabs choose the supporting right pane.
+   Scene shrinks around the live title, 300px cards, 52px action and hub reserve. */
+@media (min-width:700px) and (max-width:900px) and (orientation:portrait) {
+  main:has(> #statistics[data-rivalry-legacy-v10]) {
+    box-sizing:border-box; position:fixed; inset:0; display:block; width:100%; max-width:none;
+    padding:0; margin:0; height:100svh; max-height:100svh; overflow:auto; background:#07090c;
+  }
+  #statistics[data-rivalry-legacy-v10] {
+    position:relative; inset:auto; width:100%; height:auto; min-height:0; overflow:visible;
+    --sr-hero:0px; --rv-hero:0px;
+  }
+  #statistics[data-rivalry-legacy-v10] .rv-stage {
+    box-sizing:border-box; position:relative; inset:auto; width:100%; height:auto;
+    min-height:0; aspect-ratio:auto; margin:0; padding:0; overflow:visible; background-image:none;
+  }
+  #statistics[data-rivalry-legacy-v10] :is(.rv-phoneArt,.rv-phoneHero,.rv-cutout,.rv-rim,.rv-contact,
+    .sd-stage__layer--plate,.sd-stage__layer--cutout,.sd-stage__layer--light,.topbarReserve) { display:none; }
+  #statistics[data-rivalry-legacy-v10] .rv-adoptedPhoneScene {
+    display:block; position:relative; overflow:hidden; width:100%;
+    height:clamp(0px,calc(100svh - 680px - env(safe-area-inset-bottom)),520px);
+  }
+  #statistics[data-rivalry-legacy-v10] .rv-adoptedPhoneScene::after {
+    content:""; position:absolute; inset:65% 0 0; background:linear-gradient(transparent,#07090c);
+  }
+  #statistics[data-rivalry-legacy-v10] .rv-adoptedPhoneStadium {
+    position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
+    object-position:50% 32%; filter:brightness(.64);
+  }
+  #statistics[data-rivalry-legacy-v10] .rv-adoptedPhoneManager {
+    position:absolute; top:0; height:120%; max-height:520px; width:auto; max-width:none; object-fit:contain;
+  }
+  #statistics[data-rivalry-legacy-v10] .rv-adoptedPhoneManager--daniel { left:8%; }
+  #statistics[data-rivalry-legacy-v10] .rv-adoptedPhoneManager--nik { left:54%; }
+  #statistics[data-rivalry-legacy-v10] .rv-shell {
+    box-sizing:border-box; position:relative; inset:auto; transform:none; width:100%;
+    height:auto; min-height:0; max-height:none; overflow:visible; margin:0; padding:0 24px 16px;
+    display:grid; grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);
+    grid-template-rows:auto auto 52px minmax(300px,auto) auto 52px; gap:12px 16px;
+  }
+  #statistics[data-rivalry-legacy-v10] .rv-titleBlock {
+    grid-area:1 / 1 / auto / -1; position:relative; inset:auto; transform:none;
+    width:100%; margin:0; padding:0; text-align:center;
+  }
+  #statistics[data-rivalry-legacy-v10] .rv-titleBlock .sd-eyebrow {
+    margin:4px 0 3px; font-size:10px; line-height:14px; letter-spacing:.4em;
+  }
+  #statistics[data-rivalry-legacy-v10] .rv-wordmark { width:78%; height:64px; min-height:0; margin:0 auto; padding:0; }
+  #statistics[data-rivalry-legacy-v10] .rv-wordmark :is(picture,img) {
+    display:block; width:100%; height:64px; max-height:none; object-fit:contain;
+  }
+  #statistics[data-rivalry-legacy-v10] .rv-titleBlock .sd-tagline {
+    margin:2px 0 0; font-size:12px; line-height:16px; letter-spacing:.3em;
+  }
+  #statistics[data-rivalry-legacy-v10] .rv-interim {
+    grid-area:2 / 1 / auto / -1; position:static; margin:0; padding:0; font-size:12px; line-height:16px; text-align:center;
+  }
+  #statistics[data-rivalry-legacy-v10] :is(.rv-interim,.rv-state):empty { display:none; }
+  #statistics[data-rivalry-legacy-v10] .rv-tabs {
+    grid-area:3 / 1 / auto / -1; display:grid; grid-template-columns:repeat(4,minmax(0,1fr));
+    height:52px; min-height:52px; margin:0; padding:0; border:1px solid #b89043;
+  }
+  #statistics[data-rivalry-legacy-v10] .rv-tabs button {
+    min-width:44px; min-height:50px; padding:4px; font-size:14px; line-height:18px;
+    white-space:normal; overflow-wrap:normal; word-break:normal;
+  }
+  #statistics[data-rivalry-legacy-v10] .rv-tabs button[aria-selected="true"] {
+    color:#f3ce6a; box-shadow:inset 0 -3px #f3ce6a;
+  }
+  #statistics[data-rivalry-legacy-v10] :is(.rv-comparison,.rv-bottom) {
+    box-sizing:border-box; position:relative; inset:auto; transform:none; width:100%; min-width:0;
+    height:auto; min-height:300px; max-height:none; overflow:visible; margin:0; padding:12px; display:none;
+    border:1px solid #b89043; background:linear-gradient(115deg,#17191bdd,#080b0ff2);
+    box-shadow:inset 0 0 0 2px #322d20,0 2px 8px #0008;
+  }
+  #statistics[data-rivalry-legacy-v10] .rv-shell[data-tab] #rvPanelTotals:not([hidden]) {
+    grid-area:4 / 1; display:grid; grid-template-columns:minmax(0,1fr) 88px minmax(0,1fr);
+    grid-template-rows:50px auto auto minmax(218px,1fr); align-items:center;
+  }
+  #statistics[data-rivalry-legacy-v10] .rv-shell[data-tab="totals"] #rvPanelHead:not([hidden]),
+  #statistics[data-rivalry-legacy-v10] .rv-shell[data-tab="head"] #rvPanelHead:not([hidden]),
+  #statistics[data-rivalry-legacy-v10] .rv-shell[data-tab="seasons"] #rvPanelSeasons:not([hidden]),
+  #statistics[data-rivalry-legacy-v10] .rv-shell[data-tab="trophies"] #rvPanelTrophies:not([hidden]) {
+    grid-area:4 / 2; display:flex; flex-direction:column;
+  }
+  #statistics[data-rivalry-legacy-v10] .rv-manager {
+    position:static; width:auto; min-width:0; display:flex; gap:6px; align-items:center; margin:0; padding:0;
+  }
+  #statistics[data-rivalry-legacy-v10] .rv-manager--left { grid-area:1 / 1; }
+  #statistics[data-rivalry-legacy-v10] .rv-manager--right { grid-area:1 / 3; justify-content:flex-end; text-align:right; }
+  #statistics[data-rivalry-legacy-v10] .rv-manager strong { display:block; color:#f3ce6a; font-size:20px; line-height:22px; }
+  #statistics[data-rivalry-legacy-v10] .rv-manager span {
+    display:block; font-size:11px; line-height:13px; white-space:normal; overflow-wrap:normal; word-break:normal;
+  }
+  #statistics[data-rivalry-legacy-v10] .rv-crest { flex:none; width:22px; height:29px; }
+  #statistics[data-rivalry-legacy-v10] .rv-crest :is(svg,img) { width:100%; height:100%; object-fit:contain; }
+  #statistics[data-rivalry-legacy-v10] .rv-progress {
+    grid-area:1 / 2; position:static; width:auto; margin:0; padding:0; font-size:9px; line-height:13px; text-align:center;
+  }
+  #statistics[data-rivalry-legacy-v10] .rv-coverage { grid-area:2 / 1 / auto / -1; }
+  #statistics[data-rivalry-legacy-v10] .rv-readState { grid-area:3 / 1 / auto / -1; }
+  #statistics[data-rivalry-legacy-v10] .rv-rows {
+    grid-area:4 / 1 / auto / -1; display:grid; grid-template-rows:54px repeat(6,minmax(26px,1fr));
+    width:100%; height:100%; min-height:218px; margin:0; padding:0; overflow:visible;
+  }
+  #statistics[data-rivalry-legacy-v10] .rv-row {
+    display:grid; grid-template-columns:minmax(62px,1fr) 24px minmax(128px,1.7fr) minmax(62px,1fr);
+    align-items:center; margin:0; padding:0; min-height:0; border-top:1px solid #ffffff20;
+  }
+  #statistics[data-rivalry-legacy-v10] .rv-value { font-size:23px; line-height:26px; text-align:center; font-variant-numeric:tabular-nums; }
+  #statistics[data-rivalry-legacy-v10] .rv-icon { font-size:18px; text-align:center; color:#f3ce6a; }
+  #statistics[data-rivalry-legacy-v10] .rv-label {
+    font-size:12px; line-height:14px; text-align:center; white-space:normal; overflow-wrap:normal; word-break:normal;
+  }
+  #statistics[data-rivalry-legacy-v10] .rv-row:first-child {
+    border-block:1px solid #b89043; background:linear-gradient(90deg,#b38b3210,#dfb74a30,#b38b3210);
+  }
+  #statistics[data-rivalry-legacy-v10] .rv-row:first-child .rv-value { font-size:40px; line-height:1; }
+  #statistics[data-rivalry-legacy-v10] .rv-row:first-child .rv-label { color:#f3ce6a; font-size:11px; font-weight:700; text-transform:uppercase; }
+  #statistics[data-rivalry-legacy-v10] :is(.rv-value.unavailable,.rv-row:last-child .rv-value) { font-size:11px; }
+  #statistics[data-rivalry-legacy-v10] .rv-bottom .sd-panel__header { margin:4px 0 12px; font-size:16px; line-height:20px; }
+  #statistics[data-rivalry-legacy-v10] :is(#rvHeadBody,#rvSeasonBody,#rvTrophyBody) {
+    flex:1; min-width:0; height:auto; max-height:none; overflow:visible;
+  }
+  #statistics[data-rivalry-legacy-v10] .rv-bottom table { width:100%; table-layout:fixed; border-collapse:collapse; font-size:14px; }
+  #statistics[data-rivalry-legacy-v10] .rv-bottom :is(th,td) {
+    padding:10px 2px; white-space:normal; overflow-wrap:normal; word-break:normal;
+  }
+  #statistics[data-rivalry-legacy-v10] .rv-bottom th { font-size:10px; }
+  #statistics[data-rivalry-legacy-v10] #rvTrophyBody { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; }
+  #statistics[data-rivalry-legacy-v10] #rvTrophyBody > :only-child { grid-column:1 / -1; }
+  #statistics[data-rivalry-legacy-v10] #rvTrophyBody > :only-child:has(> :nth-child(4)) {
+    display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px;
+  }
+  #statistics[data-rivalry-legacy-v10] #rvTrophyBody img { width:100%; max-height:72px; object-fit:contain; }
+  #statistics[data-rivalry-legacy-v10] .rv-headCaption { margin:8px 0 0; font-size:10px; line-height:14px; }
+  #statistics[data-rivalry-legacy-v10] .rv-state {
+    grid-area:5 / 1 / auto / -1; position:static; margin:0; padding:0; font-size:12px; line-height:16px;
+  }
+  #statistics[data-rivalry-legacy-v10] .rv-actions {
+    grid-area:6 / 1 / auto / -1; position:sticky; inset:auto;
+    bottom:calc(64px + env(safe-area-inset-bottom)); z-index:10;
+    display:flex; justify-content:center; width:100%; margin:0; padding:0; background:#07090c;
+  }
+  #statistics[data-rivalry-legacy-v10] #rvBack {
+    box-sizing:border-box; width:72%; min-width:44px; min-height:52px; height:52px;
+    margin:0; padding:8px; font-size:18px; line-height:24px;
+  }
+  #statistics[data-rivalry-legacy-v10] .nav-reserve {
+    height:calc(64px + env(safe-area-inset-bottom)); min-height:0; margin:0; padding:0;
+  }
+}
