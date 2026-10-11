@@ -67,3 +67,11 @@ Format: `date | study item number | screen | adopted / not adopted | one line wh
 | 2026-10-11 | 1141 | Select League phone (C) | not adopted | Same broken giant mark shape as 1139; managers mostly hidden. |
 | 2026-10-11 | 1142 | Select League sideways | not adopted | Same broken mark shape; Nik covers the note and CONTINUE button text, and the page scrolls (404 tall at 390). |
 | 2026-10-11 | 1143 | Select League tablet | not adopted | Same broken giant mark shape over the wheel; managers tiny at the sides. |
+| 2026-10-11 | 1622 | Select League phone (A, re-run) | adopted | Fixes 1139: the five flat gold marks sit small inside their slices with the football hub, Premier League slice lit; managers either side of the wheel, note, CONTINUE and BACK; no scroll at all three sizes. When wiring, make the managers larger like PHONE_LEAGUE. |
+| 2026-10-11 | 1623 | Select League phone (B, re-run) | not adopted | Same wheel, but the managers shrink to small corner pictures; 1622 chosen. |
+| 2026-10-11 | 1624 | Select League phone (C, re-run) | not adopted | Managers small in the corners and CONTINUE squeezed beside BACK at 375x553; 1622 chosen. |
+| 2026-10-11 | 1625 | Select League sideways (re-run) | adopted | Wheel left, title, note, CONTINUE and BACK right, Daniel left and Nik right; fits 844x390 and 740x360. |
+| 2026-10-11 | 1626 | Select League tablet (re-run) | adopted | Clean wheel with correct marks, note and both buttons; fits both tablet sizes. When wiring, make the wheel and the managers larger (lots of empty space at 820x1180). |
+| 2026-10-11 | 1627 | Home phone (B, re-run) | adopted | Closest to PHONE_HOME: big managers on top, title, CONTINUE CAREER, 3x2 tile grid, soundtrack bar and bottom tabs; no scroll at all three sizes. When wiring, make each tile's art larger on the right side and keep labels clear of it (STATISTICS touches its art; may be the fallback font, recheck with Barlow Condensed). |
+| 2026-10-11 | 1628 | Home phone (C, re-run) | not adopted | Same layout as 1627 with smaller managers and a squeezed title area; 1627 chosen. |
+| 2026-10-11 | 1629 | Home sideways (re-run) | adopted | Fixes 1084: managers and title left, CONTINUE CAREER, six tiles and soundtrack right, nothing overlapping; fits 844x390 and 740x360. |
