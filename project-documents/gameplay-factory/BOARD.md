@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Sat 10 Oct, 11:19 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Sat 10 Oct, 11:27 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r69** (main `f335734`, Sat 10 Oct 3:50 PM)
 
@@ -18,7 +18,7 @@ Updated Sat 10 Oct, 11:19 PM Boston time. Bug hunting only, no new features unti
 
 **#1 · 1581** `G` Showdown Gate: split the slowest lane and cache downloads  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · **Codex default coding model** · High effort · worker working, draft PR #618 · CI 7 of 8 passed · last move 13 min ago
+⚪ Team white · **Codex default coding model** · High effort · worker working, draft PR #618 · CI 7 of 8 passed · last move 21 min ago
 
 ### 👉 Next for you, in this order
 
@@ -107,7 +107,7 @@ One numbered queue: type a bare number in any GPT chat. Live from GitHub (queue/
 Type now, in any GPT chat:
 
 ```text
-228 236 252 256 264 280 284 292 308 312 320 336
+105 137 228 230 236 244 252 256 258 264 272 280
 ```
 
 Open code PRs: 0/8.
@@ -117,7 +117,7 @@ Open code PRs: 0/8.
 | Stage | Items | Merged | Picked up |
 | --- | --- | --- | --- |
 | audits | 112 | 0/112 | 112/112 |
-| screen fixes | 266 | 0/266 | 68/266 |
+| screen fixes | 266 | 10/266 | 68/266 |
 | mockup match | 14 | 0/14 | 1/14 |
 | phone studies | 70 | 0/70 | 35/70 |
 | desktop studies | 56 | 0/56 | 0/56 |
@@ -149,12 +149,12 @@ Open code PRs: 0/8.
 
 ## Mega tracker (live, free)
 
-Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/index.html) · summary: [mega/MEGA_TRACKER.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/MEGA_TRACKER.md) · rebuilt by the poller each round, updated 2026-10-11T03:19:11Z.
+Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/index.html) · summary: [mega/MEGA_TRACKER.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/MEGA_TRACKER.md) · rebuilt by the poller each round, updated 2026-10-11T03:27:13Z.
 
 | Stage | Done (merged or live) | In progress | Waiting |
 | --- | --- | --- | --- |
 | Gameplay audits | 0 of 112 | 112 | 0 |
-| Screen fixes | 0 of 266 | 68 | 198 |
+| Screen fixes | 10 of 266 | 58 | 198 |
 | Match desktop to mockups | 0 of 14 | 1 | 13 |
 | Phone mockup studies | 0 of 70 | 35 | 35 |
 | Improved desktop studies | 0 of 56 | 0 | 56 |
@@ -166,9 +166,7 @@ Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-caree
 - 593
 - 598
 - 584
-- 585
 - 509
-- 586
 - 587
 - 521
 - 536
@@ -177,7 +175,16 @@ Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-caree
 
 **Latest finished numbers (up to 20)**
 
-- none finished yet
+- #1326 · Trophy Room: fix the 932x430 view · merged
+- #1325 · Trophy Room: fix the 844x390 view · merged
+- #1324 · Trophy Room: fix the 430x932 view · merged
+- #1323 · Trophy Room: fix the 390x844 view · merged
+- #1322 · Trophy Room: fix the 360x640 view · merged
+- #1210 · Season Results: fix the 932x430 view · merged
+- #1209 · Season Results: fix the 844x390 view · merged
+- #1208 · Season Results: fix the 430x932 view · merged
+- #1207 · Season Results: fix the 390x844 view · merged
+- #1206 · Season Results: fix the 360x640 view · merged
 
 ## Other asks
 
