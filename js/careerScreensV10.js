@@ -615,7 +615,7 @@
   );
 
 
-  const TROPHY_1280_LAPTOP_CSS=String.raw\`
+  const TROPHY_1280_LAPTOP_CSS=String.raw`
 /* JOB-1328: 1280x650-class small laptops get a single page scroller.
    The frozen Team V desktop composition assumes a taller fixed stage, whose
    31px tabs, 40px back action and clipped cabinet cannot hold the content. */
@@ -738,7 +738,7 @@
     margin:24px 0 0;
   }
 }
-\`;
+`;
 
   const TROPHY_768_TABLET_CSS=String.raw`
 /* JOB-1327: upright 768x1024 tablet has one vertically scrolling surface.
