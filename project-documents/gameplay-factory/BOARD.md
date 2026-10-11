@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Sat 10 Oct, 10:54 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Sat 10 Oct, 10:57 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r69** (main `f335734`, Sat 10 Oct 3:50 PM)
 
@@ -113,7 +113,7 @@ One numbered queue: type a bare number in any GPT chat. Live from GitHub (queue/
 Type now, in any GPT chat:
 
 ```text
-228 242 254 256 270 278 282 284 298 306 310 312
+228 242 256 270 284 298 312 326 334 338 340 354
 ```
 
 Open code PRs: 0/8.
@@ -125,7 +125,7 @@ Open code PRs: 0/8.
 | audits | 112 | 0/112 | 112/112 |
 | screen fixes | 266 | 0/266 | 68/266 |
 | mockup match | 14 | 0/14 | 1/14 |
-| phone studies | 70 | 0/70 | 21/70 |
+| phone studies | 70 | 0/70 | 27/70 |
 | desktop studies | 56 | 0/56 | 0/56 |
 
 **Last taken numbers**
@@ -139,30 +139,30 @@ Open code PRs: 0/8.
 | 363 | 1351 | PR open | Rivalry Statistics: fix the 360x640 view |
 | 360 | 1114 | PR open | Connect Players (start and join): upright tablet study |
 | 355 | 1312 | PR open | Legacy: hover-only effects |
+| 350 | 1375 | PR open | Rivalry Statistics: upright tablet study |
 | 346 | 1143 | blocked | Select League: upright tablet study |
 | 344 | 1085 | PR open | Home: upright tablet study |
 | 337 | 1311 | PR open | Legacy: error and retry state |
 | 332 | 1113 | PR open | Connect Players (start and join): sideways phone study |
-| 322 | 1374 | branch only | Rivalry Statistics: sideways phone study |
+| 322 | 1374 | PR open | Rivalry Statistics: sideways phone study |
 | 319 | 1310 | PR open | Legacy: empty state |
 | 318 | 1142 | blocked | Select League: sideways phone study |
 | 316 | 1084 | PR open | Home: sideways phone study |
+| 310 | 1403 | branch only | Career Statistics: sideways phone study |
+| 306 | 1199 | PR open | Transfer challenge and Signing Entry: phone mockup, version C (compact) |
 | 304 | 1112 | PR open | Connect Players (start and join): phone mockup, version C (compact) |
 | 301 | 1309 | PR open | Legacy: loading state |
-| 294 | 1373 | PR open | Rivalry Statistics: phone mockup, version C (compact) |
-| 290 | 1141 | blocked | Select League: phone mockup, version C (compact) |
-| 288 | 1083 | PR open | Home: phone mockup, version C (compact) |
 
 ## Mega tracker (live, free)
 
-Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/index.html) · summary: [mega/MEGA_TRACKER.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/MEGA_TRACKER.md) · rebuilt by the poller each round, updated 2026-10-11T02:53:53Z.
+Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/index.html) · summary: [mega/MEGA_TRACKER.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/MEGA_TRACKER.md) · rebuilt by the poller each round, updated 2026-10-11T02:57:51Z.
 
 | Stage | Done (merged or live) | In progress | Waiting |
 | --- | --- | --- | --- |
 | Gameplay audits | 0 of 112 | 112 | 0 |
 | Screen fixes | 0 of 266 | 68 | 198 |
 | Match desktop to mockups | 0 of 14 | 1 | 13 |
-| Phone mockup studies | 0 of 70 | 21 | 49 |
+| Phone mockup studies | 0 of 70 | 27 | 43 |
 | Improved desktop studies | 0 of 56 | 0 | 56 |
 
 **Open train PRs**
