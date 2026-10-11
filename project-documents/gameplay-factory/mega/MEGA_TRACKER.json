@@ -1,5 +1,5 @@
 {
-"updated": "2026-10-11T05:52:12Z",
+"updated": "2026-10-11T05:53:12Z",
 "total": 518,
 "next_free": 127,
 "highest_taken": 403,
@@ -96,7 +96,11 @@
 159,
 173,
 179,
-411
+372,
+400,
+411,
+428,
+456
 ],
 "ready_sol": [
 127,
@@ -106,7 +110,11 @@
 159,
 173,
 179,
-411
+372,
+400,
+411,
+428,
+456
 ],
 "ready_codex": [],
 "ready_all": [
@@ -117,17 +125,20 @@
 159,
 173,
 179,
-411
+372,
+400,
+411,
+428,
+456
 ],
-"ready_total": 8,
-"held_until_picture": 66,
+"ready_total": 12,
+"held_until_picture": 62,
 "held_by_picture": {
 "phone RULE_BOOK": 5,
 "phone STANDINGS": 5,
 "desktop STATISTICS": 4,
 "desktop CLUB": 4,
 "desktop FINAL_WINNER": 4,
-"desktop HOME": 4,
 "desktop LEAGUE": 4,
 "desktop LEGACY": 4,
 "desktop RIVALRY": 4,
