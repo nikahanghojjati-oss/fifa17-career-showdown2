@@ -268,9 +268,12 @@ html[data-v10-tools] #legacy .legacyImportVerdict.blocked strong { color: #f0a49
 
 /* JOB-1635: one short reveal for every Team V screen, driven from js/v10Screens.js (settle after the look is mounted and the
    screen's pictures are decoded). The pending rule above holds the content at opacity 0; removing it and adding
-   [data-v10-reveal] in the same tick fades the content in from 0. Reduced motion (css/app.css html[data-motion-reduced]
-   and prefers-reduced-motion) shortens every transition to .001ms, so the swap is instant there. */
-[data-v10-reveal] > * { transition: opacity 220ms ease-out; }
+   [data-v10-reveal] in the same tick shows the content at full opacity under a page-coloured cover that fades out. The
+   cover, not the content, carries the fade: text never sits at partial opacity (the Gate's axe contrast scans sample a
+   screen right after it appears), like the app's own transform-only route animation. Reduced motion (css/app.css
+   html[data-motion-reduced] and prefers-reduced-motion) shortens the animation to .001ms, so the swap is instant there. */
+[data-v10-reveal]::after { content: ""; position: absolute; inset: 0; z-index: 30; pointer-events: none; background: #060709; animation: v10RevealCover 220ms ease-out both; }
+@keyframes v10RevealCover { from { opacity: 1; } to { opacity: 0; } }
 
 /* JOB-1635: REDUCED motion (Settings > Motion, or the device preference under FOLLOW DEVICE) is an instant swap or a fade of
    at most 100 ms. Team V's motion.css reads this token for its reduced-motion fade (150 ms by default); the file stays frozen. */
@@ -292,3 +295,9 @@ html[data-motion-reduced="true"] body #app #stage-root#stage-root, html[data-mot
 html[data-motion-reduced="true"] body #app #stage-root#stage-root *::before, html[data-motion-reduced="true"] body #app #stage-root#stage-root *::after {
   animation-duration: .001ms !important; transition-duration: .001ms !important;
 }
+/* Club Confirmation under REDUCED: Team V's club.js fades the LOCK step and the confirmation block in with a 150 ms script
+   animation (Web Animations API), which no duration rule reaches; an !important declaration outranks a script animation, so
+   the block is at full opacity the moment the reveal reaches its confirmation stage. The Gate's stability audit scans this
+   screen under reduced motion right after it appears and read the half-faded text as a contrast failure (also on the base). */
+html[data-motion-reduced="true"] body #app #clubWheelScreen[data-club-reveal-stage="confirmation"] #clubRivalryConfirmation,
+html[data-motion-reduced="true"] body #app #clubWheelScreen[data-club-reveal-stage="confirmation"] .clubRevealProgress span.active { opacity: 1 !important; }
