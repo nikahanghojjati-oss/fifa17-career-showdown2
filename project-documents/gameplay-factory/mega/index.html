@@ -176,12 +176,12 @@ function paint(only,fail){
   $("held").textContent=g.held_until_picture?`Held: ${parts.join("; ")}.`:"";}
   const none='<span class="none">None free right now.</span>';
   const bl=a=>{const z=[],k=B.size||3;for(let i=0;i<a.length;i+=k)z.push(a.slice(i,i+k));return z.map(g=>`<button class="chip batch" data-n="${g.join(" ")}">${g.join(" ")}</button>`).join("")||none};
-  const wkset=new Set(g.ready_work||[]),chat=all.filter(x=>!wkset.has(x));
+  const wkset=new Set(g.ready_work||[]),chat=all.filter(x=>!wkset.has(x)).concat(B.jobs_free||[]);
   $("odd").innerHTML=bl(chat.filter(x=>x%2));
   $("even").innerHTML=bl(chat.filter(x=>x%2===0));
   $("wk").innerHTML=(g.ready_work||[]).map(chip).join("")||none;
   $("bmx").textContent=B.size||3;$("bsz").textContent=(B.size||3)+" numbers per chat";$("bst").textContent=(B.clean_streak||0)+" of "+(B.goal||10)+" clean batches in a row"+(B.size<B.max?" (then "+B.max+" per chat)":"");
-  $("nxtnote").textContent=(g.ready_total>all.length?`Showing the first ${all.length} of ${g.ready_total}. `:"")+"A number leaves this list the minute its chat claims it. Numbers not listed have to wait.";
+  $("nxtnote").textContent=((B.jobs_after_wiring||[]).length?"Polish jobs after wiring (not free yet): "+B.jobs_after_wiring.join(", ")+". ":"")+(g.ready_total>all.length?`Showing the first ${all.length} of ${g.ready_total}. `:"")+"A number leaves this list the minute its chat claims it. Numbers not listed have to wait.";
   document.querySelectorAll(".chip").forEach(b=>b.onclick=()=>copyBtn(b));
   // all numbers bar
   $("all").innerHTML=ST.slice(0,-1).concat("waiting").map(s=>c[s]?`<span style="width:${c[s]/n*100}%;background:${col(s)}" title="${LB[s]}: ${c[s]}"></span>`:"").join("");

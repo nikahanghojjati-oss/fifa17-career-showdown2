@@ -5,5 +5,19 @@
  "goal": 10,
  "owner": "mega factory thread",
  "updated": "2026-10-11T06:58:00Z",
- "note": "Nik decided 06:55 UTC: 3 numbers per chat; 5 once 10 batches in a row run clean."
+ "note": "Nik decided 06:55 UTC: 3 numbers per chat; 5 once 10 batches in a row run clean.",
+ "jobs_free": [
+  1638,
+  1640,
+  1641
+ ],
+ "jobs_after_wiring": [
+  1637,
+  1639,
+  1642,
+  1643,
+  1644,
+  1645
+ ],
+ "jobs_note": "Polish wave tickets (ChatGPT chat). The queue thread keeps these two lists; a job moves to jobs_free when its area's wiring train is merged or closed."
 }

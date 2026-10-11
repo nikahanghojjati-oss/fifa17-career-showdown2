@@ -1,4 +1,4 @@
-# Mega factory tracker · updated 2026-10-11T07:40:27Z
+# Mega factory tracker · updated 2026-10-11T07:39:56Z
 
 **Type now (17 free):** 145, 147, 149, 151, 159, 173, 179, 189, 240, 268, 296, 324, 352, 400, 411, 428, 456
 **Next free number:** 145 · **highest taken:** 403 of 518
