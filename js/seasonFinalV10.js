@@ -312,6 +312,95 @@
  #app #seasonEntry:not(.v10FinalMode):has(.season-review-panel:not(.hidden)) .v10SeasonStage .season-layout {
   padding-top:31.2dvh;
  }
+
+/* JOB-1214: Full-HD Season Results. The registered first viewport still frames
+   the artwork/title, while <main> owns the ONLY scroll. Review content and
+   action rows must grow in normal flow, not inside fixed-height clipped cards. */
+@media (min-width:1880px) and (max-width:1960px) and (min-height:1040px) and (max-height:1120px) {
+ html[data-v10-screen="seasonEntry"] #app main:has(#seasonEntry.seasonScreenV10:not(.v10FinalMode)) {
+  position:fixed;inset:0;height:100dvh;padding:0;
+  overflow-x:hidden;overflow-y:auto;overscroll-behavior-y:contain;
+ }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) {
+  position:relative;inset:auto;height:auto;min-height:100dvh;
+  margin:0;overflow:visible;background:#050605;
+ }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode)>.v10SeasonStage {
+  position:relative;inset:auto;height:auto;min-height:100dvh;
+  max-height:none;overflow:visible;
+ }
+ #app #seasonEntry:not(.v10FinalMode) .v10SeasonStage :is(.sd-stage__layer--plate,.sd-stage__layer--atmosphere,.sd-stage__layer--cutout,.sd-stage__layer--light) {
+  height:100dvh;
+ }
+ #app #seasonEntry:not(.v10FinalMode) .v10SeasonStage .sd-stage__registered {
+  left:0!important;top:calc((100dvh - 56.25vw)/2)!important;
+  width:100%!important;height:56.25vw!important;
+ }
+ #app #seasonEntry:not(.v10FinalMode) .v10SeasonStage :is(.sd-stage__layer--ui,#season-results-screen) {
+  position:relative;inset:auto;height:auto;min-height:100dvh;overflow:visible;
+ }
+ #app #seasonEntry:not(.v10FinalMode) .v10SeasonStage .season-title-block {
+  height:100dvh;bottom:auto;
+ }
+ #app #seasonEntry:not(.v10FinalMode) .v10SeasonStage .season-layout {
+  position:relative;inset:auto;display:flex;flex-direction:column;
+  align-items:stretch;gap:14px;min-height:100dvh;box-sizing:border-box;
+  padding:31.6dvh 0 20px;overflow:visible;pointer-events:auto;
+ }
+ #app #seasonEntry:not(.v10FinalMode) .v10SeasonStage .scoring-panel {
+  position:relative;inset:auto;width:44.47%;height:auto;min-height:19.44dvh;
+  margin:0 auto;overflow:visible;
+ }
+ #app #seasonEntry:not(.v10FinalMode) .v10SeasonStage .seasonEntryGrid:not(.hidden) {
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:14px;width:72.66%;min-width:0;margin:0 auto;
+ }
+ #app #seasonEntry:not(.v10FinalMode) .v10SeasonStage .seasonEntryGrid .entry-panel {
+  position:relative;inset:auto;left:auto!important;top:auto;
+  width:100%!important;height:auto;min-height:31.94dvh;max-height:none;
+  grid-template-rows:auto repeat(3,minmax(44px,auto));
+  box-sizing:border-box;overflow:visible;
+ }
+ #app #seasonEntry:not(.v10FinalMode) .v10SeasonStage .seasonEntryGrid:has(.entry-panel.hidden) .entry-panel:not(.hidden) {
+  grid-column:1/-1;justify-self:center;max-width:640px;padding-left:20px;
+ }
+ #app #seasonEntry:not(.v10FinalMode) .v10SeasonStage .seasonResultCard>label,
+ #app #seasonEntry:not(.v10FinalMode) .v10SeasonStage .seasonResultCard .achievementChecks label {
+  min-height:44px;
+ }
+ #app #seasonEntry:not(.v10FinalMode) .v10SeasonStage .seasonResultCard input[type=number] {
+  min-height:44px;
+ }
+ #app #seasonEntry:not(.v10FinalMode) .v10SeasonStage .season-review-panel:not(.hidden) {
+  position:relative;inset:auto;left:auto;top:auto;bottom:auto;
+  width:72.66%;height:auto;max-height:none;margin:0 auto;
+  padding:10px 1.8vw 12px 6.8vw;overflow:visible;overscroll-behavior:auto;
+ }
+ #app #seasonEntry:not(.v10FinalMode) .v10SeasonStage .season-review-panel .seasonReviewGrid {
+  min-width:0;grid-template-columns:repeat(2,minmax(0,1fr));
+ }
+ #app #seasonEntry:not(.v10FinalMode) .v10SeasonStage .season-review-panel .seasonSummaryCard {
+  min-width:0;overflow-wrap:anywhere;
+ }
+ #app #seasonEntry:not(.v10FinalMode) .v10SeasonStage .season-review-panel .seasonReviewActions {
+  position:static;inset:auto;max-width:100%;background:none;
+ }
+ #app #seasonEntry:not(.v10FinalMode) .v10SeasonStage .season-review-panel .seasonReviewActions button {
+  min-height:44px;max-width:100%;white-space:normal;overflow-wrap:anywhere;
+ }
+ #app #seasonEntry:not(.v10FinalMode) .v10SeasonStage .season-action-row {
+  position:relative;inset:auto;top:auto;height:auto;min-height:44px;
+  width:72.66%;margin:2px auto 0;
+ }
+ #app #seasonEntry:not(.v10FinalMode) .v10SeasonStage #seasonEntryError {
+  position:relative;inset:auto;top:auto;width:60%;max-width:100%;
+  margin:0 auto;overflow-wrap:anywhere;
+ }
+ #app #seasonEntry:not(.v10FinalMode):has(.season-review-panel:not(.hidden)) .v10SeasonStage .season-layout {
+  padding-top:31.2dvh;
+ }
+}
+
 }
 `;
     parent.appendChild(style);
