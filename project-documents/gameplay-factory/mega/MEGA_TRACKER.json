@@ -1,5 +1,5 @@
 {
-"updated": "2026-10-11T05:53:12Z",
+"updated": "2026-10-11T05:56:12Z",
 "total": 518,
 "next_free": 127,
 "highest_taken": 403,
@@ -8,7 +8,8 @@
 "draft": 166,
 "closed": 51,
 "on_train": 21,
-"waiting": 255
+"waiting": 254,
+"started": 1
 },
 "stages": {
 "2": {
@@ -50,7 +51,8 @@
 "name": "Improved desktop studies",
 "total": 56,
 "states": {
-"waiting": 56
+"waiting": 55,
+"started": 1
 }
 }
 },
@@ -96,7 +98,6 @@
 159,
 173,
 179,
-372,
 400,
 411,
 428,
@@ -110,7 +111,6 @@
 159,
 173,
 179,
-372,
 400,
 411,
 428,
@@ -125,13 +125,12 @@
 159,
 173,
 179,
-372,
 400,
 411,
 428,
 456
 ],
-"ready_total": 12,
+"ready_total": 11,
 "held_until_picture": 62,
 "held_by_picture": {
 "phone RULE_BOOK": 5,
@@ -152,18 +151,11 @@
 }
 },
 "rate": {
-"claimed_last_hour": 13,
-"claimed_last_10min": 0,
+"claimed_last_hour": 14,
+"claimed_last_10min": 1,
 "merged_last_hour": 0
 },
 "events": [
-{
-"at": "2026-10-10T19:54:19Z",
-"item": 198,
-"job": 1565,
-"from": "waiting",
-"to": "draft"
-},
 {
 "at": "2026-10-10T19:54:19Z",
 "item": 200,
@@ -2256,6 +2248,13 @@
 "job": 1356,
 "from": "waiting",
 "to": "on_train"
+},
+{
+"at": "2026-10-11T05:56:12Z",
+"item": 372,
+"job": 1086,
+"from": "waiting",
+"to": "started"
 }
 ],
 "items": {
@@ -7933,8 +7932,12 @@
 "title": "Home: improved desktop, version A (polish)",
 "mode": "study",
 "group": null,
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"state": "started",
+"branch": "study/job-1086-home-desktop-polish",
+"branch_sha": "fe1eef9adb5f6e57b1577872b554c506a5907689",
+"no_pr_reason": "",
+"first_seen": "2026-10-11T05:56:12Z",
+"since": "2026-10-11T05:56:12Z"
 },
 "373": {
 "job": 1381,
