@@ -1,0 +1,12 @@
+# Season Results · Tablet · JOB-1230
+- Decision: use two manager columns on tablets, not a widened single phone card.
+- Daniel's live entry form remains left; Nik's sealed panel remains right without exposing rival fields.
+- Within the entry card, numeric rows sit above a two-column honours block with larger labels.
+- The approved portrait/title/tabs/cards/actions hierarchy and original action order are preserved.
+- Daniel and Nik artwork stays unmirrored; only existing Team V art and a plain shield are used.
+- Live source text and placeholders are preserved; no wording is copied from either picture.
+- CSS manager selection highlights its card; scoring still opens through HOW SCORING WORKS.
+- Small phones retain the compact study arrangement; this entry screen has no hub bottom bar.
+- Study only: no JavaScript, game behavior, rules, scoring, or storage changes.
+- Chromium passes 768x1024, 820x1180, and all four phone targets without scroll/card overflow.
+- Artwork, visible actions, scoring open/close, and both tablet manager panels pass.
