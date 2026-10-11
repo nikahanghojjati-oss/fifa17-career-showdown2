@@ -1,6 +1,6 @@
 {
  "_how": "One shared job counter for Team G and Team V (Nik, 2026-10-05). Claim with tools/claim_number.py only. A number is used once, ever. CONTRACT.md section 10.",
- "next": 1636,
+ "next": 1637,
  "claims": [
   {
    "number": 1001,
@@ -3812,6 +3812,12 @@
    "team": "G",
    "title": "Smooth screen transitions and no old-game flashes, ever (Fable cloud session, Nik runs it)",
    "claimed": "2026-10-11T06:44:10Z"
+  },
+  {
+   "number": 1636,
+   "team": "V",
+   "title": "Loading screen pictures PHONE_LOADING and NEXT_LOADING (2 image tickets)",
+   "claimed": "2026-10-11T06:46:27Z"
   }
  ]
 }
