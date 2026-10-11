@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Sun 11 Oct, 7:38 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Sun 11 Oct, 7:49 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r70** (main `c8810b8`, Sun 11 Oct 12:28 AM)
 
@@ -22,23 +22,23 @@ Updated Sun 11 Oct, 7:38 PM Boston time. Bug hunting only, no new features until
 
 **#2 · 1647** `G` Loading screen: wire the approved PHONE_LOADING and NEXT_LOADING pictures  
 `██████░░░░` **60.0000 %**  
-⚪ Team white · model not set · worker done, PR #689 open, CI failed · CI 13 of 16 passed · last move 56 min ago
+⚪ Team white · model not set · worker done, PR #689 open, CI failed · CI 13 of 16 passed · last move 67 min ago
 
 **#3 · 1648** `G` Old CSS: which old sheets and selectors are still live (report only)  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #690 · CI 7 of 8 passed · last move 79 min ago
+⚪ Team white · model not set · worker working, draft PR #690 · CI 7 of 8 passed · last move 90 min ago
 
 **#4 · 1651** `G` Flash guard: cover Season Results, Final Winner and Rivalry, and time tap feedback  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #692 · CI 7 of 8 passed · last move 63 min ago
+⚪ Team white · model not set · worker working, draft PR #692 · CI 7 of 8 passed · last move 74 min ago
 
 **#5 · 1652** `G` Settings › Motion: add a FULL MOTION choice  
 `████░░░░░░` **40.0000 %**  
-🔵 Team blue · model not set · worker working, draft PR #691 · CI 7 of 8 passed · last move 77 min ago
+🔵 Team blue · model not set · worker working, draft PR #691 · CI 7 of 8 passed · last move 88 min ago
 
 **#6 · 1653** `G` Reduced motion: stop the remaining Club script fades  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #693 · CI 7 of 8 passed · last move 48 min ago
+⚪ Team white · model not set · worker working, draft PR #693 · CI 7 of 8 passed · last move 59 min ago
 
 ### 👉 Next for you, in this order
 
@@ -575,17 +575,17 @@ One numbered queue: type a bare number in any GPT chat. Live from GitHub (queue/
 Type now, in any GPT chat:
 
 ```text
-183 189 191 240 246 268 274 296 302 324 330 352
+181 183 185 189 191 240 246 268 274 296 302 324
 ```
 
-Open code PRs: 5/8.
+Open code PRs: 3/8.
 
 403 taken of 518.
 
 | Stage | Items | Merged | Picked up |
 | --- | --- | --- | --- |
 | audits | 112 | 112/112 | 112/112 |
-| screen fixes | 266 | 35/266 | 105/266 |
+| screen fixes | 266 | 45/266 | 105/266 |
 | mockup match | 14 | 0/14 | 1/14 |
 | phone studies | 70 | 23/70 | 60/70 |
 | desktop studies | 56 | 1/56 | 1/56 |
@@ -617,20 +617,18 @@ Open code PRs: 5/8.
 
 ## Mega tracker (live, free)
 
-Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/index.html) · summary: [mega/MEGA_TRACKER.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/MEGA_TRACKER.md) · rebuilt by the poller each round, updated 2026-10-11T23:37:13Z.
+Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/index.html) · summary: [mega/MEGA_TRACKER.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/MEGA_TRACKER.md) · rebuilt by the poller each round, updated 2026-10-11T23:47:57Z.
 
 | Stage | Done (merged or live) | In progress | Waiting |
 | --- | --- | --- | --- |
 | Gameplay audits | 112 of 112 | 0 | 0 |
-| Screen fixes | 35 of 266 | 70 | 161 |
+| Screen fixes | 45 of 266 | 60 | 161 |
 | Match desktop to mockups | 0 of 14 | 1 | 13 |
 | Phone mockup studies | 23 of 70 | 37 | 10 |
 | Improved desktop studies | 1 of 56 | 0 | 55 |
 
 **Open train PRs**
 
-- 681
-- 683
 - 684
 - 686
 - 687
