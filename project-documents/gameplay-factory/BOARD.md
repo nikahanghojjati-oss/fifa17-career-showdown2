@@ -6,13 +6,13 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Sun 11 Oct, 7:05 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Sun 11 Oct, 7:07 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
-> ⚠ **Not fully current:** Couldn't read the Bug Olympiad this run; its numbers are from the last good read. Couldn't read the Mockup Lab this run; its numbers are from the last good read. The relay could not be read this run.
+> ⚠ **Not fully current:** Couldn't read the Bug Olympiad this run; its numbers are from the last good read. Couldn't read the Mockup Lab this run; its numbers are from the last good read. The Physio's own report is missing or older than 15 minutes; the check line comes straight from GitHub. The relay could not be read this run.
 
 🌐 **Live: 1.9.1-r70** (main `c8810b8`, Sun 11 Oct 12:28 AM)
 
-🩺 **All clear: every check has a machine.** · POS20 #304 6/16
+🩺 **All clear (from GitHub).**
 
 ## Jobs
 
