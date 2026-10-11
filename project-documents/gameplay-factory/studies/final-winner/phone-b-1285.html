@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SHOWDOWN CHAMPION</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#050607;color:#eee}
+body{font-family:"Arial Narrow",Arial,sans-serif}button,label{font:inherit}
+.stage{position:relative;isolation:isolate;height:100svh;max-width:480px;margin:auto;overflow:hidden;background:#080909}
+.scene{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-4}
+.veil{position:absolute;inset:0;z-index:-1;background:linear-gradient(transparent 25%,#05060766 50%,#050607 90%)}
+.hero{position:absolute;top:10%;height:47%;width:auto;z-index:-3;transform:translateX(-50%)}
+.daniel{left:19%}.nik{left:87%;filter:brightness(.72)}
+header{position:absolute;top:3.4%;left:5%;width:90%;text-align:center}
+.eyebrow,.tagline{font-size:9px;letter-spacing:2px;margin:0}.wordmark{width:94%;margin:7px auto}
+.wordmark img{display:block;width:100%}.wordmark span{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+.tagline{font-size:8px;letter-spacing:1.8px}
+.trophy{position:absolute;top:19%;left:33%;width:34%;height:24%;object-fit:contain;filter:drop-shadow(0 0 15px #c78a3866)}
+.result{position:absolute;top:44%;left:5%;width:90%;text-align:center}
+.result h2{font-size:10px;letter-spacing:2px;margin:0}.outcome{margin:4px 0;font-weight:900;font-size:28px;color:#f7cf60}
+.totals{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;width:74%;margin:auto}
+.manager{display:grid;gap:0}.manager small{font-size:10px;letter-spacing:2px}.manager strong{font-size:36px;color:#f7cf60;line-height:1}
+.panel{position:absolute;top:60%;bottom:14%;left:4%;width:92%;border:1px solid #d9b64e;background:linear-gradient(115deg,#3927129c,#080909e8);clip-path:polygon(2% 0,98% 0,100% 3%,100% 97%,98% 100%,0 100%,0 3%)}
+.tabs{height:44px;display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid #d9b64e}
+.tabs label{display:grid;place-items:center;letter-spacing:1.4px;font-size:12px;cursor:pointer}
+.tab-input{position:absolute;opacity:0;width:1px;height:1px}
+#summary:checked~.tabs label[for=summary],#honours:checked~.tabs label[for=honours]{color:#ffdb68;background:#74531445;box-shadow:inset 0 -2px #ffdb68}
+.tab-input:focus-visible~.tabs{outline:2px solid white;outline-offset:-4px}
+.summary{height:calc(100% - 44px);display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1.2fr 1fr}
+.cell{display:grid;place-content:center;text-align:center;gap:2px}
+.cell span,.cell small{font-size:9px;letter-spacing:1px}.cell strong{font-size:29px;line-height:1;color:#f7cf60}
+.last{grid-column:1/-1;border-bottom:1px solid #d9b64e66}.margin{border-left:1px solid #d9b64e66}
+.honours{display:none;height:calc(100% - 44px);padding:4px 10px}
+.honours-head,.metric{display:grid;grid-template-columns:26px 20px 1fr 20px 26px;align-items:center;text-align:center;min-height:22px;font-size:9px}
+.honours-head{grid-template-columns:1fr 2fr 1fr;letter-spacing:.4px;font-size:8px}.metric img{width:18px;height:20px;object-fit:contain}.metric strong{color:#f7cf60}
+#honours:checked~.summary{display:none}#honours:checked~.honours{display:block}
+.actions{position:absolute;left:4%;width:92%;bottom:max(3%,env(safe-area-inset-bottom));display:grid;grid-template-columns:1fr 1fr;gap:6px}
+button{min-height:44px;padding:6px;border:1px solid #dfbd54;background:#080909;color:#f7cf60;font-size:10px;font-weight:800;line-height:1.3;letter-spacing:.2px;cursor:pointer}
+button:last-child{background:linear-gradient(#fff1a1,#e8b73e);color:#080909;box-shadow:0 0 12px #dfad3555}
+button:focus-visible{outline:2px solid white;outline-offset:2px}
+.proof{position:absolute;bottom:10.8%;left:4%;font-size:8px;color:#a99b77}
+@media(max-height:600px){
+ header{top:2%}.eyebrow,.tagline{font-size:7px}.wordmark{width:85%;margin:4px auto}
+ .trophy{top:16%;height:23%}.result{top:39%}.outcome{font-size:24px}.manager strong{font-size:30px}
+ .panel{top:56%;bottom:15%}.summary{grid-template-columns:1.4fr 1fr 1fr;grid-template-rows:1fr}
+ .last{grid-column:auto;border-bottom:0}.cell+.cell{border-left:1px solid #d9b64e66}.cell strong{font-size:26px}
+ .proof{bottom:11%}.actions{bottom:2.5%}
+}
+
+/* Version B: the outcome leads; authored trophy and facts remain below it. */
+.result{top:17%;padding:8px 0;background:linear-gradient(90deg,transparent,#080909bb 20%,#080909bb 80%,transparent)}
+.outcome{font-size:40px;letter-spacing:1px;margin:5px 0}
+.manager strong{font-size:42px}.totals{width:82%}
+.trophy{top:36%;height:23%;width:38%;left:31%}
+.hero{top:17%;height:43%}
+@media(max-height:600px){
+ .result{top:16%;padding:4px 0}.outcome{font-size:34px;margin:3px 0}
+ .manager strong{font-size:34px}.trophy{top:35%;height:20%}.hero{top:16%;height:40%}
+}
+</style>
+</head>
+<body>
+<main class="stage" aria-label="Final Showdown result">
+<img class="scene" src="../../../../visual-assets/v10_1/trophy-room/assets/ENV_TR_PHONE_V1.webp" alt="">
+<img class="hero daniel" src="../../../../visual-assets/v10_1/trophy-room/assets/OVL_TR_DANIEL_PHONE_V1.webp" alt="">
+<img class="hero nik" src="../../../../visual-assets/v10_1/trophy-room/assets/OVL_TR_NIK_PHONE_V1.webp" alt="">
+<div class="veil"></div>
+<header><p class="eyebrow">CAREER MODE SHOWDOWN 17</p><h1 class="wordmark"><span>SHOWDOWN CHAMPION</span><img src="../../../../visual-assets/v10_1/shared/wordmarks/TITLE_FINAL_WINNER_V1.webp" alt="" aria-hidden="true"></h1><p class="tagline">TWO MANAGERS · ONE LEGACY</p></header>
+<img class="trophy" src="../../../../visual-assets/v10_1/shared/trophies/TRO_SHOWDOWN_CHAMPION_V1_512.webp" alt="">
+<section class="result" aria-label="Final Showdown points"><h2>SHARED SHOWDOWN CLOSED</h2><p class="outcome">Daniel WINS</p><div class="totals"><span class="manager"><small>Daniel</small><strong>16</strong></span><span aria-hidden="true">–</span><span class="manager"><small>Nik</small><strong>8</strong></span></div></section>
+<section class="panel" aria-label="Final result sections">
+<input class="tab-input" type="radio" name="tab" id="summary" checked><input class="tab-input" type="radio" name="tab" id="honours">
+<div class="tabs"><label for="summary">SUMMARY</label><label for="honours">HONOURS</label></div>
+<div class="summary"><div class="cell last"><span>FINAL SEASON</span><strong><span aria-label="Unavailable">—</span> – <span aria-label="Unavailable">—</span></strong></div><div class="cell"><span>SEASONS</span><strong>3</strong><small>PLAYED</small></div><div class="cell margin"><span>MARGIN</span><strong>8</strong><small>POINTS</small></div></div>
+<div class="honours"><div class="honours-head"><strong>DANIEL</strong><span>SHOWDOWN HONOURS</span><strong>NIK</strong></div>
+<div class="metric"><strong aria-label="Unavailable">—</strong><img src="../../../../visual-assets/v10_1/shared/trophies/TRO_CONTINENTAL_V1_512.webp" alt=""><span>CHAMPIONS LEAGUE</span><img src="../../../../visual-assets/v10_1/shared/trophies/TRO_CONTINENTAL_V1_512.webp" alt=""><strong aria-label="Unavailable">—</strong></div>
+<div class="metric"><strong aria-label="Unavailable">—</strong><img src="../../../../visual-assets/v10_1/shared/trophies/TRO_LEAGUE_TITLE_V1_512.webp" alt=""><span>LEAGUE TITLES</span><img src="../../../../visual-assets/v10_1/shared/trophies/TRO_LEAGUE_TITLE_V1_512.webp" alt=""><strong aria-label="Unavailable">—</strong></div>
+<div class="metric"><strong aria-label="Unavailable">—</strong><img src="../../../../visual-assets/v10_1/shared/trophies/TRO_DOMESTIC_CUP_V1_512.webp" alt=""><span>DOMESTIC CUPS</span><img src="../../../../visual-assets/v10_1/shared/trophies/TRO_DOMESTIC_CUP_V1_512.webp" alt=""><strong aria-label="Unavailable">—</strong></div>
+<div class="metric"><strong aria-label="Unavailable">—</strong><span>Σ</span><span>TOTAL TROPHIES</span><span>Σ</span><strong aria-label="Unavailable">—</strong></div></div>
+</section>
+<details class="proof"><summary>Final reconciliation</summary></details>
+<div class="actions"><button type="button">REVIEW MY SEASON RESULT</button><button type="button">BACK TO SHOWDOWN HOME</button></div>
+</main>
+</body>
+</html>
