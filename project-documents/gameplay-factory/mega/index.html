@@ -76,9 +76,9 @@ a{color:inherit}
 <div class="banner" id="ban"></div>
 
 <div class="card next"><h2>Type next</h2>
-<div class="nextbig"><button class="num" id="first">-</button>
-<div><div><b id="rt">-</b> numbers free to type right now</div><div class="lbl">Tap any number to copy it, then paste it in a new chat. <span id="held"></span></div></div></div>
-<div class="cols"><div class="col"><h3>Account 1 · odd numbers</h3><div class="chips" id="odd"></div></div>
+<div class="nextbig"><button class="num" id="first" style="font-size:34px">-</button>
+<div><div><b id="rt">-</b> numbers free to type right now; this line is the next chat</div><div class="lbl">Each line is one chat: tap it to copy, then paste it in a new chat. <span id="held"></span></div></div></div>
+<div class="lbl" style="margin:8px 0;font-size:14px"><b id="bsz"></b> · <span id="bst"></span></div><div class="cols"><div class="col"><h3>Account 1 · odd numbers</h3><div class="chips" id="odd"></div></div>
 <div class="col"><h3>Account 2 · even numbers</h3><div class="chips" id="even"></div></div></div>
 <div class="lbl" style="margin-top:8px" id="nxtnote"></div></div>
 
@@ -123,7 +123,7 @@ const FLY=["started","on_train","draft","queued","ci_running","ci_failed","ready
 const $=id=>document.getElementById(id);
 const esc=s=>String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const col=s=>`var(--${s})`;
-let D=null,N=null,nlast=0,hidden=new Set(),lastOk=0,showAll=false;
+let D=null,N=null,B={size:3,clean_streak:0,goal:10,max:5},nlast=0,hidden=new Set(),lastOk=0,showAll=false;
 function ago(t){const s=Math.max(0,(Date.now()-new Date(t))/1000);if(s<90)return Math.round(s)+" s ago";if(s<5400)return Math.round(s/60)+" min ago";return (s/3600).toFixed(1)+" h ago"}
 async function load(){
   try{
@@ -131,7 +131,7 @@ async function load(){
     const r=await fetch(`https://api.github.com/repos/${REPO}/contents/${PATH}?ref=${BR}`,{headers:{Accept:"application/vnd.github.raw"},cache:"no-cache"});
     if(!r.ok)throw 0;
     D=await r.json();
-    if(Date.now()-nlast>240000){nlast=Date.now();try{const q=await fetch(`https://api.github.com/repos/${REPO}/contents/project-documents/gameplay-factory/mega/LEAD_NOTES.json?ref=${BR}`,{headers:{Accept:"application/vnd.github.raw"},cache:"no-cache"});if(q.ok)N=await q.json()}catch(e){}}
+    if(Date.now()-nlast>240000){nlast=Date.now();try{const q=await fetch(`https://api.github.com/repos/${REPO}/contents/project-documents/gameplay-factory/mega/LEAD_NOTES.json?ref=${BR}`,{headers:{Accept:"application/vnd.github.raw"},cache:"no-cache"});if(q.ok)N=await q.json()}catch(e){}try{const q=await fetch(`https://api.github.com/repos/${REPO}/contents/project-documents/gameplay-factory/mega/BATCH.json?ref=${BR}`,{headers:{Accept:"application/vnd.github.raw"},cache:"no-cache"});if(q.ok)B=await q.json()}catch(e){}}
   }catch(e){
     try{const r=await fetch(`https://raw.githubusercontent.com/${REPO}/${BR}/${PATH}?t=${Math.floor(Date.now()/30000)}`);if(!r.ok)throw 0;D=await r.json()}catch(e2){paint(true,true);return}
   }
@@ -167,15 +167,17 @@ function paint(only,fail){
     return `<div class="stage"><div class="h"><span><b>${esc(L.name)}</b></span><span><b>${L.first_time_ok==null?"-":L.first_time_ok+"%"}</b> first time OK</span></div><div class="lbl">${L.closed} thrown back · ${L.failing_now} failing checks now · ${tr}</div></div>`}).join("")}
   // TYPE NEXT
   const all=(g.ready_all&&g.ready_all.length?g.ready_all:g.ready||[]).slice(0,150);
-  const fb=$("first");fb.textContent=all.length?all[0]:"none";fb.dataset.n=all[0]||"";fb.onclick=()=>all.length&&copyBtn(fb);
+  const fb=$("first");{const f=all.slice(0,B.size||3).join(" ");fb.textContent=f||"none";fb.dataset.n=f}fb.onclick=()=>all.length&&copyBtn(fb);
   $("rt").textContent=g.ready_total!=null?g.ready_total:all.length;
   {const hb=Object.entries(g.held_by_picture||{}),ph=hb.filter(([k])=>k.startsWith("phone")),dk=hb.filter(([k])=>k.startsWith("desktop"));
   const nm=k=>k.replace(/^\w+ /,"").toLowerCase().replace(/_/g," ");
   const parts=[];if(dk.length)parts.push(dk.reduce((a,[k,v])=>a+v,0)+" desktop studies wait for approved desktop pictures");if(ph.length)parts.push(ph.reduce((a,[k,v])=>a+v,0)+" phone studies wait for pictures ("+ph.map(([k])=>nm(k)).join(", ")+")");
   $("held").textContent=g.held_until_picture?`Held: ${parts.join("; ")}.`:"";}
   const none='<span class="none">None free right now.</span>';
-  $("odd").innerHTML=all.filter(x=>x%2).map(chip).join("")||none;
-  $("even").innerHTML=all.filter(x=>x%2===0).map(chip).join("")||none;
+  const bl=a=>{const z=[],k=B.size||3;for(let i=0;i<a.length;i+=k)z.push(a.slice(i,i+k));return z.map(g=>`<button class="chip batch" data-n="${g.join(" ")}">${g.join(" ")}</button>`).join("")||none};
+  $("odd").innerHTML=bl(all.filter(x=>x%2));
+  $("even").innerHTML=bl(all.filter(x=>x%2===0));
+  $("bsz").textContent=(B.size||3)+" numbers per chat";$("bst").textContent=(B.clean_streak||0)+" of "+(B.goal||10)+" clean batches in a row"+(B.size<B.max?" (then "+B.max+" per chat)":"");
   $("nxtnote").textContent=(g.ready_total>all.length?`Showing the first ${all.length} of ${g.ready_total}. `:"")+"A number leaves this list the minute its chat claims it. Numbers not listed have to wait.";
   document.querySelectorAll(".chip").forEach(b=>b.onclick=()=>copyBtn(b));
   // all numbers bar
