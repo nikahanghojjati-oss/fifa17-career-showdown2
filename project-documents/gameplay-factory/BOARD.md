@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Sun 11 Oct, 3:13 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Sun 11 Oct, 3:17 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r70** (main `c8810b8`, Sun 11 Oct 12:28 AM)
 
@@ -21,48 +21,32 @@ Updated Sun 11 Oct, 3:13 AM Boston time. Bug hunting only, no new features until
 🟢 Team green · model not set · worker says done, no PR yet
 
 **#2 · 1581** `G` Showdown Gate: split the slowest lane and cache downloads  
+`███████░░░` **70.0000 %**  
+⚪ Team white · **Codex default coding model** · High effort · worker done, PR #618 open, CI running · CI 0 of 7 passed · last move 0 min ago
+
+**#3 · 1593** `G` Wire Team V study 1372: Rivalry Statistics phone  
 `██████░░░░` **60.0000 %**  
-⚪ Team white · **Codex default coding model** · High effort · worker done, PR #618 open, CI failed · CI 7 of 8 passed · last move 28 min ago
+🟢 Team green · **GPT Sol 6.1** · High effort · worker done, PR #668 open, CI failed · CI 6 of 7 passed · last move 7 min ago
 
-**#3 · 1592** `G` Wire Team V study 1110: Connect Players phone  
-`████████░░` **80.0000 %**  
-🟢 Team green · **GPT Sol 6.1** · High effort · worker done, PR #667 open, CI green, waiting for the lead · CI 7 of 7 passed · last move 1 min ago
+**#4 · 1594** `G` Wire Team V study 1169: Club Assignment (redo train)  
+`███████░░░` **70.0000 %**  
+🟢 Team green · **GPT Sol 6.1** · High effort · worker done, PR #669 open, CI running · CI 0 of 6 passed · last move 2 min ago
 
-**#4 · 1593** `G` Wire Team V study 1372: Rivalry Statistics phone  
+**#5 · 1595** `G` Wire Team V study 1171: Club Assignment (redo train)  
+`███████░░░` **70.0000 %**  
+🟢 Team green · **GPT Sol 6.1** · High effort · worker done, PR #669 open, CI running · CI 0 of 6 passed · last move 2 min ago
+
+**#6 · 1596** `G` Wire Team V study 1172: Club Assignment (redo train)  
+`███████░░░` **70.0000 %**  
+🟢 Team green · **GPT Sol 6.1** · High effort · worker done, PR #669 open, CI running · CI 0 of 6 passed · last move 2 min ago
+
+**#7 · 1600** `G` Wire Team V study 1374: Rivalry Statistics sideways  
 `██████░░░░` **60.0000 %**  
-🟢 Team green · **GPT Sol 6.1** · High effort · worker done, PR #668 open, CI failed · CI 6 of 7 passed · last move 3 min ago
+🟢 Team green · **GPT Sol 6.1** · High effort · worker done, PR #668 open, CI failed · CI 6 of 7 passed · last move 7 min ago
 
-**#5 · 1594** `G` Wire Team V study 1169: Club Assignment (redo train)  
-`████░░░░░░` **40.0000 %**  
-🟢 Team green · **GPT Sol 6.1** · High effort · worker working, draft PR #669 · CI 6 of 7 passed · last move 5 min ago
-
-**#6 · 1595** `G` Wire Team V study 1171: Club Assignment (redo train)  
-`████░░░░░░` **40.0000 %**  
-🟢 Team green · **GPT Sol 6.1** · High effort · worker working, draft PR #669 · CI 6 of 7 passed · last move 5 min ago
-
-**#7 · 1596** `G` Wire Team V study 1172: Club Assignment (redo train)  
-`████░░░░░░` **40.0000 %**  
-🟢 Team green · **GPT Sol 6.1** · High effort · worker working, draft PR #669 · CI 6 of 7 passed · last move 5 min ago
-
-**#8 · 1600** `G` Wire Team V study 1374: Rivalry Statistics sideways  
+**#8 · 1601** `G` Wire Team V study 1375: Rivalry Statistics tablet  
 `██████░░░░` **60.0000 %**  
-🟢 Team green · **GPT Sol 6.1** · High effort · worker done, PR #668 open, CI failed · CI 6 of 7 passed · last move 3 min ago
-
-**#9 · 1601** `G` Wire Team V study 1375: Rivalry Statistics tablet  
-`██████░░░░` **60.0000 %**  
-🟢 Team green · **GPT Sol 6.1** · High effort · worker done, PR #668 open, CI failed · CI 6 of 7 passed · last move 3 min ago
-
-**#10 · 1606** `G` Fix (verify first) audit 88: failed refresh shown as publish failure (Season Results)  
-`██████░░░░` **60.0000 %**  
-🔵 Team blue · **GPT-6 Sol** · High effort · worker done, PR #662 open, CI failed · CI 13 of 14 passed · last move 26 min ago
-
-**#11 · 1607** `G` Fix (verify first) audit 92: failed refresh shown as commit failure (Season Commit)  
-`██████░░░░` **60.0000 %**  
-🔵 Team blue · **GPT-6 Sol** · High effort · worker done, PR #663 open, CI failed · CI 13 of 14 passed · last move 24 min ago
-
-**#12 · 1608** `G` Fix (verify first) audit 116: background read disables Shared Setup buttons  
-`██████░░░░` **60.0000 %**  
-🔵 Team blue · **GPT-6 Sol** · High effort · worker done, PR #665 open, CI failed · CI 13 of 14 passed · last move 24 min ago
+🟢 Team green · **GPT Sol 6.1** · High effort · worker done, PR #668 open, CI failed · CI 6 of 7 passed · last move 7 min ago
 
 ### 👉 Next for you, in this order
 
@@ -496,7 +480,7 @@ Job 1635
 `░░░░░░░░░░` **0.0000 %**  
 🟣 Team purple · **Claude Opus** · High effort · Claude lane: Opus fixing #666 after two failed browser checks
 
-**Done, waiting for the next release:** 1583, 1584, 1585, 1586
+**Done, waiting for the next release:** 1583, 1584, 1585, 1586, 1592, 1606, 1607, 1608
 
 **Done and live:** r68: 1059, 1060, 1579, 1580, 1587 · r67: 1044, 1045, 1048, 1049, 1050, 1051, 1052, 1053, 1055, 1058 · r66: 1041, 1042, 1043 · r65: 1011, 1028, 1037, 1038, 1039, 1040 · r63: 1001, 1003, 1004, 1009, 1010, 1014, 1015, 1020, 1021, 1022, 1023, 1024, 1025, 1026, 1027, Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8
 
@@ -505,8 +489,8 @@ Job 1635
 ## Goals, in this order
 
 **1. Finish the remaining bugs** `now`  
-`██████░░░░` **59.5745 %**  
-Numbered jobs: 56 done, 57 other open · Olympiad recheck: 23 of 23 settled, 0 still to fix · Sol's old leads: 0 open (0 real, 0 unsure)
+`██████░░░░` **62.4113 %**  
+Numbered jobs: 60 done, 53 other open · Olympiad recheck: 23 of 23 settled, 0 still to fix · Sol's old leads: 0 open (0 real, 0 unsure)
 
 **2. Visual fixes** `after stage 1`  
 `██████░░░░` **56.0000 %**  
