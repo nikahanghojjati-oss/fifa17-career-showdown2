@@ -1,13 +1,13 @@
 {
-"updated": "2026-10-11T21:33:48Z",
+"updated": "2026-10-11T21:35:18Z",
 "total": 518,
-"next_free": 159,
+"next_free": 163,
 "highest_taken": 403,
 "counts": {
 "merged": 161,
 "closed": 82,
-"on_train": 28,
-"waiting": 247
+"on_train": 29,
+"waiting": 246
 },
 "stages": {
 "2": {
@@ -16,8 +16,8 @@
 "states": {
 "merged": 25,
 "closed": 44,
-"on_train": 28,
-"waiting": 169
+"on_train": 29,
+"waiting": 168
 }
 },
 "1": {
@@ -85,18 +85,19 @@
 149,
 151,
 155,
+159,
 161,
 403
 ],
 "draft_code_prs": 0,
 "area_locks": {},
 "ready": [
-159,
 163,
 165,
 167,
 169,
 173,
+177,
 179,
 189,
 240,
@@ -105,12 +106,12 @@
 274
 ],
 "ready_sol": [
-159,
 163,
 165,
 167,
 169,
 173,
+177,
 179,
 189,
 240,
@@ -120,12 +121,12 @@
 ],
 "ready_codex": [],
 "ready_all": [
-159,
 163,
 165,
 167,
 169,
 173,
+177,
 179,
 189,
 240,
@@ -184,8 +185,8 @@
 }
 },
 "rate": {
-"claimed_last_hour": 1,
-"claimed_last_10min": 1,
+"claimed_last_hour": 2,
+"claimed_last_10min": 2,
 "merged_last_hour": 0
 },
 "lanes": {
@@ -195,18 +196,18 @@
 "states": {
 "merged": 25,
 "closed": 25,
-"on_train": 28,
-"waiting": 161
+"on_train": 29,
+"waiting": 160
 },
 "reviews": {
 "ok": 0,
 "ok_notes": 0,
 "needs_changes": 0
 },
-"picked_up": 78,
-"worker_done": 53,
+"picked_up": 79,
+"worker_done": 54,
 "finished": 25,
-"pending_lead": 28,
+"pending_lead": 29,
 "wait_v": 0,
 "audit_batch": 0,
 "trouble": 0,
@@ -322,9 +323,8 @@
 "total": 75,
 "states": {
 "closed": 20,
-"merged": 51,
-"live": 3,
-"ready": 1
+"merged": 52,
+"live": 3
 },
 "reviews": {
 "ok": 0,
@@ -333,8 +333,8 @@
 },
 "picked_up": 75,
 "worker_done": 55,
-"finished": 54,
-"pending_lead": 1,
+"finished": 55,
+"pending_lead": 0,
 "wait_v": 0,
 "audit_batch": 0,
 "trouble": 0,
@@ -1057,13 +1057,6 @@
 }
 ],
 "events": [
-{
-"at": "2026-10-11T04:03:15Z",
-"item": 7,
-"job": 1148,
-"from": "draft",
-"to": "closed"
-},
 {
 "at": "2026-10-11T04:03:15Z",
 "item": 9,
@@ -3154,6 +3147,13 @@
 "at": "2026-10-11T21:33:48Z",
 "item": 151,
 "job": 1156,
+"from": "waiting",
+"to": "on_train"
+},
+{
+"at": "2026-10-11T21:35:18Z",
+"item": 159,
+"job": 1330,
 "from": "waiting",
 "to": "on_train"
 }
@@ -5535,8 +5535,10 @@
 "title": "Trophy Room: fix the 1920x1080 view",
 "mode": "code",
 "group": "career-screens",
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"state": "on_train",
+"branch": "gameplay/train-career-screens-2",
+"first_seen": "2026-10-11T21:35:18Z",
+"since": "2026-10-11T21:35:18Z"
 },
 "160": {
 "job": 1546,
