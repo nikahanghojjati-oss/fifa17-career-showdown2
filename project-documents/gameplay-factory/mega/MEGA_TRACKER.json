@@ -1,5 +1,5 @@
 {
-"updated": "2026-10-11T05:07:44Z",
+"updated": "2026-10-11T05:08:44Z",
 "total": 518,
 "next_free": 113,
 "highest_taken": 395,
@@ -7,8 +7,8 @@
 "merged": 25,
 "draft": 166,
 "closed": 51,
-"on_train": 14,
-"waiting": 262
+"on_train": 15,
+"waiting": 261
 },
 "stages": {
 "2": {
@@ -17,9 +17,9 @@
 "states": {
 "merged": 25,
 "closed": 39,
-"on_train": 14,
+"on_train": 15,
 "draft": 5,
-"waiting": 183
+"waiting": 182
 }
 },
 "1": {
@@ -75,6 +75,7 @@
 123,
 125,
 137,
+143,
 155
 ],
 "draft_code_prs": 1,
@@ -87,7 +88,7 @@
 127,
 129,
 141,
-143,
+161,
 173,
 403
 ],
@@ -97,7 +98,7 @@
 127,
 129,
 141,
-143,
+161,
 173,
 403
 ],
@@ -108,7 +109,7 @@
 127,
 129,
 141,
-143,
+161,
 173,
 403
 ],
@@ -134,18 +135,11 @@
 }
 },
 "rate": {
-"claimed_last_hour": 29,
-"claimed_last_10min": 5,
-"merged_last_hour": 15
+"claimed_last_hour": 30,
+"claimed_last_10min": 6,
+"merged_last_hour": 0
 },
 "events": [
-{
-"at": "2026-10-10T19:54:19Z",
-"item": 186,
-"job": 1559,
-"from": "waiting",
-"to": "draft"
-},
 {
 "at": "2026-10-10T19:54:19Z",
 "item": 188,
@@ -2236,6 +2230,13 @@
 "at": "2026-10-11T05:07:44Z",
 "item": 109,
 "job": 1067,
+"from": "waiting",
+"to": "on_train"
+},
+{
+"at": "2026-10-11T05:08:44Z",
+"item": 143,
+"job": 1416,
 "from": "waiting",
 "to": "on_train"
 }
@@ -4678,8 +4679,10 @@
 "title": "Rule Book: fix the 1366x768 view",
 "mode": "code",
 "group": "rules-settings",
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"state": "on_train",
+"branch": "gameplay/train-rules-settings-2",
+"first_seen": "2026-10-11T05:08:44Z",
+"since": "2026-10-11T05:08:44Z"
 },
 "144": {
 "job": 1538,
