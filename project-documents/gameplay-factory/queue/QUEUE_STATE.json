@@ -1,10 +1,10 @@
 {
  "sequence": {
   "ready": [
-   127,
-   131,
-   133,
+   145,
    147,
+   149,
+   151,
    159,
    173,
    179,
@@ -15,10 +15,10 @@
    324
   ],
   "ready_sol": [
-   127,
-   131,
-   133,
+   145,
    147,
+   149,
+   151,
    159,
    173,
    179,
@@ -32,7 +32,7 @@
   "held_until_picture": 57,
   "open_code_prs": 0,
   "open_train_prs": 0,
-  "next_free": 127,
+  "next_free": 145,
   "highest_taken": 403,
   "total": 518,
   "states": {
@@ -162,13 +162,13 @@
    "124": "merged",
    "125": "on_train",
    "126": "merged",
-   "127": "waiting",
+   "127": "on_train",
    "128": "merged",
    "129": "on_train",
    "130": "merged",
-   "131": "waiting",
+   "131": "on_train",
    "132": "merged",
-   "133": "waiting",
+   "133": "on_train",
    "134": "merged",
    "135": "closed",
    "136": "merged",
@@ -556,18 +556,18 @@
    "518": "waiting"
   }
  },
- "updated": "2026-10-11T07:32:40Z",
+ "updated": "2026-10-11T07:51:28Z",
  "counts": {
   "merged": 160,
-  "on_train": 21,
-  "waiting": 254,
+  "on_train": 24,
+  "waiting": 251,
   "closed": 82,
   "pr_open": 1
  },
  "stages": {
   "2": {
    "total": 266,
-   "taken": 90,
+   "taken": 93,
    "merged": 25
   },
   "3": {
@@ -615,7 +615,8 @@
    ],
    "done": [
     "1066",
-    "1067"
+    "1067",
+    "1068"
    ],
    "pr": null,
    "state": null
@@ -718,7 +719,8 @@
    ],
    "done": [
     "1124",
-    "1125"
+    "1125",
+    "1126"
    ],
    "pr": null,
    "state": null
@@ -775,7 +777,8 @@
    ],
    "done": [
     "1153",
-    "1154"
+    "1154",
+    "1155"
    ],
    "pr": null,
    "state": null
@@ -1397,7 +1400,7 @@
    "branch": "gameplay/train-home-2"
   },
   "1068": {
-   "state": "waiting",
+   "state": "on_train",
    "pr": null,
    "draft": false,
    "pr_url": null,
@@ -1803,7 +1806,7 @@
    "branch": "gameplay/train-league-2"
   },
   "1126": {
-   "state": "waiting",
+   "state": "on_train",
    "pr": null,
    "draft": false,
    "pr_url": null,
@@ -2006,7 +2009,7 @@
    "branch": "gameplay/train-club-2"
   },
   "1155": {
-   "state": "waiting",
+   "state": "on_train",
    "pr": null,
    "draft": false,
    "pr_url": null,
