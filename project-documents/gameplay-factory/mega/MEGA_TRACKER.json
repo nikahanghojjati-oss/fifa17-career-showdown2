@@ -1,5 +1,5 @@
 {
-"updated": "2026-10-11T22:25:18Z",
+"updated": "2026-10-11T22:40:48Z",
 "total": 518,
 "next_free": 181,
 "highest_taken": 403,
@@ -123,13 +123,21 @@
 352,
 358,
 380,
+382,
+388,
 400,
 408,
+410,
 411,
+416,
 428,
 436,
+438,
+444,
 456,
-464
+464,
+466,
+472
 ],
 "ready_work": [
 240,
@@ -143,15 +151,23 @@
 352,
 358,
 380,
+382,
+388,
 400,
 408,
+410,
+416,
 428,
 436,
+438,
+444,
 456,
-464
+464,
+466,
+472
 ],
-"ready_total": 19,
-"held_until_picture": 48,
+"ready_total": 27,
+"held_until_picture": 40,
 "held_by_picture": {
 "desktop STATISTICS": 4,
 "desktop CLUB": 4,
@@ -159,16 +175,14 @@
 "desktop LEAGUE": 4,
 "desktop LEGACY": 4,
 "desktop RIVALRY": 4,
-"desktop SEASON_RESULTS": 4,
 "desktop SETTINGS": 4,
 "desktop STANDINGS": 4,
-"desktop CONNECT_PLAYERS": 4,
 "desktop TRANSFER": 4,
 "desktop TROPHY_ROOM": 4
 }
 },
 "rate": {
-"claimed_last_hour": 9,
+"claimed_last_hour": 6,
 "claimed_last_10min": 0,
 "merged_last_hour": 0
 },
@@ -259,24 +273,24 @@
 "merged": 1,
 "ci_failed": 2,
 "closed": 4,
-"waiting": 3,
-"draft": 1
+"waiting": 2,
+"draft": 2
 },
 "reviews": {
 "ok": 0,
 "ok_notes": 0,
 "needs_changes": 0
 },
-"picked_up": 16,
-"worker_done": 12,
+"picked_up": 17,
+"worker_done": 13,
 "finished": 9,
-"pending_lead": 1,
+"pending_lead": 2,
 "wait_v": 0,
 "audit_batch": 0,
 "trouble": 2,
 "closed": 4,
 "reviews_total": 0,
-"first_time_ok": 75,
+"first_time_ok": 76,
 "failing_now": 2
 },
 "work": {
@@ -361,19 +375,11 @@
 "title": "Old-design flash: browser regression guard (tests only)"
 },
 {
-"job": 1651,
-"title": "Flash guard: cover Season Results, Final Winner and Rivalry, and time tap feedback"
-}
-],
-"codex_waiting_on_deps": [
-{
 "job": 1653,
-"title": "Reduced motion: stop the remaining Club script fades",
-"deps": [
-"1652"
-]
+"title": "Reduced motion: stop the remaining Club script fades"
 }
 ],
+"codex_waiting_on_deps": [],
 "work_waiting": [
 1612,
 1613,
@@ -1091,6 +1097,53 @@
 },
 "claude": {
 "t": 75,
+"fin": 55,
+"done": 55,
+"redone": 20,
+"fail": 0
+}
+}
+},
+{
+"at": "2026-10-11T22:40:48Z",
+"lanes": {
+"gpt1": {
+"t": 239,
+"fin": 25,
+"done": 61,
+"redone": 25,
+"fail": 35
+},
+"gpt2": {
+"t": 209,
+"fin": 123,
+"done": 123,
+"redone": 0,
+"fail": 0
+},
+"chat_jobs": {
+"t": 47,
+"fin": 20,
+"done": 21,
+"redone": 0,
+"fail": 0
+},
+"codex": {
+"t": 19,
+"fin": 9,
+"done": 13,
+"redone": 4,
+"fail": 2
+},
+"work": {
+"t": 35,
+"fin": 16,
+"done": 16,
+"redone": 3,
+"fail": 0
+},
+"claude": {
+"t": 76,
 "fin": 55,
 "done": 55,
 "redone": 20,
