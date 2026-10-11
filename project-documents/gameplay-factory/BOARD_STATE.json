@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-10 11:58 PM Boston time (EDT)",
+ "generated": "2026-10-11 12:02 AM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 94,
@@ -903,18 +903,7 @@
    "when": "2026-10-10T19:50:03Z",
    "subject": "Release r69: old-design flash fix (1.9.1-r69) (#486)",
    "fixes": [],
-   "today": [
-    {
-     "pr": 486,
-     "title": "Release r69: old-design flash fix",
-     "merged": "2026-10-10T19:50:03Z"
-    },
-    {
-     "pr": 482,
-     "title": "Release r68: Season Results fixes",
-     "merged": "2026-10-10T17:20:54Z"
-    }
-   ]
+   "today": []
   },
   "physio": {
    "state": "clear",
