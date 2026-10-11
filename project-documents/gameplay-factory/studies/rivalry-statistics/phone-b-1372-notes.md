@@ -1,0 +1,12 @@
+# JOB-1372 · Phone B
+- Decision: enlarge Showdown Points to a 54px score strip with 43px numerals.
+- Supporting totals remain six compact rows beneath it; no comparison label is removed.
+- Approved phone composition and frozen gold/black artwork remain the visual anchor.
+- Daniel stays left and Nik right; portraits are never mirrored.
+- Live markup supplies title, tagline, tabs, supporting headings and back-button wording.
+- CSS radios preserve TOTALS → HEAD-TO-HEAD → SEASONS → TROPHIES, without JavaScript.
+- Club uses the live fallback; all numbers are illustrative study data.
+- Generic shields and original game trophies avoid licensed reference graphics.
+- Bottom navigation stays STATS-active, shown only at widths up to 900px.
+- Settings, back and navigation are presentation controls.
+- Browser preview could not run locally; static dimensions and asset paths were checked.
