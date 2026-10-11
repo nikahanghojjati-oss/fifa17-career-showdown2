@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Sun 11 Oct, 12:09 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Sun 11 Oct, 12:11 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r69** (main `f335734`, Sat 10 Oct 3:50 PM)
 
@@ -22,7 +22,7 @@ Updated Sun 11 Oct, 12:09 AM Boston time. Bug hunting only, no new features unti
 
 **#2 · 1581** `G` Showdown Gate: split the slowest lane and cache downloads  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · **Codex default coding model** · High effort · worker working, draft PR #618 · CI 7 of 8 passed · last move 64 min ago
+⚪ Team white · **Codex default coding model** · High effort · worker working, draft PR #618 · CI 7 of 8 passed · last move 65 min ago
 
 ### 👉 Next for you, in this order
 
@@ -291,7 +291,7 @@ One numbered queue: type a bare number in any GPT chat. Live from GitHub (queue/
 Type now, in any GPT chat:
 
 ```text
-97 99 141 143 173 230 236 244 252 258 264 272
+91 93 95 97 99 141 143 173 230 236 244 252
 ```
 
 Open code PRs: 0/8.
@@ -301,9 +301,9 @@ Open code PRs: 0/8.
 | Stage | Items | Merged | Picked up |
 | --- | --- | --- | --- |
 | audits | 112 | 0/112 | 112/112 |
-| screen fixes | 266 | 10/266 | 72/266 |
+| screen fixes | 266 | 25/266 | 72/266 |
 | mockup match | 14 | 0/14 | 1/14 |
-| phone studies | 70 | 0/70 | 41/70 |
+| phone studies | 70 | 0/70 | 42/70 |
 | desktop studies | 56 | 0/56 | 0/56 |
 
 **Last taken numbers**
@@ -315,17 +315,17 @@ Open code PRs: 0/8.
 | 379 | 1353 | closed | Rivalry Statistics: fix the 430x932 view |
 | 371 | 1352 | closed | Rivalry Statistics: fix the 390x844 view |
 | 363 | 1351 | closed | Rivalry Statistics: fix the 360x640 view |
-| 362 | 1201 | PR open | Transfer challenge and Signing Entry: upright tablet study |
+| 362 | 1201 | closed | Transfer challenge and Signing Entry: upright tablet study |
 | 360 | 1114 | PR open | Connect Players (start and join): upright tablet study |
 | 355 | 1312 | closed | Legacy: hover-only effects |
 | 354 | 1230 | PR open | Season Results: upright tablet study |
 | 350 | 1375 | PR open | Rivalry Statistics: upright tablet study |
 | 346 | 1143 | blocked | Select League: upright tablet study |
-| 344 | 1085 | PR open | Home: upright tablet study |
+| 344 | 1085 | closed | Home: upright tablet study |
 | 340 | 1172 | PR open | Club packs: upright tablet study |
 | 338 | 1404 | PR open | Career Statistics: upright tablet study |
 | 337 | 1311 | closed | Legacy: error and retry state |
-| 334 | 1200 | PR open | Transfer challenge and Signing Entry: sideways phone study |
+| 334 | 1200 | closed | Transfer challenge and Signing Entry: sideways phone study |
 | 332 | 1113 | PR open | Connect Players (start and join): sideways phone study |
 | 326 | 1229 | PR open | Season Results: sideways phone study |
 | 322 | 1374 | PR open | Rivalry Statistics: sideways phone study |
