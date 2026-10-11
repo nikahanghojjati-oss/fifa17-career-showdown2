@@ -30,7 +30,8 @@
       "TROPHY_ROOM",
       "TROPHY_ROOM_SINGLE",
       "SETTINGS",
-      "FINAL_WINNER"
+      "FINAL_WINNER",
+      "RULE_BOOK"
     ],
     "NEXT": [
       "HOME"

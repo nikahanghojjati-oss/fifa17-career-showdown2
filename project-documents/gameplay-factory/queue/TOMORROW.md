@@ -133,6 +133,12 @@ Settings phone studies:
 244 272 300 328 356
 ```
 
+Rule Book phone studies:
+
+```text
+240 268 296 324 352
+```
+
 Home desktop studies:
 
 ```text
