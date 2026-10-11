@@ -822,6 +822,62 @@ html[data-v10-setup] main { scrollbar-color: var(--v26-gold-deep) rgba(255, 255,
   #leagueWheelScreen.v26Skin .wheelContainer > .backButton:only-of-type { grid-column: 1 / -1; }
 }
 
+/* JOB-1125: 1280x650 short laptop. The regular desktop wheel and widely
+   tracked result crowd the buttons in this height. Keep the entire selection
+   in normal page flow, with one outer scroll and no nested wheel scroller.
+   Limit this to short, mid-width landscape windows: 1920x1080 and phones
+   retain their existing composition. */
+@media (min-width: 1200px) and (max-width: 1360px) and (min-height: 600px) and (max-height: 700px) and (orientation: landscape) {
+  #leagueWheelScreen.v26Skin {
+    --v26-wheel: clamp(240px, 39svh, 270px);
+    box-sizing: border-box;
+    min-width: 0;
+    max-width: 100%;
+    max-height: none;
+    overflow: visible;
+  }
+  #leagueWheelScreen.v26Skin > h2 {
+    width: clamp(240px, 22vw, 320px);
+    margin: 2px auto 4px;
+  }
+  #leagueWheelScreen.v26Skin .wheelContainer {
+    width: min(600px, calc(100% - 32px));
+    min-width: 0;
+    max-width: 100%;
+    max-height: none;
+    padding: 0 8px 10px;
+    overflow: visible;
+  }
+  #leagueWheelScreen.v26Skin .wheelContainer > * { min-width: 0; max-width: 100%; }
+  #leagueWheelScreen.v26Skin #selectedLeague {
+    gap: 8px;
+    margin-bottom: 2px;
+    letter-spacing: .18em;
+    overflow-wrap: anywhere;
+  }
+  #leagueWheelScreen.v26Skin[data-v26-league] #selectedLeague { letter-spacing: .12em; }
+  #leagueWheelScreen.v26Skin #selectedLeague::before,
+  #leagueWheelScreen.v26Skin #selectedLeague::after { flex: 0 1 42px; }
+  #leagueWheelScreen.v26Skin #leagueWheel { margin-bottom: 4px; }
+  #leagueWheelScreen.v26Skin .wheelContainer > .stateNote {
+    box-sizing: border-box;
+    width: 100%;
+    margin: 4px auto;
+    padding: 7px 12px;
+    overflow-wrap: anywhere;
+  }
+  #leagueWheelScreen.v26Skin .wheelContainer .menuButton,
+  #leagueWheelScreen.v26Skin .wheelContainer .backButton {
+    box-sizing: border-box;
+    min-height: 48px;
+    padding: 10px 12px;
+    line-height: 1.2;
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+  #leagueWheelScreen.v26Skin #spinLeague { min-height: 54px; }
+}
+
 /* Reduced motion: only the skin's own motion stops; the app's own reduced-motion rules (photos, wheel, packs) stay in charge. */
 html:is([data-motion-reduced="true"], [data-reduced-motion="true"]) :is(#createShowdown, #leagueWheelScreen, #clubWheelScreen).v26Skin :is(.v26Art, .v26Flash, .v26Burst, .clubRevealCard),
 html:is([data-motion-reduced="true"], [data-reduced-motion="true"]) #leagueWheelScreen.v26Skin .wheelItem.v26-payoff::before { animation: none !important; }
