@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Legacy archive · phone C study</title>
+<style>
+:root{color-scheme:dark;--gold:#edc568;--edge:#8e753f;--ink:#06090b}
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:var(--ink)}
+body{font-family:"Arial Narrow","Barlow Condensed",Arial,sans-serif;color:#f5eedf}
+button{font:inherit;cursor:default}
+.phone{position:relative;width:100%;height:100dvh;min-height:0;overflow:hidden;background:#070a0c}
+.scene{position:absolute;inset:0 0 calc(56px + env(safe-area-inset-bottom,0px));overflow:hidden}
+.environment{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 37%}
+.scene:after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(2,4,5,.23),rgba(3,5,7,.1) 25%,rgba(2,4,5,.6) 46%,#06090b 59%,#06090b)}
+.hero{position:absolute;z-index:1;top:3%;height:41%;width:auto;object-fit:contain;object-position:bottom;filter:drop-shadow(0 6px 9px #000)}
+.hero.daniel{left:1%}
+.hero.nik{right:0}
+.title-band{position:absolute;z-index:3;top:5%;left:0;right:0;text-align:center;pointer-events:none}
+.eyebrow{margin:0;color:#f7d98b;font-size:9px;letter-spacing:.21em;text-shadow:0 1px 6px #000}
+.wordmark{display:block;width:min(58vw,220px);max-height:92px;object-fit:contain;margin:12px auto 3px;filter:drop-shadow(0 2px 4px #000)}
+.tagline{margin:0;font-size:9px;letter-spacing:.095em;white-space:nowrap;color:#e7d4a0;text-shadow:0 2px 6px #000}
+.archive{position:absolute;z-index:5;left:10px;right:10px;top:47%;bottom:56px;display:grid;grid-template-rows:35px minmax(0,1fr) 25px;gap:5px;padding:5px;border:1px solid var(--edge);background:linear-gradient(180deg,rgba(14,18,19,.96),#07090a 66%);box-shadow:0 0 0 2px #090c0e,0 0 24px #000}
+.tabs{display:grid;grid-template-columns:1.14fr .95fr .75fr;gap:3px}
+.tab{min-width:0;padding:0 3px;color:#dbcba9;border:1px solid #4b4535;background:#111516;font-size:10px;letter-spacing:.015em;white-space:nowrap}
+.tab.active{background:linear-gradient(105deg,#f6d777,#c9963d);color:#171206;border-color:#f4d78a;font-weight:800}
+.card{display:flex;min-height:0;flex-direction:column;align-items:stretch;justify-content:space-between;padding:6px 8px;border:1px solid #c7a14e;box-shadow:inset 0 0 0 1px #524021;background:linear-gradient(115deg,#0e1215,#171813 50%,#090b0c)}
+.card-title{text-align:center;color:#fff2c9;font-size:12px;font-weight:700;letter-spacing:.08em}
+.match{flex:1;min-height:0;display:grid;grid-template-columns:minmax(0,1fr) minmax(94px,1fr) minmax(0,1fr);align-items:center;gap:2px}
+.manager{min-width:0;display:grid;place-items:center;gap:2px}
+.shield{width:30px;height:32px;display:grid;place-items:center;clip-path:polygon(50% 0,91% 15%,83% 74%,50% 100%,17% 74%,9% 15%);background:linear-gradient(160deg,#cfaa59,#4e3e1d);padding:2px}
+.shield span{width:100%;height:100%;display:grid;place-items:center;clip-path:inherit;background:#141a1b;color:#e8c66d;font-size:14px;font-weight:700}
+.manager-name{font-size:11px;font-weight:700}
+.club{width:100%;min-height:10px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:center;color:#aeb2b1;font-size:9px}
+.scorebox{min-width:0;display:grid;place-items:center;gap:2px;text-align:center}
+.league-symbol{width:18px;height:18px;border:1px solid #c6a157;border-radius:50%;display:grid;place-items:center;color:#e7ba62;font-size:11px}
+.score{font-size:clamp(11px,3.8vw,15px);white-space:nowrap;color:#ffe3a0;font-weight:800}
+.winner{min-height:12px;color:#d9b663;font-size:9px;white-space:nowrap}
+.season-count{text-align:center;font-size:10px;letter-spacing:.08em;color:#c0bba9}
+.pager{display:flex;justify-content:center;align-items:center;gap:11px}
+.arrow{width:40px;height:24px;padding:0;border:0;background:transparent;color:#efc968;font-size:24px;line-height:20px}
+.dots{display:flex;align-items:center;gap:6px}
+.dot{width:6px;height:6px;border-radius:50%;background:#534a34}
+.dot.active{background:#efcc74;box-shadow:0 0 5px #ba8b30}
+.primary{position:absolute;z-index:6;bottom:8px;left:10px;right:10px;height:42px;border:1px solid #ffe39b;background:linear-gradient(110deg,#f3ce73,#b98736);box-shadow:0 0 12px #7a572839;color:#151007;font-size:14px;font-weight:900;letter-spacing:.09em}
+.bottom-nav{position:absolute;z-index:9;inset:auto 0 0;height:calc(56px + env(safe-area-inset-bottom,0px));padding-bottom:env(safe-area-inset-bottom,0px);display:grid;grid-template-columns:repeat(5,minmax(0,1fr));border-top:1px solid #9f813e;background:#0b0f12}
+.bottom-nav button{min-width:0;padding:0 2px;border:0;border-right:1px solid #312c22;color:#d0c5ae;background:transparent;font-size:10px;letter-spacing:.035em}
+.bottom-nav button.active{color:#ffdc87;border-top:3px solid #f0c76d;background:#1d1d17}
+@media(max-height:590px){
+ .hero{height:38%}
+ .title-band{top:2%}
+ .wordmark{width:min(46vw,175px);max-height:67px;margin:8px auto 1px}
+ .tagline{font-size:8px}
+ .archive{top:44%;bottom:54px;grid-template-rows:31px minmax(0,1fr) 22px;gap:3px}
+ .tab{font-size:9px}
+ .card{padding:3px 6px}
+ .shield{width:26px;height:27px}
+ .manager-name{font-size:10px}
+ .primary{height:40px;bottom:7px}
+}
+@media(min-width:901px){
+ .phone{width:393px;height:660px;max-height:100vh;margin:auto;box-shadow:0 0 0 1px #897046}
+ .scene{bottom:56px}
+ .bottom-nav{height:56px}
+}
+</style>
+</head>
+<body>
+<main class="phone" aria-label="Legacy archive compact phone mockup">
+ <section class="scene" aria-label="Legacy archive screen">
+  <img class="environment" src="../../../../visual-assets/v10_1/legacy/assets/ENV_LG_PHONE_V1.webp" alt="">
+  <img class="hero daniel" src="../../../../visual-assets/v10_1/legacy/assets/OVL_LG_DANIEL_PHONE_V1.webp" alt="">
+  <img class="hero nik" src="../../../../visual-assets/v10_1/legacy/assets/OVL_LG_NIK_PHONE_V1.webp" alt="">
+  <header class="title-band">
+   <p class="eyebrow">CAREER MODE SHOWDOWN 17</p>
+   <img class="wordmark" src="../../../../visual-assets/v10_1/legacy/assets/TITLE_LG_V1.webp" alt="LEGACY">
+   <p class="tagline">PAST SHOWDOWNS. A LASTING JOURNEY.</p>
+  </header>
+  <section class="archive" aria-label="Legacy archive">
+   <nav class="tabs" aria-label="Archive sections">
+    <button type="button" class="tab active" aria-current="page">LEGACY ARCHIVE</button>
+    <button type="button" class="tab">TROPHY ROOM</button>
+    <button type="button" class="tab">RECORDS</button>
+   </nav>
+   <article class="card" aria-label="Selected showdown">
+    <div class="card-title">Showdown #{number}</div>
+    <div class="match">
+     <div class="manager daniel">
+      <div class="shield" aria-hidden="true"><span>D</span></div>
+      <div class="manager-name">Daniel</div>
+      <div class="club">{club}</div>
+     </div>
+     <div class="scorebox">
+      <div class="league-symbol" aria-hidden="true">✦</div>
+      <div class="score">{daniel} – {nik}</div>
+      <div class="winner">{manager} wins</div>
+     </div>
+     <div class="manager nik">
+      <div class="shield" aria-hidden="true"><span>N</span></div>
+      <div class="manager-name">Nik</div>
+      <div class="club">{club}</div>
+     </div>
+    </div>
+    <div class="season-count">{played} / {total} Seasons</div>
+   </article>
+   <nav class="pager" aria-label="Archive page controls">
+    <button type="button" class="arrow" aria-label="Previous archive item">‹</button>
+    <span class="dots" role="img" aria-label="Archive page indicators"><span class="dot active"></span><span class="dot"></span><span class="dot"></span></span>
+    <button type="button" class="arrow" aria-label="Next archive item">›</button>
+   </nav>
+  </section>
+  <button class="primary" type="button">VIEW SEASON HISTORY</button>
+ </section>
+ <nav class="bottom-nav" aria-label="Main navigation">
+  <button type="button">HOME</button>
+  <button type="button" class="active" aria-current="page">CAREER</button>
+  <button type="button">STANDINGS</button>
+  <button type="button">STATS</button>
+  <button type="button">RULES</button>
+ </nav>
+</main>
+</body>
+</html>
