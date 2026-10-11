@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Sun 11 Oct, 6:22 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Sun 11 Oct, 6:27 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r70** (main `c8810b8`, Sun 11 Oct 12:28 AM)
 
@@ -21,16 +21,16 @@ Updated Sun 11 Oct, 6:22 PM Boston time. Bug hunting only, no new features until
 🟢 Team green · model not set · worker says done, no PR yet
 
 **#2 · 1647** `G` Loading screen: wire the approved PHONE_LOADING and NEXT_LOADING pictures  
-`████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #689 · CI 7 of 8 passed · last move 8 min ago
+`███████░░░` **74.6667 %**  
+⚪ Team white · model not set · worker done, PR #689 open, CI running · CI 7 of 15 passed · last move 3 min ago
 
 **#3 · 1648** `G` Old CSS: which old sheets and selectors are still live (report only)  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #690 · CI 7 of 8 passed · last move 3 min ago
+⚪ Team white · model not set · worker working, draft PR #690 · CI 7 of 8 passed · last move 8 min ago
 
 **#4 · 1652** `G` Settings › Motion: add a FULL MOTION choice  
 `████░░░░░░` **40.0000 %**  
-🔵 Team blue · model not set · worker working, draft PR #691 · CI 7 of 8 passed · last move 1 min ago
+🔵 Team blue · model not set · worker working, draft PR #691 · CI 7 of 8 passed · last move 6 min ago
 
 ### 👉 Next for you, in this order
 
@@ -561,17 +561,17 @@ One numbered queue: type a bare number in any GPT chat. Live from GitHub (queue/
 Type now, in any GPT chat:
 
 ```text
-151 159 163 165 167 173 179 189 240 246 268 274
+189 240 246 268 274 296 302 324 330 352 358 380
 ```
 
-Open code PRs: 0/8.
+Open code PRs: 7/8.
 
 403 taken of 518.
 
 | Stage | Items | Merged | Picked up |
 | --- | --- | --- | --- |
 | audits | 112 | 112/112 | 112/112 |
-| screen fixes | 266 | 25/266 | 96/266 |
+| screen fixes | 266 | 25/266 | 105/266 |
 | mockup match | 14 | 0/14 | 1/14 |
 | phone studies | 70 | 23/70 | 60/70 |
 | desktop studies | 56 | 1/56 | 1/56 |
@@ -603,7 +603,7 @@ Open code PRs: 0/8.
 
 ## Mega tracker (live, free)
 
-Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/index.html) · summary: [mega/MEGA_TRACKER.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/MEGA_TRACKER.md) · rebuilt by the poller each round, updated 2026-10-11T22:22:18Z.
+Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/index.html) · summary: [mega/MEGA_TRACKER.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/MEGA_TRACKER.md) · rebuilt by the poller each round, updated 2026-10-11T22:25:18Z.
 
 | Stage | Done (merged or live) | In progress | Waiting |
 | --- | --- | --- | --- |
