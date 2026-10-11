@@ -1,0 +1,12 @@
+# JOB-1172 · Club upright tablet
+- Decision: tablet club results use two equal cards side by side, Daniel left and Nik right.
+- The tablet breakpoint changes card structure, badge sizes, spacing and typography rather than scaling the phone.
+- Existing manager artwork stays unmirrored; live original Watford/Everton SVG crests are unchanged.
+- Confirmation sample uses live text from index.html and clubAssignment.js.
+- No JavaScript, gameplay wiring, scoring, rules, new tabs or tap-flow changes.
+- Confirm action is full-width with 24px bottom space on tablets.
+- The complete permanent-clubs note remains above the action; no clipped or overlapping controls.
+- Chromium rendered 768x1024 and 820x1180 with cards side by side and no scroll.
+- Phone checks also pass at 393x660, 360x640 and 375x553.
+- Phone note fits two lines and the main action remains visible with 12px/10px bottom margins.
+- Re-read the edit and visually inspected the 768x1024 render; all artwork/fonts loaded.
