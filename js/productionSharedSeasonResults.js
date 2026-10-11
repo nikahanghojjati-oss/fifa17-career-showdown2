@@ -55,6 +55,12 @@
   function pssrTransferComplete(request){const transfer=pssrTransferState();return Boolean(request&&transfer&&Number(transfer.seasonNumber)===request.seasonNumber&&transfer.state&&transfer.state.phase==="COMPLETED");}
   function pssrCanRoute(){const request=pssrRequestContext();return Boolean(pssrSharedMarker()&&request&&contextKey===request.key&&view&&view.managerRole&&view.rivalryId===request.rivalryId&&Number(view.seasonNumber)===request.seasonNumber&&pssrTransferComplete(request));}
   function pssrResultError(result,message){if(result&&result.ok===true)return result;const error=new Error(message||"Shared Season Results request was rejected.");error.code=result&&result.code||"SEASON_RESULTS_PROVIDER_FAILED";throw error;}
+  // JOB-1611: provider codes that mean "contended", not "refused": Firestore lock contention after the SDK's own retries.
+  const PSSR_CONTENTION_CODES=Object.freeze(["aborted","failed-precondition","permission-denied","firestore/permission-denied","permission_denied"]);
+  const PSSR_CONTENTION_RETRY_MS=Object.freeze([500,1000,1500]);
+  function pssrWait(ms){return new Promise(resolve=>{const timer=typeof root.setTimeout==="function"?root.setTimeout:setTimeout;timer(resolve,ms);});}
+  // JOB-1611: the reads inside a publish meet the same contention; they get the same bounded wait before failing as before.
+  async function pssrPublishRead(ctx,request){let read=await provider.read(ctx.options);for(let retry=0;read?.ok!==true&&PSSR_CONTENTION_CODES.includes(read?.code)&&retry<PSSR_CONTENTION_RETRY_MS.length&&pssrContextMatches(request);retry+=1){await pssrWait(PSSR_CONTENTION_RETRY_MS[retry]);read=await provider.read(ctx.options);}return pssrResultError(read,"Shared Season Results could not be refreshed before publishing.");}
   function pssrQueueProvider(task){const run=providerChain.then(task,task);providerChain=run.catch(()=>{});return run;}
   // Job 33 (R1): a fast waiting read (light) reuses the already-confirmed Setup and the COMPLETED Transfer Challenge.
   async function pssrProviderContext(request=pssrRequestContext(),light=false){
@@ -143,16 +149,21 @@
     try{
       return await pssrQueueProvider(async()=>{
         const ctx=await pssrProviderContext(request);if(!pssrContextMatches(request))return false;
-        let current=pssrResultError(await provider.read(ctx.options),"Shared Season Results could not be refreshed before publishing.");if(!pssrContextMatches(request))return false;
-        for(let attempt=0;attempt<2;attempt+=1){
+        let current=await pssrPublishRead(ctx,request);if(!pssrContextMatches(request))return false;
+        let staleRetried=false,contentionRetries=0;
+        for(;;){
           if(current.ownResult){view={...current,setup:ctx.setup.setup,rivalryId:ctx.setup.rivalryId};contextKey=request.key;draft=null;pssrRender();return true;}
           draft.operationId=draft.operationId||pssrRandomOperationId();draft.baseRevision=Number(current.revision||0);
           const published=await provider.publishResult({...ctx.options,operationId:draft.operationId,baseRevision:draft.baseRevision,result:draft.result});
-          if(published?.code==="SEASON_RESULTS_STALE_BASE_REVISION"&&attempt===0){current=pssrResultError(await provider.read(ctx.options),"Shared Season Results could not be refreshed before publishing.");if(!pssrContextMatches(request))return false;continue;}
+          if(published?.code==="SEASON_RESULTS_STALE_BASE_REVISION"&&!staleRetried){staleRetried=true;current=await pssrPublishRead(ctx,request);if(!pssrContextMatches(request))return false;continue;}
+          // JOB-1611: two same-moment publishes can both lose to lock contention instead of one losing to the other's write.
+          // One manager then gets aborted (SDK retries spent) or permission-denied (the rival's retried write had not landed
+          // by the provider's last re-read) while the rival quietly retries and wins. Wait, re-read and publish again with
+          // the same operationId (an own write that did land is bound, never written twice); bounded, then surfaced as before.
+          if(PSSR_CONTENTION_CODES.includes(published?.code)&&contentionRetries<PSSR_CONTENTION_RETRY_MS.length){await pssrWait(PSSR_CONTENTION_RETRY_MS[contentionRetries]);contentionRetries+=1;if(!pssrContextMatches(request))return false;const fresh=await provider.read(ctx.options);if(!pssrContextMatches(request))return false;if(fresh?.ok===true)current=fresh;continue;}
           const result=pssrResultError(published,"Your shared Season Result could not be published.");if(!pssrContextMatches(request))return true;
           view={...result,setup:ctx.setup.setup,rivalryId:ctx.setup.rivalryId};contextKey=request.key;draft=null;await pssrRefreshNow(request);return true;
         }
-        return false;
       });
     }catch(error){if(pssrContextMatches(request)){pssrSetError(error.message||error.code||"Shared Season Result publication failed.");pssrReport("Unable to publish Shared Season Result",error);}return false;}
     finally{busy=false;if(pssrContextMatches(request))pssrRender();}
