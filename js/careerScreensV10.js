@@ -740,6 +740,23 @@
 }
 `;
 
+  // JOB-1329: reflow only 1366x768-class Chromebooks. Reuse the adjacent
+  // small-laptop layout to keep the whole cabinet in one page scroller.
+  const TROPHY_1366_CHROMEBOOK_CSS=TROPHY_1280_LAPTOP_CSS.replace(
+    "(min-width:1200px) and (max-width:1365px) and (min-height:600px) and (max-height:700px)",
+    "(min-width:1366px) and (max-width:1440px) and (min-height:720px) and (max-height:820px)"
+  )+String.raw`
+@media (min-width:1366px) and (max-width:1440px) and (min-height:720px) and (max-height:820px) {
+  #trophyRoom .trophyRoomContent.sd-stage__ui-content {padding:64px 36px 32px}
+  #trophyRoom .trophyBrushTitle {max-height:80px}
+  #trophyRoom .heroCeremony {width:280px; height:200px}
+  #trophyRoom .careerRank {min-height:92px}
+  #trophyRoom .trophyCard {min-height:230px}
+  #trophyRoom .trophyTab {min-height:48px}
+  #trophyRoom .trophyBack {height:48px; min-height:48px}
+}
+`;
+
   const TROPHY_768_TABLET_CSS=String.raw`
 /* JOB-1327: upright 768x1024 tablet has one vertically scrolling surface.
    Do not change Team V's frozen visual assets or other viewport classes. */
@@ -913,7 +930,7 @@
     host.innerHTML=v10Markup(screen);
     if(screen==="trophyRoom"){
       const smallPhoneStyle=doc.createElement("style");
-      smallPhoneStyle.textContent=TROPHY_SMALL_PHONE_CSS+TROPHY_390_PHONE_CSS+TROPHY_430_PHONE_CSS+TROPHY_844_LANDSCAPE_CSS+TROPHY_932_LANDSCAPE_CSS+TROPHY_768_TABLET_CSS+TROPHY_1280_LAPTOP_CSS;
+      smallPhoneStyle.textContent=TROPHY_SMALL_PHONE_CSS+TROPHY_390_PHONE_CSS+TROPHY_430_PHONE_CSS+TROPHY_844_LANDSCAPE_CSS+TROPHY_932_LANDSCAPE_CSS+TROPHY_768_TABLET_CSS+TROPHY_1280_LAPTOP_CSS+TROPHY_1366_CHROMEBOOK_CSS;
       host.appendChild(smallPhoneStyle);
     }
     v10Wire(screen,host);
