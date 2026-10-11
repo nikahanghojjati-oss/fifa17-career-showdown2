@@ -1,0 +1,13 @@
+# JOB-1343 · Trophy Room phone B
+- Decision: make the champion ceremony the primary visual anchor and BACK the gold action.
+- Retains approved two-row tabs and the complete 2×2 cabinet.
+- Both reference pictures inspected; no picture wording or result numbers copied.
+- Real labels and CSS MORE/CLOSE interaction come from the live renderer and careerScreensV10.js.
+- Existing original artwork only; Daniel left, Nik right.
+- Empty-career frame keeps counts honest and displays Not won yet.
+- No JavaScript; ALL is the static category, with BACK and navigation as presentation controls.
+- Height-based override protects all cards and buttons on short phones.
+- Geometry checked at 390×844, 393×660, 360×640 and 375×553.
+- Asset paths were downloaded successfully and retained from the verified A study.
+- Browser visual QA unavailable; missing Chromium and failed browser download.
+- No game code or frozen assets changed.
