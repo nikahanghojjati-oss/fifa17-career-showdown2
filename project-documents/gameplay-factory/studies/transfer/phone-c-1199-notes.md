@@ -1,0 +1,13 @@
+# JOB-1199 · Transfer phone C
+- Decision: compact the cards and spacing around the complete three-row forms.
+- 360×640 is the primary canvas; the hero absorbs the remaining height without a scroll region.
+- Every live phase status and the full signing lock summary remain visible.
+- Three guesses retain type/value; three signings retain name/previous league/nationality.
+- Daniel stays left and Nik right using unmirrored V2 frozen artwork.
+- Existing local fonts and gold panels retain the approved PHONE_TRANSFER visual structure.
+- Window → Guesses → Signings → Verdicts previews use CSS radio controls only.
+- Primary action remains below each phase's form, preserving field-to-lock order.
+- Four current live action labels include LOCK MY GUESSES; coming-next remains disabled.
+- HOME/REFRESH task HUD remains visible; no hub tab bar or extra gameplay screen.
+- No JavaScript, nested scroll, production changes or edits to frozen assets.
+- Verified four phases at 390×844, 393×660, 360×640 and 375×553: no page scroll; actions/HUD visible; assets loaded.
