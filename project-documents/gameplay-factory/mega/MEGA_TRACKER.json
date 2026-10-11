@@ -1,13 +1,13 @@
 {
-"updated": "2026-10-11T06:35:00Z",
+"updated": "2026-10-11T06:36:30Z",
 "total": 518,
 "next_free": 127,
 "highest_taken": 403,
 "counts": {
-"merged": 137,
-"closed": 51,
+"merged": 160,
+"closed": 66,
 "on_train": 21,
-"draft": 55,
+"draft": 17,
 "waiting": 254
 },
 "stages": {
@@ -41,8 +41,9 @@
 "name": "Phone mockup studies",
 "total": 70,
 "states": {
-"draft": 49,
-"closed": 11,
+"draft": 11,
+"closed": 26,
+"merged": 23,
 "waiting": 10
 }
 },
@@ -152,275 +153,9 @@
 "rate": {
 "claimed_last_hour": 1,
 "claimed_last_10min": 0,
-"merged_last_hour": 112
+"merged_last_hour": 135
 },
 "events": [
-{
-"at": "2026-10-11T02:46:00Z",
-"item": 232,
-"job": 1081,
-"from": "waiting",
-"to": "draft"
-},
-{
-"at": "2026-10-11T02:46:00Z",
-"item": 248,
-"job": 1110,
-"from": "waiting",
-"to": "started"
-},
-{
-"at": "2026-10-11T02:46:00Z",
-"item": 260,
-"job": 1082,
-"from": "waiting",
-"to": "draft"
-},
-{
-"at": "2026-10-11T02:46:00Z",
-"item": 288,
-"job": 1083,
-"from": "waiting",
-"to": "draft"
-},
-{
-"at": "2026-10-11T02:46:00Z",
-"item": 316,
-"job": 1084,
-"from": "waiting",
-"to": "draft"
-},
-{
-"at": "2026-10-11T02:53:53Z",
-"item": 7,
-"job": 1148,
-"from": "on_train",
-"to": "draft"
-},
-{
-"at": "2026-10-11T02:53:53Z",
-"item": 25,
-"job": 1149,
-"from": "on_train",
-"to": "draft"
-},
-{
-"at": "2026-10-11T02:53:53Z",
-"item": 43,
-"job": 1150,
-"from": "on_train",
-"to": "draft"
-},
-{
-"at": "2026-10-11T02:53:53Z",
-"item": 61,
-"job": 1151,
-"from": "waiting",
-"to": "draft"
-},
-{
-"at": "2026-10-11T02:53:53Z",
-"item": 79,
-"job": 1152,
-"from": "waiting",
-"to": "draft"
-},
-{
-"at": "2026-10-11T02:53:53Z",
-"item": 226,
-"job": 1400,
-"from": "waiting",
-"to": "draft"
-},
-{
-"at": "2026-10-11T02:53:53Z",
-"item": 234,
-"job": 1139,
-"from": "waiting",
-"to": "blocked"
-},
-{
-"at": "2026-10-11T02:53:53Z",
-"item": 238,
-"job": 1371,
-"from": "waiting",
-"to": "draft"
-},
-{
-"at": "2026-10-11T02:53:53Z",
-"item": 248,
-"job": 1110,
-"from": "started",
-"to": "draft"
-},
-{
-"at": "2026-10-11T02:53:53Z",
-"item": 250,
-"job": 1197,
-"from": "waiting",
-"to": "draft"
-},
-{
-"at": "2026-10-11T02:53:53Z",
-"item": 262,
-"job": 1140,
-"from": "waiting",
-"to": "blocked"
-},
-{
-"at": "2026-10-11T02:53:53Z",
-"item": 266,
-"job": 1372,
-"from": "waiting",
-"to": "draft"
-},
-{
-"at": "2026-10-11T02:53:53Z",
-"item": 276,
-"job": 1111,
-"from": "waiting",
-"to": "draft"
-},
-{
-"at": "2026-10-11T02:53:53Z",
-"item": 290,
-"job": 1141,
-"from": "waiting",
-"to": "blocked"
-},
-{
-"at": "2026-10-11T02:53:53Z",
-"item": 294,
-"job": 1373,
-"from": "waiting",
-"to": "draft"
-},
-{
-"at": "2026-10-11T02:53:53Z",
-"item": 304,
-"job": 1112,
-"from": "waiting",
-"to": "draft"
-},
-{
-"at": "2026-10-11T02:53:53Z",
-"item": 318,
-"job": 1142,
-"from": "waiting",
-"to": "blocked"
-},
-{
-"at": "2026-10-11T02:53:53Z",
-"item": 322,
-"job": 1374,
-"from": "waiting",
-"to": "started"
-},
-{
-"at": "2026-10-11T02:53:53Z",
-"item": 332,
-"job": 1113,
-"from": "waiting",
-"to": "draft"
-},
-{
-"at": "2026-10-11T02:53:53Z",
-"item": 344,
-"job": 1085,
-"from": "waiting",
-"to": "draft"
-},
-{
-"at": "2026-10-11T02:53:53Z",
-"item": 346,
-"job": 1143,
-"from": "waiting",
-"to": "blocked"
-},
-{
-"at": "2026-10-11T02:53:53Z",
-"item": 360,
-"job": 1114,
-"from": "waiting",
-"to": "draft"
-},
-{
-"at": "2026-10-11T02:57:51Z",
-"item": 254,
-"job": 1401,
-"from": "waiting",
-"to": "draft"
-},
-{
-"at": "2026-10-11T02:57:51Z",
-"item": 278,
-"job": 1198,
-"from": "waiting",
-"to": "draft"
-},
-{
-"at": "2026-10-11T02:57:51Z",
-"item": 282,
-"job": 1402,
-"from": "waiting",
-"to": "draft"
-},
-{
-"at": "2026-10-11T02:57:51Z",
-"item": 306,
-"job": 1199,
-"from": "waiting",
-"to": "draft"
-},
-{
-"at": "2026-10-11T02:57:51Z",
-"item": 310,
-"job": 1403,
-"from": "waiting",
-"to": "draft"
-},
-{
-"at": "2026-10-11T02:57:51Z",
-"item": 322,
-"job": 1374,
-"from": "started",
-"to": "draft"
-},
-{
-"at": "2026-10-11T02:57:51Z",
-"item": 350,
-"job": 1375,
-"from": "waiting",
-"to": "draft"
-},
-{
-"at": "2026-10-11T03:01:48Z",
-"item": 334,
-"job": 1200,
-"from": "waiting",
-"to": "draft"
-},
-{
-"at": "2026-10-11T03:01:48Z",
-"item": 338,
-"job": 1404,
-"from": "waiting",
-"to": "draft"
-},
-{
-"at": "2026-10-11T03:01:48Z",
-"item": 362,
-"job": 1201,
-"from": "waiting",
-"to": "draft"
-},
-{
-"at": "2026-10-11T03:07:07Z",
-"item": 242,
-"job": 1226,
-"from": "waiting",
-"to": "started"
-},
 {
 "at": "2026-10-11T03:11:09Z",
 "item": 242,
@@ -2252,6 +1987,272 @@
 "at": "2026-10-11T06:35:00Z",
 "item": 224,
 "job": 1578,
+"from": "draft",
+"to": "merged"
+},
+{
+"at": "2026-10-11T06:36:30Z",
+"item": 230,
+"job": 1284,
+"from": "draft",
+"to": "merged"
+},
+{
+"at": "2026-10-11T06:36:30Z",
+"item": 234,
+"job": 1139,
+"from": "draft",
+"to": "closed"
+},
+{
+"at": "2026-10-11T06:36:30Z",
+"item": 236,
+"job": 1313,
+"from": "draft",
+"to": "merged"
+},
+{
+"at": "2026-10-11T06:36:30Z",
+"item": 242,
+"job": 1226,
+"from": "draft",
+"to": "merged"
+},
+{
+"at": "2026-10-11T06:36:30Z",
+"item": 244,
+"job": 1458,
+"from": "draft",
+"to": "closed"
+},
+{
+"at": "2026-10-11T06:36:30Z",
+"item": 248,
+"job": 1110,
+"from": "draft",
+"to": "merged"
+},
+{
+"at": "2026-10-11T06:36:30Z",
+"item": 252,
+"job": 1342,
+"from": "draft",
+"to": "merged"
+},
+{
+"at": "2026-10-11T06:36:30Z",
+"item": 256,
+"job": 1169,
+"from": "draft",
+"to": "merged"
+},
+{
+"at": "2026-10-11T06:36:30Z",
+"item": 260,
+"job": 1082,
+"from": "draft",
+"to": "closed"
+},
+{
+"at": "2026-10-11T06:36:30Z",
+"item": 262,
+"job": 1140,
+"from": "draft",
+"to": "closed"
+},
+{
+"at": "2026-10-11T06:36:30Z",
+"item": 264,
+"job": 1314,
+"from": "draft",
+"to": "closed"
+},
+{
+"at": "2026-10-11T06:36:30Z",
+"item": 266,
+"job": 1372,
+"from": "draft",
+"to": "merged"
+},
+{
+"at": "2026-10-11T06:36:30Z",
+"item": 272,
+"job": 1459,
+"from": "draft",
+"to": "closed"
+},
+{
+"at": "2026-10-11T06:36:30Z",
+"item": 280,
+"job": 1343,
+"from": "draft",
+"to": "closed"
+},
+{
+"at": "2026-10-11T06:36:30Z",
+"item": 282,
+"job": 1402,
+"from": "draft",
+"to": "merged"
+},
+{
+"at": "2026-10-11T06:36:30Z",
+"item": 288,
+"job": 1083,
+"from": "draft",
+"to": "closed"
+},
+{
+"at": "2026-10-11T06:36:30Z",
+"item": 290,
+"job": 1141,
+"from": "draft",
+"to": "closed"
+},
+{
+"at": "2026-10-11T06:36:30Z",
+"item": 300,
+"job": 1460,
+"from": "draft",
+"to": "merged"
+},
+{
+"at": "2026-10-11T06:36:30Z",
+"item": 308,
+"job": 1344,
+"from": "draft",
+"to": "closed"
+},
+{
+"at": "2026-10-11T06:36:30Z",
+"item": 310,
+"job": 1403,
+"from": "draft",
+"to": "merged"
+},
+{
+"at": "2026-10-11T06:36:30Z",
+"item": 312,
+"job": 1171,
+"from": "draft",
+"to": "merged"
+},
+{
+"at": "2026-10-11T06:36:30Z",
+"item": 314,
+"job": 1287,
+"from": "draft",
+"to": "merged"
+},
+{
+"at": "2026-10-11T06:36:30Z",
+"item": 316,
+"job": 1084,
+"from": "draft",
+"to": "closed"
+},
+{
+"at": "2026-10-11T06:36:30Z",
+"item": 318,
+"job": 1142,
+"from": "draft",
+"to": "closed"
+},
+{
+"at": "2026-10-11T06:36:30Z",
+"item": 320,
+"job": 1316,
+"from": "draft",
+"to": "merged"
+},
+{
+"at": "2026-10-11T06:36:30Z",
+"item": 322,
+"job": 1374,
+"from": "draft",
+"to": "merged"
+},
+{
+"at": "2026-10-11T06:36:30Z",
+"item": 326,
+"job": 1229,
+"from": "draft",
+"to": "merged"
+},
+{
+"at": "2026-10-11T06:36:30Z",
+"item": 328,
+"job": 1461,
+"from": "draft",
+"to": "merged"
+},
+{
+"at": "2026-10-11T06:36:30Z",
+"item": 336,
+"job": 1345,
+"from": "draft",
+"to": "closed"
+},
+{
+"at": "2026-10-11T06:36:30Z",
+"item": 338,
+"job": 1404,
+"from": "draft",
+"to": "merged"
+},
+{
+"at": "2026-10-11T06:36:30Z",
+"item": 340,
+"job": 1172,
+"from": "draft",
+"to": "merged"
+},
+{
+"at": "2026-10-11T06:36:30Z",
+"item": 342,
+"job": 1288,
+"from": "draft",
+"to": "merged"
+},
+{
+"at": "2026-10-11T06:36:30Z",
+"item": 346,
+"job": 1143,
+"from": "draft",
+"to": "closed"
+},
+{
+"at": "2026-10-11T06:36:30Z",
+"item": 348,
+"job": 1317,
+"from": "draft",
+"to": "closed"
+},
+{
+"at": "2026-10-11T06:36:30Z",
+"item": 350,
+"job": 1375,
+"from": "draft",
+"to": "merged"
+},
+{
+"at": "2026-10-11T06:36:30Z",
+"item": 354,
+"job": 1230,
+"from": "draft",
+"to": "merged"
+},
+{
+"at": "2026-10-11T06:36:30Z",
+"item": 356,
+"job": 1462,
+"from": "draft",
+"to": "merged"
+},
+{
+"at": "2026-10-11T06:36:30Z",
+"item": 364,
+"job": 1346,
 "from": "draft",
 "to": "merged"
 }
@@ -5567,15 +5568,11 @@
 "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/634",
 "base": "study/mega-queue",
 "branch": "study/job-1284-phone-a",
-"ci": "draft",
-"ci_sha": "9ac178eded68cd107231911f1369a427fe02dc0d",
-"ci_total": 0,
-"ci_extra": 0,
-"draft": true,
-"state": "draft",
+"state": "merged",
+"merged_at": "2026-10-11T06:35:55Z",
 "pr_opened_at": "2026-10-11T04:15:58Z",
 "first_seen": "2026-10-11T04:15:58Z",
-"since": "2026-10-11T04:15:57Z"
+"since": "2026-10-11T06:36:30Z"
 },
 "231": {
 "job": 1334,
@@ -5625,15 +5622,10 @@
 "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/656",
 "base": "study/mega-queue",
 "branch": "study/job-1139-league-phone-a",
-"ci": "draft",
-"ci_sha": "284989f79d12261cb5f7c70713de4160bd475201",
-"ci_total": 0,
-"ci_extra": 0,
-"draft": true,
-"state": "draft",
+"state": "closed",
 "pr_opened_at": "2026-10-11T04:23:52Z",
 "first_seen": "2026-10-11T02:53:53Z",
-"since": "2026-10-11T04:23:57Z"
+"since": "2026-10-11T06:36:30Z"
 },
 "235": {
 "job": 1074,
@@ -5654,15 +5646,11 @@
 "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/644",
 "base": "study/mega-queue",
 "branch": "study/job-1313-legacy-phone-a",
-"ci": "draft",
-"ci_sha": "66222a5c6ae042e9a78ac267dc873d2b7be61898",
-"ci_total": 0,
-"ci_extra": 0,
-"draft": true,
-"state": "draft",
+"state": "merged",
+"merged_at": "2026-10-11T06:35:55Z",
 "pr_opened_at": "2026-10-11T04:21:34Z",
 "first_seen": "2026-10-11T04:13:57Z",
-"since": "2026-10-11T04:21:57Z"
+"since": "2026-10-11T06:36:30Z"
 },
 "237": {
 "job": 1103,
@@ -5730,15 +5718,11 @@
 "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/619",
 "base": "study/mega-queue",
 "branch": "study/job-1226-season-results-phone-a",
-"ci": "draft",
-"ci_sha": "ceb8726287c8e86a630f555c6817263dca6450e4",
-"ci_total": 0,
-"ci_extra": 0,
-"draft": true,
-"state": "draft",
+"state": "merged",
+"merged_at": "2026-10-11T06:35:55Z",
 "pr_opened_at": "2026-10-11T03:07:37Z",
 "first_seen": "2026-10-11T03:07:07Z",
-"since": "2026-10-11T03:11:09Z"
+"since": "2026-10-11T06:36:30Z"
 },
 "243": {
 "job": 1190,
@@ -5759,15 +5743,10 @@
 "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/645",
 "base": "study/mega-queue",
 "branch": "study/job-1458-settings-phone-a",
-"ci": "draft",
-"ci_sha": "3964f1976491bbefb1d2728231b2ead0190e6c72",
-"ci_total": 0,
-"ci_extra": 0,
-"draft": true,
-"state": "draft",
+"state": "closed",
 "pr_opened_at": "2026-10-11T04:21:53Z",
 "first_seen": "2026-10-11T04:14:57Z",
-"since": "2026-10-11T04:21:57Z"
+"since": "2026-10-11T06:36:30Z"
 },
 "245": {
 "job": 1219,
@@ -5812,15 +5791,11 @@
 "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/597",
 "base": "study/mega-queue",
 "branch": "study/job-1110-connect-players-phone-a",
-"ci": "draft",
-"ci_sha": "cb85ca6dd24092928581ab680ea76239eb9536ed",
-"ci_total": 0,
-"ci_extra": 0,
-"draft": true,
-"state": "draft",
+"state": "merged",
+"merged_at": "2026-10-11T06:35:55Z",
 "pr_opened_at": "2026-10-11T02:47:45Z",
 "first_seen": "2026-10-11T02:46:00Z",
-"since": "2026-10-11T02:53:53Z"
+"since": "2026-10-11T06:36:30Z"
 },
 "249": {
 "job": 1335,
@@ -5865,15 +5840,11 @@
 "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/636",
 "base": "study/mega-queue",
 "branch": "study/job-1342-trophy-room-phone-a",
-"ci": "draft",
-"ci_sha": "c3f860da422e9d6088afe0694014aaeb0e9458f5",
-"ci_total": 0,
-"ci_extra": 0,
-"draft": true,
-"state": "draft",
+"state": "merged",
+"merged_at": "2026-10-11T06:35:55Z",
 "pr_opened_at": "2026-10-11T04:16:42Z",
 "first_seen": "2026-10-11T04:16:42Z",
-"since": "2026-10-11T04:16:57Z"
+"since": "2026-10-11T06:36:30Z"
 },
 "253": {
 "job": 1075,
@@ -5918,15 +5889,11 @@
 "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/626",
 "base": "study/mega-queue",
 "branch": "study/job-1169-club-phone-hierarchy",
-"ci": "draft",
-"ci_sha": "3ed0b5145176c69dab913cf9e0ff5d3b498c0718",
-"ci_total": 0,
-"ci_extra": 0,
-"draft": true,
-"state": "draft",
+"state": "merged",
+"merged_at": "2026-10-11T06:35:55Z",
 "pr_opened_at": "2026-10-11T03:48:12Z",
 "first_seen": "2026-10-11T03:48:12Z",
-"since": "2026-10-11T03:54:22Z"
+"since": "2026-10-11T06:36:30Z"
 },
 "257": {
 "job": 1133,
@@ -5976,15 +5943,10 @@
 "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/646",
 "base": "study/mega-queue",
 "branch": "study/job-1082-home-phone-b",
-"ci": "draft",
-"ci_sha": "e79afe62e996ae268ea0892b7632cf97cbc85ec8",
-"ci_total": 0,
-"ci_extra": 0,
-"draft": true,
-"state": "draft",
+"state": "closed",
 "pr_opened_at": "2026-10-11T04:22:08Z",
 "first_seen": "2026-10-11T02:44:21Z",
-"since": "2026-10-11T02:46:00Z"
+"since": "2026-10-11T06:36:30Z"
 },
 "261": {
 "job": 1191,
@@ -6005,15 +5967,10 @@
 "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/657",
 "base": "study/mega-queue",
 "branch": "study/job-1140-league-phone-b",
-"ci": "draft",
-"ci_sha": "197378fd775d190f2e9b901ce4aa000cdaeec174",
-"ci_total": 0,
-"ci_extra": 0,
-"draft": true,
-"state": "draft",
+"state": "closed",
 "pr_opened_at": "2026-10-11T04:24:07Z",
 "first_seen": "2026-10-11T02:53:53Z",
-"since": "2026-10-11T04:24:57Z"
+"since": "2026-10-11T06:36:30Z"
 },
 "263": {
 "job": 1220,
@@ -6034,15 +5991,10 @@
 "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/647",
 "base": "study/mega-queue",
 "branch": "study/job-1314-legacy-phone-b",
-"ci": "draft",
-"ci_sha": "6763fd3c2a4fdfc5d2247e1f466128192262e9a2",
-"ci_total": 0,
-"ci_extra": 0,
-"draft": true,
-"state": "draft",
+"state": "closed",
 "pr_opened_at": "2026-10-11T04:22:12Z",
 "first_seen": "2026-10-11T04:14:57Z",
-"since": "2026-10-11T04:22:57Z"
+"since": "2026-10-11T06:36:30Z"
 },
 "265": {
 "job": 1307,
@@ -6069,15 +6021,11 @@
 "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/604",
 "base": "study/mega-queue",
 "branch": "study/job-1372-rivalry-phone-b",
-"ci": "draft",
-"ci_sha": "04874f87a224a7731c237b54fae59f981af72edf",
-"ci_total": 0,
-"ci_extra": 0,
-"draft": true,
-"state": "draft",
+"state": "merged",
+"merged_at": "2026-10-11T06:35:55Z",
 "pr_opened_at": "2026-10-11T02:52:12Z",
 "first_seen": "2026-10-11T02:52:12Z",
-"since": "2026-10-11T02:53:53Z"
+"since": "2026-10-11T06:36:30Z"
 },
 "267": {
 "job": 1336,
@@ -6140,15 +6088,10 @@
 "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/648",
 "base": "study/mega-queue",
 "branch": "study/job-1459-settings-phone-b",
-"ci": "draft",
-"ci_sha": "428f9b4df47678be0f23415d831db2ac40eff669",
-"ci_total": 0,
-"ci_extra": 0,
-"draft": true,
-"state": "draft",
+"state": "closed",
 "pr_opened_at": "2026-10-11T04:22:20Z",
 "first_seen": "2026-10-11T04:15:57Z",
-"since": "2026-10-11T04:22:57Z"
+"since": "2026-10-11T06:36:30Z"
 },
 "273": {
 "job": 1105,
@@ -6240,15 +6183,10 @@
 "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/638",
 "base": "study/mega-queue",
 "branch": "study/job-1343-trophy-room-phone-b",
-"ci": "draft",
-"ci_sha": "751c926a154019615096d3489584c8aad431d84e",
-"ci_total": 0,
-"ci_extra": 0,
-"draft": true,
-"state": "draft",
+"state": "closed",
 "pr_opened_at": "2026-10-11T04:17:41Z",
 "first_seen": "2026-10-11T04:17:41Z",
-"since": "2026-10-11T04:17:57Z"
+"since": "2026-10-11T06:36:30Z"
 },
 "281": {
 "job": 1221,
@@ -6269,15 +6207,11 @@
 "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/610",
 "base": "study/mega-queue",
 "branch": "study/job-1402-career-statistics-phone-c",
-"ci": "draft",
-"ci_sha": "f46aa894c1f8c506e1d7c34481fd65e911108f4a",
-"ci_total": 0,
-"ci_extra": 0,
-"draft": true,
-"state": "draft",
+"state": "merged",
+"merged_at": "2026-10-11T06:35:55Z",
 "pr_opened_at": "2026-10-11T02:55:21Z",
 "first_seen": "2026-10-11T02:55:21Z",
-"since": "2026-10-11T02:57:51Z"
+"since": "2026-10-11T06:36:30Z"
 },
 "283": {
 "job": 1308,
@@ -6357,15 +6291,10 @@
 "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/650",
 "base": "study/mega-queue",
 "branch": "study/job-1083-home-phone-c",
-"ci": "draft",
-"ci_sha": "8b0e3f4ddb792eb8da3d9456f84d1e3bebf5b69f",
-"ci_total": 0,
-"ci_extra": 0,
-"draft": true,
-"state": "draft",
+"state": "closed",
 "pr_opened_at": "2026-10-11T04:22:43Z",
 "first_seen": "2026-10-11T02:44:50Z",
-"since": "2026-10-11T02:46:00Z"
+"since": "2026-10-11T06:36:30Z"
 },
 "289": {
 "job": 1077,
@@ -6386,15 +6315,10 @@
 "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/658",
 "base": "study/mega-queue",
 "branch": "study/job-1141-league-phone-c",
-"ci": "draft",
-"ci_sha": "c5e5314e71ee12b637de1a71c47c582e8ae7afa9",
-"ci_total": 0,
-"ci_extra": 0,
-"draft": true,
-"state": "draft",
+"state": "closed",
 "pr_opened_at": "2026-10-11T04:24:21Z",
 "first_seen": "2026-10-11T02:53:53Z",
-"since": "2026-10-11T04:24:57Z"
+"since": "2026-10-11T06:36:30Z"
 },
 "291": {
 "job": 1106,
@@ -6515,15 +6439,11 @@
 "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/651",
 "base": "study/mega-queue",
 "branch": "study/job-1460-settings-phone-c",
-"ci": "draft",
-"ci_sha": "80e06f268a9d13ed58fc1653b9c4faa36e9e860f",
-"ci_total": 0,
-"ci_extra": 0,
-"draft": true,
-"state": "draft",
+"state": "merged",
+"merged_at": "2026-10-11T06:35:55Z",
 "pr_opened_at": "2026-10-11T04:22:44Z",
 "first_seen": "2026-10-11T04:15:57Z",
-"since": "2026-10-11T04:22:57Z"
+"since": "2026-10-11T06:36:30Z"
 },
 "301": {
 "job": 1309,
@@ -6621,15 +6541,10 @@
 "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/641",
 "base": "study/mega-queue",
 "branch": "study/job-1344-trophy-room-phone-c",
-"ci": "draft",
-"ci_sha": "dd53f140920eb2f0dcd5766e5fb3b19815497997",
-"ci_total": 0,
-"ci_extra": 0,
-"draft": true,
-"state": "draft",
+"state": "closed",
 "pr_opened_at": "2026-10-11T04:18:26Z",
 "first_seen": "2026-10-11T04:18:26Z",
-"since": "2026-10-11T04:18:57Z"
+"since": "2026-10-11T06:36:30Z"
 },
 "309": {
 "job": 1107,
@@ -6650,15 +6565,11 @@
 "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/614",
 "base": "study/mega-queue",
 "branch": "study/job-1403-career-statistics-sideways",
-"ci": "draft",
-"ci_sha": "71d2fb81646b16ef0de96c69d09c5ffcaec7b208",
-"ci_total": 0,
-"ci_extra": 0,
-"draft": true,
-"state": "draft",
+"state": "merged",
+"merged_at": "2026-10-11T06:35:55Z",
 "pr_opened_at": "2026-10-11T02:57:43Z",
 "first_seen": "2026-10-11T02:57:43Z",
-"since": "2026-10-11T02:57:51Z"
+"since": "2026-10-11T06:36:30Z"
 },
 "311": {
 "job": 1136,
@@ -6679,15 +6590,11 @@
 "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/628",
 "base": "study/mega-queue",
 "branch": "study/job-1171-club-sideways",
-"ci": "draft",
-"ci_sha": "ded30fd65f4c710c9197ecb0df681cd93f695456",
-"ci_total": 0,
-"ci_extra": 0,
-"draft": true,
-"state": "draft",
+"state": "merged",
+"merged_at": "2026-10-11T06:35:55Z",
 "pr_opened_at": "2026-10-11T03:50:24Z",
 "first_seen": "2026-10-11T03:50:24Z",
-"since": "2026-10-11T03:54:22Z"
+"since": "2026-10-11T06:36:30Z"
 },
 "313": {
 "job": 1165,
@@ -6708,15 +6615,11 @@
 "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/637",
 "base": "study/mega-queue",
 "branch": "study/job-1287-sideways",
-"ci": "draft",
-"ci_sha": "f3bc4bbc570c3ef94846fcd77e12767bde392682",
-"ci_total": 0,
-"ci_extra": 0,
-"draft": true,
-"state": "draft",
+"state": "merged",
+"merged_at": "2026-10-11T06:35:55Z",
 "pr_opened_at": "2026-10-11T04:17:23Z",
 "first_seen": "2026-10-11T04:17:23Z",
-"since": "2026-10-11T04:17:57Z"
+"since": "2026-10-11T06:36:30Z"
 },
 "315": {
 "job": 1194,
@@ -6737,15 +6640,10 @@
 "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/654",
 "base": "study/mega-queue",
 "branch": "study/job-1084-home-sideways",
-"ci": "draft",
-"ci_sha": "a68e431375ab980b2c2e460b150972f0c7907bac",
-"ci_total": 0,
-"ci_extra": 0,
-"draft": true,
-"state": "draft",
+"state": "closed",
 "pr_opened_at": "2026-10-11T04:23:16Z",
 "first_seen": "2026-10-11T02:45:44Z",
-"since": "2026-10-11T02:46:00Z"
+"since": "2026-10-11T06:36:30Z"
 },
 "317": {
 "job": 1223,
@@ -6766,15 +6664,10 @@
 "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/659",
 "base": "study/mega-queue",
 "branch": "study/job-1142-league-sideways",
-"ci": "draft",
-"ci_sha": "a383e466cd37e8fd0825259d4e70ea2338ffe692",
-"ci_total": 0,
-"ci_extra": 0,
-"draft": true,
-"state": "draft",
+"state": "closed",
 "pr_opened_at": "2026-10-11T04:24:35Z",
 "first_seen": "2026-10-11T02:53:53Z",
-"since": "2026-10-11T04:24:57Z"
+"since": "2026-10-11T06:36:30Z"
 },
 "319": {
 "job": 1310,
@@ -6801,15 +6694,11 @@
 "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/649",
 "base": "study/mega-queue",
 "branch": "study/job-1316-legacy-sideways",
-"ci": "draft",
-"ci_sha": "9eb1afd1953ec70434d92e7777b5bf305fd99ca2",
-"ci_total": 0,
-"ci_extra": 0,
-"draft": true,
-"state": "draft",
+"state": "merged",
+"merged_at": "2026-10-11T06:35:55Z",
 "pr_opened_at": "2026-10-11T04:22:39Z",
 "first_seen": "2026-10-11T04:14:57Z",
-"since": "2026-10-11T04:22:57Z"
+"since": "2026-10-11T06:36:30Z"
 },
 "321": {
 "job": 1339,
@@ -6830,15 +6719,11 @@
 "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/609",
 "base": "study/mega-queue",
 "branch": "study/job-1374-rivalry-sideways",
-"ci": "draft",
-"ci_sha": "1d7b6181e8d40645267b5f32f4a041a555bb9104",
-"ci_total": 0,
-"ci_extra": 0,
-"draft": true,
-"state": "draft",
+"state": "merged",
+"merged_at": "2026-10-11T06:35:55Z",
 "pr_opened_at": "2026-10-11T02:54:39Z",
 "first_seen": "2026-10-11T02:53:53Z",
-"since": "2026-10-11T02:57:51Z"
+"since": "2026-10-11T06:36:30Z"
 },
 "323": {
 "job": 1426,
@@ -6877,15 +6762,11 @@
 "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/622",
 "base": "study/mega-queue",
 "branch": "study/job-1229-season-results-sideways",
-"ci": "draft",
-"ci_sha": "805e54c425845abf463f1c0c7e5aa243e688616b",
-"ci_total": 0,
-"ci_extra": 0,
-"draft": true,
-"state": "draft",
+"state": "merged",
+"merged_at": "2026-10-11T06:35:55Z",
 "pr_opened_at": "2026-10-11T03:11:25Z",
 "first_seen": "2026-10-11T03:11:09Z",
-"since": "2026-10-11T03:15:09Z"
+"since": "2026-10-11T06:36:30Z"
 },
 "327": {
 "job": 1108,
@@ -6906,15 +6787,11 @@
 "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/653",
 "base": "study/mega-queue",
 "branch": "study/job-1461-settings-sideways",
-"ci": "draft",
-"ci_sha": "944828017b7e74b0a9eab110ea4db632bd2f69de",
-"ci_total": 0,
-"ci_extra": 0,
-"draft": true,
-"state": "draft",
+"state": "merged",
+"merged_at": "2026-10-11T06:35:55Z",
 "pr_opened_at": "2026-10-11T04:23:07Z",
 "first_seen": "2026-10-11T04:15:57Z",
-"since": "2026-10-11T04:23:57Z"
+"since": "2026-10-11T06:36:30Z"
 },
 "329": {
 "job": 1137,
@@ -7006,15 +6883,10 @@
 "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/642",
 "base": "study/mega-queue",
 "branch": "study/job-1345-trophy-room-sideways",
-"ci": "draft",
-"ci_sha": "fc526693fff20e8a5c2bddce82b79d25e2c1c2de",
-"ci_total": 0,
-"ci_extra": 0,
-"draft": true,
-"state": "draft",
+"state": "closed",
 "pr_opened_at": "2026-10-11T04:19:17Z",
 "first_seen": "2026-10-11T04:19:17Z",
-"since": "2026-10-11T04:19:57Z"
+"since": "2026-10-11T06:36:30Z"
 },
 "337": {
 "job": 1311,
@@ -7041,15 +6913,11 @@
 "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/616",
 "base": "study/mega-queue",
 "branch": "study/job-1404-career-statistics-tablet",
-"ci": "draft",
-"ci_sha": "17402156a14ee32d0c79d9596cd1b0c773b23439",
-"ci_total": 0,
-"ci_extra": 0,
-"draft": true,
-"state": "draft",
+"state": "merged",
+"merged_at": "2026-10-11T06:35:55Z",
 "pr_opened_at": "2026-10-11T02:59:49Z",
 "first_seen": "2026-10-11T02:59:49Z",
-"since": "2026-10-11T03:01:48Z"
+"since": "2026-10-11T06:36:30Z"
 },
 "339": {
 "job": 1340,
@@ -7070,15 +6938,11 @@
 "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/629",
 "base": "study/mega-queue",
 "branch": "study/job-1172-club-upright-tablet",
-"ci": "draft",
-"ci_sha": "d697f8a186b87fcddcd17e741abe169e06e18218",
-"ci_total": 0,
-"ci_extra": 0,
-"draft": true,
-"state": "draft",
+"state": "merged",
+"merged_at": "2026-10-11T06:35:55Z",
 "pr_opened_at": "2026-10-11T03:51:32Z",
 "first_seen": "2026-10-11T03:51:32Z",
-"since": "2026-10-11T03:54:22Z"
+"since": "2026-10-11T06:36:30Z"
 },
 "341": {
 "job": 1427,
@@ -7099,15 +6963,11 @@
 "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/640",
 "base": "study/mega-queue",
 "branch": "study/job-1288-tablet",
-"ci": "draft",
-"ci_sha": "ab5814222986f48110fe95e58387393072f574c2",
-"ci_total": 0,
-"ci_extra": 0,
-"draft": true,
-"state": "draft",
+"state": "merged",
+"merged_at": "2026-10-11T06:35:55Z",
 "pr_opened_at": "2026-10-11T04:18:09Z",
 "first_seen": "2026-10-11T04:18:09Z",
-"since": "2026-10-11T04:18:57Z"
+"since": "2026-10-11T06:36:30Z"
 },
 "343": {
 "job": 1080,
@@ -7152,15 +7012,10 @@
 "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/660",
 "base": "study/mega-queue",
 "branch": "study/job-1143-league-tablet",
-"ci": "draft",
-"ci_sha": "b8c97894ea26d85ed11235cfc25939390f4b8976",
-"ci_total": 0,
-"ci_extra": 0,
-"draft": true,
-"state": "draft",
+"state": "closed",
 "pr_opened_at": "2026-10-11T04:24:49Z",
 "first_seen": "2026-10-11T02:53:53Z",
-"since": "2026-10-11T04:24:57Z"
+"since": "2026-10-11T06:36:30Z"
 },
 "347": {
 "job": 1138,
@@ -7181,15 +7036,10 @@
 "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/652",
 "base": "study/mega-queue",
 "branch": "study/job-1317-legacy-tablet",
-"ci": "draft",
-"ci_sha": "f70df104abdae2f06c13187fa58d34b03f85a129",
-"ci_total": 0,
-"ci_extra": 0,
-"draft": true,
-"state": "draft",
+"state": "closed",
 "pr_opened_at": "2026-10-11T04:23:06Z",
 "first_seen": "2026-10-11T04:14:57Z",
-"since": "2026-10-11T04:23:57Z"
+"since": "2026-10-11T06:36:30Z"
 },
 "349": {
 "job": 1167,
@@ -7210,15 +7060,11 @@
 "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/612",
 "base": "study/mega-queue",
 "branch": "study/job-1375-rivalry-tablet",
-"ci": "draft",
-"ci_sha": "adcfd2521ce1ba12e042458f3724362de88184e2",
-"ci_total": 0,
-"ci_extra": 0,
-"draft": true,
-"state": "draft",
+"state": "merged",
+"merged_at": "2026-10-11T06:35:55Z",
 "pr_opened_at": "2026-10-11T02:56:04Z",
 "first_seen": "2026-10-11T02:56:04Z",
-"since": "2026-10-11T02:57:51Z"
+"since": "2026-10-11T06:36:30Z"
 },
 "351": {
 "job": 1196,
@@ -7257,15 +7103,11 @@
 "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/623",
 "base": "study/mega-queue",
 "branch": "study/job-1230-season-results-tablet",
-"ci": "draft",
-"ci_sha": "5d83ba3c5fc59d72dd8b43ba40aadccced28bf1b",
-"ci_total": 0,
-"ci_extra": 0,
-"draft": true,
-"state": "draft",
+"state": "merged",
+"merged_at": "2026-10-11T06:35:55Z",
 "pr_opened_at": "2026-10-11T03:12:52Z",
 "first_seen": "2026-10-11T03:12:52Z",
-"since": "2026-10-11T03:15:09Z"
+"since": "2026-10-11T06:36:30Z"
 },
 "355": {
 "job": 1312,
@@ -7292,15 +7134,11 @@
 "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/655",
 "base": "study/mega-queue",
 "branch": "study/job-1462-settings-tablet",
-"ci": "draft",
-"ci_sha": "43861c8c35deeb02a496b58a632d907d51bb2f3b",
-"ci_total": 0,
-"ci_extra": 0,
-"draft": true,
-"state": "draft",
+"state": "merged",
+"merged_at": "2026-10-11T06:35:55Z",
 "pr_opened_at": "2026-10-11T04:23:32Z",
 "first_seen": "2026-10-11T04:15:57Z",
-"since": "2026-10-11T04:23:57Z"
+"since": "2026-10-11T06:36:30Z"
 },
 "357": {
 "job": 1341,
@@ -7398,15 +7236,11 @@
 "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/643",
 "base": "study/mega-queue",
 "branch": "study/job-1346-trophy-room-tablet",
-"ci": "draft",
-"ci_sha": "84a8e890c922d8cabeff895f077552a50b2616e8",
-"ci_total": 0,
-"ci_extra": 0,
-"draft": true,
-"state": "draft",
+"state": "merged",
+"merged_at": "2026-10-11T06:35:55Z",
 "pr_opened_at": "2026-10-11T04:20:24Z",
 "first_seen": "2026-10-11T04:20:24Z",
-"since": "2026-10-11T04:20:57Z"
+"since": "2026-10-11T06:36:30Z"
 },
 "365": {
 "job": 1380,
