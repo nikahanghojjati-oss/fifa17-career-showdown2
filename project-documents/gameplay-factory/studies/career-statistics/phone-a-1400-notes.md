@@ -7,5 +7,6 @@
 - CSS grid reserves the data, actions and navigation; the hero receives the remaining height.
 - Generic gold symbols replace decorative trophies; no real club crests, league logos or player photos.
 - This is presentation only; action buttons do not change game state.
-- Re-read and checked relative assets, no scripts, scoped files and grid height budgets at 393x660, 360x640 and 375x553.
-- Browser rendering was unavailable: Chromium download returned invalid archives; visual fit remains for Team V review.
+- Rendered all three tabs at 390x844, 393x660, 360x640 and 375x553; no scroll, clipped text or broken images.
+- Main button ends at y=499 of 553; navigation shows at 900px and hides at 901px.
+- Visual review corrected intrinsic card rows and replaced font-dependent bar glyphs with SVG.
