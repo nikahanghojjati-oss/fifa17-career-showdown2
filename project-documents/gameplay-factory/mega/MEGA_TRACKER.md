@@ -1,9 +1,9 @@
-# Mega factory tracker · updated 2026-10-11T05:59:24Z
+# Mega factory tracker · updated 2026-10-11T06:00:24Z
 
 **Type now (11 free):** 127, 131, 133, 147, 159, 173, 179, 400, 411, 428, 456
 **Next free number:** 127 · **highest taken:** 403 of 518
 **Code PRs open:** 0 of 8 · area locks: transfer
-**Rate:** 1 claimed in 10 min · 13 in 1 h · 0 merged in 1 h
+**Rate:** 1 claimed in 10 min · 12 in 1 h · 0 merged in 1 h
 
 **Finished (merged or live): 25 of 518**
 
@@ -11,8 +11,7 @@ State | count
 --- | ---
 ✅ merged to staging branch | 25
 🚂 done, on the train branch, no PR yet | 21
-📝 worker done, draft PR open | 166
-🟦 started, no PR yet | 1
+📝 worker done, draft PR open | 167
 ⚫ closed without merge | 51
 ⬜ waiting | 254
 
@@ -212,11 +211,12 @@ Stage | total | merged/live | in flight | waiting
 - 📝 **356** · Job 1462 · Settings: upright tablet study · worker done, draft PR open · [PR #655](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/655)
 - 📝 **360** · Job 1114 · Connect Players (start and join): upright tablet study · worker done, draft PR open · [PR #605](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/605)
 - 📝 **364** · Job 1346 · Trophy Room: upright tablet study · worker done, draft PR open · [PR #643](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/643)
-- 🟦 **372** · Job 1086 · Home: improved desktop, version A (polish) · started, no PR yet
+- 📝 **372** · Job 1086 · Home: improved desktop, version A (polish) · worker done, draft PR open · [PR #671](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/671)
 - 🚂 **403** · Job 1356 · Rivalry Statistics: fix the 768x1024 view · done, on the train branch, no PR yet
 
 ## Latest changes
 
+- 2026-10-11T06:00:24Z · 372 (Job 1086): started → draft
 - 2026-10-11T05:56:12Z · 372 (Job 1086): waiting → started
 - 2026-10-11T05:12:44Z · 403 (Job 1356): waiting → on_train
 - 2026-10-11T05:12:44Z · 161 (Job 1417): waiting → on_train
@@ -236,4 +236,3 @@ Stage | total | merged/live | in flight | waiting
 - 2026-10-11T04:27:57Z · 135 (Job 1184): on_train → draft
 - 2026-10-11T04:27:57Z · 117 (Job 1183): on_train → draft
 - 2026-10-11T04:27:57Z · 99 (Job 1182): on_train → draft
-- 2026-10-11T04:26:57Z · 135 (Job 1184): waiting → on_train

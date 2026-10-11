@@ -1,15 +1,14 @@
 {
-"updated": "2026-10-11T05:59:24Z",
+"updated": "2026-10-11T06:00:24Z",
 "total": 518,
 "next_free": 127,
 "highest_taken": 403,
 "counts": {
 "merged": 25,
-"draft": 166,
+"draft": 167,
 "closed": 51,
 "on_train": 21,
-"waiting": 254,
-"started": 1
+"waiting": 254
 },
 "stages": {
 "2": {
@@ -52,7 +51,7 @@
 "total": 56,
 "states": {
 "waiting": 55,
-"started": 1
+"draft": 1
 }
 }
 },
@@ -151,18 +150,11 @@
 }
 },
 "rate": {
-"claimed_last_hour": 13,
+"claimed_last_hour": 12,
 "claimed_last_10min": 1,
 "merged_last_hour": 0
 },
 "events": [
-{
-"at": "2026-10-10T19:54:19Z",
-"item": 200,
-"job": 1566,
-"from": "waiting",
-"to": "draft"
-},
 {
 "at": "2026-10-10T19:54:19Z",
 "item": 202,
@@ -2255,6 +2247,13 @@
 "job": 1086,
 "from": "waiting",
 "to": "started"
+},
+{
+"at": "2026-10-11T06:00:24Z",
+"item": 372,
+"job": 1086,
+"from": "started",
+"to": "draft"
 }
 ],
 "items": {
@@ -7932,12 +7931,19 @@
 "title": "Home: improved desktop, version A (polish)",
 "mode": "study",
 "group": null,
-"state": "started",
+"pr": 671,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/671",
+"base": "study/mega-queue",
 "branch": "study/job-1086-home-desktop-polish",
-"branch_sha": "9356c0ef93aac524a75489917e0d646ada969d16",
-"no_pr_reason": "",
+"ci": "draft",
+"ci_sha": "bff8c5b227bbe193f3ebb82e09c7181929ba4425",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-11T05:59:41Z",
 "first_seen": "2026-10-11T05:56:12Z",
-"since": "2026-10-11T05:56:12Z"
+"since": "2026-10-11T06:00:24Z"
 },
 "373": {
 "job": 1381,
