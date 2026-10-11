@@ -1,15 +1,15 @@
 {
-"updated": "2026-10-11T04:21:57Z",
+"updated": "2026-10-11T04:22:57Z",
 "total": 518,
 "next_free": 91,
 "highest_taken": 395,
 "counts": {
 "merged": 25,
-"draft": 149,
+"draft": 153,
 "closed": 51,
 "waiting": 273,
 "on_train": 8,
-"blocked": 12
+"blocked": 8
 },
 "stages": {
 "2": {
@@ -41,9 +41,9 @@
 "name": "Phone mockup studies",
 "total": 70,
 "states": {
-"draft": 37,
+"draft": 41,
 "closed": 11,
-"blocked": 12,
+"blocked": 8,
 "waiting": 10
 }
 },
@@ -115,34 +115,6 @@
 "merged_last_hour": 25
 },
 "events": [
-{
-"at": "2026-10-10T19:54:19Z",
-"item": 136,
-"job": 1534,
-"from": "waiting",
-"to": "draft"
-},
-{
-"at": "2026-10-10T19:54:19Z",
-"item": 138,
-"job": 1535,
-"from": "waiting",
-"to": "draft"
-},
-{
-"at": "2026-10-10T19:54:19Z",
-"item": 139,
-"job": 1300,
-"from": "waiting",
-"to": "draft"
-},
-{
-"at": "2026-10-10T19:54:19Z",
-"item": 140,
-"job": 1536,
-"from": "waiting",
-"to": "draft"
-},
 {
 "at": "2026-10-10T19:54:19Z",
 "item": 142,
@@ -2212,6 +2184,34 @@
 "at": "2026-10-11T04:21:57Z",
 "item": 244,
 "job": 1458,
+"from": "blocked",
+"to": "draft"
+},
+{
+"at": "2026-10-11T04:22:57Z",
+"item": 264,
+"job": 1314,
+"from": "blocked",
+"to": "draft"
+},
+{
+"at": "2026-10-11T04:22:57Z",
+"item": 272,
+"job": 1459,
+"from": "blocked",
+"to": "draft"
+},
+{
+"at": "2026-10-11T04:22:57Z",
+"item": 300,
+"job": 1460,
+"from": "blocked",
+"to": "draft"
+},
+{
+"at": "2026-10-11T04:22:57Z",
+"item": 320,
+"job": 1316,
 "from": "blocked",
 "to": "draft"
 }
@@ -6292,17 +6292,17 @@
 "title": "Home: phone mockup, version B (bold hierarchy)",
 "mode": "study",
 "group": null,
-"pr": 591,
-"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/591",
+"pr": 646,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/646",
 "base": "study/mega-queue",
-"branch": "study/job-1082-blocked",
+"branch": "study/job-1082-home-phone-b",
 "ci": "draft",
-"ci_sha": "39a36466da2ff835969ec421a9f3c1ba17b0f620",
+"ci_sha": "e79afe62e996ae268ea0892b7632cf97cbc85ec8",
 "ci_total": 0,
 "ci_extra": 0,
 "draft": true,
 "state": "draft",
-"pr_opened_at": "2026-10-11T02:44:21Z",
+"pr_opened_at": "2026-10-11T04:22:08Z",
 "first_seen": "2026-10-11T02:44:21Z",
 "since": "2026-10-11T02:46:00Z"
 },
@@ -6341,10 +6341,19 @@
 "title": "Legacy: phone mockup, version B (bold hierarchy)",
 "mode": "study",
 "group": null,
-"state": "blocked",
-"branch": "study/job-1314-blocked",
+"pr": 647,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/647",
+"base": "study/mega-queue",
+"branch": "study/job-1314-legacy-phone-b",
+"ci": "draft",
+"ci_sha": "6763fd3c2a4fdfc5d2247e1f466128192262e9a2",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-11T04:22:12Z",
 "first_seen": "2026-10-11T04:14:57Z",
-"since": "2026-10-11T04:14:57Z"
+"since": "2026-10-11T04:22:57Z"
 },
 "265": {
 "job": 1307,
@@ -6438,10 +6447,19 @@
 "title": "Settings: phone mockup, version B (bold hierarchy)",
 "mode": "study",
 "group": null,
-"state": "blocked",
-"branch": "study/job-1459-blocked",
+"pr": 648,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/648",
+"base": "study/mega-queue",
+"branch": "study/job-1459-settings-phone-b",
+"ci": "draft",
+"ci_sha": "428f9b4df47678be0f23415d831db2ac40eff669",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-11T04:22:20Z",
 "first_seen": "2026-10-11T04:15:57Z",
-"since": "2026-10-11T04:15:57Z"
+"since": "2026-10-11T04:22:57Z"
 },
 "273": {
 "job": 1105,
@@ -6646,17 +6664,17 @@
 "title": "Home: phone mockup, version C (compact)",
 "mode": "study",
 "group": null,
-"pr": 592,
-"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/592",
+"pr": 650,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/650",
 "base": "study/mega-queue",
-"branch": "study/job-1083-blocked",
+"branch": "study/job-1083-home-phone-c",
 "ci": "draft",
-"ci_sha": "1d55eefca98e8a4506f6af4aa44f8b4bcbb9ba4a",
+"ci_sha": "8b0e3f4ddb792eb8da3d9456f84d1e3bebf5b69f",
 "ci_total": 0,
 "ci_extra": 0,
 "draft": true,
 "state": "draft",
-"pr_opened_at": "2026-10-11T02:44:50Z",
+"pr_opened_at": "2026-10-11T04:22:43Z",
 "first_seen": "2026-10-11T02:44:50Z",
 "since": "2026-10-11T02:46:00Z"
 },
@@ -6795,10 +6813,19 @@
 "title": "Settings: phone mockup, version C (compact)",
 "mode": "study",
 "group": null,
-"state": "blocked",
-"branch": "study/job-1460-blocked",
+"pr": 651,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/651",
+"base": "study/mega-queue",
+"branch": "study/job-1460-settings-phone-c",
+"ci": "draft",
+"ci_sha": "80e06f268a9d13ed58fc1653b9c4faa36e9e860f",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-11T04:22:44Z",
 "first_seen": "2026-10-11T04:15:57Z",
-"since": "2026-10-11T04:15:57Z"
+"since": "2026-10-11T04:22:57Z"
 },
 "301": {
 "job": 1309,
@@ -7063,10 +7090,19 @@
 "title": "Legacy: sideways phone study",
 "mode": "study",
 "group": null,
-"state": "blocked",
-"branch": "study/job-1316-blocked",
+"pr": 649,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/649",
+"base": "study/mega-queue",
+"branch": "study/job-1316-legacy-sideways",
+"ci": "draft",
+"ci_sha": "9eb1afd1953ec70434d92e7777b5bf305fd99ca2",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-11T04:22:39Z",
 "first_seen": "2026-10-11T04:14:57Z",
-"since": "2026-10-11T04:14:57Z"
+"since": "2026-10-11T04:22:57Z"
 },
 "321": {
 "job": 1339,
