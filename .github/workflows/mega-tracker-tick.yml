@@ -40,10 +40,22 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           B=project-documents/gameplay-factory
-          python3 $B/tools/mega_tracker.py --loop-minutes 25 --interval 60 \
-            --after-write "bash $B/mega/commit_round.sh" --yield-cmd "bash $B/mega/starved.sh" || echo "loop ended early (code $?)"
+          START=$(date +%s)
+          python3 $B/tools/mega_tracker.py --loop-minutes 25 --interval 90 \
+            --after-write "bash $B/mega/commit_round.sh" --yield-cmd "bash $B/mega/starved.sh"
+          CODE=$?
+          echo "loop ended (code $CODE) after $(( $(date +%s) - START )) s"
+          # Never restart faster than every 5 minutes, and back off longer after repeated failures
+          ELAPSED=$(( $(date +%s) - START ))
+          [ "$ELAPSED" -lt 300 ] && sleep $(( 300 - ELAPSED ))
+          [ "$CODE" = "4" ] && sleep 600
+          # Safety valve: if this workflow already started 4+ runs in the last 10 minutes, wait before queueing another
+          RECENT=$(gh api "repos/$GITHUB_REPOSITORY/actions/workflows/mega-tracker-tick.yml/runs?per_page=10" --jq '[.workflow_runs[]|select(now-(.created_at|fromdateiso8601)<600)]|length' 2>/dev/null || echo 0)
+          [ "${RECENT:-0}" -ge 4 ] && sleep 600
           gh workflow run mega-tracker-tick.yml --ref factory/gameplay-v1
       # A cancelled run would end the chain for good (scheduled triggers never fire in this repo), so it queues its successor first.
       - name: Resume the chain after a cancel
         if: cancelled()
-        run: gh workflow run mega-tracker-tick.yml --ref factory/gameplay-v1
+        run: |
+          sleep 60
+          gh workflow run mega-tracker-tick.yml --ref factory/gameplay-v1

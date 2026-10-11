@@ -370,6 +370,17 @@ def run_round(a, ctx):
     print(json.dumps(states))
     return True
 
+FLOOR = 350  # keep this many API calls of the repo's hourly 1000 free for the Gate and the Physio
+
+def budget():
+    """(calls left this hour, seconds until reset). rate_limit lookups are free."""
+    r = subprocess.run(["gh", "api", "rate_limit", "--jq", ".resources.core|[.remaining,.reset]|@tsv"], capture_output=True, text=True)
+    try:
+        rem, reset = r.stdout.split()
+        return int(rem), max(0, int(reset) - int(time.time()))
+    except Exception:
+        return 9999, 0
+
 def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("--repo", default="nikahanghojjati-oss/fifa17-career-showdown2")
@@ -381,11 +392,26 @@ def main(argv=None):
     a = ap.parse_args(argv)
     ctx = Ctx(a.repo)
     end = time.time() + a.loop_minutes * 60
+    errors = 0
     while True:
         t0 = time.time()
-        wrote = run_round(a, ctx)
-        if wrote and a.after_write:
-            subprocess.run(a.after_write, shell=True)
+        rem, secs = budget()
+        if rem < FLOOR:
+            # the hourly budget is nearly spent: pause so the Gate keeps its share, never hammer
+            print(f"budget low ({rem} left, resets in {secs}s): pausing", flush=True)
+            time.sleep(min(max(secs, 30), 300))
+        else:
+            try:
+                wrote = run_round(a, ctx)
+                errors = 0
+                if wrote and a.after_write:
+                    subprocess.run(a.after_write, shell=True)
+            except (SystemExit, Exception) as e:  # a failed API call must never end the run or restart the chain
+                errors += 1
+                print(f"round failed ({errors}): {str(e)[:200]}", flush=True)
+                if errors >= 5:
+                    raise SystemExit(4)
+                time.sleep(120 * errors)
         if a.yield_cmd and subprocess.run(a.yield_cmd, shell=True).returncode != 0:
             raise SystemExit(3)
         if time.time() + a.interval > end:
