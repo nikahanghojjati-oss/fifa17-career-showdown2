@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Sun 11 Oct, 5:41 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Sun 11 Oct, 6:19 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r70** (main `c8810b8`, Sun 11 Oct 12:28 AM)
 
@@ -19,6 +19,14 @@ Updated Sun 11 Oct, 5:41 PM Boston time. Bug hunting only, no new features until
 **#1 · 1005** `G` Last season's score is skipped before the Final Winner  
 `█████░░░░░` **50.0000 %**  
 🟢 Team green · model not set · worker says done, no PR yet
+
+**#2 · 1647** `G` Loading screen: wire the approved PHONE_LOADING and NEXT_LOADING pictures  
+`████░░░░░░` **40.0000 %**  
+⚪ Team white · model not set · worker working, draft PR #689 · CI 7 of 8 passed · last move 5 min ago
+
+**#3 · 1648** `G` Old CSS: which old sheets and selectors are still live (report only)  
+`████░░░░░░` **40.0000 %**  
+⚪ Team white · model not set · worker working, draft PR #690 · CI 7 of 8 passed · last move 0 min ago
 
 ### 👉 Next for you, in this order
 
@@ -434,14 +442,54 @@ Type this in Claude lane: Opus Medium for the change, Sonnet for the live listen
 Job 1591
 ```
 
-**#42 · 1647** `G` Loading screen: wire the approved PHONE_LOADING and NEXT_LOADING pictures  
+**#42 · 1649** `G` Old CSS: archive the dead sheets (after the r71 release)  
 `░░░░░░░░░░` **0.0000 %**  
-⚪ Team white · model not set · Codex cloud: type 'Job 1647'
+🟤 Team brown · model not set · Claude lane: Sonnet, medium: type 'Job 1649'
+
+Type this in Claude lane: Sonnet, medium:
+
+```text
+Job 1649
+```
+
+**#43 · 1650** `G` Service worker: can an old page ever mix with new files? (report only)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · model not set · GPT chat: type 'Job 1650'
+
+New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
+
+```text
+Job 1650
+```
+
+**#44 · 1651** `G` Flash guard: cover Season Results, Final Winner and Rivalry, and time tap feedback  
+`░░░░░░░░░░` **0.0000 %**  
+⚪ Team white · model not set · Codex cloud: type 'Job 1651'
 
 Type this in Codex cloud:
 
 ```text
-Job 1647
+Job 1651
+```
+
+**#45 · 1652** `G` Settings › Motion: add a FULL MOTION choice  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · model not set · GPT chat: type 'Job 1652'
+
+New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
+
+```text
+Job 1652
+```
+
+**#46 · 1653** `G` Reduced motion: stop the remaining Club script fades  
+`░░░░░░░░░░` **0.0000 %**  
+⚪ Team white · model not set · Codex cloud: type 'Job 1653'
+
+Type this in Codex cloud:
+
+```text
+Job 1653
 ```
 
 ### ⏸ Waiting on something else
@@ -471,8 +519,8 @@ Job 1647
 ## Goals, in this order
 
 **1. Finish the remaining bugs** `now`  
-`███████░░░` **66.9014 %**  
-Numbered jobs: 67 done, 47 other open · Olympiad recheck: 23 of 23 settled, 0 still to fix · Sol's old leads: 0 open (0 real, 0 unsure)
+`██████░░░░` **64.1892 %**  
+Numbered jobs: 67 done, 53 other open · Olympiad recheck: 23 of 23 settled, 0 still to fix · Sol's old leads: 0 open (0 real, 0 unsure)
 
 **2. Visual fixes** `after stage 1`  
 `██████░░░░` **56.0000 %**  
@@ -561,12 +609,12 @@ Open code PRs: 0/8.
 
 ## Mega tracker (live, free)
 
-Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/index.html) · summary: [mega/MEGA_TRACKER.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/MEGA_TRACKER.md) · rebuilt by the poller each round, updated 2026-10-11T21:41:33Z.
+Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/index.html) · summary: [mega/MEGA_TRACKER.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/MEGA_TRACKER.md) · rebuilt by the poller each round, updated 2026-10-11T22:19:18Z.
 
 | Stage | Done (merged or live) | In progress | Waiting |
 | --- | --- | --- | --- |
 | Gameplay audits | 112 of 112 | 0 | 0 |
-| Screen fixes | 25 of 266 | 76 | 165 |
+| Screen fixes | 25 of 266 | 80 | 161 |
 | Match desktop to mockups | 0 of 14 | 1 | 13 |
 | Phone mockup studies | 23 of 70 | 37 | 10 |
 | Improved desktop studies | 1 of 56 | 0 | 55 |
@@ -576,6 +624,10 @@ Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-caree
 - 681
 - 682
 - 683
+- 684
+- 685
+- 686
+- 687
 
 **Latest finished numbers (up to 20)**
 
