@@ -149,10 +149,10 @@
     const kicker=clMake("span","clubKicker");kicker.textContent=markup.kicker;
     const hero=clMake("div","phoneHeroStage",markup.phone),deck=clMake("div","phoneControlDeck");
     for(const node of [kicker,hero,deck])section.insertBefore(node,before);
-    // JOB-1594: one calm upright-phone scene; CSS hides the original hero by class.
-    // Picture sources only match upright phones, so other sizes keep their existing artwork.
+    // JOB-1594 / JOB-1595: one calm phone scene; CSS hides the original hero by class.
+    // Sources match upright and compact sideways phones; other sizes keep their artwork.
     const scene=clMake("div","clPhoneScene",["DANIEL","NIK"].map(name=>
-      `<picture class="clPhonePerson"><source srcset="${ASSET_BASE}assets/OVL_CLUB_${name}_PHONE_V1.webp" type="image/webp" media="(max-width: 760px) and (orientation: portrait)"><img alt="" decoding="async"></picture>`).join(""));
+      `<picture class="clPhonePerson"><source srcset="${ASSET_BASE}assets/OVL_CLUB_${name}_PHONE_V1.webp" type="image/webp" media="(max-width: 760px) and (orientation: portrait)"><source srcset="${ASSET_BASE}assets/OVL_CLUB_${name}_PHONE_V1.webp" type="image/webp" media="(min-width: 600px) and (max-width: 960px) and (max-height: 500px) and (orientation: landscape)"><img alt="" decoding="async"></picture>`).join(""));
     section.insertBefore(scene,before);
     // The title keeps its own text node (screen readers); the brush-style copy is decoration.
     if(h2&&h2.firstChild&&h2.childNodes.length===1&&h2.firstChild.nodeType===3){
