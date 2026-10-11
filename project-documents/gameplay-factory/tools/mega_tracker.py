@@ -179,7 +179,7 @@ def load_direct():
         lane_text = row.group(1) if row else t[:300]
         dep = row.group(2) if row else "none"
         out[m.group(1)] = {"job": int(m.group(1)), "title": title[:90], "lane": lane_of_text(lane_text),
-                           "deps": re.findall(r"\b(1\d{3})\b", dep) if dep.strip().lower() != "none" else []}
+                           "deps": re.findall(r"\b(1\d{3})\b", dep) if not dep.strip().lower().startswith("none") else []}
     return out
 
 def status_state(job):
