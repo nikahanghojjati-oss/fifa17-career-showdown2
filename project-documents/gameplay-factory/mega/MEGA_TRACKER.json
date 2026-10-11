@@ -1,13 +1,13 @@
 {
-"updated": "2026-10-11T08:12:14Z",
+"updated": "2026-10-11T08:13:44Z",
 "total": 518,
-"next_free": 147,
+"next_free": 149,
 "highest_taken": 403,
 "counts": {
 "merged": 160,
 "closed": 82,
-"on_train": 25,
-"waiting": 250,
+"on_train": 26,
+"waiting": 249,
 "draft": 1
 },
 "stages": {
@@ -17,8 +17,8 @@
 "states": {
 "merged": 25,
 "closed": 44,
-"on_train": 25,
-"waiting": 172
+"on_train": 26,
+"waiting": 171
 }
 },
 "1": {
@@ -82,6 +82,7 @@
 141,
 143,
 145,
+147,
 155,
 161,
 403
@@ -89,11 +90,11 @@
 "draft_code_prs": 0,
 "area_locks": {},
 "ready": [
-147,
 149,
 151,
 159,
 163,
+165,
 173,
 179,
 189,
@@ -103,11 +104,11 @@
 274
 ],
 "ready_sol": [
-147,
 149,
 151,
 159,
 163,
+165,
 173,
 179,
 189,
@@ -118,11 +119,11 @@
 ],
 "ready_codex": [],
 "ready_all": [
-147,
 149,
 151,
 159,
 163,
+165,
 173,
 179,
 189,
@@ -182,8 +183,8 @@
 }
 },
 "rate": {
-"claimed_last_hour": 4,
-"claimed_last_10min": 1,
+"claimed_last_hour": 5,
+"claimed_last_10min": 2,
 "merged_last_hour": 0
 },
 "lanes": {
@@ -193,18 +194,18 @@
 "states": {
 "merged": 25,
 "closed": 25,
-"on_train": 25,
-"waiting": 164
+"on_train": 26,
+"waiting": 163
 },
 "reviews": {
 "ok": 0,
 "ok_notes": 0,
 "needs_changes": 0
 },
-"picked_up": 75,
-"worker_done": 50,
+"picked_up": 76,
+"worker_done": 51,
 "finished": 25,
-"pending_lead": 25,
+"pending_lead": 26,
 "wait_v": 0,
 "audit_batch": 0,
 "trouble": 0,
@@ -444,13 +445,6 @@
 }
 ],
 "events": [
-{
-"at": "2026-10-11T03:54:22Z",
-"item": 256,
-"job": 1169,
-"from": "waiting",
-"to": "draft"
-},
 {
 "at": "2026-10-11T03:54:22Z",
 "item": 284,
@@ -2541,6 +2535,13 @@
 "at": "2026-10-11T08:12:14Z",
 "item": 145,
 "job": 1069,
+"from": "waiting",
+"to": "on_train"
+},
+{
+"at": "2026-10-11T08:13:44Z",
+"item": 147,
+"job": 1098,
 "from": "waiting",
 "to": "on_train"
 }
@@ -4752,8 +4753,10 @@
 "title": "Connect Players (start and join): fix the 1920x1080 view",
 "mode": "code",
 "group": "start-join",
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"state": "on_train",
+"branch": "gameplay/train-start-join-2",
+"first_seen": "2026-10-11T08:13:44Z",
+"since": "2026-10-11T08:13:44Z"
 },
 "148": {
 "job": 1540,
