@@ -1,0 +1,13 @@
+# JOB-1286 · Final Winner phone C
+- Static presentation study only; no JavaScript, runtime wiring, or game-code edits.
+- Daniel stays on the left and Nik on the right; win/draw variants retain their live ownership rules.
+- One compact column carries header, ceremony, outcome, result metrics, terminal status, and both actions.
+- Uses owned final-winner arm overlays and the existing Trophy Room phone environment asset.
+- Drawn gold cup is original geometric CSS artwork, not a licensed or real trophy.
+- Source text is from final-winner JS, live state strings, and Team V's final-winner action notes.
+- Em dashes deliberately reserve variable score and trophy data; they do not claim real scores.
+- Both actions are visible in live order: review first, then back to Showdown Home.
+- Layout grid is fixed to the viewport, with no inner or outer scroll and no hub-only bottom tab bar.
+- At 375×553 the short-height grid leaves 8px below the last 44px button.
+- The approved PNG is confirmed by PICTURES.json but binary visual inspection was unavailable.
+- Review at 360×640 and 393×660 before wiring; the Team V lead chooses production treatment.
