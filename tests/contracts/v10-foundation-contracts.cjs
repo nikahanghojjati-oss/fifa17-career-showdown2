@@ -416,8 +416,8 @@ check("F8 the bar is hidden on Loading and appears only after start-up",async()=
 check("F9 images use a runtime cache keyed by RUNTIME_REVISION; the precache keeps only kit, fonts, CSS and JS",()=>{
   const sw=read("service-worker.js"),html=read("index.html");
   const revision=/const RUNTIME_REVISION = "([^"]+)";/.exec(sw)[1];
-  assert.equal(revision,"1.9.1-r69","RUNTIME_REVISION is the old-design flash fix release (1.9.1-r69)");
-  assert.equal(/const PREVIOUS_RUNTIME_REVISION = "([^"]+)";/.exec(sw)[1],"1.9.1-r68");
+  assert.equal(revision,"1.9.1-r70","RUNTIME_REVISION is the soundtrack and phone fixes release (1.9.1-r70)");
+  assert.equal(/const PREVIOUS_RUNTIME_REVISION = "([^"]+)";/.exec(sw)[1],"1.9.1-r69");
   assert.equal(/app-asset-revision"\s+content="([^"]+)/.exec(html)[1],revision);
   const shell=JSON.parse(/const SHELL_PATHS\s*=\s*Object\.freeze\((\[[\s\S]*?\])\);/.exec(sw)[1]);
   const v10=shell.filter(p=>p.startsWith("visual-assets/v10_1/"));
@@ -466,24 +466,24 @@ function swWorld(){
 
 check("F9b a rollback keeps its own Team V images (offline too); other old image caches are cleared",async()=>{
   const w=swWorld(),cur=w.diag.revision,prev=w.diag.previousRevision,IMG="career-mode-showdown-v10-images-";
-  assert.equal(cur,"1.9.1-r69");assert.equal(prev,"1.9.1-r68");
+  assert.equal(cur,"1.9.1-r70");assert.equal(prev,"1.9.1-r69");
   w.fill(cur);const prevShell=w.fill(prev);
   const art="visual-assets/v10_1/trophy-room/assets/ENV_TR_PHONE_V1.webp",only="visual-assets/v10_1/career-statistics/assets/ENV_CS_PLATE_V1_1X.webp";
   // An older revision precached the art in its shell; the retained shell still has it.
   const legacyKey=new URL(only,w.SCOPE);legacyKey.searchParams.set("v",prev);prevShell.set(legacyKey.href,new Response("prev-shell-art",{status:200}));
   const put=(revision,p,body)=>{if(!w.store.has(IMG+revision))w.store.set(IMG+revision,new Map());w.store.get(IMG+revision).set(w.SCOPE+p,new Response(body,{status:200}));};
-  put(cur,art,"r69-art");put(prev,art,"r68-art");put("1.9.1-r50",art,"r50-art");
+  put(cur,art,"r70-art");put(prev,art,"r69-art");put("1.9.1-r50",art,"r50-art");
   await w.dispatch("activate",{});
   const names=[...w.store.keys()];
   assert.ok(names.includes(IMG+cur),"current image cache kept");
   assert.ok(names.includes(IMG+prev),"recovery image cache kept with its retained shell");
   assert.ok(!names.includes(IMG+"1.9.1-r50"),"other old image caches cleared");
   w.net.set("/app/"+art,"network-art");w.net.set("/app/"+only,"network-art");
-  assert.deepEqual(await w.image(art),{status:200,body:"r69-art"},"current revision: its own image cache first");
+  assert.deepEqual(await w.image(art),{status:200,body:"r70-art"},"current revision: its own image cache first");
   let reply;await w.dispatch("message",{data:{type:"CMS_ROLLBACK_TO_PREVIOUS"},ports:[{postMessage:m=>{reply=m;}}]});
   assert.equal(reply&&reply.ok,true,"rollback accepted");assert.equal(reply.revision,prev);
   w.setOnline(false);
-  assert.deepEqual(await w.image(art),{status:200,body:"r68-art"},"offline rollback: the retained revision's art, not the newer one");
+  assert.deepEqual(await w.image(art),{status:200,body:"r69-art"},"offline rollback: the retained revision's art, not the newer one");
   assert.deepEqual(await w.image(only),{status:200,body:"prev-shell-art"},"offline rollback: art the retained shell precached");
   w.setOnline(true);
   const fresh="visual-assets/v10_1/trophy-room/assets/NEW_ONLY.webp";w.net.set("/app/"+fresh,"net-fresh");
@@ -534,9 +534,13 @@ const V10_IMAGES={
     "visual-assets/v10_1/career-statistics/assets/OVL_CS_NIK_PHONE_V1.webp":"570e96e38af9be0d4be10f647a3f23cad81fd26bcae7e091f3e61469fed7afeb",
     "visual-assets/v10_1/career-statistics/assets/TITLE_CS_V1.webp":"7dbc3041a3b79684b5d28babfce2bb3aaf51138be820b4f7a4d4fcd7a68b4a04",
     "visual-assets/v10_1/shared/trophies/TRO_CONTINENTAL_V1_512.webp":"15f47694e512f5f1555f3f1b919b0ab0203edd8544cd65b249c98277a28c2175",
+    "visual-assets/v10_1/shared/trophies/TRO_CONTINENTAL_V1_1536.webp":"ab2cebbb5913bbe4ac39c4117c86a8f2261a8c23dfbaa5a5a79c886e0f5e760a",
     "visual-assets/v10_1/shared/trophies/TRO_DOMESTIC_CUP_V1_512.webp":"78280e1c2ef82e1945d029f5bccb537c28670fbb92ae19a662fd3611af377d08",
+    "visual-assets/v10_1/shared/trophies/TRO_DOMESTIC_CUP_V1_1536.webp":"7c34ab65edc761bdea2f34a0b562c5c6296bf224be46ab82dad3ba58d49f1c34",
     "visual-assets/v10_1/shared/trophies/TRO_LEAGUE_TITLE_V1_512.webp":"39c65012fa627c67371fa5676a6d696a81dbb54b80621730d83b2b15ae5b6796",
+    "visual-assets/v10_1/shared/trophies/TRO_LEAGUE_TITLE_V1_1536.webp":"863b4a6352de12bfa8e5e3965331b179e5f1890d5f242451088e152ef6f8ac57",
     "visual-assets/v10_1/shared/trophies/TRO_SHOWDOWN_CHAMPION_V1_512.webp":"c3ba71260b758a1a437d32a73fe44d367f05d177a0687468cf28fdb25172bad5",
+    "visual-assets/v10_1/shared/trophies/TRO_SHOWDOWN_CHAMPION_V1_1536.webp":"78aade32ab68277c696c93c0a0db965e2b0073349ba95a04b97863997a5bcce1",
     "visual-assets/v10_1/trophy-room/assets/ENV_TR_PHONE_V1.webp":"40eaa9d2ef35dacca131285f4b3a83dcf5556927ff82e6e92dda732daa780fda",
     "visual-assets/v10_1/trophy-room/assets/ENV_TR_PLATE_V1_1X.webp":"abfbcb1884700ee0cddbfb0cbe4384dd31164745ab388d30f8f6128e67260b70",
     "visual-assets/v10_1/trophy-room/assets/ENV_TR_PLATE_V1_2X.webp":"a2c6badc9148094d880ab671e4b35298fe7d5cc65ecc9875f0228b151455f8cc",
@@ -651,7 +655,7 @@ check("F9c every shipped Team V image path names one generation (versioned name,
 });
 
 check("F10 index.html is unchanged and the startup line is not higher",()=>{
-  assert.equal(sha256("index.html"),"770401594b2e55238c10b0bd9f473e769bf5b231b9936854ea03f6f74c962343","index.html byte-identical to the r69 release");
+  assert.equal(sha256("index.html"),"d9515c76af6ebcc7230725352e04b078f8abc35f8dff1e32418334aebba31fc1","index.html byte-identical to the r70 release");
   const html=read("index.html");
   for(const banned of ["v10Screens","navbar","visual-assets/v10_1","startJoinViewModel"])assert.ok(!html.includes(banned),banned);
   const refs=[...html.matchAll(/(?:src|href)="((?:js|css|data)\/[^"?#]+)(?:\?v=([^"#]+))?/g)].map(m=>m[1]);

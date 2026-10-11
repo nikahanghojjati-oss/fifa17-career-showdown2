@@ -75,3 +75,148 @@
  .connectPlayersWorkspace{height:max(180px,calc(100svh - var(--cp-top) - var(--cp-bottom) - 270px));}
  .connectPlayersRole p{display:none;}#persistentNikDanielPairPanel>p{font-size:11px;}
 }
+
+/* JOB-1090: compact portrait phones use one screen scroll, never a clipped or nested panel. */
+@media (max-width:375px) and (max-height:680px){
+ #connectPlayersScreen{
+  justify-content:flex-start;
+  padding-top:clamp(158px,29svh,194px);
+  overflow-x:hidden;
+  overflow-y:auto;
+  overscroll-behavior-y:contain;
+  -webkit-overflow-scrolling:touch;
+ }
+ .connectPlayersHeader{flex:0 0 auto;}
+ .connectPlayersKicker,.connectPlayersTagline{display:block;}
+ .connectPlayersWorkspace{width:100%;height:auto;flex:0 0 auto;overflow:visible;}
+ .connectPlayersRole p{display:block;}
+ #connectPlayersPairSlot{flex:0 0 auto;overflow:visible;overscroll-behavior:auto;}
+ #persistentNikDanielPairPanel,#persistentNikDanielPairPanel>div{min-width:0;}
+ #connectPlayersScreen .menuButton{min-width:0;max-width:100%;white-space:normal;overflow-wrap:anywhere;}
+ .connectPlayersTabs span{white-space:normal;overflow-wrap:anywhere;text-align:center;}
+}
+
+/* JOB-1091: 390x844 portrait phones expose the complete start/join flow in one screen scroll. */
+@media (min-width:376px) and (max-width:430px) and (min-height:760px) and (max-height:900px){
+ #connectPlayersScreen{
+  justify-content:flex-start;
+  padding-top:clamp(196px,29svh,260px);
+  padding-bottom:16px;
+  overflow-x:hidden;
+  overflow-y:auto;
+  overscroll-behavior-y:contain;
+  -webkit-overflow-scrolling:touch;
+ }
+ .connectPlayersHeader{flex:0 0 auto;min-width:0;}
+ .connectPlayersKicker,.connectPlayersTagline{white-space:normal;overflow-wrap:anywhere;}
+ .connectPlayersWorkspace{
+  width:100%;
+  min-width:0;
+  height:auto;
+  flex:0 0 auto;
+  overflow:visible;
+ }
+ #connectPlayersPairSlot{
+  flex:0 0 auto;
+  overflow:visible;
+  overscroll-behavior:auto;
+ }
+ #persistentNikDanielPairPanel,#persistentNikDanielPairPanel>div{min-width:0;}
+ #connectPlayersScreen .menuButton{
+  min-width:0;
+  max-width:100%;
+  min-height:44px;
+  white-space:normal;
+  overflow-wrap:anywhere;
+ }
+ .connectPlayersTabs span{min-height:44px;white-space:normal;overflow-wrap:anywhere;text-align:center;}
+}
+
+/* JOB-1092: large iPhone portrait (430x932) uses the screen's single scroll, not a clipped pair slot. */
+@media (min-width:415px) and (max-width:440px) and (min-height:901px) and (max-height:970px){
+ #connectPlayersScreen{
+  justify-content:flex-start;
+  padding-top:clamp(220px,29svh,282px);
+  padding-bottom:16px;
+  overflow-x:hidden;
+  overflow-y:auto;
+  overscroll-behavior-y:contain;
+  -webkit-overflow-scrolling:touch;
+ }
+ .connectPlayersHeader{flex:0 0 auto;min-width:0;}
+ .connectPlayersKicker,.connectPlayersTagline{white-space:normal;overflow-wrap:anywhere;}
+ .connectPlayersWorkspace{
+  width:100%;
+  min-width:0;
+  height:auto;
+  flex:0 0 auto;
+  overflow:visible;
+ }
+ #connectPlayersPairSlot{flex:0 0 auto;overflow:visible;overscroll-behavior:auto;}
+ #persistentNikDanielPairPanel,#persistentNikDanielPairPanel>div{min-width:0;max-width:100%;box-sizing:border-box;}
+ #persistentNikDanielPairCode{box-sizing:border-box;}
+ #connectPlayersScreen .menuButton{
+  min-width:0;
+  max-width:100%;
+  min-height:44px;
+  white-space:normal;
+  overflow-wrap:anywhere;
+ }
+ .connectPlayersTabs span{min-height:44px;white-space:normal;overflow-wrap:anywhere;text-align:center;}
+}
+
+/* JOB-1093: 844x390 landscape, with one scroll for the complete pairing flow. */
+@media (min-width:820px) and (max-width:870px) and (min-height:370px) and (max-height:410px) and (orientation:landscape) {
+ #connectPlayersScreen {
+  justify-content:flex-start;
+  padding:56px 12px 16px;
+  overflow-x:hidden;
+  overflow-y:auto;
+  overscroll-behavior-y:contain;
+  -webkit-overflow-scrolling:touch;
+ }
+ #connectPlayersScreen .connectPlayersHeader { flex:0 0 auto;min-width:0; }
+ #connectPlayersScreen .connectPlayersKicker,
+ #connectPlayersScreen .connectPlayersTagline { display:block;white-space:normal;overflow-wrap:anywhere; }
+ #connectPlayersScreen .connectPlayersWorkspace { width:100%;min-width:0;height:auto;flex:0 0 auto;overflow:visible; }
+ #connectPlayersScreen .connectPlayersRole p { display:block; }
+ #connectPlayersScreen #connectPlayersPairSlot { flex:0 0 auto;overflow:visible;overscroll-behavior:auto; }
+ #connectPlayersScreen #persistentNikDanielPairPanel,
+ #connectPlayersScreen #persistentNikDanielPairPanel>div { min-width:0;max-width:100%;box-sizing:border-box; }
+ #connectPlayersScreen #persistentNikDanielPairCode { box-sizing:border-box; }
+ #connectPlayersScreen .menuButton { min-width:44px;max-width:100%;min-height:44px;white-space:normal;overflow-wrap:anywhere; }
+ #connectPlayersScreen .connectPlayersTabs span { min-height:44px;white-space:normal;overflow-wrap:anywhere;text-align:center; }
+}
+
+/* JOB-1094: 932x430 landscape keeps header, roles and pairing controls in one page flow. */
+@media (min-width:910px) and (max-width:960px) and (min-height:415px) and (max-height:450px) and (orientation:landscape) {
+ #connectPlayersScreen {
+  display:flex;flex-direction:column;justify-content:flex-start;gap:12px;
+  padding:20px 12px 24px;
+  overflow-x:hidden;overflow-y:auto;
+  overscroll-behavior-y:contain;-webkit-overflow-scrolling:touch;
+ }
+ #connectPlayersScreen.hidden { display:none; }
+ #connectPlayersScreen .connectPlayersHeader {
+  position:relative;inset:auto;display:flex;flex:0 0 auto;
+  flex-direction:column;align-items:center;gap:6px;min-width:0;
+ }
+ #connectPlayersScreen .connectPlayersKicker,
+ #connectPlayersScreen h2#connectPlayersTitle,
+ #connectPlayersScreen .connectPlayersTagline {
+  position:static;transform:none;width:auto;max-width:100%;
+  white-space:normal;overflow-wrap:anywhere;
+ }
+ #connectPlayersScreen .connectPlayersKicker { font-size:11px;letter-spacing:.2em; }
+ #connectPlayersScreen h2#connectPlayersTitle { font-size:32px;line-height:1.15; }
+ #connectPlayersScreen .connectPlayersWorkspace {
+  position:relative;left:auto;top:auto;width:100%;height:auto;
+  min-width:0;flex:0 0 auto;padding-top:56px;overflow:visible;
+ }
+ #connectPlayersScreen .connectPlayersRole { overflow-wrap:anywhere; }
+ #connectPlayersScreen #connectPlayersPairSlot { flex:0 0 auto;overflow:visible;overscroll-behavior:auto; }
+ #connectPlayersScreen #persistentNikDanielPairPanel,
+ #connectPlayersScreen #persistentNikDanielPairPanel>div { min-width:0;max-width:100%;box-sizing:border-box; }
+ #connectPlayersScreen #persistentNikDanielPairCode { box-sizing:border-box; }
+ #connectPlayersScreen .menuButton { min-width:44px;max-width:100%;min-height:44px;white-space:normal;overflow-wrap:anywhere; }
+}
