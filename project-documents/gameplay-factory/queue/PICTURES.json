@@ -29,7 +29,8 @@
       "LEGACY",
       "TROPHY_ROOM",
       "TROPHY_ROOM_SINGLE",
-      "SETTINGS"
+      "SETTINGS",
+      "FINAL_WINNER"
     ],
     "NEXT": []
   },
@@ -42,6 +43,7 @@
     "PHONE_LEGACY": "Approved by Team V at 3cd03e3f: every word, number and both club badges match live.",
     "PHONE_TROPHY_ROOM": "Approved by Team V at 5525d55d. All five tabs in a two-row framed tab bar and all four trophies in a 2x2 grid, no sideways scroll. Hold the picked-tab (single trophy large) wiring until PHONE_TROPHY_ROOM_SINGLE (ticket 1588 10B) and high-res trophy art (10C) land.",
     "PHONE_TROPHY_ROOM_SINGLE": "Approved by Team V at 6c1c5cc0. Picked-tab view: one big display niche with the chosen trophy large plus a bigger name-and-counts band; all four category tabs use it. Hold wiring until the 10C high-res trophy art lands.",
-    "PHONE_SETTINGS": "Approved by Team V at 6c1c5cc0; every word matches live. Wiring note: the DANIEL & NIK and CAREER MODE SHOWDOWN panel headings use a plain sans in live; switch them to the game condensed font like the other labels."
+    "PHONE_SETTINGS": "Approved by Team V at 6c1c5cc0; every word matches live. Wiring note: the DANIEL & NIK and CAREER MODE SHOWDOWN panel headings use a plain sans in live; switch them to the game condensed font like the other labels.",
+    "PHONE_FINAL_WINNER": "Approved by Team V at f324c17e (completes the 12-screen phone set). Wiring note: REVIEW MY SEASON RESULT (dark, gold edge) and BACK TO SHOWDOWN HOME (gold, main button) must sit fully on screen with a margin; at 393x660 live they end 6-7px from the bottom and the left one shows an unstyled grey bar with a blue stripe."
   }
 }

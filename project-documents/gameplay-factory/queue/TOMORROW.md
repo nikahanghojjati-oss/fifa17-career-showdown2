@@ -121,6 +121,12 @@ Trophy Room phone studies:
 252 280 308 336 364
 ```
 
+Final Winner phone studies:
+
+```text
+230 258 286 314 342
+```
+
 Settings phone studies:
 
 ```text
