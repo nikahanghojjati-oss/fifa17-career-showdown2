@@ -54,6 +54,7 @@ class Ctx:
         self.prs = {}         # number -> PR object from the list endpoint
         self.last_pr_scan = None
         self.reviewed = set()
+        self.verdicts = {}    # PR number -> ok / ok_notes / needs_changes (from the "Sol review" comment)
         self.last_comment_scan = None
         self.ci = {}          # head sha -> (ci, total, extra, fetched_at)
         self.train_done = {}  # train branch -> (sha, set of job numbers with a status file)
@@ -147,6 +148,52 @@ def write_md(d, path):
         L.append(f"- {e['at']} · {e['item']} (Job {e['job']}): {e['from']} → {e['to']}")
     path.write_text("\n".join(L) + "\n")
 
+LANE_NAMES = {"gpt1": "ChatGPT account 1 (odd numbers)", "gpt2": "ChatGPT account 2 (even numbers)", "chat_jobs": "ChatGPT chat (job numbers 1000+)",
+              "codex": "Codex", "work": "ChatGPT Work mode", "claude": "Claude (Haiku, Sonnet, Opus)", "other": "Other"}
+LANE_ORDER = ["gpt1", "gpt2", "chat_jobs", "codex", "work", "claude", "other"]
+DONE_STATES = ("merged", "live", "no_pr")
+WORKER_DONE = ("on_train", "draft", "queued", "ci_running", "ci_failed", "ready", "reviewed")
+
+def lane_of_text(t):
+    t = t.lower()
+    if "codex" in t: return "codex"
+    if "claude" in t or "haiku" in t or "opus" in t: return "claude"
+    if "blue team" in t or "**blue**" in t: return "chat_jobs"
+    if "work mode" in t or "green" in t or "yellow" in t or "luna" in t or "astra" in t or "**work**" in t: return "work"
+    if "chat" in t: return "chat_jobs"
+    return "other"
+
+def load_direct():
+    """Numbered job files 1000+ that are not queue items: lane from the ticket's Lane row, dependencies from its Depends-on cell."""
+    order = json.loads((GF / "queue" / "ORDER.json").read_text())["items"]
+    qj = {str(v["job"]) for v in order.values()}
+    out = {}
+    for f in sorted((GF / "jobs").glob("JOB-*.md")):
+        m = re.search(r"JOB-(\d+)\.md$", f.name)
+        if not m or int(m.group(1)) < 1000 or m.group(1) in qj:
+            continue
+        t = f.read_text(errors="replace")[:3500]
+        row = re.search(r"\| Lane \|[^\n]*\n\|[ \-|]*\n\| (.*?) \| (.*?) \|", t)
+        title = (re.search(r"^#\s*JOB-\d+\s*[·\-:]\s*(.+)$", t, re.M) or [None, ""])[1].strip()
+        lane_text = row.group(1) if row else t[:300]
+        dep = row.group(2) if row else "none"
+        out[m.group(1)] = {"job": int(m.group(1)), "title": title[:90], "lane": lane_of_text(lane_text),
+                           "deps": re.findall(r"\b(1\d{3})\b", dep) if dep.strip().lower() != "none" else []}
+    return out
+
+def status_state(job):
+    f = GF / "status" / f"JOB-{job}.md"
+    try: m = re.search(r"^State:\s*(.+)$", f.read_text(errors="replace"), re.M)
+    except OSError: return ""
+    return m.group(1).strip().upper() if m else ""
+
+def jload_claude():
+    try:
+        l = json.loads((GF / "queue" / "CLAUDE_LANE.json").read_text())
+        return l.get("haiku", []) + l.get("sonnet", [])
+    except Exception:
+        return []
+
 def run_round(a, ctx):
     ctx.rounds += 1
     out = pathlib.Path(a.out)
@@ -204,9 +251,56 @@ def run_round(a, ctx):
     ctx.last_comment_scan = (datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(minutes=3)).strftime("%Y-%m-%dT%H:%M:%SZ")
     for c in gh(f"repos/{a.repo}/issues/comments?since={since}&per_page=100", paginate=True):
         if c["body"].lstrip().lower().startswith("sol review"):
-            ctx.reviewed.add(int(c["issue_url"].rsplit("/", 1)[1]))
+            pn = int(c["issue_url"].rsplit("/", 1)[1])
+            ctx.reviewed.add(pn)
+            head = c["body"][:300].lower()
+            ctx.verdicts[pn] = "needs_changes" if "needs changes" in head else ("ok_notes" if "ok with notes" in head else "ok")
     reviewed_prs = ctx.reviewed
     ci_cache = {}
+
+    def apply_pr(it, pr, old, mode, job):
+        n = pr["number"]
+        it.update(pr=n, pr_url=pr["html_url"], base=pr["base"]["ref"], branch=pr["head"]["ref"])
+        if pr.get("merged_at"):
+            # code jobs merge into gameplay/bug-list-1 first; they are live once RELEASED.json names their release
+            it["state"] = "live" if (pr["base"]["ref"] == "main" or job in released) else "merged"
+            if it["state"] == "live":
+                it["live_in"] = released.get(job, "next release")
+            it["merged_at"] = pr["merged_at"]
+        elif pr["state"] == "closed":
+            it["state"] = "closed"
+        else:
+            sha = pr["head"]["sha"]
+            if pr.get("draft"):
+                ci, total, extra = "draft", 0, 0
+            elif old.get("ci_sha") == sha and old.get("ci") in ("green", "failed", "none") and old.get("state") != "ci_running":
+                ci, total, extra = old["ci"], old.get("ci_total", 0), old.get("ci_extra", 0)
+            else:
+                hit = ctx.ci.get(sha)
+                if not hit or (hit[0] in ("running", "none") and ctx.rounds - hit[3] >= 2):
+                    hit = ctx.ci[sha] = (*ci_for(a.repo, sha), ctx.rounds)
+                ci, total, extra = hit[0], hit[1], hit[2]
+            it.update(ci=ci, ci_sha=sha, ci_total=total, ci_extra=extra)
+            it["draft"] = bool(pr.get("draft"))
+            if it["draft"]:
+                ci, total, extra = "draft", 0, 0
+            elif ci == "none" and mode == "code":
+                ci = "queued"
+            it["ci"] = ci
+            if n in reviewed_prs:
+                it["state"] = "reviewed" if ci != "failed" else "ci_failed"
+                it["reviewed"] = True
+            elif it["draft"]:
+                it["state"] = "draft"
+            elif ci == "failed":
+                it["state"] = "ci_failed"
+            elif ci == "queued":
+                it["state"] = "queued"
+            elif ci == "running":
+                it["state"] = "ci_running"
+            else:
+                it["state"] = "ready"
+        it["pr_opened_at"] = pr["created_at"]
 
     items, events = {}, list(prev.get("events", []))
     for k in sorted(order, key=int):
@@ -219,48 +313,7 @@ def run_round(a, ctx):
         old = prev_items.get(k, {})
         it = {"job": o["job"], "stage": o["stage"], "title": o["title"], "mode": o.get("mode"), "group": o.get("group")}
         if pr:
-            n = pr["number"]
-            it.update(pr=n, pr_url=pr["html_url"], base=pr["base"]["ref"], branch=pr["head"]["ref"])
-            if pr.get("merged_at"):
-                # code jobs merge into gameplay/bug-list-1 first; they are live once RELEASED.json names their release
-                it["state"] = "live" if (pr["base"]["ref"] == "main" or job in released) else "merged"
-                if it["state"] == "live":
-                    it["live_in"] = released.get(job, "next release")
-                it["merged_at"] = pr["merged_at"]
-            elif pr["state"] == "closed":
-                it["state"] = "closed"
-            else:
-                sha = pr["head"]["sha"]
-                if pr.get("draft"):
-                    ci, total, extra = "draft", 0, 0
-                elif old.get("ci_sha") == sha and old.get("ci") in ("green", "failed", "none") and old.get("state") != "ci_running":
-                    ci, total, extra = old["ci"], old.get("ci_total", 0), old.get("ci_extra", 0)
-                else:
-                    hit = ctx.ci.get(sha)
-                    if not hit or (hit[0] in ("running", "none") and ctx.rounds - hit[3] >= 2):
-                        hit = ctx.ci[sha] = (*ci_for(a.repo, sha), ctx.rounds)
-                    ci, total, extra = hit[0], hit[1], hit[2]
-                it.update(ci=ci, ci_sha=sha, ci_total=total, ci_extra=extra)
-                it["draft"] = bool(pr.get("draft"))
-                if it["draft"]:
-                    ci, total, extra = "draft", 0, 0
-                elif ci == "none" and o.get("mode") == "code":
-                    ci = "queued"
-                it["ci"] = ci
-                if n in reviewed_prs:
-                    it["state"] = "reviewed" if ci != "failed" else "ci_failed"
-                    it["reviewed"] = True
-                elif it["draft"]:
-                    it["state"] = "draft"
-                elif ci == "failed":
-                    it["state"] = "ci_failed"
-                elif ci == "queued":
-                    it["state"] = "queued"
-                elif ci == "running":
-                    it["state"] = "ci_running"
-                else:
-                    it["state"] = "ready"
-            it["pr_opened_at"] = pr["created_at"]
+            apply_pr(it, pr, old, o.get("mode"), job)
         elif o.get("mode") == "code":
             if job in ctx.train_done.get(pre, (None, set()))[1]:
                 it.update(state="on_train", branch=pre)
@@ -287,6 +340,52 @@ def run_round(a, ctx):
             it["since"] = t
         items[k] = it
     events = events[-300:]
+
+    # numbered jobs outside the queue (Codex, Work mode, Claude and chat job files)
+    direct = load_direct()
+    dstate = {}
+    for job, d in direct.items():
+        pr = by_job.get(job)
+        it = {"job": d["job"], "title": d["title"], "mode": "direct"}
+        if job in released:
+            it.update(state="live", live_in=released[job])
+        elif pr:
+            apply_pr(it, pr, {}, "direct", job)
+        else:
+            ss = status_state(job)
+            it["state"] = ("merged" if ss.startswith(("DONE", "MERGED")) else "started" if ss.startswith("IN PROGRESS") else
+                           "blocked" if ss.startswith("BLOCKED") else "waiting")
+        d["state"] = it["state"]; d["pr"] = it.get("pr"); d["pr_url"] = it.get("pr_url")
+    # lanes: how much of each is done, what is pending, quality so far
+    claude_q = set(jload_claude())
+    def lane_of_item(k):
+        if int(k) in claude_q: return "claude"
+        return "gpt1" if int(k) % 2 else "gpt2"
+    lanes = {n: {"name": LANE_NAMES[n], "total": 0, "states": {}, "reviews": {"ok": 0, "ok_notes": 0, "needs_changes": 0}} for n in LANE_ORDER}
+    def add_unit(lane, state, pr=None):
+        L = lanes[lane]; L["total"] += 1; L["states"][state] = L["states"].get(state, 0) + 1
+        v = ctx.verdicts.get(pr) if pr else None
+        if v: L["reviews"][v] += 1
+    for k, it in items.items():
+        add_unit(lane_of_item(k), it["state"], it.get("pr"))
+    for job, d in direct.items():
+        add_unit(d["lane"], d["state"], d.get("pr"))
+    for L in lanes.values():
+        t, sv = L["total"], L["states"]
+        L["picked_up"] = t - sv.get("waiting", 0)
+        L["worker_done"] = sum(sv.get(x, 0) for x in WORKER_DONE + DONE_STATES)
+        L["finished"] = sum(sv.get(x, 0) for x in DONE_STATES)
+        L["pending_lead"] = sum(sv.get(x, 0) for x in ("draft", "queued", "ready", "reviewed", "on_train"))
+        L["trouble"] = sv.get("ci_failed", 0) + sv.get("blocked", 0)
+        L["closed"] = sv.get("closed", 0)
+        L["reviews_total"] = sum(L["reviews"].values())
+    # what to type in Codex: waiting Codex jobs whose dependencies are merged
+    done_jobs = {j for j, d in direct.items() if d["state"] in DONE_STATES}
+    codex_next = [{"job": d["job"], "title": d["title"]} for j, d in sorted(direct.items()) if d["lane"] == "codex" and d["state"] == "waiting"
+                  and all(x in done_jobs or x not in direct for x in d["deps"])]
+    codex_blocked = [{"job": d["job"], "title": d["title"], "deps": d["deps"]} for j, d in sorted(direct.items()) if d["lane"] == "codex" and d["state"] == "waiting"
+                     and not all(x in done_jobs or x not in direct for x in d["deps"])]
+    work_waiting = [d["job"] for j, d in sorted(direct.items()) if d["lane"] == "work" and d["state"] == "waiting"]
 
     states = {}
     stages = {}
@@ -355,6 +454,7 @@ def run_round(a, ctx):
            "counts": states, "stages": stages, "stale_started": stale, "gates": gates,
            "rate": {"claimed_last_hour": started_since(60), "claimed_last_10min": started_since(10),
                     "merged_last_hour": merged_since(60)},
+           "lanes": lanes, "codex_next": codex_next, "codex_waiting_on_deps": codex_blocked, "work_waiting": work_waiting,
            "events": events, "items": items}
     out.parent.mkdir(parents=True, exist_ok=True)
     # Heartbeat: when nothing but the clock moved, keep the old file until it is 3 minutes old (fewer commits)
