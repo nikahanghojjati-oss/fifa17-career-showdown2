@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Home study B (bold hierarchy)</title>
+<style>
+
+:root{--gold:#f2c45b;--gold2:#c99a2e;--ink:#0b0a08;--line:rgba(242,196,91,.55);--tile-h:clamp(54px,10.4vh,84px);--gap:6px;--pad:8px;--tabh:52px}
+*{box-sizing:border-box;margin:0}
+html,body{height:100%;background:#050403;color:#fff;font-family:"Arial Narrow","Roboto Condensed","Helvetica Neue",Arial,sans-serif;-webkit-text-size-adjust:100%}
+body{overflow:hidden}
+.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+button{font:inherit;color:inherit;cursor:pointer}
+.app{position:relative;height:100vh;height:100dvh;width:100%;display:flex;flex-direction:column;overflow:hidden}
+.stage{position:relative;flex:1 1 0;min-height:0;overflow:hidden;background:#0a0805}
+.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;opacity:.75}
+.fig{position:absolute;inset:0}
+.fig img{position:absolute;bottom:0;height:100%;width:auto;max-width:56%;object-fit:contain;object-position:bottom}
+.daniel{left:0}.nik{right:0}
+.shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.45),rgba(0,0,0,0) 28%,rgba(0,0,0,0) 60%,#0b0a08 100%)}
+.lockup{position:absolute;left:0;right:0;bottom:0;text-align:center;padding:0 10px 4px}
+.kick,.tag{font-size:clamp(8px,2.5vw,11px);letter-spacing:.3em;color:#f4efe0;font-weight:700;text-shadow:0 1px 4px #000;white-space:nowrap}
+.lockup img{display:block;margin:1px auto;width:min(78%,300px);height:auto;filter:drop-shadow(0 2px 6px #000)}
+.top{position:absolute;z-index:3;left:var(--pad);right:var(--pad);top:calc(var(--pad) - 2px);display:flex;gap:6px;align-items:center}
+.chip{font:700 clamp(9px,2.7vw,13px)/1.2 inherit;letter-spacing:.04em;padding:8px 8px;color:var(--gold);background:rgba(10,8,5,.82);border:1px solid var(--line);white-space:nowrap}
+.pill{color:#fff;min-width:0}
+.gear{margin-left:auto;width:34px;height:34px;border-radius:50%;background:rgba(10,8,5,.85);border:2px solid var(--gold);color:var(--gold);display:grid;place-items:center;padding:0;flex:none}
+.gear svg{width:20px;height:20px}
+.panel{flex:none;padding:0 var(--pad) var(--gap);display:flex;flex-direction:column;gap:var(--gap);background:#0b0a08}
+.hero{position:relative;display:block;text-align:left;min-height:var(--hero-h);border:1px solid var(--gold);background:linear-gradient(100deg,#f7d56d,#d9a928 60%,#a77a14);color:#17120a;padding:8px 12px;overflow:hidden;clip-path:polygon(10px 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%,0 10px)}
+.hl{display:block;font-weight:900;font-size:var(--hero-fs);line-height:1.12;max-width:62%;letter-spacing:.01em}
+.hero::before{content:"CAREER";display:block;font-size:11px;font-weight:700;letter-spacing:.12em}
+.ha{position:absolute;right:6%;top:6%;height:88%;width:auto;max-width:36%;object-fit:contain}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:repeat(2,var(--tile-h));gap:var(--gap)}
+.tile{position:relative;display:block;text-align:left;padding:7px 0 0 7px;overflow:hidden;min-width:0;background:radial-gradient(120% 90% at 80% 100%,#2b2110,#0e0c09 70%);border:1px solid var(--line);clip-path:polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px)}
+.tl{position:relative;z-index:2;display:block;max-width:calc(100% - 6px);font-weight:900;font-size:var(--tile-fs);line-height:1.08;letter-spacing:.01em;text-shadow:0 1px 3px #000;overflow-wrap:normal;word-break:keep-all;text-transform:uppercase}
+.ta{position:absolute;z-index:1;right:4%;top:50%;transform:translateY(-50%);width:46%;height:82%;object-fit:contain}
+.trophy .ta{width:40%}
+.music{display:flex;align-items:center;gap:8px;padding:6px 8px;border:1px solid var(--line);background:linear-gradient(180deg,#14110b,#090806);min-height:var(--music-h)}
+.disc{flex:none;width:34px;height:34px;border:1px solid var(--line);background:radial-gradient(circle at 50% 50%,#2a1d08 30%,#6b4a10 31%,#120d05 60%);display:grid;place-items:center}
+.disc i{width:8px;height:8px;border-radius:50%;background:var(--gold)}
+.mt{flex:1 1 0;min-width:0;display:flex;flex-direction:column;gap:2px}
+.mc{color:var(--gold);font-weight:900;font-size:clamp(9px,2.7vw,12px);letter-spacing:.07em;line-height:1.1}
+.mn{font-size:clamp(8px,2.3vw,10px);color:#d8cfb8;letter-spacing:.06em;line-height:1.1}
+.mb{flex:none;display:flex;gap:4px}
+.mbtn{display:flex;align-items:center;justify-content:center;gap:4px;min-width:42px;padding:0 5px;height:36px;background:#0e0c09;border:1px solid var(--line);font-weight:900;font-size:clamp(8px,2.5vw,11px);line-height:1.05;letter-spacing:.03em;text-align:center}
+.mbtn:disabled{opacity:.7;color:#a9a18c}
+.mbtn.play{background:linear-gradient(180deg,#f7d56d,#c99a2e);color:#17120a;border-color:var(--gold)}
+.mbtn svg{width:8px;height:10px;flex:none}
+.mbtn span{display:block}
+.tabs{flex:none;height:var(--tabh);display:flex;background:#080706;border-top:1px solid var(--line)}
+.tabs a{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;color:#d8cfb8;text-decoration:none;font-weight:800;font-size:clamp(8px,2.5vw,11px);letter-spacing:.06em;min-width:0}
+.tabs a.on{color:var(--gold);box-shadow:inset 0 2px 0 var(--gold)}
+.tabs svg{width:20px;height:20px}
+
+:root{--hero-h:clamp(64px,12.4vh,92px);--hero-fs:clamp(20px,6.4vw,30px);--tile-fs:clamp(10px,3.1vw,13px);--music-h:46px;--tile-h:clamp(52px,9.4vh,78px)}
+/* B: one unmissable action (big hero), the rest grouped in a framed block, soundtrack in its own band */
+.hero{border-width:2px;box-shadow:0 0 0 1px #000,0 0 18px rgba(242,196,91,.55);margin-top:-4px;position:relative;z-index:4}
+.hero::before{font-size:12px}
+.grid{padding:var(--gap);border:1px solid rgba(242,196,91,.28);background:rgba(242,196,91,.06)}
+.grid{grid-template-rows:repeat(2,var(--tile-h))}
+.music{border-style:dashed}
+@media (max-width:420px) and (max-height:600px){:root{--tabh:46px;--tile-h:clamp(46px,8.6vh,60px);--hero-h:58px}.tabs svg{width:16px;height:16px}.tabs a{gap:0}.mbtn{height:32px}.disc{width:30px;height:30px}.music{min-height:42px;padding:4px 8px}}
+
+</style></head><body>
+<div class="app">
+<section class="stage" aria-label="Home">
+<img class="bg" src="../../../../visual-assets/v10_1/home/assets/ENV_HOME_PHONE_V1.webp" alt="" aria-hidden="true">
+<div class="fig" aria-hidden="true"><img class="daniel" src="../../../../visual-assets/v10_1/home/assets/OVL_HOME_DANIEL_PHONE_V2.webp" alt=""><img class="nik" src="../../../../visual-assets/v10_1/home/assets/OVL_HOME_NIK_PHONE_V2.webp" alt=""></div>
+<div class="shade" aria-hidden="true"></div>
+<div class="lockup"><p class="kick" aria-hidden="true">THE RIVALRY STARTS HERE</p><h1 class="vh">CAREER MODE SHOWDOWN 17</h1><img src="../../../../visual-assets/v10_1/home/assets/LOGO_CM17_WORDMARK_V1.webp" alt="" aria-hidden="true" width="1040" height="378"><p class="tag" aria-hidden="true">TWO MANAGERS · ONE LEGACY</p></div>
+</section>
+<header class="top"><button class="chip" type="button">SIGN IN</button><div class="chip pill">NO ACTIVE SHOWDOWN</div><button class="gear" type="button" aria-label="Settings"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M19.1 4.9 17 7M7 17l-2.1 2.1" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg></button></header>
+<main class="panel">
+<p class="vh">CAREER MODE // SHOWDOWN 17 HOME RIVALRY HEADQUARTERS Build the rivalry, play every season, and carry each trophy into your Legacy.</p>
+<button class="hero" id="continueCareer" type="button"><span class="vh">CAREER </span><span class="hl">CONTINUE CAREER</span><span class="vh"> Loading active showdown...</span><img class="ha" src="../../../../visual-assets/v10_1/shared/art/home-tiles/TILE_CONTINUE_V1.webp" alt="" aria-hidden="true"></button>
+<div class="grid">
+<button class="tile " id="newShowdown" type="button"><span class="vh">NEW </span><span class="tl">START A SHOWDOWN</span><span class="vh"> Begin a new rivalry</span><img class="ta" src="../../../../visual-assets/v10_1/shared/art/home-tiles/TILE_TACTICS_V1.webp" alt="" aria-hidden="true"></button>
+<button class="tile " id="legacyButton" type="button"><span class="vh">HISTORY </span><span class="tl">LEGACY</span><span class="vh"> Completed rivalries and season history</span><img class="ta" src="../../../../visual-assets/v10_1/shared/art/home-tiles/TILE_HISTORY_V1.webp" alt="" aria-hidden="true"></button>
+<button class="tile " id="careerStatisticsButton" type="button"><span class="vh">DATA </span><span class="tl">STATISTICS</span><span class="vh"> Career totals, manager comparison and honours</span><img class="ta" src="../../../../visual-assets/v10_1/shared/art/home-tiles/TILE_STATISTICS_V1.webp" alt="" aria-hidden="true"></button>
+<button class="tile trophy" id="homeTrophyRoomButton" type="button"><span class="vh">HONOURS </span><span class="tl">TROPHY ROOM</span><span class="vh"> Career trophies, standings and records</span><img class="ta" src="../../../../visual-assets/v10_1/shared/trophies/TRO_LEAGUE_TITLE_V1_512.webp" alt="" aria-hidden="true"></button>
+<button class="tile " id="ruleBookButton" type="button"><span class="vh">RULES </span><span class="tl">RULE BOOK</span><span class="vh"> Scoring and competition rules</span><img class="ta" src="../../../../visual-assets/v10_1/shared/art/home-tiles/TILE_RULEBOOK_V1.webp" alt="" aria-hidden="true"></button>
+<button class="tile " id="settingsButton" type="button"><span class="vh">SETTINGS </span><span class="tl">SETTINGS</span><span class="vh"> Account, device and preferences</span><img class="ta" src="../../../../visual-assets/v10_1/shared/art/home-tiles/TILE_SETTINGS_V1.webp" alt="" aria-hidden="true"></button>
+</div>
+<section class="music" aria-label="Menu media"><span class="disc" aria-hidden="true"><i></i></span>
+<div class="mt"><span class="mc">AUDIUS SOUNDTRACK</span><strong class="mn">NEXT TO YOU</strong><span class="vh">RAC ft. Emerson Leif AUDIUS NEXT TO YOU · AUDIUS · READY</span></div>
+<div class="mb"><button class="mbtn play" type="button"><svg viewBox="0 0 10 12" aria-hidden="true"><path d="M0 0l10 6-10 6z" fill="currentColor"/></svg><span>PLAY TRACK</span></button><button class="mbtn" type="button" disabled>MUTE</button><button class="mbtn" type="button">TRACKS</button></div>
+</section>
+<p class="vh">01 TWO MANAGER CAREER COMPETITION 02 FIFA 17 ERA RULESET READY</p>
+</main>
+<nav class="tabs" aria-label="Main"><a href="#" class="on" aria-current="page"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 11.5 12 3l9 8.5V21h-6v-6H9v6H3z" fill="currentColor"/></svg><span>HOME</span></a><a href="#" class=""><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 3h10v5a5 5 0 0 1-10 0zM4 4h3v3a2 2 0 0 1-3-2zM20 4h-3v3a2 2 0 0 0 3-2zM11 13h2v4h3v3H8v-3h3z" fill="currentColor"/></svg><span>CAREER</span></a><a href="#" class=""><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 5h16v3H4zM4 10.5h16v3H4zM4 16h16v3H4z" fill="currentColor"/></svg><span>STANDINGS</span></a><a href="#" class=""><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 20V12h4v8zM10 20V5h4v15zM16 20V9h4v11z" fill="currentColor"/></svg><span>STATS</span></a><a href="#" class=""><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 2h8l5 5v15H6z" fill="currentColor"/></svg><span>RULES</span></a></nav>
+</div>
+</body></html>
