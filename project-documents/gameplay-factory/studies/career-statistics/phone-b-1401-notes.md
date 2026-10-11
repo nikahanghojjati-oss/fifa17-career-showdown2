@@ -1,0 +1,11 @@
+# Career Statistics · Phone B
+- One hierarchy decision: the career table is the focal block, lifted higher by shortening the hero and enlarged to 140px.
+- Larger rows, a stronger leader outline and gold career-point values make the record immediately readable.
+- Approved picture layout remains: managers, two-column totals, section switch, data, actions and hub navigation.
+- All copy follows the live renderer/adapter; sample values are static study data.
+- Daniel remains left and Nik right, using the frozen phone cutouts without mirroring.
+- TABLE / COMPARE / LEADERS use CSS radios, with the live action DOM order retained and no JavaScript.
+- Relative frozen artwork only; generic gold symbols, no real crests, league logos or player photos.
+- Static checks cover asset existence, scripts, file scope and phone height budgets.
+- Rendered all three tabs at 390x844, 393x660, 360x640 and 375x553; checked no scroll, clipped text or broken images.
+- Checked navigation visible at 900px and hidden at 901px; enlarged card rows and SVG bars after visual review.
