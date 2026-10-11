@@ -1,13 +1,13 @@
 {
-"updated": "2026-10-11T04:15:57Z",
+"updated": "2026-10-11T04:16:57Z",
 "total": 518,
 "next_free": 91,
 "highest_taken": 395,
 "counts": {
 "merged": 25,
-"draft": 139,
+"draft": 141,
 "closed": 51,
-"waiting": 281,
+"waiting": 279,
 "on_train": 8,
 "blocked": 14
 },
@@ -41,10 +41,10 @@
 "name": "Phone mockup studies",
 "total": 70,
 "states": {
-"draft": 27,
+"draft": 29,
 "closed": 11,
 "blocked": 14,
-"waiting": 18
+"waiting": 16
 }
 },
 "5": {
@@ -81,10 +81,10 @@
 141,
 143,
 173,
-252,
-258,
 280,
-308
+308,
+314,
+336
 ],
 "ready_sol": [
 91,
@@ -95,10 +95,10 @@
 141,
 143,
 173,
-252,
-258,
 280,
-308
+308,
+314,
+336
 ],
 "ready_codex": [],
 "ready_all": [
@@ -110,8 +110,6 @@
 141,
 143,
 173,
-252,
-258,
 280,
 308,
 314,
@@ -120,29 +118,15 @@
 364,
 403
 ],
-"ready_total": 17,
+"ready_total": 15,
 "held_until_picture": 66
 },
 "rate": {
-"claimed_last_hour": 21,
-"claimed_last_10min": 11,
+"claimed_last_hour": 23,
+"claimed_last_10min": 12,
 "merged_last_hour": 25
 },
 "events": [
-{
-"at": "2026-10-10T19:48:24Z",
-"item": 132,
-"job": 1532,
-"from": "waiting",
-"to": "draft"
-},
-{
-"at": "2026-10-10T19:48:24Z",
-"item": 176,
-"job": 1554,
-"from": "waiting",
-"to": "draft"
-},
 {
 "at": "2026-10-10T19:54:19Z",
 "item": 13,
@@ -2228,6 +2212,20 @@
 "job": 1462,
 "from": "waiting",
 "to": "blocked"
+},
+{
+"at": "2026-10-11T04:16:57Z",
+"item": 252,
+"job": 1342,
+"from": "waiting",
+"to": "draft"
+},
+{
+"at": "2026-10-11T04:16:57Z",
+"item": 258,
+"job": 1285,
+"from": "waiting",
+"to": "draft"
 }
 ],
 "items": {
@@ -6177,8 +6175,19 @@
 "title": "Trophy Room: phone mockup, version A (faithful)",
 "mode": "study",
 "group": null,
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"pr": 636,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/636",
+"base": "study/mega-queue",
+"branch": "study/job-1342-trophy-room-phone-a",
+"ci": "draft",
+"ci_sha": "c3f860da422e9d6088afe0694014aaeb0e9458f5",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-11T04:16:42Z",
+"first_seen": "2026-10-11T04:16:42Z",
+"since": "2026-10-11T04:16:57Z"
 },
 "253": {
 "job": 1075,
@@ -6248,8 +6257,19 @@
 "title": "Final Winner (Showdown Champion): phone mockup, version B (bold hierarchy)",
 "mode": "study",
 "group": null,
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"pr": 635,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/635",
+"base": "study/mega-queue",
+"branch": "study/job-1285-phone-b",
+"ci": "draft",
+"ci_sha": "a0d87514c3cb8c58123ae582268401ccb112e8f0",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-11T04:16:37Z",
+"first_seen": "2026-10-11T04:16:37Z",
+"since": "2026-10-11T04:16:57Z"
 },
 "259": {
 "job": 1162,
