@@ -352,3 +352,57 @@ html[data-v10-screen="clubWheelScreen"] #app > main { position: static; inset: a
     overflow-wrap: anywhere;
   }
 }
+
+/* JOB-1151: 844x390 landscape. The authored compact desktop scene needs
+   a 640px canvas; keep its measured box stable and let only the document
+   scroll. Variable shared notes and actions flow below the painted scene. */
+@media (min-width:820px) and (max-width:870px) and (min-height:370px) and (max-height:410px) and (orientation:landscape) {
+ html[data-v10-screen="clubWheelScreen"] {
+  height:auto;min-height:100%;overflow-x:clip;overflow-y:auto;
+ }
+ html[data-v10-screen="clubWheelScreen"] body,
+ html[data-v10-screen="clubWheelScreen"] #app {
+  height:auto;min-height:100dvh;overflow:visible;
+ }
+ html[data-v10-screen="clubWheelScreen"] #app > main {
+  position:static;min-height:640px;overflow:visible;
+ }
+ #clubWheelScreen.cl-on {
+  position:relative;inset:auto;box-sizing:border-box;width:100%;
+  height:640px;min-height:640px;max-height:none;
+  padding:640px 0 0;overflow:visible;pointer-events:auto;
+ }
+ #clubWheelScreen.cl-on .cl-stage {
+  position:absolute;inset:0;height:640px;min-height:0;pointer-events:none;
+ }
+ #clubWheelScreen.cl-on .clubAssignmentShell {
+  display:flex;flex-direction:column;gap:12px;
+  padding-bottom:calc(80px + env(safe-area-inset-bottom,0px));
+ }
+ #clubWheelScreen.cl-on .clubRivalryConfirmation,
+ #clubWheelScreen.cl-on > #sharedShowdownPresentationStatus,
+ #clubWheelScreen.cl-on #sharedShowdownSeasonChoice {
+  position:relative;top:auto !important;bottom:auto !important;
+  left:auto !important;right:auto !important;transform:none;
+  width:auto !important;height:auto !important;max-width:calc(100% - 24px);
+  box-sizing:border-box;margin:0 12px;padding:10px 12px;
+  white-space:normal;overflow-wrap:anywhere;
+ }
+ #clubWheelScreen.cl-on > #sharedShowdownPresentationStatus { margin-bottom:12px; }
+ #clubWheelScreen.cl-on .clubRivalryHeadline {
+  grid-template-rows:auto auto;row-gap:6px;max-width:100%;
+ }
+ #clubWheelScreen.cl-on .clubRivalryMatchup { flex-wrap:wrap;justify-content:center; }
+ #clubWheelScreen.cl-on .clubRivalryLockNote { margin:8px 0 0; }
+ #clubWheelScreen.cl-on :is(#openClubPack,#continueClubAssignment,#clubAssignmentBack) {
+  position:relative;top:auto;bottom:auto;left:auto !important;right:auto;
+  flex:0 0 auto;width:min(560px,calc(100% - 24px)) !important;
+  height:auto;min-height:48px;min-width:44px;margin:0 auto;
+  padding:10px 14px;font-size:18px;line-height:1.2;
+  white-space:normal;overflow-wrap:anywhere;
+ }
+ #clubWheelScreen.cl-on #clubAssignmentBack { margin-bottom:24px; }
+ #clubWheelScreen.cl-on .btnLabel { min-width:0; }
+ #clubWheelScreen.cl-on .cl-footer { display:none; }
+ html[data-v10-screen="clubWheelScreen"] #app #topHeader #onlinePlayerIdentityBadge { min-height:44px; }
+}
