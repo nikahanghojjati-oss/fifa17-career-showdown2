@@ -757,6 +757,26 @@
 }
 `;
 
+  // JOB-1330: full-HD desktop category targets are 35px high in Team V's
+  // frozen sheet. Give the tabs a 44px hit area without covering the shelf,
+  // and allow dynamic cabinet labels to wrap rather than overlap or clip.
+  const TROPHY_1920_DESKTOP_CSS=String.raw`
+@media (min-width:1880px) and (max-width:2000px) and (min-height:1000px) and (max-height:1160px) and (orientation:landscape) {
+  #trophyRoom .trophyTabs {top:-44px; height:44px}
+  #trophyRoom .trophyTab {
+    min-height:44px; padding:6px 8px; line-height:1.15;
+    white-space:normal; overflow-wrap:anywhere;
+  }
+  #trophyRoom .trophyCard h3 {
+    white-space:normal; overflow-wrap:anywhere; line-height:1.1;
+  }
+  #trophyRoom .managerCounts > div {min-width:0}
+  #trophyRoom .managerCounts span {
+    white-space:normal; overflow-wrap:anywhere; line-height:1.1;
+  }
+}
+`;
+
   const TROPHY_768_TABLET_CSS=String.raw`
 /* JOB-1327: upright 768x1024 tablet has one vertically scrolling surface.
    Do not change Team V's frozen visual assets or other viewport classes. */
@@ -930,7 +950,7 @@
     host.innerHTML=v10Markup(screen);
     if(screen==="trophyRoom"){
       const smallPhoneStyle=doc.createElement("style");
-      smallPhoneStyle.textContent=TROPHY_SMALL_PHONE_CSS+TROPHY_390_PHONE_CSS+TROPHY_430_PHONE_CSS+TROPHY_844_LANDSCAPE_CSS+TROPHY_932_LANDSCAPE_CSS+TROPHY_768_TABLET_CSS+TROPHY_1280_LAPTOP_CSS+TROPHY_1366_CHROMEBOOK_CSS;
+      smallPhoneStyle.textContent=TROPHY_SMALL_PHONE_CSS+TROPHY_390_PHONE_CSS+TROPHY_430_PHONE_CSS+TROPHY_844_LANDSCAPE_CSS+TROPHY_932_LANDSCAPE_CSS+TROPHY_768_TABLET_CSS+TROPHY_1280_LAPTOP_CSS+TROPHY_1366_CHROMEBOOK_CSS+TROPHY_1920_DESKTOP_CSS;
       host.appendChild(smallPhoneStyle);
     }
     v10Wire(screen,host);
