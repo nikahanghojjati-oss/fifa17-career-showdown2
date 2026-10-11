@@ -11,6 +11,11 @@
     "<img class=\"connectPlayersDaniel\" src=\"visual-assets/v10_1/start-join/assets/OVL_SJ_DANIEL_PHONE_V1.webp\" alt=\"\" loading=\"lazy\">",
     "<img class=\"connectPlayersNik\" src=\"visual-assets/v10_1/start-join/assets/OVL_SJ_NIK_PHONE_V1.webp\" alt=\"\" loading=\"lazy\">",
     "</div>",
+    "<main class=\"connectPlayersPhoneFlow\" aria-labelledby=\"connectPlayersTitle\">",
+    "<div class=\"connectPlayersPhoneScene\" aria-hidden=\"true\">",
+    "<img class=\"connectPlayersSceneDaniel\" src=\"visual-assets/v10_1/start-join/assets/OVL_SJ_DANIEL_PHONE_V1.webp\" alt=\"\" loading=\"lazy\">",
+    "<img class=\"connectPlayersSceneNik\" src=\"visual-assets/v10_1/start-join/assets/OVL_SJ_NIK_PHONE_V1.webp\" alt=\"\" loading=\"lazy\">",
+    "</div>",
     "<header class=\"connectPlayersHeader\">",
     "<p class=\"connectPlayersKicker\">CAREER MODE SHOWDOWN // 17</p>",
     "<h2 id=\"connectPlayersTitle\">CONNECT PLAYERS</h2>",
@@ -38,6 +43,7 @@
     "</div>",
     "<div id=\"connectPlayersPairSlot\" aria-live=\"polite\"></div>",
     "</div>",
+    "</main>",
     "</section>"
   ].join("\n");
   let layer=null,opening=null,opener=null,observer=null,homeObserver=null;
