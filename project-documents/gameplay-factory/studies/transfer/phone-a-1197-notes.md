@@ -1,0 +1,13 @@
+# JOB-1197 · Transfer phone A
+- Decision: retain the approved cinematic hero, stacked gold panels, action and HOME/REFRESH HUD.
+- Daniel stays left; Nik stays right; existing V2 artwork is unmirrored.
+- Text comes from js/transferScreenV10.js; picture wording is not substituted.
+- Four CSS radio previews expose Window → Guesses → Signings → Verdicts in live order.
+- The progress rail selects study frames only; action buttons do not simulate shared state or agreement.
+- Signing rows retain player name, previous league and nationality; guesses retain type and value.
+- Empty verdicts use the live empty state; Club and season 1 are illustrative data.
+- No hub tab bar: Transfer Challenge is a task screen with its own HOME/REFRESH HUD.
+- Local fonts and relative frozen artwork paths; inline CSS, no JavaScript or external requests.
+- Artwork gives way first on short viewports; every phase keeps its main action and HUD visible.
+- Study only: no production, scoring, privacy, timer or tap-flow changes.
+- Verified all four phases at 390×844, 393×660, 360×640 and 375×553: no page scroll; actions visible; assets loaded.
