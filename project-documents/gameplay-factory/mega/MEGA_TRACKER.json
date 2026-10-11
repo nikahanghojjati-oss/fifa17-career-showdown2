@@ -1,14 +1,14 @@
 {
-"updated": "2026-10-11T21:41:33Z",
+"updated": "2026-10-11T21:43:03Z",
 "total": 518,
-"next_free": 169,
+"next_free": 173,
 "highest_taken": 403,
 "counts": {
 "merged": 161,
 "closed": 82,
-"draft": 15,
-"on_train": 17,
-"waiting": 243
+"draft": 20,
+"on_train": 13,
+"waiting": 242
 },
 "stages": {
 "2": {
@@ -17,9 +17,9 @@
 "states": {
 "merged": 25,
 "closed": 44,
-"draft": 15,
-"on_train": 17,
-"waiting": 165
+"draft": 20,
+"on_train": 13,
+"waiting": 164
 }
 },
 "1": {
@@ -62,35 +62,32 @@
 "open_train_prs": [
 681,
 682,
-683
+683,
+684
 ],
 "on_train_no_pr": [
-97,
 101,
 105,
 107,
-115,
 119,
 123,
 125,
-133,
 137,
 141,
 143,
-151,
 155,
 159,
 161,
 403
 ],
-"draft_code_prs": 3,
+"draft_code_prs": 4,
 "area_locks": {
 "home": 681,
 "start-join": 682,
-"league": 683
+"league": 683,
+"club": 684
 },
 "ready": [
-169,
 173,
 177,
 179,
@@ -101,10 +98,10 @@
 274,
 296,
 302,
-324
+324,
+330
 ],
 "ready_sol": [
-169,
 173,
 177,
 179,
@@ -115,11 +112,11 @@
 274,
 296,
 302,
-324
+324,
+330
 ],
 "ready_codex": [],
 "ready_all": [
-169,
 173,
 177,
 179,
@@ -162,7 +159,7 @@
 456,
 464
 ],
-"ready_total": 23,
+"ready_total": 22,
 "held_until_picture": 48,
 "held_by_picture": {
 "desktop STATISTICS": 4,
@@ -180,8 +177,8 @@
 }
 },
 "rate": {
-"claimed_last_hour": 5,
-"claimed_last_10min": 5,
+"claimed_last_hour": 6,
+"claimed_last_10min": 6,
 "merged_last_hour": 0
 },
 "lanes": {
@@ -191,19 +188,19 @@
 "states": {
 "merged": 25,
 "closed": 25,
-"draft": 15,
-"on_train": 17,
-"waiting": 157
+"draft": 20,
+"on_train": 13,
+"waiting": 156
 },
 "reviews": {
 "ok": 0,
 "ok_notes": 0,
 "needs_changes": 0
 },
-"picked_up": 82,
-"worker_done": 57,
+"picked_up": 83,
+"worker_done": 58,
 "finished": 25,
-"pending_lead": 32,
+"pending_lead": 33,
 "wait_v": 0,
 "audit_batch": 0,
 "trouble": 0,
@@ -364,7 +361,8 @@
 "ready_for_lead": [
 681,
 682,
-683
+683,
+684
 ],
 "old_main_prs": 0,
 "codex_next": [
@@ -1108,41 +1106,6 @@
 }
 ],
 "events": [
-{
-"at": "2026-10-11T04:03:15Z",
-"item": 81,
-"job": 1181,
-"from": "draft",
-"to": "closed"
-},
-{
-"at": "2026-10-11T04:03:15Z",
-"item": 85,
-"job": 1297,
-"from": "draft",
-"to": "closed"
-},
-{
-"at": "2026-10-11T04:03:15Z",
-"item": 89,
-"job": 1413,
-"from": "draft",
-"to": "closed"
-},
-{
-"at": "2026-10-11T04:03:15Z",
-"item": 103,
-"job": 1298,
-"from": "draft",
-"to": "closed"
-},
-{
-"at": "2026-10-11T04:03:15Z",
-"item": 121,
-"job": 1299,
-"from": "draft",
-"to": "closed"
-},
 {
 "at": "2026-10-11T04:03:15Z",
 "item": 123,
@@ -3207,6 +3170,41 @@
 "job": 1128,
 "from": "waiting",
 "to": "draft"
+},
+{
+"at": "2026-10-11T21:43:03Z",
+"item": 97,
+"job": 1153,
+"from": "on_train",
+"to": "draft"
+},
+{
+"at": "2026-10-11T21:43:03Z",
+"item": 115,
+"job": 1154,
+"from": "on_train",
+"to": "draft"
+},
+{
+"at": "2026-10-11T21:43:03Z",
+"item": 133,
+"job": 1155,
+"from": "on_train",
+"to": "draft"
+},
+{
+"at": "2026-10-11T21:43:03Z",
+"item": 151,
+"job": 1156,
+"from": "on_train",
+"to": "draft"
+},
+{
+"at": "2026-10-11T21:43:03Z",
+"item": 169,
+"job": 1157,
+"from": "waiting",
+"to": "draft"
 }
 ],
 "items": {
@@ -4744,10 +4742,19 @@
 "title": "Club packs: fix the 768x1024 view",
 "mode": "code",
 "group": "club",
-"state": "on_train",
+"pr": 684,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/684",
+"base": "gameplay/bug-list-1",
 "branch": "gameplay/train-club-2",
+"ci": "draft",
+"ci_sha": "382e70639b28af8f8cac9cedeb1540b7aa824174",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-11T21:42:25Z",
 "first_seen": "2026-10-11T05:07:44Z",
-"since": "2026-10-11T05:07:44Z"
+"since": "2026-10-11T21:43:03Z"
 },
 "98": {
 "job": 1515,
@@ -5022,10 +5029,19 @@
 "title": "Club packs: fix the 1280x650 view",
 "mode": "code",
 "group": "club",
-"state": "on_train",
+"pr": 684,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/684",
+"base": "gameplay/bug-list-1",
 "branch": "gameplay/train-club-2",
+"ci": "draft",
+"ci_sha": "382e70639b28af8f8cac9cedeb1540b7aa824174",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-11T21:42:25Z",
 "first_seen": "2026-10-11T05:11:44Z",
-"since": "2026-10-11T05:11:44Z"
+"since": "2026-10-11T21:43:03Z"
 },
 "116": {
 "job": 1524,
@@ -5300,10 +5316,19 @@
 "title": "Club packs: fix the 1366x768 view",
 "mode": "code",
 "group": "club",
-"state": "on_train",
+"pr": 684,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/684",
+"base": "gameplay/bug-list-1",
 "branch": "gameplay/train-club-2",
+"ci": "draft",
+"ci_sha": "382e70639b28af8f8cac9cedeb1540b7aa824174",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-11T21:42:25Z",
 "first_seen": "2026-10-11T07:38:57Z",
-"since": "2026-10-11T07:38:57Z"
+"since": "2026-10-11T21:43:03Z"
 },
 "134": {
 "job": 1533,
@@ -5578,10 +5603,19 @@
 "title": "Club packs: fix the 1920x1080 view",
 "mode": "code",
 "group": "club",
-"state": "on_train",
+"pr": 684,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/684",
+"base": "gameplay/bug-list-1",
 "branch": "gameplay/train-club-2",
+"ci": "draft",
+"ci_sha": "382e70639b28af8f8cac9cedeb1540b7aa824174",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-11T21:42:25Z",
 "first_seen": "2026-10-11T21:33:48Z",
-"since": "2026-10-11T21:33:48Z"
+"since": "2026-10-11T21:43:03Z"
 },
 "152": {
 "job": 1542,
@@ -5856,8 +5890,19 @@
 "title": "Club packs: fix the 2560x1080 view",
 "mode": "code",
 "group": "club",
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"pr": 684,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/684",
+"base": "gameplay/bug-list-1",
+"branch": "gameplay/train-club-2",
+"ci": "draft",
+"ci_sha": "382e70639b28af8f8cac9cedeb1540b7aa824174",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-11T21:42:25Z",
+"first_seen": "2026-10-11T21:42:25Z",
+"since": "2026-10-11T21:43:03Z"
 },
 "170": {
 "job": 1551,
