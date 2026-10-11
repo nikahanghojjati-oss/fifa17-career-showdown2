@@ -4,6 +4,7 @@
 import json, pathlib, html, datetime
 GF = pathlib.Path(__file__).resolve().parent.parent
 LIMIT = 9000
+PCT = {"started": 12, "on_train": 30, "draft": 42, "queued": 52, "ci_running": 62, "ci_failed": 62, "ready": 76, "reviewed": 88, "blocked": 12}
 COL = {"live": "#0f9d58", "merged": "#34c76b", "no_pr": "#5eead4", "reviewed": "#a78bfa", "ready": "#2dd4bf", "ci_running": "#f5a524", "draft": "#94a3b8", "on_train": "#38bdf8", "queued": "#eab308",
        "ci_failed": "#ef4444", "blocked": "#f97316", "started": "#3b82f6", "closed": "#6b7280", "waiting": "#3b4a56"}
 LAB = {"live": "Live", "merged": "Merged", "no_pr": "Done, no PR", "reviewed": "Reviewed", "ready": "Checks green", "ci_running": "Checks running", "draft": "Draft PR open", "on_train": "Done, on train", "queued": "Ready for checks",
@@ -19,7 +20,7 @@ CSS = ("<style>.cv{font:14px/1.4 'Segoe UI',system-ui,sans-serif;max-width:720px
        ".cv h2{font:italic 800 14px/1 Impact,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#42b9da;margin:12px 12px 4px;padding-left:8px;border-left:4px solid #f0d900}"
        ".cv .card{background:#2c353c;border:1px solid #43515b;border-radius:10px;padding:8px 10px;margin:6px 10px}.cv .warn{background:#3d2216;border-color:#f97316}"
        ".cv .m{color:#8ea2ac;font-size:12px}.cv .bar{display:flex;height:14px;border-radius:7px;overflow:hidden;background:#3b4a56;margin:4px 0}.cv .bar i{display:block;height:100%}"
-       ".cv .cp{display:inline-block;user-select:all;-webkit-user-select:all;background:#111820;border:1px dashed #f0d900;border-radius:6px;padding:4px 10px;margin:2px 4px 2px 0;font:700 18px monospace}"
+       ".cv .cp{display:inline-block;user-select:all;-webkit-user-select:all;background:#111820;border:1px dashed #f0d900;border-radius:6px;padding:4px 10px;margin:2px 4px 2px 0;font:700 14px monospace;padding:2px 6px}"
        ".cv .r{display:flex;justify-content:space-between;gap:8px;font-size:13px;margin-top:4px}.cv .sw{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:4px}</style>")
 
 def bar(states, total):
@@ -34,8 +35,18 @@ def build(d):
          ' Boston · <a href="' + PAGE + '">live tracker</a> · <a href="' + MD + '">GitHub view</a></span></div>']
     o.append('<div class="tiles">' + "".join(f'<div class="tile"><b>{k}</b><span>{v}</span></div>' for k, v in
              [(f"{fin}/{n}", "finished"), (fly, "in flight"), (r["claimed_last_hour"], "claimed /h"), (r["merged_last_hour"], "merged /h")]) + '</div>')
-    o.append('<h2>Type one of these now</h2><div class="card">' + (" ".join(f'<span class="cp">{x}</span>' for x in (g.get("ready_sol") or []) + (g.get("ready_codex") or []) or g["ready"]) or "none free: wait for a PR to merge") +
-             f'<div class="m">Next free number {d["next_free"]}. Tap, hold and copy a number. Any other number has to wait.</div></div>')
+    ra = g.get("ready_all") or g.get("ready") or []
+    o.append('<h2>Type next</h2><div class="card">' + (" ".join(f'<span class="cp">{x}</span>' for x in ra[:36]) or "none free: wait for a PR to merge") +
+             f'<div class="m">{g.get("ready_total", len(ra))} free to type now. Showing the first {min(36, len(ra))}; the live page lists them all, odd for account 1 and even for account 2.</div></div>')
+    fl = [(k, v) for k, v in d["items"].items() if v["state"] in PCT]
+    fl.sort(key=lambda kv: (kv[1]["state"] not in ("ci_failed", "blocked"), "".join(chr(255 - ord(ch)) for ch in kv[1].get("since", ""))))
+    if fl:
+        o.append('<h2>Started numbers</h2><div class="card">')
+        for k, v in fl[:8]:
+            p = PCT[v["state"]]; col = COL["ci_failed"] if v["state"] in ("ci_failed", "blocked") else COL[v["state"]]
+            o.append(f'<div class="r"><span><b>{k}</b> {html.escape(v["title"][:34])}</span><span class="m">{LAB[v["state"]]}</span></div><div class="bar"><i style="width:{p}%;background:{col}"></i></div>')
+        if len(fl) > 8: o.append(f'<div class="m">+ {len(fl) - 8} more on the live page</div>')
+        o.append("</div>")
     o.append('<h2>All numbers</h2><div class="card">' + bar(c, n) + '<div class="m">' + " · ".join(
         f'<span class="sw" style="background:{COL[s]}"></span>{LAB[s]} {c[s]}' for s in ORDER if c.get(s)) + "</div></div>")
     lk = ", ".join(f"{html.escape(a)} #{k}" for a, k in g["area_locks"].items()) or "none"

@@ -46,6 +46,36 @@ def gh(path, paginate=False, pages=12):
             break
     return out
 
+class Ctx:
+    """Caches kept for the life of one process, so a looping run re-asks GitHub cheaply (a 304 is free)."""
+    def __init__(self, repo):
+        self.repo = repo
+        self.et = {}          # path -> (etag, data)
+        self.prs = {}         # number -> PR object from the list endpoint
+        self.last_pr_scan = None
+        self.reviewed = set()
+        self.last_comment_scan = None
+        self.ci = {}          # head sha -> (ci, total, extra, fetched_at)
+        self.train_done = {}  # train branch -> (sha, set of job numbers with a status file)
+        self.rounds = 0
+
+def api(ctx, path):
+    """GET with If-None-Match. Returns (changed, data); a 304 returns (False, cached data)."""
+    et, data = ctx.et.get(path, (None, None))
+    cmd = ["gh", "api", "-i", path] + (["-H", f"If-None-Match: {et}"] if et else [])
+    r = subprocess.run(cmd, capture_output=True, text=True)
+    head, _, body = r.stdout.replace("\r\n", "\n").partition("\n\n")
+    status = head.split("\n", 1)[0] if head else ""
+    if " 304 " in status + " " and data is not None:
+        return False, data
+    if r.returncode or " 200 " not in status + " ":
+        raise SystemExit("gh failed: " + (r.stderr or status)[:300])
+    m = re.search(r"(?im)^etag:\s*(.+)$", head)
+    data = json.loads(body or "[]")
+    if m:
+        ctx.et[path] = (m.group(1).strip(), data)
+    return True, data
+
 def gh_try(path):
     r = subprocess.run(["gh", "api", path], capture_output=True, text=True)
     return json.loads(r.stdout) if r.returncode == 0 and r.stdout.strip() else None
@@ -89,7 +119,7 @@ def write_md(d, path):
     c, g, r = d["counts"], d["gates"], d["rate"]
     done = c.get("merged", 0) + c.get("live", 0) + c.get("no_pr", 0)
     L = [f"# Mega factory tracker · updated {d['updated']}", "",
-         f"**Type now:** {', '.join(str(n) for n in (g.get('ready_sol') or []) + (g.get('ready_codex') or []) or g['ready']) or 'none free (wait for a PR to merge)'}",
+         f"**Type now ({g.get('ready_total', len(g['ready']))} free):** {', '.join(str(n) for n in (g.get('ready_all') or g['ready'])[:100]) or 'none free (wait for a PR to merge)'}",
          f"**Next free number:** {d['next_free']} · **highest taken:** {d['highest_taken']} of {d['total']}",
          f"**Code PRs open:** {g['open_code_prs']} of {g['cap']} · area locks: {', '.join(g['area_locks']) or 'none'}",
          f"**Rate:** {r['claimed_last_10min']} claimed in 10 min · {r['claimed_last_hour']} in 1 h · {r['merged_last_hour']} merged in 1 h",
@@ -117,11 +147,8 @@ def write_md(d, path):
         L.append(f"- {e['at']} · {e['item']} (Job {e['job']}): {e['from']} → {e['to']}")
     path.write_text("\n".join(L) + "\n")
 
-def main():
-    ap = argparse.ArgumentParser()
-    ap.add_argument("--repo", default="nikahanghojjati-oss/fifa17-career-showdown2")
-    ap.add_argument("--out", default=str(GF / "mega" / "MEGA_TRACKER.json"))
-    a = ap.parse_args()
+def run_round(a, ctx):
+    ctx.rounds += 1
     out = pathlib.Path(a.out)
     prev = json.loads(out.read_text()) if out.exists() else {}
     prev_items = prev.get("items", {})
@@ -132,12 +159,25 @@ def main():
         released = json.loads(rp.read_text()).get("jobs", {})
     t = now_iso()
 
-    refs = []
-    for ns in ("qa", "gameplay", "study"):
-        refs += gh(f"repos/{a.repo}/git/matching-refs/heads/{ns}/job-", paginate=True)
-    branches = [r["ref"][len("refs/heads/"):] for r in refs]
-    shas = {r["ref"][len("refs/heads/"):]: r["object"]["sha"] for r in refs}
-    prs = gh(f"repos/{a.repo}/pulls?state=all&per_page=100&sort=updated&direction=desc", paginate=True)
+    branches, shas = [], {}
+    for ns in ("qa/job-", "study/job-", "gameplay/job-", "gameplay/train-"):
+        _, refs = api(ctx, f"repos/{a.repo}/git/matching-refs/heads/{ns}")
+        for r in refs:
+            nm = r["ref"][len("refs/heads/"):]
+            branches.append(nm); shas[nm] = r["object"]["sha"]
+    # pull requests: first round pages through all of them; later rounds only the newest pages (list is sorted by update time)
+    scan_start = datetime.datetime.now(datetime.timezone.utc)
+    cutoff = ctx.last_pr_scan.strftime("%Y-%m-%dT%H:%M:%SZ") if ctx.last_pr_scan else None
+    for pg in range(1, 16):
+        changed, page = api(ctx, f"repos/{a.repo}/pulls?state=all&per_page=100&sort=updated&direction=desc&page={pg}")
+        if not changed and pg == 1 and cutoff:
+            break
+        for p in page:
+            ctx.prs[p["number"]] = p
+        if len(page) < 100 or (cutoff and min(p["updated_at"] for p in page) < cutoff):
+            break
+    ctx.last_pr_scan = scan_start - datetime.timedelta(seconds=120)
+    prs = list(ctx.prs.values())
     by_job = {}
     for p in prs:
         m = re.match(r"\s*JOB-(\d{4})\b", p["title"]) or re.match(r"(?:qa|gameplay|study)/job-(\d{4})-", p["head"]["ref"])
@@ -150,18 +190,23 @@ def main():
         h = p["head"]["ref"]
         if h not in by_head or p["updated_at"] > by_head[h]["updated_at"]:
             by_head[h] = p
-    qs_tickets = {}
-    qsp = GF / "queue" / "QUEUE_STATE.json"
-    if qsp.exists():
-        try: qs_tickets = json.loads(qsp.read_text()).get("tickets", {})
-        except Exception: pass
-    ci_cache = {}
-    # Sol review comments, last 3 days, one call set
-    since = (datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(days=3)).strftime("%Y-%m-%dT%H:%M:%SZ")
-    reviewed_prs = set()
+    # code jobs finished on a train branch (status/JOB-N.md committed there), re-compared only when the branch moved
+    for br, sha in shas.items():
+        if br.startswith("gameplay/train-") and ctx.train_done.get(br, (None,))[0] != sha:
+            cmp_ = gh_try(f"repos/{a.repo}/compare/gameplay/bug-list-1...{br}") or {}
+            done = set()
+            for f in cmp_.get("files", []):
+                m = re.search(r"status/JOB-(\d{4})\.md$", f["filename"])
+                if m: done.add(m.group(1))
+            ctx.train_done[br] = (sha, done)
+    # Sol review comments: first round the last 3 days, then only what is new
+    since = ctx.last_comment_scan or (datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(days=3)).strftime("%Y-%m-%dT%H:%M:%SZ")
+    ctx.last_comment_scan = (datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(minutes=3)).strftime("%Y-%m-%dT%H:%M:%SZ")
     for c in gh(f"repos/{a.repo}/issues/comments?since={since}&per_page=100", paginate=True):
         if c["body"].lstrip().lower().startswith("sol review"):
-            reviewed_prs.add(int(c["issue_url"].rsplit("/", 1)[1]))
+            ctx.reviewed.add(int(c["issue_url"].rsplit("/", 1)[1]))
+    reviewed_prs = ctx.reviewed
+    ci_cache = {}
 
     items, events = {}, list(prev.get("events", []))
     for k in sorted(order, key=int):
@@ -191,9 +236,10 @@ def main():
                 elif old.get("ci_sha") == sha and old.get("ci") in ("green", "failed", "none") and old.get("state") != "ci_running":
                     ci, total, extra = old["ci"], old.get("ci_total", 0), old.get("ci_extra", 0)
                 else:
-                    if sha not in ci_cache:
-                        ci_cache[sha] = ci_for(a.repo, sha)
-                    ci, total, extra = ci_cache[sha]
+                    hit = ctx.ci.get(sha)
+                    if not hit or (hit[0] in ("running", "none") and ctx.rounds - hit[3] >= 2):
+                        hit = ctx.ci[sha] = (*ci_for(a.repo, sha), ctx.rounds)
+                    ci, total, extra = hit[0], hit[1], hit[2]
                 it.update(ci=ci, ci_sha=sha, ci_total=total, ci_extra=extra)
                 it["draft"] = bool(pr.get("draft"))
                 if it["draft"]:
@@ -216,7 +262,7 @@ def main():
                     it["state"] = "ready"
             it["pr_opened_at"] = pr["created_at"]
         elif o.get("mode") == "code":
-            if qs_tickets.get(job, {}).get("state") == "on_train":
+            if job in ctx.train_done.get(pre, (None, set()))[1]:
                 it.update(state="on_train", branch=pre)
             else:
                 it["state"] = "waiting"
@@ -268,20 +314,35 @@ def main():
     open_all = list(trains_open)
     locked = {t["group"]: n for n, t in trains_open.items()}
     started_code = [int(k) for k, v in items.items() if v["mode"] == "code" and v["state"] == "on_train"]
-    ready = [int(k) for k, v in items.items() if v["state"] == "waiting"][:12]
-    qs = GF / "queue" / "QUEUE_STATE.json"  # the queue owner's list wins, so this page never disagrees with the chats
-    if qs.exists():
-        try:
-            sq = json.loads(qs.read_text())["sequence"]
-            ready = sq["ready"]
-            ready_sol = sq.get("ready_sol", [r for r in ready if items[str(r)]["mode"] != "code"])
-            ready_codex = sq.get("ready_codex", [r for r in ready if items[str(r)]["mode"] == "code"])
-        except Exception: pass
-    ready_sol = locals().get("ready_sol", [r for r in ready if items[str(r)]["mode"] != "code"])[:12]
-    ready_codex = locals().get("ready_codex", [r for r in ready if items[str(r)]["mode"] == "code"])[:12]
+    # Typable now: same rule as queue/queue_state.py, but from this round's live scan and not cut to 12
+    def jload(name):
+        try: return json.loads((GF / "queue" / name).read_text())
+        except Exception: return {}
+    pics = jload("PICTURES.json") or {"keys": {}, "approved": {}}
+    lane = jload("CLAUDE_LANE.json")
+    claude_items = set(lane.get("haiku", []) + lane.get("sonnet", []))
+    def held(k):
+        o = order[k]
+        if o.get("mode") != "study" or o.get("screen") not in pics.get("keys", {}): return False
+        return pics["keys"][o["screen"]] not in pics.get("approved", {}).get("PHONE" if o["stage"] == 4 else "NEXT", [])
+    open_groups = {t["group"] for t in trains_open.values()}
+    ready, seen_group = [], set(open_groups)
+    for k in sorted(items, key=int):
+        if items[k]["state"] != "waiting" or held(k):
+            continue
+        if int(k) in claude_items:
+            if items[k]["mode"] == "code": seen_group.add(items[k]["group"])
+            continue
+        if items[k]["mode"] == "code":
+            if items[k]["group"] in seen_group or len(open_code) >= CAP: continue
+            seen_group.add(items[k]["group"])
+        ready.append(int(k))
+    held_n = sum(1 for k in items if items[k]["state"] == "waiting" and held(k))
+    ready_sol, ready_codex = ready[:12], []
     gates = {"cap": CAP, "open_code_prs": len(open_code), "open_train_prs": open_all,
              "on_train_no_pr": started_code, "draft_code_prs": len(open_all) - len(open_code), "area_locks": {g: n for g, n in locked.items() if g},
-             "ready": ready[:12], "ready_sol": ready_sol, "ready_codex": ready_codex}
+             "ready": ready[:12], "ready_sol": ready_sol, "ready_codex": ready_codex,
+             "ready_all": ready[:150], "ready_total": len(ready), "held_until_picture": held_n}
     # stale: claimed over 45 minutes ago and still no PR
     stale = [int(k) for k, v in items.items() if v["state"] == "started"
              and (datetime.datetime.now(datetime.timezone.utc) - datetime.datetime.fromisoformat(v["since"].replace("Z", "+00:00"))).total_seconds() > 2700]
@@ -291,17 +352,40 @@ def main():
                     "merged_last_hour": merged_since(60)},
            "events": events, "items": items}
     out.parent.mkdir(parents=True, exist_ok=True)
-    # Heartbeat: when nothing but the clock moved, keep the old file until it is 10 minutes old (fewer commits)
+    # Heartbeat: when nothing but the clock moved, keep the old file until it is 3 minutes old (fewer commits)
     def core(d): return {k: v for k, v in d.items() if k != "updated"}
     if prev and core(prev) == core(doc):
         age = (datetime.datetime.now(datetime.timezone.utc) - datetime.datetime.fromisoformat(prev["updated"].replace("Z", "+00:00"))).total_seconds()
-        if age < 600:
+        if age < 180:
             print(json.dumps(states) + " (unchanged)")
-            return
+            return False
     # indent=0 puts "updated" on its own line, so the poller's diff guard can ignore clock-only changes
     out.write_text(json.dumps(doc, indent=0) + "\n")
     write_md(doc, out.with_name("MEGA_TRACKER.md"))
     print(json.dumps(states))
+    return True
+
+def main(argv=None):
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--repo", default="nikahanghojjati-oss/fifa17-career-showdown2")
+    ap.add_argument("--out", default=str(GF / "mega" / "MEGA_TRACKER.json"))
+    ap.add_argument("--loop-minutes", type=float, default=0, help="keep running rounds for this long (0 = one round)")
+    ap.add_argument("--interval", type=int, default=60, help="seconds between rounds when looping")
+    ap.add_argument("--after-write", default="", help="shell command run after a round that wrote new data")
+    ap.add_argument("--yield-cmd", default="", help="shell command run after every round; a non-zero exit stops the loop (exit 3)")
+    a = ap.parse_args(argv)
+    ctx = Ctx(a.repo)
+    end = time.time() + a.loop_minutes * 60
+    while True:
+        t0 = time.time()
+        wrote = run_round(a, ctx)
+        if wrote and a.after_write:
+            subprocess.run(a.after_write, shell=True)
+        if a.yield_cmd and subprocess.run(a.yield_cmd, shell=True).returncode != 0:
+            raise SystemExit(3)
+        if time.time() + a.interval > end:
+            break
+        time.sleep(max(1, a.interval - (time.time() - t0)))
 
 if __name__ == "__main__":
     main()
