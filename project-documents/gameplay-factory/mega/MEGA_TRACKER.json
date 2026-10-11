@@ -1,14 +1,14 @@
 {
-"updated": "2026-10-11T05:06:44Z",
+"updated": "2026-10-11T05:07:44Z",
 "total": 518,
-"next_free": 95,
+"next_free": 113,
 "highest_taken": 395,
 "counts": {
 "merged": 25,
 "draft": 166,
 "closed": 51,
-"on_train": 11,
-"waiting": 265
+"on_train": 14,
+"waiting": 262
 },
 "stages": {
 "2": {
@@ -17,9 +17,9 @@
 "states": {
 "merged": 25,
 "closed": 39,
-"on_train": 11,
-"waiting": 186,
-"draft": 5
+"on_train": 14,
+"draft": 5,
+"waiting": 183
 }
 },
 "1": {
@@ -64,9 +64,12 @@
 "on_train_no_pr": [
 91,
 93,
+95,
+97,
 101,
 105,
 107,
+109,
 111,
 119,
 123,
@@ -79,9 +82,9 @@
 "transfer": 661
 },
 "ready": [
-95,
-97,
-109,
+113,
+115,
+127,
 129,
 141,
 143,
@@ -89,9 +92,9 @@
 403
 ],
 "ready_sol": [
-95,
-97,
-109,
+113,
+115,
+127,
 129,
 141,
 143,
@@ -100,9 +103,9 @@
 ],
 "ready_codex": [],
 "ready_all": [
-95,
-97,
-109,
+113,
+115,
+127,
 129,
 141,
 143,
@@ -131,32 +134,11 @@
 }
 },
 "rate": {
-"claimed_last_hour": 27,
-"claimed_last_10min": 3,
+"claimed_last_hour": 29,
+"claimed_last_10min": 5,
 "merged_last_hour": 15
 },
 "events": [
-{
-"at": "2026-10-10T19:54:19Z",
-"item": 180,
-"job": 1556,
-"from": "waiting",
-"to": "draft"
-},
-{
-"at": "2026-10-10T19:54:19Z",
-"item": 182,
-"job": 1557,
-"from": "waiting",
-"to": "draft"
-},
-{
-"at": "2026-10-10T19:54:19Z",
-"item": 184,
-"job": 1558,
-"from": "waiting",
-"to": "draft"
-},
 {
 "at": "2026-10-10T19:54:19Z",
 "item": 186,
@@ -2235,6 +2217,27 @@
 "job": 1096,
 "from": "waiting",
 "to": "on_train"
+},
+{
+"at": "2026-10-11T05:07:44Z",
+"item": 95,
+"job": 1124,
+"from": "waiting",
+"to": "on_train"
+},
+{
+"at": "2026-10-11T05:07:44Z",
+"item": 97,
+"job": 1153,
+"from": "waiting",
+"to": "on_train"
+},
+{
+"at": "2026-10-11T05:07:44Z",
+"item": 109,
+"job": 1067,
+"from": "waiting",
+"to": "on_train"
 }
 ],
 "items": {
@@ -3906,8 +3909,10 @@
 "title": "Select League: fix the 768x1024 view",
 "mode": "code",
 "group": "league",
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"state": "on_train",
+"branch": "gameplay/train-league-2",
+"first_seen": "2026-10-11T05:07:44Z",
+"since": "2026-10-11T05:07:44Z"
 },
 "96": {
 "job": 1514,
@@ -3935,8 +3940,10 @@
 "title": "Club packs: fix the 768x1024 view",
 "mode": "code",
 "group": "club",
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"state": "on_train",
+"branch": "gameplay/train-club-2",
+"first_seen": "2026-10-11T05:07:44Z",
+"since": "2026-10-11T05:07:44Z"
 },
 "98": {
 "job": 1515,
@@ -4132,8 +4139,10 @@
 "title": "Home: fix the 1280x650 view",
 "mode": "code",
 "group": "home",
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"state": "on_train",
+"branch": "gameplay/train-home-2",
+"first_seen": "2026-10-11T05:07:44Z",
+"since": "2026-10-11T05:07:44Z"
 },
 "110": {
 "job": 1521,
