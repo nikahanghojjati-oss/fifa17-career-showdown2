@@ -1,5 +1,5 @@
 {
-"updated": "2026-10-11T22:56:29Z",
+"updated": "2026-10-11T22:57:59Z",
 "total": 518,
 "next_free": 181,
 "highest_taken": 403,
@@ -242,11 +242,11 @@
 },
 "chat_jobs": {
 "name": "ChatGPT chat (job numbers 1000+)",
-"total": 47,
+"total": 50,
 "states": {
 "live": 12,
 "merged": 8,
-"waiting": 26,
+"waiting": 29,
 "draft": 1
 },
 "reviews": {
