@@ -8,6 +8,7 @@
    159,
    173,
    179,
+   189,
    400,
    411,
    428,
@@ -21,6 +22,7 @@
    159,
    173,
    179,
+   189,
    400,
    411,
    428,
@@ -29,7 +31,7 @@
   "ready_codex": [],
   "held_until_picture": 62,
   "open_code_prs": 0,
-  "open_train_prs": 1,
+  "open_train_prs": 0,
   "next_free": 127,
   "highest_taken": 403,
   "total": 518,
@@ -132,7 +134,7 @@
    "96": "merged",
    "97": "on_train",
    "98": "merged",
-   "99": "pr_open",
+   "99": "closed",
    "100": "merged",
    "101": "on_train",
    "102": "merged",
@@ -150,7 +152,7 @@
    "114": "merged",
    "115": "on_train",
    "116": "merged",
-   "117": "pr_open",
+   "117": "closed",
    "118": "merged",
    "119": "on_train",
    "120": "merged",
@@ -168,7 +170,7 @@
    "132": "merged",
    "133": "waiting",
    "134": "merged",
-   "135": "pr_open",
+   "135": "closed",
    "136": "merged",
    "137": "on_train",
    "138": "merged",
@@ -186,7 +188,7 @@
    "150": "merged",
    "151": "waiting",
    "152": "merged",
-   "153": "pr_open",
+   "153": "closed",
    "154": "merged",
    "155": "on_train",
    "156": "merged",
@@ -204,7 +206,7 @@
    "168": "merged",
    "169": "waiting",
    "170": "merged",
-   "171": "pr_open",
+   "171": "closed",
    "172": "merged",
    "173": "waiting",
    "174": "merged",
@@ -554,13 +556,13 @@
    "518": "waiting"
   }
  },
- "updated": "2026-10-11T06:37:37Z",
+ "updated": "2026-10-11T06:42:50Z",
  "counts": {
   "merged": 160,
   "on_train": 21,
   "waiting": 254,
-  "closed": 77,
-  "pr_open": 6
+  "closed": 82,
+  "pr_open": 1
  },
  "stages": {
   "2": {
@@ -836,7 +838,7 @@
     "1186"
    ],
    "pr": 661,
-   "state": "pr_open"
+   "state": "closed"
   },
   "gameplay/train-transfer-3": {
    "jobs": [
@@ -2193,35 +2195,35 @@
    "branch": "gameplay/train-transfer-1"
   },
   "1182": {
-   "state": "pr_open",
+   "state": "closed",
    "pr": 661,
    "draft": true,
    "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/661",
    "branch": "gameplay/train-transfer-2"
   },
   "1183": {
-   "state": "pr_open",
+   "state": "closed",
    "pr": 661,
    "draft": true,
    "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/661",
    "branch": "gameplay/train-transfer-2"
   },
   "1184": {
-   "state": "pr_open",
+   "state": "closed",
    "pr": 661,
    "draft": true,
    "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/661",
    "branch": "gameplay/train-transfer-2"
   },
   "1185": {
-   "state": "pr_open",
+   "state": "closed",
    "pr": 661,
    "draft": true,
    "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/661",
    "branch": "gameplay/train-transfer-2"
   },
   "1186": {
-   "state": "pr_open",
+   "state": "closed",
    "pr": 661,
    "draft": true,
    "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/661",

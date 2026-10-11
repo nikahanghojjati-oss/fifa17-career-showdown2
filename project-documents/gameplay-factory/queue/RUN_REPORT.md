@@ -1,6 +1,6 @@
-# Mega factory run report · 2026-10-11T06:37:37Z
+# Mega factory run report · 2026-10-11T06:42:50Z
 
-Taken 264 of 518 jobs. By state: closed 77, merged 160, on_train 21, pr_open 6, waiting 254
+Taken 264 of 518 jobs. By state: closed 82, merged 160, on_train 21, pr_open 1, waiting 254
 
 ## By stage
 Stage | name | total | picked up | merged
@@ -23,7 +23,7 @@ gameplay/train-league-2 | 2 of 5 | - | on train, no PR yet
 gameplay/train-club-1 | 5 of 5 | [#598](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/598) | closed
 gameplay/train-club-2 | 2 of 5 | - | on train, no PR yet
 gameplay/train-transfer-1 | 5 of 5 | [#584](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/584) | closed
-gameplay/train-transfer-2 | 5 of 5 | [#661](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/661) | pr_open
+gameplay/train-transfer-2 | 5 of 5 | [#661](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/661) | closed
 gameplay/train-season-final-1 | 5 of 5 | [#585](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/585) | merged
 gameplay/train-season-final-2 | 4 of 5 | - | on train, no PR yet
 gameplay/train-rivalry-legacy-1 | 5 of 5 | [#509](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/509) | closed
