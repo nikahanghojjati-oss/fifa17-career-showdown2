@@ -1,9 +1,9 @@
-# Mega factory tracker · updated 2026-10-11T22:17:48Z
+# Mega factory tracker · updated 2026-10-11T22:19:18Z
 
 **Type now (19 free):** 189, 240, 246, 268, 274, 296, 302, 324, 330, 352, 358, 380, 400, 408, 411, 428, 436, 456, 464
 **Next free number:** 181 · **highest taken:** 403 of 518
 **Code PRs open:** 0 of 8 · area locks: home, start-join, league, club, season-final, career-screens, rules-settings
-**Rate:** 1 claimed in 10 min · 9 in 1 h · 0 merged in 1 h
+**Rate:** 0 claimed in 10 min · 9 in 1 h · 0 merged in 1 h
 
 **Finished (merged or live): 161 of 518**
 

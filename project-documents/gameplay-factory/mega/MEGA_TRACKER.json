@@ -1,5 +1,5 @@
 {
-"updated": "2026-10-11T22:17:48Z",
+"updated": "2026-10-11T22:19:18Z",
 "total": 518,
 "next_free": 181,
 "highest_taken": 403,
@@ -169,7 +169,7 @@
 },
 "rate": {
 "claimed_last_hour": 9,
-"claimed_last_10min": 1,
+"claimed_last_10min": 0,
 "merged_last_hour": 0
 },
 "lanes": {
@@ -256,25 +256,25 @@
 "states": {
 "live": 8,
 "merged": 1,
-"draft": 2,
+"draft": 3,
 "closed": 4,
-"waiting": 4
+"waiting": 3
 },
 "reviews": {
 "ok": 0,
 "ok_notes": 0,
 "needs_changes": 0
 },
-"picked_up": 15,
-"worker_done": 11,
+"picked_up": 16,
+"worker_done": 12,
 "finished": 9,
-"pending_lead": 2,
+"pending_lead": 3,
 "wait_v": 0,
 "audit_batch": 0,
 "trouble": 0,
 "closed": 4,
 "reviews_total": 0,
-"first_time_ok": 73,
+"first_time_ok": 75,
 "failing_now": 0
 },
 "work": {
@@ -365,10 +365,6 @@
 {
 "job": 1589,
 "title": "Old-design flash: browser regression guard (tests only)"
-},
-{
-"job": 1648,
-"title": "Old CSS: which old sheets and selectors are still live (report only)"
 },
 {
 "job": 1651,
