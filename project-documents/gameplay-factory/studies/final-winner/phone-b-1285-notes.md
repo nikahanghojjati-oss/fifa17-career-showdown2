@@ -1,0 +1,13 @@
+# JOB-1285 phone B
+- Bold hierarchy: winner headline higher at 17% with 40px type; trophy below; Daniel left, Nik right, centred authored champion trophy.
+- Approved PHONE_FINAL_WINNER.png inspected; all labels come from app-shell.html, final-winner.js, seasonFinalV10.js and PICTURES.json.
+- Uses the same existing phone portraits, environment, wordmark and authored trophies as the live final screen.
+- Static illustrative totals: Daniel 16, Nik 8, three seasons, margin eight; these are not provider data.
+- Unread final-season and trophy values use the live unavailable mark; no attribution or last-season wording invented.
+- Summary and Honours remain radio-controlled presentation tabs; exit actions remain in live order.
+- No hub navigation: this is the terminal result screen.
+- Normal phone summary keeps final season above seasons and margin; short phones use one compact row.
+- Exit buttons have a 44px minimum height and bottom margin at all requested sizes.
+- Re-read the full HTML and checked percentage layout bounds at 390x844, 393x660, 360x640 and 375x553.
+- Browser render could not run: local Playwright has no Chromium executable. Visual asset loading and render fit require Team V review.
+- No JavaScript, gameplay changes, external assets, or production files changed.
