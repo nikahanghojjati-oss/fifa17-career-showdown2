@@ -1,36 +1,31 @@
 {
- "updated": "2026-10-11T06:45:00Z",
- "from": "Team G lead (via the tracker thread)",
+ "updated": "2026-10-11T06:50:00Z",
+ "from": "Team G lead",
  "you_come_in": [
   {
    "when": "Whenever a number is free in Type next",
-   "what": "Paste that number into a new ChatGPT chat (account 1 odd, account 2 even) or Codex. That is your whole job.",
+   "what": "Paste that number into a new ChatGPT chat (account 1 odd, account 2 even), Work mode, or Codex, as the row says. That is your whole job.",
    "auto": false
-  },
-  {
-   "when": "When the lead asks for a product decision",
-   "what": "The lead or coordinator asks you in the project chat. Nothing else needs a reply.",
-   "auto": false
-  },
-  {
-   "when": "Audit reports (112)",
-   "what": "The lead batch-merges these now. Nothing for you to do.",
-   "auto": true
-  },
-  {
-   "when": "Game PRs checked by the lead (12)",
-   "what": "Cheaper reviewers check them over the next hour or two, then the lead merges. Nothing for you to do.",
-   "auto": true
-  },
-  {
-   "when": "Picture studies (61)",
-   "what": "They wait on Team V approving the pictures. Not the lead's job and not yours.",
-   "auto": true
   },
   {
    "when": "Finished jobs and trains",
-   "what": "The lead checks and merges them by itself, usually within the hour. You never tell it.",
+   "what": "Automatic. Every time a train or job PR is complete, the lead runs the tests and, for layouts, a browser check, then merges it if it passes, usually within the hour. If it fails, the lead fixes it or sends it back with a fix round, and the board shows the number to type again.",
    "auto": true
+  },
+  {
+   "when": "Audit reports",
+   "what": "Automatic. The lead merges them in batches. Nothing for you to do. (112 merged 11 Oct.)",
+   "auto": true
+  },
+  {
+   "when": "Picture studies",
+   "what": "They wait on Team V adopting them, not on you or the lead. Once Team V decides, the lead merges the adopted ones and closes the rest.",
+   "auto": true
+  },
+  {
+   "when": "A product decision",
+   "what": "The lead or coordinator asks you in the project chat. Only those need your answer.",
+   "auto": false
   },
   {
    "when": "Release to the live game",
@@ -38,7 +33,30 @@
    "auto": false
   }
  ],
- "verdicts": [],
- "lessons": [],
+ "verdicts": [
+  {
+   "job": "1597-1599",
+   "title": "Season Results phone, sideways and tablet wiring (Work mode)",
+   "verdict": "bad",
+   "why": "Hid the old hero images but left their reserved space, so the main button fell below the fold. It failed the browser check twice; the Claude lane fixed it and merged #666."
+  },
+  {
+   "job": "1611",
+   "title": "Season-2 same-moment publish race (Claude lane)",
+   "verdict": "good",
+   "why": "Root cause reproduced on the emulator, small client-only retry, new contract that fails before and passes after; merged #670."
+  },
+  {
+   "job": "1182-1186",
+   "title": "Transfer train 2 (GPT chat)",
+   "verdict": "good",
+   "why": "Correctly found nothing to change and said so."
+  }
+ ],
+ "lessons": [
+  "Work mode can see the pictures but can't render, so every layout PR still gets a browser check before merge.",
+  "When hiding an old hero, also reset the space it reserved (rule d), or the screen scrolls.",
+  "Status notes and reports belong on factory/gameplay-v1, never on the game branch."
+ ],
  "rule": "You never need to tell the lead. When a job or train is finished, the lead checks it (tests plus a browser check for layouts) and merges it if it passes, usually within the hour. Only a release to the live game waits for you to type 'merge rNN'."
 }
