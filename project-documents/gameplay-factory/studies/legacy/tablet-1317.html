@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Legacy tablet study (JOB-1317)</title>
+<style>
+  :root {
+    --gold: #e9b93a;
+    --gold-hi: #ffd766;
+    --ink: #07080a;
+    --text: #f4f1ea;
+    --muted: #b9b3a4;
+  }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; margin: 0; background: var(--ink); }
+  body { font-family: "Barlow", system-ui, sans-serif; color: var(--text); }
+  button, a { font: inherit; color: inherit; }
+
+  /* Real tablet layout for 768x1024 and 820x1180: the title band on top, the archive as a
+     two-column tablet panel in the middle, and the action row and tab bar at the foot. */
+  .screen {
+    position: relative;
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex; flex-direction: column;
+    background: #07080a url("../../../../visual-assets/v10_1/legacy/assets/ENV_LG_PLATE_V1_1X.webp") center / cover no-repeat;
+    overflow: hidden;
+  }
+  .art { position: absolute; inset: 0; pointer-events: none; }
+  .art img { position: absolute; bottom: 0; height: 62%; width: auto; max-width: 34%; object-fit: contain; }
+  .art .daniel { left: 0; }
+  .art .nik { right: 0; }
+  .shade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(7,8,10,.3), rgba(7,8,10,.7) 60%, rgba(7,8,10,.9)); }
+
+  .topbar {
+    position: relative; z-index: 2;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 24px 0;
+  }
+  .btn-back {
+    min-height: 48px; min-width: 120px; padding: 0 18px;
+    border: 1.5px solid var(--gold); background: rgba(7,8,10,.7); color: var(--gold-hi);
+    font-weight: 700; letter-spacing: .08em; font-size: 15px;
+    clip-path: polygon(10px 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%,0 10px);
+  }
+  .btn-gear {
+    width: 52px; height: 52px; border-radius: 50%;
+    border: 2px solid var(--gold); background: radial-gradient(circle at 35% 30%, #3a2f12, #0b0c0f 70%);
+    color: var(--gold-hi); font-size: 22px; line-height: 1;
+  }
+
+  .title { position: relative; z-index: 2; text-align: center; padding: 14px 24px 0; }
+  .eyebrow { margin: 0; font-size: 13px; letter-spacing: .3em; color: var(--gold-hi); font-weight: 600; }
+  .wordmark { display: block; width: 36%; min-width: 260px; height: auto; margin: 6px auto 0; }
+  .tagline { margin: 6px 0 0; font-size: 13px; letter-spacing: .22em; }
+
+  /* Archive: a tablet-width panel with the section tabs across the top and two cards side by side. */
+  .archive-wrap {
+    position: relative; z-index: 2;
+    margin: 18px auto 0;
+    width: min(calc(100% - 48px), 680px);
+    display: flex; flex-direction: column; gap: 10px;
+  }
+  .tabs {
+    display: grid; grid-template-columns: 1.2fr 1fr 1fr;
+    border: 1.5px solid var(--gold); background: #0c0d11;
+  }
+  .tabs button {
+    min-height: 48px; border: 0; background: transparent;
+    font-size: 14px; font-weight: 700; letter-spacing: .06em; color: var(--muted);
+  }
+  .tabs button[aria-current="page"] { background: linear-gradient(180deg,#ffe079,#c99420); color: #15110a; }
+  .panel {
+    border: 1.5px solid #6d5719;
+    background: linear-gradient(180deg, rgba(20,21,26,.96), rgba(9,10,13,.96));
+    padding: 16px;
+  }
+  .cards { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .card {
+    border: 1.5px solid #6d5719; background: rgba(8,9,12,.85); padding: 14px 12px; text-align: center;
+  }
+  .card-title { margin: 0; font-size: 17px; font-weight: 600; }
+  .card-row { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 8px; margin-top: 8px; }
+  .who .name { display: block; font-size: 18px; font-weight: 700; }
+  .who .club { display: block; font-size: 13px; color: var(--muted); }
+  .crest { width: 40px; height: 40px; margin: 0 auto 4px; border: 1.5px solid var(--muted); border-radius: 50%; background: #1b1d24; }
+  .score { display: block; font-size: 34px; font-weight: 800; line-height: 1; }
+  .winner { display: block; margin-top: 4px; font-size: 14px; font-weight: 800; color: var(--gold-hi); }
+  .seasons { display: block; font-size: 13px; color: var(--muted); }
+  .pager { display: flex; justify-content: center; align-items: center; gap: 22px; height: 40px; }
+  .pager button { width: 48px; height: 40px; border: 0; background: transparent; font-size: 24px; color: var(--text); }
+  .dots { display: inline-block; width: 12px; height: 12px; border-radius: 50%; background: var(--gold); }
+
+  .action-row {
+    position: relative; z-index: 2;
+    margin: 14px auto 0; width: min(calc(100% - 48px), 680px);
+  }
+  .primary {
+    width: 100%; min-height: 60px;
+    border: 1.5px solid var(--gold-hi);
+    background: linear-gradient(180deg, #ffe38a 0%, #e0a92a 55%, #b57e1a 100%);
+    color: #15110a; font-size: 18px; font-weight: 800; letter-spacing: .06em;
+    clip-path: polygon(16px 0,calc(100% - 16px) 0,100% 50%,calc(100% - 16px) 100%,16px 100%,0 50%);
+  }
+
+  .spacer { flex: 1 1 auto; }
+  .tabbar {
+    position: relative; z-index: 2;
+    height: 68px;
+    display: grid; grid-template-columns: repeat(5, 1fr);
+    background: #050608; border-top: 1px solid #3a2f12;
+  }
+  .tabbar a {
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
+    text-decoration: none; font-size: 12px; letter-spacing: .06em; font-weight: 600; color: var(--text);
+  }
+  .tabbar a .ico { width: 22px; height: 18px; display: block; background: currentColor; opacity: .9; border-radius: 3px; }
+  .tabbar a.on { color: var(--gold-hi); }
+</style>
+</head>
+<body>
+<main class="screen" aria-label="Legacy screen, upright tablet layout">
+  <div class="art" aria-hidden="true">
+    <img class="daniel" src="../../../../visual-assets/v10_1/legacy/assets/OVL_LG_DANIEL_FOREGROUND_V1_1X.webp" alt="">
+    <img class="nik" src="../../../../visual-assets/v10_1/legacy/assets/OVL_LG_NIK_FOREGROUND_V1_1X.webp" alt="">
+  </div>
+  <div class="shade" aria-hidden="true"></div>
+
+  <header class="topbar">
+    <button class="btn-back" type="button" aria-label="Back to main menu">BACK</button>
+    <button class="btn-gear" type="button" aria-label="Settings">&#9881;</button>
+  </header>
+
+  <section class="title" aria-label="Legacy title">
+    <p class="eyebrow">CAREER MODE SHOWDOWN 17</p>
+    <img class="wordmark" src="../../../../visual-assets/v10_1/legacy/assets/TITLE_LG_V1.webp" alt="LEGACY">
+    <p class="tagline">PAST SHOWDOWNS. A LASTING JOURNEY.</p>
+  </section>
+
+  <div class="archive-wrap">
+    <nav class="tabs" aria-label="Legacy destinations">
+      <button type="button" aria-current="page">LEGACY ARCHIVE</button>
+      <button type="button">TROPHY ROOM</button>
+      <button type="button">RECORDS</button>
+    </nav>
+
+    <section class="panel" aria-label="Legacy archive">
+      <div class="cards">
+        <article class="card" aria-label="Showdown #1">
+          <p class="card-title">Showdown #1</p>
+          <div class="card-row">
+            <div class="who">
+              <div class="crest" aria-hidden="true"></div>
+              <span class="name">Daniel</span>
+              <span class="club">Club A</span>
+            </div>
+            <div>
+              <span class="score">15 &ndash; 5</span>
+              <span class="winner">&#9819; Daniel wins</span>
+              <span class="seasons">3 / 3 Seasons</span>
+            </div>
+            <div class="who">
+              <div class="crest" aria-hidden="true"></div>
+              <span class="name">Nik</span>
+              <span class="club">Club B</span>
+            </div>
+          </div>
+        </article>
+      </div>
+      <div class="pager" role="group" aria-label="Archive page 1 of 1">
+        <button type="button" aria-label="Previous archive item">&lsaquo;</button>
+        <span class="dots" aria-hidden="true"></span>
+        <button type="button" aria-label="Next archive item">&rsaquo;</button>
+      </div>
+    </section>
+  </div>
+
+  <div class="action-row">
+    <button class="primary" type="button">VIEW SEASON HISTORY</button>
+  </div>
+
+  <div class="spacer"></div>
+
+  <nav class="tabbar" aria-label="Primary">
+    <a href="#"><span class="ico" aria-hidden="true"></span>HOME</a>
+    <a href="#" class="on" aria-current="page"><span class="ico" aria-hidden="true"></span>CAREER</a>
+    <a href="#"><span class="ico" aria-hidden="true"></span>STANDINGS</a>
+    <a href="#"><span class="ico" aria-hidden="true"></span>STATS</a>
+    <a href="#"><span class="ico" aria-hidden="true"></span>RULES</a>
+  </nav>
+</main>
+</body>
+</html>
