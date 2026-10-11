@@ -1,6 +1,6 @@
 {
  "_how": "One shared job counter for Team G and Team V (Nik, 2026-10-05). Claim with tools/claim_number.py only. A number is used once, ever. CONTRACT.md section 10.",
- "next": 1592,
+ "next": 1611,
  "claims": [
   {
    "number": 1001,
@@ -3545,9 +3545,123 @@
   },
   {
    "number": 1591,
+   "team": "G",
+   "title": "Soundtrack swap (taken on factory/gameplay-v1 at 03:50 UTC without a counter claim; recorded by Team V 04:27 UTC)",
+   "claimed": "2026-10-11T03:50:00Z"
+  },
+  {
+   "number": 1592,
+   "team": "G",
+   "title": "Mega factory wiring batch (39480a94; recorded by Team V)",
+   "claimed": "2026-10-11T04:00:00Z"
+  },
+  {
+   "number": 1593,
+   "team": "G",
+   "title": "Mega factory wiring batch (39480a94; recorded by Team V)",
+   "claimed": "2026-10-11T04:00:00Z"
+  },
+  {
+   "number": 1594,
+   "team": "G",
+   "title": "Mega factory wiring batch (39480a94; recorded by Team V)",
+   "claimed": "2026-10-11T04:00:00Z"
+  },
+  {
+   "number": 1595,
+   "team": "G",
+   "title": "Mega factory wiring batch (39480a94; recorded by Team V)",
+   "claimed": "2026-10-11T04:00:00Z"
+  },
+  {
+   "number": 1596,
+   "team": "G",
+   "title": "Mega factory wiring batch (39480a94; recorded by Team V)",
+   "claimed": "2026-10-11T04:00:00Z"
+  },
+  {
+   "number": 1597,
+   "team": "G",
+   "title": "Mega factory wiring batch (39480a94; recorded by Team V)",
+   "claimed": "2026-10-11T04:00:00Z"
+  },
+  {
+   "number": 1598,
+   "team": "G",
+   "title": "Mega factory wiring batch (39480a94; recorded by Team V)",
+   "claimed": "2026-10-11T04:00:00Z"
+  },
+  {
+   "number": 1599,
+   "team": "G",
+   "title": "Mega factory wiring batch (39480a94; recorded by Team V)",
+   "claimed": "2026-10-11T04:00:00Z"
+  },
+  {
+   "number": 1600,
+   "team": "G",
+   "title": "Mega factory wiring batch (39480a94; recorded by Team V)",
+   "claimed": "2026-10-11T04:00:00Z"
+  },
+  {
+   "number": 1601,
+   "team": "G",
+   "title": "Mega factory wiring batch (39480a94; recorded by Team V)",
+   "claimed": "2026-10-11T04:00:00Z"
+  },
+  {
+   "number": 1602,
+   "team": "G",
+   "title": "Mega factory wiring batch (39480a94; recorded by Team V)",
+   "claimed": "2026-10-11T04:00:00Z"
+  },
+  {
+   "number": 1603,
+   "team": "G",
+   "title": "Mega factory wiring batch (39480a94; recorded by Team V)",
+   "claimed": "2026-10-11T04:00:00Z"
+  },
+  {
+   "number": 1604,
+   "team": "G",
+   "title": "Mega factory wiring batch (39480a94; recorded by Team V)",
+   "claimed": "2026-10-11T04:00:00Z"
+  },
+  {
+   "number": 1605,
+   "team": "G",
+   "title": "Mega factory wiring batch (39480a94; recorded by Team V)",
+   "claimed": "2026-10-11T04:00:00Z"
+  },
+  {
+   "number": 1606,
+   "team": "G",
+   "title": "Mega factory wiring batch (39480a94; recorded by Team V)",
+   "claimed": "2026-10-11T04:00:00Z"
+  },
+  {
+   "number": 1607,
+   "team": "G",
+   "title": "Mega factory wiring batch (39480a94; recorded by Team V)",
+   "claimed": "2026-10-11T04:00:00Z"
+  },
+  {
+   "number": 1608,
+   "team": "G",
+   "title": "Mega factory wiring batch (39480a94; recorded by Team V)",
+   "claimed": "2026-10-11T04:00:00Z"
+  },
+  {
+   "number": 1609,
+   "team": "G",
+   "title": "Mega factory wiring batch (39480a94; recorded by Team V)",
+   "claimed": "2026-10-11T04:00:00Z"
+  },
+  {
+   "number": 1610,
    "team": "V",
    "title": "Next-level desktop pictures NEXT_<SCREEN> (14 image tickets)",
-   "claimed": "2026-10-11T04:21:56Z"
+   "claimed": "2026-10-11T04:27:00Z"
   }
  ]
 }
