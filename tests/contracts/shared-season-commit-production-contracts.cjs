@@ -24,6 +24,7 @@ assert.match(adapter,/provider\.read/);
 assert.match(adapter,/provider\[method\]/);
 assert.match(adapter,/commitSeason/);
 assert.match(adapter,/acknowledgeSeason/);
+assert.match(adapter,/async function psscMutate\(kind\)\{[\s\S]*?if\(!await psscWrite\("acknowledge",ctx,request,current\)\)return false;\s*try\{await psscRefreshNow\(request\);\}catch\(_error\)\{psscRefresh\(\)\.catch\(\(\)=>\{\}\);\}return true;/,'a successful acknowledgement must isolate its follow-up refresh failure and still return true');
 assert.match(adapter,/SEASON_COMMIT_STALE_BASE_REVISION/,'production adapter must have a bounded stale-CAS retry');
 assert.match(adapter,/for\(let attempt=0;attempt<2;attempt\+=1\)/,'stale retry must remain strictly bounded');
 assert.match(adapter,/sharedSeasonCommitAction/,'r10 must use a dedicated shared-only action instead of the local confirm button');
