@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Season Results · Phone A</title>
+<style>
+:root{color-scheme:dark;--gold:#f2c45b;--ink:#efe7d2}
+*{box-sizing:border-box}body{margin:0;background:#050605;color:var(--ink);font-family:Arial,sans-serif}
+button,input{font:inherit}button,label{touch-action:manipulation}button{cursor:pointer}
+.phone{position:relative;isolation:isolate;width:min(100%,430px);height:100svh;margin:auto;padding:0 10px max(10px,env(safe-area-inset-bottom));display:grid;grid-template-rows:minmax(100px,1fr) 48px clamp(240px,37svh,300px) 60px;gap:10px;background:#090b0e url('../../../../visual-assets/v10_1/season-results/assets/ENV_SR_PHONE_V1.webp') center/cover}
+.scene{position:relative;margin:0 -10px;min-height:0;overflow:hidden}
+.scene:after{content:"";position:absolute;inset:65% 0 0;background:linear-gradient(transparent,#090b0e)}
+.hero{position:absolute;bottom:14%;height:84%;width:55%;object-fit:contain;object-position:center bottom}
+.daniel{left:0}.nik{right:0}.wordmark{position:absolute;z-index:1;width:96%;left:2%;bottom:3%;height:25%;object-fit:contain}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+.toggle{position:absolute;width:1px;height:1px;clip-path:inset(50%)}
+.tabs{display:grid;grid-template-columns:1fr 1fr 1.1fr;border:1px solid var(--gold);border-radius:5px;background:#07090deb;overflow:hidden}
+.tabs label{display:flex;align-items:center;justify-content:center;flex-direction:column;gap:3px;padding:3px;text-align:center;font-size:11px;font-weight:800;letter-spacing:.6px;border-right:1px solid #ad8739;cursor:pointer}
+.tabs label:last-child{border:0;color:var(--gold);font-size:10px}
+.tabs small{font-size:9px;color:#c9c2b0;letter-spacing:1px}
+#daniel-tab:checked~.tabs [for=daniel-tab],#nik-tab:checked~.tabs [for=nik-tab]{background:linear-gradient(115deg,#bf8527,#ffe69a,#d99e37);color:#101010}
+.toggle:focus-visible~.tabs label{outline:2px solid white;outline-offset:-4px}
+.card{min-height:0;border:1px solid var(--gold);border-radius:8px;padding:12px;background:linear-gradient(125deg,#080b0df5 65%,#73552270);box-shadow:inset 0 0 0 3px #ad873922,0 6px 22px #0008}
+.manager{display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--gold);padding-bottom:10px;margin-bottom:12px;min-height:38px}
+.manager h2{margin:0;font-size:23px}.manager p{margin:0;color:#c9c2b0;font-size:16px}
+.shield{width:22px;height:26px;background:linear-gradient(130deg,#ffe6a1,#ad7320);clip-path:polygon(0 0,100% 0,90% 70%,50% 100%,10% 70%)}
+.fields{display:grid;grid-template-columns:1.12fr 1fr;gap:12px}
+.stats{display:grid;gap:8px}.stat{display:flex;justify-content:space-between;align-items:center;gap:6px;font-size:10px;font-weight:700;letter-spacing:.5px}
+.stat input{width:54px;min-height:44px;border:1px solid var(--gold);border-radius:4px;background:linear-gradient(130deg,#1b1d20,#090b0e);color:#fff;padding:6px;font-size:20px}
+.honours{display:grid;grid-template-columns:1fr 1fr;gap:7px;border-left:1px solid #ad873955;padding-left:9px}
+.honours label{display:flex;flex-direction:column;align-items:flex-start;justify-content:space-between;font-size:10px;line-height:1.3;min-height:68px;cursor:pointer}
+.honours input{appearance:none;width:44px;height:44px;margin:0;background:linear-gradient(#080b0d,#080b0d) center/16px 16px no-repeat,linear-gradient(var(--gold),var(--gold)) center/22px 22px no-repeat}
+.honours input:checked{background:linear-gradient(var(--gold),var(--gold)) center/22px 22px no-repeat}
+input:focus-visible,button:focus-visible{outline:2px solid white;outline-offset:2px}
+.sealed{display:none;align-items:center;justify-content:center;text-align:center;font-size:22px;color:var(--gold)}
+#nik-tab:checked~.card.entry{display:none}#nik-tab:checked~.card.sealed{display:flex}
+.actions{display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:8px}
+.actions button{min-height:48px;padding:8px;border:1px solid var(--gold);border-radius:4px;font-size:10px;line-height:1.3;font-weight:800;letter-spacing:.5px;background:#080b0def;color:var(--gold)}
+.actions .primary{color:#12100b;background:linear-gradient(115deg,#bf8527,#ffe69a,#d99e37)}
+.scoring{display:none;position:absolute;z-index:4;inset:auto 10px 80px;padding:14px;border:1px solid var(--gold);border-radius:7px;background:#090b0efa;box-shadow:0 0 0 100vmax #0007}
+#scoring-toggle:checked~.scoring{display:block}.scoring h2{font-size:15px;color:var(--gold);margin:4px 50px 10px 0}
+.close{position:absolute;right:8px;top:5px;min-height:44px;display:flex;align-items:center;font-size:10px;font-weight:700;color:var(--gold);cursor:pointer}
+.rules{display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:11px;line-height:1.35}.rules p{margin:0;padding:8px;border:1px solid #ad873955}.rules strong{display:block;color:var(--gold);font-size:19px}.rules p:last-child{grid-column:1/-1}
+@media(max-height:600px){.phone{grid-template-rows:minmax(100px,1fr) 44px 232px 56px;gap:6px}.card{padding:10px}.manager{padding-bottom:6px;margin-bottom:8px}.wordmark{height:29%}.hero{height:82%;bottom:16%}}
+@media(min-width:901px){.tabs{grid-template-columns:1fr 1fr 1.1fr}}
+</style>
+<main class="phone" aria-labelledby="title">
+ <header class="scene">
+  <h1 id="title" class="sr-only">SEASON RESULTS</h1>
+  <img class="hero daniel" src="../../../../visual-assets/v10_1/season-results/assets/OVL_SR_DANIEL_PHONE_V1.webp" alt="Daniel">
+  <img class="hero nik" src="../../../../visual-assets/v10_1/season-results/assets/OVL_SR_NIK_PHONE_V1.webp" alt="Nik">
+  <img class="wordmark" src="../../../../visual-assets/v10_1/season-results/assets/TITLE_SR_PHONE_V1.webp" alt="">
+ </header>
+ <input class="toggle" id="daniel-tab" type="radio" name="manager" checked aria-label="Show Daniel season result" aria-controls="daniel-card">
+ <input class="toggle" id="nik-tab" type="radio" name="manager" aria-label="Show Nik season result" aria-controls="nik-card">
+ <input class="toggle" id="scoring-toggle" type="checkbox" aria-label="Show season scoring rules" aria-controls="scoring">
+ <div class="tabs" aria-label="Season result view">
+  <label for="daniel-tab">DANIEL</label><label for="nik-tab">NIK<small>SEALED</small></label><label for="scoring-toggle">HOW SCORING WORKS</label>
+ </div>
+ <section id="daniel-card" class="card entry" aria-label="Daniel season results">
+  <header class="manager"><h2>DANIEL</h2><span class="shield" aria-hidden="true"></span><p>Club</p></header>
+  <div class="fields">
+   <div class="stats">
+    <label class="stat">LEAGUE POSITION<input type="number" inputmode="numeric" min="1" step="1" placeholder="1"></label>
+    <label class="stat">LEAGUE POINTS<input type="number" inputmode="numeric" min="0" step="1" placeholder="86"></label>
+    <label class="stat">LEAGUE GOALS<input type="number" inputmode="numeric" min="0" step="1" placeholder="92"></label>
+   </div>
+   <div class="honours">
+    <label>Domestic Cup Winner<input type="checkbox"></label><label>Champions League Winner<input type="checkbox"></label>
+    <label>Top Scorer<input type="checkbox"></label><label>Top Assist<input type="checkbox"></label>
+   </div>
+  </div>
+ </section>
+ <section id="nik-card" class="card sealed" aria-label="Nik season results">NIK<br>SEALED</section>
+ <div class="actions"><button class="primary" type="button">REVIEW SEASON</button><button type="button">BACK TO SHOWDOWN HOME</button></div>
+ <section id="scoring" class="scoring" aria-labelledby="scoring-heading">
+  <label class="close" for="scoring-toggle">CLOSE</label><h2 id="scoring-heading">SEASON SCORING SYSTEM</h2>
+  <p class="sr-only">Scoring: Champions League +5, league title +3, domestic cup +1. 100 league points and/or 100 league goals share one +1 performance bonus. Top Scorer and/or Top Assist share one +1 awards bonus. Maximum season score: 11.</p>
+  <div class="rules"><p>Champions League Winner<strong>+5</strong></p><p>100 League Points and/or 100 League Goals<strong>+1</strong></p><p>League Title<strong>+3</strong></p><p>Top Scorer and/or Top Assist<strong>+1</strong></p><p>Domestic Cup Winner<strong>+1</strong></p><p>Maximum Season Score<strong>11</strong></p></div>
+ </section>
+</main>
+</html>

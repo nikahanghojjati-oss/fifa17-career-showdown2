@@ -1,0 +1,12 @@
+# Season Results · Phone A · JOB-1226
+- Decision: keep the approved portrait, title, tabs, entry card, and paired action hierarchy.
+- Daniel remains left and Nik right; existing Team V phone artwork is linked without mirroring.
+- All labels and scoring copy come from index.html and the live app shell, not picture wording.
+- Numeric placeholders come from the existing Daniel form; Club remains its live placeholder.
+- Nik's sealed tab reflects the approved own-manager entry view; CSS alone switches views and scoring.
+- Review/back buttons are presentation controls; no state, scoring, or navigation is implemented.
+- This entry screen has no hub bottom navigation; the original two actions retain their order.
+- Plain gold shield replaces the reference club crest; no trophy or league logo is copied.
+- Short windows reduce portrait height while keeping every field and action visible.
+- Verified in Chromium: no scroll at 390x844, 393x660, 360x640, or 375x553; actions stay visible.
+- All artwork loads; all seven entry inputs retain 44px targets; CSS tabs and scoring open/close pass.
