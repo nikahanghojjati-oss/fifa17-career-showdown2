@@ -1,13 +1,13 @@
 {
-"updated": "2026-10-11T07:34:27Z",
+"updated": "2026-10-11T07:35:57Z",
 "total": 518,
-"next_free": 127,
+"next_free": 131,
 "highest_taken": 403,
 "counts": {
 "merged": 160,
 "closed": 82,
-"on_train": 21,
-"waiting": 254,
+"on_train": 22,
+"waiting": 253,
 "draft": 1
 },
 "stages": {
@@ -17,8 +17,8 @@
 "states": {
 "merged": 25,
 "closed": 44,
-"on_train": 21,
-"waiting": 176
+"on_train": 22,
+"waiting": 175
 }
 },
 "1": {
@@ -74,6 +74,7 @@
 119,
 123,
 125,
+127,
 129,
 137,
 141,
@@ -85,9 +86,9 @@
 "draft_code_prs": 0,
 "area_locks": {},
 "ready": [
-127,
 131,
 133,
+145,
 147,
 159,
 173,
@@ -99,9 +100,9 @@
 324
 ],
 "ready_sol": [
-127,
 131,
 133,
+145,
 147,
 159,
 173,
@@ -114,9 +115,9 @@
 ],
 "ready_codex": [],
 "ready_all": [
-127,
 131,
 133,
+145,
 147,
 159,
 173,
@@ -152,9 +153,9 @@
 }
 },
 "rate": {
-"claimed_last_hour": 0,
-"claimed_last_10min": 0,
-"merged_last_hour": 135
+"claimed_last_hour": 1,
+"claimed_last_10min": 1,
+"merged_last_hour": 23
 },
 "lanes": {
 "gpt1": {
@@ -163,18 +164,18 @@
 "states": {
 "merged": 25,
 "closed": 25,
-"on_train": 21,
-"waiting": 168
+"on_train": 22,
+"waiting": 167
 },
 "reviews": {
 "ok": 0,
 "ok_notes": 0,
 "needs_changes": 0
 },
-"picked_up": 71,
-"worker_done": 46,
+"picked_up": 72,
+"worker_done": 47,
 "finished": 25,
-"pending_lead": 21,
+"pending_lead": 22,
 "wait_v": 0,
 "audit_batch": 0,
 "trouble": 0,
@@ -414,13 +415,6 @@
 }
 ],
 "events": [
-{
-"at": "2026-10-11T03:45:37Z",
-"item": 228,
-"job": 1168,
-"from": "waiting",
-"to": "started"
-},
 {
 "at": "2026-10-11T03:54:22Z",
 "item": 105,
@@ -2513,6 +2507,13 @@
 "job": 1186,
 "from": "draft",
 "to": "closed"
+},
+{
+"at": "2026-10-11T07:35:57Z",
+"item": 127,
+"job": 1068,
+"from": "waiting",
+"to": "on_train"
 }
 ],
 "items": {
@@ -4444,8 +4445,10 @@
 "title": "Home: fix the 1366x768 view",
 "mode": "code",
 "group": "home",
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"state": "on_train",
+"branch": "gameplay/train-home-2",
+"first_seen": "2026-10-11T07:35:57Z",
+"since": "2026-10-11T07:35:57Z"
 },
 "128": {
 "job": 1530,
