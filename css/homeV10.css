@@ -706,3 +706,17 @@
   #mainMenu.v10Home .phoneTrackSheetOpen { min-height: 44px; height: 44px; }
   #app #topHeader #onlinePlayerIdentityBadge { min-height: 44px; }
 }
+
+/* JOB-1069: 1920x1080 desktop Home on a touch-capable display. The
+   soundtrack buttons inherit Team V's 40px control height while the
+   navigation tabs already meet the 44px touch target. Keep the change
+   to this full-HD range, leaving pointer-fine desktop and phone alone. */
+@media (min-width: 1850px) and (max-width: 1999px) and (min-height: 1040px) and (max-height: 1120px) and (orientation: landscape) and (pointer: coarse) {
+  #mainMenu.v10Home .menuMusicControl {
+    min-width: 44px;
+    min-height: 44px;
+  }
+  #app #topHeader #onlinePlayerIdentityBadge {
+    min-height: 44px;
+  }
+}
