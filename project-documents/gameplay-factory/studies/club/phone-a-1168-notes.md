@@ -1,0 +1,12 @@
+# JOB-1168 · Club phone A
+- Decision: preserve the desktop's paired managers and gold hierarchy in a quiet phone deck.
+- Daniel stays left; Nik stays right; existing Club artwork is linked, never mirrored.
+- Copy comes from live index.html and clubScreenV10.js, not either reference picture.
+- The initial sealed state uses live League, ?, SEALED placeholders; no club results are invented.
+- Inline CSS also lays out the confirmation state with the full permanent-clubs sentence.
+- For a static confirmation layout review, add class="confirmed" to body; this is not game wiring.
+- Both action labels remain in live DOM order, followed by BACK; no bottom hub tabs on this setup step.
+- Hero takes remaining height; deck reserves the action, sentence and bottom margin.
+- Re-read HTML/CSS; checked local artwork/font paths, script absence and retained labels.
+- Browser rendering was unavailable: Chromium installation downloads failed in this environment.
+- Team V should render at 390x844, 393x660, 360x640 and 375x553 before adoption.
