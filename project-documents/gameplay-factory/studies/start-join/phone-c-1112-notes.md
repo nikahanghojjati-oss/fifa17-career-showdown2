@@ -1,0 +1,15 @@
+# JOB-1112 · Connect Players phone C
+- Decision: compact the approved initial Daniel setup view without removing any initial-state text.
+- Use 6px group gaps, 10px panel padding and a 44px main action; avoid nested scrolling.
+- The role panel is 137px tall at 360x640 and 119px at 375x553.
+- Daniel remains left and Nik right; reuse Team V phone overlays without mirroring.
+- Retain the live heading, tagline, descriptions, tab labels, BACK and CHOOSE SEASONS.
+- Tab switching is CSS only; the initial runtime pairing slot stays empty.
+- Later pairing codes, recovery and connected-session controls are outside this static state.
+- Approved phone composition and desktop black/gold atmosphere guide presentation only.
+- Original geometric nav symbols avoid copying the reference trophy and any licensed marks.
+- No JavaScript, player photos, game logic or frozen artwork changes.
+- Re-read the full HTML and visually inspected the 360x640 render.
+- Chromium: 390x844, 393x660, 360x640 and 375x553 pass page and panel overflow checks.
+- Artwork loads and tab text fits; button bottom at 375x553 is 380.58px, nav top 497px.
+- Bottom nav hides above 900px and outside hub context; no full CI required for this study.
