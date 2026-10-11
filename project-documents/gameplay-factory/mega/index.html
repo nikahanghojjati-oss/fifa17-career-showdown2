@@ -78,7 +78,7 @@ a{color:inherit}
 <div class="card next"><h2>Type next</h2>
 <div class="nextbig"><button class="num" id="first" style="font-size:34px">-</button>
 <div><div><b id="rt">-</b> numbers free to type right now; this line is the next chat</div><div class="lbl">Each line is one chat: tap it to copy, then paste it in a new chat. <span id="held"></span></div></div></div>
-<div class="lbl" style="margin:8px 0;font-size:14px"><b id="bsz"></b> · <span id="bst"></span></div><div class="cols"><div class="col"><h3>Account 1 · odd numbers</h3><div class="chips" id="odd"></div></div>
+<div class="lbl" style="margin:8px 0;font-size:14px"><b id="bsz"></b> · <span id="bst"></span><br>ChatGPT chat: type up to <span id="bmx"></span> numbers in one message (for example the line below). Work mode and Codex stay one number per message. <a href="https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/queue/BATCHES.md">Full batch table</a></div><div class="cols"><div class="col"><h3>Account 1 · odd numbers</h3><div class="chips" id="odd"></div></div>
 <div class="col"><h3>Account 2 · even numbers</h3><div class="chips" id="even"></div></div></div>
 <div class="lbl" style="margin-top:8px" id="nxtnote"></div></div>
 
@@ -177,7 +177,7 @@ function paint(only,fail){
   const bl=a=>{const z=[],k=B.size||3;for(let i=0;i<a.length;i+=k)z.push(a.slice(i,i+k));return z.map(g=>`<button class="chip batch" data-n="${g.join(" ")}">${g.join(" ")}</button>`).join("")||none};
   $("odd").innerHTML=bl(all.filter(x=>x%2));
   $("even").innerHTML=bl(all.filter(x=>x%2===0));
-  $("bsz").textContent=(B.size||3)+" numbers per chat";$("bst").textContent=(B.clean_streak||0)+" of "+(B.goal||10)+" clean batches in a row"+(B.size<B.max?" (then "+B.max+" per chat)":"");
+  $("bmx").textContent=B.size||3;$("bsz").textContent=(B.size||3)+" numbers per chat";$("bst").textContent=(B.clean_streak||0)+" of "+(B.goal||10)+" clean batches in a row"+(B.size<B.max?" (then "+B.max+" per chat)":"");
   $("nxtnote").textContent=(g.ready_total>all.length?`Showing the first ${all.length} of ${g.ready_total}. `:"")+"A number leaves this list the minute its chat claims it. Numbers not listed have to wait.";
   document.querySelectorAll(".chip").forEach(b=>b.onclick=()=>copyBtn(b));
   // all numbers bar
