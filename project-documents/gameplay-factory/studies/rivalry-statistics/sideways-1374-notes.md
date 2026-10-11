@@ -1,0 +1,12 @@
+# JOB-1374 · Sideways phone
+- Decision: use a 34% portrait/title column beside a 66% comparison/action column.
+- At 844×390, tabs, a 208px panel and the main button share the right column.
+- The landscape hub navigation spans both columns; STATS remains active.
+- Short landscape windows allow one page scroll; no nested scrolling is added.
+- Upright windows retain the compact 200px panel and title stack.
+- Four CSS radio views preserve live order and all seven comparison rows.
+- Daniel remains left, Nik right; original portraits are not mirrored.
+- Existing title/stadium/trophies are relative links; shields are generic.
+- Labels come from live files/markup; Club is the fallback, numbers are study data.
+- Settings, back and navigation are presentation controls; no JavaScript is used.
+- Browser preview unavailable; asset and conservative layout-budget checks passed.
