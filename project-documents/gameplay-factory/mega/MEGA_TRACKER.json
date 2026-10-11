@@ -1,13 +1,13 @@
 {
-"updated": "2026-10-11T04:18:57Z",
+"updated": "2026-10-11T04:19:57Z",
 "total": 518,
 "next_free": 91,
 "highest_taken": 395,
 "counts": {
 "merged": 25,
-"draft": 145,
+"draft": 146,
 "closed": 51,
-"waiting": 275,
+"waiting": 274,
 "on_train": 8,
 "blocked": 14
 },
@@ -41,10 +41,10 @@
 "name": "Phone mockup studies",
 "total": 70,
 "states": {
-"draft": 33,
+"draft": 34,
 "closed": 11,
 "blocked": 14,
-"waiting": 12
+"waiting": 11
 }
 },
 "5": {
@@ -81,7 +81,6 @@
 141,
 143,
 173,
-336,
 364,
 403
 ],
@@ -94,7 +93,6 @@
 141,
 143,
 173,
-336,
 364,
 403
 ],
@@ -108,26 +106,18 @@
 141,
 143,
 173,
-336,
 364,
 403
 ],
-"ready_total": 11,
+"ready_total": 10,
 "held_until_picture": 66
 },
 "rate": {
-"claimed_last_hour": 27,
-"claimed_last_10min": 16,
+"claimed_last_hour": 28,
+"claimed_last_10min": 17,
 "merged_last_hour": 25
 },
 "events": [
-{
-"at": "2026-10-10T19:54:19Z",
-"item": 85,
-"job": 1297,
-"from": "waiting",
-"to": "draft"
-},
 {
 "at": "2026-10-10T19:54:19Z",
 "item": 103,
@@ -2218,6 +2208,13 @@
 "at": "2026-10-11T04:18:57Z",
 "item": 342,
 "job": 1288,
+"from": "waiting",
+"to": "draft"
+},
+{
+"at": "2026-10-11T04:19:57Z",
+"item": 336,
+"job": 1345,
 "from": "waiting",
 "to": "draft"
 }
@@ -7238,8 +7235,19 @@
 "title": "Trophy Room: sideways phone study",
 "mode": "study",
 "group": null,
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"pr": 642,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/642",
+"base": "study/mega-queue",
+"branch": "study/job-1345-trophy-room-sideways",
+"ci": "draft",
+"ci_sha": "fc526693fff20e8a5c2bddce82b79d25e2c1c2de",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-11T04:19:17Z",
+"first_seen": "2026-10-11T04:19:17Z",
+"since": "2026-10-11T04:19:57Z"
 },
 "337": {
 "job": 1311,
