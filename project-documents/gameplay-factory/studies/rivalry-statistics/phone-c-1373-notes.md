@@ -1,0 +1,12 @@
+# JOB-1373 · Phone C
+- Decision: a 200px comparison panel and tighter title/gaps prioritize small-phone fit.
+- All seven totals stay visible together; no nested scrolling container is used.
+- Showdown Points retains a 30px score strip, with six supporting rows below.
+- Four CSS radio views retain live tap order, with no JavaScript.
+- Live markup supplies all headings; Club is the fallback and numbers are study data.
+- Existing stadium, title, original trophy art and unmirrored portraits use relative links.
+- Daniel stays left, Nik right; shields are generic, not licensed club crests.
+- The main action is 44px high; bottom navigation is 56px plus safe-area padding.
+- STATS stays active and navigation appears only at widths up to 900px.
+- Settings, back and navigation are presentation controls.
+- Browser preview unavailable; static stack budgets and all asset paths checked.
