@@ -1,0 +1,13 @@
+# JOB-1346 · Trophy Room upright tablet
+- Decision: split tablet into a left ceremony rail and right trophy workspace.
+- At 768×1024 and 820×1180, the title spans both zones; the cabinet remains 2×2.
+- Managers share the left rail, Daniel left of Nik, with the champion ceremony below.
+- Five category tabs retain their order in two rows, with larger tablet typography.
+- BACK and MORE/CLOSE align under the cabinet; hub navigation stays visible below.
+- CSS details replaces the cabinet in the same workspace without changing tap order.
+- Narrow portrait widths retain the faithful phone layout and visible BACK.
+- Real strings from inspected source; only existing original artwork is linked.
+- Empty-career counts and ranks avoid invented completed results.
+- Re-read committed HTML; manually checked tablet and required phone geometry.
+- Chromium unavailable and installation failed; Team V must verify rendered visual fit.
+- Study files only; frozen art and all game code remain unchanged.
