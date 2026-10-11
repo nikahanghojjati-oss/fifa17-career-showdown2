@@ -1,5 +1,5 @@
 {
-"updated": "2026-10-11T08:00:14Z",
+"updated": "2026-10-11T08:03:14Z",
 "total": 518,
 "next_free": 145,
 "highest_taken": 403,
@@ -315,15 +315,15 @@
 "closed": 20,
 "merged": 51,
 "live": 3,
-"waiting": 1
+"ci_running": 1
 },
 "reviews": {
 "ok": 0,
 "ok_notes": 0,
 "needs_changes": 0
 },
-"picked_up": 74,
-"worker_done": 54,
+"picked_up": 75,
+"worker_done": 55,
 "finished": 54,
 "pending_lead": 0,
 "wait_v": 0,
