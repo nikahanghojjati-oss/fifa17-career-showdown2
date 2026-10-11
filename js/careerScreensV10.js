@@ -615,7 +615,7 @@
   );
 
 
-  const TROPHY_768_TABLET_CSS=String.raw\`
+  const TROPHY_768_TABLET_CSS=String.raw`
 /* JOB-1327: upright 768x1024 tablet has one vertically scrolling surface.
    Do not change Team V's frozen visual assets or other viewport classes. */
 @media (min-width:761px) and (max-width:820px) and (min-height:960px) and (max-height:1100px) and (orientation:portrait) {
@@ -739,7 +739,7 @@
     margin:24px 0 0;
   }
 }
-\`;
+`;
 
   function v10Markup(screen){
     const cs=BASE+"career-statistics/",tr=BASE+"trophy-room/";
