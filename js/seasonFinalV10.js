@@ -197,7 +197,7 @@
   position:relative; min-width:0; width:100%; max-width:430px; margin:0 auto;
   min-height:100%; box-sizing:border-box; padding:0 10px max(10px,env(safe-area-inset-bottom));
   display:grid; grid-template-columns:minmax(0,1fr);
-  grid-template-rows:minmax(100px,1fr) 44px auto auto 56px; gap:6px;
+  grid-template-rows:auto 44px auto auto 56px; gap:6px;
   background:#090b0e;
  }
 
@@ -205,8 +205,9 @@
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage .v10SeasonPhoneScene::before { background-image:url("${assetUrl(BASE+"season-results/assets/OVL_SR_DANIEL_PHONE_V1.webp")}"),url("${assetUrl(BASE+"season-results/assets/OVL_SR_NIK_PHONE_V1.webp")}"); }
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage .v10SeasonPhoneScene::after { background-image:url("${assetUrl(BASE+"season-results/assets/TITLE_SR_PHONE_V1.webp")}"); }
 
+ /* Leave 430px for the live card, tabs, actions, gaps and bottom inset. */
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage .v10SeasonPhoneScene {
-  display:block; grid-column:1; grid-row:1; min-height:100px; height:clamp(100px,calc(100svh - 378px),290px);
+  display:block; grid-column:1; grid-row:1; min-height:80px; height:clamp(80px,calc(100svh - 430px - env(safe-area-inset-bottom)),270px);
   position:relative; margin:0 -10px; overflow:hidden; pointer-events:none;
   background-position:center; background-size:cover;
  }
@@ -221,7 +222,8 @@
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage .v10SeasonPhoneScene::after {
   inset:68% 2% 0; background-position:center; background-size:contain;
  }
- #app #seasonEntry.seasonScreenV10 .v10SeasonStage img:is([src*="OVL_SR_DANIEL_PHONE_V1"],[src*="OVL_SR_NIK_PHONE_V1"],[src*="TITLE_SR_PHONE_V1"]) { visibility:hidden; }
+ /* FIX ROUND 1: remove the original hero from layout, regardless of asset filenames. */
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage :is(img.season-phone-bg,.season-phone-hero--daniel,.season-phone-hero--nik,img.season-title-wordmark) { display:none!important; }
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage .season-layout> :has(label[for="season-phone-tab-daniel"]) {
   grid-column:1; grid-row:2; min-width:0; min-height:44px; margin:0;
   display:grid; grid-template-columns:1fr 1fr 1.1fr; border:1px solid #f2c45b;
@@ -262,16 +264,16 @@
   box-sizing:border-box; width:54px; min-width:44px; height:44px; min-height:44px;
   flex:0 0 54px; padding:6px; font-size:20px; border:1px solid #f2c45b; border-radius:4px;
  }
- #app #seasonEntry.seasonScreenV10 .v10SeasonStage .achievementChecks {
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage .seasonResultCard .achievementChecks {
   grid-area:checks; min-width:0; display:grid; grid-template-columns:repeat(2,minmax(0,1fr));
   grid-template-rows:repeat(2,minmax(68px,auto)); gap:7px; padding-left:9px; border-left:1px solid #ad873955;
  }
- #app #seasonEntry.seasonScreenV10 .v10SeasonStage .achievementChecks label {
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage .seasonResultCard .achievementChecks label {
   min-width:0; min-height:68px; display:flex; flex-direction:column;
   align-items:flex-start; justify-content:space-between; gap:3px; font-size:10px;
-  line-height:1.3; white-space:normal; overflow-wrap:anywhere;
+  line-height:1.3; white-space:normal; overflow-wrap:normal; word-break:normal;
  }
- #app #seasonEntry.seasonScreenV10 .v10SeasonStage .achievementChecks input[type=checkbox] {
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage .seasonResultCard .achievementChecks input[type=checkbox] {
   width:44px; height:44px; min-width:44px; min-height:44px; margin:0; flex:0 0 44px;
  }
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage .season-review-panel {
