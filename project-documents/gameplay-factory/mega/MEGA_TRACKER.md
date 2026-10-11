@@ -1,9 +1,9 @@
-# Mega factory tracker · updated 2026-10-11T07:47:57Z
+# Mega factory tracker · updated 2026-10-11T07:49:27Z
 
 **Type now (17 free):** 145, 147, 149, 151, 159, 173, 179, 189, 240, 268, 296, 324, 352, 400, 411, 428, 456
 **Next free number:** 145 · **highest taken:** 403 of 518
 **Code PRs open:** 0 of 8 · area locks: none
-**Rate:** 1 claimed in 10 min · 3 in 1 h · 0 merged in 1 h
+**Rate:** 0 claimed in 10 min · 3 in 1 h · 0 merged in 1 h
 
 **Finished (merged or live): 160 of 518**
 
