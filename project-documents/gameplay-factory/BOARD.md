@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Sun 11 Oct, 12:03 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Sun 11 Oct, 12:07 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r69** (main `f335734`, Sat 10 Oct 3:50 PM)
 
@@ -16,13 +16,17 @@ Updated Sun 11 Oct, 12:03 AM Boston time. Bug hunting only, no new features unti
 
 ### ▶️ Running now
 
-**#1 · 1581** `G` Showdown Gate: split the slowest lane and cache downloads  
-`████░░░░░░` **40.0000 %**  
-⚪ Team white · **Codex default coding model** · High effort · worker working, draft PR #618 · CI 7 of 8 passed · last move 57 min ago
+**#1 · 1005** `G` Last season's score is skipped before the Final Winner  
+`█████░░░░░` **50.0000 %**  
+🟢 Team green · model not set · worker says done, no PR yet
 
-**#2 · 1591** `G` Home soundtrack: swap to Nik's Audius top 10  
-`████████░░` **78.4615 %**  
-🟣 Team purple · model not set · worker done, PR #630 open, CI running · CI 11 of 13 passed · last move 3 min ago
+**#2 · 1581** `G` Showdown Gate: split the slowest lane and cache downloads  
+`████░░░░░░` **40.0000 %**  
+⚪ Team white · **Codex default coding model** · High effort · worker working, draft PR #618 · CI 7 of 8 passed · last move 61 min ago
+
+**#3 · 1591** `G` Home soundtrack: swap to Nik's Audius top 10  
+`██████░░░░` **60.0000 %**  
+🟣 Team purple · model not set · worker done, PR #630 open, CI failed · CI 13 of 14 passed · last move 3 min ago
 
 ### 👉 Next for you, in this order
 
@@ -48,6 +52,186 @@ Paste this:
 1590
 ```
 
+**#3 · 1592** `G` Wire Team V study 1110: Connect Players phone  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · **GPT-6 Sol** · High effort · ChatGPT project "Career Mode Showdown", normal chat
+
+Paste this:
+
+```text
+1592
+```
+
+**#4 · 1593** `G` Wire Team V study 1372: Rivalry Statistics phone  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · **GPT-6 Sol** · High effort · ChatGPT project "Career Mode Showdown", normal chat
+
+Paste this:
+
+```text
+1593
+```
+
+**#5 · 1594** `G` Wire Team V study 1169: Club Assignment (redo train)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · **GPT-6 Sol** · High effort · ChatGPT project "Career Mode Showdown", normal chat
+
+Paste this:
+
+```text
+1594
+```
+
+**#6 · 1595** `G` Wire Team V study 1171: Club Assignment (redo train)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · **GPT-6 Sol** · High effort · ChatGPT project "Career Mode Showdown", normal chat
+
+Paste this:
+
+```text
+1595
+```
+
+**#7 · 1596** `G` Wire Team V study 1172: Club Assignment (redo train)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · **GPT-6 Sol** · High effort · ChatGPT project "Career Mode Showdown", normal chat
+
+Paste this:
+
+```text
+1596
+```
+
+**#8 · 1597** `G` Wire Team V study 1226: Season Results  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · **GPT-6 Sol** · High effort · ChatGPT project "Career Mode Showdown", normal chat
+
+Paste this:
+
+```text
+1597
+```
+
+**#9 · 1598** `G` Wire Team V study 1229: Season Results  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · **GPT-6 Sol** · High effort · ChatGPT project "Career Mode Showdown", normal chat
+
+Paste this:
+
+```text
+1598
+```
+
+**#10 · 1599** `G` Wire Team V study 1230: Season Results  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · **GPT-6 Sol** · High effort · ChatGPT project "Career Mode Showdown", normal chat
+
+Paste this:
+
+```text
+1599
+```
+
+**#11 · 1600** `G` Wire Team V study 1374: Rivalry Statistics sideways  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · **GPT-6 Sol** · High effort · ChatGPT project "Career Mode Showdown", normal chat
+
+Paste this:
+
+```text
+1600
+```
+
+**#12 · 1601** `G` Wire Team V study 1375: Rivalry Statistics tablet  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · **GPT-6 Sol** · High effort · ChatGPT project "Career Mode Showdown", normal chat
+
+Paste this:
+
+```text
+1601
+```
+
+**#13 · 1602** `G` Wire Team V study 1402: Career Statistics  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · **GPT-6 Sol** · High effort · ChatGPT project "Career Mode Showdown", normal chat
+
+Paste this:
+
+```text
+1602
+```
+
+**#14 · 1603** `G` Wire Team V study 1403: Career Statistics  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · **GPT-6 Sol** · High effort · ChatGPT project "Career Mode Showdown", normal chat
+
+Paste this:
+
+```text
+1603
+```
+
+**#15 · 1604** `G` Wire Team V study 1404: Career Statistics  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · **GPT-6 Sol** · High effort · ChatGPT project "Career Mode Showdown", normal chat
+
+Paste this:
+
+```text
+1604
+```
+
+**#16 · 1605** `G` Trophy Room picked-tab: 1536 art, lazy, toward PHONE_TROPHY_ROOM_SINGLE  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · **GPT-6 Sol** · High effort · ChatGPT project "Career Mode Showdown", normal chat
+
+Paste this:
+
+```text
+1605
+```
+
+**#17 · 1606** `G` Fix (verify first) audit 88: failed refresh shown as publish failure (Season Results)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · **GPT-6 Sol** · High effort · ChatGPT project "Career Mode Showdown", normal chat
+
+Paste this:
+
+```text
+1606
+```
+
+**#18 · 1607** `G` Fix (verify first) audit 92: failed refresh shown as commit failure (Season Commit)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · **GPT-6 Sol** · High effort · ChatGPT project "Career Mode Showdown", normal chat
+
+Paste this:
+
+```text
+1607
+```
+
+**#19 · 1608** `G` Fix (verify first) audit 116: background read disables Shared Setup buttons  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · **GPT-6 Sol** · High effort · ChatGPT project "Career Mode Showdown", normal chat
+
+Paste this:
+
+```text
+1608
+```
+
+**#20 · 1609** `G` Transfer phone study D faithful to PHONE_TRANSFER  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · **GPT-6 Sol** · High effort · ChatGPT project "Career Mode Showdown", normal chat
+
+Paste this:
+
+```text
+1609
+```
+
 ### ⏸ Waiting on something else
 
 **#1 · 1582** `G` Showdown Gate: screen shots of changed screens as a run artifact  
@@ -56,15 +240,15 @@ Paste this:
 
 **Done, waiting for the next release:** 1583, 1584, 1585, 1586
 
-**Done and live:** r68: 1059, 1060, 1579, 1580, 1587 · r67: 1044, 1045, 1048, 1049, 1050, 1051, 1052, 1053, 1055, 1058 · r66: 1041, 1042, 1043 · r65: 1011, 1028, 1037, 1038, 1039, 1040 · r63: 1001, 1003, 1004, 1005, 1009, 1010, 1014, 1015, 1020, 1021, 1022, 1023, 1024, 1025, 1026, 1027, Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8
+**Done and live:** r68: 1059, 1060, 1579, 1580, 1587 · r67: 1044, 1045, 1048, 1049, 1050, 1051, 1052, 1053, 1055, 1058 · r66: 1041, 1042, 1043 · r65: 1011, 1028, 1037, 1038, 1039, 1040 · r63: 1001, 1003, 1004, 1009, 1010, 1014, 1015, 1020, 1021, 1022, 1023, 1024, 1025, 1026, 1027, Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8
 
 **Done, no game code** (factory or handoff documents): 1046, 1047, 1054, 1056, 1057
 
 ## Goals, in this order
 
 **1. Finish the remaining bugs** `now`  
-`█████████░` **94.4444 %**  
-Numbered jobs: 57 done, 5 other open · Olympiad recheck: 23 of 23 settled, 0 still to fix · Sol's old leads: 0 open (0 real, 0 unsure)
+`████████░░` **77.7778 %**  
+Numbered jobs: 56 done, 24 other open · Olympiad recheck: 23 of 23 settled, 0 still to fix · Sol's old leads: 0 open (0 real, 0 unsure)
 
 **2. Visual fixes** `after stage 1`  
 `██████░░░░` **56.0000 %**  
@@ -153,14 +337,14 @@ Open code PRs: 0/8.
 
 ## Mega tracker (live, free)
 
-Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/index.html) · summary: [mega/MEGA_TRACKER.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/MEGA_TRACKER.md) · rebuilt by the poller each round, updated 2026-10-11T04:03:15Z.
+Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/index.html) · summary: [mega/MEGA_TRACKER.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/MEGA_TRACKER.md) · rebuilt by the poller each round, updated 2026-10-11T04:06:57Z.
 
 | Stage | Done (merged or live) | In progress | Waiting |
 | --- | --- | --- | --- |
 | Gameplay audits | 0 of 112 | 112 | 0 |
 | Screen fixes | 10 of 266 | 62 | 194 |
 | Match desktop to mockups | 0 of 14 | 1 | 13 |
-| Phone mockup studies | 0 of 70 | 41 | 29 |
+| Phone mockup studies | 0 of 70 | 42 | 28 |
 | Improved desktop studies | 0 of 56 | 0 | 56 |
 
 **Open train PRs**
