@@ -1,6 +1,6 @@
 # Ticket 1610 · 11 of 14 · Next-level desktop: Settings
 
-Image 11 of 14 for job 1610 (plan 2, next-level desktop), added Sun 11 Oct 12:30 a.m. Eastern; updated 2:20 a.m. Eastern with stricter rules so GPT cannot invent words, tabs or icons. One image only. The result becomes the new desktop target for Settings (`mockups/NEXT_SETTINGS.png`). Guide: live main r69 at 1920x1080.
+Image 11 of 14 for job 1610 (plan 2, next-level desktop), added Sun 11 Oct 12:30 a.m. Eastern; updated 2:20 a.m. Eastern with stricter rules so GPT cannot invent words, tabs or icons. Rewritten Sun 11 Oct 6:50 p.m. Eastern at Nik's request: same premium, luxury level as the new Transfer War prompt (same elements and words). One image only. The result becomes the new desktop target for Settings (`mockups/NEXT_SETTINGS.png`). Guide: live main r69 at 1920x1080.
 
 1. Open a **ChatGPT Temporary Chat**: start a new chat outside any project, then tap the dashed-circle icon at the top right. A Temporary Chat uses no memory and no chat history, so other chats cannot leak into the picture.
 2. Attach this one file only: **GUIDE_NEXT_SETTINGS.png**. On iPhone open https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/v1-wtt5ye/project-documents/factory/tickets/attach/GUIDE_NEXT_SETTINGS.png in Safari, press and hold the picture, then Save to Photos.
@@ -10,7 +10,7 @@ Image 11 of 14 for job 1610 (plan 2, next-level desktop), added Sun 11 Oct 12:30
    - every title, label, button and number is the same and spelled right; read each line against the attached image: no new or reworded sentences, rules or labels
    - the whole screen fits, nothing cut off
    - no real club crests, league logos or trophies
-   - it looks clearly better than the attached screen
+   - it looks a full level more luxurious than the attached screen, not just a light touch-up
    - Save only the picture this Temporary Chat just made. Never take one from the Images library or from another chat.
 5. If it passes, download it and drop it into Claude's factory thread with the words `1610 SETTINGS`. If it fails, close that chat and start again in a new Temporary Chat (up to 3 tries). Never send a picture that fails.
 6. If the picture is great except for wrong words, tabs or icons, you may reply once in the same chat with the fix message below, then check again.
@@ -18,7 +18,7 @@ Image 11 of 14 for job 1610 (plan 2, next-level desktop), added Sun 11 Oct 12:30
 Prompt:
 
 ```
-Edit this image. It is a desktop game screen (Settings) in the middle, with plain black bars at the top and bottom. Redesign only the game screen into a next-level, high-end desktop game screen mockup, the quality of a premium sports game: richer light, depth and materials, cleaner spacing and stronger hierarchy, in the same black-and-gold style.
+Edit this image. It is a desktop game screen (Settings) in the middle, with plain black bars at the top and bottom. Keep every element, every word and every position, but give the whole screen a dramatically more luxurious, premium presentation. It should look like the hero key art of a top sports game launch, clearly a level above the attached image. This is a big upgrade, not a light touch-up.
 
 MOST IMPORTANT (never break these):
 - Use only the words that are already in the attached image or written in this prompt, copied letter for letter. Do not write any new sentence, rule, label, tab, menu item or number, and do not reword, shorten or "improve" any text. If a word is hard to read, copy it from the image; never replace it with your own words.
@@ -26,13 +26,17 @@ MOST IMPORTANT (never break these):
 - Do not add anything this game does not have: no SQUAD, TRANSFERS, COMPETITIONS, COMPETE, PROFILE, SHOP, notification bell, avatar, search or extra menu.
 
 Keep exactly:
-- the same layout and every element: the CAREER MODE SHOWDOWN line, the SETTINGS title, the close button, the DANIEL & NIK account card with SIGN IN WITH GOOGLE, the CAREER MODE SHOWDOWN application card, the MOTION & FEEDBACK card, the SHOWDOWN DATA card and DONE;
+- the same layout and every element in the same place: the CAREER MODE SHOWDOWN line, the SETTINGS title, the close button, the DANIEL & NIK account card with SIGN IN WITH GOOGLE, the CAREER MODE SHOWDOWN application card, the MOTION & FEEDBACK card, the SHOWDOWN DATA card and DONE;
 - there are no people on this screen; do not add any people or faces;
 - every title, label, button and number spelled exactly as shown; add no new words, numbers or logos. Very small paragraph text may stay small, but never invent words.
 
-Change: Make the four cards larger and easier to read, square-cornered with thin gold edges; DONE is a bevelled gold button.
-
-Lighting: one calm, controlled lighting plan, like a high-end sports broadcast poster, not a wall of lights. Keep the background dark and quiet and slightly out of focus, with no lens flares, light bursts, sparkles or glare behind text. Strong gold glow only on the title and the main button; all text panels sit on clean near-black with thin gold edges so every word reads easily.
+The big upgrade (this is the point of this picture):
+- Set: a dark private club lounge at night, black marble and brushed gold, softly blurred.
+- Hierarchy: SETTINGS becomes a bold gold-leaf title. The four cards become matching black-lacquer panels with bevelled brushed-gold frames, evenly spaced, square-cornered and easy to read. SIGN IN WITH GOOGLE is a clear premium button exactly as worded. DONE is a solid polished-gold button, clearly the main action.
+- Materials: every card and panel becomes a premium object, thick smoked glass or black lacquer with bevelled brushed-gold frames, fine engraved lines, real depth and soft shadows. No cheap neon outlines and no glowing wireframe grids.
+- Camera: real depth, with shallow depth of field on the background only; every word stays sharp.
+- Lighting: dramatic but controlled, like a luxury watch advert: deep black shadows, warm gold light on the main objects, glow only on the title and the main button. No lens flares, sparkles or light bursts behind text.
+- Every text panel sits on clean near-black so every word reads easily; buttons look like real polished, bevelled game buttons.
 
 Rules: everything must fit on this one screen with nothing cut off. No real club crests, league logos, real trophies or player photos; the club badges stay exactly as they are. The black bars at the top and bottom stay plain black. Same wide landscape framing as the attached image, largest size available.
 ```
