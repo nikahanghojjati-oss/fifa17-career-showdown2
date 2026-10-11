@@ -1,5 +1,5 @@
 {
-"updated": "2026-10-11T04:05:57Z",
+"updated": "2026-10-11T04:06:57Z",
 "total": 518,
 "next_free": 91,
 "highest_taken": 395,
@@ -7,9 +7,10 @@
 "draft": 152,
 "closed": 51,
 "merged": 10,
-"waiting": 292,
+"waiting": 291,
 "on_train": 8,
-"blocked": 5
+"blocked": 5,
+"started": 1
 },
 "stages": {
 "2": {
@@ -44,8 +45,9 @@
 "states": {
 "draft": 25,
 "closed": 11,
-"waiting": 29,
-"blocked": 5
+"waiting": 28,
+"blocked": 5,
+"started": 1
 }
 },
 "5": {
@@ -124,7 +126,6 @@
 264,
 272,
 280,
-286,
 300,
 308,
 314,
@@ -137,22 +138,15 @@
 364,
 403
 ],
-"ready_total": 25,
+"ready_total": 24,
 "held_until_picture": 66
 },
 "rate": {
-"claimed_last_hour": 15,
-"claimed_last_10min": 3,
+"claimed_last_hour": 16,
+"claimed_last_10min": 4,
 "merged_last_hour": 10
 },
 "events": [
-{
-"at": "2026-10-10T15:21:00Z",
-"item": 24,
-"job": 1478,
-"from": "waiting",
-"to": "started"
-},
 {
 "at": "2026-10-10T15:24:50Z",
 "item": 19,
@@ -2245,6 +2239,13 @@
 "job": 1201,
 "from": "draft",
 "to": "closed"
+},
+{
+"at": "2026-10-11T04:06:57Z",
+"item": 286,
+"job": 1286,
+"from": "waiting",
+"to": "started"
 }
 ],
 "items": {
@@ -6638,8 +6639,12 @@
 "title": "Final Winner (Showdown Champion): phone mockup, version C (compact)",
 "mode": "study",
 "group": null,
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"state": "started",
+"branch": "study/job-1286-phone-c",
+"branch_sha": "fe1eef9adb5f6e57b1577872b554c506a5907689",
+"no_pr_reason": "",
+"first_seen": "2026-10-11T04:06:57Z",
+"since": "2026-10-11T04:06:57Z"
 },
 "287": {
 "job": 1424,
