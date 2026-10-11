@@ -39,3 +39,23 @@ Format: `date | study item number | screen | adopted / not adopted | one line wh
 | 2026-10-11 | 1402 | Career Statistics phone (C) | adopted | Closest to PHONE_STATISTICS: big managers, four stat tiles, TABLE/COMPARE/LEADERS bar clear of the cards, no scroll at all three sizes. When wiring add the settings button top right like the picture and fix the 2 elements that poke out sideways. |
 | 2026-10-11 | 1403 | Career Statistics sideways | adopted | Good split: managers left, tiles, tabs and table right. When wiring, fit 740x360 (page is 390 tall there). |
 | 2026-10-11 | 1404 | Career Statistics tablet | adopted | Fills both tablet sizes with table, comparison and leaders. When wiring, raise the comparison and leaders text size (very small at 768 wide). |
+| 2026-10-11 | 1284 | Final Winner phone (A) | adopted | Closest to PHONE_FINAL_WINNER: both managers big either side of the trophy, Daniel WINS 16-8, SUMMARY/HONOURS card, two buttons; no scroll at all three sizes. |
+| 2026-10-11 | 1285 | Final Winner phone (B) | not adopted | Trophy and score sit on top of the managers' faces; 1284 chosen. |
+| 2026-10-11 | 1286 | Final Winner phone (C) | not adopted | No managers and a small plain cup, far from the picture; 1284 chosen. |
+| 2026-10-11 | 1287 | Final Winner sideways | adopted | Good split: managers, trophy and score left, summary and both buttons right; fits 844x390 and 740x360. |
+| 2026-10-11 | 1288 | Final Winner tablet | adopted | Fills both tablet sizes; summary and honours table side by side, buttons clear. |
+| 2026-10-11 | 1313 | Legacy phone (A) | adopted | Closest to PHONE_LEGACY: big managers, LEGACY ARCHIVE / TROPHY ROOM / RECORDS tabs, Showdown card, gold button, bottom bar; no scroll. When wiring, keep the BACK button off the title line (it covers "CAREER MODE"). |
+| 2026-10-11 | 1314 | Legacy phone (B) | not adopted | Managers hidden behind a large empty card; 1313 chosen. |
+| 2026-10-11 | 1315 | Legacy phone (C) | not adopted | Shows raw placeholders on screen ({number}, {daniel} - {nik}); 1313 chosen. |
+| 2026-10-11 | 1316 | Legacy sideways | adopted | Tabs left, Showdown card centre, VIEW SEASON HISTORY right, managers behind; fits both sideways sizes. |
+| 2026-10-11 | 1317 | Legacy tablet | not adopted | Content packed in the top third with a big empty bottom and the managers barely visible; rework from 1313. |
+| 2026-10-11 | 1342 | Trophy Room phone (A) | adopted | Closest to PHONE_TROPHY_ROOM: managers with the champion trophy, five filter tabs, 2x2 trophy grid, outlined BACK and MORE like the picture; no scroll. |
+| 2026-10-11 | 1343 | Trophy Room phone (B) | not adopted | Same as 1342 but filled BACK button unlike the picture; 1342 chosen. |
+| 2026-10-11 | 1344 | Trophy Room phone (C) | not adopted | Managers much smaller than the picture; 1342 chosen. |
+| 2026-10-11 | 1345 | Trophy Room sideways | not adopted | Page scrolls (690 tall at 390) and BACK/MORE sit on top of the tabs and trophy cards. |
+| 2026-10-11 | 1346 | Trophy Room tablet | adopted | Fills both tablet sizes: big champion trophy left, filter tabs and 2x2 grid right. When wiring, make the managers larger (small at top left). |
+| 2026-10-11 | 1458 | Settings phone (A) | not adopted | Page is fixed at 393x660, so at 360x640 and 375x553 it spills sideways and scrolls. |
+| 2026-10-11 | 1459 | Settings phone (B) | not adopted | Same fixed 393x660 page as 1458; spills sideways at 360 and 375. |
+| 2026-10-11 | 1460 | Settings phone (C) | adopted | Compact Account and Application cards with DONE pinned, close to PHONE_SETTINGS; fits 393x660 and 360x640. When wiring, fit 375x553 (page is 640 tall there and DONE drops out of view); scroll the cards, not the page. |
+| 2026-10-11 | 1461 | Settings sideways | adopted | Good split: Account left, Application and Motion right, DONE bottom; fits 844x390. When wiring, fit 740x360 (page stays 844 wide there). |
+| 2026-10-11 | 1462 | Settings tablet | adopted | Two columns fill both tablet sizes. When wiring, keep DONE below the cards (it covers the bottom of the Application card). |
