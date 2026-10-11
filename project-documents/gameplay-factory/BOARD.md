@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Sun 11 Oct, 12:55 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Sun 11 Oct, 12:58 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r70** (main `c8810b8`, Sun 11 Oct 12:28 AM)
 
@@ -22,19 +22,27 @@ Updated Sun 11 Oct, 12:55 AM Boston time. Bug hunting only, no new features unti
 
 **#2 · 1581** `G` Showdown Gate: split the slowest lane and cache downloads  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · **Codex default coding model** · High effort · worker working, draft PR #618 · CI 7 of 8 passed · last move 109 min ago
+⚪ Team white · **Codex default coding model** · High effort · worker working, draft PR #618 · CI 7 of 8 passed · last move 112 min ago
 
-**#3 · 1606** `G` Fix (verify first) audit 88: failed refresh shown as publish failure (Season Results)  
+**#3 · 1598** `G` Wire Team V study 1229: Season Results  
 `████░░░░░░` **40.0000 %**  
-🔵 Team blue · **GPT-6 Sol** · High effort · worker working, draft PR #662 · CI 6 of 7 passed · last move 27 min ago
+🟢 Team green · **GPT Sol 6.1** · High effort · worker working, draft PR #666 · CI 6 of 7 passed · last move 2 min ago
 
-**#4 · 1607** `G` Fix (verify first) audit 92: failed refresh shown as commit failure (Season Commit)  
+**#4 · 1599** `G` Wire Team V study 1230: Season Results  
 `████░░░░░░` **40.0000 %**  
-🔵 Team blue · **GPT-6 Sol** · High effort · worker working, draft PR #663 · CI 6 of 7 passed · last move 26 min ago
+🟢 Team green · **GPT Sol 6.1** · High effort · worker working, draft PR #666 · CI 6 of 7 passed · last move 2 min ago
 
-**#5 · 1608** `G` Fix (verify first) audit 116: background read disables Shared Setup buttons  
+**#5 · 1606** `G` Fix (verify first) audit 88: failed refresh shown as publish failure (Season Results)  
 `████░░░░░░` **40.0000 %**  
-🔵 Team blue · **GPT-6 Sol** · High effort · worker working, draft PR #665 · CI 6 of 7 passed · last move 25 min ago
+🔵 Team blue · **GPT-6 Sol** · High effort · worker working, draft PR #662 · CI 6 of 7 passed · last move 30 min ago
+
+**#6 · 1607** `G` Fix (verify first) audit 92: failed refresh shown as commit failure (Season Commit)  
+`████░░░░░░` **40.0000 %**  
+🔵 Team blue · **GPT-6 Sol** · High effort · worker working, draft PR #663 · CI 6 of 7 passed · last move 29 min ago
+
+**#7 · 1608** `G` Fix (verify first) audit 116: background read disables Shared Setup buttons  
+`████░░░░░░` **40.0000 %**  
+🔵 Team blue · **GPT-6 Sol** · High effort · worker working, draft PR #665 · CI 6 of 7 passed · last move 28 min ago
 
 ### 👉 Next for you, in this order
 
@@ -110,27 +118,7 @@ Paste this:
 1596
 ```
 
-**#8 · 1598** `G` Wire Team V study 1229: Season Results  
-`░░░░░░░░░░` **0.0000 %**  
-🟢 Team green · **GPT Sol 6.1** · High effort · ChatGPT Work mode (Sol 6.1), type one number at a time, in order
-
-Paste this:
-
-```text
-1598
-```
-
-**#9 · 1599** `G` Wire Team V study 1230: Season Results  
-`░░░░░░░░░░` **0.0000 %**  
-🟢 Team green · **GPT Sol 6.1** · High effort · ChatGPT Work mode (Sol 6.1), type one number at a time, in order
-
-Paste this:
-
-```text
-1599
-```
-
-**#10 · 1600** `G` Wire Team V study 1374: Rivalry Statistics sideways  
+**#8 · 1600** `G` Wire Team V study 1374: Rivalry Statistics sideways  
 `░░░░░░░░░░` **0.0000 %**  
 🟢 Team green · **GPT Sol 6.1** · High effort · ChatGPT Work mode (Sol 6.1), type one number at a time, in order
 
@@ -140,7 +128,7 @@ Paste this:
 1600
 ```
 
-**#11 · 1601** `G` Wire Team V study 1375: Rivalry Statistics tablet  
+**#9 · 1601** `G` Wire Team V study 1375: Rivalry Statistics tablet  
 `░░░░░░░░░░` **0.0000 %**  
 🟢 Team green · **GPT Sol 6.1** · High effort · ChatGPT Work mode (Sol 6.1), type one number at a time, in order
 
@@ -150,7 +138,7 @@ Paste this:
 1601
 ```
 
-**#12 · 1602** `G` Wire Team V study 1402: Career Statistics  
+**#10 · 1602** `G` Wire Team V study 1402: Career Statistics  
 `░░░░░░░░░░` **0.0000 %**  
 🟢 Team green · **GPT Sol 6.1** · High effort · ChatGPT Work mode (Sol 6.1), type one number at a time, in order
 
@@ -160,7 +148,7 @@ Paste this:
 1602
 ```
 
-**#13 · 1603** `G` Wire Team V study 1403: Career Statistics  
+**#11 · 1603** `G` Wire Team V study 1403: Career Statistics  
 `░░░░░░░░░░` **0.0000 %**  
 🟢 Team green · **GPT Sol 6.1** · High effort · ChatGPT Work mode (Sol 6.1), type one number at a time, in order
 
@@ -170,7 +158,7 @@ Paste this:
 1603
 ```
 
-**#14 · 1604** `G` Wire Team V study 1404: Career Statistics  
+**#12 · 1604** `G` Wire Team V study 1404: Career Statistics  
 `░░░░░░░░░░` **0.0000 %**  
 🟢 Team green · **GPT Sol 6.1** · High effort · ChatGPT Work mode (Sol 6.1), type one number at a time, in order
 
@@ -180,7 +168,7 @@ Paste this:
 1604
 ```
 
-**#15 · 1605** `G` Trophy Room picked-tab: 1536 art, lazy, toward PHONE_TROPHY_ROOM_SINGLE  
+**#13 · 1605** `G` Trophy Room picked-tab: 1536 art, lazy, toward PHONE_TROPHY_ROOM_SINGLE  
 `░░░░░░░░░░` **0.0000 %**  
 🟢 Team green · **GPT Sol 6.1** · High effort · ChatGPT Work mode (Sol 6.1), type one number at a time, in order
 
@@ -190,7 +178,7 @@ Paste this:
 1605
 ```
 
-**#16 · 1609** `G` Transfer phone study D faithful to PHONE_TRANSFER  
+**#14 · 1609** `G` Transfer phone study D faithful to PHONE_TRANSFER  
 `░░░░░░░░░░` **0.0000 %**  
 🔵 Team blue · **GPT-6 Sol** · High effort · ChatGPT project "Career Mode Showdown", normal chat
 
@@ -309,12 +297,12 @@ Open code PRs: 0/8.
 
 ## Mega tracker (live, free)
 
-Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/index.html) · summary: [mega/MEGA_TRACKER.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/MEGA_TRACKER.md) · rebuilt by the poller each round, updated 2026-10-11T04:54:32Z.
+Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/index.html) · summary: [mega/MEGA_TRACKER.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/MEGA_TRACKER.md) · rebuilt by the poller each round, updated 2026-10-11T04:57:32Z.
 
 | Stage | Done (merged or live) | In progress | Waiting |
 | --- | --- | --- | --- |
 | Gameplay audits | 0 of 112 | 112 | 0 |
-| Screen fixes | 25 of 266 | 52 | 189 |
+| Screen fixes | 25 of 266 | 53 | 188 |
 | Match desktop to mockups | 0 of 14 | 1 | 13 |
 | Phone mockup studies | 0 of 70 | 60 | 10 |
 | Improved desktop studies | 0 of 56 | 0 | 56 |
