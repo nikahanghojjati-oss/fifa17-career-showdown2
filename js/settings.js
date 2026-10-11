@@ -55,6 +55,12 @@ function installSettingsMotionBridge(){
         return state;
     };
     if(typeof window.addEventListener === "function"){
+        // The legacy storage lifecycle invokes its own local apply function on
+        // OS preference changes. Reapply the explicit three-way decision after
+        // its change event, so FULL MOTION remains authoritative.
+        window.addEventListener("career-mode-preferences-change", () => {
+            window.applyApplicationMotionPreference();
+        });
         window.addEventListener("storage", event => {
             if(event.key === SETTINGS_MOTION_KEY){
                 window.applyApplicationMotionPreference();
