@@ -377,6 +377,11 @@
    at 44px and fit all eleven soundtrack choices in one non-scrolling sheet. */
 @media (min-width: 820px) and (max-width: 870px) and (min-height: 370px) and (max-height: 410px) and (orientation: landscape) {
   #mainMenu.v10Home { --land-strip-h: 50px; }
+  /* Blur/transform would make fixed sheet children use the 50px card as their containing block. */
+  #mainMenu.v10Home .menuMusicTile:has(.phoneSheetToggle:checked) {
+    -webkit-backdrop-filter: none; backdrop-filter: none;
+    filter: none; transform: none; animation: none; will-change: auto;
+  }
   #app #topHeader #onlinePlayerIdentityBadge { min-height: 44px; }
   #mainMenu.v10Home .menuMusicControl { min-width: 44px; height: 44px; }
   #mainMenu.v10Home .phoneSheetToggle,
