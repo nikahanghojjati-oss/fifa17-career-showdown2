@@ -1,6 +1,6 @@
-# Mega factory run report · 2026-10-11T05:38:52Z
+# Mega factory run report · 2026-10-11T06:29:29Z
 
-Taken 263 of 518 jobs. By state: closed 51, merged 25, on_train 21, pr_open 166, waiting 255
+Taken 264 of 518 jobs. By state: closed 51, merged 25, on_train 21, pr_open 167, waiting 254
 
 ## By stage
 Stage | name | total | picked up | merged
@@ -9,7 +9,7 @@ Stage | name | total | picked up | merged
 2 | screen fixes | 266 | 90 | 25
 3 | mockup match | 14 | 1 | 0
 4 | phone studies | 70 | 60 | 0
-5 | desktop studies | 56 | 0 | 0
+5 | desktop studies | 56 | 1 | 0
 
 ## Code trains (5 fixes per pull request)
 Train | jobs done | PR | state
@@ -212,6 +212,7 @@ Number | job | title | state | link
 360 | 1114 | Connect Players (start and join): upright tablet study | pr_open | [PR #605](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/605)
 362 | 1201 | Transfer challenge and Signing Entry: upright tablet study | closed | [PR #617](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/617)
 364 | 1346 | Trophy Room: upright tablet study | pr_open | [PR #643](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/643)
+372 | 1086 | Home: improved desktop, version A (polish) | pr_open | [PR #671](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/671)
 
 ## Needs a look (blocked, no change needed, needs Team V or mockup)
 
