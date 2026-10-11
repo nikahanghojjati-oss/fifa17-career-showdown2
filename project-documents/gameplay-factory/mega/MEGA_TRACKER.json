@@ -1,14 +1,14 @@
 {
-"updated": "2026-10-11T04:26:57Z",
+"updated": "2026-10-11T04:27:57Z",
 "total": 518,
 "next_free": 91,
 "highest_taken": 395,
 "counts": {
 "merged": 25,
-"draft": 161,
+"draft": 166,
 "closed": 51,
-"waiting": 270,
-"on_train": 11
+"waiting": 268,
+"on_train": 8
 },
 "stages": {
 "2": {
@@ -17,8 +17,9 @@
 "states": {
 "merged": 25,
 "closed": 39,
-"waiting": 191,
-"on_train": 11
+"waiting": 189,
+"draft": 5,
+"on_train": 8
 }
 },
 "1": {
@@ -57,22 +58,23 @@
 "gates": {
 "cap": 8,
 "open_code_prs": 0,
-"open_train_prs": [],
+"open_train_prs": [
+661
+],
 "on_train_no_pr": [
-99,
 101,
 105,
 107,
-117,
 119,
 123,
 125,
-135,
 137,
 155
 ],
-"draft_code_prs": 0,
-"area_locks": {},
+"draft_code_prs": 1,
+"area_locks": {
+"transfer": 661
+},
 "ready": [
 91,
 93,
@@ -80,7 +82,6 @@
 97,
 141,
 143,
-153,
 173,
 403
 ],
@@ -91,7 +92,6 @@
 97,
 141,
 143,
-153,
 173,
 403
 ],
@@ -103,54 +103,18 @@
 97,
 141,
 143,
-153,
 173,
 403
 ],
-"ready_total": 9,
+"ready_total": 8,
 "held_until_picture": 66
 },
 "rate": {
-"claimed_last_hour": 32,
+"claimed_last_hour": 34,
 "claimed_last_10min": 9,
-"merged_last_hour": 25
+"merged_last_hour": 15
 },
 "events": [
-{
-"at": "2026-10-10T19:54:19Z",
-"item": 162,
-"job": 1547,
-"from": "waiting",
-"to": "draft"
-},
-{
-"at": "2026-10-10T19:54:19Z",
-"item": 164,
-"job": 1548,
-"from": "waiting",
-"to": "draft"
-},
-{
-"at": "2026-10-10T19:54:19Z",
-"item": 166,
-"job": 1549,
-"from": "waiting",
-"to": "draft"
-},
-{
-"at": "2026-10-10T19:54:19Z",
-"item": 168,
-"job": 1550,
-"from": "waiting",
-"to": "draft"
-},
-{
-"at": "2026-10-10T19:54:19Z",
-"item": 170,
-"job": 1551,
-"from": "waiting",
-"to": "draft"
-},
 {
 "at": "2026-10-10T19:54:19Z",
 "item": 172,
@@ -2215,6 +2179,41 @@
 "job": 1184,
 "from": "waiting",
 "to": "on_train"
+},
+{
+"at": "2026-10-11T04:27:57Z",
+"item": 99,
+"job": 1182,
+"from": "on_train",
+"to": "draft"
+},
+{
+"at": "2026-10-11T04:27:57Z",
+"item": 117,
+"job": 1183,
+"from": "on_train",
+"to": "draft"
+},
+{
+"at": "2026-10-11T04:27:57Z",
+"item": 135,
+"job": 1184,
+"from": "on_train",
+"to": "draft"
+},
+{
+"at": "2026-10-11T04:27:57Z",
+"item": 153,
+"job": 1185,
+"from": "waiting",
+"to": "draft"
+},
+{
+"at": "2026-10-11T04:27:57Z",
+"item": 171,
+"job": 1186,
+"from": "waiting",
+"to": "draft"
 }
 ],
 "items": {
@@ -3940,10 +3939,19 @@
 "title": "Transfer challenge and Signing Entry: fix the 768x1024 view",
 "mode": "code",
 "group": "transfer",
-"state": "on_train",
+"pr": 661,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/661",
+"base": "gameplay/bug-list-1",
 "branch": "gameplay/train-transfer-2",
+"ci": "draft",
+"ci_sha": "6b91acd044bb1cb1b305860ccfb94e3bbe7c26f0",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-11T04:27:37Z",
 "first_seen": "2026-10-11T04:25:57Z",
-"since": "2026-10-11T04:25:57Z"
+"since": "2026-10-11T04:27:57Z"
 },
 "100": {
 "job": 1516,
@@ -4215,10 +4223,19 @@
 "title": "Transfer challenge and Signing Entry: fix the 1280x650 view",
 "mode": "code",
 "group": "transfer",
-"state": "on_train",
+"pr": 661,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/661",
+"base": "gameplay/bug-list-1",
 "branch": "gameplay/train-transfer-2",
+"ci": "draft",
+"ci_sha": "6b91acd044bb1cb1b305860ccfb94e3bbe7c26f0",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-11T04:27:37Z",
 "first_seen": "2026-10-11T04:26:57Z",
-"since": "2026-10-11T04:26:57Z"
+"since": "2026-10-11T04:27:57Z"
 },
 "118": {
 "job": 1525,
@@ -4490,10 +4507,19 @@
 "title": "Transfer challenge and Signing Entry: fix the 1366x768 view",
 "mode": "code",
 "group": "transfer",
-"state": "on_train",
+"pr": 661,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/661",
+"base": "gameplay/bug-list-1",
 "branch": "gameplay/train-transfer-2",
+"ci": "draft",
+"ci_sha": "6b91acd044bb1cb1b305860ccfb94e3bbe7c26f0",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-11T04:27:37Z",
 "first_seen": "2026-10-11T04:26:57Z",
-"since": "2026-10-11T04:26:57Z"
+"since": "2026-10-11T04:27:57Z"
 },
 "136": {
 "job": 1534,
@@ -4761,8 +4787,19 @@
 "title": "Transfer challenge and Signing Entry: fix the 1920x1080 view",
 "mode": "code",
 "group": "transfer",
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"pr": 661,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/661",
+"base": "gameplay/bug-list-1",
+"branch": "gameplay/train-transfer-2",
+"ci": "draft",
+"ci_sha": "6b91acd044bb1cb1b305860ccfb94e3bbe7c26f0",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-11T04:27:37Z",
+"first_seen": "2026-10-11T04:27:37Z",
+"since": "2026-10-11T04:27:57Z"
 },
 "154": {
 "job": 1543,
@@ -5030,8 +5067,19 @@
 "title": "Transfer challenge and Signing Entry: fix the 2560x1080 view",
 "mode": "code",
 "group": "transfer",
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"pr": 661,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/661",
+"base": "gameplay/bug-list-1",
+"branch": "gameplay/train-transfer-2",
+"ci": "draft",
+"ci_sha": "6b91acd044bb1cb1b305860ccfb94e3bbe7c26f0",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-11T04:27:37Z",
+"first_seen": "2026-10-11T04:27:37Z",
+"since": "2026-10-11T04:27:57Z"
 },
 "172": {
 "job": 1552,
