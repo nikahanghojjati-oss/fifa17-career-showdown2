@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Sat 10 Oct, 11:50 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Sat 10 Oct, 11:54 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r69** (main `f335734`, Sat 10 Oct 3:50 PM)
 
@@ -18,7 +18,11 @@ Updated Sat 10 Oct, 11:50 PM Boston time. Bug hunting only, no new features unti
 
 **#1 · 1581** `G` Showdown Gate: split the slowest lane and cache downloads  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · **Codex default coding model** · High effort · worker working, draft PR #618 · CI 7 of 8 passed · last move 44 min ago
+⚪ Team white · **Codex default coding model** · High effort · worker working, draft PR #618 · CI 7 of 8 passed · last move 48 min ago
+
+**#2 · 1591** `G` Home soundtrack: swap to Nik's Audius top 10  
+`███████░░░` **74.6154 %**  
+🟣 Team purple · model not set · worker done, PR #630 open, CI running · CI 6 of 13 passed · last move 0 min ago
 
 ### 👉 Next for you, in this order
 
@@ -42,16 +46,6 @@ Paste this:
 
 ```text
 1590
-```
-
-**#3 · 1591** `G` Home soundtrack: swap to Nik's Audius top 10 (PARKED)  
-`░░░░░░░░░░` **0.0000 %**  
-🟣 Team purple · model not set · Claude lane: Opus Medium for the change, Sonnet for the live listen and browser check: type 'Job 1591'
-
-Type this in Claude lane: Opus Medium for the change, Sonnet for the live listen and browser check:
-
-```text
-Job 1591
 ```
 
 ### ⏸ Waiting on something else
@@ -117,7 +111,7 @@ One numbered queue: type a bare number in any GPT chat. Live from GitHub (queue/
 Type now, in any GPT chat:
 
 ```text
-105 137 230 236 244 252 256 258 264 272 280 284
+123 155 230 236 244 252 258 264 272 280 286 292
 ```
 
 Open code PRs: 0/8.
@@ -127,9 +121,9 @@ Open code PRs: 0/8.
 | Stage | Items | Merged | Picked up |
 | --- | --- | --- | --- |
 | audits | 112 | 0/112 | 112/112 |
-| screen fixes | 266 | 10/266 | 68/266 |
+| screen fixes | 266 | 10/266 | 70/266 |
 | mockup match | 14 | 0/14 | 1/14 |
-| phone studies | 70 | 0/70 | 36/70 |
+| phone studies | 70 | 0/70 | 40/70 |
 | desktop studies | 56 | 0/56 | 0/56 |
 
 **Last taken numbers**
@@ -148,6 +142,7 @@ Open code PRs: 0/8.
 | 350 | 1375 | PR open | Rivalry Statistics: upright tablet study |
 | 346 | 1143 | blocked | Select League: upright tablet study |
 | 344 | 1085 | PR open | Home: upright tablet study |
+| 340 | 1172 | PR open | Club packs: upright tablet study |
 | 338 | 1404 | PR open | Career Statistics: upright tablet study |
 | 337 | 1311 | PR open | Legacy: error and retry state |
 | 334 | 1200 | PR open | Transfer challenge and Signing Entry: sideways phone study |
@@ -155,18 +150,17 @@ Open code PRs: 0/8.
 | 326 | 1229 | PR open | Season Results: sideways phone study |
 | 322 | 1374 | PR open | Rivalry Statistics: sideways phone study |
 | 319 | 1310 | PR open | Legacy: empty state |
-| 318 | 1142 | blocked | Select League: sideways phone study |
 
 ## Mega tracker (live, free)
 
-Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/index.html) · summary: [mega/MEGA_TRACKER.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/MEGA_TRACKER.md) · rebuilt by the poller each round, updated 2026-10-11T03:45:37Z.
+Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/index.html) · summary: [mega/MEGA_TRACKER.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/MEGA_TRACKER.md) · rebuilt by the poller each round, updated 2026-10-11T03:54:22Z.
 
 | Stage | Done (merged or live) | In progress | Waiting |
 | --- | --- | --- | --- |
 | Gameplay audits | 0 of 112 | 112 | 0 |
-| Screen fixes | 10 of 266 | 58 | 198 |
+| Screen fixes | 10 of 266 | 60 | 196 |
 | Match desktop to mockups | 0 of 14 | 1 | 13 |
-| Phone mockup studies | 0 of 70 | 36 | 34 |
+| Phone mockup studies | 0 of 70 | 40 | 30 |
 | Improved desktop studies | 0 of 56 | 0 | 56 |
 
 **Open train PRs**

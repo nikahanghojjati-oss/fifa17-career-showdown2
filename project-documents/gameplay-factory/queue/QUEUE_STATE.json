@@ -1,38 +1,38 @@
 {
  "sequence": {
   "ready": [
-   105,
-   137,
+   123,
+   155,
    230,
    236,
    244,
    252,
-   256,
    258,
    264,
    272,
    280,
-   284
+   286,
+   292
   ],
   "ready_sol": [
-   105,
-   137,
+   123,
+   155,
    230,
    236,
    244,
    252,
-   256,
    258,
    264,
    272,
    280,
-   284
+   286,
+   292
   ],
   "ready_codex": [],
   "held_until_picture": 66,
   "open_code_prs": 0,
   "open_train_prs": 7,
-  "next_free": 105,
+  "next_free": 123,
   "highest_taken": 395,
   "total": 518,
   "states": {
@@ -140,7 +140,7 @@
    "102": "pr_open",
    "103": "pr_open",
    "104": "pr_open",
-   "105": "waiting",
+   "105": "on_train",
    "106": "pr_open",
    "107": "on_train",
    "108": "pr_open",
@@ -172,7 +172,7 @@
    "134": "pr_open",
    "135": "waiting",
    "136": "pr_open",
-   "137": "waiting",
+   "137": "on_train",
    "138": "pr_open",
    "139": "pr_open",
    "140": "pr_open",
@@ -263,7 +263,7 @@
    "225": "waiting",
    "226": "pr_open",
    "227": "waiting",
-   "228": "branch_only",
+   "228": "pr_open",
    "229": "pr_open",
    "230": "waiting",
    "231": "waiting",
@@ -291,7 +291,7 @@
    "253": "waiting",
    "254": "pr_open",
    "255": "waiting",
-   "256": "waiting",
+   "256": "pr_open",
    "257": "waiting",
    "258": "waiting",
    "259": "waiting",
@@ -319,7 +319,7 @@
    "281": "waiting",
    "282": "pr_open",
    "283": "pr_open",
-   "284": "waiting",
+   "284": "pr_open",
    "285": "waiting",
    "286": "waiting",
    "287": "waiting",
@@ -347,7 +347,7 @@
    "309": "waiting",
    "310": "pr_open",
    "311": "waiting",
-   "312": "waiting",
+   "312": "pr_open",
    "313": "waiting",
    "314": "waiting",
    "315": "waiting",
@@ -375,7 +375,7 @@
    "337": "pr_open",
    "338": "pr_open",
    "339": "waiting",
-   "340": "waiting",
+   "340": "pr_open",
    "341": "waiting",
    "342": "waiting",
    "343": "waiting",
@@ -556,19 +556,18 @@
    "518": "waiting"
   }
  },
- "updated": "2026-10-11T03:45:37Z",
+ "updated": "2026-10-11T03:54:22Z",
  "counts": {
-  "pr_open": 197,
-  "waiting": 301,
+  "pr_open": 202,
+  "waiting": 295,
   "blocked": 5,
-  "branch_only": 1,
   "merged": 10,
-  "on_train": 4
+  "on_train": 6
  },
  "stages": {
   "2": {
    "total": 266,
-   "taken": 68,
+   "taken": 70,
    "merged": 10
   },
   "3": {
@@ -578,7 +577,7 @@
   },
   "4": {
    "total": 70,
-   "taken": 36,
+   "taken": 40,
    "merged": 0
   },
   "5": {
@@ -886,7 +885,8 @@
    ],
    "done": [
     "1211",
-    "1212"
+    "1212",
+    "1213"
    ],
    "pr": null,
    "state": null
@@ -1103,7 +1103,9 @@
     1330,
     1331
    ],
-   "done": [],
+   "done": [
+    "1327"
+   ],
    "pr": null,
    "state": null
   },
@@ -2087,39 +2089,39 @@
    "branch": null
   },
   "1168": {
-   "state": "branch_only",
-   "pr": null,
-   "draft": false,
-   "pr_url": null,
+   "state": "pr_open",
+   "pr": 625,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/625",
    "branch": "study/job-1168-club-phone-faithful"
   },
   "1169": {
-   "state": "waiting",
-   "pr": null,
-   "draft": false,
-   "pr_url": null,
-   "branch": null
+   "state": "pr_open",
+   "pr": 626,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/626",
+   "branch": "study/job-1169-club-phone-hierarchy"
   },
   "1170": {
-   "state": "waiting",
-   "pr": null,
-   "draft": false,
-   "pr_url": null,
-   "branch": null
+   "state": "pr_open",
+   "pr": 627,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/627",
+   "branch": "study/job-1170-club-phone-compact"
   },
   "1171": {
-   "state": "waiting",
-   "pr": null,
-   "draft": false,
-   "pr_url": null,
-   "branch": null
+   "state": "pr_open",
+   "pr": 628,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/628",
+   "branch": "study/job-1171-club-sideways"
   },
   "1172": {
-   "state": "waiting",
-   "pr": null,
-   "draft": false,
-   "pr_url": null,
-   "branch": null
+   "state": "pr_open",
+   "pr": 629,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/629",
+   "branch": "study/job-1172-club-upright-tablet"
   },
   "1173": {
    "state": "waiting",
@@ -2402,7 +2404,7 @@
    "branch": "gameplay/train-season-final-2"
   },
   "1213": {
-   "state": "waiting",
+   "state": "on_train",
    "pr": null,
    "draft": false,
    "pr_url": null,
@@ -3200,39 +3202,39 @@
    "branch": "gameplay/train-career-screens-1"
   },
   "1327": {
-   "state": "waiting",
+   "state": "on_train",
    "pr": null,
    "draft": false,
    "pr_url": null,
-   "branch": null
+   "branch": "gameplay/train-career-screens-2"
   },
   "1328": {
    "state": "waiting",
    "pr": null,
    "draft": false,
    "pr_url": null,
-   "branch": null
+   "branch": "gameplay/train-career-screens-2"
   },
   "1329": {
    "state": "waiting",
    "pr": null,
    "draft": false,
    "pr_url": null,
-   "branch": null
+   "branch": "gameplay/train-career-screens-2"
   },
   "1330": {
    "state": "waiting",
    "pr": null,
    "draft": false,
    "pr_url": null,
-   "branch": null
+   "branch": "gameplay/train-career-screens-2"
   },
   "1331": {
    "state": "waiting",
    "pr": null,
    "draft": false,
    "pr_url": null,
-   "branch": null
+   "branch": "gameplay/train-career-screens-2"
   },
   "1332": {
    "state": "waiting",

@@ -1,14 +1,14 @@
-# Mega factory run report · 2026-10-11T03:45:37Z
+# Mega factory run report · 2026-10-11T03:54:22Z
 
-Taken 217 of 518 jobs. By state: blocked 5, branch_only 1, merged 10, on_train 4, pr_open 197, waiting 301
+Taken 223 of 518 jobs. By state: blocked 5, merged 10, on_train 6, pr_open 202, waiting 295
 
 ## By stage
 Stage | name | total | picked up | merged
 --- | --- | --- | --- | ---
 1 | audits | 112 | 112 | 0
-2 | screen fixes | 266 | 68 | 10
+2 | screen fixes | 266 | 70 | 10
 3 | mockup match | 14 | 1 | 0
-4 | phone studies | 70 | 36 | 0
+4 | phone studies | 70 | 40 | 0
 5 | desktop studies | 56 | 0 | 0
 
 ## Code trains (5 fixes per pull request)
@@ -20,12 +20,13 @@ gameplay/train-league-1 | 5 of 5 | [#593](https://github.com/nikahanghojjati-oss
 gameplay/train-club-1 | 5 of 5 | [#598](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/598) | pr_open
 gameplay/train-transfer-1 | 5 of 5 | [#584](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/584) | pr_open
 gameplay/train-season-final-1 | 5 of 5 | [#585](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/585) | merged
-gameplay/train-season-final-2 | 2 of 5 | - | on train, no PR yet
+gameplay/train-season-final-2 | 3 of 5 | - | on train, no PR yet
 gameplay/train-rivalry-legacy-1 | 5 of 5 | [#509](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/509) | pr_open
 gameplay/train-rivalry-legacy-2 | 5 of 5 | [#521](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/521) | pr_open
 gameplay/train-rivalry-legacy-3 | 5 of 5 | [#536](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/536) | pr_open
 gameplay/train-rivalry-legacy-4 | 5 of 5 | [#539](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/539) | pr_open
 gameplay/train-career-screens-1 | 5 of 5 | [#586](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/586) | merged
+gameplay/train-career-screens-2 | 1 of 5 | - | on train, no PR yet
 gameplay/train-rivalry-legacy-5 | 2 of 5 | [#542](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/542) | pr_open
 gameplay/train-rules-settings-1 | 5 of 5 | [#587](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/587) | pr_open
 gameplay/train-rules-settings-2 | 2 of 5 | - | on train, no PR yet
@@ -146,7 +147,7 @@ Number | job | title | state | link
 222 | 1577 | Audit js/v10Screens.js for gameplay bugs (first half) | pr_open | [PR #540](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/540)
 224 | 1578 | Audit js/v10Screens.js for gameplay bugs (second half) | pr_open | [PR #541](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/541)
 226 | 1400 | Career Statistics: phone mockup, version A (faithful) | pr_open | [PR #600](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/600)
-228 | 1168 | Club packs: phone mockup, version A (faithful) | branch_only | study/job-1168-club-phone-faithful
+228 | 1168 | Club packs: phone mockup, version A (faithful) | pr_open | [PR #625](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/625)
 232 | 1081 | Home: phone mockup, version A (faithful) | pr_open | [PR #589](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/589)
 234 | 1139 | Select League: phone mockup, version A (faithful) | blocked | study/job-1139-blocked
 238 | 1371 | Rivalry Statistics: phone mockup, version A (faithful) | pr_open | [PR #602](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/602)
@@ -154,6 +155,7 @@ Number | job | title | state | link
 248 | 1110 | Connect Players (start and join): phone mockup, version A (faithful) | pr_open | [PR #597](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/597)
 250 | 1197 | Transfer challenge and Signing Entry: phone mockup, version A (faithful) | pr_open | [PR #606](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/606)
 254 | 1401 | Career Statistics: phone mockup, version B (bold hierarchy) | pr_open | [PR #608](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/608)
+256 | 1169 | Club packs: phone mockup, version B (bold hierarchy) | pr_open | [PR #626](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/626)
 260 | 1082 | Home: phone mockup, version B (bold hierarchy) | pr_open | [PR #591](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/591)
 262 | 1140 | Select League: phone mockup, version B (bold hierarchy) | blocked | study/job-1140-blocked
 266 | 1372 | Rivalry Statistics: phone mockup, version B (bold hierarchy) | pr_open | [PR #604](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/604)
@@ -161,6 +163,7 @@ Number | job | title | state | link
 276 | 1111 | Connect Players (start and join): phone mockup, version B (bold hierarchy) | pr_open | [PR #599](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/599)
 278 | 1198 | Transfer challenge and Signing Entry: phone mockup, version B (bold hierarchy) | pr_open | [PR #611](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/611)
 282 | 1402 | Career Statistics: phone mockup, version C (compact) | pr_open | [PR #610](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/610)
+284 | 1170 | Club packs: phone mockup, version C (compact) | pr_open | [PR #627](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/627)
 288 | 1083 | Home: phone mockup, version C (compact) | pr_open | [PR #592](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/592)
 290 | 1141 | Select League: phone mockup, version C (compact) | blocked | study/job-1141-blocked
 294 | 1373 | Rivalry Statistics: phone mockup, version C (compact) | pr_open | [PR #607](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/607)
@@ -168,6 +171,7 @@ Number | job | title | state | link
 304 | 1112 | Connect Players (start and join): phone mockup, version C (compact) | pr_open | [PR #601](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/601)
 306 | 1199 | Transfer challenge and Signing Entry: phone mockup, version C (compact) | pr_open | [PR #613](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/613)
 310 | 1403 | Career Statistics: sideways phone study | pr_open | [PR #614](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/614)
+312 | 1171 | Club packs: sideways phone study | pr_open | [PR #628](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/628)
 316 | 1084 | Home: sideways phone study | pr_open | [PR #594](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/594)
 318 | 1142 | Select League: sideways phone study | blocked | study/job-1142-blocked
 322 | 1374 | Rivalry Statistics: sideways phone study | pr_open | [PR #609](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/609)
@@ -175,6 +179,7 @@ Number | job | title | state | link
 332 | 1113 | Connect Players (start and join): sideways phone study | pr_open | [PR #603](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/603)
 334 | 1200 | Transfer challenge and Signing Entry: sideways phone study | pr_open | [PR #615](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/615)
 338 | 1404 | Career Statistics: upright tablet study | pr_open | [PR #616](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/616)
+340 | 1172 | Club packs: upright tablet study | pr_open | [PR #629](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/629)
 344 | 1085 | Home: upright tablet study | pr_open | [PR #595](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/595)
 346 | 1143 | Select League: upright tablet study | blocked | study/job-1143-blocked
 350 | 1375 | Rivalry Statistics: upright tablet study | pr_open | [PR #612](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/612)
@@ -183,7 +188,6 @@ Number | job | title | state | link
 362 | 1201 | Transfer challenge and Signing Entry: upright tablet study | pr_open | [PR #617](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/617)
 
 ## Needs a look (blocked, no change needed, needs Team V or mockup)
-- number 228, job 1168: branch_only (study/job-1168-club-phone-faithful)
 - number 234, job 1139: blocked (study/job-1139-blocked)
 - number 262, job 1140: blocked (study/job-1140-blocked)
 - number 290, job 1141: blocked (study/job-1141-blocked)

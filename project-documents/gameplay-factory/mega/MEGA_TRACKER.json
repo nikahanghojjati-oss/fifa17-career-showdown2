@@ -1,14 +1,13 @@
 {
-"updated": "2026-10-11T03:45:37Z",
+"updated": "2026-10-11T03:54:22Z",
 "total": 518,
 "next_free": 91,
 "highest_taken": 395,
 "counts": {
-"draft": 197,
+"draft": 202,
 "merged": 10,
-"waiting": 301,
-"on_train": 4,
-"started": 1,
+"waiting": 295,
+"on_train": 6,
 "blocked": 5
 },
 "stages": {
@@ -18,8 +17,8 @@
 "states": {
 "draft": 54,
 "merged": 10,
-"waiting": 198,
-"on_train": 4
+"waiting": 196,
+"on_train": 6
 }
 },
 "1": {
@@ -41,9 +40,8 @@
 "name": "Phone mockup studies",
 "total": 70,
 "states": {
-"draft": 30,
-"started": 1,
-"waiting": 34,
+"draft": 35,
+"waiting": 30,
 "blocked": 5
 }
 },
@@ -74,9 +72,11 @@
 ],
 "on_train_no_pr": [
 101,
+105,
 107,
 119,
-125
+125,
+137
 ],
 "draft_code_prs": 11,
 "area_locks": {
@@ -89,38 +89,38 @@
 "rules-settings": 587
 },
 "ready": [
-105,
-137,
+123,
+155,
 230,
 236,
 244,
 252,
-256,
 258,
 264,
 272,
 280,
-284
+286,
+292
 ],
 "ready_sol": [
-105,
-137,
+123,
+155,
 230,
 236,
 244,
 252,
-256,
 258,
 264,
 272,
 280,
-284
+286,
+292
 ],
 "ready_codex": []
 },
 "rate": {
-"claimed_last_hour": 43,
-"claimed_last_10min": 1,
+"claimed_last_hour": 21,
+"claimed_last_10min": 7,
 "merged_last_hour": 10
 },
 "events": [
@@ -1978,6 +1978,55 @@
 "job": 1168,
 "from": "waiting",
 "to": "started"
+},
+{
+"at": "2026-10-11T03:54:22Z",
+"item": 105,
+"job": 1327,
+"from": "waiting",
+"to": "on_train"
+},
+{
+"at": "2026-10-11T03:54:22Z",
+"item": 137,
+"job": 1213,
+"from": "waiting",
+"to": "on_train"
+},
+{
+"at": "2026-10-11T03:54:22Z",
+"item": 228,
+"job": 1168,
+"from": "started",
+"to": "draft"
+},
+{
+"at": "2026-10-11T03:54:22Z",
+"item": 256,
+"job": 1169,
+"from": "waiting",
+"to": "draft"
+},
+{
+"at": "2026-10-11T03:54:22Z",
+"item": 284,
+"job": 1170,
+"from": "waiting",
+"to": "draft"
+},
+{
+"at": "2026-10-11T03:54:22Z",
+"item": 312,
+"job": 1171,
+"from": "waiting",
+"to": "draft"
+},
+{
+"at": "2026-10-11T03:54:22Z",
+"item": 340,
+"job": 1172,
+"from": "waiting",
+"to": "draft"
 }
 ],
 "items": {
@@ -3963,8 +4012,10 @@
 "title": "Trophy Room: fix the 768x1024 view",
 "mode": "code",
 "group": "career-screens",
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"state": "on_train",
+"branch": "gameplay/train-career-screens-2",
+"first_seen": "2026-10-11T03:54:22Z",
+"since": "2026-10-11T03:54:22Z"
 },
 "106": {
 "job": 1519,
@@ -4444,8 +4495,10 @@
 "title": "Season Results: fix the 1366x768 view",
 "mode": "code",
 "group": "season-final",
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"state": "on_train",
+"branch": "gameplay/train-season-final-2",
+"first_seen": "2026-10-11T03:54:22Z",
+"since": "2026-10-11T03:54:22Z"
 },
 "138": {
 "job": 1535,
@@ -5813,12 +5866,19 @@
 "title": "Club packs: phone mockup, version A (faithful)",
 "mode": "study",
 "group": null,
-"state": "started",
+"pr": 625,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/625",
+"base": "study/mega-queue",
 "branch": "study/job-1168-club-phone-faithful",
-"branch_sha": "fe1eef9adb5f6e57b1577872b554c506a5907689",
-"no_pr_reason": "",
+"ci": "draft",
+"ci_sha": "a0a391877f9f66550b7ae5372bd4dae5161e7489",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-11T03:46:16Z",
 "first_seen": "2026-10-11T03:45:37Z",
-"since": "2026-10-11T03:45:37Z"
+"since": "2026-10-11T03:54:22Z"
 },
 "229": {
 "job": 1305,
@@ -6159,8 +6219,19 @@
 "title": "Club packs: phone mockup, version B (bold hierarchy)",
 "mode": "study",
 "group": null,
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"pr": 626,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/626",
+"base": "study/mega-queue",
+"branch": "study/job-1169-club-phone-hierarchy",
+"ci": "draft",
+"ci_sha": "3ed0b5145176c69dab913cf9e0ff5d3b498c0718",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-11T03:48:12Z",
+"first_seen": "2026-10-11T03:48:12Z",
+"since": "2026-10-11T03:54:22Z"
 },
 "257": {
 "job": 1133,
@@ -6501,8 +6572,19 @@
 "title": "Club packs: phone mockup, version C (compact)",
 "mode": "study",
 "group": null,
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"pr": 627,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/627",
+"base": "study/mega-queue",
+"branch": "study/job-1170-club-phone-compact",
+"ci": "draft",
+"ci_sha": "9d3252025184bfcaac8dd7a7cd4a7e9c4b98b7ed",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-11T03:49:05Z",
+"first_seen": "2026-10-11T03:49:05Z",
+"since": "2026-10-11T03:54:22Z"
 },
 "285": {
 "job": 1337,
@@ -6832,8 +6914,19 @@
 "title": "Club packs: sideways phone study",
 "mode": "study",
 "group": null,
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"pr": 628,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/628",
+"base": "study/mega-queue",
+"branch": "study/job-1171-club-sideways",
+"ci": "draft",
+"ci_sha": "ded30fd65f4c710c9197ecb0df681cd93f695456",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-11T03:50:24Z",
+"first_seen": "2026-10-11T03:50:24Z",
+"since": "2026-10-11T03:54:22Z"
 },
 "313": {
 "job": 1165,
@@ -7174,8 +7267,19 @@
 "title": "Club packs: upright tablet study",
 "mode": "study",
 "group": null,
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"pr": 629,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/629",
+"base": "study/mega-queue",
+"branch": "study/job-1172-club-upright-tablet",
+"ci": "draft",
+"ci_sha": "d697f8a186b87fcddcd17e741abe169e06e18218",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-11T03:51:32Z",
+"first_seen": "2026-10-11T03:51:32Z",
+"since": "2026-10-11T03:54:22Z"
 },
 "341": {
 "job": 1427,
