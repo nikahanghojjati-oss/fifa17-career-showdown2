@@ -407,7 +407,7 @@
    "369": "waiting",
    "370": "waiting",
    "371": "closed",
-   "372": "pr_open",
+   "372": "merged",
    "373": "waiting",
    "374": "waiting",
    "375": "waiting",
@@ -556,13 +556,12 @@
    "518": "waiting"
   }
  },
- "updated": "2026-10-11T11:53:45Z",
+ "updated": "2026-10-11T12:11:13Z",
  "counts": {
-  "merged": 160,
+  "merged": 161,
   "on_train": 27,
   "waiting": 248,
-  "closed": 82,
-  "pr_open": 1
+  "closed": 82
  },
  "stages": {
   "2": {
@@ -583,7 +582,7 @@
   "5": {
    "total": 56,
    "taken": 1,
-   "merged": 0
+   "merged": 1
   },
   "1": {
    "total": 112,
@@ -1529,7 +1528,7 @@
    "branch": "study/job-1085-tablet-no-change"
   },
   "1086": {
-   "state": "pr_open",
+   "state": "merged",
    "pr": 671,
    "draft": true,
    "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/671",
