@@ -6,11 +6,11 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Sun 11 Oct, 2:46 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Sun 11 Oct, 2:48 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r70** (main `c8810b8`, Sun 11 Oct 12:28 AM)
 
-🐕 **Barking: POS20 on #312 has waited 2 min for a machine.** · POS20 #304 6/16
+🩺 **All clear: every check has a machine.** · POS20 #304 6/16
 
 ## Jobs
 
@@ -22,47 +22,47 @@ Updated Sun 11 Oct, 2:46 AM Boston time. Bug hunting only, no new features until
 
 **#2 · 1581** `G` Showdown Gate: split the slowest lane and cache downloads  
 `██████░░░░` **60.0000 %**  
-⚪ Team white · **Codex default coding model** · High effort · worker done, PR #618 open, CI failed · CI 7 of 8 passed · last move 2 min ago
+⚪ Team white · **Codex default coding model** · High effort · worker done, PR #618 open, CI failed · CI 7 of 8 passed · last move 4 min ago
 
 **#3 · 1592** `G` Wire Team V study 1110: Connect Players phone  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · **GPT Sol 6.1** · High effort · worker working, draft PR #667 · CI 6 of 7 passed · last move 91 min ago
+🟢 Team green · **GPT Sol 6.1** · High effort · worker working, draft PR #667 · CI 6 of 7 passed · last move 93 min ago
 
 **#4 · 1593** `G` Wire Team V study 1372: Rivalry Statistics phone  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · **GPT Sol 6.1** · High effort · worker working, draft PR #668 · CI 6 of 7 passed · last move 75 min ago
+🟢 Team green · **GPT Sol 6.1** · High effort · worker working, draft PR #668 · CI 6 of 7 passed · last move 77 min ago
 
 **#5 · 1594** `G` Wire Team V study 1169: Club Assignment (redo train)  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · **GPT Sol 6.1** · High effort · worker working, draft PR #669 · CI 6 of 7 passed · last move 55 min ago
+🟢 Team green · **GPT Sol 6.1** · High effort · worker working, draft PR #669 · CI 6 of 7 passed · last move 57 min ago
 
 **#6 · 1595** `G` Wire Team V study 1171: Club Assignment (redo train)  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · **GPT Sol 6.1** · High effort · worker working, draft PR #669 · CI 6 of 7 passed · last move 55 min ago
+🟢 Team green · **GPT Sol 6.1** · High effort · worker working, draft PR #669 · CI 6 of 7 passed · last move 57 min ago
 
 **#7 · 1596** `G` Wire Team V study 1172: Club Assignment (redo train)  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · **GPT Sol 6.1** · High effort · worker working, draft PR #669 · CI 6 of 7 passed · last move 55 min ago
+🟢 Team green · **GPT Sol 6.1** · High effort · worker working, draft PR #669 · CI 6 of 7 passed · last move 57 min ago
 
 **#8 · 1600** `G` Wire Team V study 1374: Rivalry Statistics sideways  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · **GPT Sol 6.1** · High effort · worker working, draft PR #668 · CI 6 of 7 passed · last move 75 min ago
+🟢 Team green · **GPT Sol 6.1** · High effort · worker working, draft PR #668 · CI 6 of 7 passed · last move 77 min ago
 
 **#9 · 1601** `G` Wire Team V study 1375: Rivalry Statistics tablet  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · **GPT Sol 6.1** · High effort · worker working, draft PR #668 · CI 6 of 7 passed · last move 75 min ago
+🟢 Team green · **GPT Sol 6.1** · High effort · worker working, draft PR #668 · CI 6 of 7 passed · last move 77 min ago
 
 **#10 · 1606** `G` Fix (verify first) audit 88: failed refresh shown as publish failure (Season Results)  
-`████████░░` **77.6923 %**  
-🔵 Team blue · **GPT-6 Sol** · High effort · worker done, PR #662 open, CI running · CI 10 of 13 passed · last move 0 min ago
+`██████░░░░` **60.0000 %**  
+🔵 Team blue · **GPT-6 Sol** · High effort · worker done, PR #662 open, CI failed · CI 13 of 14 passed · last move 1 min ago
 
 **#11 · 1607** `G` Fix (verify first) audit 92: failed refresh shown as commit failure (Season Commit)  
 `████████░░` **78.4615 %**  
-🔵 Team blue · **GPT-6 Sol** · High effort · worker done, PR #663 open, CI running · CI 11 of 13 passed · last move 0 min ago
+🔵 Team blue · **GPT-6 Sol** · High effort · worker done, PR #663 open, CI running · CI 11 of 13 passed · last move 2 min ago
 
 **#12 · 1608** `G` Fix (verify first) audit 116: background read disables Shared Setup buttons  
-`████████░░` **78.4615 %**  
-🔵 Team blue · **GPT-6 Sol** · High effort · worker done, PR #665 open, CI running · CI 11 of 13 passed · last move 0 min ago
+`██████░░░░` **60.0000 %**  
+🔵 Team blue · **GPT-6 Sol** · High effort · worker done, PR #665 open, CI failed · CI 13 of 14 passed · last move 0 min ago
 
 ### 👉 Next for you, in this order
 
@@ -368,7 +368,97 @@ Paste this:
 1634
 ```
 
-**#31 · 1591** `G` Home soundtrack: swap to Nik's Audius top 10  
+**#31 · 1637** `G` Polish wave: Home  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · **GPT Sol (chat)** · ChatGPT chat (GPT-6 Sol, GitHub connector), type the number
+
+Paste this:
+
+```text
+1637
+```
+
+**#32 · 1638** `G` Polish wave: Start and Join  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · **GPT Sol (chat)** · ChatGPT chat (GPT-6 Sol, GitHub connector), type the number
+
+Paste this:
+
+```text
+1638
+```
+
+**#33 · 1639** `G` Polish wave: Select League  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · **GPT Sol (chat)** · ChatGPT chat (GPT-6 Sol, GitHub connector), type the number
+
+Paste this:
+
+```text
+1639
+```
+
+**#34 · 1640** `G` Polish wave: Club Assignment  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · **GPT Sol (chat)** · ChatGPT chat (GPT-6 Sol, GitHub connector), type the number
+
+Paste this:
+
+```text
+1640
+```
+
+**#35 · 1641** `G` Polish wave: Transfer  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · **GPT Sol (chat)** · ChatGPT chat (GPT-6 Sol, GitHub connector), type the number
+
+Paste this:
+
+```text
+1641
+```
+
+**#36 · 1642** `G` Polish wave: Season and Final Winner  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · **GPT Sol (chat)** · ChatGPT chat (GPT-6 Sol, GitHub connector), type the number
+
+Paste this:
+
+```text
+1642
+```
+
+**#37 · 1643** `G` Polish wave: Rivalry and Legacy  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · **GPT Sol (chat)** · ChatGPT chat (GPT-6 Sol, GitHub connector), type the number
+
+Paste this:
+
+```text
+1643
+```
+
+**#38 · 1644** `G` Polish wave: Career screens  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · **GPT Sol (chat)** · ChatGPT chat (GPT-6 Sol, GitHub connector), type the number
+
+Paste this:
+
+```text
+1644
+```
+
+**#39 · 1645** `G` Polish wave: Rules and Settings  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · **GPT Sol (chat)** · ChatGPT chat (GPT-6 Sol, GitHub connector), type the number
+
+Paste this:
+
+```text
+1645
+```
+
+**#40 · 1591** `G` Home soundtrack: swap to Nik's Audius top 10  
 `░░░░░░░░░░` **0.0000 %**  
 🟣 Team purple · model not set · Claude lane: Opus Medium for the change, Sonnet for the live listen and browser check: type 'Job 1591'
 
@@ -378,7 +468,7 @@ Type this in Claude lane: Opus Medium for the change, Sonnet for the live listen
 Job 1591
 ```
 
-**#32 · 1635** `G` Smooth screen transitions, and nothing from the old game ever flashes  
+**#41 · 1635** `G` Smooth screen transitions, and nothing from the old game ever flashes  
 `░░░░░░░░░░` **0.0000 %**  
 worker not set · model not set · Nik, in a claude.ai/code **cloud session** on repo `nikahanghojjati-oss/fifa17-career-showdown2`: type 'Job 1635'
 
@@ -415,8 +505,8 @@ Job 1635
 ## Goals, in this order
 
 **1. Finish the remaining bugs** `now`  
-`██████░░░░` **63.6364 %**  
-Numbered jobs: 56 done, 48 other open · Olympiad recheck: 23 of 23 settled, 0 still to fix · Sol's old leads: 0 open (0 real, 0 unsure)
+`██████░░░░` **59.5745 %**  
+Numbered jobs: 56 done, 57 other open · Olympiad recheck: 23 of 23 settled, 0 still to fix · Sol's old leads: 0 open (0 real, 0 unsure)
 
 **2. Visual fixes** `after stage 1`  
 `██████░░░░` **56.0000 %**  
