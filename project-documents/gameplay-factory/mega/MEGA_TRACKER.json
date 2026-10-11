@@ -1,15 +1,15 @@
 {
-"updated": "2026-10-11T04:20:57Z",
+"updated": "2026-10-11T04:21:57Z",
 "total": 518,
 "next_free": 91,
 "highest_taken": 395,
 "counts": {
 "merged": 25,
-"draft": 147,
+"draft": 149,
 "closed": 51,
 "waiting": 273,
 "on_train": 8,
-"blocked": 14
+"blocked": 12
 },
 "stages": {
 "2": {
@@ -41,9 +41,9 @@
 "name": "Phone mockup studies",
 "total": 70,
 "states": {
-"draft": 35,
+"draft": 37,
 "closed": 11,
-"blocked": 14,
+"blocked": 12,
 "waiting": 10
 }
 },
@@ -115,20 +115,6 @@
 "merged_last_hour": 25
 },
 "events": [
-{
-"at": "2026-10-10T19:54:19Z",
-"item": 121,
-"job": 1299,
-"from": "waiting",
-"to": "draft"
-},
-{
-"at": "2026-10-10T19:54:19Z",
-"item": 134,
-"job": 1533,
-"from": "waiting",
-"to": "draft"
-},
 {
 "at": "2026-10-10T19:54:19Z",
 "item": 136,
@@ -2213,6 +2199,20 @@
 "item": 364,
 "job": 1346,
 "from": "waiting",
+"to": "draft"
+},
+{
+"at": "2026-10-11T04:21:57Z",
+"item": 236,
+"job": 1313,
+"from": "blocked",
+"to": "draft"
+},
+{
+"at": "2026-10-11T04:21:57Z",
+"item": 244,
+"job": 1458,
+"from": "blocked",
 "to": "draft"
 }
 ],
@@ -5970,10 +5970,19 @@
 "title": "Legacy: phone mockup, version A (faithful)",
 "mode": "study",
 "group": null,
-"state": "blocked",
-"branch": "study/job-1313-blocked",
+"pr": 644,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/644",
+"base": "study/mega-queue",
+"branch": "study/job-1313-legacy-phone-a",
+"ci": "draft",
+"ci_sha": "66222a5c6ae042e9a78ac267dc873d2b7be61898",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-11T04:21:34Z",
 "first_seen": "2026-10-11T04:13:57Z",
-"since": "2026-10-11T04:13:57Z"
+"since": "2026-10-11T04:21:57Z"
 },
 "237": {
 "job": 1103,
@@ -6066,10 +6075,19 @@
 "title": "Settings: phone mockup, version A (faithful)",
 "mode": "study",
 "group": null,
-"state": "blocked",
-"branch": "study/job-1458-blocked",
+"pr": 645,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/645",
+"base": "study/mega-queue",
+"branch": "study/job-1458-settings-phone-a",
+"ci": "draft",
+"ci_sha": "3964f1976491bbefb1d2728231b2ead0190e6c72",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-11T04:21:53Z",
 "first_seen": "2026-10-11T04:14:57Z",
-"since": "2026-10-11T04:14:57Z"
+"since": "2026-10-11T04:21:57Z"
 },
 "245": {
 "job": 1219,
