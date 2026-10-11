@@ -1,6 +1,6 @@
 {
  "_how": "One shared job counter for Team G and Team V (Nik, 2026-10-05). Claim with tools/claim_number.py only. A number is used once, ever. CONTRACT.md section 10.",
- "next": 1654,
+ "next": 1655,
  "claims": [
   {
    "number": 1001,
@@ -3920,6 +3920,12 @@
    "team": "G",
    "title": "Reduced motion: stop remaining Club script fades under REDUCE MOTION (adapter only)",
    "claimed": "2026-10-11T22:03:10Z"
+  },
+  {
+   "number": 1654,
+   "team": "G",
+   "title": "Rule Book train second attempt (PR 687)",
+   "claimed": "2026-10-11T22:54:34Z"
   }
  ]
 }
