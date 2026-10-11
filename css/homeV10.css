@@ -300,3 +300,159 @@
   #mainMenu.v10Home .phoneSheetToggle:checked ~ .menuMediaSelector .menuMediaChoice { min-height: 0; overflow: hidden; }
   #mainMenu.v10Home .menuBottomStrip { z-index: 6; }
 }
+
+/* JOB-1061: only the 320-375px / 620-660px upright Home viewport.
+   At 360x640 the 49dvh hero leaves about 61px per secondary tile; that
+   places their labels and icons in the same vertical space. A shorter hero
+   gives both rows enough height without changing the 390x844 composition. */
+@media (min-width: 320px) and (max-width: 375px) and (min-height: 620px) and (max-height: 660px) and (orientation: portrait) {
+  #mainMenu.v10Home {
+    --phone-hero: 42dvh;
+    --phone-control: calc(58dvh - var(--phone-nav));
+  }
+
+  /* Keep the identity action at the 44px touch minimum. */
+  #app #topHeader #onlinePlayerIdentityBadge { min-height: 44px; }
+
+  /* Eleven tracks make six 46px rows. All rows fit on a 640px phone
+     as one overlay, so this picker must not create an inner scroll area. */
+  #mainMenu.v10Home .menuMusicTile {
+    --full-sheet-height: calc(56px + var(--track-rows, 2) * 54px);
+  }
+  #mainMenu.v10Home .phoneSheetToggle:checked ~ .menuMediaSelector {
+    max-height: none;
+    overflow: visible;
+    overscroll-behavior: auto;
+  }
+  #mainMenu.v10Home .phoneSheetToggle:checked ~ .phoneTrackSheetClose {
+    bottom: calc(var(--phone-nav) + 10px + var(--full-sheet-height) - 48px);
+  }
+}
+
+/* JOB-1062: 390x844 upright Home only. The 11-track, six-row picker must
+   fit above the navigation without its own scroll area; keep its CLOSE
+   action in the reserved header band. Do not change Team V's source. */
+@media (min-width: 376px) and (max-width: 410px) and (min-height: 820px) and (max-height: 860px) and (orientation: portrait) {
+  /* The identity chip is an action, unlike the adjacent season indicator. */
+  #app #topHeader #onlinePlayerIdentityBadge { min-height: 44px; }
+
+  /* Six 44px rows + five 4px gaps + 54px padding/borders = 338px at 390x844. */
+  #mainMenu.v10Home .menuMusicTile { --track-sheet-h: calc(54px + var(--track-rows, 2) * 48px); }
+  #mainMenu.v10Home .phoneSheetToggle:checked ~ .menuMediaSelector {
+    grid-auto-rows: 44px;
+    gap: 4px;
+    padding: 44px 10px 8px;
+    max-height: none;
+    overflow-y: visible;
+    overscroll-behavior: auto;
+  }
+  #mainMenu.v10Home .phoneSheetToggle:checked ~ .phoneTrackSheetClose {
+    bottom: calc(var(--phone-nav) + 10px + var(--track-sheet-h) - 48px);
+  }
+}
+
+/* JOB-1063: 430x932 upright Home only. With a bottom safe-area inset,
+   the six-row soundtrack picker otherwise exceeds its available height and
+   becomes a nested scroll box. Keep the complete list and CLOSE together. */
+@media (min-width: 411px) and (max-width: 450px) and (min-height: 900px) and (max-height: 960px) and (orientation: portrait) {
+  /* This identity chip is actionable; the adjacent season indicator is not. */
+  #app #topHeader #onlinePlayerIdentityBadge { min-height: 44px; }
+
+  /* Six 44px rows, five 4px gaps and 54px of padding/borders fit on one sheet. */
+  #mainMenu.v10Home .menuMusicTile { --track-sheet-h: calc(54px + var(--track-rows, 2) * 48px); }
+  #mainMenu.v10Home .phoneSheetToggle:checked ~ .menuMediaSelector {
+    grid-auto-rows: 44px;
+    gap: 4px;
+    padding: 44px 10px 8px;
+    max-height: none;
+    overflow-y: visible;
+    overscroll-behavior: auto;
+  }
+  #mainMenu.v10Home .phoneSheetToggle:checked ~ .phoneTrackSheetClose {
+    bottom: calc(var(--phone-nav) + 10px + var(--track-sheet-h) - 48px);
+  }
+}
+
+/* JOB-1064: the 844x390 landscape Home range only. Keep touch controls
+   at 44px and fit all eleven soundtrack choices in one non-scrolling sheet. */
+@media (min-width: 820px) and (max-width: 870px) and (min-height: 370px) and (max-height: 410px) and (orientation: landscape) {
+  #mainMenu.v10Home { --land-strip-h: 50px; }
+  /* Blur/transform would make fixed sheet children use the 50px card as their containing block. */
+  #mainMenu.v10Home .menuMusicTile:has(.phoneSheetToggle:checked) {
+    -webkit-backdrop-filter: none; backdrop-filter: none;
+    filter: none; transform: none; animation: none; will-change: auto;
+  }
+  #app #topHeader #onlinePlayerIdentityBadge { min-height: 44px; }
+  #mainMenu.v10Home .menuMusicControl { min-width: 44px; height: 44px; }
+  #mainMenu.v10Home .phoneSheetToggle,
+  #mainMenu.v10Home .phoneTrackSheetOpen { height: 44px; }
+
+  /* Three 44px rows, two 6px gaps and 58px padding/borders = 202px.
+     A bottom-anchored sheet fits above the 56px navigation at this height. */
+  #mainMenu.v10Home .phoneSheetToggle:checked ~ .menuMediaSelector {
+    position: fixed;
+    z-index: 52;
+    left: var(--gutter);
+    right: var(--gutter);
+    bottom: calc(var(--land-bot) + 10px);
+    grid-auto-rows: 44px;
+    padding: 48px 10px 8px;
+    max-height: none;
+    overflow: visible;
+    overscroll-behavior: auto;
+  }
+  #mainMenu.v10Home .phoneSheetToggle:checked ~ .menuMediaSelector .menuMediaChoice { min-height: 44px; }
+  #mainMenu.v10Home .phoneSheetToggle:checked ~ .phoneTrackSheetBackdrop {
+    position: fixed; z-index: 50; inset: 0; display: block;
+    cursor: pointer; background: rgba(0,0,0,.58);
+  }
+  #mainMenu.v10Home .phoneSheetToggle:checked ~ .phoneTrackSheetClose {
+    position: fixed; z-index: 53; right: calc(var(--gutter) + 10px);
+    bottom: calc(var(--land-bot) + 10px + 202px - 48px);
+    display: inline-flex; min-width: 44px; height: 44px;
+    align-items: center; justify-content: center; cursor: pointer;
+    color: var(--gold); font: 700 12px/1 var(--cond); letter-spacing: .08em;
+  }
+}
+
+/* JOB-1065: the 932x430 landscape Home range only. Keep touch controls
+   at 44px and fit all eleven soundtrack choices in one non-scrolling sheet. */
+@media (min-width: 910px) and (max-width: 960px) and (min-height: 415px) and (max-height: 450px) and (orientation: landscape) {
+  #mainMenu.v10Home { --land-strip-h: 50px; }
+  /* Blur/transform would make fixed sheet children use the 50px card as their containing block. */
+  #mainMenu.v10Home .menuMusicTile:has(.phoneSheetToggle:checked) {
+    -webkit-backdrop-filter: none; backdrop-filter: none;
+    filter: none; transform: none; animation: none; will-change: auto;
+  }
+  #app #topHeader #onlinePlayerIdentityBadge { min-height: 44px; }
+  #mainMenu.v10Home .menuMusicControl { min-width: 44px; height: 44px; }
+  #mainMenu.v10Home .phoneSheetToggle,
+  #mainMenu.v10Home .phoneTrackSheetOpen { height: 44px; }
+
+  /* Three 44px rows, two 6px gaps and 58px padding/borders = 202px.
+     A bottom-anchored sheet fits above the 28px footer at this height. */
+  #mainMenu.v10Home .phoneSheetToggle:checked ~ .menuMediaSelector {
+    position: fixed;
+    z-index: 52;
+    left: var(--gutter);
+    right: var(--gutter);
+    bottom: calc(var(--land-bot) + 10px);
+    grid-auto-rows: 44px;
+    padding: 48px 10px 8px;
+    max-height: none;
+    overflow: visible;
+    overscroll-behavior: auto;
+  }
+  #mainMenu.v10Home .phoneSheetToggle:checked ~ .menuMediaSelector .menuMediaChoice { min-height: 44px; }
+  #mainMenu.v10Home .phoneSheetToggle:checked ~ .phoneTrackSheetBackdrop {
+    position: fixed; z-index: 50; inset: 0; display: block;
+    cursor: pointer; background: rgba(0,0,0,.58);
+  }
+  #mainMenu.v10Home .phoneSheetToggle:checked ~ .phoneTrackSheetClose {
+    position: fixed; z-index: 53; right: calc(var(--gutter) + 10px);
+    bottom: calc(var(--land-bot) + 10px + 202px - 48px);
+    display: inline-flex; min-width: 44px; height: 44px;
+    align-items: center; justify-content: center; cursor: pointer;
+    color: var(--gold); font: 700 12px/1 var(--cond); letter-spacing: .08em;
+  }
+}
