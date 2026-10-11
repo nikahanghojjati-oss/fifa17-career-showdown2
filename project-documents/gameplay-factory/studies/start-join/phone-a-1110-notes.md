@@ -1,0 +1,15 @@
+# JOB-1110 · Connect Players phone A
+- Decision: reproduce the approved PHONE_CONNECT_PLAYERS initial Daniel setup composition.
+- Daniel stays left, Nik right; use only the existing Team V phone artwork without mirroring.
+- Keep the live heading, tagline, role descriptions, tabs, BACK and CHOOSE SEASONS text.
+- Correct spacing comes from live source, not picture lettering.
+- Choose seasons remains the first setup action; no pairing, season or navigation logic is added.
+- CSS radios illustrate the existing role tabs; the pair slot is empty in this initial state.
+- Pairing codes, recovery and connected-session controls remain runtime-owned, outside this static state.
+- Gold-framed controls, dark stadium panel and solid gold primary follow the approved picture.
+- Original geometric nav symbols avoid copying the reference trophy or any licensed marks.
+- Inline CSS only; no JavaScript, external fonts, player photos or changes to frozen artwork.
+- Re-read HTML and visually inspected rendered 393x660 and 375x553 layouts.
+- Chromium checks: 390x844, 393x660, 360x640, 375x553 fit without page scroll; artwork loads.
+- Primary bottom at 375x553: 398.69px, above nav at 497px; all tab text fits.
+- Bottom nav hidden above 900px and outside hub context; study-only job requires no full CI.
