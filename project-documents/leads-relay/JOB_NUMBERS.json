@@ -1,6 +1,6 @@
 {
  "_how": "One shared job counter for Team G and Team V (Nik, 2026-10-05). Claim with tools/claim_number.py only. A number is used once, ever. CONTRACT.md section 10.",
- "next": 1650,
+ "next": 1651,
  "claims": [
   {
    "number": 1001,
@@ -3896,6 +3896,12 @@
    "team": "G",
    "title": "Old CSS: archive the dead sheets after the r71 release moves the index.html pin",
    "claimed": "2026-10-11T22:02:59Z"
+  },
+  {
+   "number": 1650,
+   "team": "G",
+   "title": "Service worker: audit stale-shell and mixed-version risk (report only)",
+   "claimed": "2026-10-11T22:03:02Z"
   }
  ]
 }
