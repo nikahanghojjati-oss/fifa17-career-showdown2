@@ -338,11 +338,16 @@ def run_round(a, ctx):
             seen_group.add(items[k]["group"])
         ready.append(int(k))
     held_n = sum(1 for k in items if items[k]["state"] == "waiting" and held(k))
+    held_by = {}
+    for k in items:
+        if items[k]["state"] == "waiting" and held(k):
+            key = f'{"phone" if order[k]["stage"] == 4 else "desktop"} {pics["keys"][order[k]["screen"]]}'
+            held_by[key] = held_by.get(key, 0) + 1
     ready_sol, ready_codex = ready[:12], []
     gates = {"cap": CAP, "open_code_prs": len(open_code), "open_train_prs": open_all,
              "on_train_no_pr": started_code, "draft_code_prs": len(open_all) - len(open_code), "area_locks": {g: n for g, n in locked.items() if g},
              "ready": ready[:12], "ready_sol": ready_sol, "ready_codex": ready_codex,
-             "ready_all": ready[:150], "ready_total": len(ready), "held_until_picture": held_n}
+             "ready_all": ready[:150], "ready_total": len(ready), "held_until_picture": held_n, "held_by_picture": held_by}
     # stale: claimed over 45 minutes ago and still no PR
     stale = [int(k) for k, v in items.items() if v["state"] == "started"
              and (datetime.datetime.now(datetime.timezone.utc) - datetime.datetime.fromisoformat(v["since"].replace("Z", "+00:00"))).total_seconds() > 2700]
