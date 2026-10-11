@@ -1,9 +1,9 @@
-# Mega factory tracker · updated 2026-10-11T06:10:59Z
+# Mega factory tracker · updated 2026-10-11T06:11:59Z
 
 **Type now (11 free):** 127, 131, 133, 147, 159, 173, 179, 400, 411, 428, 456
 **Next free number:** 127 · **highest taken:** 403 of 518
 **Code PRs open:** 0 of 8 · area locks: transfer
-**Rate:** 0 claimed in 10 min · 5 in 1 h · 0 merged in 1 h
+**Rate:** 0 claimed in 10 min · 3 in 1 h · 0 merged in 1 h
 
 **Finished (merged or live): 25 of 518**
 
