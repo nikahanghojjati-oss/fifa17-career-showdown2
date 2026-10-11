@@ -259,3 +259,53 @@
     box-sizing: border-box;
   }
 }
+
+
+/* JOB-1179: 430x932 upright Transfer Challenge / Signing Entry.
+   Let the fixed overlay own the page scroll, with the signing world growing
+   naturally. Flexible columns preserve space for the player name, and controls
+   keep their touch floor without changing the smaller phone or desktop rules. */
+@media (min-width: 411px) and (max-width: 450px) and (min-height: 900px) and (max-height: 960px) and (orientation: portrait) {
+  #transferChallenge.tw-on > .tw-host {
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior-y: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+  #transferChallenge .tw-host .stage[data-phase="SIGNING_ENTRY"] {
+    height: auto;
+    min-height: 100svh;
+    min-height: 100dvh;
+    overflow: visible;
+  }
+  #transferChallenge .tw-host .stage[data-phase="SIGNING_ENTRY"] .world {
+    height: auto;
+    min-height: 100svh;
+    min-height: 100dvh;
+    max-height: none;
+    overflow: visible;
+    overscroll-behavior: auto;
+    -webkit-overflow-scrolling: auto;
+  }
+  #transferChallenge .tw-host .signing-row.signingRow:not(.is-readonly) {
+    grid-template-columns: 16px minmax(0, 1.22fr) minmax(0, 1.1fr) minmax(0, .92fr);
+  }
+  #transferChallenge .tw-host :is(.signingRow, .guessRow) > :is(input, select, .transferCombobox) {
+    width: 100%;
+    min-width: 0;
+    min-height: 44px;
+    box-sizing: border-box;
+  }
+  #transferChallenge .tw-host :is(.signingRow, .guessRow) :is(input, select, button, [role="combobox"]) {
+    min-width: 0;
+    min-height: 44px;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+  #transferChallenge .tw-host :is(.btn-end, .btn-lock, .btn-continue) {
+    min-width: 44px;
+    min-height: 44px;
+    max-width: calc(100vw - 24px);
+    box-sizing: border-box;
+  }
+}
