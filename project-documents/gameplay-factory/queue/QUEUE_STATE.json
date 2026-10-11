@@ -2,7 +2,6 @@
  "sequence": {
   "ready": [
    228,
-   242,
    256,
    270,
    284,
@@ -14,7 +13,6 @@
   ],
   "ready_sol": [
    228,
-   242,
    256,
    270,
    284,
@@ -273,7 +271,7 @@
    "239": "waiting",
    "240": "waiting",
    "241": "waiting",
-   "242": "waiting",
+   "242": "branch_only",
    "243": "waiting",
    "244": "waiting",
    "245": "waiting",
@@ -552,12 +550,13 @@
    "518": "waiting"
   }
  },
- "updated": "2026-10-11T03:01:48Z",
+ "updated": "2026-10-11T03:07:07Z",
  "counts": {
   "pr_open": 202,
-  "waiting": 307,
+  "waiting": 306,
   "blocked": 5,
-  "on_train": 4
+  "on_train": 4,
+  "branch_only": 1
  },
  "stages": {
   "2": {
@@ -572,7 +571,7 @@
   },
   "4": {
    "total": 70,
-   "taken": 30,
+   "taken": 31,
    "merged": 0
   },
   "5": {
@@ -2499,11 +2498,11 @@
    "branch": null
   },
   "1226": {
-   "state": "waiting",
+   "state": "branch_only",
    "pr": null,
    "draft": false,
    "pr_url": null,
-   "branch": null
+   "branch": "study/job-1226-season-results-phone-a"
   },
   "1227": {
    "state": "waiting",

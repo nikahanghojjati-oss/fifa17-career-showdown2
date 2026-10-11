@@ -1,13 +1,14 @@
 {
-"updated": "2026-10-11T03:01:48Z",
+"updated": "2026-10-11T03:07:07Z",
 "total": 518,
 "next_free": 91,
 "highest_taken": 395,
 "counts": {
 "draft": 202,
-"waiting": 307,
+"waiting": 306,
 "on_train": 4,
-"blocked": 5
+"blocked": 5,
+"started": 1
 },
 "stages": {
 "2": {
@@ -39,8 +40,9 @@
 "total": 70,
 "states": {
 "draft": 25,
-"waiting": 40,
-"blocked": 5
+"waiting": 39,
+"blocked": 5,
+"started": 1
 }
 },
 "5": {
@@ -90,7 +92,6 @@
 },
 "ready": [
 228,
-242,
 256,
 270,
 284,
@@ -102,7 +103,6 @@
 ],
 "ready_sol": [
 228,
-242,
 256,
 270,
 284,
@@ -115,8 +115,8 @@
 "ready_codex": []
 },
 "rate": {
-"claimed_last_hour": 54,
-"claimed_last_10min": 27,
+"claimed_last_hour": 55,
+"claimed_last_10min": 10,
 "merged_last_hour": 0
 },
 "events": [
@@ -1848,6 +1848,13 @@
 "job": 1201,
 "from": "waiting",
 "to": "draft"
+},
+{
+"at": "2026-10-11T03:07:07Z",
+"item": 242,
+"job": 1226,
+"from": "waiting",
+"to": "started"
 }
 ],
 "items": {
@@ -5884,8 +5891,12 @@
 "title": "Season Results: phone mockup, version A (faithful)",
 "mode": "study",
 "group": null,
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"state": "started",
+"branch": "study/job-1226-season-results-phone-a",
+"branch_sha": "fe1eef9adb5f6e57b1577872b554c506a5907689",
+"no_pr_reason": "",
+"first_seen": "2026-10-11T03:07:07Z",
+"since": "2026-10-11T03:07:07Z"
 },
 "243": {
 "job": 1190,

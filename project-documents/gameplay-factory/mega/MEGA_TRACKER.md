@@ -1,9 +1,9 @@
-# Mega factory tracker · updated 2026-10-11T03:01:48Z
+# Mega factory tracker · updated 2026-10-11T03:07:07Z
 
-**Type now:** 228, 242, 256, 270, 284, 298, 312, 326, 340, 354
+**Type now:** 228, 256, 270, 284, 298, 312, 326, 340, 354
 **Next free number:** 91 · **highest taken:** 395 of 518
 **Code PRs open:** 0 of 8 · area locks: home, start-join, league, club, transfer, season-final, rivalry-legacy, career-screens, rules-settings
-**Rate:** 27 claimed in 10 min · 54 in 1 h · 0 merged in 1 h
+**Rate:** 10 claimed in 10 min · 55 in 1 h · 0 merged in 1 h
 
 **Finished (merged or live): 0 of 518**
 
@@ -12,14 +12,15 @@ State | count
 🚂 done, on the train branch, no PR yet | 4
 📝 worker done, draft PR open | 202
 🟧 blocked | 5
-⬜ waiting | 307
+🟦 started, no PR yet | 1
+⬜ waiting | 306
 
 Stage | total | merged/live | in flight | waiting
 --- | --- | --- | --- | ---
 1 Gameplay audits | 112 | 0 | 112 | 0
 2 Screen fixes | 266 | 0 | 68 | 198
 3 Match desktop to mockups | 14 | 0 | 1 | 13
-4 Phone mockup studies | 70 | 0 | 30 | 40
+4 Phone mockup studies | 70 | 0 | 31 | 39
 5 Improved desktop studies | 56 | 0 | 0 | 56
 
 ## Needs attention
@@ -205,6 +206,7 @@ Stage | total | merged/live | in flight | waiting
 - 📝 **232** · Job 1081 · Home: phone mockup, version A (faithful) · worker done, draft PR open · [PR #589](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/589)
 - 🟧 **234** · Job 1139 · Select League: phone mockup, version A (faithful) · blocked
 - 📝 **238** · Job 1371 · Rivalry Statistics: phone mockup, version A (faithful) · worker done, draft PR open · [PR #602](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/602)
+- 🟦 **242** · Job 1226 · Season Results: phone mockup, version A (faithful) · started, no PR yet
 - 📝 **247** · Job 1306 · Legacy: keyboard focus and reduced motion · worker done, draft PR open · [PR #536](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/536)
 - 📝 **248** · Job 1110 · Connect Players (start and join): phone mockup, version A (faithful) · worker done, draft PR open · [PR #597](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/597)
 - 📝 **250** · Job 1197 · Transfer challenge and Signing Entry: phone mockup, version A (faithful) · worker done, draft PR open · [PR #606](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/606)
@@ -246,6 +248,7 @@ Stage | total | merged/live | in flight | waiting
 
 ## Latest changes
 
+- 2026-10-11T03:07:07Z · 242 (Job 1226): waiting → started
 - 2026-10-11T03:01:48Z · 362 (Job 1201): waiting → draft
 - 2026-10-11T03:01:48Z · 338 (Job 1404): waiting → draft
 - 2026-10-11T03:01:48Z · 334 (Job 1200): waiting → draft
@@ -265,4 +268,3 @@ Stage | total | merged/live | in flight | waiting
 - 2026-10-11T02:53:53Z · 304 (Job 1112): waiting → draft
 - 2026-10-11T02:53:53Z · 294 (Job 1373): waiting → draft
 - 2026-10-11T02:53:53Z · 290 (Job 1141): waiting → blocked
-- 2026-10-11T02:53:53Z · 276 (Job 1111): waiting → draft

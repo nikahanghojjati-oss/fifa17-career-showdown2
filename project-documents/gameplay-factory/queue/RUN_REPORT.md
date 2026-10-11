@@ -1,6 +1,6 @@
-# Mega factory run report · 2026-10-11T03:01:48Z
+# Mega factory run report · 2026-10-11T03:07:07Z
 
-Taken 211 of 518 jobs. By state: blocked 5, on_train 4, pr_open 202, waiting 307
+Taken 212 of 518 jobs. By state: blocked 5, branch_only 1, on_train 4, pr_open 202, waiting 306
 
 ## By stage
 Stage | name | total | picked up | merged
@@ -8,7 +8,7 @@ Stage | name | total | picked up | merged
 1 | audits | 112 | 112 | 0
 2 | screen fixes | 266 | 68 | 0
 3 | mockup match | 14 | 1 | 0
-4 | phone studies | 70 | 30 | 0
+4 | phone studies | 70 | 31 | 0
 5 | desktop studies | 56 | 0 | 0
 
 ## Code trains (5 fixes per pull request)
@@ -149,6 +149,7 @@ Number | job | title | state | link
 232 | 1081 | Home: phone mockup, version A (faithful) | pr_open | [PR #589](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/589)
 234 | 1139 | Select League: phone mockup, version A (faithful) | blocked | study/job-1139-blocked
 238 | 1371 | Rivalry Statistics: phone mockup, version A (faithful) | pr_open | [PR #602](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/602)
+242 | 1226 | Season Results: phone mockup, version A (faithful) | branch_only | study/job-1226-season-results-phone-a
 248 | 1110 | Connect Players (start and join): phone mockup, version A (faithful) | pr_open | [PR #597](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/597)
 250 | 1197 | Transfer challenge and Signing Entry: phone mockup, version A (faithful) | pr_open | [PR #606](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/606)
 254 | 1401 | Career Statistics: phone mockup, version B (bold hierarchy) | pr_open | [PR #608](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/608)
@@ -178,6 +179,7 @@ Number | job | title | state | link
 
 ## Needs a look (blocked, no change needed, needs Team V or mockup)
 - number 234, job 1139: blocked (study/job-1139-blocked)
+- number 242, job 1226: branch_only (study/job-1226-season-results-phone-a)
 - number 262, job 1140: blocked (study/job-1140-blocked)
 - number 290, job 1141: blocked (study/job-1141-blocked)
 - number 318, job 1142: blocked (study/job-1142-blocked)

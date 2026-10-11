@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Sat 10 Oct, 11:01 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Sat 10 Oct, 11:07 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r69** (main `f335734`, Sat 10 Oct 3:50 PM)
 
@@ -14,21 +14,15 @@ Updated Sat 10 Oct, 11:01 PM Boston time. Bug hunting only, no new features unti
 
 ## Jobs
 
-### 👉 Next for you, in this order
+### ▶️ Running now
 
 **#1 · 1581** `G` Showdown Gate: split the slowest lane and cache downloads  
-`░░░░░░░░░░` **0.0000 %**  
-⚪ Team white · **Codex default coding model** · High effort · Codex cloud, this repo
+`████░░░░░░` **40.0000 %**  
+⚪ Team white · **Codex default coding model** · High effort · worker working, draft PR #618 · CI 7 of 8 passed · last move 1 min ago
 
-Paste this:
+### 👉 Next for you, in this order
 
-```text
-Career Mode Showdown, job 1581. First run: git fetch origin factory/gameplay-v1
-Then read: git show FETCH_HEAD:project-documents/gameplay-factory/jobs/JOB-1581.md
-Do exactly what that file says. If the file does not exist, stop and tell me. Never push to main and never merge. Open any pull request as a draft; if you cannot choose the base branch, write RETARGET TO gameplay/bug-list-1 on the first line of the PR body.
-```
-
-**#2 · 1589** `G` Browser test that catches the old-design flash on screen changes (tests only)  
+**#1 · 1589** `G` Browser test that catches the old-design flash on screen changes (tests only)  
 `░░░░░░░░░░` **0.0000 %**  
 ⚪ Team white · **Codex default coding model** · Medium effort · Codex cloud, this repo
 
@@ -40,7 +34,7 @@ Then read: git show FETCH_HEAD:project-documents/gameplay-factory/jobs/JOB-1589.
 Do exactly what that file says. If the file does not exist, stop and tell me. Never push to main and never merge. Open any pull request as a draft; if you cannot choose the base branch, write RETARGET TO gameplay/bug-list-1 on the first line of the PR body.
 ```
 
-**#3 · 1590** `G` Audit: which screens have no Team V look yet (read only)  
+**#2 · 1590** `G` Audit: which screens have no Team V look yet (read only)  
 `░░░░░░░░░░` **0.0000 %**  
 🔵 Team blue · **GPT-6 Sol** · High effort · ChatGPT project "Career Mode Showdown", normal chat
 
@@ -113,7 +107,7 @@ One numbered queue: type a bare number in any GPT chat. Live from GitHub (queue/
 Type now, in any GPT chat:
 
 ```text
-228 242 256 270 284 298 312 326 340 354
+228 256 270 284 298 312 326 340 354
 ```
 
 Open code PRs: 0/8.
@@ -125,7 +119,7 @@ Open code PRs: 0/8.
 | audits | 112 | 0/112 | 112/112 |
 | screen fixes | 266 | 0/266 | 68/266 |
 | mockup match | 14 | 0/14 | 1/14 |
-| phone studies | 70 | 0/70 | 30/70 |
+| phone studies | 70 | 0/70 | 31/70 |
 | desktop studies | 56 | 0/56 | 0/56 |
 
 **Last taken numbers**
@@ -155,14 +149,14 @@ Open code PRs: 0/8.
 
 ## Mega tracker (live, free)
 
-Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/index.html) · summary: [mega/MEGA_TRACKER.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/MEGA_TRACKER.md) · rebuilt by the poller each round, updated 2026-10-11T03:01:48Z.
+Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/index.html) · summary: [mega/MEGA_TRACKER.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/MEGA_TRACKER.md) · rebuilt by the poller each round, updated 2026-10-11T03:07:07Z.
 
 | Stage | Done (merged or live) | In progress | Waiting |
 | --- | --- | --- | --- |
 | Gameplay audits | 0 of 112 | 112 | 0 |
 | Screen fixes | 0 of 266 | 68 | 198 |
 | Match desktop to mockups | 0 of 14 | 1 | 13 |
-| Phone mockup studies | 0 of 70 | 30 | 40 |
+| Phone mockup studies | 0 of 70 | 31 | 39 |
 | Improved desktop studies | 0 of 56 | 0 | 56 |
 
 **Open train PRs**
