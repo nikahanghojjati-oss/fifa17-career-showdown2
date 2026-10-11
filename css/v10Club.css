@@ -364,6 +364,10 @@ html[data-v10-screen="clubWheelScreen"] #app > main { position: static; inset: a
     width: min(100%, 940px) !important;
   }
   #clubWheelScreen.cl-on .clubRevealCard { min-width: 0; }
+  /* Compact normally hides the matchup and lock note to fit one viewport;
+     these remain visible now that the page itself can scroll. */
+  #clubWheelScreen.cl-on .clubRivalryMatchup { display: flex; }
+  #clubWheelScreen.cl-on .clubRivalryLockNote { display: block; }
   #clubWheelScreen.cl-on #sharedShowdownSeasonChoice,
   #clubWheelScreen.cl-on > #sharedShowdownPresentationStatus {
     width: min(100%, 940px); max-width: 100%;
