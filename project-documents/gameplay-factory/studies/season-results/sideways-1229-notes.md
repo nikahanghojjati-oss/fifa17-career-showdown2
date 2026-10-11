@@ -1,0 +1,12 @@
+# Season Results · Sideways · JOB-1229
+- Decision: landscape uses artwork left and tabs/entry/actions right, with original tap order.
+- Daniel stays left of Nik in the unmirrored art band; live labels and placeholders are preserved.
+- Existing Team V phone artwork and a plain shield retain the approved black/gold composition.
+- The review/back row follows the form in document flow; only the document may scroll.
+- At 844x390 every field fits; shorter landscape windows retain one page flow without nested scrolling.
+- Portrait uses the compact approved arrangement and all original entry controls.
+- CSS tabs/scoring provide presentation states; actions do not mutate game state.
+- No hub bottom bar is added to this entry screen; no game code, rules, or storage changes.
+- Chromium: 844x390 and all four portrait targets fit without scroll or card overflow.
+- At 844x320 one 36px page scroll reaches both actions without covering any field.
+- Artwork loads; CSS scoring and sealed tab pass; HTML and notes were re-read.
