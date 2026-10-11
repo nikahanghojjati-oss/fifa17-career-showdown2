@@ -1,5 +1,5 @@
 {
-"updated": "2026-10-11T04:11:57Z",
+"updated": "2026-10-11T04:13:57Z",
 "total": 518,
 "next_free": 91,
 "highest_taken": 395,
@@ -7,9 +7,9 @@
 "merged": 25,
 "draft": 138,
 "closed": 51,
-"waiting": 291,
+"waiting": 290,
 "on_train": 8,
-"blocked": 5
+"blocked": 6
 },
 "stages": {
 "2": {
@@ -43,8 +43,8 @@
 "states": {
 "draft": 26,
 "closed": 11,
-"waiting": 28,
-"blocked": 5
+"waiting": 27,
+"blocked": 6
 }
 },
 "5": {
@@ -82,9 +82,9 @@
 143,
 173,
 230,
-236,
 244,
-252
+252,
+258
 ],
 "ready_sol": [
 91,
@@ -96,9 +96,9 @@
 143,
 173,
 230,
-236,
 244,
-252
+252,
+258
 ],
 "ready_codex": [],
 "ready_all": [
@@ -111,7 +111,6 @@
 143,
 173,
 230,
-236,
 244,
 252,
 258,
@@ -130,22 +129,15 @@
 364,
 403
 ],
-"ready_total": 27,
+"ready_total": 26,
 "held_until_picture": 66
 },
 "rate": {
-"claimed_last_hour": 12,
-"claimed_last_10min": 4,
+"claimed_last_hour": 13,
+"claimed_last_10min": 2,
 "merged_last_hour": 25
 },
 "events": [
-{
-"at": "2026-10-10T16:52:14Z",
-"item": 38,
-"job": 1485,
-"from": "waiting",
-"to": "started"
-},
 {
 "at": "2026-10-10T16:55:55Z",
 "item": 38,
@@ -2238,6 +2230,13 @@
 "job": 1286,
 "from": "started",
 "to": "draft"
+},
+{
+"at": "2026-10-11T04:13:57Z",
+"item": 236,
+"job": 1313,
+"from": "waiting",
+"to": "blocked"
 }
 ],
 "items": {
@@ -5983,8 +5982,10 @@
 "title": "Legacy: phone mockup, version A (faithful)",
 "mode": "study",
 "group": null,
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"state": "blocked",
+"branch": "study/job-1313-blocked",
+"first_seen": "2026-10-11T04:13:57Z",
+"since": "2026-10-11T04:13:57Z"
 },
 "237": {
 "job": 1103,
