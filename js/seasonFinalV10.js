@@ -125,7 +125,52 @@
   function sfCardRule(doc){
     const parent=doc?.head||doc?.documentElement;if(!parent||typeof doc.createElement!=="function"||doc.getElementById?.("v10SeasonCardRule"))return;
     const style=doc.createElement("style");style.id="v10SeasonCardRule";
-    style.textContent="@media(max-width:900px){#app #seasonEntry.seasonScreenV10>.v10SeasonStage :is(#daniel-entry-panel,#nik-entry-panel):not(.hidden){display:grid!important}}";
+    style.textContent="@media(max-width:900px){#app #seasonEntry.seasonScreenV10>.v10SeasonStage :is(#daniel-entry-panel,#nik-entry-panel):not(.hidden){display:grid!important}}" + `
+/* JOB-1206/1207/1208: upright 360x640, 390x844 and 430x932 entry + review; main remains the only scroll owner. */
+@media (min-width:340px) and (max-width:370px) and (min-height:600px) and (max-height:680px) and (orientation:portrait),
+       (min-width:380px) and (max-width:400px) and (min-height:810px) and (max-height:870px) and (orientation:portrait),
+       (min-width:420px) and (max-width:440px) and (min-height:900px) and (max-height:960px) and (orientation:portrait) {
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage .season-layout { min-width:0; box-sizing:border-box; }
+ /* Side-by-side fields + two honours columns squeeze labels at 360px. Stack the sections. */
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage .seasonResultCard {
+  min-width:0; width:100%; grid-template-columns:minmax(0,1fr);
+  grid-template-areas:"head" "f1" "f2" "f3" "checks"; row-gap:4px; overflow:visible;
+ }
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage .seasonResultCard>label { min-width:0; min-height:44px; }
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage .seasonResultCard .achievementChecks {
+  min-width:0; grid-template-columns:repeat(2,minmax(0,1fr)); gap:4px 8px;
+ }
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage .seasonResultCard .achievementChecks label {
+  min-width:0; min-height:44px; flex-direction:row-reverse; align-items:center;
+  justify-content:flex-end; gap:6px; white-space:normal; overflow-wrap:anywhere;
+ }
+ /* A long club, warning or action label must wrap inside the phone, never widen it. */
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage .season-review-panel .seasonReviewGrid {
+  min-width:0; grid-template-columns:minmax(0,1fr);
+ }
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage .season-review-panel .seasonSummaryCard {
+  min-width:0; overflow-wrap:anywhere;
+ }
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage :is(.season-review-panel .seasonReviewActions button,.season-action-row button) {
+  min-width:0; min-height:44px; white-space:normal; overflow-wrap:anywhere;
+ }
+}
+/* JOB-1210: the 932x430 landscape range also matches desktop entry controls.
+   Keep the phone's single page scroll and restore 44px targets at this size only. */
+@media (min-width:910px) and (max-width:950px) and (min-height:410px) and (max-height:450px) and (orientation:landscape) {
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage .seasonResultCard>label,
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage .seasonResultCard .achievementChecks label {
+  min-height:44px;
+ }
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage .seasonResultCard>label input[type=number] {
+  min-height:44px; height:44px;
+ }
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage .seasonResultCard input[type=checkbox] {
+  width:44px; height:44px; min-width:44px; min-height:44px; flex-basis:44px;
+ }
+}
+
+`;
     parent.appendChild(style);
   }
   function renderSeason(frame,host){
