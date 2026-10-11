@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Trophy Room</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;background:#050607;color:#f1d58b;font-family:Arial,sans-serif}
+button,label,a{font:inherit}button,a,label{touch-action:manipulation}button:focus-visible,a:focus-visible,input:focus-visible+label{outline:2px solid #fff3bd;outline-offset:2px}
+.screen{position:relative;width:100%;height:100svh;min-height:0;overflow:hidden;display:grid;grid-template-rows:minmax(0,1fr) 52px;max-width:900px;margin:auto}
+.stage{position:relative;min-height:0;overflow:hidden;background:linear-gradient(#0002,#0008),url('../../../../visual-assets/v10_1/trophy-room/assets/ENV_TR_PHONE_V1.webp') center/cover}
+.hero{position:absolute;top:4%;height:36%;width:48%;object-fit:contain;object-position:bottom;filter:drop-shadow(0 6px 8px #000)}
+.daniel{left:0}.nik{right:0}.shade{position:absolute;inset:0;background:linear-gradient(transparent 20%,#050607a8 44%,#050607 100%)}
+.title{position:absolute;top:2%;left:15%;width:70%;text-align:center;z-index:2}
+.title p{font-size:8px;letter-spacing:1.5px;margin:0 0 4px}.title img{width:100%;height:42px;object-fit:contain}.title .tagline{font-size:7px;letter-spacing:1px}
+.ceremony{position:absolute;top:15%;left:33%;width:34%;height:22%;text-align:center;z-index:2;display:flex;flex-direction:column;align-items:center}
+.ceremony img{height:72%;width:70%;object-fit:contain;filter:drop-shadow(0 0 12px #e7bf6466)}
+.plinth{width:100%;padding:3px 1px;background:linear-gradient(#32260d,#070807);border:1px solid #b99549;box-shadow:0 4px 10px #000}
+.plinth strong{font-size:9px;text-transform:uppercase;display:block}.plinth small{font-size:6px;letter-spacing:1px}
+.cabinet{position:absolute;inset:38% 10px 60px;border:1px solid #d5ac52;background:#050607d9;padding:4px;display:grid;grid-template-rows:56px minmax(0,1fr);gap:5px}
+.tabs{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:2px;border:1px solid #967734;padding:2px}
+.tabs button{grid-column:span 2;border:1px solid #836a36;background:#080908;color:#e9d09a;min-width:0;padding:0 1px;font-size:9px;font-weight:700;letter-spacing:.3px}
+.tabs button:nth-child(n+4){grid-column:span 3}.tabs .active{background:linear-gradient(#ffe48a,#d8a832);color:#171407}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:repeat(2,minmax(0,1fr));gap:5px;min-height:0}
+.card{min-height:0;border:1px solid #b4903d;background:radial-gradient(ellipse at 50% 10%,#9c743b4d,transparent 60%),linear-gradient(135deg,#31281a,#080908 45%);display:grid;grid-template-rows:minmax(0,1fr) 16px 24px 10px;text-align:center;padding:3px 4px;box-shadow:inset 0 0 10px #000}
+.card img{width:100%;height:100%;min-height:0;object-fit:contain;filter:drop-shadow(0 3px 5px #000)}
+.card h2{margin:0;font-size:10px;line-height:16px;text-transform:uppercase;white-space:nowrap;border-bottom:1px solid #79612e}
+.counts{display:grid;grid-template-columns:1fr 1fr;align-items:center}.counts div+div{border-left:1px solid #65532a}.counts span{display:block;font-size:8px;text-transform:uppercase;letter-spacing:1px}.counts strong{display:block;color:#fff;font-size:12px;line-height:12px}.card p{margin:0;font-size:7px;color:#bbaa81}
+.actions{position:absolute;bottom:8px;left:10px;right:10px;height:44px;display:grid;grid-template-columns:1fr 78px;gap:8px}
+.back,.more{display:flex;align-items:center;justify-content:center;border:1px solid #d6b054;background:linear-gradient(#171710,#050607);color:#f4d485;font-size:14px;font-weight:700;letter-spacing:2px;cursor:pointer}
+.more{font-size:11px;letter-spacing:1px}.close{display:none}
+#detailsToggle{position:absolute;right:10px;bottom:8px;width:78px;height:44px;opacity:0;z-index:5;cursor:pointer}
+.details{display:none;position:absolute;inset:38% 10px 60px;z-index:3;border:1px solid #d5ac52;background:linear-gradient(#181812,#050607);padding:14px}
+.details h2{font-size:15px;margin:0 0 5px}.details>p{font-size:9px;color:#baae90;margin:0 0 18px}
+.ranks{display:grid;grid-template-columns:1fr 1fr;gap:8px}.rank{border:1px solid #8b713c;padding:10px 5px;text-align:center}.rank span{font-size:11px;display:block}.rank b{font-size:24px;display:block;color:#fff}.rank small{font-size:8px}
+#detailsToggle:checked~.details{display:block}#detailsToggle:checked~.cabinet{visibility:hidden}#detailsToggle:checked~.actions .open{display:none}#detailsToggle:checked~.actions .close{display:inline}
+#detailsToggle:focus-visible~.actions .more{outline:2px solid #fff3bd;outline-offset:2px}
+.nav{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));border-top:1px solid #b39342;background:linear-gradient(#10110f,#040505);z-index:6}
+.nav a{color:#d6caa6;text-decoration:none;font-size:9px;font-weight:700;letter-spacing:.6px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px}.nav svg{height:18px;width:18px;fill:currentColor}.nav .current{color:#ffd75b;border-top:2px solid #ffd75b}
+@media(max-height:600px){.cabinet,.details{top:35%}.hero{height:33%}.ceremony{top:14%;height:19%}.title img{height:34px}.card{grid-template-rows:minmax(0,1fr) 14px 22px 9px}.card h2{font-size:9px;line-height:14px}}
+@media(min-width:901px){.screen{grid-template-rows:1fr}.nav{display:none}}
+</style>
+</head>
+<body>
+<main class="screen" aria-label="Trophy Room">
+<section class="stage">
+<img class="hero daniel" src="../../../../visual-assets/v10_1/trophy-room/assets/OVL_TR_DANIEL_PHONE_V1.webp" alt="" aria-hidden="true">
+<img class="hero nik" src="../../../../visual-assets/v10_1/trophy-room/assets/OVL_TR_NIK_PHONE_V1.webp" alt="" aria-hidden="true">
+<div class="shade" aria-hidden="true"></div>
+<header class="title"><p>CAREER MODE SHOWDOWN 17</p><h1 style="margin:0"><img src="../../../../visual-assets/v10_1/trophy-room/assets/TITLE_TR_V1.webp" alt="TROPHY ROOM"></h1><p class="tagline">TWO MANAGERS. ONE LEGACY.</p></header>
+<div class="ceremony"><img src="../../../../visual-assets/v10_1/shared/trophies/TRO_SHOWDOWN_CHAMPION_V1_512.webp" alt="Showdown Champion"><div class="plinth"><strong>SHOWDOWN CHAMPION</strong><small>CAREER MODE SHOWDOWN</small></div></div>
+<input type="checkbox" id="detailsToggle" aria-label="Toggle career details" aria-controls="careerDetails">
+<section class="cabinet" aria-label="MANAGER CABINETS">
+<div class="tabs" role="tablist" aria-label="Trophy category">
+<button type="button" role="tab" aria-selected="true" class="active">ALL</button>
+<button type="button" role="tab" aria-selected="false" class="">SHOWDOWN</button>
+<button type="button" role="tab" aria-selected="false" class="">LEAGUE TITLES</button>
+<button type="button" role="tab" aria-selected="false" class="">DOMESTIC CUPS</button>
+<button type="button" role="tab" aria-selected="false" class="">CHAMPIONS LEAGUE</button>
+</div>
+<div class="grid">
+<article class="card"><img src="../../../../visual-assets/v10_1/shared/trophies/TRO_SHOWDOWN_CHAMPION_V1_512.webp" alt="Showdown Champion"><h2>Showdown Champion</h2><div class="counts"><div><span>Daniel</span><strong>—</strong></div><div><span>Nik</span><strong>—</strong></div></div><p>Not won yet</p></article>
+<article class="card"><img src="../../../../visual-assets/v10_1/shared/trophies/TRO_LEAGUE_TITLE_V1_512.webp" alt="League Title"><h2>League Title</h2><div class="counts"><div><span>Daniel</span><strong>—</strong></div><div><span>Nik</span><strong>—</strong></div></div><p>Not won yet</p></article>
+<article class="card"><img src="../../../../visual-assets/v10_1/shared/trophies/TRO_DOMESTIC_CUP_V1_512.webp" alt="Domestic Cup"><h2>Domestic Cup</h2><div class="counts"><div><span>Daniel</span><strong>—</strong></div><div><span>Nik</span><strong>—</strong></div></div><p>Not won yet</p></article>
+<article class="card"><img src="../../../../visual-assets/v10_1/shared/trophies/TRO_CONTINENTAL_V1_512.webp" alt="Champions League"><h2>Champions League</h2><div class="counts"><div><span>Daniel</span><strong>—</strong></div><div><span>Nik</span><strong>—</strong></div></div><p>Not won yet</p></article>
+</div>
+</section>
+<aside class="details" id="careerDetails" aria-labelledby="detailsTitle"><h2 id="detailsTitle">CAREER DETAILS</h2><p>Ranks and career records</p><div class="ranks" aria-label="Career standings"><div class="rank"><span>#1 Daniel</span><b>0</b><small>CAREER POINTS · 0 SEASON WINS</small></div><div class="rank"><span>#1 Nik</span><b>0</b><small>CAREER POINTS · 0 SEASON WINS</small></div></div></aside>
+<div class="actions"><button class="back" type="button">BACK</button><label class="more" for="detailsToggle"><span class="open">MORE</span><span class="close">CLOSE</span></label></div>
+</section>
+<nav class="nav" aria-label="Main navigation">
+<a href="#home"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 10 9-8 9 8v11h-6v-7H9v7H3Z"/></svg>HOME</a>
+<a href="#career" class="current" aria-current="page"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 2h10v9a5 5 0 0 1-4 5v4h5v2H6v-2h5v-4a5 5 0 0 1-4-5ZM3 4h3v8H3Zm15 0h3v8h-3Z"/></svg>CAREER</a>
+<a href="#standings"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3h18v4H3Zm0 7h18v4H3Zm0 7h18v4H3Z"/></svg>STANDINGS</a>
+<a href="#stats"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h4v9H3Zm7-9h4v18h-4Zm7 5h4v13h-4Z"/></svg>STATS</a>
+<a href="#rules"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 2h10l4 4v16H5Zm9 1v5h4Z"/></svg>RULES</a>
+</nav>
+</main>
+</body>
+</html>
