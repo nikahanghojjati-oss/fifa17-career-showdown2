@@ -3,29 +3,33 @@
   "ready": [
    228,
    236,
+   252,
    256,
    264,
+   280,
    284,
    292,
+   308,
    312,
    320,
-   340,
-   348
+   336
   ],
   "ready_sol": [
    228,
    236,
+   252,
    256,
    264,
+   280,
    284,
    292,
+   308,
    312,
    320,
-   340,
-   348
+   336
   ],
   "ready_codex": [],
-  "held_until_picture": 81,
+  "held_until_picture": 76,
   "open_code_prs": 0,
   "open_train_prs": 9,
   "next_free": 228,
@@ -552,7 +556,7 @@
    "518": "waiting"
   }
  },
- "updated": "2026-10-11T03:15:09Z",
+ "updated": "2026-10-11T03:19:11Z",
  "counts": {
   "pr_open": 207,
   "waiting": 302,

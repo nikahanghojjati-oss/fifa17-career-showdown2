@@ -1,4 +1,4 @@
-# Mega factory queue · updated 2026-10-11T03:15:09Z
+# Mega factory queue · updated 2026-10-11T03:19:11Z
 
 Stage | tickets | picked up | merged
 --- | --- | --- | ---
@@ -8,5 +8,5 @@ Stage | tickets | picked up | merged
 4 | 70 | 35 | 0
 5 | 56 | 0 | 0
 
-Type now (Sol chat): [228, 236, 256, 264, 284, 292, 312, 320, 340, 348]
+Type now (Sol chat): [228, 236, 252, 256, 264, 280, 284, 292, 308, 312, 320, 336]
 Type now (Codex): []

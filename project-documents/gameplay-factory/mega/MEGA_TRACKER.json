@@ -1,5 +1,5 @@
 {
-"updated": "2026-10-11T03:15:09Z",
+"updated": "2026-10-11T03:19:11Z",
 "total": 518,
 "next_free": 91,
 "highest_taken": 395,
@@ -91,32 +91,36 @@
 "ready": [
 228,
 236,
+252,
 256,
 264,
+280,
 284,
 292,
+308,
 312,
 320,
-340,
-348
+336
 ],
 "ready_sol": [
 228,
 236,
+252,
 256,
 264,
+280,
 284,
 292,
+308,
 312,
 320,
-340,
-348
+336
 ],
 "ready_codex": []
 },
 "rate": {
 "claimed_last_hour": 59,
-"claimed_last_10min": 5,
+"claimed_last_10min": 4,
 "merged_last_hour": 0
 },
 "events": [
