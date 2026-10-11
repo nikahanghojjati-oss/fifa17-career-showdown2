@@ -286,7 +286,7 @@ let checks=0;const ok=label=>{checks++;void label;};
   assert.deepEqual(reranWaiting.checks[1],{workflow:'Showdown Gate',head_sha:'c'.repeat(40),pr:12,queued_minutes:2,action:'rerun',attempt:1,max_attempts:2});
   assert.equal(stuck.checks[0].action,'none');assert.equal(stuck.checks[0].queued_minutes,0);assert.equal(stuck.checks[0].attempt,2,'under STUCK the exhausted check comes first');
   // gate / pos20: the newest open non-draft PR into main, null when there is none.
-  assert.deepEqual(PS.GATE_LANES,['L1 core','L2 browser full','L3 storage visual gameplay','L4 remote','L5 rules regression','L6 browser journey']);
+  assert.deepEqual(PS.GATE_LANES,['L1 core','L2 browser full','L3A storage gameplay','L3B visual','L4 remote','L5 rules regression','L6 browser journey']);
   assert.deepEqual(PS.GATE_SEALS,['PASS','FAIL_TEST','INFRA_RETRYING','INFRA_EXHAUSTED','PENDING','DRAFT','SUPERSEDED']);
   assert.equal(PS.POS20_GATE_NAMES.length,PS.POS20_TOTAL_GATES);
   const H='d'.repeat(40);
@@ -297,10 +297,10 @@ let checks=0;const ok=label=>{checks++;void label;};
   const pr22=pulls[2];
   const laneJob=(name,status,conclusion=null)=>({name,status,conclusion,steps:[]});
   const gateRunning={id:31,name:'Showdown Gate',path:'.github/workflows/showdown-gate.yml',event:'pull_request',status:'in_progress',conclusion:null,head_sha:H,run_attempt:1,head_repository:{full_name:'o/r'}};
-  const runningJobs=[laneJob('L1 core','completed','success'),laneJob('L2 browser full','completed','skipped'),laneJob('L3 storage visual gameplay','in_progress'),laneJob('L4 remote','completed','failure'),laneJob('L5 rules regression','queued'),laneJob('seal','queued')];
+  const runningJobs=[laneJob('L1 core','completed','success'),laneJob('L2 browser full','completed','skipped'),laneJob('L3A storage gameplay','in_progress'),laneJob('L3B visual','completed','success'),laneJob('L4 remote','completed','failure'),laneJob('L5 rules regression','queued'),laneJob('seal','queued')];
   const focus={pr:pr22,gateRun:gateRunning,gateJobs:runningJobs,gateNames:PS.POS20_GATE_NAMES,pos20Run:{id:41,name:'Validate POS20',status:'in_progress',conclusion:null,head_sha:H},pos20Jobs:[{name:'POS20 exact selector',status:'completed',conclusion:'success'},{name:'POS20 proof FULL',status:'completed',conclusion:'skipped'},{name:'POS20 cognitive benchmark',status:'in_progress',conclusion:null}],fastRun:null,fastJobs:[],pos20Archived:false};
   const withFocus=keys(PS.buildPhysioStatus({now,focus}));
-  assert.deepEqual(withFocus.gate,{pr:22,head_sha:H,lanes:[{name:'L1 core',state:'pass'},{name:'L2 browser full',state:'skipped'},{name:'L3 storage visual gameplay',state:'running'},{name:'L4 remote',state:'fail'},{name:'L5 rules regression',state:'queued'},{name:'L6 browser journey',state:'queued'}],seal:'PENDING'});
+  assert.deepEqual(withFocus.gate,{pr:22,head_sha:H,lanes:[{name:'L1 core',state:'pass'},{name:'L2 browser full',state:'skipped'},{name:'L3A storage gameplay',state:'running'},{name:'L3B visual',state:'pass'},{name:'L4 remote',state:'fail'},{name:'L5 rules regression',state:'queued'},{name:'L6 browser journey',state:'queued'}],seal:'PENDING'});
   assert.deepEqual(withFocus.pos20,{pr:22,passed:2,total:16,state:'running'});
   const gateSealOf=(run,jobs)=>PS.buildGateView({pr:pr22,gateRun:run,gateJobs:jobs}).seal;
   // No Showdown Gate run on this head yet (or no Showdown Gate workflow at all): gate is null, pos20 still filled.

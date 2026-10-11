@@ -1,9 +1,11 @@
 #!/usr/bin/env node
 "use strict";
 // HO-020 (job 1034): js/v10Screens.js never disables a Team V stylesheet while it is still loading, also after the
-// 4000 ms style timeout and when Chromium fetches a re-enabled sheet again. The minimal DOM below behaves like Chromium:
-// a loading link has sheet===null; disabling it while it loads drops the request for good; disabling a loaded link
-// drops its sheet, and enabling it fetches the sheet again.
+// 4000 ms style timeout. The minimal DOM below behaves like Chromium: a loading link has sheet===null; disabling it while
+// it loads drops the request for good; disabling a loaded link drops its sheet, and enabling it fetches the sheet again.
+// JOB-1635 C-1: the loader therefore never sets link.disabled at all. A loaded sheet is switched off and on through
+// link.sheet.disabled, which keeps the sheet (no second fetch, no blank labels on the way back to Home); the checks below
+// assert that mechanism.
 const assert=require("node:assert/strict"),fs=require("node:fs"),path=require("node:path"),vm=require("node:vm");
 const ROOT=path.resolve(__dirname,"../.."),SOURCE=fs.readFileSync(path.join(ROOT,"js/v10Screens.js"),"utf8");
 
@@ -62,23 +64,24 @@ check("HO20-1 the style timeout releases the screen but a still-loading sheet is
   root.go("legacy");V.hide("seasonEntry");await flush();
   for(const file of KIT){const l=link(file);assert.equal(l.dropped,false,`${file} not dropped`);assert.equal(l.disabled,false,`${file} left alone while loading`);assert.equal(l.loading,true,`${file} still loading`);}
   await root.deliverAll();
-  for(const file of KIT)assert.equal(link(file).disabled,true,`${file} off once its late sheet loaded: no Team V screen shows`);
+  for(const file of KIT){const l=link(file);assert.equal(l.disabled,false,`${file} link never disabled (C-1)`);assert.equal(l.sheet.disabled,true,`${file} sheet off once its late sheet loaded: no Team V screen shows`);}
   root.go("seasonEntry");await V.show("seasonEntry");await root.deliverAll();
-  for(const file of KIT){const l=link(file);assert.equal(l.disabled,false,`${file} on for Final Winner`);assert.ok(l.sheet,`${file} has its sheet`);}
+  for(const file of KIT){const l=link(file);assert.ok(l.sheet,`${file} has its sheet`);assert.equal(l.sheet.disabled,false,`${file} on for Final Winner`);}
 });
 
-check("HO20-2 a re-enabled sheet Chromium fetches again is not disabled until it has loaded",async()=>{
+check("HO20-2 a sheet switched back on is kept: no second fetch, never dropped (JOB-1635 C-1)",async()=>{
   const {root,V,link}=makeRoot();
   root.go("seasonEntry");const first=V.show("seasonEntry");await flush();await root.deliverAll();await first;
   root.go("legacy");V.hide("seasonEntry");await flush();
-  for(const file of KIT)assert.equal(link(file).disabled,true,`${file} off away from Team V`);
+  for(const file of KIT){const l=link(file);assert.equal(l.disabled,false,`${file} link left enabled (C-1)`);assert.equal(l.sheet.disabled,true,`${file} sheet off away from Team V`);}
   root.go("seasonEntry");await V.show("seasonEntry");await flush();
-  for(const file of KIT)assert.equal(link(file).loading,true,`${file} fetched again on enable`);
+  // JOB-1635 C-1 re-pin: the sheet is kept and switched back on; nothing is fetched again (before: Chromium refetched it).
+  for(const file of KIT){const l=link(file);assert.equal(l.loading,false,`${file} not fetched again on enable`);assert.equal(l.fetches,1,`${file} fetched once in all`);assert.equal(l.sheet.disabled,false,`${file} sheet on again`);}
   root.go("legacy");V.hide("seasonEntry");await flush();
-  for(const file of KIT)assert.equal(link(file).dropped,false,`${file} re-fetch not dropped`);
+  for(const file of KIT)assert.equal(link(file).dropped,false,`${file} never dropped`);
   await root.deliverAll();
   root.go("seasonEntry");await V.show("seasonEntry");await root.deliverAll();
-  for(const file of KIT){const l=link(file);assert.equal(l.disabled,false,file);assert.ok(l.sheet,`${file} has its sheet on Final Winner`);}
+  for(const file of KIT){const l=link(file);assert.equal(l.fetches,1,`${file} still one fetch`);assert.ok(l.sheet,`${file} has its sheet on Final Winner`);assert.equal(l.sheet.disabled,false,file);}
 });
 
 check("HO20-3 a sheet that loads in time clears its timer; a late load after the timeout resolves nothing twice",async()=>{
