@@ -170,7 +170,7 @@
     const run=Promise.resolve().then(()=>refreshNow(generation)).finally(()=>{if(refreshInFlight===run)refreshInFlight=null;});refreshInFlight=run;return run;
   }
   async function refreshNow(generation=setupGeneration){
-    const before=storageSnapshot();setState({status:"reading",busy:true,message:"Checking the shared setup for this Showdown…"});
+    const before=storageSnapshot();setState({status:"reading",busy:false,message:"Checking the shared setup for this Showdown…"});
     let readReached=false;
     try{
       const context=await resolveContext();readReached=true;const result=await context.adapter.read(providerOptions(context));assertStorageUnchanged(before);
