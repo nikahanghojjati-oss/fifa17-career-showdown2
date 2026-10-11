@@ -176,9 +176,10 @@ html[data-v10-screen="clubWheelScreen"] #app > main { position: static; inset: a
 /* JOB-1594: adopted 1169 upright-phone hierarchy. Adapter only; main owns overflow.
    The old hero and plate are hidden by class, including their reserved space. */
 #clubWheelScreen.cl-on .clPhoneScene { display: none; }
-/* JOB-1595 shares these compact controls with sideways phones only. */
+/* JOB-1595 / JOB-1596 reuse the scene and deck on sideways phones and upright tablets. */
 @media (max-width: 760px) and (orientation: portrait),
-       (min-width: 600px) and (max-width: 960px) and (max-height: 500px) and (orientation: landscape) {
+       (min-width: 600px) and (max-width: 960px) and (max-height: 500px) and (orientation: landscape),
+       (min-width: 761px) and (max-width: 1024px) and (orientation: portrait) {
   html[data-v10-screen="clubWheelScreen"] #app > main {
     position: fixed; inset: 0; overflow-x: hidden; overflow-y: auto; overscroll-behavior: contain;
   }
@@ -416,4 +417,104 @@ html[data-v10-screen="clubWheelScreen"] #app > main { position: static; inset: a
   }
   #clubWheelScreen.cl-on #sharedShowdownSeasonChoice > .stateNote { display: inline; font-size: 11px; line-height: 1.2; }
   #clubWheelScreen.cl-on #sharedShowdownSeasonChoice .sharedSeasonChoices { justify-content: center; }
+}
+
+/* JOB-1596: adopted 1172 upright-tablet deck, two equal result cards.
+   The single scene flexes around live notes/actions; main remains the only scroller.
+   No tablet selector reaches a phone, landscape frame or desktop. */
+@media (min-width: 761px) and (max-width: 1024px) and (orientation: portrait) {
+  html[data-v10-screen="clubWheelScreen"] #app #topHeader {
+    display: block !important; position: fixed; width: 1px; height: 1px; margin: -1px;
+    padding: 0; border: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap;
+  }
+  html[data-v10-screen="clubWheelScreen"] #app #topHeader > :not(.brand) { display: none !important; }
+  #clubWheelScreen.cl-on {
+    --sr-hero: 0px; --cl-phone-hero: clamp(340px, calc(100svh - 500px), 720px);
+    height: 100svh; min-height: 100svh;
+  }
+  #clubWheelScreen.cl-on .clPhoneScene {
+    flex: 1 1 var(--cl-phone-hero); height: var(--cl-phone-hero); min-height: 240px;
+    padding: 104px 32px 80px;
+  }
+  #clubWheelScreen.cl-on .clPhonePerson { width: calc(50% - 8px); }
+  #clubWheelScreen.cl-on .clPhoneScene { gap: 16px; }
+  #clubWheelScreen.cl-on > h2 { top: 24px !important; }
+  #clubWheelScreen.cl-on .clubTitleFallback { font-size: 52px; -webkit-text-stroke: .3px #ffda69; }
+  #clubWheelScreen.cl-on .clubAssignmentShell {
+    display: grid; grid-template-columns: 48px minmax(0, 1fr); gap: 10px 8px;
+    padding: 0 32px max(24px, env(safe-area-inset-bottom)); margin: 0 !important;
+  }
+  #clubWheelScreen.cl-on .clubRevealProgress {
+    grid-column: 1 / -1; padding: 14px 24px 8px;
+  }
+  #clubWheelScreen.cl-on .clubRevealProgress::before { top: 28px; left: 10%; right: 10%; }
+  #clubWheelScreen.cl-on .clubRevealProgress span { font-size: 12px; line-height: 1.2; }
+  #clubWheelScreen.cl-on .clubRevealProgress span::before { width: 28px; height: 28px; margin-bottom: 8px; }
+  #clubWheelScreen.cl-on .clubAssignmentHeader {
+    grid-column: 1 / -1; padding: 8px 0; gap: 4px 8px;
+  }
+  #clubWheelScreen.cl-on .clubAssignmentHeader .ebRow,
+  #clubWheelScreen.cl-on .clubAssignmentHeader .stRow { min-width: 0; }
+  #clubWheelScreen.cl-on .clubAssignmentHeader .stRow { grid-column: 1 / -1; }
+  #clubWheelScreen.cl-on .clubAssignmentEyebrow { font-size: 18px; letter-spacing: .14em; }
+  #clubWheelScreen.cl-on #clubAssignmentLeague { font-size: 30px; }
+  #clubWheelScreen.cl-on #clubPackStatus { font-size: 12px; }
+  #clubWheelScreen.cl-on .clubRevealArena { grid-column: 1 / -1; min-width: 0; }
+  #clubWheelScreen.cl-on .clubRevealArea { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+  #clubWheelScreen.cl-on .clubRevealCard {
+    height: 128px; min-height: 128px; padding: 14px 16px;
+    grid-template-columns: 54px minmax(0, 1fr); grid-template-rows: 26px 58px; gap: 8px 12px;
+  }
+  #clubWheelScreen.cl-on .clubRevealIndex {
+    grid-column: 1; grid-row: 1; width: 28px !important; font-size: 17px; box-sizing: border-box;
+  }
+  #clubWheelScreen.cl-on .clubManager { grid-column: 2; grid-row: 1; font-size: 28px; }
+  #clubWheelScreen.cl-on .clubPackStage {
+    grid-column: 1 / -1; grid-row: 2; height: 58px !important;
+  }
+  #clubWheelScreen.cl-on .clubPackBrand { font-size: 18px; }
+  #clubWheelScreen.cl-on .clubPackBrand small,
+  #clubWheelScreen.cl-on .clubPackSerial { font-size: 12px; }
+  #clubWheelScreen.cl-on .clubCardFace {
+    height: 58px !important; padding-left: 66px; grid-template-rows: 14px 32px 12px;
+    overflow: visible;
+  }
+  #clubWheelScreen.cl-on .clubCardLabel { font-size: 13px; line-height: 14px; letter-spacing: .1em; }
+  #clubWheelScreen.cl-on .clubCardFace strong {
+    position: static; padding: 0; font-size: 32px; line-height: 1; overflow-wrap: normal;
+  }
+  #clubWheelScreen.cl-on .clubCardFace [data-club-identity="true"]::before {
+    left: 0; top: 0; transform: none; width: 54px; height: 58px; margin: 0;
+  }
+  #clubWheelScreen.cl-on .clubCardState { font-size: 12px; line-height: 12px; letter-spacing: .13em; }
+  #clubWheelScreen.cl-on .clubVs {
+    top: -78px !important; height: 70px !important; gap: 2px;
+  }
+  #clubWheelScreen.cl-on .clubVs > span { font-size: 14px; }
+  #clubWheelScreen.cl-on .clubVs strong { font-size: 62px; }
+  #clubWheelScreen.cl-on #clubRivalryConfirmation {
+    grid-column: 1 / -1; padding-top: 12px; margin-top: 6px;
+  }
+  #clubWheelScreen.cl-on .clubRivalryHeadline { gap: 5px 9px; }
+  #clubWheelScreen.cl-on .clubRivalryHeadline > span { font-size: 15px; }
+  #clubWheelScreen.cl-on .clubRivalryHeadline > strong { font-size: 31px; }
+  #clubWheelScreen.cl-on .clubRivalryHeadline > small { font-size: 15px; margin-top: 5px; }
+  #clubWheelScreen.cl-on .clubRivalryLockNote {
+    max-width: 660px; margin: 10px auto 4px; font-size: 14px; line-height: 1.35; overflow-wrap: normal;
+  }
+  #clubWheelScreen.cl-on .clubAssignmentShell > .menuButton {
+    grid-column: 1 / -1; min-height: 58px; font-size: 24px; padding: 7px 12px;
+  }
+  #clubWheelScreen.cl-on .clubAssignmentShell > .backButton {
+    grid-column: 1 / -1; min-height: 44px; font-size: 16px;
+  }
+  #clubWheelScreen.cl-on > #sharedShowdownPresentationStatus {
+    top: 84px; left: 32px; right: 32px; width: auto; max-width: none;
+    font-size: 13px; padding: 7px 12px; text-align: center; box-sizing: border-box;
+  }
+  #clubWheelScreen.cl-on #sharedShowdownSeasonChoice {
+    grid-column: 1 / -1; position: relative; inset: auto; width: 100%;
+    padding: 8px 12px; gap: 4px;
+  }
+  #clubWheelScreen.cl-on #sharedShowdownSeasonChoice .sharedSeasonChoices { flex-wrap: wrap; }
 }
