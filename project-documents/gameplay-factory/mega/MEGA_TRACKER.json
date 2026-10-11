@@ -1,5 +1,5 @@
 {
-"updated": "2026-10-11T06:38:00Z",
+"updated": 0,
 "total": 518,
 "next_free": 127,
 "highest_taken": 403,
@@ -154,6 +154,266 @@
 "claimed_last_10min": 0,
 "merged_last_hour": 135
 },
+"lanes": {
+"gpt1": {
+"name": "ChatGPT account 1 (odd numbers)",
+"total": 239,
+"states": {
+"merged": 25,
+"closed": 20,
+"on_train": 21,
+"draft": 5,
+"waiting": 168
+},
+"reviews": {
+"ok": 0,
+"ok_notes": 0,
+"needs_changes": 0
+},
+"picked_up": 71,
+"worker_done": 51,
+"finished": 25,
+"pending_lead": 26,
+"wait_v": 0,
+"audit_batch": 0,
+"trouble": 0,
+"closed": 20,
+"reviews_total": 0,
+"first_time_ok": 72,
+"failing_now": 0
+},
+"gpt2": {
+"name": "ChatGPT account 2 (even numbers)",
+"total": 209,
+"states": {
+"merged": 85,
+"closed": 37,
+"waiting": 86,
+"wait_v": 1
+},
+"reviews": {
+"ok": 0,
+"ok_notes": 0,
+"needs_changes": 0
+},
+"picked_up": 123,
+"worker_done": 86,
+"finished": 85,
+"pending_lead": 0,
+"wait_v": 1,
+"audit_batch": 0,
+"trouble": 0,
+"closed": 37,
+"reviews_total": 0,
+"first_time_ok": 70,
+"failing_now": 0
+},
+"chat_jobs": {
+"name": "ChatGPT chat (job numbers 1000+)",
+"total": 36,
+"states": {
+"live": 12,
+"merged": 2,
+"waiting": 16,
+"draft": 6
+},
+"reviews": {
+"ok": 0,
+"ok_notes": 0,
+"needs_changes": 0
+},
+"picked_up": 20,
+"worker_done": 20,
+"finished": 14,
+"pending_lead": 6,
+"wait_v": 0,
+"audit_batch": 0,
+"trouble": 0,
+"closed": 0,
+"reviews_total": 0,
+"first_time_ok": 100,
+"failing_now": 0
+},
+"codex": {
+"name": "Codex",
+"total": 15,
+"states": {
+"live": 8,
+"draft": 5,
+"waiting": 2
+},
+"reviews": {
+"ok": 0,
+"ok_notes": 0,
+"needs_changes": 0
+},
+"picked_up": 13,
+"worker_done": 13,
+"finished": 8,
+"pending_lead": 5,
+"wait_v": 0,
+"audit_batch": 0,
+"trouble": 0,
+"closed": 0,
+"reviews_total": 0,
+"first_time_ok": 100,
+"failing_now": 0
+},
+"work": {
+"name": "ChatGPT Work mode",
+"total": 34,
+"states": {
+"live": 8,
+"merged": 8,
+"waiting": 15,
+"closed": 3
+},
+"reviews": {
+"ok": 0,
+"ok_notes": 0,
+"needs_changes": 0
+},
+"picked_up": 19,
+"worker_done": 16,
+"finished": 16,
+"pending_lead": 0,
+"wait_v": 0,
+"audit_batch": 0,
+"trouble": 0,
+"closed": 3,
+"reviews_total": 0,
+"first_time_ok": 84,
+"failing_now": 0
+},
+"claude": {
+"name": "Claude (Haiku, Sonnet, Opus)",
+"total": 74,
+"states": {
+"closed": 20,
+"merged": 51,
+"live": 3
+},
+"reviews": {
+"ok": 0,
+"ok_notes": 0,
+"needs_changes": 0
+},
+"picked_up": 74,
+"worker_done": 54,
+"finished": 54,
+"pending_lead": 0,
+"wait_v": 0,
+"audit_batch": 0,
+"trouble": 0,
+"closed": 20,
+"reviews_total": 0,
+"first_time_ok": 73,
+"failing_now": 0
+},
+"other": {
+"name": "Other",
+"total": 0,
+"states": {},
+"reviews": {
+"ok": 0,
+"ok_notes": 0,
+"needs_changes": 0
+},
+"picked_up": 0,
+"worker_done": 0,
+"finished": 0,
+"pending_lead": 0,
+"wait_v": 0,
+"audit_batch": 0,
+"trouble": 0,
+"closed": 0,
+"reviews_total": 0,
+"first_time_ok": null,
+"failing_now": 0
+}
+},
+"old_main_prs": 0,
+"codex_next": [
+{
+"job": 1589,
+"title": "Old-design flash: browser regression guard (tests only)"
+}
+],
+"codex_waiting_on_deps": [
+{
+"job": 1582,
+"title": "Showdown Gate: screen shots of changed screens as a run artifact",
+"deps": [
+"1581"
+]
+}
+],
+"work_waiting": [
+1612,
+1613,
+1614,
+1615,
+1616,
+1617,
+1618,
+1619,
+1620,
+1621,
+1630,
+1631,
+1632,
+1633,
+1634
+],
+"history": [
+{
+"at": 0,
+"lanes": {
+"gpt1": {
+"t": 239,
+"fin": 25,
+"done": 51,
+"redone": 20,
+"fail": 0
+},
+"gpt2": {
+"t": 209,
+"fin": 85,
+"done": 86,
+"redone": 37,
+"fail": 0
+},
+"chat_jobs": {
+"t": 36,
+"fin": 14,
+"done": 20,
+"redone": 0,
+"fail": 0
+},
+"codex": {
+"t": 15,
+"fin": 8,
+"done": 13,
+"redone": 0,
+"fail": 0
+},
+"work": {
+"t": 34,
+"fin": 16,
+"done": 16,
+"redone": 3,
+"fail": 0
+},
+"claude": {
+"t": 74,
+"fin": 54,
+"done": 54,
+"redone": 20,
+"fail": 0
+}
+}
+}
+],
 "events": [
 {
 "at": "2026-10-11T03:27:13Z",
