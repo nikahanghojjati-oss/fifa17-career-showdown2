@@ -1,5 +1,5 @@
 {
-"updated": "2026-10-11T04:24:57Z",
+"updated": "2026-10-11T04:25:57Z",
 "total": 518,
 "next_free": 91,
 "highest_taken": 395,
@@ -7,8 +7,8 @@
 "merged": 25,
 "draft": 161,
 "closed": 51,
-"waiting": 273,
-"on_train": 8
+"waiting": 272,
+"on_train": 9
 },
 "stages": {
 "2": {
@@ -17,8 +17,8 @@
 "states": {
 "merged": 25,
 "closed": 39,
-"waiting": 194,
-"on_train": 8
+"waiting": 193,
+"on_train": 9
 }
 },
 "1": {
@@ -59,6 +59,7 @@
 "open_code_prs": 0,
 "open_train_prs": [],
 "on_train_no_pr": [
+99,
 101,
 105,
 107,
@@ -75,7 +76,7 @@
 93,
 95,
 97,
-99,
+117,
 141,
 143,
 173,
@@ -86,7 +87,7 @@
 93,
 95,
 97,
-99,
+117,
 141,
 143,
 173,
@@ -98,7 +99,7 @@
 93,
 95,
 97,
-99,
+117,
 141,
 143,
 173,
@@ -108,18 +109,11 @@
 "held_until_picture": 66
 },
 "rate": {
-"claimed_last_hour": 29,
-"claimed_last_10min": 13,
+"claimed_last_hour": 30,
+"claimed_last_10min": 9,
 "merged_last_hour": 25
 },
 "events": [
-{
-"at": "2026-10-10T19:54:19Z",
-"item": 157,
-"job": 1301,
-"from": "waiting",
-"to": "draft"
-},
 {
 "at": "2026-10-10T19:54:19Z",
 "item": 158,
@@ -2212,6 +2206,13 @@
 "job": 1143,
 "from": "blocked",
 "to": "draft"
+},
+{
+"at": "2026-10-11T04:25:57Z",
+"item": 99,
+"job": 1182,
+"from": "waiting",
+"to": "on_train"
 }
 ],
 "items": {
@@ -3937,8 +3938,10 @@
 "title": "Transfer challenge and Signing Entry: fix the 768x1024 view",
 "mode": "code",
 "group": "transfer",
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"state": "on_train",
+"branch": "gameplay/train-transfer-2",
+"first_seen": "2026-10-11T04:25:57Z",
+"since": "2026-10-11T04:25:57Z"
 },
 "100": {
 "job": 1516,
