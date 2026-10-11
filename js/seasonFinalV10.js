@@ -80,7 +80,7 @@
       if(!tab)continue;
       const sealed=doc.createElement("div");sealed.className="v10SeasonTabletSealed v10SeasonTabletSealed--"+manager;
       sealed.setAttribute("aria-hidden","true");
-      sealed.textContent=[...tab.childNodes].map(node=>node.textContent.trim()).filter(Boolean).join("\n");
+      sealed.textContent=Array.from(tab.childNodes||tab.children||[]).map(node=>String(node.textContent||"").trim()).filter(Boolean).join("\n");
       grid.appendChild(sealed);
     }
     for(const node of original)if(node.parentNode===host)layout.appendChild(node);
@@ -224,6 +224,12 @@
  }
  /* FIX ROUND 1: remove the original hero from layout, regardless of asset filenames. */
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage :is(img.season-phone-bg,.season-phone-hero--daniel,.season-phone-hero--nik,img.season-title-wordmark) { display:none!important; }
+ /* Claude lane: the scene replaces the old hero band, so none of its reserved space stays in flow. */
+ #app #seasonEntry.seasonScreenV10>.v10SeasonStage.v10SeasonStage { --sr-hero:0px; }
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage :is(.sd-stage__layer--plate,.sd-stage__layer--cutout,.sd-stage__layer--light,.sd-stage__layer--atmosphere) { display:none!important; }
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage :is(img.season-phone-bg,.season-phone-hero,img.season-phone-title,img.season-title-wordmark) { display:none!important; }
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage .season-title-block { margin:0; }
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage .sd-stage__layer--ui { padding-top:0; }
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage .season-layout> :has(label[for="season-phone-tab-daniel"]) {
   grid-column:1; grid-row:2; min-width:0; min-height:44px; margin:0;
   display:grid; grid-template-columns:1fr 1fr 1.1fr; border:1px solid #f2c45b;
@@ -327,7 +333,12 @@
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage .v10SeasonPhoneScene::after {
   inset:73% 2% 4%; background:url("${assetUrl(BASE+"season-results/assets/TITLE_SR_PHONE_V1.webp")}") center/contain no-repeat;
  }
- #app #seasonEntry.seasonScreenV10 .v10SeasonStage img:is([src*="OVL_SR_DANIEL_PHONE_V1"],[src*="OVL_SR_NIK_PHONE_V1"],[src*="TITLE_SR_PHONE_V1"]) { visibility:hidden; }
+ /* Claude lane: the scene replaces the old hero band, so none of its reserved space stays in flow. */
+ #app #seasonEntry.seasonScreenV10>.v10SeasonStage.v10SeasonStage { --sr-hero:0px; }
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage :is(.sd-stage__layer--plate,.sd-stage__layer--cutout,.sd-stage__layer--light,.sd-stage__layer--atmosphere) { display:none!important; }
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage :is(img.season-phone-bg,.season-phone-hero,img.season-phone-title,img.season-title-wordmark) { display:none!important; }
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage .season-title-block { margin:0; }
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage .sd-stage__layer--ui { padding-top:0; }
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage .season-layout> :has(label[for="season-phone-tab-daniel"]) {
   grid-column:2; grid-row:1; position:relative; z-index:2; min-width:0; min-height:44px; margin:0;
   display:grid; grid-template-columns:1fr 1fr 1.1fr; border:1px solid #f2c45b;
@@ -408,6 +419,12 @@
 }
 
 
+/* Claude lane, JOB-1598 at 740x360: the empty error line keeps a 20px placeholder that pushed the actions
+   16px below the fold. It collapses only while empty; an error still shows and scrolls in main. */
+@media (min-width:700px) and (max-width:880px) and (min-height:340px) and (max-height:375px) and (orientation:landscape) {
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage #seasonEntryError:empty { min-height:0; height:0; padding:0; margin:0; }
+}
+
 /* JOB-1599: adopted tablet 1230. Only upright 700-900px by 960-1240px.
    Live controls/words and DOM tap order stay intact; provider-hidden fields stay hidden. */
 #app #seasonEntry .v10SeasonTabletSealed { display:none; }
@@ -432,7 +449,12 @@
   inset:0; background-image:url("${assetUrl(BASE+"season-results/assets/OVL_SR_DANIEL_PHONE_V1.webp")}"),url("${assetUrl(BASE+"season-results/assets/OVL_SR_NIK_PHONE_V1.webp")}"); background-position:left bottom 13%,right bottom 13%; background-size:49% 85%,49% 85%;
  }
 #app #seasonEntry.seasonScreenV10 .v10SeasonStage .v10SeasonPhoneScene::after { inset:73% 5% 3%; background:url("${assetUrl(BASE+"season-results/assets/TITLE_SR_PHONE_V1.webp")}") center/contain no-repeat; }
-#app #seasonEntry.seasonScreenV10 .v10SeasonStage img:is([src*="OVL_SR_DANIEL_PHONE_V1"],[src*="OVL_SR_NIK_PHONE_V1"],[src*="TITLE_SR_PHONE_V1"]) { visibility:hidden; }
+ /* Claude lane: the scene replaces the old hero band, so none of its reserved space stays in flow. */
+ #app #seasonEntry.seasonScreenV10>.v10SeasonStage.v10SeasonStage { --sr-hero:0px; }
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage :is(.sd-stage__layer--plate,.sd-stage__layer--cutout,.sd-stage__layer--light,.sd-stage__layer--atmosphere) { display:none!important; }
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage :is(img.season-phone-bg,.season-phone-hero,img.season-phone-title,img.season-title-wordmark) { display:none!important; }
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage .season-title-block { margin:0; }
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage .sd-stage__layer--ui { padding-top:0; }
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage .season-layout> :has(label[for="season-phone-tab-daniel"]) {
   grid-column:1/-1; grid-row:2; position:relative; min-width:0;
   min-height:56px; margin:0; display:grid; grid-template-columns:1fr 1fr 1.1fr;
@@ -462,18 +484,30 @@
  }
 #app #seasonEntry.seasonScreenV10 .v10SeasonStage :is(#daniel-entry-panel,.v10SeasonTabletSealed--daniel) { grid-column:1; grid-row:1; }
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage .seasonEntryGrid:has(#daniel-entry-panel.hidden) .v10SeasonTabletSealed--daniel {
-  display:flex; box-sizing:border-box; min-width:0; min-height:460px;
-  padding:16px; align-items:center; justify-content:center; text-align:center;
-  white-space:pre-line; overflow-wrap:anywhere; font-size:32px; line-height:1.4;
-  color:#c9c2b0; border:1px solid #ad873955; border-radius:5px; background:#090b0ef2;
+  display:flex; flex-direction:column; box-sizing:border-box; min-width:0; min-height:460px;
+  padding:16px; align-items:center; justify-content:center; gap:4px; text-align:center;
+  white-space:pre-line; overflow-wrap:normal; word-break:normal;
+  font:800 34px/1.15 var(--f17-display,"Barlow Condensed","Arial Narrow",sans-serif); letter-spacing:1.4px;
+  color:#c9c2b0; border:1px solid #ad8739; border-radius:5px;
+  background:linear-gradient(125deg,#080b0dfc 65%,#292211f5); box-shadow:inset 0 0 0 3px #ad873922,0 6px 22px #0008;
+ }
+ /* The screen's own sealed word (the tab's ::after for the same hidden-panel state); no new DOM text. */
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage .seasonEntryGrid:has(#daniel-entry-panel.hidden) .v10SeasonTabletSealed--daniel::after {
+  content:"SEALED"; display:block; font:800 22px/1.2 var(--f17-display,"Barlow Condensed","Arial Narrow",sans-serif); letter-spacing:2px; color:#ad8739;
  }
 #app #seasonEntry.seasonScreenV10 .v10SeasonStage:has(#season-phone-tab-daniel:checked) .v10SeasonTabletSealed--daniel { color:#f2c45b; border-color:#f2c45b; }
 #app #seasonEntry.seasonScreenV10 .v10SeasonStage :is(#nik-entry-panel,.v10SeasonTabletSealed--nik) { grid-column:2; grid-row:1; }
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage .seasonEntryGrid:has(#nik-entry-panel.hidden) .v10SeasonTabletSealed--nik {
-  display:flex; box-sizing:border-box; min-width:0; min-height:460px;
-  padding:16px; align-items:center; justify-content:center; text-align:center;
-  white-space:pre-line; overflow-wrap:anywhere; font-size:32px; line-height:1.4;
-  color:#c9c2b0; border:1px solid #ad873955; border-radius:5px; background:#090b0ef2;
+  display:flex; flex-direction:column; box-sizing:border-box; min-width:0; min-height:460px;
+  padding:16px; align-items:center; justify-content:center; gap:4px; text-align:center;
+  white-space:pre-line; overflow-wrap:normal; word-break:normal;
+  font:800 34px/1.15 var(--f17-display,"Barlow Condensed","Arial Narrow",sans-serif); letter-spacing:1.4px;
+  color:#c9c2b0; border:1px solid #ad8739; border-radius:5px;
+  background:linear-gradient(125deg,#080b0dfc 65%,#292211f5); box-shadow:inset 0 0 0 3px #ad873922,0 6px 22px #0008;
+ }
+ /* The screen's own sealed word (the tab's ::after for the same hidden-panel state); no new DOM text. */
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage .seasonEntryGrid:has(#nik-entry-panel.hidden) .v10SeasonTabletSealed--nik::after {
+  content:"SEALED"; display:block; font:800 22px/1.2 var(--f17-display,"Barlow Condensed","Arial Narrow",sans-serif); letter-spacing:2px; color:#ad8739;
  }
 #app #seasonEntry.seasonScreenV10 .v10SeasonStage:has(#season-phone-tab-nik:checked) .v10SeasonTabletSealed--nik { color:#f2c45b; border-color:#f2c45b; }
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage .seasonManagerHeader {
