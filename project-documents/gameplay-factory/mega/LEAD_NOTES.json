@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-11T07:20:00Z",
+ "updated": "2026-10-11T07:25:00Z",
  "from": "Team G lead",
  "you_come_in": [
   {
@@ -63,6 +63,12 @@
    "title": "Connect Players phone wiring (Work mode)",
    "verdict": "fixed by lead",
    "why": "The phone rule also caught tablets, the scene spilled sideways and Nik's JOIN button fell under the nav. A Claude browser check fixed it in CSS and merged #667."
+  },
+  {
+   "job": "1594-1596",
+   "title": "Club phone, sideways and tablet wiring (Work mode)",
+   "verdict": "fixed by lead",
+   "why": "Old club.css transforms and offsets were still applied, so the title, VS and cards slid off screen and CONFIRM fell below the fold; tablets overflowed sideways. A Claude browser check fixed it in CSS and merged #669."
   }
  ],
  "lessons": [
