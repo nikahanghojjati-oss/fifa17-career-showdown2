@@ -1,6 +1,6 @@
 {
  "_how": "One shared job counter for Team G and Team V (Nik, 2026-10-05). Claim with tools/claim_number.py only. A number is used once, ever. CONTRACT.md section 10.",
- "next": 1641,
+ "next": 1642,
  "claims": [
   {
    "number": 1001,
@@ -3842,6 +3842,12 @@
    "team": "G",
    "title": "Polish wave: Club Assignment",
    "claimed": "2026-10-11T06:46:48Z"
+  },
+  {
+   "number": 1641,
+   "team": "G",
+   "title": "Polish wave: Transfer",
+   "claimed": "2026-10-11T06:46:50Z"
   }
  ]
 }
