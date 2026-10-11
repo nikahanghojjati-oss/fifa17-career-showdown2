@@ -1,9 +1,9 @@
-# Mega factory tracker · updated 2026-10-11T04:44:32Z
+# Mega factory tracker · updated 2026-10-11T04:46:32Z
 
 **Type now (8 free):** 91, 93, 95, 97, 141, 143, 173, 403
 **Next free number:** 91 · **highest taken:** 395 of 518
 **Code PRs open:** 0 of 8 · area locks: transfer
-**Rate:** 0 claimed in 10 min · 34 in 1 h · 15 merged in 1 h
+**Rate:** 0 claimed in 10 min · 33 in 1 h · 15 merged in 1 h
 
 **Finished (merged or live): 25 of 518**
 
