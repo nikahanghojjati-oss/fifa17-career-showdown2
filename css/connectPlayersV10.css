@@ -225,7 +225,7 @@
    The wrapper is layout-neutral elsewhere; all runtime controls keep their IDs/order. */
 #connectPlayersScreen .connectPlayersPhoneFlow{display:contents;}
 #connectPlayersScreen .connectPlayersPhoneScene{display:none;}
-@media (max-width:760px) and (orientation:portrait){
+@media (max-width:760px) and (max-height:700px) and (orientation:portrait){
  #connectPlayersScreen{
   --cp-scene:clamp(96px,min(33svh,calc(100svh - var(--cp-top) - var(--cp-bottom) - 330px)),250px);
   display:block;padding:0;overflow:hidden;
@@ -244,6 +244,7 @@
  #connectPlayersScreen .connectPlayersPhoneScene{
   position:relative;display:block;order:0;flex:0 0 var(--cp-scene);
   height:var(--cp-scene);min-height:0;margin:0 -12px;pointer-events:none;
+  overflow-x:clip;
  }
  #connectPlayersScreen .connectPlayersPhoneScene img{
   position:absolute;top:0;width:auto;max-width:none;
@@ -277,6 +278,11 @@
   position:relative;inset:auto;order:2;width:100%;min-width:0;height:auto;
   flex:0 0 auto;gap:8px;margin:0;padding:0;overflow:visible;
  }
+ /* Nik's JOIN button sits below the role card and code field, so this tab gets a shorter scene and a content-height card. */
+ #connectPlayersScreen:has(#connectPlayersNikTab:checked){
+  --cp-scene:clamp(96px,min(33svh,calc(100svh - var(--cp-top) - var(--cp-bottom) - 400px)),250px);
+ }
+ #connectPlayersScreen:has(#connectPlayersNikTab:checked) .connectPlayersRoleNik{min-height:0;}
  #connectPlayersScreen .connectPlayersTabRow{min-height:46px;flex:0 0 auto;}
  #connectPlayersScreen .connectPlayersTabs{
   margin-right:48px;border:1px solid #f5ce55;background:#080909ee;
@@ -323,7 +329,7 @@
  #connectPlayersScreen #persistentNikDanielPairPanel>div{min-width:0;max-width:100%;box-sizing:border-box;}
  #connectPlayersScreen #persistentNikDanielPairCode{box-sizing:border-box;}
 }
-@media (max-width:375px) and (orientation:portrait){
+@media (max-width:375px) and (max-height:700px) and (orientation:portrait){
  #connectPlayersScreen .connectPlayersTabs span{font-size:10px;}
 }
 @media (max-width:760px) and (max-height:580px) and (orientation:portrait){
