@@ -291,8 +291,8 @@ def main():
             "trophy-room": "MOCKUP_TROPHY_ROOM.png"}
     MOCK_DIR = "project-documents/factory/mockups/"
     # studies Team V already designed (HO-021): start from that design, do not redo it
-    DECIDED = {("home", "sideways"): "1035", ("transfer", "sideways"): "1035", ("home", "tablet"): "1036", ("transfer", "tablet"): "1036"}
-    DECIDED_EVID = {("home", "sideways"): "visual-assets/v10_1/tr2/evidence/1035/", ("transfer", "sideways"): "visual-assets/v10_1/tr2/evidence/1035/",
+    DECIDED = {("transfer", "sideways"): "1035", ("home", "tablet"): "1036", ("transfer", "tablet"): "1036"}
+    DECIDED_EVID = {("transfer", "sideways"): "visual-assets/v10_1/tr2/evidence/1035/",
                     ("home", "tablet"): "visual-assets/v10_1/home/evidence/1036/", ("transfer", "tablet"): "visual-assets/v10_1/tr2/evidence/1036/"}
     _pj = json.loads((pathlib.Path(__file__).resolve().parent / "PICTURES.json").read_text())
     PIC, NOTES = _pj["keys"], _pj.get("notes", {})
@@ -307,7 +307,8 @@ def main():
         if sid in MOCK:
             return f"the screen's desktop mockup: `{MOCK_DIR}{MOCK[sid]}` on branch `factory/v1-wtt5ye` (reference only; look at the picture, never copy real club crests, league logos or trophies from it)"
         return "this screen has no mockup: use the live screen (its CSS and the Read files) as the reference"
-    STUDY_RULES = ("- **Phone fit rule (phone studies):** the design must fit with no scroll at 393x660 and at 360x640, with the main button visible at 375x553. The bottom tab bar (HOME, CAREER, STANDINGS, STATS, RULES) shows at 900px wide or less, on hub screens only.\n"
+    STUDY_RULES = ("- **Reading allowance (studies):** the Read list below is only a start. To get the real labels, markup and text, you may also read `index.html` and the `js/` file that creates this screen's text (search for a label you can see on the live screen), the `css/` file for the screen, and the two pictures: at most 8 files in all. Never invent text, and never take wording from a picture.\n"
+                   "- **Phone fit rule (phone studies):** the design must fit with no scroll at 393x660 and at 360x640, with the main button visible at 375x553. The bottom tab bar (HOME, CAREER, STANDINGS, STATS, RULES) shows at 900px wide or less, on hub screens only.\n"
                    "- **Product rules:** Daniel is always on the LEFT and Nik on the RIGHT, never mirrored. No player photos (the only exception is the Reus photo on Loading). No real club crests, league logos or trophies: use our own art only. On Home tiles the big art fills the right side of the tile, centred and fully inside, never small or clipped in a corner.\n")
     tickets, slots = [], {s: [] for s in SLOTS}
     def add(slot, **t):

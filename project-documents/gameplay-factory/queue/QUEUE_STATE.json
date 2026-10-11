@@ -1,38 +1,38 @@
 {
  "sequence": {
   "ready": [
-   61,
    226,
    228,
-   234,
-   238,
    242,
    250,
    254,
    256,
-   262,
    266,
-   270
+   270,
+   278,
+   282,
+   284,
+   294
   ],
   "ready_sol": [
-   61,
    226,
    228,
-   234,
-   238,
    242,
    250,
    254,
    256,
-   262,
    266,
-   270
+   270,
+   278,
+   282,
+   284,
+   294
   ],
   "ready_codex": [],
   "held_until_picture": 86,
   "open_code_prs": 0,
-  "open_train_prs": 8,
-  "next_free": 61,
+  "open_train_prs": 9,
+  "next_free": 226,
   "highest_taken": 395,
   "total": 518,
   "states": {
@@ -42,7 +42,7 @@
    "4": "pr_open",
    "5": "pr_open",
    "6": "pr_open",
-   "7": "on_train",
+   "7": "pr_open",
    "8": "pr_open",
    "9": "pr_open",
    "10": "pr_open",
@@ -60,7 +60,7 @@
    "22": "pr_open",
    "23": "pr_open",
    "24": "pr_open",
-   "25": "on_train",
+   "25": "pr_open",
    "26": "pr_open",
    "27": "pr_open",
    "28": "pr_open",
@@ -78,7 +78,7 @@
    "40": "pr_open",
    "41": "pr_open",
    "42": "pr_open",
-   "43": "on_train",
+   "43": "pr_open",
    "44": "pr_open",
    "45": "pr_open",
    "46": "pr_open",
@@ -96,7 +96,7 @@
    "58": "pr_open",
    "59": "pr_open",
    "60": "pr_open",
-   "61": "waiting",
+   "61": "pr_open",
    "62": "pr_open",
    "63": "pr_open",
    "64": "pr_open",
@@ -114,7 +114,7 @@
    "76": "pr_open",
    "77": "pr_open",
    "78": "pr_open",
-   "79": "waiting",
+   "79": "pr_open",
    "80": "pr_open",
    "81": "pr_open",
    "82": "pr_open",
@@ -269,11 +269,11 @@
    "231": "waiting",
    "232": "pr_open",
    "233": "waiting",
-   "234": "waiting",
+   "234": "blocked",
    "235": "waiting",
    "236": "waiting",
    "237": "waiting",
-   "238": "waiting",
+   "238": "branch_only",
    "239": "waiting",
    "240": "waiting",
    "241": "waiting",
@@ -283,7 +283,7 @@
    "245": "waiting",
    "246": "waiting",
    "247": "pr_open",
-   "248": "branch_only",
+   "248": "pr_open",
    "249": "waiting",
    "250": "waiting",
    "251": "waiting",
@@ -297,7 +297,7 @@
    "259": "waiting",
    "260": "pr_open",
    "261": "waiting",
-   "262": "waiting",
+   "262": "blocked",
    "263": "waiting",
    "264": "waiting",
    "265": "pr_open",
@@ -311,7 +311,7 @@
    "273": "waiting",
    "274": "waiting",
    "275": "waiting",
-   "276": "waiting",
+   "276": "branch_only",
    "277": "waiting",
    "278": "waiting",
    "279": "waiting",
@@ -325,7 +325,7 @@
    "287": "waiting",
    "288": "pr_open",
    "289": "waiting",
-   "290": "waiting",
+   "290": "blocked",
    "291": "waiting",
    "292": "waiting",
    "293": "waiting",
@@ -353,7 +353,7 @@
    "315": "waiting",
    "316": "pr_open",
    "317": "waiting",
-   "318": "waiting",
+   "318": "blocked",
    "319": "pr_open",
    "320": "waiting",
    "321": "waiting",
@@ -379,9 +379,9 @@
    "341": "waiting",
    "342": "waiting",
    "343": "waiting",
-   "344": "waiting",
+   "344": "pr_open",
    "345": "waiting",
-   "346": "waiting",
+   "346": "blocked",
    "347": "waiting",
    "348": "waiting",
    "349": "waiting",
@@ -556,17 +556,18 @@
    "518": "waiting"
   }
  },
- "updated": "2026-10-11T02:46:00Z",
+ "updated": "2026-10-11T02:49:00Z",
  "counts": {
-  "pr_open": 176,
-  "waiting": 334,
-  "branch_only": 1,
-  "on_train": 7
+  "pr_open": 183,
+  "waiting": 324,
+  "branch_only": 2,
+  "blocked": 5,
+  "on_train": 4
  },
  "stages": {
   "2": {
    "total": 266,
-   "taken": 66,
+   "taken": 68,
    "merged": 0
   },
   "3": {
@@ -576,7 +577,7 @@
   },
   "4": {
    "total": 70,
-   "taken": 5,
+   "taken": 13,
    "merged": 0
   },
   "5": {
@@ -765,10 +766,12 @@
    "done": [
     "1148",
     "1149",
-    "1150"
+    "1150",
+    "1151",
+    "1152"
    ],
-   "pr": null,
-   "state": null
+   "pr": 598,
+   "state": "pr_open"
   },
   "gameplay/train-club-2": {
    "jobs": [
@@ -1514,11 +1517,11 @@
    "branch": "study/job-1084-blocked"
   },
   "1085": {
-   "state": "waiting",
-   "pr": null,
-   "draft": false,
-   "pr_url": null,
-   "branch": null
+   "state": "pr_open",
+   "pr": 595,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/595",
+   "branch": "study/job-1085-tablet-no-change"
   },
   "1086": {
    "state": "waiting",
@@ -1689,18 +1692,18 @@
    "branch": null
   },
   "1110": {
+   "state": "pr_open",
+   "pr": 597,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/597",
+   "branch": "study/job-1110-connect-players-phone-a"
+  },
+  "1111": {
    "state": "branch_only",
    "pr": null,
    "draft": false,
    "pr_url": null,
-   "branch": "study/job-1110-connect-players-phone-a"
-  },
-  "1111": {
-   "state": "waiting",
-   "pr": null,
-   "draft": false,
-   "pr_url": null,
-   "branch": null
+   "branch": "study/job-1111-connect-players-phone-b"
   },
   "1112": {
    "state": "waiting",
@@ -1892,39 +1895,39 @@
    "branch": null
   },
   "1139": {
-   "state": "waiting",
+   "state": "blocked",
    "pr": null,
    "draft": false,
    "pr_url": null,
-   "branch": null
+   "branch": "study/job-1139-blocked"
   },
   "1140": {
-   "state": "waiting",
+   "state": "blocked",
    "pr": null,
    "draft": false,
    "pr_url": null,
-   "branch": null
+   "branch": "study/job-1140-blocked"
   },
   "1141": {
-   "state": "waiting",
+   "state": "blocked",
    "pr": null,
    "draft": false,
    "pr_url": null,
-   "branch": null
+   "branch": "study/job-1141-blocked"
   },
   "1142": {
-   "state": "waiting",
+   "state": "blocked",
    "pr": null,
    "draft": false,
    "pr_url": null,
-   "branch": null
+   "branch": "study/job-1142-blocked"
   },
   "1143": {
-   "state": "waiting",
+   "state": "blocked",
    "pr": null,
    "draft": false,
    "pr_url": null,
-   "branch": null
+   "branch": "study/job-1143-blocked"
   },
   "1144": {
    "state": "waiting",
@@ -1955,38 +1958,38 @@
    "branch": null
   },
   "1148": {
-   "state": "on_train",
-   "pr": null,
-   "draft": false,
-   "pr_url": null,
+   "state": "pr_open",
+   "pr": 598,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/598",
    "branch": "gameplay/train-club-1"
   },
   "1149": {
-   "state": "on_train",
-   "pr": null,
-   "draft": false,
-   "pr_url": null,
+   "state": "pr_open",
+   "pr": 598,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/598",
    "branch": "gameplay/train-club-1"
   },
   "1150": {
-   "state": "on_train",
-   "pr": null,
-   "draft": false,
-   "pr_url": null,
+   "state": "pr_open",
+   "pr": 598,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/598",
    "branch": "gameplay/train-club-1"
   },
   "1151": {
-   "state": "waiting",
-   "pr": null,
-   "draft": false,
-   "pr_url": null,
+   "state": "pr_open",
+   "pr": 598,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/598",
    "branch": "gameplay/train-club-1"
   },
   "1152": {
-   "state": "waiting",
-   "pr": null,
-   "draft": false,
-   "pr_url": null,
+   "state": "pr_open",
+   "pr": 598,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/598",
    "branch": "gameplay/train-club-1"
   },
   "1153": {
@@ -3516,11 +3519,11 @@
    "branch": null
   },
   "1371": {
-   "state": "waiting",
+   "state": "branch_only",
    "pr": null,
    "draft": false,
    "pr_url": null,
-   "branch": null
+   "branch": "study/job-1371-rivalry-phone-a"
   },
   "1372": {
    "state": "waiting",

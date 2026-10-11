@@ -51,7 +51,7 @@ def main():
             head += f"- Nik starts numbers from the board's ready list, which already honours the lock group `{t['group']}` (one open train PR at a time) and the cap of eight ready PRs.\n"
         else:
             head = (f"<!-- queue item {i:04d} = job {job}; branch prefix {t['prefix']} -->\n"
-                    f"**Queue item {i} · Job {job}.** Before anything else (GitHub connector): if a branch starting with `{t['prefix']}` already exists, reply exactly `Number {i} is already done. Try {i+1}.` and stop.\n")
+                    f"**Queue item {i} · Job {job}.** Before anything else (GitHub connector): if a branch starting with `{t['prefix']}` already exists (a branch whose name ends in `-blocked` does not count), reply exactly `Number {i} is already done. Try {i+1}.` and stop.\n")
         if t["mode"] == "study" and t["screen"] in PIC:
             pk = f"{'PHONE' if t['stage'] == 4 else 'NEXT'}_{PIC[t['screen']]}"
             head += (f"**Hold check:** open `project-documents/gameplay-factory/queue/PICTURES.json` on branch factory/gameplay-v1. If `{pk[pk.index('_')+1:]}` is not in the `approved` list named `{pk.split('_')[0]}`, reply exactly `Number {i} is on hold until Team V approves its picture. Try {i+1}.` and stop.\n")
