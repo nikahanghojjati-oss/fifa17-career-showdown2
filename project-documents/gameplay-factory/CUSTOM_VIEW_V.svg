@@ -40,17 +40,16 @@
 <rect x="210" y="249" width="368" height="10" rx="5" fill="#12191f" stroke="#43515b" stroke-width=".5"/>
 <text x="622" y="258" font-size="12" font-weight="800" fill="#f0d900" text-anchor="end">0%</text>
 <text x="18" y="280" font-size="11" font-weight="700" fill="#42b9da" letter-spacing="1.5">HAND-OFFS · 25</text>
-<rect x="18" y="292" width="24.2" height="14" fill="#2c7399"/>
-<rect x="42.2" y="292" width="241.6" height="14" fill="#42b9da"/>
+<rect x="18" y="292" width="265.8" height="14" fill="#42b9da"/>
 <rect x="283.8" y="292" width="24.2" height="14" fill="#f0d900"/>
 <rect x="307.9" y="292" width="314.1" height="14" fill="#43b581"/>
 <rect x="18" y="292" width="604" height="14" rx="7" fill="none" stroke="#43515b" stroke-width=".5"/>
 <rect x="18" y="311" width="10" height="10" rx="2" fill="#8ea2ac"/>
 <text x="33" y="320" font-size="11" fill="#fbfcfc">Sent 0</text>
 <rect x="89" y="311" width="10" height="10" rx="2" fill="#2c7399"/>
-<text x="104" y="320" font-size="11" fill="#fbfcfc">Delivered 1</text>
+<text x="104" y="320" font-size="11" fill="#fbfcfc">Delivered 0</text>
 <rect x="195" y="311" width="10" height="10" rx="2" fill="#42b9da"/>
-<text x="210" y="320" font-size="11" fill="#fbfcfc">Received 10</text>
+<text x="210" y="320" font-size="11" fill="#fbfcfc">Received 11</text>
 <rect x="301" y="311" width="10" height="10" rx="2" fill="#f0d900"/>
 <text x="316" y="320" font-size="11" fill="#fbfcfc">Working 1</text>
 <rect x="393" y="311" width="10" height="10" rx="2" fill="#43b581"/>
