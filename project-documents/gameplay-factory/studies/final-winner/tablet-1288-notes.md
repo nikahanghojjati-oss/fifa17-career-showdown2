@@ -1,0 +1,13 @@
+# JOB-1288 tablet
+- One tablet decision: Summary and Honours appear concurrently in a two-column results panel.
+- Approved PHONE_FINAL_WINNER.png inspected; all labels come from app-shell.html, final-winner.js, seasonFinalV10.js and PICTURES.json.
+- Uses the same existing phone portraits, environment, wordmark and authored trophies as the live final screen.
+- Static illustrative totals: Daniel 16, Nik 8, three seasons, margin eight; these are not provider data.
+- Unread final-season and trophy values use the live unavailable mark; no attribution or last-season wording invented.
+- Summary and Honours remain radio-controlled presentation tabs; exit actions remain in live order.
+- No hub navigation: this is the terminal result screen.
+- Tablet at 768x1024 and 820x1180 uses extra width for facts; portrait phones retain the faithful fallback.
+- Exit buttons have a 44px minimum height and bottom margin at all requested sizes.
+- Re-read the full HTML and checked percentage layout bounds at 390x844, 393x660, 360x640 375x553, 768x1024 and 820x1180.
+- Browser render could not run: local Playwright has no Chromium executable. Visual asset loading and render fit require Team V review.
+- No JavaScript, gameplay changes, external assets, or production files changed.
