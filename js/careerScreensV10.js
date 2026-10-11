@@ -777,6 +777,40 @@
 }
 `;
 
+  // JOB-1331: 2560x1080 ultrawide trophy cabinet needs a single page scroll,
+  // growing trophy cards, 44px+ categories and untruncated record/name copy.
+  // Reuse the tested small-laptop flow ONLY inside this ultrawide range.
+  const TROPHY_2560_ULTRAWIDE_CSS=TROPHY_1280_LAPTOP_CSS.replace(
+    "(min-width:1200px) and (max-width:1365px) and (min-height:600px) and (max-height:700px)",
+    "(min-width:2500px) and (max-width:2620px) and (min-height:1040px) and (max-height:1120px)"
+  )+String.raw`
+@media (min-width:2500px) and (max-width:2620px) and (min-height:1040px) and (max-height:1120px) {
+  #trophyRoom .trophyRoomContent.sd-stage__ui-content {
+    padding:72px max(48px,calc((100vw - 1920px)/2)) 56px;
+  }
+  #trophyRoom .trophyTitleBlock {width:min(100%,500px);margin-bottom:18px}
+  #trophyRoom .trophyBrushTitle {max-height:112px}
+  #trophyRoom .heroCeremony {width:380px;height:290px;margin-bottom:24px}
+  #trophyRoom .heroPlinth {min-height:56px}
+  #trophyRoom .careerRanks {gap:28px;margin-bottom:30px}
+  #trophyRoom .careerRank {min-height:108px}
+  #trophyRoom .trophyTabs {gap:8px;margin-bottom:12px}
+  #trophyRoom .trophyTab {
+    min-height:52px;line-height:1.2;white-space:normal;overflow-wrap:anywhere;
+  }
+  #trophyRoom .shelfGlass {padding:20px 24px}
+  #trophyRoom .trophyGrid,
+  #trophyRoom .trophyShelf.is-filtered .trophyGrid {gap:18px}
+  #trophyRoom .trophyCard {min-height:272px;padding:12px 16px}
+  #trophyRoom .trophyCardPicture {height:142px}
+  #trophyRoom .trophyCard h3 {min-height:34px}
+  #trophyRoom .managerCounts > div {min-width:0}
+  #trophyRoom .recordRibbon {grid-template-columns:repeat(5,minmax(0,1fr))}
+  #trophyRoom .recordItem {min-width:0;min-height:72px}
+  #trophyRoom .trophyBack {width:min(100%,320px);height:52px;min-height:52px}
+}
+`;
+
   const TROPHY_768_TABLET_CSS=String.raw`
 /* JOB-1327: upright 768x1024 tablet has one vertically scrolling surface.
    Do not change Team V's frozen visual assets or other viewport classes. */
@@ -950,7 +984,7 @@
     host.innerHTML=v10Markup(screen);
     if(screen==="trophyRoom"){
       const smallPhoneStyle=doc.createElement("style");
-      smallPhoneStyle.textContent=TROPHY_SMALL_PHONE_CSS+TROPHY_390_PHONE_CSS+TROPHY_430_PHONE_CSS+TROPHY_844_LANDSCAPE_CSS+TROPHY_932_LANDSCAPE_CSS+TROPHY_768_TABLET_CSS+TROPHY_1280_LAPTOP_CSS+TROPHY_1366_CHROMEBOOK_CSS+TROPHY_1920_DESKTOP_CSS;
+      smallPhoneStyle.textContent=TROPHY_SMALL_PHONE_CSS+TROPHY_390_PHONE_CSS+TROPHY_430_PHONE_CSS+TROPHY_844_LANDSCAPE_CSS+TROPHY_932_LANDSCAPE_CSS+TROPHY_768_TABLET_CSS+TROPHY_1280_LAPTOP_CSS+TROPHY_1366_CHROMEBOOK_CSS+TROPHY_1920_DESKTOP_CSS+TROPHY_2560_ULTRAWIDE_CSS;
       host.appendChild(smallPhoneStyle);
     }
     v10Wire(screen,host);
