@@ -1,0 +1,12 @@
+# JOB-1344 · Trophy Room phone C
+- Decision: compress the ceremony band to give the whole cabinet more space at 360×640.
+- Keeps approved five tabs in two rows and all four trophies in a 2×2 grid.
+- Uses inspected desktop/phone references and previously verified source labels/artwork.
+- Daniel stays left; Nik stays right.
+- No invented results: empty-career counts, tied zero ranks, no records.
+- Every live label, BACK, MORE/CLOSE and bottom hub navigation is retained.
+- CSS checkbox shows career details; category buttons remain presentation only.
+- No JavaScript, nested scroll, new tap sequence or runtime changes.
+- Manually checked geometry at 393×660, 360×640 and 375×553, plus 390×844.
+- Asset paths resolve to existing original artwork.
+- Re-read committed HTML; Chromium unavailable and installation failed, so visual QA remains with Team V.
