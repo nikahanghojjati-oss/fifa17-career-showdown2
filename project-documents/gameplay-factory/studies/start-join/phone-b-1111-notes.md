@@ -1,0 +1,15 @@
+# JOB-1111 · Connect Players phone B
+- Decision: make CHOOSE SEASONS the dominant action within the approved initial Daniel setup layout.
+- Full-width gold button is 60px tall at 390x844, 56px on compact phones and 52px at 375x553.
+- Raise the workspace slightly and group the unchanged role heading, instruction and action in one panel.
+- Keep Daniel left and Nik right with existing Team V overlays; never mirror them.
+- Keep exact live heading, tagline, role descriptions, tab labels, BACK and CHOOSE SEASONS.
+- Role tabs use CSS only; this initial-state study leaves the runtime pairing slot empty.
+- Pairing codes, recovery and connected-session controls remain runtime-owned outside this snapshot.
+- No tap sequence, season choice, scoring, pairing or navigation logic changes.
+- Approved phone picture supplies composition; desktop reference supplies the black/gold stadium look.
+- Original geometric navigation symbols avoid licensed marks and the reference trophy.
+- Re-read the complete HTML; visually inspected 393x660 and 375x553 renders.
+- Chromium: 390x844, 393x660, 360x640 and 375x553 fit without page scroll; artwork and tab text fit.
+- At 375x553, button bottom is 401.23px, above navigation at 497px.
+- Bottom nav hides above 900px and outside hub screens; no JavaScript or full CI required.
