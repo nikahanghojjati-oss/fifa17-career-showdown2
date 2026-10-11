@@ -1,0 +1,11 @@
+# Career Statistics · Phone A
+- Faithful black-and-gold treatment with the approved picture's two-column totals, section switch, table, actions and bottom navigation.
+- Frozen phone environment, title and manager cutouts remain relative asset references; Daniel left and Nik right, without mirroring.
+- Live text comes from careerScreensV10.js and career-statistics.js; representative completed-career values are static study data.
+- CSS radio controls expose TABLE, COMPARE and LEADERS without JavaScript or extra taps.
+- The live CURRENT RIVALRY STATISTICS action is retained alongside BACK TO MAIN MENU above OPEN TROPHY ROOM.
+- CSS grid reserves the data, actions and navigation; the hero receives the remaining height.
+- Generic gold symbols replace decorative trophies; no real club crests, league logos or player photos.
+- This is presentation only; action buttons do not change game state.
+- Re-read and checked relative assets, no scripts, scoped files and grid height budgets at 393x660, 360x640 and 375x553.
+- Browser rendering was unavailable: Chromium download returned invalid archives; visual fit remains for Team V review.
