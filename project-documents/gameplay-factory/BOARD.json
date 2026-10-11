@@ -1952,6 +1952,71 @@
      "place": "ChatGPT Work mode (Sol 6.1), type one number at a time, in order",
      "note": "ticket jobs/JOB-1629.md; re-run of not-adopted study 1084 (Team V verdict in queue/V_ADOPTION.md); picture job: Work mode can open the approved PNG (PHONE_HOME.png on factory/v1-wtt5ye); HTML-only study, PR as DRAFT into study/mega-queue; worker must open the HTML in a browser or stop with NEEDS BROWSER CHECK",
      "prompt": "1629"
+    },
+    {
+     "id": "1630",
+     "title": "Wire Team V study 1622: Select League (phone)",
+     "lane": "work",
+     "team": "green",
+     "model": "GPT Sol 6.1",
+     "effort": "High",
+     "state": "ready for Work mode",
+     "order": 80,
+     "place": "ChatGPT Work mode (Sol 6.1), type one number at a time, in order",
+     "note": "ticket jobs/JOB-1630.md; area league, train league-w2, item 1 of 3; picture job: Work mode can open the approved PNG (PHONE_LEAGUE.png on factory/v1-wtt5ye), so it goes to Work mode, not GPT chat or Claude; Claude browser-checks and merges",
+     "prompt": "1630"
+    },
+    {
+     "id": "1631",
+     "title": "Wire Team V study 1625: Select League (sideways)",
+     "lane": "work",
+     "team": "green",
+     "model": "GPT Sol 6.1",
+     "effort": "High",
+     "state": "ready for Work mode",
+     "order": 81,
+     "place": "ChatGPT Work mode (Sol 6.1), type one number at a time, in order",
+     "note": "ticket jobs/JOB-1631.md; area league, train league-w2, item 2 of 3; picture job: Work mode can open the approved PNG (PHONE_LEAGUE.png on factory/v1-wtt5ye), so it goes to Work mode, not GPT chat or Claude; Claude browser-checks and merges",
+     "prompt": "1631"
+    },
+    {
+     "id": "1632",
+     "title": "Wire Team V study 1626: Select League (tablet)",
+     "lane": "work",
+     "team": "green",
+     "model": "GPT Sol 6.1",
+     "effort": "High",
+     "state": "ready for Work mode",
+     "order": 82,
+     "place": "ChatGPT Work mode (Sol 6.1), type one number at a time, in order",
+     "note": "ticket jobs/JOB-1632.md; area league, train league-w2, item 3 of 3; picture job: Work mode can open the approved PNG (PHONE_LEAGUE.png on factory/v1-wtt5ye), so it goes to Work mode, not GPT chat or Claude; Claude browser-checks and merges",
+     "prompt": "1632"
+    },
+    {
+     "id": "1633",
+     "title": "Wire Team V study 1627: Home (phone)",
+     "lane": "work",
+     "team": "green",
+     "model": "GPT Sol 6.1",
+     "effort": "High",
+     "state": "ready for Work mode",
+     "order": 83,
+     "place": "ChatGPT Work mode (Sol 6.1), type one number at a time, in order",
+     "note": "ticket jobs/JOB-1633.md; area home, train home-w2, item 1 of 2; picture job: Work mode can open the approved PNG (PHONE_HOME.png on factory/v1-wtt5ye), so it goes to Work mode, not GPT chat or Claude; Claude browser-checks and merges",
+     "prompt": "1633"
+    },
+    {
+     "id": "1634",
+     "title": "Wire Team V study 1629: Home (sideways)",
+     "lane": "work",
+     "team": "green",
+     "model": "GPT Sol 6.1",
+     "effort": "High",
+     "state": "ready for Work mode",
+     "order": 84,
+     "place": "ChatGPT Work mode (Sol 6.1), type one number at a time, in order",
+     "note": "ticket jobs/JOB-1634.md; area home, train home-w2, item 2 of 2; picture job: Work mode can open the approved PNG (PHONE_HOME.png on factory/v1-wtt5ye), so it goes to Work mode, not GPT chat or Claude; Claude browser-checks and merges",
+     "prompt": "1634"
     }
    ]
   },
