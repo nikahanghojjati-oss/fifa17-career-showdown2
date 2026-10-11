@@ -1,15 +1,15 @@
 {
-"updated": "2026-10-11T04:22:57Z",
+"updated": "2026-10-11T04:23:57Z",
 "total": 518,
 "next_free": 91,
 "highest_taken": 395,
 "counts": {
 "merged": 25,
-"draft": 153,
+"draft": 157,
 "closed": 51,
 "waiting": 273,
 "on_train": 8,
-"blocked": 8
+"blocked": 4
 },
 "stages": {
 "2": {
@@ -41,10 +41,10 @@
 "name": "Phone mockup studies",
 "total": 70,
 "states": {
-"draft": 41,
+"draft": 45,
 "closed": 11,
-"blocked": 8,
-"waiting": 10
+"waiting": 10,
+"blocked": 4
 }
 },
 "5": {
@@ -111,38 +111,10 @@
 },
 "rate": {
 "claimed_last_hour": 29,
-"claimed_last_10min": 18,
+"claimed_last_10min": 17,
 "merged_last_hour": 25
 },
 "events": [
-{
-"at": "2026-10-10T19:54:19Z",
-"item": 142,
-"job": 1537,
-"from": "waiting",
-"to": "draft"
-},
-{
-"at": "2026-10-10T19:54:19Z",
-"item": 144,
-"job": 1538,
-"from": "waiting",
-"to": "draft"
-},
-{
-"at": "2026-10-10T19:54:19Z",
-"item": 146,
-"job": 1539,
-"from": "waiting",
-"to": "draft"
-},
-{
-"at": "2026-10-10T19:54:19Z",
-"item": 148,
-"job": 1540,
-"from": "waiting",
-"to": "draft"
-},
 {
 "at": "2026-10-10T19:54:19Z",
 "item": 150,
@@ -2212,6 +2184,34 @@
 "at": "2026-10-11T04:22:57Z",
 "item": 320,
 "job": 1316,
+"from": "blocked",
+"to": "draft"
+},
+{
+"at": "2026-10-11T04:23:57Z",
+"item": 234,
+"job": 1139,
+"from": "blocked",
+"to": "draft"
+},
+{
+"at": "2026-10-11T04:23:57Z",
+"item": 328,
+"job": 1461,
+"from": "blocked",
+"to": "draft"
+},
+{
+"at": "2026-10-11T04:23:57Z",
+"item": 348,
+"job": 1317,
+"from": "blocked",
+"to": "draft"
+},
+{
+"at": "2026-10-11T04:23:57Z",
+"item": 356,
+"job": 1462,
 "from": "blocked",
 "to": "draft"
 }
@@ -5950,10 +5950,19 @@
 "title": "Select League: phone mockup, version A (faithful)",
 "mode": "study",
 "group": null,
-"state": "blocked",
-"branch": "study/job-1139-blocked",
+"pr": 656,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/656",
+"base": "study/mega-queue",
+"branch": "study/job-1139-league-phone-a",
+"ci": "draft",
+"ci_sha": "284989f79d12261cb5f7c70713de4160bd475201",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-11T04:23:52Z",
 "first_seen": "2026-10-11T02:53:53Z",
-"since": "2026-10-11T02:53:53Z"
+"since": "2026-10-11T04:23:57Z"
 },
 "235": {
 "job": 1074,
@@ -7035,17 +7044,17 @@
 "title": "Home: sideways phone study",
 "mode": "study",
 "group": null,
-"pr": 594,
-"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/594",
+"pr": 654,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/654",
 "base": "study/mega-queue",
-"branch": "study/job-1084-blocked",
+"branch": "study/job-1084-home-sideways",
 "ci": "draft",
-"ci_sha": "cad9f5bf3da71d19d3b11317f5ee85747e582a4d",
+"ci_sha": "a68e431375ab980b2c2e460b150972f0c7907bac",
 "ci_total": 0,
 "ci_extra": 0,
 "draft": true,
 "state": "draft",
-"pr_opened_at": "2026-10-11T02:45:44Z",
+"pr_opened_at": "2026-10-11T04:23:16Z",
 "first_seen": "2026-10-11T02:45:44Z",
 "since": "2026-10-11T02:46:00Z"
 },
@@ -7195,10 +7204,19 @@
 "title": "Settings: sideways phone study",
 "mode": "study",
 "group": null,
-"state": "blocked",
-"branch": "study/job-1461-blocked",
+"pr": 653,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/653",
+"base": "study/mega-queue",
+"branch": "study/job-1461-settings-sideways",
+"ci": "draft",
+"ci_sha": "944828017b7e74b0a9eab110ea4db632bd2f69de",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-11T04:23:07Z",
 "first_seen": "2026-10-11T04:15:57Z",
-"since": "2026-10-11T04:15:57Z"
+"since": "2026-10-11T04:23:57Z"
 },
 "329": {
 "job": 1137,
@@ -7452,10 +7470,19 @@
 "title": "Legacy: upright tablet study",
 "mode": "study",
 "group": null,
-"state": "blocked",
-"branch": "study/job-1317-blocked",
+"pr": 652,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/652",
+"base": "study/mega-queue",
+"branch": "study/job-1317-legacy-tablet",
+"ci": "draft",
+"ci_sha": "f70df104abdae2f06c13187fa58d34b03f85a129",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-11T04:23:06Z",
 "first_seen": "2026-10-11T04:14:57Z",
-"since": "2026-10-11T04:14:57Z"
+"since": "2026-10-11T04:23:57Z"
 },
 "349": {
 "job": 1167,
@@ -7554,10 +7581,19 @@
 "title": "Settings: upright tablet study",
 "mode": "study",
 "group": null,
-"state": "blocked",
-"branch": "study/job-1462-blocked",
+"pr": 655,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/655",
+"base": "study/mega-queue",
+"branch": "study/job-1462-settings-tablet",
+"ci": "draft",
+"ci_sha": "43861c8c35deeb02a496b58a632d907d51bb2f3b",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-11T04:23:32Z",
 "first_seen": "2026-10-11T04:15:57Z",
-"since": "2026-10-11T04:15:57Z"
+"since": "2026-10-11T04:23:57Z"
 },
 "357": {
 "job": 1341,
