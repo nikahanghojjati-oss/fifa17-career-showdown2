@@ -1,4 +1,4 @@
-# Mega factory tracker · updated 2026-10-11T04:59:32Z
+# Mega factory tracker · updated 2026-10-11T05:02:44Z
 
 **Type now (8 free):** 95, 97, 109, 111, 141, 143, 173, 403
 **Next free number:** 95 · **highest taken:** 395 of 518
