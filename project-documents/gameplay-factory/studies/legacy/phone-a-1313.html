@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Legacy phone study A (JOB-1313)</title>
+<style>
+  :root {
+    --gold: #e9b93a;
+    --gold-hi: #ffd766;
+    --ink: #07080a;
+    --panel: #111318;
+    --text: #f4f1ea;
+    --muted: #b9b3a4;
+  }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; margin: 0; overflow: hidden; background: var(--ink); }
+  body { font-family: "Barlow", system-ui, sans-serif; color: var(--text); }
+  button { font: inherit; color: inherit; }
+
+  .phone {
+    position: relative;
+    width: 100%;
+    max-width: 430px;
+    height: 100vh;
+    height: 100dvh;
+    min-height: 553px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background: #07080a url("../../../../visual-assets/v10_1/legacy/assets/ENV_LG_PHONE_V1.webp") center top / cover no-repeat;
+  }
+
+  /* Hero: characters and title. Shrinks first when the viewport is short. */
+  .hero {
+    position: relative;
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow: hidden;
+  }
+  .hero img.char {
+    position: absolute;
+    bottom: 0;
+    height: 100%;
+    width: auto;
+    max-width: 58%;
+    object-fit: contain;
+    object-position: bottom;
+    pointer-events: none;
+  }
+  .hero img.daniel { left: -4%; }
+  .hero img.nik { right: -6%; }
+  .topbar {
+    position: absolute;
+    top: 12px; left: 12px; right: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    z-index: 2;
+  }
+  .btn-back {
+    min-height: 44px; min-width: 64px;
+    padding: 0 14px;
+    border: 1.5px solid var(--gold);
+    background: rgba(7,8,10,.7);
+    color: var(--gold-hi);
+    font-weight: 700; letter-spacing: .08em; font-size: 14px;
+    clip-path: polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px);
+  }
+  .btn-gear {
+    width: 52px; height: 52px; border-radius: 50%;
+    border: 2px solid var(--gold);
+    background: radial-gradient(circle at 35% 30%, #3a2f12, #0b0c0f 70%);
+    color: var(--gold-hi); font-size: 22px; line-height: 1;
+    display: grid; place-items: center;
+  }
+  .title {
+    position: absolute;
+    left: 0; right: 0; top: 13%;
+    text-align: center;
+    z-index: 1;
+    pointer-events: none;
+  }
+  .eyebrow { margin: 0; font-size: 11px; letter-spacing: .28em; color: var(--gold-hi); font-weight: 600; }
+  .wordmark { display: block; width: 46%; height: auto; margin: 6px auto 0; }
+  .tagline { margin: 6px 0 0; font-size: 11px; letter-spacing: .22em; color: var(--text); }
+
+  /* Archive panel: tabs on top, one card, pager. */
+  .tabs {
+    margin: 0 12px;
+    display: grid; grid-template-columns: 1.1fr 1fr 1fr;
+    border: 1.5px solid var(--gold);
+    background: #0c0d11;
+  }
+  .tabs button {
+    min-height: 44px; border: 0; background: transparent;
+    font-size: 13px; font-weight: 700; letter-spacing: .06em; color: var(--muted);
+  }
+  .tabs button[aria-current="page"] {
+    background: linear-gradient(180deg, #ffe079, #c99420); color: #15110a;
+  }
+  .archive {
+    margin: 8px 12px 0;
+    border: 1.5px solid #6d5719;
+    background: linear-gradient(180deg, rgba(20,21,26,.96), rgba(9,10,13,.96));
+    padding: 10px 10px 8px;
+  }
+  .card-title { margin: 0; text-align: center; font-size: 15px; font-weight: 600; }
+  .card-row {
+    display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 6px;
+    margin-top: 8px;
+  }
+  .side { text-align: center; }
+  .crest {
+    width: 40px; height: 40px; margin: 0 auto;
+    border: 1.5px solid var(--muted); border-radius: 50%;
+    background: #1b1d24;
+  }
+  .side .name { display: block; margin-top: 6px; font-size: 17px; font-weight: 700; }
+  .side .club { display: block; font-size: 12px; color: var(--muted); }
+  .centre { text-align: center; }
+  .score { display: block; font-size: 30px; font-weight: 800; letter-spacing: .02em; line-height: 1; }
+  .winner { display: block; margin-top: 6px; font-size: 14px; font-weight: 700; color: var(--gold-hi); letter-spacing: .04em; }
+  .seasons { display: block; margin-top: 3px; font-size: 12px; color: var(--muted); }
+  .pager {
+    display: flex; justify-content: center; align-items: center; gap: 22px;
+    margin: 6px 12px 0; height: 40px;
+  }
+  .pager button {
+    width: 44px; height: 40px; border: 0; background: transparent;
+    font-size: 22px; color: var(--text);
+  }
+  .dots { display: inline-block; width: 12px; height: 12px; border-radius: 50%; background: var(--gold); }
+
+  .primary {
+    margin: 6px 12px 0;
+    min-height: 56px;
+    border: 1.5px solid var(--gold-hi);
+    background: linear-gradient(180deg, #ffe38a 0%, #e0a92a 55%, #b57e1a 100%);
+    color: #15110a;
+    font-size: 18px; font-weight: 800; letter-spacing: .06em;
+    clip-path: polygon(14px 0,calc(100% - 14px) 0,100% 50%,calc(100% - 14px) 100%,14px 100%,0 50%);
+  }
+
+  /* Bottom tab bar (hub screens, 900px wide or less). */
+  .tabbar {
+    margin-top: 10px;
+    height: 64px;
+    display: grid; grid-template-columns: repeat(5, 1fr);
+    background: #050608;
+    border-top: 1px solid #3a2f12;
+    flex: 0 0 auto;
+  }
+  .tabbar a {
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px;
+    color: var(--text); text-decoration: none; font-size: 11px; letter-spacing: .06em; font-weight: 600;
+  }
+  .tabbar a .ico { width: 22px; height: 18px; display: block; background: currentColor; opacity: .9; border-radius: 3px; }
+  .tabbar a.on { color: var(--gold-hi); }
+  .tabbar a.on .ico { background: var(--gold-hi); }
+</style>
+</head>
+<body>
+<main class="phone" aria-label="Legacy screen, phone layout version A">
+
+  <section class="hero" aria-label="Legacy title">
+    <img class="char daniel" src="../../../../visual-assets/v10_1/legacy/assets/OVL_LG_DANIEL_PHONE_V1.webp" alt="" aria-hidden="true">
+    <img class="char nik" src="../../../../visual-assets/v10_1/legacy/assets/OVL_LG_NIK_PHONE_V1.webp" alt="" aria-hidden="true">
+
+    <div class="topbar">
+      <button class="btn-back" type="button" aria-label="Back to main menu">BACK</button>
+      <button class="btn-gear" type="button" aria-label="Settings">&#9881;</button>
+    </div>
+
+    <div class="title">
+      <p class="eyebrow">CAREER MODE SHOWDOWN 17</p>
+      <img class="wordmark" src="../../../../visual-assets/v10_1/legacy/assets/TITLE_LG_V1.webp" alt="LEGACY">
+      <p class="tagline">PAST SHOWDOWNS. A LASTING JOURNEY.</p>
+    </div>
+  </section>
+
+  <nav class="tabs" aria-label="Legacy destinations">
+    <button type="button" aria-current="page">LEGACY ARCHIVE</button>
+    <button type="button">TROPHY ROOM</button>
+    <button type="button">RECORDS</button>
+  </nav>
+
+  <section class="archive" aria-label="Legacy archive">
+    <p class="card-title">Showdown #1</p>
+    <div class="card-row">
+      <div class="side">
+        <div class="crest" aria-hidden="true"></div>
+        <span class="name">Daniel</span>
+        <span class="club">Club A</span>
+      </div>
+      <div class="centre">
+        <span class="score">15 &ndash; 5</span>
+        <span class="winner">&#9819; Daniel wins</span>
+        <span class="seasons">3 / 3 Seasons</span>
+      </div>
+      <div class="side">
+        <div class="crest" aria-hidden="true"></div>
+        <span class="name">Nik</span>
+        <span class="club">Club B</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="pager" role="group" aria-label="Archive page 1 of 1">
+    <button type="button" aria-label="Previous archive item">&lsaquo;</button>
+    <span class="dots" aria-hidden="true"></span>
+    <button type="button" aria-label="Next archive item">&rsaquo;</button>
+  </div>
+
+  <button class="primary" type="button">VIEW SEASON HISTORY</button>
+
+  <nav class="tabbar" aria-label="Primary">
+    <a href="#"><span class="ico" aria-hidden="true"></span>HOME</a>
+    <a href="#" class="on" aria-current="page"><span class="ico" aria-hidden="true"></span>CAREER</a>
+    <a href="#"><span class="ico" aria-hidden="true"></span>STANDINGS</a>
+    <a href="#"><span class="ico" aria-hidden="true"></span>STATS</a>
+    <a href="#"><span class="ico" aria-hidden="true"></span>RULES</a>
+  </nav>
+</main>
+</body>
+</html>
