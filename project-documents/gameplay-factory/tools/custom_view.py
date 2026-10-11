@@ -845,7 +845,7 @@ def claude_lane_card(CL, rows, tight=False):
     out = ['<div class="card"><b>Claude lane (nothing to type)</b> <span class="m">Nik types nothing here.</span>']
     for r in rows:
         b = BADGE.get(r.get("team"), ("", ""))[0]
-        out.append(f'<br><span class="m">{b} <b>{e(r["id"])}</b> {e(r["title"][:(60 if tight else 110)])} · {e(_lane_model(CL, r.get("team")))}</span>')
+        out.append(f'<br><span class="m">{b} <b>{e(r["id"])}</b> {e(r["title"][:(50 if tight else 110)])} · {e(_lane_model(CL, r.get("team")))}</span>')
         if not tight:
             out.append(f'<br><span class="m">{e(r.get("state", ""))} · {e(r.get("claude_reason", ""))}</span>')
     return "".join(out) + "</div>"

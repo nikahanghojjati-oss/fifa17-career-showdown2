@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Sun 11 Oct, 12:58 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Sun 11 Oct, 1:00 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r70** (main `c8810b8`, Sun 11 Oct 12:28 AM)
 
@@ -22,27 +22,27 @@ Updated Sun 11 Oct, 12:58 AM Boston time. Bug hunting only, no new features unti
 
 **#2 · 1581** `G` Showdown Gate: split the slowest lane and cache downloads  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · **Codex default coding model** · High effort · worker working, draft PR #618 · CI 7 of 8 passed · last move 112 min ago
+⚪ Team white · **Codex default coding model** · High effort · worker working, draft PR #618 · CI 7 of 8 passed · last move 115 min ago
 
 **#3 · 1598** `G` Wire Team V study 1229: Season Results  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · **GPT Sol 6.1** · High effort · worker working, draft PR #666 · CI 6 of 7 passed · last move 2 min ago
+🟢 Team green · **GPT Sol 6.1** · High effort · worker working, draft PR #666 · CI 6 of 7 passed · last move 4 min ago
 
 **#4 · 1599** `G` Wire Team V study 1230: Season Results  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · **GPT Sol 6.1** · High effort · worker working, draft PR #666 · CI 6 of 7 passed · last move 2 min ago
+🟢 Team green · **GPT Sol 6.1** · High effort · worker working, draft PR #666 · CI 6 of 7 passed · last move 4 min ago
 
 **#5 · 1606** `G` Fix (verify first) audit 88: failed refresh shown as publish failure (Season Results)  
 `████░░░░░░` **40.0000 %**  
-🔵 Team blue · **GPT-6 Sol** · High effort · worker working, draft PR #662 · CI 6 of 7 passed · last move 30 min ago
+🔵 Team blue · **GPT-6 Sol** · High effort · worker working, draft PR #662 · CI 6 of 7 passed · last move 32 min ago
 
 **#6 · 1607** `G` Fix (verify first) audit 92: failed refresh shown as commit failure (Season Commit)  
 `████░░░░░░` **40.0000 %**  
-🔵 Team blue · **GPT-6 Sol** · High effort · worker working, draft PR #663 · CI 6 of 7 passed · last move 29 min ago
+🔵 Team blue · **GPT-6 Sol** · High effort · worker working, draft PR #663 · CI 6 of 7 passed · last move 31 min ago
 
 **#7 · 1608** `G` Fix (verify first) audit 116: background read disables Shared Setup buttons  
 `████░░░░░░` **40.0000 %**  
-🔵 Team blue · **GPT-6 Sol** · High effort · worker working, draft PR #665 · CI 6 of 7 passed · last move 28 min ago
+🔵 Team blue · **GPT-6 Sol** · High effort · worker working, draft PR #665 · CI 6 of 7 passed · last move 30 min ago
 
 ### 👉 Next for you, in this order
 
@@ -255,7 +255,7 @@ One numbered queue: type a bare number in any GPT chat. Live from GitHub (queue/
 Type now, in any GPT chat:
 
 ```text
-91 93 95 97 141 143 173 403
+95 97 109 111 141 143 173 403
 ```
 
 Open code PRs: 0/8.
@@ -265,7 +265,7 @@ Open code PRs: 0/8.
 | Stage | Items | Merged | Picked up |
 | --- | --- | --- | --- |
 | audits | 112 | 0/112 | 112/112 |
-| screen fixes | 266 | 25/266 | 77/266 |
+| screen fixes | 266 | 25/266 | 79/266 |
 | mockup match | 14 | 0/14 | 1/14 |
 | phone studies | 70 | 0/70 | 60/70 |
 | desktop studies | 56 | 0/56 | 0/56 |
@@ -297,12 +297,12 @@ Open code PRs: 0/8.
 
 ## Mega tracker (live, free)
 
-Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/index.html) · summary: [mega/MEGA_TRACKER.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/MEGA_TRACKER.md) · rebuilt by the poller each round, updated 2026-10-11T04:57:32Z.
+Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/index.html) · summary: [mega/MEGA_TRACKER.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/MEGA_TRACKER.md) · rebuilt by the poller each round, updated 2026-10-11T04:59:32Z.
 
 | Stage | Done (merged or live) | In progress | Waiting |
 | --- | --- | --- | --- |
 | Gameplay audits | 0 of 112 | 112 | 0 |
-| Screen fixes | 25 of 266 | 53 | 188 |
+| Screen fixes | 25 of 266 | 54 | 187 |
 | Match desktop to mockups | 0 of 14 | 1 | 13 |
 | Phone mockup studies | 0 of 70 | 60 | 10 |
 | Improved desktop studies | 0 of 56 | 0 | 56 |
