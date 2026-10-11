@@ -38,7 +38,8 @@
       "lanes": [
         "l1-core",
         "l2-browser-full",
-        "l3-storage-visual-gameplay",
+        "l3a",
+        "l3b",
         "l4-remote",
         "l5-rules-regression",
         "l6-browser-journey"
@@ -118,7 +119,7 @@
       "matrixGroup": "STORAGE",
       "name": "POS20 proof STORAGE",
       "lanes": [
-        "l3-storage-visual-gameplay"
+        "l3a"
       ]
     },
     {
@@ -127,7 +128,7 @@
       "matrixGroup": "VISUAL",
       "name": "POS20 proof VISUAL",
       "lanes": [
-        "l3-storage-visual-gameplay"
+        "l3b"
       ]
     },
     {
@@ -151,7 +152,7 @@
       "job": "rules-emulator",
       "name": "Composed Rules on the emulator",
       "lanes": [
-        "l3-storage-visual-gameplay"
+        "l3a"
       ]
     },
     {
@@ -187,7 +188,11 @@
           "step": "uses:actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09"
         },
         {
-          "job": "l3-storage-visual-gameplay",
+          "job": "l3a",
+          "step": "uses:actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09"
+        },
+        {
+          "job": "l3b",
           "step": "uses:actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09"
         },
         {
@@ -225,7 +230,11 @@
           "step": "Fetch exact diff base"
         },
         {
-          "job": "l3-storage-visual-gameplay",
+          "job": "l3a",
+          "step": "Fetch exact diff base"
+        },
+        {
+          "job": "l3b",
           "step": "Fetch exact diff base"
         },
         {
@@ -249,7 +258,11 @@
           "step": "TEST: Compute Showdown Gate route"
         },
         {
-          "job": "l3-storage-visual-gameplay",
+          "job": "l3a",
+          "step": "TEST: Compute Showdown Gate route"
+        },
+        {
+          "job": "l3b",
           "step": "TEST: Compute Showdown Gate route"
         },
         {
@@ -291,7 +304,11 @@
           "step": "TEST: Compute Showdown Gate route"
         },
         {
-          "job": "l3-storage-visual-gameplay",
+          "job": "l3a",
+          "step": "TEST: Compute Showdown Gate route"
+        },
+        {
+          "job": "l3b",
           "step": "TEST: Compute Showdown Gate route"
         },
         {
@@ -565,7 +582,11 @@
           "step": "uses:actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09"
         },
         {
-          "job": "l3-storage-visual-gameplay",
+          "job": "l3a",
+          "step": "uses:actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09"
+        },
+        {
+          "job": "l3b",
           "step": "uses:actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09"
         },
         {
@@ -590,7 +611,11 @@
           "step": "uses:actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444"
         },
         {
-          "job": "l3-storage-visual-gameplay",
+          "job": "l3a",
+          "step": "uses:actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444"
+        },
+        {
+          "job": "l3b",
           "step": "uses:actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444"
         },
         {
@@ -615,7 +640,11 @@
           "step": "uses:actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961"
         },
         {
-          "job": "l3-storage-visual-gameplay",
+          "job": "l3a",
+          "step": "uses:actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961"
+        },
+        {
+          "job": "l3b",
           "step": "uses:actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961"
         },
         {
@@ -640,7 +669,11 @@
           "step": "Install locked dependencies"
         },
         {
-          "job": "l3-storage-visual-gameplay",
+          "job": "l3a",
+          "step": "Install locked dependencies"
+        },
+        {
+          "job": "l3b",
           "step": "Install locked dependencies"
         },
         {
@@ -669,11 +702,11 @@
           "step": "TEST: Proof group FULL"
         },
         {
-          "job": "l3-storage-visual-gameplay",
+          "job": "l3a",
           "step": "TEST: Proof group STORAGE"
         },
         {
-          "job": "l3-storage-visual-gameplay",
+          "job": "l3b",
           "step": "TEST: Proof group VISUAL"
         },
         {
@@ -775,7 +808,7 @@
       "mode": "checkout",
       "targets": [
         {
-          "job": "l3-storage-visual-gameplay",
+          "job": "l3a",
           "step": "uses:actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09"
         }
       ],
@@ -788,7 +821,7 @@
       "mode": "setup",
       "targets": [
         {
-          "job": "l3-storage-visual-gameplay",
+          "job": "l3a",
           "step": "uses:actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444"
         }
       ],
@@ -801,7 +834,7 @@
       "mode": "setup",
       "targets": [
         {
-          "job": "l3-storage-visual-gameplay",
+          "job": "l3a",
           "step": "uses:actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961"
         }
       ],
@@ -814,7 +847,7 @@
       "mode": "exact",
       "targets": [
         {
-          "job": "l3-storage-visual-gameplay",
+          "job": "l3a",
           "step": "Install locked dependencies"
         }
       ],
@@ -827,7 +860,7 @@
       "mode": "exact",
       "targets": [
         {
-          "job": "l3-storage-visual-gameplay",
+          "job": "l3a",
           "step": "Install pinned Firebase emulator test dependencies"
         }
       ],
@@ -840,7 +873,7 @@
       "mode": "exact",
       "targets": [
         {
-          "job": "l3-storage-visual-gameplay",
+          "job": "l3a",
           "step": "TEST: Build the composed production Rules"
         }
       ],
@@ -855,7 +888,7 @@
       "mode": "exact",
       "targets": [
         {
-          "job": "l3-storage-visual-gameplay",
+          "job": "l3a",
           "step": "TEST: Shared Setup provider matrix"
         }
       ],
@@ -870,7 +903,7 @@
       "mode": "exact",
       "targets": [
         {
-          "job": "l3-storage-visual-gameplay",
+          "job": "l3a",
           "step": "TEST: Transfer fresh-session recovery"
         }
       ],
@@ -885,7 +918,7 @@
       "mode": "exact",
       "targets": [
         {
-          "job": "l3-storage-visual-gameplay",
+          "job": "l3a",
           "step": "TEST: Gameplay lifecycle (1 and 3 seasons)"
         }
       ],
@@ -900,7 +933,7 @@
       "mode": "exact",
       "targets": [
         {
-          "job": "l3-storage-visual-gameplay",
+          "job": "l3a",
           "step": "TEST: Terminal Close matrix"
         }
       ],
@@ -915,7 +948,7 @@
       "mode": "exact",
       "targets": [
         {
-          "job": "l3-storage-visual-gameplay",
+          "job": "l3a",
           "step": "TEST: Persistent Nik and Daniel pair matrix"
         }
       ],
@@ -930,7 +963,7 @@
       "mode": "exact",
       "targets": [
         {
-          "job": "l3-storage-visual-gameplay",
+          "job": "l3a",
           "step": "TEST: Two-manager journey (3 and 10 seasons, session expires and is re-joined mid-game)"
         }
       ],
@@ -945,7 +978,7 @@
       "mode": "exact",
       "targets": [
         {
-          "job": "l3-storage-visual-gameplay",
+          "job": "l3a",
           "step": "TEST: Career index matrix"
         }
       ],
@@ -960,7 +993,7 @@
       "mode": "exact",
       "targets": [
         {
-          "job": "l3-storage-visual-gameplay",
+          "job": "l3a",
           "step": "TEST: Completed-only read matrix"
         }
       ],
@@ -975,7 +1008,7 @@
       "mode": "exact",
       "targets": [
         {
-          "job": "l3-storage-visual-gameplay",
+          "job": "l3a",
           "step": "TEST: Closed-Showdown adapter journey"
         }
       ],
@@ -990,7 +1023,7 @@
       "mode": "exact",
       "targets": [
         {
-          "job": "l3-storage-visual-gameplay",
+          "job": "l3a",
           "step": "TEST: Completed transfer history matrix"
         }
       ],
@@ -1005,7 +1038,7 @@
       "mode": "exact",
       "targets": [
         {
-          "job": "l3-storage-visual-gameplay",
+          "job": "l3a",
           "step": "TEST: Season commit concurrent acknowledge"
         }
       ],

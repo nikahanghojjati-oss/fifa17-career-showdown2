@@ -1,6 +1,6 @@
 # Showdown Gate: the PR check set since 2026-10-10 (Nik chose the switch after a READY exit report). It
 # replaces Validate POS20 and Validate Gameplay Fast, which stay archived (manual dispatch only) for rollback.
-# Six lanes run in parallel; each lane computes its own route with the unchanged POS20 router (no shared
+# Seven lanes run in parallel; each lane computes its own route with the unchanged POS20 router (no shared
 # selector job), and the seal requires every lane green on the exact head with every routed id executed.
 # GATE_COVERAGE.json maps every command of the 16 old gates to a step here, and
 # tests/contracts/showdown-gate-coverage-contracts.cjs enforces it. Every job is read-only and every checkout
@@ -158,6 +158,14 @@ jobs:
         with:
           distribution: temurin
           java-version: '21'
+      - name: Restore Playwright and Chromium browser caches
+        uses: actions/cache@caa296126883cff596d87d8935842f9db880ef25 # v5
+        if: steps.route.outputs.has_full == 'true'
+        with:
+          path: |
+            ~/.cache/ms-playwright
+            /tmp/cms-chromium-runtime
+          key: showdown-gate-browsers-ubuntu-24.04-playwright-1.62.1-chromium-149.0.0-v1
       - name: Install locked dependencies
         if: steps.route.outputs.has_full == 'true'
         run: npm ci
@@ -187,8 +195,8 @@ jobs:
           overwrite: true
           retention-days: 7
 
-  l3-storage-visual-gameplay:
-    name: L3 storage visual gameplay
+  l3a:
+    name: L3A storage gameplay
     if: ${{ github.event_name != 'pull_request' || github.event.pull_request.draft == false }}
     runs-on: ubuntu-24.04
     timeout-minutes: 55
@@ -220,7 +228,7 @@ jobs:
           GATE_BASE_SHA: ${{ github.event.pull_request.base.sha }}
           GATE_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
           GATE_BEFORE_SHA: ${{ github.event.before }}
-        run: node scripts/showdown-gate.mjs route --lane L3 --out "$RUNNER_TEMP/route.json" --github-output "$GITHUB_OUTPUT"
+        run: node scripts/showdown-gate.mjs route --lane L3A --out "$RUNNER_TEMP/route.json" --github-output "$GITHUB_OUTPUT"
       - uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5
         with:
           distribution: temurin
@@ -231,7 +239,15 @@ jobs:
           path: |
             ~/.cache/firebase/emulators
             ~/.npm/_npx
-          key: showdown-gate-L3-emulators-ubuntu-24.04-firebase-tools-15.27.0-15.28.1-v1
+          key: showdown-gate-L3A-emulators-ubuntu-24.04-firebase-tools-15.27.0-15.28.1-v1
+      - name: Restore Playwright and Chromium browser caches
+        uses: actions/cache@caa296126883cff596d87d8935842f9db880ef25 # v5
+        if: steps.route.outputs.has_storage == 'true'
+        with:
+          path: |
+            ~/.cache/ms-playwright
+            /tmp/cms-chromium-runtime
+          key: showdown-gate-browsers-ubuntu-24.04-playwright-1.62.1-chromium-149.0.0-v1
       - name: Install locked dependencies
         run: npm ci
       - name: 'TEST: Proof group STORAGE'
@@ -241,19 +257,12 @@ jobs:
           POS20_SELECTED_PROOFS: ${{ steps.route.outputs.proofs_csv }}
           POS20_PROOF_GROUP: STORAGE
         run: node scripts/pos10-proof-runner.mjs --proofs "$POS20_SELECTED_PROOFS" --group "$POS20_PROOF_GROUP"
-      - name: Stop the STORAGE proof static server before the next server group
+      - name: Stop the STORAGE proof static server before gameplay emulators
         if: steps.route.outputs.has_storage == 'true'
         shell: bash
         run: |
           pkill -f 'node tests/support/static-server.cjs' || true
           for attempt in 1 2 3 4 5; do pgrep -f 'node tests/support/static-server.cjs' >/dev/null || break; sleep 1; done
-      - name: 'TEST: Proof group VISUAL'
-        id: proof_visual
-        if: steps.route.outputs.has_visual == 'true'
-        env:
-          POS20_SELECTED_PROOFS: ${{ steps.route.outputs.proofs_csv }}
-          POS20_PROOF_GROUP: VISUAL
-        run: node scripts/pos10-proof-runner.mjs --proofs "$POS20_SELECTED_PROOFS" --group "$POS20_PROOF_GROUP"
       - name: Install pinned Firebase emulator test dependencies
         run: npm install --no-save --package-lock=false firebase@12.17.1 @firebase/rules-unit-testing@5.0.1 firebase-admin@14.2.0
       - name: 'TEST: Build the composed production Rules'
@@ -303,12 +312,88 @@ jobs:
           GATE_RUN_ATTEMPT: ${{ github.run_attempt }}
           GATE_JOB_STATUS: ${{ job.status }}
           GATE_STEPS_JSON: ${{ toJSON(steps) }}
-        run: node scripts/showdown-gate.mjs finalize --lane L3 --route "$RUNNER_TEMP/route.json" --out "$RUNNER_TEMP/lane/lane.json"
+        run: node scripts/showdown-gate.mjs finalize --lane L3A --route "$RUNNER_TEMP/route.json" --out "$RUNNER_TEMP/lane/lane.json"
       - name: Upload lane record
         if: always()
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
-          name: showdown-gate-lane-L3
+          name: showdown-gate-lane-L3A
+          path: ${{ runner.temp }}/lane/lane.json
+          if-no-files-found: warn
+          overwrite: true
+          retention-days: 7
+
+  l3b:
+    name: L3B visual
+    if: ${{ github.event_name != 'pull_request' || github.event.pull_request.draft == false }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 1
+          persist-credentials: false
+      - name: Fetch exact diff base
+        shell: bash
+        env:
+          GATE_EVENT: ${{ github.event_name }}
+          GATE_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          GATE_BEFORE_SHA: ${{ github.event.before }}
+        run: |
+          set -euo pipefail
+          if [[ "$GATE_EVENT" == "pull_request" ]]; then base="$GATE_BASE_SHA"; else base="$GATE_BEFORE_SHA"; fi
+          if [[ -n "$base" && ! "$base" =~ ^0+$ ]]; then git fetch --no-tags --depth=1 origin "$base"; fi
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
+        with:
+          node-version: 24
+          cache: npm
+      - name: 'TEST: Compute Showdown Gate route'
+        id: route
+        shell: bash
+        env:
+          GATE_EVENT: ${{ github.event_name }}
+          GATE_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          GATE_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+          GATE_BEFORE_SHA: ${{ github.event.before }}
+        run: node scripts/showdown-gate.mjs route --lane L3B --out "$RUNNER_TEMP/route.json" --github-output "$GITHUB_OUTPUT"
+      - uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5
+        if: steps.route.outputs.has_visual == 'true'
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Restore Playwright and Chromium browser caches
+        uses: actions/cache@caa296126883cff596d87d8935842f9db880ef25 # v5
+        if: steps.route.outputs.has_visual == 'true'
+        with:
+          path: |
+            ~/.cache/ms-playwright
+            /tmp/cms-chromium-runtime
+          key: showdown-gate-browsers-ubuntu-24.04-playwright-1.62.1-chromium-149.0.0-v1
+      - name: Install locked dependencies
+        if: steps.route.outputs.has_visual == 'true'
+        run: npm ci
+      - name: 'TEST: Proof group VISUAL'
+        id: proof_visual
+        if: steps.route.outputs.has_visual == 'true'
+        env:
+          POS20_SELECTED_PROOFS: ${{ steps.route.outputs.proofs_csv }}
+          POS20_PROOF_GROUP: VISUAL
+        run: node scripts/pos10-proof-runner.mjs --proofs "$POS20_SELECTED_PROOFS" --group "$POS20_PROOF_GROUP"
+      - name: Record lane result
+        if: always()
+        shell: bash
+        env:
+          GATE_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+          GATE_RUN_ATTEMPT: ${{ github.run_attempt }}
+          GATE_JOB_STATUS: ${{ job.status }}
+          GATE_STEPS_JSON: ${{ toJSON(steps) }}
+        run: node scripts/showdown-gate.mjs finalize --lane L3B --route "$RUNNER_TEMP/route.json" --out "$RUNNER_TEMP/lane/lane.json"
+      - name: Upload lane record
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: showdown-gate-lane-L3B
           path: ${{ runner.temp }}/lane/lane.json
           if-no-files-found: warn
           overwrite: true
@@ -361,6 +446,14 @@ jobs:
             ~/.cache/firebase/emulators
             ~/.npm/_npx
           key: showdown-gate-L4-emulators-ubuntu-24.04-firebase-tools-15.27.0-15.28.1-v1
+      - name: Restore Playwright and Chromium browser caches
+        uses: actions/cache@caa296126883cff596d87d8935842f9db880ef25 # v5
+        if: steps.route.outputs.has_remote == 'true'
+        with:
+          path: |
+            ~/.cache/ms-playwright
+            /tmp/cms-chromium-runtime
+          key: showdown-gate-browsers-ubuntu-24.04-playwright-1.62.1-chromium-149.0.0-v1
       - name: Install locked dependencies
         if: steps.route.outputs.has_remote == 'true'
         run: npm ci
@@ -528,6 +621,13 @@ jobs:
             ~/.cache/firebase/emulators
             ~/.npm/_npx
           key: showdown-gate-L6-emulators-ubuntu-24.04-firebase-tools-15.27.0-15.28.1-v1
+      - name: Restore Playwright and Chromium browser caches
+        uses: actions/cache@caa296126883cff596d87d8935842f9db880ef25 # v5
+        with:
+          path: |
+            ~/.cache/ms-playwright
+            /tmp/cms-chromium-runtime
+          key: showdown-gate-browsers-ubuntu-24.04-playwright-1.62.1-chromium-149.0.0-v1
       - name: Install locked dependencies
         run: npm ci
       - name: Install pinned Firebase emulator test dependencies
@@ -574,7 +674,7 @@ jobs:
 
   seal:
     name: seal
-    needs: [l1-core, l2-browser-full, l3-storage-visual-gameplay, l4-remote, l5-rules-regression, l6-browser-journey]
+    needs: [l1-core, l2-browser-full, l3a, l3b, l4-remote, l5-rules-regression, l6-browser-journey]
     if: ${{ !cancelled() }}
     runs-on: ubuntu-24.04
     timeout-minutes: 8
