@@ -111,3 +111,13 @@
    hidden by the identity module once it starts. In Daniel and Nik's 2026-10-08 test it started late and they showed;
    Settings now never shows them, whatever the start order. Their controls stay in the DOM for the internal flows. */
 #settingsOverlay #settingsContent :is(#sparkConnectedAccountPanel, #sparkPrivatePairingPanel, #sparkConnectedRivalryPanel, #saveLibraryProductPanel, .settingsOfflinePanel):not([data-test-surface="internal-audit"]) { display:none !important; }
+
+/* JOB-1652: three motion choices, with a single-column phone layout. */
+#settingsOverlay.v10Settings .settingsMotionChoices {
+  grid-template-columns:repeat(3,minmax(0,1fr));
+}
+@media (max-width:760px) {
+  #settingsOverlay.v10Settings .settingsMotionChoices {
+    grid-template-columns:1fr;
+  }
+}
