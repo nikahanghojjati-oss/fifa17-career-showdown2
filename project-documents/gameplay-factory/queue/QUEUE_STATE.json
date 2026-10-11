@@ -1,38 +1,38 @@
 {
  "sequence": {
   "ready": [
-   45,
-   47,
-   51,
-   53,
    55,
    57,
    59,
    61,
+   69,
+   71,
    226,
    228,
    232,
-   234
+   234,
+   238,
+   242
   ],
   "ready_sol": [
-   45,
-   47,
-   51,
-   53,
    55,
    57,
    59,
    61,
+   69,
+   71,
    226,
    228,
    232,
-   234
+   234,
+   238,
+   242
   ],
   "ready_codex": [],
   "held_until_picture": 86,
   "open_code_prs": 0,
-  "open_train_prs": 1,
-  "next_free": 45,
+  "open_train_prs": 3,
+  "next_free": 55,
   "highest_taken": 395,
   "total": 518,
   "states": {
@@ -44,9 +44,9 @@
    "6": "pr_open",
    "7": "on_train",
    "8": "pr_open",
-   "9": "on_train",
+   "9": "pr_open",
    "10": "pr_open",
-   "11": "on_train",
+   "11": "pr_open",
    "12": "pr_open",
    "13": "pr_open",
    "14": "pr_open",
@@ -62,9 +62,9 @@
    "24": "pr_open",
    "25": "on_train",
    "26": "pr_open",
-   "27": "on_train",
+   "27": "pr_open",
    "28": "pr_open",
-   "29": "on_train",
+   "29": "pr_open",
    "30": "pr_open",
    "31": "pr_open",
    "32": "pr_open",
@@ -80,15 +80,15 @@
    "42": "pr_open",
    "43": "on_train",
    "44": "pr_open",
-   "45": "waiting",
+   "45": "pr_open",
    "46": "pr_open",
-   "47": "waiting",
+   "47": "pr_open",
    "48": "pr_open",
    "49": "pr_open",
    "50": "pr_open",
-   "51": "waiting",
+   "51": "on_train",
    "52": "pr_open",
-   "53": "waiting",
+   "53": "on_train",
    "54": "pr_open",
    "55": "waiting",
    "56": "pr_open",
@@ -98,9 +98,9 @@
    "60": "pr_open",
    "61": "waiting",
    "62": "pr_open",
-   "63": "waiting",
+   "63": "pr_open",
    "64": "pr_open",
-   "65": "waiting",
+   "65": "pr_open",
    "66": "pr_open",
    "67": "pr_open",
    "68": "pr_open",
@@ -116,9 +116,9 @@
    "78": "pr_open",
    "79": "waiting",
    "80": "pr_open",
-   "81": "waiting",
+   "81": "pr_open",
    "82": "pr_open",
-   "83": "waiting",
+   "83": "pr_open",
    "84": "pr_open",
    "85": "pr_open",
    "86": "pr_open",
@@ -556,16 +556,16 @@
    "518": "waiting"
   }
  },
- "updated": "2026-10-11T02:32:54Z",
+ "updated": "2026-10-11T02:36:51Z",
  "counts": {
-  "on_train": 20,
-  "waiting": 361,
-  "pr_open": 137
+  "on_train": 18,
+  "waiting": 353,
+  "pr_open": 147
  },
  "stages": {
   "2": {
    "total": 266,
-   "taken": 44,
+   "taken": 52,
    "merged": 0
   },
   "3": {
@@ -809,10 +809,13 @@
    ],
    "done": [
     "1177",
-    "1178"
+    "1178",
+    "1179",
+    "1180",
+    "1181"
    ],
-   "pr": null,
-   "state": null
+   "pr": 584,
+   "state": "pr_open"
   },
   "gameplay/train-transfer-2": {
    "jobs": [
@@ -860,10 +863,13 @@
    ],
    "done": [
     "1206",
-    "1207"
+    "1207",
+    "1208",
+    "1209",
+    "1210"
    ],
-   "pr": null,
-   "state": null
+   "pr": 585,
+   "state": "pr_open"
   },
   "gameplay/train-season-final-2": {
    "jobs": [
@@ -1079,7 +1085,8 @@
    ],
    "done": [
     "1322",
-    "1323"
+    "1323",
+    "1324"
    ],
    "pr": null,
    "state": null
@@ -1229,7 +1236,8 @@
    ],
    "done": [
     "1409",
-    "1410"
+    "1410",
+    "1411"
    ],
    "pr": null,
    "state": null
@@ -2133,38 +2141,38 @@
    "branch": null
   },
   "1177": {
-   "state": "on_train",
-   "pr": null,
-   "draft": false,
-   "pr_url": null,
+   "state": "pr_open",
+   "pr": 584,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/584",
    "branch": "gameplay/train-transfer-1"
   },
   "1178": {
-   "state": "on_train",
-   "pr": null,
-   "draft": false,
-   "pr_url": null,
+   "state": "pr_open",
+   "pr": 584,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/584",
    "branch": "gameplay/train-transfer-1"
   },
   "1179": {
-   "state": "waiting",
-   "pr": null,
-   "draft": false,
-   "pr_url": null,
+   "state": "pr_open",
+   "pr": 584,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/584",
    "branch": "gameplay/train-transfer-1"
   },
   "1180": {
-   "state": "waiting",
-   "pr": null,
-   "draft": false,
-   "pr_url": null,
+   "state": "pr_open",
+   "pr": 584,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/584",
    "branch": "gameplay/train-transfer-1"
   },
   "1181": {
-   "state": "waiting",
-   "pr": null,
-   "draft": false,
-   "pr_url": null,
+   "state": "pr_open",
+   "pr": 584,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/584",
    "branch": "gameplay/train-transfer-1"
   },
   "1182": {
@@ -2336,38 +2344,38 @@
    "branch": null
   },
   "1206": {
-   "state": "on_train",
-   "pr": null,
-   "draft": false,
-   "pr_url": null,
+   "state": "pr_open",
+   "pr": 585,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/585",
    "branch": "gameplay/train-season-final-1"
   },
   "1207": {
-   "state": "on_train",
-   "pr": null,
-   "draft": false,
-   "pr_url": null,
+   "state": "pr_open",
+   "pr": 585,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/585",
    "branch": "gameplay/train-season-final-1"
   },
   "1208": {
-   "state": "waiting",
-   "pr": null,
-   "draft": false,
-   "pr_url": null,
+   "state": "pr_open",
+   "pr": 585,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/585",
    "branch": "gameplay/train-season-final-1"
   },
   "1209": {
-   "state": "waiting",
-   "pr": null,
-   "draft": false,
-   "pr_url": null,
+   "state": "pr_open",
+   "pr": 585,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/585",
    "branch": "gameplay/train-season-final-1"
   },
   "1210": {
-   "state": "waiting",
-   "pr": null,
-   "draft": false,
-   "pr_url": null,
+   "state": "pr_open",
+   "pr": 585,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/585",
    "branch": "gameplay/train-season-final-1"
   },
   "1211": {
@@ -3162,7 +3170,7 @@
    "branch": "gameplay/train-career-screens-1"
   },
   "1324": {
-   "state": "waiting",
+   "state": "on_train",
    "pr": null,
    "draft": false,
    "pr_url": null,
@@ -3771,7 +3779,7 @@
    "branch": "gameplay/train-rules-settings-1"
   },
   "1411": {
-   "state": "waiting",
+   "state": "on_train",
    "pr": null,
    "draft": false,
    "pr_url": null,
