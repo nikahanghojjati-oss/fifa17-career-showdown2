@@ -1560,7 +1560,7 @@
      "team": "green",
      "model": "GPT Sol 6.1",
      "effort": "High",
-     "state": "draft PR #666 opened by Work mode; Claude browser check running",
+     "state": "fix round 1: browser check of #666 failed; type 1597 again in Work mode",
      "order": 49,
      "place": "ChatGPT Work mode (Sol 6.1), type one number at a time, in order",
      "note": "ticket jobs/JOB-1597.md; area season-final, train season-final-3; picture job: Work mode can open the approved PNG (Nik 2026-10-11 04:36 UTC routing rule), so it goes to Work mode, not GPT chat or Claude; Claude browser-checks and merges",
