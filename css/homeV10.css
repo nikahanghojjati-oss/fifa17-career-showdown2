@@ -720,3 +720,15 @@
     min-height: 44px;
   }
 }
+
+/* JOB-1070: 2560x1080 ultrawide Home. The desktop soundtrack's
+   32px track chooser and 40px music/track controls are too small for
+   touch. Keep their hit areas at least 44px on coarse-pointer devices;
+   the popover already fits above the soundtrack card without scrolling. */
+@media (min-width: 2500px) and (max-width: 2640px) and (min-height: 1040px) and (max-height: 1120px) and (orientation: landscape) and (pointer: coarse) {
+  #mainMenu.v10Home .menuMusicControl,
+  #mainMenu.v10Home .menuMediaChoice { min-height: 44px; }
+  #mainMenu.v10Home .phoneSheetToggle,
+  #mainMenu.v10Home .phoneTrackSheetOpen { height: 44px; min-height: 44px; }
+  #app #topHeader #onlinePlayerIdentityBadge { min-height: 44px; }
+}
