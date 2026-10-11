@@ -47,6 +47,7 @@ const commands = {
   LOADING_VISUAL: `CMS_CHROMIUM_MULTI_CONTEXT=1 CMS_AUDIT_RUN="pos10-impact-visual" npm run test:loading-visual`,
   FOOTBALL_VISUAL: `CMS_AUDIT_RUN="pos10-impact-visual" npm run test:football-visual`,
   SHARED_POLISHED_PRESENTATION_BROWSER: `CMS_CHROMIUM_MULTI_CONTEXT=1 CMS_AUDIT_RUN="pos10-impact-visual" node tests/browser/shared-showdown-polished-presentation-audit.cjs`,
+  V10_FLASH_BROWSER: `CMS_AUDIT_RUN="pos10-impact-visual" npm run test:v10-flash`,
   RUNTIME_BOUNDARY_BROWSER: `CMS_AUDIT_RUN="pos10-impact-full" npm run test:runtime-boundary`,
   SAVE_LIBRARY_UI_BROWSER: `CMS_AUDIT_RUN="pos10-impact-full" node tests/browser/save-library-ui-audit.cjs`,
   MANAGER_IDENTITY_BROWSER: `CMS_AUDIT_RUN="pos10-impact-full" node tests/browser/manager-identity-linkage-audit.cjs`,
