@@ -82,8 +82,10 @@ a{color:inherit}
 <div class="col"><h3>Account 2 · even numbers</h3><div class="chips" id="even"></div></div></div>
 <div class="lbl" style="margin-top:8px" id="nxtnote"></div></div>
 
+<div class="card"><h2>Where you come in</h2><div id="role"></div><div class="lbl" id="rolesrc" style="margin-top:6px"></div></div>
 <div class="card"><h2>Who does what</h2><div id="lanes"></div>
 <div class="lbl" style="margin-top:8px">Bars: green = merged or live, blue = worker finished, waiting for the lead or Team V, grey = not picked up yet. Real ChatGPT, Codex and Claude usage is not visible from GitHub, so these are job counts, not allowance.</div></div>
+<div class="card"><h2>Quality and trend</h2><div id="qual"></div><div class="lbl" style="margin-top:6px">"First time OK" = worker jobs that came through without being thrown back. Trend compares with an hour ago; the lead's good and bad calls on single jobs show below when it posts them.</div><div id="verd"></div></div>
 <div class="card" id="cxcard"><h2>Type next in Codex <span class="mut" style="text-transform:none;letter-spacing:0" id="cxn"></span></h2><div class="chips" id="cx"></div><div class="lbl" id="cxw" style="margin-top:6px"></div></div>
 
 <div class="card"><div class="row">
@@ -121,7 +123,7 @@ const FLY=["started","on_train","draft","queued","ci_running","ci_failed","ready
 const $=id=>document.getElementById(id);
 const esc=s=>String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const col=s=>`var(--${s})`;
-let D=null,hidden=new Set(),lastOk=0,showAll=false;
+let D=null,N=null,nlast=0,hidden=new Set(),lastOk=0,showAll=false;
 function ago(t){const s=Math.max(0,(Date.now()-new Date(t))/1000);if(s<90)return Math.round(s)+" s ago";if(s<5400)return Math.round(s/60)+" min ago";return (s/3600).toFixed(1)+" h ago"}
 async function load(){
   try{
@@ -129,6 +131,7 @@ async function load(){
     const r=await fetch(`https://api.github.com/repos/${REPO}/contents/${PATH}?ref=${BR}`,{headers:{Accept:"application/vnd.github.raw"},cache:"no-cache"});
     if(!r.ok)throw 0;
     D=await r.json();
+    if(Date.now()-nlast>240000){nlast=Date.now();try{const q=await fetch(`https://api.github.com/repos/${REPO}/contents/project-documents/gameplay-factory/mega/LEAD_NOTES.json?ref=${BR}`,{headers:{Accept:"application/vnd.github.raw"},cache:"no-cache"});if(q.ok)N=await q.json()}catch(e){}}
   }catch(e){
     try{const r=await fetch(`https://raw.githubusercontent.com/${REPO}/${BR}/${PATH}?t=${Math.floor(Date.now()/30000)}`);if(!r.ok)throw 0;D=await r.json()}catch(e2){paint(true,true);return}
   }
@@ -157,6 +160,11 @@ function paint(only,fail){
     return `<div class="stage"><div class="h"><span><b>${L.name}</b><br><span class="mut">${who[k]}</span></span><span><b>${pct}%</b> finished (${f}/${t})</span></div><div class="bar thin"><span style="width:${100*f/t}%;background:#2e9e5b"></span><span style="width:${100*w/t}%;background:#3b82f6"></span></div><div class="lbl">${L.picked_up} picked up · ${L.pending_lead} waiting for the lead${L.audit_batch?" · "+L.audit_batch+" audit reports being batch-merged":""}${L.wait_v?" · "+L.wait_v+" waiting on Team V":""} · ${t-L.picked_up} not started${q.length?" · "+q.join(" · "):""}</div></div>`}).join("");
    const cx=D.codex_next||[];$("cx").innerHTML=cx.map(x=>chip(x.job)).join("");$("cxn").textContent=cx.length?"("+cx.length+" free)":"(none free)";
    $("cxw").textContent=(D.codex_waiting_on_deps||[]).length?"Waiting for an earlier job: "+D.codex_waiting_on_deps.map(x=>x.job+" (after "+x.deps.join(", ")+")").join("; "):"";}
+  if(N){$("role").innerHTML=(N.you_come_in||[]).map(x=>`<div class="stage"><div class="h"><span><b>${esc(x.when)}</b></span><span class="pill" style="white-space:nowrap;align-self:flex-start;background:${x.auto?"#2e9e5b":"#e8590c"}">${x.auto?"automatic":"you"}</span></div><div class="lbl">${esc(x.what)}</div></div>`).join("");$("rolesrc").textContent="From: "+(N.from||"lead")+" · "+ago(N.updated);
+   $("verd").innerHTML=(N.verdicts||[]).map(v=>`<div class="stage"><div class="h"><span><b>Job ${esc(v.job)}</b> ${esc(v.title||"")}</span><span class="pill" style="background:${v.verdict==="good"?"#2e9e5b":"#d64545"}">${v.verdict==="good"?"good job":"not good"}</span></div><div class="lbl">${esc(v.why||"")}</div></div>`).join("")+((N.lessons||[]).length?`<div class="lbl" style="margin-top:6px"><b>Lessons the lead took:</b> ${(N.lessons||[]).map(esc).join(" · ")}</div>`:"")}
+  if(D.lanes){const h=D.history||[],prevH=h.length>1?h[h.length-2]:null;
+   $("qual").innerHTML=Object.entries(D.lanes).filter(([k,L])=>L.total&&L.worker_done+L.closed).map(([k,L])=>{let tr="no trend yet";if(prevH&&prevH.lanes[k]){const o=prevH.lanes[k],dn=L.worker_done-o.done,dr=L.closed-o.redone;tr=(dn>=0?"+":"")+dn+" finished, "+(dr?"+":"")+dr+" redone since "+ago(prevH.at)}
+    return `<div class="stage"><div class="h"><span><b>${esc(L.name)}</b></span><span><b>${L.first_time_ok==null?"-":L.first_time_ok+"%"}</b> first time OK</span></div><div class="lbl">${L.closed} thrown back · ${L.failing_now} failing checks now · ${tr}</div></div>`}).join("")}
   // TYPE NEXT
   const all=(g.ready_all&&g.ready_all.length?g.ready_all:g.ready||[]).slice(0,150);
   const fb=$("first");fb.textContent=all.length?all[0]:"none";fb.dataset.n=all[0]||"";fb.onclick=()=>all.length&&copyBtn(fb);

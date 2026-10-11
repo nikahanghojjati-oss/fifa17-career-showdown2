@@ -1,0 +1,38 @@
+{
+ "updated": "2026-10-11T06:35:00Z",
+ "from": "Team G lead (via the tracker thread)",
+ "you_come_in": [
+  {
+   "when": "Whenever a number is free in Type next",
+   "what": "Paste that number into a new ChatGPT chat (account 1 odd, account 2 even) or Codex. That is your whole job.",
+   "auto": false
+  },
+  {
+   "when": "When the lead asks for a product decision",
+   "what": "The lead or coordinator asks you in the project chat. Nothing else needs a reply.",
+   "auto": false
+  },
+  {
+   "when": "Release time",
+   "what": "Only if the safety check blocks a merge to the live game: type \"merge rNN\" in the lead thread.",
+   "auto": false
+  },
+  {
+   "when": "Audit reports (112)",
+   "what": "The lead batch-merges these now. Nothing for you to do.",
+   "auto": true
+  },
+  {
+   "when": "Game PRs checked by the lead (12)",
+   "what": "Cheaper reviewers check them over the next hour or two, then the lead merges. Nothing for you to do.",
+   "auto": true
+  },
+  {
+   "when": "Picture studies (61)",
+   "what": "They wait on Team V approving the pictures. Not the lead's job and not yours.",
+   "auto": true
+  }
+ ],
+ "verdicts": [],
+ "lessons": []
+}

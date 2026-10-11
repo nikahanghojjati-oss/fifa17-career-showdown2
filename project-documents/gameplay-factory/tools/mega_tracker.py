@@ -386,6 +386,10 @@ def run_round(a, ctx):
         L["trouble"] = sv.get("ci_failed", 0) + sv.get("blocked", 0)
         L["closed"] = sv.get("closed", 0)
         L["reviews_total"] = sum(L["reviews"].values())
+        # quality: of the jobs a worker handed in (or had thrown back), how many came through the first time
+        handed = L["worker_done"] + L["closed"]
+        L["first_time_ok"] = round(100 * L["worker_done"] / handed) if handed else None
+        L["failing_now"] = sv.get("ci_failed", 0)
     # what to type in Codex: waiting Codex jobs whose dependencies are merged
     done_jobs = {j for j, d in direct.items() if d["state"] in DONE_STATES}
     codex_next = [{"job": d["job"], "title": d["title"]} for j, d in sorted(direct.items()) if d["lane"] == "codex" and d["state"] == "waiting"
@@ -457,12 +461,16 @@ def run_round(a, ctx):
     # stale: claimed over 45 minutes ago and still no PR
     stale = [int(k) for k, v in items.items() if v["state"] == "started"
              and (datetime.datetime.now(datetime.timezone.utc) - datetime.datetime.fromisoformat(v["since"].replace("Z", "+00:00"))).total_seconds() > 2700]
+    # hourly history so the page can show whether each lane is improving
+    hist = list(prev.get("history", []))
+    if not hist or (datetime.datetime.fromisoformat(t.replace("Z", "+00:00")) - datetime.datetime.fromisoformat(hist[-1]["at"].replace("Z", "+00:00"))).total_seconds() >= 3600:
+        hist.append({"at": t, "lanes": {k: {"t": L["total"], "fin": L["finished"], "done": L["worker_done"], "redone": L["closed"], "fail": L["failing_now"]} for k, L in lanes.items() if L["total"]}})
     doc = {"updated": t, "total": len(items), "next_free": next_free, "highest_taken": highest,
            "counts": states, "stages": stages, "stale_started": stale, "gates": gates,
            "rate": {"claimed_last_hour": started_since(60), "claimed_last_10min": started_since(10),
                     "merged_last_hour": merged_since(60)},
            "lanes": lanes, "old_main_prs": sum(1 for d in direct.values() if d["state"] == "old_main"), "codex_next": codex_next, "codex_waiting_on_deps": codex_blocked, "work_waiting": work_waiting,
-           "events": events, "items": items}
+           "history": hist[-200:], "events": events, "items": items}
     out.parent.mkdir(parents=True, exist_ok=True)
     # Heartbeat: when nothing but the clock moved, keep the old file until it is 3 minutes old (fewer commits)
     def core(d): return {k: v for k, v in d.items() if k != "updated"}
