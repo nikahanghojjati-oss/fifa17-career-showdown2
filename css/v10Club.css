@@ -173,11 +173,12 @@ html[data-v10-screen="clubWheelScreen"] #app > main { position: static; inset: a
   #clubWheelScreen.cl-on #sharedShowdownSeasonChoice > .stateNote { display: none; }
 }
 
-/* JOB-1153: 768x1024 upright tablet. At 768px Team V selects its desktop
-   absolute-positioned plate (phone stops at 760px). Keep the plate as scenery,
-   but place product controls in document flow so the PAGE, not an inner pane,
-   scrolls. A narrow width AND height gate leaves phone/desktop unchanged. */
-@media (min-width: 761px) and (max-width: 800px) and (min-height: 980px) and (max-height: 1100px) and (orientation: portrait) {
+/* JOB-1153 tablet / JOB-1154 small laptop: Team V's desktop plate is
+   absolutely positioned and clipped at these sizes. Keep the plate as
+   noninteractive scenery, but put product controls in document flow so only
+   the page scrolls. Both gates are deliberately limited to their target size. */
+@media (min-width: 761px) and (max-width: 800px) and (min-height: 980px) and (max-height: 1100px) and (orientation: portrait),
+       (min-width: 1200px) and (max-width: 1320px) and (min-height: 620px) and (max-height: 680px) and (orientation: landscape) {
   html[data-v10-screen="clubWheelScreen"],
   html[data-v10-screen="clubWheelScreen"] body {
     height: auto; min-height: 100%; overflow-x: clip; overflow-y: visible;
@@ -346,5 +347,25 @@ html[data-v10-screen="clubWheelScreen"] #app > main { position: static; inset: a
     position: relative; inset: auto; width: 100%; min-height: 34px;
     height: auto; margin-top: auto; padding: 8px 0;
     flex-wrap: wrap; gap: 8px;
+  }
+}
+
+/* JOB-1154: At 1280x650, use the available width without reverting to
+   Team V's fixed compact slots. Preserve a single document scrollbar,
+   readable wrapped text and full-size controls below the pack cards. */
+@media (min-width: 1200px) and (max-width: 1320px) and (min-height: 620px) and (max-height: 680px) and (orientation: landscape) {
+  #clubWheelScreen.cl-on { gap: 12px; padding: 16px 24px 20px; }
+  #clubWheelScreen.cl-on > .stage { height: 340px; }
+  #clubWheelScreen.cl-on > h2,
+  #clubWheelScreen.cl-on .clubAssignmentHeader { max-width: 920px; }
+  #clubWheelScreen.cl-on .clubRevealProgress { width: min(100%, 860px) !important; }
+  #clubWheelScreen.cl-on .clubRevealArea,
+  #clubWheelScreen.cl-on #clubRivalryConfirmation {
+    width: min(100%, 940px) !important;
+  }
+  #clubWheelScreen.cl-on .clubRevealCard { min-width: 0; }
+  #clubWheelScreen.cl-on #sharedShowdownSeasonChoice,
+  #clubWheelScreen.cl-on > #sharedShowdownPresentationStatus {
+    width: min(100%, 940px); max-width: 100%;
   }
 }
