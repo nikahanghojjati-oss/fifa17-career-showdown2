@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Sun 11 Oct, 1:25 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Sun 11 Oct, 1:29 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r70** (main `c8810b8`, Sun 11 Oct 12:28 AM)
 
@@ -26,19 +26,19 @@ Updated Sun 11 Oct, 1:25 AM Boston time. Bug hunting only, no new features until
 
 **#3 · 1592** `G` Wire Team V study 1110: Connect Players phone  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · **GPT Sol 6.1** · High effort · worker working, draft PR #667 · CI 6 of 7 passed · last move 9 min ago
+🟢 Team green · **GPT Sol 6.1** · High effort · worker working, draft PR #667 · CI 6 of 7 passed · last move 13 min ago
 
 **#4 · 1606** `G` Fix (verify first) audit 88: failed refresh shown as publish failure (Season Results)  
 `████░░░░░░` **40.0000 %**  
-🔵 Team blue · **GPT-6 Sol** · High effort · worker working, draft PR #662 · CI 6 of 7 passed · last move 56 min ago
+🔵 Team blue · **GPT-6 Sol** · High effort · worker working, draft PR #662 · CI 6 of 7 passed · last move 60 min ago
 
 **#5 · 1607** `G` Fix (verify first) audit 92: failed refresh shown as commit failure (Season Commit)  
 `████░░░░░░` **40.0000 %**  
-🔵 Team blue · **GPT-6 Sol** · High effort · worker working, draft PR #663 · CI 6 of 7 passed · last move 56 min ago
+🔵 Team blue · **GPT-6 Sol** · High effort · worker working, draft PR #663 · CI 6 of 7 passed · last move 60 min ago
 
 **#6 · 1608** `G` Fix (verify first) audit 116: background read disables Shared Setup buttons  
 `████░░░░░░` **40.0000 %**  
-🔵 Team blue · **GPT-6 Sol** · High effort · worker working, draft PR #665 · CI 6 of 7 passed · last move 55 min ago
+🔵 Team blue · **GPT-6 Sol** · High effort · worker working, draft PR #665 · CI 6 of 7 passed · last move 59 min ago
 
 ### 👉 Next for you, in this order
 
@@ -391,7 +391,7 @@ Open code PRs: 0/8.
 
 ## Mega tracker (live, free)
 
-Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/index.html) · summary: [mega/MEGA_TRACKER.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/MEGA_TRACKER.md) · rebuilt by the poller each round, updated 2026-10-11T05:22:44Z.
+Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/index.html) · summary: [mega/MEGA_TRACKER.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/MEGA_TRACKER.md) · rebuilt by the poller each round, updated 2026-10-11T05:27:58Z.
 
 | Stage | Done (merged or live) | In progress | Waiting |
 | --- | --- | --- | --- |
