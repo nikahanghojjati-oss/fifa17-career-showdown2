@@ -1,13 +1,13 @@
 {
-"updated": "2026-10-11T21:30:48Z",
+"updated": "2026-10-11T21:33:48Z",
 "total": 518,
-"next_free": 151,
+"next_free": 159,
 "highest_taken": 403,
 "counts": {
 "merged": 161,
 "closed": 82,
-"on_train": 27,
-"waiting": 248
+"on_train": 28,
+"waiting": 247
 },
 "stages": {
 "2": {
@@ -16,8 +16,8 @@
 "states": {
 "merged": 25,
 "closed": 44,
-"on_train": 27,
-"waiting": 170
+"on_train": 28,
+"waiting": 169
 }
 },
 "1": {
@@ -83,6 +83,7 @@
 145,
 147,
 149,
+151,
 155,
 161,
 403
@@ -90,11 +91,11 @@
 "draft_code_prs": 0,
 "area_locks": {},
 "ready": [
-151,
 159,
 163,
 165,
 167,
+169,
 173,
 179,
 189,
@@ -104,11 +105,11 @@
 274
 ],
 "ready_sol": [
-151,
 159,
 163,
 165,
 167,
+169,
 173,
 179,
 189,
@@ -119,11 +120,11 @@
 ],
 "ready_codex": [],
 "ready_all": [
-151,
 159,
 163,
 165,
 167,
+169,
 173,
 179,
 189,
@@ -183,8 +184,8 @@
 }
 },
 "rate": {
-"claimed_last_hour": 0,
-"claimed_last_10min": 0,
+"claimed_last_hour": 1,
+"claimed_last_10min": 1,
 "merged_last_hour": 0
 },
 "lanes": {
@@ -194,18 +195,18 @@
 "states": {
 "merged": 25,
 "closed": 25,
-"on_train": 27,
-"waiting": 162
+"on_train": 28,
+"waiting": 161
 },
 "reviews": {
 "ok": 0,
 "ok_notes": 0,
 "needs_changes": 0
 },
-"picked_up": 77,
-"worker_done": 52,
+"picked_up": 78,
+"worker_done": 53,
 "finished": 25,
-"pending_lead": 27,
+"pending_lead": 28,
 "wait_v": 0,
 "audit_batch": 0,
 "trouble": 0,
@@ -1056,13 +1057,6 @@
 }
 ],
 "events": [
-{
-"at": "2026-10-11T03:54:22Z",
-"item": 340,
-"job": 1172,
-"from": "waiting",
-"to": "draft"
-},
 {
 "at": "2026-10-11T04:03:15Z",
 "item": 7,
@@ -3155,6 +3149,13 @@
 "job": 1086,
 "from": "draft",
 "to": "merged"
+},
+{
+"at": "2026-10-11T21:33:48Z",
+"item": 151,
+"job": 1156,
+"from": "waiting",
+"to": "on_train"
 }
 ],
 "items": {
@@ -5418,8 +5419,10 @@
 "title": "Club packs: fix the 1920x1080 view",
 "mode": "code",
 "group": "club",
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"state": "on_train",
+"branch": "gameplay/train-club-2",
+"first_seen": "2026-10-11T21:33:48Z",
+"since": "2026-10-11T21:33:48Z"
 },
 "152": {
 "job": 1542,
