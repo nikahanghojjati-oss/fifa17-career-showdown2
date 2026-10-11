@@ -1,0 +1,13 @@
+# JOB-1345 · Trophy Room sideways phone
+- Decision: one page scroll in landscape, with BACK and MORE/CLOSE fixed above hub navigation.
+- 844×390 uses a 240px ceremony band and a 338px cabinet; no nested shelf scroll.
+- Bottom content padding clears the fixed 104px action/navigation region.
+- Retains approved two-row five-tab layout and complete 2×2 cabinet.
+- Portrait keeps the faithful layout at 393×660, 360×640 and 375×553.
+- Real text from the live renderer and careerScreensV10.js; no picture wording copied.
+- Existing original environment, cutouts, title and trophy artwork only.
+- Daniel stays left; Nik stays right; empty-career counts avoid invented results.
+- MORE/CLOSE keeps the CSS checkbox detail panel and original control order.
+- No JavaScript; category, BACK and navigation controls are presentation only.
+- Re-read committed HTML; checked CSS geometry and asset paths.
+- Chromium unavailable and download failed; Team V still needs rendered visual QA.
