@@ -1,12 +1,13 @@
 {
-"updated": "2026-10-11T02:46:00Z",
+"updated": "2026-10-11T02:53:53Z",
 "total": 518,
-"next_free": 61,
+"next_free": 91,
 "highest_taken": 395,
 "counts": {
-"draft": 176,
-"on_train": 7,
-"waiting": 334,
+"draft": 192,
+"waiting": 316,
+"on_train": 4,
+"blocked": 5,
 "started": 1
 },
 "stages": {
@@ -14,9 +15,9 @@
 "name": "Screen fixes",
 "total": 266,
 "states": {
-"draft": 59,
-"on_train": 7,
-"waiting": 200
+"draft": 64,
+"waiting": 198,
+"on_train": 4
 }
 },
 "1": {
@@ -38,8 +39,9 @@
 "name": "Phone mockup studies",
 "total": 70,
 "states": {
-"waiting": 65,
-"draft": 4,
+"draft": 15,
+"waiting": 49,
+"blocked": 5,
 "started": 1
 }
 },
@@ -59,6 +61,7 @@
 588,
 590,
 593,
+598,
 584,
 585,
 509,
@@ -70,19 +73,17 @@
 542
 ],
 "on_train_no_pr": [
-7,
-25,
-43,
 101,
 107,
 119,
 125
 ],
-"draft_code_prs": 12,
+"draft_code_prs": 13,
 "area_locks": {
 "home": 588,
 "start-join": 590,
 "league": 593,
+"club": 598,
 "transfer": 584,
 "season-final": 585,
 "rivalry-legacy": 542,
@@ -90,38 +91,38 @@
 "rules-settings": 587
 },
 "ready": [
-61,
-226,
 228,
-234,
-238,
 242,
-250,
 254,
 256,
-262,
-266,
-270
+270,
+278,
+282,
+284,
+298,
+306,
+310,
+312
 ],
 "ready_sol": [
-61,
-226,
 228,
-234,
-238,
 242,
-250,
 254,
 256,
-262,
-266,
-270
+270,
+278,
+282,
+284,
+298,
+306,
+310,
+312
 ],
 "ready_codex": []
 },
 "rate": {
-"claimed_last_hour": 27,
-"claimed_last_10min": 27,
+"claimed_last_hour": 45,
+"claimed_last_10min": 28,
 "merged_last_hour": 0
 },
 "events": [
@@ -1629,6 +1630,160 @@
 "job": 1084,
 "from": "waiting",
 "to": "draft"
+},
+{
+"at": "2026-10-11T02:53:53Z",
+"item": 7,
+"job": 1148,
+"from": "on_train",
+"to": "draft"
+},
+{
+"at": "2026-10-11T02:53:53Z",
+"item": 25,
+"job": 1149,
+"from": "on_train",
+"to": "draft"
+},
+{
+"at": "2026-10-11T02:53:53Z",
+"item": 43,
+"job": 1150,
+"from": "on_train",
+"to": "draft"
+},
+{
+"at": "2026-10-11T02:53:53Z",
+"item": 61,
+"job": 1151,
+"from": "waiting",
+"to": "draft"
+},
+{
+"at": "2026-10-11T02:53:53Z",
+"item": 79,
+"job": 1152,
+"from": "waiting",
+"to": "draft"
+},
+{
+"at": "2026-10-11T02:53:53Z",
+"item": 226,
+"job": 1400,
+"from": "waiting",
+"to": "draft"
+},
+{
+"at": "2026-10-11T02:53:53Z",
+"item": 234,
+"job": 1139,
+"from": "waiting",
+"to": "blocked"
+},
+{
+"at": "2026-10-11T02:53:53Z",
+"item": 238,
+"job": 1371,
+"from": "waiting",
+"to": "draft"
+},
+{
+"at": "2026-10-11T02:53:53Z",
+"item": 248,
+"job": 1110,
+"from": "started",
+"to": "draft"
+},
+{
+"at": "2026-10-11T02:53:53Z",
+"item": 250,
+"job": 1197,
+"from": "waiting",
+"to": "draft"
+},
+{
+"at": "2026-10-11T02:53:53Z",
+"item": 262,
+"job": 1140,
+"from": "waiting",
+"to": "blocked"
+},
+{
+"at": "2026-10-11T02:53:53Z",
+"item": 266,
+"job": 1372,
+"from": "waiting",
+"to": "draft"
+},
+{
+"at": "2026-10-11T02:53:53Z",
+"item": 276,
+"job": 1111,
+"from": "waiting",
+"to": "draft"
+},
+{
+"at": "2026-10-11T02:53:53Z",
+"item": 290,
+"job": 1141,
+"from": "waiting",
+"to": "blocked"
+},
+{
+"at": "2026-10-11T02:53:53Z",
+"item": 294,
+"job": 1373,
+"from": "waiting",
+"to": "draft"
+},
+{
+"at": "2026-10-11T02:53:53Z",
+"item": 304,
+"job": 1112,
+"from": "waiting",
+"to": "draft"
+},
+{
+"at": "2026-10-11T02:53:53Z",
+"item": 318,
+"job": 1142,
+"from": "waiting",
+"to": "blocked"
+},
+{
+"at": "2026-10-11T02:53:53Z",
+"item": 322,
+"job": 1374,
+"from": "waiting",
+"to": "started"
+},
+{
+"at": "2026-10-11T02:53:53Z",
+"item": 332,
+"job": 1113,
+"from": "waiting",
+"to": "draft"
+},
+{
+"at": "2026-10-11T02:53:53Z",
+"item": 344,
+"job": 1085,
+"from": "waiting",
+"to": "draft"
+},
+{
+"at": "2026-10-11T02:53:53Z",
+"item": 346,
+"job": 1143,
+"from": "waiting",
+"to": "blocked"
+},
+{
+"at": "2026-10-11T02:53:53Z",
+"item": 360,
+"job": 1114,
+"from": "waiting",
+"to": "draft"
 }
 ],
 "items": {
@@ -1643,7 +1798,7 @@
 "base": "gameplay/bug-list-1",
 "branch": "gameplay/train-home-1",
 "ci": "draft",
-"ci_sha": "e7b51be384e25492d726f76b5f28652393aca15e",
+"ci_sha": "a4af9201da687b57592c2ab070ca5dd1ecf9e7ab",
 "ci_total": 0,
 "ci_extra": 0,
 "draft": true,
@@ -1758,10 +1913,19 @@
 "title": "Club packs: fix the 360x640 view",
 "mode": "code",
 "group": "club",
-"state": "on_train",
+"pr": 598,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/598",
+"base": "gameplay/bug-list-1",
 "branch": "gameplay/train-club-1",
+"ci": "draft",
+"ci_sha": "e190cb699d2e045be9c9f0aadaec0a3c865d54ec",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-11T02:47:49Z",
 "first_seen": "2026-10-10T15:04:39Z",
-"since": "2026-10-10T15:04:39Z"
+"since": "2026-10-11T02:53:53Z"
 },
 "8": {
 "job": 1470,
@@ -1994,7 +2158,7 @@
 "base": "gameplay/bug-list-1",
 "branch": "gameplay/train-home-1",
 "ci": "draft",
-"ci_sha": "e7b51be384e25492d726f76b5f28652393aca15e",
+"ci_sha": "a4af9201da687b57592c2ab070ca5dd1ecf9e7ab",
 "ci_total": 0,
 "ci_extra": 0,
 "draft": true,
@@ -2109,10 +2273,19 @@
 "title": "Club packs: fix the 390x844 view",
 "mode": "code",
 "group": "club",
-"state": "on_train",
+"pr": 598,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/598",
+"base": "gameplay/bug-list-1",
 "branch": "gameplay/train-club-1",
+"ci": "draft",
+"ci_sha": "e190cb699d2e045be9c9f0aadaec0a3c865d54ec",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-11T02:47:49Z",
 "first_seen": "2026-10-10T15:24:50Z",
-"since": "2026-10-10T15:24:50Z"
+"since": "2026-10-11T02:53:53Z"
 },
 "26": {
 "job": 1479,
@@ -2345,7 +2518,7 @@
 "base": "gameplay/bug-list-1",
 "branch": "gameplay/train-home-1",
 "ci": "draft",
-"ci_sha": "e7b51be384e25492d726f76b5f28652393aca15e",
+"ci_sha": "a4af9201da687b57592c2ab070ca5dd1ecf9e7ab",
 "ci_total": 0,
 "ci_extra": 0,
 "draft": true,
@@ -2460,10 +2633,19 @@
 "title": "Club packs: fix the 430x932 view",
 "mode": "code",
 "group": "club",
-"state": "on_train",
+"pr": 598,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/598",
+"base": "gameplay/bug-list-1",
 "branch": "gameplay/train-club-1",
+"ci": "draft",
+"ci_sha": "e190cb699d2e045be9c9f0aadaec0a3c865d54ec",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-11T02:47:49Z",
 "first_seen": "2026-10-10T19:48:24Z",
-"since": "2026-10-10T19:48:24Z"
+"since": "2026-10-11T02:53:53Z"
 },
 "44": {
 "job": 1488,
@@ -2696,7 +2878,7 @@
 "base": "gameplay/bug-list-1",
 "branch": "gameplay/train-home-1",
 "ci": "draft",
-"ci_sha": "e7b51be384e25492d726f76b5f28652393aca15e",
+"ci_sha": "a4af9201da687b57592c2ab070ca5dd1ecf9e7ab",
 "ci_total": 0,
 "ci_extra": 0,
 "draft": true,
@@ -2811,8 +2993,19 @@
 "title": "Club packs: fix the 844x390 view",
 "mode": "code",
 "group": "club",
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"pr": 598,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/598",
+"base": "gameplay/bug-list-1",
+"branch": "gameplay/train-club-1",
+"ci": "draft",
+"ci_sha": "e190cb699d2e045be9c9f0aadaec0a3c865d54ec",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-11T02:47:49Z",
+"first_seen": "2026-10-11T02:47:49Z",
+"since": "2026-10-11T02:53:53Z"
 },
 "62": {
 "job": 1497,
@@ -3045,7 +3238,7 @@
 "base": "gameplay/bug-list-1",
 "branch": "gameplay/train-home-1",
 "ci": "draft",
-"ci_sha": "e7b51be384e25492d726f76b5f28652393aca15e",
+"ci_sha": "a4af9201da687b57592c2ab070ca5dd1ecf9e7ab",
 "ci_total": 0,
 "ci_extra": 0,
 "draft": true,
@@ -3160,8 +3353,19 @@
 "title": "Club packs: fix the 932x430 view",
 "mode": "code",
 "group": "club",
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"pr": 598,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/598",
+"base": "gameplay/bug-list-1",
+"branch": "gameplay/train-club-1",
+"ci": "draft",
+"ci_sha": "e190cb699d2e045be9c9f0aadaec0a3c865d54ec",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-11T02:47:49Z",
+"first_seen": "2026-10-11T02:47:49Z",
+"since": "2026-10-11T02:53:53Z"
 },
 "80": {
 "job": 1506,
@@ -5426,8 +5630,19 @@
 "title": "Career Statistics: phone mockup, version A (faithful)",
 "mode": "study",
 "group": null,
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"pr": 600,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/600",
+"base": "study/mega-queue",
+"branch": "study/job-1400-career-statistics-phone-a",
+"ci": "draft",
+"ci_sha": "de52c304549bc68e801ff312079241b80d3b8d4f",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-11T02:49:13Z",
+"first_seen": "2026-10-11T02:49:13Z",
+"since": "2026-10-11T02:53:53Z"
 },
 "227": {
 "job": 1218,
@@ -5520,8 +5735,10 @@
 "title": "Select League: phone mockup, version A (faithful)",
 "mode": "study",
 "group": null,
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"state": "blocked",
+"branch": "study/job-1139-blocked",
+"first_seen": "2026-10-11T02:53:53Z",
+"since": "2026-10-11T02:53:53Z"
 },
 "235": {
 "job": 1074,
@@ -5556,8 +5773,19 @@
 "title": "Rivalry Statistics: phone mockup, version A (faithful)",
 "mode": "study",
 "group": null,
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"pr": 602,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/602",
+"base": "study/mega-queue",
+"branch": "study/job-1371-rivalry-phone-a",
+"ci": "draft",
+"ci_sha": "c738632e8bb7d6294acc232f5576567c20188c01",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-11T02:50:52Z",
+"first_seen": "2026-10-11T02:50:52Z",
+"since": "2026-10-11T02:53:53Z"
 },
 "239": {
 "job": 1132,
@@ -5657,12 +5885,19 @@
 "title": "Connect Players (start and join): phone mockup, version A (faithful)",
 "mode": "study",
 "group": null,
-"state": "started",
+"pr": 597,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/597",
+"base": "study/mega-queue",
 "branch": "study/job-1110-connect-players-phone-a",
-"branch_sha": "fe1eef9adb5f6e57b1577872b554c506a5907689",
-"no_pr_reason": "",
+"ci": "draft",
+"ci_sha": "cb85ca6dd24092928581ab680ea76239eb9536ed",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-11T02:47:45Z",
 "first_seen": "2026-10-11T02:46:00Z",
-"since": "2026-10-11T02:46:00Z"
+"since": "2026-10-11T02:53:53Z"
 },
 "249": {
 "job": 1335,
@@ -5679,8 +5914,19 @@
 "title": "Transfer challenge and Signing Entry: phone mockup, version A (faithful)",
 "mode": "study",
 "group": null,
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"pr": 606,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/606",
+"base": "study/mega-queue",
+"branch": "study/job-1197-transfer-phone-a",
+"ci": "draft",
+"ci_sha": "4035f3ad833763601388f9b7226448588b3d678c",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-11T02:52:49Z",
+"first_seen": "2026-10-11T02:52:49Z",
+"since": "2026-10-11T02:53:53Z"
 },
 "251": {
 "job": 1422,
@@ -5798,8 +6044,10 @@
 "title": "Select League: phone mockup, version B (bold hierarchy)",
 "mode": "study",
 "group": null,
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"state": "blocked",
+"branch": "study/job-1140-blocked",
+"first_seen": "2026-10-11T02:53:53Z",
+"since": "2026-10-11T02:53:53Z"
 },
 "263": {
 "job": 1220,
@@ -5845,8 +6093,19 @@
 "title": "Rivalry Statistics: phone mockup, version B (bold hierarchy)",
 "mode": "study",
 "group": null,
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"pr": 604,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/604",
+"base": "study/mega-queue",
+"branch": "study/job-1372-rivalry-phone-b",
+"ci": "draft",
+"ci_sha": "04874f87a224a7731c237b54fae59f981af72edf",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-11T02:52:12Z",
+"first_seen": "2026-10-11T02:52:12Z",
+"since": "2026-10-11T02:53:53Z"
 },
 "267": {
 "job": 1336,
@@ -5935,8 +6194,19 @@
 "title": "Connect Players (start and join): phone mockup, version B (bold hierarchy)",
 "mode": "study",
 "group": null,
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"pr": 599,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/599",
+"base": "study/mega-queue",
+"branch": "study/job-1111-connect-players-phone-b",
+"ci": "draft",
+"ci_sha": "e3e995e89c5c526294301d13b7a90fdc05e2e859",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-11T02:48:54Z",
+"first_seen": "2026-10-11T02:48:54Z",
+"since": "2026-10-11T02:53:53Z"
 },
 "277": {
 "job": 1163,
@@ -6083,8 +6353,10 @@
 "title": "Select League: phone mockup, version C (compact)",
 "mode": "study",
 "group": null,
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"state": "blocked",
+"branch": "study/job-1141-blocked",
+"first_seen": "2026-10-11T02:53:53Z",
+"since": "2026-10-11T02:53:53Z"
 },
 "291": {
 "job": 1106,
@@ -6119,8 +6391,19 @@
 "title": "Rivalry Statistics: phone mockup, version C (compact)",
 "mode": "study",
 "group": null,
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"pr": 607,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/607",
+"base": "study/mega-queue",
+"branch": "study/job-1373-rivalry-phone-c",
+"ci": "draft",
+"ci_sha": "5c1642dd2b6401e70fa8a021042fecc8f8789b45",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-11T02:53:08Z",
+"first_seen": "2026-10-11T02:53:08Z",
+"since": "2026-10-11T02:53:53Z"
 },
 "295": {
 "job": 1164,
@@ -6220,8 +6503,19 @@
 "title": "Connect Players (start and join): phone mockup, version C (compact)",
 "mode": "study",
 "group": null,
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"pr": 601,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/601",
+"base": "study/mega-queue",
+"branch": "study/job-1112-connect-players-phone-c",
+"ci": "draft",
+"ci_sha": "142626c77d105623c1d06702fadc2041613b557c",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-11T02:50:01Z",
+"first_seen": "2026-10-11T02:50:01Z",
+"since": "2026-10-11T02:53:53Z"
 },
 "305": {
 "job": 1425,
@@ -6357,8 +6651,10 @@
 "title": "Select League: sideways phone study",
 "mode": "study",
 "group": null,
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"state": "blocked",
+"branch": "study/job-1142-blocked",
+"first_seen": "2026-10-11T02:53:53Z",
+"since": "2026-10-11T02:53:53Z"
 },
 "319": {
 "job": 1310,
@@ -6404,8 +6700,12 @@
 "title": "Rivalry Statistics: sideways phone study",
 "mode": "study",
 "group": null,
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"state": "started",
+"branch": "study/job-1374-rivalry-sideways",
+"branch_sha": "fe1eef9adb5f6e57b1577872b554c506a5907689",
+"no_pr_reason": "",
+"first_seen": "2026-10-11T02:53:53Z",
+"since": "2026-10-11T02:53:53Z"
 },
 "323": {
 "job": 1426,
@@ -6494,8 +6794,19 @@
 "title": "Connect Players (start and join): sideways phone study",
 "mode": "study",
 "group": null,
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"pr": 603,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/603",
+"base": "study/mega-queue",
+"branch": "study/job-1113-connect-players-sideways",
+"ci": "draft",
+"ci_sha": "102fe66af32e22e9ecaa539fd0a89a6f8f45242c",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-11T02:51:12Z",
+"first_seen": "2026-10-11T02:51:12Z",
+"since": "2026-10-11T02:53:53Z"
 },
 "333": {
 "job": 1195,
@@ -6613,8 +6924,19 @@
 "title": "Home: upright tablet study",
 "mode": "study",
 "group": null,
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"pr": 595,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/595",
+"base": "study/mega-queue",
+"branch": "study/job-1085-tablet-no-change",
+"ci": "draft",
+"ci_sha": "a26ad30e09b1881024efcc3f31fa19b715fc1143",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-11T02:46:46Z",
+"first_seen": "2026-10-11T02:46:46Z",
+"since": "2026-10-11T02:53:53Z"
 },
 "345": {
 "job": 1109,
@@ -6631,8 +6953,10 @@
 "title": "Select League: upright tablet study",
 "mode": "study",
 "group": null,
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"state": "blocked",
+"branch": "study/job-1143-blocked",
+"first_seen": "2026-10-11T02:53:53Z",
+"since": "2026-10-11T02:53:53Z"
 },
 "347": {
 "job": 1138,
@@ -6768,8 +7092,19 @@
 "title": "Connect Players (start and join): upright tablet study",
 "mode": "study",
 "group": null,
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"pr": 605,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/605",
+"base": "study/mega-queue",
+"branch": "study/job-1114-connect-players-tablet",
+"ci": "draft",
+"ci_sha": "8e0dffaa52e714e81f9e5dbff66b1b459571e03b",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-11T02:52:30Z",
+"first_seen": "2026-10-11T02:52:30Z",
+"since": "2026-10-11T02:53:53Z"
 },
 "361": {
 "job": 1235,
