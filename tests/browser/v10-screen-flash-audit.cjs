@@ -7,12 +7,16 @@
 //   - a visible <img> inside the shown screen that is not yet complete/decoded (half-loaded picture)
 // A reduced-motion pass (prefers-reduced-motion: reduce, Motion = FOLLOW DEVICE) asserts no animation or transition
 // over 100 ms on the shown screen. A double tap on a Home tile must start one navigation, not two.
-// Screens that need a completed showdown are skipped with a printed reason (never a silent pass).
+// Completed-showdown journeys use read-only provider snapshots and seeded browser storage.
+// Tap feedback is reported separately until it becomes a blocking Gate requirement.
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const path = require("node:path");
 const { chromium } = require("playwright");
 const { resolveChromiumRuntime } = require("../support/chromium-runtime.cjs");
+const fixtures = require("../support/active-showdown-fixtures.cjs");
+const activeAdapter = require("../../js/sharedActiveShowdownAdapter.js");
+const showdownFixture = fixtures.completedShowdownStorage();
 
 const baseUrl = new URL(process.env.CMS_BASE_URL || "http://127.0.0.1:4173/");
 const runLabel = process.env.CMS_AUDIT_RUN || "v10-screen-flash";
@@ -35,14 +39,12 @@ const journeys = [
     { name: "trophyRoom", host: "trophyRoom", open: "window.openOptionalModule('trophyRoom')" },
     { name: "ruleBook", host: "ruleBook", open: "window.openOptionalModule('ruleBook')" },
     { name: "setup", host: "createShowdown", open: "window.navigateTo('createShowdown')" },
-    { name: "settings", host: "settingsOverlay", overlay: true, open: "document.getElementById('settingsButton').click()", close: "window.closeSettings()" }
+    { name: "settings", host: "settingsOverlay", overlay: true, open: "document.getElementById('settingsButton').click()", close: "window.closeSettings()" },
+    { name: "seasonResults", host: "seasonEntry", fixture: "ready", required: true, content: ".v10SeasonStage:not([hidden]) #seasonReviewPanel", open: "window.__cmsOpenReadyResults()" },
+    { name: "finalWinner", host: "seasonEntry", fixture: "finished", required: true, content: ".v10FinalStage", open: "window.openSeasonEntry()" },
+    { name: "rivalry", host: "statistics", fixture: "finished", required: true, content: ".rv-stage", open: "window.openRivalryStatistics({ model: window.__cmsRivalryFixture })" }
 ];
-// These need a completed or live showdown in storage. They are reported as skipped, never as passed.
-const skipped = [
-    ["seasonResults", "needs a live showdown with a finished season in storage; not wired in this guard yet"],
-    ["finalWinner", "needs a completed showdown in storage; not wired in this guard yet"],
-    ["rivalry", "needs a completed showdown in storage (Rivalry opens from Legacy); not wired in this guard yet"]
-];
+const skipped = [];
 
 fs.mkdirSync(resultsDirectory, { recursive: true });
 
@@ -135,6 +137,7 @@ async function waitShown(page, host, overlay){
 }
 
 async function runJourney(page, journey, viewportName){
+    await prepareJourney(page, journey);
     const teamV = new Set(["mainMenu"]);
     const recordings = [];
     const start = () => page.evaluate(() => window.__cmsFlashRecorder.start());
@@ -145,7 +148,12 @@ async function runJourney(page, journey, viewportName){
     const shown = await waitShown(page, journey.host, journey.overlay === true);
     const out = await stop();
     if(!shown){
+        assert.equal(journey.required, undefined, `${viewportName} ${journey.name}: required fixture journey did not open`);
         return { skipped: `${viewportName} ${journey.name}: ${journey.host} did not open headless within ${SHOW_TIMEOUT_MS} ms` };
+    }
+    if(journey.required){
+        assert.equal(await page.evaluate(host => window.CareerModeV10Screens.isMounted(host), journey.host), true, `${journey.name}: Team V must mount`);
+        await page.locator(`#${journey.host} ${journey.content}`).waitFor({ state: "visible", timeout: SHOW_TIMEOUT_MS });
     }
     const mountedOut = await page.evaluate(host => Boolean(window.CareerModeV10Screens && window.CareerModeV10Screens.isMounted(host)), journey.host);
     if(mountedOut) teamV.add(journey.host);
@@ -167,7 +175,83 @@ async function runJourney(page, journey, viewportName){
         const t0 = rec.out.frames.length ? rec.out.frames[0].t : 0;
         return { label: rec.label, frames: rec.out.frames.map(f => `${String(Math.round(f.t - t0)).padStart(4)}ms ${f.overlay ? "settingsOverlay" : f.screen}${f.pending ? "(pending)" : ""} v10=${f.v10} bg=${f.htmlBg}${f.lightPage ? " LIGHT-PAGE" : ""}${f.oldHeader ? " OLD-HEADER" : ""}${f.oldFooter ? " OLD-FOOTER" : ""}${f.sheetsMissing.length && !f.pending ? " SHEET-MISSING" : ""}${f.imgsNotReady.length && !f.pending ? " IMG-NOT-DECODED" : ""}`) };
     });
-    return { problems, frames: recordings.reduce((n, r) => n + r.out.frames.length, 0), strips };
+    // Count affected frames by reusing the unchanged detector, including overlapping reasons.
+    const flashFrames = recordings.map(rec => ({ label: rec.label, frames: rec.out.frames.length, affectedFrames: rec.out.frames.filter(frame => analyse({ frames: [frame] }, teamV, rec.label).length > 0).length }));
+    return { problems, frames: recordings.reduce((n, r) => n + r.out.frames.length, 0), strips, flashFrames };
+}
+
+async function prepareJourney(page, journey){
+    if(!journey.fixture) return;
+    const snapshot = showdownFixture[journey.fixture];
+    await page.evaluate(async ({ snapshot, rivalry }) => {
+        await window.ensureGameplayModules();
+        // Only substitute reads. Navigation, live form nodes, CSS loading and rendering remain real.
+        const names = { identity: "CareerModeOnlinePlayerIdentity", pair: "CareerModePersistentNikDanielPair", multiSeason: "CareerModeProductionSharedMultiSeasonProgression", history: "CareerModeProductionSharedHistoryConvergence", finalReconciliation: "CareerModeProductionSharedFinalReconciliation", terminalClose: "CareerModeProductionSharedTerminalClose", seasonResults: "CareerModeProductionSharedSeasonResults" };
+        for(const [key, name] of Object.entries(names)) window[name] = { getState: () => snapshot[key] };
+        currentShowdown = normalizeShowdown(JSON.parse(localStorage.getItem("careerModeShowdown.activeShowdown")));
+        if(currentShowdown.integrityWarnings.length) throw new Error(`Invalid flash storage fixture: ${currentShowdown.integrityWarnings.join("; ")}`);
+        window.__cmsRivalryFixture = rivalry;
+        window.__cmsOpenReadyResults = () => {
+            window.openSeasonEntry();
+            for(const [prefix, result] of [["p1", snapshot.seasonResults.ownResult], ["p2", snapshot.seasonResults.opponentResult]]){
+                for(const [field, value] of Object.entries(result)){
+                    const input = document.getElementById(prefix + field[0].toUpperCase() + field.slice(1));
+                    if(!input) throw new Error(`Missing real results field: ${prefix} ${field}`);
+                    if(input.type === "checkbox") input.checked = value;
+                    else input.value = String(value);
+                }
+            }
+            // Render the real review of these finished-season inputs without confirming/saving it.
+            window.completeCurrentSeason();
+        };
+        window.CareerModeV10Screens.invalidate("seasonEntry");
+    }, { snapshot, rivalry: activeAdapter.rivalryView(snapshot) });
+}
+
+async function tapFeedback(page, viewport){
+    const tile = page.locator("#ruleBookButton");
+    await tile.scrollIntoViewIfNeeded();
+    const box = await tile.boundingBox();
+    const x = box.x + box.width / 2, y = box.y + box.height / 2;
+    if(!viewport.hasTouch){ await page.mouse.move(x, y); await page.waitForTimeout(150); }
+    await page.evaluate(() => {
+        const tile = document.getElementById("ruleBookButton");
+        const look = () => { const s = getComputedStyle(tile); return [s.transform, s.backgroundColor, s.boxShadow, s.borderColor, s.opacity, s.filter].join("|"); };
+        const geometry = () => [...document.querySelectorAll("#mainMenu .menuTile")].map(el => [el.id, el.offsetLeft, el.offsetTop, el.offsetWidth, el.offsetHeight]);
+        const rec = { baseline: look(), geometry: JSON.stringify(geometry()), down: null, navigationAt: null, pressedAt: null, layoutChanged: false, shifts: [], samples: [], running: true };
+        const observer = new PerformanceObserver(list => rec.shifts.push(...list.getEntries().map(e => ({ value: e.value, hadRecentInput: e.hadRecentInput, at: e.startTime }))));
+        observer.observe({ type: "layout-shift", buffered: false });
+        tile.addEventListener("pointerdown", () => { rec.down = performance.now(); }, { once: true });
+        const navigated = event => { if(event.detail?.screen !== "mainMenu") rec.navigationAt ??= performance.now(); };
+        document.addEventListener("career-mode-screen-shown", navigated);
+        const sample = () => {
+            if(rec.down !== null && rec.navigationAt === null){
+                const at = performance.now() - rec.down, style = look();
+                rec.samples.push({ at, active: tile.matches(":active"), style });
+                if(tile.matches(":active") && style !== rec.baseline && rec.pressedAt === null) rec.pressedAt = at;
+                if(JSON.stringify(geometry()) !== rec.geometry) rec.layoutChanged = true;
+            }
+            if(rec.running) rec.raf = requestAnimationFrame(sample);
+        };
+        rec.raf = requestAnimationFrame(sample);
+        rec.stop = () => { rec.running = false; cancelAnimationFrame(rec.raf); rec.shifts.push(...observer.takeRecords().map(e => ({ value: e.value, hadRecentInput: e.hadRecentInput, at: e.startTime }))); observer.disconnect(); document.removeEventListener("career-mode-screen-shown", navigated); return { pressedAt: rec.pressedAt, pointerdownObserved: rec.down !== null, layoutChanged: rec.layoutChanged, shifts: rec.shifts.filter(e => e.at >= rec.down && (rec.navigationAt === null || e.at < rec.navigationAt)), samples: rec.samples }; };
+        window.__cmsTapRecorder = rec;
+    });
+    const cdp = viewport.hasTouch ? await page.context().newCDPSession(page) : null;
+    if(cdp) await cdp.send("Input.dispatchTouchEvent", { type: "touchStart", touchPoints: [{ x, y }] });
+    else await page.mouse.down();
+    await page.waitForTimeout(30);
+    if(cdp){ await cdp.send("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] }); await cdp.detach(); }
+    else await page.mouse.up();
+    await page.waitForTimeout(180);
+    const result = await page.evaluate(() => window.__cmsTapRecorder.stop());
+    assert.equal(result.pointerdownObserved, true, `${viewport.name}: real tile press must be observed`);
+    result.passed = result.pressedAt !== null && result.pressedAt <= 100 && !result.layoutChanged && result.shifts.length === 0;
+    console.log(`${result.passed ? "ok  " : "FINDING"} ${viewport.name} tap feedback: pressed=${result.pressedAt === null ? "not painted" : result.pressedAt.toFixed(1) + " ms"}, layout changed=${result.layoutChanged}, layout-shift entries=${result.shifts.length} (report only)`);
+    await waitShown(page, "ruleBook", false);
+    await page.evaluate(() => window.navigateTo("mainMenu"));
+    await waitForHome(page);
+    return result;
 }
 
 async function doubleTap(page, viewportName){
@@ -200,9 +284,11 @@ async function reducedMotionPass(page, viewportName){
     const follows = await page.evaluate(() => document.documentElement.dataset.motionReduced === "true" && document.documentElement.dataset.motionPreference === "system");
     if(!follows) problems.push({ label: `${viewportName} reduced-motion`, screen: "mainMenu", at: 0, reason: "FOLLOW DEVICE did not follow prefers-reduced-motion: reduce live (html[data-motion-reduced] stayed false)" });
     for(const journey of journeys){
+        await prepareJourney(page, journey);
         await page.evaluate(journey.open);
         const shown = await waitShown(page, journey.host, journey.overlay === true);
         if(shown){
+            if(journey.required) await page.locator(`#${journey.host} ${journey.content}`).waitFor({ state: "visible", timeout: SHOW_TIMEOUT_MS });
             await page.waitForTimeout(80);
             const long = await page.evaluate(host => {
                 const root = document.getElementById(host);
@@ -219,6 +305,7 @@ async function reducedMotionPass(page, viewportName){
             }, journey.host);
             if(long.length) problems.push({ label: `${viewportName} reduced-motion ${journey.name}`, screen: journey.host, at: 0, reason: `motion over 100 ms with prefers-reduced-motion: ${long.join("; ")}` });
         }else{
+            assert.equal(journey.required, undefined, `${viewportName} reduced-motion ${journey.name}: required fixture journey did not open`);
             console.log(`SKIP ${viewportName} reduced-motion ${journey.name}: ${journey.host} did not open headless`);
         }
         if(journey.close) await page.evaluate(journey.close);
@@ -240,11 +327,13 @@ async function reducedMotionPass(page, viewportName){
             const page = await context.newPage();
             page.on("pageerror", error => pageErrors.push(`${vp.name}: ${error.message}`));
             await page.addInitScript(RECORDER);
+            await page.addInitScript(storage => { for(const [key, value] of Object.entries(storage)) localStorage.setItem(key, value); }, showdownFixture.storage);
             const cdp = await context.newCDPSession(page);
             await cdp.send("Emulation.setCPUThrottlingRate", { rate: CPU_THROTTLE });
             await page.goto(baseUrl.href, { waitUntil: "domcontentloaded" });
             await waitForHome(page);
             const summary = { name: vp.name, journeys: [] };
+            summary.tapFeedback = await tapFeedback(page, vp);
             for(const journey of journeys){
                 const result = await runJourney(page, journey, vp.name);
                 if(result.skipped){
@@ -253,7 +342,7 @@ async function reducedMotionPass(page, viewportName){
                     report.skipped.push({ name: `${vp.name} ${journey.name}`, reason: result.skipped });
                     continue;
                 }
-                summary.journeys.push({ name: journey.name, frames: result.frames, problems: result.problems.length, strips: result.strips });
+                summary.journeys.push({ name: journey.name, frames: result.frames, problems: result.problems.length, strips: result.strips, flashFrames: result.flashFrames });
                 report.problems.push(...result.problems);
                 console.log(`${result.problems.length ? "FAIL" : "ok  "} ${vp.name} ${journey.name}: ${result.frames} frames, ${result.problems.length} problem(s)`);
                 for(const p of result.problems) console.log(`      ${p.label} @${p.at}ms [${p.screen}]: ${p.reason}`);
