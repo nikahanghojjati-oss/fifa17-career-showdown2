@@ -7,6 +7,11 @@ const fs = require("node:fs");
 const path = require("node:path");
 const vm = require("node:vm");
 const { FakeNode } = require("../support/fake-dom.cjs");
+FakeNode.prototype.prepend = function(node){
+    if(node.parent){ node.remove(); }
+    node.parent = this;
+    this.children.unshift(node);
+};
 
 const ROOT = path.resolve(__dirname, "../..");
 const read = name => fs.readFileSync(path.join(ROOT, name), "utf8");
