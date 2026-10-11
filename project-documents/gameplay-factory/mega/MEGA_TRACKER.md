@@ -1,9 +1,9 @@
-# Mega factory tracker · updated 2026-10-11T03:54:22Z
+# Mega factory tracker · updated 2026-10-11T03:58:47Z
 
 **Type now:** 123, 155, 230, 236, 244, 252, 258, 264, 272, 280, 286, 292
 **Next free number:** 91 · **highest taken:** 395 of 518
 **Code PRs open:** 0 of 8 · area locks: home, start-join, league, club, transfer, rivalry-legacy, rules-settings
-**Rate:** 7 claimed in 10 min · 21 in 1 h · 10 merged in 1 h
+**Rate:** 6 claimed in 10 min · 15 in 1 h · 10 merged in 1 h
 
 **Finished (merged or live): 10 of 518**
 
