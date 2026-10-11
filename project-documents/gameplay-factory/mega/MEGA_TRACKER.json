@@ -1,5 +1,5 @@
 {
-"updated": "2026-10-11T05:08:44Z",
+"updated": "2026-10-11T05:09:44Z",
 "total": 518,
 "next_free": 113,
 "highest_taken": 395,
@@ -7,8 +7,8 @@
 "merged": 25,
 "draft": 166,
 "closed": 51,
-"on_train": 15,
-"waiting": 261
+"on_train": 16,
+"waiting": 260
 },
 "stages": {
 "2": {
@@ -17,9 +17,9 @@
 "states": {
 "merged": 25,
 "closed": 39,
-"on_train": 15,
+"on_train": 16,
 "draft": 5,
-"waiting": 182
+"waiting": 181
 }
 },
 "1": {
@@ -75,6 +75,7 @@
 123,
 125,
 137,
+141,
 143,
 155
 ],
@@ -87,7 +88,7 @@
 115,
 127,
 129,
-141,
+159,
 161,
 173,
 403
@@ -97,7 +98,7 @@
 115,
 127,
 129,
-141,
+159,
 161,
 173,
 403
@@ -108,7 +109,7 @@
 115,
 127,
 129,
-141,
+159,
 161,
 173,
 403
@@ -135,18 +136,11 @@
 }
 },
 "rate": {
-"claimed_last_hour": 30,
+"claimed_last_hour": 31,
 "claimed_last_10min": 6,
 "merged_last_hour": 0
 },
 "events": [
-{
-"at": "2026-10-10T19:54:19Z",
-"item": 188,
-"job": 1560,
-"from": "waiting",
-"to": "draft"
-},
 {
 "at": "2026-10-10T19:54:19Z",
 "item": 190,
@@ -2237,6 +2231,13 @@
 "at": "2026-10-11T05:08:44Z",
 "item": 143,
 "job": 1416,
+"from": "waiting",
+"to": "on_train"
+},
+{
+"at": "2026-10-11T05:09:44Z",
+"item": 141,
+"job": 1329,
 "from": "waiting",
 "to": "on_train"
 }
@@ -4650,8 +4651,10 @@
 "title": "Trophy Room: fix the 1366x768 view",
 "mode": "code",
 "group": "career-screens",
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"state": "on_train",
+"branch": "gameplay/train-career-screens-2",
+"first_seen": "2026-10-11T05:09:44Z",
+"since": "2026-10-11T05:09:44Z"
 },
 "142": {
 "job": 1537,
