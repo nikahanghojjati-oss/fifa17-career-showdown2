@@ -1,5 +1,5 @@
 {
-"updated": "2026-10-11T22:05:33Z",
+"updated": "2026-10-11T22:05:48Z",
 "total": 518,
 "next_free": 177,
 "highest_taken": 403,
@@ -233,11 +233,11 @@
 },
 "chat_jobs": {
 "name": "ChatGPT chat (job numbers 1000+)",
-"total": 45,
+"total": 47,
 "states": {
 "live": 12,
 "merged": 8,
-"waiting": 25
+"waiting": 27
 },
 "reviews": {
 "ok": 0,
@@ -258,11 +258,11 @@
 },
 "codex": {
 "name": "Codex",
-"total": 16,
+"total": 19,
 "states": {
 "live": 8,
 "merged": 1,
-"waiting": 3,
+"waiting": 6,
 "closed": 4
 },
 "reviews": {
@@ -310,11 +310,12 @@
 },
 "claude": {
 "name": "Claude (Haiku, Sonnet, Opus)",
-"total": 75,
+"total": 76,
 "states": {
 "closed": 20,
 "merged": 52,
-"live": 3
+"live": 3,
+"waiting": 1
 },
 "reviews": {
 "ok": 0,
@@ -375,9 +376,25 @@
 {
 "job": 1647,
 "title": "Loading screen: wire the approved PHONE_LOADING and NEXT_LOADING pictures"
+},
+{
+"job": 1648,
+"title": "Old CSS: which old sheets and selectors are still live (report only)"
+},
+{
+"job": 1651,
+"title": "Flash guard: cover Season Results, Final Winner and Rivalry, and time tap feedback"
 }
 ],
-"codex_waiting_on_deps": [],
+"codex_waiting_on_deps": [
+{
+"job": 1653,
+"title": "Reduced motion: stop the remaining Club script fades",
+"deps": [
+"1652"
+]
+}
+],
 "work_waiting": [
 1612,
 1613,
