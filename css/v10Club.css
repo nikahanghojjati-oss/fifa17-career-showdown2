@@ -178,7 +178,8 @@ html[data-v10-screen="clubWheelScreen"] #app > main { position: static; inset: a
    noninteractive scenery, but put product controls in document flow so only
    the page scrolls. Both gates are deliberately limited to their target size. */
 @media (min-width: 761px) and (max-width: 800px) and (min-height: 980px) and (max-height: 1100px) and (orientation: portrait),
-       (min-width: 1200px) and (max-width: 1320px) and (min-height: 620px) and (max-height: 680px) and (orientation: landscape) {
+       (min-width: 1200px) and (max-width: 1320px) and (min-height: 620px) and (max-height: 680px) and (orientation: landscape),
+       (min-width: 1321px) and (max-width: 1420px) and (min-height: 730px) and (max-height: 810px) and (orientation: landscape) {
   html[data-v10-screen="clubWheelScreen"],
   html[data-v10-screen="clubWheelScreen"] body {
     height: auto; min-height: 100%; overflow-x: clip; overflow-y: visible;
@@ -372,4 +373,36 @@ html[data-v10-screen="clubWheelScreen"] #app > main { position: static; inset: a
   #clubWheelScreen.cl-on > #sharedShowdownPresentationStatus {
     width: min(100%, 940px); max-width: 100%;
   }
+}
+
+/* JOB-1155: 1366x768 Chromebook Club packs. Reflow the single stage with
+   enough width for both managers, crest/name metadata and the lock result. */
+@media (min-width: 1321px) and (max-width: 1420px) and (min-height: 730px) and (max-height: 810px) and (orientation: landscape) {
+  #clubWheelScreen.cl-on { gap: 12px; padding: 18px 24px 24px; }
+  #clubWheelScreen.cl-on > .stage { height: 360px; }
+  #clubWheelScreen.cl-on > h2,
+  #clubWheelScreen.cl-on .clubAssignmentHeader { max-width: 920px; }
+  #clubWheelScreen.cl-on .clubRevealProgress { width: min(100%, 840px) !important; }
+  #clubWheelScreen.cl-on .clubRevealArea,
+  #clubWheelScreen.cl-on #clubRivalryConfirmation { width: min(100%, 920px) !important; }
+  #clubWheelScreen.cl-on .clubRevealCard { min-width: 0; }
+  #clubWheelScreen.cl-on .clubRivalryMatchup {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 100%;
+  }
+  #clubWheelScreen.cl-on .clubRivalryLockNote {
+    display: block;
+    overflow-wrap: anywhere;
+  }
+  #clubWheelScreen.cl-on #sharedShowdownSeasonChoice,
+  #clubWheelScreen.cl-on > #sharedShowdownPresentationStatus {
+    width: min(100%, 920px);
+    max-width: 100%;
+    overflow-wrap: anywhere;
+  }
+  #clubWheelScreen.cl-on #openClubPack,
+  #clubWheelScreen.cl-on #continueClubAssignment,
+  #clubWheelScreen.cl-on #clubAssignmentBack { min-height: 52px; }
 }
