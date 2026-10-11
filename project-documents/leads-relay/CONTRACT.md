@@ -25,6 +25,7 @@ sender's next unused number.
 FEED.md gets one table row per message, in the same commit as the message:
 | Time (UTC) | From | To | Message | Subject | Needs reply |
 Time = the message's commit time (UTC). Rows stay oldest to newest. Never edit old rows except to correct a time. Team V's Overview board renders this feed so Nik can watch the teams talk.
+Hand-off tickets count as messages too (2026-10-11): every SENT, RECEIVED, DONE or RETURNED gets a row, written by the team that made the move, with `python3 project-documents/leads-relay/tools/feed_sync.py --team V|G` in the same commit as the `handoff.py` change. The script only adds missing rows and keeps the order.
 
 ## 3. Header (every message)
     # SHOWDOWN LEADS RELAY
