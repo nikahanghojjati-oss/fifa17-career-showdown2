@@ -45,3 +45,122 @@
   main:has(> #legacy[data-rivalry-legacy-v10]) { padding-top:0; padding-left:0; padding-right:0; background:#07080a; }
   #legacy[data-rivalry-legacy-v10] { width:100%; max-width:none; }
 }
+
+
+/* JOB-1356: upright 768x1024 tablet. Let the screen itself scroll;
+   neither the totals nor the season-history body may trap touch scrolling.
+   Kept out of phone and desktop layouts by both width and height bounds. */
+@media (min-width:744px) and (max-width:800px) and (min-height:950px) and (max-height:1100px) {
+  #statistics[data-rivalry-legacy-v10] {
+    width:100%;
+    height:100svh;
+    max-height:100svh;
+    overflow-x:hidden;
+    overflow-y:auto;
+    overscroll-behavior-y:contain;
+  }
+  #statistics[data-rivalry-legacy-v10] .rv-stage {
+    width:100%;
+    height:auto;
+    min-height:calc(100svh - 56px - env(safe-area-inset-bottom));
+    overflow:visible;
+  }
+  #statistics[data-rivalry-legacy-v10] .rv-phoneArt {
+    inset:0 0 auto;
+    height:380px;
+  }
+  #statistics[data-rivalry-legacy-v10] .rv-phoneHero {
+    height:300px;
+  }
+  #statistics[data-rivalry-legacy-v10] .rv-phoneHero--nik {
+    height:310px;
+  }
+  #statistics[data-rivalry-legacy-v10] .rv-shell {
+    position:relative;
+    inset:auto;
+    top:auto;
+    width:100%;
+    min-height:calc(100svh - 56px - env(safe-area-inset-bottom));
+    justify-content:flex-start;
+    gap:10px;
+    padding:305px 20px calc(80px + env(safe-area-inset-bottom));
+    box-sizing:border-box;
+  }
+  #statistics[data-rivalry-legacy-v10] .rv-titleBlock .sd-eyebrow {
+    font-size:11px;
+  }
+  #statistics[data-rivalry-legacy-v10] .rv-titleBlock .sd-tagline {
+    font-size:11px;
+  }
+  #statistics[data-rivalry-legacy-v10] .rv-interim {
+    font-size:12px;
+  }
+  #statistics[data-rivalry-legacy-v10] .rv-tabs button {
+    min-height:48px;
+    font-size:13px;
+  }
+  #statistics[data-rivalry-legacy-v10] .rv-actions .sd-btn {
+    min-height:48px;
+    height:48px;
+  }
+  #statistics[data-rivalry-legacy-v10] .rv-comparison,
+  #statistics[data-rivalry-legacy-v10] .rv-bottom {
+    flex:0 0 auto;
+    height:auto;
+    overflow:visible;
+    min-width:0;
+  }
+  #statistics[data-rivalry-legacy-v10] .rv-comparison {
+    min-height:220px;
+    padding-bottom:4px;
+  }
+  #statistics[data-rivalry-legacy-v10] .rv-rows {
+    position:relative;
+    left:auto;
+    right:auto;
+    top:auto;
+    bottom:auto;
+    width:auto;
+    height:auto;
+    margin:58px 10px 12px;
+    grid-template-rows:48px repeat(6,minmax(42px,auto));
+    grid-auto-rows:minmax(42px,auto);
+    overflow:visible;
+    background:none;
+    overscroll-behavior:auto;
+  }
+  #statistics[data-rivalry-legacy-v10] .rv-rows .rv-row:first-child {
+    height:auto;
+  }
+  #statistics[data-rivalry-legacy-v10] .rv-comparison.hasCoverage .rv-rows {
+    top:auto;
+    height:auto;
+    margin-top:94px;
+  }
+  #statistics[data-rivalry-legacy-v10] .rv-readState {
+    top:54px;
+    bottom:12px;
+  }
+  #statistics[data-rivalry-legacy-v10] .rv-bottom {
+    grid-template-rows:auto auto;
+    min-height:220px;
+  }
+  #statistics[data-rivalry-legacy-v10] .rv-bottom > div {
+    min-height:0;
+    height:auto;
+    overflow:visible;
+  }
+  #statistics[data-rivalry-legacy-v10] .rv-headGrid,
+  #statistics[data-rivalry-legacy-v10] .rv-trophyGrid {
+    height:auto;
+    min-height:190px;
+  }
+  #statistics[data-rivalry-legacy-v10] .rv-emptyInline {
+    height:auto;
+    min-height:170px;
+  }
+  #statistics[data-rivalry-legacy-v10] .rv-seasonTable {
+    height:auto;
+    margin:8px auto 14px;
+  }
+}
