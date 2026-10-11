@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Final Winner · phone compact study C</title>
+<style>
+:root{color-scheme:dark;--gold:#f2c45b;--bright:#ffe6a0;--dark:#07090b;--line:rgba(242,196,91,.42)}
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:var(--dark)}
+body{font-family:"Arial Narrow","Roboto Condensed",Arial,sans-serif;color:#fff}
+button{font:inherit}
+#screen{position:relative;isolation:isolate;width:100vw;height:100vh;height:100svh;overflow:hidden;
+  display:grid;grid-template-rows:40px 36px minmax(95px,1fr) 78px 169px 104px;
+  background:radial-gradient(ellipse at 50% 37%,#46331c 0%,#11171a 39%,#040709 78%)}
+#screen:before{content:"";position:absolute;inset:0;z-index:-2;opacity:.32;
+  background:url("../../../../visual-assets/v10_1/trophy-room/assets/ENV_TR_PHONE_V1.webp") center top/cover no-repeat}
+#screen:after{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
+  background:linear-gradient(180deg,#030506b8 0%,#0304050c 25%,#03040559 49%,#030405ed 67%,#030405 100%)}
+header{position:relative;z-index:2;display:flex;justify-content:space-between;align-items:center;
+  padding:0 13px;background:#080b0ddb;border-bottom:1px solid var(--line)}
+.brand{font-family:Impact,"Arial Narrow",sans-serif;font-size:15px;letter-spacing:.055em;color:var(--gold)}
+.settings{width:40px;height:36px;border:0;background:transparent;color:#f3e4c3;font-size:23px;line-height:1}
+.heading{position:relative;z-index:2;text-align:center;align-self:center}
+.eyebrow{font-size:9px;font-weight:800;letter-spacing:.19em;color:#e9dfca}
+.wordmark{margin-top:1px;font-family:Impact,"Arial Narrow",sans-serif;font-size:23px;letter-spacing:.06em;
+  line-height:1;color:var(--bright);text-shadow:0 2px 14px #efb43581}
+.ceremony{position:relative;min-height:0;overflow:hidden}
+.ceremony:before{content:"";position:absolute;inset:2% 16% 0;
+  background:radial-gradient(ellipse at center,#ffcd4b35 0%,#ffcd4b12 25%,transparent 65%);filter:blur(5px)}
+.rival{position:absolute;top:7%;width:29%;height:81%;opacity:.54;
+  background:linear-gradient(110deg,#e0bb7380,#202932bb 32%,#0b1011 78%);
+  clip-path:polygon(32% 0,61% 0,78% 16%,72% 30%,92% 49%,100% 100%,0 100%,8% 46%,28% 30%,22% 16%)}
+.rival.daniel{left:0;transform:rotate(-5deg)}
+.rival.nik{right:0;transform:scaleX(-1) rotate(-5deg)}
+.rival-label{position:absolute;bottom:7%;font-size:9px;letter-spacing:.14em;font-weight:900;color:#e7d6ad}
+.rival-label.left{left:8%}.rival-label.right{right:8%}
+.art-arm{position:absolute;inset:0;width:100%;height:100%;object-fit:fill;opacity:.17;pointer-events:none}
+.crown{position:absolute;left:18%;top:6%;width:22px;height:18px;background:linear-gradient(#fff1b3,#c88728);
+  clip-path:polygon(0 25%,25% 50%,50% 0,75% 50%,100% 25%,89% 91%,11% 91%)}
+.award{position:absolute;top:6%;left:50%;transform:translateX(-50%);height:89%;width:min(35vw,130px);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  filter:drop-shadow(0 2px 9px #000b) drop-shadow(0 0 17px #f8bc437b)}
+.award-bowl{position:relative;width:70%;height:49%;border-radius:8% 8% 46% 46%;
+  background:linear-gradient(105deg,#88521d 0%,#ffe4a1 27%,#bb7b25 58%,#fff0b5 79%,#764419 100%);
+  clip-path:polygon(3% 0,97% 0,89% 57%,72% 87%,60% 98%,40% 98%,28% 87%,11% 57%)}
+.award-bowl:after{content:"";position:absolute;left:30%;right:30%;top:21%;height:46%;
+  background:radial-gradient(ellipse,#fff8c4b9,transparent 75%)}
+.award-stem{width:13%;height:20%;background:linear-gradient(90deg,#81511d,#ffdc90,#8f5a20)}
+.award-base{width:51%;height:10%;background:linear-gradient(#e3aa41,#6f431a);border-top:2px solid #ffe8aa;
+  clip-path:polygon(16% 0,84% 0,100% 100%,0 100%)}
+.hero-copy{z-index:2;min-height:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;text-shadow:0 2px 8px #000}
+.state{color:#e9d8b4;font-size:9px;font-weight:800;letter-spacing:.12em}
+.winner{font-family:Impact,"Arial Narrow",sans-serif;font-size:29px;line-height:1.1;color:var(--bright);
+  letter-spacing:.075em}
+.totals{display:grid;grid-template-columns:1fr 17px 1fr;align-items:end;gap:6px;width:min(230px,76vw);margin-top:3px}
+.score{text-align:center;color:#fff;font:900 21px/1 Impact,"Arial Narrow",sans-serif}
+.score small{display:block;font:800 9px/1.2 Arial,sans-serif;letter-spacing:.15em;color:#e7d6ad}
+.score-divider{color:var(--gold);font-size:21px}
+.completion{font-size:9px;color:var(--gold);letter-spacing:.075em;margin-top:4px}
+.results{z-index:2;min-height:0;margin:0 12px;border:1px solid var(--line);background:#080b0de9;
+  display:grid;grid-template-rows:55px minmax(0,1fr);box-shadow:0 8px 16px #0007}
+.meta{display:grid;grid-template-columns:1.6fr 1fr 1fr;border-bottom:1px solid #e6bd6440}
+.meta-cell{display:flex;flex-direction:column;justify-content:center;align-items:center;gap:3px;min-width:0}
+.meta-cell+.meta-cell{border-left:1px solid #e6bd6430}
+.meta-label{font-size:8px;letter-spacing:.12em;color:#d6c8af}
+.meta-number{font:900 21px/1 Impact,"Arial Narrow",sans-serif;color:var(--gold)}
+.meta-note{font-size:8px;color:#e5d1a5;white-space:nowrap}
+.honours{min-height:0;display:grid;grid-template-rows:21px repeat(4,minmax(0,1fr))}
+.honours-head,.metric{display:grid;grid-template-columns:44px 1fr 44px;align-items:center;text-align:center;
+  padding:0 10px;border-bottom:1px solid #f2c45b1f}
+.honours-head{color:var(--gold);font-size:9px;font-weight:800;letter-spacing:.09em}
+.honours-head .category{color:#e8dec8}
+.metric:last-child{border-bottom:0}
+.metric .category{font-size:9px;letter-spacing:.04em;color:#e3dbc9}
+.metric .value{font:800 15px/1 Impact,"Arial Narrow",sans-serif;color:#fff}
+.actions{z-index:3;display:grid;grid-template-rows:44px 44px;gap:6px;padding:6px 12px 8px;
+  align-content:end;background:linear-gradient(transparent,#030405ea 30%)}
+.action{display:block;width:100%;min-height:44px;border:1px solid #caa452;border-radius:2px;
+  font-family:Impact,"Arial Narrow",sans-serif;font-size:14px;letter-spacing:.055em;cursor:default}
+.action.review{background:linear-gradient(#1b1b1c,#090c0e);color:var(--bright)}
+.action.home{background:linear-gradient(110deg,#ab7424,#ffe2a0 53%,#c8953c);color:#1b1510;
+  border-color:#f8dea0;box-shadow:0 0 14px #f2bd4a4a}
+.action:focus-visible,.settings:focus-visible{outline:2px solid white;outline-offset:1px}
+@media(max-height:580px){
+  #screen{grid-template-rows:35px 30px minmax(70px,1fr) 67px 150px 101px}
+  .wordmark{font-size:19px}.winner{font-size:24px}.score{font-size:18px}
+  .results{grid-template-rows:48px minmax(0,1fr)}
+  .honours{grid-template-rows:18px repeat(4,minmax(0,1fr))}
+  .metric .value{font-size:13px}.award{height:85%}
+}
+@media(max-width:360px){.brand{font-size:14px}.metric .category{font-size:8px}}
+</style>
+</head>
+<body>
+<main id="screen" aria-label="Showdown final result compact presentation study">
+  <header><span class="brand">CAREER MODE SHOWDOWN</span><button class="settings" type="button" aria-label="Settings">⚙</button></header>
+  <div class="heading"><div class="eyebrow">SHOWDOWN FINAL RESULT</div><div class="wordmark">SHOWDOWN CHAMPION</div></div>
+  <section class="ceremony" aria-label="Final winner trophy presentation">
+    <div class="rival daniel" aria-hidden="true"></div><div class="rival nik" aria-hidden="true"></div>
+    <img class="art-arm" alt="" src="../../../../visual-assets/v10_1/final-winner/assets/OVL_FW_DANIEL_NEAR_ARM_V1_1X.webp">
+    <img class="art-arm" alt="" src="../../../../visual-assets/v10_1/final-winner/assets/OVL_FW_NIK_NEAR_ARM_V1_1X.webp">
+    <span class="crown" aria-hidden="true"></span>
+    <div class="award" aria-hidden="true"><div class="award-bowl"></div><div class="award-stem"></div><div class="award-base"></div></div>
+    <span class="rival-label left">DANIEL</span><span class="rival-label right">NIK</span>
+  </section>
+  <section class="hero-copy" aria-label="Winner and final points">
+    <div class="state">SHARED SHOWDOWN CLOSED</div>
+    <div class="winner">Daniel WINS</div>
+    <div class="totals"><div class="score"><small>DANIEL</small>—</div><span class="score-divider">–</span><div class="score"><small>NIK</small>—</div></div>
+    <div class="completion">— seasons played</div>
+  </section>
+  <section class="results" aria-label="Read only final result and honours">
+    <div class="meta">
+      <div class="meta-cell"><span class="meta-label">FINAL SEASON</span><span class="meta-number">— – —</span><span class="meta-note">DANIEL TAKES THE SEASON</span></div>
+      <div class="meta-cell"><span class="meta-label">SEASONS PLAYED</span><span class="meta-number">—</span></div>
+      <div class="meta-cell"><span class="meta-label">MARGIN</span><span class="meta-number">—</span></div>
+    </div>
+    <div class="honours">
+      <div class="honours-head"><span>DANIEL</span><span class="category">HONOURS</span><span>NIK</span></div>
+      <div class="metric"><span class="value">—</span><span class="category">Continental</span><span class="value">—</span></div>
+      <div class="metric"><span class="value">—</span><span class="category">League</span><span class="value">—</span></div>
+      <div class="metric"><span class="value">—</span><span class="category">Domestic cup</span><span class="value">—</span></div>
+      <div class="metric"><span class="value">—</span><span class="category">Total</span><span class="value">—</span></div>
+    </div>
+  </section>
+  <nav class="actions" aria-label="Final winner actions">
+    <button class="action review" type="button">REVIEW MY SEASON RESULT</button>
+    <button class="action home" type="button">BACK TO SHOWDOWN HOME</button>
+  </nav>
+</main>
+</body>
+</html>
