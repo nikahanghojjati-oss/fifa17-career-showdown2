@@ -1,13 +1,13 @@
 {
-"updated": "2026-10-11T08:09:14Z",
+"updated": "2026-10-11T08:12:14Z",
 "total": 518,
-"next_free": 145,
+"next_free": 147,
 "highest_taken": 403,
 "counts": {
 "merged": 160,
 "closed": 82,
-"on_train": 24,
-"waiting": 251,
+"on_train": 25,
+"waiting": 250,
 "draft": 1
 },
 "stages": {
@@ -17,8 +17,8 @@
 "states": {
 "merged": 25,
 "closed": 44,
-"on_train": 24,
-"waiting": 173
+"on_train": 25,
+"waiting": 172
 }
 },
 "1": {
@@ -81,6 +81,7 @@
 137,
 141,
 143,
+145,
 155,
 161,
 403
@@ -88,11 +89,11 @@
 "draft_code_prs": 0,
 "area_locks": {},
 "ready": [
-145,
 147,
 149,
 151,
 159,
+163,
 173,
 179,
 189,
@@ -102,11 +103,11 @@
 274
 ],
 "ready_sol": [
-145,
 147,
 149,
 151,
 159,
+163,
 173,
 179,
 189,
@@ -117,11 +118,11 @@
 ],
 "ready_codex": [],
 "ready_all": [
-145,
 147,
 149,
 151,
 159,
+163,
 173,
 179,
 189,
@@ -181,8 +182,8 @@
 }
 },
 "rate": {
-"claimed_last_hour": 3,
-"claimed_last_10min": 0,
+"claimed_last_hour": 4,
+"claimed_last_10min": 1,
 "merged_last_hour": 0
 },
 "lanes": {
@@ -192,24 +193,24 @@
 "states": {
 "merged": 25,
 "closed": 25,
-"on_train": 24,
-"waiting": 165
+"on_train": 25,
+"waiting": 164
 },
 "reviews": {
 "ok": 0,
 "ok_notes": 0,
 "needs_changes": 0
 },
-"picked_up": 74,
-"worker_done": 49,
+"picked_up": 75,
+"worker_done": 50,
 "finished": 25,
-"pending_lead": 24,
+"pending_lead": 25,
 "wait_v": 0,
 "audit_batch": 0,
 "trouble": 0,
 "closed": 25,
 "reviews_total": 0,
-"first_time_ok": 66,
+"first_time_ok": 67,
 "failing_now": 0
 },
 "gpt2": {
@@ -443,13 +444,6 @@
 }
 ],
 "events": [
-{
-"at": "2026-10-11T03:54:22Z",
-"item": 228,
-"job": 1168,
-"from": "started",
-"to": "draft"
-},
 {
 "at": "2026-10-11T03:54:22Z",
 "item": 256,
@@ -2540,6 +2534,13 @@
 "at": "2026-10-11T07:38:57Z",
 "item": 133,
 "job": 1155,
+"from": "waiting",
+"to": "on_train"
+},
+{
+"at": "2026-10-11T08:12:14Z",
+"item": 145,
+"job": 1069,
 "from": "waiting",
 "to": "on_train"
 }
@@ -4724,8 +4725,10 @@
 "title": "Home: fix the 1920x1080 view",
 "mode": "code",
 "group": "home",
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"state": "on_train",
+"branch": "gameplay/train-home-2",
+"first_seen": "2026-10-11T08:12:14Z",
+"since": "2026-10-11T08:12:14Z"
 },
 "146": {
 "job": 1539,
