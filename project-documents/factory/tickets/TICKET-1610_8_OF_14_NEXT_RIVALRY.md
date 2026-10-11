@@ -1,6 +1,6 @@
-# Ticket 1591 · 8 of 14 · Next-level desktop: Rivalry Statistics
+# Ticket 1610 · 8 of 14 · Next-level desktop: Rivalry Statistics
 
-Image 8 of 14 for job 1591 (plan 2, next-level desktop), added Sun 11 Oct 12:30 a.m. Eastern. One image only. The result becomes the new desktop target for Rivalry Statistics (`mockups/NEXT_RIVALRY.png`). Guide: live main r69 at 1920x1080.
+Image 8 of 14 for job 1610 (plan 2, next-level desktop), added Sun 11 Oct 12:30 a.m. Eastern. One image only. The result becomes the new desktop target for Rivalry Statistics (`mockups/NEXT_RIVALRY.png`). Guide: live main r69 at 1920x1080.
 
 1. Open a **ChatGPT Temporary Chat**: start a new chat outside any project, then tap the dashed-circle icon at the top right. A Temporary Chat uses no memory and no chat history, so other chats cannot leak into the picture.
 2. Attach this one file only: **GUIDE_NEXT_RIVALRY.png**. On iPhone open https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/v1-wtt5ye/project-documents/factory/tickets/attach/GUIDE_NEXT_RIVALRY.png in Safari, press and hold the picture, then Save to Photos.
@@ -12,7 +12,7 @@ Image 8 of 14 for job 1591 (plan 2, next-level desktop), added Sun 11 Oct 12:30 
    - no real club crests, league logos or trophies
    - it looks clearly better than the attached screen
    - Save only the picture this Temporary Chat just made. Never take one from the Images library or from another chat.
-5. If it passes, download it and drop it into Claude's factory thread with the words `1591 RIVALRY`. If it fails, close that chat and start again in a new Temporary Chat (up to 3 tries). Never send a picture that fails.
+5. If it passes, download it and drop it into Claude's factory thread with the words `1610 RIVALRY`. If it fails, close that chat and start again in a new Temporary Chat (up to 3 tries). Never send a picture that fails.
 
 Prompt:
 

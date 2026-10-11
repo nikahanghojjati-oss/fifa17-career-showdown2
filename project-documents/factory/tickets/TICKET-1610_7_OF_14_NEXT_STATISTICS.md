@@ -1,9 +1,9 @@
-# Ticket 1591 · 14 of 14 · Next-level desktop: Standings
+# Ticket 1610 · 7 of 14 · Next-level desktop: Career Statistics
 
-Image 14 of 14 for job 1591 (plan 2, next-level desktop), added Sun 11 Oct 12:30 a.m. Eastern. One image only. The result becomes the new desktop target for Standings (`mockups/NEXT_STANDINGS.png`). Guide: live main r69 at 1920x1080.
+Image 7 of 14 for job 1610 (plan 2, next-level desktop), added Sun 11 Oct 12:30 a.m. Eastern. One image only. The result becomes the new desktop target for Career Statistics (`mockups/NEXT_STATISTICS.png`). Guide: live main r69 at 1920x1080.
 
 1. Open a **ChatGPT Temporary Chat**: start a new chat outside any project, then tap the dashed-circle icon at the top right. A Temporary Chat uses no memory and no chat history, so other chats cannot leak into the picture.
-2. Attach this one file only: **GUIDE_NEXT_STANDINGS.png**. On iPhone open https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/v1-wtt5ye/project-documents/factory/tickets/attach/GUIDE_NEXT_STANDINGS.png in Safari, press and hold the picture, then Save to Photos.
+2. Attach this one file only: **GUIDE_NEXT_STATISTICS.png**. On iPhone open https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/v1-wtt5ye/project-documents/factory/tickets/attach/GUIDE_NEXT_STATISTICS.png in Safari, press and hold the picture, then Save to Photos.
 3. Paste the prompt below exactly. If ChatGPT offers to change it, reply: `No, use my prompt exactly.`
 4. Check the picture:
    - both men look exactly like before (same faces, curly-haired man LEFT, bearded man RIGHT)
@@ -12,19 +12,19 @@ Image 14 of 14 for job 1591 (plan 2, next-level desktop), added Sun 11 Oct 12:30
    - no real club crests, league logos or trophies
    - it looks clearly better than the attached screen
    - Save only the picture this Temporary Chat just made. Never take one from the Images library or from another chat.
-5. If it passes, download it and drop it into Claude's factory thread with the words `1591 STANDINGS`. If it fails, close that chat and start again in a new Temporary Chat (up to 3 tries). Never send a picture that fails.
+5. If it passes, download it and drop it into Claude's factory thread with the words `1610 STATISTICS`. If it fails, close that chat and start again in a new Temporary Chat (up to 3 tries). Never send a picture that fails.
 
 Prompt:
 
 ```
-Edit this image. It is a desktop game screen (Standings) in the middle, with plain black bars at the top and bottom. Redesign only the game screen into a next-level, high-end desktop game screen mockup, the quality of a premium sports game: richer light, depth and materials, cleaner spacing and stronger hierarchy, in the same black-and-gold style.
+Edit this image. It is a desktop game screen (Career Statistics) in the middle, with plain black bars at the top and bottom. Redesign only the game screen into a next-level, high-end desktop game screen mockup, the quality of a premium sports game: richer light, depth and materials, cleaner spacing and stronger hierarchy, in the same black-and-gold style.
 
 Keep exactly:
-- the same layout and every element: the top bar, the STANDINGS title, both managers with their name tags, the side banners, the THIS SHOWDOWN / CAREER switch, HEAD-TO-HEAD, the two club badges exactly as they are, 16 : 8, DANIEL LEADS and all seven rows of numbers;
+- the same layout and every element: the top bar, the CAREER STATISTICS title, both managers, the side banners, the four stat cards, the CAREER TABLE, MANAGER COMPARISON, CAREER LEADERS, OPEN TROPHY ROOM and BACK TO MAIN MENU;
 - both men exactly as they are: same faces, hair, beards, skin and clothes; the man with curly hair stays on the LEFT and the man with the full beard stays on the RIGHT; do not mirror or redraw them;
 - every title, label, button and number spelled exactly as shown; add no new words, numbers or logos. Very small paragraph text may stay small, but never invent words.
 
-Change: Make the standings card larger and easier to read.
+Change: Make the tables and cards larger and easier to read.
 
 Lighting: one calm, controlled lighting plan, like a high-end sports broadcast poster, not a wall of lights. Keep the background dark and quiet and slightly out of focus, with no lens flares, light bursts, sparkles or glare behind heads or text. Light both men's faces evenly with a soft warm key light from the front and a thin warm rim light. Strong gold glow only on the title and the main button; all text panels sit on clean near-black with thin gold edges so every word reads easily.
 
