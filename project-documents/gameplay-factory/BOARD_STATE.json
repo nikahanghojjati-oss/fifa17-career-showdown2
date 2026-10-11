@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-11 7:03 PM Boston time (EDT)",
+ "generated": "2026-10-11 7:05 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 94,
@@ -903,13 +903,7 @@
    "when": "2026-10-11T04:28:26Z",
    "subject": "Release r70: soundtrack top 10 and phone fixes (1.9.1-r70) (#639)",
    "fixes": [],
-   "today": [
-    {
-     "pr": 639,
-     "title": "Release r70: soundtrack top 10 and phone fixes (1.9.1-r70)",
-     "merged": "2026-10-11T04:28:26Z"
-    }
-   ]
+   "today": []
   },
   "physio": {
    "state": "clear",
@@ -918,18 +912,7 @@
    "source": "physio"
   },
   "v_headline": "Queued next",
-  "v_jobs": [
-   {
-    "job": "V-247",
-    "title": "Phone Home tile icons like GOAL_HOME",
-    "worker": "Opus",
-    "lane": "opus",
-    "done": 4,
-    "total": 4,
-    "pr": 381,
-    "current": "Done; handed to Team G as HO-006"
-   }
-  ],
+  "v_jobs": [],
   "inbox": {
    "G": true,
    "V": true
@@ -945,7 +928,7 @@
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-001_use-hand-off-tickets-for-passing-work-re.md",
     "worker": "opus",
-    "pickup_min": 173,
+    "pickup_min": null,
     "waiting_min": null
    },
    {
@@ -958,7 +941,7 @@
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-002_smooth-stage-atmosphere-on-idle-screens-.md",
     "worker": "opus",
-    "pickup_min": 171,
+    "pickup_min": null,
     "waiting_min": null
    },
    {
@@ -971,7 +954,7 @@
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-003_header-chips-and-footer-design-on-team-v.md",
     "worker": "opus",
-    "pickup_min": 171,
+    "pickup_min": null,
     "waiting_min": null
    },
    {
@@ -984,7 +967,7 @@
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-004_visual-qa-live-2-0-screens-vs-approved-f.md",
     "worker": "sonnet",
-    "pickup_min": 171,
+    "pickup_min": null,
     "waiting_min": null
    },
    {
@@ -997,7 +980,7 @@
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-005_mobile-home-hero-ghost-coat-between-dani.md",
     "worker": "images",
-    "pickup_min": 163,
+    "pickup_min": null,
     "waiting_min": null
    },
    {
@@ -1010,7 +993,7 @@
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-006_wire-v-247-phone-home-tile-icons-large-a.md",
     "worker": "codex",
-    "pickup_min": 7,
+    "pickup_min": null,
     "waiting_min": null
    },
    {
@@ -1023,7 +1006,7 @@
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-007_shared-job-numbers-for-both-teams-from-1.md",
     "worker": "",
-    "pickup_min": 0,
+    "pickup_min": null,
     "waiting_min": null
    },
    {
@@ -1036,7 +1019,7 @@
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-008_bug-factory-mode-for-team-v-gpt-blue-and.md",
     "worker": "",
-    "pickup_min": 0,
+    "pickup_min": null,
     "waiting_min": null
    },
    {
@@ -1049,7 +1032,7 @@
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-009_gpt-workers-ci-gates-and-the-physio-are-.md",
     "worker": "sol-chat",
-    "pickup_min": 0,
+    "pickup_min": null,
     "waiting_min": null
    },
    {
@@ -1062,7 +1045,7 @@
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-010_sync-main-s-copy-of-transfer-war-f1actio.md",
     "worker": "sol-chat",
-    "pickup_min": 0,
+    "pickup_min": null,
     "waiting_min": null
    },
    {
@@ -1075,7 +1058,7 @@
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-011_final-winner-screen-with-the-last-season.md",
     "worker": "sol-chat",
-    "pickup_min": 0,
+    "pickup_min": null,
     "waiting_min": null
    },
    {
@@ -1088,7 +1071,7 @@
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-012_one-board-your-lead-view-copies-custom-v.md",
     "worker": "opus",
-    "pickup_min": 1,
+    "pickup_min": null,
     "waiting_min": null
    },
    {
@@ -1101,7 +1084,7 @@
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-013_finished-showdown-shows-the-private-sess.md",
     "worker": "sol-work",
-    "pickup_min": 1,
+    "pickup_min": null,
     "waiting_min": null
    },
    {
@@ -1114,7 +1097,7 @@
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-014_create-code-join-on-its-own-connect-play.md",
     "worker": "opus",
-    "pickup_min": 0,
+    "pickup_min": null,
     "waiting_min": null
    },
    {
@@ -1127,7 +1110,7 @@
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-015_season-results-on-phone-one-clean-column.md",
     "worker": "sol-chat",
-    "pickup_min": 0,
+    "pickup_min": null,
     "waiting_min": null
    },
    {
@@ -1140,7 +1123,7 @@
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-016_transfer-war-on-phone-port-team-v-s-reva.md",
     "worker": "sol-chat",
-    "pickup_min": 1,
+    "pickup_min": null,
     "waiting_min": null
    },
    {
@@ -1153,7 +1136,7 @@
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-017_thursday-goal-team-v-toward-the-mockups-.md",
     "worker": "",
-    "pickup_min": 0,
+    "pickup_min": null,
     "waiting_min": null
    },
    {
@@ -1166,7 +1149,7 @@
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-018_season-results-desktop-port-team-v-s-moc.md",
     "worker": "sonnet",
-    "pickup_min": 0,
+    "pickup_min": null,
     "waiting_min": null
    },
    {
@@ -1179,7 +1162,7 @@
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-019_select-league-port-team-v-s-brush-title-.md",
     "worker": "sonnet",
-    "pickup_min": 0,
+    "pickup_min": null,
     "waiting_min": null
    },
    {
@@ -1192,7 +1175,7 @@
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-020_team-v-screens-lose-kit-css-when-a-style.md",
     "worker": "sonnet",
-    "pickup_min": 0,
+    "pickup_min": null,
     "waiting_min": null
    },
    {
@@ -1205,7 +1188,7 @@
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-021_studio-z-leftovers-real-upright-tablet-l.md",
     "worker": "",
-    "pickup_min": 0,
+    "pickup_min": null,
     "waiting_min": null
    },
    {
@@ -1218,7 +1201,7 @@
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-022_mega-factory-studies-how-team-v-adopts-t.md",
     "worker": "",
-    "pickup_min": 0,
+    "pickup_min": null,
     "waiting_min": null
    },
    {
@@ -1231,7 +1214,7 @@
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-023_five-fixes-to-the-126-study-tickets-befo.md",
     "worker": "",
-    "pickup_min": 0,
+    "pickup_min": null,
     "waiting_min": null
    },
    {
@@ -1244,7 +1227,7 @@
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-024_aim-the-studies-at-nik-s-new-mockup-pict.md",
     "worker": "",
-    "pickup_min": 0,
+    "pickup_min": null,
     "waiting_min": null
    },
    {
@@ -1257,11 +1240,11 @@
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-025_relay-feed-and-inbox-add-your-hand-off-r.md",
     "worker": "haiku",
-    "pickup_min": 2,
+    "pickup_min": null,
     "waiting_min": null
    }
   ],
-  "relay_ok": true
+  "relay_ok": false
  },
  "branch": "factory/gameplay-v1",
  "integration_branch": "gameplay/recovery-v1",
@@ -1269,16 +1252,20 @@
   "chat": 2,
   "work": 1
  },
- "overall": 100,
- "done": 33,
+ "overall": 92,
+ "done": 29,
  "total": 33,
  "start": {
   "chat": [],
   "work": []
  },
  "queued": [],
- "working": [],
- "blocked": [],
+ "working": [
+  29
+ ],
+ "blocked": [
+  28
+ ],
  "bug_hunt": [
   {
    "id": "BH-1",
@@ -2579,7 +2566,7 @@
    "phase": "0 Setup",
    "type": "build",
    "plain": "GitHub runs every gameplay test automatically on each worker save.",
-   "state": "MERGED",
+   "state": "DONE",
    "stale": null,
    "step": 6,
    "steps_total": 6,
@@ -2602,7 +2589,7 @@
    "phase": "1 Safety net",
    "type": "test",
    "plain": "Daniel and Nik play a whole Showdown against the real Rules in a test database, with a stranger and privacy checks.",
-   "state": "MERGED",
+   "state": "DONE",
    "stale": null,
    "step": 8,
    "steps_total": 8,
@@ -2625,7 +2612,7 @@
    "phase": "1 Safety net",
    "type": "fix",
    "plain": "When you both submit a result at once, the slower tap is told to refresh instead of getting an error.",
-   "state": "MERGED",
+   "state": "DONE",
    "stale": null,
    "step": 5,
    "steps_total": 5,
@@ -2650,7 +2637,7 @@
    "phase": "1 Safety net",
    "type": "test",
    "plain": "The same journey through the real app screens in a browser, test database only.",
-   "state": "MERGED",
+   "state": "DONE",
    "stale": null,
    "step": 9,
    "steps_total": 9,
@@ -2675,7 +2662,7 @@
    "phase": "1 Safety net",
    "type": "test",
    "plain": "Re-proves the full production Rules after the new career-data Rules land.",
-   "state": "MERGED",
+   "state": "DONE",
    "stale": null,
    "step": 8,
    "steps_total": 8,
@@ -2696,7 +2683,7 @@
    "phase": "2 Career model",
    "type": "build",
    "plain": "One pure function that turns Showdown data into the career numbers every screen shows.",
-   "state": "MERGED",
+   "state": "DONE",
    "stale": null,
    "step": 7,
    "steps_total": 7,
@@ -2719,7 +2706,7 @@
    "phase": "2 Career model",
    "type": "build",
    "plain": "Live Showdown (Rivalry, Continue, tiebreak, final result) feeds the career model.",
-   "state": "MERGED",
+   "state": "DONE",
    "stale": null,
    "step": 7,
    "steps_total": 7,
@@ -2742,7 +2729,7 @@
    "phase": "2 Career model",
    "type": "build",
    "plain": "Screens read from that career model instead of from one phone's local data.",
-   "state": "MERGED",
+   "state": "DONE",
    "stale": null,
    "step": 7,
    "steps_total": 7,
@@ -2763,7 +2750,7 @@
    "phase": "2 Career model",
    "type": "build",
    "plain": "Start/Join screen and top-bar locking driven by one view model.",
-   "state": "MERGED",
+   "state": "DONE",
    "stale": null,
    "step": 7,
    "steps_total": 7,
@@ -2787,7 +2774,7 @@
    "phase": "2 Career model",
    "type": "test",
    "plain": "Example data for Team V generated from the real model, so visuals and gameplay agree.",
-   "state": "MERGED",
+   "state": "DONE",
    "stale": null,
    "step": 8,
    "steps_total": 8,
@@ -2811,7 +2798,7 @@
    "phase": "3 Career history",
    "type": "rules",
    "plain": "A shared list of every Showdown the two of you played, protected by Rules.",
-   "state": "MERGED",
+   "state": "DONE",
    "stale": null,
    "step": 9,
    "steps_total": 9,
@@ -2834,7 +2821,7 @@
    "phase": "3 Career history",
    "type": "rules",
    "plain": "Finished Showdowns stay readable for both managers after they close.",
-   "state": "MERGED",
+   "state": "DONE",
    "stale": null,
    "step": 8,
    "steps_total": 8,
@@ -2858,7 +2845,7 @@
    "phase": "3 Career history",
    "type": "build",
    "plain": "Finished Showdowns flow into career totals and the Trophy Room.",
-   "state": "MERGED",
+   "state": "DONE",
    "stale": null,
    "step": 7,
    "steps_total": 7,
@@ -2881,7 +2868,7 @@
    "phase": "3 Career history",
    "type": "rules",
    "plain": "Transfer history visible only once a challenge is completed.",
-   "state": "MERGED",
+   "state": "DONE",
    "stale": null,
    "step": 8,
    "steps_total": 8,
@@ -2974,7 +2961,7 @@
    "phase": "1 Safety net",
    "type": "build",
    "plain": "When Nik pastes Daniel's code quickly, the app keeps it instead of wiping it and wrongly calling it invalid.",
-   "state": "MERGED",
+   "state": "DONE",
    "stale": null,
    "step": 5,
    "steps_total": 5,
@@ -2995,7 +2982,7 @@
    "phase": "1 Safety net",
    "type": "fix",
    "plain": "After a reload both players land on Home, rejoin a fresh session and pick up on the right season, instead of starting over at season 1.",
-   "state": "MERGED",
+   "state": "DONE",
    "stale": null,
    "step": 3,
    "steps_total": 3,
@@ -3016,7 +3003,7 @@
    "phase": "1 Safety net",
    "type": "fix",
    "plain": "When both players press acknowledge at the same moment, the second one is retried instead of showing a permission error.",
-   "state": "MERGED",
+   "state": "DONE",
    "stale": null,
    "step": 3,
    "steps_total": 3,
@@ -3037,9 +3024,9 @@
    "phase": "1 Safety net",
    "type": "fix",
    "plain": "When both players tap START, a lock button, early end or Setup confirm at the same moment, or the transfer timer hits 0:00 on both phones, the slower phone retries once instead of showing an error.",
-   "state": "MERGED",
+   "state": "DONE",
    "stale": null,
-   "step": 3,
+   "step": 0,
    "steps_total": 3,
    "pct": 100,
    "ready": false
@@ -3062,7 +3049,7 @@
    "plain": "Start first: one shared way to load Team V's screens, the top bar, and lighter caching. Built in the lead thread by a helper (Nik, 2026-10-04: no cloud sessions).",
    "state": "MERGED",
    "stale": null,
-   "step": 7,
+   "step": 0,
    "steps_total": 7,
    "pct": 100,
    "ready": false
@@ -3085,7 +3072,7 @@
    "plain": "Home in Team V's style with Nik's Audius playlist playing across screens; Loading keeps the Reus credit. Codex builds (Nik pastes the box); starts from job 24's branch; the lead checks each screen in a browser and merges.",
    "state": "MERGED",
    "stale": null,
-   "step": 7,
+   "step": 0,
    "steps_total": 7,
    "pct": 100,
    "ready": false
@@ -3108,7 +3095,7 @@
    "plain": "Setup screens skinned without touching pairing, session or draw logic. Lead helper (Opus); starts from job 24's branch; the lead checks each screen in a browser and merges.",
    "state": "MERGED",
    "stale": null,
-   "step": 7,
+   "step": 0,
    "steps_total": 7,
    "pct": 100,
    "ready": false
@@ -3129,12 +3116,12 @@
    "phase": "READY",
    "type": "build",
    "plain": "Transfer window skinned; private inputs stay private; lock confirm and quiet retries kept. Lead helper (Opus); starts from job 24's branch; the lead checks each screen in a browser and merges.",
-   "state": "MERGED",
+   "state": "NOT STARTED",
    "stale": null,
-   "step": 7,
+   "step": 0,
    "steps_total": 7,
-   "pct": 100,
-   "ready": false
+   "pct": 0,
+   "ready": true
   },
   {
    "number": 28,
@@ -3152,11 +3139,11 @@
    "phase": "READY",
    "type": "build",
    "plain": "Same pattern as job 13 on the real career model; un-hides the last two Statistics buttons. Sol 6.1 Work mode, High; starts from job 24's branch; the lead checks each screen in a browser and merges.",
-   "state": "MERGED",
+   "state": "BLOCKED",
    "stale": null,
-   "step": 5,
+   "step": 4,
    "steps_total": 5,
-   "pct": 100,
+   "pct": 80,
    "ready": false
   },
   {
@@ -3175,11 +3162,11 @@
    "phase": "READY",
    "type": "build",
    "plain": "Results and commit skinned (clash warning kept); winner reveal uses the reconciliation exactly. Sol Work mode; starts from job 24's branch; the lead checks each screen in a browser and merges.",
-   "state": "MERGED",
+   "state": "IN PROGRESS",
    "stale": null,
-   "step": 4,
+   "step": 3,
    "steps_total": 4,
-   "pct": 100,
+   "pct": 75,
    "ready": false
   },
   {
@@ -3200,7 +3187,7 @@
    "plain": "Rules copy unchanged, Settings controls kept, credits added. Sol 6.1 Work mode, High; starts from job 24's branch; the lead checks each screen in a browser and merges.",
    "state": "MERGED",
    "stale": null,
-   "step": 6,
+   "step": 5,
    "steps_total": 6,
    "pct": 100,
    "ready": false
@@ -3263,11 +3250,11 @@
    "phase": "IN PROGRESS",
    "type": "build",
    "plain": "About 13 fewer taps for Daniel and 6 for Nik over 3 seasons, plus no refresh taps. Every lock, publish, commit, acknowledge and close stays a manual tap. Lead helper (Opus).",
-   "state": "MERGED",
+   "state": "NOT WRITTEN",
    "stale": null,
-   "step": 1,
+   "step": 0,
    "steps_total": 1,
-   "pct": 100,
+   "pct": 0,
    "ready": false
   }
  ]

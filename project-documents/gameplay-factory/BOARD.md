@@ -6,9 +6,9 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Sun 11 Oct, 7:04 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Sun 11 Oct, 7:05 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
-> ⚠ **Not fully current:** Couldn't read the Bug Olympiad this run; its numbers are from the last good read. Couldn't read the Mockup Lab this run; its numbers are from the last good read.
+> ⚠ **Not fully current:** Couldn't read the Bug Olympiad this run; its numbers are from the last good read. Couldn't read the Mockup Lab this run; its numbers are from the last good read. The relay could not be read this run.
 
 🌐 **Live: 1.9.1-r70** (main `c8810b8`, Sun 11 Oct 12:28 AM)
 
@@ -842,8 +842,4 @@ Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-caree
 | Lane | Item | What | State |
 | --- | --- | --- | --- |
 | 🟧 Opus | **V-F2** | Design changes from Nik and Daniel's 2.0 play-through (only real design changes; bugs stay with G) | queued · after G-F1 |
-
-## Shipped today
-
-- 12:28 AM · #639 Release r70: soundtrack top 10 and phone fixes (1.9.1-r70)
 
