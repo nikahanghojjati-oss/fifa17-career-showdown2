@@ -1,7 +1,9 @@
 {
  "sequence": {
   "ready": [
+   183,
    189,
+   191,
    240,
    246,
    268,
@@ -10,12 +12,12 @@
    302,
    324,
    330,
-   352,
-   358,
-   380
+   352
   ],
   "ready_sol": [
+   183,
    189,
+   191,
    240,
    246,
    268,
@@ -24,15 +26,13 @@
    302,
    324,
    330,
-   352,
-   358,
-   380
+   352
   ],
   "ready_codex": [],
-  "held_until_picture": 48,
-  "open_code_prs": 7,
-  "open_train_prs": 7,
-  "next_free": 189,
+  "held_until_picture": 40,
+  "open_code_prs": 5,
+  "open_train_prs": 5,
+  "next_free": 183,
   "highest_taken": 403,
   "total": 518,
   "states": {
@@ -128,7 +128,7 @@
    "90": "merged",
    "91": "pr_open",
    "92": "merged",
-   "93": "pr_open",
+   "93": "merged",
    "94": "merged",
    "95": "pr_open",
    "96": "merged",
@@ -136,7 +136,7 @@
    "98": "merged",
    "99": "closed",
    "100": "merged",
-   "101": "pr_open",
+   "101": "merged",
    "102": "merged",
    "103": "closed",
    "104": "merged",
@@ -146,7 +146,7 @@
    "108": "merged",
    "109": "pr_open",
    "110": "merged",
-   "111": "pr_open",
+   "111": "merged",
    "112": "merged",
    "113": "pr_open",
    "114": "merged",
@@ -154,7 +154,7 @@
    "116": "merged",
    "117": "closed",
    "118": "merged",
-   "119": "pr_open",
+   "119": "merged",
    "120": "merged",
    "121": "closed",
    "122": "merged",
@@ -164,7 +164,7 @@
    "126": "merged",
    "127": "pr_open",
    "128": "merged",
-   "129": "pr_open",
+   "129": "merged",
    "130": "merged",
    "131": "pr_open",
    "132": "merged",
@@ -172,7 +172,7 @@
    "134": "merged",
    "135": "closed",
    "136": "merged",
-   "137": "pr_open",
+   "137": "merged",
    "138": "merged",
    "139": "closed",
    "140": "merged",
@@ -182,7 +182,7 @@
    "144": "merged",
    "145": "pr_open",
    "146": "merged",
-   "147": "pr_open",
+   "147": "merged",
    "148": "merged",
    "149": "pr_open",
    "150": "merged",
@@ -190,7 +190,7 @@
    "152": "merged",
    "153": "closed",
    "154": "merged",
-   "155": "pr_open",
+   "155": "merged",
    "156": "merged",
    "157": "closed",
    "158": "merged",
@@ -200,7 +200,7 @@
    "162": "merged",
    "163": "pr_open",
    "164": "merged",
-   "165": "pr_open",
+   "165": "merged",
    "166": "merged",
    "167": "pr_open",
    "168": "merged",
@@ -208,7 +208,7 @@
    "170": "merged",
    "171": "closed",
    "172": "merged",
-   "173": "pr_open",
+   "173": "merged",
    "174": "merged",
    "175": "closed",
    "176": "merged",
@@ -556,10 +556,10 @@
    "518": "waiting"
   }
  },
- "updated": "2026-10-11T22:27:23Z",
+ "updated": "2026-10-11T22:58:51Z",
  "counts": {
-  "merged": 161,
-  "pr_open": 35,
+  "merged": 171,
+  "pr_open": 25,
   "waiting": 239,
   "closed": 82,
   "on_train": 1
@@ -568,7 +568,7 @@
   "2": {
    "total": 266,
    "taken": 105,
-   "merged": 25
+   "merged": 35
   },
   "3": {
    "total": 14,
@@ -667,15 +667,9 @@
     1098,
     1099
    ],
-   "done": [
-    "1095",
-    "1096",
-    "1097",
-    "1098",
-    "1099"
-   ],
+   "done": [],
    "pr": 682,
-   "state": "pr_open"
+   "state": "merged"
   },
   "gameplay/train-start-join-3": {
    "jobs": [
@@ -895,15 +889,9 @@
     1214,
     1215
    ],
-   "done": [
-    "1211",
-    "1212",
-    "1213",
-    "1214",
-    "1215"
-   ],
+   "done": [],
    "pr": 685,
-   "state": "pr_open"
+   "state": "merged"
   },
   "gameplay/train-season-final-3": {
    "jobs": [
@@ -1601,35 +1589,35 @@
    "branch": "gameplay/train-start-join-1"
   },
   "1095": {
-   "state": "pr_open",
+   "state": "merged",
    "pr": 682,
    "draft": false,
    "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/682",
    "branch": "gameplay/train-start-join-2"
   },
   "1096": {
-   "state": "pr_open",
+   "state": "merged",
    "pr": 682,
    "draft": false,
    "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/682",
    "branch": "gameplay/train-start-join-2"
   },
   "1097": {
-   "state": "pr_open",
+   "state": "merged",
    "pr": 682,
    "draft": false,
    "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/682",
    "branch": "gameplay/train-start-join-2"
   },
   "1098": {
-   "state": "pr_open",
+   "state": "merged",
    "pr": 682,
    "draft": false,
    "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/682",
    "branch": "gameplay/train-start-join-2"
   },
   "1099": {
-   "state": "pr_open",
+   "state": "merged",
    "pr": 682,
    "draft": false,
    "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/682",
@@ -2413,35 +2401,35 @@
    "branch": "gameplay/train-season-final-1"
   },
   "1211": {
-   "state": "pr_open",
+   "state": "merged",
    "pr": 685,
    "draft": false,
    "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/685",
    "branch": "gameplay/train-season-final-2"
   },
   "1212": {
-   "state": "pr_open",
+   "state": "merged",
    "pr": 685,
    "draft": false,
    "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/685",
    "branch": "gameplay/train-season-final-2"
   },
   "1213": {
-   "state": "pr_open",
+   "state": "merged",
    "pr": 685,
    "draft": false,
    "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/685",
    "branch": "gameplay/train-season-final-2"
   },
   "1214": {
-   "state": "pr_open",
+   "state": "merged",
    "pr": 685,
    "draft": false,
    "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/685",
    "branch": "gameplay/train-season-final-2"
   },
   "1215": {
-   "state": "pr_open",
+   "state": "merged",
    "pr": 685,
    "draft": false,
    "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/685",

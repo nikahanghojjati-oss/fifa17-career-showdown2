@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Sun 11 Oct, 6:39 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Sun 11 Oct, 6:58 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r70** (main `c8810b8`, Sun 11 Oct 12:28 AM)
 
@@ -21,20 +21,24 @@ Updated Sun 11 Oct, 6:39 PM Boston time. Bug hunting only, no new features until
 🟢 Team green · model not set · worker says done, no PR yet
 
 **#2 · 1647** `G` Loading screen: wire the approved PHONE_LOADING and NEXT_LOADING pictures  
-`████████░░` **77.3333 %**  
-⚪ Team white · model not set · worker done, PR #689 open, CI running · CI 11 of 15 passed · last move 1 min ago
+`██████░░░░` **60.0000 %**  
+⚪ Team white · model not set · worker done, PR #689 open, CI failed · CI 13 of 16 passed · last move 16 min ago
 
 **#3 · 1648** `G` Old CSS: which old sheets and selectors are still live (report only)  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #690 · CI 7 of 8 passed · last move 19 min ago
+⚪ Team white · model not set · worker working, draft PR #690 · CI 7 of 8 passed · last move 39 min ago
 
 **#4 · 1651** `G` Flash guard: cover Season Results, Final Winner and Rivalry, and time tap feedback  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #692 · CI 7 of 8 passed · last move 4 min ago
+⚪ Team white · model not set · worker working, draft PR #692 · CI 7 of 8 passed · last move 24 min ago
 
 **#5 · 1652** `G` Settings › Motion: add a FULL MOTION choice  
 `████░░░░░░` **40.0000 %**  
-🔵 Team blue · model not set · worker working, draft PR #691 · CI 7 of 8 passed · last move 17 min ago
+🔵 Team blue · model not set · worker working, draft PR #691 · CI 7 of 8 passed · last move 37 min ago
+
+**#6 · 1653** `G` Reduced motion: stop the remaining Club script fades  
+`████░░░░░░` **40.0000 %**  
+⚪ Team white · model not set · worker working, draft PR #693 · CI 7 of 8 passed · last move 8 min ago
 
 ### 👉 Next for you, in this order
 
@@ -440,7 +444,37 @@ Paste this:
 1646
 ```
 
-**#41 · 1591** `G` Home soundtrack: swap to Nik's Audius top 10  
+**#41 · 1654** `G` Second attempt: Rule Book (PR 687)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · **GPT Sol (chat)** · ChatGPT chat (GPT-6 Sol, GitHub connector), type the number
+
+Paste this:
+
+```text
+1654
+```
+
+**#42 · 1655** `G` Second attempt: Trophy Room (PR 686)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · **GPT Sol (chat)** · ChatGPT chat (GPT-6 Sol, GitHub connector), type the number
+
+Paste this:
+
+```text
+1655
+```
+
+**#43 · 1656** `G` Second attempt: Club (PR 684)  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · **GPT Sol (chat)** · ChatGPT chat (GPT-6 Sol, GitHub connector), type the number
+
+Paste this:
+
+```text
+1656
+```
+
+**#44 · 1591** `G` Home soundtrack: swap to Nik's Audius top 10  
 `░░░░░░░░░░` **0.0000 %**  
 🟣 Team purple · model not set · Claude lane: Opus Medium for the change, Sonnet for the live listen and browser check: type 'Job 1591'
 
@@ -450,7 +484,7 @@ Type this in Claude lane: Opus Medium for the change, Sonnet for the live listen
 Job 1591
 ```
 
-**#42 · 1649** `G` Old CSS: archive the dead sheets (after the r71 release)  
+**#45 · 1649** `G` Old CSS: archive the dead sheets (after the r71 release)  
 `░░░░░░░░░░` **0.0000 %**  
 🟤 Team brown · model not set · Claude lane: Sonnet, medium: type 'Job 1649'
 
@@ -460,7 +494,7 @@ Type this in Claude lane: Sonnet, medium:
 Job 1649
 ```
 
-**#43 · 1650** `G` Service worker: can an old page ever mix with new files? (report only)  
+**#46 · 1650** `G` Service worker: can an old page ever mix with new files? (report only)  
 `░░░░░░░░░░` **0.0000 %**  
 🔵 Team blue · model not set · GPT chat: type 'Job 1650'
 
@@ -470,35 +504,21 @@ New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
 Job 1650
 ```
 
-**#44 · 1653** `G` Reduced motion: stop the remaining Club script fades  
-`░░░░░░░░░░` **0.0000 %**  
-⚪ Team white · model not set · Codex cloud: type 'Job 1653'
-
-Type this in Codex cloud:
-
-```text
-Job 1653
-```
-
 ### ⏸ Waiting on something else
 
-**#1 · 1582** `G` Showdown Gate: screen shots of changed screens as a run artifact  
-`░░░░░░░░░░` **0.0000 %**  
-⚪ Team white · **Codex default coding model** · Medium effort · later: after 1581 merges
-
-**#2 · 1597** `G` Wire Team V study 1226: Season Results  
+**#1 · 1597** `G` Wire Team V study 1226: Season Results  
 `░░░░░░░░░░` **0.0000 %**  
 🟣 Team purple · **Claude Opus** · High effort · Claude lane: Opus fixing #666 after two failed browser checks
 
-**#3 · 1598** `G` Wire Team V study 1229: Season Results  
+**#2 · 1598** `G` Wire Team V study 1229: Season Results  
 `░░░░░░░░░░` **0.0000 %**  
 🟣 Team purple · **Claude Opus** · High effort · Claude lane: Opus fixing #666 after two failed browser checks
 
-**#4 · 1599** `G` Wire Team V study 1230: Season Results  
+**#3 · 1599** `G` Wire Team V study 1230: Season Results  
 `░░░░░░░░░░` **0.0000 %**  
 🟣 Team purple · **Claude Opus** · High effort · Claude lane: Opus fixing #666 after two failed browser checks
 
-**Done, waiting for the next release:** 1581, 1583, 1584, 1585, 1586, 1592, 1593, 1594, 1595, 1596, 1600, 1601, 1606, 1607, 1608
+**Done, waiting for the next release:** 1581, 1582, 1583, 1584, 1585, 1586, 1592, 1593, 1594, 1595, 1596, 1600, 1601, 1606, 1607, 1608
 
 **Done and live:** r68: 1059, 1060, 1579, 1580, 1587 · r67: 1044, 1045, 1048, 1049, 1050, 1051, 1052, 1053, 1055, 1058 · r66: 1041, 1042, 1043 · r65: 1011, 1028, 1037, 1038, 1039, 1040 · r63: 1001, 1003, 1004, 1009, 1010, 1014, 1015, 1020, 1021, 1022, 1023, 1024, 1025, 1026, 1027, Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8
 
@@ -507,8 +527,8 @@ Job 1653
 ## Goals, in this order
 
 **1. Finish the remaining bugs** `now`  
-`██████░░░░` **64.1892 %**  
-Numbered jobs: 67 done, 53 other open · Olympiad recheck: 23 of 23 settled, 0 still to fix · Sol's old leads: 0 open (0 real, 0 unsure)
+`██████░░░░` **63.5762 %**  
+Numbered jobs: 68 done, 55 other open · Olympiad recheck: 23 of 23 settled, 0 still to fix · Sol's old leads: 0 open (0 real, 0 unsure)
 
 **2. Visual fixes** `after stage 1`  
 `██████░░░░` **56.0000 %**  
@@ -555,17 +575,17 @@ One numbered queue: type a bare number in any GPT chat. Live from GitHub (queue/
 Type now, in any GPT chat:
 
 ```text
-189 240 246 268 274 296 302 324 330 352 358 380
+183 189 191 240 246 268 274 296 302 324 330 352
 ```
 
-Open code PRs: 7/8.
+Open code PRs: 5/8.
 
 403 taken of 518.
 
 | Stage | Items | Merged | Picked up |
 | --- | --- | --- | --- |
 | audits | 112 | 112/112 | 112/112 |
-| screen fixes | 266 | 25/266 | 105/266 |
+| screen fixes | 266 | 35/266 | 105/266 |
 | mockup match | 14 | 0/14 | 1/14 |
 | phone studies | 70 | 23/70 | 60/70 |
 | desktop studies | 56 | 1/56 | 1/56 |
@@ -597,12 +617,12 @@ Open code PRs: 7/8.
 
 ## Mega tracker (live, free)
 
-Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/index.html) · summary: [mega/MEGA_TRACKER.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/MEGA_TRACKER.md) · rebuilt by the poller each round, updated 2026-10-11T22:25:18Z.
+Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/index.html) · summary: [mega/MEGA_TRACKER.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/MEGA_TRACKER.md) · rebuilt by the poller each round, updated 2026-10-11T22:57:59Z.
 
 | Stage | Done (merged or live) | In progress | Waiting |
 | --- | --- | --- | --- |
 | Gameplay audits | 112 of 112 | 0 | 0 |
-| Screen fixes | 25 of 266 | 80 | 161 |
+| Screen fixes | 35 of 266 | 70 | 161 |
 | Match desktop to mockups | 0 of 14 | 1 | 13 |
 | Phone mockup studies | 23 of 70 | 37 | 10 |
 | Improved desktop studies | 1 of 56 | 0 | 55 |
@@ -610,10 +630,8 @@ Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-caree
 **Open train PRs**
 
 - 681
-- 682
 - 683
 - 684
-- 685
 - 686
 - 687
 
