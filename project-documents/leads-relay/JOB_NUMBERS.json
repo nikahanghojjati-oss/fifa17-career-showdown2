@@ -1,6 +1,6 @@
 {
  "_how": "One shared job counter for Team G and Team V (Nik, 2026-10-05). Claim with tools/claim_number.py only. A number is used once, ever. CONTRACT.md section 10.",
- "next": 1651,
+ "next": 1652,
  "claims": [
   {
    "number": 1001,
@@ -3902,6 +3902,12 @@
    "team": "G",
    "title": "Service worker: audit stale-shell and mixed-version risk (report only)",
    "claimed": "2026-10-11T22:03:02Z"
+  },
+  {
+   "number": 1651,
+   "team": "G",
+   "title": "Flash guard: completed-showdown fixture for Season Results, Final Winner and Rivalry plus tap feedback timing",
+   "claimed": "2026-10-11T22:03:04Z"
   }
  ]
 }
