@@ -1,0 +1,12 @@
+# JOB-1375 · Upright tablet
+- Decision: a persistent totals pane beside the selected supporting view, not a scaled phone.
+- TOTALS initially pairs comparison with head-to-head; other tabs select the right pane.
+- Four tabs keep their live order and all seven comparison rows stay visible.
+- Tablet panels are 300px high; seasons use a wider table and trophies use a 2×2 grid.
+- Existing portraits stay unmirrored: Daniel left, Nik right.
+- Frozen stadium/title/portraits and original trophy art use relative links; shields are generic.
+- Live labels and headings are retained; Club is the fallback and values are study data.
+- Tablet main action is 52px; hub navigation is 64px plus safe area, with STATS active.
+- Phone sizes retain the compact layout; navigation hides above 900px.
+- CSS radio selection needs no JavaScript; route controls are presentation only.
+- Browser preview unavailable; static phone/tablet stack budgets and asset checks passed.
