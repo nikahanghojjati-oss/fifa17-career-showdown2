@@ -1120,6 +1120,15 @@
       ]
     },
     {
+      "path": "tests/contracts/job-1611-simultaneous-publish-contracts.cjs",
+      "patterns": [
+        "^js/productionSharedSeasonResults\\.js$",
+        "^js/sparkSharedSeasonResults\\.js$",
+        "^tests/contracts/job-1611-simultaneous-publish-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
       "path": "tests/contracts/showdown-gate-coverage-contracts.cjs",
       "patterns": [
         "^\\.github/workflows/",

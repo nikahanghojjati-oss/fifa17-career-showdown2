@@ -9,6 +9,7 @@ const {webcrypto}=require("node:crypto");
 // was in flight (every 2.5-15s) with SHARED_SETUP_BUSY, silently. A tap must now wait for the
 // in-flight refresh and then perform exactly one write.
 const root=path.resolve(__dirname,"../..");
+assert.match(fs.readFileSync(path.join(root,"js/productionSharedShowdownSetup.js"),"utf8"),/async function refreshNow\(generation=setupGeneration\)\{\s*const before=storageSnapshot\(\);setState\(\{status:"reading",busy:false,[^\n]*[\s\S]*?async function mutateNow\(type,extra=\{\}\)\{\s*const before=storageSnapshot\(\);setState\(\{status:`writing-\$\{type\}`,busy:true,/,"background Setup reads must keep buttons enabled while writes still set busy");
 const R="pair_"+"7".repeat(64),S="session_"+"6".repeat(64),D="device_"+"1".repeat(32),U="account_one";
 
 function sandboxWithStubs({hangFirstRead=true,waitMs=null}={}){

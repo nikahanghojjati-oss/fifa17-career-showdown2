@@ -11,27 +11,26 @@
   // real DOM. Loading stays the app's startup splash (it shows before any lazy code can load).
   const BASE="visual-assets/v10_1/";
   const FRAME=Object.freeze({skin:"team-v-home-5e05a1f"});
-  // Nik's Audius tracks (home/fixtures.json strings.media at 5e05a1f) minus What You Got, which Audius deleted, plus six
-  // verified streamable picks in the spirit of the old FIFA 17 YouTube list (none of those songs are on Audius).
+  // Nik's locked Audius top 10, in his order (owner request 2026-10-10, JOB-1591; ids resolved on api.audius.co 2026-10-11).
+  // Never swap, drop or add a song without Nik's words; an unplayable id shows the stream error and plays nothing else.
   const MEDIA=Object.freeze({
     sectionLabel:"Menu media",selectorLabel:"Choose Audius soundtrack",category:"AUDIUS SOUNDTRACK",source:"AUDIUS",
     toggle:"PLAY TRACK",pause:"PAUSE TRACK",mute:"MUTE",unmute:"UNMUTE",
     statusTemplate:"{TITLE} · AUDIUS · READY",statusLoading:"CONNECTING TO AUDIUS",statusPlaying:"PLAYING",
     statusPlayingMuted:"PLAYING · MUTED",statusPaused:"PAUSED",statusError:"STREAM UNAVAILABLE · TRY AGAIN OR PICK ANOTHER TRACK",
     tracks:Object.freeze([
+      Object.freeze({key:"business",title:"BUSINESS",artist:"Behzad Leito ft. Sepehr Khalse, Saman Wilson, Sohrab MJ & Alireza JJ",audiusTrackId:"Ymgov"}),
+      Object.freeze({key:"tabestoonKootahe",title:"TABESTOON KOOTAHE",artist:"Zedbazi",audiusTrackId:"50Zlg"}),
+      Object.freeze({key:"sarnevesht",title:"SARNEVESHT",artist:"Gdaal & Imanemun ft. Erfan & Madgal",audiusTrackId:"gb33l"}),
       Object.freeze({key:"nextToYou",title:"NEXT TO YOU",artist:"RAC ft. Emerson Leif",audiusTrackId:"n1zqQ"}),
+      Object.freeze({key:"hateItOrLoveIt",title:"HATE IT OR LOVE IT (JERSEY CLUB)",artist:"MIKE GIP",audiusTrackId:"ygyOr"}),
+      Object.freeze({key:"banafsh",title:"BANAFSH",artist:"Gdaal ft. Madgal",audiusTrackId:"3RaaM"}),
+      Object.freeze({key:"didehODel",title:"DIDEH O DEL",artist:"Gdaal ft. Imanemun",audiusTrackId:"Q6PPG"}),
+      Object.freeze({key:"yakuza",title:"YAKUZA",artist:"Sepehr Khalse",audiusTrackId:"ryBXG"}),
       Object.freeze({key:"nasty",title:"NASTY",artist:"grouptherapy.",audiusTrackId:"G5rXAWE"}),
-      Object.freeze({key:"snowGlobe",title:"SNOW GLOBE",artist:"Hadji Gaviota",audiusTrackId:"X9wlA0b"}),
-      Object.freeze({key:"imAlwaysRight",title:"I'M ALWAYS RIGHT",artist:"The Holdup",audiusTrackId:"9QRXKw"}),
-      Object.freeze({key:"everythingIKnow",title:"EVERYTHING I KNOW",artist:"Speelburg",audiusTrackId:"bppAK"}),
-      Object.freeze({key:"tellMeWhatYouWant",title:"TELL ME WHAT YOU WANT",artist:"Weezer",audiusTrackId:"4baRa"}),
-      Object.freeze({key:"hardFeelings",title:"HARD FEELINGS",artist:"Miquela",audiusTrackId:"LKWVl"}),
-      Object.freeze({key:"sillyBoy",title:"SILLY BOY",artist:"oshi",audiusTrackId:"zKgQq"}),
-      Object.freeze({key:"uproar",title:"UPROAR",artist:"Mike Shinoda",audiusTrackId:"JGgl0"}),
-      Object.freeze({key:"shelterRemix",title:"SHELTER (EFFUGIO REMIX)",artist:"Porter Robinson & Madeon",audiusTrackId:"DOpRe"}),
-      Object.freeze({key:"highAndLowCover",title:"HIGH AND LOW (COVER)",artist:"Empire Of The Sun · Aba",audiusTrackId:"W677j"})
+      Object.freeze({key:"cheraBadi",title:"CHERA BADI",artist:"Zedbazi ft. Hichkas",audiusTrackId:"0dGWK"})
     ]),
-    defaultTrack:"nextToYou",
+    defaultTrack:"business",
     audius:Object.freeze({apiBase:"https://api.audius.co/v1",appName:"CareerModeShowdown17"})
   });
   // Continue shows Team V's number-17 player (owner, 2026-10-05); css/homeV10.css hides the old Reus cover on this Home.
