@@ -1,13 +1,14 @@
 {
-"updated": "2026-10-11T03:41:12Z",
+"updated": "2026-10-11T03:45:37Z",
 "total": 518,
 "next_free": 91,
 "highest_taken": 395,
 "counts": {
 "draft": 197,
 "merged": 10,
-"waiting": 302,
+"waiting": 301,
 "on_train": 4,
+"started": 1,
 "blocked": 5
 },
 "stages": {
@@ -41,7 +42,8 @@
 "total": 70,
 "states": {
 "draft": 30,
-"waiting": 35,
+"started": 1,
+"waiting": 34,
 "blocked": 5
 }
 },
@@ -89,7 +91,6 @@
 "ready": [
 105,
 137,
-228,
 230,
 236,
 244,
@@ -98,12 +99,12 @@
 258,
 264,
 272,
-280
+280,
+284
 ],
 "ready_sol": [
 105,
 137,
-228,
 230,
 236,
 244,
@@ -112,13 +113,14 @@
 258,
 264,
 272,
-280
+280,
+284
 ],
 "ready_codex": []
 },
 "rate": {
-"claimed_last_hour": 46,
-"claimed_last_10min": 0,
+"claimed_last_hour": 43,
+"claimed_last_10min": 1,
 "merged_last_hour": 10
 },
 "events": [
@@ -1969,6 +1971,13 @@
 "job": 1326,
 "from": "draft",
 "to": "merged"
+},
+{
+"at": "2026-10-11T03:45:37Z",
+"item": 228,
+"job": 1168,
+"from": "waiting",
+"to": "started"
 }
 ],
 "items": {
@@ -5804,8 +5813,12 @@
 "title": "Club packs: phone mockup, version A (faithful)",
 "mode": "study",
 "group": null,
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"state": "started",
+"branch": "study/job-1168-club-phone-faithful",
+"branch_sha": "fe1eef9adb5f6e57b1577872b554c506a5907689",
+"no_pr_reason": "",
+"first_seen": "2026-10-11T03:45:37Z",
+"since": "2026-10-11T03:45:37Z"
 },
 "229": {
 "job": 1305,

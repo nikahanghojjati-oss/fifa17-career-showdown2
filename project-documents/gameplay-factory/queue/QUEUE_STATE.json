@@ -3,7 +3,6 @@
   "ready": [
    105,
    137,
-   228,
    230,
    236,
    244,
@@ -12,12 +11,12 @@
    258,
    264,
    272,
-   280
+   280,
+   284
   ],
   "ready_sol": [
    105,
    137,
-   228,
    230,
    236,
    244,
@@ -26,7 +25,8 @@
    258,
    264,
    272,
-   280
+   280,
+   284
   ],
   "ready_codex": [],
   "held_until_picture": 66,
@@ -263,7 +263,7 @@
    "225": "waiting",
    "226": "pr_open",
    "227": "waiting",
-   "228": "waiting",
+   "228": "branch_only",
    "229": "pr_open",
    "230": "waiting",
    "231": "waiting",
@@ -556,11 +556,12 @@
    "518": "waiting"
   }
  },
- "updated": "2026-10-11T03:41:12Z",
+ "updated": "2026-10-11T03:45:37Z",
  "counts": {
   "pr_open": 197,
-  "waiting": 302,
+  "waiting": 301,
   "blocked": 5,
+  "branch_only": 1,
   "merged": 10,
   "on_train": 4
  },
@@ -577,7 +578,7 @@
   },
   "4": {
    "total": 70,
-   "taken": 35,
+   "taken": 36,
    "merged": 0
   },
   "5": {
@@ -2086,11 +2087,11 @@
    "branch": null
   },
   "1168": {
-   "state": "waiting",
+   "state": "branch_only",
    "pr": null,
    "draft": false,
    "pr_url": null,
-   "branch": null
+   "branch": "study/job-1168-club-phone-faithful"
   },
   "1169": {
    "state": "waiting",
