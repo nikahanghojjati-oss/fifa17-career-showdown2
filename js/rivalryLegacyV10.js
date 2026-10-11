@@ -63,7 +63,7 @@
   const sources={},sourceKeys={},getters={},resources={},originalMarkup={},reloads={};
   const LOAD_TIMEOUT=15000,RELOAD_INTERVAL=2000;
   const LOADING=rlFreeze({status:"loading"}),UNAVAILABLE=rlFreeze({status:"unavailable"});
-  let registration=null,installed=false;
+  let registration=null,installed=false,tabletLayoutCleanup=null;
   const screens=()=>root.CareerModeV10Screens;
   const state=name=>{try{return root[name]?.getState?.()??null;}catch(_){return null;}};
   const identity=()=>state("CareerModeOnlinePlayerIdentity");
@@ -91,6 +91,7 @@
     return screen==="legacy"&&root.careerModeLegacyDataTools===true?null:(sourceKeys[screen]===context()?sources[screen]??UNAVAILABLE:UNAVAILABLE);
   }
   function clean(screen){
+    if(screen==="rivalryStatistics"){tabletLayoutCleanup?.();tabletLayoutCleanup=null;}
     if(screen==="legacy"){root.LEGACY_BOOT?.cleanup?.();root.LegacyFixture?.stageController?.destroy?.();}
     else{root.rvStage?.destroy?.();root.rvStage=null;}
   }
@@ -114,7 +115,27 @@
     if(title){title.tabIndex=-1;title.setAttribute("data-route-focus-target","true");host.setAttribute("aria-labelledby",title.id);}
     if(screen==="rivalryStatistics"){
       const tabs=Array.from(host.querySelectorAll("[data-rv-tab]")),shell=host.querySelector("#rivalryStatisticsContent");
-      const pick=(key,focus)=>{shell.setAttribute("data-tab",key);tabs.forEach(t=>{const on=t.dataset.rvTab===key;t.setAttribute("aria-selected",String(on));t.tabIndex=on?0:-1;if(on&&focus)t.focus();});};
+      // JOB-1601: expose both live panes only in the adopted tablet range.
+      const tablet=root.matchMedia?.("(min-width:700px) and (max-width:900px) and (orientation:portrait)");
+      const panelKeys=["totals","head","seasons","trophies"];
+      const panels=panelKeys.map(key=>host.querySelector("#rvPanel"+({totals:"Totals",head:"Head",seasons:"Seasons",trophies:"Trophies"}[key])));
+      let previousHidden=null;
+      const syncTabletPanels=()=>{
+        if(!tablet)return;
+        const key=shell.getAttribute("data-tab")||"totals";
+        if(tablet?.matches){
+          if(!previousHidden)previousHidden=panels.map(p=>Boolean(p?.hidden));
+          panels.forEach((p,i)=>{if(p)p.hidden=panelKeys[i]!=="totals"&&panelKeys[i]!== (key==="totals"?"head":key);});
+        }else if(previousHidden){
+          const usedHidden=previousHidden.some(Boolean);
+          panels.forEach((p,i)=>{if(p)p.hidden=usedHidden?panelKeys[i]!==key:previousHidden[i];});
+          previousHidden=null;
+        }
+      };
+      const pick=(key,focus)=>{shell.setAttribute("data-tab",key);tabs.forEach(t=>{const on=t.dataset.rvTab===key;t.setAttribute("aria-selected",String(on));t.tabIndex=on?0:-1;if(on&&focus)t.focus();});syncTabletPanels();};
+      tablet?.addEventListener?.("change",syncTabletPanels);
+      tabletLayoutCleanup=()=>tablet?.removeEventListener?.("change",syncTabletPanels);
+      syncTabletPanels();
       tabs.forEach((t,i)=>{t.addEventListener("click",()=>pick(t.dataset.rvTab));t.addEventListener("keydown",e=>{const d=e.key==="ArrowRight"?1:e.key==="ArrowLeft"?-1:0;if(d){e.preventDefault();pick(tabs[(i+d+tabs.length)%tabs.length].dataset.rvTab,true);}});});
     }
   }
