@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-11 12:51 AM Boston time (EDT)",
+ "generated": "2026-10-11 12:55 AM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 94,
@@ -1319,10 +1319,10 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 41,
+  "moving": 40,
   "next": 23,
   "nik": 2,
-  "later": 7,
+  "later": 8,
   "rows": {
    "G": {
     "moving": [
@@ -1622,19 +1622,6 @@
       "place": "Claude helper (nothing for Nik to type)",
       "note": "from hunt 1019; H3 is fixed by 1026",
       "archived": true
-     },
-     {
-      "id": "1597",
-      "title": "Wire Team V study 1226: Season Results",
-      "lane": "work",
-      "team": "green",
-      "model": "GPT Sol 6.1",
-      "effort": "High",
-      "state": "draft PR #666 opened by Work mode; Claude browser check running",
-      "order": 49,
-      "place": "ChatGPT Work mode (Sol 6.1), type one number at a time, in order",
-      "note": "ticket jobs/JOB-1597.md; area season-final, train season-final-3; picture job: Work mode can open the approved PNG (Nik 2026-10-11 04:36 UTC routing rule), so it goes to Work mode, not GPT chat or Claude; Claude browser-checks and merges",
-      "prompt": "1597"
      }
     ],
     "nik": [
@@ -2026,6 +2013,19 @@
       "note": "ticket jobs/JOB-1582.md",
       "prompt": "Career Mode Showdown, job 1582. First run: git fetch origin factory/gameplay-v1\nThen read: git show FETCH_HEAD:project-documents/gameplay-factory/jobs/JOB-1582.md\nDo exactly what that file says. If the file does not exist, stop and tell me. Never push to main and never merge. Open any pull request as a draft; if you cannot choose the base branch, write RETARGET TO gameplay/bug-list-1 on the first line of the PR body.",
       "prompt_source": "queue/CODEX_PROMPTS.md"
+     },
+     {
+      "id": "1597",
+      "title": "Wire Team V study 1226: Season Results",
+      "lane": "work",
+      "team": "green",
+      "model": "GPT Sol 6.1",
+      "effort": "High",
+      "state": "fix round 1: browser check of #666 failed; type 1597 again in Work mode",
+      "order": 49,
+      "place": "ChatGPT Work mode (Sol 6.1), type one number at a time, in order",
+      "note": "ticket jobs/JOB-1597.md; area season-final, train season-final-3; picture job: Work mode can open the approved PNG (Nik 2026-10-11 04:36 UTC routing rule), so it goes to Work mode, not GPT chat or Claude; Claude browser-checks and merges",
+      "prompt": "1597"
      }
     ]
    },
