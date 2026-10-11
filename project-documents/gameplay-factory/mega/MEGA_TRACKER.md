@@ -1,4 +1,4 @@
-# Mega factory tracker · updated 2026-10-11T07:38:26Z
+# Mega factory tracker · updated 2026-10-11T07:38:57Z
 
 **Type now (17 free):** 145, 147, 149, 151, 159, 173, 179, 189, 240, 268, 296, 324, 352, 400, 411, 428, 456
 **Next free number:** 145 · **highest taken:** 403 of 518
@@ -53,7 +53,7 @@ Stage | total | merged/live | in flight | waiting
 
 ## Latest changes
 
-- 2026-10-11T07:38:26Z · 133 (Job 1155): waiting → on_train
+- 2026-10-11T07:38:57Z · 133 (Job 1155): waiting → on_train
 - 2026-10-11T07:37:27Z · 131 (Job 1126): waiting → on_train
 - 2026-10-11T07:35:57Z · 127 (Job 1068): waiting → on_train
 - 2026-10-11T07:30:57Z · 171 (Job 1186): draft → closed
