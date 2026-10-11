@@ -1,6 +1,6 @@
 {
  "_how": "One shared job counter for Team G and Team V (Nik, 2026-10-05). Claim with tools/claim_number.py only. A number is used once, ever. CONTRACT.md section 10.",
- "next": 1611,
+ "next": 1612,
  "claims": [
   {
    "number": 1001,
@@ -3662,6 +3662,12 @@
    "team": "V",
    "title": "Next-level desktop pictures NEXT_<SCREEN> (14 image tickets)",
    "claimed": "2026-10-11T04:27:00Z"
+  },
+  {
+   "number": 1611,
+   "team": "G",
+   "title": "Season-2 simultaneous Season Result publish rejects one manager (J8.3 intermittent, Claude lane)",
+   "claimed": "2026-10-11T04:38:22Z"
   }
  ]
 }
