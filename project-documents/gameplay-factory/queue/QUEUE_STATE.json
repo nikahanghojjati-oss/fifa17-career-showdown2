@@ -2,28 +2,32 @@
  "sequence": {
   "ready": [
    228,
+   236,
    256,
-   270,
+   264,
    284,
-   298,
+   292,
    312,
-   326,
+   320,
    340,
+   348,
    354
   ],
   "ready_sol": [
    228,
+   236,
    256,
-   270,
+   264,
    284,
-   298,
+   292,
    312,
-   326,
+   320,
    340,
+   348,
    354
   ],
   "ready_codex": [],
-  "held_until_picture": 86,
+  "held_until_picture": 81,
   "open_code_prs": 0,
   "open_train_prs": 9,
   "next_free": 228,
@@ -271,7 +275,7 @@
    "239": "waiting",
    "240": "waiting",
    "241": "waiting",
-   "242": "branch_only",
+   "242": "pr_open",
    "243": "waiting",
    "244": "waiting",
    "245": "waiting",
@@ -299,7 +303,7 @@
    "267": "waiting",
    "268": "waiting",
    "269": "waiting",
-   "270": "waiting",
+   "270": "pr_open",
    "271": "waiting",
    "272": "waiting",
    "273": "waiting",
@@ -327,7 +331,7 @@
    "295": "waiting",
    "296": "waiting",
    "297": "waiting",
-   "298": "waiting",
+   "298": "pr_open",
    "299": "waiting",
    "300": "waiting",
    "301": "pr_open",
@@ -355,7 +359,7 @@
    "323": "waiting",
    "324": "waiting",
    "325": "waiting",
-   "326": "waiting",
+   "326": "branch_only",
    "327": "waiting",
    "328": "waiting",
    "329": "waiting",
@@ -550,10 +554,10 @@
    "518": "waiting"
   }
  },
- "updated": "2026-10-11T03:07:07Z",
+ "updated": "2026-10-11T03:11:09Z",
  "counts": {
-  "pr_open": 202,
-  "waiting": 306,
+  "pr_open": 205,
+  "waiting": 303,
   "blocked": 5,
   "on_train": 4,
   "branch_only": 1
@@ -571,7 +575,7 @@
   },
   "4": {
    "total": 70,
-   "taken": 31,
+   "taken": 34,
    "merged": 0
   },
   "5": {
@@ -2498,32 +2502,32 @@
    "branch": null
   },
   "1226": {
+   "state": "pr_open",
+   "pr": 619,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/619",
+   "branch": "study/job-1226-season-results-phone-a"
+  },
+  "1227": {
+   "state": "pr_open",
+   "pr": 620,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/620",
+   "branch": "study/job-1227-season-results-phone-b"
+  },
+  "1228": {
+   "state": "pr_open",
+   "pr": 621,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/621",
+   "branch": "study/job-1228-season-results-phone-c"
+  },
+  "1229": {
    "state": "branch_only",
    "pr": null,
    "draft": false,
    "pr_url": null,
-   "branch": "study/job-1226-season-results-phone-a"
-  },
-  "1227": {
-   "state": "waiting",
-   "pr": null,
-   "draft": false,
-   "pr_url": null,
-   "branch": null
-  },
-  "1228": {
-   "state": "waiting",
-   "pr": null,
-   "draft": false,
-   "pr_url": null,
-   "branch": null
-  },
-  "1229": {
-   "state": "waiting",
-   "pr": null,
-   "draft": false,
-   "pr_url": null,
-   "branch": null
+   "branch": "study/job-1229-season-results-sideways"
   },
   "1230": {
    "state": "waiting",

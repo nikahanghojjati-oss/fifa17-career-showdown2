@@ -1,11 +1,11 @@
 {
-"updated": "2026-10-11T03:07:07Z",
+"updated": "2026-10-11T03:11:09Z",
 "total": 518,
 "next_free": 91,
 "highest_taken": 395,
 "counts": {
-"draft": 202,
-"waiting": 306,
+"draft": 205,
+"waiting": 303,
 "on_train": 4,
 "blocked": 5,
 "started": 1
@@ -39,8 +39,8 @@
 "name": "Phone mockup studies",
 "total": 70,
 "states": {
-"draft": 25,
-"waiting": 39,
+"draft": 28,
+"waiting": 36,
 "blocked": 5,
 "started": 1
 }
@@ -92,31 +92,35 @@
 },
 "ready": [
 228,
+236,
 256,
-270,
+264,
 284,
-298,
+292,
 312,
-326,
+320,
 340,
+348,
 354
 ],
 "ready_sol": [
 228,
+236,
 256,
-270,
+264,
 284,
-298,
+292,
 312,
-326,
+320,
 340,
+348,
 354
 ],
 "ready_codex": []
 },
 "rate": {
-"claimed_last_hour": 55,
-"claimed_last_10min": 10,
+"claimed_last_hour": 58,
+"claimed_last_10min": 7,
 "merged_last_hour": 0
 },
 "events": [
@@ -1853,6 +1857,34 @@
 "at": "2026-10-11T03:07:07Z",
 "item": 242,
 "job": 1226,
+"from": "waiting",
+"to": "started"
+},
+{
+"at": "2026-10-11T03:11:09Z",
+"item": 242,
+"job": 1226,
+"from": "started",
+"to": "draft"
+},
+{
+"at": "2026-10-11T03:11:09Z",
+"item": 270,
+"job": 1227,
+"from": "waiting",
+"to": "draft"
+},
+{
+"at": "2026-10-11T03:11:09Z",
+"item": 298,
+"job": 1228,
+"from": "waiting",
+"to": "draft"
+},
+{
+"at": "2026-10-11T03:11:09Z",
+"item": 326,
+"job": 1229,
 "from": "waiting",
 "to": "started"
 }
@@ -5891,12 +5923,19 @@
 "title": "Season Results: phone mockup, version A (faithful)",
 "mode": "study",
 "group": null,
-"state": "started",
+"pr": 619,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/619",
+"base": "study/mega-queue",
 "branch": "study/job-1226-season-results-phone-a",
-"branch_sha": "fe1eef9adb5f6e57b1577872b554c506a5907689",
-"no_pr_reason": "",
+"ci": "draft",
+"ci_sha": "ceb8726287c8e86a630f555c6817263dca6450e4",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-11T03:07:37Z",
 "first_seen": "2026-10-11T03:07:07Z",
-"since": "2026-10-11T03:07:07Z"
+"since": "2026-10-11T03:11:09Z"
 },
 "243": {
 "job": 1190,
@@ -6226,8 +6265,19 @@
 "title": "Season Results: phone mockup, version B (bold hierarchy)",
 "mode": "study",
 "group": null,
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"pr": 620,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/620",
+"base": "study/mega-queue",
+"branch": "study/job-1227-season-results-phone-b",
+"ci": "draft",
+"ci_sha": "caad480156233de4fe7f8b481a7d98577c0de904",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-11T03:08:42Z",
+"first_seen": "2026-10-11T03:08:42Z",
+"since": "2026-10-11T03:11:09Z"
 },
 "271": {
 "job": 1076,
@@ -6546,8 +6596,19 @@
 "title": "Season Results: phone mockup, version C (compact)",
 "mode": "study",
 "group": null,
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"pr": 621,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/621",
+"base": "study/mega-queue",
+"branch": "study/job-1228-season-results-phone-c",
+"ci": "draft",
+"ci_sha": "52513d6f48679061339473037f84ce137fda4790",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-11T03:09:45Z",
+"first_seen": "2026-10-11T03:09:45Z",
+"since": "2026-10-11T03:11:09Z"
 },
 "299": {
 "job": 1222,
@@ -6877,8 +6938,12 @@
 "title": "Season Results: sideways phone study",
 "mode": "study",
 "group": null,
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"state": "started",
+"branch": "study/job-1229-season-results-sideways",
+"branch_sha": "fe1eef9adb5f6e57b1577872b554c506a5907689",
+"no_pr_reason": "",
+"first_seen": "2026-10-11T03:11:09Z",
+"since": "2026-10-11T03:11:09Z"
 },
 "327": {
 "job": 1108,
