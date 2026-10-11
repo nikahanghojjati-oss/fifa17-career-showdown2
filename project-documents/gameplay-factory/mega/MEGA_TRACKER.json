@@ -1,5 +1,5 @@
 {
-"updated": "2026-10-11T06:03:24Z",
+"updated": "2026-10-11T06:06:24Z",
 "total": 518,
 "next_free": 127,
 "highest_taken": 403,
@@ -151,7 +151,7 @@
 },
 "rate": {
 "claimed_last_hour": 12,
-"claimed_last_10min": 1,
+"claimed_last_10min": 0,
 "merged_last_hour": 0
 },
 "events": [
