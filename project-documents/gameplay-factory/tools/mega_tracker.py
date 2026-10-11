@@ -470,7 +470,7 @@ def run_round(a, ctx):
            "counts": states, "stages": stages, "stale_started": stale, "gates": gates,
            "rate": {"claimed_last_hour": started_since(60), "claimed_last_10min": started_since(10),
                     "merged_last_hour": merged_since(60)},
-           "lanes": lanes, "old_main_prs": sum(1 for d in direct.values() if d["state"] == "old_main"), "codex_next": codex_next, "codex_waiting_on_deps": codex_blocked, "work_waiting": work_waiting,
+           "lanes": lanes, "ready_for_lead": sorted({v["pr"] for v in items.values() if v.get("pr") and v["state"] in ("draft", "queued", "ci_running", "ready", "reviewed") and v.get("mode") == "code"}), "old_main_prs": sum(1 for d in direct.values() if d["state"] == "old_main"), "codex_next": codex_next, "codex_waiting_on_deps": codex_blocked, "work_waiting": work_waiting,
            "history": hist[-200:], "events": events, "items": items}
     out.parent.mkdir(parents=True, exist_ok=True)
     # Heartbeat: when nothing but the clock moved, keep the old file until it is 3 minutes old (fewer commits)

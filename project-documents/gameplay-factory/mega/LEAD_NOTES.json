@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-11T06:35:00Z",
+ "updated": "2026-10-11T06:45:00Z",
  "from": "Team G lead (via the tracker thread)",
  "you_come_in": [
   {
@@ -10,11 +10,6 @@
   {
    "when": "When the lead asks for a product decision",
    "what": "The lead or coordinator asks you in the project chat. Nothing else needs a reply.",
-   "auto": false
-  },
-  {
-   "when": "Release time",
-   "what": "Only if the safety check blocks a merge to the live game: type \"merge rNN\" in the lead thread.",
    "auto": false
   },
   {
@@ -31,8 +26,19 @@
    "when": "Picture studies (61)",
    "what": "They wait on Team V approving the pictures. Not the lead's job and not yours.",
    "auto": true
+  },
+  {
+   "when": "Finished jobs and trains",
+   "what": "The lead checks and merges them by itself, usually within the hour. You never tell it.",
+   "auto": true
+  },
+  {
+   "when": "Release to the live game",
+   "what": "Type \"merge rNN\" in the lead thread. This is the only merge that waits for you.",
+   "auto": false
   }
  ],
  "verdicts": [],
- "lessons": []
+ "lessons": [],
+ "rule": "You never need to tell the lead. When a job or train is finished, the lead checks it (tests plus a browser check for layouts) and merges it if it passes, usually within the hour. Only a release to the live game waits for you to type 'merge rNN'."
 }
