@@ -3,7 +3,7 @@ name: Mega tracker tick
 # Keeps project-documents/gameplay-factory/mega/MEGA_TRACKER.json (and .md, CUSTOM_VIEW_MEGA.html) live for the mega factory page.
 # One run loops for about 25 minutes, one round a minute, so a started number shows within about a minute. Each round asks GitHub with
 # ETags (a 304 is free) and commits only when something changed. It yields its machine to a starved check and always queues its successor.
-# Zero Claude usage. Free public-repo minutes. It never touches main.
+# Zero Claude usage. Free public-repo minutes. It never touches main. (A push that changes this file starts it; the commits it makes carry [skip ci].)
 on:
   push:
     branches: [factory/gameplay-v1]
