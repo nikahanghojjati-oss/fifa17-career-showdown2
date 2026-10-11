@@ -375,7 +375,10 @@
       const def=screen?registry.get(screen):null;
       // expect() before the style sync, so the screen keeps Team V's look while it loads (also for a screen whose Team V
       // file has not registered yet: its module's show() or the style timeout settles it).
-      const expected=def?def.auto&&vsExpect(screen):screen&&LAZY_V10_SCREENS.includes(screen)&&vsExpect(screen);
+      // Legacy's data tools page (backup, restore, reset) is the one career screen that keeps the app's own markup
+      // (js/careerScreenSeam.js): it is never held for a Team V look that will not come.
+      const lazy=screen&&LAZY_V10_SCREENS.includes(screen)&&!(screen==="legacy"&&root.careerModeLegacyDataTools===true);
+      const expected=def?def.auto&&vsExpect(screen):lazy&&vsExpect(screen);
       if(!expected)vsSyncStyles();
       vsPaintNav(screen);
       if(def&&def.auto)vsShow(screen).catch(error=>vsReport("Team V screen could not load",error));
