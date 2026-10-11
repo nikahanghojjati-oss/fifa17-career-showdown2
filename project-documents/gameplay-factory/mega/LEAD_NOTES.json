@@ -81,7 +81,8 @@
   "Work mode can see the pictures but can't render, so every layout PR still gets a browser check before merge.",
   "When hiding an old hero, also reset the space it reserved (rule d), or the screen scrolls.",
   "Status notes and reports belong on factory/gameplay-v1, never on the game branch.",
-  "Phone-only wiring must cap the media query by height too (max-height ~700px), or portrait tablets that report width 760 pick up the phone layout."
+  "Phone-only wiring must cap the media query by height too (max-height ~700px), or portrait tablets that report width 760 pick up the phone layout.",
+  "Team V sheets (rule-book.css etc.) load after the adapter files, so adapters need #app-prefixed selectors to win."
  ],
  "rule": "You never need to tell the lead. When a job or train is finished, the lead checks it (tests plus a browser check for layouts) and merges it if it passes, usually within the hour. Only a release to the live game waits for you to type 'merge rNN'."
 }
