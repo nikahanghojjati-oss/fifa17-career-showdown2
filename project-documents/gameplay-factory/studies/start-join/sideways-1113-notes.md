@@ -1,0 +1,15 @@
+# JOB-1113 · Connect Players sideways
+- Decision: centre the setup controls between Daniel left and Nik right at 844x390.
+- Reuse Team V phone overlays without mirroring and the existing stadium background.
+- The central column is 56% wide; portraits occupy the side areas without covering controls.
+- Keep the live heading, tagline, role text, tabs, BACK and CHOOSE SEASONS in their existing order.
+- Main action spans the panel width and retains a 44px height in landscape.
+- Landscape permits one document scroll if needed; no nested scroll regions are added.
+- Fixed bottom hub navigation has content padding so the action remains reachable.
+- Upright phones retain the approved PHONE_CONNECT_PLAYERS composition.
+- CSS role tabs illustrate the initial setup; the runtime pairing slot remains empty.
+- Later codes, recovery and connected-session controls are outside this static state.
+- No JavaScript, player photos, licensed marks, live game or frozen artwork edits.
+- Re-read the full HTML; visually inspected the 844x390 render.
+- Chromium: 844x390, 390x844, 393x660, 360x640 and 375x553 fit without page/panel overflow.
+- At 844x390, button bottom is 254.64px, navigation top 328px; artwork and tab text fit.
