@@ -1,16 +1,15 @@
 {
-"updated": "2026-10-11T04:07:57Z",
+"updated": "2026-10-11T04:08:57Z",
 "total": 518,
 "next_free": 91,
 "highest_taken": 395,
 "counts": {
 "merged": 25,
-"draft": 137,
+"draft": 138,
 "closed": 51,
 "waiting": 291,
 "on_train": 8,
-"blocked": 5,
-"started": 1
+"blocked": 5
 },
 "stages": {
 "2": {
@@ -42,11 +41,10 @@
 "name": "Phone mockup studies",
 "total": 70,
 "states": {
-"draft": 25,
+"draft": 26,
 "closed": 11,
 "waiting": 28,
-"blocked": 5,
-"started": 1
+"blocked": 5
 }
 },
 "5": {
@@ -141,13 +139,6 @@
 "merged_last_hour": 25
 },
 "events": [
-{
-"at": "2026-10-10T16:52:14Z",
-"item": 37,
-"job": 1063,
-"from": "waiting",
-"to": "on_train"
-},
 {
 "at": "2026-10-10T16:52:14Z",
 "item": 38,
@@ -2240,6 +2231,13 @@
 "job": 1123,
 "from": "draft",
 "to": "merged"
+},
+{
+"at": "2026-10-11T04:08:57Z",
+"item": 286,
+"job": 1286,
+"from": "started",
+"to": "draft"
 }
 ],
 "items": {
@@ -6573,12 +6571,19 @@
 "title": "Final Winner (Showdown Champion): phone mockup, version C (compact)",
 "mode": "study",
 "group": null,
-"state": "started",
+"pr": 633,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/633",
+"base": "study/mega-queue",
 "branch": "study/job-1286-phone-c",
-"branch_sha": "d9df154340819e0477b69e8b62d3d7f5768fed42",
-"no_pr_reason": "",
+"ci": "draft",
+"ci_sha": "d2722fc649e1318e006823c8a1a83e53d3113810",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-11T04:08:32Z",
 "first_seen": "2026-10-11T04:06:57Z",
-"since": "2026-10-11T04:06:57Z"
+"since": "2026-10-11T04:08:57Z"
 },
 "287": {
 "job": 1424,

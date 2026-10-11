@@ -1,4 +1,4 @@
-# Mega factory tracker · updated 2026-10-11T04:07:57Z
+# Mega factory tracker · updated 2026-10-11T04:08:57Z
 
 **Type now (27 free):** 91, 93, 95, 97, 99, 141, 143, 173, 230, 236, 244, 252, 258, 264, 272, 280, 300, 308, 314, 320, 328, 336, 342, 348, 356, 364, 403
 **Next free number:** 91 · **highest taken:** 395 of 518
@@ -11,9 +11,8 @@ State | count
 --- | ---
 ✅ merged to staging branch | 25
 🚂 done, on the train branch, no PR yet | 8
-📝 worker done, draft PR open | 137
+📝 worker done, draft PR open | 138
 🟧 blocked | 5
-🟦 started, no PR yet | 1
 ⚫ closed without merge | 51
 ⬜ waiting | 291
 
@@ -167,7 +166,7 @@ Stage | total | merged/live | in flight | waiting
 - 📝 **266** · Job 1372 · Rivalry Statistics: phone mockup, version B (bold hierarchy) · worker done, draft PR open · [PR #604](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/604)
 - 📝 **276** · Job 1111 · Connect Players (start and join): phone mockup, version B (bold hierarchy) · worker done, draft PR open · [PR #599](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/599)
 - 📝 **282** · Job 1402 · Career Statistics: phone mockup, version C (compact) · worker done, draft PR open · [PR #610](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/610)
-- 🟦 **286** · Job 1286 · Final Winner (Showdown Champion): phone mockup, version C (compact) · started, no PR yet
+- 📝 **286** · Job 1286 · Final Winner (Showdown Champion): phone mockup, version C (compact) · worker done, draft PR open · [PR #633](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/633)
 - 📝 **288** · Job 1083 · Home: phone mockup, version C (compact) · worker done, draft PR open · [PR #592](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/592)
 - 🟧 **290** · Job 1141 · Select League: phone mockup, version C (compact) · blocked
 - 📝 **292** · Job 1315 · Legacy: phone mockup, version C (compact) · worker done, draft PR open · [PR #632](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/632)
@@ -189,6 +188,7 @@ Stage | total | merged/live | in flight | waiting
 
 ## Latest changes
 
+- 2026-10-11T04:08:57Z · 286 (Job 1286): started → draft
 - 2026-10-11T04:07:57Z · 77 (Job 1123): draft → merged
 - 2026-10-11T04:07:57Z · 75 (Job 1094): draft → merged
 - 2026-10-11T04:07:57Z · 73 (Job 1065): draft → merged
@@ -208,4 +208,3 @@ Stage | total | merged/live | in flight | waiting
 - 2026-10-11T04:05:57Z · 362 (Job 1201): draft → closed
 - 2026-10-11T04:05:57Z · 344 (Job 1085): draft → closed
 - 2026-10-11T04:05:57Z · 334 (Job 1200): draft → closed
-- 2026-10-11T04:05:57Z · 306 (Job 1199): draft → closed
