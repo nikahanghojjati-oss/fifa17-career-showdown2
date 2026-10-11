@@ -150,7 +150,10 @@ function paint(only,fail){
   const chip=x=>`<button class="chip" data-n="${x}">${x}</button>`;
   const fb=$("first");fb.textContent=all.length?all[0]:"none";fb.dataset.n=all[0]||"";fb.onclick=()=>all.length&&copyBtn(fb);
   $("rt").textContent=g.ready_total!=null?g.ready_total:all.length;
-  $("held").textContent=g.held_until_picture?`${g.held_until_picture} more are held until Team V approves a picture (${Object.entries(g.held_by_picture||{}).map(([k,v])=>v+" "+k.toLowerCase().replace(/_/g," ")).join(", ")}).`:"";
+  {const hb=Object.entries(g.held_by_picture||{}),ph=hb.filter(([k])=>k.startsWith("phone")),dk=hb.filter(([k])=>k.startsWith("desktop"));
+  const nm=k=>k.replace(/^\w+ /,"").toLowerCase().replace(/_/g," ");
+  const parts=[];if(dk.length)parts.push(dk.reduce((a,[k,v])=>a+v,0)+" desktop studies wait for approved desktop pictures");if(ph.length)parts.push(ph.reduce((a,[k,v])=>a+v,0)+" phone studies wait for pictures ("+ph.map(([k])=>nm(k)).join(", ")+")");
+  $("held").textContent=g.held_until_picture?`Held: ${parts.join("; ")}.`:"";}
   const none='<span class="none">None free right now.</span>';
   $("odd").innerHTML=all.filter(x=>x%2).map(chip).join("")||none;
   $("even").innerHTML=all.filter(x=>x%2===0).map(chip).join("")||none;
