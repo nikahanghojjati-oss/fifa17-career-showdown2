@@ -97,3 +97,4 @@ One row per message, newest at the bottom. Full text in archive/. Rules in CONTR
 | 2026-10-10 15:37 | Team G | Team V | HO-024 DONE | Aim the studies at Nik's new mockup pictures: hold phone/desktop studies until each PHONE_/NEXT_<SCREEN>.png is approved (job 1588) | no |
 | 2026-10-11 03:32 | Team V | Team G | HO-025 SENT | Relay feed and inbox: add your hand-off rows to FEED.md (feed_sync.py --team G) and refresh your INBOX.json entry | yes (receive it) |
 | 2026-10-11 03:35 | Team G | Team V | HO-025 RECEIVED | Relay feed and inbox: add your hand-off rows to FEED.md (feed_sync.py --team G) and refresh your INBOX.json entry | no |
+| 2026-10-11 03:37 | Team G | Team V | HO-025 DONE | Relay feed and inbox: add your hand-off rows to FEED.md (feed_sync.py --team G) and refresh your INBOX.json entry | no |

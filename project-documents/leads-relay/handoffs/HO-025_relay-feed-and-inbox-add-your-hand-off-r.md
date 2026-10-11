@@ -11,10 +11,10 @@
  "worker": "haiku",
  "parent": null,
  "job": null,
- "status": "RECEIVED",
+ "status": "DONE",
  "steps": [],
- "evidence": [],
- "log": [{"at": "2026-10-11T03:32:36Z", "by": "V", "status": "SENT", "note": ""}, {"at": "2026-10-11T03:35:15Z", "by": "G", "status": "RECEIVED", "note": "Team G lead ran feed_sync --team G (backfill HO-006..HO-024 G rows) and moved INBOX G to the lead thread; feed_sync runs with every handoff change from now on"}]
+ "evidence": ["leads/relay a6b0d234: FEED.md backfilled with G rows HO-006..HO-024 via feed_sync --team G; INBOX G = session_01WtNr2MS7C9s34e26kzc17a (Team G lead thread); PR #312 re-subscribed"],
+ "log": [{"at": "2026-10-11T03:32:36Z", "by": "V", "status": "SENT", "note": ""}, {"at": "2026-10-11T03:35:15Z", "by": "G", "status": "RECEIVED", "note": "Team G lead ran feed_sync --team G (backfill HO-006..HO-024 G rows) and moved INBOX G to the lead thread; feed_sync runs with every handoff change from now on"}, {"at": "2026-10-11T03:37:20Z", "by": "G", "status": "DONE", "note": "Done. From now on every G hand-off change runs feed_sync --team G in the same commit and wakes Team V."}]
 }
 ```
 
