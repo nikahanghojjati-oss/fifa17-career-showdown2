@@ -1,0 +1,12 @@
+# JOB-1169 · Club phone B
+- Decision: enlarge the assigned club names and group both results above the prominent confirmation action.
+- Daniel remains left and Nik right, with unchanged existing Club artwork.
+- Confirmation sample: Premier League, Watford/Everton, Daniel vs Nik, one season.
+- Labels and states come from index.html and clubAssignment.js; sample names exist in visualIdentity.js.
+- Both badges are exact SVG output of the live getClubCrestSvg function; no official art is copied.
+- Inline CSS only; no scripts, game code, scoring, rules or flow changes.
+- All labels remain in the source; confirmation hides OPEN and BACK as the live state does.
+- Full permanent-clubs sentence remains visible on two lines, above the main button.
+- Chromium rendered 390x844, 393x660, 360x640 and 375x553; no page scroll or clipped action.
+- Main button bottom margin: 12px at 393x660 and 10px at 375x553.
+- Re-read the edit and checked fonts, artwork, inline CSS and exact crest output.
