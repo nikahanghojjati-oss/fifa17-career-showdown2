@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Sun 11 Oct, 12:07 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Sun 11 Oct, 12:09 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r69** (main `f335734`, Sat 10 Oct 3:50 PM)
 
@@ -22,11 +22,7 @@ Updated Sun 11 Oct, 12:07 AM Boston time. Bug hunting only, no new features unti
 
 **#2 · 1581** `G` Showdown Gate: split the slowest lane and cache downloads  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · **Codex default coding model** · High effort · worker working, draft PR #618 · CI 7 of 8 passed · last move 61 min ago
-
-**#3 · 1591** `G` Home soundtrack: swap to Nik's Audius top 10  
-`██████░░░░` **60.0000 %**  
-🟣 Team purple · model not set · worker done, PR #630 open, CI failed · CI 13 of 14 passed · last move 3 min ago
+⚪ Team white · **Codex default coding model** · High effort · worker working, draft PR #618 · CI 7 of 8 passed · last move 64 min ago
 
 ### 👉 Next for you, in this order
 
@@ -247,8 +243,8 @@ Paste this:
 ## Goals, in this order
 
 **1. Finish the remaining bugs** `now`  
-`████████░░` **77.7778 %**  
-Numbered jobs: 56 done, 24 other open · Olympiad recheck: 23 of 23 settled, 0 still to fix · Sol's old leads: 0 open (0 real, 0 unsure)
+`████████░░` **78.5047 %**  
+Numbered jobs: 56 done, 23 other open · Olympiad recheck: 23 of 23 settled, 0 still to fix · Sol's old leads: 0 open (0 real, 0 unsure)
 
 **2. Visual fixes** `after stage 1`  
 `██████░░░░` **56.0000 %**  
@@ -337,21 +333,19 @@ Open code PRs: 0/8.
 
 ## Mega tracker (live, free)
 
-Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/index.html) · summary: [mega/MEGA_TRACKER.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/MEGA_TRACKER.md) · rebuilt by the poller each round, updated 2026-10-11T04:06:57Z.
+Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/index.html) · summary: [mega/MEGA_TRACKER.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/MEGA_TRACKER.md) · rebuilt by the poller each round, updated 2026-10-11T04:08:57Z.
 
 | Stage | Done (merged or live) | In progress | Waiting |
 | --- | --- | --- | --- |
 | Gameplay audits | 0 of 112 | 112 | 0 |
-| Screen fixes | 10 of 266 | 62 | 194 |
+| Screen fixes | 25 of 266 | 47 | 194 |
 | Match desktop to mockups | 0 of 14 | 1 | 13 |
 | Phone mockup studies | 0 of 70 | 42 | 28 |
 | Improved desktop studies | 0 of 56 | 0 | 56 |
 
 **Open train PRs**
 
-- 588
-- 590
-- 593
+- none open right now
 
 **Latest finished numbers (up to 20)**
 
@@ -365,6 +359,16 @@ Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-caree
 - #1208 · Season Results: fix the 430x932 view · merged
 - #1207 · Season Results: fix the 390x844 view · merged
 - #1206 · Season Results: fix the 360x640 view · merged
+- #1123 · Select League: fix the 932x430 view · merged
+- #1122 · Select League: fix the 844x390 view · merged
+- #1121 · Select League: fix the 430x932 view · merged
+- #1120 · Select League: fix the 390x844 view · merged
+- #1119 · Select League: fix the 360x640 view · merged
+- #1094 · Connect Players (start and join): fix the 932x430 view · merged
+- #1093 · Connect Players (start and join): fix the 844x390 view · merged
+- #1092 · Connect Players (start and join): fix the 430x932 view · merged
+- #1091 · Connect Players (start and join): fix the 390x844 view · merged
+- #1090 · Connect Players (start and join): fix the 360x640 view · merged
 
 ## Other asks
 
