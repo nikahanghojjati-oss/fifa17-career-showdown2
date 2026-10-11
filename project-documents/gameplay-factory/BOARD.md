@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Sun 11 Oct, 2:29 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Sun 11 Oct, 2:33 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r70** (main `c8810b8`, Sun 11 Oct 12:28 AM)
 
@@ -26,31 +26,31 @@ Updated Sun 11 Oct, 2:29 AM Boston time. Bug hunting only, no new features until
 
 **#3 · 1592** `G` Wire Team V study 1110: Connect Players phone  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · **GPT Sol 6.1** · High effort · worker working, draft PR #667 · CI 6 of 7 passed · last move 74 min ago
+🟢 Team green · **GPT Sol 6.1** · High effort · worker working, draft PR #667 · CI 6 of 7 passed · last move 78 min ago
 
 **#4 · 1593** `G` Wire Team V study 1372: Rivalry Statistics phone  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · **GPT Sol 6.1** · High effort · worker working, draft PR #668 · CI 6 of 7 passed · last move 58 min ago
+🟢 Team green · **GPT Sol 6.1** · High effort · worker working, draft PR #668 · CI 6 of 7 passed · last move 62 min ago
 
 **#5 · 1594** `G` Wire Team V study 1169: Club Assignment (redo train)  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · **GPT Sol 6.1** · High effort · worker working, draft PR #669 · CI 6 of 7 passed · last move 38 min ago
+🟢 Team green · **GPT Sol 6.1** · High effort · worker working, draft PR #669 · CI 6 of 7 passed · last move 42 min ago
 
 **#6 · 1595** `G` Wire Team V study 1171: Club Assignment (redo train)  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · **GPT Sol 6.1** · High effort · worker working, draft PR #669 · CI 6 of 7 passed · last move 38 min ago
+🟢 Team green · **GPT Sol 6.1** · High effort · worker working, draft PR #669 · CI 6 of 7 passed · last move 42 min ago
 
 **#7 · 1596** `G` Wire Team V study 1172: Club Assignment (redo train)  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · **GPT Sol 6.1** · High effort · worker working, draft PR #669 · CI 6 of 7 passed · last move 38 min ago
+🟢 Team green · **GPT Sol 6.1** · High effort · worker working, draft PR #669 · CI 6 of 7 passed · last move 42 min ago
 
 **#8 · 1600** `G` Wire Team V study 1374: Rivalry Statistics sideways  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · **GPT Sol 6.1** · High effort · worker working, draft PR #668 · CI 6 of 7 passed · last move 58 min ago
+🟢 Team green · **GPT Sol 6.1** · High effort · worker working, draft PR #668 · CI 6 of 7 passed · last move 62 min ago
 
 **#9 · 1601** `G` Wire Team V study 1375: Rivalry Statistics tablet  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · **GPT Sol 6.1** · High effort · worker working, draft PR #668 · CI 6 of 7 passed · last move 58 min ago
+🟢 Team green · **GPT Sol 6.1** · High effort · worker working, draft PR #668 · CI 6 of 7 passed · last move 62 min ago
 
 **#10 · 1606** `G` Fix (verify first) audit 88: failed refresh shown as publish failure (Season Results)  
 `████░░░░░░` **40.0000 %**  
@@ -62,39 +62,39 @@ Updated Sun 11 Oct, 2:29 AM Boston time. Bug hunting only, no new features until
 
 **#12 · 1608** `G` Fix (verify first) audit 116: background read disables Shared Setup buttons  
 `████░░░░░░` **40.0000 %**  
-🔵 Team blue · **GPT-6 Sol** · High effort · worker working, draft PR #665 · CI 6 of 7 passed · last move 119 min ago
+🔵 Team blue · **GPT-6 Sol** · High effort · worker working, draft PR #665 · CI 6 of 7 passed · last move 2 h ago
 
 **#13 · 1622** `G` Study re-run (1139): Select League phone mockup, version A (faithful)  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · **GPT Sol 6.1** · High effort · worker working, draft PR #675 · CI 6 of 7 passed · last move 20 min ago
+🟢 Team green · **GPT Sol 6.1** · High effort · worker working, draft PR #675 · CI 6 of 7 passed · last move 24 min ago
 
 **#14 · 1623** `G` Study re-run (1140): Select League phone mockup, version B (bold hierarchy)  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · **GPT Sol 6.1** · High effort · worker working, draft PR #676 · CI 6 of 7 passed · last move 19 min ago
+🟢 Team green · **GPT Sol 6.1** · High effort · worker working, draft PR #676 · CI 6 of 7 passed · last move 24 min ago
 
 **#15 · 1624** `G` Study re-run (1141): Select League phone mockup, version C (compact)  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · **GPT Sol 6.1** · High effort · worker working, draft PR #677 · CI 6 of 7 passed · last move 19 min ago
+🟢 Team green · **GPT Sol 6.1** · High effort · worker working, draft PR #677 · CI 6 of 7 passed · last move 23 min ago
 
 **#16 · 1625** `G` Study re-run (1142): Select League sideways phone study  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · **GPT Sol 6.1** · High effort · worker working, draft PR #678 · CI 6 of 7 passed · last move 19 min ago
+🟢 Team green · **GPT Sol 6.1** · High effort · worker working, draft PR #678 · CI 6 of 7 passed · last move 23 min ago
 
 **#17 · 1626** `G` Study re-run (1143): Select League upright tablet study  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · **GPT Sol 6.1** · High effort · worker working, draft PR #679 · CI 6 of 7 passed · last move 19 min ago
+🟢 Team green · **GPT Sol 6.1** · High effort · worker working, draft PR #679 · CI 6 of 7 passed · last move 23 min ago
 
 **#18 · 1627** `G` Study re-run (1082): Home phone mockup, version B (bold hierarchy)  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · **GPT Sol 6.1** · High effort · worker working, draft PR #672 · CI 6 of 7 passed · last move 25 min ago
+🟢 Team green · **GPT Sol 6.1** · High effort · worker working, draft PR #672 · CI 6 of 7 passed · last move 29 min ago
 
 **#19 · 1628** `G` Study re-run (1083): Home phone mockup, version C (compact)  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · **GPT Sol 6.1** · High effort · worker working, draft PR #673 · CI 6 of 7 passed · last move 25 min ago
+🟢 Team green · **GPT Sol 6.1** · High effort · worker working, draft PR #673 · CI 6 of 7 passed · last move 29 min ago
 
 **#20 · 1629** `G` Study re-run (1084): Home sideways phone study  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · **GPT Sol 6.1** · High effort · worker working, draft PR #674 · CI 6 of 7 passed · last move 25 min ago
+🟢 Team green · **GPT Sol 6.1** · High effort · worker working, draft PR #674 · CI 6 of 7 passed · last move 29 min ago
 
 ### 👉 Next for you, in this order
 
@@ -425,7 +425,7 @@ Open code PRs: 0/8.
 
 ## Mega tracker (live, free)
 
-Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/index.html) · summary: [mega/MEGA_TRACKER.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/MEGA_TRACKER.md) · rebuilt by the poller each round, updated 2026-10-11T06:29:00Z.
+Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/index.html) · summary: [mega/MEGA_TRACKER.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/MEGA_TRACKER.md) · rebuilt by the poller each round, updated 2026-10-11T06:32:00Z.
 
 | Stage | Done (merged or live) | In progress | Waiting |
 | --- | --- | --- | --- |
