@@ -6,13 +6,11 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Sun 11 Oct, 7:22 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
-
-> ⚠ **Not fully current:** The Physio's own report is missing or older than 15 minutes; the check line comes straight from GitHub.
+Updated Sun 11 Oct, 7:38 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r70** (main `c8810b8`, Sun 11 Oct 12:28 AM)
 
-🩺 **All clear (from GitHub).** · POS20 #304 7/7
+🩺 **All clear: every check has a machine.** · POS20 #304 6/16
 
 ## Jobs
 
@@ -24,23 +22,23 @@ Updated Sun 11 Oct, 7:22 PM Boston time. Bug hunting only, no new features until
 
 **#2 · 1647** `G` Loading screen: wire the approved PHONE_LOADING and NEXT_LOADING pictures  
 `██████░░░░` **60.0000 %**  
-⚪ Team white · model not set · worker done, PR #689 open, CI failed · CI 13 of 16 passed · last move 40 min ago
+⚪ Team white · model not set · worker done, PR #689 open, CI failed · CI 13 of 16 passed · last move 56 min ago
 
 **#3 · 1648** `G` Old CSS: which old sheets and selectors are still live (report only)  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #690 · CI 7 of 8 passed · last move 63 min ago
+⚪ Team white · model not set · worker working, draft PR #690 · CI 7 of 8 passed · last move 79 min ago
 
 **#4 · 1651** `G` Flash guard: cover Season Results, Final Winner and Rivalry, and time tap feedback  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #692 · CI 7 of 8 passed · last move 48 min ago
+⚪ Team white · model not set · worker working, draft PR #692 · CI 7 of 8 passed · last move 63 min ago
 
 **#5 · 1652** `G` Settings › Motion: add a FULL MOTION choice  
 `████░░░░░░` **40.0000 %**  
-🔵 Team blue · model not set · worker working, draft PR #691 · CI 7 of 8 passed · last move 61 min ago
+🔵 Team blue · model not set · worker working, draft PR #691 · CI 7 of 8 passed · last move 77 min ago
 
 **#6 · 1653** `G` Reduced motion: stop the remaining Club script fades  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #693 · CI 7 of 8 passed · last move 32 min ago
+⚪ Team white · model not set · worker working, draft PR #693 · CI 7 of 8 passed · last move 48 min ago
 
 ### 👉 Next for you, in this order
 
@@ -619,7 +617,7 @@ Open code PRs: 5/8.
 
 ## Mega tracker (live, free)
 
-Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/index.html) · summary: [mega/MEGA_TRACKER.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/MEGA_TRACKER.md) · rebuilt by the poller each round, updated 2026-10-11T23:22:13Z.
+Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/index.html) · summary: [mega/MEGA_TRACKER.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/MEGA_TRACKER.md) · rebuilt by the poller each round, updated 2026-10-11T23:37:13Z.
 
 | Stage | Done (merged or live) | In progress | Waiting |
 | --- | --- | --- | --- |
