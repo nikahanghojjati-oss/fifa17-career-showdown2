@@ -248,17 +248,22 @@ check("F2 registry: kit, CSS, JS and prepare load once; mount on screen change, 
   assert.deepEqual(root.errors,[]);
 });
 
+// JOB-1635 C-1: a Team V sheet is switched off through its loaded CSSStyleSheet (link.sheet.disabled), never link.disabled,
+// because Chromium drops a disabled link's sheet and fetches it again on enable (labels blanked on every return to Home).
+// A link without a sheet yet is left alone, so link.disabled stays false for it.
+const sheetOff=link=>link.sheet?link.sheet.disabled===true:link.disabled===true;
+
 check("F3 Team V styles are on only while a mounted Team V screen is visible",async()=>{
   const root=await installed();
   const V=root.CareerModeV10Screens;
   V.register("dashboard",{css:["test/dash.css"],frame:()=>({}),mount(){},unmount(){}});
   const always=[V10.BASE+"shared/showdown-tokens.css",V10.BASE+V10.NAV.style,V10.NAV.shellStyle];
-  for(const file of always)assert.equal(linkFor(root,file).disabled,false,`${file} on with the bar`);
+  for(const file of always)assert.equal(sheetOff(linkFor(root,file)),false,`${file} on with the bar`);
   root.showScreen("dashboard");await flush();
-  for(const file of [...KIT_STYLES,V10.BASE+"test/dash.css"])assert.equal(linkFor(root,file).disabled,false,`${file} on while mounted`);
+  for(const file of [...KIT_STYLES,V10.BASE+"test/dash.css"])assert.equal(sheetOff(linkFor(root,file)),false,`${file} on while mounted`);
   root.showScreen("mainMenu");await flush();
-  for(const file of [...KIT_STYLES.filter(f=>!always.includes(f)),V10.BASE+"test/dash.css"])assert.equal(linkFor(root,file).disabled,true,`${file} off after leaving`);
-  for(const file of always)assert.equal(linkFor(root,file).disabled,false,`${file} stays on`);
+  for(const file of [...KIT_STYLES.filter(f=>!always.includes(f)),V10.BASE+"test/dash.css"])assert.equal(sheetOff(linkFor(root,file)),true,`${file} off after leaving`);
+  for(const file of always)assert.equal(sheetOff(linkFor(root,file)),false,`${file} stays on`);
 });
 
 check("F3b a stylesheet toggled while loading is never dropped; it ends with the wanted state and its sheet",async()=>{
@@ -273,12 +278,12 @@ check("F3b a stylesheet toggled while loading is never dropped; it ends with the
   root.showScreen("seasonEntry");await flush();
   for(const file of kit){const link=linkFor(root,file);assert.equal(link.dropped,false,`${file} not dropped by a screen change`);assert.equal(link.disabled,false,`${file} left alone while loading`);}
   doc.settleLinks();await flush();
-  for(const file of kit){const link=linkFor(root,file);assert.ok(link.sheet,`${file} loaded`);assert.equal(link.disabled,true,`${file} off once loaded: no Team V screen shows`);}
+  for(const file of kit){const link=linkFor(root,file);assert.ok(link.sheet,`${file} loaded`);assert.equal(sheetOff(link),true,`${file} off once loaded: no Team V screen shows`);}
   while(doc.pendingLinks.length){doc.settleLinks();await flush();}
   root.showScreen("dashboard");await flush();
   while(doc.pendingLinks.length){doc.settleLinks();await flush();}
   assert.equal(V.isMounted("dashboard"),true);
-  for(const file of [...kit,V10.BASE+"test/dash.css"]){const link=linkFor(root,file);assert.equal(link.dropped,false,file);assert.ok(link.sheet,`${file} sheet loaded`);assert.equal(link.disabled,false,`${file} on while shown`);}
+  for(const file of [...kit,V10.BASE+"test/dash.css"]){const link=linkFor(root,file);assert.equal(link.dropped,false,file);assert.ok(link.sheet,`${file} sheet loaded`);assert.equal(sheetOff(link),false,`${file} on while shown`);}
   assert.deepEqual(root.errors,[]);
 });
 
@@ -294,7 +299,7 @@ check("F3c a Team V screen that is still loading keeps Team V's page look: no ol
   root.showScreen("transferChallenge");await flush();
   assert.equal(V.isMounted("transferChallenge"),false,"still loading");
   assert.equal(html.dataset.v10Screen,"transferChallenge","the loading screen keeps html[data-v10-screen] (css/v10Shell.css header, footer and page base)");
-  for(const file of KIT_STYLES)assert.equal(linkFor(root,file).disabled,false,`${file} stays on while the next Team V screen loads`);
+  for(const file of KIT_STYLES)assert.equal(sheetOff(linkFor(root,file)),false,`${file} stays on while the next Team V screen loads`);
   release();await flush();
   assert.equal(V.isMounted("transferChallenge"),true);
   assert.equal(html.dataset.v10Screen,"transferChallenge");
@@ -730,17 +735,17 @@ check("F13 job 13's Career Statistics and Trophy Room run on the registry and sh
   assert.equal(root.boots[1][1],root.boots[0][1],"same frame");
   assert.notEqual(root.document.getElementById("careerStatistics").innerHTML,"<p>legacy</p>","no legacy markup left in a V10 host");
   assert.equal(V.isMounted("careerStatistics"),true);
-  assert.equal(linkFor(root,V10.BASE+"career-statistics/career-statistics.css").disabled,false);
+  assert.equal(sheetOff(linkFor(root,V10.BASE+"career-statistics/career-statistics.css")),false);
   root.showScreen("trophyRoom");await flush();
   assert.equal(V.isMounted("careerStatistics"),false);
-  assert.equal(linkFor(root,V10.BASE+"career-statistics/career-statistics.css").disabled,true);
+  assert.equal(sheetOff(linkFor(root,V10.BASE+"career-statistics/career-statistics.css")),true);
   assert.equal(await CS.mount("trophyRoom",()=>model),true);
   assert.deepEqual(root.boots.at(-1),["trophyRoom",JSON.stringify(Node10.toV10Frame(model,"trophyRoom"))]);
   assert.equal(root.document.getElementById("careerStatistics"),null,"one Team V stage at a time, as in job 13");
   assert.equal(typeof root.renderTrophyRoom,"function");assert.equal(root.renderTrophyRoom.careerScreensV10,true);
   root.showScreen("mainMenu");await flush();
   assert.equal(V.isMounted("trophyRoom"),false);
-  for(const file of [...KIT_STYLES.slice(1),V10.BASE+"trophy-room/trophy-room.css"])assert.equal(linkFor(root,file).disabled,true,file);
+  for(const file of [...KIT_STYLES.slice(1),V10.BASE+"trophy-room/trophy-room.css"])assert.equal(sheetOff(linkFor(root,file)),true,file);
   root.showScreen("trophyRoom");await flush();
   assert.equal(root.boots.length,4,"returning to the screen draws it again");
   const loads=root.scripts.filter(s=>/career-v10-trophy-room|career-v10-career-statistics/.test(s));

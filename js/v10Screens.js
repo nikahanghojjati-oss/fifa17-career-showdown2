@@ -42,6 +42,12 @@
   // path as the Home tiles); the rest through navigateTo. "career" is the Showdown's live step.
   const ROUTES=Object.freeze({home:"mainMenu",career:"career",standings:"dashboard",stats:"careerStatistics",rules:"ruleBook",settings:"settings"});
   const OPTIONAL_SCREENS=Object.freeze(["careerStatistics","statistics","trophyRoom","legacy","ruleBook","settings"]);
+  // JOB-1635: screens whose Team V file registers only after the app shows them (their module loads on demand). They are
+  // expect()ed from the first frame, so the old header, page and footer never paint while that file is still on its way.
+  const LAZY_V10_SCREENS=Object.freeze(["careerStatistics","statistics","trophyRoom","legacy","ruleBook"]);
+  const DECODE_TIMEOUT_MS=1500;
+  const REVEAL_MS=220;
+  const TAP_GUARD_MS=350;
   const ALWAYS_ON=Object.freeze([BASE+KIT.styles[0],BASE+NAV.style,NAV.shellStyle]);
 
   const registry=new Map();
@@ -129,7 +135,7 @@
     entry.ready=new Promise(resolve=>{
       let timer=null;
       // The timeout releases the screen, but a link whose sheet is still null is still loading: it stays unsettled (left
-      // alone) until it really loads or errors. Listeners stay on: a re-enabled link Chromium fetches again settles the same way.
+      // alone) until it really loads or errors. The sync runs in the load handler itself, so an unwanted sheet is off before paint.
       const done=real=>{if(timer!==null)root.clearTimeout(timer);timer=null;if(real||link.sheet!==null)entry.settled=true;vsSyncStyles();if(resolve)resolve(true);resolve=null;};
       link.addEventListener("load",()=>done(true));link.addEventListener("error",()=>done(true));
       timer=root.setTimeout(()=>done(false),STYLE_TIMEOUT_MS);
@@ -164,6 +170,33 @@
     return screenLoads.get(id);
   }
 
+  // JOB-1635: pictures a Team V screen adds after its reveal are held at opacity 0 (css/v10Shell.css img[data-v10-decoding])
+  // until they are decoded, then shown. One observer per mounted host; it stops when the screen unmounts.
+  const imageWatchers=new Map();
+  function vsHoldImage(img){
+    if(!img||!img.dataset||img.dataset.v10Decoding==="1"||(img.complete&&img.naturalWidth>0)||!(img.currentSrc||img.src||img.getAttribute("srcset")))return;
+    img.dataset.v10Decoding="1";
+    const release=()=>{if(img.dataset)delete img.dataset.v10Decoding;};
+    const settled=typeof img.decode==="function"?img.decode().catch(()=>false):new Promise(resolve=>{img.addEventListener("load",()=>resolve(true),{once:true});img.addEventListener("error",()=>resolve(false),{once:true});});
+    Promise.race([settled,new Promise(resolve=>root.setTimeout(resolve,DECODE_TIMEOUT_MS))]).then(release,release);
+  }
+  function vsWatchImages(id,host){
+    if(imageWatchers.has(id)||typeof root.MutationObserver!=="function"||!host||typeof host.querySelectorAll!=="function")return;
+    const observer=new root.MutationObserver(records=>{
+      for(const record of records){
+        if(record.type==="attributes"){if(record.target.tagName==="IMG")vsHoldImage(record.target);continue;}
+        for(const node of record.addedNodes){
+          if(!node||node.nodeType!==1)continue;
+          if(node.tagName==="IMG")vsHoldImage(node);
+          else if(typeof node.querySelectorAll==="function")node.querySelectorAll("img").forEach(vsHoldImage);
+        }
+      }
+    });
+    observer.observe(host,{subtree:true,childList:true,attributes:true,attributeFilter:["src","srcset"]});
+    imageWatchers.set(id,observer);
+  }
+  function vsUnwatchImages(id){const observer=imageWatchers.get(id);if(observer){observer.disconnect();imageWatchers.delete(id);}}
+
   // ---- screens ----
   const vsActiveScreen=()=>typeof root.getActiveScreenName==="function"?root.getActiveScreenName()||null:null;
   function vsHost(id){const doc=vsDoc();return doc?doc.getElementById(id):null;}
@@ -182,8 +215,9 @@
       if(!entry.settled)continue;
       let on=ALWAYS_ON.includes(file);
       if(!on&&live.length)on=KIT.styles.some(kit=>BASE+kit===file)||live.some(def=>def.css.some(css=>BASE+css===file));
-      // Chromium drops a disabled link's sheet and fetches it again when it is enabled: it is loading again until it settles.
-      if(link.disabled!==!on){link.disabled=!on;if(on&&link.sheet===null)entry.settled=false;}
+      // JOB-1635 C-1: only the loaded CSSStyleSheet is toggled, never link.disabled. Chromium drops a disabled link's sheet and
+      // fetches it again on enable, which blanked Home's tile and tab labels for about 100 ms on every return. A link that
+      // errored has no sheet and nothing to toggle (js/rulesSettingsV10.js does the same for its own glue sheet).
       if(link.sheet&&link.sheet.disabled!==!on)link.sheet.disabled=!on;
     }
   }
@@ -206,18 +240,38 @@
     const state=mounted.get(id);
     if(!state)return;
     mounted.delete(id);
+    vsUnwatchImages(id);
     const def=registry.get(id);
     if(def&&def.unmount){try{def.unmount(state.host);}catch(error){vsReport("Team V screen could not close",error);}}
   }
   // The app draws its own screen at once and Team V's look mounts only after its files load. expect(id) keeps the
   // host's own content invisible meanwhile (css/v10Shell.css [data-v10-pending]); show() ends it on every outcome
   // (mounted, null frame, not shown, load error) and STYLE_TIMEOUT_MS ends it anyway, so the app's screen is never lost.
-  function vsSettle(id){
+  function vsSettle(id,reveal=false){
     const entry=pending.get(id);
     if(!entry)return;
     pending.delete(id);root.clearTimeout(entry.timer);
-    if(entry.host.dataset)delete entry.host.dataset.v10Pending;
+    if(entry.host.dataset){
+      delete entry.host.dataset.v10Pending;
+      // One short reveal for every Team V screen (css/v10Shell.css [data-v10-reveal]); reduced motion makes it instant.
+      if(reveal){entry.host.dataset.v10Reveal="1";root.setTimeout(()=>{if(entry.host.dataset&&entry.host.dataset.v10Reveal==="1"&&!pending.has(id))delete entry.host.dataset.v10Reveal;},REVEAL_MS+60);}
+    }
     vsSyncStyles();
+  }
+  // JOB-1635: a screen's pictures are decoded before it is revealed, so artwork never paints half-loaded or at low resolution in
+  // front of the player. Capped: a slow network never holds the screen longer than DECODE_TIMEOUT_MS.
+  async function vsDecodeImages(host){
+    if(!host||typeof host.querySelectorAll!=="function")return false;
+    // One frame first: an <img> inside <picture> has no currentSrc until the browser has picked its source.
+    await new Promise(resolve=>typeof root.requestAnimationFrame==="function"?root.requestAnimationFrame(()=>resolve()):root.setTimeout(resolve,0));
+    const waits=[];
+    for(const img of host.querySelectorAll("img")){
+      if(!img||(img.complete&&img.naturalWidth>0)||!(img.currentSrc||img.src))continue;
+      if(typeof img.decode==="function")waits.push(img.decode().catch(()=>false));
+      else waits.push(new Promise(resolve=>{img.addEventListener("load",()=>resolve(true),{once:true});img.addEventListener("error",()=>resolve(false),{once:true});}));
+    }
+    if(!waits.length)return false;
+    return Promise.race([Promise.all(waits).then(()=>true),new Promise(resolve=>root.setTimeout(()=>resolve(false),DECODE_TIMEOUT_MS))]);
   }
   function vsExpect(id){
     const host=vsHost(id);
@@ -230,6 +284,7 @@
   }
   // Draws a registered screen if the app is showing it. A null frame keeps the app's own screen.
   async function vsShow(id){
+    let revealed=false;
     try{
       const def=registry.get(id);
       if(!def)return false;
@@ -239,14 +294,21 @@
       if(frame===null||frame===undefined){vsUnmount(id);vsSyncStyles();return false;}
       const current=mounted.get(id);
       if(current&&current.frame===frame&&current.host===host&&host.isConnected!==false)return true;
+      // A screen drawn for the first time (or drawn again) keeps its content invisible until its pictures are decoded, then
+      // reveals once; a screen the app did not expect() gets that pending state here.
+      if(!current&&!pending.has(id)&&host.dataset){host.dataset.v10Pending="1";pending.set(id,{host,timer:root.setTimeout(()=>vsSettle(id),STYLE_TIMEOUT_MS)});}
       // Styles first, then mount: Team V's layout code measures a container its own CSS already sizes.
       mounted.set(id,{frame,host});
       vsSyncStyles();
+      // The picture watcher is on before mount, so every picture Team V's mount or boot adds (now or later) is held until decoded.
+      vsWatchImages(id,host);
       try{def.mount(frame,host);}
-      catch(error){if(mounted.get(id)?.frame===frame)mounted.delete(id);vsSyncStyles();throw error;}
+      catch(error){if(mounted.get(id)?.frame===frame){mounted.delete(id);vsUnwatchImages(id);}vsSyncStyles();throw error;}
       vsSyncStyles();
+      // Still pending (content invisible) while the pictures decode; the reveal below starts only once they are ready.
+      if(pending.has(id)){await vsDecodeImages(host);if(vsIsShown(id)&&mounted.get(id)?.frame===frame)revealed=true;}
       return true;
-    }finally{vsSettle(id);}
+    }finally{vsSettle(id,revealed);}
   }
   function vsHide(id){vsSettle(id);vsUnmount(id);vsSyncStyles();}
   // The app rewrote the screen's host (e.g. its old renderer ran): forget the drawn frame so the next show() draws
@@ -311,8 +373,10 @@
       const screen=vsActiveScreen();lastScreen=screen;
       for(const id of [...mounted.keys()])if(!vsIsShown(id))vsUnmount(id);
       const def=screen?registry.get(screen):null;
-      // expect() before the style sync, so the screen keeps Team V's look while it loads.
-      if(!(def&&def.auto&&vsExpect(screen)))vsSyncStyles();
+      // expect() before the style sync, so the screen keeps Team V's look while it loads (also for a screen whose Team V
+      // file has not registered yet: its module's show() or the style timeout settles it).
+      const expected=def?def.auto&&vsExpect(screen):screen&&LAZY_V10_SCREENS.includes(screen)&&vsExpect(screen);
+      if(!expected)vsSyncStyles();
       vsPaintNav(screen);
       if(def&&def.auto)vsShow(screen).catch(error=>vsReport("Team V screen could not load",error));
     }catch(error){vsReport("Team V screen could not update",error);}
@@ -343,10 +407,36 @@
       if(vsActiveScreen()!==lastScreen)vsOnScreenShown();
     }).observe(main,{subtree:true,attributes:true,attributeFilter:["class"]});
   }
+  // JOB-1635: a second tap for the same target while its navigation is still in flight joins that navigation instead of
+  // starting another (two shows, two renders). Synchronous results are returned untouched, so timing is unchanged.
+  function vsDedupe(name){
+    const fn=root[name];
+    if(typeof fn!=="function"||fn.v10Once===true)return;
+    const inflight=new Map();
+    const wrapped=function(target){
+      const key=String(target);
+      if(inflight.has(key))return inflight.get(key);
+      const result=fn.apply(this,arguments);
+      if(result&&typeof result.then==="function"){inflight.set(key,result);result.then(()=>inflight.delete(key),()=>inflight.delete(key));}
+      return result;
+    };
+    wrapped.v10Once=true;wrapped.original=fn;
+    root[name]=wrapped;
+  }
   function vsInstall(){
     if(installed||!vsDoc())return api;
     installed=true;
     vsHookShowScreen();
+    vsDedupe("navigateTo");vsDedupe("openOptionalModule");
+    // A Home tile ignores a repeat tap while its screen is still opening or settling (busy, or within TAP_GUARD_MS of the first
+    // tap): one tap, one navigation. Programmatic navigation is untouched.
+    vsDoc().addEventListener("click",event=>{
+      const tile=event.target&&typeof event.target.closest==="function"?event.target.closest("#mainMenu .menuTile"):null;
+      if(!tile||!tile.dataset)return;
+      const now=Date.now(),last=Number(tile.dataset.v10Tap||0);
+      if(tile.getAttribute("aria-busy")==="true"||(last&&now-last<TAP_GUARD_MS)){event.stopImmediatePropagation();event.preventDefault();return;}
+      tile.dataset.v10Tap=String(now);
+    },true);
     vsDoc().addEventListener(EVENT,vsOnScreenShown);
     vsWatchScreenClasses();
     vsWhenStarted(()=>{vsMountNav().catch(error=>{if(root.console&&typeof root.console.warn==="function")root.console.warn("[Career Mode Showdown] Navigation bar unavailable.",error);});});

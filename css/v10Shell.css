@@ -265,3 +265,30 @@ html[data-v10-tools] #legacy .legacyImportVerdict.blocked strong { color: #f0a49
 @media (max-width: 760px) and (orientation: portrait) and (max-height: 600px) {
   #careerStatistics.careerScreenV10 .phoneHub { top: calc(42% - 12px); grid-template-rows: 68px 44px minmax(0,1fr); }
 }
+
+/* JOB-1635: one short reveal for every Team V screen, driven from js/v10Screens.js (settle after the look is mounted and the
+   screen's pictures are decoded). The pending rule above holds the content at opacity 0; removing it and adding
+   [data-v10-reveal] in the same tick fades the content in from 0. Reduced motion (css/app.css html[data-motion-reduced]
+   and prefers-reduced-motion) shortens every transition to .001ms, so the swap is instant there. */
+[data-v10-reveal] > * { transition: opacity 220ms ease-out; }
+
+/* JOB-1635: REDUCED motion (Settings > Motion, or the device preference under FOLLOW DEVICE) is an instant swap or a fade of
+   at most 100 ms. Team V's motion.css reads this token for its reduced-motion fade (150 ms by default); the file stays frozen. */
+html[data-motion-reduced="true"] { --sd-duration-reduced: 90ms; }
+/* Team V's screen sheets set some motion with !important (the Trophy Room spotlight transition, Legacy's panel fades), which
+   outranks css/app.css's reduced-motion rule. Under REDUCED every Team V screen and the Settings overlay is instant (the #app id
+   outranks Team V's class chains); the token above still shortens Team V's own reduced fade where its JS reads it. */
+html[data-motion-reduced="true"] body #app *, html[data-motion-reduced="true"] body #app *::before, html[data-motion-reduced="true"] body #app *::after,
+html[data-motion-reduced="true"] body #settingsOverlay, html[data-motion-reduced="true"] body #settingsOverlay *,
+html[data-motion-reduced="true"] body #settingsOverlay *::before, html[data-motion-reduced="true"] body #settingsOverlay *::after {
+  animation-duration: .001ms !important; transition-duration: .001ms !important;
+}
+/* A picture added to a Team V screen after its reveal (Team V's own scripts draw some plates and wordmarks late) stays hidden until
+   it is decoded, then fades in; js/v10Screens.js marks it. */
+img[data-v10-decoding] { opacity: 0 !important; }
+/* Legacy and Career Statistics write their reduced-motion fades (150 ms, !important) against :is(html:has(#stage-root[...])) #stage-root.sd-motion-ready,
+   which counts two ids and three classes. The repeated #stage-root#stage-root below is deliberate: three ids outrank that chain. */
+html[data-motion-reduced="true"] body #app #stage-root#stage-root, html[data-motion-reduced="true"] body #app #stage-root#stage-root *,
+html[data-motion-reduced="true"] body #app #stage-root#stage-root *::before, html[data-motion-reduced="true"] body #app #stage-root#stage-root *::after {
+  animation-duration: .001ms !important; transition-duration: .001ms !important;
+}
