@@ -1,5 +1,5 @@
 {
-"updated": "2026-10-12T09:34:49Z",
+"updated": "2026-10-12T09:37:56Z",
 "total": 394,
 "next_free": 374,
 "highest_taken": 541,
@@ -418,18 +418,18 @@
 "states": {
 "live": 23,
 "merged": 2,
-"waiting": 42,
-"draft": 1
+"waiting": 41,
+"draft": 2
 },
 "reviews": {
 "ok": 0,
 "ok_notes": 0,
 "needs_changes": 0
 },
-"picked_up": 26,
-"worker_done": 26,
+"picked_up": 27,
+"worker_done": 27,
 "finished": 25,
-"pending_lead": 1,
+"pending_lead": 2,
 "wait_v": 0,
 "audit_batch": 0,
 "trouble": 0,
