@@ -624,3 +624,37 @@
     box-sizing: border-box;
   }
 }
+
+
+/* JOB-1103: every visible Connect Players keyboard control has a high-contrast
+   focus cue; the native radio paints focus on its visible step label. */
+#connectPlayersScreen :is(button,input:not([type="radio"]),select,textarea,a[href],[role="button"]):focus-visible {
+  outline:3px solid var(--cp-gold,#f0c84b) !important;
+  outline-offset:3px;
+  box-shadow:0 0 0 2px #07080a,0 0 0 5px rgb(240 200 75 / .35);
+}
+#connectPlayersScreen .connectPlayersTabs input[type="radio"]:focus-visible + span {
+  outline:3px solid var(--cp-gold,#f0c84b) !important;
+  outline-offset:-3px;
+  box-shadow:inset 0 0 0 1px #07080a;
+}
+
+/* Stop decorative motion only when the system or in-app preference requests it.
+   Normal pointer, touch and keyboard presentation keeps the existing timing. */
+@media (prefers-reduced-motion: reduce) {
+  #connectPlayersScreen *,#connectPlayersScreen *::before,#connectPlayersScreen *::after {
+    animation:none !important;
+    transition-duration:.01ms !important;
+    scroll-behavior:auto !important;
+  }
+}
+html[data-motion-reduced="true"] #connectPlayersScreen *,
+html[data-motion-reduced="true"] #connectPlayersScreen *::before,
+html[data-motion-reduced="true"] #connectPlayersScreen *::after,
+html[data-reduced-motion="true"] #connectPlayersScreen *,
+html[data-reduced-motion="true"] #connectPlayersScreen *::before,
+html[data-reduced-motion="true"] #connectPlayersScreen *::after {
+  animation:none !important;
+  transition-duration:.01ms !important;
+  scroll-behavior:auto !important;
+}
