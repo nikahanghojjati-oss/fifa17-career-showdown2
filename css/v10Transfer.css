@@ -208,3 +208,26 @@
   #transferChallenge .tw-host .phase-signing .action-row .privacy-note { display: none; }
   #transferChallenge .tw-host .phase-signing .action-row { justify-content: flex-end; }
 }
+
+/* JOB-1190: Transfer Challenge / Signing Entry keyboard controls, including
+   production fields adopted into the Team V stage, receive a high-contrast
+   focus ring without changing click or touch presentation. */
+#transferChallenge.tw-on :is(button, a, input, select, textarea, [role="button"], [role="tab"], [role="combobox"], [tabindex]):focus-visible {
+  outline: 3px solid #fff1b8;
+  outline-offset: 3px;
+  box-shadow: 0 0 0 2px #070604, 0 0 0 5px rgba(245, 197, 24, .55) !important;
+}
+
+/* Keep reduced-motion preferences effective even if Team V's frozen plate
+   loads its own animation and transition declarations before this adapter. */
+@media (prefers-reduced-motion: reduce) {
+  #transferChallenge.tw-on,
+  #transferChallenge.tw-on *,
+  #transferChallenge.tw-on *::before,
+  #transferChallenge.tw-on *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
