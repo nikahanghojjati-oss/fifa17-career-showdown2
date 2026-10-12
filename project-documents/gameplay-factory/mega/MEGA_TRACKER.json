@@ -1,5 +1,5 @@
 {
-"updated": "2026-10-12T02:49:30Z",
+"updated": "2026-10-12T02:51:00Z",
 "total": 552,
 "next_free": 187,
 "highest_taken": 536,
@@ -9,10 +9,9 @@
 "closed": 82,
 "ci_failed": 5,
 "ready": 10,
-"draft": 40,
+"draft": 41,
 "waiting": 228,
 "blocked": 1,
-"started": 1,
 "on_train": 4
 },
 "stages": {
@@ -53,9 +52,8 @@
 "states": {
 "closed": 37,
 "merged": 23,
-"draft": 3,
+"draft": 4,
 "blocked": 1,
-"started": 1,
 "waiting": 5
 }
 },
@@ -344,7 +342,7 @@
 "held_by_picture": {}
 },
 "rate": {
-"claimed_last_hour": 34,
+"claimed_last_hour": 33,
 "claimed_last_10min": 5,
 "merged_last_hour": 45
 },
@@ -385,9 +383,8 @@
 "states": {
 "merged": 86,
 "no_pr": 37,
-"wait_v": 3,
+"wait_v": 4,
 "blocked": 1,
-"started": 1,
 "waiting": 89,
 "audit_batch": 9
 },
@@ -397,10 +394,10 @@
 "needs_changes": 0
 },
 "picked_up": 137,
-"worker_done": 135,
+"worker_done": 136,
 "finished": 123,
 "pending_lead": 0,
-"wait_v": 3,
+"wait_v": 4,
 "audit_batch": 9,
 "trouble": 1,
 "closed": 0,
@@ -1514,13 +1511,6 @@
 }
 ],
 "events": [
-{
-"at": "2026-10-11T06:36:30Z",
-"item": 272,
-"job": 1459,
-"from": "draft",
-"to": "closed"
-},
 {
 "at": "2026-10-11T06:36:30Z",
 "item": 280,
@@ -3613,6 +3603,13 @@
 "job": 1431,
 "from": "waiting",
 "to": "started"
+},
+{
+"at": "2026-10-12T02:51:00Z",
+"item": 296,
+"job": 1431,
+"from": "started",
+"to": "draft"
 }
 ],
 "items": {
@@ -8306,12 +8303,19 @@
 "title": "Rule Book: phone mockup, version C (compact)",
 "mode": "study",
 "group": null,
-"state": "started",
+"pr": 718,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/718",
+"base": "study/mega-queue",
 "branch": "study/job-1431-rule-book-phone-c",
-"branch_sha": "8d9c1348105678ee8d08e20f13387e0b9be874bc",
-"no_pr_reason": "",
+"ci": "draft",
+"ci_sha": "a03fcd337ea070c764d6790f99596ce3dfa6b93c",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-12T02:50:32Z",
 "first_seen": "2026-10-12T02:49:30Z",
-"since": "2026-10-12T02:49:30Z"
+"since": "2026-10-12T02:51:00Z"
 },
 "297": {
 "job": 1193,

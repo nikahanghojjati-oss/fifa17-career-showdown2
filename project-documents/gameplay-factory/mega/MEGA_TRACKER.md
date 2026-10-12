@@ -1,9 +1,9 @@
-# Mega factory tracker · updated 2026-10-12T02:49:30Z
+# Mega factory tracker · updated 2026-10-12T02:51:00Z
 
 **Type now (83 free):** 302, 324, 330, 352, 358, 366, 368, 370, 374, 376, 378, 380, 382, 384, 386, 388, 390, 392, 394, 396, 398, 400, 402, 404, 406, 408, 410, 412, 414, 416, 418, 420, 422, 424, 426, 428, 430, 432, 434, 435, 436, 438, 440, 442, 444, 446, 448, 450, 452, 454, 456, 458, 460, 462, 464, 466, 468, 470, 472, 474, 476, 525, 527, 529, 531, 533, 535, 537, 538, 539, 540, 541, 542, 543, 544, 545, 546, 547, 548, 549, 550, 551, 552
 **Next free number:** 187 · **highest taken:** 536 of 552
 **Code PRs open:** 3 of 8 · area locks: club, career-screens, rules-settings, home, start-join, league, transfer, season-final
-**Rate:** 5 claimed in 10 min · 34 in 1 h · 45 merged in 1 h
+**Rate:** 5 claimed in 10 min · 33 in 1 h · 45 merged in 1 h
 
 **Finished (merged or live): 181 of 552**
 
@@ -13,10 +13,9 @@ State | count
 ✅ merged to staging branch | 136
 🚂 done, on the train branch, no PR yet | 4
 🟩 PR open, checks green, waiting for review | 10
-📝 draft PR, not checked yet | 40
+📝 draft PR, not checked yet | 41
 🟥 PR open, checks FAILED | 5
 🟧 blocked | 1
-🟦 started, no PR yet | 1
 ⚫ closed without merge | 82
 ⬜ waiting | 228
 
@@ -83,7 +82,7 @@ Stage | total | merged/live | in flight | waiting
 - 📝 **263** · Job 1220 · Season Results: text contrast · draft PR, not checked yet · [PR #716](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/716)
 - 🟧 **268** · Job 1430 · Rule Book: phone mockup, version B (bold hierarchy) · blocked
 - 📝 **274** · Job 1256 · Standings: phone mockup, version B (bold hierarchy) · draft PR, not checked yet · [PR #699](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/699)
-- 🟦 **296** · Job 1431 · Rule Book: phone mockup, version C (compact) · started, no PR yet
+- 📝 **296** · Job 1431 · Rule Book: phone mockup, version C (compact) · draft PR, not checked yet · [PR #718](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/718)
 - 🚂 **403** · Job 1356 · Rivalry Statistics: fix the 768x1024 view · done, on the train branch, no PR yet
 - 🚂 **411** · Job 1357 · Rivalry Statistics: fix the 1280x650 view · done, on the train branch, no PR yet
 - 🚂 **419** · Job 1358 · Rivalry Statistics: fix the 1366x768 view · done, on the train branch, no PR yet
@@ -103,6 +102,7 @@ Stage | total | merged/live | in flight | waiting
 
 ## Latest changes
 
+- 2026-10-12T02:51:00Z · 296 (Job 1431): started → draft
 - 2026-10-12T02:49:30Z · 296 (Job 1431): waiting → started
 - 2026-10-12T02:47:18Z · 173 (Job 1215): merged → live
 - 2026-10-12T02:47:18Z · 167 (Job 1128): merged → live
@@ -122,4 +122,3 @@ Stage | total | merged/live | in flight | waiting
 - 2026-10-12T02:47:18Z · 109 (Job 1067): merged → live
 - 2026-10-12T02:47:18Z · 101 (Job 1211): merged → live
 - 2026-10-12T02:47:18Z · 95 (Job 1124): merged → live
-- 2026-10-12T02:47:18Z · 93 (Job 1095): merged → live
