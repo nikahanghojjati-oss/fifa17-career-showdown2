@@ -24,10 +24,6 @@
  "jobs_note": "Polish wave tickets (ChatGPT chat). The queue thread keeps these two lists; a job moves to jobs_free when its area's wiring train is merged or closed. 1650 (service worker audit) and 1652 (Settings motion choice) are ChatGPT chat jobs from the 1635 follow-ups. 1654-1656 are second attempts on failed train PRs #687, #686, #684 (ChatGPT chat). 1654-1656 left the lists: Claude lane.",
  "work_waiting": [
   {
-   "job": 1646,
-   "note": "Sol 6.1 · High. After the Home train PR merges."
-  },
-  {
    "job": 1660,
    "note": "Sol 6.1 · High. After JOB-1654 (Rule Book fix, PR #687) merges."
   },
@@ -74,9 +70,7 @@
     1634
    ]
   ],
-  "after_home_merge": [
-   1646
-  ]
+  "after_home_merge": []
  },
  "work_extra": {
   "model": "Sol 6.1 · High",
@@ -110,5 +104,8 @@
   "optional": true,
   "source": "QUEUE_STATE.json sequence.ready_work_batches",
   "rule": "Optional: 3 independent Work mode numbers in one message, done one after another, stopping at the first problem. Singles stay available."
- }
+ },
+ "work_free_jobs": [
+  1646
+ ]
 }
