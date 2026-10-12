@@ -1273,6 +1273,14 @@
       ]
     },
     {
+      "path": "tests/contracts/chat-audit-showdown-ui-contracts.cjs",
+      "patterns": [
+        "^js/showdownUI\\.js$",
+        "^tests/contracts/chat\\-audit\\-showdown\\-ui\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
       "path": "tests/contracts/full-motion-honors-device-contracts.cjs",
       "patterns": [
         "^js/fullMotionHonor\\.js$",
