@@ -588,3 +588,39 @@
   overflow-wrap:anywhere;
  }
 }
+
+/* JOB-1102: touch-only Connect Players tap targets. The desktop mouse layout
+   keeps its existing spacing; Team V's start/join source remains frozen. */
+@media (pointer: coarse), (max-width: 760px) {
+  #connectPlayersScreen .connectPlayersTabs {
+    gap: 8px;
+    margin-right: 60px; /* 52px BACK control + 8px separation */
+  }
+  #connectPlayersScreen .connectPlayersTabs label {
+    box-sizing: border-box;
+    min-width: 44px;
+    min-height: 44px;
+  }
+  #connectPlayersScreen .connectPlayersTabs span {
+    box-sizing: border-box;
+    min-width: 44px;
+    min-height: 44px;
+  }
+  #connectPlayersScreen .menuButton,
+  #connectPlayersScreen .connectPlayersBack,
+  #connectPlayersScreen #connectPlayersSetup,
+  #connectPlayersScreen #persistentNikDanielPairPanel button {
+    box-sizing: border-box;
+    min-width: 44px;
+    min-height: 44px;
+  }
+  #connectPlayersScreen #persistentNikDanielPairPanel > div { gap: 8px; }
+  #connectPlayersScreen a[href],
+  #connectPlayersScreen [role="button"]:not(button) {
+    display: inline-flex;
+    align-items: center;
+    min-width: 44px;
+    min-height: 44px;
+    box-sizing: border-box;
+  }
+}
