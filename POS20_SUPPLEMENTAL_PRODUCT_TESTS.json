@@ -1271,6 +1271,14 @@
         "^tests/contracts/chat\\-audit\\-scoring\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/chat-audit-showdown-ui-contracts.cjs",
+      "patterns": [
+        "^js/showdownUI\\.js$",
+        "^tests/contracts/chat\\-audit\\-showdown\\-ui\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
