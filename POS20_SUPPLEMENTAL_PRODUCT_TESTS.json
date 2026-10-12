@@ -456,14 +456,6 @@
       ]
     },
     {
-      "path": "tests/contracts/chat-audit-save-library-foundation-a-contracts.cjs",
-      "patterns": [
-        "^js/saveLibraryFoundation\\.js$",
-        "^tests/contracts/chat\\-audit\\-save\\-library\\-foundation\\-a\\-contracts\\.cjs$",
-        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
-      ]
-    },
-    {
       "path": "tests/contracts/shared-setup-no-dropped-taps-contracts.cjs",
       "patterns": [
         "^js/productionSharedShowdownSetup\\.js$",
@@ -1296,6 +1288,14 @@
         "^js/ssjr\\.js$",
         "^service-worker\\.js$",
         "^tests/contracts/full-motion-honors-device-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/chat-audit-save-library-foundation-a-contracts.cjs",
+      "patterns": [
+        "^js/saveLibraryFoundation\\.js$",
+        "^tests/contracts/chat\\-audit\\-save\\-library\\-foundation\\-a\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
     }
