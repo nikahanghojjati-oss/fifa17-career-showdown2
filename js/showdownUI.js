@@ -154,6 +154,24 @@ function ensureActiveShowdownDeleteControl(){
     actions.appendChild(button);
 }
 
+/* Unsent private drafts (Season Results, Transfer Challenge, signing) are kept per rivalry on this device; deleting the Showdown removes them too. */
+function getShowdownDashboardDraftKeys(showdown){
+    const ids = [];
+    try{
+        const pair = window.CareerModePersistentNikDanielPair;
+        ids.push(showdown && showdown.sharedJourney && showdown.sharedJourney.rivalryId, pair && pair.getState && pair.getState().rivalryId);
+    }catch(_error){ /* the Showdown's own rivalry id is still used */ }
+    const keys = [];
+    for(const id of new Set(ids.filter(Boolean).map(String))){
+        for(let season = 1; season <= 10; season++){
+            for(const role of ["playerOne", "playerTwo"]){
+                keys.push(`cms.signingDraft.v1:${id}:${season}:${role}`, `cms.draft.v1:${id}:${season}:${role}:seasonResult`, `cms.draft.v1:${id}:${season}:${role}:transferGuess`);
+            }
+        }
+    }
+    return keys;
+}
+
 function deleteCurrentShowdownFromDashboard(){
     if(!currentShowdown && !hasSavedShowdown()){ return; }
     const saved = currentShowdown || loadSavedShowdown();
@@ -164,12 +182,14 @@ function deleteCurrentShowdownFromDashboard(){
         : `Delete "${name}" and all of its unfinished progress? This cannot be undone.`;
 
     if(!window.confirm(message)){ return; }
+    const draftKeys = getShowdownDashboardDraftKeys(saved);
     if(!clearSavedShowdown()){
         if(typeof window.showAppNotice === "function"){
             window.showAppNotice("The active showdown could not be deleted from browser storage.", "error");
         }
         return;
     }
+    draftKeys.forEach(key => removeStorageValue(key));
 
     if(typeof window.stopTransferTimerLoop === "function"){ window.stopTransferTimerLoop(); }
     if(typeof window.resetTransientSelectionOperations === "function"){ window.resetTransientSelectionOperations(); }
