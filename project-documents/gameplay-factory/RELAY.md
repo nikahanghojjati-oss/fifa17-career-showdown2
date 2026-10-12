@@ -1,17 +1,18 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-10-12 5:56 PM Boston time (EDT)
+[Back to the board](BOARD.md) · generated 2026-10-12 5:58 PM Boston time (EDT)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `08a8f20` (Mon 12 Oct 5:55 PM Boston time) · 95 messages · 26 hand-offs · 155 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `fe75d76` (Mon 12 Oct 5:57 PM Boston time) · 95 messages · 26 hand-offs · 156 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
 ### HO-026 · G → V · r75: phone, sideways and tablet in the exact desktop marble look (no glass)
 
-✅ Sent → ✅ **Delivered** → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 0 min after delivery
 
+- Mon 12 Oct 5:56 PM · Team V · Received · Cutouts: re-cut (V3) from the new marble phone plates so the light matches, faces checked against NEXT_*. Plan: per screen, a GPT ticket redraws the approved PHONE_<SCREEN> layout in the NEXT_<SCREEN> marble look (= PHONE_<SCREEN>_MARBLE mockup), then the 1610P cyan-box method makes the plate. First 3 samples: Home, Season Results, Final Winner.
 - Mon 12 Oct 5:55 PM · Team G · Sent
 - Mon 12 Oct 5:55 PM · relay Action · Delivered in full as a wake comment on PR #312
 

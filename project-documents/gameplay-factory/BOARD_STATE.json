@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-12 5:56 PM Boston time (EDT)",
+ "generated": "2026-10-12 5:58 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 95,
@@ -878,8 +878,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "08a8f20",
-  "head_boston": "Mon 12 Oct 5:55 PM",
+  "head": "fe75d76",
+  "head_boston": "Mon 12 Oct 5:57 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -1284,13 +1284,13 @@
     "from": "G",
     "to": "V",
     "title": "r75: phone, sideways and tablet in the exact desktop marble look (no glass)",
-    "stage": "DELIVERED",
+    "stage": "RECEIVED",
     "pct": 0.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-026_r75-phone-sideways-and-tablet-in-the-exa.md",
     "worker": "images",
-    "pickup_min": null,
-    "waiting_min": 1
+    "pickup_min": 0,
+    "waiting_min": null
    }
   ],
   "relay_ok": true
