@@ -1,0 +1,3349 @@
+{
+  "job": 1653,
+  "baselineCommit": "c49f823097acef21528a641a51c772f4b47a359a",
+  "method": "Real app, Home settled before Club, product render functions, document.getAnimations plus computed animation/transition durations and delays (including pseudo-elements), every requestAnimationFrame for at least 200 ms per stage. Both running and retained paused/finished effects are recorded. Mode set before loading the Club script. Unthrottled measurements; the flash guard separately repeats with 4x CPU throttle.",
+  "before": [
+    {
+      "viewport": {
+        "width": 393,
+        "height": 660
+      },
+      "mode": "REDUCE MOTION",
+      "stages": [
+        {
+          "stage": "ready",
+          "hits": []
+        },
+        {
+          "stage": "opening",
+          "hits": []
+        },
+        {
+          "stage": "manager-one",
+          "hits": [
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > div.rvFlap.plateDup:nth-of-type(5)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > svg:nth-of-type(2)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > svg:nth-of-type(3)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > svg:nth-of-type(1)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > svg:nth-of-type(5)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > div.rvHalf.rvHalfLeft.plateDup:nth-of-type(2)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > div.rvHalf.rvHalfRight.plateDup:nth-of-type(3)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > svg:nth-of-type(4)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > div.rvShockwave:nth-of-type(1)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > div.rvCrest:nth-of-type(4)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "strong#clubNameOne",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world",
+              "duration": 520,
+              "activeDuration": 520,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            }
+          ]
+        },
+        {
+          "stage": "manager-two",
+          "hits": [
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > div.rvFlap.plateDup:nth-of-type(5)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > svg:nth-of-type(2)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > svg:nth-of-type(3)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > svg:nth-of-type(1)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > svg:nth-of-type(5)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > div.rvHalf.rvHalfLeft.plateDup:nth-of-type(2)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > div.rvHalf.rvHalfRight.plateDup:nth-of-type(3)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > svg:nth-of-type(4)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > div.rvShockwave:nth-of-type(1)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > div.rvCrest:nth-of-type(4)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "strong#clubNameOne",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > div.rvFlap.plateDup:nth-of-type(5)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > svg:nth-of-type(2)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > svg:nth-of-type(3)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > svg:nth-of-type(1)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > svg:nth-of-type(5)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > div.rvHalf.rvHalfLeft.plateDup:nth-of-type(2)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > div.rvHalf.rvHalfRight.plateDup:nth-of-type(3)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > svg:nth-of-type(4)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > div.rvShockwave:nth-of-type(1)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > div.rvCrest:nth-of-type(4)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "strong#clubNameTwo",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world",
+              "duration": 520,
+              "activeDuration": 520,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            }
+          ]
+        },
+        {
+          "stage": "versus",
+          "hits": [
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > div.rvFlap.plateDup:nth-of-type(5)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > svg:nth-of-type(2)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > svg:nth-of-type(3)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > svg:nth-of-type(1)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > svg:nth-of-type(5)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > div.rvHalf.rvHalfLeft.plateDup:nth-of-type(2)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > div.rvHalf.rvHalfRight.plateDup:nth-of-type(3)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > svg:nth-of-type(4)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > div.rvShockwave:nth-of-type(1)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > div.rvCrest:nth-of-type(4)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "strong#clubNameOne",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > div.rvFlap.plateDup:nth-of-type(5)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > svg:nth-of-type(2)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > svg:nth-of-type(3)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > svg:nth-of-type(1)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > svg:nth-of-type(5)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > div.rvHalf.rvHalfLeft.plateDup:nth-of-type(2)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > div.rvHalf.rvHalfRight.plateDup:nth-of-type(3)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > svg:nth-of-type(4)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > div.rvShockwave:nth-of-type(1)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > div.rvCrest:nth-of-type(4)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "strong#clubNameTwo",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "section#clubWheelScreen > div.clubAssignmentShell:nth-of-type(5) > div.clubRevealArena:nth-of-type(4) > div.clubRevealArea > div.clubVs.sd-entered.is-vs-slamming:nth-of-type(2) > strong",
+              "duration": 360,
+              "activeDuration": 360,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "section#clubWheelScreen > div.clubAssignmentShell:nth-of-type(5) > div.clubRevealArena:nth-of-type(4) > div.clubRevealArea > div.clubVs.sd-entered.is-vs-slamming:nth-of-type(2) > span",
+              "duration": 360,
+              "activeDuration": 360,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "section#clubWheelScreen > div.clubAssignmentShell:nth-of-type(5) > div.clubRevealProgress.sd-entered:nth-of-type(2) > span.active:nth-of-type(4) > i.ring",
+              "duration": 360,
+              "activeDuration": 360,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            }
+          ]
+        },
+        {
+          "stage": "confirmation",
+          "hits": [
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > div.rvFlap.plateDup:nth-of-type(5)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > svg:nth-of-type(2)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > svg:nth-of-type(3)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > svg:nth-of-type(1)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > svg:nth-of-type(5)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > div.rvHalf.rvHalfLeft.plateDup:nth-of-type(2)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > div.rvHalf.rvHalfRight.plateDup:nth-of-type(3)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > svg:nth-of-type(4)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > div.rvShockwave:nth-of-type(1)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > div.rvCrest:nth-of-type(4)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "strong#clubNameOne",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > div.rvFlap.plateDup:nth-of-type(5)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > svg:nth-of-type(2)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > svg:nth-of-type(3)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > svg:nth-of-type(1)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > svg:nth-of-type(5)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > div.rvHalf.rvHalfLeft.plateDup:nth-of-type(2)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > div.rvHalf.rvHalfRight.plateDup:nth-of-type(3)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > svg:nth-of-type(4)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > div.rvShockwave:nth-of-type(1)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > div.rvCrest:nth-of-type(4)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "strong#clubNameTwo",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "section#clubWheelScreen > div.clubAssignmentShell:nth-of-type(5) > div.clubRevealProgress.sd-entered:nth-of-type(2) > span.active:nth-of-type(5) > i.ring",
+              "duration": 420,
+              "activeDuration": 420,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "section#clubWheelScreen > div.clubAssignmentShell:nth-of-type(5) > div.clubRevealProgress.sd-entered:nth-of-type(2) > span.active:nth-of-type(5)",
+              "duration": 420,
+              "activeDuration": 420,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#clubRivalryConfirmation",
+              "duration": 420,
+              "activeDuration": 420,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 393,
+        "height": 660
+      },
+      "mode": "FOLLOW DEVICE",
+      "stages": [
+        {
+          "stage": "ready",
+          "hits": []
+        },
+        {
+          "stage": "opening",
+          "hits": []
+        },
+        {
+          "stage": "manager-one",
+          "hits": [
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > div.rvFlap.plateDup:nth-of-type(5)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > svg:nth-of-type(2)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > svg:nth-of-type(3)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > svg:nth-of-type(1)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > svg:nth-of-type(5)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > div.rvHalf.rvHalfLeft.plateDup:nth-of-type(2)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > div.rvHalf.rvHalfRight.plateDup:nth-of-type(3)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > svg:nth-of-type(4)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > div.rvShockwave:nth-of-type(1)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > div.rvCrest:nth-of-type(4)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "strong#clubNameOne",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            }
+          ]
+        },
+        {
+          "stage": "manager-two",
+          "hits": [
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > div.rvFlap.plateDup:nth-of-type(5)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > svg:nth-of-type(2)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > svg:nth-of-type(3)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > svg:nth-of-type(1)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > svg:nth-of-type(5)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > div.rvHalf.rvHalfLeft.plateDup:nth-of-type(2)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > div.rvHalf.rvHalfRight.plateDup:nth-of-type(3)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > svg:nth-of-type(4)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > div.rvShockwave:nth-of-type(1)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > div.rvCrest:nth-of-type(4)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "strong#clubNameOne",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > div.rvFlap.plateDup:nth-of-type(5)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > svg:nth-of-type(2)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > svg:nth-of-type(3)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > svg:nth-of-type(1)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > svg:nth-of-type(5)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > div.rvHalf.rvHalfLeft.plateDup:nth-of-type(2)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > div.rvHalf.rvHalfRight.plateDup:nth-of-type(3)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > svg:nth-of-type(4)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > div.rvShockwave:nth-of-type(1)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > div.rvCrest:nth-of-type(4)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "strong#clubNameTwo",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            }
+          ]
+        },
+        {
+          "stage": "versus",
+          "hits": [
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > div.rvFlap.plateDup:nth-of-type(5)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > svg:nth-of-type(2)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > svg:nth-of-type(3)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > svg:nth-of-type(1)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > svg:nth-of-type(5)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > div.rvHalf.rvHalfLeft.plateDup:nth-of-type(2)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > div.rvHalf.rvHalfRight.plateDup:nth-of-type(3)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > svg:nth-of-type(4)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > div.rvShockwave:nth-of-type(1)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > div.rvCrest:nth-of-type(4)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "strong#clubNameOne",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > div.rvFlap.plateDup:nth-of-type(5)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > svg:nth-of-type(2)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > svg:nth-of-type(3)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > svg:nth-of-type(1)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > svg:nth-of-type(5)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > div.rvHalf.rvHalfLeft.plateDup:nth-of-type(2)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > div.rvHalf.rvHalfRight.plateDup:nth-of-type(3)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > svg:nth-of-type(4)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > div.rvShockwave:nth-of-type(1)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > div.rvCrest:nth-of-type(4)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "strong#clubNameTwo",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "section#clubWheelScreen > div.clubAssignmentShell:nth-of-type(5) > div.clubRevealArena:nth-of-type(4) > div.clubRevealArea > div.clubVs.sd-entered:nth-of-type(2)",
+              "duration": 150,
+              "activeDuration": 150,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "section#clubWheelScreen > div.clubAssignmentShell:nth-of-type(5) > div.clubRevealProgress.sd-entered:nth-of-type(2) > span.active:nth-of-type(4)",
+              "duration": 150,
+              "activeDuration": 150,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "section#clubWheelScreen > div.clubAssignmentShell:nth-of-type(5) > div.clubRevealArena:nth-of-type(4) > div.clubRevealArea > div.clubVs.sd-entered:nth-of-type(2)",
+              "duration": 150,
+              "activeDuration": 150,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "finished"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "section#clubWheelScreen > div.clubAssignmentShell:nth-of-type(5) > div.clubRevealProgress.sd-entered:nth-of-type(2) > span.active:nth-of-type(4)",
+              "duration": 150,
+              "activeDuration": 150,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "finished"
+            }
+          ]
+        },
+        {
+          "stage": "confirmation",
+          "hits": [
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > div.rvFlap.plateDup:nth-of-type(5)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > svg:nth-of-type(2)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > svg:nth-of-type(3)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > svg:nth-of-type(1)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > svg:nth-of-type(5)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > div.rvHalf.rvHalfLeft.plateDup:nth-of-type(2)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > div.rvHalf.rvHalfRight.plateDup:nth-of-type(3)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > svg:nth-of-type(4)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > div.rvShockwave:nth-of-type(1)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > div.rvCrest:nth-of-type(4)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "strong#clubNameOne",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > div.rvFlap.plateDup:nth-of-type(5)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > svg:nth-of-type(2)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > svg:nth-of-type(3)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > svg:nth-of-type(1)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > svg:nth-of-type(5)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > div.rvHalf.rvHalfLeft.plateDup:nth-of-type(2)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > div.rvHalf.rvHalfRight.plateDup:nth-of-type(3)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > svg:nth-of-type(4)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > div.rvShockwave:nth-of-type(1)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > div.rvCrest:nth-of-type(4)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "strong#clubNameTwo",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "section#clubWheelScreen > div.clubAssignmentShell:nth-of-type(5) > div.clubRevealProgress.sd-entered:nth-of-type(2) > span.active:nth-of-type(5)",
+              "duration": 150,
+              "activeDuration": 150,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#clubRivalryConfirmation",
+              "duration": 150,
+              "activeDuration": 150,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "section#clubWheelScreen > div.clubAssignmentShell:nth-of-type(5) > div.clubRevealProgress.sd-entered:nth-of-type(2) > span.active:nth-of-type(5)",
+              "duration": 150,
+              "activeDuration": 150,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "finished"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#clubRivalryConfirmation",
+              "duration": 150,
+              "activeDuration": 150,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "finished"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "mode": "REDUCE MOTION",
+      "stages": [
+        {
+          "stage": "ready",
+          "hits": []
+        },
+        {
+          "stage": "opening",
+          "hits": []
+        },
+        {
+          "stage": "manager-one",
+          "hits": [
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > div.rvFlap.plateDup:nth-of-type(5)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > svg:nth-of-type(2)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > svg:nth-of-type(3)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > svg:nth-of-type(1)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > svg:nth-of-type(5)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > div.rvHalf.rvHalfLeft.plateDup:nth-of-type(2)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > div.rvHalf.rvHalfRight.plateDup:nth-of-type(3)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > svg:nth-of-type(4)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > div.rvShockwave:nth-of-type(1)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > div.rvCrest:nth-of-type(4)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "strong#clubNameOne",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world",
+              "duration": 520,
+              "activeDuration": 520,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            }
+          ]
+        },
+        {
+          "stage": "manager-two",
+          "hits": [
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > div.rvFlap.plateDup:nth-of-type(5)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > svg:nth-of-type(2)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > svg:nth-of-type(3)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > svg:nth-of-type(1)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > svg:nth-of-type(5)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > div.rvHalf.rvHalfLeft.plateDup:nth-of-type(2)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > div.rvHalf.rvHalfRight.plateDup:nth-of-type(3)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > svg:nth-of-type(4)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > div.rvShockwave:nth-of-type(1)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > div.rvCrest:nth-of-type(4)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "strong#clubNameOne",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > div.rvFlap.plateDup:nth-of-type(5)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > svg:nth-of-type(2)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > svg:nth-of-type(3)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > svg:nth-of-type(1)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > svg:nth-of-type(5)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > div.rvHalf.rvHalfLeft.plateDup:nth-of-type(2)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > div.rvHalf.rvHalfRight.plateDup:nth-of-type(3)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > svg:nth-of-type(4)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > div.rvShockwave:nth-of-type(1)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > div.rvCrest:nth-of-type(4)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "strong#clubNameTwo",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world",
+              "duration": 520,
+              "activeDuration": 520,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            }
+          ]
+        },
+        {
+          "stage": "versus",
+          "hits": [
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > div.rvFlap.plateDup:nth-of-type(5)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > svg:nth-of-type(2)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > svg:nth-of-type(3)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > svg:nth-of-type(1)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > svg:nth-of-type(5)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > div.rvHalf.rvHalfLeft.plateDup:nth-of-type(2)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > div.rvHalf.rvHalfRight.plateDup:nth-of-type(3)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > svg:nth-of-type(4)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > div.rvShockwave:nth-of-type(1)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > div.rvCrest:nth-of-type(4)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "strong#clubNameOne",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > div.rvFlap.plateDup:nth-of-type(5)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > svg:nth-of-type(2)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > svg:nth-of-type(3)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > svg:nth-of-type(1)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > svg:nth-of-type(5)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > div.rvHalf.rvHalfLeft.plateDup:nth-of-type(2)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > div.rvHalf.rvHalfRight.plateDup:nth-of-type(3)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > svg:nth-of-type(4)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > div.rvShockwave:nth-of-type(1)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > div.rvCrest:nth-of-type(4)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "strong#clubNameTwo",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "section#clubWheelScreen > div.clubAssignmentShell:nth-of-type(5) > div.clubRevealArena:nth-of-type(4) > div.clubRevealArea > div.clubVs.sd-entered.is-vs-slamming:nth-of-type(2) > strong",
+              "duration": 360,
+              "activeDuration": 360,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "section#clubWheelScreen > div.clubAssignmentShell:nth-of-type(5) > div.clubRevealArena:nth-of-type(4) > div.clubRevealArea > div.clubVs.sd-entered.is-vs-slamming:nth-of-type(2) > span",
+              "duration": 360,
+              "activeDuration": 360,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "section#clubWheelScreen > div.clubAssignmentShell:nth-of-type(5) > div.clubRevealProgress.sd-entered:nth-of-type(2) > span.active:nth-of-type(4) > i.ring",
+              "duration": 360,
+              "activeDuration": 360,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            }
+          ]
+        },
+        {
+          "stage": "confirmation",
+          "hits": [
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > div.rvFlap.plateDup:nth-of-type(5)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > svg:nth-of-type(2)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > svg:nth-of-type(3)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > svg:nth-of-type(1)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > svg:nth-of-type(5)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > div.rvHalf.rvHalfLeft.plateDup:nth-of-type(2)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > div.rvHalf.rvHalfRight.plateDup:nth-of-type(3)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > svg:nth-of-type(4)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > div.rvShockwave:nth-of-type(1)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > div.rvCrest:nth-of-type(4)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "strong#clubNameOne",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > div.rvFlap.plateDup:nth-of-type(5)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > svg:nth-of-type(2)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > svg:nth-of-type(3)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > svg:nth-of-type(1)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > svg:nth-of-type(5)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > div.rvHalf.rvHalfLeft.plateDup:nth-of-type(2)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > div.rvHalf.rvHalfRight.plateDup:nth-of-type(3)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > svg:nth-of-type(4)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > div.rvShockwave:nth-of-type(1)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > div.rvCrest:nth-of-type(4)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "strong#clubNameTwo",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "section#clubWheelScreen > div.clubAssignmentShell:nth-of-type(5) > div.clubRevealProgress.sd-entered:nth-of-type(2) > span.active:nth-of-type(5) > i.ring",
+              "duration": 420,
+              "activeDuration": 420,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "section#clubWheelScreen > div.clubAssignmentShell:nth-of-type(5) > div.clubRevealProgress.sd-entered:nth-of-type(2) > span.active:nth-of-type(5)",
+              "duration": 420,
+              "activeDuration": 420,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#clubRivalryConfirmation",
+              "duration": 420,
+              "activeDuration": 420,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "mode": "FOLLOW DEVICE",
+      "stages": [
+        {
+          "stage": "ready",
+          "hits": []
+        },
+        {
+          "stage": "opening",
+          "hits": []
+        },
+        {
+          "stage": "manager-one",
+          "hits": [
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > div.rvFlap.plateDup:nth-of-type(5)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > svg:nth-of-type(2)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > svg:nth-of-type(3)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > svg:nth-of-type(1)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > svg:nth-of-type(5)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > div.rvHalf.rvHalfLeft.plateDup:nth-of-type(2)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > div.rvHalf.rvHalfRight.plateDup:nth-of-type(3)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > svg:nth-of-type(4)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > div.rvShockwave:nth-of-type(1)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > div.rvCrest:nth-of-type(4)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "strong#clubNameOne",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            }
+          ]
+        },
+        {
+          "stage": "manager-two",
+          "hits": [
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > div.rvFlap.plateDup:nth-of-type(5)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > svg:nth-of-type(2)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > svg:nth-of-type(3)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > svg:nth-of-type(1)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > svg:nth-of-type(5)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > div.rvHalf.rvHalfLeft.plateDup:nth-of-type(2)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > div.rvHalf.rvHalfRight.plateDup:nth-of-type(3)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > svg:nth-of-type(4)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > div.rvShockwave:nth-of-type(1)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > div.rvCrest:nth-of-type(4)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "strong#clubNameOne",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > div.rvFlap.plateDup:nth-of-type(5)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > svg:nth-of-type(2)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > svg:nth-of-type(3)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > svg:nth-of-type(1)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > svg:nth-of-type(5)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > div.rvHalf.rvHalfLeft.plateDup:nth-of-type(2)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > div.rvHalf.rvHalfRight.plateDup:nth-of-type(3)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > svg:nth-of-type(4)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > div.rvShockwave:nth-of-type(1)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > div.rvCrest:nth-of-type(4)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "strong#clubNameTwo",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            }
+          ]
+        },
+        {
+          "stage": "versus",
+          "hits": [
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > div.rvFlap.plateDup:nth-of-type(5)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > svg:nth-of-type(2)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > svg:nth-of-type(3)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > svg:nth-of-type(1)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > svg:nth-of-type(5)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > div.rvHalf.rvHalfLeft.plateDup:nth-of-type(2)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > div.rvHalf.rvHalfRight.plateDup:nth-of-type(3)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > svg:nth-of-type(4)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > div.rvShockwave:nth-of-type(1)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > div.rvCrest:nth-of-type(4)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "strong#clubNameOne",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > div.rvFlap.plateDup:nth-of-type(5)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > svg:nth-of-type(2)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > svg:nth-of-type(3)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > svg:nth-of-type(1)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > svg:nth-of-type(5)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > div.rvHalf.rvHalfLeft.plateDup:nth-of-type(2)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > div.rvHalf.rvHalfRight.plateDup:nth-of-type(3)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > svg:nth-of-type(4)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > div.rvShockwave:nth-of-type(1)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > div.rvCrest:nth-of-type(4)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "strong#clubNameTwo",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "section#clubWheelScreen > div.clubAssignmentShell:nth-of-type(5) > div.clubRevealArena:nth-of-type(4) > div.clubRevealArea > div.clubVs.sd-entered:nth-of-type(2)",
+              "duration": 150,
+              "activeDuration": 150,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "section#clubWheelScreen > div.clubAssignmentShell:nth-of-type(5) > div.clubRevealProgress.sd-entered:nth-of-type(2) > span.active:nth-of-type(4)",
+              "duration": 150,
+              "activeDuration": 150,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "section#clubWheelScreen > div.clubAssignmentShell:nth-of-type(5) > div.clubRevealArena:nth-of-type(4) > div.clubRevealArea > div.clubVs.sd-entered:nth-of-type(2)",
+              "duration": 150,
+              "activeDuration": 150,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "finished"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "section#clubWheelScreen > div.clubAssignmentShell:nth-of-type(5) > div.clubRevealProgress.sd-entered:nth-of-type(2) > span.active:nth-of-type(4)",
+              "duration": 150,
+              "activeDuration": 150,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "finished"
+            }
+          ]
+        },
+        {
+          "stage": "confirmation",
+          "hits": [
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > div.rvFlap.plateDup:nth-of-type(5)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > svg:nth-of-type(2)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > svg:nth-of-type(3)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > svg:nth-of-type(1)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > svg:nth-of-type(5)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > div.rvHalf.rvHalfLeft.plateDup:nth-of-type(2)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > div.rvHalf.rvHalfRight.plateDup:nth-of-type(3)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > svg:nth-of-type(4)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > div.rvShockwave:nth-of-type(1)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(4) > div.rvInner:nth-of-type(1) > div.rvCrest:nth-of-type(4)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "strong#clubNameOne",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > div.rvFlap.plateDup:nth-of-type(5)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > svg:nth-of-type(2)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > svg:nth-of-type(3)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > svg:nth-of-type(1)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > svg:nth-of-type(5)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > div.rvHalf.rvHalfLeft.plateDup:nth-of-type(2)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > div.rvHalf.rvHalfRight.plateDup:nth-of-type(3)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > svg:nth-of-type(4)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > div.rvShockwave:nth-of-type(1)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#world > div.reveal.on:nth-of-type(5) > div.rvInner:nth-of-type(1) > div.rvCrest:nth-of-type(4)",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "strong#clubNameTwo",
+              "duration": 600,
+              "activeDuration": 600,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "paused"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "section#clubWheelScreen > div.clubAssignmentShell:nth-of-type(5) > div.clubRevealProgress.sd-entered:nth-of-type(2) > span.active:nth-of-type(5)",
+              "duration": 150,
+              "activeDuration": 150,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#clubRivalryConfirmation",
+              "duration": 150,
+              "activeDuration": 150,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "running"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "section#clubWheelScreen > div.clubAssignmentShell:nth-of-type(5) > div.clubRevealProgress.sd-entered:nth-of-type(2) > span.active:nth-of-type(5)",
+              "duration": 150,
+              "activeDuration": 150,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "finished"
+            },
+            {
+              "source": "document.getAnimations",
+              "element": "div#clubRivalryConfirmation",
+              "duration": 150,
+              "activeDuration": 150,
+              "delay": 0,
+              "endDelay": 0,
+              "playState": "finished"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "after": [
+    {
+      "viewport": {
+        "width": 393,
+        "height": 660
+      },
+      "mode": "REDUCE MOTION",
+      "stages": [
+        {
+          "stage": "ready",
+          "hits": []
+        },
+        {
+          "stage": "opening",
+          "hits": []
+        },
+        {
+          "stage": "manager-one",
+          "hits": []
+        },
+        {
+          "stage": "manager-two",
+          "hits": []
+        },
+        {
+          "stage": "versus",
+          "hits": []
+        },
+        {
+          "stage": "confirmation",
+          "hits": []
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 393,
+        "height": 660
+      },
+      "mode": "FOLLOW DEVICE",
+      "stages": [
+        {
+          "stage": "ready",
+          "hits": []
+        },
+        {
+          "stage": "opening",
+          "hits": []
+        },
+        {
+          "stage": "manager-one",
+          "hits": []
+        },
+        {
+          "stage": "manager-two",
+          "hits": []
+        },
+        {
+          "stage": "versus",
+          "hits": []
+        },
+        {
+          "stage": "confirmation",
+          "hits": []
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "mode": "REDUCE MOTION",
+      "stages": [
+        {
+          "stage": "ready",
+          "hits": []
+        },
+        {
+          "stage": "opening",
+          "hits": []
+        },
+        {
+          "stage": "manager-one",
+          "hits": []
+        },
+        {
+          "stage": "manager-two",
+          "hits": []
+        },
+        {
+          "stage": "versus",
+          "hits": []
+        },
+        {
+          "stage": "confirmation",
+          "hits": []
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "mode": "FOLLOW DEVICE",
+      "stages": [
+        {
+          "stage": "ready",
+          "hits": []
+        },
+        {
+          "stage": "opening",
+          "hits": []
+        },
+        {
+          "stage": "manager-one",
+          "hits": []
+        },
+        {
+          "stage": "manager-two",
+          "hits": []
+        },
+        {
+          "stage": "versus",
+          "hits": []
+        },
+        {
+          "stage": "confirmation",
+          "hits": []
+        }
+      ]
+    }
+  ]
+}

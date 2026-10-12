@@ -13,6 +13,7 @@ const fs = require("node:fs");
 const path = require("node:path");
 const { chromium } = require("playwright");
 const { resolveChromiumRuntime } = require("../support/chromium-runtime.cjs");
+const { STAGES: CLUB_STAGES, prepareClub, measureStage } = require("../support/v10-club-motion.cjs");
 
 const baseUrl = new URL(process.env.CMS_BASE_URL || "http://127.0.0.1:4173/");
 const runLabel = process.env.CMS_AUDIT_RUN || "v10-screen-flash";
@@ -251,6 +252,71 @@ async function reducedMotionPass(page, viewportName){
     return problems;
 }
 
+async function clubReducedMotionPass(browser, report, pageErrors){
+    report.clubReducedMotion = [];
+    for(const viewport of [{ width: 393, height: 660 }, { width: 1280, height: 800 }]){
+        for(const mode of ["REDUCE MOTION", "FOLLOW DEVICE"]){
+            const label = `${viewport.width}x${viewport.height} Club ${mode}`;
+            const context = await browser.newContext({ viewport, serviceWorkers: "block", reducedMotion: mode === "FOLLOW DEVICE" ? "reduce" : "no-preference" });
+            try{
+                const page = await context.newPage();
+                page.on("pageerror", error => pageErrors.push(`${label}: ${error.message}`));
+                const cdp = await context.newCDPSession(page);
+                await cdp.send("Emulation.setCPUThrottlingRate", { rate: CPU_THROTTLE });
+                await page.goto(baseUrl.href, { waitUntil: "domcontentloaded" });
+                await waitForHome(page);
+                await prepareClub(page, mode === "REDUCE MOTION");
+                assert.equal(await page.evaluate(() => document.documentElement.dataset.motionReduced), "true", `${label}: effective reduced motion`);
+                const entry = { label, stages: [] };
+                const record = result => {
+                    entry.stages.push(result);
+                    if(result.hits.length) report.problems.push({ label: `${label} ${result.stage}`, screen: "clubWheelScreen", at: 0, reason: `motion over 100 ms: ${JSON.stringify(result.hits)}` });
+                };
+                for(const stage of CLUB_STAGES){
+                    record(await measureStage(page, stage));
+                    const appearance = await page.evaluate(() => {
+                        const ids = ["clubNameOne", "clubNameTwo", "clubRivalryConfirmation"];
+                        return ids.map(id => ({ id, text: document.getElementById(id).textContent.trim(), opacity: getComputedStyle(document.getElementById(id)).opacity }));
+                    });
+                    if(["manager-one", "manager-two", "versus", "confirmation"].includes(stage)){
+                        assert.equal(appearance[0].text, "Arsenal", `${label} ${stage}: Daniel's revealed club`);
+                        assert.equal(appearance[0].opacity, "1", `${label} ${stage}: Daniel's club settles visibly`);
+                    }
+                    if(["manager-two", "versus", "confirmation"].includes(stage)){
+                        assert.equal(appearance[1].text, "Chelsea", `${label} ${stage}: Nik's revealed club`);
+                        assert.equal(appearance[1].opacity, "1", `${label} ${stage}: Nik's club settles visibly`);
+                    }
+                    if(stage === "confirmation") assert.equal(appearance[2].opacity, "1", `${label}: confirmation stays visible`);
+                }
+                // Both Team V's own resize handler and the glue's measured relayout
+                // rebuild script effects. They must still settle under reduced motion.
+                await page.setViewportSize({ width: viewport.width - 1, height: viewport.height });
+                record({ ...await measureStage(page, null), trigger: "resize" });
+                if(mode === "REDUCE MOTION"){
+                    await page.evaluate(() => window.setApplicationReducedMotionPreference(false));
+                    await measureStage(page, "ready");
+                    const normal = await measureStage(page, "manager-one");
+                    assert.ok(normal.hits.some(hit => hit.source === "document.getAnimations" && hit.playState === "running"), `${label}: normal Club motion remains enabled`);
+                    entry.normalMotionControl = normal;
+                    await page.evaluate(() => window.setApplicationReducedMotionPreference(true));
+                }else{
+                    await page.emulateMedia({ reducedMotion: "no-preference" });
+                    await page.waitForFunction(() => document.documentElement.dataset.motionReduced === "false");
+                    await measureStage(page, "ready");
+                    await measureStage(page, "manager-one");
+                    await page.emulateMedia({ reducedMotion: "reduce" });
+                    await page.waitForFunction(() => document.documentElement.dataset.motionReduced === "true");
+                }
+                record({ ...await measureStage(page, null), trigger: "live preference change" });
+                report.clubReducedMotion.push(entry);
+                console.log(`${entry.stages.some(s => s.hits.length) ? "FAIL" : "ok  "} ${label}: all 6 reveal stages, resize and live preference change`);
+            }finally{
+                await context.close();
+            }
+        }
+    }
+}
+
 (async () => {
     const runtime = await resolveChromiumRuntime();
     const browser = await chromium.launch({ headless: true, executablePath: runtime.executablePath, args: runtime.args });
@@ -290,6 +356,7 @@ async function reducedMotionPass(page, viewportName){
             report.viewports.push(summary);
             await context.close();
         }
+        await clubReducedMotionPass(browser, report, pageErrors);
     }finally{
         await browser.close();
     }
