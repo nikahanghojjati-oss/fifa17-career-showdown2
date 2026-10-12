@@ -52,6 +52,8 @@ class Ctx:
         self.repo = repo
         self.et = {}          # path -> (etag, data)
         self.prs = {}         # number -> PR object from the list endpoint
+        self.live_hit = {}    # PR number -> release label whose head contains its merge commit
+        self.live_miss = {}   # PR number -> release number it was last checked against (recheck only when a newer release exists)
         self.last_pr_scan = None
         self.reviewed = set()
         self.verdicts = {}    # PR number -> ok / ok_notes / needs_changes (from the "Sol review" comment)
@@ -236,6 +238,24 @@ def run_round(a, ctx):
             break
     ctx.last_pr_scan = scan_start - datetime.timedelta(seconds=120)
     prs = list(ctx.prs.values())
+    releases = sorted((p for p in prs if p["base"]["ref"] == "main" and p.get("merged_at") and re.match(r"\s*Release r\d+", p["title"])), key=lambda p: p["merged_at"])
+    def live_in(pr):
+        """Release label when this merged PR's merge commit is an ancestor of a release PR's head (the same test RELEASED.json uses), else None."""
+        n, msha = pr["number"], pr.get("merge_commit_sha")
+        if n in ctx.live_hit: return ctx.live_hit[n]
+        if not msha: return None
+        later = [r for r in releases if r["merged_at"] >= pr["merged_at"]]
+        if not later or ctx.live_miss.get(n) == later[-1]["number"]: return None
+        for r in later:
+            try:
+                st = gh(f"repos/{a.repo}/compare/{msha}...{r['head']['sha']}").get("status")
+            except (Exception, SystemExit):
+                st = None
+            if st in ("ahead", "identical"):
+                ctx.live_hit[n] = re.match(r"\s*Release (r\d+)", r["title"]).group(1)
+                return ctx.live_hit[n]
+        ctx.live_miss[n] = later[-1]["number"]
+        return None
     by_job = {}
     for p in prs:
         m = re.match(r"\s*JOB-(\d{4})\b", p["title"]) or re.match(r"(?:qa|gameplay|study)/job-(\d{4})-", p["head"]["ref"])
@@ -274,9 +294,10 @@ def run_round(a, ctx):
         it.update(pr=n, pr_url=pr["html_url"], base=pr["base"]["ref"], branch=pr["head"]["ref"])
         if pr.get("merged_at"):
             # code jobs merge into gameplay/bug-list-1 first; they are live once RELEASED.json names their release
-            it["state"] = "live" if (pr["base"]["ref"] == "main" or job in released) else "merged"
+            rel = None if pr["base"]["ref"] == "main" or job in released else live_in(pr)
+            it["state"] = "live" if (pr["base"]["ref"] == "main" or job in released or rel) else "merged"
             if it["state"] == "live":
-                it["live_in"] = released.get(job, "next release")
+                it["live_in"] = released.get(job) or rel or "next release"
             it["merged_at"] = pr["merged_at"]
         elif pr["state"] == "closed":
             it["state"] = "closed"
