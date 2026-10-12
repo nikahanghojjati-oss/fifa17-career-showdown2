@@ -448,4 +448,23 @@ function runApplicationDiagnostics(){
     return result;
 }
 
+/* Unsent private drafts (Season Results, Transfer Challenge, signing) are kept per rivalry on this device. Deleting or resetting
+   Showdown data sweeps every draft key of both prefixes for every rivalry, so orphans from older deletions go too. This file and
+   storage.js are the only places allowed to touch localStorage, and storage.js is a startup file that must not grow. */
+function clearAllShowdownDraftKeys(){
+    const prefixes = ["cms.draft.v1:", "cms.signingDraft.v1:"];
+    try{
+        const keys = [];
+        for(let index = 0; index < localStorage.length; index++){
+            const key = localStorage.key(index);
+            if(typeof key === "string" && prefixes.some(prefix => key.startsWith(prefix))){ keys.push(key); }
+        }
+        keys.forEach(key => localStorage.removeItem(key));
+        return true;
+    }catch(_error){
+        return false;
+    }
+}
+
 window.runApplicationDiagnostics = runApplicationDiagnostics;
+window.clearAllShowdownDraftKeys = clearAllShowdownDraftKeys;
