@@ -81,9 +81,8 @@ a{color:inherit}
 <div class="card next"><h2>TYPE NEXT <span class="mut" style="text-transform:none;letter-spacing:0">one number per message</span></h2>
 <div class="twobox">
 <div class="tbox"><h3>ChatGPT chat · TYPE NEXT <span class="mut" style="text-transform:none">(GPT-6 Sol)</span></h3><button class="num" id="cfirst">-</button><div class="lbl">Then, in this order:</div><div class="chips small" id="cnext"></div></div>
-<div class="tbox"><h3>Work mode · TYPE NEXT <span class="mut" style="text-transform:none">(Sol 6.1 · High)</span></h3><button class="num" id="first">-</button><div class="lbl">Then, in this order:</div><div class="chips small" id="wk"></div></div>
+<div class="tbox"><h3>Work mode · TYPE NEXT <span class="mut" style="text-transform:none">(Sol 6.1 · High)</span></h3><button class="num" id="first">-</button><div class="lbl">Screen jobs first, then studies. Then, in this order:</div><div class="chips small" id="wk"></div></div>
 </div>
-<div class="lbl" id="wkw" style="margin-top:6px"></div>
 <div class="col" id="cdcol" style="margin-top:14px"><h3>Claude is doing · nothing to type</h3><div id="cdo"></div></div>
 <div style="display:none"><div class="chips" id="tb"></div><div id="tbcol"></div></div>
 <div class="lbl" style="margin-top:8px" id="sentbox"></div><div class="lbl" style="margin-top:8px" id="nxtnote"></div>
@@ -91,7 +90,7 @@ a{color:inherit}
 <div class="lbl" id="topnote" style="margin-top:6px"><b>Top = most important.</b> Boxes are in the lead's order. <span id="nextrel"></span></div>
 <div class="col" style="margin-top:10px"><h3>All Work mode studies, in order</h3><div class="chips" id="wkall"></div></div>
 <div class="col" id="wbcol" style="margin-top:10px;display:none"><h3>Work mode batches (optional) · 3 numbers in one message · tap to copy</h3><div class="chips" id="wkb"></div><div class="lbl" id="wkbl"></div></div>
-<div id="tbe" class="lbl"></div></details>
+<div class="col" style="margin-top:10px"><h3>Not free yet (waiting for a PR to merge)</h3><div class="lbl" id="wkw" style="margin-top:6px"></div></div><div id="tbe" class="lbl"></div></details>
 <div style="display:none"><b id="rt"></b><span id="held"></span><b id="bsz"></b><span id="bst"></span><span id="bmx"></span><div class="cols"><div class="chips" id="odd"></div><div class="chips" id="even"></div></div></div></div>
 
 <details class="more"><summary style="cursor:pointer;font-weight:700;padding:10px 4px">All the detail (boards, quality, gates, every number)</summary>
@@ -203,7 +202,7 @@ function paint(only,fail){
   $("odd").innerHTML=bl(chat.filter(x=>x%2));
   $("even").innerHTML=bl(chat.filter(x=>x%2===0));
   {const WB=B.work_batch||{},wb=(g.work_batches||[]).filter(b=>b.every(x=>!SENT[x])).slice(0,6);$("wbcol").style.display=wb.length?"":"none";$("wkb").innerHTML=wb.map(b=>`<button class="wbox" data-n="${b.join(" ")}">${b.join(" ")}<small>${esc(WB.model||"Sol 6.1 · High")}</small></button>`).join("");$("wkbl").textContent=WB.rule||""}
-  {const CD=B.claude_doing||[];$("cdo").innerHTML=CD.length?CD.map((x,i)=>`<div class="lbl" style="font-size:14px;color:inherit;margin:3px 0"><b>${i+1}. ${esc(x.screen)}</b> · ${esc(x.state||"")}${x.pr?` · <a href="https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/${esc(String(x.pr))}" target="_blank" rel="noopener">PR ${esc(String(x.pr))}</a>`:""}</div>`).join(""):'<div class="lbl">Nothing listed yet.</div>';
+  {const CD=B.claude_doing||{},PR=Array.isArray(CD)?CD.map(x=>({screen:x.screen,pr:x.pr})):(CD.open_prs||[]);$("cdo").innerHTML=(Array.isArray(CD)?"":`<div class="lbl" style="font-size:14px;color:inherit">${esc(CD.note||"")}</div>`)+(PR.length?`<div class="lbl" style="font-size:14px;color:inherit;margin-top:4px">Open screen PRs: `+PR.map(x=>`<b>${esc(x.screen)}</b>${x.pr?` (<a href="https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/${esc(String(x.pr))}" target="_blank" rel="noopener">#${esc(String(x.pr))}</a>)`:""}`).join(" · ")+"</div>":'<div class="lbl">No open screen PRs.</div>');
   const cq=chat.filter(x=>!SENT[x]);$("cfirst").textContent=cq[0]||"none";$("cfirst").dataset.n=cq[0]||"";$("cfirst").onclick=()=>cq.length&&copyBtn($("cfirst"));$("cnext").innerHTML=cq.slice(1,4).map(x=>`<button class="wbox" data-n="${x}">${x}</button>`).join("");
   const wl=wkList.length,cl=cq.length;
   const fb2=$("first");fb2.textContent=wkList[0]||"none";fb2.dataset.n=wkList[0]||"";fb2.onclick=()=>wkList.length&&copyBtn(fb2);$("rt").textContent=wl+" Work mode + "+cl+" chat"}
