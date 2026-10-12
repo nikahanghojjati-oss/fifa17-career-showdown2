@@ -27,6 +27,7 @@ h2{font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--mut)
 @media (max-width:560px){.cols{grid-template-columns:1fr}}
 .col h3{font-size:13px;margin:0 0 6px;color:var(--mut);font-weight:600}
 .wkc{display:inline-flex;flex-direction:column;align-items:center;gap:2px}.wkm{font-size:11px;color:var(--muted,#667)}
+.wbox{display:inline-flex;flex-direction:column;align-items:center;min-width:104px;padding:8px 10px;border-radius:12px;background:var(--ready);color:#fff;border:0;cursor:pointer;font-weight:700;font-size:22px;line-height:1.15}.wbox small{font-size:12px;font-weight:600;opacity:.92}.wbox.copied{background:var(--merged)}
 .chips{display:flex;flex-wrap:wrap;gap:6px}
 .chip{font-size:17px;font-weight:700;min-width:50px;text-align:center;padding:6px 8px;border-radius:9px;background:var(--ready);color:#fff;border:0;cursor:pointer;font-variant-numeric:tabular-nums}
 .chip.copied{background:var(--merged)}
@@ -81,7 +82,7 @@ a{color:inherit}
 <div><div><b id="rt">-</b> numbers free to type right now; this line is the next chat</div><div class="lbl">Each line is one chat: tap it to copy, then paste it in a new chat. <span id="held"></span></div></div></div>
 <div class="lbl" style="margin:8px 0;font-size:14px"><b id="bsz"></b> · <span id="bst"></span><br>ChatGPT chat: type up to <span id="bmx"></span> numbers in one message (for example the line below). Work mode and Codex stay one number per message. <a href="https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/queue/BATCHES.md">Full batch table</a></div><div class="cols"><div class="col"><h3>ChatGPT chat (GPT-6 Sol) · Account 1 · odd numbers</h3><div class="chips" id="odd"></div></div>
 <div class="col"><h3>ChatGPT chat (GPT-6 Sol) · Account 2 · even numbers</h3><div class="chips" id="even"></div></div></div>
-<div class="col" style="margin-top:10px"><h3>Work mode · one number per message, not in batches · pick the model shown under each number</h3><div class="chips" id="wk"></div><div class="lbl" id="wkw"></div></div>
+<div class="col" style="margin-top:10px"><h3>Work mode · one number per message, not in batches · tap a box to copy the number; the model to pick is under it</h3><div class="chips" id="wk"></div><div class="lbl" id="wkw"></div></div>
 <div class="lbl" style="margin-top:8px" id="nxtnote"></div></div>
 
 <div class="card"><h2>Where you come in</h2><div class="lbl" id="rule" style="font-size:15px;margin-bottom:8px;color:inherit"></div><div id="role"></div><div class="lbl" id="rolesrc" style="margin-top:6px"></div></div>
@@ -176,7 +177,7 @@ function paint(only,fail){
   const nm=k=>k.replace(/^\w+ /,"").toLowerCase().replace(/_/g," ");
   const parts=[];if(dk.length)parts.push(dk.reduce((a,[k,v])=>a+v,0)+" desktop studies wait for approved desktop pictures");if(ph.length)parts.push(ph.reduce((a,[k,v])=>a+v,0)+" phone studies wait for pictures ("+ph.map(([k])=>nm(k)).join(", ")+")");
   $("held").textContent=g.held_until_picture?`Held: ${parts.join("; ")}.`:"";}
-  {const W=B.wiring_chains;$("wcard").style.display=W?"":"none";if(W){const m=esc(W.model||"Sol 6.1 · High"),c=x=>`<span class="wkc">${chip(x)}<span class="wkm">${m}</span></span>`;
+  {const W=B.wiring_chains;$("wcard").style.display=W?"":"none";if(W){const m=esc(W.model||"Sol 6.1 · High"),c=x=>`<button class="wbox" data-n="${x}">${x}<small>${m}</small></button>`;
    $("wch").innerHTML=(W.chains||[]).map((ch,i)=>`<div class="stage"><div class="lbl">Chain ${i+1}</div><div class="chips" style="align-items:flex-start">${ch.map(c).join('<span style="align-self:center">→</span>')}</div></div>`).join("")+((W.after_home_merge||[]).length?`<div class="stage"><div class="lbl">After the Home PR merges</div><div class="chips">${W.after_home_merge.map(c).join("")}</div></div>`:"");
    $("wnote").textContent=W.note||""}}
   const none='<span class="none">None free right now.</span>';
@@ -184,10 +185,10 @@ function paint(only,fail){
   const wkset=new Set(g.ready_work||[]),chat=all.filter(x=>!wkset.has(x)).concat(B.jobs_free||[]);
   $("odd").innerHTML=bl(chat.filter(x=>x%2));
   $("even").innerHTML=bl(chat.filter(x=>x%2===0));
-  $("wkw").textContent=(B.work_waiting||[]).map(x=>"Not free yet: "+x.job+" ("+x.note+")").join("; ");const wm=g.work_models||{};$("wk").innerHTML=(g.ready_work||[]).map(x=>`<span class="wkc">${chip(x)}<span class="wkm">${esc(wm[x]||"")}</span></span>`).join("")||none;
+  $("wkw").textContent=(B.work_waiting||[]).map(x=>"Not free yet: "+x.job+" ("+x.note+")").join("; ");const wm=g.work_models||{};$("wk").innerHTML=(g.ready_work||[]).map(x=>`<button class="wbox" data-n="${x}">${x}<small>${esc(wm[x]||"")}</small></button>`).join("")||none;
   $("bmx").textContent=B.size||3;$("bsz").textContent=(B.size||3)+" numbers per chat";$("bst").textContent=(B.clean_streak||0)+" of "+(B.goal||10)+" clean batches in a row"+(B.size<B.max?" (then "+B.max+" per chat)":"");
   $("nxtnote").textContent=((B.jobs_after_wiring||[]).length?"Polish jobs after wiring (not free yet): "+B.jobs_after_wiring.join(", ")+". ":"")+(g.ready_total>all.length?`Showing the first ${all.length} of ${g.ready_total}. `:"")+"A number leaves this list the minute its chat claims it. Numbers not listed have to wait.";
-  document.querySelectorAll(".chip").forEach(b=>b.onclick=()=>copyBtn(b));
+  document.querySelectorAll(".chip,.wbox").forEach(b=>b.onclick=()=>copyBtn(b));
   // all numbers bar
   $("all").innerHTML=ST.slice(0,-1).concat("waiting").map(s=>c[s]?`<span style="width:${c[s]/n*100}%;background:${col(s)}" title="${LB[s]}: ${c[s]}"></span>`:"").join("");
   $("leg").innerHTML=ST.map(s=>`<label data-s="${s}" class="${hidden.has(s)?"off":""}"><span class="sw" style="background:${col(s)}"></span>${LB[s]} <b>${c[s]||0}</b></label>`).join("");
