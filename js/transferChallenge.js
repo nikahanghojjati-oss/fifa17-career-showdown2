@@ -28,6 +28,7 @@ let lastRenderedTimerSecond = null;
 let transferFieldElements = [];
 let transferFieldById = new Map();
 let transferUI = null;
+let transferVisibilityListenerInstalled = false;
 
 function bindTransferControl(element, eventName, handler, marker){
     if(!element || element.dataset[marker] === "true"){ return; }
@@ -296,6 +297,14 @@ function initializeTransferChallenge(){
     cacheTransferFields();
     cacheTransferUI();
     enhanceTransferChallengeSelectors();
+    if(!transferVisibilityListenerInstalled){
+        transferVisibilityListenerInstalled = true;
+        document.addEventListener("visibilitychange", () => {
+            if(document.visibilityState === "hidden" || !currentShowdown){ return; }
+            const challenge = getTransferChallengeForSeason(currentShowdown.currentRound);
+            if(challenge && challenge.status === "active"){ startTransferTimerLoop(); }
+        });
+    }
 
     bindTransferControl(document.getElementById("seasonPrimaryAction"), "click", handleSeasonPrimaryAction, "transferPrimaryBound");
     bindTransferControl(document.getElementById("startTransferTimer"), "click", startTransferWindow, "transferStartBound");
