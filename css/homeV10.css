@@ -895,3 +895,15 @@ html[data-motion-reduced="true"] #mainMenu.v10Home .menuMusicTile[data-playing="
 html[data-reduced-motion="true"] #mainMenu.v10Home .menuMusicTile[data-playing="true"] .vinyl {
   animation:none !important;
 }
+
+
+/* JOB-1075: protect small Home captions on 78%-opaque glass over bright art.
+   The six secondary tile codes share this pair; Continue's dark-on-gold stays intact. */
+#mainMenu.v10Home .menuTile:not(#continueCareer) .menuTileCode,
+#mainMenu.v10Home .menuMusicHeader span {
+  color:#FFF1B8;
+}
+/* Footer's muted ink can dip below 4.5:1 when the 86%-dark overlay crosses bright art. */
+#app:has(#mainMenu.v10Home:not(.hidden)) > footer {
+  color:#CFC6B4;
+}
