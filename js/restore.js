@@ -58,6 +58,7 @@
     try{
       const value=JSON.parse(raw);
       if(kind==="legacy"&&!Array.isArray(value))throw new Error("Legacy value is not an array.");
+      if(kind==="legacy"&&value.some(record=>!record||typeof record!=="object"||Array.isArray(record)))throw new Error("Legacy history contains an invalid record shape.");
       if(kind!=="legacy"&&(!value||typeof value!=="object"||Array.isArray(value)))throw new Error(`${kind} value is not an object.`);
       return {state:"valid",value};
     }catch(error){return {state:"corrupt",value:null,error};}
