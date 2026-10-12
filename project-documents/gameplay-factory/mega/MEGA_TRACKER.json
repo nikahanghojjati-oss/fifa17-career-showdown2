@@ -1,5 +1,5 @@
 {
-"updated": "2026-10-12T04:54:15Z",
+"updated": "2026-10-12T04:57:15Z",
 "total": 394,
 "next_free": 374,
 "highest_taken": 541,
@@ -355,7 +355,7 @@
 "rate": {
 "claimed_last_hour": 0,
 "claimed_last_10min": 0,
-"merged_last_hour": 25
+"merged_last_hour": 0
 },
 "lanes": {
 "gpt1": {
@@ -1549,6 +1549,53 @@
 "codex": {
 "t": 19,
 "fin": 12,
+"done": 14,
+"redone": 4,
+"fail": 0
+},
+"work": {
+"t": 51,
+"fin": 16,
+"done": 16,
+"redone": 3,
+"fail": 0
+},
+"claude": {
+"t": 76,
+"fin": 55,
+"done": 55,
+"redone": 20,
+"fail": 0
+}
+}
+},
+{
+"at": "2026-10-12T04:57:15Z",
+"lanes": {
+"gpt1": {
+"t": 125,
+"fin": 90,
+"done": 100,
+"redone": 25,
+"fail": 0
+},
+"gpt2": {
+"t": 199,
+"fin": 123,
+"done": 146,
+"redone": 0,
+"fail": 0
+},
+"chat_jobs": {
+"t": 68,
+"fin": 25,
+"done": 26,
+"redone": 0,
+"fail": 0
+},
+"codex": {
+"t": 19,
+"fin": 14,
 "done": 14,
 "redone": 4,
 "fail": 0
