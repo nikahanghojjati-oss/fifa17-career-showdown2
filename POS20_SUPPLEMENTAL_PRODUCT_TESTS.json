@@ -1129,6 +1129,17 @@
       ]
     },
     {
+      "path": "tests/contracts/qol-3-6-keep-drafts-contracts.cjs",
+      "patterns": [
+        "^js/storage\\.js$",
+        "^js/productionSharedSeasonResults\\.js$",
+        "^js/productionSharedTransferChallenge\\.js$",
+        "^js/productionSharedTerminalClose\\.js$",
+        "^tests/contracts/qol-3-6-keep-drafts-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
       "path": "tests/contracts/showdown-gate-coverage-contracts.cjs",
       "patterns": [
         "^\\.github/workflows/",

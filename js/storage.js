@@ -77,3 +77,5 @@ window.setApplicationMenuFeedbackPreference=setApplicationMenuFeedbackPreference
 window.isSystemReducedMotionPreferred=isSystemReducedMotionPreferred;
 window.isReducedMotionPreferred=isReducedMotionPreferred;
 window.applyApplicationMotionPreference=applyApplicationMotionPreference;
+function clearDraftsForRivalry(id){try{Object.keys(localStorage).filter(key=>key.startsWith(`cms.draft.v1:${id}:`)).forEach(key=>localStorage.removeItem(key));return true;}catch(error){reportStorageError("Unable to remove local drafts",error);return false;}}
+window.clearDraftsForRivalry=clearDraftsForRivalry;

@@ -142,6 +142,8 @@
     if(!request||!next){stateGeneration+=1;state=null;stateContextKey="";ptcRender();return null;}
     const current=ptcRequest();if(!current||current.key!==request.key)return null;
     state=ptcFreeze(next);stateContextKey=request.key;ptcRender();
+    // QoL 3+6: the Showdown has ended, so no unsent season result or guess draft for this rivalry stays on this device.
+    if(state.phase==="CLOSED"&&typeof root.clearDraftsForRivalry==="function"){try{root.clearDraftsForRivalry(state.rivalryId||request.rivalryId);}catch(_error){}}
     try{root.dispatchEvent?.(new root.CustomEvent("career-mode-shared-terminal-close-state-change",{detail:{phase:state.phase,rivalryId:state.rivalryId||request.rivalryId,terminal:state.phase==="CLOSED"}}));}catch(_error){}
     return state;
   }
