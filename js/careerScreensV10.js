@@ -912,7 +912,7 @@
 `;
 
   // JOB-1706: Career Statistics phone, sideways and tablet adapter rules; the phone art also loads at sideways and tablet sizes.
-  const CS_PHONE_ART_MEDIA="(max-width: 760px) and (orientation: portrait), (min-width: 640px) and (max-width: 880px) and (min-height: 340px) and (max-height: 410px) and (orientation: landscape), (min-width: 761px) and (max-width: 900px) and (min-height: 960px) and (max-height: 1240px) and (orientation: portrait)";
+  const CS_PHONE_ART_MEDIA="(max-width: 760px) and (orientation: portrait), (min-width: 640px) and (max-width: 880px) and (min-height: 340px) and (max-height: 410px) and (orientation: landscape), (min-width: 700px) and (max-width: 900px) and (min-height: 960px) and (max-height: 1240px) and (orientation: portrait)";
   const CAREER_STATS_1706_CSS=String.raw`
 /* JOB-1706: Career Statistics at phone, sideways and tablet (adopted studies 1402, 1403, 1404 and PHONE_STATISTICS).
    Desktop (1200x700 and up, css/v10Shell.css) is untouched. Nothing scrolls: the stage fits the first view above the hub bar.
@@ -945,7 +945,9 @@
 }
 @media (max-width:760px) and (orientation:portrait),
        (min-width:640px) and (max-width:880px) and (min-height:340px) and (max-height:410px) and (orientation:landscape),
-       (min-width:761px) and (max-width:900px) and (min-height:960px) and (max-height:1240px) and (orientation:portrait) {
+       (min-width:700px) and (max-width:900px) and (min-height:960px) and (max-height:1240px) and (orientation:portrait) {
+  /* Partial history: the base partial rules (top 43.25%, height 18.92%) left the table and comparison panels 21-60px tall inside the hub. */
+  #app #careerStatistics.careerScreenV10 .careerStage[data-state="partial"] .contentGrid>:is(.careerTablePanel,.comparisonPanel) { top:auto;height:100%; }
   #app #careerStatistics.careerScreenV10 .phoneTabs label:active { filter:brightness(1.2); }
   #app #careerStatistics.careerScreenV10 .actionButton:focus-visible { outline:3px solid #fff1b8; outline-offset:2px; }
   #app #careerStatistics.careerScreenV10 .actionButton:active { filter:brightness(.88); }
@@ -953,7 +955,7 @@
 /* Sideways and tablet: the phone composition (phone background, Daniel left, Nik right) on the whole stage,
    with the hub bar kept clear at the bottom. */
 @media (min-width:640px) and (max-width:880px) and (min-height:340px) and (max-height:410px) and (orientation:landscape),
-       (min-width:761px) and (max-width:900px) and (min-height:960px) and (max-height:1240px) and (orientation:portrait) {
+       (min-width:700px) and (max-width:900px) and (min-height:960px) and (max-height:1240px) and (orientation:portrait) {
   #app #careerStatistics.careerScreenV10 { --cs-nav:calc(56px + env(safe-area-inset-bottom)); }
   #app #careerStatistics.careerScreenV10 :is(.sd-stage__layer--plate,.sd-stage__layer--cutout,.sd-stage__layer--light .sd-stage__registered,.armCutout,.armRim,.contactShadow,.phoneHeroContact) { display:none; }
   #app #careerStatistics.careerScreenV10 .phoneSceneArt { display:block;position:absolute;z-index:2;inset:0;overflow:hidden;pointer-events:none; }
@@ -1050,9 +1052,13 @@
   #app #careerStatistics.careerScreenV10 .statePanel p { margin-top:5px;font-size:11px;line-height:1.25; }
   #app #careerStatistics.careerScreenV10 .stateIcon { width:30px;height:30px;margin-bottom:5px;font-size:16px; }
 }
+/* 740x360 partial history: the banner wraps to its tallest, so the hub ends 10px lower to show all six comparison rows and both leader rows. */
+@media (min-width:640px) and (max-width:880px) and (min-height:340px) and (max-height:375px) and (orientation:landscape) {
+  #app #careerStatistics.careerScreenV10 .careerStage[data-state="partial"] .phoneHub { bottom:86px; }
+}
 /* Upright tablet (study 1404): managers either side under the title, four totals in one row, table and comparison side by
    side above the leaders row, all three panels at once (the tabs still pick and outline one). Bigger comparison and leaders text. */
-@media (min-width:761px) and (max-width:900px) and (min-height:960px) and (max-height:1240px) and (orientation:portrait) {
+@media (min-width:700px) and (max-width:900px) and (min-height:960px) and (max-height:1240px) and (orientation:portrait) {
   #app #careerStatistics.careerScreenV10 .phoneSceneArt::after { inset:30% 0 0;background:linear-gradient(180deg,rgba(5,6,8,0) 0%,rgba(5,6,8,.72) 22%,rgba(5,6,8,.94) 40%,rgba(5,6,8,.96) 100%); }
   #app #careerStatistics.careerScreenV10 .phoneHero { top:9%;height:34%; }
   #app #careerStatistics.careerScreenV10 .phoneHeroDaniel { left:3%; }
@@ -1097,6 +1103,9 @@
   #app #careerStatistics.careerScreenV10 .leaderName { margin-top:3px;font-size:13px; }
   #app #careerStatistics.careerScreenV10 .leaderValue { margin-top:3px;font-size:20px; }
   #app #careerStatistics.careerScreenV10 .actionRow { left:20px;right:20px;bottom:16px;height:56px;gap:10px; }
+  /* Tablets in portrait render at 760px wide (js/onlinePlayerIdentity.js sets width=760), so Team V's phone action grid also matches here: one row, in tap order. */
+  #app #careerStatistics.careerScreenV10 .actionRow { grid-template-areas:none;grid-template-columns:none;grid-template-rows:56px;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr); }
+  #app #careerStatistics.careerScreenV10 .actionRow .actionButton { grid-area:auto;min-height:56px; }
   #app #careerStatistics.careerScreenV10 .actionRow .actionButton { padding:0 14px;grid-template-columns:30px 1fr 14px;gap:8px;font-size:13px; }
   #app #careerStatistics.careerScreenV10 .partialBanner { left:20px;right:20px;top:calc((100% - var(--cs-nav)) * .38 - 36px);width:auto; }
   #app #careerStatistics.careerScreenV10 .statePanel h2 { font-size:24px; }
