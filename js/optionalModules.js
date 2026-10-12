@@ -337,8 +337,7 @@ await loadRuntimeScript(
 async function ensureStatisticsModule(){
 const stylePromise = loadRuntimeStyle("analytics-ui", "css/analytics.css");
 const visualPromise = ensureRequiredFootballVisualExperience();
-await ensureStatisticsScript();
-await Promise.all([stylePromise, visualPromise]);
+await Promise.all([stylePromise, visualPromise, ensureStatisticsScript()]);
 }
 
 async function ensureTrophyRoomModule(){
@@ -539,7 +538,6 @@ else { actions.appendChild(button); }
 function bindOptionalModuleButton(button, moduleName, marker){
 if(!button || button.dataset[marker] === "true"){ return; }
 button.dataset[marker] = "true";
-// JOB-1658: via window.openOptionalModule (in-flight dedupe).
 button.addEventListener("click", () => (typeof window.openOptionalModule === "function" ? window.openOptionalModule : openOptionalModule)(moduleName));
 }
 
