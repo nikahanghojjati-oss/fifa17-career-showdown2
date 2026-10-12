@@ -858,7 +858,7 @@
 
         const selectFile = file => {
             selectedImportFile = file || null;
-            analyze.disabled = !selectedImportFile;
+            analyze.disabled = !selectedImportFile || importAnalysisInProgress;
             clear.disabled = !selectedImportFile && result.childElementCount === 0;
             result.replaceChildren();
             if(!selectedImportFile){
@@ -895,21 +895,24 @@
 
         analyze.addEventListener("click", async () => {
             if(importAnalysisInProgress || !selectedImportFile){ return; }
+            const analyzedFile = selectedImportFile;
             importAnalysisInProgress = true;
             analyze.disabled = true;
             analyze.setAttribute("aria-busy", "true");
             analyze.textContent = "ANALYZING…";
             status.textContent = "Analyzing in memory. Browser storage will not be changed.";
             try{
-                const analysis = await analyzeCareerModeBackupFile(selectedImportFile);
+                const analysis = await analyzeCareerModeBackupFile(analyzedFile);
+                if(selectedImportFile !== analyzedFile){ return; }
                 renderImportAnalysisResult(result, analysis);
                 status.textContent = analysis.ok
                     ? "Preview complete. No browser data was changed. Candidate C restore remains unavailable."
                     : "Preview found blocking problems. No browser data was changed.";
                 clear.disabled = false;
             }catch(error){
+                if(selectedImportFile !== analyzedFile){ return; }
                 const analysis = createBlockedAnalysis(
-                    { name: selectedImportFile.name || "backup.json", sizeBytes: selectedImportFile.size || 0 },
+                    { name: analyzedFile.name || "backup.json", sizeBytes: analyzedFile.size || 0 },
                     [`Import analysis failed safely: ${error.message || String(error)}`]
                 );
                 renderImportAnalysisResult(result, analysis);
