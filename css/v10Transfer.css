@@ -139,6 +139,28 @@
   #transferChallenge .tw-host .btn-continue { bottom: calc(var(--footer-h) + env(safe-area-inset-bottom) + var(--phone-action-gap)); }
 }
 
+/* JOB-1188: keep unusually long manager/club labels and typed signing text
+   inside the Transfer War adapter's fixed glass and grid cells. Ordinary names
+   retain their existing presentation and controls retain their tap order. */
+#transferChallenge .tw-host :is(.nameplate, .manager-name, .club-name, .verdict-heading) {
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+#transferChallenge .tw-host :is(.panel-title, .lock-summary, .privacy-note, .rule-note) {
+  min-width: 0;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+#transferChallenge .tw-host :is(.guess-cols, .signing-rows, .guessRow, .signingRow) { min-width: 0; }
+#transferChallenge .tw-host :is(.guessRow, .signingRow) :is(input, select, .transferCombobox) {
+  box-sizing: border-box;
+  min-width: 0;
+  max-width: 100%;
+}
+
 /* JOB-1031 / Studio Z11: phone signing entry. The Team V world is a fixed 100dvh box, so on short phones the Nik card ran
    under the fixed LOCK MY SIGNINGS and footer. The signing form scrolls inside the world, and the world's own bottom
    padding (footer + action + gaps, plate.css) keeps the last row above the button. The world must keep the FULL viewport
