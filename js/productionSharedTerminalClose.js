@@ -13,6 +13,7 @@
   // JOB-1038: one automatic attempt per exact Showdown, account and device in this runtime.
   // Reloads first read the durable terminal witness; provider idempotency remains the authority.
   const automaticAttempts=new Map();
+  function ptcClearDrafts(id){if(!id||typeof root.removeStorageValue!=="function")return false;for(let season=1;season<=10;season++)for(const role of ["playerOne","playerTwo"])for(const kind of ["seasonResult","transferGuess"])root.removeStorageValue(`cms.draft.v1:${id}:${season}:${role}:${kind}`);return true;}
   function ptcAutomaticKey(context){return `${context.request.key}|${context.accountId}|${context.deviceId}`;}
   function ptcScheduleAutomaticClose(context){
     if(!installed||typeof root.setTimeout!=="function")return;
@@ -142,6 +143,9 @@
     if(!request||!next){stateGeneration+=1;state=null;stateContextKey="";ptcRender();return null;}
     const current=ptcRequest();if(!current||current.key!==request.key)return null;
     state=ptcFreeze(next);stateContextKey=request.key;ptcRender();
+    // QoL 3+6: the Showdown has ended, so no unsent season result or guess draft for this rivalry stays on this device.
+    // Swept here through the generic js/storage.js remove helper (a Showdown has at most 10 seasons) so the startup budget stays put.
+    if(state.phase==="CLOSED")ptcClearDrafts(state.rivalryId||request.rivalryId);
     try{root.dispatchEvent?.(new root.CustomEvent("career-mode-shared-terminal-close-state-change",{detail:{phase:state.phase,rivalryId:state.rivalryId||request.rivalryId,terminal:state.phase==="CLOSED"}}));}catch(_error){}
     return state;
   }
