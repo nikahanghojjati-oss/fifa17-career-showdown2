@@ -139,6 +139,28 @@
   #transferChallenge .tw-host .btn-continue { bottom: calc(var(--footer-h) + env(safe-area-inset-bottom) + var(--phone-action-gap)); }
 }
 
+/* JOB-1188: keep unusually long manager/club labels and typed signing text
+   inside the Transfer War adapter's fixed glass and grid cells. Ordinary names
+   retain their existing presentation and controls retain their tap order. */
+#transferChallenge .tw-host :is(.nameplate, .manager-name, .club-name, .verdict-heading) {
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+#transferChallenge .tw-host :is(.panel-title, .lock-summary, .privacy-note, .rule-note) {
+  min-width: 0;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+#transferChallenge .tw-host :is(.guess-cols, .signing-rows, .guessRow, .signingRow) { min-width: 0; }
+#transferChallenge .tw-host :is(.guessRow, .signingRow) :is(input, select, .transferCombobox) {
+  box-sizing: border-box;
+  min-width: 0;
+  max-width: 100%;
+}
+
 /* JOB-1031 / Studio Z11: phone signing entry. The Team V world is a fixed 100dvh box, so on short phones the Nik card ran
    under the fixed LOCK MY SIGNINGS and footer. The signing form scrolls inside the world, and the world's own bottom
    padding (footer + action + gaps, plate.css) keeps the last row above the button. The world must keep the FULL viewport
@@ -158,6 +180,29 @@
   #transferChallenge .tw-host .stage[data-phase="SIGNING_ENTRY"] .scene { min-height: 72px; }
 }
 
+/* JOB-1189: Transfer Challenge / Signing Entry tap targets. Only touch or
+   <=760px viewports change; the Team V stage and desktop mouse remain intact.
+   Lead browser check: a phone held sideways (height <= 480px) is left out. Team V scales that stage to a fixed
+   3-row panel, and 44px buttons there ran over signing row 3, the title and the HOME/REFRESH footer (rows 3 became
+   untappable), so the stage keeps its authored sizes in that orientation. */
+@media (pointer: coarse) and (min-height: 481px), (max-width: 760px) and (min-height: 481px) {
+  #transferChallenge.tw-on .tw-host :is(button, a, [role="button"], [role="tab"]) {
+    box-sizing: border-box;
+    min-width: 44px;
+    min-height: 44px;
+  }
+  /* Beat the app's min-width:0 HUD adapter override on touch layouts. */
+  #transferChallenge.tw-on .tw-host .hud-footer :is(button, a, [role="button"], [role="tab"]) {
+    min-width: 44px;
+    min-height: 44px;
+  }
+  /* HUD actions and phase actions must not collide when scaled on a phone. */
+  #transferChallenge.tw-on .tw-host :is(.hud-footer, .action-row) {
+    column-gap: 8px;
+    row-gap: 8px;
+  }
+}
+
 /* Studio Z11: phone held sideways. Team V's plate scales the signing card down to a fixed 3-row panel with one line left
    under row 03; the 12px-floor privacy note wrapped to three lines there, ran over row 03 and under LOCK MY SIGNINGS.
    The card's title chip ("PRIVATE") and the lock-summary beside it already say the same thing, so the note steps aside
@@ -165,4 +210,27 @@
 @media (orientation: landscape) and (max-height: 520px) {
   #transferChallenge .tw-host .phase-signing .action-row .privacy-note { display: none; }
   #transferChallenge .tw-host .phase-signing .action-row { justify-content: flex-end; }
+}
+
+/* JOB-1190: Transfer Challenge / Signing Entry keyboard controls, including
+   production fields adopted into the Team V stage, receive a high-contrast
+   focus ring without changing click or touch presentation. */
+#transferChallenge.tw-on :is(button, a, input, select, textarea, [role="button"], [role="tab"], [role="combobox"], [tabindex]):focus-visible {
+  outline: 3px solid #fff1b8;
+  outline-offset: 3px;
+  box-shadow: 0 0 0 2px #070604, 0 0 0 5px rgba(245, 197, 24, .55) !important;
+}
+
+/* Keep reduced-motion preferences effective even if Team V's frozen plate
+   loads its own animation and transition declarations before this adapter. */
+@media (prefers-reduced-motion: reduce) {
+  #transferChallenge.tw-on,
+  #transferChallenge.tw-on *,
+  #transferChallenge.tw-on *::before,
+  #transferChallenge.tw-on *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
