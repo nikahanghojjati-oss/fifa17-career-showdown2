@@ -1281,6 +1281,14 @@
       ]
     },
     {
+      "path": "tests/contracts/chat-audit-spark-season-commit-contracts.cjs",
+      "patterns": [
+        "^js/sparkSharedSeasonCommit\\.js$",
+        "^tests/contracts/chat\\-audit\\-spark\\-season\\-commit\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
       "path": "tests/contracts/full-motion-honors-device-contracts.cjs",
       "patterns": [
         "^js/fullMotionHonor\\.js$",
