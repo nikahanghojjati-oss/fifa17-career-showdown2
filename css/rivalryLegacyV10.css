@@ -980,6 +980,7 @@
   #app #legacy[data-rivalry-legacy-v10] {
     position:relative; inset:auto; width:100%; height:auto; min-height:100svh;
     max-height:none; overflow:visible; --sr-hero:0px;
+    contain:none; /* .screen's contain:layout kept opened season history out of main's scroll height */
   }
   #app #legacy[data-rivalry-legacy-v10] #stage-root {
     width:100%; height:100svh; min-height:100svh; overflow:visible;
@@ -1084,8 +1085,9 @@
   }
   #app #legacy[data-rivalry-legacy-v10] :is(.sd-stage__registered,.legacyPhoneFaceBand,.nav-reserve) { display:none; }
   #app #legacy[data-rivalry-legacy-v10] .legacyPhoneHero { top:0; height:100%; max-width:60%; }
-  #app #legacy[data-rivalry-legacy-v10] .legacyPhoneHero--daniel { left:0; }
-  #app #legacy[data-rivalry-legacy-v10] .legacyPhoneHero--nik { left:45%; }
+  /* Daniel stays on the left with his face clear of BACK; Nik sits to the right (heads sit at the top of each cut-out). */
+  #app #legacy[data-rivalry-legacy-v10] .legacyPhoneHero--daniel { left:max(0px,calc(30% - .27 * var(--lg-hero))); }
+  #app #legacy[data-rivalry-legacy-v10] .legacyPhoneHero--nik { left:min(calc(70% - .35 * var(--lg-hero)),calc(100% - .727 * var(--lg-hero))); }
   #app #legacy[data-rivalry-legacy-v10] .legacyPhoneHero img { width:100%; height:100%; object-fit:contain; object-position:center bottom; }
   #app #legacy[data-rivalry-legacy-v10] .legacyTitleBlock {
     position:relative; inset:auto; grid-row:2; height:auto; margin:0; padding:0; display:grid; gap:3px;
@@ -1132,7 +1134,7 @@
   #app #legacy[data-rivalry-legacy-v10] .legacyTagline { font-size:9px; line-height:12px; letter-spacing:.06em; }
   #app #legacy[data-rivalry-legacy-v10] .legacyWordmark { width:auto; height:30px; max-width:100%; margin:auto; object-fit:contain; }
   #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel { display:contents; }
-  #app #legacy[data-rivalry-legacy-v10] .legacySidePanel { grid-area:2 / 1 / 4; display:grid; align-content:center; gap:6px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacySidePanel { grid-area:2 / 1 / 4; display:grid; grid-template-columns:minmax(0,1fr); grid-template-rows:none; grid-auto-flow:row; grid-auto-rows:auto; align-content:center; gap:6px; }
   #app #legacy[data-rivalry-legacy-v10] .legacyCardGrid { grid-area:2 / 2; display:block; }
   #app #legacy[data-rivalry-legacy-v10] .legacyCard { width:100%; max-width:100%; padding:6px; }
   #app #legacy[data-rivalry-legacy-v10] .legacyCard:not(.legacyVisibleCard) { display:none; }
