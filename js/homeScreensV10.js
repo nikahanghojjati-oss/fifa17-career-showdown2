@@ -55,7 +55,7 @@
 
   // Team V's stage layers (index.html at 5e05a1f), all decorative.
   function hmScene(){
-    const pic=(cls,file,extra)=>`<picture class="${cls}"${extra||""}><source media="(max-width: 760px) and (orientation: portrait)" srcset="${BASE}home/assets/${file}" type="image/webp"><img alt="" decoding="async"></picture>`;
+    const pic=(cls,file,extra)=>`<picture class="${cls}"${extra||""}><source media="(max-width: 760px) and (orientation: portrait), (max-width: 900px) and (max-height: 480px) and (orientation: landscape)" srcset="${BASE}home/assets/${file}" type="image/webp"><img alt="" decoding="async"></picture>`;
     const frag=hmDoc().createDocumentFragment();
     frag.append(
       hmDecor("plateView",pic("phoneHeroBackground","ENV_HOME_PHONE_V1.webp")+'<div class="plateLayer"></div>'),
