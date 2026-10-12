@@ -911,9 +911,202 @@
 }
 `;
 
+  // JOB-1706: Career Statistics phone, sideways and tablet adapter rules; the phone art also loads at sideways and tablet sizes.
+  const CS_PHONE_ART_MEDIA="(max-width: 760px) and (orientation: portrait), (min-width: 640px) and (max-width: 880px) and (min-height: 340px) and (max-height: 410px) and (orientation: landscape), (min-width: 761px) and (max-width: 900px) and (min-height: 960px) and (max-height: 1240px) and (orientation: portrait)";
+  const CAREER_STATS_1706_CSS=String.raw`
+/* JOB-1706: Career Statistics at phone, sideways and tablet (adopted studies 1402, 1403, 1404 and PHONE_STATISTICS).
+   Desktop (1200x700 and up, css/v10Shell.css) is untouched. Nothing scrolls: the stage fits the first view above the hub bar.
+   Words, ids, numbers and tap order are the live ones; old desktop art is hidden by class, never by src. */
+@media (max-width:760px) and (orientation:portrait) {
+  /* The desktop arm cutout and rim layers were 540px wide on a 393px phone (they poked out on both sides). */
+  #app #careerStatistics.careerScreenV10 :is(.sd-stage__layer--cutout,.sd-stage__layer--light) .sd-stage__registered { display:none; }
+}
+@media (max-width:760px) and (orientation:portrait) {
+  /* A totals tile is 34px tall at 360x640 and 393x660, which cut the TOGETHER caption under the number; it now sits beside it. */
+  #app #careerStatistics.careerScreenV10 .headlineCopy { display:grid;grid-template-columns:auto minmax(0,1fr);align-items:end;column-gap:5px; }
+  #app #careerStatistics.careerScreenV10 .headlineCopy>:not(.headlineNumber,.headlineTogether) { grid-column:1/-1; }
+  #app #careerStatistics.careerScreenV10 .headlineTogether { padding-bottom:2px;white-space:nowrap; }
+}
+@media (max-width:760px) and (orientation:portrait) and (min-height:601px) {
+  /* The hub starts higher (the managers' faces stay clear) so the six comparison rows and four leader cards are not cut. */
+  #app #careerStatistics.careerScreenV10 .phoneHub { top:41%; }
+  /* The partial-history banner sat on the totals; it now ends just above them (the banner is placed on the whole screen,
+     the hub on the screen less the hub bar). */
+  #app #careerStatistics.careerScreenV10 .partialBanner { top:calc((100% - 56px - env(safe-area-inset-bottom)) * .41 - 27px); }
+}
+@media (max-width:760px) and (orientation:portrait) and (max-height:600px) {
+  /* Short phones: without the rivalry button the two actions share one row, in tap order, and the hub takes the freed
+     50px so the comparison rows and leader cards are not cut. */
+  #app #careerStatistics.careerScreenV10 .actionRow:has(>#careerStatisticsRivalryButton.hidden) {
+   height:46px;grid-template-columns:1.25fr 1fr;grid-template-rows:46px;grid-template-areas:"trophy back";
+  }
+  #app #careerStatistics.careerScreenV10 .careerScreen:has(.actionRow>#careerStatisticsRivalryButton.hidden) .phoneHub { bottom:58px; }
+  #app #careerStatistics.careerScreenV10 .partialBanner { top:calc((100% - 56px - env(safe-area-inset-bottom)) * .42 - 39px); }
+}
+@media (max-width:760px) and (orientation:portrait),
+       (min-width:640px) and (max-width:880px) and (min-height:340px) and (max-height:410px) and (orientation:landscape),
+       (min-width:761px) and (max-width:900px) and (min-height:960px) and (max-height:1240px) and (orientation:portrait) {
+  #app #careerStatistics.careerScreenV10 .phoneTabs label:active { filter:brightness(1.2); }
+  #app #careerStatistics.careerScreenV10 .actionButton:focus-visible { outline:3px solid #fff1b8; outline-offset:2px; }
+  #app #careerStatistics.careerScreenV10 .actionButton:active { filter:brightness(.88); }
+}
+/* Sideways and tablet: the phone composition (phone background, Daniel left, Nik right) on the whole stage,
+   with the hub bar kept clear at the bottom. */
+@media (min-width:640px) and (max-width:880px) and (min-height:340px) and (max-height:410px) and (orientation:landscape),
+       (min-width:761px) and (max-width:900px) and (min-height:960px) and (max-height:1240px) and (orientation:portrait) {
+  #app #careerStatistics.careerScreenV10 { --cs-nav:calc(56px + env(safe-area-inset-bottom)); }
+  #app #careerStatistics.careerScreenV10 :is(.sd-stage__layer--plate,.sd-stage__layer--cutout,.sd-stage__layer--light .sd-stage__registered,.armCutout,.armRim,.contactShadow,.phoneHeroContact) { display:none; }
+  #app #careerStatistics.careerScreenV10 .phoneSceneArt { display:block;position:absolute;z-index:2;inset:0;overflow:hidden;pointer-events:none; }
+  #app #careerStatistics.careerScreenV10 .phoneBackground { position:absolute;z-index:0;inset:0;overflow:hidden; }
+  #app #careerStatistics.careerScreenV10 .phoneBackground img { display:block;width:100%;height:100%;object-fit:cover;object-position:50% 36%; }
+  #app #careerStatistics.careerScreenV10 .phoneSceneArt::after { content:"";position:absolute;z-index:4;pointer-events:none; }
+  #app #careerStatistics.careerScreenV10 .phoneHero { position:absolute;z-index:3;width:auto;filter:drop-shadow(0 10px 12px rgba(0,0,0,.5)) drop-shadow(0 0 3px rgba(255,211,77,.32)); }
+  #app #careerStatistics.careerScreenV10 .phoneHero img { display:block;width:auto;height:100%;object-fit:contain; }
+  #app #careerStatistics.careerScreenV10 .careerScreen { inset:0 0 var(--cs-nav);overflow:hidden; }
+  #app #careerStatistics.careerScreenV10 .phoneFaceBand { display:block;position:absolute;z-index:3;pointer-events:none; }
+  #app #careerStatistics.careerScreenV10 .titleBlock { z-index:6;height:auto;display:grid;justify-items:center;row-gap:4px; }
+  #app #careerStatistics.careerScreenV10 .titleBlock :is(.sd-eyebrow,.sd-tagline,.titleWordmark) { position:relative;inset:auto;width:auto;margin:0; }
+  #app #careerStatistics.careerScreenV10 .titleBlock .sd-eyebrow { display:none; }
+  #app #careerStatistics.careerScreenV10 .titleWordmark { width:100%; }
+  #app #careerStatistics.careerScreenV10 .previewChip { z-index:9;transform:none; }
+  #app #careerStatistics.careerScreenV10 .phoneHub { position:absolute;z-index:7;display:grid;min-height:0; }
+  #app #careerStatistics.careerScreenV10 .headlineTiles { position:relative;inset:auto;width:auto;height:auto;display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr));grid-template-rows:minmax(0,1fr); }
+  #app #careerStatistics.careerScreenV10 .headlineTile { clip-path:polygon(6px 0,100% 0,100% calc(100% - 6px),calc(100% - 6px) 100%,0 100%,0 6px); }
+  #app #careerStatistics.careerScreenV10 .phoneTabControl { display:block;position:absolute;width:1px;height:1px;opacity:0;clip-path:inset(50%);pointer-events:auto;font-size:16px; }
+  #app #careerStatistics.careerScreenV10 .phoneTabs {
+   display:grid;grid-template-columns:repeat(3,1fr);min-height:44px;border:1px solid rgba(245,197,24,.58);background:rgba(7,8,10,.82);
+   clip-path:polygon(6px 0,100% 0,100% calc(100% - 6px),calc(100% - 6px) 100%,0 100%,0 6px);
+  }
+  #app #careerStatistics.careerScreenV10 .phoneTabs label {
+   min-width:0;min-height:44px;display:grid;place-items:center;cursor:pointer;color:#b9b3a4;border-right:1px solid rgba(245,197,24,.24);
+   font:700 11px/1 var(--sd-font-condensed,"Barlow Condensed",sans-serif);letter-spacing:.12em;
+  }
+  #app #careerStatistics.careerScreenV10 .phoneTabs label:last-child { border-right:0; }
+  #app #careerStatistics.careerScreenV10 #careerPhoneTable:checked~.phoneTabs label[for="careerPhoneTable"],
+  #app #careerStatistics.careerScreenV10 #careerPhoneCompare:checked~.phoneTabs label[for="careerPhoneCompare"],
+  #app #careerStatistics.careerScreenV10 #careerPhoneLeaders:checked~.phoneTabs label[for="careerPhoneLeaders"] { color:#07080a;background:linear-gradient(135deg,#ffe07e,#f5c518 58%,#d4a017); }
+  #app #careerStatistics.careerScreenV10 #careerPhoneTable:focus-visible~.phoneTabs label[for="careerPhoneTable"],
+  #app #careerStatistics.careerScreenV10 #careerPhoneCompare:focus-visible~.phoneTabs label[for="careerPhoneCompare"],
+  #app #careerStatistics.careerScreenV10 #careerPhoneLeaders:focus-visible~.phoneTabs label[for="careerPhoneLeaders"] { outline:3px solid #fff1b8;outline-offset:-3px; }
+  #app #careerStatistics.careerScreenV10 .contentGrid { position:relative;min-height:0;overflow:hidden; }
+  #app #careerStatistics.careerScreenV10 .contentGrid>:is(.careerTablePanel,.comparisonPanel,.leadersPanel,.statePanel) { position:relative;inset:auto;width:100%;height:100%;min-height:0;margin:0; }
+  #app #careerStatistics.careerScreenV10 .contentGrid>.statePanel:not([hidden]) { display:grid; }
+  #app #careerStatistics.careerScreenV10 .careerStage:is([data-state="empty"],[data-state="unavailable"],[data-state="loading"]) .phoneTabs { visibility:hidden; }
+  #app #careerStatistics.careerScreenV10 .careerStage:is([data-state="empty"],[data-state="unavailable"],[data-state="loading"]) .contentGrid>:is(.careerTablePanel,.comparisonPanel,.leadersPanel) { display:none!important; }
+  #app #careerStatistics.careerScreenV10 .careerTable { width:calc(100% - 12px);margin:3px 6px 0; }
+  #app #careerStatistics.careerScreenV10 .actionRow { display:grid!important;position:absolute;z-index:12;top:auto;width:auto;grid-template-columns:1fr 1.2fr 1fr; }
+  #app #careerStatistics.careerScreenV10 .actionRow:has(>#careerStatisticsRivalryButton.hidden) { grid-template-columns:1.2fr 1fr; }
+  #app #careerStatistics.careerScreenV10 .actionRow .actionButton { min-width:0;min-height:44px;height:auto;touch-action:manipulation; }
+  #app #careerStatistics.careerScreenV10 .actionRow .actionLabel { white-space:normal;line-height:1.1;overflow-wrap:normal;word-break:normal; }
+  #app #careerStatistics.careerScreenV10 .statePanel { padding:10px 14px;place-content:center; }
+}
+/* Sideways (study 1403): title and managers on the left; totals, the three tabs, the picked panel and the actions on the right. */
+@media (min-width:640px) and (max-width:880px) and (min-height:340px) and (max-height:410px) and (orientation:landscape) {
+  #app #careerStatistics.careerScreenV10 .phoneSceneArt::after { inset:0;background:linear-gradient(90deg,transparent 0 40%,rgba(5,6,8,.55) 46%,rgba(5,6,8,.85) 100%),linear-gradient(180deg,transparent 0 62%,rgba(5,6,8,.75) 100%); }
+  #app #careerStatistics.careerScreenV10 .phoneHero { top:58px;height:calc(100% - 58px - var(--cs-nav) + 18px); }
+  #app #careerStatistics.careerScreenV10 .phoneHeroDaniel { left:0; }
+  #app #careerStatistics.careerScreenV10 .phoneHeroNik { left:auto;right:57%; }
+  #app #careerStatistics.careerScreenV10 .phoneFaceBand { inset:0 auto 0 0;width:44%;height:auto;background:none; }
+  #app #careerStatistics.careerScreenV10 .titleBlock { left:6%;top:8px;width:88%; }
+  #app #careerStatistics.careerScreenV10 .titleBlock .sd-tagline { font-size:8px;letter-spacing:.24em; }
+  #app #careerStatistics.careerScreenV10 .previewChip { top:6px;left:10px; }
+  #app #careerStatistics.careerScreenV10 .phoneHub { left:45%;right:12px;top:8px;bottom:60px;grid-template-rows:50px 44px minmax(0,1fr);gap:5px; }
+  /* The corner Settings button sits over the right end of the totals row. */
+  #app #careerStatistics.careerScreenV10 .headlineTiles { gap:4px;margin-right:52px; }
+  /* Four totals share a narrow column here, so the decorative icons give their room to the numbers. */
+  #app #careerStatistics.careerScreenV10 .headlineTile { grid-template-columns:minmax(0,1fr);gap:0;padding:3px 6px; }
+  #app #careerStatistics.careerScreenV10 .headlineIcon { display:none; }
+  #app #careerStatistics.careerScreenV10 .headlineLabel { font-size:8px;letter-spacing:.04em; }
+  #app #careerStatistics.careerScreenV10 .headlineTogether { font-size:6px;letter-spacing:.08em; }
+  #app #careerStatistics.careerScreenV10 .headlineNumber { font-size:22px; }
+  #app #careerStatistics.careerScreenV10 .headlinePair { gap:2px;margin-top:1px; }
+  #app #careerStatistics.careerScreenV10 .headlinePair b { font-size:17px; }
+  #app #careerStatistics.careerScreenV10 .headlinePair small { font-size:7px; }
+  #app #careerStatistics.careerScreenV10 .contentGrid>:is(.careerTablePanel,.comparisonPanel,.leadersPanel) { display:none; }
+  #app #careerStatistics.careerScreenV10 #careerPhoneTable:checked~.contentGrid .careerTablePanel,
+  #app #careerStatistics.careerScreenV10 #careerPhoneCompare:checked~.contentGrid .comparisonPanel,
+  #app #careerStatistics.careerScreenV10 #careerPhoneLeaders:checked~.contentGrid .leadersPanel { display:block; }
+  #app #careerStatistics.careerScreenV10 .panelTitle { padding:4px 8px 3px;font-size:11px; }
+  #app #careerStatistics.careerScreenV10 .careerTable th { padding:3px 2px;font-size:9px;letter-spacing:.03em; }
+  #app #careerStatistics.careerScreenV10 .careerTable td { padding:5px 2px;font-size:11px; }
+  #app #careerStatistics.careerScreenV10 .comparisonBody { padding:2px 9px 3px; }
+  #app #careerStatistics.careerScreenV10 .compareRow { grid-template-columns:38px 1fr 38px;gap:0 6px;padding:0; }
+  #app #careerStatistics.careerScreenV10 .compareRow :is(.dValue,.nValue) { font-size:10px; }
+  #app #careerStatistics.careerScreenV10 .compareLabel { font-size:8px; }
+  #app #careerStatistics.careerScreenV10 .compareTrack { height:3px;margin-top:1px; }
+  #app #careerStatistics.careerScreenV10 .leaderGrid { grid-template-columns:repeat(2,minmax(0,1fr));gap:4px;padding:4px 6px 6px; }
+  #app #careerStatistics.careerScreenV10 .leaderCard { height:auto;min-height:32px;grid-template-columns:22px minmax(0,1fr);gap:5px;padding:2px 14px 2px 5px; }
+  #app #careerStatistics.careerScreenV10 .managerPortrait { width:20px;height:28px; }
+  #app #careerStatistics.careerScreenV10 .leaderLabel { font-size:7px; }
+  #app #careerStatistics.careerScreenV10 .leaderName { margin-top:1px;font-size:9px; }
+  #app #careerStatistics.careerScreenV10 .leaderValue { margin-top:1px;font-size:13px; }
+  #app #careerStatistics.careerScreenV10 .actionRow { left:45%;right:12px;bottom:8px;height:44px;gap:6px; }
+  #app #careerStatistics.careerScreenV10 .actionRow .actionButton { padding:0 8px;grid-template-columns:22px 1fr 10px;gap:5px;font-size:10px; }
+  #app #careerStatistics.careerScreenV10 .actionButton img { width:21px;height:27px; }
+  #app #careerStatistics.careerScreenV10 .buttonIcon { width:18px;height:18px; }
+  #app #careerStatistics.careerScreenV10 .partialBanner { left:45%;right:12px;top:auto;bottom:calc(var(--cs-nav) + 56px);width:auto;gap:7px;padding:3px 6px; }
+  #app #careerStatistics.careerScreenV10 .careerStage[data-state="partial"] .phoneHub { bottom:96px; }
+  #app #careerStatistics.careerScreenV10 .statePanel h2 { font-size:15px; }
+  #app #careerStatistics.careerScreenV10 .statePanel p { margin-top:5px;font-size:11px;line-height:1.25; }
+  #app #careerStatistics.careerScreenV10 .stateIcon { width:30px;height:30px;margin-bottom:5px;font-size:16px; }
+}
+/* Upright tablet (study 1404): managers either side under the title, four totals in one row, table and comparison side by
+   side above the leaders row, all three panels at once (the tabs still pick and outline one). Bigger comparison and leaders text. */
+@media (min-width:761px) and (max-width:900px) and (min-height:960px) and (max-height:1240px) and (orientation:portrait) {
+  #app #careerStatistics.careerScreenV10 .phoneSceneArt::after { inset:30% 0 0;background:linear-gradient(180deg,rgba(5,6,8,0) 0%,rgba(5,6,8,.72) 22%,rgba(5,6,8,.94) 40%,rgba(5,6,8,.96) 100%); }
+  #app #careerStatistics.careerScreenV10 .phoneHero { top:9%;height:34%; }
+  #app #careerStatistics.careerScreenV10 .phoneHeroDaniel { left:3%; }
+  #app #careerStatistics.careerScreenV10 .phoneHeroNik { left:auto;right:3%; }
+  #app #careerStatistics.careerScreenV10 .phoneFaceBand { inset:0 0 auto;height:42%;background:none; }
+  #app #careerStatistics.careerScreenV10 .titleBlock { left:20%;top:16px;width:60%; }
+  #app #careerStatistics.careerScreenV10 .titleBlock .sd-tagline { font-size:11px;letter-spacing:.36em; }
+  #app #careerStatistics.careerScreenV10 .previewChip { top:16px;left:20px; }
+  #app #careerStatistics.careerScreenV10 .phoneHub { left:20px;right:20px;top:38%;bottom:88px;grid-template-rows:96px 44px minmax(0,1fr);gap:10px; }
+  #app #careerStatistics.careerScreenV10 .headlineTiles { gap:8px; }
+  #app #careerStatistics.careerScreenV10 .headlineTile { grid-template-columns:34px minmax(0,1fr);gap:7px;padding:8px; }
+  #app #careerStatistics.careerScreenV10 .headlineIcon { width:32px;height:32px; }
+  #app #careerStatistics.careerScreenV10 .headlineIcon img { max-width:32px;max-height:40px; }
+  #app #careerStatistics.careerScreenV10 .headlineLabel { font-size:11px;letter-spacing:.06em;line-height:1.15; }
+  #app #careerStatistics.careerScreenV10 .headlineTogether { font-size:9px; }
+  #app #careerStatistics.careerScreenV10 .headlineNumber { font-size:36px; }
+  #app #careerStatistics.careerScreenV10 .headlinePair { gap:4px;margin-top:3px; }
+  #app #careerStatistics.careerScreenV10 .headlinePair b { font-size:28px; }
+  #app #careerStatistics.careerScreenV10 .headlinePair small { font-size:9px; }
+  #app #careerStatistics.careerScreenV10 .phoneTabs label { font-size:14px;letter-spacing:.16em; }
+  #app #careerStatistics.careerScreenV10 .contentGrid { display:grid;grid-template-columns:1.2fr 1fr;grid-template-rows:minmax(0,1fr) auto;gap:10px;grid-template-areas:"table compare" "leaders leaders"; }
+  #app #careerStatistics.careerScreenV10 .contentGrid>.careerTablePanel { grid-area:table; }
+  #app #careerStatistics.careerScreenV10 .contentGrid>.comparisonPanel { grid-area:compare; }
+  #app #careerStatistics.careerScreenV10 .contentGrid>.leadersPanel { grid-area:leaders; }
+  #app #careerStatistics.careerScreenV10 .contentGrid>.statePanel { grid-area:1/1/3/3; }
+  #app #careerStatistics.careerScreenV10 .contentGrid>:is(.careerTablePanel,.comparisonPanel,.leadersPanel) { display:block; }
+  #app #careerStatistics.careerScreenV10 #careerPhoneTable:checked~.contentGrid .careerTablePanel,
+  #app #careerStatistics.careerScreenV10 #careerPhoneCompare:checked~.contentGrid .comparisonPanel,
+  #app #careerStatistics.careerScreenV10 #careerPhoneLeaders:checked~.contentGrid .leadersPanel { border-color:#ffdb69;box-shadow:inset 0 0 14px rgba(230,189,66,.11); }
+  #app #careerStatistics.careerScreenV10 .panelTitle { padding:8px 11px 6px;font-size:15px; }
+  #app #careerStatistics.careerScreenV10 .careerTable th { padding:6px 2px;font-size:10px;letter-spacing:.02em;white-space:nowrap; }
+  #app #careerStatistics.careerScreenV10 .careerTable td { padding:11px 3px;font-size:15px; }
+  #app #careerStatistics.careerScreenV10 .comparisonBody { padding:6px 12px; }
+  #app #careerStatistics.careerScreenV10 .compareRow { grid-template-columns:48px 1fr 48px;gap:0 6px;padding:3px 0; }
+  #app #careerStatistics.careerScreenV10 .compareRow :is(.dValue,.nValue) { font-size:14px; }
+  #app #careerStatistics.careerScreenV10 .compareLabel { font-size:11px;white-space:normal; }
+  #app #careerStatistics.careerScreenV10 .compareTrack { height:5px;margin-top:3px; }
+  #app #careerStatistics.careerScreenV10 .leaderGrid { grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;padding:8px 10px 10px; }
+  #app #careerStatistics.careerScreenV10 .leaderCard { height:auto;min-height:84px;grid-template-columns:38px minmax(0,1fr);gap:6px;padding:6px 16px 6px 6px; }
+  #app #careerStatistics.careerScreenV10 .managerPortrait { width:36px;height:52px; }
+  #app #careerStatistics.careerScreenV10 .leaderLabel { font-size:10px;line-height:1.15; }
+  #app #careerStatistics.careerScreenV10 .leaderName { margin-top:3px;font-size:13px; }
+  #app #careerStatistics.careerScreenV10 .leaderValue { margin-top:3px;font-size:20px; }
+  #app #careerStatistics.careerScreenV10 .actionRow { left:20px;right:20px;bottom:16px;height:56px;gap:10px; }
+  #app #careerStatistics.careerScreenV10 .actionRow .actionButton { padding:0 14px;grid-template-columns:30px 1fr 14px;gap:8px;font-size:13px; }
+  #app #careerStatistics.careerScreenV10 .partialBanner { left:20px;right:20px;top:calc((100% - var(--cs-nav)) * .38 - 36px);width:auto; }
+  #app #careerStatistics.careerScreenV10 .statePanel h2 { font-size:24px; }
+  #app #careerStatistics.careerScreenV10 .statePanel p { font-size:15px; }
+}
+`;
+
   function v10Markup(screen){
     const cs=BASE+"career-statistics/",tr=BASE+"trophy-room/";
-    if(screen==="careerStatistics")return `<div id="stage-root" class="careerStage" data-primary="trophyRoomButton"><div class="scene sd-stage" id="careerScene" data-plate-width="1672" data-plate-height="941"><div class="sd-stage__layer sd-stage__layer--plate" aria-hidden="true"><div class="sd-stage__registered"><div class="sd-stage__plate"></div><span class="managerMarker managerDaniel" data-manager="daniel" role="presentation"></span><span class="managerMarker managerNik" data-manager="nik" role="presentation"></span></div></div><div class="sd-stage__layer sd-stage__layer--atmosphere" aria-hidden="true"></div><div class="phoneSceneArt" aria-hidden="true"><picture class="phoneBackground"><source media="(max-width: 760px) and (orientation: portrait)" srcset="${cs}assets/ENV_CS_PHONE_V1.webp"><img alt="" decoding="async"></picture><picture class="phoneHero phoneHeroDaniel"><source media="(max-width: 760px) and (orientation: portrait)" srcset="${cs}assets/OVL_CS_DANIEL_PHONE_V1.webp"><img alt="" decoding="async"></picture><picture class="phoneHero phoneHeroNik"><source media="(max-width: 760px) and (orientation: portrait)" srcset="${cs}assets/OVL_CS_NIK_PHONE_V1.webp"><img alt="" decoding="async"></picture><span class="phoneHeroContact phoneHeroContactDaniel"></span><span class="phoneHeroContact phoneHeroContactNik"></span></div><div class="sd-stage__layer sd-stage__layer--ui"><div class="stateBackdrop" aria-hidden="true"></div><div class="careerScreen" aria-labelledby="careerStatisticsScreenTitle"><section class="phoneFaceBand" aria-label="Career Statistics presentation"><header class="titleBlock"><p class="sd-eyebrow">CAREER MODE SHOWDOWN 17</p><h2 id="careerStatisticsScreenTitle" class="titleWordmark" data-sd-enter="title" tabindex="-1" data-route-focus-target="true"><span class="sd-visually-hidden">CAREER STATISTICS</span><img src="${cs}assets/TITLE_CS_V1.webp" alt="" aria-hidden="true" width="1216" height="126" decoding="async"></h2><p class="sd-tagline">TWO MANAGERS. ONE LEGACY.</p></header></section><div id="previewChip" class="previewChip" hidden></div><section class="phoneHub" aria-label="Career Statistics data"><section id="headlineTiles" class="headlineTiles" aria-label="Career headline totals"></section><input class="phoneTabControl" type="radio" name="careerPhoneTab" id="careerPhoneTable" aria-label="Career Table" aria-controls="careerTablePanel" checked><input class="phoneTabControl" type="radio" name="careerPhoneTab" id="careerPhoneCompare" aria-label="Manager Comparison" aria-controls="comparisonPanel"><input class="phoneTabControl" type="radio" name="careerPhoneTab" id="careerPhoneLeaders" aria-label="Career Leaders" aria-controls="leadersPanel"><div class="phoneTabs" aria-label="Career Statistics sections"><label for="careerPhoneTable">TABLE</label><label for="careerPhoneCompare">COMPARE</label><label for="careerPhoneLeaders">LEADERS</label></div><section id="careerStatisticsContent" class="contentGrid" aria-live="polite"><section id="careerTablePanel" data-sd-enter="panel" class="glassPanel careerTablePanel" aria-labelledby="careerTableHeading"></section><section id="comparisonPanel" data-sd-enter="panel" class="glassPanel comparisonPanel" aria-labelledby="comparisonHeading"></section><section id="leadersPanel" data-sd-enter="panel" class="glassPanel leadersPanel" aria-labelledby="leadersHeading"></section><section id="statePanel" class="glassPanel statePanel" hidden></section></section></section><nav class="actionRow" aria-label="Career Statistics actions" data-phone-primary="trophyRoomButton"><button id="careerStatisticsRivalryButton" class="actionButton secondary" type="button"><span class="buttonIcon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 19h3V9H4v10Zm6 0h3V5h-3v14Zm6 0h3V12h-3v7Z"/></svg></span><span class="actionLabel">CURRENT RIVALRY STATISTICS</span><span aria-hidden="true">›</span></button><button id="trophyRoomButton" data-sd-enter="button" class="actionButton primary" type="button"><img src="${BASE}shared/trophies/TRO_SHOWDOWN_CHAMPION_V1_512.webp" alt="" aria-hidden="true"><span class="actionLabel">OPEN TROPHY ROOM</span><span aria-hidden="true">›</span></button><button class="actionButton secondary backButton" type="button"><span class="buttonIcon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m3 11 9-8 9 8v10h-6v-6H9v6H3V11Z"/></svg></span><span class="actionLabel">BACK TO MAIN MENU</span><span aria-hidden="true">›</span></button></nav></div><div class="gridOverlay" aria-hidden="true"></div></div><div class="sd-stage__layer sd-stage__layer--cutout" aria-hidden="true"><div class="sd-stage__registered"><span class="contactShadow"></span><div class="sd-stage__cutout armCutout" data-src1x="${cs}assets/OVL_CS_DANIEL_CROSSED_ARMS_V1_1X.webp" data-src2x="${cs}assets/OVL_CS_DANIEL_CROSSED_ARMS_V1_2X.webp"></div></div></div><div class="sd-stage__layer sd-stage__layer--light" aria-hidden="true"><div class="sd-stage__registered"><span class="sd-stage__rim armRim" data-src1x="${cs}assets/OVL_CS_DANIEL_CROSSED_ARMS_V1_RIM_1X.webp" data-src2x="${cs}assets/OVL_CS_DANIEL_CROSSED_ARMS_V1_RIM_2X.webp"></span></div></div></div></div>`;
+    if(screen==="careerStatistics")return `<div id="stage-root" class="careerStage" data-primary="trophyRoomButton"><div class="scene sd-stage" id="careerScene" data-plate-width="1672" data-plate-height="941"><div class="sd-stage__layer sd-stage__layer--plate" aria-hidden="true"><div class="sd-stage__registered"><div class="sd-stage__plate"></div><span class="managerMarker managerDaniel" data-manager="daniel" role="presentation"></span><span class="managerMarker managerNik" data-manager="nik" role="presentation"></span></div></div><div class="sd-stage__layer sd-stage__layer--atmosphere" aria-hidden="true"></div><div class="phoneSceneArt" aria-hidden="true"><picture class="phoneBackground"><source media="${CS_PHONE_ART_MEDIA}" srcset="${cs}assets/ENV_CS_PHONE_V1.webp"><img alt="" decoding="async"></picture><picture class="phoneHero phoneHeroDaniel"><source media="${CS_PHONE_ART_MEDIA}" srcset="${cs}assets/OVL_CS_DANIEL_PHONE_V1.webp"><img alt="" decoding="async"></picture><picture class="phoneHero phoneHeroNik"><source media="${CS_PHONE_ART_MEDIA}" srcset="${cs}assets/OVL_CS_NIK_PHONE_V1.webp"><img alt="" decoding="async"></picture><span class="phoneHeroContact phoneHeroContactDaniel"></span><span class="phoneHeroContact phoneHeroContactNik"></span></div><div class="sd-stage__layer sd-stage__layer--ui"><div class="stateBackdrop" aria-hidden="true"></div><div class="careerScreen" aria-labelledby="careerStatisticsScreenTitle"><section class="phoneFaceBand" aria-label="Career Statistics presentation"><header class="titleBlock"><p class="sd-eyebrow">CAREER MODE SHOWDOWN 17</p><h2 id="careerStatisticsScreenTitle" class="titleWordmark" data-sd-enter="title" tabindex="-1" data-route-focus-target="true"><span class="sd-visually-hidden">CAREER STATISTICS</span><img src="${cs}assets/TITLE_CS_V1.webp" alt="" aria-hidden="true" width="1216" height="126" decoding="async"></h2><p class="sd-tagline">TWO MANAGERS. ONE LEGACY.</p></header></section><div id="previewChip" class="previewChip" hidden></div><section class="phoneHub" aria-label="Career Statistics data"><section id="headlineTiles" class="headlineTiles" aria-label="Career headline totals"></section><input class="phoneTabControl" type="radio" name="careerPhoneTab" id="careerPhoneTable" aria-label="Career Table" aria-controls="careerTablePanel" checked><input class="phoneTabControl" type="radio" name="careerPhoneTab" id="careerPhoneCompare" aria-label="Manager Comparison" aria-controls="comparisonPanel"><input class="phoneTabControl" type="radio" name="careerPhoneTab" id="careerPhoneLeaders" aria-label="Career Leaders" aria-controls="leadersPanel"><div class="phoneTabs" aria-label="Career Statistics sections"><label for="careerPhoneTable">TABLE</label><label for="careerPhoneCompare">COMPARE</label><label for="careerPhoneLeaders">LEADERS</label></div><section id="careerStatisticsContent" class="contentGrid" aria-live="polite"><section id="careerTablePanel" data-sd-enter="panel" class="glassPanel careerTablePanel" aria-labelledby="careerTableHeading"></section><section id="comparisonPanel" data-sd-enter="panel" class="glassPanel comparisonPanel" aria-labelledby="comparisonHeading"></section><section id="leadersPanel" data-sd-enter="panel" class="glassPanel leadersPanel" aria-labelledby="leadersHeading"></section><section id="statePanel" class="glassPanel statePanel" hidden></section></section></section><nav class="actionRow" aria-label="Career Statistics actions" data-phone-primary="trophyRoomButton"><button id="careerStatisticsRivalryButton" class="actionButton secondary" type="button"><span class="buttonIcon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 19h3V9H4v10Zm6 0h3V5h-3v14Zm6 0h3V12h-3v7Z"/></svg></span><span class="actionLabel">CURRENT RIVALRY STATISTICS</span><span aria-hidden="true">›</span></button><button id="trophyRoomButton" data-sd-enter="button" class="actionButton primary" type="button"><img src="${BASE}shared/trophies/TRO_SHOWDOWN_CHAMPION_V1_512.webp" alt="" aria-hidden="true"><span class="actionLabel">OPEN TROPHY ROOM</span><span aria-hidden="true">›</span></button><button class="actionButton secondary backButton" type="button"><span class="buttonIcon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m3 11 9-8 9 8v10h-6v-6H9v6H3V11Z"/></svg></span><span class="actionLabel">BACK TO MAIN MENU</span><span aria-hidden="true">›</span></button></nav></div><div class="gridOverlay" aria-hidden="true"></div></div><div class="sd-stage__layer sd-stage__layer--cutout" aria-hidden="true"><div class="sd-stage__registered"><span class="contactShadow"></span><div class="sd-stage__cutout armCutout" data-src1x="${cs}assets/OVL_CS_DANIEL_CROSSED_ARMS_V1_1X.webp" data-src2x="${cs}assets/OVL_CS_DANIEL_CROSSED_ARMS_V1_2X.webp"></div></div></div><div class="sd-stage__layer sd-stage__layer--light" aria-hidden="true"><div class="sd-stage__registered"><span class="sd-stage__rim armRim" data-src1x="${cs}assets/OVL_CS_DANIEL_CROSSED_ARMS_V1_RIM_1X.webp" data-src2x="${cs}assets/OVL_CS_DANIEL_CROSSED_ARMS_V1_RIM_2X.webp"></span></div></div></div></div>`;
     return `<div class="sd-stage trophyRoomScene" data-sd-enter="scene" data-plate-width="1672" data-plate-height="941"><div class="sd-stage__layer sd-stage__layer--plate"><div class="sd-stage__registered"><div class="sd-stage__plate"></div></div></div><div class="sd-stage__layer sd-stage__layer--atmosphere"></div><div class="sd-stage__layer sd-stage__layer--ui"><div class="trophyPhoneArt" aria-hidden="true"><picture class="trophyPhoneBackdrop"><source type="image/webp" srcset="${tr}assets/ENV_TR_PHONE_V1.webp"><img src="${tr}assets/ENV_TR_PHONE_V1.webp" alt="" width="1179" height="2096" decoding="async"></picture><picture class="trophyPhoneHero trophyPhoneHero--daniel" data-sd-enter="character-left"><source type="image/webp" srcset="${tr}assets/OVL_TR_DANIEL_PHONE_V1.webp"><img src="${tr}assets/OVL_TR_DANIEL_PHONE_V1.webp" alt="" decoding="async"></picture><picture class="trophyPhoneHero trophyPhoneHero--nik" data-sd-enter="character-right"><source type="image/webp" srcset="${tr}assets/OVL_TR_NIK_PHONE_V1.webp"><img src="${tr}assets/OVL_TR_NIK_PHONE_V1.webp" alt="" decoding="async"></picture><div class="trophyPhoneArtShade"></div></div><input id="trophyPhoneMoreToggle" class="phoneMoreToggle visually-hidden" type="checkbox" aria-label="Toggle career details" aria-controls="trophyRoomContent"><div id="trophyRoomContent" class="trophyRoomContent sd-stage__ui-content" aria-live="polite"></div><aside id="trophyPhoneSheet" class="sd-sheet trophyPhoneSheet" aria-labelledby="trophyPhoneSheetTitle"><strong id="trophyPhoneSheetTitle" class="trophyPhoneSheetTitle">CAREER DETAILS</strong><span class="trophyPhoneSheetHint">Ranks and career records</span><span class="trophyPhoneSheetClose" aria-hidden="true">CLOSE</span></aside><label class="trophyPhoneMoreButton" for="trophyPhoneMoreToggle" aria-hidden="true"><span class="trophyPhoneMoreOpen">MORE</span><span class="trophyPhoneMoreClose">CLOSE</span></label><div class="nav-reserve trophyPhoneNavReserve" aria-hidden="true"></div></div><div class="sd-stage__layer sd-stage__layer--cutout"><div class="sd-stage__registered"></div></div><div class="sd-stage__layer sd-stage__layer--light"><div class="sd-stage__registered"></div></div></div>`;
   }
   async function v10Platemap(screen){
@@ -960,6 +1153,10 @@
       const smallPhoneStyle=doc.createElement("style");
       smallPhoneStyle.textContent=TROPHY_SMALL_PHONE_CSS+TROPHY_390_PHONE_CSS+TROPHY_430_PHONE_CSS+TROPHY_844_LANDSCAPE_CSS+TROPHY_932_LANDSCAPE_CSS+TROPHY_768_TABLET_CSS+TROPHY_1280_LAPTOP_CSS+TROPHY_1366_CHROMEBOOK_CSS+TROPHY_1920_DESKTOP_CSS+TROPHY_2560_ULTRAWIDE_CSS+TROPHY_SCREEN_1705_CSS;
       host.appendChild(smallPhoneStyle);
+    }else{
+      const careerStatsStyle=doc.createElement("style");
+      careerStatsStyle.textContent=CAREER_STATS_1706_CSS;
+      host.appendChild(careerStatsStyle);
     }
     v10Wire(screen,host);
     if(screen==="careerStatistics"){
