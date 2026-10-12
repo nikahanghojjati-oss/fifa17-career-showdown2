@@ -1,6 +1,6 @@
 {
  "_how": "One shared job counter for Team G and Team V (Nik, 2026-10-05). Claim with tools/claim_number.py only. A number is used once, ever. CONTRACT.md section 10.",
- "next": 1726,
+ "next": 1727,
  "claims": [
   {
    "number": 1001,
@@ -4352,6 +4352,12 @@
    "team": "G",
    "title": "QoL 5: failed photo loads on the next try",
    "claimed": "2026-10-12T03:29:19Z"
+  },
+  {
+   "number": 1726,
+   "team": "G",
+   "title": "QoL 8: failed load cannot double up taps on retry",
+   "claimed": "2026-10-12T03:29:22Z"
   }
  ]
 }
