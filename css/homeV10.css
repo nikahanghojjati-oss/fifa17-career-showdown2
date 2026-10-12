@@ -768,4 +768,39 @@
   #mainMenu.v10Home .fifaMenuHeading {
     bottom: calc(100% - var(--tile-top) + 24px);
   }
+  /* JOB-1072: 22-character clubs and 14-character managers must not escape
+     the fixed full-HD Home boxes. Normal-length copy retains its original size. */
+  #mainMenu.v10Home .fifaMenuHeading h2,
+  #mainMenu.v10Home .fifaMenuHeadingMeta > span {
+    min-width: 0;
+    max-width: 100%;
+    overflow-wrap: anywhere;
+  }
+  #mainMenu.v10Home .fifaMenuHeadingMeta .sd-label {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+  }
+  #mainMenu.v10Home #continueCareer .menuTileCode,
+  #mainMenu.v10Home #continueCareer .menuTileLabel,
+  #mainMenu.v10Home #continueCareer .menuTileMeta {
+    min-width: 0;
+    max-width: 100%;
+    overflow-wrap: anywhere;
+  }
+  #mainMenu.v10Home #continueCareer .menuTileMeta {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+  }
+  #app #topHeader #onlinePlayerIdentityBadge,
+  #app #topHeader #seasonIndicator {
+    min-width: 0;
+    max-width: 260px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 }
