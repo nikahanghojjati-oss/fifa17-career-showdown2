@@ -163,6 +163,54 @@ Season Results desktop studies:
 382 410 438 466
 ```
 
+Transfer desktop studies:
+
+```text
+390 418 446 474
+```
+
+League desktop studies:
+
+```text
+374 402 430 458
+```
+
+Club desktop studies:
+
+```text
+368 396 424 452
+```
+
+Statistics desktop studies:
+
+```text
+366 394 422 450
+```
+
+Rivalry desktop studies:
+
+```text
+378 406 434 462
+```
+
+Legacy desktop studies:
+
+```text
+376 404 432 460
+```
+
+Final Winner desktop studies:
+
+```text
+370 398 426 454
+```
+
+Settings desktop studies:
+
+```text
+384 412 440 468
+```
+
 Rule Book desktop studies:
 
 ```text
