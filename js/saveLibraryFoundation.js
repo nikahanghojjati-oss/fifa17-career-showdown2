@@ -80,6 +80,9 @@
     }
 
     async function buildLibrarySeasonIdentities(showdown, saveId){
+        if(showdown.rounds != null && !Array.isArray(showdown.rounds)){
+            throw new Error("Season 1 is not a valid record.");
+        }
         const rounds = Array.isArray(showdown.rounds) ? showdown.rounds : [];
         const seenRoundNumbers = new Set();
         const output = [];
