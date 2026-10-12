@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-12 5:53 AM Boston time (EDT)",
+ "generated": "2026-10-12 6:02 AM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 94,
@@ -869,8 +869,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "06487c2",
-  "head_boston": "Sun 11 Oct 11:29 PM",
+  "head": "e768f02",
+  "head_boston": "Mon 12 Oct 6:00 AM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -902,13 +902,28 @@
    "revision": "1.9.1-r71",
    "when": "2026-10-12T01:40:03Z",
    "subject": "Release r71: smooth screens, new loading screen and desktop fixes (1.9.1-r71) (#695)",
-   "fixes": [],
+   "fixes": [
+    {
+     "pr": 745,
+     "title": "Release r72: screen trains, player improvements and FULL MOTION (1.9.1-r72)",
+     "draft": false,
+     "branch": "gameplay/release-r72",
+     "sha": "1498acf3cfec035400294ba62f3a2b66728dae78",
+     "updated": "2026-10-12T10:02:12Z",
+     "gates": {
+      "passed": 6,
+      "running": 1,
+      "failed": 0,
+      "cancelled": 0
+     }
+    }
+   ],
    "today": []
   },
   "physio": {
    "state": "clear",
    "line": "All clear: every check has a machine.",
-   "gate": "POS20 #304 6/16",
+   "gate": "Gate #745: L1✓ L2✓ L3A✓ L3B✓ L4✓ L5✓ L6… · seal retrying (GitHub) · POS20 #745 0/16",
    "source": "physio"
   },
   "v_headline": "Queued next",
@@ -1324,7 +1339,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 46,
+  "moving": 47,
   "next": 42,
   "nik": 2,
   "later": 21,
@@ -2540,7 +2555,22 @@
     ]
    }
   },
-  "fixes": []
+  "fixes": [
+   {
+    "pr": 745,
+    "title": "Release r72: screen trains, player improvements and FULL MOTION (1.9.1-r72)",
+    "draft": false,
+    "branch": "gameplay/release-r72",
+    "sha": "1498acf3cfec035400294ba62f3a2b66728dae78",
+    "updated": "2026-10-12T10:02:12Z",
+    "gates": {
+     "passed": 6,
+     "running": 1,
+     "failed": 0,
+     "cancelled": 0
+    }
+   }
+  ]
  },
  "jobs": [
   {
