@@ -436,7 +436,11 @@
         const target=runtimeGetSaveEntry(library,saveId);
         const prepared=runtimeCloneValue(target.showdown);
         await runtimePrimeSeasonIdentities(prepared);
-        runtimeAuthorityRawSnapshot();
+        const afterPrime=runtimeAuthorityRawSnapshot();
+        if(afterPrime.saveLibrary!==raw.saveLibrary){
+            runtimeInvalidateAuthority();
+            throw new Error("Save Library changed while selecting the active Showdown. Reload before making more changes.");
+        }
         try{
             if(library.activeSaveId!==saveId){
                 const next={...library,activeSaveId:saveId,profiles:library.profiles.map(runtimeCloneValue),saves:library.saves.map(runtimeCloneValue)};
