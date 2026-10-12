@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-11 8:56 PM Boston time (EDT)",
+ "generated": "2026-10-11 9:28 PM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 94,
@@ -902,7 +902,22 @@
    "revision": "1.9.1-r70",
    "when": "2026-10-11T04:28:26Z",
    "subject": "Release r70: soundtrack top 10 and phone fixes (1.9.1-r70) (#639)",
-   "fixes": [],
+   "fixes": [
+    {
+     "pr": 695,
+     "title": "Release r71: smooth screens, new loading screen and desktop fixes (1.9.1-r71)",
+     "draft": false,
+     "branch": "gameplay/release-r71",
+     "sha": "eff19bea034402d65522a7921cff9f39967be0da",
+     "updated": "2026-10-12T01:27:03Z",
+     "gates": {
+      "passed": 0,
+      "running": 7,
+      "failed": 0,
+      "cancelled": 0
+     }
+    }
+   ],
    "today": [
     {
      "pr": 639,
@@ -1330,7 +1345,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 43,
+  "moving": 44,
   "next": 57,
   "nik": 2,
   "later": 7,
@@ -2520,7 +2535,22 @@
     ]
    }
   },
-  "fixes": []
+  "fixes": [
+   {
+    "pr": 695,
+    "title": "Release r71: smooth screens, new loading screen and desktop fixes (1.9.1-r71)",
+    "draft": false,
+    "branch": "gameplay/release-r71",
+    "sha": "eff19bea034402d65522a7921cff9f39967be0da",
+    "updated": "2026-10-12T01:27:03Z",
+    "gates": {
+     "passed": 0,
+     "running": 7,
+     "failed": 0,
+     "cancelled": 0
+    }
+   }
+  ]
  },
  "jobs": [
   {

@@ -1,13 +1,13 @@
-# Mega factory run report · 2026-10-12T00:28:36Z
+# Mega factory run report · 2026-10-12T01:28:41Z
 
-Taken 279 of 518 jobs. By state: closed 82, merged 181, on_train 1, pr_open 15, waiting 239
+Taken 286 of 518 jobs. By state: closed 82, merged 181, on_train 8, pr_open 15, waiting 232
 
 ## By stage
 Stage | name | total | picked up | merged
 --- | --- | --- | --- | ---
 1 | audits | 112 | 112 | 112
-2 | screen fixes | 266 | 105 | 45
-3 | mockup match | 14 | 1 | 0
+2 | screen fixes | 266 | 108 | 45
+3 | mockup match | 14 | 5 | 0
 4 | phone studies | 70 | 60 | 23
 5 | desktop studies | 56 | 1 | 1
 
@@ -16,14 +16,18 @@ Train | jobs done | PR | state
 --- | --- | --- | ---
 gameplay/train-home-1 | 5 of 5 | [#588](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/588) | merged
 gameplay/train-home-2 | 5 of 5 | [#681](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/681) | merged
+gameplay/train-home-3 | 2 of 5 | - | on train, no PR yet
 gameplay/train-start-join-1 | 5 of 5 | [#590](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/590) | merged
 gameplay/train-start-join-2 | 5 of 5 | [#682](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/682) | merged
+gameplay/train-start-join-3 | 2 of 5 | - | on train, no PR yet
 gameplay/train-league-1 | 5 of 5 | [#593](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/593) | merged
 gameplay/train-league-2 | 5 of 5 | [#683](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/683) | merged
+gameplay/train-league-3 | 1 of 5 | - | on train, no PR yet
 gameplay/train-club-1 | 5 of 5 | [#598](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/598) | closed
 gameplay/train-club-2 | 5 of 5 | [#684](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/684) | pr_open
 gameplay/train-transfer-1 | 5 of 5 | [#584](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/584) | closed
 gameplay/train-transfer-2 | 5 of 5 | [#661](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/661) | closed
+gameplay/train-transfer-3 | 1 of 5 | - | on train, no PR yet
 gameplay/train-season-final-1 | 5 of 5 | [#585](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/585) | merged
 gameplay/train-season-final-2 | 5 of 5 | [#685](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/685) | merged
 gameplay/train-rivalry-legacy-1 | 5 of 5 | [#509](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/509) | closed
@@ -33,7 +37,7 @@ gameplay/train-rivalry-legacy-4 | 5 of 5 | [#539](https://github.com/nikahanghoj
 gameplay/train-career-screens-1 | 5 of 5 | [#586](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/586) | merged
 gameplay/train-career-screens-2 | 5 of 5 | [#686](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/686) | pr_open
 gameplay/train-rivalry-legacy-5 | 2 of 5 | [#542](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/542) | closed
-gameplay/train-rivalry-legacy-6 | 1 of 5 | - | on train, no PR yet
+gameplay/train-rivalry-legacy-6 | 2 of 5 | - | on train, no PR yet
 gameplay/train-rules-settings-1 | 5 of 5 | [#587](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/587) | closed
 gameplay/train-rules-settings-2 | 5 of 5 | [#687](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/687) | pr_open
 

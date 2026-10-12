@@ -1,11 +1,11 @@
 {
  "sequence": {
   "ready": [
-   181,
-   183,
-   185,
-   189,
    191,
+   203,
+   207,
+   217,
+   219,
    240,
    246,
    268,
@@ -15,11 +15,11 @@
    324
   ],
   "ready_sol": [
-   181,
-   183,
-   185,
-   189,
    191,
+   203,
+   207,
+   217,
+   219,
    240,
    246,
    268,
@@ -29,11 +29,11 @@
    324
   ],
   "ready_codex": [],
-  "held_until_picture": 40,
+  "held_until_picture": 0,
   "open_code_prs": 3,
   "open_train_prs": 3,
-  "next_free": 181,
-  "highest_taken": 403,
+  "next_free": 191,
+  "highest_taken": 411,
   "total": 518,
   "states": {
    "1": "merged",
@@ -216,15 +216,15 @@
    "178": "merged",
    "179": "pr_open",
    "180": "merged",
-   "181": "waiting",
+   "181": "on_train",
    "182": "merged",
-   "183": "waiting",
+   "183": "on_train",
    "184": "merged",
-   "185": "waiting",
+   "185": "on_train",
    "186": "merged",
    "187": "waiting",
    "188": "merged",
-   "189": "waiting",
+   "189": "on_train",
    "190": "merged",
    "191": "waiting",
    "192": "merged",
@@ -234,9 +234,9 @@
    "196": "merged",
    "197": "waiting",
    "198": "merged",
-   "199": "waiting",
+   "199": "on_train",
    "200": "merged",
-   "201": "waiting",
+   "201": "on_train",
    "202": "merged",
    "203": "waiting",
    "204": "merged",
@@ -446,7 +446,7 @@
    "408": "waiting",
    "409": "waiting",
    "410": "waiting",
-   "411": "waiting",
+   "411": "on_train",
    "412": "waiting",
    "413": "waiting",
    "414": "waiting",
@@ -556,23 +556,23 @@
    "518": "waiting"
   }
  },
- "updated": "2026-10-12T00:28:36Z",
+ "updated": "2026-10-12T01:28:41Z",
  "counts": {
   "merged": 181,
-  "waiting": 239,
+  "on_train": 8,
+  "waiting": 232,
   "closed": 82,
-  "pr_open": 15,
-  "on_train": 1
+  "pr_open": 15
  },
  "stages": {
   "2": {
    "total": 266,
-   "taken": 105,
+   "taken": 108,
    "merged": 45
   },
   "3": {
    "total": 14,
-   "taken": 1,
+   "taken": 5,
    "merged": 0
   },
   "4": {
@@ -625,7 +625,10 @@
     1074,
     1075
    ],
-   "done": [],
+   "done": [
+    "1071",
+    "1072"
+   ],
    "pr": null,
    "state": null
   },
@@ -673,7 +676,10 @@
     1103,
     1104
    ],
-   "done": [],
+   "done": [
+    "1100",
+    "1101"
+   ],
    "pr": null,
    "state": null
   },
@@ -721,7 +727,9 @@
     1132,
     1133
    ],
-   "done": [],
+   "done": [
+    "1129"
+   ],
    "pr": null,
    "state": null
   },
@@ -841,7 +849,9 @@
     1190,
     1191
    ],
-   "done": [],
+   "done": [
+    "1187"
+   ],
    "pr": null,
    "state": null
   },
@@ -1151,7 +1161,8 @@
     1360
    ],
    "done": [
-    "1356"
+    "1356",
+    "1357"
    ],
    "pr": null,
    "state": null
@@ -1409,39 +1420,39 @@
    "branch": "gameplay/train-home-2"
   },
   "1071": {
-   "state": "waiting",
+   "state": "on_train",
    "pr": null,
    "draft": false,
    "pr_url": null,
-   "branch": null
+   "branch": "gameplay/train-home-3"
   },
   "1072": {
-   "state": "waiting",
+   "state": "on_train",
    "pr": null,
    "draft": false,
    "pr_url": null,
-   "branch": null
+   "branch": "gameplay/train-home-3"
   },
   "1073": {
    "state": "waiting",
    "pr": null,
    "draft": false,
    "pr_url": null,
-   "branch": null
+   "branch": "gameplay/train-home-3"
   },
   "1074": {
    "state": "waiting",
    "pr": null,
    "draft": false,
    "pr_url": null,
-   "branch": null
+   "branch": "gameplay/train-home-3"
   },
   "1075": {
    "state": "waiting",
    "pr": null,
    "draft": false,
    "pr_url": null,
-   "branch": null
+   "branch": "gameplay/train-home-3"
   },
   "1076": {
    "state": "waiting",
@@ -1612,39 +1623,39 @@
    "branch": "gameplay/train-start-join-2"
   },
   "1100": {
-   "state": "waiting",
+   "state": "on_train",
    "pr": null,
    "draft": false,
    "pr_url": null,
-   "branch": null
+   "branch": "gameplay/train-start-join-3"
   },
   "1101": {
-   "state": "waiting",
+   "state": "on_train",
    "pr": null,
    "draft": false,
    "pr_url": null,
-   "branch": null
+   "branch": "gameplay/train-start-join-3"
   },
   "1102": {
    "state": "waiting",
    "pr": null,
    "draft": false,
    "pr_url": null,
-   "branch": null
+   "branch": "gameplay/train-start-join-3"
   },
   "1103": {
    "state": "waiting",
    "pr": null,
    "draft": false,
    "pr_url": null,
-   "branch": null
+   "branch": "gameplay/train-start-join-3"
   },
   "1104": {
    "state": "waiting",
    "pr": null,
    "draft": false,
    "pr_url": null,
-   "branch": null
+   "branch": "gameplay/train-start-join-3"
   },
   "1105": {
    "state": "waiting",
@@ -1815,39 +1826,39 @@
    "branch": "gameplay/train-league-2"
   },
   "1129": {
-   "state": "waiting",
+   "state": "on_train",
    "pr": null,
    "draft": false,
    "pr_url": null,
-   "branch": null
+   "branch": "gameplay/train-league-3"
   },
   "1130": {
    "state": "waiting",
    "pr": null,
    "draft": false,
    "pr_url": null,
-   "branch": null
+   "branch": "gameplay/train-league-3"
   },
   "1131": {
    "state": "waiting",
    "pr": null,
    "draft": false,
    "pr_url": null,
-   "branch": null
+   "branch": "gameplay/train-league-3"
   },
   "1132": {
    "state": "waiting",
    "pr": null,
    "draft": false,
    "pr_url": null,
-   "branch": null
+   "branch": "gameplay/train-league-3"
   },
   "1133": {
    "state": "waiting",
    "pr": null,
    "draft": false,
    "pr_url": null,
-   "branch": null
+   "branch": "gameplay/train-league-3"
   },
   "1134": {
    "state": "waiting",
@@ -2221,39 +2232,39 @@
    "branch": "gameplay/train-transfer-2"
   },
   "1187": {
-   "state": "waiting",
+   "state": "on_train",
    "pr": null,
    "draft": false,
    "pr_url": null,
-   "branch": null
+   "branch": "gameplay/train-transfer-3"
   },
   "1188": {
    "state": "waiting",
    "pr": null,
    "draft": false,
    "pr_url": null,
-   "branch": null
+   "branch": "gameplay/train-transfer-3"
   },
   "1189": {
    "state": "waiting",
    "pr": null,
    "draft": false,
    "pr_url": null,
-   "branch": null
+   "branch": "gameplay/train-transfer-3"
   },
   "1190": {
    "state": "waiting",
    "pr": null,
    "draft": false,
    "pr_url": null,
-   "branch": null
+   "branch": "gameplay/train-transfer-3"
   },
   "1191": {
    "state": "waiting",
    "pr": null,
    "draft": false,
    "pr_url": null,
-   "branch": null
+   "branch": "gameplay/train-transfer-3"
   },
   "1192": {
    "state": "waiting",
@@ -3411,7 +3422,7 @@
    "branch": "gameplay/train-rivalry-legacy-6"
   },
   "1357": {
-   "state": "waiting",
+   "state": "on_train",
    "pr": null,
    "draft": false,
    "pr_url": null,
