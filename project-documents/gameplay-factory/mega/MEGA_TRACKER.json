@@ -1,5 +1,5 @@
 {
-"updated": "2026-10-12T03:12:00Z",
+"updated": "2026-10-12T03:12:16Z",
 "total": 552,
 "next_free": 187,
 "highest_taken": 539,
@@ -8,8 +8,9 @@
 "merged": 151,
 "closed": 82,
 "draft": 57,
-"waiting": 216,
-"blocked": 1
+"waiting": 215,
+"blocked": 1,
+"started": 1
 },
 "stages": {
 "2": {
@@ -29,7 +30,8 @@
 "states": {
 "merged": 112,
 "draft": 15,
-"waiting": 19
+"waiting": 18,
+"started": 1
 }
 },
 "3": {
@@ -86,7 +88,6 @@
 "ready": [
 525,
 527,
-529,
 531,
 533,
 538,
@@ -95,12 +96,12 @@
 542,
 543,
 544,
-545
+545,
+546
 ],
 "ready_sol": [
 525,
 527,
-529,
 531,
 533,
 538,
@@ -109,13 +110,13 @@
 542,
 543,
 544,
-545
+545,
+546
 ],
 "ready_codex": [],
 "ready_all": [
 525,
 527,
-529,
 531,
 533,
 538,
@@ -188,8 +189,7 @@
 "train_batches": [
 [
 525,
-527,
-529
+527
 ],
 [
 531,
@@ -220,11 +220,100 @@
 552
 ]
 ],
+"work_batches": [
+[
+374,
+376,
+378
+],
+[
+402,
+404,
+406
+],
+[
+430,
+432,
+434
+],
+[
+458,
+460,
+462
+],
+[
+380,
+382,
+384
+],
+[
+408,
+410,
+412
+],
+[
+436,
+438,
+440
+],
+[
+464,
+466,
+468
+],
+[
+386,
+388,
+390
+],
+[
+414,
+416,
+418
+],
+[
+442,
+444,
+446
+],
+[
+470,
+472,
+474
+],
+[
+392,
+394,
+396
+],
+[
+420,
+422,
+424
+],
+[
+448,
+450,
+452
+],
+[
+476,
+398,
+400
+],
+[
+426,
+428
+],
+[
+454,
+456
+]
+],
 "chat_batches": [
 [
 525,
-527,
-529
+527
 ],
 [
 531,
@@ -363,13 +452,13 @@
 428,
 456
 ],
-"ready_total": 71,
+"ready_total": 70,
 "held_until_picture": 0,
 "held_by_picture": {}
 },
 "rate": {
 "claimed_last_hour": 42,
-"claimed_last_10min": 5,
+"claimed_last_10min": 3,
 "merged_last_hour": 60
 },
 "lanes": {
@@ -381,15 +470,16 @@
 "closed": 25,
 "merged": 15,
 "draft": 30,
-"waiting": 135,
-"audit_batch": 6
+"waiting": 134,
+"audit_batch": 6,
+"started": 1
 },
 "reviews": {
 "ok": 0,
 "ok_notes": 0,
 "needs_changes": 0
 },
-"picked_up": 121,
+"picked_up": 122,
 "worker_done": 96,
 "finished": 60,
 "pending_lead": 30,
@@ -1534,13 +1624,6 @@
 }
 ],
 "events": [
-{
-"at": "2026-10-11T21:41:33Z",
-"item": 167,
-"job": 1128,
-"from": "waiting",
-"to": "draft"
-},
 {
 "at": "2026-10-11T21:43:03Z",
 "item": 97,
@@ -3633,6 +3716,13 @@
 "job": 1289,
 "from": "started",
 "to": "draft"
+},
+{
+"at": "2026-10-12T03:12:16Z",
+"item": 529,
+"job": 1671,
+"from": "waiting",
+"to": "started"
 }
 ],
 "items": {
@@ -10855,8 +10945,12 @@
 "title": "Audit js/optionalModules.js for gameplay bugs (first half)",
 "mode": "audit",
 "group": null,
-"state": "waiting",
-"since": "2026-10-12T02:25:29Z"
+"state": "started",
+"branch": "qa/job-1671-optionalmodules-firsthalf-audit",
+"branch_sha": "ee7a19450dc77f7897fdd1b9c4f59a3b66d3eb2a",
+"no_pr_reason": "",
+"first_seen": "2026-10-12T03:12:16Z",
+"since": "2026-10-12T03:12:16Z"
 },
 "530": {
 "job": 1672,
