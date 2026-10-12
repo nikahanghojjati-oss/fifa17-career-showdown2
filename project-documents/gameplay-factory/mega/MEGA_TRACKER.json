@@ -1,5 +1,5 @@
 {
-"updated": "2026-10-12T03:34:25Z",
+"updated": "2026-10-12T03:35:55Z",
 "total": 552,
 "next_free": 187,
 "highest_taken": 541,
@@ -441,7 +441,7 @@
 "held_by_picture": {}
 },
 "rate": {
-"claimed_last_hour": 29,
+"claimed_last_hour": 26,
 "claimed_last_10min": 0,
 "merged_last_hour": 60
 },
@@ -510,7 +510,7 @@
 "live": 23,
 "merged": 1,
 "waiting": 43,
-"draft": 1
+"ci_failed": 1
 },
 "reviews": {
 "ok": 0,
@@ -520,14 +520,14 @@
 "picked_up": 25,
 "worker_done": 25,
 "finished": 24,
-"pending_lead": 1,
+"pending_lead": 0,
 "wait_v": 0,
 "audit_batch": 0,
-"trouble": 0,
+"trouble": 1,
 "closed": 0,
 "reviews_total": 0,
 "first_time_ok": 100,
-"failing_now": 0
+"failing_now": 1
 },
 "codex": {
 "name": "Codex",
