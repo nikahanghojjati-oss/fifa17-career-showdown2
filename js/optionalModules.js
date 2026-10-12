@@ -13,7 +13,7 @@ let optionalModulesInitialized = false;
 let optionalOpenRequestId = 0;
 let gameplayRuntimeState = "idle";
 let gameplayRuntimePromise = null;
-let gameplayRuntimeInitialized = 0; // starters done
+let gameplayRuntimeInitialized = 0;
 let requiredFootballVisualPromise = null;
 
 function optionalAssetUrl(path){
@@ -86,6 +86,7 @@ document.head.appendChild(link);
 });
 
 runtimeStylePromises.set(key, promise);
+promise.catch(() => {});
 return promise;
 }
 

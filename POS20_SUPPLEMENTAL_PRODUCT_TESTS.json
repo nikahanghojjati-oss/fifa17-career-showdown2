@@ -1402,6 +1402,14 @@
         "^tests/contracts/chat\\-audit\\-diagnostics\\-b\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/work-audit-optional-modules-a-contracts.cjs",
+      "patterns": [
+        "^js/optionalModules\\.js$",
+        "^tests/contracts/work\\-audit\\-optional\\-modules\\-a\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
