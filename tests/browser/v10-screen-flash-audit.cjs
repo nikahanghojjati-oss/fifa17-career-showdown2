@@ -41,9 +41,11 @@ const journeys = [
     { name: "ruleBook", host: "ruleBook", open: "window.openOptionalModule('ruleBook')" },
     { name: "setup", host: "createShowdown", open: "window.navigateTo('createShowdown')" },
     { name: "settings", host: "settingsOverlay", overlay: true, open: "document.getElementById('settingsButton').click()", close: "window.closeSettings()" },
-    { name: "seasonResults", host: "seasonEntry", fixture: "ready", required: true, reportOnly: true, content: ".v10SeasonStage:not([hidden]) #seasonReviewPanel", open: "window.__cmsOpenReadyResults()" },
-    { name: "finalWinner", host: "seasonEntry", fixture: "finished", required: true, reportOnly: true, content: ".v10FinalStage", open: "window.openSeasonEntry()" },
-    { name: "rivalry", host: "statistics", fixture: "finished", required: true, content: ".rv-stage", open: "window.openRivalryStatistics({ model: window.__cmsRivalryFixture })" }
+    { name: "seasonResults", host: "seasonEntry", fixture: "ready", required: true, content: ".v10SeasonStage:not([hidden]) #seasonReviewPanel", open: "window.__cmsOpenReadyResults()" },
+    { name: "finalWinner", host: "seasonEntry", fixture: "finished", required: true, content: ".v10FinalStage", open: "window.openSeasonEntry()" },
+    { name: "rivalry", host: "statistics", fixture: "finished", required: true, content: ".rv-stage", open: "window.openRivalryStatistics({ model: window.__cmsRivalryFixture })" },
+    // Standings opens from the nav bar's STANDINGS tab (Team V route override, which creates its host on first use).
+    { name: "standings", host: "standings", fixture: "finished", required: true, content: ".sdg-stage", open: "window.CareerModeV10Screens.navigate('standings')" }
 ];
 // reportOnly journeys (JOB-1651): the screens flash today and this job does not fix screens. Their open and mount asserts
 // still block; their flash problems print as FINDING lines (brief for the follow-up fix job) and do not fail the run.

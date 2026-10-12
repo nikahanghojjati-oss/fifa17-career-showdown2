@@ -36,7 +36,7 @@ function fakeDom(){
   };
   const body=make("body"),card=make("section"),toggle=make("button",{id:"menuMusicToggle"}),mute=make("button",{id:"menuMusicMute"}),status=make("p",{id:"menuMusicStatus"});
   const selector=make("div"),title=make("strong"),artist=make("p");
-  const choices=["business","tabestoonKootahe","sarnevesht","nextToYou","hateItOrLoveIt","banafsh","didehODel","yakuza","nasty","cheraBadi"].map(key=>{const b=make("button");b.dataset.soundtrackTrack=key;return b;});
+  const choices=["business","inDaClub","sarnevesht","nextToYou","hateItOrLoveIt","banafsh","fresh","yakuza","nasty","cheraBadi"].map(key=>{const b=make("button");b.dataset.soundtrackTrack=key;return b;});
   card.querySelector=sel=>({".menuMusicHeader strong":title,".menuMusicArtist":artist,".menuMediaSelector":selector})[sel]||null;
   card.querySelectorAll=sel=>sel==="[data-soundtrack-track]"?choices:[];
   const ids={menuMusicToggle:toggle,menuMusicMute:mute,menuMusicStatus:status};
@@ -105,7 +105,7 @@ test("the YouTube player is retired only by lazy Home code, and product diagnost
 test("Audius is the only new network host",()=>{
   const hosts=new Set([...(binder+soundtrack).matchAll(/https?:\/\/([a-z0-9.-]+)/gi)].map(m=>m[1].toLowerCase()));
   assert.deepEqual([...hosts],["api.audius.co"]);
-  assert.equal(Home.MEDIA.tracks.length,10);assert.deepEqual(Home.MEDIA.tracks.map(t=>t.audiusTrackId),["Ymgov","50Zlg","gb33l","n1zqQ","ygyOr","3RaaM","Q6PPG","ryBXG","G5rXAWE","0dGWK"],"Nik's locked top 10, in his order (JOB-1591)");assert.equal(Home.MEDIA.defaultTrack,"business");
+  assert.equal(Home.MEDIA.tracks.length,10);assert.deepEqual(Home.MEDIA.tracks.map(t=>t.audiusTrackId),["Ymgov","qZ17b","gb33l","n1zqQ","ygyOr","3RaaM","AV9dv","ryBXG","G5rXAWE","0dGWK"],"Nik's locked top 10, in his order (JOB-1591)");assert.equal(Home.MEDIA.defaultTrack,"business");
 });
 test("Home registers through job 24's loader with Team V's CSS, the adapter and the soundtrack",()=>{
   assert.match(binder,/V\.register\("mainMenu",\{css:HOME_CSS\.slice\(\),js:\[\["v10-home-soundtrack","home\/soundtrack\.js"/);

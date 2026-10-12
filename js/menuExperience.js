@@ -79,7 +79,7 @@ const MENU_MEDIA_SOURCES = Object.freeze({
 });
 
 const MARCO_REUS_IMAGE = Object.freeze({
-    thumbnail: "assets/marco-reus-2015-cc-by.webp?v=1.9.1-r72",
+    thumbnail: "assets/marco-reus-2015-cc-by.webp?v=1.9.1-r73",
     source: "https://commons.wikimedia.org/wiki/File:Marco_Reus_(16204330530)_(cropped).jpg",
     license: "https://creativecommons.org/licenses/by/2.0/"
 });
@@ -310,7 +310,7 @@ function destroyMenuMediaIframe(){
     clearMenuMediaLoadTimer();
 
     if(menuMediaIframe){
-        try{ sendMenuMediaCommand("pauseVideo"); }catch(error){ /* iframe may already be detached */ }
+        try{ sendMenuMediaCommand("pauseVideo"); }catch(error){ }
         menuMediaIframe.remove();
     }
 
@@ -534,7 +534,6 @@ function warmMenuFeedbackModule(){
     }
     menuFeedbackWarmPromise = window.ensureMenuFeedbackModule().catch(() => {
         menuFeedbackWarmPromise = null;
-        /* Optional audio support never blocks or surfaces over navigation. */
     });
     return menuFeedbackWarmPromise;
 }

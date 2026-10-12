@@ -69,7 +69,9 @@
   async function routeOpenNow(){
     if(!routeReady())return false;
     if(typeof root.loadRuntimeScript!=="function")throw new Error("Shared Season Results runtime loader is unavailable.");
+    const navigationAtTap=typeof root.getNavigationRevision==="function"?root.getNavigationRevision():null;
     await root.loadRuntimeScript("ssjr-production-season-results","js/productionSharedSeasonResults.js",()=>root.CareerModeProductionSharedSeasonResults);
+    if(navigationAtTap!==null&&root.getNavigationRevision()!==navigationAtTap)return false;
     const api=root.CareerModeProductionSharedSeasonResults;if(!api||typeof api.install!=="function"||typeof api.open!=="function")throw new Error("Shared Season Results production adapter is unavailable.");
     api.install();const opened=await api.open();if(!opened)return false;await routeBootstrapPostResults();
     if(api.getState?.()?.state?.phase==="RESULTS_READY"){

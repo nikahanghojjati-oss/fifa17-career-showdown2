@@ -69,6 +69,9 @@ html[data-v10-screen]:not([data-v10-setup]):not([data-v10-screen="mainMenu"]) #a
 html[data-v10-screen]:not([data-v10-setup]):not([data-v10-screen="mainMenu"]) #app > footer {
   position: absolute; width: 1px; height: 1px; min-height: 0; margin: -1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0;
 }
+/* r73 polish: wherever a Team V screen leaves the app footer on show (Home's band, the phone setup screens, Legacy's tools)
+   its version line takes the kit's own face, as on Home, never the old system font. */
+html:is([data-v10-screen], [data-v10-setup], [data-v10-tools]) #app > footer { font-family: var(--sd-font-body, "Barlow", system-ui, sans-serif); }
 @media (max-width: 900px) {
   html[data-v10-screen]:not([data-v10-setup]):not([data-v10-screen="mainMenu"]) #app #topHeader { left: 10px; right: auto; top: max(10px, env(safe-area-inset-top)); }
   html[data-v10-screen]:not([data-v10-setup]):not([data-v10-screen="mainMenu"]) #app #topHeader:not(:focus-within) {
@@ -374,4 +377,64 @@ html[data-motion-reduced="true"] body #app #clubWheelScreen[data-club-reveal-sta
   /* Partial history keeps its banner between the totals and the two panels; the panels start a little lower and end on the same line. */
   #app #careerStatistics.careerScreenV10 .partialBanner { left: 21.5%; top: 41.2%; width: 57.8%; padding: 3px 10px; }
   #app #careerStatistics.careerScreenV10 .careerStage[data-state="partial"] :is(.careerTablePanel, .comparisonPanel) { top: 44.9%; height: 19.9%; }
+}
+
+/* r72 flaw 2: Career Statistics at desktop sizes had four different left/right edges (totals 24-76%, Career Table and Manager
+   Comparison 21.5-79.3%, Career Leaders 15-85%, actions 15.5-84.5%), and the comparison ran under Nik's shoulder. All of them now
+   share ONE content column, the totals row's own 24%-76% (centred on the title and clear of both heads): the Career Table sits
+   under the first two totals, the Manager Comparison under the last two, so their edges line up with the tiles above, and the
+   leaders and actions rows span the same column. Heights, tops, type and copy are the adopted study's, unchanged. Same desktop
+   query as the JOB-1405 block above, so phone, sideways phone and tablet are untouched. */
+@media (min-width: 1200px) and (min-height: 700px) {
+  #app #careerStatistics.careerScreenV10 { --cs-col-l: 24%; --cs-col-w: 52%; --cs-half: calc((var(--cs-col-w) - var(--cs-u) * .5) / 2); }
+  #app #careerStatistics.careerScreenV10 .headlineTiles { left: var(--cs-col-l); width: var(--cs-col-w); }
+  #app #careerStatistics.careerScreenV10 .careerTablePanel { left: var(--cs-col-l); width: var(--cs-half); }
+  #app #careerStatistics.careerScreenV10 .comparisonPanel { left: calc(var(--cs-col-l) + var(--cs-half) + var(--cs-u) * .5); width: var(--cs-half); }
+  #app #careerStatistics.careerScreenV10 .leadersPanel { left: var(--cs-col-l); width: var(--cs-col-w); }
+  #app #careerStatistics.careerScreenV10 .actionRow { left: var(--cs-col-l); width: var(--cs-col-w); }
+  #app #careerStatistics.careerScreenV10 .partialBanner { left: var(--cs-col-l); width: var(--cs-col-w); }
+  /* Without an active showdown the rivalry button is hidden; its two siblings then share the whole column, so the row ends
+     on the same right edge as the panels above (otherwise the third grid column is left empty). */
+  #app #careerStatistics.careerScreenV10 .actionRow:has(> #careerStatisticsRivalryButton.hidden) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* STATS-PLATE-V2 (ticket 1610P): desktop Career Statistics on Team V's approved penthouse plate V2. The stage still draws the V1
+   plate through its --sd-plate-1x/2x variables; at the desktop picture range this paints the same-size V2 plate over it, hides the
+   Daniel crossed-arms overlay (V1 only, it would sit on V2's different pose), and gives the tiles, panels, leader cards and
+   buttons the picture's gold-bevel and polished-gold finish. The #788 column alignment, every word, id and tap order are kept;
+   phone, sideways phone and tablet are outside this query and unchanged. */
+@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
+  #app #careerStatistics.careerScreenV10 {
+    --cs2-bevel: linear-gradient(135deg, #fff3b0 0%, #e2b645 16%, #8a6118 40%, #c99a33 62%, #f6dc86 82%, #9a6f1d 100%);
+    --cs2-bw: max(2px, calc(var(--cs-u, min(1vw, 1.7778vh)) * .17));
+    --cs2-ring: inset 0 0 0 1px rgba(5, 5, 5, .9), inset 0 1px 0 1px rgba(255, 236, 160, .2), 0 6px 18px rgba(0, 0, 0, .5);
+  }
+  #app #careerStatistics.careerScreenV10 .sd-stage__plate {
+    background-image: image-set(url("../visual-assets/v10_1/plates-v2/ENV_STATISTICS_PLATE_V2_1X.webp") 1x, url("../visual-assets/v10_1/plates-v2/ENV_STATISTICS_PLATE_V2_2X.webp") 2x);
+  }
+  #app #careerStatistics.careerScreenV10 :is(.sd-stage__layer--cutout, .sd-stage__layer--light) { display: none; }
+  #app #careerStatistics.careerScreenV10 :is(.headlineTile, .glassPanel, .leaderCard, .actionButton) {
+    clip-path: none; border: var(--cs2-bw) solid transparent; border-image: var(--cs2-bevel) 1; border-radius: 0; box-shadow: var(--cs2-ring);
+  }
+  #app #careerStatistics.careerScreenV10 :is(.headlineTile, .glassPanel) { background: linear-gradient(150deg, rgba(8, 9, 11, .9), rgba(10, 11, 13, .8)); }
+  #app #careerStatistics.careerScreenV10 .leaderCard { background: linear-gradient(150deg, rgba(14, 15, 17, .92), rgba(9, 10, 12, .84)); border-width: max(1.5px, calc(var(--cs2-bw) * .6)); }
+  #app #careerStatistics.careerScreenV10 .actionButton.secondary { background: linear-gradient(180deg, #141311, #070708); color: #fff1ae; }
+  #app #careerStatistics.careerScreenV10 .actionButton.primary {
+    background: linear-gradient(180deg, #fff0a6 0%, #f4cb55 38%, #d9a52b 72%, #b98a21 100%); color: #130e03;
+    box-shadow: inset 0 0 0 1px rgba(110, 76, 10, .7), inset 0 1px 0 2px rgba(255, 252, 220, .55), 0 6px 18px rgba(0, 0, 0, .5), 0 0 22px rgba(224, 168, 44, .22);
+  }
+  #app #careerStatistics.careerScreenV10 .panelTitle { border-bottom-color: #a8924f; text-shadow: 0 1px 3px #000; }
+  #app #careerStatistics.careerScreenV10 .titleBlock::before { content: ""; position: absolute; inset: -4% -10% -2%; z-index: -1; background: radial-gradient(ellipse at 50% 52%, rgba(3, 4, 6, .62), rgba(3, 4, 6, .3) 55%, transparent 74%); }
+  #app #careerStatistics.careerScreenV10 :is(.sd-eyebrow, .sd-tagline) { text-shadow: 0 1px 4px #000, 0 0 10px rgba(0, 0, 0, .9); }
+  /* leader portraits: heads cropped from the V2 plate */
+  #app #careerStatistics.careerScreenV10 .managerPortrait {
+    background-image: image-set(url("../visual-assets/v10_1/plates-v2/ENV_STATISTICS_PLATE_V2_1X.webp") 1x, url("../visual-assets/v10_1/plates-v2/ENV_STATISTICS_PLATE_V2_2X.webp") 2x);
+    border: 1px solid rgba(255, 224, 120, .6); border-image: none; box-shadow: inset 0 -10px 12px rgba(0, 0, 0, .35);
+  }
+  #app #careerStatistics.careerScreenV10 .managerPortrait.daniel { background-size: auto 338.8%; background-position: 13.4% 13.1%; }
+  #app #careerStatistics.careerScreenV10 .managerPortrait.nik { background-size: auto 303.2%; background-position: 84.2% 14.7%; }
+}
+/* Ultrawide: the wordmark is sized from the title block's width, so on 2560x1080 it grew over the tagline; here it keeps its 1920x1080 size. */
+@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 11/5) and (orientation: landscape) {
+  #app #careerStatistics.careerScreenV10 .titleWordmark { width: min(93.6%, 66.2vh); left: calc(50% - min(46.8%, 33.1vh)); }
 }

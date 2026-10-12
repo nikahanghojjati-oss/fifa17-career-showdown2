@@ -1182,3 +1182,418 @@ html:is([data-motion-reduced="true"], [data-reduced-motion="true"]) :is(#createS
 #dashboard.v26Skin .playerCard { border-top-color: var(--v26-gold-deep); }
 #dashboard.v26Skin .playerCard :is(p, div) { border-color: rgba(201, 155, 69, .22); }
 #dashboard.v26Skin .dashboardActions { gap: 10px; }
+
+/* JOB-1697: NEXT_LEAGUE and adopted 1622 / 1625 / 1626.
+   Product DOM, text, order, wheel rotation and provider authority stay untouched.
+   Only the reviewed viewport families opt in; #app wins over late Team V sheets.
+   main owns scrolling. The stage never reserves an additional hero band. */
+@media (min-width: 340px) and (max-width: 430px) and (max-height: 960px) and (orientation: portrait),
+       (min-width: 640px) and (max-width: 900px) and (max-height: 440px) and (orientation: landscape),
+       (min-width: 740px) and (max-width: 900px) and (min-height: 980px) and (orientation: portrait),
+       (min-width: 1200px) and (min-height: 600px) and (orientation: landscape) {
+  html[data-v10-setup="league"] #app { height: 100svh; min-height: 0; }
+  html[data-v10-setup="league"] #app > main {
+    min-width: 0; min-height: 0; padding: 8px 0;
+    overflow-x: hidden; overflow-y: auto;
+  }
+  #app #leagueWheelScreen.v26Skin {
+    --v26-band: 0px; --sr-hero: 0px;
+    width: 100%; max-width: 100%; min-width: 0; min-height: 100%;
+    height: auto; max-height: none; padding: 0 12px 8px; overflow: visible;
+  }
+  #app #leagueWheelScreen.v26Skin > h2 {
+    flex: none; margin: 0 auto 6px; padding: 0;
+  }
+  #app #leagueWheelScreen.v26Skin .wheelContainer {
+    width: min(730px, 100%); max-width: 100%; min-width: 0;
+    margin: 0 auto; padding: 0; max-height: none; overflow: visible;
+    grid-template-columns: minmax(0, 1.04fr) minmax(0, 1fr);
+    column-gap: 12px;
+  }
+  #app #leagueWheelScreen.v26Skin #selectedLeague {
+    width: 100%; min-width: 0; min-height: 28px; margin: 0 0 6px;
+    gap: 8px; padding: 0; white-space: normal; overflow-wrap: normal;
+    font-size: 18px; line-height: 1.15; letter-spacing: .14em;
+  }
+  #app #leagueWheelScreen.v26Skin #selectedLeague::before,
+  #app #leagueWheelScreen.v26Skin #selectedLeague::after { flex: 0 1 52px; }
+  #app #leagueWheelScreen.v26Skin .wheelPointer {
+    width: calc(var(--v26-wheel) * .09);
+    height: calc(var(--v26-wheel) * .09 * 56 / 44);
+    margin: 0 0 calc(var(--v26-wheel) * -.045);
+    background: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2044%2056%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x2%3D%220%22%20y2%3D%221%22%3E%3Cstop%20stop-color%3D%22%23fff1b8%22%2F%3E%3Cstop%20offset%3D%22.55%22%20stop-color%3D%22%23f2c45b%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%237a5a22%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Cpath%20d%3D%22M3%204h38L22%2052z%22%20fill%3D%22url(%23g)%22%20stroke%3D%22%237a5a22%22%20stroke-width%3D%221.4%22%2F%3E%3Cpath%20d%3D%22M11%209h22L22%2040z%22%20fill%3D%22%237a5a22%22%20opacity%3D%22.35%22%2F%3E%3C%2Fsvg%3E") center / contain no-repeat;
+  }
+  #app #leagueWheelScreen.v26Skin #leagueWheel {
+    width: var(--v26-wheel); height: var(--v26-wheel);
+    max-width: none; flex: none; margin: 0 0 8px;
+  }
+  /* Existing V2 silhouettes, one flat gold finish; ink on the lit slice.
+     An upright item is anchored 128/240 radii from the hub, with its mark
+     52/240 above that anchor. This is the adopted study's safe inner geometry. */
+  #app #leagueWheelScreen.v26Skin .wheelItem {
+    width: calc(var(--R) * .70); margin-left: calc(var(--R) * -.35);
+    padding: 0; gap: calc(var(--R) * .025);
+    font-size: clamp(9px, calc(var(--v26-wheel) * 16 / 480), 20px);
+    line-height: 1.1; letter-spacing: .01em; overflow-wrap: normal;
+    transform: rotate(var(--v26-a)) translateY(calc(var(--R) * -128 / 240))
+      rotate(calc(0deg - var(--v26-a))) translateY(calc(var(--R) * -52 / 240));
+  }
+  #app #leagueWheelScreen.v26Skin .wheelItem[data-league-mark]::before {
+    flex: none; width: calc(var(--R) * 52 / 240); height: calc(var(--R) * 52 / 240);
+    background: #e2b84a; filter: none;
+    -webkit-mask: var(--league-mark-image) center / contain no-repeat;
+    mask: var(--league-mark-image) center / contain no-repeat;
+  }
+  #app #leagueWheelScreen.v26Skin .wheelItem:is(.v26-top, .v26-selected)::before {
+    background-color: #0b0d10; filter: none;
+  }
+  /* The slice dividers and the lit wedge end under the gold rim: nothing shows past it. */
+  #app #leagueWheelScreen.v26Skin #leagueWheel::before,
+  #app #leagueWheelScreen.v26Skin .wheelTrack {
+    -webkit-mask-image: radial-gradient(circle closest-side, #000 0 88%, transparent 88.5%);
+    mask-image: radial-gradient(circle closest-side, #000 0 88%, transparent 88.5%);
+  }
+  #app #leagueWheelScreen.v26Skin #leagueWheel::after {
+    background: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20480%20480%22%3E%3Cdefs%3E%3CradialGradient%20id%3D%22ball%22%20cx%3D%22.38%22%20cy%3D%22.32%22%20r%3D%22.8%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%23fff1b8%22%2F%3E%3Cstop%20offset%3D%22.45%22%20stop-color%3D%22%23f2c45b%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%237a5a22%22%2F%3E%3C%2FradialGradient%3E%3CclipPath%20id%3D%22ballClip%22%3E%3Ccircle%20cx%3D%22240%22%20cy%3D%22240%22%20r%3D%2246%22%2F%3E%3C%2FclipPath%3E%3C%2Fdefs%3E%3Cg%20class%3D%22hub%22%3E%3Ccircle%20cx%3D%22240%22%20cy%3D%22240%22%20r%3D%2253%22%20fill%3D%22%230a0b0d%22%20stroke%3D%22%23c99b45%22%20stroke-width%3D%223%22%2F%3E%3Ccircle%20cx%3D%22240%22%20cy%3D%22240%22%20r%3D%2247%22%20fill%3D%22url(%23ball)%22%2F%3E%3Cg%20clip-path%3D%22url(%23ballClip)%22%20fill%3D%22%234a3612%22%20stroke%3D%22%232e2009%22%20stroke-width%3D%221.2%22%3E%3Cpolygon%20points%3D%22240.0%2C226.0%20253.3%2C235.7%20248.2%2C251.3%20231.8%2C251.3%20226.7%2C235.7%22%2F%3E%3Cpolygon%20points%3D%22248.8%2C180.9%20254.3%2C197.6%20240.0%2C208.0%20225.7%2C197.6%20231.2%2C180.9%22%2F%3E%3Cline%20x1%3D%22240.0%22%20y1%3D%22226.0%22%20x2%3D%22240.0%22%20y2%3D%22207.0%22%20fill%3D%22none%22%2F%3E%3Cpolygon%20points%3D%22299.0%2C230.1%20284.7%2C240.5%20270.4%2C230.1%20275.9%2C213.3%20293.5%2C213.3%22%2F%3E%3Cline%20x1%3D%22253.3%22%20y1%3D%22235.7%22%20x2%3D%22271.4%22%20y2%3D%22229.8%22%20fill%3D%22none%22%2F%3E%3Cpolygon%20points%3D%22267.6%2C293.0%20253.4%2C282.7%20258.8%2C265.9%20276.4%2C265.9%20281.9%2C282.7%22%2F%3E%3Cline%20x1%3D%22248.2%22%20y1%3D%22251.3%22%20x2%3D%22259.4%22%20y2%3D%22266.7%22%20fill%3D%22none%22%2F%3E%3Cpolygon%20points%3D%22198.1%2C282.7%20203.6%2C265.9%20221.2%2C265.9%20226.6%2C282.7%20212.4%2C293.0%22%2F%3E%3Cline%20x1%3D%22231.8%22%20y1%3D%22251.3%22%20x2%3D%22220.6%22%20y2%3D%22266.7%22%20fill%3D%22none%22%2F%3E%3Cpolygon%20points%3D%22186.5%2C213.3%20204.1%2C213.3%20209.6%2C230.1%20195.3%2C240.5%20181.0%2C230.1%22%2F%3E%3Cline%20x1%3D%22226.7%22%20y1%3D%22235.7%22%20x2%3D%22208.6%22%20y2%3D%22229.8%22%20fill%3D%22none%22%2F%3E%3C%2Fg%3E%3Ccircle%20cx%3D%22240%22%20cy%3D%22240%22%20r%3D%2247%22%20fill%3D%22none%22%20stroke%3D%22rgba(255%2C241%2C184%2C.35)%22%20stroke-width%3D%221.2%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E") center / 100% 100% no-repeat,
+      url("../visual-assets/v10_1/shared/art/wheel/WHEEL_RIM_V1.webp") center / 100% 100% no-repeat;
+  }
+  #app #leagueWheelScreen.v26Skin #leagueStateNote {
+    width: 100%; max-width: 100%; min-width: 0;
+    margin: 4px 0; padding: 8px 14px; overflow-wrap: normal;
+    font: 400 14px/1.3 var(--v26-body); letter-spacing: 0;
+    border-color: rgba(242, 196, 91, .7);
+  }
+  #app #leagueWheelScreen.v26Skin .wheelContainer :is(.menuButton, .backButton) {
+    min-width: 44px; min-height: 48px; width: 100%; margin: 8px 0 0;
+    padding: 8px 12px; white-space: normal; overflow-wrap: normal;
+    font-size: 18px; line-height: 1.15; letter-spacing: .04em;
+  }
+  #app #leagueWheelScreen.v26Skin #spinLeague { grid-column: 1; }
+  #app #leagueWheelScreen.v26Skin .wheelContainer > .backButton { grid-column: 2; }
+  #app #leagueWheelScreen.v26Skin #spinLeague.hidden + .backButton { grid-column: 1 / -1; }
+  #app #leagueWheelScreen.v26Skin :is(.menuButton, .backButton):not(:disabled):active {
+    transform: translateY(1px); filter: brightness(.94);
+  }
+  #app #leagueWheelScreen.v26Skin :is(.menuButton, .backButton):focus-visible {
+    outline: 3px solid #fff1b8; outline-offset: 3px;
+    box-shadow: 0 0 0 2px #07080a, 0 0 0 5px rgba(245, 197, 24, .55);
+  }
+}
+
+/* Upright phone: the larger managers flank the result above the side marks.
+   The wheel yields height to the live note and both >=44px actions. */
+@media (min-width: 340px) and (max-width: 430px) and (max-height: 960px) and (orientation: portrait) {
+  html[data-v10-setup="league"] #app > main { padding: 4px 0; }
+  html[data-v10-setup="league"] #app #topHeader {
+    display: grid; grid-template-columns: minmax(0, 1fr) auto auto;
+    align-items: center; min-height: 60px; gap: 6px; padding: 6px 10px;
+  }
+  html[data-v10-setup="league"] #app #topHeader .brand { gap: 3px; }
+  html[data-v10-setup="league"] #app #topHeader .brand h1 { font-size: 21px; letter-spacing: -.3px; }
+  html[data-v10-setup="league"] #app #topHeader .brand p { font-size: 9px; letter-spacing: 1.1px; }
+  html[data-v10-setup="league"] #app #topHeader #onlinePlayerIdentityBadge {
+    min-width: 44px; min-height: 44px; margin: 0 !important; padding: 4px 7px !important;
+    display: inline-flex !important; align-items: center; justify-content: center;
+  }
+  html[data-v10-setup="league"] #app #seasonIndicator {
+    max-width: 116px; padding: 7px 8px; font-size: 11px; letter-spacing: .06em;
+  }
+  html[data-v10-setup="league"] #app > footer { min-height: 28px; padding: 3px 10px; font-size: 10px; line-height: 1.1; }
+  #app #leagueWheelScreen.v26Skin {
+    --v26-wheel: max(140px, min(76vw, calc(100svh - 420px)));
+    --v1697-title: min(76vw, 42svh, 310px);
+  }
+  #app #leagueWheelScreen.v26Skin > h2 { width: var(--v1697-title); margin-bottom: 4px; }
+  #app #leagueWheelScreen.v26Skin #selectedLeague {
+    width: 36%; justify-self: center; min-height: 48px; margin-bottom: 4px;
+    font-size: 15px; letter-spacing: .10em;
+  }
+  #app #leagueWheelScreen.v26Skin #selectedLeague::before,
+  #app #leagueWheelScreen.v26Skin #selectedLeague::after { display: none; }
+  #app #leagueWheelScreen.v26Skin #leagueStateNote {
+    margin: 4px 0; padding: 6px 10px; font-size: 13px; line-height: 1.3;
+  }
+  #app #leagueWheelScreen.v26Skin .wheelContainer :is(.menuButton, .backButton) {
+    grid-column: 1 / -1; min-height: 44px; margin-top: 4px;
+    padding: 6px 10px; font-size: 16px; letter-spacing: .02em;
+  }
+  #app #leagueWheelScreen.v26Skin #spinLeague { grid-column: 1 / -1; }
+  #app #leagueWheelScreen.v26Skin .wheelContainer > .backButton { margin-top: 8px; }
+  #app #leagueWheelScreen.v26Skin .v26Art {
+    top: calc(var(--v1697-title) * 456 / 2332 + 4px);
+    height: calc(var(--v26-wheel) * .38 + 66px);
+    left: 10px; right: 10px; overflow: visible; z-index: 0;
+  }
+  #app #leagueWheelScreen.v26Skin .v26Hero {
+    top: 0; bottom: auto; width: 32%; height: 100%; max-width: none;
+  }
+  #app #leagueWheelScreen.v26Skin .v26Hero--daniel { left: 0; }
+  #app #leagueWheelScreen.v26Skin .v26Hero--nik { right: 0; }
+  #app #leagueWheelScreen.v26Skin .v26Hero img {
+    width: 100%; height: 100%; max-width: 100%; object-fit: contain;
+    object-position: center top; -webkit-mask-image: none; mask-image: none;
+  }
+}
+
+/* Sideways: decorative managers remain outside the wheel-left / controls-right
+   grid. display:contents changes only the box tree; DOM and tap order survive. */
+@media (min-width: 640px) and (max-width: 900px) and (max-height: 440px) and (orientation: landscape) {
+  html[data-v10-setup="league"] #app > main { padding: 4px 0; }
+  html[data-v10-setup="league"] #app #topHeader { min-height: 54px; padding: 5px 12px; }
+  html[data-v10-setup="league"] #app #topHeader .brand h1 { font-size: 25px; }
+  html[data-v10-setup="league"] #app #topHeader .brand p { font-size: 10px; }
+  html[data-v10-setup="league"] #app #topHeader #onlinePlayerIdentityBadge {
+    min-width: 44px; min-height: 44px; margin: 0 !important;
+    display: inline-flex !important; align-items: center; justify-content: center;
+  }
+  html[data-v10-setup="league"] #app > footer { min-height: 28px; padding: 3px 12px; font-size: 10px; line-height: 1.1; }
+  #app #leagueWheelScreen.v26Skin:not(.hidden) {
+    --v26-wheel: max(140px, min(34vw, calc(100svh - 150px)));
+    display: grid; grid-template-columns: var(--v26-wheel) minmax(0, 1fr);
+    grid-template-rows: auto auto auto auto auto;
+    align-content: center; align-items: center; column-gap: 14px; row-gap: 4px;
+    padding: 0 14vw 8px;
+  }
+  #app #leagueWheelScreen.v26Skin > h2 { grid-column: 2; grid-row: 1; width: min(100%, 230px); margin: 0 auto; }
+  #app #leagueWheelScreen.v26Skin .wheelContainer { display: contents; }
+  #app #leagueWheelScreen.v26Skin .wheelContainer > * { order: 0; }
+  #app #leagueWheelScreen.v26Skin #leagueWheel { grid-column: 1; grid-row: 1 / 6; margin: 0; }
+  #app #leagueWheelScreen.v26Skin .wheelPointer {
+    grid-column: 1; grid-row: 1 / 6; margin: 0; align-self: center; justify-self: center;
+    transform: translateY(calc(var(--v26-wheel) * -.48));
+  }
+  #app #leagueWheelScreen.v26Skin #selectedLeague { grid-column: 2; grid-row: 2; font-size: 17px; min-height: 24px; margin: 0; }
+  #app #leagueWheelScreen.v26Skin #selectedLeague::before,
+  #app #leagueWheelScreen.v26Skin #selectedLeague::after { display: none; }
+  #app #leagueWheelScreen.v26Skin #leagueStateNote {
+    grid-column: 2; grid-row: 3; margin: 0; padding: 6px 8px; font-size: 12px;
+  }
+  #app #leagueWheelScreen.v26Skin #spinLeague { grid-column: 2; grid-row: 4; }
+  #app #leagueWheelScreen.v26Skin .wheelContainer > .backButton,
+  #app #leagueWheelScreen.v26Skin #spinLeague.hidden + .backButton { grid-column: 2; grid-row: 5; }
+  #app #leagueWheelScreen.v26Skin .wheelContainer :is(.menuButton, .backButton) {
+    min-height: 44px; margin: 0; padding: 5px 8px; font-size: 15px;
+  }
+  #app #leagueWheelScreen.v26Skin .wheelContainer > .backButton { margin-top: 4px; }
+  #app #leagueWheelScreen.v26Skin .v26Art {
+    top: 0; bottom: 8px; height: auto; left: 4px; right: 4px; overflow: visible;
+  }
+  #app #leagueWheelScreen.v26Skin .v26Hero { width: 13%; height: min(100%, 68svh); bottom: 0; }
+  #app #leagueWheelScreen.v26Skin .v26Hero--daniel { left: 0; }
+  #app #leagueWheelScreen.v26Skin .v26Hero--nik { right: 0; }
+  #app #leagueWheelScreen.v26Skin .v26Hero img {
+    width: 100%; height: 100%; max-width: 100%; object-fit: contain;
+    object-position: center bottom; -webkit-mask-image: none; mask-image: none;
+  }
+}
+
+/* Upright tablets: a substantially larger wheel and manager pair, with the
+   note across the full panel and a 2:1 action row as adopted in 1626. */
+@media (min-width: 740px) and (max-width: 900px) and (min-height: 980px) and (orientation: portrait) {
+  #app #leagueWheelScreen.v26Skin {
+    --v26-wheel: min(60vw, calc(100svh - 460px), 540px);
+    --v1697-title: min(64vw, 500px);
+    padding-inline: 24px;
+  }
+  #app #leagueWheelScreen.v26Skin > h2 { width: var(--v1697-title); margin: 8px auto 12px; }
+  #app #leagueWheelScreen.v26Skin .wheelContainer { grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); }
+  #app #leagueWheelScreen.v26Skin #selectedLeague { font-size: 28px; min-height: 36px; margin-bottom: 14px; }
+  #app #leagueWheelScreen.v26Skin #leagueWheel { margin-bottom: 16px; }
+  #app #leagueWheelScreen.v26Skin #leagueStateNote { padding: 12px 18px; font-size: 18px; }
+  #app #leagueWheelScreen.v26Skin .wheelContainer :is(.menuButton, .backButton) { min-height: 64px; font-size: 21px; margin-top: 12px; }
+  #app #leagueWheelScreen.v26Skin .v26Art {
+    top: calc(var(--v1697-title) * 456 / 2332 + 70px);
+    left: 8px; right: 8px; height: var(--v26-wheel); overflow: visible;
+  }
+  #app #leagueWheelScreen.v26Skin .v26Hero {
+    width: calc((100% - var(--v26-wheel)) / 2 + 12px); height: 100%; bottom: 0;
+  }
+  #app #leagueWheelScreen.v26Skin .v26Hero--daniel { left: 0; }
+  #app #leagueWheelScreen.v26Skin .v26Hero--nik { right: 0; }
+  #app #leagueWheelScreen.v26Skin .v26Hero img {
+    width: 100%; height: 100%; max-width: 100%; object-fit: contain;
+    object-position: center bottom; -webkit-mask-image: none; mask-image: none;
+  }
+}
+
+/* Desktop camera/plates stay live until Team V's manager-plate handoff lands.
+   Ring, title and lower panel shrink together on the two short laptops. */
+@media (min-width: 1200px) and (min-height: 600px) and (orientation: landscape) {
+  #app #leagueWheelScreen.v26Skin { --v26-wheel: min(48svh, 26vw, calc(100svh - 340px), 500px); }
+  #app #leagueWheelScreen.v26Skin > h2 { width: min(38vw, 68svh, 760px); margin: 6px auto 4px; }
+  #app #leagueWheelScreen.v26Skin .v26Art { display: none; }
+  #app #leagueWheelScreen.v26Skin #selectedLeague { font-size: 20px; min-height: 30px; }
+  #app #leagueWheelScreen.v26Skin #selectedLeague::before,
+  #app #leagueWheelScreen.v26Skin #selectedLeague::after { flex-basis: 100px; }
+  #app #leagueWheelScreen.v26Skin #leagueWheel { margin-bottom: clamp(8px, calc(100svh - 940px), 48px); }
+  #app #leagueWheelScreen.v26Skin #leagueStateNote { font-size: 16px; padding: 10px 16px; }
+  #app #leagueWheelScreen.v26Skin .wheelContainer :is(.menuButton, .backButton) { min-height: clamp(48px, 5.6svh, 60px); font-size: 20px; }
+}
+
+/* Short laptops trade only scene size for first-view action space. */
+@media (min-width: 1200px) and (min-height: 600px) and (max-height: 810px) and (orientation: landscape) {
+  #app #leagueWheelScreen.v26Skin { --v26-wheel: min(39svh, 26vw, calc(100svh - 380px)); }
+  #app #leagueWheelScreen.v26Skin > h2 { width: min(28vw, 48svh, 390px); }
+  #app #leagueWheelScreen.v26Skin .wheelContainer { width: min(620px, 100%); }
+  #app #leagueWheelScreen.v26Skin #selectedLeague { min-height: 28px; font-size: 18px; }
+  #app #leagueWheelScreen.v26Skin #leagueWheel { margin-bottom: 8px; }
+  #app #leagueWheelScreen.v26Skin #leagueStateNote { font-size: 14px; padding: 8px 14px; }
+  #app #leagueWheelScreen.v26Skin .wheelContainer :is(.menuButton, .backButton) { min-height: 48px; font-size: 18px; }
+}
+
+/* JOB-1144: adopted desktop study (Select League, desktop, version A polish) built on the live JOB-1697 screen.
+   Fine-pointer desktops only; phones, sideways phones, tablets and touch laptops never match and render as before.
+   Product DOM, words, tap order, Daniel LEFT / Nik RIGHT plate, the CM17 badge and the header chips are unchanged.
+   One unit --u1144 (1px at 1080 high, smaller on shorter windows) scales the study's 580px wheel, wordmark,
+   note and buttons together so the stack ends just above the plate's lower frame line with no scroll at 1920x1080,
+   1366x768 and 1280x720. The football hub, gold pointer, one flat gold mark set with ink on the lit slice,
+   Barlow uppercase labels and the rim clearance come from the JOB-1697 geometry above, scaled with the wheel.
+   The marble plinth and floor wait for Team V art. */
+@media (min-width: 1200px) and (min-height: 700px) and (pointer: fine) {
+  #app #leagueWheelScreen.v26Skin {
+    --u1144: min(1px, calc((100svh - 126px) / 950), calc(100vw / 1920));
+    --v26-wheel: calc(580 * var(--u1144));
+  }
+  #app #leagueWheelScreen.v26Skin > h2 {
+    width: calc(760 * var(--u1144)); max-width: calc(100% - 16px);
+    margin: 6px auto calc(6 * var(--u1144));
+  }
+  #app #leagueWheelScreen.v26Skin .wheelContainer {
+    width: min(calc(740 * var(--u1144)), 100%);
+    column-gap: calc(14 * var(--u1144)); padding: 0;
+  }
+  #app #leagueWheelScreen.v26Skin #selectedLeague {
+    min-height: calc(30 * var(--u1144)); margin: 0 0 calc(13 * var(--u1144));
+    font-size: max(16px, calc(24 * var(--u1144))); gap: calc(24 * var(--u1144));
+  }
+  #app #leagueWheelScreen.v26Skin #selectedLeague::before,
+  #app #leagueWheelScreen.v26Skin #selectedLeague::after { flex: 0 1 calc(90 * var(--u1144)); }
+  #app #leagueWheelScreen.v26Skin .wheelPointer { margin: 0 0 calc(var(--v26-wheel) * -.1); }
+  #app #leagueWheelScreen.v26Skin #leagueWheel { margin: 0 0 calc(20 * var(--u1144)); }
+  #app #leagueWheelScreen.v26Skin #leagueStateNote {
+    margin: 0; padding: calc(10 * var(--u1144)) calc(22 * var(--u1144));
+    min-height: calc(62 * var(--u1144)); display: flex; align-items: center; justify-content: center;
+    font-size: max(13px, calc(16 * var(--u1144))); line-height: 1.4;
+  }
+  #app #leagueWheelScreen.v26Skin .wheelContainer :is(.menuButton, .backButton) {
+    min-height: max(44px, calc(62 * var(--u1144))); margin: calc(13 * var(--u1144)) 0 0;
+    font-size: clamp(16px, calc(20 * var(--u1144)), 20px);
+  }
+}
+
+/* LEAGUE-PLATE-V2 (ticket 1610P, 5 of 14): desktop Select League on Team V's marble-plinth plate
+   (visual-assets/v10_1/plates-v2/ENV_LEAGUE_PLATE_V2_*.webp), drawn to match NEXT_LEAGUE. The plate has no wheel: the live
+   wheel stands on its empty plinth. Scope is the same desktop picture range as Home's plate V2 (landscape windows of at
+   least 1200x600 and 3:2 or wider); phones, sideways phones, tablets and narrower windows keep the V1 art. Looks only:
+   every word, id and tap order stays as it was, and main stays the only scroller.
+   Plate pixel (x, y) lands at (50vw + (x - 768) * s, y * s - y0): s is the cover scale, and ultrawide windows shift the
+   plate up by y0 so the heads stay under the nav bar while the plinth stays in view. The wheel's bottom edge is pinned to the
+   plinth top (plate y 626) and the label sits on the thin gold lines the plate carries beside it (plate y 200); k is the
+   content scale of the wheel (s, or less when the stack would not fit the window) and kt the title's. */
+@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
+  html[data-v10-setup="league"] {
+    --lp-s: max(calc(100vw / 1536), calc(100vh / 864));
+    --lp-y0: 0px;
+    --bevel-gold: linear-gradient(135deg, #FFF1B8 0%, #E8B94A 16%, #8A6A12 38%, #F2C45B 58%, #FFF1B8 74%, #B8862A 100%);
+    --bevel-gold-soft: linear-gradient(135deg, #FFE9A0 0%, #D9A83A 28%, #7A5C10 52%, #E8B94A 78%, #FFF1B8 100%);
+  }
+  html[data-v10-setup="league"] #background, html[data-v10-setup="league"][data-v10-screen] #background {
+    background-image: image-set(url(../visual-assets/v10_1/plates-v2/ENV_LEAGUE_PLATE_V2_1X.webp) 1x, url(../visual-assets/v10_1/plates-v2/ENV_LEAGUE_PLATE_V2_2X.webp) 2x);
+    background-position: 50% calc(-1 * var(--lp-y0));
+  }
+  /* The old centre shade darkened the wheel's area; the marble is already dark there, so only a light top shade stays. */
+  html[data-v10-setup="league"] #overlay {
+    background: linear-gradient(to bottom, rgba(7, 8, 10, .34), rgba(7, 8, 10, 0) 16%);
+  }
+  html[data-v10-setup="league"] #app > main { padding-top: 0; padding-bottom: 0; }
+  #app #leagueWheelScreen.v26Skin {
+    --lp-yb: calc(626 * var(--lp-s) - var(--lp-y0));
+    --lp-yd: calc(200 * var(--lp-s) - var(--lp-y0));
+    --lp-k: min(var(--lp-s), calc((var(--lp-yb) - var(--lp-yd) - 2px) / 426), calc((100vh - var(--lp-yb)) / 157));
+    --lp-kt: min(var(--lp-k), calc((var(--lp-yd) - 24 * var(--lp-k) - 52px) / 121));
+    --lp-kb: var(--lp-k);
+    --lp-g3: calc(42 * var(--lp-k));
+    --v26-wheel: calc(405 * var(--lp-k));
+    padding-bottom: 0;
+  }
+  /* ---- stack, top to bottom, in plate units (times k): title 121, 10 gap, label 28, 7 gap, pointer on the rim,
+     wheel 405, 42 gap, note 51, 12 gap, buttons 50 ---- */
+  #app #leagueWheelScreen.v26Skin > h2 {
+    width: calc(620 * var(--lp-kt)); max-width: calc(100% - 16px);
+    margin: max(0px, calc(var(--lp-yd) - 24 * var(--lp-k) - 121 * var(--lp-kt) - 52px)) auto calc(10 * var(--lp-k));
+  }
+  #app #leagueWheelScreen.v26Skin .wheelContainer {
+    width: calc(587 * var(--lp-kb)); column-gap: calc(10 * var(--lp-kb));
+    grid-template-columns: minmax(0, 1.03fr) minmax(0, 1fr);
+  }
+  #app #leagueWheelScreen.v26Skin #selectedLeague {
+    min-height: calc(28 * var(--lp-k)); margin: 0; gap: calc(18 * var(--lp-k));
+    font-size: max(14px, calc(15 * var(--lp-k))); letter-spacing: .12em; line-height: 1.1;
+  }
+  /* The plate already carries the two thin gold lines beside the label (plate y 200), so the label's own are not drawn. */
+  #app #leagueWheelScreen.v26Skin #selectedLeague::before,
+  #app #leagueWheelScreen.v26Skin #selectedLeague::after { display: none; }
+  #app #leagueWheelScreen.v26Skin .wheelPointer {
+    width: calc(var(--v26-wheel) * .09); height: calc(var(--v26-wheel) * .1145);
+    margin: max(2px, calc(var(--lp-yb) - 405 * var(--lp-k) - var(--lp-yd) - 20 * var(--lp-k))) 0 calc(var(--v26-wheel) * -.0995);
+  }
+  #app #leagueWheelScreen.v26Skin #leagueWheel {
+    margin: 0 0 var(--lp-g3);
+    box-shadow: 0 12px 26px rgba(0, 0, 0, .55);
+  }
+  /* ---- wheel face: every league mark and name sits well inside its dark slice, clear of the gold rim.
+     The rim art's solid band starts at 0.72 of the radius at its studs; the marks and names stay inside about 0.66 of it. ---- */
+  #app #leagueWheelScreen.v26Skin .wheelItem {
+    width: calc(var(--R) * .62); margin-left: calc(var(--R) * -.31);
+    font-size: max(9px, calc(var(--v26-wheel) * 16 / 480));
+    transform: rotate(var(--v26-a)) translateY(calc(var(--R) * -.465))
+      rotate(calc(0deg - var(--v26-a))) translateY(calc(var(--R) * -.18));
+  }
+  #app #leagueWheelScreen.v26Skin .wheelItem[data-league-mark]::before {
+    width: calc(var(--R) * .18); height: calc(var(--R) * .18);
+  }
+  /* ---- polished gold and gold-bevel finish ---- */
+  #app #leagueWheelScreen.v26Skin #leagueStateNote {
+    width: calc(562 * var(--lp-kb)); justify-self: center; min-height: calc(51 * var(--lp-kb));
+    margin: 0; padding: calc(6 * var(--lp-kb)) calc(18 * var(--lp-kb));
+    font-size: max(13px, calc(13.6 * var(--lp-kb))); line-height: 1.35; color: #F6EBD0;
+    border: 1.5px solid transparent; border-radius: 4px;
+    background: linear-gradient(180deg, rgba(20, 19, 16, .94), rgba(6, 6, 8, .96)) padding-box, var(--bevel-gold) border-box;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, .55), inset 0 1px 0 rgba(255, 241, 184, .16);
+  }
+  #app #leagueWheelScreen.v26Skin .wheelContainer :is(.menuButton, .backButton) {
+    min-height: max(44px, calc(50 * var(--lp-kb))); margin: calc(12 * var(--lp-kb)) 0 0;
+    font-size: clamp(15px, calc(16.5 * var(--lp-kb)), 24px);
+  }
+  #app #leagueWheelScreen.v26Skin #spinLeague,
+  #app #leagueWheelScreen.v26Skin #spinLeague:disabled {
+    color: #1A1203; border: 2px solid transparent; border-radius: 3px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, .5) 0, rgba(255, 255, 255, .12) 44%, rgba(255, 255, 255, 0) 50%) padding-box,
+      linear-gradient(115deg, #FFE98F 0%, #F4CB5A 34%, #E8B93F 62%, #CD9526 100%) padding-box, var(--bevel-gold-soft) border-box;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, .55), 0 0 18px rgba(242, 196, 91, .22), inset 0 -8px 16px rgba(138, 106, 18, .26);
+    text-shadow: 0 1px 0 rgba(255, 241, 184, .55);
+  }
+  #app #leagueWheelScreen.v26Skin .wheelContainer > .backButton {
+    color: #FFE9A0; border: 2px solid transparent; border-radius: 3px;
+    background: linear-gradient(180deg, rgba(28, 25, 20, .94), rgba(4, 4, 6, .97)) padding-box, var(--bevel-gold) border-box;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, .55), inset 0 1px 0 rgba(255, 241, 184, .16);
+  }
+}
+/* Ultrawide (21:10 and wider): the plate is cover-fit by width, so it is taller than the window; shift it up a little so
+   the plinth and both heads stay in view. */
+@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 21/10) and (orientation: landscape) {
+  html[data-v10-setup="league"] { --lp-y0: min(calc(864 * var(--lp-s) - 100vh), calc(75 * var(--lp-s))); }
+}
+/* Short windows (up to 700px high) and ultrawide windows: the note and the two actions tuck in right under the wheel
+   (they overlap the plinth's front, as in NEXT_LEAGUE) so the whole stack stays in view without a scroll. Ultrawide also
+   keeps the note and actions at about 1:1 so the wheel can stay large on the big plinth. */
+@media (min-width: 1200px) and (min-height: 600px) and (max-height: 700px) and (min-aspect-ratio: 3/2) and (orientation: landscape),
+       (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 21/10) and (orientation: landscape) {
+  #app #leagueWheelScreen.v26Skin {
+    --lp-g3: calc(14 * var(--lp-k));
+    --lp-k: min(var(--lp-s), calc((var(--lp-yb) - var(--lp-yd) - 2px) / 426), calc((100vh - var(--lp-yb) - 112px) / 14));
+  }
+}
+@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 21/10) and (orientation: landscape) {
+  #app #leagueWheelScreen.v26Skin { --lp-kb: min(var(--lp-s), 1.05px); }
+}

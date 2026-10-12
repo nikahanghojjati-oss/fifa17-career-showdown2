@@ -38,6 +38,166 @@
     }
     return freeze(frame);
   }
+  /*SG-START*/
+  // JOB-1701: Standings presentation rules (Team V's stage CSS stays frozen). Added once, after Team V's sheet.
+  function sfStandingsRule(doc){
+    const parent=doc?.head||doc?.documentElement;if(!parent||typeof doc.createElement!=="function"||doc.getElementById?.("v10StandingsRule"))return;
+    const style=doc.createElement("style");style.id="v10StandingsRule";
+    style.textContent=`
+/* JOB-1701 Standings adapter. Team V's stage CSS is frozen; these rules are scoped by media query and loaded after it. */
+html[data-v10-screen="standings"] #app > main:has(> #standings.standingsScreenV10:not(.hidden)){position:fixed;inset:0;z-index:30;display:block;box-sizing:border-box;width:100%;height:100svh;max-height:100svh;margin:0;padding:0;overflow-x:hidden;overflow-y:auto;overscroll-behavior:contain;background:#07080a}
+html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:relative;inset:auto;z-index:auto;width:100%;height:auto;min-height:100svh;margin:0;padding:0;contain:none}
+#app #standings.standingsScreenV10 .sdg-toggle button:active{filter:brightness(.82)}
+#app #standings.standingsScreenV10 :is(.sdg-toggle button,.sdg-state):focus-visible{outline:2px solid #ffe36c;outline-offset:-3px}
+
+/* Phones and tablets upright: the heroes take what the title, board and bottom bar leave; all seven rows stay in view. */
+@media (max-width:900px) and (orientation:portrait){
+  #app #standings.standingsScreenV10{
+    --sg-nav:calc(56px + env(safe-area-inset-bottom));--sg-row:clamp(18px,3svh,28px);--sg-title:clamp(62px,10svh,84px);--sg-board:calc(205px + 7 * var(--sg-row));
+    --sg-hero:max(48px,calc(100svh - var(--sg-nav) - var(--sg-title) - var(--sg-board) - 32px));
+  }
+  #app #standings.standingsScreenV10 .sdg-stage{position:relative;width:100%;height:auto;min-height:100svh;overflow:visible}
+  #app #standings.standingsScreenV10 .sdg-phoneArt{inset:0}
+  #app #standings.standingsScreenV10 .sdg-phoneBg img{object-position:50% 0}
+  #app #standings.standingsScreenV10 .sdg-phoneArt::after{inset:calc(var(--sg-hero) * .5) 0 0}
+  #app #standings.standingsScreenV10 .sdg-phoneHero{top:0;height:calc(var(--sg-hero) + 64px);max-height:none}
+  #app #standings.standingsScreenV10 .sdg-phoneHero--daniel{left:-3%;right:auto}
+  #app #standings.standingsScreenV10 .sdg-phoneHero--nik{left:auto;right:-3%}
+  #app #standings.standingsScreenV10 .sdg-phoneHero img{height:100%;width:auto}
+  #app #standings.standingsScreenV10 .sd-stage__layer--ui{position:relative;inset:auto!important;top:auto!important;min-height:100svh;box-sizing:border-box;display:flex;flex-direction:column;justify-content:flex-start;gap:6px;padding:0 12px calc(var(--sg-nav) + 8px)}
+  #app #standings.standingsScreenV10 .nav-reserve{display:none}
+  #app #standings.standingsScreenV10 .sdg-header{margin-top:auto;min-height:var(--sg-title);display:flex;flex-direction:column;justify-content:center;gap:2px}
+  #app #standings.standingsScreenV10 .sdg-header .sd-eyebrow{font-size:10px;letter-spacing:.25em;line-height:12px}
+  #app #standings.standingsScreenV10 .sdg-wordmark{width:85%}
+  #app #standings.standingsScreenV10 .sdg-wordmark img{max-height:clamp(34px,6svh,52px);width:auto;max-width:100%;margin:0 auto}
+  #app #standings.standingsScreenV10 .sdg-header .sd-tagline{font-size:10px;letter-spacing:.24em;line-height:12px}
+  #app #standings.standingsScreenV10 .sdg-main{margin:0}
+  #app #standings.standingsScreenV10 .sdg-board{height:auto;overflow:visible;padding:0 12px 8px;border-width:2px}
+  #app #standings.standingsScreenV10 .sdg-toggle{margin-top:6px}
+  #app #standings.standingsScreenV10 .sdg-toggle button{min-height:44px;font-size:clamp(13px,4.2vw,17px);letter-spacing:.03em}
+  #app #standings.standingsScreenV10 .sdg-section{margin:6px 0 0;font-size:clamp(15px,5vw,20px);line-height:1.1;letter-spacing:.1em}
+  #app #standings.standingsScreenV10 .sdg-progress{margin:2px 0 0;font-size:12px;line-height:15px}
+  #app #standings.standingsScreenV10 .sdg-scoreboard{grid-template-columns:1fr 1.6fr 1fr;gap:4px;margin-top:6px}
+  #app #standings.standingsScreenV10 .sdg-crest{width:32px;height:38px}
+  #app #standings.standingsScreenV10 .sdg-side strong{font-size:clamp(15px,5vw,19px)}
+  #app #standings.standingsScreenV10 .sdg-scoreLabel{font-size:11px;letter-spacing:.09em;white-space:nowrap}
+  #app #standings.standingsScreenV10 .sdg-scoreNumbers{gap:9px}
+  #app #standings.standingsScreenV10 .sdg-scoreNumbers b{font-size:clamp(34px,7.5svh,50px)}
+  #app #standings.standingsScreenV10 .sdg-scoreNumbers i{font-size:clamp(20px,4.4svh,29px)}
+  #app #standings.standingsScreenV10 .sdg-leader{font-size:14px;min-height:16px;line-height:16px}
+  #app #standings.standingsScreenV10 .sdg-rows{margin:4px 0 0;grid-template-rows:none;grid-auto-rows:var(--sg-row);height:auto;overflow:visible;background:none;flex:0 0 auto}
+  #app #standings.standingsScreenV10 .sdg-val{font-size:clamp(15px,calc(var(--sg-row) * .85),20px);line-height:1}
+  #app #standings.standingsScreenV10 .sdg-label{font-size:clamp(11px,calc(var(--sg-row) * .6),14px);line-height:1;letter-spacing:.05em;text-transform:uppercase;white-space:nowrap}
+  #app #standings.standingsScreenV10 .sdg-row{border-top-color:rgba(214,176,70,.6)}
+  #app #standings.standingsScreenV10 .sdg-state{margin:8px 0;padding:10px;font-size:13px}
+}
+
+/* Upright tablets (adopted 1259): broad board, tablet type, 56px scope controls. */
+@media (min-width:601px) and (max-width:900px) and (orientation:portrait){
+  #app #standings.standingsScreenV10{--sg-row:clamp(34px,4.4svh,48px);--sg-title:clamp(104px,13svh,150px);--sg-board:calc(296px + 7 * var(--sg-row))}
+  #app #standings.standingsScreenV10 .sdg-header .sd-eyebrow{font-size:15px;line-height:18px;letter-spacing:.29em}
+  #app #standings.standingsScreenV10 .sdg-wordmark{width:min(78%,520px)}
+  #app #standings.standingsScreenV10 .sdg-wordmark img{max-height:none;width:100%}
+  #app #standings.standingsScreenV10 .sdg-header .sd-tagline{font-size:15px;line-height:18px;letter-spacing:.22em}
+  #app #standings.standingsScreenV10 .sdg-board{padding:0 24px 12px}
+  #app #standings.standingsScreenV10 .sdg-toggle{margin-top:10px}
+  #app #standings.standingsScreenV10 .sdg-toggle button{min-height:56px;font-size:22px;letter-spacing:.08em}
+  #app #standings.standingsScreenV10 .sdg-section{margin-top:10px;font-size:25px}
+  #app #standings.standingsScreenV10 .sdg-progress{font-size:17px;line-height:20px;margin-top:3px}
+  #app #standings.standingsScreenV10 .sdg-scoreboard{grid-template-columns:1fr 1.25fr 1fr;margin-top:12px;gap:10px}
+  #app #standings.standingsScreenV10 .sdg-crest{width:50px;height:60px}
+  #app #standings.standingsScreenV10 .sdg-side strong{font-size:25px}
+  #app #standings.standingsScreenV10 .sdg-side span{display:block;font-size:15px}
+  #app #standings.standingsScreenV10 .sdg-scoreLabel{font-size:15px}
+  #app #standings.standingsScreenV10 .sdg-scoreNumbers{gap:15px}
+  #app #standings.standingsScreenV10 .sdg-scoreNumbers b{font-size:clamp(52px,7.2svh,74px)}
+  #app #standings.standingsScreenV10 .sdg-scoreNumbers i{font-size:clamp(32px,4.4svh,45px)}
+  #app #standings.standingsScreenV10 .sdg-leader{font-size:18px;min-height:22px;line-height:22px}
+  #app #standings.standingsScreenV10 .sdg-rows{margin-top:10px}
+  #app #standings.standingsScreenV10 .sdg-val{font-size:clamp(20px,2.4svh,25px)}
+  #app #standings.standingsScreenV10 .sdg-label{font-size:clamp(14px,1.8svh,18px)}
+  #app #standings.standingsScreenV10 .sdg-state{font-size:16px;padding:16px}
+}
+
+/* Sideways phones: nothing is cut or nested-scrolled. Heroes frame the title; the board follows and main scrolls once. */
+@media (max-width:900px) and (orientation:landscape){
+  #app #standings.standingsScreenV10{--sg-nav:calc(56px + env(safe-area-inset-bottom))}
+  #app #standings.standingsScreenV10 .sdg-stage{position:relative;width:100%;height:auto;min-height:100svh;overflow:visible}
+  #app #standings.standingsScreenV10 .sdg-phoneArt{inset:0}
+  #app #standings.standingsScreenV10 .sdg-phoneBg img{object-position:50% 20%}
+  #app #standings.standingsScreenV10 .sdg-phoneArt::after{inset:96px 0 0}
+  #app #standings.standingsScreenV10 .sdg-phoneHero{top:0;height:150px;max-height:none}
+  #app #standings.standingsScreenV10 .sdg-phoneHero--daniel{left:3%;right:auto}
+  #app #standings.standingsScreenV10 .sdg-phoneHero--nik{left:auto;right:3%}
+  #app #standings.standingsScreenV10 .sdg-phoneHero img{height:100%;width:auto}
+  #app #standings.standingsScreenV10 .sd-stage__layer--ui{position:relative;inset:auto!important;top:auto!important;min-height:100svh;box-sizing:border-box;display:flex;flex-direction:column;justify-content:flex-start;gap:6px;padding:6px 16px calc(var(--sg-nav) + 10px)}
+  #app #standings.standingsScreenV10 .nav-reserve{display:none}
+  #app #standings.standingsScreenV10 .sdg-header{width:min(46%,380px);margin:0 auto;display:flex;flex-direction:column;gap:2px}
+  #app #standings.standingsScreenV10 .sdg-header .sd-eyebrow{font-size:9px;letter-spacing:.25em;line-height:11px}
+  #app #standings.standingsScreenV10 .sdg-wordmark{width:70%}
+  #app #standings.standingsScreenV10 .sdg-wordmark img{max-height:40px;width:auto;max-width:100%;margin:0 auto}
+  #app #standings.standingsScreenV10 .sdg-header .sd-tagline{font-size:9px;letter-spacing:.24em;line-height:11px}
+  #app #standings.standingsScreenV10 .sdg-main{width:min(100%,680px);margin:0 auto}
+  #app #standings.standingsScreenV10 .sdg-board{width:100%;height:auto;overflow:visible;padding:0 14px 8px;border-width:2px}
+  #app #standings.standingsScreenV10 .sdg-toggle{margin-top:6px}
+  #app #standings.standingsScreenV10 .sdg-toggle button{min-height:44px;font-size:14px}
+  #app #standings.standingsScreenV10 .sdg-section{margin:6px 0 0;font-size:15px}
+  #app #standings.standingsScreenV10 .sdg-scoreboard{margin-top:6px}
+  #app #standings.standingsScreenV10 .sdg-crest{width:32px;height:38px}
+  #app #standings.standingsScreenV10 .sdg-scoreNumbers b{font-size:44px}
+  #app #standings.standingsScreenV10 .sdg-rows{margin:4px 0 0;grid-template-rows:none;grid-auto-rows:28px;height:auto;overflow:visible;background:none;flex:0 0 auto}
+  #app #standings.standingsScreenV10 .sdg-val{font-size:17px;line-height:1}
+  #app #standings.standingsScreenV10 .sdg-label{font-size:12px;line-height:1;text-transform:uppercase;letter-spacing:.05em}
+}
+
+/* Desktop and laptops: NEXT_STANDINGS framing (full gold frame, filled active scope, gold row rules). Board geometry stays Team V's. */
+@media (min-width:901px){
+  #app #standings.standingsScreenV10 .sdg-board.sd-panel{border:2px solid #ddb747;box-shadow:inset 0 0 0 2px #6a4c13,inset 0 0 22px rgba(215,161,28,.12),0 12px 32px rgba(0,0,0,.5),0 0 10px rgba(231,185,67,.2)}
+  #app #standings.standingsScreenV10 .sdg-toggle button[aria-selected="true"]{background:linear-gradient(180deg,#ffe38a,#c99420);color:#15110a;box-shadow:inset 0 0 0 1px #ffe9a0}
+  #app #standings.standingsScreenV10 .sdg-toggle button:not([aria-selected="true"]):hover{background:rgba(242,196,91,.12)}
+  #app #standings.standingsScreenV10 .sdg-row{border-top-color:rgba(214,176,70,.55)}
+  #app #standings.standingsScreenV10 .sdg-label{font-size:clamp(13px,1.05vw,17px);color:#d9d4c6}
+  #app #standings.standingsScreenV10 .sdg-rows{margin-bottom:14px}
+}
+/* 1366x768 and similar: the crest block, score and toggle pushed the last row onto the board edge. */
+@media (min-width:901px) and (max-height:860px){
+  #app #standings.standingsScreenV10 .sdg-board{overflow:hidden}
+  #app #standings.standingsScreenV10 .sdg-toggle{margin-top:10px}
+  #app #standings.standingsScreenV10 .sdg-toggle button{min-height:34px}
+  #app #standings.standingsScreenV10 .sdg-section{margin-top:6px}
+  #app #standings.standingsScreenV10 .sdg-scoreboard{margin-top:6px;gap:12px}
+  #app #standings.standingsScreenV10 .sdg-crest{width:42px;height:50px}
+  #app #standings.standingsScreenV10 .sdg-scoreNumbers b{font-size:clamp(42px,6.6svh,76px)}
+  #app #standings.standingsScreenV10 .sdg-scoreNumbers i{font-size:clamp(24px,3.4svh,40px)}
+  #app #standings.standingsScreenV10 .sdg-rows{margin-top:6px;margin-bottom:10px}
+  #app #standings.standingsScreenV10 .sdg-val{font-size:clamp(15px,2.2svh,20px);line-height:1}
+}
+/* STANDINGS-PLATE-V2 (ticket 1610P): desktop Standings on Team V's marble-suite plate (visual-assets/v10_1/plates-v2/), drawn
+   to match NEXT_STANDINGS. Strictly the desktop picture range (wide landscape windows of at least 1200x600); phones, sideways
+   phones and tablets keep their art. The plate carries Daniel, Nik, both banners and both name tags, so only the live title,
+   board and rows are layered on it. It is the stage's own fixed plate layer, anchored to the top like the picture. The board
+   keeps Team V's geometry and every word, id and tap order; only its frame and glass change. */
+@media (min-width:1200px) and (min-height:600px) and (min-aspect-ratio:3/2) and (orientation:landscape){
+  #app #standings.standingsScreenV10{--sg-bevel:linear-gradient(135deg,#fff1b8 0%,#e8b94a 15%,#8a6a12 36%,#f2c45b 56%,#fff1b8 73%,#b8862a 100%);--sgu:min(calc(100vw / 1536),calc(100svh / 864))}
+  #app #standings.standingsScreenV10 .sd-stage__plate{background-image:image-set(url('visual-assets/v10_1/plates-v2/ENV_STANDINGS_PLATE_V2_1X.webp') 1x,url('visual-assets/v10_1/plates-v2/ENV_STANDINGS_PLATE_V2_2X.webp') 2x)}
+  #app #standings.standingsScreenV10 .sd-stage__layer--plate .sd-stage__registered{top:0}
+  #app #standings.standingsScreenV10 .sdg-board.sd-panel{
+    clip-path:none;border:max(4px,calc(var(--sgu) * 8)) solid transparent;border-radius:calc(var(--sgu) * 22);
+    background:radial-gradient(ellipse 70% 40% at 50% 0,#ffe9a01c,transparent 70%) padding-box,linear-gradient(180deg,#0f0e0cf5,#070708f7 40%,#050506fa) padding-box,var(--sg-bevel) border-box;
+    -webkit-backdrop-filter:none;backdrop-filter:none;
+    box-shadow:inset 0 0 0 1px #050505,inset 0 0 0 calc(var(--sgu) * 3) #0a0907,inset 0 0 0 calc(var(--sgu) * 4) #d9aa3cb0,0 0 calc(var(--sgu) * 30) #f0c84b66,0 calc(var(--sgu) * 14) calc(var(--sgu) * 34) #000c;
+  }
+  #app #standings.standingsScreenV10 .sdg-toggle{border:2px solid #d9aa3c;border-radius:calc(var(--sgu) * 8);overflow:hidden;background:#07080a}
+  #app #standings.standingsScreenV10 .sdg-toggle button[aria-selected="true"]{background:linear-gradient(180deg,#fff0a6 0,#f8d764 22%,#e4b032 56%,#f4cf58 82%,#c98f1c 100%);box-shadow:inset 0 1px 0 #fffbe0,inset 0 -2px 0 #a87a1288;color:#1a1305}
+  #app #standings.standingsScreenV10 .sdg-row{border-top:1px solid #c9983a99}
+  /* the plate paints its own crown above the title; the live crown would stack a second one (compact titles keep theirs) */
+  @media (min-height:701px) and (max-aspect-ratio:2/1){#app #standings.standingsScreenV10 .sdg-header .sd-eyebrow::before{display:none}}
+  #app #standings.standingsScreenV10 .sdg-label{color:#efe6cf}
+  #app #standings.standingsScreenV10 .sdg-header .sd-eyebrow,#app #standings.standingsScreenV10 .sdg-header .sd-tagline{text-shadow:0 1px 3px #000,0 0 10px #000c}
+}
+`;parent.appendChild(style);
+  }
+  /*SG-END*/
   function standingsFrames(rivalry,career){
     const scope=rivalry&&["loading","empty","unavailable","partial","ready"].includes(rivalry.status)?rivalry:{status:"unavailable"};
     let current={status:scope.status};
@@ -289,7 +449,7 @@
 /* JOB-1597: adopted 1226 entry layout, limited to the upright phone range.
    Existing nodes, labels, badges, input values and event handlers remain authoritative.
    Review/error content may grow; main is the only scroll owner. */
-@media (min-width:340px) and (max-width:410px) and (min-height:520px) and (max-height:700px) and (orientation:portrait) {
+@media (min-width:340px) and (max-width:440px) and (min-height:520px) and (max-height:960px) and (orientation:portrait) {
  #app main:has(#seasonEntry.seasonScreenV10:not(.hidden):not(.v10FinalMode)) { overflow-y:auto; overflow-x:hidden; }
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) { min-width:0; padding:0; }
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage:not([hidden]) {
@@ -403,7 +563,7 @@
 
 /* JOB-1598: adopted 1229 sideways composition only (740x360 and 844x390).
    Reuse the live form in document order. Review/errors expand in main's flow. */
-@media (min-width:700px) and (max-width:880px) and (min-height:340px) and (max-height:410px) and (orientation:landscape) {
+@media (min-width:640px) and (max-width:880px) and (min-height:340px) and (max-height:410px) and (orientation:landscape) {
  #app main:has(#seasonEntry.seasonScreenV10:not(.hidden):not(.v10FinalMode)) {
   overflow-y:auto; overflow-x:hidden;
  }
@@ -523,7 +683,7 @@
 
 /* Claude lane, JOB-1598 at 740x360: the empty error line keeps a 20px placeholder that pushed the actions
    16px below the fold. It collapses only while empty; an error still shows and scrolls in main. */
-@media (min-width:700px) and (max-width:880px) and (min-height:340px) and (max-height:375px) and (orientation:landscape) {
+@media (min-width:640px) and (max-width:880px) and (min-height:340px) and (max-height:375px) and (orientation:landscape) {
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage #seasonEntryError:empty { min-height:0; height:0; padding:0; margin:0; }
 }
 
@@ -1041,10 +1201,188 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
  scroll-behavior:auto !important;
 }
 
+
+/* JOB-1700: finish the adopted entry compositions, using the live nodes only.
+   Entry fits the first view; review, scoring and error states grow in main. */
+@media (min-width:340px) and (max-width:440px) and (min-height:520px) and (max-height:960px) and (orientation:portrait),
+       (min-width:640px) and (max-width:880px) and (min-height:340px) and (max-height:410px) and (orientation:landscape),
+       (min-width:700px) and (max-width:900px) and (min-height:960px) and (max-height:1240px) and (orientation:portrait) {
+ html[data-v10-screen="seasonEntry"] #app main:has(#seasonEntry.seasonScreenV10:not(.hidden):not(.v10FinalMode)) {
+  position:fixed;inset:0;height:100svh;padding:0;overflow-x:hidden;overflow-y:auto;
+ }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) { position:relative;inset:auto;height:auto;min-height:100svh;margin:0; }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode)>.v10SeasonStage {
+  --sr-hero:0px;position:relative;inset:auto;height:auto;min-height:100svh;max-height:none;overflow:visible;
+ }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage :is(.sd-stage__layer--ui,#season-results-screen) {
+  position:relative;inset:auto;height:auto;min-height:100svh;padding-top:0;overflow:visible;
+ }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-title-block { margin:0;height:0; }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-layout {
+  min-height:100svh;align-content:start;
+ }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .seasonManagerHeader {
+  display:flex;align-items:center;flex-wrap:nowrap;font-family:var(--sd-font-condensed,"Barlow Condensed",sans-serif);
+ }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .seasonManagerHeader h3 { flex:0 0 auto;font-family:inherit; }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .seasonManagerHeader p { min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin:0; }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage :is(.field-row,.achievementChecks label,.season-action-row button,.season-phone-tab,.season-phone-scoring-open) {
+  overflow-wrap:normal;word-break:normal;
+ }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .seasonResultCard .achievementChecks { gap:8px; }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-action-row { position:relative;bottom:auto; }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage #seasonEntryError {
+  position:relative;inset:auto;grid-column:1/-1;grid-row:6;min-width:0;width:auto;margin:0;
+ }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage #seasonEntryError:empty {
+  display:none;min-height:0;height:0;padding:0;margin:0;
+ }
+ /* Scoring is an in-flow disclosure: no clipped sheet or second scroll. */
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .scoring-panel {
+  position:relative;inset:auto;grid-column:1/-1;grid-row:7;width:auto;height:auto;max-height:none;
+  min-height:0;padding:52px 12px 12px;overflow:visible;box-shadow:none;
+ }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .scoring-grid { grid-template-columns:1fr; }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .scoring-rule { font-size:12px;line-height:1.3; }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-review-panel:not(.hidden) {
+  position:relative;inset:auto;width:auto;height:auto;max-height:none;overflow:visible;
+ }
+}
+/* Remove the empty review track, rather than compressing fields or actions. */
+@media (min-width:340px) and (max-width:440px) and (min-height:520px) and (max-height:960px) and (orientation:portrait) {
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-layout:has(.season-review-panel.hidden) {
+  grid-template-rows:minmax(clamp(110px,30svh,200px),1fr) 44px auto 56px;gap:6px;
+ }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-layout:not(:has(.season-review-panel.hidden)) {
+  grid-template-rows:clamp(110px,30svh,200px) 44px auto auto 56px;
+ }
+ /* The hero takes the slack; managers keep their own proportions instead of being stretched. */
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .v10SeasonPhoneScene { height:auto;max-height:none; }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .v10SeasonPhoneScene::before {
+  background-size:auto min(100%,80vw),auto min(100%,80vw);background-position:left bottom 14%,right bottom 14%;
+ }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-layout:has(.season-review-panel.hidden) .season-action-row { grid-row:4;padding:0; }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .seasonResultCard { min-height:232px; }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-action-row button { letter-spacing:.5px;line-height:1.3; }
+}
+@media (min-width:640px) and (max-width:880px) and (min-height:340px) and (max-height:410px) and (orientation:landscape) {
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-layout:has(.season-review-panel.hidden) {
+  grid-template-rows:44px minmax(224px,1fr) 44px;gap:8px 14px;
+ }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-layout:has(.season-review-panel.hidden) .season-action-row { grid-row:3;padding:0; }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .v10SeasonPhoneScene { grid-row:1/4; }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .scoring-panel { grid-column:2; }
+ /* While reviewing, the hidden entry card must not keep its 224px track open. */
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-layout:not(:has(.season-review-panel.hidden)) { grid-template-rows:44px auto auto; }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-layout:not(:has(.season-review-panel.hidden)) .season-review-panel { grid-row:2; }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-layout:not(:has(.season-review-panel.hidden)) .season-action-row { grid-row:3; }
+ /* Expanded review, scoring and error content scrolls in main; the managers stay beside it. */
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .v10SeasonPhoneScene {
+  align-self:start;position:sticky;top:10px;height:calc(100svh - 20px);min-height:0;
+ }
+}
+@media (min-width:700px) and (max-width:900px) and (min-height:960px) and (max-height:1240px) and (orientation:portrait) {
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-layout:has(.season-review-panel.hidden) {
+  grid-template-rows:minmax(160px,1fr) 56px auto 64px;
+ }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-layout:has(.season-review-panel.hidden) .season-action-row { grid-row:4;padding:0; }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .scoring-panel { grid-template-columns:20% 1fr; }
+ /* The hero takes the slack and the managers keep their own proportions. */
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .v10SeasonPhoneScene { height:auto;max-height:none; }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .v10SeasonPhoneScene::before { background-size:auto min(100%,66vw),auto min(100%,66vw);background-position:left bottom 10%,right bottom 10%; }
+ /* At 761px and wider the inherited registration offsets the cards; the tablet grid places them. */
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .seasonEntryGrid .entry-panel { inset:auto;transform:none; }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-layout> :is(:has(label[for="season-phone-tab-daniel"]),.season-action-row) { inset:auto auto auto auto;left:auto;top:auto;transform:none; }
+}
+
+/* Approved NEXT_SEASON_RESULTS: central scoring/card/actions, responsive to
+   the viewport height. Retain the registered Team V plate, trophy and badge. */
+@media (min-width:1240px) and (max-width:1400px) and (min-height:620px) and (max-height:800px),
+       (min-width:1880px) and (max-width:2620px) and (min-height:1040px) and (max-height:1120px) {
+ html[data-v10-screen="seasonEntry"] #app main:has(#seasonEntry.seasonScreenV10:not(.hidden):not(.v10FinalMode)) {
+  position:fixed;inset:0;height:100svh;padding:0;overflow-x:hidden;overflow-y:auto;
+ }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) { position:relative;inset:auto;height:auto;min-height:100svh;overflow:visible; }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode)>.v10SeasonStage {
+  --sru:min(1vw,1.77778svh);position:relative;inset:auto;height:auto;min-height:100svh;max-height:none;overflow:visible;
+ }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage :is(.sd-stage__layer--plate,.sd-stage__layer--atmosphere,.sd-stage__layer--cutout,.sd-stage__layer--light) { height:100svh; }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .sd-stage__registered {
+  left:50%!important;top:calc((100svh - min(56.25vw,100svh))/2)!important;
+  width:min(100vw,177.77778svh)!important;height:min(56.25vw,100svh)!important;transform:translateX(-50%);
+ }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .sd-stage__layer--ui {
+  position:relative;inset:auto;width:min(100%,177.77778svh);height:auto;min-height:100svh;margin:0 auto;overflow:visible;
+ }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage #season-results-screen { position:relative;inset:auto;min-height:100svh;overflow:visible; }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-title-block { position:absolute;inset:0;height:100svh;margin:0; }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-eyebrow { top:9%; }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage #screen-title { top:14%;left:27.99%;width:43.49%; }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-tagline { top:26%; }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-layout {
+  position:relative;inset:auto;display:flex;flex-direction:column;gap:clamp(8px,1.3svh,14px);
+  min-height:100svh;box-sizing:border-box;padding:30.5svh 0 16px;overflow:visible;pointer-events:auto;
+ }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .scoring-panel {
+  position:relative;inset:auto;width:44.47%;height:auto;min-height:20svh;max-height:none;margin:0 auto;
+  padding:clamp(8px,1svh,12px) 2.1%;overflow:visible;border:2px solid #e8c465;border-radius:7px;
+  box-shadow:inset 0 0 0 2px #83602780,0 8px 22px #0008;
+ }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage #scoring-heading { font-size:clamp(17px,calc(var(--sru)*1.6),30px);margin:0 0 6px; }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .scoring-rule { font-size:clamp(12px,calc(var(--sru)*.9),17px);line-height:1.25; }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .scoring-trophy { max-height:16svh; }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .seasonEntryGrid:not(.hidden) {
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.3%;width:72.66%;min-width:0;margin:0 auto;
+ }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .seasonEntryGrid .entry-panel {
+  position:relative;inset:auto;left:auto!important;width:100%!important;min-width:0;height:auto;min-height:max(220px,32svh);
+  max-height:none;overflow:visible;box-sizing:border-box;padding:12px 18px;
+  grid-template-rows:auto repeat(3,minmax(44px,1fr));gap:6px 16px;
+  border:2px solid var(--manager-accent);border-radius:7px;
+  box-shadow:inset 0 0 0 2px #83602780,0 8px 22px #0008;
+ }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .seasonEntryGrid:has(.entry-panel.hidden) .entry-panel:not(.hidden) {
+  grid-column:1/-1;justify-self:center;width:50%!important;max-width:none;padding:12px 18px;
+ }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .seasonManagerHeader { display:flex;align-items:center;flex-wrap:nowrap;gap:12px;padding-bottom:8px;margin:0; }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .seasonManagerHeader h3 { font:800 clamp(24px,calc(var(--sru)*2.1),40px)/1 var(--sd-font-condensed,"Barlow Condensed",sans-serif);flex:0 0 auto; }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .seasonManagerHeader p { min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin:0; }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .seasonResultCard>label { min-height:44px;overflow-wrap:normal;word-break:normal; }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .achievementChecks label { min-height:44px;overflow-wrap:normal;word-break:normal; }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .seasonResultCard input[type=number] { height:44px;min-height:44px; }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-action-row {
+  position:relative;inset:auto;width:39%;height:auto;min-height:44px;margin:0 auto;gap:12px;
+ }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-action-row button {
+  flex:1 1 0;min-width:0;min-height:clamp(44px,5.2svh,60px);padding:8px 12px;white-space:normal;
+  overflow-wrap:normal;word-break:normal;line-height:1.3;border:2px solid #e8c465;border-radius:4px;
+ }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-action-row #completeSeason { background:linear-gradient(115deg,#bf8527,#ffe69a,#d99e37);color:#12100b; }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage #seasonEntryError { position:relative;inset:auto;width:60%;margin:0 auto; }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage #seasonEntryError:empty { display:none;min-height:0;padding:0;margin:0; }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-review-panel:not(.hidden) {
+  position:relative;inset:auto;width:56%;height:auto;max-height:none;padding:12px 18px;margin:0 auto;overflow:visible;overscroll-behavior:auto;
+ }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode):has(.season-review-panel:not(.hidden)) .v10SeasonStage .season-layout { padding-top:30.5svh; }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-review-panel .seasonReviewActions {
+  position:static;inset:auto;flex-wrap:wrap;max-width:100%;background:none;
+ }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-review-panel .seasonReviewActions button { min-width:0;min-height:44px;max-width:100%;white-space:normal;overflow-wrap:normal; }
+}
+@media (min-width:340px) and (max-width:440px) and (min-height:520px) and (max-height:960px) and (orientation:portrait),
+       (min-width:640px) and (max-width:880px) and (min-height:340px) and (max-height:410px) and (orientation:landscape),
+       (min-width:700px) and (max-width:900px) and (min-height:960px) and (max-height:1240px) and (orientation:portrait),
+       (min-width:1240px) and (max-width:1400px) and (min-height:620px) and (max-height:800px),
+       (min-width:1880px) and (max-width:2620px) and (min-height:1040px) and (max-height:1120px) {
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage :is(button,.season-phone-tab,.season-phone-scoring-open,.season-phone-sheet-close):active {
+  filter:brightness(.88);box-shadow:inset 0 2px 4px #0008;
+ }
+}
+
 /* JOB-1289: desktop Final Winner, built from Team V's adopted study desktop-a-1289 and NEXT_FINAL_WINNER.
-   Desktop only (1200x700 and up); phone, sideways and tablet keep Team V's own rules. One unit (--fwu) is 1/100 of the
+   Desktop only (1200x600 and up since FINAL-WINNER-PLATE-V2, it was 700); phone, sideways and tablet keep Team V's own rules. One unit (--fwu) is 1/100 of the
    stage width, shrunk on a short stage; positions are fractions of the stage so nothing scrolls. Words, taps and order are the live ones. */
-@media (min-width:1200px) and (min-height:700px) {
+@media (min-width:1200px) and (min-height:600px) {
  #app #seasonEntry .v10FinalStage { container-type:size; --fwu:min(1cqw,1.89cqh); --sd-z-ui:5; }
  #app #seasonEntry .v10FinalStage #finalWinnerScreen { inset:0; width:100%; max-width:none; margin:0; padding:0; }
  #app #seasonEntry .v10FinalStage .sd-stage__plate { filter:contrast(1.06) saturate(.92); }
@@ -1083,7 +1421,304 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
  #app #seasonEntry .v10FinalStage .finalWinnerActionsSlot .v10FinalExit .seasonEntryActions button:hover { filter:brightness(1.15); }
  #app #seasonEntry .v10FinalStage .finalWinnerActionsSlot .v10FinalExit .seasonEntryActions button:focus-visible { outline:3px solid #fff5c4; outline-offset:-6px; }
 }
+/* JOB-1702: Final Winner at phone, sideways and tablet (adopted studies 1284, 1287, 1288 and PHONE_FINAL_WINNER).
+   Desktop (the JOB-1289 block above) is untouched. main is the only scroll owner; the stage fits the first view,
+   so Team V's 660px minimum and its inner stage scroll are reset here. Words, ids and tap order are the live ones. */
+@media (min-width:340px) and (max-width:440px) and (min-height:520px) and (max-height:960px) and (orientation:portrait),
+       (min-width:640px) and (max-width:880px) and (min-height:340px) and (max-height:410px) and (orientation:landscape),
+       (min-width:700px) and (max-width:900px) and (min-height:960px) and (max-height:1240px) and (orientation:portrait) {
+ html[data-v10-screen="seasonEntry"] #app main:has(#seasonEntry.seasonScreenV10.v10FinalMode:not(.hidden)) {
+  position:fixed;inset:0;height:100svh;padding:0;overflow-x:hidden;overflow-y:auto;
+ }
+ #app #seasonEntry.seasonScreenV10.v10FinalMode { position:relative;inset:auto;height:100svh;min-height:0;margin:0;padding:0; }
+ #app #seasonEntry.v10FinalMode #stage-root.v10FinalStage { position:absolute;inset:0;width:100%;height:100%;overflow:hidden; }
+ #app #seasonEntry.v10FinalMode #stage-root.v10FinalStage #finalWinnerScreen {
+  position:absolute;inset:0;width:100%;height:100%;max-width:none;margin:0;padding:0;
+ }
+ /* Two exits in Team V's black-and-gold kit: secondary outline, gold primary (BACK TO SHOWDOWN HOME). */
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerActionsSlot .v10FinalExit { width:100%;margin:0;padding:0; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerActionsSlot .v10FinalExit .seasonEntryActions {
+  display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%;margin:0;padding:0;border:0;background:none;box-shadow:none;
+ }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerActionsSlot .v10FinalExit .seasonEntryActions button {
+  box-sizing:border-box;width:100%;min-width:0;min-height:44px;margin:0;padding:6px 8px;
+  border:1px solid #dfbd54;border-radius:0;background:linear-gradient(#141414,#070807);color:#f7cf60;
+  font:800 11px/1.25 var(--sd-font-condensed,"Barlow Condensed",sans-serif);letter-spacing:.06em;text-transform:uppercase;
+  white-space:normal;overflow-wrap:normal;word-break:normal;box-shadow:inset 0 0 0 2px #88642b44;
+ }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerActionsSlot .v10FinalExit .seasonEntryActions .backButton {
+  background:linear-gradient(#fff1a1,#e8b73e 70%,#b98a2c);color:#0b0a07;box-shadow:0 0 12px #dfad3555;
+ }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerActionsSlot .v10FinalExit .seasonEntryActions button:active {
+  filter:brightness(.86);box-shadow:inset 0 2px 5px #000a;
+ }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerActionsSlot .v10FinalExit .seasonEntryActions button:focus-visible {
+  outline:3px solid #fff5c4;outline-offset:2px;
+ }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerResultsPanel .finalWinnerPhoneTabs label:active { filter:brightness(1.2); }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerResultsPanel .finalWinnerTabInput:focus-visible~.finalWinnerPhoneTabs {
+  outline:3px solid #fff5c4;outline-offset:-3px;
+ }
+}
+/* Phone upright: Team V's phone composition on the full screen; the panel ends just above the exits. */
+@media (min-width:340px) and (max-width:440px) and (min-height:520px) and (max-height:960px) and (orientation:portrait) {
+ /* The crown sat over the gap between SHOWDOWN and CHAMPION. */
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerCrown { display:none; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerActionsSlot {
+  left:4%;right:auto;width:92%;top:auto;bottom:max(12px,env(safe-area-inset-bottom));height:auto;max-height:none;padding:0;overflow:visible;
+ }
+}
+/* Sideways and tablet: one phone-art composition on the whole screen (Team V's phone background and the two phone
+   portraits, Daniel on the left). The desktop plate, rims, shades and spotlights are hidden by class, not by src. */
+@media (min-width:640px) and (max-width:880px) and (min-height:340px) and (max-height:410px) and (orientation:landscape),
+       (min-width:700px) and (max-width:900px) and (min-height:960px) and (max-height:1240px) and (orientation:portrait) {
+ #app #seasonEntry.v10FinalMode #stage-root :is(.sd-stage__layer--plate,.sd-stage__layer--cutout,.sd-stage__layer--light,.finalWinnerManagerShade,.finalWinnerManagerSpotlight,.finalWinnerCrown,.finalWinnerTopbar) { display:none; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerPhoneBackground { position:absolute;inset:0;z-index:1;display:block;overflow:hidden;pointer-events:none; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerPhoneBackground img { display:block;width:100%;height:100%;object-fit:cover;object-position:50% 50%; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerPhoneVeil { position:absolute;inset:0;z-index:6;display:block;pointer-events:none; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerPhoneHero { position:absolute;z-index:9;display:block;width:auto;right:auto;bottom:auto;pointer-events:none;transform:none;opacity:.96; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerPhoneHero img { display:block;width:auto;height:100%;max-width:none;filter:drop-shadow(0 11px 12px rgb(0 0 0 / .7)); }
+ #app #seasonEntry.v10FinalMode #stage-root[data-spotlight="daniel"] .finalWinnerPhoneHero--nik,
+ #app #seasonEntry.v10FinalMode #stage-root[data-spotlight="nik"] .finalWinnerPhoneHero--daniel { opacity:.78;filter:brightness(.74) saturate(.85); }
+ #app #seasonEntry.v10FinalMode #stage-root :is(.finalWinnerTitleBlock,.finalWinnerHeroCopySlot,.winnerTrophySlot,.finalWinnerResultsPanel,.finalWinnerActionsSlot) {
+  position:absolute;right:auto;bottom:auto;height:auto;max-height:none;margin:0;box-sizing:border-box;
+ }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerTitleBlock { z-index:13;display:grid;justify-items:center;row-gap:2px;transform:translateX(-50%);text-align:center; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerWordmark { width:100%;margin:0; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerWordmark img { display:block;width:100%;height:auto; }
+ #app #seasonEntry.v10FinalMode #stage-root .winnerTrophySlot { z-index:10;width:auto;aspect-ratio:1;transform:translateX(-50%); }
+ #app #seasonEntry.v10FinalMode #stage-root .winnerTrophySlot .winnerTrophyPicture { position:absolute;inset:0;display:block;width:100%;height:100%; }
+ #app #seasonEntry.v10FinalMode #stage-root .winnerTrophySlot .winnerTrophyPicture img { display:block;width:100%;height:100%;object-fit:contain; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerHeroCopySlot { z-index:13;display:flex;flex-direction:column;align-items:center;gap:0;transform:translateX(-50%);text-align:center; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerOutcome { margin:2px 0 0;line-height:1; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerTotals { display:grid;grid-template-columns:1fr 1fr;width:100%;margin-top:2px; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerScoreDash { display:none; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerManager { display:grid;justify-items:center;gap:0; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerManager .sd-number { line-height:1; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerResultsPanel {
+  z-index:11;display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:44px minmax(0,1fr);overflow:hidden;
+  border:1px solid #d9b64e;background:linear-gradient(115deg,#3927129c,#080909eb);
+  clip-path:polygon(2% 0,98% 0,100% 3%,100% 97%,98% 100%,2% 100%,0 97%,0 3%);
+ }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerResultsPanel :is(.finalWinnerMetaStrip,.finalWinnerHonours) {
+  position:relative;inset:auto;grid-column:1;grid-row:2;width:auto;height:auto;min-height:0;border:0;background:none;
+ }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerMetaStrip { display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1.2fr 1fr; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerMetaCell { display:grid;place-content:center;justify-items:center;gap:2px;min-width:0;padding:4px;border:0;text-align:center; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerMetaCell--lastSeason { grid-column:1/-1;border-bottom:1px solid #d9b64e66; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerMetaCell--lastSeason~.finalWinnerMetaCell~.finalWinnerMetaCell { border-left:1px solid #d9b64e66; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerMetaCell :is(span,small) { white-space:nowrap; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerHonours { display:grid;grid-template-rows:auto repeat(4,minmax(0,1fr));align-content:stretch; }
+ #app #seasonEntry.v10FinalMode #stage-root :is(.finalWinnerHonoursHead,.finalWinnerTrophyMetric) {
+  display:grid;grid-template-columns:40px 22px minmax(0,1fr) 22px 40px;align-items:center;gap:4px;min-height:0;text-align:center;
+ }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerHonoursHead>span { grid-column:2/5; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerTrophyMetric { border-top:1px solid #c49d4944; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerTrophyMetric img { width:100%;height:100%;max-height:30px;object-fit:contain; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerActionsSlot { z-index:14;display:block;padding:0;overflow:visible; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerActionsSlot .v10FinalExit { width:100%;margin:0;padding:0; }
+}
+/* Sideways (study 1287): managers, trophy and score on the left half; summary tabs and both exits on the right half. */
+@media (min-width:640px) and (max-width:880px) and (min-height:340px) and (max-height:410px) and (orientation:landscape) {
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerPhoneVeil {
+  background:linear-gradient(90deg,transparent 0 48%,rgb(3 5 7 / .55) 54%,rgb(3 5 7 / .82) 100%),linear-gradient(180deg,transparent 0 52%,rgb(3 5 7 / .7) 74%,#050607 100%);
+ }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerPhoneHero { top:17%;height:66%; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerPhoneHero--daniel { left:0; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerPhoneHero--nik { left:auto;right:51%; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerTitleBlock { left:25%;top:3%;width:min(44%,330px); }
+ #app #seasonEntry.v10FinalMode #stage-root :is(.finalWinnerEyebrow,.finalWinnerTagline) { display:block;visibility:visible;font-size:8px;letter-spacing:.24em;line-height:1.2; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerWordmark { width:86%; }
+ #app #seasonEntry.v10FinalMode #stage-root .winnerTrophySlot { left:25%;top:25%;height:32%; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerHeroCopySlot { left:25%;top:59%;width:min(36%,280px); }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerStateHeading { font-size:9px;letter-spacing:.2em; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerOutcome { font-size:clamp(22px,7svh,28px); }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerManager small { font-size:9px;letter-spacing:.14em; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerManager .sd-number { font-size:clamp(26px,8.5svh,34px); }
+ #app #seasonEntry.v10FinalMode #stage-root :is(.finalWinnerResultText,.finalWinnerCompletion) { font-size:10px;margin-top:2px; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerResultsPanel { left:52%;width:45%;top:5%;bottom:calc(4% + 58px);height:auto; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerActionsSlot { left:52%;width:45%;top:auto;bottom:4%; }
+ #app #seasonEntry.v10FinalMode #stage-root .v10FinalProof { left:52%;width:45%;top:auto;bottom:calc(4% + 52px);max-height:none; }
+ #app #seasonEntry.v10FinalMode #stage-root:has(#v10ReconciliationSlot>:not(.hidden)) .finalWinnerResultsPanel { bottom:calc(4% + 96px); }
+ /* Summary and Honours stay radio tabs here, also above 760px where Team V shows both. */
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerTabInput { display:block;position:absolute;width:1px;height:1px;margin:0;opacity:0;clip-path:inset(50%);pointer-events:none; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerPhoneTabs {
+  position:relative;z-index:3;display:grid;grid-row:1;grid-template-columns:1fr 1fr;height:44px;border-bottom:1px solid #d9b64e;background:rgb(6 8 11 / .9);
+ }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerPhoneTabs label {
+  display:flex;align-items:center;justify-content:center;min-width:0;min-height:44px;color:var(--sd-text-secondary,#cfc6b0);
+  font:700 11px/1 var(--sd-font-condensed,"Barlow Condensed",sans-serif);letter-spacing:.12em;border-bottom:2px solid transparent;cursor:pointer;user-select:none;
+ }
+ #app #seasonEntry.v10FinalMode #stage-root #finalWinnerTabSummary:checked~.finalWinnerPhoneTabs label[for="finalWinnerTabSummary"],
+ #app #seasonEntry.v10FinalMode #stage-root #finalWinnerTabHonours:checked~.finalWinnerPhoneTabs label[for="finalWinnerTabHonours"] {
+  color:var(--sd-gold-300,#f2c45b);border-bottom-color:var(--sd-gold-300,#f2c45b);background:linear-gradient(180deg,rgb(242 196 91 / .1),transparent);
+ }
+ #app #seasonEntry.v10FinalMode #stage-root #finalWinnerTabSummary:checked~.finalWinnerHonours,
+ #app #seasonEntry.v10FinalMode #stage-root #finalWinnerTabHonours:checked~.finalWinnerMetaStrip { display:none; }
+ #app #seasonEntry.v10FinalMode #stage-root:is([data-status="loading"],[data-status="empty"],[data-status="unavailable"]) .finalWinnerPhoneTabs { display:none; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerMetaCell :is(span,small) { font-size:9px;letter-spacing:.1em; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerMetaCell strong { margin:1px 0;font-size:clamp(22px,7svh,28px);line-height:1; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerHonours { padding:2px 8px 4px; }
+ #app #seasonEntry.v10FinalMode #stage-root :is(.finalWinnerHonoursHead,.finalWinnerTrophyMetric) { font-size:9px;letter-spacing:.05em; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerHonoursHead { min-height:24px; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerMetricValue { font-size:17px; }
+}
+/* Tablet upright (study 1288): the phone ceremony scaled up; Summary and Honours side by side; exits clear. */
+@media (min-width:700px) and (max-width:900px) and (min-height:960px) and (max-height:1240px) and (orientation:portrait) {
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerPhoneVeil {
+  background:linear-gradient(180deg,transparent 0 46%,rgb(3 5 7 / .72) 56%,rgb(3 5 7 / .96) 63%,#050607 100%);
+ }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerPhoneHero { top:6%;height:52%; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerPhoneHero--daniel { left:-2%; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerPhoneHero--nik { left:auto;right:-2%; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerTitleBlock { left:50%;top:3%;width:min(70%,560px);row-gap:6px; }
+ #app #seasonEntry.v10FinalMode #stage-root :is(.finalWinnerEyebrow,.finalWinnerTagline) { font-size:13px;letter-spacing:.3em;line-height:1.2; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerWordmark { width:88%; }
+ #app #seasonEntry.v10FinalMode #stage-root .winnerTrophySlot { left:50%;top:17%;height:27%; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerHeroCopySlot { left:50%;top:45%;width:min(64%,520px); }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerStateHeading { font-size:14px;letter-spacing:.24em; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerOutcome { font-size:44px;margin-top:4px; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerManager small { font-size:14px;letter-spacing:.16em; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerManager .sd-number { font-size:54px; }
+ #app #seasonEntry.v10FinalMode #stage-root :is(.finalWinnerResultText,.finalWinnerCompletion) { font-size:14px;margin-top:4px; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerResultsPanel {
+  left:5%;width:90%;top:63%;bottom:calc(4% + 72px);height:auto;grid-template-columns:36% minmax(0,1fr);grid-template-rows:minmax(0,1fr);
+ }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerPhoneTabs,
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerTabInput { display:none; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerResultsPanel :is(.finalWinnerMetaStrip,.finalWinnerHonours) { display:grid;grid-row:1; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerResultsPanel .finalWinnerMetaStrip { grid-column:1;border-right:1px solid #d9b64e66; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerResultsPanel .finalWinnerHonours { grid-column:2;padding:8px 18px; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerMetaCell :is(span,small) { font-size:12px;letter-spacing:.12em; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerMetaCell strong { margin:2px 0;font-size:40px;line-height:1; }
+ #app #seasonEntry.v10FinalMode #stage-root :is(.finalWinnerHonoursHead,.finalWinnerTrophyMetric) { grid-template-columns:52px 30px minmax(0,1fr) 30px 52px;gap:8px;font-size:13px;letter-spacing:.06em; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerHonoursHead { min-height:34px; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerTrophyMetric img { max-height:34px; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerMetricValue { font-size:26px; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerTotalMark { font-size:18px; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerActionsSlot { left:8%;width:84%;top:auto;bottom:4%; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerActionsSlot .v10FinalExit .seasonEntryActions { gap:16px; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerActionsSlot .v10FinalExit .seasonEntryActions button { min-height:56px;font-size:15px; }
+ #app #seasonEntry.v10FinalMode #stage-root .v10FinalProof { left:5%;width:90%;top:auto;bottom:calc(4% + 64px);max-height:none; }
+ #app #seasonEntry.v10FinalMode #stage-root:has(#v10ReconciliationSlot>:not(.hidden)) .finalWinnerResultsPanel { bottom:calc(4% + 120px); }
+}
 
+/* SEASON-PLATE-V2 (ticket 1610P): desktop Season Results on Team V's approved stadium-stand plate
+   (visual-assets/v10_1/plates-v2/ENV_SEASON_RESULTS_PLATE_V2_*), with the cards and buttons in the picture's gold-bevel
+   and polished-gold finish (NEXT_SEASON_RESULTS). Strictly the desktop picture range: wide landscape windows of at
+   least 1200x600; phone, sideways and tablet keep their art and rules. The plate is the same 1536x864 as the old
+   one, so the stage keeps registering it exactly as before; it loads with this screen, never with the startup bundle.
+   Both managers' fists are painted on the plate, so the old registered fist overlays are not drawn on top of it.
+   Looks only: every word, id and tap order stays as it was. */
+@media (min-width:1200px) and (min-height:600px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage {
+  --sr-bevel:linear-gradient(135deg,#fff1b8 0%,#e8b94a 15%,#8a6a12 36%,#f2c45b 56%,#fff1b8 73%,#b8862a 100%);
+ }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .sd-stage__plate {
+  background-image:image-set(url("${assetUrl(BASE+"plates-v2/ENV_SEASON_RESULTS_PLATE_V2_1X.webp")}") 1x,url("${assetUrl(BASE+"plates-v2/ENV_SEASON_RESULTS_PLATE_V2_2X.webp")}") 2x);
+ }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage :is(.season-depth-picture,.season-rim-picture) { display:none; }
+ /* a soft dark pool behind the eyebrow, title and line, so they read over the arena lights */
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-title-block::before {
+  content:"";position:absolute;z-index:-1;left:26%;right:26%;top:7%;height:26%;pointer-events:none;
+  background:radial-gradient(ellipse at 50% 50%,#050608a0,#05060860 48%,transparent 72%);
+ }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-eyebrow,#app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-tagline { text-shadow:0 0 3px #000,0 1px 2px #000,0 0 12px #000,0 0 22px #000c; }
+ /* the scoring card, the entry card and the review card: gold-bevel frame around a black face with a thin inner gold line */
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage :is(.scoring-panel,.seasonEntryGrid .entry-panel,.season-review-panel) {
+  clip-path:none;border:4px solid transparent;border-radius:9px;
+  background:linear-gradient(180deg,#15130fF2 0,#0a0a0bF5 22%,#08080aF7 100%) padding-box,var(--sr-bevel) border-box;
+  box-shadow:inset 0 0 0 2px #050505,inset 0 0 0 3px #d9aa3c99,inset 0 1px 0 4px #fff1b81c,0 0 28px #f0c84b38,0 14px 36px #000c;
+ }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .seasonReviewCard { border-radius:6px; }
+ /* REVIEW MY SEASON RESULT and COMMIT & ACKNOWLEDGE: polished gold */
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage :is(.season-action-row #completeSeason,#sharedSeasonCommitAction,.seasonReviewActions .menuButton:not(:disabled)) {
+  border:2px solid transparent;border-radius:4px;color:#17110a;
+  background:linear-gradient(180deg,#fff0a6 0,#f8d764 20%,#e4b032 54%,#f4cf58 80%,#c98f1c 100%) padding-box,linear-gradient(135deg,#fff8d0,#d9a83a 40%,#fff1b8 70%,#a9781a) border-box;
+  box-shadow:inset 0 1px 0 #fffbe0,inset 0 -3px 0 #a87a1288,0 0 0 1px #000a,0 0 22px #f5c51855,0 5px 18px #0009;
+  text-shadow:0 1px 0 #fff2b588;
+ }
+ /* BACK TO SHOWDOWN HOME: black face, gold-bevel edge */
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-action-row .backButton {
+  border:2px solid transparent;border-radius:4px;color:#fff1ae;
+  background:linear-gradient(180deg,#141311,#070708) padding-box,var(--sr-bevel) border-box;
+  box-shadow:inset 0 0 0 1px #050505,inset 0 1px 0 2px #fff1b81f,0 5px 16px #000a;
+ }
+}
+/* short windows (1280x650): a slimmer frame and tighter card padding keep the whole screen, buttons included, on the page */
+ @media (min-width:1200px) and (min-height:600px) and (max-height:700px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
+  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage :is(.scoring-panel,.seasonEntryGrid .entry-panel,.season-review-panel) { border-width:3px; }
+  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .seasonEntryGrid .entry-panel { padding-top:6px;padding-bottom:6px; }
+  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-layout { padding-bottom:0;gap:6px; }
+ }
+ 
+
+/* FINAL-WINNER-PLATE-V2 (ticket 1610P): desktop Final Winner on Team V's black-marble champion-hall plate
+   (visual-assets/v10_1/plates-v2/ENV_FINAL_WINNER_PLATE_V2_*), drawn to match NEXT_FINAL_WINNER. Strictly the desktop picture
+   range: wide landscape windows of at least 1200x600; phones, sideways phones and tablets keep their art and rules. The plate
+   is the background of the screen's own scroller (so it fills the window under the top bar, as in the picture), fitted to the
+   window height and centred, with a darkened soft side fill on windows wider than 16:9, and loads with this screen, never
+   with the startup bundle. It carries both managers, every banner, the name tags and an empty marble pedestal with a flat
+   top: the live champion trophy is seated on it. The old plate layer and manager cut-outs are not drawn. Every slot is placed
+   in plate units (--fw-k is one plate pixel) so it stays registered on every window shape. Looks only: every word, id and tap
+   order stays as it was. */
+@media (min-width:1200px) and (min-height:600px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
+ #app main:has(> #seasonEntry.seasonScreenV10.v10FinalMode:not(.hidden)) {
+  --fw-k:calc(100svh / 864); --fw-top:calc(var(--sd-nav-top-h,52px) + 14px);
+  --fw-edge:linear-gradient(90deg,#000b,#0000);
+  background-color:#07080a;
+  background-image:
+   linear-gradient(270deg,#000b,#0000),linear-gradient(90deg,#000b,#0000),
+   image-set(url("${assetUrl(BASE+"plates-v2/ENV_FINAL_WINNER_PLATE_V2_1X.webp")}") 1x,url("${assetUrl(BASE+"plates-v2/ENV_FINAL_WINNER_PLATE_V2_2X.webp")}") 2x),
+   linear-gradient(#000b,#000b),
+   image-set(url("${assetUrl(BASE+"plates-v2/ENV_FINAL_WINNER_PLATE_V2_1X.webp")}") 1x,url("${assetUrl(BASE+"plates-v2/ENV_FINAL_WINNER_PLATE_V2_2X.webp")}") 2x);
+  background-repeat:no-repeat;
+  background-size:calc(80 * var(--fw-k)) 100%,calc(80 * var(--fw-k)) 100%,auto 100svh,auto,cover;
+  background-position:calc(50% + 728 * var(--fw-k)) 0,calc(50% - 728 * var(--fw-k)) 0,50% calc(0px - var(--sd-nav-top-h,52px)),0 0,50% 50%;
+ }
+ #app #seasonEntry.v10FinalMode,
+ #app #seasonEntry .v10FinalStage { background:none; }
+ #app #seasonEntry .v10FinalStage :is(.sd-stage__layer--plate,.sd-stage__layer--cutout,.sd-stage__layer--light) { display:none; }
+ /* a soft dark pool behind the title lines, so they read over the bright arena lights */
+ #app #seasonEntry .v10FinalStage .finalWinnerTitleBlock::before { content:""; position:absolute; z-index:-1; left:-12%; right:-12%; top:-8%; bottom:-30%; pointer-events:none; background:radial-gradient(ellipse at 50% 52%,#050608a0,#05060860 48%,transparent 72%); }
+ #app #seasonEntry .v10FinalStage .finalWinnerTitleBlock { top:calc(108 * var(--fw-k) - var(--fw-top)); width:calc(522 * var(--fw-k)); }
+ #app #seasonEntry .v10FinalStage :is(.finalWinnerCrown--daniel,.finalWinnerCrown--nik) { top:calc(80 * var(--fw-k) - var(--fw-top)); }
+ #app #seasonEntry .v10FinalStage .finalWinnerHeroCopySlot { top:calc(238 * var(--fw-k) - var(--fw-top)); width:calc(418 * var(--fw-k)); }
+ /* the champion trophy stands on the pedestal's flat top (plate y 575 to 600) */
+ #app #seasonEntry .v10FinalStage .winnerTrophySlot { top:calc(291 * var(--fw-k) - var(--fw-top)); width:calc(210 * var(--fw-k)); height:calc(306 * var(--fw-k)); }
+ /* the summary plaque and the two buttons sit where the picture has them */
+ #app #seasonEntry .v10FinalStage .finalWinnerResultsPanel {
+  left:50%; translate:-50% 0; width:max(calc(913 * var(--fw-k)),59.3%); top:calc(640 * var(--fw-k) - var(--fw-top)); height:max(calc(138 * var(--fw-k)),112px);
+  border:3px solid transparent;
+  background:linear-gradient(115deg,#111110f2,#060706f0) padding-box,linear-gradient(135deg,#fff1b8 0%,#e8b94a 15%,#8a6a12 36%,#f2c45b 56%,#fff1b8 73%,#b8862a 100%) border-box;
+  box-shadow:inset 0 0 0 2px #050505,inset 0 0 0 3px #e4c56a70;
+ }
+ #app #seasonEntry .v10FinalStage .finalWinnerActionsSlot { left:calc(50vw - 223 * var(--fw-k)); width:calc(448 * var(--fw-k)); top:min(calc(784 * var(--fw-k) - var(--fw-top)),calc(100% - 56px)); bottom:auto; }
+ #app #seasonEntry .v10FinalStage .finalWinnerActionsSlot .v10FinalExit .seasonEntryActions button {
+  border:2px solid transparent;
+  background:linear-gradient(#171512,#070708) padding-box,linear-gradient(135deg,#fff1b8 0%,#e8b94a 15%,#8a6a12 36%,#f2c45b 56%,#fff1b8 73%,#b8862a 100%) border-box;
+ }
+ #app #seasonEntry .v10FinalStage .finalWinnerActionsSlot .v10FinalExit .seasonEntryActions .backButton {
+  background:linear-gradient(180deg,#fff0a6 0,#f8d764 20%,#e4b032 54%,#f4cf58 80%,#c98f1c 100%) padding-box,linear-gradient(135deg,#fff8d0,#d9a83a 40%,#fff1b8 70%,#a9781a) border-box;
+  box-shadow:inset 0 1px 0 #fffbe0,inset 0 -3px 0 #a87a1288,0 0 20px #f5c51840;
+ }
+}
+/* short windows (1280x650, 1366x768): the plaque rides a little higher so it clears the two buttons */
+@media (min-width:1200px) and (min-height:600px) and (max-height:800px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
+ #app #seasonEntry .v10FinalStage .finalWinnerResultsPanel { top:calc(598 * var(--fw-k) - var(--fw-top)); }
+}
+/* r73 polish. Review: the projected overall bar is sized min(620px,92vw) by the old app sheet, wider than the review
+   panel on phones, so it stops at the panel's inner edge; the review lines take the game's condensed face instead of the
+   system font; the review heading is focused on open for screen readers only (tabindex -1), so it draws no ring. */
+#app #seasonEntry.seasonScreenV10 .season-review-panel .overallScoreBox { max-width:100%; box-sizing:border-box; }
+#app #seasonEntry.seasonScreenV10 .season-review-panel :is(.seasonReviewIntro,.summaryClub,.summaryLine) {
+ font-family:var(--sd-font-condensed,"Barlow Condensed","Arial Narrow",sans-serif);
+}
+#app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage #seasonReviewHeading[tabindex="-1"]:focus { outline:none !important; box-shadow:none; }
+/* r73 polish, Final Winner sideways: a little air between the DANIEL WINS line and the two manager labels under it. */
+@media (min-width:640px) and (max-width:880px) and (min-height:340px) and (max-height:410px) and (orientation:landscape) {
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerTotals { margin-top:7px; }
+}
 `;
     parent.appendChild(style);
   }
@@ -1097,6 +1732,7 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
     renderFinal(host,frame.final);
   }
   function renderStandings(frame,host){
+    sfStandingsRule(root.document);
     const selected=host.querySelector('#sdgViewCareer')?.getAttribute("aria-selected")==="true"?"CAREER":"SHOWDOWN";
     host.firstElementChild?.v10StageHandle?.destroy();host.replaceChildren(stageElement("standings"));host.classList.add("standingsScreenV10");
     root.STANDINGS_ROOT=host.firstElementChild;root.STANDINGS_QS="frame="+selected;root.STANDINGS_FIXTURES={strings:strings.standings,frames:frame};root.ShowdownStandingsBoot();
@@ -1152,14 +1788,14 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
   // install would also leave Season Results without its listeners.
   async function standingsModules(){
     const load=root.loadRuntimeScript;
-    for(const [key,p,api] of [["career-history","js/sharedHistoryConvergence.js","CareerModeSharedHistoryConvergence"],["career-analytics","js/sharedCareerAnalytics.js","CareerModeSharedCareerAnalytics"],["career-terminal","js/sharedTerminalClose.js","CareerModeSharedTerminalClose"],["career-final","js/sharedFinalReconciliation.js","CareerModeSharedFinalReconciliation"],["career-active-adapter","js/sharedActiveShowdownAdapter.js","CareerModeSharedActiveShowdownAdapter"]])await load(key,p,()=>Boolean(root[api]));
+    for(const [key,p,api] of [["career-history","js/sharedHistoryConvergence.js","CareerModeSharedHistoryConvergence"],["career-analytics","js/sharedCareerAnalytics.js","CareerModeSharedCareerAnalytics"],["career-terminal","js/sharedTerminalClose.js","CareerModeSharedTerminalClose"],["career-final","js/sharedFinalReconciliation.js","CareerModeSharedFinalReconciliation"],["career-active-adapter","js/sharedActiveShowdownAdapter.js","CareerModeSharedActiveShowdownAdapter"],["visual-identity","js/visualIdentity.js","getClubCrestSvg"]])await load(key,p,()=>Boolean(root[api]));
   }
   async function installResults(){
     if(installed)return true;installed=true;
     root.SEASON_RESULTS_APP=true;root.FINAL_WINNER_APP=true;root.STANDINGS_APP=true;
     const loader=root.CareerModeV10Screens.install();
-    loader.register("seasonEntry",{auto:false,css:["season-results/season-results.css","final-winner/final-winner.css","season-results/app.css"],js:[["v10-season-results","season-results/season-results.js",()=>typeof root.ShowdownSeasonResultsBoot==="function"],["v10-final-winner","final-winner/final-winner.js",()=>typeof root.ShowdownFinalWinnerBoot==="function"]],prepare:()=>Promise.all([prepare("season-results"),prepare("final-winner")]),frame:seasonSource,mount:(frame,host)=>sfKeepFocus(()=>renderSeason(frame,host)),unmount:host=>sfKeepFocus(()=>restoreFinal(host))});
-    loader.register("standings",{auto:false,css:["standings/standings.css","season-results/app.css"],js:[["v10-standings","standings/standings.js",()=>typeof root.ShowdownStandingsBoot==="function"]],prepare:()=>Promise.all([prepare("standings"),standingsModules()]),frame:()=>standingsFrames(currentRivalry(),currentCareer()),mount:renderStandings,unmount(host){host.firstElementChild?.v10StageHandle?.destroy();host.replaceChildren();}});
+    loader.register("seasonEntry",{auto:false,hold:true,css:["season-results/season-results.css","final-winner/final-winner.css","season-results/app.css"],js:[["v10-season-results","season-results/season-results.js",()=>typeof root.ShowdownSeasonResultsBoot==="function"],["v10-final-winner","final-winner/final-winner.js",()=>typeof root.ShowdownFinalWinnerBoot==="function"]],prepare:()=>Promise.all([prepare("season-results"),prepare("final-winner")]),frame:seasonSource,mount:(frame,host)=>sfKeepFocus(()=>renderSeason(frame,host)),unmount:host=>sfKeepFocus(()=>restoreFinal(host))});
+    loader.register("standings",{auto:false,hold:true,css:["standings/standings.css","season-results/app.css"],js:[["v10-standings","standings/standings.js",()=>typeof root.ShowdownStandingsBoot==="function"]],prepare:()=>Promise.all([prepare("standings"),standingsModules()]),frame:()=>standingsFrames(currentRivalry(),currentCareer()),mount:renderStandings,unmount(host){host.firstElementChild?.v10StageHandle?.destroy();host.replaceChildren();}});
     installStandingsRoute();
     // Warm Season Results' kit, scripts and templates now (show() loads, then returns false while the screen is hidden),
     // so the skin mounts in the same tick the screen opens instead of after the form is already being filled in.

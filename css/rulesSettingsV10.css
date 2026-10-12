@@ -311,3 +311,882 @@
   #app #ruleBook.v10RuleBook #ruleBookSections .ruleSection li {overflow-wrap:break-word}
   #app #ruleBook.v10RuleBook #ruleBookBack {min-height:44px}
 }
+
+/* JOB-1707 [rules-settings] Rule Book.
+   Targets: NEXT_RULE_BOOK and PHONE_RULE_BOOK on factory/v1-wtt5ye;
+   adopted studies 1429 and 1433. 1432 is rejected: no sideways study is wired.
+   Natural card heights and one main scroll replace the old per-card viewports.
+   The stage camera stays viewport-sized; only the foreground joins page flow. */
+@media (min-width:901px),
+       (max-width:900px) and (orientation:portrait),
+       (max-width:900px) and (orientation:landscape) {
+  #app main:has(> #ruleBook.v10RuleBook:not(.hidden)) {
+    padding:0;
+    overflow-y:auto;
+    overflow-x:hidden;
+    scroll-padding-block:12px 80px;
+  }
+  #app #ruleBook.v10RuleBook {
+    position:relative; inset:auto; width:100%; height:auto; min-height:100%;
+    margin:0; padding:0; contain:none; overflow:visible;
+  }
+  #app #ruleBook.v10RuleBook #v10RuleBookStage {
+    position:relative; inset:auto; width:100%; height:100svh;
+    min-height:0; margin:0; overflow:visible;
+  }
+  #app #ruleBook.v10RuleBook #v10RuleBookStage .sd-stage__layer--ui {
+    position:relative; inset:auto; top:0; bottom:auto; height:auto;
+    min-height:0; overflow:visible;
+  }
+  #app #ruleBook.v10RuleBook #v10RuleBookStage .sd-stage__layer--plate,
+  #app #ruleBook.v10RuleBook #v10RuleBookStage .sd-stage__layer--atmosphere {
+    position:fixed; inset:0; height:100svh; pointer-events:none;
+  }
+  #app #ruleBook.v10RuleBook .ruleBookV10Content {
+    position:relative; inset:auto; width:100%; height:auto; min-height:0;
+    box-sizing:border-box; overflow:visible;
+  }
+  #app #ruleBook.v10RuleBook #ruleBookSections.ruleBookGrid {
+    position:relative; inset:auto; top:auto; bottom:auto; height:auto;
+    max-height:none; padding:0; overflow:visible; overscroll-behavior:auto;
+    grid-template-rows:repeat(3,auto);
+  }
+  #app #ruleBook.v10RuleBook #ruleBookSections .ruleSection {
+    box-sizing:border-box; min-width:0; height:auto; max-height:none;
+    overflow:visible; overscroll-behavior:auto; clip-path:none;
+    overflow-wrap:normal; word-break:normal;
+  }
+  #app #ruleBook.v10RuleBook .ruleSectionHeader h3,
+  #app #ruleBook.v10RuleBook .ruleScoreRow,
+  #app #ruleBook.v10RuleBook .ruleScoreMaximum {
+    min-width:0; overflow-wrap:normal; word-break:normal;
+  }
+  #app #ruleBook.v10RuleBook .ruleScoreRow span,
+  #app #ruleBook.v10RuleBook .ruleScoreMaximum span { min-width:0; }
+  #app #ruleBook.v10RuleBook .ruleScoreRow strong,
+  #app #ruleBook.v10RuleBook .ruleScoreMaximum strong { flex:0 0 auto; white-space:nowrap; }
+  #app #ruleBook.v10RuleBook .ruleBookActions {
+    position:sticky; left:auto; bottom:12px; z-index:14;
+    width:min(100% - 24px,280px); height:auto; margin:12px auto 0;
+    padding:4px; box-sizing:border-box; transform:none;
+    background:rgba(5,6,7,.94);
+  }
+  #app #ruleBook.v10RuleBook #ruleBookBack {
+    width:100%; min-width:0; min-height:44px; height:auto;
+    padding:12px 16px; clip-path:none; line-height:1.15;
+  }
+  #app #ruleBook.v10RuleBook #ruleBookBack:focus-visible,
+  #app #ruleBook.v10RuleBook .ruleBookDisclosureHeader:focus-visible {
+    outline:2px solid #ffe8a0; outline-offset:2px;
+    box-shadow:0 0 0 4px #07080a;
+  }
+  #app #ruleBook.v10RuleBook #ruleBookBack:active:not(:disabled),
+  #app #ruleBook.v10RuleBook .ruleBookDisclosureHeader:active {
+    transform:translateY(1px); filter:brightness(1.12);
+  }
+  #app #ruleBook.v10RuleBook .nav-reserve,
+  #app #ruleBook.v10RuleBook .topbarReserve { display:none; }
+}
+
+/* Study 1429: original numbered headings become exclusive native disclosures.
+   A fixed 12px Barlow copy floor also applies to 375x553; no small-font shortcut.
+   The shared real hub remains the sole navigation bar. */
+@media (max-width:699px) and (orientation:portrait) {
+  #app main:has(> #ruleBook.v10RuleBook:not(.hidden)) { scroll-padding-bottom:72px; }
+  #app #ruleBook.v10RuleBook #v10RuleBookStage {
+    height:calc(100svh - var(--sd-nav-bottom-space,56px));
+  }
+  #app #ruleBook.v10RuleBook .sd-stage__plate { display:none; }
+  #app #ruleBook.v10RuleBook .ruleBookPhonePlate { display:block; }
+  #app #ruleBook.v10RuleBook .ruleBookV10Content {
+    display:flex; flex-direction:column; gap:6px;
+    min-height:calc(100svh - var(--sd-nav-bottom-space,56px));
+    padding:6px max(12px,env(safe-area-inset-left)) 8px max(12px,env(safe-area-inset-right));
+  }
+  #app #ruleBook.v10RuleBook .ruleBookHero {
+    position:relative; inset:auto; width:100%; height:auto; min-height:0;
+    margin:0; padding-inline:44px; box-sizing:border-box;
+  }
+  #app #ruleBook.v10RuleBook .ruleBookHero .sd-eyebrow {
+    font-size:8px; line-height:1.2; letter-spacing:.25em; padding:0;
+  }
+  #app #ruleBook.v10RuleBook .ruleBookHero .sd-eyebrow::before {
+    inline-size:16px; block-size:10px; margin-bottom:2px;
+  }
+  #app #ruleBook.v10RuleBook .ruleBookWordmark {
+    width:100%; height:clamp(26px,5.5svh,40px); max-height:none;
+    margin:0; object-fit:contain;
+  }
+  #app #ruleBook.v10RuleBook .ruleBookHero .sd-tagline {
+    margin:0; padding:0; font-size:8px; line-height:1.2; letter-spacing:.1em;
+  }
+  #app #ruleBook.v10RuleBook .ruleBookSummary {
+    display:block; position:absolute; width:1px; height:1px; min-height:0;
+    margin:-1px; padding:0; clip-path:inset(50%); overflow:hidden;
+  }
+  #app #ruleBook.v10RuleBook #ruleBookSections.ruleBookGrid {
+    display:flex; flex-direction:column; flex:1 0 auto;
+    width:100%; margin:0; gap:4px;
+  }
+  #app #ruleBook.v10RuleBook #ruleBookSections .ruleSection {
+    flex:0 0 auto; padding:0; border-radius:2px;
+  }
+  #app #ruleBook.v10RuleBook .ruleBookDisclosure { margin:0; }
+  #app #ruleBook.v10RuleBook .ruleBookDisclosureHeader {
+    display:grid; grid-template-columns:28px minmax(0,1fr) 10px;
+    align-items:center; gap:8px; min-height:44px; height:auto;
+    margin:0; padding:4px 10px; box-sizing:border-box;
+    border:0; list-style:none; cursor:pointer;
+  }
+  #app #ruleBook.v10RuleBook .ruleBookDisclosureHeader::-webkit-details-marker { display:none; }
+  #app #ruleBook.v10RuleBook .ruleBookDisclosureHeader::after {
+    content:""; width:7px; height:7px; border:solid var(--sd-gold-300);
+    border-width:0 2px 2px 0; transform:rotate(45deg); justify-self:center;
+  }
+  #app #ruleBook.v10RuleBook .ruleBookDisclosure[open] > summary::after { transform:rotate(225deg); }
+  #app #ruleBook.v10RuleBook .ruleSectionNumber { width:28px; height:28px; font-size:12px; }
+  #app #ruleBook.v10RuleBook .ruleSectionHeader h3 {
+    font-size:14px; line-height:1.1; letter-spacing:.045em;
+  }
+  #app #ruleBook.v10RuleBook .ruleBookDisclosure > :not(summary) {
+    margin:0 10px; padding:6px 0; border-top:1px solid rgba(242,196,91,.28);
+  }
+  #app #ruleBook.v10RuleBook #ruleBookSections .ruleSection ul { gap:3px; }
+  #app #ruleBook.v10RuleBook #ruleBookSections .ruleSection li {
+    padding-left:10px; font:400 12px/1.2 var(--sd-font-body,Barlow,sans-serif);
+  }
+  #app #ruleBook.v10RuleBook .ruleScoreTable { grid-template-columns:1fr; gap:5px; }
+  #app #ruleBook.v10RuleBook .ruleScoreRow,
+  #app #ruleBook.v10RuleBook .ruleScoreMaximum {
+    flex-wrap:nowrap; font:600 12px/1.2 var(--sd-font-body,Barlow,sans-serif);
+  }
+  #app #ruleBook.v10RuleBook .ruleBookActions {
+    flex:0 0 auto; width:100%; margin:2px 0 0; bottom:4px;
+  }
+  #app #ruleBook.v10RuleBook #ruleBookBack { font-size:13px; }
+}
+
+/* Study 1433: editorial two-column board; Barlow, natural rows and no card scroll. */
+@media (min-width:700px) and (max-width:900px) and (orientation:portrait) {
+  #app #ruleBook.v10RuleBook #v10RuleBookStage {
+    height:calc(100svh - var(--sd-nav-bottom-space,56px));
+  }
+  #app #ruleBook.v10RuleBook .sd-stage__plate { display:none; }
+  #app #ruleBook.v10RuleBook .ruleBookPhonePlate { display:block; position:absolute; inset:0; }
+  #app #ruleBook.v10RuleBook .ruleBookPhonePlate img {
+    width:100%; height:100%; object-fit:cover; object-position:center;
+  }
+  #app #ruleBook.v10RuleBook .ruleBookV10Content {
+    display:flex; flex-direction:column; gap:11px;
+    min-height:calc(100svh - var(--sd-nav-bottom-space,56px));
+    padding:12px max(20px,env(safe-area-inset-left)) 12px max(20px,env(safe-area-inset-right));
+  }
+  #app #ruleBook.v10RuleBook .ruleBookHero {
+    position:relative; inset:auto; width:100%; height:auto; min-height:0;
+    margin:0; padding:0 48px 8px; box-sizing:border-box;
+    border-bottom:1px solid rgba(242,196,91,.25);
+  }
+  #app #ruleBook.v10RuleBook .ruleBookWordmark {
+    width:min(36vw,275px); height:clamp(48px,6.5svh,75px);
+    max-height:none; margin:1px auto; object-fit:contain;
+  }
+  #app #ruleBook.v10RuleBook .ruleBookHero .sd-eyebrow { font-size:10px; line-height:1.2; }
+  #app #ruleBook.v10RuleBook .ruleBookHero .sd-eyebrow::before { margin-bottom:4px; }
+  #app #ruleBook.v10RuleBook .ruleBookHero .sd-tagline { font-size:10px; line-height:1.25; letter-spacing:.17em; }
+  #app #ruleBook.v10RuleBook .ruleBookSummary {
+    display:block; max-width:470px; margin:5px auto 0; font:400 11px/1.3 var(--sd-font-body);
+  }
+  #app #ruleBook.v10RuleBook #ruleBookSections.ruleBookGrid {
+    display:grid; grid-template-columns:repeat(2,minmax(0,1fr));
+    grid-template-rows:repeat(3,auto); align-content:start;
+    width:100%; margin:0; gap:11px; flex:1 0 auto;
+  }
+  #app #ruleBook.v10RuleBook #ruleBookSections .ruleSection { padding:12px 14px; }
+  #app #ruleBook.v10RuleBook #ruleBookSections .ruleSectionHeader {
+    min-height:28px; margin:0 0 8px; padding:0 0 6px; gap:9px;
+  }
+  #app #ruleBook.v10RuleBook .ruleSectionHeader h3 { font-size:13px; line-height:1.15; letter-spacing:.08em; }
+  #app #ruleBook.v10RuleBook #ruleBookSections .ruleSection ul { gap:5px; }
+  #app #ruleBook.v10RuleBook #ruleBookSections .ruleSection li {
+    font:400 12px/1.3 var(--sd-font-body,Barlow,sans-serif);
+  }
+  #app #ruleBook.v10RuleBook .ruleScoreTable { grid-template-columns:1fr; gap:0; }
+  #app #ruleBook.v10RuleBook .ruleScoreRow {
+    padding:5px 0; border-bottom:1px solid rgba(242,196,91,.14);
+    font:400 12px/1.2 var(--sd-font-body,Barlow,sans-serif);
+  }
+  #app #ruleBook.v10RuleBook .ruleScoreMaximum {
+    margin-top:8px; padding-top:6px; font:600 11px/1.2 var(--sd-font-condensed);
+  }
+  #app #ruleBook.v10RuleBook .ruleScoreMaximum strong { font-size:23px; }
+  #app #ruleBook.v10RuleBook .ruleBookActions { flex:0 0 auto; margin:0 auto; bottom:8px; }
+}
+
+/* Approved NEXT desktop: centered gold title, ordered 2x3 board and gold Back.
+   Preserve row-major scoring order and the live SAME PASSION plate banner.
+   Marble/engraved frames and room lighting require Team V assets, not CSS art. */
+@media (min-width:901px) {
+  #app #ruleBook.v10RuleBook #v10RuleBookStage { margin-top:calc(-1 * var(--sd-nav-top-h,52px)); }
+  #app #ruleBook.v10RuleBook .ruleBookV10Content {
+    display:flex; flex-direction:column; gap:10px;
+    min-height:100svh; padding:calc(var(--sd-nav-top-h,52px) + 10px) 0 8px;
+  }
+  #app #ruleBook.v10RuleBook .ruleBookHero {
+    position:relative; inset:auto; width:min(34%,620px); height:auto;
+    min-height:0; margin:0 auto; padding:0;
+  }
+  #app #ruleBook.v10RuleBook .ruleBookWordmark {
+    width:100%; height:clamp(42px,9svh,100px); max-height:none;
+    object-fit:contain; margin:0 auto;
+  }
+  #app #ruleBook.v10RuleBook .ruleBookHero .sd-eyebrow { font-size:clamp(10px,.8vw,16px); line-height:1.2; }
+  #app #ruleBook.v10RuleBook .ruleBookHero .sd-eyebrow::before { block-size:12px; margin-bottom:4px; }
+  #app #ruleBook.v10RuleBook .ruleBookHero .sd-tagline { font-size:clamp(10px,.8vw,16px); line-height:1.2; letter-spacing:.2em; }
+  #app #ruleBook.v10RuleBook .ruleBookSummary {
+    margin:5px auto 0; font:400 clamp(11px,.85vw,16px)/1.25 var(--sd-font-body);
+  }
+  #app #ruleBook.v10RuleBook #ruleBookSections.ruleBookGrid {
+    display:grid; grid-template-columns:repeat(2,minmax(0,1fr));
+    grid-template-rows:repeat(3,auto); align-content:start; align-items:stretch;
+    width:78%; max-width:1860px; margin:0 auto; gap:10px 16px; flex:1 0 auto;
+  }
+  #app #ruleBook.v10RuleBook #ruleBookSections .ruleSection {
+    padding:clamp(8px,1svh,14px) clamp(12px,1.1vw,24px);
+    border-radius:3px; border-color:#dcb65d!important;
+    box-shadow:inset 0 1px rgba(255,235,179,.28),inset 0 0 0 3px rgba(8,9,11,.7),0 10px 24px rgba(0,0,0,.42)!important;
+  }
+  #app #ruleBook.v10RuleBook #ruleBookSections .ruleSectionHeader {
+    min-height:30px; grid-template-columns:28px minmax(0,1fr);
+    gap:10px; margin:0 0 7px; padding:0 0 5px;
+  }
+  #app #ruleBook.v10RuleBook .ruleSectionHeader h3 {
+    font-size:clamp(13px,1.05vw,20px); line-height:1.15; letter-spacing:.08em;
+  }
+  #app #ruleBook.v10RuleBook #ruleBookSections .ruleSection ul { gap:3px; }
+  #app #ruleBook.v10RuleBook #ruleBookSections .ruleSection li {
+    font:400 clamp(11.5px,.85vw,16px)/1.22 var(--sd-font-body);
+  }
+  #app #ruleBook.v10RuleBook .ruleScoreTable { grid-template-columns:repeat(2,minmax(0,1fr)); gap:6px 18px; }
+  #app #ruleBook.v10RuleBook .ruleScoreRow,
+  #app #ruleBook.v10RuleBook .ruleScoreMaximum {
+    flex-wrap:nowrap; font-size:clamp(11.5px,.85vw,16px); line-height:1.2;
+  }
+  #app #ruleBook.v10RuleBook .ruleScoreMaximum { margin-top:8px; padding-top:8px; }
+  #app #ruleBook.v10RuleBook .ruleBookActions { flex:0 0 auto; margin:0 auto; }
+  #app #ruleBook.v10RuleBook #ruleBookBack {
+    color:#16110a; border:1px solid #edcd7b;
+    background:var(--sd-gold-metal,linear-gradient(180deg,#ffe5a1,#c59132));
+    box-shadow:inset 0 0 0 3px rgba(44,29,8,.25),0 6px 18px rgba(0,0,0,.45);
+  }
+}
+
+/* Sideways remains the live phone list (740) / two-column board (844).
+   Only the scroll-owner and action safety defects are repaired; no 1432 layout. */
+@media (max-width:900px) and (orientation:landscape) {
+  #app #ruleBook.v10RuleBook #v10RuleBookStage { height:calc(100svh - var(--sd-nav-bottom-space,56px)); }
+  #app #ruleBook.v10RuleBook .ruleBookV10Content {
+    padding:110px 12px 8px; min-height:calc(100svh - var(--sd-nav-bottom-space,56px));
+  }
+  #app #ruleBook.v10RuleBook #ruleBookSections.ruleBookGrid { width:100%; margin:0; }
+  #app #ruleBook.v10RuleBook .ruleBookActions { bottom:4px; }
+}
+
+/* The inherited 844px desktop title starts at 52px and crosses the live board.
+   Bound that same title above the board; keep its live copy and card order. */
+@media (min-width:761px) and (max-width:900px) and (orientation:landscape) {
+  #app #ruleBook.v10RuleBook .ruleBookHero {
+    top:8px; left:25%; width:50%; height:auto; min-height:0; margin:0;
+  }
+  #app #ruleBook.v10RuleBook .ruleBookWordmark {
+    width:100%; height:30px; max-height:30px; object-fit:contain; margin:0;
+  }
+  #app #ruleBook.v10RuleBook .ruleBookHero .sd-eyebrow {
+    font-size:9px; line-height:1.2; letter-spacing:.25em;
+  }
+  #app #ruleBook.v10RuleBook .ruleBookHero .sd-eyebrow::before { block-size:10px; margin-bottom:2px; }
+  #app #ruleBook.v10RuleBook .ruleBookHero .sd-tagline { font-size:9px; line-height:1.2; margin:0; }
+  #app #ruleBook.v10RuleBook .ruleBookSummary { font-size:10px; line-height:1.2; margin:3px auto 0; }
+}
+
+/* Browser-check repairs. A docked Back needs an opaque band wherever the board
+   can run under it (sideways, short upright phones and short laptops); otherwise
+   rule text shows beside and below the button. Presentation only. */
+@media (max-width:900px) and (orientation:landscape),
+       (max-width:699px) and (orientation:portrait) and (max-height:700px),
+       (min-width:901px) and (max-height:700px) {
+  #app #ruleBook.v10RuleBook .ruleBookActions { isolation:isolate; }
+  #app #ruleBook.v10RuleBook .ruleBookActions::before {
+    content:""; position:absolute; z-index:-1; pointer-events:none;
+    left:50%; width:100vw; margin-left:-50vw; top:-14px; bottom:-4px;
+    background:linear-gradient(180deg,rgba(5,6,7,0),rgba(5,6,7,.96) 14px);
+  }
+}
+/* Short upright phones (360x640): reclaim spacing so the first view needs no scroll. */
+@media (max-width:699px) and (orientation:portrait) and (max-height:700px) {
+  #app #ruleBook.v10RuleBook .ruleBookV10Content { gap:4px; padding-top:3px; }
+  #app #ruleBook.v10RuleBook #ruleBookSections.ruleBookGrid { gap:3px; }
+  #app #ruleBook.v10RuleBook .ruleBookDisclosure > :not(summary) { padding:4px 0; }
+  #app #ruleBook.v10RuleBook #ruleBookSections .ruleSection ul { gap:2px; }
+  #app #ruleBook.v10RuleBook .ruleBookActions { margin-top:0; }
+}
+/* Sideways hero copy sits on busy stadium lights: keep it legible. */
+@media (max-width:900px) and (orientation:landscape) {
+  #app #ruleBook.v10RuleBook .ruleBookHero .sd-eyebrow,
+  #app #ruleBook.v10RuleBook .ruleBookHero .sd-tagline,
+  #app #ruleBook.v10RuleBook .ruleBookSummary { text-shadow:0 1px 3px #000,0 0 6px rgba(0,0,0,.9); }
+}
+/* 768x1024 (study 1433): trim spacing so the six-card board and Back fit without scroll. */
+@media (min-width:700px) and (max-width:900px) and (orientation:portrait) and (max-height:1060px) {
+  #app #ruleBook.v10RuleBook .ruleBookV10Content { gap:8px; padding-top:8px; padding-bottom:8px; }
+  #app #ruleBook.v10RuleBook #ruleBookSections.ruleBookGrid { gap:8px; }
+  #app #ruleBook.v10RuleBook #ruleBookSections .ruleSection { padding:10px 14px; }
+}
+/* Hero lines sit on bright stadium lights at laptop and small sizes: keep them legible. */
+@media (max-width:1440px) {
+  #app #ruleBook.v10RuleBook .ruleBookHero .sd-tagline,
+  #app #ruleBook.v10RuleBook .ruleBookSummary { text-shadow:0 1px 3px #000,0 0 6px rgba(0,0,0,.85); }
+}
+
+/* JOB-1731: adopted study 1731 (Rule Book, sideways phones 844x390 and 740x360). One viewport, no page scroll: a left
+   rail (title, tagline, summary, BACK TO MAIN MENU at its foot) beside six section tabs and the one chosen section
+   card; the shared hub bar sits below both. The tabs come from js/rulesSettingsV10.js (ruleBookTabs); all six cards
+   stay in the page in live order and only the inside of a card may scroll. Every tab and BACK keep a 44px target. */
+@media (max-width:900px) and (max-height:500px) and (orientation:landscape) {
+  :root:has(#ruleBook.v10RuleBook:not(.hidden)) { --sd-nav-bottom-h:48px; }
+  #app main:has(> #ruleBook.v10RuleBook:not(.hidden)) { overflow:hidden; }
+  #app #ruleBook.v10RuleBook #v10RuleBookStage { height:calc(100svh - var(--sd-nav-bottom-space,48px)); overflow:hidden; }
+  #app #ruleBook.v10RuleBook #v10RuleBookStage .sd-stage__layer--ui { height:100%; }
+  #app #ruleBook.v10RuleBook .ruleBookV10Content {
+    display:grid; grid-template-columns:clamp(222px,31%,270px) minmax(0,1fr); grid-template-rows:auto minmax(0,1fr);
+    column-gap:10px; row-gap:6px; align-content:stretch;
+    height:100%; min-height:0; padding:0 max(8px,env(safe-area-inset-right)) 0 max(8px,env(safe-area-inset-left));
+    box-sizing:border-box; overflow:hidden;
+    /* the study's dark wash over the stadium plate keeps the rail copy readable (the shared atmosphere layer stays off) */
+    background:linear-gradient(180deg,rgba(2,4,6,.8),rgba(2,4,6,.66) 31%,rgba(2,4,6,.86)),linear-gradient(90deg,rgba(0,0,0,.28),rgba(0,0,0,.08) 48%,rgba(0,0,0,.34));
+  }
+  /* rail */
+  #app #ruleBook.v10RuleBook .ruleBookHero {
+    grid-column:1; grid-row:1 / span 2; align-self:start;
+    position:relative; inset:auto; top:auto; left:auto; width:auto; height:auto; min-height:0;
+    margin:0; padding:6px 0 0; box-sizing:border-box; text-align:center;
+  }
+  #app #ruleBook.v10RuleBook .ruleBookHero .sd-eyebrow {
+    display:block; font:600 8px/1.3 var(--sd-font-condensed,"Barlow Condensed",sans-serif); letter-spacing:.3em; padding:0;
+  }
+  #app #ruleBook.v10RuleBook .ruleBookHero .sd-eyebrow::before { inline-size:18px; block-size:11px; margin-bottom:1px; }
+  #app #ruleBook.v10RuleBook .ruleBookWordmark {
+    display:block; width:min(100%,232px); height:auto; max-height:none; margin:3px auto 0; object-fit:contain;
+  }
+  #app #ruleBook.v10RuleBook .ruleBookHero .sd-tagline {
+    display:block; margin:2px 0 0; font:600 8.5px/1.3 var(--sd-font-condensed,"Barlow Condensed",sans-serif); letter-spacing:.2em;
+  }
+  #app #ruleBook.v10RuleBook .ruleBookSummary {
+    display:block; max-width:230px; margin:5px auto 0; font:400 10.5px/1.3 var(--sd-font-body,Barlow,sans-serif);
+  }
+  #app #ruleBook.v10RuleBook .ruleBookActions {
+    grid-column:1; grid-row:1 / span 2; align-self:end;
+    position:relative; inset:auto; bottom:auto; z-index:2; width:100%; height:auto; margin:0; padding:0 0 6px;
+    background:none; transform:none; box-sizing:border-box;
+  }
+  #app #ruleBook.v10RuleBook .ruleBookActions::before { content:none; display:none; }
+  #app #ruleBook.v10RuleBook #ruleBookBack {
+    display:grid; place-items:center; width:100%; min-width:0; height:44px; min-height:44px; margin:0; padding:0 10px;
+    box-sizing:border-box; clip-path:none; white-space:nowrap; cursor:pointer;
+    border:1px solid rgba(237,196,98,.86); color:#f2deab;
+    background:linear-gradient(180deg,rgba(24,23,19,.96),rgba(5,6,7,.98));
+    box-shadow:0 10px 24px rgba(0,0,0,.45),inset 0 1px rgba(255,230,153,.08);
+    font:700 13px/1 var(--sd-font-condensed,"Barlow Condensed",sans-serif); letter-spacing:.14em;
+  }
+  /* section tabs (3 x 2), leaving room for the Settings gear at the top right */
+  #app #ruleBook.v10RuleBook .ruleBookTabs {
+    grid-column:2; grid-row:1; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:4px;
+    margin:6px 46px 0 0; min-width:0; pointer-events:auto;
+  }
+  #app #ruleBook.v10RuleBook .ruleBookTab {
+    position:relative; display:flex; align-items:center; gap:6px; min-width:0; min-height:44px; padding:3px 7px;
+    box-sizing:border-box; cursor:pointer; touch-action:manipulation;
+    border:1px solid rgba(217,174,83,.45); background:rgba(8,9,10,.88); color:#e9dfc8;
+    font:700 10.5px/1.05 var(--sd-font-condensed,"Barlow Condensed",sans-serif); letter-spacing:.07em; text-transform:uppercase;
+  }
+  #app #ruleBook.v10RuleBook .ruleBookTab input {
+    position:absolute; opacity:0; width:1px; height:1px; margin:0; pointer-events:none;
+  }
+  #app #ruleBook.v10RuleBook .ruleBookTab i {
+    flex:0 0 auto; width:20px; height:20px; display:grid; place-items:center; border:1px solid rgba(242,196,91,.7);
+    border-radius:50%; font:700 9px/1 var(--sd-font-condensed,"Barlow Condensed",sans-serif); font-style:normal; color:#f2c45b;
+  }
+  #app #ruleBook.v10RuleBook .ruleBookTab b { min-width:0; font-weight:700; overflow-wrap:normal; word-break:normal; }
+  #app #ruleBook.v10RuleBook .ruleBookTab:has(input:checked) {
+    background:linear-gradient(180deg,#f2d277,#d9ae53); border-color:#f4dc8b; color:#11100d;
+  }
+  #app #ruleBook.v10RuleBook .ruleBookTab:has(input:checked) i { border-color:#11100d; color:#11100d; }
+  #app #ruleBook.v10RuleBook .ruleBookTab:has(input:focus-visible),
+  #app #ruleBook.v10RuleBook #ruleBookBack:focus-visible { outline:2px solid #fff3bd; outline-offset:2px; }
+  /* one section card */
+  #app #ruleBook.v10RuleBook #ruleBookSections.ruleBookGrid {
+    grid-column:2; grid-row:2; display:grid; grid-template-columns:minmax(0,1fr); grid-template-rows:minmax(0,1fr);
+    width:100%; height:auto; margin:0 0 6px; padding:0; min-height:0; min-width:0; gap:0; overflow:hidden;
+  }
+  #app #ruleBook.v10RuleBook #ruleBookSections .ruleSection {
+    grid-area:1 / 1; display:flex; flex-direction:column; min-width:0; min-height:0; height:100%; padding:10px 14px;
+    box-sizing:border-box; overflow-x:hidden; overflow-y:auto; overscroll-behavior:contain; margin:0;
+    scrollbar-width:thin; scrollbar-color:rgba(242,196,91,.55) transparent;
+    border:1px solid rgba(222,179,79,.62); border-radius:0;
+    background:linear-gradient(180deg,rgba(17,17,17,.9),rgba(6,7,8,.93)),linear-gradient(90deg,rgba(242,196,91,.05),transparent 42%);
+    box-shadow:inset 0 1px rgba(255,231,161,.07),0 18px 34px rgba(0,0,0,.34);
+  }
+  #app #ruleBook.v10RuleBook #ruleBookSections .ruleSection[data-rule-tab="off"] { display:none; }
+  #app #ruleBook.v10RuleBook #ruleBookSections .scoringRuleSection { border-color:rgba(242,196,91,.86); }
+  #app #ruleBook.v10RuleBook #ruleBookSections .ruleSectionHeader {
+    flex:0 0 auto; display:grid; grid-template-columns:28px minmax(0,1fr); align-items:center; gap:10px;
+    min-height:0; margin:0 0 7px; padding:0 0 7px; border-bottom:1px solid rgba(242,196,91,.28);
+  }
+  #app #ruleBook.v10RuleBook .ruleSectionNumber { width:28px; height:28px; font-size:11px; }
+  #app #ruleBook.v10RuleBook .ruleSectionHeader h3 { font-size:14px; line-height:1; letter-spacing:.12em; }
+  #app #ruleBook.v10RuleBook #ruleBookSections .ruleSection ul { gap:5px; flex:0 0 auto; }
+  #app #ruleBook.v10RuleBook #ruleBookSections .ruleSection li {
+    padding-left:13px; font:400 12px/1.28 var(--sd-font-body,Barlow,sans-serif);
+  }
+  #app #ruleBook.v10RuleBook .ruleScoreTable { grid-template-columns:1fr 1fr; gap:4px 18px; flex:0 0 auto; }
+  #app #ruleBook.v10RuleBook .ruleScoreRow,
+  #app #ruleBook.v10RuleBook .ruleScoreMaximum {
+    gap:10px; flex-wrap:nowrap; font:600 12px/1.2 var(--sd-font-condensed,"Barlow Condensed",sans-serif);
+  }
+  #app #ruleBook.v10RuleBook .ruleScoreRow { padding:0; border:0; }
+  #app #ruleBook.v10RuleBook .ruleScoreMaximum { margin-top:8px; padding-top:7px; flex:0 0 auto; }
+  #app #ruleBook.v10RuleBook .ruleBookHero .sd-eyebrow,
+  #app #ruleBook.v10RuleBook .ruleBookHero .sd-tagline,
+  #app #ruleBook.v10RuleBook .ruleBookSummary { text-shadow:0 2px 14px rgba(0,0,0,.9); }
+}
+@media (max-width:780px) and (max-height:500px) and (orientation:landscape) {
+  #app #ruleBook.v10RuleBook .ruleBookV10Content { grid-template-columns:clamp(200px,29%,230px) minmax(0,1fr); }
+  #app #ruleBook.v10RuleBook .ruleBookSummary { font-size:10px; }
+  #app #ruleBook.v10RuleBook .ruleBookTab { font-size:10px; letter-spacing:.05em; }
+}
+@media (max-height:375px) and (orientation:landscape) and (max-width:900px) {
+  :root:has(#ruleBook.v10RuleBook:not(.hidden)) { --sd-nav-bottom-h:44px; }
+  #app #ruleBook.v10RuleBook .ruleBookV10Content { row-gap:5px; }
+  #app #ruleBook.v10RuleBook .ruleBookWordmark { width:min(100%,200px); }
+  #app #ruleBook.v10RuleBook #ruleBookSections .ruleSection { padding:8px 12px; }
+  #app #ruleBook.v10RuleBook #ruleBookSections .ruleSection li { font-size:11.5px; line-height:1.25; }
+  #app #ruleBook.v10RuleBook #ruleBookSections .ruleSectionHeader { margin-bottom:5px; padding-bottom:5px; }
+}
+
+/* RULEBOOK-PLATE-V2 (ticket 1610P): desktop Rule Book on Team V's marble-library plate
+   (visual-assets/v10_1/plates-v2/ENV_RULE_BOOK_PLATE_V2_*), with the cards, numbers and Back in the picture's
+   gold-bevel and polished-gold finish (NEXT_RULE_BOOK). Strictly the desktop picture range: wide landscape windows of
+   at least 1200x600; phones, sideways phones and tablets keep their own art and rules. The plate is the stage's own
+   fixed plate layer, anchored to the top like the picture; the swap is scoped to #ruleBook so Settings (which shares
+   the same stage) keeps its plate. It already carries both banners, the lamps, the globes and the marble floor, so
+   nothing is drawn over it but the live cards. Size is one unit, --rbu, a picture pixel at this window (1536x864
+   picture); the board stays content-sized and main stays the only scroller. Looks only: every word, id and tap order
+   stays as it was. */
+@media (min-width:1200px) and (min-height:600px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
+  #app #ruleBook.v10RuleBook {
+    --rbu:min(calc(100vw / 1536),calc(100svh / 864));
+    --rb-bevel:linear-gradient(135deg,#fff1b8 0%,#e8b94a 15%,#8a6a12 36%,#f2c45b 56%,#fff1b8 73%,#b8862a 100%);
+    --rb-cut:max(6px,calc(var(--rbu) * 9));
+  }
+  #app #ruleBook.v10RuleBook #v10RuleBookStage .sd-stage__plate {
+    background-image:image-set(url('../visual-assets/v10_1/plates-v2/ENV_RULE_BOOK_PLATE_V2_1X.webp') 1x,url('../visual-assets/v10_1/plates-v2/ENV_RULE_BOOK_PLATE_V2_2X.webp') 2x);
+  }
+  #app #ruleBook.v10RuleBook #v10RuleBookStage .sd-stage__layer--plate .sd-stage__registered { top:0; }
+
+  /* title block: the picture's crown, kicker, big brush title, line and sub-line */
+  #app #ruleBook.v10RuleBook .ruleBookV10Content { gap:calc(var(--rbu) * 8); padding-top:max(calc(var(--sd-nav-top-h,52px) + 4px),calc(var(--rbu) * 64)); }
+  #app #ruleBook.v10RuleBook .ruleBookHero { width:calc(var(--rbu) * 640); min-height:calc(var(--rbu) * 180); }
+  #app #ruleBook.v10RuleBook .ruleBookWordmark { width:calc(var(--rbu) * 530); max-width:none; height:calc(var(--rbu) * 112); min-height:48px; margin:calc(var(--rbu) * 8) auto calc(var(--rbu) * 3); }
+  #app #ruleBook.v10RuleBook .ruleBookHero .sd-eyebrow { font-size:max(10px,calc(var(--rbu) * 12.3)); text-shadow:0 1px 3px #000,0 0 10px #000c; }
+  #app #ruleBook.v10RuleBook .ruleBookHero .sd-tagline { font-size:max(11px,calc(var(--rbu) * 13.6)); font-weight:700; color:#fff6d8; letter-spacing:.2em; text-shadow:0 1px 3px #000,0 0 10px #000c; }
+  #app #ruleBook.v10RuleBook .ruleBookSummary { font-size:max(11.5px,calc(var(--rbu) * 12.6)); color:#fff6e4; text-shadow:0 1px 2px #000,0 0 6px #000,0 0 14px #000,0 0 26px #000c; }
+
+  /* the six cards: a gold-bevel frame with chamfered corners around a black marble face */
+  #app #ruleBook.v10RuleBook #ruleBookSections.ruleBookGrid { width:min(78%,1500px); gap:calc(var(--rbu) * 16) calc(var(--rbu) * 16); }
+  #app #ruleBook.v10RuleBook #ruleBookSections .ruleSection {
+    position:relative; isolation:isolate; border:0 !important; border-radius:0; background:none !important;
+    box-shadow:none !important; -webkit-backdrop-filter:none; backdrop-filter:none;
+    padding:max(7px,calc(var(--rbu) * 9)) max(14px,calc(var(--rbu) * 24)) max(9px,calc(var(--rbu) * 12)) max(14px,calc(var(--rbu) * 20));
+    filter:drop-shadow(0 calc(var(--rbu) * 7) calc(var(--rbu) * 11) #000a);
+  }
+  #app #ruleBook.v10RuleBook #ruleBookSections .ruleSection::before,
+  #app #ruleBook.v10RuleBook #ruleBookSections .ruleSection::after {
+    content:""; position:absolute; z-index:-1; pointer-events:none;
+  }
+  #app #ruleBook.v10RuleBook #ruleBookSections .ruleSection::before {
+    inset:0; background:var(--rb-bevel);
+    clip-path:polygon(var(--rb-cut) 0,calc(100% - var(--rb-cut)) 0,100% var(--rb-cut),100% calc(100% - var(--rb-cut)),calc(100% - var(--rb-cut)) 100%,var(--rb-cut) 100%,0 calc(100% - var(--rb-cut)),0 var(--rb-cut));
+  }
+  #app #ruleBook.v10RuleBook #ruleBookSections .ruleSection::after {
+    inset:max(3px,calc(var(--rbu) * 4));
+    background:radial-gradient(ellipse 60% 90% at 14% 0%,#ffe9a024,transparent 70%),linear-gradient(112deg,transparent 38%,#ffffff0a 39%,transparent 40.6%,transparent 71%,#ffffff08 71.8%,transparent 73%),linear-gradient(180deg,#141210f6 0,#0b0b0cf8 24%,#070708fa 100%);
+    box-shadow:inset 0 0 0 1px #050505,inset 0 0 0 2px #d9aa3c66,inset 0 1px 0 3px #fff1b814;
+    clip-path:polygon(calc(var(--rb-cut) - 2px) 0,calc(100% - var(--rb-cut) + 2px) 0,100% calc(var(--rb-cut) - 2px),100% calc(100% - var(--rb-cut) + 2px),calc(100% - var(--rb-cut) + 2px) 100%,calc(var(--rb-cut) - 2px) 100%,0 calc(100% - var(--rb-cut) + 2px),0 calc(var(--rb-cut) - 2px));
+  }
+  #app #ruleBook.v10RuleBook #ruleBookSections .ruleSectionHeader {
+    position:relative; min-height:max(30px,calc(var(--rbu) * 36)); grid-template-columns:max(30px,calc(var(--rbu) * 36)) minmax(0,1fr);
+    gap:calc(var(--rbu) * 14); margin:0 0 calc(var(--rbu) * 8); padding:0; border-bottom:0;
+  }
+  #app #ruleBook.v10RuleBook #ruleBookSections .ruleSectionHeader::after {
+    content:""; position:absolute; right:0; bottom:0; left:calc(max(30px,calc(var(--rbu) * 36)) + var(--rbu) * 14); height:1px;
+    background:linear-gradient(90deg,#e8b94a,#c9983a 60%,#a97d2a);
+  }
+  #app #ruleBook.v10RuleBook #ruleBookSections .ruleSectionNumber {
+    width:max(30px,calc(var(--rbu) * 36)); height:max(30px,calc(var(--rbu) * 36)); border:max(2px,calc(var(--rbu) * 2.4)) solid transparent;
+    background:radial-gradient(circle at 50% 42%,#1b1608 0,#0a0907 70%) padding-box,var(--rb-bevel) border-box;
+    color:#fff3d2; font:700 max(13px,calc(var(--rbu) * 14.5))/1 var(--sd-font-condensed); letter-spacing:.02em;
+    box-shadow:0 0 12px #f0c84b30,inset 0 0 6px #000;
+  }
+  #app #ruleBook.v10RuleBook #ruleBookSections .ruleSectionHeader h3 {
+    color:#f7de92; font:600 max(14px,calc(var(--rbu) * 15.6))/1.1 var(--sd-font-condensed); letter-spacing:.09em; text-shadow:0 1px 0 #0008;
+  }
+  #app #ruleBook.v10RuleBook #ruleBookSections .ruleSection ul { gap:0; }
+  #app #ruleBook.v10RuleBook #ruleBookSections .ruleSection li {
+    padding-left:max(14px,calc(var(--rbu) * 16)); color:#e3dfd6; font:400 max(11.5px,calc(var(--rbu) * 11.8))/1.42 var(--sd-font-body);
+  }
+  #app #ruleBook.v10RuleBook #ruleBookSections .ruleSection li::before { top:.74em; width:max(6px,calc(var(--rbu) * 7)); height:2px; background:#f0bd3d; box-shadow:none; }
+
+  /* scoring: two columns, white labels, gold values and a gold maximum line */
+  #app #ruleBook.v10RuleBook .ruleScoreTable { position:relative; gap:calc(var(--rbu) * 5) calc(var(--rbu) * 26); padding-top:calc(var(--rbu) * 4); }
+  #app #ruleBook.v10RuleBook .ruleScoreTable::before {
+    content:""; position:absolute; left:50%; top:calc(var(--rbu) * 4); bottom:0; width:1px; margin-left:calc(var(--rbu) * -13px);
+    background:linear-gradient(180deg,transparent,#c9983a99 14%,#c9983a99 86%,transparent);
+  }
+  #app #ruleBook.v10RuleBook .ruleScoreRow,
+  #app #ruleBook.v10RuleBook .ruleScoreMaximum { font-size:max(12px,calc(var(--rbu) * 13.6)); font-weight:600; line-height:1.3; letter-spacing:.01em; }
+  #app #ruleBook.v10RuleBook .ruleScoreRow strong,
+  #app #ruleBook.v10RuleBook .ruleScoreMaximum strong { color:#f7c93e; font-size:1.06em; }
+  #app #ruleBook.v10RuleBook .ruleScoreMaximum { margin-top:calc(var(--rbu) * 8); padding-top:calc(var(--rbu) * 8); border-top:1px solid #c9983a99; color:#f7c93e; letter-spacing:.05em; }
+
+  /* BACK TO MAIN MENU: polished gold with a bevel edge and chamfered corners, docked where the picture puts it */
+  #app #ruleBook.v10RuleBook .ruleBookActions { bottom:calc(var(--rbu) * 27); width:min(100% - 24px,calc(var(--rbu) * 236)); background:none; padding:calc(var(--rbu) * 3) 4px; }
+  #app #ruleBook.v10RuleBook #ruleBookBack {
+    min-height:44px; padding:0 14px; border:2px solid transparent; color:#1a1305;
+    background:linear-gradient(180deg,#fff0a6 0,#f8d764 20%,#e4b032 54%,#f4cf58 80%,#c98f1c 100%) padding-box,linear-gradient(135deg,#fff8d0,#d9a83a 40%,#fff1b8 70%,#a9781a) border-box;
+    clip-path:polygon(7px 0,calc(100% - 7px) 0,100% 7px,100% calc(100% - 7px),calc(100% - 7px) 100%,7px 100%,0 calc(100% - 7px),0 7px);
+    box-shadow:inset 0 1px 0 #fffbe0,inset 0 -3px 0 #a87a1288;
+    font:700 max(14px,calc(var(--rbu) * 14.4))/1 var(--sd-font-condensed); letter-spacing:.06em; text-shadow:0 1px 0 #fff2b588;
+  }
+  #app #ruleBook.v10RuleBook #ruleBookBack:hover:not(:disabled) { background:linear-gradient(180deg,#fff6c4 0,#ffe27a 20%,#f0bf40 54%,#fbdc6c 80%,#d89c22 100%) padding-box,linear-gradient(135deg,#fff8d0,#d9a83a 40%,#fff1b8 70%,#a9781a) border-box; color:#1a1305; }
+  /* laptop heights (up to 820px): a tighter title block and card rhythm so the board and Back share one view at 1366x768 */
+  @media (max-height:820px) {
+    #app #ruleBook.v10RuleBook .ruleBookV10Content { gap:calc(var(--rbu) * 4); padding-top:max(calc(var(--sd-nav-top-h,52px) + 2px),calc(var(--rbu) * 56)); }
+    #app #ruleBook.v10RuleBook .ruleBookHero { min-height:calc(var(--rbu) * 150); }
+    #app #ruleBook.v10RuleBook .ruleBookWordmark { height:calc(var(--rbu) * 92); width:calc(var(--rbu) * 440); margin-top:calc(var(--rbu) * 2); }
+    #app #ruleBook.v10RuleBook #ruleBookSections.ruleBookGrid { gap:calc(var(--rbu) * 9) calc(var(--rbu) * 16); }
+    #app #ruleBook.v10RuleBook #ruleBookSections .ruleSection { padding-top:max(6px,calc(var(--rbu) * 7)); padding-bottom:max(7px,calc(var(--rbu) * 9)); }
+    #app #ruleBook.v10RuleBook #ruleBookSections .ruleSectionHeader { margin-bottom:calc(var(--rbu) * 5); min-height:30px; grid-template-columns:30px minmax(0,1fr); }
+    #app #ruleBook.v10RuleBook #ruleBookSections .ruleSectionNumber { width:30px; height:30px; }
+    #app #ruleBook.v10RuleBook #ruleBookSections .ruleSection li { line-height:1.34; }
+  }
+}
+
+/* JOB-1708 [rules-settings]: adopted studies 1460/1461/1462.
+   Settings is appended to body by settings.js, alongside #app (which is inert
+   while the modal is open). Match that sibling as well as embedded fixtures.
+   Only the touch wrapper main scrolls; the live #settingsContent and its
+   observers, controls, ids and DOM order stay intact. >=1200px is untouched. */
+@media (max-width:1199px) {
+  :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) {
+    --settings-touch-head:clamp(88px,16svh,112px);
+    --settings-touch-foot:calc(64px + env(safe-area-inset-bottom));
+    --settings-touch-inset:12px;
+    --settings-phone-nav:0px;
+    --sd-stage-band-h:0%;
+    min-width:0; min-height:0; height:100svh; overflow:hidden;
+  }
+  #app:has(~ #settingsOverlay.v10Settings:not(.hidden)) main { overflow:hidden; }
+  :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) #v10SettingsStage {
+    width:100%; height:100svh; min-height:0; overflow:hidden;
+  }
+  :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) #v10SettingsStage .sd-stage__layer {
+    inset:0; height:100%; width:100%;
+  }
+  :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) .sd-stage__layer--plate .sd-stage__registered,
+  :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) .nav-reserve { display:none; }
+  :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) .settingsPhonePlate {
+    display:block; position:absolute; inset:0; width:100%; height:100%;
+  }
+  :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) .settingsPhonePlate img {
+    display:block; width:100%; height:100%; object-fit:cover;
+  }
+  :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) #settingsDialog {
+    inset:0; box-sizing:border-box; width:100%; height:100%; min-height:0;
+    max-width:none; max-height:none; margin:0; padding:0; overflow:hidden;
+  }
+  :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) .settingsHeader {
+    inset:0 0 auto; height:var(--settings-touch-head); min-height:0; display:block; margin:0; padding:0;
+  }
+  :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) .settingsTitleBlock {
+    top:6px; left:50%; width:min(66%,280px); height:auto; min-height:0; margin:0; transform:translateX(-50%);
+  }
+  :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) .settingsEyebrow.sd-eyebrow {
+    margin:0; padding:0; font-size:10px; line-height:1.2; letter-spacing:.22em;
+  }
+  :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) .settingsEyebrow.sd-eyebrow::before {
+    inline-size:20px; block-size:12px; margin:0 auto 2px;
+  }
+  :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) .settingsWordmarkWrap {
+    width:100%; margin:2px auto 0;
+  }
+  :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) .settingsWordmark {
+    width:100%; height:clamp(32px,6svh,48px); max-height:none; object-fit:contain;
+  }
+  :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) .settingsTagline {
+    margin:2px 0 0; font-size:9px; line-height:1.3; letter-spacing:.12em;
+  }
+  :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) #settingsClose {
+    top:8px; right:12px; width:44px; height:44px; min-width:44px; min-height:44px; margin:0;
+  }
+  :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) .settingsTouchMain {
+    position:absolute; inset:var(--settings-touch-head) var(--settings-touch-inset) var(--settings-touch-foot);
+    display:block; box-sizing:border-box; width:auto; height:auto; min-width:0; min-height:0;
+    max-width:none; max-height:none; margin:0; padding:3px; border:0; background:none;
+    contain:none; transform:none; overflow-x:hidden; overflow-y:auto;
+    overscroll-behavior:contain; touch-action:pan-y; scrollbar-color:#d9b15f #151515;
+  }
+  :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) #settingsDialog #settingsContent {
+    position:relative; inset:auto; display:flex; flex-direction:column; box-sizing:border-box;
+    width:100%; height:auto; min-width:0; min-height:0; max-height:none; gap:10px;
+    margin:0; padding:0 0 4px; overflow:visible; scrollbar-gutter:auto; touch-action:auto;
+    grid-template-columns:none; grid-template-rows:none;
+  }
+  :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) #settingsContent > .settingsPanel {
+    position:relative; grid-column:auto; grid-row:auto; flex:0 0 auto; align-self:stretch;
+    box-sizing:border-box; width:100%; height:auto; min-width:0; min-height:0; max-height:none;
+    margin:0; padding:10px 12px; overflow:visible;
+  }
+  :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) .settingsPanelHeading {
+    margin:0 0 8px; padding:0 0 8px;
+  }
+  :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) .settingsPanelHeading h3 {
+    font:700 18px/1.15 var(--sd-font-condensed,sans-serif); letter-spacing:.035em;
+  }
+  :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) .settingsPanelHeading p,
+  :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) .settingsDataNote,
+  :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) .settingsOfflineNote {
+    font-size:12px; line-height:1.4;
+  }
+  :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) .settingsInfoGrid,
+  :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) .settingsMotionSummary {
+    grid-template-columns:repeat(2,minmax(0,1fr)); gap:6px;
+  }
+  :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) .settingsInfoRow {
+    min-width:0; min-height:40px; padding:6px 8px;
+  }
+  :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) .settingsInfoRow span {
+    font-size:10px; line-height:1.3; letter-spacing:.06em;
+  }
+  :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) .settingsInfoRow strong {
+    font-size:14px; line-height:1.25; overflow-wrap:normal; word-break:normal;
+  }
+  :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) .settingsPanel--application .settingsInfoRow:nth-child(n+3) {
+    grid-column:1 / -1;
+  }
+  :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) .settingsMotionChoices {
+    grid-template-columns:minmax(0,1fr); gap:6px; margin-top:8px;
+  }
+  :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) .settingsMotionChoice {
+    min-height:64px; padding:9px; grid-template-columns:18px minmax(0,1fr); gap:8px;
+  }
+  :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) .settingsMotionCopy strong,
+  :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) .settingsAudioCopy strong {
+    font-size:13px; line-height:1.25; overflow-wrap:normal; word-break:normal;
+  }
+  :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) .settingsMotionCopy small,
+  :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) .settingsAudioCopy small {
+    font-size:11px; line-height:1.4;
+  }
+  :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) .settingsAudioRow {
+    flex-direction:row; align-items:center; gap:10px; margin-top:8px; padding:8px;
+  }
+  :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) .settingsAudioToggle {
+    flex:0 0 58px; width:58px; min-width:58px; min-height:44px;
+  }
+  :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) .settingsConnectedAccountActions,
+  :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) .settingsDataActions {
+    display:grid; grid-template-columns:minmax(0,1fr); gap:6px; margin-top:8px;
+  }
+  :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) button:not(#settingsClose) {
+    box-sizing:border-box; min-width:0; max-width:100%; min-height:44px;
+    white-space:normal; overflow-wrap:normal; word-break:normal; touch-action:manipulation;
+  }
+  :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) .menuButton {
+    width:100%; margin:0; padding:10px 12px; font-size:14px; line-height:1.2; letter-spacing:.07em;
+  }
+  :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) #photoCredit { margin-top:8px; line-height:1.5; }
+  :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) #photoCredit a {
+    display:inline-flex; align-items:center; min-height:44px; padding:0 4px;
+  }
+  :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) .settingsFooter {
+    position:absolute; inset:auto var(--settings-touch-inset) calc(10px + env(safe-area-inset-bottom));
+    width:auto; height:44px; margin:0; padding:0!important; transform:none; z-index:25; visibility:visible;
+  }
+  :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) .settingsFooter .menuButton {
+    width:100%; min-width:0; height:44px; min-height:44px;
+  }
+  :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) button:active:not(:disabled) {
+    filter:brightness(1.15); box-shadow:inset 0 0 0 2px rgba(255,239,188,.5);
+  }
+  :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) :is(button,a):focus-visible {
+    outline:2px solid #fff1b8; outline-offset:2px; scroll-margin-block:8px;
+  }
+}
+
+/* Study 1461: fluid left account rail, right settings stack, DONE bottom right.
+   The account stays in the live DOM order inside the one main scroller. */
+@media (max-width:1199px) and (max-height:500px) and (orientation:landscape) {
+  :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) {
+    --settings-touch-head:0px; --settings-touch-inset:10px;
+    --settings-touch-left:40%; --settings-touch-rail:78px;
+  }
+  :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) .settingsHeader {
+    top:10px; left:13px; width:calc((100% - 26px) * .4 - 10px); height:var(--settings-touch-rail); z-index:4;
+  }
+  :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) .settingsTitleBlock {
+    left:0; top:0; width:calc(100% - 50px); transform:none; text-align:left;
+  }
+  :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) .settingsWordmark { height:32px; }
+  :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) .settingsWordmarkWrap { margin-left:0; }
+  :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) .settingsEyebrow.sd-eyebrow { font-size:9px; letter-spacing:.1em; }
+  :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) .settingsEyebrow.sd-eyebrow::before {
+    inline-size:16px; block-size:9px; margin-left:0;
+  }
+  :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) .settingsTagline { font-size:8px; letter-spacing:.05em; }
+  :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) #settingsClose { top:0; right:0; }
+  :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) .settingsTouchMain { top:10px; }
+  :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) #settingsDialog #settingsContent {
+    display:grid; grid-template-columns:minmax(0,2fr) minmax(0,3fr);
+    grid-template-rows:repeat(3,max-content); gap:8px 12px; align-items:start;
+  }
+  :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) #settingsContent > .settingsConnectedAccountPanel {
+    position:sticky; top:var(--settings-touch-rail); grid-column:1; grid-row:1 / 4;
+    align-self:start; margin-top:var(--settings-touch-rail);
+  }
+  :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) #settingsContent > .settingsPanel--application { grid-column:2; grid-row:1; }
+  :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) #settingsContent > .settingsPanel--motion { grid-column:2; grid-row:2; }
+  :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) #settingsContent > .settingsPanel--data { grid-column:2; grid-row:3; }
+  :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) .settingsFooter { left:calc(40% + 10px); }
+  :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) .settingsPanelHeading { padding-bottom:6px; margin-bottom:6px; }
+  :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) .settingsPanelHeading p { font-size:11px; line-height:1.3; margin-top:4px; }
+  :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) .settingsConnectedAccountActions { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) .settingsConnectedAccountActions > :only-child { grid-column:1 / -1; }
+
+  /* Choosing a manager can expose four account actions. Let that taller rail
+     move with main, so its last row is reachable at 740x360 as well. */
+  :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) #settingsContent > .settingsConnectedAccountPanel:has(.settingsConnectedAccountActions > :nth-child(3)) {
+    position:relative; top:auto;
+  }
+}
+
+/* Study 1462: Account/Application left, Motion/Data right; the separate footer
+   cannot cover the Application card. No column wrappers change tap order. */
+@media (min-width:700px) and (max-width:1199px) and (min-height:501px) {
+  :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) {
+    --settings-touch-head:clamp(128px,16svh,180px);
+    --settings-touch-foot:calc(88px + env(safe-area-inset-bottom));
+    --settings-touch-inset:24px;
+  }
+  :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) .settingsTitleBlock { top:16px; width:min(60%,420px); }
+  :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) .settingsEyebrow.sd-eyebrow { font-size:14px; }
+  :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) .settingsWordmark { height:clamp(58px,8svh,88px); }
+  :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) .settingsTagline { font-size:12px; }
+  :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) #settingsClose { top:16px; right:24px; width:52px; height:52px; }
+  :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) #settingsDialog #settingsContent {
+    display:grid; grid-template-columns:repeat(2,minmax(0,1fr));
+    grid-template-rows:repeat(2,max-content); gap:16px; align-items:start;
+  }
+  :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) #settingsContent > .settingsConnectedAccountPanel { grid-column:1; grid-row:1; }
+  :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) #settingsContent > .settingsPanel--application { grid-column:1; grid-row:2; }
+  :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) #settingsContent > .settingsPanel--motion { grid-column:2; grid-row:1; }
+  :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) #settingsContent > .settingsPanel--data { grid-column:2; grid-row:2; }
+  :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) #settingsContent > .settingsPanel { padding:18px; }
+  :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) .settingsPanelHeading h3 { font-size:24px; }
+  :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) .settingsPanelHeading p { font-size:14px; }
+  :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) .settingsMotionChoice { min-height:76px; }
+  :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) .menuButton { min-height:52px; }
+  :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) .settingsFooter {
+    inset:auto max(24px,calc((100% - 360px) / 2)) calc(16px + env(safe-area-inset-bottom)); height:56px;
+  }
+  :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) .settingsFooter .menuButton { height:56px; min-height:56px; }
+}
+
+/* SETTINGS-PLATE-V2 (ticket 1610P): desktop Settings on Team V's approved penthouse-lounge plate V2, laid out like NEXT_SETTINGS.
+   Settings and Rule Book share the V1 system plate through js/rulesSettingsV10.js; this paints V2 over it for the Settings stage
+   only, at the desktop picture range, raises the title and the card grid so the four cards and DONE fit one view (the old grid
+   started at 34% and scrolled), and gives the cards and buttons the picture's gold-bevel and polished-gold finish. Words, ids,
+   the three motion choices (FOLLOW DEVICE, FULL MOTION, REDUCE MOTION) and every tap are untouched; phone, sideways phone and
+   tablet are outside this query. */
+@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
+  body #settingsOverlay.v10Settings {
+    --st2-bevel: linear-gradient(135deg, #fff3b0 0%, #e2b645 16%, #8a6118 40%, #c99a33 62%, #f6dc86 82%, #9a6f1d 100%);
+    --st2-bw: max(2px, calc(min(1vw, 1.7778vh) * .2));
+    --st2-ring: inset 0 0 0 1px rgba(5, 5, 5, .9), inset 0 1px 0 1px rgba(255, 236, 160, .2), 0 8px 22px rgba(0, 0, 0, .5);
+  }
+  body #settingsOverlay.v10Settings #v10SettingsStage .sd-stage__plate {
+    background-image: image-set(url("../visual-assets/v10_1/plates-v2/ENV_SETTINGS_PLATE_V2_1X.webp") 1x, url("../visual-assets/v10_1/plates-v2/ENV_SETTINGS_PLATE_V2_2X.webp") 2x);
+  }
+  body #settingsOverlay.v10Settings .settingsStageScrim { background: linear-gradient(180deg, rgba(2, 2, 2, .12) 0%, rgba(2, 2, 2, .28) 100%); }
+  body #settingsOverlay.v10Settings .settingsTitleBlock { top: 6.7%; width: min(34vw, 52.4vh); }
+  body #settingsOverlay.v10Settings :is(.settingsEyebrow, .settingsTagline) { text-shadow: 0 1px 4px #000, 0 0 10px rgba(0, 0, 0, .85); }
+  body #settingsOverlay.v10Settings #settingsContent {
+    top: 26.2%; left: 7.5%; width: 85%; height: 68%;
+    grid-template-rows: auto auto; align-content: start; align-items: stretch; gap: .8vh .85vw; padding: 0;
+  }
+  body #settingsOverlay.v10Settings #settingsDialog #settingsContent > .settingsPanel--motion { grid-row: 1; }
+  body #settingsOverlay.v10Settings #settingsDialog #settingsContent > .settingsPanel--application { align-self: stretch; }
+  body #settingsOverlay.v10Settings #settingsDialog #settingsContent > .settingsPanel--motion { align-self: stretch; }
+  body #settingsOverlay.v10Settings .settingsDataPanel .settingsInfoGrid { grid-template-columns: 1fr 1fr; gap: 0 .85vw; }
+  body #settingsOverlay.v10Settings .settingsInfoRow { min-height: 0; padding-top: 4px; padding-bottom: 4px; }
+  body #settingsOverlay.v10Settings .settingsPanel--data { grid-row: 2; }
+  body #settingsOverlay.v10Settings .settingsPanel {
+    border: var(--st2-bw) solid transparent; border-image: var(--st2-bevel) 1; border-radius: 0;
+    background: linear-gradient(160deg, rgba(10, 10, 11, .94), rgba(5, 5, 6, .9)); box-shadow: var(--st2-ring);
+  }
+  body #settingsOverlay.v10Settings .settingsPanelHeading { border-bottom-color: rgba(214, 178, 96, .35); }
+  /* buttons: black lacquer with a gold bevel */
+  body #settingsOverlay.v10Settings :is(.menuButton:not(.sd-btn):not(.settingsDeleteCurrentShowdown), .settingsApplicationUpdateButton, .settingsDataButton) {
+    border: 2px solid transparent; border-image: var(--st2-bevel) 1; border-radius: 0; color: #fff1ae;
+    background: linear-gradient(180deg, #141311, #070708); box-shadow: inset 0 0 0 1px #050505, inset 0 1px 0 2px rgba(255, 241, 184, .1);
+  }
+  body #settingsOverlay.v10Settings .menuButton.settingsApplicationUpdateButton { display: block; width: 100%; clip-path: none; }
+  body #settingsOverlay.v10Settings :is(.menuButton, .settingsMotionChoice, .settingsAudioToggle) { clip-path: none; }
+  body #settingsOverlay.v10Settings .settingsDataActions { display: flex; gap: .8vw; }
+  body #settingsOverlay.v10Settings .settingsDeleteCurrentShowdown {
+    flex: 2.4 1 0; color: #fff3df !important; border: 2px solid transparent !important; border-image: var(--st2-bevel) 1; border-radius: 0;
+    background: linear-gradient(180deg, #b01720 0%, #7d0e15 55%, #5a0a10 100%) !important;
+    box-shadow: inset 0 0 0 1px #2a0306, inset 0 1px 0 2px rgba(255, 190, 170, .28);
+  }
+  body #settingsOverlay.v10Settings .settingsDataActions .settingsDataButton { flex: 1 1 0; }
+  /* motion choices */
+  body #settingsOverlay.v10Settings .settingsMotionChoice {
+    border: 2px solid rgba(214, 178, 96, .5); border-radius: 0; background: linear-gradient(180deg, rgba(14, 14, 15, .92), rgba(6, 6, 7, .9));
+  }
+  body #settingsOverlay.v10Settings .settingsMotionChoice.selected,
+  body #settingsOverlay.v10Settings .settingsMotionChoice[aria-checked="true"] {
+    border: 3px solid transparent; border-image: var(--st2-bevel) 1;
+    background: linear-gradient(180deg, rgba(120, 88, 24, .55), rgba(30, 22, 6, .9)); box-shadow: inset 0 0 0 1px #050505, 0 0 16px rgba(224, 168, 44, .18);
+  }
+  body #settingsOverlay.v10Settings .settingsAudioToggle { border: 2px solid transparent; border-image: var(--st2-bevel) 1; border-radius: 0; background: linear-gradient(180deg, #141311, #070708); color: #fff1ae; }
+  /* close and DONE */
+  body #settingsOverlay.v10Settings #settingsClose {
+    top: 4.8%; right: 1.7%; border: 2px solid transparent; border-image: var(--st2-bevel) 1; border-radius: 0;
+    background: linear-gradient(180deg, #141311, #070708); box-shadow: var(--st2-ring);
+  }
+  body #settingsOverlay.v10Settings .settingsFooter { right: 6.7%; bottom: 8.2%; }
+  body #settingsOverlay.v10Settings .settingsFooter .sd-btn--primary {
+    color: #130e03; border: 2px solid transparent; border-image: linear-gradient(135deg, #fff8cf, #e9bd48 50%, #a87818) 1; border-radius: 0;
+    background: linear-gradient(180deg, #fff0a6 0%, #f4cb55 38%, #d9a52b 72%, #b98a21 100%);
+    box-shadow: inset 0 0 0 1px rgba(110, 76, 10, .7), inset 0 1px 0 2px rgba(255, 252, 220, .55), 0 6px 18px rgba(0, 0, 0, .5), 0 0 22px rgba(224, 168, 44, .22);
+  }
+  /* Smaller windows keep the 1920x1080 composition at a smaller scale instead of scrolling (a browser without typed calc keeps the old scroll). */
+  @supports (zoom: calc(1px / 1px)) {
+    body #settingsOverlay.v10Settings #settingsDialog #settingsContent > .settingsPanel { zoom: min(calc(100vw / 1920px), calc(100vh / 1080px), 1.5); }
+  }
+}
+
+/* r73 polish: on short laptops (1280x650) the board scrolls under the docked BACK TO MAIN MENU bar, which sticks 20px above
+   the bottom with a 14px fade band over it, so at the end of the scroll the text of cards 05 and 06 still sat under the
+   bar. The board keeps that much room after its last row, so the last cards scroll fully clear of the bar. */
+@media (min-width:901px) and (max-height:700px) {
+  #app #ruleBook.v10RuleBook #ruleBookSections.ruleBookGrid { margin-bottom:30px; }
+}

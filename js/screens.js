@@ -338,9 +338,6 @@ function flushScreenBeforeLeave(currentScreen, nextScreen){
             }
         }
 
-        if(typeof window.stopTransferTimerLoop === "function"){
-            window.stopTransferTimerLoop();
-        }
     }
 
     if(typeof window.flushScheduledCurrentShowdownSave === "function"){
@@ -348,6 +345,10 @@ function flushScreenBeforeLeave(currentScreen, nextScreen){
         if(flushed === false){
             return false;
         }
+    }
+
+    if(currentScreen === "transferChallenge" && typeof window.stopTransferTimerLoop === "function"){
+        window.stopTransferTimerLoop();
     }
 
     if(currentScreen === "leagueWheelScreen" && typeof window.cancelLeagueWheelOperation === "function"){
@@ -484,7 +485,9 @@ function showScreen(screenName, addToHistory = true, options = {}){
     return true;
 }
 
+let latestNavigationRequestId = 0;
 async function navigateTo(screenName, options = {}){
+    const requestId = ++latestNavigationRequestId;
     const addToHistory = options.addToHistory !== false;
     const allowCanonicalFallback = options.allowCanonicalFallback !== false;
     let target = screenName;
@@ -507,6 +510,9 @@ async function navigateTo(screenName, options = {}){
             }
         }
 
+        if(requestId !== latestNavigationRequestId){
+            return false;
+        }
         if(showScreen(target, addToHistory, options)){
             return true;
         }
