@@ -1,0 +1,12 @@
+{
+  "run": "codex-1012-2203",
+  "mode": "codex",
+  "date_utc": "2026-10-12T22:04:00Z",
+  "main_sha": "75b65939e7189c4fc53b397f58fa6e6f471a9bed",
+  "area": "09",
+  "files_read": ["js/productionSharedSeasonResults.js", "js/scoring.js", "js/sharedSeasonResults.js", "js/seasonEngine.js"],
+  "findings": [],
+  "coverage_pct": 78,
+  "clean_confidence_pct": 91,
+  "next_focus": "0-0 season entry + simultaneous publish race + edit-before-publish + score total after multi-season"
+}
