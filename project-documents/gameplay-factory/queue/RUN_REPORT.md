@@ -1,12 +1,12 @@
-# Mega factory run report · 2026-10-12T03:06:28Z
+# Mega factory run report · 2026-10-12T03:15:43Z
 
-Taken 336 of 552 jobs. By state: blocked 1, branch_only 4, closed 82, merged 181, pr_open 68, waiting 216
+Taken 342 of 552 jobs. By state: blocked 1, branch_only 2, closed 82, merged 196, pr_open 61, waiting 210
 
 ## By stage
 Stage | name | total | picked up | merged
 --- | --- | --- | --- | ---
-1 | audits | 146 | 127 | 112
-2 | screen fixes | 266 | 129 | 45
+1 | audits | 146 | 133 | 112
+2 | screen fixes | 266 | 129 | 60
 3 | mockup match | 14 | 6 | 0
 4 | phone studies | 70 | 70 | 23
 5 | desktop studies | 56 | 4 | 1
@@ -24,7 +24,7 @@ gameplay/train-league-1 | 5 of 5 | [#593](https://github.com/nikahanghojjati-oss
 gameplay/train-league-2 | 5 of 5 | [#683](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/683) | merged
 gameplay/train-league-3 | 5 of 5 | [#702](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/702) | pr_open
 gameplay/train-club-1 | 5 of 5 | [#598](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/598) | closed
-gameplay/train-club-2 | 5 of 5 | [#684](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/684) | pr_open
+gameplay/train-club-2 | 5 of 5 | [#684](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/684) | merged
 gameplay/train-transfer-1 | 5 of 5 | [#584](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/584) | closed
 gameplay/train-transfer-2 | 5 of 5 | [#661](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/661) | closed
 gameplay/train-transfer-3 | 5 of 5 | [#705](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/705) | pr_open
@@ -36,11 +36,11 @@ gameplay/train-rivalry-legacy-2 | 5 of 5 | [#521](https://github.com/nikahanghoj
 gameplay/train-rivalry-legacy-3 | 5 of 5 | [#536](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/536) | closed
 gameplay/train-rivalry-legacy-4 | 5 of 5 | [#539](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/539) | closed
 gameplay/train-career-screens-1 | 5 of 5 | [#586](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/586) | merged
-gameplay/train-career-screens-2 | 5 of 5 | [#686](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/686) | pr_open
+gameplay/train-career-screens-2 | 5 of 5 | [#686](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/686) | merged
 gameplay/train-rivalry-legacy-5 | 2 of 5 | [#542](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/542) | closed
 gameplay/train-rivalry-legacy-6 | 5 of 5 | [#721](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/721) | pr_open
 gameplay/train-rules-settings-1 | 5 of 5 | [#587](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/587) | closed
-gameplay/train-rules-settings-2 | 5 of 5 | [#687](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/687) | pr_open
+gameplay/train-rules-settings-2 | 5 of 5 | [#687](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/687) | merged
 
 ## Finished study and audit jobs
 Number | job | title | state | link
@@ -223,13 +223,13 @@ Number | job | title | state | link
 352 | 1433 | Rule Book: upright tablet study | pr_open | [PR #726](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/726)
 354 | 1230 | Season Results: upright tablet study | merged | [PR #623](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/623)
 356 | 1462 | Settings: upright tablet study | merged | [PR #655](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/655)
-358 | 1259 | Standings: upright tablet study | branch_only | study/job-1259-standings-upright-tablet
+358 | 1259 | Standings: upright tablet study | pr_open | [PR #727](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/727)
 360 | 1114 | Connect Players (start and join): upright tablet study | closed | [PR #605](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/605)
 362 | 1201 | Transfer challenge and Signing Entry: upright tablet study | closed | [PR #617](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/617)
 364 | 1346 | Trophy Room: upright tablet study | merged | [PR #643](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/643)
-366 | 1405 | Career Statistics: improved desktop, version A (polish) | branch_only | study/job-1405-desktop-polish
-368 | 1173 | Club packs: improved desktop, version A (polish) | branch_only | study/job-1173-desktop-polish
-370 | 1289 | Final Winner (Showdown Champion): improved desktop, version A (polish) | branch_only | study/job-1289-desktop-a-polish
+366 | 1405 | Career Statistics: improved desktop, version A (polish) | pr_open | [PR #729](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/729)
+368 | 1173 | Club packs: improved desktop, version A (polish) | pr_open | [PR #728](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/728)
+370 | 1289 | Final Winner (Showdown Champion): improved desktop, version A (polish) | pr_open | [PR #730](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/730)
 372 | 1086 | Home: improved desktop, version A (polish) | merged | [PR #671](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/671)
 519 | 1661 | Audit js/scoring.js for gameplay bugs (first half) | pr_open | [PR #704](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/704)
 520 | 1662 | Audit js/showdownUI.js for gameplay bugs (first half) | pr_open | [PR #701](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/701)
@@ -239,18 +239,22 @@ Number | job | title | state | link
 524 | 1666 | Audit js/saveLibraryFoundation.js for gameplay bugs (first half) | pr_open | [PR #706](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/706)
 526 | 1668 | Audit js/footballVisuals.js for gameplay bugs (first half) | pr_open | [PR #709](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/709)
 528 | 1670 | Audit js/backup.js for gameplay bugs (first half) | pr_open | [PR #710](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/710)
+529 | 1671 | Audit js/optionalModules.js for gameplay bugs (first half) | pr_open | [PR #732](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/732)
 530 | 1672 | Audit js/ruleBook.js for gameplay bugs (first half) | pr_open | [PR #711](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/711)
+531 | 1673 | Audit js/storageTransaction.js for gameplay bugs (first half) | pr_open | [PR #734](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/734)
 532 | 1674 | Audit js/menuFeedback.js for gameplay bugs (first half) | pr_open | [PR #714](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/714)
+533 | 1675 | Audit js/productionSharedJourneyGuard.js for gameplay bugs (first half) | branch_only | qa/job-1675-shared-journey-guard-audit
 534 | 1676 | Audit js/sharedJourneyConflicts.js for gameplay bugs (first half) | pr_open | [PR #715](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/715)
 535 | 1677 | Audit js/productionSharedSeasonResultsRoute.js for gameplay bugs (first half) | pr_open | [PR #720](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/720)
 536 | 1678 | Audit js/scoring.js for gameplay bugs (second half) | pr_open | [PR #717](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/717)
 537 | 1679 | Audit js/showdownUI.js for gameplay bugs (second half) | pr_open | [PR #722](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/722)
+538 | 1680 | Audit js/transferSelector.js for gameplay bugs (second half) | pr_open | [PR #731](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/731)
 539 | 1681 | Audit js/leagueWheel.js for gameplay bugs (second half) | pr_open | [PR #723](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/723)
+540 | 1682 | Audit js/trophyRoom.js for gameplay bugs (second half) | pr_open | [PR #733](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/733)
+541 | 1683 | Audit js/saveLibraryFoundation.js for gameplay bugs (second half) | branch_only | qa/job-1683-save-library-audit-2
 
 ## Needs a look (blocked, no change needed, needs Team V or mockup)
 - number 268, job 1430: blocked (study/job-1430-blocked)
-- number 358, job 1259: branch_only (study/job-1259-standings-upright-tablet)
-- number 366, job 1405: branch_only (study/job-1405-desktop-polish)
-- number 368, job 1173: branch_only (study/job-1173-desktop-polish)
-- number 370, job 1289: branch_only (study/job-1289-desktop-a-polish)
+- number 533, job 1675: branch_only (qa/job-1675-shared-journey-guard-audit)
+- number 541, job 1683: branch_only (qa/job-1683-save-library-audit-2)
 

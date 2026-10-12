@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Sun 11 Oct, 11:12 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Sun 11 Oct, 11:15 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r71** (main `2a511f6`, Sun 11 Oct 9:40 PM)
 
@@ -33,8 +33,8 @@ Updated Sun 11 Oct, 11:12 PM Boston time. Bug hunting only, no new features unti
 🔵 Team blue · model not set · worker working, draft PR #691 · CI 7 of 8 passed · last move 4 h ago
 
 **#5 · 1653** `G` Reduced motion: stop the remaining Club script fades  
-`████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #693 · CI 7 of 8 passed · last move 4 h ago
+`███████░░░` **74.6667 %**  
+⚪ Team white · model not set · worker done, PR #693 open, CI running · CI 7 of 15 passed · last move 2 min ago
 
 ### 👉 Next for you, in this order
 
@@ -567,17 +567,17 @@ One numbered queue: type a bare number in any GPT chat. Live from GitHub (queue/
 Type now, in any GPT chat:
 
 ```text
-525 527 529 531 533 538 540 541 542 543 544 545 546 547 548 549 550 551 552
+525 527 542 543 544 545 546 547 548 549 550 551 552
 ```
 
-Open code PRs: 3/8.
+Open code PRs: 0/8.
 
-539 taken of 552.
+541 taken of 552.
 
 | Stage | Items | Merged | Picked up |
 | --- | --- | --- | --- |
-| audits | 146 | 112/146 | 127/146 |
-| screen fixes | 266 | 45/266 | 129/266 |
+| audits | 146 | 112/146 | 133/146 |
+| screen fixes | 266 | 60/266 | 129/266 |
 | mockup match | 14 | 0/14 | 6/14 |
 | phone studies | 70 | 23/70 | 70/70 |
 | desktop studies | 56 | 1/56 | 4/56 |
@@ -586,13 +586,19 @@ Open code PRs: 3/8.
 
 | # | Job | State | Title |
 | --- | --- | --- | --- |
+| 541 | 1683 | branch only | Audit js/saveLibraryFoundation.js for gameplay bugs (second half) |
+| 540 | 1682 | PR open | Audit js/trophyRoom.js for gameplay bugs (second half) |
 | 539 | 1681 | PR open | Audit js/leagueWheel.js for gameplay bugs (second half) |
+| 538 | 1680 | PR open | Audit js/transferSelector.js for gameplay bugs (second half) |
 | 537 | 1679 | PR open | Audit js/showdownUI.js for gameplay bugs (second half) |
 | 536 | 1678 | PR open | Audit js/scoring.js for gameplay bugs (second half) |
 | 535 | 1677 | PR open | Audit js/productionSharedSeasonResultsRoute.js for gameplay bugs (first half) |
 | 534 | 1676 | PR open | Audit js/sharedJourneyConflicts.js for gameplay bugs (first half) |
+| 533 | 1675 | branch only | Audit js/productionSharedJourneyGuard.js for gameplay bugs (first half) |
 | 532 | 1674 | PR open | Audit js/menuFeedback.js for gameplay bugs (first half) |
+| 531 | 1673 | PR open | Audit js/storageTransaction.js for gameplay bugs (first half) |
 | 530 | 1672 | PR open | Audit js/ruleBook.js for gameplay bugs (first half) |
+| 529 | 1671 | PR open | Audit js/optionalModules.js for gameplay bugs (first half) |
 | 528 | 1670 | PR open | Audit js/backup.js for gameplay bugs (first half) |
 | 526 | 1668 | PR open | Audit js/footballVisuals.js for gameplay bugs (first half) |
 | 524 | 1666 | PR open | Audit js/saveLibraryFoundation.js for gameplay bugs (first half) |
@@ -600,20 +606,14 @@ Open code PRs: 3/8.
 | 522 | 1664 | PR open | Audit js/leagueWheel.js for gameplay bugs (first half) |
 | 521 | 1663 | PR open | Audit js/transferSelector.js for gameplay bugs (first half) |
 | 520 | 1662 | PR open | Audit js/showdownUI.js for gameplay bugs (first half) |
-| 519 | 1661 | PR open | Audit js/scoring.js for gameplay bugs (first half) |
-| 435 | 1360 | PR open | Rivalry Statistics: fix the 2560x1080 view |
-| 427 | 1359 | PR open | Rivalry Statistics: fix the 1920x1080 view |
-| 419 | 1358 | PR open | Rivalry Statistics: fix the 1366x768 view |
-| 411 | 1357 | PR open | Rivalry Statistics: fix the 1280x650 view |
-| 403 | 1356 | PR open | Rivalry Statistics: fix the 768x1024 view |
 
 ## Mega tracker (live, free)
 
-Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/index.html) · summary: [mega/MEGA_TRACKER.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/MEGA_TRACKER.md) · rebuilt by the poller each round, updated 2026-10-12T03:12:00Z.
+Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/index.html) · summary: [mega/MEGA_TRACKER.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/MEGA_TRACKER.md) · rebuilt by the poller each round, updated 2026-10-12T03:14:55Z.
 
 | Stage | Done (merged or live) | In progress | Waiting |
 | --- | --- | --- | --- |
-| Gameplay audits | 112 of 146 | 15 | 19 |
+| Gameplay audits | 112 of 146 | 20 | 14 |
 | Screen fixes | 60 of 266 | 69 | 137 |
 | Match desktop to mockups | 0 of 14 | 6 | 8 |
 | Phone mockup studies | 23 of 70 | 47 | 0 |
