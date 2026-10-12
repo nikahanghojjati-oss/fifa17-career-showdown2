@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Legacy · upright tablet study 1732</title>
+<style>
+@font-face{font-family:"Barlow Condensed";font-weight:600;font-display:swap;src:url("../../../../visual-assets/v10_1/shared/fonts/barlow-condensed-latin-600-normal.woff2") format("woff2")}
+@font-face{font-family:"Barlow Condensed";font-weight:700;font-display:swap;src:url("../../../../visual-assets/v10_1/shared/fonts/barlow-condensed-latin-700-normal.woff2") format("woff2")}
+@font-face{font-family:"Barlow";font-weight:400;font-display:swap;src:url("../../../../visual-assets/v10_1/shared/fonts/barlow-latin-400-normal.woff2") format("woff2")}
+@font-face{font-family:"Barlow";font-weight:600;font-display:swap;src:url("../../../../visual-assets/v10_1/shared/fonts/barlow-latin-600-normal.woff2") format("woff2")}
+:root{color-scheme:dark;--gold:#f2c45b;--gold-hi:#ffe36c;--edge:rgba(212,160,23,.7);--text:#f4f1ea;--warm:#e9dfc8;--dim:#b9b3a4;
+--cond:"Barlow Condensed","Arial Narrow",sans-serif;--body:"Barlow",system-ui,sans-serif;--nav:64px;--act:60px;--pad:14px;--gap:10px}
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#07080a;color:var(--text);font-family:var(--body)}
+button,a{font:inherit;color:inherit;touch-action:manipulation}
+/* One upright screen, never scrolls: hero, archive panel (fills what is left), main button, hub bar. */
+.screen{position:relative;width:100%;height:100dvh;overflow:hidden;isolation:isolate;display:grid;
+grid-template-rows:minmax(250px,39%) minmax(0,1fr) var(--act) var(--nav);row-gap:var(--gap)}
+.bg{position:absolute;inset:0;z-index:-2;background:#07080a url("../../../../visual-assets/v10_1/legacy/assets/ENV_LG_PHONE_V1.webp") 50% 0/cover no-repeat}
+.bg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(3,5,6,.1),rgba(3,5,6,.2) 36%,rgba(3,5,6,.78) 52%,rgba(3,5,6,.92))}
+/* hero: Daniel LEFT, Nik RIGHT, title between them */
+.hero{position:relative;min-height:0}
+.hero .m{position:absolute;bottom:0;height:100%;width:auto;max-width:37%;object-fit:contain;filter:drop-shadow(0 12px 16px rgba(0,0,0,.55))}
+.daniel{left:4%;object-position:left bottom}.nik{right:0;object-position:right bottom}
+.title{position:absolute;z-index:2;left:50%;top:max(14px,2.2dvh);transform:translateX(-50%);width:min(34%,320px);text-align:center;text-shadow:0 2px 12px rgba(0,0,0,.9)}
+.eyebrow{margin:0;font:600 clamp(9px,1.3vw,12px)/1.3 var(--cond);letter-spacing:.22em;color:var(--text);text-transform:uppercase}
+.eyebrow::before{content:"";display:block;width:22px;height:14px;margin:0 auto 2px;background:linear-gradient(180deg,#fff3b0,#ffd34d 35%,#d4a017 70%,#8a6a12);clip-path:polygon(0 22%,25% 48%,50% 0,75% 48%,100% 22%,90% 85%,10% 85%)}
+.title h1{margin:4px 0 0;line-height:0}.title h1 img{display:block;width:100%;height:auto;filter:drop-shadow(0 6px 12px rgba(0,0,0,.6))}
+.tagline{margin:4px 0 0;font:600 clamp(8.5px,1.25vw,12px)/1.3 var(--cond);letter-spacing:.14em;color:var(--warm)}
+.back{position:absolute;z-index:5;top:max(10px,1.4dvh);left:10px;display:grid;place-items:center;min-width:72px;height:46px;padding:0 14px;border:1px solid rgba(242,196,91,.85);background:rgba(7,8,10,.78);color:var(--gold-hi);font:700 15px/1 var(--cond);letter-spacing:.14em;clip-path:polygon(9px 0,100% 0,100% calc(100% - 9px),calc(100% - 9px) 100%,0 100%,0 9px);cursor:pointer}
+.gear{position:absolute;z-index:5;top:max(10px,1.4dvh);right:10px;width:48px;height:48px;display:grid;place-items:center;color:var(--gold);background:rgba(7,8,10,.72);border:1px solid var(--edge);border-radius:50%}
+.gear svg{width:24px;height:24px;fill:currentColor}
+/* archive panel: three destinations, 2 x 2 Showdown cards, pager */
+.panel{position:relative;min-height:0;margin:0 var(--pad);display:grid;grid-template-rows:auto minmax(0,1fr) auto;gap:var(--gap);padding:var(--gap);border:1px solid rgba(242,196,91,.5);background:linear-gradient(180deg,rgba(15,16,17,.9),rgba(4,6,7,.97));box-shadow:0 -10px 24px rgba(0,0,0,.44),inset 0 1px rgba(255,227,108,.12);clip-path:polygon(14px 0,calc(100% - 14px) 0,100% 14px,100% calc(100% - 14px),calc(100% - 14px) 100%,14px 100%,0 calc(100% - 14px),0 14px)}
+.side{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;font-family:var(--cond)}
+.side button{min-height:52px;padding:0 10px;border:1px solid rgba(242,196,91,.22);background:rgba(255,255,255,.03);color:rgba(255,255,255,.9);font:700 clamp(14px,2.1vw,19px)/1 var(--cond);letter-spacing:.07em;text-transform:uppercase;cursor:pointer}
+.side button[aria-current=page]{background:linear-gradient(100deg,#f2c45b,#ffe36c);color:#111;border-color:#ffe98c;box-shadow:0 0 22px rgba(242,196,91,.22)}
+.grid{min-height:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:repeat(2,minmax(0,1fr));gap:var(--gap)}
+.card{position:relative;min-width:0;min-height:0;display:grid;grid-template-rows:auto minmax(0,1fr) auto;padding:clamp(6px,1.2dvh,14px) 12px clamp(5px,1dvh,12px);border:1px solid rgba(242,196,91,.46);background:linear-gradient(145deg,rgba(242,196,91,.07),transparent 42%),rgba(6,8,9,.9);text-align:center;font-family:var(--cond);color:#fff;cursor:pointer;font-size:inherit}
+.card[aria-pressed=true]{border-color:var(--gold-hi);box-shadow:inset 0 0 0 1px rgba(255,227,108,.72),0 0 18px rgba(242,196,91,.38)}
+.ct{display:block;font:600 clamp(15px,2.3vw,21px)/1.1 var(--cond);letter-spacing:.035em}
+.cb{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:8px;min-height:0}
+.mgr{min-width:0;display:grid;justify-items:center;align-content:center;gap:3px}
+.crest{width:clamp(28px,3.8dvh,50px);aspect-ratio:44/50;height:auto;display:grid;place-items:center;clip-path:polygon(50% 0,92% 14%,84% 74%,50% 100%,16% 74%,8% 14%);background:linear-gradient(150deg,#171b20,#353b43);border:1px solid rgba(242,196,91,.75);color:#f7d875;font-size:15px;line-height:1}
+.mgr b{font:700 clamp(15px,2.3vw,21px)/1.05 var(--cond);letter-spacing:.05em}
+.mgr small{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font:400 clamp(11px,1.6vw,14px)/1.2 var(--body);color:rgba(255,255,255,.62)}
+.sc{display:grid;justify-items:center;gap:2px}
+.lg{display:grid;place-items:center;color:var(--gold)}.lg svg{width:18px;height:18px;fill:currentColor}
+.sc strong{font:700 clamp(26px,min(5.3vw,4.3dvh),46px)/1 var(--cond);font-variant-numeric:tabular-nums;letter-spacing:.06em}
+.sc em{font:600 clamp(12px,1.9vw,17px)/1.2 var(--cond);font-style:normal;color:var(--gold);letter-spacing:.03em;min-height:1.2em}
+.cf{display:block;margin-top:2px;font:600 clamp(11px,1.7vw,15px)/1.3 var(--cond);letter-spacing:.04em;color:rgba(255,255,255,.7)}
+.st{position:absolute;top:8px;right:10px;font:600 clamp(10px,1.5vw,13px)/1 var(--cond);letter-spacing:.06em;color:var(--gold);text-transform:none}
+.card.live{border-color:rgba(242,196,91,.7)}
+.pager{display:flex;align-items:center;justify-content:center;gap:26px;height:40px}
+.pager button{min-width:48px;min-height:40px;border:0;background:transparent;color:rgba(255,255,255,.78);font:400 28px/1 var(--body);cursor:pointer}
+.dots{display:inline-flex;gap:9px}.dots i{width:12px;height:12px;border-radius:50%;background:var(--gold);box-shadow:0 0 9px rgba(242,196,91,.5)}
+/* main action */
+.primary{margin:0 var(--pad);display:grid;place-items:center;border:1px solid #ffe98c;background:linear-gradient(180deg,#ffe38a,#e0a92a 55%,#b57e1a);color:#15110a;font:700 clamp(18px,2.8vw,24px)/1 var(--cond);letter-spacing:.1em;text-transform:uppercase;box-shadow:0 8px 24px rgba(0,0,0,.5),0 0 20px rgba(245,197,24,.2);clip-path:polygon(16px 0,calc(100% - 16px) 0,100% 50%,calc(100% - 16px) 100%,16px 100%,0 50%);cursor:pointer}
+button:focus-visible,a:focus-visible{outline:3px solid #fff3bd;outline-offset:2px}
+/* hub bar */
+.nav{display:grid;grid-template-columns:repeat(5,1fr);padding:0 4px;background:linear-gradient(180deg,rgba(10,11,14,.96),#07080a);border-top:1px solid var(--edge)}
+.nav a{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;color:var(--warm);text-decoration:none;font:600 12px/1 var(--cond);letter-spacing:.1em}
+.nav svg{width:24px;height:24px;fill:currentColor}
+.nav a[aria-current=page]{color:#f5c518}.nav a[aria-current=page]::after{content:"";position:absolute;top:0;left:28%;right:28%;height:2px;background:#f5c518}
+/* phone widths (not the target of this study): one card at a time, as the live phone does */
+@media (max-width:620px){
+:root{--nav:56px;--act:52px;--pad:10px;--gap:6px}
+.screen{grid-template-rows:minmax(190px,40%) minmax(0,1fr) var(--act) var(--nav)}
+.hero .m{max-width:46%}.daniel{left:9%}.title{width:38%}.eyebrow{letter-spacing:.1em;font-size:8.5px}.lg{display:none}.card{padding:6px 10px 6px}.crest{width:clamp(30px,5dvh,44px)}.back{min-width:60px;height:40px;font-size:13px}.gear{width:42px;height:42px}
+.grid{grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(0,1fr)}.card:not([aria-pressed=true]){display:none}
+.side button{min-height:42px;font-size:12px;padding:0 4px}.pager{height:36px}.pager button{min-height:36px}
+.nav svg{width:20px;height:20px}.nav a{font-size:10.5px;gap:2px}.primary{font-size:17px}}
+@media (max-width:620px) and (max-height:600px){.mgr small{display:none}.crest{width:28px}.sc strong{font-size:28px}}
+</style>
+</head>
+<body>
+<main class="screen" aria-label="Legacy screen, upright tablet layout">
+<div class="bg" aria-hidden="true"></div>
+
+<section class="hero">
+<button class="back" type="button" aria-label="Back to main menu">BACK</button>
+<a class="gear" href="#settings" aria-label="Settings"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 8.2a3.8 3.8 0 1 0 0 7.6 3.8 3.8 0 0 0 0-7.6Zm9 4.8v-2l-2.2-.7a7.4 7.4 0 0 0-.7-1.7l1-2.1-1.4-1.4-2.1 1a7.4 7.4 0 0 0-1.7-.7L13 3h-2l-.7 2.4a7.4 7.4 0 0 0-1.7.7l-2.1-1-1.4 1.4 1 2.1a7.4 7.4 0 0 0-.7 1.7L3 11v2l2.4.7c.2.6.4 1.2.7 1.7l-1 2.1 1.4 1.4 2.1-1c.5.3 1.1.5 1.7.7L11 21h2l.7-2.4c.6-.2 1.2-.4 1.7-.7l2.1 1 1.4-1.4-1-2.1c.3-.5.5-1.1.7-1.7L21 13Z"/></svg></a>
+<img class="m daniel" src="../../../../visual-assets/v10_1/legacy/assets/OVL_LG_DANIEL_PHONE_V1.webp" alt="" aria-hidden="true">
+<img class="m nik" src="../../../../visual-assets/v10_1/legacy/assets/OVL_LG_NIK_PHONE_V1.webp" alt="" aria-hidden="true">
+<header class="title"><p class="eyebrow">CAREER MODE SHOWDOWN 17</p><h1><img src="../../../../visual-assets/v10_1/legacy/assets/TITLE_LG_V1.webp" alt="LEGACY"></h1><p class="tagline">PAST SHOWDOWNS. A LASTING JOURNEY.</p></header>
+</section>
+
+<section class="panel" aria-label="Legacy archive">
+<nav class="side" aria-label="Legacy destinations"><button type="button" aria-current="page">LEGACY ARCHIVE</button><button type="button">TROPHY ROOM</button><button type="button">RECORDS</button></nav>
+<div class="grid" aria-label="Showdown archive cards">
+<button class="card" type="button" aria-pressed="true"><span class="ct">Showdown #1</span><span class="cb">
+<span class="mgr"><span class="crest" aria-hidden="true">★</span><b>Daniel</b><small>Club A</small></span>
+<span class="sc"><span class="lg" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m12 2 2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.2l7.1-.6Z"/></svg></span><strong>15 – 5</strong><em><span aria-hidden="true">♛</span> Daniel wins</em></span>
+<span class="mgr"><span class="crest" aria-hidden="true">★</span><b>Nik</b><small>Club B</small></span></span><span class="cf">3 / 3 Seasons</span></button>
+<button class="card" type="button" aria-pressed="false"><span class="ct">Showdown #2</span><span class="cb">
+<span class="mgr"><span class="crest" aria-hidden="true">★</span><b>Daniel</b><small>Club C</small></span>
+<span class="sc"><span class="lg" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m12 2 2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.2l7.1-.6Z"/></svg></span><strong>11 – 13</strong><em><span aria-hidden="true">♛</span> Nik wins</em></span>
+<span class="mgr"><span class="crest" aria-hidden="true">★</span><b>Nik</b><small>Club D</small></span></span><span class="cf">3 / 3 Seasons</span></button>
+<button class="card" type="button" aria-pressed="false"><span class="ct">Showdown #3</span><span class="cb">
+<span class="mgr"><span class="crest" aria-hidden="true">★</span><b>Daniel</b><small>Club E</small></span>
+<span class="sc"><span class="lg" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m12 2 2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.2l7.1-.6Z"/></svg></span><strong>9 – 9</strong><em>Draw</em></span>
+<span class="mgr"><span class="crest" aria-hidden="true">★</span><b>Nik</b><small>Club F</small></span></span><span class="cf">1 / 1 Seasons</span></button>
+<button class="card live" type="button" aria-pressed="false"><span class="ct">Showdown #4</span><span class="st">In progress</span><span class="cb">
+<span class="mgr"><span class="crest" aria-hidden="true">★</span><b>Daniel</b><small>Club G</small></span>
+<span class="sc"><span class="lg" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m12 2 2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.2l7.1-.6Z"/></svg></span><strong>7 – 4</strong><em></em></span>
+<span class="mgr"><span class="crest" aria-hidden="true">★</span><b>Nik</b><small>Club H</small></span></span><span class="cf">2 / 5 Seasons</span></button>
+</div>
+<div class="pager" role="group" aria-label="Archive page 1 of 1"><button type="button" aria-label="Previous archive item">‹</button><span class="dots" role="img" aria-label="Archive page 1 of 1"><i></i></span><button type="button" aria-label="Next archive item">›</button></div>
+</section>
+
+<button class="primary" type="button">VIEW SEASON HISTORY</button>
+
+<nav class="nav" aria-label="Main navigation">
+<a href="#home"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 2.5 11h2.7v9.5h5.3v-6h3v6h5.3V11h2.7Z"/></svg>HOME</a>
+<a href="#career" aria-current="page"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 3h11l-1 6.2A4.6 4.6 0 0 1 12 13a4.6 4.6 0 0 1-4.5-3.8ZM4 4.6h2.4l.4 2.6A2.4 2.4 0 0 1 4 4.6Zm16 0a2.4 2.4 0 0 1-2.8 2.6l.4-2.6ZM10.6 13.6h2.8v3.2h3v3.2H7.6v-3.2h3Z"/></svg>CAREER</a>
+<a href="#standings"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h18v3.2H3Zm0 6.4h18v3.2H3Zm0 6.4h18V20H3Z"/></svg>STANDINGS</a>
+<a href="#stats"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 20h18v1.6H3ZM4.6 12h3.6v6.4H4.6Zm5.6-5h3.6v11.4h-3.6Zm5.6 3h3.6v8.4h-3.6Z"/></svg>STATS</a>
+<a href="#rules"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3.5h10.5L19 7v13.5H5Zm9.6 1.3V8h3.2ZM7.6 10h8.8v1.5H7.6Zm0 3.2h8.8v1.5H7.6Zm0 3.2h6v1.5h-6Z"/></svg>RULES</a>
+</nav>
+</main>
+</body>
+</html>
