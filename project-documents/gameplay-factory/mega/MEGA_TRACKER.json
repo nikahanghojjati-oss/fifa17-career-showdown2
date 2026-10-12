@@ -1,5 +1,5 @@
 {
-"updated": "2026-10-12T09:58:56Z",
+"updated": "2026-10-12T10:01:14Z",
 "total": 394,
 "next_free": 374,
 "highest_taken": 541,
@@ -470,25 +470,25 @@
 "states": {
 "live": 8,
 "merged": 8,
-"waiting": 31,
+"waiting": 30,
 "closed": 3,
-"draft": 1
+"draft": 2
 },
 "reviews": {
 "ok": 0,
 "ok_notes": 0,
 "needs_changes": 0
 },
-"picked_up": 20,
-"worker_done": 17,
+"picked_up": 21,
+"worker_done": 18,
 "finished": 16,
-"pending_lead": 1,
+"pending_lead": 2,
 "wait_v": 0,
 "audit_batch": 0,
 "trouble": 0,
 "closed": 3,
 "reviews_total": 0,
-"first_time_ok": 85,
+"first_time_ok": 86,
 "failing_now": 0
 },
 "claude": {
@@ -567,7 +567,6 @@
 1646,
 1659,
 1660,
-1696,
 1697,
 1698,
 1699,
@@ -1792,6 +1791,53 @@
 "t": 51,
 "fin": 16,
 "done": 16,
+"redone": 3,
+"fail": 0
+},
+"claude": {
+"t": 76,
+"fin": 55,
+"done": 55,
+"redone": 20,
+"fail": 0
+}
+}
+},
+{
+"at": "2026-10-12T10:01:14Z",
+"lanes": {
+"gpt1": {
+"t": 125,
+"fin": 90,
+"done": 100,
+"redone": 25,
+"fail": 0
+},
+"gpt2": {
+"t": 199,
+"fin": 123,
+"done": 146,
+"redone": 0,
+"fail": 0
+},
+"chat_jobs": {
+"t": 68,
+"fin": 26,
+"done": 29,
+"redone": 0,
+"fail": 0
+},
+"codex": {
+"t": 19,
+"fin": 14,
+"done": 14,
+"redone": 4,
+"fail": 0
+},
+"work": {
+"t": 51,
+"fin": 16,
+"done": 18,
 "redone": 3,
 "fail": 0
 },
