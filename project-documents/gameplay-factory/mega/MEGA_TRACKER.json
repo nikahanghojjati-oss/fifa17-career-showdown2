@@ -1,5 +1,5 @@
 {
-"updated": "2026-10-12T02:07:29Z",
+"updated": "2026-10-12T02:08:59Z",
 "total": 518,
 "next_free": 187,
 "highest_taken": 411,
@@ -8,8 +8,8 @@
 "closed": 82,
 "ci_failed": 5,
 "ready": 10,
-"on_train": 10,
-"waiting": 226,
+"on_train": 11,
+"waiting": 225,
 "draft": 3,
 "blocked": 1
 },
@@ -22,8 +22,8 @@
 "closed": 44,
 "ci_failed": 5,
 "ready": 10,
-"on_train": 5,
-"waiting": 157
+"on_train": 6,
+"waiting": 156
 }
 },
 "1": {
@@ -80,6 +80,7 @@
 199,
 201,
 203,
+207,
 403,
 411
 ],
@@ -90,11 +91,11 @@
 "rules-settings": 687
 },
 "ready": [
-207,
 209,
 217,
 219,
 221,
+225,
 296,
 302,
 324,
@@ -104,11 +105,11 @@
 366
 ],
 "ready_sol": [
-207,
 209,
 217,
 219,
 221,
+225,
 296,
 302,
 324,
@@ -119,11 +120,11 @@
 ],
 "ready_codex": [],
 "ready_all": [
-207,
 209,
 217,
 219,
 221,
+225,
 296,
 302,
 324,
@@ -318,8 +319,8 @@
 "held_by_picture": {}
 },
 "rate": {
-"claimed_last_hour": 8,
-"claimed_last_10min": 1,
+"claimed_last_hour": 9,
+"claimed_last_10min": 2,
 "merged_last_hour": 0
 },
 "lanes": {
@@ -331,18 +332,18 @@
 "closed": 25,
 "ci_failed": 5,
 "ready": 10,
-"on_train": 10,
-"waiting": 144
+"on_train": 11,
+"waiting": 143
 },
 "reviews": {
 "ok": 0,
 "ok_notes": 0,
 "needs_changes": 0
 },
-"picked_up": 95,
-"worker_done": 70,
+"picked_up": 96,
+"worker_done": 71,
 "finished": 45,
-"pending_lead": 20,
+"pending_lead": 21,
 "wait_v": 0,
 "audit_batch": 0,
 "trouble": 5,
@@ -1433,13 +1434,6 @@
 }
 ],
 "events": [
-{
-"at": "2026-10-11T06:35:00Z",
-"item": 44,
-"job": 1488,
-"from": "draft",
-"to": "merged"
-},
 {
 "at": "2026-10-11T06:35:00Z",
 "item": 46,
@@ -3530,6 +3524,13 @@
 "at": "2026-10-12T02:07:29Z",
 "item": 203,
 "job": 1130,
+"from": "waiting",
+"to": "on_train"
+},
+{
+"at": "2026-10-12T02:08:59Z",
+"item": 207,
+"job": 1188,
 "from": "waiting",
 "to": "on_train"
 }
@@ -6798,8 +6799,10 @@
 "title": "Transfer challenge and Signing Entry: long names",
 "mode": "code",
 "group": "transfer",
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"state": "on_train",
+"branch": "gameplay/train-transfer-3",
+"first_seen": "2026-10-12T02:08:59Z",
+"since": "2026-10-12T02:08:59Z"
 },
 "208": {
 "job": 1570,
