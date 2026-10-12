@@ -1399,6 +1399,55 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
  #app #seasonEntry .v10FinalStage .finalWinnerActionsSlot .v10FinalExit .seasonEntryActions button:focus-visible { outline:3px solid #fff5c4; outline-offset:-6px; }
 }
 
+/* SEASON-PLATE-V2 (ticket 1610P): desktop Season Results on Team V's approved stadium-stand plate
+   (visual-assets/v10_1/plates-v2/ENV_SEASON_RESULTS_PLATE_V2_*), with the cards and buttons in the picture's gold-bevel
+   and polished-gold finish (NEXT_SEASON_RESULTS). Strictly the desktop picture range: wide landscape windows of at
+   least 1200x600; phone, sideways and tablet keep their art and rules. The plate is the same 1536x864 as the old
+   one, so the stage keeps registering it exactly as before; it loads with this screen, never with the startup bundle.
+   Both managers' fists are painted on the plate, so the old registered fist overlays are not drawn on top of it.
+   Looks only: every word, id and tap order stays as it was. */
+@media (min-width:1200px) and (min-height:600px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage {
+  --sr-bevel:linear-gradient(135deg,#fff1b8 0%,#e8b94a 15%,#8a6a12 36%,#f2c45b 56%,#fff1b8 73%,#b8862a 100%);
+ }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .sd-stage__plate {
+  background-image:image-set(url("${assetUrl(BASE+"plates-v2/ENV_SEASON_RESULTS_PLATE_V2_1X.webp")}") 1x,url("${assetUrl(BASE+"plates-v2/ENV_SEASON_RESULTS_PLATE_V2_2X.webp")}") 2x);
+ }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage :is(.season-depth-picture,.season-rim-picture) { display:none; }
+ /* a soft dark pool behind the eyebrow, title and line, so they read over the arena lights */
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-title-block::before {
+  content:"";position:absolute;z-index:-1;left:26%;right:26%;top:7%;height:26%;pointer-events:none;
+  background:radial-gradient(ellipse at 50% 50%,#050608a0,#05060860 48%,transparent 72%);
+ }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-eyebrow,#app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-tagline { text-shadow:0 0 3px #000,0 1px 2px #000,0 0 12px #000,0 0 22px #000c; }
+ /* the scoring card, the entry card and the review card: gold-bevel frame around a black face with a thin inner gold line */
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage :is(.scoring-panel,.seasonEntryGrid .entry-panel,.season-review-panel) {
+  clip-path:none;border:4px solid transparent;border-radius:9px;
+  background:linear-gradient(180deg,#15130fF2 0,#0a0a0bF5 22%,#08080aF7 100%) padding-box,var(--sr-bevel) border-box;
+  box-shadow:inset 0 0 0 2px #050505,inset 0 0 0 3px #d9aa3c99,inset 0 1px 0 4px #fff1b81c,0 0 28px #f0c84b38,0 14px 36px #000c;
+ }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .seasonReviewCard { border-radius:6px; }
+ /* REVIEW MY SEASON RESULT and COMMIT & ACKNOWLEDGE: polished gold */
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage :is(.season-action-row #completeSeason,#sharedSeasonCommitAction,.seasonReviewActions .menuButton:not(:disabled)) {
+  border:2px solid transparent;border-radius:4px;color:#17110a;
+  background:linear-gradient(180deg,#fff0a6 0,#f8d764 20%,#e4b032 54%,#f4cf58 80%,#c98f1c 100%) padding-box,linear-gradient(135deg,#fff8d0,#d9a83a 40%,#fff1b8 70%,#a9781a) border-box;
+  box-shadow:inset 0 1px 0 #fffbe0,inset 0 -3px 0 #a87a1288,0 0 0 1px #000a,0 0 22px #f5c51855,0 5px 18px #0009;
+  text-shadow:0 1px 0 #fff2b588;
+ }
+ /* BACK TO SHOWDOWN HOME: black face, gold-bevel edge */
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-action-row .backButton {
+  border:2px solid transparent;border-radius:4px;color:#fff1ae;
+  background:linear-gradient(180deg,#141311,#070708) padding-box,var(--sr-bevel) border-box;
+  box-shadow:inset 0 0 0 1px #050505,inset 0 1px 0 2px #fff1b81f,0 5px 16px #000a;
+ }
+}
+/* short windows (1280x650): a slimmer frame and tighter card padding keep the whole screen, buttons included, on the page */
+ @media (min-width:1200px) and (min-height:600px) and (max-height:700px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
+  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage :is(.scoring-panel,.seasonEntryGrid .entry-panel,.season-review-panel) { border-width:3px; }
+  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .seasonEntryGrid .entry-panel { padding-top:6px;padding-bottom:6px; }
+  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-layout { padding-bottom:0;gap:6px; }
+ }
+ 
 `;
     parent.appendChild(style);
   }
