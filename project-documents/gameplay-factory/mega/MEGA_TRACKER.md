@@ -1,9 +1,9 @@
-# Mega factory tracker · updated 2026-10-12T04:06:34Z
+# Mega factory tracker · updated 2026-10-12T04:09:34Z
 
 **Type now (52 free):** 374, 402, 430, 458, 376, 404, 432, 460, 378, 406, 434, 462, 380, 408, 436, 464, 382, 410, 438, 466, 384, 412, 440, 468, 386, 414, 442, 470, 388, 416, 444, 472, 390, 418, 446, 474, 392, 420, 448, 476, 394, 422, 450, 396, 424, 452, 398, 426, 454, 400, 428, 456
 **Next free number:** 374 · **highest taken:** 541 of 394
 **Code PRs open:** 0 of 8 · area locks: none
-**Rate:** 0 claimed in 10 min · 6 in 1 h · 45 merged in 1 h
+**Rate:** 0 claimed in 10 min · 6 in 1 h · 40 merged in 1 h
 
 **Finished (merged or live): 226 of 394**
 
