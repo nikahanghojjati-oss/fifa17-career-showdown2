@@ -187,7 +187,7 @@
       if(!readReached&&TRANSIENT_CONTEXT_CODES.includes(String(error&&error.code||""))&&!heldReadFailure&&state.ready===true&&state.setup&&state.setup.phase==="SHOWDOWN_CONFIRMED"&&heldSessionStillActive()){heldReadFailure=true;return setState({status:"ready",busy:false});}
       // One failed provider read (network blip, a read racing the rival's write) keeps the confirmed Setup for one poll so every module gated on it does not go quiet; a repeat failure locks it.
       // Context failures (logout, detached pairing, expired session, account/device mismatch) and storage changes never hold: the exact ACTIVE prerequisite is gone.
-      if(readReached&&!/^SHARED_SETUP_(LOCAL_SAVE_MUTATION|STORAGE_AUTHORITY_UNAVAILABLE)$/.test(String(error&&error.code||""))&&!heldReadFailure&&state.ready===true&&state.setup&&state.setup.phase==="SHOWDOWN_CONFIRMED"){heldReadFailure=true;return setState({status:"ready",busy:false});}
+      if(readReached&&!/^SHARED_SETUP_(LOCAL_SAVE_MUTATION|STORAGE_AUTHORITY_UNAVAILABLE)$/.test(String(error&&error.code||""))&&!heldReadFailure&&state.ready===true&&state.setup&&state.setup.phase==="SHOWDOWN_CONFIRMED"&&heldSessionStillActive()){heldReadFailure=true;return setState({status:"ready",busy:false});}
       heldReadFailure=false;
       return setState({status:"locked",busy:false,ready:false,...failureState(error,"SHARED_SETUP_UNAVAILABLE")});
     }
