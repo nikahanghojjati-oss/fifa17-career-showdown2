@@ -629,6 +629,12 @@ html[data-v10-screen="clubWheelScreen"] #app > main { position: static; inset: a
   #app #clubWheelScreen.cl-on .clubAssignmentShell:has(> #clubAssignmentBack.hidden) > #openClubPack { grid-column: 1 / -1; }
   #app #clubWheelScreen.cl-on .clubRivalryLockNote { font: 400 11px/1.25 var(--text); }
 }
+/* Short upright phones (375x553): the season panel keeps only its heading, as before, so the confirm view needs no scroll. */
+@media (max-width: 760px) and (orientation: portrait) and (max-height: 600px) {
+  #app #clubWheelScreen.cl-on #sharedShowdownSeasonChoice > .stateNote { display: none; }
+  #app #clubWheelScreen.cl-on .clPhoneScene { min-height: 124px; }
+  #app #clubWheelScreen.cl-on .clubAssignmentShell { row-gap: 3px; }
+}
 @media (min-width: 600px) and (max-width: 960px) and (max-height: 500px) and (orientation: landscape) {
   #app #clubWheelScreen.cl-on .clubAssignmentShell { height: auto; min-height: 100svh; }
   #app #clubWheelScreen.cl-on .clubAssignmentShell > .menuButton,
