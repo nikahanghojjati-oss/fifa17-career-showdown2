@@ -1,5 +1,5 @@
 {
-"updated": "2026-10-12T01:26:28Z",
+"updated": "2026-10-12T01:27:58Z",
 "total": 518,
 "next_free": 187,
 "highest_taken": 411,
@@ -8,8 +8,8 @@
 "closed": 82,
 "ci_failed": 5,
 "ready": 10,
-"on_train": 7,
-"waiting": 233
+"on_train": 8,
+"waiting": 232
 },
 "stages": {
 "2": {
@@ -35,8 +35,8 @@
 "name": "Match desktop to mockups",
 "total": 14,
 "states": {
-"on_train": 3,
-"waiting": 10,
+"on_train": 4,
+"waiting": 9,
 "closed": 1
 }
 },
@@ -71,6 +71,7 @@
 181,
 183,
 185,
+189,
 199,
 201,
 403,
@@ -83,9 +84,9 @@
 "rules-settings": 687
 },
 "ready": [
-189,
 191,
 203,
+207,
 217,
 219,
 240,
@@ -97,9 +98,9 @@
 324
 ],
 "ready_sol": [
-189,
 191,
 203,
+207,
 217,
 219,
 240,
@@ -112,9 +113,9 @@
 ],
 "ready_codex": [],
 "ready_all": [
-189,
 191,
 203,
+207,
 217,
 219,
 240,
@@ -256,8 +257,8 @@
 "held_by_picture": {}
 },
 "rate": {
-"claimed_last_hour": 6,
-"claimed_last_10min": 1,
+"claimed_last_hour": 7,
+"claimed_last_10min": 2,
 "merged_last_hour": 0
 },
 "lanes": {
@@ -269,18 +270,18 @@
 "closed": 25,
 "ci_failed": 5,
 "ready": 10,
-"on_train": 7,
-"waiting": 147
+"on_train": 8,
+"waiting": 146
 },
 "reviews": {
 "ok": 0,
 "ok_notes": 0,
 "needs_changes": 0
 },
-"picked_up": 92,
-"worker_done": 67,
+"picked_up": 93,
+"worker_done": 68,
 "finished": 45,
-"pending_lead": 17,
+"pending_lead": 18,
 "wait_v": 0,
 "audit_batch": 0,
 "trouble": 5,
@@ -1320,13 +1321,6 @@
 }
 ],
 "events": [
-{
-"at": "2026-10-11T06:35:00Z",
-"item": 26,
-"job": 1479,
-"from": "draft",
-"to": "merged"
-},
 {
 "at": "2026-10-11T06:35:00Z",
 "item": 28,
@@ -3417,6 +3411,13 @@
 "at": "2026-10-12T01:26:28Z",
 "item": 185,
 "job": 1129,
+"from": "waiting",
+"to": "on_train"
+},
+{
+"at": "2026-10-12T01:27:58Z",
+"item": 189,
+"job": 1187,
 "from": "waiting",
 "to": "on_train"
 }
@@ -6444,8 +6445,10 @@
 "title": "Transfer challenge and Signing Entry: match the desktop mockup",
 "mode": "code",
 "group": "transfer",
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"state": "on_train",
+"branch": "gameplay/train-transfer-3",
+"first_seen": "2026-10-12T01:27:58Z",
+"since": "2026-10-12T01:27:58Z"
 },
 "190": {
 "job": 1561,
