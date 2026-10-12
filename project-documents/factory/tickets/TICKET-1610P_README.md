@@ -6,7 +6,7 @@ Nik runs one ticket per screen in a ChatGPT Temporary Chat and drops the result 
 
 | # | Screen | Ticket |
 | --- | --- | --- |
-| 1 | Home | waits for Nik's pick (marble lounge or trophy hall) |
+| 1 | Home | TICKET-1610P_1_OF_14_HOME_PLATE.md (Nik picked the marble lounge, 12 Oct) |
 | 2 | Connect Players | TICKET-1610P_2_OF_14_CONNECT_PLAYERS_PLATE.md |
 | 3 | Season Results | TICKET-1610P_3_OF_14_SEASON_RESULTS_PLATE.md |
 | 4 | Transfer War | TICKET-1610P_4_OF_14_TRANSFER_PLATE.md |

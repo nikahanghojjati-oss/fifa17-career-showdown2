@@ -1,18 +1,7 @@
-# Mockups and goal images (reference only)
+# Mockups (build targets)
 
-Nik's mockups and goal images. They show the look to reach. Some contain real club crests, league logos and trophies: those are never copied, traced or shipped. PRODUCT_TRUTH.md says what changes.
+**One target per screen (Nik, 12 Oct 2026):** the only targets in this folder are NEXT_* (desktop) and PHONE_* (phone). Everything older is retired and kept in archive/ for history only; never build toward it.
 
-| File | Screen | Notes |
-| --- | --- | --- |
-| MOCKUP_TROPHY_ROOM.png | Trophy Room | fix "CONTINEENTAL", duplicate ABOUT; our own trophies |
-| MOCKUP_CAREER_STATISTICS.png | Career Statistics | drop unrecorded stats and "Cian Cheets" |
-| MOCKUP_RIVALRY_STATISTICS.png | Rivalry Statistics | our own crests |
-| MOCKUP_LEGACY_V2.png | Legacy | the reference version; V1 kept for history |
-| MOCKUP_LEGACY_V1.png | Legacy | older version |
-| MOCKUP_SEASON_RESULTS.jpg | Season Results | score is computed (mockup's 9 is wrong); remove shirt brand mark |
-| MOCKUP_START_JOIN.png | Start / Join | plain words, More menu for Revoke/Close/Forget |
-| GOAL_HOME.jpg, GOAL_LEAGUE.jpg, GOAL_CLUB.jpg | Home, League, Club | goals the built screens are polished toward (league logos blurred) |
-| GOAL_TRANSFER_PLATE_G.png | Transfer War | the locked Plate G key art |
 
 ## Phone mockups (job 1588, Nik's GPT pictures from Claude's tickets)
 | File | Screen | Approved | Notes |
@@ -49,3 +38,20 @@ Nik's mockups and goal images. They show the look to reach. Some contain real cl
 | PHONE_STANDINGS.png | Standings | Sun 11 Oct 3:53 a.m. Eastern | Ticket 1588 14 of 14, after the stricter prompt. Both managers unchanged (Daniel LEFT pointing, Nik RIGHT arms crossed), gear top right, live five-tab bar with STANDINGS lit. Every live word and number: THIS SHOWDOWN / CAREER switch, HEAD-TO-HEAD, SEASON 3 OF 3, SHOWDOWN POINTS 16 : 8, DANIEL LEADS, both club badges as live, and all seven rows on screen (Season Wins 2/1, Draws 0/0, Losses 1/2, Champions Leagues 1/1, League Titles 2/1, Domestic Cups 2/0, Total Trophies 5/2). Row labels shown in capitals (live is title case; keep live case when wiring if preferred). New: whole card fits 393x660 with no scroll, framed black-glass card, gold separators. sha256 3be8fa56ea8f8aff… |
 | PHONE_LOADING.png | Loading | Sun 11 Oct 3:40 a.m. Eastern | Ticket 1636 1 of 2, picked from two tries (Nik: "choose whichever is better"). Keeps the Marco Reus photo (OWNER-4 exception, same pose and kit) and its credit line, the live layout and every live word: CM17 badge, THE RIVALRY STARTS HERE, CAREER MODE SHOWDOWN 17 in the Home gold brush lettering, TWO MANAGERS · ONE LEGACY label, PREPARING CAREER MODE SHOWDOWN with gold pulse bars, TWO MANAGERS · ONE SHOWDOWN. New: black-and-gold stadium night instead of grey slate, one gold diagonal accent. Chosen over the other try for calmer light, square-cornered label like the rest of the game and a clearer face. No Nik or Daniel. sha256 c957a25ad10adce1… |
 | NEXT_LOADING.png | Loading (desktop, premium) | Sun 11 Oct 8:25 p.m. Eastern | Premium redo (ticket 1636 2 of 2, rewritten prompt), replaces the 3:49 a.m. picture, cropped to 16:9 (1536x864). Same split as live: Marco Reus photo left (OWNER-4, same pose and kit) with its credit bottom left, title block right past one gold diagonal. Every live word and nothing else: CM 17 medallion, THE RIVALRY STARTS HERE, CAREER MODE SHOWDOWN 17 gold brush title, TWO MANAGERS · ONE LEGACY plaque, PREPARING CAREER MODE SHOWDOWN with gold pulse bars, TWO MANAGERS · ONE SHOWDOWN. New: black-marble stadium tunnel with gold veins and the floodlit pitch behind Reus, heavy gold medallion, gold-framed plaque. No Nik or Daniel. sha256 907d5b7abf7d0a14… |
+
+
+## Retired (archive/, history only)
+
+These were the targets before the approved NEXT_ and PHONE_ pictures. RETIRED 12 Oct 2026, moved to archive/ (not deleted).
+
+| File | Screen | Notes |
+| --- | --- | --- |
+| archive/MOCKUP_TROPHY_ROOM.png | Trophy Room | fix "CONTINEENTAL", duplicate ABOUT; our own trophies |
+| archive/MOCKUP_CAREER_STATISTICS.png | Career Statistics | drop unrecorded stats and "Cian Cheets" |
+| archive/MOCKUP_RIVALRY_STATISTICS.png | Rivalry Statistics | our own crests |
+| archive/MOCKUP_LEGACY_V2.png | Legacy | the reference version; V1 kept for history |
+| archive/MOCKUP_LEGACY_V1.png | Legacy | older version |
+| archive/MOCKUP_SEASON_RESULTS.jpg | Season Results | score is computed (mockup's 9 is wrong); remove shirt brand mark |
+| archive/MOCKUP_START_JOIN.png | Start / Join | plain words, More menu for Revoke/Close/Forget |
+| archive/GOAL_HOME.jpg, GOAL_LEAGUE.jpg, GOAL_CLUB.jpg | Home, League, Club | goals the built screens are polished toward (league logos blurred) |
+| archive/GOAL_TRANSFER_PLATE_G.png | Transfer War | the locked Plate G key art |
