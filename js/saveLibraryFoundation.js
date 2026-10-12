@@ -80,6 +80,9 @@
     }
 
     async function buildLibrarySeasonIdentities(showdown, saveId){
+        if(showdown.rounds != null && !Array.isArray(showdown.rounds)){
+            throw new Error("Season 1 is not a valid record.");
+        }
         const rounds = Array.isArray(showdown.rounds) ? showdown.rounds : [];
         const seenRoundNumbers = new Set();
         const output = [];
@@ -309,6 +312,9 @@
                     if(profileId !== null && profileId !== undefined && !knownProfiles.has(profileId)){
                         errors.push(`Save ${index + 1} ${role} profile reference is not present in the Save Library.`);
                     }
+                }
+                if(refs.playerOne != null && refs.playerOne === refs.playerTwo){
+                    errors.push(`Save ${index + 1} assigns the same Local Profile to both manager roles.`);
                 }
                 const seenSeasons = new Set();
                 for(const round of Array.isArray(entry.showdown.rounds) ? entry.showdown.rounds : []){
