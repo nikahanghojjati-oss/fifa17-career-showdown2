@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Sun 11 Oct, 11:32 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Sun 11 Oct, 11:35 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r71** (main `2a511f6`, Sun 11 Oct 9:40 PM)
 
@@ -22,15 +22,15 @@ Updated Sun 11 Oct, 11:32 PM Boston time. Bug hunting only, no new features unti
 
 **#2 · 1648** `G` Old CSS: which old sheets and selectors are still live (report only)  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #690 · CI 7 of 8 passed · last move 5 min ago
+⚪ Team white · model not set · worker working, draft PR #690 · CI 7 of 8 passed · last move 8 min ago
 
 **#3 · 1651** `G` Flash guard: cover Season Results, Final Winner and Rivalry, and time tap feedback  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #692 · CI 7 of 8 passed · last move 4 h ago
+⚪ Team white · model not set · worker working, draft PR #692 · CI 7 of 8 passed · last move 5 h ago
 
 **#4 · 1652** `G` Settings › Motion: add a FULL MOTION choice  
 `████░░░░░░` **40.0000 %**  
-🔵 Team blue · model not set · worker working, draft PR #691 · CI 7 of 8 passed · last move 5 h ago
+🔵 Team blue · model not set · worker working, draft PR #691 · CI 7 of 15 passed · last move 0 min ago
 
 ### 👉 Next for you, in this order
 
@@ -847,7 +847,7 @@ Open code PRs: 0/8.
 
 ## Mega tracker (live, free)
 
-Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/index.html) · summary: [mega/MEGA_TRACKER.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/MEGA_TRACKER.md) · rebuilt by the poller each round, updated 2026-10-12T03:31:25Z.
+Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/index.html) · summary: [mega/MEGA_TRACKER.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/MEGA_TRACKER.md) · rebuilt by the poller each round, updated 2026-10-12T03:34:25Z.
 
 | Stage | Done (merged or live) | In progress | Waiting |
 | --- | --- | --- | --- |
