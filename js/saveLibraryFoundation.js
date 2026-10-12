@@ -310,6 +310,9 @@
                         errors.push(`Save ${index + 1} ${role} profile reference is not present in the Save Library.`);
                     }
                 }
+                if(refs.playerOne != null && refs.playerOne === refs.playerTwo){
+                    errors.push(`Save ${index + 1} assigns the same Local Profile to both manager roles.`);
+                }
                 const seenSeasons = new Set();
                 for(const round of Array.isArray(entry.showdown.rounds) ? entry.showdown.rounds : []){
                     if(!saveLibraryIsPlainObject(round) || typeof round.seasonId !== "string" || !round.seasonId.trim()){
