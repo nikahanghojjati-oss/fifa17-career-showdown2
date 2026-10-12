@@ -242,15 +242,15 @@ async function careerStartContracts(){
   harness.script=[async()=>({ok:false,code:"permission-denied"}),async()=>({ok:true,revision:1,state:{phase:"WAITING_FOR_ACKNOWLEDGEMENTS",revision:1,acknowledgedRoles:["playerOne"]},managerRole:"playerOne"})];
   let h=harness([empty,empty,empty,empty]);let text=await h.tapConfirm();
   assert.equal(h.calls.acks.length,2,"Career Start acknowledge must retry once after permission-denied");
-  assert.ok(h.calls.acks[1].baseRevision>=h.calls.acks[0].baseRevision);assert.ok(!/NOT RECORDED/.test(text),"a recovered lost race must not show NOT RECORDED");
+  assert.ok(h.calls.acks[1].baseRevision>=h.calls.acks[0].baseRevision);assert.ok(!/NOT RECORDED|not recorded/i.test(text),"a recovered lost race must not show NOT RECORDED");
   // B2. The refreshed state already shows my acknowledgement (or READY): silent, no second write.
   harness.script=[async()=>({ok:false,code:"permission-denied"})];
   h=harness([empty,empty,{phase:"CAREER_START_READY",revision:2,acknowledgedRoles:["playerOne","playerTwo"]}]);text=await h.tapConfirm();
-  assert.equal(h.calls.acks.length,1,"no second write when the refreshed state already shows the outcome");assert.ok(!/NOT RECORDED/.test(text));
+  assert.equal(h.calls.acks.length,1,"no second write when the refreshed state already shows the outcome");assert.ok(!/NOT RECORDED|not recorded/i.test(text));
   // B3. A real denial surfaces after the single retry and never loops.
   harness.script=[async()=>({ok:false,code:"permission-denied"}),async()=>({ok:false,code:"permission-denied"}),async()=>({ok:false,code:"permission-denied"})];
   h=harness([empty,empty,empty,empty,empty]);text=await h.tapConfirm();
-  assert.equal(h.calls.acks.length,2,"a real denial is tried at most twice");assert.match(text,/NOT RECORDED · permission-denied/,"a real denial must stay visible");
+  assert.equal(h.calls.acks.length,2,"a real denial is tried at most twice");assert.match(text,/Career Start (?:acknowledgement was rejected|was not recorded)\. Please try again\./,"a real denial must stay visible (QoL 2: in plain English)");assert.ok(!/permission-denied/.test(text),"QoL 2: the provider code stays in diagnostics, not on screen");
 }
 
 // ---------------------------------------------------------------- C. Shared Setup wrapper
