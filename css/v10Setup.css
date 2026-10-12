@@ -21,24 +21,27 @@
 }
 
 /* ---------- page: stadium plate behind the app shell, dark header ---------- */
-/* The app paints body over #background; while a setup skin shows, the html carries the dark base instead. */
+/* The app paints body over #background; while a setup skin shows, the html carries the dark base instead.
+   JOB-1657: css/v10Shell.css loads later and paints html[data-v10-screen] body and #background opaque #060709 (the old-design
+   flash guard), which hid this plate on desktop. The [data-v10-screen] doubles below out-rank those two shell rules; before
+   this sheet has loaded the shell guard still holds, so no light page can paint. */
 html[data-v10-setup] { background: #070604; }
-html[data-v10-setup] body { background: transparent; }
-html[data-v10-setup] #background {
+html[data-v10-setup] body, html[data-v10-setup][data-v10-screen] body { background: transparent; }
+html[data-v10-setup] #background, html[data-v10-setup][data-v10-screen] #background {
   background-color: #070604;
   background-position: 50% 50%;
   background-repeat: no-repeat;
   background-size: cover;
 }
-html[data-v10-setup="start"] #background {
+html[data-v10-setup="start"] #background, html[data-v10-setup="start"][data-v10-screen] #background {
   background-image: url("../visual-assets/v10_1/start-join/assets/ENV_SJ_PLATE_V1_1X.webp");
   background-image: image-set(url("../visual-assets/v10_1/start-join/assets/ENV_SJ_PLATE_V1_1X.webp") 1x, url("../visual-assets/v10_1/start-join/assets/ENV_SJ_PLATE_V1_2X.webp") 2x);
 }
-html[data-v10-setup="league"] #background {
+html[data-v10-setup="league"] #background, html[data-v10-setup="league"][data-v10-screen] #background {
   background-image: url("../visual-assets/v10_1/league/assets/ENV_LEAGUE_PLATE_V1_1X.webp");
   background-image: image-set(url("../visual-assets/v10_1/league/assets/ENV_LEAGUE_PLATE_V1_1X.webp") 1x, url("../visual-assets/v10_1/league/assets/ENV_LEAGUE_PLATE_V1_2X.webp") 2x);
 }
-html[data-v10-setup="club"] #background {
+html[data-v10-setup="club"] #background, html[data-v10-setup="club"][data-v10-screen] #background {
   background-image: url("../visual-assets/v10_1/club/assets/ENV_CLUB_PLATE_V1_1X.webp");
   background-image: image-set(url("../visual-assets/v10_1/club/assets/ENV_CLUB_PLATE_V1_1X.webp") 1x, url("../visual-assets/v10_1/club/assets/ENV_CLUB_PLATE_V1_2X.webp") 2x);
 }
@@ -539,9 +542,9 @@ html[data-v10-setup] main { scrollbar-color: var(--v26-gold-deep) rgba(255, 255,
 /* ---------- phone (Team V portrait art, <= 900 px) ---------- */
 @media (max-width: 900px) {
   html[data-v10-setup] #background { background-position: 50% 0; }
-  html[data-v10-setup="start"] #background { background-image: url("../visual-assets/v10_1/start-join/assets/ENV_SJ_PHONE_V1.webp"); }
-  html[data-v10-setup="league"] #background { background-image: url("../visual-assets/v10_1/league/assets/ENV_LEAGUE_PHONE_V1.webp"); }
-  html[data-v10-setup="club"] #background { background-image: url("../visual-assets/v10_1/club/assets/ENV_CLUB_PHONE_V1.webp"); }
+  html[data-v10-setup="start"] #background, html[data-v10-setup="start"][data-v10-screen] #background { background-image: url("../visual-assets/v10_1/start-join/assets/ENV_SJ_PHONE_V1.webp"); }
+  html[data-v10-setup="league"] #background, html[data-v10-setup="league"][data-v10-screen] #background { background-image: url("../visual-assets/v10_1/league/assets/ENV_LEAGUE_PHONE_V1.webp"); }
+  html[data-v10-setup="club"] #background, html[data-v10-setup="club"][data-v10-screen] #background { background-image: url("../visual-assets/v10_1/club/assets/ENV_CLUB_PHONE_V1.webp"); }
   html[data-v10-setup] #overlay {
     background: linear-gradient(to bottom, rgba(7, 8, 10, .3) 0, rgba(7, 8, 10, .12) 18%, rgba(7, 8, 10, .45) 38%, rgba(7, 8, 10, .94) 58%, #07080a 100%);
   }
