@@ -1221,6 +1221,16 @@
         "^tests/contracts/career-start-plain-errors-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/showdown-delete-clears-drafts-contracts.cjs",
+      "patterns": [
+        "^js/showdownUI\\.js$",
+        "^js/legacy\\.js$",
+        "^js/settings\\.js$",
+        "^tests/contracts/showdown-delete-clears-drafts-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
