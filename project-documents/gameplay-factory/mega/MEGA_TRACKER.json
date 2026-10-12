@@ -1,5 +1,5 @@
 {
-"updated": "2026-10-12T01:33:58Z",
+"updated": "2026-10-12T01:35:28Z",
 "total": 518,
 "next_free": 187,
 "highest_taken": 411,
@@ -9,7 +9,8 @@
 "ci_failed": 5,
 "ready": 10,
 "on_train": 8,
-"waiting": 232
+"waiting": 231,
+"started": 1
 },
 "stages": {
 "2": {
@@ -46,7 +47,8 @@
 "states": {
 "closed": 37,
 "merged": 23,
-"waiting": 10
+"started": 1,
+"waiting": 9
 }
 },
 "5": {
@@ -89,13 +91,13 @@
 207,
 217,
 219,
-240,
 246,
 268,
 274,
 296,
 302,
-324
+324,
+330
 ],
 "ready_sol": [
 191,
@@ -103,13 +105,13 @@
 207,
 217,
 219,
-240,
 246,
 268,
 274,
 296,
 302,
-324
+324,
+330
 ],
 "ready_codex": [],
 "ready_all": [
@@ -118,7 +120,6 @@
 207,
 217,
 219,
-240,
 246,
 268,
 274,
@@ -186,7 +187,6 @@
 476
 ],
 "ready_work": [
-240,
 246,
 268,
 274,
@@ -252,13 +252,13 @@
 474,
 476
 ],
-"ready_total": 71,
+"ready_total": 70,
 "held_until_picture": 0,
 "held_by_picture": {}
 },
 "rate": {
-"claimed_last_hour": 7,
-"claimed_last_10min": 2,
+"claimed_last_hour": 6,
+"claimed_last_10min": 3,
 "merged_last_hour": 0
 },
 "lanes": {
@@ -296,14 +296,15 @@
 "states": {
 "merged": 86,
 "no_pr": 37,
-"waiting": 86
+"started": 1,
+"waiting": 85
 },
 "reviews": {
 "ok": 0,
 "ok_notes": 0,
 "needs_changes": 0
 },
-"picked_up": 123,
+"picked_up": 124,
 "worker_done": 123,
 "finished": 123,
 "pending_lead": 0,
@@ -1321,13 +1322,6 @@
 }
 ],
 "events": [
-{
-"at": "2026-10-11T06:35:00Z",
-"item": 28,
-"job": 1480,
-"from": "draft",
-"to": "merged"
-},
 {
 "at": "2026-10-11T06:35:00Z",
 "item": 30,
@@ -3420,6 +3414,13 @@
 "job": 1187,
 "from": "waiting",
 "to": "on_train"
+},
+{
+"at": "2026-10-12T01:35:28Z",
+"item": 240,
+"job": 1429,
+"from": "waiting",
+"to": "started"
 }
 ],
 "items": {
@@ -7098,8 +7099,12 @@
 "title": "Rule Book: phone mockup, version A (faithful)",
 "mode": "study",
 "group": null,
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"state": "started",
+"branch": "study/job-1429-rule-book-phone-a",
+"branch_sha": "7a098c0573be56dd2643f08e171e12ebbbf17835",
+"no_pr_reason": "",
+"first_seen": "2026-10-12T01:35:28Z",
+"since": "2026-10-12T01:35:28Z"
 },
 "241": {
 "job": 1161,
