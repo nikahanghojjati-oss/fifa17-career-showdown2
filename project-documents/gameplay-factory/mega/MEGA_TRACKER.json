@@ -1,5 +1,5 @@
 {
-"updated": "2026-10-12T03:16:25Z",
+"updated": "2026-10-12T03:17:55Z",
 "total": 552,
 "next_free": 187,
 "highest_taken": 541,
@@ -126,6 +126,9 @@
 550,
 551,
 552,
+187,
+195,
+197,
 374,
 402,
 430,
@@ -182,9 +185,7 @@
 "train_batches": [
 [
 525,
-527
-],
-[
+527,
 542
 ],
 [
@@ -299,9 +300,7 @@
 "chat_batches": [
 [
 525,
-527
-],
-[
+527,
 542
 ],
 [
@@ -378,6 +377,9 @@
 "456": "Sol 6.1 \u00b7 High"
 },
 "ready_work": [
+187,
+195,
+197,
 374,
 402,
 430,
@@ -431,12 +433,12 @@
 428,
 456
 ],
-"ready_total": 65,
+"ready_total": 68,
 "held_until_picture": 0,
 "held_by_picture": {}
 },
 "rate": {
-"claimed_last_hour": 46,
+"claimed_last_hour": 44,
 "claimed_last_10min": 6,
 "merged_last_hour": 60
 },
