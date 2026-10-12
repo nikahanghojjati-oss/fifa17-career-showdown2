@@ -77,18 +77,21 @@ a{color:inherit}
 <div class="top"><h1>Mega factory tracker</h1><div class="age"><span class="dot" id="dot"></span><span id="age">loading…</span></div></div>
 <div class="banner" id="ban"></div>
 
-<div class="card next"><h2>Type next</h2>
-<div class="nextbig"><button class="num" id="first" style="font-size:34px">-</button>
-<div><div><b id="rt">-</b> free to type; the big number is the next Work mode study</div><div class="lbl">Tap a box to copy it. <span id="held"></span></div></div></div>
-<div class="lbl" style="margin:8px 0;font-size:14px"><b id="bsz"></b> · <span id="bst"></span><br>ChatGPT chat: type up to <span id="bmx"></span> numbers in one message (for example the line below). Work mode and Codex stay one number per message. <a href="https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/queue/BATCHES.md">Full batch table</a></div><div class="cols"><div class="col"><h3>ChatGPT chat (GPT-6 Sol) · Account 1 · odd numbers</h3><div class="chips" id="odd"></div></div>
-<div class="col"><h3>ChatGPT chat (GPT-6 Sol) · Account 2 · even numbers</h3><div class="chips" id="even"></div></div></div>
-<div class="lbl" id="topnote" style="margin-top:6px"><b>Top = most important.</b> Boxes are in the lead's order: work from the first box down. <span id="nextrel"></span></div>
-<div class="col" style="margin-top:10px"><h3>1 · Work mode studies · one number per message · tap a box to copy; the model is under the number</h3><div class="chips" id="wk"></div><div class="lbl" id="wkw"></div></div>
+<div class="card next"><h2>TYPE NEXT <span class="mut" style="text-transform:none;letter-spacing:0">(Work mode · Sol 6.1 · High)</span></h2>
+<div class="nextbig"><button class="num" id="first" style="font-size:52px">-</button>
+<div><div class="lbl" style="font-size:15px;color:inherit">Tap the number to copy it, paste it in Work mode, send. One number per message.</div><div class="lbl" id="wkw"></div></div></div>
+<div class="lbl" style="margin-top:4px">Then, in this order:</div><div class="chips" id="wk"></div>
+<div class="col" id="cdcol" style="margin-top:14px"><h3>Claude is doing · nothing to type</h3><div id="cdo"></div></div>
+<div class="col" id="tbcol" style="margin-top:14px;display:none"><h3>ChatGPT chat (GPT-6 Sol) · type these too · keep the order inside a line</h3><div class="chips" id="tb"></div></div>
+<div class="lbl" style="margin-top:8px" id="sentbox"></div><div class="lbl" style="margin-top:8px" id="nxtnote"></div>
+<details style="margin-top:10px"><summary class="lbl" style="cursor:pointer">More: whole Work mode list, optional batches, next release</summary>
+<div class="lbl" id="topnote" style="margin-top:6px"><b>Top = most important.</b> Boxes are in the lead's order. <span id="nextrel"></span></div>
+<div class="col" style="margin-top:10px"><h3>All Work mode studies, in order</h3><div class="chips" id="wkall"></div></div>
 <div class="col" id="wbcol" style="margin-top:10px;display:none"><h3>Work mode batches (optional) · 3 numbers in one message · tap to copy</h3><div class="chips" id="wkb"></div><div class="lbl" id="wkbl"></div></div>
-<div class="col" style="margin-top:10px"><h3>2 · ChatGPT chat (GPT-6 Sol) · short list, may be empty · keep the order inside a line</h3><div class="chips" id="tb"></div><div class="lbl" id="tbe"></div></div>
-<div class="col" id="cdcol" style="margin-top:10px"><h3>3 · Claude is doing · nothing to type</h3><div id="cdo"></div></div>
-<div class="lbl" style="margin-top:8px" id="sentbox"></div><div class="lbl" style="margin-top:8px" id="nxtnote"></div></div>
+<div id="tbe" class="lbl"></div></details>
+<div style="display:none"><b id="rt"></b><span id="held"></span><b id="bsz"></b><span id="bst"></span><span id="bmx"></span><div class="cols"><div class="chips" id="odd"></div><div class="chips" id="even"></div></div></div></div>
 
+<details class="more"><summary style="cursor:pointer;font-weight:700;padding:10px 4px">All the detail (boards, quality, gates, every number)</summary>
 <div class="card"><h2>Where you come in</h2><div class="lbl" id="rule" style="font-size:15px;margin-bottom:8px;color:inherit"></div><div id="role"></div><div class="lbl" id="rolesrc" style="margin-top:6px"></div></div>
 <div class="card"><h2>Who does what</h2><div id="lanes"></div>
 <div class="lbl" style="margin-top:8px">Bars: green = merged or live, blue = worker finished, waiting for the lead or Team V, grey = not picked up yet. Real ChatGPT, Codex and Claude usage is not visible from GitHub, so these are job counts, not allowance.</div></div>
@@ -119,6 +122,7 @@ a{color:inherit}
 
 <div class="card"><h2>Latest changes</h2><div id="ev"></div></div>
 
+</details>
 <div id="det"></div>
 
 <script>
@@ -197,10 +201,10 @@ function paint(only,fail){
   $("even").innerHTML=bl(chat.filter(x=>x%2===0));
   {const WB=B.work_batch||{},wb=(g.work_batches||[]).filter(b=>b.every(x=>!SENT[x])).slice(0,6);$("wbcol").style.display=wb.length?"":"none";$("wkb").innerHTML=wb.map(b=>`<button class="wbox" data-n="${b.join(" ")}">${b.join(" ")}<small>${esc(WB.model||"Sol 6.1 · High")}</small></button>`).join("");$("wkbl").textContent=WB.rule||""}
   {const CD=B.claude_doing||[];$("cdo").innerHTML=CD.length?CD.map((x,i)=>`<div class="lbl" style="font-size:14px;color:inherit;margin:3px 0"><b>${i+1}. ${esc(x.screen)}</b> · ${esc(x.state||"")}${x.pr?` · <a href="https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/${esc(String(x.pr))}" target="_blank" rel="noopener">PR ${esc(String(x.pr))}</a>`:""}</div>`).join(""):'<div class="lbl">Nothing listed yet.</div>';
-  const wl=wkList.length,cl=$("tb").querySelectorAll(".chip").length;$("tbe").textContent=cl?"":"Nothing for ChatGPT chat right now.";
+  const wl=wkList.length,cl=$("tb").querySelectorAll(".chip").length;$("tbcol").style.display=cl?"":"none";
   const fb2=$("first");fb2.textContent=wkList[0]||"none";fb2.dataset.n=wkList[0]||"";fb2.onclick=()=>wkList.length&&copyBtn(fb2);$("rt").textContent=wl+" Work mode + "+cl+" chat"}
   {const NR=B.next_releases||[{n:"r72",when:"Mon about 6 p.m. Boston"},{n:"r73",when:"Tue evening"}];$("nextrel").innerHTML="Next release: "+NR.map(r=>"<b>"+esc(r.n)+"</b> "+esc(r.when)).join(" · ")}
-  $("wkw").textContent=(B.work_waiting||[]).map(x=>"Not free yet: "+x.job+" ("+x.note+")").join("; ");const wm=g.work_models||{};$("wk").innerHTML=wkList.map(x=>`<button class="wbox" data-n="${x}">${x}<small>${esc(wm[x]||(weN.includes(x)||wkFree.includes(x)?(WE.model||"Sol 6.1 · High"):"")||"")}</small></button>`).join("")||none;
+  $("wkw").textContent=(B.work_waiting||[]).map(x=>"Not free yet: "+x.job+" ("+x.note+")").join("; ");const wm=g.work_models||{};$("wkall").innerHTML=wkList.map(x=>`<button class="wbox" data-n="${x}">${x}</button>`).join("");$("wk").innerHTML=wkList.slice(1,4).map(x=>`<button class="wbox" data-n="${x}">${x}<small>${esc(wm[x]||(weN.includes(x)||wkFree.includes(x)?(WE.model||"Sol 6.1 · High"):"")||"")}</small></button>`).join("")||none;
   $("bmx").textContent=B.size||3;$("bsz").textContent=(B.size||3)+" numbers per chat";$("bst").textContent=(B.clean_streak||0)+" of "+(B.goal||10)+" clean batches in a row"+(B.size<B.max?" (then "+B.max+" per chat)":"");
   {const sn=Object.keys(SENT);$("sentbox").innerHTML=sn.length?`You already copied: <b>${sn.join(" ")}</b> (hidden for 45 min so you cannot paste them twice). <button class="more" id="unsent">Show them again</button>`:"";const ub=$("unsent");if(ub)ub.onclick=()=>{setSent({});D._painted=0;paint()}}
   $("nxtnote").textContent=((B.jobs_after_wiring||[]).length?"Polish jobs after wiring (not free yet): "+B.jobs_after_wiring.join(", ")+". ":"")+(g.ready_total>all.length?`Showing the first ${all.length} of ${g.ready_total}. `:"")+"A number leaves this list the minute its chat claims it. Numbers not listed have to wait.";
