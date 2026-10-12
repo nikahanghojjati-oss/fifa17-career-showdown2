@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Sun 11 Oct, 10:24 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Sun 11 Oct, 10:34 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r71** (main `2a511f6`, Sun 11 Oct 9:40 PM)
 
@@ -585,17 +585,17 @@ One numbered queue: type a bare number in any GPT chat. Live from GitHub (queue/
 Type now, in any GPT chat:
 
 ```text
-227 235 237 257 261 296 302 324 330 352 358 366
+253 255 263 296 302 324 330 352 358 366 368 370
 ```
 
 Open code PRs: 3/8.
 
-419 taken of 518.
+528 taken of 552.
 
 | Stage | Items | Merged | Picked up |
 | --- | --- | --- | --- |
-| audits | 146 | 112/146 | 112/146 |
-| screen fixes | 266 | 45/266 | 118/266 |
+| audits | 146 | 112/146 | 120/146 |
+| screen fixes | 266 | 45/266 | 125/266 |
 | mockup match | 14 | 0/14 | 6/14 |
 | phone studies | 70 | 23/70 | 64/70 |
 | desktop studies | 56 | 1/56 | 1/56 |
@@ -604,6 +604,15 @@ Open code PRs: 3/8.
 
 | # | Job | State | Title |
 | --- | --- | --- | --- |
+| 528 | 1670 | branch only | Audit js/backup.js for gameplay bugs (first half) |
+| 526 | 1668 | PR open | Audit js/footballVisuals.js for gameplay bugs (first half) |
+| 524 | 1666 | PR open | Audit js/saveLibraryFoundation.js for gameplay bugs (first half) |
+| 523 | 1665 | PR open | Audit js/trophyRoom.js for gameplay bugs (first half) |
+| 522 | 1664 | PR open | Audit js/leagueWheel.js for gameplay bugs (first half) |
+| 521 | 1663 | PR open | Audit js/transferSelector.js for gameplay bugs (first half) |
+| 520 | 1662 | PR open | Audit js/showdownUI.js for gameplay bugs (first half) |
+| 519 | 1661 | PR open | Audit js/scoring.js for gameplay bugs (first half) |
+| 427 | 1359 | on_train | Rivalry Statistics: fix the 1920x1080 view |
 | 419 | 1358 | on_train | Rivalry Statistics: fix the 1366x768 view |
 | 411 | 1357 | on_train | Rivalry Statistics: fix the 1280x650 view |
 | 403 | 1356 | on_train | Rivalry Statistics: fix the 768x1024 view |
@@ -615,24 +624,15 @@ Open code PRs: 3/8.
 | 364 | 1346 | merged | Trophy Room: upright tablet study |
 | 363 | 1351 | closed | Rivalry Statistics: fix the 360x640 view |
 | 362 | 1201 | closed | Transfer challenge and Signing Entry: upright tablet study |
-| 360 | 1114 | closed | Connect Players (start and join): upright tablet study |
-| 356 | 1462 | merged | Settings: upright tablet study |
-| 355 | 1312 | closed | Legacy: hover-only effects |
-| 354 | 1230 | merged | Season Results: upright tablet study |
-| 350 | 1375 | merged | Rivalry Statistics: upright tablet study |
-| 348 | 1317 | closed | Legacy: upright tablet study |
-| 346 | 1143 | closed | Select League: upright tablet study |
-| 344 | 1085 | closed | Home: upright tablet study |
-| 342 | 1288 | merged | Final Winner (Showdown Champion): upright tablet study |
 
 ## Mega tracker (live, free)
 
-Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/index.html) · summary: [mega/MEGA_TRACKER.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/MEGA_TRACKER.md) · rebuilt by the poller each round, updated 2026-10-12T02:23:59Z.
+Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/index.html) · summary: [mega/MEGA_TRACKER.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/MEGA_TRACKER.md) · rebuilt by the poller each round, updated 2026-10-12T02:33:14Z.
 
 | Stage | Done (merged or live) | In progress | Waiting |
 | --- | --- | --- | --- |
-| Gameplay audits | 112 of 112 | 0 | 0 |
-| Screen fixes | 45 of 266 | 73 | 148 |
+| Gameplay audits | 112 of 146 | 7 | 27 |
+| Screen fixes | 45 of 266 | 78 | 143 |
 | Match desktop to mockups | 0 of 14 | 6 | 8 |
 | Phone mockup studies | 23 of 70 | 41 | 6 |
 | Improved desktop studies | 1 of 56 | 0 | 55 |
@@ -642,6 +642,8 @@ Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-caree
 - 684
 - 686
 - 687
+- 702
+- 705
 
 **Latest finished numbers (up to 20)**
 

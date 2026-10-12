@@ -1,12 +1,12 @@
-# Mega factory run report · 2026-10-12T02:23:17Z
+# Mega factory run report · 2026-10-12T02:34:20Z
 
-Taken 301 of 518 jobs. By state: blocked 1, closed 82, merged 181, on_train 19, pr_open 18, waiting 217
+Taken 316 of 552 jobs. By state: blocked 1, branch_only 1, closed 82, merged 181, on_train 16, pr_open 35, waiting 236
 
 ## By stage
 Stage | name | total | picked up | merged
 --- | --- | --- | --- | ---
-1 | audits | 112 | 112 | 112
-2 | screen fixes | 266 | 118 | 45
+1 | audits | 146 | 120 | 112
+2 | screen fixes | 266 | 125 | 45
 3 | mockup match | 14 | 6 | 0
 4 | phone studies | 70 | 64 | 23
 5 | desktop studies | 56 | 1 | 1
@@ -16,21 +16,21 @@ Train | jobs done | PR | state
 --- | --- | --- | ---
 gameplay/train-home-1 | 5 of 5 | [#588](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/588) | merged
 gameplay/train-home-2 | 5 of 5 | [#681](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/681) | merged
-gameplay/train-home-3 | 3 of 5 | - | on train, no PR yet
+gameplay/train-home-3 | 4 of 5 | - | on train, no PR yet
 gameplay/train-start-join-1 | 5 of 5 | [#590](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/590) | merged
 gameplay/train-start-join-2 | 5 of 5 | [#682](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/682) | merged
-gameplay/train-start-join-3 | 3 of 5 | - | on train, no PR yet
+gameplay/train-start-join-3 | 4 of 5 | - | on train, no PR yet
 gameplay/train-league-1 | 5 of 5 | [#593](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/593) | merged
 gameplay/train-league-2 | 5 of 5 | [#683](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/683) | merged
-gameplay/train-league-3 | 4 of 5 | - | on train, no PR yet
+gameplay/train-league-3 | 5 of 5 | [#702](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/702) | pr_open
 gameplay/train-club-1 | 5 of 5 | [#598](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/598) | closed
 gameplay/train-club-2 | 5 of 5 | [#684](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/684) | pr_open
 gameplay/train-transfer-1 | 5 of 5 | [#584](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/584) | closed
 gameplay/train-transfer-2 | 5 of 5 | [#661](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/661) | closed
-gameplay/train-transfer-3 | 4 of 5 | - | on train, no PR yet
+gameplay/train-transfer-3 | 5 of 5 | [#705](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/705) | pr_open
 gameplay/train-season-final-1 | 5 of 5 | [#585](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/585) | merged
 gameplay/train-season-final-2 | 5 of 5 | [#685](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/685) | merged
-gameplay/train-season-final-3 | 2 of 5 | - | on train, no PR yet
+gameplay/train-season-final-3 | 4 of 5 | - | on train, no PR yet
 gameplay/train-rivalry-legacy-1 | 5 of 5 | [#509](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/509) | closed
 gameplay/train-rivalry-legacy-2 | 5 of 5 | [#521](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/521) | closed
 gameplay/train-rivalry-legacy-3 | 5 of 5 | [#536](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/536) | closed
@@ -38,7 +38,7 @@ gameplay/train-rivalry-legacy-4 | 5 of 5 | [#539](https://github.com/nikahanghoj
 gameplay/train-career-screens-1 | 5 of 5 | [#586](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/586) | merged
 gameplay/train-career-screens-2 | 5 of 5 | [#686](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/686) | pr_open
 gameplay/train-rivalry-legacy-5 | 2 of 5 | [#542](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/542) | closed
-gameplay/train-rivalry-legacy-6 | 3 of 5 | - | on train, no PR yet
+gameplay/train-rivalry-legacy-6 | 4 of 5 | - | on train, no PR yet
 gameplay/train-rules-settings-1 | 5 of 5 | [#587](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/587) | closed
 gameplay/train-rules-settings-2 | 5 of 5 | [#687](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/687) | pr_open
 
@@ -222,7 +222,16 @@ Number | job | title | state | link
 362 | 1201 | Transfer challenge and Signing Entry: upright tablet study | closed | [PR #617](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/617)
 364 | 1346 | Trophy Room: upright tablet study | merged | [PR #643](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/643)
 372 | 1086 | Home: improved desktop, version A (polish) | merged | [PR #671](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/671)
+519 | 1661 | Audit js/scoring.js for gameplay bugs (first half) | pr_open | [PR #704](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/704)
+520 | 1662 | Audit js/showdownUI.js for gameplay bugs (first half) | pr_open | [PR #701](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/701)
+521 | 1663 | Audit js/transferSelector.js for gameplay bugs (first half) | pr_open | [PR #707](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/707)
+522 | 1664 | Audit js/leagueWheel.js for gameplay bugs (first half) | pr_open | [PR #703](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/703)
+523 | 1665 | Audit js/trophyRoom.js for gameplay bugs (first half) | pr_open | [PR #708](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/708)
+524 | 1666 | Audit js/saveLibraryFoundation.js for gameplay bugs (first half) | pr_open | [PR #706](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/706)
+526 | 1668 | Audit js/footballVisuals.js for gameplay bugs (first half) | pr_open | [PR #709](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/709)
+528 | 1670 | Audit js/backup.js for gameplay bugs (first half) | branch_only | qa/job-1670-backup-first-half
 
 ## Needs a look (blocked, no change needed, needs Team V or mockup)
 - number 268, job 1430: blocked (study/job-1430-blocked)
+- number 528, job 1670: branch_only (qa/job-1670-backup-first-half)
 
