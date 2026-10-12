@@ -623,6 +623,14 @@
     },
     "sha": "996df651dbb8685f341db4beac865161e128aa6e"
    },
+   "project-documents/gameplay-factory/sweeps/olympiad/claims/codex-1012-1952.json": {
+    "data": {
+     "area": "11",
+     "run": "codex-1012-1952",
+     "started_utc": "2026-10-12T19:52:30Z"
+    },
+    "sha": "bbe29b7eb00c1f36d15bc954967bdd4abf198251"
+   },
    "project-documents/gameplay-factory/sweeps/olympiad/evidence/codex-1006-2237/startup-diagnostic.json": {
     "data": {
      "badge": null,
@@ -7110,6 +7118,28 @@
      "run": "codex-1007-0355"
     },
     "sha": "ad5c509d8a8227aa777e01f05b7321c1d2ea9bc6"
+   },
+   "project-documents/gameplay-factory/sweeps/olympiad/runs/codex-1012-1952.json": {
+    "data": {
+     "area": "11",
+     "clean_confidence_pct": 88,
+     "coverage_pct": 80,
+     "date_utc": "2026-10-12T19:53:00Z",
+     "files_read": [
+      "js/productionSharedCareerStart.js",
+      "js/productionSharedTerminalClose.js",
+      "js/legacy.js",
+      "js/productionSharedSeasonResults.js",
+      "js/productionSharedFinalReconciliation.js",
+      "index.html"
+     ],
+     "findings": [],
+     "main_sha": "e4938e4a211db6b198afe41a3bf2973cf73a1106",
+     "mode": "codex",
+     "next_focus": "Live dual-manager start-to-finish with 3-season and 10-season + tied final + reload after archive",
+     "run": "codex-1012-1952"
+    },
+    "sha": "48456fb14a001b4e654ceab923e4f596f6c3cb22"
    }
   },
   "state": "ok"
