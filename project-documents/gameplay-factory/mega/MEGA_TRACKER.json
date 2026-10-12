@@ -1,18 +1,17 @@
 {
-"updated": "2026-10-12T02:34:44Z",
+"updated": "2026-10-12T02:36:14Z",
 "total": 552,
 "next_free": 187,
-"highest_taken": 528,
+"highest_taken": 530,
 "counts": {
 "merged": 181,
 "closed": 82,
 "ci_failed": 5,
 "ready": 10,
 "on_train": 16,
-"draft": 20,
-"waiting": 236,
-"blocked": 1,
-"started": 1
+"draft": 22,
+"waiting": 235,
+"blocked": 1
 },
 "stages": {
 "2": {
@@ -33,9 +32,8 @@
 "total": 146,
 "states": {
 "merged": 112,
-"draft": 7,
-"waiting": 26,
-"started": 1
+"draft": 9,
+"waiting": 25
 }
 },
 "3": {
@@ -203,7 +201,6 @@
 525,
 527,
 529,
-530,
 531,
 532,
 533,
@@ -354,7 +351,7 @@
 474,
 476
 ],
-"ready_total": 91,
+"ready_total": 90,
 "held_until_picture": 0,
 "held_by_picture": {}
 },
@@ -402,21 +399,20 @@
 "no_pr": 37,
 "wait_v": 3,
 "blocked": 1,
-"waiting": 94,
-"audit_batch": 4,
-"started": 1
+"waiting": 93,
+"audit_batch": 6
 },
 "reviews": {
 "ok": 0,
 "ok_notes": 0,
 "needs_changes": 0
 },
-"picked_up": 132,
-"worker_done": 130,
+"picked_up": 133,
+"worker_done": 132,
 "finished": 123,
 "pending_lead": 0,
 "wait_v": 3,
-"audit_batch": 4,
+"audit_batch": 6,
 "trouble": 1,
 "closed": 0,
 "reviews_total": 0,
@@ -1480,20 +1476,6 @@
 }
 ],
 "events": [
-{
-"at": "2026-10-11T06:35:00Z",
-"item": 116,
-"job": 1524,
-"from": "draft",
-"to": "merged"
-},
-{
-"at": "2026-10-11T06:35:00Z",
-"item": 118,
-"job": 1525,
-"from": "draft",
-"to": "merged"
-},
 {
 "at": "2026-10-11T06:35:00Z",
 "item": 120,
@@ -3579,6 +3561,20 @@
 "job": 1670,
 "from": "waiting",
 "to": "started"
+},
+{
+"at": "2026-10-12T02:36:14Z",
+"item": 528,
+"job": 1670,
+"from": "started",
+"to": "draft"
+},
+{
+"at": "2026-10-12T02:36:14Z",
+"item": 530,
+"job": 1672,
+"from": "waiting",
+"to": "draft"
 }
 ],
 "items": {
@@ -10509,12 +10505,19 @@
 "title": "Audit js/backup.js for gameplay bugs (first half)",
 "mode": "audit",
 "group": null,
-"state": "started",
+"pr": 710,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/710",
+"base": "qa/mega-audits",
 "branch": "qa/job-1670-backup-first-half",
-"branch_sha": "f6f179bec2f66179dc75799e39aa50bf5dd14865",
-"no_pr_reason": "",
+"ci": "draft",
+"ci_sha": "f6f179bec2f66179dc75799e39aa50bf5dd14865",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-12T02:34:47Z",
 "first_seen": "2026-10-12T02:34:44Z",
-"since": "2026-10-12T02:34:44Z"
+"since": "2026-10-12T02:36:14Z"
 },
 "529": {
 "job": 1671,
@@ -10531,8 +10534,19 @@
 "title": "Audit js/ruleBook.js for gameplay bugs (first half)",
 "mode": "audit",
 "group": null,
-"state": "waiting",
-"since": "2026-10-12T02:25:29Z"
+"pr": 711,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/711",
+"base": "qa/mega-audits",
+"branch": "qa/job-1672-rule-book-first-half",
+"ci": "draft",
+"ci_sha": "80cea26e2694de38b0bd865d37597c3a3b89b67e",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-12T02:35:45Z",
+"first_seen": "2026-10-12T02:35:45Z",
+"since": "2026-10-12T02:36:14Z"
 },
 "531": {
 "job": 1673,
