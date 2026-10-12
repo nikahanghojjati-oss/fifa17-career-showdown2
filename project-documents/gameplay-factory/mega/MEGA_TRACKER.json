@@ -1,5 +1,5 @@
 {
-"updated": "2026-10-12T11:03:40Z",
+"updated": "2026-10-12T11:05:10Z",
 "total": 394,
 "next_free": 376,
 "highest_taken": 541,
@@ -102,7 +102,7 @@
 },
 "1736": {
 "pr": 756,
-"draft": true,
+"draft": false,
 "closed": false
 },
 "1696": {
@@ -267,6 +267,11 @@
 },
 "1739": {
 "pr": 758,
+"draft": true,
+"closed": false
+},
+"1700": {
+"pr": 759,
 "draft": true,
 "closed": false
 }
@@ -592,7 +597,8 @@
 "live": 23,
 "merged": 5,
 "waiting": 50,
-"draft": 2
+"ci_running": 1,
+"draft": 1
 },
 "reviews": {
 "ok": 0,
@@ -602,7 +608,7 @@
 "picked_up": 30,
 "worker_done": 30,
 "finished": 28,
-"pending_lead": 2,
+"pending_lead": 1,
 "wait_v": 0,
 "audit_batch": 0,
 "trouble": 0,
@@ -643,26 +649,26 @@
 "states": {
 "live": 8,
 "merged": 9,
-"waiting": 34,
+"waiting": 33,
 "closed": 3,
 "ci_failed": 1,
-"draft": 2
+"draft": 3
 },
 "reviews": {
 "ok": 0,
 "ok_notes": 0,
 "needs_changes": 0
 },
-"picked_up": 23,
-"worker_done": 20,
+"picked_up": 24,
+"worker_done": 21,
 "finished": 17,
-"pending_lead": 2,
+"pending_lead": 3,
 "wait_v": 0,
 "audit_batch": 0,
 "trouble": 1,
 "closed": 3,
 "reviews_total": 0,
-"first_time_ok": 87,
+"first_time_ok": 88,
 "failing_now": 1
 },
 "claude": {
@@ -743,7 +749,6 @@
 1660,
 1698,
 1699,
-1700,
 1701,
 1702,
 1704,
