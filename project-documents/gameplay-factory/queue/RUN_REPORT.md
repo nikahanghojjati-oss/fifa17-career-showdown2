@@ -1,13 +1,13 @@
-# Mega factory run report · 2026-10-12T03:15:43Z
+# Mega factory run report · 2026-10-12T03:36:16Z
 
-Taken 342 of 552 jobs. By state: blocked 1, branch_only 2, closed 82, merged 196, pr_open 61, waiting 210
+Taken 500 of 552 jobs. By state: blocked 1, closed 82, merged 196, pr_open 63, retired 158, waiting 52
 
 ## By stage
 Stage | name | total | picked up | merged
 --- | --- | --- | --- | ---
-1 | audits | 146 | 133 | 112
-2 | screen fixes | 266 | 129 | 60
-3 | mockup match | 14 | 6 | 0
+1 | audits | 146 | 146 | 112
+2 | screen fixes | 266 | 266 | 60
+3 | mockup match | 14 | 14 | 0
 4 | phone studies | 70 | 70 | 23
 5 | desktop studies | 56 | 4 | 1
 
@@ -237,13 +237,15 @@ Number | job | title | state | link
 522 | 1664 | Audit js/leagueWheel.js for gameplay bugs (first half) | pr_open | [PR #703](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/703)
 523 | 1665 | Audit js/trophyRoom.js for gameplay bugs (first half) | pr_open | [PR #708](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/708)
 524 | 1666 | Audit js/saveLibraryFoundation.js for gameplay bugs (first half) | pr_open | [PR #706](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/706)
+525 | 1667 | Audit js/restoreUI.js for gameplay bugs (first half) | retired | 
 526 | 1668 | Audit js/footballVisuals.js for gameplay bugs (first half) | pr_open | [PR #709](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/709)
+527 | 1669 | Audit js/saveLibraryPersistence.js for gameplay bugs (first half) | retired | 
 528 | 1670 | Audit js/backup.js for gameplay bugs (first half) | pr_open | [PR #710](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/710)
 529 | 1671 | Audit js/optionalModules.js for gameplay bugs (first half) | pr_open | [PR #732](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/732)
 530 | 1672 | Audit js/ruleBook.js for gameplay bugs (first half) | pr_open | [PR #711](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/711)
 531 | 1673 | Audit js/storageTransaction.js for gameplay bugs (first half) | pr_open | [PR #734](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/734)
 532 | 1674 | Audit js/menuFeedback.js for gameplay bugs (first half) | pr_open | [PR #714](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/714)
-533 | 1675 | Audit js/productionSharedJourneyGuard.js for gameplay bugs (first half) | branch_only | qa/job-1675-shared-journey-guard-audit
+533 | 1675 | Audit js/productionSharedJourneyGuard.js for gameplay bugs (first half) | pr_open | [PR #736](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/736)
 534 | 1676 | Audit js/sharedJourneyConflicts.js for gameplay bugs (first half) | pr_open | [PR #715](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/715)
 535 | 1677 | Audit js/productionSharedSeasonResultsRoute.js for gameplay bugs (first half) | pr_open | [PR #720](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/720)
 536 | 1678 | Audit js/scoring.js for gameplay bugs (second half) | pr_open | [PR #717](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/717)
@@ -251,10 +253,19 @@ Number | job | title | state | link
 538 | 1680 | Audit js/transferSelector.js for gameplay bugs (second half) | pr_open | [PR #731](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/731)
 539 | 1681 | Audit js/leagueWheel.js for gameplay bugs (second half) | pr_open | [PR #723](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/723)
 540 | 1682 | Audit js/trophyRoom.js for gameplay bugs (second half) | pr_open | [PR #733](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/733)
-541 | 1683 | Audit js/saveLibraryFoundation.js for gameplay bugs (second half) | branch_only | qa/job-1683-save-library-audit-2
+541 | 1683 | Audit js/saveLibraryFoundation.js for gameplay bugs (second half) | pr_open | [PR #735](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/735)
+542 | 1684 | Audit js/restoreUI.js for gameplay bugs (second half) | retired | 
+543 | 1685 | Audit js/footballVisuals.js for gameplay bugs (second half) | retired | 
+544 | 1686 | Audit js/saveLibraryPersistence.js for gameplay bugs (second half) | retired | 
+545 | 1687 | Audit js/backup.js for gameplay bugs (second half) | retired | 
+546 | 1688 | Audit js/optionalModules.js for gameplay bugs (second half) | retired | 
+547 | 1689 | Audit js/ruleBook.js for gameplay bugs (second half) | retired | 
+548 | 1690 | Audit js/storageTransaction.js for gameplay bugs (second half) | retired | 
+549 | 1691 | Audit js/menuFeedback.js for gameplay bugs (second half) | retired | 
+550 | 1692 | Audit js/productionSharedJourneyGuard.js for gameplay bugs (second half) | retired | 
+551 | 1693 | Audit js/sharedJourneyConflicts.js for gameplay bugs (second half) | retired | 
+552 | 1694 | Audit js/productionSharedSeasonResultsRoute.js for gameplay bugs (second half) | retired | 
 
 ## Needs a look (blocked, no change needed, needs Team V or mockup)
 - number 268, job 1430: blocked (study/job-1430-blocked)
-- number 533, job 1675: branch_only (qa/job-1675-shared-journey-guard-audit)
-- number 541, job 1683: branch_only (qa/job-1683-save-library-audit-2)
 

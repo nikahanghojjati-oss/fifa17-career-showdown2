@@ -3,7 +3,7 @@
 Rule (lead and queue thread agreed, 2026-10-11): up to 3 numbers per chat, typed in one message, done one after another, each saved before the next, stopping at the first problem. After 10 clean batches of 3 in a row, the limit rises to 5. About 5 chats open at once.
 The one-time project box in INSTRUCTIONS.md must be updated in each ChatGPT project for batches to work (the BATCH paragraph is new).
 
-Picture-free numbers only. Work mode (Sol 6.1) and Codex stay one number per message. Batches must not repeat a screen area inside the same message unless the numbers are in train order.
+Batches (2026-10-12): Work mode studies go 3 per message in ready_work_batches order; screen jobs 1695-1708 are always one per message; chat takes the QoL jobs 1723-1726 together. The updated INSTRUCTIONS.md box lets Work mode do a list of numbers too. Batches must not repeat a screen area inside the same message unless the numbers are in train order.
 
 Same-train batches (lead, 2026-10-12): a batch may be up to 3 consecutive items of the SAME in-progress train, in train order; still one open train PR per area. If GPT says a number is already done, take the next number on the board, never N+1.
 

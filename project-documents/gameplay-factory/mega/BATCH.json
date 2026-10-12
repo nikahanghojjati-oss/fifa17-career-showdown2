@@ -1,5 +1,5 @@
 {
- "size": 1,
+ "size": 3,
  "max": 5,
  "clean_streak": 0,
  "goal": 10,
@@ -87,7 +87,8 @@
   "model": "Sol 6.1 · High",
   "optional": true,
   "source": "QUEUE_STATE.json sequence.ready_work_batches",
-  "rule": "Optional: 3 independent Work mode numbers in one message, done one after another, stopping at the first problem. Singles stay available."
+  "rule": "Optional: 3 independent Work mode numbers in one message, done one after another, stopping at the first problem. Singles stay available.",
+  "note": "Studies 3 per message; screen jobs 1695-1708 one per message."
  },
  "work_free_jobs": [
   1698,

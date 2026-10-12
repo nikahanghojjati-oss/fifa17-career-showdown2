@@ -1,22 +1,6 @@
 {
  "sequence": {
   "ready": [
-   525,
-   527,
-   542,
-   543,
-   544,
-   545,
-   546,
-   547,
-   548,
-   549,
-   550,
-   551,
-   552,
-   187,
-   195,
-   197,
    374,
    402,
    430,
@@ -70,50 +54,9 @@
    428,
    456
   ],
-  "ready_chat": [
-   525,
-   527,
-   542,
-   543,
-   544,
-   545,
-   546,
-   547,
-   548,
-   549,
-   550,
-   551,
-   552
-  ],
-  "ready_chat_batches": [
-   [
-    525,
-    527,
-    542
-   ],
-   [
-    543,
-    544,
-    545
-   ],
-   [
-    546,
-    547,
-    548
-   ],
-   [
-    549,
-    550,
-    551
-   ],
-   [
-    552
-   ]
-  ],
+  "ready_chat": [],
+  "ready_chat_batches": [],
   "ready_work": [
-   187,
-   195,
-   197,
    374,
    402,
    430,
@@ -258,27 +201,13 @@
    ]
   ],
   "ready_work_label": "Sol 6.1 \u00b7 High",
-  "ready_sol": [
-   525,
-   527,
-   542,
-   543,
-   544,
-   545,
-   546,
-   547,
-   548,
-   549,
-   550,
-   551,
-   552
-  ],
+  "ready_sol": [],
   "ready_codex": [],
   "held_until_picture": 0,
-  "open_code_prs": 0,
+  "open_code_prs": 3,
   "open_train_prs": 6,
-  "next_free": 525,
-  "highest_taken": 541,
+  "next_free": 374,
+  "highest_taken": 552,
   "total": 552,
   "states": {
    "1": "merged",
@@ -467,7 +396,7 @@
    "184": "merged",
    "185": "pr_open",
    "186": "merged",
-   "187": "waiting",
+   "187": "retired",
    "188": "merged",
    "189": "pr_open",
    "190": "merged",
@@ -475,9 +404,9 @@
    "192": "merged",
    "193": "closed",
    "194": "merged",
-   "195": "waiting",
+   "195": "retired",
    "196": "merged",
-   "197": "waiting",
+   "197": "retired",
    "198": "merged",
    "199": "pr_open",
    "200": "merged",
@@ -485,7 +414,7 @@
    "202": "merged",
    "203": "pr_open",
    "204": "merged",
-   "205": "waiting",
+   "205": "retired",
    "206": "merged",
    "207": "pr_open",
    "208": "merged",
@@ -493,9 +422,9 @@
    "210": "merged",
    "211": "closed",
    "212": "merged",
-   "213": "waiting",
+   "213": "retired",
    "214": "merged",
-   "215": "waiting",
+   "215": "retired",
    "216": "merged",
    "217": "pr_open",
    "218": "merged",
@@ -503,7 +432,7 @@
    "220": "merged",
    "221": "pr_open",
    "222": "merged",
-   "223": "waiting",
+   "223": "retired",
    "224": "merged",
    "225": "pr_open",
    "226": "closed",
@@ -511,9 +440,9 @@
    "228": "closed",
    "229": "closed",
    "230": "merged",
-   "231": "waiting",
+   "231": "retired",
    "232": "closed",
-   "233": "waiting",
+   "233": "retired",
    "234": "closed",
    "235": "pr_open",
    "236": "merged",
@@ -521,7 +450,7 @@
    "238": "closed",
    "239": "pr_open",
    "240": "pr_open",
-   "241": "waiting",
+   "241": "retired",
    "242": "merged",
    "243": "pr_open",
    "244": "closed",
@@ -529,9 +458,9 @@
    "246": "pr_open",
    "247": "closed",
    "248": "merged",
-   "249": "waiting",
+   "249": "retired",
    "250": "closed",
-   "251": "waiting",
+   "251": "retired",
    "252": "merged",
    "253": "pr_open",
    "254": "closed",
@@ -539,7 +468,7 @@
    "256": "merged",
    "257": "pr_open",
    "258": "closed",
-   "259": "waiting",
+   "259": "retired",
    "260": "closed",
    "261": "pr_open",
    "262": "closed",
@@ -547,273 +476,273 @@
    "264": "closed",
    "265": "closed",
    "266": "merged",
-   "267": "waiting",
+   "267": "retired",
    "268": "blocked",
-   "269": "waiting",
+   "269": "retired",
    "270": "closed",
-   "271": "waiting",
+   "271": "retired",
    "272": "closed",
-   "273": "waiting",
+   "273": "retired",
    "274": "pr_open",
-   "275": "waiting",
+   "275": "retired",
    "276": "closed",
-   "277": "waiting",
+   "277": "retired",
    "278": "closed",
-   "279": "waiting",
+   "279": "retired",
    "280": "closed",
-   "281": "waiting",
+   "281": "retired",
    "282": "merged",
    "283": "closed",
    "284": "closed",
-   "285": "waiting",
+   "285": "retired",
    "286": "closed",
-   "287": "waiting",
+   "287": "retired",
    "288": "closed",
-   "289": "waiting",
+   "289": "retired",
    "290": "closed",
-   "291": "waiting",
+   "291": "retired",
    "292": "closed",
-   "293": "waiting",
+   "293": "retired",
    "294": "closed",
-   "295": "waiting",
+   "295": "retired",
    "296": "pr_open",
-   "297": "waiting",
+   "297": "retired",
    "298": "closed",
-   "299": "waiting",
+   "299": "retired",
    "300": "merged",
    "301": "closed",
    "302": "pr_open",
-   "303": "waiting",
+   "303": "retired",
    "304": "closed",
-   "305": "waiting",
+   "305": "retired",
    "306": "closed",
-   "307": "waiting",
+   "307": "retired",
    "308": "closed",
-   "309": "waiting",
+   "309": "retired",
    "310": "merged",
-   "311": "waiting",
+   "311": "retired",
    "312": "merged",
-   "313": "waiting",
+   "313": "retired",
    "314": "merged",
-   "315": "waiting",
+   "315": "retired",
    "316": "closed",
-   "317": "waiting",
+   "317": "retired",
    "318": "closed",
    "319": "closed",
    "320": "merged",
-   "321": "waiting",
+   "321": "retired",
    "322": "merged",
-   "323": "waiting",
+   "323": "retired",
    "324": "pr_open",
-   "325": "waiting",
+   "325": "retired",
    "326": "merged",
-   "327": "waiting",
+   "327": "retired",
    "328": "merged",
-   "329": "waiting",
+   "329": "retired",
    "330": "pr_open",
-   "331": "waiting",
+   "331": "retired",
    "332": "closed",
-   "333": "waiting",
+   "333": "retired",
    "334": "closed",
-   "335": "waiting",
+   "335": "retired",
    "336": "closed",
    "337": "closed",
    "338": "merged",
-   "339": "waiting",
+   "339": "retired",
    "340": "merged",
-   "341": "waiting",
+   "341": "retired",
    "342": "merged",
-   "343": "waiting",
+   "343": "retired",
    "344": "closed",
-   "345": "waiting",
+   "345": "retired",
    "346": "closed",
-   "347": "waiting",
+   "347": "retired",
    "348": "closed",
-   "349": "waiting",
+   "349": "retired",
    "350": "merged",
-   "351": "waiting",
+   "351": "retired",
    "352": "pr_open",
-   "353": "waiting",
+   "353": "retired",
    "354": "merged",
    "355": "closed",
    "356": "merged",
-   "357": "waiting",
+   "357": "retired",
    "358": "pr_open",
-   "359": "waiting",
+   "359": "retired",
    "360": "closed",
-   "361": "waiting",
+   "361": "retired",
    "362": "closed",
    "363": "closed",
    "364": "merged",
-   "365": "waiting",
+   "365": "retired",
    "366": "pr_open",
-   "367": "waiting",
+   "367": "retired",
    "368": "pr_open",
-   "369": "waiting",
+   "369": "retired",
    "370": "pr_open",
    "371": "closed",
    "372": "merged",
-   "373": "waiting",
+   "373": "retired",
    "374": "waiting",
-   "375": "waiting",
+   "375": "retired",
    "376": "waiting",
-   "377": "waiting",
+   "377": "retired",
    "378": "waiting",
    "379": "closed",
    "380": "waiting",
-   "381": "waiting",
+   "381": "retired",
    "382": "waiting",
-   "383": "waiting",
+   "383": "retired",
    "384": "waiting",
-   "385": "waiting",
+   "385": "retired",
    "386": "waiting",
    "387": "closed",
    "388": "waiting",
-   "389": "waiting",
+   "389": "retired",
    "390": "waiting",
-   "391": "waiting",
+   "391": "retired",
    "392": "waiting",
-   "393": "waiting",
+   "393": "retired",
    "394": "waiting",
    "395": "closed",
    "396": "waiting",
-   "397": "waiting",
+   "397": "retired",
    "398": "waiting",
-   "399": "waiting",
+   "399": "retired",
    "400": "waiting",
-   "401": "waiting",
+   "401": "retired",
    "402": "waiting",
    "403": "pr_open",
    "404": "waiting",
-   "405": "waiting",
+   "405": "retired",
    "406": "waiting",
-   "407": "waiting",
+   "407": "retired",
    "408": "waiting",
-   "409": "waiting",
+   "409": "retired",
    "410": "waiting",
    "411": "pr_open",
    "412": "waiting",
-   "413": "waiting",
+   "413": "retired",
    "414": "waiting",
-   "415": "waiting",
+   "415": "retired",
    "416": "waiting",
-   "417": "waiting",
+   "417": "retired",
    "418": "waiting",
    "419": "pr_open",
    "420": "waiting",
-   "421": "waiting",
+   "421": "retired",
    "422": "waiting",
-   "423": "waiting",
+   "423": "retired",
    "424": "waiting",
-   "425": "waiting",
+   "425": "retired",
    "426": "waiting",
    "427": "pr_open",
    "428": "waiting",
-   "429": "waiting",
+   "429": "retired",
    "430": "waiting",
-   "431": "waiting",
+   "431": "retired",
    "432": "waiting",
-   "433": "waiting",
+   "433": "retired",
    "434": "waiting",
    "435": "pr_open",
    "436": "waiting",
-   "437": "waiting",
+   "437": "retired",
    "438": "waiting",
-   "439": "waiting",
+   "439": "retired",
    "440": "waiting",
-   "441": "waiting",
+   "441": "retired",
    "442": "waiting",
-   "443": "waiting",
+   "443": "retired",
    "444": "waiting",
-   "445": "waiting",
+   "445": "retired",
    "446": "waiting",
-   "447": "waiting",
+   "447": "retired",
    "448": "waiting",
-   "449": "waiting",
+   "449": "retired",
    "450": "waiting",
-   "451": "waiting",
+   "451": "retired",
    "452": "waiting",
-   "453": "waiting",
+   "453": "retired",
    "454": "waiting",
-   "455": "waiting",
+   "455": "retired",
    "456": "waiting",
-   "457": "waiting",
+   "457": "retired",
    "458": "waiting",
-   "459": "waiting",
+   "459": "retired",
    "460": "waiting",
-   "461": "waiting",
+   "461": "retired",
    "462": "waiting",
-   "463": "waiting",
+   "463": "retired",
    "464": "waiting",
-   "465": "waiting",
+   "465": "retired",
    "466": "waiting",
-   "467": "waiting",
+   "467": "retired",
    "468": "waiting",
-   "469": "waiting",
+   "469": "retired",
    "470": "waiting",
-   "471": "waiting",
+   "471": "retired",
    "472": "waiting",
-   "473": "waiting",
+   "473": "retired",
    "474": "waiting",
-   "475": "waiting",
+   "475": "retired",
    "476": "waiting",
-   "477": "waiting",
-   "478": "waiting",
-   "479": "waiting",
-   "480": "waiting",
-   "481": "waiting",
-   "482": "waiting",
-   "483": "waiting",
-   "484": "waiting",
-   "485": "waiting",
-   "486": "waiting",
-   "487": "waiting",
-   "488": "waiting",
-   "489": "waiting",
-   "490": "waiting",
-   "491": "waiting",
-   "492": "waiting",
-   "493": "waiting",
-   "494": "waiting",
-   "495": "waiting",
-   "496": "waiting",
-   "497": "waiting",
-   "498": "waiting",
-   "499": "waiting",
-   "500": "waiting",
-   "501": "waiting",
-   "502": "waiting",
-   "503": "waiting",
-   "504": "waiting",
-   "505": "waiting",
-   "506": "waiting",
-   "507": "waiting",
-   "508": "waiting",
-   "509": "waiting",
-   "510": "waiting",
-   "511": "waiting",
-   "512": "waiting",
-   "513": "waiting",
-   "514": "waiting",
-   "515": "waiting",
-   "516": "waiting",
-   "517": "waiting",
-   "518": "waiting",
+   "477": "retired",
+   "478": "retired",
+   "479": "retired",
+   "480": "retired",
+   "481": "retired",
+   "482": "retired",
+   "483": "retired",
+   "484": "retired",
+   "485": "retired",
+   "486": "retired",
+   "487": "retired",
+   "488": "retired",
+   "489": "retired",
+   "490": "retired",
+   "491": "retired",
+   "492": "retired",
+   "493": "retired",
+   "494": "retired",
+   "495": "retired",
+   "496": "retired",
+   "497": "retired",
+   "498": "retired",
+   "499": "retired",
+   "500": "retired",
+   "501": "retired",
+   "502": "retired",
+   "503": "retired",
+   "504": "retired",
+   "505": "retired",
+   "506": "retired",
+   "507": "retired",
+   "508": "retired",
+   "509": "retired",
+   "510": "retired",
+   "511": "retired",
+   "512": "retired",
+   "513": "retired",
+   "514": "retired",
+   "515": "retired",
+   "516": "retired",
+   "517": "retired",
+   "518": "retired",
    "519": "pr_open",
    "520": "pr_open",
    "521": "pr_open",
    "522": "pr_open",
    "523": "pr_open",
    "524": "pr_open",
-   "525": "waiting",
+   "525": "retired",
    "526": "pr_open",
-   "527": "waiting",
+   "527": "retired",
    "528": "pr_open",
    "529": "pr_open",
    "530": "pr_open",
    "531": "pr_open",
    "532": "pr_open",
-   "533": "branch_only",
+   "533": "pr_open",
    "534": "pr_open",
    "535": "pr_open",
    "536": "pr_open",
@@ -821,38 +750,38 @@
    "538": "pr_open",
    "539": "pr_open",
    "540": "pr_open",
-   "541": "branch_only",
-   "542": "waiting",
-   "543": "waiting",
-   "544": "waiting",
-   "545": "waiting",
-   "546": "waiting",
-   "547": "waiting",
-   "548": "waiting",
-   "549": "waiting",
-   "550": "waiting",
-   "551": "waiting",
-   "552": "waiting"
+   "541": "pr_open",
+   "542": "retired",
+   "543": "retired",
+   "544": "retired",
+   "545": "retired",
+   "546": "retired",
+   "547": "retired",
+   "548": "retired",
+   "549": "retired",
+   "550": "retired",
+   "551": "retired",
+   "552": "retired"
   }
  },
- "updated": "2026-10-12T03:15:43Z",
+ "updated": "2026-10-12T03:36:16Z",
  "counts": {
   "merged": 196,
-  "pr_open": 61,
-  "waiting": 210,
+  "pr_open": 63,
+  "retired": 158,
   "closed": 82,
-  "blocked": 1,
-  "branch_only": 2
+  "waiting": 52,
+  "blocked": 1
  },
  "stages": {
   "2": {
    "total": 266,
-   "taken": 129,
+   "taken": 266,
    "merged": 60
   },
   "3": {
    "total": 14,
-   "taken": 6,
+   "taken": 14,
    "merged": 0
   },
   "4": {
@@ -867,7 +796,7 @@
   },
   "1": {
    "total": 146,
-   "taken": 133,
+   "taken": 146,
    "merged": 112
   }
  },
@@ -1707,68 +1636,68 @@
   "1071": {
    "state": "pr_open",
    "pr": 712,
-   "draft": true,
+   "draft": false,
    "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/712",
    "branch": "gameplay/train-home-3"
   },
   "1072": {
    "state": "pr_open",
    "pr": 712,
-   "draft": true,
+   "draft": false,
    "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/712",
    "branch": "gameplay/train-home-3"
   },
   "1073": {
    "state": "pr_open",
    "pr": 712,
-   "draft": true,
+   "draft": false,
    "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/712",
    "branch": "gameplay/train-home-3"
   },
   "1074": {
    "state": "pr_open",
    "pr": 712,
-   "draft": true,
+   "draft": false,
    "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/712",
    "branch": "gameplay/train-home-3"
   },
   "1075": {
    "state": "pr_open",
    "pr": 712,
-   "draft": true,
+   "draft": false,
    "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/712",
    "branch": "gameplay/train-home-3"
   },
   "1076": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1077": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1078": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1079": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1080": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
@@ -1943,35 +1872,35 @@
    "branch": "gameplay/train-start-join-3"
   },
   "1105": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1106": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1107": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1108": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1109": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
@@ -2113,68 +2042,68 @@
   "1129": {
    "state": "pr_open",
    "pr": 702,
-   "draft": true,
+   "draft": false,
    "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/702",
    "branch": "gameplay/train-league-3"
   },
   "1130": {
    "state": "pr_open",
    "pr": 702,
-   "draft": true,
+   "draft": false,
    "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/702",
    "branch": "gameplay/train-league-3"
   },
   "1131": {
    "state": "pr_open",
    "pr": 702,
-   "draft": true,
+   "draft": false,
    "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/702",
    "branch": "gameplay/train-league-3"
   },
   "1132": {
    "state": "pr_open",
    "pr": 702,
-   "draft": true,
+   "draft": false,
    "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/702",
    "branch": "gameplay/train-league-3"
   },
   "1133": {
    "state": "pr_open",
    "pr": 702,
-   "draft": true,
+   "draft": false,
    "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/702",
    "branch": "gameplay/train-league-3"
   },
   "1134": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1135": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1136": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1137": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1138": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
@@ -2314,70 +2243,70 @@
    "branch": "gameplay/train-club-2"
   },
   "1158": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1159": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1160": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1161": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1162": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1163": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1164": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1165": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1166": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1167": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
@@ -2519,68 +2448,68 @@
   "1187": {
    "state": "pr_open",
    "pr": 705,
-   "draft": true,
+   "draft": false,
    "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/705",
    "branch": "gameplay/train-transfer-3"
   },
   "1188": {
    "state": "pr_open",
    "pr": 705,
-   "draft": true,
+   "draft": false,
    "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/705",
    "branch": "gameplay/train-transfer-3"
   },
   "1189": {
    "state": "pr_open",
    "pr": 705,
-   "draft": true,
+   "draft": false,
    "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/705",
    "branch": "gameplay/train-transfer-3"
   },
   "1190": {
    "state": "pr_open",
    "pr": 705,
-   "draft": true,
+   "draft": false,
    "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/705",
    "branch": "gameplay/train-transfer-3"
   },
   "1191": {
    "state": "pr_open",
    "pr": 705,
-   "draft": true,
+   "draft": false,
    "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/705",
    "branch": "gameplay/train-transfer-3"
   },
   "1192": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1193": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1194": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1195": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1196": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
@@ -2755,35 +2684,35 @@
    "branch": "gameplay/train-season-final-3"
   },
   "1221": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1222": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1223": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1224": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1225": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
@@ -2853,140 +2782,140 @@
    "branch": null
   },
   "1235": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1236": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1237": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1238": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1239": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1240": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1241": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1242": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1243": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1244": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1245": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1246": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1247": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1248": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1249": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1250": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1251": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1252": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1253": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1254": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
@@ -3056,140 +2985,140 @@
    "branch": null
   },
   "1264": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1265": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1266": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1267": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1268": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1269": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1270": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1271": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1272": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1273": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1274": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1275": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1276": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1277": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1278": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1279": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1280": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1281": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1282": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1283": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
@@ -3532,70 +3461,70 @@
    "branch": "gameplay/train-career-screens-2"
   },
   "1332": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1333": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1334": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1335": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1336": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1337": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1338": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1339": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1340": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1341": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
@@ -3735,70 +3664,70 @@
    "branch": "gameplay/train-rivalry-legacy-6"
   },
   "1361": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1362": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1363": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1364": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1365": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1366": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1367": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1368": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1369": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1370": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
@@ -3868,140 +3797,140 @@
    "branch": null
   },
   "1380": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1381": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1382": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1383": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1384": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1385": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1386": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1387": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1388": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1389": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1390": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1391": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1392": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1393": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1394": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1395": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1396": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1397": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1398": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1399": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
@@ -4141,70 +4070,70 @@
    "branch": "gameplay/train-rules-settings-2"
   },
   "1419": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1420": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1421": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1422": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1423": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1424": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1425": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1426": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1427": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1428": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
@@ -4274,140 +4203,140 @@
    "branch": null
   },
   "1438": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1439": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1440": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1441": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1442": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1443": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1444": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1445": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1446": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1447": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1448": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1449": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1450": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1451": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1452": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1453": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1454": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1455": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1456": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1457": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
@@ -5303,7 +5232,7 @@
    "branch": "qa/job-1666-save-library-first-half-audit"
   },
   "1667": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
@@ -5317,7 +5246,7 @@
    "branch": "qa/job-1668-football-visuals-first-half"
   },
   "1669": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
@@ -5359,10 +5288,10 @@
    "branch": "qa/job-1674-menu-feedback-audit"
   },
   "1675": {
-   "state": "branch_only",
-   "pr": null,
-   "draft": false,
-   "pr_url": null,
+   "state": "pr_open",
+   "pr": 736,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/736",
    "branch": "qa/job-1675-shared-journey-guard-audit"
   },
   "1676": {
@@ -5415,84 +5344,84 @@
    "branch": "qa/job-1682-trophy-room-audit-2"
   },
   "1683": {
-   "state": "branch_only",
-   "pr": null,
-   "draft": false,
-   "pr_url": null,
+   "state": "pr_open",
+   "pr": 735,
+   "draft": true,
+   "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/735",
    "branch": "qa/job-1683-save-library-audit-2"
   },
   "1684": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1685": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1686": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1687": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1688": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1689": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1690": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1691": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1692": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1693": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
    "branch": null
   },
   "1694": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
