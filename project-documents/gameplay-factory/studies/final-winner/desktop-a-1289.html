@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SHOWDOWN CHAMPION</title>
+<style>
+@font-face{font-family:Condensed;src:url('../../../../visual-assets/v10_1/shared/fonts/barlow-condensed-latin-700-normal.woff2');font-weight:700}
+@font-face{font-family:Barlow;src:url('../../../../visual-assets/v10_1/shared/fonts/barlow-latin-400-normal.woff2');font-weight:400}
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;background:#050505;color:#eee7d4}
+body{display:grid;place-items:center;font-family:Condensed,Arial,sans-serif}
+/* A single 16:9 camera keeps every artwork layer registered; no manager is mirrored. */
+.stage{position:relative;container-type:inline-size;width:min(100vw,177.7778vh);aspect-ratio:16/9;overflow:hidden;background:#090908}
+.scene,.arms{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.scene{object-fit:fill;filter:contrast(1.06) saturate(.92)}
+.veil{position:absolute;inset:0;background:linear-gradient(180deg,#03030370,transparent 24%,transparent 64%,#02020290),radial-gradient(ellipse at 50% 32%,transparent 15%,#05050520 62%);pointer-events:none}
+.arms{z-index:2}
+.topbar{position:absolute;inset:0 0 auto;z-index:10;height:5.1%;display:flex;align-items:center;gap:1.5cqw;padding:0 1.8cqw;background:linear-gradient(90deg,#080a0df5,#08090bd9);border-bottom:1px solid #caa34a80}
+button{font:700 .78cqw/1 Condensed,Arial,sans-serif;letter-spacing:.12em;cursor:pointer}
+.brand{font-size:1.25cqw;letter-spacing:-.04em;padding:.3cqw .8cqw;border:1px solid #efd06c;color:#efd06c;transform:skew(-12deg)}
+.brand span{display:block;transform:skew(12deg)}
+nav{display:flex;height:100%;gap:.4cqw}
+nav button{border:0;background:none;color:#d7d4cc;padding:0 1cqw;position:relative}
+nav .active{color:#f7d66f}
+nav .active::after{content:"";position:absolute;bottom:0;left:15%;right:15%;height:2px;background:#f6d06b}
+.account{margin-left:auto;display:flex;gap:.6cqw;align-items:center}
+.account button,.status{border:1px solid #bb984b88;background:#050505aa;color:#e6d5a2;padding:.55cqw .7cqw;font-size:.67cqw;letter-spacing:.1em}
+.heading{position:absolute;z-index:3;top:10.5%;left:32%;width:36%;text-align:center}
+.eyebrow,.tagline{margin:0;font-size:.9cqw;letter-spacing:.38em;text-shadow:0 2px 6px #000}
+h1{margin:.45cqw 0 .65cqw;line-height:1}
+h1 img{display:block;width:100%;height:auto}
+.tagline{font-size:.85cqw;letter-spacing:.29em}
+.outcome{position:absolute;z-index:3;top:27.2%;left:35%;width:30%;text-align:center}
+.state{margin:0 0 .65cqw;font-size:.67cqw;letter-spacing:.35em}
+.winner{margin:0;color:#f7d779;font-size:2.55cqw;line-height:1.1;letter-spacing:.075em;text-transform:uppercase;text-shadow:0 3px 12px #000,0 0 24px #d5a34044}
+.totals{position:absolute;z-index:3;left:39%;width:22%;top:36.2%;display:grid;grid-template-columns:1fr 1fr;gap:10cqw;text-align:center}
+.totals small{display:block;font-size:.85cqw;letter-spacing:.16em;text-transform:uppercase}
+.totals strong{display:block;color:#f7d779;font-size:3.9cqw;line-height:1.1;text-shadow:0 3px 12px #000}
+.score-dash{position:absolute;top:2cqw;left:49%;font-size:1.1cqw;color:#f4d581}
+.trophy{position:absolute;z-index:1;left:41%;top:39%;width:18%;height:34%;object-fit:contain;filter:drop-shadow(0 0 28px #dda84955) drop-shadow(0 12px 14px #000)}
+.results{position:absolute;z-index:4;left:20%;width:60%;top:74.7%;height:16.2%;display:grid;grid-template-columns:34% 66%;padding:.8cqw;border:2px solid #e8c465;background:linear-gradient(115deg,#111110f2,#060706ed);box-shadow:inset 0 0 0 3px #574119,inset 0 0 0 5px #e4c56a50,0 0 0 1px #5e4719,0 4px 24px #000,0 0 15px #ebba4938;clip-path:polygon(1.2% 0,98.8% 0,100% 8%,100% 92%,98.8% 100%,1.2% 100%,0 92%,0 8%)}
+.summary{display:grid;grid-template-columns:1.4fr 1fr 1fr;align-items:center;border-right:1px solid #b38d414d}
+.cell{text-align:center;padding:.25cqw;border-right:1px solid #b38d414d}
+.cell:last-child{border:0}
+.cell span,.cell small{display:block;font-size:.72cqw;letter-spacing:.07em}
+.cell strong{display:block;color:#f5d16e;font-size:2.2cqw;line-height:1.3;white-space:nowrap}
+.cell small{font-size:.62cqw;letter-spacing:.035em;white-space:nowrap}
+.honours{padding:0 .65cqw}
+table{width:100%;height:100%;border-collapse:collapse;table-layout:fixed;text-align:center}
+th{font-size:.73cqw;letter-spacing:.09em;font-weight:700;padding:0 0 .25cqw}
+th:first-child,th:last-child{width:22%;color:#ecd077}
+td{border-top:1px solid #c49d4944;font-size:.75cqw;letter-spacing:.075em;line-height:1.05}
+td:first-child,td:last-child{font-size:1.25cqw;color:#fff4d4}
+.mini{width:.85cqw;height:1.1cqw;object-fit:contain;vertical-align:middle;margin:0 .35cqw}
+.total td{border-top-color:#e1b65077}
+.sigma{color:#e3c66f;font-size:1cqw;margin:0 .35cqw}
+.actions{position:absolute;z-index:5;left:33%;width:34%;top:92.3%;height:5.2%;display:flex;justify-content:center;gap:1cqw}
+.actions button{min-width:0;flex:1;border:2px solid #e8c267;background:linear-gradient(#161616,#080908);color:#f5eacb;box-shadow:inset 0 0 0 2px #88642b55,0 3px 16px #000;clip-path:polygon(3% 0,97% 0,100% 13%,100% 87%,97% 100%,3% 100%,0 87%,0 13%);font-size:.83cqw;letter-spacing:.08em}
+.actions .primary{background:linear-gradient(#fff0b0,#e4b94b 65%,#a47723);color:#17130a;box-shadow:0 0 16px #e8ba4544}
+button:hover{filter:brightness(1.15)}
+button:focus-visible{outline:3px solid #fff5c4;outline-offset:-6px}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+</style>
+</head>
+<body>
+<!-- Static illustrative closed result. No gameplay logic or persistence. -->
+<main class="stage" aria-label="Final Showdown result">
+<img class="scene" src="../../../../visual-assets/v10_1/trophy-room/assets/ENV_TR_PLATE_V1_2X.webp" alt="">
+<div class="veil" aria-hidden="true"></div>
+<img class="arms" src="../../../../visual-assets/v10_1/final-winner/assets/OVL_FW_DANIEL_NEAR_ARM_V1_2X.webp" alt="">
+<img class="arms" src="../../../../visual-assets/v10_1/final-winner/assets/OVL_FW_NIK_NEAR_ARM_V1_2X.webp" alt="">
+<header class="topbar">
+<div class="brand"><span>CM17</span></div>
+<nav aria-label="Main navigation">
+<button type="button">HOME</button><button type="button" class="active" aria-current="page">CAREER</button><button type="button">STANDINGS</button><button type="button">STATS</button><button type="button">RULES</button>
+</nav>
+<div class="account"><button type="button">SIGN IN</button><span class="status">No Active Showdown</span></div>
+</header>
+<section class="heading">
+<p class="eyebrow">CAREER MODE SHOWDOWN 17</p>
+<h1><span class="sr-only">SHOWDOWN CHAMPION</span><img src="../../../../visual-assets/v10_1/shared/wordmarks/TITLE_FINAL_WINNER_V1.webp" alt="" aria-hidden="true"></h1>
+<p class="tagline">TWO MANAGERS · ONE LEGACY</p>
+</section>
+<section class="outcome" aria-label="Final Showdown points">
+<p class="state">SHARED SHOWDOWN CLOSED</p><h2 class="winner">Daniel WINS</h2>
+</section>
+<div class="totals"><div><small>Daniel</small><strong>6</strong></div><span class="score-dash" aria-hidden="true">–</span><div><small>Nik</small><strong>0</strong></div></div>
+<img class="trophy" src="../../../../visual-assets/v10_1/shared/trophies/TRO_SHOWDOWN_CHAMPION_V1_512.webp" alt="" aria-hidden="true">
+<section class="results" aria-label="Final Showdown result">
+<div class="summary">
+<div class="cell"><span>FINAL SEASON 1</span><strong>6 – 0</strong><small>DANIEL TAKES THE SEASON</small></div>
+<div class="cell"><span>SEASONS</span><strong>1</strong><small>PLAYED</small></div>
+<div class="cell"><span>MARGIN</span><strong>6</strong><small>POINTS</small></div>
+</div>
+<div class="honours"><table aria-label="Trophy attribution">
+<thead><tr><th scope="col">DANIEL</th><th scope="col">SHOWDOWN HONOURS</th><th scope="col">NIK</th></tr></thead>
+<tbody>
+<tr><td>1<img class="mini" src="../../../../visual-assets/v10_1/shared/trophies/TRO_CONTINENTAL_V1_512.webp" alt=""></td><td>CHAMPIONS LEAGUE</td><td><img class="mini" src="../../../../visual-assets/v10_1/shared/trophies/TRO_CONTINENTAL_V1_512.webp" alt="">0</td></tr>
+<tr><td>0<img class="mini" src="../../../../visual-assets/v10_1/shared/trophies/TRO_LEAGUE_TITLE_V1_512.webp" alt=""></td><td>LEAGUE TITLES</td><td><img class="mini" src="../../../../visual-assets/v10_1/shared/trophies/TRO_LEAGUE_TITLE_V1_512.webp" alt="">0</td></tr>
+<tr><td>1<img class="mini" src="../../../../visual-assets/v10_1/shared/trophies/TRO_DOMESTIC_CUP_V1_512.webp" alt=""></td><td>DOMESTIC CUPS</td><td><img class="mini" src="../../../../visual-assets/v10_1/shared/trophies/TRO_DOMESTIC_CUP_V1_512.webp" alt="">0</td></tr>
+<tr class="total"><td>2<span class="sigma" aria-hidden="true">Σ</span></td><td><span class="sigma" aria-hidden="true">Σ</span>TOTAL TROPHIES</td><td><span class="sigma" aria-hidden="true">Σ</span>0</td></tr>
+</tbody></table></div>
+</section>
+<div class="actions" aria-label="Final result status and actions"><button type="button">REVIEW SEASON</button><button type="button" class="primary">BACK TO SHOWDOWN HOME</button></div>
+</main>
+</body>
+</html>
