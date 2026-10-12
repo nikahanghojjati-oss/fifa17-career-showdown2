@@ -44,17 +44,17 @@
  "work_extra": {
   "model": "Sol 6.1 · High",
   "numbers": [
-   1695,
    1696,
    1697,
-   1698,
-   1699,
    1700,
    1703,
    1705,
-   1707
+   1707,
+   1695,
+   1698,
+   1699
   ],
-  "note": "Screen jobs: one Work mode number per screen (all sizes, desktop mockup, adopted studies, polish), one draft PR each, Claude browser-checks. One job per lock group at a time."
+  "note": "Phone/sideways/tablet work first (adopted phone studies); desktop is built by the Claude lane for Home, Club, Final Winner and Career Statistics. Transfer last (no adopted phone study)."
  },
  "claude_lane_jobs": {
   "jobs": [
@@ -73,15 +73,15 @@
   "note": "Studies 3 per message; screen jobs 1695-1708 one per message."
  },
  "work_free_jobs": [
-  1695,
   1696,
   1697,
-  1698,
-  1699,
   1700,
   1703,
   1705,
-  1707
+  1707,
+  1695,
+  1698,
+  1699
  ],
  "claude_doing": {
   "title": "Claude is doing (nothing to type)",
