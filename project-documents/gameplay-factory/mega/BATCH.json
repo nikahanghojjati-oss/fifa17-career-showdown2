@@ -4,7 +4,7 @@
  "clean_streak": 0,
  "goal": 10,
  "owner": "mega factory thread",
- "updated": "2026-10-12T01:30:00Z",
+ "updated": "2026-10-12T01:40:00Z",
  "note": "Nik decided 06:55 UTC: 3 numbers per chat; 5 once 10 batches in a row run clean.",
  "jobs_free": [
   1638,
@@ -72,5 +72,18 @@
   "after_home_merge": [
    1646
   ]
+ },
+ "work_extra": {
+  "model": "Sol 6.1 \u00b7 High",
+  "numbers": [
+   189,
+   191,
+   183,
+   193,
+   195,
+   443,
+   445
+  ],
+  "note": "Stage-3 jobs that need a PNG mockup: ChatGPT chat cannot open it (answers NEEDS MOCKUP), so they run in Work mode. 189 first, then 191. Chat still takes the JPG ones and the no-mockup ones."
  }
 }
