@@ -1239,6 +1239,14 @@
         "^tests/contracts/completed-showdown-wins-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/football-photo-retry-contracts.cjs",
+      "patterns": [
+        "^js/footballVisuals\\.js$",
+        "^tests/contracts/football-photo-retry-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
