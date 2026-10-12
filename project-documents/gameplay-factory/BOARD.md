@@ -6,11 +6,11 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Mon 12 Oct, 11:10 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Mon 12 Oct, 11:16 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r72** (main `9b514ec`, Mon 12 Oct 7:41 AM)
 
-🩺 **All clear: every check has a machine.** · POS20 #304 6/16
+🐕 **Barking: POS20 has waited 4 min for a machine; Showdown Gate on #815 has waited 2 min for a machine.** · POS20 #304 6/16
 
 ## Jobs
 
@@ -22,87 +22,83 @@ Updated Mon 12 Oct, 11:10 AM Boston time. Bug hunting only, no new features unti
 
 **#2 · 1699** `G` Transfer challenge and Signing Entry: one Work mode job for the whole screen  
 `██████░░░░` **60.0000 %**  
-🟢 Team green · model not set · worker done, PR #767 open, CI failed · CI 6 of 8 passed · last move 85 min ago
+🟢 Team green · model not set · worker done, PR #767 open, CI failed · CI 6 of 8 passed · last move 90 min ago
 
 **#3 · 1702** `G` Final Winner (Showdown Champion): one Work mode job for the whole screen  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #793 · CI 7 of 8 passed · last move 39 min ago
+🟢 Team green · model not set · worker working, draft PR #793 · CI 7 of 8 passed · last move 44 min ago
 
 **#4 · 1706** `G` Career Statistics: one Work mode job for the whole screen  
 `████░░░░░░` **40.0000 %**  
 🟢 Team green · model not set · worker working, draft PR #798
 
-**#5 · 1708** `G` Settings: one Work mode job for the whole screen  
-`███████░░░` **71.4286 %**  
-🟢 Team green · model not set · worker done, PR #809 open, CI running · CI 1 of 7 passed · last move 1 min ago
-
-**#6 · 1727** `G` Connect Players (start and join): sideways phone study, re-run (stage 4)  
+**#5 · 1727** `G` Connect Players (start and join): sideways phone study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
 🟢 Team green · model not set · worker working, draft PR #773 · CI 6 of 7 passed · last move 2 h ago
 
-**#7 · 1728** `G` Connect Players (start and join): upright tablet study, re-run (stage 4)  
+**#6 · 1728** `G` Connect Players (start and join): upright tablet study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
 🟢 Team green · model not set · worker working, draft PR #774 · CI 6 of 7 passed · last move 2 h ago
 
-**#8 · 1729** `G` Standings: sideways phone study, re-run (stage 4)  
+**#7 · 1729** `G` Standings: sideways phone study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
 🟢 Team green · model not set · worker working, draft PR #779 · CI 6 of 7 passed · last move 2 h ago
 
-**#9 · 1730** `G` Trophy Room: sideways phone study, re-run (stage 4)  
+**#8 · 1730** `G` Trophy Room: sideways phone study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
 🟢 Team green · model not set · worker working, draft PR #775 · CI 6 of 7 passed · last move 2 h ago
 
-**#10 · 1731** `G` Rule Book: sideways phone study, re-run (stage 4)  
+**#9 · 1731** `G` Rule Book: sideways phone study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
 🟢 Team green · model not set · worker working, draft PR #778 · CI 6 of 7 passed · last move 2 h ago
 
-**#11 · 1732** `G` Legacy: upright tablet study, re-run (stage 4)  
+**#10 · 1732** `G` Legacy: upright tablet study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
 🟢 Team green · model not set · worker working, draft PR #780 · CI 6 of 7 passed · last move 2 h ago
 
-**#12 · 1752** `G` Audit and fix js/screens.js (second half (lines 406 to the end))  
-`███████░░░` **74.6667 %**  
-🔵 Team blue · model not set · worker done, PR #815 open, CI running · CI 7 of 15 passed · last move 0 min ago
+**#11 · 1752** `G` Audit and fix js/screens.js (second half (lines 406 to the end))  
+`████████░░` **75.3333 %**  
+🔵 Team blue · model not set · worker done, PR #815 open, CI running · CI 8 of 15 passed · last move 1 min ago
 
-**#13 · 1753** `G` Audit and fix js/restore.js (first half (lines 1 to 372))  
+**#12 · 1753** `G` Audit and fix js/restore.js (first half (lines 1 to 372))  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #818 · CI 7 of 8 passed · last move 1 min ago
+🟢 Team green · model not set · worker working, draft PR #818 · CI 7 of 8 passed · last move 4 min ago
 
-**#14 · 1778** `G` Audit and fix js/productionSharedFinalReconciliation.js (whole file)  
+**#13 · 1778** `G` Audit and fix js/productionSharedFinalReconciliation.js (whole file)  
 `████░░░░░░` **40.0000 %**  
-🔵 Team blue · model not set · worker working, draft PR #792 · CI 7 of 8 passed · last move 80 min ago
+🔵 Team blue · model not set · worker working, draft PR #792 · CI 7 of 8 passed · last move 86 min ago
 
-**#15 · 1779** `G` Audit and fix js/productionSharedShowdownSetup.js (whole file)  
+**#14 · 1779** `G` Audit and fix js/productionSharedShowdownSetup.js (whole file)  
 `████░░░░░░` **40.0000 %**  
-🔵 Team blue · model not set · worker working, draft PR #795 · CI 7 of 8 passed · last move 71 min ago
+🔵 Team blue · model not set · worker working, draft PR #795 · CI 7 of 8 passed · last move 77 min ago
 
-**#16 · 1780** `G` Audit and fix js/sparkSharedSeasonResults.js (whole file)  
+**#15 · 1780** `G` Audit and fix js/sparkSharedSeasonResults.js (whole file)  
 `████░░░░░░` **40.0000 %**  
-🔵 Team blue · model not set · worker working, draft PR #796 · CI 7 of 8 passed · last move 67 min ago
+🔵 Team blue · model not set · worker working, draft PR #796 · CI 7 of 8 passed · last move 72 min ago
 
-**#17 · 1782** `G` Audit and fix js/sparkSharedSeasonCommit.js (whole file)  
+**#16 · 1782** `G` Audit and fix js/sparkSharedSeasonCommit.js (whole file)  
 `████░░░░░░` **40.0000 %**  
-🔵 Team blue · model not set · worker working, draft PR #800 · CI 7 of 8 passed · last move 55 min ago
+🔵 Team blue · model not set · worker working, draft PR #800 · CI 7 of 8 passed · last move 60 min ago
 
-**#18 · 1784** `G` Audit and fix js/productionSharedSeasonResultsRoute.js (whole file)  
+**#17 · 1784** `G` Audit and fix js/productionSharedSeasonResultsRoute.js (whole file)  
 `████░░░░░░` **40.0000 %**  
-🔵 Team blue · model not set · worker working, draft PR #801 · CI 7 of 8 passed · last move 55 min ago
+🔵 Team blue · model not set · worker working, draft PR #801 · CI 7 of 8 passed · last move 60 min ago
 
-**#19 · 1785** `G` Audit and fix js/sharedJourneyConflicts.js (whole file)  
+**#18 · 1785** `G` Audit and fix js/sharedJourneyConflicts.js (whole file)  
 `████░░░░░░` **40.0000 %**  
-🔵 Team blue · model not set · worker working, draft PR #802 · CI 7 of 8 passed · last move 52 min ago
+🔵 Team blue · model not set · worker working, draft PR #802 · CI 7 of 8 passed · last move 57 min ago
 
-**#20 · 1787** `G` Audit and fix js/storage.js (whole file)  
+**#19 · 1787** `G` Audit and fix js/storage.js (whole file)  
 `████░░░░░░` **40.0000 %**  
-🔵 Team blue · model not set · worker working, draft PR #803 · CI 7 of 8 passed · last move 47 min ago
+🔵 Team blue · model not set · worker working, draft PR #803 · CI 7 of 8 passed · last move 53 min ago
 
-**#21 · 1790** `G` Audit and fix js/diagnostics.js (second half (lines 225 to the end))  
+**#20 · 1790** `G` Audit and fix js/diagnostics.js (second half (lines 225 to the end))  
 `████░░░░░░` **40.0000 %**  
-🔵 Team blue · model not set · worker working, draft PR #807 · CI 7 of 8 passed · last move 40 min ago
+🔵 Team blue · model not set · worker working, draft PR #807 · CI 7 of 8 passed · last move 45 min ago
 
-**#22 · 1791** `G` Free startup gzip headroom, then carry the navigation guard  
-`███████░░░` **74.6667 %**  
-🟢 Team green · model not set · worker done, PR #815 open, CI running · CI 7 of 15 passed · last move 0 min ago
+**#21 · 1791** `G` Free startup gzip headroom, then carry the navigation guard  
+`████████░░` **75.3333 %**  
+🟢 Team green · model not set · worker done, PR #815 open, CI running · CI 8 of 15 passed · last move 1 min ago
 
 ### 👉 Next for you, in this order
 
@@ -1215,8 +1211,8 @@ Job 1798
 ## Goals, in this order
 
 **1. Finish the remaining bugs** `now`  
-`████░░░░░░` **36.8421 %**  
-Numbered jobs: 56 done, 144 other open · Olympiad recheck: 23 of 23 settled, 0 still to fix · Sol's old leads: 0 open (0 real, 0 unsure)
+`████░░░░░░` **37.0044 %**  
+Numbered jobs: 56 done, 143 other open · Olympiad recheck: 23 of 23 settled, 0 still to fix · Sol's old leads: 0 open (0 real, 0 unsure)
 
 **2. Visual fixes** `after stage 1`  
 `██████░░░░` **56.0000 %**  
