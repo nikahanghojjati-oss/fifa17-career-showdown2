@@ -7,3 +7,4 @@ Made with a likeness lock: GPT repainted only the cyan areas of attach/GUIDE_<KE
 | Plate | Approved | Notes |
 | --- | --- | --- |
 | ENV_HOME_PLATE_V2 | Mon 12 Oct 9:15 a.m. Eastern | First try. Both faces, name tags and banners come from NEXT_HOME; GPT filled the title, music card, tiles and top bar areas. |
+| ENV_CONNECT_PLAYERS_PLATE_V2 | Mon 12 Oct 9:20 a.m. Eastern | Try 2 (try 1 redrew the buttons). Faces, banners and name tags from NEXT_CONNECT_PLAYERS; GPT filled the title, both cards and the top bar, plus the tunnel opening down to the pitch so the stadium reads as one. |

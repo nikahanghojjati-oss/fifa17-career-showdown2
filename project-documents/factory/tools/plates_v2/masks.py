@@ -16,3 +16,5 @@ M={
 }
 # HOME guide was drawn on the 1536x871 picture then resized; lock rects in 1536x864 space:
 M['HOME']=[[0,0,1536,44],[1340,46,1530,80],[50,111,545,345],[985,455,1512,607],[28,587,472,692],[28,692,1508,835],[0,833,150,864]]
+# Lock rects actually used (can differ from the guide rects when a seam needed more of GPT's picture):
+LOCK={'HOME':M['HOME'],'CONNECT_PLAYERS':[[0,0,1536,44],[410,135,1130,302],[388,325,1150,572],[540,560,1000,720]]}
