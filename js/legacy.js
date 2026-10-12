@@ -174,6 +174,16 @@ function getMatchingCompletedActiveShowdown(showdownId){
     return active;
 }
 
+/* Deleting the Showdown also removes every unsent private draft on this device (Season Results, Transfer Challenge, signing), for every rivalry, including orphans.
+   The sweep lives in diagnostics.js (the only non-startup file allowed to touch browser storage directly) and loads on demand; it needs no rivalry id, so it also works offline or before the pair module loads. */
+function sweepLegacyShowdownDrafts(){
+    try{
+        return Promise.resolve(window.ensureDiagnosticsModule()).then(() => window.clearAllShowdownDraftKeys() === true).catch(() => false);
+    }catch(_error){
+        return Promise.resolve(false);
+    }
+}
+
 function clearMatchingCompletedActiveShowdown(showdownId){
     const active = getMatchingCompletedActiveShowdown(showdownId);
     if(!active){
@@ -183,6 +193,7 @@ function clearMatchingCompletedActiveShowdown(showdownId){
     if(!clearSavedShowdown()){
         return false;
     }
+    sweepLegacyShowdownDrafts();
 
     currentShowdown = null;
     if(typeof window.refreshMainMenuExperience === "function"){
@@ -450,6 +461,7 @@ function createLegacyDataControls(history){
             renderLegacy();
             return;
         }
+        sweepLegacyShowdownDrafts();
 
         currentShowdown = null;
         if(typeof window.resetNavigationState === "function"){

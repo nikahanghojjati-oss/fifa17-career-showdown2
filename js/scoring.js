@@ -47,19 +47,19 @@ function determineSeasonWinner(playerOne, playerTwo){
         return "playerTwo";
     }
 
-    if(playerOne.leaguePosition < playerTwo.leaguePosition){
+    if(Number(playerOne.leaguePosition) < Number(playerTwo.leaguePosition)){
         return "playerOne";
     }
 
-    if(playerTwo.leaguePosition < playerOne.leaguePosition){
+    if(Number(playerTwo.leaguePosition) < Number(playerOne.leaguePosition)){
         return "playerTwo";
     }
 
-    if(playerOne.leaguePoints > playerTwo.leaguePoints){
+    if(Number(playerOne.leaguePoints) > Number(playerTwo.leaguePoints)){
         return "playerOne";
     }
 
-    if(playerTwo.leaguePoints > playerOne.leaguePoints){
+    if(Number(playerTwo.leaguePoints) > Number(playerOne.leaguePoints)){
         return "playerTwo";
     }
 

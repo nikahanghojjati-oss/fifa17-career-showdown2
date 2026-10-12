@@ -575,6 +575,16 @@ function finishSettingsCurrentShowdownDeletion(){
     return navigated;
 }
 
+/* Deleting the Showdown also removes every unsent private draft on this device (Season Results, Transfer Challenge, signing), for every rivalry, including orphans.
+   The sweep lives in diagnostics.js (the only non-startup file allowed to touch browser storage directly) and loads on demand; it needs no rivalry id, so it also works offline or before the pair module loads. */
+function sweepSettingsShowdownDrafts(){
+    try{
+        return Promise.resolve(window.ensureDiagnosticsModule()).then(() => window.clearAllShowdownDraftKeys() === true).catch(() => false);
+    }catch(_error){
+        return Promise.resolve(false);
+    }
+}
+
 async function deleteSettingsCurrentShowdown(button){
     const active = getSettingsActiveShowdown();
     if(!active){
@@ -623,6 +633,7 @@ async function deleteSettingsCurrentShowdown(button){
             throw new Error("The online Showdown was closed, but this device could not remove its local copy. Retry Delete Current Showdown; no new connection will be created.");
         }
 
+        await sweepSettingsShowdownDrafts();
         finishSettingsCurrentShowdownDeletion();
         if(typeof window.showAppNotice === "function"){
             window.showAppNotice(

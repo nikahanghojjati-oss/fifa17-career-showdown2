@@ -306,3 +306,72 @@ html[data-motion-reduced="true"] body #app #stage-root#stage-root *::before, htm
    screen under reduced motion right after it appears and read the half-faded text as a contrast failure (also on the base). */
 html[data-motion-reduced="true"] body #app #clubWheelScreen[data-club-reveal-stage="confirmation"] #clubRivalryConfirmation,
 html[data-motion-reduced="true"] body #app #clubWheelScreen[data-club-reveal-stage="confirmation"] .clubRevealProgress span.active { opacity: 1 !important; }
+
+/* JOB-1405 (Team V study desktop-a-1405, adopted): Career Statistics at desktop sizes. The live copy, tap order and numbers
+   are untouched; this only evens out the layout Team V's career-statistics.css draws: one top line and height for the Career
+   Table and Manager Comparison, rows and cards that fill their panels instead of overflowing them, a gold bevel on every
+   panel, and a type scale one step larger. Sizes follow --cs-u (1% of the 16:9 stage) so 1920x1080 and 1366x768 keep the
+   same picture. The leader portraits are cropped from the plate at its own proportions (the frozen crop squeezed them).
+   Phone, sideways phone and tablet widths are outside this query and keep Team V's rules as they were. */
+@media (min-width: 1200px) and (min-height: 700px) {
+  #app #careerStatistics.careerScreenV10 { --cs-u: min(1vw, 1.7778vh); --cs-bevel: inset 0 1px 1px rgba(255, 242, 185, .35), inset 0 0 0 3px rgba(8, 9, 11, .8), 0 5px 15px rgba(0, 0, 0, .5); }
+  #app #careerStatistics.careerScreenV10 :is(.headlineTile, .glassPanel, .leaderCard, .actionButton.secondary) { box-shadow: var(--cs-bevel); }
+  #app #careerStatistics.careerScreenV10 .actionButton.primary { box-shadow: inset 0 0 0 3px rgba(255, 236, 170, .33), 0 0 20px rgba(199, 148, 40, .18); }
+
+  /* Headline totals */
+  #app #careerStatistics.careerScreenV10 .headlineTiles { left: 24%; top: 28.5%; width: 52%; height: 12.5%; gap: calc(var(--cs-u) * .5); }
+  #app #careerStatistics.careerScreenV10 .headlineTile { grid-template-columns: 25% minmax(0, 1fr); gap: calc(var(--cs-u) * .5); padding: calc(var(--cs-u) * .7); }
+  #app #careerStatistics.careerScreenV10 .headlineIcon { width: max(36px, calc(var(--cs-u) * 2.9)); height: max(36px, calc(var(--cs-u) * 2.9)); }
+  #app #careerStatistics.careerScreenV10 .headlineIcon img { max-width: max(34px, calc(var(--cs-u) * 2.6)); max-height: max(44px, calc(var(--cs-u) * 3.5)); }
+  #app #careerStatistics.careerScreenV10 .headlineLabel { font-size: max(10px, calc(var(--cs-u) * .69)); letter-spacing: .05em; }
+  #app #careerStatistics.careerScreenV10 .headlineTogether { font-size: max(8px, calc(var(--cs-u) * .57)); letter-spacing: .15em; }
+  #app #careerStatistics.careerScreenV10 .headlineNumber { font-size: max(46px, calc(var(--cs-u) * 3.8)); line-height: .95; letter-spacing: 0; }
+  #app #careerStatistics.careerScreenV10 .headlinePair { gap: calc(var(--cs-u) * .28); margin-top: calc(var(--cs-u) * .4); }
+  #app #careerStatistics.careerScreenV10 .headlinePair b { font-size: max(30px, calc(var(--cs-u) * 2.55)); line-height: 1; }
+  #app #careerStatistics.careerScreenV10 .headlinePair small { font-size: max(9px, calc(var(--cs-u) * .6)); }
+  #app #careerStatistics.careerScreenV10 .headlinePair .slash { opacity: 1; color: #a3997b; font-size: max(16px, calc(var(--cs-u) * 1.3)); }
+
+  /* Career Table and Manager Comparison: one line, one height */
+  #app #careerStatistics.careerScreenV10 .careerTablePanel { left: 21.5%; top: 42%; width: 36.2%; height: 22.3%; }
+  #app #careerStatistics.careerScreenV10 .comparisonPanel { left: 58.3%; top: 42%; width: 21%; height: 22.3%; }
+  #app #careerStatistics.careerScreenV10 .comparisonPanel:not([hidden]) { display: flex; flex-direction: column; }
+  #app #careerStatistics.careerScreenV10 .panelTitle { padding: calc(var(--cs-u) * .65) calc(var(--cs-u) * .7) calc(var(--cs-u) * .5); font-size: max(13px, calc(var(--cs-u) * 1.03)); border-bottom-color: #9e8d5c; }
+  #app #careerStatistics.careerScreenV10 .careerTable { width: calc(100% - var(--cs-u) * 1.4); margin: calc(var(--cs-u) * .4) calc(var(--cs-u) * .7) 0; }
+  #app #careerStatistics.careerScreenV10 .careerTable th { padding: calc(var(--cs-u) * .45) calc(var(--cs-u) * .2); font-size: max(10px, calc(var(--cs-u) * .67)); font-weight: 600; color: #d6d1c5; }
+  #app #careerStatistics.careerScreenV10 .careerTable td { padding: calc(var(--cs-u) * .7) calc(var(--cs-u) * .2); font-size: max(12px, calc(var(--cs-u) * .9)); }
+  #app #careerStatistics.careerScreenV10 .careerTable th:nth-child(1) { width: 8%; }
+  #app #careerStatistics.careerScreenV10 .careerTable th:nth-child(2) { width: 25%; }
+  #app #careerStatistics.careerScreenV10 .careerTable th:nth-child(3) { width: 19%; }
+  #app #careerStatistics.careerScreenV10 .careerTable th:nth-child(4) { width: 21%; }
+  #app #careerStatistics.careerScreenV10 .careerTable tr.leaderRow td { background: rgba(181, 139, 35, .11); border-top-color: #b58b23; border-bottom-color: #b58b23; color: #ffedaa; }
+  #app #careerStatistics.careerScreenV10 .rankCrown { font-size: max(12px, calc(var(--cs-u) * .9)); margin-right: calc(var(--cs-u) * .1); }
+  #app #careerStatistics.careerScreenV10 .comparisonBody { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; justify-content: space-between; padding: calc(var(--cs-u) * .35) calc(var(--cs-u) * .8) calc(var(--cs-u) * .6); }
+  #app #careerStatistics.careerScreenV10 .compareRow { grid-template-columns: calc(var(--cs-u) * 3.3) minmax(0, 1fr) calc(var(--cs-u) * 3.3); gap: 0; padding: 0; }
+  #app #careerStatistics.careerScreenV10 .compareRow :is(.dValue, .nValue) { font-size: max(11px, calc(var(--cs-u) * .82)); line-height: 1; }
+  #app #careerStatistics.careerScreenV10 .compareLabel { font-size: max(9px, calc(var(--cs-u) * .58)); letter-spacing: .04em; }
+  #app #careerStatistics.careerScreenV10 .compareTrack { height: max(4px, calc(var(--cs-u) * .3)); margin-top: calc(var(--cs-u) * .25); }
+
+  /* Career Leaders: the cards fill the panel under the title */
+  #app #careerStatistics.careerScreenV10 .leadersPanel { left: 15%; top: 65.8%; width: 70%; height: 16.2%; }
+  #app #careerStatistics.careerScreenV10 .leadersPanel:not([hidden]) { display: flex; flex-direction: column; }
+  #app #careerStatistics.careerScreenV10 .leaderGrid { flex: 1 1 auto; min-height: 0; grid-template-rows: minmax(0, 1fr); gap: calc(var(--cs-u) * .5); padding: calc(var(--cs-u) * .6) calc(var(--cs-u) * .7) calc(var(--cs-u) * .65); }
+  #app #careerStatistics.careerScreenV10 .leaderCard { height: auto; min-height: 0; grid-template-columns: calc(var(--cs-u) * 2.8) minmax(0, 1fr); gap: calc(var(--cs-u) * .7); padding: calc(var(--cs-u) * .5) calc(var(--cs-u) * 1.4) calc(var(--cs-u) * .5) calc(var(--cs-u) * .6); }
+  #app #careerStatistics.careerScreenV10 .leaderCard::after { right: calc(var(--cs-u) * .6); font-size: max(16px, calc(var(--cs-u) * 1.35)); }
+  #app #careerStatistics.careerScreenV10 .managerPortrait { width: calc(var(--cs-u) * 2.8); height: calc(var(--cs-u) * 4.2); max-height: 100%; background-color: #101216; }
+  #app #careerStatistics.careerScreenV10 .managerPortrait.daniel { background-size: 760% auto; background-position: 12.5% 13.9%; }
+  #app #careerStatistics.careerScreenV10 .managerPortrait.nik { background-size: 743% auto; background-position: 85.7% 14.9%; }
+  #app #careerStatistics.careerScreenV10 .leaderLabel { font-size: max(9px, calc(var(--cs-u) * .69)); letter-spacing: .06em; color: #f7f3e8; }
+  #app #careerStatistics.careerScreenV10 .leaderName { margin-top: calc(var(--cs-u) * .25); font-size: max(11px, calc(var(--cs-u) * .86)); }
+  #app #careerStatistics.careerScreenV10 .leaderValue { margin-top: calc(var(--cs-u) * .2); font-size: max(17px, calc(var(--cs-u) * 1.33)); }
+
+  /* Actions */
+  #app #careerStatistics.careerScreenV10 .actionRow { left: 15.5%; top: 84%; width: 69%; height: 6.5%; gap: calc(var(--cs-u) * .6); }
+  #app #careerStatistics.careerScreenV10 .actionButton { grid-template-columns: calc(var(--cs-u) * 2.2) minmax(0, 1fr) calc(var(--cs-u) * .8); gap: calc(var(--cs-u) * .6); padding: 0 calc(var(--cs-u) * .9); font-size: max(11px, calc(var(--cs-u) * .87)); letter-spacing: .02em; }
+  #app #careerStatistics.careerScreenV10 .actionButton img { width: calc(var(--cs-u) * 1.9); height: calc(var(--cs-u) * 2.5); }
+  #app #careerStatistics.careerScreenV10 .buttonIcon { width: calc(var(--cs-u) * 1.5); height: calc(var(--cs-u) * 1.5); }
+  #app #careerStatistics.careerScreenV10 .actionButton > span:last-child { font-size: max(16px, calc(var(--cs-u) * 1.4)); }
+
+  /* Partial history keeps its banner between the totals and the two panels; the panels start a little lower and end on the same line. */
+  #app #careerStatistics.careerScreenV10 .partialBanner { left: 21.5%; top: 41.2%; width: 57.8%; padding: 3px 10px; }
+  #app #careerStatistics.careerScreenV10 .careerStage[data-state="partial"] :is(.careerTablePanel, .comparisonPanel) { top: 44.9%; height: 19.9%; }
+}
