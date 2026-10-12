@@ -740,8 +740,6 @@
  }
 }
 
-}
-
 /* JOB-1214: Full-HD Season Results. The registered first viewport still frames
    the artwork/title, while <main> owns the ONLY scroll. Review content and
    action rows must grow in normal flow, not inside fixed-height clipped cards. */
