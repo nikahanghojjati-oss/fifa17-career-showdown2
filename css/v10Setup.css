@@ -1009,6 +1009,15 @@ html[data-v10-setup] main { scrollbar-color: var(--v26-gold-deep) rgba(255, 255,
   }
 }
 
+/* JOB-1132: All keyboard-reachable controls, including the app header, need a
+   visible focus ring while Select League is active. :focus-visible avoids a
+   change to mouse/touch presentation and leaves other screens untouched. */
+html[data-v10-setup="league"] #app :is(button, a, input, select, textarea, [role="button"], [role="tab"], [tabindex]):focus-visible {
+  outline: 3px solid #fff1b8;
+  outline-offset: 3px;
+  box-shadow: 0 0 0 2px #07080a, 0 0 0 5px rgba(245, 197, 24, .55);
+}
+
 /* Reduced motion: only the skin's own motion stops; the app's own reduced-motion rules (photos, wheel, packs) stay in charge. */
 html:is([data-motion-reduced="true"], [data-reduced-motion="true"]) :is(#createShowdown, #leagueWheelScreen, #clubWheelScreen).v26Skin :is(.v26Art, .v26Flash, .v26Burst, .clubRevealCard),
 html:is([data-motion-reduced="true"], [data-reduced-motion="true"]) #leagueWheelScreen.v26Skin .wheelItem.v26-payoff::before { animation: none !important; }
