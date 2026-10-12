@@ -950,6 +950,35 @@
  }
 }
 
+
+/* JOB-1217: long manager/club identities and three-digit values stay inside the
+   existing Season Results cards; Team V's art, tap order and phone flow are unchanged. */
+#app #seasonEntry.seasonScreenV10 .v10SeasonStage .manager-card-header {
+  min-width:0;
+  grid-template-columns:auto minmax(0,1fr);
+}
+#app #seasonEntry.seasonScreenV10 .v10SeasonStage .manager-card-header :is(.manager-name,.manager-club) {
+  min-width:0; max-width:100%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+}
+#app #seasonEntry.seasonScreenV10 .v10SeasonStage .seasonManagerHeader { min-width:0; }
+#app #seasonEntry.seasonScreenV10 .v10SeasonStage .seasonManagerHeader :is(h2,h3) {
+  min-width:0; max-width:100%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+}
+#app #seasonEntry.seasonScreenV10 .v10SeasonStage .seasonResultCard>label,
+#app #seasonEntry.seasonScreenV10 .v10SeasonStage .field-row { min-width:0; }
+#app #seasonEntry.seasonScreenV10 .v10SeasonStage .field-row :is(label,span) {
+  min-width:0; overflow-wrap:anywhere;
+}
+#app #seasonEntry.seasonScreenV10 .v10SeasonStage .field-row input[type=number] {
+  box-sizing:border-box; max-width:100%;
+}
+#app #seasonEntry.seasonScreenV10 .v10SeasonStage .season-review-panel :is(.seasonReviewGrid,.seasonSummaryCard,.summaryClub,.summaryLine) {
+  min-width:0; overflow-wrap:anywhere;
+}
+#app #seasonEntry.seasonScreenV10 .v10SeasonStage .season-action-row button {
+  max-width:100%; white-space:normal; overflow-wrap:anywhere;
+}
+
 `;
     parent.appendChild(style);
   }
