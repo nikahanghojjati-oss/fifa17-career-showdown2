@@ -1,9 +1,9 @@
-# Mega factory tracker · updated 2026-10-12T03:04:30Z
+# Mega factory tracker · updated 2026-10-12T03:06:00Z
 
-**Type now (73 free):** 525, 527, 529, 531, 533, 538, 540, 541, 542, 543, 544, 545, 546, 547, 548, 549, 550, 551, 552, 380, 408, 436, 464, 386, 414, 442, 470, 394, 422, 450, 368, 396, 424, 452, 370, 398, 426, 454, 374, 402, 430, 458, 376, 404, 432, 460, 378, 406, 434, 462, 382, 410, 438, 466, 384, 412, 440, 468, 388, 416, 444, 472, 390, 418, 446, 474, 392, 420, 448, 476, 400, 428, 456
+**Type now (71 free):** 525, 527, 529, 531, 533, 538, 540, 541, 542, 543, 544, 545, 546, 547, 548, 549, 550, 551, 552, 380, 408, 436, 464, 386, 414, 442, 470, 394, 422, 450, 396, 424, 452, 398, 426, 454, 374, 402, 430, 458, 376, 404, 432, 460, 378, 406, 434, 462, 382, 410, 438, 466, 384, 412, 440, 468, 388, 416, 444, 472, 390, 418, 446, 474, 392, 420, 448, 476, 400, 428, 456
 **Next free number:** 187 · **highest taken:** 539 of 552
 **Code PRs open:** 3 of 8 · area locks: club, career-screens, rules-settings, home, start-join, league, transfer, season-final, rivalry-legacy
-**Rate:** 9 claimed in 10 min · 43 in 1 h · 45 merged in 1 h
+**Rate:** 11 claimed in 10 min · 45 in 1 h · 45 merged in 1 h
 
 **Finished (merged or live): 181 of 552**
 
@@ -12,11 +12,11 @@ State | count
 🚀 live in a release | 45
 ✅ merged to staging branch | 136
 🟨 PR open, checks running | 15
-📝 draft PR, not checked yet | 52
+📝 draft PR, not checked yet | 53
 🟧 blocked | 1
-🟦 started, no PR yet | 3
+🟦 started, no PR yet | 4
 ⚫ closed without merge | 82
-⬜ waiting | 218
+⬜ waiting | 216
 
 Stage | total | merged/live | in flight | waiting
 --- | --- | --- | --- | ---
@@ -24,7 +24,7 @@ Stage | total | merged/live | in flight | waiting
 2 Screen fixes | 266 | 45 | 40 | 137
 3 Match desktop to mockups | 14 | 0 | 5 | 8
 4 Phone mockup studies | 70 | 23 | 10 | 0
-5 Improved desktop studies | 56 | 1 | 1 | 54
+5 Improved desktop studies | 56 | 1 | 3 | 52
 
 ## Needs attention
 
@@ -80,9 +80,11 @@ Stage | total | merged/live | in flight | waiting
 - 📝 **302** · Job 1257 · Standings: phone mockup, version C (compact) · draft PR, not checked yet · [PR #719](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/719)
 - 📝 **324** · Job 1432 · Rule Book: sideways phone study · draft PR, not checked yet · [PR #724](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/724)
 - 📝 **330** · Job 1258 · Standings: sideways phone study · draft PR, not checked yet · [PR #725](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/725)
-- 🟦 **352** · Job 1433 · Rule Book: upright tablet study · started, no PR yet
+- 📝 **352** · Job 1433 · Rule Book: upright tablet study · draft PR, not checked yet · [PR #726](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/726)
 - 🟦 **358** · Job 1259 · Standings: upright tablet study · started, no PR yet
 - 🟦 **366** · Job 1405 · Career Statistics: improved desktop, version A (polish) · started, no PR yet
+- 🟦 **368** · Job 1173 · Club packs: improved desktop, version A (polish) · started, no PR yet
+- 🟦 **370** · Job 1289 · Final Winner (Showdown Champion): improved desktop, version A (polish) · started, no PR yet
 - 📝 **403** · Job 1356 · Rivalry Statistics: fix the 768x1024 view · draft PR, not checked yet · [PR #721](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/721)
 - 📝 **411** · Job 1357 · Rivalry Statistics: fix the 1280x650 view · draft PR, not checked yet · [PR #721](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/721)
 - 📝 **419** · Job 1358 · Rivalry Statistics: fix the 1366x768 view · draft PR, not checked yet · [PR #721](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/721)
@@ -106,6 +108,9 @@ Stage | total | merged/live | in flight | waiting
 
 ## Latest changes
 
+- 2026-10-12T03:06:00Z · 370 (Job 1289): waiting → started
+- 2026-10-12T03:06:00Z · 368 (Job 1173): waiting → started
+- 2026-10-12T03:06:00Z · 352 (Job 1433): started → draft
 - 2026-10-12T03:04:30Z · 366 (Job 1405): waiting → started
 - 2026-10-12T03:04:30Z · 358 (Job 1259): waiting → started
 - 2026-10-12T03:04:30Z · 352 (Job 1433): waiting → started
@@ -123,6 +128,3 @@ Stage | total | merged/live | in flight | waiting
 - 2026-10-12T03:01:30Z · 143 (Job 1416): ready → ci_running
 - 2026-10-12T03:01:30Z · 141 (Job 1329): ready → ci_running
 - 2026-10-12T03:01:30Z · 125 (Job 1415): ready → ci_running
-- 2026-10-12T03:01:30Z · 123 (Job 1328): ready → ci_running
-- 2026-10-12T03:01:30Z · 107 (Job 1414): ready → ci_running
-- 2026-10-12T03:01:30Z · 105 (Job 1327): ready → ci_running
