@@ -715,3 +715,336 @@ html[data-reduced-motion="true"] #connectPlayersScreen *::after {
 
 /* QoL 1 (BH-12): on the recovery screen RESTORE BACKUP leads (solid yellow, first in focus order); DELETE OLD SHOWDOWN & START OVER stays, smaller (still a 44px tap target, JOB-1102). #app prefix beats the Team V sheets that load later. */
 #app #connectPlayersScreen #persistentNikDanielPairPanel .menuButton.pairRecoverySecondary{flex:0 0 auto;min-height:44px;padding:6px 10px;font-size:12px;letter-spacing:.04em;}
+
+
+/* JOB-1696: one foreground main scrolls; media-scoped #app selectors win
+   against the later Team V foundation sheets. Runtime words/controls stay intact. */
+@media (max-width:900px), (min-width:901px) and (min-height:600px) {
+ #app #connectPlayersScreen {
+  display:block;padding:0;overflow:hidden;
+ }
+ #app #connectPlayersScreen .connectPlayersPhoneFlow {
+  position:relative;inset:auto;z-index:2;display:block;
+  width:100%;height:100%;min-height:0;max-width:none;margin:0;padding:0;
+  box-sizing:border-box;overflow-x:hidden;overflow-y:auto;
+  overscroll-behavior-y:contain;-webkit-overflow-scrolling:touch;
+  scrollbar-color:var(--cp-gold) #07080a;
+ }
+ #app #connectPlayersScreen .connectPlayersWorkspace {
+  min-width:0;max-height:none;overflow:visible;
+ }
+ #app #connectPlayersScreen #connectPlayersPairSlot {
+  flex:0 0 auto;min-width:0;min-height:0;overflow:visible;overscroll-behavior:auto;
+ }
+ #app #connectPlayersScreen .connectPlayersRole,
+ #app #connectPlayersScreen .connectPlayersTabs span,
+ #app #connectPlayersScreen .menuButton,
+ #app #connectPlayersScreen .connectPlayersBack {
+  min-width:0;max-width:100%;box-sizing:border-box;
+  white-space:normal;overflow-wrap:normal;word-break:normal;
+ }
+ #app #connectPlayersScreen #persistentNikDanielPairPanel,
+ #app #connectPlayersScreen #persistentNikDanielPairPanel>div {
+  min-width:0;max-width:100%;box-sizing:border-box;
+ }
+ #app #connectPlayersScreen #persistentNikDanielPairPanel code,
+ #app #connectPlayersScreen #persistentNikDanielPairCode {
+  width:100%;max-width:100%;min-width:0;box-sizing:border-box;
+ }
+ #app #connectPlayersScreen .menuButton,
+ #app #connectPlayersScreen .connectPlayersBack {
+  min-width:44px;min-height:44px;
+ }
+ #app #connectPlayersScreen button:active:not(:disabled) {
+  transform:translateY(1px);filter:brightness(1.12);
+ }
+ #app #connectPlayersScreen .connectPlayersTabs label:active span {
+  filter:brightness(1.15);
+ }
+ #app #connectPlayersScreen button:focus-visible,
+ #app #connectPlayersScreen input:not([type="radio"]):focus-visible {
+  outline:3px solid var(--cp-gold);outline-offset:2px;
+  box-shadow:0 0 0 2px #07080a,0 0 0 5px #f0c84b59;
+ }
+ #app #connectPlayersScreen .connectPlayersTabs input:focus-visible+span {
+  outline:3px solid var(--cp-gold);outline-offset:-3px;
+ }
+}
+
+/* Upright phones retain adopted 1110's order, own art and bright-gold title.
+   The hero is the flexible row: a real code/error may need more room than
+   the static study's empty pair slot. No reserved old-hero padding remains. */
+@media (max-width:900px) and (orientation:portrait) {
+ #app #connectPlayersScreen {
+  --cp-scene:clamp(0px,min(33svh,calc(100svh - var(--cp-top) - var(--cp-bottom) - 340px)),340px);
+  background:#07080a url('../visual-assets/v10_1/start-join/assets/ENV_SJ_PHONE_V1.webp') center/cover no-repeat;
+ }
+ html[data-nav="hub"] #app #connectPlayersScreen {
+  --cp-bottom:var(--sd-nav-bottom-space,calc(56px + env(safe-area-inset-bottom,0px)));
+ }
+ #app #connectPlayersScreen .connectPlayersArt { display:none; }
+ #app #connectPlayersScreen .connectPlayersPhoneFlow {
+  display:flex;flex-direction:column;justify-content:flex-start;
+  gap:8px;padding:0 max(12px,env(safe-area-inset-left,0px)) 12px;
+ }
+ #app #connectPlayersScreen .connectPlayersPhoneScene {
+  position:relative;display:block;order:0;flex:1 1 var(--cp-scene);
+  height:auto;min-height:0;max-height:var(--cp-scene);
+  margin:0 -12px;overflow:hidden;pointer-events:none;
+ }
+ #app #connectPlayersScreen .connectPlayersPhoneScene img {
+  position:absolute;top:0;height:180%;width:auto;max-width:none;
+  filter:drop-shadow(0 4px 7px #000a);
+ }
+ #app #connectPlayersScreen .connectPlayersSceneDaniel { left:-4%; }
+ #app #connectPlayersScreen .connectPlayersSceneNik { left:49%; }
+ #app #connectPlayersScreen .connectPlayersPhoneScene::after {
+  content:"";position:absolute;inset:65% 0 0;height:auto;
+  background:linear-gradient(transparent,#080909dd);
+ }
+ #app #connectPlayersScreen .connectPlayersHeader {
+  position:relative;inset:auto;order:1;flex:0 0 auto;width:100%;
+  max-width:660px;min-width:0;margin:0 auto;padding:0;
+  display:flex;flex-direction:column;align-items:center;gap:3px;
+ }
+ #app #connectPlayersScreen .connectPlayersKicker {
+  position:static;transform:none;display:block;width:100%;margin:0;
+  font-size:9px;line-height:1.2;letter-spacing:.28em;white-space:normal;
+ }
+ #app #connectPlayersScreen h2#connectPlayersTitle {
+  position:static;transform:none;width:auto;max-width:100%;margin:0;padding:0 0 3px;
+  font:italic 900 clamp(27px,8.6vw,37px)/1.12 Impact,"Arial Narrow",sans-serif;
+  letter-spacing:-.03em;color:#ffda4e;background:none;-webkit-text-fill-color:#ffda4e;
+  filter:drop-shadow(0 2px 1px #000) drop-shadow(0 0 7px #e3b63670);
+  white-space:normal;overflow-wrap:normal;word-break:normal;
+ }
+ #app #connectPlayersScreen .connectPlayersTagline {
+  position:static;transform:none;display:block;width:100%;max-width:370px;margin:0;
+  font-size:10px;line-height:1.35;font-weight:700;letter-spacing:0;
+  white-space:normal;overflow-wrap:normal;
+ }
+ #app #connectPlayersScreen .connectPlayersWorkspace {
+  position:relative;inset:auto;order:2;flex:0 0 auto;
+  width:100%;max-width:660px;height:auto;margin:0 auto;padding:0;
+  display:flex;flex-direction:column;gap:8px;
+  border:0;background:none;box-shadow:none;
+ }
+ #app #connectPlayersScreen .connectPlayersTabRow {
+  position:relative;display:flex;flex:0 0 auto;min-height:44px;
+ }
+ #app #connectPlayersScreen .connectPlayersTabs {
+  display:flex;flex:1 1 auto;gap:0;margin-right:60px;min-width:0;
+  border:1px solid #f5ce55;background:#080909ee;
+  box-shadow:inset 0 0 0 3px #81622b44,0 0 12px #efc04722;
+ }
+ #app #connectPlayersScreen .connectPlayersTabs label {
+  position:relative;flex:1 1 0;min-width:44px;min-height:44px;
+ }
+ #app #connectPlayersScreen .connectPlayersTabs span {
+  min-height:44px;height:100%;padding:0 3px;font-size:11px;
+  line-height:1.15;letter-spacing:0;text-align:center;
+ }
+ #app #connectPlayersScreen .connectPlayersTabs input:checked+span {
+  background:linear-gradient(120deg,#ad7917,#e0b837 52%,#9d6c15);
+  color:#000;box-shadow:inset 0 -2px #ffe17b;
+ }
+ #app #connectPlayersScreen .connectPlayersBack {
+  position:absolute;top:0;right:0;width:52px;min-width:52px;height:100%;
+  padding:0;border:1px solid #f5ce55;border-radius:0;
+  font-size:11px;letter-spacing:0;background:#080909ee;
+ }
+ #app #connectPlayersScreen .connectPlayersRoles { display:block;flex:0 0 auto; }
+ #app #connectPlayersScreen .connectPlayersRole {
+  display:none;min-height:0;padding:10px 12px;
+  border:1px solid #f5ce55;
+  background:linear-gradient(90deg,#060808f5,#080909b8),
+   url('../visual-assets/v10_1/start-join/assets/ENV_SJ_PHONE_V1.webp') center 62%/cover;
+  box-shadow:inset 0 0 0 3px #d1a73922,0 0 14px #e8b62e24;
+ }
+ #app #connectPlayersScreen .connectPlayersWorkspace:has(#connectPlayersDanielTab:checked) .connectPlayersRoleDaniel,
+ #app #connectPlayersScreen .connectPlayersWorkspace:has(#connectPlayersNikTab:checked) .connectPlayersRoleNik { display:block; }
+ #app #connectPlayersScreen .connectPlayersRole>span { display:none; }
+ #app #connectPlayersScreen .connectPlayersRole h3 {
+  margin:0 0 6px;font-size:21px;line-height:1.1;letter-spacing:-.03em;
+ }
+ #app #connectPlayersScreen .connectPlayersRole p {
+  display:block;margin:0 0 8px;font-size:12px;line-height:1.35;color:#d6d5cf;
+ }
+ #app #connectPlayersScreen #connectPlayersSetup {
+  min-height:44px;margin:0!important;padding:8px 18px;
+  border:2px solid #ffe786;background:linear-gradient(120deg,#f9db4b,#ffde16 50%,#e3ad15);
+  color:#171205;font-size:16px;font-weight:900;letter-spacing:.025em;
+  box-shadow:0 2px 14px #e5b82f55;
+ }
+ #app #connectPlayersScreen #persistentNikDanielPairPanel { padding:8px; }
+ #app #connectPlayersScreen #persistentNikDanielPairPanel>strong { font-size:18px;line-height:1.15; }
+ #app #connectPlayersScreen #persistentNikDanielPairPanel>p {
+  margin:0 0 6px;font-size:11px;line-height:1.3;overflow-wrap:break-word;
+ }
+ #app #connectPlayersScreen #persistentNikDanielPairPanel>strong:not(.connectPlayersRepeat)+p { margin-top:6px; }
+ #app #connectPlayersScreen #persistentNikDanielPairPanel>div { gap:6px; }
+ #app #connectPlayersScreen #persistentNikDanielPairPanel span { font-size:10px;line-height:1.2;letter-spacing:0; }
+ #app #connectPlayersScreen #persistentNikDanielPairPanel .menuButton { padding:8px;font-size:13px;line-height:1.1;letter-spacing:.025em; }
+ #app #connectPlayersScreen #persistentNikDanielPairCode { font-size:16px; }
+}
+@media (max-width:375px) and (orientation:portrait) {
+ #app #connectPlayersScreen .connectPlayersTabs span { font-size:10px; }
+}
+@media (max-width:900px) and (max-height:580px) and (orientation:portrait) {
+ #app #connectPlayersScreen .connectPlayersKicker { font-size:8px; }
+ #app #connectPlayersScreen h2#connectPlayersTitle { font-size:29px; }
+ #app #connectPlayersScreen .connectPlayersTagline { font-size:9px; }
+ #app #connectPlayersScreen .connectPlayersPhoneFlow { gap:6px;padding-bottom:8px; }
+ #app #connectPlayersScreen .connectPlayersWorkspace { gap:6px; }
+}
+/* Both upright tablets use the same flow, including 820x1180 (previously
+   outside JOB-1095). The hero is the flexible row, so it grows to fill the
+   screen top to bottom yet always gives way to the controls. */
+@media (min-width:700px) and (max-width:900px) and (min-height:701px) and (orientation:portrait) {
+ #app #connectPlayersScreen {
+  --cp-scene:clamp(0px,min(44svh,calc(100svh - var(--cp-top) - var(--cp-bottom) - 500px)),600px);
+ }
+ #app #connectPlayersScreen .connectPlayersPhoneFlow { padding-inline:24px;padding-bottom:24px;gap:16px; }
+ #app #connectPlayersScreen .connectPlayersPhoneScene { margin-inline:-24px; }
+ #app #connectPlayersScreen .connectPlayersPhoneScene img { height:150%; }
+ #app #connectPlayersScreen h2#connectPlayersTitle { font-size:56px; }
+ #app #connectPlayersScreen .connectPlayersKicker { font-size:13px; }
+ #app #connectPlayersScreen .connectPlayersTagline { max-width:640px;font-size:16px; }
+ #app #connectPlayersScreen .connectPlayersTabs span { font-size:18px; }
+ #app #connectPlayersScreen .connectPlayersBack { font-size:14px; }
+ #app #connectPlayersScreen .connectPlayersRole { padding:20px; }
+ #app #connectPlayersScreen .connectPlayersRole h3 { font-size:32px; }
+ #app #connectPlayersScreen .connectPlayersRole p { font-size:17px; }
+ #app #connectPlayersScreen #connectPlayersSetup { min-height:52px;font-size:21px; }
+ #app #connectPlayersScreen #persistentNikDanielPairPanel { padding:18px; }
+ #app #connectPlayersScreen #persistentNikDanielPairPanel>strong { font-size:22px; }
+ #app #connectPlayersScreen #persistentNikDanielPairPanel>p { font-size:16px; }
+ #app #connectPlayersScreen #persistentNikDanielPairPanel .menuButton { min-height:50px;font-size:18px; }
+ #app #connectPlayersScreen #persistentNikDanielPairPanel span { font-size:13px; }
+ #app #connectPlayersScreen #persistentNikDanielPairCode { font-size:18px; }
+}
+
+/* Short landscape phones (study 1113 layout): Daniel left and Nik right of a
+   centred column. Roles and the pair panel sit side by side under the
+   unchanged tab/tap order, so the primary stays in the first view. */
+@media (max-width:900px) and (max-height:500px) and (orientation:landscape) {
+ #app #connectPlayersScreen { background:#07080a url('../visual-assets/v10_1/start-join/assets/ENV_SJ_PHONE_V1.webp') center/cover no-repeat; }
+ html[data-nav="hub"] #app #connectPlayersScreen { --cp-bottom:var(--sd-nav-bottom-space,calc(56px + env(safe-area-inset-bottom,0px))); }
+ #app #connectPlayersScreen .connectPlayersArt { display:none; }
+ #app #connectPlayersScreen .connectPlayersPhoneFlow {
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+  padding:6px max(12px,env(safe-area-inset-right,0px)) 10px max(12px,env(safe-area-inset-left,0px));
+ }
+ #app #connectPlayersScreen .connectPlayersPhoneScene {
+  position:absolute;inset:0;z-index:0;display:block;min-width:0;min-height:0;
+  height:auto;max-height:none;margin:0;overflow:hidden;pointer-events:none;
+ }
+ #app #connectPlayersScreen .connectPlayersPhoneScene img {
+  position:absolute;top:0;height:100%;width:auto;max-width:none;
+  filter:drop-shadow(0 4px 7px #000a);
+ }
+ #app #connectPlayersScreen .connectPlayersSceneDaniel { left:-6%; }
+ #app #connectPlayersScreen .connectPlayersSceneNik { left:75%; }
+ #app #connectPlayersScreen .connectPlayersPhoneScene::after {
+  content:"";position:absolute;inset:0;height:auto;
+  background:linear-gradient(90deg,transparent 12%,#08090988 25%,#08090988 75%,transparent 88%);
+ }
+ #app #connectPlayersScreen .connectPlayersHeader {
+  position:relative;z-index:2;inset:auto;flex:0 0 auto;width:clamp(440px,58%,640px);max-width:100%;min-width:0;
+  display:flex;flex-direction:column;align-items:center;gap:2px;margin:0;
+ }
+ #app #connectPlayersScreen .connectPlayersKicker,
+ #app #connectPlayersScreen .connectPlayersTagline {
+  position:static;transform:none;display:block;width:100%;margin:0;
+  white-space:normal;overflow-wrap:normal;letter-spacing:.04em;
+ }
+ #app #connectPlayersScreen .connectPlayersKicker { font-size:8px;line-height:1.2; }
+ #app #connectPlayersScreen .connectPlayersTagline { font-size:9px;line-height:1.2; }
+ #app #connectPlayersScreen h2#connectPlayersTitle {
+  position:static;transform:none;width:auto;max-width:100%;margin:0;padding:0;
+  font:italic 900 28px/1.1 Impact,"Arial Narrow",sans-serif;
+  color:#ffda4e;background:none;-webkit-text-fill-color:#ffda4e;letter-spacing:-.03em;
+ }
+ #app #connectPlayersScreen .connectPlayersWorkspace {
+  align-self:center;position:relative;z-index:2;inset:auto;flex:0 0 auto;
+  width:clamp(440px,58%,640px);max-width:100%;height:auto;margin:0;padding:0;border:0;background:none;box-shadow:none;
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;
+ }
+ #app #connectPlayersScreen .connectPlayersTabRow { display:flex;grid-column:1/-1;position:relative;min-height:44px; }
+ #app #connectPlayersScreen .connectPlayersTabs { display:flex;flex:1 1 auto;margin-right:60px;gap:0; }
+ #app #connectPlayersScreen .connectPlayersTabs label { flex:1 1 0;min-width:44px;min-height:44px; }
+ #app #connectPlayersScreen .connectPlayersTabs span { height:100%;min-height:44px;font-size:11px;line-height:1.1;letter-spacing:0; }
+ #app #connectPlayersScreen .connectPlayersTabs input:checked+span { color:#000;background:linear-gradient(120deg,#ad7917,#e0b837 52%,#9d6c15);box-shadow:inset 0 -2px #ffe17b; }
+ #app #connectPlayersScreen .connectPlayersBack {
+  position:absolute;top:0;right:0;width:52px;height:100%;padding:0;border-radius:0;font-size:11px;
+ }
+ #app #connectPlayersScreen .connectPlayersRoles { display:block;min-width:0; }
+ #app #connectPlayersScreen .connectPlayersRole { display:none;min-height:0;padding:8px; }
+ #app #connectPlayersScreen .connectPlayersWorkspace:has(#connectPlayersDanielTab:checked) .connectPlayersRoleDaniel,
+ #app #connectPlayersScreen .connectPlayersWorkspace:has(#connectPlayersNikTab:checked) .connectPlayersRoleNik { display:block; }
+ #app #connectPlayersScreen .connectPlayersRole>span { display:none; }
+ #app #connectPlayersScreen .connectPlayersRole h3 { margin:0 0 4px;font-size:20px;line-height:1.1; }
+ #app #connectPlayersScreen .connectPlayersRole p { display:block;margin:0 0 6px;font-size:11px;line-height:1.25; }
+ #app #connectPlayersScreen #connectPlayersSetup { width:100%;margin:0!important;padding:6px;font-size:14px; }
+ #app #connectPlayersScreen #persistentNikDanielPairPanel { padding:8px; }
+ #app #connectPlayersScreen #persistentNikDanielPairPanel>strong { font-size:18px;line-height:1.1; }
+ #app #connectPlayersScreen #persistentNikDanielPairPanel>p { margin:4px 0 6px;font-size:11px;line-height:1.25;overflow-wrap:break-word; }
+ #app #connectPlayersScreen #persistentNikDanielPairPanel>div { gap:6px; }
+ #app #connectPlayersScreen #persistentNikDanielPairPanel .menuButton { flex-basis:100%;padding:6px;font-size:13px;line-height:1.1;letter-spacing:0; }
+ #app #connectPlayersScreen #persistentNikDanielPairPanel span { font-size:10px;line-height:1.2;letter-spacing:0; }
+ #app #connectPlayersScreen #persistentNikDanielPairCode { font-size:16px; }
+ #app #connectPlayersScreen .connectPlayersWorkspace:has(#connectPlayersConnectionTab:checked) #connectPlayersPairSlot { grid-column:1/-1; }
+}
+
+/* Desktop keeps JOB-1100's camera proportions and two gold-bevel cards;
+   flow height now includes the runtime panel instead of clipping at 59.7vh. */
+@media (min-width:901px) and (min-height:600px) {
+ #app #connectPlayersScreen .connectPlayersPhoneScene,
+ #app #connectPlayersScreen .connectPlayersArt { display:none; }
+ #app #connectPlayersScreen .connectPlayersHeader {
+  position:relative;inset:auto;min-width:0;height:calc(38.3svh - var(--cp-top));
+  margin:0;padding:0;display:block;
+ }
+ #app #connectPlayersScreen .connectPlayersKicker {
+  top:calc(16.6svh - var(--cp-top));left:50%;width:90%;
+  font-size:clamp(13px,min(.95vw,1.7svh),30px);
+  white-space:normal;overflow-wrap:normal;
+ }
+ #app #connectPlayersScreen h2#connectPlayersTitle {
+  top:calc(22svh - var(--cp-top));left:50%;max-width:90%;
+  padding:.02em .14em .08em;line-height:1;
+  font-size:clamp(44px,min(4.96vw,8svh),112px);
+ }
+ #app #connectPlayersScreen .connectPlayersTagline {
+  top:calc(32.6svh - var(--cp-top));left:50%;width:80%;margin:0;
+  font-size:clamp(10px,min(.68vw,1.2svh),20px);
+  white-space:normal;overflow-wrap:normal;
+ }
+ #app #connectPlayersScreen .connectPlayersWorkspace {
+  position:relative;inset:auto;width:49.2%;height:auto;
+  margin:0 auto 24px;padding:0;max-height:none;
+ }
+ #app #connectPlayersScreen .connectPlayersRole { overflow-wrap:normal;word-break:normal; }
+ #app #connectPlayersScreen .connectPlayersRoleNik>span,
+ #app #connectPlayersScreen .connectPlayersRoleNik h3 {
+  padding-right:calc(clamp(60px,7.8svh,130px) + 8px);
+ }
+ #app #connectPlayersScreen .connectPlayersRoleNik { position:relative; }
+ #app #connectPlayersScreen #persistentNikDanielPairPanel {
+  border-color:#e8bd4a;background:linear-gradient(160deg,#0b0b0ce8,#131211ed 60%,#0a0a0a);
+  box-shadow:inset 0 0 0 3px #0a0a0b,inset 0 0 0 4px #c9962e66,0 8px 28px #000a;
+ }
+ #app #connectPlayersScreen[data-connection="active"] #persistentNikDanielPairPanel { border-color:#80c97ab3; }
+ #app #connectPlayersScreen #persistentNikDanielPairPanel>p { overflow-wrap:break-word; }
+ #app #connectPlayersScreen #connectPlayersSetup { min-width:0;white-space:normal; }
+}
+/* Short laptops: less inner padding leaves the unchanged primary inside the
+   first viewport; BACK's corner reservation still protects the Nik labels. */
+@media (min-width:901px) and (min-height:600px) and (max-height:820px) {
+ #app #connectPlayersScreen .connectPlayersRole { padding:20px 16px 16px; }
+ #app #connectPlayersScreen .connectPlayersRole h3 { font-size:clamp(22px,3.4svh,28px); }
+ #app #connectPlayersScreen .connectPlayersRole p { font-size:12px; }
+ #app #connectPlayersScreen .connectPlayersBack { top:10px;right:10px; }
+ #app #connectPlayersScreen .connectPlayersRoleNik>span,
+ #app #connectPlayersScreen .connectPlayersRoleNik h3 { padding-right:70px; }
+}
