@@ -11,6 +11,7 @@ Image 5 of 14 for job 1610 (plan 2, next-level desktop), added Sun 11 Oct 12:30 
    - the top bar still reads CM17, then HOME, CAREER, STANDINGS, STATS, RULES, with nothing added at the right
    - the whole screen fits, nothing cut off
    - no real club crests, league logos or trophies
+   - the gold ring covers no part of any league name or mark, and all five names and marks match in colour and style
    - it looks a full level more luxurious than the attached screen, not just a light touch-up
    - Save only the picture this Temporary Chat just made. Never take one from the Images library or from another chat.
 5. If it passes, download it and drop it into Claude's factory thread with the words `1610 LEAGUE`. If it fails, close that chat and start again in a new Temporary Chat (up to 3 tries). Never send a picture that fails.
@@ -40,7 +41,7 @@ The big upgrade (this is the point of this picture):
 - Lighting: dramatic but controlled, like a luxury watch advert: a warm gold key light on both faces, deep black shadows and a gentle rim light. Glow only on the title and the main button. No lens flares, sparkles or light bursts behind heads or text.
 - Every text panel sits on clean near-black so every word reads easily; buttons look like real polished, bevelled game buttons.
 
-Also required: Make the wheel a premium polished gold prize wheel. Its five league marks are one flat gold set of this game's own marks, never real logos: Premier League = a crown, LaLiga = a bull, Bundesliga = a round plate, Serie A = a shield, Ligue 1 = the numeral 1. The marks sit fully inside their segments, never covered by the rim. The hub is a football, not a crown. Keep the stadium and both managers behind the wheel.
+Also required: Make the wheel a premium polished gold prize wheel. The gold rim must never cover any part of a league name or league mark: every name and mark sits fully inside its own segment with clear space before the rim. All five league names and marks use one matching premium finish (the same polished gold with the same dark engraving, the same size and the same lettering), so no league looks different from the others; the chosen league's segment may glow, but its name and mark keep the same style. The five league marks are this game's own marks, never real logos: Premier League = a crown, LaLiga = a bull, Bundesliga = a round plate, Serie A = a shield, Ligue 1 = the numeral 1. The hub is a football, not a crown. Keep the stadium and both managers behind the wheel.
 
 Rules: everything must fit on this one screen with nothing cut off. No real club crests, league logos, real trophies or player photos; the club badges stay exactly as they are. The black bars at the top and bottom stay plain black. Same wide landscape framing as the attached image, largest size available.
 ```
