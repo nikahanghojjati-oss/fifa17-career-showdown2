@@ -1,16 +1,16 @@
 {
-"updated": "2026-10-12T02:30:14Z",
+"updated": "2026-10-12T02:31:44Z",
 "total": 552,
 "next_free": 187,
-"highest_taken": 522,
+"highest_taken": 524,
 "counts": {
 "merged": 181,
 "closed": 82,
 "ci_failed": 5,
 "ready": 10,
-"on_train": 18,
-"draft": 9,
-"waiting": 245,
+"on_train": 14,
+"draft": 17,
+"waiting": 241,
 "blocked": 1,
 "started": 1
 },
@@ -23,9 +23,9 @@
 "closed": 44,
 "ci_failed": 5,
 "ready": 10,
-"on_train": 14,
-"draft": 4,
-"waiting": 144
+"on_train": 11,
+"draft": 8,
+"waiting": 143
 }
 },
 "1": {
@@ -33,17 +33,17 @@
 "total": 146,
 "states": {
 "merged": 112,
-"waiting": 32,
-"draft": 1,
-"started": 1
+"draft": 4,
+"started": 1,
+"waiting": 29
 }
 },
 "3": {
 "name": "Match desktop to mockups",
 "total": 14,
 "states": {
-"on_train": 4,
-"draft": 1,
+"on_train": 3,
+"draft": 2,
 "waiting": 8,
 "closed": 1
 }
@@ -76,40 +76,37 @@
 684,
 686,
 687,
-702
+702,
+705
 ],
 "on_train_no_pr": [
 181,
 183,
-189,
 191,
 199,
 201,
-207,
 209,
 217,
 219,
-225,
 227,
 235,
 237,
-243,
 403,
 411,
 419
 ],
-"draft_code_prs": 1,
+"draft_code_prs": 2,
 "area_locks": {
 "club": 684,
 "career-screens": 686,
 "rules-settings": 687,
-"league": 702
+"league": 702,
+"transfer": 705
 },
 "ready": [
 245,
 253,
 255,
-261,
 296,
 302,
 324,
@@ -117,13 +114,13 @@
 352,
 358,
 366,
-368
+368,
+370
 ],
 "ready_sol": [
 245,
 253,
 255,
-261,
 296,
 302,
 324,
@@ -131,14 +128,14 @@
 352,
 358,
 366,
-368
+368,
+370
 ],
 "ready_codex": [],
 "ready_all": [
 245,
 253,
 255,
-261,
 296,
 302,
 324,
@@ -201,10 +198,7 @@
 472,
 474,
 476,
-519,
-521,
 523,
-524,
 525,
 526,
 527,
@@ -370,13 +364,13 @@
 474,
 476
 ],
-"ready_total": 98,
+"ready_total": 94,
 "held_until_picture": 0,
 "held_by_picture": {}
 },
 "rate": {
-"claimed_last_hour": 21,
-"claimed_last_10min": 8,
+"claimed_last_hour": 25,
+"claimed_last_10min": 11,
 "merged_last_hour": 0
 },
 "lanes": {
@@ -388,21 +382,23 @@
 "closed": 25,
 "ci_failed": 5,
 "ready": 10,
-"on_train": 18,
-"draft": 5,
-"waiting": 148
+"on_train": 14,
+"draft": 10,
+"waiting": 145,
+"audit_batch": 1,
+"started": 1
 },
 "reviews": {
 "ok": 0,
 "ok_notes": 0,
 "needs_changes": 0
 },
-"picked_up": 108,
-"worker_done": 83,
+"picked_up": 111,
+"worker_done": 85,
 "finished": 45,
-"pending_lead": 33,
+"pending_lead": 34,
 "wait_v": 0,
-"audit_batch": 0,
+"audit_batch": 1,
 "trouble": 5,
 "closed": 25,
 "reviews_total": 0,
@@ -417,21 +413,20 @@
 "no_pr": 37,
 "wait_v": 3,
 "blocked": 1,
-"waiting": 97,
-"audit_batch": 1,
-"started": 1
+"waiting": 96,
+"audit_batch": 3
 },
 "reviews": {
 "ok": 0,
 "ok_notes": 0,
 "needs_changes": 0
 },
-"picked_up": 129,
-"worker_done": 127,
+"picked_up": 130,
+"worker_done": 129,
 "finished": 123,
 "pending_lead": 0,
 "wait_v": 3,
-"audit_batch": 1,
+"audit_batch": 3,
 "trouble": 1,
 "closed": 0,
 "reviews_total": 0,
@@ -568,7 +563,8 @@
 "ready_for_lead": [
 686,
 687,
-702
+702,
+705
 ],
 "old_main_prs": 0,
 "codex_next": [
@@ -1494,69 +1490,6 @@
 }
 ],
 "events": [
-{
-"at": "2026-10-11T06:35:00Z",
-"item": 84,
-"job": 1508,
-"from": "draft",
-"to": "merged"
-},
-{
-"at": "2026-10-11T06:35:00Z",
-"item": 86,
-"job": 1509,
-"from": "draft",
-"to": "merged"
-},
-{
-"at": "2026-10-11T06:35:00Z",
-"item": 88,
-"job": 1510,
-"from": "draft",
-"to": "merged"
-},
-{
-"at": "2026-10-11T06:35:00Z",
-"item": 90,
-"job": 1511,
-"from": "draft",
-"to": "merged"
-},
-{
-"at": "2026-10-11T06:35:00Z",
-"item": 92,
-"job": 1512,
-"from": "draft",
-"to": "merged"
-},
-{
-"at": "2026-10-11T06:35:00Z",
-"item": 94,
-"job": 1513,
-"from": "draft",
-"to": "merged"
-},
-{
-"at": "2026-10-11T06:35:00Z",
-"item": 96,
-"job": 1514,
-"from": "draft",
-"to": "merged"
-},
-{
-"at": "2026-10-11T06:35:00Z",
-"item": 98,
-"job": 1515,
-"from": "draft",
-"to": "merged"
-},
-{
-"at": "2026-10-11T06:35:00Z",
-"item": 100,
-"job": 1516,
-"from": "draft",
-"to": "merged"
-},
 {
 "at": "2026-10-11T06:35:00Z",
 "item": 102,
@@ -3593,6 +3526,69 @@
 "job": 1664,
 "from": "waiting",
 "to": "started"
+},
+{
+"at": "2026-10-12T02:31:44Z",
+"item": 189,
+"job": 1187,
+"from": "on_train",
+"to": "draft"
+},
+{
+"at": "2026-10-12T02:31:44Z",
+"item": 207,
+"job": 1188,
+"from": "on_train",
+"to": "draft"
+},
+{
+"at": "2026-10-12T02:31:44Z",
+"item": 225,
+"job": 1189,
+"from": "on_train",
+"to": "draft"
+},
+{
+"at": "2026-10-12T02:31:44Z",
+"item": 243,
+"job": 1190,
+"from": "on_train",
+"to": "draft"
+},
+{
+"at": "2026-10-12T02:31:44Z",
+"item": 261,
+"job": 1191,
+"from": "waiting",
+"to": "draft"
+},
+{
+"at": "2026-10-12T02:31:44Z",
+"item": 519,
+"job": 1661,
+"from": "waiting",
+"to": "draft"
+},
+{
+"at": "2026-10-12T02:31:44Z",
+"item": 521,
+"job": 1663,
+"from": "waiting",
+"to": "started"
+},
+{
+"at": "2026-10-12T02:31:44Z",
+"item": 522,
+"job": 1664,
+"from": "started",
+"to": "draft"
+},
+{
+"at": "2026-10-12T02:31:44Z",
+"item": 524,
+"job": 1666,
+"from": "waiting",
+"to": "draft"
 }
 ],
 "items": {
@@ -6627,10 +6623,19 @@
 "title": "Transfer challenge and Signing Entry: match the desktop mockup",
 "mode": "code",
 "group": "transfer",
-"state": "on_train",
+"pr": 705,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/705",
+"base": "gameplay/bug-list-1",
 "branch": "gameplay/train-transfer-3",
+"ci": "draft",
+"ci_sha": "7f5abece435713e111c8e72a73ab158cdafaa9e0",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-12T02:31:13Z",
 "first_seen": "2026-10-12T01:27:58Z",
-"since": "2026-10-12T01:27:58Z"
+"since": "2026-10-12T02:31:44Z"
 },
 "190": {
 "job": 1561,
@@ -6877,10 +6882,19 @@
 "title": "Transfer challenge and Signing Entry: long names",
 "mode": "code",
 "group": "transfer",
-"state": "on_train",
+"pr": 705,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/705",
+"base": "gameplay/bug-list-1",
 "branch": "gameplay/train-transfer-3",
+"ci": "draft",
+"ci_sha": "7f5abece435713e111c8e72a73ab158cdafaa9e0",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-12T02:31:13Z",
 "first_seen": "2026-10-12T02:08:59Z",
-"since": "2026-10-12T02:08:59Z"
+"since": "2026-10-12T02:31:44Z"
 },
 "208": {
 "job": 1570,
@@ -7127,10 +7141,19 @@
 "title": "Transfer challenge and Signing Entry: tap targets",
 "mode": "code",
 "group": "transfer",
-"state": "on_train",
+"pr": 705,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/705",
+"base": "gameplay/bug-list-1",
 "branch": "gameplay/train-transfer-3",
+"ci": "draft",
+"ci_sha": "7f5abece435713e111c8e72a73ab158cdafaa9e0",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-12T02:31:13Z",
 "first_seen": "2026-10-12T02:14:59Z",
-"since": "2026-10-12T02:14:59Z"
+"since": "2026-10-12T02:31:44Z"
 },
 "226": {
 "job": 1400,
@@ -7376,10 +7399,19 @@
 "title": "Transfer challenge and Signing Entry: keyboard focus and reduced motion",
 "mode": "code",
 "group": "transfer",
-"state": "on_train",
+"pr": 705,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/705",
+"base": "gameplay/bug-list-1",
 "branch": "gameplay/train-transfer-3",
+"ci": "draft",
+"ci_sha": "7f5abece435713e111c8e72a73ab158cdafaa9e0",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-12T02:31:13Z",
 "first_seen": "2026-10-12T02:22:29Z",
-"since": "2026-10-12T02:22:29Z"
+"since": "2026-10-12T02:31:44Z"
 },
 "244": {
 "job": 1458,
@@ -7619,8 +7651,19 @@
 "title": "Transfer challenge and Signing Entry: text contrast",
 "mode": "code",
 "group": "transfer",
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"pr": 705,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/705",
+"base": "gameplay/bug-list-1",
+"branch": "gameplay/train-transfer-3",
+"ci": "draft",
+"ci_sha": "7f5abece435713e111c8e72a73ab158cdafaa9e0",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-12T02:31:13Z",
+"first_seen": "2026-10-12T02:31:13Z",
+"since": "2026-10-12T02:31:44Z"
 },
 "262": {
 "job": 1140,
@@ -10314,8 +10357,19 @@
 "title": "Audit js/scoring.js for gameplay bugs (first half)",
 "mode": "audit",
 "group": null,
-"state": "waiting",
-"since": "2026-10-12T02:25:29Z"
+"pr": 704,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/704",
+"base": "qa/mega-audits",
+"branch": "qa/job-1661-scoring-tiebreakers",
+"ci": "draft",
+"ci_sha": "fbae82e993277922ff07574250b0810ebd78364a",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-12T02:30:58Z",
+"first_seen": "2026-10-12T02:30:58Z",
+"since": "2026-10-12T02:31:44Z"
 },
 "520": {
 "job": 1662,
@@ -10343,8 +10397,12 @@
 "title": "Audit js/transferSelector.js for gameplay bugs (first half)",
 "mode": "audit",
 "group": null,
-"state": "waiting",
-"since": "2026-10-12T02:25:29Z"
+"state": "started",
+"branch": "qa/job-1663-transfer-selector-audit",
+"branch_sha": "ee7a19450dc77f7897fdd1b9c4f59a3b66d3eb2a",
+"no_pr_reason": "",
+"first_seen": "2026-10-12T02:31:44Z",
+"since": "2026-10-12T02:31:44Z"
 },
 "522": {
 "job": 1664,
@@ -10352,12 +10410,19 @@
 "title": "Audit js/leagueWheel.js for gameplay bugs (first half)",
 "mode": "audit",
 "group": null,
-"state": "started",
+"pr": 703,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/703",
+"base": "qa/mega-audits",
 "branch": "qa/job-1664-league-wheel-first-half-audit",
-"branch_sha": "4a976e8d89bb3905cd97f32b86f951e34c82cb40",
-"no_pr_reason": "",
+"ci": "draft",
+"ci_sha": "4a976e8d89bb3905cd97f32b86f951e34c82cb40",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-12T02:30:19Z",
 "first_seen": "2026-10-12T02:30:14Z",
-"since": "2026-10-12T02:30:14Z"
+"since": "2026-10-12T02:31:44Z"
 },
 "523": {
 "job": 1665,
@@ -10374,8 +10439,19 @@
 "title": "Audit js/saveLibraryFoundation.js for gameplay bugs (first half)",
 "mode": "audit",
 "group": null,
-"state": "waiting",
-"since": "2026-10-12T02:25:29Z"
+"pr": 706,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/706",
+"base": "qa/mega-audits",
+"branch": "qa/job-1666-save-library-first-half-audit",
+"ci": "draft",
+"ci_sha": "94bf10e848cec865074ef5d68aebeacee3f2b9ee",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-12T02:31:30Z",
+"first_seen": "2026-10-12T02:31:30Z",
+"since": "2026-10-12T02:31:44Z"
 },
 "525": {
 "job": 1667,
