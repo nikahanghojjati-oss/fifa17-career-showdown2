@@ -1,6 +1,6 @@
 {
  "_how": "One shared job counter for Team G and Team V (Nik, 2026-10-05). Claim with tools/claim_number.py only. A number is used once, ever. CONTRACT.md section 10.",
- "next": 1712,
+ "next": 1713,
  "claims": [
   {
    "number": 1001,
@@ -4268,6 +4268,12 @@
    "team": "G",
    "title": "Screen job (chat): League, picture-free fixes at all sizes",
    "claimed": "2026-10-12T03:27:19Z"
+  },
+  {
+   "number": 1712,
+   "team": "G",
+   "title": "Screen job (chat): Club, picture-free fixes at all sizes",
+   "claimed": "2026-10-12T03:27:21Z"
   }
  ]
 }
