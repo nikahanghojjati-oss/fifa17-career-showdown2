@@ -1,5 +1,5 @@
 {
-"updated": "2026-10-12T10:11:44Z",
+"updated": "2026-10-12T10:12:53Z",
 "total": 394,
 "next_free": 374,
 "highest_taken": 541,
@@ -94,6 +94,168 @@
 462
 ],
 "ready_codex": [],
+"claimed": {
+"1696": {
+"pr": 746,
+"draft": true,
+"closed": false
+},
+"1726": {
+"pr": 744,
+"draft": true,
+"closed": false
+},
+"1723": {
+"pr": 737,
+"draft": false,
+"closed": true
+},
+"1695": {
+"pr": 743,
+"draft": true,
+"closed": false
+},
+"1725": {
+"pr": 742,
+"draft": true,
+"closed": false
+},
+"1724": {
+"pr": 741,
+"draft": true,
+"closed": false
+},
+"1651": {
+"pr": 692,
+"draft": false,
+"closed": true
+},
+"1652": {
+"pr": 691,
+"draft": false,
+"closed": true
+},
+"1653": {
+"pr": 693,
+"draft": false,
+"closed": true
+},
+"1675": {
+"pr": 736,
+"draft": true,
+"closed": false
+},
+"1683": {
+"pr": 735,
+"draft": true,
+"closed": false
+},
+"1673": {
+"pr": 734,
+"draft": true,
+"closed": false
+},
+"1682": {
+"pr": 733,
+"draft": true,
+"closed": false
+},
+"1658": {
+"pr": 700,
+"draft": false,
+"closed": true
+},
+"1671": {
+"pr": 732,
+"draft": true,
+"closed": false
+},
+"1680": {
+"pr": 731,
+"draft": true,
+"closed": false
+},
+"1681": {
+"pr": 723,
+"draft": true,
+"closed": false
+},
+"1679": {
+"pr": 722,
+"draft": true,
+"closed": false
+},
+"1677": {
+"pr": 720,
+"draft": true,
+"closed": false
+},
+"1678": {
+"pr": 717,
+"draft": true,
+"closed": false
+},
+"1676": {
+"pr": 715,
+"draft": true,
+"closed": false
+},
+"1674": {
+"pr": 714,
+"draft": true,
+"closed": false
+},
+"1672": {
+"pr": 711,
+"draft": true,
+"closed": false
+},
+"1670": {
+"pr": 710,
+"draft": true,
+"closed": false
+},
+"1668": {
+"pr": 709,
+"draft": true,
+"closed": false
+},
+"1665": {
+"pr": 708,
+"draft": true,
+"closed": false
+},
+"1663": {
+"pr": 707,
+"draft": true,
+"closed": false
+},
+"1666": {
+"pr": 706,
+"draft": true,
+"closed": false
+},
+"1661": {
+"pr": 704,
+"draft": true,
+"closed": false
+},
+"1664": {
+"pr": 703,
+"draft": true,
+"closed": false
+},
+"1662": {
+"pr": 701,
+"draft": true,
+"closed": false
+},
+"1657": {
+"pr": 694,
+"draft": false,
+"closed": true
+}
+},
 "ready_all": [
 374,
 402,
