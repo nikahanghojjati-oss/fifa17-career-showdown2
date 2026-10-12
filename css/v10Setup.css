@@ -986,6 +986,29 @@ html[data-v10-setup] main { scrollbar-color: var(--v26-gold-deep) rgba(255, 255,
   #leagueWheelScreen.v26Skin #spinLeague { min-height: 54px; }
 }
 
+/* JOB-1131: Select League only. Coarse-pointer and phone controls need a 44px
+   target and 8px clear space between neighbours; mouse desktop is unchanged.
+   The wheel is decorative/non-interactive: SPIN and BACK remain the controls. */
+@media (pointer: coarse), (max-width: 760px) {
+  #leagueWheelScreen.v26Skin :is(button, a, [role="button"], [role="tab"]) {
+    box-sizing: border-box;
+    min-width: 44px;
+    min-height: 44px;
+  }
+  /* On stacked phones the pre-existing 6px top margin left two actions too close. */
+  #leagueWheelScreen.v26Skin .wheelContainer > .backButton { margin-top: 8px; }
+  /* The shell's navigational controls are also visible on Select League. */
+  html[data-v10-setup="league"] #topHeader :is(a, button, [role="button"], [role="tab"]) {
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+    min-height: 44px;
+    margin: 4px;
+  }
+}
+
 /* Reduced motion: only the skin's own motion stops; the app's own reduced-motion rules (photos, wheel, packs) stay in charge. */
 html:is([data-motion-reduced="true"], [data-reduced-motion="true"]) :is(#createShowdown, #leagueWheelScreen, #clubWheelScreen).v26Skin :is(.v26Art, .v26Flash, .v26Burst, .clubRevealCard),
 html:is([data-motion-reduced="true"], [data-reduced-motion="true"]) #leagueWheelScreen.v26Skin .wheelItem.v26-payoff::before { animation: none !important; }
