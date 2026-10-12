@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Rule Book · sideways phone study 1731</title>
+<style>
+@font-face{font-family:"Barlow Condensed";font-weight:600;font-display:swap;src:url("../../../../visual-assets/v10_1/shared/fonts/barlow-condensed-latin-600-normal.woff2") format("woff2")}
+@font-face{font-family:"Barlow Condensed";font-weight:700;font-display:swap;src:url("../../../../visual-assets/v10_1/shared/fonts/barlow-condensed-latin-700-normal.woff2") format("woff2")}
+@font-face{font-family:"Barlow";font-weight:400;font-display:swap;src:url("../../../../visual-assets/v10_1/shared/fonts/barlow-latin-400-normal.woff2") format("woff2")}
+@font-face{font-family:"Barlow";font-weight:600;font-display:swap;src:url("../../../../visual-assets/v10_1/shared/fonts/barlow-latin-600-normal.woff2") format("woff2")}
+:root{color-scheme:dark;--gold:#f2c45b;--gold-hi:#fff3b0;--edge:rgba(212,160,23,.7);--line:rgba(222,179,79,.62);--text:#f4f1ea;--warm:#e9dfc8;--dim:#b9b3a4;
+--cond:"Barlow Condensed","Arial Narrow",sans-serif;--body:"Barlow",system-ui,sans-serif;--nav:48px;--act:44px;--gap:6px}
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#050607;color:var(--text);font-family:var(--body)}
+button,label,a{font:inherit;touch-action:manipulation}
+.sr{position:absolute;opacity:0;width:1px;height:1px;pointer-events:none}
+/* One viewport, no page scroll: rail (title + BACK) | tabs + one section card, then the hub bar. */
+.screen{position:relative;width:100%;height:100dvh;overflow:hidden;isolation:isolate;display:grid;
+grid-template-columns:clamp(222px,31%,270px) minmax(0,1fr);grid-template-rows:minmax(0,1fr) var(--nav);column-gap:10px;padding:0 8px 0 8px}
+.bg{position:absolute;inset:0;z-index:-2;background:url("../../../../visual-assets/v10_1/shared/plates/ENV_SYS_PLATE_V1_1X.webp") 50% 50%/cover no-repeat}
+.bg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(2,4,6,.8),rgba(2,4,6,.66) 31%,rgba(2,4,6,.86)),linear-gradient(90deg,rgba(0,0,0,.28),rgba(0,0,0,.08) 48%,rgba(0,0,0,.34))}
+.gear{position:absolute;z-index:6;top:6px;right:6px;width:40px;height:40px;display:grid;place-items:center;color:var(--gold);background:rgba(7,8,10,.72);border:1px solid var(--edge);border-radius:50%}
+.gear svg{width:20px;height:20px;fill:currentColor}
+/* rail */
+.rail{min-height:0;display:flex;flex-direction:column;padding:6px 0 var(--gap)}
+.hero{text-align:center;text-shadow:0 2px 14px rgba(0,0,0,.9)}
+.hero .eyebrow{display:block;font:600 8px/1.3 var(--cond);letter-spacing:.3em;text-transform:uppercase;color:var(--text)}
+.hero .eyebrow::before{content:"";display:block;width:18px;height:11px;margin:0 auto 1px;background:linear-gradient(180deg,var(--gold-hi),#ffd34d 35%,#d4a017 70%,#8a6a12);clip-path:polygon(0 22%,25% 48%,50% 0,75% 48%,100% 22%,90% 85%,10% 85%)}
+.hero img{display:block;width:min(100%,232px);height:auto;margin:3px auto 0;filter:drop-shadow(0 8px 14px rgba(0,0,0,.55))}
+.hero .tagline{display:block;margin-top:2px;font:600 8.5px/1.3 var(--cond);letter-spacing:.2em;text-transform:uppercase;color:var(--warm)}
+.hero p{margin:5px auto 0;max-width:230px;font:400 10.5px/1.3 var(--body);color:rgba(244,241,234,.8)}
+.rail .spacer{flex:1 1 0;min-height:0}
+.back{display:grid;place-items:center;height:var(--act);flex:0 0 auto;border:1px solid rgba(237,196,98,.86);background:linear-gradient(180deg,rgba(24,23,19,.96),rgba(5,6,7,.98));color:#f2deab;font:700 13px/1 var(--cond);letter-spacing:.14em;text-transform:uppercase;box-shadow:0 10px 24px rgba(0,0,0,.45),inset 0 1px rgba(255,230,153,.08);cursor:pointer;padding:0 10px;white-space:nowrap}
+.back:focus-visible{outline:2px solid #fff3bd;outline-offset:2px}
+/* body: six section tabs, then the selected section card */
+.body{min-height:0;display:grid;grid-template-rows:auto minmax(0,1fr);gap:var(--gap);padding:6px 0 var(--gap)}
+.tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;margin-right:46px}
+.tabs label{display:flex;align-items:center;gap:6px;min-width:0;min-height:32px;padding:3px 7px;border:1px solid rgba(217,174,83,.45);background:rgba(8,9,10,.88);color:var(--warm);font:700 10.5px/1.05 var(--cond);letter-spacing:.07em;text-transform:uppercase;cursor:pointer}
+.tabs i{flex:0 0 auto;width:20px;height:20px;display:grid;place-items:center;border:1px solid rgba(242,196,91,.7);border-radius:50%;font:700 9px/1 var(--cond);font-style:normal;color:var(--gold)}
+.tabs b{min-width:0;font-weight:700}
+#s1:checked~.body [for=s1],#s2:checked~.body [for=s2],#s3:checked~.body [for=s3],#s4:checked~.body [for=s4],#s5:checked~.body [for=s5],#s6:checked~.body [for=s6]{background:linear-gradient(180deg,#f2d277,#d9ae53);border-color:#f4dc8b;color:#11100d}
+#s1:checked~.body [for=s1] i,#s2:checked~.body [for=s2] i,#s3:checked~.body [for=s3] i,#s4:checked~.body [for=s4] i,#s5:checked~.body [for=s5] i,#s6:checked~.body [for=s6] i{border-color:#11100d;color:#11100d}
+#s1:focus-visible~.body [for=s1],#s2:focus-visible~.body [for=s2],#s3:focus-visible~.body [for=s3],#s4:focus-visible~.body [for=s4],#s5:focus-visible~.body [for=s5],#s6:focus-visible~.body [for=s6]{outline:2px solid #fff3bd;outline-offset:2px}
+.cards{min-height:0;display:grid}
+.ruleSection{grid-area:1/1;min-width:0;min-height:0;display:none;flex-direction:column;padding:10px 14px 10px;border:1px solid var(--line);background:linear-gradient(180deg,rgba(17,17,17,.9),rgba(6,7,8,.93)),linear-gradient(90deg,rgba(242,196,91,.05),transparent 42%);box-shadow:inset 0 1px rgba(255,231,161,.07),0 18px 34px rgba(0,0,0,.34);clip-path:polygon(10px 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%,0 10px)}
+#s1:checked~.body .ruleSection:nth-child(1),#s2:checked~.body .ruleSection:nth-child(2),#s3:checked~.body .ruleSection:nth-child(3),#s4:checked~.body .ruleSection:nth-child(4),#s5:checked~.body .ruleSection:nth-child(5),#s6:checked~.body .ruleSection:nth-child(6){display:flex}
+.scoringRuleSection{border-color:rgba(242,196,91,.86)}
+.ruleSectionHeader{flex:0 0 auto;display:grid;grid-template-columns:28px minmax(0,1fr);align-items:center;gap:10px;margin:0 0 7px;padding:0 0 7px;border-bottom:1px solid rgba(242,196,91,.28)}
+.ruleSectionHeader span{width:28px;height:28px;display:grid;place-items:center;border:1px solid rgba(242,196,91,.78);border-radius:50%;background:rgba(25,20,10,.9);color:var(--gold);font:700 11px/1 var(--cond)}
+.ruleSectionHeader h3{margin:0;font:700 14px/1 var(--cond);letter-spacing:.12em;text-transform:uppercase;color:#f3e6c3}
+/* only the inside of a card may scroll, and only if its text is taller than the card */
+.inner{flex:1 1 0;min-height:0;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:rgba(242,196,91,.55) transparent;padding-right:4px}
+.ruleSection ul{margin:0;padding:0;list-style:none;display:grid;gap:5px}
+.ruleSection li{position:relative;padding-left:13px;color:rgba(244,241,234,.9);font:400 12px/1.28 var(--body)}
+.ruleSection li::before{content:"";position:absolute;left:0;top:.62em;width:6px;height:1px;background:var(--gold);box-shadow:0 0 6px rgba(242,196,91,.35)}
+.ruleScoreTable{display:grid;gap:4px 18px;grid-template-columns:1fr 1fr}
+.ruleScoreTable div,.ruleScoreMaximum{display:flex;align-items:baseline;justify-content:space-between;gap:10px;min-width:0;color:#f4f4f2;font:600 12px/1.2 var(--cond);letter-spacing:.02em}
+.ruleScoreTable strong,.ruleScoreMaximum strong{flex:0 0 auto;color:var(--gold);font-size:1.2em;white-space:nowrap}
+.ruleScoreMaximum{margin-top:8px;padding-top:7px;border-top:1px solid rgba(242,196,91,.42);color:var(--gold);letter-spacing:.07em;text-transform:uppercase}
+/* hub bar */
+.nav{grid-column:1/-1;margin:0 -8px;display:grid;grid-template-columns:repeat(5,1fr);padding:0 4px;background:linear-gradient(180deg,rgba(10,11,14,.96),#07080a);border-top:1px solid var(--edge)}
+.nav a{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;color:var(--warm);text-decoration:none;font:600 9.5px/1 var(--cond);letter-spacing:.1em}
+.nav svg{width:18px;height:18px;fill:currentColor}
+.nav a[aria-current=page]{color:#f5c518}.nav a[aria-current=page]::after{content:"";position:absolute;top:0;left:28%;right:28%;height:2px;background:#f5c518}
+@media (max-height:375px){:root{--nav:44px;--act:40px;--gap:5px}.tabs label{min-height:30px;font-size:10px}.ruleSection{padding:8px 12px}.ruleSection li{font-size:11.5px;line-height:1.25}.hero img{width:min(100%,200px)}.nav svg{width:16px;height:16px}.ruleSectionHeader{margin-bottom:5px;padding-bottom:5px}}
+/* narrow sideways (740) */
+@media (max-width:780px) and (orientation:landscape){.screen{grid-template-columns:clamp(200px,29%,230px) minmax(0,1fr)}.hero p{font-size:10px}.tabs label{font-size:10px;letter-spacing:.05em}}
+/* phone upright: title on top, tabs, one card, BACK, hub bar */
+@media (max-width:620px) and (orientation:portrait){
+.screen{grid-template-columns:minmax(0,1fr);grid-template-rows:auto minmax(0,1fr) auto var(--nav);padding:0 8px}
+.rail{display:contents}.hero{grid-row:1;padding-top:8px}.hero img{width:min(66%,210px)}
+.body{grid-row:2;padding-top:8px}.tabs{margin-right:0}.tabs label{min-height:34px;padding:3px 5px;font-size:9.5px;gap:4px}.tabs i{width:18px;height:18px;font-size:8.5px}
+.rail .spacer{display:none}.back{grid-row:3;margin:0 0 var(--gap)}
+.nav{grid-row:4}.gear{top:max(6px,env(safe-area-inset-top))}
+.ruleSection li{font-size:12px}.ruleScoreTable{grid-template-columns:1fr}}
+@media (max-width:620px) and (orientation:portrait) and (max-height:600px){:root{--nav:44px;--act:40px}.hero img{width:min(54%,170px)}.hero p{font-size:10px;margin-top:3px}.ruleSection{padding:8px 12px}.ruleSection li{font-size:11.5px;line-height:1.24}.ruleSection ul{gap:4px}}
+</style>
+</head>
+<body>
+<main class="screen" id="ruleBook" aria-label="Rule Book">
+<input class="sr" type="radio" name="sec" id="s1" checked aria-label="01 SHOWDOWN FORMAT"><input class="sr" type="radio" name="sec" id="s2" aria-label="02 MATCH PLAY"><input class="sr" type="radio" name="sec" id="s3" aria-label="03 TRANSFER CHALLENGE"><input class="sr" type="radio" name="sec" id="s4" aria-label="04 SCORING"><input class="sr" type="radio" name="sec" id="s5" aria-label="05 TIEBREAK"><input class="sr" type="radio" name="sec" id="s6" aria-label="06 CONNECTION &amp; RECOVERY">
+<div class="bg" aria-hidden="true"></div>
+<a class="gear" href="#settings" aria-label="Settings"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 8.2a3.8 3.8 0 1 0 0 7.6 3.8 3.8 0 0 0 0-7.6Zm9 4.8v-2l-2.2-.7a7.4 7.4 0 0 0-.7-1.7l1-2.1-1.4-1.4-2.1 1a7.4 7.4 0 0 0-1.7-.7L13 3h-2l-.7 2.4a7.4 7.4 0 0 0-1.7.7l-2.1-1-1.4 1.4 1 2.1a7.4 7.4 0 0 0-.7 1.7L3 11v2l2.4.7c.2.6.4 1.2.7 1.7l-1 2.1 1.4 1.4 2.1-1c.5.3 1.1.5 1.7.7L11 21h2l.7-2.4c.6-.2 1.2-.4 1.7-.7l2.1 1 1.4-1.4-1-2.1c.3-.5.5-1.1.7-1.7L21 13Z"/></svg></a>
+
+<section class="rail">
+<header class="hero"><h2 class="sr">RULE BOOK</h2><span class="eyebrow">CAREER MODE SHOWDOWN</span><img src="../../../../visual-assets/v10_1/shared/wordmarks/TITLE_RULE_BOOK_V1.webp" alt="" aria-hidden="true"><strong class="tagline">THE LOCKED COMPETITION RULES</strong><p>Daniel and Nik. One league. Permanent clubs. One rivalry.</p></header>
+<div class="spacer"></div>
+<button class="back" type="button">BACK TO MAIN MENU</button>
+</section>
+
+<section class="body">
+<div class="tabs" aria-label="Competition rules">
+<label for="s1"><i>01</i><b>SHOWDOWN FORMAT</b></label><label for="s2"><i>02</i><b>MATCH PLAY</b></label><label for="s3"><i>03</i><b>TRANSFER CHALLENGE</b></label><label for="s4"><i>04</i><b>SCORING</b></label><label for="s5"><i>05</i><b>TIEBREAK</b></label><label for="s6"><i>06</i><b>CONNECTION &amp; RECOVERY</b></label>
+</div>
+<div class="cards" id="ruleBookSections">
+<article class="ruleSection"><div class="ruleSectionHeader"><span>01</span><h3>SHOWDOWN FORMAT</h3></div><div class="inner" data-scroll><ul>
+<li>Career Mode Showdown is a two-player rivalry for Daniel and Nik.</li>
+<li>Daniel is Player One. Nik is Player Two.</li>
+<li>Both managers compete in the same selected league.</li>
+<li>The assigned clubs remain fixed for the entire Showdown, across every season.</li>
+<li>A Showdown may contain 1, 3, 5, or 10 seasons.</li>
+<li>The manager with the most Showdown points across all seasons wins; equal totals are a draw.</li></ul></div></article>
+<article class="ruleSection"><div class="ruleSectionHeader"><span>02</span><h3>MATCH PLAY</h3></div><div class="inner" data-scroll><ul>
+<li>Career Mode matches are simulated.</li>
+<li>A Champions League final may be played or simulated by the manager.</li>
+<li>The main domestic cup final may be played or simulated by the manager.</li>
+<li>No other match-play exceptions are part of the current rules.</li></ul></div></article>
+<article class="ruleSection"><div class="ruleSectionHeader"><span>03</span><h3>TRANSFER CHALLENGE</h3></div><div class="inner" data-scroll><ul>
+<li>Each manager may sign a maximum of three players per season.</li>
+<li>The transfer window challenge lasts 15 minutes.</li>
+<li>Both managers may agree to end the transfer window early; one manager cannot end it alone.</li>
+<li>The opponent receives three guesses.</li>
+<li>Each guess must be either a league or a nationality.</li>
+<li>If a signing matches a correct guess, that signing must be released before the season begins.</li></ul></div></article>
+<article class="ruleSection scoringRuleSection"><div class="ruleSectionHeader"><span>04</span><h3>SCORING</h3></div><div class="inner" data-scroll>
+<div class="ruleScoreTable"><div><span>Champions League winner</span><strong>+5</strong></div><div><span>Domestic league winner</span><strong>+3</strong></div><div><span>Main domestic cup winner</span><strong>+1</strong></div><div><span>100 league points and/or 100 league goals</span><strong>+1 MAX</strong></div><div><span>League Top Scorer and/or Top Assist</span><strong>+1 MAX</strong></div></div>
+<div class="ruleScoreMaximum"><span>MAXIMUM PER MANAGER / SEASON</span><strong>11</strong></div></div></article>
+<article class="ruleSection"><div class="ruleSectionHeader"><span>05</span><h3>TIEBREAK</h3></div><div class="inner" data-scroll><ul>
+<li>If both managers finish a season with the same Showdown points, use the approved fallback.</li>
+<li>The manager with the better league finishing position wins the season.</li>
+<li>If both managers finish in the same league position, the manager with more league points wins.</li>
+<li>If both managers also have the same league points, the season is a draw.</li>
+<li>No goal-difference, goals-scored, or head-to-head tiebreak is used.</li></ul></div></article>
+<article class="ruleSection"><div class="ruleSectionHeader"><span>06</span><h3>CONNECTION &amp; RECOVERY</h3></div><div class="inner" data-scroll><ul>
+<li>Daniel and Nik connect once before the first Showdown and can then continue the same career from a remembered account and browser.</li>
+<li>A new or forgotten browser may need to be connected again before play continues.</li>
+<li>Device storage may be used internally for recovery and rollback, but it does not create a separate gameplay mode.</li>
+<li>Results are entered manually from FIFA 17; screenshots and match notes are not required.</li></ul></div></article>
+</div>
+</section>
+
+<nav class="nav" aria-label="Main navigation">
+<a href="#home"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 2.5 11h2.7v9.5h5.3v-6h3v6h5.3V11h2.7Z"/></svg>HOME</a>
+<a href="#career"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 3h11l-1 6.2A4.6 4.6 0 0 1 12 13a4.6 4.6 0 0 1-4.5-3.8ZM4 4.6h2.4l.4 2.6A2.4 2.4 0 0 1 4 4.6Zm16 0a2.4 2.4 0 0 1-2.8 2.6l.4-2.6ZM10.6 13.6h2.8v3.2h3v3.2H7.6v-3.2h3Z"/></svg>CAREER</a>
+<a href="#standings"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h18v3.2H3Zm0 6.4h18v3.2H3Zm0 6.4h18V20H3Z"/></svg>STANDINGS</a>
+<a href="#stats"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 20h18v1.6H3ZM4.6 12h3.6v6.4H4.6Zm5.6-5h3.6v11.4h-3.6Zm5.6 3h3.6v8.4h-3.6Z"/></svg>STATS</a>
+<a href="#rules" aria-current="page"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3.5h10.5L19 7v13.5H5Zm9.6 1.3V8h3.2ZM7.6 10h8.8v1.5H7.6Zm0 3.2h8.8v1.5H7.6Zm0 3.2h6v1.5h-6Z"/></svg>RULES</a>
+</nav>
+</main>
+</body>
+</html>
