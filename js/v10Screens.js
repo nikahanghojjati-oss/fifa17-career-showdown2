@@ -232,7 +232,9 @@
       frame:definition.frame,mount:definition.mount,
       unmount:typeof definition.unmount==="function"?definition.unmount:null,
       overlay:definition.overlay===true,
-      auto:definition.auto!==false
+      auto:definition.auto!==false,
+      // hold: a screen its own module shows (auto:false) is still expect()ed on the frame the app shows it (JOB-1651).
+      hold:definition.hold===true
     }));
     return api;
   }
@@ -378,7 +380,9 @@
       // Legacy's data tools page (backup, restore, reset) is the one career screen that keeps the app's own markup
       // (js/careerScreenSeam.js): it is never held for a Team V look that will not come.
       const lazy=screen&&LAZY_V10_SCREENS.includes(screen)&&!(screen==="legacy"&&root.careerModeLegacyDataTools===true);
-      const expected=def?def.auto&&vsExpect(screen):lazy&&vsExpect(screen);
+      // A screen its own module shows (auto:false) but registered with hold (Season Results / Final Winner) is held the same way:
+      // without it html[data-v10-screen] and the dark page waited for the module's next tick and the old design painted first.
+      const expected=def?(def.auto||def.hold)&&vsExpect(screen):lazy&&vsExpect(screen);
       if(!expected)vsSyncStyles();
       vsPaintNav(screen);
       if(def&&def.auto)vsShow(screen).catch(error=>vsReport("Team V screen could not load",error));

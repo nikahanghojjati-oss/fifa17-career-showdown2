@@ -1402,6 +1402,15 @@
         "^tests/contracts/chat\\-audit\\-diagnostics\\-b\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/season-entry-no-flash-contracts.cjs",
+      "patterns": [
+        "^js/v10Screens\\.js$",
+        "^js/seasonFinalV10\\.js$",
+        "^tests/contracts/season\\-entry\\-no\\-flash\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
