@@ -22,15 +22,15 @@ Updated Mon 12 Oct, 11:28 AM Boston time. Bug hunting only, no new features unti
 
 **#2 · 1699** `G` Transfer challenge and Signing Entry: one Work mode job for the whole screen  
 `██████░░░░` **60.0000 %**  
-🟢 Team green · model not set · worker done, PR #767 open, CI failed · CI 6 of 8 passed · last move 102 min ago
+🟢 Team green · model not set · worker done, PR #767 open, CI failed · CI 6 of 8 passed · last move 103 min ago
 
 **#3 · 1702** `G` Final Winner (Showdown Champion): one Work mode job for the whole screen  
-`████████░░` **75.3333 %**  
-🟢 Team green · model not set · worker done, PR #793 open, CI running · CI 8 of 15 passed · last move 1 min ago
+`████████░░` **76.0000 %**  
+🟢 Team green · model not set · worker done, PR #793 open, CI running · CI 9 of 15 passed · last move 0 min ago
 
 **#4 · 1706** `G` Career Statistics: one Work mode job for the whole screen  
 `███████░░░` **70.0000 %**  
-🟢 Team green · model not set · worker done, PR #798 open, CI running · CI 0 of 7 passed · last move 0 min ago
+🟢 Team green · model not set · worker done, PR #798 open, CI running · CI 0 of 7 passed · last move 1 min ago
 
 **#5 · 1727** `G` Connect Players (start and join): sideways phone study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
@@ -62,11 +62,11 @@ Updated Mon 12 Oct, 11:28 AM Boston time. Bug hunting only, no new features unti
 
 **#12 · 1753** `G` Audit and fix js/restore.js (first half (lines 1 to 372))  
 `███████░░░` **74.6667 %**  
-🟢 Team green · model not set · worker done, PR #818 open, CI running · CI 7 of 15 passed · last move 1 min ago
+🟢 Team green · model not set · worker done, PR #818 open, CI running · CI 7 of 15 passed · last move 0 min ago
 
 **#13 · 1766** `G` Audit and fix js/productionSharedMultiSeasonProgression.js (whole file)  
 `███████░░░` **74.6667 %**  
-🟢 Team green · model not set · worker done, PR #819 open, CI running · CI 7 of 15 passed · last move 1 min ago
+🟢 Team green · model not set · worker done, PR #819 open, CI running · CI 7 of 15 passed · last move 0 min ago
 
 **#14 · 1778** `G` Audit and fix js/productionSharedFinalReconciliation.js (whole file)  
 `████░░░░░░` **40.0000 %**  
@@ -82,7 +82,7 @@ Updated Mon 12 Oct, 11:28 AM Boston time. Bug hunting only, no new features unti
 
 **#17 · 1782** `G` Audit and fix js/sparkSharedSeasonCommit.js (whole file)  
 `████░░░░░░` **40.0000 %**  
-🔵 Team blue · model not set · worker working, draft PR #800 · CI 7 of 8 passed · last move 72 min ago
+🔵 Team blue · model not set · worker working, draft PR #800 · CI 7 of 8 passed · last move 73 min ago
 
 **#18 · 1787** `G` Audit and fix js/storage.js (whole file)  
 `████░░░░░░` **40.0000 %**  
