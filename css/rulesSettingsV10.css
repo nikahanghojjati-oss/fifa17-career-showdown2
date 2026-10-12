@@ -1109,3 +1109,77 @@
   }
   :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) .settingsFooter .menuButton { height:56px; min-height:56px; }
 }
+
+/* SETTINGS-PLATE-V2 (ticket 1610P): desktop Settings on Team V's approved penthouse-lounge plate V2, laid out like NEXT_SETTINGS.
+   Settings and Rule Book share the V1 system plate through js/rulesSettingsV10.js; this paints V2 over it for the Settings stage
+   only, at the desktop picture range, raises the title and the card grid so the four cards and DONE fit one view (the old grid
+   started at 34% and scrolled), and gives the cards and buttons the picture's gold-bevel and polished-gold finish. Words, ids,
+   the three motion choices (FOLLOW DEVICE, FULL MOTION, REDUCE MOTION) and every tap are untouched; phone, sideways phone and
+   tablet are outside this query. */
+@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
+  body #settingsOverlay.v10Settings {
+    --st2-bevel: linear-gradient(135deg, #fff3b0 0%, #e2b645 16%, #8a6118 40%, #c99a33 62%, #f6dc86 82%, #9a6f1d 100%);
+    --st2-bw: max(2px, calc(min(1vw, 1.7778vh) * .2));
+    --st2-ring: inset 0 0 0 1px rgba(5, 5, 5, .9), inset 0 1px 0 1px rgba(255, 236, 160, .2), 0 8px 22px rgba(0, 0, 0, .5);
+  }
+  body #settingsOverlay.v10Settings #v10SettingsStage .sd-stage__plate {
+    background-image: image-set(url("../visual-assets/v10_1/plates-v2/ENV_SETTINGS_PLATE_V2_1X.webp") 1x, url("../visual-assets/v10_1/plates-v2/ENV_SETTINGS_PLATE_V2_2X.webp") 2x);
+  }
+  body #settingsOverlay.v10Settings .settingsStageScrim { background: linear-gradient(180deg, rgba(2, 2, 2, .12) 0%, rgba(2, 2, 2, .28) 100%); }
+  body #settingsOverlay.v10Settings .settingsTitleBlock { top: 6.7%; width: min(34vw, 52.4vh); }
+  body #settingsOverlay.v10Settings :is(.settingsEyebrow, .settingsTagline) { text-shadow: 0 1px 4px #000, 0 0 10px rgba(0, 0, 0, .85); }
+  body #settingsOverlay.v10Settings #settingsContent {
+    top: 26.2%; left: 7.5%; width: 85%; height: 68%;
+    grid-template-rows: auto auto; align-content: start; align-items: stretch; gap: .8vh .85vw; padding: 0;
+  }
+  body #settingsOverlay.v10Settings #settingsDialog #settingsContent > .settingsPanel--motion { grid-row: 1; }
+  body #settingsOverlay.v10Settings #settingsDialog #settingsContent > .settingsPanel--application { align-self: stretch; }
+  body #settingsOverlay.v10Settings #settingsDialog #settingsContent > .settingsPanel--motion { align-self: stretch; }
+  body #settingsOverlay.v10Settings .settingsDataPanel .settingsInfoGrid { grid-template-columns: 1fr 1fr; gap: 0 .85vw; }
+  body #settingsOverlay.v10Settings .settingsInfoRow { min-height: 0; padding-top: 4px; padding-bottom: 4px; }
+  body #settingsOverlay.v10Settings .settingsPanel--data { grid-row: 2; }
+  body #settingsOverlay.v10Settings .settingsPanel {
+    border: var(--st2-bw) solid transparent; border-image: var(--st2-bevel) 1; border-radius: 0;
+    background: linear-gradient(160deg, rgba(10, 10, 11, .94), rgba(5, 5, 6, .9)); box-shadow: var(--st2-ring);
+  }
+  body #settingsOverlay.v10Settings .settingsPanelHeading { border-bottom-color: rgba(214, 178, 96, .35); }
+  /* buttons: black lacquer with a gold bevel */
+  body #settingsOverlay.v10Settings :is(.menuButton:not(.sd-btn):not(.settingsDeleteCurrentShowdown), .settingsApplicationUpdateButton, .settingsDataButton) {
+    border: 2px solid transparent; border-image: var(--st2-bevel) 1; border-radius: 0; color: #fff1ae;
+    background: linear-gradient(180deg, #141311, #070708); box-shadow: inset 0 0 0 1px #050505, inset 0 1px 0 2px rgba(255, 241, 184, .1);
+  }
+  body #settingsOverlay.v10Settings .menuButton.settingsApplicationUpdateButton { display: block; width: 100%; clip-path: none; }
+  body #settingsOverlay.v10Settings :is(.menuButton, .settingsMotionChoice, .settingsAudioToggle) { clip-path: none; }
+  body #settingsOverlay.v10Settings .settingsDataActions { display: flex; gap: .8vw; }
+  body #settingsOverlay.v10Settings .settingsDeleteCurrentShowdown {
+    flex: 2.4 1 0; color: #fff3df !important; border: 2px solid transparent !important; border-image: var(--st2-bevel) 1; border-radius: 0;
+    background: linear-gradient(180deg, #b01720 0%, #7d0e15 55%, #5a0a10 100%) !important;
+    box-shadow: inset 0 0 0 1px #2a0306, inset 0 1px 0 2px rgba(255, 190, 170, .28);
+  }
+  body #settingsOverlay.v10Settings .settingsDataActions .settingsDataButton { flex: 1 1 0; }
+  /* motion choices */
+  body #settingsOverlay.v10Settings .settingsMotionChoice {
+    border: 2px solid rgba(214, 178, 96, .5); border-radius: 0; background: linear-gradient(180deg, rgba(14, 14, 15, .92), rgba(6, 6, 7, .9));
+  }
+  body #settingsOverlay.v10Settings .settingsMotionChoice.selected,
+  body #settingsOverlay.v10Settings .settingsMotionChoice[aria-checked="true"] {
+    border: 3px solid transparent; border-image: var(--st2-bevel) 1;
+    background: linear-gradient(180deg, rgba(120, 88, 24, .55), rgba(30, 22, 6, .9)); box-shadow: inset 0 0 0 1px #050505, 0 0 16px rgba(224, 168, 44, .18);
+  }
+  body #settingsOverlay.v10Settings .settingsAudioToggle { border: 2px solid transparent; border-image: var(--st2-bevel) 1; border-radius: 0; background: linear-gradient(180deg, #141311, #070708); color: #fff1ae; }
+  /* close and DONE */
+  body #settingsOverlay.v10Settings #settingsClose {
+    top: 4.8%; right: 1.7%; border: 2px solid transparent; border-image: var(--st2-bevel) 1; border-radius: 0;
+    background: linear-gradient(180deg, #141311, #070708); box-shadow: var(--st2-ring);
+  }
+  body #settingsOverlay.v10Settings .settingsFooter { right: 6.7%; bottom: 8.2%; }
+  body #settingsOverlay.v10Settings .settingsFooter .sd-btn--primary {
+    color: #130e03; border: 2px solid transparent; border-image: linear-gradient(135deg, #fff8cf, #e9bd48 50%, #a87818) 1; border-radius: 0;
+    background: linear-gradient(180deg, #fff0a6 0%, #f4cb55 38%, #d9a52b 72%, #b98a21 100%);
+    box-shadow: inset 0 0 0 1px rgba(110, 76, 10, .7), inset 0 1px 0 2px rgba(255, 252, 220, .55), 0 6px 18px rgba(0, 0, 0, .5), 0 0 22px rgba(224, 168, 44, .22);
+  }
+  /* Smaller windows keep the 1920x1080 composition at a smaller scale instead of scrolling (a browser without typed calc keeps the old scroll). */
+  @supports (zoom: calc(1px / 1px)) {
+    body #settingsOverlay.v10Settings #settingsDialog #settingsContent > .settingsPanel { zoom: min(calc(100vw / 1920px), calc(100vh / 1080px), 1.5); }
+  }
+}
