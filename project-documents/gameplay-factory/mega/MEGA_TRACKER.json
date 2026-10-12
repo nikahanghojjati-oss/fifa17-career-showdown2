@@ -1,5 +1,5 @@
 {
-"updated": "2026-10-12T02:51:00Z",
+"updated": "2026-10-12T02:52:30Z",
 "total": 552,
 "next_free": 187,
 "highest_taken": 536,
@@ -10,8 +10,9 @@
 "ci_failed": 5,
 "ready": 10,
 "draft": 41,
-"waiting": 228,
+"waiting": 227,
 "blocked": 1,
+"started": 1,
 "on_train": 4
 },
 "stages": {
@@ -54,7 +55,8 @@
 "merged": 23,
 "draft": 4,
 "blocked": 1,
-"waiting": 5
+"started": 1,
+"waiting": 4
 }
 },
 "5": {
@@ -98,7 +100,6 @@
 "season-final": 716
 },
 "ready": [
-302,
 324,
 330,
 352,
@@ -109,10 +110,10 @@
 374,
 376,
 378,
-380
+380,
+382
 ],
 "ready_sol": [
-302,
 324,
 330,
 352,
@@ -123,11 +124,11 @@
 374,
 376,
 378,
-380
+380,
+382
 ],
 "ready_codex": [],
 "ready_all": [
-302,
 324,
 330,
 352,
@@ -214,7 +215,6 @@
 "train_batches": [],
 "chat_batches": null,
 "work_models": {
-"302": "Sol 6.1 \u00b7 High",
 "324": "Sol 6.1 \u00b7 High",
 "330": "Sol 6.1 \u00b7 High",
 "352": "Sol 6.1 \u00b7 High",
@@ -276,7 +276,6 @@
 "476": "Sol 6.1 \u00b7 High"
 },
 "ready_work": [
-302,
 324,
 330,
 352,
@@ -337,13 +336,13 @@
 474,
 476
 ],
-"ready_total": 83,
+"ready_total": 82,
 "held_until_picture": 0,
 "held_by_picture": {}
 },
 "rate": {
-"claimed_last_hour": 33,
-"claimed_last_10min": 5,
+"claimed_last_hour": 34,
+"claimed_last_10min": 6,
 "merged_last_hour": 45
 },
 "lanes": {
@@ -385,7 +384,8 @@
 "no_pr": 37,
 "wait_v": 4,
 "blocked": 1,
-"waiting": 89,
+"started": 1,
+"waiting": 88,
 "audit_batch": 9
 },
 "reviews": {
@@ -393,7 +393,7 @@
 "ok_notes": 0,
 "needs_changes": 0
 },
-"picked_up": 137,
+"picked_up": 138,
 "worker_done": 136,
 "finished": 123,
 "pending_lead": 0,
@@ -1511,13 +1511,6 @@
 }
 ],
 "events": [
-{
-"at": "2026-10-11T06:36:30Z",
-"item": 280,
-"job": 1343,
-"from": "draft",
-"to": "closed"
-},
 {
 "at": "2026-10-11T06:36:30Z",
 "item": 282,
@@ -3610,6 +3603,13 @@
 "job": 1431,
 "from": "started",
 "to": "draft"
+},
+{
+"at": "2026-10-12T02:52:30Z",
+"item": 302,
+"job": 1257,
+"from": "waiting",
+"to": "started"
 }
 ],
 "items": {
@@ -8387,8 +8387,12 @@
 "title": "Standings: phone mockup, version C (compact)",
 "mode": "study",
 "group": null,
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"state": "started",
+"branch": "study/job-1257-standings-phone-c",
+"branch_sha": "7a098c0573be56dd2643f08e171e12ebbbf17835",
+"no_pr_reason": "",
+"first_seen": "2026-10-12T02:52:30Z",
+"since": "2026-10-12T02:52:30Z"
 },
 "303": {
 "job": 1338,
