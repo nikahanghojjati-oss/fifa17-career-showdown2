@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Mon 12 Oct, 4:32 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Mon 12 Oct, 4:36 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r73** (main `33204d5`, Mon 12 Oct 3:16 PM)
 
@@ -1452,7 +1452,7 @@ Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-caree
 
 | Lane | Item | What | State |
 | --- | --- | --- | --- |
-| 🟧 Team G lead | [PR #830](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/830) | Release r74: Final Winner exit fix (1.9.1-r74) | ⏳ 0 passed, 7 running |
+| 🟧 Team G lead | [PR #830](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/830) | Release r74: Final Winner exit fix (1.9.1-r74) | ⏳ 1 passed, 6 running |
 
 **Up next**
 
