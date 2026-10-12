@@ -1,9 +1,9 @@
-# Mega factory tracker · updated 2026-10-12T02:31:44Z
+# Mega factory tracker · updated 2026-10-12T02:33:14Z
 
-**Type now (94 free):** 245, 253, 255, 296, 302, 324, 330, 352, 358, 366, 368, 370, 374, 376, 378, 380, 382, 384, 386, 388, 390, 392, 394, 396, 398, 400, 402, 404, 406, 408, 410, 412, 414, 416, 418, 420, 422, 424, 426, 427, 428, 430, 432, 434, 436, 438, 440, 442, 444, 446, 448, 450, 452, 454, 456, 458, 460, 462, 464, 466, 468, 470, 472, 474, 476, 523, 525, 526, 527, 528, 529, 530, 531, 532, 533, 534, 535, 536, 537, 538, 539, 540, 541, 542, 543, 544, 545, 546, 547, 548, 549, 550, 551, 552
-**Next free number:** 187 · **highest taken:** 524 of 552
+**Type now (92 free):** 245, 253, 255, 296, 302, 324, 330, 352, 358, 366, 368, 370, 374, 376, 378, 380, 382, 384, 386, 388, 390, 392, 394, 396, 398, 400, 402, 404, 406, 408, 410, 412, 414, 416, 418, 420, 422, 424, 426, 427, 428, 430, 432, 434, 436, 438, 440, 442, 444, 446, 448, 450, 452, 454, 456, 458, 460, 462, 464, 466, 468, 470, 472, 474, 476, 525, 527, 528, 529, 530, 531, 532, 533, 534, 535, 536, 537, 538, 539, 540, 541, 542, 543, 544, 545, 546, 547, 548, 549, 550, 551, 552
+**Next free number:** 187 · **highest taken:** 526 of 552
 **Code PRs open:** 3 of 8 · area locks: club, career-screens, rules-settings, league, transfer
-**Rate:** 11 claimed in 10 min · 25 in 1 h · 0 merged in 1 h
+**Rate:** 12 claimed in 10 min · 27 in 1 h · 0 merged in 1 h
 
 **Finished (merged or live): 181 of 552**
 
@@ -12,16 +12,16 @@ State | count
 ✅ merged to staging branch | 181
 🚂 done, on the train branch, no PR yet | 14
 🟩 PR open, checks green, waiting for review | 10
-📝 worker done, draft PR open | 17
+📝 worker done, draft PR open | 19
 🟥 PR open, checks FAILED | 5
 🟧 blocked | 1
 🟦 started, no PR yet | 1
 ⚫ closed without merge | 82
-⬜ waiting | 241
+⬜ waiting | 239
 
 Stage | total | merged/live | in flight | waiting
 --- | --- | --- | --- | ---
-1 Gameplay audits | 146 | 112 | 5 | 29
+1 Gameplay audits | 146 | 112 | 7 | 27
 2 Screen fixes | 266 | 45 | 34 | 143
 3 Match desktop to mockups | 14 | 0 | 5 | 8
 4 Phone mockup studies | 70 | 23 | 4 | 6
@@ -83,12 +83,17 @@ Stage | total | merged/live | in flight | waiting
 - 🚂 **419** · Job 1358 · Rivalry Statistics: fix the 1366x768 view · done, on the train branch, no PR yet
 - 📝 **519** · Job 1661 · Audit js/scoring.js for gameplay bugs (first half) · worker done, draft PR open · [PR #704](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/704)
 - 📝 **520** · Job 1662 · Audit js/showdownUI.js for gameplay bugs (first half) · worker done, draft PR open · [PR #701](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/701)
-- 🟦 **521** · Job 1663 · Audit js/transferSelector.js for gameplay bugs (first half) · started, no PR yet
+- 📝 **521** · Job 1663 · Audit js/transferSelector.js for gameplay bugs (first half) · worker done, draft PR open · [PR #707](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/707)
 - 📝 **522** · Job 1664 · Audit js/leagueWheel.js for gameplay bugs (first half) · worker done, draft PR open · [PR #703](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/703)
+- 📝 **523** · Job 1665 · Audit js/trophyRoom.js for gameplay bugs (first half) · worker done, draft PR open · [PR #708](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/708)
 - 📝 **524** · Job 1666 · Audit js/saveLibraryFoundation.js for gameplay bugs (first half) · worker done, draft PR open · [PR #706](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/706)
+- 🟦 **526** · Job 1668 · Audit js/footballVisuals.js for gameplay bugs (first half) · started, no PR yet
 
 ## Latest changes
 
+- 2026-10-12T02:33:14Z · 526 (Job 1668): waiting → started
+- 2026-10-12T02:33:14Z · 523 (Job 1665): waiting → draft
+- 2026-10-12T02:33:14Z · 521 (Job 1663): started → draft
 - 2026-10-12T02:31:44Z · 524 (Job 1666): waiting → draft
 - 2026-10-12T02:31:44Z · 522 (Job 1664): started → draft
 - 2026-10-12T02:31:44Z · 521 (Job 1663): waiting → started
@@ -106,6 +111,3 @@ Stage | total | merged/live | in flight | waiting
 - 2026-10-12T02:30:14Z · 203 (Job 1130): on_train → draft
 - 2026-10-12T02:30:14Z · 185 (Job 1129): on_train → draft
 - 2026-10-12T02:28:29Z · 520 (Job 1662): waiting → started
-- 2026-10-12T02:28:29Z · 237 (Job 1103): waiting → on_train
-- 2026-10-12T02:26:59Z · 235 (Job 1074): waiting → on_train
-- 2026-10-12T02:25:29Z · 227 (Job 1218): waiting → on_train

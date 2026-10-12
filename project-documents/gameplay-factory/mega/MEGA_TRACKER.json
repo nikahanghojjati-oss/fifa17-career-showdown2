@@ -1,16 +1,16 @@
 {
-"updated": "2026-10-12T02:31:44Z",
+"updated": "2026-10-12T02:33:14Z",
 "total": 552,
 "next_free": 187,
-"highest_taken": 524,
+"highest_taken": 526,
 "counts": {
 "merged": 181,
 "closed": 82,
 "ci_failed": 5,
 "ready": 10,
 "on_train": 14,
-"draft": 17,
-"waiting": 241,
+"draft": 19,
+"waiting": 239,
 "blocked": 1,
 "started": 1
 },
@@ -33,9 +33,9 @@
 "total": 146,
 "states": {
 "merged": 112,
-"draft": 4,
-"started": 1,
-"waiting": 29
+"draft": 6,
+"waiting": 27,
+"started": 1
 }
 },
 "3": {
@@ -198,9 +198,7 @@
 472,
 474,
 476,
-523,
 525,
-526,
 527,
 528,
 529,
@@ -364,13 +362,13 @@
 474,
 476
 ],
-"ready_total": 94,
+"ready_total": 92,
 "held_until_picture": 0,
 "held_by_picture": {}
 },
 "rate": {
-"claimed_last_hour": 25,
-"claimed_last_10min": 11,
+"claimed_last_hour": 27,
+"claimed_last_10min": 12,
 "merged_last_hour": 0
 },
 "lanes": {
@@ -384,25 +382,24 @@
 "ready": 10,
 "on_train": 14,
 "draft": 10,
-"waiting": 145,
-"audit_batch": 1,
-"started": 1
+"waiting": 144,
+"audit_batch": 3
 },
 "reviews": {
 "ok": 0,
 "ok_notes": 0,
 "needs_changes": 0
 },
-"picked_up": 111,
-"worker_done": 85,
+"picked_up": 112,
+"worker_done": 87,
 "finished": 45,
 "pending_lead": 34,
 "wait_v": 0,
-"audit_batch": 1,
+"audit_batch": 3,
 "trouble": 5,
 "closed": 25,
 "reviews_total": 0,
-"first_time_ok": 77,
+"first_time_ok": 78,
 "failing_now": 5
 },
 "gpt2": {
@@ -413,15 +410,16 @@
 "no_pr": 37,
 "wait_v": 3,
 "blocked": 1,
-"waiting": 96,
-"audit_batch": 3
+"waiting": 95,
+"audit_batch": 3,
+"started": 1
 },
 "reviews": {
 "ok": 0,
 "ok_notes": 0,
 "needs_changes": 0
 },
-"picked_up": 130,
+"picked_up": 131,
 "worker_done": 129,
 "finished": 123,
 "pending_lead": 0,
@@ -1490,27 +1488,6 @@
 }
 ],
 "events": [
-{
-"at": "2026-10-11T06:35:00Z",
-"item": 102,
-"job": 1517,
-"from": "draft",
-"to": "merged"
-},
-{
-"at": "2026-10-11T06:35:00Z",
-"item": 104,
-"job": 1518,
-"from": "draft",
-"to": "merged"
-},
-{
-"at": "2026-10-11T06:35:00Z",
-"item": 106,
-"job": 1519,
-"from": "draft",
-"to": "merged"
-},
 {
 "at": "2026-10-11T06:35:00Z",
 "item": 108,
@@ -3589,6 +3566,27 @@
 "job": 1666,
 "from": "waiting",
 "to": "draft"
+},
+{
+"at": "2026-10-12T02:33:14Z",
+"item": 521,
+"job": 1663,
+"from": "started",
+"to": "draft"
+},
+{
+"at": "2026-10-12T02:33:14Z",
+"item": 523,
+"job": 1665,
+"from": "waiting",
+"to": "draft"
+},
+{
+"at": "2026-10-12T02:33:14Z",
+"item": 526,
+"job": 1668,
+"from": "waiting",
+"to": "started"
 }
 ],
 "items": {
@@ -10397,12 +10395,19 @@
 "title": "Audit js/transferSelector.js for gameplay bugs (first half)",
 "mode": "audit",
 "group": null,
-"state": "started",
+"pr": 707,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/707",
+"base": "qa/mega-audits",
 "branch": "qa/job-1663-transfer-selector-audit",
-"branch_sha": "ee7a19450dc77f7897fdd1b9c4f59a3b66d3eb2a",
-"no_pr_reason": "",
+"ci": "draft",
+"ci_sha": "323c3559ac25976a03a79f01d7c7000c7e8f5d9b",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-12T02:31:57Z",
 "first_seen": "2026-10-12T02:31:44Z",
-"since": "2026-10-12T02:31:44Z"
+"since": "2026-10-12T02:33:14Z"
 },
 "522": {
 "job": 1664,
@@ -10430,8 +10435,19 @@
 "title": "Audit js/trophyRoom.js for gameplay bugs (first half)",
 "mode": "audit",
 "group": null,
-"state": "waiting",
-"since": "2026-10-12T02:25:29Z"
+"pr": 708,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/708",
+"base": "qa/mega-audits",
+"branch": "qa/job-1665-trophy-room-audit",
+"ci": "draft",
+"ci_sha": "e5b51a9c9affbccd6bbed31175bb1e1e9a55836a",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-12T02:32:47Z",
+"first_seen": "2026-10-12T02:32:47Z",
+"since": "2026-10-12T02:33:14Z"
 },
 "524": {
 "job": 1666,
@@ -10468,8 +10484,12 @@
 "title": "Audit js/footballVisuals.js for gameplay bugs (first half)",
 "mode": "audit",
 "group": null,
-"state": "waiting",
-"since": "2026-10-12T02:25:29Z"
+"state": "started",
+"branch": "qa/job-1668-football-visuals-first-half",
+"branch_sha": "ee7a19450dc77f7897fdd1b9c4f59a3b66d3eb2a",
+"no_pr_reason": "",
+"first_seen": "2026-10-12T02:33:14Z",
+"since": "2026-10-12T02:33:14Z"
 },
 "527": {
 "job": 1669,
