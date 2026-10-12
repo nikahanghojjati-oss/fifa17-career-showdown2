@@ -883,3 +883,39 @@ html[data-reduced-motion="true"] #mainMenu.v10Home .menuMusicTile[data-playing="
 #app:has(#mainMenu.v10Home:not(.hidden)) > footer {
   color:#CFC6B4;
 }
+
+/* JOB-1086 (study desktop-a-1086, adopted by Team V): Home desktop for a mouse-driven window of at least 1200x700.
+   Phones, sideways phones, tablets, touch laptops and the 1200-1350 x 620-690 small laptop keep the rules above.
+   Looks only; every word, tap order and the one-row dock stay as they are. */
+@media (min-width: 1200px) and (min-height: 700px) and (pointer: fine) {
+  #app #mainMenu.v10Home .fifaMenuGrid { gap: 10px; }
+  /* Continue: the study's gold plate (light to deep gold with a soft sheen) in place of flat yellow; ink stays dark. */
+  #app #mainMenu.v10Home #continueCareer,
+  #app #mainMenu.v10Home #continueCareer:disabled {
+    background: linear-gradient(120deg, #F8D872 0%, #EFC24E 46%, #D9A332 100%);
+    border-color: #FFF1B8;
+    box-shadow: inset 0 2px 0 rgba(255,255,255,.55), inset 0 0 0 1px rgba(255,241,184,.45), 0 10px 28px rgba(0,0,0,.45);
+  }
+  /* Soundtrack card: keeps its top-right place and bottom edge, but grows upward to fit a long artist line, so the
+     AUDIUS SOUNDTRACK caption is never cut off by the card's top edge. */
+  #app #mainMenu.v10Home .menuMusicTile,
+  #app #mainMenu.v10Home .menuMusicTile.side {
+    top: auto !important; bottom: calc(100vh - 70.3vh) !important; height: auto !important; min-height: min(17vh, 184px) !important;
+  }
+}
+@media (min-width: 1200px) and (max-width: 1849px) and (min-height: 700px) and (pointer: fine) {
+  /* Shared label band, artwork well below it: the picture takes whatever height the label leaves (one line or two),
+     right-aligned, contained, and clear of the chevron, so it can never sit over START A SHOWDOWN, TROPHY ROOM,
+     RULE BOOK or SETTINGS. */
+  #app #mainMenu.v10Home .fifaMenuGrid > .menuTile:not(#continueCareer) {
+    justify-content: flex-start; gap: 3px; padding: 10px 8px 8px 10px; overflow: hidden;
+  }
+  #app #mainMenu.v10Home .fifaMenuGrid > .menuTile:not(#continueCareer) .menuTileCode { font-size: 10px; letter-spacing: .14em; }
+  #app #mainMenu.v10Home :is(#newShowdown, #legacyButton, #careerStatisticsButton, #homeTrophyRoomButton, #ruleBookButton, #settingsButton) .tileArt {
+    position: static; flex: 1 1 0; min-height: 0; width: auto; height: auto; align-self: stretch;
+    margin: 2px 20px 0 0; object-position: right bottom;
+  }
+}
+@media (min-width: 1200px) and (max-width: 1420px) and (min-height: 700px) and (pointer: fine) {
+  #app #mainMenu.v10Home .fifaMenuGrid > .menuTile:not(#continueCareer) .menuTileLabel { font-size: 15px; line-height: 1.08; }
+}
