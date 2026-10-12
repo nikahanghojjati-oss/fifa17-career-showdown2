@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Mon 12 Oct, 5:35 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Mon 12 Oct, 5:36 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r71** (main `2a511f6`, Sun 11 Oct 9:40 PM)
 
@@ -26,7 +26,7 @@ Updated Mon 12 Oct, 5:35 AM Boston time. Bug hunting only, no new features until
 
 **#3 · 1724** `G` QoL 4: a finished Showdown stops saying LEADS  
 `████░░░░░░` **40.0000 %**  
-🔵 Team blue · model not set · worker working, draft PR #741 · CI 7 of 8 passed · last move 0 min ago
+🔵 Team blue · model not set · worker working, draft PR #741 · CI 7 of 8 passed · last move 1 min ago
 
 ### 👉 Next for you, in this order
 
