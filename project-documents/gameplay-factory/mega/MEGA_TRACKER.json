@@ -1,15 +1,15 @@
 {
-"updated": "2026-10-12T00:33:30Z",
+"updated": "2026-10-12T00:35:00Z",
 "total": 518,
-"next_free": 181,
+"next_free": 185,
 "highest_taken": 403,
 "counts": {
 "merged": 181,
 "closed": 82,
 "ci_failed": 5,
 "ready": 10,
-"waiting": 239,
-"on_train": 1
+"on_train": 3,
+"waiting": 237
 },
 "stages": {
 "2": {
@@ -35,7 +35,8 @@
 "name": "Match desktop to mockups",
 "total": 14,
 "states": {
-"waiting": 13,
+"on_train": 2,
+"waiting": 11,
 "closed": 1
 }
 },
@@ -67,6 +68,8 @@
 687
 ],
 "on_train_no_pr": [
+181,
+183,
 403
 ],
 "draft_code_prs": 0,
@@ -76,11 +79,11 @@
 "rules-settings": 687
 },
 "ready": [
-181,
-183,
 185,
 189,
 191,
+199,
+201,
 240,
 246,
 268,
@@ -90,11 +93,11 @@
 324
 ],
 "ready_sol": [
-181,
-183,
 185,
 189,
 191,
+199,
+201,
 240,
 246,
 268,
@@ -105,11 +108,11 @@
 ],
 "ready_codex": [],
 "ready_all": [
-181,
-183,
 185,
 189,
 191,
+199,
+201,
 240,
 246,
 268,
@@ -180,8 +183,8 @@
 }
 },
 "rate": {
-"claimed_last_hour": 0,
-"claimed_last_10min": 0,
+"claimed_last_hour": 2,
+"claimed_last_10min": 2,
 "merged_last_hour": 10
 },
 "lanes": {
@@ -193,24 +196,24 @@
 "closed": 25,
 "ci_failed": 5,
 "ready": 10,
-"waiting": 153,
-"on_train": 1
+"on_train": 3,
+"waiting": 151
 },
 "reviews": {
 "ok": 0,
 "ok_notes": 0,
 "needs_changes": 0
 },
-"picked_up": 86,
-"worker_done": 61,
+"picked_up": 88,
+"worker_done": 63,
 "finished": 45,
-"pending_lead": 11,
+"pending_lead": 13,
 "wait_v": 0,
 "audit_batch": 0,
 "trouble": 5,
 "closed": 25,
 "reviews_total": 0,
-"first_time_ok": 71,
+"first_time_ok": 72,
 "failing_now": 5
 },
 "gpt2": {
@@ -1198,20 +1201,6 @@
 }
 ],
 "events": [
-{
-"at": "2026-10-11T06:35:00Z",
-"item": 14,
-"job": 1473,
-"from": "draft",
-"to": "merged"
-},
-{
-"at": "2026-10-11T06:35:00Z",
-"item": 16,
-"job": 1474,
-"from": "draft",
-"to": "merged"
-},
 {
 "at": "2026-10-11T06:35:00Z",
 "item": 18,
@@ -3297,6 +3286,20 @@
 "job": 1128,
 "from": "ready",
 "to": "merged"
+},
+{
+"at": "2026-10-12T00:35:00Z",
+"item": 181,
+"job": 1071,
+"from": "waiting",
+"to": "on_train"
+},
+{
+"at": "2026-10-12T00:35:00Z",
+"item": 183,
+"job": 1100,
+"from": "waiting",
+"to": "on_train"
 }
 ],
 "items": {
@@ -6216,8 +6219,10 @@
 "title": "Home: match the desktop mockup",
 "mode": "code",
 "group": "home",
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"state": "on_train",
+"branch": "gameplay/train-home-3",
+"first_seen": "2026-10-12T00:35:00Z",
+"since": "2026-10-12T00:35:00Z"
 },
 "182": {
 "job": 1557,
@@ -6241,8 +6246,10 @@
 "title": "Connect Players (start and join): match the desktop mockup",
 "mode": "code",
 "group": "start-join",
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"state": "on_train",
+"branch": "gameplay/train-start-join-3",
+"first_seen": "2026-10-12T00:35:00Z",
+"since": "2026-10-12T00:35:00Z"
 },
 "184": {
 "job": 1558,
