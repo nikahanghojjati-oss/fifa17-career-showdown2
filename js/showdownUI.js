@@ -154,6 +154,16 @@ function ensureActiveShowdownDeleteControl(){
     actions.appendChild(button);
 }
 
+/* Deleting the Showdown also removes every unsent private draft on this device (Season Results, Transfer Challenge, signing), for every rivalry, including orphans.
+   The sweep lives in diagnostics.js (the only non-startup file allowed to touch browser storage directly) and loads on demand; it needs no rivalry id, so it also works offline or before the pair module loads. */
+function sweepDashboardShowdownDrafts(){
+    try{
+        return Promise.resolve(window.ensureDiagnosticsModule()).then(() => window.clearAllShowdownDraftKeys() === true).catch(() => false);
+    }catch(_error){
+        return Promise.resolve(false);
+    }
+}
+
 function deleteCurrentShowdownFromDashboard(){
     if(!currentShowdown && !hasSavedShowdown()){ return; }
     const saved = currentShowdown || loadSavedShowdown();
@@ -170,6 +180,7 @@ function deleteCurrentShowdownFromDashboard(){
         }
         return;
     }
+    sweepDashboardShowdownDrafts();
 
     if(typeof window.stopTransferTimerLoop === "function"){ window.stopTransferTimerLoop(); }
     if(typeof window.resetTransientSelectionOperations === "function"){ window.resetTransientSelectionOperations(); }
@@ -263,13 +274,14 @@ function getSeriesStatusPresentation(showdown){
     }
     const one = Number(showdown.score.playerOne) || 0;
     const two = Number(showdown.score.playerTwo) || 0;
+    const leadVerb = showdown.status === "Completed" ? "WINS" : "LEADS";
     if(one > two){
         const name = (showdown.managers && showdown.managers.playerOne) ? showdown.managers.playerOne : "MANAGER 1";
-        return { label: `${String(name).toUpperCase()} LEADS`, className: "series-lead-one" };
+        return { label: `${String(name).toUpperCase()} ${leadVerb}`, className: "series-lead-one" };
     }
     if(two > one){
         const name = (showdown.managers && showdown.managers.playerTwo) ? showdown.managers.playerTwo : "MANAGER 2";
-        return { label: `${String(name).toUpperCase()} LEADS`, className: "series-lead-two" };
+        return { label: `${String(name).toUpperCase()} ${leadVerb}`, className: "series-lead-two" };
     }
     if(showdown.status === "Completed"){
         return { label: "SHOWDOWN LEVEL", className: "series-level" };

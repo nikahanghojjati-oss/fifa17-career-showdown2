@@ -1221,6 +1221,40 @@
         "^tests/contracts/career-start-plain-errors-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/showdown-delete-clears-drafts-contracts.cjs",
+      "patterns": [
+        "^js/showdownUI\\.js$",
+        "^js/legacy\\.js$",
+        "^js/settings\\.js$",
+        "^tests/contracts/showdown-delete-clears-drafts-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/completed-showdown-wins-contracts.cjs",
+      "patterns": [
+        "^js/showdownUI\\.js$",
+        "^tests/contracts/completed-showdown-wins-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/football-photo-retry-contracts.cjs",
+      "patterns": [
+        "^js/footballVisuals\\.js$",
+        "^tests/contracts/football-photo-retry-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/optional-modules-retry-contracts.cjs",
+      "patterns": [
+        "^js/optionalModules\\.js$",
+        "^tests/contracts/optional-modules-retry-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
