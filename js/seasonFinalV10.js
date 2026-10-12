@@ -1261,6 +1261,187 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
  #app #seasonEntry .v10FinalStage .finalWinnerActionsSlot .v10FinalExit .seasonEntryActions button:hover { filter:brightness(1.15); }
  #app #seasonEntry .v10FinalStage .finalWinnerActionsSlot .v10FinalExit .seasonEntryActions button:focus-visible { outline:3px solid #fff5c4; outline-offset:-6px; }
 }
+/* JOB-1702: Final Winner at phone, sideways and tablet (adopted studies 1284, 1287, 1288 and PHONE_FINAL_WINNER).
+   Desktop (the JOB-1289 block above) is untouched. main is the only scroll owner; the stage fits the first view,
+   so Team V's 660px minimum and its inner stage scroll are reset here. Words, ids and tap order are the live ones. */
+@media (min-width:340px) and (max-width:440px) and (min-height:520px) and (max-height:960px) and (orientation:portrait),
+       (min-width:640px) and (max-width:880px) and (min-height:340px) and (max-height:410px) and (orientation:landscape),
+       (min-width:700px) and (max-width:900px) and (min-height:960px) and (max-height:1240px) and (orientation:portrait) {
+ html[data-v10-screen="seasonEntry"] #app main:has(#seasonEntry.seasonScreenV10.v10FinalMode:not(.hidden)) {
+  position:fixed;inset:0;height:100svh;padding:0;overflow-x:hidden;overflow-y:auto;
+ }
+ #app #seasonEntry.seasonScreenV10.v10FinalMode { position:relative;inset:auto;height:100svh;min-height:0;margin:0;padding:0; }
+ #app #seasonEntry.v10FinalMode #stage-root.v10FinalStage { position:absolute;inset:0;width:100%;height:100%;overflow:hidden; }
+ #app #seasonEntry.v10FinalMode #stage-root.v10FinalStage #finalWinnerScreen {
+  position:absolute;inset:0;width:100%;height:100%;max-width:none;margin:0;padding:0;
+ }
+ /* Two exits in Team V's black-and-gold kit: secondary outline, gold primary (BACK TO SHOWDOWN HOME). */
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerActionsSlot .v10FinalExit { width:100%;margin:0;padding:0; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerActionsSlot .v10FinalExit .seasonEntryActions {
+  display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%;margin:0;padding:0;border:0;background:none;box-shadow:none;
+ }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerActionsSlot .v10FinalExit .seasonEntryActions button {
+  box-sizing:border-box;width:100%;min-width:0;min-height:44px;margin:0;padding:6px 8px;
+  border:1px solid #dfbd54;border-radius:0;background:linear-gradient(#141414,#070807);color:#f7cf60;
+  font:800 11px/1.25 var(--sd-font-condensed,"Barlow Condensed",sans-serif);letter-spacing:.06em;text-transform:uppercase;
+  white-space:normal;overflow-wrap:normal;word-break:normal;box-shadow:inset 0 0 0 2px #88642b44;
+ }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerActionsSlot .v10FinalExit .seasonEntryActions .backButton {
+  background:linear-gradient(#fff1a1,#e8b73e 70%,#b98a2c);color:#0b0a07;box-shadow:0 0 12px #dfad3555;
+ }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerActionsSlot .v10FinalExit .seasonEntryActions button:active {
+  filter:brightness(.86);box-shadow:inset 0 2px 5px #000a;
+ }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerActionsSlot .v10FinalExit .seasonEntryActions button:focus-visible {
+  outline:3px solid #fff5c4;outline-offset:2px;
+ }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerResultsPanel .finalWinnerPhoneTabs label:active { filter:brightness(1.2); }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerResultsPanel .finalWinnerTabInput:focus-visible~.finalWinnerPhoneTabs {
+  outline:3px solid #fff5c4;outline-offset:-3px;
+ }
+}
+/* Phone upright: Team V's phone composition on the full screen; the panel ends just above the exits. */
+@media (min-width:340px) and (max-width:440px) and (min-height:520px) and (max-height:960px) and (orientation:portrait) {
+ /* The crown sat over the gap between SHOWDOWN and CHAMPION. */
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerCrown { display:none; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerActionsSlot {
+  left:4%;right:auto;width:92%;top:auto;bottom:max(12px,env(safe-area-inset-bottom));height:auto;max-height:none;padding:0;overflow:visible;
+ }
+}
+/* Sideways and tablet: one phone-art composition on the whole screen (Team V's phone background and the two phone
+   portraits, Daniel on the left). The desktop plate, rims, shades and spotlights are hidden by class, not by src. */
+@media (min-width:640px) and (max-width:880px) and (min-height:340px) and (max-height:410px) and (orientation:landscape),
+       (min-width:700px) and (max-width:900px) and (min-height:960px) and (max-height:1240px) and (orientation:portrait) {
+ #app #seasonEntry.v10FinalMode #stage-root :is(.sd-stage__layer--plate,.sd-stage__layer--cutout,.sd-stage__layer--light,.finalWinnerManagerShade,.finalWinnerManagerSpotlight,.finalWinnerCrown,.finalWinnerTopbar) { display:none; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerPhoneBackground { position:absolute;inset:0;z-index:1;display:block;overflow:hidden;pointer-events:none; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerPhoneBackground img { display:block;width:100%;height:100%;object-fit:cover;object-position:50% 50%; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerPhoneVeil { position:absolute;inset:0;z-index:6;display:block;pointer-events:none; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerPhoneHero { position:absolute;z-index:9;display:block;width:auto;right:auto;bottom:auto;pointer-events:none;transform:none;opacity:.96; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerPhoneHero img { display:block;width:auto;height:100%;max-width:none;filter:drop-shadow(0 11px 12px rgb(0 0 0 / .7)); }
+ #app #seasonEntry.v10FinalMode #stage-root[data-spotlight="daniel"] .finalWinnerPhoneHero--nik,
+ #app #seasonEntry.v10FinalMode #stage-root[data-spotlight="nik"] .finalWinnerPhoneHero--daniel { opacity:.78;filter:brightness(.74) saturate(.85); }
+ #app #seasonEntry.v10FinalMode #stage-root :is(.finalWinnerTitleBlock,.finalWinnerHeroCopySlot,.winnerTrophySlot,.finalWinnerResultsPanel,.finalWinnerActionsSlot) {
+  position:absolute;right:auto;bottom:auto;height:auto;max-height:none;margin:0;box-sizing:border-box;
+ }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerTitleBlock { z-index:13;display:grid;justify-items:center;row-gap:2px;transform:translateX(-50%);text-align:center; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerWordmark { width:100%;margin:0; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerWordmark img { display:block;width:100%;height:auto; }
+ #app #seasonEntry.v10FinalMode #stage-root .winnerTrophySlot { z-index:10;width:auto;aspect-ratio:1;transform:translateX(-50%); }
+ #app #seasonEntry.v10FinalMode #stage-root .winnerTrophySlot .winnerTrophyPicture { position:absolute;inset:0;display:block;width:100%;height:100%; }
+ #app #seasonEntry.v10FinalMode #stage-root .winnerTrophySlot .winnerTrophyPicture img { display:block;width:100%;height:100%;object-fit:contain; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerHeroCopySlot { z-index:13;display:flex;flex-direction:column;align-items:center;gap:0;transform:translateX(-50%);text-align:center; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerOutcome { margin:2px 0 0;line-height:1; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerTotals { display:grid;grid-template-columns:1fr 1fr;width:100%;margin-top:2px; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerScoreDash { display:none; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerManager { display:grid;justify-items:center;gap:0; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerManager .sd-number { line-height:1; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerResultsPanel {
+  z-index:11;display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:44px minmax(0,1fr);overflow:hidden;
+  border:1px solid #d9b64e;background:linear-gradient(115deg,#3927129c,#080909eb);
+  clip-path:polygon(2% 0,98% 0,100% 3%,100% 97%,98% 100%,2% 100%,0 97%,0 3%);
+ }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerResultsPanel :is(.finalWinnerMetaStrip,.finalWinnerHonours) {
+  position:relative;inset:auto;grid-column:1;grid-row:2;width:auto;height:auto;min-height:0;border:0;background:none;
+ }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerMetaStrip { display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1.2fr 1fr; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerMetaCell { display:grid;place-content:center;justify-items:center;gap:2px;min-width:0;padding:4px;border:0;text-align:center; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerMetaCell--lastSeason { grid-column:1/-1;border-bottom:1px solid #d9b64e66; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerMetaCell--lastSeason~.finalWinnerMetaCell~.finalWinnerMetaCell { border-left:1px solid #d9b64e66; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerMetaCell :is(span,small) { white-space:nowrap; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerHonours { display:grid;grid-template-rows:auto repeat(4,minmax(0,1fr));align-content:stretch; }
+ #app #seasonEntry.v10FinalMode #stage-root :is(.finalWinnerHonoursHead,.finalWinnerTrophyMetric) {
+  display:grid;grid-template-columns:40px 22px minmax(0,1fr) 22px 40px;align-items:center;gap:4px;min-height:0;text-align:center;
+ }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerHonoursHead>span { grid-column:2/5; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerTrophyMetric { border-top:1px solid #c49d4944; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerTrophyMetric img { width:100%;height:100%;max-height:30px;object-fit:contain; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerActionsSlot { z-index:14;display:block;padding:0;overflow:visible; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerActionsSlot .v10FinalExit { width:100%;margin:0;padding:0; }
+}
+/* Sideways (study 1287): managers, trophy and score on the left half; summary tabs and both exits on the right half. */
+@media (min-width:640px) and (max-width:880px) and (min-height:340px) and (max-height:410px) and (orientation:landscape) {
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerPhoneVeil {
+  background:linear-gradient(90deg,transparent 0 48%,rgb(3 5 7 / .55) 54%,rgb(3 5 7 / .82) 100%),linear-gradient(180deg,transparent 0 52%,rgb(3 5 7 / .7) 74%,#050607 100%);
+ }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerPhoneHero { top:17%;height:66%; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerPhoneHero--daniel { left:0; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerPhoneHero--nik { left:auto;right:51%; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerTitleBlock { left:25%;top:3%;width:min(44%,330px); }
+ #app #seasonEntry.v10FinalMode #stage-root :is(.finalWinnerEyebrow,.finalWinnerTagline) { display:block;visibility:visible;font-size:8px;letter-spacing:.24em;line-height:1.2; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerWordmark { width:86%; }
+ #app #seasonEntry.v10FinalMode #stage-root .winnerTrophySlot { left:25%;top:25%;height:32%; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerHeroCopySlot { left:25%;top:59%;width:min(36%,280px); }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerStateHeading { font-size:9px;letter-spacing:.2em; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerOutcome { font-size:clamp(22px,7svh,28px); }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerManager small { font-size:9px;letter-spacing:.14em; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerManager .sd-number { font-size:clamp(26px,8.5svh,34px); }
+ #app #seasonEntry.v10FinalMode #stage-root :is(.finalWinnerResultText,.finalWinnerCompletion) { font-size:10px;margin-top:2px; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerResultsPanel { left:52%;width:45%;top:5%;bottom:calc(4% + 58px);height:auto; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerActionsSlot { left:52%;width:45%;top:auto;bottom:4%; }
+ #app #seasonEntry.v10FinalMode #stage-root .v10FinalProof { left:52%;width:45%;top:auto;bottom:calc(4% + 52px);max-height:none; }
+ #app #seasonEntry.v10FinalMode #stage-root:has(#v10ReconciliationSlot>:not(.hidden)) .finalWinnerResultsPanel { bottom:calc(4% + 96px); }
+ /* Summary and Honours stay radio tabs here, also above 760px where Team V shows both. */
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerTabInput { display:block;position:absolute;width:1px;height:1px;margin:0;opacity:0;clip-path:inset(50%);pointer-events:none; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerPhoneTabs {
+  position:relative;z-index:3;display:grid;grid-row:1;grid-template-columns:1fr 1fr;height:44px;border-bottom:1px solid #d9b64e;background:rgb(6 8 11 / .9);
+ }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerPhoneTabs label {
+  display:flex;align-items:center;justify-content:center;min-width:0;min-height:44px;color:var(--sd-text-secondary,#cfc6b0);
+  font:700 11px/1 var(--sd-font-condensed,"Barlow Condensed",sans-serif);letter-spacing:.12em;border-bottom:2px solid transparent;cursor:pointer;user-select:none;
+ }
+ #app #seasonEntry.v10FinalMode #stage-root #finalWinnerTabSummary:checked~.finalWinnerPhoneTabs label[for="finalWinnerTabSummary"],
+ #app #seasonEntry.v10FinalMode #stage-root #finalWinnerTabHonours:checked~.finalWinnerPhoneTabs label[for="finalWinnerTabHonours"] {
+  color:var(--sd-gold-300,#f2c45b);border-bottom-color:var(--sd-gold-300,#f2c45b);background:linear-gradient(180deg,rgb(242 196 91 / .1),transparent);
+ }
+ #app #seasonEntry.v10FinalMode #stage-root #finalWinnerTabSummary:checked~.finalWinnerHonours,
+ #app #seasonEntry.v10FinalMode #stage-root #finalWinnerTabHonours:checked~.finalWinnerMetaStrip { display:none; }
+ #app #seasonEntry.v10FinalMode #stage-root:is([data-status="loading"],[data-status="empty"],[data-status="unavailable"]) .finalWinnerPhoneTabs { display:none; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerMetaCell :is(span,small) { font-size:9px;letter-spacing:.1em; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerMetaCell strong { margin:1px 0;font-size:clamp(22px,7svh,28px);line-height:1; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerHonours { padding:2px 8px 4px; }
+ #app #seasonEntry.v10FinalMode #stage-root :is(.finalWinnerHonoursHead,.finalWinnerTrophyMetric) { font-size:9px;letter-spacing:.05em; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerHonoursHead { min-height:24px; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerMetricValue { font-size:17px; }
+}
+/* Tablet upright (study 1288): the phone ceremony scaled up; Summary and Honours side by side; exits clear. */
+@media (min-width:700px) and (max-width:900px) and (min-height:960px) and (max-height:1240px) and (orientation:portrait) {
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerPhoneVeil {
+  background:linear-gradient(180deg,transparent 0 46%,rgb(3 5 7 / .72) 56%,rgb(3 5 7 / .96) 63%,#050607 100%);
+ }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerPhoneHero { top:6%;height:52%; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerPhoneHero--daniel { left:-2%; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerPhoneHero--nik { left:auto;right:-2%; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerTitleBlock { left:50%;top:3%;width:min(70%,560px);row-gap:6px; }
+ #app #seasonEntry.v10FinalMode #stage-root :is(.finalWinnerEyebrow,.finalWinnerTagline) { font-size:13px;letter-spacing:.3em;line-height:1.2; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerWordmark { width:88%; }
+ #app #seasonEntry.v10FinalMode #stage-root .winnerTrophySlot { left:50%;top:17%;height:27%; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerHeroCopySlot { left:50%;top:45%;width:min(64%,520px); }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerStateHeading { font-size:14px;letter-spacing:.24em; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerOutcome { font-size:44px;margin-top:4px; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerManager small { font-size:14px;letter-spacing:.16em; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerManager .sd-number { font-size:54px; }
+ #app #seasonEntry.v10FinalMode #stage-root :is(.finalWinnerResultText,.finalWinnerCompletion) { font-size:14px;margin-top:4px; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerResultsPanel {
+  left:5%;width:90%;top:63%;bottom:calc(4% + 72px);height:auto;grid-template-columns:36% minmax(0,1fr);grid-template-rows:minmax(0,1fr);
+ }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerPhoneTabs,
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerTabInput { display:none; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerResultsPanel :is(.finalWinnerMetaStrip,.finalWinnerHonours) { display:grid;grid-row:1; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerResultsPanel .finalWinnerMetaStrip { grid-column:1;border-right:1px solid #d9b64e66; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerResultsPanel .finalWinnerHonours { grid-column:2;padding:8px 18px; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerMetaCell :is(span,small) { font-size:12px;letter-spacing:.12em; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerMetaCell strong { margin:2px 0;font-size:40px;line-height:1; }
+ #app #seasonEntry.v10FinalMode #stage-root :is(.finalWinnerHonoursHead,.finalWinnerTrophyMetric) { grid-template-columns:52px 30px minmax(0,1fr) 30px 52px;gap:8px;font-size:13px;letter-spacing:.06em; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerHonoursHead { min-height:34px; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerTrophyMetric img { max-height:34px; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerMetricValue { font-size:26px; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerTotalMark { font-size:18px; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerActionsSlot { left:8%;width:84%;top:auto;bottom:4%; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerActionsSlot .v10FinalExit .seasonEntryActions { gap:16px; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerActionsSlot .v10FinalExit .seasonEntryActions button { min-height:56px;font-size:15px; }
+ #app #seasonEntry.v10FinalMode #stage-root .v10FinalProof { left:5%;width:90%;top:auto;bottom:calc(4% + 64px);max-height:none; }
+ #app #seasonEntry.v10FinalMode #stage-root:has(#v10ReconciliationSlot>:not(.hidden)) .finalWinnerResultsPanel { bottom:calc(4% + 120px); }
+}
 
 `;
     parent.appendChild(style);
