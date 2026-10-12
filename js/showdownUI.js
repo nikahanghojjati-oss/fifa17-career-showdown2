@@ -274,13 +274,14 @@ function getSeriesStatusPresentation(showdown){
     }
     const one = Number(showdown.score.playerOne) || 0;
     const two = Number(showdown.score.playerTwo) || 0;
+    const leadVerb = showdown.status === "Completed" ? "WINS" : "LEADS";
     if(one > two){
         const name = (showdown.managers && showdown.managers.playerOne) ? showdown.managers.playerOne : "MANAGER 1";
-        return { label: `${String(name).toUpperCase()} LEADS`, className: "series-lead-one" };
+        return { label: `${String(name).toUpperCase()} ${leadVerb}`, className: "series-lead-one" };
     }
     if(two > one){
         const name = (showdown.managers && showdown.managers.playerTwo) ? showdown.managers.playerTwo : "MANAGER 2";
-        return { label: `${String(name).toUpperCase()} LEADS`, className: "series-lead-two" };
+        return { label: `${String(name).toUpperCase()} ${leadVerb}`, className: "series-lead-two" };
     }
     if(showdown.status === "Completed"){
         return { label: "SHOWDOWN LEVEL", className: "series-level" };
