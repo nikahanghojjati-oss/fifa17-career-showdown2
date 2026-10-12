@@ -14,6 +14,7 @@ let optionalOpenRequestId = 0;
 let gameplayRuntimeState = "idle";
 let gameplayRuntimePromise = null;
 let gameplayRuntimeInitialized = false;
+const gameplayRuntimeCompletedStarters = new Set();
 let requiredFootballVisualPromise = null;
 
 function optionalAssetUrl(path){
@@ -165,10 +166,12 @@ const initializers = [
 ];
 
 initializers.forEach(([name, initializer]) => {
+if(gameplayRuntimeCompletedStarters.has(name)){ return; }
 if(typeof initializer !== "function"){
 throw new Error(`Gameplay initializer is unavailable: ${name}`);
 }
 initializer();
+gameplayRuntimeCompletedStarters.add(name);
 });
 
 gameplayRuntimeInitialized = true;
