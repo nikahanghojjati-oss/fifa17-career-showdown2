@@ -275,11 +275,14 @@ async function sweepScenario(){
   keep.forEach(key=>device.store.set(key,"x"));
   for(const season of [1,2,3])for(const role of ["playerOne","playerTwo"])for(const kind of ["seasonResult","transferGuess"])device.store.set(`cms.draft.v1:${RIVALRY}:${season}:${role}:${kind}`,"{}");
   assert.equal(device.drafts().length,13);
-  assert.equal(page.clearDraftsForRivalry(RIVALRY),true);
+  const terminalSource=read("js/productionSharedTerminalClose.js");
+  const sweep=terminalSource.match(/  function ptcClearDrafts\(id\)\{[^\n]*\n/);assert.ok(sweep,"Terminal Close owns the draft sweep");
+  vm.runInContext(`var root=window;${sweep[0]};window.ptcClearDrafts=ptcClearDrafts;`,page);
+  assert.equal(page.ptcClearDrafts(RIVALRY),true);
   assert.deepEqual(device.drafts(),[`cms.draft.v1:${OTHER_RIVALRY}:1:playerOne:seasonResult`],"Q8 every draft of the ended rivalry is gone");
   assert.deepEqual(keep.filter(key=>!device.store.has(key)),[],"Q8 other rivalries, signing drafts, preferences and saves are untouched");
   const terminal=read("js/productionSharedTerminalClose.js");
-  assert.match(terminal,/state=ptcFreeze\(next\);stateContextKey=request\.key;ptcRender\(\);\s*\/\/ QoL 3\+6[^\n]*\n\s*if\(state\.phase==="CLOSED"&&typeof root\.clearDraftsForRivalry==="function"\)\{try\{root\.clearDraftsForRivalry\(state\.rivalryId\|\|request\.rivalryId\);\}catch\(_error\)\{\}\}/,"Q8 a CLOSED Showdown sweeps the drafts of its rivalry");
+  assert.match(terminal,/state=ptcFreeze\(next\);stateContextKey=request\.key;ptcRender\(\);\s*\/\/ QoL 3\+6[^\n]*\n[^\n]*\n\s*if\(state\.phase==="CLOSED"\)ptcClearDrafts\(state\.rivalryId\|\|request\.rivalryId\);/,"Q8 a CLOSED Showdown sweeps the drafts of its rivalry");
   ok("Q8 the Showdown ending sweeps that rivalry's drafts and nothing else");
 }
 
@@ -308,9 +311,8 @@ function wiringChecks(){
   // Scoring, rules and text: the lock payload and the publish payload are built exactly as before.
   assert.ok(transfer.includes("rows.push({slot:i,type:kind,valueId:id});"));
   assert.ok(results.includes("pssrFingerprint(currentResult)!==draft.fingerprint"));
-  // storage.js adds one small sweep and exports it; the existing generic read/write/remove helpers carry the drafts.
-  assert.match(storage,/function clearDraftsForRivalry\(id\)\{try\{Object\.keys\(localStorage\)\.filter\(key=>key\.startsWith\(`cms\.draft\.v1:\$\{id\}:`\)\)/);
-  assert.ok(storage.includes("window.clearDraftsForRivalry=clearDraftsForRivalry;"));
+  // storage.js (a startup file) is unchanged; the existing generic read/write/remove helpers carry the drafts.
+  assert.ok(storage.includes("function removeStorageValue(key)")&&!storage.includes("cms.draft.v1"),"no draft code in the startup storage file");
   ok("Q9 drafts go through the js/storage.js helpers only, never sessionStorage, keyed by rivalry, season and role, cleared on publish, lock and Showdown end");
 }
 
