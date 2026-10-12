@@ -351,6 +351,7 @@ function updateShowdownUI(){
         ? `${completedSeasonCount} ${completedSeasonCount === 1 ? "season" : "seasons"} completed`
         : `Season ${currentShowdown.currentRound} of ${currentShowdown.totalRounds}`;
     const latestRound = currentShowdown.rounds[currentShowdown.rounds.length - 1];
+    const latestCompletedRound = latestRound && latestRound.playerOne && latestRound.playerTwo ? latestRound : null;
 
     setDashboardTextIfChanged(ui.indicator, completed ? "Showdown Complete" : `Season ${currentShowdown.currentRound} / ${currentShowdown.totalRounds}`);
     setDashboardTextIfChanged(ui.selectedLeague, leagueName || "Spin to select league");
@@ -365,8 +366,8 @@ function updateShowdownUI(){
     setDashboardTextIfChanged(ui.clubTwo, currentShowdown.clubs.playerTwo || "Club not assigned");
     setDashboardTextIfChanged(ui.scoreOne, currentShowdown.score.playerOne);
     setDashboardTextIfChanged(ui.scoreTwo, currentShowdown.score.playerTwo);
-    setDashboardTextIfChanged(ui.lastPositionOne, latestRound ? `Last league finish: ${latestRound.playerOne.leaguePosition}` : "No season completed");
-    setDashboardTextIfChanged(ui.lastPositionTwo, latestRound ? `Last league finish: ${latestRound.playerTwo.leaguePosition}` : "No season completed");
+    setDashboardTextIfChanged(ui.lastPositionOne, latestCompletedRound ? `Last league finish: ${latestCompletedRound.playerOne.leaguePosition}` : "No season completed");
+    setDashboardTextIfChanged(ui.lastPositionTwo, latestCompletedRound ? `Last league finish: ${latestCompletedRound.playerTwo.leaguePosition}` : "No season completed");
 
     if(typeof window.refreshClubVisualIdentity === "function"){
         window.refreshClubVisualIdentity(currentShowdown);
