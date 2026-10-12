@@ -1,7 +1,7 @@
 # JOB-1728 Connect Players upright tablet (768x1024, 820x1180)
 - Re-run of 1114. Team V fix: scale up so the content fills the screen top to bottom, with text at least as large as phone study 1110.
 - Every size is in vw (both tablets are about 0.7 to 0.75 aspect), so the picture's stack scales as one piece: Daniel and Nik cutouts on top, then kicker, bright gold title, tagline, tabs plus BACK, panel, bar.
-- The content column is bottom-anchored and runs from the cutouts to the bar with no dead band. 768x1024: panel bottom 24px above the bar. 820x1180: same.
+- The content column is bottom-anchored and runs from the cutouts to the bar with no dead band. 768x1024: panel bottom 18px above the bar. 820x1180: same.
 - Text sizes at 768 (1110 phone value in brackets): h2 43px [23], body 26px [13], CHOOSE SEASONS 35px [17], tabs 24px [11], tagline 20px [9], bar labels 15px [10].
 - Daniel left, Nik right, never mirrored. Cutouts are the Team V phone overlays, sized to the width so heads and the pointing hand stay clear of text.
 - Bottom bar: the real five tabs (shared navbar icons), 68px high, stacked icon and label. Hub screens show it at 900px or less.
