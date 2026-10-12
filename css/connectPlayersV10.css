@@ -658,3 +658,13 @@ html[data-reduced-motion="true"] #connectPlayersScreen *::after {
   transition-duration:.01ms !important;
   scroll-behavior:auto !important;
 }
+
+
+/* JOB-1104: the selected Daniel/Nik phone tabs are cream on a gold gradient.
+   Solid black text meets 4.5:1 even at the gradient's darkest #9d6c15 stop;
+   no artwork, fill, layout or button state is modified. */
+@media (max-width:760px) {
+ #connectPlayersScreen .connectPlayersTabs input:checked + span {
+  color:#000;
+ }
+}
