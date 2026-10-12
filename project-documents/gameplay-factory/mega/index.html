@@ -182,10 +182,10 @@ function paint(only,fail){
    $("wnote").textContent=W.note||""}}
   const none='<span class="none">None free right now.</span>';
   const bl=a=>{const z=[],k=B.size||3;for(let i=0;i<a.length;i+=k)z.push(a.slice(i,i+k));return z.map(g=>`<button class="chip batch" data-n="${g.join(" ")}">${g.join(" ")}</button>`).join("")||none};
-  const wkset=new Set(g.ready_work||[]),chat=all.filter(x=>!wkset.has(x)).concat(B.jobs_free||[]);
+  const WE=B.work_extra||{},weN=(WE.numbers||[]).filter(x=>all.includes(x)),wkList=weN.concat((g.ready_work||[]).filter(x=>!weN.includes(x))),wkset=new Set(wkList),chat=all.filter(x=>!wkset.has(x)).concat(B.jobs_free||[]);
   $("odd").innerHTML=bl(chat.filter(x=>x%2));
   $("even").innerHTML=bl(chat.filter(x=>x%2===0));
-  $("wkw").textContent=(B.work_waiting||[]).map(x=>"Not free yet: "+x.job+" ("+x.note+")").join("; ");const wm=g.work_models||{};$("wk").innerHTML=(g.ready_work||[]).map(x=>`<button class="wbox" data-n="${x}">${x}<small>${esc(wm[x]||"")}</small></button>`).join("")||none;
+  $("wkw").textContent=(B.work_waiting||[]).map(x=>"Not free yet: "+x.job+" ("+x.note+")").join("; ");const wm=g.work_models||{};$("wk").innerHTML=wkList.map(x=>`<button class="wbox" data-n="${x}">${x}<small>${esc(wm[x]||(weN.includes(x)?WE.model:"")||"")}</small></button>`).join("")||none;
   $("bmx").textContent=B.size||3;$("bsz").textContent=(B.size||3)+" numbers per chat";$("bst").textContent=(B.clean_streak||0)+" of "+(B.goal||10)+" clean batches in a row"+(B.size<B.max?" (then "+B.max+" per chat)":"");
   $("nxtnote").textContent=((B.jobs_after_wiring||[]).length?"Polish jobs after wiring (not free yet): "+B.jobs_after_wiring.join(", ")+". ":"")+(g.ready_total>all.length?`Showing the first ${all.length} of ${g.ready_total}. `:"")+"A number leaves this list the minute its chat claims it. Numbers not listed have to wait.";
   document.querySelectorAll(".chip,.wbox").forEach(b=>b.onclick=()=>copyBtn(b));
