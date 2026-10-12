@@ -4,7 +4,7 @@
   "clean_streak": 0,
   "goal": 10,
   "owner": "mega factory thread",
-  "updated": "2026-10-12T14:50:06Z",
+  "updated": "2026-10-12T15:02:12Z",
   "note": "Nik decided 06:55 UTC: 3 numbers per chat; 5 once 10 batches in a row run clean.",
   "jobs_free": [
     1778,
@@ -60,9 +60,15 @@
       1707,
       1698,
       1699,
-      1791
+      1791,
+      1793,
+      1794,
+      1795,
+      1796,
+      1797,
+      1798
     ],
-    "note": "Phone/sideways/tablet work first (adopted phone studies); desktop is built by the Claude lane for Home, Club, Final Winner and Career Statistics. Transfer last (no adopted phone study). Study re-runs 1727-1732 (Team V redo lines) come after the screen numbers; 3 per message. 1791 (startup gzip headroom, carries PR #768 guard) is a code-running Work mode job."
+    "note": "Phone/sideways/tablet work first (adopted phone studies); desktop is built by the Claude lane for Home, Club, Final Winner and Career Statistics. Transfer last (no adopted phone study). Study re-runs 1727-1732 (Team V redo lines) come after the screen numbers; 3 per message. 1791 (startup gzip headroom, carries PR #768 guard) is a code-running Work mode job. 1793-1798 are code-running Work mode audit-and-fix jobs (node repro, one contract, ops test)."
   },
   "claude_lane_jobs": {
     "jobs": [
@@ -88,7 +94,13 @@
     1707,
     1698,
     1699,
-    1791
+    1791,
+    1793,
+    1794,
+    1795,
+    1796,
+    1797,
+    1798
   ],
   "claude_doing": {
     "title": "Claude is doing (nothing to type)",
