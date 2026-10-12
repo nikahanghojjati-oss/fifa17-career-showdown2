@@ -183,161 +183,161 @@ html[data-v10-screen="clubWheelScreen"] #app > main { position: static; inset: a
   html[data-v10-screen="clubWheelScreen"] #app > main {
     position: fixed; inset: 0; padding: 0; overflow-x: hidden; overflow-y: auto; overscroll-behavior: contain;
   }
-  #clubWheelScreen.cl-on {
+  #app #clubWheelScreen.cl-on {
     --sr-hero: 0px; --cl-phone-hero: clamp(140px, calc(100svh - 384px), 480px);
     position: relative; inset: auto; width: 100%; height: auto; min-height: 100svh;
     display: flex; flex-direction: column; overflow: visible; pointer-events: auto;
     padding: 0; background: #08090b;
   }
-  #clubWheelScreen.cl-on .phoneHeroStage,
-  #clubWheelScreen.cl-on .phoneHero,
-  #clubWheelScreen.cl-on .phoneHeroScrim,
-  #clubWheelScreen.cl-on .phoneControlDeck,
-  #clubWheelScreen.cl-on .cl-stage,
-  #clubWheelScreen.cl-on .clubKicker,
-  #clubWheelScreen.cl-on .cl-footer { display: none !important; }
-  #clubWheelScreen.cl-on .clPhoneScene {
+  #app #clubWheelScreen.cl-on .phoneHeroStage,
+  #app #clubWheelScreen.cl-on .phoneHero,
+  #app #clubWheelScreen.cl-on .phoneHeroScrim,
+  #app #clubWheelScreen.cl-on .phoneControlDeck,
+  #app #clubWheelScreen.cl-on .cl-stage,
+  #app #clubWheelScreen.cl-on .clubKicker,
+  #app #clubWheelScreen.cl-on .cl-footer { display: none !important; }
+  #app #clubWheelScreen.cl-on .clPhoneScene {
     position: relative; display: flex; flex: 0 0 var(--cl-phone-hero); height: var(--cl-phone-hero);
     min-height: 0; width: 100%; overflow: hidden; align-items: flex-end; justify-content: center;
     padding: 48px 8px 38px; box-sizing: border-box; pointer-events: none;
     background: linear-gradient(#0008, #0007), url("../visual-assets/v10_1/club/assets/ENV_CLUB_PHONE_V1.webp") center / cover;
   }
-  #clubWheelScreen.cl-on .clPhoneScene::after {
+  #app #clubWheelScreen.cl-on .clPhoneScene::after {
     content: ""; position: absolute; inset: auto 0 0; height: 35px;
     background: linear-gradient(transparent, #08090b);
   }
-  #clubWheelScreen.cl-on .clPhonePerson { display: block; width: 50%; height: 100%; min-height: 0; }
-  #clubWheelScreen.cl-on .clPhonePerson img {
+  #app #clubWheelScreen.cl-on .clPhonePerson { display: block; width: 50%; height: 100%; min-height: 0; }
+  #app #clubWheelScreen.cl-on .clPhonePerson img {
     display: block; width: 100%; height: 100%; object-fit: contain; object-position: center bottom;
   }
-  #clubWheelScreen.cl-on > h2 {
+  #app #clubWheelScreen.cl-on > h2 {
     position: absolute !important; top: max(10px, env(safe-area-inset-top)) !important;
     left: 0 !important; width: 100% !important; height: auto !important; z-index: 4;
     margin: 0 !important; padding: 0 !important; background: none; border: 0; text-align: center;
     transform: none;
   }
-  #clubWheelScreen.cl-on .clubTitleFallback {
+  #app #clubWheelScreen.cl-on .clubTitleFallback {
     display: block; color: #ffda69; -webkit-text-fill-color: #ffda69; background: none;
     font-size: clamp(27px, 7.6vw, 35px); font-weight: 900; line-height: 1.2;
     -webkit-text-stroke: .6px #ffda69; text-shadow: 0 2px 3px #000, 0 0 12px #b5832855;
   }
-  #clubWheelScreen.cl-on .clubAssignmentShell {
+  #app #clubWheelScreen.cl-on .clubAssignmentShell {
     position: relative; flex: none; display: flex; flex-direction: column; gap: 6px;
     width: 100%; min-height: 0; margin: 0 !important; padding: 0 12px max(10px, env(safe-area-inset-bottom));
     box-sizing: border-box; background: #08090b; border: 0; box-shadow: none; overflow: visible;
   }
-  #clubWheelScreen.cl-on .clubRevealProgress {
+  #app #clubWheelScreen.cl-on .clubRevealProgress {
     position: relative !important; inset: auto !important; width: 100% !important; height: auto !important;
     order: -2; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 4px;
     margin: 0; padding: 7px 0 0; box-sizing: border-box;
   }
-  #clubWheelScreen.cl-on .clubRevealProgress::before {
+  #app #clubWheelScreen.cl-on .clubRevealProgress::before {
     content: ""; position: absolute; top: 17px; left: 10%; right: 10%; height: 1px; background: #977339;
   }
-  #clubWheelScreen.cl-on .clubRevealProgress span {
+  #app #clubWheelScreen.cl-on .clubRevealProgress span {
     position: relative; display: block; width: auto; min-width: 0; height: auto; padding: 0; border: 0; background: none;
     font-size: 10px; line-height: 1.2; letter-spacing: 0; color: #b7ad98;
     white-space: normal; overflow-wrap: normal; text-align: center;
   }
-  #clubWheelScreen.cl-on .clubRevealProgress span::before {
+  #app #clubWheelScreen.cl-on .clubRevealProgress span::before {
     content: ""; display: block; width: 19px; height: 19px; margin: 0 auto 4px;
     border: 1px solid #c49b4a; border-radius: 50%; background: #08090b; box-sizing: border-box;
   }
-  #clubWheelScreen.cl-on .clubRevealProgress span.done::before { background: #7b6029; border-color: #f2c45b; }
-  #clubWheelScreen.cl-on .clubRevealProgress span.active::before { background: #f2c45b; }
-  #clubWheelScreen.cl-on .clubRevealProgress span.active::after { content: none; }
-  #clubWheelScreen.cl-on .ring,
-  #clubWheelScreen.cl-on .ringCheck { display: none !important; }
-  #clubWheelScreen.cl-on .clubRevealProgress span[data-reveal-step="confirmation"].active::before { box-shadow: 0 0 9px #c7974866; }
-  #clubWheelScreen.cl-on .clubAssignmentHeader {
+  #app #clubWheelScreen.cl-on .clubRevealProgress span.done::before { background: #7b6029; border-color: #f2c45b; }
+  #app #clubWheelScreen.cl-on .clubRevealProgress span.active::before { background: #f2c45b; }
+  #app #clubWheelScreen.cl-on .clubRevealProgress span.active::after { content: none; }
+  #app #clubWheelScreen.cl-on .ring,
+  #app #clubWheelScreen.cl-on .ringCheck { display: none !important; }
+  #app #clubWheelScreen.cl-on .clubRevealProgress span[data-reveal-step="confirmation"].active::before { box-shadow: 0 0 9px #c7974866; }
+  #app #clubWheelScreen.cl-on .clubAssignmentHeader {
     position: relative !important; inset: auto !important; width: 100% !important; height: auto !important;
     order: -1; display: grid; grid-template-columns: auto 1fr; gap: 3px 6px; margin: 0; padding: 2px 0;
     transform: none; text-align: left; white-space: normal;
   }
-  #clubWheelScreen.cl-on .clubAssignmentEyebrow { font-size: 12px; letter-spacing: .1em; }
-  #clubWheelScreen.cl-on #clubAssignmentLeague { margin: 0; font-size: 20px; line-height: 1.1; text-align: right; }
-  #clubWheelScreen.cl-on #clubPackStatus { grid-column: 1 / -1; min-height: 0; margin: 0; font-size: 11px; line-height: 1.2; }
-  #clubWheelScreen.cl-on .clubRevealArena { position: static; display: block; margin: 0; padding: 0; overflow: visible; }
-  #clubWheelScreen.cl-on .clubRevealArea { position: static; width: 100%; margin: 0; display: grid; grid-template-columns: 1fr; gap: 6px; }
-  #clubWheelScreen.cl-on .clubVs {
+  #app #clubWheelScreen.cl-on .clubAssignmentEyebrow { font-size: 12px; letter-spacing: .1em; }
+  #app #clubWheelScreen.cl-on #clubAssignmentLeague { margin: 0; font-size: 20px; line-height: 1.1; text-align: right; }
+  #app #clubWheelScreen.cl-on #clubPackStatus { grid-column: 1 / -1; min-height: 0; margin: 0; font-size: 11px; line-height: 1.2; }
+  #app #clubWheelScreen.cl-on .clubRevealArena { position: static; display: block; margin: 0; padding: 0; overflow: visible; }
+  #app #clubWheelScreen.cl-on .clubRevealArea { position: static; width: 100%; margin: 0; display: grid; grid-template-columns: 1fr; gap: 6px; }
+  #app #clubWheelScreen.cl-on .clubVs {
     position: absolute !important; top: calc(-45px) !important; left: 0 !important;
     width: 100% !important; height: 43px !important; min-height: 0; margin: 0; padding: 0;
     display: flex; flex-direction: column; gap: 1px; z-index: 3; pointer-events: none; transform: none;
   }
-  #clubWheelScreen.cl-on .clubVs > span { font-size: 10px; line-height: 1; }
-  #clubWheelScreen.cl-on .clubVs strong { font-size: 32px; line-height: 1; }
-  #clubWheelScreen.cl-on .clubVsFallback { color: #f2c45b; -webkit-text-fill-color: #f2c45b; text-shadow: 0 0 10px #be8b2d66; }
-  #clubWheelScreen.cl-on .clubRevealCard {
+  #app #clubWheelScreen.cl-on .clubVs > span { font-size: 10px; line-height: 1; }
+  #app #clubWheelScreen.cl-on .clubVs strong { font-size: 32px; line-height: 1; }
+  #app #clubWheelScreen.cl-on .clubVsFallback { color: #f2c45b; -webkit-text-fill-color: #f2c45b; text-shadow: 0 0 10px #be8b2d66; }
+  #app #clubWheelScreen.cl-on .clubRevealCard {
     position: relative; inset: auto; display: grid; grid-template-columns: 22px 60px minmax(0, 1fr);
     grid-template-rows: 1fr; align-items: center; gap: 7px; height: 65px; min-height: 65px;
     padding: 5px 8px; box-sizing: border-box; overflow: hidden;
     border: 1px solid #a582374d; border-left: 3px solid #d6ae4d;
     background: linear-gradient(95deg, #151618, #0b0c0e); box-shadow: none;
   }
-  #clubWheelScreen.cl-on .clubRevealIndex {
+  #app #clubWheelScreen.cl-on .clubRevealIndex {
     position: relative !important; inset: auto !important; width: auto !important; height: auto !important;
     grid-column: 1; grid-row: 1; padding: 4px 3px; background: #e8bd58; color: #08090b; font-size: 13px;
   }
-  #clubWheelScreen.cl-on .clubManager {
+  #app #clubWheelScreen.cl-on .clubManager {
     position: relative !important; inset: auto !important; width: auto !important; height: auto !important;
     grid-column: 2; grid-row: 1; margin: 0; padding: 0; min-height: 0;
     font-size: 20px; line-height: 1; letter-spacing: 0; white-space: normal; overflow-wrap: normal;
   }
-  #clubWheelScreen.cl-on .clubPackStage {
+  #app #clubWheelScreen.cl-on .clubPackStage {
     position: relative !important; inset: auto !important; width: 100% !important; height: 54px !important;
     grid-column: 3; grid-row: 1; min-height: 0; background: none; overflow: hidden;
   }
-  #clubWheelScreen.cl-on .clubPackDoor {
+  #app #clubWheelScreen.cl-on .clubPackDoor {
     inset: 0 !important; width: 100% !important; height: 100% !important; padding: 2px; box-sizing: border-box; gap: 1px;
   }
-  #clubWheelScreen.cl-on .clubPackBrand { font-size: 12px; line-height: 1; }
-  #clubWheelScreen.cl-on .clubPackBrand small { margin: 0; font-size: 9px; }
-  #clubWheelScreen.cl-on .clubPackSeal { display: none; }
-  #clubWheelScreen.cl-on .clubPackSerial { font-size: 9px; line-height: 1; }
-  #clubWheelScreen.cl-on .clubCardFace {
+  #app #clubWheelScreen.cl-on .clubPackBrand { font-size: 12px; line-height: 1; }
+  #app #clubWheelScreen.cl-on .clubPackBrand small { margin: 0; font-size: 9px; }
+  #app #clubWheelScreen.cl-on .clubPackSeal { display: none; }
+  #app #clubWheelScreen.cl-on .clubPackSerial { font-size: 9px; line-height: 1; }
+  #app #clubWheelScreen.cl-on .clubCardFace {
     position: absolute !important; inset: 0 !important; width: 100% !important; height: 54px !important; min-height: 0;
     display: grid; grid-template-columns: 40px minmax(0, 1fr); grid-template-rows: 12px 30px 12px;
     column-gap: 0; align-items: center; padding: 0; box-sizing: border-box;
     background: none; border: 0; text-align: left; box-shadow: none;
   }
-  #clubWheelScreen.cl-on .shieldSlot { grid-column: 1; grid-row: 1 / span 3; width: 36px; height: 39px; margin: 0; }
-  #clubWheelScreen.cl-on .clubCardEyebrow,
-  #clubWheelScreen.cl-on .clubPackDoor,
-  #clubWheelScreen.cl-on .panelDivider,
-  #clubWheelScreen.cl-on .bandSlot { display: none !important; }
-  #clubWheelScreen.cl-on .clubCardLabel::before { content: none; }
-  #clubWheelScreen.cl-on .clubCardLabel { grid-column: 2; grid-row: 1; width: 100%; margin: 0; padding: 0; font-size: 10px; line-height: 12px; letter-spacing: .08em; }
-  #clubWheelScreen.cl-on .clubCardFace strong {
+  #app #clubWheelScreen.cl-on .shieldSlot { grid-column: 1; grid-row: 1 / span 3; width: 36px; height: 39px; margin: 0; }
+  #app #clubWheelScreen.cl-on .clubCardEyebrow,
+  #app #clubWheelScreen.cl-on .clubPackDoor,
+  #app #clubWheelScreen.cl-on .panelDivider,
+  #app #clubWheelScreen.cl-on .bandSlot { display: none !important; }
+  #app #clubWheelScreen.cl-on .clubCardLabel::before { content: none; }
+  #app #clubWheelScreen.cl-on .clubCardLabel { grid-column: 2; grid-row: 1; width: 100%; margin: 0; padding: 0; font-size: 10px; line-height: 12px; letter-spacing: .08em; }
+  #app #clubWheelScreen.cl-on .clubCardFace strong {
     position: static; grid-column: 2; grid-row: 2; width: 100%; max-width: none; min-height: 0; margin: 0; padding: 0;
     display: flex; align-items: center; justify-content: flex-start;
     font-size: clamp(19px, 6.1vw, 27px); line-height: 1; letter-spacing: 0; overflow-wrap: normal;
   }
-  #clubWheelScreen.cl-on .clubCardFace [data-club-identity="true"]::before {
+  #app #clubWheelScreen.cl-on .clubCardFace [data-club-identity="true"]::before {
     position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 32px; height: 36px; margin: 0;
   }
-  #clubWheelScreen.cl-on .clubCardState { grid-column: 2; grid-row: 3; width: 100%; margin: 0; padding: 0; background: none; font-size: 10px; line-height: 12px; }
-  #clubWheelScreen.cl-on #clubRivalryConfirmation {
+  #app #clubWheelScreen.cl-on .clubCardState { grid-column: 2; grid-row: 3; width: 100%; margin: 0; padding: 0; background: none; font-size: 10px; line-height: 12px; }
+  #app #clubWheelScreen.cl-on #clubRivalryConfirmation {
     position: relative !important; inset: auto !important; width: 100% !important; height: auto !important;
     min-height: 0; margin: 0; padding: 6px 0 0; border: 0; border-top: 1px solid #9d7b35;
     background: none; box-shadow: none; box-sizing: border-box;
   }
-  #clubWheelScreen.cl-on .clubRivalryHeadline { display: flex; flex-wrap: wrap; justify-content: center; align-items: baseline; gap: 3px 8px; }
-  #clubWheelScreen.cl-on .clubRivalryHeadline > span { font-size: 11px; line-height: 1; }
-  #clubWheelScreen.cl-on .clubRivalryHeadline > strong { margin: 0; font-size: 21px; line-height: 1; }
-  #clubWheelScreen.cl-on .clubRivalryHeadline > small { flex-basis: 100%; margin: 0; font-size: 11px; line-height: 1.2; }
-  #clubWheelScreen.cl-on #clubRivalryConfirmation .sd-sheet { display: none; }
-  #clubWheelScreen.cl-on .clubRivalryLockNote { margin: 6px 0 0; font-size: 10.5px; line-height: 1.25; overflow-wrap: normal; }
-  #clubWheelScreen.cl-on .clubAssignmentShell > .menuButton,
-  #clubWheelScreen.cl-on .clubAssignmentShell > .backButton {
+  #app #clubWheelScreen.cl-on .clubRivalryHeadline { display: flex; flex-wrap: wrap; justify-content: center; align-items: baseline; gap: 3px 8px; }
+  #app #clubWheelScreen.cl-on .clubRivalryHeadline > span { font-size: 11px; line-height: 1; }
+  #app #clubWheelScreen.cl-on .clubRivalryHeadline > strong { margin: 0; font-size: 21px; line-height: 1; }
+  #app #clubWheelScreen.cl-on .clubRivalryHeadline > small { flex-basis: 100%; margin: 0; font-size: 11px; line-height: 1.2; }
+  #app #clubWheelScreen.cl-on #clubRivalryConfirmation .sd-sheet { display: none; }
+  #app #clubWheelScreen.cl-on .clubRivalryLockNote { margin: 6px 0 0; font-size: 10.5px; line-height: 1.25; overflow-wrap: normal; }
+  #app #clubWheelScreen.cl-on .clubAssignmentShell > .menuButton,
+  #app #clubWheelScreen.cl-on .clubAssignmentShell > .backButton {
     position: relative !important; inset: auto !important; width: 100% !important; height: auto !important;
     min-height: 44px; margin: 0; padding: 6px 8px; box-sizing: border-box; pointer-events: auto;
     white-space: normal; overflow-wrap: normal; font-size: 18px; line-height: 1.1;
   }
-  #clubWheelScreen.cl-on #clubAssignmentBack { left: auto !important; }
-  #clubWheelScreen.cl-on #sharedShowdownSeasonChoice {
+  #app #clubWheelScreen.cl-on #clubAssignmentBack { left: auto !important; }
+  #app #clubWheelScreen.cl-on #sharedShowdownSeasonChoice {
     position: relative; inset: auto; width: 100%; margin: 0; padding: 4px 8px; box-sizing: border-box;
   }
-  #clubWheelScreen.cl-on > #sharedShowdownPresentationStatus {
+  #app #clubWheelScreen.cl-on > #sharedShowdownPresentationStatus {
     top: 47px; font-size: 11px; padding: 3px 8px;
   }
 }
@@ -351,86 +351,86 @@ html[data-v10-screen="clubWheelScreen"] #app > main { position: static; inset: a
     padding: 0; border: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap;
   }
   html[data-v10-screen="clubWheelScreen"] #app #topHeader > :not(.brand) { display: none !important; }
-  #clubWheelScreen.cl-on {
+  #app #clubWheelScreen.cl-on {
     --sr-hero: 0px; display: grid; grid-template-columns: 42% minmax(0, 1fr);
     align-items: start; min-height: 100svh; height: auto;
   }
-  #clubWheelScreen.cl-on .clPhoneScene {
+  #app #clubWheelScreen.cl-on .clPhoneScene {
     grid-column: 1; grid-row: 1; width: 100%; height: 100svh; max-height: 100svh;
     padding: 62px 8px 66px; flex: none; align-self: start;
   }
-  #clubWheelScreen.cl-on > h2 {
+  #app #clubWheelScreen.cl-on > h2 {
     top: 14px !important; left: 0 !important; width: 42% !important; margin: 0 !important;
   }
-  #clubWheelScreen.cl-on .clubTitleFallback {
+  #app #clubWheelScreen.cl-on .clubTitleFallback {
     font-size: clamp(23px, 3.4vw, 31px); line-height: 1.2; -webkit-text-stroke: .3px #ffda69;
   }
-  #clubWheelScreen.cl-on .clubAssignmentShell {
+  #app #clubWheelScreen.cl-on .clubAssignmentShell {
     grid-column: 2; grid-row: 1; height: 100svh; min-height: 0;
     display: grid; grid-template-columns: 48px minmax(0, 1fr);
     grid-template-rows: auto auto auto auto minmax(0, 1fr) auto; gap: 3px 7px;
     padding: 8px max(12px, env(safe-area-inset-right)) max(8px, env(safe-area-inset-bottom)) 12px;
   }
-  #clubWheelScreen.cl-on .clubRevealProgress {
+  #app #clubWheelScreen.cl-on .clubRevealProgress {
     grid-column: 1 / -1; grid-row: 1; order: 0; padding: 0 0 3px;
   }
-  #clubWheelScreen.cl-on .clubRevealProgress::before { top: 10px; }
-  #clubWheelScreen.cl-on .clubRevealProgress span { font-size: 10px; }
-  #clubWheelScreen.cl-on .clubAssignmentHeader {
+  #app #clubWheelScreen.cl-on .clubRevealProgress::before { top: 10px; }
+  #app #clubWheelScreen.cl-on .clubRevealProgress span { font-size: 10px; }
+  #app #clubWheelScreen.cl-on .clubAssignmentHeader {
     grid-column: 1 / -1; grid-row: 2; order: 0; gap: 2px 6px; padding: 2px 0;
   }
-  #clubWheelScreen.cl-on .clubAssignmentHeader .ebRow { min-width: 0; }
-  #clubWheelScreen.cl-on .clubAssignmentHeader .stRow { grid-column: 1 / -1; min-width: 0; }
-  #clubWheelScreen.cl-on .clubRevealArena { grid-column: 1 / -1; grid-row: 3; min-width: 0; }
-  #clubWheelScreen.cl-on .clubRevealArea { gap: 5px; }
-  #clubWheelScreen.cl-on .clubRevealCard {
+  #app #clubWheelScreen.cl-on .clubAssignmentHeader .ebRow { min-width: 0; }
+  #app #clubWheelScreen.cl-on .clubAssignmentHeader .stRow { grid-column: 1 / -1; min-width: 0; }
+  #app #clubWheelScreen.cl-on .clubRevealArena { grid-column: 1 / -1; grid-row: 3; min-width: 0; }
+  #app #clubWheelScreen.cl-on .clubRevealArea { gap: 5px; }
+  #app #clubWheelScreen.cl-on .clubRevealCard {
     height: 53px; min-height: 53px; grid-template-columns: 22px 58px minmax(0, 1fr);
     gap: 7px; padding: 4px 8px;
   }
-  #clubWheelScreen.cl-on .clubPackStage { height: 43px !important; }
-  #clubWheelScreen.cl-on .clubCardFace {
+  #app #clubWheelScreen.cl-on .clubPackStage { height: 43px !important; }
+  #app #clubWheelScreen.cl-on .clubCardFace {
     height: 43px !important; grid-template-rows: 10px 23px 10px; grid-template-columns: 38px minmax(0, 1fr);
   }
-  #clubWheelScreen.cl-on .shieldSlot { width: 32px; height: 35px; }
-  #clubWheelScreen.cl-on .clubCardLabel,
-  #clubWheelScreen.cl-on .clubCardState { font-size: 10px; line-height: 10px; }
-  #clubWheelScreen.cl-on .clubCardFace strong {
+  #app #clubWheelScreen.cl-on .shieldSlot { width: 32px; height: 35px; }
+  #app #clubWheelScreen.cl-on .clubCardLabel,
+  #app #clubWheelScreen.cl-on .clubCardState { font-size: 10px; line-height: 10px; }
+  #app #clubWheelScreen.cl-on .clubCardFace strong {
     font-size: clamp(20px, 2.8vw, 24px); line-height: 1; overflow-wrap: normal;
   }
-  #clubWheelScreen.cl-on .clubCardFace [data-club-identity="true"]::before { width: 32px; height: 32px; }
-  #clubWheelScreen.cl-on .clubVs {
+  #app #clubWheelScreen.cl-on .clubCardFace [data-club-identity="true"]::before { width: 32px; height: 32px; }
+  #app #clubWheelScreen.cl-on .clubVs {
     top: auto !important; bottom: 15px; left: calc(-100% * 42 / 58) !important;
     width: calc(100% * 42 / 58) !important; height: 48px !important;
   }
-  #clubWheelScreen.cl-on .clubVs strong { font-size: 37px; }
-  #clubWheelScreen.cl-on #clubRivalryConfirmation {
+  #app #clubWheelScreen.cl-on .clubVs strong { font-size: 37px; }
+  #app #clubWheelScreen.cl-on #clubRivalryConfirmation {
     grid-column: 1 / -1; grid-row: 4; padding-top: 5px;
   }
-  #clubWheelScreen.cl-on .clubRivalryHeadline { gap: 2px 8px; }
-  #clubWheelScreen.cl-on .clubRivalryHeadline > strong { font-size: 20px; }
-  #clubWheelScreen.cl-on #clubRivalryConfirmation .clubRivalryLockNote {
+  #app #clubWheelScreen.cl-on .clubRivalryHeadline { gap: 2px 8px; }
+  #app #clubWheelScreen.cl-on .clubRivalryHeadline > strong { font-size: 20px; }
+  #app #clubWheelScreen.cl-on #clubRivalryConfirmation .clubRivalryLockNote {
     display: block; margin: 4px 0 0; font-size: 11px; line-height: 1.25; overflow-wrap: normal;
   }
-  #clubWheelScreen.cl-on .clubAssignmentShell > .menuButton,
-  #clubWheelScreen.cl-on .clubAssignmentShell > .backButton {
+  #app #clubWheelScreen.cl-on .clubAssignmentShell > .menuButton,
+  #app #clubWheelScreen.cl-on .clubAssignmentShell > .backButton {
     grid-row: 6; align-self: end; min-height: 44px; font-size: 17px; padding: 6px;
   }
-  #clubWheelScreen.cl-on .clubAssignmentShell > .menuButton { grid-column: 2; }
-  #clubWheelScreen.cl-on .clubAssignmentShell > .backButton { grid-column: 1; font-size: 14px; }
-  #clubWheelScreen.cl-on > #sharedShowdownPresentationStatus {
+  #app #clubWheelScreen.cl-on .clubAssignmentShell > .menuButton { grid-column: 2; }
+  #app #clubWheelScreen.cl-on .clubAssignmentShell > .backButton { grid-column: 1; font-size: 14px; }
+  #app #clubWheelScreen.cl-on > #sharedShowdownPresentationStatus {
     top: 50px; left: 8px; right: auto; width: calc(42% - 16px); max-width: none;
     font-size: 11px; padding: 4px 6px; box-sizing: border-box;
   }
-  #clubWheelScreen.cl-on #sharedShowdownSeasonChoice {
+  #app #clubWheelScreen.cl-on #sharedShowdownSeasonChoice {
     position: absolute; top: auto; bottom: 68px; left: calc(-100% * 42 / 58 + 8px); right: auto;
     width: calc(100% * 42 / 58 - 16px); margin: 0; padding: 4px 6px; display: block; text-align: center;
   }
-  #clubWheelScreen.cl-on #sharedShowdownSeasonChoice > .screenEyebrow { display: none; }
-  #clubWheelScreen.cl-on #sharedShowdownSeasonChoice > h3 {
+  #app #clubWheelScreen.cl-on #sharedShowdownSeasonChoice > .screenEyebrow { display: none; }
+  #app #clubWheelScreen.cl-on #sharedShowdownSeasonChoice > h3 {
     display: inline; margin-right: 5px; font-size: 13px; line-height: 1.2;
   }
-  #clubWheelScreen.cl-on #sharedShowdownSeasonChoice > .stateNote { display: inline; font-size: 11px; line-height: 1.2; }
-  #clubWheelScreen.cl-on #sharedShowdownSeasonChoice .sharedSeasonChoices { justify-content: center; }
+  #app #clubWheelScreen.cl-on #sharedShowdownSeasonChoice > .stateNote { display: inline; font-size: 11px; line-height: 1.2; }
+  #app #clubWheelScreen.cl-on #sharedShowdownSeasonChoice .sharedSeasonChoices { justify-content: center; }
 }
 
 /* JOB-1596: adopted 1172 upright-tablet deck, two equal result cards.
@@ -442,97 +442,229 @@ html[data-v10-screen="clubWheelScreen"] #app > main { position: static; inset: a
     padding: 0; border: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap;
   }
   html[data-v10-screen="clubWheelScreen"] #app #topHeader > :not(.brand) { display: none !important; }
-  #clubWheelScreen.cl-on {
+  #app #clubWheelScreen.cl-on {
     --sr-hero: 0px; --cl-phone-hero: clamp(340px, calc(100svh - 500px), 720px);
     height: 100svh; min-height: 100svh;
   }
-  #clubWheelScreen.cl-on .clPhoneScene {
+  #app #clubWheelScreen.cl-on .clPhoneScene {
     flex: 1 1 var(--cl-phone-hero); height: var(--cl-phone-hero); min-height: 240px;
     padding: 104px 32px 80px;
   }
-  #clubWheelScreen.cl-on .clPhonePerson { width: calc(50% - 8px); }
-  #clubWheelScreen.cl-on .clPhoneScene { gap: 16px; }
-  #clubWheelScreen.cl-on > h2 { top: 24px !important; }
-  #clubWheelScreen.cl-on .clubTitleFallback { font-size: 52px; -webkit-text-stroke: .3px #ffda69; }
-  #clubWheelScreen.cl-on .clubAssignmentShell {
+  #app #clubWheelScreen.cl-on .clPhonePerson { width: calc(50% - 8px); }
+  #app #clubWheelScreen.cl-on .clPhoneScene { gap: 16px; }
+  #app #clubWheelScreen.cl-on > h2 { top: 24px !important; }
+  #app #clubWheelScreen.cl-on .clubTitleFallback { font-size: 52px; -webkit-text-stroke: .3px #ffda69; }
+  #app #clubWheelScreen.cl-on .clubAssignmentShell {
     display: grid; grid-template-columns: 48px minmax(0, 1fr); gap: 10px 8px;
     padding: 0 32px max(24px, env(safe-area-inset-bottom)); margin: 0 !important;
   }
-  #clubWheelScreen.cl-on .clubRevealProgress {
+  #app #clubWheelScreen.cl-on .clubRevealProgress {
     grid-column: 1 / -1; padding: 14px 24px 8px;
   }
-  #clubWheelScreen.cl-on .clubRevealProgress::before { top: 28px; left: 10%; right: 10%; }
-  #clubWheelScreen.cl-on .clubRevealProgress span { font-size: 12px; line-height: 1.2; }
-  #clubWheelScreen.cl-on .clubRevealProgress span::before { width: 28px; height: 28px; margin-bottom: 8px; }
-  #clubWheelScreen.cl-on .clubAssignmentHeader {
+  #app #clubWheelScreen.cl-on .clubRevealProgress::before { top: 28px; left: 10%; right: 10%; }
+  #app #clubWheelScreen.cl-on .clubRevealProgress span { font-size: 12px; line-height: 1.2; }
+  #app #clubWheelScreen.cl-on .clubRevealProgress span::before { width: 28px; height: 28px; margin-bottom: 8px; }
+  #app #clubWheelScreen.cl-on .clubAssignmentHeader {
     grid-column: 1 / -1; padding: 8px 0; gap: 4px 8px;
   }
-  #clubWheelScreen.cl-on .clubAssignmentHeader .ebRow,
-  #clubWheelScreen.cl-on .clubAssignmentHeader .stRow { min-width: 0; }
-  #clubWheelScreen.cl-on .clubAssignmentHeader .stRow { grid-column: 1 / -1; }
-  #clubWheelScreen.cl-on .clubAssignmentEyebrow { font-size: 18px; letter-spacing: .14em; }
-  #clubWheelScreen.cl-on #clubAssignmentLeague { font-size: 30px; }
-  #clubWheelScreen.cl-on #clubPackStatus { font-size: 12px; }
-  #clubWheelScreen.cl-on .clubRevealArena { grid-column: 1 / -1; min-width: 0; }
-  #clubWheelScreen.cl-on .clubRevealArea { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
-  #clubWheelScreen.cl-on .clubRevealCard {
+  #app #clubWheelScreen.cl-on .clubAssignmentHeader .ebRow,
+  #app #clubWheelScreen.cl-on .clubAssignmentHeader .stRow { min-width: 0; }
+  #app #clubWheelScreen.cl-on .clubAssignmentHeader .stRow { grid-column: 1 / -1; }
+  #app #clubWheelScreen.cl-on .clubAssignmentEyebrow { font-size: 18px; letter-spacing: .14em; }
+  #app #clubWheelScreen.cl-on #clubAssignmentLeague { font-size: 30px; }
+  #app #clubWheelScreen.cl-on #clubPackStatus { font-size: 12px; }
+  #app #clubWheelScreen.cl-on .clubRevealArena { grid-column: 1 / -1; min-width: 0; }
+  #app #clubWheelScreen.cl-on .clubRevealArea { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+  #app #clubWheelScreen.cl-on .clubRevealCard {
     height: 128px; min-height: 128px; padding: 14px 16px;
     grid-template-columns: 54px minmax(0, 1fr); grid-template-rows: 26px 58px; gap: 8px 12px;
   }
-  #clubWheelScreen.cl-on .clubRevealIndex {
+  #app #clubWheelScreen.cl-on .clubRevealIndex {
     grid-column: 1; grid-row: 1; width: 28px !important; font-size: 17px; box-sizing: border-box;
   }
-  #clubWheelScreen.cl-on .clubManager { grid-column: 2; grid-row: 1; font-size: 28px; }
-  #clubWheelScreen.cl-on .clubPackStage {
+  #app #clubWheelScreen.cl-on .clubManager { grid-column: 2; grid-row: 1; font-size: 28px; }
+  #app #clubWheelScreen.cl-on .clubPackStage {
     grid-column: 1 / -1; grid-row: 2; height: 58px !important;
   }
-  #clubWheelScreen.cl-on .clubPackBrand { font-size: 18px; }
-  #clubWheelScreen.cl-on .clubPackBrand small,
-  #clubWheelScreen.cl-on .clubPackSerial { font-size: 12px; }
-  #clubWheelScreen.cl-on .clubCardFace {
+  #app #clubWheelScreen.cl-on .clubPackBrand { font-size: 18px; }
+  #app #clubWheelScreen.cl-on .clubPackBrand small,
+  #app #clubWheelScreen.cl-on .clubPackSerial { font-size: 12px; }
+  #app #clubWheelScreen.cl-on .clubCardFace {
     height: 58px !important; grid-template-columns: 66px minmax(0, 1fr); grid-template-rows: 14px 32px 12px;
     overflow: visible;
   }
-  #clubWheelScreen.cl-on .shieldSlot { width: 54px; height: 58px; }
-  #clubWheelScreen.cl-on .clubCardLabel { font-size: 13px; line-height: 14px; letter-spacing: .1em; }
-  #clubWheelScreen.cl-on .clubCardFace strong {
+  #app #clubWheelScreen.cl-on .shieldSlot { width: 54px; height: 58px; }
+  #app #clubWheelScreen.cl-on .clubCardLabel { font-size: 13px; line-height: 14px; letter-spacing: .1em; }
+  #app #clubWheelScreen.cl-on .clubCardFace strong {
     position: static; padding: 0; font-size: 32px; line-height: 1; overflow-wrap: normal;
   }
-  #clubWheelScreen.cl-on .clubCardFace [data-club-identity="true"]::before {
+  #app #clubWheelScreen.cl-on .clubCardFace [data-club-identity="true"]::before {
     left: 0; top: 0; transform: none; width: 54px; height: 58px; margin: 0;
   }
-  #clubWheelScreen.cl-on .clubCardState { font-size: 12px; line-height: 12px; letter-spacing: .13em; }
-  #clubWheelScreen.cl-on .clubVs {
+  #app #clubWheelScreen.cl-on .clubCardState { font-size: 12px; line-height: 12px; letter-spacing: .13em; }
+  #app #clubWheelScreen.cl-on .clubVs {
     top: -78px !important; height: 70px !important; gap: 2px;
   }
-  #clubWheelScreen.cl-on .clubVs > span { font-size: 14px; }
-  #clubWheelScreen.cl-on .clubVs strong { font-size: 62px; }
-  #clubWheelScreen.cl-on #clubRivalryConfirmation {
+  #app #clubWheelScreen.cl-on .clubVs > span { font-size: 14px; }
+  #app #clubWheelScreen.cl-on .clubVs strong { font-size: 62px; }
+  #app #clubWheelScreen.cl-on #clubRivalryConfirmation {
     grid-column: 1 / -1; padding-top: 12px; margin-top: 6px;
   }
-  #clubWheelScreen.cl-on .clubRivalryHeadline { gap: 5px 9px; }
-  #clubWheelScreen.cl-on .clubRivalryHeadline > span { font-size: 15px; }
-  #clubWheelScreen.cl-on .clubRivalryHeadline > strong { font-size: 31px; }
-  #clubWheelScreen.cl-on .clubRivalryHeadline > small { font-size: 15px; margin-top: 5px; }
-  #clubWheelScreen.cl-on .clubRivalryLockNote {
+  #app #clubWheelScreen.cl-on .clubRivalryHeadline { gap: 5px 9px; }
+  #app #clubWheelScreen.cl-on .clubRivalryHeadline > span { font-size: 15px; }
+  #app #clubWheelScreen.cl-on .clubRivalryHeadline > strong { font-size: 31px; }
+  #app #clubWheelScreen.cl-on .clubRivalryHeadline > small { font-size: 15px; margin-top: 5px; }
+  #app #clubWheelScreen.cl-on .clubRivalryLockNote {
     max-width: 660px; margin: 10px auto 4px; font-size: 14px; line-height: 1.35; overflow-wrap: normal;
   }
-  #clubWheelScreen.cl-on .clubAssignmentShell > .menuButton {
+  #app #clubWheelScreen.cl-on .clubAssignmentShell > .menuButton {
     grid-column: 1 / -1; min-height: 58px; font-size: 24px; padding: 7px 12px;
   }
-  #clubWheelScreen.cl-on .clubAssignmentShell > .backButton {
+  #app #clubWheelScreen.cl-on .clubAssignmentShell > .backButton {
     grid-column: 1 / -1; min-height: 44px; font-size: 16px;
   }
-  #clubWheelScreen.cl-on > #sharedShowdownPresentationStatus {
+  #app #clubWheelScreen.cl-on > #sharedShowdownPresentationStatus {
     top: 84px; left: 32px; right: 32px; width: auto; max-width: none;
     font-size: 13px; padding: 7px 12px; text-align: center; box-sizing: border-box;
   }
-  #clubWheelScreen.cl-on #sharedShowdownSeasonChoice {
+  #app #clubWheelScreen.cl-on #sharedShowdownSeasonChoice {
     grid-column: 1 / -1; position: relative; inset: auto; width: 100%;
     padding: 8px 12px; gap: 4px;
   }
-  #clubWheelScreen.cl-on #sharedShowdownSeasonChoice .sharedSeasonChoices { flex-wrap: wrap; }
+  #app #clubWheelScreen.cl-on #sharedShowdownSeasonChoice .sharedSeasonChoices { flex-wrap: wrap; }
 }
+/* JOB-1698: finish adopted 1169/1171/1172 in the adapter. Touch only.
+   The later frozen sheet hides short-phone notes/status and inherits nowrap/ellipsis
+   on club names. Keep the live copy, let result rows grow, and give space back from
+   the one hero. Longer provider notes fall through to main, never an inner scroller.
+   Desktop, including the adopted 1173 block below, is deliberately unchanged. */
+@media (max-width: 760px) and (orientation: portrait),
+       (min-width: 600px) and (max-width: 960px) and (max-height: 500px) and (orientation: landscape),
+       (min-width: 761px) and (max-width: 1024px) and (orientation: portrait) {
+  #app #clubWheelScreen.cl-on {
+    --sr-hero: 0px; --phone-hero-h: 0px; --noteBleedL: 0px; --noteBleedR: 0px;
+    max-height: none; box-sizing: border-box;
+  }
+  #app #clubWheelScreen.cl-on .clubAssignmentShell,
+  #app #clubWheelScreen.cl-on .clubRevealArena,
+  #app #clubWheelScreen.cl-on .clubRevealArea { max-height: none; overflow: visible; min-width: 0; }
+  #app #clubWheelScreen.cl-on .clubAssignmentHeader { min-height: 0; }
+  #app #clubWheelScreen.cl-on .clubAssignmentHeader .ebRow,
+  #app #clubWheelScreen.cl-on .clubAssignmentHeader .stRow { min-width: 0; gap: 4px; }
+  #app #clubWheelScreen.cl-on .clubAssignmentHeader .stRow {
+    display: flex !important; grid-column: 1 / -1; justify-content: center;
+  }
+  #app #clubWheelScreen.cl-on #clubPackStatus { display: block !important; letter-spacing: .06em; }
+  #app #clubWheelScreen.cl-on #clubAssignmentLeague { min-width: 0; white-space: normal; overflow-wrap: normal; }
+  #app #clubWheelScreen.cl-on .clubAssignmentHeader .glyph { width: 14px; height: 14px; }
+  #app #clubWheelScreen.cl-on .clubTitleFallback {
+    font-family: "Kaushan Script", "Brush Script MT", cursive; font-weight: 700;
+    -webkit-text-stroke: .025em #ffda69; padding: 0 .06em .08em;
+  }
+  #app #clubWheelScreen.cl-on .clubRevealCard {
+    height: auto; overflow: visible; align-items: center;
+  }
+  #app #clubWheelScreen.cl-on .clubManager,
+  #app #clubWheelScreen.cl-on .clubRevealIndex { transform: none !important; }
+  #app #clubWheelScreen.cl-on .clubManager { overflow: visible; text-overflow: clip; }
+  #app #clubWheelScreen.cl-on .clubPackStage {
+    height: auto !important; min-width: 0; min-height: 54px; overflow: visible;
+  }
+  #app #clubWheelScreen.cl-on .clubCardFace {
+    position: relative !important; inset: auto !important; height: auto !important;
+    min-height: 54px; min-width: 0; grid-template-rows: auto minmax(30px, auto) auto;
+    align-content: center; row-gap: 1px; overflow: visible;
+  }
+  #app #clubWheelScreen.cl-on .clubCardFace strong {
+    min-width: 0; white-space: normal; overflow: visible; text-overflow: clip;
+    overflow-wrap: normal; line-height: 1.05;
+  }
+  #app #clubWheelScreen.cl-on .clubCardLabel,
+  #app #clubWheelScreen.cl-on .clubCardState { white-space: normal; overflow-wrap: normal; }
+  #app #clubWheelScreen.cl-on .clubRivalryLockNote {
+    display: block; width: 100%; padding-top: 0; border: 0; white-space: normal;
+  }
+  #app #clubWheelScreen.cl-on .clubVsFallback { display: block; }
+  #app #clubWheelScreen.cl-on .clubAssignmentShell > .menuButton,
+  #app #clubWheelScreen.cl-on .clubAssignmentShell > .backButton {
+    min-width: 44px; min-height: 44px; max-width: 100%; gap: 6px;
+    touch-action: manipulation; letter-spacing: .025em;
+  }
+  #app #clubWheelScreen.cl-on .btnLabel { min-width: 0; white-space: normal; overflow-wrap: normal; }
+  #app #clubWheelScreen.cl-on .btnGlyph { flex: none; }
+  #app #clubWheelScreen.cl-on .btnGlyph svg { width: 16px; height: 16px; }
+  #app #clubWheelScreen.cl-on .menuButton:not(:disabled) {
+    background: linear-gradient(#fff0ad, #f2c45b 45%, #d69e31); border-color: #fff1b8;
+    box-shadow: inset 0 0 0 2px #e3b550, 0 0 9px #f2c45b44;
+  }
+  #app #clubWheelScreen.cl-on #clubAssignmentBack {
+    color: #e9dfc8; font-size: 14px; overflow: visible; padding: 6px 2px;
+  }
+  #app #clubWheelScreen.cl-on #clubAssignmentBack::before { content: none; }
+  #app #clubWheelScreen.cl-on button:focus-visible { outline: 2px solid #fff1b8; outline-offset: 3px; }
+  #app #clubWheelScreen.cl-on button:not(:disabled):active { filter: brightness(.88); }
+  #app #clubWheelScreen.cl-on #sharedShowdownSeasonChoice > .stateNote { display: inline; }
+}
+@media (max-width: 760px) and (orientation: portrait) {
+  #app #clubWheelScreen.cl-on { height: 100svh; }
+  #app #clubWheelScreen.cl-on .clPhoneScene {
+    flex: 1 1 0; height: auto; min-height: 140px; max-height: none;
+  }
+  #app #clubWheelScreen.cl-on .clubAssignmentShell {
+    display: grid; grid-template-columns: 48px minmax(0, 1fr); gap: 6px 7px;
+  }
+  #app #clubWheelScreen.cl-on .clubRevealProgress { grid-column: 1 / -1; grid-row: 1; order: 0; }
+  #app #clubWheelScreen.cl-on .clubAssignmentHeader { grid-column: 1 / -1; grid-row: 2; order: 0; }
+  #app #clubWheelScreen.cl-on .clubRevealArena { grid-column: 1 / -1; grid-row: 3; }
+  #app #clubWheelScreen.cl-on #clubRivalryConfirmation { grid-column: 1 / -1; grid-row: 4; }
+  #app #clubWheelScreen.cl-on #sharedShowdownSeasonChoice { grid-column: 1 / -1; grid-row: 5; }
+  #app #clubWheelScreen.cl-on .clubAssignmentShell > .menuButton,
+  #app #clubWheelScreen.cl-on .clubAssignmentShell > .backButton {
+    grid-row: 6; position: sticky !important; top: auto !important;
+    bottom: max(10px, env(safe-area-inset-bottom)) !important;
+  }
+  #app #clubWheelScreen.cl-on #openClubPack { grid-column: 2; }
+  #app #clubWheelScreen.cl-on #continueClubAssignment { grid-column: 1 / -1; }
+  #app #clubWheelScreen.cl-on #clubAssignmentBack { grid-column: 1; width: 48px !important; }
+  #app #clubWheelScreen.cl-on .clubAssignmentShell:has(> #clubAssignmentBack.hidden) > #openClubPack { grid-column: 1 / -1; }
+  #app #clubWheelScreen.cl-on .clubRivalryLockNote { font: 400 11px/1.25 var(--text); }
+}
+@media (min-width: 600px) and (max-width: 960px) and (max-height: 500px) and (orientation: landscape) {
+  #app #clubWheelScreen.cl-on .clubAssignmentShell { height: auto; min-height: 100svh; }
+  #app #clubWheelScreen.cl-on .clubAssignmentShell > .menuButton,
+  #app #clubWheelScreen.cl-on .clubAssignmentShell > .backButton {
+    position: sticky !important; top: auto !important; bottom: max(8px, env(safe-area-inset-bottom)) !important;
+  }
+  #app #clubWheelScreen.cl-on .clubPackStage,
+  #app #clubWheelScreen.cl-on .clubCardFace { min-height: 43px; }
+  #app #clubWheelScreen.cl-on .clubCardFace { grid-template-rows: auto minmax(23px, auto) auto; }
+  #app #clubWheelScreen.cl-on .clubVs {
+    top: auto !important; bottom: 12px !important;
+    left: calc(-100% * 42 / 58) !important; width: calc(100% * 42 / 58) !important;
+  }
+  #app #clubWheelScreen.cl-on .clubVs strong { font-size: 32px; }
+  #app #clubWheelScreen.cl-on #continueClubAssignment { grid-column: 1 / -1; }
+  #app #clubWheelScreen.cl-on .clubRivalryLockNote { font: 400 11px/1.25 var(--text); }
+}
+@media (min-width: 761px) and (max-width: 1024px) and (orientation: portrait) {
+  #app #clubWheelScreen.cl-on .clPhoneScene { flex: 1 1 0; height: auto; min-height: 240px; }
+  #app #clubWheelScreen.cl-on .clubRevealCard { grid-template-rows: 26px minmax(58px, auto); }
+  #app #clubWheelScreen.cl-on .clubPackStage,
+  #app #clubWheelScreen.cl-on .clubCardFace { min-height: 58px; }
+  #app #clubWheelScreen.cl-on .clubCardFace { grid-template-rows: auto minmax(32px, auto) auto; }
+  #app #clubWheelScreen.cl-on .shieldSlot { margin: 0; }
+  #app #clubWheelScreen.cl-on .clubVs strong { font-size: 62px; }
+  #app #clubWheelScreen.cl-on .clubAssignmentShell > .backButton {
+    position: sticky !important; top: auto !important; bottom: max(24px, env(safe-area-inset-bottom)) !important;
+  }
+  #app #clubWheelScreen.cl-on .clubAssignmentShell > .menuButton {
+    position: sticky !important; top: auto !important; bottom: calc(max(24px, env(safe-area-inset-bottom)) + 54px) !important;
+  }
+  #app #clubWheelScreen.cl-on .clubAssignmentShell:has(> #clubAssignmentBack.hidden) > .menuButton {
+    bottom: max(24px, env(safe-area-inset-bottom)) !important;
+  }
+}
+
 /* JOB-1653: the frozen Club sheet has its own important fades. Two Club ids
    outrank them for the app's effective preference, including REDUCE MOTION
    when the device has no reduced-motion preference. Script effects settle in
@@ -611,3 +743,4 @@ html[data-motion-reduced="true"] body #app #clubWheelScreen#clubWheelScreen *::a
     box-shadow: inset 0 0 0 calc(var(--k) * 2.4px) #e3b550, 0 0 calc(var(--k) * 11px) #f2c45b44;
   }
 }
+
