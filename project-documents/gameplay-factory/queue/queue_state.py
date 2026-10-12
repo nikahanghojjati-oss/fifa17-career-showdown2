@@ -136,6 +136,20 @@ def main():
             else:  # picture-free audits: chat
                 ready_chat.append(int(k)); audits.append(int(k))
         batches += [audits[i:i + 3] for i in range(0, len(audits), 3)]  # picture-free audits: 3 per message
+        # one priority order (lead, 2026-10-12): finish trains that one batch completes, then other started trains,
+        # then fresh trains, then picture-free audits; Work mode: stage 4 phone studies before stage 5, then screen by screen
+        def tier(bt):
+            t0 = tk[str(o[str(bt[0])]["job"])]
+            if t0["mode"] != "code": return 4
+            tr = t0["train"]; started = len(train_done.get(tr["branch"], ())) > 0
+            ends = any(tk[str(o[str(n)]["job"])]["train"]["last"] for n in bt)
+            return 1 if (started and ends) else 2 if started else 3
+        batches.sort(key=lambda bt: (tier(bt), bt[0]))
+        ready_chat = [n for bt in batches for n in bt]
+        scr_rank = {}
+        for n in sorted(ready_work):
+            scr_rank.setdefault(tk[str(o[str(n)]["job"])]["screen"], len(scr_rank))
+        ready_work.sort(key=lambda n: (tk[str(o[str(n)]["job"])]["stage"], scr_rank[tk[str(o[str(n)]["job"])]["screen"]], n))
         # optional Work mode batches: 3 independent studies per message (different screens), in number order
         wb, pool = [], list(ready_work)
         while pool:
