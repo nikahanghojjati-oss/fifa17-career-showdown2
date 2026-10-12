@@ -121,7 +121,7 @@
   const PSTC_RACE_CODES=Object.freeze(["permission-denied","firestore/permission-denied","permission_denied","TRANSFER_STALE_BASE_REVISION","TRANSFER_PHASE_INVALID","TRANSFER_END_ALREADY_REQUESTED","TRANSFER_ALREADY_STARTED","TRANSFER_GUESSES_ALREADY_LOCKED","TRANSFER_SIGNINGS_ALREADY_LOCKED"]);
   function pstcOutcomeShown(method,fresh){
     const state=fresh&&fresh.state,role=fresh&&fresh.managerRole;if(!state)return false;
-    if(method==="startWindow")return true;
+    if(method==="startWindow")return state.phase!=="NOT_STARTED";
     if(method==="requestEndWindow")return state.phase!=="WINDOW_OPEN"||Boolean(state.endRequestedRoles?.includes(role));
     if(method==="advanceExpiredWindow")return state.phase!=="WINDOW_OPEN";
     if(method==="lockGuesses")return state.phase!=="GUESS_ENTRY"||Boolean(state.guessLockedRoles?.includes(role));
