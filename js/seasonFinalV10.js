@@ -979,6 +979,34 @@
   max-width:100%; white-space:normal; overflow-wrap:anywhere;
 }
 
+
+/* JOB-1218: Season Results touch hit boxes and neighbouring control spacing only.
+   Fine-pointer desktop and Final Winner are unchanged; visual source stays frozen. */
+@media (max-width:760px), (pointer:coarse) {
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage :is(button,a[href],[role="button"],.season-phone-tab,.season-phone-scoring-open,.season-phone-sheet-close) {
+  box-sizing:border-box;min-width:44px;min-height:44px;
+ }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-phone-toolbar,
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-layout > :has(label[for="season-phone-tab-daniel"]) {
+  column-gap:8px;
+ }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage :is(.season-action-row,.seasonReviewActions) {
+  gap:8px;
+ }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage :is(.achievementChecks,.manager-fields) {
+  gap:8px;
+ }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .achievementChecks label {
+  min-height:44px;
+ }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .achievementChecks input[type=checkbox] {
+  box-sizing:border-box;min-width:44px;min-height:44px;width:44px;height:44px;
+ }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .field-row input[type=number] {
+  box-sizing:border-box;min-width:44px;min-height:44px;
+ }
+}
+
 `;
     parent.appendChild(style);
   }
