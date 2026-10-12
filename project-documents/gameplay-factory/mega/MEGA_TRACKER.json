@@ -1,5 +1,5 @@
 {
-"updated": "2026-10-12T09:40:56Z",
+"updated": "2026-10-12T09:42:26Z",
 "total": 394,
 "next_free": 374,
 "highest_taken": 541,
@@ -419,7 +419,8 @@
 "live": 23,
 "merged": 2,
 "waiting": 40,
-"draft": 3
+"ready": 1,
+"draft": 2
 },
 "reviews": {
 "ok": 0,
