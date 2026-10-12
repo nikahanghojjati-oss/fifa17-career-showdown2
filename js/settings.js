@@ -575,6 +575,24 @@ function finishSettingsCurrentShowdownDeletion(){
     return navigated;
 }
 
+/* Unsent private drafts (Season Results, Transfer Challenge, signing) are kept per rivalry on this device; deleting the Showdown removes them too. */
+function getSettingsShowdownDraftKeys(showdown){
+    const ids = [];
+    try{
+        const pair = window.CareerModePersistentNikDanielPair;
+        ids.push(showdown && showdown.sharedJourney && showdown.sharedJourney.rivalryId, pair && pair.getState && pair.getState().rivalryId);
+    }catch(_error){ /* the Showdown's own rivalry id is still used */ }
+    const keys = [];
+    for(const id of new Set(ids.filter(Boolean).map(String))){
+        for(let season = 1; season <= 10; season++){
+            for(const role of ["playerOne", "playerTwo"]){
+                keys.push(`cms.signingDraft.v1:${id}:${season}:${role}`, `cms.draft.v1:${id}:${season}:${role}:seasonResult`, `cms.draft.v1:${id}:${season}:${role}:transferGuess`);
+            }
+        }
+    }
+    return keys;
+}
+
 async function deleteSettingsCurrentShowdown(button){
     const active = getSettingsActiveShowdown();
     if(!active){
@@ -617,12 +635,14 @@ async function deleteSettingsCurrentShowdown(button){
             throw new Error("The active Showdown changed after you confirmed deletion. Nothing was deleted. Review the current Showdown and confirm again.");
         }
 
+        const draftKeys = getSettingsShowdownDraftKeys(authoritative);
         await releaseSettingsCurrentShowdownConnection(authoritative);
 
         if(!runtime.clearActiveShowdown()){
             throw new Error("The online Showdown was closed, but this device could not remove its local copy. Retry Delete Current Showdown; no new connection will be created.");
         }
 
+        draftKeys.forEach(key => removeStorageValue(key));
         finishSettingsCurrentShowdownDeletion();
         if(typeof window.showAppNotice === "function"){
             window.showAppNotice(
