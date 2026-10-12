@@ -1,16 +1,16 @@
 {
-"updated": "2026-10-12T02:28:45Z",
+"updated": "2026-10-12T02:30:14Z",
 "total": 552,
 "next_free": 187,
-"highest_taken": 520,
+"highest_taken": 522,
 "counts": {
 "merged": 181,
 "closed": 82,
 "ci_failed": 5,
 "ready": 10,
-"on_train": 22,
-"waiting": 247,
-"draft": 3,
+"on_train": 18,
+"draft": 9,
+"waiting": 245,
 "blocked": 1,
 "started": 1
 },
@@ -23,8 +23,9 @@
 "closed": 44,
 "ci_failed": 5,
 "ready": 10,
-"on_train": 17,
-"waiting": 145
+"on_train": 14,
+"draft": 4,
+"waiting": 144
 }
 },
 "1": {
@@ -32,7 +33,8 @@
 "total": 146,
 "states": {
 "merged": 112,
-"waiting": 33,
+"waiting": 32,
+"draft": 1,
 "started": 1
 }
 },
@@ -40,7 +42,8 @@
 "name": "Match desktop to mockups",
 "total": 14,
 "states": {
-"on_train": 5,
+"on_train": 4,
+"draft": 1,
 "waiting": 8,
 "closed": 1
 }
@@ -72,43 +75,40 @@
 "open_train_prs": [
 684,
 686,
-687
+687,
+702
 ],
 "on_train_no_pr": [
 181,
 183,
-185,
 189,
 191,
 199,
 201,
-203,
 207,
 209,
 217,
 219,
-221,
 225,
 227,
 235,
 237,
-239,
 243,
 403,
 411,
 419
 ],
-"draft_code_prs": 0,
+"draft_code_prs": 1,
 "area_locks": {
 "club": 684,
 "career-screens": 686,
-"rules-settings": 687
+"rules-settings": 687,
+"league": 702
 },
 "ready": [
 245,
 253,
 255,
-257,
 261,
 296,
 302,
@@ -116,13 +116,13 @@
 330,
 352,
 358,
-366
+366,
+368
 ],
 "ready_sol": [
 245,
 253,
 255,
-257,
 261,
 296,
 302,
@@ -130,14 +130,14 @@
 330,
 352,
 358,
-366
+366,
+368
 ],
 "ready_codex": [],
 "ready_all": [
 245,
 253,
 255,
-257,
 261,
 296,
 302,
@@ -203,7 +203,6 @@
 476,
 519,
 521,
-522,
 523,
 524,
 525,
@@ -371,13 +370,13 @@
 474,
 476
 ],
-"ready_total": 100,
+"ready_total": 98,
 "held_until_picture": 0,
 "held_by_picture": {}
 },
 "rate": {
-"claimed_last_hour": 19,
-"claimed_last_10min": 6,
+"claimed_last_hour": 21,
+"claimed_last_10min": 8,
 "merged_last_hour": 0
 },
 "lanes": {
@@ -389,18 +388,19 @@
 "closed": 25,
 "ci_failed": 5,
 "ready": 10,
-"on_train": 22,
-"waiting": 149
+"on_train": 18,
+"draft": 5,
+"waiting": 148
 },
 "reviews": {
 "ok": 0,
 "ok_notes": 0,
 "needs_changes": 0
 },
-"picked_up": 107,
-"worker_done": 82,
+"picked_up": 108,
+"worker_done": 83,
 "finished": 45,
-"pending_lead": 32,
+"pending_lead": 33,
 "wait_v": 0,
 "audit_batch": 0,
 "trouble": 5,
@@ -417,7 +417,8 @@
 "no_pr": 37,
 "wait_v": 3,
 "blocked": 1,
-"waiting": 98,
+"waiting": 97,
+"audit_batch": 1,
 "started": 1
 },
 "reviews": {
@@ -425,12 +426,12 @@
 "ok_notes": 0,
 "needs_changes": 0
 },
-"picked_up": 128,
-"worker_done": 126,
+"picked_up": 129,
+"worker_done": 127,
 "finished": 123,
 "pending_lead": 0,
 "wait_v": 3,
-"audit_batch": 0,
+"audit_batch": 1,
 "trouble": 1,
 "closed": 0,
 "reviews_total": 0,
@@ -566,7 +567,8 @@
 },
 "ready_for_lead": [
 686,
-687
+687,
+702
 ],
 "old_main_prs": 0,
 "codex_next": [
@@ -1492,55 +1494,6 @@
 }
 ],
 "events": [
-{
-"at": "2026-10-11T06:35:00Z",
-"item": 70,
-"job": 1501,
-"from": "draft",
-"to": "merged"
-},
-{
-"at": "2026-10-11T06:35:00Z",
-"item": 72,
-"job": 1502,
-"from": "draft",
-"to": "merged"
-},
-{
-"at": "2026-10-11T06:35:00Z",
-"item": 74,
-"job": 1503,
-"from": "draft",
-"to": "merged"
-},
-{
-"at": "2026-10-11T06:35:00Z",
-"item": 76,
-"job": 1504,
-"from": "draft",
-"to": "merged"
-},
-{
-"at": "2026-10-11T06:35:00Z",
-"item": 78,
-"job": 1505,
-"from": "draft",
-"to": "merged"
-},
-{
-"at": "2026-10-11T06:35:00Z",
-"item": 80,
-"job": 1506,
-"from": "draft",
-"to": "merged"
-},
-{
-"at": "2026-10-11T06:35:00Z",
-"item": 82,
-"job": 1507,
-"from": "draft",
-"to": "merged"
-},
 {
 "at": "2026-10-11T06:35:00Z",
 "item": 84,
@@ -3589,6 +3542,55 @@
 "at": "2026-10-12T02:28:29Z",
 "item": 520,
 "job": 1662,
+"from": "waiting",
+"to": "started"
+},
+{
+"at": "2026-10-12T02:30:14Z",
+"item": 185,
+"job": 1129,
+"from": "on_train",
+"to": "draft"
+},
+{
+"at": "2026-10-12T02:30:14Z",
+"item": 203,
+"job": 1130,
+"from": "on_train",
+"to": "draft"
+},
+{
+"at": "2026-10-12T02:30:14Z",
+"item": 221,
+"job": 1131,
+"from": "on_train",
+"to": "draft"
+},
+{
+"at": "2026-10-12T02:30:14Z",
+"item": 239,
+"job": 1132,
+"from": "on_train",
+"to": "draft"
+},
+{
+"at": "2026-10-12T02:30:14Z",
+"item": 257,
+"job": 1133,
+"from": "waiting",
+"to": "draft"
+},
+{
+"at": "2026-10-12T02:30:14Z",
+"item": 520,
+"job": 1662,
+"from": "started",
+"to": "draft"
+},
+{
+"at": "2026-10-12T02:30:14Z",
+"item": 522,
+"job": 1664,
 "from": "waiting",
 "to": "started"
 }
@@ -6564,10 +6566,19 @@
 "title": "Select League: match the desktop mockup",
 "mode": "code",
 "group": "league",
-"state": "on_train",
+"pr": 702,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/702",
+"base": "gameplay/bug-list-1",
 "branch": "gameplay/train-league-3",
+"ci": "draft",
+"ci_sha": "649f48ae89c52234057f2cad32337a8e95daf009",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-12T02:30:01Z",
 "first_seen": "2026-10-12T01:26:28Z",
-"since": "2026-10-12T01:26:28Z"
+"since": "2026-10-12T02:30:14Z"
 },
 "186": {
 "job": 1559,
@@ -6805,10 +6816,19 @@
 "title": "Select League: long names",
 "mode": "code",
 "group": "league",
-"state": "on_train",
+"pr": 702,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/702",
+"base": "gameplay/bug-list-1",
 "branch": "gameplay/train-league-3",
+"ci": "draft",
+"ci_sha": "649f48ae89c52234057f2cad32337a8e95daf009",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-12T02:30:01Z",
 "first_seen": "2026-10-12T02:07:29Z",
-"since": "2026-10-12T02:07:29Z"
+"since": "2026-10-12T02:30:14Z"
 },
 "204": {
 "job": 1568,
@@ -7046,10 +7066,19 @@
 "title": "Select League: tap targets",
 "mode": "code",
 "group": "league",
-"state": "on_train",
+"pr": 702,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/702",
+"base": "gameplay/bug-list-1",
 "branch": "gameplay/train-league-3",
+"ci": "draft",
+"ci_sha": "649f48ae89c52234057f2cad32337a8e95daf009",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-12T02:30:01Z",
 "first_seen": "2026-10-12T02:13:29Z",
-"since": "2026-10-12T02:13:29Z"
+"since": "2026-10-12T02:30:14Z"
 },
 "222": {
 "job": 1577,
@@ -7282,10 +7311,19 @@
 "title": "Select League: keyboard focus and reduced motion",
 "mode": "code",
 "group": "league",
-"state": "on_train",
+"pr": 702,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/702",
+"base": "gameplay/bug-list-1",
 "branch": "gameplay/train-league-3",
+"ci": "draft",
+"ci_sha": "649f48ae89c52234057f2cad32337a8e95daf009",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-12T02:30:01Z",
 "first_seen": "2026-10-12T02:20:59Z",
-"since": "2026-10-12T02:20:59Z"
+"since": "2026-10-12T02:30:14Z"
 },
 "240": {
 "job": 1429,
@@ -7522,8 +7560,19 @@
 "title": "Select League: text contrast",
 "mode": "code",
 "group": "league",
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"pr": 702,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/702",
+"base": "gameplay/bug-list-1",
+"branch": "gameplay/train-league-3",
+"ci": "draft",
+"ci_sha": "649f48ae89c52234057f2cad32337a8e95daf009",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-12T02:30:01Z",
+"first_seen": "2026-10-12T02:30:01Z",
+"since": "2026-10-12T02:30:14Z"
 },
 "258": {
 "job": 1285,
@@ -10274,12 +10323,19 @@
 "title": "Audit js/showdownUI.js for gameplay bugs (first half)",
 "mode": "audit",
 "group": null,
-"state": "started",
+"pr": 701,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/701",
+"base": "qa/mega-audits",
 "branch": "qa/job-1662-showdown-ui-first-half-audit",
-"branch_sha": "ee7a19450dc77f7897fdd1b9c4f59a3b66d3eb2a",
-"no_pr_reason": "",
+"ci": "draft",
+"ci_sha": "744fe19d4236515d6ded8030541d90c7cd44d302",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-12T02:29:13Z",
 "first_seen": "2026-10-12T02:28:29Z",
-"since": "2026-10-12T02:28:29Z"
+"since": "2026-10-12T02:30:14Z"
 },
 "521": {
 "job": 1663,
@@ -10296,8 +10352,12 @@
 "title": "Audit js/leagueWheel.js for gameplay bugs (first half)",
 "mode": "audit",
 "group": null,
-"state": "waiting",
-"since": "2026-10-12T02:25:29Z"
+"state": "started",
+"branch": "qa/job-1664-league-wheel-first-half-audit",
+"branch_sha": "4a976e8d89bb3905cd97f32b86f951e34c82cb40",
+"no_pr_reason": "",
+"first_seen": "2026-10-12T02:30:14Z",
+"since": "2026-10-12T02:30:14Z"
 },
 "523": {
 "job": 1665,
