@@ -1129,6 +1129,17 @@
       ]
     },
     {
+      "path": "tests/contracts/job-1652-settings-motion-contracts.cjs",
+      "patterns": [
+        "^js/storage\\.js$",
+        "^js/settings\\.js$",
+        "^js/diagnostics\\.js$",
+        "^css/rulesSettingsV10\\.css$",
+        "^tests/contracts/job-1652-settings-motion-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
       "path": "tests/contracts/showdown-gate-coverage-contracts.cjs",
       "patterns": [
         "^\\.github/workflows/",

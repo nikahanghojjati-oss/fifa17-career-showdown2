@@ -12,65 +12,6 @@ let settingsOfflineListenerBound = false;
 let settingsOfflineGuidance = "";
 let settingsUpdatePending = false;
 
-// The legacy preference is boolean; preserve it, and persist the extra
-// FULL MOTION state independently without changing save/restore schemas.
-const SETTINGS_MOTION_KEY = "careerModeShowdown.motionPreference";
-let settingsOriginalMotionState = null;
-let settingsOriginalApplyMotion = null;
-let settingsMotionBridgeInstalled = false;
-
-function settingsMotionValue(base){
-    try{
-        const saved = window.localStorage.getItem(SETTINGS_MOTION_KEY);
-        if(["follow", "full", "reduce"].includes(saved)){ return saved; }
-    }catch(error){ /* Old saved preference still works without storage access. */ }
-    return base && base.reducedMotionOverride ? "reduce" : "follow";
-}
-
-function emitSettingsMotionChange(source){
-    if(typeof window.CustomEvent === "function" && typeof window.dispatchEvent === "function"){
-        window.dispatchEvent(new window.CustomEvent("career-mode-preferences-change", {
-            detail:{source, motion:getSettingsMotionState()}
-        }));
-    }
-}
-
-function installSettingsMotionBridge(){
-    if(settingsMotionBridgeInstalled ||
-        typeof window.getApplicationMotionPreferenceState !== "function" ||
-        typeof window.isReducedMotionPreferred !== "function"){ return; }
-    settingsOriginalMotionState = window.getApplicationMotionPreferenceState;
-    settingsOriginalApplyMotion = window.applyApplicationMotionPreference;
-    settingsMotionBridgeInstalled = true;
-    window.getApplicationMotionPreferenceState = getSettingsMotionState;
-    window.isReducedMotionPreferred = () => getSettingsMotionState().effectiveReduced;
-    window.applyApplicationMotionPreference = () => {
-        if(typeof settingsOriginalApplyMotion === "function"){ settingsOriginalApplyMotion(); }
-        const state = getSettingsMotionState();
-        if(document.documentElement){
-            document.documentElement.dataset.motionPreference =
-                state.motionPreference === "follow" ? "system" : state.motionPreference === "full" ? "full" : "reduced";
-            document.documentElement.dataset.motionReduced = state.effectiveReduced ? "true" : "false";
-        }
-        return state;
-    };
-    if(typeof window.addEventListener === "function"){
-        // The legacy storage lifecycle invokes its own local apply function on
-        // OS preference changes. Reapply the explicit three-way decision after
-        // its change event, so FULL MOTION remains authoritative.
-        window.addEventListener("career-mode-preferences-change", () => {
-            window.applyApplicationMotionPreference();
-        });
-        window.addEventListener("storage", event => {
-            if(event.key === SETTINGS_MOTION_KEY){
-                window.applyApplicationMotionPreference();
-                emitSettingsMotionChange("storage");
-            }
-        });
-    }
-    window.applyApplicationMotionPreference();
-}
-
 function getSettingsAssetRevision(){
     const meta = document.querySelector('meta[name="app-asset-revision"]');
     return meta && meta.content ? meta.content.trim() : "Unknown build";
@@ -128,19 +69,16 @@ function createSettingsPanel(eyebrow, title, description){
 }
 
 function getSettingsMotionState(){
-    const original = settingsOriginalMotionState ||
-        (!settingsMotionBridgeInstalled && window.getApplicationMotionPreferenceState);
-    const base = typeof original === "function" ? original() : null;
-    const systemReduced = base ? Boolean(base.systemReduced) :
-        Boolean(typeof window.matchMedia === "function" &&
-            window.matchMedia("(prefers-reduced-motion: reduce)").matches);
-    const motionPreference = settingsMotionValue(base);
+    if(typeof window.getApplicationMotionPreferenceState === "function"){
+        return window.getApplicationMotionPreferenceState();
+    }
+    const systemReduced = typeof window.matchMedia === "function"
+        && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     return {
-        ...(base || {}), motionPreference,
-        reducedMotionOverride: motionPreference === "reduce",
+        motionPreference: "follow",
+        reducedMotionOverride: false,
         systemReduced,
-        effectiveReduced: motionPreference === "reduce" ||
-            (motionPreference === "follow" && systemReduced)
+        effectiveReduced: systemReduced
     };
 }
 
@@ -161,35 +99,26 @@ function focusSelectedSettingsMotionChoice(){
 }
 
 function setSettingsMotionPreference(choice){
-    if(!["follow", "full", "reduce"].includes(choice) ||
-        typeof window.setApplicationReducedMotionPreference !== "function"){ return; }
-    installSettingsMotionBridge();
-    const before = getSettingsMotionState();
-    if(before.motionPreference === choice){ return; }
-    let previousRaw;
-    try{
-        previousRaw = window.localStorage.getItem(SETTINGS_MOTION_KEY);
-        window.localStorage.setItem(SETTINGS_MOTION_KEY, choice);
-    }catch(error){
-        window.showAppNotice?.("Motion preference could not be saved on this device.", "error");
+    if(typeof window.setApplicationMotionPreference !== "function"){
+        if(typeof window.showAppNotice === "function"){
+            window.showAppNotice("Motion preferences are unavailable in this browser session.", "error");
+        }
         return;
     }
-    const beforeReduced = settingsOriginalMotionState
-        ? Boolean(settingsOriginalMotionState().reducedMotionOverride) : before.reducedMotionOverride;
-    const afterReduced = choice === "reduce";
-    if(!window.setApplicationReducedMotionPreference(afterReduced)){
-        try{
-            if(previousRaw === null){ window.localStorage.removeItem(SETTINGS_MOTION_KEY); }
-            else{ window.localStorage.setItem(SETTINGS_MOTION_KEY, previousRaw); }
-        }catch(error){ /* Legacy setter reports persistence errors. */ }
-        window.applyApplicationMotionPreference?.();
+
+    if(!window.setApplicationMotionPreference(choice)){
         return;
     }
-    window.applyApplicationMotionPreference?.();
-    if(beforeReduced === afterReduced){ emitSettingsMotionChange("user"); }
-    window.showAppNotice?.(choice === "reduce" ? "Reduced motion is enabled." :
-        choice === "full" ? "Full motion is enabled." :
-        "Motion now follows your device preference.", "success", 3000);
+
+    if(typeof window.showAppNotice === "function"){
+        window.showAppNotice(
+            choice === "reduce" ? "Reduced motion is enabled."
+                : choice === "full" ? "Full motion is enabled."
+                : "Motion now follows your device preference.",
+            "success",
+            3000
+        );
+    }
 }
 
 function setSettingsMenuFeedbackPreference(enabled){
@@ -321,7 +250,7 @@ function createMotionPanel(){
     const panel = createSettingsPanel(
         "ACCESSIBILITY",
         "MOTION & FEEDBACK",
-        "Follow your device, always use full motion, or minimize non-essential motion. Control the optional menu confirmation cue."
+        "Follow the device by default, force non-essential motion to be minimized, and control the optional menu confirmation cue."
     );
 
     const summary = createSettingsElement("div", "settingsMotionSummary");
@@ -956,7 +885,6 @@ function closeSettings(restoreFocus = true){
 }
 
 function initializeSettings(){
-    installSettingsMotionBridge();
     ensureSettingsDialog();
     window.loadRuntimeScript("rules-settings-v10", "js/rulesSettingsV10.js", () => Boolean(window.CareerModeRulesSettingsV10)).then(() => window.CareerModeRulesSettingsV10.install()).catch(() => { window.CareerModeV10Screens?.settle?.("settingsOverlay"); });
 
@@ -985,8 +913,6 @@ function initializeSettings(){
         });
     }
 }
-
-installSettingsMotionBridge();
 
 window.initializeSettings = initializeSettings;
 window.openSettings = openSettings;
