@@ -465,14 +465,6 @@
       ]
     },
     {
-      "path": "tests/contracts/completed-showdown-wins-contracts.cjs",
-      "patterns": [
-        "^js/showdownUI\\.js$",
-        "^tests/contracts/completed-showdown-wins-contracts\\.cjs$",
-        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
-      ]
-    },
-    {
       "path": "tests/contracts/shared-career-analytics-contracts.cjs",
       "patterns": [
         "^js/sharedCareerAnalytics\\.js$",
@@ -1227,6 +1219,14 @@
       "patterns": [
         "^js/productionSharedCareerStart\\.js$",
         "^tests/contracts/career-start-plain-errors-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/completed-showdown-wins-contracts.cjs",
+      "patterns": [
+        "^js/showdownUI\\.js$",
+        "^tests/contracts/completed-showdown-wins-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
     }
