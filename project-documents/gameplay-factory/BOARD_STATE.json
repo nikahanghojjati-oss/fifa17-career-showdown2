@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-12 7:40 AM Boston time (EDT)",
+ "generated": "2026-10-12 7:42 AM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 94,
@@ -898,32 +898,23 @@
  },
  "two": {
   "live": {
-   "sha": "2a511f6",
-   "revision": "1.9.1-r71",
-   "when": "2026-10-12T01:40:03Z",
-   "subject": "Release r71: smooth screens, new loading screen and desktop fixes (1.9.1-r71) (#695)",
-   "fixes": [
+   "sha": "9b514ec",
+   "revision": "1.9.1-r72",
+   "when": "2026-10-12T11:41:31Z",
+   "subject": "Release r72: desktop studies, screen trains, player improvements (1.9.1-r72) (#745)",
+   "fixes": [],
+   "today": [
     {
      "pr": 745,
      "title": "Release r72: screen trains, player improvements and FULL MOTION (1.9.1-r72)",
-     "draft": false,
-     "branch": "gameplay/release-r72",
-     "sha": "85910db0d7c7bbf2b56dd2b064c68c53a70033f3",
-     "updated": "2026-10-12T11:12:21Z",
-     "gates": {
-      "passed": 8,
-      "running": 0,
-      "failed": 0,
-      "cancelled": 0
-     }
+     "merged": "2026-10-12T11:41:31Z"
     }
-   ],
-   "today": []
+   ]
   },
   "physio": {
    "state": "clear",
    "line": "All clear: every check has a machine.",
-   "gate": "Gate #745: L1✓ L2✓ L3A✓ L3B✓ L4✓ L5✓ L6✓ · seal PASS · POS20 #745 0/16",
+   "gate": "POS20 #304 6/16",
    "source": "physio"
   },
   "v_headline": "Queued next",
@@ -1339,7 +1330,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 47,
+  "moving": 46,
   "next": 42,
   "nik": 2,
   "later": 21,
@@ -2555,22 +2546,7 @@
     ]
    }
   },
-  "fixes": [
-   {
-    "pr": 745,
-    "title": "Release r72: screen trains, player improvements and FULL MOTION (1.9.1-r72)",
-    "draft": false,
-    "branch": "gameplay/release-r72",
-    "sha": "85910db0d7c7bbf2b56dd2b064c68c53a70033f3",
-    "updated": "2026-10-12T11:12:21Z",
-    "gates": {
-     "passed": 8,
-     "running": 0,
-     "failed": 0,
-     "cancelled": 0
-    }
-   }
-  ]
+  "fixes": []
  },
  "jobs": [
   {
