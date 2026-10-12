@@ -885,10 +885,12 @@ html[data-reduced-motion="true"] #mainMenu.v10Home .menuMusicTile[data-playing="
 }
 
 
-/* JOB-1695: adopted Home studies 1627 / 1629 / 1086, applied to the live
+/* JOB-1695: adopted Home studies 1627 / 1629 (and tablet 1085), applied to the live
    controls. NEXT_HOME and PHONE_HOME are the targets; frozen artwork is intact.
    #app specificity keeps the adapter above later Team V stylesheets. */
-@media (min-width: 320px) and (max-width: 2640px) {
+@media (max-width: 760px) and (orientation: portrait),
+       (max-width: 900px) and (max-height: 480px) and (orientation: landscape),
+       (min-width: 761px) and (max-width: 900px) and (min-height: 900px) and (orientation: portrait) {
   #app:has(#mainMenu.v10Home:not(.hidden)) {
     height: 100svh; min-height: 0; padding: 0;
   }
@@ -957,11 +959,10 @@ html[data-reduced-motion="true"] #mainMenu.v10Home .menuMusicTile[data-playing="
   #app #mainMenu.v10Home .menuBottomStrip { display: none !important; }
   #app #mainMenu.v10Home .phoneHeroBackground {
     display: block; position: absolute; inset: 0;
+    background: url("../visual-assets/v10_1/home/assets/ENV_HOME_PHONE_V1.webp") center top / cover no-repeat;
   }
-  #app #mainMenu.v10Home .phoneHeroBackground img {
-    display: block; width: 100%; height: 100%; object-fit: cover;
-    object-position: center top;
-  }
+  #app #mainMenu.v10Home .phoneHeroBackground img,
+  #app #mainMenu.v10Home .phoneHeroCutout img { display: none; }
   #app #mainMenu.v10Home .v10HomeCutouts {
     display: block; position: absolute; z-index: 2;
     left: 0; top: 48px; width: 100%; height: calc(var(--phone-hero) - 48px);
@@ -972,12 +973,9 @@ html[data-reduced-motion="true"] #mainMenu.v10Home .menuMusicTile[data-playing="
     width: 60%; height: 100%; transform: none !important;
     animation: none !important;
   }
-  #app #mainMenu.v10Home .phoneHeroDaniel { left: 0; right: auto; }
-  #app #mainMenu.v10Home .phoneHeroNik { left: auto; right: 0; }
-  #app #mainMenu.v10Home .phoneHeroCutout img {
-    display: block; width: 100%; height: 100%; max-width: 100%;
-    object-fit: contain; object-position: center top;
-  }
+  #app #mainMenu.v10Home .phoneHeroCutout { background: center top / contain no-repeat; }
+  #app #mainMenu.v10Home .phoneHeroDaniel { left: 0; right: auto; background-image: url("../visual-assets/v10_1/home/assets/OVL_HOME_DANIEL_PHONE_V2.webp"); }
+  #app #mainMenu.v10Home .phoneHeroNik { left: auto; right: 0; background-image: url("../visual-assets/v10_1/home/assets/OVL_HOME_NIK_PHONE_V2.webp"); }
   #app #mainMenu.v10Home .phoneHeroGrade {
     display: block; left: 0; right: 0;
     top: calc(var(--phone-hero) - var(--home-logo-h)); height: var(--home-logo-h);
@@ -1027,8 +1025,8 @@ html[data-reduced-motion="true"] #mainMenu.v10Home .menuMusicTile[data-playing="
   #app #mainMenu.v10Home #continueCareer .menuTileMeta { margin: 0; }
   #app #mainMenu.v10Home #continueCareer .tileArt,
   #app #mainMenu.v10Home #continueCareer:disabled .tileArt {
-    top: 5%; bottom: auto; left: auto; right: 6%; width: 22%; height: 90%;
-    object-fit: contain; object-position: center; translate: none; opacity: 1;
+    top: 0; bottom: auto; left: auto; right: 6%; width: 22%; height: 100%;
+    translate: none; opacity: 1;
   }
   #app #mainMenu.v10Home .fifaMenuGrid > .menuTile:not(#continueCareer) {
     padding: 7px 6px 6px 8px; justify-content: center; gap: 0;
@@ -1041,7 +1039,6 @@ html[data-reduced-motion="true"] #mainMenu.v10Home .menuMusicTile[data-playing="
   #app #mainMenu.v10Home .fifaMenuGrid > .menuTile:not(#continueCareer) .tileArt {
     top: 50%; bottom: auto; left: auto; right: 2%; width: 40%; height: 86%;
     aspect-ratio: auto; translate: 0 -50%; opacity: 1;
-    object-fit: contain; object-position: center;
   }
   #app #mainMenu.v10Home .fifaMenuGrid > .menuTile:not(#continueCareer) .menuTileCode,
   #app #mainMenu.v10Home .menuTile:not([data-available="false"]) .menuTileMeta {
@@ -1140,7 +1137,7 @@ html[data-reduced-motion="true"] #mainMenu.v10Home .menuMusicTile[data-playing="
 @media (max-width: 900px) and (max-height: 480px) and (orientation: landscape) {
   #app #mainMenu.v10Home {
     --home-vh: max(100svh, 340px);
-    --home-continue-h: clamp(44px, 16svh, 64px);
+    --home-continue-h: clamp(52px, 18svh, 68px);
     --home-tile-h: max(44px, calc((var(--home-vh) - var(--phone-nav) - 54px - var(--home-continue-h) - var(--home-music-h) - 3 * var(--home-gap) - 8px) / 2));
     --phone-hero: calc(var(--home-vh) - var(--phone-nav));
     --home-logo-w: min(36vw, 280px);
@@ -1161,12 +1158,62 @@ html[data-reduced-motion="true"] #mainMenu.v10Home .menuMusicTile[data-playing="
     font-size: clamp(12px, 1.7vw, 14px);
   }
   #app #mainMenu.v10Home #continueCareer .menuTileLabel { font-size: 22px; }
+  #app #mainMenu.v10Home #continueCareer .tileArt,
+  #app #mainMenu.v10Home #continueCareer:disabled .tileArt { top: 0; height: 100%; }
   #app #mainMenu.v10Home > .nav-reserve { grid-row: 2; }
   #app #mainMenu.v10Home .menuMusicTile { --home-sheet-h: calc(54px + 3 * 50px - 6px); }
   #app #mainMenu.v10Home .phoneSheetToggle:checked ~ .menuMediaSelector { grid-template-columns: repeat(4, minmax(0, 1fr)); }
   body:has(#app #mainMenu.v10Home:not(.hidden)) .sd-nav-bottom .sd-nav-tab {
     flex-direction: row; gap: 6px;
   }
+}
+
+/* 1085 tablet (no change to Team V's JOB-1036 design: managers over the lockup, broad gold Continue, two rows of three
+   tiles with art on the right, soundtrack strip, shared bottom bar). Touch tablets render at the 760px viewport, so the
+   phone grid above is rescaled to tablet proportions here instead of stretching the phone sizes. */
+@media (min-width: 700px) and (max-width: 760px) and (orientation: portrait) {
+  #app #mainMenu.v10Home {
+    --home-gap: 10px;
+    --home-continue-h: clamp(120px, 15svh, 168px);
+    --home-tile-h: clamp(104px, 12.5svh, 140px);
+    --home-music-h: 72px;
+    --home-logo-w: min(46vw, 340px);
+    --home-logo-h: calc(var(--home-logo-w) * 378 / 1040 + 44px);
+  }
+  #app #mainMenu.v10Home > .fifaMenuShell { padding: 10px 16px; }
+  #app #mainMenu.v10Home .lockupKicker,
+  #app #mainMenu.v10Home .lockupLegacy { font-size: 12px; letter-spacing: .24em; }
+  #app #mainMenu.v10Home #continueCareer { padding: 12px 24% 12px 24px; gap: 4px; }
+  #app #mainMenu.v10Home #continueCareer .menuTileCode { font-size: 13px; }
+  #app #mainMenu.v10Home #continueCareer .menuTileLabel { font-size: clamp(28px, 4.6vw, 36px); }
+  #app #mainMenu.v10Home #continueCareer .menuTileMeta,
+  #app #mainMenu.v10Home #continueCareer:disabled .menuTileMeta {
+    position: relative !important; width: auto !important; height: auto !important; margin: 0 !important;
+    overflow: visible !important; clip: auto !important; clip-path: none !important; white-space: normal !important;
+    font-size: 14px;
+  }
+  #app #mainMenu.v10Home .fifaMenuGrid > .menuTile:not(#continueCareer) { padding: 14px 8px 12px 16px; justify-content: flex-start; gap: 3px; }
+  #app #mainMenu.v10Home .fifaMenuGrid > .menuTile:not(#continueCareer) .menuTileCode {
+    position: relative !important; width: auto !important; height: auto !important; margin: 0 !important;
+    overflow: visible !important; clip: auto !important; clip-path: none !important; white-space: normal !important;
+    font-size: 12px; letter-spacing: .14em;
+  }
+  #app #mainMenu.v10Home .fifaMenuGrid > .menuTile:not(#continueCareer) .menuTileLabel {
+    width: 52%; max-width: 52%; font-size: clamp(20px, 3vw, 24px); line-height: 1.06;
+  }
+  #app #mainMenu.v10Home .fifaMenuGrid > .menuTile:not(#continueCareer) .tileArt { right: 3%; width: 42%; height: 82%; }
+  #app #mainMenu.v10Home .menuMusicTile,
+  #app #mainMenu.v10Home .menuMusicTile.side {
+    padding: 4px 12px; gap: 14px; --vinyl: 44px;
+    grid-template-columns: 52px minmax(0, 1fr) auto 56px;
+  }
+  #app #mainMenu.v10Home .menuMusicHeader span { font-size: 14px; }
+  #app #mainMenu.v10Home .menuMusicHeader strong { font-size: 18px; }
+  #app #mainMenu.v10Home .menuMusicControls { gap: 10px; }
+  #app #mainMenu.v10Home .menuMusicControls > .menuMusicControl { width: 64px; font-size: 13px; }
+  #app #mainMenu.v10Home #menuMusicToggle { width: 84px; }
+  #app #mainMenu.v10Home .phoneSheetToggle,
+  #app #mainMenu.v10Home .phoneTrackSheetOpen { width: 56px; }
 }
 
 /* Both upright tablets: avoid the unhandled 820x1180 seven-across dock and
@@ -1200,7 +1247,7 @@ html[data-reduced-motion="true"] #mainMenu.v10Home .menuMusicTile[data-playing="
   #app #mainMenu.v10Home .fifaMenuGrid > .menuTile:not(#continueCareer) .menuTileLabel { font-size: 18px; line-height: 1.08; }
   #app #mainMenu.v10Home .fifaMenuGrid > .menuTile:not(#continueCareer) .tileArt {
     top: 9%; bottom: auto; left: auto; right: 4px; width: 40%; height: 82%;
-    object-fit: contain; object-position: center; translate: none;
+    translate: none;
   }
   #app #mainMenu.v10Home #continueCareer .menuTileLabel { max-width: 100%; font-size: 23px; line-height: 1.05; }
   #app #mainMenu.v10Home #continueCareer .tileArt,
@@ -1229,50 +1276,9 @@ html[data-reduced-motion="true"] #mainMenu.v10Home .menuMusicTile[data-playing="
   }
 }
 
-/* 1086: preserve the approved desktop camera/card/dock geometry. A real label
-   band protects smaller laptops; wide tiles retain their large right-hand art. */
-@media (min-width: 901px) and (max-width: 2640px) and (min-height: 481px) {
-  #app #mainMenu.v10Home { --tile-top: calc(100svh - 36px - var(--tile-h)); }
-  #app #mainMenu.v10Home .fifaMenuHeadingMeta > span {
-    overflow-wrap: normal; word-break: normal;
-  }
-  #app:has(#mainMenu.v10Home:not(.hidden)) > footer {
-    position: absolute; left: 0; right: 0; bottom: 0;
-    height: 28px; min-height: 0; padding: 1px 16px;
-    font-size: 11px; line-height: 12px; box-sizing: border-box;
-  }
-  #app #mainMenu.v10Home .menuMediaChoice :is(strong, small) {
-    display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-  }
-  #app #mainMenu.v10Home #continueCareer .menuTileLabel { max-width: 100%; }
-}
-@media (min-width: 901px) and (max-width: 1849px) and (min-height: 481px) {
-  #app #mainMenu.v10Home { --home-card-h: clamp(154px, 20svh, 172px); }
-  #app #mainMenu.v10Home .menuMusicTile,
-  #app #mainMenu.v10Home .menuMusicTile.side {
-    top: min(53.3svh, calc(var(--tile-top) - var(--home-card-h) - 28px)) !important;
-    height: var(--home-card-h) !important; min-height: 0; max-height: none;
-  }
-  #app #mainMenu.v10Home .menuMusicHeader strong { font-size: 24px; }
-  #app #mainMenu.v10Home .menuMusicArtist,
-  #app #mainMenu.v10Home .menuMusicStatus { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  #app #mainMenu.v10Home .fifaMenuGrid > .menuTile:not(#continueCareer) { padding: 10px 8px 8px 10px; gap: 3px; }
-  #app #mainMenu.v10Home .fifaMenuGrid > .menuTile:not(#continueCareer) .menuTileCode { font-size: 10px; letter-spacing: .1em; }
-  #app #mainMenu.v10Home .fifaMenuGrid > .menuTile:not(#continueCareer) .menuTileLabel { font-size: 16px; line-height: 1.08; }
-  #app #mainMenu.v10Home .fifaMenuGrid > .menuTile:not(#continueCareer) .tileArt {
-    top: 68px; bottom: 6px; left: 7px; right: 7px;
-    width: calc(100% - 14px); height: calc(100% - 74px);
-    object-fit: contain; object-position: right bottom; translate: none;
-  }
-}
-@media (min-width: 1850px) and (max-width: 2640px) and (min-height: 481px) {
-  /* The shortest wide-tile label still needs a measurable gap before the art. */
-  #app #mainMenu.v10Home #newShowdown .tileArt { top: 68px; height: calc(100% - 74px); }
-  #app #mainMenu.v10Home #careerStatisticsButton .tileArt { left: 112px; width: calc(100% - 118px); }
-  #app #mainMenu.v10Home #ruleBookButton .tileArt { left: 108px; width: calc(100% - 114px); }
-  #app #mainMenu.v10Home #settingsButton .tileArt { left: 100px; width: calc(100% - 106px); }
-}
-@media (pointer: coarse) and (min-width: 320px) and (max-width: 2640px) {
+@media (pointer: coarse) and (max-width: 760px) and (orientation: portrait),
+       (pointer: coarse) and (max-width: 900px) and (max-height: 480px) and (orientation: landscape),
+       (pointer: coarse) and (min-width: 761px) and (max-width: 900px) and (min-height: 900px) and (orientation: portrait) {
   #app:has(#mainMenu.v10Home:not(.hidden)) #topHeader #onlinePlayerIdentityBadge,
   #app #mainMenu.v10Home .menuMusicControl,
   #app #mainMenu.v10Home .menuMediaChoice,
