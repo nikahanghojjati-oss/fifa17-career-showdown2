@@ -11,10 +11,7 @@
   1640,
   1641,
   1650,
-  1652,
-  1654,
-  1655,
-  1656
+  1652
  ],
  "jobs_after_wiring": [
   1637,
@@ -24,7 +21,7 @@
   1644,
   1645
  ],
- "jobs_note": "Polish wave tickets (ChatGPT chat). The queue thread keeps these two lists; a job moves to jobs_free when its area's wiring train is merged or closed. 1650 (service worker audit) and 1652 (Settings motion choice) are ChatGPT chat jobs from the 1635 follow-ups. 1654-1656 are second attempts on failed train PRs #687, #686, #684 (ChatGPT chat).",
+ "jobs_note": "Polish wave tickets (ChatGPT chat). The queue thread keeps these two lists; a job moves to jobs_free when its area's wiring train is merged or closed. 1650 (service worker audit) and 1652 (Settings motion choice) are ChatGPT chat jobs from the 1635 follow-ups. 1654-1656 are second attempts on failed train PRs #687, #686, #684 (ChatGPT chat). 1654-1656 left the lists: Claude lane.",
  "work_waiting": [
   {
    "job": 1646,
@@ -98,5 +95,13 @@
    316
   ],
   "note": "Stage-3 jobs that need a PNG mockup: ChatGPT chat cannot open it (answers NEEDS MOCKUP), so they run in Work mode. 189 first, then 191. Chat still takes the JPG ones and the no-mockup ones. 232 260 268 288 316 are phone studies with PNG pictures; re-released 2026-10-12 with a 12-file read limit."
+ },
+ "claude_lane_jobs": {
+  "jobs": [
+   1654,
+   1655,
+   1656
+  ],
+  "note": "Moved to the Claude lane 2026-10-12 (Nik): the lead runs them; Nik types nothing."
  }
 }

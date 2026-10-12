@@ -11,12 +11,11 @@ Snapshot at 2026-10-12 02:50 UTC (the tracker page and QUEUE_STATE.json `ready_c
 
 | Order | Type (ChatGPT chat) |
 | --- | --- |
-| 1 | 1654 1655 1656 (second tries) |
-| 2 | 227 245 263 |
-| 3 | 235 253 257 |
-| 4 | 237 255 261 |
-| 5 | 427 435 |
-| 6 | 525 527 529 (new audits; 519 to 552 follow in threes) |
+| 1 | 227 245 263 |
+| 2 | 235 253 257 |
+| 3 | 237 255 261 |
+| 4 | 427 435 |
+| 5 | 525 527 529 (new audits; 519 to 552 follow in threes) |
 
 Polish wave numbers (1637-1645) join the batches only after their area's wiring train has merged.
 
