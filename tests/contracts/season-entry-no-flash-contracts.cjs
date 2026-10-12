@@ -75,6 +75,10 @@ check("SE-4 Season Results / Final Winner registers seasonEntry with the hold",(
   assert.match(src,/register\("seasonEntry",\{auto:false,hold:true,/,"js/seasonFinalV10.js registers seasonEntry with hold:true");
 });
 
+check("SE-5 Standings (nav bar STANDINGS) registers with the same hold",()=>{
+  assert.match(read("js/seasonFinalV10.js"),/register\("standings",\{auto:false,hold:true,/,"js/seasonFinalV10.js registers standings with hold:true");
+});
+
 (async()=>{
   let n=0;
   for(const [name,fn] of checks){await fn();console.log(`ok ${++n} ${name}`);}
