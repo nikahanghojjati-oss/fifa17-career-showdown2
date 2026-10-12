@@ -121,7 +121,7 @@ a{color:inherit}
 <script>
 const REPO="nikahanghojjati-oss/fifa17-career-showdown2",BR="factory/gameplay-v1",PATH="project-documents/gameplay-factory/mega/MEGA_TRACKER.json";
 const ST=["live","merged","no_pr","on_train","reviewed","ready","queued","ci_running","draft","ci_failed","blocked","started","closed","waiting"];
-const LB={waiting:"Waiting",started:"Started, no PR yet",on_train:"Done, on the train branch",draft:"Done, draft PR open",queued:"Ready for checks",ci_running:"Checks running",ci_failed:"Checks FAILED",ready:"Checks green",reviewed:"Reviewed, waiting for lead",merged:"Merged",no_pr:"Done, no PR (no change / needs Team V)",live:"Live in a release",blocked:"Blocked",closed:"Closed"};
+const LB={waiting:"Waiting",started:"Started, no PR yet",on_train:"Done, on the train branch",draft:"Draft PR, not checked yet (grey, not a failure)",queued:"Ready for checks",ci_running:"Checks running",ci_failed:"Checks FAILED",ready:"Checks green",reviewed:"Reviewed, waiting for lead",merged:"Merged",no_pr:"Done, no PR (no change / needs Team V)",live:"Live in a release",blocked:"Blocked",closed:"Closed"};
 // how far along the pipeline each state is (started > PR open > checks > review > merged)
 const PCT={started:12,on_train:30,draft:42,queued:52,ci_running:62,ci_failed:62,ready:76,reviewed:88,merged:100,live:100,no_pr:100,blocked:12};
 const FLY=["started","on_train","draft","queued","ci_running","ci_failed","ready","reviewed","blocked"];

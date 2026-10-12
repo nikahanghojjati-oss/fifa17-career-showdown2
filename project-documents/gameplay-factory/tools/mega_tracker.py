@@ -109,7 +109,7 @@ def ci_for(repo, sha):
 BAR = 24
 ICON = {"on_train": "🚂", "no_pr": "🏁", "draft": "📝", "queued": "⏳", "waiting": "⬜", "started": "🟦", "ci_running": "🟨", "ci_failed": "🟥", "ready": "🟩", "reviewed": "🟪",
         "merged": "✅", "live": "🚀", "blocked": "🟧", "closed": "⚫"}
-LABEL = {"on_train": "done, on the train branch, no PR yet", "no_pr": "done, no PR (no change / needs Team V)", "draft": "worker done, draft PR open", "queued": "ready for checks, not started", "waiting": "waiting", "started": "started, no PR yet", "ci_running": "PR open, checks running",
+LABEL = {"on_train": "done, on the train branch, no PR yet", "no_pr": "done, no PR (no change / needs Team V)", "draft": "draft PR, not checked yet", "queued": "ready for checks, not started", "waiting": "waiting", "started": "started, no PR yet", "ci_running": "PR open, checks running",
          "ci_failed": "PR open, checks FAILED", "ready": "PR open, checks green, waiting for review",
          "reviewed": "reviewed by Sol, waiting for the lead", "merged": "merged to staging branch",
          "live": "live in a release", "blocked": "blocked", "closed": "closed without merge"}
