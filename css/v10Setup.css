@@ -266,13 +266,19 @@ html[data-v10-setup] main { scrollbar-color: var(--v26-gold-deep) rgba(255, 255,
   background: none;
   box-shadow: none;
 }
-#leagueWheelScreen.v26Skin .wheelContainer > * { grid-column: 1 / -1; }
+#leagueWheelScreen.v26Skin .wheelContainer > * { grid-column: 1 / -1; min-width: 0; max-width: 100%; }
 #leagueWheelScreen.v26Skin #selectedLeague { order: 0; }
 #leagueWheelScreen.v26Skin .wheelPointer { order: 1; }
 #leagueWheelScreen.v26Skin #leagueWheel { order: 2; }
 #leagueWheelScreen.v26Skin .wheelContainer > .stateNote { order: 3; }
 #leagueWheelScreen.v26Skin #spinLeague { order: 4; }
 #leagueWheelScreen.v26Skin .wheelContainer > .backButton { order: 5; }
+/* JOB-1130: long league/result/status text must stay in the available grid cell. */
+#leagueWheelScreen.v26Skin .wheelContainer > .stateNote {
+  min-width: 0;
+  width: 100%;
+  overflow-wrap: anywhere;
+}
 @media (min-width: 901px) {
   #leagueWheelScreen.v26Skin #spinLeague { grid-column: 1; justify-self: stretch; }
   #leagueWheelScreen.v26Skin .wheelContainer > .backButton { grid-column: 2; justify-self: stretch; }
@@ -280,9 +286,22 @@ html[data-v10-setup] main { scrollbar-color: var(--v26-gold-deep) rgba(255, 255,
   #leagueWheelScreen.v26Skin .wheelContainer > .backButton:only-of-type { grid-column: 1 / -1; }
 }
 #leagueWheelScreen.v26Skin #spinLeague,
-#leagueWheelScreen.v26Skin .wheelContainer > .backButton { width: 100%; margin: 6px 0 0; }
+#leagueWheelScreen.v26Skin .wheelContainer > .backButton {
+  width: 100%;
+  margin: 6px 0 0;
+  padding-inline: 12px;
+  line-height: 1.2;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
 
 #leagueWheelScreen.v26Skin #selectedLeague {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  padding-inline: 8px;
+  overflow-wrap: anywhere;
+  white-space: normal;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -381,7 +400,9 @@ html[data-v10-setup] main { scrollbar-color: var(--v26-gold-deep) rgba(255, 255,
   border: 0;
   font: 700 calc(var(--R) * 22 / 240)/1.15 var(--v26-cond);
   letter-spacing: .03em;
-  white-space: nowrap;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  text-align: center;
   transform-origin: 50% 0;
   transform: rotate(var(--v26-a)) translateY(calc(var(--R) * -.86));
 }
