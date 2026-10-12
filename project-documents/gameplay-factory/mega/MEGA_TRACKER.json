@@ -1,15 +1,15 @@
 {
-"updated": "2026-10-12T02:16:29Z",
+"updated": "2026-10-12T02:17:59Z",
 "total": 518,
 "next_free": 187,
-"highest_taken": 411,
+"highest_taken": 419,
 "counts": {
 "merged": 181,
 "closed": 82,
 "ci_failed": 5,
 "ready": 10,
-"on_train": 16,
-"waiting": 220,
+"on_train": 17,
+"waiting": 219,
 "draft": 3,
 "blocked": 1
 },
@@ -22,8 +22,8 @@
 "closed": 44,
 "ci_failed": 5,
 "ready": 10,
-"on_train": 11,
-"waiting": 151
+"on_train": 12,
+"waiting": 150
 }
 },
 "1": {
@@ -87,7 +87,8 @@
 221,
 225,
 403,
-411
+411,
+419
 ],
 "draft_code_prs": 0,
 "area_locks": {
@@ -162,11 +163,11 @@
 414,
 416,
 418,
-419,
 420,
 422,
 424,
 426,
+427,
 428,
 430,
 432,
@@ -324,7 +325,7 @@
 "held_by_picture": {}
 },
 "rate": {
-"claimed_last_hour": 14,
+"claimed_last_hour": 15,
 "claimed_last_10min": 7,
 "merged_last_hour": 0
 },
@@ -337,18 +338,18 @@
 "closed": 25,
 "ci_failed": 5,
 "ready": 10,
-"on_train": 16,
-"waiting": 138
+"on_train": 17,
+"waiting": 137
 },
 "reviews": {
 "ok": 0,
 "ok_notes": 0,
 "needs_changes": 0
 },
-"picked_up": 101,
-"worker_done": 76,
+"picked_up": 102,
+"worker_done": 77,
 "finished": 45,
-"pending_lead": 26,
+"pending_lead": 27,
 "wait_v": 0,
 "audit_batch": 0,
 "trouble": 5,
@@ -1439,13 +1440,6 @@
 }
 ],
 "events": [
-{
-"at": "2026-10-11T06:35:00Z",
-"item": 56,
-"job": 1494,
-"from": "draft",
-"to": "merged"
-},
 {
 "at": "2026-10-11T06:35:00Z",
 "item": 58,
@@ -3536,6 +3530,13 @@
 "at": "2026-10-12T02:16:29Z",
 "item": 219,
 "job": 1102,
+"from": "waiting",
+"to": "on_train"
+},
+{
+"at": "2026-10-12T02:17:59Z",
+"item": 419,
+"job": 1358,
 "from": "waiting",
 "to": "on_train"
 }
@@ -9300,8 +9301,10 @@
 "title": "Rivalry Statistics: fix the 1366x768 view",
 "mode": "code",
 "group": "rivalry-legacy",
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"state": "on_train",
+"branch": "gameplay/train-rivalry-legacy-6",
+"first_seen": "2026-10-12T02:17:59Z",
+"since": "2026-10-12T02:17:59Z"
 },
 "420": {
 "job": 1348,
