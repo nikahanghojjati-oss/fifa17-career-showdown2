@@ -336,8 +336,7 @@ await loadRuntimeScript(
 async function ensureStatisticsModule(){
 const stylePromise = loadRuntimeStyle("analytics-ui", "css/analytics.css");
 const visualPromise = ensureRequiredFootballVisualExperience();
-await ensureStatisticsScript();
-await Promise.all([stylePromise, visualPromise]);
+await Promise.all([stylePromise, visualPromise, ensureStatisticsScript()]);
 }
 
 async function ensureTrophyRoomModule(){

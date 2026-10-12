@@ -1404,6 +1404,14 @@
       ]
     },
     {
+      "path": "tests/contracts/work-audit-optional-modules-b-contracts.cjs",
+      "patterns": [
+        "^js/optionalModules\\.js$",
+        "^tests/contracts/work\\-audit\\-optional\\-modules\\-b\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
       "path": "tests/contracts/chat-audit-screens-b-contracts.cjs",
       "patterns": [
         "^js/screens\\.js$",
