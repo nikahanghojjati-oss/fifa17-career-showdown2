@@ -188,6 +188,16 @@ def status_state(job):
     except OSError: return ""
     return m.group(1).strip().upper() if m else ""
 
+def pick_model(num):
+    """Model and effort for a Work mode number, read from its own ticket. Picture studies carry a chat lane line, but run in Work mode (Sol 6.1), so they keep the ticket's effort."""
+    try: t = (GF / "queue" / "items" / f"{int(num):04d}.md").read_text(errors="replace")[:3000]
+    except OSError: return ""
+    row = re.search(r"\| Lane \|[^\n]*\n\|[ \-|]*\n\| (.*?) \|", t)
+    txt = row.group(1) if row else ""
+    eff = re.search(r"\b(Extra High|High|Medium|Low)\b", txt)
+    mod = re.search(r"\b(Sol 6\.1|Luna|Astra)\b", txt)
+    return f"{mod.group(1) if mod else 'Sol 6.1'}" + (f" · {eff.group(1)}" if eff else "")
+
 def jload_claude():
     try:
         l = json.loads((GF / "queue" / "CLAUDE_LANE.json").read_text())
@@ -458,7 +468,7 @@ def run_round(a, ctx):
     gates = {"cap": CAP, "open_code_prs": len(open_code), "open_train_prs": open_all,
              "on_train_no_pr": started_code, "draft_code_prs": len(open_all) - len(open_code), "area_locks": {g: n for g, n in locked.items() if g},
              "ready": ready[:12], "ready_sol": ready_sol, "ready_codex": ready_codex,
-             "ready_all": ready[:150], "ready_work": [k for k in ready if order[str(k)].get("mode") == "study" and order[str(k)].get("screen") in pics.get("keys", {})], "ready_total": len(ready), "held_until_picture": held_n, "held_by_picture": held_by}
+             "ready_all": ready[:150], "work_models": {str(k): pick_model(k) for k in ready if order[str(k)].get("mode") == "study" and order[str(k)].get("screen") in pics.get("keys", {})}, "ready_work": [k for k in ready if order[str(k)].get("mode") == "study" and order[str(k)].get("screen") in pics.get("keys", {})], "ready_total": len(ready), "held_until_picture": held_n, "held_by_picture": held_by}
     # stale: claimed over 45 minutes ago and still no PR
     stale = [int(k) for k, v in items.items() if v["state"] == "started"
              and (datetime.datetime.now(datetime.timezone.utc) - datetime.datetime.fromisoformat(v["since"].replace("Z", "+00:00"))).total_seconds() > 2700]
