@@ -1,6 +1,6 @@
 {
  "_how": "One shared job counter for Team G and Team V (Nik, 2026-10-05). Claim with tools/claim_number.py only. A number is used once, ever. CONTRACT.md section 10.",
- "next": 1800,
+ "next": 1801,
  "claims": [
   {
    "number": 1001,
@@ -4796,6 +4796,12 @@
    "team": "V",
    "title": "HO-026 marble phone mockups: samples Home, Season Results, Final Winner",
    "claimed": "2026-10-12T21:57:24Z"
+  },
+  {
+   "number": 1800,
+   "team": "V",
+   "title": "HO-026 marble phone mockups: other 11 screens, Loading, Trophy Room single",
+   "claimed": "2026-10-12T23:32:26Z"
   }
  ]
 }
