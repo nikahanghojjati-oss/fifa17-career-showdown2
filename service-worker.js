@@ -79,6 +79,7 @@ const SHELL_PATHS = Object.freeze([
     "js/onlinePlayerIdentity.js",
     "js/persistentNikDanielPair.js",
     "js/productionFirebaseRuntime.js",
+    "js/fullMotionHonor.js",
     "js/ssjr.js",
     "js/ssjrProductionAcceptanceRecorder.js",
     "js/ssjrProductionNegativeProbeRunner.js",
