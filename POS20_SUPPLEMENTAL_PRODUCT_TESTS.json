@@ -1140,6 +1140,17 @@
       ]
     },
     {
+      "path": "tests/contracts/qol-1-7-recovery-account-contracts.cjs",
+      "patterns": [
+        "^js/persistentNikDanielPair\\.js$",
+        "^js/sparkPrivatePairing\\.js$",
+        "^js/connectPlayersScreenV10\\.js$",
+        "^css/connectPlayersV10\\.css$",
+        "^tests/contracts/qol-1-7-recovery-account-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
       "path": "tests/contracts/showdown-gate-coverage-contracts.cjs",
       "patterns": [
         "^\\.github/workflows/",

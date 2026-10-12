@@ -712,3 +712,6 @@ html[data-reduced-motion="true"] #connectPlayersScreen *::after {
  }
  #connectPlayersScreen #connectPlayersPairSlot { flex:0 0 auto; min-height:0; overflow:visible; }
 }
+
+/* QoL 1 (BH-12): on the recovery screen RESTORE BACKUP leads (solid yellow, first in focus order); DELETE OLD SHOWDOWN & START OVER stays, smaller (still a 44px tap target, JOB-1102). #app prefix beats the Team V sheets that load later. */
+#app #connectPlayersScreen #persistentNikDanielPairPanel .menuButton.pairRecoverySecondary{flex:0 0 auto;min-height:44px;padding:6px 10px;font-size:12px;letter-spacing:.04em;}
