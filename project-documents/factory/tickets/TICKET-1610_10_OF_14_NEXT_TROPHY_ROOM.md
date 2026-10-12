@@ -29,6 +29,7 @@ MOST IMPORTANT (never break these):
 Keep exactly:
 - the same layout and every element in the same place: the top bar, the TROPHY ROOM title, both managers with #1 DANIEL 15 and #2 NIK 5, the champion trophy with its SHOWDOWN CHAMPION plaque, the five tabs ALL, SHOWDOWN, LEAGUE TITLES, DOMESTIC CUPS, CHAMPIONS LEAGUE, the four trophy cards with their counts, the record row and BACK;
 - both men exactly as they are: same faces, hair, beards, skin and clothes; the man with curly hair stays on the LEFT and the man with the full beard stays on the RIGHT; do not mirror or redraw them;
+- show both men's full heads and all their hair; nothing may cover, crop or cut off any part of either head;
 - every title, label, button and number spelled exactly as shown; add no new words, numbers or logos. Very small paragraph text may stay small, but never invent words.
 
 The big upgrade (this is the point of this picture):
