@@ -2186,6 +2186,32 @@
      "place": "ChatGPT chat (GPT-6 Sol, GitHub connector), type the number",
      "note": "ticket jobs/JOB-1656.md; second attempt for train PR #684 on branch gameplay/train-club-2; fix only the lead's browser-check failure; commit onto the existing PR branch, no new train or PR; Claude browser-checks and merges",
      "prompt": "1656"
+    },
+    {
+     "id": "1659",
+     "title": "Standings phone: wire adopted design (study 1255)",
+     "lane": "work",
+     "team": "green",
+     "model": "GPT Sol 6.1",
+     "effort": "High",
+     "state": "ready for Work mode",
+     "order": 98,
+     "place": "ChatGPT Work mode (Sol 6.1), type one number at a time, in order",
+     "note": "ticket jobs/JOB-1659.md; area standings, own train, 1 of 1; picture job for Work mode (Sol 6.1 High); waits only if a season-final train is open; Claude browser-checks and merges",
+     "prompt": "1659"
+    },
+    {
+     "id": "1660",
+     "title": "Rule Book phone: wire adopted design (study 1429)",
+     "lane": "work",
+     "team": "green",
+     "model": "GPT Sol 6.1",
+     "effort": "High",
+     "state": "waits for 1654",
+     "order": 99,
+     "place": "ChatGPT Work mode (Sol 6.1), type one number at a time, in order",
+     "note": "ticket jobs/JOB-1660.md; area rules-settings, own train, 1 of 1; picture job for Work mode (Sol 6.1 High); waits for JOB-1654 (PR #687) to merge or close; Claude browser-checks and merges",
+     "prompt": "1660"
     }
    ]
   },

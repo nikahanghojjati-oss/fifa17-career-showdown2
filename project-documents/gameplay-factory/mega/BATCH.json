@@ -29,6 +29,14 @@
   {
    "job": 1646,
    "note": "Sol 6.1 · High. After the Home train PR merges."
+  },
+  {
+   "job": 1660,
+   "note": "Sol 6.1 · High. After JOB-1654 (Rule Book fix, PR #687) merges."
+  },
+  {
+   "job": 1659,
+   "note": "Sol 6.1 · High. Standings phone wiring; free once no season-final train is open."
   }
  ],
  "wiring_chains": {
