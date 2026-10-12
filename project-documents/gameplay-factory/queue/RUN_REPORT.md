@@ -1,6 +1,6 @@
-# Mega factory run report · 2026-10-12T12:48:19Z
+# Mega factory run report · 2026-10-12T12:49:20Z
 
-Taken 529 of 552 jobs. By state: blocked 1, closed 82, merged 226, pr_open 34, retired 186, waiting 23
+Taken 552 of 552 jobs. By state: blocked 1, closed 82, merged 226, pr_open 34, retired 209
 
 ## By stage
 Stage | name | total | picked up | merged
@@ -9,7 +9,7 @@ Stage | name | total | picked up | merged
 2 | screen fixes | 266 | 266 | 85
 3 | mockup match | 14 | 14 | 5
 4 | phone studies | 70 | 70 | 23
-5 | desktop studies | 56 | 33 | 1
+5 | desktop studies | 56 | 56 | 1
 
 ## Code trains (5 fixes per pull request)
 Train | jobs done | PR | state
@@ -232,6 +232,15 @@ Number | job | title | state | link
 370 | 1289 | Final Winner (Showdown Champion): improved desktop, version A (polish) | pr_open | [PR #730](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/730)
 372 | 1086 | Home: improved desktop, version A (polish) | merged | [PR #671](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/671)
 374 | 1144 | Select League: improved desktop, version A (polish) | pr_open | [PR #749](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/749)
+376 | 1318 | Legacy: improved desktop, version A (polish) | retired | 
+378 | 1376 | Rivalry Statistics: improved desktop, version A (polish) | retired | 
+380 | 1434 | Rule Book: improved desktop, version A (polish) | retired | 
+382 | 1231 | Season Results: improved desktop, version A (polish) | retired | 
+384 | 1463 | Settings: improved desktop, version A (polish) | retired | 
+386 | 1260 | Standings: improved desktop, version A (polish) | retired | 
+388 | 1115 | Connect Players (start and join): improved desktop, version A (polish) | retired | 
+390 | 1202 | Transfer challenge and Signing Entry: improved desktop, version A (polish) | retired | 
+392 | 1347 | Trophy Room: improved desktop, version A (polish) | retired | 
 394 | 1406 | Career Statistics: improved desktop, version B (focus) | retired | 
 396 | 1174 | Club packs: improved desktop, version B (focus) | retired | 
 398 | 1290 | Final Winner (Showdown Champion): improved desktop, version B (focus) | retired | 
@@ -260,6 +269,20 @@ Number | job | title | state | link
 444 | 1117 | Connect Players (start and join): improved desktop, version C (wide) | retired | 
 446 | 1204 | Transfer challenge and Signing Entry: improved desktop, version C (wide) | retired | 
 448 | 1349 | Trophy Room: improved desktop, version C (wide) | retired | 
+450 | 1408 | Career Statistics: states sheet | retired | 
+452 | 1176 | Club packs: states sheet | retired | 
+454 | 1292 | Final Winner (Showdown Champion): states sheet | retired | 
+456 | 1089 | Home: states sheet | retired | 
+458 | 1147 | Select League: states sheet | retired | 
+460 | 1321 | Legacy: states sheet | retired | 
+462 | 1379 | Rivalry Statistics: states sheet | retired | 
+464 | 1437 | Rule Book: states sheet | retired | 
+466 | 1234 | Season Results: states sheet | retired | 
+468 | 1466 | Settings: states sheet | retired | 
+470 | 1263 | Standings: states sheet | retired | 
+472 | 1118 | Connect Players (start and join): states sheet | retired | 
+474 | 1205 | Transfer challenge and Signing Entry: states sheet | retired | 
+476 | 1350 | Trophy Room: states sheet | retired | 
 519 | 1661 | Audit js/scoring.js for gameplay bugs (first half) | pr_open | [PR #704](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/704)
 520 | 1662 | Audit js/showdownUI.js for gameplay bugs (first half) | pr_open | [PR #701](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/701)
 521 | 1663 | Audit js/transferSelector.js for gameplay bugs (first half) | pr_open | [PR #707](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/707)

@@ -1,4 +1,4 @@
-# Mega factory queue · updated 2026-10-12T12:48:19Z
+# Mega factory queue · updated 2026-10-12T12:49:20Z
 
 Stage | tickets | picked up | merged
 --- | --- | --- | ---
@@ -6,7 +6,7 @@ Stage | tickets | picked up | merged
 2 | 266 | 266 | 85
 3 | 14 | 14 | 5
 4 | 70 | 70 | 23
-5 | 56 | 33 | 1
+5 | 56 | 56 | 1
 
 Type now, ChatGPT chat (batches of up to 3, in order): []
 Type now, Work mode (Sol 6.1 · High, one number per message): []

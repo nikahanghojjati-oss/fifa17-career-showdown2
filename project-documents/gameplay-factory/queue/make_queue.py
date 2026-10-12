@@ -284,11 +284,11 @@ def main():
     ART = {"transfer": "visual-assets/v10_1/tr2/slice-02-plate/assets/",
            "rule-book": "visual-assets/v10_1/shared/", "settings": "visual-assets/v10_1/shared/",
            "standings": "visual-assets/v10_1/shared/"}
-    MOCK = {"home": "GOAL_HOME.jpg", "league": "GOAL_LEAGUE.jpg", "club": "GOAL_CLUB.jpg",
-            "transfer": "GOAL_TRANSFER_PLATE_G.png", "career-statistics": "MOCKUP_CAREER_STATISTICS.png",
-            "legacy": "MOCKUP_LEGACY_V2.png", "rivalry-statistics": "MOCKUP_RIVALRY_STATISTICS.png",
-            "season-results": "MOCKUP_SEASON_RESULTS.jpg", "start-join": "MOCKUP_START_JOIN.png",
-            "trophy-room": "MOCKUP_TROPHY_ROOM.png"}
+    MOCK = {"home": "NEXT_HOME.png", "league": "NEXT_LEAGUE.png", "club": "NEXT_CLUB.png",
+            "transfer": "NEXT_TRANSFER.png", "career-statistics": "NEXT_STATISTICS.png",
+            "legacy": "NEXT_LEGACY.png", "rivalry-statistics": "NEXT_RIVALRY.png",
+            "season-results": "NEXT_SEASON_RESULTS.png", "start-join": "NEXT_CONNECT_PLAYERS.png",
+            "trophy-room": "NEXT_TROPHY_ROOM.png"}
     MOCK_DIR = "project-documents/factory/mockups/"
     # studies Team V already designed (HO-021): start from that design, do not redo it
     DECIDED = {("transfer", "sideways"): "1035", ("home", "tablet"): "1036", ("transfer", "tablet"): "1036"}
@@ -305,7 +305,7 @@ def main():
         return f"- **Work toward Nik's approved picture** `project-documents/factory/mockups/{f}` (fetch it from branch `factory/v1-wtt5ye`). Match its layout, hierarchy and look, using the existing art files. Always use the real game text of the live screen, never wording copied from the picture.{note}\n"
     def mock_line(sid):
         if sid in MOCK:
-            return f"the screen's desktop mockup: `{MOCK_DIR}{MOCK[sid]}` on branch `factory/v1-wtt5ye` (reference only; look at the picture, never copy real club crests, league logos or trophies from it)"
+            return f"the approved desktop picture: `{MOCK_DIR}{MOCK[sid]}` on branch `factory/v1-wtt5ye` (the only target; never copy real club crests, league logos or trophies from it)"
         return "this screen has no mockup: use the live screen (its CSS and the Read files) as the reference"
     STUDY_RULES = ("- **Reading allowance (studies):** the Read list below is only a start. To get the real labels, markup and text, you may also read `index.html` and the `js/` file that creates this screen's text (search for a label you can see on the live screen), the `css/` file for the screen, and the two pictures: at most 12 files in all (this overrides the 5-file line below). Never invent text, and never take wording from a picture.\n"
                    "- **Phone fit rule (phone studies):** the design must fit with no scroll at 393x660 and at 360x640, with the main button visible at 375x553. The bottom tab bar (HOME, CAREER, STANDINGS, STATS, RULES) shows at 900px wide or less, on hub screens only.\n"

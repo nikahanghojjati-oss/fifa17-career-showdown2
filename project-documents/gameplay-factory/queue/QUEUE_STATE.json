@@ -390,23 +390,23 @@
    "373": "retired",
    "374": "pr_open",
    "375": "retired",
-   "376": "waiting",
+   "376": "retired",
    "377": "retired",
-   "378": "waiting",
+   "378": "retired",
    "379": "closed",
-   "380": "waiting",
+   "380": "retired",
    "381": "retired",
-   "382": "waiting",
+   "382": "retired",
    "383": "retired",
-   "384": "waiting",
+   "384": "retired",
    "385": "retired",
-   "386": "waiting",
+   "386": "retired",
    "387": "closed",
-   "388": "waiting",
+   "388": "retired",
    "389": "retired",
-   "390": "waiting",
+   "390": "retired",
    "391": "retired",
-   "392": "waiting",
+   "392": "retired",
    "393": "retired",
    "394": "retired",
    "395": "closed",
@@ -464,33 +464,33 @@
    "447": "retired",
    "448": "retired",
    "449": "retired",
-   "450": "waiting",
+   "450": "retired",
    "451": "retired",
-   "452": "waiting",
+   "452": "retired",
    "453": "retired",
-   "454": "waiting",
+   "454": "retired",
    "455": "retired",
-   "456": "waiting",
+   "456": "retired",
    "457": "retired",
-   "458": "waiting",
+   "458": "retired",
    "459": "retired",
-   "460": "waiting",
+   "460": "retired",
    "461": "retired",
-   "462": "waiting",
+   "462": "retired",
    "463": "retired",
-   "464": "waiting",
+   "464": "retired",
    "465": "retired",
-   "466": "waiting",
+   "466": "retired",
    "467": "retired",
-   "468": "waiting",
+   "468": "retired",
    "469": "retired",
-   "470": "waiting",
+   "470": "retired",
    "471": "retired",
-   "472": "waiting",
+   "472": "retired",
    "473": "retired",
-   "474": "waiting",
+   "474": "retired",
    "475": "retired",
-   "476": "waiting",
+   "476": "retired",
    "477": "retired",
    "478": "retired",
    "479": "retired",
@@ -569,12 +569,11 @@
    "552": "retired"
   }
  },
- "updated": "2026-10-12T12:48:19Z",
+ "updated": "2026-10-12T12:49:20Z",
  "counts": {
   "merged": 226,
-  "retired": 186,
+  "retired": 209,
   "closed": 82,
-  "waiting": 23,
   "pr_open": 34,
   "blocked": 1
  },
@@ -596,7 +595,7 @@
   },
   "5": {
    "total": 56,
-   "taken": 33,
+   "taken": 56,
    "merged": 1
   },
   "1": {
@@ -1529,7 +1528,7 @@
    "branch": null
   },
   "1089": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
@@ -1711,7 +1710,7 @@
    "branch": "study/job-1114-connect-players-tablet"
   },
   "1115": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
@@ -1732,7 +1731,7 @@
    "branch": null
   },
   "1118": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
@@ -1935,7 +1934,7 @@
    "branch": null
   },
   "1147": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
@@ -2138,7 +2137,7 @@
    "branch": null
   },
   "1176": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
@@ -2320,7 +2319,7 @@
    "branch": "study/job-1201-tablet-no-change"
   },
   "1202": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
@@ -2341,7 +2340,7 @@
    "branch": null
   },
   "1205": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
@@ -2523,7 +2522,7 @@
    "branch": "study/job-1230-season-results-tablet"
   },
   "1231": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
@@ -2544,7 +2543,7 @@
    "branch": null
   },
   "1234": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
@@ -2726,7 +2725,7 @@
    "branch": "study/job-1259-standings-upright-tablet"
   },
   "1260": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
@@ -2747,7 +2746,7 @@
    "branch": null
   },
   "1263": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
@@ -2950,7 +2949,7 @@
    "branch": null
   },
   "1292": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
@@ -3132,7 +3131,7 @@
    "branch": "study/job-1317-blocked"
   },
   "1318": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
@@ -3153,7 +3152,7 @@
    "branch": null
   },
   "1321": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
@@ -3335,7 +3334,7 @@
    "branch": "study/job-1346-trophy-room-tablet"
   },
   "1347": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
@@ -3356,7 +3355,7 @@
    "branch": null
   },
   "1350": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
@@ -3538,7 +3537,7 @@
    "branch": "study/job-1375-rivalry-tablet"
   },
   "1376": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
@@ -3559,7 +3558,7 @@
    "branch": null
   },
   "1379": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
@@ -3762,7 +3761,7 @@
    "branch": null
   },
   "1408": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
@@ -3944,7 +3943,7 @@
    "branch": "study/job-1433-upright-rule-book"
   },
   "1434": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
@@ -3965,7 +3964,7 @@
    "branch": null
   },
   "1437": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
@@ -4147,7 +4146,7 @@
    "branch": "study/job-1462-blocked"
   },
   "1463": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
@@ -4168,7 +4167,7 @@
    "branch": null
   },
   "1466": {
-   "state": "waiting",
+   "state": "retired",
    "pr": null,
    "draft": false,
    "pr_url": null,
