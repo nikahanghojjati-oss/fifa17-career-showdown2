@@ -733,41 +733,12 @@
   #app #topHeader #onlinePlayerIdentityBadge { min-height: 44px; }
 }
 
-/* JOB-1071: restore the mockup's 1920x1080 desktop proportions without changing
-   the seven product destinations or any phone/tablet rules. The goal art places
-   the Continue figure at left, its copy at right, and the dock above the footer. */
+/* JOB-1071 (stage 3), lead browser check against NEXT_HOME.png: at 1920x1080 the shipped dock already matches the
+   approved mockup (Continue at the left, 481px wide in the mockup / 472px here, six 216px tiles, tile row at the
+   bottom, soundtrack card top right, the Continue player at the tile's right). The first stage-3 attempt (taken from
+   the older GOAL_HOME.jpg) pushed the player to the left, stretched Continue to ~1000px and squeezed the six other
+   tiles to 127px, so it was removed. No Home geometry is changed here. */
 @media (min-width: 1850px) and (max-width: 1999px) and (min-height: 1040px) and (max-height: 1120px) and (orientation: landscape) {
-  #mainMenu.v10Home {
-    --tile-h: clamp(180px, 17.5vh, 192px);
-    --tile-top: calc(100dvh - var(--tile-h) - 94px);
-  }
-  #mainMenu.v10Home .fifaMenuGrid > #continueCareer {
-    padding: 14px 14px 14px 46%;
-    justify-content: center;
-    gap: 4px;
-    overflow: hidden;
-  }
-  #mainMenu.v10Home #continueCareer .tileArt,
-  #mainMenu.v10Home #continueCareer:disabled .tileArt {
-    left: -16px;
-    right: auto;
-    top: 2px;
-    bottom: auto;
-    width: auto;
-    height: 116%;
-    object-position: left top;
-  }
-  #mainMenu.v10Home .fifaMenuGrid > .menuTile:not(#continueCareer) {
-    justify-content: center;
-    gap: 4px;
-  }
-  #mainMenu.v10Home .fifaMenuGrid > .menuTile:not(#continueCareer) .menuTileLabel {
-    max-width: 66%;
-    line-height: 1.08;
-  }
-  #mainMenu.v10Home .fifaMenuHeading {
-    bottom: calc(100% - var(--tile-top) + 24px);
-  }
   /* JOB-1072: 22-character clubs and 14-character managers must not escape
      the fixed full-HD Home boxes. Normal-length copy retains its original size. */
   #mainMenu.v10Home .fifaMenuHeading h2,
