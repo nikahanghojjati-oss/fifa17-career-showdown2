@@ -705,12 +705,13 @@
   #app #trophyRoom :is(.trophyTab,.trophyBack):active:not(:disabled),
   #app #trophyRoom .phoneMoreToggle:active ~ .trophyPhoneMoreButton {filter:brightness(1.16)}
 }
-/* Touch portrait: normal entry fits the first view. Partial notices/details may expand main. */
-@media (max-width:900px) and (orientation:portrait) {
+/* Touch portrait and sideways phones share these cabinet rules; the sideways block below re-seats the hero as a left rail.
+   Normal entry fits the first view. Partial notices/details may expand main. */
+@media (max-width:900px) and (orientation:portrait), (max-height:480px) and (orientation:landscape) {
   #app #trophyRoom {
     --tr-hub:var(--sd-nav-bottom-space,56px);
     --tr-hero:clamp(128px,calc(36svh - 60px),224px);
-    --tr-row:clamp(86px,calc((100svh - var(--tr-hero) - var(--tr-hub) - 184px)/2),170px);
+    --tr-row:clamp(86px,calc((100svh - var(--tr-hero) - var(--tr-hub) - 190px)/2),170px);
   }
   #app #trophyRoom :is(.sd-stage__layer--plate,.sd-stage__layer--cutout,.sd-stage__layer--light,
     .topbarReserve,.phoneNavReserve,.trophyPhoneNavReserve) {display:none!important}
@@ -760,7 +761,7 @@
   #app #trophyRoom .careerRanks,
   #app #trophyRoom .recordRibbon {display:none;position:relative;inset:auto;width:auto;height:auto;visibility:visible}
   #app #trophyRoom .trophyBack {position:fixed;left:10px;right:96px;bottom:calc(var(--tr-hub) + 8px);width:auto;height:44px;min-height:44px;margin:0;border:1px solid #d6b054;font-size:14px;background:linear-gradient(#171710,#050607)}
-  #app #trophyRoom .trophyPhoneMoreButton {display:flex;position:fixed;right:10px;bottom:calc(var(--tr-hub) + 8px);width:78px;height:44px;align-items:center;justify-content:center;border:1px solid #d6b054;background:linear-gradient(#171710,#050607);color:#f4d485;font-size:11px;pointer-events:none;z-index:41}
+  #app #trophyRoom .trophyPhoneMoreButton {display:flex;position:fixed;right:10px;bottom:calc(var(--tr-hub) + 8px);width:78px;height:44px;align-items:center;justify-content:center;border:1px solid #d6b054;background:linear-gradient(#171710,#050607);color:#f4d485;font:700 11px/1 var(--sd-font-condensed,"Barlow Condensed",Arial,sans-serif);letter-spacing:.12em;text-transform:uppercase;pointer-events:none;z-index:41}
   #app #trophyRoom .phoneMoreToggle {display:block;position:fixed!important;right:10px!important;bottom:calc(var(--tr-hub) + 8px)!important;width:78px!important;height:44px!important;margin:0!important;opacity:0!important;clip:auto!important;clip-path:none!important;pointer-events:auto!important;z-index:42!important}
   #app #trophyRoom .trophyPhoneSheet.sd-sheet {display:none!important}
   #app #trophyRoom .phoneMoreToggle:checked ~ .trophyPhoneSheet.sd-sheet {display:block!important;position:absolute;inset:calc(var(--tr-hero) + 8px) 18px auto;height:52px;padding:8px;background:none;border:0;transform:none;pointer-events:none;z-index:20}
@@ -783,10 +784,47 @@
   #app #trophyRoom .recordItem small {white-space:normal;overflow:visible;text-overflow:clip;overflow-wrap:normal;font-size:9px;line-height:1.2}
   #app #trophyRoom :is(.stateNotice,.statePanel,.fatalState) {position:relative;inset:auto;width:auto;height:auto;min-height:44px;margin:0 0 8px;padding:10px;white-space:normal;overflow-wrap:normal}
   #app #trophyRoom .stateNotice {flex-wrap:wrap;gap:6px;font-size:10px;text-align:center}
-  #app #trophyRoom .statePanel {min-height:calc(2 * var(--tr-row) + 5px)}
+  #app #trophyRoom .statePanel {min-height:calc(2 * var(--tr-row) - 4px)}
+}
+/* Sideways phones (study 1345 not adopted, so no new composition): the live parts keep their order, with the
+   managers and champion trophy as a left rail and the tabs, cabinet and BACK/MORE in a right column. */
+@media (max-height:480px) and (orientation:landscape) {
+  #app #trophyRoom {
+    --tr-lcol:clamp(220px,34vw,320px);
+    --tr-hero:calc(100svh - var(--tr-hub) - 10px);
+    --tr-row:clamp(104px,calc(100svh - var(--tr-hub) - 134px),230px);
+  }
+  #app #trophyRoom .trophyPhoneArt {inset:0 0 auto 0;height:calc(100svh - var(--tr-hub))}
+  #app #trophyRoom .trophyPhoneHero {top:50px;height:calc(var(--tr-hero) - 56px);width:calc(var(--tr-lcol) * .52)}
+  #app #trophyRoom .trophyPhoneHero--daniel {left:calc(var(--tr-lcol) * -.07);right:auto}
+  #app #trophyRoom .trophyPhoneHero--nik {left:calc(var(--tr-lcol) * .55);right:auto}
+  #app #trophyRoom .trophyPhoneArtShade {background:linear-gradient(90deg,transparent calc(var(--tr-lcol) * .92),#050607f2 calc(var(--tr-lcol) * 1.12)),linear-gradient(transparent 70%,#050607)}
+  #app #trophyRoom .trophyRoomContent.sd-stage__ui-content {
+    display:block;min-height:100svh;background:none;
+    padding:8px 54px calc(var(--tr-hub) + 60px) calc(var(--tr-lcol) + 10px);
+  }
+  #app #trophyRoom .trophyTitleBlock {inset:6px auto auto 0;width:var(--tr-lcol)}
+  #app #trophyRoom .heroCeremony {inset:calc(var(--tr-hero) * .42) auto auto calc(var(--tr-lcol) * .29);width:calc(var(--tr-lcol) * .42);height:calc(var(--tr-hero) * .54)}
+  #app #trophyRoom .trophyTabs {grid-template-columns:repeat(5,minmax(0,1fr));min-height:48px;margin-bottom:4px}
+  #app #trophyRoom .trophyTab,
+  #app #trophyRoom .trophyTab:nth-child(n+4) {grid-column:auto;font-size:9px;padding:2px 3px}
+  #app #trophyRoom .trophyGrid {grid-template-columns:repeat(4,minmax(0,1fr))}
+  #app #trophyRoom .trophyShelf.is-filtered .trophyGrid {grid-template-columns:minmax(0,1fr);grid-auto-rows:minmax(var(--tr-row),auto)}
+  #app #trophyRoom .trophyCardPicture,
+  #app #trophyRoom .trophyShelf.is-filtered .trophyCardPicture {height:max(18px,calc(var(--tr-row) - 76px))}
+  #app #trophyRoom .trophyBack {left:calc(var(--tr-lcol) + 10px);right:142px;bottom:calc(var(--tr-hub) + 6px)}
+  #app #trophyRoom .trophyPhoneMoreButton {right:54px;bottom:calc(var(--tr-hub) + 6px)}
+  #app #trophyRoom .phoneMoreToggle {right:54px!important;bottom:calc(var(--tr-hub) + 6px)!important}
+  #app #trophyRoom .phoneMoreToggle:checked ~ .trophyPhoneSheet.sd-sheet {inset:8px 54px auto calc(var(--tr-lcol) + 10px);height:40px;padding:4px 0}
+  #app #trophyRoom .phoneMoreToggle:checked ~ #trophyRoomContent .careerRanks {margin:40px 0 6px}
+  #app #trophyRoom .phoneMoreToggle:checked ~ #trophyRoomContent .careerRank {min-height:64px;padding:6px 5px}
+  #app #trophyRoom .phoneMoreToggle:checked ~ #trophyRoomContent .recordRibbon {grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;padding:6px}
+  #app #trophyRoom .phoneMoreToggle:checked ~ #trophyRoomContent .recordItem {min-height:46px;padding:4px 6px}
+  #app #trophyRoom .stateNotice {min-height:36px;padding:4px 8px;margin-bottom:4px;gap:0 8px;font-size:10px;line-height:1.2}
+  #app #trophyRoom .statePanel {min-height:calc(var(--tr-row) - 10px)}
 }
 @media (min-width:761px) and (max-width:900px) and (orientation:portrait) {
-  #app #trophyRoom {--tr-hero:0px;--tr-row:clamp(210px,calc((75svh - var(--tr-hub) - 226px)/2),330px)}
+  #app #trophyRoom {--tr-hero:0px;--tr-row:clamp(210px,calc((75svh - var(--tr-hub) - 234px)/2),330px)}
   #app #trophyRoom .trophyRoomContent.sd-stage__ui-content {padding:25svh 20px calc(var(--tr-hub) + 88px) 35%;background:linear-gradient(transparent,#050607cc 50%,#050607)}
   #app #trophyRoom .trophyPhoneArt {height:calc(100svh - var(--tr-hub));overflow:hidden}
   #app #trophyRoom .trophyPhoneHero {top:14svh;height:28svh;width:22%}
@@ -823,7 +861,8 @@
   #app #trophyRoom .phoneMoreToggle:checked ~ #trophyRoomContent .careerRank {min-height:130px;padding:18px 8px}
   #app #trophyRoom .careerRank small {font-size:10px}
 }
-@media (min-width:901px) {
+@media (min-width:901px) and (min-height:481px) {
+  #app #trophyRoom {--tr-case:clamp(90px,calc(14svh - 2px),160px)}
   #app #trophyRoom .trophyPhoneArt {display:none!important}
   #app #trophyRoom .trophyRoomContent.sd-stage__ui-content {display:flex;flex-direction:column;height:auto!important;min-height:100svh;padding:calc(62svh - 20px) 8% 14px;background:none}
   #app #trophyRoom .trophyTitleBlock {position:absolute;top:9svh;left:34%;width:32%;height:16svh;margin:0}
@@ -853,10 +892,10 @@
   #app #trophyRoom .statePanel {min-height:16svh}
   #app #trophyRoom .trophyBack {position:sticky;inset:auto;bottom:12px;align-self:center;width:21%;min-width:180px;min-height:44px;height:clamp(44px,4.8svh,56px);margin:12px 0 0;border:2px solid #d6b054;border-radius:4px;background:linear-gradient(#252218,#050607);box-shadow:inset 0 0 0 2px #080909,0 0 12px #c5952733}
   /* Picked category: same live article and counts; CSS areas preserve DOM/tap order. */
-  #app #trophyRoom .trophyShelf.is-filtered .trophyGrid {grid-template-columns:minmax(0,1fr);grid-auto-rows:minmax(clamp(98px,14svh,180px),auto)}
-  #app #trophyRoom .trophyShelf.is-filtered .trophyCard {grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,1fr);grid-template-rows:minmax(86px,1fr) auto;grid-template-areas:"name art counts" "empty art counts";column-gap:16px;padding:6px 4%;align-items:center}
-  #app #trophyRoom .trophyShelf.is-filtered .trophyCardPicture {grid-area:art;align-self:stretch;height:100%;min-height:86px;background-position:center;background-size:contain;background-repeat:no-repeat}
-  #app #trophyRoom .trophyShelf.is-filtered .trophyCardPicture img {visibility:hidden}
+  #app #trophyRoom .trophyShelf.is-filtered .trophyGrid {grid-template-columns:minmax(0,1fr);grid-auto-rows:var(--tr-case)}
+  #app #trophyRoom .trophyShelf.is-filtered .trophyCard {height:var(--tr-case);min-height:0;overflow:hidden;grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,1fr);grid-template-rows:minmax(0,1fr) auto;grid-template-areas:"name art counts" "empty art counts";column-gap:16px;padding:6px 4%;align-items:center}
+  #app #trophyRoom .trophyShelf.is-filtered .trophyCardPicture {grid-area:art;position:relative;align-self:stretch;height:100%;min-height:0;overflow:hidden;background-position:center;background-size:contain;background-repeat:no-repeat}
+  #app #trophyRoom .trophyShelf.is-filtered .trophyCardPicture img {position:absolute;inset:0;width:100%;height:100%;object-fit:contain;visibility:hidden}
   #app #trophyRoom .trophyShelf.is-filtered [data-trophy="showdown"] .trophyCardPicture {background-image:url("visual-assets/v10_1/shared/trophies/TRO_SHOWDOWN_CHAMPION_V1_1536.webp")}
   #app #trophyRoom .trophyShelf.is-filtered [data-trophy="leagueTitles"] .trophyCardPicture {background-image:url("visual-assets/v10_1/shared/trophies/TRO_LEAGUE_TITLE_V1_1536.webp")}
   #app #trophyRoom .trophyShelf.is-filtered [data-trophy="domesticCups"] .trophyCardPicture {background-image:url("visual-assets/v10_1/shared/trophies/TRO_DOMESTIC_CUP_V1_1536.webp")}
