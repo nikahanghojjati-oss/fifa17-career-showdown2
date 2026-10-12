@@ -82,7 +82,7 @@ a{color:inherit}
 <div><div><b id="rt">-</b> numbers free to type right now; this line is the next chat</div><div class="lbl">Each line is one chat: tap it to copy, then paste it in a new chat. <span id="held"></span></div></div></div>
 <div class="lbl" style="margin:8px 0;font-size:14px"><b id="bsz"></b> · <span id="bst"></span><br>ChatGPT chat: type up to <span id="bmx"></span> numbers in one message (for example the line below). Work mode and Codex stay one number per message. <a href="https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/queue/BATCHES.md">Full batch table</a></div><div class="cols"><div class="col"><h3>ChatGPT chat (GPT-6 Sol) · Account 1 · odd numbers</h3><div class="chips" id="odd"></div></div>
 <div class="col"><h3>ChatGPT chat (GPT-6 Sol) · Account 2 · even numbers</h3><div class="chips" id="even"></div></div></div>
-<div class="col" style="margin-top:10px"><h3>ChatGPT chat (GPT-6 Sol) · same-train batches: one chat each, keep the order</h3><div class="chips" id="tb"></div></div>
+<div class="col" style="margin-top:10px"><h3>ChatGPT chat (GPT-6 Sol) · one chat each, keep the order inside a line</h3><div class="chips" id="tb"></div></div>
 <div class="col" style="margin-top:10px"><h3>Work mode · one number per message, not in batches · tap a box to copy the number; the model to pick is under it</h3><div class="chips" id="wk"></div><div class="lbl" id="wkw"></div></div>
 <div class="lbl" style="margin-top:8px" id="sentbox"></div><div class="lbl" style="margin-top:8px" id="nxtnote"></div></div>
 
@@ -189,7 +189,7 @@ function paint(only,fail){
   const none='<span class="none">None free right now.</span>';
   const bl=a=>{const z=[],k=B.size||3;for(let i=0;i<a.length;i+=k)z.push(a.slice(i,i+k));return z.map(g=>`<button class="chip batch" data-n="${g.join(" ")}">${g.join(" ")}</button>`).join("")||none};
   const WE=B.work_extra||{},weN=(WE.numbers||[]).filter(x=>all.includes(x)),wkList=weN.concat((g.ready_work||[]).filter(x=>!weN.includes(x)&&!SENT[x])),TB=(g.train_batches||[]).filter(b=>b.every(x=>!SENT[x])&&all.includes(b[0])),tbSet=new Set((g.train_batches||[]).flat()),wkset=new Set(wkList),chat=all.filter(x=>!wkset.has(x)&&!tbSet.has(x)).concat((B.jobs_free||[]).filter(x=>!SENT[x]));
-  $("tb").innerHTML=TB.map(b=>`<button class="chip batch" data-n="${b.join(" ")}">${b.join(" ")}</button>`).join("")||none;
+  const CB=g.chat_batches;document.querySelector("#odd").closest(".cols").style.display=CB?"none":"";if(CB){const jf=(B.jobs_free||[]).filter(x=>!SENT[x]),jb=[];for(let i=0;i<jf.length;i+=(B.size||3))jb.push(jf.slice(i,i+(B.size||3)));$("tb").innerHTML=CB.filter(b=>b.every(x=>!SENT[x])).concat(jb).map(b=>`<button class="chip batch" data-n="${b.join(" ")}">${b.join(" ")}</button>`).join("")||none}else $("tb").innerHTML=TB.map(b=>`<button class="chip batch" data-n="${b.join(" ")}">${b.join(" ")}</button>`).join("")||none;
   $("odd").innerHTML=bl(chat.filter(x=>x%2));
   $("even").innerHTML=bl(chat.filter(x=>x%2===0));
   $("wkw").textContent=(B.work_waiting||[]).map(x=>"Not free yet: "+x.job+" ("+x.note+")").join("; ");const wm=g.work_models||{};$("wk").innerHTML=wkList.map(x=>`<button class="wbox" data-n="${x}">${x}<small>${esc(wm[x]||(weN.includes(x)?WE.model:"")||"")}</small></button>`).join("")||none;
