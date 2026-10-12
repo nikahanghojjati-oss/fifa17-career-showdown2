@@ -1,5 +1,5 @@
 {
-"updated": "2026-10-12T11:01:25Z",
+"updated": "2026-10-12T11:02:10Z",
 "total": 394,
 "next_free": 376,
 "highest_taken": 541,
@@ -132,7 +132,7 @@
 },
 "1695": {
 "pr": 743,
-"draft": true,
+"draft": false,
 "closed": false
 },
 "1651": {
@@ -640,7 +640,8 @@
 "merged": 9,
 "waiting": 34,
 "closed": 3,
-"draft": 3
+"ci_failed": 1,
+"draft": 2
 },
 "reviews": {
 "ok": 0,
@@ -650,14 +651,14 @@
 "picked_up": 23,
 "worker_done": 20,
 "finished": 17,
-"pending_lead": 3,
+"pending_lead": 2,
 "wait_v": 0,
 "audit_batch": 0,
-"trouble": 0,
+"trouble": 1,
 "closed": 3,
 "reviews_total": 0,
 "first_time_ok": 87,
-"failing_now": 0
+"failing_now": 1
 },
 "claude": {
 "name": "Claude (Haiku, Sonnet, Opus)",
