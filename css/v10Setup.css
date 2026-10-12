@@ -1480,3 +1480,120 @@ html:is([data-motion-reduced="true"], [data-reduced-motion="true"]) :is(#createS
     font-size: clamp(16px, calc(20 * var(--u1144)), 20px);
   }
 }
+
+/* LEAGUE-PLATE-V2 (ticket 1610P, 5 of 14): desktop Select League on Team V's marble-plinth plate
+   (visual-assets/v10_1/plates-v2/ENV_LEAGUE_PLATE_V2_*.webp), drawn to match NEXT_LEAGUE. The plate has no wheel: the live
+   wheel stands on its empty plinth. Scope is the same desktop picture range as Home's plate V2 (landscape windows of at
+   least 1200x600 and 3:2 or wider); phones, sideways phones, tablets and narrower windows keep the V1 art. Looks only:
+   every word, id and tap order stays as it was, and main stays the only scroller.
+   Plate pixel (x, y) lands at (50vw + (x - 768) * s, y * s - y0): s is the cover scale, and ultrawide windows shift the
+   plate up by y0 so the heads stay under the nav bar while the plinth stays in view. The wheel's bottom edge is pinned to the
+   plinth top (plate y 626) and the label sits on the thin gold lines the plate carries beside it (plate y 200); k is the
+   content scale of the wheel (s, or less when the stack would not fit the window) and kt the title's. */
+@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
+  html[data-v10-setup="league"] {
+    --lp-s: max(calc(100vw / 1536), calc(100vh / 864));
+    --lp-y0: 0px;
+    --bevel-gold: linear-gradient(135deg, #FFF1B8 0%, #E8B94A 16%, #8A6A12 38%, #F2C45B 58%, #FFF1B8 74%, #B8862A 100%);
+    --bevel-gold-soft: linear-gradient(135deg, #FFE9A0 0%, #D9A83A 28%, #7A5C10 52%, #E8B94A 78%, #FFF1B8 100%);
+  }
+  html[data-v10-setup="league"] #background, html[data-v10-setup="league"][data-v10-screen] #background {
+    background-image: image-set(url(../visual-assets/v10_1/plates-v2/ENV_LEAGUE_PLATE_V2_1X.webp) 1x, url(../visual-assets/v10_1/plates-v2/ENV_LEAGUE_PLATE_V2_2X.webp) 2x);
+    background-position: 50% calc(-1 * var(--lp-y0));
+  }
+  /* The old centre shade darkened the wheel's area; the marble is already dark there, so only a light top shade stays. */
+  html[data-v10-setup="league"] #overlay {
+    background: linear-gradient(to bottom, rgba(7, 8, 10, .34), rgba(7, 8, 10, 0) 16%);
+  }
+  html[data-v10-setup="league"] #app > main { padding-top: 0; padding-bottom: 0; }
+  #app #leagueWheelScreen.v26Skin {
+    --lp-yb: calc(626 * var(--lp-s) - var(--lp-y0));
+    --lp-yd: calc(200 * var(--lp-s) - var(--lp-y0));
+    --lp-k: min(var(--lp-s), calc((var(--lp-yb) - var(--lp-yd) - 2px) / 426), calc((100vh - var(--lp-yb)) / 157));
+    --lp-kt: min(var(--lp-k), calc((var(--lp-yd) - 24 * var(--lp-k) - 52px) / 121));
+    --lp-kb: var(--lp-k);
+    --lp-g3: calc(42 * var(--lp-k));
+    --v26-wheel: calc(405 * var(--lp-k));
+    padding-bottom: 0;
+  }
+  /* ---- stack, top to bottom, in plate units (times k): title 121, 10 gap, label 28, 7 gap, pointer on the rim,
+     wheel 405, 42 gap, note 51, 12 gap, buttons 50 ---- */
+  #app #leagueWheelScreen.v26Skin > h2 {
+    width: calc(620 * var(--lp-kt)); max-width: calc(100% - 16px);
+    margin: max(0px, calc(var(--lp-yd) - 24 * var(--lp-k) - 121 * var(--lp-kt) - 52px)) auto calc(10 * var(--lp-k));
+  }
+  #app #leagueWheelScreen.v26Skin .wheelContainer {
+    width: calc(587 * var(--lp-kb)); column-gap: calc(10 * var(--lp-kb));
+    grid-template-columns: minmax(0, 1.03fr) minmax(0, 1fr);
+  }
+  #app #leagueWheelScreen.v26Skin #selectedLeague {
+    min-height: calc(28 * var(--lp-k)); margin: 0; gap: calc(18 * var(--lp-k));
+    font-size: max(14px, calc(15 * var(--lp-k))); letter-spacing: .12em; line-height: 1.1;
+  }
+  /* The plate already carries the two thin gold lines beside the label (plate y 200), so the label's own are not drawn. */
+  #app #leagueWheelScreen.v26Skin #selectedLeague::before,
+  #app #leagueWheelScreen.v26Skin #selectedLeague::after { display: none; }
+  #app #leagueWheelScreen.v26Skin .wheelPointer {
+    width: calc(var(--v26-wheel) * .09); height: calc(var(--v26-wheel) * .1145);
+    margin: max(2px, calc(var(--lp-yb) - 405 * var(--lp-k) - var(--lp-yd) - 20 * var(--lp-k))) 0 calc(var(--v26-wheel) * -.0995);
+  }
+  #app #leagueWheelScreen.v26Skin #leagueWheel {
+    margin: 0 0 var(--lp-g3);
+    box-shadow: 0 12px 26px rgba(0, 0, 0, .55);
+  }
+  /* ---- wheel face: every league mark and name sits well inside its dark slice, clear of the gold rim.
+     The rim art's solid band starts at 0.72 of the radius at its studs; the marks and names stay inside about 0.66 of it. ---- */
+  #app #leagueWheelScreen.v26Skin .wheelItem {
+    width: calc(var(--R) * .62); margin-left: calc(var(--R) * -.31);
+    font-size: max(9px, calc(var(--v26-wheel) * 16 / 480));
+    transform: rotate(var(--v26-a)) translateY(calc(var(--R) * -.465))
+      rotate(calc(0deg - var(--v26-a))) translateY(calc(var(--R) * -.18));
+  }
+  #app #leagueWheelScreen.v26Skin .wheelItem[data-league-mark]::before {
+    width: calc(var(--R) * .18); height: calc(var(--R) * .18);
+  }
+  /* ---- polished gold and gold-bevel finish ---- */
+  #app #leagueWheelScreen.v26Skin #leagueStateNote {
+    width: calc(562 * var(--lp-kb)); justify-self: center; min-height: calc(51 * var(--lp-kb));
+    margin: 0; padding: calc(6 * var(--lp-kb)) calc(18 * var(--lp-kb));
+    font-size: max(13px, calc(13.6 * var(--lp-kb))); line-height: 1.35; color: #F6EBD0;
+    border: 1.5px solid transparent; border-radius: 4px;
+    background: linear-gradient(180deg, rgba(20, 19, 16, .94), rgba(6, 6, 8, .96)) padding-box, var(--bevel-gold) border-box;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, .55), inset 0 1px 0 rgba(255, 241, 184, .16);
+  }
+  #app #leagueWheelScreen.v26Skin .wheelContainer :is(.menuButton, .backButton) {
+    min-height: max(44px, calc(50 * var(--lp-kb))); margin: calc(12 * var(--lp-kb)) 0 0;
+    font-size: clamp(15px, calc(16.5 * var(--lp-kb)), 24px);
+  }
+  #app #leagueWheelScreen.v26Skin #spinLeague,
+  #app #leagueWheelScreen.v26Skin #spinLeague:disabled {
+    color: #1A1203; border: 2px solid transparent; border-radius: 3px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, .5) 0, rgba(255, 255, 255, .12) 44%, rgba(255, 255, 255, 0) 50%) padding-box,
+      linear-gradient(115deg, #FFE98F 0%, #F4CB5A 34%, #E8B93F 62%, #CD9526 100%) padding-box, var(--bevel-gold-soft) border-box;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, .55), 0 0 18px rgba(242, 196, 91, .22), inset 0 -8px 16px rgba(138, 106, 18, .26);
+    text-shadow: 0 1px 0 rgba(255, 241, 184, .55);
+  }
+  #app #leagueWheelScreen.v26Skin .wheelContainer > .backButton {
+    color: #FFE9A0; border: 2px solid transparent; border-radius: 3px;
+    background: linear-gradient(180deg, rgba(28, 25, 20, .94), rgba(4, 4, 6, .97)) padding-box, var(--bevel-gold) border-box;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, .55), inset 0 1px 0 rgba(255, 241, 184, .16);
+  }
+}
+/* Ultrawide (21:10 and wider): the plate is cover-fit by width, so it is taller than the window; shift it up a little so
+   the plinth and both heads stay in view. */
+@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 21/10) and (orientation: landscape) {
+  html[data-v10-setup="league"] { --lp-y0: min(calc(864 * var(--lp-s) - 100vh), calc(75 * var(--lp-s))); }
+}
+/* Short windows (up to 700px high) and ultrawide windows: the note and the two actions tuck in right under the wheel
+   (they overlap the plinth's front, as in NEXT_LEAGUE) so the whole stack stays in view without a scroll. Ultrawide also
+   keeps the note and actions at about 1:1 so the wheel can stay large on the big plinth. */
+@media (min-width: 1200px) and (min-height: 600px) and (max-height: 700px) and (min-aspect-ratio: 3/2) and (orientation: landscape),
+       (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 21/10) and (orientation: landscape) {
+  #app #leagueWheelScreen.v26Skin {
+    --lp-g3: calc(14 * var(--lp-k));
+    --lp-k: min(var(--lp-s), calc((var(--lp-yb) - var(--lp-yd) - 2px) / 426), calc((100vh - var(--lp-yb) - 112px) / 14));
+  }
+}
+@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 21/10) and (orientation: landscape) {
+  #app #leagueWheelScreen.v26Skin { --lp-kb: min(var(--lp-s), 1.05px); }
+}
