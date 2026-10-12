@@ -1,5 +1,5 @@
 {
-"updated": "2026-10-12T03:01:30Z",
+"updated": "2026-10-12T03:03:00Z",
 "total": 552,
 "next_free": 187,
 "highest_taken": 539,
@@ -9,10 +9,9 @@
 "closed": 82,
 "ci_failed": 5,
 "ci_running": 10,
-"draft": 51,
+"draft": 52,
 "waiting": 221,
-"blocked": 1,
-"started": 1
+"blocked": 1
 },
 "stages": {
 "2": {
@@ -51,9 +50,8 @@
 "states": {
 "closed": 37,
 "merged": 23,
-"draft": 6,
+"draft": 7,
 "blocked": 1,
-"started": 1,
 "waiting": 2
 }
 },
@@ -327,7 +325,7 @@
 },
 "rate": {
 "claimed_last_hour": 40,
-"claimed_last_10min": 7,
+"claimed_last_10min": 6,
 "merged_last_hour": 45
 },
 "lanes": {
@@ -366,9 +364,8 @@
 "states": {
 "merged": 86,
 "no_pr": 37,
-"wait_v": 6,
+"wait_v": 7,
 "blocked": 1,
-"started": 1,
 "waiting": 86,
 "audit_batch": 9
 },
@@ -378,10 +375,10 @@
 "needs_changes": 0
 },
 "picked_up": 140,
-"worker_done": 138,
+"worker_done": 139,
 "finished": 123,
 "pending_lead": 0,
-"wait_v": 6,
+"wait_v": 7,
 "audit_batch": 9,
 "trouble": 1,
 "closed": 0,
@@ -1496,13 +1493,6 @@
 }
 ],
 "events": [
-{
-"at": "2026-10-11T06:36:30Z",
-"item": 364,
-"job": 1346,
-"from": "draft",
-"to": "merged"
-},
 {
 "at": "2026-10-11T06:38:00Z",
 "item": 226,
@@ -3595,6 +3585,13 @@
 "job": 1258,
 "from": "waiting",
 "to": "started"
+},
+{
+"at": "2026-10-12T03:03:00Z",
+"item": 330,
+"job": 1258,
+"from": "started",
+"to": "draft"
 }
 ],
 "items": {
@@ -8731,12 +8728,19 @@
 "title": "Standings: sideways phone study",
 "mode": "study",
 "group": null,
-"state": "started",
+"pr": 725,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/725",
+"base": "study/mega-queue",
 "branch": "study/job-1258-sideways-standings",
-"branch_sha": "7a098c0573be56dd2643f08e171e12ebbbf17835",
-"no_pr_reason": "",
+"ci": "draft",
+"ci_sha": "928105376365735bd4760b0b89daabece8a1c8b1",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-12T03:02:48Z",
 "first_seen": "2026-10-12T03:01:30Z",
-"since": "2026-10-12T03:01:30Z"
+"since": "2026-10-12T03:03:00Z"
 },
 "331": {
 "job": 1166,
