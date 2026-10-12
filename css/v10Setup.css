@@ -441,14 +441,17 @@ html[data-v10-setup] main { scrollbar-color: var(--v26-gold-deep) rgba(255, 255,
 @keyframes v26-wedge-flash { 0%, 100% { opacity: 0; transform: scale(.985); } 34% { opacity: .92; transform: scale(1.012); } 64% { opacity: .38; transform: scale(1); } }
 @keyframes v26-mark-pop { 0%, 100% { transform: scale(1); } 46% { transform: scale(1.15); } 72% { transform: scale(1.08); } }
 
-/* JOB-1129: At the full 1920x1080 desktop stage, match the reference's
-   hero-sized wheel and asymmetric action pair. Small laptops, tablets and
-   phones retain their specifically tuned sizing and one-scroll layout. */
+/* JOB-1129: At the full 1920x1080 desktop stage, match the approved desktop
+   mockup (NEXT_LEAGUE): a wheel of about 500px (ring included) that stays clear
+   of both managers, a wider note/action row (about 730px) and a near-equal
+   action pair 1.04:1. Small laptops, tablets and phones retain their
+   specifically tuned sizing and one-scroll layout. */
 @media (min-width: 1600px) and (min-height: 900px) {
-  #leagueWheelScreen.v26Skin { --v26-wheel: clamp(480px, min(53svh, 34vw), 570px); }
+  #leagueWheelScreen.v26Skin { --v26-wheel: clamp(250px, min(46vh, 34vw), 480px); }
   #leagueWheelScreen.v26Skin > h2 { margin-top: clamp(12px, 1.5svh, 18px); margin-bottom: 4px; }
   #leagueWheelScreen.v26Skin .wheelContainer {
-    grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+    width: min(730px, 94vw);
+    grid-template-columns: minmax(0, 1.04fr) minmax(0, 1fr);
     column-gap: 12px;
     padding-bottom: 10px;
   }
@@ -463,10 +466,16 @@ html[data-v10-setup] main { scrollbar-color: var(--v26-gold-deep) rgba(255, 255,
   #leagueWheelScreen.v26Skin #leagueWheel { margin-bottom: 4px; }
   #leagueWheelScreen.v26Skin #spinLeague,
   #leagueWheelScreen.v26Skin .wheelContainer > .backButton {
-    min-height: 64px;
     margin-top: 8px;
     font-size: 20px;
   }
+}
+/* Only where the stage has room (1080p and taller): the mockup stands the wheel on a plinth, so the note and the
+   actions sit about 60px below the ring, and the actions are 60px high. Shorter desktops keep one screen. */
+@media (min-width: 1600px) and (min-height: 1040px) {
+  #leagueWheelScreen.v26Skin #leagueWheel { margin-bottom: 48px; }
+  #leagueWheelScreen.v26Skin #spinLeague,
+  #leagueWheelScreen.v26Skin .wheelContainer > .backButton { min-height: 60px; }
 }
 
 /* ---------- Club packs ---------- */
