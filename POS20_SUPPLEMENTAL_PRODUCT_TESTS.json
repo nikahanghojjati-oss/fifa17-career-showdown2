@@ -1442,6 +1442,14 @@
         "^tests/contracts/chat\\-audit\\-final\\-reconciliation\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/chat-audit-spark-season-results-contracts.cjs",
+      "patterns": [
+        "^js/sparkSharedSeasonResults\\.js$",
+        "^tests/contracts/chat\\-audit\\-spark\\-season\\-results\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
