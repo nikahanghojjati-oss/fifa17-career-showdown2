@@ -7,15 +7,7 @@ Picture-free numbers only. Work mode (Sol 6.1) and Codex stay one number per mes
 
 Same-train batches (lead, 2026-10-12): a batch may be up to 3 consecutive items of the SAME in-progress train, in train order; still one open train PR per area. If GPT says a number is already done, take the next number on the board, never N+1.
 
-Snapshot at 2026-10-12 02:50 UTC (the tracker page and QUEUE_STATE.json `ready_chat_batches` are the live source; `ready_work` lists every Work mode study, uncapped, Sol 6.1 High):
-
-| Order | Type (ChatGPT chat) |
-| --- | --- |
-| 1 | 227 245 263 |
-| 2 | 235 253 257 |
-| 3 | 237 255 261 |
-| 4 | 427 435 |
-| 5 | 525 527 529 (new audits; 519 to 552 follow in threes) |
+Since 2026-10-12 03:19 UTC (Nik: accuracy over volume) the chat list is short: per-size code items and new audits are retired (RETIRED.json) and the screen passes, wiring and polish wave are Claude lane. Chat keeps only jobs a test can prove (the lead drafts that list). Work mode (Sol 6.1 High) keeps the stage 4 and 5 picture studies; QUEUE_STATE.json `ready_work` and `ready_work_batches` are live.
 
 Polish wave numbers (1637-1645) join the batches only after their area's wiring train has merged.
 

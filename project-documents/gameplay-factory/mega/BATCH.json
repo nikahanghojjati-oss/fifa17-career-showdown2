@@ -6,99 +6,41 @@
  "owner": "mega factory thread",
  "updated": "2026-10-12T01:40:00Z",
  "note": "Nik decided 06:55 UTC: 3 numbers per chat; 5 once 10 batches in a row run clean.",
- "jobs_free": [
-  1638,
-  1640,
-  1641,
-  1650,
-  1652
- ],
- "jobs_after_wiring": [
-  1637,
-  1639,
-  1642,
-  1643,
-  1644,
-  1645
- ],
+ "jobs_free": [],
+ "jobs_after_wiring": [],
  "jobs_note": "Polish wave tickets (ChatGPT chat). The queue thread keeps these two lists; a job moves to jobs_free when its area's wiring train is merged or closed. 1650 (service worker audit) and 1652 (Settings motion choice) are ChatGPT chat jobs from the 1635 follow-ups. 1654-1656 are second attempts on failed train PRs #687, #686, #684 (ChatGPT chat). 1654-1656 left the lists: Claude lane.",
- "work_waiting": [
-  {
-   "job": 1646,
-   "note": "Sol 6.1 · High. After the home-w2 train (1633, 1634) merges."
-  },
-  {
-   "job": 1660,
-   "note": "Sol 6.1 · High. After JOB-1654 (Rule Book fix, PR #687) merges."
-  },
-  {
-   "job": 1659,
-   "note": "Sol 6.1 · High. Standings phone wiring; free once no season-final train is open."
-  }
- ],
+ "work_waiting": [],
  "wiring_chains": {
   "model": "Sol 6.1 · High",
-  "note": "Work mode wiring jobs: one number per message, in order within each chain; chains can run side by side.",
-  "chains": [
-   [
-    1602,
-    1603,
-    1604,
-    1605
-   ],
-   [
-    1612,
-    1613,
-    1614
-   ],
-   [
-    1615,
-    1616
-   ],
-   [
-    1617,
-    1618
-   ],
-   [
-    1619,
-    1620,
-    1621
-   ],
-   [
-    1630,
-    1631,
-    1632
-   ],
-   [
-    1633,
-    1634
-   ]
-  ],
-  "after_home_merge": [
-   1646
-  ]
+  "chains": [],
+  "after_home_merge": []
  },
  "work_extra": {
   "model": "Sol 6.1 · High",
-  "numbers": [
-   187,
-   195,
-   197,
-   441,
-   443,
-   445,
-   447,
-   509
-  ],
-  "note": "Stage 3 (match the desktop mockup), Nik's top priority 2026-10-12. Each is item 1 of its group's next train and opens when its area has no open train PR. 193 (Legacy) is Claude lane."
+  "numbers": [],
+  "note": "Stage 3 moved to the Claude lane screen passes (2026-10-12)."
  },
  "claude_lane_jobs": {
   "jobs": [
+   1633,
+   1634,
+   1637,
+   1638,
+   1639,
+   1640,
+   1641,
+   1642,
+   1643,
+   1644,
+   1645,
+   1646,
    1654,
    1655,
-   1656
+   1656,
+   1659,
+   1660
   ],
-  "note": "Moved to the Claude lane 2026-10-12 (Nik): the lead runs them; Nik types nothing."
+  "note": "Claude lane (nothing to type)."
  },
  "work_batch": {
   "size": 3,
@@ -107,5 +49,45 @@
   "source": "QUEUE_STATE.json sequence.ready_work_batches",
   "rule": "Optional: 3 independent Work mode numbers in one message, done one after another, stopping at the first problem. Singles stay available."
  },
- "work_free_jobs": []
+ "work_free_jobs": [],
+ "claude_doing": {
+  "title": "Claude is doing (nothing to type)",
+  "note": "Screen passes: all sizes plus desktop mockup match, browser-verified, one PR per screen, run by the Team G lead, in work order. Wiring of adopted studies (1633 1634 1646 1659 1660) and the polish wave (1637-1645) are Claude lane too.",
+  "screens": [
+   "Home",
+   "Connect Players",
+   "League",
+   "Club",
+   "Transfer",
+   "Season Results",
+   "Standings",
+   "Final Winner",
+   "Rivalry Statistics",
+   "Legacy",
+   "Trophy Room",
+   "Career Statistics",
+   "Rule Book",
+   "Settings"
+  ],
+  "jobs": [
+   1633,
+   1634,
+   1646,
+   1659,
+   1660,
+   1637,
+   1638,
+   1639,
+   1640,
+   1641,
+   1642,
+   1643,
+   1644,
+   1645,
+   1654,
+   1655,
+   1656
+  ]
+ },
+ "plan": "2026-10-12 03:19 UTC (Nik): accuracy over volume. Work mode: stage 4 and 5 studies only. Chat: only jobs a test can prove (list pending from the lead). Per-size code items and new audits retired."
 }

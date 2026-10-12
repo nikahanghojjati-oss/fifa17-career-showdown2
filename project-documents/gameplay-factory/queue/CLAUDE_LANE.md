@@ -11,6 +11,9 @@ Nik (2026-10-10 13:56 UTC): the mega factory shifts work to GPT chat and Codex, 
 ## Standing rule (Nik, 2026-10-12 02:43 UTC): one failure and it goes to Claude
 When GPT chat or Work mode fails a job once, or cannot do it (rendering, layout checks), the job moves to the Claude lane. Claude does it and Nik types nothing. There is no GPT second attempt: a train that fails the lead's browser check, or the Gate for a reason GPT cannot see, goes to Claude; so does a Work mode study that comes back blocked or unusable once. Jobs 1654, 1655 and 1656 moved this way and are run by the lead.
 
+## New shape (Nik, 2026-10-12 03:19 UTC): accuracy over volume
+Per-size and stage 3 code items still waiting are retired (queue/RETIRED.json). Each screen's leftovers fold into one Claude-lane screen pass: all sizes plus the desktop mockup match, browser-verified, one PR per screen. Wiring of adopted studies (1633, 1634, 1646, 1659, 1660) and the polish wave (1637-1645) are Claude lane. Work mode keeps only the stage 4 and 5 picture studies. ChatGPT chat keeps only jobs a test can prove.
+
 ## Pilot first (held-back candidates, not moved yet)
 These are the groups most likely to need judgment. The first train of each runs as normal; if it hits rule 1 or 2, the remaining items of that group move to the Claude lane.
 - transfer (every transfer item: 9, 27, 45 and so on up to 351; 20 items): the transfer challenge and signing entry touch game state and the private transfer lock; the lead is already measuring it with Codex jobs 1583-1586.

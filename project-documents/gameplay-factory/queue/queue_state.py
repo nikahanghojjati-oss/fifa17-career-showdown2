@@ -102,6 +102,10 @@ def main():
             if pr and pr["state"] == "open":
                 locked.add(tr["group"])
                 if not pr.get("draft"): ready_open += 1
+        retired = set(json.loads((HERE / "RETIRED.json").read_text()).get("items", [])) if (HERE / "RETIRED.json").exists() else set()
+        for k in retired:
+            if str(k) in o and state[str(o[str(k)]["job"])]["state"] == "waiting":
+                state[str(o[str(k)]["job"])]["state"] = "retired"
         pics = json.loads((HERE / "PICTURES.json").read_text()) if (HERE / "PICTURES.json").exists() else {"keys": {}, "approved": {}}
         def held(t):
             if t["mode"] != "study" or t["screen"] not in pics["keys"]: return False
