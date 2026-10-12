@@ -88,6 +88,7 @@ a{color:inherit}
 <div class="card"><h2>Who does what</h2><div id="lanes"></div>
 <div class="lbl" style="margin-top:8px">Bars: green = merged or live, blue = worker finished, waiting for the lead or Team V, grey = not picked up yet. Real ChatGPT, Codex and Claude usage is not visible from GitHub, so these are job counts, not allowance.</div></div>
 <div class="card"><h2>Quality and trend</h2><div id="qual"></div><div class="lbl" style="margin-top:6px">"First time OK" = worker jobs that came through without being thrown back. Trend compares with an hour ago; the lead's good and bad calls on single jobs show below when it posts them.</div><div id="verd"></div></div>
+<div class="card" id="wcard"><h2>Work mode wiring chains <span class="mut" style="text-transform:none;letter-spacing:0">(one number per message, in order within each chain)</span></h2><div id="wch"></div><div class="lbl" id="wnote" style="margin-top:6px"></div></div>
 <div class="card" id="cxcard"><h2>Type next in Codex (model: Codex) <span class="mut" style="text-transform:none;letter-spacing:0" id="cxn"></span></h2><div class="chips" id="cx"></div><div class="lbl" id="cxw" style="margin-top:6px"></div></div>
 
 <div class="card"><div class="row">
@@ -175,6 +176,9 @@ function paint(only,fail){
   const nm=k=>k.replace(/^\w+ /,"").toLowerCase().replace(/_/g," ");
   const parts=[];if(dk.length)parts.push(dk.reduce((a,[k,v])=>a+v,0)+" desktop studies wait for approved desktop pictures");if(ph.length)parts.push(ph.reduce((a,[k,v])=>a+v,0)+" phone studies wait for pictures ("+ph.map(([k])=>nm(k)).join(", ")+")");
   $("held").textContent=g.held_until_picture?`Held: ${parts.join("; ")}.`:"";}
+  {const W=B.wiring_chains;$("wcard").style.display=W?"":"none";if(W){const m=esc(W.model||"Sol 6.1 · High"),c=x=>`<span class="wkc">${chip(x)}<span class="wkm">${m}</span></span>`;
+   $("wch").innerHTML=(W.chains||[]).map((ch,i)=>`<div class="stage"><div class="lbl">Chain ${i+1}</div><div class="chips" style="align-items:flex-start">${ch.map(c).join('<span style="align-self:center">→</span>')}</div></div>`).join("")+((W.after_home_merge||[]).length?`<div class="stage"><div class="lbl">After the Home PR merges</div><div class="chips">${W.after_home_merge.map(c).join("")}</div></div>`:"");
+   $("wnote").textContent=W.note||""}}
   const none='<span class="none">None free right now.</span>';
   const bl=a=>{const z=[],k=B.size||3;for(let i=0;i<a.length;i+=k)z.push(a.slice(i,i+k));return z.map(g=>`<button class="chip batch" data-n="${g.join(" ")}">${g.join(" ")}</button>`).join("")||none};
   const wkset=new Set(g.ready_work||[]),chat=all.filter(x=>!wkset.has(x)).concat(B.jobs_free||[]);
