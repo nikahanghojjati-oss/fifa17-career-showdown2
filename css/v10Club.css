@@ -864,8 +864,9 @@ html[data-motion-reduced="true"] body #app #clubWheelScreen#clubWheelScreen *::a
        (min-width: 761px) and (max-width: 1024px) and (orientation: portrait) {
   #app #clubWheelScreen.cl-on .clubAssignmentHeader { translate: none; }
   /* The same panel-rise lowers BACK 16px for its first moment, below the stage's last pixel; main scrolled that far
-     (6-9px) with nothing to show. The stage grows with its content, so clipping only what paints below it is safe. */
-  #app #clubWheelScreen.cl-on { overflow-y: clip; }
+     (6-9px) with nothing to show. Upright phones and tablets fix the stage at 100svh, so a short screen or large text can
+     make real content taller than the stage: clip only while an entrance is running, never the settled layout. */
+  #app #clubWheelScreen.cl-on:has(.sd-is-animating) { overflow-y: clip; }
 }
 /* r73 polish, desktop confirmation: the league line sat on the deck's top rule, tight under CLUBS LOCKED, with the two
    clubs right below it. Both lines get room; the lock note still ends inside the deck. */
