@@ -88,10 +88,11 @@ check('RL11 real Team V renderers show honest states and live values without fix
 
 (async()=>{
  const vm=require('node:vm');const registrations=new Map(),drawn=new Map(),prepared=new Set(),calls=[];let active='statistics',draws=0;
- const hosts=Object.fromEntries(['legacy','statistics'].map(id=>[id,{id,innerHTML:'original '+id,dataset:{},querySelector:()=>null,querySelectorAll:()=>[],setAttribute(){}}]));
- const ctx={console,URLSearchParams,document:{getElementById:id=>hosts[id]??null},CareerModeCareerScreenSeam:require('../../js/careerScreenSeam.js'),CareerModeOnlinePlayerIdentity:{getState:()=>({registered:true,managerId:'daniel'})},getClubCrestSvg(){},renderRivalryStatistics(){hosts.statistics.innerHTML='old renderer';return 17;},renderLegacy(){hosts.legacy.innerHTML='old legacy';},addEventListener(){}};ctx.window=ctx;
+ const hosts=Object.fromEntries(['legacy','statistics'].map(id=>[id,{id,innerHTML:'original '+id,dataset:{},querySelector:()=>null,querySelectorAll:()=>[],setAttribute(){},contains:()=>false}]));
+ const stray={id:'stage-root',removeAttribute(a){delete this[a];}},strayAtBoot=[];
+ const ctx={console,URLSearchParams,document:{getElementById:id=>hosts[id]??null,querySelectorAll:sel=>sel==='[id="stage-root"]'?[stray]:[]},CareerModeCareerScreenSeam:require('../../js/careerScreenSeam.js'),CareerModeOnlinePlayerIdentity:{getState:()=>({registered:true,managerId:'daniel'})},getClubCrestSvg(){},renderRivalryStatistics(){hosts.statistics.innerHTML='old renderer';return 17;},renderLegacy(){hosts.legacy.innerHTML='old legacy';},addEventListener(){}};ctx.window=ctx;
  ctx.CareerModeV10Screens={install(){return this;},register(id,def){assert.ok(!registrations.has(id));registrations.set(id,def);},isMounted:id=>drawn.has(id),invalidate:id=>drawn.delete(id),hide(id){const old=drawn.get(id);if(old)registrations.get(id).unmount(hosts[id]);drawn.delete(id);},async show(id){const def=registrations.get(id);if(!prepared.has(id)){await def.prepare();prepared.add(id);}if(id!==active)return false;const frame=def.frame();if(!frame)return false;if(drawn.get(id)!==frame){def.mount(frame,hosts[id]);drawn.set(id,frame);}return true;}};
- ctx.ShowdownRivalryStatisticsBoot=()=>{draws++;assert.ok(hosts.statistics.innerHTML.includes('rvRows'));};ctx.ShowdownLegacyBoot=()=>{draws++;assert.ok(hosts.legacy.innerHTML.includes('viewSeasonHistory'));};
+ ctx.ShowdownRivalryStatisticsBoot=()=>{draws++;strayAtBoot.push(stray.id);assert.ok(hosts.statistics.innerHTML.includes('rvRows'));};ctx.ShowdownLegacyBoot=()=>{draws++;strayAtBoot.push(stray.id);assert.ok(hosts.legacy.innerHTML.includes('viewSeasonHistory'));};
  ctx.fetch=async file=>({ok:true,json:async()=>JSON.parse(read(file))});
  vm.createContext(ctx);vm.runInContext(read('js/rivalryLegacyV10Markup.js'),ctx);
  ctx.loadRuntimeScript=async(key,file,ready)=>{calls.push(file);assert.ok(ready(),file+' preloaded in harness');};
@@ -99,7 +100,8 @@ check('RL11 real Team V renderers show honest states and live values without fix
  await api.mount('rivalryStatistics',()=>m);assert.deepEqual([...registrations.keys()],['legacy','statistics']);assert.equal(draws,1);assert.equal(ctx.renderRivalryStatistics(),17);
  for(let i=0;i<8;i++)await new Promise(r=>setImmediate(r));assert.equal(draws,2,'same-model legacy rewrite remounts once');
  active='legacy';ctx.CareerModeV10Screens.hide('statistics');assert.equal(hosts.statistics.innerHTML,'original statistics');assert.equal(hosts.statistics.dataset.rivalryLegacyV10,undefined);
- await api.mount('legacy',()=>m);assert.equal(draws,3);assert.equal(ctx.LEGACY_BOOT.fixtures.frames.LIVE.showdowns.length,1);assert.equal(registrations.size,2,'screen registrations stay unique');
+ await api.mount('legacy',()=>m);assert.equal(draws,3);
+ assert.ok(strayAtBoot.length>=3&&strayAtBoot.every(id=>id===undefined),'JOB-1657: a hidden Season/Standings shell never owns id="stage-root" while Team V\'s Rivalry/History script mounts its plate');assert.equal(stray.id,'stage-root','the other shell gets its id back after the boot');assert.equal(ctx.LEGACY_BOOT.fixtures.frames.LIVE.showdowns.length,1);assert.equal(registrations.size,2,'screen registrations stay unique');
  assert.ok(calls.every(file=>!file.includes('fixtures.json')));console.log(`ok ${++n} RL12 loader registration, remount and unmount preserve the existing routes`);
  {const vi=read('js/visualIdentity.js'),loader=read('js/rivalryLegacyV10.js'),m=loader.match(/load\("visual-identity","js\/visualIdentity\.js","([A-Za-z]+)"\)/);
   for(const g of ['getClubCrestSvg','getLeagueMark'])assert.ok(vi.includes(`window.${g} = ${g};`),`js/visualIdentity.js must expose window.${g}, which Team V's screens call`);

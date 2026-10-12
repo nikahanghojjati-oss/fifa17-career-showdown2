@@ -38,6 +38,8 @@ const groups=[...new Set(Object.values(graph.proofBundleGroups))].sort();
 let checks=0;const ok=()=>{checks++;};
 
 (async()=>{
+  const screenshotContract=require('./showdown-gate-screenshots-contracts.cjs');
+  await screenshotContract.run();
   assert.equal(coverage.schema,'showdown-gate-coverage/v1');
   assert.equal(coverage.gateWorkflow,GATE);
   assert.deepEqual(coverage.oldWorkflows,[POS20,FAST]);
@@ -174,7 +176,11 @@ let checks=0;const ok=()=>{checks++;};
       if(/^TEST: /.test(step.label)&&step.id!=='route')assert.ok(def.steps[step.id],`${def.job} TEST step "${step.label}" must record its ids in scripts/showdown-gate.mjs LANES`);
       if(laneId==='L5'&&step.id==='regression')assert.equal(step.if,"steps.route.outputs.l5_run == 'true'",'L5 regression must use its independently verified input route');
       else if(/^TEST: /.test(step.label)&&step.if)assert.match(step.if,/^(?:steps\.route\.outputs\.(?:has_[a-z]+|lifecycle_routed) == 'true')(?: \|\| steps\.route\.outputs\.(?:has_[a-z]+|lifecycle_routed) == 'true')*$/,`${def.job} TEST step "${step.label}" may only be conditioned on the route`);
+      if(screenshotContract.LABELS.includes(step.label)){
+        screenshotContract.assertScreenshotEvidence(step,laneId);
+      }else{
       assert.ok(!('continue-on-error' in step),`${def.job} "${step.label}" must not continue on error`);
+      }
     }
     const route=job.steps.find(s=>s.id==='route');
     assert.ok(route&&route.run.includes(`--lane ${laneId}`),`${def.job} computes its own route`);

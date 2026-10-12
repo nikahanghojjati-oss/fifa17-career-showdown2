@@ -106,7 +106,13 @@
     const frame=copy(rlToV10Frame(model,screen)),data={strings:resources[screen].strings,frames:{LIVE:frame}};
     if(screen==="legacy")root.LEGACY_BOOT={fixtures:data,platemap:resources[screen].map};
     else root.RIVALRY_BOOT={fixtures:data,platemap:resources[screen].map};
-    root[BOOT[screen]]();
+    // JOB-1657: Season, Standings and Final-winner shells also carry id="stage-root". Team V's scripts take the first one in the
+    // document, which is the hidden 0x0 Season stage, so the plate and both managers mounted into nothing. While they boot,
+    // only this screen's stage owns the id; the other shells get it back right after (nothing is removed or moved).
+    const strayStages=Array.from(root.document.querySelectorAll?.('[id="stage-root"]')||[]).filter(node=>!host.contains(node));
+    for(const node of strayStages)node.removeAttribute("id");
+    try{root[BOOT[screen]]();}
+    finally{for(const node of strayStages)node.id="stage-root";}
     if(screen==="legacy"&&frame.status==="unavailable"){
       const banner=host.querySelector("#legacyStateBanner"),retry=banner&&root.document.createElement?.("button");
       if(retry){retry.type="button";retry.className="sd-btn sd-btn--secondary";retry.textContent="TRY AGAIN";retry.style.gridColumn="1 / -1";retry.style.justifySelf="center";retry.addEventListener("click",()=>{void refresh(screen).catch(report);});banner.appendChild(retry);}
