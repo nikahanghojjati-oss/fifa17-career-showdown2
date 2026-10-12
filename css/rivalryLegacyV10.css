@@ -1346,3 +1346,19 @@
     box-shadow:inset 0 1px 0 #fffbe0,inset 0 -3px 0 #a87a1288,0 0 0 1px #000a,0 0 20px #f5c51840,0 5px 16px #0009;
   }
 }
+
+/* r73 polish, upright phones: main scrolled a few pixels with nothing new to show. Rivalry's budget for the scene left out
+   the shell's bottom padding and the docked BACK sat on the totals card, so main ran 17px long at 393x660; Legacy counted
+   an empty fifth grid row's gap and its docked action sat on the archive card, so main ran 16px long. The managers' band
+   takes those pixels instead: each docked action stays exactly where it was, the cards above it no longer run under it,
+   and main ends where the hub bar starts. Larger phones keep their capped scene (360px / 350px) unchanged. */
+@media (max-width:600px) and (orientation:portrait) {
+  #app #statistics[data-rivalry-legacy-v10] .rv-adoptedPhoneScene {
+    height:clamp(0px,calc(100svh - 465px - env(safe-area-inset-bottom)),360px);
+  }
+  #app #statistics[data-rivalry-legacy-v10] .rv-shell { padding-bottom:0; }
+  #app #legacy[data-rivalry-legacy-v10] {
+    --lg-hero:clamp(44px,calc(100svh - 476px - env(safe-area-inset-bottom)),350px);
+  }
+  #app #legacy[data-rivalry-legacy-v10] .sd-stage__layer--ui { grid-template-rows:var(--lg-hero) auto auto auto; }
+}

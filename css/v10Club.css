@@ -852,3 +852,24 @@ html[data-motion-reduced="true"] body #app #clubWheelScreen#clubWheelScreen *::a
     margin-top: calc(var(--s) * 5px);
   }
 }
+
+/* r73 polish. club.css centres the LEAGUE CONFIRMED header with transform: translateX(-50%), and the header's panel-rise
+   entrance animates transform, so for the length of the rise the whole block sat half its width to the right (across
+   Nik's face on desktop) and then snapped back. The centring moves to the translate property, which the rise composes
+   with, so the block rises in place. Upright phones, sideways phones and upright tablets lay the header out in the flow
+   (no centring transform) and are left as they were. */
+#app #clubWheelScreen.cl-on .clubAssignmentHeader { transform: none; translate: -50% 0; }
+@media (max-width: 760px) and (orientation: portrait),
+       (min-width: 600px) and (max-width: 960px) and (max-height: 500px) and (orientation: landscape),
+       (min-width: 761px) and (max-width: 1024px) and (orientation: portrait) {
+  #app #clubWheelScreen.cl-on .clubAssignmentHeader { translate: none; }
+  /* The same panel-rise lowers BACK 16px for its first moment, below the stage's last pixel; main scrolled that far
+     (6-9px) with nothing to show. The stage grows with its content, so clipping only what paints below it is safe. */
+  #app #clubWheelScreen.cl-on { overflow-y: clip; }
+}
+/* r73 polish, desktop confirmation: the league line sat on the deck's top rule, tight under CLUBS LOCKED, with the two
+   clubs right below it. Both lines get room; the lock note still ends inside the deck. */
+@media (min-width: 1200px) and (min-height: 700px) {
+  html:not(.compact) #app #clubWheelScreen.cl-on .clubRivalryHeadline > small { margin-top: calc(var(--s) * 10px); }
+  html:not(.compact) #app #clubWheelScreen.cl-on .clubRivalryMatchup { margin-top: calc(var(--s) * 9px); }
+}
