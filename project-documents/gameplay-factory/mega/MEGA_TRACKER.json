@@ -1,5 +1,5 @@
 {
-"updated": "2026-10-12T02:47:18Z",
+"updated": "2026-10-12T02:49:30Z",
 "total": 552,
 "next_free": 187,
 "highest_taken": 536,
@@ -10,8 +10,9 @@
 "ci_failed": 5,
 "ready": 10,
 "draft": 40,
-"waiting": 229,
+"waiting": 228,
 "blocked": 1,
+"started": 1,
 "on_train": 4
 },
 "stages": {
@@ -54,7 +55,8 @@
 "merged": 23,
 "draft": 3,
 "blocked": 1,
-"waiting": 6
+"started": 1,
+"waiting": 5
 }
 },
 "5": {
@@ -98,7 +100,6 @@
 "season-final": 716
 },
 "ready": [
-296,
 302,
 324,
 330,
@@ -109,10 +110,10 @@
 370,
 374,
 376,
-378
+378,
+380
 ],
 "ready_sol": [
-296,
 302,
 324,
 330,
@@ -123,11 +124,11 @@
 370,
 374,
 376,
-378
+378,
+380
 ],
 "ready_codex": [],
 "ready_all": [
-296,
 302,
 324,
 330,
@@ -215,7 +216,6 @@
 "train_batches": [],
 "chat_batches": null,
 "work_models": {
-"296": "Sol 6.1 \u00b7 High",
 "302": "Sol 6.1 \u00b7 High",
 "324": "Sol 6.1 \u00b7 High",
 "330": "Sol 6.1 \u00b7 High",
@@ -278,7 +278,6 @@
 "476": "Sol 6.1 \u00b7 High"
 },
 "ready_work": [
-296,
 302,
 324,
 330,
@@ -340,13 +339,13 @@
 474,
 476
 ],
-"ready_total": 84,
+"ready_total": 83,
 "held_until_picture": 0,
 "held_by_picture": {}
 },
 "rate": {
-"claimed_last_hour": 33,
-"claimed_last_10min": 4,
+"claimed_last_hour": 34,
+"claimed_last_10min": 5,
 "merged_last_hour": 45
 },
 "lanes": {
@@ -388,7 +387,8 @@
 "no_pr": 37,
 "wait_v": 3,
 "blocked": 1,
-"waiting": 90,
+"started": 1,
+"waiting": 89,
 "audit_batch": 9
 },
 "reviews": {
@@ -396,7 +396,7 @@
 "ok_notes": 0,
 "needs_changes": 0
 },
-"picked_up": 136,
+"picked_up": 137,
 "worker_done": 135,
 "finished": 123,
 "pending_lead": 0,
@@ -1514,13 +1514,6 @@
 }
 ],
 "events": [
-{
-"at": "2026-10-11T06:36:30Z",
-"item": 266,
-"job": 1372,
-"from": "draft",
-"to": "merged"
-},
 {
 "at": "2026-10-11T06:36:30Z",
 "item": 272,
@@ -3613,6 +3606,13 @@
 "job": 1215,
 "from": "merged",
 "to": "live"
+},
+{
+"at": "2026-10-12T02:49:30Z",
+"item": 296,
+"job": 1431,
+"from": "waiting",
+"to": "started"
 }
 ],
 "items": {
@@ -8306,8 +8306,12 @@
 "title": "Rule Book: phone mockup, version C (compact)",
 "mode": "study",
 "group": null,
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"state": "started",
+"branch": "study/job-1431-rule-book-phone-c",
+"branch_sha": "8d9c1348105678ee8d08e20f13387e0b9be874bc",
+"no_pr_reason": "",
+"first_seen": "2026-10-12T02:49:30Z",
+"since": "2026-10-12T02:49:30Z"
 },
 "297": {
 "job": 1193,
