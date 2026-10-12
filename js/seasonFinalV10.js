@@ -172,6 +172,29 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
   #app #standings.standingsScreenV10 .sdg-rows{margin-top:6px;margin-bottom:10px}
   #app #standings.standingsScreenV10 .sdg-val{font-size:clamp(15px,2.2svh,20px);line-height:1}
 }
+/* STANDINGS-PLATE-V2 (ticket 1610P): desktop Standings on Team V's marble-suite plate (visual-assets/v10_1/plates-v2/), drawn
+   to match NEXT_STANDINGS. Strictly the desktop picture range (wide landscape windows of at least 1200x600); phones, sideways
+   phones and tablets keep their art. The plate carries Daniel, Nik, both banners and both name tags, so only the live title,
+   board and rows are layered on it. It is the stage's own fixed plate layer, anchored to the top like the picture. The board
+   keeps Team V's geometry and every word, id and tap order; only its frame and glass change. */
+@media (min-width:1200px) and (min-height:600px) and (min-aspect-ratio:3/2) and (orientation:landscape){
+  #app #standings.standingsScreenV10{--sg-bevel:linear-gradient(135deg,#fff1b8 0%,#e8b94a 15%,#8a6a12 36%,#f2c45b 56%,#fff1b8 73%,#b8862a 100%);--sgu:min(calc(100vw / 1536),calc(100svh / 864))}
+  #app #standings.standingsScreenV10 .sd-stage__plate{background-image:image-set(url('visual-assets/v10_1/plates-v2/ENV_STANDINGS_PLATE_V2_1X.webp') 1x,url('visual-assets/v10_1/plates-v2/ENV_STANDINGS_PLATE_V2_2X.webp') 2x)}
+  #app #standings.standingsScreenV10 .sd-stage__layer--plate .sd-stage__registered{top:0}
+  #app #standings.standingsScreenV10 .sdg-board.sd-panel{
+    clip-path:none;border:max(4px,calc(var(--sgu) * 8)) solid transparent;border-radius:calc(var(--sgu) * 22);
+    background:radial-gradient(ellipse 70% 40% at 50% 0,#ffe9a01c,transparent 70%) padding-box,linear-gradient(180deg,#0f0e0cf5,#070708f7 40%,#050506fa) padding-box,var(--sg-bevel) border-box;
+    -webkit-backdrop-filter:none;backdrop-filter:none;
+    box-shadow:inset 0 0 0 1px #050505,inset 0 0 0 calc(var(--sgu) * 3) #0a0907,inset 0 0 0 calc(var(--sgu) * 4) #d9aa3cb0,0 0 calc(var(--sgu) * 30) #f0c84b66,0 calc(var(--sgu) * 14) calc(var(--sgu) * 34) #000c;
+  }
+  #app #standings.standingsScreenV10 .sdg-toggle{border:2px solid #d9aa3c;border-radius:calc(var(--sgu) * 8);overflow:hidden;background:#07080a}
+  #app #standings.standingsScreenV10 .sdg-toggle button[aria-selected="true"]{background:linear-gradient(180deg,#fff0a6 0,#f8d764 22%,#e4b032 56%,#f4cf58 82%,#c98f1c 100%);box-shadow:inset 0 1px 0 #fffbe0,inset 0 -2px 0 #a87a1288;color:#1a1305}
+  #app #standings.standingsScreenV10 .sdg-row{border-top:1px solid #c9983a99}
+  /* the plate paints its own crown above the title; the live crown would stack a second one (compact titles keep theirs) */
+  @media (min-height:701px) and (max-aspect-ratio:2/1){#app #standings.standingsScreenV10 .sdg-header .sd-eyebrow::before{display:none}}
+  #app #standings.standingsScreenV10 .sdg-label{color:#efe6cf}
+  #app #standings.standingsScreenV10 .sdg-header .sd-eyebrow,#app #standings.standingsScreenV10 .sdg-header .sd-tagline{text-shadow:0 1px 3px #000,0 0 10px #000c}
+}
 `;parent.appendChild(style);
   }
   /*SG-END*/
