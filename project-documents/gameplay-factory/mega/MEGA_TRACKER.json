@@ -1,5 +1,5 @@
 {
-"updated": "2026-10-12T02:37:44Z",
+"updated": "2026-10-12T02:39:14Z",
 "total": 552,
 "next_free": 187,
 "highest_taken": 530,
@@ -8,9 +8,9 @@
 "closed": 82,
 "ci_failed": 5,
 "ready": 10,
-"draft": 27,
-"on_train": 12,
-"waiting": 234,
+"draft": 32,
+"waiting": 233,
+"on_train": 8,
 "blocked": 1
 },
 "stages": {
@@ -22,9 +22,9 @@
 "closed": 44,
 "ci_failed": 5,
 "ready": 10,
-"draft": 12,
-"on_train": 10,
-"waiting": 140
+"draft": 16,
+"waiting": 139,
+"on_train": 7
 }
 },
 "1": {
@@ -40,9 +40,9 @@
 "name": "Match desktop to mockups",
 "total": 14,
 "states": {
-"draft": 3,
-"on_train": 2,
+"draft": 4,
 "waiting": 8,
+"on_train": 1,
 "closed": 1
 }
 },
@@ -75,34 +75,31 @@
 686,
 687,
 712,
+713,
 702,
 705
 ],
 "on_train_no_pr": [
-183,
 191,
-201,
 209,
-219,
 227,
-237,
 245,
 403,
 411,
 419,
 427
 ],
-"draft_code_prs": 3,
+"draft_code_prs": 4,
 "area_locks": {
 "club": 684,
 "career-screens": 686,
 "rules-settings": 687,
 "home": 712,
+"start-join": 713,
 "league": 702,
 "transfer": 705
 },
 "ready": [
-255,
 263,
 296,
 302,
@@ -113,10 +110,10 @@
 366,
 368,
 370,
-374
+374,
+376
 ],
 "ready_sol": [
-255,
 263,
 296,
 302,
@@ -127,11 +124,11 @@
 366,
 368,
 370,
-374
+374,
+376
 ],
 "ready_codex": [],
 "ready_all": [
-255,
 263,
 296,
 302,
@@ -348,13 +345,13 @@
 474,
 476
 ],
-"ready_total": 89,
+"ready_total": 88,
 "held_until_picture": 0,
 "held_by_picture": {}
 },
 "rate": {
-"claimed_last_hour": 31,
-"claimed_last_10min": 15,
+"claimed_last_hour": 32,
+"claimed_last_10min": 14,
 "merged_last_hour": 0
 },
 "lanes": {
@@ -366,9 +363,9 @@
 "closed": 25,
 "ci_failed": 5,
 "ready": 10,
-"draft": 15,
-"on_train": 12,
-"waiting": 141,
+"draft": 20,
+"waiting": 140,
+"on_train": 8,
 "audit_batch": 3
 },
 "reviews": {
@@ -376,10 +373,10 @@
 "ok_notes": 0,
 "needs_changes": 0
 },
-"picked_up": 115,
-"worker_done": 90,
+"picked_up": 116,
+"worker_done": 91,
 "finished": 45,
-"pending_lead": 37,
+"pending_lead": 38,
 "wait_v": 0,
 "audit_batch": 3,
 "trouble": 5,
@@ -548,7 +545,8 @@
 687,
 702,
 705,
-712
+712,
+713
 ],
 "old_main_prs": 0,
 "codex_next": [
@@ -1474,41 +1472,6 @@
 }
 ],
 "events": [
-{
-"at": "2026-10-11T06:35:00Z",
-"item": 130,
-"job": 1531,
-"from": "draft",
-"to": "merged"
-},
-{
-"at": "2026-10-11T06:35:00Z",
-"item": 132,
-"job": 1532,
-"from": "draft",
-"to": "merged"
-},
-{
-"at": "2026-10-11T06:35:00Z",
-"item": 134,
-"job": 1533,
-"from": "draft",
-"to": "merged"
-},
-{
-"at": "2026-10-11T06:35:00Z",
-"item": 136,
-"job": 1534,
-"from": "draft",
-"to": "merged"
-},
-{
-"at": "2026-10-11T06:35:00Z",
-"item": 138,
-"job": 1535,
-"from": "draft",
-"to": "merged"
-},
 {
 "at": "2026-10-11T06:35:00Z",
 "item": 140,
@@ -3571,6 +3534,41 @@
 "at": "2026-10-12T02:37:44Z",
 "item": 253,
 "job": 1075,
+"from": "waiting",
+"to": "draft"
+},
+{
+"at": "2026-10-12T02:39:14Z",
+"item": 183,
+"job": 1100,
+"from": "on_train",
+"to": "draft"
+},
+{
+"at": "2026-10-12T02:39:14Z",
+"item": 201,
+"job": 1101,
+"from": "on_train",
+"to": "draft"
+},
+{
+"at": "2026-10-12T02:39:14Z",
+"item": 219,
+"job": 1102,
+"from": "on_train",
+"to": "draft"
+},
+{
+"at": "2026-10-12T02:39:14Z",
+"item": 237,
+"job": 1103,
+"from": "on_train",
+"to": "draft"
+},
+{
+"at": "2026-10-12T02:39:14Z",
+"item": 255,
+"job": 1104,
 "from": "waiting",
 "to": "draft"
 }
@@ -6528,10 +6526,19 @@
 "title": "Connect Players (start and join): match the desktop mockup",
 "mode": "code",
 "group": "start-join",
-"state": "on_train",
+"pr": 713,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/713",
+"base": "gameplay/bug-list-1",
 "branch": "gameplay/train-start-join-3",
+"ci": "draft",
+"ci_sha": "2a3d3fadeca4d9dfe8b26ca5c3181da33aeec47b",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-12T02:38:58Z",
 "first_seen": "2026-10-12T00:35:00Z",
-"since": "2026-10-12T00:35:00Z"
+"since": "2026-10-12T02:39:14Z"
 },
 "184": {
 "job": 1558,
@@ -6796,10 +6803,19 @@
 "title": "Connect Players (start and join): long names",
 "mode": "code",
 "group": "start-join",
-"state": "on_train",
+"pr": 713,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/713",
+"base": "gameplay/bug-list-1",
 "branch": "gameplay/train-start-join-3",
+"ci": "draft",
+"ci_sha": "2a3d3fadeca4d9dfe8b26ca5c3181da33aeec47b",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-12T02:38:58Z",
 "first_seen": "2026-10-12T00:41:00Z",
-"since": "2026-10-12T00:41:00Z"
+"since": "2026-10-12T02:39:14Z"
 },
 "202": {
 "job": 1567,
@@ -7064,10 +7080,19 @@
 "title": "Connect Players (start and join): tap targets",
 "mode": "code",
 "group": "start-join",
-"state": "on_train",
+"pr": 713,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/713",
+"base": "gameplay/bug-list-1",
 "branch": "gameplay/train-start-join-3",
+"ci": "draft",
+"ci_sha": "2a3d3fadeca4d9dfe8b26ca5c3181da33aeec47b",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-12T02:38:58Z",
 "first_seen": "2026-10-12T02:16:29Z",
-"since": "2026-10-12T02:16:29Z"
+"since": "2026-10-12T02:39:14Z"
 },
 "220": {
 "job": 1576,
@@ -7328,10 +7353,19 @@
 "title": "Connect Players (start and join): keyboard focus and reduced motion",
 "mode": "code",
 "group": "start-join",
-"state": "on_train",
+"pr": 713,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/713",
+"base": "gameplay/bug-list-1",
 "branch": "gameplay/train-start-join-3",
+"ci": "draft",
+"ci_sha": "2a3d3fadeca4d9dfe8b26ca5c3181da33aeec47b",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-12T02:38:58Z",
 "first_seen": "2026-10-12T02:28:29Z",
-"since": "2026-10-12T02:28:29Z"
+"since": "2026-10-12T02:39:14Z"
 },
 "238": {
 "job": 1371,
@@ -7600,8 +7634,19 @@
 "title": "Connect Players (start and join): text contrast",
 "mode": "code",
 "group": "start-join",
-"state": "waiting",
-"since": "2026-10-10T02:01:44Z"
+"pr": 713,
+"pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/713",
+"base": "gameplay/bug-list-1",
+"branch": "gameplay/train-start-join-3",
+"ci": "draft",
+"ci_sha": "2a3d3fadeca4d9dfe8b26ca5c3181da33aeec47b",
+"ci_total": 0,
+"ci_extra": 0,
+"draft": true,
+"state": "draft",
+"pr_opened_at": "2026-10-12T02:38:58Z",
+"first_seen": "2026-10-12T02:38:58Z",
+"since": "2026-10-12T02:39:14Z"
 },
 "256": {
 "job": 1169,
