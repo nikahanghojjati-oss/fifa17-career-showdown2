@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-11 11:59 PM Boston time (EDT)",
+ "generated": "2026-10-12 12:05 AM Boston time (EDT)",
  "relay": {
   "live": true,
   "count": 94,
@@ -903,18 +903,7 @@
    "when": "2026-10-12T01:40:03Z",
    "subject": "Release r71: smooth screens, new loading screen and desktop fixes (1.9.1-r71) (#695)",
    "fixes": [],
-   "today": [
-    {
-     "pr": 695,
-     "title": "Release r71: smooth screens, new loading screen and desktop fixes (1.9.1-r71)",
-     "merged": "2026-10-12T01:40:03Z"
-    },
-    {
-     "pr": 639,
-     "title": "Release r70: soundtrack top 10 and phone fixes (1.9.1-r70)",
-     "merged": "2026-10-11T04:28:26Z"
-    }
-   ]
+   "today": []
   },
   "physio": {
    "state": "clear",

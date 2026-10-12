@@ -1,13 +1,13 @@
-# Mega factory run report · 2026-10-12T03:55:00Z
+# Mega factory run report · 2026-10-12T04:06:13Z
 
-Taken 500 of 552 jobs. By state: blocked 1, closed 82, merged 221, pr_open 38, retired 158, waiting 52
+Taken 500 of 552 jobs. By state: blocked 1, closed 82, merged 226, pr_open 33, retired 158, waiting 52
 
 ## By stage
 Stage | name | total | picked up | merged
 --- | --- | --- | --- | ---
 1 | audits | 146 | 146 | 112
-2 | screen fixes | 266 | 266 | 81
-3 | mockup match | 14 | 14 | 4
+2 | screen fixes | 266 | 266 | 85
+3 | mockup match | 14 | 14 | 5
 4 | phone studies | 70 | 70 | 23
 5 | desktop studies | 56 | 4 | 1
 
@@ -16,7 +16,7 @@ Train | jobs done | PR | state
 --- | --- | --- | ---
 gameplay/train-home-1 | 5 of 5 | [#588](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/588) | merged
 gameplay/train-home-2 | 5 of 5 | [#681](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/681) | merged
-gameplay/train-home-3 | 5 of 5 | [#712](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/712) | pr_open
+gameplay/train-home-3 | 5 of 5 | [#712](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/712) | merged
 gameplay/train-start-join-1 | 5 of 5 | [#590](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/590) | merged
 gameplay/train-start-join-2 | 5 of 5 | [#682](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/682) | merged
 gameplay/train-start-join-3 | 5 of 5 | [#713](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/713) | merged
