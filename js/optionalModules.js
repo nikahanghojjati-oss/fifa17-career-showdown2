@@ -540,7 +540,7 @@ else { actions.appendChild(button); }
 function bindOptionalModuleButton(button, moduleName, marker){
 if(!button || button.dataset[marker] === "true"){ return; }
 button.dataset[marker] = "true";
-// JOB-1658: go through window.openOptionalModule when present so the Team V in-flight dedupe wrapper sees every tile tap.
+// JOB-1658: via window.openOptionalModule so the in-flight dedupe sees every tap.
 button.addEventListener("click", () => (typeof window.openOptionalModule === "function" ? window.openOptionalModule : openOptionalModule)(moduleName));
 }
 
