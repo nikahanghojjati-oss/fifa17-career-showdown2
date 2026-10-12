@@ -635,6 +635,9 @@
   #app #transferChallenge.tw-on > .tw-host {
     position: relative; inset: auto; width: 100%; min-height: 100svh; overflow: visible;
   }
+  /* The fixed primary action lives inside the viewer's own card, which is its own stacking context: without a higher
+     layer the later sealed card (and rules card) painted and hit-tested above it, so taps on LOCK / REQUEST landed on them. */
+  #app #transferChallenge .tw-host .world > .panel.own { position: relative; z-index: 6; }
 }
 @media (max-width: 760px) and (orientation: portrait),
        (min-width: 761px) and (max-width: 1100px) and (orientation: portrait),
