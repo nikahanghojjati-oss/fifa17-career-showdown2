@@ -128,7 +128,7 @@ a{color:inherit}
 <div id="det"></div>
 
 <script>
-const BUILD=2;let vlast=Date.now();
+const BUILD=3;let vlast=Date.now();
 const REPO="nikahanghojjati-oss/fifa17-career-showdown2",BR="factory/gameplay-v1",PATH="project-documents/gameplay-factory/mega/MEGA_TRACKER.json";
 const ST=["live","merged","no_pr","on_train","reviewed","ready","queued","ci_running","draft","ci_failed","blocked","started","closed","waiting"];
 const LB={waiting:"Waiting",started:"Started, no PR yet",on_train:"Done, on the train branch",draft:"Draft PR, not checked yet (grey, not a failure)",queued:"Ready for checks",ci_running:"Checks running",ci_failed:"Checks FAILED",ready:"Checks green",reviewed:"Reviewed, waiting for lead",merged:"Merged",no_pr:"Done, no PR (no change / needs Team V)",live:"Live in a release",blocked:"Blocked",closed:"Closed"};
@@ -140,18 +140,18 @@ const esc=s=>String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",
 const col=s=>`var(--${s})`;
 let D=null,N=null,B={size:3,clean_streak:0,goal:10,max:5},nlast=0,hidden=new Set(),lastOk=0,showAll=false;
 function ago(t){const s=Math.max(0,(Date.now()-new Date(t))/1000);if(s<90)return Math.round(s)+" s ago";if(s<5400)return Math.round(s/60)+" min ago";return (s/3600).toFixed(1)+" h ago"}
+// GitHub allows a browser only 60 API calls an hour, so the page asks the API for one thing: the branch's
+// newest commit, at most every 90 s. Every file is then read from raw.githubusercontent.com at that exact
+// commit, which has no hourly cap and is never stale. If the API is unavailable it reads the branch URL.
+let SHA=null,shaAt=0;
+async function headSha(){if(SHA&&Date.now()-shaAt<90000)return SHA;try{const r=await fetch(`https://api.github.com/repos/${REPO}/commits/${BR}`,{headers:{Accept:"application/vnd.github.sha"},cache:"no-store"});if(r.ok){const t=(await r.text()).trim();if(/^[0-9a-f]{40}$/.test(t)){SHA=t;shaAt=Date.now()}}}catch(e){}return SHA}
+function rawGet(ref,p){return fetch(`https://raw.githubusercontent.com/${REPO}/${ref}/${p}`+(ref===BR?`?t=${Math.floor(Date.now()/20000)}`:""),{cache:ref===BR?"no-store":"default"})}
 async function load(){
-  try{
-    // no-cache lets the browser revalidate with the ETag itself; a 304 does not use up GitHub's rate limit
-    const r=await fetch(`https://api.github.com/repos/${REPO}/contents/${PATH}?ref=${BR}`,{headers:{Accept:"application/vnd.github.raw"},cache:"no-cache"});
-    if(!r.ok)throw 0;
-    D=await r.json();
-    if(Date.now()-nlast>240000){nlast=Date.now();try{const q=await fetch(`https://api.github.com/repos/${REPO}/contents/project-documents/gameplay-factory/mega/LEAD_NOTES.json?ref=${BR}`,{headers:{Accept:"application/vnd.github.raw"},cache:"no-cache"});if(q.ok)N=await q.json()}catch(e){}}
-    try{const q=await fetch(`https://api.github.com/repos/${REPO}/contents/project-documents/gameplay-factory/mega/BATCH.json?ref=${BR}`,{headers:{Accept:"application/vnd.github.raw"},cache:"no-cache"});if(q.ok)B=await q.json()}catch(e){}
-    if(Date.now()-vlast>60000){vlast=Date.now();try{const q=await fetch(`https://api.github.com/repos/${REPO}/contents/project-documents/gameplay-factory/mega/index.html?ref=${BR}`,{headers:{Accept:"application/vnd.github.raw"},cache:"no-cache"});if(q.ok){const h=await q.text(),m=h.match(/const BUILD=(\d+)/);if(m&&+m[1]>BUILD){document.open();document.write(h);document.close();return}}}catch(e){}}
-  }catch(e){
-    try{const r=await fetch(`https://raw.githubusercontent.com/${REPO}/${BR}/${PATH}?t=${Math.floor(Date.now()/30000)}`);if(!r.ok)throw 0;D=await r.json()}catch(e2){paint(true,true);return}
-  }
+  const ref=(await headSha())||BR,M="project-documents/gameplay-factory/mega/";
+  try{const r=await rawGet(ref,PATH);if(!r.ok)throw 0;D=await r.json()}catch(e){paint(true,true);return}
+  try{const q=await rawGet(ref,M+"BATCH.json");if(q.ok)B=await q.json()}catch(e){}
+  if(Date.now()-nlast>240000){nlast=Date.now();try{const q=await rawGet(ref,M+"LEAD_NOTES.json");if(q.ok)N=await q.json()}catch(e){}}
+  if(Date.now()-vlast>60000){vlast=Date.now();try{const q=await rawGet(ref,M+"index.html");if(q.ok){const h=await q.text(),m=h.match(/const BUILD=(\d+)/);if(m&&+m[1]>BUILD){document.open();document.write(h);document.close();return}}}catch(e){}}
   lastOk=Date.now();paint();
 }
 const SK="megaSent",SENT_MS=45*60000;
