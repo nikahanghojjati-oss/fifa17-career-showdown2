@@ -1394,6 +1394,14 @@
         "^tests/contracts/chat\\-audit\\-journey\\-conflicts\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/chat-audit-diagnostics-b-contracts.cjs",
+      "patterns": [
+        "^js/diagnostics\\.js$",
+        "^tests/contracts/chat\\-audit\\-diagnostics\\-b\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
