@@ -964,6 +964,7 @@
     text-overflow:ellipsis;
     white-space:nowrap;
   }
+}
 
 /* JOB-1704: Legacy only. Tablet study 1317 is deliberately not adopted.
    Original Team V cameras/assets and all Rivalry Statistics rules stay intact. */
