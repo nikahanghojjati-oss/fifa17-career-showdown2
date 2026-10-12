@@ -1,5 +1,6 @@
 R='/home/claude/fifa17-career-showdown2/project-documents/factory/tickets/'
 GH='https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/v1-wtt5ye/project-documents/factory/tickets/attach/'
+BANS={'LEAGUE': 'no wheel, no ring, no dial, no football, no league names and no league symbols', 'CLUB': 'no club badges, no crests and no cards', 'STATISTICS': 'no charts, no tables and no numbers', 'RIVALRY': 'no charts, no scoreboards and no numbers', 'LEGACY': 'no timeline, no cards and no numbers', 'TROPHY_ROOM': 'no trophy or cup on the centre pedestal, no tabs and no labels', 'SETTINGS': 'no switches, no panels and no lists', 'FINAL_WINNER': 'no trophy or cup on the centre pedestal, no scoreboard and no names', 'RULE_BOOK': 'no open rule book, no pages and no lists', 'STANDINGS': 'no league table, no rows and no numbers', 'HOME': 'no tiles, no music card and no logo', 'CONNECT_PLAYERS': 'no player cards and no buttons', 'SEASON_RESULTS': 'no result cards, no scores and no buttons', 'TRANSFER': 'no hanging timer sign, no cards and no numbers'}
 S=[
 (1,'HOME','Home','the luxury stadium lounge: black marble pillars with gold light, leather sofas and the marble table with the gold football on the left, the floor-to-ceiling windows with the night stadium and green pitch behind, and the polished black marble floor at the front',True,''),
 (2,'CONNECT_PLAYERS','Connect Players','the black-marble tunnel with gold-lit pillars, the lit stadium at the far end and the reflective black marble floor',True,''),
@@ -25,7 +26,7 @@ for n,k,name,scene,people,extra in S:
 One image only. The result must be an EMPTY background: the room and the two men, with no title, no cards, no buttons, no top bar and no words of the game at all. The live game draws all of those itself on top.
 
 1. Open a **new normal ChatGPT chat outside any project** (not a Temporary Chat; it cannot make pictures). Use a brand-new chat for every ticket, never one that already made a Showdown picture.
-2. Attach this one file only: **GUIDE_{k}_PLATE_V2.png** (the picture with solid cyan boxes). On iPhone open {GH}GUIDE_{k}_PLATE_V2.png in Safari, press and hold the picture, then Save to Photos. Do not attach the finished NEXT picture.
+2. Attach this one file only: **GUIDE_{k}_PLATE_V2.png** (the picture with solid cyan boxes). On iPhone open {GH}GUIDE_{k}_PLATE_V2.png in Safari, press and hold the picture, then Save to Photos. Do not attach the finished NEXT picture. The right file shows big solid cyan boxes; if you see the finished screen with its title and buttons, it is the wrong file.
 3. Paste the prompt below exactly. If ChatGPT asks a question or offers to change it, reply: `No, use my prompt exactly.`
 4. Check the picture:
    - NO title, NO cards or panels, NO buttons, NO top bar or tabs, NO game words anywhere (if any of these came back, it fails)
@@ -37,7 +38,7 @@ One image only. The result must be an EMPTY background: the room and the two men
 Fix line (paste once if needed):
 
 ```
-Wrong: you drew the game screen again. I need ONLY the empty background. Take my attached picture and replace each cyan box with the room behind it. No title, no cards, no panels, no buttons, no top bar, no words. Keep everything else exactly as it is.
+Wrong: you drew the game screen again. I need ONLY the empty background. Take my attached picture and replace each cyan box with the room behind it. No title, no cards, no panels, no buttons, no top bar, no words, and {BANS[k]}. Keep everything else exactly as it is.
 ```
 
 Prompt:
@@ -45,9 +46,9 @@ Prompt:
 ```
 I am attaching a picture that has solid cyan boxes on it. Make a clean BACKGROUND PLATE from it: paint over each cyan box with the scenery that would be behind it, so the boxes disappear.
 
-The result must be an empty background with NO user interface: no title or logo text, no cards, no panels, no frames, no buttons, no menus, no tabs, no top bar, no scoreboards, no numbers and no words of any kind inside the old cyan areas. Do not recreate any game screen. Do not add new people.
+The result must be an empty background with NO user interface: no title or logo text, no cards, no panels, no frames, no buttons, no menus, no tabs, no top bar, no scoreboards, no numbers and no words of any kind inside the old cyan areas. The cyan boxes hide game parts that I removed on purpose: do not guess what was under them and never draw them back. Do not recreate any game screen. Do not add new people.
 
-What belongs inside the cyan areas: {scene}. Continue the existing perspective and the warm golden lighting, premium and cinematic, sharp and detailed. {who}{extra} No cyan may remain. Keep the black bars at the top and bottom pure black and keep the same framing.
+What belongs inside the cyan areas: {scene}. Continue the existing perspective and the warm golden lighting, premium and cinematic, sharp and detailed. Never draw inside the old cyan areas: {BANS[k]}. {who}{extra} No cyan may remain. Keep the black bars at the top and bottom pure black and keep the same framing.
 ```
 """
     open(R+f'TICKET-1610P_{n}_OF_14_{k}_PLATE.md','w').write(t)
