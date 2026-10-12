@@ -3,7 +3,7 @@
 - Fonts are the shipped Barlow Condensed (numbers, labels, tabs) and Barlow files from visual-assets/v10_1/shared/fonts, so nothing falls back to a wide system face.
 - Landscape layout: Daniel and Nik cutouts in the top corners, the real STANDINGS wordmark in the middle, one board below split in two columns. Daniel left, Nik right, never mirrored.
 - Left column: HEAD-TO-HEAD, Season 3 of 3, crests, names, Showdown Points score and leader. Right column: the This Showdown / Career toggle, then the seven rows in the live order (Season Wins ... Total Trophies).
-- Rows share the board height (grid 1fr x7): 24px each at 740x360, 27px at 844x390. Total Trophies ends 18px above the bar at both sizes.
+- Rows share the board height (grid 1fr x7): 24px each at 740x360, 26px at 844x390. Total Trophies ends 18px (740x360) and 19px (844x390) above the bar.
 - Bottom bar keeps the live 56px height and the five tabs, with STANDINGS active. The settings gear sits top right as in the picture.
 - Text is the live text from app-strings.json and app-shell.html. Row labels are uppercased by CSS only, as in the picture. Numbers are sample values.
 - Crests are the game's own generated club crests (js/visualIdentity.js) for two invented club names, saved as inline SVG. No real crests.
