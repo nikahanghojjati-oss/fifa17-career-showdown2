@@ -1222,3 +1222,93 @@
   #app #legacy[data-rivalry-legacy-v10] button:focus-visible { outline:2px solid #ffe36c; outline-offset:-2px; }
   #app #legacy[data-rivalry-legacy-v10] button:enabled:active { filter:brightness(.85); }
 }
+
+/* LEGACY-PLATE-V2 (ticket 1610P): desktop Legacy on Team V's black-marble museum plate
+   (visual-assets/v10_1/plates-v2/ENV_LEGACY_PLATE_V2_*), with the archive panel, side tabs, showdown card and the two
+   buttons in the gold-bevel and polished-gold finish of NEXT_LEGACY. Strictly the desktop picture range: wide landscape
+   windows of at least 1200x600; phones, sideways phones and tablets keep their own art and rules. Team V's stage still
+   draws the old plate on .sd-stage__plate (set from legacy.js); the adapter only points that one plane at the V2 files,
+   so the camera, the 2X swap and the load timing are unchanged, and the plate loads with this screen, never with the
+   startup bundle. The plate already carries both managers, all four banners and both name tags, so the old manager
+   cut-outs and rim lights are not drawn over it. Looks only: every word, id and tap order stays as it was. */
+@media (min-width:1200px) and (min-height:600px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
+  #app #legacy[data-rivalry-legacy-v10] {
+    --lg-bevel:linear-gradient(135deg,#fff1b8 0%,#e8b94a 15%,#8a6a12 36%,#f2c45b 56%,#fff1b8 73%,#b8862a 100%);
+    --lg-gold:linear-gradient(180deg,#fff0a6 0,#f8d764 20%,#e4b032 54%,#f4cf58 80%,#c98f1c 100%);
+  }
+  #app #legacy[data-rivalry-legacy-v10] .sd-stage__plate {
+    background-image:image-set(url('../visual-assets/v10_1/plates-v2/ENV_LEGACY_PLATE_V2_1X.webp') 1x,url('../visual-assets/v10_1/plates-v2/ENV_LEGACY_PLATE_V2_2X.webp') 2x);
+  }
+  /* the plate is cover-fit and anchored at the top, the way the picture is (the top bar covers its first strip), so both
+     heads, both banners and both name tags show whole on short and ultrawide windows too */
+  #app #legacy[data-rivalry-legacy-v10] .sd-stage__layer--plate > .sd-stage__registered {
+    left:50%; top:0; width:max(100vw,calc(100svh * 1536 / 864)); height:max(calc(100vw * 864 / 1536),100svh); transform:translateX(-50%) translateZ(0);
+  }
+  #app #legacy[data-rivalry-legacy-v10] :is(.legacyDepthCutout,.legacyDepthRim) { display:none; }
+  /* a soft dark pool behind the kicker, wordmark and line, so they read over the bright arch lights */
+  #app #legacy[data-rivalry-legacy-v10] .legacyTitleBlock { position:relative; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyTitleBlock::before {
+    content:""; position:absolute; z-index:-1; left:22%; right:22%; top:0; bottom:-6%; pointer-events:none;
+    background:radial-gradient(ellipse at 50% 55%,#050608a8,#05060870 46%,transparent 72%);
+  }
+  #app #legacy[data-rivalry-legacy-v10] .legacyEyebrow,
+  #app #legacy[data-rivalry-legacy-v10] .legacyTagline { color:#fff6d8; text-shadow:0 1px 3px #000,0 0 10px #000c,0 0 22px #000a; }
+
+  /* the archive panel: gold-bevel frame around black marble glass */
+  #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel {
+    position:relative; box-sizing:border-box; border:clamp(3px,.4vh,5px) solid transparent; border-radius:4px;
+    background:linear-gradient(180deg,#0e0e0fe6 0,#070708ed 40%,#040405f2 100%) padding-box,var(--lg-bevel) border-box;
+    box-shadow:inset 0 0 0 2px #050505,inset 0 0 0 3px #d9aa3c80,0 0 26px #f0c84b2e,0 14px 36px #000b;
+  }
+  /* the second, empty slot of the archive (only one showdown is live): a glass pane with a thin gold edge */
+  #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel::before { content:none; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel::after { content:none; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel:has(.legacyCardGrid > .legacyCard:only-child)::after {
+    content:""; position:absolute; z-index:0; top:9px; bottom:9px; right:9px; width:auto; height:auto; border-radius:2px; pointer-events:none;
+    left:calc(17.5% + 14px + (100% - 17.5% - 24px) / 4 + 8px); filter:none; transform:none;
+    border:1px solid #d9aa3cb0; background:linear-gradient(180deg,#14141638,#07070870);
+    box-shadow:inset 0 0 0 1px #000a,inset 0 0 40px #0009;
+  }
+  /* NEXT_LEGACY draws the archive a little taller, and with one showdown its card runs the full height of the panel beside
+     the side tabs, with the pager dots sitting low in the empty pane. Several showdowns keep the natural rows. */
+  #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel { min-height:clamp(232px,39.4svh,440px); }
+  #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel:has(.legacyCardGrid > .legacyCard:only-child) .legacyCardGrid { grid-area:1 / 2 / 3 / 3; grid-auto-rows:1fr; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel:has(.legacyCardGrid > .legacyCard:only-child) .legacyPager { position:relative; z-index:2; pointer-events:none; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel:has(.legacyCardGrid > .legacyCard:only-child) .legacyPager button { pointer-events:auto; }
+  /* side tabs */
+  #app #legacy[data-rivalry-legacy-v10] .legacySidePanel {
+    border:0; border-right:1px solid #d9aa3c99; border-radius:0; background:linear-gradient(180deg,#0a0a0bf2,#050506f5); box-shadow:none;
+  }
+  #app #legacy[data-rivalry-legacy-v10] .legacySidePanel button {
+    border:1px solid #d9aa3c80; border-radius:2px; color:#f6efd8; letter-spacing:.1em;
+    background:linear-gradient(180deg,#121214,#050506); box-shadow:inset 0 1px 0 #fff1b814,inset 0 0 0 1px #000a;
+  }
+  #app #legacy[data-rivalry-legacy-v10] .legacySidePanel button[data-active="true"] {
+    color:#1a1305; border-color:#fff1b8; text-shadow:0 1px 0 #fff2b588;
+    background:var(--lg-gold); box-shadow:inset 0 1px 0 #fffbe0,inset 0 -3px 0 #a87a1288,0 0 0 1px #000a,0 0 18px #f5c51840;
+  }
+  #app #legacy[data-rivalry-legacy-v10] .legacySidePanel button { font-size:clamp(13px,.82vw,22px); }
+  #app #legacy[data-rivalry-legacy-v10] .legacyCardTitle { font-size:clamp(13px,.78vw,21px); }
+  #app #legacy[data-rivalry-legacy-v10] .legacyManagerName { font-size:clamp(12px,.72vw,19px); }
+  #app #legacy[data-rivalry-legacy-v10] .legacyClubName { font-size:clamp(11px,.58vw,16px); }
+  #app #legacy[data-rivalry-legacy-v10] .legacyScore { font-size:clamp(22px,1.9vw,56px); white-space:nowrap; }
+  #app #legacy[data-rivalry-legacy-v10] :is(.legacyWinner,.legacyCardFooter) { font-size:clamp(10px,.58vw,16px); white-space:nowrap; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyCrest { width:clamp(26px,1.9vw,52px); height:auto; aspect-ratio:5 / 6; }
+  /* the showdown card: black marble with a thick gold double frame */
+  #app #legacy[data-rivalry-legacy-v10] .legacyCard {
+    position:relative; z-index:1; border:clamp(3px,.4vh,5px) solid transparent; border-radius:3px;
+    background:linear-gradient(180deg,#141413 0,#0a0a0b 24%,#060607 100%) padding-box,var(--lg-bevel) border-box;
+    box-shadow:inset 0 0 0 2px #050505,inset 0 0 0 3px #d9aa3c99,inset 0 1px 0 4px #fff1b81a,0 0 24px #f0c84b30,0 10px 28px #000b;
+  }
+  /* the two bottom buttons: polished gold, and black with a gold edge */
+  #app #legacy[data-rivalry-legacy-v10] .legacyPrimaryAction {
+    border:2px solid transparent; border-radius:3px; color:#1a1305; text-shadow:0 1px 0 #fff2b588;
+    background:var(--lg-gold) padding-box,linear-gradient(135deg,#fff8d0,#d9a83a 40%,#fff1b8 70%,#a9781a) border-box;
+    box-shadow:inset 0 1px 0 #fffbe0,inset 0 -3px 0 #a87a1288,0 0 0 1px #000a,0 0 20px #f5c51840,0 5px 16px #0009;
+  }
+  #app #legacy[data-rivalry-legacy-v10] .legacyBackV10 {
+    border:2px solid transparent; border-radius:3px; color:#fff1ae;
+    background:linear-gradient(180deg,#141311,#070708) padding-box,var(--lg-bevel) border-box;
+    box-shadow:inset 0 0 0 1px #050505,inset 0 1px 0 2px #fff1b81f,0 4px 14px #0009;
+  }
+}
