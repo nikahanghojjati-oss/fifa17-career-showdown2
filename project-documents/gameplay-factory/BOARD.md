@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Mon 12 Oct, 6:33 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Mon 12 Oct, 6:37 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r71** (main `2a511f6`, Sun 11 Oct 9:40 PM)
 
@@ -22,23 +22,19 @@ Updated Mon 12 Oct, 6:33 AM Boston time. Bug hunting only, no new features until
 
 **#2 · 1695** `G` Home: one Work mode job for the whole screen  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #743 · CI 7 of 8 passed · last move 42 min ago
+🟢 Team green · model not set · worker working, draft PR #743 · CI 7 of 8 passed · last move 47 min ago
 
 **#3 · 1696** `G` Connect Players (Start and Join): one Work mode job for the whole screen  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #746 · CI 7 of 8 passed · last move 31 min ago
+🟢 Team green · model not set · worker working, draft PR #746 · CI 7 of 8 passed · last move 36 min ago
 
-**#4 · 1724** `G` QoL 4: a finished Showdown stops saying LEADS  
-`████████░░` **78.7500 %**  
-🔵 Team blue · model not set · worker done, PR #741 open, CI running · CI 14 of 16 passed · last move 0 min ago
-
-**#5 · 1725** `G` QoL 5: a photo that failed once loads on the next try  
+**#4 · 1725** `G` QoL 5: a photo that failed once loads on the next try  
 `██████░░░░` **60.0000 %**  
-🔵 Team blue · model not set · worker done, PR #742 open, CI failed · CI 15 of 16 passed · last move 0 min ago
+🔵 Team blue · model not set · worker done, PR #742 open, CI failed · CI 15 of 16 passed · last move 4 min ago
 
-**#6 · 1726** `G` QoL 8: a failed load cannot double up taps on retry  
+**#5 · 1726** `G` QoL 8: a failed load cannot double up taps on retry  
 `██████░░░░` **60.0000 %**  
-🔵 Team blue · model not set · worker done, PR #744 open, CI failed · CI 7 of 16 passed · last move 5 min ago
+🔵 Team blue · model not set · worker done, PR #744 open, CI failed · CI 7 of 16 passed · last move 9 min ago
 
 ### 👉 Next for you, in this order
 
@@ -614,7 +610,17 @@ New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
 Job 1722
 ```
 
-**#58 · 1727** `G` Connect Players (start and join): sideways phone study, re-run (stage 4)  
+**#58 · 1724** `G` QoL 4: a finished Showdown stops saying LEADS  
+`░░░░░░░░░░` **0.0000 %**  
+🔵 Team blue · model not set · GPT chat: type 'Job 1724'
+
+New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
+
+```text
+Job 1724
+```
+
+**#59 · 1727** `G` Connect Players (start and join): sideways phone study, re-run (stage 4)  
 `░░░░░░░░░░` **0.0000 %**  
 🟢 Team green · model not set · GPT Work mode: type 'Job 1727'
 
@@ -624,7 +630,7 @@ New chat inside the ChatGPT project Career Mode Showdown, switch to Work mode (c
 Job 1727
 ```
 
-**#59 · 1728** `G` Connect Players (start and join): upright tablet study, re-run (stage 4)  
+**#60 · 1728** `G` Connect Players (start and join): upright tablet study, re-run (stage 4)  
 `░░░░░░░░░░` **0.0000 %**  
 🟢 Team green · model not set · GPT Work mode: type 'Job 1728'
 
@@ -634,7 +640,7 @@ New chat inside the ChatGPT project Career Mode Showdown, switch to Work mode (c
 Job 1728
 ```
 
-**#60 · 1729** `G` Standings: sideways phone study, re-run (stage 4)  
+**#61 · 1729** `G` Standings: sideways phone study, re-run (stage 4)  
 `░░░░░░░░░░` **0.0000 %**  
 🟢 Team green · model not set · GPT Work mode: type 'Job 1729'
 
@@ -644,7 +650,7 @@ New chat inside the ChatGPT project Career Mode Showdown, switch to Work mode (c
 Job 1729
 ```
 
-**#61 · 1730** `G` Trophy Room: sideways phone study, re-run (stage 4)  
+**#62 · 1730** `G` Trophy Room: sideways phone study, re-run (stage 4)  
 `░░░░░░░░░░` **0.0000 %**  
 🟢 Team green · model not set · GPT Work mode: type 'Job 1730'
 
@@ -654,7 +660,7 @@ New chat inside the ChatGPT project Career Mode Showdown, switch to Work mode (c
 Job 1730
 ```
 
-**#62 · 1731** `G` Rule Book: sideways phone study, re-run (stage 4)  
+**#63 · 1731** `G` Rule Book: sideways phone study, re-run (stage 4)  
 `░░░░░░░░░░` **0.0000 %**  
 🟢 Team green · model not set · GPT Work mode: type 'Job 1731'
 
@@ -664,7 +670,7 @@ New chat inside the ChatGPT project Career Mode Showdown, switch to Work mode (c
 Job 1731
 ```
 
-**#63 · 1732** `G` Legacy: upright tablet study, re-run (stage 4)  
+**#64 · 1732** `G` Legacy: upright tablet study, re-run (stage 4)  
 `░░░░░░░░░░` **0.0000 %**  
 🟢 Team green · model not set · GPT Work mode: type 'Job 1732'
 
@@ -674,7 +680,7 @@ New chat inside the ChatGPT project Career Mode Showdown, switch to Work mode (c
 Job 1732
 ```
 
-**#64 · 1733** `G` Audit and fix js/seasonEngine.js (first half (lines 1 to 480))  
+**#65 · 1733** `G` Audit and fix js/seasonEngine.js (first half (lines 1 to 480))  
 `░░░░░░░░░░` **0.0000 %**  
 🔵 Team blue · model not set · GPT chat: type 'Job 1733'
 
@@ -684,7 +690,7 @@ New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
 Job 1733
 ```
 
-**#65 · 1734** `G` Audit and fix js/seasonEngine.js (second half (lines 480 to the end))  
+**#66 · 1734** `G` Audit and fix js/seasonEngine.js (second half (lines 480 to the end))  
 `░░░░░░░░░░` **0.0000 %**  
 🔵 Team blue · model not set · GPT chat: type 'Job 1734'
 
@@ -694,7 +700,7 @@ New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
 Job 1734
 ```
 
-**#66 · 1735** `G` Audit and fix js/transferChallenge.js (first half (lines 1 to 520))  
+**#67 · 1735** `G` Audit and fix js/transferChallenge.js (first half (lines 1 to 520))  
 `░░░░░░░░░░` **0.0000 %**  
 🔵 Team blue · model not set · GPT chat: type 'Job 1735'
 
@@ -704,7 +710,7 @@ New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
 Job 1735
 ```
 
-**#67 · 1736** `G` Audit and fix js/transferChallenge.js (second half (lines 520 to the end))  
+**#68 · 1736** `G` Audit and fix js/transferChallenge.js (second half (lines 520 to the end))  
 `░░░░░░░░░░` **0.0000 %**  
 🔵 Team blue · model not set · GPT chat: type 'Job 1736'
 
@@ -714,7 +720,7 @@ New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
 Job 1736
 ```
 
-**#68 · 1737** `G` Audit and fix js/statistics.js (whole file)  
+**#69 · 1737** `G` Audit and fix js/statistics.js (whole file)  
 `░░░░░░░░░░` **0.0000 %**  
 🔵 Team blue · model not set · GPT chat: type 'Job 1737'
 
@@ -724,7 +730,7 @@ New chat inside the ChatGPT project Career Mode Showdown (Stay in Chat), type:
 Job 1737
 ```
 
-**#69 · 1738** `G` Audit and fix js/legacy.js (whole file)  
+**#70 · 1738** `G` Audit and fix js/legacy.js (whole file)  
 `░░░░░░░░░░` **0.0000 %**  
 🔵 Team blue · model not set · GPT chat: type 'Job 1738'
 
@@ -915,7 +921,7 @@ Open code PRs: 0/8.
 
 ## Mega tracker (live, free)
 
-Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/index.html) · summary: [mega/MEGA_TRACKER.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/MEGA_TRACKER.md) · rebuilt by the poller each round, updated 2026-10-12T10:27:50Z.
+Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/index.html) · summary: [mega/MEGA_TRACKER.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/factory/gameplay-v1/project-documents/gameplay-factory/mega/MEGA_TRACKER.md) · rebuilt by the poller each round, updated 2026-10-12T10:35:21Z.
 
 | Stage | Done (merged or live) | In progress | Waiting |
 | --- | --- | --- | --- |
