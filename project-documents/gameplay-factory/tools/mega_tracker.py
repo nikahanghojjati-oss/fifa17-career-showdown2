@@ -458,6 +458,22 @@ def run_round(a, ctx):
             if items[k]["group"] in seen_group or len(open_code) >= CAP: continue
             seen_group.add(items[k]["group"])
         ready.append(int(k))
+    # Same-train batches: for each area with a train in progress, offer its next up to 3 consecutive items as one chat batch (ends where the train ends)
+    train_batches = []
+    for k0 in ready:
+        o0 = order[str(k0)]
+        if o0.get("mode") != "code" or not o0.get("group"):
+            continue
+        batch = [k0]
+        for k in sorted(items, key=int):
+            if int(k) <= k0 or len(batch) >= 3: continue
+            ok = order[k]
+            if ok.get("group") != o0["group"]: continue
+            if items[k]["state"] != "waiting" or int(k) in claude_items or ok.get("prefix") != o0.get("prefix"):
+                break
+            batch.append(int(k))
+        if len(batch) > 1:
+            train_batches.append(batch)
     held_n = sum(1 for k in items if items[k]["state"] == "waiting" and held(k))
     held_by = {}
     for k in items:
@@ -468,7 +484,7 @@ def run_round(a, ctx):
     gates = {"cap": CAP, "open_code_prs": len(open_code), "open_train_prs": open_all,
              "on_train_no_pr": started_code, "draft_code_prs": len(open_all) - len(open_code), "area_locks": {g: n for g, n in locked.items() if g},
              "ready": ready[:12], "ready_sol": ready_sol, "ready_codex": ready_codex,
-             "ready_all": ready[:150], "work_models": {str(k): pick_model(k) for k in ready if order[str(k)].get("mode") == "study" and order[str(k)].get("screen") in pics.get("keys", {})}, "ready_work": [k for k in ready if order[str(k)].get("mode") == "study" and order[str(k)].get("screen") in pics.get("keys", {})], "ready_total": len(ready), "held_until_picture": held_n, "held_by_picture": held_by}
+             "ready_all": ready[:150], "train_batches": train_batches, "work_models": {str(k): pick_model(k) for k in ready if order[str(k)].get("mode") == "study" and order[str(k)].get("screen") in pics.get("keys", {})}, "ready_work": [k for k in ready if order[str(k)].get("mode") == "study" and order[str(k)].get("screen") in pics.get("keys", {})], "ready_total": len(ready), "held_until_picture": held_n, "held_by_picture": held_by}
     # stale: claimed over 45 minutes ago and still no PR
     stale = [int(k) for k, v in items.items() if v["state"] == "started"
              and (datetime.datetime.now(datetime.timezone.utc) - datetime.datetime.fromisoformat(v["since"].replace("Z", "+00:00"))).total_seconds() > 2700]
