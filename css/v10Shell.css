@@ -375,3 +375,22 @@ html[data-motion-reduced="true"] body #app #clubWheelScreen[data-club-reveal-sta
   #app #careerStatistics.careerScreenV10 .partialBanner { left: 21.5%; top: 41.2%; width: 57.8%; padding: 3px 10px; }
   #app #careerStatistics.careerScreenV10 .careerStage[data-state="partial"] :is(.careerTablePanel, .comparisonPanel) { top: 44.9%; height: 19.9%; }
 }
+
+/* r72 flaw 2: Career Statistics at desktop sizes had four different left/right edges (totals 24-76%, Career Table and Manager
+   Comparison 21.5-79.3%, Career Leaders 15-85%, actions 15.5-84.5%), and the comparison ran under Nik's shoulder. All of them now
+   share ONE content column, the totals row's own 24%-76% (centred on the title and clear of both heads): the Career Table sits
+   under the first two totals, the Manager Comparison under the last two, so their edges line up with the tiles above, and the
+   leaders and actions rows span the same column. Heights, tops, type and copy are the adopted study's, unchanged. Same desktop
+   query as the JOB-1405 block above, so phone, sideways phone and tablet are untouched. */
+@media (min-width: 1200px) and (min-height: 700px) {
+  #app #careerStatistics.careerScreenV10 { --cs-col-l: 24%; --cs-col-w: 52%; --cs-half: calc((var(--cs-col-w) - var(--cs-u) * .5) / 2); }
+  #app #careerStatistics.careerScreenV10 .headlineTiles { left: var(--cs-col-l); width: var(--cs-col-w); }
+  #app #careerStatistics.careerScreenV10 .careerTablePanel { left: var(--cs-col-l); width: var(--cs-half); }
+  #app #careerStatistics.careerScreenV10 .comparisonPanel { left: calc(var(--cs-col-l) + var(--cs-half) + var(--cs-u) * .5); width: var(--cs-half); }
+  #app #careerStatistics.careerScreenV10 .leadersPanel { left: var(--cs-col-l); width: var(--cs-col-w); }
+  #app #careerStatistics.careerScreenV10 .actionRow { left: var(--cs-col-l); width: var(--cs-col-w); }
+  #app #careerStatistics.careerScreenV10 .partialBanner { left: var(--cs-col-l); width: var(--cs-col-w); }
+  /* Without an active showdown the rivalry button is hidden; its two siblings then share the whole column, so the row ends
+     on the same right edge as the panels above (otherwise the third grid column is left empty). */
+  #app #careerStatistics.careerScreenV10 .actionRow:has(> #careerStatisticsRivalryButton.hidden) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
