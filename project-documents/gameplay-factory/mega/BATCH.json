@@ -16,48 +16,24 @@
  "jobs_note": "Polish wave tickets (ChatGPT chat). The queue thread keeps these two lists; a job moves to jobs_free when its area's wiring train is merged or closed. 1650 (service worker audit) and 1652 (Settings motion choice) are ChatGPT chat jobs from the 1635 follow-ups. 1654-1656 are second attempts on failed train PRs #687, #686, #684 (ChatGPT chat). 1654-1656 left the lists: Claude lane.",
  "work_waiting": [
   {
-   "job": 1695,
-   "note": "Sol 6.1 · High. Home screen job; starts after PR #712 merges."
-  },
-  {
-   "job": 1696,
-   "note": "Sol 6.1 · High. Connect Players screen job; starts after PR #713 merges."
-  },
-  {
-   "job": 1697,
-   "note": "Sol 6.1 · High. League screen job; starts after PR #702 merges."
-  },
-  {
-   "job": 1699,
-   "note": "Sol 6.1 · High. Transfer screen job; starts after PR #705 merges."
-  },
-  {
-   "job": 1700,
-   "note": "Sol 6.1 · High. Season Results screen job; starts after PR #716 merges."
-  },
-  {
    "job": 1701,
-   "note": "Sol 6.1 · High. Standings screen job; starts after the Season Results job merges."
+   "note": "Sol 6.1 · High. Standings screen job; starts after the Season Results job 1700 merges."
   },
   {
    "job": 1702,
-   "note": "Sol 6.1 · High. Final Winner screen job; starts after the Standings job merges."
-  },
-  {
-   "job": 1703,
-   "note": "Sol 6.1 · High. Rivalry Statistics screen job; starts after PR #721 merges."
+   "note": "Sol 6.1 · High. Final Winner screen job; starts after the Standings job 1701 merges."
   },
   {
    "job": 1704,
-   "note": "Sol 6.1 · High. Legacy screen job; starts after the Rivalry job merges."
+   "note": "Sol 6.1 · High. Legacy screen job; starts after the Rivalry job 1703 merges."
   },
   {
    "job": 1706,
-   "note": "Sol 6.1 · High. Career Statistics screen job; starts after the Trophy Room job merges."
+   "note": "Sol 6.1 · High. Career Statistics screen job; starts after the Trophy Room job 1705 merges."
   },
   {
    "job": 1708,
-   "note": "Sol 6.1 · High. Settings screen job; starts after the Rule Book job merges."
+   "note": "Sol 6.1 · High. Settings screen job; starts after the Rule Book job 1707 merges."
   }
  ],
  "wiring_chains": {
@@ -68,7 +44,13 @@
  "work_extra": {
   "model": "Sol 6.1 · High",
   "numbers": [
+   1695,
+   1696,
+   1697,
    1698,
+   1699,
+   1700,
+   1703,
    1705,
    1707
   ],
@@ -91,7 +73,13 @@
   "note": "Studies 3 per message; screen jobs 1695-1708 one per message."
  },
  "work_free_jobs": [
+  1695,
+  1696,
+  1697,
   1698,
+  1699,
+  1700,
+  1703,
   1705,
   1707
  ],
@@ -100,28 +88,16 @@
   "note": "Claude browser-checks every screen PR and fixes failures. No retries by GPT.",
   "open_prs": [
    {
-    "screen": "Home",
-    "pr": 712
+    "screen": "QoL 1/7",
+    "pr": 738
    },
    {
-    "screen": "Connect Players",
-    "pr": 713
+    "screen": "QoL 3/6",
+    "pr": 739
    },
    {
-    "screen": "League",
-    "pr": 702
-   },
-   {
-    "screen": "Transfer",
-    "pr": 705
-   },
-   {
-    "screen": "Season Results",
-    "pr": 716
-   },
-   {
-    "screen": "Rivalry/Legacy",
-    "pr": 721
+    "screen": "QoL 2",
+    "pr": 737
    }
   ],
   "qol_claude": [
