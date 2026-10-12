@@ -16,6 +16,11 @@ Previous known-good runtime: `1.9.1-r72`
 - No old-design frame on open: Season Results, Final Winner and Standings are held behind the V10 cover from the first
   frame, like every other screen, and Setup's phone pictures decode before they show (PR #824). This was also on
   live r72. The screen-flash guard now covers Standings as a blocking journey.
+- The flash test is now a normal blocking check on every pull request, at Nik's request (PR #826).
+- Six layout flaws found in the r73 screen check are fixed (PRs #827 and #828): the Season Results phone bar, fonts
+  and focus ring; the footer font; the Club confirmation block no longer slides across Nik's face on desktop; Rule Book
+  cards 05/06 clear the Back bar at 1280x650; Final Winner sideways spacing; and no stray phone scroll on Club,
+  Rivalry and Legacy.
 - Transfer Challenge: on phones and sideways, LOCK MY GUESSES, REQUEST EARLY END and CONTINUE no longer jump while
   the panel enters, so the first tap always registers (PR #767).
 - Screen jobs on every size: League (#771), Club (#764), Season Results (#759), Standings (#787), Final Winner (#793),
