@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Mon 12 Oct, 7:26 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Mon 12 Oct, 7:30 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 1.9.1-r71** (main `2a511f6`, Sun 11 Oct 9:40 PM)
 
@@ -20,29 +20,21 @@ Updated Mon 12 Oct, 7:26 AM Boston time. Bug hunting only, no new features until
 `█████░░░░░` **50.0000 %**  
 🟢 Team green · model not set · worker says done, no PR yet
 
-**#2 · 1697** `G` Select League: one Work mode job for the whole screen  
-`████████░░` **78.7500 %**  
-🟢 Team green · model not set · worker done, PR #755 open, CI running · CI 14 of 16 passed · last move 0 min ago
-
-**#3 · 1700** `G` Season Results: one Work mode job for the whole screen  
+**#2 · 1700** `G` Season Results: one Work mode job for the whole screen  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #759 · CI 7 of 8 passed · last move 22 min ago
+🟢 Team green · model not set · worker working, draft PR #759 · CI 7 of 8 passed · last move 26 min ago
 
-**#4 · 1703** `G` Rivalry Statistics: one Work mode job for the whole screen  
+**#3 · 1703** `G` Rivalry Statistics: one Work mode job for the whole screen  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #757 · CI 7 of 8 passed · last move 34 min ago
+🟢 Team green · model not set · worker working, draft PR #757 · CI 7 of 8 passed · last move 38 min ago
 
-**#5 · 1705** `G` Trophy Room: one Work mode job for the whole screen  
+**#4 · 1705** `G` Trophy Room: one Work mode job for the whole screen  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #761 · CI 7 of 8 passed · last move 8 min ago
+🟢 Team green · model not set · worker working, draft PR #761 · CI 7 of 8 passed · last move 12 min ago
 
-**#6 · 1739** `G` Audit and fix js/scoring.js (whole file)  
-`████████░░` **76.0000 %**  
-🔵 Team blue · model not set · worker done, PR #758 open, CI running · CI 9 of 15 passed · last move 1 min ago
-
-**#7 · 1740** `G` Audit and fix js/showdownUI.js (whole file)  
-`████████░░` **76.6667 %**  
-🔵 Team blue · model not set · worker done, PR #760 open, CI running · CI 10 of 15 passed · last move 0 min ago
+**#5 · 1740** `G` Audit and fix js/showdownUI.js (whole file)  
+`██████░░░░` **60.0000 %**  
+🔵 Team blue · model not set · worker done, PR #760 open, CI failed · CI 15 of 16 passed · last move 1 min ago
 
 ### 👉 Next for you, in this order
 
@@ -889,8 +881,8 @@ Job 1750
 ## Goals, in this order
 
 **1. Finish the remaining bugs** `now`  
-`█████░░░░░` **48.4848 %**  
-Numbered jobs: 68 done, 102 other open · Olympiad recheck: 23 of 23 settled, 0 still to fix · Sol's old leads: 0 open (0 real, 0 unsure)
+`█████░░░░░` **48.9796 %**  
+Numbered jobs: 68 done, 100 other open · Olympiad recheck: 23 of 23 settled, 0 still to fix · Sol's old leads: 0 open (0 real, 0 unsure)
 
 **2. Visual fixes** `after stage 1`  
 `██████░░░░` **56.0000 %**  
